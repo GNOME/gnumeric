@@ -34,8 +34,9 @@
 #include "ranges.h"
 #include "mstyle.h"
 #include "pixmaps/gnumeric-stock-pixbufs.h"
+#include "widgets/gnumeric-combo-text.h"
 
-#include <gal/widgets/gtk-combo-text.h>
+#include <gal/widgets/gtk-combo-box.h>
 #include <gal/widgets/widget-color-combo.h>
 #include <gal/widgets/widget-pixmap-combo.h>
 
@@ -227,8 +228,9 @@ strikethrough_cmd (GtkToggleButton *t, WorkbookControlGUI *wbcg)
 }
 #endif
 
-static void
-change_font_in_selection_cmd (GtkWidget *caller, WorkbookControlGUI *wbcg)
+static gboolean
+change_font_in_selection_cmd (GnmComboText *ct, const char *font_name,
+			      WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
@@ -238,10 +240,9 @@ change_font_in_selection_cmd (GtkWidget *caller, WorkbookControlGUI *wbcg)
 	 * change to the toolbar indicators.
 	 */
 	if (wbcg->updating_ui)
-		return;
+		return TRUE;
 
 	if (sheet != NULL) {
-		const char *font_name = gtk_entry_get_text (GTK_ENTRY (caller));
 		MStyle *mstyle;
 
 		mstyle = mstyle_new ();
@@ -252,10 +253,13 @@ change_font_in_selection_cmd (GtkWidget *caller, WorkbookControlGUI *wbcg)
 		/* Restore the focus to the sheet */
 		wbcg_focus_cur_scg (wbcg);
 	}
+
+	return TRUE;
 }
 
-static void
-change_font_size_in_selection_cmd (GtkEntry *entry, WorkbookControlGUI *wbcg)
+static gboolean
+change_font_size_in_selection_cmd (GnmComboText *ct, const char *sizetext,
+				   WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	MStyle *mstyle;
@@ -266,13 +270,13 @@ change_font_size_in_selection_cmd (GtkEntry *entry, WorkbookControlGUI *wbcg)
 	 * change to the toolbar indicators.
 	 */
 	if (wbcg->updating_ui)
-		return;
+		return TRUE;
 
 	/* Make 1pt a minimum size for fonts */
-	size = atof (gtk_entry_get_text (entry));
+	size = atof (sizetext);
 	if (size < 1.0) {
-		gtk_entry_set_text (entry, "10");
-		return;
+		/* gtk_entry_set_text (entry, "10"); */
+		return FALSE;
 	}
 
 	mstyle = mstyle_new ();
@@ -283,6 +287,7 @@ change_font_size_in_selection_cmd (GtkEntry *entry, WorkbookControlGUI *wbcg)
 
 	/* Restore the focus to the sheet */
 	wbcg_focus_cur_scg (wbcg);
+	return TRUE;
 }
 
 static void
@@ -617,7 +622,7 @@ workbook_format_toolbar_orient (GtkToolbar *toolbar,
 /****************************************************************************/
 /* Border combo box */
 
-static PixmapComboElement border_combo_info[] =
+static const PixmapComboElement border_combo_info[] =
 {
     { N_("Left"),			gnm_border_left,		11 },
     { N_("Clear Borders"),		gnm_border_none,		12 },
@@ -754,13 +759,13 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 #endif
 
 	/* font name selector */
-	fontsel = wbcg->font_name_selector = gtk_combo_text_new (TRUE);
-	entry = GTK_COMBO_TEXT (fontsel)->entry;
-	g_signal_connect (G_OBJECT (entry),
-		"activate",
-		G_CALLBACK (change_font_in_selection_cmd), wbcg);
-	gtk_combo_box_set_title (GTK_COMBO_BOX (fontsel), _("Font"));
-	gtk_container_set_border_width (GTK_CONTAINER (fontsel), 0);
+	fontsel = wbcg->font_name_selector = gnm_combo_text_new (NULL);
+	g_signal_connect (G_OBJECT (fontsel),
+			  "entry_changed",
+			  G_CALLBACK (change_font_in_selection_cmd), wbcg);
+	entry = GNM_COMBO_TEXT (fontsel)->entry;
+	/* gtk_combo_box_set_title (GTK_COMBO_BOX (fontsel), _("Font")); */
+	/* gtk_container_set_border_width (GTK_CONTAINER (fontsel), 0); */
 
 	len = 0;
 	for (l = gnumeric_font_family_list; l; l = l->next) {
@@ -771,22 +776,22 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 				l->data);
 			if (tmp > len)
 				len = tmp;
-			gtk_combo_text_add_item (GTK_COMBO_TEXT (fontsel),
-						 l->data, l->data);
+			gnm_combo_text_add_item (GNM_COMBO_TEXT (fontsel),
+						 l->data);
 		}
 	}
 	gtk_widget_set_size_request (entry, len, -1);
 
 	/* font size selector */
-	fontsize = wbcg->font_size_selector = gtk_combo_text_new (TRUE);
-	entry = GTK_COMBO_TEXT (fontsize)->entry;
-	g_signal_connect (G_OBJECT (entry),
-		"activate",
-		G_CALLBACK (change_font_size_in_selection_cmd), wbcg);
-	gtk_combo_box_set_title (GTK_COMBO_BOX (fontsize), _("Size"));
+	fontsize = wbcg->font_size_selector = gnm_combo_text_new (NULL);
+	g_signal_connect (G_OBJECT (fontsize),
+			  "entry_changed",
+			  G_CALLBACK (change_font_size_in_selection_cmd), wbcg);
+	entry = GNM_COMBO_TEXT (fontsize)->entry;
+	/* gtk_combo_box_set_title (GTK_COMBO_BOX (fontsize), _("Size"));  */
 	for (i = 0; gnumeric_point_sizes[i] != 0; i++) {
 		char *buffer = g_strdup_printf ("%d", gnumeric_point_sizes[i]);
-		gtk_combo_text_add_item (GTK_COMBO_TEXT (fontsize), buffer, buffer);
+		gnm_combo_text_add_item (GNM_COMBO_TEXT (fontsize), buffer);
 		g_free (buffer);
 	}
 	gtk_widget_set_size_request (entry,
@@ -980,8 +985,8 @@ workbook_feedback_set (WorkbookControlGUI *wbcg)
 	GtkToolbar *toolbar;
 #endif
 	MStyle 		*style;
-	GtkComboText    *fontsel;
-	GtkComboText    *fontsize;
+	GnmComboText    *fontsel;
+	GnmComboText    *fontsize;
 	WorkbookView	*wb_view = wb_control_view (WORKBOOK_CONTROL (wbcg));
 
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
@@ -1021,17 +1026,19 @@ workbook_feedback_set (WorkbookControlGUI *wbcg)
 
 	workbook_format_halign_feedback_set (wbcg, mstyle_get_align_h (style));
 
-	fontsize = GTK_COMBO_TEXT (wbcg->font_size_selector);
+	fontsize = GNM_COMBO_TEXT (wbcg->font_size_selector);
 	if (wbcg_ui_update_begin (wbcg)) {
 		char *size_str = g_strdup_printf ("%d", (int)mstyle_get_font_size (style));
-		gtk_combo_text_set_text (fontsize, size_str);
+		gnm_combo_text_set_text (fontsize, size_str,
+					 GNM_COMBO_TEXT_FROM_TOP);
 		wbcg_ui_update_end (wbcg);
 		g_free (size_str);
 	}
 
-	fontsel = GTK_COMBO_TEXT (wbcg->font_name_selector);
+	fontsel = GNM_COMBO_TEXT (wbcg->font_name_selector);
 	if (wbcg_ui_update_begin (wbcg)) {
-		gtk_combo_text_set_text (fontsel, mstyle_get_font_name (style));
+		gnm_combo_text_set_text (fontsel, mstyle_get_font_name (style),
+					 GNM_COMBO_TEXT_FROM_TOP);
 		wbcg_ui_update_end (wbcg);
 	}
 }

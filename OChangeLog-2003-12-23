@@ -1,5 +1,8 @@
 2003-05-23  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-format-toolbar.c (workbook_create_format_toolbar):
+	Switch font and size selectors to gnm_combo_text.
+
 	* src/gui-util.c (gnm_cursor_set_widget): New function, cloned
 	from GAL's e_cursor_set_widget which isn't multihead safe.  Some
 	GAL stuff imported.  All callers changed.
