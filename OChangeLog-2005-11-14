@@ -1,5 +1,14 @@
 2003-07-31  Jody Goldberg <jody@gnome.org>
 
+	* src/xml-io.c (maybe_convert) : seek back to the start if we don't
+	  need to convert things.  Assume we were already at the start on
+	  arrival.
+	(maybe_gunzip) : ditto.
+	* plugins/xml_sax/xml-sax-read.c (maybe_convert) : ditto.
+	(maybe_gunzip) : ditto.
+
+2003-07-31  Jody Goldberg <jody@gnome.org>
+
 	* src/graph.c (gnm_go_data_vector_get_value) : implement.
 	(gnm_go_data_vector_get_str) : implement and adjust to signature
 	  change.

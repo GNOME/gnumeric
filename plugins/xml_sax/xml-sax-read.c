@@ -1475,23 +1475,22 @@ maybe_gunzip (GsfInput *input)
 	if (gzip) {
 		g_object_unref (input);
 		return gzip;
-	} else
+	} else {
+		gsf_input_seek (input, 0, G_SEEK_SET);
 		return input;
+	}
 }
 
 static GsfInput *
 maybe_convert (GsfInput *input, gboolean quiet)
 {
-	const char *noencheader = "<?xml version=\"1.0\"?>";
-	const char *encheader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+	static char const *noencheader = "<?xml version=\"1.0\"?>";
+	static char const *encheader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 	guint8 const *buf;
 	gsf_off_t input_size;
 	GString *buffer;
 	guint ui;
 	GsfInput *old_input = input;
-
-	if (gsf_input_seek (input, 0, G_SEEK_SET))
-		return input;
 
 	buf = gsf_input_read (input, strlen (noencheader), NULL);
 	if (!buf || strncmp (noencheader, buf, strlen (noencheader)) != 0)
@@ -1587,6 +1586,7 @@ xml_sax_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	g_object_ref (input);
 	input = maybe_gunzip (input);
 	input = maybe_convert (input, FALSE);
+	gsf_input_seek (input, 0, G_SEEK_SET);
 
 	if (!gsf_xml_in_parse (&state.base, input))
 		gnumeric_io_error_string (io_context, _("XML document not well formed!"));

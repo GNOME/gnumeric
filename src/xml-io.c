@@ -3758,8 +3758,10 @@ maybe_gunzip (GsfInput *input)
 	if (gzip) {
 		g_object_unref (input);
 		return gzip;
-	} else
+	} else {
+		gsf_input_seek (input, 0, G_SEEK_SET);
 		return input;
+	}
 }
 
 static GsfInput *
@@ -3772,9 +3774,6 @@ maybe_convert (GsfInput *input, gboolean quiet)
 	GString *buffer;
 	guint ui;
 	GsfInput *old_input = input;
-
-	if (gsf_input_seek (input, 0, G_SEEK_SET))
-		return input;
 
 	buf = gsf_input_read (input, strlen (noencheader), NULL);
 	if (!buf || strncmp (noencheader, buf, strlen (noencheader)) != 0)
@@ -3872,6 +3871,7 @@ xml_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 	g_object_ref (input);
 	input = maybe_gunzip (input);
 	input = maybe_convert (input, TRUE);
+	gsf_input_seek (input, 0, G_SEEK_SET);
 	ctxt = gsf_xml_parser_context (input);
 
 	if (ctxt) {
@@ -3933,6 +3933,7 @@ gnumeric_xml_read_workbook (GnmFileOpener const *fo,
 	g_object_ref (input);
 	input = maybe_gunzip (input);
 	input = maybe_convert (input, FALSE);
+	gsf_input_seek (input, 0, G_SEEK_SET);
 
 	value_io_progress_set (context, gsf_input_size (input), 0);
 
