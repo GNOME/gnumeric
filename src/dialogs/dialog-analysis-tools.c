@@ -81,7 +81,7 @@
 #define ANOVA_SINGLE_KEY      "analysistools-anova-single-factor-dialog"
 
 
-static const char *grouped_by_group[] = {
+static const char * const grouped_by_group[] = {
 	"grouped_by_row",
 	"grouped_by_col",
 	"grouped_by_area",

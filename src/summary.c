@@ -23,7 +23,7 @@
  *  The field names are summary_item_name[i] prefixed with "glade_".
  *
  */
-const gchar *summary_item_name[] = {
+const gchar *const summary_item_name[] = {
 	"codepage",
 	"title",
 	"subject",

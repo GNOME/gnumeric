@@ -63,7 +63,7 @@ typedef struct {
 	GtkTreeSelection   *sheet_list_selection;
 } ZoomState;
 
-static struct {
+static const struct {
 	char const * const name;
 	gint const factor;
 } buttons[] = {

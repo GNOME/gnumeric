@@ -59,7 +59,7 @@ typedef enum {
 	GNM_PACKAGING		= 1 << 11
 } ContribTypes;
 #define GNM_ABOUT_NUM_TYPES	       12
-static char const *about_types[GNM_ABOUT_NUM_TYPES] = {
+static char const * const about_types[GNM_ABOUT_NUM_TYPES] = {
 	N_("Core"),
 	N_("Features"),
 	N_("Analytics"),

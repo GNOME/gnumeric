@@ -50,7 +50,7 @@ typedef struct {
 	SearchDialogCallback cb;
 } DialogState;
 
-static const char *error_group[] = {
+static const char * const error_group[] = {
 	"error_fail",
 	"error_skip",
 	"error_query",
@@ -59,20 +59,20 @@ static const char *error_group[] = {
 	NULL
 };
 
-static const char *search_type_group[] = {
+static const char * const search_type_group[] = {
 	"search_type_text",
 	"search_type_regexp",
 	NULL
 };
 
-static const char *scope_group[] = {
+static const char * const scope_group[] = {
 	"scope_workbook",
 	"scope_sheet",
 	"scope_range",
 	NULL
 };
 
-static const char *direction_group[] = {
+static const char * const direction_group[] = {
 	"row_major",
 	"column_major",
 	NULL

@@ -33,7 +33,7 @@ void       gnumeric_editable_enters	(GtkWindow *window, GtkWidget *w);
 /* Utility routine as Gtk does not have any decent routine to do this */
 int gtk_radio_group_get_selected (GSList *radio_group);
 /* Utility routine as libglade does not have any decent routine to do this */
-int gnumeric_glade_group_value (GladeXML *gui, char const *group[]);
+int gnumeric_glade_group_value (GladeXML *gui, char const * const group[]);
 
 /* Use this on menus that are popped up */
 void gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event);

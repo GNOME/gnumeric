@@ -78,20 +78,20 @@ typedef struct {
 	GPtrArray *matches;
 } DialogState;
 
-static const char *search_type_group[] = {
+static const char * const search_type_group[] = {
 	"search_type_text",
 	"search_type_regexp",
 	NULL
 };
 
-static const char *scope_group[] = {
+static const char * const scope_group[] = {
 	"scope_workbook",
 	"scope_sheet",
 	"scope_range",
 	NULL
 };
 
-static const char *direction_group[] = {
+static const char * const direction_group[] = {
 	"row_major",
 	"column_major",
 	NULL

@@ -40,7 +40,7 @@
 #include <gtk/gtktable.h>
 #include <gtk/gtkbox.h>
 
-char const *output_group[] = {
+char const * const output_group[] = {
 	"newsheet-button",
 	"newworkbook-button",
 	"outputrange-button",

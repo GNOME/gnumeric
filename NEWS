@@ -35,6 +35,7 @@ Morten:
 	* Fix rare crash on exit.
 	* Use unicode minus (U2212) for numbers.  [#168467]
 	* Improve format selection dialog for text import.
+	* Constification.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.0

@@ -1,3 +1,22 @@
+2005-03-01  Morten Welinder  <terra@gnome.org>
+
+	* dialog-tabulate.c (mode_group): Constify.
+	* dialog-shuffle.c (shuffle_by): Constify.
+	* dialog-analysis-tools.c (grouped_by_group): Constify.
+	* dao-gui-utils.c (output_group): Constify.
+	* dialog-search-replace.c (error_group, search_type_group,
+	scope_group, direction_group): Constify.
+	* dialog-about.c (about_types): Constify.
+	* dialog-paste-special.c (paste_ops): Constify.
+	* dialog-summary.c (dialog_summary_names): Constify.
+	* dialog-search.c (search_type_group, scope_group,
+	direction_group): Constify.
+	* dialog-solver.c (algorithm_defs, problem_type_group,
+	model_type_group): Constify.
+	* dialog-zoom.c (buttons): Constify.
+	* dialog-autoformat.c (demotable): Constify.
+	* dialog-preferences.c (page_info, startup_pages): Constify.
+
 2005-02-28  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-format-page.c (cb_treeview_button_press): New

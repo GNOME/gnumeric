@@ -36,7 +36,7 @@
 #include "tools/dao.h"
 
 
-extern const char *output_group[];
+extern const char * const output_group[];
 
 
 void dialog_tool_init_outputs (GenericToolState *state, GCallback sensitivity_cb);

@@ -51,7 +51,7 @@
 
 typedef GenericToolState ShuffleState;
 
-static char const *shuffle_by[] = {
+static char const * const shuffle_by[] = {
 	"shuffle_cols",
 	"shuffle_rows",
 	"shuffle_area",

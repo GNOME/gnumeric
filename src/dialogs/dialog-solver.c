@@ -105,7 +105,7 @@ typedef struct {
 	SolverModelType     type;
 } algorithm_def_t;
 
-static algorithm_def_t algorithm_defs [] = {
+static const algorithm_def_t algorithm_defs [] = {
 	{ N_("Simplex (LP Solve 5.0)"), LPSolve, SolverLPModel },
 	{ N_("Revised Simplex (GLPK 4.5)"), GLPKSimplex, SolverLPModel },
 	{ N_("< Not available >"), QPDummy, SolverQPModel },
@@ -118,14 +118,14 @@ typedef struct {
 	Sheet    *sheet;
 } constraint_conversion_t;
 
-static const char *problem_type_group[] = {
+static const char *const problem_type_group[] = {
 	"min_button",
 	"max_button",
 	"equal_to_button",
 	NULL
 };
 
-static const char *model_type_group[] = {
+static const char *const model_type_group[] = {
 	"lp_model_button",
 	"qp_model_button",
 	"nlp_model_button",

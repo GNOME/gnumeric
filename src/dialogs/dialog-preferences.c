@@ -759,7 +759,7 @@ typedef struct {
 	gpointer data;
 } page_info_t;
 
-static page_info_t page_info[] = {
+static const page_info_t page_info[] = {
 	{N_("Font"),          GTK_STOCK_ITALIC,	         NULL, &pref_font_initializer,		&pref_font_page_open,	NULL},
 	{N_("Copy and Paste"),GTK_STOCK_PASTE,		 NULL, &pref_copypaste_page_initializer,&pref_copypaste_page_open,	NULL},
 	{N_("Files"),         GTK_STOCK_FLOPPY,	         NULL, &pref_file_page_initializer,	&pref_file_page_open,	NULL},
@@ -845,7 +845,7 @@ cb_dialog_pref_switch_page  (GtkNotebook *notebook,
 
 /* Note: The first page listed below is opened through File/Preferences, */
 /*       and the second through Format/Workbook */
-static char const *startup_pages[] = {"1", "0"};
+static char const * const startup_pages[] = {"1", "0"};
 
 void
 dialog_preferences (WorkbookControlGUI *wbcg, gint page)
@@ -920,7 +920,7 @@ dialog_preferences (WorkbookControlGUI *wbcg, gint page)
 	gnm_app_set_pref_dialog (state->dialog);
 
 	for (i = 0; page_info[i].page_initializer; i++) {
-		page_info_t *this_page =  &page_info[i];
+		const page_info_t *this_page =  &page_info[i];
 		GtkWidget *page = this_page->page_initializer (state, this_page->data,
 							       GTK_NOTEBOOK (state->notebook), i);
 		GtkWidget *label = NULL;

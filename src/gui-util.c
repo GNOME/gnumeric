@@ -319,7 +319,7 @@ gtk_radio_group_get_selected (GSList *radio_group)
 
 
 int
-gnumeric_glade_group_value (GladeXML *gui, const char *group[])
+gnumeric_glade_group_value (GladeXML *gui, const char *const group[])
 {
 	int i;
 	for (i = 0; group[i]; i++) {

@@ -144,7 +144,7 @@ struct _GnmStyle {
 #define MSTYLE_ANY_FLOAT             MSTYLE_FONT_SIZE
 
 
-static const char *
+static const char *const
 mstyle_names[MSTYLE_ELEMENT_MAX] = {
 	"--UnSet--",
 	"--Conflict--",

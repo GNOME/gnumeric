@@ -48,7 +48,7 @@ typedef struct {
 	gulong              signal_handler_summary_changed;
 } SummaryState;
 
-static const char *dialog_summary_names[] = {
+static const char * const dialog_summary_names[] = {
 	"title",
 	"author",
 	"category",

@@ -73,7 +73,7 @@ static struct {
 	{ NULL, FALSE }
 };
 
-static const char *paste_ops[] = {
+static const char * const paste_ops[] = {
 	N_("_None"),
 	N_("A_dd"),
 	N_("_Subtract"),

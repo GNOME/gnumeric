@@ -75,7 +75,7 @@ typedef struct {
 	GnmExprEntry *resultrangetext;
 } DialogState;
 
-static const char *mode_group[] = {
+static const char * const mode_group[] = {
 	"mode_visual",
 	"mode_coordinate",
 	NULL

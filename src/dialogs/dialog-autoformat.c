@@ -73,7 +73,7 @@
 /* Keep these strings very short.
    They are used as a sample data for a sheet, so you can put anything here
    ("One", "Two", "Three" for example) */
-static char const *
+static char const *const
 demotable[PREVIEW_ROWS][PREVIEW_COLS] = {
 	{ N_(" ")    , N_("Jan"), N_("Feb"), N_("Mar"), N_("Total") },
 	{ N_("North"),   N_("6"),  N_("13"),  N_("20"),    N_("39") },
