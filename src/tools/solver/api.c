@@ -48,94 +48,11 @@
 
 /* ------------------------------------------------------------------------- */
 
-
 /*
- * The Solver provides an API for linear programming algorithms so that an
- * optimization algorithm can be plugged in with small possible effort.  To
- * integrate an algorithm you should just implement the following set of
- * functions that wrap the process of defining an LP program, setting up
- * various options, and fetching the results for reporting.
- *
- *
- * typedef SolverProgram (solver_init_fn)                (const SolverParameters *param);
- *   Initializes the program.
- *
- * typedef void          (solver_remove_fn)              (SolverProgram p);
- *   Frees all memory buffers previously allocated for the program.
- *
- * typedef void          (solver_lp_set_obj_fn)          (SolverProgram p,
- *					                  int col, gnm_float v);
- *   Sets a coefficent of the objective function.  The column numbering begins
- *   from zero.
- *
- * typedef void          (solver_lp_set_constr_mat_fn)   (SolverProgram p,
- *                                                        int col,
- *						          int row, gnm_float v);
- *   Sets a coefficent of a constraint.  The column and row numbering begins
- *   from zero.
- *
- * typedef void          (solver_lp_set_constr_fn)  (SolverProgram p,
- *                                                   int row, SolverConstraintType,
- *                                                   gnm_float rhs);
- *   Sets the type and the right hand side value of a constraint.  The row numbering 
- *   begins from zero.
- *
- * typedef void          (solver_lp_set_maxim_fn)        (SolverProgram p);
- *   Sets the program type to be a maximization program.
- *
- * typedef void          (solver_lp_set_minim_fn)        (SolverProgram p);
- *   Sets the program type to be a minimization program.
- *
- * typedef void          (solver_lp_set_int_fn)          (SolverProgram p,
- *                                                        int col);
- *   Sets an integer constraint for a variable.  The column numbering
- *   begins from zero.
- *
- * typedef void          (solver_lp_set_bool_fn)         (SolverProgram p,
- *                                                        int col);
- *   Sets an boolean constraint for a variable.  The column numbering
- *   begins from zero.
- *
- * typedef SolverStatus  (solver_lp_solve_fn)            (SolverProgram p);
- *   Runs the solver to determine the optimal solution.
- *
- * typedef gnm_float    (solver_lp_get_obj_fn_value_fn) (SolverProgram p);
- *   Returns the final value of the objective function.  If the optimal value
- *   was not found the result is undetermined, otherwise the optimum value
- *   is returned.
- *
- * typedef gnm_float    (solver_lp_get_obj_fn_var_fn)   (SolverProgram p,
- *                                                        int col);
- *   Returns the value of a variable coeffient if the optimal value was found.
- *   The result is undetermined if the optimal value was not found.  The column
- *   numbering begins from zero.
- *
- * typedef gnm_float    (solver_lp_get_shadow_prize_fn) (SolverProgram p,
- *                                                        int row);
- *   Returns the shadow prize for a constraint.  If the optimal value was not
- *   found the result is undetermined.  The row numbering begins from zero.
- *
- * typedef void          (solver_lp_set_option_fn)       (SolverProgram p,
- *                                                        SolverOptionType option,
- *  					                  const gboolean *b_value,
- *                                                        const gnm_float *f_value,
- *                                                        const int *i_value);
- *   Sets an option for the solver algorithm.  `option' specifieces which option is
- *   to be set and `b_value', `f_value', and/or `i_value' passes the option value(s).
- *   Each one of those can point to NULL.
- *
- * typedef void          (solver_lp_printf_fn)           (SolverProgram p);
- *   Prints the program into the stdout.  Useful for debugging.
- *
-*/
-
-/* ------------------------------------------------------------------------- */
-
-/*
- * Solver's API wrappings for the LP Solve 3.2.
+ * Solver's API wrappings for the LP Solve 5.0.
  *
  * Package:    LP Solve
- * Version:    3.2
+ * Version:    5.0
  * License:    LGPL
  * Homepage:   
  */
@@ -331,12 +248,14 @@ w_lp_solve_set_option (SolverProgram program, SolverOptionType option,
 	        if (*b_value)
 		        lp_solve_auto_scale (lp->p);
 	        return FALSE;
+#if 0
 	case SolverOptMaxIter:
 	        lp_solve_set_max_iter (lp->p, *i_value);
 	        return FALSE;
 	case SolverOptMaxTimeSec:
-	        lp_solve_set_max_time (lp->p, *i_value, *f_value);
+	        lp_solve_ set_max_time (lp->p, *i_value, *f_value);
 	        return FALSE;
+#endif
 	default:
 	        return TRUE;
 	}
