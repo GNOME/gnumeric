@@ -24,6 +24,9 @@
 #define PAGE_X (PREVIEW_X - PREVIEW_MARGIN_X)
 #define PAGE_Y (PREVIEW_Y - PREVIEW_MARGIN_Y)
 
+#define MARGIN_COLOR_DEFAULT "gray"
+#define MARGIN_COLOR_ACTIVE "black"
+
 typedef struct {
 	/* The Canvas object */
 	GtkWidget        *canvas;
@@ -147,7 +150,7 @@ make_line (GnomeCanvasGroup *g, double x1, double y1, double x2, double y2)
 		GNOME_CANVAS_GROUP (g), gnome_canvas_line_get_type (),
 		"points", points,
 		"width_pixels", 1,
-		"fill_color",   "gray",
+		"fill_color",   MARGIN_COLOR_DEFAULT,
 		NULL);
 	gnome_canvas_points_unref (points);
 
@@ -404,6 +407,26 @@ unit_changed (GtkSpinButton *spin_button, UnitInfo_cbdata *data)
 }
 
 static void
+unit_activated (GtkSpinButton *spin_button,
+		GdkEventFocus *event,
+		UnitInfo_cbdata *data)
+{
+	gnome_canvas_item_set (data->target->line,
+			       "fill_color", MARGIN_COLOR_ACTIVE,
+			       NULL);
+}
+
+static void
+unit_deactivated (GtkSpinButton *spin_button,
+		  GdkEventFocus *event,
+		  UnitInfo_cbdata *data)
+{
+	gnome_canvas_item_set (data->target->line,
+			       "fill_color", MARGIN_COLOR_DEFAULT,
+			       NULL);
+}
+
+static void
 unit_editor_configure (UnitInfo *target, dialog_print_info_t *dpi,
 		       char *spin_name, double init_points, UnitName unit)
 {
@@ -427,6 +450,12 @@ unit_editor_configure (UnitInfo *target, dialog_print_info_t *dpi,
 	cbdata = g_new (UnitInfo_cbdata, 1);
 	cbdata->dpi = dpi;
 	cbdata->target = target;
+	gtk_signal_connect (
+		GTK_OBJECT (target->spin), "focus_in_event",
+		unit_activated, cbdata);
+	gtk_signal_connect (
+		GTK_OBJECT (target->spin), "focus_out_event",
+		unit_deactivated, cbdata);
 	gtk_signal_connect (
 		GTK_OBJECT (target->spin), "changed",
 		GTK_SIGNAL_FUNC (unit_changed), cbdata);
