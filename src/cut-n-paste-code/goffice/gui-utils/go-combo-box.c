@@ -122,7 +122,8 @@ go_combo_box_destroy (GtkObject *object)
 	GOComboBox *combo_box = GO_COMBO_BOX (object);
 
 	if (combo_box->priv->toplevel) {
-		gtk_object_destroy (GTK_OBJECT (combo_box->priv->toplevel));
+		gtk_widget_destroy (combo_box->priv->toplevel);
+		gtk_object_unref (GTK_OBJECT (combo_box->priv->toplevel));
 		combo_box->priv->toplevel = NULL;
 	}
 

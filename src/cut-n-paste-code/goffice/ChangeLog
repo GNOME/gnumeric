@@ -1,3 +1,7 @@
+2004-03-15  Morten Welinder  <terra@gnome.org>
+
+	* gui-utils/go-combo-box.c (go_combo_box_destroy): Plug leak.
+
 2004-03-15  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=135621
