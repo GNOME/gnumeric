@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2003-05-28 16:12+0200\n"
-"PO-Revision-Date: 2003-05-28 16:16+0200\n"
+"POT-Creation-Date: 2003-05-30 23:02+0200\n"
+"PO-Revision-Date: 2003-05-30 23:10+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -8018,8 +8018,8 @@ msgid "%s version %s"
 msgstr "%s version %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: plugins/fn-info/functions.c:1313 src/dialogs/dialog-cell-format.c:2884
-#: src/dialogs/dialog-cell-format.c:2889 src/dialogs/dialog-cell-format.c:2899
+#: plugins/fn-info/functions.c:1313 src/dialogs/dialog-cell-format.c:2886
+#: src/dialogs/dialog-cell-format.c:2891 src/dialogs/dialog-cell-format.c:2901
 #: src/workbook-format-toolbar.c:847
 msgid "Automatic"
 msgstr "Automatisk"
@@ -14506,9 +14506,9 @@ msgid ""
 "\n"
 "@SEEALSO=MIN,MAXA"
 msgstr ""
-"@FUNCTION=MAXA\n"
-"@SYNTAX=MAXA(tal1;tal2;...)\n"
-"@DESCRIPTION=MAXA returnerar det största värdet bland alla argument. Tal, "
+"@FUNCTION=MINA\n"
+"@SYNTAX=MINA(tal1;tal2;...)\n"
+"@DESCRIPTION=MINA returnerar det största värdet bland alla argument. Tal, "
 "text och logiska värden inkluderas även de i beräkningen. Om cellen "
 "innehåller text eller om argumenten evalueras till FALSKT, räknas de som "
 "noll (0). Om ett argument evalueras till SANT, räknas det som 1. Observera "
@@ -16648,7 +16648,7 @@ msgid "Clipboard is in unknown format"
 msgstr "Urklipp är i ett okänt format"
 
 #: plugins/gnumeric_1_0/xml-io.c:3110 plugins/xbase/boot.c:175
-#: src/dialogs/dialog-goto-cell.c:283 src/dialogs/dialog-search.c:722
+#: src/dialogs/dialog-goto-cell.c:283 src/dialogs/dialog-search.c:725
 #: src/dialogs/print.glade.h:21 src/workbook.c:1048 src/workbook.c:1378
 #: src/xml-io.c:3497
 msgid "Sheet"
@@ -16777,7 +16777,7 @@ msgstr "Bivillkor:"
 #: plugins/mps/mps.c:247 src/commands.c:5424
 #: src/cut-n-paste-code/egg/menu/egg-action.c:120
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:959
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:110
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:111
 #: src/dialogs/dialog-define-names.c:502 src/dialogs/dialog-formula-guru.c:811
 #: src/dialogs/dialog-function-select.c:418
 #: src/dialogs/dialog-function-select.c:440 src/dialogs/dialog-scenarios.c:351
@@ -16801,7 +16801,7 @@ msgstr "Värde"
 #. * Fill in the labels of `General Info' section.
 #.
 #: plugins/mps/mps.c:275 src/dialogs/dialog-formula-guru.c:815
-#: src/dialogs/dialog-search.c:724 src/dialogs/fill-series.glade.h:8
+#: src/dialogs/dialog-search.c:727 src/dialogs/fill-series.glade.h:8
 #: src/tools/solver/reports-write.c:518
 msgid "Type"
 msgstr "Typ"
@@ -18021,7 +18021,7 @@ msgid "Automatically save the current document at regular intervals"
 msgstr "Spara det aktuella dokumentet automatiskt med regelbundna mellanrum"
 
 #: src/GNOME_Gnumeric.xml.h:15 src/dialogs/cell-format.glade.h:16
-#: src/dialogs/dialog-cell-format.c:2894 src/workbook-format-toolbar.c:828
+#: src/dialogs/dialog-cell-format.c:2896 src/workbook-format-toolbar.c:828
 #: src/workbook-format-toolbar.c:886
 msgid "Background"
 msgstr "Bakgrund"
@@ -18365,7 +18365,7 @@ msgstr "Typsnittsväljare"
 msgid "Font size"
 msgstr "Typsnittstorlek"
 
-#: src/GNOME_Gnumeric.xml.h:94 src/dialogs/dialog-cell-format.c:2889
+#: src/GNOME_Gnumeric.xml.h:94 src/dialogs/dialog-cell-format.c:2891
 #: src/workbook-format-toolbar.c:853 src/workbook-format-toolbar.c:889
 msgid "Foreground"
 msgstr "Förgrund"
@@ -20189,31 +20189,31 @@ msgstr ""
 "Huruvida verktygsfältsobjektet skall ha samma storlek som andra homogena "
 "objekt."
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:74
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:76
 msgid "Plot"
 msgstr "Graf"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:78
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:80
 msgid "Legend"
 msgstr "Förklaring"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:227
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:239
 msgid "H"
 msgstr "H"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:227
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:239
 msgid "Height"
 msgstr "Höjd"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:230
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:242
 msgid "W"
 msgstr "B"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:230
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:242
 msgid "Width"
 msgstr "Bredd"
 
-#: src/cut-n-paste-code/goffice/graph/gog-graph.c:154
+#: src/cut-n-paste-code/goffice/graph/gog-graph.c:162
 msgid "Chart"
 msgstr "Diagram"
 
@@ -20230,7 +20230,7 @@ msgid "Configure Graph"
 msgstr "Konfigurera graf"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1071
-#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:241
+#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:237
 msgid "Plot Type"
 msgstr "Plottyp"
 
@@ -20253,20 +20253,35 @@ msgstr "Beskrivning"
 msgid "Basic Types"
 msgstr "Grundläggande typer"
 
-#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:56
+#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:52
 msgid "Plot Engine"
 msgstr "Grafmotor"
 
-#: src/cut-n-paste-code/goffice/graph/gog-plot.c:119
+#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:317
+msgid "Chart Theme"
+msgstr "Diagramtema"
+
+#: src/cut-n-paste-code/goffice/graph/gog-plot.c:121
 msgid "Series"
 msgstr "Serier"
 
 #. outline colour
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:170
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:182
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:161
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:173
 #: src/sheet-object-graphic.c:944 src/sheet-object-graphic.c:958
 msgid "Transparent"
 msgstr "Genomskinlig"
+
+#. An MS Excel-ish theme * TODO : have a look at apple's themes
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:229
+#: src/dialogs/dialog-sheet-order.c:927 src/dialogs/dialog-sheet-order.c:936
+msgid "Default"
+msgstr "Standard"
+
+#. guppi theme
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:258
+msgid "Guppi"
+msgstr "Guppi"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:1
 msgid "Bar/Column plotting engine"
@@ -20439,14 +20454,14 @@ msgstr "_Mellanrum:"
 msgid "_Overlap:"
 msgstr "_Överlappning:"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:257
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:207
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:259
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:222
 #: src/dialogs/consolidate.glade.h:12
 msgid "Labels"
 msgstr "Rubriker"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:259
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:209
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:261
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:224
 #: src/dialogs/consolidate.glade.h:23
 msgid "Values"
 msgstr "Värden"
@@ -21232,7 +21247,7 @@ msgstr "Valfritt värde  (ingen validering)"
 msgid "Background Color"
 msgstr "Bakgrundsfärg"
 
-#: src/dialogs/cell-format.glade.h:18 src/dialogs/dialog-cell-format.c:2884
+#: src/dialogs/cell-format.glade.h:18 src/dialogs/dialog-cell-format.c:2886
 msgid "Border"
 msgstr "Kant"
 
@@ -21314,7 +21329,7 @@ msgstr "Felvarning"
 msgid "Foreground Solid"
 msgstr "Förgrund massiv"
 
-#: src/dialogs/cell-format.glade.h:40 src/dialogs/dialog-cell-format.c:2823
+#: src/dialogs/cell-format.glade.h:40 src/dialogs/dialog-cell-format.c:2825
 msgid "Format Cells"
 msgstr "Formatera celler"
 
@@ -21386,8 +21401,7 @@ msgstr "Att låsa celler eller dölja formler påverkar endast skyddade blad."
 msgid "Message:"
 msgstr "Meddelande:"
 
-#: src/dialogs/cell-format.glade.h:58 src/dialogs/dialog-cell-format.c:1541
-#: src/dialogs/dialog-cell-format.c:1596 src/dialogs/dialog-cell-format.c:1602
+#: src/dialogs/cell-format.glade.h:58 src/dialogs/dialog-cell-format.c:69
 #: src/dialogs/dialog-paste-special.c:47 src/tools/solver/reports-write.c:722
 msgid "None"
 msgstr "Ingen"
@@ -21409,7 +21423,7 @@ msgstr "Tal"
 msgid "Outline"
 msgstr "Ram"
 
-#: src/dialogs/cell-format.glade.h:64 src/dialogs/dialog-cell-format.c:2899
+#: src/dialogs/cell-format.glade.h:64 src/dialogs/dialog-cell-format.c:2901
 msgid "Pattern"
 msgstr "Mönster"
 
@@ -22377,54 +22391,51 @@ msgstr "Vill du spara arbetsboken %s?"
 msgid "Could not create the autosave dialog."
 msgstr "Kunde inte skapa automatsparningsdialogen."
 
-#: src/dialogs/dialog-cell-format.c:970
-msgid "Negative Number Format"
-msgstr "Format för negativa tal"
-
-#: src/dialogs/dialog-cell-format.c:1006
-msgid "Number Formats"
-msgstr "Talformat"
-
-#: src/dialogs/dialog-cell-format.c:1252
-msgid "Text"
-msgstr "Text"
-
-#. There must be a better way than this
-#: src/dialogs/dialog-cell-format.c:1537 src/dialogs/dialog-cell-format.c:1597
-#: src/dialogs/dialog-cell-format.c:1603
+#: src/dialogs/dialog-cell-format.c:70
 msgid "Single"
 msgstr "Enkel"
 
-#: src/dialogs/dialog-cell-format.c:1539 src/dialogs/dialog-cell-format.c:1598
-#: src/dialogs/dialog-cell-format.c:1604
+#: src/dialogs/dialog-cell-format.c:71
 msgid "Double"
 msgstr "Dubbel"
 
-#: src/dialogs/dialog-cell-format.c:2397
+#: src/dialogs/dialog-cell-format.c:979
+msgid "Negative Number Format"
+msgstr "Format för negativa tal"
+
+#: src/dialogs/dialog-cell-format.c:1015
+msgid "Number Formats"
+msgstr "Talformat"
+
+#: src/dialogs/dialog-cell-format.c:1261
+msgid "Text"
+msgstr "Text"
+
+#: src/dialogs/dialog-cell-format.c:2399
 msgid "Source"
 msgstr "Källområde"
 
-#: src/dialogs/dialog-cell-format.c:2398
+#: src/dialogs/dialog-cell-format.c:2400
 msgid "Criteria"
 msgstr "Kriterium:"
 
-#: src/dialogs/dialog-cell-format.c:2410 src/dialogs/dialog-cell-format.c:2417
+#: src/dialogs/dialog-cell-format.c:2412 src/dialogs/dialog-cell-format.c:2419
 msgid "Min :"
 msgstr "Min:"
 
-#: src/dialogs/dialog-cell-format.c:2411 src/dialogs/dialog-cell-format.c:2420
+#: src/dialogs/dialog-cell-format.c:2413 src/dialogs/dialog-cell-format.c:2422
 msgid "Max :"
 msgstr "Max:"
 
-#: src/dialogs/dialog-cell-format.c:2414
+#: src/dialogs/dialog-cell-format.c:2416
 msgid "Value :"
 msgstr "Värde:"
 
-#: src/dialogs/dialog-cell-format.c:2639
+#: src/dialogs/dialog-cell-format.c:2641
 msgid "The validation criteria are unusable. Disable validation?"
 msgstr "Valideringskriteria är oanvändbart. Inaktivera validering?"
 
-#: src/dialogs/dialog-cell-format.c:2894 src/workbook-format-toolbar.c:820
+#: src/dialogs/dialog-cell-format.c:2896 src/workbook-format-toolbar.c:820
 msgid "Clear Background"
 msgstr "Töm bakgrund"
 
@@ -22554,7 +22565,7 @@ msgstr "Arbetsboksnivå"
 #.
 #. * Fill in the labels of `Target Cell' section.
 #.
-#: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:723
+#: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:726
 #: src/dialogs/tabulate.glade.h:1 src/tools/solver/reports-write.c:80
 #: src/tools/solver/reports-write.c:102 src/tools/solver/reports-write.c:129
 #: src/tools/solver/reports-write.c:236 src/tools/solver/reports-write.c:282
@@ -22674,7 +22685,7 @@ msgstr "Lösenord:"
 msgid "All"
 msgstr "Allt"
 
-#: src/dialogs/dialog-paste-special.c:40 src/dialogs/dialog-search.c:725
+#: src/dialogs/dialog-paste-special.c:40 src/dialogs/dialog-search.c:728
 msgid "Content"
 msgstr "Innehåll"
 
@@ -23140,7 +23151,7 @@ msgstr "Kunde inte skapa scenariedialogen."
 msgid "Results:"
 msgstr "Resultat:"
 
-#: src/dialogs/dialog-search-replace.c:152 src/dialogs/dialog-search.c:656
+#: src/dialogs/dialog-search-replace.c:152 src/dialogs/dialog-search.c:659
 msgid "You must select some cell types to search."
 msgstr "Du måste välja några celltyper att söka i."
 
@@ -23196,10 +23207,6 @@ msgstr "Du får inte ta bort alla blad i en arbetsbok!"
 #: src/dialogs/dialog-sheet-order.c:868
 msgid "The sheet order has changed. Do you want to update the list?"
 msgstr "Bladordnignen har ändrats. Vill du uppdatera listan?"
-
-#: src/dialogs/dialog-sheet-order.c:927 src/dialogs/dialog-sheet-order.c:936
-msgid "Default"
-msgstr "Standard"
 
 #: src/dialogs/dialog-shuffle.c:74
 msgid "The input range is invalid."
@@ -23889,20 +23896,30 @@ msgid "The target cell should contain an expression"
 msgstr "Målcellen måste innehålla ett uttryck"
 
 #: src/dialogs/dialog-view.c:82
+msgid ""
+"Multi-display support in Gnumeric has been turned off due to multiple bugs "
+"in GTK+, libgnomeui, libgnomeprintui, libbonoboui, and Gnumeric at the time "
+"of writing, ultimo May 2003."
+msgstr ""
+"Flerskärmssupport har stängts av i Gnumeric på grund av ett flertal buggar "
+"i GTK+, libgnomeui, libgnomeprintui, libbonoboui och Gnumeric vid tiden för "
+"denna notis, ultimo, Maj 2003."
+
+#: src/dialogs/dialog-view.c:92
 #, c-format
 msgid "Display \"%s\" could not be opened."
 msgstr "Skärm \"%s\" kunde inte öppnas."
 
-#: src/dialogs/dialog-view.c:168
+#: src/dialogs/dialog-view.c:178
 msgid "This screen"
 msgstr "Den här skärmen"
 
-#: src/dialogs/dialog-view.c:169
+#: src/dialogs/dialog-view.c:179
 #, c-format
 msgid "Screen %d [This screen]"
 msgstr "Skärm %d [den här skärmen]"
 
-#: src/dialogs/dialog-view.c:170
+#: src/dialogs/dialog-view.c:180
 #, c-format
 msgid "Screen %d"
 msgstr "Skärm %d"
