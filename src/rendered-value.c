@@ -108,10 +108,14 @@ rendered_value_new_ext (Cell *cell, MStyle *mstyle)
 					(gdk_font, "4");
 				if (font_width > 0)
 					col_width = COL_INTERNAL_WIDTH (cell->col_info) / font_width;
+
+				style_font_unref (style_font);
 			} else
 				format = cell->format;
 		}
 		str = format_value (format, cell->value, &color, entered, col_width);
+
+		style_format_unref (format);
 	} else {
 		g_warning ("No format: serious error");
 		str = g_strdup ("Error");
