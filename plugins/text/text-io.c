@@ -24,6 +24,7 @@
 #include "command-context.h"
 #include "file.h"
 #include "plugin.h"
+#include "plugin-util.h"
 #include "rendered-value.h"
 
 typedef struct {
@@ -297,60 +298,50 @@ static int
 readTextWorkbook (CommandContext *context, Workbook *book,
 		  const char* filename, gboolean probe)
 {
-	Sheet      *sheet = NULL;
-	struct stat buf;
-	gint	    flen;	/* file length */
-	gchar      *file;	/* data pointer */
-	gint	    idx;
-	int const   fd = open (filename, O_RDONLY);
+	Sheet  *sheet = NULL;
+	gint	flen;	/* file length */
+	gchar  *file;	/* data pointer */
+	gint	idx;
+	int     fd;
 
-	if (fd < 0) {
-		gnumeric_error_read (context, g_strerror (errno));
-		return -1;
-	}
+	if ((file = (gchar *) gnumeric_mmap_open (context, filename, &fd, &flen)) != NULL) {
 
-	if (fstat (fd, &buf) < 0) {
-		close(fd);
-		gnumeric_error_read (context, g_strerror (errno));
-		return -1;
-	}
+		/* FIXME: ARBITRARY VALUE */
+		if (flen < 1) {
+			gnumeric_mmap_close (context, file, fd, flen);
+			gnumeric_error_read (context, _("Empty file"));
+			return -1;
+		} else if ( flen > 1000000){
+			gnumeric_mmap_close (context, file, fd, flen);
+			gnumeric_error_read (context, _("File is too large"));
+			return -1;
+		}
 
-	flen = buf.st_size;
+		idx = 0;
+		while (idx >= 0 && idx < flen){
+			char *sheetname = g_strdup_printf (_("Imported %s"), g_basename (filename));
+			sheet = sheet_new (book, sheetname);
+			g_free (sheetname);
+			
+			if (sheet == NULL)
+				break;
 
-	/* FIXME: ARBITRARY VALUE */
-	if (buf.st_size < 1) {
-		close(fd);
-		gnumeric_error_read (context, _("Empty file"));
-		return -1;
-	} else if ( buf.st_size > 1000000){
-		close(fd);
-		gnumeric_error_read (context, _("File is too large"));
-		return -1;
-	}
+			idx = text_parse_file (file, flen, idx, sheet);
 
-	file = mmap (NULL, flen, PROT_READ, MAP_PRIVATE, fd, 0);
-	if (file == (char*)-1){
-		close (fd);
-		gnumeric_error_read (context, _("Can not mmap the file"));
-		return -1;
-	}
+			if (idx >= 0){
+				Range range;
+				
+				sheet->modified = FALSE;
+				workbook_attach_sheet (book, sheet);
 
-	idx = 0;
-	while (idx >= 0 && idx < flen){
-		sheet = sheet_new (book, "NoName");
-		if (sheet == NULL)
-			break;
-
-		idx = text_parse_file (file, flen, idx, sheet);
-
-		if (idx >= 0){
-			sheet->modified = FALSE;
-			workbook_attach_sheet (book, sheet);
+				workbook_recalc (book);
+				range = sheet_get_extent (sheet);
+				sheet_range_calc_spans (sheet, range, TRUE);
+			}
 		}
 	}
 
-	munmap (file, flen);
-	close (fd);
+	gnumeric_mmap_close (context, file, fd, flen);
 
 	return 0;
 }
@@ -386,9 +377,8 @@ text_write_workbook (CommandContext *context, Workbook *wb,
 	/*
 	* Open Output File
 	*/
-	data.file = fopen (filename, "w");
+	data.file = gnumeric_fopen (context, filename, "w");
 	if (!data.file) {
-		gnumeric_error_save (context, g_strerror (errno));
 		return -1;
 	}
 

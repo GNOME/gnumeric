@@ -1,3 +1,11 @@
+2000-05-02  Almer. S. Tigelaar.  <almer1@dds.nl>
+
+	* text-io.c 
+	(readTextWorkbook): Now uses gnumeric_mmap_open and gnumeric_mmap_close.
+	also does a workbook_recalc and calc_spans and names the sheet
+	"Imported %s" instead of "NoName"
+	(text_write_workbook): uses gnumeric_fopen and gnumeric_fclose
+
 2000-04-08  Jon K Hellan  <hellan@acm.org>
 
 	* text-io.c (writeTextSheet): Output sheet->name_unquoted instead of
