@@ -1,3 +1,8 @@
+2001-01-05  Christian Rose  <menthos@menthos.com>
+
+	* update.sh: Added new xml-i18n-tools-enabled script from
+	Kenneth Christiansen <kenneth@gnu.org>.
+
 2001-01-02  Stanislav Visnovsky  <visnovsky@nenya.ms.mff.cuni.cz>
 
 	* sk.po: updated Slovak translation.
