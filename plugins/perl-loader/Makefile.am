@@ -10,16 +10,16 @@ gnumeric_plugin_perl_loaderdir = $(gnumeric_plugindir)/perl-loader
 xmldir = $(gnumeric_plugin_perl_loaderdir)
 gnumeric_plugin_perl_loader_LTLIBRARIES = perl_loader.la
 
-perl_loader_CFLAGS = $(AM_CPPFLAGS)
 perl_loader_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS) $(PERL_LDDLFLAGS)
 perl_loader_la_LIBADD = $(PERL_LDOPTS)
 perl_loader_la_SOURCES = \
 	boot.c \
 	perl-loader.c \
 	perl-loader.h \
-	xsinit.c \
 	perl-gnumeric.h \
 	perl-gnumeric.c
+nodist_perl_loader_la_SOURCES = \
+	xsinit.c
 
 perl_loader.so(EXEEXT): perl-loader.o boot.o
 	$(PERL_LD) $(PERL_LDDLFLAGS) -o perl_loader.so boot.o xsinit.o $(PERL_LDOPTS)
@@ -32,7 +32,7 @@ perl_loader.so(EXEEXT): perl-loader.o boot.o
 	mv $@.o $@
 
 xsinit.c:
-	perl -MExtUtils::Embed -e xsinit -- -o xsinit.c
+	$(PERL) -MExtUtils::Embed -e xsinit -- -o xsinit.c
 
 xml_in_files = plugin.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)
