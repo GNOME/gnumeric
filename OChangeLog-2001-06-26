@@ -1,5 +1,10 @@
 2000-12-18  Jody Goldberg <jgoldberg@home.com>
 
+	* src/selection.c (sheet_selection_walk_step) : recognize singletons
+	  even when they are merged cells.
+
+2000-12-18  Jody Goldberg <jgoldberg@home.com>
+
 	* src/selection.c (sheet_selection_walk_step) : support merged cells.
 	(walk_boundaries) : Rewrite to support intelligent walking of merged
 	  regions.

@@ -1187,6 +1187,7 @@ sheet_selection_walk_step (Sheet *sheet,
 	int selections_count;
 	CellPos destination;
 	Range const *ss;
+	gboolean is_singleton = FALSE;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (sheet->selections != NULL);
@@ -1199,9 +1200,20 @@ sheet_selection_walk_step (Sheet *sheet,
 	 * cursor and selection as we go.
 	 * Ignore wrapping.  At that scale it is irrelevant.
 	 */
-	if (selections_count == 1 &&
-	    ss->start.col == ss->end.col &&
-	    ss->start.row == ss->end.row) {
+	if (selections_count == 1) {
+		if (ss->start.col == ss->end.col &&
+		    ss->start.row == ss->end.row)
+			is_singleton = TRUE;
+		else if (ss->start.col == sheet->edit_pos.col &&
+			 ss->start.row == sheet->edit_pos.row) {
+			Range const *merge = sheet_region_is_merge_cell (sheet,
+				&sheet->edit_pos);
+			if (range_equal (merge, ss))
+				is_singleton = TRUE;
+		}
+	}
+			
+	if (is_singleton) {
 		Range full_sheet;
 		if (horizontal) {
 			full_sheet.start.col = 0;
