@@ -135,12 +135,17 @@ scm_gnumeric_funcall (SCM funcname, SCM arglist)
 static Value*
 func_marshal_func (FunctionEvalInfo *ei, Value *argv[])
 {
-	FunctionDefinition const *fndef = ei->func_def;
+	FunctionDefinition const *fndef;
 	SCM args = SCM_EOL, result, function;
 	CellRef dummy = { 0, 0, 0, 0 };
 	EvalPos const *old_eval_pos;
 	int i, min, max;
 
+	g_return_val_if_fail (ei != NULL, NULL);
+	g_return_val_if_fail (ei->func_call != NULL, NULL);
+	g_return_val_if_fail (ei->func_call->func != NULL, NULL);
+
+	fndef = ei->func_call->func;
 	function_def_count_args (fndef, &min, &max);
 
 	function = (SCM) function_def_get_user_data (fndef);

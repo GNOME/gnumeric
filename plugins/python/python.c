@@ -606,7 +606,8 @@ static Value *
 call_function (FunctionEvalInfo *ei, PyObject *args)
 {
 	PyObject *result;
-	FunctionDefinition const * const fndef = ei->func_def;
+	/* Marshaller validated pointers */
+	FunctionDefinition const * const fndef = ei->func_call->func;
 	Value *v = NULL;
 	GList *l;
 
@@ -643,14 +644,14 @@ static Value *
 marshal_func_args (FunctionEvalInfo *ei, Value *argv [])
 {
 	PyObject *args;
-	FunctionDefinition const * const fndef = ei->func_def;
 	Value *v = NULL;
 	int i, min, max, argc;
 
 	g_return_val_if_fail (ei != NULL, NULL);
-	g_return_val_if_fail (ei->func_def != NULL, NULL);
+	g_return_val_if_fail (ei->func_call != NULL, NULL);
+	g_return_val_if_fail (ei->func_call->func != NULL, NULL);
 
-	function_def_count_args (fndef, &min, &max);
+	function_def_count_args (ei->func_call->func, &min, &max);
 
 	/* Count actual arguments */
 	for (argc = min; argc < max; argc++)
@@ -691,7 +692,8 @@ marshal_func_nodes (FunctionEvalInfo *ei, ExprList *nodes)
 	int i, argc;
 
 	g_return_val_if_fail (ei != NULL, NULL);
-	g_return_val_if_fail (ei->func_def != NULL, NULL);
+	g_return_val_if_fail (ei->func_call != NULL, NULL);
+	g_return_val_if_fail (ei->func_call->func != NULL, NULL);
 
 	/* Count actual arguments */
 	argc = expr_list_length (nodes);

@@ -1,3 +1,8 @@
+2002-03-07  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.c (func_marshal_func): Substitute ei->func_call->func for
+	ei->func_def and adapt pointer checks accordingly.
+
 2002-02-18  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.0

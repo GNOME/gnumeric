@@ -18,6 +18,7 @@
 #include "sheet.h"
 #include "workbook-view.h"
 #include "value.h"
+#include "expr.h"
 #include "io-context.h"
 #include "plugin-util.h"
 #include "plugin.h"
@@ -502,19 +503,23 @@ call_python_function_args (FunctionEvalInfo *ei, Value **args)
 	ServiceLoaderDataFunctionGroup *loader_data;
 	PyObject *fn_info_tuple;
 	PyObject *python_fn;
+	FunctionDefinition const * fndef;
+
 	gint min_n_args, max_n_args, n_args;
 
 	g_return_val_if_fail (ei != NULL, NULL);
+	g_return_val_if_fail (ei->func_call != NULL, NULL);
 	g_return_val_if_fail (args != NULL, NULL);
 
-	service = (PluginService *) function_def_get_user_data (ei->func_def);
+	fndef = ei->func_call->func;
+	service = (PluginService *) function_def_get_user_data (fndef);
 	loader_data = (ServiceLoaderDataFunctionGroup *) plugin_service_get_loader_data (service);
 	switch_python_interpreter_if_needed (GNUMERIC_PLUGIN_LOADER_PYTHON (plugin_info_get_loader (service->plugin))->py_interpreter_info);
 	fn_info_tuple = PyDict_GetItemString (loader_data->python_fn_info_dict,
-	                                      (gchar *) function_def_get_name (ei->func_def));
+	                                      (gchar *) function_def_get_name (fndef));
 	g_assert (fn_info_tuple != NULL);
 	python_fn = PyTuple_GetItem (fn_info_tuple, 2);
-	function_def_count_args (ei->func_def, &min_n_args, &max_n_args);
+	function_def_count_args (fndef, &min_n_args, &max_n_args);
 	for (n_args = min_n_args; n_args < max_n_args && args[n_args] != NULL; n_args++) {
 		;
 	}
@@ -527,18 +532,21 @@ call_python_function_nodes (FunctionEvalInfo *ei, ExprList *expr_tree_list)
 	PluginService *service;
 	ServiceLoaderDataFunctionGroup *loader_data;
 	PyObject *python_fn;
+	FunctionDefinition const * fndef;
 	Value **values;
 	gint n_args, i;
 	ExprList *l;
 	Value *ret_value;
 
 	g_return_val_if_fail (ei != NULL, NULL);
+	g_return_val_if_fail (ei->func_call != NULL, NULL);
 
-	service = (PluginService *) function_def_get_user_data (ei->func_def);
+	fndef = ei->func_call->func;
+	service = (PluginService *) function_def_get_user_data (fndef);
 	loader_data = (ServiceLoaderDataFunctionGroup *) plugin_service_get_loader_data (service);
 	switch_python_interpreter_if_needed (GNUMERIC_PLUGIN_LOADER_PYTHON (plugin_info_get_loader (service->plugin))->py_interpreter_info);
 	python_fn = PyDict_GetItemString (loader_data->python_fn_info_dict,
-	                                  (gchar *) function_def_get_name (ei->func_def));
+	                                  (gchar *) function_def_get_name (fndef));
 
 	n_args = expr_list_length (expr_tree_list);
 	values = g_new (Value *, n_args);

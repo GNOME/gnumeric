@@ -1,3 +1,9 @@
+2002-03-07  Jon K Hellan  <hellan@acm.org>
+
+	* python.c (call_function, marshal_func_args, marshal_func_nodes):
+	Substitute ei->func_call->func for ei->func_def and adapt pointer
+	checks accordingly.
+
 2002-02-18  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.0
