@@ -1,3 +1,7 @@
+2001-04-26  Morten Welinder  <terra@diku.dk>
+
+	* dialog-solver.c (dialog_solver): Plug leak.
+
 2001-04-23  Almer S. Tigelaar  <almer@gnome.org>
 
 	* dialog-define-names.c (cb_name_guru_add):

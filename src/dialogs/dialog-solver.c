@@ -759,6 +759,8 @@ dialog_solver (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	gtk_entry_set_text (GTK_ENTRY (target_entry),
 			    target_entry_str);
+	g_free (target_entry_str);
+
 	gtk_entry_select_region (GTK_ENTRY (target_entry),
 				 0, GTK_ENTRY(target_entry)->text_length);
 	gtk_signal_connect (GTK_OBJECT(constraint_list),
@@ -922,8 +924,6 @@ main_dialog:
 		}
 		free_original_values (ov);
 	}
-
-	g_free (target_entry_str);
 
 	if (selection != -1)
 		gtk_object_destroy (GTK_OBJECT (dialog));

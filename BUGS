@@ -42,10 +42,6 @@ Long term breakage
 - Format toolbar is too wide.  (The foreground colour combo has fallen
   off the edge for me.)
 
-- Tools->Solver leak:
-               g_strdup       [gstrfuncs.c:56]
-               dialog_solver  [dialog-solver.c:735]
-
 - Search-and-replace.
   - It is doubtful whether the regexp selection belongs on the first page.
   - Querying is not implemented.
