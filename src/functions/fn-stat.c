@@ -1216,8 +1216,7 @@ static char *help_gammainv = {
 static Value *
 gnumeric_gammainv (FunctionEvalInfo *ei, Value **argv)
 {
-        gnum_float p;
-	int alpha, beta;
+        gnum_float p, alpha, beta;
 
         p = value_get_as_float (argv[0]);
 	alpha = value_get_as_float (argv[1]);
