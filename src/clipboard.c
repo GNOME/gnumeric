@@ -2,7 +2,7 @@
  * Clipboard.c: Implements the copy/paste operations
  *
  * Author:
- *  MIguel de Icaza (miguel@gnu.org)
+ *  Miguel de Icaza (miguel@gnu.org)
  *
  */
 #include <config.h>

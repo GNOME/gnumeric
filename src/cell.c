@@ -252,6 +252,8 @@ cell_render_value (Cell *cell)
 void
 cell_set_text_simple (Cell *cell, char *text)
 {
+	struct lconv *lconv;
+	
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
 
@@ -279,6 +281,8 @@ cell_set_text_simple (Cell *cell, char *text)
 		int is_text, is_float, maybe_float, has_digits;
 		char *p;
 
+		lconv = localeconv ();
+		
 		is_text = is_float = maybe_float = has_digits = FALSE;
 		for (p = text; *p && !is_text; p++){
 			switch (*p){
@@ -292,9 +296,15 @@ cell_set_text_simple (Cell *cell, char *text)
 					break;
 				/* falldown */
 				
-			case 'E': case 'e': case '+': case ':': case '.':
+			case 'E': case 'e': case '+': case ':': case '.': case ',':
+				if (*p == ',' || *p == '.')
+					if (lconv->decimal_point != *p){
+						is_text = TRUE;
+						break;
+					}
 				maybe_float = TRUE;
 				break;
+
 			default:
 				is_text = TRUE;
 			}

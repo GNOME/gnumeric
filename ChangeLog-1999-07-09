@@ -1,3 +1,10 @@
+1998-09-30  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/format.c (append_year): Year 2000 fix :-).
+
+	* src/cell.c (cell_set_text_simple): Fix, use localeconv
+	information to figure out if the text is a number or not. 
+
 1998-09-30  Havoc Pennington  <hp@pobox.com>
 
 	* src/dialog-cell-format.c (color_pick_change_notify): Change args 

@@ -79,8 +79,8 @@ do_roundup (GString *string)
  * Parses the year field at the beginning of the format.  Returns the
  * number of characters used.
  */
-static
-int append_year (GString *string, gchar *format, struct tm *time_split)
+static int
+append_year (GString *string, gchar *format, struct tm *time_split)
 {
 	char temp [5];
 	
@@ -90,7 +90,10 @@ int append_year (GString *string, gchar *format, struct tm *time_split)
 	}
 	
 	if (format [2] != 'y' || format [3] != 'y'){
-		sprintf (temp, "%02d", time_split->tm_year);
+		if (time_split->tm_year > 99)
+			sprintf (temp, "%04d", time_split + 1900);
+		else
+			sprintf (temp, "%02d", time_split->tm_year);
 		g_string_append (string, temp);
 		return 2;
 	}

@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_SHEET_H
-#define GNUMERIC_SHEET_H
+#ifndef GNUMERIC_GNUMERIC_SHEET_H
+#define GNUMERIC_GNUMERIC_SHEET_H
 
 #include "item-grid.h"
 #include "item-cursor.h"
@@ -75,6 +75,6 @@ void       gnumeric_sheet_destroy_editing_cursor (GnumericSheet *gsheet);
 typedef struct {
 	GnomeCanvasClass parent_class;
 } GnumericSheetClass;
-#endif
+#endif /* GNUMERIC_GNUMERIC_SHEET_H */
 
 
