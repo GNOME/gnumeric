@@ -29,260 +29,13 @@
 #include <limits.h>
 #include <bonobo.h>
 
-#include <libxml/parser.h>
-#include <libxml/parserInternals.h>
-#include <libxml/xmlmemory.h>
-#include <libxml/xmlIO.h>
-
-#include <zlib.h>
-
-#define GZIP_HEADER_SIZE 10
-#define GZIP_MAGIC_1 0x1f
-#define GZIP_MAGIC_2 0x8b
-#define GZIP_FLAG_RESERVED     0xE0 /* bits 5..7: reserved */
+#include <gsf/gsf-input.h>
+#include <gsf/gsf-input-bonobo.h>
 
 #ifdef GNOME2_CONVERSION_COMPLETE
 static GnumFileOpener *gnumeric_bonobo_opener;
 static GnumFileSaver *gnumeric_bonobo_saver;
 #endif
-
-typedef struct {
-	Bonobo_Stream        bstream;
-	CORBA_Environment    *ev;
-	char                 *infbuf;
-	int                  infbsiz;
-	gboolean             compressed;
-	z_stream             zstream;
-} StreamIOCtxt;
-
-typedef int (*StreamDeserializer) (StreamIOCtxt *sc,
-				   IOContext *ioc,
-				   WorkbookView *wb_view);
-
-static int
-get_raw_bytes_from_stream (StreamIOCtxt *sc, char *buffer, int len)
-{
-	Bonobo_Stream_iobuf *buf;
-	int                  ret;
-
-	g_return_val_if_fail (sc != NULL, -1);
-		
-	Bonobo_Stream_read (sc->bstream, len, &buf, sc->ev);
-	if (BONOBO_EX (sc->ev))
-		ret = -1;
-	else {
-		ret = buf->_length;
-		memcpy (buffer, buf->_buffer, ret);
-		CORBA_free (buf);
-	}
-
-	return ret;
-}
-
-static int
-get_bytes_from_compressed_stream (StreamIOCtxt *sc, char *buffer, int len)
-{
-	int	 z_err;
-	z_stream *zstream = &sc->zstream;
-
-	zstream->next_out = (Bytef*) buffer;
-	zstream->avail_out = len;
-
-	while (zstream->avail_out != 0) {
-		if (zstream->avail_in == 0) {
-			zstream->avail_in =
-				get_raw_bytes_from_stream (sc, sc->infbuf,
-							   sc->infbsiz);
-			if (zstream->avail_in < 0)
-				return -1;
-			zstream->next_in = sc->infbuf;
-		}
-		z_err = inflate(zstream, Z_NO_FLUSH);
-		if (z_err == Z_STREAM_END)
-			break;
-		if (z_err != Z_OK)
-			return -1;
-	}
-	return (int)(len - zstream->avail_out);
-}
-
-static int
-get_bytes_from_stream (StreamIOCtxt *sc, char *buffer, int len)
-{
-	if (sc->compressed)
-		return get_bytes_from_compressed_stream (sc, buffer, len);
-	else 
-		return get_raw_bytes_from_stream (sc, buffer, len);
-}
-
-static int
-cleanup_stream (StreamIOCtxt *sc)
-{
-	if (sc->compressed)
-		if (inflateEnd (&sc->zstream) != 0)
-			return -1;
-
-	return 0;
-}
-
-/* Returns true if a valid gzip header */
-static gboolean
-check_gzip_header (StreamIOCtxt *sc)
-{
-	unsigned char header [GZIP_HEADER_SIZE];
-	int bytes_read;
-
-	bytes_read = get_raw_bytes_from_stream (sc, header, GZIP_HEADER_SIZE);
-	if (bytes_read < GZIP_HEADER_SIZE)
-		return FALSE;
-
-	if (header[0] != GZIP_MAGIC_1 || header[1] != GZIP_MAGIC_2)
-		return FALSE;
-	if (header[2] != Z_DEFLATED || (header[3] & GZIP_FLAG_RESERVED) != 0)
-		return FALSE;
-
-	/* This is indeed gzipped data. Ignore the rest of the header */
-	return TRUE;
-}
-
-static gboolean
-init_for_inflate (StreamIOCtxt *sc, char *infbuf, int len)
-{
-	sc->infbuf = infbuf;
-	sc->zstream.next_in = infbuf;
-	sc->zstream.avail_in = 0;
-	sc->zstream.next_out = 0;
-	sc->zstream.avail_out = 0;
-	sc->infbsiz = len;
-	sc->zstream.zalloc = NULL;
-	sc->zstream.zfree  = NULL;
-	sc->zstream.opaque = NULL;
-		
-	if (inflateInit2 (&sc->zstream, -MAX_WBITS) != Z_OK) {
-		g_warning ("zlib initialization error");
-		return FALSE;
-	}
-
-	return TRUE;
-}
-
-static xmlDocPtr
-hack_xmlSAXParseFile (StreamIOCtxt *sc)
-{
-	xmlDocPtr ret;
-	xmlParserCtxtPtr xc;
-
-	xc = xmlCreateIOParserCtxt (
-		NULL, NULL,
-		(xmlInputReadCallback) get_bytes_from_stream, 
-		(xmlInputCloseCallback) cleanup_stream,
-		sc, XML_CHAR_ENCODING_NONE);
-	if (!xc)
-		return NULL;
-
-	xmlParseDocument (xc);
-
-	if (xc->wellFormed)
-		ret = xc->myDoc;
-	else {
-		ret = NULL;
-		xmlFreeDoc (xc->myDoc);
-		xc->myDoc = NULL;
-	}
-	xmlFreeParserCtxt (xc);
-
-	return ret;
-}
-
-static int
-deserialize_wb_from_xml_stream (StreamIOCtxt *sc, IOContext *ioc,
-				     WorkbookView *wb_view)
-{
-	xmlDoc             *doc;
-	xmlNs              *gmr;
-	GnumericXMLVersion  version;
-	XmlParseContext    *xc;
-
-	/*
-	 * Load the stream into an XML tree.
-	 */
-	doc = hack_xmlSAXParseFile (sc);
-	if (!doc) {
-		gnumeric_io_error_read (
-			ioc, "Failed to parse file");
-		return -1;
-	}
-	if (!doc->xmlRootNode) {
-		xmlFreeDoc (doc);
-		gnumeric_io_error_read (
-			ioc, _("Invalid xml file. Tree is empty ?"));
-		return -1;
-	}
-
-	/*
-	 * Do a bit of checking, get the namespaces, and check the top elem.
-	 */
-	gmr = xml_check_version (doc, &version);
-	if (!gmr) {
-		xmlFreeDoc (doc);
-		gnumeric_io_error_read (
-			ioc, _("Does not contain a Workbook file"));
-		return -1;
-	}
-	xc = xml_parse_ctx_new_full (doc, gmr, wb_view, version, NULL, NULL, NULL);
-	xml_workbook_read (ioc, xc, doc->xmlRootNode);
-	
-	xml_parse_ctx_destroy (xc);
-	xmlFreeDoc (doc);
-
-	return gnumeric_io_error_occurred (ioc) ? -1 : 0;
-}
-
-static void
-read_from_stream (StreamDeserializer sdeserializer, Bonobo_Stream stream,
-		  IOContext *ioc,  WorkbookView *wb_view,
-		  CORBA_Environment *ev)
-
-{
-	StreamIOCtxt       sc;
-	char           infbuf[16384];
-	
-	CORBA_exception_init (ev);
-
-	sc.bstream = stream;
-	sc.ev     = ev;
-	sc.compressed = check_gzip_header (&sc);
-	
-	if (sc.compressed) {
-		if (!init_for_inflate (&sc, infbuf, sizeof infbuf))
-					goto exit_error;
-	} else {
-		Bonobo_Stream_seek (stream, 0, Bonobo_Stream_SeekSet, ev);
-		if (BONOBO_EX (ev))
-			goto exit_error;
-	}
-
-	if (sdeserializer (&sc, ioc, wb_view) != 0)
-		goto exit_error;
-
-	return;
-	
-exit_error:
-	/* Propagate exceptions which are in the PersistStream interface */
-	if (BONOBO_EX (ev)) {
-		if (BONOBO_USER_EX (ev, ex_Bonobo_Persist_WrongDataType) ||
-		    BONOBO_USER_EX (ev, ex_Bonobo_NotSupported) ||
-		    BONOBO_USER_EX (ev, ex_Bonobo_IOError) ||
-		    BONOBO_USER_EX (ev, ex_Bonobo_Persist_FileNotFound))
-			return;
-
-		CORBA_exception_free (ev);
-	}
-
-	/* This may be a bad exception to throw, but they're all bad */
-	CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-			     ex_Bonobo_Persist_WrongDataType, NULL);
-}
 
 void
 gnumeric_bonobo_read_from_stream (BonoboPersistStream       *ps,
@@ -295,6 +48,10 @@ gnumeric_bonobo_read_from_stream (BonoboPersistStream       *ps,
 	WorkbookView    *wb_view;
 	Workbook        *wb;
 	IOContext       *ioc;
+	GsfInput       *input = NULL;
+	GnumFileOpener const *fo    = NULL;
+	FileProbeLevel pl;
+	GList *l;
 	gboolean         old;
 	Workbook        *old_wb;
 
@@ -302,22 +59,42 @@ gnumeric_bonobo_read_from_stream (BonoboPersistStream       *ps,
 	g_return_if_fail (IS_WORKBOOK_CONTROL_COMPONENT (data));	
 	wbc = WORKBOOK_CONTROL (data);
 
-	/* FIXME: Probe for file type */
-	
-	wb_view = workbook_view_new (NULL);
-	wb      = wb_view_workbook (wb_view);
-
 	ioc = gnumeric_io_context_new (COMMAND_CONTEXT (wbc));
-	/* disable recursive dirtying while loading */
-	old = workbook_enable_recursive_dirty (wb, FALSE);
-	read_from_stream (deserialize_wb_from_xml_stream, stream, ioc,
-			  wb_view, ev);
-	workbook_enable_recursive_dirty (wb, old);
-	if (gnumeric_io_error_occurred (ioc))
+	input = gsf_input_bonobo_new (stream, NULL);
+	/* Search for an applicable opener */
+	/* Fixme: We should be able to choose opener by mime type */
+	for (pl = FILE_PROBE_FILE_NAME; pl <
+		     FILE_PROBE_LAST && fo == NULL; pl++) {
+		for (l = get_file_openers (); l != NULL; l = l->next) {
+			GnumFileOpener const *tmp_fo
+				= GNUM_FILE_OPENER (l->data);
+			if (gnum_file_opener_probe (tmp_fo, input, pl)) {
+				fo = tmp_fo;
+				break;
+			}
+		}
+	}
+
+	if (fo != NULL) {
+		wb_view = workbook_view_new (NULL);
+		wb      = wb_view_workbook (wb_view);
+		
+		/* disable recursive dirtying while loading */
+		old = workbook_enable_recursive_dirty (wb, FALSE);
+		gnum_file_opener_open (fo, ioc, wb_view, input);
+		workbook_enable_recursive_dirty (wb, old);
+		if (gnumeric_io_error_occurred (ioc))
+			workbook_unref (wb);		
+	} else
+		gnumeric_io_error_read (ioc, _("Unsupported file format."));
+	if (gnumeric_io_error_occurred (ioc)) {
 		gnumeric_io_error_display (ioc);
+		/* This may be a bad exception to throw, but they're all bad */
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_Bonobo_Persist_WrongDataType, NULL);
+	}
 	g_object_unref (G_OBJECT (ioc));
 	if (BONOBO_EX (ev)) {	
-		workbook_unref (wb);		
 		return;
 	}
 

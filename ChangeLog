@@ -1,3 +1,13 @@
+2002-06-25  Jon K Hellan  <hellan@acm.org>
+
+	* src/bonobo-io.c (get_raw_bytes_from_stream)
+	(get_bytes_from_compressed_stream, get_bytes_from_stream)
+	(cleanup_stream, check_gzip_header, init_for_inflate)
+	(hack_xmlSAXParseFile, deserialize_wb_from_xml_stream)
+	(read_from_stream): Remove.
+	(gnumeric_bonobo_read_from_stream): GsfInput-ize. Probe for file
+	type.
+
 2002-06-24  Morten Welinder  <terra@diku.dk>
 
 	* src/regression.c: Include Daniel Carrera's experimental
