@@ -1002,7 +1002,7 @@ find_workbook (MS_OLE * ptr)
 		hit |= (strncasecmp (d->name, "workbook", 8) == 0);
 		if (hit) {
 		  printf ("Found Excel Stream : %s\n", d->name);
-		  return ms_ole_stream_open (ptr, d->pps, 'r');
+		  return ms_ole_stream_open (d, 'r');
 		}
 	      }
 	  }

@@ -72,7 +72,7 @@ extern MS_OLE_DIRECTORY *ms_ole_directory_new (MS_OLE *) ;
 extern int  ms_ole_directory_next (MS_OLE_DIRECTORY *) ;
 extern void ms_ole_directory_enter (MS_OLE_DIRECTORY *) ;
 /* Pointer to the directory in which to create a new stream / storage object */
-extern PPS_IDX ms_ole_directory_create (MS_OLE_DIRECTORY *d, char *name, PPS_TYPE type) ;
+extern MS_OLE_DIRECTORY *ms_ole_directory_create (MS_OLE_DIRECTORY *d, char *name, PPS_TYPE type) ;
 extern void ms_ole_directory_unlink (MS_OLE_DIRECTORY *) ;
 extern void ms_ole_directory_destroy (MS_OLE_DIRECTORY *) ;
 
@@ -96,8 +96,8 @@ typedef struct _MS_OLE_STREAM
 } MS_OLE_STREAM ;
 
 /* Mode = 'r' or 'w' */
-extern MS_OLE_STREAM *ms_ole_stream_open (MS_OLE *f, PPS_IDX pps, char mode) ;
-extern void ms_ole_stream_close  (MS_OLE_STREAM *st) ;
+extern MS_OLE_STREAM *ms_ole_stream_open (MS_OLE_DIRECTORY *d, char mode) ;
+extern void ms_ole_stream_close  (MS_OLE_STREAM *) ;
 
 extern void dump (guint8 *ptr, int len) ;
 

@@ -340,20 +340,20 @@ ms_ole_create (const char *name)
   struct stat st ;
   int file ;
   MS_OLE *f ;
-  int init_blocks = 4, lp ;
+  int init_blocks = 5, lp ;
+  guint8 *ptr ;
   guint32 root_startblock = 0 ;
   guint32 sbd_startblock  = 0, zero = 0 ;
-  guint8 *ptr ;
   char title[] ="Root Entry" ;
 
-  if (!(file = open (name, O_RDWR, O_CREAT|O_TRUNC|O_NONBLOCK)))
+  if ((file = open (name, O_RDWR|O_CREAT|O_TRUNC|O_NONBLOCK,
+		    S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP)) == -1)
     {
       printf ("Can't create file '%s'\n", name) ;
       return 0 ;
     }
 
-  if ((fstat(file, &st)==-1) ||
-      (lseek (file, st.st_size + BB_BLOCK_SIZE*init_blocks - 1, SEEK_SET)==(off_t)-1) ||
+    if ((lseek (file, BB_BLOCK_SIZE*init_blocks - 1, SEEK_SET)==(off_t)-1) ||
       (write (file, &zero, 1)==-1))
     {
       printf ("Serious error extending file to %d bytes\n", BB_BLOCK_SIZE*init_blocks) ;
@@ -366,8 +366,15 @@ ms_ole_create (const char *name)
   f->length = st.st_size ;
   if (f->length%BB_BLOCK_SIZE)
     printf ("Warning file %d non-integer number of blocks\n", f->length) ;
-  f->mem  = mmap (0, 0, PROT_READ, MAP_PRIVATE, file, 0) ;
 
+  f->mem  = mmap (0, f->length, PROT_READ|PROT_WRITE, MAP_SHARED, file, 0) ;
+  if (!f->mem)
+    {
+      printf ("Serious error mapping file to %d bytes\n", BB_BLOCK_SIZE*init_blocks) ;
+      close(file) ;
+      free(f) ;
+      return 0 ;
+    }
   /**
    *  Create the following block structure:
    * Block -1 : the header block: contains the BBD_LIST
@@ -395,18 +402,18 @@ ms_ole_create (const char *name)
 
   /* The first PPS block : 0 */
 
-  f->header.number_of_sbf_blocks = 1 ;
-  f->header.sbd_list = g_new (BBPtr, 1) ;
-  f->header.sbd_list[0] = 0 ;
-
-  ptr = GET_BB_START_PTR(f, 0) ;   /* Blank stuff I don't understand */
-  for (lp=0;lp<PPS_BLOCK_SIZE;lp++)
-    *ptr++ = 0 ;
+  f->header.number_of_root_blocks = 1 ;
+  f->header.root_list = g_new (BBPtr, 1) ;
+  f->header.root_list[0] = 0 ;
 
   lp = 0 ;
-  ptr = GET_BB_START_PTR(f, 0) ;
+  ptr = f->mem + BB_BLOCK_SIZE ;
   while (title[lp])
-    *ptr++ = title[lp] ;
+    *ptr++ = title[lp++] ;
+
+  for (;lp<PPS_BLOCK_SIZE;lp++) /* Blank stuff I don't understand */
+    *ptr++ = 0 ;
+
   PPS_SET_NAME_LEN(f, PPS_ROOT_BLOCK, lp) ;
 
   PPS_SET_STARTBLOCK(f, PPS_ROOT_BLOCK, 3) ; /* Start of the sbf file */
@@ -427,9 +434,9 @@ ms_ole_create (const char *name)
 
   /* the first SBD block : 2 */
   for (lp=0;lp<BB_BLOCK_SIZE/4;lp++)
-    SET_GUINT32(GET_BB_START_PTR(f,2) + lp*4, END_OF_CHAIN) ;
+    SET_GUINT32(GET_BB_START_PTR(f,2) + lp*4, UNUSED_BLOCK) ;
 
-  f->header.number_of_sbf_blocks = 1 ;
+  f->header.number_of_sbd_blocks = 1 ;
   f->header.sbd_list = g_new (BBPtr, 1) ;
   f->header.sbd_list[0] = 0 ;
 
@@ -438,8 +445,8 @@ ms_ole_create (const char *name)
     SET_GUINT32(GET_BB_START_PTR(f,2) + lp*4, 0) ;
 
   f->header.number_of_sbf_blocks = 1 ;
-  f->header.sbd_list = g_new (BBPtr, 1) ;
-  f->header.sbd_list[0] = 0 ;
+  f->header.sbf_list = g_new (BBPtr, 1) ;
+  f->header.sbf_list[0] = 0 ;
 
   dump_header(f) ;
   dump_allocation (f) ;
@@ -454,6 +461,9 @@ ms_ole_create (const char *name)
       }
   }
 
+  /*  printf ("\n\nEntire created file\n\n\n") ;
+      dump(f->mem, init_blocks*BB_BLOCK_SIZE) ; */
+
   return f ;
 }
 
@@ -465,10 +475,11 @@ ms_ole_new (const char *name)
   int file ;
   MS_OLE *f ;
 
+  printf ("New OLE file '%s'\n", name) ;
   f = g_new (MS_OLE, 1) ;
 
   f->file_descriptor = file = open (name, O_RDWR) ;
-  if (!file || fstat(file, &st))
+  if (file == -1 || fstat(file, &st))
     {
       printf ("No such file '%s'\n", name) ;
       return 0 ;
@@ -482,12 +493,12 @@ ms_ole_new (const char *name)
   if (f->length%BB_BLOCK_SIZE)
     printf ("Warning file '%s':%d non-integer number of blocks\n", name, f->length) ;
 
-  f->mem = mmap (0, f->length, PROT_READ, MAP_PRIVATE, file, 0) ;
+  f->mem = mmap (0, f->length, PROT_READ|PROT_WRITE, MAP_SHARED, file, 0) ;
 
   if (GET_GUINT32(f->mem    ) != 0xe011cfd0 ||
       GET_GUINT32(f->mem + 4) != 0xe11ab1a1)
     {
-      printf ("Failed magic number %x %x",
+      printf ("Failed magic number %x %x\n",
 	      GET_GUINT32(f->mem), GET_GUINT32(f->mem+4)) ;
       ms_ole_destroy (f) ;
       return 0 ;
@@ -498,15 +509,22 @@ ms_ole_new (const char *name)
       ms_ole_destroy(f) ;
       return 0 ;
     }
+  printf ("New OLE file\n") ;
   return f ;
 }
 
 void
 ms_ole_destroy (MS_OLE *f)
 {
-  munmap (f->mem, f->length) ;
-  close (f->file_descriptor) ;
-  free (f) ;
+  if (f)
+    {
+      munmap (f->mem, f->length) ;
+      close (f->file_descriptor) ;
+      free (f) ;
+      printf ("Closing file\n") ;
+    }
+  else
+    printf ("Closing NULL file\n") ;
 }
 
 static void
@@ -794,7 +812,7 @@ extend_file (MS_OLE *f, int blocks)
   f->length = st.st_size ;
   if (f->length%BB_BLOCK_SIZE)
     printf ("Warning file %d non-integer number of blocks\n", f->length) ;
-  newptr = mmap (0, f->length, PROT_READ, MAP_PRIVATE, file, 0) ;
+  newptr = mmap (0, f->length, PROT_READ|PROT_WRITE, MAP_SHARED, file, 0) ;
   if (newptr != f->mem)
     printf ("Memory map moved \n") ;
   f->mem = newptr ;
@@ -855,7 +873,7 @@ next_free_sb (MS_OLE *f)
     {
       for (sblk=0;sblk<BB_BLOCK_SIZE/sizeof(SBPtr);sblk++)
 	{
-	  if (GET_GUINT32(GET_BB_START_PTR(f, f->header.sbd_list[dep] + sblk*sizeof(SBPtr)))
+	  if (GET_GUINT32(GET_BB_START_PTR(f, f->header.sbd_list[dep]) + sblk*sizeof(SBPtr))
 	      == UNUSED_BLOCK)
 	    {
 	      /* Extend and remap file */
@@ -911,12 +929,12 @@ ms_ole_addblock_sb (MS_OLE_STREAM *s)
 }
 
 MS_OLE_STREAM *
-ms_ole_stream_open (MS_OLE *f, PPS_IDX pps, char mode)
+ms_ole_stream_open (MS_OLE_DIRECTORY *d, char mode)
 {
-  PPS_IDX p=pps ;
+  PPS_IDX p=d->pps ;
+  MS_OLE *f=d->file ;
   MS_OLE_STREAM *s ;
   int lp ;
-  g_assert (mode == 'r') ;
 
   if (!p)
     return 0 ;
@@ -987,9 +1005,10 @@ ms_ole_stream_open (MS_OLE *f, PPS_IDX pps, char mode)
 }
 
 void
-ms_ole_stream_close (MS_OLE_STREAM *st)
+ms_ole_stream_close (MS_OLE_STREAM *s)
 {
-  free (st) ;
+/* No caches to write, nothing */
+  free (s) ;
 }
 
 /* You probably arn't too interested in the root directory anyway
@@ -998,9 +1017,10 @@ MS_OLE_DIRECTORY *
 ms_ole_directory_new (MS_OLE *f)
 {
   MS_OLE_DIRECTORY *d = g_new (MS_OLE_DIRECTORY, 1) ;
-  d->file     = f;
-  d->pps      = PPS_ROOT_BLOCK ;
-  d->name     = PPS_NAME(f, d->pps) ;
+  d->file          = f;
+  d->pps           = PPS_ROOT_BLOCK ;
+  d->primary_entry = PPS_ROOT_BLOCK ;
+  d->name          = PPS_NAME(f, d->pps) ;
   ms_ole_directory_enter (d) ;
   return d ;
 }
@@ -1030,39 +1050,33 @@ ms_ole_directory_next (MS_OLE_DIRECTORY *d)
   if (!d)
     return 0 ;
 
-  /* Just go onto the next one */
-  if (d->pps == d->primary_entry)
+  /* If its primary just go ahead */
+  if (d->pps != d->primary_entry)
     {
-      printf ("Hit primary entry\n") ;
-      d->pps = PPS_GET_NEXT(d->file, d->pps) ;
-      directory_setup(d) ;
-      return 1 ;
-    }
-
-  /* Checking back up the chain */
-  offset = 0 ;
-  tmp = d->primary_entry ;
-  while (tmp != PPS_END_OF_CHAIN &&
-	 tmp != d->pps)
-    {
-      tmp = PPS_GET_PREV(d->file, tmp) ;
-      offset++ ;
-    }
-  g_assert (offset>0) ;
-  if (d->pps == PPS_END_OF_CHAIN ||
-      tmp != PPS_END_OF_CHAIN)
-    {
-      offset-- ;
-      printf ("Back trace by %d\n", offset) ;
+      /* Checking back up the chain */
+      offset = 0 ;
       tmp = d->primary_entry ;
-      while (offset > 0)
+      while (tmp != PPS_END_OF_CHAIN &&
+	     tmp != d->pps)
 	{
 	  tmp = PPS_GET_PREV(d->file, tmp) ;
-	  offset-- ;
+	  offset++ ;
 	}
-      d->pps = tmp ;
-      directory_setup(d) ;
-      return 1 ;
+      if (d->pps == PPS_END_OF_CHAIN ||
+	  tmp != PPS_END_OF_CHAIN)
+	{
+	  offset-- ;
+	  printf ("Back trace by %d\n", offset) ;
+	  tmp = d->primary_entry ;
+	  while (offset > 0)
+	    {
+	      tmp = PPS_GET_PREV(d->file, tmp) ;
+	      offset-- ;
+	    }
+	  d->pps = tmp ;
+	  directory_setup(d) ;
+	  return 1 ;
+	}
     }
 
   /* Go down the chain, ignoring the primary entry */
@@ -1091,9 +1105,12 @@ ms_ole_directory_enter (MS_OLE_DIRECTORY *d)
       return ;
     }
 
-  d->primary_entry = PPS_GET_DIR(d->file, d->pps);
-  /* So it will wind in from the start on 'next' */
-  d->pps = PPS_END_OF_CHAIN ;
+  if (PPS_GET_DIR(d->file, d->pps) != PPS_END_OF_CHAIN)
+    {
+      d->primary_entry = PPS_GET_DIR(d->file, d->pps);
+      /* So it will wind in from the start on 'next' */
+      d->pps = PPS_END_OF_CHAIN ;
+    }
   return ;
 }
 
@@ -1170,33 +1187,41 @@ next_free_pps (MS_OLE *f)
  * This is passed the handle of a directory in which to create the
  * new stream / directory.
  **/
-PPS_IDX
+MS_OLE_DIRECTORY *
 ms_ole_directory_create (MS_OLE_DIRECTORY *d, char *name, PPS_TYPE type)
 {
   /* Find a free PPS */
   PPS_IDX p = next_free_pps(d->file) ;
   PPS_IDX prim ;
+  MS_OLE_DIRECTORY *nd = g_new (MS_OLE_DIRECTORY, 1) ;
+  SBPtr  startblock ;
   int lp=0 ;
 
   /* Blank stuff I don't understand */
   for (lp=0;lp<PPS_BLOCK_SIZE;lp++)
     SET_GUINT8(PPS_PTR(d->file, p)+lp, 0) ;
 
+  lp = 0 ;
   while (name[lp])
     {
       SET_GUINT8(PPS_PTR(d->file, p) + lp*2, 0) ;
       SET_GUINT8(PPS_PTR(d->file, p) + lp*2 + 1, name[lp]) ;
+      lp++ ;
     }
-  PPS_SET_NAME_LEN(d->file, d->pps, lp) ;
-  PPS_SET_STARTBLOCK(d->file, d->pps, next_free_sb(d->file)) ;
+  PPS_SET_NAME_LEN(d->file, p, lp) ;
+  startblock = next_free_sb(d->file) ;
+  PPS_SET_STARTBLOCK(d->file, p, startblock) ;
+  SET_GUINT32(GET_SB_CHAIN_PTR(d->file, startblock), END_OF_CHAIN) ;
 
   /* Chain into the directory */
   prim = PPS_GET_DIR (d->file, d->pps) ;
   if (prim == PPS_END_OF_CHAIN)
     {
+      prim = p ;
       PPS_SET_DIR (d->file, d->pps, p) ;
-      PPS_SET_NEXT(d->file, d->pps, PPS_END_OF_CHAIN) ;
-      PPS_SET_PREV(d->file, d->pps, PPS_END_OF_CHAIN) ;
+      PPS_SET_DIR (d->file, p, PPS_END_OF_CHAIN) ;
+      PPS_SET_NEXT(d->file, p, PPS_END_OF_CHAIN) ;
+      PPS_SET_PREV(d->file, p, PPS_END_OF_CHAIN) ;
     }
   else /* FIXME: this should insert in alphabetic order */
     {
@@ -1209,7 +1234,12 @@ ms_ole_directory_create (MS_OLE_DIRECTORY *d, char *name, PPS_TYPE type)
   PPS_SET_TYPE(d->file, p, type) ;
   PPS_SET_SIZE(d->file, p, 0) ;
 
-  return p ;
+  nd->file     = d->file ;
+  nd->pps      = PPS_END_OF_CHAIN ;
+  nd->name     = PPS_NAME(d->file, p) ;
+  nd->primary_entry = prim ;
+
+  return nd ;
 }
 
 void

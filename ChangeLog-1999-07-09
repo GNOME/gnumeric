@@ -1,3 +1,8 @@
+1998-12-06  Michael Meeks    <michael@imaginator.com>
+
+	* plugins/excel/ms-ole.c: Much trivial bug fixing, API fixups,
+	testing and stabilizing.
+
 1998-12-05  Michael Meeks    <michael@imaginator.com>
 
 	* plugins/excel/ms-ole.c: Major work on creation of readable

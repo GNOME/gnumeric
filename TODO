@@ -89,10 +89,10 @@ GNOME Spread Sheet task list
    Add collation of BIFF continuation records to the
    previous record, to save many checks in the code.
 
-   Sort code out so it uses the raw excel data instead
-   of convenient copies. ( in order for speedy writes )
+   Sort out formula conversion to use gnumerics representation
+   instead of strings.
 
 * OLE
 
-   Need blank OLE file creation.
+   Serious testing required.
 
