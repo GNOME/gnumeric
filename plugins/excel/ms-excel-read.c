@@ -43,6 +43,7 @@
 #include <sheet-object-graphic.h>
 #ifdef ENABLE_BONOBO
 #  include <sheet-object-container.h>
+#  include <gnumeric-graph.h>
 #endif
 
 #include <libgnome/gnome-defs.h>
@@ -2168,7 +2169,7 @@ ms_sheet_obj_anchor_to_pos (Sheet const * sheet, MsBiffVersion const ver,
 }
 
 static gboolean
-ms_sheet_obj_realize (MSContainer *container, MSObj *obj)
+ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 {
 	float offsets[4];
 	Range range;
@@ -2210,37 +2211,52 @@ ms_sheet_obj_realize (MSContainer *container, MSObj *obj)
 }
 
 static GtkObject *
-ms_sheet_obj_create (MSContainer *container, MSObj *obj)
+ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 {
 	SheetObject *so = NULL;
 	Sheet  *sheet;
+	ExcelSheet const *esheet;
 
 	if (obj == NULL)
 		return NULL;
 
 	g_return_val_if_fail (container != NULL, NULL);
 
-	sheet = ((ExcelSheet *)container)->gnum_sheet;
+	esheet = (ExcelSheet const *)container;
+	sheet = esheet->gnum_sheet;
 
 	switch (obj->excel_type) {
 	case 0x01: so = sheet_object_line_new (FALSE); break; /* Line */
 	case 0x02: so = sheet_object_box_new (FALSE);  break; /* Box */
 	case 0x03: so = sheet_object_box_new (TRUE);   break; /* Oval */
-	case 0x05: so = sheet_object_box_new (FALSE);  break; /* Chart */
+	case 0x05: { /* Chart */
+#ifdef ENABLE_BONOBO
+		   so = SHEET_OBJECT (gnm_graph_new (sheet->workbook));
+#else
+		   so = sheet_object_box_new (FALSE);  /* placeholder */
+		   if (esheet->wb->warn_unsupported_graphs) {
+			   /* TODO : Use IOContext when available */
+			   esheet->wb->warn_unsupported_graphs = FALSE;
+			   g_warning ("Images are not supported in non-bonobo version");
+		   }
+#endif
+		   break;
+	}
 	case 0x06: so = sheet_widget_label_new (sheet);    break; /* TextBox */
 	case 0x07: so = sheet_widget_button_new (sheet);   break; /* Button */
 	case 0x08: { /* Picture */
 #ifdef ENABLE_BONOBO
 		   so = sheet_object_container_new (sheet->workbook);
 #else
-		   static gboolean needs_warn = TRUE;
-		   if (needs_warn) {
-			   needs_warn = FALSE;
+		   so = sheet_object_box_new (FALSE);  /* placeholder */
+		   if (esheet->wb->warn_unsupported_images) {
+			   /* TODO : Use IOContext when available */
+			   esheet->wb->warn_unsupported_graphs = FALSE;
 			   g_warning ("Images are not supported in non-bonobo version");
 		   }
 #endif
-		   }
 		   break;
+	}
 	case 0x0B: so = sheet_widget_checkbox_new (sheet); break; /* CheckBox*/
 	case 0x0C: so = sheet_widget_radio_button_new (sheet); break; /* OptionButton */
 	case 0x0E: so = sheet_widget_label_new (sheet);    break; /* Label */
@@ -2339,8 +2355,8 @@ static ExcelSheet *
 ms_excel_sheet_new (ExcelWorkbook *wb, char const *sheet_name)
 {
 	static MSContainerClass const vtbl = {
-		&ms_sheet_obj_realize,
-		&ms_sheet_obj_create,
+		&ms_sheet_realize_obj,
+		&ms_sheet_create_obj,
 		&ms_sheet_parse_expr,
 		&ms_sheet_sheet,
 		&ms_sheet_workbook
@@ -2530,6 +2546,8 @@ ms_excel_workbook_new (MsBiffVersion ver)
 	ans->global_string_max  = 0;
 	ans->read_drawing_group = 0;
 
+	ans->warn_unsupported_images = TRUE;
+	ans->warn_unsupported_graphs = TRUE;
 	return ans;
 }
 
@@ -3717,9 +3735,17 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 			 * jump to the chart handler which then starts parsing
 			 * at the NEXT record.
 			 */
-			if (q->opcode == BIFF_CHART_units)
-				ms_excel_chart (q, sheet_container (esheet), esheet->container.ver);
-			else
+			if (q->opcode == BIFF_CHART_units) {
+				GnmGraph *graph =
+#ifdef ENABLE_BONOBO
+					gnm_graph_new (esheet->wb->gnum_wb);
+#else
+					NULL;
+#endif
+				ms_excel_chart (q, sheet_container (esheet),
+						esheet->container.ver,
+						GTK_OBJECT (graph));
+			} else
 				puts ("EXCEL: How are we seeing chart records in a sheet ?");
 			continue;
 		}
@@ -4145,9 +4171,17 @@ ms_excel_read_bof (BiffQuery *q,
 			(*current_sheet)++;
 		} else
 			printf ("Sheet offset in stream of %x not found in list\n", q->streamPos);
-	} else if (ver->type == MS_BIFF_TYPE_Chart)
-		ms_excel_chart (q, &wb->container, ver->version);
-	else if (ver->type == MS_BIFF_TYPE_VBModule ||
+	} else if (ver->type == MS_BIFF_TYPE_Chart) {
+				GnmGraph *graph =
+#if 0
+					/* enable when we support workbooklevel objects */
+					gnm_graph_new (wb->gnum_wb);
+#else
+					NULL;
+#endif
+		ms_excel_chart (q, &wb->container, ver->version,
+				GTK_OBJECT (graph));
+	} else if (ver->type == MS_BIFF_TYPE_VBModule ||
 		 ver->type == MS_BIFF_TYPE_Macrosheet) {
 		/* Skip contents of Module, or MacroSheet */
 		if (ver->type != MS_BIFF_TYPE_Macrosheet)

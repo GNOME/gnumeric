@@ -1,3 +1,19 @@
+2001-08-28  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-obj.c (ms_read_OBJ) : pass graphs into their parser.
+
+	* ms-excel-read.c (ms_sheet_realize_obj) : renamed from
+	  ms_sheet_obj_realize.
+	(ms_sheet_create_obj) : renamed from ms_sheet_obj_create.
+	  Improve the warnings for unhandled objects.
+	  Pass graphs into the parser.
+
+	* ms-container.c (ms_container_workbook) : delete.
+
+	* ms-chart.c (ms_excel_chart) : enable some of the xml spec generation.
+	  and take the GnmGraph as an argument.
+	(ms_excel_read_chart) : take the graph as an argument.
+
 2001-08-27  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_sheet_parse_expr_internal) : disable some of the

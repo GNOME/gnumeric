@@ -43,6 +43,5 @@ void	  ms_container_realize_objs (MSContainer *c);
 ExprTree *ms_container_parse_expr   (MSContainer *c,
 				     guint8 const *data, int length);
 Sheet    *ms_container_sheet	    (MSContainer const *c);
-Workbook *ms_container_workbook	    (MSContainer const *c);
 
 #endif /* MS_OFFICE_CONTAINER_H */

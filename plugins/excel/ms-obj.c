@@ -481,7 +481,7 @@ ms_read_OBJ (BiffQuery *q, MSContainer *container)
 
 	/* Chart, There should be a BOF next */
 	if (obj->excel_type == 0x5)
-		ms_excel_read_chart (q, container);
+		ms_excel_read_chart (q, container, obj->gnum_obj);
 
 #if 0
 	printf ("Registered object 0x%p\n", obj);

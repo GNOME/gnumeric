@@ -15,9 +15,9 @@
 
 /* Reads charts */
 extern void ms_excel_chart (BiffQuery *q, MSContainer *container,
-			    MsBiffVersion ver);
+			    MsBiffVersion ver, GtkObject *so);
 
 /* A wrapper which reads and checks the BOF record then calls ms_excel_chart */
-extern void ms_excel_read_chart (BiffQuery *q, MSContainer *container);
+extern void ms_excel_read_chart (BiffQuery *q, MSContainer *container, GtkObject *so);
 
 #endif /* GNUMERIC_MS_CHART_H */

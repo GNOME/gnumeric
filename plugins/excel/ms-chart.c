@@ -23,6 +23,7 @@
 #include <gutils.h>
 
 #include <gnumeric-graph.h>
+#include <xml-io.h>
 #include <gnome-xml/tree.h>
 #include <stdio.h>
 
@@ -60,7 +61,8 @@ typedef struct
 	ExcelWorkbook	*wb;
 	GnmGraph	*graph;
 
-	xmlDocPtr   	 chart;
+	xmlDocPtr   	 xml_doc;
+	xmlNsPtr	 xml_ns;
 
 	ExcelChartSeries *currentSeries;
 	GPtrArray	 *series;
@@ -1556,7 +1558,7 @@ BC_R(series)(ExcelChartHandler const *handle,
 {
 	ExcelChartSeries *series;
 
-	g_return_val_if_fail (s->chart != NULL, TRUE);
+	g_return_val_if_fail (s->xml_doc != NULL, TRUE);
 	g_return_val_if_fail (s->currentSeries == NULL, TRUE);
 
 	series = excel_chart_series_new ();
@@ -2110,7 +2112,7 @@ chart_parse_expr  (MSContainer *container, guint8 const *data, int length)
 }
 
 void
-ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver)
+ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver, GtkObject *graph)
 {
 	static MSContainerClass const vtbl = {
 		chart_realize_obj,
@@ -2122,6 +2124,7 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver)
 		sizeof(ExcelChartHandler *);
 
 	int i;
+	xmlNodePtr tmp;
 	gboolean done = FALSE;
 	ExcelChartReadState state;
 
@@ -2136,21 +2139,29 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver)
 	state.wb	    = NULL;   	/* FIXME : should have a container_get_format */
 	state.prev_opcode   = 0xdeadbeef; /* Invalid */
 	state.parent	    = container;
-	state.chart         = xmlNewDoc ("1.0");
 	state.currentSeries = NULL;
 	state.series	    = g_ptr_array_new ();
-#ifdef ENABLE_BONOBO
-	/*
-	 *All chart handling is debug for now, so just
-	 *lobotomize it here if user isnt interested.
+	state.xml_doc       = xmlNewDoc ("1.0");
+	state.xml_doc->xmlRootNode =
+		xmlNewDocNode (state.xml_doc, NULL, "Graph", NULL);
+	state.xml_ns        = xmlNewNs (state.xml_doc->xmlRootNode,
+		"http://www.gnumeric.org/graph_v1", "graph");
+
+
+	/* All chart handling is debug for now, so just
+	 * lobotomize it here if user isnt interested.
 	 */
-	if (ms_excel_chart_debug > 0)
-		state.graph = gnm_graph_new (ms_container_workbook (container));
+	if (ms_excel_chart_debug <= 0) {
+		state.graph = NULL;
+		if (graph != NULL)
+			gtk_object_unref (graph);
+	}
+#ifdef ENABLE_BONOBO
+	else if (graph != NULL)
+		state.graph = GNUMERIC_GRAPH (graph);
+#endif
 	else
 		state.graph = NULL;
-#else
-	state.graph	    = NULL;
-#endif
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_chart_debug > 0)
@@ -2267,6 +2278,21 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver)
 		state.prev_opcode = q->opcode;
 	}
 
+	tmp = xmlNewChild (state.xml_doc->xmlRootNode,
+			   state.xml_ns, "Data", NULL);
+	for (i = state.series->len; i-- > 0 ; ) {
+		ExcelChartSeries *series = g_ptr_array_index (state.series, i);
+		xmlNodePtr s = xmlNewDocNode (state.xml_doc, state.xml_ns, "Series", NULL);
+		xml_prop_set_int (s, "ChartGroup", series->chart_group);
+		xmlAddChild (tmp, s);
+	}
+
+#ifdef ENABLE_BONOBO
+	gnm_graph_import_specification (state.graph, state.xml_doc);
+#endif
+
+	/* Cleanup */
+	xmlFreeDoc (state.xml_doc);
 	for (i = state.series->len; i-- > 0 ; ) {
 		ExcelChartSeries *series = g_ptr_array_index (state.series, i);
 		if (series != NULL)
@@ -2277,7 +2303,7 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver)
 }
 
 void
-ms_excel_read_chart (BiffQuery *q, MSContainer *container)
+ms_excel_read_chart (BiffQuery *q, MSContainer *container, GtkObject *graph)
 {
 	MsBiffBofData *bof;
 
@@ -2289,6 +2315,6 @@ ms_excel_read_chart (BiffQuery *q, MSContainer *container)
 	g_return_if_fail (bof->type == MS_BIFF_TYPE_Chart);
 
 	if (bof->version != MS_BIFF_V_UNKNOWN)
-		ms_excel_chart (q, container, bof->version);
+		ms_excel_chart (q, container, bof->version, graph);
 	ms_biff_bof_data_destroy (bof);
 }
