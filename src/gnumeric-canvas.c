@@ -8,7 +8,6 @@
 #include <config.h>
 
 #include "gnumeric-canvas.h"
-#include "item-bar.h"
 #include "sheet-control-gui-priv.h"
 #include "gnumeric-util.h"
 #include "mstyle.h"

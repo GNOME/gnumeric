@@ -9,6 +9,9 @@
 struct _SheetControlGUI {
 	SheetControl sheet_control;
 
+	/* Cached SheetControl attribute to reduce casting. */
+	WorkbookControlGUI *wbcg;
+
 	GtkTable	*table;
 	GtkTable	*inner_table;
 	GtkWidget	*select_all_btn;
@@ -42,9 +45,6 @@ struct _SheetControlGUI {
 		GtkWidget   *item;	/* TODO : make this a canvas item with an arrow */
 		int	     timer;
 	} comment;
-
-	/* Cached SheetControl attribute to reduce casting. */
-	WorkbookControlGUI *wbcg;
 };
 
 typedef struct {

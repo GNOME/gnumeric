@@ -16,7 +16,6 @@
 #include "application.h"
 #include "commands.h"
 #include "sheet-control-gui.h"
-#include "item-cursor.h"
 #include "sheet.h"
 #include "cell.h"
 #include "expr.h"

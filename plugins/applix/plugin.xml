@@ -6,7 +6,7 @@
 	</loader>
 	<services>
 		<service type="file_opener" id="applix" priority="100" probe="TRUE">
-			<information description="Applix (*.as) file format"/>
+			<information description="Applix (*.as)"/>
 			<file_patterns>
 				<file_pattern type="shell_pattern" value="*.as"/>
 			</file_patterns>

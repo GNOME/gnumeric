@@ -981,7 +981,7 @@ compute_pages (PrintJobInfo *pj,
 
 	pages = pc->pages;
 	g_free (pc);
-	return pages;
+	return MAX (pages, 1);
 }
 
 static void

@@ -18,7 +18,6 @@
 
 #include "item-edit.h"
 #include "item-cursor.h"
-#include "item-grid.h"
 #define GNUMERIC_ITEM "EDIT"
 #include "item-debug.h"
 #include "gnumeric-canvas.h"

@@ -48,7 +48,7 @@ gnumeric_pane_header_init (GnumericPane *pane, gboolean is_col_header)
 
 #if 0
 	/* This would be simpler, just scroll the table and the head moves too.
-	 * but it wil ltakes some cleaning up that I have no time for just now.
+	 * but it will take some cleaning up that I have no time for just now.
 	 */
 	if (is_col_header)
 		gtk_layout_set_hadjustment (GTK_LAYOUT (canvas),
@@ -131,6 +131,8 @@ gnm_pane_bound_set (GnumericPane *pane,
 			       "ItemGrid::Bound", &r,
 			       NULL);
 }
+
+/****************************************************************************/
 
 void
 gnm_pane_colrow_resize_start (GnumericPane *pane,
@@ -233,6 +235,7 @@ gnm_pane_colrow_resize_move (GnumericPane *pane,
 }
 
 /****************************************************************************/
+
 void
 gnm_pane_reposition_cursors (GnumericPane *pane)
 {

@@ -2288,9 +2288,12 @@ static GnomeUIInfo workbook_menu_file [] = {
 	GNOMEUIINFO_MENU_OPEN_ITEM (cb_file_open, NULL),
 	GNOMEUIINFO_ITEM_STOCK (N_("_Import..."), N_("Imports a file"),
 				cb_file_import, GNOME_STOCK_MENU_OPEN),
-	GNOMEUIINFO_MENU_SAVE_ITEM (cb_file_save, NULL),
-
-	GNOMEUIINFO_MENU_SAVE_AS_ITEM (cb_file_save_as, NULL),
+	GNOMEUIINFO_ITEM_STOCK (N_("_Save"), N_("Save"),
+				cb_file_save,
+				"Menu_Gnumeric_Save"),
+	GNOMEUIINFO_ITEM_STOCK (N_("Save _As..."), N_("Save with a new name or format"),
+				cb_file_save_as,
+				"Menu_Gnumeric_SaveAs"),
 
 	GNOMEUIINFO_SEPARATOR,
 
