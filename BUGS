@@ -118,7 +118,6 @@ Architecture Changes
 	5.10.1) Patch written					(DONE)
 	5.10.2) Patch accepted into gtk				(DONE)
     5.11) File History						(DONE)
-    5.12) Split gui-utils.h down into goffice
 
 8) Rich Text
     8.1) font actions valid while editing			(DONE)
@@ -155,8 +154,9 @@ Architecture Changes
 		9.1.1.1.4) outline symbols
 		9.1.1.1.5) black line between button and start
 	    9.1.1.2) row header
-		9.1.1.2.1) outline symbols
-		9.1.1.2.1) black line at edge
+		9.1.1.2.1) drag resize				(DONE)
+		9.1.1.2.2) outline symbols
+		9.1.1.2.3) black line at edge
 	9.1.2) item-cursor
 	    9.1.2.1) basic drawing				(DONE)
 	    9.1.2.2) motion					(DONE)
@@ -180,8 +180,13 @@ Architecture Changes
 	    9.1.5.3) set_left					(DONE)
 	    9.1.5.4) scrollbars					(DONE)
 	    9.1.5.5) positioning/redraw when flipping at IV1	(DONE)
-	    9.1.5.6) Zooming
-    9.2) spans (cheat swap left/right align)			(DONE)
+	    9.1.5.6) Zooming					(DONE)
+	    9.1.5.7) zooming sometimes loses headers
+			until a scroll
+    9.2) spans
+	9.2.1) swap left/right align during rtl			(DONE)
+	9.2.2) Respect style selected dir
+	9.2.3) add 'context' selected text dir
     9.3) Model
 	9.3.1) Add GtkAction					(DONE)
 	9.3.2) Store state in scg				(DONE)
@@ -194,6 +199,7 @@ Architecture Changes
 	9.3.9) Add a new style element for text dir		(DONE)
 	9.3.10) swap action icon depending on state
 	9.3.11) Add entry to format dialog to set text dir
+	9.3.12) Undo/Redo					(DONE)
     9.4) Persistence
 	9.4.1) xml dom
 	    9.4.1.1) in
@@ -221,12 +227,18 @@ Architecture Changes
 	9.5.5) merges						(DONE)
 	9.5.6) check right margin, we overwrite the edge
 	9.5.7) init preview scroll to right in rtl mode
-    9.6) Add entry in manage sheet dialog
-    9.7) Add entry to tab context menu
-    9.8) Set default value depending on LC_MESSAGE
-    9.9) check autofilters
+    9.6) Add entry in manage sheet dialog			(DONE)
+    9.7) Add entry to tab context menu (do we need ?)
+    9.8) Set default value depending on LC_MESSAGE		(DONE)
+    9.9) autofilters
     9.10) cell comments
-    9.11) sheet objects
+    9.11) sheet objects						(DONE)
+	9.11.1) reposition views when direction changes		(DONE)
+	9.11.2) movement					(DONE)
+	9.11.3) resize						(DONE)
+	9.11.4) creation pivots on right side.			(DONE)
+	9.11.5) selecting object sometimes jumps it to right	(DONE)
+	9.11.6) objects created in rtl disappear in ltr		(DONE)
 
 -------------------------------------------------------------------------------
 Target Features
