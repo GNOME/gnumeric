@@ -1,3 +1,7 @@
+2000-11-14  Jody Goldberg <jgoldberg@home.com>
+
+	* xml2.c (xml2ParseCellContent) : ValueFormat is optional.
+
 2000-11-13  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* xml2.c (xml2StartElement): Add loading of print

@@ -932,7 +932,10 @@ xml2ParseCellContent (XML2ParseState *state)
 		} else if (xml_not_used_old_array_spec (cell, content)) {
 			if (value_type != 0) {
 				Value *v = value_new_from_string (value_type, content);
-				cell_set_value (cell, v, style_format_new_XL (value_fmt, FALSE));
+				StyleFormat *sf = (value_fmt != NULL)
+					? style_format_new_XL (value_fmt, FALSE)
+					: NULL;
+				cell_set_value (cell, v, sf);
 			} else
 				cell_set_text (cell, content);
 		}
