@@ -1,3 +1,10 @@
+2000-03-06  Ariel Rios  <ariel@arcavia.com>
+
+	* functions.scm: All the functions now use the scm_category argument.
+
+	* plugin.c (scm_register_function): Added the scm_category argument. From now on the user we'll be able to 
+	give the category his formula want's to be added upon.
+
 2000-02-10  Michael Meeks  <michael@helixcode.com>
 
 	* plugin.c: include cell.h

@@ -24,6 +24,7 @@
 ;@SYNTAX=SIGN(number)
 ;@DESCRIPTION=Returns -1 if NUMBER is less than 0, 1 if NUMBER
 ;is greater than 0 and 0 if NUMBER is equal 0."
+;"Guile"
 ; sign)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -39,6 +40,7 @@
 ; "@FUNCTION=LCM
 ;@SYNTAX=LCM(n1,n2)
 ;@DESCRIPTION=Returns the least common multiplier of N1 and N2."
+;"Guile"
 ; lcm)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -50,6 +52,7 @@
 ; "@FUNCTION=GCD
 ;@SYNTAX=GCD(n1,n2)
 ;@DESCRIPTION=Returns the greatest common divisor of N1 and N2."
+;"Guile"
 ; gcd)
 
 
@@ -78,6 +81,7 @@
 "@FUNCTION=FIBO
 @SYNTAX=FIBO(num)
 @DESCRIPTION=Returns the fibonnacci computation for number."
+"Guile"
 fibo)
 
 ;;;;;;;;;;;;proof

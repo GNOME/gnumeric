@@ -422,26 +422,25 @@ func_marshal_func (FunctionEvalInfo *ei, Value *argv[])
 }
 
 static SCM
-scm_register_function (SCM scm_name, SCM scm_args, SCM scm_help, SCM scm_function)
+scm_register_function (SCM scm_name, SCM scm_args, SCM scm_help, SCM scm_category, SCM scm_function)
 {
 	FunctionDefinition *fndef;
 	FunctionCategory   *cat;
 	char              **help;
 
-	/* FIXME:
-	   Add the SCM scm_category parameter
-	*/
 
 	SCM_ASSERT (SCM_NIMP (scm_name) && SCM_STRINGP (scm_name), scm_name, SCM_ARG1, "scm_register_function");
 	SCM_ASSERT (SCM_NIMP (scm_args) && SCM_STRINGP (scm_args), scm_args, SCM_ARG2, "scm_register_function");
 	SCM_ASSERT (SCM_NIMP (scm_help) && SCM_STRINGP (scm_help), scm_help, SCM_ARG3, "scm_register_function");
-	SCM_ASSERT (scm_procedure_p (scm_function), scm_function, SCM_ARG4, "scm_register_function");
+	SCM_ASSERT (SCM_NIMP (scm_category) && SCM_STRINGP (scm_category), 
+		    scm_category, SCM_ARG4, "scm_register_function");
+	SCM_ASSERT (scm_procedure_p (scm_function), scm_function, SCM_ARG5, "scm_register_function");
 
 	scm_permanent_object (scm_function); 
 
 	help  = g_new (char *, 1);
 	*help = g_strdup (SCM_CHARS (scm_help));
-	cat   = function_get_category ("Guile");
+	cat   = function_get_category (g_strdup (SCM_CHARS (scm_category)));
 	fndef = function_add_args (cat, g_strdup (SCM_CHARS (scm_name)),
 				   g_strdup (SCM_CHARS (scm_args)), NULL,
 				   help, func_marshal_func);
