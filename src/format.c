@@ -260,6 +260,7 @@ typedef struct {
 	gboolean    want_am_pm;
 	gboolean    has_fraction;
         char        restriction_type;
+	gboolean    suppress_minus;
         gnm_float  restriction_value;
 	GnmColor *color;
 } StyleFormatEntry;
@@ -440,6 +441,7 @@ format_entry_ctor (void)
 	entry = g_new (StyleFormatEntry, 1);
 	entry->restriction_type = '*';
 	entry->restriction_value = 0.;
+	entry->suppress_minus = FALSE;
 	entry->want_am_pm = entry->has_fraction = FALSE;
 	entry->color = NULL;
 	return entry;
@@ -551,6 +553,17 @@ format_compile (GnmFormat *format)
 			entry->restriction_value = strtognum (begin, (char **)&end);
 			if (errno == ERANGE || begin == end)
 				entry->restriction_value = 0.;
+
+			/* this is a guess based on checking the results of
+			 * 0.00;[<0]0.00
+			 * 0.00;[<=0]0.00
+			 *
+			 * for -1.2.3
+			 **/
+			else if (entry->restriction_type == '<')
+				entry->suppress_minus = (entry->restriction_value <= 0.);
+			else if (entry->restriction_type == ',')
+				entry->suppress_minus = (entry->restriction_value < 0.);
 			break;
 		}
 
@@ -757,9 +770,6 @@ render_number (GString *result,
 		sigdig++;
 	}
 
-	/* TODO : What ifthe only visible digits are zeros ? -0.00 looks bad */
-	if (info->negative && !info->supress_minus)
-		g_string_append_c (result, '-');
 	if (left_req > digit_count) {
 		for (left_spaces -= left_req ; left_spaces-- > 0 ;)
 			g_string_append_c (result, ' ');
@@ -829,7 +839,6 @@ do_render_number (gnm_float number, format_info_t *info, GString *result)
 		"left_spaces: %d\n"
 		"right_spaces:%d\n"
 		"right_allow: %d\n"
-		"negative:    %d\n"
 		"supress:     %d\n"
 		"decimalseen: %d\n"
 		"decimalp:    %s\n",
@@ -838,8 +847,6 @@ do_render_number (gnm_float number, format_info_t *info, GString *result)
 		info->left_spaces,
 		info->right_spaces,
 		info->right_allowed + info->right_optional,
-		info->negative,
-		info->supress_minus,
 		info->decimal_separator_seen,
 		decimal_point);
 #endif
@@ -1411,7 +1418,6 @@ format_number (GString *result,
 	gboolean hour_seen = FALSE;
 	gboolean time_display_elapsed = FALSE;
 	gboolean ignore_further_elapsed = FALSE;
-	size_t prelen = result->len;
 
 	gunichar fill_char = 0;
 	int fill_start = -1;
@@ -1422,9 +1428,10 @@ format_number (GString *result,
 
 	memset (&info, 0, sizeof (info));
 	signed_number = number;
-	if (number < 0.0){
-		info.negative = TRUE;
+	if (number < 0.) {
 		number = -number;
+		if (!entry->suppress_minus)
+			g_string_append_c (result, '-');
 	}
 	info.has_fraction = entry->has_fraction;
 	info.scale = 1;
@@ -1524,19 +1531,14 @@ format_number (GString *result,
 				format++;
 
 			g_string_append_printf (result,
-						is_lower ? "%s%.*" GNUM_FORMAT_e : "%s%.*" GNUM_FORMAT_E,
-						info.negative ? "-" :
-						shows_plus ? "+" : "",
+						is_lower ? "%.*" GNUM_FORMAT_e : "%.*" GNUM_FORMAT_E,
 						prec, number);
 			return;
 		}
 
 		case '\\':
 			if (format[1] != '\0') {
-				/* TODO : Other chars here ?? ('+' or ':') ? */
-				if (format[1] == '-' || format[1] == '(')
-					info.supress_minus = TRUE;
-				else if (can_render_number && !info.rendered)
+				if (can_render_number && !info.rendered)
 					do_render_number (number, &info, result);
 
 				format++;
@@ -1596,8 +1598,6 @@ format_number (GString *result,
 					if (!info.rendered) {
 						info.rendered = TRUE;
 						numerator += ((int)number) * denominator;
-						if (info.negative && !info.supress_minus)
-							g_string_insert_c (result, prelen, '-');
 					}
 
 					/*
@@ -1623,9 +1623,6 @@ format_number (GString *result,
 		case '(':
 		case '+':
 		case ':':
-			info.supress_minus = TRUE;
-			/* fall down */
-
 		case ' ': /* eg # ?/? */
 		case '$':
 		case 0x00A3 : /* pound */

@@ -45,6 +45,7 @@
 #include <gtk/gtkstock.h>
 #include <gtk/gtkvbox.h>
 #include <gtk/gtkhandlebox.h>
+#include <gtk/gtkcheckmenuitem.h>
 #include <glib/gi18n.h>
 #include <errno.h>
 
@@ -794,6 +795,52 @@ cb_handlebox_dock_status (G_GNUC_UNUSED GtkHandleBox *hb,
 }
 
 static void
+cb_show_hide_toolbar (GtkWidget *w, char const *label)
+{
+	g_warning ("%s %s", gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (w)) ?
+		   "show" : "hide", label);
+}
+
+static gboolean
+cb_handlebox_popup (GtkWidget *widget, GdkEventButton *event, WBCgtk *gtk)
+{
+#warning make this dynamic when we have uimanager_get_toolbars
+	static char const *toolbars[] = {
+		N_("Standard"),
+		N_("Formatting"),
+		N_("Objects")
+	};
+	GtkWidget *menu, *item;
+	unsigned i;
+	gboolean is_visible;
+
+	if (event->type != GDK_BUTTON_PRESS || event->button != 3)
+		return FALSE;
+
+	menu = gtk_menu_new ();
+	for (i = 0; i < G_N_ELEMENTS (toolbars); i++) {
+		item = gtk_check_menu_item_new_with_label (_(toolbars[i]));
+		is_visible =
+#if 0
+			pull it from the toolbar
+#else
+			TRUE;
+#endif
+		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item),
+			is_visible);
+		g_signal_connect (G_OBJECT (item),
+			"activate",
+			G_CALLBACK (cb_show_hide_toolbar), (gpointer) toolbars[i]);
+		
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+		gtk_widget_show (item);
+	}
+
+	gnumeric_popup_menu (GTK_MENU (menu), event);
+	return TRUE;
+}
+
+static void
 cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 		       GtkWidget *w, WBCgtk *gtk)
 {
@@ -806,6 +853,9 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 		g_signal_connect (box, "child_detached",
 			G_CALLBACK (cb_handlebox_dock_status),
 			GINT_TO_POINTER (FALSE));
+		g_signal_connect_after (G_OBJECT (box),
+			"button_press_event",
+			G_CALLBACK (cb_handlebox_popup), gtk);
 		gtk_toolbar_set_show_arrow (GTK_TOOLBAR (w), TRUE);
 		gtk_toolbar_set_style (GTK_TOOLBAR (w), GTK_TOOLBAR_ICONS);
 		gtk_box_pack_start (GTK_BOX (gtk->toolbar_zone), box, FALSE, FALSE, 0);

@@ -93,9 +93,7 @@ typedef struct {
 	int  left_spaces, left_req;
 	float scale;
 	gboolean rendered;
-	gboolean negative;
 	gboolean decimal_separator_seen;
-	gboolean supress_minus;
 	gboolean group_thousands;
 	gboolean has_fraction;
 } format_info_t;
