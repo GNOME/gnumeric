@@ -936,7 +936,7 @@ msgstr "P (F<=f) односторонн╓"
 
 #: src/analysis-tools.c:1600
 msgid "F Critical one-tail"
-msgstr "t-критичне односторонн╓"
+msgstr "F критичне односторонн╓"
 
 #: src/analysis-tools.c:1674 src/dialogs/dialog-analysis-tools.c:411
 msgid "Random"
@@ -1080,11 +1080,11 @@ msgstr "Середн╓"
 #: src/analysis-tools.c:2405 src/analysis-tools.c:2596
 #: src/analysis-tools.c:2762
 msgid "Source of Variation"
-msgstr ""
+msgstr "Джерело дисперс╕╖"
 
 #: src/analysis-tools.c:2411 src/analysis-tools.c:2602
 msgid "F critical"
-msgstr ""
+msgstr "F критичне"
 
 #: src/analysis-tools.c:2412
 msgid "Between Groups"
@@ -1127,7 +1127,7 @@ msgstr "В"
 
 #: src/analysis-tools.c:2774
 msgid "F crit"
-msgstr "F-критичне"
+msgstr "F критичне"
 
 #: po/tmp/analysis-tools.glade.h:19 src/analysis-tools.c:2818
 #: src/dialogs/dialog-analysis-tools.c:99
@@ -1145,7 +1145,7 @@ msgstr "Частота"
 #: src/analysis-tools.c:2824
 #, c-format
 msgid "Cumulative %"
-msgstr ""
+msgstr "Кумулятивний %"
 
 #: src/bonobo-io.c:457
 #, c-format
