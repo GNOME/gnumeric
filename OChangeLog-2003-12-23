@@ -1,3 +1,10 @@
+2000-05-03  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell.c (cell_set_array_formula) : Add some invariants to catch
+	  inverted arrays.  The function should use the supplier's
+	  reference.  It should not re-reference the supplied expression.
+	  Document this.
+
 2000-05-03  Morten Welinder  <terra@diku.dk>
 
 	* autogen.sh (libtool): Add version check.

@@ -519,6 +519,9 @@ cell_set_expr (Cell *cell, ExprTree *expr, char const *optional_format)
  * upper left corner is handled as a special case and care is taken to
  * put it at the head of the recalc queue if recalcs are requested.
  *
+ * NOTE : Does not add a reference to the expression.  It takes over the callers
+ *        reference.
+ *
  * Does not regenerate spans, dimensions or autosize cols/rows.
  *
  * DOES NOT CHECK for array partitioning.
@@ -539,11 +542,12 @@ cell_set_array_formula (Sheet *sheet,
 	g_return_if_fail (num_rows > 0);
 	g_return_if_fail (formula != NULL);
 	g_return_if_fail (corner != NULL);
+	g_return_if_fail (col_a <= col_b);
+	g_return_if_fail (row_a <= row_b);
 
 	wrapper = expr_tree_new_array (0, 0, num_rows, num_cols);
 	wrapper->array.corner.func.value = NULL;
 	wrapper->array.corner.func.expr = formula;
-	expr_tree_ref (formula);
 	cell_set_expr_internal (corner, wrapper, NULL);
 	expr_tree_unref (wrapper);
 

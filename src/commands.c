@@ -499,9 +499,7 @@ cmd_area_set_text_redo (GnumericCommand *cmd, CommandContext *context)
 			return TRUE;
 	}
 
-	/* If everything is ok then store previous contents 
-	 * and perform the operation
-	 */
+	/* Everything is ok. Store previous contents and perform the operation */
 	for (l = me->selection ; l != NULL ; l = l->next) {
 		Range const * const r = l->data;
 		me->old_content = g_slist_prepend (me->old_content,
@@ -509,7 +507,7 @@ cmd_area_set_text_redo (GnumericCommand *cmd, CommandContext *context)
 						   r->start.col, r->start.row,
 						   r->end.col, r->end.row));
 
-		/* If there is a is an expression then this was an array */
+		/* If there is an expression then this was an array */
 		if (expr != NULL) 
 			cell_set_array_formula (me->pos.sheet,
 						r->start.row, r->start.col,
