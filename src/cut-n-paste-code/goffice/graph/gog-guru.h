@@ -22,7 +22,7 @@
 #define GOG_GURU_H
 
 #include <goffice/graph/goffice-graph.h>
-#include <src/command-context.h>
+#include <command-context.h>
 #include <gtk/gtkwindow.h>
 
 G_BEGIN_DECLS

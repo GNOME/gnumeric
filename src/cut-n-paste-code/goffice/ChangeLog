@@ -1,3 +1,8 @@
+2003-06-03  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* graph/gog-guru.h: Fixed include of command-context.h to make it work
+	for builds outside the source dir.
+
 2003-06-02  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-legend.c (cb_render_elements) : quick and dirty draw the
