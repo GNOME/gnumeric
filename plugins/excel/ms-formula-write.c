@@ -414,7 +414,7 @@ write_node (PolishData *pd, ExprTree *tree)
 		case VALUE_BOOLEAN:
 		{
 			guint8 data[2];
-			MS_OLE_SET_GUINT8 (data, FORMULA_PTG_NUM);
+			MS_OLE_SET_GUINT8 (data, FORMULA_PTG_BOOL);
 			MS_OLE_SET_GUINT8 (data+1, v->v.v_bool ? 1 : 0);
 			ms_biff_put_var_write (pd->bp, data, 2);
 			break;
@@ -485,13 +485,15 @@ write_node (PolishData *pd, ExprTree *tree)
 		write_ref (pd, &tree->u.ref);
 		break;
 	case OPER_ARRAY:
+
+	case OPER_NAME:
 	default:
 	{
 		gchar *err = g_strdup_printf ("Unknown Operator %d", tree->oper);
 		write_string (pd, err);
 		g_free (err);
-#if FORMULA_DEBUG > 0
 		printf ("Unhandled node type %d\n", tree->oper);
+#if FORMULA_DEBUG > 0
 #endif
 		break;
 	}

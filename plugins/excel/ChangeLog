@@ -1,3 +1,9 @@
+1999-08-16  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-formula-write.c (write_node) : correct typo.
+	  We can now write & read samples/logfuns.xls without
+	  loosing formulas or values.
+
 1999-08-15  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-write.c (write_value) : Add support for VALUE_BOOLEAN,
