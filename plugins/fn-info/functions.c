@@ -295,6 +295,1048 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 	return value_new_error (ei->pos, _("Unknown info_type"));
 }
 
+#warning implement this
+#if 0
+/*
+*extension to CELL providing 123 @CELL/@CELLPOINTER functionality as
+*well as access to most Range properties
+*1st arg determines the property of characteristic being sought
+*2nd arg [OPTIONAL] specifies cell reference - AcitveCell if missing
+*3rd arg [OPTIONAL] specifies whether to return an array or not
+*    True = return array result for .Areas(1)
+*    False/missing = return scalar result for .Areas(1).Cells(1, 1)
+*/
+Function ExtCell( _
+  prop As String, _
+  Optional rng As Variant, _
+  Optional rar As Boolean = False _
+) As Variant
+   /*Copyright (C) 2002, Harlan Grove
+    *This is free software. It s use in derivative works is covered
+    *under the terms of the Free Software Foundation s GPL. See
+    *http://www.gnu.org/copyleft/gpl.html
+    */
+
+    Dim ws As Worksheet, wb As Workbook, rv As Variant
+    Dim i As Long, j As Long, m As Long, n As Long, t As String
+
+    Application.Volatile True
+
+    If TypeOf rng Is Range Then
+        If rar Then
+            Set rng = rng.Areas(1)
+        Else
+            Set rng = rng.Areas(1).Cells(1, 1)
+        End If
+    ElseIf IsMissing(rng) Then
+        Set rng = ActiveCell
+    Else
+        ExtCell = CVErr(xlErrRef)
+        Exit Function
+    End If
+    
+    prop = LCase(prop)
+
+    m = rng.rows.Count
+    n = rng.Columns.Count
+    rv = rng.Value
+    
+    Set ws = rng.Worksheet
+    Set wb = ws.Parent
+    
+    Select Case prop
+    
+    Case "across"  /* from later 123 versions - limited usefulness! */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = CLng( _
+                      rng.Cells(i, j).HorizontalAlignment = _
+                      xlHAlignCenterAcrossSelection _
+                    )
+                Next j
+            Next i
+        Else
+            rv = CLng( _
+              rng.HorizontalAlignment = _
+              xlHAlignCenterAcrossSelection _
+            )
+        End If
+    
+    Case "address"  /* from CELL - limited usefulness! */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = rng.Cells(i, j).Address
+                Next j
+            Next i
+        Else
+            rv = rng.Address
+        End If
+    
+    Case "backgroundcolor"  /* from later 123 versions - USEFUL! */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = rng.Cells(i, j).Interior.ColorIndex
+                Next j
+            Next i
+        Else
+            rv = rng.Interior.ColorIndex
+        End If
+    
+    Case "bold"  /* from later 123 versions - USEFUL! */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = CLng(rng.Cells(i, j).Font.Bold)
+                Next j
+            Next i
+        Else
+            rv = CLng(rng.Font.Bold)
+        End If
+        
+    
+    Case "bottomborder"  /* from later 123 versions - USEFUL! */
+    /* Note: many possible return values! wrap inside SIGN to test T/F */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = _
+                      rng.Cells(i, j).Borders(xlEdgeBottom).LineStyle - _
+                      xlLineStyleNone
+                Next j
+            Next i
+        Else
+            rv = rng.Borders(xlEdgeBottom).LineStyle - xlLineStyleNone
+        End If
+    
+    Case "bottombordercolor"  /* from later 123 versions - USEFUL! */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = _
+                      rng.Cells(i, j).Borders(xlEdgeBottom).ColorIndex
+                Next j
+            Next i
+        Else
+            rv = rng.Borders(xlEdgeBottom).ColorIndex
+        End If
+
+    Case "col", "column"  /* from CELL - pointless - use COLUMN instead! */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = rng.Cells(i, j).Column
+                Next j
+            Next i
+        Else
+            rv = rng.Column
+        End If
+
+    Case "color"  /* from CELL - limited usefulness */
+    /* NOTE: differences between Excel & 123 - Excel's returns 1 whenever */
+    /* there's a color specified for EITHER positive OR negative values */
+    /* in the number format, e.g., 1 for format "[Black]0;-0;0" but not */
+    /* for format "0;-0;[Green]0" */
+    /* Another place where Excel doesn't conform to it's documentation! */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = Evaluate( _
+                      "=CELL(""Color""," & _
+                      rng.Cells(i, j).Address(True, True, xlA1, True) & _
+                      ")" _
+                    )
+                Next j
+            Next i
+        Else
+            rv = Evaluate( _
+              "=CELL(""Color""," & _
+              rng.CellsAddress(True, True, xlA1, True) & _
+              ")" _
+            )
+        End If
+
+    Case "columnhidden"
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = rng.Cells(i, j).EntireColumn.Hidden
+                Next j
+            Next i
+        Else
+            rv = rng.EntireColumn.Hidden
+        End If
+
+    Case "comment"
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    If Not rng.Cells(i, j).Comment Is Nothing Then
+                        rv(i, j) = rng.Cells(i, j).Comment.text
+                    Else
+                        rv(i, j) = ""
+                    End If
+                Next j
+            Next i
+        Else
+            If Not rng.Comment Is Nothing Then
+                rv = rng.Comment.text
+            Else
+                rv = ""
+            End If
+        End If
+
+    Case "contents", "value"  /* absolutely pointless - compatibility only */
+        /* DOME - nothing more to do! */
+
+    Case "coord"  /* from later 123 versions - USEFUL! */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = "'" & ws.Name & "'!" & _
+                      rng.Cells(i, j).Address
+                Next j
+            Next i
+        Else
+            rv = "'" & ws.Name & "'!" & rng.Address
+        End If
+
+    Case "currentarray"  /* NOTE: returns Range addresses! */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = rng.Cells(i, j).CurrentArray.Address
+                Next j
+            Next i
+        Else
+            rv = rng.CurrentArray.Address
+        End If
+
+    Case "currentregion"  /* NOTE: returns Range addresses! */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = rng.Cells(i, j).CurrentRegion.Address
+                Next j
+            Next i
+        Else
+            rv = rng.CurrentRegion.Address
+        End If
+
+     /* different characteristics grouped for efficiency */
+    /* TYPE needed for backward compatibility w/123 but otherwise useless */
+    /* DATATYPE and FORMULATYPE are options in later 123 versions' @CELL */
+    /* no need for them but included to make 123 conversion easier */
+    Case "datatype", "formulatype", "type"
+        t = Left(prop, 1)
+        
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = IIf( _
+                      t = "f" And rng.Cells(i, j).HasFormula, _
+                      "f", _
+                      "" _
+                    )
+                    
+                    If rng.Cells(i, j).formula = "" Then
+                        rv(i, j) = rv(i, j) & "b"
+                    ElseIf IsNumeric("0" & CStr(rng.Cells(i, j).Value)) _
+                      Or (t = "t" And IsError(rng.Cells(i, j).Value)) Then
+                        rv(i, j) = rv(i, j) & "v"
+                    ElseIf rng.Cells(i, j).Value = CVErr(xlErrNA) Then
+                        rv(i, j) = rv(i, j) & "n"
+                    ElseIf IsError(rng.Cells(i, j).Value) Then
+                        rv(i, j) = rv(i, j) & "e"
+                    Else
+                        rv(i, j) = rv(i, j) & "l"
+                    End If
+                Next j
+            Next i
+        Else
+            rv = IIf( _
+              t = "f" And rng.HasFormula, _
+              "f", _
+              "" _
+            )
+
+            If rng.formula = "" Then
+                rv = rv & "b"
+            ElseIf IsNumeric("0" & CStr(rng.Value)) _
+              Or (t = "t" And IsError(rng.Value)) Then
+                rv = rv & "v"
+            ElseIf rng.Value = CVErr(xlErrNA) Then
+                rv = rv & "n"
+            ElseIf IsError(rng.Value) Then
+                rv = rv & "e"
+            Else
+                rv = rv & "l"
+            End If
+        End If
+
+    Case "filedate"  /* from later 123 versions - limited usefulness! */
+        t = wb.BuiltinDocumentProperties("Last Save Time")  /* invariant! */
+
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = t
+                Next j
+            Next i
+        Else
+            rv = t
+        End If
+
+    Case "filename"  /* from CELL - limited usefulness! */
+    /* A testament to Microsoft's hypocracy! They could include this from
+     * 123R2.2 (it wasn't in 123R2.0x), modify it in Excel 4.0 to include
+     * the worksheet name, but they can't make any other changes to CELL?!
+     */
+        t = Evaluate( _
+          "=CELL(""Filename""," & _
+          rng.Address(True, True, xlA1, True) & _
+          ")" _
+        )  /* invariant! */
+
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = t
+                Next j
+            Next i
+        Else
+            rv = t
+        End If
+
+    Case "fontface", "fontname", "typeface"  /* from later 123 versions */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = rng.Cells(i, j).Font.Name
+                Next j
+            Next i
+        Else
+            rv = rng.Font.Name
+        End If
+
+    Case "fontsize", "pitch", "typesize"  /* from later 123 versions */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = rng.Cells(i, j).Font.Size
+                Next j
+            Next i
+        Else
+            rv = rng.Font.Size
+        End If
+
+    Case "format"  /* from CELL */
+    /* Backwards compatibility w/123 - unnecessary */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = Evaluate( _
+                      "=CELL(""Format""," & _
+                      rng.Cells(i, j).Address(True, True, xlA1, True) & _
+                      ")" _
+                    )
+                Next j
+            Next i
+        Else
+            rv(i, j) = Evaluate( _
+              "=CELL(""Format""," & _
+              rng.Address(True, True, xlA1, True) & _
+              ")" _
+            )
+        End If
+
+    Case "formula"
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = rng.Cells(i, j).formula
+                Next j
+            Next i
+        Else
+            rv = rng.formula
+        End If
+
+    Case "formulaarray"  /* questionable usefulness */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = rng.Cells(i, j).FormulaArray
+                Next j
+            Next i
+        Else
+            rv = rng.FormulaArray
+        End If
+
+    Case "formulahidden"
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = CLng(rng.Cells(i, j).FormulaHidden)
+                Next j
+            Next i
+        Else
+            rv = CLng(rng.FormulaHidden)
+        End If
+
+    Case "formulalocal"
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = rng.Cells(i, j).FormulaLocal
+                Next j
+            Next i
+        Else
+            rv = rng.FormulaLocal
+        End If
+
+    Case "formular1c1"
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = rng.Cells(i, j).FormulaR1C1
+                Next j
+            Next i
+        Else
+            rv = rng.FormulaR1C1
+        End If
+
+    Case "formular1c1local"
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = rng.Cells(i, j).FormulaR1C1Local
+                Next j
+            Next i
+        Else
+            rv = rng.FormulaR1C1Local
+        End If
+
+    Case "halign", "horizontalalignment"  /* from later 123 versions */
+    /* Note: different return values than 123. 0 = general alignment */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = _
+                      rng.Cells(i, j).HorizontalAlignment - _
+                      xlHAlignGeneral
+                Next j
+            Next i
+        Else
+            rv = rng.HorizontalAlignment - xlHAlignGeneral
+        End If
+
+    Case "hasarray"
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = CLng(rng.Cells(i, j).HasArray)
+                Next j
+            Next i
+        Else
+            rv = CLng(rng.HasArray)
+        End If
+
+    Case "hasformula"
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = CLng(rng.Cells(i, j).HasFormula)
+                Next j
+            Next i
+        Else
+            rv = CLng(rng.HasFormula)
+        End If
+
+    Case "hashyperlink", "hashyperlinks"
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = CLng(rng.Cells(i, j).Hyperlinks.Count > 0)
+                Next j
+            Next i
+        Else
+            rv = CLng(rng.Hyperlinks.Count > 0)
+        End If
+
+    Case "height", "rowheight"  /* from later 123 versions - USEFUL! */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = rng.Cells(i, j).Height
+                Next j
+            Next i
+        Else
+            rv = rng.Height
+        End If
+
+    Case "hidden"  /* see ColumnHidden and RowHidden - this is less useful */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = CLng(rng.Cells(i, j).Hidden)
+                Next j
+            Next i
+        Else
+            rv = CLng(rng.Hidden)
+        End If
+
+    Case "hyperlinkaddress"
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = rng.Cells(i, j).Hyperlinks(1).Address
+                Next j
+            Next i
+        Else
+            rv = rng.Hyperlinks(1).Address
+        End If
+
+    Case "indentlevel"
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = rng.Cells(i, j).rng.IndentLevel
+                Next j
+            Next i
+        Else
+            rv = rng.rng.IndentLevel
+        End If
+
+    Case "italic"  /* from later 123 versions - USEFUL! */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = CLng(rng.Cells(i, j).Font.Italic)
+                Next j
+            Next i
+        Else
+            rv = CLng(rng.Font.Italic)
+        End If
+
+    Case "left"
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = rng.Cells(i, j).Left
+                Next j
+            Next i
+        Else
+            rv = rng.Left
+        End If
+
+    Case "leftborder"  /* from later 123 versions */
+    /* Note: many possible return values! wrap inside SIGN to test T/F */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = _
+                      rng.Cells(i, j).Borders(xlEdgeLeft).LineStyle - _
+                      xlLineStyleNone
+                Next j
+            Next i
+        Else
+            rv = rng.Borders(xlEdgeLeft).LineStyle - xlLineStyleNone
+        End If
+
+    Case "leftbordercolor"  /* from later 123 versions */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = _
+                      rng.Cells(i, j).Borders(xlEdgeLeft).ColorIndex
+                Next j
+            Next i
+        Else
+            rv = rng.Borders(xlEdgeLeft).ColorIndex
+        End If
+
+    Case "locked", "protect"  /* from CELL */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = CLng(rng.Cells(i, j).Locked)
+                Next j
+            Next i
+        Else
+            rv = CLng(rng.Locked)
+        End If
+
+    Case "mergearea"  /* NOTE: returns Range addresses! */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = rng.Cells(i, j).MergeArea.Address
+                Next j
+            Next i
+        Else
+            rv = rng.MergeArea.Address
+        End If
+
+    Case "mergecells"
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = CLng(rng.Cells(i, j).MergeCells)
+                Next j
+            Next i
+        Else
+            rv = CLng(rng.MergeCells)
+        End If
+
+    Case "name"
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = rng.Cells(i, j).Name
+                Next j
+            Next i
+        Else
+            rv = rng.Name
+        End If
+
+    Case "numberformat"
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = rng.Cells(i, j).NumberFormat
+                Next j
+            Next i
+        Else
+            rv = rng.NumberFormat
+        End If
+
+    Case "numberformatlocal"
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = rng.Cells(i, j).NumberFormatLocal
+                Next j
+            Next i
+        Else
+            rv = rng.NumberFormatLocal
+        End If
+
+    Case "orientation", "rotation"  /* from later 123 versions */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = rng.Cells(i, j).Orientation
+                Next j
+            Next i
+        Else
+            rv = rng.Orientation
+        End If
+
+    Case "parentheses"  /* from CELL */
+    /* Backwards compatibility w/123 - unnecessary */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = Evaluate( _
+                      "=CELL(""Parentheses""," & _
+                      rng.Cells(i, j).Address(True, True, xlA1, True) & _
+                      ")" _
+                    )
+                Next j
+            Next i
+        Else
+            rv = Evaluate( _
+              "=CELL(""Parentheses""," & _
+              rng.Address(True, True, xlA1, True) & _
+              ")" _
+            )
+        End If
+
+    Case "pattern"  /* from later 123 versions */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = _
+                      rng.Cells(i, j).Interior.Pattern - _
+                      xlPatternNone
+                Next j
+            Next i
+        Else
+            rv = rng.Interior.Pattern - xlPatternNone
+        End If
+
+    Case "patterncolor"  /* from later 123 versions */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = _
+                      rng.Cells(i, j).Interior.PatternColorIndex
+                Next j
+            Next i
+        Else
+            rv = rng.Interior.PatternColorIndex
+        End If
+
+    Case "prefix", "prefixcharacter"  /* from CELL */
+    /* Backwards compatibility w/123 - unnecessary */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = Evaluate( _
+                      "=CELL(""Prefix""," & _
+                      rng.Cells(i, j).Address(True, True, xlA1, True) & _
+                      ")" _
+                    )
+                Next j
+            Next i
+        Else
+            rv = Evaluate( _
+              "=CELL(""Prefix""," & _
+              rng.Address(True, True, xlA1, True) & _
+              ")" _
+            )
+        End If
+
+    Case "rightborder"  /* from later 123 versions */
+    /* Note: many possible return values! wrap inside SIGN to test T/F */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = _
+                      rng.Cells(i, j).Borders(xlEdgeRight).LineStyle - _
+                      xlLineStyleNone
+                Next j
+            Next i
+        Else
+            rv = rng.Borders(xlEdgeRight).LineStyle - xlLineStyleNone
+        End If
+
+    Case "rightbordercolor"  /* from later 123 versions */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = _
+                      rng.Cells(i, j).Borders(xlEdgeRight).ColorIndex
+                Next j
+            Next i
+        Else
+            rv = rng.Borders(xlEdgeRight).ColorIndex
+        End If
+
+    Case "row"  /* from CELL - pointless - use ROW instead! */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = rng.Cells(i, j).Row
+                Next j
+            Next i
+        Else
+            rv = rng.Row
+        End If
+
+    Case "rowhidden"
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = CLng(rng.Cells(i, j).EntireRow.Hidden)
+                Next j
+            Next i
+        Else
+            rv = CLng(rng.EntireRow.Hidden)
+        End If
+
+    Case "scrollarea"
+    /* Who needs consistency?! Why doesn't this return a Range object? */
+        t = ws.ScrollArea  /* invariant! */
+
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = t
+                Next j
+            Next i
+        Else
+            rv = t
+        End If
+
+    Case "sheet", "worksheet"  /* from later 123 versions - USEFUL! */
+        t = ws.Index  /* invariant! */
+
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = t
+                Next j
+            Next i
+        Else
+            rv = t
+        End If
+
+    Case "sheetname", "worksheetname"  /* from later 123 versions - USEFUL! */
+        t = ws.Name  /* invariant */
+
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = t
+                Next j
+            Next i
+        Else
+            rv = t
+        End If
+
+    Case "sheetcount", "sheetscount", "worksheetcount", "worksheetscount"
+        t = wb.Worksheets.Count  /* invariant */
+
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = t
+                Next j
+            Next i
+        Else
+            rv = t
+        End If
+
+    Case "shrinktofit"
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = CLng(rng.Cells(i, j).ShrinkToFit)
+                Next j
+            Next i
+        Else
+            rv = CLng(rng.ShrinkToFit)
+        End If
+
+    Case "stylename"
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = rng.Cells(i, j).Style.Name
+                Next j
+            Next i
+        Else
+            rv = rng.Style.Name
+        End If
+
+    Case "text"  /* USEFUL! */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = rng.Cells(i, j).text
+                Next j
+            Next i
+        Else
+            rv = rng.text
+        End If
+
+    Case "textcolor"  /* from later 123 versions - USEFUL! */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = rng.Cells(i, j).Font.ColorIndex
+                Next j
+            Next i
+        Else
+            rv = rng.Font.ColorIndex
+        End If
+
+    Case "top"
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = rng.Cells(i, j).Top
+                Next j
+            Next i
+        Else
+            rv = rng.Top
+        End If
+
+    Case "topborder"  /* from later 123 versions */
+    /* Note: many possible return values! wrap inside SIGN to test T/F */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = _
+                      rng.Cells(i, j).Borders(xlEdgeTop).LineStyle - _
+                      xlLineStyleNone
+                Next j
+            Next i
+        Else
+            rv = rng.Borders(xlEdgeTop).LineStyle - xlLineStyleNone
+        End If
+
+    Case "topbordercolor"  /* from later 123 versions */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = _
+                      rng.Cells(i, j).Borders(xlEdgeTop).ColorIndex
+                Next j
+            Next i
+        Else
+            rv = rng.Borders(xlEdgeTop).ColorIndex
+        End If
+
+    Case "underline"  /* from later 123 versions - USEFUL! */
+    /* Note: many possible return values! wrap inside SIGN to test T/F */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = _
+                      rng.Cells(i, j).Font.Underline - _
+                      xlUnderlineStyleNone
+                Next j
+            Next i
+        Else
+            rv = rng.Font.Underline - xlUnderlineStyleNone
+        End If
+
+    Case "usedrange"  /* NOTE: returns Range addresses! */
+        t = ws.UsedRange.Address  /* invariant */
+        
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = t
+                Next j
+            Next i
+        Else
+            rv = t
+        End If
+
+    Case "usestandardheight"
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = CLng(rng.Cells(i, j).UseStandardHeight)
+                Next j
+            Next i
+        Else
+            rv = CLng(rng.UseStandardHeight)
+        End If
+
+    Case "usestandardwidth"
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = CLng(rng.Cells(i, j).UseStandardWidth)
+                Next j
+            Next i
+        Else
+            rv = CLng(rng.UseStandardWidth)
+        End If
+
+    Case "valign", "verticalalignment"  /* from later 123 versions */
+    /* Note: different return values than 123. 0 = Bottom-aligned */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = _
+                      rng.Cells(i, j).VerticalAlignment - _
+                      xlVAlignBottom
+                Next j
+            Next i
+        Else
+            rv = rng.VerticalAlignment - xlVAlignBottom
+        End If
+
+    Case "visible", "sheetvisible", "worksheetvisible"
+        t = CLng(ws.Visible)  /* invariant */
+
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = t
+                Next j
+            Next i
+        Else
+            rv = t
+        End If
+
+    Case "width", "columnwidth"  /* from CELL */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = rng.Cells(i, j).Width
+                Next j
+            Next i
+        Else
+            rv = rng.Width
+        End If
+
+    Case "workbookfullname"  /* same as FileName in later 123 versions */
+        t = wb.FullName  /* invariant */
+
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = t
+                Next j
+            Next i
+        Else
+            rv = t
+        End If
+
+    Case "workbookname"
+        t = wb.Name  /* invariant */
+
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = t
+                Next j
+            Next i
+        Else
+            rv = t
+        End If
+
+    Case "workbookpath"
+        t = wb.path  /* invariant */
+
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = t
+                Next j
+            Next i
+        Else
+            rv = t
+        End If
+
+    Case "wrap", "wraptext"  /* from later 123 versions */
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = CLng(rng.Cells(i, j).WrapText)
+                Next j
+            Next i
+        Else
+            rv = CLng(rng.WrapText)
+        End If
+
+    Case Else  /* invalid property/characteristic */
+        t = CVErr(xlErrValue)  /* invariant */
+        
+        If rar Then
+            For i = 1 To m
+                For j = 1 To n
+                    rv(i, j) = t
+                Next j
+            Next i
+        Else
+            rv = t
+        End If
+
+    End Select
+
+    ExtCell = rv
+End Function
+#endif
+
 /***************************************************************************/
 
 static const char *help_expression = {
