@@ -14630,7 +14630,7 @@ msgstr "не удалось открыть файл модуля \"%s\": %s"
 #: src/plugin.c:130
 #, c-format
 msgid "Plugin \"%s\" doesn't contain init_plugin function."
-msgstr "Дополнение \"%s\ не содержит функцию init_plugin."
+msgstr "Дополнение \"%s\" не содержит функцию init_plugin."
 
 #: src/plugin.c:141
 #, c-format

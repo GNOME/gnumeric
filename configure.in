@@ -493,7 +493,7 @@ dnl Check for libgda
 dnl ****************************
 AC_PATH_PROG(GDA_CONFIG,gda-config,no)
 if test "$GDA_CONFIG" = no; then
-    AC_MSG_WARN(GDA plugin will not built)
+    AC_MSG_WARN(GDA plugin will not be built)
     have_gda=false
 else
     AC_MSG_CHECKING(for libgda							)
