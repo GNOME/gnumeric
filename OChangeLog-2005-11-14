@@ -1,5 +1,9 @@
 2004-03-30  Jody Goldberg <jody@gnome.org>
 
+	* configure.in : post release bump
+
+2004-03-30  Jody Goldberg <jody@gnome.org>
+
 	* Release 1.3.0
 
 	* Makefile.am : Add distcleancheck_listfiles, and distuninstallcheck_listfiles
