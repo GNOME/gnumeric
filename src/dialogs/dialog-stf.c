@@ -484,9 +484,9 @@ stf_dialog_editables_enter (DruidPageData_t *pagedata)
 	gnumeric_editable_enters
 		(pagedata->window,
 		 GTK_EDITABLE (pagedata->csv_info->csv_customseparator));
-/*	gnumeric_editable_enters
+	gnumeric_combo_enters
 		(pagedata->window,
-		GTK_EDITABLE (pagedata->csv_info->csv_textindicator->entry));*/
+		pagedata->csv_info->csv_textindicator);
 	gnumeric_editable_enters
 		(pagedata->window,
 		 GTK_EDITABLE (&pagedata->fixed_info->fixed_colend->entry));

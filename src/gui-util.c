@@ -223,6 +223,26 @@ void  gnumeric_editable_enters (GtkWindow *window, GtkEditable *editable)
 		 GTK_OBJECT(window));
 }
 
+/**
+ * gnumeric_combo_enters:
+ * @window: dialog to affect
+ * @combo: Combo to affect
+ * 
+ * This calls upon gnumeric_editable_enters so the dialog
+ * is closed instead of the list with options popping up
+ * when enter is pressed
+ **/
+void
+gnumeric_combo_enters (GtkWindow *window, GtkCombo *combo)
+{
+	g_return_if_fail (window != NULL);
+	g_return_if_fail (combo != NULL);
+
+	gtk_combo_disable_activate (combo);
+	gnumeric_editable_enters (window,
+				  GTK_EDITABLE (combo->entry));
+}
+
 int
 gtk_radio_group_get_selected (GSList *radio_group)
 {

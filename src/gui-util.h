@@ -15,7 +15,9 @@ void       gnumeric_dialog_show (GtkWidget *parent, GnomeDialog *dialog,
 void       gnumeric_set_transient (CommandContext *context, GtkWindow *window);
 void       gnumeric_editable_enters (GtkWindow *window,
 				     GtkEditable *editable);
-
+void       gnumeric_combo_enters (GtkWindow *window,
+				  GtkCombo *combo);
+				  
 /* A simple routine for making a popup menu */
 int        run_popup_menu  (GdkEvent *event, int button, char **strings);
 

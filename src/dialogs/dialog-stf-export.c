@@ -350,10 +350,8 @@ stf_export_dialog_editables_enter (StfE_DruidData_t *druid_data)
 {
 	gnumeric_editable_enters (druid_data->window,
 				  GTK_EDITABLE (druid_data->format_page_data->format_custom));
-		 
-	gtk_combo_disable_activate (druid_data->format_page_data->format_quotechar);
-	gnumeric_editable_enters (druid_data->window,
-				  GTK_EDITABLE (druid_data->format_page_data->format_quotechar->entry));
+	gnumeric_combo_enters (druid_data->window,
+			       druid_data->format_page_data->format_quotechar);
 }
 
 /**

@@ -1,3 +1,17 @@
+2000-05-04  Almer. S. Tigelaar.  <almer1@dds.nl>
+
+	* src/gnumeric-util.[ch] :
+	(gnumeric_combo_enters) : New, makes dialogs
+	close when enter is pressed inside a gtkcombo.
+
+	* src/dialogs/dialog-stf.c :
+	(stf_dialog_editables_enter) : Modified to use
+	the above function for combo boxes.
+
+	* src/dialogs/dialog-stf-export.c :
+	(stf_export_dialog_editables_enter) : Modified to
+	use the above function for combo boxes.
+
 2000-05-03  Jody Goldberg <jgoldberg@home.com>
 
 	* src/command-context.c (gnumeric_error_invalid) : new function.
