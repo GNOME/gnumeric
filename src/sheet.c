@@ -3185,10 +3185,12 @@ sheet_insert_cols (Sheet *sheet,
 	g_return_val_if_fail (count != 0, TRUE);
 
 	/* 0. Check displaced region and ensure arrays aren't divided. */
-	range_init (&region, col, 0, SHEET_MAX_COLS-1-count, SHEET_MAX_ROWS-1);
-	if (sheet_range_splits_array (sheet, &region, NULL,
-				      cc, _("Insert Columns")))
-		return TRUE;
+	if (count < SHEET_MAX_COLS) {
+		range_init (&region, col, 0, SHEET_MAX_COLS-1-count, SHEET_MAX_ROWS-1);
+		if (sheet_range_splits_array (sheet, &region, NULL,
+					      cc, _("Insert Columns")))
+			return TRUE;
+	}
 
 	/* 1. Delete all columns (and their cells) that will fall off the end */
 	for (i = sheet->cols.max_used; i >= SHEET_MAX_COLS - count ; --i)
@@ -3303,10 +3305,12 @@ sheet_insert_rows (Sheet *sheet,
 	g_return_val_if_fail (count != 0, TRUE);
 
 	/* 0. Check displaced region and ensure arrays aren't divided. */
-	range_init (&region, 0, row, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1-count);
-	if (sheet_range_splits_array (sheet, &region, NULL,
-				      cc, _("Insert Rows")))
-		return TRUE;
+	if (count < SHEET_MAX_ROWS) {
+		range_init (&region, 0, row, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1-count);
+		if (sheet_range_splits_array (sheet, &region, NULL,
+					      cc, _("Insert Rows")))
+			return TRUE;
+	}
 
 	/* 1. Delete all rows (and their cells) that will fall off the end */
 	for (i = sheet->rows.max_used; i >= SHEET_MAX_ROWS - count ; --i)
