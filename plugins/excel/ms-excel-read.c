@@ -286,7 +286,6 @@ ms_sheet_obj_anchor_to_pos (Sheet const * sheet, MsBiffVersion const ver,
 	 * chap03-1.xls suggests that XL95 uses 256 too
 	 * Do we have any tests that confirm the docs contention of 1024 ?
 	 */
-	float const row_denominator = 256.;
 	int	i;
 
 	d (0, fprintf (stderr,"%s\n", sheet->name_unquoted););
@@ -306,7 +305,7 @@ ms_sheet_obj_anchor_to_pos (Sheet const * sheet, MsBiffVersion const ver,
 		d (2, {
 			fprintf (stderr,"%d/%d cell %s from ",
 				nths, (i & 1) ? 256 : 1024,
-				(i & 1) ? "heights" : "widths");
+				(i & 1) ? "widths" : "heights");
 			if (i & 1)
 				fprintf (stderr,"row %d;\n", pos + 1);
 			else
@@ -314,7 +313,7 @@ ms_sheet_obj_anchor_to_pos (Sheet const * sheet, MsBiffVersion const ver,
 		});
 
 		if (i & 1) { /* odds are rows */
-			offset[i] = nths / row_denominator;
+			offset[i] = nths / 256.;
 			if (i == 1)
 				range->start.row = pos;
 			else

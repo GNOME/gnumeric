@@ -3,6 +3,7 @@
 #define GNUMERIC_SHEET_OBJECT_PRIV_H
 
 #include "sheet-object.h"
+#include <gsf/gsf-libxml.h>
 #include <libxml/tree.h>
 #include <glib-object.h>
 #include <gtk/gtkmenu.h>
@@ -54,9 +55,7 @@ typedef struct {
 				      char const *type_name,	/* for versioning */
 				      XmlParseContext const *ctxt,
 				      xmlNodePtr	tree);
-	gboolean    (*write_xml_sax) (SheetObject const *so,
-				      XmlParseContext const *ctxt,
-				      xmlNodePtr	tree);
+	void        (*write_xml_sax) (SheetObject const *so, GsfXMLOut *output);
 
 	/* Called with 0,0 set to the top, left corner of the object, and the
 	 * graphics context saved */

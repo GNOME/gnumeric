@@ -73,7 +73,7 @@
 #define SOW_CLASS(so)	 	     (SHEET_OBJECT_WIDGET_CLASS (G_OBJECT_GET_CLASS(so)))
 
 #define SOW_MAKE_TYPE(n1, n2, fn_config, fn_set_sheet, fn_clear_sheet,	\
-		      fn_clone, fn_write_dom, fn_read_dom)		\
+		      fn_clone, fn_write_dom, fn_read_dom, fn_write_sax)		\
 static void								\
 sheet_widget_ ## n1 ## _class_init (GObjectClass *object_class)		\
 {									\
@@ -86,6 +86,7 @@ sheet_widget_ ## n1 ## _class_init (GObjectClass *object_class)		\
 	so_class->clone			= fn_clone;				\
 	so_class->write_xml_dom		= fn_write_dom;				\
 	so_class->read_xml_dom		= fn_read_dom;				\
+	so_class->write_xml_sax		= fn_write_sax;				\
 	sow_class->create_widget     	= &sheet_widget_ ## n1 ## _create_widget;	\
 }										\
 GSF_CLASS (SheetWidget ## n2, sheet_widget_ ## n1,				\
@@ -105,6 +106,32 @@ static GObjectClass *sheet_object_widget_class = NULL;
 static GType sheet_object_widget_get_type	(void);
 
 static void
+sax_write_dep (GsfXMLOut *output, GnmDependent const *dep, char const *id)
+{
+	if (dep->expression != NULL) {
+		GnmParsePos pos;
+		char *val = gnm_expr_as_string (dep->expression,
+			parse_pos_init_sheet (&pos, dep->sheet),
+			gnm_expr_conventions_default);
+		gsf_xml_out_add_cstr (output, id, val);
+		g_free (val);
+	}
+}
+
+static void
+dom_write_dep (xmlNodePtr tree, GnmDependent const *dep, char const *id)
+{
+	if (dep->expression != NULL) {
+		GnmParsePos pos;
+		char *val = gnm_expr_as_string (dep->expression,
+			parse_pos_init_sheet (&pos, dep->sheet),
+			gnm_expr_conventions_default);
+		xml_node_set_cstr (tree, id, val);
+		g_free (val);
+	}
+}
+
+static void
 read_dep (GnmDependent *dep, char const *name,
 	  xmlNodePtr tree, XmlParseContext const *context)
 {
@@ -120,6 +147,7 @@ read_dep (GnmDependent *dep, char const *name,
 		xmlFree (txt);
 	}
 }
+
 
 static GObject *
 sheet_object_widget_new_view (SheetObject *so, SheetControl *sc, gpointer key)
@@ -244,6 +272,13 @@ sheet_widget_frame_clone (SheetObject const *src_swf, Sheet *new_sheet)
 	return SHEET_OBJECT (swf);
 }
 
+static void
+sheet_widget_frame_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
+{
+	SheetWidgetFrame const *swf = SHEET_WIDGET_FRAME (so);
+	gsf_xml_out_add_cstr (output, "Label", swf->label);
+}
+
 static gboolean
 sheet_widget_frame_write_xml_dom (SheetObject const 	*so,
 				  XmlParseContext const *context,
@@ -274,6 +309,7 @@ sheet_widget_frame_read_xml_dom (SheetObject *so, char const *typename,
 
 	return FALSE;
 }
+
 
 typedef struct {
   	GladeXML           *gui;
@@ -416,7 +452,8 @@ SOW_MAKE_TYPE (frame, Frame,
 	       NULL,
 	       &sheet_widget_frame_clone,
 	       &sheet_widget_frame_write_xml_dom,
-	       &sheet_widget_frame_read_xml_dom)
+	       &sheet_widget_frame_read_xml_dom,
+	       &sheet_widget_frame_write_xml_sax)
 
 /****************************************************************************/
 #define SHEET_WIDGET_BUTTON_TYPE     (sheet_widget_button_get_type ())
@@ -465,6 +502,13 @@ sheet_widget_button_clone (SheetObject const *src_swb, Sheet *new_sheet)
 	sheet_widget_button_init_full (swb,
 		SHEET_WIDGET_BUTTON (src_swb)->label);
 	return SHEET_OBJECT (swb);
+}
+
+static void
+sheet_widget_button_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
+{
+	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (so);
+	gsf_xml_out_add_cstr (output, "Label", swb->label);
 }
 
 static gboolean
@@ -519,7 +563,8 @@ SOW_MAKE_TYPE (button, Button,
 	       NULL,
 	       &sheet_widget_button_clone,
 	       &sheet_widget_button_write_xml_dom,
-	       &sheet_widget_button_read_xml_dom)
+	       &sheet_widget_button_read_xml_dom,
+	       &sheet_widget_button_write_xml_sax)
 
 /****************************************************************************/
 #define SHEET_WIDGET_ADJUSTMENT_TYPE	(sheet_widget_adjustment_get_type())
@@ -878,6 +923,18 @@ sheet_widget_adjustment_clear_sheet (SheetObject *so)
 	return FALSE;
 }
 
+static void
+sheet_widget_adjustment_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
+{
+	SheetWidgetAdjustment const *swa = SHEET_WIDGET_ADJUSTMENT (so);
+	gsf_xml_out_add_float (output, "Min",   swa->adjustment->lower, 2);
+	gsf_xml_out_add_float (output, "Max",   swa->adjustment->upper-1., 2); /* allow scrolling to max */
+	gsf_xml_out_add_float (output, "Inc",   swa->adjustment->step_increment, 2);
+	gsf_xml_out_add_float (output, "Page",  swa->adjustment->page_increment, 2);
+	gsf_xml_out_add_float (output, "Value", swa->adjustment->value, 2);
+	sax_write_dep (output, &swa->dep, "Input");
+}
+
 static gboolean
 sheet_widget_adjustment_write_xml_dom (SheetObject const     *so,
 				       XmlParseContext const *context,
@@ -890,14 +947,7 @@ sheet_widget_adjustment_write_xml_dom (SheetObject const     *so,
 	xml_node_set_double (tree, "Inc", swa->adjustment->step_increment, 2);
 	xml_node_set_double (tree, "Page", swa->adjustment->page_increment, 2);
 	xml_node_set_double  (tree, "Value", swa->adjustment->value, 2);
-	if (swa->dep.expression != NULL) {
-		GnmParsePos pos;
-		char *val = gnm_expr_as_string (swa->dep.expression,
-			parse_pos_init_sheet (&pos, so->sheet),
-			gnm_expr_conventions_default);
-		xml_node_set_cstr (tree, "Input", val);
-	}
-
+	dom_write_dep (tree, &swa->dep, "Input");
 	return FALSE;
 }
 
@@ -957,7 +1007,8 @@ SOW_MAKE_TYPE (adjustment, Adjustment,
 	       &sheet_widget_adjustment_clear_sheet,
 	       &sheet_widget_adjustment_clone,
 	       &sheet_widget_adjustment_write_xml_dom,
-	       &sheet_widget_adjustment_read_xml_dom)
+	       &sheet_widget_adjustment_read_xml_dom,
+	       &sheet_widget_adjustment_write_xml_sax)
 
 /****************************************************************************/
 #define SHEET_WIDGET_SCROLLBAR_TYPE	(sheet_widget_scrollbar_get_type ())
@@ -1430,23 +1481,25 @@ sheet_widget_checkbox_clear_sheet (SheetObject *so)
 	return FALSE;
 }
 
+static void
+sheet_widget_checkbox_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
+{
+	SheetWidgetCheckbox const *swc = SHEET_WIDGET_CHECKBOX (so);
+
+	gsf_xml_out_add_cstr (output, "Label", swc->label);
+	gsf_xml_out_add_int (output, "Value", swc->value);
+	sax_write_dep (output, &swc->dep, "Input");
+}
+
 static gboolean
 sheet_widget_checkbox_write_xml_dom (SheetObject const 	   *so,
 				     XmlParseContext const *context,
 				     xmlNodePtr tree)
 {
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
-
 	xml_node_set_cstr (tree, "Label", swc->label);
 	xml_node_set_int  (tree, "Value", swc->value);
-	if (swc->dep.expression != NULL) {
-		GnmParsePos pos;
-		char *val = gnm_expr_as_string (swc->dep.expression,
-			parse_pos_init_sheet (&pos, so->sheet),
-			gnm_expr_conventions_default);
-		xml_node_set_cstr (tree, "Input", val);
-	}
-
+	dom_write_dep (tree, &swc->dep, "Input");
 	return FALSE;
 }
 
@@ -1503,7 +1556,8 @@ SOW_MAKE_TYPE (checkbox, Checkbox,
 	       &sheet_widget_checkbox_clear_sheet,
 	       &sheet_widget_checkbox_clone,
 	       &sheet_widget_checkbox_write_xml_dom,
-	       &sheet_widget_checkbox_read_xml_dom)
+	       &sheet_widget_checkbox_read_xml_dom,
+	       &sheet_widget_checkbox_write_xml_sax)
 
 /****************************************************************************/
 #define SHEET_WIDGET_RADIO_BUTTON_TYPE	(sheet_widget_radio_button_get_type ())
@@ -1641,6 +1695,7 @@ SOW_MAKE_TYPE (radio_button, RadioButton,
 	       &sheet_widget_radio_button_clear_sheet,
 	       NULL,
 	       NULL,
+	       NULL,
 	       NULL)
 
 /****************************************************************************/
@@ -1773,27 +1828,22 @@ sheet_widget_list_base_clear_sheet (SheetObject *so)
 	return FALSE;
 }
 
+static void
+sheet_widget_list_base_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
+{
+	SheetWidgetListBase const *swl = SHEET_WIDGET_LIST_BASE (so);
+	sax_write_dep (output, &swl->content_dep, "Content");
+	sax_write_dep (output, &swl->output_dep, "Output");
+}
+
 static gboolean
 sheet_widget_list_base_write_xml_dom (SheetObject const 	*so,
 				      XmlParseContext const *context,
 				      xmlNodePtr tree)
 {
 	SheetWidgetListBase *swl = SHEET_WIDGET_LIST_BASE (so);
-
-	if (swl->content_dep.expression != NULL) {
-		GnmParsePos pos;
-		char *val = gnm_expr_as_string (swl->content_dep.expression,
-			parse_pos_init_sheet (&pos, so->sheet),
-			gnm_expr_conventions_default);
-		xml_node_set_cstr (tree, "Content", val);
-	}
-	if (swl->output_dep.expression != NULL) {
-		GnmParsePos pos;
-		char *val = gnm_expr_as_string (swl->output_dep.expression,
-			parse_pos_init_sheet (&pos, so->sheet),
-			gnm_expr_conventions_default);
-		xml_node_set_cstr (tree, "Output", val);
-	}
+	dom_write_dep (tree, &swl->content_dep, "Content");
+	dom_write_dep (tree, &swl->output_dep, "Output");
 	return FALSE;
 }
 
@@ -1825,7 +1875,8 @@ SOW_MAKE_TYPE (list_base, ListBase,
 	       &sheet_widget_list_base_clear_sheet,
 	       NULL,
 	       &sheet_widget_list_base_write_xml_dom,
-	       &sheet_widget_list_base_read_xml_dom)
+	       &sheet_widget_list_base_read_xml_dom,
+	       &sheet_widget_list_base_write_xml_sax)
 
 /****************************************************************************/
 #define SHEET_WIDGET_LIST_TYPE	(sheet_widget_list_get_type ())

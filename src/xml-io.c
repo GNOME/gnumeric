@@ -229,6 +229,22 @@ e_xml_get_child_by_name_by_lang (const xmlNode *parent, const gchar *name)
 
 /* ------------------------------------------------------------------------- */
 
+void
+gnm_xml_out_add_color (GsfXMLOut *o, char const *id, GnmColor const *c)
+{
+	g_return_if_fail (c != NULL);
+	gsf_xml_out_add_color (o, id,
+		c->color.red, c->color.green, c->color.blue);
+}
+
+void
+gnm_xml_out_add_cellpos (GsfXMLOut *o, char const *id, GnmCellPos const *p)
+{
+	g_return_if_fail (p != NULL);
+	gsf_xml_out_add_cstr_unchecked (o, id, cellpos_as_string (p));
+}
+
+/*****************************************************************************/
 /* Get an xmlChar * value for a node carried as an attibute
  * result must be xmlFree
  */

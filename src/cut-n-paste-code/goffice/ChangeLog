@@ -1,3 +1,18 @@
+2004-06-05  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-axis.c (gog_axis_get_entry) : add some protection now that
+	  this is public.
+	  (gog_axis_is_discrete) : ditto.
+
+	* graph/gog-style.c : add sax exporters
+	* graph/gog-error-bar.c : ditto
+
+	* graph/gog-object-xml.h : s/GogPersistDOM/GogPersist
+	* graph/gog-object-xml.c : add sax exporters
+	  (go_xml_out_add_color) : new.
+
+	* utils/go-font.c : Added some conditional leak debug tools
+
 2004-06-01  Morten Welinder  <terra@gnome.org>
 
 	* gui-utils/go-combo-text.c (go_combo_text_set_text): Plug leak.

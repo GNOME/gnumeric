@@ -1087,15 +1087,14 @@ ms_read_OBJ (BiffQuery *q, MSContainer *container, MSObjAttrBag *attrs)
 /**********************************************************************/
 
 void
-ms_objv8_write_common (BiffPut *bp, int id, int type, gboolean sys)
+ms_objv8_write_common (BiffPut *bp, int id, int type, guint16 flags)
 {
 	guint8 buf[22];
 	GSF_LE_SET_GUINT16 (buf + 0, 0x15);	/* common record */
 	GSF_LE_SET_GUINT16 (buf + 2, 0x12);	/* len 0x12 */
 	GSF_LE_SET_GUINT16 (buf + 4, type);
 	GSF_LE_SET_GUINT16 (buf + 6, id);
-	/* autofill, locked, with undocumented flag 0x100 */
-	GSF_LE_SET_GUINT16 (buf + 8, sys ? 0x2101 : 0x2001);
+	GSF_LE_SET_GUINT16 (buf + 8, flags);
 
 	GSF_LE_SET_GUINT32 (buf + 10, 0);
 	/* docs say 0, but n the wild this is some sort of pointer ?*/

@@ -1,3 +1,12 @@
+2004-06-05  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_write_chart) : sync the sizes when exporting
+	  the anchor and object id.
+
+2004-06-01  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (BC_R(end)) : patch style leak
+
 2004-05-31  Jody Goldberg <jody@gnome.org>
 
 	* ms-chart.c : more fill in the blanks work towards export.

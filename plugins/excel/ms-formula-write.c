@@ -555,16 +555,16 @@ write_funcall (PolishData *pd, GnmExpr const *expr,
 			name, ef->u.std.idx, fce->u.std.efunc->num_known_args);
 #endif
 
+		/* If XL requires more arguments than we do
+		 * pad the remainder with missing args */
+		for ( ; num_args < ef->efunc->num_known_args ; num_args++)
+			push_guint8 (pd, FORMULA_PTG_MISSARG);
+
 		if (ef->efunc->flags & XL_VARARG) {
 			push_guint8  (pd, FORMULA_PTG_FUNC_VAR + op_class);
 			push_guint8  (pd, num_args | (prompt ? 0x80 : 0));
 			push_guint16 (pd, ef->idx  | (cmdequiv ? 0x8000 : 0));
 		} else {
-			/* If XL requires more arguments than we do
-			 * pad the remainder with missing args */
-			while (num_args++ < ef->efunc->num_known_args)
-				push_guint8 (pd, FORMULA_PTG_MISSARG);
-
 			push_guint8  (pd, FORMULA_PTG_FUNC + op_class);
 			push_guint16 (pd, ef->idx);
 		}

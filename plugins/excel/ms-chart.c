@@ -543,7 +543,7 @@ static gboolean
 BC_R(axisparent)(XLChartHandler const *handle,
 		 XLChartReadState *s, BiffQuery *q)
 {
-	d (-1, {
+	d (1, {
 	guint16 const index = GSF_LE_GET_GUINT16 (q->data);	/* 1 or 2 */
 	/* Measured in 1/4000ths of the chart width */
 	guint32 const x = GSF_LE_GET_GUINT32 (q->data+2);
@@ -648,7 +648,7 @@ static gboolean
 BC_R(chart)(XLChartHandler const *handle,
 	    XLChartReadState *s, BiffQuery *q)
 {
-	d (0, {
+	d (1, {
 	/* Fixed point 2 bytes fraction 2 bytes integer */
 	guint32 const x_pos_fixed = GSF_LE_GET_GUINT32 (q->data + 0);
 	guint32 const y_pos_fixed = GSF_LE_GET_GUINT32 (q->data + 4);
@@ -1964,6 +1964,7 @@ BC_R(end)(XLChartHandler const *handle,
 		break;
 
 	case BIFF_CHART_text :
+#warning Do something with the style
 		if (s->text != NULL) {
 			g_free (s->text);
 			s->text = NULL;
@@ -2342,7 +2343,8 @@ typedef struct {
 	BiffPut		*bp;
 	ExcelWriteState *ewb;
 	SheetObject	*so;
-	GogGraph	*gog;
+	GogObject	*graph;
+	GogObject	*chart;
 	GogView		*root_view;
 
 	unsigned	 nest_level;
@@ -2600,16 +2602,17 @@ chart_write_PIEFORMAT (ExcelWriteChart *s, GogStyle const *style)
 }
 
 static void
-chart_write_frame (ExcelWriteChart *s, gboolean calc_size)
+chart_write_frame (ExcelWriteChart *s, GogObject *frame, gboolean calc_size)
 {
+	GogStyle *style = gog_styled_object_get_style (GOG_STYLED_OBJECT (frame));
 	guint8 *data = ms_biff_put_len_next (s->bp, BIFF_CHART_frame, 4);
 	GSF_LE_SET_GUINT16 (data + 0, 0); /* 0 == std/no border, 4 == shadow */
 	GSF_LE_SET_GUINT16 (data + 2, (0x2 | (calc_size ? 1 : 0)));
 	ms_biff_put_commit (s->bp);
 
 	chart_write_BEGIN (s);
-	chart_write_LINEFORMAT (s, NULL, FALSE);
-	chart_write_AREAFORMAT (s, NULL);
+	chart_write_LINEFORMAT (s, &style->line, FALSE);
+	chart_write_AREAFORMAT (s, style);
 	chart_write_END (s);
 }
 
@@ -2668,7 +2671,10 @@ chart_write_axis (ExcelWriteChart *s, GogAxis const *axis, unsigned i)
 #if 0
 	BIFF_CHART_tick
 #endif
-	ms_biff_put_2byte (s->bp, BIFF_CHART_axislineformat, 0); /* a real axis */
+	if (axis != NULL) {
+		ms_biff_put_2byte (s->bp, BIFF_CHART_axislineformat, 0); /* a real axis */
+		chart_write_LINEFORMAT (s, &GOG_STYLED_OBJECT (axis)->style->line, TRUE);
+	}
 	chart_write_END (s);
 }
 
@@ -2696,8 +2702,12 @@ chart_write_axis_sets (ExcelWriteChart *s)
 			chart_write_axis (s, /* axis */ NULL, j);
 
 		if (i == 0) {
-			ms_biff_put_empty (s->bp, BIFF_CHART_plotarea);
-			chart_write_frame (s, TRUE);
+			GogObject *grid = gog_object_get_child_by_role (s->chart,
+				gog_object_find_role_by_name (s->chart, "Grid"));
+			if (grid != NULL) {
+				ms_biff_put_empty (s->bp, BIFF_CHART_plotarea);
+				chart_write_frame (s, grid, TRUE);
+			}
 		}
 
 #if 0
@@ -2748,11 +2758,11 @@ chart_write_chart (ExcelWriteChart *s, SheetObject *so)
 #warning pass the chart to write_pos
 
 	data = ms_biff_put_len_next (s->bp, BIFF_CHART_chart, 4*4);
-	chart_write_pos (s, NULL, data);
+	chart_write_pos (s, s->graph, data);
 	ms_biff_put_commit (s->bp);
 
 	chart_write_BEGIN (s);
-	excel_write_SCL	(s->bp, 1.0);
+	/* excel_write_SCL	(s->bp, 1.0); seems constant */
 
 	if (s->bp->version >= MS_BIFF_V8) {
 		/* zoom does not seem to effect it */
@@ -2761,7 +2771,7 @@ chart_write_chart (ExcelWriteChart *s, SheetObject *so)
 		GSF_LE_SET_GUINT32 (data + 4, 1);
 		ms_biff_put_commit (s->bp);
 	}
-	chart_write_frame (s, FALSE);
+	chart_write_frame (s, s->chart, FALSE);
 #if 0
 	for (i = 0 ; i < num_series ; i++);
 		chart_write_series (s, series, i);
@@ -2790,16 +2800,19 @@ ms_excel_write_chart (ExcelWriteState *ewb, SheetObject *so)
 	state.bp  = ewb->bp;
 	state.ewb = ewb;
 	state.so  = so;
-	state.gog = sheet_object_graph_get_gog (so);
+	state.graph = sheet_object_graph_get_gog (so);
+	state.chart = gog_object_get_child_by_role (state.graph,
+		gog_object_find_role_by_name (state.graph, "Chart"));
 	state.nest_level = 0;
 #warning TODO : create a null renderer class for use in sizing things
 	renderer  = g_object_new (GOG_RENDERER_TYPE,
-				  "model", state.gog,
+				  "model", state.graph,
 				  NULL);
 	g_object_get (G_OBJECT (renderer), "view", &state.root_view, NULL);
 
-	g_return_if_fail (state.gog != NULL);
+	g_return_if_fail (state.graph != NULL);
 
+	excel_write_BOF (state.bp, MS_BIFF_TYPE_Chart);
 	ms_biff_put_empty (state.bp, BIFF_HEADER);
 	ms_biff_put_empty (state.bp, BIFF_FOOTER);
 	ms_biff_put_2byte (state.bp, BIFF_HCENTER, 0);
@@ -2815,6 +2828,7 @@ ms_excel_write_chart (ExcelWriteState *ewb, SheetObject *so)
 	ms_biff_put_2byte (state.bp, BIFF_CHART_units, 0);
 
 	chart_write_chart (&state, so);
+	ms_biff_put_empty (ewb->bp, BIFF_EOF);
 
 	g_object_unref (renderer);
 }

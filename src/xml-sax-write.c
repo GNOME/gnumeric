@@ -48,8 +48,10 @@
 #include <hlink.h>
 #include <solver.h>
 #include <sheet-filter.h>
+#include <sheet-object-impl.h>
 #include <print-info.h>
 #include <print-info.h>
+#include <xml-io.h>
 #include <tools/scenarios.h>
 
 #include <gsf/gsf-libxml.h>
@@ -77,15 +79,6 @@ void	xml_sax_file_save (GnmFileSaver const *fs, IOContext *io_context,
 #define POINT_SIZE_PRECISION 4
 
 static void
-xml_out_add_stylecolor (GsfXMLOut *xml, char const *id, GnmColor *sc)
-{
-	g_return_if_fail (sc != NULL);
-
-	gsf_xml_out_add_color (xml, id,
-		sc->color.red, sc->color.green, sc->color.blue);
-}
-
-static void
 xml_out_add_range (GsfXMLOut *xml, GnmRange const *r)
 {
 	g_return_if_fail (range_is_sane (r));
@@ -94,12 +87,6 @@ xml_out_add_range (GsfXMLOut *xml, GnmRange const *r)
 	gsf_xml_out_add_int (xml, "startRow", r->start.row);
 	gsf_xml_out_add_int (xml, "endCol",   r->end.col);
 	gsf_xml_out_add_int (xml, "endRow",   r->end.row);
-}
-
-static void
-xml_out_add_cellpos (GsfXMLOut *xml, char const *name, GnmCellPos const *val)
-{
-	gsf_xml_out_add_cstr_unchecked (xml, name, cellpos_as_string (val));
 }
 
 static void
@@ -356,7 +343,7 @@ xml_write_print_info (GnmOutputXML *state, PrintInformation *pi)
 }
 
 static void
-xml_write_style (GnmOutputXML *state, GnmStyle const *style)
+xml_write_gnmstyle (GnmOutputXML *state, GnmStyle const *style)
 {
 	static char const *border_names[] = {
 		GMR "Top",
@@ -391,11 +378,11 @@ xml_write_style (GnmOutputXML *state, GnmStyle const *style)
 	if (mstyle_is_element_set (style, MSTYLE_CONTENT_HIDDEN))
 		gsf_xml_out_add_int (state->output, "Hidden", mstyle_get_content_hidden (style));
 	if (mstyle_is_element_set (style, MSTYLE_COLOR_FORE))
-		xml_out_add_stylecolor (state->output, "Fore", mstyle_get_color (style, MSTYLE_COLOR_FORE));
+		gnm_xml_out_add_color (state->output, "Fore", mstyle_get_color (style, MSTYLE_COLOR_FORE));
 	if (mstyle_is_element_set (style, MSTYLE_COLOR_BACK))
-		xml_out_add_stylecolor (state->output, "Back", mstyle_get_color (style, MSTYLE_COLOR_BACK));
+		gnm_xml_out_add_color (state->output, "Back", mstyle_get_color (style, MSTYLE_COLOR_BACK));
 	if (mstyle_is_element_set (style, MSTYLE_COLOR_PATTERN))
-		xml_out_add_stylecolor (state->output, "PatternColor", mstyle_get_color (style, MSTYLE_COLOR_PATTERN));
+		gnm_xml_out_add_color (state->output, "PatternColor", mstyle_get_color (style, MSTYLE_COLOR_PATTERN));
 	if (mstyle_is_element_set (style, MSTYLE_FORMAT)) {
 		char *fmt = style_format_as_XL (mstyle_get_format (style), FALSE);
 		gsf_xml_out_add_cstr (state->output, "Format", fmt);
@@ -500,7 +487,7 @@ xml_write_style (GnmOutputXML *state, GnmStyle const *style)
 					border_names [i - MSTYLE_BORDER_TOP]);
 				gsf_xml_out_add_int (state->output, "Style", t);
 				if (t != STYLE_BORDER_NONE)
-					xml_out_add_stylecolor (state->output, "Color", col);
+					gnm_xml_out_add_color (state->output, "Color", col);
 				gsf_xml_out_end_element (state->output);
 			}
 		}
@@ -515,7 +502,7 @@ xml_write_style_region (GnmOutputXML *state, GnmStyleRegion const *region)
 	gsf_xml_out_start_element (state->output, GMR "StyleRegion");
 	xml_out_add_range (state->output, &region->range);
 	if (region->style != NULL)
-		xml_write_style (state, region->style);
+		xml_write_gnmstyle (state, region->style);
 	gsf_xml_out_end_element (state->output);
 }
 
@@ -763,12 +750,12 @@ xml_write_sheet_layout (GnmOutputXML *state)
 	SheetView const *sv = sheet_get_view (state->sheet, state->wb_view);
 
 	gsf_xml_out_start_element (state->output, GMR "SheetLayout");
-	xml_out_add_cellpos (state->output, "TopLeft", &sv->initial_top_left);
+	gnm_xml_out_add_cellpos (state->output, "TopLeft", &sv->initial_top_left);
 
 	if (sv_is_frozen (sv)) {
 		gsf_xml_out_start_element (state->output, GMR "FreezePanes");
-		xml_out_add_cellpos (state->output, "FrozenTopLeft", &sv->frozen_top_left);
-		xml_out_add_cellpos (state->output, "UnfrozenTopLeft", &sv->unfrozen_top_left);
+		gnm_xml_out_add_cellpos (state->output, "FrozenTopLeft", &sv->frozen_top_left);
+		gnm_xml_out_add_cellpos (state->output, "UnfrozenTopLeft", &sv->unfrozen_top_left);
 		gsf_xml_out_end_element (state->output); /* </gmr:FreezePanes> */
 	}
 	gsf_xml_out_end_element (state->output); /* </gmr:SheetLayout> */
@@ -977,6 +964,58 @@ xml_write_scenarios (GnmOutputXML *state)
 }
 
 static void
+xml_write_objects (GnmOutputXML *state, Sheet const *sheet)
+{
+	GList *ptr;
+	gboolean needs_container = TRUE;
+	SheetObject	 *so;
+	SheetObjectClass *klass;
+	char buffer[4*(DBL_DIG+10)];
+	char const *type_name;
+	char *tmp;
+
+	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next) {
+		so = ptr->data;
+		klass = SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS (so));
+		if (klass == NULL || klass->write_xml_sax == NULL)
+			continue;
+
+		if (needs_container) {
+			needs_container = FALSE;
+			gsf_xml_out_start_element (state->output, GMR "Objects");
+		}
+
+		/* A hook so that things can sometimes change names */
+		type_name = klass->xml_export_name;
+		if (type_name == NULL)
+			type_name = G_OBJECT_TYPE_NAME (so);
+
+		tmp = g_strconcat (GMR, type_name, NULL);
+		gsf_xml_out_start_element (state->output, tmp);
+		gsf_xml_out_add_cstr (state->output, "ObjectBound", range_name (&so->anchor.cell_bound));
+		snprintf (buffer, sizeof (buffer), "%.3g %.3g %.3g %.3g",
+			  so->anchor.offset [0], so->anchor.offset [1],
+			  so->anchor.offset [2], so->anchor.offset [3]);
+		gsf_xml_out_add_cstr (state->output, "ObjectOffset", buffer);
+		snprintf (buffer, sizeof (buffer), "%d %d %d %d",
+			  so->anchor.type [0], so->anchor.type [1],
+			  so->anchor.type [2], so->anchor.type [3]);
+		gsf_xml_out_add_cstr (state->output, "ObjectAnchorType", buffer);
+
+		gsf_xml_out_add_int (state->output, "Direction",
+			so->anchor.direction);
+
+		(*klass->write_xml_sax) (so, state->output);
+
+		gsf_xml_out_end_element (state->output); /* </gmr:{typename}> */
+		g_free (tmp);
+	}
+
+	if (!needs_container)
+		gsf_xml_out_end_element (state->output); /* </gmr:Objects> */
+}
+
+static void
 xml_write_sheet (GnmOutputXML *state, Sheet const *sheet)
 {
 	state->sheet = sheet;
@@ -1000,9 +1039,9 @@ xml_write_sheet (GnmOutputXML *state, Sheet const *sheet)
 		"OutlineSymbolsRight",	sheet->outline_symbols_right);
 
 	if (sheet->tab_color != NULL)
-		xml_out_add_stylecolor (state->output, "TabColor", sheet->tab_color);
+		gnm_xml_out_add_color (state->output, "TabColor", sheet->tab_color);
 	if (sheet->tab_text_color != NULL)
-		xml_out_add_stylecolor (state->output, "TabTextColor", sheet->tab_text_color);
+		gnm_xml_out_add_color (state->output, "TabTextColor", sheet->tab_text_color);
 
 	gsf_xml_out_simple_element (state->output,
 		GMR "Name", sheet->name_unquoted);
@@ -1018,7 +1057,7 @@ xml_write_sheet (GnmOutputXML *state, Sheet const *sheet)
 	xml_write_styles (state);
 	xml_write_cols_rows (state);
 	xml_write_selection_info (state);
-#warning TODO objects
+	xml_write_objects (state, sheet);
 	xml_write_cells (state);
 
 	xml_write_merged_regions (state);

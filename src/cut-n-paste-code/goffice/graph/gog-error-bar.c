@@ -331,9 +331,9 @@ gog_error_bar_class_init (GogErrorBarClass *klass)
 }
 
 static gboolean
-gog_error_bar_persist_dom_load (GogPersistDOM *gpd, xmlNode *node)
+gog_error_bar_persist_dom_load (GogPersist *gp, xmlNode *node)
 {
-	GogErrorBar *bar = GOG_ERROR_BAR (gpd);
+	GogErrorBar *bar = GOG_ERROR_BAR (gp);
 
 	gchar* str;
 	str = xmlGetProp (node, CC2XML ("error_type"));
@@ -376,9 +376,9 @@ gog_error_bar_persist_dom_load (GogPersistDOM *gpd, xmlNode *node)
 }
 
 static void
-gog_error_bar_persist_dom_save (GogPersistDOM *gpd, xmlNode *parent)
+gog_error_bar_persist_dom_save (GogPersist const *gp, xmlNode *parent)
 {
-	GogErrorBar *bar = GOG_ERROR_BAR (gpd);
+	GogErrorBar const *bar = GOG_ERROR_BAR (gp);
 
 	{
 		const char *str = NULL;
@@ -438,16 +438,50 @@ gog_error_bar_persist_dom_save (GogPersistDOM *gpd, xmlNode *parent)
 }
 
 static void
-gog_error_bar_persist_dom_init (GogPersistDOMClass *iface)
+gog_error_bar_persist_sax_save (GogPersist const *gp, GsfXMLOut *output)
 {
-	iface->load = gog_error_bar_persist_dom_load;
-	iface->save = gog_error_bar_persist_dom_save;
+	GogErrorBar *bar = GOG_ERROR_BAR (gp);
+	char const *str;
+
+	gsf_xml_out_add_cstr_unchecked (output, "type", "GogErrorBar");
+	switch (bar->type) {
+	case GOG_ERROR_BAR_TYPE_ABSOLUTE: str = "absolute"; break;
+	case GOG_ERROR_BAR_TYPE_RELATIVE: str = "relative"; break;
+	case GOG_ERROR_BAR_TYPE_PERCENT:  str = "percent"; break;
+	default: str = NULL; break;
+	}
+	if (str != NULL)
+		gsf_xml_out_add_cstr_unchecked (output, "error_type", str);
+
+	switch (bar->display) {
+	case GOG_ERROR_BAR_DISPLAY_NONE:	str = "none"; break;
+	case GOG_ERROR_BAR_DISPLAY_POSITIVE:	str = "positive"; break;
+	case GOG_ERROR_BAR_DISPLAY_NEGATIVE:	str = "negative"; break;
+	default: str = NULL; break;
+	}
+	if (str != NULL)
+		gsf_xml_out_add_cstr_unchecked (output, "display", str);
+#warning Why 5.0 and why 1.0 ?
+	if (bar->width != 5.)
+		gsf_xml_out_add_float (output, "width", bar->width, 2);
+	if (bar->style->line.width != 1.)
+		gsf_xml_out_add_float (output, "line_width", bar->style->line.width, 2);
+	if (bar->style->line.color != RGBA_BLACK)
+		go_xml_out_add_color (output, "color", bar->style->line.color);
+}
+
+static void
+gog_error_bar_persist_init (GogPersistClass *iface)
+{
+	iface->dom_load = gog_error_bar_persist_dom_load;
+	iface->dom_save = gog_error_bar_persist_dom_save;
+	iface->sax_save = gog_error_bar_persist_sax_save;
 }
 
 GSF_CLASS_FULL (GogErrorBar, gog_error_bar,
 		gog_error_bar_class_init, gog_error_bar_init,
 		G_TYPE_OBJECT, 0,
-		GSF_INTERFACE (gog_error_bar_persist_dom_init, GOG_PERSIST_DOM_TYPE))
+		GSF_INTERFACE (gog_error_bar_persist_init, GOG_PERSIST_TYPE))
 
 
 /**
@@ -639,6 +673,6 @@ gboolean
 gog_error_bar_is_visible (GogErrorBar *bar)
 {
 	return (bar != NULL) &&
-				(bar->type != GOG_ERROR_BAR_TYPE_NONE) &&
-				(bar->display != GOG_ERROR_BAR_DISPLAY_NONE);
+		(bar->type != GOG_ERROR_BAR_TYPE_NONE) &&
+		(bar->display != GOG_ERROR_BAR_DISPLAY_NONE);
 }

@@ -1,3 +1,16 @@
+2004-06-05  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object-image.c : add sax export, and actually dump the
+	  images.
+	* src/sheet-object-widget.c : add sax export
+	* src/sheet-object-graph.c : ditto.
+	* src/sheet-object-cell-comment.c : ditto.
+
+	* src/workbook-view.c (wbv_save_to_file) : warning suppression
+
+	* src/xml-io.c (gnm_xml_out_add_color) : new
+	(gnm_xml_out_add_cellpos) : new.
+
 2004-06-04  Morten Welinder  <terra@gnome.org>
 
 	* src/parser.y (arg_list): handle the empty arg in =IF(TRUE,)
@@ -436,7 +449,6 @@
 	  case spans changed.
 	(cmd_format_redo) : ditto.
 
->>>>>>> 1.3405
 2004-03-28  Jody Goldberg <jody@gnome.org>
 
 	* src/wbcg-actions.c : cheat and install a SheetInsert action to avoid

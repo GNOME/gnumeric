@@ -5,6 +5,7 @@
 #include "gnumeric.h"
 #include "xml-io-version.h"
 #include "file.h"
+#include <gsf/gsf-libxml.h>
 #include <libxml/tree.h>
 #include <libxml/xmlmemory.h>
 
@@ -63,5 +64,9 @@ void      xml_init (void);
 xmlNode *e_xml_get_child_by_name	 (xmlNode const *tree, char const *name);
 xmlNode *e_xml_get_child_by_name_no_lang (xmlNode const *tree, char const *name);
 xmlNode *e_xml_get_child_by_name_by_lang (xmlNode const *tree, char const *name);
+
+/* Gnumeric specific SAX utilities */
+void gnm_xml_out_add_color   (GsfXMLOut *o, char const *id, GnmColor const *c);
+void gnm_xml_out_add_cellpos (GsfXMLOut *o, char const *id, GnmCellPos const *p);
 
 #endif /* GNUMERIC_XML_IO_H */

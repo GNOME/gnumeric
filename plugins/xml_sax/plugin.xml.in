@@ -14,7 +14,7 @@
 			</information>
 		</service>
 		<service type="file_saver" id="xml_sax" file_extension="gnumeric"
-		         format_level="auto" overwrite_files="FALSE">
+		         format_level="auto">
 			<information>
 				<_description>EXPERIMENTAL SAX based Gnumeric (*.gnumeric)</_description>
 			</information>

@@ -39,6 +39,7 @@ Pending Patches
 1.3 Architecture Changes
 ------------------------
 
+- Use GtkStatusbar
 - Merge wbc_init_state and wbc_set_view
 - When editing rich text the initial style == pos0, rather than end.  Works
   when edit starts with F2, but fails when edit starts by clicking in the edit

@@ -132,7 +132,7 @@ char *ms_read_TXO   (BiffQuery *q, MSContainer *c, PangoAttrList **markup);
 
 /********************************************************/
 
-void ms_objv8_write_common	(BiffPut *bp, int id, int type, gboolean sys);
+void ms_objv8_write_common	(BiffPut *bp, int id, int type, guint16 flags);
 void ms_objv8_write_scrollbar	(BiffPut *bp);
 void ms_objv8_write_listbox	(BiffPut *bp, gboolean filtered);
 void ms_objv8_write_chart	(BiffPut *bp, SheetObject *sog);

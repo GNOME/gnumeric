@@ -67,8 +67,8 @@ libgoffice_graph_la_SOURCES = \
 	gog-control-foocanvas.c		\
 	gog-control-foocanvas.h		\
 	gog-renderer-gnome-print.c	\
-	gog-renderer-gnome-print.h		\
-	gog-renderer-svg.c	\
+	gog-renderer-gnome-print.h	\
+	gog-renderer-svg.c		\
 	gog-renderer-svg.h
 
 gnumeric_glade_DATA = \

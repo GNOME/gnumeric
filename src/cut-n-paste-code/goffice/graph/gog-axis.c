@@ -349,10 +349,26 @@ gog_axis_finalize (GObject *obj)
 	(parent_klass->finalize) (obj);
 }
 
+/**
+ * gog_axis_get_entry :
+ * @axis : #GogAxis
+ * @i :
+ * @user_defined : an optionally NULL pointr to gboolean
+ *
+ * Returns the value of axis element @i and sets @user_defined or
+ * 	NaN on error
+ **/
 double
 gog_axis_get_entry (GogAxis const *axis, unsigned i, gboolean *user_defined)
 {
-	GOData *dat = axis->source [i].data;
+	GOData *dat;
+
+	if (user_defined)
+		*user_defined = FALSE;
+
+	g_return_val_if_fail (GOG_AXIS (axis) != NULL, gnm_nan);
+
+	dat = axis->source [i].data;
 	if (dat != NULL && IS_GO_DATA_SCALAR (dat)) {
 		double tmp = go_data_scalar_get_value (GO_DATA_SCALAR (dat));
 		if (finite (tmp)) {
@@ -362,9 +378,6 @@ gog_axis_get_entry (GogAxis const *axis, unsigned i, gboolean *user_defined)
 		}
 	}
 	
-	if (user_defined)
-		*user_defined = FALSE;
-
 	return axis->auto_bound [i];
 }
 
@@ -911,6 +924,7 @@ gog_axis_get_pos (GogAxis const *axis)
 gboolean
 gog_axis_is_discrete (GogAxis const *axis)
 {
+	g_return_val_if_fail (GOG_AXIS (axis) != NULL, FALSE);
 	return axis->is_discrete;
 }
 

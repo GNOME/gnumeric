@@ -269,6 +269,20 @@ sheet_object_graphic_write_xml_dom (SheetObject const *so,
 
 	return FALSE;
 }
+static void
+sheet_object_graphic_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
+{
+	SheetObjectGraphic const *sog = SHEET_OBJECT_GRAPHIC (so);
+	if (sog->fill_color)
+		gnm_xml_out_add_color (output, "FillColor", sog->fill_color);
+	gsf_xml_out_add_int (output, "Type", sog->type);
+	gsf_xml_out_add_float (output, "Width", sog->width, -1);
+	if (sog->type == SHEET_OBJECT_ARROW) {
+		gsf_xml_out_add_float (output, "ArrowShapeA", sog->a, -1);
+		gsf_xml_out_add_float (output, "ArrowShapeB", sog->b, -1);
+		gsf_xml_out_add_float (output, "ArrowShapeC", sog->c, -1);
+	}
+}
 
 static SheetObject *
 sheet_object_graphic_clone (SheetObject const *so, Sheet *sheet)
@@ -621,6 +635,7 @@ sheet_object_graphic_class_init (GObjectClass *object_class)
 	so_class->update_view_bounds	= sheet_object_graphic_update_bounds;
 	so_class->read_xml_dom		= sheet_object_graphic_read_xml_dom;
 	so_class->write_xml_dom		= sheet_object_graphic_write_xml_dom;
+	so_class->write_xml_sax		= sheet_object_graphic_write_xml_sax;
 	so_class->clone			= sheet_object_graphic_clone;
 	so_class->user_config		= sheet_object_graphic_user_config;
 	so_class->print			= sheet_object_graphic_print;
@@ -819,6 +834,14 @@ sheet_object_filled_write_xml_dom (SheetObject const *so,
 		xml_node_set_color (tree, "OutlineColor", sof->outline_color);
 
 	return sheet_object_graphic_write_xml_dom (so, ctxt, tree);
+}
+static void
+sheet_object_filled_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
+{
+	SheetObjectFilled const *sof = SHEET_OBJECT_FILLED (so);
+	if (sof->outline_color)
+		gnm_xml_out_add_color (output, "OutlineColor", sof->outline_color);
+	sheet_object_graphic_write_xml_sax (so, output);
 }
 
 static SheetObject *
@@ -1136,6 +1159,7 @@ sheet_object_filled_class_init (GObjectClass *object_class)
 	sheet_object_class->update_view_bounds = sheet_object_filled_update_bounds;
 	sheet_object_class->read_xml_dom  = sheet_object_filled_read_xml_dom;
 	sheet_object_class->write_xml_dom = sheet_object_filled_write_xml_dom;
+	sheet_object_class->write_xml_sax = sheet_object_filled_write_xml_sax;
 	sheet_object_class->clone         = sheet_object_filled_clone;
 	sheet_object_class->user_config   = sheet_object_filled_user_config;
 	sheet_object_class->print         = sheet_object_filled_print;
@@ -1268,6 +1292,12 @@ sheet_object_polygon_write_xml_dom (SheetObject const *so,
 	return FALSE;
 }
 
+static void
+sheet_object_polygon_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
+{
+	SheetObjectPolygon const *sop = SHEET_OBJECT_POLYGON (so);
+}
+
 static SheetObject *
 sheet_object_polygon_clone (SheetObject const *so, Sheet *sheet)
 {
@@ -1307,6 +1337,7 @@ sheet_object_polygon_class_init (GObjectClass *object_class)
 	sheet_object_class->update_view_bounds = sheet_object_polygon_update_bounds;
 	sheet_object_class->read_xml_dom  = sheet_object_polygon_read_xml_dom;
 	sheet_object_class->write_xml_dom = sheet_object_polygon_write_xml_dom;
+	sheet_object_class->write_xml_sax = sheet_object_polygon_write_xml_sax;
 	sheet_object_class->clone         = sheet_object_polygon_clone;
 	sheet_object_class->user_config   = NULL;
 	sheet_object_class->print         = sheet_object_polygon_print;
@@ -1571,12 +1602,18 @@ sheet_object_text_write_xml_dom (SheetObject const *so,
 				 XmlParseContext const *context,
 				 xmlNodePtr tree)
 {
-	SheetObjectText *sot = SHEET_OBJECT_TEXT (so);
-
+	SheetObjectText const *sot = SHEET_OBJECT_TEXT (so);
 	xml_node_set_cstr (tree, "Label", sot->label);
-
 #warning TODO how to persist the attribute list
-	return FALSE;
+	return sheet_object_filled_write_xml_dom (so, context, tree);
+}
+
+static void
+sheet_object_text_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
+{
+	SheetObjectText const *sot = SHEET_OBJECT_TEXT (so);
+	gsf_xml_out_add_cstr (output, "Label", sot->label);
+	sheet_object_filled_write_xml_sax (so, output);
 }
 
 static SheetObject *
@@ -1623,6 +1660,7 @@ sheet_object_text_class_init (GObjectClass *object_class)
 	so_class->update_view_bounds	= sheet_object_text_update_bounds;
 	so_class->read_xml_dom		= sheet_object_text_read_xml_dom;
 	so_class->write_xml_dom		= sheet_object_text_write_xml_dom;
+	so_class->write_xml_sax		= sheet_object_text_write_xml_sax;
 	so_class->clone			= sheet_object_text_clone;
 	/* so_class->user_config   = NULL; inherit from parent */
 	so_class->print         	= sheet_object_text_print;

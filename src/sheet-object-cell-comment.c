@@ -239,6 +239,13 @@ cell_comment_write_xml_dom (SheetObject const *so, XmlParseContext const *ctxt,
 	xml_node_set_cstr (tree, "Text", cc->text);
 	return FALSE;
 }
+static void
+cell_comment_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
+{
+	GnmComment const *cc = CELL_COMMENT (so);
+	gsf_xml_out_add_cstr (output, "Author", cc->author);
+	gsf_xml_out_add_cstr (output, "Text", cc->text);
+}
 
 static void
 cell_comment_print (SheetObject const *so, GnomePrintContext *ctx,
@@ -279,6 +286,7 @@ cell_comment_class_init (GObjectClass *object_class)
 	sheet_object_class->new_view		= &cell_comment_new_view;
 	sheet_object_class->read_xml_dom	= &cell_comment_read_xml_dom;
 	sheet_object_class->write_xml_dom	= &cell_comment_write_xml_dom;
+	sheet_object_class->write_xml_sax	= &cell_comment_write_xml_sax;
 	sheet_object_class->print		= &cell_comment_print;
 	sheet_object_class->clone		= &cell_comment_clone;
 	sheet_object_class->xml_export_name = "CellComment";

@@ -63,7 +63,6 @@
 
 #define SHEET_OBJECT_CONFIG_KEY "sheet-object-graph-key"
 
-#define SHEET_OBJECT_GRAPH(o)       (G_TYPE_CHECK_INSTANCE_CAST((o), SHEET_OBJECT_GRAPH_TYPE, SheetObjectGraph))
 #define SHEET_OBJECT_GRAPH_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), SHEET_OBJECT_GRAPH_TYPE, SheetObjectGraphClass))
 
 typedef struct {
@@ -281,6 +280,12 @@ sheet_object_graph_write_xml_dom (SheetObject const *so,
 		xmlAddChild (parent, res);
 	return FALSE;
 }
+static void
+sheet_object_graph_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
+{
+	SheetObjectGraph const *sog = SHEET_OBJECT_GRAPH (so);
+	gog_object_write_xml_sax (GOG_OBJECT (sog->graph), output);
+}
 
 static SheetObject *
 sheet_object_graph_clone (SheetObject const *so, Sheet *sheet)
@@ -409,6 +414,7 @@ sheet_object_graph_class_init (GObjectClass *klass)
 	so_class->update_view_bounds = sheet_object_graph_update_bounds;
 	so_class->read_xml_dom	     = sheet_object_graph_read_xml_dom;
 	so_class->write_xml_dom	     = sheet_object_graph_write_xml_dom;
+	so_class->write_xml_sax	     = sheet_object_graph_write_xml_sax;
 	so_class->clone              = sheet_object_graph_clone;
 	so_class->user_config        = sheet_object_graph_user_config;
 	so_class->assign_to_sheet    = sheet_object_graph_set_sheet;

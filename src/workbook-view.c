@@ -571,7 +571,7 @@ wbv_save_to_file (WorkbookView *wbv, GnmFileSaver const *fs,
 
 	if (filename_utf8) {
 		GError *err = NULL;
-		GsfOutputStdio *output = NULL;
+		GsfOutput *output = NULL;
 
 #ifdef WITH_GNOME
 		{
@@ -589,7 +589,7 @@ wbv_save_to_file (WorkbookView *wbv, GnmFileSaver const *fs,
 				gnome_vfs_uri_unref (uri);
 		}
 #else
-		output = gsf_output_stdio_new (filename, &err);
+		output = (GsfOutput *)gsf_output_stdio_new (filename, &err);
 #endif
 
 		if (output == NULL) {

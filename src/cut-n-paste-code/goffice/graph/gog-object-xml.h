@@ -22,35 +22,42 @@
 #define GOG_OBJECT_XML_H
 
 #include <goffice/graph/goffice-graph.h>
+#include <goffice/utils/goffice-utils.h>
 #include <glib-object.h>
 #include <libxml/tree.h>
+#include <gsf/gsf-libxml.h>
 
 G_BEGIN_DECLS
 
-typedef struct _GogPersistDOM GogPersistDOM;
+typedef struct _GogPersist GogPersist;
 
 typedef struct {
-	GTypeInterface		   base;
+	GTypeInterface base;
 
-	gboolean (*load) (GogPersistDOM *gpd, xmlNode *node);
-	void     (*save) (GogPersistDOM *gpd, xmlNode *parent);
-} GogPersistDOMClass;
+	gboolean (*dom_load) (GogPersist *gp, xmlNode *node);
+	void     (*dom_save) (GogPersist const *gp, xmlNode *parent);
+	void     (*sax_save) (GogPersist const *gp, GsfXMLOut *output);
+} GogPersistClass;
 
-#define GOG_PERSIST_DOM_TYPE		(gog_persist_dom_get_type ())
-#define GOG_PERSIST_DOM(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_PERSIST_DOM_TYPE, GogPersistDOM))
-#define IS_GOG_PERSIST_DOM(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_PERSIST_DOM_TYPE))
-#define GOG_PERSIST_DOM_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k), GOG_PERSIST_DOM_TYPE, GogPersistDOMClass))
-#define IS_GOG_PERSIST_DOM_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GOG_PERSIST_DOM_TYPE))
-#define GOG_PERSIST_DOM_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_INTERFACE ((o), GOG_PERSIST_DOM_TYPE, GogPersistDOMClass))
+#define GOG_PERSIST_TYPE	 (gog_persist_get_type ())
+#define GOG_PERSIST(o)		 (G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_PERSIST_TYPE, GogPersist))
+#define IS_GOG_PERSIST(o)	 (G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_PERSIST_TYPE))
+#define GOG_PERSIST_CLASS(k)	 (G_TYPE_CHECK_CLASS_CAST ((k), GOG_PERSIST_TYPE, GogPersistClass))
+#define IS_GOG_PERSIST_CLASS(k)	 (G_TYPE_CHECK_CLASS_TYPE ((k), GOG_PERSIST_TYPE))
+#define GOG_PERSIST_GET_CLASS(o) (G_TYPE_INSTANCE_GET_INTERFACE ((o), GOG_PERSIST_TYPE, GogPersistClass))
 
-GType gog_persist_dom_get_type (void);
+GType gog_persist_get_type (void);
 
-gboolean gog_persist_dom_load (GogPersistDOM *gpd, xmlNode *node);
-void     gog_persist_dom_save (GogPersistDOM *gpd, xmlNode *parent);
+gboolean gog_persist_dom_load (GogPersist *gp, xmlNode *node);
+void     gog_persist_dom_save (GogPersist const *gp, xmlNode *parent);
+void     gog_persist_sax_save (GogPersist const *gp, GsfXMLOut *output);
 
 void	   gog_object_set_arg	   (char const *name, char const *val, GogObject *obj);
+void	   gog_object_write_xml_sax(GogObject const *obj, GsfXMLOut *output);
 xmlNode   *gog_object_write_xml	   (GogObject *obj, xmlDoc *doc);
 GogObject *gog_object_new_from_xml (GogObject *parent, xmlNode *node);
+
+void	   go_xml_out_add_color (GsfXMLOut *out, char const *id, GOColor c);
 
 G_END_DECLS
 

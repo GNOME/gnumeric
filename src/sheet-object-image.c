@@ -304,6 +304,25 @@ sheet_object_image_write_xml_dom (SheetObject const *so,
 	return FALSE;
 }
 
+static void
+sheet_object_image_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
+{
+	SheetObjectImage *soi;
+
+	g_return_if_fail (IS_SHEET_OBJECT_IMAGE (so));
+	soi = SHEET_OBJECT_IMAGE (so);
+
+	gsf_xml_out_add_float (output, "crop-top", soi->crop_top, 3);
+	gsf_xml_out_add_float (output, "crop-bottom", soi->crop_bottom, 3);
+	gsf_xml_out_add_float (output, "crop-left", soi->crop_left, 3);
+	gsf_xml_out_add_float (output, "crop-right", soi->crop_right, 3);
+ 	gsf_xml_out_start_element (output, "Content");
+	if (soi->type != NULL)
+		gsf_xml_out_add_cstr (output, "image-type", soi->type);
+	gsf_xml_out_add_base64 (output, NULL, soi->data, soi->data_len);
+ 	gsf_xml_out_end_element (output);
+}
+
 static SheetObject *
 sheet_object_image_clone (SheetObject const *so, Sheet *sheet)
 {
@@ -370,6 +389,7 @@ sheet_object_image_class_init (GObjectClass *object_class)
 	sheet_object_class->update_view_bounds	= sheet_object_image_update_bounds;
 	sheet_object_class->read_xml_dom	= sheet_object_image_read_xml_dom;
 	sheet_object_class->write_xml_dom	= sheet_object_image_write_xml_dom;
+	sheet_object_class->write_xml_sax	= sheet_object_image_write_xml_sax;
 	sheet_object_class->clone		= sheet_object_image_clone;
 	sheet_object_class->user_config		= NULL;
 	sheet_object_class->print		= sheet_object_image_print;

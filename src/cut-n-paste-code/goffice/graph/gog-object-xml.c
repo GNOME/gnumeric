@@ -25,42 +25,49 @@
 #include <goffice/graph/gog-plot.h>
 #include <goffice/graph/gog-data-set.h>
 #include <goffice/graph/go-data.h>
+#include <goffice/utils/go-color.h>
 
 #include <glade/glade-build.h>	/* for the xml utils */
 #include <string.h>
 #include <stdlib.h>
 
 GType
-gog_persist_dom_get_type (void)
+gog_persist_get_type (void)
 {
-	static GType gog_persist_dom_type = 0;
+	static GType gog_persist_type = 0;
 
-	if (!gog_persist_dom_type) {
-		static GTypeInfo const gog_persist_dom_info = {
-			sizeof (GogPersistDOMClass),	/* class_size */
+	if (!gog_persist_type) {
+		static GTypeInfo const gog_persist_info = {
+			sizeof (GogPersistClass),	/* class_size */
 			NULL,		/* base_init */
 			NULL,		/* base_finalize */
 		};
 
-		gog_persist_dom_type = g_type_register_static (G_TYPE_INTERFACE,
-			"GogPersistDOM", &gog_persist_dom_info, 0);
+		gog_persist_type = g_type_register_static (G_TYPE_INTERFACE,
+			"GogPersist", &gog_persist_info, 0);
 	}
 
-	return gog_persist_dom_type;
+	return gog_persist_type;
 }
 
 gboolean
-gog_persist_dom_load (GogPersistDOM *gpd, xmlNode *node)
+gog_persist_dom_load (GogPersist *gp, xmlNode *node)
 {
-	g_return_val_if_fail (IS_GOG_PERSIST_DOM (gpd), FALSE);
-	return GOG_PERSIST_DOM_GET_CLASS (gpd)->load (gpd, node);
+	g_return_val_if_fail (IS_GOG_PERSIST (gp), FALSE);
+	return GOG_PERSIST_GET_CLASS (gp)->dom_load (gp, node);
 }
 
 void
-gog_persist_dom_save (GogPersistDOM *gpd, xmlNode *parent)
+gog_persist_dom_save (GogPersist const *gp, xmlNode *parent)
 {
-	g_return_if_fail (IS_GOG_PERSIST_DOM (gpd));
-	GOG_PERSIST_DOM_GET_CLASS (gpd)->save (gpd, parent);
+	g_return_if_fail (IS_GOG_PERSIST (gp));
+	GOG_PERSIST_GET_CLASS (gp)->dom_save (gp, parent);
+}
+void
+gog_persist_sax_save (GogPersist const *gp, GsfXMLOut *output)
+{
+	g_return_if_fail (IS_GOG_PERSIST (gp));
+	GOG_PERSIST_GET_CLASS (gp)->sax_save (gp, output);
 }
 
 static void
@@ -143,8 +150,8 @@ gog_object_set_arg_full (char const *name, char const *val, GogObject *obj, xmlN
 			xmlFree (type_name);
 			if (type != 0) {
 				val_obj = g_object_new (type, NULL);
-				if (IS_GOG_PERSIST_DOM (val_obj) &&
-				    gog_persist_dom_load (GOG_PERSIST_DOM (val_obj), xml_node)) {
+				if (IS_GOG_PERSIST (val_obj) &&
+				    gog_persist_dom_load (GOG_PERSIST (val_obj), xml_node)) {
 					g_value_set_object (&res, val_obj);
 					success = TRUE;
 				}
@@ -169,6 +176,74 @@ void
 gog_object_set_arg (char const *name, char const *val, GogObject *obj)
 {
 	gog_object_set_arg_full (name, val, obj, NULL);
+}
+
+static void
+gog_object_write_property_sax (GogObject const *obj, GParamSpec *pspec, GsfXMLOut *output)
+{
+	GObject *val_obj;
+	GType    prop_type = G_PARAM_SPEC_VALUE_TYPE (pspec);
+	GValue	 value = { 0 };
+
+	g_value_init (&value, prop_type);
+	g_object_get_property  (G_OBJECT (obj), pspec->name, &value);
+
+	/* No need to save default values */
+	if (!(pspec->flags & GOG_PARAM_FORCE_SAVE) &&
+	    g_param_value_defaults (pspec, &value)) {
+		g_value_unset (&value);
+		return;
+	}
+
+	switch (G_TYPE_FUNDAMENTAL (prop_type)) {
+	case G_TYPE_CHAR:
+	case G_TYPE_UCHAR:
+	case G_TYPE_BOOLEAN:
+	case G_TYPE_INT:
+	case G_TYPE_UINT:
+	case G_TYPE_LONG:
+	case G_TYPE_ULONG:
+	case G_TYPE_FLOAT:
+	case G_TYPE_DOUBLE: {
+		GValue str = { 0 };
+		g_value_init (&str, G_TYPE_STRING);
+		g_value_transform (&value, &str);
+		gsf_xml_out_start_element (output, "property");
+		gsf_xml_out_add_cstr_unchecked (output, "name", pspec->name);
+		gsf_xml_out_add_cstr (output, NULL, g_value_get_string (&str));
+		gsf_xml_out_end_element (output); /* </property> */
+		g_value_unset (&str);
+		break;
+	}
+
+	case G_TYPE_STRING: {
+		char const *str = g_value_get_string (&value);
+		if (str != NULL) {
+			gsf_xml_out_start_element (output, "property");
+			gsf_xml_out_add_cstr_unchecked (output, "name", pspec->name);
+			gsf_xml_out_add_cstr (output, NULL, str);
+			gsf_xml_out_end_element (output); /* </property> */
+		}
+		break;
+	}
+
+	case G_TYPE_OBJECT:
+		val_obj = g_value_get_object (&value);
+		if (val_obj != NULL) {
+			if (IS_GOG_PERSIST (val_obj)) {
+				gsf_xml_out_start_element (output, "property");
+				gsf_xml_out_add_cstr_unchecked (output, "name", pspec->name);
+				gog_persist_sax_save (GOG_PERSIST (val_obj), output);
+				gsf_xml_out_end_element (output); /* </property> */
+			} else
+				g_warning ("How are we supposed to persist this ??");
+		}
+		break;
+
+	default:
+		;
+	}
+	g_value_unset (&value);
 }
 
 static void
@@ -223,8 +298,8 @@ gog_object_write_property (GogObject *obj, GParamSpec *pspec, xmlNode *parent)
 	case G_TYPE_OBJECT:
 		val_obj = g_value_get_object (&value);
 		if (val_obj != NULL) {
-			if (IS_GOG_PERSIST_DOM (val_obj)) {
-				gog_persist_dom_save (GOG_PERSIST_DOM (val_obj), node);
+			if (IS_GOG_PERSIST (val_obj)) {
+				gog_persist_dom_save (GOG_PERSIST (val_obj), node);
 			} else
 				g_warning ("How are we supposed to persist this ??");
 		} else
@@ -279,7 +354,34 @@ gog_dataset_load (GogDataset *set, xmlNode *node)
 }
 
 static void
-gog_dataset_save (GogDataset *set, xmlNode *parent)
+gog_dataset_sax_save (GogDataset const *set, GsfXMLOut *output)
+{
+	GOData  *dat;
+	char    *tmp, buffer[10];
+	int      i, last;
+
+	gsf_xml_out_start_element (output, "data");
+	gog_dataset_dims (set, &i, &last);
+	for ( ; i <= last ; i++) {
+		dat = gog_dataset_get_dim (set, i);
+		if (dat == NULL)
+			continue;
+
+		gsf_xml_out_start_element (output, "dimension");
+		snprintf (buffer, sizeof buffer, "%d", i);
+		gsf_xml_out_add_cstr (output, "id", buffer);
+		gsf_xml_out_add_cstr (output, "type", 
+			G_OBJECT_TYPE_NAME (dat));
+		tmp = go_data_as_str (dat);
+		gsf_xml_out_add_cstr (output, NULL, tmp);
+		g_free (tmp);
+		gsf_xml_out_end_element (output); /* </dimension> */
+	}
+	gsf_xml_out_end_element (output); /* </data> */
+
+}
+static void
+gog_dataset_dom_save (GogDataset *set, xmlNode *parent)
 {
 	xmlNode *node, *child;
 	char    *tmp, buffer[10];
@@ -307,6 +409,41 @@ gog_dataset_save (GogDataset *set, xmlNode *parent)
 	xmlAddChild (parent, node);
 }
 
+void
+gog_object_write_xml_sax (GogObject const *obj, GsfXMLOut *output)
+{
+	gint	     n;
+	GParamSpec **props;
+	GSList	    *ptr;
+
+	gsf_xml_out_start_element (output, "GogObject");
+
+	/* Primary details */
+	if (obj->role != NULL)
+		gsf_xml_out_add_cstr (output, "role", obj->role->id);
+	if (obj->explicitly_typed_role || obj->role == NULL)
+		gsf_xml_out_add_cstr (output, "type", G_OBJECT_TYPE_NAME (obj));
+
+	/* properties */
+	props = g_object_class_list_properties (G_OBJECT_GET_CLASS (obj), &n);
+	while (n-- > 0)
+		if (props[n]->flags & GOG_PARAM_PERSISTENT)
+			gog_object_write_property_sax (obj, props[n], output);
+
+	g_free (props);
+
+	if (IS_GOG_PERSIST (obj))	/* anything special for this class */
+		gog_persist_sax_save (GOG_PERSIST (obj), output);
+	if (IS_GOG_DATASET (obj))	/* convenience to save data */
+		gog_dataset_sax_save (GOG_DATASET (obj), output);
+
+	/* the children */
+	for (ptr = obj->children; ptr != NULL ; ptr = ptr->next)
+		gog_object_write_xml_sax (ptr->data, output);
+
+	gsf_xml_out_end_element (output); /* </GogObject> */
+}
+
 xmlNode  *
 gog_object_write_xml (GogObject *obj, xmlDoc *doc)
 {
@@ -330,10 +467,10 @@ gog_object_write_xml (GogObject *obj, xmlDoc *doc)
 
 	g_free (props);
 
-	if (IS_GOG_PERSIST_DOM (obj))	/* anything special for this class */
-		gog_persist_dom_save (GOG_PERSIST_DOM (obj), node);
+	if (IS_GOG_PERSIST (obj))	/* anything special for this class */
+		gog_persist_dom_save (GOG_PERSIST (obj), node);
 	if (IS_GOG_DATASET (obj))	/* convenience to save data */
-		gog_dataset_save (GOG_DATASET (obj), node);
+		gog_dataset_dom_save (GOG_DATASET (obj), node);
 
 	/* the children */
 	for (ptr = obj->children; ptr != NULL ; ptr = ptr->next)
@@ -373,8 +510,8 @@ gog_object_new_from_xml (GogObject *parent, xmlNode *node)
 
 	res->explicitly_typed_role = explicitly_typed_role;
 
-	if (IS_GOG_PERSIST_DOM (res))
-		gog_persist_dom_load (GOG_PERSIST_DOM (res), node);
+	if (IS_GOG_PERSIST (res))
+		gog_persist_dom_load (GOG_PERSIST (res), node);
 	if (IS_GOG_DATASET (res))	/* convenience to save data */
 		gog_dataset_load (GOG_DATASET (res), node);
 
@@ -395,4 +532,12 @@ gog_object_new_from_xml (GogObject *parent, xmlNode *node)
 			gog_object_new_from_xml (res, ptr);
 	}
 	return res;
+}
+
+void
+go_xml_out_add_color (GsfXMLOut *output, char const *id, GOColor c)
+{
+	char *str = go_color_as_str (c);
+	gsf_xml_out_add_cstr_unchecked (output, id, str);
+	g_free (str);
 }
