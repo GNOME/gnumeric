@@ -143,6 +143,7 @@ src/widgets/widget-pixmap-combo.c
 src/workbook-cmd-format.c
 src/workbook-format-toolbar.c
 src/workbook-view.c
+src/workbook-private.c
 src/workbook.c
 src/xml-io.c
 wizards/graphics/graphic-context.c
