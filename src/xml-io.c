@@ -58,7 +58,6 @@
 #include <gsf/gsf-output-gzip.h>
 #include <gsf/gsf-utils.h>
 
-#include <gal/util/e-xml-utils.h>
 #include <libgnomeprint/gnome-print-config.h>
 
 #include <locale.h>
@@ -173,7 +172,8 @@ xml_node_get_bool (xmlNodePtr node, char const *name, gboolean *val)
 	if (buf == NULL)
 		return FALSE;
 
-	*val = (0 == g_ascii_strcasecmp (buf, "true"));
+	*val = (!strcmp (buf, "1")
+		|| 0 == g_ascii_strcasecmp (buf, "true"));
 	g_free (buf);
 	return TRUE;
 }
@@ -663,12 +663,8 @@ xml_write_style (XmlParseContext *ctxt,
 			break;
 		}
 
-		e_xml_set_bool_prop_by_name (child,
-					     CC2XML ("AllowBlank"),
-			v->allow_blank);
-		e_xml_set_bool_prop_by_name (child,
-					     CC2XML ("UseDropdown"),
-			v->use_dropdown);
+		xml_node_set_bool (child, "AllowBlank", v->allow_blank);
+		xml_node_set_bool (child, "UseDropdown", v->use_dropdown);
 
 		if (v->title != NULL && v->title->str[0] != '\0')
 			xml_node_set_cstr (child, "Title", v->title->str);
@@ -1491,10 +1487,10 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 			if (xml_node_get_int (child, "Operator", &dummy))
 				op = dummy;
 
-			allow_blank = e_xml_get_bool_prop_by_name_with_default (child,
-				CC2XML ("AllowBlank"), FALSE);
-			use_dropdown = e_xml_get_bool_prop_by_name_with_default (child,
-				CC2XML ("UseDropdown"), FALSE);
+			if (!xml_node_get_bool (child, "AllowBlank", &(allow_blank)))
+				allow_blank = FALSE;
+			if (!xml_node_get_bool (child, "UseDropdown", &(use_dropdown)))
+				use_dropdown = FALSE;
 
 			title = xml_node_get_cstr (child, "Title");
 			msg = xml_node_get_cstr (child, "Message");
@@ -2640,22 +2636,14 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet const *sheet)
 	sheetNode = xmlNewDocNode (ctxt->doc, ctxt->ns, CC2XML ("Sheet"), NULL);
 	if (sheetNode == NULL)
 		return NULL;
-	e_xml_set_bool_prop_by_name (sheetNode, CC2XML ("DisplayFormulas"),
-				     sheet->display_formulas);
-	e_xml_set_bool_prop_by_name (sheetNode, CC2XML ("HideZero"),
-				     sheet->hide_zero);
-	e_xml_set_bool_prop_by_name (sheetNode, CC2XML ("HideGrid"),
-				     sheet->hide_grid);
-	e_xml_set_bool_prop_by_name (sheetNode, CC2XML ("HideColHeader"),
-				     sheet->hide_col_header);
-	e_xml_set_bool_prop_by_name (sheetNode, CC2XML ("HideRowHeader"),
-				     sheet->hide_row_header);
-	e_xml_set_bool_prop_by_name (sheetNode, CC2XML ("DisplayOutlines"),
-				     sheet->display_outlines);
-	e_xml_set_bool_prop_by_name (sheetNode, CC2XML ("OutlineSymbolsBelow"),
-				     sheet->outline_symbols_below);
-	e_xml_set_bool_prop_by_name (sheetNode, CC2XML ("OutlineSymbolsRight"),
-				     sheet->outline_symbols_right);
+	xml_node_set_bool (sheetNode, "DisplayFormulas", sheet->display_formulas);
+	xml_node_set_bool (sheetNode, "HideZero", sheet->hide_zero);
+	xml_node_set_bool (sheetNode, "HideGrid", sheet->hide_grid);
+	xml_node_set_bool (sheetNode, "HideColHeader", sheet->hide_col_header);
+	xml_node_set_bool (sheetNode, "HideRowHeader", sheet->hide_row_header);
+	xml_node_set_bool (sheetNode, "DisplayOutlines", sheet->display_outlines);
+	xml_node_set_bool (sheetNode, "OutlineSymbolsBelow", sheet->outline_symbols_below);
+	xml_node_set_bool (sheetNode, "OutlineSymbolsRight", sheet->outline_symbols_right);
 
 	if (sheet->tab_color != NULL)
 		xml_node_set_color (sheetNode, "TabColor", sheet->tab_color);
@@ -2968,22 +2956,22 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 
 	ctxt->sheet = sheet;
 
-	sheet->display_formulas = e_xml_get_bool_prop_by_name_with_default (tree,
-		CC2XML ("DisplayFormulas"),	FALSE);
-	sheet->hide_zero = e_xml_get_bool_prop_by_name_with_default (tree,
-		CC2XML ("HideZero"),		FALSE);
-	sheet->hide_grid = e_xml_get_bool_prop_by_name_with_default (tree,
-		CC2XML ("HideGrid"),		FALSE);
-	sheet->hide_col_header = e_xml_get_bool_prop_by_name_with_default (tree,
-		CC2XML ("HideColHeader"),	FALSE);
-	sheet->hide_row_header = e_xml_get_bool_prop_by_name_with_default (tree,
-		CC2XML ("HideRowHeader"),	FALSE);
-	sheet->display_outlines = e_xml_get_bool_prop_by_name_with_default (tree,
-		CC2XML ("DisplayOutlines"),	TRUE);
-	sheet->outline_symbols_below = e_xml_get_bool_prop_by_name_with_default (tree,
-		CC2XML ("OutlineSymbolsBelow"),	TRUE);
-	sheet->outline_symbols_right = e_xml_get_bool_prop_by_name_with_default (tree,
-		CC2XML ("OutlineSymbolsRight"),	TRUE);
+	if (!xml_node_get_bool (tree, "DisplayFormulas", &(sheet->display_formulas)))
+		sheet->display_formulas = FALSE;
+	if (!xml_node_get_bool (tree, "HideZero", &(sheet->hide_zero)))
+		sheet->hide_zero = FALSE;
+	if (!xml_node_get_bool (tree, "HideGrid", &(sheet->hide_grid)))
+		sheet->hide_grid = FALSE;
+	if (!xml_node_get_bool (tree, "HideColHeader", &(sheet->hide_col_header)))
+		sheet->hide_col_header = FALSE;
+	if (!xml_node_get_bool (tree, "HideRowHeader", &(sheet->hide_row_header)))
+		sheet->hide_row_header = FALSE;
+	if (!xml_node_get_bool (tree, "DisplayOutlines", &(sheet->display_outlines)))
+		sheet->display_outlines = TRUE;
+	if (!xml_node_get_bool (tree, "OutlineSymbolsBelow", &(sheet->outline_symbols_below)))
+		sheet->outline_symbols_below = TRUE;
+	if (!xml_node_get_bool (tree, "OutlineSymbolsRight", &(sheet->outline_symbols_right)))
+		sheet->outline_symbols_right = TRUE;
 	sheet->tab_color = xml_node_get_color (tree, "TabColor");
 	sheet->tab_text_color = xml_node_get_color (tree, "TabTextColor");
 

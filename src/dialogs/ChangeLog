@@ -1,5 +1,11 @@
 2003-06-09  Jody Goldberg <jody@gnome.org>
 
+	* dialog-random-generator.c (dialog_random_tool_init) : use simpler
+	  gtk_label_set_text_with_mnemonic.
+	(distribution_parbox_config) : ditto.
+
+2003-06-09  Jody Goldberg <jody@gnome.org>
+
 	* dialog-analysis-tools.c (tool_destroy) : no more accel member.
 	(dialog_tool_init) : no need to parse labels for accelerators anymore
 	  just set the label's mnemonic widget.

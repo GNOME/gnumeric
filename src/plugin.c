@@ -25,6 +25,7 @@
 #include "plugin-loader.h"
 #include "plugin-loader-module.h"
 #include "plugin-service.h"
+#include "xml-io.h"
 #include "gnumeric-gconf.h"
 
 #include <stdlib.h>
@@ -45,8 +46,6 @@
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>
 #include <gsf/gsf-impl-utils.h>
-
-#include <gal/util/e-xml-utils.h>
 
 #include <glib-object.h>
 
@@ -603,14 +602,15 @@ plugin_info_read_dependency_list (xmlNode *tree)
 		if (strcmp (node->name, "dep_plugin") == 0) {
 			gchar *plugin_id;
 
-			plugin_id = e_xml_get_string_prop_by_name (node, (xmlChar *)"id");
+			plugin_id = xmlGetProp (node, (xmlChar *)"id");
 			if (plugin_id != NULL) {
 				PluginDependency *dep;
 
 				dep = g_new (PluginDependency, 1);
 				dep->plugin_id = plugin_id;
 				dep->plugin = NULL;
-				dep->force_load = e_xml_get_bool_prop_by_name_with_default (node, (xmlChar *)"force_load", FALSE);
+				if (!xml_node_get_bool (node, "force_load", &(dep->force_load)))
+					dep->force_load = FALSE;
 				GNM_SLIST_PREPEND (dependency_list, dep);
 			}
 		}
@@ -678,10 +678,10 @@ plugin_info_read_loader_attrs (xmlNode *tree)
 		if (strcmp (node->name, "attribute") == 0) {
 			gchar *name, *value;
 
-			name = e_xml_get_string_prop_by_name (node, (xmlChar *)"name");
+			name = xmlGetProp (node, (xmlChar *)"name");
 			if (name != NULL) {
 				if (g_hash_table_lookup (hash, name) == NULL) {
-					value = e_xml_get_string_prop_by_name (node, (xmlChar *)"value");
+					value = xmlGetProp (node, (xmlChar *)"value");
 					g_hash_table_insert (hash, name, value);
 				} else {
 					g_warning ("Duplicated \"%s\" attribute in plugin.xml file.", name);
@@ -738,7 +738,7 @@ plugin_info_read (GnmPlugin *plugin, const gchar *dir_name, ErrorInfo **ret_erro
 		return;
 	}
 	tree = doc->xmlRootNode;
-	id = e_xml_get_string_prop_by_name (tree, (xmlChar *)"id");
+	id = xmlGetProp (tree, (xmlChar *)"id");
 	information_node = e_xml_get_child_by_name (tree, (xmlChar *)"information");
 	if (information_node != NULL) {
 		xmlNode *node;
@@ -777,7 +777,7 @@ plugin_info_read (GnmPlugin *plugin, const gchar *dir_name, ErrorInfo **ret_erro
 	if (loader_node != NULL) {
 		char *p;
 
-		loader_id = e_xml_get_string_prop_by_name (loader_node, (xmlChar *)"type");
+		loader_id = xmlGetProp (loader_node, (xmlChar *)"type");
 		if (loader_id != NULL && (p = strchr (loader_id, ':')) != NULL) {
 			loader_attrs = plugin_info_read_loader_attrs (loader_node);
 			if (strcmp (loader_id, BUILTIN_LOADER_MODULE_ID) != 0) {

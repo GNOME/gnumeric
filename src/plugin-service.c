@@ -23,16 +23,15 @@
 #endif
 #include "file-priv.h"
 #include "plugin.h"
+#include "xml-io.h"
 
 #include <fnmatch.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-output.h>
-#include <libxml/tree.h>
 #include <libxml/globals.h>
 #include <gsf/gsf-impl-utils.h>
 
 #include <bonobo/bonobo-ui-node.h>
-#include <gal/util/e-xml-utils.h>
 
 #include <string.h>
 
@@ -376,15 +375,20 @@ plugin_service_file_opener_finalize (GObject *obj)
 static void
 plugin_service_file_opener_read_xml (PluginService *service, xmlNode *tree, ErrorInfo **ret_error)
 {
-	guint priority;
+	int priority;
 	gboolean has_probe;
 	xmlNode *information_node;
 	gchar *description;
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
-	priority = e_xml_get_uint_prop_by_name_with_default (tree, (xmlChar *)"priority", 50);
-	priority = MIN (priority, (guint)100);
-	has_probe = e_xml_get_bool_prop_by_name_with_default (tree, (xmlChar *)"probe", TRUE);
+	if (xml_node_get_int (tree, "priority", &priority))
+		priority = CLAMP (priority, 0, 100);
+	else
+		priority = 50;
+
+	if (!xml_node_get_bool (tree, "probe", &has_probe))
+		has_probe = TRUE;
+
 	information_node = e_xml_get_child_by_name (tree, (xmlChar *)"information");
 	if (information_node != NULL) {
 		xmlNode *node;
@@ -414,18 +418,18 @@ plugin_service_file_opener_read_xml (PluginService *service, xmlNode *tree, Erro
 				gchar *value, *type_str;
 
 				if (strcmp (node->name, "file_pattern") != 0 ||
-				    (value = e_xml_get_string_prop_by_name (node, (xmlChar *)"value")) == NULL) {
+				    (value = xmlGetProp (node, (xmlChar *)"value")) == NULL) {
 					continue;
 				}
-				type_str = e_xml_get_string_prop_by_name (node, (xmlChar *)"type");
+				type_str = xmlGetProp (node, (xmlChar *)"type");
 				file_pattern = g_new (InputFilePattern, 1);
 				file_pattern->value = value;
 				if (type_str == NULL) {
 					file_pattern->pattern_type = FILE_PATTERN_SHELL;
 				} else if (g_ascii_strcasecmp (type_str, "shell_pattern") == 0) {
 					file_pattern->pattern_type = FILE_PATTERN_SHELL;
-					file_pattern->case_sensitive = e_xml_get_bool_prop_by_name_with_default (
-					                               node, (xmlChar *)"case_sensitive", FALSE);
+					if (!xml_node_get_bool (node, "case_sensitive", &(file_pattern->case_sensitive)))
+						file_pattern->case_sensitive = FALSE;
 				} else {
 					file_pattern->pattern_type = FILE_PATTERN_SHELL;
 				}
@@ -703,9 +707,9 @@ plugin_service_file_saver_read_xml (PluginService *service, xmlNode *tree, Error
 	gchar *format_level_str, *save_scope_str;
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
-	file_extension = e_xml_get_string_prop_by_name (tree, (xmlChar *)"file_extension");
-	format_level_str = e_xml_get_string_prop_by_name (tree, (xmlChar *)"format_level");
-	save_scope_str = e_xml_get_string_prop_by_name (tree, (xmlChar *)"save_scope");
+	file_extension = xmlGetProp (tree, (xmlChar *)"file_extension");
+	format_level_str = xmlGetProp (tree, (xmlChar *)"format_level");
+	save_scope_str = xmlGetProp (tree, (xmlChar *)"save_scope");
 	information_node = e_xml_get_child_by_name (tree, (xmlChar *)"information");
 	if (information_node != NULL) {
 		xmlNode *node;
@@ -730,13 +734,14 @@ plugin_service_file_saver_read_xml (PluginService *service, xmlNode *tree, Error
 		service_file_saver->description = description;
 		service_file_saver->format_level = parse_format_level_str (format_level_str,
 		                                                           FILE_FL_WRITE_ONLY);
-		service_file_saver->default_saver_priority = e_xml_get_integer_prop_by_name_with_default (
-		                                             tree, (xmlChar *)"default_saver_priority", -1);
+		if (!xml_node_get_int (tree, "default_saver_priority", &(service_file_saver->default_saver_priority)))
+			service_file_saver->default_saver_priority = -1;
+
 		service_file_saver->save_scope = (save_scope_str != NULL &&
 		                                 g_ascii_strcasecmp (save_scope_str, "sheet") == 0) ?
 		                                 FILE_SAVE_SHEET : FILE_SAVE_WORKBOOK;
-		service_file_saver->overwrite_files = e_xml_get_bool_prop_by_name_with_default (
-		                                      tree, (xmlChar *)"overwrite_files", TRUE);
+		if (!xml_node_get_bool (tree, "overwrite_files", &(service_file_saver->overwrite_files)))
+			service_file_saver->overwrite_files = TRUE;
 	} else {
 		*ret_error = error_info_new_str (_("File saver has no description"));
 		g_free (file_extension);
@@ -959,7 +964,7 @@ plugin_service_function_group_read_xml (PluginService *service, xmlNode *tree, E
 	if (translated_category_node != NULL) {
 		gchar *lang;
 
-		lang = e_xml_get_string_prop_by_name (translated_category_node, (xmlChar *)"xml:lang");
+		lang = xmlGetProp (translated_category_node, (xmlChar *)"xml:lang");
 		if (lang != NULL) {
 			xmlChar *val;
 
@@ -981,7 +986,7 @@ plugin_service_function_group_read_xml (PluginService *service, xmlNode *tree, E
 			gchar *func_name;
 
 			if (strcmp (node->name, "function") != 0 ||
-			    (func_name = e_xml_get_string_prop_by_name (node, (xmlChar *)"name")) == NULL) {
+			    (func_name = xmlGetProp (node, (xmlChar *)"name")) == NULL) {
 				continue;
 			}
 			GNM_SLIST_PREPEND (function_name_list, func_name);
@@ -1267,7 +1272,7 @@ plugin_service_ui_read_xml (PluginService *service, xmlNode *tree, ErrorInfo **r
 	GSList *verbs = NULL;
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
-	file_name = e_xml_get_string_prop_by_name (tree, "file");
+	file_name = xmlGetProp (tree, "file");
 	if (file_name == NULL) {
 		*ret_error = error_info_new_str (
 		             _("Missing file name."));
@@ -1281,7 +1286,7 @@ plugin_service_ui_read_xml (PluginService *service, xmlNode *tree, ErrorInfo **r
 			char *name;
 
 			if (strcmp (node->name, "verb") == 0 &&
-			    (name = e_xml_get_string_prop_by_name (node, "name")) != NULL) {
+			    (name = xmlGetProp (node, "name")) != NULL) {
 				GNM_SLIST_PREPEND (verbs, name);
 			}
 		}
@@ -1508,7 +1513,7 @@ plugin_service_new (GnmPlugin *plugin, xmlNode *tree, ErrorInfo **ret_error)
 	g_return_val_if_fail (strcmp (tree->name, "service") == 0, NULL);
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
-	type_str = e_xml_get_string_prop_by_name (tree, (xmlChar *) "type");
+	type_str = xmlGetProp (tree, (xmlChar *) "type");
 	if (type_str == NULL) {
 		*ret_error = error_info_new_str (_("No \"type\" attribute on \"service\" element."));
 		return NULL;
@@ -1524,7 +1529,7 @@ plugin_service_new (GnmPlugin *plugin, xmlNode *tree, ErrorInfo **ret_error)
 
 	service = g_object_new (ctor(), NULL);
 	service->plugin = plugin;
-	service->id = e_xml_get_string_prop_by_name (tree, (xmlChar *) "id");
+	service->id = xmlGetProp (tree, (xmlChar *) "id");
 	if (service->id == NULL)
 		service->id = g_strdup ("default");
 

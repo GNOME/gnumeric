@@ -232,7 +232,6 @@ gog_view_class_init (GogViewClass *view_klass)
 static void
 gog_view_init (GogView *view)
 {
-	view->requisition_valid = FALSE;
 	view->allocation_valid  = FALSE;
 	view->child_allocations_valid = FALSE;
 	view->being_updated = FALSE;
@@ -282,7 +281,6 @@ gog_view_queue_resize (GogView *view)
 
 	gog_renderer_request_update (view->renderer);
 
-	view->requisition_valid = FALSE;
 	view->allocation_valid = FALSE; /* in case there is no parent */
 	if (NULL == (view = view->parent))
 		return;
@@ -292,35 +290,13 @@ gog_view_queue_resize (GogView *view)
 }
 
 /**
- * gog_view_invalidate_sizes:
- * @view : #GogView
- *
- * forces a view to request a resize for all of its children
- **/
-void
-gog_view_invalidate_sizes (GogView *view)
-{
-	GSList *ptr;
-
-	g_return_if_fail (GOG_VIEW (view) != NULL);
-	g_return_if_fail (view->renderer != NULL);
-
-	view->requisition_valid = FALSE;
-	for (ptr = view->children; ptr != NULL ; ptr = ptr->next)
-		gog_view_invalidate_sizes (ptr->data);
-}
-
-/**
  * gog_view_size_request :
  * @view : a #GogView
  * @requisition : a #GogViewRequisition.
  *
- * This function is typically used when implementing a #GogView that expects to
- * contain children.  Obtains the preferred size of a view. The container uses
- * this information to arrange its children and decide what size allocations to
- * give them with gog_view_size_allocate().  If @view->requisition_valid is
- * FALSE the view's size_request method will be called, otherwise the cached
- * request will be used.
+ * When called @requisition holds the available space and is populated with the
+ * desired size based on that input and other elements of the view or its model's
+ * state (eg the position).
  *
  * Remember that the size request is not necessarily the size a view will
  * actually be allocated.
@@ -331,13 +307,10 @@ gog_view_size_request (GogView *view, GogViewRequisition *requisition)
 	g_return_if_fail (GOG_VIEW (view) != NULL);
 	g_return_if_fail (requisition != NULL);
 
-	if (!view->requisition_valid) {
-		GogViewClass *klass = GOG_VIEW_GET_CLASS (view);
-		if (klass->size_request != NULL) {
-			(klass->size_request) (view, requisition);
-			view->requisition = *requisition;
-		}
-		view->requisition_valid = TRUE;
+	GogViewClass *klass = GOG_VIEW_GET_CLASS (view);
+	if (klass->size_request != NULL) {
+		(klass->size_request) (view, requisition);
+		view->requisition = *requisition;
 	}
 
 	*requisition = view->requisition;

@@ -1,3 +1,9 @@
+2003-06-09  Jody Goldberg <jody@gnome.org>
+
+	* src/format-template.c (xml_read_format_col_row_info) : remove use of
+	  get_child_by_name.
+	(xml_read_format_template_member) : ditto.
+
 2003-06-09  Morten Welinder  <terra@gnome.org>
 
 	* src/format-template.c (format_template_transform_edges): Plug

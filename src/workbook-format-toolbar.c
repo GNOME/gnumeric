@@ -40,6 +40,8 @@
 #include <widgets/widget-color-combo.h>
 #include <widgets/widget-pixmap-combo.h>
 
+#include <string.h>
+
 #define TOOLBAR_FONT_BUTTON_INDEX		2
 #define TOOLBAR_BOLD_BUTTON_INDEX		3
 #define TOOLBAR_ITALIC_BUTTON_INDEX		4

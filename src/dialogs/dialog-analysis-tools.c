@@ -321,7 +321,6 @@ dialog_tool_init (GenericToolState *state,
 {
 	GtkTable  *table;
 	GtkWidget *widget;
-	gint      key_stroke;
 
 	state->wbcg  = wbcg;
 	state->wb    = wb_control_workbook (WORKBOOK_CONTROL (wbcg));

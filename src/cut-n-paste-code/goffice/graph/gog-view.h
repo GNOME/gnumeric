@@ -39,7 +39,6 @@ struct _GogView {
 	GogViewRequisition requisition;
 	GogViewAllocation  allocation;
 
-	unsigned requisition_valid : 1;	/* this view changed size */
 	unsigned allocation_valid : 1;  /* adjust our layout when child changes size */
 	unsigned child_allocations_valid : 1;  /* some children need to adjust their layout */
 	unsigned being_updated : 1;
@@ -69,7 +68,6 @@ GogObject *gog_view_get_model	     (GogView const *view);
 void	   gog_view_render	     (GogView *v, GogViewAllocation const *bbox);
 void       gog_view_queue_redraw     (GogView *v);
 void       gog_view_queue_resize     (GogView *v);
-void	   gog_view_invalidate_sizes (GogView *v);
 void       gog_view_size_request     (GogView *v, GogViewRequisition *req);
 void       gog_view_size_allocate    (GogView *v, GogViewAllocation const *a);
 gboolean   gog_view_update_sizes     (GogView *v);

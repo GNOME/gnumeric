@@ -70,7 +70,6 @@ typedef struct {
 	GtkWidget *par2_entry;
 	GtkWidget *vars_entry;
 	GtkWidget *count_entry;
-	GtkAccelGroup *distribution_accel;
 	random_distribution_t distribution;
 } RandomToolState;
 
@@ -85,7 +84,6 @@ typedef struct {
         GtkWidget *distribution_combo;
 	GtkWidget *par1_label, *par1_entry;
 	GtkWidget *par2_label, *par2_entry;
-	GtkAccelGroup *distribution_accel;
 } random_tool_callback_t;
 
 /* Name to show in list and parameter labels for a random distribution */
@@ -453,8 +451,7 @@ static void
 distribution_parbox_config (RandomToolState *state,
 			    random_distribution_t dist)
 {
-	GtkWidget              *par1_entry;
-	guint                  par1_key = 0, par2_key = 0;
+	GtkWidget *par1_entry;
 	const DistributionStrs *ds = distribution_strs_find (dist);
 
 	if (ds->par1_is_range) {
@@ -465,43 +462,25 @@ distribution_parbox_config (RandomToolState *state,
 		gtk_widget_hide (state->par1_expr_entry);
 	}
 	if (ds->label1 != NULL) {
+		gtk_label_set_text_with_mnemonic (GTK_LABEL (state->par1_label),
+			_(ds->label1));
+		gtk_label_set_mnemonic_widget (GTK_LABEL (state->par1_label),
+			par1_entry);
 	        gtk_widget_show (par1_entry);
-		if (state->distribution_accel != NULL) {
-		        gtk_window_remove_accel_group
-			        (GTK_WINDOW (state->base.dialog),
-				 state->distribution_accel);
-			state->distribution_accel = NULL;
-		}
-		state->distribution_accel = gtk_accel_group_new ();
-
-		par1_key = gtk_label_parse_uline (GTK_LABEL (state->par1_label),
-						  _(ds->label1));
-		if (par1_key != GDK_VoidSymbol)
-		        gtk_widget_add_accelerator (par1_entry, "grab_focus",
-						    state->distribution_accel,
-						    par1_key,
-						    GDK_MOD1_MASK, 0);
 	} else {
 		gtk_label_set_text (GTK_LABEL (state->par1_label), "");
  	        gtk_widget_hide (par1_entry);
 	}
 
 	if (ds->label2 != NULL) {
-		par2_key = gtk_label_parse_uline (GTK_LABEL (state->par2_label),
-						  _(ds->label2));
-		if (par2_key != GDK_VoidSymbol)
-			gtk_widget_add_accelerator
-				(state->par2_entry, "grab_focus",
-				 state->distribution_accel, par2_key,
-				 GDK_MOD1_MASK, 0);
+		gtk_label_set_text_with_mnemonic (GTK_LABEL (state->par2_label),
+			_(ds->label2));
+		gtk_label_set_mnemonic_widget (GTK_LABEL (state->par2_label),
+			state->par2_entry);
 	        gtk_widget_show (state->par2_entry);
 	} else {
 		gtk_label_set_text (GTK_LABEL (state->par2_label), "");
 	        gtk_widget_hide (state->par2_entry);
-	}
-	if (ds->label1 != NULL) {
-	        gtk_window_add_accel_group (GTK_WINDOW (state->base.dialog),
-					    state->distribution_accel);
 	}
 }
 
@@ -733,18 +712,9 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg),
 				state->base.sheet,
 				dao, data, tool_random_engine) &&
-	    (button == state->base.ok_button)) {
-		if (state->distribution_accel) {
-			gtk_window_remove_accel_group (GTK_WINDOW (state->base.dialog),
-						       state->distribution_accel);
-			state->distribution_accel = NULL;
-		}
+	    (button == state->base.ok_button))
 		gtk_widget_destroy (state->base.dialog);
-	}
-	return;
 }
-
-
 
 /**
  * dialog_random_tool_init:
@@ -762,7 +732,6 @@ dialog_random_tool_init (RandomToolState *state)
 	GtkTable *table;
 	Range const *first;
 
-	state->distribution_accel = NULL;
 	state->distribution = UniformDistribution;
 
 	state->distribution_table = glade_xml_get_widget (state->base.gui,
@@ -793,7 +762,8 @@ dialog_random_tool_init (RandomToolState *state)
 			   _(distribution_strs[dist_str_no].name));
 
 	ds = distribution_strs_find (UniformDistribution);
-	(void) gtk_label_parse_uline (GTK_LABEL (state->par1_label), _(ds->label1));
+	gtk_label_set_text_with_mnemonic (GTK_LABEL (state->par1_label),
+					  _(ds->label1));
 
   	g_signal_connect (G_OBJECT (GTK_COMBO (state->distribution_combo)->entry),
 		"changed",

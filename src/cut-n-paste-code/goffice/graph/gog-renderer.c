@@ -148,10 +148,8 @@ gog_renderer_invalidate_size_requests (GogRenderer *rend)
 {
 	g_return_if_fail (GOG_RENDERER (rend) != NULL);
 
-	if (rend->view) {
+	if (rend->view)
 		gog_renderer_request_update (rend);
-		gog_view_invalidate_sizes (rend->view);
-	}
 }
 
 void

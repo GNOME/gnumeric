@@ -35,7 +35,6 @@
 #include "plugin-util.h"	/* for gnumeric_fopen */
 #include <string.h>
 #include <libxml/parser.h>
-#include <gal/util/e-xml-utils.h>
 
 #define CC2XML(s) ((const xmlChar *)(s))
 #define CXML2C(s) ((const char *)(s))
@@ -502,21 +501,26 @@ format_template_clone (FormatTemplate const *ft)
 }
 
 static void
-xml_read_format_col_row_info (FormatColRowInfo *info, xmlNodePtr parent, const xmlChar *type)
+xml_read_format_col_row_info (FormatColRowInfo *info, xmlNodePtr parent)
 {
-	xmlNode *tmp;
+	xmlNode *child;
+	int found = 0;
 
-	parent = e_xml_get_child_by_name (parent, type);
-	g_return_if_fail (parent != NULL);
-
-	tmp = e_xml_get_child_by_name (parent, CC2XML ("Placement"));
-	g_return_if_fail (tmp != NULL);
-	xml_node_get_int  (tmp, "offset", &info->offset);
-	xml_node_get_int  (tmp, "offset_gravity", &info->offset_gravity);
-
-	tmp = e_xml_get_child_by_name (parent, CC2XML ("Dimensions"));
-	g_return_if_fail (tmp != NULL);
-	xml_node_get_int (tmp, "size", &info->size);
+	for (child = parent->xmlChildrenNode; child != NULL ; child = child->next) {
+		if (xmlIsBlankNode (child) || child->name == NULL)
+			continue;
+		if (!strcmp (child->name, "Placement")) {
+			g_return_if_fail (!(found & 1));
+			xml_node_get_int  (child, "offset", &info->offset);
+			xml_node_get_int  (child, "offset_gravity", &info->offset_gravity);
+			found |= 1;
+		} else if (!strcmp (child->name, "Dimensions")) {
+			g_return_if_fail (!(found & 2));
+			xml_node_get_int (child, "size", &info->size);
+			found |= 2;
+		}
+	}
+	g_return_if_fail (found == 3);
 }
 
 static gboolean
@@ -524,31 +528,42 @@ xml_read_format_template_member (XmlParseContext *ctxt, FormatTemplate *ft, xmlN
 {
 	xmlNodePtr child;
 	TemplateMember *member;
-	int tmp;
+	int tmp, found = 0;
 
 	g_return_val_if_fail (!strcmp (tree->name, "Member"), FALSE);
 	member = format_template_member_new ();
-	xml_read_format_col_row_info (&member->col, tree, CC2XML ("Col"));
-	xml_read_format_col_row_info (&member->row, tree, CC2XML ("Row"));
 
-	child = e_xml_get_child_by_name (tree, CC2XML ("Frequency"));
-	g_return_val_if_fail (child != NULL, FALSE);
-
-	if (xml_node_get_int (child, "direction", &tmp))
-		format_template_member_set_direction (member, tmp);
-	if (xml_node_get_int (child, "repeat", &tmp))
-		format_template_member_set_repeat (member, tmp);
-	if (xml_node_get_int (child, "skip", &tmp))
-		format_template_member_set_skip (member, tmp);
-	if (xml_node_get_int (child, "edge", &tmp))
-		format_template_member_set_edge (member, tmp);
-
-	child = e_xml_get_child_by_name (tree, CC2XML ("Style"));
-	g_return_val_if_fail (child != NULL, FALSE);
-	member->mstyle = xml_read_style (ctxt, child);
+	for (child = tree->xmlChildrenNode; child != NULL ; child = child->next) {
+		if (xmlIsBlankNode (child) || child->name == NULL)
+			continue;
+		if (!strcmp (child->name, "Col"))
+			xml_read_format_col_row_info (&member->col, child);
+		else if (!strcmp (child->name, "Row"))
+			xml_read_format_col_row_info (&member->row, child);
+		else if (!strcmp (child->name, "Frequency")) {
+			if (found & 1) { g_warning ("Multiple Frequency specs"); }
+			if (xml_node_get_int (child, "direction", &tmp))
+				format_template_member_set_direction (member, tmp);
+			if (xml_node_get_int (child, "repeat", &tmp))
+				format_template_member_set_repeat (member, tmp);
+			if (xml_node_get_int (child, "skip", &tmp))
+				format_template_member_set_skip (member, tmp);
+			if (xml_node_get_int (child, "edge", &tmp))
+				format_template_member_set_edge (member, tmp);
+			found |= 1;
+		} else if (!strcmp (child->name, "Style")) {
+			if (found & 2) { g_warning ("Multiple Styles"); }
+			member->mstyle = xml_read_style (ctxt, child);
+			found |= 2;
+		}
+	}
+	if (found != 3) {
+		g_warning ("Invalid Member, missing %s", (found & 1) ? "Style" : "Frequency");
+		format_template_member_free (member);
+		return FALSE;
+	}
 
 	format_template_attach_member (ft, member);
-
 	return TRUE;
 }
 
@@ -1037,7 +1052,6 @@ format_template_transform_edges (FormatTemplate const *origft)
 
 		if (left || right || top || bottom) {
 			GSList *subiterator = ft->members;
-			GSList *tmp = NULL;
 
 			while (subiterator) {
 				TemplateMember *submember = subiterator->data;
