@@ -10,8 +10,8 @@ Release Critical
 
     - How to handle Dependents in styles ?
     - get a libole2 release and attempt to deal with the ameritrade issues
-    - http://bugzilla.gnome.org/show_bug.cgi?id=62520
     - http://bugzilla.gnome.org/show_bug.cgi?id=63408
+    - countblank
 
 Pending Patches
 ---------------
@@ -70,11 +70,6 @@ Long term breakage
   - It is doubtful whether the regexp selection belongs on the first page.
 
 - The max row/col canvas scroll size is still hard coded.
-
-- scrollbar sizes are based on rows/cols rather than visible pixels
-    : Is this a bug ?
-- scrollbar size includes hidden rows/cols
-    : Is this a bug ?
 
 - calculated cells do not span.
     : this is by design, we'll fix it when we move to just in time rendering.

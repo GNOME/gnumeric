@@ -13,6 +13,7 @@ Jody:
 	* Fix sheet extent calculation new complex objects.
 	* Improve formula guru.
 	* Support scrollwheel in a larger area.
+	* Fix Edit -> Fill -> Autofill
 
 Jukka:
 	* Documented the advanced filter.
