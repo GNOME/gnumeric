@@ -294,6 +294,13 @@ dnl 	GNOME_CHECK_GUILE
 dnl fi
 AM_CONDITIONAL(WITH_GUILE, $enable_guile)
 
+dnl The psiconv plugin works again. Autoconfiscation remains. Two points:
+dnl 1) psiconv version 0.9.3 or later is required
+dnl 2) There is a psiconv-config program 
+dnl    e.g. psiconv-config --version, psiconv-config --libs, 
+dnl      psiconv-config --cflags
+dnl 3) PSICONV_INIT is a gnome1 era macro. We have to copy it if we want to
+dnl    use it, and we can probably do better anyway.
 dnl **************************************************
 dnl * psiconv support
 dnl **************************************************
