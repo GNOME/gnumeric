@@ -1,5 +1,13 @@
 2000-10-18  Jody Goldberg <jgoldberg@home.com>
 
+	* src/format.c (format_value) : Only format doubles as ints if they
+	  fit in an integer.
+	(fmt_general_int) : improve handling of log (0).
+	(fmt_general_float) : ditto.  Increase (temporarily) the width of a
+	  decimal point.
+
+2000-10-18  Jody Goldberg <jgoldberg@home.com>
+
 	* src/format.c (fmt_general_float) : clamp the precision at DBL_PREC.
 
 	* src/rendered-value.c (rendered_value_new_ext) : Don't forget the

@@ -1439,20 +1439,18 @@ check_valid (const StyleFormatEntry *entry, const Value *value)
 static char *
 fmt_general_float (float_t val, float col_width)
 {
-	double log_val, abs_val;
+	double log_val;
 	int prec;
 
-	if (val < 0) {
+	if (val < 0.) {
 		/* leave space for minus sign */
 		col_width -= 1.;
-		abs_val = -val;
+		log_val = log10 (-val);
 	} else
-		abs_val = val;
-
-	log_val = log10 (abs_val);
+		log_val = (val > 0.) ? log10 (val) : 0.;
 
 	if (col_width >= 0.) {
-		prec = (int) floor (col_width - .5); /* '.' is small */
+		prec = (int) floor (col_width - 1.);
 
 		/* Display 0 for cols that are too narrow for scientific
 		 * notation with 1 > abs (value) >= 0 */
@@ -1487,17 +1485,17 @@ static char *
 fmt_general_int (int val, int col_width)
 {
 	if (col_width > 0) {
-		double abs_val;
+		int log_val;
 
 		if (val < 0) {
 			/* leave space for minus sign */
-			abs_val = -val;
 			col_width--;
+			log_val = ceil (log10 (-val));
 		} else
-			abs_val = val;
+			log_val = (val > 0) ? ceil (log10 (val)) : 0;
 
 		/* Switch to scientific notation if things are too wide */
-		if (ceil (log10 (abs_val)) > col_width)
+		if (log_val > col_width)
 			/* FIXME : glib bug.  it does not handle G, use g */
 			/* Decrease available width by 5 to account for .+E00 */
 			return g_strdup_printf ("%.*g", col_width - 5, (double)val);
@@ -1590,11 +1588,12 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color,
 
 		if (is_general) {
 			float_t val = value->v_float.val;
-			double int_val = floor (value->v_float.val);
-
-			return (int_val == value->v_float.val)
-				? fmt_general_int (int_val, col_width)
-				: fmt_general_float (val, col_width);
+			if ((float_t)INT_MAX >= val && val >= (float_t)INT_MIN) {
+				double int_val = floor (value->v_float.val);
+				if (int_val == value->v_float.val)
+					return fmt_general_int (int_val, col_width);
+			}
+			return fmt_general_float (val, col_width);
 		}
 		v = format_number (value->v_float.val, &entry);
 		break;
