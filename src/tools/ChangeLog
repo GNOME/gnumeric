@@ -1,5 +1,10 @@
 2003-07-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* fill-series.c (fill_series_adjust_variables): adjust 
+	series length determination procedure
+
+2003-07-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dao.c: in all calls to dao_set_style, pass the raw
 	coordinates, since we otehrwise translate twice
 	(dao_set_date): new

@@ -352,9 +352,9 @@ fill_series_adjust_variables (data_analysis_output_t *dao, fill_series_t *info)
 				break;
 			case FillSeriesTypeGrowth:
 				info->step_value = 
-					(loggnum(info->stop_value) - 
-					 loggnum(info->start_value))/
-					(length_of_space - 1);
+					expgnum((loggnum(info->stop_value
+							 /info->start_value))/
+						(length_of_space - 1));
 				break;
 			}
 			info->is_step_set = TRUE;
@@ -363,7 +363,7 @@ fill_series_adjust_variables (data_analysis_output_t *dao, fill_series_t *info)
 			case FillSeriesTypeDate:
 			case FillSeriesTypeLinear:
 				length_of_series 
-					= floorgnum(GNUM_EPSILON + 1.5 +
+					= floorgnum(GNUM_EPSILON + 1 +
 						    (info->stop_value 
 						     - info->start_value)/
 						    info->step_value);
@@ -372,10 +372,10 @@ fill_series_adjust_variables (data_analysis_output_t *dao, fill_series_t *info)
 				break;
 			case FillSeriesTypeGrowth:
 				length_of_series 
-					= floorgnum(GNUM_EPSILON + 1.5 +
-						    (loggnum(info->stop_value) 
-						     - loggnum(info->start_value))/
-						    info->step_value);
+					= floorgnum(GNUM_EPSILON + 1 +
+						    (loggnum(info->stop_value
+							     /info->start_value))/
+						    loggnum(info->step_value));
 				if (length_of_series < 0)
 					length_of_series = 1;
 				break;
