@@ -1,3 +1,7 @@
+2002-10-11  Jon K Hellan  <hellan@acm.org>
+
+	* plugins/Makefile.am: Remove old Python plugin
+
 2002-10-11  Morten Welinder  <terra@diku.dk>
 
 	* src/numbers.h (gnum_int): Kill.  All users fixed.

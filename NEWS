@@ -58,6 +58,9 @@ Tim A. Garner:
 	* Hide hidden data in html export
 	* In the LaTeX exporter optionally export math in italics
 
+Jon Kåre:
+	* Remove old Python plugin
+
 --------------------------------------------------------------------------
 Gnumeric 1.1.9
 

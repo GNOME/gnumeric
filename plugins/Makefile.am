@@ -1,12 +1,10 @@
 # Do not build by default until the libtool problems with
 # a static libpython are resolved.
 if WITH_PYTHON
-PYTHON_DIR = python
 PYTHON_LOADER_DIR = python-loader
 PYFUNC_DIR = py-func
 GNOME_GLOSSARY_DIR = gnome-glossary
 else
-PYTHON_DIR = 
 PYTHON_LOADER_DIR = 
 PYFUNC_DIR = 
 GNOME_GLOSSARY_DIR = 
@@ -60,7 +58,7 @@ SUBDIRS_FILE_FORMATS = excel lotus-123 oleo sc sylk xbase html dif qpro \
 SUBDIRS_FUNCTIONS = numtheory fn-database fn-date fn-eng fn-financial fn-info \
 	fn-logical fn-complex fn-lookup fn-math fn-stat fn-string fn-random \
 	derivatives \
-	$(PYTHON_DIR) $(PERL_DIR) $(GUILE_DIR) $(GB_DIR) \
+	$(PERL_DIR) $(GUILE_DIR) $(GB_DIR) \
 	$(GDA_DIR)
 
 SUBDIRS_LOADERS = $(PYTHON_LOADER_DIR) $(CORBA_DIR)
