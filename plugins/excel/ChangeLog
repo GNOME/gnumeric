@@ -1,3 +1,17 @@
+1999-04-19  Michael Meeks  <michael@edenproject.org>
+
+	* ms-escher.c (read_DgContainer): Removed redundant
+	debug.
+
+	* ms-ole.c (ms_biff_merge_continues): Silly ordering
+	bug fix. And memory leak removed.
+
+	* ms-excel.c (ms_excelReadWorkbook): Silly string table
+	length bug. Wehn we truncate, cut the length as well.
+
+	* ole.c (syntax_error): Updated help.
+	(main): [old] added 'biffraw'
+	
 1999-04-19  Morten Welinder  <terra@diku.dk>
 
 	* ms-formula.c (ms_excel_parse_formula): Fix for

@@ -141,9 +141,10 @@ syntax_error(char *err)
 	printf (" -i: Interactive, queries for fresh commands\n\n");
 	printf ("command can be one or all of:\n");
 	printf (" * ls:                   list files\n");
-	printf (" * biff <stream name>:   dump biff records\n");
-	printf (" * draw <stream name>:   dump drawing records\n");
-	printf (" * dump <stream name>:   dump stream\n");
+	printf (" * biff    <stream name>:   dump biff records, merging continues\n");
+	printf (" * biffraw <stream name>:   dump biff records no merge + raw data\n");
+	printf (" * draw    <stream name>:   dump drawing records\n");
+	printf (" * dump    <stream name>:   dump stream\n");
 	printf (" * quit,exit,bye:        exit\n");
 	exit(1);
 }

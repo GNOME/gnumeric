@@ -1508,13 +1508,16 @@ ms_biff_merge_continues (BIFF_QUERY *bq, guint32 len)
 		chunk.data = g_new (guint8, chunk.length);
 		if (!bq->pos->read_copy (bq->pos, chunk.data, chunk.length))
 			return 0;
+#if OLE_DEBUG > 8
 		printf ("Read raw : 0x%x -> 0x%x\n", chunk.data[0],
 			chunk.data[chunk.length-1]);
+#endif
 		tmp[0] = 0; tmp[1] = 0; tmp[2] = 0; tmp[3] = 0;
 		bq->pos->read_copy (bq->pos, tmp, 4);			
-		chunk.length = BIFF_GETWORD (tmp+2);
 		total_len   += chunk.length;
 		g_array_append_val (contin, chunk);
+
+		chunk.length = BIFF_GETWORD (tmp+2);
 	} while ((BIFF_GETWORD(tmp) & 0xff) == BIFF_CONTINUE);
 	bq->pos->lseek (bq->pos, -4, MS_OLE_SEEK_CUR); /* back back off */
 
@@ -1526,16 +1529,18 @@ ms_biff_merge_continues (BIFF_QUERY *bq, guint32 len)
 	bq->data_malloced = 1;
 	for (lp=0;lp<contin->len;lp++) {
 		chunk = g_array_index (contin, chunk_t, lp);
+#if OLE_DEBUG > 8
 		printf ("Copying block stats with 0x%x ends with 0x%x len 0x%x\n",
 			chunk.data[0], chunk.data[chunk.length-1], chunk.length);
 		g_assert ((d-bq->data)+chunk.length<=total_len);
+#endif
 		memcpy (d, chunk.data, chunk.length);
 		d+=chunk.length;
-		if (lp) g_free (chunk.data); /* FIXME: Why ? */
+		g_free (chunk.data);
 	}
 	g_array_free (contin, 1);
-	printf ("MERGE %d CONTINUES... len 0x%x\n", contin->len, len);
 #if OLE_DEBUG > 2
+	printf ("MERGE %d CONTINUES... len 0x%x\n", contin->len, len);
 	printf ("Biff read code 0x%x, length %d\n", bq->opcode, bq->length);
 	dump_biff (bq);
 #endif
@@ -1578,7 +1583,7 @@ ms_biff_query_next (BIFF_QUERY *bq)
 	if (ans &&
 	    bq->pos->read_copy (bq->pos, tmp, 4)) {
 		if ((BIFF_GETWORD(tmp) & 0xff) == BIFF_CONTINUE)
-;//			return ms_biff_merge_continues (bq, BIFF_GETWORD(tmp+2));
+			return ms_biff_merge_continues (bq, BIFF_GETWORD(tmp+2));
 		bq->pos->lseek (bq->pos, -4, MS_OLE_SEEK_CUR); /* back back off */
 #if OLE_DEBUG > 4
 		printf ("Backed off\n");

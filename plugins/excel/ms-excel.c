@@ -2190,10 +2190,12 @@ ms_excelReadWorkbook (MS_OLE * file)
 						  Perhaps it is too big for a single biff record, or
 						  perhaps excel is just cussid. Either way a big pain.
 						*/
+						wb->global_string_max = k;
 						printf ("FIXME: Serious SST overrun lost %d of %d strings!\n",
 							wb->global_string_max - k, wb->global_string_max) ;
 						printf ("Last string was '%s' 0x%x > 0x%x\n",
 							wb->global_strings[k-1], tot_len, q->length);
+
 						break ;
 					}
 				}

@@ -489,13 +489,8 @@ read_DgContainer (ESH_HEADER *h) /* See S59FE7.HTM */
 			break;
 		}
 		case SpgrContainer: /* See: S59FEA.HTM */
-		{
-			printf ("Odd SPGR container thing\n");
-			dump (h->data+ESH_HEADER_LEN,
-			      h->length-ESH_HEADER_LEN);
 			SpgrContainer_new (h);
 			break;
-		}
 		default:
 			printf ("Unknown contained : type 0x%x, inst 0x%x ver 0x%x len 0x%x\n",
 				c->type, c->instance, c->ver, c->length);
