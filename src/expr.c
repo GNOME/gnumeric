@@ -47,8 +47,12 @@ expr_parse_string (const char *expr, Sheet *sheet, int col, int row,
 ExprTree *
 expr_tree_new (void)
 {
-	ExprTree *ans = g_new (ExprTree, 1);
-	if (!ans) return NULL;
+	ExprTree *ans;
+
+	ans = g_new (ExprTree, 1);
+	if (!ans)
+		return NULL;
+	
 	ans->ref_count = 1;
 	ans->oper = OPER_CONSTANT;
 	ans->u.constant = NULL;

@@ -20,7 +20,7 @@
 if BONOBO
 bin_PROGRAMS = gnumeric-bonobo
 else
-bin_PROGRAMS = gnumeric-corba gnumeric
+bin_PROGRAMS = gnumeric
 endif
 
 #noinst_PROGRAMS = number-match
@@ -162,19 +162,12 @@ gnumeric_SOURCES =			\
 	normal-args.c			\
 	$(GNUMERIC_BASE_SOURCES)
 
-gnumeric_corba_SOURCES = 		\
-	main.c				\
-	corba-args.c			\
-	corba-sheet.c			\
-	corba-workbook.c		\
-	$(GNUMERIC_CORBA_GENERATED)	\
-	$(GNUMERIC_BASE_SOURCES)
-
 gnumeric_bonobo_SOURCES =		\
 	main.c				\
 	corba-args.c			\
 	corba-sheet.c			\
 	corba-workbook.c		\
+	corba-workbook-factory.c	\
 	$(GNUMERIC_CORBA_GENERATED)	\
 	$(GNUMERIC_BASE_SOURCES)	\
 	$(GNUMERIC_BONOBO_SOURCES)
@@ -189,10 +182,6 @@ gnumeric_LDADD = 			\
 	$(GNOME_XML_LIB) 		\
 	$(GUILE_LIBS)			\
 	$(INTLLIBS)
-
-gnumeric_corba_LDADD = 			\
-	$(gnumeric_LDADD) 		\
-	$(GNOMEGNORBA_LIBS)
 
 gnumeric_bonobo_LDADD =			\
 	../plugins/excel/libexcel.a	\

@@ -11,6 +11,8 @@
 #include "sheet.h"
 #include "gnumeric.h"
 #include "Gnumeric.h"
+#include "corba.h"
+#include "utils.h"
 
 #define verify(cond)          if (!(cond)){ out_of_range (ev); return; }
 #define verify_val(cond,val)  if (!(cond)){ out_of_range (ev); return (val); }
@@ -23,16 +25,26 @@
 	verify(c1 <= c2);\
 	verify (r1 <= r2);
 
+static POA_GNOME_Gnumeric_Sheet__vepv gnome_gnumeric_sheet_vepv;
+static POA_GNOME_Gnumeric_Sheet__epv gnome_gnumeric_sheet_epv;
+
+typedef struct {
+	POA_GNOME_Gnumeric_Sheet servant;
+	Sheet *sheet;
+} SheetServant;
+
 static void
 out_of_range (CORBA_Environment *ev)
 {
 	CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Gnumeric_Sheet_OutOfRange, NULL);
 }
 
-static Sheet *
+static inline Sheet *
 sheet_from_servant (PortableServer_Servant servant)
 {
-	return NULL;
+	SheetServant *ss = (SheetServant *) servant;
+
+	return ss->sheet;
 }
 
 static void
@@ -207,8 +219,65 @@ Sheet_clear_region_formats (PortableServer_Servant servant,
 	sheet_clear_region_formats (sheet, start_col, start_row, end_col, end_row);
 }
 
+static void
+Sheet_cell_set_value (PortableServer_Servant servant,
+		      const CORBA_long col, const CORBA_long row,
+		      const GNOME_Gnumeric_Value *value,
+		      CORBA_Environment * ev)
+{
+	Sheet *sheet = sheet_from_servant (servant);
+	Cell *cell;
+	Value *v;
+	
+	verify_col (col);
+	verify_row (row);
+	
+	cell = sheet_cell_fetch (sheet, col, row);
+
+	switch (value->_d){
+	case GNOME_Gnumeric_VALUE_STRING:
+		v = value_str (value->_u.str);
+		break;
+
+	case GNOME_Gnumeric_VALUE_INTEGER:
+		v = value_int (value->_u.v_int);
+		break;
+
+	case GNOME_Gnumeric_VALUE_FLOAT:
+		v = value_float (value->_u.v_float);
+		break;
+
+	case GNOME_Gnumeric_VALUE_CELLRANGE: {
+		CellRef a, b;
+
+		parse_cell_name (value->_u.cell_range.cell_a, &a.col, &a.row);
+		parse_cell_name (value->_u.cell_range.cell_b, &b.col, &b.row);
+		a.sheet = sheet;
+		b.sheet = sheet;
+		a.col_relative = 0;
+		b.col_relative = 0;
+		a.row_relative = 0;
+		b.row_relative = 0;
+		v = value_cellrange (&a, &b);
+		break;
+	}
+		
+	case GNOME_Gnumeric_VALUE_ARRAY:
+		g_error ("FIXME: Implement me");
+		break;
+
+	default:
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Gnumeric_Sheet_InvalidValue, NULL);
+		return;
+	}
+
+	cell_set_value (cell, v);
+}
+
 static GNOME_Gnumeric_Value *
-Sheet_cell_get_value (PortableServer_Servant servant, const CORBA_long col, const CORBA_long row, CORBA_Environment * ev)
+Sheet_cell_get_value (PortableServer_Servant servant,
+		      const CORBA_long col, const CORBA_long row,
+		      CORBA_Environment * ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 	GNOME_Gnumeric_Value *value;
@@ -252,7 +321,7 @@ Sheet_cell_get_value (PortableServer_Servant servant, const CORBA_long col, cons
 		}
 				
 		case VALUE_ARRAY:
-			g_error ("FIXME");
+			g_error ("FIXME: Implement me");
 		}
 	} else {
 		value->_d = GNOME_Gnumeric_VALUE_INTEGER;
@@ -359,6 +428,7 @@ Sheet_cell_set_font (PortableServer_Servant servant,
 		     const CORBA_long col,
 		     const CORBA_long row,
 		     const CORBA_char * font,
+		     const CORBA_short points,
 		     CORBA_Environment * ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
@@ -735,8 +805,89 @@ Sheet_shift_cols (PortableServer_Servant servant,
 }
 
 
+static void
+Sheet_corba_class_init (void)
+{
+	static int inited;
 
+	if (inited)
+		return;
+	inited = TRUE;
 
+	gnome_gnumeric_sheet_vepv.GNOME_Gnumeric_Sheet_epv =
+		&gnome_gnumeric_sheet_epv;
 
+	gnome_gnumeric_sheet_epv.cursor_set = Sheet_cursor_set;
+	gnome_gnumeric_sheet_epv.cursor_move = Sheet_cursor_move;
+	gnome_gnumeric_sheet_epv.make_cell_visible = Sheet_make_cell_visible;
+	gnome_gnumeric_sheet_epv.select_all = Sheet_select_all;
+	gnome_gnumeric_sheet_epv.is_all_selected = Sheet_is_all_selected;
+	gnome_gnumeric_sheet_epv.selection_reset = Sheet_selection_reset;
+	gnome_gnumeric_sheet_epv.selection_append = Sheet_selection_append;
+	gnome_gnumeric_sheet_epv.selection_append_range = Sheet_selection_append_range;
+	gnome_gnumeric_sheet_epv.selection_copy = Sheet_selection_copy;
+	gnome_gnumeric_sheet_epv.selection_cut = Sheet_selection_cut;
+	gnome_gnumeric_sheet_epv.selection_paste = Sheet_selection_paste;
+	gnome_gnumeric_sheet_epv.clear_region = Sheet_clear_region;
+	gnome_gnumeric_sheet_epv.clear_region_content = Sheet_clear_region_content;
+	gnome_gnumeric_sheet_epv.clear_region_comments = Sheet_clear_region_comments;
+	gnome_gnumeric_sheet_epv.clear_region_formats = Sheet_clear_region_formats;
+	gnome_gnumeric_sheet_epv.cell_set_value = Sheet_cell_set_value;
+	gnome_gnumeric_sheet_epv.cell_get_value = Sheet_cell_get_value;
+	gnome_gnumeric_sheet_epv.cell_set_text = Sheet_cell_set_text;
+	gnome_gnumeric_sheet_epv.cell_get_text = Sheet_cell_get_text;
+	gnome_gnumeric_sheet_epv.cell_set_formula = Sheet_cell_set_formula;
+	gnome_gnumeric_sheet_epv.cell_set_format = Sheet_cell_set_format;
+	gnome_gnumeric_sheet_epv.cell_get_format = Sheet_cell_get_format;
+	gnome_gnumeric_sheet_epv.cell_set_font = Sheet_cell_set_font;
+	gnome_gnumeric_sheet_epv.cell_get_font = Sheet_cell_get_font;	
+	gnome_gnumeric_sheet_epv.cell_set_foreground = Sheet_cell_set_foreground;
+	gnome_gnumeric_sheet_epv.cell_get_foreground = Sheet_cell_get_foreground;
+	gnome_gnumeric_sheet_epv.cell_set_background = Sheet_cell_set_background;
+	gnome_gnumeric_sheet_epv.cell_get_background = Sheet_cell_get_background;
+	gnome_gnumeric_sheet_epv.cell_set_pattern = Sheet_cell_set_pattern;
+	gnome_gnumeric_sheet_epv.cell_get_pattern = Sheet_cell_get_pattern;
+	gnome_gnumeric_sheet_epv.cell_set_alignment = Sheet_cell_set_alignment;
+	gnome_gnumeric_sheet_epv.cell_get_alignment = Sheet_cell_get_alignment;
 
+	
+	gnome_gnumeric_sheet_epv.set_dirty = Sheet_set_dirty;
+}
 
+void
+sheet_corba_setup (Sheet *sheet)
+{
+	SheetServant *ss;
+	CORBA_Environment ev;
+        PortableServer_ObjectId *objid;
+	
+	Sheet_corba_class_init ();
+
+	ss = g_new0 (SheetServant, 1);
+	ss->servant.vepv = &gnome_gnumeric_sheet_vepv;
+	ss->sheet = sheet;
+
+	CORBA_exception_init (&ev);
+	POA_GNOME_Gnumeric_Sheet__init ((PortableServer_Servant) ss, &ev);
+	objid = PortableServer_POA_activate_object (gnumeric_poa, ss, &ev);
+	CORBA_free (objid);
+	sheet->corba_server = PortableServer_POA_servant_to_reference (gnumeric_poa, ss, &ev);
+	
+	CORBA_exception_free (&ev);
+}
+
+void
+sheet_corba_shutdown (Sheet *sheet)
+{
+	CORBA_Environment ev;
+	
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (sheet->corba_server != NULL);
+
+	g_warning ("Should release all the corba resources here");
+
+	CORBA_exception_init (&ev);
+	PortableServer_POA_deactivate_object (gnumeric_poa, sheet->corba_server, &ev);
+	CORBA_exception_free (&ev);
+}

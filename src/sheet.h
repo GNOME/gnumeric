@@ -89,6 +89,7 @@ struct _Workbook {
 	GnomeContainer *gnome_container;
 	
 #endif
+	void       *corba_server;
 };
 
 typedef struct {
@@ -167,6 +168,8 @@ struct _Sheet {
 
         /* Solver parameters */
         SolverParameters solver_parameters;
+
+	void         *corba_server;
 };
 
 #define SHEET_SIGNATURE 0x12349876
@@ -459,5 +462,14 @@ void     workbook_feedback_set        (Workbook *,
 				       void *data);
 
 extern   Workbook *current_workbook;
+
+/*
+ * Hooks for CORBA bootstrap: they create the 
+ */
+void workbook_corba_setup    (Workbook *);
+void workbook_corba_shutdown (Workbook *);
+
+void sheet_corba_setup       (Sheet *);
+void sheet_corba_shutdown    (Sheet *);
 #endif /* GNUMERIC_SHEET_H */
 

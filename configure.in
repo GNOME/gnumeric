@@ -24,9 +24,7 @@ AC_SUBST(TERMCAP_LIB)
 AC_SUBST(READLINE_LIB)
 AC_SUBST(GUILE_LIBS)
 AC_SUBST(GUILE_INCS)
-GNOME_CHECK_GUILE
-
-dnl AC_ARG_WITH(guile,[--with-guile   Include Guile support],[GNOME_CHECK_GUILE])
+AC_ARG_WITH(guile,[--with-guile   Include Guile support],[GNOME_CHECK_GUILE])
 
 AC_SUBST(CFLAGS)
 AC_SUBST(CPPFLAGS)
@@ -158,6 +156,7 @@ libglade/glade/Makefile
 doc/Makefile
 doc/C/Makefile
 doc/es/Makefile
+corba-test/Makefile
 plugins/Makefile
 plugins/sample/Makefile
 plugins/excel/Makefile
@@ -173,4 +172,5 @@ po/Makefile.in
 macros/Makefile
 stamp.h
 ],[sed -e "/POTFILES =/r po/POTFILES" po/Makefile.in > po/Makefile])
+
 

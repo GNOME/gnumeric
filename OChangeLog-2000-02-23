@@ -1,3 +1,20 @@
+1999-05-05  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* configure.in: Laptop does not have resources.  Make guile
+	optional until at least.
+
+	* src: Now we only support two modes: Gnumeric and
+	Gnumeric-Bonobo.  The later includes all of the CORBA support,
+	there is no longer a non-Bonobo CORBA version.
+
+	* src/corba-workbook.c, src/corba-sheet.c, src/workbook-factory.c:
+	New files that support the Gnumeric CORBA interfaces.
+
+1999-05-02  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/corba-workbook.c (WorkbookFactory_init): Add workbook
+	factory servant initialization.
+
 1999-05-04  Morten Welinder  <terra@diku.dk>
 
 	* src/eval.c (dependency_remove_cell): Remove unused assignment.

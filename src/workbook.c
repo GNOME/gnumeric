@@ -1519,6 +1519,9 @@ workbook_new (void)
 #ifdef ENABLE_BONOBO
 	wb->gnome_container = GNOME_CONTAINER (gnome_container_new ());
 #endif
+
+	workbook_corba_setup (wb);
+	
 	return wb;
 }
 

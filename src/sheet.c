@@ -180,6 +180,9 @@ sheet_new (Workbook *wb, const char *name)
 	gtk_widget_show (sheet_view);
 
 	sheet_set_zoom_factor (sheet, 1.0);
+
+	sheet_corba_setup (sheet);
+	
 	return sheet;
 }
 

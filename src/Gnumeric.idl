@@ -1,5 +1,6 @@
 
 #include <gnome-factory.idl>
+#include <gnome-object.idl>
 
 module GNOME {
 	module Gnumeric {
@@ -25,6 +26,7 @@ module GNOME {
 		interface Sheet {
 			exception OutOfRange {};
 			exception ParseError {};
+			exception InvalidValue {};
 
 			void cursor_set  (in long base_col, in long base_row,
 					  in long start_col, in long start_row,
@@ -75,6 +77,8 @@ module GNOME {
 			//
 			// Cell management
 			//
+			void    cell_set_value (in long col, in long row, in Value value)
+				raises (OutOfRange);
 			Value   cell_get_value (in long col, in long row) 
 				raises (OutOfRange);
 
@@ -90,7 +94,8 @@ module GNOME {
 				raises (OutOfRange);
 			string  cell_get_format (in long col, in long row)
 				raises (OutOfRange);
-			void    cell_set_font (in long col, in long row, in string font)
+
+			void    cell_set_font (in long col, in long row, in string font, in short points)
 				raises (OutOfRange);
 			string  cell_get_font (in long col, in long row)
 				raises (OutOfRange);
@@ -104,6 +109,7 @@ module GNOME {
 				raises (OutOfRange);
 			string  cell_get_foreground (in long col, in long row)
 				raises (OutOfRange);
+
 			void    cell_set_background (in long col, in long row, in string color)
 				raises (OutOfRange);
 			string  cell_get_background (in long col, in long row)
@@ -135,6 +141,31 @@ module GNOME {
 						    out long orientation, out boolean auto_return)
 				raises (OutOfRange);
 
+			// 
+			// Cell regions
+			//
+			typedef sequence<Value> ValueVector;
+
+			ValueVector range_get_values (in string range)
+				raises (OutOfRange);
+			void    range_set_text (in string range, in string text)
+				raises (OutOfRange);
+			void    range_set_formula (in string range, in string formula)
+				raises (OutOfRange);
+			void    range_set_format (in string range, in string format)
+				raises (OutOfRange);
+			void    range_set_font (in string range, in string font, in short points)
+				raises (OutOfRange);
+			void    range_set_foreground (in string range, in string color)
+				raises (OutOfRange);
+			void    range_set_background (in string range, in string color)
+				raises (OutOfRange);
+			void    range_set_pattern (in string range, in long pattern)
+				raises (OutOfRange);
+			void    range_set_alignment (in string range, 
+						    in long halign, in long valign,
+						    in long orientation, in boolean auto_return)
+				raises (OutOfRange);
 			
 			//
 			// Sheet administrivia
@@ -157,7 +188,7 @@ module GNOME {
 			
 		};
 
-		interface Workbook {
+		interface Workbook : GNOME::object {
 			exception NameExists {};
 
 			Sheet sheet_new    (in string name) raises (NameExists);
