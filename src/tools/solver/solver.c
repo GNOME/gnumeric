@@ -100,6 +100,10 @@ solver_results_init (const SolverParameters *sp)
 	res->time_system       = 0;
 	res->time_real         = 0;
 	res->ilp_flag          = FALSE;
+	res->input_cells_array = NULL;
+	res->constraints_array = NULL;
+	res->obj_coeff         = NULL;
+	res->constr_coeff      = NULL;
 
 	return res;
 }
@@ -119,6 +123,13 @@ solver_results_free (SolverResults *res)
 	g_free (res->variable_names);
 	g_free (res->constraint_names);
 	g_free (res->shadow_prizes);
+	g_free (res->input_cells_array);
+	g_free (res->constraints_array);
+	g_free (res->obj_coeff);
+	if (res->constr_coeff != NULL)
+	        for (i = 0; i < res->n_constraints; i++)
+		        g_free (res->constr_coeff[i]);
+	g_free (res->constr_coeff);
 	g_free (res);
 }
 
@@ -133,15 +144,15 @@ get_solver_target_cell (Sheet *sheet)
 }
 
 Cell*
-get_solver_input_var (Sheet *sheet, int n)
+get_solver_input_var (SolverResults *res, int n)
 {
-        return sheet->solver_parameters->input_cells_array[n];
+        return res->input_cells_array[n];
 }
 
 SolverConstraint*
-get_solver_constraint (Sheet *sheet, int n)
+get_solver_constraint (SolverResults *res, int n)
 {
-        return sheet->solver_parameters->constraints_array[n];
+        return res->constraints_array[n];
 }
 
 static SolverConstraint*
@@ -257,18 +268,20 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res)
 	/* Set up the objective function coefficients. */
 	target = get_solver_target_cell (sheet);
 	for (i = 0; i < param->n_variables; i++) {
-	        x = get_lp_coeff (target, get_solver_input_var (sheet, i));
+	        x = get_lp_coeff (target, get_solver_input_var (res, i));
 		if (x != 0) {
 		        lp_algorithm[param->options.algorithm].
 			        set_obj_fn (program, i+1, x);
 			res->n_nonzeros_in_obj += 1;
+			if (param->options.program_report)
+			        res->obj_coeff[i] = x;
 		}
 	}
 			 
 	/* Add constraints. */
 	for (i = 0; i < param->n_constraints + param->n_int_bool_constraints;
 	     i++) {
-	        SolverConstraint *c = get_solver_constraint (sheet, i);
+	        SolverConstraint *c = get_solver_constraint (res, i);
 		target = sheet_cell_get (sheet, c->lhs.col, c->lhs.row);
 
 		if (c->type == SolverINT) {
@@ -279,11 +292,13 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res)
 		}
 		for (n = 0; n < param->n_variables; n++) {
 		        x = get_lp_coeff (target,
-					  get_solver_input_var (sheet, n));
+					  get_solver_input_var (res, n));
 			if (x != 0) {
 			        res->n_nonzeros_in_mat += 1;
 				lp_algorithm[param->options.algorithm].
 				        set_constr_mat_fn (program, n, i, x);
+				if (param->options.program_report)
+				        res->constr_coeff[i][n] = x;
 			}
 		}
 		target = sheet_cell_get (sheet, c->rhs.col, c->rhs.row);
@@ -363,12 +378,15 @@ write_constraint_str (int lhs_col, int lhs_row, int rhs_col,
 static gboolean
 check_program_definition_failures (Sheet            *sheet,
 				   SolverParameters *param,
+				   SolverResults    **res,
 				   gchar            **errmsg)
 {
-	CellList *inputs;
-	GSList   *c;
-	Cell     *cell;
-	int      i, n;
+	CellList         *inputs;
+	GSList           *c;
+	Cell             *cell;
+	int              i, n;
+	Cell             **input_cells_array;
+	SolverConstraint **constraints_array;
 
 	param->n_variables = 0;
 
@@ -405,10 +423,10 @@ check_program_definition_failures (Sheet            *sheet,
 		
 	        param->n_variables += 1;
 	}
-	param->input_cells_array = g_new (Cell *, param->n_variables);
+	input_cells_array = g_new (Cell *, param->n_variables);
 	i = 0;
  	for (inputs = param->input_cells; inputs ; inputs = inputs->next)
-	        param->input_cells_array[i++] = (Cell *) inputs->data;
+	        input_cells_array[i++] = (Cell *) inputs->data;
 
 	param->n_constraints = 0;
 	param->n_int_bool_constraints = 0;
@@ -422,32 +440,47 @@ check_program_definition_failures (Sheet            *sheet,
 		else
 		        param->n_constraints += MAX (sc->rows, sc->cols);
 	}
-	param->constraints_array = g_new (SolverConstraint *,
-					  param->n_constraints +
-					  param->n_int_bool_constraints);
+	constraints_array = g_new (SolverConstraint *,
+				   param->n_constraints +
+				   param->n_int_bool_constraints);
 	i = 0;
  	for (c = param->constraints; c ; c = c->next) {
 	        SolverConstraint *sc = (SolverConstraint *) c->data;
 
 		if (sc->rows == 1 && sc->cols == 1)
-		        param->constraints_array[i++] = sc;
+		        constraints_array[i++] = sc;
 		else {
 		        if (sc->rows > 1)
 			        for (n = 0; n < sc->rows; n++)
-				        param->constraints_array[i++] =
+				        constraints_array[i++] =
 					  create_solver_constraint
 					  (sc->lhs.col, sc->lhs.row + n,
 					   sc->rhs.col, sc->rhs.row + n,
 					   sc->type);
 			else
 			        for (n = 0; n < sc->cols; n++)
-				        param->constraints_array[i++] =
+				        constraints_array[i++] =
 					  create_solver_constraint
 					  (sc->lhs.col + n, sc->lhs.row,
 					   sc->rhs.col + n, sc->rhs.row,
 					   sc->type);
 		}
 	}
+
+	*res = solver_results_init (param);
+
+	(*res)->input_cells_array = input_cells_array;
+	(*res)->constraints_array = constraints_array;
+	if (param->options.program_report) {
+	        (*res)->obj_coeff = g_new0 (gnum_float, param->n_variables);
+		(*res)->constr_coeff = g_new (gnum_float *, param->n_constraints
+					      + param->n_int_bool_constraints);
+		for (i = 0; i < param->n_constraints
+		       + param->n_int_bool_constraints; i++)
+		        (*res)->constr_coeff[i] = g_new0 (gnum_float,
+							  param->n_variables);
+	}
+
 	return FALSE;  /* Everything Ok. */
 }
 
@@ -461,9 +494,8 @@ solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 	int               i;
 	GTimeVal          start, end;
 
-	if (check_program_definition_failures (sheet, param, errmsg))
+	if (check_program_definition_failures (sheet, param, &res, errmsg))
 	        return NULL;
-	res                  = solver_results_init (param);
 
 	save_original_values (res, param, sheet);
 
@@ -483,7 +515,7 @@ solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 		        res->optimal_values[i] =
 			        lp_algorithm[param->options.algorithm]
 			                 .get_obj_fn_var_fn (program, i + 1);
-			cell = param->input_cells_array[i];
+			cell = res->input_cells_array[i];
 			sheet_cell_set_value (cell, value_new_float
 					      (res->optimal_values[i]));
 		}

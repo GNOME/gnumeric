@@ -47,6 +47,21 @@ set_bold (Sheet *sheet, int col1, int row1, int col2, int row2)
 	sheet_style_apply_range (sheet, &range, mstyle);
 }
 
+static void
+set_underlined (Sheet *sheet, int col1, int row1, int col2, int row2)
+{
+	MStyle *mstyle = mstyle_new ();
+	Range  range;
+
+	range.start.col = col1;
+	range.start.row = row1;
+	range.end.col   = col2;
+	range.end.row   = row2;
+
+	mstyle_set_font_uline (mstyle, TRUE);
+	sheet_style_apply_range (sheet, &range, mstyle);
+}
+
 static char *
 find_name (Sheet *sheet, int col, int row)
 {
@@ -175,7 +190,7 @@ solver_answer_report (WorkbookControl *wbc,
 
 	for (i = 0; i < vars; i++) {
 		/* Set `Cell' column */
-	        cell = get_solver_input_var (sheet, i);
+	        cell = get_solver_input_var (res, i);
 		set_cell (&dao, 1, 12 + i, cell_name (cell));
 
 		/* Set `Name' column */
@@ -205,7 +220,7 @@ solver_answer_report (WorkbookControl *wbc,
 
 	for (i = 0; i < res->param->n_constraints +
 	       res->param->n_int_bool_constraints; i++) {
-	        SolverConstraint *c = res->param->constraints_array[i];
+	        SolverConstraint *c = res->constraints_array[i];
 		gnum_float       lhs, rhs;
 
 		/* Set `Cell' column */
@@ -301,7 +316,7 @@ solver_sensitivity_report (WorkbookControl *wbc,
 
 	for (i = 0; i < vars; i++) {
 		/* Set `Cell' column */
-	        cell = get_solver_input_var (sheet, i);
+	        cell = get_solver_input_var (res, i);
 		set_cell (&dao, 1, 8 + i, cell_name (cell));
 
 		/* Set `Name' column */
@@ -330,7 +345,7 @@ solver_sensitivity_report (WorkbookControl *wbc,
 
 	for (i = 0; i < res->param->n_constraints +
 	       res->param->n_int_bool_constraints; i++) {
-	        SolverConstraint *c = res->param->constraints_array[i];
+	        SolverConstraint *c = res->constraints_array[i];
 
 		/* Set `Cell' column */
 		set_cell (&dao, 1, 12 + vars + i,
@@ -451,7 +466,7 @@ solver_limits_report (WorkbookControl *wbc,
 
 	for (i = 0; i < vars; i++) {
 		/* Set `Adjustable Cell' column */
-	        cell = get_solver_input_var (sheet, i);
+	        cell = get_solver_input_var (res, i);
 		set_cell (&dao, 1, 12 + i, cell_name (cell));
 
 		/* Set `Adjustable Name' column */
@@ -690,28 +705,115 @@ solver_program_report (WorkbookControl *wbc,
 		       SolverResults   *res)
 {
         data_analysis_output_t dao;
+	Cell                   *cell;
+	int                    i, col, max_col, n, vars;
 
 	dao.type = NewSheetOutput;
         prepare_output (wbc, &dao, _("Program Report"));
 
 	dao.sheet->hide_grid = TRUE;
+	vars                 = res->param->n_variables;
+
 
 	/* Set this to fool the autofit_column function.  (It will be
 	 * overwriten). */
 	set_cell (&dao, 0, 0, "A");
+	set_cell (&dao, 1, 3, "A");
 
-	/* Print the type of the program. */
-	switch (res->param->problem_type) {
-	case SolverMinimize:
-	        set_cell (&dao, 1, 5, _("Minimize"));
-		break;
-	case SolverMaximize:
-	        set_cell (&dao, 1, 5, _("Maximize"));
-		break;
-	case SolverEqualTo:
-	        set_cell (&dao, 1, 5, _("Equal to"));
-		break;
+
+	/* Print the objective function. */
+	col = max_col = 0;
+        for (i = 0; i < vars; i++) {
+	        if (res->obj_coeff[i] != 0) {
+		        /* Print the sign. */
+		        if (res->obj_coeff[i] < 0)
+			        set_cell (&dao, 1 + col*3, 6, "-");
+			else if (col > 0)
+			        set_cell (&dao, 1 + col*3, 6, "+");
+
+			/* Print the coefficent. */
+			set_cell_float (&dao, 2 + col*3, 6,
+					fabs (res->obj_coeff[i]));
+
+			/* Print the name of the variable. */
+			cell = get_solver_input_var (res, i);
+			set_cell (&dao, 3 + col*3, 6,
+				  find_name (sheet, cell->pos.col,
+					     cell->pos.row));
+			col++;
+			if (col > max_col)
+			        max_col = col;
+		}
 	}
+
+
+	/* Print the constraints. */
+	for (i = 0; i < res->param->n_constraints +
+	       res->param->n_int_bool_constraints; i++) {
+	        SolverConstraint *c = res->constraints_array[i];
+
+		/* Print the constraint function. */
+		col = 0;
+		for (n = 0; n < res->param->n_variables; n++) {
+		        if (res->constr_coeff[i][n] != 0) {
+			        /* Print the sign. */
+			        if (res->constr_coeff[i][n] < 0)
+				        set_cell (&dao, 1 + col*3, 10 + i, "-");
+				else if (col > 0)
+				        set_cell (&dao, 1 + col*3, 10 + i, "+");
+
+				/* Print the coefficent. */
+				set_cell_float (&dao, 2 + col*3, 10 + i,
+						fabs (res->constr_coeff[i][n]));
+
+				/* Print the name of the variable. */
+				cell = get_solver_input_var (res, n);
+				set_cell (&dao, 3 + col*3, 10 + i,
+					  find_name (sheet, cell->pos.col,
+						     cell->pos.row));
+				col++;
+				if (col > max_col)
+				        max_col = col;
+			}
+		}
+
+
+		/* Print the type. */
+		switch (c->type) {
+		case SolverLE:
+		        set_cell (&dao, col*3 + 1, 10 + i, "<");
+			set_underlined (dao.sheet, col*3 + 1, 10 + i,
+					col*3 + 1, 10 + i);
+		        break;
+		case SolverGE:
+		        set_cell (&dao, col*3 + 1, 10 + i, ">");
+			set_underlined (dao.sheet, col*3 + 1, 10 + i,
+					col*3 + 1, 10 + i);
+		        break;
+		case SolverEQ:
+		        set_cell (&dao, col*3 + 1, 10 + i, "=");
+		        break;
+		case SolverINT:
+		        break;
+		case SolverBOOL:
+		        break;
+		case SolverOF:
+		        break;
+		}
+
+		/* Set RHS column. */
+		cell = sheet_cell_get (sheet, c->rhs.col, c->rhs.row);
+		set_cell_value (&dao, col*3 + 2, 10 + i,
+				value_duplicate (cell->value));
+	}
+
+
+	/*
+	 * Autofit columns to make the sheet more readable.
+	 */
+
+	for (i = 0; i <= max_col*3 + 2; i++)
+	        autofit_column (&dao, i);
 
 
 	/*
@@ -719,7 +821,26 @@ solver_program_report (WorkbookControl *wbc,
 	 */
 
 	/* Fill in the header titles. */
+	set_cell (&dao, 1, 3, "");
 	fill_header_titles (&dao, _("Program Report"), sheet);
+
+	/* Print the type of the program. */
+	switch (res->param->problem_type) {
+	case SolverMinimize:
+	        set_cell (&dao, 0, 5, _("Minimize"));
+		break;
+	case SolverMaximize:
+	        set_cell (&dao, 0, 5, _("Maximize"));
+		break;
+	case SolverEqualTo:
+	        set_cell (&dao, 0, 5, _("Equal to"));
+		break;
+	}
+	set_bold (dao.sheet, 0, 5, 0, 5);
+
+	/* Print `Subject to' title. */
+	set_cell (&dao, 0, 9, _("Subject to"));
+	set_bold (dao.sheet, 0, 9, 0, 9);
 }
 
 

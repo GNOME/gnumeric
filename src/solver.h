@@ -113,8 +113,6 @@ struct _SolverParameters {
         int                n_variables;
         int                n_int_bool_constraints;
         SolverOptions      options;
-        Cell               **input_cells_array;
-        SolverConstraint   **constraints_array;
 };
 
 typedef struct {
@@ -136,6 +134,10 @@ typedef struct {
         gboolean         ilp_flag;   /* This is set if the problem has INT
 				      * constraints.  Some reports cannot
 				      * be created if there are any. */
+        Cell             **input_cells_array;
+        SolverConstraint **constraints_array;
+        gnum_float       *obj_coeff;
+        gnum_float       **constr_coeff;
         SolverParameters *param;
 } SolverResults;
 
@@ -157,6 +159,6 @@ SolverParameters *solver_lp_copy       (const SolverParameters *src_param,
 void             solver_param_destroy  (SolverParameters *);
 void             solver_results_free   (SolverResults *res);
 
-Cell             *get_solver_input_var (Sheet *sheet, int n);
+Cell             *get_solver_input_var (SolverResults *res, int n);
 
 #endif

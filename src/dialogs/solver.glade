@@ -655,7 +655,7 @@
 
                 <child>
                   <widget class="GtkCheckButton" id="program">
-                    <property name="sensitive">no</property>
+                    <property name="sensitive">yes</property>
                     <property name="can_focus">yes</property>
                     <property name="label" translatable="yes">P_rogram</property>
                     <property name="active">no</property>

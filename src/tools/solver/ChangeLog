@@ -1,3 +1,10 @@
+2002-03-10  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* reports.c (solver_program_report): Implemented the program
+	report generation.  Gives the LP program in math form.
+
+	* solver.c: Related changes.
+	
 2002-03-09  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* reports.c (solver_program_report): Renamed as

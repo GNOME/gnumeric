@@ -29,7 +29,6 @@ Feature enhancements:
       status dialog
     - performance report: fix user & system time reporting (need a separate
       thread)
-  * generate a report that gives the program in math form
   * generate a report that gives the dual of the program in math form
   * add option support for the solving algorithm
     - max iterations
@@ -44,6 +43,8 @@ Feature enhancements:
   * add MPS export
   * performance report: add the name of the algorithm used
   * performance report: add other used options
+  * computing performance improvements:
+    - make the getting of LP coefficents faster
 
 Misc:
   * add example programs into samples/solver
