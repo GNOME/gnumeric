@@ -2,3 +2,7 @@ application/x-gnumeric:
 	open=gnumeric %f
 	view=gnumeric %f
 	icon-filename=@icondir@/gnome-gnumeric.png
+
+application/vnd.ms-excel:
+	open=gnumeric %f
+	view=gnumeric %f
