@@ -918,7 +918,13 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 		switch (c) {
 
 		case '[':
-			if (!ignore_further_elapsed)
+			/* Currency symbol */
+			if (format[1] == '$') {
+				for (format += 2; *format && *format != ']' ; ++format)
+					g_string_append_c (result, *format);
+				if (*format == ']')
+					++format;
+			} else if (!ignore_further_elapsed)
 				time_display_elapsed = TRUE;
 			break;
 
@@ -1288,11 +1294,13 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color)
 
 			/*
 			 * Special [h*], [m*], [*s] is using for
+			 * and [$*] are for currencies.
 			 * measuring times, not for specifying colors.
 			 */
 			if (!(first_after_bracket == 'h' ||
 			      first_after_bracket == 's' ||
-			      first_after_bracket == 'm')){
+			      first_after_bracket == 'm' ||
+			      first_after_bracket == '$')){
 				if (color)
 					*color = lookup_color (&entry.format [1], end);
 				entry.format = end+1;

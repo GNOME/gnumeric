@@ -1483,29 +1483,38 @@ do_check_border (Sheet *sheet, Range const *r,
 		 int const y_dual_offset,
 		 MStyleBorder const * res)
 {
-    int x, y;
+	int x, y;
+	int end_col = r->end.col;
+	int end_row = r->end.row;
 
-    for (x = r->start.col ; x <= r->end.col; ++x)
-	    for (y = r->start.row ; y <= r->end.row; ++y)
-	    {
-		    MStyleBorder const * border =
-			sheet_cell_get_border (sheet, x, y, t1);
+	for (x = r->start.col ; x <= end_col; ++x)
+		for (y = r->start.row ; y <= end_row; ++y)
+		{
+			MStyleBorder const * border = NULL;
 
-		    g_return_val_if_fail (border != NULL, NULL);
+			if (0 <= x && x < SHEET_MAX_COLS &&
+			    0 <= y && y < SHEET_MAX_ROWS) {
+				border = sheet_cell_get_border (sheet, x, y, t1);
+				g_return_val_if_fail (border != NULL, NULL);
+			}
 
-		    if ((x_dual_offset != 0 || y_dual_offset != 0) &&
-			border->line_type == STYLE_BORDER_NONE)
-			    border = sheet_cell_get_border (sheet,
-							    x + x_dual_offset,
-							    y + y_dual_offset,
-							    t2);
-		    
-		    if (res == NULL)
-			    res = border;
-		    else if (res != border)
-			    return NULL;
-	    }
-    return res;
+			if ((x_dual_offset != 0 || y_dual_offset != 0) &&
+			    (border == NULL || border->line_type == STYLE_BORDER_NONE) &&
+			    0 <= x + x_dual_offset &&
+			    x + x_dual_offset < SHEET_MAX_COLS &&
+			    0 <= y + y_dual_offset &&
+			    y + y_dual_offset < SHEET_MAX_ROWS)
+				border = sheet_cell_get_border (sheet,
+								x + x_dual_offset,
+								y + y_dual_offset,
+								t2);
+
+			if (res == NULL)
+				res = border;
+			else if (res != border)
+				return NULL;
+		}
+	return res;
 }
 
 /*
@@ -1943,5 +1952,5 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
  *
  * Wishlist
  * 	- Some undo capabilities in the dialog.
- * 	- How to distinguish between auto & custom colors.
+ * 	- How to distinguish between auto & custom colors on extraction from styles.
  */

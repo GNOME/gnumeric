@@ -21,6 +21,14 @@
 
 1999-11-09  Jody Goldberg <jgoldberg@home.com>
 
+	* src/dialogs/dialog-cell-format.c (do_check_border) : Fix the
+	  boundary cases until we getthe extended uniq support.
+
+	* src/formats.c (cell_format_is_number) : Add initial currency
+	  support.
+
+	* src/format.c (format_number) : Add support for currency codes.
+	(format_value) : Ditto.
 
 	* src/item-bar.c (bar_draw_cell) : Slight color adjustment to make
 	  it easier to see which rows/cols are selected.

@@ -20,12 +20,20 @@ typedef enum
 
 typedef struct
 {
+    char const * const symbol;
+    char const * const description;
+} CurrencySymbol;
+
+typedef struct
+{
 	gboolean thousands_sep;
 	gint	 num_decimals;	/* 0 - 30 */
 	gint	 negative_fmt;	/* 0 - 3 */
+	gint	 currency_symbol_index;
 } FormatCharacteristics;
 
-FormatFamily cell_format_classify (char const * const fmt, FormatCharacteristics *info);
+FormatFamily           cell_format_classify (char const * const fmt, FormatCharacteristics *info);
+CurrencySymbol const * cell_format_currency_symbols (void);
 
 /* Indexed by FormatCharacteristics */
 static char const * const * const cell_formats [];
