@@ -132,9 +132,6 @@ AC_ARG_WITH(long_double,
 		fi
 
 		AC_MSG_CHECKING([checking for working ynl])
-		if false; then
-			AC_CHECK_FUNCS(ynl)
-		fi
 		AC_TRY_RUN([
 			#include <math.h>
 			#ifdef HAVE_SUNMATH_H
@@ -147,12 +144,10 @@ AC_ARG_WITH(long_double,
 			}],
 			[AC_DEFINE(HAVE_YNL)
 			AC_MSG_RESULT(yes)],
-			AC_MSG_RESULT(no))
+			AC_MSG_RESULT(no),
+			[AC_CHECK_FUNCS(ynl)])
 
 		AC_MSG_CHECKING([checking for working erf and erfc])
-		if false; then
-			AC_CHECK_FUNCS(erf erfc)
-		fi
 		AC_TRY_RUN([
 			#include <math.h>
 			#ifdef HAVE_SUNMATH_H
@@ -160,15 +155,16 @@ AC_ARG_WITH(long_double,
 			#endif
 			int main ()
 			{
-				long double l1 = erf (1.2L);
-				long double l2 = erfc (1.2L);
+				long double l1 = erfl (1.2L);
+				long double l2 = erfcl (1.2L);
 				return !(l1 >= 0.91 && l1 <= 0.92 &&
 					 l2 >= 0.08 && l2 <= 0.09);
 			}],
 			[AC_DEFINE(HAVE_ERF)
 			 AC_DEFINE(HAVE_ERFC)
 			AC_MSG_RESULT(yes)],
-			AC_MSG_RESULT(no))
+			AC_MSG_RESULT(no),
+			[AC_CHECK_FUNCS(erfl erfcl)])
 
 		float_msg="long double (EXPERIMENTAL)"
 		AC_MSG_WARN([Long double support is experimental -- expect problems])
