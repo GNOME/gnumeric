@@ -14,7 +14,10 @@
 	  dialog-search-replace.c, dialog-sheet-order.c, dialog-simulation.c,
 	  dialog-solver.c, dialog-stf.c, dialog-stf-main-page.c,
 	  dialog-stf-csv-page.c, dialog-stf-fixed-page.c,
-	  dialog-stf-format-page.c, dialog-stf-export.c: ditto.
+	  dialog-stf-format-page.c, dialog-stf-export.c,
+	  dialog-stf-export-sheet-page.c, dialog-stf-export-format-page.c,
+	  dialog-tabulate.c, dialog-summary.c, dialog-workbook-attr.c,
+	  dialog-zoom.c: ditto.
 
 2002-11-03  Jody Goldberg <jody@gnome.org>
 

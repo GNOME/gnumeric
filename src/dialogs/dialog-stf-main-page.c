@@ -145,7 +145,8 @@ main_page_startrow_changed (GtkSpinButton* button, DruidPageData_t *data)
  * returns : nothing
  **/
 static void
-main_page_stoprow_changed (GtkSpinButton* button, DruidPageData_t *data)
+main_page_stoprow_changed (__attribute__((unused)) GtkSpinButton* button,
+			   DruidPageData_t *data)
 {
 
 	main_page_import_range_changed (data);
@@ -159,7 +160,8 @@ main_page_stoprow_changed (GtkSpinButton* button, DruidPageData_t *data)
  *
  **/
 static void
-main_page_trim_menu_deactivate (GtkMenu *menu, DruidPageData_t *data)
+main_page_trim_menu_deactivate (__attribute__((unused)) GtkMenu *menu,
+				DruidPageData_t *data)
 {
 	MainInfo_t *info = data->main_info;
 

@@ -366,21 +366,21 @@ get_table_float_entry (GtkTable *t, int y, int x, Cell *cell, gnum_float *number
 }
 
 static void
-dialog_destroy (GtkWidget *widget, DialogState *dd)
+dialog_destroy (__attribute__((unused)) GtkWidget *widget, DialogState *dd)
 {
 	wbcg_edit_detach_guru (dd->wbcg);
 	free_state (dd);
 }
 
 static void
-cancel_clicked (GtkWidget *widget, DialogState *dd)
+cancel_clicked (__attribute__((unused)) GtkWidget *widget, DialogState *dd)
 {
 	GtkDialog *dialog = dd->dialog;
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 }
 
 static void
-tabulate_ok_clicked (GtkWidget *widget, DialogState *dd)
+tabulate_ok_clicked (__attribute__((unused)) GtkWidget *widget, DialogState *dd)
 {
 	GtkDialog *dialog = dd->dialog;
 	Cell *resultcell;

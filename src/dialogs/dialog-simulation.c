@@ -55,7 +55,7 @@ static simulation_t    *current_sim;
  * Update the dialog widgets sensitivity
  **/
 static void
-simulation_update_sensitivity_cb (GtkWidget *dummy,
+simulation_update_sensitivity_cb (__attribute__((unused))GtkWidget *dummy,
 				       SimulationState *state)
 {
         Value *output_range = NULL;
@@ -214,7 +214,8 @@ update_results_view (simulation_t *sim)
 }
 
 static void
-prev_button_cb (GtkWidget *button, SimulationState *state)
+prev_button_cb (__attribute__((unused))GtkWidget *button,
+		SimulationState *state)
 {
 	GtkWidget *w;
 
@@ -232,7 +233,8 @@ prev_button_cb (GtkWidget *button, SimulationState *state)
 }
 
 static void
-next_button_cb (GtkWidget *button, SimulationState *state)
+next_button_cb (__attribute__((unused))GtkWidget *button,
+		SimulationState *state)
 {
 	GtkWidget *w;
 
@@ -259,7 +261,8 @@ next_button_cb (GtkWidget *button, SimulationState *state)
  * contain sensible data.
  **/
 static void
-simulation_ok_clicked_cb (GtkWidget *button, SimulationState *state)
+simulation_ok_clicked_cb (__attribute__((unused)) GtkWidget *button,
+			  SimulationState *state)
 {
 	data_analysis_output_t  dao;
 	GtkWidget               *w;
@@ -332,7 +335,8 @@ simulation_ok_clicked_cb (GtkWidget *button, SimulationState *state)
  * Close (destroy) the dialog
  **/
 static void
-cb_tool_cancel_clicked (GtkWidget *button, GenericToolState *state)
+cb_tool_cancel_clicked (__attribute__((unused))GtkWidget *button,
+			GenericToolState *state)
 {
 	simulation_tool_destroy (current_sim);
 	gtk_widget_destroy (state->dialog);
@@ -373,7 +377,7 @@ init_results_view (SimulationState *state)
  *
  **/
 void
-dialog_simulation (WorkbookControlGUI *wbcg, Sheet *sheet)
+dialog_simulation (WorkbookControlGUI *wbcg, __attribute__((unused))Sheet *sheet)
 {
         SimulationState *state;
 	WorkbookControl *wbc;

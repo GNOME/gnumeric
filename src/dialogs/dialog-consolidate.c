@@ -216,7 +216,7 @@ static void
 cb_areas_select_row (__attribute__((unused)) GtkCList *clist,
 		     int row,
 		     __attribute__((unused)) int column,
-		     GdkEventButton *event,
+		     __attribute__((unused)) GdkEventButton *event,
 		     ConsolidateState *state)
 {
 	g_return_if_fail (state != NULL);

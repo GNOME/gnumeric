@@ -44,7 +44,8 @@
  * Triggered when the menu of the separator option menu is closed
  **/
 static void
-sheet_page_separator_menu_deactivate (GtkMenuShell *shell, StfE_FormatPageData_t *data)
+sheet_page_separator_menu_deactivate (__attribute__((unused)) GtkMenuShell *shell,
+				      StfE_FormatPageData_t *data)
 {
 	if (gnumeric_option_menu_get_selected_index (data->format_separator) == CUSTOM_INDEX) {
 

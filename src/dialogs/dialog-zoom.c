@@ -77,7 +77,8 @@ cb_zoom_destroy (ZoomState *state)
 }
 
 static void
-cb_zoom_cancel_clicked (GtkWidget *button, ZoomState *state)
+cb_zoom_cancel_clicked (__attribute__((unused)) GtkWidget *button,
+			ZoomState *state)
 {
 	gtk_widget_destroy (state->dialog);
 	return;
@@ -105,14 +106,15 @@ focus_to_custom (GtkToggleButton *togglebutton, ZoomState *state)
 }
 
 static gboolean
-custom_selected (GtkWidget *widget, GdkEventFocus   *event, ZoomState *state)
+custom_selected (__attribute__((unused)) GtkWidget *widget,
+		 __attribute__((unused)) GdkEventFocus *event, ZoomState *state)
 {
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->custom), TRUE);
 	return FALSE;
 }
 
 static void
-cb_zoom_ok_clicked (GtkWidget *button, ZoomState *state)
+cb_zoom_ok_clicked (__attribute__((unused)) GtkWidget *button, ZoomState *state)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
 	GSList *sheets = NULL;

@@ -42,7 +42,7 @@
  **/
 static gboolean
 stf_export_dialog_druid_page_cancel (__attribute__((unused)) GnomeDruidPage *page,
-				     GnomeDruid *druid,
+				     __attribute__((unused)) GnomeDruid *druid,
 				     StfE_DruidData_t *druid_data)
 {
 	return !gnumeric_dialog_question_yes_no (druid_data->wbcg,

@@ -359,7 +359,10 @@ fixed_page_canvas_button_release_event (GnomeCanvas *canvas, GdkEventButton *eve
  * returns : nothing
  **/
 static void
-fixed_page_collist_select_row (GtkCList *clist, int row, int column, GdkEventButton *event, DruidPageData_t *data)
+fixed_page_collist_select_row (GtkCList *clist, int row,
+			       __attribute__((unused)) int column,
+			       __attribute__((unused)) GdkEventButton *event,
+			       DruidPageData_t *data)
 {
 	FixedInfo_t *info = data->fixed_info;
 	char *t[2];
@@ -413,7 +416,8 @@ fixed_page_colend_changed (GtkSpinButton *button, DruidPageData_t *data)
  * returns : nothing
  **/
 static void
-fixed_page_add_clicked (GtkButton *button, DruidPageData_t *data)
+fixed_page_add_clicked (__attribute__((unused)) GtkButton *button,
+			DruidPageData_t *data)
 {
 	FixedInfo_t *info = data->fixed_info;
 	char *tget[1], *tset[2];
@@ -455,7 +459,8 @@ fixed_page_add_clicked (GtkButton *button, DruidPageData_t *data)
  * returns : nothing
  **/
 static void
-fixed_page_remove_clicked (GtkButton *button, DruidPageData_t *data)
+fixed_page_remove_clicked (__attribute__((unused)) GtkButton *button,
+			   DruidPageData_t *data)
 {
 	FixedInfo_t *info = data->fixed_info;
 	int i;
@@ -486,7 +491,8 @@ fixed_page_remove_clicked (GtkButton *button, DruidPageData_t *data)
  * Will clear all entries in fixed_collist
  **/
 static void
-fixed_page_clear_clicked (GtkButton *button, DruidPageData_t *data)
+fixed_page_clear_clicked (__attribute__((unused)) GtkButton *button,
+			  DruidPageData_t *data)
 {
 	FixedInfo_t *info = data->fixed_info;
 	char *tset[2];
@@ -513,7 +519,8 @@ fixed_page_clear_clicked (GtkButton *button, DruidPageData_t *data)
  * text.
  **/
 static void
-fixed_page_auto_clicked (GtkButton *button, DruidPageData_t *data)
+fixed_page_auto_clicked (__attribute__((unused)) GtkButton *button,
+			 DruidPageData_t *data)
 {
 	fixed_page_autodiscover (data);
 
@@ -535,7 +542,9 @@ fixed_page_auto_clicked (GtkButton *button, DruidPageData_t *data)
  * returns : nothing
  **/
 void
-stf_dialog_fixed_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *pagedata)
+stf_dialog_fixed_page_prepare (__attribute__((unused)) GnomeDruidPage *page,
+			       __attribute__((unused)) GnomeDruid *druid,
+			       DruidPageData_t *pagedata)
 {
 	FixedInfo_t *info = pagedata->fixed_info;
 	GtkAdjustment *spinadjust;

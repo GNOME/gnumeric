@@ -138,7 +138,7 @@ dialog_summary_put (SummaryState *state)
 }
 
 static void
-cb_info_changed (Workbook *wb, SummaryState *state)
+cb_info_changed (__attribute__((unused)) Workbook *wb, SummaryState *state)
 {
 	dialog_summary_put (state);
 	return;
@@ -147,21 +147,24 @@ cb_info_changed (Workbook *wb, SummaryState *state)
 
 
 static void
-cb_dialog_summary_cancel_clicked (GtkWidget *button, SummaryState *state)
+cb_dialog_summary_cancel_clicked (__attribute__((unused)) GtkWidget *button,
+				  SummaryState *state)
 {
 	gtk_widget_destroy (state->dialog);
 	return;
 }
 
 static void
-cb_dialog_summary_apply_clicked (GtkWidget *button, SummaryState *state)
+cb_dialog_summary_apply_clicked (__attribute__((unused)) GtkWidget *button,
+				 SummaryState *state)
 {
 	dialog_summary_get (state);
 	return;
 }
 
 static void
-cb_dialog_summary_ok_clicked (GtkWidget *button, SummaryState *state)
+cb_dialog_summary_ok_clicked (__attribute__((unused)) GtkWidget *button,
+			      SummaryState *state)
 {
 	if (!dialog_summary_get (state))
 		gtk_widget_destroy (state->dialog);

@@ -66,7 +66,8 @@ dialog_col_row_destroy (GtkObject *w, ColRowState *state)
 }
 
 static void
-cb_dialog_col_row_cancel_clicked (GtkWidget *button, ColRowState *state)
+cb_dialog_col_row_cancel_clicked (__attribute__((unused)) GtkWidget *button,
+				  ColRowState *state)
 {
 	gtk_widget_destroy (state->dialog);
 	return;

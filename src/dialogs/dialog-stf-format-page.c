@@ -125,7 +125,10 @@ format_page_canvas_button_press_event (GnomeCanvas *canvas, GdkEventButton *even
  * returns : nothing
  **/
 static void
-format_page_collist_select_row (GtkCList *clist, int row, int column, GdkEventButton *event, DruidPageData_t *data)
+format_page_collist_select_row (__attribute__((unused)) GtkCList *clist,
+				int row, __attribute__((unused)) int column,
+				__attribute__((unused)) GdkEventButton *event,
+				DruidPageData_t *data)
 {
 	FormatInfo_t *info = data->format_info;
 	StyleFormat const *colformat = g_slist_nth_data (info->format_run_list, row);
@@ -163,7 +166,9 @@ format_page_collist_select_row (GtkCList *clist, int row, int column, GdkEventBu
  * returns : nothing
  **/
 static void
-format_page_sublist_select_row (GtkCList *clist, int row, int column, GdkEventButton *event, DruidPageData_t *data)
+format_page_sublist_select_row (GtkCList *clist, int row, int column,
+				__attribute__((unused)) GdkEventButton *event,
+				DruidPageData_t *data)
 {
 	FormatInfo_t *info = data->format_info;
 	char *t[1];
@@ -260,7 +265,9 @@ format_page_format_changed (GtkEntry *entry, DruidPageData_t *data)
  * returns : nothing
  **/
 void
-stf_dialog_format_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *data)
+stf_dialog_format_page_prepare (__attribute__((unused)) GnomeDruidPage *page,
+				__attribute__((unused)) GnomeDruid *druid,
+				DruidPageData_t *data)
 {
 	FormatInfo_t *info = data->format_info;
 	int listcount, i;

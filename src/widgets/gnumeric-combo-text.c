@@ -71,7 +71,8 @@ cb_entry_activate (GtkWidget *entry, gpointer ct)
 }
 
 static gboolean
-cb_pop_down (GtkWidget *w, GtkWidget *pop_down, gpointer dummy)
+cb_pop_down (GtkWidget *w, __attribute__((unused)) GtkWidget *pop_down,
+	     __attribute__((unused)) gpointer dummy)
 {
 	GnmComboText *ct = GNM_COMBO_TEXT (w);
 
@@ -83,7 +84,8 @@ cb_pop_down (GtkWidget *w, GtkWidget *pop_down, gpointer dummy)
 }
 
 static void
-cb_list_select (GtkWidget *list, GtkWidget *child, gpointer data)
+cb_list_select (__attribute__((unused)) GtkWidget *list,
+		GtkWidget *child, gpointer data)
 {
 	GnmComboText *ct = GNM_COMBO_TEXT (data);
 	GtkEntry *entry = GTK_ENTRY (ct->entry);
@@ -105,7 +107,8 @@ cb_list_select (GtkWidget *list, GtkWidget *child, gpointer data)
 }
 
 static void
-cb_list_unselect (GtkWidget *list, GtkWidget *child, gpointer data)
+cb_list_unselect (GtkWidget *list, GtkWidget *child,
+		  __attribute__((unused)) gpointer data)
 {
 	if (GTK_WIDGET_VISIBLE (list)) /* Undo interactive unselect */
 		gtk_list_select_child (GTK_LIST (list), child);
@@ -128,7 +131,7 @@ cb_toggle (GtkWidget *child, gpointer data)
  * GTK_STATE_NORMAL. We're OK if we only cache those two.
  */
 static gboolean
-cb_enter (GtkWidget *w, GdkEventCrossing *event,
+cb_enter (GtkWidget *w, __attribute__((unused)) GdkEventCrossing *event,
 	  gpointer user)
 {
 	GnmComboText *ct = user;
@@ -143,8 +146,9 @@ cb_enter (GtkWidget *w, GdkEventCrossing *event,
 
 	return TRUE;
 }
+
 static gboolean
-cb_exit (GtkWidget *w, GdkEventCrossing *event,
+cb_exit (GtkWidget *w, __attribute__((unused)) GdkEventCrossing *event,
 	  gpointer user)
 {
 	GnmComboText *ct = user;
@@ -156,7 +160,7 @@ cb_exit (GtkWidget *w, GdkEventCrossing *event,
 }
 
 static void
-cb_list_mapped (GtkWidget *widget, gpointer user_data)
+cb_list_mapped (GtkWidget *widget, __attribute__((unused)) gpointer user_data)
 {
 	GtkList *list = GTK_LIST (widget);
 

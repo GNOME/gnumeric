@@ -251,7 +251,7 @@ gee_cell_editable_init (GtkCellEditableIface *iface)
 
 static void
 gee_start_editing (GtkCellEditable *cell_editable,
-				   GdkEvent *event)
+		   __attribute__((unused)) GdkEvent *event)
 {
   GNUMERIC_EXPR_ENTRY (cell_editable)->is_cell_renderer = TRUE;
 
@@ -265,7 +265,8 @@ gee_start_editing (GtkCellEditable *cell_editable,
 }
 
 static void
-gnumeric_cell_editable_entry_activated (gpointer data, GnumericExprEntry *entry)
+gnumeric_cell_editable_entry_activated (__attribute__((unused)) gpointer data,
+					GnumericExprEntry *entry)
 {
 	gtk_cell_editable_editing_done (GTK_CELL_EDITABLE (entry));
 }
@@ -556,7 +557,9 @@ gee_destroy (GtkObject *object)
 }
 
 static gboolean
-cb_gee_button_press_event (GtkEntry *entry, GdkEventButton *event, GnumericExprEntry *gee)
+cb_gee_button_press_event (__attribute__((unused)) GtkEntry *entry,
+			   __attribute__((unused)) GdkEventButton *event,
+			   GnumericExprEntry *gee)
 {
 	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), FALSE);
 
@@ -689,7 +692,9 @@ cb_gee_key_press_event (GtkEntry	  *entry,
 }
 
 static void
-gee_notify_cursor_position (GObject *object, GParamSpec *pspec, GnumericExprEntry *gee)
+gee_notify_cursor_position (__attribute__((unused)) GObject *object,
+			    __attribute__((unused)) GParamSpec *pspec,
+			    GnumericExprEntry *gee)
 {
 	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee));
 
@@ -757,7 +762,8 @@ gee_get_property (GObject      *object,
 }
 
 static void
-cb_entry_changed (GtkEntry *ignored, GnumericExprEntry *gee)
+cb_entry_changed (__attribute__((unused)) GtkEntry *ignored,
+		  GnumericExprEntry *gee)
 {
 	if (!gee->ignore_changes) {
 		if (!gee->is_cell_renderer &&

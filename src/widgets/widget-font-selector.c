@@ -63,7 +63,7 @@ reload_preview (FontSelector *fs, MStyle *style)
  * We cannot moveto a list element until it is mapped.
  */
 static void
-list_mapped (GtkWidget *widget, gpointer user_data)
+list_mapped (GtkWidget *widget, __attribute__((unused)) gpointer user_data)
 {
 	GtkCList * clist = GTK_CLIST (widget);
 	int row = 0;
@@ -74,7 +74,10 @@ list_mapped (GtkWidget *widget, gpointer user_data)
 }
 
 static void
-font_selected (GtkCList *font_list, int col, int row, GdkEvent *event, FontSelector *fs)
+font_selected (GtkCList *font_list,
+	       __attribute__((unused)) int col,
+	       __attribute__((unused)) int row,
+	       __attribute__((unused)) GdkEvent *event, FontSelector *fs)
 {
 	 gchar *text;
 	 MStyle *change;
@@ -119,7 +122,9 @@ static const char *styles[] = {
 };
 
 static void
-style_selected (GtkCList *style_list, int col, int row, GdkEvent *event, FontSelector *fs)
+style_selected (GtkCList *style_list,
+		__attribute__((unused)) int col, int row,
+		__attribute__((unused)) GdkEvent *event, FontSelector *fs)
 {
 	 MStyle *change = mstyle_new ();
 	 row = GPOINTER_TO_INT (style_list->selection->data);
@@ -170,7 +175,9 @@ fs_fill_font_style_list (FontSelector *fs)
 }
 
 static void
-size_selected (GtkCList *size_list, int col, int row, GdkEvent *event, FontSelector *fs)
+size_selected (GtkCList *size_list,
+	       __attribute__((unused)) int col, int row,
+	       __attribute__((unused)) GdkEvent *event, FontSelector *fs)
 {
 	 MStyle *change = mstyle_new ();
 	 gchar *text;
@@ -222,25 +229,31 @@ fs_fill_font_size_list (FontSelector *fs)
 }
 
 static int
-cb_get_row_height (PreviewGrid *pg, int row, FontSelector *fs)
+cb_get_row_height (__attribute__((unused)) PreviewGrid *pg,
+		   __attribute__((unused)) int row, FontSelector *fs)
 {
 	return fs->height;
 }
 
 static int
-cb_get_col_width (PreviewGrid *pg, int col, FontSelector *fs)
+cb_get_col_width (__attribute__((unused)) PreviewGrid *pg,
+		  __attribute__((unused)) int col, FontSelector *fs)
 {
 	return fs->width;
 }
 
 static MStyle *
-cb_get_cell_style (PreviewGrid *pg, int row, int col, FontSelector *fs)
+cb_get_cell_style (__attribute__((unused)) PreviewGrid *pg,
+		   __attribute__((unused)) int row,
+		   __attribute__((unused)) int col, FontSelector *fs)
 {
 	return fs->mstyle;
 }
 
 static Value *
-cb_get_cell_value (PreviewGrid *pg, int row, int col, FontSelector *fs)
+cb_get_cell_value (__attribute__((unused)) PreviewGrid *pg,
+		   __attribute__((unused)) int row,
+		   __attribute__((unused)) int col, FontSelector *fs)
 {
 	/*
 	 * FIXME: :-( Why don't Value *'s support refcounting?
@@ -249,7 +262,8 @@ cb_get_cell_value (PreviewGrid *pg, int row, int col, FontSelector *fs)
 }
 
 static void
-canvas_size_changed (GtkWidget *widget, GtkAllocation *allocation, FontSelector *fs)
+canvas_size_changed (__attribute__((unused)) GtkWidget *widget,
+		     GtkAllocation *allocation, FontSelector *fs)
 {
 	fs->width  = allocation->width - 1;
 	fs->height = allocation->height - 1;

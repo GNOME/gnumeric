@@ -1,3 +1,10 @@
+2002-11-03  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* widget-editable-label.c, widget-font-selector.c,
+	  gnumeric-cell-renderer-expr-entry.c,
+	  gnumeric-cell-renderer-toggle.c, gnumeric-expr-entry.c,
+	  gnumeric-combo-text.c: Annotated unused parameters.
+
 2002-11-01  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.11
