@@ -1,3 +1,14 @@
+2000-07-25  Morten Welinder <terra@diku.dk>
+
+	* latex.c (latex_fprintf_cell): Rename from latex_fprintf.  Don't
+ 	escape quotes.  Do escape braces.  Properly handle '^', '~', and
+ 	'\\'.  Don't return anything.
+	(latex_fputs): New function extracted from latex_fprintf_cell.
+	(html_write_wb_latex): Write sheet name in LaTeX style.
+	(html_write_wb_latex2e): Ditto.
+
+	[Sure looks like the following!]
+
 2000-07-25  Jody Goldberg <jgoldberg@home.com>
 
 	* latex.c (latex_fprint_string) : New function split from
