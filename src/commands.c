@@ -1843,14 +1843,29 @@ cmd_resize_colrow (WorkbookControl *wbc, Sheet *sheet,
 		g_string_append (list, "...");
 	}
 
-	if (is_single)
-		me->parent.cmd_descriptor = is_cols
-			? g_strdup_printf (_("Setting width of column %s to %d pixels"), list->str, new_size)
-			: g_strdup_printf (_("Setting height of row %s to %d pixels"), list->str, new_size);
-	else
-		me->parent.cmd_descriptor = is_cols
-			? g_strdup_printf (_("Setting width of columns %s to %d pixels"), list->str, new_size)
-			: g_strdup_printf (_("Setting height of rows %s to %d pixels"), list->str, new_size);
+	if (is_single) {
+		if (new_size < 0)
+			me->parent.cmd_descriptor = is_cols
+				? g_strdup_printf (_("Autofitting column %s"), list->str)
+				: g_strdup_printf (_("Autofitting row %s"), list->str);
+		else
+			me->parent.cmd_descriptor = is_cols
+				? g_strdup_printf (_("Setting width of column %s to %d pixels"),
+						   list->str, new_size)
+				: g_strdup_printf (_("Setting height of row %s to %d pixels"),
+						   list->str, new_size);
+	} else {
+		if (new_size < 0)
+			me->parent.cmd_descriptor = is_cols
+				? g_strdup_printf (_("Autofitting columns %s"), list->str)
+				: g_strdup_printf (_("Autofitting columns %s"), list->str);
+		else
+			me->parent.cmd_descriptor = is_cols
+				? g_strdup_printf (_("Setting width of columns %s to %d pixels"),
+						   list->str, new_size)
+				: g_strdup_printf (_("Setting height of rows %s to %d pixels"),
+						   list->str, new_size);
+	}
 
 	g_string_free (list, TRUE);
 	/* Register the command object */

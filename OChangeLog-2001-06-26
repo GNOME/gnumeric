@@ -11,6 +11,9 @@
 	the row heights.
 	(cmd_paste_copy_redo): Set is_undo to false.
 	(cmd_paste_copy): Init is_undo flag.
+
+	* src/commands.c (cmd_resize_colrow): Correct descriptor
+	for autofitting.
 	
 2001-05-13  Jody Goldberg <jgoldberg@home.com>
 
