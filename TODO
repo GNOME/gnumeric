@@ -66,6 +66,10 @@ Gnumeric Spread Sheet task list
 
 * when copying and entire row or col we should also copy the row/col size.
 
+* when cuting & pasting a cell that is inside a range on another cell grow
+  the range of the formula if the cell is pasted in a place where it grows
+  it boundaries.
+
 * Number formatting
 
    The formatting code should take the current GtkFont for the cell
