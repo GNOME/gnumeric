@@ -33,6 +33,7 @@
 #include <collect.h>
 #include <value.h>
 #include <expr.h>
+#include <regression.h>
 
 #include <math.h>
 #include <string.h>
@@ -2759,6 +2760,34 @@ validate_range_numeric_matrix (const EvalPos *ep, Value * matrix,
 	return FALSE;
 }
 
+static gnm_float **
+value_to_matrix (const Value *v, int cols, int rows, EvalPos const *ep)
+{
+	gnm_float **res = g_new (gnm_float *, rows);
+	int r, c;
+
+	for (r = 0; r < rows; r++) {
+		res[r] = g_new (gnm_float, cols);
+		for (c = 0; c < cols; c++)
+		        res[r][c] =
+				value_get_as_float (value_area_get_x_y (v, c, r, ep));
+	}
+
+	return res;
+}
+
+static void
+free_matrix (gnm_float **mat, G_GNUC_UNUSED int cols, int rows)
+{
+	int r;
+
+	for (r = 0; r < rows; r++)
+		g_free (mat[r]);
+		
+	g_free (mat);
+}
+
+
 static Value *
 gnumeric_minverse (FunctionEvalInfo *ei, Value **argv)
 {
@@ -2766,9 +2795,9 @@ gnumeric_minverse (FunctionEvalInfo *ei, Value **argv)
 
 	int	r, rows;
 	int	c, cols;
-        Value   *res;
-        Value   *values = argv[0];
-	gnm_float *matrix, *inverse;
+	Value *res;
+        Value *values = argv[0];
+	gnm_float **matrix;
 	GnmStdError err;
 
 	if (validate_range_numeric_matrix (ep, values, &rows, &cols, &err)) {
@@ -2779,34 +2808,21 @@ gnumeric_minverse (FunctionEvalInfo *ei, Value **argv)
 	if (cols != rows || !rows || !cols)
 		return value_new_error_VALUE (ei->pos);
 
-	matrix = g_new (gnm_float, rows*cols);
-	inverse = g_new (gnm_float, rows*cols);
-	for (c = 0; c < cols; c++)
-	        for (r = 0; r < rows; r++) {
-		        Value const * a =
-			      value_area_get_x_y (values, c, r, ep);
-		        *(matrix + r + c * cols) = value_get_as_float (a);
-		}
-
-	if (minverse (matrix, cols, inverse)) {
-	        g_free (matrix);
-	        g_free (inverse);
+	matrix = value_to_matrix (values, cols, rows, ep);
+	if (!matrix_invert (matrix, rows)) {
+		free_matrix (matrix, cols, rows);
 		return value_new_error_NUM (ei->pos);
 	}
 
-	g_free (matrix);
 	res = value_new_array_non_init (cols, rows);
-
 	for (c = 0; c < cols; ++c) {
 		res->v_array.vals[c] = g_new (Value *, rows);
 		for (r = 0; r < rows; ++r) {
-			gnm_float tmp;
-
-			tmp = *(inverse + r + c * rows);
+			gnm_float tmp = matrix[r][c];
 			res->v_array.vals[c][r] = value_new_float (tmp);
 		}
 	}
-	g_free (inverse);
+	free_matrix (matrix, cols, rows);
 
 	return res;
 }
@@ -2914,11 +2930,10 @@ gnumeric_mdeterm (FunctionEvalInfo *ei, Value **argv)
 {
 	EvalPos const * const ep = ei->pos;
 
-	int	r, rows;
-	int	c, cols;
+	int	rows, cols;
         gnm_float res;
         Value   *values = argv[0];
-	gnm_float *matrix;
+	gnm_float **matrix;
 	GnmStdError err;
 
 	if (validate_range_numeric_matrix (ep, values, &rows, &cols, &err)) {
@@ -2929,16 +2944,9 @@ gnumeric_mdeterm (FunctionEvalInfo *ei, Value **argv)
 	if (cols != rows || !rows || !cols)
 		return value_new_error_VALUE (ei->pos);
 
-	matrix = g_new (gnm_float, rows * cols);
-	for (c = 0; c < cols; c++)
-	        for (r = 0; r < rows; r++) {
-		        Value const * a =
-			      value_area_get_x_y (values, c, r, ep);
-		        *(matrix + r + c * cols) = value_get_as_float (a);
-		}
-
-	res = mdeterm (matrix, cols);
-	g_free (matrix);
+	matrix = value_to_matrix (values, cols, rows, ep);
+	res = matrix_determinant (matrix, rows);
+	free_matrix (matrix, cols, rows);
 
 	return value_new_float (res);
 }

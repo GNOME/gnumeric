@@ -1,3 +1,8 @@
+2003-01-02  Morten Welinder  <terra@diku.dk>
+
+	* functions.c (gnumeric_minverse): Use new matrix_invert.
+	(gnumeric_mdeterm): Use new matrix_determinant.
+
 2002-12-31  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.15

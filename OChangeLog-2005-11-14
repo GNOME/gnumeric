@@ -1,3 +1,12 @@
+2003-01-02  Morten Welinder  <terra@diku.dk>
+
+	* src/regression.c (matrix_invert): New function.
+	(matrix_determinant): New function.
+	(LUPDecomp): Add an argument in which to return determinant.
+	(rescale): Add an argument in which to return determinant scaling.
+
+	* src/mathfunc.c (mdeterm, minverse): Delete.
+
 2003-01-01  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* debian/changelog, debian/control, debian/gnumeric-doc.dirs,

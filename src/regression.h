@@ -176,4 +176,8 @@ RegressionResult non_linear_regression (RegressionFunction f,
 					gnm_float *chi,
 					gnm_float *errors);
 
+
+gboolean matrix_invert (gnm_float **A, int n);
+gnm_float matrix_determinant (gnm_float **A, int n);
+
 #endif

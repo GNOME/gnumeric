@@ -125,7 +125,7 @@ gnm_float random_beta           (gnm_float a, gnm_float b);
 gnm_float random_logistic       (gnm_float a);
 gnm_float random_geometric      (gnm_float p);
 gnm_float random_hypergeometric (unsigned int n1, unsigned int n2, 
-				  unsigned int t);
+				 unsigned int t);
 gnm_float random_logarithmic    (gnm_float p);
 gnm_float random_chisq          (gnm_float nu);
 gnm_float random_tdist          (gnm_float nu);
@@ -133,7 +133,7 @@ gnm_float random_gumbel1        (gnm_float a, gnm_float b);
 gnm_float random_gumbel2        (gnm_float a, gnm_float b);
 gnm_float random_levy           (gnm_float c, gnm_float alpha);
 gnm_float random_levy_skew      (gnm_float c, gnm_float alpha,
-				  gnm_float beta);
+				 gnm_float beta);
 gnm_float random_exppow         (gnm_float a, gnm_float b);
 gnm_float random_landau         (void);
 gnm_float random_gaussian_tail  (gnm_float a, gnm_float sigma);
@@ -145,8 +145,6 @@ gnm_float random_laplace_pdf    (gnm_float x, gnm_float a);
 /* ------------------------------------------------------------------------- */
 
 /* Matrix functions. */
-gnm_float mdeterm (gnm_float *A, int dim);
-int     minverse (gnm_float *A, int dim, gnm_float *res);
 void    mmult (gnm_float *A, gnm_float *B, int cols_a, int rows_a, int cols_b,
 	       gnm_float *product);
 
@@ -155,7 +153,7 @@ void    mmult (gnm_float *A, gnm_float *B, int cols_a, int rows_a, int cols_b,
 /* Misc. */
 gnm_float     gpow10 (int n);
 gnm_float     gpow2  (int n);
-int            gcd    (int a, int b);
+int           gcd    (int a, int b);
 gnm_float     combin (int n, int k);
 gnm_float     permut (int n, int k);
 gnm_float     fact   (int n);

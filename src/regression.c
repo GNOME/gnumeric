@@ -100,10 +100,11 @@ backsolve (gnm_float **LU, int *P, gnm_float *b, int n, gnm_float *res)
 }
 
 static RegressionResult
-rescale (gnm_float **A, gnm_float *b, int n)
+rescale (gnm_float **A, gnm_float *b, int n, gnm_float *pdet)
 {
 	int i;
 
+	*pdet = 1;
 	for (i = 0; i < n; i++) {
 		int j, expn;
 		gnm_float scale, max;
@@ -121,6 +122,7 @@ rescale (gnm_float **A, gnm_float *b, int n)
 			i, scale);
 #endif
 
+		*pdet *= scale;
 		b[i] /= scale;
 		for (j = 0; j < n; j++)
 			A[i][j] /= scale;
@@ -141,22 +143,28 @@ rescale (gnm_float **A, gnm_float *b, int n)
  * accordingly.
  */
 static RegressionResult
-LUPDecomp (gnm_float **A, gnm_float **LU, int *P, int n, gnm_float *b_scaled)
+LUPDecomp (gnm_float **A, gnm_float **LU, int *P, int n, gnm_float *b_scaled,
+	   gnm_float *pdet)
 {
 	int i, j, k, tempint;
 	gnm_float highest = 0;
 	gnm_float lowest = GNUM_MAX;
 	gnm_float cond;
+	gboolean odd_parity = FALSE;
+	gnm_float det = 1;
 
 	COPY_MATRIX (LU, A, n, n);
 	for (j = 0; j < n; j++)
 		P[j] = j;
 
+
+	*pdet = 0;
+
 #ifdef DEBUG_NEAR_SINGULAR
 	PRINT_MATRIX (LU, n, n);
 #endif
 	{
-		RegressionResult err = rescale (LU, b_scaled, n);
+		RegressionResult err = rescale (LU, b_scaled, n, &det);
 		if (err != REG_ok)
 			return err;
 	}
@@ -181,21 +189,32 @@ LUPDecomp (gnm_float **A, gnm_float **LU, int *P, int n, gnm_float *b_scaled)
 			highest = max;
 		if (max < lowest)
 			lowest = max;
-		tempint = P[i];
-		P[i] = P[mov];
-		P[mov] = tempint;
-		/*swap the two rows */
-		for (j = 0; j < n; j++) {
-			gnm_float temp = LU[i][j];
-			LU[i][j] = LU[mov][j];
-			LU[mov][j] = temp;
+		if (i != mov) {
+			/*swap the two rows */
+
+			odd_parity = !odd_parity;
+			tempint = P[i];
+			P[i] = P[mov];
+			P[mov] = tempint;
+			for (j = 0; j < n; j++) {
+				gnm_float temp = LU[i][j];
+				LU[i][j] = LU[mov][j];
+				LU[mov][j] = temp;
+			}
 		}
+
 		for (j = i + 1; j < n; j++) {
 			LU[j][i] /= LU[i][i];
 			for (k = i + 1; k < n; k++)
 				LU[j][k] -= LU[j][i] * LU[i][k];
 		}
 	}
+
+	/* Calculate the determinant.  */
+	if (odd_parity) det = -det;
+	for (i = 0; i < n; i++)
+		det *= LU[i][i];
+	*pdet = det;
 
 	cond = (loggnum (highest) - loggnum (lowest)) / loggnum (2);
 #ifdef DEBUG_NEAR_SINGULAR
@@ -218,6 +237,7 @@ linear_solve (gnm_float **A, gnm_float *b, int n, gnm_float *res)
 	RegressionResult err;
 	gnm_float **LU, *b_scaled;
 	int *P;
+	gnm_float det;
 
 	if (n < 1)
 		return REG_not_enough_data;
@@ -234,7 +254,7 @@ linear_solve (gnm_float **A, gnm_float *b, int n, gnm_float *res)
 
 	/* Special case.  */
 	if (n == 2) {
-		gnm_float d = A[0][0] * A[1][1] - A[1][0] * A[0][1];
+		gnm_float d = matrix_determinant (A, n);
 		if (d == 0)
 			return REG_singular;
 
@@ -253,7 +273,7 @@ linear_solve (gnm_float **A, gnm_float *b, int n, gnm_float *res)
 	b_scaled = g_new (gnm_float, n);
 	memcpy (b_scaled, b, n * sizeof (gnm_float));
 
-	err = LUPDecomp (A, LU, P, n, b_scaled);
+	err = LUPDecomp (A, LU, P, n, b_scaled, &det);
 
 	if (err == REG_ok || err == REG_near_singular_good)
 		backsolve (LU, P, b_scaled, n, res);
@@ -262,6 +282,88 @@ linear_solve (gnm_float **A, gnm_float *b, int n, gnm_float *res)
 	g_free (P);
 	g_free (b_scaled);
 	return err;
+}
+
+
+gboolean
+matrix_invert (gnm_float **A, int n)
+{
+	RegressionResult err;
+	gnm_float **LU, *b_scaled, det;
+	int *P;
+	int i;
+	gboolean res;
+
+	if (n < 1)
+		return FALSE;
+
+	/*
+	 * Otherwise, use LUP-decomposition to find res such that
+	 * A res = b
+	 */
+	ALLOC_MATRIX (LU, n, n);
+	P = g_new (int, n);
+
+	b_scaled = g_new (gnm_float, n);
+	for (i = 0; i < n; i++)
+		b_scaled[i] = 1;
+
+	err = LUPDecomp (A, LU, P, n, b_scaled, &det);
+
+	if (err == REG_ok || err == REG_near_singular_good) {
+		int i;
+		gnm_float *b = g_new (gnm_float, n);
+
+		for (i = 0; i < n; i++) {
+			memset (b, 0, sizeof (gnm_float) * n);
+			b[i] = b_scaled[i];
+			backsolve (LU, P, b, n, A[i]);
+		}
+		g_free (b);
+		res = TRUE;
+	} else
+		res = FALSE;
+
+	FREE_MATRIX (LU, n, n);
+	g_free (P);
+	g_free (b_scaled);
+
+	return res;
+}
+
+gnm_float
+matrix_determinant (gnm_float **A, int n)
+{
+	RegressionResult err;
+	gnm_float **LU, *b_scaled, det;
+	int *P;
+
+	if (n < 1)
+		return 0;
+
+	/* Special case.  */
+	if (n == 1)
+		return A[0][0];
+
+	/* Special case.  */
+	if (n == 2)
+		return A[0][0] * A[1][1] - A[1][0] * A[0][1];
+
+	/*
+	 * Otherwise, use LUP-decomposition to find res such that
+	 * A res = b
+	 */
+	ALLOC_MATRIX (LU, n, n);
+	P = g_new (int, n);
+	b_scaled = g_new0 (gnm_float, n);
+
+	err = LUPDecomp (A, LU, P, n, b_scaled, &det);
+
+	FREE_MATRIX (LU, n, n);
+	g_free (P);
+	g_free (b_scaled);
+
+	return det;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -329,7 +431,7 @@ general_linear_regression (gnm_float **xss, int xdim,
 	    (regerr == REG_ok || regerr == REG_near_singular_good)) {
 		RegressionResult err2;
 		gnm_float *residuals = g_new (gnm_float, n);
-		gnm_float **LU, *one_scaled;
+		gnm_float **LU, *one_scaled, det;
 		int *P;
 		int err;
 
@@ -384,7 +486,7 @@ general_linear_regression (gnm_float **xss, int xdim,
 		for (i = 0; i < xdim; i++) one_scaled[i] = 1;
 		P = g_new (int, xdim);
 
-		err2 = LUPDecomp (xTx, LU, P, xdim, one_scaled);
+		err2 = LUPDecomp (xTx, LU, P, xdim, one_scaled, &det);
 		regression_stat->se = g_new (gnm_float, xdim);
 		if (err2 == REG_ok || err2 == REG_near_singular_good) {
 			gnm_float *e = g_new (gnm_float, xdim); /* Elementary vector */

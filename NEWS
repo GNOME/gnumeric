@@ -1,3 +1,11 @@
+Gnumeric 1.1.16
+
+Morten:
+	* Fix MDETERM.
+	* Lower number of matrix LU-decomposition routines from three to
+	  one.
+
+--------------------------------------------------------------------------
 Gnumeric 1.1.15
 
 Jody:
