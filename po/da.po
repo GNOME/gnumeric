@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.40\n"
 "POT-Creation-Date: 2000-05-30 00:08+0200\n"
-"PO-Revision-Date: 2000-05-30 17:30+02:00\n"
+"PO-Revision-Date: 2000-06-04 02:30+02:00\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <da@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -108,20 +108,20 @@ msgstr "Excel(R) 97-filformat"
 msgid "Excel(R) 95 file format"
 msgstr "Excel(R) 95-filformat"
 
-#: plugins/excel/ms-excel-read.c:263
+#: plugins/excel/ms-excel-read.c:411
 msgid "#UNKNOWN!"
 msgstr "#UKENDT!"
 
-#: plugins/excel/ms-excel-read.c:3510
+#: plugins/excel/ms-excel-read.c:3658
 msgid "No book or workbook streams found."
 msgstr "Ingen bøger eller arbejdsbogsstrømme fundet."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:3867
+#: plugins/excel/ms-excel-read.c:3962
 msgid "Password protected workbooks are not supported yet."
 msgstr "Adgangskodebeskyttede arbejdsbøger er endnu ikke understøttet."
 
-#: plugins/excel/ms-excel-read.c:4039
+#: plugins/excel/ms-excel-read.c:4134
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kunne ikke finde gyldig MS Excel-arbejdsbog"
 
@@ -547,111 +547,111 @@ msgstr "XBase"
 msgid "Imports XBase files"
 msgstr "Importerer XBase-filer"
 
-#: src/about.c:25
+#: src/about.c:37
 msgid "Miguel de Icaza, main programmer."
 msgstr "Miguel de Icaza, hovedprogrammør."
 
-#: src/about.c:26
+#: src/about.c:38
 msgid "Almer. S. Tigelaar, Text import."
 msgstr "Almer. S. Tigelaar, Tekst importering."
 
-#: src/about.c:27
+#: src/about.c:39
 msgid "Sean Atkinson, Functions and X-Base importing."
 msgstr "Sean Atkinson, Funktioner og X-Base importering."
 
-#: src/about.c:28
+#: src/about.c:40
 msgid "Tom Dyas, Plugin support."
 msgstr "Tom Dyas, indstiksunderstøttelse."
 
-#: src/about.c:29
+#: src/about.c:41
 msgid "Gergõ Érdi, Gnumeric hacker."
 msgstr "Gergõ Érdi, Gnumeric-hacker."
 
-#: src/about.c:30
+#: src/about.c:42
 msgid "Jody Goldberg, Gnumeric hacker."
 msgstr "Jody Goldberg, Gnumeric-hacker."
 
-#: src/about.c:31
+#: src/about.c:43
 msgid "Ross Ihaka, special functions."
 msgstr "Ross Ihaka, specielle funktioner."
 
-#: src/about.c:32
+#: src/about.c:44
 msgid "Jukka-Pekka Iivonen, numerous functions and tools."
 msgstr "Jukka-Pekka Iivonen, mange funktioner og værktøjer."
 
-#: src/about.c:33
+#: src/about.c:45
 msgid "Jakub Jelinek, Gnumeric hacker."
 msgstr "Jakub Jelinek, Gnumeric-hacker."
 
-#: src/about.c:34
+#: src/about.c:46
 msgid "Jon K Hellan, Gnumeric hacker."
 msgstr "Jon K Hellan, Gnumeric-hacker."
 
-#: src/about.c:35
+#: src/about.c:47
 msgid "Chris Lahey, Number format engine."
 msgstr "Chris Lahey, nummerformatsmotor."
 
-#: src/about.c:36
+#: src/about.c:48
 msgid "Adrian Likins, Documentation, debugging."
 msgstr "Adrian Likins, dokumentation, fejlfinding."
 
-#: src/about.c:37
+#: src/about.c:49
 msgid "Takashi Matsuda, original text plugin."
 msgstr "Takashi Matsuda, oprindeligt tekstindstik."
 
-#: src/about.c:38
+#: src/about.c:50
 msgid "Federico Mena, Canvas support."
 msgstr "Federico Mena, kanvas-understøttelse."
 
-#: src/about.c:39
+#: src/about.c:51
 msgid "Michael Meeks, Excel and OLE2 importing."
 msgstr "Michael Meeks, Excel og OLE2 importering."
 
-#: src/about.c:40
+#: src/about.c:52
 msgid "Mark Probst, Guile support."
 msgstr "Mark Probst, Guile-understøttelse."
 
-#: src/about.c:41
+#: src/about.c:53
 msgid "Rasca, HTML, troff, LaTeX exporters."
 msgstr "Rasca, HTML, troff, LaTeX-eksportering."
 
-#: src/about.c:42
+#: src/about.c:54
 msgid "Vincent Renardias, original CSV support, French localisation."
 msgstr "Vincent Renardias, oprindelig CSV understøttelse, fransk lokalisering."
 
-#: src/about.c:43
+#: src/about.c:55
 msgid "Ariel Rios, Guile support."
 msgstr "Ariel Rios, Guile-understøttelse."
 
-#: src/about.c:44
+#: src/about.c:56
 msgid "Bruno Unna, Excel bits."
 msgstr "Bruno Unna, Excel arbejde."
 
-#: src/about.c:45
+#: src/about.c:57
 msgid "Daniel Veillard, XML support."
 msgstr "Daniel Veillard, XML-understøttelse."
 
-#: src/about.c:46
+#: src/about.c:58
 msgid "Vladimir Vuksan, financial functions."
 msgstr "Vladimir Vuksan, financielle funktioner."
 
-#: src/about.c:47
+#: src/about.c:59
 msgid "Morten Welinder, Gnumeric hacker."
 msgstr "Morten Welinder, dansk Gnumeric-hacker."
 
-#: src/about.c:61
+#: src/about.c:79
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
-#: src/about.c:62
+#: src/about.c:80
 msgid "(C) 1998-2000 Miguel de Icaza"
 msgstr "(C) 1998-2000 Miguel de Icaza"
 
-#: src/about.c:69
+#: src/about.c:87
 msgid "Gnumeric Home Page"
 msgstr "Gnumeric hjemmeside"
 
-#: src/about.c:71
+#: src/about.c:89
 msgid "Gnumeric Support page"
 msgstr "Gnumeric supportside"
 
@@ -1130,75 +1130,75 @@ msgstr "Indsæt"
 msgid "Would split an array."
 msgstr "Ville opsplitte et array"
 
-#: src/commands.c:411 src/commands.c:508
+#: src/commands.c:412 src/commands.c:509
 msgid "Set Text"
 msgstr "Sæt tekst"
 
-#: src/commands.c:435
+#: src/commands.c:436
 #, c-format
 msgid "Typing \"%s%s\" in %s"
 msgstr "Indtaster \"%s%s\" i %s"
 
-#: src/commands.c:616
+#: src/commands.c:617
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "Indtaster \"%s%s\""
 
-#: src/commands.c:808
+#: src/commands.c:813
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "indsætter %d kolonner før %s"
 
-#: src/commands.c:809
+#: src/commands.c:814
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "indsætter %d kolonner før %s"
 
-#: src/commands.c:820
+#: src/commands.c:825
 #, c-format
 msgid "Inserting %d rows before %d"
 msgstr "Indsætter %d rækker før %d"
 
-#: src/commands.c:821
+#: src/commands.c:826
 #, c-format
 msgid "Inserting %d row before %d"
 msgstr "Indsætter %d række før %d"
 
 #. col_name uses a static buffer
-#: src/commands.c:834
+#: src/commands.c:839
 #, c-format
 msgid "Deleting %d columns %s:"
 msgstr "Sletter %d kolonner %s:"
 
-#: src/commands.c:839
+#: src/commands.c:844
 #, c-format
 msgid "Deleting column %s"
 msgstr "Sletter kolonne %s"
 
-#: src/commands.c:849
+#: src/commands.c:854
 #, c-format
 msgid "Deleting %d rows %d:%d"
 msgstr "Sletter %d rækker %d:%d"
 
-#: src/commands.c:851
+#: src/commands.c:856
 #, c-format
 msgid "Deleting row %d"
 msgstr "Sletter række %d"
 
-#: src/commands.c:919
+#: src/commands.c:924
 msgid "Undo Clear"
 msgstr "Fortryd rydning"
 
 #. TODO : Something more descriptive ? maybe the range name
-#: src/commands.c:990 src/sheet.c:2438
+#: src/commands.c:995 src/sheet.c:2460
 msgid "Clear"
 msgstr "Ryd"
 
-#: src/commands.c:1178
+#: src/commands.c:1183
 msgid "Format cells"
 msgstr "Formattér celler"
 
-#: src/commands.c:1249
+#: src/commands.c:1254
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr "Omdøb ark '%s' '%s'"
@@ -1210,74 +1210,73 @@ msgstr "Omdøb ark '%s' '%s'"
 #. * translators should be aware that the leading character of the
 #. * result will be ignored.
 #.
-#: src/commands.c:1328
+#: src/commands.c:1333
 msgid ">mm/dd/yyyy"
 msgstr ">mm/dd/yyyy"
 
 #. FIXME : See comment above
-#: src/commands.c:1333
+#: src/commands.c:1338
 msgid ">hh:mm"
 msgstr ">hh:mm"
 
-#: src/commands.c:1379
+#: src/commands.c:1384
 msgid "Set Date/Time"
 msgstr "Sæt dato/klokkeslet"
 
-#: src/commands.c:1394
+#: src/commands.c:1399
 #, c-format
 msgid "Setting current date in %s"
 msgstr "Indsætter nuværende dato i %s"
 
-#: src/commands.c:1395
+#: src/commands.c:1400
 #, c-format
 msgid "Setting current time in %s"
 msgstr "Indsætter nuværende tidspunkt i %s"
 
-#: src/commands.c:1478
+#: src/commands.c:1483
 #, c-format
 msgid "Setting width of column %s"
 msgstr "Angiver bredde på kolonne %s"
 
-#: src/commands.c:1479
+#: src/commands.c:1484
 #, c-format
 msgid "Setting height of row %d"
 msgstr "Angiver højde på række %d"
 
-#: src/commands.c:1602
+#: src/commands.c:1603
 #, c-format
 msgid "Sorting %s"
 msgstr "Sorter %s"
 
-#: src/commands.c:1683
+#: src/commands.c:1684
 msgid "Unhide columns"
 msgstr "Vis kolonner"
 
-#: src/commands.c:1683
+#: src/commands.c:1684
 msgid "Hide columns"
 msgstr "Skjul kolonner"
 
-#: src/commands.c:1684
+#: src/commands.c:1685
 msgid "Unhide rows"
 msgstr "Vis rækker"
 
-#: src/commands.c:1684
+#: src/commands.c:1685
 msgid "Hide rows"
 msgstr "Skjul rækker"
 
 #. FIXME : improve on this
-#: src/commands.c:1790
+#: src/commands.c:1856
 msgid "Moving cells"
 msgstr "Flytter celler"
 
-#: src/commands.c:1927
+#: src/commands.c:1994
 #, c-format
 msgid "Pasting into %s"
 msgstr "Indsætter i %s"
 
-#. FIXME : improve on this
-#: src/commands.c:2033
-msgid "Shift cells"
-msgstr "Skift celler"
+#: src/commands.c:2113
+msgid "Autofill"
+msgstr "Autofyld"
 
 #: src/corba-args.c:33
 msgid "Oaf options"
@@ -2738,7 +2737,7 @@ msgstr "sortér"
 msgid "then by"
 msgstr "så efter"
 
-#: src/dialogs/dialog-delete-cells.c:82
+#: src/dialogs/dialog-delete-cells.c:83
 msgid "delete cells"
 msgstr "slet celler"
 
@@ -2847,7 +2846,7 @@ msgstr "Celle"
 msgid "Go to..."
 msgstr "Gå til..."
 
-#: src/dialogs/dialog-insert-cells.c:82
+#: src/dialogs/dialog-insert-cells.c:83
 msgid "insert cells"
 msgstr "indsæt celler"
 
@@ -2928,11 +2927,11 @@ msgstr "Ændret:"
 msgid "Modified: %s"
 msgstr "Ændret: %s"
 
-#: src/dialogs/dialog-printer-setup.c:922
+#: src/dialogs/dialog-printer-setup.c:923
 msgid "Custom header configuration"
 msgstr "Konfiguration af personlig sidehoved"
 
-#: src/dialogs/dialog-printer-setup.c:934
+#: src/dialogs/dialog-printer-setup.c:935
 msgid "Custom footer configuration"
 msgstr "Konfiguration af personlig sidefod"
 
@@ -2985,7 +2984,7 @@ msgstr "Du skal vælge mindst ét ark til eksport"
 msgid "Are you sure you want to cancel?"
 msgstr "Er du sikker på at du ønsker af fortryde?"
 
-#: src/dialogs/dialog-stf-export.c:382 src/dialogs/dialog-stf.c:525
+#: src/dialogs/dialog-stf-export.c:380 src/dialogs/dialog-stf.c:524
 #, c-format
 msgid "Missing %s file"
 msgstr "Manglende %s fil"
@@ -4171,24 +4170,24 @@ msgstr "hvid"
 msgid "yellow"
 msgstr "gul"
 
-#: src/format.c:1399
+#: src/format.c:1398
 msgid "0.0########"
 msgstr "0,0########"
 
-#: src/format.c:1413 src/value-sheet.c:34 src/value.c:400
+#: src/format.c:1412 src/value-sheet.c:34 src/value.c:400
 msgid "TRUE"
 msgstr "TRUE"
 
-#: src/format.c:1413 src/value-sheet.c:34 src/value.c:400
+#: src/format.c:1412 src/value-sheet.c:34 src/value.c:400
 msgid "FALSE"
 msgstr "FALSE"
 
 #. Array of arrays ??
-#: src/format.c:1426
+#: src/format.c:1425
 msgid "ARRAY"
 msgstr "ARRAY"
 
-#: src/formats.c:18 src/number-match.c:467 src/style.c:80
+#: src/formats.c:18 src/number-match.c:468 src/style.c:80
 msgid "General"
 msgstr "Generelt"
 
@@ -14466,7 +14465,7 @@ msgstr ""
 msgid "You cannot change part of an array."
 msgstr "Du kan ikke ændre en del af et array."
 
-#: src/gnumeric-util.c:704
+#: src/gnumeric-util.c:705
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "kan ikke åbne fil '%s'"
@@ -14475,11 +14474,11 @@ msgstr "kan ikke åbne fil '%s'"
 msgid "/File/"
 msgstr "/Fil/"
 
-#: src/history.c:136 src/history.c:158
+#: src/history.c:135 src/history.c:157
 msgid "File/Print preview"
 msgstr "Filer/Vis udskrift"
 
-#: src/history.c:204
+#: src/history.c:211
 msgid "File/"
 msgstr "Fil/"
 
@@ -14664,7 +14663,7 @@ msgstr ""
 "datadir := %s\n"
 "libdir := %s\n"
 
-#: src/number-match.c:168
+#: src/number-match.c:169
 msgid "(([-+]?[0-9,]+)?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
 msgstr "(([-+]?[0-9,]+)?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
 
@@ -14831,11 +14830,11 @@ msgid "cannot be performed with multiple selections"
 msgstr "kan ikke udføres med flere markeringer"
 
 #. FIXME FIXME : disable copying part of an array
-#: src/selection.c:606
+#: src/selection.c:576
 msgid "copy"
 msgstr "kopiér"
 
-#: src/selection.c:637
+#: src/selection.c:607
 msgid "cut"
 msgstr "klip"
 
@@ -14858,32 +14857,32 @@ msgstr "Række: %d"
 msgid "Column: %s"
 msgstr "Kolonne: %s"
 
-#: src/sheet.c:1084
+#: src/sheet.c:1112
 msgid "Internal ERROR"
 msgstr "Intern FEJL"
 
-#: src/sheet.c:2716
+#: src/sheet.c:2831
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Jeg kunne ikke aktivere objekt %s"
 
-#: src/sheet.c:2728
+#: src/sheet.c:2843
 msgid "I was unable to the bind object"
 msgstr "Jeg kunne ikke binde objekt"
 
-#: src/sheet.c:2863 src/sheet.c:2872
+#: src/sheet.c:2978 src/sheet.c:2987
 msgid "Insert Columns"
 msgstr "Indsæt kolonner"
 
-#: src/sheet.c:2935
+#: src/sheet.c:3057
 msgid "Delete Columns"
 msgstr "Slet kolonner"
 
-#: src/sheet.c:3011 src/sheet.c:3020
+#: src/sheet.c:3126 src/sheet.c:3135
 msgid "Insert Rows"
 msgstr "Indsæt rækker"
 
-#: src/sheet.c:3083
+#: src/sheet.c:3205
 msgid "Delete Rows"
 msgstr "Slet rækker"
 
