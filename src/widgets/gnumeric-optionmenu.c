@@ -418,9 +418,9 @@ gnumeric_option_menu_set_property (GObject            *object,
 
 static void
 gnumeric_option_menu_get_property (GObject            *object,
-			      guint               prop_id,
-			      GValue             *value,
-			      GParamSpec         *pspec)
+				   guint               prop_id,
+				   GValue             *value,
+				   GParamSpec         *pspec)
 {
   GnumericOptionMenu *option_menu = GNUMERIC_OPTION_MENU (object);
 
@@ -488,7 +488,7 @@ gnumeric_option_menu_get_props (GnumericOptionMenu       *option_menu,
 
 static void
 gnumeric_option_menu_size_request (GtkWidget      *widget,
-			      GtkRequisition *requisition)
+				   GtkRequisition *requisition)
 {
   GnumericOptionMenu *option_menu = GNUMERIC_OPTION_MENU (widget);
   GnumericOptionMenuProps props;
@@ -523,7 +523,7 @@ gnumeric_option_menu_size_request (GtkWidget      *widget,
 
 static void
 gnumeric_option_menu_size_allocate (GtkWidget     *widget,
-			       GtkAllocation *allocation)
+				    GtkAllocation *allocation)
 {
   GtkWidget *child;
   GtkButton *button = GTK_BUTTON (widget);

@@ -1,3 +1,7 @@
+2004-02-19  Morten Welinder  <terra@gnome.org>
+
+	* Makefile.am: Remove preview-file-selection.[ch]
+
 2004-02-18  Morten Welinder  <terra@gnome.org>
 
 	* widget-charmap-selector.c (charmap_selector_set_sensitive):
