@@ -1,3 +1,8 @@
+2003-04-12  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* dao-gui-utils.c (dialog_tool_init_outputs): Added NULL check for
+	scenario dialogs.
+
 2003-04-11  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* dialog-scenarios.c (dialog_scenario_add): Added a default

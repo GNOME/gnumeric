@@ -95,6 +95,8 @@ dialog_tool_init_outputs (GenericToolState *state, GtkSignalFunc sensitivity_cb)
 
 	state->new_sheet  = glade_xml_get_widget (state->gui,
 						  "newsheet-button");
+	if (state->new_sheet == NULL)
+                return;
 	state->new_workbook  = glade_xml_get_widget (state->gui,
 						     "newworkbook-button");
 	state->output_range  = glade_xml_get_widget (state->gui,
