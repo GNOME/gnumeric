@@ -64,6 +64,9 @@ symbol_install (SymbolTable *st, const char *str, SymbolType type, void *data)
 	g_return_val_if_fail (str != NULL, NULL);
 	g_return_val_if_fail (st != NULL, NULL);
 
+	sym = (Symbol *) g_hash_table_lookup (st->hash, str);
+	if (sym) printf ("Symbol [%s] redefined.\n", str);
+
 	sym = g_new (Symbol, 1);
 	sym->ref_count = 1;
 	sym->type = type;

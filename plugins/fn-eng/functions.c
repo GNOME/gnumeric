@@ -638,30 +638,6 @@ gnumeric_gestep (struct FunctionDefinition *i, Value *argv [], char **error_stri
 	return value_int (ans);
 }
 
-static char *help_sqrtpi = {
-	N_("@FUNCTION=SQRTPI\n"
-	   "@SYNTAX=SQRTPI(x)\n"
-
-	   "@DESCRIPTION="
-	   "The SQRTPI function returns the square root of PI * x. "
-	   "\n"
-
-	   "if x < 0 a #NUM! error is returned."
-	   "\n"
-	   "@SEEALSO=ERF")
-};
-
-static Value *
-gnumeric_sqrtpi (struct FunctionDefinition *i, Value *argv [], char **error_string)
-{
-	float_t x;
-	if ((x=value_get_as_double(argv[0]))<0){
-		*error_string = _("#NUM!");
-		return NULL;
-	}
-	return value_float (sqrt (M_PI*x));
-}
-
 FunctionDefinition eng_functions [] = {
 	{ "bessely",   "ff",   "xnum,ynum",   &help_bessely, NULL, gnumeric_bessely },
 	{ "besselj",   "ff",   "xnum,ynum",   &help_besselj, NULL, gnumeric_besselj },
@@ -681,7 +657,6 @@ FunctionDefinition eng_functions [] = {
 	{ "oct2bin",   "?|f",  "xnum,ynum",   &help_oct2bin, NULL, gnumeric_oct2bin },
 	{ "oct2dec",   "?",    "number",      &help_oct2dec, NULL, gnumeric_oct2dec },
 	{ "oct2hex",   "?|f",  "xnum,ynum",   &help_oct2hex, NULL, gnumeric_oct2hex },
-	{ "sqrtpi",    "f",    "number",      &help_sqrtpi,  NULL, gnumeric_sqrtpi },
 	/* besseli */
 	/* besselk */
 	{ NULL, NULL },

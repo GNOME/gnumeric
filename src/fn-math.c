@@ -1679,6 +1679,10 @@ gnumeric_sqrtpi (struct FunctionDefinition *i, Value *argv [], char **error_stri
         float_t n;
 
 	n = value_get_as_double (argv[0]);
+	if (n < 0) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
 
 	return value_float (sqrt (M_PI * n));
 }

@@ -680,7 +680,7 @@ static const char *
 sheet_get_selection_name (Sheet *sheet)
 {
 	SheetSelection *ss = sheet->selections->data;
-	static char buffer [40];
+	static char buffer [10 + 2 * 4 * sizeof (int)];
 	
 	if (ss->start_col == ss->end_col && ss->start_row == ss->end_row){
 		return cell_name (ss->start_col, ss->start_row);
@@ -1417,6 +1417,13 @@ sheet_selection_set (Sheet *sheet, int start_col, int start_row, int end_col, in
 static void
 sheet_selections_free (Sheet *sheet)
 {
+	GList *list;
+
+	for (list = sheet->selections; list; list = list->next){
+		SheetSelection *ss = list->data;
+		g_free (ss);
+	}
+
 	g_list_free (sheet->selections);
 	sheet->selections = NULL;
 }
@@ -1432,7 +1439,7 @@ sheet_selections_free (Sheet *sheet)
 void
 sheet_selection_reset_only (Sheet *sheet)
 {
-	GList *list = sheet->selections;
+	GList *list;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet)); 
@@ -1441,7 +1448,6 @@ sheet_selection_reset_only (Sheet *sheet)
 		SheetSelection *ss = list->data;
 
 		sheet_redraw_selection (sheet, ss);
-		g_free (ss);
 	}
 	sheet_selections_free (sheet);
 	

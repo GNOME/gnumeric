@@ -1,3 +1,20 @@
+Sat Apr 24 14:39:32 1999  Morten Welinder  <terra@diku.dk>
+
+	* src/sheet.c (sheet_selection_reset_only): Remove useless
+ 	initialisation.  Don't free individual selections here.
+
+	(sheet_selections_free): Walk the list of selections and free each
+ 	one.
+
+	(sheet_get_selection_name): Calculate buffer size based on the
+ 	size of an int.
+	
+	* src/fn-eng.c: Remove sqrtpi function -- it's already in fn-math.c
+
+	* src/fn-math.c (gnumeric_sqrtpi): Add range check.
+
+	* src/symbol.c (symbol_install): Add sanity check.
+
 Fri Apr 23 17:52:44 1999  Morten Welinder  <terra@diku.dk>
 
 	* src/sheet.c (sheet_destroy): Don't check that workbook is
