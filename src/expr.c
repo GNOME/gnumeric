@@ -2197,19 +2197,19 @@ ets_hash (gconstpointer key)
 	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_ANY_BINARY:
-		return ((GPOINTER_TO_INT (expr->binary.value_a) * 7) ^
-			(GPOINTER_TO_INT (expr->binary.value_b) * 3) ^
+		return ((GPOINTER_TO_UINT (expr->binary.value_a) * 7) ^
+			(GPOINTER_TO_UINT (expr->binary.value_b) * 3) ^
 			h);
 
 	case GNM_EXPR_OP_ANY_UNARY:
-		return ((GPOINTER_TO_INT (expr->unary.value) * 7) ^
+		return ((GPOINTER_TO_UINT (expr->unary.value) * 7) ^
 			h);
 
 	case GNM_EXPR_OP_FUNCALL: {
 		GnmExprList *l;
 
 		for (l = expr->func.arg_list; l; l = l->next)
-			h = (h * 3) ^ (GPOINTER_TO_INT (l->data));
+			h = (h * 3) ^ (GPOINTER_TO_UINT (l->data));
 		return h;
 	}
 
@@ -2217,7 +2217,7 @@ ets_hash (gconstpointer key)
 		GnmExprList *l;
 
 		for (l = expr->set.set; l; l = l->next)
-			h = (h * 3) ^ (GPOINTER_TO_INT (l->data));
+			h = (h * 3) ^ (GPOINTER_TO_UINT (l->data));
 		return h;
 	}
 
@@ -2229,6 +2229,8 @@ ets_hash (gconstpointer key)
 		return (guint)(expr->name.name);
 
 	case GNM_EXPR_OP_CELLREF:
+		return cellref_hash (&expr->cellref.ref);
+
 	case GNM_EXPR_OP_ARRAY:
 		break;
 	}
@@ -2364,12 +2366,45 @@ expr_tree_sharer_share (ExprTreeSharer *es, GnmExpr const *e)
 	/* Now look in the hash table.  */
 	e2 = g_hash_table_lookup (es->exprs, e);
 	if (e2 == NULL) {
+#if 0
+		ParsePos pp;
+		char *s;
+
+		pp.eval.col = 0;
+		pp.eval.row = 0;
+		pp.sheet = NULL;
+		pp.wb = NULL;
+		s = gnm_expr_as_string (e, &pp, gnm_expr_conventions_default);
+		g_print ("N %p %d -- %u [%s]\n",
+			 e, e->any.ref_count,
+			 ets_hash (e),
+			 s);
+		g_free (s);
+#endif
+
 		/* Not there -- insert it.  */
 		gnm_expr_ref (e);
 		es->nodes_stored++;
 		g_hash_table_insert (es->exprs, (gpointer)e, (gpointer)e);
 		e2 = e;
 	} else {
+#if 0
+		ParsePos pp;
+		char *s;
+
+		pp.eval.col = 0;
+		pp.eval.row = 0;
+		pp.sheet = NULL;
+		pp.wb = NULL;
+		s = gnm_expr_as_string (e, &pp, gnm_expr_conventions_default);
+		g_print ("S %p %d -- %u %p %d [%s]\n",
+			 e, e->any.ref_count,
+			 ets_hash (e),
+			 e2, e2->any.ref_count,
+			 s);
+		g_free (s);
+#endif
+
 		/* Found -- share the stored value.  */
 		gnm_expr_ref (e2);
 		gnm_expr_unref (e);

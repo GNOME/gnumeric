@@ -277,7 +277,7 @@ cellref_make_abs (CellRef *dest, CellRef const *src, EvalPos const *ep)
 guint
 cellref_hash (const CellRef *cr)
 {
-	guint h = ((cr->col * 5) ^ cr->row) * 4;
+	guint h = ((cr->row << 8) ^ cr->col) * 4;
 	if (cr->col_relative) h |= 1;
 	if (cr->row_relative) h |= 2;
 	return h;

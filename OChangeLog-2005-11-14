@@ -1,3 +1,10 @@
+2003-07-05  Morten Welinder  <terra@gnome.org>
+
+	* src/position.c (cellref_hash): Use hash space much better.
+
+	* src/expr.c (expr_tree_sharer_destroy): Provide a sane hash for
+	cell refs!
+
 2003-07-05  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/GNOME_Gnumeric.xml: adding ellipses to the stat analysis 
