@@ -109,55 +109,56 @@ item_bar_calc_size (ItemBar *ib)
 	PangoContext *context;
 	const PangoFontDescription *src_desc = wbcg_get_font_desc (scg->wbcg);
 	PangoFontDescription *desc;
-	PangoLanguage *language;
-	PangoFontMetrics *metrics;
 	int size = pango_font_description_get_size (src_desc);
+	PangoLayout *layout;
+	PangoRectangle ink_rect, logical_rect;
 
 	ib_fonts_unref (ib);
 
 	context = gtk_widget_get_pango_context (GTK_WIDGET (ib->gcanvas));
-	language = pango_language_from_string ("C");
 	desc = pango_font_description_copy (src_desc);
 	pango_font_description_set_size (desc, zoom_factor * size);
+	layout = pango_layout_new (context);
 
+	/*
+	 * Figure out how tall the label can be.
+	 * (Note that we avoid J/Q/Y which may go below the line.)
+	 */
+	pango_layout_set_text (layout,
+			       ib->is_col_header ? "AHW" : "0123456789",
+			       -1);
 	ib->normal_font = pango_context_load_font (context, desc);
-	metrics = pango_font_get_metrics (ib->normal_font, language);
-	ib->normal_font_ascent = PANGO_PIXELS (pango_font_metrics_get_ascent (metrics));
-	pango_font_metrics_unref (metrics);
-
-	pango_font_description_set_weight (desc, PANGO_WEIGHT_BOLD);
-	ib->bold_font = pango_context_load_font (context, desc);
-	metrics = pango_font_get_metrics (ib->bold_font, language);
-	ib->bold_font_ascent = PANGO_PIXELS (pango_font_metrics_get_ascent (metrics));
+	pango_layout_set_font_description (layout, desc);
+	pango_layout_get_extents (layout, &ink_rect, NULL);
+	ib->normal_font_ascent = PANGO_PIXELS (ink_rect.height + ink_rect.y);
 
 	/*
 	 * Use the size of the bold header font to size the free dimensions.
-	 * Add 2 pixels above and below
+	 * Add 2 pixels above and below.
 	 */
-	ib->cell_height = 2 + 2 +
-		PANGO_PIXELS (pango_font_metrics_get_ascent (metrics) +
-			      pango_font_metrics_get_descent (metrics));
+	pango_font_description_set_weight (desc, PANGO_WEIGHT_BOLD);
+	ib->bold_font = pango_context_load_font (context, desc);
+	pango_layout_set_font_description (layout, desc);
+	pango_layout_get_extents (layout, &ink_rect, &logical_rect);
+	ib->cell_height = 2 + 2 + PANGO_PIXELS (logical_rect.height);
+	ib->bold_font_ascent = PANGO_PIXELS (ink_rect.height + ink_rect.y);
 
 	/* 5 pixels left and right plus the width of the widest string I can think of */
-	if (ib->is_col_header) {
-		static char const Ws[10 + 1] = "WWWWWWWWWW";
-		int labellen = strlen (col_name (SHEET_MAX_COLS - 1));
-		ib->cell_width = gnm_measure_string (context, desc,
-						     Ws + (10 - labellen));
-	} else {
-		static char const eights[10 + 1] = "8888888888";
-		int labellen = strlen (row_name (SHEET_MAX_ROWS - 1));
-		ib->cell_width = gnm_measure_string (context, desc,
-						     eights + (10 - labellen));
-	}
-	ib->cell_width += 5 + 5;
+	if (ib->is_col_header)
+		pango_layout_set_text (layout, "WWWWWWWWWW", strlen (col_name (SHEET_MAX_COLS - 1)));
+	else
+		pango_layout_set_text (layout, "8888888888", strlen (row_name (SHEET_MAX_ROWS - 1)));
+	pango_layout_get_extents (layout, NULL, &logical_rect);
+	ib->cell_width = 5 + 5 + PANGO_PIXELS (logical_rect.width);
 
-	pango_font_metrics_unref (metrics);
 	pango_font_description_free (desc);
+	g_object_unref (layout);
 
 	ib->pango.item->analysis.font = g_object_ref (ib->normal_font);
 	ib->pango.item->analysis.shape_engine =
-		pango_font_find_shaper (ib->normal_font, language, 'A');
+		pango_font_find_shaper (ib->normal_font,
+					pango_context_get_language (context),
+					'A');
 
 	ib->indent = ib_compute_pixels_from_indent (sheet, ib->is_col_header);
 	foo_canvas_item_request_update (&ib->base);
@@ -299,7 +300,7 @@ ib_draw_cell (ItemBar const * const ib, GdkDrawable *drawable,
 	pango_glyph_string_extents (ib->pango.glyphs, font, NULL, &size);
 	gdk_draw_glyphs (drawable, text_gc, font,
 		rect->x + (rect->width - PANGO_PIXELS (size.width)) / 2,
-		rect->y + (rect->height - PANGO_PIXELS (size.height)) / 2 + ascent + 1,
+		rect->y + (rect->height - PANGO_PIXELS (size.height)) / 2 + ascent,
 		ib->pango.glyphs);
 }
 

@@ -1,5 +1,9 @@
 2005-02-04  Morten Welinder  <terra@gnome.org>
 
+	* src/item-bar.c (item_bar_calc_size): Measure height of letters
+	not logical line height.  Use more pango and less magic.  This
+	might kill #162600.
+
 	* src/print.c (print_hf_element): Remove old #ifdef HAVE_foo.
 	* src/cell-draw.c (cell_draw): Ditto.
 
