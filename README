@@ -33,8 +33,8 @@ You need:
 	NOTE : libole2 is also known as libgnomeole2
 
 Optionally:
-	gb == 0.0.13            (Gnome Basic for macros)
-	bonobo >= 0.27
+	gb == 0.0.17            (Gnome Basic for macros)
+	bonobo >= 0.32
 	NOTE : This is an unstable interface.  It is not part of the released
 	    GNOME 1.2 api and is subject to change.  Newer released versions of
 	    bonobo will almost certainly NOT compile with this release of
