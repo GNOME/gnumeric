@@ -588,7 +588,6 @@ correlation_dialog_loop:
 	
 	if (selection != 0) {
 		gtk_object_destroy (GTK_OBJECT (dialog));
-	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
 	}
 
@@ -684,7 +683,6 @@ dialog_loop:
 	
 	if (selection != 0) {
 		gtk_object_destroy (GTK_OBJECT (dialog));
-	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
 	}
 
@@ -1437,7 +1435,6 @@ ftest_dialog_loop:
 	
 	if (selection != 0) {
 		gtk_object_destroy (GTK_OBJECT (dialog));
-	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
 	}
 
@@ -2093,62 +2090,59 @@ dialog_loop:
 static void
 dialog_ranking_tool (Workbook *wb, Sheet *sheet)
 {
-        static GtkWidget *dialog, *box;
-	static GtkWidget *range_entry, *output_range_entry;
-	static GSList    *group_ops, *output_ops;
-	static int       labels = 0;
+        GladeXML  *gui;
+	GtkWidget *range_entry;
+	GtkWidget *dialog;
+	GtkWidget *checkbutton;
+	GtkWidget *output_range_entry;
 
-	data_analysis_output_t  dao;
+	data_analysis_output_t dao;
 
-	char  *text;
-	int   selection;
-	static Range range;
-	int   i=0, output;
+	gboolean labels = FALSE;
+	char     *text;
+	int      group, selection, x1, x2, y1, y2;
+	Range    range;
 
-	label_row_flag = labels;
+	gui = glade_xml_new (GNUMERIC_GLADEDIR "/analysis-tools.glade", NULL);
 
-	if (!dialog) {
-	        dialog = new_dialog(_("Rank and Percentile"));
+        if (!gui) {
+                printf ("Could not find analysis-tools.glade\n");
+                return;
+        }
 
-		box = gtk_vbox_new (FALSE, 0);
+	dao.type = NewSheetOutput;
+	group    = 0;
 
-		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
-						      (dialog)->vbox), box);
+	dialog = glade_xml_get_widget (gui, "RankAndPercentile");
+        range_entry = glade_xml_get_widget (gui, "entry5");
+	checkbutton = glade_xml_get_widget (gui, "checkbutton1");
+	output_range_entry = glade_xml_get_widget (gui, "entry4");
 
-		box = new_frame(_("Input:"), box);
+        if (!dialog || !range_entry || !output_range_entry || !checkbutton) {
+                printf ("Corrupt file analysis-tools.glade\n");
+                return;
+        }
+	if (set_group_option_signals (gui, &group) ||
+	    set_output_option_signals (gui, &dao))
+	        return;
 
-		range_entry = hbox_pack_label_and_entry
-		  (_("Input Range:"), "", 20, box);
-
-		group_ops = add_groupped_by(box);
-
-		add_check_buttons(box, label_button);
-
-		box = gtk_vbox_new (FALSE, 0);
-		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
-						      (dialog)->vbox), box);
-
-		output_range_entry = add_output_frame(box, &output_ops);
-
-		gtk_widget_show_all (dialog);
-	} else
-		gtk_widget_show_all (dialog);
+	gtk_signal_connect (GTK_OBJECT (checkbutton), "toggled",
+			    GTK_SIGNAL_FUNC (checkbutton_toggled), &labels);
 
         gtk_widget_grab_focus (range_entry);
 
 dialog_loop:
 
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
-	if (selection == -1)
-		return;
-	
-	if (selection != 0) {
-	        gnome_dialog_close (GNOME_DIALOG (dialog));
+	if (selection == -1) {
+	        gtk_object_unref (GTK_OBJECT (gui));
 		return;
 	}
-
-	i = gtk_radio_group_get_selected (group_ops);
-	output = gtk_radio_group_get_selected (output_ops);
+	
+	if (selection != 0) {
+		gtk_object_destroy (GTK_OBJECT (dialog));
+		return;
+	}
 
 	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
 	if (!parse_range (text, &range.start.col,
@@ -2161,17 +2155,31 @@ dialog_loop:
 		goto dialog_loop;
 	}
 
-	if (parse_output(output, sheet, output_range_entry, wb, &dao))
-	        goto dialog_loop;
-
-	labels = label_row_flag;
 	dao.labels_flag = labels;
 
-	if (ranking_tool (wb, sheet, &range, !i, &dao))
+	if (dao.type == RangeOutput) {
+	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
+	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
+		        error_in_entry(wb, output_range_entry, 
+				       _("You should introduce a valid cell "
+					 "range in 'Output Range:'"));
+			goto dialog_loop;
+		} else {
+		        dao.start_col = x1;
+		        dao.start_row = y1;
+			dao.cols = x2-x1+1;
+			dao.rows = y2-y1+1;
+			dao.sheet = sheet;
+		}
+	}
+
+	if (ranking_tool (wb, sheet, &range, !group, &dao))
 	        goto dialog_loop;
 
 	workbook_focus_sheet(sheet);
- 	gnome_dialog_close (GNOME_DIALOG (dialog));
+
+	gtk_object_destroy (GTK_OBJECT (dialog));
+	gtk_object_unref (GTK_OBJECT (gui));
 }
 
 
