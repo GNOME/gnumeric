@@ -686,7 +686,7 @@ solver_lp_copy (const SolverParameters *src_param, Sheet *new_sheet)
 
 	g_free (dst_param->options.scenario_name);
 	dst_param->options = src_param->options;
-	dst_param->options.scenario_name = g_strdup (src->options.scenario_name);
+	dst_param->options.scenario_name = g_strdup (src_param->options.scenario_name);
 	/* Had there been any non-scalar options, we'd copy them here.  */
 
 	/* Copy the constraints */
