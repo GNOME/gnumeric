@@ -194,9 +194,10 @@ expr_parse_string (char const *expr_text, ParsePos const *pp,
 
 	tree = gnumeric_expr_parser (expr_text, pp, TRUE, FALSE, desired_format,
 				     parse_error_init (&perr));
+
 	/* TODO : use perr when we populate it */
 	if (tree == NULL)
-		*error_msg = _("Syntax error");
+		*error_msg = perr.message;
 	else
 		*error_msg = NULL;
 	parse_error_free (&perr);

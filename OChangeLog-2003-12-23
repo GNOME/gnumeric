@@ -1,5 +1,25 @@
 2001-04-15  Almer S. Tigelaar  <almer@gnome.org>
 
+	* src/parser.y : Add detailed parser error messages.
+
+	* src/workbook-edit.c (workbook_finish_editing) : Abort
+	if the expression is invalid and return a boolean indicating
+	success or failure.
+
+	* src/expr.c (expr_parse_string): Set error message to the
+	result of gnumeric_expr_parser.
+	
+	* src/parse-util.c (parse_error_init) : Properly initialize
+	begin and end character.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet): Don't
+	change the cursor position if workbook_finish_editing failed.
+	(move_cursor): Idem.
+
+	* src/item-grid.c (item_grid_button_1): Idem.
+	
+2001-04-15  Almer S. Tigelaar  <almer@gnome.org>
+
 	* src/preview-grid.c
 	(preview_grid_realize) : Remove grid gc.
 	(preview_grid_unrealize) : Idem.

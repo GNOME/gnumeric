@@ -8,6 +8,7 @@
  *    Miguel de Icaza (miguel@gnu.org)
  *    Jody Goldberg (jgoldberg@home.com)
  *    Morten Welinder (terra@diku.dk)
+ *    Almer S. Tigelaar (almer@gnome.org)
  */
 #include <config.h>
 #include <ctype.h>
@@ -194,6 +195,11 @@ typedef struct {
 	/* The expression being parsed */
 	char const *expr_text;
 
+	/* A backup of the above, this will always point to the real
+	 * expression beginning to calculate the offset in the expression
+	 */
+	char const *expr_backup;
+	
 	/* Location where the parsing is taking place */
 	ParsePos const *pos;
 
@@ -209,6 +215,8 @@ typedef struct {
 	/* The suggested format to use for this expression */
 	StyleFormat **desired_format;
 	ExprTree *result;
+
+	ParseError *error;
 } ParserState;
 
 /* The error returned from the */
@@ -320,10 +328,14 @@ parse_string_as_value_or_name (ExprTree *str)
 }
 
 static int
-gnumeric_parse_error (void)
+gnumeric_parse_error (ParserState *state, char *message, int end, int relative_begin)
 {
-	/* TODO : Get rid of ParseErr and replace it with something richer. */
-	/* parser_error = PARSE_ERR_SYNTAX; */
+	g_return_val_if_fail (state->error != NULL, ERROR);
+
+	state->error->message    = message;
+	state->error->begin_char = end - relative_begin;
+	state->error->end_char   = end;
+
 	return ERROR;
 }
 
@@ -419,12 +431,18 @@ exp:	  CONSTANT 	{ $$ = $1; }
 		NamedExpression *expr_name;
 		char *name = $2->constant.value->v_str.val->str;
 		ParsePos pos = *state->pos;
-		
+
 		pos.sheet = $1;
 		expr_name = expr_name_lookup (&pos, name);
-		unregister_allocation ($2); expr_tree_unref ($2);
-		if (expr_name == NULL)
-			return gnumeric_parse_error ();
+		if (expr_name == NULL) {
+			int retval = gnumeric_parse_error (
+				state, g_strdup_printf (_("Expression '%s' does not exist on sheet '%s'"), name, $1->name_quoted),
+				(state->expr_text - state->expr_backup), strlen (name) - 1);
+				
+			unregister_allocation ($2); expr_tree_unref ($2);
+			return retval;
+		} else
+			unregister_allocation ($2); expr_tree_unref ($2);
 	        $$ = register_expr_allocation (expr_tree_new_name (expr_name));
 	}
 	;
@@ -434,10 +452,17 @@ string_opt_quote : STRING
 		 ;
 
 sheetref: string_opt_quote SHEET_SEP {
-		Sheet *sheet = sheet_lookup_by_name (state->pos->wb, $1->constant.value->v_str.val->str);
-		unregister_allocation ($1); expr_tree_unref ($1);
-		if (sheet == NULL)
-			return gnumeric_parse_error ();
+	        char  *name = $1->constant.value->v_str.val->str;
+		Sheet *sheet = sheet_lookup_by_name (state->pos->wb, name);
+		if (sheet == NULL) {
+			int retval = gnumeric_parse_error (
+				state, g_strdup_printf (_("Unknown sheet '%s'"), name),
+				(state->expr_text - state->expr_backup) - 1, strlen (name) - 1);
+				
+			unregister_allocation ($1); expr_tree_unref ($1);
+			return retval;
+		} else
+			unregister_allocation ($1); expr_tree_unref ($1);
 	        $$ = sheet;
 	}
 
@@ -453,14 +478,22 @@ sheetref: string_opt_quote SHEET_SEP {
 		Workbook * wb =
 		    application_workbook_get_by_name ($2->constant.value->v_str.val->str);
 		Sheet *sheet = NULL;
+		char *sheetname = $4->constant.value->v_str.val->str;
 
 		if (wb != NULL)
-			sheet = sheet_lookup_by_name (wb, $4->constant.value->v_str.val->str);
-
-		unregister_allocation ($4); expr_tree_unref ($4);
+			sheet = sheet_lookup_by_name (wb, sheetname);
+			
 		unregister_allocation ($2); expr_tree_unref ($2);
-		if (sheet == NULL)
-			return gnumeric_parse_error ();
+		if (sheet == NULL) {
+			int retval = gnumeric_parse_error (
+				state, g_strdup_printf (_("Unknown sheet '%s'"), sheetname),
+				(state->expr_text - state->expr_backup) - 1, strlen (sheetname) - 1);
+				
+			unregister_allocation ($4); expr_tree_unref ($4);
+			return retval;
+		} else
+			unregister_allocation ($4); expr_tree_unref ($4);
+
 	        $$ = sheet;
         }
 	;
@@ -543,8 +576,11 @@ array_row: array_exp {
 			unregister_allocation ($1);
 			$$ = g_list_prepend ($3, $1);
 			register_expr_list_allocation ($$);
-		} else
-			return gnumeric_parse_error ();
+		} else {
+			return gnumeric_parse_error (
+				state, g_strdup_printf (_("The character %c can not be used to separate array elements"),
+				state->array_col_separator), (state->expr_text - state->expr_backup), 1);
+		}
 	}
 	| array_exp '\\' array_row {
 		if (state->array_col_separator == '\\') {
@@ -552,8 +588,12 @@ array_row: array_exp {
 			unregister_allocation ($1);
 			$$ = g_list_prepend ($3, $1);
 			register_expr_list_allocation ($$);
-		} else
-			return gnumeric_parse_error ();
+		} else {
+			/* FIXME: Is this the right error to display? */
+			return gnumeric_parse_error (
+				state, g_strdup_printf (_("The character %c can not be used to separate array elements"),
+				state->array_col_separator), (state->expr_text - state->expr_backup), 1);
+		}
 	}
         | { $$ = NULL; }
 	;
@@ -658,8 +698,13 @@ yylex (void)
 				if (errno != ERANGE) {
 					v = value_new_float ((gnum_float)d);
 					state->expr_text = end;
+				} else {
+					return gnumeric_parse_error (
+						state, g_strdup (_("The number is out of range")),
+						state->expr_text - state->expr_backup - 1, end - start);
 				}
-			}
+			} else
+				g_warning ("%s is not a double, but was expected to be one", start);
 		} else {
 			/* This could be a row range ref or an integer */
 			char *end;
@@ -677,8 +722,15 @@ yylex (void)
 					}
 					v = value_new_int (l);
 					state->expr_text = end;
+				} else {
+					if (l == LONG_MIN || l == LONG_MAX) {
+						return gnumeric_parse_error (
+							state, g_strdup (_("The number is out of range")),
+							state->expr_text - state->expr_backup - 1, end - start);
+					}
 				}
-			}
+			} else
+				g_warning ("%s is not an integer, but was expected to be one", start);
 		}
 
 		/* Very odd string,  Could be a bound problem.  Trigger an error */
@@ -703,8 +755,11 @@ yylex (void)
                                 state->expr_text++;
                         state->expr_text++;
                 }
-                if (!*state->expr_text)
-			return gnumeric_parse_error ();
+                if (!*state->expr_text) {
+			return gnumeric_parse_error (
+				state, g_strdup (_("Could not find matching closing quote")),
+				(p - state->expr_backup), 1);
+		}
 
 		s = string = (char *) alloca (1 + state->expr_text - p);
 		while (p != state->expr_text){
@@ -784,8 +839,9 @@ gnumeric_expr_parser (char const *expr_text, ParsePos const *pos,
 {
 	ParserState pstate;
 
-	pstate.expr_text = expr_text;
-	pstate.pos	= pos;
+	pstate.expr_text   = expr_text;
+	pstate.expr_backup = expr_text;
+	pstate.pos	   = pos;
 
 	pstate.decimal_point	   = format_get_decimal ();
 	pstate.separator 	   = format_get_arg_sep ();
@@ -799,6 +855,8 @@ gnumeric_expr_parser (char const *expr_text, ParsePos const *pos,
 	if (pstate.desired_format)
 		*pstate.desired_format = NULL;
 
+	pstate.error = error;
+	
 	if (deallocate_stack == NULL)
 		deallocate_init ();
 

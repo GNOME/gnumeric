@@ -766,8 +766,11 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 	if (workbook_edit_has_guru (gsheet->scg->wbcg))
 		return 1;
 
-	/* This was a regular click on a cell on the spreadsheet.  Select it. */
-	workbook_finish_editing (gsheet->scg->wbcg, TRUE);
+	/* This was a regular click on a cell on the spreadsheet.  Select it.
+	 * but only if the entered expression is valid
+	 */
+	if (workbook_finish_editing (gsheet->scg->wbcg, TRUE) == FALSE)
+		return 1;
 
 	if (!(event->state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK)))
 		sheet_selection_reset (scg->sheet);

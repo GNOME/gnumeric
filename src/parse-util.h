@@ -42,7 +42,7 @@ char const * gnumeric_char_start_expr_p (char const * c);
 /* In parser.y  */
 typedef struct {
 	char *message;
-	int start_char, end_char;
+	int begin_char, end_char;
 } ParseError;
 ParseError *parse_error_init (ParseError *pe);
 void        parse_error_free (ParseError *pe);

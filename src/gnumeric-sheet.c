@@ -72,11 +72,13 @@ move_cursor (GnumericSheet *gsheet, int col, int row, gboolean clear_selection)
 	 * If you dont know what this means, just mail me.
 	 */
 
+	/* Set the cursor BEFORE making it visible to decrease flicker */
+	if (workbook_finish_editing (gsheet->scg->wbcg, TRUE) == FALSE)
+		return;
+		
 	if (clear_selection)
 		sheet_selection_reset (sheet);
 
-	/* Set the cursor BEFORE making it visible to decrease flicker */
-	workbook_finish_editing (gsheet->scg->wbcg, TRUE);
 	sheet_cursor_set (sheet, col, row, col, row, col, row);
 	sheet_make_cell_visible (sheet, col, row);
 
@@ -623,16 +625,18 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	case GDK_ISO_Left_Tab:
 	case GDK_KP_Tab:
 	{
-		/* Figure out the direction */
-		gboolean const direction = (event->state & GDK_SHIFT_MASK) ? FALSE : TRUE;
-		gboolean const horizontal = (event->keyval == GDK_KP_Enter ||
-					     event->keyval == GDK_Return) ? FALSE : TRUE;
-
 		/* Be careful to restore the editing sheet if we are editing */
 		if (wbcg->editing)
 			sheet = wbcg->editing_sheet;
-		workbook_finish_editing (wbcg, TRUE);
-		sheet_selection_walk_step (sheet, direction, horizontal);
+			
+		if (workbook_finish_editing (wbcg, TRUE)) {
+			/* Figure out the direction */
+			gboolean const direction = (event->state & GDK_SHIFT_MASK) ? FALSE : TRUE;
+			gboolean const horizontal = (event->keyval == GDK_KP_Enter ||
+						     event->keyval == GDK_Return) ? FALSE : TRUE;
+
+			sheet_selection_walk_step (sheet, direction, horizontal);
+		}
 		break;
 	}
 

@@ -6,7 +6,7 @@
 
 void        workbook_start_editing_at_cursor (WorkbookControlGUI *wbcg,
 					      gboolean blankp, gboolean cursorp);
-void        workbook_finish_editing          (WorkbookControlGUI *wbcg, gboolean const accept);
+gboolean    workbook_finish_editing          (WorkbookControlGUI *wbcg, gboolean const accept);
 
 gboolean    workbook_editing_expr            (WorkbookControlGUI const  *wbcg);
 GtkEntry   *workbook_get_entry               (WorkbookControlGUI const  *wbcg);

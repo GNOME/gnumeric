@@ -69,14 +69,14 @@ workbook_edit_set_sensitive (WorkbookControlGUI *wbcg, gboolean flag1, gboolean 
 #endif
 }
 
-void
+gboolean
 workbook_finish_editing (WorkbookControlGUI *wbcg, gboolean const accept)
 {
 	Sheet *sheet;
 	WorkbookControl *wbc;
 	WorkbookView	*wbv;
 
-	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), FALSE);
 
 	wbc = WORKBOOK_CONTROL (wbcg);
 	wbv = wb_control_view (wbc);
@@ -89,28 +89,44 @@ workbook_finish_editing (WorkbookControlGUI *wbcg, gboolean const accept)
 		gtk_widget_destroy (wbcg->edit_line.guru);
 
 	if (!wbcg->editing)
-		return;
+		return TRUE;
 
-	g_return_if_fail (wbcg->editing_sheet != NULL);
-
-	/* Stop editing */
+	g_return_val_if_fail (wbcg->editing_sheet != NULL, TRUE);
+	
 	sheet = wbcg->editing_sheet;
-	wbcg->editing = FALSE;
-	wbcg->editing_sheet = NULL;
-	wbcg->editing_cell = NULL;
-
-	workbook_edit_set_sensitive (wbcg, FALSE, TRUE);
-
+	
 	/* Save the results before changing focus */
 	if (accept) {
 		const char *txt = workbook_edit_get_display_text (wbcg);
 
-		/* Store the old value for undo */
-		/*
-		 * TODO: What should we do in case of failure ?
-		 * maybe another parameter that will force an end ?
-		 */
-		cmd_set_text (wbc, sheet, &sheet->edit_pos, txt);
+		if (gnumeric_char_start_expr_p (txt) != NULL) {
+			ParsePos    pp;
+			ParseError  perr;
+
+			parse_pos_init (&pp, wb_control_workbook (wbc), sheet,
+					sheet->edit_pos.col, sheet->edit_pos.row);
+			parse_error_init (&perr);
+			
+			gnumeric_expr_parser (txt, &pp, TRUE, FALSE, NULL, &perr);
+
+			/*
+			 * We check to see if any error has occured by querying
+			 * if an error message is set. The return value of
+			 * gnumeric_expr_parser is no good for this purpose
+			 */
+			if (perr.message != NULL) {
+				gtk_entry_select_region (workbook_get_entry (wbcg), perr.begin_char, perr.end_char);
+				gnome_error_dialog_parented (perr.message, wbcg->toplevel);
+				parse_error_free (&perr);
+
+				return FALSE;
+			} else
+				cmd_set_text (wbc, sheet, &sheet->edit_pos, txt);
+
+			parse_error_free (&perr);
+		} else
+			/* Store the old value for undo */
+			cmd_set_text (wbc, sheet, &sheet->edit_pos, txt);
 	} else {
 		/* Redraw the cell contents in case there was a span */
 		int const c = sheet->edit_pos.col;
@@ -120,6 +136,13 @@ workbook_finish_editing (WorkbookControlGUI *wbcg, gboolean const accept)
 		/* Reload the entry widget with the original contents */
 		wb_view_edit_line_set (wbv, wbc);
 	}
+	
+	/* Stop editing */	
+	wbcg->editing = FALSE;
+	wbcg->editing_sheet = NULL;
+	wbcg->editing_cell = NULL;
+
+	workbook_edit_set_sensitive (wbcg, FALSE, TRUE);
 
 	/*
 	 * restore focus to original sheet in case things were being selected
@@ -134,6 +157,8 @@ workbook_finish_editing (WorkbookControlGUI *wbcg, gboolean const accept)
 
 	if (accept)
 		workbook_recalc (wb_control_workbook (WORKBOOK_CONTROL (wbcg)));
+
+	return TRUE;
 }
 
 static void
