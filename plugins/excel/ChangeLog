@@ -1,3 +1,9 @@
+2005-01-14  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=155719
+	* ms-excel-write.c (writer_header_footer) : quick and easy
+	  implementation.
+
 2005-01-13  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=163409

@@ -3621,6 +3621,31 @@ excel_write_WSBOOL (BiffPut *bp, ExcelWriteSheet *esheet)
 }
 
 static void
+writer_header_footer (BiffPut *bp, PrintHF const *hf, int id)
+{
+	GString *res = g_string_new (NULL);
+
+	if (hf->left_format != NULL) {
+		g_string_append (res, "&L");
+		g_string_append (res, hf->left_format);
+	}
+	if (hf->middle_format != NULL) {
+		g_string_append (res, "&C");
+		g_string_append (res, hf->middle_format);
+	}
+	if (hf->right_format != NULL) {
+		g_string_append (res, "&R");
+		g_string_append (res, hf->right_format);
+	}
+
+	ms_biff_put_var_next (bp, id);
+	excel_write_string (bp, STR_TWO_BYTE_LENGTH, res->str);
+	ms_biff_put_commit (bp);
+
+	g_string_free (res, TRUE);
+}
+
+static void
 write_sheet_head (BiffPut *bp, ExcelWriteSheet *esheet)
 {
 	guint8 *data;
@@ -3652,14 +3677,10 @@ write_sheet_head (BiffPut *bp, ExcelWriteSheet *esheet)
 		excel_write_COUNTRY (bp);
 	excel_write_WSBOOL (bp, esheet);
 
-#warning export the header and footer
-	ms_biff_put_var_next (bp, BIFF_HEADER);
-/*	biff_put_text (bp, "&A", TRUE); */
-	ms_biff_put_commit (bp);
-
-	ms_biff_put_var_next (bp, BIFF_FOOTER);
-/*	biff_put_text (bp, "&P", TRUE); */
-	ms_biff_put_commit (bp);
+	if (pi != NULL && pi->header != NULL)
+		writer_header_footer (bp, pi->header, BIFF_HEADER);
+	if (pi != NULL && pi->footer != NULL)
+		writer_header_footer (bp, pi->footer, BIFF_FOOTER);
 
 	ms_biff_put_2byte (bp, BIFF_HCENTER, pi->center_horizontally ? 1 : 0);
 	ms_biff_put_2byte (bp, BIFF_VCENTER, pi->center_vertically ? 1 : 0);
