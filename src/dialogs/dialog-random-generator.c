@@ -122,6 +122,8 @@ static const DistributionStrs distribution_strs[] = {
 	  N_("Chisq"), N_("_nu Value:"), NULL, FALSE },
 	{ ExponentialDistribution,
 	  N_("Exponential"), N_("_b Value:"), NULL, FALSE },
+	{ ExponentialPowerDistribution,
+	  N_("Exponential Power"), N_("_a Value:"), N_("_b Value:"), FALSE },
 	{ FdistDistribution,
 	  N_("F"), N_("nu_1 Value:"), N_("nu_2 Value:"), FALSE },
 	{ GammaDistribution,
@@ -257,6 +259,14 @@ random_tool_update_sensitivity_cb (GtkWidget *dummy, RandomToolState *state)
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
 			a_float > 0.0;
+		break;
+	case ExponentialPowerDistribution:
+		ready = ready &&
+			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
+			a_float > 0.0;
+		ready = ready &&
+			entry_to_float (GTK_ENTRY (state->par2_entry), &b_float, FALSE) == 0 &&
+			b_float > 0.0;
 		break;
 	case CauchyDistribution:
 		ready = ready &&
@@ -545,6 +555,12 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 	case ExponentialDistribution:
 		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
 				      &data->param.exponential.b, TRUE);
+		break;
+	case ExponentialPowerDistribution:
+		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+				      &data->param.exppow.a, TRUE);
+		err = entry_to_float (GTK_ENTRY (state->par2_entry), 
+				      &data->param.exppow.b, TRUE);
 		break;
 	case CauchyDistribution:
 		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
