@@ -8,6 +8,8 @@ Jody:
 	* Fix autosizing of indented content.
 	* Fix jump to bound with end in hidden region.
 	* Hide objects in hidden regions.
+	* LOG is valid with base > 0 && base != 1
+	* Clean out some unused code.
 
 Morten:
 	* Improve goal seek.
@@ -30,6 +32,7 @@ Andreas:
 	  gnumeric-expr-entry widget.
 
 Jody:
+	* Offer config var to control compression level
 	* Fix color selectors for drawing objects.
 	* Re-enable support for row vectors in graphs.
 	* Allow string functions to accept numbers as strings.

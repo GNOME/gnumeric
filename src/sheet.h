@@ -265,7 +265,6 @@ void        sheet_move_range              (WorkbookControl *context,
 					   GSList **reloc_storage);
 
 char       *sheet_name_quote              (char const *unquoted_name);
-Sheet      *sheet_lookup_by_name          (Workbook *wb, char const *name);
 
 /*
  * Utilities to set cell contents, queueing recalcs,

@@ -2,7 +2,7 @@
 /*
  * Gnumeric Parser
  *
- * (C) 1998-2000 the Free Software Foundation
+ * (C) 1998-2001 the Free Software Foundation
  *
  * Author:
  *    Miguel de Icaza (miguel@gnu.org)
@@ -11,17 +11,11 @@
  *    Almer S. Tigelaar (almer@gnome.org)
  */
 #include <config.h>
-#include <ctype.h>
-#include <string.h>
-#include <errno.h>
-#include <stdlib.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
 #include "gnumeric.h"
 #include "number-match.h"
 #include "expr.h"
 #include "expr-name.h"
+#include "workbook.h"
 #include "sheet.h"
 #include "format.h"
 #include "application.h"
@@ -31,6 +25,13 @@
 #include "style.h"
 #include "portability.h"
 #include "str.h"
+
+#include <ctype.h>
+#include <string.h>
+#include <errno.h>
+#include <stdlib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 
 /* #define YYDEBUG 1 */
 /* ------------------------------------------------------------------------- */
@@ -459,7 +460,7 @@ string_opt_quote : STRING
 
 sheetref: string_opt_quote SHEET_SEP {
 	        char  *name = $1->constant.value->v_str.val->str;
-		Sheet *sheet = sheet_lookup_by_name (state->pos->wb, name);
+		Sheet *sheet = workbook_sheet_by_name (state->pos->wb, name);
 		if (sheet == NULL) {
 			int retval = gnumeric_parse_error (
 				state, PERR_UNKNOWN_SHEET,
@@ -474,21 +475,13 @@ sheetref: string_opt_quote SHEET_SEP {
 	}
 
 	| '[' string_opt_quote ']' string_opt_quote SHEET_SEP {
-		/* TODO : Get rid of ParseErr and replace it with something richer.
-		 * The replace ment should include more detail as to what the error
-		 * was,  and where in the expr string to highlight.
-		 *
-		 * e.g. for =1+Sheet!A1+2
-		 *  We should return "Unknow Sheet 'Sheet'" and the indicies 3:7
-		 *  to mark the offending region.
-		 */
 		Workbook * wb =
 		    application_workbook_get_by_name ($2->constant.value->v_str.val->str);
 		Sheet *sheet = NULL;
 		char *sheetname = $4->constant.value->v_str.val->str;
 
 		if (wb != NULL)
-			sheet = sheet_lookup_by_name (wb, sheetname);
+			sheet = workbook_sheet_by_name (wb, sheetname);
 
 		unregister_allocation ($2); expr_tree_unref ($2);
 		if (sheet == NULL) {
