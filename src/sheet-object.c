@@ -16,7 +16,6 @@
 #include "dialogs.h"
 #include "sheet-object.h"
 #include "cursors.h"
-#include "widgets/gnumeric-clear-canvas-items.h"
 
 #ifdef ENABLE_BONOBO
 #include <bonobo.h>
