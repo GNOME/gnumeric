@@ -35,6 +35,25 @@
 
 #include <ctype.h>
 
+enum {
+	TOOLBAR_FILE_IDX,
+	TOOLBAR_PRINT_IDX,
+	TOOLBAR_EDIT_IDX,
+	TOOLBAR_OBJECT_IDX,
+	TOOLBAR_CHAR_FORMAT_IDX,
+	TOOLBAR_ALIGN_IDX,
+	TOOLBAR_NUMERIC_FORMAT_IDX,
+	TOOLBAR_DRAW_IDX,
+	LAST_TOOLBAR_IDX
+};
+
+struct _WorkbookPrivate {
+	struct {
+		GnomeUIInfo *uiinfo_copy;
+		GtkWidget   *gtk_toolbar;
+	} toolbars [LAST_TOOLBAR_IDX];
+};
+
 /* The locations within the main table in the workbook */
 #define WB_EA_LINE   0
 #define WB_EA_SHEETS 1
@@ -270,6 +289,23 @@ dump_dep (gpointer key, gpointer value, gpointer closure)
 	printf ("%s%d\n",
 		col_name(range->end.col), range->end.row+1);
 }
+
+static void
+workbook_do_destroy_toolbars (Workbook *wb)
+{
+	int i;
+
+	for (i = 0; i < LAST_TOOLBAR_IDX; i++)
+		g_free (wb->priv->toolbars [i].uiinfo_copy);
+}
+
+static void
+workbook_do_destroy_private (Workbook *wb)
+{
+	workbook_do_destroy_toolbars (wb);
+	g_free (wb->priv);
+}
+
 static void
 workbook_do_destroy (Workbook *wb)
 {
@@ -369,11 +405,11 @@ workbook_do_destroy (Workbook *wb)
 	if (wb->filename)
 	       g_free (wb->filename);
 
-	g_free (wb->toolbar);
-
 	symbol_table_destroy (wb->symbol_names);
 
 	expr_name_clean (wb);
+
+	workbook_do_destroy_private (wb);
 
 	if (!GTK_OBJECT_DESTROYED (wb->toplevel))
 		gtk_object_destroy (GTK_OBJECT (wb->toplevel));
@@ -876,6 +912,31 @@ about_cmd (GtkWidget *widget, Workbook *wb)
 	dialog_about (wb);
 }
 
+static void
+format_as_money_cmd (GtkWidget *widget, Workbook *wb)
+{
+}
+
+static void
+format_as_percent_cmd (GtkWidget *widget, Workbook *wb)
+{
+}
+
+static void
+format_add_thousands_cmd (GtkWidget *widget, Workbook *wb)
+{
+}
+
+static void
+format_add_decimals_cmd (GtkWidget *widget, Workbook *wb)
+{
+}
+
+static void
+format_remove_decimals_cmd (GtkWidget *widget, Workbook *wb)
+{
+}
+
 #ifdef ENABLE_BONOBO
 static void
 insert_object_cmd (GtkWidget *widget, Workbook *wb)
@@ -1087,9 +1148,15 @@ static GnomeUIInfo workbook_menu [] = {
 	GNOMEUIINFO_END
 };
 
-#define TOOLBAR_BOLD_BUTTON_INDEX 13
-#define TOOLBAR_ITALIC_BUTTON_INDEX 14
-static GnomeUIInfo workbook_toolbar [] = {
+typedef struct {
+	GnomeUIInfo *toolbar;
+	int          toolbar_uiinfo_size;
+	char        *name;
+	int          band_num;
+	int          band_pos;
+} GnumericToolbar;
+
+static GnomeUIInfo workbook_file_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("New"), N_("Creates a new sheet"),
 		new_cmd, GNOME_STOCK_PIXMAP_NEW),
@@ -1103,8 +1170,10 @@ static GnomeUIInfo workbook_toolbar [] = {
 		N_("Print"), N_("Prints the workbook"),
 		file_print_cmd, GNOME_STOCK_PIXMAP_PRINT),
 
-	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_END
+};
 
+static GnomeUIInfo workbook_edit_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Cut"), N_("Cuts the selection to the clipboard"),
 		cut_cmd, GNOME_STOCK_PIXMAP_CUT),
@@ -1115,8 +1184,10 @@ static GnomeUIInfo workbook_toolbar [] = {
 		N_("Paste"), N_("Pastes the clipboard"),
 		paste_cmd, GNOME_STOCK_PIXMAP_PASTE),
 
-	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_END
+};
 
+static GnomeUIInfo workbook_align_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Left align"), N_("Left justifies the cell contents"),
 		left_align_cmd, GNOME_STOCK_PIXMAP_ALIGN_LEFT),
@@ -1127,26 +1198,35 @@ static GnomeUIInfo workbook_toolbar [] = {
 		N_("Right align"), N_("Right justifies the cell contents"),
 		right_align_cmd, GNOME_STOCK_PIXMAP_ALIGN_RIGHT),
 
-	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_END
+};
 
+#define TOOLBAR_BOLD_BUTTON_INDEX 0
+#define TOOLBAR_ITALIC_BUTTON_INDEX 1
+
+static GnomeUIInfo workbook_char_format_toolbar [] = {
 	{ GNOME_APP_UI_TOGGLEITEM, N_("Bold"), N_("Sets the bold font"),
 	  bold_cmd, NULL, NULL, GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_TEXT_BOLD },
 
 	{ GNOME_APP_UI_TOGGLEITEM, N_("Italic"), N_("Makes the font italic"),
 	  italic_cmd, NULL, NULL, GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_TEXT_ITALIC },
 
-	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_END
+};
 
+static GnomeUIInfo workbook_object_toolbar [] = {
 #ifdef ENABLE_BONOBO
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Graphic"), N_("Creates a graphic in the spreadsheet"),
 		create_graphic_cmd, NULL, graphic_xpm),
 #endif
-#if 0
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Button"), N_("Creates a button object"),
 		create_button_cmd, NULL, button_xpm),
-#endif
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo workbook_draw_toolbar [] = {
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Line"), N_("Creates a line object"),
 		create_line_cmd, NULL, line_xpm),
@@ -1161,6 +1241,49 @@ static GnomeUIInfo workbook_toolbar [] = {
 		create_ellipse_cmd, NULL, oval_xpm),
 
 	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo workbook_print_toolbar [] = {
+	GNOMEUIINFO_ITEM_STOCK(
+		N_("Print"), N_("Prints the workbook"),
+		file_print_cmd, GNOME_STOCK_PIXMAP_PRINT),
+	GNOMEUIINFO_ITEM_DATA (
+		N_("Print pre_view"), N_("Print preview"),
+		file_print_preview_cmd, NULL, preview_xpm),
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo workbook_numeric_format_toolbar [] = {
+	GNOMEUIINFO_ITEM_DATA (
+		N_("Money format"), N_("Sets the format of the selected cells to monetary"),
+		format_as_money_cmd, NULL, money_xpm),
+	GNOMEUIINFO_ITEM_DATA (
+		N_("Percent"), N_("Sets the format of the selected cells to percentage"),
+		format_as_percent_cmd, NULL, percent_xpm),
+	GNOMEUIINFO_ITEM_DATA (
+		N_("Thousand separator"), N_("Sets the format of the selected cells to percentage"),
+		format_add_thousands_cmd, NULL, thousands_xpm),
+	GNOMEUIINFO_ITEM_DATA (
+		N_("Add decimals"), N_("Increases the number of decimal numbers displayed"),
+		format_add_decimals_cmd, NULL, add_decimals_xpm),
+	GNOMEUIINFO_ITEM_DATA (
+		N_("Remove decimals"), N_("Decreases the number of decimal numbers displayed"),
+		format_remove_decimals_cmd, NULL, remove_decimals_xpm),
+	GNOMEUIINFO_END
+};
+
+#define GTOOLBAR(toolbar,name,band,pos) \
+	{ toolbar, sizeof (toolbar), name, band, pos }
+
+static GnumericToolbar workbook_toolbars [LAST_TOOLBAR_IDX] = {
+	GTOOLBAR (workbook_file_toolbar, "FileToolbar", 1, 0),
+	GTOOLBAR (workbook_print_toolbar, "PrintToolbar", 1, 1),
+	GTOOLBAR (workbook_edit_toolbar, "EditToolbar", 1, 2),
+	GTOOLBAR (workbook_object_toolbar, "ObjectToolbar", 1, 3),
+	GTOOLBAR (workbook_char_format_toolbar, "CharFormatToolbar", 2, 1),
+	GTOOLBAR (workbook_align_toolbar,"AlignToolbar", 2, 2),
+	GTOOLBAR (workbook_numeric_format_toolbar, "NumericFormatIdx", 2, 3),
+	GTOOLBAR (workbook_draw_toolbar, "DrawToolbar", 2, 4)
 };
 
 static void
@@ -1909,6 +2032,8 @@ workbook_init (GtkObject *object)
 {
 	Workbook *wb = WORKBOOK (object);
 
+	wb->priv = g_new (WorkbookPrivate, 1);
+	
 	wb->sheets       = g_hash_table_new (gnumeric_strcase_hash, gnumeric_strcase_equal);
 	wb->names        = NULL;
 	wb->symbol_names = symbol_table_new ();
@@ -1968,6 +2093,40 @@ workbook_get_type (void)
 	return type;
 }
 
+static void
+workbook_create_toolbars (Workbook *wb)
+{
+	WorkbookPrivate *priv = wb->priv;
+	int i;
+
+	for (i = 0; i < LAST_TOOLBAR_IDX; i++){
+		GnumericToolbar *tb = &workbook_toolbars [i];
+		
+		/*
+		 * Create toolbar
+		 */
+		priv->toolbars [i].gtk_toolbar = gtk_toolbar_new (
+			GTK_ORIENTATION_HORIZONTAL, GTK_TOOLBAR_ICONS);
+		gtk_widget_show (priv->toolbars [i].gtk_toolbar);
+		priv->toolbars [i].uiinfo_copy = g_malloc (tb->toolbar_uiinfo_size);
+		memcpy (priv->toolbars [i].uiinfo_copy,
+			tb->toolbar, tb->toolbar_uiinfo_size);
+		gnome_app_fill_toolbar_with_data (
+			GTK_TOOLBAR (priv->toolbars [i].gtk_toolbar),
+			priv->toolbars [i].uiinfo_copy, NULL, wb);
+
+		/*
+		 * Add it to the toplevel window
+		 */
+		gnome_app_add_toolbar (
+			GNOME_APP (wb->toplevel),
+			GTK_TOOLBAR (priv->toolbars [i].gtk_toolbar),
+			tb->name,
+			GNOME_DOCK_ITEM_BEH_NORMAL,
+			GNOME_DOCK_TOP, tb->band_num, tb->band_pos, 0);
+	}
+}
+
 /**
  * workbook_new:
  *
@@ -1976,8 +2135,6 @@ workbook_get_type (void)
 Workbook *
 workbook_new (void)
 {
-	GnomeDockItem *item;
-	GtkWidget *toolbar;
 	Workbook  *wb;
 	int        sx, sy;
 
@@ -1998,9 +2155,12 @@ workbook_new (void)
 	workbook_setup_edit_area (wb);
 	workbook_setup_sheets (wb);
 	gnome_app_set_contents (GNOME_APP (wb->toplevel), wb->table);
+	
+ 	workbook_create_toolbars (wb);
+
 #ifndef ENABLE_BONOBO
 	gnome_app_create_menus_with_data (GNOME_APP (wb->toplevel), workbook_menu, wb);
-	gnome_app_install_menu_hints(GNOME_APP (wb->toplevel), workbook_menu);
+	gnome_app_install_menu_hints (GNOME_APP (wb->toplevel), workbook_menu);
 #else
 	{
 		GnomeUIHandlerMenuItem *list;
@@ -2013,15 +2173,6 @@ workbook_new (void)
 		gnome_ui_handler_menu_free_list (list);
 	}
 #endif
-
-	wb->toolbar = g_malloc (sizeof (workbook_toolbar));
-	memcpy (wb->toolbar, &workbook_toolbar, sizeof (workbook_toolbar));
-	gnome_app_create_toolbar_with_data (GNOME_APP (wb->toplevel), (GnomeUIInfo *) wb->toolbar, wb);
-
-	item = gnome_app_get_dock_item_by_name (GNOME_APP (wb->toplevel), GNOME_APP_TOOLBAR_NAME);
-	toolbar = gnome_dock_item_get_child (item);
-
-	gtk_toolbar_set_style (GTK_TOOLBAR (toolbar), GTK_TOOLBAR_ICONS);
 
 	/* Minimized pixmap */
 	workbook_configure_minimized_pixmap (wb);
@@ -2562,7 +2713,7 @@ void
 workbook_feedback_set (Workbook *workbook, WorkbookFeedbackType type, void *data)
 {
 	GtkToggleButton *t;
-	GnomeUIInfo *toolbar = workbook->toolbar;
+	GnomeUIInfo *char_format_toolbar = workbook->priv->toolbars [TOOLBAR_CHAR_FORMAT_IDX].uiinfo_copy;
 	int set;
 
 	g_return_if_fail (workbook != NULL);
@@ -2570,7 +2721,7 @@ workbook_feedback_set (Workbook *workbook, WorkbookFeedbackType type, void *data
 	switch (type){
 	case WORKBOOK_FEEDBACK_BOLD:
 		t = GTK_TOGGLE_BUTTON (
-			toolbar [TOOLBAR_BOLD_BUTTON_INDEX].widget);
+			char_format_toolbar [TOOLBAR_BOLD_BUTTON_INDEX].widget);
 		set = data != NULL;
 
 		gtk_signal_handler_block_by_func (GTK_OBJECT (t),
@@ -2584,7 +2735,7 @@ workbook_feedback_set (Workbook *workbook, WorkbookFeedbackType type, void *data
 
 	case WORKBOOK_FEEDBACK_ITALIC:
 		t = GTK_TOGGLE_BUTTON (
-			toolbar [TOOLBAR_ITALIC_BUTTON_INDEX].widget);
+			char_format_toolbar [TOOLBAR_ITALIC_BUTTON_INDEX].widget);
 		set = data != NULL;
 
 		gtk_signal_handler_block_by_func (GTK_OBJECT (t),

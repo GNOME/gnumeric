@@ -9,5 +9,11 @@
 #ifdef ENABLE_BONOBO
 #include "pixmaps/graphic.xpm"
 #endif
+#include "pixmaps/money.xpm"
+#include "pixmaps/percent.xpm"
+#include "pixmaps/thousands.xpm"
+#include "pixmaps/add_decimals.xpm"
+#include "pixmaps/remove_decimals.xpm"
+#include "pixmaps/preview.xpm"
 
 #endif /* GNUMERIC_PIXMAPS_H */

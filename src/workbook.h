@@ -28,6 +28,8 @@
 struct _PrintInformation;
 typedef struct _PrintInformation PrintInformation;
 
+struct _WorkbookPrivate;
+typedef struct _WorkbookPrivate WorkbookPrivate;
 
 struct _Workbook {
 #ifdef ENABLE_BONOBO
@@ -101,9 +103,9 @@ struct _Workbook {
 	 */
 	void       *clipboard_paste_callback_data;
 
-	void       *toolbar;
-
 	void       *corba_server;
+
+	WorkbookPrivate *priv;
 };
 
 typedef struct {

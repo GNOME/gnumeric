@@ -1,5 +1,9 @@
 1999-09-14  Miguel de Icaza  <miguel@gnu.org>
 
+	* src/workbook.c: Split toolbars into mulitple toolbars;  Add a
+	private field to Workbook structure. 
+	Change the toolbar setup to have multiple dock-items.
+
 	* src/format.c: Initialize this to NULL.
 
 	* src/print-info.c (load_formats): Memory leak fix.
