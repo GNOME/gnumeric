@@ -28,8 +28,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-01-05 14:23+0100\n"
-"PO-Revision-Date: 2002-01-05 14:23+0100\n"
+"POT-Creation-Date: 2002-01-06 16:14+0100\n"
+"PO-Revision-Date: 2002-01-06 16:14+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -428,7 +428,7 @@ msgstr "Aktuella värden"
 #. Print 'Constraints:'.
 #: plugins/mps/mps.c:332
 msgid "Constraints:"
-msgstr "Restriktioner:"
+msgstr "Bivillkor:"
 
 #. Print constraint titles.
 #: plugins/mps/mps.c:335 src/dialogs/plugin-manager.glade.h:13
@@ -1497,13 +1497,11 @@ msgstr "Kursivera"
 
 #: src/GNOME_Gnumeric.xml.h:114 src/workbook-control-gui.c:2852
 msgid "Iteratively recalculate to find a target value"
-msgstr "Upprepa beräkningar för att hitta ett målvärde"
+msgstr "Iterera mot ett målvärde"
 
 #: src/GNOME_Gnumeric.xml.h:115 src/workbook-control-gui.c:2855
 msgid "Iteratively recalculate with constraints to approach a target value"
-msgstr ""
-"Upprepa beräkningar med vissa restriktioner för att stegvis komma fram till "
-"ett målvärde"
+msgstr "Iterera under bivillkor mot ett målvärde"
 
 #: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:2643
 msgid "Jump to a specified cell"
@@ -1879,7 +1877,7 @@ msgid "Statistical methods"
 msgstr "Statistika metoder"
 
 #: src/GNOME_Gnumeric.xml.h:204 src/dialogs/consolidate.glade.h:19
-#: src/workbook-control-gui.c:3000 src/workbook-control-gui.c:3601
+#: src/workbook-control-gui.c:3000 src/workbook-control-gui.c:3599
 #: src/workbook-view.c:518
 msgid "Sum"
 msgstr "Summa"
@@ -3948,7 +3946,7 @@ msgstr "_Kolumnbredd (pt):"
 msgid "Add the entered area to the list of source areas"
 msgstr "Lägg till det angivna området till listan över källområden"
 
-#: src/dialogs/consolidate.glade.h:2 src/workbook-control-gui.c:3604
+#: src/dialogs/consolidate.glade.h:2 src/workbook-control-gui.c:3602
 msgid "Average"
 msgstr "Medelvärde"
 
@@ -3960,7 +3958,7 @@ msgstr "K_opiera rubriker"
 msgid "Clear the list of source areas"
 msgstr "Töm listan med källområden"
 
-#: src/dialogs/consolidate.glade.h:5 src/workbook-control-gui.c:3605
+#: src/dialogs/consolidate.glade.h:5 src/workbook-control-gui.c:3603
 msgid "Count"
 msgstr "Räkna"
 
@@ -3992,11 +3990,11 @@ msgstr "I _översta raden"
 msgid "Labels"
 msgstr "Rubriker"
 
-#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3603
+#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3601
 msgid "Max"
 msgstr "Max"
 
-#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3602
+#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3600
 msgid "Min"
 msgstr "Min"
 
@@ -4962,31 +4960,31 @@ msgstr "Cell"
 msgid "Go to..."
 msgstr "Gå till..."
 
-#: src/dialogs/dialog-graph-guru.c:747
+#: src/dialogs/dialog-graph-guru.c:749
 msgid "Step 1 of 3: Select graph type"
 msgstr "Steg 1 av 3: Välj typ av graf"
 
-#: src/dialogs/dialog-graph-guru.c:753
+#: src/dialogs/dialog-graph-guru.c:755
 msgid "Step 2 of 3: Select data ranges"
 msgstr "Steg 2 av 3: Välj dataintervall"
 
-#: src/dialogs/dialog-graph-guru.c:755
+#: src/dialogs/dialog-graph-guru.c:757
 msgid "Graph Data"
 msgstr "Grafdata"
 
-#: src/dialogs/dialog-graph-guru.c:760
+#: src/dialogs/dialog-graph-guru.c:762
 msgid "Step 3 of 3: Customize graph"
 msgstr "Steg 3 av 3: Anpassa graf"
 
-#: src/dialogs/dialog-graph-guru.c:762
+#: src/dialogs/dialog-graph-guru.c:764
 msgid "Format Graph"
 msgstr "Formatera graf"
 
-#: src/dialogs/dialog-graph-guru.c:937
+#: src/dialogs/dialog-graph-guru.c:939
 msgid "Plot name"
 msgstr "Kurvnamn"
 
-#: src/dialogs/dialog-graph-guru.c:940
+#: src/dialogs/dialog-graph-guru.c:942
 msgid "Series name"
 msgstr "Serienamn"
 
@@ -5188,8 +5186,8 @@ msgid ""
 "Solver found an optimal solution. All constraints and optimality conditions "
 "are satisfied.\n"
 msgstr ""
-"Lösaren hittade en optimal lösning. Alla restriktioner och "
-"optimeringsvillkor är uppfyllda.\n"
+"Lösaren hittade en optimal lösning. Alla bivillkor och optimalitetsvillkor "
+"är uppfyllda.\n"
 
 #: src/dialogs/dialog-solver.c:820
 msgid "The Target Cell value does not converge!"
@@ -5203,7 +5201,7 @@ msgstr "Lösaran lyckades inte: %i"
 #: src/dialogs/dialog-solver.c:846
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
-msgstr "Begränsningen \"%s\" är för en cell som inte är en indatacell."
+msgstr "Bivillkoret \"%s\" är för en cell som inte är en indatacell."
 
 #: src/dialogs/dialog-solver.c:1096
 msgid "Could not create the Solver dialog."
@@ -6683,7 +6681,7 @@ msgstr "Genom att ändra cellerna:"
 
 #: src/dialogs/solver.glade.h:7 src/solver-lp.c:953 src/solver-lp.c:1087
 msgid "Constraints"
-msgstr "Restriktioner"
+msgstr "Bivillkor"
 
 #: src/dialogs/solver.glade.h:8
 msgid "Equal To:"
@@ -6711,7 +6709,7 @@ msgstr "Lösare"
 
 #: src/dialogs/solver.glade.h:15
 msgid "Subject to the Constraints:"
-msgstr "Föremål för restriktionerna:"
+msgstr "Föremål för bivillkoren:"
 
 #: src/dialogs/solver.glade.h:17
 msgid "_Answer"
@@ -19444,7 +19442,7 @@ msgstr "Skugga"
 
 #: src/solver-lp.c:1091
 msgid "Constraint"
-msgstr "Restriktion"
+msgstr "Bivillkor"
 
 #: src/solver-lp.c:1098
 msgid "Price"
@@ -19859,11 +19857,11 @@ msgstr ""
 "Sortera det markerade området i fallande ordning, utgående från den först "
 "markerade kolumnen."
 
-#: src/workbook-control-gui.c:3931
+#: src/workbook-control-gui.c:3929
 msgid "Send"
 msgstr "Skicka"
 
-#: src/workbook-control-gui.c:3931
+#: src/workbook-control-gui.c:3929
 msgid "Send the current file in email"
 msgstr "Skicka den aktuella filen med e-post"
 
@@ -20164,6 +20162,9 @@ msgstr "Gnumeric XML-filformat"
 #: gnumeric.desktop.in.h:2
 msgid "The GNOME Spreadsheet"
 msgstr "GNOME-kalkylprogrammet"
+
+#~ msgid "(C) 1998-2002 Miguel de Icaza"
+#~ msgstr "© 1998-2002 Miguel de Icaza"
 
 #~ msgid ""
 #~ "The probability input range contains a non-numeric value.\n"
@@ -20474,8 +20475,8 @@ msgstr "GNOME-kalkylprogrammet"
 #~ "The constraints having cell ranges in LHS and RHS should have the same "
 #~ "number of columns and rows in both sides."
 #~ msgstr ""
-#~ "Begränsningarna som har cellområde i LHS och RHS bör ha samma antal "
-#~ "kolumner och rader på båda sidor."
+#~ "Bivillkoren som har cellområde i LHS och RHS bör ha samma antal kolumner "
+#~ "och rader på båda sidor."
 
 #~ msgid "The cell range in LHS or RHS should have only one column or row."
 #~ msgstr "Cellområdet i LHS och RHS bör ha endast en kolumn eller rad."
@@ -20496,10 +20497,10 @@ msgstr "GNOME-kalkylprogrammet"
 #~ msgstr "Lägg till  "
 
 #~ msgid "Add Constraint"
-#~ msgstr "Lägg till restriktion"
+#~ msgstr "Lägg till bivillkor"
 
 #~ msgid "Change Constraint"
-#~ msgstr "Ändra restriktion"
+#~ msgstr "Ändra bivillkor"
 
 #~ msgid "Options..."
 #~ msgstr "Alternativ..."
