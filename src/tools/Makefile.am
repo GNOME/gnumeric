@@ -26,6 +26,8 @@ libtools_a_SOURCES =					\
 	data-shuffling.h				\
 	auto-correct.c					\
 	auto-correct.h					\
+	fill-series.c					\
+	fill-series.h					\
 	filter.h					\
 	filter.c					\
 	goal-seek.c					\
