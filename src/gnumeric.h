@@ -1,4 +1,4 @@
-#include <gmp.h>
+#include "numbers.h"
 #include "style.h"
 #include "symbol.h"
 #include "expr.h"

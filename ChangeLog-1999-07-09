@@ -1,3 +1,29 @@
+1998-07-21  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/parser.y (yylex): Numbers are parsed correctly.  Bits of
+	Oleo number parsing plugged in.
+
+	* src/util.c, src/util.h: New files with assorted number utilities.
+
+	* src/numbers.h: New file: takes care of using gmp or regular
+	double/int.
+
+	* src/expr.c (eval_release_node): Implement.
+	(eval_release_value): New function.
+
+	* src/sheet.c (sheet_col_selection_changed,
+	sheet_row_selection_changed): Implement.
+	(sheet_selection_clear, sheet_selection_clear_only): Splitted
+	functionality into two routines.
+	(sheet_selection_clear_only): Remove any marks from the bars.
+	(sheet_row_set_selection, sheet_col_set_selection): Implement. 
+
+	* src/item-bar.c (is_pointer_on_division): Return the column
+	changed. 
+
+	* src/item-grid.c (item_grid_draw_cell): Fix the computation for
+	right indentation.
+
 1998-07-17  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_key): Add support for

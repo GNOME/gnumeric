@@ -6,6 +6,7 @@
  *  Miguel de Icaza (miguel@gnu.org)
  *
  */
+#include <config.h>
 #include <gnome.h>
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
@@ -101,7 +102,19 @@ new_canvas_bar (Sheet *sheet, GtkOrientation o, GnomeCanvasItem **itemp)
 static void
 sheet_col_selection_changed (ItemBar *item_bar, int column, Sheet *sheet)
 {
-	printf ("Sheet signal: Column %d selection changed\n", column);
+	ColRowInfo *ci;
+
+	ci = sheet_col_get (sheet, column);
+	if (ci->selected)
+		return;
+	
+	gnumeric_sheet_cursor_set (GNUMERIC_SHEET (sheet->sheet_view), column, 0);
+	sheet_selection_clear_only (sheet);
+	sheet_col_set_selection (sheet, ci, 1);
+	sheet_selection_append_range (sheet,
+				      column, 0,
+				      column, 0,
+				      column, SHEET_MAX_ROWS-1);
 }
 
 static void
@@ -114,7 +127,21 @@ sheet_col_size_changed (ItemBar *item_bar, int col, int width, Sheet *sheet)
 static void
 sheet_row_selection_changed (ItemBar *item_bar, int row, Sheet *sheet)
 {
-	printf ("Sheet signal: Row %d selection changed\n", row);
+	ColRowInfo *ri;
+
+	ri = sheet_row_get (sheet, row);
+	if (ri->selected)
+		return;
+
+	gnumeric_sheet_cursor_set (GNUMERIC_SHEET (sheet->sheet_view), 0, row);
+	sheet_selection_clear_only (sheet);
+	sheet_row_set_selection (sheet, ri, 1);
+	sheet_selection_append_range (sheet,
+				      0, row,
+				      0, row,
+				      SHEET_MAX_COLS-1, row);
+	
+	
 }
 
 static void
@@ -519,7 +546,10 @@ sheet_selection_equal (SheetSelection *a, SheetSelection *b)
 }
 
 void
-sheet_selection_append (Sheet *sheet, int col, int row)
+sheet_selection_append_range (Sheet *sheet,
+			      int base_col,  int base_row,
+			      int start_col, int start_row,
+			      int end_col,   int end_row)
 {
 	SheetSelection *ss;
 
@@ -527,13 +557,13 @@ sheet_selection_append (Sheet *sheet, int col, int row)
 	
 	ss = g_new0 (SheetSelection, 1);
 
-	ss->base_col  = col;
-	ss->base_row  = row;
+	ss->base_col  = base_col;
+	ss->base_row  = base_row;
 
-	ss->start_col = col;
-	ss->end_col   = col;
-	ss->start_row = row;
-	ss->end_row   = row;
+	ss->start_col = start_col;
+	ss->end_col   = end_col;
+	ss->start_row = start_row;
+	ss->end_row   = end_row;
 	
 	sheet->selections = g_list_prepend (sheet->selections, ss);
 
@@ -542,6 +572,12 @@ sheet_selection_append (Sheet *sheet, int col, int row)
 	
 	gnumeric_sheet_set_selection (GNUMERIC_SHEET (sheet->sheet_view), ss);
 	sheet_redraw_selection (sheet, ss);
+}
+
+void
+sheet_selection_append (Sheet *sheet, int col, int row)
+{
+	sheet_selection_append_range (sheet, col, row, col, row, col, row);
 }
 
 /*
@@ -584,6 +620,28 @@ sheet_selection_extend_to (Sheet *sheet, int col, int row)
 
 	sheet_redraw_selection (sheet, &old_selection);
 	sheet_redraw_selection (sheet, ss);
+}
+
+void
+sheet_row_set_selection (Sheet *sheet, ColRowInfo *ri, int value)
+{
+	if (ri->selected == value)
+		return;
+	
+	ri->selected = value;
+	gnome_canvas_request_redraw (GNOME_CANVAS (sheet->row_canvas),
+		0, 0, INT_MAX, INT_MAX);
+}
+
+void
+sheet_col_set_selection (Sheet *sheet, ColRowInfo *ci, int value)
+{
+	if (ci->selected == value)
+		return;
+	
+	ci->selected = value;
+	gnome_canvas_request_redraw (GNOME_CANVAS (sheet->col_canvas),
+		0, 0, INT_MAX, INT_MAX);
 }
 
 void
@@ -728,14 +786,34 @@ sheet_selection_extend_vertical (Sheet *sheet, int n)
 }
 
 /*
+ * Clear the selection from the columns or rows
+ */
+static int
+clean_bar_selection (GList *list)
+{
+	int cleared = 0;
+	
+	for (; list; list = list->next){
+		ColRowInfo *info = (ColRowInfo *)list->data;
+
+		if (info->selected){
+			info->selected = 0;
+			cleared++;
+		}
+	}
+	return cleared;
+}
+
+/*
  * sheet_selection_clear
  * sheet:  The sheet
  *
- * Clears all of the selection ranges and resets it to a
- * selection that only covers the cursor
+ * Clears all of the selection ranges.
+ * Warning: This does not set a new selection, this should
+ * be taken care on the calling routine. 
  */
 void
-sheet_selection_clear (Sheet *sheet)
+sheet_selection_clear_only (Sheet *sheet)
 {
 	GnumericSheet *gsheet;
 	GList *list = sheet->selections;
@@ -752,6 +830,36 @@ sheet_selection_clear (Sheet *sheet)
 	}
 	g_list_free (sheet->selections);
 	sheet->selections = NULL;
+
+	/* Unselect the column bar */
+	if (clean_bar_selection (sheet->cols_info) > 0)
+		gnome_canvas_request_redraw (GNOME_CANVAS (sheet->col_canvas),
+					     0, 0, INT_MAX, INT_MAX);
+
+	/* Unselect the row bar */
+	if (clean_bar_selection (sheet->rows_info) > 0)
+		gnome_canvas_request_redraw (GNOME_CANVAS (sheet->row_canvas),
+					     0, 0, INT_MAX, INT_MAX);
+	
+}
+
+/*
+ * sheet_selection_clear
+ * sheet:  The sheet
+ *
+ * Clears all of the selection ranges and resets it to a
+ * selection that only covers the cursor
+ */
+void
+sheet_selection_clear (Sheet *sheet)
+{
+	GnumericSheet *gsheet;
+
+	g_return_if_fail (sheet != NULL);
+	
+	gsheet = GNUMERIC_SHEET (sheet->sheet_view);
+	
+	sheet_selection_clear_only (sheet);
 	sheet_selection_append (sheet, gsheet->cursor_col, gsheet->cursor_row);
 }
 

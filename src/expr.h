@@ -12,13 +12,13 @@ typedef enum {
 	OP_FUNCALL,
 
         OP_CONSTANT,
-	OP_CAST_TO_STRING,
 	OP_NEG
 } Operation;
 
 typedef enum {
 	VALUE_STRING,
-	VALUE_NUMBER,
+	VALUE_INTEGER,
+	VALUE_FLOAT,
 	VALUE_CELLRANGE
 } ValueType;
 
@@ -40,7 +40,8 @@ typedef struct {
 		} cell;
 
 		Symbol *str;
-		mpf_t number;	/* floating point */
+		float_t v_float;	/* floating point */
+		int_t   v_int;
 	} v;
 } Value;
 
@@ -65,9 +66,14 @@ struct EvalNode {
 
 typedef struct EvalNode EvalNode;
 
+typedef enum {
+	PARSE_OK,
+	PARSE_ERR_NO_QUOTE
+} ParseErr;
+
 /* For talking to yyparse */
 extern char     *parser_expr;
-extern char     **parser_error_message;
+extern ParseErr parser_error;
 extern EvalNode *parser_result;
 
 EvalNode   *eval_parse_string (char *expr, int col, int row, char **error_msg);

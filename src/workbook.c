@@ -1,3 +1,4 @@
+#include <config.h>
 #include <gnome.h>
 #include <gdk/gdkkeysyms.h>
 #include "gnumeric.h"

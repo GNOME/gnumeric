@@ -225,7 +225,7 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 	case HALIGN_RIGHT:
 		if (col > 0)
 			clip_left = sheet_cell_get (sheet, col-1, row);
-		x_offset = cell->col->pixels - (cell->width - cell->col->margin_b);
+		x_offset = cell->col->pixels - cell->width - (cell->col->margin_b + cell->col->margin_a);
 		break;
 		
 	case HALIGN_CENTER:
@@ -233,7 +233,7 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 			clip_left = sheet_cell_get (sheet, col-1, row);
 		if (col < SHEET_MAX_COLS-1)
 			clip_right = sheet_cell_get (sheet, col-1, row);
-		x_offset = (cell->width - cell->col->pixels)/2;
+		x_offset = (cell->col->pixels - cell->width)/2;
 		break;
 		
 	case HALIGN_FILL:
@@ -267,7 +267,7 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 		gdk_gc_set_clip_rectangle (gc, NULL);
 
 	gdk_draw_rectangle (drawable, white_gc, TRUE,
-			    x1 + cell->col->margin_a,
+			    x1 + x_offset, 
 			    y1 + cell->row->margin_a,
 			    cell->width - (cell->col->margin_a + cell->col->margin_b),
 			    height - (cell->row->margin_a + cell->row->margin_b));

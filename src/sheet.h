@@ -68,10 +68,14 @@ void        sheet_set_zoom_factor     (Sheet *sheet, double factor);
 void        sheet_get_cell_bounds     (Sheet *sheet, ColType col, RowType row, int *x, int *y, int *w, int *h);
 
 /* Selection management */
-void        sheet_selection_append    (Sheet *sheet, int col, int row);
-void        sheet_selection_extend_to (Sheet *sheet, int col, int row);
-void        sheet_selection_clear     (Sheet *sheet);
-int         sheet_selection_equal     (SheetSelection *a, SheetSelection *b);
+void        sheet_selection_append       (Sheet *sheet, int col, int row);
+void        sheet_selection_extend_to    (Sheet *sheet, int col, int row);
+void        sheet_selection_clear        (Sheet *sheet);
+void        sheet_selection_clear_only   (Sheet *sheet);
+int         sheet_selection_equal        (SheetSelection *a, SheetSelection *b);
+void        sheet_selection_append_range (Sheet *sheet, int base_col,  int base_row,
+					  int start_col, int start_row,
+					  int end_col,   int end_row);
 
 void        sheet_selection_extend_horizontal (Sheet *sheet, int count);
 void        sheet_selection_extend_vertical   (Sheet *sheet, int count);
@@ -105,6 +109,8 @@ int         sheet_row_get_distance    (Sheet *sheet, int from_row, int to_row);
 /* Sets the width/height of a column row in terms of pixels */
 void        sheet_col_set_width       (Sheet *sheet, int col, int width);
 void        sheet_row_set_height      (Sheet *sheet, int row, int width);
+void        sheet_col_set_selection   (Sheet *sheet, ColRowInfo *ci, int value);
+void        sheet_row_set_selection   (Sheet *sheet, ColRowInfo *ri, int value);
 
 Style      *sheet_style_compute       (Sheet *sheet, int col, int row);
 

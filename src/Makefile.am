@@ -3,7 +3,7 @@ CFLAGS += -g -Wall 	\
 	-Wmissing-prototypes -Wmissing-declarations 
 
 bin_PROGRAMS = gnumeric
-noinst_PROGRAMS = test-format test-token
+noinst_PROGRAMS = test-format 
 
 INCLUDES = 			\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
@@ -35,6 +35,8 @@ gnumeric_SOURCES =		\
 	style.h			\
 	symbol.h		\
 	symbol.c		\
+	utils.c			\
+	utils.h			\
 	workbook.c
 
 gnumeric_LDADD = \
@@ -48,12 +50,12 @@ test_format_LDADD = \
 	$(GNOME_LIBDIR) \
 	$(GNOMEUI_LIBS)
 
-test_token_SOURCES = 		\
-	test-token.c		\
-	token.c			\
-	token.h
-
-test_token_LDADD = \
-	$(GNOME_LIBDIR)	\
-	$(GNOMEUI_LIBS) -lgmp
+#test_token_SOURCES = 		\
+#	test-token.c		\
+#	token.c			\
+#	token.h##
+#
+#test_token_LDADD = \
+#	$(GNOME_LIBDIR)	\
+#	$(GNOMEUI_LIBS) -lgmp
 

@@ -1,6 +1,6 @@
-#include <gmp.h>
 #include <glib.h>
 #include <ctype.h>
+#include "numbers.h"
 #include "token.h"
 #include "string.h"
 

@@ -1,23 +1,57 @@
 %{
+/*
+ * Gnumeric Parser
+ *
+ * (C) 1998 the Free Software Foundation
+ *
+ * Author:
+ *    Miguel de Icaza (miguel@gnu.org)
+ */
+	
 #include <glib.h>
-#include <gmp.h>
+#include "numbers.h"
 #include "symbol.h"
 #include "expr.h"
+#include "utils.h"
 #include <ctype.h>
-static GList *alloc_list;
 
-static void *alloc_buffer (int size);
-static void dump_node (EvalNode *node);
+/* Allocation with disposal-on-error */ 
+static void *alloc_buffer   (int size);
 static void register_symbol (Symbol *sym);
-static void alloc_clean (void);
-static void dump_constant (EvalNode *node);
-static int yylex (void);
-static int yyerror (char *s);
- 
+static void alloc_clean     (void);
+static void *v_new (void);
 	
+#define ERROR -1
+ 
+/* Types of items we know how to dispose on error */ 
+typedef enum {
+	ALLOC_SYMBOL,
+	ALLOC_VALUE,
+	ALLOC_BUFFER,
+} AllocType;
+
+/* How we keep track of them */ 
+typedef struct {
+	AllocType type;
+	void      *data;
+} AllocRec;
+
+/* This keeps a list of  AllocRecs */
+static GList *alloc_list;
+ 
+/* Debugging */ 
+static void dump_constant (EvalNode *node);
+static void dump_node (EvalNode *node);
+
+/* Bison/Yacc internals */ 
+static int  yylex (void);
+static int  yyerror (char *s);
+
 #define p_new(type) \
 	((type *) alloc_buffer ((unsigned) sizeof (type)))
+		
 %}
+
 %union {
 	EvalNode *node;
 	CellRef  *cell;
@@ -96,18 +130,69 @@ arg_list: {}
 int yylex (void)
 {
 	int c;
+	char *p, *tmp;
+	int is_float;
+	
+        while(isspace (*parser_expr))
+                parser_expr++;                                                                                       
 
-	c = getchar ();
-	if (isdigit (c)){
+	c = *parser_expr++;
+        if (c == '(' || c == ',' || c == ')')
+                return c;
+
+	switch (c){
+        case '0': case '1': case '2': case '3': case '4': case '5':
+	case '6': case '7': case '8': case '9': case '.': {
 		EvalNode *e = p_new (EvalNode);
-		Value    *v = p_new (Value);
+		Value *v = v_new ();
+		
+		is_float = c == '.';
+		p = parser_expr-1;
+		tmp = parser_expr;
+		
+                while (isdigit (*tmp) || (!is_float && *tmp=='.' && ++is_float))
+                        tmp++;
+		
+		if (*tmp == 'e' || *tmp == 'E') {
+			is_float = 1;
+			tmp++;
+			if (*tmp == '-' || *tmp == '+')
+				tmp++;
+			while (isdigit (*tmp))
+				tmp++;
+		}
 
-		v->type = VALUE_NUMBER;
+		/* Ok, we have skipped over a number, now load its value */
+		if (is_float){
+			v->type = VALUE_FLOAT;
+			float_get_from_range (p, tmp, &v->v.v_float);
+		} else {
+			v->type = VALUE_INTEGER;
+			int_get_from_range (p, tmp, &v->v.v_int);
+		}
+
+		/* Return the value to the parser */
 		e->oper = OP_CONSTANT;
 		e->u.constant = v;
-
 		yylval.node = e;
+
+		parser_expr = tmp;
 		return NUMBER;
+	}
+	case '"':
+                p = parser_expr;
+                while(*parser_expr && *parser_expr != '"') {
+                        if (*parser_expr == '\\' && parser_expr [1])
+                                parser_expr++;
+                        parser_expr++;
+                }
+                if(!*parser_expr){
+                        parser_error = PARSE_ERR_NO_QUOTE;
+                        return ERROR;
+                }
+		
+		/* NOTE: This is non-functional */
+
 	}
 	if (isalpha (c)){
 		EvalNode *e = p_new (EvalNode);
@@ -151,16 +236,6 @@ yyerror (char *s)
     return 0;
 }
 
-typedef enum {
-	ALLOC_SYMBOL,
-	ALLOC_BUFFER,
-} AllocType;
-
-typedef struct {
-	AllocType type;
-	void      *data;
-} AllocRec;
-
 static void
 register_symbol (Symbol *sym)
 {
@@ -184,6 +259,38 @@ alloc_buffer (int size)
 	return res;
 }
 
+void *
+v_new (void)
+{
+	AllocRec *a_info = g_new (AllocRec, 1);
+	char *res = g_malloc (sizeof (Value));
+
+	a_info->type = ALLOC_VALUE;
+	a_info->data = res;
+	alloc_list = g_list_prepend (alloc_list, a_info);
+
+	return res;
+	
+}
+
+static void
+clean_value (Value *v)
+{
+	switch (v->type){
+	case VALUE_FLOAT:
+		mpf_clear (v->v.v_float);
+		break;
+
+	case VALUE_INTEGER:
+	        mpz_clear (v->v.v_int);
+		break;
+
+	default:
+		g_warning ("Unknown value passed to clean_value\n");
+		break;
+	}
+}
+
 static void
 alloc_clean (void)
 {
@@ -200,6 +307,9 @@ alloc_clean (void)
 		case ALLOC_SYMBOL:
 			symbol_unref ((Symbol *)rec->data);
 			break;
+
+		case ALLOC_VALUE:
+			clean_value ((Value *)rec->data);
 		}
 	}
 
@@ -217,10 +327,14 @@ dump_constant (EvalNode *node)
 		printf ("STRING: %s\n", value->v.str->str);
 		break;
 
-	case VALUE_NUMBER:
+	case VALUE_INTEGER:
 		printf ("NUM: %d\n", 0);
 		break;
 
+	case VALUE_FLOAT:
+		printf ("Float: %f\n", 0.0);
+		break;
+		
 	default:
 		printf ("Unhandled item type\n");
 	}
@@ -266,10 +380,5 @@ dump_node (EvalNode *node)
 		printf ("NEGATIVE\n");
 		break;
 		
-	case OP_CAST_TO_STRING:
-		dump_node (node->u.value);
-		printf ("CAST TO STRING\n");
-		break;
-
 	}
 }

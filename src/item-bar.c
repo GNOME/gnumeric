@@ -248,6 +248,12 @@ is_pointer_on_division (ItemBar *item_bar, int pos, int *the_total, int *the_ele
 
 			return cri;
 		}
+
+		if (total > pos){
+			if (the_element)
+				*the_element = i;
+			return NULL;
+		}
 	}
 	return NULL;
 }
@@ -367,7 +373,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		} else {
 			gtk_signal_emit (GTK_OBJECT (item),
 					 item_bar_signals [SELECTION_CHANGED],
-					 item_bar->resize_pos);
+					 ele);
 		}
 		break;
 

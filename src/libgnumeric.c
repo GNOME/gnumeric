@@ -1,3 +1,4 @@
+#include <config.h>
 #include <gnome.h>
 #include "gnumeric.h"
 
