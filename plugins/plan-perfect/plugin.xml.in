@@ -9,10 +9,13 @@
 	</loader>
 	<services>
 		<service type="file_opener" id="pln" priority="1" probe="TRUE"
-		         open="FALSE" import="TRUE">
+		         open="TRUE" import="TRUE">
 			<information>
 				<_description>Plan Perfect Format (PLN) import</_description>
 			</information>
+			<file_patterns>
+				<file_pattern type="shell_pattern" value="*.pln"/>
+			</file_patterns>
 			<save_info saver_id="" format_level="manual"/>
 		</service>
 	</services>

@@ -21,7 +21,9 @@
 #include "workbook-view.h"
 #include "command-context.h"
 #include "io-context.h"
+#include "parse-util.h"
 
+#include <gsf/gsf-utils.h>
 #include <gsf/gsf-input.h>
 #include <libgnome/gnome-i18n.h>
 #include <string.h>
@@ -33,9 +35,6 @@ gboolean pln_file_probe (GnumFileOpener const *fo, GsfInput *input,
 			 FileProbeLevel pl);
 void pln_file_open (GnumFileOpener const *fo, IOContext *io_context,
                     WorkbookView *view, GsfInput *input);
-
-#define FONT_WIDTH 8
-	/* Font width should really be calculated, but it's too hard right now */
 
 #define PLN_BYTE(pointer) (((int)((*(pointer)))) & 0xFF)
 #define PLN_WORD(pointer) (PLN_BYTE (pointer) | (PLN_BYTE ((pointer) + 1) << 8))
@@ -699,60 +698,72 @@ g_warning("PLN: Undefined formula code %d", fcode);
 	return result1;
 }
 
+/* Font width should really be calculated, but it's too hard right now */
+#define FONT_WIDTH 8
+static double
+pln_calc_font_width (guint16 cwidth, gboolean permit_default)
+{
+	return (cwidth & 0xff) * FONT_WIDTH;
+}
+
 static ErrorInfo *
 pln_parse_sheet (GsfInput *input, Sheet *sheet)
 {
-	int rcode, rlength;
-	int crow, ccol, ctype, cformat, chelp, clength, cattr, cwidth;
+	unsigned max_col = SHEET_MAX_COLS;
+	unsigned max_row = SHEET_MAX_ROWS;
+	unsigned i, rcode, rlength;
 	Cell *cell = NULL;
 	gnum_float dvalue;
 	Value	*val;
-	int lastrow = SHEET_MAX_ROWS;
-	int lastcol = SHEET_MAX_COLS;
 	guint8 const *data;
 
 	data = gsf_input_read (input, 6, NULL);
 	if (data == NULL || PLN_WORD (data + 2) != 0)
 		return error_info_new_str (_("PLN : Spreadsheet is password encrypted"));
 
-	/*
-	 * Now process the record based sections
-	 *
+	/* Process the record based sections
 	 * Each record consists of a two-byte record type code,
-	 * followed by a two byte length code
+	 * followed by a two byte length
 	 */
-	rcode = 0;
-
 	do {
 		data = gsf_input_read (input, 4, NULL);
 		if (data == NULL)
 			break;
 
-		rcode = PLN_WORD (data);
-		rlength = PLN_WORD (data);
+		rcode   = GSF_LE_GET_GUINT16 (data);
+		rlength = GSF_LE_GET_GUINT16 (data + 2);
+
+		printf ("Record %x Len %x\n", rcode, rlength);
 
 		data = gsf_input_read (input, rlength, NULL);
 		if (data == NULL)
 			break;
 
 		switch (rcode) {
-		case 1:		/* Last row/column */
-			lastrow = PLN_WORD (data);
-			lastcol = PLN_WORD (data + 2);
+		case 0x01:
+			/* guint16 last row with data;
+			 */
+			 max_col = GSF_LE_GET_GUINT16 (data + 2);
 			break;
 
-		case 3:		/* Column format information */
-			for (ccol = 0; ccol < rlength / 6; ccol++) {
-				cattr	= PLN_WORD (data + ccol * 6 + 0);
-				cformat = PLN_WORD (data + ccol * 6 + 2);
-				cwidth	= PLN_WORD (data + ccol * 6 + 4);
-				if ((cwidth != 0) && (ccol <= lastcol)) {
-					sheet_col_set_size_pts
-						(sheet, ccol,
-						 (cwidth & 255) * FONT_WIDTH,
-						 FALSE);
+		case 0x02:
+			/* char ascii char of decimal point		0
+			 * char ascii char of thousands seperator	1
+			 * WPCHAR 1-6 bytes for currency symbol		2
+			 * guint16 default worksheet attributs		8
+			 * guint16 default worksheet format		10
+			 * guint32 default font				12
+			 * guint16  default col width			16
+			 */
+			break;
+
+		case 0x03:	/* Column format information */
+			for (i = 0; i < rlength / 6; i++, data += 6)
+				if (i <= max_col) {
+					double const width = pln_calc_font_width (
+						GSF_LE_GET_GUINT16 (data + 4), TRUE);
+					sheet_col_set_size_pts (sheet, i, width, FALSE);
 				}
-			}
 			break;
 
 		default:
@@ -761,41 +772,40 @@ pln_parse_sheet (GsfInput *input, Sheet *sheet)
 	} while (rcode != 25);
 
 	/* process the CELL information */
-	while (1) {
-		data = gsf_input_read (input, 20, NULL);
-		if (data == NULL)
-			break;
+	while (NULL != (data = gsf_input_read (input, 20, NULL))) {
+		unsigned row  = GSF_LE_GET_GUINT16 (data + 0);
+		unsigned col  = GSF_LE_GET_GUINT16 (data + 2);
+		unsigned type = GSF_LE_GET_GUINT16 (data + 12);
+		unsigned length = GSF_LE_GET_GUINT16 (data + 18);
 
-		crow = PLN_WORD (data);
 		/* Special value indicating end of sheet */
-		if (crow == 65535)
+		if (row == 0xFFFF)
 			return NULL;
-		if (crow >= SHEET_MAX_ROWS)
+
+		if (row > max_row)
 			return error_info_new_printf (
-			             _("Invalid PLN file has more than the maximum\n"
-			             "number of %s %d"),
-			             _("rows"),
-			             SHEET_MAX_ROWS);
+				_("Ignoring data that claims to be in row %u which is > max row %u"),
+				row, max_row);
+		if (col > max_col)
+			return error_info_new_printf (
+				_("Ignoring data that claims to be in column %u which is > max column %u"),
+				col, max_col);
 
-		ccol	= PLN_WORD (data + 2);
-		ctype	= PLN_WORD (data + 12);
-		cformat	= PLN_WORD (data + 14);
-		chelp	= PLN_WORD (data + 16);
-		clength	= PLN_WORD (data + 18);
+		printf ("%s type=%x extralen=%x\n", cell_coord_name (col, row), type, length);
 
-		switch (ctype & 7) {
+		switch (type & 7) {
 		case 0:		/* Empty Cell */
 		case 6:		/* format only, no data in cell */
 			break;
 
 		case 1:		/* Floating Point */
 			dvalue = pln_get_number (data + 4);
-			cell = sheet_cell_fetch (sheet, ccol, crow);
+			cell = sheet_cell_fetch (sheet, col, row);
 			cell_set_value (cell, value_new_float (dvalue));
 			break;
 
 		case 2:		/* Short Text */
-			cell = sheet_cell_fetch (sheet, ccol, crow);
+			cell = sheet_cell_fetch (sheet, col, row);
 			if (cell != NULL) {
 				val = value_new_string_nocopy (
 					g_strndup (data + 5, PLN_BYTE (data + 4)));
@@ -806,7 +816,7 @@ pln_parse_sheet (GsfInput *input, Sheet *sheet)
 		case 3:		/* Long Text */
 			data = gsf_input_read (input, PLN_WORD (data+4), NULL);
 			if (data != NULL) {
-				cell = sheet_cell_fetch (sheet, ccol, crow);
+				cell = sheet_cell_fetch (sheet, col, row);
 				if (cell != NULL) {
 					val = value_new_string_nocopy (
 						g_strndup (data + 2, PLN_WORD (data)));
@@ -816,20 +826,20 @@ pln_parse_sheet (GsfInput *input, Sheet *sheet)
 			break;
 
 		case 4:		/* Error Cell */
-			cell_set_value (sheet_cell_fetch (sheet, ccol, crow),
+			cell_set_value (sheet_cell_fetch (sheet, col, row),
 					value_new_error (NULL, gnumeric_err_VALUE));
 			break;
 
 		case 5:		/* na Cell */
-			cell_set_value (sheet_cell_fetch (sheet, ccol, crow),
+			cell_set_value (sheet_cell_fetch (sheet, col, row),
 					value_new_error (NULL, gnumeric_err_NA));
 			break;
 		}
 
-		if (clength != 0 && cell != NULL) {
-			data = gsf_input_read (input, clength, NULL);
-			if (data != NULL) {
-				char *expr = pln_parse_formula (data, crow, ccol);
+		if (length != 0) {
+			data = gsf_input_read (input, length, NULL);
+			if (cell != NULL && data != NULL) {
+				char *expr = pln_parse_formula (data, row, col);
 				cell_set_text (cell, expr);
 				g_free (expr);
 			}
@@ -859,6 +869,7 @@ pln_file_open (GnumFileOpener const *fo, IOContext *io_context,
 	sheet = sheet_new (wb, name);
 	g_free (name);
 	workbook_sheet_attach (wb, sheet, NULL);
+	sheet_flag_recompute_spans (sheet);
 
 	error = pln_parse_sheet (input, sheet);
 	if (error != NULL) {
@@ -868,7 +879,7 @@ pln_file_open (GnumFileOpener const *fo, IOContext *io_context,
 }
 
 static guint8 const signature[] =
-    { 0xff, 'W','P','C', 0x10, 0, 0, 0, 0x9, 0x10 };
+    { 0xff, 'W','P','C', 0x10, 0, 0, 0, 0x9, 0xa };
 
 gboolean
 pln_file_probe (GnumFileOpener const *fo, GsfInput *input,

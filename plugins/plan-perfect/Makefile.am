@@ -1,11 +1,5 @@
-# Do not build by default until we are ready.
-if WITH_PLAN_PERFECT
 PP_LTLIBRARIES_TARGET = plan_perfect.la
 PP_DATA_TARGET = plugin.xml
-else
-PP_LTLIBRARIES_TARGET =
-PP_DATA_TARGET =
-endif
 
 INCLUDES = \
     -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
