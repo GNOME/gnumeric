@@ -2732,6 +2732,10 @@ workbook_rename_sheet (CommandContext *context,
 	g_return_val_if_fail (old_name != NULL, TRUE);
 	g_return_val_if_fail (new_name != NULL, TRUE);
 
+	/* Did the name change? */
+	if (strcmp (old_name, new_name) == 0)
+		return TRUE;
+	
 	if (strlen (new_name) < 1) {
 		gnumeric_error_invalid (context,
 					_("Sheet name"),

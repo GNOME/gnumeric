@@ -1,3 +1,8 @@
+2000-05-11  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook.c (workbook_rename_sheet): Don't make "Duplicate
+	sheet name" message if sheet name did not change.
+
 2000-05-11  Michael Meeks  <michael@helixcode.com>
 
 	* src/Makefile.am (gnumeric_libs): kill libole2 libs kludge.
