@@ -1,4 +1,4 @@
-SUBDIRS = . intl po macros idl src plugins doc icons templates tools
+SUBDIRS = . intl po macros idl src plugins doc icons templates tools omf-install
 
 XML_I18N_XML_KIND = --pass-through
 
@@ -79,3 +79,9 @@ dist-hook: gnumeric.spec
 	mkdir $(distdir)/samples
 	cp $(srcdir)/samples/*gnumeric $(distdir)/samples	
 	cp gnumeric.spec $(distdir)
+
+
+
+
+
+

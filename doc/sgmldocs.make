@@ -38,6 +38,7 @@ doc_DATA = index.html
 
 sgml_files = $(sgml_ents) $(docname).sgml
 
+omffile = gnumeric-C.omf
 
 EXTRA_DIST = $(sgml_files) $(doc_DATA) $(figs)
 

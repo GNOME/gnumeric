@@ -26,8 +26,8 @@ GNU oleo">
 <!ENTITY autosave	SYSTEM "autosave.sgml">
 <!ENTITY functions	SYSTEM "functions.sgml">
 <!ENTITY printing	SYSTEM "printing.sgml">
-<!ENTITY analysis-tools	SYSTEM "analysis-tools.sgml">
 -->
+<!ENTITY analysis-tools	SYSTEM "analysis-tools.xml">
 <!ENTITY solver		SYSTEM "solver.xml">
 <!ENTITY autocorrect	SYSTEM "autocorrect.xml">
 <!ENTITY filter		SYSTEM "filter.xml">
@@ -158,12 +158,12 @@ GNU oleo">
     <title>Solver</title>
     &solver;
   </chapter>
-<!--
+
   <chapter id="analysis-tools">
     <title>Data Analysis Tools</title>
     &analysis-tools;
   </chapter>
--->
+
   <chapter id="autocorrect-tool">
     <title>Auto Correct Tool</title>
     &autocorrect;
