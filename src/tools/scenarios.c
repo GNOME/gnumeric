@@ -354,11 +354,98 @@ scenarios_ok (WorkbookControl        *wbc,
 
 /* Scenario: Create summary report ***************************************/
 
+static void
+rm_fun_cb (gpointer key, gpointer value, gpointer user_data)
+{
+	g_free (value);
+}
+
+
 void
 scenario_summary (WorkbookControl        *wbc,
-		  data_analysis_output_t *dao)
+		  Sheet                  *sheet)
 {
-	/* Fixme: Implement */
+	data_analysis_output_t dao;
+	GList                  *cur;
+	GList                  *scenarios = sheet->scenarios;
+	GHashTable             *names;  /* A hash table for cell names->row. */
+	int                    i, j, col, row, cols;
 
-	sheet_redraw_all (dao->sheet, TRUE);
+	/* Initialize: Currently only new sheet output supported. */
+	dao_init (&dao, NewSheetOutput);
+	dao_prepare_output (wbc, &dao, _("Scenario Summary"));
+
+	/* Titles. */
+	dao_set_cell (&dao, 1, 1, _("Current Values"));
+	dao_set_cell (&dao, 0, 2, _("Changing Cells"));
+
+	/* Go through all scenarios. */
+	row   = 0;
+	names = g_hash_table_new (g_str_hash, g_str_equal);
+	for (col = 0, cur = scenarios; cur != NULL; col++, cur = cur->next) {
+		scenario_t *s = (scenario_t *) cur->data;
+
+		/* Scenario name. */
+		dao_set_cell (&dao, 2 + col, 1, s->name);
+
+		/* Go through the changing cells. */
+		cols = s->range.end.col - s->range.start.col + 1;
+		for (i = s->range.start.row; i <= s->range.end.row; i++)
+			for (j = s->range.start.col; j <= s->range.end.col;
+			     j++) {
+				char  *tmp = dao_find_name (sheet, j, i);
+				Value *v;
+				int   *index;
+
+				v = value_duplicate (s->changing_cells
+						     [j-s->range.start.col +
+						      (i-s->range.start.row) *
+						      cols]);
+
+				/* Check if some of the previous scenarios
+				 * already included that cell. If so, it's
+				 * row will be put into *index. */
+				index = g_hash_table_lookup (names, tmp);
+				if (index != NULL)
+					dao_set_cell_value (&dao, 2 + col,
+							    3 + *index, v);
+				else {
+					/* New cell. */
+					Cell *cell;
+					int  *r;
+
+					/* Changing cell name. */
+					dao_set_cell (&dao, 0, 3 + row, tmp);
+
+					/* Value of the cell in this
+					 * scenario. */
+					dao_set_cell_value (&dao, 2 + col,
+							    3 + row, v);
+
+					/* Current value of the cell. */
+					cell = sheet_cell_fetch (sheet, j, i);
+					v    = value_duplicate (cell->value);
+					dao_set_cell_value (&dao, 1, 3 + row,
+							    v);
+
+					/* Insert row number into the hash 
+					 * table. */
+					r  = g_new (int, 1);
+					*r = row;
+					g_hash_table_insert (names, tmp, r);
+
+					/* Increment the nbr of rows. */
+					row++;
+				}
+			}
+	}
+
+	/* Destroy the hash table. */
+	g_hash_table_foreach (names, (GHFunc) rm_fun_cb, NULL);
+	g_hash_table_destroy (names);
+
+	/* Clean up the report output. */
+	dao_set_bold (&dao, 0, 0, 0, 2 + row);
+	dao_autofit_columns (&dao);
+	dao_set_cell (&dao, 0, 0, _("Scenario Summary"));
 }

@@ -1,3 +1,8 @@
+2003-04-14  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* scenarios.c (scenario_summary): Implemented. Result cells output
+	still missing.
+
 2003-04-11  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* scenarios.c: Added support for insert column/row and delete

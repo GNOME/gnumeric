@@ -41,6 +41,6 @@ void scenario_delete (WorkbookControl        *wbc,
 		      data_analysis_output_t *dao);
 
 void scenario_summary (WorkbookControl        *wbc,
-		       data_analysis_output_t *dao);
+		       Sheet                  *sheet);
 
 #endif
