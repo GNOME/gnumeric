@@ -20,8 +20,6 @@
 #include "cell.h"
 #include "command-context.h"
 
-#define arraysize(x)     (sizeof(x)/sizeof(*(x)))
-
 typedef struct {
 	/* input data */
 	FILE *f;
@@ -321,6 +319,7 @@ static const sc_cmd_t sc_cmd_list[] = {
 	{ "rightstring", 11, sc_parse_label, 1 },
 	{ "label", 5, sc_parse_label, 1 },
 	{ "let", 3, sc_parse_let, 1 },
+	{ NULL, 0, NULL, 0 },
 };
 
 
@@ -328,7 +327,7 @@ static gboolean
 sc_parse_line (sc_file_state_t *src, char *buf)
 {
 	const char *space;
-	size_t i, cmdlen;
+	int i, cmdlen;
 	const sc_cmd_t *cmd;
 
 	g_return_val_if_fail (src, FALSE);
@@ -339,7 +338,7 @@ sc_parse_line (sc_file_state_t *src, char *buf)
 		return TRUE;
 	cmdlen = space - buf;
 
-	for (i = arraysize (sc_cmd_list) - 1; i >= 0; i--) {
+	for (i = 0 ; sc_cmd_list[i].name != NULL ; ++i) {
 		cmd = &sc_cmd_list [i];
 		if (cmd->namelen == cmdlen &&
 		    strncmp (cmd->name, buf, cmdlen) == 0) {
