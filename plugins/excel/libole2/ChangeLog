@@ -1,5 +1,12 @@
 1999-05-08  Michael Meeks  <michael@imaginator.com>
 
+	* ms-ole.c (ms_ole_directory_create): Added 'w' mode check.
+	Added check for name overruns.
+	(ms_ole_write_bb, ms_ole_write_bb): Major work, now OK for
+	some small files again.
+
+1999-05-08  Michael Meeks  <michael@imaginator.com>
+
 	* ms-ole.c (ms_ole_stream_open): Checks mode before
 	returning handle;
 	(ms_ole_new): Added mode flag setting.

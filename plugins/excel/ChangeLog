@@ -1,5 +1,12 @@
 1999-05-08  Michael Meeks  <michael@imaginator.com>
 
+	* ole.c (do_get, do_put): Sill fread/write no brainer.
+	(main): Less verbose.
+
+	* README: Updated to list more useful options.
+
+1999-05-08  Michael Meeks  <michael@imaginator.com>
+
 	* ms-biff.c (ms_biff_query_copy): Updated to use new
 	global ms_ole_stream_copy.
 

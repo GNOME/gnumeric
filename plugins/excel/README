@@ -24,11 +24,10 @@ It will also dump the contents of drawing streams inside the BIFF do:
 
 	./ole somefile.xls draw workbook
 
+Or to put / get files to / from an OLE file use:
+
+	./ole somefile.xls put <filename> <stream name>
+or
+	./ole somefile.xls get <stream name> <filename>
+
 1999-04-13 Michael Meeks <michael@imaginator.com>
-
-Notes on ms-formula.c Changeover to ExprTrees for speed.
-
-No precedence data needed. Can get rid of the parse_list_data array,
-use GList as will make function args quicker.
-All PARSE_DATA -> ExprTree
-PARSE_LIST -> GList...

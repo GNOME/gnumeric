@@ -414,7 +414,7 @@ do_get (MS_OLE *ole)
 		stream->read_copy (stream, buffer, dir->length);
 		printf ("Stream : '%s' length 0x%x\n", from, dir->length);
 		if (f && buffer) {
-			fwrite (buffer, dir->length, 1, f);
+			fwrite (buffer, 1, dir->length, f);
 			fclose (f);
 		} else
 			printf ("Failed write to '%s'\n", to);
@@ -459,7 +459,7 @@ do_put (MS_OLE *ole)
 		stream->lseek (stream, 0, MS_OLE_SEEK_SET);
 	       
 		do {
-			len = fread (buffer, 1024, 1, f);
+			len = fread (buffer, 1, 1024, f);
 			printf ("Transfering block %d = %d bytes\n", block++, len); 
 			stream->write (stream, buffer, len);
 		} while (!feof(f) && len>0);
@@ -508,7 +508,8 @@ int main (int argc, char **argv)
 		}
 
 		ptr = strtok (buffer, delim);
-		printf ("Command : '%s'\n", ptr);
+		if (!interact)
+			printf ("Command : '%s'\n", ptr);
 		if (g_strcasecmp(ptr, "ls")==0) {
 			list_files (ole);
 		} else if (g_strcasecmp(ptr, "dump")==0)
