@@ -4016,9 +4016,8 @@ sheet_clone_colrow_info (Sheet const *src, Sheet *dst)
 
 	sheet_col_set_default_size_pixels (dst, 
 		sheet_col_get_default_size_pixels (src));
-	sheet_row_set_default_size_pixels (dst, defsize,
+	sheet_row_set_default_size_pixels (dst,
 		sheet_row_get_default_size_pixels (src));
-
 }
 
 static void
