@@ -10,20 +10,31 @@ Release Critical
 Pending Patches
 ---------------
 
-    http://bugzilla.gnome.org/show_bug.cgi?id=55142	charset for ole summary
     libole2 + vfs support.
+
+Pre 1.0 breakage
+------------------
+- Fix help tokenizer
+    : Tino's example of \n\n truncating.
+    : How to support @EXAMPLE
+
+- outline numbers
+    : implement 'clicked' callbacks (requires cleanup in the collapse code)
+
+- Names
+    : Fix XL named expr import for sheet local names
+      * externsheet for biff7 type=3
+      * test for unicode
+    : Check scoping changes.
 
 Long term breakage
 ------------------
-
-- outline numbers
-    : implement 'clicked' callbacks
 
 - Fix user visible strings "Foo :" to be "Foo:".  (The former is a French
   habit that we should let the French l10n team handle.)
 
 - Fix "-geometry" handling:
-  * When an anchor is specified (e.g., "+0+0"), the window manager should
+  : When an anchor is specified (e.g., "+0+0"), the window manager should
     not be asked to place the window.  (Under twx, for example, the user
     typically clicks to place the window.) This already works correctly
     under many window managers.
@@ -46,21 +57,16 @@ Long term breakage
     - config check for xml-i18n-tool version (or should it be
       intltool ?)
 
+- Consistent capitalization of labels.
+
 - Names
-    : Fix XL named expr import for sheet local names
-      * externsheet for biff7 type=3
-      * test for unicode
     : references in names do not get changed with cut/paste or ins/del row/col.
       How to handle relative references in names ?? here.
-    : Check scoping changes.
-
-- name dialog
-    : We should start with the expr entry set to either the current cell,
-      or by selecting the first named expression in scope that contains the
-      current cell.
-    : Should <ok> add the name ?
-
-- Consistent capitalization of labels.
+    : Dialog
+	* We should start with the expr entry set to either the current cell,
+	  or by selecting the first named expression in scope that contains the
+	  current cell.
+	* Should <ok> add the name ?
 
 - can_try_save_to uses access().  That's bogus in a number of ways: (a) it
   checks the wrong permissions in the set[gu]id case.  (b) It reports the

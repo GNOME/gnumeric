@@ -1,3 +1,10 @@
+2001-12-10  Jody Goldberg <jody@gnome.org>
+
+	* ms-summary.c (read_summary_items) : use iconv.
+	(ms_summary_read) : ditto.
+	(set_summary_item) : ditto.
+	(ms_summary_write) : ditto.
+
 2001-12-05  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (write_formula) : handle array formulas.

@@ -11,16 +11,19 @@
 
 #include <config.h>
 #include <glib.h>
+#include <string.h>
 #include <libole2/ms-ole.h>
 #include <libole2/ms-ole-summary.h>
 
 #include "ms-biff.h"
+#include "ms-excel-util.h"
 #include "ms-summary.h"
 #include "summary.h"
 
 typedef struct _MsOleSummaryHeader MsOleSummaryHeader;
 typedef struct _MsOleSummaryRecord MsOleSummaryRecord;
 typedef guint32 MsOleSummaryFileTime;
+static	excel_iconv_t current_summary_iconv = NULL;
 
 #define SUMMARY_DEBUG 0
 
@@ -145,12 +148,37 @@ read_summary_items (SummaryInfo *sin, MsOleSummary *si, MsOlePropertySetID psid)
 			name = summary_item_name[excel_to_gnum_mapping[i].gnumeric];
 			switch (MS_OLE_SUMMARY_TYPE (p)) {
 
-			case MS_OLE_SUMMARY_TYPE_STRING:
-			{
+			case MS_OLE_SUMMARY_TYPE_STRING: {
 				gchar *val = ms_ole_summary_get_string (si, p, &ok);
 				if (ok) {
-					sit = summary_item_new_string (name, val);
+					char* ans, *ptr = val;
+					guint32 lp;
+					size_t length = strlen (val);
+					size_t inbytes = length,
+					outbytes = (length + 2) * 8,
+					retlength;
+					char* inbuf = g_new (char, length), *outbufptr;
+					char const * inbufptr = inbuf;
+
+					ans = g_new (char, outbytes + 1);
+					outbufptr = ans;
+					for (lp = 0; lp < length; lp++) {
+						inbuf[lp] = MS_OLE_GET_GUINT8 (ptr);
+						ptr++;
+					}
+
+					excel_iconv (current_summary_iconv,
+					     &inbufptr, &inbytes,
+					     &outbufptr, &outbytes);
+
+					retlength = outbufptr-ans;
+					ans[retlength] = 0;
+					g_free (inbuf);
 					g_free (val);
+					
+					sit = summary_item_new_string (name, ans);
+
+					g_free (ans);
 				}
 				break;
 			}
@@ -205,6 +233,7 @@ ms_summary_read (MsOle *f, SummaryInfo *sin)
 	 *  Get all the information from the SummaryInformation stream.
 	 */
 	MsOleSummary *si = ms_ole_summary_open (f);
+	current_summary_iconv = excel_iconv_open_for_import (excel_iconv_win_codepage ());
 	if (si) {
 		read_summary_items (sin, si, MS_OLE_PS_SUMMARY_INFO);
 		ms_ole_summary_close (si);
@@ -223,6 +252,8 @@ ms_summary_read (MsOle *f, SummaryInfo *sin)
 		printf ("ms_summary_read: Unable to open DocumentSummaryInformation.\n");
 #endif
 	}
+	excel_iconv_close (current_summary_iconv);
+	current_summary_iconv = NULL;
 }
 
 
@@ -241,10 +272,31 @@ set_summary_item (SummaryItem *s_item, MsOleSummary *ms_sum)
 
 			switch (s_item->type) {
 
-			case SUMMARY_STRING:
-				ms_ole_summary_set_string (ms_sum, pid, s_item->v.txt);
-				break;
+			case SUMMARY_STRING: {
+#define BLK_LEN 16
+				guint8 data[BLK_LEN];
+				guint32 lp, len = strlen (s_item->v.txt);
+		
+				size_t inbufleft = len, outbufleft = len*8;
+				char* mbbuf = g_new(char, outbufleft);
+				char *outbufptr = mbbuf, *ret;
+				char const * inbufptr = s_item->v.txt;
+				guint32 retlen;
 
+				excel_iconv (current_summary_iconv, &inbufptr, &inbufleft, 
+				     &outbufptr, &outbufleft);
+				retlen = outbufptr - mbbuf;
+				ret = g_new(char, retlen + 1);
+				ret[retlen] = 0;
+				for (lp = 0; lp < retlen; lp++) {
+					MS_OLE_SET_GUINT8 (data, mbbuf[lp]);
+					ret[lp] = data[0];
+				}
+				g_free(mbbuf);
+				ms_ole_summary_set_string (ms_sum, pid, ret);
+				g_free(ret);
+				break;
+			}
 			case SUMMARY_BOOLEAN:
 				ms_ole_summary_set_boolean (ms_sum, pid, s_item->v.boolean);
 				break;
@@ -276,6 +328,7 @@ ms_summary_write (MsOle *f, SummaryInfo *sin)
 {
 	GList		*si_list;
 	MsOleSummary	*si;
+	current_summary_iconv = excel_iconv_open_for_export();
 
 	if (f == NULL) {
 		g_warning ("ms_summary_write: no file to write to.\n");
@@ -301,6 +354,8 @@ ms_summary_write (MsOle *f, SummaryInfo *sin)
 		g_warning ("ms_summary_write: No summary list.\n");
 	}
 
+	current_summary_iconv = excel_iconv_open_for_export();
+
 	g_list_foreach (si_list, (GFunc)set_summary_item, si);
 	g_list_free (si_list);
 
@@ -312,6 +367,8 @@ ms_summary_write (MsOle *f, SummaryInfo *sin)
 	si = ms_ole_docsummary_create (f);
 	if (si == NULL) {
 		g_warning ("ms_summary_write: doc summary NOT created.\n");
+		excel_iconv_close (current_summary_iconv);
+		current_summary_iconv = NULL;
 		return;
 	}
 
@@ -324,4 +381,6 @@ ms_summary_write (MsOle *f, SummaryInfo *sin)
 	g_list_free (si_list);
 
 	ms_ole_summary_close (si);
+	excel_iconv_close (current_summary_iconv);
+	current_summary_iconv = NULL;
 }
