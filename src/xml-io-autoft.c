@@ -117,7 +117,6 @@ xml_write_format_template_members (XmlParseContext *ctxt, FormatTemplate *ft)
 	xmlNsPtr gmr;
 	xmlNodePtr child;
 	GSList *members;
-	String *author, *name, *description;
 	char *author_c, *name_c, *description_c;
 
 	/*
