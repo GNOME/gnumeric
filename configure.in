@@ -248,10 +248,10 @@ AC_MSG_CHECKING(for GnomePrint libraries >= 0.13)
 if gnome-config --libs print > /dev/null 2>&1; then 
     vers=`gnome-config --modversion print | sed -e "s/gnome-print-//" | \
         awk 'BEGIN { FS = "."; } { print $1 * 1000 + $2;}'`
-    if test "$vers" -ge 13; then
+    if test "$vers" -ge 14; then
         AC_MSG_RESULT(found)
     else
-        AC_MSG_ERROR(You need at least GNOME print 0.13 for this version of Gnumeric)
+        AC_MSG_ERROR(You need at least GNOME print 0.14 for this version of Gnumeric)
     fi
 else
     AC_MSG_ERROR(Did not find GnomePrint installed)

@@ -8,7 +8,7 @@
  */
 #include <config.h>
 #include <bonobo/bonobo-object.h>
-#include "Gnumeric.h"
+#include "idl/Gnumeric.h"
 #include "gnumeric.h"
 #include "sheet-vector.h"
 #include "sheet.h"

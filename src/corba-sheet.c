@@ -15,7 +15,7 @@
 #include "sheet.h"
 #include "selection.h"
 #include "gnumeric.h"
-#include "Gnumeric.h"
+#include "idl/Gnumeric.h"
 #include "corba.h"
 #include "utils.h"
 #include "ranges.h"
