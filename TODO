@@ -47,7 +47,6 @@ Gnumeric Spread Sheet task list
    account to render the number as well as possible given the space so
    that for small regions, numbers in scientific notation are displayed.
 
-* 
 * Sheet
 
 ** Cell data entry:
@@ -133,7 +132,10 @@ Gnumeric Spread Sheet task list
    Get Nested OLE object streams working nicely.
 
 * OLE
-<<<<<<< TODO
+
+   Integrate into libvfs.
+   Update to better understanding of file, see wine.
+
 
    Integrate into libvfs.
    Update to better understanding of file, see wine.
@@ -145,21 +147,9 @@ When adding a sheet or renaming a sheet, should we reparse everything?
 * Clipboard
 
 Perhaps make a global clipboard and remove all the hacks in the
-current clipboard code to find the clipboard.=======
+current clipboard code to find the clipboard.
 
-=======
+* Sheet Objects
 
-   Integrate into libvfs.
-   Update to better understanding of file, see wine.
-
-* Sheets
-
-When adding a sheet or renaming a sheet, should we reparse everything?
-
-* Clipboard
-
-Perhaps make a global clipboard and remove all the hacks in the
-current clipboard code to find the clipboard.=======
-
-
->>>>>>> 1.38.4.4
+Rewrite the entire support for sheet objects.  I do not like the code
+at *all*.
