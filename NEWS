@@ -1,3 +1,14 @@
+Gnumeric 1.0.8
+
+Andreas:
+	http://bugzilla.gnome.org/show_bug.cgi?id=84929
+	* use value_as_string for array content
+
+Morten:
+	http://bugzilla.gnome.org/show_bug.cgi?id=84929
+	* make value_as_string as smarter when handling ValueError.
+
+--------------------------------------------------------------------------
 Gnumeric 1.0.7
 
 Almer:
