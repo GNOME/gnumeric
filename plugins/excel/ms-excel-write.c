@@ -1,3 +1,4 @@
+/* vim: set sw=8: */
 /**
  * ms-excel-write.c: MS Excel support for Gnumeric
  *
@@ -2747,6 +2748,37 @@ write_default_row_height (BiffPut *bp, ExcelSheet *sheet)
 	ms_biff_put_commit (bp);
 }
 
+/**
+ * write_wsbool
+ * @bp    : BIFF buffer
+ * @sheet : sheet
+ *
+ * Write some of the sheet preference flags.  I have no idea why they are stuck
+ * here in their own distinct record rather than with all the others.
+ *
+ * See: S59E1C.HTM
+ */
+static void
+write_wsbool (BiffPut *bp, ExcelSheet *sheet)
+{
+	guint8  *data = ms_biff_put_len_next (bp, BIFF_WSBOOL, 2);
+	guint16  options = 0;
+
+	/* 0x0001 automatic page breaks are visible */
+	/* 0x0010 the sheet is a dialog sheet */
+	/* 0x0020 automatic styles are not applied to an outline */
+	if (sheet->gnum_sheet->outline_symbols_below)
+		options |= 0x040;
+	if (sheet->gnum_sheet->outline_symbols_right)
+		options |= 0x080;
+	/* 0x0100 the Fit option is on (Page Setup dialog box, Page tab) */
+	if (sheet->gnum_sheet->display_outlines)
+		options |= 0x600;
+
+	MS_OLE_SET_GUINT16 (data, options);
+	ms_biff_put_commit (bp);
+}
+
 static void
 margin_write (BiffPut *bp, guint16 op, PrintUnit *pu)
 {
@@ -2994,6 +3026,7 @@ write_sheet_bools (BiffPut *bp, ExcelSheet *sheet)
 	ms_biff_put_commit (bp);
 
 	write_default_row_height (bp, sheet); /* Default row height */
+	write_wsbool (bp, sheet);
 
 	/* See: S59D6B.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_COUNTRY, 4);

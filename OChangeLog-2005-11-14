@@ -1,3 +1,30 @@
+2001-04-21  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-control-gui.c (wbcg_menu_state_sheet_prefs) : add some
+	  new prefs for outline mode.
+
+	* src/colrow.c (colrow_adjust_outline_dir) : new stub.  implement
+	  later.
+
+	* src/sheet-control-gui.c (scg_set_gutters) : delete.
+	(scg_resize) : split from.
+	(scg_set_zoom_factor) : here. change signature to use zoom associated
+	  with sheet.  No need to pass it in.
+
+	* src/sheet.c (sheet_col_row_gutter) : Use scg_resize.
+	(sheet_set_zoom_factor) : signature change.
+	(sheet_adjust_preferences) : Adjust signature to optionally call
+	  scg_resize.
+
+
+	* src/item-bar.c (compute_pixels_from_indent) : Support disabling
+	  outlines.
+
+2001-04-20  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_new) : init outline_symbols_{below,right},
+	  and display_outlines
+
 2001-04-21  Jon K Hellan  <hellan@acm.org>
 
 	* configure.in (have_gda): Today, gda plugin compiles again with

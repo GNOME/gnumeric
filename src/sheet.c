@@ -186,6 +186,9 @@ sheet_new (Workbook *wb, char const *name)
 	sheet->hide_grid = FALSE;
 	sheet->hide_col_header = FALSE;
 	sheet->hide_row_header = FALSE;
+	sheet->display_outlines = TRUE;
+	sheet->outline_symbols_below = TRUE;
+	sheet->outline_symbols_right = TRUE;
 	sheet->frozen_corner.col = sheet->frozen_corner.row = -1;
 
 	sheet->names = NULL;
@@ -454,8 +457,7 @@ sheet_set_zoom_factor (Sheet *sheet, double f, gboolean force, gboolean update)
 	colrow_foreach (&sheet->rows, 0, SHEET_MAX_ROWS-1,
 			&cb_colrow_compute_pixels_from_pts, &closure);
 
-	SHEET_FOREACH_CONTROL (sheet, control,
-		scg_set_zoom_factor (control, factor););
+	SHEET_FOREACH_CONTROL (sheet, control, scg_set_zoom_factor (control););
 
 	/*
 	 * The font size does not scale linearly with the zoom factor
@@ -900,7 +902,7 @@ sheet_col_row_gutter (Sheet *sheet,
 
 	sheet->cols.max_outline_level = col_max_outline;
 	sheet->rows.max_outline_level = row_max_outline;
-	SHEET_FOREACH_CONTROL (sheet, control, scg_set_gutters (control););
+	SHEET_FOREACH_CONTROL (sheet, control, scg_resize (control););
 }
 
 /**
@@ -3737,7 +3739,7 @@ sheet_scrollbar_config (Sheet const *sheet)
 }
 
 void
-sheet_adjust_preferences (Sheet const *sheet, gboolean redraw)
+sheet_adjust_preferences (Sheet const *sheet, gboolean redraw, gboolean resize)
 {
 	g_return_if_fail (IS_SHEET (sheet));
 
@@ -3749,6 +3751,8 @@ sheet_adjust_preferences (Sheet const *sheet, gboolean redraw)
 	});
 	SHEET_FOREACH_CONTROL (sheet, control, {
 		scg_adjust_preferences (control);
+		if (resize)
+			scg_resize (control);
 		if (redraw)
 			scg_redraw_all (control);
 	});
@@ -4007,4 +4011,20 @@ sheet_duplicate	(Sheet const *src)
 void
 sheet_freeze_panes (Sheet *sheet, CellPos const *pos)
 {
+}
+
+/**
+ * sheet_adjust_outline_dir :
+ */
+void
+sheet_adjust_outline_dir (Sheet *sheet, gboolean is_cols)
+{
+	g_return_if_fail (IS_SHEET (sheet));
+
+	if (is_cols)
+		colrow_adjust_outline_dir (&sheet->cols,
+					   sheet->outline_symbols_right);
+	else
+		colrow_adjust_outline_dir (&sheet->rows,
+					   sheet->outline_symbols_below);
 }

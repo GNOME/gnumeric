@@ -76,6 +76,8 @@ compute_pixels_from_indent (Sheet const *sheet, int indent, gboolean const horiz
 		sheet->last_zoom_factor_used *
 		application_display_dpi_get (horizontal) / 72.;
 
+	if (!sheet->display_outlines || indent <= 0)
+		return 0;
 	return (int)(5 + indent * 14 * scale + 0.5);
 }
 

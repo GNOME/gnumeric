@@ -249,7 +249,7 @@ static void
 cb_prefs_update (gpointer key, gpointer value, gpointer user_data)
 {
 	Sheet *sheet = value;
-	sheet_adjust_preferences (sheet, FALSE);
+	sheet_adjust_preferences (sheet, FALSE, FALSE);
 }
 
 static void
@@ -875,6 +875,12 @@ wbcg_menu_state_sheet_prefs (WorkbookControl *wbc, Sheet const *sheet)
 		sheet->hide_col_header);
 	toggle_menu_item (wbcg->menu_item_sheet_hide_row_header,
 		sheet->hide_row_header);
+	toggle_menu_item (wbcg->menu_item_sheet_display_outlines,
+		sheet->display_outlines);
+	toggle_menu_item (wbcg->menu_item_sheet_outline_symbols_below,
+		sheet->outline_symbols_below);
+	toggle_menu_item (wbcg->menu_item_sheet_outline_symbols_right,
+		sheet->outline_symbols_right);
 #else
 	toggle_menu_item (wbcg,
 		"/commands/SheetDisplayFormulas", sheet->display_formulas);
@@ -886,6 +892,12 @@ wbcg_menu_state_sheet_prefs (WorkbookControl *wbc, Sheet const *sheet)
 		"/commands/SheetHideColHeader", sheet->hide_col_header);
 	toggle_menu_item (wbcg,
 		"/commands/SheetHideRowHeader", sheet->hide_row_header);
+	toggle_menu_item (wbcg,
+		"/commands/SheetDisplayOutlines", sheet->display_outlines);
+	toggle_menu_item (wbcg,
+		"/commands/SheetOutlineBelow", sheet->outline_symbols_below);
+	toggle_menu_item (wbcg,
+		"/commands/SheetOutlineRight", sheet->outline_symbols_right);
 #endif
 	wbcg_ui_update_end (wbcg);
 }
@@ -1714,12 +1726,21 @@ cb_sheet_pref_ ## flag (GtkWidget *ignored, WorkbookControlGUI *wbcg)	\
 TOGGLE_HANDLER (display_formulas,{
 	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	g_list_foreach (wb->dependents, &cb_cell_rerender, NULL);
-	sheet_adjust_preferences (sheet, TRUE);
+	sheet_adjust_preferences (sheet, TRUE, FALSE);
 })
-TOGGLE_HANDLER (hide_zero, sheet_adjust_preferences (sheet, TRUE);)
-TOGGLE_HANDLER (hide_grid, sheet_adjust_preferences (sheet, TRUE);)
-TOGGLE_HANDLER (hide_col_header, sheet_adjust_preferences (sheet, FALSE);)
-TOGGLE_HANDLER (hide_row_header, sheet_adjust_preferences (sheet, FALSE);)
+TOGGLE_HANDLER (hide_zero, sheet_adjust_preferences (sheet, TRUE, FALSE);)
+TOGGLE_HANDLER (hide_grid, sheet_adjust_preferences (sheet, TRUE, FALSE);)
+TOGGLE_HANDLER (hide_col_header, sheet_adjust_preferences (sheet, FALSE, FALSE);)
+TOGGLE_HANDLER (hide_row_header, sheet_adjust_preferences (sheet, FALSE, FALSE);)
+TOGGLE_HANDLER (display_outlines, sheet_adjust_preferences (sheet, TRUE, TRUE);)
+TOGGLE_HANDLER (outline_symbols_below, {
+		sheet_adjust_outline_dir (sheet, FALSE);
+		sheet_adjust_preferences (sheet, TRUE, TRUE);
+})
+TOGGLE_HANDLER (outline_symbols_right,{
+		sheet_adjust_outline_dir (sheet, TRUE);
+		sheet_adjust_preferences (sheet, TRUE, TRUE);
+})
 
 /****************************************************************************/
 
@@ -2336,6 +2357,27 @@ static GnomeUIInfo workbook_menu_data_outline [] = {
 	GNOMEUIINFO_ITEM_STOCK (N_("_Ungroup..."),
 		N_("Remove an outline group"),
 		cb_data_ungroup, "Menu_Gnumeric_Ungroup"),
+
+	GNOMEUIINFO_SEPARATOR,
+
+	{ GNOME_APP_UI_TOGGLEITEM,
+		N_("Display _Outlines"),
+		N_("Toggle whether or not to display outline groups"),
+		cb_sheet_pref_display_outlines, NULL, NULL,
+		GNOME_APP_PIXMAP_NONE, NULL, 0, (GdkModifierType) 0, NULL
+	},
+	{ GNOME_APP_UI_TOGGLEITEM,
+		N_("Oulines _Below"),
+		N_("Toggle whether to display row outlines on top or bottom"),
+		cb_sheet_pref_outline_symbols_below, NULL, NULL,
+		GNOME_APP_PIXMAP_NONE, NULL, 0, (GdkModifierType) 0, NULL
+	},
+	{ GNOME_APP_UI_TOGGLEITEM,
+		N_("Oulines _Right"),
+		N_("Toggle whether to display column outlines on the left or right"),
+		cb_sheet_pref_outline_symbols_right, NULL, NULL,
+		GNOME_APP_PIXMAP_NONE, NULL, 0, (GdkModifierType) 0, NULL
+	},
 	GNOMEUIINFO_END
 };
 
@@ -3352,6 +3394,12 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 		workbook_menu_format_sheet [5].widget;
 	wbcg->menu_item_sheet_hide_row_header =
 		workbook_menu_format_sheet [6].widget;
+	wbcg->menu_item_sheet_display_outlines =
+		workbook_menu_data_outline [5].widget;
+	wbcg->menu_item_sheet_outline_symbols_below =
+		workbook_menu_data_outline [6].widget;
+	wbcg->menu_item_sheet_outline_symbols_right =
+		workbook_menu_data_outline [7].widget;
 		
 	wbcg->menu_item_sheet_remove =
 		workbook_menu_edit_sheet [3].widget;
@@ -3378,6 +3426,9 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	TOGGLE_REGISTER (hide_grid, SheetHideGridlines);
 	TOGGLE_REGISTER (hide_col_header, SheetHideColHeader);
 	TOGGLE_REGISTER (hide_row_header, SheetHideRowHeader);
+	TOGGLE_REGISTER (display_outlines, SheetDisplayOutlines);
+	TOGGLE_REGISTER (outline_symbols_below, SheetOutlineBelow);
+	TOGGLE_REGISTER (outline_symbols_right, SheetOutlineRight);
 
 	/* Do after setting up UI bits in the bonobo case */
 	workbook_setup_status_area (wbcg);

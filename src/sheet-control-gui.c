@@ -193,34 +193,38 @@ scg_update_cursor_pos (SheetControlGUI *scg)
 		item_cursor_reposition (ITEM_CURSOR (l->data));
 }
 
+/**
+ * scg_resize :
+ *
+ */
 void
-scg_set_zoom_factor (SheetControlGUI *scg, double factor)
+scg_resize (SheetControlGUI *scg)
 {
 	GnumericSheet *gsheet;
 	ItemBar *col_item, *row_item;
 	int h, w;
+	double zoom;
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
 	gsheet = GNUMERIC_SHEET (scg->canvas);
+	zoom = scg->sheet->last_zoom_factor_used;
+
+	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+
 	col_item = ITEM_BAR (scg->col_item);
 	row_item = ITEM_BAR (scg->row_item);
-
-	/* Set pixels_per_unit before the font.  The item bars look here for the number */
-	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (gsheet), factor);
-	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (scg->col_canvas), factor);
-	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (scg->row_canvas), factor);
 
 	/* resize col/row headers */
 	h = item_bar_calc_size (col_item);
 	gtk_widget_set_usize (GTK_WIDGET (scg->col_canvas), -1, h);
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (scg->col_canvas), 0, 0,
-					GNUMERIC_SHEET_FACTOR_X / factor, h / factor);
+					GNUMERIC_SHEET_FACTOR_X / zoom, h / zoom);
 
 	w = item_bar_calc_size (row_item);
 	gtk_widget_set_usize (GTK_WIDGET (scg->row_canvas), w, -1);
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (scg->row_canvas), 0, 0,
-					w / factor, GNUMERIC_SHEET_FACTOR_Y / factor);
+					w / zoom, GNUMERIC_SHEET_FACTOR_Y / zoom);
 
 	/* Recalibrate the starting offsets */
 	gsheet->col_offset.first =
@@ -237,6 +241,25 @@ scg_set_zoom_factor (SheetControlGUI *scg, double factor)
 			 TRUE);
 
 	scg_update_cursor_pos (scg);
+}
+
+void
+scg_set_zoom_factor (SheetControlGUI *scg)
+{
+	GnumericSheet *gsheet;
+	double zoom;
+
+	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+
+	gsheet = GNUMERIC_SHEET (scg->canvas);
+	zoom = scg->sheet->last_zoom_factor_used;
+
+	/* Set pixels_per_unit before the font.  The item bars look here for the number */
+	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (gsheet), zoom);
+	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (scg->col_canvas), zoom);
+	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (scg->row_canvas), zoom);
+
+	scg_resize (scg);
 }
 
 static void
@@ -568,7 +591,7 @@ scg_construct (SheetControlGUI *scg)
 	while (i-- > 0)
 		scg->control_points[i] = NULL;
 
-	scg_set_gutters (scg);
+	scg_resize (scg);
 }
 
 GtkWidget *
@@ -2207,16 +2230,4 @@ scg_take_focus (SheetControlGUI *scg)
 	
 	gtk_window_set_focus (wb_control_gui_toplevel (scg->wbcg),
 			      scg->canvas);
-}
-
-/* FIXME :
- * this routine is also in sheet.c.  It does not belong there.
- * this calculation is specific to the control and should be here or in wbcg.
- */
-void
-scg_set_gutters (SheetControlGUI *scg)
-{
-	/* A quick and easy way to get things resized */
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
-	scg_set_zoom_factor (scg, GNOME_CANVAS (scg->canvas)->pixels_per_unit);
 }

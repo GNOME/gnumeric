@@ -77,6 +77,8 @@ void		 colrow_restore_sizes_group	(Sheet *sheet, gboolean const is_cols,
 						 int old_size);
 
 /* Support for Col/Row visibility */
+void		 colrow_adjust_outline_dir	(ColRowCollection *colrows,
+						 gboolean pre_or_post);
 int		 colrow_find_outline_bound	(Sheet const *sheet, gboolean is_cols,
 						 int index, int depth, gboolean inc);
 ColRowVisList	*colrow_get_outline_toggle	(Sheet const *sheet, gboolean is_cols,

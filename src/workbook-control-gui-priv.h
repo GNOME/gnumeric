@@ -36,6 +36,10 @@ struct _WorkbookControlGUI {
 	GtkWidget  *menu_item_sheet_hide_grid;
 	GtkWidget  *menu_item_sheet_hide_col_header;
 	GtkWidget  *menu_item_sheet_hide_row_header;
+
+	GtkWidget  *menu_item_sheet_display_outlines;
+	GtkWidget  *menu_item_sheet_outline_symbols_below;
+	GtkWidget  *menu_item_sheet_outline_symbols_right;
 	
 	GtkWidget  *menu_item_sheet_remove;
 	GtkWidget  *menu_item_sheets_edit_reorder;

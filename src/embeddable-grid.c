@@ -49,7 +49,7 @@ Grid_set_header_visibility (PortableServer_Servant servant,
 	eg->sheet->hide_col_header = !col_headers_visible;
 	eg->sheet->hide_row_header = !row_headers_visible;
 
-	sheet_adjust_preferences (eg->sheet, TRUE);
+	sheet_adjust_preferences (eg->sheet, TRUE, FALSE);
 }
 
 static void

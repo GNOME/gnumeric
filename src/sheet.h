@@ -57,6 +57,10 @@ struct _Sheet {
 	gboolean    hide_col_header;
 	gboolean    hide_row_header;
 
+	gboolean    display_outlines;
+	gboolean    outline_symbols_below;
+	gboolean    outline_symbols_right;
+
         /* Solver parameters */
         SolverParameters solver_parameters;
 
@@ -219,7 +223,8 @@ void        sheet_flag_selection_change    (Sheet const *s);
 void	    sheet_update_only_grid	   (Sheet const *s);
 void        sheet_update                   (Sheet const *s);
 void	    sheet_scrollbar_config	   (Sheet const *s);
-void        sheet_adjust_preferences   	   (Sheet const *s, gboolean redraw);
+void        sheet_adjust_preferences   	   (Sheet const *s,
+					    gboolean redraw, gboolean resize);
 void        sheet_menu_state_enable_insert (Sheet *s,
 					    gboolean col, gboolean row);
 
@@ -256,6 +261,9 @@ void sheet_regen_adjacent_spans (Sheet *sheet,
 			     int end_col, int end_row,
 			     int *min_col, int *max_col);
 SpanCalcFlags required_updates_for_style (MStyle *style);
+
+/* TODO : give this decent undo capabilities */
+void sheet_adjust_outline_dir (Sheet *sheet, gboolean is_cols);
 
 /*
  * Commands

@@ -17,6 +17,12 @@ Release Critical
 
     - Fix XL named expr import for sheet local names
 
+    - outline mode
+	: implement optionally putting markers above/left
+	: implement group/ungroup menu items (with undo)
+	: connect the hide/show menu items
+	: Search for hide 0-n bug
+
 Long term breakage
 ------------------
 

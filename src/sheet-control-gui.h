@@ -70,7 +70,8 @@ gboolean scg_start_sliding	      (SheetControlGUI *scg,
 				       gpointer user_data,
 				       int col, int row, int dx, int dy);
 
-void scg_set_zoom_factor        (SheetControlGUI *scg, double factor);
+void scg_resize			(SheetControlGUI *scg);
+void scg_set_zoom_factor        (SheetControlGUI *scg);
 void scg_redraw_all             (SheetControlGUI *scg);
 void scg_redraw_cell_region     (SheetControlGUI *scg,
 				 int start_col, int start_row,
@@ -143,7 +144,6 @@ void scg_cursor_vertical_extend (SheetControlGUI *scg, int n,
 				 gboolean jump_to_boundaries);
 int scg_get_sel_cursor_pos      (SheetControlGUI *scg);
 void scg_take_focus             (SheetControlGUI *scg);
-void scg_set_gutters            (SheetControlGUI *scg);
 
 /* FIXME : Move these around to a more reasonable location */
 SheetControlGUI *sheet_new_scg (Sheet *sheet);

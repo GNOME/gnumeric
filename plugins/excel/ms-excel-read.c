@@ -1,3 +1,4 @@
+/* vim: set sw=8: */
 /**
  * ms-excel.c: MS Excel support for Gnumeric
  *
@@ -167,47 +168,46 @@ static char *
 get_chars (const char *ptr, guint length, gboolean high_byte)
 {
 	char* ans;
-	guint32 lp;	
+	guint32 lp;
 
 	if (high_byte) {
 		wchar_t* wc = g_new (wchar_t, length + 2);
 		int retlength;
 		ans = g_new (char, (length+2)*8);
-		
+
 		for (lp = 0; lp < length; lp++) {
 			guint16 c = MS_OLE_GET_GUINT16 (ptr);
-			ptr+=2;
-			wc[lp] = c;
+			ptr += 2;
+			wc [lp] = c;
 		}
-		
-		retlength = wcstombs(ans, wc, length);				
-		g_free(wc);
+
+		retlength = wcstombs (ans, wc, length);
+		g_free (wc);
 		if (retlength == (size_t)-1)
 			retlength = 0;
-		else
-			ans[retlength] = 0;
-		ans = g_realloc(ans, retlength + 2);
-	} else { 
+		ans [retlength] = 0;
+		ans = g_realloc (ans, retlength + 2);
+	} else {
 		size_t inbytes = length,
 			outbytes = (length+2)*8,
 			retlength;
-		char* inbuf = g_new(char, length), *outbufptr;
+		char* inbuf = g_new (char, length), *outbufptr;
 		char const * inbufptr = inbuf;
-		
+
 		ans = g_new (char, outbytes + 1);
 		outbufptr = ans;
 		for (lp = 0; lp < length; lp++) {
-			inbuf[lp] = MS_OLE_GET_GUINT8 (ptr);
-			ptr+=1;			
-		};
+			inbuf [lp] = MS_OLE_GET_GUINT8 (ptr);
+			ptr++;
+		}
 		excel_iconv (current_workbook_iconv,
 			     &inbufptr, &inbytes, &outbufptr, &outbytes);
-		
+
 		retlength = outbufptr-ans;
 		ans[retlength] = 0;
-		ans = g_realloc(ans,retlength+1);
-		g_free(inbuf);
-	};
+		ans = g_realloc (ans,retlength+1);
+		g_free (inbuf);
+	}
 	return ans;
 }
 
@@ -277,10 +277,10 @@ biff_get_text (const guint8 *pos, guint32 length, guint32 *byte_length)
 	if (!length) {
 		ans = g_new (char, 2);
 		g_warning ("Warning unterminated string floating");
-	} else {	
+	} else {
 		(*byte_length) += (high_byte ? 2 : 1)*length;
-		ans = get_chars(ptr, length, high_byte);
-	};
+		ans = get_chars (ptr, length, high_byte);
+	}
 	return ans;
 }
 
@@ -2912,7 +2912,7 @@ ms_excel_read_colinfo (BiffQuery *q, ExcelSheet *sheet)
 		col_width = base_char_width_for_read (sheet, xf, FALSE) *
 			width / 256.;
 	} else {
-		if (width > 0) 
+		if (width > 0)
 			hidden = TRUE;
 		/* Columns are of default width */
 		col_width = sheet->gnum_sheet->cols.default_style.size_pts;
@@ -3444,6 +3444,23 @@ ms_excel_read_PROTECT (BiffQuery *q, char const *obj_type)
 	return is_protected;
 }
 
+static void
+ms_excel_read_wsbool (BiffQuery *q, ExcelSheet *sheet)
+{
+	guint16 options;
+
+	g_return_if_fail (q->length == 2);
+
+	options = MS_OLE_GET_GUINT16 (q->data);
+	/* 0x0001 automatic page breaks are visible */
+	/* 0x0010 the sheet is a dialog sheet */
+	/* 0x0020 automatic styles are not applied to an outline */
+	sheet->gnum_sheet->outline_symbols_below = 0 != (options & 0x040);
+	sheet->gnum_sheet->outline_symbols_right = 0 != (options & 0x080);
+	/* 0x0100 the Fit option is on (Page Setup dialog box, Page tab) */
+	sheet->gnum_sheet->display_outlines      = 0 != (options & 0x600);
+}
+
 static gboolean
 ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb, WorkbookView *wb_view,
 		     ExcelSheet *sheet)
@@ -3522,7 +3539,10 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb, WorkbookView *wb_view,
 		case BIFF_SAVERECALC:
 		case BIFF_PRINTHEADERS:
 		case BIFF_COUNTRY:
+			break;
+
 		case BIFF_WSBOOL:
+			ms_excel_read_wsbool (q, sheet);
 			break;
 
 		case BIFF_DEFAULTROWHEIGHT:
@@ -3855,12 +3875,12 @@ ms_excel_read_window1 (BiffQuery *q, WorkbookView *wb_view)
 		const guint16 selTab  = MS_OLE_GET_GUINT16 (q->data + 10);
 		const guint16 firstTab= MS_OLE_GET_GUINT16 (q->data + 12);
 		const guint16 tabsSel = MS_OLE_GET_GUINT16 (q->data + 14);
-		
+
 		/* (width of tab)/(width of horizontal scroll bar) / 1000 */
 		const guint16 ratio   = MS_OLE_GET_GUINT16 (q->data + 16);
 #endif
-		
-		/* 
+
+		/*
 		 * We are sizing the window including the toolbars,
 		 * menus, and notbook tabs.  Excel does not.
 		 *

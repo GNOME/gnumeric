@@ -576,6 +576,18 @@ colrow_set_visibility_list (Sheet *sheet, gboolean const is_cols,
 }
 
 /**
+ * colrow_adjust_outline_dir 
+ * @colrows :
+ * @pre_or_post :
+ */
+void
+colrow_adjust_outline_dir (ColRowCollection *colrows, gboolean pre_or_post)
+{
+	/* excel pisses me off */
+	g_warning ("TODO : write me");
+}
+
+/**
  * colrow_find_outline_bound :
  *
  * find the next/prev col/row at the designated depth starting from the

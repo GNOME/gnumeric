@@ -1,3 +1,11 @@
+2001-04-20  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_read_wsbool) : new function.
+	(ms_excel_read_sheet) : called from here.
+
+	* ms-excel-write.c (write_wsbool) : new function.
+	(write_sheet_bools) : called from here.
+
 2001-04-19  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-write.c (write_window2) : sigh, when fixing the sizes I did
