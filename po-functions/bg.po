@@ -2559,7 +2559,9 @@ msgstr ""
 "десетично.\n"
 "Тя е съвместима с Excel. \n"
 "@EXAMPLES=\n"
-"BIN2DEC(101) равно 5.\n"
+"BIN2DEC(101) равно 5."
+"\n"
+"@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
 #: plugins/fn-eng/functions.c:204
 msgid ""
