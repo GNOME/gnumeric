@@ -2,6 +2,9 @@
 
 	* gnumeric.xml: Upgrade to DocBook XML V4.3 which is the first version
 	to support the "uri" element we use in bugs.xml and morehelp.xml .
+	* files-formats.xml: Changed the (invalid) "title"-less "table"s into
+	"informaltable"s which are valid and are rendered by yelp the same way
+	the invalid "title"-less "table"s were.
 
 2004-10-03  J.H.M. Dassen (Ray) <jdassen@debian.org>
 

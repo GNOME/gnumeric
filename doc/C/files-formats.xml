@@ -191,7 +191,7 @@
     </note>
 
 
-    <table frame='all'>
+    <informaltable frame='all'>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -220,7 +220,7 @@
 	  </row>
 	</tbody>
       </tgroup>
-    </table>
+    </informaltable>
 
     <variablelist>
       <!-- <title></title> -->
@@ -454,7 +454,7 @@ gunzip Book1.text.gz
       <application>Applixware</application> spreadsheet.
     </para>
 
-    <table frame='all'>
+    <informaltable frame='all'>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -483,7 +483,7 @@ gunzip Book1.text.gz
 	  </row>
 	</tbody>
       </tgroup>
-    </table>
+    </informaltable>
 
     <variablelist>
       <!-- <title></title> -->
@@ -570,7 +570,7 @@ gunzip Book1.text.gz
       <interface>Text Import</interface> druid.
     </para>
 
-    <table frame='all'>
+    <informaltable frame='all'>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -599,7 +599,7 @@ gunzip Book1.text.gz
 	  </row>
 	</tbody>
       </tgroup>
-    </table>
+    </informaltable>
 
     <variablelist>
       <!-- <title></title> -->
@@ -684,7 +684,7 @@ gunzip Book1.text.gz
       <application>VisiCalc</application>, the first spreadsheet.
     </para>
 
-    <table frame='all'>
+    <informaltable frame='all'>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -713,7 +713,7 @@ gunzip Book1.text.gz
 	  </row>
 	</tbody>
       </tgroup>
-    </table>
+    </informaltable>
 
     <variablelist>
       <!-- <title></title> -->
@@ -790,7 +790,7 @@ gunzip Book1.text.gz
       to enable the import of old files.
     </para>
 
-    <table frame='all'>
+    <informaltable frame='all'>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -819,7 +819,7 @@ gunzip Book1.text.gz
 	  </row>
 	</tbody>
       </tgroup>
-    </table>
+    </informaltable>
 
     <variablelist>
       <!-- <title></title> -->
@@ -889,7 +889,7 @@ gunzip Book1.text.gz
       well formed HTML &lt;table&gt; structures.
     </para>
 
-    <table frame='all'>
+    <informaltable frame='all'>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -919,7 +919,7 @@ gunzip Book1.text.gz
 	  </row>
 	</tbody>
       </tgroup>
-    </table>
+    </informaltable>
 
     <variablelist>
       <!-- <title></title> -->
@@ -1071,7 +1071,7 @@ gunzip Book1.text.gz
       included in other LaTeX files.
     </para>
 
-    <table frame='all'>
+    <informaltable frame='all'>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -1101,7 +1101,7 @@ gunzip Book1.text.gz
 	  </row>
 	</tbody>
       </tgroup>
-    </table>
+    </informaltable>
 
     <variablelist>
       <!-- <title></title> -->
@@ -1332,7 +1332,7 @@ pdflatex Book1.tex
       Corporation to express linear and integer programs. 
     </para>
 
-    <table frame='all'>
+    <informaltable frame='all'>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -1361,7 +1361,7 @@ pdflatex Book1.tex
 	  </row>
 	</tbody>
       </tgroup>
-    </table>
+    </informaltable>
 
     <variablelist>
       <!-- <title></title> -->
@@ -1472,7 +1472,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
       the office suite called <application>SmartSuite</application>. 
     </para>
 
-    <table frame='all'>
+    <informaltable frame='all'>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -1501,7 +1501,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	  </row>
 	</tbody>
       </tgroup>
-    </table>
+    </informaltable>
 
     <variablelist>
       <!-- <title></title> -->
@@ -1575,7 +1575,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
       reversed engineered all of the core features of the format.
     </para>
 
-    <table frame='all'>
+    <informaltable frame='all'>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -1606,7 +1606,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	  </row>
 	</tbody>
       </tgroup>
-    </table>
+    </informaltable>
 
     <variablelist>
       <!-- <title></title> -->
@@ -1709,7 +1709,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
       &gnum; can read files in this format.
     </para>
 
-    <table frame='all'>
+    <informaltable frame='all'>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -1738,7 +1738,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	  </row>
 	</tbody>
       </tgroup>
-    </table>
+    </informaltable>
 
     <variablelist>
       <!-- <title></title> -->
@@ -1804,7 +1804,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
       continue to support this format in the future.
     </para>
 
-    <table frame='all'>
+    <informaltable frame='all'>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -1834,7 +1834,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	  </row>
 	</tbody>
       </tgroup>
-    </table>
+    </informaltable>
 
     <variablelist>
       <!-- <title></title> -->
@@ -1930,7 +1930,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
     <application>PlanPerfect</application> spreadsheet.
     </para>
 
-    <table frame='all'>
+    <informaltable frame='all'>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -1959,7 +1959,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	  </row>
 	</tbody>
       </tgroup>
-    </table>
+    </informaltable>
 
     <variablelist>
       <!-- <title></title> -->
@@ -2041,7 +2041,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
     </note>
      
 
-    <table frame='all'>
+    <informaltable frame='all'>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -2074,7 +2074,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	  </row>
 	</tbody>
       </tgroup>
-    </table>
+    </informaltable>
 
     <variablelist>
       <!-- <title></title> -->
@@ -2167,7 +2167,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
     </note>
      
 
-    <table frame='all'>
+    <informaltable frame='all'>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -2203,7 +2203,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	  </row>
 	</tbody>
       </tgroup>
-    </table>
+    </informaltable>
 
     <variablelist>
       <!-- <title></title> -->
@@ -2285,7 +2285,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
       &gnum; supports opening these files to import their data.
     </para>
 
-    <table frame='all'>
+    <informaltable frame='all'>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -2314,7 +2314,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	  </row>
 	</tbody>
       </tgroup>
-    </table>
+    </informaltable>
 
     <variablelist>
       <!-- <title></title> -->
@@ -2373,7 +2373,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
       Xspread spreadsheets. 
     </para>
 
-    <table frame='all'>
+    <informaltable frame='all'>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -2405,7 +2405,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	  </row>
 	</tbody>
       </tgroup>
-    </table>
+    </informaltable>
 
     <variablelist>
       <!-- <title></title> -->
@@ -2487,7 +2487,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
       Import</interface> druid.
     </para>
 
-    <table frame='all'>
+    <informaltable frame='all'>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -2516,7 +2516,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	  </row>
 	</tbody>
       </tgroup>
-    </table>
+    </informaltable>
 
     <variablelist>
       <!-- <title></title> -->
@@ -2641,7 +2641,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
       these formatted text files.
     </para>
 
-    <table frame='all'>
+    <informaltable frame='all'>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -2671,7 +2671,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	  </row>
 	</tbody>
       </tgroup>
-    </table>
+    </informaltable>
 
     <variablelist>
       <!-- <title></title> -->
@@ -2762,7 +2762,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
       be used to generate graphics for plots and drawing elements.
     </para>
 
-    <table frame='all'>
+    <informaltable frame='all'>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -2792,7 +2792,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	  </row>
 	</tbody>
       </tgroup>
-    </table>
+    </informaltable>
 
     <variablelist>
       <!-- <title></title> -->
@@ -2967,7 +2967,7 @@ Sheet 0
       &gnum; only opens the data file.
     </para>
 
-    <table frame='all'>
+    <informaltable frame='all'>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -3003,7 +3003,7 @@ Sheet 0
 	  </row>
 	</tbody>
       </tgroup>
-    </table>
+    </informaltable>
 
     <variablelist>
       <!-- <title></title> -->
@@ -3087,7 +3087,7 @@ Sheet 0
       XHTML file.
     </para>
 
-    <table frame='all'>
+    <informaltable frame='all'>
       <tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
         <tbody>
 	  <row>
@@ -3118,7 +3118,7 @@ Sheet 0
 	  </row>
 	</tbody>
       </tgroup>
-    </table>
+    </informaltable>
 
     <variablelist>
       <!-- <title></title> -->
