@@ -19,6 +19,10 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
+
+#define _POSIX_SOURCE /* For fdopen() */
+#include <stdio.h>
+
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
@@ -103,7 +107,7 @@ cb_watcher_queue_recalc (gpointer key, gpointer value, gpointer closure)
 static gboolean
 cb_atl_input (GIOChannel *gioc, GIOCondition cond, gpointer ignored)
 {
-	guchar buf[128];
+	char buf[128];
 
 	/* quick format ticker:value\n
 	 * there is no notion of a field for now.
