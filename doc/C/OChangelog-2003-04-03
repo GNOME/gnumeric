@@ -1,3 +1,11 @@
+2001-12-13 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.sgml : Updated F-Test Tool
+	  descriptions
+	* doc/C/images/analysistools-ftest.png : new figure
+	* doc/C/images/analysistools-ftest-ex1.png : new figure
+	* doc/C/images/analysistools-ftest-ex2.png : new figure
+
 2001-12-13  Gregory Leblanc  <gleblanc@linuxweasel.com>
 
 	* analysis-tools.sgml: Fixed missing </para>
