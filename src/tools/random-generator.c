@@ -197,6 +197,26 @@ tool_random_engine_run_uniform (data_analysis_output_t *dao,
 }
 
 static gboolean
+tool_random_engine_run_uniform_int (data_analysis_output_t *dao, 
+				    tools_data_random_t *info,
+				    uniform_random_tool_t *param)
+{
+	int        i, n;
+	gnum_float lower = floorgnum (param->lower_limit);
+	gnum_float range = floorgnum (param->upper_limit) - lower;
+
+	for (i = 0; i < info->n_vars; i++) {
+		for (n = 0; n < info->count; n++) {
+			gnum_float v;
+			v = floorgnum (0.5 + range * random_01 ()) + lower;
+			dao_set_cell_float (dao, i, n, v);
+		}
+	}
+	
+	return FALSE;
+}
+
+static gboolean
 tool_random_engine_run_normal (data_analysis_output_t *dao, 
 			       tools_data_random_t *info,
 			       normal_random_tool_t *param)
@@ -565,6 +585,22 @@ tool_random_engine_run_laplace (data_analysis_output_t *dao,
 }
 
 static gboolean
+tool_random_engine_run_gaussian_tail (data_analysis_output_t *dao, 
+				      tools_data_random_t *info,
+				      gaussian_tail_random_tool_t *param)
+{
+	int i, n;
+	for (i = 0; i < info->n_vars; i++) {
+		for (n = 0; n < info->count; n++) {
+			gnum_float v;
+			v = random_gaussian_tail (param->a, param->sigma);
+			dao_set_cell_float (dao, i, n, v);
+		}
+	}	
+	return FALSE;
+}
+
+static gboolean
 tool_random_engine_run_landau (data_analysis_output_t *dao, 
 			       tools_data_random_t *info)
 {
@@ -659,6 +695,9 @@ tool_random_engine (data_analysis_output_t *dao, gpointer specs,
 		case UniformDistribution:
 			return tool_random_engine_run_uniform 
 			        (dao, specs, &info->param.uniform);
+		case UniformIntDistribution:
+			return tool_random_engine_run_uniform_int
+			        (dao, specs, &info->param.uniform);
 		case PoissonDistribution:
 			return tool_random_engine_run_poisson
 			        (dao, specs, &info->param.poisson);
@@ -707,6 +746,9 @@ tool_random_engine (data_analysis_output_t *dao, gpointer specs,
 		case LaplaceDistribution:
 			return tool_random_engine_run_laplace
 				(dao, specs, &info->param.laplace);
+		case GaussianTailDistribution:
+			return tool_random_engine_run_gaussian_tail
+				(dao, specs, &info->param.gaussian_tail);
 		case LandauDistribution:
 			return tool_random_engine_run_landau
 				(dao, specs);
