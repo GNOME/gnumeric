@@ -27,6 +27,7 @@ Jody:
 	* Remove irritating frame around bonobo objects.
 	* Off by 1 pixel/pt error when handling right/center alignment.
 	* Improve sheet object menus.
+	* Reworked the Text Combo,
 	* Remove the eval queue
 	* Improve INDIRECT.
 	* Sort the function names for the index generator.

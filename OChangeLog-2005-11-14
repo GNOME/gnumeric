@@ -1,3 +1,17 @@
+2001-10-04  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-control-gui.c (zoom_changed) : Start searching for the
+	  assigned text at the current list item.
+	(cb_change_zoom) : adjust to new signal from the gnm_combo_text.
+	  Make more error resistant.  Don't reset the content twice.
+	(workbook_create_standard_toolbar) : adjsut to new signals from the
+	  gnm_combo_text and use the simplified interface.
+
+	* src/clipboard.c (paste_link) : adjust this to link a region not just
+	  a single cell so that we can link all the cells, even the blanks.
+	(clipboard_paste_region) : simplify and change link handling to ignore
+	  the content.
+
 2001-10-03  Jody Goldberg <jgoldberg@home.com>
 
 	* src/application.c (application_clipboard_cut_copy) : merge

@@ -1,209 +1,95 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gtk-combo-text: A combo box for selecting from a list.
+ * gnumeric-combo-text: A combo box for selecting from a list.
  */
 #include <config.h>
+#include "gnumeric-combo-text.h"
+
 #include <ctype.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkentry.h>
 #include <gtk/gtklist.h>
+#include <gtk/gtklabel.h>
 #include <gtk/gtkscrolledwindow.h>
-#include "gnumeric-combo-text.h"
+#include <gal/util/e-util.h>
+
+#define GNM_COMBO_TEXT_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, gnm_combo_text_get_type (), GnmComboTextClass)
+typedef struct _GnmComboTextClass   GnmComboTextClass;
+
+struct _GnmComboTextClass {
+	GtkComboBoxClass parent_class;
+
+	gboolean (* selection_changed)	(GnmComboText *ct, GtkWidget *new_item);
+	gboolean (* entry_changed)	(GnmComboText *ct, char *new_str);
+};
+
+enum {
+	SELECTION_CHANGED,
+	ENTRY_CHANGED,
+	LAST_SIGNAL
+};
+static guint combo_text_signals [LAST_SIGNAL] = { 0 };
 
 static GtkObjectClass *gnm_combo_text_parent_class;
 
-static gboolean cb_pop_down (GtkWidget *w, GtkWidget *pop_down,
-			     gpointer dummy);
-
-static void update_list_selection (GnmComboText *ct, const gchar *text);
-
 static void
-entry_activate_cb (GtkWidget *entry, gpointer data)
+cb_entry_activate (GtkWidget *entry, gpointer ct)
 {
-	GnmComboText *combo = GNM_COMBO_TEXT (data);
+	char *text = gtk_entry_get_text (GTK_ENTRY (entry));
+	gboolean accept_change = TRUE;
 
-	update_list_selection (combo,
-			       gtk_entry_get_text (GTK_ENTRY (combo->entry)));
+	gtk_signal_emit (GTK_OBJECT (ct), combo_text_signals [ENTRY_CHANGED],
+		text, &accept_change);
+
+	if (accept_change)
+		gnm_combo_text_set_text (GNM_COMBO_TEXT (ct), text,
+			GNM_COMBO_TEXT_CURRENT);
+}
+
+static gboolean
+cb_pop_down (GtkWidget *w, GtkWidget *pop_down, gpointer dummy)
+{
+	GnmComboText *ct = GNM_COMBO_TEXT (w);
+
+	if (ct->cached_entry)
+		gtk_widget_set_state (ct->cached_entry, ct->cache_mouse_state);
+	ct->cached_entry = NULL;
+
+	return FALSE;
 }
 
 static void
-list_select_cb (GtkWidget *list, GtkWidget *child, gpointer data)
+cb_list_select (GtkWidget *list, GtkWidget *child, gpointer data)
 {
-	GnmComboText *combo = GNM_COMBO_TEXT (data);
-	GtkEntry *entry = GTK_ENTRY (combo->entry);
-	gchar *value = (gchar*) gtk_object_get_data
-		(GTK_OBJECT (child), "value");
+	GnmComboText *ct = GNM_COMBO_TEXT (data);
+	GtkEntry *entry = GTK_ENTRY (ct->entry);
+	gboolean notify_entry, accept_change;
+	char *text = g_strdup ((child != NULL)
+		? GTK_LABEL (GTK_BIN (child)->child)->label : "");
 
-	g_return_if_fail (entry && value);
+	if (ct->cached_entry == child)
+		ct->cached_entry = NULL;
 
-	if (combo->cached_entry == child)
-		combo->cached_entry = NULL;
+	accept_change = notify_entry = TRUE;
+	gtk_signal_emit (GTK_OBJECT (ct), combo_text_signals [SELECTION_CHANGED],
+			 child, &notify_entry);
 
-	gtk_entry_set_text (entry, value);
-	gtk_signal_handler_block_by_func (GTK_OBJECT (entry), 
-					  GTK_SIGNAL_FUNC (entry_activate_cb),
-					  (gpointer) combo);
-	gtk_signal_emit_by_name (GTK_OBJECT (entry), "activate");
-	gtk_signal_handler_unblock_by_func (GTK_OBJECT (entry), 
-					  GTK_SIGNAL_FUNC (entry_activate_cb),
-					  (gpointer) combo);
+	if (notify_entry)
+		gtk_signal_emit (GTK_OBJECT (ct), combo_text_signals [ENTRY_CHANGED],
+				 text, &accept_change);
+
+	if (accept_change)
+		gtk_entry_set_text (entry, text);
+	g_free (text);
 
 	gtk_combo_box_popup_hide (GTK_COMBO_BOX (data));
 }
 
 static void
-list_unselect_cb (GtkWidget *list, GtkWidget *child, gpointer data)
+cb_list_unselect (GtkWidget *list, GtkWidget *child, gpointer data)
 {
 	if (GTK_WIDGET_VISIBLE (list)) /* Undo interactive unselect */
 		gtk_list_select_child (GTK_LIST (list), child);
-}
-
-static void
-update_list_selection (GnmComboText *ct, const gchar *text)
-{
-	gpointer candidate;
-	GtkWidget *child;
-
-	gtk_signal_handler_block_by_func (GTK_OBJECT (ct->list), 
-					  GTK_SIGNAL_FUNC (list_select_cb),
-					  (gpointer) ct);
-	gtk_signal_handler_block_by_func (GTK_OBJECT (ct->list), 
-					  GTK_SIGNAL_FUNC (list_unselect_cb),
-					  (gpointer) ct);
-	
-	gtk_list_unselect_all (GTK_LIST (ct->list));
-	candidate = g_hash_table_lookup (ct->elements, (gconstpointer) text);
-	if (candidate && GTK_IS_WIDGET (candidate)) {
-		child = GTK_WIDGET (candidate);
-		gtk_list_select_child (GTK_LIST (ct->list), child);
-		gtk_widget_grab_focus (child);
-	}
-	gtk_signal_handler_unblock_by_func (GTK_OBJECT (ct->list), 
-					    GTK_SIGNAL_FUNC (list_select_cb),
-					    (gpointer) ct);
-	gtk_signal_handler_unblock_by_func (GTK_OBJECT (ct->list), 
-					    GTK_SIGNAL_FUNC (list_unselect_cb),
-					    (gpointer) ct);
-}
-
-
-static void
-gnm_combo_text_destroy (GtkObject *object)
-{
-	GnmComboText *ct = GNM_COMBO_TEXT (object);
-
-	if (ct->elements != NULL) {
-		g_hash_table_destroy (ct->elements);
-		ct->elements = NULL;
-	}
-	gtk_signal_disconnect_by_func (GTK_OBJECT (ct),
-				       GTK_SIGNAL_FUNC (cb_pop_down), NULL);
-	gtk_signal_disconnect_by_func (GTK_OBJECT (ct->list),
-				       GTK_SIGNAL_FUNC (list_unselect_cb),
-				       (gpointer) ct);
-	(*gnm_combo_text_parent_class->destroy) (object);
-}
-
-static void
-gnm_combo_text_class_init (GtkObjectClass *object_class)
-{
-	object_class->destroy = &gnm_combo_text_destroy;
-	gnm_combo_text_parent_class = gtk_type_class (gtk_combo_box_get_type ());
-}
-
-GtkType
-gnm_combo_text_get_type (void)
-{
-	static GtkType type = 0;
-
-	if (!type){
-		GtkTypeInfo info = {
-			"GnmComboText",
-			sizeof (GnmComboText),
-			sizeof (GnmComboTextClass),
-			(GtkClassInitFunc) gnm_combo_text_class_init,
-			(GtkObjectInitFunc) NULL,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		type = gtk_type_unique (gtk_combo_box_get_type (), &info);
-	}
-
-	return type;
-}
-
-static gint
-strcase_equal (gconstpointer v, gconstpointer v2)
-{
-	return g_strcasecmp ((const gchar*) v, (const gchar*)v2) == 0;
-}
-
-
-/*
- * a char* hash function from ASU
- *
- * This is cut/paste from gutils.c
- * We've got to do this, because this widget will soon move out of the
- * Gnumeric source and into a separate library.
- */
-static guint
-strcase_hash (gconstpointer v)
-{
-	const unsigned char *s = (const unsigned char *)v;
-	const unsigned char *p;
-	guint h = 0, g;
-
-	for(p = s; *p != '\0'; p += 1) {
-		h = ( h << 4 ) + tolower (*p);
-		if ( ( g = h & 0xf0000000 ) ) {
-			h = h ^ (g >> 24);
-			h = h ^ g;
-		}
-	}
-
-	return h /* % M */;
-}
-
-/**
- * gnm_combo_text_set_case_sensitive
- * @combo_text:  ComboText widget
- * @val:         make case sensitive if TRUE
- *
- * Specifies whether the text entered into the GtkEntry field and the text
- * in the list items is case sensitive. Because the values are stored in a
- * hash, it is not legal to change case sensitivity when the list contains
- * elements.
- *
- * Returns: The function returns -1 if request could not be honored. On
- * success, it returns 0.
- */
-gint
-gnm_combo_text_set_case_sensitive (GnmComboText *combo, gboolean val)
-{
-	if (combo->elements
-	    && g_hash_table_size (combo->elements) > 0
-	    && val != combo->case_sensitive)
-		return -1;
-	else {
-		combo->case_sensitive = val;
-		if (val != combo->case_sensitive) {
-			GHashFunc hashfunc;
-			GCompareFunc comparefunc;
-
-			g_hash_table_destroy (combo->elements);
-			if (combo->case_sensitive) {
-				hashfunc = g_str_hash;
-				comparefunc = g_str_equal;
-			} else {
-				hashfunc = strcase_hash;
-				comparefunc = strcase_equal;
-			}
-			combo->elements = g_hash_table_new (hashfunc,
-							    comparefunc);
-		}
-		return 0;
-	}
 }
 
 static void
@@ -212,19 +98,6 @@ cb_toggle (GtkWidget *child, gpointer data)
 	GnmComboText *ct = GNM_COMBO_TEXT (data);
 
 	gtk_list_select_child (GTK_LIST (ct->list), child);
-}
-
-void
-gnm_combo_text_select_item (GnmComboText *ct, int elem)
-{
-	gtk_list_select_item (GTK_LIST(ct->list), elem);
-}
-
-void
-gnm_combo_text_set_text (GnmComboText *ct, const gchar *text)
-{
-	gtk_entry_set_text (GTK_ENTRY (ct->entry), text);
-	update_list_selection (ct, text);
 }
 
 /*
@@ -263,71 +136,6 @@ cb_exit (GtkWidget *w, GdkEventCrossing *event,
 	return TRUE;
 }
 
-static gboolean
-cb_pop_down (GtkWidget *w, GtkWidget *pop_down, gpointer dummy)
-{
-	GnmComboText *ct = GNM_COMBO_TEXT (w);
-
-	if (ct->cached_entry)
-		gtk_widget_set_state (ct->cached_entry, ct->cache_mouse_state);
-	ct->cached_entry = NULL;
-
-	return FALSE;
-}
-
-static void
-cb_remove_from_hash (GtkWidget *child, gpointer data)
-{
-	GnmComboText *ct = GNM_COMBO_TEXT (data);
-	gchar *value;
-	
-	if (ct->elements) {
-		value = gtk_object_get_data (GTK_OBJECT (child), "value");
-		g_hash_table_remove (ct->elements, value);
-	}
-}
-
-void
-gnm_combo_text_add_item (GnmComboText *ct,
-			 const gchar *item,
-			 const gchar *value)
-{
-	GtkWidget *listitem;
-	gchar *value_copy;
-
-	g_return_if_fail (item);
-
-	if (!value)
-		value = item;
-
-	value_copy = g_strdup (value);
-
-	listitem = gtk_list_item_new_with_label (item);
-	gtk_widget_show (listitem);
-
-	gtk_object_set_data_full (GTK_OBJECT (listitem), "value",
-				  value_copy, g_free);
-	gtk_signal_connect (GTK_OBJECT (listitem), "enter-notify-event",
-			    GTK_SIGNAL_FUNC (cb_enter),
-			    (gpointer) ct);
-	gtk_signal_connect (GTK_OBJECT (listitem), "leave-notify-event",
-			    GTK_SIGNAL_FUNC (cb_exit),
-			    (gpointer) ct);
-	gtk_signal_connect (GTK_OBJECT (listitem), "toggle",
-			    GTK_SIGNAL_FUNC (cb_toggle),
-			    (gpointer) ct);
-
-	gtk_container_add (GTK_CONTAINER (ct->list),
-			   listitem);
-
-	g_hash_table_insert (ct->elements, (gpointer)value_copy,
-			     (gpointer) listitem);
-
-	gtk_signal_connect (GTK_OBJECT (listitem), "destroy",
-			    GTK_SIGNAL_FUNC (cb_remove_from_hash),
-			    (gpointer) ct);
-}
-
 static void
 cb_list_mapped (GtkWidget *widget, gpointer user_data)
 {
@@ -337,66 +145,273 @@ cb_list_mapped (GtkWidget *widget, gpointer user_data)
 		gtk_widget_grab_focus (GTK_WIDGET ((list->selection->data)));
 }
 
-void
-gnm_combo_text_construct (GnmComboText *ct, gboolean const is_scrolled)
+static void
+cb_scroll_size_request (GtkWidget *widget, GtkRequisition *requisition,
+			GnmComboText *ct)
 {
-	GtkWidget *entry, *list, *scroll, *display_widget;
+	GtkRequisition list_req;
 
-	ct->case_sensitive = FALSE;
-	ct->elements = g_hash_table_new (&strcase_hash,
-					 &strcase_equal);
+	gtk_widget_size_request	(ct->list, &list_req);
+	if (requisition->height < list_req.height) {
+		int height = 0;
+		GtkWidget const *w = GTK_CONTAINER (ct->list)->focus_child;
 
-	/* Probably irrelevant, but lets be careful */
-	ct->cache_mouse_state = GTK_STATE_NORMAL;
-	ct->cached_entry = NULL;
+		if (w != NULL)
+			/* Magic number, max number of items before we scroll */
+			height = w->requisition.height * 10;
 
-	entry = ct->entry = gtk_entry_new ();
-	list = ct->list = gtk_list_new ();
-	if (is_scrolled) {
-		display_widget = scroll = gtk_scrolled_window_new (NULL, NULL);
-		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW(scroll),
-						GTK_POLICY_NEVER,
-						GTK_POLICY_AUTOMATIC);
+		if (height > list_req.height)
+			height = list_req.height;
 
-		gtk_scrolled_window_add_with_viewport (
-			GTK_SCROLLED_WINDOW(scroll), list);
-		gtk_container_set_focus_hadjustment (
-			GTK_CONTAINER (list),
-			gtk_scrolled_window_get_hadjustment (
-				GTK_SCROLLED_WINDOW (scroll)));
-		gtk_container_set_focus_vadjustment (
-			GTK_CONTAINER (list),
-			gtk_scrolled_window_get_vadjustment (
-				GTK_SCROLLED_WINDOW (scroll)));
-		gtk_widget_set_usize (scroll, 0, 200); /* MAGIC NUMBER */
-	} else
-		display_widget = list;
+		/* FIXME : Why do we need 4 ??
+		 * without it things end up scrolling.
+		 */
+		requisition->height = height +
+			GTK_CONTAINER (widget)->border_width * 2 + 4;
+	}
 
-	gtk_signal_connect (GTK_OBJECT (entry), "activate",
-			    GTK_SIGNAL_FUNC (entry_activate_cb),
-			    (gpointer) ct);
-	gtk_signal_connect (GTK_OBJECT (list), "select-child",
-			    GTK_SIGNAL_FUNC (list_select_cb),
-			    (gpointer) ct);
-	gtk_signal_connect (GTK_OBJECT (list), "unselect-child",
-			    GTK_SIGNAL_FUNC (list_unselect_cb),
-			    (gpointer) ct);
-	gtk_signal_connect (GTK_OBJECT (list), "map",
-			    GTK_SIGNAL_FUNC (cb_list_mapped), NULL);
-
-	gtk_widget_show (display_widget);
-	gtk_widget_show (entry);
-	gtk_combo_box_construct (GTK_COMBO_BOX (ct), entry, display_widget);
-	gtk_signal_connect (GTK_OBJECT (ct), "pop_down_done",
-			    GTK_SIGNAL_FUNC (cb_pop_down), NULL);
+	if (requisition->width < ct->entry->allocation.width)
+		requisition->width = ct->entry->allocation.width +
+			GTK_CONTAINER (widget)->border_width * 2;
 }
 
+static void
+gnm_combo_text_construct (GnmComboText *ct)
+{
+	ct->cached_entry	= NULL;
+	ct->cache_mouse_state	= GTK_STATE_NORMAL;
+
+	ct->entry = gtk_entry_new ();
+	ct->list = gtk_list_new ();
+	ct->scroll = gtk_scrolled_window_new (NULL, NULL);
+
+	gtk_scrolled_window_set_policy (
+		GTK_SCROLLED_WINDOW (ct->scroll),
+		GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_add_with_viewport (
+		GTK_SCROLLED_WINDOW (ct->scroll), ct->list);
+	gtk_container_set_focus_hadjustment (
+		GTK_CONTAINER (ct->list),
+		gtk_scrolled_window_get_hadjustment (
+			GTK_SCROLLED_WINDOW (ct->scroll)));
+	gtk_container_set_focus_vadjustment (
+		GTK_CONTAINER (ct->list),
+		gtk_scrolled_window_get_vadjustment (
+			GTK_SCROLLED_WINDOW (ct->scroll)));
+
+	gtk_signal_connect (GTK_OBJECT (ct->entry),
+		"activate",
+		GTK_SIGNAL_FUNC (cb_entry_activate), (gpointer) ct);
+	gtk_signal_connect (GTK_OBJECT (ct->scroll),
+		"size_request",
+		GTK_SIGNAL_FUNC (cb_scroll_size_request), (gpointer) ct);
+	gtk_signal_connect (GTK_OBJECT (ct->list),
+		"select-child",
+		GTK_SIGNAL_FUNC (cb_list_select), (gpointer) ct);
+	gtk_signal_connect (GTK_OBJECT (ct->list),
+		"unselect-child",
+		GTK_SIGNAL_FUNC (cb_list_unselect), (gpointer) ct);
+	gtk_signal_connect (GTK_OBJECT (ct->list),
+		"map",
+		GTK_SIGNAL_FUNC (cb_list_mapped), NULL);
+
+	gtk_widget_show (ct->entry);
+	gtk_combo_box_construct (GTK_COMBO_BOX (ct),
+		ct->entry, ct->scroll);
+	gtk_signal_connect (GTK_OBJECT (ct),
+		"pop_down_done",
+		GTK_SIGNAL_FUNC (cb_pop_down), NULL);
+}
+
+static void
+gnm_combo_text_destroy (GtkObject *object)
+{
+	GnmComboText *ct = GNM_COMBO_TEXT (object);
+
+	gtk_signal_disconnect_by_func (GTK_OBJECT (ct),
+				       GTK_SIGNAL_FUNC (cb_pop_down), NULL);
+	gtk_signal_disconnect_by_func (GTK_OBJECT (ct->list),
+				       GTK_SIGNAL_FUNC (cb_list_unselect),
+				       (gpointer) ct);
+	(*gnm_combo_text_parent_class->destroy) (object);
+}
+
+static void
+gnm_combo_text_class_init (GtkObjectClass *object_class)
+{
+	object_class->destroy = &gnm_combo_text_destroy;
+	gnm_combo_text_parent_class = gtk_type_class (gtk_combo_box_get_type ());
+
+	combo_text_signals [SELECTION_CHANGED] =
+		gtk_signal_new ("selection_changed",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (GnmComboTextClass, selection_changed),
+				gtk_marshal_BOOL__POINTER,
+				GTK_TYPE_BOOL, 1, GTK_TYPE_POINTER);
+	combo_text_signals [ENTRY_CHANGED] =
+		gtk_signal_new ("entry_changed",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (GnmComboTextClass, entry_changed),
+				gtk_marshal_BOOL__POINTER,
+				GTK_TYPE_BOOL, 1, GTK_TYPE_POINTER);
+
+	gtk_object_class_add_signals (object_class, combo_text_signals, LAST_SIGNAL);
+}
+
+/**
+ * gnm_combo_text_new :
+ * @cmp_func : an optional comparison routine.
+ */
 GtkWidget*
-gnm_combo_text_new (gboolean const is_scrolled)
+gnm_combo_text_new (GCompareFunc cmp_func)
 {
 	GnmComboText *ct;
 
+	if (cmp_func == NULL)
+		cmp_func = &g_str_equal;
+
 	ct = gtk_type_new (gnm_combo_text_get_type ());
-	gnm_combo_text_construct (ct, is_scrolled);
+	ct->cmp_func = cmp_func;
+	gnm_combo_text_construct (ct);
 	return GTK_WIDGET (ct);
+}
+
+E_MAKE_TYPE(gnm_combo_text, "GnmComboText", GnmComboText, gnm_combo_text_class_init, NULL, gtk_combo_box_get_type ());
+
+/**
+ * gnm_combo_text_set_text :
+ * @ct :
+ * @text : the label for the new item
+ * @start : where to begin the search in the list.
+ *
+ * return TRUE if the item is found in the list.
+ */
+gboolean
+gnm_combo_text_set_text (GnmComboText *ct, const gchar *text,
+			 GnmComboTextSearch start)
+{
+	gboolean found = FALSE;
+	gpointer candidate = NULL;
+	GtkWidget *child;
+	GtkList   *list;
+	GList *ptr, *current;
+	char const *label;
+
+	list = GTK_LIST (ct->list);
+	/* Be careful */
+	current = (start != GNM_COMBO_TEXT_FROM_TOP && list->selection != NULL)
+		? g_list_find (list->children, list->selection->data)
+		: NULL;
+	if (current != NULL) {
+		if (start == GNM_COMBO_TEXT_NEXT && current != NULL)
+			current = current->next;
+		for (ptr = current ; ptr != NULL ; ptr = ptr->next) {
+			label = GTK_LABEL (GTK_BIN (ptr->data)->child)->label;
+			if (ct->cmp_func (label, text)) {
+				candidate = ptr->data;
+				break;
+			}
+		}
+	}
+
+	if (candidate == NULL)
+		for (ptr = list->children ; ptr != current ; ptr = ptr->next) {
+			label = GTK_LABEL (GTK_BIN (ptr->data)->child)->label;
+			if (ct->cmp_func (label, text)) {
+				candidate = ptr->data;
+				break;
+			}
+		}
+
+	gtk_signal_handler_block_by_func (GTK_OBJECT (ct->list), 
+					  GTK_SIGNAL_FUNC (cb_list_select),
+					  (gpointer) ct);
+	gtk_signal_handler_block_by_func (GTK_OBJECT (ct->list), 
+					  GTK_SIGNAL_FUNC (cb_list_unselect),
+					  (gpointer) ct);
+	
+	gtk_list_unselect_all (list);
+
+	/* Use visible label rather than supplied text just in case */
+	if (candidate && GTK_IS_WIDGET (candidate)) {
+		child = GTK_WIDGET (candidate);
+		gtk_list_select_child (GTK_LIST (ct->list), child);
+		gtk_widget_grab_focus (child);
+		gtk_entry_set_text (GTK_ENTRY (ct->entry), label);
+		found = TRUE;
+	} else
+		gtk_entry_set_text (GTK_ENTRY (ct->entry), text);
+
+	gtk_signal_handler_unblock_by_func (GTK_OBJECT (ct->list), 
+					    GTK_SIGNAL_FUNC (cb_list_select),
+					    (gpointer) ct);
+	gtk_signal_handler_unblock_by_func (GTK_OBJECT (ct->list), 
+					    GTK_SIGNAL_FUNC (cb_list_unselect),
+					    (gpointer) ct);
+	return found;
+}
+
+/**
+ * gnm_combo_text_add_item :
+ * @ct : The text combo that will get the new element.
+ * @label : the user visible label for the new item
+ * @key   : The unique key to identify this item.
+ *
+ * It is ok to have multiple items with the same label, but the key must be
+ * unique.
+ */
+GtkWidget *
+gnm_combo_text_add_item (GnmComboText *ct,
+			 const gchar *label)
+{
+	GtkWidget *listitem;
+
+	g_return_val_if_fail (label, NULL);
+
+	listitem = gtk_list_item_new_with_label (label);
+	gtk_signal_connect (GTK_OBJECT (listitem),
+		"enter-notify-event",
+		GTK_SIGNAL_FUNC (cb_enter), (gpointer) ct);
+	gtk_signal_connect (GTK_OBJECT (listitem),
+		"leave-notify-event",
+		GTK_SIGNAL_FUNC (cb_exit), (gpointer) ct);
+	gtk_signal_connect (GTK_OBJECT (listitem),
+		"toggle",
+		GTK_SIGNAL_FUNC (cb_toggle), (gpointer) ct);
+
+	gtk_container_add (GTK_CONTAINER (ct->list), listitem);
+
+	gtk_widget_show (listitem);
+	return listitem;
+}
+
+/**
+ * gnm_combo_text_item_set_label :
+ * @item : a GtkListItem returned by gnm_combo_text_add_item
+ * @label : The new label
+ *
+ * Change the label of the supplied item and if it is the current selection
+ * update the entry.
+ */
+void
+gnm_combo_text_item_set_label (GtkWidget *item, const gchar *label)
+{
+}
+
+/**
+ * gnm_combo_text_item_delete :
+ */
+void
+gnm_combo_text_item_delete (GtkWidget *item)
+{
+}
+
+void
+gnm_combo_text_clear (GnmComboText *ct)
+{
+	g_return_if_fail (GNM_IS_COMBO_TEXT (ct));
+
+	gtk_list_clear_items (GTK_LIST (ct->list), 0, -1);
 }

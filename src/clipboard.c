@@ -148,30 +148,45 @@ paste_cell_with_operation (Sheet *dest_sheet,
 	}
 }
 
+/* NOTE : Make sure to set up any merged regions in the target range BEFORE
+ * this is called.
+ */
 static void
-paste_link (CellRegion const *content, CellCopy const *c_copy,
-	    Sheet *target_sheet, int target_col, int target_row)
+paste_link (PasteTarget const *pt, int top, int left,
+	    CellRegion const *content)
 {
-	ExprTree *expr;
 	Cell *cell;
+	CellPos pos;
+	ExprTree *expr;
 	CellRef source_cell_ref;
+	int x, y;
 
 	/* Not possible to link to arbitrary (non gnumeric) sources yet. */
-	if (c_copy->type != CELL_COPY_TYPE_CELL)
+	/* TODO : eventually support interprocess gnumeric links */
+	if (content->origin_sheet == NULL)
 		return;
-
-	cell = sheet_cell_fetch (target_sheet, target_col, target_row);
 
 	/* TODO : support relative links ? */
 	source_cell_ref.col_relative = 0;
 	source_cell_ref.row_relative = 0;
-	source_cell_ref.col = content->base.col + c_copy->col_offset;
-	source_cell_ref.row = content->base.row + c_copy->row_offset;
-	source_cell_ref.sheet = (content->origin_sheet != target_sheet)
+	source_cell_ref.sheet = (content->origin_sheet != pt->sheet)
 		? content->origin_sheet : NULL;
-	expr = expr_tree_new_var (&source_cell_ref);
+	pos.col = left;
+	for (x = 0 ; x < content->cols ; x++, pos.col++) {
+		source_cell_ref.col = content->base.col + x;
+		pos.row = top;
+		for (y = 0 ; y < content->rows ; y++, pos.row++) {
+			cell = sheet_cell_fetch (pt->sheet, pos.col, pos.row);
 
-	cell_set_expr (cell, expr, NULL);
+			/* This could easily be made smarter */
+			if (!cell_is_merged (cell) &&
+			    sheet_merge_contains_pos (pt->sheet, &pos))
+					continue;
+			source_cell_ref.row = content->base.row + y;
+			expr = expr_tree_new_var (&source_cell_ref);
+			cell_set_expr (cell, expr, NULL);
+		}
+	}
 }
 
 /**
@@ -382,7 +397,10 @@ clipboard_paste_region (WorkbookControl *wbc,
 						      content->styles);
 			}
 
-			if (has_content && !(pt->paste_flags & PASTE_DONT_MERGE)) {
+			if (!has_content)
+				continue;
+
+			if (!(pt->paste_flags & PASTE_DONT_MERGE)) {
 				GSList *ptr;
 				for (ptr = content->merged; ptr != NULL ; ptr = ptr->next) {
 					Range tmp = *((Range const *)ptr->data);
@@ -391,8 +409,11 @@ clipboard_paste_region (WorkbookControl *wbc,
 				}
 			}
 
-			if (!has_content)
+			if (pt->paste_flags & PASTE_LINK) {
+				paste_link (pt, top, left, content);
 				continue;
+			}
+
 
 			for (l = content->content; l; l = l->next) {
 				CellCopy *c_copy = l->data;
@@ -416,12 +437,8 @@ clipboard_paste_region (WorkbookControl *wbc,
 					rinfo->pos.eval.row = target_row;
 				}
 
-				if (pt->paste_flags & PASTE_LINK)
-					paste_link (content, c_copy, pt->sheet,
-						    target_col, target_row);
-				else
-					paste_cell (pt->sheet, target_col, target_row,
-						    &rwinfo, c_copy, pt->paste_flags);
+				paste_cell (pt->sheet, target_col, target_row,
+					    &rwinfo, c_copy, pt->paste_flags);
 			}
 		}
 

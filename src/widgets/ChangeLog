@@ -1,3 +1,20 @@
+2001-10-04  Jody Goldberg <jgoldberg@home.com>
+
+	* gnumeric-combo-text.c : Add some signals to clarify the useful
+	  events.  Remove the useless hash.  Search the displayed list
+	  directly.  Add some control on where to start searching the list.
+	  Provide feedback on whether an item is in the list.  Return a handle
+	  to list items.  Rewrite a big chunk.
+
+2001-10-02  Jody Goldberg <jgoldberg@home.com>
+
+	* gnumeric-combo-text.c (scroll_size_request_cb) : size the popup to
+	  match the entry.
+	(gnm_combo_text_construct) : hook up the size-allocate callback.
+	  always wrap things in a scrolled window.
+	(gnm_combo_text_add_item) : rename 'value' -> 'key' to be clearer that
+	  it is not displayed.
+
 2001-09-30  Jody Goldberg <jgoldberg@home.com>
 
 	* gnumeric-expr-entry.c (gnumeric_expr_entry_set_rangesel_from_dep) :

@@ -10,6 +10,7 @@ Release Critical
 
     - Add an idle handler at start up to check for availablity of
       evo and guppi.  They should only be enabled if they are available.
+    - config check for xml-i18n-tool version
 
 Pending Patches
 ---------------

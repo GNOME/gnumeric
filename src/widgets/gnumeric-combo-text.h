@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 #ifndef _GNM_COMBO_TEXT_H
 #define _GNM_COMBO_TEXT_H
 
@@ -8,43 +9,38 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define GNM_COMBO_TEXT(obj)	    GTK_CHECK_CAST (obj, gnm_combo_text_get_type (), GnmComboText)
-#define GNM_COMBO_TEXT_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, gnm_combo_text_get_type (), GnmComboTextClass)
-#define GTK_IS_COMBO_TEXT(obj)      GTK_CHECK_TYPE (obj, gnm_combo_text_get_type ())
+#define GNM_IS_COMBO_TEXT(obj)      GTK_CHECK_TYPE (obj, gnm_combo_text_get_type ())
 
 typedef struct _GnmComboText	   GnmComboText;
-/* typedef struct _GnmComboTextPrivate GnmComboTextPrivate;*/
-typedef struct _GtkComboBoxClass   GnmComboTextClass;
 
 struct _GnmComboText {
 	GtkComboBox parent;
 
+	GCompareFunc cmp_func;
+
 	GtkWidget *entry;
 	GtkWidget *list;
-	GtkWidget *scrolled_window;
-	GtkStateType cache_mouse_state;
+	GtkWidget *scroll;
 	GtkWidget *cached_entry;
-	gboolean case_sensitive;
-	GHashTable*elements;
+	GtkStateType cache_mouse_state;
 };
 
-struct _GnmComboTextClass {
-	GtkComboBoxClass parent_class;
-};
+typedef enum {		/* begin the search from : */
+	GNM_COMBO_TEXT_FROM_TOP,	/* the top of the list */
+	GNM_COMBO_TEXT_CURRENT,		/* the current selection */
+	GNM_COMBO_TEXT_NEXT		/* the next element after current */
+} GnmComboTextSearch;
 
+GtkType    gnm_combo_text_get_type	(void);
+GtkWidget *gnm_combo_text_new		 (GCompareFunc cmp_func);
 
-GtkType    gnm_combo_text_get_type  (void);
-GtkWidget *gnm_combo_text_new       (gboolean const is_scrolled);
-void       gnm_combo_text_construct (GnmComboText *ct, gboolean const is_scrolled);
+gboolean   gnm_combo_text_set_text	 (GnmComboText *ct, const gchar *label,
+					  GnmComboTextSearch start);
+GtkWidget *gnm_combo_text_add_item	 (GnmComboText *ct, const gchar *label);
 
-gint       gnm_combo_text_set_case_sensitive (GnmComboText *combo_text,
-					      gboolean val);
-void       gnm_combo_text_select_item (GnmComboText *combo_text,
-				       int elem);
-void       gnm_combo_text_set_text (GnmComboText *combo_text,
-				       const gchar *text);
-void       gnm_combo_text_add_item    (GnmComboText *combo_text,
-				       const gchar *item,
-				       const gchar *value);
+void       gnm_combo_text_item_set_label (GtkWidget *item, const gchar *label);
+void       gnm_combo_text_item_delete	 (GtkWidget *item);
+void       gnm_combo_text_clear	 	 (GnmComboText *ct);
 
 #ifdef __cplusplus
 };

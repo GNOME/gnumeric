@@ -57,6 +57,7 @@
 #include "gui-util.h"
 #include "widgets/gnumeric-toolbar.h"
 #include "widgets/widget-editable-label.h"
+#include "widgets/gnumeric-combo-text.h"
 
 #ifdef ENABLE_BONOBO
 #include "sheet-object-container.h"
@@ -68,7 +69,6 @@
 
 #include <gal/util/e-util.h>
 #include <gal/widgets/widget-color-combo.h>
-#include <gal/widgets/gtk-combo-text.h>
 #include <gal/widgets/gtk-combo-stack.h>
 
 #include <libgnome/gnome-defs.h>
@@ -77,6 +77,7 @@
 
 #include <ctype.h>
 #include <stdarg.h>
+#include <errno.h>
 
 gboolean
 wbcg_ui_update_begin (WorkbookControlGUI *wbcg)
@@ -325,7 +326,8 @@ zoom_changed (WorkbookControlGUI *wbcg, Sheet* sheet)
 		  (int) (sheet->last_zoom_factor_used * 100 + .5));
 
 	if (wbcg_ui_update_begin (wbcg)) {
-		gtk_combo_text_set_text (GTK_COMBO_TEXT (wbcg->zoom_entry), buffer);
+		gnm_combo_text_set_text (GNM_COMBO_TEXT (wbcg->zoom_entry),
+			buffer, GNM_COMBO_TEXT_CURRENT);
 		wbcg_ui_update_end (wbcg);
 	}
 
@@ -691,24 +693,32 @@ wbcg_history_setup (WorkbookControlGUI *wbcg)
 		history_menu_setup (wbcg, hl);
 }
 
-static void
-cb_change_zoom (GtkWidget *caller, WorkbookControlGUI *wbcg)
+static gboolean
+cb_change_zoom (GtkWidget *caller, char *new_zoom, WorkbookControlGUI *wbcg)
 {
 	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 	int factor;
+	char *end;
 
 	if (sheet == NULL || wbcg->updating_ui)
-		return;
+		return TRUE;
 
-	/* The GSList of sheet passed to cmd_zoom will be freed by cmd_zoom */
-	factor = atoi (gtk_entry_get_text (GTK_ENTRY (caller)));
-	cmd_zoom (WORKBOOK_CONTROL (wbcg), g_slist_append (NULL, sheet),
-		  (double) factor / 100);
+	errno = 0; /* strtod sets errno, but does not clear it.  */
+	factor = strtol (new_zoom, &end, 10);
+	if (new_zoom != end && errno != ERANGE && factor == (gnum_float)factor)
+		/* The GSList of sheet passed to cmd_zoom will be freed by cmd_zoom,
+		 * and the sheet will fore an updat eof the zoom combo to keep the
+		 * display consistent
+		 */
+		cmd_zoom (WORKBOOK_CONTROL (wbcg), g_slist_append (NULL, sheet),
+			  (double) factor / 100);
+	else
+		zoom_changed (wbcg, sheet);
 
 	wb_control_gui_focus_cur_sheet (wbcg);
 
-	/* Always update the zoom combo so that things display consistently */
-	zoom_changed (wbcg, sheet);
+	/* because we are updating it there is no need to apply it now */
+	return FALSE;
 }
 
 static void
@@ -3080,11 +3090,11 @@ workbook_create_standard_toolbar (WorkbookControlGUI *wbcg)
 #endif
 
 	/* Zoom combo box */
-	zoom = wbcg->zoom_entry = gtk_combo_text_new (FALSE);
+	zoom = wbcg->zoom_entry = gnm_combo_text_new (NULL);
 	if (!gnome_preferences_get_toolbar_relief_btn ())
 		gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (zoom), GTK_RELIEF_NONE);
-	entry = GTK_COMBO_TEXT (zoom)->entry;
-	gtk_signal_connect (GTK_OBJECT (entry), "activate",
+	entry = GNM_COMBO_TEXT (zoom)->entry;
+	gtk_signal_connect (GTK_OBJECT (zoom), "entry_changed",
 			    GTK_SIGNAL_FUNC (cb_change_zoom), wbcg);
 	gtk_combo_box_set_title (GTK_COMBO_BOX (zoom), _("Zoom"));
 
@@ -3094,8 +3104,7 @@ workbook_create_standard_toolbar (WorkbookControlGUI *wbcg)
 
 	/* Preset values */
 	for (i = 0; preset_zoom[i] != NULL ; ++i)
-		gtk_combo_text_add_item(GTK_COMBO_TEXT (zoom),
-					preset_zoom[i], preset_zoom[i]);
+		gnm_combo_text_add_item (GNM_COMBO_TEXT (zoom), preset_zoom[i]);
 
 	/* Undo dropdown list */
 	undo = wbcg->undo_combo = gtk_combo_stack_new ("Gnumeric_Undo", TRUE);

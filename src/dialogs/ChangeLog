@@ -1,3 +1,15 @@
+2001-10-04  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-graph-guru.c (graph_guru_select_series) : adjust to changes
+	  in the combo_text.
+	(graph_guru_select_plot) : ditto.  Use gnm_combo_text_clear.
+	  Store the xmlNode for the series with its combo item.
+	(graph_guru_init_data_page) : Stre the xmlNode for the plot
+	  with its combo item.
+	(cb_series_selection_changed) : have this do something.
+	(cb_plot_entry_changed) : ditto.
+	(graph_guru_selector_init) : adjsut to changes in the combo_text.
+
 2001-10-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* Makefile.am : new files correlation.glade, covariance.glade and

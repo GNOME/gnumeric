@@ -326,12 +326,13 @@ graph_guru_select_series (GraphGuruState *s, xmlNode *series)
 	int i;
 	char *name;
 
-	if (s->updating)
+	if (s->updating || series == s->current_series)
 		return;
 
 	name = graph_guru_series_name (s, series);
 	s->updating = TRUE;
-	gnm_combo_text_set_text (GNM_COMBO_TEXT (s->series_selector), name);
+	gnm_combo_text_set_text (GNM_COMBO_TEXT (s->series_selector),
+		name, GNM_COMBO_TEXT_CURRENT);
 	s->updating = FALSE;
 
 	for (i = s->unshared->len; i--> 0 ; )
@@ -358,27 +359,26 @@ graph_guru_plot_name (GraphGuruState *s, xmlNode *plot)
 }
 
 static void
-graph_guru_select_plot (GraphGuruState *s, xmlNode *xml)
+graph_guru_select_plot (GraphGuruState *s, xmlNode *plot)
 {
 	xmlNode *layout, *series;
 	char *name;
+	GtkWidget *item;
 	int shared, unshared;
 
-	if (s->updating)
+	if (s->updating || plot == s->current_plot)
 		return;
 
 	g_return_if_fail (series != NULL);
 
 	/* clear out the old */
-	if (s->current_plot != NULL) {
-		GnmComboText *ct = GNM_COMBO_TEXT (s->series_selector);
-		gtk_list_clear_items (GTK_LIST (ct->list), 0, -1);
-	}
-	s->current_plot = xml;
+	if (s->current_plot != NULL)
+		gnm_combo_text_clear (GNM_COMBO_TEXT (s->series_selector));
+	s->current_plot = plot;
 	s->current_series = NULL;
 
 	/* Init the expr entries */
-	layout = e_xml_get_child_by_name (xml, "DataLayout");
+	layout = e_xml_get_child_by_name (plot, "DataLayout");
 
 	g_return_if_fail (layout != NULL);
 
@@ -417,7 +417,7 @@ graph_guru_select_plot (GraphGuruState *s, xmlNode *xml)
 		gtk_widget_hide (s->shared_separator);
 
 	/* Init lists of series */
-	series = e_xml_get_child_by_name (xml, "Data");
+	series = e_xml_get_child_by_name (plot, "Data");
 
 	g_return_if_fail (series != NULL);
 
@@ -425,16 +425,18 @@ graph_guru_select_plot (GraphGuruState *s, xmlNode *xml)
 		if (strcmp (series->name, "Series"))
 			continue;
 		name = graph_guru_series_name (s, series);
-		gnm_combo_text_add_item (GNM_COMBO_TEXT (s->series_selector),
-			name, name);
+		item = gnm_combo_text_add_item (
+			GNM_COMBO_TEXT (s->series_selector), name);
+		gtk_object_set_data (GTK_OBJECT (item), "xml_node", series);
 		g_free (name);
 		if (s->current_series == NULL)
 			graph_guru_select_series (s, series);
 	}
 
 	s->updating = TRUE;
-	name = graph_guru_plot_name (s, xml);
-	gnm_combo_text_set_text (GNM_COMBO_TEXT (s->plot_selector), name);
+	name = graph_guru_plot_name (s, plot);
+	gnm_combo_text_set_text (GNM_COMBO_TEXT (s->plot_selector),
+		name, GNM_COMBO_TEXT_CURRENT);
 	g_free (name);
 	s->updating = FALSE;
 
@@ -448,6 +450,8 @@ static void
 graph_guru_init_data_page (GraphGuruState *s)
 {
 	xmlNode *plot;
+	char *name;
+	GtkWidget *item;
 
 	g_return_if_fail (s->xml_doc != NULL);
 #if 0
@@ -466,12 +470,12 @@ graph_guru_init_data_page (GraphGuruState *s)
 	g_return_if_fail (plot != NULL);
 
 	for (plot = plot->xmlChildrenNode; plot; plot = plot->next) {
-		char *name;
 		if (strcmp (plot->name, "Plot"))
 			continue;
 		name = graph_guru_plot_name (s, plot);
-		gnm_combo_text_add_item (GNM_COMBO_TEXT (s->plot_selector),
-			name, name);
+		item = gnm_combo_text_add_item (
+			GNM_COMBO_TEXT (s->plot_selector), name);
+		gtk_object_set_data (GTK_OBJECT (item), "xml_node", plot);
 		g_free (name);
 		if (s->current_plot == NULL)
 			graph_guru_select_plot (s, plot);
@@ -559,43 +563,51 @@ graph_guru_init_button  (GraphGuruState *state, const char *widget_name)
 }
 
 
-static void
-cb_series_entry_activate (GtkWidget *caller, GraphGuruState *state)
+static gboolean
+cb_series_entry_changed (GtkWidget *caller, char *new_text, GraphGuruState *s)
 {
-	if (state->updating)
-		return;
+	if (s->updating)
+		return TRUE;
+	return TRUE;
 }
-static void
-cb_series_list_select (GtkWidget *list, GtkWidget *child, gpointer data)
+static gboolean
+cb_series_selection_changed (GtkWidget *ct, GtkWidget *item, GraphGuruState *s)
 {
+	graph_guru_select_series (s,
+		gtk_object_get_data (GTK_OBJECT (item), "xml_node"));
+	return FALSE;
 }
 
-static void
-cb_plot_entry_activate (GtkWidget *caller, GraphGuruState *state)
+static gboolean
+cb_plot_entry_changed (GtkWidget *caller, char *new_text, GraphGuruState *s)
 {
-	if (state->updating)
-		return;
+	if (s->updating)
+		return TRUE;
+	return TRUE;
 }
-static void
-cb_plot_list_select (GtkWidget *list, GtkWidget *child, gpointer data)
+static gboolean
+cb_plot_selection_changed (GtkWidget *ct, GtkWidget *item, GraphGuruState *s)
 {
+	graph_guru_select_plot (s,
+		gtk_object_get_data (GTK_OBJECT (item), "xml_node"));
+	return FALSE;
 }
 
 static GtkWidget *
 graph_guru_selector_init (GraphGuruState *s, char const *name, int i,
-			  GtkSignalFunc	entry_activate,
-			  GtkSignalFunc	list_select)
+			  GtkSignalFunc	entry_changed,
+			  GtkSignalFunc	selection_changed)
 {
-	GtkWidget    *w  = gnm_combo_text_new (TRUE);
+	GtkWidget    *w  = gnm_combo_text_new (NULL);
 	GnmComboText *ct = GNM_COMBO_TEXT (w);
 	gtk_table_attach_defaults (GTK_TABLE (s->selection_table),
 		w, 1, 2, i, i+1);
 	gtk_combo_box_set_title (GTK_COMBO_BOX (ct), _(name));
 	gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (ct), GTK_RELIEF_NONE);
-	gtk_signal_connect (GTK_OBJECT (ct->entry), "activate",
-		entry_activate, s);
-	gtk_signal_connect (GTK_OBJECT (ct->list), "select-child",
-		list_select, s);
+	gtk_signal_connect (GTK_OBJECT (ct), "entry_changed",
+		entry_changed, s);
+	gtk_signal_connect (GTK_OBJECT (ct), "selection_changed",
+		selection_changed, s);
 
 	return w;
 }
@@ -669,11 +681,11 @@ graph_guru_init (GraphGuruState *s)
 	s->shared_series_details = glade_xml_get_widget (s->gui, "shared_series_details");
 
 	s->plot_selector    = graph_guru_selector_init (s, N_("Plot name"), 0,
-		GTK_SIGNAL_FUNC (cb_plot_entry_activate),
-		GTK_SIGNAL_FUNC (cb_plot_list_select));
+		GTK_SIGNAL_FUNC (cb_plot_entry_changed),
+		GTK_SIGNAL_FUNC (cb_plot_selection_changed));
 	s->series_selector  = graph_guru_selector_init (s, N_("Series name"), 1,
-		GTK_SIGNAL_FUNC (cb_series_entry_activate),
-		GTK_SIGNAL_FUNC (cb_series_list_select));
+		GTK_SIGNAL_FUNC (cb_series_entry_changed),
+		GTK_SIGNAL_FUNC (cb_series_selection_changed));
 
 	/* Lifecyle management */
 	wbcg_edit_attach_guru (s->wbcg, s->dialog);
