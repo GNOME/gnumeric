@@ -3959,12 +3959,12 @@ excel_read_SETUP (BiffQuery *q, ExcelReadSheet *esheet)
 		}
 
 		papersize = GSF_LE_GET_GUINT16 (q->data + 0);
-		fprintf (stderr,"Paper size %hu\n", papersize);
-
-		/* Useful somewhere ? */
-		fprintf (stderr,"resolution %hu vert. res. %hu\n",
-			GSF_LE_GET_GUINT16 (q->data + 12),
-			GSF_LE_GET_GUINT16 (q->data + 14));
+		d (2, {
+			fprintf (stderr,"Paper size %hu\n", papersize);
+			fprintf (stderr,"resolution %hu vert. res. %hu\n",
+				GSF_LE_GET_GUINT16 (q->data + 12),
+				GSF_LE_GET_GUINT16 (q->data + 14));
+		});
 
 		if (papersize < PAPER_NAMES_LEN) {
 			guchar *paper_name = (guchar *)paper_size_table[papersize].gp_name;

@@ -1,5 +1,9 @@
 2004-11-15  Jody Goldberg <jody@gnome.org>
 
+	* ms-excel-read.c (excel_read_SETUP) : hide some spurious debug spew
+
+2004-11-15  Jody Goldberg <jody@gnome.org>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=157997
 	* ms-excel-read.c (ms_sheet_realize_obj) : a temp patch for the object
 	  double unrefing.  A more significant patch is waiting for after
