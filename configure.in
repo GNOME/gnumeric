@@ -700,6 +700,7 @@ plugins/xbase/Makefile
 plugins/html/Makefile
 plugins/dif/Makefile
 plugins/qpro/Makefile
+plugins/plan-perfect/Makefile
 plugins/xml_sax/Makefile
 plugins/applix/Makefile
 plugins/psiconv/Makefile
