@@ -8,13 +8,17 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    http://bugzilla.gnome.org/show_bug.cgi?id=124271	[crash on undo free ?]
+    http://bugzilla.gnome.org/show_bug.cgi?id=124975	[external paste undo]
+    http://bugzilla.gnome.org/show_bug.cgi?id=125044	[chart label printing]
+    http://bugzilla.gnome.org/show_bug.cgi?id=121337	[negative time]
     http://bugzilla.gnome.org/show_bug.cgi?id=124315	[line plot ignores axis]
     - Verify histogram tool.  Feels fubar.
     : text in boxes for text-xls/pivot.xls is white ??
     : guia.xls complains of problems importing autofilter
 
-Important
+Worries
+    http://bugzilla.gnome.org/show_bug.cgi?id=124271	[crash on undo free ?]
+    : can not replicate
     http://bugzilla.gnome.org/show_bug.cgi?id=123567    [1.0 file]
     : needinfo
     http://bugzilla.gnome.org/show_bug.cgi?id=123781
