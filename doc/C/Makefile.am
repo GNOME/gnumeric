@@ -16,6 +16,7 @@ entities = 					\
 	editing.xml				\
 	fdl-appendix.xml			\
 	files.xml				\
+	fill-series.xml				\
 	filter.xml				\
 	formulas.xml				\
 	func-footer.xml				\
