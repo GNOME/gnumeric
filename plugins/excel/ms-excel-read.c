@@ -4781,6 +4781,7 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 	gboolean prev_was_eof;
 
 	io_progress_message (context, _("Reading file..."));
+#warning Possible overflow
 	value_io_progress_set (context, gsf_input_size (input), N_BYTES_BETWEEN_PROGRESS_UPDATES);
 	q = ms_biff_query_new (input);
 

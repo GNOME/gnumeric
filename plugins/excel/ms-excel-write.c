@@ -812,7 +812,7 @@ biff_boundsheet_write_last (GsfOutput *output, guint32 pos,
 			    unsigned streamPos)
 {
 	guint8  data[4];
-	unsigned oldpos;
+	gsf_off_t oldpos;
 	g_return_if_fail (output);
 
 	oldpos = gsf_output_tell (output);
@@ -3067,7 +3067,7 @@ static void
 write_index (GsfOutput *output, ExcelSheet *esheet, unsigned pos)
 {
 	guint8  data[4];
-	unsigned oldpos;
+	gsf_off_t oldpos;
 	guint lp;
 
 	g_return_if_fail (output);
