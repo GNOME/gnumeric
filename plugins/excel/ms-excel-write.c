@@ -1617,7 +1617,8 @@ excel_write_FORMAT (ExcelWriteState *ewb, int fidx)
 
 	GSF_LE_SET_GUINT16 (data, fidx);
 	ms_biff_put_var_write (ewb->bp, data, 2);
-	excel_write_string (ewb->bp, format, STR_ONE_BYTE_LENGTH);
+	excel_write_string (ewb->bp, format, (ewb->bp->version >= MS_BIFF_V8)
+		? STR_TWO_BYTE_LENGTH : STR_ONE_BYTE_LENGTH);
 	ms_biff_put_commit (ewb->bp);
 	g_free (format);
 }

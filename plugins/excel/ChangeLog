@@ -1,3 +1,10 @@
+2003-02-05  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_write_FORMAT) : biff8 formats have 2 byte
+	  lengths, biff7 has 1 byte.
+
+	* ms-excel-read.c (excel_read_FORMULA) : Add a quick size check.
+
 2003-02-04  Jody Goldberg <jody@gnome.org>
 
 	* boot.c (excel_file_probe) : actually return the flag, and support

@@ -1165,6 +1165,7 @@ static void
 excel_read_FORMAT (BiffQuery *q, ExcelWorkbook *ewb)
 {
 	BiffFormatData *d = g_new (BiffFormatData, 1);
+
 	if (ewb->container.ver >= MS_BIFF_V8) {
 		d->idx = GSF_LE_GET_GUINT16 (q->data);
 		d->name = biff_get_text (q->data + 4, GSF_LE_GET_GUINT16 (q->data + 2), NULL);
@@ -2116,6 +2117,9 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 	 *       not set the cell value.
 	 */
 
+	if (q->length < 16)
+		return;
+	{
 	/* Pre-retrieve incase this is a string */
 	gboolean array_elem, is_string = FALSE;
 	guint16 const xf_index = EX_GETXF (q);
@@ -2318,6 +2322,7 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 	 */
 	if (options & 0x3)
 		cell_queue_recalc (cell);
+	}
 }
 
 XLSharedFormula *
@@ -3695,8 +3700,6 @@ excel_read_WINDOW2 (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
 		esheet->sheet->hide_row_header	= (options & 0x0004) == 0;
 		esheet->freeze_panes		= (options & 0x0008) != 0;
 		esheet->sheet->hide_zero	= (options & 0x0010) == 0;
-
-		g_warning ("WIN2 %s = %hx", esheet->sheet->name_unquoted, options);
 
 		/* NOTE : This is top left of screen even if frozen, modify when
 		 *        we read PANE
