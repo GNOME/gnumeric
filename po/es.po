@@ -1670,7 +1670,6 @@ msgstr ""
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
 #: src/fn-date.c:474
-#, fuzzy
 msgid ""
 "@FUNCTION=DAYS360 \n"
 "@SYNTAX=DAYS360 (date1,date2,method)\n"
@@ -1703,7 +1702,6 @@ msgid "Unsupported method"
 msgstr "Método no soportado"
 
 #: src/fn-date.c:568
-#, fuzzy
 msgid ""
 "@FUNCTION=EOMONTH\n"
 "@SYNTAX=EOMONTH (start_date,months)\n"
@@ -1716,11 +1714,10 @@ msgstr ""
 "@SYNTAX=EOMONTH (fecha_inico,meses)\n"
 "@DESCRIPTION=Devuelve el último día del mes que viene @meses meses después "
 "que @fecha_inicio .\n"
-"Devuelve #NUM si @fecha_inicio o @meses no son válidos.\n"
+"Devuelve #NUM! si @fecha_inicio o @meses no son válidos.\n"
 "@SEEALSO=MONTH"
 
 #: src/fn-date.c:610
-#, fuzzy
 msgid ""
 "@FUNCTION=WORKDAY\n"
 "@SYNTAX=WORKDAY (start_date,days,holidays)\n"
@@ -1733,9 +1730,9 @@ msgstr ""
 "@FUNCTION=WORKDAY\n"
 "@SYNTAX=WORKDAY (fecha_inicio,días,vacaciones)\n"
 "@DESCRIPTION=Devuelve el día que viene @días días laborables después que "
-"@fecha_inicio . Los días de fin de semana así como los dias opcionalmente "
+"@fecha_inicio. Los días de fin de semana así como los dias opcionalmente "
 "indicados con el argumento @vacaciones no se cuentan.\n"
-"Devuelve #NUM si @fecha_inicio o @días no son válidos.\n"
+"Devuelve #NUM! si @fecha_inicio o @días no son válidos.\n"
 "@SEEALSO=NETWORKDAYS"
 
 #. 1 if the cell is formatted in color for negative values;
@@ -1783,9 +1780,8 @@ msgstr ""
 "@SEEALSO="
 
 #: src/fn-eng.c:57
-#, fuzzy
 msgid "Base error"
-msgstr "Error de sintaxis"
+msgstr "Error de base"
 
 #: src/fn-eng.c:133
 msgid ""
@@ -1907,7 +1903,6 @@ msgid ""
 msgstr ""
 
 #: src/fn-eng.c:349
-#, fuzzy
 msgid ""
 "@FUNCTION=HEX2DEC\n"
 "@SYNTAX=HEX2DEC(x)\n"
@@ -1916,11 +1911,12 @@ msgid ""
 "\n"
 "@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT"
 msgstr ""
-"@FUNCTION=EVEN\n"
-"@SYNTAX=EVEN(número)\n"
-"@DESCRIPTION=La función EVEN devuelve el número redondeado al entero par más "
-"próximo.\n"
-"@SEEALSO=ODD"
+"@FUNCTION=HEX2DEC\n"
+"@SYNTAX=HEX2DEC(x)\n"
+"@DESCRIPTION=La función HEX2DEC convierte un número hexadecimal a su "
+"equivalente decimal.\n"
+"\n"
+"@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT"
 
 #: src/fn-eng.c:367
 msgid ""
@@ -1982,7 +1978,6 @@ msgid ""
 msgstr ""
 
 #: src/fn-eng.c:579
-#, fuzzy
 msgid ""
 "@FUNCTION=IMAGINARY\n"
 "@SYNTAX=IMAGINARY(inumber)\n"
@@ -1990,105 +1985,95 @@ msgid ""
 "number.\n"
 "@SEEALSO=IMREAL"
 msgstr ""
-"@FUNCTION=CHAR\n"
-"@SYNTAX=CHAR(x)\n"
-"@DESCRIPTION=Devuelve el carácter ASCII representado por el número x.\n"
-"@SEEALSO=CODE"
+"@FUNCTION=IMAGINARY\n"
+"@SYNTAX=IMAGINARY(complejo)\n"
+"@DESCRIPTION=IMAGINARY devuelve la parte imaginaria de un número complejo.\n"
+"@SEEALSO=IMREAL"
 
 #: src/fn-eng.c:604
-#, fuzzy
 msgid ""
 "@FUNCTION=IMREAL\n"
 "@SYNTAX=IMREAL(inumber)\n"
 "@DESCRIPTION=IMREAL returns the real coefficient of a complex number.\n"
 "@SEEALSO=IMAGINARY"
 msgstr ""
-"@FUNCTION=SQRTPI\n"
-"@SYNTAX=SQRTPI(número)\n"
-"@DESCRIPTION=La función SQRTPI devuelve la raíz cuadrada de un número "
-"multiplicado por pi.\n"
-"@SEEALSO=PI"
+"@FUNCTION=IMREAL\n"
+"@SYNTAX=IMREAL(complejo)\n"
+"@DESCRIPTION=IMREAL devuelve la parte real de un número complejo.\n"
+"@SEEALSO=IMAGINARY"
 
 #: src/fn-eng.c:629
-#, fuzzy
 msgid ""
 "@FUNCTION=IMABS\n"
 "@SYNTAX=IMABS(inumber)\n"
 "@DESCRIPTION=IMABS returns the absolute value of a complex number.\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 msgstr ""
-"@FUNCTION=NA\n"
-"@SYNTAX=NA()\n"
-"@DESCRIPTION=NA devuelve el valor de error #N/D. \n"
-"@SEEALSO="
+"@FUNCTION=IMABS\n"
+"@SYNTAX=IMABS(complejo)\n"
+"@DESCRIPTION=IMABS devuelve el valor absoluto de un número complejo.\n"
+"@SEEALSO=IMAGINARY,IMREAL"
 
 #: src/fn-eng.c:654
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCONJUGATE\n"
 "@SYNTAX=IMCONJUGATE(inumber)\n"
 "@DESCRIPTION=IMCONJUGATE returns the complex conjugate of a complex number.\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 msgstr ""
-"@FUNCTION=NA\n"
-"@SYNTAX=NA()\n"
-"@DESCRIPTION=NA devuelve el valor de error #N/D. \n"
-"@SEEALSO="
+"@FUNCTION=IMCONJUGATE\n"
+"@SYNTAX=IMLCONJUGATE(complejo)\n"
+"@DESCRIPTION=MCONJUGATE devuelve el complejo conyugado del númro complejo "
+"pasado como argumento.\n"
+"@SEEALSO=IMAGINARY,IMREAL"
 
 #: src/fn-eng.c:679
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCOS\n"
 "@SYNTAX=IMCOS(inumber)\n"
 "@DESCRIPTION=IMCOS returns the cosine of a complex number.\n"
 "@SEEALSO=IMSIN,IMTAN"
 msgstr ""
-"@FUNCTION=SQRTPI\n"
-"@SYNTAX=SQRTPI(número)\n"
-"@DESCRIPTION=La función SQRTPI devuelve la raíz cuadrada de un número "
-"multiplicado por pi.\n"
-"@SEEALSO=PI"
+"@FUNCTION=IMCOS\n"
+"@SYNTAX=IMCOS(complejo)\n"
+"@DESCRIPTION=IMCOS devuelve el coseno de un número complejo.\n"
+"@SEEALSO=IMSIN,IMTAN"
 
 #: src/fn-eng.c:701
-#, fuzzy
 msgid ""
 "@FUNCTION=IMTAN\n"
 "@SYNTAX=IMTAN(inumber)\n"
 "@DESCRIPTION=IMTAN returns the tangent of a complex number.\n"
 "@SEEALSO=IMSIN,IMCOS"
 msgstr ""
-"@FUNCTION=NA\n"
-"@SYNTAX=NA()\n"
-"@DESCRIPTION=NA devuelve el valor de error #N/D. \n"
-"@SEEALSO="
+"@FUNCTION=IMTAN\n"
+"@SYNTAX=IMTAN(complejo)\n"
+"@DESCRIPTION=IMTAN devuelve la tangente de un número complejo.\n"
+"@SEEALSO=IMSIN,IMCOS"
 
 #: src/fn-eng.c:723
-#, fuzzy
 msgid ""
 "@FUNCTION=IMEXP\n"
 "@SYNTAX=IMEXP(inumber)\n"
 "@DESCRIPTION=IMEXP returns the exponential of a complex number.\n"
 "@SEEALSO=IMLN"
 msgstr ""
-"@FUNCTION=SQRTPI\n"
-"@SYNTAX=SQRTPI(número)\n"
-"@DESCRIPTION=La función SQRTPI devuelve la raíz cuadrada de un número "
-"multiplicado por pi.\n"
-"@SEEALSO=PI"
+"@FUNCTION=IMEXP\n"
+"@SYNTAX=IMEXP(complejo)\n"
+"@DESCRIPTION=IMEXP devuelve la exponencial de un número complejo.\n"
+"@SEEALSO=IMLN"
 
 #: src/fn-eng.c:745
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(inumber)\n"
 "@DESCRIPTION=IMARGUMENT returns the argument theta of a complex number.\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=EVEN\n"
-"@SYNTAX=EVEN(número)\n"
-"@DESCRIPTION=La función EVEN devuelve el número redondeado al entero par más "
-"próximo.\n"
-"@SEEALSO=ODD"
+"@FUNCTION=IMARGUMENT\n"
+"@SYNTAX=IMARGUMENT(complejo)\n"
+"@DESCRIPTION=IMARGUMENT devuelve el argumento teta de un número complejo.\n"
+"@SEEALSO="
 
 #: src/fn-eng.c:766
 msgid ""
@@ -2100,32 +2085,37 @@ msgid ""
 "or subtract an even multiple of pi to the imaginary part.)\n"
 "@SEEALSO=IMEXP,IMLOG2,IMLOG10"
 msgstr ""
+"@FUNCTION=IMLN\n"
+"@SYNTAX=IMLN(complejo)\n"
+"@DESCRIPTION=IMLN devuelve el algoritmo natural de un número complejo. (El "
+"resultado tendrá una parte imaginaria entre -pi y +pi.  El logaritmo "
+"natural no es definido de manera única con números complejos; puede "
+"que necesite añadir o sustraer un múltiple par de pi a la parte imaginaria.)\n"
+"@SEEALSO=IMEXP,IMLOG2,IMLOG10"
 
 #: src/fn-eng.c:791
-#, fuzzy
 msgid ""
 "@FUNCTION=IMLOG2\n"
 "@SYNTAX=IMLOG2(inumber)\n"
 "@DESCRIPTION=IMLOG2 returns the logarithm of a complex number in base 2.\n"
 "@SEEALSO=IMLN,IMLOG10"
 msgstr ""
-"@FUNCTION=LN\n"
-"@SYNTAX=LN(x)\n"
-"@DESCRIPTION=Calcula el logaritmo natural de x.\n"
-"@SEEALSO=EXP, LOG2, LOG10"
+"@FUNCTION=IMLOG2\n"
+"@SYNTAX=IMLOG2(complejo)\n"
+"@DESCRIPTION=IMLOG2 devuelve el logaritmo de base 2 un número complejo.\n"
+"@SEEALSO=IMLN,IMLOG10"
 
 #: src/fn-eng.c:815
-#, fuzzy
 msgid ""
 "@FUNCTION=IMLOG10\n"
 "@SYNTAX=IMLOG10(inumber)\n"
 "@DESCRIPTION=IMLOG10 returns the logarithm of a complex number in base 10.\n"
 "@SEEALSO=IMLN,IMLOG2"
 msgstr ""
-"@FUNCTION=LN\n"
-"@SYNTAX=LN(x)\n"
-"@DESCRIPTION=Calcula el logaritmo natural de x.\n"
-"@SEEALSO=EXP, LOG2, LOG10"
+"@FUNCTION=IMLOG10\n"
+"@SYNTAX=IMLOG10(complejo)\n"
+"@DESCRIPTION=IMLOG10 devuelve el logaritmo en base 10 de un número complejo.\n"
+"@SEEALSO=IMLN,IMLOG2"
 
 #: src/fn-eng.c:839
 msgid ""
@@ -2138,87 +2128,77 @@ msgid ""
 msgstr ""
 
 #: src/fn-eng.c:869
-#, fuzzy
 msgid ""
 "@FUNCTION=IMDIV\n"
 "@SYNTAX=IMDIV(inumber,inumber)\n"
 "@DESCRIPTION=IMDIV returns the quotient of two complex numbers.\n"
 "@SEEALSO=IMPRODUCT"
 msgstr ""
-"@FUNCTION=EVEN\n"
-"@SYNTAX=EVEN(número)\n"
-"@DESCRIPTION=La función EVEN devuelve el número redondeado al entero par más "
-"próximo.\n"
-"@SEEALSO=ODD"
+"@FUNCTION=IMDIV\n"
+"@SYNTAX=IMDIV(complejo,complejo)\n"
+"@DESCRIPTION=IMDIV devuelve el cociente de dos números complejos.\n"
+"@SEEALSO=IMPRODUCT"
 
 #: src/fn-eng.c:897
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSIN\n"
 "@SYNTAX=IMSIN(inumber)\n"
 "@DESCRIPTION=IMSIN returns the sine of a complex number.\n"
 "@SEEALSO=IMCOS,IMTAN"
 msgstr ""
-"@FUNCTION=NA\n"
-"@SYNTAX=NA()\n"
-"@DESCRIPTION=NA devuelve el valor de error #N/D. \n"
-"@SEEALSO="
+"@FUNCTION=IMSIN\n"
+"@SYNTAX=IMSIN(complejo)\n"
+"@DESCRIPTION=IMSIN devuelve el seno de un número complejo.\n"
+"@SEEALSO=IMCOS,IMTAN"
 
 #: src/fn-eng.c:919
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSQRT\n"
 "@SYNTAX=IMSQRT(inumber)\n"
 "@DESCRIPTION=IMSQRT returns the square root of a complex number.\n"
 "@SEEALSO=IMPOWER"
 msgstr ""
-"@FUNCTION=SQRTPI\n"
-"@SYNTAX=SQRTPI(número)\n"
-"@DESCRIPTION=La función SQRTPI devuelve la raíz cuadrada de un número "
-"multiplicado por pi.\n"
-"@SEEALSO=PI"
+"@FUNCTION=IMSQRT\n"
+"@SYNTAX=IMSQRT(complejo)\n"
+"@DESCRIPTION=IMSQRT devuelve la raíz cuadrada de un número complejo.\n"
+"@SEEALSO=IMPOWER"
 
 #: src/fn-eng.c:941
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSUB\n"
 "@SYNTAX=IMSUB(inumber,inumber)\n"
 "@DESCRIPTION=IMSUB returns the difference of two complex numbers.\n"
 "@SEEALSO=IMSUM"
 msgstr ""
-"@FUNCTION=SQRTPI\n"
-"@SYNTAX=SQRTPI(número)\n"
-"@DESCRIPTION=La función SQRTPI devuelve la raíz cuadrada de un número "
-"multiplicado por pi.\n"
-"@SEEALSO=PI"
+"@FUNCTION=IMSUB\n"
+"@SYNTAX=IMSUB(complejo,complejo)\n"
+"@DESCRIPTION=IMSUB devuelve la diferencia de dos números complejos.\n"
+"@SEEALSO=IMSUM"
 
 #: src/fn-eng.c:966
-#, fuzzy
 msgid ""
 "@FUNCTION=IMPRODUCT\n"
 "@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])\n"
 "@DESCRIPTION=IMPRODUCT returns the product of given complex numbers.\n"
 "@SEEALSO=IMDIV"
 msgstr ""
-"@FUNCTION=PRODUCT\n"
-"@SYNTAX=PRODUCT(valor1, valor2, ...)\n"
-"@DESCRIPTION=Calcula el producto de todos los valores y celdas referenciados "
-"en la lista de argumentos. \n"
-"@SEEALSO=SUM, COUNT"
+"@FUNCTION=IMPRODUCT\n"
+"@SYNTAX=IMPRODUCT(complejo1[,complejo2,...])\n"
+"@DESCRIPTION=IMPRODUCT devuelve el producto de los números complejos "
+"pasados como argumento.\n"
+"@SEEALSO=IMDIV"
 
 #: src/fn-eng.c:1030
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSUM\n"
 "@SYNTAX=IMSUM(inumber,inumber)\n"
 "@DESCRIPTION=IMSUM returns the sum of two complex numbers.\n"
 "@SEEALSO=IMSUB"
 msgstr ""
-"@FUNCTION=SQRTPI\n"
-"@SYNTAX=SQRTPI(número)\n"
-"@DESCRIPTION=La función SQRTPI devuelve la raíz cuadrada de un número "
-"multiplicado por pi.\n"
-"@SEEALSO=PI"
+"@FUNCTION=IMSUM\n"
+"@SYNTAX=IMSUM(complejo,complejo)\n"
+"@DESCRIPTION=IMSUM devuelve la suma de dos números complejos.\n"
+"@SEEALSO=IMSUB"
 
 #: src/fn-eng.c:1058
 msgid ""
@@ -2354,9 +2334,8 @@ msgid ""
 msgstr ""
 
 #: src/fn-eng.c:1550 src/fn-eng.c:1601
-#, fuzzy
 msgid "Impossible"
-msgstr "¡Imposible!"
+msgstr "Imposible"
 
 #: src/fn-eng.c:1559
 msgid ""
@@ -2396,9 +2375,8 @@ msgid ""
 msgstr ""
 
 #: src/fn-financial.c:144
-#, fuzzy
 msgid "effect - domain error"
-msgstr "acos - error de dominio"
+msgstr "effect - error de dominio"
 
 #: src/fn-financial.c:152
 msgid ""
@@ -2417,9 +2395,8 @@ msgid ""
 msgstr ""
 
 #: src/fn-financial.c:179
-#, fuzzy
 msgid "nominal - domain error"
-msgstr "asin - error de dominio"
+msgstr "nominal - error de dominio"
 
 #: src/fn-financial.c:189
 msgid ""
@@ -2436,9 +2413,8 @@ msgid ""
 msgstr ""
 
 #: src/fn-financial.c:218
-#, fuzzy
 msgid "sln - domain error"
-msgstr "asin - error de dominio"
+msgstr "sln - error de dominio"
 
 #: src/fn-financial.c:224
 msgid ""
@@ -2456,12 +2432,10 @@ msgid ""
 msgstr ""
 
 #: src/fn-financial.c:255
-#, fuzzy
 msgid "syd - domain error"
-msgstr "acos - error de dominio"
+msgstr "syd - error de dominio"
 
 #: src/fn-financial.c:261
-#, fuzzy
 msgid ""
 "@FUNCTION=DOLLARDE\n"
 "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
@@ -2471,13 +2445,13 @@ msgid ""
 "returns #NUM! error. \n"
 "@SEEALSO=DOLLARFR"
 msgstr ""
-"@FUNCTION=FACTDOUBLE\n"
-"@SYNTAX=FACTDOUBLE(número)\n"
-"@DESCRIPTION=La función FACTDOUBLE devuelve la factorial doble de un "
-"número.\n"
-"Si @número no es un entero, será troncado. Si @número es negativo FACTDOUBLE "
+"@FUNCTION=DOLLARDE\n"
+"@SYNTAX=DOLLARDE(fraccional_dólar,fracción)\n"
+"@DESCRIPTION=DOLLARDE convierte un precio en dólares expresado como une "
+"fracción, a un precio en dóalres expresado con decimales.\n"
+"Si @fracción no es un entero, será troncado. Si @fracción<=0 DOLLARDE "
 "devuelve el error #NUM! .\n"
-"@SEEALSO=FACT"
+"@SEEALSO=DOLLARFR"
 
 #: src/fn-financial.c:299
 #, fuzzy
