@@ -1,3 +1,8 @@
+2002-01-02  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/sheet-object-widget.c (sheet_widget_checkbox_construct_with_range):
+	Marked string for translation.
+
 2002-01-01  Jody Goldberg <jody@gnome.org>
 
 	* src/GNOME_Gnumeric.xml : Add some missing ...

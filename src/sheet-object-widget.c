@@ -557,7 +557,7 @@ sheet_widget_checkbox_construct_with_ref (SheetObjectWidget *sow,
 
 	g_return_if_fail (swc != NULL);
 
-	swc->label = label ? g_strdup (label) : g_strdup_printf ("CheckBox %d", ++counter);
+	swc->label = label ? g_strdup (label) : g_strdup_printf (_("CheckBox %d"), ++counter);
 	swc->being_updated = FALSE;
 	swc->value = FALSE;
 	swc->dep.sheet = NULL;
