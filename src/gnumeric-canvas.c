@@ -93,6 +93,7 @@ move_cursor (GnumericSheet *gsheet, int col, int row, gboolean clear_selection)
 		sheet_selection_reset_only (sheet);
 
 	/* Set the cursor BEFORE making it visible to decrease flicker */
+	workbook_finish_editing (gsheet->sheet_view->wbcg, TRUE);
 	sheet_cursor_set (sheet, col, row, col, row, col, row);
 	sheet_make_cell_visible (sheet, col, row);
 
@@ -690,12 +691,9 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 
 	case GDK_KP_Home:
 	case GDK_Home:
-		if ((event->state & GDK_CONTROL_MASK) != 0) {
-			/* Set the cursor BEFORE making it visible to decrease flicker */
-			sheet_cursor_set (sheet, 0, 0, 0, 0, 0, 0);
-			sheet_make_cell_visible (sheet, 0, 0);
-			break;
-		} else
+		if ((event->state & GDK_CONTROL_MASK) != 0)
+			move_cursor (gsheet, 0, 0, TRUE);
+		else
 			(*movefn_horizontal)(gsheet, -sheet->cursor.edit_pos.col, FALSE);
 		break;
 

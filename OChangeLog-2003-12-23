@@ -1,5 +1,14 @@
 2000-11-01  Jody Goldberg <jgoldberg@home.com>
 
+	* */*.[ch] : s/SheetView::sheet_view/SheetView::canvas/
+	  This has been bugging me for months.
+
+	* src/gnumeric-sheet.c (move_cursor) : stop the edit at this level
+	  rather than in sheet_cursor_set.
+	(gnumeric_sheet_key_mode_sheet) : Use move_cursor.
+
+2000-11-01  Jody Goldberg <jgoldberg@home.com>
+
 	* src/ranges.c (range_translate) : Split sanity check into new function.
 	(range_check_sanity) : here.
 

@@ -40,7 +40,7 @@
 #    include <libgnorba/gnorba.h>
 #endif
 
-#define GNUMERIC_SHEET_VIEW(p) GNUMERIC_SHEET (SHEET_VIEW(p)->sheet_view);
+#define GNUMERIC_SHEET_VIEW(p) GNUMERIC_SHEET (SHEET_VIEW(p)->canvas);
 
 static void sheet_redraw_partial_row (Sheet const *sheet, int const row,
 				      int const start_col, int const end_col);

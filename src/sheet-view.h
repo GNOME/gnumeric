@@ -21,7 +21,7 @@ struct _SheetView {
 
 	Sheet            *sheet;
 	WorkbookControlGUI     *wbcg;	/* FIXME : How does sheet-view relate to workbook-control */
-	GtkWidget        *sheet_view;
+	GtkWidget        *canvas;
 	GtkWidget	 *select_all_btn;
 	GnomeCanvas      *col_canvas, *row_canvas;
 	GnomeCanvasItem  *col_item, *row_item;

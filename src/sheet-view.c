@@ -38,7 +38,7 @@ sheet_view_redraw_all (SheetView *sheet_view)
 	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
 
 	gnome_canvas_request_redraw (
-		GNOME_CANVAS (sheet_view->sheet_view),
+		GNOME_CANVAS (sheet_view->canvas),
 		0, 0, INT_MAX, INT_MAX);
 	gnome_canvas_request_redraw (
 		GNOME_CANVAS (sheet_view->col_canvas),
@@ -64,7 +64,7 @@ sheet_view_redraw_cell_region (SheetView *sheet_view,
 	g_return_if_fail (sheet_view != NULL);
 	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
 
-	gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
+	gsheet = GNUMERIC_SHEET (sheet_view->canvas);
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 	canvas = GNOME_CANVAS (gsheet);
 
@@ -109,7 +109,7 @@ sheet_view_redraw_headers (SheetView *sheet_view,
 	g_return_if_fail (sheet_view != NULL);
 	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
 
-	gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
+	gsheet = GNUMERIC_SHEET (sheet_view->canvas);
 
 	if (col) {
 		int left = 0, right = INT_MAX-1;
@@ -167,7 +167,7 @@ sheet_view_update_cursor_pos (SheetView *sheet_view)
 	g_return_if_fail (sheet_view != NULL);
 	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
 
-	gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
+	gsheet = GNUMERIC_SHEET (sheet_view->canvas);
 
 	/* Repsition the selection cursor */
 	item_cursor_reposition (gsheet->item_cursor);
@@ -187,7 +187,7 @@ sheet_view_set_zoom_factor (SheetView *sheet_view, double factor)
 	g_return_if_fail (sheet_view != NULL);
 	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
 
-	gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
+	gsheet = GNUMERIC_SHEET (sheet_view->canvas);
 	col_item = ITEM_BAR (sheet_view->col_item);
 	row_item = ITEM_BAR (sheet_view->row_item);
 
@@ -269,7 +269,7 @@ sheet_view_scrollbar_config (SheetView const *sheet_view)
 {
 	GtkAdjustment *va = GTK_ADJUSTMENT (sheet_view->va);
 	GtkAdjustment *ha = GTK_ADJUSTMENT (sheet_view->ha);
-	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
+	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->canvas);
 	Sheet         *sheet = sheet_view->sheet;
 	int const last_col = gsheet->col.last_full;
 	int const last_row = gsheet->row.last_full;
@@ -340,7 +340,7 @@ static void
 sheet_view_col_selection_changed (ItemBar *item_bar, int col, int modifiers, SheetView *sheet_view)
 {
 	Sheet *sheet = sheet_view->sheet;
-	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
+	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->canvas);
 
 	if (modifiers){
 		if ((modifiers & GDK_SHIFT_MASK) && sheet->selections){
@@ -394,7 +394,7 @@ static void
 sheet_view_row_selection_changed (ItemBar *item_bar, int row, int modifiers, SheetView *sheet_view)
 {
 	Sheet *sheet = sheet_view->sheet;
-	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
+	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->canvas);
 
 	if (modifiers){
 		if ((modifiers & GDK_SHIFT_MASK) && sheet->selections){
@@ -483,7 +483,7 @@ horizontal_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet
 		gtk_widget_show_all (gtk_widget_get_toplevel (sheet_view->tip));
 
 	} else if (event->type == GDK_BUTTON_RELEASE) {
-		GnumericSheet  *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
+		GnumericSheet  *gsheet = GNUMERIC_SHEET (sheet_view->canvas);
 		int col;
 
 		/* A button release can be generated without a press by people
@@ -512,7 +512,7 @@ vertical_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet_v
 		gtk_widget_show_all (gtk_widget_get_toplevel (sheet_view->tip));
 
 	} else if (event->type == GDK_BUTTON_RELEASE) {
-		GnumericSheet  *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
+		GnumericSheet  *gsheet = GNUMERIC_SHEET (sheet_view->canvas);
 		int row;
 
 		/* A button release can be generated without a press by people
@@ -581,7 +581,7 @@ sheet_view_construct (SheetView *sheet_view)
 			    sheet_view);
 
 	/* Create the gnumeric sheet canvas */
-	sheet_view->sheet_view = gnumeric_sheet_new (
+	sheet_view->canvas = gnumeric_sheet_new (
 		sheet_view,
 		ITEM_BAR (sheet_view->col_item),
 		ITEM_BAR (sheet_view->row_item));
@@ -592,7 +592,7 @@ sheet_view_construct (SheetView *sheet_view)
 
 	/* Create the object group inside the GnumericSheet */
 	root_group = GNOME_CANVAS_GROUP (
-		GNOME_CANVAS (sheet_view->sheet_view)->root);
+		GNOME_CANVAS (sheet_view->canvas)->root);
 	sheet_view->object_group = GNOME_CANVAS_GROUP (
 		gnome_canvas_item_new (
 			root_group,
@@ -602,12 +602,12 @@ sheet_view_construct (SheetView *sheet_view)
 			NULL));
 
 	/* Attach the GnumericSheet */
-	gtk_table_attach (table, sheet_view->sheet_view,
+	gtk_table_attach (table, sheet_view->canvas,
 			  1, 2, 1, 2,
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			  0, 0);
-	gtk_widget_show (sheet_view->sheet_view);
+	gtk_widget_show (sheet_view->canvas);
 
 	i = sizeof (sheet_view->control_points)/sizeof(GnomeCanvasItem *);
 	while (i-- > 0)
@@ -759,7 +759,7 @@ sheet_view_get_type (void)
 void
 sheet_view_hide_cursor (SheetView *sheet_view)
 {
-	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
+	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->canvas);
 
 	item_cursor_set_visibility (gsheet->item_cursor, FALSE);
 }
@@ -767,7 +767,7 @@ sheet_view_hide_cursor (SheetView *sheet_view)
 void
 sheet_view_show_cursor (SheetView *sheet_view)
 {
-	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
+	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->canvas);
 
 	item_cursor_set_visibility (gsheet->item_cursor, TRUE);
 }
@@ -793,7 +793,7 @@ sheet_view_comment_get_points (SheetView *sheet_view, int col, int row)
 	points->coords [5] = y + TRIANGLE_WIDTH;
 
 	for (i = 0; i < 3; i++){
-		gnome_canvas_c2w (GNOME_CANVAS (sheet_view->sheet_view),
+		gnome_canvas_c2w (GNOME_CANVAS (sheet_view->canvas),
 				  points->coords [i*2],
 				  points->coords [i*2+1],
 				  &(points->coords [i*2]),
@@ -812,7 +812,7 @@ sheet_view_comment_create_marker (SheetView *sheet_view, int col, int row)
 	g_return_val_if_fail (sheet_view != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET_VIEW (sheet_view), NULL);
 
-	group = GNOME_CANVAS_GROUP (GNOME_CANVAS (sheet_view->sheet_view)->root);
+	group = GNOME_CANVAS_GROUP (GNOME_CANVAS (sheet_view->canvas)->root);
 	points = sheet_view_comment_get_points (sheet_view, col, row);
 
 	i = gnome_canvas_item_new (
@@ -872,7 +872,7 @@ sheet_view_selection_ant (SheetView *sheet_view)
 		sheet_view_selection_unant (sheet_view);
 
 	group = sheet_view->selection_group;
-	grid = GNUMERIC_SHEET (sheet_view->sheet_view)->item_grid;
+	grid = GNUMERIC_SHEET (sheet_view->canvas)->item_grid;
 
 	for (l = sheet_view->sheet->selections; l; l = l->next){
 		SheetSelection *ss = l->data;
@@ -964,7 +964,7 @@ static gint
 sheet_view_sliding_callback (gpointer data)
 {
 	SheetView *sheet_view = data;
-	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
+	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->canvas);
 	gboolean change = FALSE;
 	int col, row;
 
@@ -1056,7 +1056,7 @@ sheet_view_start_sliding (SheetView *sheet_view,
 			  gpointer user_data,
 			  int col, int row, int dx, int dy)
 {
-	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
+	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->canvas);
 
 	/* Do not slide off the edge */
 	if (((dx == 0) ||

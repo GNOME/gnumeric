@@ -89,7 +89,7 @@ wb_control_gui_focus_cur_sheet (WorkbookControlGUI *wbcg)
 	g_return_val_if_fail (sheet_view != NULL, NULL);
 
 	gtk_window_set_focus (sheet_view->wbcg->toplevel,
-			      sheet_view->sheet_view);
+			      sheet_view->canvas);
 
 	return sheet_view->sheet;
 }
@@ -453,7 +453,7 @@ wbcg_sheet_add (WorkbookControl *wbc, Sheet *sheet)
 	sheet_view = sheet_new_sheet_view (sheet);
 	sheet_view->wbcg = wbcg;
 	gtk_signal_connect (
-		GTK_OBJECT (sheet_view->sheet_view), "destroy",
+		GTK_OBJECT (sheet_view->canvas), "destroy",
 		GTK_SIGNAL_FUNC (yield_focus),
 		wbcg->toplevel);
 

@@ -636,7 +636,7 @@ cb_extend_cell_range (SheetView *sheet_view, int col, int row, gpointer ignored)
 static gboolean
 cb_extend_expr_range (SheetView *sheet_view, int col, int row, gpointer ignored)
 {
-	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
+	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->canvas);
 	gnumeric_sheet_selection_extend (gsheet, col, row);
 	return TRUE;
 }

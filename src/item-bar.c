@@ -219,7 +219,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 {
 	ItemBar const * const item_bar = ITEM_BAR (item);
 	Sheet   const * const sheet = item_bar->sheet_view->sheet;
-	GnumericSheet const * const gsheet = GNUMERIC_SHEET (item_bar->sheet_view->sheet_view);
+	GnumericSheet const * const gsheet = GNUMERIC_SHEET (item_bar->sheet_view->canvas);
 	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (item)->canvas);
 	int pixels;
 	GdkRectangle rect;
@@ -397,7 +397,7 @@ item_bar_start_resize (ItemBar *bar)
 							 GTK_ORIENTATION_VERTICAL);
 #endif
 	double const zoom = sheet->last_zoom_factor_used; /* * res / 72.; */
-	GnumericSheet const * const gsheet = GNUMERIC_SHEET (bar->sheet_view->sheet_view);
+	GnumericSheet const * const gsheet = GNUMERIC_SHEET (bar->sheet_view->canvas);
 	GnomeCanvas const * const canvas = GNOME_CANVAS (gsheet);
 	GnomeCanvasGroup * const group = GNOME_CANVAS_GROUP (canvas->root);
 	GnomeCanvasPoints * const points =
@@ -532,7 +532,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 	GnomeCanvas * const canvas = item->canvas;
 	ItemBar * const item_bar = ITEM_BAR (item);
 	Sheet   * const sheet = item_bar->sheet_view->sheet;
-	GnumericSheet * const gsheet = GNUMERIC_SHEET (item_bar->sheet_view->sheet_view);
+	GnumericSheet * const gsheet = GNUMERIC_SHEET (item_bar->sheet_view->canvas);
 	gboolean const is_vertical = (item_bar->orientation == GTK_ORIENTATION_VERTICAL);
 #if 0
 	/*

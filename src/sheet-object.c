@@ -23,9 +23,6 @@
 #include <bonobo.h>
 #endif
 
-/* Pulls the GnumericSheet from a SheetView */
-#define GNUMERIC_SHEET_VIEW(p) GNUMERIC_SHEET (SHEET_VIEW(p)->sheet_view);
-
 /* Returns the class for a SheetObject */
 #define SO_CLASS(so) SHEET_OBJECT_CLASS(GTK_OBJECT(so)->klass)
 
@@ -481,8 +478,12 @@ sheet_mode_edit	(Sheet *sheet)
 
 	sheet_mode_clear (sheet);
 	sheet_show_cursor (sheet);
+
+#warning FIXME : this function has no business operating on the model.
+#if 0
 	if (workbook_edit_has_guru (sheet->workbook))
 		workbook_finish_editing (sheet->workbook, FALSE);
+#endif
 }
 
 /*
