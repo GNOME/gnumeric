@@ -70,7 +70,7 @@
 
 		    <child>
 		      <widget class="GtkScrolledWindow" id="scrolled_plugin_list">
-		        <property name="width_request">300</property>
+		        <property name="width_request">400</property>
 			<property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
 			<property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
 			<property name="visible">yes</property>
@@ -90,90 +90,6 @@
 			<property name="spacing">4</property>
 			<property name="visible">yes</property>
 
-			<child>
-			  <widget class="GtkButton" id="button_activate_plugin">
-			    <property name="border_width">4</property>
-			    <property name="sensitive">no</property>
-			    <property name="can_focus">yes</property>
-			    <property name="label" translatable="yes">A_ctivate plugin</property>
-			    <property name="relief">GTK_RELIEF_NORMAL</property>
-			    <property name="visible">yes</property>
-			    <property name="use_underline">yes</property>
-			  </widget>
-			  <packing>
-			    <property name="padding">0</property>
-			    <property name="expand">no</property>
-			    <property name="fill">no</property>
-			  </packing>
-			</child>
-
-			<child>
-			  <widget class="GtkButton" id="button_deactivate_plugin">
-			    <property name="border_width">4</property>
-			    <property name="sensitive">no</property>
-			    <property name="can_focus">yes</property>
-			    <property name="label" translatable="yes">Deac_tivate plugin</property>
-			    <property name="relief">GTK_RELIEF_NORMAL</property>
-			    <property name="visible">yes</property>
-			    <property name="use_underline">yes</property>
-			  </widget>
-			  <packing>
-			    <property name="padding">0</property>
-			    <property name="expand">no</property>
-			    <property name="fill">no</property>
-			  </packing>
-			</child>
-
-			<child>
-			  <widget class="GtkButton" id="button_activate_all">
-			    <property name="border_width">4</property>
-			    <property name="sensitive">no</property>
-			    <property name="can_focus">yes</property>
-			    <property name="label" translatable="yes">_Activate all plugins</property>
-			    <property name="relief">GTK_RELIEF_NORMAL</property>
-			    <property name="visible">yes</property>
-			    <property name="use_underline">yes</property>
-			  </widget>
-			  <packing>
-			    <property name="padding">0</property>
-			    <property name="expand">no</property>
-			    <property name="fill">no</property>
-			  </packing>
-			</child>
-
-			<child>
-			  <widget class="GtkButton" id="button_deactivate_all">
-			    <property name="border_width">4</property>
-			    <property name="sensitive">no</property>
-			    <property name="can_focus">yes</property>
-			    <property name="label" translatable="yes">_Deactivate all plugins</property>
-			    <property name="relief">GTK_RELIEF_NORMAL</property>
-			    <property name="visible">yes</property>
-			    <property name="use_underline">yes</property>
-			  </widget>
-			  <packing>
-			    <property name="padding">0</property>
-			    <property name="expand">no</property>
-			    <property name="fill">no</property>
-			  </packing>
-			</child>
-
-			<child>
-			  <widget class="GtkButton" id="button_rescan_directories">
-			    <property name="border_width">4</property>
-			    <property name="sensitive">yes</property>
-			    <property name="can_focus">yes</property>
-			    <property name="label" translatable="yes">_Scan plugin directories</property>
-			    <property name="relief">GTK_RELIEF_NORMAL</property>
-			    <property name="visible">yes</property>
-			    <property name="use_underline">yes</property>
-			  </widget>
-			  <packing>
-			    <property name="padding">0</property>
-			    <property name="expand">no</property>
-			    <property name="fill">no</property>
-			  </packing>
-			</child>
 		      </widget>
 		      <packing>
 			<property name="padding">0</property>
@@ -506,7 +422,7 @@
             <property name="visible">yes</property>
 		    <child>
 		      <widget class="GtkScrolledWindow" id="scrolled_directories">
-		        <property name="width_request">300</property>
+		        <property name="width_request">400</property>
 			<property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
 			<property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
 			<property name="visible">yes</property>
@@ -562,6 +478,28 @@
 			    <property name="right_attach">2</property>
 			    <property name="top_attach">1</property>
 			    <property name="bottom_attach">2</property>
+			    <property name="x_padding">0</property>
+			    <property name="y_padding">0</property>
+			    <property name="x_options">fill</property>
+			    <property name="y_options"></property>
+			  </packing>
+			</child>
+			<child>
+			  <widget class="GtkButton" id="button_rescan_directories">
+			    <property name="border_width">4</property>
+			    <property name="sensitive">yes</property>
+			    <property name="can_focus">yes</property>
+			    <property name="label">gtk-refresh</property>
+			    <property name="relief">GTK_RELIEF_NORMAL</property>
+			    <property name="visible">yes</property>
+			    <property name="use_stock">yes</property>
+			    <property name="use_underline">yes</property>
+			  </widget>
+			  <packing>
+			    <property name="left_attach">1</property>
+			    <property name="right_attach">2</property>
+			    <property name="top_attach">2</property>
+			    <property name="bottom_attach">3</property>
 			    <property name="x_padding">0</property>
 			    <property name="y_padding">0</property>
 			    <property name="x_options">fill</property>
