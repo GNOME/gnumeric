@@ -138,7 +138,7 @@ logspace_sub (gnm_float logx, gnm_float logy)
 	return logx + gnm_log1p (-gnm_exp (logy - logx));
 }
 
-#if 0
+
 static gnm_float
 logspace_signed_add (gnm_float logx, gnm_float logabsy, gboolean ypos)
 {
@@ -146,7 +146,6 @@ logspace_signed_add (gnm_float logx, gnm_float logabsy, gboolean ypos)
 		? logspace_add (logx, logabsy)
 		: logspace_sub (logx, logabsy);
 }
-#endif
 
 /* ------------------------------------------------------------------------- */
 /* --- BEGIN MAGIC R SOURCE MARKER --- */
@@ -5157,19 +5156,22 @@ pbeta_smalla (gnm_float x, gnm_float a, gnm_float b, gboolean lower_tail, gboole
  */
 static gnm_float
 tdistexp (gnm_float p, gnm_float q, gnm_float logqk2, gnm_float k,
-	  gnm_float *approxtdistDens)
+	  gboolean log_p, gnm_float *approxtdistDens)
 {
 	const gnm_float sumAcc = 5E-16;
 	const gnm_float cfVSmall = 1.0e-14;
 	const gnm_float lstpi = gnm_log (2 * M_PIgnum) / 2;
 
-	if (gnm_floor (k / 2) * 2 == k)
-		*approxtdistDens = gnm_exp (logqk2 + logfbit (k - 1) - 2 * logfbit (k * 0.5 - 1) - lstpi);
-	else
-		*approxtdistDens = gnm_exp (logqk2 + k * log1pmx (1 / k) + 2 * logfbit ((k - 1) * 0.5) - logfbit (k - 1) - lstpi);
+	if (gnm_floor (k / 2) * 2 == k) {
+		gnm_float ldens = logqk2 + logfbit (k - 1) - 2 * logfbit (k * 0.5 - 1) - lstpi;
+		*approxtdistDens = R_D_exp (ldens);
+	} else {
+		gnm_float ldens = logqk2 + k * log1pmx (1 / k) + 2 * logfbit ((k - 1) * 0.5) - logfbit (k - 1) - lstpi;
+		*approxtdistDens = R_D_exp (ldens);
+	}
 
 	if (k * p < 4 * q) {
-		gnm_float sum = 1;
+		gnm_float sum = 0;
 		gnm_float aki = k + 1;
 		gnm_float ai = 3;
 		gnm_float term = aki * p / ai;
@@ -5182,7 +5184,9 @@ tdistexp (gnm_float p, gnm_float q, gnm_float logqk2, gnm_float k,
 		}
 		sum += term;
 
-		return 0.5 - *approxtdistDens * sum * gnm_sqrt (k * p);
+		return log_p
+			? logspace_sub (-M_LN2gnum, *approxtdistDens + gnm_log1p (sum) + gnm_log (k * p) / 2)
+			: 0.5 - *approxtdistDens * (sum + 1) * gnm_sqrt (k * p);
 	} else {
 		gnm_float q1 = 2 * (1 + q);
 		gnm_float q8 = 8 * q;
@@ -5219,7 +5223,9 @@ tdistexp (gnm_float p, gnm_float q, gnm_float logqk2, gnm_float k,
 			}
 		}
 
-		return *approxtdistDens * (1 - q * a2 / b2) / gnm_sqrt (k * p);
+		return log_p
+			? *approxtdistDens + gnm_log1p (-q * a2 / b2) - gnm_log (k * p) / 2
+			: *approxtdistDens * (1 - q * a2 / b2) / gnm_sqrt (k * p);
 	}
 }
 
@@ -5232,7 +5238,7 @@ static gnm_float
 binApprox (gnm_float a, gnm_float b, gnm_float diffFromMean,
            gboolean lower_tail, gboolean log_p)
 {
-	gnm_float pq1, res, comt, comf, t;
+	gnm_float pq1, res, t;
 	gnm_float ib05, ib15, ib25, ib35, ib3;
 	gnm_float elfb, coef15, coef25, coef35;
 	gnm_float approxtdistDens;
@@ -5250,7 +5256,8 @@ binApprox (gnm_float a, gnm_float b, gnm_float diffFromMean,
 	mfac = 2 * mfac;
 
 	ib3 = ib2 + mfac*t1;
-	ib05 = tdistexp (tp, 1 - tp, n1 * lval, 2 * n1, &approxtdistDens);
+	ib05 = tdistexp (tp, 1 - tp, n1 * lval, 2 * n1, log_p, &approxtdistDens);
+
 	ib15 = gnm_sqrt (mfac);
 	mfac = t1 * (GNM_const (2.0) / 3);
 	ib25 = 1 + mfac;
@@ -5260,23 +5267,28 @@ binApprox (gnm_float a, gnm_float b, gnm_float diffFromMean,
 
 	res = (ib2 * (1 + 2 * pq1) / 135 - 2 * ib3 * ((2 * pq1 - 43) * pq1 - 22) / (2835 * (n + 3))) / (n + 2);
 	res = (GNM_const (1.0) / 3 - res) * 2 * gnm_sqrt (pq1 / n1) * (a - b) / n;
+	if (lvv > 0) {
+		res = -res;
+		lower_tail = !lower_tail;
+	}
 
 	n1 = (n + 1.5) * (n + 2.5);
 	coef15 = (-17 + 2 * pq1) / (24 * (n + 1.5));
 	coef25 = (-503 + 4 * pq1 * (19 + pq1)) / (1152 * n1);
 	coef35 = (-315733 + pq1 * (53310 + pq1 * (8196 - 1112 * pq1))) /
 		(414720 * n1 * (n + 3.5));
-	elfb = ((coef35 + coef25) + coef15) + 1;
+	elfb = (coef35 + coef25) + coef15;
+	res += ib15 * ((coef35 * ib35 + coef25 * ib25) + coef15);
 
-	comt = ib15 * ((coef35 * ib35 + coef25 * ib25) + coef15);
-	comf = approxtdistDens / elfb;
+	t = log_p
+		? logspace_signed_add (ib05,
+				       gnm_log (gnm_abs (res)) + approxtdistDens - gnm_log1p (elfb),
+				       res >= 0)
+		: ib05 + res * approxtdistDens / (1 + elfb);
 
-	if (lvv > 0)
-		t = ib05 - (res - comt) * comf;
-	else
-		t = ib05 + (res + comt) * comf;
-
-	return (!lower_tail != (lvv > 0)) ? R_D_Clog (t) : R_D_val (t);
+	return lower_tail
+		? t
+		: log_p ? swap_log_tail (t) : (1 - t);
 }
 
 /* Probability that binomial variate with sample size i+j and

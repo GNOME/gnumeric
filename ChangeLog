@@ -1,5 +1,9 @@
 2005-03-24  Morten Welinder  <terra@gnome.org>
 
+	* src/mathfunc.c (tdistexp): Take a log_p flag.  Improve accuracy
+	a tiny bit, mostly in the log case.
+	(binApprox): Move logs earlier and improve log case's accuracy.
+
 	* src/application.c (gnm_app_get_pixbuf): Use non-zero size.
 
 	* src/print.c (print_hf_element): If we have no format, don't
