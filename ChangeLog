@@ -1,5 +1,9 @@
 2001-12-31  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.0.0
+
+2001-12-31  Jody Goldberg <jody@gnome.org>
+
 	* src/sheet-autofill.c (in_list) : remove pointless checking for lists
 	  in english and another language.
 
