@@ -1,3 +1,7 @@
+2000-12-20  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* templates/autoformat/*.xml: Added Polish translations.
+
 2000-12-20  Morten Welinder  <terra@diku.dk>
 
 	* src/file-autoft.c: Include <config.h>.
