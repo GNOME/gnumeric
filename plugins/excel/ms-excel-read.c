@@ -734,7 +734,7 @@ excel_sheet_new (ExcelWorkbook *ewb, char const *sheet_name, GnmSheetType type)
 
 	sheet = workbook_sheet_by_name (ewb->gnum_wb, sheet_name);
 	if (sheet == NULL) {
-		sheet = sheet_new_special (ewb->gnum_wb, sheet_name, type);
+		sheet = sheet_new_with_type (ewb->gnum_wb, sheet_name, type);
 		workbook_sheet_attach (ewb->gnum_wb, sheet, NULL);
 		d (1, fprintf (stderr,"Adding sheet '%s'\n", sheet_name););
 	}

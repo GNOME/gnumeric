@@ -140,7 +140,7 @@ sheet_detach_view (SheetView *sv)
 }
 
 /**
- * sheet_new_special :
+ * sheet_new_with_type :
  * @wb    : #Workbook
  * @name  : An unquoted name in utf8
  * @type  : @GnmSheetType
@@ -149,7 +149,7 @@ sheet_detach_view (SheetView *sv)
  * The type can not be changed later
  **/
 Sheet *
-sheet_new_special (Workbook *wb, char const *name, GnmSheetType type)
+sheet_new_with_type (Workbook *wb, char const *name, GnmSheetType type)
 {
 	Sheet  *sheet;
 
@@ -260,7 +260,7 @@ sheet_new_special (Workbook *wb, char const *name, GnmSheetType type)
 Sheet *
 sheet_new (Workbook *wb, char const *name)
 {
-	return sheet_new_special (wb, name, GNM_SHEET_DATA);
+	return sheet_new_with_type (wb, name, GNM_SHEET_DATA);
 }
 
 struct resize_colrow {
@@ -1675,6 +1675,7 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int move_row,
 					return (find_nonblank || iterations == 1) ? bound->end.col : prev_col;
 				new_col = sheet->cols.max_used;
 			}
+
 			keep_looking |= (sheet_is_cell_empty (sheet, new_col, move_row) == find_nonblank);
 			if (keep_looking)
 				prev_col = new_col;
@@ -1690,7 +1691,6 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int move_row,
 			}
 		}
 	} while (keep_looking);
-
 
 	return new_col;
 }
