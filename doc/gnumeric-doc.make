@@ -34,4 +34,8 @@ EXTRA_DIST +=		\
 .PHONY : html
 html :
 	-mkdir -p html
-	xsltproc --noout -o html/ $(top_srcdir)/../gnome-docu/gdp/xsl/general-customization.xsl gnumeric.xml
+	xsltproc -o html/	\
+	--stringparam yelp_chunk_method exslt	\
+	--stringparam yelp_max_chunk_depth 4	\
+	--stringparam yelp_generate_navbar 1 	\
+	$(datadir)/sgml/docbook/yelp/yelp-customization.xsl gnumeric.xml

@@ -63,5 +63,3 @@ entities =  about-authors.xml \
 EXTRA_DIST = gnumeric.1
 
 include $(top_srcdir)/doc/gnumeric-doc.make
-
-

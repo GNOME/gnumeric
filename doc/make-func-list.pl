@@ -1,36 +1,53 @@
 use strict;
 
 my $state = 0;
+my $cat = "";
+my $func = "";
 
 while (<>) {
     s/\s+$//;
     if (/^\@CATEGORY=(.*)/) {
+	if ($cat ne $1) {
+	    if ($cat ne "") {
+		print "</sect2>\n";
+	    }
+	    $cat = $1;
+	    my $cat_id = "CATEGORY_" . $cat;
+	    $cat_id =~ s/\s+/_/g;
+	    $cat_id =~ s/[^A-Za-z_]//g;
+	    print "<sect2 id=\"$cat_id\">\n";
+	    print "  <title>", &quote_stuff ($cat), "</title>\n";
+	}
 	$state = 0;
     }
     if (/^\@FUNCTION=(.*)/) {
 	if ($state) {
-	    printf "\n";
+	    if ($state == 3) {
+		print "        </itemizedlist>\n";
+	    }
 	    print "      </refsect1>\n";
 	    print "    </refentry>\n\n";
 	}
-	my $func = $1;
+	$func = $1;
 	my $mod_func = &fixup_function_name ($1);
 	$state = 0;
 	print "\n\n";
 	print "  <refentry id=\"gnumeric-$mod_func\">\n";
 	print "    <refmeta>\n";
-	print "      <refentrytitle>$func</refentrytitle>\n";
+	print "      <refentrytitle><function>$func</function></refentrytitle>\n";
 	print "    </refmeta>\n";
 	print "    <refnamediv>\n";
-	print "      <refname>$func</refname>\n";
+	print "      <refname><function>$func</function></refname>\n";
 	print "      <refpurpose></refpurpose>\n";
 	print "    </refnamediv>\n";
 	next;
     }
 
     if (/^\@SYNTAX=(.*)/) {
+	my $str = &markup_stuff ($1);
+	$str =~ s/([\(\,])(\w*)/\1<parameter>\2<\/parameter>/g;
 	print "    <refsynopsisdiv>\n";
-	print "      <synopsis>", &quote_stuff ($1), "</synopsis>\n";
+	print "      <synopsis>$str</synopsis>\n";
 	print "    </refsynopsisdiv>\n";
 	next;
     }
@@ -38,18 +55,21 @@ while (<>) {
     if (/^\@DESCRIPTION=(.*)/) {
 	print "    <refsect1>\n";
 	print "      <title>Description</title>\n";
-	print "      <para>", &quote_stuff ($1), "</para>\n";
+	print "      <para>", &markup_stuff ($1), "</para>\n";
 	$state = 1;
 	next;
     }
 
     if (/^\@EXAMPLES=(.*)/) {
 	if ($state) {
-	    print "\n    </refsect1>";
+	    if ($state == 3) {
+		print "        </itemizedlist>\n";
+	    }
+	    print "    </refsect1>\n";
 	}
-	print "\n    <refsect1>\n";
+	print "    <refsect1>\n";
 	print "      <title>Examples</title>\n";
-	print "      <para>", &quote_stuff ($1), "</para>";
+	print "      <para>", &markup_stuff ($1), "</para>\n";
 	$state = 2;
 	next;
     }
@@ -61,15 +81,15 @@ while (<>) {
 	my @links = split (/,/, $linktxt);
 
 	if ($state) {
-	    print "\n    </refsect1>";
+	    print "    </refsect1>\n";
 	}
-	print "\n    <refsect1>\n";
+	print "    <refsect1>\n";
 	print "      <title>See also</title>\n";
 	my @a = ();
 	print   "      <para>\n";
 	foreach my $link (@links) {
 	    my $fixed_name = &fixup_function_name ($link);
-	    push @a, "        <link linkend=\"gnumeric-$fixed_name\">$link</link>";
+	    push @a, "        <link linkend=\"gnumeric-$fixed_name\"><function>$link</function></link>";
 	}
 	if (@a > 0) {
 	    print join (",\n", @a), ".\n";
@@ -82,10 +102,37 @@ while (<>) {
     }
 
     if ($state) {
-	print "        <para>", &quote_stuff ($_), "</para>";
+	if (/^\*\s/) {
+	    my $str = &markup_stuff ($_);
+	    $str =~ s/^\*\s+//;
+	    if ($state ne 3) {
+		print "        <itemizedlist>\n";
+		$state = 3;
+	    }
+	    print "          <listitem><para>$str</para></listitem>\n";
+	}
+	elsif ($_ ne "") {
+	    if ($state == 3) {
+		print "        </itemizedlist>\n";
+		$state = 1;
+	    }
+	    print "        <para>", &markup_stuff ($_), "</para>\n";
+	}
     }
 }
 
+print "</sect2>\n";
+
+sub markup_stuff {
+    my ($str) = @_;
+
+    $str = &quote_stuff ($str);
+
+    $str =~ s/\b$func\b/<function>$func<\/function>/g;
+    $str =~ s/\@(\w*)\b/<parameter>\1<\/parameter>/g;
+
+    return $str;
+}
 
 sub quote_stuff {
     my ($str) = @_;
@@ -104,3 +151,4 @@ sub fixup_function_name {
 #    $name =~ s/_/x/g;
     return $name;
 }
+
