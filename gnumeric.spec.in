@@ -9,7 +9,7 @@ Summary: the GNOME spreadsheet
 Name: 		gnumeric
 Version: 	@VERSION@
 Release: 	%rel
-Copyright: 	GPL
+License: 	GPL
 Group: 		Applications/Productivity
 Source: ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric/gnumeric-%{version}.tar.gz
 Url:		http://www.gnome.org/gnumeric
