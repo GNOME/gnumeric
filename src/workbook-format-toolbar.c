@@ -402,7 +402,7 @@ static GnomeUIInfo workbook_format_toolbar [] = {
 	/* Button to replace font and size selectors in vertical mode */
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Font"), N_("Font selector"),
-		&cb_font_name, "Font"),
+		&cb_font_name, GNOME_STOCK_PIXMAP_FONT),
 	{ GNOME_APP_UI_TOGGLEITEM,
 		N_("Bold"), N_("Bold"),
 		&cb_font_bold, NULL, NULL,
