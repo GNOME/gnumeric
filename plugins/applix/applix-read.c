@@ -3,9 +3,6 @@
 /*
  * applix-read.c : Routines to read applix version 4 & 5 spreadsheets.
  *
- * I have no docs or specs for this format that are useful.
- * This is a guess based on some sample sheets.
- *
  * Copyright (C) 2000-2002 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
@@ -24,8 +21,10 @@
  * USA
  */
 
-/* Used docs from
- * http://www.vistasource.com/products/axware/fileformats/wptchc01.html
+/*
+ * I do not have much in the way of useful docs.
+ * This is a guess based on some sample sheets with a few pointers from
+ * 	http://www.vistasource.com/products/axware/fileformats/wptchc01.html
  */
 
 #include <gnumeric-config.h>
@@ -786,6 +785,17 @@ applix_width_to_pixels (int width)
 }
 
 static int
+applix_read_current_view (ApplixReadState *state, unsigned char *buffer)
+{
+	/* What is this ? */
+	unsigned char *ptr;
+	while (NULL != (ptr = applix_get_line (state)))
+	       if (!a_strncmp (ptr, "End View, Name: ~Current~"))
+		       return 0;
+	return -1;
+}
+
+static int
 applix_read_view (ApplixReadState *state, unsigned char *buffer)
 {
 	Sheet *sheet = NULL;
@@ -830,7 +840,7 @@ applix_read_view (ApplixReadState *state, unsigned char *buffer)
 				return applix_parse_error (state, "Invalid default column width");
 
 			sheet_col_set_default_size_pixels (sheet,
-							   applix_width_to_pixels (width));
+				applix_width_to_pixels (width));
 		} else if (!a_strncmp (buffer, "View Default Row Height: ")) {
 			char *ptr, *tmp = buffer + 25;
 			int height = strtol (tmp, &ptr, 10);
@@ -839,7 +849,7 @@ applix_read_view (ApplixReadState *state, unsigned char *buffer)
 
 			/* height + one for the grid line */
 			sheet_row_set_default_size_pixels (sheet,
-							   applix_height_to_pixels (height));
+				applix_height_to_pixels (height));
 		} else if (!a_strncmp (buffer, "View Row Heights: ")) {
 			char *ptr = buffer + 17;
 			do {
@@ -1183,7 +1193,11 @@ applix_read_impl (ApplixReadState *state)
 			if (applix_read_attributes (state))
 				return applix_parse_error (state, "Invalid attribute table");
 
-		} else if (!a_strncmp (buffer, "View, Name: ~")) {
+		} else if (!a_strncmp (buffer, "View, Name: ~Current~")) {
+			if (0 != applix_read_current_view (state, buffer))
+				return applix_parse_error (state, "Invalid view");
+
+		} else if (!a_strncmp (buffer, "View Start, Name: ~")) {
 			if (0 != applix_read_view (state, buffer))
 				return applix_parse_error (state, "Invalid view");
 

@@ -1,5 +1,10 @@
 2002-06-14  Jody Goldberg <jody@gnome.org>
 
+	* applix-read.c (applix_read_view) : current views are magic, ignore
+	  them.
+
+2002-06-14  Jody Goldberg <jody@gnome.org>
+
 	* applix-read.c (applix_read_cells) : be more expressive and lenient
 	  when dealing with parse errors.
 	(applix_get_line) : handle the 8bit character encoding.  TODO : add
