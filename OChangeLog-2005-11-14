@@ -1,3 +1,7 @@
+2002-01-03  Morten Welinder  <terra@diku.dk>
+
+	* src/datetime.c (datetime_serial_to_timet): New function.
+
 2002-01-03  Jody Goldberg <jody@gnome.org>
 
 	* src/xml-io.c (xml_read_style_condition_chain) : no need to unref

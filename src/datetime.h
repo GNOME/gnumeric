@@ -24,6 +24,7 @@ int datetime_timet_to_serial (time_t t);
 GDate* datetime_value_to_g (const Value *v);
 int datetime_g_to_serial (GDate *date);
 GDate* datetime_serial_to_g (int serial);
+time_t datetime_serial_to_timet (int serial);
 int datetime_serial_raw_to_serial (gnum_float raw);
 
 /* These are time-only assuming a 24h day.  It probably loses completely on */

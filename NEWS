@@ -8,6 +8,9 @@ Jody:
 	* Some missing '...' in menu names
 	* Rename 'Summary' menu -> 'Properties'
 
+Morten:
+	* DATE2UNIX and UNIX2DATE.
+
 --------------------------------------------------------------------------
 Gnumeric 1.0.0
 

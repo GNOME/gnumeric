@@ -135,6 +135,23 @@ datetime_timet_to_serial (time_t t)
 
 /* ------------------------------------------------------------------------- */
 
+time_t
+datetime_serial_to_timet (int serial)
+{
+	GDate* gd = datetime_serial_to_g (serial);
+	struct tm tm;
+
+	if (!gd)
+		return (time_t)-1;
+
+	g_date_to_struct_tm (gd, &tm);
+	g_date_free (gd);
+
+	return mktime (&tm);
+}
+
+/* ------------------------------------------------------------------------- */
+
 GDate *
 datetime_value_to_g (const Value *v)
 {

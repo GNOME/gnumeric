@@ -93,6 +93,67 @@ gnumeric_date (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+static char *help_unix2date = {
+	N_("@FUNCTION=UNIX2DATE\n"
+	   "@SYNTAX=UNIX2DATE(unixtime)\n"
+
+	   "@DESCRIPTION="
+	   "UNIX2DATE converts a unix time into a spreadsheet date and time.\n"
+	   "\n"
+	   "A unix time is the number of seconds since midnight January 1, 1970.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=NOW, DATE, DATE2UNIX")
+};
+
+static Value *
+gnumeric_unix2date (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float futime = value_get_as_float (argv [0]);
+	time_t utime = (time_t)futime;
+
+	/* Check for overflow.  */
+	if (fabs (futime - utime) >= 1.0)
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
+
+	return value_new_float (datetime_timet_to_serial_raw (utime) +
+				(futime - utime));
+}
+
+/***************************************************************************/
+
+static char *help_date2unix = {
+	N_("@FUNCTION=DATE2UNIX\n"
+	   "@SYNTAX=DATE2UNIX(serial)\n"
+
+	   "@DESCRIPTION="
+	   "DATE2UNIX converts a spreadsheet date and time serial number "
+	   "into a unix time.\n"
+	   "\n"
+	   "A unix time is the number of seconds since midnight January 1, 1970.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=NOW, DATE, UNIX2DATE")
+};
+
+static Value *
+gnumeric_date2unix (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float fserial = value_get_as_float (argv [0]);
+	int serial = (int)fserial;
+	time_t utime = datetime_serial_to_timet (serial);
+
+	/* Check for overflow.  */
+	if (fabs (fserial - serial) >= 1.0 || utime == (time_t)-1)
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
+
+	return value_new_float (utime + (fserial - serial));
+}
+
+/***************************************************************************/
+
 static char *help_datevalue = {
 	N_("@FUNCTION=DATEVALUE\n"
 	   "@SYNTAX=DATEVALUE(date_str)\n"
@@ -1049,6 +1110,15 @@ date_functions_init(void)
 				 "year,month,day",
 				 &help_date,	      gnumeric_date);
 	auto_format_function_result (def, AF_DATE);
+
+	def = function_add_args (cat, "unix2date",      "f",
+				 "unixtime",
+				 &help_unix2date, gnumeric_unix2date);
+	auto_format_function_result (def, AF_DATE);
+
+	def = function_add_args (cat, "date2unix",      "f",
+				 "serial",
+				 &help_date2unix, gnumeric_date2unix);
 
 	def = function_add_args (cat,  "datevalue",      "S",
 				 "date_str",

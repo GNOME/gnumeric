@@ -1,3 +1,8 @@
+2002-01-03  Morten Welinder  <terra@diku.dk>
+
+	* fn-date.c (gnumeric_date2unix): New function.
+	(gnumeric_unix2date): New function.
+
 2001-12-31  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.0.0
