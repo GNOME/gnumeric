@@ -50,7 +50,7 @@ reload_preview (FontSelector *fs)
 		 fs->is_bold ? GNOME_FONT_BOLD : GNOME_FONT_BOOK,
 		 fs->is_italic,
 		 fs->size,
-		 1.0);
+		 fs->resolution_adjustment_factor);
 
 	 if (!display_font) {
 		 g_warning ("Uh oh, cannot get the display font");
@@ -245,6 +245,7 @@ fs_init (FontSelector *fs)
 
 	fs->size = 10;
 	fs->is_bold = fs->is_italic = FALSE;
+	fs->resolution_adjustment_factor = 1.;
 	fs->font_name_entry  = glade_xml_get_widget (fs->gui, "font-name-entry");
 	fs->font_style_entry = glade_xml_get_widget (fs->gui, "font-style-entry");
 	fs->font_size_entry  = glade_xml_get_widget (fs->gui, "font-size-entry");
@@ -383,5 +384,14 @@ font_selector_set_points (FontSelector *fs,
 		
 		gtk_entry_set_text (GTK_ENTRY (fs->font_size_entry), buffer);
 	}
+}
+
+void
+font_selector_set_screen_res (FontSelector *fs, float h_dpi, float v_dpi)
+{
+	g_return_if_fail (IS_FONT_SELECTOR (fs));
+
+	fs->resolution_adjustment_factor = MIN(h_dpi, v_dpi) / 72.;
+	reload_preview (fs);
 }
 

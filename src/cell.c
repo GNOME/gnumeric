@@ -18,6 +18,7 @@
 #include "cursors.h"
 #include "utils.h"
 #include "gnumeric-util.h"
+#include "application.h"
 
 static int         redraws_frozen           = 0;
 static int         redraws_deep_frozen      = 0;
@@ -1186,7 +1187,7 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 
 /*
  * calc_text_dimensions
- * @is_number: whether we are computing the size for a number.
+ * @cell:      The cell we are working on.
  * @style:     the style formatting constraints (font, alignments)
  * @text:      the string contents.
  * @cell_w:    the cell width
@@ -1202,11 +1203,12 @@ cell_get_span (Cell *cell, int *col1, int *col2)
  * please keep it that way.
  */
 static void
-calc_text_dimensions (int is_number, MStyle *mstyle,
-		      const char *text, int cell_w, int cell_h, int *h, int *w,
-		      double zoom)
+calc_text_dimensions (Cell *cell, MStyle *mstyle,
+		      const char *text, int *h, int *w)
 {
-	StyleFont *style_font = mstyle_get_font (mstyle, zoom);
+	gboolean const is_number = cell_is_number (cell);
+	int const cell_w = COL_INTERNAL_WIDTH (cell->col);
+	StyleFont *style_font = sheet_view_get_style_font (cell->sheet, mstyle);
 	GdkFont *gdk_font = style_font->dfont->gdk_font;
 	int text_width, font_height;
 
@@ -1289,7 +1291,6 @@ calc_text_dimensions (int is_number, MStyle *mstyle,
 void
 cell_calc_dimensions (Cell *cell)
 {
-	char *rendered_text;
 	int  left, right;
 
 	g_return_if_fail (cell != NULL);
@@ -1297,25 +1298,24 @@ cell_calc_dimensions (Cell *cell)
 	cell_unregister_span (cell);
 
 	if (cell->text) {
+		char *rendered_text = cell->text->str;
 		MStyle *mstyle = sheet_style_compute (cell->sheet,
 						      cell->col->pos,
 						      cell->row->pos);
 		int h, w;
 
-		rendered_text = cell->text->str;
-		calc_text_dimensions (cell_is_number (cell),
-				      mstyle, rendered_text,
-				      COL_INTERNAL_WIDTH (cell->col),
-				      ROW_INTERNAL_HEIGHT (cell->row),
-				      &h, &w,
-				      cell->sheet->last_zoom_factor_used);
+		calc_text_dimensions (cell, mstyle, rendered_text, &h, &w);
 
 		cell->width  = cell->col->margin_a + cell->col->margin_b + w;
 		cell->height = cell->row->margin_a + cell->row->margin_b + h;
 
-		if (!cell->row->hard_size &&
-		    (cell->height * cell->sheet->last_zoom_factor_used) > cell->row->pixels)
-			sheet_row_set_internal_height (cell->sheet, cell->row, h);
+		if (!cell->row->hard_size) {
+			double const scale =
+			    cell->sheet->last_zoom_factor_used *
+			    application_display_dpi_get (FALSE) / 72.;
+			if ((cell->height * scale) > cell->row->pixels)
+				sheet_row_set_internal_height (cell->sheet, cell->row, h);
+		}
 
 		mstyle_unref (mstyle);
 	} else

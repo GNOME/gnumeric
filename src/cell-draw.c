@@ -101,15 +101,6 @@ cell_split_text (GdkFont *font, char const *text, int const width)
 	return list;
 }
 
-static inline StyleFont *
-sheet_get_style_font (const Sheet *sheet, MStyle *mstyle)
-{
-	double     zoom   = sheet->last_zoom_factor_used;
-	StyleFont *font   = mstyle_get_font (mstyle, zoom);
-
-	return font;
-}
-
 /*
  * Returns the number of columns used for the draw
  */
@@ -137,7 +128,7 @@ cell_draw (Cell *cell, MStyle *mstyle,
 	g_return_val_if_fail (GNUMERIC_IS_SHEET (gsheet), 1);
 	canvas = GNOME_CANVAS (gsheet);
 
-	style_font = sheet_get_style_font (cell->sheet, mstyle);
+	style_font = sheet_view_get_style_font (cell->sheet, mstyle);
 	font = style_font_gdk_font (style_font);
 
 	text_base = y1 + cell->row->pixels - font->descent;

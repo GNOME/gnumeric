@@ -19,4 +19,8 @@ Sheet *      application_clipboard_sheet_get	(void);
 CellRegion * application_clipboard_contents_get	(void);
 Range const* application_clipboard_area_get	(void);
 
+
+float	     application_display_dpi_get (gboolean const horizontal);
+void 	     application_display_dpi_set (gboolean const horizontal, float const);
+
 #endif /* GNUMERIC_APPLICATION_H */

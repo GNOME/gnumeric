@@ -48,12 +48,6 @@ static ExcelSheet *ms_excel_sheet_new       (ExcelWorkbook *wb,
 static void        ms_excel_workbook_attach (ExcelWorkbook *wb,
 					     ExcelSheet *ans);
 
-/* FIXME : MS quotes its measurments in 'pts' but scales that
- * to the screen somehow.  This is a crude approximation
- * just scales things by 1.4.
- */
-#define MAGIC_ZOOM	1.4
-
 void
 ms_excel_unexpected_biff (BiffQuery *q, char const *const state)
 {
@@ -1939,10 +1933,7 @@ ms_excel_sheet_new (ExcelWorkbook *wb, const char *name)
 
 	ans->gnum_sheet = sheet_new (wb->gnum_wb, name);
 
-	/* HACK HACK HACK : default zoom to 1.4 for now.
-	 * See SCL for details.
-	 */
-	sheet_set_zoom_factor (ans->gnum_sheet, MAGIC_ZOOM);
+	sheet_set_zoom_factor (ans->gnum_sheet, 1.);
 	ans->wb         = wb;
 	ans->obj_queue  = NULL;
 
@@ -3305,12 +3296,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 				double const zoom = (double)MS_OLE_GET_GUINT16 (q->data) /
 					MS_OLE_GET_GUINT16 (q->data + 2);
 
-				/* FIXME : HACK HACK HACK
-				 * MS stores sizes in pts but seems to scale
-				 * the points -> pixels depending on the monitor size.
-				 * Pick a quick scale factor to avoid looking really ugly.
-				 */
-				sheet_set_zoom_factor (sheet->gnum_sheet, zoom*MAGIC_ZOOM);
+				sheet_set_zoom_factor (sheet->gnum_sheet, zoom);
 			} else
 				g_warning ("Duff BIFF_SCL record");
 			break;
@@ -3913,14 +3899,12 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 #endif
 
 				/* FIXME FIXME FIXME :
-				 * This is wrong on many levels.
-				 * 1) We are scaling this by arbitrary factors.
-				 * 2) We are sizing the window including the toolbars,
-				 *    menus, and notbook tabs.  Excel does not.
+				 * We are sizing the window including the toolbars,
+				 * menus, and notbook tabs.  Excel does not.
 				 */
 				workbook_view_set_size (wb->gnum_wb,
-							width*1.35 / 20.,
-							height*1.5 / 20.);
+							width / 20.,
+							height / 20.);
 
 				if (options & 0x0001)
 					printf ("Unsupported : Hidden workbook\n");

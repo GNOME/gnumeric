@@ -24,6 +24,7 @@ typedef struct {
 	gboolean  is_bold;
 	gboolean  is_italic;
 	double    size;
+	double	  resolution_adjustment_factor;
 
 	/* The current gnome_font */
 	GnomeFont        *gnome_font;
@@ -45,5 +46,8 @@ void       font_selector_set_style  (FontSelector *fs,
 void       font_selector_set_points (FontSelector *fs,
 				     double point_size);
 				   
+void       font_selector_set_screen_res (FontSelector *fs,
+					 float h_dpi,
+					 float v_dpi);
 #endif /* GNUMERIC_WIDGET_FONT_SELECTOR_H */
 

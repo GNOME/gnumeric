@@ -88,6 +88,8 @@ void             sheet_view_selection_unant       (SheetView *sheet_view);
 
 void             sheet_view_adjust_preferences    (SheetView *sheet_view);
 
+StyleFont *      sheet_view_get_style_font        (Sheet const *sheet, MStyle *mstyle);
+
 typedef struct {
 	GtkTableClass parent_class;
 } SheetViewClass;

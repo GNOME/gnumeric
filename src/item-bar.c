@@ -16,6 +16,7 @@
 #include "gnumeric-util.h"
 #include "selection.h"
 #include "workbook-cmd-format.h"
+#include "application.h"
 
 /* Marshal forward declarations */
 static void   item_bar_marshal      (GtkObject *,
@@ -84,12 +85,14 @@ item_bar_fonts_init (ItemBar *item_bar)
 {
 	double const zoom_factor =
 		item_bar->sheet_view->sheet->last_zoom_factor_used;
+	double const res    = MIN(application_display_dpi_get (FALSE), 
+				  application_display_dpi_get (TRUE)) / 72.;
 	StyleFont * const normal_font =
 		style_font_new_simple (DEFAULT_FONT, DEFAULT_SIZE,
-				       zoom_factor, FALSE, FALSE);
+				       res*zoom_factor, FALSE, FALSE);
 	StyleFont * const bold_font =
 		style_font_new_simple (DEFAULT_FONT, DEFAULT_SIZE,
-				       zoom_factor, TRUE, FALSE);
+				       res*zoom_factor, TRUE, FALSE);
 
 	/* Now that we have the new fonts unref the old ones */
 	item_bar_fonts_unref (item_bar);
@@ -384,7 +387,8 @@ static void
 item_bar_start_resize (ItemBar *bar)
 {
 	Sheet const * const sheet = bar->sheet_view->sheet;
-	double const zoom = sheet->last_zoom_factor_used;
+	double const res  = application_display_dpi_get (bar->orientation == GTK_ORIENTATION_VERTICAL);
+	double const zoom = sheet->last_zoom_factor_used * res / 72.;
 	GnumericSheet const * const gsheet = GNUMERIC_SHEET (bar->sheet_view->sheet_view);
 	GnomeCanvas const * const canvas = GNOME_CANVAS (gsheet);
 	GnomeCanvasGroup * const group = GNOME_CANVAS_GROUP (canvas->root);
@@ -514,9 +518,10 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 	GnomeCanvas * const canvas = item->canvas;
 	ItemBar * const item_bar = ITEM_BAR (item);
 	Sheet   * const sheet = item_bar->sheet_view->sheet;
-	double const zoom = sheet->last_zoom_factor_used;
 	const gboolean resizing = ITEM_BAR_RESIZING (item_bar);
 	const gboolean is_vertical = (item_bar->orientation == GTK_ORIENTATION_VERTICAL);
+	double const res  = application_display_dpi_get (is_vertical);
+	double const zoom = sheet->last_zoom_factor_used * res / 72.;
 	int pos, start, element;
 
 	/* NOTE :

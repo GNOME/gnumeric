@@ -18,6 +18,9 @@ typedef struct
 	Sheet		* clipboard_sheet;
 	CellRegion	* clipboard_copied_contents;
 	Range		  clipboard_cut_range;
+
+	/* Display resolution */
+	float horizontal_dpi, vertical_dpi;
 } GnumericApplication;
 
 static GnumericApplication app;
@@ -30,8 +33,30 @@ static GnumericApplication app;
 void
 application_init (void)
 {
+	gboolean h_was_default = TRUE;
+	gboolean v_was_default = TRUE;
+
 	app.clipboard_copied_contents = NULL;
 	app.clipboard_sheet = NULL;
+	app.horizontal_dpi = 110.;
+	app.vertical_dpi = 120.;
+
+	gnome_config_push_prefix ("Gnumeric/Screen_Resolution/"); 
+	app.horizontal_dpi =
+	    gnome_config_get_float_with_default ("Horizontal_dpi=110", 
+						 &h_was_default);
+	app.vertical_dpi = 
+	    gnome_config_get_float_with_default ("Vertical_dpi=120", 
+						 &v_was_default);
+
+	if (h_was_default)
+		gnome_config_set_float ("Horizontal_dpi", app.horizontal_dpi);
+	if (v_was_default)
+		gnome_config_set_float ("Vertical_dpi", app.vertical_dpi);
+	if (h_was_default || v_was_default)
+		gnome_config_sync ();
+
+	gnome_config_pop_prefix ();
 }
 
 /**
@@ -222,3 +247,19 @@ application_workbook_get_by_index (int i)
 
 	return close.wb;
 }
+
+float
+application_display_dpi_get (gboolean const horizontal)
+{
+    return horizontal ? app.horizontal_dpi : app.vertical_dpi;
+}
+
+void
+application_display_dpi_set (gboolean const horizontal, float const val)
+{
+    if (horizontal)
+	    app.horizontal_dpi  = val;
+    else
+	    app.vertical_dpi = val;
+}
+

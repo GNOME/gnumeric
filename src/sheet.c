@@ -98,8 +98,8 @@ static void
 sheet_init_default_styles (Sheet *sheet)
 {
 	/* Sizes seem to match excel */
-	col_row_info_init (&sheet->cols.default_style, 62.0);
-	col_row_info_init (&sheet->rows.default_style, 15.0);
+	col_row_info_init (&sheet->cols.default_style, 40.);
+	col_row_info_init (&sheet->rows.default_style, 9.);
 }
 
 /* Initialize some of the columns and rows, to test the display engine */
@@ -284,7 +284,9 @@ sheet_foreach_colrow (Sheet *sheet, ColRowCollection *infos,
 static gboolean
 sheet_compute_col_row_new_size (Sheet *sheet, ColRowInfo *ci, void *data)
 {
-	double const pix_per_unit = sheet->last_zoom_factor_used;
+	double const pix_per_unit =
+	    sheet->last_zoom_factor_used *
+	    application_display_dpi_get ((gboolean)data) / 72.;
 	gboolean const hidden = (ci->pixels < 0);
 
 	ci->pixels = (ci->units + ci->margin_a_pt + ci->margin_b_pt) * pix_per_unit;
@@ -313,14 +315,14 @@ sheet_set_zoom_factor (Sheet *sheet, double factor)
 	sheet->last_zoom_factor_used = factor;
 
 	/* First, the default styles */
-	sheet_compute_col_row_new_size (sheet, &sheet->rows.default_style, NULL);
-	sheet_compute_col_row_new_size (sheet, &sheet->cols.default_style, NULL);
+	sheet_compute_col_row_new_size (sheet, &sheet->rows.default_style, (void*)FALSE);
+	sheet_compute_col_row_new_size (sheet, &sheet->cols.default_style, (void*)TRUE);
 
 	/* Then every column and row */
-	sheet_foreach_colrow (sheet, &sheet->cols, 0, SHEET_MAX_COLS-1,
-			      &sheet_compute_col_row_new_size, NULL);
 	sheet_foreach_colrow (sheet, &sheet->rows, 0, SHEET_MAX_ROWS-1,
-			      &sheet_compute_col_row_new_size, NULL);
+			      &sheet_compute_col_row_new_size, (void*)FALSE);
+	sheet_foreach_colrow (sheet, &sheet->cols, 0, SHEET_MAX_COLS-1,
+			      &sheet_compute_col_row_new_size, (void*)TRUE);
 
 	for (l = sheet->sheet_views; l; l = l->next){
 		SheetView *sheet_view = l->data;
@@ -466,9 +468,10 @@ sheet_compute_visible_ranges (Sheet const *sheet)
 }
 
 static void
-colrow_set_units (Sheet *sheet, ColRowInfo *info)
+colrow_set_units (Sheet *sheet, ColRowInfo *info, gboolean const horizontal)
 {
-	double const pix = sheet->last_zoom_factor_used;
+	double const pix = sheet->last_zoom_factor_used *
+	    application_display_dpi_get (horizontal) / 72.;
 	int p = info->pixels;
 	if (p < 0) p = -p;
 
@@ -644,7 +647,7 @@ sheet_row_info_set_height (Sheet *sheet, ColRowInfo *ri, int height, gboolean he
 		ri->hard_size = TRUE;
 
 	ri->pixels = (ri->pixels >= 0) ? height : -height;
-	colrow_set_units (sheet, ri);
+	colrow_set_units (sheet, ri, FALSE);
 
 	sheet_compute_visible_ranges (sheet);
 
@@ -704,7 +707,8 @@ sheet_row_set_internal_height (Sheet *sheet, ColRowInfo *ri, double height)
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (ri != NULL);
 
-	pix = sheet->last_zoom_factor_used;
+	pix = sheet->last_zoom_factor_used *
+	    application_display_dpi_get (FALSE) / 72.;
 
 	if (ri->units == height)
 		return;
@@ -739,7 +743,8 @@ sheet_col_set_internal_width (Sheet *sheet, ColRowInfo *ci, double width)
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (ci != NULL);
 
-	pix = sheet->last_zoom_factor_used;
+	pix = sheet->last_zoom_factor_used *
+	    application_display_dpi_get (TRUE) / 72.;
 
 	if (ci->units == width)
 		return;
@@ -976,7 +981,7 @@ sheet_col_info_set_width (Sheet *sheet, ColRowInfo *ci, int width)
 
 
 	ci->pixels = (ci->pixels >= 0) ? width : -width;
-	colrow_set_units (sheet, ci);
+	colrow_set_units (sheet, ci, FALSE);
 
 	sheet_compute_visible_ranges (sheet);
 	sheet_redraw_all (sheet);

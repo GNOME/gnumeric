@@ -22,6 +22,7 @@
 #include "formats.h"
 #include "pattern.h"
 #include "mstyle.h"
+#include "application.h"
 
 #define GLADE_FILE "cell-format.glade"
 
@@ -1197,6 +1198,11 @@ fmt_dialog_init_font_page (FormatState *state)
 	if (!mstyle_is_element_conflict (state->style, MSTYLE_FONT_SIZE))
 		font_selector_set_points (state->font.selector,
 					  mstyle_get_font_size (state->style));
+
+	/* Set the resolution scaling factor */
+	font_selector_set_screen_res (state->font.selector,
+				      application_display_dpi_get (TRUE),
+				      application_display_dpi_get (FALSE));
 }
 
 /*****************************************************************************/

@@ -12,6 +12,7 @@
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
 #include "item-edit.h"
+#include "application.h"
 
 #define CURSOR_LEN 4
 static GnomeCanvasItem *item_edit_parent_class;
@@ -59,9 +60,11 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	int xd, yd, wd, hd, dx, dy;
 	char *text;
 	int  cursor_pos, text_len, first_part_len, total_len;
+	double const res = MIN(application_display_dpi_get (FALSE),
+			       application_display_dpi_get (TRUE)) / 72.;
 
 	style_font = mstyle_get_font (item_edit->mstyle,
-				      item_edit->sheet->last_zoom_factor_used);
+				      item_edit->sheet->last_zoom_factor_used * res);
 
 	font = style_font_gdk_font (style_font);
 	

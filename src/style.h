@@ -5,7 +5,7 @@
 #include <libgnomeprint/gnome-font.h>
 
 #define DEFAULT_FONT "Helvetica"
-#define DEFAULT_SIZE 12.0
+#define DEFAULT_SIZE 10.0
 
 typedef struct _MStyleBorder      MStyleBorder;
 
