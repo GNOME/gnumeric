@@ -13,13 +13,641 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.40\n"
-"POT-Creation-Date: 2000-09-20 20:43+0200\n"
+"POT-Creation-Date: YEAH-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2000-09-09 02:30+02:00\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: src/gnumeric.xml:337
+msgid "About this application"
+msgstr "Om denne appliaktion"
+
+#: src/gnumeric.xml:300
+msgid "Auto _Correct..."
+msgstr "Auto_korrektion..."
+
+#: src/gnumeric.xml:301
+msgid "Automatically perform simple spell checking"
+msgstr "Udfør automatisk simpel stavekontrol"
+
+#: src/gnumeric.xml:305
+msgid "Automatically save the current document at regular intervals"
+msgstr "Gem automatisk det aktuelle dokument ved regelmæssige intervaller"
+
+#: src/gnumeric.xml:98
+msgid "C_lear"
+msgstr "_Ryd"
+
+#: src/gnumeric.xml:78
+msgid "C_lear..."
+msgstr "_Ryd..."
+
+#: src/gnumeric.xml:207
+msgid "C_olumn"
+msgstr "K_olonne"
+
+#: src/gnumeric.xml:60
+msgid "C_ut"
+msgstr "Klip"
+
+#: src/gnumeric.xml:236
+#, fuzzy
+msgid "Change height of the selected rows"
+msgstr "Indsætter bredde på kolonner"
+
+#: src/gnumeric.xml:226
+#, fuzzy
+msgid "Change the default column width"
+msgstr "Indsætter bredde på kolonner"
+
+#: src/gnumeric.xml:248
+msgid "Change the default row height"
+msgstr ""
+
+#: src/gnumeric.xml:258
+msgid "Change the order the sheets are displayed"
+msgstr ""
+
+#: src/gnumeric.xml:214
+#, fuzzy
+msgid "Change width of the selected columns"
+msgstr "Indsætter bredde på kolonner"
+
+#: src/gnumeric.xml:90
+msgid "Clear the selected cells' comments"
+msgstr "Ryd den valgte celles kommentarer"
+
+#: src/gnumeric.xml:94
+msgid "Clear the selected cells' contents"
+msgstr "Fjern den markerede celles indhold"
+
+#: src/gnumeric.xml:86
+msgid "Clear the selected cells' formats"
+msgstr "Ryd den valgte celles formater"
+
+#: src/gnumeric.xml:82
+msgid "Clear the selected cells' formats, comments, and contents"
+msgstr "Ryd den valgte celles formater, kommentarer og indhold"
+
+#: src/gnumeric.xml:99
+#, fuzzy
+msgid "Clear the selection"
+msgstr "Midtersektion:"
+
+#: src/gnumeric.xml:40
+#, fuzzy
+msgid "Close the current file"
+msgstr "Summér til den aktuelle celle."
+
+#: src/gnumeric.xml:89
+msgid "Co_mments"
+msgstr "Ko_mmentarer"
+
+#: src/gnumeric.xml:64
+#, fuzzy
+msgid "Copy the selection"
+msgstr "_Autotilpas markering"
+
+#: src/gnumeric.xml:6
+msgid "Create a new spreadsheet"
+msgstr "Opretter et nyt regneark"
+
+#: src/gnumeric.xml:186
+msgid "Current _date"
+msgstr "Dags _dato"
+
+#: src/gnumeric.xml:191
+msgid "Current _time"
+msgstr "_Tidspunkt"
+
+#: src/gnumeric.xml:60
+#, fuzzy
+msgid "Cut the selection"
+msgstr "_Autotilpas markering"
+
+#: src/gnumeric.xml:105
+msgid "De_lete Sheet"
+msgstr "_Slet ark"
+
+#: src/gnumeric.xml:261
+msgid "Display _Formulas"
+msgstr "Vis _formler"
+
+#: src/gnumeric.xml:262
+msgid "Display the value of a formula or the formula itself"
+msgstr ""
+
+#: src/gnumeric.xml:45
+#, fuzzy
+msgid "E_xit"
+msgstr "Te_kst"
+
+#: src/gnumeric.xml:175
+msgid "Edit sheet and workbook names"
+msgstr "Redigér navne i ark og arbejdsbog"
+
+#: src/gnumeric.xml:254
+#, fuzzy
+msgid "Edit the name of the current sheet"
+msgstr "Redigér en funktion i den aktuelle celle."
+
+#: src/gnumeric.xml:181
+msgid "Edit the selected cell's comment"
+msgstr "Redigér den valgte celles kommentar"
+
+#: src/gnumeric.xml:210
+msgid "Ensure columns are just wide enough to display content"
+msgstr ""
+
+#: src/gnumeric.xml:232
+msgid "Ensure rows are just tall enough to display content"
+msgstr ""
+
+#: src/gnumeric.xml:45
+msgid "Exit the program"
+msgstr "Afslut programmet"
+
+#: src/gnumeric.xml:200
+msgid "F_ormat"
+msgstr "F_ormatér"
+
+#: src/gnumeric.xml:331
+msgid "Filter data with given criteria"
+msgstr "Filtrér dato med givne kriterier"
+
+#: src/gnumeric.xml:283
+msgid "Format a region of cells according to a pre-defined template"
+msgstr ""
+"Formatér et celleområde som foreskrevet af en allerede defineret skabelon"
+
+#: src/gnumeric.xml:273
+#, fuzzy
+msgid "Hide _Column Headers"
+msgstr "Skjul _kolonnehoved"
+
+#: src/gnumeric.xml:269
+msgid "Hide _Gridlines"
+msgstr "Skjul _gitterlinjer"
+
+#: src/gnumeric.xml:277
+#, fuzzy
+msgid "Hide _Row Headers"
+msgstr "Skjul _rækkehoved"
+
+#: src/gnumeric.xml:265
+msgid "Hide _Zeros"
+msgstr "Skjul _nuller"
+
+#: src/gnumeric.xml:218
+#, fuzzy
+msgid "Hide the selected columns"
+msgstr "Sorterer de valgte celler"
+
+#: src/gnumeric.xml:240
+#, fuzzy
+msgid "Hide the selected rows"
+msgstr "Sorterer de valgte celler"
+
+#: src/gnumeric.xml:14
+msgid "Imports a file"
+msgstr "Importerer en fil"
+
+#: src/gnumeric.xml:156
+msgid "Insert a new spreadsheet"
+msgstr "Indsæt et nyt regneark"
+
+#: src/gnumeric.xml:165
+msgid "Insert new cells"
+msgstr "indsæt nye celler"
+
+#: src/gnumeric.xml:162
+msgid "Insert new columns"
+msgstr "indsæt nye kolonner"
+
+#: src/gnumeric.xml:159
+msgid "Insert new rows"
+msgstr "Indsæt nye rækker"
+
+#: src/gnumeric.xml:187
+msgid "Insert the current date into the selected cell(s)"
+msgstr "Indsæt dags dato i de(n) markerede celle(r)"
+
+#: src/gnumeric.xml:192
+msgid "Insert the current time into the selected cell(s)"
+msgstr "Indsæt nuværende tidspunkt i de(n) markerede celle(r)"
+
+#: src/gnumeric.xml:168
+msgid "Inserts a Bonobo object"
+msgstr "Indsætter et bonobo-objekt"
+
+#: src/gnumeric.xml:106
+msgid "Irrevocably remove an entire sheet"
+msgstr "Fjern uigenkaldeligt et helt ark"
+
+#: src/gnumeric.xml:311
+msgid "Iteratively recalculate to find a target value"
+msgstr "Genberegner iterativt for at finde en målvariabel"
+
+#: src/gnumeric.xml:315
+msgid "Iteratively recalculate with constraints to approach a target value"
+msgstr ""
+"Genberegner iterativt med begrænsninger for at tilnærme sig en målvariabel"
+
+#: src/gnumeric.xml:136
+msgid "Jump to a specified cell"
+msgstr "Spring til en angivet celle"
+
+#: src/gnumeric.xml:222
+msgid "Make any hidden columns in the selection visible"
+msgstr ""
+
+#: src/gnumeric.xml:244
+#, fuzzy
+msgid "Make any hidden rows in the selection visible"
+msgstr "Kan ikke tilføje flere end den valgte længde"
+
+#: src/gnumeric.xml:295
+#, fuzzy
+msgid "Manage available plugin modules"
+msgstr "Håndtér tilgængelige indstiksmoduler."
+
+#: src/gnumeric.xml:204
+msgid "Modify the formatting of the selected cells"
+msgstr "Ændr formatet på de markerede celler"
+
+#: src/gnumeric.xml:287
+msgid "Modify the workbook attributes"
+msgstr "Ændr arbejdsbogens tilhørender"
+
+#: src/gnumeric.xml:172
+msgid "N_ames"
+msgstr "_Navne"
+
+#: src/gnumeric.xml:10
+#, fuzzy
+msgid "Open a file"
+msgstr "Importerer en fil"
+
+#: src/gnumeric.xml:68
+#, fuzzy
+msgid "Paste the clipboard"
+msgstr "Indsætter klippebordet"
+
+#: src/gnumeric.xml:73
+msgid "Paste with optional filters and transformations"
+msgstr "Indsæt med valgbare filtre og transformationer"
+
+#: src/gnumeric.xml:35
+#, fuzzy
+msgid "Print S_etup..."
+msgstr "Printeropsætning"
+
+#: src/gnumeric.xml:31
+#, fuzzy
+msgid "Print the current file"
+msgstr "Summér til den aktuelle celle."
+
+#: src/gnumeric.xml:257
+msgid "Re-_Order Sheets"
+msgstr "Omrokér ark"
+
+#: src/gnumeric.xml:140
+msgid "Recalculate the spreadsheet"
+msgstr "Omkalkulerer regnearket"
+
+#: src/gnumeric.xml:55
+#, fuzzy
+msgid "Redo the undone action"
+msgstr "Gentag handling"
+
+#: src/gnumeric.xml:102
+#, fuzzy
+msgid "Remove selected cells, shifting others into their place"
+msgstr "Fjern valgte celler, med skift af andre i deres sted"
+
+#: src/gnumeric.xml:183
+msgid "S_pecial"
+msgstr "S_peciel"
+
+#: src/gnumeric.xml:21
+#, fuzzy
+msgid "Save _As..."
+msgstr "_Navne..."
+
+#: src/gnumeric.xml:18
+#, fuzzy
+msgid "Save the current file"
+msgstr "Summér til den aktuelle celle."
+
+#: src/gnumeric.xml:22
+#, fuzzy
+msgid "Save the current file with a different name"
+msgstr "Brug det nuværende valg til at generere navne"
+
+#: src/gnumeric.xml:125
+msgid "Select Arra_y"
+msgstr "Vælg matrice"
+
+#: src/gnumeric.xml:113
+msgid "Select _All"
+msgstr "Vælg _alt"
+
+#: src/gnumeric.xml:121
+msgid "Select _Column"
+msgstr "Vælg _kolonne"
+
+#: src/gnumeric.xml:129
+msgid "Select _Depends"
+msgstr "Vælg afhængighed"
+
+#: src/gnumeric.xml:117
+msgid "Select _Row"
+msgstr "Vælg _række"
+
+#: src/gnumeric.xml:114
+msgid "Select all cells in the spreadsheet"
+msgstr "Vælg alle celler i regnearket"
+
+#: src/gnumeric.xml:130
+msgid "Select all the cells that depend on the current edit cell."
+msgstr "Vælg alle celler som afhænger af den aktive celle."
+
+#: src/gnumeric.xml:126
+msgid "Select an array of cells"
+msgstr "Vælg et array af celler"
+
+#: src/gnumeric.xml:122
+msgid "Select an entire column"
+msgstr "Vælg en hel kolonne"
+
+#: src/gnumeric.xml:118
+msgid "Select an entire row"
+msgstr "Vælg en hel række"
+
+#: src/gnumeric.xml:36
+msgid "Setup the page settings for your current printer"
+msgstr ""
+
+#: src/gnumeric.xml:328
+msgid "Sort the selected cells"
+msgstr "Sorterer de valgte celler"
+
+#: src/gnumeric.xml:321
+#, fuzzy
+msgid "Statistical methods"
+msgstr "Statistiske metoder."
+
+#: src/gnumeric.xml:25
+msgid "Su_mmary..."
+msgstr "Sa_mmendrag..."
+
+#: src/gnumeric.xml:26
+msgid "Summary information"
+msgstr "Informationsresumé"
+
+#: src/gnumeric.xml:274
+msgid "Toggle whether or not to display column headers"
+msgstr ""
+
+#: src/gnumeric.xml:270
+msgid "Toggle whether or not to display gridlines"
+msgstr ""
+
+#: src/gnumeric.xml:278
+msgid "Toggle whether or not to display row headers"
+msgstr ""
+
+#: src/gnumeric.xml:266
+msgid "Toggle whether or not to display zeros as blanks"
+msgstr ""
+
+#: src/gnumeric.xml:52
+#, fuzzy
+msgid "Undo the last action"
+msgstr "Fortryd handling"
+
+#: src/gnumeric.xml:149
+msgid "Zoom the spreadsheet in or out"
+msgstr "Zoom ind og ud på regnearket"
+
+#: src/gnumeric.xml:337
+#, fuzzy
+msgid "_About..."
+msgstr "_Om..."
+
+#: src/gnumeric.xml:180
+msgid "_Add / modify comment..."
+msgstr "_Tilføj / ændr kommentar..."
+
+#: src/gnumeric.xml:81
+msgid "_All"
+msgstr "_Alt"
+
+#: src/gnumeric.xml:304
+msgid "_Auto Save..."
+msgstr "_Autogem..."
+
+#: src/gnumeric.xml:231
+msgid "_Auto fit selection"
+msgstr "_Autotilpas markering"
+
+#: src/gnumeric.xml:282
+msgid "_Autoformat..."
+msgstr "_Autoformatér..."
+
+#: src/gnumeric.xml:165
+msgid "_Cells"
+msgstr "_Celler"
+
+#: src/gnumeric.xml:203
+msgid "_Cells..."
+msgstr "_Celler..."
+
+#: src/gnumeric.xml:253
+msgid "_Change Name"
+msgstr "_Ændr navn"
+
+#: src/gnumeric.xml:39
+msgid "_Close"
+msgstr "Luk"
+
+#: src/gnumeric.xml:162
+msgid "_Columns"
+msgstr "_Kolonner"
+
+#: src/gnumeric.xml:93
+msgid "_Content"
+msgstr "_Indhold"
+
+#: src/gnumeric.xml:63
+msgid "_Copy"
+msgstr "_Kopiér"
+
+#: src/gnumeric.xml:325
+msgid "_Data"
+msgstr "_Data"
+
+#: src/gnumeric.xml:320
+msgid "_Data Analysis..."
+msgstr "_Dataanalyse..."
+
+#: src/gnumeric.xml:101
+msgid "_Delete..."
+msgstr "_Slet..."
+
+#: src/gnumeric.xml:50
+msgid "_Edit"
+msgstr "R_edigér"
+
+#: src/gnumeric.xml:3
+msgid "_File"
+msgstr "_Fil"
+
+#: src/gnumeric.xml:331
+msgid "_Filter..."
+msgstr "_Filter..."
+
+#: src/gnumeric.xml:85
+msgid "_Formats"
+msgstr "_Formatér"
+
+#: src/gnumeric.xml:310
+msgid "_Goal Seek..."
+msgstr "_Mål søgning..."
+
+#: src/gnumeric.xml:135
+msgid "_Goto cell..."
+msgstr "_Gå til celle..."
+
+#: src/gnumeric.xml:235
+#, fuzzy
+msgid "_Height..."
+msgstr "_Rækkehøjde..."
+
+#: src/gnumeric.xml:335
+#, fuzzy
+msgid "_Help"
+msgstr "_Skjul"
+
+#: src/gnumeric.xml:239
+msgid "_Hide"
+msgstr "_Skjul"
+
+#: src/gnumeric.xml:13
+msgid "_Import..."
+msgstr "_Importér..."
+
+#: src/gnumeric.xml:153
+msgid "_Insert"
+msgstr "_Indsæt"
+
+#: src/gnumeric.xml:5
+msgid "_New"
+msgstr "_Ny"
+
+#: src/gnumeric.xml:168
+#, fuzzy
+msgid "_Object"
+msgstr "_Objekt..."
+
+#: src/gnumeric.xml:9
+#, fuzzy
+msgid "_Open..."
+msgstr "Indstillinger..."
+
+#: src/gnumeric.xml:67
+msgid "_Paste"
+msgstr "_Indsæt"
+
+#: src/gnumeric.xml:72
+#, fuzzy
+msgid "_Paste special..."
+msgstr "Indsæt speciel..."
+
+#: src/gnumeric.xml:294
+msgid "_Plug-ins..."
+msgstr "Indstik..."
+
+#: src/gnumeric.xml:30
+#, fuzzy
+msgid "_Print"
+msgstr "Udskriv"
+
+#: src/gnumeric.xml:139
+msgid "_Recalculate"
+msgstr "_Omregn"
+
+#: src/gnumeric.xml:55
+#, fuzzy
+msgid "_Redo"
+msgstr "Gentag"
+
+#: src/gnumeric.xml:229
+msgid "_Row"
+msgstr "_Række"
+
+#: src/gnumeric.xml:159
+msgid "_Rows"
+msgstr "_Rækker"
+
+#: src/gnumeric.xml:17
+msgid "_Save"
+msgstr "Gem"
+
+#: src/gnumeric.xml:110
+msgid "_Select..."
+msgstr "_Vælg..."
+
+#: src/gnumeric.xml:251
+msgid "_Sheet"
+msgstr "_Ark"
+
+#: src/gnumeric.xml:314
+msgid "_Solver..."
+msgstr "_Løser..."
+
+#: src/gnumeric.xml:328
+msgid "_Sort..."
+msgstr "_Sortér..."
+
+#: src/gnumeric.xml:247
+msgid "_Standard Height"
+msgstr "Standardhøjde"
+
+#: src/gnumeric.xml:225
+msgid "_Standard Width"
+msgstr "_Standardbredde"
+
+#: src/gnumeric.xml:291
+msgid "_Tools"
+msgstr "_Værktøj"
+
+#: src/gnumeric.xml:52
+msgid "_Undo"
+msgstr "Fortryd"
+
+#: src/gnumeric.xml:243
+msgid "_Unhide"
+msgstr "_Vis igen"
+
+#: src/gnumeric.xml:146
+msgid "_View"
+msgstr "_Vis"
+
+#: src/gnumeric.xml:213
+msgid "_Width..."
+msgstr "Bredde..."
+
+#: src/gnumeric.xml:286
+msgid "_Workbook..."
+msgstr "_Arbejdsbog..."
+
+#: src/gnumeric.xml:148
+msgid "_Zoom..."
+msgstr "_Zoom..."
 
 #: plugins/applix/boot.c:105
 msgid "Applix (*.as) file format"
@@ -122,7 +750,7 @@ msgstr "Kan ikke åbne strøm for skrivning\n"
 msgid "Broken function"
 msgstr "Brudt funktion"
 
-#: plugins/excel/ms-formula-read.c:1419
+#: plugins/excel/ms-formula-read.c:1431
 msgid " Unknown formula"
 msgstr " Ukendt formel"
 
@@ -584,11 +1212,13 @@ msgid "Miguel de Icaza, main programmer."
 msgstr "Miguel de Icaza, hovedprogrammør."
 
 #: src/about.c:40
-msgid "Sean Atkinson, Functions and X-Base importing."
+#, fuzzy
+msgid "Sean Atkinson, functions and X-Base importing."
 msgstr "Sean Atkinson, Funktioner og X-Base importering."
 
 #: src/about.c:41
-msgid "Tom Dyas, Plugin support."
+#, fuzzy
+msgid "Tom Dyas, plugin support."
 msgstr "Tom Dyas, indstiksunderstøttelse."
 
 #: src/about.c:42
@@ -616,11 +1246,11 @@ msgid "Jon K Hellan, Gnumeric hacker."
 msgstr "Jon K Hellan, Gnumeric-hacker."
 
 #: src/about.c:48
-msgid "Chris Lahey, Number format engine."
+msgid "Chris Lahey, number format engine."
 msgstr "Chris Lahey, nummerformatsmotor."
 
 #: src/about.c:49
-msgid "Adrian Likins, Documentation, debugging."
+msgid "Adrian Likins, documentation, debugging."
 msgstr "Adrian Likins, dokumentation, fejlfinding."
 
 #: src/about.c:50
@@ -628,7 +1258,7 @@ msgid "Takashi Matsuda, original text plugin."
 msgstr "Takashi Matsuda, oprindeligt tekstindstik."
 
 #: src/about.c:51
-msgid "Federico Mena, Canvas support."
+msgid "Federico Mena, canvas support."
 msgstr "Federico Mena, kanvas-understøttelse."
 
 #: src/about.c:52
@@ -644,7 +1274,7 @@ msgid "Rasca, HTML, troff, LaTeX exporters."
 msgstr "Rasca, HTML, troff, LaTeX-eksportering."
 
 #: src/about.c:55
-msgid "Vincent Renardias, original CSV support, French localisation."
+msgid "Vincent Renardias, original CSV support, French localization."
 msgstr "Vincent Renardias, oprindelig CSV understøttelse, fransk lokalisering."
 
 #: src/about.c:56
@@ -652,8 +1282,8 @@ msgid "Ariel Rios, Guile support."
 msgstr "Ariel Rios, Guile-understøttelse."
 
 #: src/about.c:57
-msgid "Almer. S. Tigelaar, Text import."
-msgstr "Almer. S. Tigelaar, Tekst importering."
+msgid "Almer. S. Tigelaar, text import."
+msgstr "Almer. S. Tigelaar, tekst importering."
 
 #: src/about.c:58
 msgid "Bruno Unna, Excel bits."
@@ -671,19 +1301,23 @@ msgstr "Vladimir Vuksan, financielle funktioner."
 msgid "Morten Welinder, Gnumeric hacker."
 msgstr "Morten Welinder, dansk Gnumeric-hacker."
 
-#: src/about.c:81 src/functions/fn-sheet.c:138
+#: src/about.c:62
+msgid "Kenneth Christiansen, i18n, misc stuff."
+msgstr "Kenneth Christiansen, i18n, samt mere."
+
+#: src/about.c:82 src/functions/fn-sheet.c:138
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
-#: src/about.c:82
+#: src/about.c:83
 msgid "(C) 1998-2000 Miguel de Icaza"
 msgstr "(C) 1998-2000 Miguel de Icaza"
 
-#: src/about.c:89
+#: src/about.c:90
 msgid "Gnumeric Home Page"
 msgstr "Gnumeric hjemmeside"
 
-#: src/about.c:91
+#: src/about.c:92
 msgid "Gnumeric Support page"
 msgstr "Gnumeric supportside"
 
@@ -1659,18 +2293,6 @@ msgstr "T-Test: Forudsættende uens varians"
 msgid " _Input Range: "
 msgstr " _Inddataomfang: "
 
-#: src/dialogs/analysis-tools.glade.h:55 src/dialogs/analysis-tools.glade.h:86
-#: src/dialogs/analysis-tools.glade.h:100
-#: src/dialogs/analysis-tools.glade.h:111 src/workbook.c:1410
-msgid "_Columns"
-msgstr "_Kolonner"
-
-#: src/dialogs/analysis-tools.glade.h:56 src/dialogs/analysis-tools.glade.h:87
-#: src/dialogs/analysis-tools.glade.h:99
-#: src/dialogs/analysis-tools.glade.h:110 src/workbook.c:1407
-msgid "_Rows"
-msgstr "_Rækker"
-
 #: src/dialogs/analysis-tools.glade.h:58 src/dialogs/analysis-tools.glade.h:88
 #: src/dialogs/analysis-tools.glade.h:98
 #: src/dialogs/analysis-tools.glade.h:109
@@ -2422,7 +3044,7 @@ msgid "Add"
 msgstr "Tilføj"
 
 #: src/dialogs/cell-sort.glade.h:9 src/dialogs/plugin-manager.glade.h:9
-#: src/sheet-object.c:744
+#: src/sheet-object.c:738
 msgid "Remove"
 msgstr "Fjern"
 
@@ -3973,10 +4595,6 @@ msgstr "Udskriv"
 msgid "Row and co_lumn headings"
 msgstr "Række- og kolonnehoveder"
 
-#: src/dialogs/print.glade.h:50 src/workbook.c:1284
-msgid "Co_mments"
-msgstr "Ko_mmentarer"
-
 #: src/dialogs/print.glade.h:51
 msgid "_Grid lines"
 msgstr "_Gitterlinjer"
@@ -4021,9 +4639,8 @@ msgid "Row height"
 msgstr "Rækkehøjde"
 
 #: src/dialogs/row-height.glade.h:8
-#, fuzzy
 msgid "_Row height (pts):"
-msgstr "_Rækkehøjde:"
+msgstr "_Rækkehøjde (pts):"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -14821,14 +15438,14 @@ msgid "File/"
 msgstr "Fil/"
 
 #: src/item-bar.c:481
-#, fuzzy, c-format
+#, c-format
 msgid "Height: %.2f pts (%d pixels)"
-msgstr "Højde: %.2f (%d pixler)"
+msgstr "Højde: %.2f pts (%d pixler)"
 
 #: src/item-bar.c:484
-#, fuzzy, c-format
+#, c-format
 msgid "Width: %.2f pts (%d pixels)"
-msgstr "Bredde: %.2f (%d pixler)"
+msgstr "Bredde: %.2f pts (%d pixler)"
 
 #: src/item-cursor.c:671
 msgid ""
@@ -14876,14 +15493,6 @@ msgstr "Flyt celler til højre og flyt"
 msgid "Cu_t"
 msgstr "K_lip"
 
-#: src/item-grid.c:498
-msgid "_Copy"
-msgstr "_Kopiér"
-
-#: src/item-grid.c:500
-msgid "_Paste"
-msgstr "_Indsæt"
-
 #: src/item-grid.c:502
 msgid "Paste _Special"
 msgstr "Indsæt s_peciel"
@@ -14891,10 +15500,6 @@ msgstr "Indsæt s_peciel"
 #: src/item-grid.c:507
 msgid "_Insert..."
 msgstr "_Indsæt..."
-
-#: src/item-grid.c:509 src/workbook.c:1341
-msgid "_Delete..."
-msgstr "_Slet..."
 
 #: src/item-grid.c:511
 msgid "Clear Co_ntents"
@@ -14908,16 +15513,6 @@ msgstr "_Formatér celler..."
 #: src/item-grid.c:520
 msgid "Column _Width..."
 msgstr "_Kolonnebredde..."
-
-#: src/item-grid.c:522 src/item-grid.c:530 src/workbook.c:1444
-#: src/workbook.c:1463
-msgid "_Hide"
-msgstr "_Skjul"
-
-#: src/item-grid.c:524 src/item-grid.c:532 src/workbook.c:1447
-#: src/workbook.c:1466
-msgid "_Unhide"
-msgstr "_Vis igen"
 
 #. Row specific functions (Note some of the labels are duplicated
 #: src/item-grid.c:528
@@ -15209,7 +15804,7 @@ msgstr "kopiér"
 msgid "cut"
 msgstr "klip"
 
-#: src/sheet-object.c:750
+#: src/sheet-object.c:744
 msgid "Configure"
 msgstr ""
 
@@ -15667,181 +16262,21 @@ msgstr "Indsæt kolonner"
 msgid "Insert rows"
 msgstr "Indsæt rækker"
 
-#: src/workbook.c:1245
-msgid "_New"
-msgstr "_Ny"
-
-#: src/workbook.c:1245
-msgid "Create a new spreadsheet"
-msgstr "Opretter et nyt regneark"
-
-#: src/workbook.c:1249
-msgid "_Import..."
-msgstr "_Importér..."
-
-#: src/workbook.c:1249
-msgid "Imports a file"
-msgstr "Importerer en fil"
-
-#: src/workbook.c:1255
-msgid "Su_mmary..."
-msgstr "Sa_mmendrag..."
-
-#: src/workbook.c:1256
-msgid "Summary information"
-msgstr "Informationsresumé"
-
 #: src/workbook.c:1263 src/workbook.c:1617
 msgid "Print pre_view"
 msgstr "_Vis udskrift"
-
-#: src/workbook.c:1278
-msgid "_All"
-msgstr "_Alt"
-
-#: src/workbook.c:1279
-msgid "Clear the selected cells' formats, comments, and contents"
-msgstr "Ryd den valgte celles formater, kommentarer og indhold"
-
-#: src/workbook.c:1281
-msgid "_Formats"
-msgstr "_Formatér"
-
-#: src/workbook.c:1282
-msgid "Clear the selected cells' formats"
-msgstr "Ryd den valgte celles formater"
-
-#: src/workbook.c:1285
-msgid "Clear the selected cells' comments"
-msgstr "Ryd den valgte celles kommentarer"
-
-#: src/workbook.c:1287
-msgid "_Content"
-msgstr "_Indhold"
-
-#: src/workbook.c:1288
-msgid "Clear the selected cells' contents"
-msgstr "Fjern den markerede celles indhold"
-
-#: src/workbook.c:1296
-msgid "Select _All"
-msgstr "Vælg _alt"
-
-#: src/workbook.c:1297
-msgid "Select all cells in the spreadsheet"
-msgstr "Vælg alle celler i regnearket"
-
-#: src/workbook.c:1301
-msgid "Select _Row"
-msgstr "Vælg _række"
-
-#: src/workbook.c:1302
-msgid "Select an entire row"
-msgstr "Vælg en hel række"
-
-#: src/workbook.c:1306
-msgid "Select _Column"
-msgstr "Vælg _kolonne"
-
-#: src/workbook.c:1307
-msgid "Select an entire column"
-msgstr "Vælg en hel kolonne"
-
-#: src/workbook.c:1311
-msgid "Select Arra_y"
-msgstr "Vælg matrice"
-
-#: src/workbook.c:1312
-msgid "Select an array of cells"
-msgstr "Vælg et array af celler"
-
-#: src/workbook.c:1316
-msgid "Select _Depends"
-msgstr "Vælg afhængighed"
-
-#: src/workbook.c:1317
-msgid "Select all the cells that depend on the current edit cell."
-msgstr "Vælg alle celler som afhænger af den aktive celle."
 
 #: src/workbook.c:1333
 msgid "P_aste special..."
 msgstr "Indsæt speciel..."
 
-#: src/workbook.c:1334
-msgid "Paste with optional filters and transformations"
-msgstr "Indsæt med valgbare filtre og transformationer"
-
-#: src/workbook.c:1339
-msgid "C_lear"
-msgstr "_Ryd"
-
 #: src/workbook.c:1342
 msgid "Remove selected cells, shifting other into their place"
 msgstr "Fjern valgte celler, med skift af andre i deres sted"
 
-#: src/workbook.c:1344
-msgid "De_lete Sheet"
-msgstr "_Slet ark"
-
-#: src/workbook.c:1345
-msgid "Irrevocably remove an entire sheet"
-msgstr "Fjern uigenkaldeligt et helt ark"
-
-#: src/workbook.c:1350
-msgid "_Select..."
-msgstr "_Vælg..."
-
-#. Default <Ctrl-G> to be goto
-#: src/workbook.c:1353
-msgid "_Goto cell..."
-msgstr "_Gå til celle..."
-
-#: src/workbook.c:1354
-msgid "Jump to a specified cell"
-msgstr "Spring til en angivet celle"
-
-#. Default <F9> to recalculate
-#: src/workbook.c:1358
-msgid "_Recalculate"
-msgstr "_Omregn"
-
-#: src/workbook.c:1359
-msgid "Recalculate the spreadsheet"
-msgstr "Omkalkulerer regnearket"
-
-#: src/workbook.c:1368
-msgid "_Zoom..."
-msgstr "_Zoom..."
-
-#: src/workbook.c:1369
-msgid "Zoom the spreadsheet in or out"
-msgstr "Zoom ind og ud på regnearket"
-
-#. Default <Ctrl-;> (control semi-colon) to insert the current date
-#: src/workbook.c:1378
-msgid "Current _date"
-msgstr "Dags _dato"
-
-#: src/workbook.c:1379
-msgid "Insert the current date into the selected cell(s)"
-msgstr "Indsæt dags dato i de(n) markerede celle(r)"
-
-#. Default <Ctrl-:> (control colon) to insert the current time
-#: src/workbook.c:1384
-msgid "Current _time"
-msgstr "_Tidspunkt"
-
-#: src/workbook.c:1385
-msgid "Insert the current time into the selected cell(s)"
-msgstr "Indsæt nuværende tidspunkt i de(n) markerede celle(r)"
-
 #: src/workbook.c:1392
 msgid "_Names..."
 msgstr "_Navne..."
-
-#: src/workbook.c:1393
-msgid "Edit sheet and workbook names"
-msgstr "Redigér navne i ark og arbejdsbog"
 
 #: src/workbook.c:1396
 msgid "_Auto generate names..."
@@ -15851,95 +16286,21 @@ msgstr "_Autogenerér navne..."
 msgid "Use the current selection to create names"
 msgstr "Brug det nuværende valg til at generere navne"
 
-#: src/workbook.c:1404 src/workbook.c:1524
-msgid "_Sheet"
-msgstr "_Ark"
-
-#: src/workbook.c:1405
-msgid "Insert a new spreadsheet"
-msgstr "Indsæt et nyt regneark"
-
-#: src/workbook.c:1408
-msgid "Insert new rows"
-msgstr "Indsæt nye rækker"
-
-#: src/workbook.c:1411
-msgid "Insert new columns"
-msgstr "indsæt nye kolonner"
-
 #: src/workbook.c:1413
 msgid "C_ells..."
 msgstr "C_eller..."
-
-#: src/workbook.c:1414
-msgid "Insert new cells"
-msgstr "indsæt nye celler"
 
 #: src/workbook.c:1418
 msgid "_Object..."
 msgstr "_Objekt..."
 
-#: src/workbook.c:1419
-msgid "Inserts a Bonobo object"
-msgstr "Indsætter et bonobo-objekt"
-
-#: src/workbook.c:1425
-msgid "N_ames"
-msgstr "_Navne"
-
 #: src/workbook.c:1427
 msgid "_Add\\modify comment..."
 msgstr "_Tilføj/ændr kommentar..."
 
-#: src/workbook.c:1428
-msgid "Edit the selected cell's comment"
-msgstr "Redigér den valgte celles kommentar"
-
-#: src/workbook.c:1431
-msgid "S_pecial"
-msgstr "S_peciel"
-
-#: src/workbook.c:1438 src/workbook.c:1457
-msgid "_Auto fit selection"
-msgstr "_Autotilpas markering"
-
-#: src/workbook.c:1441
-#, fuzzy
-msgid "_Width..."
-msgstr "_Bredde"
-
-#: src/workbook.c:1450
-msgid "_Standard Width"
-msgstr "_Standardbredde"
-
-#: src/workbook.c:1460
-#, fuzzy
-msgid "_Height..."
-msgstr "_Rækkehøjde..."
-
-#: src/workbook.c:1469
-msgid "_Standard Height"
-msgstr "Standardhøjde"
-
 #: src/workbook.c:1476
 msgid "_Change name"
 msgstr "_Ændr navn"
-
-#: src/workbook.c:1479
-msgid "Re-_Order Sheets"
-msgstr "Omrokér ark"
-
-#: src/workbook.c:1484
-msgid "Display _Formulas"
-msgstr "Vis _formler"
-
-#: src/workbook.c:1490
-msgid "Hide _Zeros"
-msgstr "Skjul _nuller"
-
-#: src/workbook.c:1496
-msgid "Hide _Gridlines"
-msgstr "Skjul _gitterlinjer"
 
 #: src/workbook.c:1502
 msgid "Hide _Column Header"
@@ -15949,122 +16310,13 @@ msgstr "Skjul _kolonnehoved"
 msgid "Hide _Row Header"
 msgstr "Skjul _rækkehoved"
 
-#. Default <Ctrl-1> invoke the format dialog
-#: src/workbook.c:1518
-msgid "_Cells..."
-msgstr "_Celler..."
-
-#: src/workbook.c:1519
-msgid "Modify the formatting of the selected cells"
-msgstr "Ændr formatet på de markerede celler"
-
-#: src/workbook.c:1522
-msgid "C_olumn"
-msgstr "K_olonne"
-
-#: src/workbook.c:1523
-msgid "_Row"
-msgstr "_Række"
-
-#: src/workbook.c:1526
-msgid "_Autoformat..."
-msgstr "_Autoformatér..."
-
-#: src/workbook.c:1527
-msgid "Format a region of cells according to a pre-defined template"
-msgstr ""
-"Formatér et celleområde som foreskrevet af en allerede defineret skabelon"
-
-#: src/workbook.c:1530
-msgid "_Workbook..."
-msgstr "_Arbejdsbog..."
-
-#: src/workbook.c:1531
-msgid "Modify the workbook attributes"
-msgstr "Ændr arbejdsbogens tilhørender"
-
-#: src/workbook.c:1538
-msgid "_Plug-ins..."
-msgstr "Indstik..."
-
 #: src/workbook.c:1539
 msgid "Manage available plugin modules."
 msgstr "Håndtér tilgængelige indstiksmoduler."
 
-#: src/workbook.c:1544
-msgid "Auto _Correct..."
-msgstr "Auto_korrektion..."
-
-#: src/workbook.c:1545
-#, fuzzy
-msgid "Automatically perform simple spell checking"
-msgstr "Udfør automatisk simpel stavekontrol"
-
-#: src/workbook.c:1547
-msgid "_Auto Save..."
-msgstr "_Autogem..."
-
-#: src/workbook.c:1548
-#, fuzzy
-msgid "Automatically save the current document at regular intervals"
-msgstr "Gem automatisk det aktuelle dokument ved regelmæssige intervaller"
-
-#: src/workbook.c:1553
-msgid "_Goal Seek..."
-msgstr "_Mål søgning..."
-
-#: src/workbook.c:1554
-msgid "Iteratively recalculate to find a target value"
-msgstr "Genberegner iterativt for at finde en målvariabel"
-
-#: src/workbook.c:1556
-msgid "_Solver..."
-msgstr "_Løser..."
-
-#: src/workbook.c:1557
-msgid "Iteratively recalculate with constraints to approach a target value"
-msgstr ""
-"Genberegner iterativt med begrænsninger for at tilnærme sig en målvariabel"
-
-#: src/workbook.c:1562
-msgid "_Data Analysis..."
-msgstr "_Dataanalyse..."
-
 #: src/workbook.c:1563
 msgid "Statistical methods."
 msgstr "Statistiske metoder."
-
-#: src/workbook.c:1571
-msgid "_Sort..."
-msgstr "_Sortér..."
-
-#: src/workbook.c:1572
-msgid "Sort the selected cells"
-msgstr "Sorterer de valgte celler"
-
-#: src/workbook.c:1574
-msgid "_Filter..."
-msgstr "_Filter..."
-
-#: src/workbook.c:1575
-msgid "Filter data with given criteria"
-msgstr "Filtrér dato med givne kriterier"
-
-#: src/workbook.c:1591
-msgid "_Insert"
-msgstr "_Indsæt"
-
-#: src/workbook.c:1592
-msgid "F_ormat"
-msgstr "F_ormatér"
-
-#: src/workbook.c:1593
-msgid "_Tools"
-msgstr "_Værktøj"
-
-#: src/workbook.c:1594
-msgid "_Data"
-msgstr "_Data"
 
 #: src/workbook.c:1602
 msgid "New"
@@ -16227,957 +16479,19 @@ msgstr "Lav en kopi af dette ark"
 msgid "Re-order sheets"
 msgstr "Omordn ark"
 
-#: src/xml-io.c:3334
+#: src/xml-io.c:3336
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "Ugyldigt xml klipbordsdata. Er træet tomt?"
 
-#: src/xml-io.c:3376
+#: src/xml-io.c:3378
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ugyldig xml fil. Er træet tomt?"
 
-#: src/xml-io.c:3384
+#: src/xml-io.c:3386
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Er ikke en Gnumeric arbejdsbogsfil"
 
-#: src/xml-io.c:3443
+#: src/xml-io.c:3445
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
 
-#: src/gnumeric.xml:337
-msgid "~About this application"
-msgstr ""
-
-#: src/gnumeric.xml:300
-#, fuzzy
-msgid "~Auto _Correct..."
-msgstr "Auto_korrektion..."
-
-#: src/gnumeric.xml:301
-#, fuzzy
-msgid "~Automatically perform simple spell checking"
-msgstr "Udfør automatisk simpel stavekontrol"
-
-#: src/gnumeric.xml:305
-#, fuzzy
-msgid "~Automatically save the current document at regular intervals"
-msgstr "Gem automatisk det aktuelle dokument ved regelmæssige intervaller"
-
-#: src/gnumeric.xml:98
-#, fuzzy
-msgid "~C_lear"
-msgstr "_Ryd"
-
-#: src/gnumeric.xml:78
-#, fuzzy
-msgid "~C_lear..."
-msgstr "_Ryd"
-
-#: src/gnumeric.xml:207
-#, fuzzy
-msgid "~C_olumn"
-msgstr "K_olonne"
-
-#: src/gnumeric.xml:60
-#, fuzzy
-msgid "~C_ut"
-msgstr "Klip"
-
-#: src/gnumeric.xml:236
-msgid "~Change height of the selected rows"
-msgstr ""
-
-#: src/gnumeric.xml:226
-msgid "~Change the default column width"
-msgstr ""
-
-#: src/gnumeric.xml:248
-msgid "~Change the default row height"
-msgstr ""
-
-#: src/gnumeric.xml:258
-msgid "~Change the order the sheets are displayed"
-msgstr ""
-
-#: src/gnumeric.xml:214
-#, fuzzy
-msgid "~Change width of the selected columns"
-msgstr "Indsætter bredde på kolonner"
-
-#: src/gnumeric.xml:90
-#, fuzzy
-msgid "~Clear the selected cells' comments"
-msgstr "Ryd den valgte celles kommentarer"
-
-#: src/gnumeric.xml:94
-#, fuzzy
-msgid "~Clear the selected cells' contents"
-msgstr "Fjern den markerede celles indhold"
-
-#: src/gnumeric.xml:86
-#, fuzzy
-msgid "~Clear the selected cells' formats"
-msgstr "Ryd den valgte celles formater"
-
-#: src/gnumeric.xml:82
-#, fuzzy
-msgid "~Clear the selected cells' formats, comments, and contents"
-msgstr "Ryd den valgte celles formater, kommentarer og indhold"
-
-#: src/gnumeric.xml:99
-#, fuzzy
-msgid "~Clear the selection"
-msgstr "Midtersektion:"
-
-#: src/gnumeric.xml:40
-#, fuzzy
-msgid "~Close the current file"
-msgstr "Summér til den aktuelle celle."
-
-#: src/gnumeric.xml:89
-#, fuzzy
-msgid "~Co_mments"
-msgstr "Ko_mmentarer"
-
-#: src/gnumeric.xml:64
-#, fuzzy
-msgid "~Copy the selection"
-msgstr "_Autotilpas markering"
-
-#: src/gnumeric.xml:6
-#, fuzzy
-msgid "~Create a new spreadsheet"
-msgstr "Opretter et nyt regneark"
-
-#: src/gnumeric.xml:186
-#, fuzzy
-msgid "~Current _date"
-msgstr "Dags _dato"
-
-#: src/gnumeric.xml:191
-#, fuzzy
-msgid "~Current _time"
-msgstr "_Tidspunkt"
-
-#: src/gnumeric.xml:60
-#, fuzzy
-msgid "~Cut the selection"
-msgstr "_Autotilpas markering"
-
-#: src/gnumeric.xml:105
-#, fuzzy
-msgid "~De_lete Sheet"
-msgstr "_Slet ark"
-
-#: src/gnumeric.xml:261
-#, fuzzy
-msgid "~Display _Formulas"
-msgstr "Vis _formler"
-
-#: src/gnumeric.xml:262
-msgid "~Display the value of a formula or the formula itself"
-msgstr ""
-
-#: src/gnumeric.xml:45
-msgid "~E_xit"
-msgstr ""
-
-#: src/gnumeric.xml:175
-#, fuzzy
-msgid "~Edit sheet and workbook names"
-msgstr "Redigér navne i ark og arbejdsbog"
-
-#: src/gnumeric.xml:254
-#, fuzzy
-msgid "~Edit the name of the current sheet"
-msgstr "Redigér en funktion i den aktuelle celle."
-
-#: src/gnumeric.xml:181
-#, fuzzy
-msgid "~Edit the selected cell's comment"
-msgstr "Redigér den valgte celles kommentar"
-
-#: src/gnumeric.xml:210
-msgid "~Ensure columns are just wide enough to display content"
-msgstr ""
-
-#: src/gnumeric.xml:232
-msgid "~Ensure rows are just tall enough to display content"
-msgstr ""
-
-#: src/gnumeric.xml:45
-msgid "~Exit the program"
-msgstr ""
-
-#: src/gnumeric.xml:200
-#, fuzzy
-msgid "~F_ormat"
-msgstr "F_ormatér"
-
-#: src/gnumeric.xml:331
-#, fuzzy
-msgid "~Filter data with given criteria"
-msgstr "Filtrér dato med givne kriterier"
-
-#: src/gnumeric.xml:283
-#, fuzzy
-msgid "~Format a region of cells according to a pre-defined template"
-msgstr ""
-"Formatér et celleområde som foreskrevet af en allerede defineret skabelon"
-
-#: src/gnumeric.xml:273
-#, fuzzy
-msgid "~Hide _Column Headers"
-msgstr "Skjul _kolonnehoved"
-
-#: src/gnumeric.xml:269
-#, fuzzy
-msgid "~Hide _Gridlines"
-msgstr "Skjul _gitterlinjer"
-
-#: src/gnumeric.xml:277
-#, fuzzy
-msgid "~Hide _Row Headers"
-msgstr "Skjul _rækkehoved"
-
-#: src/gnumeric.xml:265
-#, fuzzy
-msgid "~Hide _Zeros"
-msgstr "Skjul _nuller"
-
-#: src/gnumeric.xml:218
-#, fuzzy
-msgid "~Hide the selected columns"
-msgstr "Sorterer de valgte celler"
-
-#: src/gnumeric.xml:240
-#, fuzzy
-msgid "~Hide the selected rows"
-msgstr "Sorterer de valgte celler"
-
-#: src/gnumeric.xml:14
-#, fuzzy
-msgid "~Imports a file"
-msgstr "Importerer en fil"
-
-#: src/gnumeric.xml:156
-#, fuzzy
-msgid "~Insert a new spreadsheet"
-msgstr "Indsæt et nyt regneark"
-
-#: src/gnumeric.xml:165
-#, fuzzy
-msgid "~Insert new cells"
-msgstr "indsæt nye celler"
-
-#: src/gnumeric.xml:162
-#, fuzzy
-msgid "~Insert new columns"
-msgstr "indsæt nye kolonner"
-
-#: src/gnumeric.xml:159
-#, fuzzy
-msgid "~Insert new rows"
-msgstr "Indsæt nye rækker"
-
-#: src/gnumeric.xml:187
-#, fuzzy
-msgid "~Insert the current date into the selected cell(s)"
-msgstr "Indsæt dags dato i de(n) markerede celle(r)"
-
-#: src/gnumeric.xml:192
-#, fuzzy
-msgid "~Insert the current time into the selected cell(s)"
-msgstr "Indsæt nuværende tidspunkt i de(n) markerede celle(r)"
-
-#: src/gnumeric.xml:168
-#, fuzzy
-msgid "~Inserts a Bonobo object"
-msgstr "Indsætter et bonobo-objekt"
-
-#: src/gnumeric.xml:106
-#, fuzzy
-msgid "~Irrevocably remove an entire sheet"
-msgstr "Fjern uigenkaldeligt et helt ark"
-
-#: src/gnumeric.xml:311
-#, fuzzy
-msgid "~Iteratively recalculate to find a target value"
-msgstr "Genberegner iterativt for at finde en målvariabel"
-
-#: src/gnumeric.xml:315
-#, fuzzy
-msgid "~Iteratively recalculate with constraints to approach a target value"
-msgstr ""
-"Genberegner iterativt med begrænsninger for at tilnærme sig en målvariabel"
-
-#: src/gnumeric.xml:136
-#, fuzzy
-msgid "~Jump to a specified cell"
-msgstr "Spring til en angivet celle"
-
-#: src/gnumeric.xml:222
-msgid "~Make any hidden columns in the selection visible"
-msgstr ""
-
-#: src/gnumeric.xml:244
-msgid "~Make any hidden rows in the selection visible"
-msgstr ""
-
-#: src/gnumeric.xml:295
-#, fuzzy
-msgid "~Manage available plugin modules"
-msgstr "Håndtér tilgængelige indstiksmoduler."
-
-#: src/gnumeric.xml:204
-#, fuzzy
-msgid "~Modify the formatting of the selected cells"
-msgstr "Ændr formatet på de markerede celler"
-
-#: src/gnumeric.xml:287
-#, fuzzy
-msgid "~Modify the workbook attributes"
-msgstr "Ændr arbejdsbogens tilhørender"
-
-#: src/gnumeric.xml:172
-#, fuzzy
-msgid "~N_ames"
-msgstr "_Navne"
-
-#: src/gnumeric.xml:10
-#, fuzzy
-msgid "~Open a file"
-msgstr "Importerer en fil"
-
-#: src/gnumeric.xml:68
-#, fuzzy
-msgid "~Paste the clipboard"
-msgstr "Indsætter klippebordet"
-
-#: src/gnumeric.xml:73
-#, fuzzy
-msgid "~Paste with optional filters and transformations"
-msgstr "Indsæt med valgbare filtre og transformationer"
-
-#: src/gnumeric.xml:35
-#, fuzzy
-msgid "~Print S_etup..."
-msgstr "Printeropsætning"
-
-#: src/gnumeric.xml:31
-#, fuzzy
-msgid "~Print the current file"
-msgstr "Summér til den aktuelle celle."
-
-#: src/gnumeric.xml:257
-#, fuzzy
-msgid "~Re-_Order Sheets"
-msgstr "Omrokér ark"
-
-#: src/gnumeric.xml:140
-#, fuzzy
-msgid "~Recalculate the spreadsheet"
-msgstr "Omkalkulerer regnearket"
-
-#: src/gnumeric.xml:55
-#, fuzzy
-msgid "~Redo the undone action"
-msgstr "Gentag handling"
-
-#: src/gnumeric.xml:102
-#, fuzzy
-msgid "~Remove selected cells, shifting others into their place"
-msgstr "Fjern valgte celler, med skift af andre i deres sted"
-
-#: src/gnumeric.xml:183
-#, fuzzy
-msgid "~S_pecial"
-msgstr "S_peciel"
-
-#: src/gnumeric.xml:21
-msgid "~Save _As..."
-msgstr ""
-
-#: src/gnumeric.xml:18
-#, fuzzy
-msgid "~Save the current file"
-msgstr "Summér til den aktuelle celle."
-
-#: src/gnumeric.xml:22
-#, fuzzy
-msgid "~Save the current file with a different name"
-msgstr "Brug det nuværende valg til at generere navne"
-
-#: src/gnumeric.xml:125
-#, fuzzy
-msgid "~Select Arra_y"
-msgstr "Vælg matrice"
-
-#: src/gnumeric.xml:113
-#, fuzzy
-msgid "~Select _All"
-msgstr "Vælg _alt"
-
-#: src/gnumeric.xml:121
-#, fuzzy
-msgid "~Select _Column"
-msgstr "Vælg _kolonne"
-
-#: src/gnumeric.xml:129
-#, fuzzy
-msgid "~Select _Depends"
-msgstr "Vælg afhængighed"
-
-#: src/gnumeric.xml:117
-#, fuzzy
-msgid "~Select _Row"
-msgstr "Vælg _række"
-
-#: src/gnumeric.xml:114
-#, fuzzy
-msgid "~Select all cells in the spreadsheet"
-msgstr "Vælg alle celler i regnearket"
-
-#: src/gnumeric.xml:130
-#, fuzzy
-msgid "~Select all the cells that depend on the current edit cell."
-msgstr "Vælg alle celler som afhænger af den aktive celle."
-
-#: src/gnumeric.xml:126
-#, fuzzy
-msgid "~Select an array of cells"
-msgstr "Vælg et array af celler"
-
-#: src/gnumeric.xml:122
-#, fuzzy
-msgid "~Select an entire column"
-msgstr "Vælg en hel kolonne"
-
-#: src/gnumeric.xml:118
-#, fuzzy
-msgid "~Select an entire row"
-msgstr "Vælg en hel række"
-
-#: src/gnumeric.xml:36
-msgid "~Setup the page settings for your current printer"
-msgstr ""
-
-#: src/gnumeric.xml:328
-#, fuzzy
-msgid "~Sort the selected cells"
-msgstr "Sorterer de valgte celler"
-
-#: src/gnumeric.xml:321
-#, fuzzy
-msgid "~Statistical methods"
-msgstr "Statistiske metoder."
-
-#: src/gnumeric.xml:25
-#, fuzzy
-msgid "~Su_mmary..."
-msgstr "Sa_mmendrag..."
-
-#: src/gnumeric.xml:26
-#, fuzzy
-msgid "~Summary information"
-msgstr "Informationsresumé"
-
-#: src/gnumeric.xml:274
-msgid "~Toggle whether or not to display column headers"
-msgstr ""
-
-#: src/gnumeric.xml:270
-msgid "~Toggle whether or not to display gridlines"
-msgstr ""
-
-#: src/gnumeric.xml:278
-msgid "~Toggle whether or not to display row headers"
-msgstr ""
-
-#: src/gnumeric.xml:266
-msgid "~Toggle whether or not to display zeros as blanks"
-msgstr ""
-
-#: src/gnumeric.xml:52
-#, fuzzy
-msgid "~Undo the last action"
-msgstr "Fortryd handling"
-
-#: src/gnumeric.xml:149
-#, fuzzy
-msgid "~Zoom the spreadsheet in or out"
-msgstr "Zoom ind og ud på regnearket"
-
-#: src/gnumeric.xml:337
-#, fuzzy
-msgid "~_About..."
-msgstr "_Sortér..."
-
-#: src/gnumeric.xml:180
-#, fuzzy
-msgid "~_Add / modify comment..."
-msgstr "_Tilføj/ændr kommentar..."
-
-#: src/gnumeric.xml:81
-#, fuzzy
-msgid "~_All"
-msgstr "_Alt"
-
-#: src/gnumeric.xml:304
-#, fuzzy
-msgid "~_Auto Save..."
-msgstr "_Autogem..."
-
-#: src/gnumeric.xml:231
-#, fuzzy
-msgid "~_Auto fit selection"
-msgstr "_Autotilpas markering"
-
-#: src/gnumeric.xml:282
-#, fuzzy
-msgid "~_Autoformat..."
-msgstr "_Autoformatér..."
-
-#: src/gnumeric.xml:165
-#, fuzzy
-msgid "~_Cells"
-msgstr "_Celler..."
-
-#: src/gnumeric.xml:203
-#, fuzzy
-msgid "~_Cells..."
-msgstr "_Celler..."
-
-#: src/gnumeric.xml:253
-#, fuzzy
-msgid "~_Change Name"
-msgstr "_Ændr navn"
-
-#: src/gnumeric.xml:39
-#, fuzzy
-msgid "~_Close"
-msgstr "_Ryd"
-
-#: src/gnumeric.xml:162
-#, fuzzy
-msgid "~_Columns"
-msgstr "_Kolonner"
-
-#: src/gnumeric.xml:93
-#, fuzzy
-msgid "~_Content"
-msgstr "_Indhold"
-
-#: src/gnumeric.xml:63
-#, fuzzy
-msgid "~_Copy"
-msgstr "_Kopiér"
-
-#: src/gnumeric.xml:325
-#, fuzzy
-msgid "~_Data"
-msgstr "_Data"
-
-#: src/gnumeric.xml:320
-#, fuzzy
-msgid "~_Data Analysis..."
-msgstr "_Dataanalyse..."
-
-#: src/gnumeric.xml:101
-#, fuzzy
-msgid "~_Delete..."
-msgstr "_Slet..."
-
-#: src/gnumeric.xml:50
-#, fuzzy
-msgid "~_Edit"
-msgstr "Redigér..."
-
-#: src/gnumeric.xml:3
-#, fuzzy
-msgid "~_File"
-msgstr "_Udfyld"
-
-#: src/gnumeric.xml:331
-#, fuzzy
-msgid "~_Filter..."
-msgstr "_Filter..."
-
-#: src/gnumeric.xml:85
-#, fuzzy
-msgid "~_Formats"
-msgstr "_Formatér"
-
-#: src/gnumeric.xml:310
-#, fuzzy
-msgid "~_Goal Seek..."
-msgstr "_Mål søgning..."
-
-#: src/gnumeric.xml:135
-#, fuzzy
-msgid "~_Goto cell..."
-msgstr "_Gå til celle..."
-
-#: src/gnumeric.xml:235
-#, fuzzy
-msgid "~_Height..."
-msgstr "_Rækkehøjde..."
-
-#: src/gnumeric.xml:335
-msgid "~_Help"
-msgstr ""
-
-#: src/gnumeric.xml:239
-#, fuzzy
-msgid "~_Hide"
-msgstr "_Skjul"
-
-#: src/gnumeric.xml:13
-#, fuzzy
-msgid "~_Import..."
-msgstr "_Importér..."
-
-#: src/gnumeric.xml:153
-#, fuzzy
-msgid "~_Insert"
-msgstr "_Indsæt"
-
-#: src/gnumeric.xml:5
-#, fuzzy
-msgid "~_New"
-msgstr "_Ny"
-
-#: src/gnumeric.xml:168
-#, fuzzy
-msgid "~_Object"
-msgstr "_Objekt..."
-
-#: src/gnumeric.xml:9
-#, fuzzy
-msgid "~_Open..."
-msgstr "Indstillinger..."
-
-#: src/gnumeric.xml:67
-#, fuzzy
-msgid "~_Paste"
-msgstr "_Indsæt"
-
-#: src/gnumeric.xml:72
-#, fuzzy
-msgid "~_Paste special..."
-msgstr "Indsæt speciel..."
-
-#: src/gnumeric.xml:294
-#, fuzzy
-msgid "~_Plug-ins..."
-msgstr "Indstik..."
-
-#: src/gnumeric.xml:30
-#, fuzzy
-msgid "~_Print"
-msgstr "Udskriv"
-
-#: src/gnumeric.xml:139
-#, fuzzy
-msgid "~_Recalculate"
-msgstr "_Omregn"
-
-#: src/gnumeric.xml:55
-#, fuzzy
-msgid "~_Redo"
-msgstr "Gentag"
-
-#: src/gnumeric.xml:229
-#, fuzzy
-msgid "~_Row"
-msgstr "_Række"
-
-#: src/gnumeric.xml:159
-#, fuzzy
-msgid "~_Rows"
-msgstr "_Rækker"
-
-#: src/gnumeric.xml:17
-#, fuzzy
-msgid "~_Save"
-msgstr "Gem"
-
-#: src/gnumeric.xml:110
-#, fuzzy
-msgid "~_Select..."
-msgstr "_Vælg..."
-
-#: src/gnumeric.xml:251
-#, fuzzy
-msgid "~_Sheet"
-msgstr "_Ark"
-
-#: src/gnumeric.xml:314
-#, fuzzy
-msgid "~_Solver..."
-msgstr "_Løser..."
-
-#: src/gnumeric.xml:328
-#, fuzzy
-msgid "~_Sort..."
-msgstr "_Sortér..."
-
-#: src/gnumeric.xml:247
-#, fuzzy
-msgid "~_Standard Height"
-msgstr "Standardhøjde"
-
-#: src/gnumeric.xml:225
-#, fuzzy
-msgid "~_Standard Width"
-msgstr "_Standardbredde"
-
-#: src/gnumeric.xml:291
-#, fuzzy
-msgid "~_Tools"
-msgstr "_Værktøj"
-
-#: src/gnumeric.xml:52
-#, fuzzy
-msgid "~_Undo"
-msgstr "Fortryd"
-
-#: src/gnumeric.xml:243
-#, fuzzy
-msgid "~_Unhide"
-msgstr "_Vis igen"
-
-#: src/gnumeric.xml:146
-#, fuzzy
-msgid "~_View"
-msgstr "Vis"
-
-#: src/gnumeric.xml:213
-#, fuzzy
-msgid "~_Width..."
-msgstr "_Bredde"
-
-#: src/gnumeric.xml:286
-#, fuzzy
-msgid "~_Workbook..."
-msgstr "_Arbejdsbog..."
-
-#: src/gnumeric.xml:148
-#, fuzzy
-msgid "~_Zoom..."
-msgstr "_Zoom..."
-
-#~ msgid "List with categories, click on a category to see it's templates"
-#~ msgstr "Liste med kategorier, klik på en kategori for at se dens skabeloner"
-
-#~ msgid "Templates"
-#~ msgstr "Skabeloner"
-
-#~ msgid "Show gridlines in previews"
-#~ msgstr "Vis gitterlinjer i smugkig"
-
-#~ msgid "Create a new template"
-#~ msgstr "Opretter en ny skabelon"
-
-#~ msgid "Edit the currently selected template"
-#~ msgstr "redigér den nuværende valgte skabelon"
-
-#~ msgid "Remove the currently selected template"
-#~ msgstr "Fjern den nuværende valgte skabelon"
-
-#~ msgid "Show more options and information"
-#~ msgstr "Vis flere valgmuligheder og information"
-
-#~ msgid "More >>"
-#~ msgstr "Mere >>"
-
-#~ msgid "Template Information"
-#~ msgstr "Skabelons-information"
-
-#~ msgid "Apply"
-#~ msgstr "Anvend"
-
-#~ msgid "_Border"
-#~ msgstr "_Kant"
-
-#~ msgid "_Font"
-#~ msgstr "_Skrifttype"
-
-#~ msgid "_Dimensions"
-#~ msgstr "_Dimensioner"
-
-#~ msgid ""
-#~ "None\n"
-#~ "Single\n"
-#~ "Double\n"
-#~ msgstr ""
-#~ "Ingen\n"
-#~ "Enkelt\n"
-#~ "Dobbelt\n"
-
-#~ msgid "%d template in category '%s'"
-#~ msgstr "%d skabelon i kategori '%s'"
-
-#~ msgid "%d templates in category '%s'"
-#~ msgstr "%d skabeloner i kategori '%s'"
-
-#~ msgid "<< Less"
-#~ msgstr "<< Mindre"
-
-#~ msgid "/File/"
-#~ msgstr "/Fil/"
-
-#~ msgid "Button"
-#~ msgstr "Knap"
-
-#~ msgid "I was not able to activate object %s"
-#~ msgstr "Jeg kunne ikke aktivere objekt %s"
-
-#~ msgid "I was unable to the bind object"
-#~ msgstr "Jeg kunne ikke binde objekt"
-
-#~ msgid "_Height"
-#~ msgstr "_Højde"
-
-#~ msgid "Creates a button"
-#~ msgstr "Opretter en knap"
-
-#~ msgid "Checkbox"
-#~ msgstr "Afkrydsningsboks"
-
-#~ msgid "Creates a checkbox"
-#~ msgstr "Opretter en afkrydsningsboks"
-
-#~ msgid "Creates a line object"
-#~ msgstr "Opretter et linjeobjekt"
-
-#~ msgid "Arrow"
-#~ msgstr "Pil"
-
-#~ msgid "Creates an arrow object"
-#~ msgstr "Opretter et pileobjekt"
-
-#~ msgid "Rectangle"
-#~ msgstr "Firkant"
-
-#~ msgid "Creates a rectangle object"
-#~ msgstr "Opretter et firkantet objekt"
-
-#~ msgid "Ellipse"
-#~ msgstr "Ellipse"
-
-#~ msgid "Creates an ellipse object"
-#~ msgstr "Opretter et ellipseobjekt"
-
-#~ msgid "custom"
-#~ msgstr "tilpasset"
-
-#~ msgid "Custom Color:"
-#~ msgstr "Egen farve:"
-
-#~ msgid "Choose Custom Color"
-#~ msgstr "Vælg din egen farve"
-
-#~ msgid "light brown"
-#~ msgstr "lysebrun"
-
-#~ msgid "brown gold"
-#~ msgstr "gyldenbrun"
-
-#~ msgid "dark green #2"
-#~ msgstr "mørkegrøn #2"
-
-#~ msgid "navy"
-#~ msgstr "marineblå"
-
-#~ msgid "dark blue"
-#~ msgstr "mørkeblå"
-
-#~ msgid "purple #2"
-#~ msgstr "violet #2"
-
-#~ msgid "very dark gray"
-#~ msgstr "meget mørkegrå"
-
-#~ msgid "dark red"
-#~ msgstr "mørkerød"
-
-#~ msgid "red-orange"
-#~ msgstr "orangerød"
-
-#~ msgid "gold"
-#~ msgstr "gylden"
-
-#~ msgid "dark green"
-#~ msgstr "mørkegrøn"
-
-#~ msgid "dull blue"
-#~ msgstr "mat blå"
-
-#~ msgid "dull purple"
-#~ msgstr "mat violet"
-
-#~ msgid "dark grey"
-#~ msgstr "mørkegrå"
-
-#~ msgid "orange"
-#~ msgstr "orange"
-
-#~ msgid "lime"
-#~ msgstr "ravgul"
-
-#~ msgid "dull green"
-#~ msgstr "mat grøn"
-
-#~ msgid "dull blue #2"
-#~ msgstr "mat blå #2"
-
-#~ msgid "sky blue #2"
-#~ msgstr "himmelblå #2"
-
-#~ msgid "purple"
-#~ msgstr "violet"
-
-#~ msgid "gray"
-#~ msgstr "grå"
-
-#~ msgid "bright orange"
-#~ msgstr "klar orange"
-
-#~ msgid "bright blue"
-#~ msgstr "klar blå"
-
-#~ msgid "red purple"
-#~ msgstr "rødviolet"
-
-#~ msgid "light grey"
-#~ msgstr "lysegrå"
-
-#~ msgid "pink"
-#~ msgstr "lyserød"
-
-#~ msgid "light orange"
-#~ msgstr "lysorange"
-
-#~ msgid "light yellow"
-#~ msgstr "lysegul"
-
-#~ msgid "light green"
-#~ msgstr "lysegrøn"
-
-#~ msgid "light cyan"
-#~ msgstr "lysecyan"
-
-#~ msgid "light blue"
-#~ msgstr "lyseblå"
-
-#~ msgid "light purple"
-#~ msgstr "lyseviolet"
-
-#~ msgid "purplish blue"
-#~ msgstr "blåviolet"
-
-#~ msgid "dark purple"
-#~ msgstr "mørkeviolet"
-
-#~ msgid "sky blue"
-#~ msgstr "himmelblå"
