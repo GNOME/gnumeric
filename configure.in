@@ -71,7 +71,7 @@ if test "x$bonobo_msg" = "xyes"; then
 	PKG_CHECK_MODULES(LIBBONOBO, [
 		libbonobo-2.0 >= 2.2.0
 		libbonoboui-2.0 >= 2.2.0
-		libgsf-gnome-1 >= 1.8.1
+		libgsf-gnome-1 >= 1.8.2
 		],	
 		[bonobo_msg="yes"],
 		[bonobo_msg="missing dependencies"])
@@ -84,7 +84,7 @@ if test "x$bonobo_msg" = "xyes"; then
 	gnumeric_reqs="$gnumeric_reqs
 libbonobo-2.0 >= 2.2.0
 libbonoboui-2.0 >= 2.2.0
-libgsf-gnome-1 >= 1.8.1"
+libgsf-gnome-1 >= 1.8.2"
 else
         gnumeric_bonobo_enabled=false
 fi
@@ -787,16 +787,6 @@ stamp.h
 ])
 
 echo "
-
-WARNING WARNING WARNING
-
-    This is the _DEVELOPMENT_ branch of gnumeric.  It is undergoing rapid change
-    and is _NOT_ suitable for packaging or production work.  Please use the
-    stable branch
-
-	cvs co -r gnome_1_4 gnumeric
-
-WARNING WARNING WARNING
 
 Configuration:
 

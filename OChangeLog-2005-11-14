@@ -1,3 +1,9 @@
+2003-09-15  Jon K Hellan  <hellan@acm.org>
+
+	* configure.in: Require libgsf-gnome-1 >= 1.8.2. No big deal, we 
+	were already requiring libgsf-1 >= 1.8.2 elsewhere.
+	Remove big bad "unstable branch" warning.
+
 2003-09-15  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release version bump
