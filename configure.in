@@ -81,7 +81,7 @@ dnl ******************************
 dnl gnome-xml checking
 dnl ******************************
 AC_MSG_CHECKING(for libxml (aka gnome-xml) libraries 1.8.5 <= version < 2.0.0)
-if xml-config --libs print > /dev/null 2>&1; then 
+if xml-config --libs > /dev/null 2>&1; then 
     vers=`xml-config --version | sed -e "s/libxml //" | awk 'BEGIN { FS = "."; } { printf "%d", ($1 * 1000 + $2) * 1000 + $3;}'`
     if test "$vers" -ge 1008005; then
 	if test "$vers" -lt 2000000; then

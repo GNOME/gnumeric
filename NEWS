@@ -9,6 +9,7 @@ Jody:
 	* Fix popup context menus.
 	* Fix embeddable grid.
 	* 'General' number formats.
+	* Some initial work on an MVC split for workbooks.
 
 Jon Kåre:
 	* When format toolbar is vertical, replace font and size
