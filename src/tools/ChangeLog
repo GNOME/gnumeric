@@ -1,3 +1,12 @@
+2003-04-10  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* Makefile.am: Added scenarios.[ch].
+
+	* scenarios.[ch]: Implemented scenario_copy_all () for sheet
+	duplication. Added scenario_copy ().
+	Implemented scenario_free_all () for sheet removal.
+	Fixed also the scenario value storage indexing.
+
 2003-04-09  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* scenarios.[ch]: Start of scenarios like in XL.

@@ -84,7 +84,9 @@ scenario_show (WorkbookControl        *wbc,
 		for (j = s->range.start.col; j <= s->range.end.col; j++) {
 			dao_set_cell_value
 				(dao, j, i, value_duplicate
-				 (s->changing_cells [j + i * cols]));
+				 (s->changing_cells [j-s->range.start.col +
+						     (i-s->range.start.row) *
+						     cols]));
 		}
 
 	workbook_recalc (wb_control_workbook (wbc));
@@ -121,10 +123,73 @@ scenario_free (scenario_t *s)
 	cols = s->range.end.col - s->range.start.col + 1;
 	for (i = s->range.start.row; i <= s->range.end.row; i++)
 		for (j = s->range.start.col; j <= s->range.end.col; j++)
-			value_release (s->changing_cells [j + i * cols]);
+			value_release
+				(s->changing_cells [j-s->range.start.col
+						    + (i-s->range.start.row) *
+						    cols]);
 
 	g_free (s->changing_cells);
 	g_free (s);
+}
+
+static scenario_t *
+scenario_copy (scenario_t *s, Sheet *new_sheet)
+{
+	scenario_t *p;
+	int        i, j, cols, rows;
+	
+	p = g_new (scenario_t, 1);
+	
+	p->name         = g_strdup (s->name);
+	p->comment      = g_strdup (s->comment);
+	/* FIXME: Sheet name change */
+	p->cell_sel_str = g_strdup (s->cell_sel_str);
+	range_init (&p->range, s->range.start.col, s->range.start.row,
+		    s->range.end.col, s->range.end.row);
+
+	rows = s->range.end.row - s->range.start.row + 1;
+	cols = s->range.end.col - s->range.start.col + 1;
+
+	p->changing_cells = g_new (Value *, rows * cols);
+	for (i = s->range.start.row; i <= s->range.end.row; i++)
+		for (j = s->range.start.col; j <= s->range.end.col; j++)
+			p->changing_cells [j-s->range.start.col +
+					   (i-s->range.start.row) * cols] = 
+				value_duplicate (s->changing_cells
+						 [j-s->range.start.col +
+						  (i-s->range.start.row) *
+						  cols]);
+
+	return p;
+}
+
+GList *
+scenario_copy_all (GList *list, Sheet *ns)
+{
+	GList *cpy = NULL;
+
+	while (list != NULL) {
+		cpy = g_list_append (cpy, scenario_copy (list->data, ns));
+		list = list->next;
+	}
+
+	return cpy;
+}
+
+static void
+cb_free (scenario_t *data, gpointer ignore)
+{
+	scenario_free (data);
+}
+
+/*
+ * Frees all scenarios in a list.
+ */
+void
+scenario_free_all (GList *list)
+{
+	g_list_foreach (list, (GFunc) cb_free, NULL);
+	g_list_free (list);
 }
 
 static void
@@ -144,7 +209,8 @@ collect_values (Sheet *sheet, scenario_t *s, ValueRange *range)
 	for (i = s->range.start.row; i <= s->range.end.row; i++)
 		for (j = s->range.start.col; j <= s->range.end.col; j++) {
 			cell = sheet_cell_fetch (sheet, j, i);
-			s->changing_cells [j + i * cols] = 
+			s->changing_cells [j-s->range.start.col + 
+					   (i-s->range.start.row) * cols] = 
 				value_duplicate (cell->value);
 		}
 }
