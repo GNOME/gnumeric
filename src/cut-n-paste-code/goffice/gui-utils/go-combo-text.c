@@ -47,12 +47,12 @@ enum {
 static guint combo_text_signals [LAST_SIGNAL] = { 0 };
 
 /**
- * A utility wrapper around g_signal_emitv because it does not initiialize the
+ * A utility wrapper around g_signal_emitv because it does not initialize the
  * result to FALSE if there is no handler.
  */
 static gboolean
 go_signal_emit (GoComboText *ct, int signal,
-		 gconstpointer arg, int default_ret)
+		gconstpointer arg, int default_ret)
 {
 	gboolean result;
 	GValue ret = { 0, };
@@ -87,9 +87,9 @@ cb_entry_activate (GtkWidget *entry, gpointer ct)
 }
 
 static void
-cb_list_changed (GtkTreeSelection *selection,
-		gpointer data)
+cb_list_changed (GtkTreeView *list, gpointer data)
 {
+	GtkTreeSelection *selection = gtk_tree_view_get_selection (list);
 	GoComboText *ct = GO_COMBO_TEXT (data);
 	GtkEntry *entry = GTK_ENTRY (ct->entry);
 	gboolean accept_change;
@@ -108,7 +108,7 @@ cb_list_changed (GtkTreeSelection *selection,
 	if (accept_change)
 		gtk_entry_set_text (entry, text);
 
-	go_combo_box_popup_hide (GO_COMBO_BOX (data));
+	go_combo_box_popup_hide (GO_COMBO_BOX (ct));
 }
 
 static void
@@ -197,9 +197,8 @@ go_combo_text_init (GoComboText *ct)
 								renderer, "text", 0, NULL);
 	gtk_tree_view_column_set_expand (column, TRUE);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (ct->list), column);
-	g_signal_connect (G_OBJECT (gtk_tree_view_get_selection (GTK_TREE_VIEW (ct->list))),
-		"changed",
-		G_CALLBACK (cb_list_changed), (gpointer) ct);
+	g_signal_connect (G_OBJECT (ct->list), "cursor_changed",
+			  G_CALLBACK (cb_list_changed), ct);
 
 	ct->scroll = gtk_scrolled_window_new (NULL, NULL);
 
@@ -314,7 +313,7 @@ go_combo_text_get_entry (GoComboText *ct)
  */
 gboolean
 go_combo_text_set_text (GoComboText *ct, const gchar *text,
-			 GoComboTextSearch start)
+			GoComboTextSearch start)
 {
 	gboolean found = FALSE, result;
 	GtkTreeView   *list = GTK_TREE_VIEW (ct->list);
@@ -349,7 +348,7 @@ go_combo_text_set_text (GoComboText *ct, const gchar *text,
 			g_free (label);
 		}
 
-	g_signal_handlers_block_by_func (G_OBJECT (selection),
+	g_signal_handlers_block_by_func (G_OBJECT (list),
 					  G_CALLBACK (cb_list_changed),
 					  (gpointer) ct);
 	gtk_tree_selection_unselect_all (selection);
@@ -366,7 +365,7 @@ go_combo_text_set_text (GoComboText *ct, const gchar *text,
 	} else
 		gtk_entry_set_text (GTK_ENTRY (ct->entry), text);
 
-	g_signal_handlers_unblock_by_func (G_OBJECT (selection),
+	g_signal_handlers_unblock_by_func (G_OBJECT (list),
 					  G_CALLBACK (cb_list_changed),
 					  (gpointer) ct);
 	return found;

@@ -1,3 +1,9 @@
+2005-01-11  Morten Welinder  <terra@gnome.org>
+
+	* gui-utils/go-combo-text.c (go_combo_text_init): Bind to the
+	treeview's cursor_changed signal, not the selection's changed
+	signal.  [#163412].
+
 2005-01-06  Morten Welinder  <terra@gnome.org>
 
 	* utils/go-math.c (go_fake_floor, go_fake_ceil): Fix negative
