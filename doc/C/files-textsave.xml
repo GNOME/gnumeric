@@ -1,6 +1,8 @@
 <sect1 id="sect-file-textExport">
   <title>Exporting Text Files</title>
 
+<!-- TODO: Rewrite this sucker! Use the new screenshots. -->
+
   <para>
     &gnum; can export files or file fragments that consist entirely of
     text. Text files provide a basic, common format enabling programs

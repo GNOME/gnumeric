@@ -1,6 +1,8 @@
 <sect1 id="sect-file-save">
     <title>Saving Files</title>
-    
+
+<!-- TODO: Sync with file-opening.xml for parallel structure. -->
+
     <para>
       There are several ways to save a &gnum; workbook that is
       currently open. If the workbook has already been saved to a file
@@ -255,6 +257,15 @@
 	        formats provided by the &gnum; program itself and by
 	        all the currently active plugins.
 	      </para>
+	      <note>
+	        <para>
+		  If the file format type named "Text export
+		  (configurable)" is opened, this will start the text
+		  export procedure. <xref
+		  linkend="sect-file-textExport"/> explains this
+		  procedure in complete detail.
+		</para>
+	      </note>
 	    </listitem>
           </varlistentry>
 
@@ -455,6 +466,16 @@
 	    linkend="sect-file-save" /> and explained in
 	    detail in <xref linkend="sect-file-formats" />.
 	  </para>
+	      <note>
+	        <para>
+		  If the file format type named "Text export
+		  (configurable)" is opened, this will start the text
+		  export procedure. <xref
+		  linkend="sect-file-textExport"/> explains this
+		  procedure in complete detail.
+		</para>
+	      </note>
+
 	</step> 
 
         <step>

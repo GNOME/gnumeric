@@ -1,6 +1,8 @@
  <sect1 id="sect-file-textImport">
   <title>Importing Text</title>
 
+<!-- TODO: Ask. In text import druid, what does row selection do? Why the highlight? -->
+
   <para>
     &gnum; can import data which is organized as text fields
     structured in some systematic fashion either from a file or from
@@ -34,12 +36,16 @@
     <tip>
     <title>The steps involved in the text import druid.</title>
 
-    <para></para><!-- Spacing HACK  -->
+    <para></para>
+<!-- TODO: remove this spacing hack  -->
 
     <orderedlist>
       <listitem>
         <para>
-	  Launch the  <interface>Text Import</interface> druid.
+	  Launch the  <interface>Text Import</interface> druid using,
+	  in the <guimenu>File</guimenu>, the
+	  <guimenuitem>Open</guimenuitem> and selecting the "Text import
+	  (configurable)" file format type.
 	</para>
       </listitem>
       <listitem>

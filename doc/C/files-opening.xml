@@ -467,12 +467,9 @@
 	        below. Each of these formats are explained in detail
 	        in <xref linkend="sect-file-formats"/>.
 	      </para>
-	      <para>
-	        
-	      </para>
 	      <note>
 	        <para>
-		  If the file format type named "Text Import
+		  If the file format type named "Text import
 		  (configurable)" is opened, this will start the text
 		  import procedure. <xref
 		  linkend="sect-file-textImport"/> explains this
@@ -809,6 +806,16 @@
 	    area <emphasis role="bold">G</emphasis> and scrolling down
 	    the list to the desired file type.
 	  </para>
+
+	      <note>
+	        <para>
+		  If the file format type named "Text import
+		  (configurable)" is opened, this will start the text
+		  import procedure. <xref
+		  linkend="sect-file-textImport"/> explains this
+		  procedure in complete detail.
+		</para>
+	      </note>
 
 	</step>
 

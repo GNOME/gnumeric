@@ -1,7 +1,26 @@
-
 <!-- This is doc/C/README -->
 
-Last edited: 9 July 2003
+Last edited: 1 October 2004
+
+
+
+TODO List:
+---------
+The TODO list can be obtained by 
+
+grep -in todo *.xml
+
+
+
+Adding and removing files:
+-------------------------
+All files added or removed must be sync'ed with the Makefile.am's
+
+.xml files with C/Makefile.am
+figures with C/figures/Makefile.am
+
+
+
 
 Formatting:
 ----------
@@ -11,6 +30,8 @@ Formatting:
     - text of paragraph indented from <para> tag
     - all elements indented unless the close tag fits on the same line
 
+
+
 File-naming:
 -----------
   Please name files in the same chapter with the same starting element
@@ -19,11 +40,15 @@ File-naming:
     - Button-
     - Dialog-
 
+
+
 Id-naming:
 ---------
   Please use tags based on text placement in hiearchy
     - Start of tag describes what it is sect- fig- table-
     - Inside of tag is -chaptername-section-section...
+
+
 
 Emacs:
 -----

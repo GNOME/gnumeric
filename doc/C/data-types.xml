@@ -284,6 +284,9 @@
 <sect2 id="sect-data-formulas">
   <title>Formula Elements</title>
   
+<!-- TODO: add explanation of operator precedence. -->
+<!-- TODO: add explanation of stacked division a/b/c. -->
+
   <para>
     Formulas are the key to making a powerful spreadsheet. A formula
     instructs <application>Gnumeric</application> to perform
