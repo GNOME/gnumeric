@@ -199,8 +199,8 @@ sheet_object_graph_populate_menu (SheetObject *so,
 	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item), image);
 	g_signal_connect (G_OBJECT (item), "activate",
 			  G_CALLBACK (cb_save_as), obj_view);
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
 	SHEET_OBJECT_CLASS (parent_klass)->populate_menu (so, obj_view, menu);
+	gtk_menu_shell_insert (GTK_MENU_SHELL (menu),  item, 1);
 }
 
 static void
