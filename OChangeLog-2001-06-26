@@ -1,5 +1,10 @@
 2001-02-05  Jody Goldberg <jgoldberg@home.com>
 
+	* src/style-border.c (style_borders_row_draw) : check for NULL even on
+	  the last border.
+
+2001-02-05  Jody Goldberg <jgoldberg@home.com>
+
 	* src/style-border.c (style_border_hmargins) : built from the original
 	(style_border_vmargins) : draw routines.
 	(style_borders_row_draw) : a wrapper to draw a set of borders.
