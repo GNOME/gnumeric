@@ -198,7 +198,7 @@ sub Convert($) {
 	   	$string{$1} = [];
         }
 
-	while ($input =~ /<_[a-zA-Z0-9_]+>(..[^_]*)<\/_[a-zA-Z0-9_]+>/sg) {
+	while ($input =~ /<_[a-zA-Z0-9_]+>([^_]+)<\/_[a-zA-Z0-9_]+>/sg) {
 		$string{$1} = [];
  	}}
 
@@ -208,7 +208,7 @@ sub Convert($) {
         my $translate = "label|title|text|format|copyright|comments|
                          preview_text|tooltip";
 
-        while ($input =~ /<($translate)>(..[^<]*)<\/($translate)>/sg) {
+        while ($input =~ /<($translate)>([^<]+)<\/($translate)>/sg) {
 
 	    # Glade has some bugs, especially it uses translations tags to contain little
 	    # non-translatable content. We work around this, by not including these
