@@ -939,7 +939,7 @@ format_remove_decimal (StyleFormat const *fmt)
 		/* Nothing to remove for these formats ! */
 		return NULL;
 	case FMT_UNKNOWN:
-	case FNM_GENERAL:
+	case FMT_GENERAL:
 		; /* Nothing.  */
 	}
 
@@ -1015,7 +1015,7 @@ format_add_decimal (StyleFormat const *fmt)
 		/* Nothing to add for these formats ! */
 		return NULL;
 	case FMT_UNKNOWN:
-	case FNM_GENERAL:
+	case FMT_GENERAL:
 		; /* Nothing.  */
 	}
 
