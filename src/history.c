@@ -29,9 +29,8 @@
 static void
 file_history_cmd (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	gchar *filename = gtk_object_get_data (GTK_OBJECT (widget), UGLY_GNOME_UI_KEY);
-	(void) wb_view_open (wb_control_view (WORKBOOK_CONTROL (wbcg)),
-	                     WORKBOOK_CONTROL (wbcg), filename, TRUE);
+	char *filename = gtk_object_get_data (GTK_OBJECT (widget), UGLY_GNOME_UI_KEY);
+	wb_view_open (filename, WORKBOOK_CONTROL (wbcg), TRUE, NULL);
 }
 
 #else
@@ -42,10 +41,9 @@ file_history_cmd (BonoboUIComponent *uic, WorkbookControlGUI *wbcg, const char *
 	char *filename = bonobo_ui_component_get_prop (wbcg->uic, fullpath,
 						       "tip", NULL);
 
-	g_free (fullpath);
-	(void) wb_view_open (wb_control_view (WORKBOOK_CONTROL (wbcg)),
-	                     WORKBOOK_CONTROL (wbcg), filename, TRUE);
+	wb_view_open (filename, WORKBOOK_CONTROL (wbcg), TRUE, NULL);
 	g_free (filename);
+	g_free (fullpath);
 }
 #endif
 

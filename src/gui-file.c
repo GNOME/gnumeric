@@ -1,3 +1,4 @@
+/* vim: set sw=8: */
 /*
  * gui-file.c:
  *
@@ -123,10 +124,9 @@ gui_file_import (WorkbookControlGUI *wbcg)
 
 	fo = g_list_nth_data (importers, gnumeric_option_menu_get_selected_index (omenu));
 	file_name = gtk_file_selection_get_filename (fsel);
-	if (fo != NULL) {
-		(void) wb_view_open_custom (wb_control_view (WORKBOOK_CONTROL (wbcg)),
-		                            WORKBOOK_CONTROL (wbcg), fo, file_name, TRUE);
-	}
+	if (fo != NULL)
+		wb_view_open (file_name, WORKBOOK_CONTROL (wbcg), TRUE, fo);
+
 	gtk_object_destroy (GTK_OBJECT (fsel));
 	g_list_free (importers);
 }
@@ -326,8 +326,8 @@ gui_file_open (WorkbookControlGUI *wbcg)
 	}
 
 	if (gnumeric_dialog_file_selection (wbcg, fsel))
-		(void) wb_view_open (wb_control_view (wbc), wbc,
-			gtk_file_selection_get_filename (fsel), TRUE);
+		wb_view_open (gtk_file_selection_get_filename (fsel),
+			wbc, TRUE, NULL);
 
 	gtk_widget_destroy (GTK_WIDGET (fsel));
 }

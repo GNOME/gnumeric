@@ -36,11 +36,13 @@ Jody:
 	* Fix printing.
 	* Fix object import from XL.
 	* Quicky insert image item.
-	* Tidy drag and Drop
-	* Fix dateToUnix
-	* Some touchups to bonobo build
-	* cleanup autoconf
-	* apply some pending japanese patches
+	* Tidy drag and Drop.
+	* Fix dateToUnix.
+	* Some touchups to bonobo build.
+	* cleanup autoconf.
+	* apply some pending japanese patches.
+	* Improve HIG compliance.
+	* Start support for filter importing.
 
 Jon Kåre:
 	* Enable bonobo

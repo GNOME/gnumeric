@@ -81,7 +81,7 @@ workbook_persist_file_load (BonoboPersistFile *ps, const CORBA_char *filename,
 {
 	WorkbookView *wbv = closure;
 
-	return wb_view_open (wbv, /* FIXME */ NULL, filename, FALSE) ? 0 : -1;
+	return wb_view_open (filename, /* FIXME */ NULL, FALSE, NULL) ? 0 : -1;
 }
 
 static int
