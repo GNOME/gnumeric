@@ -1,3 +1,8 @@
+2003-05-12  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_write_FORMULA) : set the alwaysCalc flag for
+	  cells with dynamic depends.
+
 2003-05-11  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.17

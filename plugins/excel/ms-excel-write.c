@@ -2551,7 +2551,9 @@ excel_write_FORMULA (ExcelWriteState *ewb, ExcelWriteSheet *esheet, Cell const *
 		g_warning ("Unhandled value->type (%d) in excel_write_FORMULA.", v->type);
 	}
 
-	GSF_LE_SET_GUINT16 (data + 14, 0x0); /* alwaysCalc & calcOnLoad */
+	GSF_LE_SET_GUINT16 (data + 14, /* alwaysCalc & calcOnLoad */
+	        (cell->base.flags & DEPENDENT_HAS_DYNAMIC_DEPS) ? 1 : 0);
+
 	GSF_LE_SET_GUINT32 (data + 16, 0x0);
 	GSF_LE_SET_GUINT16 (data + 20, 0x0); /* bogus len, fill in later */
 	ms_biff_put_var_write (ewb->bp, data, 22);
