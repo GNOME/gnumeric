@@ -1,3 +1,8 @@
+2004-10-01  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-file.c (gui_file_open): Specifically list "*.csv" and
+	"*.tsv" until we get a proper fix.  (Fixes #143135.)
+
 2004-09-29  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-file.c (go_file_is_writable): Make the file-exist dialog

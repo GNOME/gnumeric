@@ -60,6 +60,8 @@ Morten:
 	* Fix endless recursion.  [#153544.]
 	* Plug leaks.
 	* Improve save-as dialog.
+	* Make sure *.csv and *.tsv are listed as spreadsheets in the
+	  open dialog.  [#143135.]
 
 Uwe Steinmann:
 	* Validate the field names for paradox databases

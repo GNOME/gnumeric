@@ -260,6 +260,9 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 				g_free (pattern);
 			}
 		}
+		/* FIXME: delete these also when we can ask the openers.  */
+		gtk_file_filter_add_pattern (filter, "*.csv");
+		gtk_file_filter_add_pattern (filter, "*.tsv");
 
 		gtk_file_chooser_add_filter (fsel, filter);
 		/* Make this filter the default */
@@ -609,9 +612,6 @@ check_multiple_sheet_support_if_needed (GnmFileSaver *fs,
 	return (ret_val);
 }
 
-/*
- * Note: filename is filesys, not UTF-8 encoded.
- */
 static gboolean
 do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view,
             GnmFileSaver *fs, char const *uri, GtkWindow *parent)
