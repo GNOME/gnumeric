@@ -93,7 +93,7 @@ struct _Workbook {
 	SymbolTable *symbol_names;
 
 	/* Attached summary information */
-	SummaryInfo *sin;
+	SummaryInfo *summary_info;
 
 	/*
 	 * This is  used during the clipboard paste command to pass information

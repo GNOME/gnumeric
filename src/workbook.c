@@ -97,7 +97,7 @@ file_save_as_cmd (GtkWidget *widget, Workbook *wb)
 static void
 summary_cmd (GtkWidget *widget, Workbook *wb)
 {
-	dialog_summary_update (widget, wb->sin);
+	dialog_summary_update (widget, wb->summary_info);
 }
 
 static void
@@ -281,7 +281,7 @@ workbook_do_destroy (Workbook *wb)
 	 * order.
 	 */
 
-	summary_info_free (wb->sin);
+	summary_info_free (wb->summary_info);
 	wb->sin = NULL;
 
 	/*
@@ -1488,7 +1488,7 @@ deps_output (GtkWidget *widget, Workbook *wb)
 	Cell *cell;
 	GList *list;
 
-	summary_info_dump (wb->sin);
+	summary_info_dump (wb->summary_info);
 
 	if (!sheet_selection_first_range (
 		sheet, &dummy, &dummy, &col, &row, &dummy, &dummy)){
@@ -1926,8 +1926,8 @@ workbook_init (GtkObject *object)
 	wb->print_info   = print_info_new ();
 	wb->symbol_names = symbol_table_new ();
 	wb->max_iterations = 1;
-	wb->sin          = summary_info_new ();
-	summary_info_default (wb->sin);
+	wb->summary_info   = summary_info_new ();
+	summary_info_default (wb->summary_info);
 
 	/* Set the default operation to be performed over selections */
 	wb->auto_expr      = NULL;

@@ -739,15 +739,15 @@ xml_read_names (parse_xml_context_t *ctxt, xmlNodePtr tree, Workbook *wb)
 }
 
 static xmlNodePtr
-xml_write_summary (parse_xml_context_t *ctxt, SummaryInfo *sin)
+xml_write_summary (parse_xml_context_t *ctxt, SummaryInfo *summary_info)
 {
 	GList *items, *m;
 	xmlNodePtr cur;
 
-	if (!sin)
+	if (!summary_info)
 		return NULL;
 
-	m = items = summary_info_as_list (sin);
+	m = items = summary_info_as_list (summary_info);
 
 	if (!items)
 		return NULL;
@@ -787,11 +787,11 @@ xml_write_summary (parse_xml_context_t *ctxt, SummaryInfo *sin)
 }
 
 static void
-xml_read_summary (parse_xml_context_t *ctxt, xmlNodePtr tree, SummaryInfo *sin)
+xml_read_summary (parse_xml_context_t *ctxt, xmlNodePtr tree, SummaryInfo *summary_info)
 {
 	xmlNodePtr child;
 
-	g_return_if_fail (sin);
+	g_return_if_fail (summary_info);
 	g_return_if_fail (ctxt);
 	g_return_if_fail (tree);
 
@@ -819,7 +819,7 @@ xml_read_summary (parse_xml_context_t *ctxt, xmlNodePtr tree, SummaryInfo *sin)
 							sit = summary_item_new_int    (name, atoi (txt));
 						
 						if (sit)
-							summary_info_add (sin, sit);
+							summary_info_add (summary_info, sit);
 						g_free (txt);
 					}
 				}
@@ -1675,7 +1675,7 @@ xml_workbook_write (parse_xml_context_t *ctxt, Workbook *wb)
 	oldlocale = g_strdup (setlocale (LC_NUMERIC, NULL));
 	setlocale (LC_NUMERIC, "C");
 	
-	child = xml_write_summary (ctxt, wb->sin);
+	child = xml_write_summary (ctxt, wb->summary_info);
 	if (child)
 		xmlAddChild (cur, child);
 
@@ -1765,7 +1765,7 @@ xml_workbook_read (Workbook *wb, parse_xml_context_t *ctxt, xmlNodePtr tree)
 	
 	child = xml_search_child (tree, "Summary");
 	if (child)
-		xml_read_summary (ctxt, child, wb->sin);
+		xml_read_summary (ctxt, child, wb->summary_info);
 
 	child = xml_search_child (tree, "Geometry");
 	if (child){

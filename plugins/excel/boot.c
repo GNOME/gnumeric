@@ -48,10 +48,10 @@ excel_load (Workbook *wb, const char *filename)
 	ret = ms_excel_read_workbook (wb, f);
 	if (ret) {
 		char *name = g_strconcat (filename, ".gnumeric", NULL);
-		ms_summary_read (f, wb->sin);
+		ms_summary_read (f, wb->summary_info);
 
 		if (ms_excel_read_debug > 0)
-			summary_info_dump (wb->sin);
+			summary_info_dump (wb->summary_info);
 
 		workbook_set_filename (wb, name);
 		g_free(name);

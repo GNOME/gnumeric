@@ -34,6 +34,9 @@ src/dialogs/font-sel.glade.h
 src/dialogs/import.glade.h
 src/dialogs/print.glade.h
 src/dialogs/font-sel.glade.h
+src/dialogs/import.glade.h
+src/dialogs/names.glade.h
+src/dialogs/summary.glade.h
 src/dump.c
 src/embeddable-grid.c
 src/eval.c

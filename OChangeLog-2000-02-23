@@ -1,3 +1,9 @@
+1999-08-28  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/dialogs/*.glade.h: Make sure every dialog box has updated
+	.glade.h and add glade.h generation to the summary, names and
+	import glade files.
+
 1999-08-28  Karl Eichwalder  <ke@suse.de>
 
 	* gnumeric.desktop: Sort entries.
