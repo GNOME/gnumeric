@@ -1,7 +1,7 @@
 AC_INIT(src/gnumeric.h)
 
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(gnumeric,0.50)
+AM_INIT_AUTOMAKE(gnumeric,0.51)
 AM_MAINTAINER_MODE
 AM_ACLOCAL_INCLUDE(macros)
 
@@ -275,14 +275,14 @@ fi
 dnl ******************************
 dnl gtk+ checking
 dnl ******************************
-AC_MSG_CHECKING(for GTK >= 1.2.2)
+AC_MSG_CHECKING(for GTK >= 1.2.7)
 if gtk-config --version > /dev/null 2>&1; then 
     dnl We need the "%d" in order not to get e-notation on hpux.
     vers=`gtk-config --version | awk 'BEGIN { FS = "."; } { printf "%d", ($1 * 1000 + $2) * 1000 + $3;}'`
-    if test "$vers" -ge 1002002; then
+    if test "$vers" -ge 1002007; then
         AC_MSG_RESULT(found)
     else
-        AC_MSG_ERROR(You need at least GTK+ 1.2.2 for this version of Gnumeric)
+        AC_MSG_ERROR(You need at least GTK+ 1.2.7 for this version of Gnumeric)
     fi
 else
     AC_MSG_ERROR(Did not find GTK+ installed)

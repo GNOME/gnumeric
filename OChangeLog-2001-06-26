@@ -1,3 +1,10 @@
+2000-03-28  Miguel de Icaza  <miguel@gnu.org>
+
+	* configure.in (GB_LIBS): Require Gtk 1.2.7 here too.
+
+	* gnumeric.spec.in (Requires): Updated the requirements for
+	Gnumeric here.
+
 2000-03-26  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/dialogs/Makefile.am (glade_msgs): Added a new missing file.
