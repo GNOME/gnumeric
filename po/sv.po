@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.31\n"
-"POT-Creation-Date: 1999-08-20 20:08-0500\n"
-"PO-Revision-Date: 1999-08-07 12:30+0200\n"
+"POT-Creation-Date: 1999-08-22 09:30+0200\n"
+"PO-Revision-Date: 1999-08-22 15:00+0200\n"
 "Last-Translator: Richard Hult <rhult@hem2.passagen.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -38,31 +38,29 @@ msgid "#UNKNOWN!"
 msgstr ""
 
 #: plugins/excel/ms-formula-read.c:645
-#, fuzzy
 msgid "Unknown Function"
-msgstr "Okänt evalueringsfel"
+msgstr "Okänd funktion"
 
 #: plugins/excel/ms-formula-read.c:690
 msgid "Broken function"
-msgstr ""
+msgstr "Trasig funktion"
 
 #: plugins/excel/ms-formula-read.c:1385
-#, fuzzy
 msgid " Unknown formula"
-msgstr "Okänd operator"
+msgstr "Okänd formel"
 
 #: plugins/ff-csv/csv-io.c:52
-#, fuzzy, c-format
+#, c-format
 msgid "Imported %s"
-msgstr "_Importera"
+msgstr "Importerade %s"
 
 #: plugins/ff-csv/csv-io.c:82
 msgid "Comma Separated Value (CSV) import"
-msgstr ""
+msgstr "Importera fil med kommaseparerade värden (CSV)"
 
 #: plugins/ff-csv/csv-io.c:85
 msgid "Comma Separated Value (CSV) module"
-msgstr ""
+msgstr "Modul för kommaseparerade värden (CSV)"
 
 #: plugins/guile/plugin.c:219
 msgid "Argument must be a Guile expression"
@@ -125,29 +123,28 @@ msgid "DVI TeX file format (via groff)"
 msgstr ""
 
 #: plugins/html/boot.c:82
-#, fuzzy
 msgid "TROFF file format (*.me)"
-msgstr "Filformat:"
+msgstr "TROFF-filformat (*.me)"
 
 #: plugins/html/boot.c:84
 msgid "PDF file format (via groff/gs)"
-msgstr ""
+msgstr "PDF-filformat (via groff/ps)"
 
 #: plugins/html/boot.c:87
 msgid "EPS file format (*.eps)"
-msgstr ""
+msgstr "EPS-filformat (*.eps)"
 
 #: plugins/html/boot.c:100
 msgid "HTML (simple html export/import plugin)"
-msgstr ""
+msgstr "HTML (enkel export/import av html)"
 
 #: plugins/lotus-123/boot.c:88
 msgid "Lotus (*.wk1) file format"
-msgstr ""
+msgstr "Lotus-filformat (*.wk1)"
 
 #: plugins/lotus-123/boot.c:94
 msgid "Lotus 123 file import/export plugin"
-msgstr ""
+msgstr "Lotus 123 import/export"
 
 #: plugins/python/python.c:101
 msgid "Unable to lookup Python code object."
@@ -156,7 +153,7 @@ msgstr "Kan inte hitta Python-kodobjektet."
 #. XXX should popup window with exception info
 #: plugins/python/python.c:116
 msgid "Python exception."
-msgstr "Python-undantag"
+msgstr "Python-undantag."
 
 #: plugins/python/python.c:137
 msgid "object must be callable"
@@ -179,9 +176,8 @@ msgid "Python Plugin"
 msgstr "Python-tillägg"
 
 #: plugins/sample/plugin-sample.c:49
-#, fuzzy
 msgid "Sample Plugin"
-msgstr "Guile-tillägg"
+msgstr "Exempel-insticksprogram"
 
 #: plugins/stat/stat.c:27
 msgid "OLD Statistics Plugin, not required anymore"
@@ -195,27 +191,24 @@ msgid ""
 msgstr ""
 
 #: plugins/text/text-io.c:337
-#, fuzzy
 msgid "NoName"
-msgstr "Namn"
+msgstr "Namnlös"
 
 #: plugins/text/text-io.c:428
-#, fuzzy
 msgid "Simple Text Format"
-msgstr "Filformat:"
+msgstr "Enkelt textformat"
 
 #: plugins/text/text-io.c:458
 msgid "TXT (simple text import/export plugin)"
-msgstr ""
+msgstr "TXT (import/export av enkel text)"
 
 #: plugins/xbase/boot.c:207
-#, fuzzy
 msgid "Xbase (*.dbf) file format"
-msgstr "Excel(R) 97 filformat"
+msgstr "Xbase-filformat (*.dbf)"
 
 #: plugins/xbase/boot.c:214
 msgid "XBase file import/export plugin"
-msgstr ""
+msgstr "XBase import/export"
 
 #: src/about.c:24
 msgid "Miguel de Icaza, main programmer."
@@ -475,17 +468,16 @@ msgid "Discrete"
 msgstr ""
 
 #: src/dialog-analysis-tools.c:107 src/widget-font-selector.c:117
-#, fuzzy
 msgid "Normal"
-msgstr "Format"
+msgstr "Normal"
 
 #: src/dialog-analysis-tools.c:108
 msgid "Bernoulli"
-msgstr ""
+msgstr "Bernoulli"
 
 #: src/dialog-analysis-tools.c:109
 msgid "Uniform"
-msgstr ""
+msgstr "Likafördelad"
 
 #: src/dialog-analysis-tools.c:150
 msgid "Summary Statistics"
@@ -497,63 +489,59 @@ msgstr ""
 
 #: src/dialog-analysis-tools.c:153
 msgid "0.95"
-msgstr ""
+msgstr "0.95"
 
 #: src/dialog-analysis-tools.c:154
 msgid "Kth Largest:"
-msgstr ""
+msgstr "K:te största:"
 
 #: src/dialog-analysis-tools.c:155 src/dialog-analysis-tools.c:157
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #: src/dialog-analysis-tools.c:156
 msgid "Kth Smallest:"
-msgstr ""
+msgstr "K:te minsta:"
 
 #: src/dialog-analysis-tools.c:162
 msgid "Labels in First Row"
-msgstr ""
+msgstr "Rubriker för första raden"
 
 #: src/dialog-analysis-tools.c:168
-#, fuzzy
 msgid "Labels"
-msgstr "label2"
+msgstr "Rubriker"
 
 #: src/dialog-analysis-tools.c:174
 msgid "Standard Errors"
 msgstr ""
 
 #: src/dialog-analysis-tools.c:201
-#, fuzzy
 msgid "Columns"
-msgstr "_Kolumner"
+msgstr "Kolumner"
 
 #: src/dialog-analysis-tools.c:202
-#, fuzzy
 msgid "Rows"
-msgstr "_Rader"
+msgstr "Rader"
 
 #: src/dialog-analysis-tools.c:207
 msgid "Periodic"
-msgstr ""
+msgstr "Periodisk"
 
 #: src/dialog-analysis-tools.c:208
 msgid "Random"
-msgstr ""
+msgstr "Slumpmässig"
 
 #: src/dialog-analysis-tools.c:237 src/dialog-analysis-tools.c:2010
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: src/dialog-analysis-tools.c:2009
 msgid "Data Analysis"
-msgstr ""
+msgstr "Dataanalys"
 
 #: src/dialog-cell-comment.c:25
-#, fuzzy
 msgid "Cell comment"
-msgstr "Kommentarer"
+msgstr "Cellkommentar  "
 
 #: src/dialog-cell-format.c:68
 msgid "Numbers"
@@ -704,18 +692,16 @@ msgid "Coloring"
 msgstr "Färger"
 
 #: src/dialog-cell-sort.c:40
-#, fuzzy
 msgid "Column:"
-msgstr "_Kolumn"
+msgstr "Kolumn:"
 
 #: src/dialog-cell-sort.c:55
 msgid "Asc"
-msgstr ""
+msgstr "Stigande"
 
 #: src/dialog-cell-sort.c:58
-#, fuzzy
 msgid "Desc"
-msgstr "*Dec"
+msgstr "Sjunkade"
 
 #: src/dialog-cell-sort.c:271
 msgid "more clauses than rows ?"
@@ -731,34 +717,31 @@ msgstr ""
 
 #: src/dialog-cell-sort.c:314 src/workbook.c:1493
 msgid "Selection must be a single range"
-msgstr "Markeringen måste bestå av ett enkelt område"
+msgstr "Markeringen måste bestå av ett sammanhängande område"
 
 #: src/dialog-cell-sort.c:320
-#, fuzzy
 msgid "Selection must be a finite range"
-msgstr "Markeringen måste bestå av ett enkelt område"
+msgstr "Markeringen måste bestå av ett ändligt område"
 
 #: src/dialog-cell-sort.c:332
-#, fuzzy
 msgid "Sort Cells"
-msgstr "infoga celler"
+msgstr "Sortera celler"
 
 #: src/dialog-cell-sort.c:347
 msgid "then by"
-msgstr ""
+msgstr "sedan efter"
 
 #: src/dialog-cell-sort.c:347
 msgid "sort by"
-msgstr ""
+msgstr "Sortera efter"
 
 #: src/dialog-cell-sort.c:385
-#, fuzzy
 msgid "Column must be within range"
-msgstr "Kolumn utanför giltigt område"
+msgstr "Kolumnen måste vara inom området"
 
 #: src/dialog-cell-sort.c:391
 msgid "First column must be valid"
-msgstr ""
+msgstr "Den första kolumnen måste vara giltig"
 
 #: src/dialog-delete-cells.c:25
 msgid "delete cells"
@@ -789,9 +772,8 @@ msgid "Delete column(s)"
 msgstr "To bort kolumn(er)"
 
 #: src/dialog-function-select.c:188
-#, fuzzy
 msgid "Formula Selection"
-msgstr "Bråk"
+msgstr "Formelval"
 
 #: src/dialog-function-wizard.c:206 src/fn-string.c:1183
 msgid "String"
@@ -799,35 +781,31 @@ msgstr "Sträng"
 
 #: src/dialog-function-wizard.c:212
 msgid "Boolean"
-msgstr ""
+msgstr "Boolesk variabel"
 
 #: src/dialog-function-wizard.c:215
-#, fuzzy
 msgid "Range"
-msgstr "Rektangel"
+msgstr "Område"
 
 #: src/dialog-function-wizard.c:218
-#, fuzzy
 msgid "Array"
-msgstr "Pil"
+msgstr "Fält"
 
 #: src/dialog-function-wizard.c:221
 msgid "Range/Array"
-msgstr ""
+msgstr "Område/Fält"
 
 #: src/dialog-function-wizard.c:224
 msgid "Any"
 msgstr ""
 
 #: src/dialog-function-wizard.c:227
-#, fuzzy
 msgid "Unknown"
-msgstr "Okänd operator"
+msgstr "Okänd"
 
 #: src/dialog-function-wizard.c:334
-#, fuzzy
 msgid "Formula Wizard"
-msgstr "Formler"
+msgstr "Formel-hjälpreda"
 
 #: src/dialog-goal-seek.c:191
 #, c-format
@@ -850,58 +828,52 @@ msgid "Solution:       %12.2f"
 msgstr ""
 
 #: src/dialog-goal-seek.c:204
-#, fuzzy
 msgid "Goal Seek Report"
-msgstr "_Målsökning..."
+msgstr "Målsökningsrapport"
 
 #: src/dialog-goal-seek.c:266
-#, fuzzy
 msgid "Goal Seek..."
-msgstr "_Målsökning..."
+msgstr "Målsökning..."
 
 #: src/dialog-goal-seek.c:280
-#, fuzzy
 msgid "Set cell:"
-msgstr "ta bort celler"
+msgstr "Sätt cell:"
 
 #: src/dialog-goal-seek.c:281
-#, fuzzy
 msgid "To value:"
-msgstr "Kopiera värden"
+msgstr "Till värde:"
 
 #: src/dialog-goal-seek.c:282
 msgid "By changing cell:"
-msgstr ""
+msgstr "Genom att ändra cell:"
 
 #: src/dialog-goal-seek.c:283
 msgid "To a value of at least [optional]:"
-msgstr ""
+msgstr "Till ett värde av minst [valfritt]:"
 
 #: src/dialog-goal-seek.c:284
 msgid "But no bigger than [optional]:"
-msgstr ""
+msgstr "Men inte större än [valfritt]:"
 
 #: src/dialog-goal-seek.c:343
-#, fuzzy
 msgid "You should introduce a valid cell name in 'Set cell'"
-msgstr "Du måste ange ett giltigt cellnamn"
+msgstr "Du måste ange ett giltigt cellnamn i 'Sätt cell'"
 
 #: src/dialog-goal-seek.c:351
 msgid "The cell named in 'Set cell' must contain a formula"
-msgstr ""
+msgstr "Cellen i 'Sätt cell' måste innehålla en formel"
 
 #: src/dialog-goal-seek.c:364
-#, fuzzy
 msgid "You should introduce a valid cell name in 'By changing cell'"
-msgstr "Du måste ange ett giltigt cellnamn"
+msgstr "Du måste ange ett giltigt cellnamn i 'Genom att ändra cell'"
 
 #: src/dialog-goal-seek.c:373
 msgid "The cell named in 'By changing cell' must not contain a formula"
-msgstr ""
+msgstr "Cellen i 'Genom att ändra cell' får inte innehålla en formel"
 
 #: src/dialog-goal-seek.c:420
 msgid "Goal seek did not find a solution!"
-msgstr ""
+msgstr "Målsökningen fann ingen lösning!"
 
 #: src/dialog-goto-cell.c:42
 msgid "Cell"
@@ -992,41 +964,36 @@ msgid "Transpose"
 msgstr "Transponera"
 
 #: src/dialog-printer-setup.c:461
-#, fuzzy
 msgid "Custom header configuration"
-msgstr "Cellskuggning"
+msgstr "Anpassa sidhuvud"
 
 #: src/dialog-printer-setup.c:472
-#, fuzzy
 msgid "Custom footer configuration"
 msgstr "Anpassa sidfot"
 
 #: src/dialog-printer-setup.c:670
-#, fuzzy
 msgid "Print setup"
-msgstr "Skriv ut"
+msgstr "Utskriftsformat"
 
 #: src/dialog-solver.c:19
 msgid "<="
-msgstr ""
+msgstr "<="
 
 #: src/dialog-solver.c:20
 msgid "="
-msgstr ""
+msgstr "="
 
 #: src/dialog-solver.c:21
 msgid ">="
-msgstr ""
+msgstr ">="
 
 #: src/dialog-solver.c:22
-#, fuzzy
 msgid "int"
-msgstr "Skriv ut"
+msgstr "heltal"
 
 #: src/dialog-solver.c:23
-#, fuzzy
 msgid "bool"
-msgstr "Verk_tyg"
+msgstr "bool"
 
 #: src/dialog-solver.c:41 src/workbook.c:1603
 msgid "Max"
@@ -1037,86 +1004,76 @@ msgid "Min"
 msgstr "Min"
 
 #: src/dialog-solver.c:47
-#, fuzzy
 msgid "Tangent"
-msgstr "magenta"
+msgstr "Tangent"
 
 #: src/dialog-solver.c:48
 msgid "Quadratic"
-msgstr ""
+msgstr "Kvadratisk"
 
 #: src/dialog-solver.c:53
 msgid "Forward"
 msgstr ""
 
 #: src/dialog-solver.c:54
-#, fuzzy
 msgid "Central"
-msgstr "Centrera"
+msgstr "Central"
 
 #: src/dialog-solver.c:59
-#, fuzzy
 msgid "Newton"
-msgstr "Nytt"
+msgstr "Newton"
 
 #: src/dialog-solver.c:60
 msgid "Conjugate"
-msgstr ""
+msgstr "Konjugat"
 
 #: src/dialog-solver.c:65
 msgid "Assume Linear Model"
-msgstr ""
+msgstr "Antag linjär modell"
 
 #: src/dialog-solver.c:66
 msgid "Assume Non-Negative"
-msgstr ""
+msgstr "Antag icke-negativ"
 
 #: src/dialog-solver.c:71
 msgid "Use Automatic Scaling"
-msgstr ""
+msgstr "Använd automatisk skalning"
 
 #: src/dialog-solver.c:72
 msgid "Show Iteration Results"
-msgstr ""
+msgstr "Visa iterationer"
 
 #: src/dialog-solver.c:143
-#, fuzzy
 msgid "Gnumeric Solver Options"
-msgstr "Gnumeric-tillägg"
+msgstr "Gnumeric problemlösningsalternativ"
 
 #: src/dialog-solver.c:211
 msgid "Add Constraint"
-msgstr ""
+msgstr "Lägg till restriktion"
 
 #: src/dialog-solver.c:214
-#, fuzzy
 msgid "Add"
-msgstr "Addera "
+msgstr "Lägg till"
 
 #: src/dialog-solver.c:354
-#, fuzzy
 msgid "Gnumeric Solver Parameters"
-msgstr "Gnumeric hemsida"
+msgstr "Gnumeric problemlösningsparametrar"
 
 #: src/dialog-solver.c:355
-#, fuzzy
 msgid "Solve"
-msgstr "Flytta"
+msgstr "Lös"
 
 #: src/dialog-solver.c:357
-#, fuzzy
 msgid "Options..."
-msgstr "Alternativ"
+msgstr "Alternativ..."
 
 #: src/dialog-solver.c:486
-#, fuzzy
 msgid "You should introduce a valid cell name for 'Target cell'"
-msgstr "Du måste ange ett giltigt cellnamn"
+msgstr "Du måste ange ett giltigt cellnamn för 'Målcell'"
 
 #: src/dialog-solver.c:507
-#, fuzzy
 msgid "You should introduce a valid cell names in 'By changing cells'"
-msgstr "Du måste ange ett giltigt cellnamn"
+msgstr "Du måste ange ett giltigt cellnamn för 'Genom att ändra celler'"
 
 #: src/dialog-zoom.c:47 src/dialog-zoom.c:50
 msgid "Zoom"
@@ -1143,28 +1100,27 @@ msgstr "Kan inte skapa filen %s\n"
 
 #: src/embeddable-grid.c:149
 msgid "Embedded Sheet"
-msgstr ""
+msgstr "Inbäddat ark"
 
 #: src/expr-name.c:131
 msgid "already defined"
-msgstr ""
+msgstr "redan definierad"
 
 #: src/expr-name.c:134
-#, fuzzy
 msgid "no workbook"
-msgstr "Spara arbetsbok som"
+msgstr "ingen arbetsbok"
 
 #: src/expr-name.c:139
 msgid "circular reference"
-msgstr ""
+msgstr "cirkelreferens"
 
 #: src/expr-name.c:248
 msgid "Builtin"
-msgstr ""
+msgstr "Inbyggd"
 
 #: src/expr-name.c:279
 msgid "Error: no sheet"
-msgstr ""
+msgstr "Fel: inget ark"
 
 #: src/expr.c:216
 msgid "Syntax error"
@@ -1458,12 +1414,10 @@ msgid ""
 msgstr ""
 
 #: src/fn-database.c:1177
-#, fuzzy
 msgid "Database"
-msgstr "Datum"
+msgstr "Databas"
 
 #: src/fn-date.c:66
-#, fuzzy
 msgid ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (year,month,day)\n"
@@ -1474,11 +1428,11 @@ msgid ""
 "@SEEALSO=TODAY, NOW"
 msgstr ""
 "@FUNCTION=DATE\n"
-"SYNTAX=DATE (year,month,day)\n"
+"SYNTAX=DATE (år,månad,dag)\n"
 "@DESCRIPTION=Beräknar antalet dagar sedan 1 januari 1900 för angivet datum "
 "(datumets serienummer).\n"
-"Dagen kan vara negativ för att räkna baklänges i förhållande till föregående "
-"månad. Året skall vara minst 1900.\n"
+"@dag kan vara negativ för att räkna baklänges i förhållande till föregående "
+"månad. @år skall vara minst 1900.\n"
 "@SEEALSO=TODAY, NOW"
 
 #: src/fn-date.c:98
@@ -1499,14 +1453,13 @@ msgid ""
 "@SEEALSO=DATE"
 msgstr ""
 "@FUNCTION=DATEVALUE\n"
-"@SYNTAX=DATEVALUE(date_str)\n"
-"@DESCRIPTION=DATEVALUE returnerar datumets serienummer. @date_str är en "
+"@SYNTAX=DATEVALUE(datum_str)\n"
+"@DESCRIPTION=DATEVALUE returnerar datumets serienummer. @datum_str är en "
 "sträng som innehåller datumet. Till exempel ger DATEVALUE(\"1/1/1999\") "
 "resulatet 36160. \n"
 "@SEEALSO=DATE"
 
 #: src/fn-date.c:138
-#, fuzzy
 msgid ""
 "@FUNCTION=EDATE\n"
 "@SYNTAX=EDATE(date,months)\n"
@@ -1518,16 +1471,15 @@ msgid ""
 "@SEEALSO=DATE"
 msgstr ""
 "@FUNCTION=EDATE\n"
-"@SYNTAX=EDATE(serial_number,months)\n"
+"@SYNTAX=EDATE(serienummer,månader)\n"
 "@DESCRIPTION=EDATE returnerar serienumret för datumet som är det "
-"specifierade antalet månader före eller efter ett givet datum.  @date är "
-"serienumret för det ursprungliga datumet och @months är antalet månader före "
+"specifierade antalet månader före eller efter ett givet datum.  @serienummer "
+"är serienumret för startdatumet och @månader är antalet månader före "
 "(negativt tal) eller efter (positivt tal) det ursprungliga datumet.\n"
-"Om @months inte är ett heltal, avrundas det till närmsta lägre heltal.\n"
+"Om @månader inte är ett heltal, avrundas det till närmsta lägre heltal.\n"
 "@SEEALSO=DATE"
 
 #: src/fn-date.c:182
-#, fuzzy
 msgid ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY ()\n"
@@ -1538,11 +1490,10 @@ msgstr ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY ()\n"
 "@DESCRIPTION=Returnerar serienumret för dagens datum (antalet dagar som har "
-"gått sedan den första januari 1900)\n"
+"gått sedan den första januari 1900).\n"
 "@SEEALSO=TODAY, NOW"
 
 #: src/fn-date.c:206
-#, fuzzy
 msgid ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
@@ -1563,7 +1514,7 @@ msgstr ""
 "Serienummer i Gnumeric representeras enligt följande: Heltalsdelen är det "
 "antal dagar som passerat sedan 1 januari 1900. Decimaldelen representerar "
 "hur stor del av dagen som passerat.\n"
-"Till exempel: 0.0 representerar början av dagen, och 0.5 mitt på dagen\n"
+"Till exempel: 0.0 representerar början av dagen och 0.5 mitt på dagen.\n"
 "@SEEALSO=TODAY, NOW"
 
 #: src/fn-date.c:247
@@ -1574,9 +1525,9 @@ msgid ""
 "@SEEALSO=HOUR"
 msgstr ""
 "@FUNCTION=TIME\n"
-"@SYNTAX=TIME (hours,minutes,seconds)\n"
-"@DESCRIPTION=Returnerar ett tal mellan 0 och 1, som representerar det "
-"angivna klockslaget.\n"
+"@SYNTAX=TIME (timmar,minuter,sekunder)\n"
+"@DESCRIPTION=Returnerar ett tal mellan 0 och 1 som representerar det angivna "
+"klockslaget.\n"
 "@SEEALSO=HOUR"
 
 #: src/fn-date.c:272
@@ -1588,13 +1539,12 @@ msgid ""
 "@SEEALSO=HOUR"
 msgstr ""
 "@FUNCTION=TIMEVALUE\n"
-"@SYNTAX=TIMEVALUE (timetext)\n"
+"@SYNTAX=TIMEVALUE (tidstext)\n"
 "@DESCRIPTION=Returnerar ett tal mellan 0 och 1, som representerar det "
 "angivna klockslaget.\n"
 "@SEEALSO=HOUR"
 
 #: src/fn-date.c:291
-#, fuzzy
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (serial_number)\n"
@@ -1605,7 +1555,7 @@ msgid ""
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 msgstr ""
 "@FUNCTION=HOUR\n"
-"@SYNTAX=HOUR (serial_number)\n"
+"@SYNTAX=HOUR (serienummer)\n"
 "@DESCRIPTION=Konventerar från serienummer till timme. Resultatet ges i form "
 "av ett heltal i intervallet 0 (12:00 A.M.) till 23 (11:00 P.M.)\n"
 "Observera att datumet kan anges som en sträng, eftersom Gnumeric automatiskt "
@@ -1613,7 +1563,6 @@ msgstr ""
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 
 #: src/fn-date.c:316
-#, fuzzy
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (serial_number)\n"
@@ -1624,15 +1573,14 @@ msgid ""
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 msgstr ""
 "@FUNCTION=MINUTE\n"
-"@SYNTAX=MINUTE (serial_number)\n"
+"@SYNTAX=MINUTE (serienummer)\n"
 "@DESCRIPTION=Konverterar från serienummer till minut. Resultatet ges i form  "
-"av ett heltal i intervallet 0 till 59\n"
+"av ett heltal i intervallet 0 till 59.\n"
 "Observera att datumet kan anges som en sträng, eftersom Gnumeric automatiskt "
 "konverterar strängen till ett serienummer.\n"
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 
 #: src/fn-date.c:341
-#, fuzzy
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (serial_number)\n"
@@ -1643,9 +1591,9 @@ msgid ""
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 msgstr ""
 "@FUNCTION=SECOND\n"
-"@SYNTAX=SECOND (serial_number)\n"
+"@SYNTAX=SECOND (serienummer)\n"
 "@DESCRIPTION=Konverterar från serienummer till sekund. Resultatet ges i form "
-" av ett heltal i intervallet 0 till 59\n"
+" av ett heltal i intervallet 0 till 59.\n"
 "Observera att datumet kan anges som en sträng, eftersom Gnumeric automatiskt "
 "konverterar strängen till ett serienummer.\n"
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
@@ -1660,7 +1608,7 @@ msgid ""
 "@SEEALSO=DAY, MONTH, TIME, NOW"
 msgstr ""
 "@FUNCTION=YEAR\n"
-"@SYNTAX=YEAR (serial_number)\n"
+"@SYNTAX=YEAR (serienummer)\n"
 "@DESCRIPTION=Konverterar från serienummer till år.\n"
 "Observera att datumet kan anges som en sträng, eftersom Gnumeric automatiskt "
 "konverterar strängen till ett serienummer.\n"
@@ -1676,7 +1624,7 @@ msgid ""
 "@SEEALSO=DAY, TIME, NOW, YEAR"
 msgstr ""
 "@FUNCTION=MONTH\n"
-"@SYNTAX=MONTH (serial_number)\n"
+"@SYNTAX=MONTH (serienummer)\n"
 "@DESCRIPTION=Konverterar från serienummer till månad.\n"
 "Observera att datumet kan anges som en sträng, eftersom Gnumeric automatiskt "
 "konverterar strängen till ett serienummer.\n"
@@ -1692,7 +1640,7 @@ msgid ""
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
 "@FUNCTION=DAY\n"
-"@SYNTAX=DAY (serial_number)\n"
+"@SYNTAX=DAY (serienummer)\n"
 "@DESCRIPTION=Konverterar från serienummer till dag.\n"
 "Observera att datumet kan anges som en sträng, eftersom Gnumeric automatiskt "
 "konverterar strängen till ett serienummer.\n"
@@ -1708,14 +1656,13 @@ msgid ""
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
 "@FUNCTION=WEEKDAY\n"
-"@SYNTAX=WEEKDAY (serial_number)\n"
+"@SYNTAX=WEEKDAY (serienummer)\n"
 "@DESCRIPTION=Konverterar från serienummer till veckodag.\n"
 "Observera att datumet kan anges som en sträng, eftersom Gnumeric automatiskt "
 "konverterar strängen till ett serienummer.\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
 #: src/fn-date.c:474
-#, fuzzy
 msgid ""
 "@FUNCTION=DAYS360 \n"
 "@SYNTAX=DAYS360 (date1,date2,method)\n"
@@ -1730,12 +1677,12 @@ msgid ""
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
 "@FUNCTION=DAYS360 \n"
-"@SYNTAX=DAYS360 (date1,date2,method)\n"
-"@DESCRIPTION=Returnerar antalet dagar mellan @date1 och @date2, enligt en "
+"@SYNTAX=DAYS360 (datum1,datum2,metod)\n"
+"@DESCRIPTION=Returnerar antalet dagar mellan @datum1 och @datum2, enligt en "
 "360-dagars kalender där alla månader har 30 dagar.\n"
-"Om @method är true, används den europeiska metoden. Detta innebär att om det "
+"Om @metod är true, används den europeiska metoden. Detta innebär att om det "
 "är den 31:a, räknas det som den 30:e.\n"
-"Om @method saknas eller är false, används US-metoden, vilken är en något "
+"Om @metod saknas eller är false, används US-metoden, vilken är en något "
 "komplicerad industristandard.\n"
 "Observera att datumet kan anges som en sträng, eftersom Gnumeric automatiskt "
 "konverterar strängen till ett serienummer.\n"
@@ -1746,7 +1693,6 @@ msgid "Unsupported method"
 msgstr "Ej stödd metod"
 
 #: src/fn-date.c:568
-#, fuzzy
 msgid ""
 "@FUNCTION=EOMONTH\n"
 "@SYNTAX=EOMONTH (start_date,months)\n"
@@ -1756,14 +1702,13 @@ msgid ""
 "@SEEALSO=MONTH"
 msgstr ""
 "@FUNCTION=EOMONTH\n"
-"@SYNTAX=EOMONTH (start_date,months)\n"
-"@DESCRIPTION=Returnerar den sista dagen i måndaden som ligger @months "
-"månader efter datumet @start_date.\n"
-"Returnerar #NUM om @start_date eller @months är felaktiga\n"
+"@SYNTAX=EOMONTH (startdatum,månader)\n"
+"@DESCRIPTION=Returnerar den sista dagen i måndaden som ligger @månader "
+"månader efter datumet @startdatum.\n"
+"Returnerar #NUM! om @startdatum eller @månader är felaktiga.\n"
 "@SEEALSO=MONTH"
 
 #: src/fn-date.c:610
-#, fuzzy
 msgid ""
 "@FUNCTION=WORKDAY\n"
 "@SYNTAX=WORKDAY (start_date,days,holidays)\n"
@@ -1774,10 +1719,10 @@ msgid ""
 "@SEEALSO=NETWORKDAYS"
 msgstr ""
 "@FUNCTION=WORKDAY\n"
-"@SYNTAX=WORKDAY (start_date,days,holidays)\n"
-"@DESCRIPTION=Returnerar dagen som är @days arbetsdagar efter datumet "
-"@start_date. Hänsyn tas till veckoslut och helgdagar som anges i @holidays.\n"
-"Returnerar #NUM om start_date eller days är felaktiga\n"
+"@SYNTAX=WORKDAY (startdatum,dagar,helger)\n"
+"@DESCRIPTION=Returnerar dagen som är @dagar arbetsdagar efter datumet "
+"@startdatum. Hänsyn tas till veckoslut och helgdagar som anges i @helger.\n"
+"Returnerar #NUM! om @startdatum eller @dagar är felaktiga.\n"
 "@SEEALSO=NETWORKDAYS"
 
 #. 1 if the cell is formatted in color for negative values;
@@ -1799,10 +1744,10 @@ msgid ""
 "@SEEALSO=WORKDAY"
 msgstr ""
 "@FUNCTION=NETWORKDAYS\n"
-"@SYNTAX=NETWORKDAYS (start_date,end_date,holidays)\n"
-"@DESCRIPTION=Returnerar antalet vardagar mellan @start_date och @end_date. "
-"Helger kan valfritt anges i @holidays.\n"
-"Returnerar #NUM om start_date eller end_date är felaktiga\n"
+"@SYNTAX=NETWORKDAYS (startdatum,slutdatum,helger)\n"
+"@DESCRIPTION=Returnerar antalet vardagar mellan @startdatum och @slutdatum. "
+"Helger kan valfritt anges i @helger.\n"
+"Returnerar #NUM om @startdatum eller @slutdatum är felaktiga.\n"
 "@SEEALSO=WORKDAY"
 
 #: src/fn-date.c:785
@@ -1824,9 +1769,8 @@ msgstr ""
 "@SEEALSO="
 
 #: src/fn-eng.c:57
-#, fuzzy
 msgid "Base error"
-msgstr "Syntaxfel"
+msgstr "Fel i bas"
 
 #: src/fn-eng.c:133
 msgid ""
@@ -1948,7 +1892,6 @@ msgid ""
 msgstr ""
 
 #: src/fn-eng.c:349
-#, fuzzy
 msgid ""
 "@FUNCTION=HEX2DEC\n"
 "@SYNTAX=HEX2DEC(x)\n"
@@ -1957,11 +1900,12 @@ msgid ""
 "\n"
 "@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT"
 msgstr ""
-"@FUNCTION=EVEN\n"
-"@SYNTAX=EVEN(number)\n"
-"@DESCRIPTION=EVEN returnerar argumentet avrundat uppåt till närmsta jämna "
-"heltal.\n"
-"@SEEALSO=ODD"
+"@FUNCTION=HEX2DEC\n"
+"@SYNTAX=HEX2DEC(x)\n"
+"@DESCRIPTION=HEX2DEC omvandlar ett hexadecimalt tal till dess decimala "
+"motsvarighet.\n"
+"\n"
+"@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT"
 
 #: src/fn-eng.c:367
 msgid ""
@@ -2023,7 +1967,6 @@ msgid ""
 msgstr ""
 
 #: src/fn-eng.c:579
-#, fuzzy
 msgid ""
 "@FUNCTION=IMAGINARY\n"
 "@SYNTAX=IMAGINARY(inumber)\n"
@@ -2031,36 +1974,35 @@ msgid ""
 "number.\n"
 "@SEEALSO=IMREAL"
 msgstr ""
-"@FUNCTION=SQRTPI\n"
-"@SYNTAX=SQRTPI(number)\n"
-"@DESCRIPTION=SQRTPI beräknar kvadratroten av ett tal multiplicarat med pi. \n"
-"@SEEALSO=PI"
+"@FUNCTION=IMAGINARY\n"
+"@SYNTAX=IMAGINARY(i)\n"
+"@DESCRIPTION=IMAGINARY returnerar imaginärdelens koefficient för ett "
+"komplext tal. \n"
+"@SEEALSO=IMREAL"
 
 #: src/fn-eng.c:604
-#, fuzzy
 msgid ""
 "@FUNCTION=IMREAL\n"
 "@SYNTAX=IMREAL(inumber)\n"
 "@DESCRIPTION=IMREAL returns the real coefficient of a complex number.\n"
 "@SEEALSO=IMAGINARY"
 msgstr ""
-"@FUNCTION=SQRTPI\n"
-"@SYNTAX=SQRTPI(number)\n"
-"@DESCRIPTION=SQRTPI beräknar kvadratroten av ett tal multiplicarat med pi. \n"
-"@SEEALSO=PI"
+"@FUNCTION=IMREAL\n"
+"@SYNTAX=IMREAL(i)\n"
+"@DESCRIPTION=IMREAL returnerar realdelens koefficient för ett komplext tal.\n"
+"@SEEALSO=IMAGINARY"
 
 #: src/fn-eng.c:629
-#, fuzzy
 msgid ""
 "@FUNCTION=IMABS\n"
 "@SYNTAX=IMABS(inumber)\n"
 "@DESCRIPTION=IMABS returns the absolute value of a complex number.\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 msgstr ""
-"@FUNCTION=SQRTPI\n"
-"@SYNTAX=SQRTPI(number)\n"
-"@DESCRIPTION=SQRTPI beräknar kvadratroten av ett tal multiplicarat med pi. \n"
-"@SEEALSO=PI"
+"@FUNCTION=IMABS\n"
+"@SYNTAX=IMABS(i)\n"
+"@DESCRIPTION=IMABS returnerar absolutbeloppet av ett komplext tal.\n"
+"@SEEALSO=IMAGINARY,IMREAL"
 
 #: src/fn-eng.c:654
 msgid ""
@@ -2069,59 +2011,58 @@ msgid ""
 "@DESCRIPTION=IMCONJUGATE returns the complex conjugate of a complex number.\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 msgstr ""
+"@FUNCTION=IMCONJUGATE\n"
+"@SYNTAX=IMCONJUGATE(i)\n"
+"@DESCRIPTION=IMCONJUGATE returnerar komplexkonjugatet för ett komplext tal.\n"
+"@SEEALSO=IMAGINARY,IMREAL"
 
 #: src/fn-eng.c:679
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCOS\n"
 "@SYNTAX=IMCOS(inumber)\n"
 "@DESCRIPTION=IMCOS returns the cosine of a complex number.\n"
 "@SEEALSO=IMSIN,IMTAN"
 msgstr ""
-"@FUNCTION=SQRTPI\n"
-"@SYNTAX=SQRTPI(number)\n"
-"@DESCRIPTION=SQRTPI beräknar kvadratroten av ett tal multiplicarat med pi. \n"
-"@SEEALSO=PI"
+"@FUNCTION=IMCOS\n"
+"@SYNTAX=IMCOS(i)\n"
+"@DESCRIPTION=IMCOS returnerar cosinus för ett komplext tal.\n"
+"@SEEALSO=IMSIN,IMTAN"
 
 #: src/fn-eng.c:701
-#, fuzzy
 msgid ""
 "@FUNCTION=IMTAN\n"
 "@SYNTAX=IMTAN(inumber)\n"
 "@DESCRIPTION=IMTAN returns the tangent of a complex number.\n"
 "@SEEALSO=IMSIN,IMCOS"
 msgstr ""
-"@FUNCTION=SQRTPI\n"
-"@SYNTAX=SQRTPI(number)\n"
-"@DESCRIPTION=SQRTPI beräknar kvadratroten av ett tal multiplicarat med pi. \n"
-"@SEEALSO=PI"
+"@FUNCTION=IMTAN\n"
+"@SYNTAX=IMTAN(i)\n"
+"@DESCRIPTION=IMTAN returnerar tangens för ett komplext tal.\n"
+"@SEEALSO=IMSIN,IMCOS"
 
 #: src/fn-eng.c:723
-#, fuzzy
 msgid ""
 "@FUNCTION=IMEXP\n"
 "@SYNTAX=IMEXP(inumber)\n"
 "@DESCRIPTION=IMEXP returns the exponential of a complex number.\n"
 "@SEEALSO=IMLN"
 msgstr ""
-"@FUNCTION=SQRTPI\n"
-"@SYNTAX=SQRTPI(number)\n"
-"@DESCRIPTION=SQRTPI beräknar kvadratroten av ett tal multiplicarat med pi. \n"
-"@SEEALSO=PI"
+"@FUNCTION=IMEXP\n"
+"@SYNTAX=IMEXP(i)\n"
+"@DESCRIPTION=IMEXP returnerar exponentialen av ett komplext tal.\n"
+"@SEEALSO=IMLN"
 
 #: src/fn-eng.c:745
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(inumber)\n"
 "@DESCRIPTION=IMARGUMENT returns the argument theta of a complex number.\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=EVEN\n"
-"@SYNTAX=EVEN(number)\n"
-"@DESCRIPTION=EVEN returnerar argumentet avrundat uppåt till närmsta jämna "
-"heltal.\n"
-"@SEEALSO=ODD"
+"@FUNCTION=IMARGUMENT\n"
+"@SYNTAX=IMARGUMENT(i)\n"
+"@DESCRIPTION=IMARGUMENT returnerar argumentet (theta) för ett komplext tal.\n"
+"@SEEALSO="
 
 #: src/fn-eng.c:766
 msgid ""
@@ -2133,32 +2074,37 @@ msgid ""
 "or subtract an even multiple of pi to the imaginary part.)\n"
 "@SEEALSO=IMEXP,IMLOG2,IMLOG10"
 msgstr ""
+"@FUNCTION=IMLN\n"
+"@SYNTAX=IMLN(i)\n"
+"@DESCRIPTION=IMLN returnerar den naturliga logaritmen för ett komplext tal. "
+"(Resultatet har en imaginärdel mellan -pi och +pi. Den naturliga logaritmen "
+"är inte unikt definierad för komplexa tal, och därför kan du behöva addera "
+"eller subtrahera en jämn multipel av pi på imaginärdelen.)\n"
+"@SEEALSO=IMEXP,IMLOG2,IMLOG10"
 
 #: src/fn-eng.c:791
-#, fuzzy
 msgid ""
 "@FUNCTION=IMLOG2\n"
 "@SYNTAX=IMLOG2(inumber)\n"
 "@DESCRIPTION=IMLOG2 returns the logarithm of a complex number in base 2.\n"
 "@SEEALSO=IMLN,IMLOG10"
 msgstr ""
-"@FUNCTION=LN\n"
-"@SYNTAX=LN(x)\n"
-"@DESCRIPTION=LN returnerar den naturliga logaritmen av x.\n"
-"@SEEALSO=EXP, LOG2, LOG10"
+"@FUNCTION=IMLOG2\n"
+"@SYNTAX=IMLOG2(i)\n"
+"@DESCRIPTION=IMLOG2 returnerar logaritmen i basen 2 för ett komplext tal.\n"
+"@SEEALSO=IMLN,IMLOG10"
 
 #: src/fn-eng.c:815
-#, fuzzy
 msgid ""
 "@FUNCTION=IMLOG10\n"
 "@SYNTAX=IMLOG10(inumber)\n"
 "@DESCRIPTION=IMLOG10 returns the logarithm of a complex number in base 10.\n"
 "@SEEALSO=IMLN,IMLOG2"
 msgstr ""
-"@FUNCTION=LN\n"
-"@SYNTAX=LN(x)\n"
-"@DESCRIPTION=LN returnerar den naturliga logaritmen av x.\n"
-"@SEEALSO=EXP, LOG2, LOG10"
+"@FUNCTION=IMLOG10\n"
+"@SYNTAX=IMLOG10(i)\n"
+"@DESCRIPTION=IMLOG10 returnerar logaritmen i basen 10 för ett komplext tal.\n"
+"@SEEALSO=IMLN,IMLOG2"
 
 #: src/fn-eng.c:839
 msgid ""
@@ -2169,86 +2115,82 @@ msgid ""
 "which you want to raise the complex number.\n"
 "@SEEALSO=IMSQRT"
 msgstr ""
+"@FUNCTION=IMPOWER\n"
+"@SYNTAX=IMPOWER(i,exp)\n"
+"@DESCRIPTION=IMPOWER returnerar ett komplext tal @i upphöjt till @exp.\n"
+"@SEEALSO=IMSQRT"
 
 #: src/fn-eng.c:869
-#, fuzzy
 msgid ""
 "@FUNCTION=IMDIV\n"
 "@SYNTAX=IMDIV(inumber,inumber)\n"
 "@DESCRIPTION=IMDIV returns the quotient of two complex numbers.\n"
 "@SEEALSO=IMPRODUCT"
 msgstr ""
-"@FUNCTION=EVEN\n"
-"@SYNTAX=EVEN(number)\n"
-"@DESCRIPTION=EVEN returnerar argumentet avrundat uppåt till närmsta jämna "
-"heltal.\n"
-"@SEEALSO=ODD"
+"@FUNCTION=IMDIV\n"
+"@SYNTAX=IMDIV(i,i)\n"
+"@DESCRIPTION=IMDIV returnerar kvoten av två komplexa tal.\n"
+"@SEEALSO=IMPRODUCT"
 
 #: src/fn-eng.c:897
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSIN\n"
 "@SYNTAX=IMSIN(inumber)\n"
 "@DESCRIPTION=IMSIN returns the sine of a complex number.\n"
 "@SEEALSO=IMCOS,IMTAN"
 msgstr ""
-"@FUNCTION=SQRTPI\n"
-"@SYNTAX=SQRTPI(number)\n"
-"@DESCRIPTION=SQRTPI beräknar kvadratroten av ett tal multiplicarat med pi. \n"
-"@SEEALSO=PI"
+"@FUNCTION=IMSIN\n"
+"@SYNTAX=IMSIN(i)\n"
+"@DESCRIPTION=IMSIN returnerar sinus för ett komplext tal.\n"
+"@SEEALSO=IMCOS,IMTAN"
 
 #: src/fn-eng.c:919
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSQRT\n"
 "@SYNTAX=IMSQRT(inumber)\n"
 "@DESCRIPTION=IMSQRT returns the square root of a complex number.\n"
 "@SEEALSO=IMPOWER"
 msgstr ""
-"@FUNCTION=SQRTPI\n"
-"@SYNTAX=SQRTPI(number)\n"
-"@DESCRIPTION=SQRTPI beräknar kvadratroten av ett tal multiplicarat med pi. \n"
-"@SEEALSO=PI"
+"@FUNCTION=IMSQRT\n"
+"@SYNTAX=IMSQRT(i)\n"
+"@DESCRIPTION=IMSQRT returnerar kvadratroten av ett komplext tal.\n"
+"@SEEALSO=IMPOWER"
 
 #: src/fn-eng.c:941
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSUB\n"
 "@SYNTAX=IMSUB(inumber,inumber)\n"
 "@DESCRIPTION=IMSUB returns the difference of two complex numbers.\n"
 "@SEEALSO=IMSUM"
 msgstr ""
-"@FUNCTION=SQRTPI\n"
-"@SYNTAX=SQRTPI(number)\n"
-"@DESCRIPTION=SQRTPI beräknar kvadratroten av ett tal multiplicarat med pi. \n"
-"@SEEALSO=PI"
+"@FUNCTION=IMSUB\n"
+"@SYNTAX=IMSUB(i,i)\n"
+"@DESCRIPTION=IMSUB returnerar skillnaden mellan två komplexa tal.\n"
+"@SEEALSO=IMSUM"
 
 #: src/fn-eng.c:966
-#, fuzzy
 msgid ""
 "@FUNCTION=IMPRODUCT\n"
 "@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])\n"
 "@DESCRIPTION=IMPRODUCT returns the product of given complex numbers.\n"
 "@SEEALSO=IMDIV"
 msgstr ""
-"@FUNCTION=PRODUCT\n"
-"@SYNTAX=PRODUCT(value1, value2, ...)\n"
-"@DESCRIPTION=PRODUCT returnerar produkten av alla värden och celler som "
-"referas till i argumentlistan.\n"
-"@SEEALSO=SUM, COUNT"
+"@FUNCTION=IMPRODUCT\n"
+"@SYNTAX=IMPRODUCT(i1[,i2,...])\n"
+"@DESCRIPTION=IMPRODUCT returnerar produkten av de givna komplexa talen.\n"
+"@SEEALSO=IMDIV"
 
 #: src/fn-eng.c:1030
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSUM\n"
 "@SYNTAX=IMSUM(inumber,inumber)\n"
 "@DESCRIPTION=IMSUM returns the sum of two complex numbers.\n"
 "@SEEALSO=IMSUB"
 msgstr ""
-"@FUNCTION=SQRTPI\n"
-"@SYNTAX=SQRTPI(number)\n"
-"@DESCRIPTION=SQRTPI beräknar kvadratroten av ett tal multiplicarat med pi. \n"
-"@SEEALSO=PI"
+"@FUNCTION=IMSUM\n"
+"@SYNTAX=IMSUM(i,i)\n"
+"@DESCRIPTION=IMSUM returnerar summan av två komplexa tal.\n"
+"@SEEALSO=IMSUB"
 
 #: src/fn-eng.c:1058
 msgid ""
@@ -2348,6 +2290,101 @@ msgid ""
 "If @from_unit and @to_unit are different types, CONVERT returns #NUM! error. "
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=CONVERT\n"
+"@SYNTAX=CONVERT(tal,från_enhet,till_enhet)\n"
+"@DESCRIPTION=CONVERT omvandlar från ett enhetssytem till ett annat. Till "
+"exempel kan du konvertera vikt i pund till en vikt i gram. @tal är värdet "
+"som skall omvandlas, @från_enhet anger enheten på @tal, och @till_enhet är "
+"resultatets enhet.\n"
+"@från_enhet och @till_enhet kan vara någon av följnade:\n"
+"\n"
+"Vikt och massa:\n"
+"'g'    Gram\n"
+"'sg'   Slug\n"
+"'lbm'  Pund\n"
+"'u'    U (atommassa)\n"
+"'ozm'  Ounce\n"
+"\n"
+"Avstånd:\n"
+"'m'    Meter\n"
+"'mi'   Statute mile\n"
+"'Nmi'  Sjömil\n"
+"'in'   Tum\n"
+"'ft'   Fot\n"
+"'yd'   Yard\n"
+"'ang'  Ångstrom\n"
+"'Pica' Pica\n"
+"\n"
+"Tid:\n"
+"'yr'   År\n"
+"'day'  Dag\n"
+"'hr'   Timme\n"
+"'mn'   Minut\n"
+"'sec'  Sekond\n"
+"\n"
+"Tryck:\n"
+"'Pa'   Pascal\n"
+"'atm'  Atmosfär\n"
+"'mmHg' mm kvicksilver\n"
+"\n"
+"Kraft:\n"
+"'N'    Newton\n"
+"'dyn'  Dyne\n"
+"'lbf'  Pound force\n"
+"\n"
+"Energi:\n"
+"'J'    Joule\n"
+"'e'    Erg\n"
+"'c'    Termodynamiska kalorier\n"
+"'cal'  IT-kalorier\n"
+"'eV'   Elektronvolt\n"
+"'HPh'  Hästkraft-timme\n"
+"'Wh'   Watt-timme\n"
+"'flb'  Fot-pund\n"
+"'BTU'  BTU\n"
+"\n"
+"Effekt:\n"
+"'HP'   Hästkraft\n"
+"'W'    Watt\n"
+"Magnetism:\n"
+"'T'    Tesla\n"
+"'ga'   Gauss\n"
+"\n"
+"Temperatur:\n"
+"'C'    Grader celsius\n"
+"'F'    Grader fahrenheit\n"
+"'K'    Grader kelvin\n"
+"\n"
+"Volym (flytande):\n"
+"'tsp'  Tesked\n"
+"'tbs'  Matsked\n"
+"'oz'   Fluid ounce\n"
+"'cup'  Kopp\n"
+"'pt'   Pint\n"
+"'qt'   Quart\n"
+"'gal'  Gallon\n"
+"'l'    Liter\n"
+"\n"
+"För enheter i det metriska systemet kan följande prefix användas:\n"
+"'E'  exa    1E+18\n"
+"'P'  peta   1E+15\n"
+"'T'  tera   1E+12\n"
+"'G'  giga   1E+09\n"
+"'M'  mega   1E+06\n"
+"'k'  kilo   1E+03\n"
+"'h'  hekto  1E+02\n"
+"'e'  dekao  1E+01\n"
+"'d'  deci   1E-01\n"
+"'c'  centi  1E-02\n"
+"'m'  milli  1E-03\n"
+"'u'  micro  1E-06\n"
+"'n'  nano   1E-09\n"
+"'p'  pico   1E-12\n"
+"'f'  femto  1E-15\n"
+"'a'  atto   1E-18\n"
+"\n"
+"Om @från_enhet och @till_enhet har olika typ, returnerar CONVERT felvärdet "
+"#NUM!. @SEEALSO="
 
 #: src/fn-eng.c:1444
 msgid ""
@@ -2384,9 +2421,8 @@ msgid ""
 msgstr ""
 
 #: src/fn-eng.c:1550 src/fn-eng.c:1601
-#, fuzzy
 msgid "Impossible"
-msgstr "Omöjligt!"
+msgstr "Omöjligt"
 
 #: src/fn-eng.c:1559
 msgid ""
@@ -2402,7 +2438,7 @@ msgstr ""
 msgid "Engineering"
 msgstr ""
 
-#: src/fn-financial.c:104
+#: src/fn-financial.c:105
 msgid ""
 "@FUNCTION=EFFECT\n"
 "@SYNTAX=EFFECT(r,nper)\n"
@@ -2425,12 +2461,11 @@ msgid ""
 "@SEEALSO=NOMINAL"
 msgstr ""
 
-#: src/fn-financial.c:144
-#, fuzzy
+#: src/fn-financial.c:145
 msgid "effect - domain error"
-msgstr "acos - domänfel"
+msgstr "effect - domänfel"
 
-#: src/fn-financial.c:152
+#: src/fn-financial.c:153
 msgid ""
 "@FUNCTION=NOMINAL\n"
 "@SYNTAX=NOMINAL(r,nper)\n"
@@ -2446,12 +2481,38 @@ msgid ""
 "@SEEALSO=EFFECT"
 msgstr ""
 
-#: src/fn-financial.c:179
-#, fuzzy
+#: src/fn-financial.c:180
 msgid "nominal - domain error"
-msgstr "asin - domänfel"
+msgstr "nominal - domänfel"
 
-#: src/fn-financial.c:189
+#: src/fn-financial.c:187
+msgid ""
+"@FUNCTION=DB\n"
+"@SYNTAX=DB(cost,salvage,life,period[,month])\n"
+"@DESCRIPTION=DB returns the depreciation of an asset for a given period "
+"using the fixed-declining balance method.  @cost is the initial value of the "
+"asset.  @salvage after the depreciation. @life is the number of periods "
+"overall.  @period is the period for which you want the depreciation to be "
+"calculated.  @month is the number of months in the first year of "
+"depreciation. If @month is omitted, it is assumed to be 12. \n"
+"@SEEALSO=DDB,SLN,SYD,VDB"
+msgstr ""
+
+#: src/fn-financial.c:237
+msgid ""
+"@FUNCTION=DDB\n"
+"@SYNTAX=DDB(cost,salvage,life,period[,factor])\n"
+"@DESCRIPTION=DDB returns the depreciation of an asset for a given period "
+"using the double-declining balance method or some other similar method you "
+"specify.  @cost is the initial value of the asset, @salvage is the value "
+"after the last period, @life is the number of periods, @period is the period "
+"for which you want the depreciation to be calculated, and @factor is the "
+"factor at which the balance declines.  If @factor is omitted, it is assumed "
+"to be two (double-declining balance method). \n"
+"@SEEALSO=SLN,SYD,VDB"
+msgstr ""
+
+#: src/fn-financial.c:281
 msgid ""
 "@FUNCTION=SLN\n"
 "@SYNTAX=SLN(cost,salvage_value,life)\n"
@@ -2465,12 +2526,11 @@ msgid ""
 "@SEEALSO=SYD"
 msgstr ""
 
-#: src/fn-financial.c:218
-#, fuzzy
+#: src/fn-financial.c:310
 msgid "sln - domain error"
-msgstr "asin - domänfel"
+msgstr "sln - domänfel"
 
-#: src/fn-financial.c:224
+#: src/fn-financial.c:316
 msgid ""
 "@FUNCTION=SYD\n"
 "@SYNTAX=SYD(cost,salvage_value,life,period)\n"
@@ -2478,20 +2538,18 @@ msgid ""
 "based on its cost, salvage value, anticipated life and a particular period.\n"
 "Formula for sum-of-years digits depriciation is:\n"
 "Depriciation expense = ( cost - salvage_value ) * (life - period + 1) * 2 / "
-"life * (life + 1)\n"
+"life * (life + 1).\n"
 "\t@cost = cost of an asset when acquired (market value)\t@salvage_value = "
 "amount you get when asset sold at the end of life\t@life = anticipated life "
 "of an asset\t@period = period for which we need the expense\n"
 "@SEEALSO=SLN"
 msgstr ""
 
-#: src/fn-financial.c:255
-#, fuzzy
+#: src/fn-financial.c:349
 msgid "syd - domain error"
-msgstr "acos - domänfel"
+msgstr "syd - domänfel"
 
-#: src/fn-financial.c:261
-#, fuzzy
+#: src/fn-financial.c:355
 msgid ""
 "@FUNCTION=DOLLARDE\n"
 "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
@@ -2501,15 +2559,8 @@ msgid ""
 "returns #NUM! error. \n"
 "@SEEALSO=DOLLARFR"
 msgstr ""
-"@FUNCTION=FACTDOUBLE\n"
-"@SYNTAX=FACTDOUBLE(number)\n"
-"@DESCRIPTION=FACTDOUBLE beräknar semifakulteten för @number.\n"
-"Om @number inte är ett heltal, trunkeras det. Om @number är negativt, "
-"returneras felet #NUM!\n"
-"@SEEALSO=FACT"
 
-#: src/fn-financial.c:299
-#, fuzzy
+#: src/fn-financial.c:393
 msgid ""
 "@FUNCTION=DOLLARFR\n"
 "@SYNTAX=DOLLARFR(decimal_dollar,fraction)\n"
@@ -2519,14 +2570,8 @@ msgid ""
 "returns #NUM! error. \n"
 "@SEEALSO=DOLLARDE"
 msgstr ""
-"@FUNCTION=FACTDOUBLE\n"
-"@SYNTAX=FACTDOUBLE(number)\n"
-"@DESCRIPTION=FACTDOUBLE beräknar semifakulteten för @number.\n"
-"Om @number inte är ett heltal, trunkeras det. Om @number är negativt, "
-"returneras felet #NUM!\n"
-"@SEEALSO=FACT"
 
-#: src/fn-financial.c:338
+#: src/fn-financial.c:432
 msgid ""
 "@FUNCTION=RATE\n"
 "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
@@ -2534,50 +2579,74 @@ msgid ""
 "@SEEALSO=PV,FV"
 msgstr ""
 
-#: src/fn-financial.c:434
+#: src/fn-financial.c:530
+#, fuzzy
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt,fv,type)\n"
 "@DESCRIPTION=Calculates the present value of an investment.\n"
 "@SEEALSO=FV"
 msgstr ""
+"@FUNCTION=UPPER\n"
+"@SYNTAX=UPPER(text)\n"
+"@DESCRIPTION=Omvandlar strängen @text till versaler.\n"
+"@SEEALSO=LOWER"
 
-#: src/fn-financial.c:456
-#, fuzzy
+#: src/fn-financial.c:552
 msgid "pv - domain error"
-msgstr "acos - domänfel"
+msgstr "pv - domänfel"
 
-#: src/fn-financial.c:466
-#, fuzzy
+#: src/fn-financial.c:563
 msgid ""
 "@FUNCTION=NPV\n"
 "@SYNTAX=NPV(rate,v1,v2,...)\n"
-"@DESCRIPTION=Calculates the net present value of an investment.\n"
-"@SEEALSO=PV"
+"@DESCRIPTION=NPV calculates the net present value of an investment "
+"generating peridic payments.  @rate is the periodic interest rate and @v1, "
+"@v2, ... are the periodic payments. If the schedule of the cash flows are "
+"not periodic use the XNPV function. \n"
+"@SEEALSO=PV,XNPV"
 msgstr ""
-"@FUNCTION=SUM\n"
-"@SYNTAX=SUM(value1, value2, ...)\n"
-"@DESCRIPTION=Beräknar summan av alla värden och celler som referaras till i "
-"argumentlistan. \n"
-"@SEEALSO=AVERAGE, COUNT"
 
-#: src/fn-financial.c:512
+#: src/fn-financial.c:612
+msgid ""
+"@FUNCTION=XNPV\n"
+"@SYNTAX=XNPV(rate,values,dates)\n"
+"@DESCRIPTION=XNPV calculates the net present value of an investment.  The "
+"schedule of the cash flows is given in @dates array.  The first date "
+"indicates the beginning of the payment schedule.  @rate is the interest rate "
+"and @values are the payments. \n"
+"If @values and @dates contain unequal number of values, XNPV returns the "
+"#NUM error. \n"
+"@SEEALSO=NPV,PV"
+msgstr ""
+
+#: src/fn-financial.c:665
+#, fuzzy
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,nper,pmt,pv,type)\n"
 "@DESCRIPTION=Calculates the future value of an investment.\n"
 "@SEEALSO=PV,PMT,PPMT"
 msgstr ""
+"@FUNCTION=VALUE\n"
+"@SYNTAX=VALUE(text)\n"
+"@DESCRIPTION=Returnerar det numeriska värdet av @text.\n"
+"@SEEALSO=DOLLAR, FIXED, TEXT"
 
-#: src/fn-financial.c:542
+#: src/fn-financial.c:695
+#, fuzzy
 msgid ""
 "@FUNCTION=PMT\n"
-"@SYNTAX=PMT(rate,nper,pv,fv,type)\n"
+"@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
 "@DESCRIPTION=Calculates the present value of an investment.\n"
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
+"@FUNCTION=UPPER\n"
+"@SYNTAX=UPPER(text)\n"
+"@DESCRIPTION=Omvandlar strängen @text till versaler.\n"
+"@SEEALSO=LOWER"
 
-#: src/fn-financial.c:566
+#: src/fn-financial.c:725
 msgid ""
 "@FUNCTION=IPMT\n"
 "@SYNTAX=IPMT(rate,per,nper,pv,fv,type)\n"
@@ -2592,10 +2661,10 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/fn-financial.c:607
+#: src/fn-financial.c:766
 msgid ""
 "@FUNCTION=PPMT\n"
-"@SYNTAX=PPMT(rate,per,nper,pv,fv,type)\n"
+"@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
 "@DESCRIPTION=Calculates the amount of a payment of an annuity going towards "
 "principal.\n"
 "Formula for it is:\n"
@@ -2606,15 +2675,20 @@ msgid ""
 "@SEEALSO=IPMT,PV,FV"
 msgstr ""
 
-#: src/fn-financial.c:652
+#: src/fn-financial.c:817
+#, fuzzy
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
 "@DESCRIPTION=Calculates number of periods of an investment.\n"
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
+"@FUNCTION=UPPER\n"
+"@SYNTAX=UPPER(text)\n"
+"@DESCRIPTION=Omvandlar strängen @text till versaler.\n"
+"@SEEALSO=LOWER"
 
-#: src/fn-financial.c:682
+#: src/fn-financial.c:847
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(rate,pv,fv)\n"
@@ -2625,7 +2699,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/fn-financial.c:714
+#: src/fn-financial.c:879
 msgid "Financial"
 msgstr ""
 
@@ -2638,17 +2712,14 @@ msgid ""
 "contents of a cell. \n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=RAND\n"
-"@SYNTAX=RAND()\n"
-"@DESCRIPTION=Returnerar ett slumptal större än eller lika med 0 och mindre "
-"än 1.\n"
-"\n"
-"@SEEALSO="
+"@FUNCTION=LOWER\n"
+"@SYNTAX=LOWER(text)\n"
+"@DESCRIPTION=Omvandlar strängen @text till gemener.\n"
+"@SEEALSO=UPPER"
 
 #: src/fn-information.c:206 src/fn-information.c:314
-#, fuzzy
 msgid "Unknown info_type"
-msgstr "Okänd operator"
+msgstr "Okänd info_typ"
 
 #: src/fn-information.c:211
 #, fuzzy
@@ -2659,13 +2730,12 @@ msgid ""
 "@SEEALSO=COUNT"
 msgstr ""
 "@FUNCTION=COUNTIF\n"
-"@SYNTAX=COUNTIF(range,criteria)\n"
+"@SYNTAX=COUNTIF(område,villkor)\n"
 "@DESCRIPTION=COUNTIF räknar antalet celler i det angivna området, som "
-"uppfyller det givna kriteriet.\n"
+"uppfyller det givna villkoret.\n"
 "@SEEALSO=COUNT,SUMIF"
 
 #: src/fn-information.c:246
-#, fuzzy
 msgid ""
 "@FUNCTION=INFO\n"
 "@SYNTAX=INFO()\n"
@@ -2673,138 +2743,124 @@ msgid ""
 "environment. \n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=ODD\n"
-"@SYNTAX=ODD(number)\n"
-"@DESCRIPTION=ODD returnerar argumentet avrundat uppåt till närmsta udda "
-"heltal.\n"
-"@SEEALSO=EVEN"
+"@FUNCTION=INFO\n"
+"@SYNTAX=INFO()\n"
+"@DESCRIPTION=INFO returnerar information om systemet.\n"
+"@SEEALSO="
 
 #: src/fn-information.c:284
-#, fuzzy
 msgid "Unknown version"
-msgstr "Okänd operator"
+msgstr "Okänd version"
 
 #: src/fn-information.c:286
 #, c-format
 msgid "%s version %s"
-msgstr ""
+msgstr "%s version %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: src/fn-information.c:295
-#, fuzzy
 msgid "Automatic"
-msgstr "_Autojustera"
+msgstr "Automatisk"
 
 #: src/fn-information.c:304
-#, fuzzy
 msgid "Unknown system"
-msgstr "Okänd operator"
+msgstr "Okänt system"
 
 #: src/fn-information.c:319
-#, fuzzy
 msgid ""
 "@FUNCTION=ISBLANK\n"
 "@SYNTAX=ISBLANK()\n"
 "@DESCRIPTION=ISBLANK returns TRUE if the value is blank. \n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=LN\n"
-"@SYNTAX=LN(x)\n"
-"@DESCRIPTION=LN returnerar den naturliga logaritmen av x.\n"
-"@SEEALSO=EXP, LOG2, LOG10"
+"@FUNCTION=ISBLANK\n"
+"@SYNTAX=ISBLANK()\n"
+"@DESCRIPTION=ISBLANK returnerar TRUE om värdet är tomt. \n"
+"@SEEALSO="
 
 #: src/fn-information.c:362
-#, fuzzy
 msgid ""
 "@FUNCTION=ISEVEN\n"
 "@SYNTAX=ISEVEN()\n"
 "@DESCRIPTION=ISEVEN returns TRUE if the number is even. \n"
 "@SEEALSO=ISODD"
 msgstr ""
-"@FUNCTION=EVEN\n"
-"@SYNTAX=EVEN(number)\n"
-"@DESCRIPTION=EVEN returnerar argumentet avrundat uppåt till närmsta jämna "
-"heltal.\n"
-"@SEEALSO=ODD"
+"@FUNCTION=ISEVEN\n"
+"@SYNTAX=ISEVEN()\n"
+"@DESCRIPTION=ISEVEN returnerar TRUE om talet är jämnt. \n"
+"@SEEALSO=ISODD"
 
 #: src/fn-information.c:379
-#, fuzzy
 msgid ""
 "@FUNCTION=ISLOGICAL\n"
 "@SYNTAX=ISLOGICAL()\n"
 "@DESCRIPTION=ISLOGICAL returns TRUE if the value is a logical value. \n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=LN\n"
-"@SYNTAX=LN(x)\n"
-"@DESCRIPTION=LN returnerar den naturliga logaritmen av x.\n"
-"@SEEALSO=EXP, LOG2, LOG10"
+"@FUNCTION=ISLOGICAL\n"
+"@SYNTAX=ISLOGICAL()\n"
+"@DESCRIPTION=ISLOGICAL returnerar TRUE om värdet är ett logiskt värde. \n"
+"@SEEALSO="
 
 #: src/fn-information.c:403
-#, fuzzy
 msgid ""
 "@FUNCTION=ISNONTEXT\n"
 "@SYNTAX=ISNONTEXT()\n"
 "@DESCRIPTION=ISNONTEXT Returns TRUE if the value is not text. \n"
 "@SEEALSO=ISTEXT"
 msgstr ""
-"@FUNCTION=LN\n"
-"@SYNTAX=LN(x)\n"
-"@DESCRIPTION=LN returnerar den naturliga logaritmen av x.\n"
-"@SEEALSO=EXP, LOG2, LOG10"
+"@FUNCTION=ISNONTEXT\n"
+"@SYNTAX=ISNONTEXT()\n"
+"@DESCRIPTION=ISNONTEXT returnerar TRUE om värdet inte består av text. \n"
+"@SEEALSO=ISTEXT"
 
 #: src/fn-information.c:424
-#, fuzzy
 msgid ""
 "@FUNCTION=ISNUMBER\n"
 "@SYNTAX=ISNUMBER()\n"
 "@DESCRIPTION=ISNUMBER returns TRUE if the value is a number. \n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=LN\n"
-"@SYNTAX=LN(x)\n"
-"@DESCRIPTION=LN returnerar den naturliga logaritmen av x.\n"
-"@SEEALSO=EXP, LOG2, LOG10"
+"@FUNCTION=ISNUMBER\n"
+"@SYNTAX=ISNUMBER()\n"
+"@DESCRIPTION=ISNUMBER returnerar TRUE om värdet är ett tal. \n"
+"@SEEALSO="
 
 #: src/fn-information.c:445
-#, fuzzy
 msgid ""
 "@FUNCTION=ISODD\n"
 "@SYNTAX=ISODD()\n"
 "@DESCRIPTION=ISODD returns TRUE if the number is odd. \n"
 "@SEEALSO=ISEVEN"
 msgstr ""
-"@FUNCTION=ODD\n"
-"@SYNTAX=ODD(number)\n"
-"@DESCRIPTION=ODD returnerar argumentet avrundat uppåt till närmsta udda "
-"heltal.\n"
-"@SEEALSO=EVEN"
+"@FUNCTION=ISODD\n"
+"@SYNTAX=ISODD()\n"
+"@DESCRIPTION=ISODD returnerar TRUE om talet är udda. \n"
+"@SEEALSO=ISEVEN"
 
 #: src/fn-information.c:462
-#, fuzzy
 msgid ""
 "@FUNCTION=ISREF\n"
 "@SYNTAX=ISREF()\n"
 "@DESCRIPTION=ISREF returns TRUE if the value is a reference. \n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=LN\n"
-"@SYNTAX=LN(x)\n"
-"@DESCRIPTION=LN returnerar den naturliga logaritmen av x.\n"
-"@SEEALSO=EXP, LOG2, LOG10"
+"@FUNCTION=ISREF\n"
+"@SYNTAX=ISREF()\n"
+"@DESCRIPTION=ISREF returnerar TRUE om värdet är en referens. \n"
+"@SEEALSO="
 
 #: src/fn-information.c:488
-#, fuzzy
 msgid ""
 "@FUNCTION=ISTEXT\n"
 "@SYNTAX=ISTEXT()\n"
 "@DESCRIPTION=ISTEXT returns TRUE if the value is text. \n"
 "@SEEALSO=ISNONTEXT"
 msgstr ""
-"@FUNCTION=LN\n"
-"@SYNTAX=LN(x)\n"
-"@DESCRIPTION=LN returnerar den naturliga logaritmen av x.\n"
-"@SEEALSO=EXP, LOG2, LOG10"
+"@FUNCTION=ISTEXT\n"
+"@SYNTAX=ISTEXT()\n"
+"@DESCRIPTION=ISTEXT returnerar TRUE om värdet består av text. \n"
+"@SEEALSO=ISNONTEXT"
 
 #: src/fn-information.c:509
 #, fuzzy
@@ -2815,11 +2871,9 @@ msgid ""
 "text are converted to the zero value. \n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=RAND\n"
-"@SYNTAX=RAND()\n"
-"@DESCRIPTION=Returnerar ett slumptal större än eller lika med 0 och mindre "
-"än 1.\n"
-"\n"
+"@FUNCTION=ISNA\n"
+"@SYNTAX=ISNA()\n"
+"@DESCRIPTION=ISNA returnerar TRUE om värdet är felvärdet #N/A. \n"
 "@SEEALSO="
 
 #: src/fn-information.c:544
@@ -2830,16 +2884,14 @@ msgid ""
 "@DESCRIPTION=TYPE returns a number indicating the data type of a value. \n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=TIME\n"
-"@SYNTAX=TIME (hours,minutes,seconds)\n"
-"@DESCRIPTION=Returnerar ett tal mellan 0 och 1, som representerar det "
-"angivna klockslaget.\n"
-"@SEEALSO=HOUR"
+"@FUNCTION=NA\n"
+"@SYNTAX=NA()\n"
+"@DESCRIPTION=NA returnerar felvärdet #N/A. \n"
+"@SEEALSO="
 
 #: src/fn-information.c:565
-#, fuzzy
 msgid "Information"
-msgstr "Bråk"
+msgstr "Information"
 
 #: src/fn-logical.c:15
 msgid ""
@@ -2865,11 +2917,11 @@ msgid ""
 "\n"
 "@SEEALSO=AND, OR"
 msgstr ""
-"@FUNCTION=ODD\n"
-"@SYNTAX=ODD(number)\n"
-"@DESCRIPTION=ODD returnerar argumentet avrundat uppåt till närmsta udda "
-"heltal.\n"
-"@SEEALSO=EVEN"
+"@FUNCTION=SIGN\n"
+"@SYNTAX=SIGN(tal)\n"
+"@DESCRIPTION=Funktionen SIGN returnerar 1 om @tal är positivt, 0 om det är "
+"0, och -1 om @tal är negativt.\n"
+"@SEEALSO="
 
 #: src/fn-logical.c:81 src/fn-lookup.c:439 src/fn-lookup.c:446
 #: src/fn-string.c:457
@@ -2993,6 +3045,13 @@ msgid ""
 "If ref_text is not a valid reference returns #REF! \n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=INDIRECT\n"
+"@SYNTAX=INDIRECT(ref_text, [format])\n"
+"@DESCRIPTION=Funktionen INDIRECT returnerar innehållet i cellen som refereras i strängen "
+"ref_text. Strängen anger en cellreferens av typen A1 eller R1C1. Typen kan valfritt anges "
+"i @format, annars används A1 som standard.\n"
+"Om @ref_text inte är en giltig referens returneras #REF!.\n"
+"@SEEALSO="
 
 #: src/fn-lookup.c:554
 msgid ""
@@ -3004,9 +3063,15 @@ msgid ""
 "#VALUE!.\n"
 "@SEEALSO=COLUMNS,ROW,ROWS"
 msgstr ""
+"@FUNCTION=COLUMN\n"
+"@SYNTAX=COLUMN([referens])\n"
+"@DESCRIPTION=COLUMN returnerar ett fält med kolumnnummer. Om @referens inte anges, "
+"används den cell som formeln finns i.\n"
+"Om @referens inte är ett fält, en referens eller ett område, returneras felvärdet"
+"#VALUE!.\n"
+"@SEEALSO=COLUMNS,ROW,ROWS"
 
 #: src/fn-lookup.c:603
-#, fuzzy
 msgid ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(reference)\n"
@@ -3016,11 +3081,13 @@ msgid ""
 "#VALUE!.\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 msgstr ""
-"@FUNCTION=COUNTIF\n"
-"@SYNTAX=COUNTIF(range,criteria)\n"
-"@DESCRIPTION=COUNTIF räknar antalet celler i det angivna området, som "
-"uppfyller det givna kriteriet.\n"
-"@SEEALSO=COUNT,SUMIF"
+"@FUNCTION=COLUMNS\n"
+"@SYNTAX=COLUMNS(referens)\n"
+"@DESCRIPTION=COLUMNS returnerar antalet kolumner som finns inom det område "
+"eller den fältreferens som anges.\n"
+"Om @referens inte är ett fält, en referens eller ett område, returneras felvärdet "
+"#VALUE!.\n"
+"@SEEALSO=COLUMN,ROW,ROWS"
 
 #: src/fn-lookup.c:624
 msgid ""
@@ -3068,7 +3135,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
-"@DESCRIPTION=PI returnerar värdet av Pi, definierat av M_PI.\n"
+"@DESCRIPTION=PI returnerar värdet av pi, definierat av M_PI.\n"
 "Funktionen har inga argument.\n"
 "@SEEALSO="
 
@@ -3085,7 +3152,7 @@ msgid ""
 "@SEEALSO=LCM"
 msgstr ""
 "@FUNCTION=GCD\n"
-"@SYNTAX=GCD(number1,number2,...)\n"
+"@SYNTAX=GCD(tal1,tal2,...)\n"
 "@DESCRIPTION=GCD returnerar den största gemensamma delaren för deangivna "
 "talen.\n"
 "Om något av argumenten är mindre än noll, returnerar GCD #NUM!.\n"
@@ -3102,7 +3169,7 @@ msgid ""
 "@SEEALSO=GCD"
 msgstr ""
 "@FUNCTION=LCM\n"
-"@SYNTAX=LCM(number1,number2,...)\n"
+"@SYNTAX=LCM(tal1,tal2,...)\n"
 "@DESCRIPTION=LCM returnerar den minsta gemensamma multipeln för angivna "
 "heltalen. Den minsta gemensamma multipeln är det minsta positiva tal som är "
 "en multipel av alla de angivna talen.\n"
@@ -3127,7 +3194,6 @@ msgstr ""
 "@SEEALSO=CEIL, FLOOR"
 
 #: src/fn-math.c:267
-#, fuzzy
 msgid ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
@@ -3141,8 +3207,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
-"@DESCRIPTION=ACOS-funktionen beräknar arcus cosinus av x; det vill säga det "
-"värde vars cosinus är x. Om x ligger utanför intervallet -1 till 1, "
+"@DESCRIPTION=ACOS-funktionen beräknar arcus cosinus av @x; det vill säga det "
+"värde vars cosinus är @x. Om @x ligger utanför intervallet -1 till 1, "
 "returnerar ACOS felet 'acos -domänfel'. Resultatet anges i radianer.\n"
 "Om argumentet är en sträng eller tom cell, händer ingenting. Funktionen tar "
 "endast ett argument.\n"
@@ -3153,7 +3219,6 @@ msgid "acos - domain error"
 msgstr "acos - domänfel"
 
 #: src/fn-math.c:295
-#, fuzzy
 msgid ""
 "@FUNCTION=ACOSH\n"
 "@SYNTAX=ACOSH(x)\n"
@@ -3166,9 +3231,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=ACOSH\n"
 "@SYNTAX=ACOSH(x)\n"
-"@DESCRIPTION=ACOSH beräknar inversen till cosinus hyperbolicus; det vill "
-"säga det värde vars COSH är x. Om x är mindre än 1.0, returnerar ACOSH felet "
-"'acosh - domänfel'\n"
+"@DESCRIPTION=ACOSH beräknar inversen till cosinus hyperbolicus av @x; det "
+"vill säga det värde vars COSH är @x. Om @x är mindre än 1.0, returnerar "
+"ACOSH felet 'acosh - domänfel'\n"
 "Om argumentet är en sträng eller tom cell, händer ingenting. Funktionen tar "
 "endast ett argument.\n"
 "@SEEALSO=ACOS, DEGREES, RADIANS "
@@ -3178,7 +3243,6 @@ msgid "acosh - domain error"
 msgstr "acosh - domänfel"
 
 #: src/fn-math.c:323
-#, fuzzy
 msgid ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
@@ -3191,9 +3255,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
-"@DESCRIPTION=ASIN beräknar arcus sinus av x; det vill säga det värde vars "
-"sinus är x. Om x ligger utanför intervallet -1 till 1, returnerar ASIN felet "
-"'asin - domänfel'\n"
+"@DESCRIPTION=ASIN beräknar arcus sinus av @x; det vill säga det värde vars "
+"sinus är @x. Om @x ligger utanför intervallet -1 till 1, returnerar ASIN "
+"felet 'asin - domänfel'\n"
 "Om argumentet är en sträng eller tom cell, händer ingenting. Funktionen tar "
 "endast ett argument.\n"
 "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
@@ -3203,7 +3267,6 @@ msgid "asin - domain error"
 msgstr "asin - domänfel"
 
 #: src/fn-math.c:350
-#, fuzzy
 msgid ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
@@ -3215,15 +3278,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
-"@DESCRIPTION=ASINH beräknar inversen till sinus hyperbolicus; det vill säga "
-"det värde vars SINH är x. Om x är mindre än 1.0, returnerar ASINH felet "
-"'acosh - domänfel'\n"
+"@DESCRIPTION=ASINH beräknar inversen till sinus hyperbolicus av @x; det vill "
+"säga det värde vars SINH är @x. Om @x är mindre än 1.0, returnerar ASINH "
+"felet 'acosh - domänfel'\n"
 "Om argumentet är en sträng eller tom cell, händer ingenting. Funktionen tar "
 "endast ett argument.\n"
 "@SEEALSO=ASIN, SIN, COS, DEGREES, RADIANS"
 
 #: src/fn-math.c:371
-#, fuzzy
 msgid ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
@@ -3235,14 +3297,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
-"@DESCRIPTION=ATAN beräknar arctan av x; det vill säga det värde vars tangens "
-"är x. Resultatet ges i radianer.\n"
+"@DESCRIPTION=ATAN beräknar arctan av @x; det vill säga det värde vars "
+"tangens är @x. Resultatet ges i radianer.\n"
 "Om argumentet är en sträng eller tom cell, händer ingenting. Funktionen tar "
 "endast ett argument.\n"
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 
 #: src/fn-math.c:394
-#, fuzzy
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
@@ -3257,7 +3318,7 @@ msgstr ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
 "@DESCRIPTION=ATANH beräknar inversen till tangens hyperbolicus; det vill "
-"säga det värde vars tanh är x. Om absolutvärdet av x är större än 1.0, "
+"säga det värde vars tanh är @x. Om absolutvärdet av @x är större än 1.0, "
 "returnerar ATANH felet 'atanh: domänfel'\n"
 "Om argumentet är en sträng eller tom cell, händer ingenting. Funktionen tar "
 "endast ett argument.\n"
@@ -3268,7 +3329,6 @@ msgid "atanh: domain error"
 msgstr "atanh: domänfel"
 
 #: src/fn-math.c:423
-#, fuzzy
 msgid ""
 "@FUNCTION=ATAN2\n"
 "@SYNTAX=ATAN2(b1,b2)\n"
@@ -3281,14 +3341,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=ATAN2\n"
 "@SYNTAX=ATAN2(b1,b2)\n"
-"@DESCRIPTION=ATAN2 är likvärdigt med att beräkna arctan av b1 / b2, med "
+"@DESCRIPTION=ATAN2 är likvärdigt med att beräkna arctan av @b1 / @b2, med "
 "undantaget att de båda argumentens tecken används för att bestämma vilken "
 "kvadrant resultatet ska ligga i. Resultatet ges i radianer.\n"
 "Om argumentet är en sträng eller tom cell, händer ingenting.\n"
 "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 
 #: src/fn-math.c:447
-#, fuzzy
 msgid ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
@@ -3298,12 +3357,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
-"@DESCRIPTION=Funktionen CEIL avrundar x uppåt till närmsta heltal.\n"
+"@DESCRIPTION=Funktionen CEIL avrundar @x uppåt till närmsta heltal.\n"
 "Om argumentet är en sträng eller tom cell, händer ingenting.\n"
 "@SEEALSO=ABS, FLOOR, INT"
 
 #: src/fn-math.c:466
-#, fuzzy
 msgid ""
 "@FUNCTION=COUNTIF\n"
 "@SYNTAX=COUNTIF(range,criteria)\n"
@@ -3312,13 +3370,12 @@ msgid ""
 "@SEEALSO=COUNT,SUMIF"
 msgstr ""
 "@FUNCTION=COUNTIF\n"
-"@SYNTAX=COUNTIF(range,criteria)\n"
+"@SYNTAX=COUNTIF(område,villkor)\n"
 "@DESCRIPTION=COUNTIF räknar antalet celler i det angivna området, som "
-"uppfyller det givna kriteriet.\n"
+"uppfyller det givna villkoret.\n"
 "@SEEALSO=COUNT,SUMIF"
 
 #: src/fn-math.c:535
-#, fuzzy
 msgid ""
 "@FUNCTION=SUMIF\n"
 "@SYNTAX=SUMIF(range,criteria[,actual_range])\n"
@@ -3329,15 +3386,14 @@ msgid ""
 "@SEEALSO=COUNTIF, SUM"
 msgstr ""
 "@FUNCTION=SUMIF\n"
-"@SYNTAX=SUMIF(range,criteria[,actual_range])\n"
-"@DESCRIPTION=SUMIF summerar de värden i det angivna området, som uppfyller "
-"det givna kriteriet. Om @actual_range är givet, summerar SUMIF värdena i "
-"@actual_range, vars motsvarande värden i @range uppfyller det givna "
-"kriteriet.\n"
+"@SYNTAX=SUMIF(område,villkor[,verkligt_område])\n"
+"@DESCRIPTION=SUMIF summerar de värden i @område, som uppfyller det givna "
+"villkoret. Om @verkligt_område är givet, summerar SUMIF värdena i "
+"@verkligt_område, vars motsvarande värden i @område uppfyller det givna "
+"villkoret.\n"
 "@SEEALSO=COUNTIF,SUM"
 
 #: src/fn-math.c:679
-#, fuzzy
 msgid ""
 "@FUNCTION=CEILING\n"
 "@SYNTAX=CEILING(x,significance)\n"
@@ -3349,14 +3405,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=CEILING\n"
 "@SYNTAX=CEILING(x,significance)\n"
-"@DESCRIPTION=CEILING avrundar x uppåt till den minsta multipeln av "
-"significance.\n"
-"Om x eller significance är icke-numerisk, returnerar CEILING felet #VALUE! "
-"Om x och significance har olika tecken, returneras felet #NUM!.\n"
+"@DESCRIPTION=CEILING avrundar @x uppåt till den minsta multipeln av "
+"@significance.\n"
+"Om @x eller @significance är icke-numerisk, returnerar CEILING felet #VALUE! "
+"Om @x och @significance har olika tecken, returneras felet #NUM!.\n"
 "@SEEALSO=CEIL"
 
 #: src/fn-math.c:712
-#, fuzzy
 msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
@@ -3368,13 +3423,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
-"@DESCRIPTION=COS returnerar cosinus av x, där x anges i radianer. \n"
-"Om argumentet är en sträng eller tom cell, händer ingenting.Funktionen tar "
+"@DESCRIPTION=COS returnerar cosinus av @x, där @x anges i radianer. \n"
+"Om argumentet är en sträng eller tom cell, händer ingenting. Funktionen tar "
 "endast ett argument.\n"
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 
 #: src/fn-math.c:732
-#, fuzzy
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
@@ -3387,14 +3441,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
-"@DESCRIPTION=COSH returnerar cosinus hyperbolicus för x, vilket definieras "
-"matematisk såsom (exp(x) + exp(-x)) / 2. x anges i radianer.\n"
-"Om argumentet är en sträng eller tom cell, händer ingenting.Funktionen tar "
+"@DESCRIPTION=COSH returnerar cosinus hyperbolicus för @x, vilket definieras "
+"matematisk såsom (exp(@x) + exp(-@x)) / 2. @x anges i radianer.\n"
+"Om argumentet är en sträng eller tom cell, händer ingenting. Funktionen tar "
 "endast ett argument.\n"
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 
 #: src/fn-math.c:753
-#, fuzzy
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -3404,12 +3457,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
-"@DESCRIPTION=Omvandlar x radianer till grader.\n"
+"@DESCRIPTION=Omvandlar @x radianer till grader.\n"
 "Om argumentet är en sträng eller tom cell, händer ingenting.\n"
 "@SEEALSO=RADIANS, PI"
 
 #: src/fn-math.c:774
-#, fuzzy
 msgid ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
@@ -3420,13 +3472,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
-"@DESCRIPTION=Beräknar värdet av e upphöjt till x. e är basen för den "
+"@DESCRIPTION=Beräknar värdet av e upphöjt till @x. e är basen för den "
 "naturliga logaritmen.\n"
 "Om argumentet är en sträng eller tom cell, returneras ett fel.\n"
 "@SEEALSO=LOG, LOG2, LOG10"
 
 #: src/fn-math.c:801
-#, fuzzy
 msgid ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
@@ -3437,13 +3488,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=Beräknar faktorialen av x, det vill säga x!\n"
+"@DESCRIPTION=Beräknar faktorialen av @x, det vill säga @x!\n"
 "Om argumentet är en sträng eller tom cell, returneras ett fel.\n"
 "\n"
 "@SEEALSO="
 
 #: src/fn-math.c:838
-#, fuzzy
 msgid ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
@@ -3456,13 +3506,12 @@ msgstr ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
 "@DESCRIPTION=Beräknar antalet kombinationer.\n"
-"Om argumenten ej är positiva heltal returneras ett fel. Även om n är mindre "
-"än k returneras fel.\n"
+"Om argumenten ej är positiva heltal returneras ett fel. Även om @n är mindre "
+"än @k returneras ett felvärde.\n"
 "\n"
 "@SEEALSO="
 
 #: src/fn-math.c:882
-#, fuzzy
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x,significance)\n"
@@ -3473,7 +3522,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x,significance)\n"
-"@DESCRIPTION=FLOOR avrundar x nedåt till närmsta multipel av @significance. "
+"@DESCRIPTION=FLOOR avrundar @x nedåt till närmsta multipel av @significance. "
 "@significance är 1 om inget anges.\n"
 "Om funktionen utförs på en sträng eller tom cell, händer ingenting.\n"
 "@SEEALSO=CEIL, ABS, INT"
@@ -3491,14 +3540,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(b1, b2, ...)\n"
-"@DESCRIPTION=INT avrundar b1 nedåt till närmsta heltal.\n"
+"@DESCRIPTION=INT avrundar @b1 nedåt till närmsta heltal.\n"
 " 'Närmsta' betyder här 'närmare noll'. Funktionen är likvärdigt med "
-"FLOOR(b1) för b1 >= 0, och CEIL(b1) för b1 < 0.\n"
+"FLOOR(@b1) för @b1 >= 0, och CEIL(@b1) för @b1 < 0.\n"
 "Om funktionen utförs på en sträng eller tom cell, händer ingenting.\n"
 "@SEEALSO=FLOOR, CEIL, ABS"
 
 #: src/fn-math.c:939
-#, fuzzy
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[,base])\n"
@@ -3507,13 +3555,12 @@ msgid ""
 "@SEEALSO=LN, LOG2, LOG10"
 msgstr ""
 "@FUNCTION=LOG\n"
-"@SYNTAX=LOG(x[,base])\n"
-"@DESCRIPTION=Beräknar logaritmen av x för den givna basen. Om ingen bas "
-"anges, används basen 10.\n"
+"@SYNTAX=LOG(x[,bas])\n"
+"@DESCRIPTION=Beräknar logaritmen av @x för den givna basen @bas. Om ingen "
+"bas anges, används 10.\n"
 "@SEEALSO=LN, LOG2, LOG10"
 
 #: src/fn-math.c:968
-#, fuzzy
 msgid ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
@@ -3522,11 +3569,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
-"@DESCRIPTION=LN returnerar den naturliga logaritmen av x.\n"
+"@DESCRIPTION=LN returnerar den naturliga logaritmen av @x.\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
 #: src/fn-math.c:991
-#, fuzzy
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
@@ -3536,12 +3582,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
-"@DESCRIPTION=Returnerar värdet av x upphöjt till y.\n"
+"@DESCRIPTION=Returnerar värdet av @x upphöjt till @y.\n"
 "Om funktionen utförs på en sträng eller tom cell, returneras ett fel.\n"
 "@SEEALSO=EXP"
 
 #: src/fn-math.c:1018
-#, fuzzy
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -3551,7 +3596,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
-"@DESCRIPTION=Beräknas logaritmen av x i basen 2.\n"
+"@DESCRIPTION=Beräknas logaritmen av @x i basen 2.\n"
 "Om funktionen utförs på en sträng eller tom cell, returneras ett fel.\n"
 "@SEEALSO=EXP, LOG10, LOG"
 
@@ -3560,7 +3605,6 @@ msgid "log2: domain error"
 msgstr "log2: domänfel"
 
 #: src/fn-math.c:1042
-#, fuzzy
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -3570,7 +3614,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
-"@DESCRIPTION=Beräknas logaritmen av x i basen 10.\n"
+"@DESCRIPTION=Beräknas logaritmen av @x i basen 10.\n"
 "Om funktionen utförs på en sträng eller tom cell, returneras ett fel.\n"
 "@SEEALSO=EXP, LOG2, LOG"
 
@@ -3579,7 +3623,6 @@ msgid "log10: domain error"
 msgstr "log10: domänfel"
 
 #: src/fn-math.c:1067
-#, fuzzy
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
@@ -3589,15 +3632,14 @@ msgid ""
 "@SEEALSO=INT,FLOOR,CEIL"
 msgstr ""
 "@FUNCTION=MOD\n"
-"@SYNTAX=MOD(number,divisor)\n"
-"@DESCRIPTION=Beräknar modulu och returnerar resten när @number delas med "
+"@SYNTAX=MOD(tal,divisor)\n"
+"@DESCRIPTION=Beräknar modulu och returnerar resten när @tal delas med "
 "@divisor.\n"
 "Returnerar #DIV/0! om @divisor är noll.\n"
 "\n"
 "@SEEALSO=INT,FLOOR,CEIL"
 
 #: src/fn-math.c:1104
-#, fuzzy
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -3607,7 +3649,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
-"@DESCRIPTION=Omvandlar x radianer till grader.\n"
+"@DESCRIPTION=Omvandlar @x radianer till grader.\n"
 "Om funktionen utförs på en sträng eller tom cell, händer ingenting.\n"
 "@SEEALSO=PI,DEGREES"
 
@@ -3628,7 +3670,6 @@ msgstr ""
 "@SEEALSO="
 
 #: src/fn-math.c:1143
-#, fuzzy
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -3640,13 +3681,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
-"@DESCRIPTION=SIN returnerar sinus av x, där x anges i radianer.\n"
+"@DESCRIPTION=SIN returnerar sinus av @x, där @x anges i radianer.\n"
 "Om funktionen utförs på en sträng eller tom cell, händer ingenting. "
 "Funktionen tar endast ett argument.\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
 #: src/fn-math.c:1163
-#, fuzzy
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -3659,13 +3699,12 @@ msgstr ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
 "@DESCRIPTION=SINH beräknar sinus hyperbolicus av @x, vilket definieras "
-"matematiskt som (exp(x) - exp(-x)) / 2.\n"
+"matematiskt som (exp(@x) - exp(-@x)) / 2.\n"
 "Om funktionen utförs på en sträng eller tom cell, händer ingenting. "
 "Funktionen tar endast ett argument.\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
 #: src/fn-math.c:1183
-#, fuzzy
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -3676,7 +3715,7 @@ msgstr ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
 "@DESCRIPTION=Funktionen SQRT returnerar kvadratroten av @x.\n"
-"Om x är negativt, returnas #NUM!. Funktionen tar endast ett argument.\n"
+"Om @x är negativt, returnas #NUM!. Funktionen tar endast ett argument.\n"
 "@SEEALSO=POW"
 
 #: src/fn-math.c:1206
@@ -3688,7 +3727,7 @@ msgid ""
 "@SEEALSO=AVERAGE, COUNT"
 msgstr ""
 "@FUNCTION=SUM\n"
-"@SYNTAX=SUM(value1, value2, ...)\n"
+"@SYNTAX=SUM(värde1, värde2, ...)\n"
 "@DESCRIPTION=Beräknar summan av alla värden och celler som referaras till i "
 "argumentlistan. \n"
 "@SEEALSO=AVERAGE, COUNT"
@@ -3705,7 +3744,7 @@ msgid ""
 "@SEEALSO=AVERAGE, SUM, COUNT"
 msgstr ""
 "@FUNCTION=SUMA\n"
-"@SYNTAX=SUMA(value1, value2, ...)\n"
+"@SYNTAX=SUMA(värde1, värde2, ...)\n"
 "@DESCRIPTION=Beräknar summan av alla värden och celler som referaras till i "
 "argumentlistan. Tal, text och logiska värden inkulderas även de i "
 "beräkningen. Om cellen innehåller text eller om argumenten evalueras till "
@@ -3722,7 +3761,7 @@ msgid ""
 "@SEEALSO=SUM, COUNT"
 msgstr ""
 "@FUNCTION=SUMSQ\n"
-"@SYNTAX=SUMSQ(value1, value2, ...)\n"
+"@SYNTAX=SUMSQ(värde1, värde2, ...)\n"
 "@DESCRIPTION=SUMSQ beräknar summan av kvadraterna på alla värden och celler "
 "som referaras till i argumentlistan.\n"
 "@SEEALSO=SUM, COUNT"
@@ -3736,7 +3775,7 @@ msgid ""
 "@SEEALSO=SUM"
 msgstr ""
 "@FUNCTION=MULTINOMIAL\n"
-"@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
+"@SYNTAX=MULTINOMIAL(värde1, värde2, ...)\n"
 "@DESCRIPTION=MULTINOMIAL beräknar förhållandet (fakulteten av en summa av "
 "värden) / (produkten av fakulteterna av värdena).\n"
 "@SEEALSO=SUM"
@@ -3750,9 +3789,9 @@ msgid ""
 "@SEEALSO=SUM, COUNT"
 msgstr ""
 "@FUNCTION=PRODUCT\n"
-"@SYNTAX=PRODUCT(value1, value2, ...)\n"
+"@SYNTAX=PRODUCT(värde1, värde2, ...)\n"
 "@DESCRIPTION=PRODUCT returnerar produkten av alla värden och celler som "
-"referas till i argumentlistan.\n"
+"refereras till i argumentlistan.\n"
 "@SEEALSO=SUM, COUNT"
 
 #: src/fn-math.c:1350
@@ -3774,7 +3813,6 @@ msgstr ""
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
 #: src/fn-math.c:1370
-#, fuzzy
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -3786,8 +3824,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
-"@DESCRIPTION= TANH returnerar tangens hyperbolicus av x,  vilket är "
-"definierat matematiskt som sinh(x) / cosh(x).\n"
+"@DESCRIPTION= TANH returnerar tangens hyperbolicus av @x,  vilket är "
+"definierat matematiskt som sinh(@x) / cosh(@x).\n"
 "Om funktionen utförs på en sträng eller tom cell, händer ingenting. "
 "Funktionen tar endast ett argument.\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
@@ -3802,7 +3840,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
-"@DESCRIPTION=PI returnerar värdet av Pi, definierat av M_PI.\n"
+"@DESCRIPTION=PI returnerar värdet av pi, definierat av M_PI.\n"
 "Funktionen har inga argument.\n"
 "@SEEALSO="
 
@@ -3817,9 +3855,9 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=TRUNC\n"
-"@SYNTAX=TRUNC(number[,digits])\n"
-"@DESCRIPTION=TRUNC returnerar värdet av @number avhuggt till det givna "
-"antalet decimaler. Om @digits inte anges, huggs alla decimaler av.\n"
+"@SYNTAX=TRUNC(tal[,siffror])\n"
+"@DESCRIPTION=TRUNC returnerar värdet av @tal avhuggt till det givna antalet "
+"decimaler. Om @siffror inte anges, huggs alla decimaler av.\n"
 "\n"
 "@SEEALSO="
 
@@ -3832,13 +3870,11 @@ msgid ""
 "@SEEALSO=ODD"
 msgstr ""
 "@FUNCTION=EVEN\n"
-"@SYNTAX=EVEN(number)\n"
-"@DESCRIPTION=EVEN returnerar argumentet avrundat uppåt till närmsta jämna "
-"heltal.\n"
+"@SYNTAX=EVEN(tal)\n"
+"@DESCRIPTION=EVEN returnerar @tal avrundat uppåt till närmsta jämna heltal.\n"
 "@SEEALSO=ODD"
 
 #: src/fn-math.c:1473
-#, fuzzy
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
@@ -3847,13 +3883,11 @@ msgid ""
 "@SEEALSO=EVEN"
 msgstr ""
 "@FUNCTION=ODD\n"
-"@SYNTAX=ODD(number)\n"
-"@DESCRIPTION=ODD returnerar argumentet avrundat uppåt till närmsta udda "
-"heltal.\n"
+"@SYNTAX=ODD(tal)\n"
+"@DESCRIPTION=ODD returnerar @tal avrundat uppåt till närmsta udda heltal.\n"
 "@SEEALSO=EVEN"
 
 #: src/fn-math.c:1504
-#, fuzzy
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -3864,10 +3898,10 @@ msgid ""
 "@SEEALSO=FACT"
 msgstr ""
 "@FUNCTION=FACTDOUBLE\n"
-"@SYNTAX=FACTDOUBLE(number)\n"
-"@DESCRIPTION=FACTDOUBLE beräknar semifakulteten för @number.\n"
-"Om @number inte är ett heltal, trunkeras det. Om @number är negativt, "
-"returneras felet #NUM!\n"
+"@SYNTAX=FACTDOUBLE(tal)\n"
+"@DESCRIPTION=FACTDOUBLE beräknar semifakulteten för @tal.\n"
+"Om @tal inte är ett heltal, trunkeras det. Om @tal är negativt, returneras "
+"felet #NUM!\n"
 "@SEEALSO=FACT"
 
 #: src/fn-math.c:1535
@@ -3879,13 +3913,11 @@ msgid ""
 "@SEEALSO=MOD"
 msgstr ""
 "@FUNCTION=QUOTIENT\n"
-"@SYNTAX=QUOTIENT(num,den)\n"
-"@DESCRIPTION=QUOTIENT returnerar heltalsdelen av ett bråk. @num är täljare "
-"och @den är nämnare.\n"
+"@SYNTAX=QUOTIENT(täljare,nämnare)\n"
+"@DESCRIPTION=QUOTIENT returnerar heltalsdelen av ett bråk.\n"
 "@SEEALSO=MOD"
 
 #: src/fn-math.c:1556
-#, fuzzy
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(number)\n"
@@ -3894,13 +3926,12 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=SIGN\n"
-"@SYNTAX=SIGN(num)\n"
-"@DESCRIPTION=Funktionen SIGN returnerar 1 om argumenten är positivt, 0 om "
-"det är 0, och -1 om argumentet är negativt.\n"
+"@SYNTAX=SIGN(tal)\n"
+"@DESCRIPTION=Funktionen SIGN returnerar 1 om @tal är positivt, 0 om det är "
+"0, och -1 om @tal är negativt.\n"
 "@SEEALSO="
 
 #: src/fn-math.c:1581
-#, fuzzy
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
@@ -3909,8 +3940,9 @@ msgid ""
 "@SEEALSO=PI"
 msgstr ""
 "@FUNCTION=SQRTPI\n"
-"@SYNTAX=SQRTPI(number)\n"
-"@DESCRIPTION=SQRTPI beräknar kvadratroten av ett tal multiplicarat med pi. \n"
+"@SYNTAX=SQRTPI(tal)\n"
+"@DESCRIPTION=SQRTPI beräknar kvadratroten av ett @tal multiplicarat med pi. "
+"\n"
 "@SEEALSO=PI"
 
 #: src/fn-math.c:1603
@@ -3924,11 +3956,11 @@ msgid ""
 "@SEEALSO=RAND"
 msgstr ""
 "@FUNCTION=RANDBETWEEN\n"
-"@SYNTAX=RANDBETWEEN(bottom,top)\n"
-"@DESCRIPTION=RANDBETWEEN returnerar ett slumpheltal mellan @bottom och "
-"@top.\n"
-"Om @bottom eller @top är icke-heltal, trunkeras de. Om @bottom > @top, "
-"returneras felet #NUM!\n"
+"@SYNTAX=RANDBETWEEN(lägst,högst)\n"
+"@DESCRIPTION=RANDBETWEEN returnerar ett slumpheltal mellan @lägst och "
+"@högst.\n"
+"Om @lägst eller @högst är icke-heltal, trunkeras de. Om @lägst > @högst, "
+"returneras felet #NUM!.\n"
 "@SEEALSO=RAND"
 
 #: src/fn-math.c:1629
@@ -3944,6 +3976,14 @@ msgid ""
 "the left of the decimal point. \n"
 "@SEEALSO=ROUNDUP"
 msgstr ""
+"@FUNCTION=ROUNDDOWN\n"
+"@SYNTAX=ROUNDDOWN(tal[,siffor])\n"
+"@DESCRIPTION=ROUNDDOWN avrundar @tal nedåt, mot noll. @siffor är antalet "
+"siffror som @tal skall avrundas till.\n"
+"Om @siffror är noll eller utelämnat, avrundas @tal nedåt till närmsta "
+"heltal. Om @siffror är mindre än noll, avrundas @tal nedåt till vänster om "
+"decimaltecknet.\n"
+" @SEEALSO=ROUNDUP"
 
 #: src/fn-math.c:1667
 msgid ""
@@ -3958,6 +3998,13 @@ msgid ""
 "decimal point. \n"
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 msgstr ""
+"@FUNCTION=ROUND\n"
+"@SYNTAX=ROUND(tal[,siffror])\n"
+"@DESCRIPTION=ROUND avrundar @tal till @siffror decimaler.\n"
+"Om @siffror är mindre än noll eller utelämnat, avrundas @tal till närmsta "
+"heltal. Om @siffror är mindre än noll, avrundas @tal till vänster om "
+"decimaltecknet.\n"
+"@SEEALSO=ROUNDDOWN,ROUNDUP"
 
 #: src/fn-math.c:1702
 msgid ""
@@ -3972,8 +4019,17 @@ msgid ""
 "left of the decimal point. \n"
 "@SEEALSO=ROUNDDOWN"
 msgstr ""
+"@FUNCTION=ROUNDUP\n"
+"@SYNTAX=ROUNDUP(tal[,siffror])\n"
+"@DESCRIPTION=ROUNDUP avrundar @tal uppåt, bort från noll. @siffror är "
+"antalet siffror som @tal skall avrundas till.\n"
+"Om @siffror är noll eller utelämnat, avrundas @tal uppåt till närmsta "
+"heltal. Om @siffror är mindre än noll, avrundas @tal uppåt till vänster om "
+"decimaltecknet.\n"
+" @SEEALSO=ROUNDDOWN"
 
 #: src/fn-math.c:1740
+#, fuzzy
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -3984,8 +4040,16 @@ msgid ""
 "If @number and @multiple have different sign, MROUND returns #NUM! error. \n"
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 msgstr ""
+"@FUNCTION=ROUND\n"
+"@SYNTAX=ROUND(tal[,siffror])\n"
+"@DESCRIPTION=ROUND avrundar @tal till @siffror decimaler.\n"
+"Om @siffror är mindre än noll eller utelämnat, avrundas @tal till närmsta "
+"heltal. Om @siffror är mindre än noll, avrundas @tal till vänster om "
+"decimaltecknet.\n"
+"@SEEALSO=ROUNDDOWN,ROUNDUP"
 
 #: src/fn-math.c:1784
+#, fuzzy
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -3998,6 +4062,14 @@ msgid ""
 "If @number is negative or greater than 3999, ROMAN returns #VALUE! error. \n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=ROMAN\n"
+"@SYNTAX=ROMAN(tal[,typ])\n"
+"@DESCRIPTION=Funktionen ROMAN returnerar ett arabiskt @tal som ett romerskt "
+"tal, i textformat. @typ är den typ av romerskt tal du vill omvandla till. \n"
+"Om @typ är 0 eller ej angiven, returneras klassiska romerska tal. Typerna "
+"1,2,3, och 4 är ej implementerade än. Om @tal är negativt eller större än "
+"3999, returnerar ROMAN felvärdet #VALUE!.\n"
+"@SEEALSO="
 
 #: src/fn-math.c:2043
 msgid ""
@@ -4012,11 +4084,19 @@ msgid ""
 "returns #N/A! error. \n"
 "@SEEALSO=SUMSQ"
 msgstr ""
+"@FUNCTION=SUMX2MY2\n"
+"@SYNTAX=SUMX2MY2(fält1,fält2)\n"
+"@DESCRIPTION=SUMX2MY2 returnerar summan av skillnaderna mellan kvadraterna "
+"av talen i de två fälten @fält1 och @fält2. Ekvationen för SUMX2MY2 är: SUM "
+"(x^2-y^2).\n"
+"Strängar och tomma celler ignoreras.\n"
+"Om @fält1 och @fält2 har olika antal värden, returneras felvärdet #N/A!.\n"
+"@SEEALSO=SUMSQ"
 
 #: src/fn-math.c:2090 src/fn-math.c:2104 src/fn-math.c:2177 src/fn-math.c:2191
-#: src/fn-math.c:2263 src/fn-math.c:2277 src/fn-stat.c:2264 src/fn-stat.c:2292
+#: src/fn-math.c:2263 src/fn-math.c:2277 src/fn-stat.c:2303 src/fn-stat.c:2333
 msgid "Array version not implemented!"
-msgstr "Arrayversion inte implementerad!"
+msgstr "Fältversion inte implementerad!"
 
 #: src/fn-math.c:2131
 msgid ""
@@ -4067,6 +4147,24 @@ msgid ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 msgstr ""
+"@FUNCTION=SUBTOTAL\n"
+"@SYNTAX=SUMIF(funktionsnr,ref1,ref2,...)\n"
+"@DESCRIPTION=Funktionen SUBTOTAL tillämpar en funktion på de angivna "
+"argumenten. @funktionsnr är ett tal som anger vilken funktion som skall "
+"användas. Följande funktioner finns tillgängliga:\n"
+"1   AVERAGE\n"
+"2   COUNT\n"
+"3   COUNTA \n"
+"4   MAX\n"
+"5   MIN\n"
+"6   PRODUCT\n"
+"7   STDEV\n"
+"8   STDEVP\n"
+"9   SUM\n"
+"10   VAR\n"
+"11   VARP\n"
+"\n"
+"@SEEALSO=COUNT,SUM"
 
 #: src/fn-math.c:2385
 msgid ""
@@ -4078,19 +4176,25 @@ msgid ""
 "coefficents by which each successive power of @x is multiplied. \n"
 "@SEEALSO=COUNT,SUM"
 msgstr ""
+"@FUNCTION=SERIESSUM\n"
+"@SYNTAX=SERIESSUM(x,n,m,koefficienter)\n"
+"@DESCRIPTION=Funktionen SERIESSUM returnerar summan av en exponentialserie. "
+"@x är basen i serien, @n är den första exponenten, @m är ökningen i "
+"exponenten och @koefficienter är koefficienterna som termerna multipliceras "
+"med.\n"
+"@SEEALSO=COUNT,SUM"
 
 #: src/fn-math.c:2502
-#, fuzzy
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
 "@DESCRIPTION=TRANSPOSE function returns the transpose of the input @matrix.\n"
 "@SEEALSO=MMULT"
 msgstr ""
-"@FUNCTION=SQRTPI\n"
-"@SYNTAX=SQRTPI(number)\n"
-"@DESCRIPTION=SQRTPI beräknar kvadratroten av ett tal multiplicarat med pi. \n"
-"@SEEALSO=PI"
+"@FUNCTION=TRANSPOSE\n"
+"@SYNTAX=TRANSPOSE(matris)\n"
+"@DESCRIPTION=TRANSPOSE returnerar transponeringen av @matris.\n"
+"@SEEALSO=MMULT"
 
 #: src/fn-math.c:2545
 msgid ""
@@ -4103,6 +4207,12 @@ msgid ""
 "#VALUE! error.\n"
 "@SEEALSO=MMULT, MDETERM"
 msgstr ""
+"@FUNCTION=MINVERSE\n"
+"@SYNTAX=MINVERSE(matris)\n"
+"@DESCRIPTION=MINVERSE returnerar inversen av den givna matrisen @matris.\n"
+"Om matrisen inte kan inverteras, returneras felet #NUM!. Om matrisen inte "
+"har lika antal rader som kolumner, returneras felet #VALUE!.\n"
+"@SEEALSO=MMULT, MDETERM"
 
 #: src/fn-math.c:2590
 msgid "#3D MULT?"
@@ -4128,12 +4238,12 @@ msgid ""
 "returns #VALUE! error.\n"
 "@SEEALSO=MMULT, MINVERSE"
 msgstr ""
-"@FUNCTION=FACTDOUBLE\n"
-"@SYNTAX=FACTDOUBLE(number)\n"
-"@DESCRIPTION=FACTDOUBLE beräknar semifakulteten för @number.\n"
-"Om @number inte är ett heltal, trunkeras det. Om @number är negativt, "
-"returneras felet #NUM!\n"
-"@SEEALSO=FACT"
+"@FUNCTION=MINVERSE\n"
+"@SYNTAX=MINVERSE(matris)\n"
+"@DESCRIPTION=MINVERSE returnerar inversen av den givna matrisen @matris.\n"
+"Om matrisen inte kan inverteras, returneras felet #NUM!. Om matrisen inte "
+"har lika antal rader som kolumner, returneras felet #VALUE!.\n"
+"@SEEALSO=MMULT, MDETERM"
 
 #: src/fn-math.c:2905
 msgid ""
@@ -4163,22 +4273,25 @@ msgid ""
 "\n"
 "@SEEALSO=ERROR"
 msgstr ""
+"@FUNCTION=ISERROR\n"
+"@SYNTAX=ISERROR(uttryck)\n"
+"@DESCRIPTION=Returnerar TRUE om uttrycket @uttryck innehåller ett fel.\n"
+"\n"
+"@SEEALSO=ERROR"
 
 #: src/fn-misc.c:65
-#, fuzzy
 msgid ""
 "@FUNCTION=ISNA\n"
 "@SYNTAX=ISNA()\n"
 "@DESCRIPTION=ISNA returns TRUE if the value is the #N/A error value. \n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=LN\n"
-"@SYNTAX=LN(x)\n"
-"@DESCRIPTION=LN returnerar den naturliga logaritmen av x.\n"
-"@SEEALSO=EXP, LOG2, LOG10"
+"@FUNCTION=ISNA\n"
+"@SYNTAX=ISNA()\n"
+"@DESCRIPTION=ISNA returnerar TRUE om värdet är felvärdet #N/A. \n"
+"@SEEALSO="
 
 #: src/fn-misc.c:95
-#, fuzzy
 msgid ""
 "@FUNCTION=ISERR\n"
 "@SYNTAX=ISERR()\n"
@@ -4186,10 +4299,9 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=RAND\n"
-"@SYNTAX=RAND()\n"
-"@DESCRIPTION=Returnerar ett slumptal större än eller lika med 0 och mindre "
-"än 1.\n"
+"@FUNCTION=ISERR\n"
+"@SYNTAX=ISERR()\n"
+"@DESCRIPTION=ISERR returnerar TRUE om värdet är något felvärde förutom #N/A. "
 "\n"
 "@SEEALSO="
 
@@ -4200,19 +4312,22 @@ msgid ""
 "@DESCRIPTION=FIXME\n"
 "@SEEALSO=ISERROR"
 msgstr ""
+"@FUNCTION=ERROR.TYPE\n"
+"@SYNTAX=ERROR(uttryck)\n"
+"@DESCRIPTION=FIXME\n"
+"@SEEALSO=ISERROR"
 
 #: src/fn-misc.c:169
-#, fuzzy
 msgid ""
 "@FUNCTION=NA\n"
 "@SYNTAX=NA()\n"
 "@DESCRIPTION=NA returns the error value #N/A. \n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=LN\n"
-"@SYNTAX=LN(x)\n"
-"@DESCRIPTION=LN returnerar den naturliga logaritmen av x.\n"
-"@SEEALSO=EXP, LOG2, LOG10"
+"@FUNCTION=NA\n"
+"@SYNTAX=NA()\n"
+"@DESCRIPTION=NA returnerar felvärdet #N/A. \n"
+"@SEEALSO="
 
 #: src/fn-misc.c:185
 msgid ""
@@ -4222,6 +4337,11 @@ msgid ""
 "\n"
 "@SEEALSO=ISERROR"
 msgstr ""
+"@FUNCTION=ERROR\n"
+"@SYNTAX=ERROR(text)\n"
+"@DESCRIPTION=Returnerar det angivna felvärdet.\n"
+"\n"
+"@SEEALSO=ISERROR"
 
 #: src/fn-misc.c:199 src/fn-string.c:57 src/fn-string.c:79 src/fn-string.c:100
 #: src/fn-string.c:155 src/fn-string.c:189 src/fn-string.c:264
@@ -4235,7 +4355,6 @@ msgid "Miscellaneous"
 msgstr "Diverse"
 
 #: src/fn-sheet.c:15
-#, fuzzy
 msgid ""
 "@FUNCTION=SELECTION\n"
 "@SYNTAX=SELECTION(x)\n"
@@ -4244,10 +4363,10 @@ msgid ""
 "computation of values.\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=PI returnerar värdet av Pi, definierat av M_PI.\n"
-"Funktionen har inga argument.\n"
+"@FUNCTION=SELECTION\n"
+"@SYNTAX=SELECTION(x)\n"
+"@DESCRIPTION=Funktionen SELECTION returnerar en lista med värdena i den "
+"aktuella markeringen.\n"
 "@SEEALSO="
 
 #: src/fn-sheet.c:75
@@ -4265,13 +4384,13 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=STDEV,VAR,MEAN"
 msgstr ""
-"@FUNCTION=DEGREES\n"
-"@SYNTAX=DEGREES(x)\n"
-"@DESCRIPTION=Omvandlar x radianer till grader.\n"
-"Om argumentet är en sträng eller tom cell, händer ingenting.\n"
-"@SEEALSO=RADIANS, PI"
+"@FUNCTION=RADIANS\n"
+"@SYNTAX=RADIANS(x)\n"
+"@DESCRIPTION=Omvandlar @x radianer till grader.\n"
+"Om funktionen utförs på en sträng eller tom cell, händer ingenting.\n"
+"@SEEALSO=PI,DEGREES"
 
-#: src/fn-stat.c:132
+#: src/fn-stat.c:134
 msgid ""
 "@FUNCTION=VAR\n"
 "@SYNTAX=VAR(b1, b2, ...)\n"
@@ -4283,7 +4402,7 @@ msgid ""
 "@SEEALSO=VARP,STDEV"
 msgstr ""
 
-#: src/fn-stat.c:158
+#: src/fn-stat.c:162
 #, fuzzy
 msgid ""
 "@FUNCTION=STDEV\n"
@@ -4295,11 +4414,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
-"@DESCRIPTION=Funktionen CEIL avrundar x uppåt till närmsta heltal.\n"
+"@DESCRIPTION=Funktionen CEIL avrundar @x uppåt till närmsta heltal.\n"
 "Om argumentet är en sträng eller tom cell, händer ingenting.\n"
 "@SEEALSO=ABS, FLOOR, INT"
 
-#: src/fn-stat.c:180
+#: src/fn-stat.c:185
 #, fuzzy
 msgid ""
 "@FUNCTION=STDEVP\n"
@@ -4311,11 +4430,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
-"@DESCRIPTION=Funktionen CEIL avrundar x uppåt till närmsta heltal.\n"
+"@DESCRIPTION=Funktionen CEIL avrundar @x uppåt till närmsta heltal.\n"
 "Om argumentet är en sträng eller tom cell, händer ingenting.\n"
 "@SEEALSO=ABS, FLOOR, INT"
 
-#: src/fn-stat.c:203
+#: src/fn-stat.c:210
 msgid ""
 "@FUNCTION=RANK\n"
 "@SYNTAX=RANK(x,ref[,order])\n"
@@ -4326,7 +4445,7 @@ msgid ""
 "@SEEALSO=PERCENTRANK"
 msgstr ""
 
-#: src/fn-stat.c:286
+#: src/fn-stat.c:294
 msgid ""
 "@FUNCTION=TRIMMEAN\n"
 "@SYNTAX=TRIMMEAN(ref,percent)\n"
@@ -4338,8 +4457,7 @@ msgid ""
 "@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE"
 msgstr ""
 
-#: src/fn-stat.c:338
-#, fuzzy
+#: src/fn-stat.c:347
 msgid ""
 "@FUNCTION=COVAR\n"
 "@SYNTAX=COVAR(array1,array2)\n"
@@ -4347,13 +4465,8 @@ msgid ""
 "Strings and empty cells are simply ignored.\n"
 "@SEEALSO=CORREL,FISHER,FISHERINV"
 msgstr ""
-"@FUNCTION=POWER\n"
-"@SYNTAX=POWER(x,y)\n"
-"@DESCRIPTION=Returnerar värdet av x upphöjt till y.\n"
-"Om funktionen utförs på en sträng eller tom cell, returneras ett fel.\n"
-"@SEEALSO=EXP"
 
-#: src/fn-stat.c:360
+#: src/fn-stat.c:370
 msgid ""
 "@FUNCTION=CORREL\n"
 "@SYNTAX=CORREL(array1,array2)\n"
@@ -4362,7 +4475,7 @@ msgid ""
 "@SEEALSO=COVAR,FISHER,FISHERINV"
 msgstr ""
 
-#: src/fn-stat.c:382
+#: src/fn-stat.c:393
 msgid ""
 "@FUNCTION=NEGBINOMDIST\n"
 "@SYNTAX=NEGBINOMDIST(f,t,p)\n"
@@ -4375,7 +4488,7 @@ msgid ""
 "@SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT"
 msgstr ""
 
-#: src/fn-stat.c:414
+#: src/fn-stat.c:426
 #, fuzzy
 msgid ""
 "@FUNCTION=NORMSDIST\n"
@@ -4387,11 +4500,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
-"@DESCRIPTION=Funktionen CEIL avrundar x uppåt till närmsta heltal.\n"
+"@DESCRIPTION=Funktionen CEIL avrundar @x uppåt till närmsta heltal.\n"
 "Om argumentet är en sträng eller tom cell, händer ingenting.\n"
 "@SEEALSO=ABS, FLOOR, INT"
 
-#: src/fn-stat.c:437
+#: src/fn-stat.c:450
 msgid ""
 "@FUNCTION=NORMSINV\n"
 "@SYNTAX=NORMSINV(p)\n"
@@ -4402,7 +4515,7 @@ msgid ""
 "@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST"
 msgstr ""
 
-#: src/fn-stat.c:464
+#: src/fn-stat.c:477
 msgid ""
 "@FUNCTION=LOGNORMDIST\n"
 "@SYNTAX=LOGNORMDIST(x,mean,stdev)\n"
@@ -4415,7 +4528,7 @@ msgid ""
 "@SEEALSO=NORMDIST"
 msgstr ""
 
-#: src/fn-stat.c:499
+#: src/fn-stat.c:514
 msgid ""
 "@FUNCTION=LOGINV\n"
 "@SYNTAX=LOGINV(p,mean,stdev)\n"
@@ -4427,7 +4540,7 @@ msgid ""
 "@SEEALSO=EXP,LN,LOG,LOG10,LOGNORMDIST"
 msgstr ""
 
-#: src/fn-stat.c:530
+#: src/fn-stat.c:545
 #, fuzzy
 msgid ""
 "@FUNCTION=FISHERINV\n"
@@ -4440,10 +4553,10 @@ msgstr ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
 "@DESCRIPTION=Funktionen SQRT returnerar kvadratroten av @x.\n"
-"Om x är negativt, returnas #NUM!. Funktionen tar endast ett argument.\n"
+"Om @x är negativt, returnas #NUM!. Funktionen tar endast ett argument.\n"
 "@SEEALSO=POW"
 
-#: src/fn-stat.c:552
+#: src/fn-stat.c:567
 msgid ""
 "@FUNCTION=MODE\n"
 "@SYNTAX=MODE(n1, n2, ...)\n"
@@ -4454,7 +4567,7 @@ msgid ""
 "@SEEALSO=AVERAGE,MEDIAN"
 msgstr ""
 
-#: src/fn-stat.c:637
+#: src/fn-stat.c:653
 #, fuzzy
 msgid ""
 "@FUNCTION=HARMEAN\n"
@@ -4465,11 +4578,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
-"@DESCRIPTION=Omvandlar x radianer till grader.\n"
+"@DESCRIPTION=Omvandlar @x radianer till grader.\n"
 "Om argumentet är en sträng eller tom cell, händer ingenting.\n"
 "@SEEALSO=RADIANS, PI"
 
-#: src/fn-stat.c:659
+#: src/fn-stat.c:677
 #, fuzzy
 msgid ""
 "@FUNCTION=GEOMEAN\n"
@@ -4481,11 +4594,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
-"@DESCRIPTION=Omvandlar x radianer till grader.\n"
+"@DESCRIPTION=Omvandlar @x radianer till grader.\n"
 "Om argumentet är en sträng eller tom cell, händer ingenting.\n"
 "@SEEALSO=RADIANS, PI"
 
-#: src/fn-stat.c:683
+#: src/fn-stat.c:702
 #, fuzzy
 msgid ""
 "@FUNCTION=COUNT\n"
@@ -4497,11 +4610,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
-"@DESCRIPTION=Omvandlar x radianer till grader.\n"
+"@DESCRIPTION=Omvandlar @x radianer till grader.\n"
 "Om funktionen utförs på en sträng eller tom cell, händer ingenting.\n"
 "@SEEALSO=PI,DEGREES"
 
-#: src/fn-stat.c:719
+#: src/fn-stat.c:738
 #, fuzzy
 msgid ""
 "@FUNCTION=COUNTA\n"
@@ -4511,12 +4624,12 @@ msgid ""
 "@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM"
 msgstr ""
 "@FUNCTION=SUM\n"
-"@SYNTAX=SUM(value1, value2, ...)\n"
+"@SYNTAX=SUM(värde1, värde2, ...)\n"
 "@DESCRIPTION=Beräknar summan av alla värden och celler som referaras till i "
 "argumentlistan. \n"
 "@SEEALSO=AVERAGE, COUNT"
 
-#: src/fn-stat.c:751
+#: src/fn-stat.c:770
 #, fuzzy
 msgid ""
 "@FUNCTION=AVERAGE\n"
@@ -4527,12 +4640,12 @@ msgid ""
 "@SEEALSO=SUM, COUNT"
 msgstr ""
 "@FUNCTION=SUM\n"
-"@SYNTAX=SUM(value1, value2, ...)\n"
+"@SYNTAX=SUM(värde1, värde2, ...)\n"
 "@DESCRIPTION=Beräknar summan av alla värden och celler som referaras till i "
 "argumentlistan. \n"
 "@SEEALSO=AVERAGE, COUNT"
 
-#: src/fn-stat.c:773
+#: src/fn-stat.c:793
 #, fuzzy
 msgid ""
 "@FUNCTION=MIN\n"
@@ -4550,7 +4663,7 @@ msgstr ""
 "Om argumentet är en sträng eller tom cell, händer ingenting.\n"
 "@SEEALSO=CEIL, FLOOR"
 
-#: src/fn-stat.c:798
+#: src/fn-stat.c:819
 #, fuzzy
 msgid ""
 "@FUNCTION=MAX\n"
@@ -4568,7 +4681,7 @@ msgstr ""
 "Om argumentet är en sträng eller tom cell, händer ingenting.\n"
 "@SEEALSO=CEIL, FLOOR"
 
-#: src/fn-stat.c:823
+#: src/fn-stat.c:845
 msgid ""
 "@FUNCTION=SKEW\n"
 "@SYNTAX=SKEW(n1, n2, ...)\n"
@@ -4582,7 +4695,7 @@ msgid ""
 "@SEEALSO=AVERAGE,VAR,SKEWP,KURT"
 msgstr ""
 
-#: src/fn-stat.c:851
+#: src/fn-stat.c:874
 msgid ""
 "@FUNCTION=SKEWP\n"
 "@SYNTAX=SKEWP(n1, n2, ...)\n"
@@ -4592,7 +4705,7 @@ msgid ""
 "@SEEALSO=AVERAGE,VARP,SKEW,KURTP"
 msgstr ""
 
-#: src/fn-stat.c:875
+#: src/fn-stat.c:899
 msgid ""
 "@FUNCTION=EXPONDIST\n"
 "@SYNTAX=EXPONDIST(x,y,cumulative)\n"
@@ -4604,7 +4717,7 @@ msgid ""
 "@SEEALSO=POISSON"
 msgstr ""
 
-#: src/fn-stat.c:914
+#: src/fn-stat.c:938
 #, fuzzy
 msgid ""
 "@FUNCTION=GAMMALN\n"
@@ -4617,13 +4730,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=CEILING\n"
 "@SYNTAX=CEILING(x,significance)\n"
-"@DESCRIPTION=CEILING avrundar x uppåt till den minsta multipeln av "
-"significance.\n"
-"Om x eller significance är icke-numerisk, returnerar CEILING felet #VALUE! "
-"Om x och significance har olika tecken, returneras felet #NUM!.\n"
+"@DESCRIPTION=CEILING avrundar @x uppåt till den minsta multipeln av "
+"@significance.\n"
+"Om @x eller @significance är icke-numerisk, returnerar CEILING felet #VALUE! "
+"Om @x och @significance har olika tecken, returneras felet #NUM!.\n"
 "@SEEALSO=CEIL"
 
-#: src/fn-stat.c:945
+#: src/fn-stat.c:969
 msgid ""
 "@FUNCTION=GAMMADIST\n"
 "@SYNTAX=GAMMADIST(x,alpha,beta,cum)\n"
@@ -4635,7 +4748,8 @@ msgid ""
 "@SEEALSO=GAMMAINV"
 msgstr ""
 
-#: src/fn-stat.c:980
+#: src/fn-stat.c:1004
+#, fuzzy
 msgid ""
 "@FUNCTION=GAMMAINV\n"
 "@SYNTAX=GAMMAINV(p,alpha,beta)\n"
@@ -4645,8 +4759,14 @@ msgid ""
 "0 GAMMAINV returns #NUM! error. \n"
 "@SEEALSO=GAMMADIST"
 msgstr ""
+"@FUNCTION=MINVERSE\n"
+"@SYNTAX=MINVERSE(matris)\n"
+"@DESCRIPTION=MINVERSE returnerar inversen av den givna matrisen @matris.\n"
+"Om matrisen inte kan inverteras, returneras felet #NUM!. Om matrisen inte "
+"har lika antal rader som kolumner, returneras felet #VALUE!.\n"
+"@SEEALSO=MMULT, MDETERM"
 
-#: src/fn-stat.c:1010
+#: src/fn-stat.c:1034
 #, fuzzy
 msgid ""
 "@FUNCTION=CHIDIST\n"
@@ -4658,13 +4778,13 @@ msgid ""
 "@SEEALSO=CHIINV,CHITEST"
 msgstr ""
 "@FUNCTION=FACTDOUBLE\n"
-"@SYNTAX=FACTDOUBLE(number)\n"
-"@DESCRIPTION=FACTDOUBLE beräknar semifakulteten för @number.\n"
-"Om @number inte är ett heltal, trunkeras det. Om @number är negativt, "
-"returneras felet #NUM!\n"
+"@SYNTAX=FACTDOUBLE(tal)\n"
+"@DESCRIPTION=FACTDOUBLE beräknar semifakulteten för @tal.\n"
+"Om @tal inte är ett heltal, trunkeras det. Om @tal är negativt, returneras "
+"felet #NUM!\n"
 "@SEEALSO=FACT"
 
-#: src/fn-stat.c:1040
+#: src/fn-stat.c:1064
 msgid ""
 "@FUNCTION=CHIINV\n"
 "@SYNTAX=CHIINV(p,dof)\n"
@@ -4674,7 +4794,7 @@ msgid ""
 "@SEEALSO=CHIDIST,CHITEST"
 msgstr ""
 
-#: src/fn-stat.c:1068
+#: src/fn-stat.c:1092
 msgid ""
 "@FUNCTION=CHITEST\n"
 "@SYNTAX=CHITEST(actual_range,theoretical_range)\n"
@@ -4686,7 +4806,7 @@ msgid ""
 "@SEEALSO=CHIDIST,CHIINV"
 msgstr ""
 
-#: src/fn-stat.c:1207
+#: src/fn-stat.c:1231
 msgid ""
 "@FUNCTION=BETADIST\n"
 "@SYNTAX=BETADIST(x,alpha,beta[,a,b])\n"
@@ -4699,7 +4819,7 @@ msgid ""
 "@SEEALSO=BETAINV"
 msgstr ""
 
-#: src/fn-stat.c:1247
+#: src/fn-stat.c:1271
 msgid ""
 "@FUNCTION=BETAINV\n"
 "@SYNTAX=BETAINV(p,alpha,beta[,a,b])\n"
@@ -4712,7 +4832,7 @@ msgid ""
 "@SEEALSO=BETADIST"
 msgstr ""
 
-#: src/fn-stat.c:1287
+#: src/fn-stat.c:1311
 msgid ""
 "@FUNCTION=TDIST\n"
 "@SYNTAX=TDIST(x,dof,tails)\n"
@@ -4724,7 +4844,7 @@ msgid ""
 "@SEEALSO=TINV,TTEST"
 msgstr ""
 
-#: src/fn-stat.c:1321
+#: src/fn-stat.c:1345
 msgid ""
 "@FUNCTION=TINV\n"
 "@SYNTAX=TINV(p,dof)\n"
@@ -4734,7 +4854,7 @@ msgid ""
 "@SEEALSO=TDIST,TTEST"
 msgstr ""
 
-#: src/fn-stat.c:1349
+#: src/fn-stat.c:1373
 msgid ""
 "@FUNCTION=FDIST\n"
 "@SYNTAX=FDIST(x,dof1,dof2)\n"
@@ -4746,7 +4866,7 @@ msgid ""
 "@SEEALSO=FINV"
 msgstr ""
 
-#: src/fn-stat.c:1380
+#: src/fn-stat.c:1404
 #, fuzzy
 msgid ""
 "@FUNCTION=FINV\n"
@@ -4757,15 +4877,14 @@ msgid ""
 "returns #NUM! error.\n"
 "@SEEALSO=FDIST"
 msgstr ""
-"@FUNCTION=CEILING\n"
-"@SYNTAX=CEILING(x,significance)\n"
-"@DESCRIPTION=CEILING avrundar x uppåt till den minsta multipeln av "
-"significance.\n"
-"Om x eller significance är icke-numerisk, returnerar CEILING felet #VALUE! "
-"Om x och significance har olika tecken, returneras felet #NUM!.\n"
-"@SEEALSO=CEIL"
+"@FUNCTION=MINVERSE\n"
+"@SYNTAX=MINVERSE(matris)\n"
+"@DESCRIPTION=MINVERSE returnerar inversen av den givna matrisen @matris.\n"
+"Om matrisen inte kan inverteras, returneras felet #NUM!. Om matrisen inte "
+"har lika antal rader som kolumner, returneras felet #VALUE!.\n"
+"@SEEALSO=MMULT, MDETERM"
 
-#: src/fn-stat.c:1410
+#: src/fn-stat.c:1434
 msgid ""
 "@FUNCTION=BINOMDIST\n"
 "@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
@@ -4780,7 +4899,7 @@ msgid ""
 "@SEEALSO=POISSON"
 msgstr ""
 
-#: src/fn-stat.c:1451
+#: src/fn-stat.c:1476
 msgid ""
 "@FUNCTION=CRITBINOM\n"
 "@SYNTAX=CRITBINOM(trials,p,alpha)\n"
@@ -4794,7 +4913,7 @@ msgid ""
 "@SEEALSO=BINOMDIST"
 msgstr ""
 
-#: src/fn-stat.c:1485
+#: src/fn-stat.c:1510
 msgid ""
 "@FUNCTION=PERMUT\n"
 "@SYNTAX=PERMUT(n,k)\n"
@@ -4805,7 +4924,7 @@ msgid ""
 "@SEEALSO=COMBIN"
 msgstr ""
 
-#: src/fn-stat.c:1514
+#: src/fn-stat.c:1539
 msgid ""
 "@FUNCTION=HYPGEOMDIST\n"
 "@SYNTAX=HYPGEOMDIST(x,n,M,N)\n"
@@ -4819,7 +4938,7 @@ msgid ""
 "@SEEALSO=BINOMDIST,POISSON"
 msgstr ""
 
-#: src/fn-stat.c:1547
+#: src/fn-stat.c:1573
 msgid ""
 "@FUNCTION=CONFIDENCE\n"
 "@SYNTAX=CONFIDENCE(x,stddev,size)\n"
@@ -4831,11 +4950,11 @@ msgid ""
 "@SEEALSO=AVERAGE"
 msgstr ""
 
-#: src/fn-stat.c:1573 src/value.c:875
+#: src/fn-stat.c:1599 src/value.c:875
 msgid "#DIV/0!"
 msgstr ""
 
-#: src/fn-stat.c:1582
+#: src/fn-stat.c:1608
 msgid ""
 "@FUNCTION=STANDARDIZE\n"
 "@SYNTAX=STANDARDIZE(x,mean,stdev)\n"
@@ -4846,7 +4965,7 @@ msgid ""
 "@SEEALSO=AVERAGE"
 msgstr ""
 
-#: src/fn-stat.c:1613
+#: src/fn-stat.c:1639
 msgid ""
 "@FUNCTION=WEIBULL\n"
 "@SYNTAX=WEIBULL(x,alpha,beta,cumulative)\n"
@@ -4859,7 +4978,7 @@ msgid ""
 "@SEEALSO=POISSON"
 msgstr ""
 
-#: src/fn-stat.c:1653
+#: src/fn-stat.c:1679
 msgid ""
 "@FUNCTION=NORMDIST\n"
 "@SYNTAX=NORMDIST(x,mean,stdev,cumulative)\n"
@@ -4870,7 +4989,7 @@ msgid ""
 "@SEEALSO=POISSON"
 msgstr ""
 
-#: src/fn-stat.c:1692
+#: src/fn-stat.c:1718
 msgid ""
 "@FUNCTION=NORMINV\n"
 "@SYNTAX=NORMINV(p,mean,stdev)\n"
@@ -4882,7 +5001,7 @@ msgid ""
 "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST"
 msgstr ""
 
-#: src/fn-stat.c:1724
+#: src/fn-stat.c:1750
 msgid ""
 "@FUNCTION=KURT\n"
 "@SYNTAX=KURT(n1, n2, ...)\n"
@@ -4897,7 +5016,7 @@ msgid ""
 "@SEEALSO=AVERAGE,VAR,SKEW,KURTP"
 msgstr ""
 
-#: src/fn-stat.c:1753
+#: src/fn-stat.c:1781
 msgid ""
 "@FUNCTION=KURTP\n"
 "@SYNTAX=KURTP(n1, n2, ...)\n"
@@ -4908,7 +5027,7 @@ msgid ""
 "@SEEALSO=AVERAGE,VARP,SKEWP,KURT"
 msgstr ""
 
-#: src/fn-stat.c:1778
+#: src/fn-stat.c:1807
 #, fuzzy
 msgid ""
 "@FUNCTION=AVEDEV\n"
@@ -4920,11 +5039,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
-"@DESCRIPTION=Omvandlar x radianer till grader.\n"
+"@DESCRIPTION=Omvandlar @x radianer till grader.\n"
 "Om funktionen utförs på en sträng eller tom cell, händer ingenting.\n"
 "@SEEALSO=PI,DEGREES"
 
-#: src/fn-stat.c:1801
+#: src/fn-stat.c:1832
 #, fuzzy
 msgid ""
 "@FUNCTION=DEVSQ\n"
@@ -4935,12 +5054,12 @@ msgid ""
 "@SEEALSO=STDEV"
 msgstr ""
 "@FUNCTION=SUMSQ\n"
-"@SYNTAX=SUMSQ(value1, value2, ...)\n"
+"@SYNTAX=SUMSQ(värde1, värde2, ...)\n"
 "@DESCRIPTION=SUMSQ beräknar summan av kvadraterna på alla värden och celler "
 "som referaras till i argumentlistan.\n"
 "@SEEALSO=SUM, COUNT"
 
-#: src/fn-stat.c:1824
+#: src/fn-stat.c:1856
 #, fuzzy
 msgid ""
 "@FUNCTION=FISHER\n"
@@ -4953,10 +5072,10 @@ msgstr ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
 "@DESCRIPTION=Funktionen SQRT returnerar kvadratroten av @x.\n"
-"Om x är negativt, returnas #NUM!. Funktionen tar endast ett argument.\n"
+"Om @x är negativt, returnas #NUM!. Funktionen tar endast ett argument.\n"
 "@SEEALSO=POW"
 
-#: src/fn-stat.c:1853
+#: src/fn-stat.c:1885
 msgid ""
 "@FUNCTION=POISSON\n"
 "@SYNTAX=POISSON(x,mean,cumulative)\n"
@@ -4968,7 +5087,7 @@ msgid ""
 "@SEEALSO=NORMDIST, WEIBULL"
 msgstr ""
 
-#: src/fn-stat.c:1890
+#: src/fn-stat.c:1922
 msgid ""
 "@FUNCTION=PEARSON\n"
 "@SYNTAX=PEARSON(array1,array2)\n"
@@ -4978,7 +5097,7 @@ msgid ""
 "@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX"
 msgstr ""
 
-#: src/fn-stat.c:1910
+#: src/fn-stat.c:1942
 msgid ""
 "@FUNCTION=RSQ\n"
 "@SYNTAX=RSQ(array1,array2)\n"
@@ -4988,7 +5107,7 @@ msgid ""
 "@SEEALSO=CORREL,COVAR,INTERPCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND"
 msgstr ""
 
-#: src/fn-stat.c:1935
+#: src/fn-stat.c:1968
 msgid ""
 "@FUNCTION=MEDIAN\n"
 "@SYNTAX=MEDIAN(n1, n2, ...)\n"
@@ -4998,7 +5117,7 @@ msgid ""
 "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM"
 msgstr ""
 
-#: src/fn-stat.c:1975
+#: src/fn-stat.c:2010
 msgid ""
 "@FUNCTION=LARGE\n"
 "@SYNTAX=LARGE(n1, n2, ..., k)\n"
@@ -5008,7 +5127,7 @@ msgid ""
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL"
 msgstr ""
 
-#: src/fn-stat.c:2017
+#: src/fn-stat.c:2053
 msgid ""
 "@FUNCTION=SMALL\n"
 "@SYNTAX=SMALL(n1, n2, ..., k)\n"
@@ -5018,7 +5137,7 @@ msgid ""
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE"
 msgstr ""
 
-#: src/fn-stat.c:2083
+#: src/fn-stat.c:2120
 msgid ""
 "@FUNCTION=PROB\n"
 "@SYNTAX=PROB(range_x,prob_range,lower_limit[,upper_limit])\n"
@@ -5032,7 +5151,7 @@ msgid ""
 "@SEEALSO=BINOMDIST,CRITBINOM"
 msgstr ""
 
-#: src/fn-stat.c:2209
+#: src/fn-stat.c:2246
 msgid ""
 "@FUNCTION=STEYX\n"
 "@SYNTAX=STEYX(known_y's,known_x's)\n"
@@ -5043,7 +5162,7 @@ msgid ""
 "@SEEALSO=PEARSON,RSQ,SLOPE"
 msgstr ""
 
-#: src/fn-stat.c:2351
+#: src/fn-stat.c:2392
 msgid ""
 "@FUNCTION=ZTEST\n"
 "@SYNTAX=ZTEST(ref,x)\n"
@@ -5053,7 +5172,7 @@ msgid ""
 "@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE"
 msgstr ""
 
-#: src/fn-stat.c:2423
+#: src/fn-stat.c:2465
 #, fuzzy
 msgid ""
 "@FUNCTION=AVERAGEA\n"
@@ -5066,7 +5185,7 @@ msgid ""
 "@SEEALSO=AVERAGE"
 msgstr ""
 "@FUNCTION=SUMA\n"
-"@SYNTAX=SUMA(value1, value2, ...)\n"
+"@SYNTAX=SUMA(värde1, värde2, ...)\n"
 "@DESCRIPTION=Beräknar summan av alla värden och celler som referaras till i "
 "argumentlistan. Tal, text och logiska värden inkulderas även de i "
 "beräkningen. Om cellen innehåller text eller om argumenten evalueras till "
@@ -5074,7 +5193,7 @@ msgstr ""
 "det som 1. Observera  att tomma celler inte räknas.\n"
 "@SEEALSO=AVERAGE, SUM, COUNT"
 
-#: src/fn-stat.c:2448
+#: src/fn-stat.c:2491
 #, fuzzy
 msgid ""
 "@FUNCTION=MAXA\n"
@@ -5087,7 +5206,7 @@ msgid ""
 "@SEEALSO=MAX,MINA"
 msgstr ""
 "@FUNCTION=SUMA\n"
-"@SYNTAX=SUMA(value1, value2, ...)\n"
+"@SYNTAX=SUMA(värde1, värde2, ...)\n"
 "@DESCRIPTION=Beräknar summan av alla värden och celler som referaras till i "
 "argumentlistan. Tal, text och logiska värden inkulderas även de i "
 "beräkningen. Om cellen innehåller text eller om argumenten evalueras till "
@@ -5095,7 +5214,7 @@ msgstr ""
 "det som 1. Observera  att tomma celler inte räknas.\n"
 "@SEEALSO=AVERAGE, SUM, COUNT"
 
-#: src/fn-stat.c:2473
+#: src/fn-stat.c:2517
 #, fuzzy
 msgid ""
 "@FUNCTION=MINA\n"
@@ -5108,7 +5227,7 @@ msgid ""
 "@SEEALSO=MIN,MAXA"
 msgstr ""
 "@FUNCTION=SUMA\n"
-"@SYNTAX=SUMA(value1, value2, ...)\n"
+"@SYNTAX=SUMA(värde1, värde2, ...)\n"
 "@DESCRIPTION=Beräknar summan av alla värden och celler som referaras till i "
 "argumentlistan. Tal, text och logiska värden inkulderas även de i "
 "beräkningen. Om cellen innehåller text eller om argumenten evalueras till "
@@ -5116,7 +5235,7 @@ msgstr ""
 "det som 1. Observera  att tomma celler inte räknas.\n"
 "@SEEALSO=AVERAGE, SUM, COUNT"
 
-#: src/fn-stat.c:2498
+#: src/fn-stat.c:2543
 #, fuzzy
 msgid ""
 "@FUNCTION=VARA\n"
@@ -5129,7 +5248,7 @@ msgid ""
 "@SEEALSO=VAR,VARPA"
 msgstr ""
 "@FUNCTION=SUMA\n"
-"@SYNTAX=SUMA(value1, value2, ...)\n"
+"@SYNTAX=SUMA(värde1, värde2, ...)\n"
 "@DESCRIPTION=Beräknar summan av alla värden och celler som referaras till i "
 "argumentlistan. Tal, text och logiska värden inkulderas även de i "
 "beräkningen. Om cellen innehåller text eller om argumenten evalueras till "
@@ -5137,7 +5256,7 @@ msgstr ""
 "det som 1. Observera  att tomma celler inte räknas.\n"
 "@SEEALSO=AVERAGE, SUM, COUNT"
 
-#: src/fn-stat.c:2523
+#: src/fn-stat.c:2569
 #, fuzzy
 msgid ""
 "@FUNCTION=VARPA\n"
@@ -5150,7 +5269,7 @@ msgid ""
 "@SEEALSO=VARP,VARP"
 msgstr ""
 "@FUNCTION=SUMA\n"
-"@SYNTAX=SUMA(value1, value2, ...)\n"
+"@SYNTAX=SUMA(värde1, värde2, ...)\n"
 "@DESCRIPTION=Beräknar summan av alla värden och celler som referaras till i "
 "argumentlistan. Tal, text och logiska värden inkulderas även de i "
 "beräkningen. Om cellen innehåller text eller om argumenten evalueras till "
@@ -5158,7 +5277,7 @@ msgstr ""
 "det som 1. Observera  att tomma celler inte räknas.\n"
 "@SEEALSO=AVERAGE, SUM, COUNT"
 
-#: src/fn-stat.c:2548
+#: src/fn-stat.c:2595
 #, fuzzy
 msgid ""
 "@FUNCTION=STDEVA\n"
@@ -5171,7 +5290,7 @@ msgid ""
 "@SEEALSO=STDEV,STDEVPA"
 msgstr ""
 "@FUNCTION=SUMA\n"
-"@SYNTAX=SUMA(value1, value2, ...)\n"
+"@SYNTAX=SUMA(värde1, värde2, ...)\n"
 "@DESCRIPTION=Beräknar summan av alla värden och celler som referaras till i "
 "argumentlistan. Tal, text och logiska värden inkulderas även de i "
 "beräkningen. Om cellen innehåller text eller om argumenten evalueras till "
@@ -5179,7 +5298,7 @@ msgstr ""
 "det som 1. Observera  att tomma celler inte räknas.\n"
 "@SEEALSO=AVERAGE, SUM, COUNT"
 
-#: src/fn-stat.c:2573
+#: src/fn-stat.c:2621
 #, fuzzy
 msgid ""
 "@FUNCTION=STDEVPA\n"
@@ -5192,7 +5311,7 @@ msgid ""
 "@SEEALSO=STDEVA,STDEVP"
 msgstr ""
 "@FUNCTION=SUMA\n"
-"@SYNTAX=SUMA(value1, value2, ...)\n"
+"@SYNTAX=SUMA(värde1, värde2, ...)\n"
 "@DESCRIPTION=Beräknar summan av alla värden och celler som referaras till i "
 "argumentlistan. Tal, text och logiska värden inkulderas även de i "
 "beräkningen. Om cellen innehåller text eller om argumenten evalueras till "
@@ -5200,7 +5319,7 @@ msgstr ""
 "det som 1. Observera  att tomma celler inte räknas.\n"
 "@SEEALSO=AVERAGE, SUM, COUNT"
 
-#: src/fn-stat.c:2598
+#: src/fn-stat.c:2647
 msgid ""
 "@FUNCTION=PERCENTRANK\n"
 "@SYNTAX=PERCENTRANK(array,x[,significance])\n"
@@ -5216,7 +5335,26 @@ msgid ""
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"
 msgstr ""
 
-#: src/fn-stat.c:2706
+#: src/fn-stat.c:2755
+msgid ""
+"@FUNCTION=QUARTILE\n"
+"@SYNTAX=QUARTILE(array,quart)\n"
+"@DESCRIPTION=QUARTILE function returns the quartile of the given data "
+"points.  \n"
+"If quart is equal to:  QUARTILE returns:\n"
+"0                      the smallest value of @array.\n"
+"1                      the first quartile\n"
+"2                      the second quartile\n"
+"3                      the third quartile\n"
+"4                      the largest value of @array.\n"
+"\n"
+"If @array is empty, QUARTILE returns #NUM! error. If @quart < 0 or @quart > "
+"4, QUARTILE returns #NUM! error. If @quart is not an integer, it is "
+"truncated. \n"
+"@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"
+msgstr ""
+
+#: src/fn-stat.c:2810
 msgid ""
 "@FUNCTION=FTEST\n"
 "@SYNTAX=FTEST(array1,array2)\n"
@@ -5225,7 +5363,7 @@ msgid ""
 "@SEEALSO=FDIST,FINV"
 msgstr ""
 
-#: src/fn-stat.c:2789
+#: src/fn-stat.c:2897
 msgid ""
 "@FUNCTION=TTEST\n"
 "@SYNTAX=TTEST(array1,array2,tails,type)\n"
@@ -5245,7 +5383,7 @@ msgid ""
 "@SEEALSO=FDIST,FINV"
 msgstr ""
 
-#: src/fn-stat.c:3021
+#: src/fn-stat.c:3141
 msgid ""
 "@FUNCTION=FREQUENCY\n"
 "@SYNTAX=FREQUENCY(data_array,bins_array)\n"
@@ -5258,7 +5396,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-stat.c:3131
+#: src/fn-stat.c:3251
 msgid ""
 "@FUNCTION=LINEST\n"
 "@SYNTAX=LINEST(known_y's[,known_x's])\n"
@@ -5273,7 +5411,7 @@ msgid ""
 "@SEEALSO=LOGEST,TREND"
 msgstr ""
 
-#: src/fn-stat.c:3200
+#: src/fn-stat.c:3320
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's],new_x's])\n"
@@ -5287,7 +5425,7 @@ msgid ""
 "@SEEALSO=LINEST"
 msgstr ""
 
-#: src/fn-stat.c:3278
+#: src/fn-stat.c:3398
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -5300,7 +5438,7 @@ msgid ""
 "@SEEALSO=INTERCEPT,TREND"
 msgstr ""
 
-#: src/fn-stat.c:3337
+#: src/fn-stat.c:3459
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -5312,52 +5450,45 @@ msgid ""
 "@SEEALSO=FORECAST,TREND"
 msgstr ""
 
-#: src/fn-stat.c:3375
-#, fuzzy
+#: src/fn-stat.c:3498
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
 "@DESCRIPTION=SLOPE returns the slope of the linear regression line.\n"
 "@SEEALSO=STDEV,STDEVPA"
 msgstr ""
-"@FUNCTION=ODD\n"
-"@SYNTAX=ODD(number)\n"
-"@DESCRIPTION=ODD returnerar argumentet avrundat uppåt till närmsta udda "
-"heltal.\n"
-"@SEEALSO=EVEN"
+"@FUNCTION=SLOPE\n"
+"@SYNTAX=SLOPE(kända_y,kända_x)\n"
+"@DESCRIPTION=SLOPE returnerar lutningen på linjen som bildas av linjär regression av punkterna.\n"
+"@SEEALSO=STDEV,STDEVPA"
 
-#: src/fn-stat.c:3409
+#: src/fn-stat.c:3533
 msgid "Statistics"
-msgstr ""
+msgstr "Statistik"
 
 #: src/fn-string.c:19
-#, fuzzy
 msgid ""
 "@FUNCTION=CHAR\n"
 "@SYNTAX=CHAR(x)\n"
 "@DESCRIPTION=Returns the ASCII character represented by the number @x.\n"
 "@SEEALSO=CODE"
 msgstr ""
-"@FUNCTION=TIME\n"
-"@SYNTAX=TIME (hours,minutes,seconds)\n"
-"@DESCRIPTION=Returnerar ett tal mellan 0 och 1, som representerar det "
-"angivna klockslaget.\n"
-"@SEEALSO=HOUR"
+"@FUNCTION=CHAR\n"
+"@SYNTAX=CHAR(x)\n"
+"@DESCRIPTION=Returnerar ASCII-tecknet som representeras av talet @x.\n"
+"@SEEALSO=CODE"
 
 #: src/fn-string.c:41
-#, fuzzy
 msgid ""
 "@FUNCTION=CODE\n"
 "@SYNTAX=CODE(char)\n"
 "@DESCRIPTION=Returns the ASCII number for the character @char.\n"
 "@SEEALSO=CHAR"
 msgstr ""
-"@FUNCTION=RAND\n"
-"@SYNTAX=RAND()\n"
-"@DESCRIPTION=Returnerar ett slumptal större än eller lika med 0 och mindre "
-"än 1.\n"
-"\n"
-"@SEEALSO="
+"@FUNCTION=CODE\n"
+"@SYNTAX=CODE(tecken)\n"
+"@DESCRIPTION=Returnerar ASCII-koden för tecknet @tecken.\n"
+"@SEEALSO=CHAR"
 
 #: src/fn-string.c:64
 msgid ""
@@ -5367,6 +5498,11 @@ msgid ""
 "routine is case sensitive).\n"
 "@SEEALSO=LEN"
 msgstr ""
+"@FUNCTION=EXACT\n"
+"@SYNTAX=EXACT(sträng1, sträng2)\n"
+"@DESCRIPTION=Returnerar TRUE om @sträng1 är exakt lika med @sträng2 (inkl "
+"stora/små bokstäver).\n"
+"@SEEALSO=LEN"
 
 #: src/fn-string.c:86
 msgid ""
@@ -5375,6 +5511,10 @@ msgid ""
 "@DESCRIPTION=Returns the length in characters of the string @string.\n"
 "@SEEALSO=CHAR, CODE"
 msgstr ""
+"@FUNCTION=LEN\n"
+"@SYNTAX=LEN(sträng)\n"
+"@DESCRIPTION=Returnerar längden i antal tecken av strängen @sträng.\n"
+"@SEEALSO=CHAR, CODE"
 
 #: src/fn-string.c:106
 msgid ""
@@ -5384,6 +5524,11 @@ msgid ""
 "character if @num_chars is not specified.\n"
 "@SEEALSO=MID, RIGHT"
 msgstr ""
+"@FUNCTION=LEFT\n"
+"@SYNTAX=LEFT(text[,antal_tecken])\n"
+"@DESCRIPTION=Returnerar de @antal_tecken vänstra tecknen av @text, eller det "
+"tecken som är längst till vänster om @antal_tecken inte är angivet.\n"
+"@SEEALSO=MID, RIGHT"
 
 #: src/fn-string.c:139
 msgid ""
@@ -5392,6 +5537,10 @@ msgid ""
 "@DESCRIPTION=Returns a lower-case version of the string in @text\n"
 "@SEEALSO=UPPER"
 msgstr ""
+"@FUNCTION=LOWER\n"
+"@SYNTAX=LOWER(text)\n"
+"@DESCRIPTION=Omvandlar strängen @text till gemener.\n"
+"@SEEALSO=UPPER"
 
 #: src/fn-string.c:168
 msgid ""
@@ -5401,6 +5550,11 @@ msgid ""
 "@length characters.\n"
 "@SEEALSO=LEFT, RIGHT"
 msgstr ""
+"@FUNCTION=MID\n"
+"@SYNTAX=MID(sträng, position, längd)\n"
+"@DESCRIPTION=Returnerar de @antal_tecken högra tecknen av @text, eller det "
+"tecken som är längst till höger om @antal_tecken inte är angivet.\n"
+"@SEEALSO=LEFT, RIGHT"
 
 #: src/fn-string.c:195 src/fn-string.c:601
 msgid "Invalid arguments"
@@ -5414,20 +5568,23 @@ msgid ""
 "character if @num_chars is not specified.\n"
 "@SEEALSO=MID, LEFT"
 msgstr ""
+"@FUNCTION=RIGHT\n"
+"@SYNTAX=RIGHT(text[,antal_tecken])\n"
+"@DESCRIPTION=Returns the rightmost @num_chars characters or the right "
+"character if @num_chars is not specified.\n"
+"@SEEALSO=MID, LEFT"
 
 #: src/fn-string.c:248
-#, fuzzy
 msgid ""
 "@FUNCTION=UPPER\n"
 "@SYNTAX=UPPER(text)\n"
 "@DESCRIPTION=Returns a upper-case version of the string in @text.\n"
 "@SEEALSO=LOWER"
 msgstr ""
-"@FUNCTION=TIME\n"
-"@SYNTAX=TIME (hours,minutes,seconds)\n"
-"@DESCRIPTION=Returnerar ett tal mellan 0 och 1, som representerar det "
-"angivna klockslaget.\n"
-"@SEEALSO=HOUR"
+"@FUNCTION=UPPER\n"
+"@SYNTAX=UPPER(text)\n"
+"@DESCRIPTION=Omvandlar strängen @text till versaler.\n"
+"@SEEALSO=LOWER"
 
 #: src/fn-string.c:278
 msgid ""
@@ -5436,6 +5593,10 @@ msgid ""
 "@DESCRIPTION=Returns up appended strings.\n"
 "@SEEALSO=LEFT, MID, RIGHT"
 msgstr ""
+"@FUNCTION=CONCATENATE\n"
+"@SYNTAX=CONCATENATE(sträng1[,sträng2...])\n"
+"@DESCRIPTION=Funktionen slår ihop strängarna @sträng1,...\n"
+"@SEEALSO=LEFT, MID, RIGHT"
 
 #: src/fn-string.c:323
 msgid ""
@@ -5444,6 +5605,10 @@ msgid ""
 "@DESCRIPTION=Returns @num repetitions of @string.\n"
 "@SEEALSO=CONCATENATE"
 msgstr ""
+"@FUNCTION=REPT\n"
+"@SYNTAX=REPT(sträng,antal)\n"
+"@DESCRIPTION=Reperterar @sträng @antal gånger.\n"
+"@SEEALSO=CONCATENATE"
 
 #. start position too high or low
 #: src/fn-string.c:342 src/fn-string.c:417 src/fn-string.c:422
@@ -5458,6 +5623,10 @@ msgid ""
 "@DESCRIPTION=Cleans the string from any non-printable characters.\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=CLEAN\n"
+"@SYNTAX=CLEAN(sträng)\n"
+"@DESCRIPTION=Rensar @sträng från eventuella icke-utskrivbara tecken.\n"
+"@SEEALSO="
 
 #: src/fn-string.c:394
 msgid ""
@@ -5467,6 +5636,12 @@ msgid ""
 "searching only from character @start onwards (assumed 1 if omitted).\n"
 "@SEEALSO=EXACT, LEN, MID, SEARCH"
 msgstr ""
+"@FUNCTION=FIND\n"
+"@SYNTAX=FIND(sträng1,sträng2[,start])\n"
+"@DESCRIPTION=FIND söker efter @sträng1 i @sträng2 (med hänsyn till "
+"versaler/gemener), med start från @start (om ej angiven, 1). Returvärdet är "
+"den funna positionen.\n"
+"@SEEALSO=EXACT, LEN, MID, SEARCH"
 
 #: src/fn-string.c:428
 msgid ""
@@ -5476,6 +5651,11 @@ msgid ""
 "the decimal point, omitting commas if requested by @no_commas.\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=FIXED\n"
+"@SYNTAX=FIXED(tal, [decimaler, ej_separator])\n"
+"@DESCRIPTION=Returner @tal som en formaterad sträng med @decimaler siffor "
+"efter decimaltecknet, utan tusentalsseparator om så anges i @ej_separator.\n"
+"@SEEALSO="
 
 #: src/fn-string.c:535
 msgid ""
@@ -5484,6 +5664,10 @@ msgid ""
 "@DESCRIPTION=Returns @string with initial of each word capitalised.\n"
 "@SEEALSO=LOWER, UPPER"
 msgstr ""
+"@FUNCTION=PROPER\n"
+"@SYNTAX=PROPER(sträng)\n"
+"@DESCRIPTION=Returnerar @sträng med versaler i början av alla ord.\n"
+"@SEEALSO=LOWER, UPPER"
 
 #: src/fn-string.c:574
 msgid ""
@@ -5492,6 +5676,11 @@ msgid ""
 "@DESCRIPTION=Returns @old with @new replacing @num characters from @start.\n"
 "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
 msgstr ""
+"@FUNCTION=REPLACE\n"
+"@SYNTAX=REPLACE(gammal_sträng,start,position,ny_sträng)\n"
+"@DESCRIPTION=Ersätter tecken i @gammal_sträng från och med @position, med "
+"@ny_sträng.\n"
+"@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
 
 #: src/fn-string.c:625
 msgid ""
@@ -5501,6 +5690,11 @@ msgid ""
 "string.\n"
 "@SEEALSO=CELL, N, VALUE"
 msgstr ""
+"@FUNCTION=T\n"
+"@SYNTAX=T(värde)\n"
+"@DESCRIPTION=Returnerar @värde om och bara om det är text, annars en tom "
+"sträng.\n"
+"@SEEALSO=CELL, N, VALUE"
 
 #: src/fn-string.c:645
 msgid ""
@@ -5509,6 +5703,10 @@ msgid ""
 "@DESCRIPTION=Returns @value as a string with the specified format.\n"
 "@SEEALSO=DOLLAR"
 msgstr ""
+"@FUNCTION=TEXT\n"
+"@SYNTAX=TEXT(värde,format_text)\n"
+"@DESCRIPTION=Returnerar @värde som en sträng med det angivna formatet.\n"
+"@SEEALSO=DOLLAR"
 
 #: src/fn-string.c:698
 msgid ""
@@ -5517,6 +5715,10 @@ msgid ""
 "@DESCRIPTION=Returns @text with only single spaces between words.\n"
 "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 msgstr ""
+"@FUNCTION=TRIM\n"
+"@SYNTAX=TRIM(text)\n"
+"@DESCRIPTION=Returnerar @text med endast ett mellanslag mellan orden.\n"
+"@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 
 #: src/fn-string.c:743
 msgid ""
@@ -5525,6 +5727,10 @@ msgid ""
 "@DESCRIPTION=Returns numeric value of @text.\n"
 "@SEEALSO=DOLLAR, FIXED, TEXT"
 msgstr ""
+"@FUNCTION=VALUE\n"
+"@SYNTAX=VALUE(text)\n"
+"@DESCRIPTION=Returnerar det numeriska värdet av @text.\n"
+"@SEEALSO=DOLLAR, FIXED, TEXT"
 
 #: src/fn-string.c:824
 msgid ""
@@ -5534,6 +5740,12 @@ msgid ""
 "applied to instance @num of @old in @text, otherwise every one is changed.\n"
 "@SEEALSO=REPLACE, TRIM"
 msgstr ""
+"@FUNCTION=SUBSTITUTE\n"
+"@SYNTAX=SUBSTITUTE(text, gammal, ny [,nr])\n"
+"@DESCRIPTION=Ersätter delsträngen @gammal med @ny i strängen @text. "
+"Ersättning sker bara för förekomst @nr av delsträngen, om @nr är uteslutet "
+"ersätts alla förekomster.\n"
+"@SEEALSO=REPLACE, TRIM"
 
 #: src/fn-string.c:895
 msgid ""
@@ -5542,6 +5754,10 @@ msgid ""
 "@DESCRIPTION=Returns @num formatted as currency.\n"
 "@SEEALSO=FIXED, TEXT, VALUE"
 msgstr ""
+"@FUNCTION=DOLLAR\n"
+"@SYNTAX=DOLLAR(tal,[decimaler])\n"
+"@DESCRIPTION=Returnerar @tal i valutaformat.\n"
+"@SEEALSO=FIXED, TEXT, VALUE"
 
 #: src/fn-string.c:960
 msgid ""
@@ -5561,6 +5777,22 @@ msgid ""
 "error. \n"
 "@SEEALSO=FIND"
 msgstr ""
+"@FUNCTION=SEARCH\n"
+"@SYNTAX=SEARCH(sök_text,inom_text[,startposition])\n"
+"@DESCRIPTION=Returnerar positionen av ett tecken eller en sträng inuti en "
+"annan sträng. @sök_text är det tecken eller den sträng som skall sökas "
+"efter, och @inom_text är den sträng som skall sökas igenom. Sökningen "
+"startas på @startposition i @inom_text. Om @start_position utelämnas, börjar "
+"sökningen på position 1. Textsökningen tar ej hänsyn till versaler/gemener.\n"
+"@sök_text kan innehålla wildcards (*) och frågetecken (?) för att styra "
+"sökningen. Ett frågetecken betyder vilket tecken som helst och * betyder "
+"vilken sträng som helst, inklusive en tom sträng. Om du vill söka efter en "
+"asterisk (*) eller ett frågetecken, sätt ett tildetecken (~) framför "
+"tecknet.\n"
+"Om @sök_text inte hittas, returneras felvärdet #VALUE! Också om "
+"@startposition är mindre än ett eller större än längden av @inom_text, "
+"returneras #VALUE!.\n"
+"@SEEALSO=FIND"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -5677,18 +5909,16 @@ msgid "#,##0_);(#,##0)"
 msgstr "#,##0_);(#,##0)"
 
 #: src/formats.c:22
-#, fuzzy
 msgid "#,##0_);[Red](#,##0)"
-msgstr "#,##0_);[röd](#,##0)"
+msgstr "#,##0_);[Röd](#,##0)"
 
 #: src/formats.c:23
 msgid "#,##0.00_);(#,##0.00)"
 msgstr "#,##0.00_);(#,##0.00)"
 
 #: src/formats.c:24
-#, fuzzy
 msgid "#,##0.00_);[Red](#,##0.00)"
-msgstr "#,##0.00_);[röd](#,##0.00)"
+msgstr "#,##0.00_);[Röd](#,##0.00)"
 
 #: src/formats.c:25
 msgid "0.0"
@@ -5881,18 +6111,16 @@ msgid "$#,##0_);($#,##0)"
 msgstr "$#,##0_);($#,##0)"
 
 #: src/formats.c:106
-#, fuzzy
 msgid "$#,##0_);[Red]($#,##0)"
-msgstr "$#,##0_);[röd]($#,##0)"
+msgstr "$#,##0_);[Röd]($#,##0)"
 
 #: src/formats.c:107
 msgid "$#,##0.00_);($#,##0.00)"
 msgstr "$#,##0.00_);($#,##0.00)"
 
 #: src/formats.c:108
-#, fuzzy
 msgid "$#,##0.00_);[Red]($#,##0.00)"
-msgstr "$#,##0.00_);[röd]($#,##0.00)"
+msgstr "$#,##0.00_);[Röd]($#,##0.00)"
 
 #: src/func.c:424
 msgid "Function does not exist"
@@ -5902,80 +6130,80 @@ msgstr ""
 msgid "Calling non-function"
 msgstr ""
 
-#: src/gnumeric-sheet.c:981
+#: src/gnumeric-sheet.c:983
 msgid "Solid"
 msgstr "Helfylld"
 
-#: src/gnumeric-sheet.c:984
+#: src/gnumeric-sheet.c:986
 #, c-format
 msgid "75%"
 msgstr "75%"
 
-#: src/gnumeric-sheet.c:987
+#: src/gnumeric-sheet.c:989
 #, c-format
 msgid "50%"
 msgstr "50%"
 
-#: src/gnumeric-sheet.c:990
+#: src/gnumeric-sheet.c:992
 #, c-format
 msgid "25%"
 msgstr "25%"
 
-#: src/gnumeric-sheet.c:993
+#: src/gnumeric-sheet.c:995
 #, c-format
 msgid "12.5%"
 msgstr "12,5%"
 
-#: src/gnumeric-sheet.c:996
+#: src/gnumeric-sheet.c:998
 #, c-format
 msgid "6.25%"
 msgstr "6.25%"
 
-#: src/gnumeric-sheet.c:999
+#: src/gnumeric-sheet.c:1001
 msgid "Horizontal Stripe"
 msgstr "Vågräta ränder"
 
-#: src/gnumeric-sheet.c:1002
+#: src/gnumeric-sheet.c:1004
 msgid "Vertical Stripe"
 msgstr "Lodräta ränder"
 
-#: src/gnumeric-sheet.c:1005
+#: src/gnumeric-sheet.c:1007
 msgid "Reverse Diagonal Stripe"
 msgstr "Omvända diagonala ränder"
 
-#: src/gnumeric-sheet.c:1008
+#: src/gnumeric-sheet.c:1010
 msgid "Diagonal Stripe"
 msgstr "Diagonala ränder"
 
-#: src/gnumeric-sheet.c:1011
+#: src/gnumeric-sheet.c:1013
 msgid "Diagonal Crosshatch"
 msgstr "Diagonala rutor"
 
-#: src/gnumeric-sheet.c:1014
+#: src/gnumeric-sheet.c:1016
 msgid "Thick Diagonal Crosshatch"
 msgstr "Tjocka diagonala rutor"
 
-#: src/gnumeric-sheet.c:1017
+#: src/gnumeric-sheet.c:1019
 msgid "Thin Horizontal Stripe"
 msgstr "Tunna vågräta ränder"
 
-#: src/gnumeric-sheet.c:1020
+#: src/gnumeric-sheet.c:1022
 msgid "Thin Vertical Stripe"
 msgstr "Tunna lodräta ränder"
 
-#: src/gnumeric-sheet.c:1023
+#: src/gnumeric-sheet.c:1025
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "Tunna omvända diagonala ränder"
 
-#: src/gnumeric-sheet.c:1026
+#: src/gnumeric-sheet.c:1028
 msgid "Thin Diagonal Stripe"
 msgstr "Tunna diagonala ränder"
 
-#: src/gnumeric-sheet.c:1029
+#: src/gnumeric-sheet.c:1031
 msgid "Thin Crosshatch"
 msgstr "Tunna rutor"
 
-#: src/gnumeric-sheet.c:1032
+#: src/gnumeric-sheet.c:1034
 msgid "Thin Diagonal Crosshatch"
 msgstr "Tunna diagonala rutor"
 
@@ -6011,7 +6239,7 @@ msgstr "Ange formatsträngar för varje sektion:"
 #.
 #: src/import.glade.h:7
 msgid "Choose an import filter for loading the file:"
-msgstr "Välj ett importeringsfilter att ladda filen med:"
+msgstr "Välj ett importeringsfilter att öppna filen med:"
 
 #: src/import.glade.h:8
 msgid "label2"
@@ -6230,13 +6458,12 @@ msgid "time"
 msgstr "tid"
 
 #: src/sheet-object-container.c:187 src/workbook.c:901
-#, fuzzy
 msgid "Select an object"
-msgstr "Skapar ett linje-objekt"
+msgstr "Välj ett objekt"
 
 #: src/sheet-object-container.c:290
 msgid "Object server"
-msgstr ""
+msgstr "Objektserver"
 
 #: src/sheet-view.c:337 src/sheet-view.c:415
 #, c-format
@@ -6272,12 +6499,12 @@ msgstr "klipp ut"
 msgid "paste"
 msgstr "klistra in"
 
-#: src/sheet.c:4232
+#: src/sheet.c:4233
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Kunde inte aktivera objekt %s"
 
-#: src/sheet.c:4244
+#: src/sheet.c:4245
 msgid "I was unable to the bind object"
 msgstr "Kunde inte binda objektet"
 
@@ -6368,11 +6595,11 @@ msgstr "Importerar en fil"
 
 #: src/workbook.c:920
 msgid "Su_mmary..."
-msgstr ""
+msgstr "Sammanfattning..."
 
 #: src/workbook.c:920
 msgid "Summary information"
-msgstr ""
+msgstr "Sammanfattningsinformation"
 
 #: src/workbook.c:925
 msgid "Plu_g-ins..."
@@ -6761,7 +6988,7 @@ msgstr "Ta bort detta blad"
 msgid "Sheet%d"
 msgstr "Blad%d"
 
-#: src/workbook.c:2635
+#: src/workbook.c:2636
 msgid "Gnumeric: "
 msgstr "Gnumeric: "
 
@@ -6903,7 +7130,7 @@ msgstr "Diagonala linjer"
 
 #: src/print.glade.h:50
 msgid "Black and white"
-msgstr "Svart och vit"
+msgstr "Svartvitt"
 
 #: src/print.glade.h:51
 msgid "Titles of rows and columns."
@@ -6933,5 +7160,4 @@ msgstr "Anpassa sidhuvud"
 msgid "Customize footer"
 msgstr "Anpassa sidfot"
 
-#~ msgid "#Unimplemented!"
-#~ msgstr "#Oimplementerat!"
+
