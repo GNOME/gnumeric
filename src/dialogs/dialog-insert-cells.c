@@ -12,17 +12,10 @@
 #include "gnumeric-util.h"
 #include "dialogs.h"
 
-typedef enum {
-	CMD_SHIFT_CELLS_RIGHT,
-	CMD_SHIFT_CELLS_DOWN,
-	CMD_INSERT_ROW,
-	CMD_INSERT_COL
-} CommandType;
-
 void
 dialog_insert_cells (Sheet *sheet)
 {
-	CommandType state = CMD_SHIFT_CELLS_RIGHT;
+	int state [4] = { 1, 0, 0, 0 };
 	SheetSelection *ss;
 	char *ret;
 	int  cols, rows;
@@ -38,36 +31,36 @@ dialog_insert_cells (Sheet *sheet)
 		GTK_CAULDRON_DIALOG,
 		"( %[ ( %Rd // %Rd / %Rd // %Rd ) ] /   (   %Bqrg || %Bqrg ) )",
 		_("Insert"),
-		_("Shift cells right"), &state,
-		_("Shift cells down"),  &state,
-		_("Insert a row"),      &state,
-		_("Insert a column"),   &state,
+		_("Shift cells right"), &state[0],
+		_("Shift cells down"),  &state[1],
+		_("Insert a row"),      &state[2],
+		_("Insert a column"),   &state[3],
 		GNOME_STOCK_BUTTON_OK,
 		GNOME_STOCK_BUTTON_CANCEL);
 
-	printf ("return: %s\n", ret);
+	printf ("return: %s, %d %d %d %d\n", ret, state [0], state [1], state [2], state [3]);
 	if (strcmp (ret, GNOME_STOCK_BUTTON_CANCEL) == 0)
 		return;
 
 	ss = sheet->selections->data;
 	cols = ss->end_col - ss->start_col + 1;
 	rows = ss->end_row - ss->start_row + 1;
-	
-	switch (state){
-	case CMD_SHIFT_CELLS_RIGHT:
+
+	if (state [0]){
 		sheet_shift_rows (sheet, ss->start_col, ss->start_row, ss->end_row, cols);
-		break;
-		
-	case CMD_SHIFT_CELLS_DOWN:
-		sheet_shift_cols (sheet, ss->start_col, ss->end_col, ss->start_row, rows);
-		break;
-		
-	case CMD_INSERT_COL:
-		sheet_insert_col (sheet, ss->start_col, cols);
-		break;
-		
-	case CMD_INSERT_ROW:
-		sheet_insert_row (sheet, ss->start_row, rows);
-		break;
+		return;
 	}
+
+	if (state [1]){
+		sheet_shift_cols (sheet, ss->start_col, ss->end_col, ss->start_row, rows);
+		return;
+	}
+
+	if (state [2]){
+		sheet_insert_row (sheet, ss->start_row, rows);
+		return;
+	}
+
+	/* default */
+	sheet_insert_col (sheet, ss->start_col, cols);
 }

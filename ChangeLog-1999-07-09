@@ -1,3 +1,27 @@
+1998-08-22  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet.c (sheet_redraw_all): Redraw also the column and row
+	bars. 
+	(sheet_insert_row): Fix.  I was accessing the wrong information. 
+
+	* src/dialog-insert-cells.c (dialog_insert_cells): Learn to use
+	GtkCauldroun's way of dealing with radio buttons.
+
+	* src/sheet.c (sheet_selection_paste): Now the clipboard fills the
+	region which is the union of the current selection and the
+	information in the clipboard.
+
+	* src/clipboard.c (clipboard_paste_region): Check the region where
+	we pasted for possible dependencies, and if so, queue a recalc.
+	(clipboard_paste_region): It now takes a region to be filled
+	instead of just using the contents of the clipboard.
+
+	* src/eval.c (search_cell_deps): Updated to search on cell ranges
+	instead of a single cell.
+	(region_get_dependencies): Get dependencies for a complete
+	region. 
+	(cell_get_dependencies): Reworked to use new scheme
+
 1998-08-21  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/dialog-insert-cells.c: New file.  Handle the insert cells

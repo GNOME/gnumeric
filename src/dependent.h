@@ -32,6 +32,14 @@ void    cell_drop_dependencies   (Cell *cell);
 GList   *cell_get_dependencies   (Sheet *shet, int col, int row);
 
 /*
+ * Returns a newly allocated list with Cells inside that
+ * depends on any values in the range specified
+ */
+GList   *region_get_dependencies (Sheet *sheet,
+				  int start_col, int start_row,
+				  int end_col,   int end_row);
+
+/*
  * Queue a cell or a list of cells for computation
  */
 void cell_queue_recalc           (Cell *cell);

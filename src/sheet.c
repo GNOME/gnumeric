@@ -22,6 +22,12 @@ sheet_redraw_all (Sheet *sheet)
 	gnome_canvas_request_redraw (
 		GNOME_CANVAS (sheet->sheet_view),
 		0, 0, INT_MAX, INT_MAX);
+	gnome_canvas_request_redraw (
+		GNOME_CANVAS (sheet->col_canvas),
+		0, 0, INT_MAX, INT_MAX);
+	gnome_canvas_request_redraw (
+		GNOME_CANVAS (sheet->row_canvas),
+		0, 0, INT_MAX, INT_MAX);
 }
 
 static void
@@ -1358,7 +1364,7 @@ sheet_col_get (Sheet *sheet, int pos)
 }
 
 /*
- * Returns an allocated column:  either an existing one, or a fresh copy
+ * Returns an allocated row:  either an existing one, or a fresh copy
  */
 ColRowInfo *
 sheet_row_get (Sheet *sheet, int pos)
@@ -1795,8 +1801,9 @@ sheet_selection_cut (Sheet *sheet)
 void
 sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row, int paste_flags)
 {
-	CellRegion *content;
-	int end_col, end_row;
+	SheetSelection *ss;
+	CellRegion     *content;
+	int             end_col, end_row, paste_width, paste_height;
 	
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -1807,12 +1814,29 @@ sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row, int paste_flags
 	if (!content)
 		return;
 
-	end_col = dest_col + content->cols - 1;
-	end_row = dest_row + content->rows - 1;
+	if (!sheet_verify_selection_simple (sheet, _("Paste")))
+		return;
 
-	clipboard_paste_region (content, sheet, dest_col, dest_row, paste_flags);
-	sheet_cursor_set (sheet, dest_col, dest_row, end_col, end_row);
+	ss = sheet->selections->data;
 	
+	/* Compute the bigger bounding box (selection u clipboard-region) */
+	if (ss->end_col - ss->start_col + 1 > content->cols)
+		paste_width = ss->end_col - ss->start_col + 1;
+	else
+		paste_width = content->cols;
+
+	if (ss->end_row - ss->start_row + 1 > content->rows)
+		paste_height = ss->end_row - ss->start_row + 1;
+	else
+		paste_height = content->rows;
+
+	end_col = dest_col + paste_width - 1;
+	end_row = dest_row + paste_height - 1;
+	
+	clipboard_paste_region (content, sheet, dest_col, dest_row,
+				paste_width, paste_height, paste_flags);
+	
+	sheet_cursor_set (sheet, dest_col, dest_row, end_col, end_row);
 	sheet_selection_clear_only (sheet);
 	sheet_selection_append (sheet, dest_col, dest_row);
 	sheet_selection_extend_to (sheet, end_col, end_row);
@@ -2018,9 +2042,10 @@ sheet_insert_row (Sheet *sheet, int row, int count)
 	
 	/* 1. Walk every column, see which cells are out of range */
 	for (cols = sheet->cols_info; cols; cols = cols->next){
+		ColRowInfo *ci = cols->data;
 		GList *cells;
 		
-		for (cells = cols->data; cells; cells = cells->next){
+		for (cells = ci->data; cells; cells = cells->next){
 			Cell *cell = cells->data;
 
 			if (cell->row->pos < row)

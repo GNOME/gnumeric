@@ -186,6 +186,11 @@ PM/pm/p/p     "AM", "am", "M" or "a" for the hours between midnight
    Implement style regions.
    Implement style resolution at cell creation time.
 
+* Selection
+
+   Make the selection work by drawing with the invert or the xor
+   operations instead of drawing and redrawing on top with the text.
+
 * Workbooks:
 
 ** Notebook:

@@ -98,11 +98,16 @@ paste_cell (Sheet *dest_sheet, Cell *new_cell, int target_col, int target_row, i
 }
 
 void
-clipboard_paste_region (CellRegion *region, Sheet *dest_sheet, int dest_col, int dest_row, int paste_flags)
+clipboard_paste_region (CellRegion *region, Sheet *dest_sheet,
+			int dest_col,    int dest_row,
+			int paste_width, int paste_height,
+			int paste_flags)
 {
 	CellCopyList *l;
+	GList *deps;
 	int formulas = 0;
-	
+	int col, row;
+
 	g_return_if_fail (region != NULL);
 	g_return_if_fail (dest_sheet != NULL);
 	g_return_if_fail (IS_SHEET (dest_sheet));
@@ -110,31 +115,56 @@ clipboard_paste_region (CellRegion *region, Sheet *dest_sheet, int dest_col, int
 	/* Clear the region where we will paste */
 	sheet_clear_region (dest_sheet,
 			    dest_col, dest_row,
-			    dest_col + region->cols - 1,
-			    dest_row + region->rows - 1);
+			    dest_col + paste_width - 1,
+			    dest_row + paste_height - 1);
 
 	/* If no operations are defined, we clear the area */
 	if (!(paste_flags & PASTE_OP_MASK))
 		sheet_redraw_cell_region (dest_sheet,
 					  dest_col, dest_row,
-					  dest_col + region->cols - 1,
-					  dest_row + region->rows - 1);
+					  dest_col + paste_width - 1,
+					  dest_row + paste_height - 1);
 	
 	/* Paste each element */
-	for (l = region->list; l; l = l->next){
-		CellCopy *c_copy = l->data;
-		Cell *new_cell;
-		int target_col, target_row;
+	for (col = 0; col < paste_width; col += region->cols){
+		for (row = 0; row < paste_height; row += region->rows){
+			for (l = region->list; l; l = l->next){
+				CellCopy *c_copy = l->data;
+				Cell *new_cell;
+				int target_col, target_row;
+				
+				target_col = col + dest_col + c_copy->col_offset;
+				target_row = row + dest_row + c_copy->row_offset;
 
-		target_col = dest_col + c_copy->col_offset;
-		target_row = dest_row + c_copy->row_offset;
-		
-		new_cell = cell_copy (c_copy->cell);
+				if (target_col > dest_col + paste_width - 1)
+					continue;
 
-		formulas |= paste_cell (dest_sheet, new_cell, target_col, target_row, paste_flags);
+				if (target_row > dest_row + paste_height - 1)
+					continue;
+
+				new_cell = cell_copy (c_copy->cell);
+				
+				formulas |= paste_cell (
+					dest_sheet, new_cell,
+					target_col, target_row, paste_flags);
+			}
+
+			
+		}
+	}
+	
+	deps = region_get_dependencies (
+		dest_sheet,
+		dest_col, dest_row,
+		dest_col + paste_width - 1,
+		dest_row + paste_height -1);
+
+	if (deps){
+		cell_queue_recalc_list (deps);
+		formulas = 1;
 	}
 
-	/* Trigger a recompute */
+	/* Trigger a recompute if required */
 	if (formulas)
 		workbook_recalc (dest_sheet->workbook);
 }

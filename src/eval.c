@@ -286,31 +286,64 @@ cell_drop_dependencies (Cell *cell)
 }
 
 typedef struct {
-	int   col;
-	int   row;
+	int   start_col, start_row;
+	int   end_col, end_row;
 	Sheet *sheet;
 	GList *list;
 } get_dep_closure_t;
+
+static gboolean
+intersects (Sheet *sheet, int col, int row, DependencyRange *range)
+{
+	if ((col >= range->start_col) &&
+	    (col <= range->end_col)   &&
+	    (row >= range->start_row) &&
+	    (row <= range->end_row)   &&
+	    (sheet = range->sheet))
+		return TRUE;
+
+	return FALSE;
+}
 
 static void
 search_cell_deps (gpointer key, gpointer value, gpointer closure)
 {
 	DependencyRange *range = key;
 	get_dep_closure_t *c = closure;
+	Sheet *sheet = c->sheet;
 	GList *l;
-	
-	if (!((c->col >= range->start_col) &&
-	      (c->col <= range->end_col)   &&
-	      (c->row >= range->start_row) &&
-	      (c->row <= range->end_row)   &&
-	      (c->sheet = range->sheet)))
-		return;
 
+	if (!(intersects (sheet, c->start_col, c->start_row, range) ||
+	      intersects (sheet, c->end_col,   c->end_row,   range) ||
+	      intersects (sheet, c->start_col, c->end_row,   range) ||
+	      intersects (sheet, c->end_col,   c->start_row, range)))
+		return;
+			
 	for (l = range->cell_list; l; l = l->next){
 		Cell *cell = l->data;
 
 		c->list = g_list_prepend (c->list, cell);
 	}
+}
+
+GList *
+region_get_dependencies (Sheet *sheet, int start_col, int start_row, int end_col, int end_row)
+{
+	get_dep_closure_t closure;
+
+	if (!dependency_hash)
+		dependency_hash_init ();
+	
+	closure.start_col = start_col;
+	closure.start_row = start_row;
+	closure.end_col = end_col;
+	closure.end_row = end_row;
+	closure.sheet = sheet;
+	closure.list = NULL;
+
+	g_hash_table_foreach (dependency_hash, &search_cell_deps, &closure);
+
+	return closure.list;
 }
 
 GList *
@@ -321,8 +354,10 @@ cell_get_dependencies (Sheet *sheet, int col, int row)
 	if (!dependency_hash)
 		dependency_hash_init ();
 	
-	closure.col = col;
-	closure.row = row;
+	closure.start_col = col;
+	closure.start_row = row;
+	closure.end_col = col;
+	closure.end_row = row;
 	closure.sheet = sheet;
 	closure.list = NULL;
 
