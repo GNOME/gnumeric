@@ -1,3 +1,11 @@
+1999-01-04  Havoc Pennington  <hp@pobox.com>
+
+	* src/fn-date.c (gnumeric_date): Allocate the GDate on the stack,
+	saves some small amount of time. Check user-provided
+	month/day/year for validity before using it.
+	(gnumeric_today): Allocate GDate on the stack.
+	(gnumeric_now): Ditto.
+
 1999-01-04  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/sheet.c (sheet_rename): New routine.

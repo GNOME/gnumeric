@@ -35,22 +35,34 @@ gnumeric_date (struct FunctionDefinition *fd, Value *argv [], char **error_strin
 {
 	Value *v;
 	int year, month, day;
-	GDate *date;
+	GDate date;
 	
 	year  = value_get_as_double (argv [0]);
 	month = value_get_as_double (argv [1]);
 	day   = value_get_as_double (argv [2]);
 
-	date = g_date_new_dmy (1, month, year);
+        if (!g_date_valid_dmy(1, month, year))
+          {
+                  *error_string = _("Invalid month or year");
+                  return NULL;
+          }
+
+        g_date_clear(&date, 1);
+
+	g_date_set_dmy (&date, 1, month, year);
 
 	if (day > 0)
-		g_date_set_day (date, day);
-	else 
-		g_date_subtract_days (date, -day + 1);
+                g_date_set_day (&date, day);
+	else
+		g_date_subtract_days (&date, -day + 1);
 
-	v = value_int (g_date_serial (date));
+        if (!g_date_valid(&date))
+          {
+                  *error_string = _("Invalid day");
+                  return NULL;
+          }
 
-	g_date_free (date);
+	v = value_int (g_date_serial (&date));
 
 	return v;
 }
@@ -72,13 +84,14 @@ static Value *
 gnumeric_today (FunctionDefinition *fd, Value *argv [], char **error_string)
 {
 	Value *v;
-	GDate *date = g_date_new ();
-	
-	g_date_set_time (date, time (NULL));
-	
-	v = value_int (g_date_serial (date));
 
-	g_date_free (date);	
+	GDate date;
+
+        g_date_clear(&date, 1);
+	
+	g_date_set_time (&date, time (NULL));
+	
+	v = value_int (g_date_serial (&date));
 
 	return v;
 }
@@ -110,15 +123,15 @@ gnumeric_now (FunctionDefinition *fd, Value *argv [], char **error_string)
 	Value *v;
 	time_t t = time (NULL);
 	struct tm *tm = localtime (&t);
-	GDate *date = g_date_new ();
-	
-	g_date_set_time (date, t);
 
-	v = value_float (g_date_serial (date) +
+	GDate date;
+        g_date_clear(&date, 1);
+	
+	g_date_set_time (&date, t);
+
+	v = value_float (g_date_serial(&date) +
 			 ((tm->tm_hour * 3600 + tm->tm_min * 60 
 			   + tm->tm_sec)/(double)DAY_SECONDS));
-
-	g_date_free (date);
 
 	return v;
 }
