@@ -35,6 +35,8 @@
 #include "expr.h"
 #include "func.h"
 
+#define MAX_ARGS_DISPLAYED 4
+
 typedef struct _FormulaGuruState FormulaGuruState;
 typedef struct
 {
@@ -369,7 +371,7 @@ formula_guru_arg_new (char * const name,
 	g_ptr_array_add (state->args, as);
 	if (row == 0)
 		as->state->cur_arg = as;
-	if (row == 3) {
+	if (row + 1 == MAX_ARGS_DISPLAYED) {
 		gtk_widget_show_all (state->arg_table);
 		gtk_widget_size_request (state->arg_table,
 					 &state->arg_requisition);
@@ -463,7 +465,7 @@ formula_guru_set_scrollwin_size (FormulaGuruState *state)
 
 	scrollwin = glade_xml_get_widget (state->gui, "scrolledwindow1");
 
-	if (state->args->len < 4) {
+	if (state->arg_requisition.height == 0) {
 		gtk_widget_show_all (state->arg_table);
 		gtk_widget_size_request (state->arg_table,
 					 &state->arg_requisition);
@@ -502,7 +504,8 @@ formula_guru_init (FormulaGuruState *state)
 	state->arg_table    = glade_xml_get_widget (state->gui, "arg_table");
 	state->arg_frame    = glade_xml_get_widget (state->gui, "arg_frame");
 	state->description  = glade_xml_get_widget (state->gui, "description");
-	
+	state->arg_requisition.width = state->arg_requisition.height = 0; 
+
 	formula_guru_init_args (state);
 
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",

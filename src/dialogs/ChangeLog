@@ -1,3 +1,12 @@
+2000-06-18  Jon K Hellan  <hellan@acm.org>
+
+	* dialog-function-wizard.c (formula_guru_arg_new): Use constant
+	MAX_ARGS_DISPLAYED for max # of args to display.
+	(formula_guru_init): Initialize
+	arg-requisition. 
+	(formula_guru_set_scrollwin_size): Better way to check if we have
+	already checked the table size.
+
 2000-06-17  Jon K Hellan  <hellan@acm.org>
 
 	* dialog-function-wizard.c (struct _FormulaGuruState,
