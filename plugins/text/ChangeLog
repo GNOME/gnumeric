@@ -1,3 +1,10 @@
+2000-04-08  Jon K Hellan  <hellan@acm.org>
+
+	* text-io.c (writeTextSheet): Output sheet->name_unquoted instead of
+	sheet->name.
+	(readTextWorkbook): Ungettextize name of sheet to
+	create. text_parse_file is supposed to rename it.
+
 2000-03-23  Jon K Hellan  <hellan@acm.org>
 
 	* text-io.c (text_read_workbook): Set save info. Tag as MANUAL.

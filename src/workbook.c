@@ -783,7 +783,7 @@ insert_sheet_cmd (GtkWidget *unused, Workbook *wb)
 	Sheet *sheet;
 	char *name;
 
-	name = workbook_sheet_get_free_name (wb);
+	name = workbook_sheet_get_free_name (wb, _("Sheet"), TRUE);
 	sheet = sheet_new (wb, name);
 	g_free (name);
 
@@ -2655,7 +2655,7 @@ workbook_rename_sheet (Workbook *wb, const char *old_name, const char *new_name)
 
 	g_hash_table_remove (wb->sheets, old_name);
 	sheet_rename (sheet, new_name);
-	g_hash_table_insert (wb->sheets, sheet->name, sheet);
+	g_hash_table_insert (wb->sheets, sheet->name_unquoted, sheet);
 
 	sheet_set_dirty (sheet, TRUE);
 
@@ -2689,14 +2689,6 @@ static gboolean
 sheet_label_text_changed_signal (EditableLabel *el, const char *new_name, Workbook *wb)
 {
 	gboolean ans;
-
-	/* FIXME : Why do we care ?
-	 * Why are the tests here ?
-	 */
-	if (strchr (new_name, '"'))
-		return FALSE;
-	if (strchr (new_name, '\''))
-		return FALSE;
 
 	ans = cmd_rename_sheet (workbook_command_context_gui (wb),
 				wb, el->text, new_name);
@@ -2735,7 +2727,7 @@ sheet_action_delete_sheet (GtkWidget *ignored, Sheet *current_sheet)
 
 	message = g_strdup_printf (
 		_("Are you sure you want to remove the sheet called `%s'?"),
-		current_sheet->name);
+		current_sheet->name_unquoted);
 
 	d = gnome_message_box_new (
 		message, GNOME_MESSAGE_BOX_QUESTION,
@@ -2765,13 +2757,13 @@ sheet_action_rename_sheet (GtkWidget *widget, Sheet *current_sheet)
 	char *new_name;
 	Workbook *wb = current_sheet->workbook;
 	
-	new_name = dialog_get_sheet_name (wb, current_sheet->name);
+	new_name = dialog_get_sheet_name (wb, current_sheet->name_unquoted);
 	if (!new_name)
 		return;
 
 	/* We do not care if it fails */
 	(void) cmd_rename_sheet (workbook_command_context_gui (wb),
-				 wb, current_sheet->name, new_name);
+				 wb, current_sheet->name_unquoted, new_name);
 	g_free (new_name);
 }
 
@@ -2890,7 +2882,7 @@ workbook_attach_sheet (Workbook *wb, Sheet *sheet)
 
 	sheet->workbook = wb;
 
-	g_hash_table_insert (wb->sheets, sheet->name, sheet);
+	g_hash_table_insert (wb->sheets, sheet->name_unquoted, sheet);
 
 	t = gtk_table_new (0, 0, 0);
 	gtk_table_attach (
@@ -2903,7 +2895,7 @@ workbook_attach_sheet (Workbook *wb, Sheet *sheet)
 	/* FIXME : The bonobo case does not seem to have a notebook ? */
 	g_return_if_fail (wb->notebook != NULL);
 
-	sheet_label = editable_label_new (sheet->name);
+	sheet_label = editable_label_new (sheet->name_unquoted);
 	/*
 	 * NB. this is so we can use editable_label_set_text since
 	 * gtk_notebook_set_tab_label kills our widget & replaces with a label.
@@ -2942,7 +2934,8 @@ workbook_detach_sheet (Workbook *wb, Sheet *sheet, gboolean force)
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 	g_return_val_if_fail (sheet->workbook != NULL, FALSE);
 	g_return_val_if_fail (sheet->workbook == wb, FALSE);
-	g_return_val_if_fail (workbook_sheet_lookup (wb, sheet->name) == sheet, FALSE);
+	g_return_val_if_fail (workbook_sheet_lookup (wb, sheet->name_unquoted)
+			      == sheet, FALSE);
 
 	notebook = GTK_NOTEBOOK (wb->notebook);
 	sheets = workbook_sheet_count (sheet->workbook);
@@ -2950,7 +2943,7 @@ workbook_detach_sheet (Workbook *wb, Sheet *sheet, gboolean force)
 	/*
 	 * Remove our reference to this sheet
 	 */
-	g_hash_table_remove (wb->sheets, sheet->name);
+	g_hash_table_remove (wb->sheets, sheet->name_unquoted);
 
 	for (i = 0; i < sheets; i++){
 		Sheet *this_sheet;
@@ -3005,24 +2998,30 @@ workbook_sheet_lookup (Workbook *wb, const char *sheet_name)
 
 /**
  * workbook_sheet_get_free_name:
- * @wb: workbook to look for
+ * @wb:   workbook to look for
+ * @base: base for the name, e. g. "Sheet"
+ * @always_suffix: if true, add suffix even if the name "base" is not in use.
  *
- * Gets a new name for a sheets such that it does
- * not exist on the workbook.
+ * Gets a new unquoted name for a sheets such that it does not exist on the
+ * workbook.
  *
- * Returns the name assigned to the sheet.
- */
+ * Returns the name assigned to the sheet.  */
 char *
-workbook_sheet_get_free_name (Workbook *wb)
+workbook_sheet_get_free_name (Workbook *wb, const char * const base,
+			      gboolean always_suffix)
 {
-        const char *name_format = _("Sheet%d");
-	char *name = g_malloc (strlen (name_format) + 4 * sizeof (int));
+	const char *name_format = _("%s%d");
+	char *name;
 	int  i;
-
+		
 	g_return_val_if_fail (wb != NULL, NULL);
 
+	if (!always_suffix && (workbook_sheet_lookup (wb, base) == NULL))
+		return g_strdup (base); /* Name not in use */
+
+	name = g_malloc (strlen (base) + 4 * sizeof (int) + 2);
 	for (i = 1; ; i++){
-		sprintf (name, name_format, i);
+		sprintf (name, name_format, base, i);
 		if (workbook_sheet_lookup (wb, name) == NULL)
 			return name;
 	}

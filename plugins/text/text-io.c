@@ -118,8 +118,8 @@ writeTextSheet (TextData *data, Sheet *sheet)
 			fputc ('\f', data->file);
 		data->sht ++;
 
-		if (sheet->name)
-			fputs (sheet->name, data->file);
+		if (sheet->name_unquoted)
+			fputs (sheet->name_unquoted, data->file);
 		fputc ('\n', data->file);
 
 		/*
@@ -156,6 +156,10 @@ writeTextWorkbook (TextData *data, Workbook *wb)
 }
 
 #if 0
+/*
+ * FIXME:
+ * Enable this. Should be called from text_parse_file on first line
+ */
 static gint
 change_sheet_name (Sheet* sheet, char *string, int start, int end)
 {
@@ -335,7 +339,7 @@ readTextWorkbook (CommandContext *context, Workbook *book,
 
 	idx = 0;
 	while (idx >= 0 && idx < flen){
-		sheet = sheet_new (book, _("NoName"));
+		sheet = sheet_new (book, "NoName");
 		if (sheet == NULL)
 			break;
 

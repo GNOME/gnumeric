@@ -1302,7 +1302,8 @@ ms_excel_set_xf (ExcelSheet *sheet, int col, int row, guint16 xfidx)
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_color_debug > 2) {
-		printf ("%s!%s%d\n", sheet->gnum_sheet->name, col_name(col), row+1);
+		printf ("%s!%s%d\n", sheet->gnum_sheet->name_unquoted,
+			col_name(col), row+1);
 	}
 #endif
 
@@ -1918,8 +1919,9 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 			if (ms_excel_read_debug > 0) {
 				printf ("%s:%s : has type 3 contents.  "
 					"Is it an empty cell ?\n",
-					sheet->gnum_sheet->name,
-					cell_name (cell->col->pos, cell->row->pos));
+					sheet->gnum_sheet->name_unquoted,
+					cell_name (cell->col->pos,
+						   cell->row->pos));
 				if (ms_excel_read_debug > 5)
 					ms_ole_dump (q->data+6, 8);
 			}
@@ -3073,7 +3075,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 1) {
 		printf ("----------------- '%s' -------------\n",
-			sheet->gnum_sheet->name);
+			sheet->gnum_sheet->name_unquoted);
 	}
 #endif
 
@@ -4020,8 +4022,6 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 #endif
 
 	if (wb) {
-		Workbook *workbook = wb->gnum_wb;
-
 		/* Cleanup */
 		ms_excel_workbook_destroy (wb);
 

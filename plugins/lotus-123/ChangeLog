@@ -1,3 +1,8 @@
+2000-04-08  Jon K Hellan  <hellan@acm.org>
+
+	* lotus.c (attach_sheet): Remove \n from sheet name. Gettextize
+	sheet name template.
+
 2000-04-06  Jody Goldberg <jgoldberg@home.com>
 
 	* lotus.c (lotus_read) : Move the freeze/thaw and recalc to a higher

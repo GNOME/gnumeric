@@ -68,6 +68,8 @@ latex_fprintf (FILE *fp, const char *s)
 
 /*
  * write every sheet of the workbook to a latex table
+ *
+ * FIXME: Should latex quote sheet name (and everything else)
  */
 int
 html_write_wb_latex (CommandContext *context, Workbook *wb,
@@ -95,7 +97,7 @@ html_write_wb_latex (CommandContext *context, Workbook *wb,
 	sheet_list = workbook_sheets (wb);
 	while (sheet_list) {
 		sheet = sheet_list->data;
-		fprintf (fp, "%s\n\n", sheet->name);
+		fprintf (fp, "%s\n\n", sheet->name_unquoted);
 		fprintf (fp, "\\begin{tabular}{|");
 		for (col = 0; col < sheet->cols.max_used; col++) {
 			fprintf (fp, "l|");
@@ -163,6 +165,8 @@ html_write_wb_latex (CommandContext *context, Workbook *wb,
 
 /*
  * write every sheet of the workbook to a latex2e table
+ *
+ * FIXME: Should latex quote sheet name (and everything else)
  */
 int
 html_write_wb_latex2e (CommandContext *context, Workbook *wb,
@@ -193,7 +197,7 @@ html_write_wb_latex2e (CommandContext *context, Workbook *wb,
 	sheet_list = workbook_sheets (wb);
 	while (sheet_list) {
 		sheet = sheet_list->data;
-		fprintf (fp, "%s\n\n", sheet->name);
+		fprintf (fp, "%s\n\n", sheet->name_unquoted);
 		fprintf (fp, "\\begin{tabular}{|");
 		for (col = 0; col <= sheet->cols.max_used; col++) {
 			fprintf (fp, "l|");

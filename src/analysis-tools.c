@@ -236,8 +236,12 @@ free_data_set (data_set_t *data)
 void
 prepare_output (Workbook *wb, data_analysis_output_t *dao, char *name)
 {
+	char *unique_name;
+	
 	if (dao->type == NewSheetOutput) {
-	        dao->sheet = sheet_new (wb, name);
+		unique_name = workbook_sheet_get_free_name (wb, name, FALSE);
+	        dao->sheet = sheet_new (wb, unique_name);
+		g_free (unique_name);
 		dao->start_col = dao->start_row = 0;
 		workbook_attach_sheet (wb, dao->sheet);
 	} else if (dao->type == NewWorkbookOutput) {

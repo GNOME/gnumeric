@@ -898,7 +898,7 @@ dump_cell_list (GList *l)
 	printf ("(");
 	for (; l; l = l->next) {
 		Cell *cell = l->data;
-		printf ("%s!%s, ", cell->sheet->name,
+		printf ("%s!%s, ", cell->sheet->name_unquoted,
 			cell_name (cell->col->pos, cell->row->pos));
 	}
 	printf (")\n");
@@ -944,7 +944,7 @@ sheet_dump_dependencies (const Sheet *sheet)
 			sheet->workbook->filename
 			?  sheet->workbook->filename
 			: "(no name)",
-			sheet->name);
+			sheet->name_unquoted);
 
 		if (g_hash_table_size (deps->range_hash) > 0) {
 			printf ("Range hash size %d: range over which cells in list depend\n",
@@ -967,7 +967,7 @@ sheet_dump_dependencies (const Sheet *sheet)
 		printf ("Unevaluated cells on queue:\n");
 		while (l) {
 			Cell *cell = l->data;
-			printf ("%s!%s\n", cell->sheet->name,
+			printf ("%s!%s\n", cell->sheet->name_unquoted,
 				cell_name (cell->col->pos, cell->row->pos));
 			l = l->next;
 		}

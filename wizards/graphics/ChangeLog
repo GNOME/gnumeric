@@ -1,3 +1,8 @@
+2000-04-08  Jon K Hellan  <hellan@acm.org>
+
+	* graphic-context.c (graphic_wizard_guess_series): Substitute
+	sheet->name_quoted for sheet->name.
+
 2000-03-13  Michael Meeks  <michael@helixcode.com>
 
 	* graphic-context.c (graphic_context_auto_guess_series): fix from

@@ -105,8 +105,10 @@ sheet_rename (Sheet *sheet, const char *new_name)
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (new_name != NULL);
 
-	g_free (sheet->name);
-	sheet->name = g_strdup (new_name);
+	g_free (sheet->name_quoted);
+	g_free (sheet->name_unquoted);
+	sheet->name_unquoted = g_strdup (new_name);
+	sheet->name_quoted = sheet_name_quote (new_name);
 }
 
 SheetView *
@@ -145,6 +147,11 @@ sheet_init_default_styles (Sheet *sheet)
 	sheet_row_set_default_size_pts (sheet, 12.75, FALSE, FALSE);
 }
 
+/*
+ * sheet_new
+ * @wb              Workbook
+ * @name            Unquoted name
+ */
 Sheet *
 sheet_new (Workbook *wb, const char *name)
 {
@@ -172,7 +179,8 @@ sheet_new (Workbook *wb, const char *name)
 
 	sheet->signature = SHEET_SIGNATURE;
 	sheet->workbook = wb;
-	sheet->name = g_strdup (name);
+	sheet->name_unquoted = g_strdup (name);
+	sheet->name_quoted = sheet_name_quote (name);
 	sheet_create_styles (sheet);
 	sheet->last_zoom_factor_used = -1.0;
 	sheet->cols.max_used = -1;
@@ -1928,7 +1936,8 @@ sheet_destroy (Sheet *sheet)
 
 	sheet_selection_free (sheet);
 
-	g_free (sheet->name);
+	g_free (sheet->name_quoted);
+	g_free (sheet->name_unquoted);
 	g_free (sheet->solver_parameters.input_entry_str);
 
 	for (l = sheet->sheet_views; l; l = l->next){
@@ -2203,39 +2212,34 @@ sheet_show_cursor (Sheet *sheet)
 	}
 }
 
-
 /**
- * sheet_quote_name:
- * @sheet: 
+ * sheet_name_quote:
+ * @name_unquoted: Unquoted name
  * 
- * Quotes the sheet name for expressions ( if neccessary ),
- * FIXME: if this is slow, we can easily cache the 'quote' flag
- * on the sheet, and update it when we set the name.
+ * Quotes the sheet name for use with sheet_new, sheet_rename
  * 
  * Return value: a safe sheet name.
+ *
  **/
 char *
-sheet_quote_name (Sheet *sheet)
+sheet_name_quote (const char *name_unquoted)
 {
 	int         i, j, quote;
-	char       *name;
 	static char quote_chr [] = { '=', '<', '>', '+', '-', ' ', '^', '&', '%', '\0' };
 
-	g_return_val_if_fail (sheet != NULL, NULL);
-	g_return_val_if_fail (sheet->name != NULL, NULL);
+	g_return_val_if_fail (name_unquoted != NULL, NULL);
 
-	name  = sheet->name;
 	quote = FALSE;
-	for (i = 0; name [i]; i++) {
+	for (i = 0; name_unquoted [i]; i++) {
 		for (j = 0; quote_chr [j]; j++)
-			if (name [i] == quote_chr [j])
+			if (name_unquoted [i] == quote_chr [j])
 				quote = TRUE;
 	}
 
 	if (quote)
-		return g_strconcat ("\"", sheet->name, "\"", NULL);
+		return g_strconcat ("\"", name_unquoted, "\"", NULL);
 	else
-		return g_strdup (sheet->name);
+		return g_strdup (name_unquoted);
 }
 
 /* Can remove sheet since local references have NULL sheet */
@@ -2276,8 +2280,7 @@ cellref_name (CellRef *cell_ref, ParsePosition const *pp)
 	if (sheet != NULL) {
 		char *s, *name;
 	        
-		name = sheet_quote_name (sheet);
-		s = g_strconcat (name, "!", buffer, NULL);
+		s = g_strconcat (sheet->name_quoted, "!", buffer, NULL);
 		g_free (name);
 
 		if (sheet->workbook != pp->wb) {

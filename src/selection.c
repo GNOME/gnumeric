@@ -571,9 +571,8 @@ sheet_selection_to_string (Sheet *sheet, gboolean include_sheet_name_prefix)
 			g_string_append_c (result_str, ',');
 
 		if (include_sheet_name_prefix){
-			g_string_append_c (result_str, '\'');
-			g_string_append (result_str, sheet->name);
-			g_string_append (result_str, "'!");
+			g_string_append (result_str, sheet->name_quoted);
+			g_string_append_c (result_str, '!');
 		}
 
 		reference_append (result_str, &ss->user.start);
@@ -1093,7 +1092,7 @@ range_to_string (Sheet *sheet,
 		g_string_append_c (res->str, ',');
 
 	if (res->include_sheet_name_prefix)
-		g_string_sprintfa (res->str, "\'%s\'!", sheet->name);
+		g_string_sprintfa (res->str, "%s!", sheet->name_quoted);
 
 	g_string_sprintfa (res->str, "$%s$%d",
 			   col_name (start_col), start_row+1);

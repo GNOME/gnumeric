@@ -104,7 +104,7 @@ dialog_zoom_impl (Workbook *wb, Sheet *cur_sheet, GladeXML  *gui)
 	cur_row = 0;
 	for (l = sheets; l; l = l->next) {
 		Sheet *sheet = l->data;
-		int const row = gtk_clist_append (list, &sheet->name);
+		int const row = gtk_clist_append (list, &sheet->name_unquoted);
 
 		if (sheet == cur_sheet)
 			cur_row = row;

@@ -239,10 +239,8 @@ selection_insert_selection_string (GnumericSheet *gsheet)
 	}
 
 	if (inter_sheet) {
-		/* FIXME : This is silly.  We should store both the visible name
-		 *         and the properly quoted name in the sheet.
-		 */
-		char * tmp = g_strdup_printf ("\'%s\'!%s", sheet->name, buffer);
+		char * tmp = g_strdup_printf ("%s!%s", sheet->name_quoted,
+					      buffer);
 		g_free (buffer);
 		buffer = tmp;
 	}

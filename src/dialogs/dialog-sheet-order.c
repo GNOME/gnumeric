@@ -39,7 +39,7 @@ add_to_sheet_clist (Sheet *sheet, GtkWidget *clist)
 	gchar *data [1];
 	gint   row;
 
-	data [0] = sheet->name;
+	data [0] = sheet->name_unquoted;
 	row = gtk_clist_append (GTK_CLIST (clist), data);
 	gtk_clist_set_row_data (GTK_CLIST (clist), row, sheet);
 }
@@ -145,7 +145,7 @@ delete_cb (SheetManager *sm)
 
 	message = g_strdup_printf (
 		_("Are you sure you want to remove the sheet called `%s'?"),
-		sheet->name);
+		sheet->name_unquoted);
 
 	popup = gnome_message_box_new (
 		message, GNOME_MESSAGE_BOX_QUESTION,
@@ -243,6 +243,7 @@ dialog_sheet_order_impl (Workbook *wb, GladeXML *gui)
 					    BUTTON_DELETE, FALSE);
 	}
 
+	gtk_clist_column_titles_passive (GTK_CLIST (sm.clist));
 	gnome_dialog_set_default (GNOME_DIALOG (sm.dialog), BUTTON_CLOSE);
 	gtk_window_set_policy (GTK_WINDOW (sm.dialog), FALSE, TRUE, FALSE);
 

@@ -22,7 +22,7 @@ thrash_sheet (Sheet *sheet)
 	int i;
 
 	g_return_if_fail (sheet != NULL);
-	fprintf (stderr, "Style lookups on '%s'\n", sheet->name);
+	fprintf (stderr, "Style lookups on '%s'\n", sheet->name_unquoted);
 
 	sheet_styles_dump (sheet);
 

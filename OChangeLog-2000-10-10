@@ -1,5 +1,85 @@
 2000-04-08  Jon K Hellan  <hellan@acm.org>
 
+        * src/sheet.h (struct _Sheet): Replace member name with
+	name_quoted and name_unquoted. In name_quoted, names with spaces
+	or quote characters are protected with quotes.
+
+	* src/analysis-tools.c (prepare_output): Use
+	workbook_sheet_get_free_name to ensure that we don't create more
+	than one sheet with the same name.
+
+	* src/eval.c (dump_cell_list, sheet_dump_dependencies): Dump
+	sheet->name_unquoted instead of sheet->name.
+
+	* src/expr-name.c (name_sheet_title): Make value from
+	sheet->name_quoted instead of sheet->name. FIXME: Is this correct?
+
+	* src/gnumeric-sheet.c (selection_insert_selection_string): Make
+	selection string from sheet->name_quoted instead of quoting
+	sheet->name here.
+
+	* src/print-info.c (render_tab): Render sheet->name_unquoted
+	instead of sheet->name.
+
+	* src/print-preview.c (create_toplevel): Use sheet->name_unquoted
+	instead of sheet->name in window title.
+
+	* src/selection.c (sheet_selection_to_string, range_to_string):
+	Make reference string from sheet->name_quoted instead of quoting
+	sheet->name here.
+
+	* src/sheet.[ch] (sheet_quote_name): Rename to
+	sheet_name_quote. Take name_unquoted parameter, not a sheet.
+
+	* src/sheet.c (sheet_rename, sheet_new): Set both
+	sheet->name_quoted and sheet->name_unquoted.
+	(sheet_destroy): Free both sheet->name_quoted and
+	name_unquoted.
+	(cellref_name): Make reference from sheet->name_quoted instead of
+	quoting sheet->name here.
+
+	* src/test.c (thrash_sheet): Use sheet->name_unquoted instead of
+	sheet->name in debug output.
+
+	* src/value-sheet.c (value_dump): Dump sheet->name_quoted instead
+	of quoting sheet->name here.
+	(encode_cellref): Use sheet->name_quoted instead of quoting
+	sheet->name here.
+
+	* src/workbook.[ch] (workbook_sheet_get_free_name): Make it more
+	generally useful: Add "base" and "always_suffix" parameters. The
+	caller should now select the base to make the name from
+	(e.g. "Sheet"), and specify whether or not a suffix should be
+	added when the name "base" is not in use.
+
+	* src/workbook.c (insert_sheet_cmd): Use new signature of
+	workbook_sheet_get_free_name.
+	(workbook_rename_sheet): Insert unquoted name in hash table.
+	(sheet_label_text_changed_signal): Remove test for quote
+	characters in sheet name.
+	(sheet_action_delete_sheet): Prompt with name_unquoted instead of
+	name.
+	(sheet_action_rename_sheet, workbook_attach_sheet): Use
+	name_unquoted instead on name.
+	(workbook_detach_sheet): Use sheet->name_unquoted as hash key
+	instead of sheet->name.
+
+	* src/workbook-cmd-format.c
+	(workbook_cmd_format_sheet_change_name): Use name_unquoted instead
+	on name.
+
+	* src/xml-io.c (xml_sheet_write): Output sheet->name_unquoted
+	instead of sheet->name.
+
+	* src/dialogs/dialog-sheet-order.c (dialog_sheet_order_impl): Make
+	list header passive.
+	(add_to_sheet_clist, delete_cb): Substitute sheet->name_unquoted
+	for sheet->name.
+
+	* src/dialogs/dialog-zoom.c (dialog_zoom_impl): Ditto.
+
+2000-04-08  Jon K Hellan  <hellan@acm.org>
+
 	* src/dialogs/dialog-analysis-tools.c (struct
 	random_tool_callback_t): Use gladified random dialog: changed most
 	members.

@@ -2202,7 +2202,7 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 	    xmlSetNs(cur, gmr);
 	    ctxt->ns = gmr;
 	}
-	tstr = xmlEncodeEntitiesReentrant (ctxt->doc, sheet->name);
+	tstr = xmlEncodeEntitiesReentrant (ctxt->doc, sheet->name_unquoted);
 	xmlNewChild (cur, ctxt->ns, "Name",  tstr);
 	if (tstr) xmlFree (tstr);
 

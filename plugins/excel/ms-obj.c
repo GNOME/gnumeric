@@ -63,7 +63,7 @@ object_anchor_to_position (double pixels[4], MSObj*obj, Sheet const * sheet,
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_object_debug > 0)
-		printf ("%s\n", sheet->name);
+		printf ("%s\n", sheet->name_unquoted);
 #endif
 	for (i = 0; i < 4; i++) {
 		int const pos   = obj->anchor[i].pos;

@@ -554,7 +554,7 @@ create_toplevel (PrintPreview *pp)
 	g_return_if_fail (pp->sheet->workbook != NULL);
 	g_return_if_fail (pp->sheet->print_info != NULL);
 
-	txta = pp->sheet->name;
+	txta = pp->sheet->name_unquoted;
 	txtb = pp->sheet->workbook->filename;
 	name = g_strdup_printf (_("Preview for %s in %s"),
 				txta ? txta : _("the sheet"),

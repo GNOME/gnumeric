@@ -121,7 +121,7 @@ graphic_wizard_guess_series (WizardGraphicContext *gc, SeriesOrientation orienta
 			if (first_item_is_series_name){
 				expr = g_strdup_printf (
 					"%s!$%s$%d",
-					sheet->name,
+					sheet->name_quoted,
 					col_name (header_col), header_row+1);
 			} else {
 				expr = g_strdup_printf (

@@ -66,6 +66,8 @@ roff_fprintf (FILE *fp, const char *s)
 
 /*
  * write every sheet of the workbook to a roff file
+ *
+ * FIXME: Should roff quote sheet name (and everything else)
  */
 static int
 write_wb_roff (CommandContext *context, Workbook *wb, FILE *fp)
@@ -82,7 +84,7 @@ write_wb_roff (CommandContext *context, Workbook *wb, FILE *fp)
 	sheet_list = workbook_sheets (wb);
 	while (sheet_list) {
 		sheet = sheet_list->data;
-		fprintf (fp, "%s\n\n", sheet->name);
+		fprintf (fp, "%s\n\n", sheet->name_unquoted);
 		fprintf (fp, ".TS H\n");
 		fprintf (fp, "allbox;\n");
 

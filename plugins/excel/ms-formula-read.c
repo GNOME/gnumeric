@@ -800,7 +800,8 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_formula_debug > 1) {
 		printf ("\n\n%s:%s%s\n", (sheet->gnum_sheet
-					  ? sheet->gnum_sheet->name : ""),
+					  ? sheet->gnum_sheet->name_unquoted
+					  : ""),
 			cell_name (fn_col,fn_row), (shared?" (shared)":""));
 	}
 #endif
@@ -1087,7 +1088,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 					printf("Unknown shared formula "
 					       "@ %s:%s\n",
 					       (sheet->gnum_sheet
-						? sheet->gnum_sheet->name
+						? sheet->gnum_sheet->name_unquoted
 						: ""),
 					       cell_name (fn_col, fn_row)) ;
 				}
@@ -1434,7 +1435,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 		if (ms_excel_formula_debug > 0) {
 			printf ("Unknown Formula/Array at %s:%s%s\n",
 				(sheet->gnum_sheet)?
-				sheet->gnum_sheet->name : "",
+				sheet->gnum_sheet->name_unquoted : "",
 				cell_name (fn_col,fn_row),
 				(shared?" (shared)":""));
 			printf ("formula data : \n") ;

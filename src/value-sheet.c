@@ -60,16 +60,16 @@ value_dump (const Value *value)
 		Sheet const *sheet = c->sheet;
 
 		printf ("CellRange\n");
-		if (sheet && sheet->name)
-			printf ("'%s':", sheet->name);
+		if (sheet && sheet->name_unquoted)
+			printf ("%s:", sheet->name_quoted);
 		else
 			printf ("%p :", sheet);
 		printf ("%s%s%s%d\n",
 			(c->col_relative ? "":"$"), col_name(c->col),
 			(c->row_relative ? "":"$"), c->row+1);
 		c = &value->v.cell_range.cell_b;
-		if (sheet && sheet->name)
-			printf ("'%s':", sheet->name);
+		if (sheet && sheet->name_quoted)
+			printf ("%s:", sheet->name_unquoted);
 		else
 			printf ("%p :", sheet);
 		printf ("%s%s%s%d\n",
@@ -86,9 +86,8 @@ static void
 encode_cellref (GString *dest, const CellRef *ref, gboolean use_relative_syntax)
 {
 	if (ref->sheet){
-		g_string_append_c (dest, '\'');
-		g_string_append (dest, ref->sheet->name);
-		g_string_append (dest, "'!");
+		g_string_append (dest, ref->sheet->name_quoted);
+		g_string_append_c (dest, '!');
 	}
 	if (use_relative_syntax && !ref->col_relative)
 		g_string_append_c (dest, '$');

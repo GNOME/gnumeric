@@ -494,7 +494,7 @@ static void
 render_tab (GString *target, HFRenderInfo *info, const char *args)
 {
 	if (info->sheet)
-		g_string_append (target, info->sheet->name);
+		g_string_append (target, info->sheet->name_unquoted);
 	else
 		g_string_append (target, _("Sheet 1"));
 }

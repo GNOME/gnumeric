@@ -256,6 +256,7 @@ write_magic_interface (BiffPut *bp, eBiff_version ver)
 	}
 }
 
+/* FIXME: Not sure if name should be quoted or not */
 static void
 write_externsheets (BiffPut *bp, ExcelWorkbook *wb, ExcelSheet *ignore)
 {
@@ -279,7 +280,7 @@ write_externsheets (BiffPut *bp, ExcelWorkbook *wb, ExcelSheet *ignore)
 
 	for (lp = 0; lp < num_sheets; lp++) {
 		ExcelSheet *sheet = g_ptr_array_index (wb->sheets, lp);
-		gint len = strlen (sheet->gnum_sheet->name);
+		gint len = strlen (sheet->gnum_sheet->name_quoted);
 		guint8 data[8];
 
 		if (sheet == ignore) continue;
@@ -288,7 +289,8 @@ write_externsheets (BiffPut *bp, ExcelWorkbook *wb, ExcelSheet *ignore)
 		MS_OLE_SET_GUINT8(data, len);
 		MS_OLE_SET_GUINT8(data + 1, 3); /* Magic */
 		ms_biff_put_var_write (bp, data, 2);
-		biff_put_text (bp, sheet->gnum_sheet->name, wb->ver, FALSE, AS_PER_VER);
+		biff_put_text (bp, sheet->gnum_sheet->name_quoted,
+			       wb->ver, FALSE, AS_PER_VER);
 		ms_biff_put_commit (bp);
 	}
 }
@@ -3191,7 +3193,8 @@ write_sheet (BiffPut *bp, ExcelSheet *sheet)
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_write_debug > 1)
 		printf ("Saving sheet '%s' geom (%d, %d)\n",
-			sheet->gnum_sheet->name, sheet->maxx, sheet->maxy);
+			sheet->gnum_sheet->name_unquoted,
+			sheet->maxx, sheet->maxy);
 #endif
 	for (y = 0; y < sheet->maxy; y = block_end + 1)
 		block_end = write_block (bp, sheet, y, rows_in_block);
@@ -3322,7 +3325,7 @@ write_workbook (BiffPut *bp, ExcelWorkbook *wb, eBiff_version ver)
 		s = g_ptr_array_index (wb->sheets, lp);
 	        s->boundsheetPos = biff_boundsheet_write_first
 			(bp, eBiffTWorksheet,
-			 s->gnum_sheet->name, wb->ver);
+			 s->gnum_sheet->name_unquoted, wb->ver);
 
 		ms_formula_write_pre_data (bp, s, EXCEL_NAME, wb->ver);
 	}

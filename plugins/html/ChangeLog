@@ -1,3 +1,14 @@
+2000-04-08  Jon K Hellan  <hellan@acm.org>
+
+	* html.c (html_write_wb_html32, html_write_wb_html40): Output
+	sheet->name_unquoted instead of sheet->name.
+	(html_read): Gettextize sheet name template.
+
+	* latex.c (html_write_wb_latex, html_write_wb_latex2e):  Output
+	sheet->name_unquoted instead of sheet->name.
+
+	* roff.c (write_wb_roff): Ditto
+
 2000-03-23  Jody Goldberg <jgoldberg@home.com>
 
 	* epsf.c (epsf_write_cell) : Add HALIGN_CENTER_ACROSS_SELECTION.

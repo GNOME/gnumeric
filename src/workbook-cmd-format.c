@@ -201,12 +201,12 @@ workbook_cmd_format_sheet_change_name (GtkWidget *widget, Workbook *wb)
 	Sheet *sheet = wb->current_sheet;
 	char *new_name;
 
-	new_name = dialog_get_sheet_name (wb, sheet->name);
+	new_name = dialog_get_sheet_name (wb, sheet->name_unquoted);
 	if (!new_name)
 		return;
 
 	cmd_rename_sheet (workbook_command_context_gui (wb),
-			  wb, sheet->name, new_name);
+			  wb, sheet->name_unquoted, new_name);
 	g_free (new_name);
 }
 

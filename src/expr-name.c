@@ -384,10 +384,10 @@ name_print_area (FunctionEvalInfo *ei, Value **args)
 static Value *
 name_sheet_title (FunctionEvalInfo *ei, Value **args)
 {
-	if (!ei || !ei->pos->sheet || !ei->pos->sheet->name)
+	if (!ei || !ei->pos->sheet || !ei->pos->sheet->name_quoted)
 		return value_new_error (ei->pos, _("Error: no sheet"));
 	else
-		return value_new_string (ei->pos->sheet->name);
+		return value_new_string (ei->pos->sheet->name_quoted);
 }
 
 /* ------------------------------------------------------------- */

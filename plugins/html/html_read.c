@@ -190,6 +190,8 @@ html_write_cell40 (FILE *fp, Cell *cell, MStyle *style)
 
 /*
  * write every sheet of the workbook to a html 3.2 table
+ *
+ * FIXME: Should html quote sheet name (and everything else)
  */
 int
 html_write_wb_html32 (CommandContext *context, Workbook *wb,
@@ -232,7 +234,7 @@ html_write_wb_html32 (CommandContext *context, Workbook *wb,
 	while (sheet_list) {
 		sheet = sheet_list->data;
 		fprintf (fp, "<TABLE border=1>\n");
-		fprintf (fp, "<CAPTION>%s</CAPTION>\n", sheet->name);
+		fprintf (fp, "<CAPTION>%s</CAPTION>\n", sheet->name_unquoted);
 
 		for (row = 0; row <= sheet->rows.max_used; row++) {
 			fprintf (fp, "<TR>\n");
@@ -254,6 +256,8 @@ html_write_wb_html32 (CommandContext *context, Workbook *wb,
 
 /*
  * write every sheet of the workbook to a html 4.0 table
+ *
+ * FIXME: Should html quote sheet name (and everything else)
  */
 int
 html_write_wb_html40 (CommandContext *context, Workbook *wb,
@@ -297,7 +301,7 @@ html_write_wb_html40 (CommandContext *context, Workbook *wb,
 	while (sheet_list) {
 		sheet = sheet_list->data;
 		fprintf (fp, "<TABLE border=1>\n");
-		fprintf (fp, "<CAPTION>%s</CAPTION>\n", sheet->name);
+		fprintf (fp, "<CAPTION>%s</CAPTION>\n", sheet->name_unquoted);
 
 		for (row = 0; row <= sheet->rows.max_used; row++) {
 			fprintf (fp, "<TR>\n");
@@ -400,7 +404,7 @@ html_read (CommandContext *context, Workbook *wb, const char *filename)
 	num = 0;
 	while (fgets (buf, LINESIZE, fp) != NULL) {
 		if (strstr (buf, "<TABLE")) {
-			sprintf (name, "Sheet %d", num++);
+			sprintf (name, _("Sheet %d"), num++);
 			sheet = sheet_new (wb, name);
 			workbook_attach_sheet (wb, sheet);
 			row = -1;

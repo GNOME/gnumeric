@@ -1,3 +1,8 @@
+2000-04-08  Jon K Hellan  <hellan@acm.org>
+
+	* oleo.c (attach_sheet): Remove \n from sheet name. Gettextize
+	sheet name template.
+
 2000-03-23  Jon K Hellan  <hellan@acm.org>
 
 	* boot.c (oleo_load): No longer change filename extension to

@@ -41,7 +41,7 @@ attach_sheet (Workbook *wb, int idx)
 	Sheet *sheet;
 	char  *sheet_name;
 
-	sheet_name = g_strdup_printf ("Sheet%d\n", idx);
+	sheet_name = g_strdup_printf (_("Sheet%d"), idx); 
 	sheet = sheet_new (wb, sheet_name);
 	g_free (sheet_name);
 	workbook_attach_sheet (wb, sheet);

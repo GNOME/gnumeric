@@ -66,7 +66,8 @@ struct _Sheet {
 	Workbook    *workbook;
 	GList       *sheet_views;
 
-	char        *name;
+	char        *name_quoted;
+	char        *name_unquoted;
 
 	SheetStyleData *style_data; /* See sheet-style.c */
 
@@ -136,7 +137,6 @@ typedef  Value * (*sheet_cell_foreach_callback)(Sheet *sheet, int col, int row,
 
 Sheet      *sheet_new                  	 (Workbook *wb, const char *name);
 void        sheet_rename                 (Sheet *sheet, const char *new_name);
-char       *sheet_quote_name             (Sheet *sheet);
 void        sheet_destroy              	 (Sheet *sheet);
 void        sheet_destroy_contents       (Sheet *sheet);
 void        sheet_foreach_colrow	 (Sheet *sheet, ColRowCollection *infos,
@@ -316,6 +316,7 @@ gboolean    sheet_is_pristine             (Sheet *sheet);
 void        sheet_move_range              (CommandContext *context,
 					   ExprRelocateInfo const * rinfo);
 
+char       *sheet_name_quote              (const char *unquoted_name);
 Sheet      *sheet_lookup_by_name          (Workbook *wb, const char *name);
 
 void        sheet_update_controls         (Sheet const *sheet);
