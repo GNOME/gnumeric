@@ -10,6 +10,7 @@
 #include "utils.h"
 #include "formats.h"
 #include "expr.h"
+#include "cell.h"
 
 /* ------------------------------------------------------------------------- */
 /*

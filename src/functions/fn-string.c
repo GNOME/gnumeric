@@ -12,6 +12,7 @@
 #include "gnumeric.h"
 #include "utils.h"
 #include "func.h"
+#include "cell.h"
 #include "format.h"
 #include "number-match.h"
 

@@ -25,6 +25,7 @@
 #include "print-info.h"
 #include "xml-io.h"
 #include "file.h"
+#include "cell.h"
 #include "workbook.h"
 #include "workbook-view.h"
 #include "selection.h"
@@ -1290,11 +1291,11 @@ xml_read_style (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	while (child != NULL) {
 		if (!strcmp (child->name, "Font")) {
 			char *font;
-			double units = 14;
+			double size_pts = 14;
 			int t;
 
-			if (xml_get_value_double (child, "Unit", &units))
-				mstyle_set_font_size (mstyle, units);
+			if (xml_get_value_double (child, "Unit", &size_pts))
+				mstyle_set_font_size (mstyle, size_pts);
 
 			if (xml_get_value_int (child, "Bold", &t))
 				mstyle_set_font_bold (mstyle, t);
@@ -1393,11 +1394,11 @@ xml_write_colrow_info (Sheet *sheet, ColRowInfo *info, void *user_data)
 
 	if (cur != NULL) {
 		xml_set_value_int (cur, "No", info->pos);
-		xml_set_value_double (cur, "Unit", info->units);
-		xml_set_value_double (cur, "MarginA", info->margin_a_pt);
-		xml_set_value_double (cur, "MarginB", info->margin_b);
+		xml_set_value_double (cur, "Unit", info->size_pts);
+		xml_set_value_int (cur, "MarginA", info->margin_a);
+		xml_set_value_int (cur, "MarginB", info->margin_b);
 		xml_set_value_int (cur, "HardSize", info->hard_size);
-		xml_set_value_int (cur, "Hidden", info->pixels < 0);
+		xml_set_value_int (cur, "Hidden", info->size_pixels < 0);
 
 		xmlAddChild (closure->container, cur);
 	}
@@ -1408,7 +1409,7 @@ xml_write_colrow_info (Sheet *sheet, ColRowInfo *info, void *user_data)
  * Create a ColRowInfo equivalent to the XML subtree of doc.
  */
 static ColRowInfo *
-xml_read_colrow_info (parse_xml_context_t *ctxt, xmlNodePtr tree, ColRowInfo *ret, double *units)
+xml_read_colrow_info (parse_xml_context_t *ctxt, xmlNodePtr tree, ColRowInfo *ret, double *size_pts)
 {
 	int col = 0;
 	int val;
@@ -1432,15 +1433,15 @@ xml_read_colrow_info (parse_xml_context_t *ctxt, xmlNodePtr tree, ColRowInfo *re
 	if (ret == NULL)
 		return NULL;
 
-	ret->units = -1;
+	ret->size_pts = -1;
 	xml_get_value_int (tree, "No", &ret->pos);
-	xml_get_value_double (tree, "Unit", units);
-	xml_get_value_double (tree, "MarginA", &ret->margin_a_pt);
-	xml_get_value_double (tree, "MarginB", &ret->margin_b_pt);
+	xml_get_value_double (tree, "Unit", size_pts);
+	xml_get_value_int (tree, "MarginA", &ret->margin_a);
+	xml_get_value_int (tree, "MarginB", &ret->margin_b);
 	if (xml_get_value_int (tree, "HardSize", &val))
 		ret->hard_size = val;
 	if (xml_get_value_int (tree, "Hidden", &val) && val)
-		ret->pixels = -1;	/* Any negative will result in things being hidden */
+		ret->size_pixels = -1;	/* Any negative will result in things being hidden */
 
 	return ret;
 }
@@ -1875,13 +1876,13 @@ xml_read_cols_info (parse_xml_context_t *ctxt, Sheet *sheet, xmlNodePtr tree)
 		return;
 
 	for (cols = child->childs; cols; cols = cols->next){
-		double units;
+		double size_pts;
 
-		info = xml_read_colrow_info (ctxt, cols, NULL, &units);
+		info = xml_read_colrow_info (ctxt, cols, NULL, &size_pts);
 		if (!info)
 			continue;
 		sheet_col_add (sheet, info);
-		sheet_col_set_width_units (ctxt->sheet, info->pos, units, info->hard_size);
+		sheet_col_set_width_units (ctxt->sheet, info->pos, size_pts, info->hard_size);
 	}
 }
 
@@ -1896,13 +1897,13 @@ xml_read_rows_info (parse_xml_context_t *ctxt, Sheet *sheet, xmlNodePtr tree)
 		return;
 
 	for (rows = child->childs; rows; rows = rows->next){
-		double units;
+		double size_pts;
 
-		info = xml_read_colrow_info (ctxt, rows, NULL, &units);
+		info = xml_read_colrow_info (ctxt, rows, NULL, &size_pts);
 		if (!info)
 			continue;
 		sheet_row_add (sheet, info);
-		sheet_row_set_height_units (ctxt->sheet, info->pos, units, info->hard_size);
+		sheet_row_set_height_units (ctxt->sheet, info->pos, size_pts, info->hard_size);
 	}
 }
 
@@ -2020,7 +2021,7 @@ xml_sheet_read (parse_xml_context_t *ctxt, xmlNodePtr tree)
 
 	xml_dispose_read_cell_styles (ctxt);
 
-	/* Initialize the ColRowInfo's ->pixels data */
+	/* Initialize the ColRowInfo's ->size_pixels data */
 	sheet_set_zoom_factor (ret, ret->last_zoom_factor_used);
 	return ret;
 }

@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_BORDER_H
 #define GNUMERIC_BORDER_H
 
-#include "mstyle.h"
+#include "style.h"
 
 typedef enum {
 	STYLE_BORDER_HORIZONTAL,

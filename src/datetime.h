@@ -3,6 +3,7 @@
 
 #include "gnumeric.h"
 #include "value.h"
+#include <time.h>
 
 /*
  * Naming conventions:

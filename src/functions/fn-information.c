@@ -10,6 +10,7 @@
 #include "gnumeric.h"
 #include "utils.h"
 #include "func.h"
+#include "cell.h"
 #include "number-match.h"
 #include <sys/utsname.h>
 

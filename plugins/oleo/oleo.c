@@ -8,21 +8,21 @@
  * partially based on actual Oleo code.
  *
  */
+#include <config.h>
+#include "gnumeric.h"
 
 #include <stdio.h>
 #include <errno.h>
 #include <unistd.h>
-#include <sys/mman.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
 #include <assert.h>
-#include <config.h>
 #include <stdio.h>
 #include <ctype.h>
 #include <gnome.h>
-#include "gnumeric.h"
 #include "workbook.h"
+#include "cell.h"
 #include "gnumeric-util.h"
 #include "main.h"
 #include "sheet.h"

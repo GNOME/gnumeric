@@ -20,7 +20,7 @@
 #include "gnumeric-util.h"
 #include "main.h"
 #include "sheet.h"
-#include "file.h"
+#include "expr.h"
 
 #include "lotus.h"
 #include "lotus-types.h"

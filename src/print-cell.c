@@ -15,7 +15,7 @@
 #include <libgnomeprint/gnome-print.h>
 #include "print-cell.h"
 
-#define DIM(cri) (cri->units + cri->margin_a_pt + cri->margin_b_pt)
+#define DIM(cri) (cri->size_pts + cri->margin_a + cri->margin_b)
 
 #define CELL_DIM(cell,p) DIM (cell->p)
 #define CELL_HEIGHT(cell) CELL_DIM(cell,row)
@@ -186,7 +186,7 @@ print_cell_text (GnomePrintContext *context, Cell *cell,
 	text_width = gnome_font_get_width_string (print_font, cell->text->str);
 	font_height = style_font->size;
 		
-	if (text_width > cell->col->units && cell_is_number (cell)) {
+	if (text_width > cell->col->size_pts && cell_is_number (cell)) {
 		print_overflow (context, cell);
 		style_font_unref (style_font);
 		return;
@@ -207,7 +207,7 @@ print_cell_text (GnomePrintContext *context, Cell *cell,
 		double inter_space;
 		
 		lines = cell_split_text (print_font, cell->text->str,
-					 cell->col->units);
+					 cell->col->size_pts);
 		line_count = g_list_length (lines);
 		
 		{
@@ -226,7 +226,7 @@ print_cell_text (GnomePrintContext *context, Cell *cell,
 			break;
 			
 		case VALIGN_CENTER:
-			y_offset = - ((cell->row->units -
+			y_offset = - ((cell->row->size_pts -
 				       (line_count * font_height)) / 2);
 			inter_space = font_height;
 			break;
@@ -235,14 +235,14 @@ print_cell_text (GnomePrintContext *context, Cell *cell,
 			if (line_count > 1) {
 				y_offset = 0;
 				inter_space = font_height + 
-					(cell->row->units - (line_count * font_height))
+					(cell->row->size_pts - (line_count * font_height))
 					/ (line_count - 1);
 				break;
 			} 
 			/* Else, we become a VALIGN_BOTTOM line */
 			
 		case VALIGN_BOTTOM:
-			y_offset = - (cell->row->units - (line_count * font_height));
+			y_offset = - (cell->row->size_pts - (line_count * font_height));
 			inter_space = font_height;
 			break;
 			
@@ -261,21 +261,21 @@ print_cell_text (GnomePrintContext *context, Cell *cell,
 			switch (halign) {
 			case HALIGN_LEFT:
 			case HALIGN_JUSTIFY:
-				x_offset = cell->col->margin_a_pt;
+				x_offset = cell->col->margin_a;
 				break;
 				
 			case HALIGN_RIGHT:
-				x_offset = cell->col->units - cell->col->margin_b_pt -
+				x_offset = cell->col->size_pts - cell->col->margin_b -
 					gnome_font_get_width_string (print_font, str);
 				break;
 
 			case HALIGN_CENTER:
-				x_offset = (cell->col->units -
+				x_offset = (cell->col->size_pts -
 					    gnome_font_get_width_string (print_font, str)) / 2;
 				break;
 			default:
 				g_warning ("Multi-line justification style not supported\n");
-				x_offset = cell->col->margin_a_pt;
+				x_offset = cell->col->margin_a;
 			}
 
 			gnome_print_moveto (context, base_x + x_offset,
@@ -322,11 +322,11 @@ print_cell_text (GnomePrintContext *context, Cell *cell,
 			break;
 			
 		case HALIGN_RIGHT:
-			x = cell->col->units - text_width;
+			x = cell->col->size_pts - text_width;
 			break;
 
 		case HALIGN_CENTER:
-			x = (cell->col->units - text_width) / 2;
+			x = (cell->col->size_pts - text_width) / 2;
 			break;
 
 		default:
@@ -339,13 +339,13 @@ print_cell_text (GnomePrintContext *context, Cell *cell,
 		total = 0;
 		do {
 			gnome_print_moveto (context, base_x + x,
-					    base_y - cell->row->units);
+					    base_y - cell->row->size_pts);
 			gnome_print_show (context, cell->text->str);
 			gnome_print_stroke (context);
 			
 			x += len;
 			total += len;
-		} while (halign == HALIGN_FILL && total < cell->col->units && len > 0);
+		} while (halign == HALIGN_FILL && total < cell->col->size_pts && len > 0);
 	}
 	style_font_unref (style_font);
 }
@@ -405,8 +405,8 @@ print_cell (GnomePrintContext *context, Cell *cell,
 				 fore->blue  / (double) 0xffff);
 
 	print_cell_text (context, cell,
-			 x1 + cell->col->margin_a_pt,
-			 y1 + cell->row->margin_b_pt,
+			 x1 + cell->col->margin_a,
+			 y1 + cell->row->margin_a,
 			 mstyle);
 	mstyle_unref (mstyle);
 }
@@ -447,7 +447,7 @@ print_cell_range (GnomePrintContext *context,
 		ri = sheet_row_get_info (sheet, row);
 
 		/* Ignore hidden rows */
-		if (ri->pixels < 0)
+		if (ri->size_pixels < 0)
 			continue;
 
 		x = 0;
@@ -463,7 +463,7 @@ print_cell_range (GnomePrintContext *context,
 
 				ci = cell->col;
 				/* Ignore hidden columns */
-				if (ci->pixels < 0)
+				if (ci->size_pixels < 0)
 				    continue;
 
 				x2 = x1 + CELL_WIDTH (cell);
@@ -474,7 +474,7 @@ print_cell_range (GnomePrintContext *context,
 					
 				ci = sheet_col_get_info (sheet, col);
 				/* Ignore hidden columns */
-				if (ci->pixels < 0)
+				if (ci->size_pixels < 0)
 				    continue;
 
 				x2 = x1 + DIM (ci);
@@ -483,9 +483,9 @@ print_cell_range (GnomePrintContext *context,
 				print_empty_cell (context, sheet, col, row, x1, y1, x2, y2);
 			}
 			
-			x += ci->units + ci->margin_a_pt + ci->margin_b_pt;
+			x += ci->size_pts + ci->margin_a + ci->margin_b;
 		}
-		y -= ri->units + ci->margin_a_pt + ci->margin_b_pt;
+		y -= ri->size_pts + ci->margin_a + ci->margin_b;
 	}
 }
 
@@ -532,9 +532,9 @@ print_cell_grid (GnomePrintContext *context,
 	for (col = start_col; col <= end_col; col++) {
 		ColRowInfo *ci = sheet_col_get_info (sheet, col);
 
-		if (ci && ci->pixels >= 0) {
+		if (ci && ci->size_pixels >= 0) {
 			vline (context, x, base_y, base_y - height);
-			x += ci->units + ci->margin_a_pt + ci->margin_b_pt;
+			x += ci->size_pts + ci->margin_a + ci->margin_b;
 		}
 	}
 
@@ -542,9 +542,9 @@ print_cell_grid (GnomePrintContext *context,
 	for (row = start_row; row <= end_row; row++){
 		ColRowInfo *ri = sheet_row_get_info (sheet, row);
 
-		if (ri && ri->pixels >= 0) {
+		if (ri && ri->size_pixels >= 0) {
 			hline (context, base_x, base_x + width, y);
-			y -= ri->units + ri->margin_a_pt + ri->margin_b_pt;
+			y -= ri->size_pts + ri->margin_a + ri->margin_b;
 		}
 	}
 }

@@ -10,6 +10,9 @@ typedef struct _Workbook	Workbook;
 typedef struct _Sheet		Sheet;
 typedef struct _Cell		Cell;
 
+typedef struct _Value		Value;
+typedef struct _ErrorMessage	ErrorMessage;
+
 typedef struct _ExprTree	 ExprTree;
 typedef struct _ArrayRef	 ArrayRef;
 typedef struct _ExprName	 ExprName;
@@ -27,6 +30,8 @@ typedef struct _Range		Range;
 
 typedef struct _MStyle		MStyle;
 typedef enum   _MStyleElementType MStyleElementType;
+typedef struct _MStyleBorder      MStyleBorder;
+
 typedef struct _SheetStyleData	SheetStyleData;
 typedef struct _StyleRegion	StyleRegion;
 typedef struct _SheetSelection	SheetSelection;
@@ -40,5 +45,15 @@ typedef struct _PrintInformation PrintInformation;
 typedef struct _String	 	 String;
 
 typedef struct _DependencyData   DependencyData;
+
+typedef enum _StyleHAlignFlags StyleHAlignFlags;
+typedef enum _StyleVAlignFlags StyleVAlignFlags;
+typedef enum _StyleOrientation StyleOrientation;
+typedef enum _StyleBorderLocation StyleBorderLocation;
+
+typedef struct _StyleFormat		StyleFormat;
+typedef struct _StyleFormatEntry	StyleFormatEntry;
+typedef struct _StyleFont		StyleFont;
+typedef struct _StyleColor		StyleColor;
 
 #endif /* GNUMERIC_H */

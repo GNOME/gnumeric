@@ -252,7 +252,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 
 			if (item_bar->resize_pos != element) {
 				ColRowInfo const *cri = sheet_row_get_info (sheet, element);
-				pixels = cri->pixels;
+				pixels = cri->size_pixels;
 			} else
 				pixels = item_bar->resize_width;
 
@@ -291,7 +291,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 
 			if (item_bar->resize_pos != element) {
 				ColRowInfo const *cri = cri = sheet_col_get_info (sheet, element);
-				pixels = cri->pixels;
+				pixels = cri->size_pixels;
 			} else
 				pixels = item_bar->resize_width;
 
@@ -346,7 +346,7 @@ is_pointer_on_division (ItemBar *item_bar, int pos, int *the_total, int *the_ele
 			cri = sheet_col_get_info (sheet, i);
 		}
 
-		tmp = cri->pixels;
+		tmp = cri->size_pixels;
 		if (tmp > 0) {
 			total += tmp;
 			if ((total - 4 < pos) && (pos < total + 4)) {
@@ -461,7 +461,7 @@ get_col_from_pos (ItemBar *item_bar, int pos)
 			cri = sheet_col_get_info (sheet, i);
 		}
 
-		tmp = cri->pixels;
+		tmp = cri->size_pixels;
 		if (tmp > 0) {
 			total += tmp;
 			if (total > pos)
@@ -651,8 +651,8 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			 * other event handlers).
 			 */
 			item_bar->resize_pos = element;
-			item_bar->resize_start_pos = start - cri->pixels;
-			item_bar->resize_width = cri->pixels;
+			item_bar->resize_start_pos = start - cri->size_pixels;
+			item_bar->resize_width = cri->size_pixels;
 
 			if (item_bar->tip == NULL) {
 				item_bar->tip = gnumeric_create_tooltip ();

@@ -24,6 +24,7 @@
 #include "config.h"
 #include "workbook.h"
 #include "html.h"
+#include "cell.h"
 #include "font.h"
 #include "command-context.h"
 

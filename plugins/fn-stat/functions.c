@@ -13,6 +13,7 @@
 #include "numbers.h"
 #include "utils.h"
 #include "func.h"
+#include "cell.h"
 #include "collect.h"
 #include "auto-format.h"
 

@@ -25,6 +25,7 @@
 #include "workbook.h"
 #include "latex.h"
 #include "font.h"
+#include "cell.h"
 #include "command-context.h"
 
 /*

@@ -18,6 +18,7 @@
 #include <string.h>
 #include <ctype.h>
 #include "gnumeric.h"
+#include "cell.h"
 #include "workbook.h"
 #include "sheet-autofill.h"
 #include "dates.h"
@@ -611,8 +612,6 @@ sheet_autofill_dir (Sheet *sheet,
 	}
 
 	autofill_destroy_fill_items (all_items);
-	
-	workbook_recalc (sheet->workbook);
 }
 
 static void
@@ -648,5 +647,6 @@ sheet_autofill (Sheet *sheet, int base_col, int base_row, int w, int h, int end_
 		for (range = 0; range < w; range++)
 			sheet_autofill_dir (sheet, base_col+range, base_row, h, base_row, end_row+1, 0, 1);
 	}
+	
+	workbook_recalc (sheet->workbook);
 }
-

@@ -268,7 +268,7 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 	
 	if (pj->pi->center_vertically){
 		if (pj->pi->print_titles)
-			print_height += sheet->rows.default_style.units;
+			print_height += sheet->rows.default_style.size_pts;
 		if (pj->pi->repeat_top.use)
 			print_height += pj->repeat_rows_used_y;
 		base_y = (pj->y_points - print_height)/2;
@@ -277,7 +277,7 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 	print_width = sheet_col_get_unit_distance (sheet, start_col, end_col+1);
 	if (pj->pi->center_horizontally){
 		if (pj->pi->print_titles)
-			print_width += sheet->cols.default_style.units;
+			print_width += sheet->cols.default_style.size_pts;
 		if (pj->repeat_cols_used_x)
 			print_width += pj->repeat_cols_used_x;
 		base_x = (pj->x_points - print_width)/2;
@@ -301,8 +301,8 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 			print_titles (
 				sheet, start_col, start_row, end_col, end_row,
 				x, y, pj);
-			x += sheet->cols.default_style.units;
-			y += sheet->rows.default_style.units;
+			x += sheet->cols.default_style.size_pts;
+			y += sheet->rows.default_style.size_pts;
 		}
 
 		/*
@@ -348,10 +348,10 @@ compute_groups (Sheet *sheet, int start, int end, int usable,
 		ColRowInfo *(get_info)(Sheet const *sheet, int const p))
 {
 	GList *result;
-	int units, count, idx;
+	int size_pts, count, idx;
 
 	result = NULL;
-	units = 0;
+	size_pts = 0;
 	count = 0;
 	for (idx = start; idx < end; ){
 		ColRowInfo *info;
@@ -359,18 +359,18 @@ compute_groups (Sheet *sheet, int start, int end, int usable,
 		info = (*get_info) (sheet, idx);
 
 		/* Hidden ColRows are ignored */
-		if (info->pixels >= 0) {
-			units += info->units + info->margin_a_pt + info->margin_b_pt;
+		if (info->size_pixels >= 0) {
+			size_pts += info->size_pts + info->margin_a + info->margin_b;
 
-			if (units > usable){
+			if (size_pts > usable){
 				if (count == 0){
 					result = g_list_prepend (result, GINT_TO_POINTER (1));
-					units = 0;
+					size_pts = 0;
 					count = 0;
 				} else {
 					result = g_list_prepend (result, GINT_TO_POINTER (count));
 					count = 0;
-					units = 0;
+					size_pts = 0;
 					continue;
 				}
 			} 
@@ -470,8 +470,8 @@ print_job_info_init_sheet (Sheet *sheet, PrintJobInfo *pj)
 	 * to get access to one of the sheets
 	 */
 	if (pj->pi->print_titles) {
-		pj->titles_used_x = sheet->cols.default_style.units;
-		pj->titles_used_y = sheet->rows.default_style.units;
+		pj->titles_used_x = sheet->cols.default_style.size_pts;
+		pj->titles_used_y = sheet->rows.default_style.size_pts;
 	} else {
 		pj->titles_used_x = 0;
 		pj->titles_used_y = 0;

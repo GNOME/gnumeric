@@ -14,12 +14,13 @@
 #include <gnome.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <sys/mman.h>
 #include <sys/stat.h>
+#include <sys/mman.h>
 #include <sys/types.h>
 #include <fcntl.h>
 #include <errno.h>
 #include "workbook.h"
+#include "cell.h"
 #include "command-context.h"
 #include "text-io.h"
 #include "file.h"

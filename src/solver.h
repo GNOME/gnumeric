@@ -1,6 +1,8 @@
 #ifndef GNUMERIC_SOLVER_H
 #define GNUMERIC_SOLVER_H 1
 
+#include "numbers.h"
+
 #define SIMPLEX_OK        0
 #define SIMPLEX_DONE      1
 #define SIMPLEX_UNBOUNDED 2
@@ -10,9 +12,6 @@
 typedef struct _SolverOptions SolverOptions;
 typedef struct _SolverConstraint SolverConstraint;
 typedef struct _SolverParameters SolverParameters;
-
-#include "cell.h"
-#include "numbers.h"
 
 typedef enum {
         SolverMinimize, SolverMaximize, SolverEqualTo

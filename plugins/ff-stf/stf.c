@@ -36,7 +36,7 @@
 #include "plugin.h"
 #include "gnumeric.h"
 #include "file.h"
-#include "mstyle.h"
+#include "style.h"
 #include "formats.h"
 #include "workbook.h"
 #include "command-context.h"

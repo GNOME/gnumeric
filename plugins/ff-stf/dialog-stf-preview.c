@@ -3,6 +3,7 @@
 
 #include "dialog-stf.h"
 #include "stf-util.h"
+#include "cell.h"
 
 #include "dialog-stf-preview.h"
 

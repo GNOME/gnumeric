@@ -66,15 +66,15 @@ object_anchor_to_position (double points[4], MSObj*obj, Sheet const * sheet,
 
 		if (i & 1) { /* odds are rows */
 			ColRowInfo const *ri = sheet_row_get_info (sheet, pos);
-			points[i] = (int)ri->units;
+			points[i] = ri->size_pts;
 			points[i] *= nths / row_denominator;
-			points[i] += ri->margin_a_pt +
+			points[i] += ri->margin_a +
 			    sheet_row_get_unit_distance (sheet, 0, pos);
 		} else {
 			ColRowInfo const *ci = sheet_col_get_info (sheet, pos);
-			points[i] = (int)ci->units;
+			points[i] = ci->size_pts;
 			points[i] *= nths / 1024.;
-			points[i] += ci->margin_a_pt +
+			points[i] += ci->margin_a +
 			    sheet_col_get_unit_distance (sheet, 0, pos);
 		}
 	}

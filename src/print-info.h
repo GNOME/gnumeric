@@ -1,7 +1,8 @@
 #ifndef PRINT_INFO_H
 #define PRINT_INFO_H
 
-#include "sheet.h"
+#include "gnumeric.h"
+#include "value.h"
 
 #define METERS_TO_POINTS(x) (x * 2834.6456692) / 100
 

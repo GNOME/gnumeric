@@ -8,6 +8,10 @@
 #include <locale.h>
 #include "value.h"
 #include "utils.h"
+#include "symbol.h"
+#include "eval.h"
+
+#include <stdio.h>
 
 /* Debugging utility to print a Value */
 void

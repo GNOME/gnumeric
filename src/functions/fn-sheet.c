@@ -9,6 +9,7 @@
 #include "gnumeric.h"
 #include "utils.h"
 #include "func.h"
+#include "cell.h"
 #include "selection.h"
 
 /***************************************************************************/

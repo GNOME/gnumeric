@@ -62,8 +62,8 @@ workbook_cmd_format_column_width (GtkWidget *widget, Workbook *wb)
 
 			ci = sheet_col_get_info (sheet, col);
 			if (value == 0.0)
-				value = ci->units;
-			else if (value != ci->units){
+				value = ci->size_pts;
+			else if (value != ci->size_pts){
 				/*
 				 * Values differ, so let the user enter the data
 				 */
@@ -147,8 +147,8 @@ workbook_cmd_format_row_height (GtkWidget *widget, Workbook *wb)
 
 			ri = sheet_row_get_info (sheet, row);
 			if (value == 0.0)
-				value = ri->units;
-			else if (value != ri->units){
+				value = ri->size_pts;
+			else if (value != ri->size_pts){
 				/*
 				 * Values differ, so let the user enter the data
 				 */

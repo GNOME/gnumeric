@@ -10,6 +10,7 @@
 #include "gnumeric.h"
 #include "utils.h"
 #include "func.h"
+#include "cell.h"
 #include "mathfunc.h"
 #include "collect.h"
 #include "auto-format.h"

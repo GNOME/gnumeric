@@ -9,8 +9,11 @@
 
 #include <config.h>
 #include <locale.h>
+#include <gnome.h>
+#include "gnumeric.h"
 #include "value.h"
 #include "utils.h"
+#include <stdlib.h>
 
 Value *
 value_new_empty (void)

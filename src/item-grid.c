@@ -148,7 +148,7 @@ item_grid_find_col (ItemGrid *item_grid, int x, int *col_origin)
 	if (x < pixel) {
 		do {
 			ColRowInfo *ci = sheet_col_get_info (sheet, col);
-			int const tmp = ci->pixels;
+			int const tmp = ci->size_pixels;
 
 			if (tmp > 0) {
 				if (x >= pixel && x <= pixel + tmp) {
@@ -164,7 +164,7 @@ item_grid_find_col (ItemGrid *item_grid, int x, int *col_origin)
 
 	do {
 		ColRowInfo *ci = sheet_col_get_info (sheet, col);
-		int const tmp = ci->pixels;
+		int const tmp = ci->size_pixels;
 
 		if (tmp > 0) {
 			if (x >= pixel && x <= pixel + tmp) {
@@ -194,7 +194,7 @@ item_grid_find_row (ItemGrid *item_grid, int y, int *row_origin)
 	if (y < pixel) {
 		do {
 			ColRowInfo *ri = sheet_row_get_info (sheet, row);
-			int const tmp = ri->pixels;
+			int const tmp = ri->size_pixels;
 
 			if (tmp > 0) {
 				if (y >= pixel && y <= pixel + tmp) {
@@ -210,7 +210,7 @@ item_grid_find_row (ItemGrid *item_grid, int y, int *row_origin)
 
 	do {
 		ColRowInfo *ri = sheet_row_get_info (sheet, row);
-		int const tmp = ri->pixels;
+		int const tmp = ri->size_pixels;
 
 		if (tmp > 0) {
 			if (y >= pixel && y <= pixel + tmp) {
@@ -305,8 +305,8 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 	GdkColor   *col;
 	int         count  = 1;
 	MStyle     *mstyle;
-	int const w = cell->col->pixels;
-	int const h = cell->row->pixels;
+	int const w = cell->col->size_pixels;
+	int const h = cell->row->size_pixels;
 
 	if (w <= 0 || h <= 0)
 		return 0;
@@ -349,8 +349,8 @@ item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 {
 	MStyle *mstyle;
 	GdkGC  *gc = item_grid->empty_gc;
-	int const w = ci->pixels;
-	int const h = ri->pixels;
+	int const w = ci->size_pixels;
+	int const h = ri->size_pixels;
 
 	if (w <= 0 || h <= 0)
 		return;
@@ -404,10 +404,10 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 		gdk_draw_line (drawable, grid_gc, x_paint, 0, x_paint, height);
 		while (x_paint < end_x && col < SHEET_MAX_COLS) {
 			ColRowInfo const * const ci = sheet_col_get_info (sheet, col++);
-			int const tmp = ci->pixels;
+			int const tmp = ci->size_pixels;
 
 			if (tmp > 0) {
-				x_paint += ci->pixels;
+				x_paint += tmp;
 				gdk_draw_line (drawable, grid_gc, x_paint, 0, x_paint, height);
 			}
 		}
@@ -417,10 +417,10 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 		gdk_draw_line (drawable, grid_gc, 0, y_paint, width, y_paint);
 		while (y_paint < end_y && row < SHEET_MAX_ROWS) {
 			ColRowInfo const * const ri = sheet_row_get_info (sheet, row++);
-			int const tmp = ri->pixels;
+			int const tmp = ri->size_pixels;
 
 			if (tmp > 0) {
-				y_paint += ri->pixels;
+				y_paint += tmp;
 				gdk_draw_line (drawable, grid_gc, 0, y_paint, width, y_paint);
 			}
 		}
@@ -431,14 +431,14 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 	row = paint_row;
 	for (y_paint = -diff_y; y_paint < end_y && row < SHEET_MAX_ROWS; row++) {
 		ColRowInfo const * const ri = sheet_row_get_info (sheet, row);
-		if (ri->pixels <= 0)
+		if (ri->size_pixels <= 0)
 			continue;
 
 		col = paint_col;
 		for (x_paint = -diff_x; x_paint < end_x && col < SHEET_MAX_COLS; ++col) {
 			ColRowInfo const * const ci = sheet_col_get_info (sheet, col);
 			Cell *cell = sheet_cell_get (sheet, col, row);
-			if (ci->pixels <= 0)
+			if (ci->size_pixels <= 0)
 				continue;
 
 			/* If the cell does not exist paint it as an empty cell */
@@ -475,9 +475,9 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 					 */
 					for (i = cell->col->pos; i < col; i++) {
 						ColRowInfo const * const tci = sheet_col_get_info (sheet, i);
-						int const tmp = tci->pixels;
+						int const tmp = tci->size_pixels;
 						if (tmp > 0)
-							real_x -= tci->pixels;
+							real_x -= tmp;
 					}
 
 					/*
@@ -485,9 +485,9 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 					 */
 					for (i = col; i < cell->col->pos; i++) {
 						ColRowInfo const * const tci = sheet_col_get_info (sheet, i);
-						int const tmp = tci->pixels;
+						int const tmp = tci->size_pixels;
 						if (tmp > 0)
-							real_x += tci->pixels;
+							real_x += tmp;
 					}
 
 					/*
@@ -506,15 +506,15 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 
 					for (i = col+1; i < end_col; i++, col++) {
 						ColRowInfo const * const tci = sheet_col_get_info (sheet, i);
-						int const tmp = tci->pixels;
+						int const tmp = tci->size_pixels;
 						if (tmp > 0)
-							x_paint += tci->pixels;
+							x_paint += tmp;
 					}
 				} /* if cell */
 			}
-			x_paint += ci->pixels;
+			x_paint += ci->size_pixels;
 		}
-		y_paint += ri->pixels;
+		y_paint += ri->size_pixels;
 	}
 
 	/* Now invert any selected cells */
@@ -523,24 +523,24 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 	row = paint_row;
 	for (y_paint = -diff_y; y_paint < end_y && row < SHEET_MAX_ROWS; row++) {
 		ColRowInfo const * const ri = sheet_row_get_info (sheet, row);
-		if (ri->pixels <= 0)
+		if (ri->size_pixels <= 0)
 			continue;
 
 		col = paint_col;
 		for (x_paint = -diff_x; x_paint < end_x && col < SHEET_MAX_COLS; ++col) {
 			ColRowInfo const * const ci = sheet_col_get_info (sheet, col);
-			if (ci->pixels <= 0)
+			if (ci->size_pixels <= 0)
 				continue;
 
 			if (!(sheet->cursor_col == col && sheet->cursor_row == row) &&
 			    sheet_selection_is_cell_selected (sheet, col, row)) {
 				gdk_draw_rectangle (drawable, item_grid->gc, TRUE,
 						    x_paint+1, y_paint+1,
-						    ci->pixels-1, ri->pixels-1);
+						    ci->size_pixels-1, ri->size_pixels-1);
 			}
-			x_paint += ci->pixels;
+			x_paint += ci->size_pixels;
 		}
-		y_paint += ri->pixels;
+		y_paint += ri->size_pixels;
 	}
 }
 

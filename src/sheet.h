@@ -3,6 +3,11 @@
 
 #include <glib.h>
 #include "gnumeric.h"
+#ifdef ENABLE_BONOBO
+#    include <bonobo/bonobo-container.h>
+#endif
+#include "colrow.h"
+#include "solver.h"
 
 /* Used to locate cells in a sheet */
 struct _CellPos {
@@ -46,20 +51,6 @@ struct _ParsePosition {
 	int       col;
 	int       row;
 };
-
-#ifdef ENABLE_BONOBO
-#    include <bonobo/bonobo-container.h>
-#endif
-
-#include "value.h"
-#include "solver.h"
-#include "mstyle.h"
-#include "style.h"
-#include "expr.h"
-#include "str.h"
-#include "symbol.h"
-#include "cell.h"
-#include "summary.h"
 
 #define SHEET_MAX_ROWS (64 * 1024)
 #define SHEET_MAX_COLS 256	/* 0 - 255 inclusive */

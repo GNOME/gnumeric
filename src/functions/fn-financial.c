@@ -11,6 +11,7 @@
 #include <math.h>
 #include "gnumeric.h"
 #include "utils.h"
+#include "cell.h"
 #include "func.h"
 #include "goal-seek.h"
 #include "collect.h"

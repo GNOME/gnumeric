@@ -131,7 +131,7 @@ cell_draw (Cell *cell, MStyle *mstyle,
 	style_font = sheet_view_get_style_font (cell->sheet, mstyle);
 	font = style_font_gdk_font (style_font);
 
-	text_base = y1 + cell->row->pixels - font->descent;
+	text_base = y1 + cell->row->size_pixels - font->descent;
 	
 	cell_get_span (cell, &start_col, &end_col);
 
@@ -178,8 +178,8 @@ cell_draw (Cell *cell, MStyle *mstyle,
 
 		rect.x = x1 + 1;
 		rect.y = y1 + 1;
-		rect.width = cell->col->pixels  - 1;
-		rect.height = cell->row->pixels - 1;
+		rect.width = cell->col->size_pixels  - 1;
+		rect.height = cell->row->size_pixels - 1;
 		/* Set the clip rectangle */
 		gdk_gc_set_clip_rectangle (gc, &rect);
 		
@@ -240,12 +240,12 @@ cell_draw (Cell *cell, MStyle *mstyle,
 				break;
 				
 			case HALIGN_RIGHT:
-				x_offset = cell->col->pixels - cell->col->margin_b -
+				x_offset = cell->col->size_pixels - cell->col->margin_b -
 					gdk_string_width (font, str);
 				break;
 
 			case HALIGN_CENTER:
-				x_offset = (cell->col->pixels -
+				x_offset = (cell->col->size_pixels -
 					    gdk_string_width (font, str)) / 2;
 				break;
 			default:
@@ -281,7 +281,7 @@ cell_draw (Cell *cell, MStyle *mstyle,
 		rect.y = y1 + 1;
 		rect.width  = sheet_col_get_distance (cell->sheet,
 						      start_col, end_col + 1) - 1;
-		rect.height = cell->row->pixels - 1;
+		rect.height = cell->row->size_pixels - 1;
 		
 		/* Set the clip rectangle */
 		gdk_gc_set_clip_rectangle (gc, &rect);
@@ -311,11 +311,11 @@ cell_draw (Cell *cell, MStyle *mstyle,
 			break;
 
 		case HALIGN_RIGHT:
-			x = cell->col->pixels - cell->col->margin_b - cell->width;
+			x = cell->col->size_pixels - cell->col->margin_b - cell->width;
 			break;
 
 		case HALIGN_CENTER:
-			x = (cell->col->pixels - cell->width) / 2;
+			x = (cell->col->size_pixels - cell->width) / 2;
 			break;
 			
 		default:

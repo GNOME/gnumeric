@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_STF_H
 #define GNUMERIC_STF_H
 
-#include "sheet.h"
+#include "cell.h"
 #include "plugin.h"
 
 typedef struct {

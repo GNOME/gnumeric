@@ -22,6 +22,7 @@
 #include <gnome.h>
 #include "config.h"
 #include "font.h"
+#include "style.h"
 
 static int
 font_match (MStyle *mstyle, char **names)

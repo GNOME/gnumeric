@@ -9,7 +9,7 @@
 #include <glib.h>
 #include "utils.h"
 #include "func.h"
-#include "sheet.h"
+#include "cell.h"
 
 /* Type definitions */
 

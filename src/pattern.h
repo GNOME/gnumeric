@@ -1,7 +1,8 @@
 #ifndef GNUMERIC_PATTERN_H
 #define GNUMERIC_PATTERN_H
 
-#include "mstyle.h"
+#include "style.h"
+#include <gnome.h>
 
 #define GNUMERIC_SHEET_PATTERNS 18
 

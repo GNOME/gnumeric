@@ -1,13 +1,11 @@
 #ifndef GNUMERIC_VALUE_H
 #define GNUMERIC_VALUE_H
 
-typedef struct _ErrorMessage	ErrorMessage;
-typedef struct _Value		Value;
-
+#include <glib.h>
+#include "gnumeric.h"
 #include "sheet.h"
 #include "numbers.h"
 #include "str.h"
-#include <glib.h>
 
 typedef enum {
 	/* Use magic values to act as a signature */

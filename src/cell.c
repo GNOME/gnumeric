@@ -1311,7 +1311,7 @@ cell_calc_dimensions (Cell *cell)
 			double const scale =
 			    cell->sheet->last_zoom_factor_used *
 			    application_display_dpi_get (FALSE) / 72.;
-			if (cell->height > cell->row->pixels)
+			if (cell->height > cell->row->size_pixels)
 				sheet_row_set_internal_height (cell->sheet, cell->row, h/scale);
 		}
 

@@ -8,7 +8,7 @@
  */
 #include "gnumeric-type-util.h"
 #include "commands.h"
-#include "sheet.h"
+#include "cell.h"
 #include "workbook-view.h"
 #include "utils.h"
 #include "sort.h"

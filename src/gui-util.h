@@ -1,6 +1,7 @@
 #ifndef GNUMERIC_GNUMERIC_UTIL_H
 #define GNUMERIC_GNUMERIC_UTIL_H
 
+#include <gnome.h>
 #include "sheet.h"
 
 void       gnumeric_notice (Workbook *wb, const char *type, const char *str);

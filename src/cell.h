@@ -9,40 +9,8 @@
 #include "str.h"
 #include "expr.h"
 
-struct _ColRowInfo {
-	int        pos;			/* the column or row number */
-
-	double     units;               /* In points */
-	double     margin_a_pt;
-	double     margin_b_pt;
-
-	int        margin_a;  		/* in pixels: top/left margin */
-	int        margin_b; 		/* in pixels: bottom/right margin */
-	int        pixels;		/* we compute this from the above parameters */
-
-	unsigned   int hard_size:1;     /* has the user explicitly set the dimensions? */
-
-	/* TODO : Add per row/col min/max */
-
-	void *spans;	/* Only used for rows */
-};
-
-struct _ColRowCollection
-{
-	int         max_used;
-	ColRowInfo  default_style;
-	GPtrArray * info;
-};
-
-#define COL_INTERNAL_WIDTH(col) ((col)->pixels - ((col)->margin_b + (col)->margin_a))
-#define ROW_INTERNAL_HEIGHT(row) ((row)->pixels - ((row)->margin_b + (row)->margin_a))
-
 /* Cell contains a comment */
 #define CELL_HAS_COMMENT       1
-
-/*
- * #define CELL_FORMAT_SET        2
- */
 
 /* Cell has been queued for recalc */
 #define CELL_QUEUED_FOR_RECALC 4

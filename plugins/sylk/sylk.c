@@ -10,21 +10,14 @@
  */
 
 #include <config.h>
-#include <stdio.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <sys/mman.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <ctype.h>
-#include <string.h>
-#include <errno.h>
 #include <gnome.h>
-#include "plugin.h"
+#include <errno.h>
 #include "gnumeric.h"
+#include "plugin.h"
 #include "file.h"
 #include "command-context.h"
 #include "workbook.h"
+#include "cell.h"
 
 #define arraysize(x)     (sizeof(x)/sizeof(*(x)))
 

@@ -10,7 +10,10 @@
 #include "config.h"
 #include <glib.h>
 
+#include "style.h"
 #include "ms-excel-util.h"
+
+#include <stdio.h>
 
 /*
  * TwoWayTable

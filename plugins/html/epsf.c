@@ -23,20 +23,19 @@
 #include <gnome.h>
 #include "config.h"
 #include "workbook.h"
+#include "cell.h"
 #include "epsf.h"
 #include "ps.h"
 #include "font.h"
 #include "command-context.h"
 
-#define CELL_DIM(cell,p) \
-			(cell->p->units + cell->p->margin_a_pt + cell->p->margin_b_pt)
-#define CELL_WIDTH(cell) CELL_DIM(cell,col)
-#define CELL_HEIGHT(cell) CELL_DIM(cell,row)
+#define CELL_DIM(cell,p)	(cell->p->size_pts + cell->p->margin_a + cell->p->margin_b)
+#define CELL_WIDTH(cell)	CELL_DIM(cell,col)
+#define CELL_HEIGHT(cell)	CELL_DIM(cell,row)
 
-#define COL_DIM(col) \
-			(col->units + col->margin_a_pt + col->margin_b_pt)
-#define ROW_HEIGHT(col) COL_DIM(col)
-#define COL_WIDTH(col) COL_DIM(col)
+#define COL_DIM(col)	(col->size_pts + col->margin_a + col->margin_b)
+#define ROW_HEIGHT(col)	COL_DIM(col)
+#define COL_WIDTH(col)	COL_DIM(col)
 
 /*
  * write a cell

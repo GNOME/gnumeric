@@ -79,16 +79,14 @@ sheet_redraw_headers (Sheet const *sheet,
 }
 
 static void
-col_row_info_init (ColRowInfo *cri, double points)
+col_row_info_init (ColRowInfo *cri, float const points)
 {
 	cri->pos = -1;
-	cri->units = points;
-	cri->margin_a_pt = 1.0;
-	cri->margin_b_pt = 1.0;
 
-	cri->pixels = 0;
-	cri->margin_a = 0;
-	cri->margin_b = 0;
+	cri->margin_a = cri->margin_b = 1;
+	cri->size_pts = points;
+
+	cri->size_pixels = 0;
 
 	cri->hard_size = FALSE;
 	cri->spans = NULL;
@@ -113,14 +111,14 @@ sheet_init_dummy_stuff (Sheet *sheet)
 	for (x = 0; x < 40; x += 2){
 		cp = sheet_row_new (sheet);
 		cp->pos = x;
-		cp->units = (x+1) * 30;
+		cp->size_pts = (x+1) * 30;
 		sheet_col_add (sheet, cp);
 	}
 
 	for (y = 0; y < 6; y += 2){
 		rp = sheet_row_new (sheet);
 		rp->pos = y;
-		rp->units = (20 * (y + 1));
+		rp->size_pts = (20 * (y + 1));
 		sheet_row_add (sheet, rp);
 	}
 }
@@ -285,21 +283,15 @@ sheet_foreach_colrow (Sheet *sheet, ColRowCollection *infos,
 static gboolean
 sheet_compute_col_row_new_size (Sheet *sheet, ColRowInfo *ci, void *data)
 {
-	double const pix_per_unit =
+	double const scale =
 	    sheet->last_zoom_factor_used *
 	    application_display_dpi_get ((gboolean)data) / 72.;
-	gboolean const hidden = (ci->pixels < 0);
+	gboolean const hidden = (ci->size_pixels < 0);
 
-	ci->pixels = (ci->units + ci->margin_a_pt + ci->margin_b_pt) * pix_per_unit;
+	ci->size_pixels = ci->size_pts * scale +
+	    (ci->margin_a + ci->margin_b - 1);
 	if (hidden)
-		ci->pixels *= -1;
-
-	/*
-	 * Ensure that there is at least 1 pixel around every cell so that we
-	 * can mark the current cell
-	 */
-	ci->margin_a = MAX (ci->margin_a_pt * pix_per_unit, 1);
-	ci->margin_b = MAX (ci->margin_b_pt * pix_per_unit, 1);
+		ci->size_pixels *= -1;
 
 	return FALSE;
 }
@@ -471,12 +463,13 @@ sheet_compute_visible_ranges (Sheet const *sheet)
 static void
 colrow_set_units (Sheet *sheet, ColRowInfo *info, gboolean const horizontal)
 {
-	double const pix = sheet->last_zoom_factor_used *
+	double const scale = sheet->last_zoom_factor_used *
 	    application_display_dpi_get (horizontal) / 72.;
-	int p = info->pixels;
-	if (p < 0) p = -p;
+	int p = info->size_pixels;
+	if (p < 0)
+	    p = -p;
 
-	info->units = (p - (info->margin_a + info->margin_b - 1)) / pix;
+	info->size_pts = p/scale - (info->margin_a + info->margin_b - 1);
 }
 
 static void
@@ -647,7 +640,7 @@ sheet_row_info_set_height (Sheet *sheet, ColRowInfo *ri, int height, gboolean he
 	if (height_set_by_user)
 		ri->hard_size = TRUE;
 
-	ri->pixels = (ri->pixels >= 0) ? height : -height;
+	ri->size_pixels = (ri->size_pixels >= 0) ? height : -height;
 	colrow_set_units (sheet, ri, FALSE);
 
 	sheet_compute_visible_ranges (sheet);
@@ -701,24 +694,25 @@ sheet_row_set_height (Sheet *sheet, int row, int height, gboolean height_set_by_
 void
 sheet_row_set_internal_height (Sheet *sheet, ColRowInfo *ri, double height)
 {
-	double pix;
+	double scale;
 	gboolean hidden;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (ri != NULL);
 
-	pix = sheet->last_zoom_factor_used *
+	scale = sheet->last_zoom_factor_used *
 	    application_display_dpi_get (FALSE) / 72.;
 
-	if (ri->units == height)
+	if (ri->size_pts == height)
 		return;
 
-	hidden = ri->pixels < 0;
-	ri->units = height;
-	ri->pixels = (ri->units * pix) + (ri->margin_a + ri->margin_b - 1);
+	hidden = ri->size_pixels < 0;
+	ri->size_pts = height;
+	ri->size_pixels = (ri->size_pts * scale) +
+	    (ri->margin_a + ri->margin_b - 1);
 	if (hidden)
-		ri->pixels *= -1;
+		ri->size_pixels *= -1;
 
 	sheet_compute_visible_ranges (sheet);
 	sheet_reposition_comments_from_row (sheet, ri->pos);
@@ -737,24 +731,25 @@ sheet_row_set_internal_height (Sheet *sheet, ColRowInfo *ri, double height)
 void
 sheet_col_set_internal_width (Sheet *sheet, ColRowInfo *ci, double width)
 {
-	double pix;
+	double scale;
 	gboolean hidden;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (ci != NULL);
 
-	pix = sheet->last_zoom_factor_used *
+	scale = sheet->last_zoom_factor_used *
 	    application_display_dpi_get (TRUE) / 72.;
 
-	if (ci->units == width)
+	if (ci->size_pts == width)
 		return;
 
-	hidden = ci->pixels < 0;
-	ci->units = width;
-	ci->pixels = (ci->units * pix) + (ci->margin_a + ci->margin_b - 1);
+	hidden = ci->size_pixels < 0;
+	ci->size_pts = width;
+	ci->size_pixels = (ci->size_pts * scale) +
+	    (ci->margin_a + ci->margin_b - 1);
 	if (hidden)
-		ci->pixels *= -1;
+		ci->size_pixels *= -1;
 
 	sheet_compute_visible_ranges (sheet);
 	sheet_reposition_comments_from_col (sheet, ci->pos);
@@ -826,7 +821,7 @@ cb_max_cell_width (Sheet *sheet, int col, int row, Cell *cell,
  * @col: the column that we want to query
  *
  * This routine computes the ideal size for the column to make all data fit
- * properly.  Return value is in pixels
+ * properly.  Return value is in size_pixels
  */
 int
 sheet_col_size_fit (Sheet *sheet, int col)
@@ -846,7 +841,7 @@ sheet_col_size_fit (Sheet *sheet, int col)
 	 * no cells have been allocated here
 	 */
 	if (ci == &sheet->cols.default_style)
-		return ci->pixels;
+		return ci->size_pixels;
 
 	sheet_cell_foreach_range (sheet, TRUE,
 				  col, 0,
@@ -855,7 +850,7 @@ sheet_col_size_fit (Sheet *sheet, int col)
 
 	/* Reset to the default width if the column was empty */
 	if (max < 0)
-		max = sheet->cols.default_style.pixels;
+		max = sheet->cols.default_style.size_pixels;
 	else
 		/* No need to scale width by zoom factor, that was already done */
 		max += ci->margin_a + ci->margin_b;
@@ -903,7 +898,7 @@ sheet_row_size_fit (Sheet *sheet, int row)
 	 * no cells have been allocated here
 	 */
 	if (ri == &sheet->rows.default_style)
-		return ri->pixels;
+		return ri->size_pixels;
 
 	sheet_cell_foreach_range (sheet, TRUE,
 				  0, row,
@@ -912,7 +907,7 @@ sheet_row_size_fit (Sheet *sheet, int row)
 
 	/* Reset to the default width if the column was empty */
 	if (max < 0)
-		max = sheet->rows.default_style.pixels;
+		max = sheet->rows.default_style.size_pixels;
 	else
 		/* No need to scale height by zoom factor, that was already done */
 		max += ri->margin_a + ri->margin_b;
@@ -981,7 +976,7 @@ sheet_col_info_set_width (Sheet *sheet, ColRowInfo *ci, int width)
 	g_return_if_fail (ci != NULL);
 
 
-	ci->pixels = (ci->pixels >= 0) ? width : -width;
+	ci->size_pixels = (ci->size_pixels >= 0) ? width : -width;
 	colrow_set_units (sheet, ci, FALSE);
 
 	sheet_compute_visible_ranges (sheet);
@@ -1043,9 +1038,9 @@ sheet_col_get_distance (Sheet const *sheet, int from, int to)
 	/* Do not use sheet_foreach_colrow, it ignores empties */
 	for (i = from ; i < to ; ++i) {
 		ColRowInfo const *ci = sheet_col_get_info (sheet, i);
-		int const tmp = ci->pixels;
+		int const tmp = ci->size_pixels;
 		if (tmp > 0)
-			pixels += ci->pixels;
+			pixels += ci->size_pixels;
 	}
 
 	return pixels*sign;
@@ -1054,7 +1049,7 @@ sheet_col_get_distance (Sheet const *sheet, int from, int to)
 /**
  * sheet_get_default_external_col_width:
  *
- * Return the default number of units in a column, including margins.
+ * Return the default number of pts in a column, including margins.
  * This function returns the raw sum, no rounding etc.
  */
 double
@@ -1065,7 +1060,7 @@ sheet_get_default_external_col_width (Sheet const *sheet)
 	g_assert (sheet != NULL);
  
 	ci = &sheet->cols.default_style;
-	return  ci->units + ci->margin_a_pt + ci->margin_b_pt;
+	return  ci->size_pts + ci->margin_a + ci->margin_b;
 }
 
 /**
@@ -1082,13 +1077,13 @@ sheet_get_default_external_row_height (Sheet const *sheet)
 	g_assert (sheet != NULL);
  
 	ci = &sheet->rows.default_style;
-	return  ci->units + ci->margin_a_pt + ci->margin_b_pt;
+	return  ci->size_pts + ci->margin_a + ci->margin_b;
 }
 
 /**
  * sheet_col_get_external_height:
  *
- * Return the number of units in a row, including margins.
+ * Return the number of size_pts in a row, including margins.
  * This function returns the raw sum. If you need rounding and
  * fiddling, use sheet_col_get_unit_distance.
  */
@@ -1100,7 +1095,7 @@ sheet_col_get_external_width (Sheet const *sheet, int const pos)
 	g_assert (sheet != NULL);
  
 	ci = sheet_col_get_info (sheet, pos);
-	return  ci->units + ci->margin_a_pt + ci->margin_b_pt;
+	return  ci->size_pts + ci->margin_a + ci->margin_b;
 }
 
 /**
@@ -1118,7 +1113,7 @@ sheet_row_get_external_height (Sheet const *sheet, int const pos)
 	g_assert (sheet != NULL);
  
 	ci = sheet_row_get_info (sheet, pos);
-	return  ci->units + ci->margin_a_pt + ci->margin_b_pt;
+	return  ci->size_pts + ci->margin_a + ci->margin_b;
 }
 
 /**
@@ -1145,9 +1140,9 @@ sheet_row_get_distance (Sheet const *sheet, int from, int to)
 	/* Do not use sheet_foreach_colrow, it ignores empties */
 	for (i = from ; i < to ; ++i) {
 		ColRowInfo const *ri = sheet_row_get_info (sheet, i);
-		int const tmp = ri->pixels;
+		int const tmp = ri->size_pixels;
 		if (tmp > 0)
-			pixels += ri->pixels;
+			pixels += tmp;
 	}
 
 	return pixels*sign;
@@ -1170,7 +1165,7 @@ sheet_col_get_unit_distance (Sheet const *sheet, int from, int to)
 	/* Do not use sheet_foreach_colrow, it ignores empties */
 	for (i = from ; i < to ; ++i) {
 		ColRowInfo const *ci = sheet_col_get_info (sheet, i);
-		int const tmp = ci->pixels;
+		int const tmp = ci->size_pixels;
 
 		/* I do not know why we subtract 1, but it is required to get
 		 * things to match.
@@ -1179,7 +1174,7 @@ sheet_col_get_unit_distance (Sheet const *sheet, int from, int to)
 		 * effect of rounding to pixels.
 		 */
 		if (tmp > 0)
-			units += (int)(ci->units + ci->margin_a_pt + ci->margin_b_pt) - 1;
+			units += (int)(ci->size_pts + ci->margin_a + ci->margin_b) - 1;
 	}
 	
 	return units;
@@ -1202,7 +1197,7 @@ sheet_row_get_unit_distance (Sheet const *sheet, int from, int to)
 	/* Do not use sheet_foreach_colrow, it ignores empties */
 	for (i = from ; i < to ; ++i) {
 		ColRowInfo const *ri = sheet_row_get_info (sheet, i);
-		int const tmp = ri->pixels;
+		int const tmp = ri->size_pixels;
 
 		/* I do not know why we subtract 1, but it is required to get
 		 * things to match.
@@ -1211,7 +1206,7 @@ sheet_row_get_unit_distance (Sheet const *sheet, int from, int to)
 		 * effect of rounding to pixels.
 		 */
 		if (tmp > 0)
-			units += (int)(ri->units + ri->margin_a_pt + ri->margin_b_pt) - 1;
+			units += (int)(ri->size_pts + ri->margin_a + ri->margin_b) - 1;
 	}
 	
 	return units;
@@ -1630,7 +1625,7 @@ static gboolean
 sheet_col_is_hidden (Sheet *sheet, int const col)
 {
 	ColRowInfo const * const res = sheet_col_get (sheet, col);
-	return (res != NULL && res->pixels < 0);
+	return (res != NULL && res->size_pixels < 0);
 }
 
 /*
@@ -1693,7 +1688,7 @@ static gboolean
 sheet_row_is_hidden (Sheet *sheet, int const row)
 {
 	ColRowInfo const * const res = sheet_row_get (sheet, row);
-	return (res != NULL && res->pixels < 0);
+	return (res != NULL && res->size_pixels < 0);
 }
 
 /*
@@ -3698,7 +3693,7 @@ sheet_save_row_col_sizes (Sheet *sheet, gboolean const is_cols,
 		    ? sheet_col_get_info (sheet, index + i)
 		    : sheet_row_get_info (sheet, index + i);
 		g_return_val_if_fail (info != NULL, NULL); /* be anal, and leak */
-		res[i] = info->units;
+		res[i] = info->size_pts;
 		if (info->hard_size)
 			res[i] *= -1.;
 	}
@@ -3751,7 +3746,7 @@ sheet_row_col_visible (Sheet *sheet, gboolean const is_col, gboolean const visib
 		    ? sheet_col_fetch (sheet, index++)
 		    : sheet_row_fetch (sheet, index++);
 
-		if (visible != (cri->pixels >= 0))
-			cri->pixels *= -1;
+		if (visible != (cri->size_pixels >= 0))
+			cri->size_pixels *= -1;
 	}
 }

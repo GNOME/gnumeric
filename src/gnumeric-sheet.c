@@ -1057,9 +1057,9 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet)
 
 	do {
 		ColRowInfo const * const ci = sheet_col_get_info (gsheet->sheet_view->sheet, col);
-		int const tmp = ci->pixels;
+		int const tmp = ci->size_pixels;
 		if (tmp > 0) {
-			int const cb = pixels + ci->pixels;
+			int const cb = pixels + ci->size_pixels;
 
 			if (cb == width){
 				gsheet->col.last_visible = col;
@@ -1089,9 +1089,9 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet)
 	height = GTK_WIDGET (canvas)->allocation.height;
 	do {
 		ColRowInfo const * const ri = sheet_row_get_info (gsheet->sheet_view->sheet, row);
-		int const tmp = ri->pixels;
+		int const tmp = ri->size_pixels;
 		if (tmp > 0) {
-			int const cb = pixels + ri->pixels;
+			int const cb = pixels + ri->size_pixels;
 
 			if (cb == height){
 				gsheet->row.last_visible = row;
@@ -1230,11 +1230,11 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row,
 
 		for (first_col = col; first_col > 0; first_col--){
 			ColRowInfo const * const ci = sheet_col_get_info (sheet, first_col);
-			int const tmp = ci->pixels;
+			int const tmp = ci->size_pixels;
 			if (tmp > 0) {
-				if (allocated + ci->pixels > width)
+				if (allocated + tmp > width)
 					break;
-				allocated += ci->pixels;
+				allocated += tmp;
 			}
 		}
 		new_first_col = first_col+1;
@@ -1251,11 +1251,11 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row,
 
 		for (first_row = row; first_row > 0; first_row--){
 			ColRowInfo const * const ri = sheet_row_get_info (sheet, first_row);
-			int const tmp = ri->pixels;
+			int const tmp = ri->size_pixels;
 			if (tmp > 0) {
-				if (allocated + ri->pixels > height)
+				if (allocated + tmp > height)
 					break;
-				allocated += ri->pixels;
+				allocated += tmp;
 			}
 		}
 		new_first_row = first_row+1;

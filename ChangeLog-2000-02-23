@@ -1,3 +1,19 @@
+2000-02-10  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.h : Remove inclusion of cell.h.  Adjust includes to loosen
+	  things a bit more.
+
+	* src/colrow.h : Remove margin_a_pt margin_b_pt.  Margins are NOT
+	  scaled by resolution or zoom.
+	  Rename units -> size_pts and store as float rather than double.
+	  Rename pixels-> size_pixels
+	  hard_size -> use gboolean rather than a 1 element bitfield
+
+	* src/style.h : Move the typedefs from here.
+	* src/gnumeric.h : to here.
+
+	*.[ch] : Catch up with the renames and include changes.
+
 2000-02-09  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook.c (change_displayed_zoom_cb) : Add a '%' at the end of

@@ -21,6 +21,7 @@
 #include "selection.h"
 #include "utils.h"	/* for cell_name */
 #include "ranges.h"
+#include "style.h"
 #include "workbook.h"
 #include "ms-excel-util.h"
 #include "ms-excel-xf.h"
@@ -2459,7 +2460,7 @@ get_units_net_of_margins (double units, const ColRowInfo * cri)
 	/* Return an arbitary non 0 value on catastrophic failure */
 	g_return_val_if_fail (cri != NULL, 1.);
 
-	units -= (cri->margin_a_pt + cri->margin_b_pt);
+	units -= (cri->margin_a + cri->margin_b);
 	if (units < 0)
 		units = 1.;
 	return units;
@@ -2556,7 +2557,7 @@ ms_excel_read_colinfo (BiffQuery *q, ExcelSheet *sheet)
 		    (col_width, sheet_col_get_info (sheet->gnum_sheet, firstcol));
 	} else
 		/* Columns are of default width */
-		col_width = sheet->gnum_sheet->cols.default_style.units;
+		col_width = sheet->gnum_sheet->cols.default_style.size_pts;
 
 	/* NOTE : seems like this is inclusive firstcol, inclusive lastcol */
 	if (lastcol >= SHEET_MAX_COLS)

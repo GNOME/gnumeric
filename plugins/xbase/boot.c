@@ -6,7 +6,6 @@
  **/
 #include <stdio.h>
 #include <unistd.h>
-#include <sys/mman.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
@@ -20,7 +19,7 @@
 #include "workbook.h"
 #include "gnumeric-util.h"
 #include "main.h"
-#include "sheet.h"
+#include "cell.h"
 #include "file.h"
 #include "command-context.h"
 

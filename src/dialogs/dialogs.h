@@ -3,6 +3,7 @@
 
 #include "sheet.h"
 #include "cell.h"
+#include "summary.h"
 
 typedef struct {
         gboolean summary_statistics;

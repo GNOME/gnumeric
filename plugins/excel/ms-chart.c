@@ -16,6 +16,8 @@
 #include "ms-excel-read.h"
 #include "ms-escher.h"
 #include "utils.h"
+#include "style.h"
+#include "expr.h"
 #include "gnumeric-chart.h"
 
 /* #define NO_DEBUG_EXCEL */

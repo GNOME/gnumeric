@@ -18,6 +18,7 @@
 #include <gnome.h>
 #include "plugin.h"
 #include "gnumeric.h"
+#include "cell.h"
 #include "workbook.h"
 #include "file.h"
 #include "command-context.h"

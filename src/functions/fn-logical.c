@@ -9,6 +9,7 @@
 #include <config.h>
 #include "gnumeric.h"
 #include "utils.h"
+#include "cell.h"
 #include "func.h"
 #include "auto-format.h"
 
