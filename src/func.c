@@ -89,7 +89,7 @@ function_iterate_do_value (Sheet                   *sheet,
 				ret = function_iterate_do_value (
 					sheet, callback, closure,
 					eval_col, eval_row,
-					&value->v.array.vals [x][y], error_string);
+					value->v.array.vals [x][y], error_string);
 				if (ret == FALSE)
 					return FALSE;
 			}

@@ -1,3 +1,22 @@
+1999-05-15  Michael Meeks  <michael@imaginator.com>
+
+	* src/parser.c (value_dump): Updated Arrays, to use Value *
+
+	* src/func.c (function_iterate_do_value): same.
+
+	* src/fn-sheet.c (gnumeric_selection): same.
+
+	* src/eval.c (add_value_deps): same.
+
+	* src/expr.c (value_get_as_string): Major re-work of ARRAY
+	conversion.
+	(value_array_set): Fix rather embarassing bug in assertions.
+	(eval_cell_value): Return top left corner of array, seems to be
+	what excel does.
+	(value_release, value_array_set, value_array_new),
+	(value_array_copy_to, value_array_resize):
+	Updated value->v.array to Value *'s saves much hassle !
+
 1999-05-14  Michael Meeks  <michael@imaginator.com>
 
 	* src/expr.c (value_area_get_width, value_area_get_height): 

@@ -67,7 +67,7 @@ struct _Value {
 
 		struct {
 			int x, y ;
-			Value **vals;   /* Array [x][y] */
+			Value ***vals;  /* Array [x][y] */
 		} array ;
 		String *str;
 		Symbol *sym;

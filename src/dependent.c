@@ -160,7 +160,7 @@ add_value_deps (Cell *cell, const Value *value)
 		for (x = 0; x < value->v.array.x; x++)
 			for (y = 0; y < value->v.array.y; y++)
 				add_value_deps (cell,
-						&value->v.array.vals [x][y]);
+						value->v.array.vals [x][y]);
 		break;
 	}
 	case VALUE_CELLRANGE:

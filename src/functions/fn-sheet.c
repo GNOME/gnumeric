@@ -47,7 +47,7 @@ gnumeric_selection (Sheet *sheet, GList *expr_node_list, int eval_col, int eval_
 		Value *single_value;
 		CellRef *cell_ref;
 
-		single_value = &value->v.array.vals [lp++][0];
+		single_value = value->v.array.vals [lp++][0];
 		single_value->type = VALUE_CELLRANGE;
 
 		/* Fill it in */

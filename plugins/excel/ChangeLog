@@ -1,5 +1,10 @@
 1999-05-14  Michael Meeks  <michael@imaginator.com>
 
+	* ms-formula.c (ms_excel_parse_formula): Finaly got the ARRAY
+	docs sorted, deciphered inconsistancies etc.
+
+1999-05-14  Michael Meeks  <michael@imaginator.com>
+
 	* ms-formula.c (ms_excel_parse_formula): Implemented V7. 3D refs
 	and 3D Area references.
 	(make_inter_sheet_ref_v7): Created to deal with V7 references.

@@ -715,6 +715,7 @@ ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 	int len_left = length ;
 	guint8 *cur = mem + 1 ; /* this is so that the offsets and lengths
 				   are identical to those in the documentation */
+	guint8 *array_data = mem + 3 + length; /* Sad but true */
 	PARSE_LIST *stack = NULL;
 	int error = 0 ;
 	char *ans ;
@@ -864,41 +865,54 @@ ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 		case FORMULA_PTG_ARRAY:
 		{
 			Value *v;
-			guint16 cols=BIFF_GETBYTE(cur+0);
-			guint16 rows=BIFF_GETWORD(cur+1);
+			guint32 cols=BIFF_GETBYTE(cur+0)+1; /* NB. the spec. is wrong here, these */
+			guint32 rows=BIFF_GETWORD(cur+1)+1; /*     are zero offset numbers */ 
 			guint16 lpx,lpy;
-			guint8 *data=cur+3;
 			
-			if (cols==0) cols=256;
 			v = value_array_new (cols, rows);
-			ptg_length = 3;
+			ptg_length = 7;
+#if FORMULA_DEBUG > 1
 			printf ("An Array how interesting: (%d,%d)\n", cols, rows);
 			dump (mem, length);
-
+#endif
 			for (lpy=0;lpy<rows;lpy++) {
 				for (lpx=0;lpx<cols;lpx++) {
-					guint8 opts=BIFF_GETBYTE(data);
+					Value *set_val=0;
+					guint8 opts=BIFF_GETBYTE(array_data);
+#if FORMULA_DEBUG > 0
+					printf ("Opts 0x%x\n", opts);
+#endif
 					if (opts == 1) {
-						value_array_set (v, lpx, lpy,
-								 value_new_float (BIFF_GETDOUBLE(data+1)));
-						data+=9;
-						ptg_length+=9;
+						set_val = value_new_float (BIFF_GETDOUBLE(array_data+1));
+						array_data+=9;
 					} else if (opts == 2) {
 						guint32 len;
-						char *str = biff_get_text (data+2,
-									   BIFF_GETBYTE(data+1),
-									   &len);
-						value_array_set (v, lpx, lpy, value_new_string (str));
-						g_free (str);
-						data+=len+2;
-						ptg_length+=2+len;
+						char *str;
+
+						if (sheet->ver >= eBiffV8) { /* Cunningly not mentioned in spec. ! */
+							str = biff_get_text (array_data+3,
+									     BIFF_GETWORD(array_data+1),
+									     &len);
+							array_data+=len+3;
+						} else {
+							str = biff_get_text (array_data+2,
+									     BIFF_GETBYTE(array_data+1),
+									     &len);
+							array_data+=len+2;
+						}
+						if (str) {
+							set_val = value_new_string (str);
+							printf ("String '%s'\n", str);
+							g_free (str);
+						} else
+							set_val = value_new_string ("");
 					} else {
-						printf ("Duff type\n");
+						printf ("FIXME: Duff array item type\n");
 						break;
 					}
+					value_array_set (v, lpx, lpy, set_val);
 				}
 			}
-			ptg_length+=7;
 			parse_list_push_raw (&stack, v);
 			break;
 		}
