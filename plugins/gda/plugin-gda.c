@@ -100,6 +100,7 @@ open_connection (const gchar *dsn, const gchar *user, const gchar *password, Gda
 	dialog = gnome_db_login_dialog_new (_("Database Connection"));
 	login = gnome_db_login_dialog_get_login_widget (GNOME_DB_LOGIN_DIALOG (dialog));
 
+	gnome_db_login_set_dsn (GNOME_DB_LOGIN (login), dsn);
 	gnome_db_login_set_username (GNOME_DB_LOGIN (login), user);
 	gnome_db_login_set_password (GNOME_DB_LOGIN (login), password);
 

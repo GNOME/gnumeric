@@ -1,5 +1,10 @@
 2003-07-04  Rodrigo Moya <rodrigo@gnome-db.org>
 
+	* plugin-gda.c (open_connection): call gnome_db_login_set_dsn to make
+	sure the login dialog has the specified data source selected.
+
+2003-07-04  Rodrigo Moya <rodrigo@gnome-db.org>
+
 	* plugin-gda.c: include (conditionally) libgnomedb code to provide
 	a GUI for the different operations.
 	(open_connection): new function to contain the connecting code, using
