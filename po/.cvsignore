@@ -10,3 +10,4 @@ stamp-cat-id
 gnumeric.pot
 messages
 missing
+.intltool-cache*

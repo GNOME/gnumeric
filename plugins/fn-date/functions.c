@@ -13,11 +13,13 @@
 #include <str.h>
 #include <cell.h>
 #include <datetime.h>
+#include <value.h>
 #include <auto-format.h>
 
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>
+#include <libgnome/gnome-i18n.h>
 
 #define DAY_SECONDS (3600*24)
 

@@ -17,10 +17,13 @@
 #include <mathfunc.h>
 #include <rangefunc.h>
 #include <collect.h>
+#include <value.h>
+#include <expr.h>
 #include <auto-format.h>
 
 #include <math.h>
 #include <string.h>
+#include <libgnome/gnome-i18n.h>
 
 typedef struct {
         GSList *list;

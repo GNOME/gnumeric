@@ -657,17 +657,13 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 	Value              *input_range;
         CellList           *input_cells = NULL;
 	Value              *result;
-	EvalPos            *pos;
-	CellPos            cellpos = {0, 0};
+	EvalPos            pos;
 	gint               i;
 	gboolean           answer, sensitivity, limits, program;
 	gchar              *errmsg;
 
 	if (state->warning_dialog != NULL)
 		gtk_widget_destroy (state->warning_dialog);
-
-	pos = g_new (EvalPos, 1);
-	pos = eval_pos_init(pos, state->sheet, &cellpos);
 
 	target_range = gnm_expr_entry_parse_as_value (state->target_entry,
 						      state->sheet);
@@ -676,15 +672,16 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 
 	if (state->sheet->solver_parameters->input_entry_str != NULL)
 		g_free (state->sheet->solver_parameters->input_entry_str);
-	state->sheet->solver_parameters->input_entry_str = value_get_as_string
-		(input_range);
+	state->sheet->solver_parameters->input_entry_str =
+		value_get_as_string (input_range);
 
 	state->sheet->solver_parameters->target_cell =
 		sheet_cell_fetch (state->sheet,
 				  target_range->v_range.cell.a.col,
 				  target_range->v_range.cell.a.row );
-	result = workbook_foreach_cell_in_range (pos, input_range,
-		FALSE, grab_cells, &input_cells);
+	result = workbook_foreach_cell_in_range (
+		eval_pos_init_sheet (&pos, state->sheet),
+		input_range, FALSE, grab_cells, &input_cells);
 
 	state->sheet->solver_parameters->input_cells = input_cells;
 

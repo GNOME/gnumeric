@@ -20,6 +20,8 @@
 #include <format.h>
 #include <formats.h>
 #include <style.h>
+#include <value.h>
+#include <expr.h>
 #include <sheet-style.h>
 #include <number-match.h>
 
@@ -27,6 +29,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
+#include <libgnome/gnome-i18n.h>
 
 enum Value_Class {
 	VALUE_CLASS_NUMBER  = 1,

@@ -1,3 +1,8 @@
+2002-03-06  Jody Goldberg <jody@gnome.org>
+
+	* excel-gb-worksheet-function.c
+	(excel_gb_worksheet_function_deref) : tweak.
+
 2002-02-18  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.0

@@ -11,9 +11,11 @@
 
 #include <parse-util.h>
 #include <cell.h>
+#include <value.h>
 #include <selection.h>
 
 #include <stdlib.h>
+#include <libgnome/gnome-i18n.h>
 
 /***************************************************************************/
 

@@ -18,11 +18,14 @@
 #include <sheet.h>
 #include <cell.h>
 #include <collect.h>
+#include <value.h>
+#include <expr.h>
 #include <auto-format.h>
 
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
+#include <libgnome/gnome-i18n.h>
 
 static gint
 float_compare (const gnum_float *a, const gnum_float *b)

@@ -17,10 +17,12 @@
 #include <cell.h>
 #include <str.h>
 #include <sheet.h>
+#include <value.h>
 #include <expr-name.h>
 
 #include <string.h>
 #include <stdlib.h>
+#include <libgnome/gnome-i18n.h>
 
 /* Useful routines for multiple functions */
 static gboolean

@@ -14,6 +14,12 @@
 	* fn-eng.c (gnumeric_imlog2, gnumeric_imlog10): Use
 	complex_scale_real.
 
+2002-03-04  Jody Goldberg <jody@gnome.org>
+
+	* fn-lookup.c (gnumeric_indirect_unlink) : initial implementation hook
+	  to truely support depends for INDIRECT.
+	(lookup_functions_init) : register it.
+
 2002-02-28  Morten Welinder  <terra@diku.dk>
 
 	* fn-eng.c (gnumeric_convert): Improve precision here and there.

@@ -19,11 +19,13 @@
 #include "eval.h"
 #include "dialogs.h"
 #include "mstyle.h"
+#include "value.h"
 #include "mathfunc.h"
 #include "analysis-tools.h"
 
 #include <math.h>
 #include <stdlib.h>
+#include <libgnome/gnome-i18n.h>
 
 #include "lp_solve/lpkit.h"
 
@@ -233,10 +235,10 @@ callback (int iter, gnum_float *x, gnum_float bv, gnum_float cx, int n, void *da
  * solver dialog and the related sheet.  After the call, the LP
  * program is ready to run.
  */
-static SolverProgram *
+static SolverProgram
 lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res)
 {
-        SolverProgram *program;
+        SolverProgram  program;
 	gnum_float    *row = g_new (gnum_float, 100);
 	Cell          *target;
 	gnum_float    x;
@@ -443,11 +445,11 @@ check_program_definition_failures (Sheet            *sheet,
 SolverResults *
 solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 {
-	SolverParameters       *param = sheet->solver_parameters;
-	SolverProgram          *program;
-	SolverResults          *res;
-	Cell                   *cell;
-	int                    i;
+	SolverParameters *param = sheet->solver_parameters;
+	SolverProgram     program;
+	SolverResults    *res;
+	Cell             *cell;
+	int               i;
 
 	if (check_program_definition_failures (sheet, param, errmsg))
 	        return NULL;

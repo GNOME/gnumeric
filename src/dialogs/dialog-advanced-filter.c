@@ -107,9 +107,11 @@ advanced_filter (WorkbookControl *wbc,
 		 gboolean unique_only_flag)
 {
         GSList *crit, *rows;
-	EvalPos ep = {{0, 0}, wb_control_cur_sheet (wbc)};
+	EvalPos ep;
 
-	crit = parse_database_criteria (&ep, database, criteria);
+	crit = parse_database_criteria (
+		eval_pos_init_sheet (&ep, wb_control_cur_sheet (wbc)),
+		database, criteria);
 
 	if (crit == NULL)
 		return ERR_INVALID_FIELD;

@@ -1,3 +1,9 @@
+2002-03-06  Jody Goldberg <jody@gnome.org>
+
+	* dialog-advanced-filter.c (advanced_filter) : Use eval_pos_init_sheet.
+
+	* dialog-solver.c (cb_dialog_solve_clicked) : fix leak.
+
 2002-03-07  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* solver.glade: added `Program' checkbutton for program report and

@@ -12,6 +12,7 @@
 #include <parse-util.h>
 #include <complex.h>
 #include <str.h>
+#include <value.h>
 #include <mathfunc.h>
 
 #include <ctype.h>
@@ -20,7 +21,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <libgnome/gnome-i18n.h>
 
 /**
  * FIXME: In the long term this needs optimising.

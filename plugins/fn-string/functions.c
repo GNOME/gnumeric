@@ -16,6 +16,8 @@
 #include <format.h>
 #include <str.h>
 #include <sheet.h>
+#include <value.h>
+#include <expr.h>
 #include <number-match.h>
 #include <mathfunc.h>
 
@@ -23,6 +25,7 @@
 #include <math.h>
 #include <limits.h>
 #include <string.h>
+#include <libgnome/gnome-i18n.h>
 
 /***************************************************************************/
 

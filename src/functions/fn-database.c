@@ -14,10 +14,12 @@
 #include <str.h>
 #include <cell.h>
 #include <sheet.h>
+#include <value.h>
 #include <number-match.h>
 
 #include <math.h>
 #include <string.h>
+#include <libgnome/gnome-i18n.h>
 
 /* Type definitions */
 

@@ -34,9 +34,12 @@
 #include "module-plugin-defs.h"
 #include "ranges.h"
 #include "style.h"
+#include "value.h"
 #include "solver.h"
 #include "sheet-style.h"
+#include "parse-util.h"
 
+#include <libgnome/gnome-i18n.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 

@@ -12,6 +12,7 @@
 #include <workbook-view.h>
 #include <workbook.h>
 #include <cell.h>
+#include <value.h>
 #include <plugin.h>
 #include <plugin-util.h>
 #include <module-plugin-defs.h>

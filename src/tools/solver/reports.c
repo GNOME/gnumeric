@@ -19,11 +19,13 @@
 #include "eval.h"
 #include "dialogs.h"
 #include "mstyle.h"
+#include "value.h"
 #include "mathfunc.h"
 #include "analysis-tools.h"
 
 #include <math.h>
 #include <stdlib.h>
+#include <libgnome/gnome-i18n.h>
 #include <sys/utsname.h>
 
 /* ------------------------------------------------------------------------- */

@@ -18,11 +18,13 @@
 #include <collect.h>
 #include <auto-format.h>
 #include <datetime.h>
+#include <value.h>
 #include <str.h>
 
 #include <math.h>
 #include <limits.h>
 #include <string.h>
+#include <libgnome/gnome-i18n.h>
 
 #define is_valid_basis(B) (B >= 0 && B <= 5)
 #define is_valid_freq(F) (F == 1 || F == 2 || F == 4)

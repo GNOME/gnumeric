@@ -12,7 +12,10 @@
 
 #include <parse-util.h>
 #include <cell.h>
+#include <expr.h>
+#include <value.h>
 #include <auto-format.h>
+#include <libgnome/gnome-i18n.h>
 
 /***************************************************************************/
 

@@ -31,7 +31,7 @@ excel_gb_worksheet_function_deref (GBEvalContext  *ec,
 
 	if ((fd = func_lookup_by_name (ref->name, funcs->sheet->workbook))) {
 		GPtrArray *args = g_ptr_array_new ();
-		EvalPos    pos;
+		EvalPos    ep;
 		Value     *ret;
 		GBValue   *gb_ret;
 		GSList    *l;
@@ -47,12 +47,11 @@ excel_gb_worksheet_function_deref (GBEvalContext  *ec,
 			gb_value_destroy (val);
 		}
 
-		pos.sheet    = funcs->sheet;
-		pos.eval.col = 0; /* FIXME: where should we be located ? */
-		pos.eval.row = 0;
+		/* FIXME: where should we be located ? */
+		eval_pos_init_sheet (&ep, funcs->sheet);
 
 		ret = function_def_call_with_values (
-			&pos, fd, args->len, (Value **)args->pdata);
+			&ep, fd, args->len, (Value **)args->pdata);
 
 		if (ret) {
 			gb_ret = value_to_gb (ret);
