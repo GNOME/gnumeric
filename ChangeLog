@@ -1,3 +1,10 @@
+2002-09-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/workbook.c (workbook_sheet_reorder): new
+	(workbook_sheet_reorganize): extract reorder code into 
+	  workbook_sheet_reorder
+	* src/workbook.h (workbook_sheet_reorder): new
+
 2002-09-26  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c (cb_realize) : ok, the fix for

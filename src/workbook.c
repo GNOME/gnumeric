@@ -1125,6 +1125,63 @@ workbook_sheet_get_free_name (Workbook *wb,
 	return name;
 }
 
+/**
+ * workbook_sheet_reorder:
+ * @wb:          workbook to look for
+ * @new_order:   list of sheets in order (new sheets are marked NULL)
+ * @new_sheets:  list of new sheets
+ *
+ * Adjusts the order of the sheets.
+ *
+ * Returns FALSE when it was successful
+ **/
+gboolean
+workbook_sheet_reorder (WorkbookControl *wbc, GSList *new_order, GSList *new_sheets)
+{
+	GSList *this_sheet;
+	gint old_pos, new_pos = 0;
+	Workbook *wb = wb_control_workbook (wbc);
+
+	if (!new_order)
+		return TRUE;
+
+	this_sheet = new_order;
+	while (this_sheet) {
+		gboolean an_old_sheet = TRUE;
+		Sheet *sheet = this_sheet->data;
+
+		if (new_sheets && sheet == NULL) {
+			sheet = new_sheets->data;
+			new_sheets = new_sheets->next;
+			an_old_sheet = FALSE;
+		}
+
+		if (sheet != NULL) {
+			old_pos = sheet->index_in_wb;
+			if (new_pos != old_pos) {
+				int max_pos = MAX (old_pos, new_pos);
+				int min_pos = MIN (old_pos, new_pos);
+
+				g_ptr_array_remove_index (wb->sheets, old_pos);
+				g_ptr_array_insert (wb->sheets, sheet, new_pos);
+				for (; max_pos >= min_pos ; max_pos--) {
+					Sheet *sheet = g_ptr_array_index (wb->sheets, max_pos);
+					sheet->index_in_wb = max_pos;
+				}
+				WORKBOOK_FOREACH_CONTROL (wb, view, control,
+							  wb_control_sheet_move (control, 
+										 sheet, new_pos););
+				if (an_old_sheet)
+					sheet_set_dirty (sheet, TRUE);
+			}
+			new_pos++;
+		}
+		this_sheet = this_sheet->next;
+	}
+	post_sheet_index_change (wb);
+	return FALSE;
+}
+
 gboolean
 workbook_sheet_reorganize (WorkbookControl *wbc, 
 			   GSList *changed_names, GSList *new_order,  
@@ -1133,9 +1190,7 @@ workbook_sheet_reorganize (WorkbookControl *wbc,
 			   GSList *colors_fore, GSList *colors_back,
 			   GSList *protection_changed, GSList *new_locks)
 {
-	GSList *this_sheet;
 	GSList *new_sheet = NULL;
-	gint old_pos, new_pos = 0;
 	GSList *the_names;
 	GSList *the_sheets;
 	GSList *the_fore;
@@ -1292,41 +1347,7 @@ workbook_sheet_reorganize (WorkbookControl *wbc,
 	}
 
 /* reordering */
-	new_sheet = new_sheets ? *new_sheets : NULL;
-	this_sheet = new_order;
-	while (this_sheet) {
-		gboolean an_old_sheet = TRUE;
-		Sheet *sheet = this_sheet->data;
-
-		if (new_sheet && sheet == NULL) {
-			sheet = new_sheet->data;
-			new_sheet = new_sheet->next;
-			an_old_sheet = FALSE;
-		}
-		if (sheet != NULL) {
-			old_pos = sheet->index_in_wb;
-			if (new_pos != old_pos) {
-				int max_pos = MAX (old_pos, new_pos);
-				int min_pos = MIN (old_pos, new_pos);
-
-				g_ptr_array_remove_index (wb->sheets, old_pos);
-				g_ptr_array_insert (wb->sheets, sheet, new_pos);
-				for (; max_pos >= min_pos ; max_pos--) {
-					Sheet *sheet = g_ptr_array_index (wb->sheets, max_pos);
-					sheet->index_in_wb = max_pos;
-				}
-				WORKBOOK_FOREACH_CONTROL (wb, view, control,
-							  wb_control_sheet_move (control, 
-										 sheet, new_pos););
-				if (an_old_sheet)
-					sheet_set_dirty (sheet, TRUE);
-			}
-			new_pos++;
-		}
-		this_sheet = this_sheet->next;
-	}
-	if (new_order)
-		post_sheet_index_change (wb);
+	workbook_sheet_reorder (wbc, new_order, new_sheets ? *new_sheets : NULL);
 
 	return FALSE;
 }

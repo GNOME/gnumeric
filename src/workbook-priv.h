@@ -76,6 +76,9 @@ char       *workbook_sheet_get_free_name (Workbook *wb,
 					  const char *base,
 					  gboolean always_suffix,
 					  gboolean handle_counter);
+gboolean    workbook_sheet_reorder       (WorkbookControl *wbc, 
+					  GSList *new_order, 
+					  GSList *new_sheets);
 gboolean    workbook_sheet_reorganize    (WorkbookControl *wbc,
 					  GSList *changed_names, GSList *new_order,  
 					  GSList *new_names,  GSList *old_names,
