@@ -738,6 +738,7 @@ void
 sheet_selection_clear_content (Sheet *sheet)
 {
 	selection_apply (sheet, &sheet_clear_region_content, TRUE, NULL);
+	sheet_load_cell_val(sheet);
 }
 
 /**
