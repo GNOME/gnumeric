@@ -1,3 +1,13 @@
+2001-04-12  Jody Goldberg <jgoldberg@home.com>
+
+	* src/commands.c (cmd_paste_copy_undo) : Make the corner of the
+	  restored region visible.
+	(cmd_autofill_undo) : Ditto.
+	(cmd_autofill_redo) : Ditto.
+
+	* src/sheet.c (sheet_col_row_gutter_pts) : simplify, no need to store
+	  sizes in pts.  Outline level is enough.
+
 2001-04-10  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cellspan.c (cell_calc_span) : fix chema's spanning problem.

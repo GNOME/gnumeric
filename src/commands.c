@@ -2253,6 +2253,8 @@ cmd_paste_copy_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 				   me->dst.range.start.col, me->dst.range.start.row,
 				   me->dst.range.start.col, me->dst.range.start.row,
 				   me->dst.range.end.col, me->dst.range.end.row);
+	sheet_make_cell_visible	(me->dst.sheet,
+				 me->dst.range.start.col, me->dst.range.start.row);
 
 	return FALSE;
 }
@@ -2360,6 +2362,7 @@ cmd_autofill_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 				   me->base_col, me->base_row,
 				   me->base_col + me->w-1,
 				   me->base_row + me->h-1);
+	sheet_make_cell_visible	(me->dst.sheet, me->base_col, me->base_row);
 
 	return FALSE;
 }
@@ -2408,6 +2411,7 @@ cmd_autofill_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 				   me->base_col, me->base_row,
 				   me->base_col, me->base_row,
 				   me->end_col, me->end_row);
+	sheet_make_cell_visible	(me->dst.sheet, me->base_col, me->base_row);
 
 	deps = sheet_region_get_deps (me->dst.sheet, &me->dst.range);
 	if (deps)
