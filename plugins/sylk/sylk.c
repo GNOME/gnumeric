@@ -37,8 +37,6 @@ gboolean sylk_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLev
 void     sylk_file_open (GnmFileOpener const *fo, IOContext *io_context,
                          WorkbookView *wb_view, GsfInput *input);
 
-#define arraysize(x)     (sizeof(x)/sizeof(*(x)))
-
 typedef struct {
 	long     picture_idx;
 	unsigned italic : 1;

@@ -1638,7 +1638,7 @@ excel_write_FORMATs (ExcelWriteState *ewb)
 	guint i;
 
 	/* The built-in fonts which get localized */
-	for (i = 0; i < sizeof magic_num / sizeof magic_num[0]; i++)
+	for (i = 0; i < G_N_ELEMENTS (magic_num); i++)
 		excel_write_FORMAT (ewb, magic_num [i]);
 
 	/* The custom fonts */
@@ -1759,8 +1759,8 @@ map_pattern_index_to_excel (int i)
 	};
 
 	/* Default to Solid if out of range */
-	g_return_val_if_fail (i >= 0 &&
-			      i < (int) (sizeof(map_to_excel)/sizeof(int)), 0);
+	g_return_val_if_fail (i >= 0 && i < (int)G_N_ELEMENTS (map_to_excel),
+			      0);
 
 	return map_to_excel[i];
 }

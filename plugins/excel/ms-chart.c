@@ -2246,7 +2246,7 @@ BC(register_handlers)(void)
 	already_initialized = TRUE;
 
 	/* Init the handles */
-	i = sizeof(chart_biff_handler) / sizeof(ExcelChartHandler *);
+	i = G_N_ELEMENTS (chart_biff_handler);
 	while (--i >= 0)
 		chart_biff_handler[i] = NULL;
 

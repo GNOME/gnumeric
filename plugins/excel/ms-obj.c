@@ -876,7 +876,7 @@ ms_read_OBJ (BiffQuery *q, MSContainer *container, MSObjAttrBag *attrs)
 	}
 
 	obj->excel_type_name = NULL;
-	if (obj->excel_type < (int)(sizeof(object_type_names)/sizeof(char*)))
+	if (obj->excel_type < (int)G_N_ELEMENTS (object_type_names))
 		obj->excel_type_name = object_type_names [obj->excel_type];
 	if (obj->excel_type_name == NULL)
 		obj->excel_type_name = "Unknown";

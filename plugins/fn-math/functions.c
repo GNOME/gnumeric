@@ -1723,7 +1723,7 @@ gnumeric_fib (FunctionEvalInfo *ei, Value **argv)
 
 {
 	static int fibs[47];
-	static int fib_count = sizeof (fibs) / sizeof (fibs[0]);
+	static int fib_count = G_N_ELEMENTS (fibs);
 	static gboolean inited = FALSE;
 
 	int n = value_get_as_int (argv[0]);

@@ -1,6 +1,18 @@
+2003-03-07  Morten Welinder  <terra@diku.dk>
+
+	* ms-chart.c (register_handlers): Use G_N_ELEMENTS.
+
+	* ms-obj.c (ms_read_OBJ): Ditto.
+
+	* ms-excel-write.c (excel_write_builtin_name): Ditto.
+	(excel_write_FORMATs): Ditto.
+	(map_pattern_index_to_excel): Ditto.
+
+	* ms-excel-read.c (excel_map_pattern_index_from_excel): Ditto.
+
 2003-03-05  Jody Goldberg <jody@gnome.org>
 
-	* ms-biff.c (ms_biff_query_next) : more morton warnings.
+	* ms-biff.c (ms_biff_query_next) : more Morten warnings.
 	(ms_biff_query_peek_next) : ditto.
 
 	* ms-obj.c (ms_obj_read_biff8_obj) : TRUE on error in precondition

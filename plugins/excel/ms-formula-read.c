@@ -1111,7 +1111,7 @@ excel_parse_formula (MSContainer const *container,
 				/* 0x1e */ 0   /* Reserved */
 			};
 			guint8 const eptg_type = GSF_LE_GET_GUINT8(cur);
-			if (eptg_type >= sizeof(extended_ptg_size)/sizeof(int))
+			if (eptg_type >= G_N_ELEMENTS (extended_ptg_size))
 			{
 				g_warning ("EXCEL : unknown ePtg type %02x",
 					   eptg_type);
