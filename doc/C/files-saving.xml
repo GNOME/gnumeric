@@ -451,7 +451,7 @@
 	    provides a drop down list of file types. The process for
 	    using this list is the same as was described in the
 	    previous step. The file types are listed below in <xref
-	    linkend="sect-file-save-formats" /> and explained in
+	    linkend="sect-file-save" /> and explained in
 	    detail in <xref linkend="sect-file-formats" />.
 	  </para>
 	</step> 

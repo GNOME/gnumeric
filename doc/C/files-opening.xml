@@ -923,7 +923,7 @@
       the name of each file type in the table below skips to the
       appropriate section of <xref linkend="sect-file-formats"/>. The
       opening of text formatted files is described in <xref
-      linkend="file-export-text" />. &gnum; can also import
+      linkend="sect-file-textImport" />. &gnum; can also import
       text data or HTML and XHTML tables through the clipboard
       mechanism, as is explained in <xref
       linkend="sect-movecopy-xclipboard"/>.

@@ -284,7 +284,7 @@
 			This menu item can also be used to save a newly created file or to 
 			save an existing file to a new and different name. For an
 			explanation of the file formats which gnumeric supports see 
-			<xref linkend="sect-files-saving" />.
+			<xref linkend="sect-file-save" />.
          </para>
         </listitem>
 		</itemizedlist>
