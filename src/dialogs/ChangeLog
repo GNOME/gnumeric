@@ -1,5 +1,9 @@
 2003-06-22  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* print.glade: use stock buttons
+
+2003-06-22  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* format-selector.glade: rearrange items to use a treeview
 	  for the format categories
 

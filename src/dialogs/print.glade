@@ -65,8 +65,8 @@
 	      <property name="visible">True</property>
 	      <property name="can_default">True</property>
 	      <property name="can_focus">True</property>
-	      <property name="label" translatable="yes">Print preview</property>
-	      <property name="use_underline">True</property>
+	      <property name="label">gtk-print-preview</property>
+	      <property name="use_stock">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
 	      <property name="response_id">0</property>
 	    </widget>
@@ -77,8 +77,8 @@
 	      <property name="visible">True</property>
 	      <property name="can_default">True</property>
 	      <property name="can_focus">True</property>
-	      <property name="label" translatable="yes">Print</property>
-	      <property name="use_underline">True</property>
+	      <property name="label">gtk-print</property>
+	      <property name="use_stock">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
 	      <property name="response_id">0</property>
 	    </widget>
@@ -1513,8 +1513,8 @@
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
 	      <property name="active">True</property>
 	      <property name="inconsistent">False</property>
-	      <property name="group">apply-to-all</property>
 	      <property name="draw_indicator">True</property>
+	      <property name="group">apply-to-all</property>
 	    </widget>
 	    <packing>
 	      <property name="left_attach">0</property>
