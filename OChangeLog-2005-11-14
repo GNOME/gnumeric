@@ -1,3 +1,9 @@
+2000-09-20  Kenneth Christiansen  <kenneth@gnu.org>
+
+	* gnumeric.spec.in: Updated for new release.
+	* xml-po/: added new dir, which will be used for translation
+	of XML files, in the near future.
+
 2000-09-19  Morten Welinder  <terra@diku.dk>
 
 	* src/workbook.c (workbook_menu_tools): Spelling fixes.

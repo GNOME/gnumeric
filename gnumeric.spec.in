@@ -16,7 +16,7 @@ Docdir: 	%{prefix}/doc
 
 Requires: gtk+ >= 1.2.7
 Requires: gnome-libs >= 1.0.57
-Requires: gnome-print >= 0.21
+Requires: gnome-print >= 0.22
 Requires: libglade >= 0.13
 Requires: libxml >= 1.8.5
 Requires: libole2 >= 0.1.4
@@ -85,6 +85,13 @@ fi
 %config %{prefix}/share/gnome/apps/Applications/gnumeric.desktop
 %{prefix}/share/pixmaps/gnumeric/*
 %{prefix}/share/pixmaps/gnome-gnumeric.png
+%{prefix}/share/gnumeric/@VERSION@/templates/*.gnumeric
+%{prefix}/share/gnumeric/@VERSION@/autoformat-templates/General/*.template
+%{prefix}/share/gnumeric/@VERSION@/autoformat-templates/Classical/*.template
+%{prefix}/share/gnumeric/@VERSION@/autoformat-templates/Colourful/*.template
+%{prefix}/share/gnumeric/@VERSION@/autoformat-templates/Financial/*.template
+%{prefix}/share/gnumeric/@VERSION@/autoformat-templates/List/*.template
+%{prefix}/share/gnumeric/@VERSION@/autoformat-templates/3D/*.template
 %{prefix}/share/mime-info/gnumeric.keys
 %{prefix}/share/mime-info/gnumeric.mime
 %{prefix}/share/mc/templates/gnumeric.desktop
@@ -97,13 +104,17 @@ fi
 %doc HACKING AUTHORS ChangeLog NEWS README COPYING TODO
 
 %changelog
-* Sat Aug 11 2000 Jody Goldberg <jgolbderg@home.com>
+* Wed Sep 20 2000 Kenneth Christiansen <kenneth@gnu.org>
+- Made it work with the new autoformatter
+- Upped gnome-print to 0.22
+
+* Sat Aug 11 2000 Jody Goldberg <jgoldberg@home.com>
 - Updated version requirements for gnome-print
 
-* Sat Jun 21 2000 Jody Goldberg <jgolbderg@home.com>
+* Sat Jun 21 2000 Jody Goldberg <jgoldberg@home.com>
 - Add libole2
 
-* Sat May 20 2000 Jody Goldberg <jgolbderg@home.com>
+* Sat May 20 2000 Jody Goldberg <jgoldberg@home.com>
 - Updated version requirements for gnome-print, and libglade.
 
 * Mon May 15 2000 Karl Eichwalder <ke@suse.de>
@@ -115,19 +126,19 @@ fi
 - Added --without-bonobo and --without-gb.
 - Added %define for sysconfdir
 
-* Mon Feb 29 2000 Jody Goldberg <jgolbderg@home.com>
+* Mon Feb 29 2000 Jody Goldberg <jgoldberg@home.com>
 - Updated version requirements for gnome-print, and gnome-libs.
 
 * Sun Jan 30 2000 Gregory McLean <gregm@comstar.net>
 - Added in some auto-detect the language files logic (rpm 3.0.xx only)
 
-* Mon Jan 12 2000 Jody Goldberg <jgolbderg@home.com>
+* Mon Jan 12 2000 Jody Goldberg <jgoldberg@home.com>
 - Add depend on gtk+ >= 1.2.2 so that we can get gtk_object_get.
 
 * Mon Jan 03 2000 Gregory McLean <gregm@comstar.net>
 - Updated to 0.47
 
-* Mon Dec 20 1999 Jody Goldberg <jgolbderg@home.com>
+* Mon Dec 20 1999 Jody Goldberg <jgoldberg@home.com>
 - Updated the libglade dependancy.
 - Remove req for guile.  We can build without it.
 
