@@ -89,6 +89,7 @@ graph_series_seq_scalar (GraphSeries *series)
 	values = GNOME_Gnumeric_SeqScalar__alloc ();
 	values->_length = values->_maximum = len;
 	values->_buffer = CORBA_sequence_CORBA_double_allocbuf (len);
+	values->_release = CORBA_TRUE;
 
 	/* FIXME : This is dog slow */
 	for (i = 0; i < len ; ++i) {
@@ -118,6 +119,7 @@ graph_series_seq_date (GraphSeries *series)
 	values = GNOME_Gnumeric_SeqDate__alloc ();
 	values->_length = values->_maximum = len;
 	values->_buffer = CORBA_sequence_CORBA_long_allocbuf (len);
+	values->_release = CORBA_TRUE;
 
 	/* FIXME : This is dog slow */
 	for (i = 0; i < len ; ++i) {
@@ -145,6 +147,7 @@ graph_series_seq_string (GraphSeries *series)
 	values = GNOME_Gnumeric_SeqString__alloc ();
 	values->_length = values->_maximum = len;
 	values->_buffer = CORBA_sequence_CORBA_string_allocbuf (len);
+	values->_release = CORBA_TRUE;
 
 	/* FIXME : This is dog slow */
 	for (i = 0; i < len ; ++i) {

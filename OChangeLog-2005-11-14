@@ -1,5 +1,10 @@
 2000-09-29  Jody Goldberg <jgoldberg@home.com>
 
+	* src/graph-series.c
+	(graph_series_seq_scalar) : Mark the sequence for release.
+	(graph_series_seq_date) : Ditto.
+	(graph_series_seq_string) : Ditto.
+
 	* src/workbook.c (workbook_close_if_user_permits) : Simplify and
 	  beautify.
 
