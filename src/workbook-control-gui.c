@@ -1075,6 +1075,9 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 	if (MS_CONSOLIDATE & flags)
 		change_menu_sensitivity (wbcg, "/commands/DataConsolidate",
 					 !wbcg_edit_has_guru (wbcg));
+	if (MS_CONSOLIDATE & flags)
+		change_menu_sensitivity (wbcg, "/commands/DataFilterShowAll",
+					 sheet->has_hidden_rows);
 #endif
 
 	if (MS_FREEZE_VS_THAW & flags) {
@@ -3635,6 +3638,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("RandomGenerator", cb_tools_random_generator),
 
 	BONOBO_UI_UNSAFE_VERB ("DataSort", cb_data_sort),
+	BONOBO_UI_UNSAFE_VERB ("DataFilterShowAll", cb_show_all),
 	BONOBO_UI_UNSAFE_VERB ("DataFilterAdvancedfilter", cb_data_filter),
 	BONOBO_UI_UNSAFE_VERB ("DataValidate", cb_data_validate),
 	BONOBO_UI_UNSAFE_VERB ("DataConsolidate", cb_data_consolidate),

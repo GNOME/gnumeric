@@ -508,6 +508,10 @@
 		_label="_Solver..."
 		_tip="Iteratively recalculate with constraints to approach a target value"/>
 
+	    <menuitem name="ToolsSimulation" verb=""
+		_label="_Risk Simulation..."
+		_tip="Test decision alternatives by using monte carlo simulation to find out probable outputs and risks related to them"/>
+
 	    <separator/>
 
 	    <submenu name="ToolStatisticalAnalysis" _label="Statistical Anal_ysis">
@@ -581,6 +585,10 @@
 		_tip="Sorts the selected cells"/>
 
 	    <submenu name="Filter" _label="_Filter">
+
+	        <menuitem name="DataFilterShowAll" verb=""
+		    _label="_Show All"
+		    _tip="Show all filtered and hidden rows"/>
 
 	        <menuitem name="DataFilterAdvancedfilter" verb=""
 		    _label="Advanced _Filter..."

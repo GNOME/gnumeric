@@ -158,6 +158,7 @@ gboolean
 cb_show_all (ColRowInfo *info, Sheet *sheet)
 {
 	colrow_set_visibility (sheet, FALSE, TRUE, info->pos, info->pos);
+	return FALSE;
 }
 
 void
