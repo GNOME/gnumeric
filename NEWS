@@ -1,5 +1,8 @@
 Gnumeric 0.62
 
+Chema:
+	* Massive bug hunting spree.
+
 Jody:
 	* Undo, persistance, cursor handling, and printing for merged cells
 	* Fix inverted objects
@@ -21,6 +24,11 @@ Morten:
 	* Leak plugging as usual.
 	* Created and/or stole a number of tools to make life easier for
 	  developers.
+	* Cleaned up gnumeric-bonobo's GUI.
+	* Search and replace.
+
+JPablo:
+	* Search and replace.
 
 Zbigniew Chyla:
 	* Internationalization support for autoformat.
