@@ -798,70 +798,69 @@ static void
 wbcg_menu_state_update (WorkbookControl *wbc, Sheet const *sheet, int flags)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
-	gboolean all = MS_ALL & flags;
 	
 	g_return_if_fail (wbcg != NULL);
 
 #ifndef ENABLE_BONOBO
-	if (all || MS_INSERT_COLS & flags) 
+	if (MS_INSERT_COLS & flags) 
 		change_menu_sensitivity (wbcg->menu_item_insert_cols,
 					 sheet->priv->enable_insert_cols);
-	if (all || MS_INSERT_ROWS & flags)
+	if (MS_INSERT_ROWS & flags)
 		change_menu_sensitivity (wbcg->menu_item_insert_rows,
 					 sheet->priv->enable_insert_rows);
-	if (all || MS_INSERT_CELLS & flags)
+	if (MS_INSERT_CELLS & flags)
 		change_menu_sensitivity (wbcg->menu_item_insert_cells,
 					 sheet->priv->enable_insert_cells);
-	if (all || MS_SHOWHIDE_DETAIL & flags) {
+	if (MS_SHOWHIDE_DETAIL & flags) {
 		change_menu_sensitivity (wbcg->menu_item_show_detail,
 					 sheet->priv->enable_showhide_detail);
 		change_menu_sensitivity (wbcg->menu_item_hide_detail,
 					 sheet->priv->enable_showhide_detail);
 	}
-	if (all || MS_PASTE_SPECIAL & flags)
+	if (MS_PASTE_SPECIAL & flags)
 		change_menu_sensitivity (wbcg->menu_item_paste_special,
 					 sheet->priv->enable_paste_special);
-	if (all || MS_PRINT_SETUP & flags)
+	if (MS_PRINT_SETUP & flags)
 		change_menu_sensitivity (wbcg->menu_item_print_setup,
 					 !wbcg_edit_has_guru (wbcg));
-	if (all || MS_SEARCH_REPLACE & flags)
+	if (MS_SEARCH_REPLACE & flags)
 		change_menu_sensitivity (wbcg->menu_item_search_replace,
 					 !wbcg_edit_has_guru (wbcg));
-	if (all || MS_DEFINE_NAME & flags)
+	if (MS_DEFINE_NAME & flags)
 		change_menu_sensitivity (wbcg->menu_item_define_name,
 					 !wbcg_edit_has_guru (wbcg));
-	if (all || MS_CONSOLIDATE & flags)
+	if (MS_CONSOLIDATE & flags)
 		change_menu_sensitivity (wbcg->menu_item_consolidate,
 					 !wbcg_edit_has_guru (wbcg));
 #else
-	if (all || MS_INSERT_COLS & flags)
+	if (MS_INSERT_COLS & flags)
 		change_menu_sensitivity (wbcg, "/commands/InsertColumns",
 					 sheet->priv->enable_insert_cols);
-	if (all || MS_INSERT_ROWS & flags)
+	if (MS_INSERT_ROWS & flags)
 		change_menu_sensitivity (wbcg, "/commands/InsertRows",
 					 sheet->priv->enable_insert_rows);
-	if (all || MS_INSERT_CELLS & flags)
+	if (MS_INSERT_CELLS & flags)
 		change_menu_sensitivity (wbcg, "/commands/InsertCells",
 					 sheet->priv->enable_insert_cells);
-	if (all || MS_SHOWHIDE_DETAIL & flags) {
+	if (MS_SHOWHIDE_DETAIL & flags) {
 		change_menu_sensitivity (wbcg, "/commands/DataOutlineShowDetail",
 					 sheet->priv->enable_showhide_detail);
 		change_menu_sensitivity (wbcg, "/commands/DataOutlineHideDetail",
 					 sheet->priv->enable_showhide_detail);
 	}
-	if (all || MS_PASTE_SPECIAL & flags)
+	if (MS_PASTE_SPECIAL & flags)
 		change_menu_sensitivity (wbcg, "/commands/EditPasteSpecial",
 					 sheet->priv->enable_paste_special);
-	if (all || MS_PRINT_SETUP & flags)
+	if (MS_PRINT_SETUP & flags)
 		change_menu_sensitivity (wbcg, "/commands/FilePrintSetup",
 					 !wbcg_edit_has_guru (wbcg));
-	if (all || MS_SEARCH_REPLACE & flags)
+	if (MS_SEARCH_REPLACE & flags)
 		change_menu_sensitivity (wbcg, "/commands/EditSearchReplace",
 					 !wbcg_edit_has_guru (wbcg));
-	if (all || MS_DEFINE_NAME & flags)
+	if (MS_DEFINE_NAME & flags)
 		change_menu_sensitivity (wbcg, "/commands/EditNames",
 					 !wbcg_edit_has_guru (wbcg));
-	if (all || MS_CONSOLIDATE & flags)
+	if (MS_CONSOLIDATE & flags)
 		change_menu_sensitivity (wbcg, "/commands/DataConsolidate",
 					 !wbcg_edit_has_guru (wbcg));
 #endif

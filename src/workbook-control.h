@@ -44,19 +44,21 @@ void wb_control_undo_redo_labels     (WorkbookControl *wbc,
 
 /* Menu state update flags, use them to specify which menu items to update */
 enum {
-	MS_ALL              = 1 << 0,
-	
-	MS_INSERT_COLS      = 1 << 1,
-	MS_INSERT_ROWS      = 1 << 2,
-	MS_INSERT_CELLS     = 1 << 3,
-	MS_SHOWHIDE_DETAIL  = 1 << 4,
-	MS_PASTE_SPECIAL    = 1 << 5,
-	MS_PRINT_SETUP      = 1 << 6,
-	MS_SEARCH_REPLACE   = 1 << 7,
-	MS_DEFINE_NAME      = 1 << 8,
-	MS_CONSOLIDATE      = 1 << 9
+	MS_INSERT_COLS      = 1 << 0,
+	MS_INSERT_ROWS      = 1 << 1,
+	MS_INSERT_CELLS     = 1 << 2,
+	MS_SHOWHIDE_DETAIL  = 1 << 3,
+	MS_PASTE_SPECIAL    = 1 << 4,
+	MS_PRINT_SETUP      = 1 << 5,
+	MS_SEARCH_REPLACE   = 1 << 6,
+	MS_DEFINE_NAME      = 1 << 7,
+	MS_CONSOLIDATE      = 1 << 8
 };
 
+#define MS_ALL \
+        (MS_INSERT_COLS | MS_INSERT_ROWS | MS_INSERT_CELLS | \
+	 MS_SHOWHIDE_DETAIL | MS_PASTE_SPECIAL | MS_PRINT_SETUP | \
+	 MS_SEARCH_REPLACE | MS_DEFINE_NAME | MS_CONSOLIDATE)
 #define MS_GURU_MENU_ITEMS \
         (MS_PRINT_SETUP | MS_SEARCH_REPLACE | MS_DEFINE_NAME | MS_CONSOLIDATE)
 

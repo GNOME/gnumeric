@@ -1,5 +1,13 @@
 2001-06-07  Almer S. Tigelaar  <almer@gnome.org>
 
+	* src/workbook-control.h: Remove MS_ALL as flag
+	and make it a define.
+
+	* src/workbook-control-gui.c (wbcg_menu_state_update):
+	Remove MS_ALL flag handling.
+
+2001-06-07  Almer S. Tigelaar  <almer@gnome.org>
+
 	* src/workbook-control.h: Add MS_CONSOLIDATE.
 
 	* src/workbook-edit.c (wbcg_edit_attach_guru): Call
