@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0\n"
-"POT-Creation-Date: 2002-02-26 17:59+0100\n"
-"PO-Revision-Date: 2002-02-26 18:03+0100\n"
+"POT-Creation-Date: 2002-03-06 17:21+0100\n"
+"PO-Revision-Date: 06.03.2002 17:22\n"
 "Last-Translator: Stanislav Višňovský <visnovsky@nenya.ms.mff.cuni.cz>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 "<bobo@bobo.bspc.sk>\n"
 "Date: 1999-04-30 12:12:02+0000\n"
 "From: Bobo Rajec,BSP Consulting,+42 7 5330 017,, <bobo@bobo.bspc.sk>\n"
-"X-Generator: KBabel 0.9.6\n"
+"X-Generator: KBabel 0.9.5\n"
 
 #: gnumeric.desktop.in.h:1 src/dialogs/dialog-about.c:81
 #: src/functions/fn-sheet.c:143
@@ -523,12 +523,12 @@ msgstr "Zošity chránené heslom zatiaľ nie sú podporované."
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Nepodarilo sa nájsť platný zošit MS Excel"
 
-#: plugins/excel/ms-excel-write.c:3503
+#: plugins/excel/ms-excel-write.c:3511
 #, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr "Príliš veľa riadkov pre tento formát (%d > %d)"
 
-#: plugins/excel/ms-excel-write.c:3731
+#: plugins/excel/ms-excel-write.c:3737
 msgid "Can't open stream for writing\n"
 msgstr "Nepodarilo sa otvoriť kanál pre zápis\n"
 
@@ -4397,36 +4397,36 @@ msgid "_Wrap text"
 msgstr "_Zalamovať text"
 
 #: src/dialogs/cell-format.glade.h:131
-msgid "min <= val <= max         (between)"
-msgstr "min <= hod <= max         (medzi)"
+msgid "min &lt;= val &lt;= max         (between)"
+msgstr "min &lt;= hodnota &lt;= max       (medzi)"
 
 #: src/dialogs/cell-format.glade.h:132
 msgid "val != bound                  (not equal to)"
 msgstr "hod != limit                 (nerovná sa)"
 
 #: src/dialogs/cell-format.glade.h:133
-msgid "val <  bound                  (less than)"
-msgstr "hod <  limit                 (je menšia)"
+msgid "val &gt;  bound                  (greater than)"
+msgstr "hodnota &gt;  hranica                 (väčšia)"
 
 #: src/dialogs/cell-format.glade.h:134
-msgid "val <= min || max <= val (not between)"
-msgstr "hod <= min || max <= hod (nie je medzi)"
+msgid "val &gt;=bound                  (greater than or equal to)"
+msgstr "hodnota &gt;= hranica                 (väčšia alebo rovná)"
 
 #: src/dialogs/cell-format.glade.h:135
-msgid "val <=bound                  (less than or equal to)"
-msgstr "hod <=limit                 (je menšia alebo rovná)"
+msgid "val &lt;  bound                  (less than)"
+msgstr "hodnota &lt;  hranica                 (menšia)"
 
 #: src/dialogs/cell-format.glade.h:136
-msgid "val == bound                 (equal to)"
-msgstr "hod == limit                (je rovná)"
+msgid "val &lt;= min || max &lt;= val (not between)"
+msgstr "hodnota &lt;= min || max &lt;= hodnota (nie medzi)"
 
 #: src/dialogs/cell-format.glade.h:137
-msgid "val >  bound                  (greater than)"
-msgstr "hod >  limit                 (je väčšia)"
+msgid "val &lt;=bound                  (less than or equal to)"
+msgstr "hodnota &lt;= hranica                 (menšia alebo rovná)"
 
 #: src/dialogs/cell-format.glade.h:138
-msgid "val >=bound                  (greater than or equal to)"
-msgstr "hod >=limit                 (je väčšia alebo rovná)"
+msgid "val == bound                 (equal to)"
+msgstr "hod == limit                (je rovná)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A _header"
@@ -5375,7 +5375,7 @@ msgstr "%s nie je platná zdrojová oblasť"
 msgid "You cannot redefine a builtin name."
 msgstr "Nemôžete predefinovať zabudované meno."
 
-#: src/dialogs/dialog-define-names.c:591
+#: src/dialogs/dialog-define-names.c:592
 msgid "Could not create the Name Guru."
 msgstr "Nie je možné vytvoriť Guru mien."
 
@@ -5661,15 +5661,15 @@ msgstr "Komentár"
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Ste si istý, že chcete odstrániť list nazvaný `%s'?"
 
-#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:1
+#: src/dialogs/dialog-solver.c:65
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:66
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
 msgid "="
 msgstr "="
 
@@ -5716,25 +5716,25 @@ msgstr "Naozaj chcete zrušiť?"
 msgid "\""
 msgstr "\""
 
-#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
+#: src/dialogs/dialog-stf-export.glade.h:2
+msgid "&lt;- Remove"
+msgstr "&lt;- Odstrániť"
+
+#: src/dialogs/dialog-stf-export.glade.h:3
+msgid "&lt;- Remove all"
+msgstr "&lt;- Odstrániť všetky"
+
+#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
 msgstr "'"
 
-#: src/dialogs/dialog-stf-export.glade.h:3
-msgid "<- Remove"
-msgstr "<- Odstrániť"
-
-#: src/dialogs/dialog-stf-export.glade.h:4
-msgid "<- Remove all"
-msgstr "<- Odstrániť všetky"
-
 #: src/dialogs/dialog-stf-export.glade.h:5
-msgid "Add ->"
-msgstr "Pridať ->"
+msgid "Add -&gt;"
+msgstr "Pridať -&gt;"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
-msgid "Add all ->"
-msgstr "Pridať všetky - >"
+msgid "Add all -&gt;"
+msgstr "Pridať všetky -&gt;"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
 msgid "Always"
@@ -7219,6 +7219,14 @@ msgstr "Zadajte nové meno _listu:"
 msgid "Rename sheet"
 msgstr "Premenovať list"
 
+#: src/dialogs/solver.glade.h:1
+msgid "&gt;="
+msgstr "&gt;="
+
+#: src/dialogs/solver.glade.h:2
+msgid "&lt;="
+msgstr "&lt;="
+
 #: src/dialogs/solver.glade.h:4
 msgid "Assume _Linear Model"
 msgstr "Predpokladať _lineárny model"
@@ -7428,7 +7436,7 @@ msgstr "'%s' obsahuje kruhový odkaz"
 msgid "Builtin"
 msgstr "Zabudovaný"
 
-#: src/expr-name.c:518 src/expr-name.c:530
+#: src/expr-name.c:516 src/expr-name.c:528
 msgid "Error: no sheet"
 msgstr "Chyba: žiadny list"
 
@@ -9856,7 +9864,7 @@ msgstr ""
 "\n"
 "@SEEALSO=WORKDAY"
 
-#: src/functions/fn-date.c:1116
+#: src/functions/fn-date.c:1124
 msgid ""
 "@FUNCTION=ISOWEEKNUM\n"
 "@SYNTAX=ISOWEEKNUM (date)\n"
@@ -9882,7 +9890,7 @@ msgstr ""
 "Ak A1 obsahuje 21/12/00, potom ISOWEEKNUM(A1)=51\n"
 "@SEEALSO=WEEKNUM"
 
-#: src/functions/fn-date.c:1160
+#: src/functions/fn-date.c:1168
 msgid ""
 "@FUNCTION=WEEKNUM\n"
 "@SYNTAX=WEEKNUM (date, method)\n"
@@ -9920,7 +9928,7 @@ msgstr ""
 "Ak A1 obsahuje 21/12/00 potom WEEKNUM(A1,2)=51\n"
 "@SEEALSO=ISOWEEKNUM"
 
-#: src/functions/fn-date.c:1219
+#: src/functions/fn-date.c:1227
 msgid "Date / Time"
 msgstr "Dátum / Čas"
 
@@ -14957,8 +14965,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDBINOM\n"
 "@SYNTAX=RANDBINOM(p,pokusy)\n"
-"@DESCRIPTION=RANDBINOM vracia náhodné číslo podľa binomického "
-"rozdelenia. \n"
+"@DESCRIPTION=RANDBINOM vracia náhodné číslo podľa binomického rozdelenia. \n"
 "Ak je @p < 0 alebo @p > 1, RANDBINOM vracia chybu #NUM!. Ak je @pokusy "
 "RANDBINOM vracia chybu #NUM!. \n"
 "@EXAMPLES=\n"
@@ -20763,32 +20770,4 @@ msgstr "Nie je súbor so zošitom Gnumeric"
 #: src/xml-io.c:3468
 msgid "Gnumeric XML file format"
 msgstr "Súborový formát Gnumeric XML"
-
-#~ msgid ""
-#~ "@FUNCTION=RandBinom\n"
-#~ "@SYNTAX=RandBinom(p,trials)\n"
-#~ "@DESCRIPTION=RandBinom returns a binomialy distributed random number. \n"
-#~ "If @p < 0 or @p > 1 RandBinom returns #NUM! error. If @trials < 0 "
-#~ "RandBinom returns #NUM! error. \n"
-#~ "@EXAMPLES=\n"
-#~ "RandBinom(0.5,2).\n"
-#~ "\n"
-#~ "@SEEALSO=RAND,RANDBETWEEN"
-#~ msgstr ""
-#~ "@FUNCTION=RandBinom\n"
-#~ "@SYNTAX=RandBinom(p,pokusy)\n"
-#~ "@DESCRIPTION=RandBinom vracia náhodné číslo podľa binomického "
-#~ "rozdelenia. \n"
-#~ "Ak je @p < 0 alebo @p > 1 RandBinom vracia chybu #NUM!. Ak je @pokusy < 0 "
-#~ "RandBinom vracia chybu #NUM!. \n"
-#~ "@EXAMPLES=\n"
-#~ "RandBinom(0.5,2).\n"
-#~ "\n"
-#~ "@SEEALSO=RAND,RANDBETWEEN"
-
-#~ msgid "Text File Export (*.csv)"
-#~ msgstr "Export textového súboru (*.csv)"
-
-#~ msgid "'%f' is not a number"
-#~ msgstr "'%f' nie je číslo"
 
