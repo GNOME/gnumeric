@@ -2,6 +2,7 @@
 
 	* dialog-scenarios.c (check_name): Make UTF-8 safe.
 	(find_scenario_strs): Fix memory corruption.
+	(scenario_name_used): Constify.
 
 2003-04-12  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 

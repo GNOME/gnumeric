@@ -45,7 +45,7 @@ typedef GenericToolState ScenariosState;
 /********* Scenario Add UI **********************************************/
 
 static gboolean
-scenario_name_used (GList *scenarios, gchar *name)
+scenario_name_used (const GList *scenarios, const gchar *name)
 {
 	while (scenarios != NULL) {
 		const scenario_t *s = scenarios->data;
