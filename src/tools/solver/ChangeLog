@@ -1,5 +1,9 @@
 2002-03-09  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
+	* reports.c (solver_program_report): Renamed as
+	solver_performance_report.  Added stubs for solver_program_report
+	and solver_dual_program_report.
+
 	* reports.c (solver_answer_report): Fix the final value of
 	obj. fn. reporting in the case where the target cell has a
 	constant increment.

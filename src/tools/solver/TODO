@@ -20,7 +20,7 @@ Feature enhancements:
   * sensitivity report: fix reduced gradient
   * sensitivity report: fix lagrange multipliers
   * limits report: fix the limit reporting
-  * program report: fix CPU info
+  * performance report: fix CPU info
   * get_lp_coeff: test that it's really LP
   * make the solver as a separate thread so that the user can continue working
     while the solver is solving the program
@@ -28,7 +28,8 @@ Feature enhancements:
       counting
     - add a callback function into the solve fn for interacting with the
       status dialog
-    - program report: fix user & system time reporting (need a separate thread)
+    - performance report: fix user & system time reporting (need a separate
+      thread)
   * generate a report that gives the program in math form
   * generate a report that gives the dual of the program in math form
   * add option support for the solving algorithm
@@ -42,8 +43,8 @@ Feature enhancements:
       algorithms would be cool
   * fix all problems regarding MPS import plugin
   * add MPS export
-  * program report: add the name of the algorithm used
-  * program report: add other used options
+  * performance report: add the name of the algorithm used
+  * performance report: add other used options
 
 Misc:
   * add example programs into samples/solver

@@ -499,14 +499,14 @@ solver_limits_report (WorkbookControl *wbc,
 }
 
 
-/* Generates the Solver's program report.  Contains some statistical
+/* Generates the Solver's performance report.  Contains some statistical
  * information regarding the program, information on how long it took
  * to be solved, and what kind of a system did the processing.
  */
 static void
-solver_program_report (WorkbookControl *wbc,
-		       Sheet           *sheet,
-		       SolverResults   *res)
+solver_performance_report (WorkbookControl *wbc,
+			   Sheet           *sheet,
+			   SolverResults   *res)
 {
         data_analysis_output_t dao;
 	int                    i, mat_size, zeros;
@@ -514,7 +514,7 @@ solver_program_report (WorkbookControl *wbc,
 	Value                  *v;
 
 	dao.type = NewSheetOutput;
-        prepare_output (wbc, &dao, _("Program Report"));
+        prepare_output (wbc, &dao, _("Performance Report"));
 
 	dao.sheet->hide_grid = TRUE;
 
@@ -672,7 +672,7 @@ solver_program_report (WorkbookControl *wbc,
 	 */
 
 	/* Fill in the header titles. */
-	fill_header_titles (&dao, _("Program Report"), sheet);
+	fill_header_titles (&dao, _("Performance Report"), sheet);
 
 	/* Fill in other titles. */
 	set_cell (&dao, 0, 5, _("General Statistics"));
@@ -682,10 +682,78 @@ solver_program_report (WorkbookControl *wbc,
 }
 
 
+/* Generates the Solver's program report.
+ */
+static void
+solver_program_report (WorkbookControl *wbc,
+		       Sheet           *sheet,
+		       SolverResults   *res)
+{
+        data_analysis_output_t dao;
+
+	dao.type = NewSheetOutput;
+        prepare_output (wbc, &dao, _("Program Report"));
+
+	dao.sheet->hide_grid = TRUE;
+
+	/* Set this to fool the autofit_column function.  (It will be
+	 * overwriten). */
+	set_cell (&dao, 0, 0, "A");
+
+	/* Print the type of the program. */
+	switch (res->param->problem_type) {
+	case SolverMinimize:
+	        set_cell (&dao, 1, 5, _("Minimize"));
+		break;
+	case SolverMaximize:
+	        set_cell (&dao, 1, 5, _("Maximize"));
+		break;
+	case SolverEqualTo:
+	        set_cell (&dao, 1, 5, _("Equal to"));
+		break;
+	}
+
+
+	/*
+	 * Fill in the titles.
+	 */
+
+	/* Fill in the header titles. */
+	fill_header_titles (&dao, _("Program Report"), sheet);
+}
+
+
+/* Generates the Solver's dual program report.
+ */
+static void
+solver_dual_program_report (WorkbookControl *wbc,
+			    Sheet           *sheet,
+			    SolverResults   *res)
+{
+        data_analysis_output_t dao;
+
+	dao.type = NewSheetOutput;
+        prepare_output (wbc, &dao, _("Dual Program Report"));
+
+	dao.sheet->hide_grid = TRUE;
+
+	/* Set this to fool the autofit_column function.  (It will be
+	 * overwriten). */
+	set_cell (&dao, 0, 0, "A");
+
+	/*
+	 * Fill in the titles.
+	 */
+
+	/* Fill in the header titles. */
+	fill_header_titles (&dao, _("Dual Program Report"), sheet);
+}
+
+
 void
 solver_lp_reports (WorkbookControl *wbc, Sheet *sheet, SolverResults *res,
 		   gboolean answer, gboolean sensitivity, gboolean limits,
-		   gboolean program)
+		   gboolean performance, gboolean program, gboolean dual)
 {
         if (answer)
 	        solver_answer_report (wbc, sheet, res);
@@ -693,8 +761,12 @@ solver_lp_reports (WorkbookControl *wbc, Sheet *sheet, SolverResults *res,
 	        solver_sensitivity_report (wbc, sheet, res);
 	if (limits && ! res->ilp_flag)
 	        solver_limits_report (wbc, sheet, res);
+	if (performance)
+	        solver_performance_report (wbc, sheet, res);
 	if (program)
 	        solver_program_report (wbc, sheet, res);
+	if (dual)
+	        solver_dual_program_report (wbc, sheet, res);
 }
 
 
