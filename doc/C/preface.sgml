@@ -26,11 +26,12 @@
 	  Transparent access and manipulation of files from other applications
 	  is vital in a modern office.  <application>Gnumeric</application> can
 	  read files from several well known proprietary and free spreadsheets
-	  including MS Excel (tm), Lotus 1-2-3 (tm), Applix (tm), Sylk, XBase
-	  and Oleo.  It can also export to MS Excel (tm) along with several
-	  open formats such as LaTeX \longtables, HTML, roff, and boasts highly
-	  configurable text exporter .  New formats can easily be
-	  added in a modular fashion via a plug-in.
+	  including MS Excel (tm), Lotus 1-2-3 (tm), Applix (tm), Psion, Sylk,
+	  XBase Oleo, and HTML.  It can also export to MS Excel (tm) along with
+	  several open formats such as LaTeX \longtables, HTML, roff.  Rounding
+	  out the i/o routines is a highly configurable text importer/exporter
+	  to ensure that data can be transfered smoothly.  New formats can
+	  easily be added in a modular fashion via a plug-in.
 	</para>
       </listitem>
 
