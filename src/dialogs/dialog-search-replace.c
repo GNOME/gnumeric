@@ -144,7 +144,7 @@ dialog_destroy (GtkWidget *widget, DialogState *dd)
 static void
 set_focus (GtkWidget *widget, GtkWidget *focus_widget, DialogState *dd)
 {
-	if (GNUMERIC_IS_EXPR_ENTRY (focus_widget))
+	if (IS_GNUMERIC_EXPR_ENTRY (focus_widget))
 		wbcg_set_entry (dd->wbcg,
 				    GNUMERIC_EXPR_ENTRY (focus_widget));
 	else
@@ -201,7 +201,7 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 
 	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
 
-	dd->rangetext = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new ());
+	dd->rangetext = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (wbcg));
 	gnumeric_expr_entry_set_flags (
 		GNUMERIC_EXPR_ENTRY (dd->rangetext),
 		GNUM_EE_SHEET_OPTIONAL, GNUM_EE_SHEET_OPTIONAL);

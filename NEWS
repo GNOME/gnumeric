@@ -1,6 +1,9 @@
 --------------------------------------------------------------------------
 Gnumeric 0.70
 
+Jody :
+	* Basic support for M-Enter to add embedded newlines.
+
 Morten:
 	* Make CEIL more as users expect (based on Jody's idea).
 

@@ -425,7 +425,7 @@ formula_guru_arg_new (char * const name,
 			  0, 1, row, row+1,
 			  GTK_EXPAND|GTK_FILL, 0, 0, 0);
 
-	as->entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new ());
+	as->entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
 	gnumeric_expr_entry_set_flags (
 		as->entry, GNUM_EE_SHEET_OPTIONAL, GNUM_EE_SHEET_OPTIONAL);
 	gtk_table_attach (GTK_TABLE (state->arg_table),
@@ -594,7 +594,7 @@ formula_guru_init (FormulaGuruState *state, ExprTree const *expr, Cell const *ce
 	state->cancel_button= formula_guru_init_button (state, "cancel_button");
 	state->rolled_box   = glade_xml_get_widget (state->gui, "rolled_box");
 	state->rolled_label = glade_xml_get_widget (state->gui, "rolled_label");
-	state->rolled_entry = gnumeric_expr_entry_new ();
+	state->rolled_entry = gnumeric_expr_entry_new (state->wbcg);
 	gnumeric_expr_entry_set_flags (
 		GNUMERIC_EXPR_ENTRY (state->rolled_entry),
 		GNUM_EE_SHEET_OPTIONAL, GNUM_EE_SHEET_OPTIONAL);

@@ -1043,7 +1043,7 @@ do_setup_page_info (PrinterSetupState *state)
 	GtkCombo *comments_combo;
 	GtkWidget *order;
 
-	state->area_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new ());
+	state->area_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
 	gnumeric_expr_entry_set_scg (state->area_entry,
 				     wb_control_gui_cur_sheet (state->wbcg));
 	gnumeric_expr_entry_set_flags (state->area_entry,
@@ -1053,7 +1053,7 @@ do_setup_page_info (PrinterSetupState *state)
 			    TRUE, TRUE, 0);
 	gtk_widget_show (GTK_WIDGET (state->area_entry));
 
-	state->top_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new ());
+	state->top_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
 	gnumeric_expr_entry_set_scg (state->top_entry,
 				     wb_control_gui_cur_sheet (state->wbcg));
 	gnumeric_expr_entry_set_flags (
@@ -1066,7 +1066,7 @@ do_setup_page_info (PrinterSetupState *state)
 			  GTK_EXPAND|GTK_FILL, 0, 0, 0);
 	gtk_widget_show (GTK_WIDGET (state->top_entry));
 
-	state->left_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new ());
+	state->left_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
 	gnumeric_expr_entry_set_scg (state->left_entry,
 				     wb_control_gui_cur_sheet (state->wbcg));
 	gnumeric_expr_entry_set_flags (
@@ -1294,7 +1294,7 @@ static void
 do_print_set_focus_cb (GtkWidget *window, GtkWidget *focus_widget,
 		       PrinterSetupState *state)
 {
-	if (GNUMERIC_IS_EXPR_ENTRY (focus_widget))
+	if (IS_GNUMERIC_EXPR_ENTRY (focus_widget))
 		wbcg_set_entry (state->wbcg,
 				    GNUMERIC_EXPR_ENTRY (focus_widget));
 	else

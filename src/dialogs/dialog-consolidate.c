@@ -189,11 +189,11 @@ static void
 cb_dialog_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 		     ConsolidateState *state)
 {
-	if (GNUMERIC_IS_EXPR_ENTRY (focus_widget)) {
+	if (IS_GNUMERIC_EXPR_ENTRY (focus_widget)) {
 		GnumericExprEntryFlags flags;
 		
 		wbcg_set_entry (state->wbcg,
-				    GNUMERIC_EXPR_ENTRY (focus_widget));
+				GNUMERIC_EXPR_ENTRY (focus_widget));
 				    
 		flags = GNUM_EE_SHEET_OPTIONAL;
 		gnumeric_expr_entry_set_flags (state->gui.destination, flags, flags);
@@ -349,9 +349,9 @@ setup_widgets (ConsolidateState *state, GladeXML *glade_gui)
 
 	state->gui.function    = GTK_OPTION_MENU     (glade_xml_get_widget (glade_gui, "function"));
 	state->gui.put         = GTK_OPTION_MENU     (glade_xml_get_widget (glade_gui, "put"));
-	state->gui.destination = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new ());
+	state->gui.destination = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
 
-	state->gui.source      = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new ());
+	state->gui.source      = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
 	state->gui.add         = GTK_BUTTON          (glade_xml_get_widget (glade_gui, "add"));
 	state->gui.areas       = GTK_CLIST           (glade_xml_get_widget (glade_gui, "areas"));
 	state->gui.clear       = GTK_BUTTON          (glade_xml_get_widget (glade_gui, "clear"));

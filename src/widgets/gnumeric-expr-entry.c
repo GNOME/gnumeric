@@ -8,12 +8,20 @@
 
 #include <config.h>
 #include "gnumeric-expr-entry.h"
+#include "workbook-edit.h"
+#include "workbook-control-gui-priv.h"
 #include "sheet-control-gui.h"
 #include "sheet-merge.h"
 #include "parse-util.h"
+#include "gnumeric-util.h"
 #include "ranges.h"
 #include "value.h"
 #include "sheet.h"
+#include "commands.h"
+
+#include <gal/util/e-util.h>
+#include <gtk/gtkentry.h>
+#include <ctype.h>
 
 static GtkObjectClass *gnumeric_expr_entry_parent_class;
 
@@ -26,6 +34,7 @@ typedef struct {
 
 struct _GnumericExprEntry {
 	GtkEntry entry;
+	WorkbookControlGUI *wbcg;
 	SheetControlGUI *scg;
 	GnumericExprEntryFlags flags;
 	int freeze_count;
@@ -35,9 +44,12 @@ struct _GnumericExprEntry {
 	Rangesel rangesel;
 };
 
-static char * make_rangesel_text (GnumericExprEntry *expr_entry);
+typedef struct _GnumericExprEntryClass {
+	GtkEntryClass parent_class;
+} GnumericExprEntryClass;
 
-static void update_rangesel_text (GnumericExprEntry *expr_entry, char *text);
+static char *make_rangesel_text	  (GnumericExprEntry *expr_entry);
+static void  update_rangesel_text (GnumericExprEntry *expr_entry, char *text);
 
 static void
 gnumeric_expr_entry_finalize (GtkObject *object)
@@ -51,37 +63,162 @@ gnumeric_expr_entry_finalize (GtkObject *object)
 	GTK_OBJECT_CLASS (gnumeric_expr_entry_parent_class)->finalize (object);
 }
 
+static gint
+gnumeric_expr_entry_key_press_event (GtkWidget *widget, GdkEventKey *event)
+{
+	GnumericExprEntry *gee = GNUMERIC_EXPR_ENTRY (widget);
+	WorkbookControlGUI *wbcg  =  gee->wbcg;
+	GtkEntry           *entry = &gee->entry;
+	int state = gnumeric_filter_modifiers (event->state);
+
+	switch (event->keyval) {
+	case GDK_Up:	case GDK_KP_Up:
+	case GDK_Down:	case GDK_KP_Down:
+		/* Ignore these keys */
+		return TRUE;
+
+	case GDK_F4: {
+		/* FIXME FIXME FIXME
+		 * 1) Make sure that a cursor move after an F4
+		 *    does not insert.
+		 * 2) Handle calls for a range rather than a single cell.
+		 */
+		int end_pos = GTK_EDITABLE (entry)->current_pos;
+		int start_pos;
+		int row_status_pos, col_status_pos;
+		gboolean abs_row = FALSE, abs_col = FALSE;
+
+		/* Only applies while editing */
+		if (!wb_control_gui_is_editing (wbcg))
+			return TRUE; /* Ignore this character */
+
+		/* Only apply do this for formulas */
+		if (NULL == gnumeric_char_start_expr_p (entry->text_mb))
+			return TRUE;
+
+		/* Find the end of the current range starting from the current
+		 * position.  Don't bother validating.  The goal is the find
+		 * the end.  We'll validate on the way back.
+		 */
+		if (entry->text[end_pos] == '$')
+			++end_pos;
+		while (isalpha (entry->text[end_pos]))
+			++end_pos;
+		if (entry->text[end_pos] == '$')
+			++end_pos;
+		while (isdigit ((unsigned char)entry->text[end_pos]))
+			++end_pos;
+
+		/* Try to find the begining of the current range
+		 * starting from the end we just found
+		 */
+		start_pos = end_pos - 1;
+		while (start_pos >= 0 && isdigit ((unsigned char)entry->text[start_pos]))
+			--start_pos;
+		if (start_pos == end_pos)
+			return TRUE;
+
+		row_status_pos = start_pos + 1;
+		if ((abs_row = (entry->text[start_pos] == '$')))
+			--start_pos;
+
+		while (start_pos >= 0 && isalpha (entry->text[start_pos]))
+			--start_pos;
+		if (start_pos == end_pos)
+			return TRUE;
+
+		col_status_pos = start_pos + 1;
+		if ((abs_col = (entry->text[start_pos] == '$')))
+			--start_pos;
+
+		/* Toggle the relative vs absolute flags */
+		if (abs_col) {
+			--end_pos;
+			--row_status_pos;
+			gtk_editable_delete_text (GTK_EDITABLE (entry),
+						  col_status_pos-1, col_status_pos);
+		} else {
+			++end_pos;
+			++row_status_pos;
+			gtk_editable_insert_text (GTK_EDITABLE (entry), "$", 1,
+						  &col_status_pos);
+		}
+
+		if (!abs_col) {
+			if (abs_row) {
+				--end_pos;
+				gtk_editable_delete_text (GTK_EDITABLE (entry),
+							  row_status_pos-1, row_status_pos);
+			} else {
+				++end_pos;
+				gtk_editable_insert_text (GTK_EDITABLE (entry), "$", 1,
+							  &row_status_pos);
+			}
+		}
+
+		/* Do not select the current range, and do not change the position. */
+		gtk_entry_set_position (entry, end_pos);
+		return TRUE;
+	}
+
+	case GDK_Escape:
+		wbcg_edit_finish (wbcg, FALSE);
+		return TRUE;
+
+	case GDK_KP_Enter:
+	case GDK_Return:
+		if (!wb_control_gui_is_editing (wbcg))
+			break;
+
+		/* Is this the right way to append a newline ?? */
+		if (state == GDK_MOD1_MASK) {
+			gtk_entry_append_text (entry, "\n");
+			return TRUE;
+		}
+
+		if (state == GDK_CONTROL_MASK ||
+		    state == (GDK_CONTROL_MASK|GDK_SHIFT_MASK)) {
+			EvalPos pos;
+			gboolean const is_array = (state & GDK_SHIFT_MASK);
+			char const *text = gtk_entry_get_text (
+				GTK_ENTRY (wbcg_get_entry (wbcg)));
+			Sheet *sheet = wbcg->editing_sheet;
+
+			/* Be careful to use the editing sheet */
+			cmd_area_set_text (WORKBOOK_CONTROL (wbcg),
+				eval_pos_init (&pos, sheet, &sheet->edit_pos),
+				text, is_array);
+
+			/* Finish editing but do NOT store the results
+			 * If the assignment was successful it will
+			 * have taken care of that.
+			 */
+			wbcg_edit_finish (wbcg, FALSE);
+			return TRUE;
+		}
+
+	default:
+		break;
+	}
+
+	return GTK_WIDGET_CLASS (gnumeric_expr_entry_parent_class)->key_press_event (widget, event);
+}
+
 static void
 gnumeric_expr_entry_class_init (GtkObjectClass *object_class)
 {
+	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (object_class);
+
 	gnumeric_expr_entry_parent_class
 		= gtk_type_class (gtk_entry_get_type());
 
-	object_class->finalize = gnumeric_expr_entry_finalize;
+	object_class->finalize		= gnumeric_expr_entry_finalize;
+	widget_class->key_press_event   = gnumeric_expr_entry_key_press_event;
 }
 
-GtkType
-gnumeric_expr_entry_get_type (void)
-{
-	static GtkType type = 0;
-
-	if (!type){
-		GtkTypeInfo info = {
-			"GnumericExprEntry",
-			sizeof (GnumericExprEntry),
-			sizeof (GnumericExprEntryClass),
-			(GtkClassInitFunc) gnumeric_expr_entry_class_init,
-			(GtkObjectInitFunc) NULL,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		type = gtk_type_unique (gtk_entry_get_type (), &info);
-	}
-
-	return type;
-}
+E_MAKE_TYPE (gnumeric_expr_entry, "GnumericExprEntry", GnumericExprEntry,
+	     gnumeric_expr_entry_class_init, NULL,
+	     GTK_TYPE_ENTRY);
 
 /**
  * gnumeric_expr_entry_new:
@@ -94,13 +231,14 @@ gnumeric_expr_entry_get_type (void)
  * Return value: a new #GnumericExprEntry.
  **/
 GtkWidget *
-gnumeric_expr_entry_new ()
+gnumeric_expr_entry_new (WorkbookControlGUI *wbcg)
 {
 	GnumericExprEntry *expr_entry;
 
 	expr_entry = gtk_type_new (gnumeric_expr_entry_get_type ());
 
 	expr_entry->flags |= GNUM_EE_SINGLE_RANGE;
+	expr_entry->wbcg = wbcg;
 
 	return GTK_WIDGET (expr_entry);
 }
@@ -109,7 +247,7 @@ void
 gnumeric_expr_entry_freeze (GnumericExprEntry *expr_entry)
 {
 	g_return_if_fail (expr_entry != NULL);
-	g_return_if_fail (GNUMERIC_IS_EXPR_ENTRY (expr_entry));
+	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (expr_entry));
 			  
 	expr_entry->freeze_count++;
 }
@@ -118,7 +256,7 @@ void
 gnumeric_expr_entry_thaw (GnumericExprEntry *expr_entry)
 {
 	g_return_if_fail (expr_entry != NULL);
-	g_return_if_fail (GNUMERIC_IS_EXPR_ENTRY (expr_entry));
+	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (expr_entry));
 
 	if (expr_entry->freeze_count > 0)
 		if ((--expr_entry->freeze_count) == 0) { 
@@ -176,7 +314,7 @@ gnumeric_expr_entry_set_flags (GnumericExprEntry *expr_entry,
 			       GnumericExprEntryFlags flags,
 			       GnumericExprEntryFlags mask)
 {
-	g_return_if_fail (GNUMERIC_IS_EXPR_ENTRY (expr_entry));
+	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (expr_entry));
 
 	expr_entry->flags = (expr_entry->flags & ~mask) | (flags & mask);
 }
@@ -194,7 +332,7 @@ void
 gnumeric_expr_entry_set_scg (GnumericExprEntry *expr_entry,
 			     SheetControlGUI *scg)
 {
-	g_return_if_fail (GNUMERIC_IS_EXPR_ENTRY (expr_entry));
+	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (expr_entry));
 	g_return_if_fail (scg == NULL ||IS_SHEET_CONTROL_GUI (scg));
 
 	if ((expr_entry->flags & GNUM_EE_SINGLE_RANGE) ||
@@ -233,7 +371,7 @@ void
 gnumeric_expr_entry_set_rangesel_from_text (GnumericExprEntry *expr_entry,
 					    char *text)
 {
-	g_return_if_fail (GNUMERIC_IS_EXPR_ENTRY (expr_entry));
+	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (expr_entry));
 	g_return_if_fail (text != NULL);
 	/* We have nowhere to store the text while frozen. */
 	g_return_if_fail (expr_entry->freeze_count == 0);
@@ -350,7 +488,7 @@ gnumeric_expr_entry_set_rangesel_from_range (GnumericExprEntry *expr_entry,
 	Rangesel *rs;
 	gboolean needs_change = FALSE;
 	
-	g_return_val_if_fail (GNUMERIC_IS_EXPR_ENTRY (expr_entry), FALSE);
+	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (expr_entry), FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 	g_return_val_if_fail (pos >= 0, FALSE);
 
@@ -395,7 +533,7 @@ void
 gnumeric_expr_entry_get_rangesel (GnumericExprEntry *expr_entry,
 				  Range *r, Sheet **sheet)
 {
-	g_return_if_fail (GNUMERIC_IS_EXPR_ENTRY (expr_entry));
+	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (expr_entry));
 	g_return_if_fail (r != NULL);
 
 	if (r)
@@ -417,7 +555,7 @@ gnumeric_expr_entry_rangesel_stopped (GnumericExprEntry *expr_entry,
 {
 	Rangesel *rs;
 
-	g_return_if_fail (GNUMERIC_IS_EXPR_ENTRY (expr_entry));
+	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (expr_entry));
 
 	rs = &expr_entry->rangesel;
 	if (clear_string && rs->text_end > rs->text_start)
@@ -461,7 +599,7 @@ gnumeric_expr_entry_toggle_absolute (GnumericExprEntry *expr_entry)
 	GnumericExprEntryFlags mask = GNUM_EE_ABS_ROW | GNUM_EE_ABS_COL;
 	GnumericExprEntryFlags flags = 0;
 
-	g_return_if_fail (GNUMERIC_IS_EXPR_ENTRY (expr_entry));
+	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (expr_entry));
 
 	rs = &expr_entry->rangesel;
 	

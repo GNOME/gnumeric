@@ -76,7 +76,7 @@ static void
 cb_dialog_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 		     ValidateState *state)
 {
-	if (GNUMERIC_IS_EXPR_ENTRY (focus_widget)) {
+	if (IS_GNUMERIC_EXPR_ENTRY (focus_widget)) {
 		GnumericExprEntryFlags flags;
 		
 		wbcg_set_entry (state->wbcg,
@@ -204,8 +204,8 @@ setup_widgets (ValidateState *state, GladeXML *gui)
 	state->set_operator        = GTK_OPTION_MENU     (glade_xml_get_widget (gui, "set_operator"));
 	state->set_bound1_name     = GTK_LABEL           (glade_xml_get_widget (gui, "set_bound1_name"));
 	state->set_bound2_name     = GTK_LABEL           (glade_xml_get_widget (gui, "set_bound2_name"));
-	state->set_bound1_entry    = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new ());
-	state->set_bound2_entry    = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new ());
+	state->set_bound1_entry    = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
+	state->set_bound2_entry    = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
 	state->set_apply_shared    = GTK_CHECK_BUTTON    (glade_xml_get_widget (gui, "set_apply_shared"));
 	state->set_ignore_blank    = GTK_CHECK_BUTTON    (glade_xml_get_widget (gui, "set_ignore_blank"));
 	state->set_in_dropdown     = GTK_CHECK_BUTTON    (glade_xml_get_widget (gui, "set_in_dropdown"));

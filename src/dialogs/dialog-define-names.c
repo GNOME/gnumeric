@@ -564,7 +564,7 @@ static void
 cb_name_guru_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 			NameGuruState *state)
 {
-	if (GNUMERIC_IS_EXPR_ENTRY (focus_widget)) {
+	if (IS_GNUMERIC_EXPR_ENTRY (focus_widget)) {
 		wbcg_set_entry (state->wbcg,
 				    GNUMERIC_EXPR_ENTRY (focus_widget));
 		gnumeric_expr_entry_set_absolute (state->expr_text);
@@ -588,7 +588,7 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 	state->dialog = glade_xml_get_widget (state->gui, "NameGuru");
 	table2 = GTK_TABLE (glade_xml_get_widget (state->gui, "table2"));
 	state->name  = GTK_ENTRY (glade_xml_get_widget (state->gui, "name"));
-	state->expr_text = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new ());
+	state->expr_text = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
 	gtk_table_attach (table2, GTK_WIDGET (state->expr_text),
 			  1, 2, 1, 2,
 			  GTK_EXPAND | GTK_FILL, 0,

@@ -211,4 +211,6 @@ FunctionDefinition *expr_tree_get_func_def (ExprTree const *expr);
 ExprTree const *    expr_tree_first_func   (ExprTree const *expr);
 void		    expr_tree_boundingbox  (ExprTree const *expr, Range *bound);
 
+GraphVector *expr_to_graph_vector (ExprTree const *expr);
+
 #endif /* GNUMERIC_EXPR_H */

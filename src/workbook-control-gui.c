@@ -58,7 +58,7 @@
 #ifdef ENABLE_BONOBO
 #include "sheet-object-container.h"
 #ifdef ENABLE_EVOLUTION
-#include "idl/Evolution-Composer.h"
+#include <idl/Evolution-Composer.h>
 #include <bonobo/bonobo-stream-memory.h>
 #endif
 #endif
@@ -3020,152 +3020,6 @@ cb_editline_focus_in (GtkWidget *w, GdkEventFocus *event,
 	return TRUE;
 }
 
-static int
-wb_edit_key_pressed (GtkEntry *entry, GdkEventKey *event,
-		     WorkbookControlGUI *wbcg)
-{
-	switch (event->keyval) {
-	case GDK_Escape:
-		wbcg_edit_finish (wbcg, FALSE);
-		return TRUE;
-
-	case GDK_F4:
-	{
-		/* FIXME FIXME FIXME
-		 * 1) Make sure that a cursor move after an F4
-		 *    does not insert.
-		 * 2) Handle calls for a range rather than a single cell.
-		 */
-		int end_pos = GTK_EDITABLE (entry)->current_pos;
-		int start_pos;
-		int row_status_pos, col_status_pos;
-		gboolean abs_row = FALSE, abs_col = FALSE;
-
-		/* Ignore this character */
-		event->keyval = GDK_VoidSymbol;
-
-		/* Only applies while editing */
-		if (!wbcg->editing)
-			return TRUE;
-
-		/* Only apply do this for formulas */
-		if (NULL == gnumeric_char_start_expr_p (entry->text_mb))
-			return TRUE;
-
-		/*
-		 * Find the end of the current range
-		 * starting from the current position.
-		 * Don't bother validating.  The goal is the find the
-		 * end.  We'll validate on the way back.
-		 */
-		if (entry->text[end_pos] == '$')
-			++end_pos;
-		while (isalpha (entry->text[end_pos]))
-			++end_pos;
-		if (entry->text[end_pos] == '$')
-			++end_pos;
-		while (isdigit ((unsigned char)entry->text[end_pos]))
-			++end_pos;
-
-		/*
-		 * Try to find the begining of the current range
-		 * starting from the end we just found
-		 */
-		start_pos = end_pos - 1;
-		while (start_pos >= 0 && isdigit ((unsigned char)entry->text[start_pos]))
-			--start_pos;
-		if (start_pos == end_pos)
-			return TRUE;
-
-		row_status_pos = start_pos + 1;
-		if ((abs_row = (entry->text[start_pos] == '$')))
-			--start_pos;
-
-		while (start_pos >= 0 && isalpha (entry->text[start_pos]))
-			--start_pos;
-		if (start_pos == end_pos)
-			return TRUE;
-
-		col_status_pos = start_pos + 1;
-		if ((abs_col = (entry->text[start_pos] == '$')))
-			--start_pos;
-
-		/* Toggle the relative vs absolute flags */
-		if (abs_col) {
-			--end_pos;
-			--row_status_pos;
-			gtk_editable_delete_text (GTK_EDITABLE (entry),
-						  col_status_pos-1, col_status_pos);
-		} else {
-			++end_pos;
-			++row_status_pos;
-			gtk_editable_insert_text (GTK_EDITABLE (entry), "$", 1,
-						  &col_status_pos);
-		}
-
-		if (!abs_col) {
-			if (abs_row) {
-				--end_pos;
-				gtk_editable_delete_text (GTK_EDITABLE (entry),
-							  row_status_pos-1, row_status_pos);
-			} else {
-				++end_pos;
-				gtk_editable_insert_text (GTK_EDITABLE (entry), "$", 1,
-							  &row_status_pos);
-			}
-		}
-
-		/* Do not select the current range, and do not change the position. */
-		gtk_entry_set_position (entry, end_pos);
-	}
-
-	case GDK_KP_Up:
-	case GDK_Up:
-	case GDK_KP_Down:
-	case GDK_Down:
-		/* Ignore these keys.  The default behaviour is certainly
-		   not what we want.  */
-		/* FIXME: what is the proper way to stop the key getting to
-		   the gtkentry?  */
-		event->keyval = GDK_VoidSymbol;
-		return TRUE;
-
-	case GDK_KP_Enter:
-	case GDK_Return:
-		if (wbcg->editing) {
-			int state = gnumeric_filter_modifiers (event->state);
-			if (state == GDK_CONTROL_MASK ||
-			    state == (GDK_CONTROL_MASK|GDK_SHIFT_MASK)) {
-				EvalPos pos;
-				gboolean const is_array = (state & GDK_SHIFT_MASK);
-				char const *text = gtk_entry_get_text (
-					GTK_ENTRY (wbcg_get_entry (wbcg)));
-				Sheet *sheet = wbcg->editing_sheet;
-
-				/* Be careful to use the editing sheet */
-				cmd_area_set_text (WORKBOOK_CONTROL (wbcg),
-					eval_pos_init (&pos, sheet, &sheet->edit_pos),
-					text, is_array);
-
-				/* Finish editing but do NOT store the results
-				 * If the assignment was successful it will
-				 * have taken care of that.
-				 */
-				wbcg_edit_finish (wbcg, FALSE);
-				return TRUE;
-			}
-
-			/* Is this the right way to append a newline ?? */
-			if (event->state == GDK_MOD1_MASK)
-				gtk_entry_append_text (
-					GTK_ENTRY (wbcg_get_entry (wbcg)),
-					"\n");
-		}
-	default:
-		return FALSE;
-	}
-}
-
 static void
 wb_jump_to_cell (GtkEntry *entry, WorkbookControlGUI *wbcg)
 {
@@ -3288,9 +3142,6 @@ workbook_setup_edit_area (WorkbookControlGUI *wbcg)
 			    wbcg);
 	gtk_signal_connect (GTK_OBJECT (entry), "activate",
 			    GTK_SIGNAL_FUNC (cb_accept_input),
-			    wbcg);
-	gtk_signal_connect (GTK_OBJECT (entry), "key_press_event",
-			    GTK_SIGNAL_FUNC (wb_edit_key_pressed),
 			    wbcg);
 
 	/* Do signal setup for the status input line */

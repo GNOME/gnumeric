@@ -1,9 +1,8 @@
+/* vim: set sw=8: */
 /*
  * item-edit.c : Edit facilities for worksheets.
  *
- * Author:
- *  Miguel de Icaza (miguel@gnu.org)
- *  Jody Goldberg (jgoldberg@home.org)
+ * (C) 1999-2001 Miguel de Icaza & Jody Goldberg
  *
  * This module provides:
  *   * Integration of an in-sheet text editor (GtkEntry) with the Workbook
@@ -11,8 +10,6 @@
  *
  *   * Feedback on expressions in the spreadsheet (referenced cells or
  *     ranges are highlighted on the spreadsheet).
- *
- * (C) 1999, 2000 Miguel de Icaza
  */
 #include <config.h>
 
@@ -179,6 +176,13 @@ item_edit_draw_text (ItemEdit *item_edit, GdkDrawable *drawable, GtkStyle *style
 
 	GdkGC *gc = style->black_gc;
 
+	/* skip leading newlines */
+	if (*text == '\n') {
+		text++;
+		text_length--;
+		cursor_pos--;
+	}
+
 	/* If this segment contains the cursor draw it */
 	if (0 <= cursor_pos && cursor_pos <= text_length) {
 		if (cursor_pos > 0) {
@@ -291,44 +295,64 @@ static void
 recalc_spans (GnomeCanvasItem *item)
 {
 	ItemEdit *item_edit = ITEM_EDIT (item);
-	Sheet    *sheet  = ((SheetControl *) item_edit->scg)->sheet;
+	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (item->canvas);
+	int const visible_bottom = gcanvas->first_offset.row +
+		GTK_WIDGET (gcanvas)->allocation.height;
+	int item_bottom = item->y1 + item_edit->font_height;
+	Sheet    *sheet  = sc_sheet (SHEET_CONTROL (item_edit->scg));
 	GdkFont  *font      = item_edit->font;
+	GSList	*text_offsets = NULL;
+	Range const *merged;
+	ColRowInfo const *cri;
 	char const *start = wbcg_edit_get_display_text (item_edit->scg->wbcg);
 	char const *text  = start;
 	int col_span, row_span, tmp;
-	GSList	*text_offsets = NULL;
-	Range const *merged;
-
-	/* Adjust the spans */
-	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (item->canvas);
 	int cur_line = 1;
-	int cur_col = item_edit->pos.col, max_col = cur_col;
-	ColRowInfo const * cri = sheet_col_get_info (sheet, cur_col);
+	int max_col = item_edit->pos.col;
+	int left_in_col, cur_col, ignore_rows = 0;
+
+reset :
+	cur_col = item_edit->pos.col;
+	cri = sheet_col_get_info (sheet, cur_col);
+
+	g_return_if_fail (cri != NULL);
 
 	/* Start after the grid line and the left margin */
-	int left_in_col = cri->size_pixels - cri->margin_a - 1;
-	int ignore_rows = 0;
+	left_in_col = cri->size_pixels - cri->margin_a - 1;
 
 	/* the entire string */
 	while (*text) {
-		int pos_size = gdk_text_width (font, text++, 1);
+		int pos_size;
+		
+		if (*text == '\n') {
+			text_offsets = g_slist_prepend (text_offsets,
+				GINT_TO_POINTER (text - start));
+			text++;
 
-		/* Be wary of large fonts and small columns */
+			cur_line++;
+			item_bottom += item_edit->font_height;
+			if (item_bottom > visible_bottom)
+				ignore_rows++;
+			goto reset;
+		}
+
+		pos_size = gdk_text_width (font, text++, 1);
+
 		while (left_in_col < pos_size) {
 			do {
 				++cur_col;
 				if (cur_col > gcanvas->last_full.col || cur_col >= SHEET_MAX_COLS) {
-					int height = GTK_WIDGET (gcanvas)->allocation.height;
+					/* Be wary of large fonts and small columns */
 					int offset = text - start - 1;
-					if (offset < 0)
-						offset = 0;
+					if (offset < 1)
+						offset = 1;
 
-					cur_line++;
 					cur_col = item_edit->pos.col;
 					text_offsets = g_slist_prepend (text_offsets,
-									GINT_TO_POINTER(offset));
-					if (item->y1 + cur_line * item_edit->font_height >
-					    (gcanvas->first_offset.row + height))
+						GINT_TO_POINTER (offset));
+					cur_line++;
+					item_bottom += item_edit->font_height;
+					if (item_bottom > visible_bottom)
 						ignore_rows++;
 				} else if (max_col < cur_col)
 					max_col = cur_col;

@@ -1,3 +1,21 @@
+2001-08-14  Jody Goldberg <jgoldberg@home.com>
+
+	* src/expr.c (expr_to_graph_vector) : new routine.
+
+2001-08-14  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-edit.c (item_edit_draw_text) : ignore leading newlines.
+	(recalc_spans) : handle embedded newlines.
+
+	* src/workbook-control-gui.c (wb_edit_key_pressed) : delete, and
+	  move this logic from here.
+	(workbook_setup_edit_area) : don't hook up wb_edit_key_pressed.
+	  Use a GnumericExprEntry instead.
+
+	* src/widgets/gnumeric-expr-entry.c (gnumeric_expr_entry_key_press_event) :
+	  Move the magic embedded newline and Abs/Rel handling here.
+	(gnumeric_expr_entry_new) : Take a wbcg.
+
 2001-08-13  Morten Welinder  <terra@diku.dk>
 
 	* src/mathfunc.c (gnumeric_sub_epsilon): New function.  Dual of
