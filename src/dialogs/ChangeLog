@@ -1,7 +1,9 @@
 2001-01-22  Morten Welinder  <terra@diku.dk>
 
-	* dialog-search-replace.c (dialog_search_replace): Handle the
- 	new ignore-case checkbutton.
+	* dialog-search-replace.c (dialog_search_replace): Handle the new
+ 	ignore-case and whole-word checkbuttons.  Handle the new
+ 	preserve-case checkbutton (though the actual replacement code does
+ 	not yet).
 
 	* Makefile.am (INCLUDES): Prefer our .h files over the systems.
 

@@ -22,10 +22,13 @@ struct _SearchReplace {
 	SearchReplaceScope scope;
 	char *range_text;
 
-	gboolean is_regexp;
-	gboolean ignore_case;
-	gboolean query;
+	gboolean is_regexp;	/* Search text is a regular expression.  */
+	gboolean ignore_case;	/* Consider "a" and "A" the same.  */
+	gboolean query;		/* Ask before each change.  */
+	gboolean preserve_case;	/* Like Emacs' case-replace.  */
+	gboolean match_words;	/* Like grep -w.  */
 
+	/* The following identify what kinds of cells are the target.  */
 	gboolean replace_strings;
 	gboolean replace_other_values;
 	gboolean replace_expressions;

@@ -8,6 +8,7 @@
 
 #include <config.h>
 #include <gnome.h>
+#include <ctype.h>
 #include "search.h"
 
 /* ------------------------------------------------------------------------- */
@@ -131,6 +132,32 @@ search_replace_verify (SearchReplace *sr)
 
 /* ------------------------------------------------------------------------- */
 
+static gboolean
+match_is_word (SearchReplace *sr, const char *src,
+	       const regmatch_t *pm, gboolean bolp)
+{
+	/* The empty string is not a word.  */
+	if (pm->rm_so == pm->rm_eo)
+		return FALSE;
+
+	if (pm->rm_so > 0 || !bolp) {
+		/* We get here when something actually preceded the match.  */
+		char c_pre = src[pm->rm_so - 1];
+		if (isalnum ((unsigned char)c_pre))
+			return FALSE;
+	}
+
+	{
+		char c_post = src[pm->rm_eo];
+		if (c_post == 0 || isalnum ((unsigned char)c_post))
+			return FALSE;
+	}
+
+	return TRUE;
+}
+
+/* ------------------------------------------------------------------------- */
+
 /*
  * Returns NULL if nothing changed, or a g_malloc string otherwise.
  */
@@ -163,8 +190,19 @@ search_replace_string (SearchReplace *sr, const char *src)
 				g_string_append_c (res, src[i]);
 		}
 
-		/* FIXME?  This does not account for $1 -- need it?  */
-		g_string_append (res, sr->replace_text);
+		if (sr->match_words &&
+		    !match_is_word (sr, src, pmatch, (flags & REG_NOTBOL) != 0)) {
+			/*  We saw a fake match.  */
+			if (pmatch[0].rm_so < pmatch[0].rm_eo) {
+				g_string_append_c (res, src[pmatch[0].rm_so]);
+				/* Pretend we saw a one-character match.  */
+				pmatch[0].rm_eo = pmatch[0].rm_so + 1;
+			}
+		} else {
+			/* FIXME?  This does not account for $1 -- need it?  */
+			/* FIXME: This does not account for preserve_case.  */
+			g_string_append (res, sr->replace_text);
+		}
 
 		if (pmatch[0].rm_eo > 0) {
 			src += pmatch[0].rm_eo;

@@ -103,7 +103,7 @@
 	  <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
 	  <child>
 	    <padding>0</padding>
-	    <expand>True</expand>
+	    <expand>False</expand>
 	    <fill>True</fill>
 	  </child>
 
@@ -336,7 +336,7 @@
 	  <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
 	  <child>
 	    <padding>0</padding>
-	    <expand>True</expand>
+	    <expand>False</expand>
 	    <fill>True</fill>
 	  </child>
 
@@ -469,63 +469,114 @@
 	    <spacing>0</spacing>
 
 	    <widget>
-	      <class>GtkCheckButton</class>
-	      <name>replace_string</name>
-	      <tooltip>Perform changes within string values</tooltip>
-	      <can_focus>True</can_focus>
-	      <label>Strings</label>
-	      <active>True</active>
-	      <draw_indicator>True</draw_indicator>
+	      <class>GtkTable</class>
+	      <name>table2</name>
+	      <rows>2</rows>
+	      <columns>2</columns>
+	      <homogeneous>False</homogeneous>
+	      <row_spacing>0</row_spacing>
+	      <column_spacing>0</column_spacing>
 	      <child>
 		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
+		<expand>True</expand>
+		<fill>True</fill>
 	      </child>
-	    </widget>
 
-	    <widget>
-	      <class>GtkCheckButton</class>
-	      <name>replace_other</name>
-	      <tooltip>Perform changes within non-string values</tooltip>
-	      <can_focus>True</can_focus>
-	      <label>Other values</label>
-	      <active>True</active>
-	      <draw_indicator>True</draw_indicator>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
-	    </widget>
+	      <widget>
+		<class>GtkCheckButton</class>
+		<name>replace_other</name>
+		<tooltip>Perform changes within non-string values</tooltip>
+		<can_focus>True</can_focus>
+		<label>Other values</label>
+		<active>True</active>
+		<draw_indicator>True</draw_indicator>
+		<child>
+		  <left_attach>0</left_attach>
+		  <right_attach>1</right_attach>
+		  <top_attach>1</top_attach>
+		  <bottom_attach>2</bottom_attach>
+		  <xpad>0</xpad>
+		  <ypad>0</ypad>
+		  <xexpand>False</xexpand>
+		  <yexpand>False</yexpand>
+		  <xshrink>False</xshrink>
+		  <yshrink>False</yshrink>
+		  <xfill>True</xfill>
+		  <yfill>False</yfill>
+		</child>
+	      </widget>
 
-	    <widget>
-	      <class>GtkCheckButton</class>
-	      <name>replace_expr</name>
-	      <tooltip>Perform changes within expressions</tooltip>
-	      <can_focus>True</can_focus>
-	      <label>Expressions</label>
-	      <active>False</active>
-	      <draw_indicator>True</draw_indicator>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
-	    </widget>
+	      <widget>
+		<class>GtkCheckButton</class>
+		<name>replace_comments</name>
+		<tooltip>Perform changes within cell comments</tooltip>
+		<can_focus>True</can_focus>
+		<label>Comments</label>
+		<active>False</active>
+		<draw_indicator>True</draw_indicator>
+		<child>
+		  <left_attach>1</left_attach>
+		  <right_attach>2</right_attach>
+		  <top_attach>1</top_attach>
+		  <bottom_attach>2</bottom_attach>
+		  <xpad>0</xpad>
+		  <ypad>0</ypad>
+		  <xexpand>False</xexpand>
+		  <yexpand>False</yexpand>
+		  <xshrink>False</xshrink>
+		  <yshrink>False</yshrink>
+		  <xfill>True</xfill>
+		  <yfill>False</yfill>
+		</child>
+	      </widget>
 
-	    <widget>
-	      <class>GtkCheckButton</class>
-	      <name>replace_comments</name>
-	      <tooltip>Perform changes within cell comments</tooltip>
-	      <can_focus>True</can_focus>
-	      <label>Comments</label>
-	      <active>False</active>
-	      <draw_indicator>True</draw_indicator>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
+	      <widget>
+		<class>GtkCheckButton</class>
+		<name>replace_expr</name>
+		<tooltip>Perform changes within expressions</tooltip>
+		<can_focus>True</can_focus>
+		<label>Expressions</label>
+		<active>False</active>
+		<draw_indicator>True</draw_indicator>
+		<child>
+		  <left_attach>1</left_attach>
+		  <right_attach>2</right_attach>
+		  <top_attach>0</top_attach>
+		  <bottom_attach>1</bottom_attach>
+		  <xpad>0</xpad>
+		  <ypad>0</ypad>
+		  <xexpand>False</xexpand>
+		  <yexpand>False</yexpand>
+		  <xshrink>False</xshrink>
+		  <yshrink>False</yshrink>
+		  <xfill>True</xfill>
+		  <yfill>False</yfill>
+		</child>
+	      </widget>
+
+	      <widget>
+		<class>GtkCheckButton</class>
+		<name>replace_string</name>
+		<tooltip>Perform changes within string values</tooltip>
+		<can_focus>True</can_focus>
+		<label>Strings</label>
+		<active>True</active>
+		<draw_indicator>True</draw_indicator>
+		<child>
+		  <left_attach>0</left_attach>
+		  <right_attach>1</right_attach>
+		  <top_attach>0</top_attach>
+		  <bottom_attach>1</bottom_attach>
+		  <xpad>0</xpad>
+		  <ypad>0</ypad>
+		  <xexpand>False</xexpand>
+		  <yexpand>False</yexpand>
+		  <xshrink>False</xshrink>
+		  <yshrink>False</yshrink>
+		  <xfill>True</xfill>
+		  <yfill>False</yfill>
+		</child>
+	      </widget>
 	    </widget>
 	  </widget>
 	</widget>
@@ -621,6 +672,56 @@
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
 	      <group>error</group>
+	      <child>
+		<padding>0</padding>
+		<expand>False</expand>
+		<fill>False</fill>
+	      </child>
+	    </widget>
+	  </widget>
+	</widget>
+
+	<widget>
+	  <class>GtkFrame</class>
+	  <name>frame7</name>
+	  <label>Miscellanea</label>
+	  <label_xalign>0</label_xalign>
+	  <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
+	  <child>
+	    <padding>0</padding>
+	    <expand>True</expand>
+	    <fill>True</fill>
+	  </child>
+
+	  <widget>
+	    <class>GtkVBox</class>
+	    <name>vbox8</name>
+	    <homogeneous>False</homogeneous>
+	    <spacing>0</spacing>
+
+	    <widget>
+	      <class>GtkCheckButton</class>
+	      <name>match_words</name>
+	      <tooltip>Do not consider matches in the middle of words</tooltip>
+	      <can_focus>True</can_focus>
+	      <label>Match whole words only</label>
+	      <active>False</active>
+	      <draw_indicator>True</draw_indicator>
+	      <child>
+		<padding>0</padding>
+		<expand>False</expand>
+		<fill>False</fill>
+	      </child>
+	    </widget>
+
+	    <widget>
+	      <class>GtkCheckButton</class>
+	      <name>preserve_case</name>
+	      <tooltip>Attempt to preserve case of text when replacing</tooltip>
+	      <can_focus>True</can_focus>
+	      <label>Preserve case</label>
+	      <active>False</active>
+	      <draw_indicator>True</draw_indicator>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>

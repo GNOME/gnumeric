@@ -1,7 +1,7 @@
 2001-01-22  Morten Welinder  <terra@diku.dk>
 
 	* src/search.c (search_replace_verify): When relevant, check that
- 	the range text is not empty.
+ 	the range text is not empty.  Implement searching for whole words.
 
 	* src/application.c (application_dpi_to_pixels): Fix prototype.
 	(application_history_update_list): Constify.

@@ -112,6 +112,8 @@ dialog_search_replace (WorkbookControlGUI *wbcg)
 
 			sr->query = is_checked (gui, "query");
 			sr->ignore_case = is_checked (gui, "ignore_case");
+			sr->preserve_case = is_checked (gui, "preserve_case");
+			sr->match_words = is_checked (gui, "match_words");
 
 			sr->replace_strings = is_checked (gui, "replace_string");
 			sr->replace_other_values = is_checked (gui, "replace_other");
