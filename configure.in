@@ -178,18 +178,9 @@ gnumeric_executable=gnumeric
 AC_SUBST(gnumeric_executable)
 if $try_bonobo; then
 	AC_MSG_CHECKING(for Bonobo >= 0.13)
-	if gnome-config --libs bonobo > /dev/null 2>&1; then
-		vers=`gnome-config --modversion bonobo`
-		case $vers
-		in
-		    bonobo-0.[[012345678]]) bonobo_ok=false ;;
-		    *) bonobo_ok=true ;;
-		esac
-	else
-		bonobo_ok=false
-	fi
-	
-	if $bonobo_ok; then
+	vers=`gnome-config --modversion bonobo | sed -e "s/bonobo-//" | \
+		awk 'BEGIN { FS = "."; } { printf "%d", $1 * 1000 + $2;}'`
+	if test "$vers" -ge 13; then
 		AC_MSG_RESULT(found)
 		AC_DEFINE(ENABLE_BONOBO)
 		have_bonobo=true
@@ -209,7 +200,6 @@ if $try_bonobo; then
 		AC_MSG_RESULT("$using_oaf")
 
 		AM_CONDITIONAL(USING_OAF, test x"using_oaf" = "xyes")
-
 	else
 		AC_MSG_RESULT(not found)
 	fi
