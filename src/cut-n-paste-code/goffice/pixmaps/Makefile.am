@@ -29,9 +29,11 @@ icon_DATA = \
 	chart_scatter_3_1.png	chart_scatter_3_2.png	chart_scatter_3_3.png \
 	chart_bubble_1_1.png \
 	chart_contour_1_1.png \
+	chart_boxplot_1_1.png \
 	\
 	area.xpm 	\
 	bar.xpm		\
+	boxplot.xpm		\
 	bubble.xpm	\
 	column.xpm	\
 	doughnut.xpm	\

@@ -132,8 +132,10 @@ static gboolean
 role_grid_can_add (GogObject const *parent)
 {
 	GogChart const *chart = GOG_CHART (parent);
-	return chart->grid == NULL && chart->axis_set == GOG_AXIS_SET_XY;
+	return chart->grid == NULL &&
+		(chart->axis_set == GOG_AXIS_SET_XY || chart->axis_set == GOG_AXIS_SET_X);
 }
+
 static void
 role_grid_post_add (GogObject *parent, GogObject *child)
 {
@@ -418,11 +420,13 @@ gog_chart_axis_set_assign (GogChart *chart, GogAxisSet axis_set)
 		return TRUE;
 	chart->axis_set = axis_set;
 
-	if (chart->grid != NULL && axis_set != GOG_AXIS_SET_XY) {
+	if (chart->grid != NULL && axis_set != GOG_AXIS_SET_XY &&
+				axis_set != GOG_AXIS_SET_X) {
 		GogObject *grid = chart->grid; /* clear_parent clears ::grid */
 		gog_object_clear_parent (GOG_OBJECT (grid));
 		g_object_unref (grid);
-	} else if (chart->grid == NULL && axis_set == GOG_AXIS_SET_XY)
+	} else if (chart->grid == NULL && 
+		(axis_set == GOG_AXIS_SET_XY || axis_set == GOG_AXIS_SET_X))
 		gog_object_add_by_name (GOG_OBJECT (chart), "Grid", NULL);
 
 	/* Add at least 1 instance of any required axis */
@@ -601,6 +605,7 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *allocation
 	res = view->residual; 
 	switch (chart->axis_set) {
 
+		case GOG_AXIS_SET_X:
 		case GOG_AXIS_SET_XY:
 		{
 			GogViewPadding axis_padding, padding = {0., 0., 0., 0.};

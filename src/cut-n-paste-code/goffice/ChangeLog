@@ -1,3 +1,21 @@
+2005-01-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* graph/goffice-graph.h: add GOG_AXIS_SET_X.
+	* graph/gog-chart.c: (role_grid_can_add),
+	(gog_chart_axis_set_assign), (gog_chart_view_size_allocate): add grid
+	when we have only an X axis.
+	* graph/plugins/Makefile.am: add box-plots plugin
+	* graph/plugins/plot_boxes/Makefile.am: new plugin.
+	* graph/plugins/plot_boxes/gog-boxplot-prefs.glade:
+	* graph/plugins/plot_boxes/gog-boxplot.c: ditto.
+	* graph/plugins/plot_boxes/gog-boxplot.h: ditto.
+	* graph/plugins/plot_boxes/plot-types.xml.in: ditto.
+	* graph/plugins/plot_boxes/plugin.xml.in: ditto.
+	* pixmaps/Makefile.am: add box-plots pixmaps.
+	* pixmaps/boxplot.xpm: ditto.
+	* pixmaps/chart_boxplot_1_1.png: ditto.
+	* pixmaps/chart_boxplot_1_1.svg: ditto.
+
 2005-01-22  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* graph/gog-renderer-gnome-print.c:

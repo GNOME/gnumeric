@@ -947,6 +947,7 @@ src/cut-n-paste-code/goffice/graph/plugins/plot_pie/Makefile
 src/cut-n-paste-code/goffice/graph/plugins/plot_radar/Makefile
 src/cut-n-paste-code/goffice/graph/plugins/plot_xy/Makefile
 src/cut-n-paste-code/goffice/graph/plugins/plot_surface/Makefile
+src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/Makefile
 src/cut-n-paste-code/goffice/drawing/Makefile
 src/cut-n-paste-code/goffice/ms-compat/Makefile
 src/cut-n-paste-code/goffice/libpresent/Makefile
