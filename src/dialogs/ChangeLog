@@ -1,3 +1,8 @@
+2005-01-15  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=161910
+	* cell-sort.glade : increase width a bit.
+
 2004-12-17  Morten Welinder  <terra@gnome.org>
 
 	* dialog-cell-format.c (fmt_dialog_init_align_page): Handle the
