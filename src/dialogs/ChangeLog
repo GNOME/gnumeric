@@ -1,3 +1,8 @@
+2002-02-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* insert-cells.glade : add help button, change some ids
+	* dialog-insert-cells.c : rewrite as guru
+
 2002-02-28  Jody Goldberg <jody@gnome.org>
 
 	* dialog-cell-format.c (draw_format_preview) : split the format
