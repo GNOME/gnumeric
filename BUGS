@@ -55,10 +55,6 @@ Worries
     : STDEVA,VARA with 0-1 arguments should yield DIV0, not VALUE.
     : DEVSQ with no arguments should yield #NUM, not zero.
 
-    : (gnumeric:25213): Gtk-CRITICAL **: gtk_main_quit: assertion `main_loops != NULL' failed
-      when using save-as, it is possible to re-press "save" while things are being
-      saved.  that results in the critical above.
-
 
 After Branch
 ------------

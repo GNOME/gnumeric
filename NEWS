@@ -19,8 +19,10 @@ Jody:
 
 Jon Kåre:
         * Don't crash on CVS file with invalid unicode [#167190]
+
 Morten:
 	* Work around Pango bug causing XL save crash.  [#166532]
+	* Fix Save-As GUI problem causing CRITICALs.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.0

@@ -1,3 +1,9 @@
+2005-02-15  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-file.c (do_save_as): Expand into lone caller.  Destroy
+	dialog right after we're done with it, so there user doesn't get
+	to press Save while we save.
+
 2005-02-14  Stepan Kasal  <kasal@ucw.cz>
 
 	Don't use #include <src/xyz.h>, as `-I $(top_srcdir)' is not

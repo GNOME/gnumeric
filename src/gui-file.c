@@ -483,24 +483,6 @@ check_multiple_sheet_support_if_needed (GnmFileSaver *fs,
 	return (ret_val);
 }
 
-static gboolean
-do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view,
-            GnmFileSaver *fs, char const *uri, GtkWindow *parent)
-{
-	gboolean success = FALSE;
-
-	wb_view_preferred_size (wb_view, GTK_WIDGET (wbcg->notebook)->allocation.width,
-				GTK_WIDGET (wbcg->notebook)->allocation.height);
-
-	success = check_multiple_sheet_support_if_needed (fs, parent, wb_view);
-	if (!success) goto out;
-
-	success = wb_view_save_as (wb_view, fs, uri, GO_CMD_CONTEXT (wbcg));
-
-out:
-	return success;
-}
-
 gboolean
 gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 {
@@ -635,14 +617,24 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 		g_free (uri);
 	}
 
-	success = do_save_as (wbcg, wb_view, fs, uri, GTK_WINDOW (fsel));
-	if (success)
-		wbcg->current_saver = fs;
+	wb_view_preferred_size (wb_view, GTK_WIDGET (wbcg->notebook)->allocation.width,
+				GTK_WIDGET (wbcg->notebook)->allocation.height);
+
+	success = check_multiple_sheet_support_if_needed (fs, GTK_WINDOW (fsel), wb_view);
+	if (success) {
+		/* Destroy early so no-one can repress the Save button.  */
+		gtk_widget_destroy (GTK_WIDGET (fsel));
+		fsel = NULL;
+		success = wb_view_save_as (wb_view, fs, uri, GO_CMD_CONTEXT (wbcg));
+		if (success)
+			wbcg->current_saver = fs;
+	}
 
 	g_free (uri);
 
  out:
-	gtk_widget_destroy (GTK_WIDGET (fsel));
+	if (fsel)
+		gtk_widget_destroy (GTK_WIDGET (fsel));
 	g_list_free (savers);
 
 	return success;
