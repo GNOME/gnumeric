@@ -183,7 +183,7 @@ emit_change (GtkWidget *button, ColorCombo *cc)
 		g_free (color);
 }
 
-static void
+void
 color_combo_construct (ColorCombo *cc, char **icon, gboolean no_color,
 		       int ncols, int nrows, char **color_names)
 {

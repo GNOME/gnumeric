@@ -1,5 +1,8 @@
 1999-09-23  Morten Welinder  <terra@diku.dk>
 
+	* src/widgets/widget-color-combo.c (color_combo_construct):
+ 	Now non-static since Miguel decided to prototype it.
+
 	* src/regression.c (linear_regression, exponential_regression):
  	Change to multi-dimensional regression.  (Too bad linear_solve
  	does not handle it yet.)  All callers changed.
