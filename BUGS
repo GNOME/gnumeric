@@ -260,6 +260,7 @@ Pending Patches
 23) gconf.
     23.1) Check for errors					(DONE)
     23.2) double check that we update on remote changes
+    23.3) update the prefernecestructure on local changes	
 
 24) Plugins
     24.1) enhance gobject service to do delayed load		(DONE)
@@ -304,6 +305,8 @@ Pending Patches
     26.1) Add characterization (units) to StyleFormat
 
 27) audit all of the export plugins to handle utf8
+    27.1) latex exporter                                        (DONE 20030611 AJG)
+    27.2) html exporter
 
 Functions
     ODDFPRICE	(test fails)
@@ -361,7 +364,8 @@ Misc stuff that should be fixed
 - Missing undo/redo for
     - Freeze panes (tricky this is a view attribute)
     - Duplicate sheet.
-    - Remove sheet. This raises some serious design issues.
+    - Remove sheet. This raises some serious design issues: We are refering to
+      sheets within most commands by sheet address. THat will change on remove/undo
     - Goal seek.
     - Tabulate.
     - Sheet object configuration changes.
