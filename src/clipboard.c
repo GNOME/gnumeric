@@ -1,12 +1,25 @@
-/* vim: set sw=8: */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * Clipboard.c: Implements the copy/paste operations
+ * clipboard.c: A temporary store for content from a worksheet
  *
- * Author:
- *  Miguel de Icaza (miguel@gnu.org)
+ * Copyright (C) 2000-2005 Jody Goldberg   (jody@gnome.org)
+ *  		 1999      Miguel de Icaza (miguel@gnu.org)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
+ * License as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ * USA
  */
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include "gnumeric.h"
 #include "clipboard.h"
 
@@ -16,7 +29,6 @@
 #include "dependent.h"
 #include "selection.h"
 #include "application.h"
-#include "rendered-value.h"
 #include "command-context.h"
 #include "workbook-control.h"
 #include "workbook.h"
@@ -25,10 +37,11 @@
 #include "expr-impl.h"
 #include "commands.h"
 #include "value.h"
-#include <gtk/gtkmain.h>
 #include "stf-parse.h"
 #include "sheet-object-cell-comment.h"
 
+#include <gtk/gtkmain.h>
+#include <glib/gi18n.h>
 #include <locale.h>
 #include <string.h>
 
@@ -41,23 +54,17 @@ cell_has_expr_or_number_or_blank (GnmCell const * cell)
 }
 
 static GnmExpr const *
-cell_get_contents_as_expr (GnmCell const * cell)
+contents_as_expr (GnmExpr const *expr, GnmValue const *val)
 {
-	GnmExpr const *expr = NULL;
-
-	g_return_val_if_fail (cell_has_expr_or_number_or_blank (cell), NULL);
-
-	if (cell_is_empty (cell))
-		expr = gnm_expr_new_constant (value_new_float (0.0));
-	else if (cell_has_expr (cell)) {
-		expr = cell->base.expression;
+	if (NULL != expr) {
 		gnm_expr_ref (expr);
-	} else if (cell_is_number (cell))
-		expr = gnm_expr_new_constant (value_dup (cell->value));
-	else
-		g_assert_not_reached ();
-
-	return expr;
+		return expr;
+	}
+	if (VALUE_IS_EMPTY (val))
+		return gnm_expr_new_constant (value_new_float (0.0));
+	if (VALUE_IS_NUMBER (val))
+		return gnm_expr_new_constant (value_dup (val));
+	return NULL;
 }
 
 static GnmExprOp
@@ -73,70 +80,52 @@ paste_op_to_expr_op (int paste_flags)
 		return GNM_EXPR_OP_MULT;
 	else if (paste_flags & PASTE_OPER_DIV)
 		return GNM_EXPR_OP_DIV;
-	else
-		g_assert_not_reached ();
 
 	return 0;
 }
 
-#warning handle formating
-static GnmValue *
-apply_paste_oper_to_values (GnmCell const *old_cell, GnmCell const *copied_cell,
-			    GnmCell const *new_cell, int paste_flags)
-{
-	GnmEvalPos pos;
-	GnmExpr expr, arg_a, arg_b;
-	GnmExprOp op = paste_op_to_expr_op (paste_flags);
-
-	arg_a.constant.oper = GNM_EXPR_OP_CONSTANT;
-	arg_a.constant.value = old_cell->value;
-	arg_b.constant.oper = GNM_EXPR_OP_CONSTANT;
-	arg_b.constant.value = copied_cell->value;
-
-	expr.binary.oper = op;
-	expr.binary.value_a = &arg_a;
-	expr.binary.value_b = &arg_b;
-
-	eval_pos_init_cell (&pos, new_cell);
-	pos.dep = NULL; /* no dynamic deps */
-	return gnm_expr_eval (&expr, &pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
-}
-
 static void
-paste_cell_with_operation (Sheet *dest_sheet,
+paste_cell_with_operation (Sheet *dst_sheet,
 			   int target_col, int target_row,
 			   GnmExprRewriteInfo const *rwinfo,
-			   CellCopy *c_copy, int paste_flags)
+			   GnmCellCopy const *src,
+			   int paste_flags)
 {
-	GnmCell *new_cell;
+	GnmCell *dst;
+	GnmExprOp op;
 
-	g_return_if_fail (paste_flags & PASTE_OPER_MASK);
-
-	if (!(c_copy->type == CELL_COPY_TYPE_CELL))
+	if (src->expr == NULL && !VALUE_IS_EMPTY (src->val) && !VALUE_IS_NUMBER (src->val))
 		return;
 
-	new_cell = sheet_cell_fetch (dest_sheet, target_col, target_row);
-
-	if ((!cell_has_expr_or_number_or_blank (new_cell)) ||
-	    (!cell_has_expr_or_number_or_blank (c_copy->u.cell)))
+	dst = sheet_cell_fetch (dst_sheet, target_col, target_row);
+	if (!cell_has_expr_or_number_or_blank (dst))
 		return;
 
+	op = paste_op_to_expr_op (paste_flags);
 	/* FIXME : This does not handle arrays, linked cells, ranges, etc. */
 	if ((paste_flags & PASTE_CONTENT) &&
-	    ((c_copy->u.cell != NULL && cell_has_expr (c_copy->u.cell)) ||
-	           (new_cell != NULL && cell_has_expr (new_cell)))) {
-		GnmExpr const *old_expr    = cell_get_contents_as_expr (new_cell);
-		GnmExpr const *copied_expr = cell_get_contents_as_expr (c_copy->u.cell);
-		GnmExprOp op	           = paste_op_to_expr_op (paste_flags);
-		GnmExpr const *new_expr    = gnm_expr_new_binary (old_expr, op, copied_expr);
-		cell_set_expr (new_cell, new_expr);
-		cell_relocate (new_cell, rwinfo);
-		gnm_expr_unref (new_expr);
+	    (NULL != src->expr || cell_has_expr (dst))) {
+		GnmExpr const *old_expr    = contents_as_expr (dst->base.expression, dst->value);
+		GnmExpr const *copied_expr = contents_as_expr (src->expr, src->val);
+		GnmExpr const *res = gnm_expr_new_binary (old_expr, op, copied_expr);
+		cell_set_expr (dst, res);
+		cell_relocate (dst, rwinfo);
+		gnm_expr_unref (res);
 	} else {
-		GnmValue *new_val = apply_paste_oper_to_values (new_cell, c_copy->u.cell,
-							     new_cell, paste_flags);
+		GnmEvalPos pos;
+		GnmExpr	   expr, arg_a, arg_b;
+		arg_a.constant.oper = GNM_EXPR_OP_CONSTANT;
+		arg_a.constant.value = dst->value;
+		arg_b.constant.oper = GNM_EXPR_OP_CONSTANT;
+		arg_b.constant.value = src->val;
+		expr.binary.oper = op;
+		expr.binary.value_a = &arg_a;
+		expr.binary.value_b = &arg_b;
 
-		cell_set_value (new_cell, new_val);
+		eval_pos_init_cell (&pos, dst);
+		pos.dep = NULL; /* no dynamic deps */
+		cell_set_value (dst,
+			gnm_expr_eval (&expr, &pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY));
 	}
 }
 
@@ -185,50 +174,32 @@ paste_link (GnmPasteTarget const *pt, int top, int left,
 /**
  * paste_cell: Pastes a cell in the spreadsheet
  *
- * @dest_sheet:  The sheet where the pasting will be done
+ * @dst_sheet:   The sheet where the pasting will be done
  * @target_col:  Column to put the cell into
  * @target_row:  Row to put the cell into.
  * @new_cell:    A new cell (not linked into the sheet, or wb->expr_list)
  * @paste_flags: Bit mask that describes the paste options.
  */
 static void
-paste_cell (Sheet *dest_sheet,
+paste_cell (Sheet *dst_sheet,
 	    int target_col, int target_row,
 	    GnmExprRewriteInfo const *rwinfo,
-	    CellCopy *c_copy, int paste_flags)
+	    GnmCellCopy const *src, int paste_flags)
 {
-	if (!(paste_flags & (PASTE_CONTENT | PASTE_AS_VALUES)))
-		return;
-
-	if (paste_flags & PASTE_OPER_MASK) {
-		paste_cell_with_operation (dest_sheet, target_col, target_row,
-					   rwinfo, c_copy, paste_flags);
-		return;
-	}
-
-	if (c_copy->type == CELL_COPY_TYPE_CELL) {
-		GnmCell *new_cell = sheet_cell_fetch (dest_sheet, target_col, target_row);
-		GnmCell *src_cell = c_copy->u.cell;
-
-		if (!src_cell) {
-			g_warning ("Cell copy type set but no cell found (this is bad!)");
-			return;
-		}
-
-		if (cell_has_expr (src_cell)) {
-			cell_set_expr_and_value (new_cell, src_cell->base.expression,
-						 value_dup (src_cell->value), FALSE);
-
-			if (paste_flags & PASTE_CONTENT)
-				cell_relocate (new_cell, rwinfo);
-			else
-				cell_convert_expr_to_value (new_cell);
-		} else
-				cell_set_value (new_cell, value_dup (src_cell->value));
-
-	} else if (c_copy->u.text)
-		cell_set_text (sheet_cell_fetch (dest_sheet, target_col, target_row),
-			       c_copy->u.text);
+	if (paste_flags & PASTE_OPER_MASK)
+		paste_cell_with_operation (dst_sheet, target_col, target_row,
+					   rwinfo, src, paste_flags);
+	else if (NULL != src->expr) {
+		GnmCell *dst = sheet_cell_fetch (dst_sheet, target_col, target_row);
+		cell_set_expr_and_value (dst, src->expr,
+			value_dup (src->val), FALSE);
+		if (paste_flags & PASTE_CONTENT)
+			cell_relocate (dst, rwinfo);
+		else
+			cell_convert_expr_to_value (dst);
+	} else
+		cell_set_value (sheet_cell_fetch (dst_sheet, target_col, target_row),
+			value_dup (src->val));
 }
 
 static void
@@ -429,32 +400,32 @@ clipboard_paste_region (GnmCellRegion const *content,
 				continue;
 			}
 
+			if (has_content)
+				for (c_ptr = content->content; c_ptr; c_ptr = c_ptr->next) {
+					GnmCellCopy const *src = c_ptr->data;
+					int target_col = left;
+					int target_row = top;
 
-			for (c_ptr = content->content; c_ptr; c_ptr = c_ptr->next) {
-				CellCopy *c_copy = c_ptr->data;
-				int target_col = left;
-				int target_row = top;
+					if (pt->paste_flags & PASTE_TRANSPOSE) {
+						target_col += src->row_offset;
+						target_row += src->col_offset;
+					} else {
+						target_col += src->col_offset;
+						target_row += src->row_offset;
+					}
 
-				if (pt->paste_flags & PASTE_TRANSPOSE) {
-					target_col += c_copy->row_offset;
-					target_row += c_copy->col_offset;
-				} else {
-					target_col += c_copy->col_offset;
-					target_row += c_copy->row_offset;
+					rinfo->pos.sheet = pt->sheet;
+					if (pt->paste_flags & PASTE_EXPR_LOCAL_RELOCATE) {
+						rinfo->pos.eval.col = content->base.col + src->col_offset;
+						rinfo->pos.eval.row = content->base.row + src->row_offset;
+					} else {
+						rinfo->pos.eval.col = target_col;
+						rinfo->pos.eval.row = target_row;
+					}
+
+					paste_cell (pt->sheet, target_col, target_row,
+						    &rwinfo, src, pt->paste_flags);
 				}
-
-				rinfo->pos.sheet = pt->sheet;
-				if (pt->paste_flags & PASTE_EXPR_LOCAL_RELOCATE) {
-					rinfo->pos.eval.col = content->base.col + c_copy->col_offset;
-					rinfo->pos.eval.row = content->base.row + c_copy->row_offset;
-				} else {
-					rinfo->pos.eval.col = target_col;
-					rinfo->pos.eval.row = target_row;
-				}
-
-				paste_cell (pt->sheet, target_col, target_row,
-					    &rwinfo, c_copy, pt->paste_flags);
-			}
 			if (pt->paste_flags & (PASTE_COMMENTS | PASTE_OBJECTS))
 				for (ptr = content->objects; ptr; ptr = ptr->next)
 					paste_object (pt, ptr->data, left, top);
@@ -479,22 +450,21 @@ clipboard_paste_region (GnmCellRegion const *content,
 
 static GnmValue *
 cb_clipboard_prepend_cell (Sheet *sheet, int col, int row,
-			   GnmCell *cell, GnmCellRegion *cr)
+			   GnmCell const *cell, GnmCellRegion *cr)
 {
 	GnmExprArray const *a;
-	CellCopy *copy;
-
-	copy = g_new (CellCopy, 1);
-	copy->type       = CELL_COPY_TYPE_CELL;
-	copy->u.cell     = cell_copy (cell);
-	copy->u.cell->pos.col = copy->col_offset = col - cr->base.col;
-	copy->u.cell->pos.row = copy->row_offset = row - cr->base.row;
+	GnmCellCopy *copy = gnm_cell_copy_new (
+		col - cr->base.col, row - cr->base.row);
+	copy->val = value_dup (cell->value);
+	if (cell_has_expr (cell))
+		gnm_expr_ref (copy->expr = cell->base.expression);
+	else
+		copy->expr = NULL;
 	cr->content = g_slist_prepend (cr->content, copy);
 
 	/* Check for array division */
 	if (!cr->not_as_content && NULL != (a = cell_is_array (cell))) {
-		int base;
-		base = copy->col_offset - a->x;
+		int base = copy->col_offset - a->x;
 		if (base < 0 || (base + a->cols) > cr->cols)
 			cr->not_as_content = TRUE;
 		else {
@@ -644,6 +614,7 @@ void
 cellregion_unref (GnmCellRegion *cr)
 {
 	CellCopyList *ptr;
+	GnmCellCopy *cc;
 
 	g_return_if_fail (cr != NULL);
 	if (cr->ref_count > 1) {
@@ -652,17 +623,16 @@ cellregion_unref (GnmCellRegion *cr)
 	}
 
 	for (ptr = cr->content; ptr; ptr = ptr->next) {
-		CellCopy *this_cell = ptr->data;
-
-		if (this_cell->type == CELL_COPY_TYPE_CELL) {
-			/* The cell is not really in the rows or columns */
-			this_cell->u.cell->base.sheet = NULL;
-			this_cell->u.cell->row_info = NULL;
-			this_cell->u.cell->col_info = NULL;
-			cell_destroy (this_cell->u.cell);
-		} else if (this_cell->u.text)
-			g_free (this_cell->u.text);
-		g_free (this_cell);
+		cc = ptr->data;
+		if (NULL != cc->expr) {
+			gnm_expr_unref (cc->expr);
+			cc->expr = NULL;
+		}
+		if (cc->val != NULL) {
+			value_release (cc->val);
+			cc->val = NULL;
+		}
+		g_free (cc);
 	}
 	g_slist_free (cr->content);
 	cr->content = NULL;
@@ -689,76 +659,13 @@ cellregion_unref (GnmCellRegion *cr)
 	g_free (cr);
 }
 
-/**
- * cellregion_to_string
- * @cr :
- *
- * Renders a GnmCellRegion as a sequence of strings.
- */
-char *
-cellregion_to_string (GnmCellRegion const *cr, PangoContext *context)
+GnmCellCopy *
+gnm_cell_copy_new (int col_offset, int row_offset)
 {
-	GString *all, *line;
-	CellCopyList *ptr;
-	char ***data, *return_val;
-	int col, row;
-
-	g_return_val_if_fail (cr != NULL, NULL);
-	g_return_val_if_fail (cr->rows >= 0, NULL);
-	g_return_val_if_fail (cr->cols >= 0, NULL);
-
-	data = g_new0 (char **, cr->rows);
-
-	for (row = 0; row < cr->rows; row++)
-		data[row] = g_new0 (char *, cr->cols);
-
-	for (ptr = cr->content; ptr; ptr = ptr->next) {
-		CellCopy *c_copy = ptr->data;
-		char *v;
-
-		if (c_copy->type != CELL_COPY_TYPE_TEXT) {
-			/* FIXME: feels bogus to use rendered value.  */
-			GnmStyle const *mstyle = style_list_get_style (cr->styles,
-				&c_copy->u.cell->pos);
-			RenderedValue *rv;
-
-			rv = rendered_value_new (c_copy->u.cell,
-						 mstyle, FALSE,
-						 context,
-						 1.0);
-			v = g_strdup (rendered_value_get_text (rv));
-			rendered_value_destroy (rv);
-		} else
-			v = g_strdup (c_copy->u.text);
-
-		data[c_copy->row_offset][c_copy->col_offset] = v;
-	}
-
-	all = g_string_new (NULL);
-	line = g_string_new (NULL);
-	for (row = 0; row < cr->rows;) {
-		g_string_assign (line, "");
-
-		for (col = 0; col < cr->cols;) {
-			if (data[row][col]) {
-				g_string_append (line, data[row][col]);
-				g_free (data[row][col]);
-			}
-			if (++col < cr->cols)
-				g_string_append_c (line, '\t');
-		}
-		g_string_append_len (all, line->str, line->len);
-		if (++row < cr->rows)
-			g_string_append_c (all, '\n');
-	}
-
-	/* Release, everything we used */
-	g_string_free (line, TRUE);
-	return_val = g_string_free (all, FALSE);
-
-	for (row = 0; row < cr->rows; row++)
-		g_free (data[row]);
-	g_free (data);
-
-	return return_val;
+	GnmCellCopy *res = g_new (GnmCellCopy, 1);
+	res->col_offset = col_offset;
+	res->row_offset = row_offset;
+	res->expr = NULL;
+	res->val = NULL;
+	return res;
 }

@@ -7,7 +7,6 @@
  *  Jody Goldberg (jody@gnome.org)
  */
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include "gnumeric.h"
 #include "gui-clipboard.h"
 
@@ -15,7 +14,6 @@
 #include "clipboard.h"
 #include "selection.h"
 #include "application.h"
-#include <goffice/app/io-context.h>
 #include "workbook-control-gui-priv.h"
 #include "workbook.h"
 #include "workbook-view.h"
@@ -27,13 +25,17 @@
 #include "commands.h"
 #include "xml-io.h"
 #include "value.h"
+#include "number-match.h"
 #include "dialog-stf.h"
 #include "stf-parse.h"
 #include "mstyle.h"
+#include "gnm-format.h"
 #include "gnumeric-gconf.h"
 
+#include <goffice/app/io-context.h>
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-output-memory.h>
+#include <glib/gi18n.h>
 #include <libxml/globals.h>
 #include <locale.h>
 #include <string.h>
@@ -70,6 +72,11 @@ text_to_cell_region (WorkbookControlGUI *wbcg,
 	char *data_converted = NULL;
 	int i;
 
+	/* See if this is a "single line + line end" or a "multiline"
+	 * string. If this is _not_ the case we won't invoke the STF, it is
+	 * unlikely that the user will actually need it in this case.
+	 * NOTE: This is making an assumption on what the user 'wants', this
+	 * is not really a good thing. We should put this in a config dialog. */
 	oneline = TRUE;
 	for (i = 0; i < data_len; i++)
 		if (data[i] == '\n') {
@@ -94,34 +101,27 @@ text_to_cell_region (WorkbookControlGUI *wbcg,
 		}
 	}
 
-	/*
-	 * See if this is a "single line + line end" or a "multiline"
-	 * string. If this is _not_ the case we won't invoke the STF, it is
-	 * unlikely that the user will actually need it in this case.
-	 * NOTE: This is making an assumption on what the user 'wants', this
-	 * is not really a good thing. We should put this in a config dialog.
-	 */
 	if (oneline) {
-		CellCopy *ccopy;
+		GnmCellCopy *cc = gnm_cell_copy_new (0, 0);
 
-		ccopy = g_new (CellCopy, 1);
-		ccopy->type = CELL_COPY_TYPE_TEXT;
-		ccopy->col_offset = 0;
-		ccopy->row_offset = 0;
-		ccopy->u.text = g_strndup (data, data_len);
+		char *tmp = g_strndup (data, data_len);
+		g_free (data_converted);
+		cc->val = format_match (tmp, NULL,
+			workbook_date_conv (wb_control_workbook (WORKBOOK_CONTROL (wbcg))));
+		cc->expr = NULL;
+		g_free (tmp);
 
 		cr = cellregion_new (NULL);
-		cr->content = g_slist_prepend (cr->content, ccopy);
+		cr->content = g_slist_prepend (cr->content, cc);
 		cr->cols = cr->rows = 1;
-
-		g_free (data_converted);
 	} else {
 		dialogresult = stf_dialog (wbcg, opt_encoding, fixed_encoding,
 					   NULL, FALSE,
 					   _("clipboard"), data, data_len);
 
 		if (dialogresult != NULL) {
-			cr = stf_parse_region (dialogresult->parseoptions, dialogresult->text, NULL);
+			cr = stf_parse_region (dialogresult->parseoptions,
+				dialogresult->text, NULL, wb_control_workbook (WORKBOOK_CONTROL (wbcg)));
 			g_return_val_if_fail (cr != NULL, cellregion_new (NULL));
 
 			stf_dialog_result_attach_formats_to_cr (dialogresult, cr);
@@ -522,6 +522,60 @@ image_write (GnmCellRegion *cr, Sheet *sheet, gchar const *mime_type,
 	return ret;
 }
 
+static GString *
+cellregion_to_string (GnmCellRegion const *cr,
+		      GODateConventions const *date_conv)
+{
+	GString *all, *line;
+	CellCopyList *ptr;
+	GnmCellCopy const *src;
+	GnmStyle const	  *style;
+	char ***data;
+	int col, row;
+
+	g_return_val_if_fail (cr != NULL, NULL);
+	g_return_val_if_fail (cr->rows >= 0, NULL);
+	g_return_val_if_fail (cr->cols >= 0, NULL);
+
+	data = g_new0 (char **, cr->rows);
+
+	for (row = 0; row < cr->rows; row++)
+		data[row] = g_new0 (char *, cr->cols);
+
+	line = g_string_new (NULL);
+	for (ptr = cr->content; ptr; ptr = ptr->next) {
+		src = ptr->data;
+		style = style_list_get_style (cr->styles,
+			src->col_offset + cr->base.col,
+			src->row_offset + cr->base.row);
+		format_value_gstring (line, mstyle_get_format (style),
+			src->val, NULL, -1, date_conv);
+	}
+
+	all = g_string_sized_new (20 * cr->cols * cr->rows);
+	for (row = 0; row < cr->rows;) {
+		g_string_assign (line, "");
+
+		for (col = 0; col < cr->cols;) {
+			if (data[row][col]) {
+				g_string_append (line, data[row][col]);
+				g_free (data[row][col]);
+			}
+			if (++col < cr->cols)
+				g_string_append_c (line, '\t');
+		}
+		g_string_append_len (all, line->str, line->len);
+		if (++row < cr->rows)
+			g_string_append_c (all, '\n');
+	}
+
+	g_string_free (line, TRUE);
+	for (row = 0; row < cr->rows; row++)
+		g_free (data[row]);
+	g_free (data);
+	return all;
+}
+
 /**
  * x_clipboard_get_cb
  *
@@ -595,16 +649,14 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 					(guchar *) buffer, buffer_size);
 		g_free (buffer);
 	} else {
-		PangoContext *context = gtk_widget_get_pango_context (GTK_WIDGET (wbcg_toplevel (wbcg)));
-		char *rendered_selection = cellregion_to_string (clipboard, context);
-
-		if (rendered_selection == NULL)
-			rendered_selection = g_strdup ("");
-		gtk_selection_data_set_text (selection_data, 
-					     (gchar *) rendered_selection,
-					     strlen (rendered_selection));
-
-		g_free (rendered_selection);
+		GString *res = cellregion_to_string (clipboard,
+			workbook_date_conv (sheet->workbook));
+		if (res != NULL) {
+			gtk_selection_data_set_text (selection_data, 
+				res->str, res->len);
+			g_string_free (res, TRUE);
+		} else
+			gtk_selection_data_set_text (selection_data, "", 0);
 	}
 	g_free (target_name);
 

@@ -71,10 +71,17 @@ Architecture Changes
 
 - Merge wbc_init_state and wbc_set_view
 
-1) thinks to move into libgoffice
+1) things to move into libgoffice
     1.1) plugin-manager dialog
     1.2) doc meta data
-    1.3) doc meta data dialog
+	1.2.1) Use GsfDocMetaData	{Jody}
+	    1.2.1.1) sax-in
+	    1.2.1.2) sax-out					(DONE)
+	    1.2.1.3) dom-in
+	    1.2.1.4) dom-out					(DONE)
+	1.2.2) doc meta data dialog
+    1.3) Insert hyperlink dialog
+	1.3.1) Integration with evo address book
 2) Font handling (move to GOFont)
 3) Charting Enhancements					(DONE)
     3.1) SheetObject editing					(DONE)
@@ -86,13 +93,13 @@ Architecture Changes
 	  of the graph.
 4) Function docs
     4.1) Use multiple tagged paragraphs
-
 5) Pivot tables
 	5.1) xls
 	    5.1.1) import pivot cache streams		 {Jody}
 	    5.1.2) export pivot cache streams
 6) Undo/redo improvements
-	6.1) transaction file				{Jody}
+    6.1) transaction file				{Jody}
+    6.2) Restore Row heights in CmdFormat::undo
 7) Drag and Drop					{Jon Kare}
 8) Rich Text
     8.1) font actions valid while editing			(DONE)
@@ -237,15 +244,16 @@ Architecture Changes
 33) Win32
     33.1) Make gnumeric build with only gtk and available libraries	(DONE)
     33.2) Drawing past row 1800 or so (gtk bug)				(DONE)
-    33.3) Shift-keyup from B1300 does not redraw properly (gtk bug)
+    33.3) Shift-keyup from B1300 does not redraw properly (gtk bug)	(DONE)
     33.4) License in installer should be GPL, not LGPL			(DONE)
     33.5) no menu entry for Gnumeric					(DONE)
     33.6) broken header in 1st page of installer			(DONE)
     33.7) no charts (although about box does work)			(DONE)
-    33.8) prefs dialog is useless in non-gnome build
-    33.9) printing is zoomed in non-gnome build				(DONE)
-    33.10) Cursor shape changes oddly (gtk bug)				(DONE)
-    33.11) can not copy-n-paste (gtk bug)				(DONE)
+    33.8) printing is zoomed in non-gnome build				(DONE)
+    33.9) Cursor shape changes oddly (gtk bug)				(DONE)
+    33.10) can not copy-n-paste (gtk bug)				(DONE)
+    33.11) printing							(DONE)
+    33.12) prefs dialog is useless in non-gnome build
 
 34) Functions
     - Function range_min_k uses an O(n*log n) algorithm.  It should use O(n)
@@ -276,6 +284,10 @@ Architecture Changes
       We should somehow steal the old definition (and complain unless the old
       was a stub) without changing the GnmFunc address.  On exit we should
       explicitly check that it is ours to remove.
+    - examples
+	1) A registry of named data tables to reference from examples
+	2) The example text should have the expr in C locale 
+		?? how to reference the sample data ??
 
 -------------------------------------------------------------------------------
 Target Features

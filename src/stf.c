@@ -308,7 +308,7 @@ stf_text_to_columns (WorkbookControl *wbc, GOCmdContext *cc)
 	}
 	if (dialogresult != NULL) {
 		GnmCellRegion *cr = stf_parse_region (dialogresult->parseoptions,
-						   dialogresult->text, NULL);
+			dialogresult->text, NULL, target_sheet->workbook);
 		if (cr != NULL) {
 			stf_dialog_result_attach_formats_to_cr (dialogresult, cr);
 			target.end.col = target.start.col + cr->cols - 1;

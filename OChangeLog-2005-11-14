@@ -1,3 +1,38 @@
+2005-03-29  Jody Goldberg <jody@gnome.org>
+
+	* src/func.c (tokenized_help_new) : warning suppression.
+
+	* src/expr.c (gnm_expr_is_array) : new.
+
+2005-03-29  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-io.c (xml_write_cell_and_position) : Take a value and
+	  expression directly rather than a Cell to allow re-use between the
+	  new clipboard data structure GnmCellCopy and GnmCell.
+
+	* src/gui-clipboard.c (text_to_cell_region) : store data directly.
+	(cellregion_to_string) : moved from clipboard.c and tweaked to support
+	  the new data structure.
+	(x_clipboard_get_cb) : no need for a pango context, we ignore variable
+	  width formats when exporting.
+
+	* src/sheet-style.c (style_list_get_style) : Use col & rol vs CellPos.
+
+	* src/clipboard.c : Simplify GnmCellCopy and remove the ancient bogus
+	  notion of keeping a copy of a full cell.
+	(contents_as_expr) : renamed from cell_get_contents_as_expr, and
+	  changed to take the expr and val directly.
+	(apply_paste_oper_to_values) : deleted and merged into.
+	(paste_cell_with_operation) : here.
+	(gnm_cell_copy_new) : new.
+	(paste_cell) : add some const.
+	(clipboard_paste_region) : const and adjust to the changes.
+	  We can test for pasting content here rather than per-cell.
+	(cb_clipboard_prepend_cell) : use gnm_cell_copy_new.
+	(cellregion_unref) : adjust to data structure change.
+	(cellregion_to_string) : moved into gui-clipboard.c.  It's not really
+	  gui specific but that is the only thing that uses it for now.
+
 2005-03-29  Jon K Hellan  <hellan@acm.org>
 
 	* src/xml-io.c (xml_cellregion_read): Silence warning.

@@ -99,36 +99,38 @@ int stf_parse_options_fixed_splitpositions_nth         (StfParseOptions_t *parse
 
 /* USING the stf structs to actually do some parsing, these are the lower-level functions and utility functions */
 
-GPtrArray          *stf_parse_general                                 (StfParseOptions_t *parseoptions,
-								       GStringChunk *lines_chunk,
-								       char const *data,
-								       char const *data_end,
-								       int maxlines);
-void                stf_parse_general_free                            (GPtrArray *lines);
-GPtrArray          *stf_parse_lines                                   (StfParseOptions_t *parseoptions,
-								       GStringChunk *lines_chunk,
-								       const char *data,
-								       int maxlines,
-								       gboolean with_lineno);
+GPtrArray	*stf_parse_general			(StfParseOptions_t *parseoptions,
+							 GStringChunk *lines_chunk,
+							 char const *data,
+							 char const *data_end,
+							 int maxlines);
+void		 stf_parse_general_free			(GPtrArray *lines);
+GPtrArray	*stf_parse_lines			(StfParseOptions_t *parseoptions,
+							 GStringChunk *lines_chunk,
+							 const char *data,
+							 int maxlines,
+							 gboolean with_lineno);
 
-void                stf_parse_options_fixed_autodiscover              (StfParseOptions_t *parseoptions,
-								       char const *data,
-								       char const *data_end);
+void		 stf_parse_options_fixed_autodiscover	(StfParseOptions_t *parseoptions,
+							 char const *data,
+							 char const *data_end);
 
-const char         *stf_parse_find_line                               (StfParseOptions_t *parseoptions,
-								       const char *data,
-								       int line);
+char const	*stf_parse_find_line			(StfParseOptions_t *parseoptions,
+							 const char *data,
+							 int line);
 
-char const         *stf_parse_next_token                              (char const *data, 
-								       StfParseOptions_t *parseoptions,
-								       StfTokenType_t *tokentype);
+char const	*stf_parse_next_token			(char const *data, 
+							 StfParseOptions_t *parseoptions,
+							 StfTokenType_t *tokentype);
 
 /* Higher level functions, can be used for directly parsing into an application specific data container */
-gboolean	    stf_parse_sheet                                   (StfParseOptions_t *parseoptions,
-								       char const *data, char const *data_end,
-								       Sheet *sheet,
-								       int start_col, int start_row);
+gboolean	 stf_parse_sheet			(StfParseOptions_t *parseoptions,
+							 char const *data, char const *data_end,
+							 Sheet *sheet,
+							 int start_col, int start_row);
 
-GnmCellRegion         *stf_parse_region                                  (StfParseOptions_t *parseoptions,
-								       char const *data, char const *data_end);
-#endif
+GnmCellRegion	*stf_parse_region			(StfParseOptions_t *parseoptions,
+							 char const *data, char const *data_end,
+							 Workbook const *wb);
+
+#endif /* GNUMERIC_STF_PARSE_H */

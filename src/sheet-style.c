@@ -2119,23 +2119,22 @@ style_list_free (GnmStyleList *list)
  * style_list_get_style :
  *
  * @list : A style list.
- * @pos  : The offset from the upper left corner.
+ * @col  :
+ * @row  :
  *
  * Attempts to find the style associated with the @pos offset within the 0,0
  * based style list.
  * The resulting style does not have its reference count bumped.
- */
+ **/
 GnmStyle const *
-style_list_get_style (GnmStyleList const *list, GnmCellPos const *pos)
+style_list_get_style (GnmStyleList const *list, int col, int row)
 {
 	GnmStyleList const *l;
-
-	g_return_val_if_fail (pos != NULL, NULL);
 
 	for (l = list; l; l = l->next) {
 		GnmStyleRegion const *sr = l->data;
 		GnmRange const *r = &sr->range;
-		if (range_contains (r, pos->col, pos->row))
+		if (range_contains (r, col, row))
 			return sr->style;
 	}
 	return NULL;

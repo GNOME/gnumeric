@@ -1200,8 +1200,12 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 }
 
 GnmCellRegion *
-stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const *data_end)
+stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const *data_end,
+		  Workbook const *wb)
 {
+	static GODateConventions const default_conv = {FALSE};
+	GODateConventions const *date_conv = wb ? workbook_date_conv (wb) : &default_conv;
+
 	GnmCellRegion *cr;
 	CellCopyList *content = NULL;
 	unsigned int row, colhigh = 0;
@@ -1222,9 +1226,6 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 	for (row = 0; row < lines->len; row++) {
 		GPtrArray *line = g_ptr_array_index (lines, row);
 		unsigned int col, targetcol = 0;
-#warning "FIXME: We should not just assume the 1900 convention "
-		GODateConventions date_conv = {FALSE};
-
 		for (col = 0; col < line->len; col++) {
 			if (parseoptions->col_import_array == NULL ||
 			    parseoptions->col_import_array_len <= col ||
@@ -1232,23 +1233,19 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 				char *text = g_ptr_array_index (line, col);
 
 				if (text) {
-					CellCopy *ccopy;
+					GnmCellCopy *ccopy;
 					GnmValue *v;
 					GOFormat *fmt = g_ptr_array_index
 						(parseoptions->formats, col);
 
-					v = format_match (text, fmt, &date_conv);
+					v = format_match (text, fmt, date_conv);
 					if (v == NULL) {
 						v = value_new_string (text);
 					}
 
-					ccopy = g_new (CellCopy, 1);
-					ccopy->type = CELL_COPY_TYPE_CELL;
-					ccopy->col_offset = targetcol;
-					ccopy->row_offset = row;
-					ccopy->u.cell = cell_new ();
-					cell_set_value(ccopy->u.cell, v);
-
+					ccopy = gnm_cell_copy_new (targetcol, row);
+					ccopy->val  = v;
+					ccopy->expr = NULL;
 					content = g_slist_prepend (content, ccopy);
 					targetcol++;
 					if (targetcol > colhigh)

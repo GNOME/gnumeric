@@ -1572,26 +1572,28 @@ xml_write_colrow_info (ColRowInfo *info, void *user_data)
  * set col and row to be the absolute coordinates
  */
 static xmlNodePtr
-xml_write_cell_and_position (XmlParseContext *ctxt, GnmCell const *cell, GnmParsePos const *pp)
+xml_write_cell_and_position (XmlParseContext *ctxt,
+			     GnmExpr const *expr, GnmValue const *val,
+			     GnmParsePos const *pp)
 {
 	xmlNodePtr cellNode;
 	xmlChar *tstr;
 	GnmExprArray const *ar;
 	gboolean write_contents = TRUE;
-	gboolean const is_shared_expr =
-	    (cell_has_expr (cell) && gnm_expr_is_shared (cell->base.expression));
+	gboolean const is_shared_expr = (expr != NULL) &&
+		gnm_expr_is_shared (expr);
 
 	cellNode = xmlNewDocNode (ctxt->doc, ctxt->ns, CC2XML ("Cell"), NULL);
 	xml_node_set_int (cellNode, "Col", pp->eval.col);
 	xml_node_set_int (cellNode, "Row", pp->eval.row);
 
 	/* Only the top left corner of an array needs to be saved (>= 0.53) */
-	if (NULL != (ar = cell_is_array (cell)) && (ar->y != 0 || ar->x != 0))
+	if (NULL != (ar = gnm_expr_is_array (expr)) && (ar->y != 0 || ar->x != 0))
 		return cellNode;
 
 	/* As of version 0.53 we save the ID of shared expressions */
 	if (is_shared_expr) {
-		gconstpointer const expr = cell->base.expression;
+		gconstpointer const expr = expr;
 		gpointer id = g_hash_table_lookup (ctxt->expr_map, expr);
 
 		if (id == NULL) {
@@ -1605,11 +1607,11 @@ xml_write_cell_and_position (XmlParseContext *ctxt, GnmCell const *cell, GnmPars
 
 	if (write_contents) {
 		GString *str = g_string_sized_new (1000);
-		if (cell_has_expr (cell)) {
+		if (expr) {
 			g_string_append_c (str, '=');
-			gnm_expr_as_gstring (str, cell->base.expression, pp, ctxt->exprconv);
+			gnm_expr_as_gstring (str, expr, pp, ctxt->exprconv);
 		} else
-			value_get_as_gstring (cell->value, str, ctxt->exprconv);
+			value_get_as_gstring (val, str, ctxt->exprconv);
 		tstr = xmlEncodeEntitiesReentrant (ctxt->doc, CC2XML (str->str));
 		g_string_free (str, TRUE);
 
@@ -1617,14 +1619,13 @@ xml_write_cell_and_position (XmlParseContext *ctxt, GnmCell const *cell, GnmPars
 		if (tstr)
 			xmlFree (tstr);
 
-		if (!cell_has_expr (cell)) {
-			g_return_val_if_fail (cell->value != NULL, cellNode);
+		if (NULL == expr) {
+			g_return_val_if_fail (val != NULL, cellNode);
 
-			xml_node_set_int (cellNode, "ValueType",
-				cell->value->type);
+			xml_node_set_int (cellNode, "ValueType", val->type);
 
-			if (VALUE_FMT (cell->value) != NULL) {
-				char *fmt = style_format_as_XL (VALUE_FMT (cell->value), FALSE);
+			if (VALUE_FMT (val) != NULL) {
+				char *fmt = style_format_as_XL (VALUE_FMT (val), FALSE);
 				xmlSetProp (cellNode, CC2XML ("ValueFormat"), CC2XML (fmt));
 				g_free (fmt);
 			}
@@ -1648,7 +1649,8 @@ static xmlNodePtr
 xml_write_cell (XmlParseContext *ctxt, GnmCell const *cell)
 {
 	GnmParsePos pp;
-	return xml_write_cell_and_position (ctxt, cell,
+	return xml_write_cell_and_position (ctxt,
+		cell->base.expression, cell->value,
 		parse_pos_init_cell (&pp, cell));
 }
 
@@ -3080,31 +3082,12 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 
 /****************************************************************************/
 
-static CellCopy *
-cell_copy_new (void)
-{
-	GnmCell *cell;
-	CellCopy *cc;
-
-	cell = cell_new ();
-	cell->pos.col = -1;
-	cell->pos.row = -1;
-	cell->value   = value_new_empty ();
-
-	cc          = g_new (CellCopy, 1);
-	cc->type    = CELL_COPY_TYPE_CELL;
-	cc->u.cell  = cell;
-
-	return cc;
-}
-
 static void
-xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
-		    GnmCellRegion *cr, Sheet *sheet)
+xml_read_clipboard_cell (XmlParseContext *ctxt, xmlNodePtr tree,
+			 GnmCellRegion *cr, Sheet *sheet)
 {
-	int tmp;
-	CellCopy *cc;
-	GnmCell  *cell;
+	int tmp, col, row;
+	GnmCellCopy *cc;
 	xmlNode  *child;
 	xmlChar	 *content;
 	int array_cols, array_rows, shared_expr_index = -1;
@@ -3114,20 +3097,12 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
 	GOFormat *value_fmt = NULL;
 	GnmParsePos pp;
 
-	if (strcmp (tree->name, "Cell")) {
-		fprintf (stderr,
-		 "xml_read_cell_copy: invalid element type %s, 'Cell' expected`\n",
-			 tree->name);
-		return;
-	}
+	g_return_if_fail (0 == strcmp (tree->name, "Cell"));
 
-	cc = cell_copy_new ();
-	cell = cc->u.cell;
-	xml_node_get_int (tree, "Col", &cell->pos.col);
-	xml_node_get_int (tree, "Row", &cell->pos.row);
-	cc->col_offset = cell->pos.col - cr->base.col;
-	cc->row_offset = cell->pos.row - cr->base.row;
-	parse_pos_init (&pp, NULL, sheet, cell->pos.col, cell->pos.row);
+	cc = gnm_cell_copy_new (
+		(xml_node_get_int (tree, "Col", &col) ? col - cr->base.col : 0),
+		(xml_node_get_int (tree, "Row", &row) ? row - cr->base.row : 0));
+	parse_pos_init (&pp, NULL, sheet, col, row);
 
 	/* Is this a post 0.52 shared expression */
 	if (!xml_node_get_int (tree, "ExprID", &shared_expr_index))
@@ -3153,56 +3128,40 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
 	content = xml_node_get_cstr ((child != NULL) ? child : tree, NULL);
 	if (content != NULL) {
 		if (is_post_52_array) {
-			GnmExpr const *expr;
-
 			g_return_if_fail (content[0] == '=');
 
-			expr = gnm_expr_parse_str (CXML2C (content), &pp,
+			cc->expr = gnm_expr_parse_str (CXML2C (content), &pp,
 						   GNM_EXPR_PARSE_DEFAULT,
 						   ctxt->exprconv, NULL);
 
-			g_return_if_fail (expr != NULL);
+			g_return_if_fail (cc->expr != NULL);
 #warning TODO : arrays
 		} else if (is_value)
-			cell->value = value_new_from_string (value_type,
-							     CXML2C (content),
-							     value_fmt,
-							     FALSE);
+			cc->val = value_new_from_string (value_type,
+				CXML2C (content), value_fmt, FALSE);
 		else {
-			GnmValue *val;
-			GnmExpr const *expr;
 			GODateConventions const *date_conv =
 				ctxt->wb ? workbook_date_conv (ctxt->wb) : NULL;
-
-			parse_text_value_or_expr (&pp,
-						  CXML2C (content),
-						  &val, &expr, value_fmt,
-						  date_conv);
-
-			if (val != NULL) {	/* String was a value */
-				value_release (cell->value);
-				cell->value = val;
-			} else		/* String was an expression */
-				cell->base.expression = expr;
+			parse_text_value_or_expr (&pp, CXML2C (content),
+				&cc->val, &cc->expr, value_fmt, date_conv);
 		}
 
 		if (shared_expr_index > 0) {
 			if (shared_expr_index == (int)ctxt->shared_exprs->len + 1) {
-				if (!cell_has_expr (cell)) {
+				if (NULL == cc->expr) {
 					/* The parse failed, but we know it is
 					 * an expression.  this can happen
 					 * until we get proper interworkbook
 					 * linkages.  Force the content into
 					 * being an expression.
 					 */
-					cell->base.expression = gnm_expr_new_constant (
-						value_new_string (
-							  gnm_expr_char_start_p (CXML2C (content))));
-					value_release (cell->value);
-					cell->value = value_new_empty ();
+					cc->expr = gnm_expr_new_constant (value_new_string (
+						gnm_expr_char_start_p (CXML2C (content))));
+					value_release (cc->val);
+					cc->val = value_new_empty ();
 				}
 				g_ptr_array_add (ctxt->shared_exprs,
-						 (gpointer) cell->base.expression);
+						 (gpointer) cc->expr);
 			} else {
 				g_warning ("XML-IO: Duplicate or invalid shared expression: %d",
 					   shared_expr_index);
@@ -3211,13 +3170,13 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
 		xmlFree (content);
 	} else if (shared_expr_index > 0) {
 		if (shared_expr_index <= (int)ctxt->shared_exprs->len + 1) {
-			GnmExpr *expr = g_ptr_array_index (ctxt->shared_exprs,
-							    shared_expr_index - 1);
-			gnm_expr_ref (expr);
-			cell->base.expression = expr;
+			cc->expr = g_ptr_array_index (ctxt->shared_exprs,
+				shared_expr_index - 1);
+			gnm_expr_ref (cc->expr);
 		} else {
 			g_warning ("XML-IO: Missing shared expression");
 		}
+		cc->val = value_new_empty ();
 	}
 	style_format_unref (value_fmt);
 
@@ -3296,7 +3255,7 @@ xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, guchar const *buffer, i
 	if (l != NULL)
 		for (l = l->xmlChildrenNode; l != NULL ; l = l->next)
 			if (!xmlIsBlankNode (l))
-				xml_read_cell_copy (ctxt, l, cr, sheet);
+				xml_read_clipboard_cell (ctxt, l, cr, sheet);
 
 	l = e_xml_get_child_by_name (clipboard, CC2XML ("Objects"));
 	if (l != NULL)
@@ -3369,14 +3328,12 @@ xml_cellregion_write (WorkbookControl *wbc, GnmCellRegion *cr, int *size)
 	if (cr->content != NULL)
 		container = xmlNewChild (clipboard, clipboard->ns, CC2XML ("Cells"), NULL);
 	for (c_ptr = cr->content; c_ptr != NULL ; c_ptr = c_ptr->next) {
-		CellCopy const *c_copy = c_ptr->data;
+		GnmCellCopy const *cc = c_ptr->data;
 
-		g_return_val_if_fail (c_copy->type == CELL_COPY_TYPE_CELL, NULL);
-
-		pp.eval.col = cr->base.col + c_copy->col_offset,
-		pp.eval.row = cr->base.row + c_copy->row_offset;
+		pp.eval.col = cr->base.col + cc->col_offset,
+		pp.eval.row = cr->base.row + cc->row_offset;
 		xmlAddChild (container,
-			xml_write_cell_and_position (ctxt, c_copy->u.cell, &pp));
+			xml_write_cell_and_position (ctxt, cc->expr, cc->val, &pp));
 	}
 
 	if (cr->objects != NULL)

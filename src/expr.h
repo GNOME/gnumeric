@@ -67,6 +67,8 @@ void	  gnm_expr_ref		     (GnmExpr const *expr);
 void	  gnm_expr_unref	     (GnmExpr const *expr);
 gboolean  gnm_expr_is_shared 	     (GnmExpr const *expr);
 gboolean  gnm_expr_is_rangeref 	     (GnmExpr const *expr);
+GnmExprArray const *
+	  gnm_expr_is_array 	     (GnmExpr const *expr);
 gboolean  gnm_expr_is_err 	     (GnmExpr const *expr, GnmStdError e);
 gboolean  gnm_expr_equal	     (GnmExpr const *a, GnmExpr const *b);
 char	 *gnm_expr_as_string	     (GnmExpr const *expr, GnmParsePos const *pp,

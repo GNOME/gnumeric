@@ -45,19 +45,11 @@ enum {
 #define PASTE_DEFAULT   PASTE_ALL_TYPES
 #define PASTE_OPER_MASK (PASTE_OPER_ADD | PASTE_OPER_SUB | PASTE_OPER_MULT | PASTE_OPER_DIV)
 
-typedef enum {
-	CELL_COPY_TYPE_CELL,
-	CELL_COPY_TYPE_TEXT
-} CellCopyType;
-
 typedef struct {
 	int col_offset, row_offset; /* Position of the cell */
-	CellCopyType type;
-	union {
-		GnmCell *cell;
-		char *text;
-	} u;
-} CellCopy;
+	GnmValue *val;
+	GnmExpr  const *expr;
+} GnmCellCopy;
 
 typedef GSList CellCopyList;
 
@@ -87,9 +79,10 @@ gboolean       clipboard_paste_region (GnmCellRegion const *content,
 GnmPasteTarget*paste_target_init      (GnmPasteTarget *pt,
 				       Sheet *sheet, GnmRange const *r, int flags);
 
-GnmCellRegion *cellregion_new	 (Sheet *origin_sheet);
-void        cellregion_ref       (GnmCellRegion *content);
-void        cellregion_unref     (GnmCellRegion *content);
-char	   *cellregion_to_string (GnmCellRegion const *content, PangoContext *context);
+GnmCellRegion *cellregion_new	(Sheet *origin_sheet);
+void           cellregion_ref   (GnmCellRegion *content);
+void           cellregion_unref (GnmCellRegion *content);
+
+GnmCellCopy *gnm_cell_copy_new	(int col_offset, int row_offset);
 
 #endif /* GNUMERIC_CLIPBOARD_H */

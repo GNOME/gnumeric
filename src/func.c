@@ -1413,10 +1413,9 @@ tokenized_help_new (GnmFunc const *func)
 		gboolean seek_at = TRUE;
 		gboolean last_newline = TRUE;
 
-#warning fixme
-		ptr = func->help [0].text;
+#warning fixme, use the rest of the pieces and get rid of this routine.
 		tok->help_is_localized = FALSE;
-		tok->help_copy = g_strdup (ptr);
+		tok->help_copy = g_strdup (func->help [0].text);
 		tok->sections = g_ptr_array_new ();
 
 		for (start = ptr = tok->help_copy; *ptr ; ptr++) {

@@ -43,7 +43,7 @@ xmlNodePtr   xml_write_style    (XmlParseContext *ctxt, GnmStyle *style);
 xmlChar	   *xml_cellregion_write (WorkbookControl *context,
 				  GnmCellRegion *cr, int *size);
 GnmCellRegion *xml_cellregion_read  (WorkbookControl *context, Sheet *sheet,
-				  guchar const *buffer, int length);
+				     guchar const *buffer, int length);
 
 GnmColor  *xml_node_get_color	(xmlNodePtr node, char const *name);
 void       xml_node_set_color	(xmlNodePtr node, char const *name, GnmColor const *color);

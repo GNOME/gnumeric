@@ -2450,6 +2450,12 @@ gnm_expr_is_rangeref (GnmExpr const *expr)
 	};
 }
 
+GnmExprArray const *
+gnm_expr_is_array (GnmExpr const *expr)
+{
+	return (expr->any.oper == GNM_EXPR_OP_ARRAY) ? &expr->array : NULL;
+}
+
 gboolean
 gnm_expr_is_err (GnmExpr const *expr, GnmStdError err)
 {
