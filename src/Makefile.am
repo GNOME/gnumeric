@@ -265,9 +265,9 @@ GNUMERIC_BONOBO_SOURCES = 			\
 	sheet-object-container.c		\
 	sheet-object-container.h		\
 	sheet-object-item.c			\
-	sheet-object-item.h			\
-	workbook-control-bonobo.h 		\
-	workbook-control-bonobo.c
+	sheet-object-item.h
+#	workbook-control-bonobo.h 		\
+#	workbook-control-bonobo.c
 
 gnumeric_SOURCES =				\
 	main.c					\
