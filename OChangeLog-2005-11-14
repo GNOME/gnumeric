@@ -1,5 +1,7 @@
 2002-03-01  Morten Welinder  <terra@diku.dk>
 
+	* src/workbook-control-gui.c: Add dots to "Sort" entry.
+
 	* src/complex.h (complex_scale_real): New function.
 
 	* src/analysis-tools.c (fourier_fft, fourier_fft_inv): Clean using

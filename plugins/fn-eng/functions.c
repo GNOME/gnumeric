@@ -965,7 +965,7 @@ gnumeric_impower (FunctionEvalInfo *ei, Value **argv)
 	if (value_get_as_complex (argv[1], &b, &imunit))
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
-	if (complex_real_p (&a) && a.re <= 0  && !complex_real_p (&b))
+	if (complex_real_p (&a) && a.re <= 0 && !complex_real_p (&b))
 		return value_new_error (ei->pos, gnumeric_err_DIV0);
 
 	complex_pow (&res, &a, &b);

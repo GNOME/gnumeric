@@ -3088,7 +3088,7 @@ static GnomeUIInfo workbook_menu_data_filter [] = {
 
 /* Data menu */
 static GnomeUIInfo workbook_menu_data [] = {
-	GNOMEUIINFO_ITEM_STOCK (N_("_Sort"),
+	GNOMEUIINFO_ITEM_STOCK (N_("_Sort..."),
 		N_("Sorts the selected region."),
 		cb_data_sort, GTK_STOCK_SORT_ASCENDING),
 	GNOMEUIINFO_SUBTREE(N_("_Filter"), workbook_menu_data_filter),
