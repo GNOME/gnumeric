@@ -276,6 +276,23 @@ typedef struct {
 } render_closure;
 
 static void
+gog_legend_view_size_allocate (GogView *v, GogViewAllocation const *a)
+{
+	GogLegend *l = GOG_LEGEND (v->model);
+	GogViewAllocation res = *a;
+	double outline = gog_renderer_line_size (
+		v->renderer, l->base.style->outline.width);
+	double pad_x = gog_renderer_pt2r_x (v->renderer, l->swatch_padding_pts);
+	double pad_y = gog_renderer_pt2r_y (v->renderer, l->swatch_padding_pts);
+
+	res.x += outline + pad_x/2;
+	res.y += outline + pad_y/2;
+	res.w -= outline * 2. + pad_x;
+	res.h -= outline * 2. + pad_y;
+	(lview_parent_klass->size_allocate) (v, &res);
+}
+
+static void
 cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
 		    render_closure *data)
 {
@@ -283,7 +300,7 @@ cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
 	GogStyle *style = NULL;
 	ArtPoint pos;
 	
-	if ((i * data->step) >= data->view->residual.h)
+	if (((i + 1) * data->step) >= data->view->residual.h)
 		return;
 
 #warning FIXME we need to delegate this to the plot to support colour gradients or area vs lines
@@ -303,23 +320,6 @@ cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
 
 	if (style != base_style)
 		g_object_unref (style);
-}
-
-static void
-gog_legend_view_size_allocate (GogView *v, GogViewAllocation const *a)
-{
-	GogLegend *l = GOG_LEGEND (v->model);
-	GogViewAllocation res = *a;
-	double outline = gog_renderer_line_size (
-		v->renderer, l->base.style->outline.width);
-	double pad_x = gog_renderer_pt2r_x (v->renderer, l->swatch_padding_pts);
-	double pad_y = gog_renderer_pt2r_y (v->renderer, l->swatch_padding_pts);
-
-	res.x += outline + pad_x/2;
-	res.y += outline + pad_y/2;
-	res.w -= outline * 2. + pad_x;
-	res.h -= outline * 2. + pad_y;
-	(lview_parent_klass->size_allocate) (v, &res);
 }
 
 static void
