@@ -1,5 +1,10 @@
 2002-06-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* html_read.c (html_read_content) : new
+	(html_read_row) : move some code into html_read_content, <th> should be bold
+
+2002-06-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* html_read.c (html_read_row) : handle merges (colspan/rowspan)
 
 2002-06-12  Andreas J. Guelzow <aguelzow@taliesin.ca>

@@ -60,54 +60,9 @@
 #define HTML_CENTER	8
 
 #if 0
-					if (*p == ' ' && p[1] != '>') {
-						p++;
-						if (strncasecmp (p, "align=", 6) == 0) {
-							p += 6;
-							if (*p == '"')
-								p++;
-							if (*p == '>') {
-								p++;
-								break;
-							}
-							if (strncasecmp (p, "right", 5) == 0) {
-								p += 5;
-								flags |= HTML_RIGHT;
-							} else if (strncasecmp (p, "center", 6) == 0) {
-								p += 6;
-								flags |= HTML_CENTER;
-							}
-						}
-					} else {
-						p++;
-					}
-				}
-				if (*p) {
-					str = html_get_string (p, &flags, &ptr);
-					cell = sheet_cell_fetch (sheet, col, row);
-					if (str && cell) {
-						if (flags) {
-							MStyle *mstyle = mstyle_new_default ();
-							/*
-							 * set the attributes of the cell
-							 */
-							if (flags & HTML_BOLD)
-								mstyle_set_font_bold (mstyle, TRUE);
-
-							if (flags & HTML_ITALIC)
-								mstyle_set_font_italic (mstyle, TRUE);
-
-							if (flags & HTML_RIGHT)
-								mstyle_set_align_h (mstyle, HALIGN_CENTER);
-
 							sheet_style_set_pos (cell->base.sheet,
 									     cell->pos.col, cell->pos.row,
 									     mstyle);
-						}
-						/* set the content of the cell */
-						cell_set_text (cell, str);
-					}
-				}
 #endif
 
 
@@ -128,9 +83,31 @@ html_get_sheet (char const *name, Workbook *wb)
 }
 
 static void
+html_read_content (htmlNodePtr cur, xmlBufferPtr buf, MStyle *mstyle, gboolean first, 
+		   htmlDocPtr doc)
+{
+	htmlNodePtr ptr;
+
+	for (ptr = cur->children; ptr != NULL ; ptr = ptr->next) {
+		if (ptr->type == XML_TEXT_NODE)
+			htmlNodeDump (buf, doc, ptr);
+		else if (ptr->type == XML_ELEMENT_NODE) {
+			if (first) {
+				if (xmlStrEqual (ptr->name, "i") 
+				    || xmlStrEqual (ptr->name, "em"))
+					mstyle_set_font_italic (mstyle, TRUE);
+				if (xmlStrEqual (ptr->name, "b"))
+					mstyle_set_font_bold (mstyle, TRUE);
+			}
+			html_read_content (ptr, buf, mstyle, first && (ptr == cur->children), doc);
+		}
+	}
+}
+
+static void
 html_read_row (htmlNodePtr cur, htmlDocPtr doc, Sheet *sheet, int row)
 {
-	htmlNodePtr ptr, ptr2;
+	htmlNodePtr ptr;
 	int col = -1;
 	
 	for (ptr = cur->children; ptr != NULL ; ptr = ptr->next) {
@@ -140,6 +117,7 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, Sheet *sheet, int row)
 			int colspan = 1;
 			int rowspan = 1;
 			CellPos pos;
+			MStyle *mstyle;
 
 			/* Check whetehr we need to skip merges from above */
 			pos.row = row;
@@ -165,15 +143,19 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, Sheet *sheet, int row)
 
 			/* Let's figure out the content of the cell */
 			buf = xmlBufferCreate ();
-			for (ptr2 = ptr->children; ptr2 != NULL ; ptr2 = ptr2->next) {
-				htmlNodeDump (buf, doc, ptr2);
-			}
+			mstyle = mstyle_new_default ();
+			if (xmlStrEqual (ptr->name, "th"))
+				mstyle_set_font_bold (mstyle, TRUE);
+
+			html_read_content (ptr, buf, mstyle, TRUE, doc);
+
 			if (buf->use > 0) {
 				char *name;
 				Cell *cell;
 
 				name = g_strndup (buf->content, buf->use);
 				cell = sheet_cell_fetch	(sheet, col + 1, row);
+				sheet_style_set_pos (sheet, col + 1, row, mstyle);
 				cell_set_text (cell, name);
 				g_free (name);
 			}
