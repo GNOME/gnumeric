@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric gnumeric-1-2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-15 21:08-0500\n"
+"POT-Creation-Date: 2004-03-16 21:15-0500\n"
 "PO-Revision-Date: 2004-02-02 21:38+0000\n"
 "Last-Translator: Alastair McKinstry <mckinstry@computer.org>\n"
 "Language-Team: Gaeilge <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -14229,6 +14229,41 @@ msgstr ""
 msgid "Ring plotting engine"
 msgstr ""
 
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:2
+#, no-c-format
+msgid "% of default size"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:3
+msgid "3_d"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:4
+#, fuzzy
+msgid "Dia_meter"
+msgstr "centimetre"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:5
+msgid "Show _negative values"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:6
+#, fuzzy
+msgid "Sur_face"
+msgstr "_Spás"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:7
+msgid "_Bubbles scaled to"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:8
+msgid "_Size reprented by:"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:9
+msgid "_Vary colors by bubble"
+msgstr ""
+
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
@@ -24197,9 +24232,6 @@ msgstr ""
 
 #~ msgid "cm"
 #~ msgstr "cm"
-
-#~ msgid "centimeter"
-#~ msgstr "centimetre"
 
 #~ msgid "In"
 #~ msgstr "In"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-15 21:08-0500\n"
+"POT-Creation-Date: 2004-03-16 21:15-0500\n"
 "PO-Revision-Date: 2001-12-31 08:21+0200\n"
 "Last-Translator: Dan Damian <dand@softhome.net>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
@@ -14608,6 +14608,42 @@ msgstr ""
 msgid "Ring plotting engine"
 msgstr ""
 
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:2
+#, fuzzy, no-c-format
+msgid "% of default size"
+msgstr "% din dimensiunea normală"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:3
+msgid "3_d"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:4
+#, fuzzy
+msgid "Dia_meter"
+msgstr "centimetri"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:5
+#, fuzzy
+msgid "Show _negative values"
+msgstr "Afişează detalii"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:6
+#, fuzzy
+msgid "Sur_face"
+msgstr "Zone sursă"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:7
+msgid "_Bubbles scaled to"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:8
+msgid "_Size reprented by:"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:9
+msgid "_Vary colors by bubble"
+msgstr ""
+
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
@@ -25995,9 +26031,6 @@ msgstr "Format fişier XML Gnumeric"
 #~ msgid "cm"
 #~ msgstr "cm"
 
-#~ msgid "centimeter"
-#~ msgstr "centimetri"
-
 #~ msgid "In"
 #~ msgstr "În"
 
@@ -26473,9 +26506,6 @@ msgstr "Format fişier XML Gnumeric"
 
 #~ msgid "Detailed error message"
 #~ msgstr "Mesaj de eroare detaliat"
-
-#~ msgid "Show details"
-#~ msgstr "Afişează detalii"
 
 #~ msgid "Could not initialize Workbook factory"
 #~ msgstr "Nu am putut iniţializa creatorul de registre"

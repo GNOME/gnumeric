@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-15 21:08-0500\n"
+"POT-Creation-Date: 2004-03-16 21:15-0500\n"
 "PO-Revision-Date: 2003-02-23 09:00+0700\n"
 "Last-Translator: pclouds <pclouds@gmx.net>\n"
 "Language-Team: GnomeVI <gnomevi-list@lists.sourceforge.net>\n"
@@ -17788,6 +17788,42 @@ msgstr ""
 msgid "Ring plotting engine"
 msgstr ""
 
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:2
+#, fuzzy, no-c-format
+msgid "% of default size"
+msgstr "% cỡ _bình thường"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:3
+msgid "3_d"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:4
+#, fuzzy
+msgid "Dia_meter"
+msgstr "centimét"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:5
+#, fuzzy
+msgid "Show _negative values"
+msgstr "Xem chi tiết"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:6
+#, fuzzy
+msgid "Sur_face"
+msgstr "Nguồn"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:7
+msgid "_Bubbles scaled to"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:8
+msgid "_Size reprented by:"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:9
+msgid "_Vary colors by bubble"
+msgstr ""
+
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
@@ -28742,9 +28778,6 @@ msgstr "Dạng thức tập tin Gnumeric XML"
 #~ msgid "cm"
 #~ msgstr "cm"
 
-#~ msgid "centimeter"
-#~ msgstr "centimét"
-
 #~ msgid "In"
 #~ msgstr "Trong"
 
@@ -30106,9 +30139,6 @@ msgstr "Dạng thức tập tin Gnumeric XML"
 
 #~ msgid "Detailed error message"
 #~ msgstr "Thông báo lỗi chi tiết"
-
-#~ msgid "Show details"
-#~ msgstr "Xem chi tiết"
 
 #~ msgid "Could not initialize Workbook factory"
 #~ msgstr "Không thể khởi động Workbook factory"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-15 21:08-0500\n"
+"POT-Creation-Date: 2004-03-16 21:15-0500\n"
 "PO-Revision-Date: 2002-02-18 13:12+0200\n"
 "Last-Translator: Jarkko Ranta <jjranta@cc.joensuu.fi>\n"
 "Language-Team: \n"
@@ -14598,6 +14598,41 @@ msgstr ""
 msgid "Ring plotting engine"
 msgstr ""
 
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:2
+#, fuzzy, no-c-format
+msgid "% of default size"
+msgstr "% normaalista koosta"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:3
+msgid "3_d"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:4
+#, fuzzy
+msgid "Dia_meter"
+msgstr "Keskitetty"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:5
+msgid "Show _negative values"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:6
+#, fuzzy
+msgid "Sur_face"
+msgstr "Lähde"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:7
+msgid "_Bubbles scaled to"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:8
+msgid "_Size reprented by:"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:9
+msgid "_Vary colors by bubble"
+msgstr ""
+
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
@@ -25778,10 +25813,6 @@ msgstr "Gnumericin XML-tiedosto"
 #, fuzzy
 #~ msgid "mm"
 #~ msgstr "p-kk"
-
-#, fuzzy
-#~ msgid "centimeter"
-#~ msgstr "Keskitetty"
 
 #, fuzzy
 #~ msgid "Creates a new workbook"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.1.20CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-15 21:08-0500\n"
+"POT-Creation-Date: 2004-03-16 21:15-0500\n"
 "PO-Revision-Date: 2003-06-28 23:32+0200\n"
 "Last-Translator: Priit Laes <amd@tt.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
@@ -19663,6 +19663,42 @@ msgstr ""
 msgid "Ring plotting engine"
 msgstr ""
 
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:2
+#, fuzzy, no-c-format
+msgid "% of default size"
+msgstr "% normaalsuurusest"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:3
+msgid "3_d"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:4
+#, fuzzy
+msgid "Dia_meter"
+msgstr "sentimeeter"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:5
+#, fuzzy
+msgid "Show _negative values"
+msgstr "Näita üksikasju"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:6
+#, fuzzy
+msgid "Sur_face"
+msgstr "Lähtealad"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:7
+msgid "_Bubbles scaled to"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:8
+msgid "_Size reprented by:"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:9
+msgid "_Vary colors by bubble"
+msgstr ""
+
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
@@ -31209,9 +31245,6 @@ msgstr "Gnumericu XML failiformaat"
 #~ msgid "cm"
 #~ msgstr "cm"
 
-#~ msgid "centimeter"
-#~ msgstr "sentimeeter"
-
 #~ msgid "In"
 #~ msgstr "In"
 
@@ -32578,9 +32611,6 @@ msgstr "Gnumericu XML failiformaat"
 
 #~ msgid "Detailed error message"
 #~ msgstr "Üksikasjalik veateade"
-
-#~ msgid "Show details"
-#~ msgstr "Näita üksikasju"
 
 #~ msgid "Could not initialize Workbook factory"
 #~ msgstr "Ei suuda initsialiseerida Workbook factory't"

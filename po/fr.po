@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.1.20\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-15 21:08-0500\n"
+"POT-Creation-Date: 2004-03-16 21:15-0500\n"
 "PO-Revision-Date: 2003-07-25 02:17+0200\n"
 "Last-Translator: Olivier Jousselin <oj@marylou.fr>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -20765,6 +20765,43 @@ msgstr "Moteur de dessin de camembert"
 msgid "Ring plotting engine"
 msgstr "Moteur de dessin d'anneau"
 
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:2
+#, fuzzy, no-c-format
+msgid "% of default size"
+msgstr "% de la taille _normale"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:3
+msgid "3_d"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:4
+#, fuzzy
+msgid "Dia_meter"
+msgstr "centimètre"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:5
+#, fuzzy
+msgid "Show _negative values"
+msgstr "Afficher les détails"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:6
+#, fuzzy
+msgid "Sur_face"
+msgstr "Source"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:7
+msgid "_Bubbles scaled to"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:8
+msgid "_Size reprented by:"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:9
+#, fuzzy
+msgid "_Vary colors by bubble"
+msgstr "_Changer les couleurs à chaque tranche"
+
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
@@ -32275,9 +32312,6 @@ msgstr "Format de fichier Gnumeric XML"
 #~ msgid "cm"
 #~ msgstr "cm"
 
-#~ msgid "centimeter"
-#~ msgstr "centimètre"
-
 #~ msgid "In"
 #~ msgstr "In"
 
@@ -33999,9 +34033,6 @@ msgstr "Format de fichier Gnumeric XML"
 
 #~ msgid "Detailed error message"
 #~ msgstr "Message d'erreur détaillé"
-
-#~ msgid "Show details"
-#~ msgstr "Afficher les détails"
 
 #~ msgid "Could not initialize Workbook factory"
 #~ msgstr "Impossible d'initialiser l'usine à classeurs Gnumeric"
