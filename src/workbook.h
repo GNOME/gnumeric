@@ -29,7 +29,7 @@ Sheet	   *workbook_sheet_add		 (Workbook *wb,
 void        workbook_sheet_delete        (Sheet *sheet);
 gboolean    workbook_sheet_move          (Sheet *sheet, int direction);
 char       *workbook_sheet_get_free_name (Workbook *wb,
-					  const char *base,
+					  char const *base,
 					  gboolean always_suffix,
 					  gboolean handle_counter);
 gboolean    workbook_sheet_reorder       (Workbook *wb, 
@@ -44,9 +44,9 @@ gboolean    workbook_sheet_reorganize    (Workbook *wb,
 					  CommandContext *cc);
 
 /* IO Routines */
-gboolean       workbook_set_filename	(Workbook *wb, const gchar *);
+gboolean       workbook_set_filename	(Workbook *wb, char const *);
 char const    *workbook_get_filename	(Workbook *wb);
-gboolean       workbook_set_saveinfo	(Workbook *wb, const gchar *,
+gboolean       workbook_set_saveinfo	(Workbook *wb,
 					 FileFormatLevel, GnumFileSaver *);
 GnumFileSaver *workbook_get_file_saver	(Workbook *wb);
 

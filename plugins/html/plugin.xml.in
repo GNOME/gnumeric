@@ -16,7 +16,6 @@
 				<file_pattern type="shell_pattern" value="*.html"/>
 				<file_pattern type="shell_pattern" value="*.htm"/>
 			</file_patterns>
-			<save_info saver_id="html" format_level="auto"/>
 		</service>
 		<service type="file_saver" id="html32" file_extension="html" format_level="write_only">
 			<information>

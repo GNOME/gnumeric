@@ -16,7 +16,6 @@
 			<file_patterns>
 				<file_pattern type="shell_pattern" value="*.mps"/>
 			</file_patterns>
-			<save_info saver_id="mps" format_level="manual_remember"/>
 		</service>
 	</services>
 </plugin>

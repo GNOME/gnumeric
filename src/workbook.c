@@ -581,16 +581,13 @@ workbook_metadata (Workbook *wb)
  * FIXME : Add a check to ensure the name is unique.
  */
 gboolean
-workbook_set_saveinfo (Workbook *wb, gchar const *file_name,
-                       FileFormatLevel level, GnumFileSaver *fs)
+workbook_set_saveinfo (Workbook *wb, FileFormatLevel level, GnumFileSaver *fs)
 {
 	g_return_val_if_fail (wb != NULL, FALSE);
-	g_return_val_if_fail (file_name != NULL, FALSE);
 	g_return_val_if_fail (level > FILE_FL_NONE && level <= FILE_FL_AUTO,
 			      FALSE);
 
-	if (level < wb->file_format_level ||
-	    !workbook_set_filename (wb, file_name))
+	if (level < wb->file_format_level)
 		return FALSE;
 
 	wb->file_format_level = level;

@@ -117,7 +117,7 @@ item_edit_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	gdk_draw_rectangle (
 		drawable, item_edit->fill_gc, TRUE,
 		(int)item->x1, (int)item->y1,
-		(int)item->x2, (int)item->y2);
+		(int)(item->x2 - item->x1), (int)(item->y2 - item->y1));
 
 	entered_text = gtk_entry_get_text (item_edit->entry);
 	text = wbcg_edit_get_display_text (item_edit->scg->wbcg);

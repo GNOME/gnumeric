@@ -13,7 +13,6 @@
 			<information>
 				<_description>SC/xspread</_description>
 			</information>
-			<save_info saver_id="" format_level="manual"/>
 		</service>
 	</services>
 </plugin>

@@ -341,16 +341,23 @@ write_funcall (PolishData *pd, GnmExpr const *expr)
 
 	if (ef->fd == NULL) {
 		push_guint8  (pd, FORMULA_PTG_NAME_X);
-		/* I write the Addin Magic entry after all the other sheets
-		 * in the workbook,  and this is a 1 based ordinal.
-		 */
-		push_guint16 (pd, pd->ewb->sheets->len + 1);
-		push_guint32 (pd, 0); /* reserved */
-		push_guint32 (pd, 0); /* reserved */
-		push_guint16 (pd, ef->idx);
-		push_guint32 (pd, 0); /* reserved */
-		push_guint32 (pd, 0); /* reserved */
-		push_guint32 (pd, 0); /* reserved */
+		if (pd->ewb->bp->version <= MS_BIFF_V7) {
+			/* I write the Addin Magic entry after all the other sheets
+			 * in the workbook,  and this is a 1 based ordinal.
+			 */
+			push_guint16 (pd, pd->ewb->sheets->len + 1);
+			push_guint32 (pd, 0); /* reserved */
+			push_guint32 (pd, 0); /* reserved */
+			push_guint16 (pd, ef->idx);
+			push_guint32 (pd, 0); /* reserved */
+			push_guint32 (pd, 0); /* reserved */
+			push_guint32 (pd, 0); /* reserved */
+		} else {
+			/* I write the Addin Magic entry 1st */
+			push_guint16 (pd, 0);
+			push_guint16 (pd, ef->idx);
+			push_guint16 (pd, 0); /* reserved */
+		}
 	}
 
 	for (args = expr->func.arg_list ; args != NULL; ) {

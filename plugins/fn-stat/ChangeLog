@@ -1,3 +1,7 @@
+2002-11-07  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_logreg, gnumeric_logfit):  correct status.
+
 2002-11-06  Morten Welinder  <terra@diku.dk>
 
 	* functions.c (gnumeric_gammaln): Use lgammagnum, not lgamma.

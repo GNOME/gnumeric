@@ -56,7 +56,4 @@ MStyle      *xml_read_style     (XmlParseContext *ctxt, xmlNodePtr tree);
 
 void      xml_init (void);
 
-GnumFileOpener *gnumeric_xml_get_opener (void);
-GnumFileSaver  *gnumeric_xml_get_saver (void);
-
 #endif /* GNUMERIC_XML_IO_H */

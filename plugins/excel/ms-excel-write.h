@@ -25,7 +25,6 @@ typedef struct {
 typedef struct {
 	ExcelWriteState	*ewb;
 	Sheet		*gnum_sheet;
-	GArray		*dbcells;
 	unsigned	 streamPos;
 	guint32		 boundsheetPos;
 	gint32		 max_col, max_row;
@@ -57,6 +56,7 @@ struct _ExcelWriteState {
 
 	GHashTable    *function_map;
 
+	gboolean       double_stream_file;
 	GPtrArray     *externnames;
 	GPtrArray     *names;
 	unsigned       streamPos;

@@ -73,22 +73,7 @@
 #define XML_INPUT_BUFFER_SIZE      4096
 #define N_ELEMENTS_BETWEEN_UPDATES 20
 
-/* ------------------------------------------------------------------------- */
-
-static GnumFileOpener *xml_opener = NULL;
-static GnumFileSaver  *xml_saver = NULL;
-
-GnumFileOpener *
-gnumeric_xml_get_opener (void)
-{
-	return xml_opener;
-}
-
-GnumFileSaver *
-gnumeric_xml_get_saver (void)
-{
-	return xml_saver;
-}
+static GnumFileSaver *xml_saver = NULL;
 
 /* ------------------------------------------------------------------------- */
 
@@ -3438,8 +3423,8 @@ gnumeric_xml_read_workbook (GnumFileOpener const *fo,
 	ctxt->version = version;
 	xml_workbook_read (context, ctxt, res->xmlRootNode);
 	workbook_set_saveinfo (wb_view_workbook (ctxt->wb_view),
-		gsf_input_name (input), FILE_FL_AUTO,
-		gnumeric_xml_get_saver ());
+		FILE_FL_AUTO, xml_saver);
+
 	xml_parse_ctx_destroy (ctxt);
 	xmlFreeDoc (res);
 }
@@ -3492,14 +3477,15 @@ gnumeric_xml_write_workbook (GnumFileSaver const *fs,
 void
 xml_init (void)
 {
-	const gchar *desc = _("Gnumeric XML file format");
+	GnumFileOpener *opener;
+	char const *desc = _("Gnumeric XML file format");
 
-	xml_opener = gnum_file_opener_new (
+	opener = gnum_file_opener_new (
 	             "Gnumeric_XmlIO:gnum_xml", desc,
 	             xml_probe, gnumeric_xml_read_workbook);
 	xml_saver = gnum_file_saver_new (
 	            "Gnumeric_XmlIO:gnum_xml", "gnumeric", desc,
 	            FILE_FL_AUTO, gnumeric_xml_write_workbook);
-	register_file_opener (xml_opener, 50);
+	register_file_opener (opener, 50);
 	register_file_saver_as_default (xml_saver, 50);
 }

@@ -13,7 +13,6 @@
 			<information>
 				<_description>MultiPlan (SYLK) import</_description>
 			</information>
-			<save_info saver_id="" format_level="manual_remember"/>
 		</service>
 	</services>
 </plugin>

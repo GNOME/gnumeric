@@ -2670,7 +2670,7 @@ excel_read_EXTERNNAME (BiffQuery *q, MSContainer *container)
 			if (name == NULL)
 				name = biff_get_text (q->data + 7, namelen, &namelen);
 			if (name != NULL) {
-				unsigned expr_len =GSF_LE_GET_GUINT16 (q->data + 7 + namelen);
+				unsigned expr_len = GSF_LE_GET_GUINT16 (q->data + 7 + namelen);
 				guint8 const *expr_data = q->data + 9 + namelen;
 				nexpr = excel_parse_name (container->ewb, 0,
 					name, expr_data, expr_len, FALSE);
@@ -4946,7 +4946,7 @@ excel_read_BOF (BiffQuery	 *q,
 
 void
 excel_read_workbook (IOContext *context, WorkbookView *wb_view,
-		     GsfInput *input)
+		     GsfInput *input, gboolean *is_double_stream_file)
 {
 	ExcelWorkbook *ewb = NULL;
 	BiffQuery *q;
@@ -4960,13 +4960,11 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 	value_io_progress_set (context, gsf_input_size (input), N_BYTES_BETWEEN_PROGRESS_UPDATES);
 	q = ms_biff_query_new (input);
 
-	if (current_workbook_iconv != NULL) {
-		g_warning ("current_workbook_iconv != NULL");
-	}
-
 	/* default to ansi in case the file does not contain a CODEPAGE record */
+	g_return_if_fail (current_workbook_iconv == NULL);
 	current_workbook_iconv = excel_iconv_open_for_import (1252);
 
+	*is_double_stream_file = FALSE;
 	while (!stop_loading &&		  /* we have not hit the end */
 	       problem_loading == NULL && /* there were no problems so far */
 	       ms_biff_query_next (q)) {  /* we can load the record */
@@ -4981,15 +4979,14 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			switch (q->opcode) {
 			case BIFF_DSF:		/* stored in the biff8 workbook */
 			case BIFF_XL5MODIFY:	/* stored in the biff5/7 book */
+				d (0, fprintf (stderr, "Double stream file : %d\n",
+					       GSF_LE_GET_GUINT16 (q->data)););
 				if (GSF_LE_GET_GUINT16 (q->data))
-					g_object_set_data (G_OBJECT (ewb->gnum_wb),
-						"excel-dsf", GINT_TO_POINTER (1));
+					*is_double_stream_file = TRUE;
 				break;
 
 			case BIFF_XL9FILE:
 				d (0, puts ("XL 2000 file"););
-				g_object_set_data (G_OBJECT (ewb->gnum_wb),
-					"excel-xl9", GINT_TO_POINTER (1));
 				break;
 
 			case BIFF_RECALCID:	break;

@@ -1,3 +1,18 @@
+2002-11-07  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_write_state_new) : merge biff7 and biff8
+	  versions.
+	(excel_write_externsheets_v8) : basic initial implementation handles
+	  externnames.
+
+	* ms-excel-read.c (excel_read_workbook) : add a flag to indicate dual
+	  stream file.
+
+	* boot.c (excel_file_open) : set the saver reasonably intellifently.
+	(excel_save) : support dual stream files.
+	(excel_dsf_file_save) : new.
+	* plugin.xml.in : enable dual stream files
+
 2002-11-05  Jody Goldberg <jody@gnome.org>
 
 	* plugin.xml.in : enable excel97

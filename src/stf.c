@@ -203,7 +203,6 @@ stf_read_workbook (GnumFileOpener const *fo, IOContext *context, WorkbookView *w
 	if (dialogresult != NULL && stf_store_results (dialogresult, sheet, 0, 0)) {
 		workbook_recalc (book);
 		sheet_queue_respan (sheet, 0, SHEET_MAX_ROWS-1);
-		workbook_set_saveinfo (book, name, FILE_FL_MANUAL, NULL);
 	} else
 		workbook_sheet_detach (book, sheet);
 
@@ -372,7 +371,6 @@ stf_read_workbook_auto_csvtab (GnumFileOpener const *fo, IOContext *context,
 
 	workbook_recalc (book);
 	sheet_queue_respan (sheet, 0, SHEET_MAX_ROWS-1);
-	workbook_set_saveinfo (book, name, FILE_FL_MANUAL, NULL);
 
 	g_free (name);
 	g_free (data);

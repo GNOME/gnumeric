@@ -336,7 +336,7 @@ excel_write_SETUP (BiffPut *bp, ExcelSheet *esheet)
 }
 
 static void
-excel_write_externsheets_v7 (BiffPut *bp, ExcelWriteState *ewb, ExcelSheet *container)
+excel_write_externsheets_v7 (ExcelWriteState *ewb, ExcelSheet *container)
 {
 	/* 2 byte expression #REF! */
 	static guint8 const expr_ref []   = { 0x02, 0, 0x1c, 0x17 };
@@ -348,35 +348,34 @@ excel_write_externsheets_v7 (BiffPut *bp, ExcelWriteState *ewb, ExcelSheet *cont
 	char   *buf;
 	GnmFunc *func;
 
-	data = ms_biff_put_len_next (bp, BIFF_EXTERNCOUNT, 2);
+	data = ms_biff_put_len_next (ewb->bp, BIFF_EXTERNCOUNT, 2);
 	GSF_LE_SET_GUINT16 (data, num_sheets + 1);
-	ms_biff_put_commit (bp);
+	ms_biff_put_commit (ewb->bp);
 
 	for (i = 0; i < num_sheets; i++) {
 		ExcelSheet const *esheet = g_ptr_array_index (ewb->sheets, i);
 
-		ms_biff_put_var_next (bp, BIFF_EXTERNSHEET);
+		ms_biff_put_var_next (ewb->bp, BIFF_EXTERNSHEET);
 		if (esheet == container) {
 			static guint8 const magic_selfref[] = { 0x01, 0x04 };
-			ms_biff_put_var_write (bp, magic_selfref, sizeof magic_selfref);
+			ms_biff_put_var_write (ewb->bp, magic_selfref, sizeof magic_selfref);
 		} else {
-			char *buf;
-			gint len = biff_convert_text (&buf, esheet->gnum_sheet->name_unquoted, bp->version);
+			gint len = biff_convert_text (&buf, esheet->gnum_sheet->name_unquoted, ewb->bp->version);
 			guint8 data[2];
 
 			GSF_LE_SET_GUINT8 (data, len);
 			GSF_LE_SET_GUINT8 (data + 1, 3); /* undocumented */
-			ms_biff_put_var_write (bp, data, 2);
-			biff_put_text (bp, buf, len, FALSE, AS_PER_VER);
+			ms_biff_put_var_write (ewb->bp, data, 2);
+			biff_put_text (ewb->bp, buf, len, FALSE, AS_PER_VER);
 			g_free (buf);
 		}
-		ms_biff_put_commit (bp);
+		ms_biff_put_commit (ewb->bp);
 	}
 
 	/* Add a magic addin externsheet */
-	ms_biff_put_var_next (bp, BIFF_EXTERNSHEET);
-	ms_biff_put_var_write (bp, magic_addin, sizeof magic_addin);
-	ms_biff_put_commit (bp);
+	ms_biff_put_var_next (ewb->bp, BIFF_EXTERNSHEET);
+	ms_biff_put_var_write (ewb->bp, magic_addin, sizeof magic_addin);
+	ms_biff_put_commit (ewb->bp);
 
 	for (i = 0; i < ewb->externnames->len ; i++) {
 		ms_biff_put_var_next (ewb->bp, BIFF_EXTERNNAME);
@@ -391,6 +390,49 @@ excel_write_externsheets_v7 (BiffPut *bp, ExcelWriteState *ewb, ExcelSheet *cont
 		ms_biff_put_var_write (ewb->bp, expr_ref, sizeof (expr_ref));
 		ms_biff_put_commit (ewb->bp);
 	}
+}
+
+static void
+excel_write_externsheets_v8 (ExcelWriteState *ewb)
+{
+	/* start with a plugin magic entry */
+	static guint8 const expr_ref []   = { 0x02, 0, 0x1c, 0x17 };
+	static guint8 const zeros []	  = { 0, 0, 0, 0, 0 ,0 };
+	static guint8 const magic_addin[] = { 0x01, 0x00, 0x01, 0x3a };
+	unsigned i;
+	guint8 data [6];
+	gint    len;
+	char   *buf;
+	GnmFunc *func;
+
+	ms_biff_put_var_next (ewb->bp, BIFF_SUPBOOK);
+	ms_biff_put_var_write (ewb->bp, magic_addin, sizeof (magic_addin));
+	ms_biff_put_commit (ewb->bp);
+
+	for (i = 0; i < ewb->externnames->len ; i++) {
+		ms_biff_put_var_next (ewb->bp, BIFF_EXTERNNAME);
+		ms_biff_put_var_write (ewb->bp, zeros, 6);
+
+		/* write the name and the 1 byte length */
+		func = g_ptr_array_index (ewb->externnames, i);
+		len = biff_convert_text (&buf, func->name, MS_BIFF_V7);
+		biff_put_text (ewb->bp, buf, len, TRUE, EIGHT_BIT);
+		g_free (buf);
+
+		ms_biff_put_var_write (ewb->bp, expr_ref, sizeof (expr_ref));
+		ms_biff_put_commit (ewb->bp);
+	}
+
+	/* Now do the EXTERNSHEET */
+	ms_biff_put_var_next (ewb->bp, BIFF_EXTERNSHEET);
+	GSF_LE_SET_GUINT16 (data + 0, 0x0001);
+	ms_biff_put_var_write (ewb->bp, data, 2);
+	GSF_LE_SET_GUINT16 (data + 0, 0x0000);
+	GSF_LE_SET_GUINT16 (data + 2, 0xfffe);
+	GSF_LE_SET_GUINT16 (data + 4, 0xfffe);
+	ms_biff_put_var_write (ewb->bp, data, 6);
+
+	ms_biff_put_commit (ewb->bp);
 }
 
 static void
@@ -2703,7 +2745,6 @@ excel_write_WSBOOL (BiffPut *bp, ExcelSheet *esheet)
 
 	GSF_LE_SET_GUINT16 (data, 0x04c1);
 	ms_biff_put_commit (bp);
-
 }
 
 static void
@@ -2798,7 +2839,7 @@ write_sheet_head (BiffPut *bp, ExcelSheet *esheet)
 
 	excel_write_SETUP (bp, esheet);
 	if (bp->version < MS_BIFF_V8)
-		excel_write_externsheets_v7 (bp, esheet->ewb, esheet);
+		excel_write_externsheets_v7 (esheet->ewb, esheet);
 	excel_write_DEFCOLWIDTH (bp, esheet);
 	excel_write_colinfos (bp, esheet);
 	excel_write_DIMENSION (bp, esheet);
@@ -2829,37 +2870,6 @@ excel_write_SELECTION (BiffPut *bp, ExcelSheet *esheet)
 		GSF_LE_SET_GUINT8  (data + 5, r->end.col);
 	}
 	ms_biff_put_commit (bp);
-}
-
-/* See: S59D99.HTM */
-static void
-write_index (GsfOutput *output, ExcelSheet *esheet, unsigned pos,
-	     MsBiffVersion ver)
-{
-	guint8  data[4];
-	gsf_off_t oldpos;
-	unsigned i;
-
-	g_return_if_fail (output);
-	g_return_if_fail (esheet);
-
-	oldpos = gsf_output_tell (output);
-	if (ver >= MS_BIFF_V8)
-		gsf_output_seek (output, pos+4+16, G_SEEK_SET);
-	else
-		gsf_output_seek (output, pos+4+12, G_SEEK_SET);
-
-	for (i = 0; i < esheet->dbcells->len; i++) {
-		unsigned pos = g_array_index (esheet->dbcells, unsigned, i);
-		GSF_LE_SET_GUINT32 (data, pos - esheet->ewb->streamPos);
-		d (2, fprintf (stderr, "Writing index record"
-			      " 0x%4.4x - 0x%4.4x = 0x%4.4x\n",
-			      pos, esheet->ewb->streamPos,
-			      pos - esheet->ewb->streamPos););
-		gsf_output_write (output, 4, data);
-	}
-
-	gsf_output_seek (output, oldpos, G_SEEK_SET);
 }
 
 /* See: S59DDB.HTM */
@@ -2907,8 +2917,40 @@ excel_write_ROWINFO (BiffPut *bp, ExcelSheet *esheet, guint32 row, guint32 last_
 	return pos;
 }
 
+/* See: S59D99.HTM */
+static void
+excel_sheet_write_INDEX (ExcelSheet *esheet, unsigned pos,
+			 GArray *dbcells)
+{
+	GsfOutput *output = esheet->ewb->bp->output;
+	guint8  data[4];
+	gsf_off_t oldpos;
+	unsigned i;
+
+	g_return_if_fail (output);
+	g_return_if_fail (esheet);
+
+	oldpos = gsf_output_tell (output);
+	if (esheet->ewb->bp->version >= MS_BIFF_V8)
+		gsf_output_seek (output, pos+4+16, G_SEEK_SET);
+	else
+		gsf_output_seek (output, pos+4+12, G_SEEK_SET);
+
+	for (i = 0; i < dbcells->len; i++) {
+		unsigned pos = g_array_index (dbcells, unsigned, i);
+		GSF_LE_SET_GUINT32 (data, pos - esheet->ewb->streamPos);
+		d (2, fprintf (stderr, "Writing index record"
+			      " 0x%4.4x - 0x%4.4x = 0x%4.4x\n",
+			      pos, esheet->ewb->streamPos,
+			      pos - esheet->ewb->streamPos););
+		gsf_output_write (output, 4, data);
+	}
+
+	gsf_output_seek (output, oldpos, G_SEEK_SET);
+}
+
 /**
- * write_db_cell
+ * excel_sheet_write_DBCELL
  * @bp        BIFF buffer
  * @esheet
  * @ri_start  start positions of first 2 rowinfo records
@@ -2921,9 +2963,11 @@ excel_write_ROWINFO (BiffPut *bp, ExcelSheet *esheet, guint32 row, guint32 last_
  *       and 'DBCELL': S59D6D.HTM
  */
 static void
-write_db_cell (BiffPut *bp, ExcelSheet *esheet,
-	       unsigned *ri_start, unsigned *rc_start, guint32 nrows)
+excel_sheet_write_DBCELL (ExcelSheet *esheet,
+			  unsigned *ri_start, unsigned *rc_start, guint32 nrows,
+			  GArray *dbcells)
 {
+	BiffPut *bp = esheet->ewb->bp;
 	unsigned pos;
 	guint32 i;
 	guint16 offset;
@@ -2940,15 +2984,14 @@ write_db_cell (BiffPut *bp, ExcelSheet *esheet,
 
 	ms_biff_put_commit (bp);
 
-	g_array_append_val (esheet->dbcells, pos);
+	g_array_append_val (dbcells, pos);
 }
 
 /**
- * write_block
- * @ewb     BIFF buffer
+ * excel_sheet_write_block
  * @esheet  sheet
- * @begin  first row no
- * @nrows  no. of rows in block.
+ * @begin   first row no
+ * @nrows   no. of rows in block.
  *
  * Write a block of rows. Returns no. of last row written.
  *
@@ -2958,8 +3001,10 @@ write_db_cell (BiffPut *bp, ExcelSheet *esheet,
  * See: 'Finding records in BIFF files': S59E28.HTM *
  */
 static guint32
-write_block (ExcelWriteState *ewb, ExcelSheet *esheet, guint32 begin, int nrows)
+excel_sheet_write_block (ExcelSheet *esheet, guint32 begin, int nrows,
+			 GArray *dbcells)
 {
+	ExcelWriteState *ewb = esheet->ewb;
 	int max_col = esheet->max_col;
 	int col, row, max_row;
 	unsigned  ri_start [2]; /* Row info start */
@@ -2979,7 +3024,7 @@ write_block (ExcelWriteState *ewb, ExcelSheet *esheet, guint32 begin, int nrows)
 	for (row = begin + 1; row <= max_row; row++)
 		(void) excel_write_ROWINFO (ewb->bp, esheet, row, max_col);
 
-	rc_start = g_new0 (unsigned, nrows);
+	rc_start = g_alloca (sizeof (unsigned) * nrows);
 	for (row = begin; row <= max_row; row++) {
 		guint32 run_size = 0;
 
@@ -3012,8 +3057,7 @@ write_block (ExcelWriteState *ewb, ExcelSheet *esheet, guint32 begin, int nrows)
 					xf_list, run_size);
 	}
 
-	write_db_cell (ewb->bp, esheet, ri_start, rc_start, nrows);
-	g_free (rc_start);
+	excel_sheet_write_DBCELL (esheet, ri_start, rc_start, nrows, dbcells);
 
 	return row - 1;
 }
@@ -3023,18 +3067,19 @@ write_block (ExcelWriteState *ewb, ExcelSheet *esheet, guint32 begin, int nrows)
 static void
 excel_write_sheet (ExcelWriteState *ewb, ExcelSheet *esheet)
 {
-	guint32 block_end;
-	gint32 y;
-	int rows_in_block = ROW_BLOCK_MAX_LEN;
+	GArray	*dbcells;
+	guint32  block_end;
+	gint32	 y;
+	guint8	*data;
+	int	 num, denom, rows_in_block = ROW_BLOCK_MAX_LEN;
 	unsigned index_off;
-	guint8 *data;
-	int num, denom;
 
 	/* No. of blocks of rows. Only correct as long as all rows
 	 * _including empties_ have row info records
 	 */
 	guint32 nblocks = (esheet->max_row - 1) / rows_in_block + 1;
 
+	dbcells = g_array_new (FALSE, FALSE, sizeof (unsigned));
 	esheet->streamPos = excel_write_BOF (ewb->bp, MS_BIFF_TYPE_Worksheet);
 
 	if (ewb->bp->version >= MS_BIFF_V8) {
@@ -3062,12 +3107,12 @@ excel_write_sheet (ExcelWriteState *ewb, ExcelSheet *esheet)
 		      esheet->gnum_sheet->name_unquoted,
 		      esheet->max_col, esheet->max_row););
 	for (y = 0; y < esheet->max_row; y = block_end + 1)
-		block_end = write_block (ewb, esheet, y, rows_in_block);
+		block_end = excel_sheet_write_block (esheet, y, rows_in_block,
+						     dbcells);
 
 	if (ewb->bp->version < MS_BIFF_V8)
 		excel_write_comments_biff7 (ewb->bp, esheet);
-	write_index (ewb->bp->output, esheet, index_off, ewb->bp->version);
-
+	excel_sheet_write_INDEX (esheet, index_off, dbcells);
 
 	excel_write_WINDOW1 (ewb->bp, esheet->ewb->gnum_wb_view);
 	if (excel_write_WINDOW2 (ewb->bp, esheet))
@@ -3096,15 +3141,14 @@ excel_write_sheet (ExcelWriteState *ewb, ExcelSheet *esheet)
 */
 
 	excel_write_EOF (ewb->bp);
+	g_array_free (dbcells, TRUE);
 }
 
 static ExcelSheet *
-excel_sheet_new (ExcelWriteState *ewb, Sheet *gnum_sheet, MsBiffVersion ver)
+excel_sheet_new (ExcelWriteState *ewb, Sheet *gnum_sheet, int maxrows)
 {
 	ExcelSheet      *esheet = g_new (ExcelSheet, 1);
 	Range           extent;
-	int const maxrows = (ver >= MS_BIFF_V8)
-		? MsBiffMaxRowsV8 : MsBiffMaxRowsV7;
 
 	g_return_val_if_fail (gnum_sheet, NULL);
 	g_return_val_if_fail (ewb, NULL);
@@ -3130,22 +3174,12 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *gnum_sheet, MsBiffVersion ver)
 	esheet->ewb        = ewb;
 	esheet->max_col    = 1 + MAX (gnum_sheet->cols.max_used, extent.end.col);
 	esheet->max_row    = 1 + MAX (gnum_sheet->rows.max_used, extent.end.row);
-	esheet->dbcells    = g_array_new (FALSE, FALSE, sizeof (unsigned));
 
 	/* It is ok to have formatting out of range, we can disregard that. */
 	if (esheet->max_row > maxrows)
 		esheet->max_row = maxrows;
 
 	return esheet;
-}
-
-static void
-excel_sheet_free (ExcelSheet *esheet)
-{
-	if (esheet) {
-		g_array_free (esheet->dbcells, TRUE);
-		g_free (esheet);
-	}
 }
 
 /**
@@ -3179,77 +3213,6 @@ gather_style_info (ExcelWriteState *ewb)
 	gather_palette (ewb);
 
 	return ret;
-}
-
-static void
-excel_write_state_free (ExcelWriteState *ewb)
-{
-	unsigned i;
-
-	fonts_free   (ewb);
-	formats_free (ewb);
-	palette_free (ewb);
-	xf_free  (ewb);
-
-	for (i = 0; i < ewb->sheets->len; i++)
-		excel_sheet_free (g_ptr_array_index (ewb->sheets, i));
-
-	g_ptr_array_free (ewb->sheets, TRUE);
-	g_ptr_array_free (ewb->names, TRUE);
-	g_ptr_array_free (ewb->externnames, TRUE);
-
-	if (ewb->bp != NULL) {
-		ms_biff_put_destroy (ewb->bp);
-		ewb->bp = NULL;
-	}
-
-	if (ewb->sst.strings != NULL) {
-		g_hash_table_destroy (ewb->sst.strings);
-		g_ptr_array_free (ewb->sst.indicies, TRUE);
-	}
-
-	g_free (ewb);
-}
-
-static ExcelWriteState *
-excel_write_state_new (IOContext *context, WorkbookView *gwb_view,
-		       MsBiffVersion ver)
-{
-	ExcelWriteState *ewb = g_new (ExcelWriteState, 1);
-	GList    *sheets, *ptr;
-
-	g_return_val_if_fail (ewb != NULL, NULL);
-
-	ewb->bp   	  = NULL;
-	ewb->io_context   = context;
-	ewb->gnum_wb      = wb_view_workbook (gwb_view);
-	ewb->gnum_wb_view = gwb_view;
-	ewb->sheets	  = g_ptr_array_new ();
-	ewb->names	  = g_ptr_array_new ();
-	ewb->externnames  = g_ptr_array_new ();
-	ewb->function_map = g_hash_table_new_full (g_direct_hash, g_direct_equal,
-		NULL, g_free);
-	ewb->sst.strings  = NULL;
-	ewb->sst.indicies = NULL;
-
-	fonts_init (ewb);
-	formats_init (ewb);
-	palette_init (ewb);
-	xf_init (ewb);
-
-	sheets = workbook_sheets (ewb->gnum_wb);
-	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
-		ExcelSheet *esheet = excel_sheet_new (ewb, ptr->data, ver);
-		if (esheet != NULL)
-			g_ptr_array_add (ewb->sheets, esheet);
-		excel_write_prep_expressions (ewb);
-
-	}
-	g_list_free (sheets);
-
-	gather_style_info (ewb);
-
-	return ewb;
 }
 
 /**
@@ -3392,7 +3355,7 @@ write_workbook (ExcelWriteState *ewb)
 		int i, len;
 
 		data = ms_biff_put_len_next (bp, BIFF_DSF, 2);
-		GSF_LE_SET_GUINT16 (data, 0x0);
+		GSF_LE_SET_GUINT16 (data, ewb->double_stream_file ? 1 : 0);
 		ms_biff_put_commit (bp);
 
 		/* See: S59E09.HTM */
@@ -3410,12 +3373,13 @@ write_workbook (ExcelWriteState *ewb)
 	if (bp->version < MS_BIFF_V8) {
 		/* write externsheets for every sheet in the workbook
 		 * to make our lives easier */
-		excel_write_externsheets_v7 (bp, ewb, NULL);
+		excel_write_externsheets_v7 (ewb, NULL);
 
 		if (ewb->gnum_wb->names != NULL) {
 			g_hash_table_foreach (ewb->gnum_wb->names->names,
 				(GHFunc) excel_write_NAME_v7, ewb);
 			for (i = 0; i < ewb->sheets->len; i++) {
+#warning FIX
 			}
 		}
 	}
@@ -3494,8 +3458,10 @@ write_workbook (ExcelWriteState *ewb)
 			s->gnum_sheet->name_unquoted);
 	}
 
-	if (bp->version >= MS_BIFF_V8)
+	if (bp->version >= MS_BIFF_V8) {
+		excel_write_externsheets_v8 (ewb);
 		excel_write_SST (ewb);
+	}
 
 	excel_write_EOF (bp);
 
@@ -3517,22 +3483,6 @@ write_workbook (ExcelWriteState *ewb)
 }
 
 /****************************************************************************/
-/*
- * excel_write_init_v7
- * @context  Command context
- * @filename File name
- *
- * Check if we are able to save to the file. Return FALSE if we do not
- * have access or we would lose data.
- *
- * TODO: Ask before continuing if there are minor problems, like
- * losing style information.
- */
-ExcelWriteState *
-excel_write_init_v7 (IOContext *context, WorkbookView *gwb_view)
-{
-	return excel_write_state_new (context, gwb_view, MS_BIFF_V7);
-}
 
 void
 excel_write_v7 (ExcelWriteState *ewb, GsfOutfile *outfile)
@@ -3540,15 +3490,38 @@ excel_write_v7 (ExcelWriteState *ewb, GsfOutfile *outfile)
 	GsfOutput   *content;
 
 	g_return_if_fail (outfile != NULL);
+	g_return_if_fail (ewb != NULL);
+	g_return_if_fail (ewb->bp == NULL);
 
 	content = gsf_outfile_new_child (outfile, "Book", FALSE);
 	if (content != NULL) {
 		ewb->bp = ms_biff_put_new (content, MS_BIFF_V7);
 		write_workbook (ewb);
+		ms_biff_put_destroy (ewb->bp);
+		ewb->bp = NULL;
 	} else
 		gnumeric_error_save (COMMAND_CONTEXT (ewb->io_context),
-			_("Couldn't open stream for writing\n"));
-	excel_write_state_free (ewb);
+			_("Couldn't open stream 'Book' for writing\n"));
+}
+
+void
+excel_write_v8 (ExcelWriteState *ewb, GsfOutfile *outfile)
+{
+	GsfOutput   *content;
+
+	g_return_if_fail (outfile != NULL);
+	g_return_if_fail (ewb != NULL);
+	g_return_if_fail (ewb->bp == NULL);
+
+	content = gsf_outfile_new_child (outfile, "Workbook", FALSE);
+	if (content != NULL) {
+		ewb->bp = ms_biff_put_new (content, MS_BIFF_V8);
+		write_workbook (ewb);
+		ms_biff_put_destroy (ewb->bp);
+		ewb->bp = NULL;
+	} else
+		gnumeric_error_save (COMMAND_CONTEXT (ewb->io_context),
+			_("Couldn't open stream 'Workbook' for writing\n"));
 }
 
 /****************************************************************************/
@@ -3572,49 +3545,91 @@ sst_collect_str (gpointer ignored, Cell const *cell, ExcelWriteState *ewb)
 	}
 }
 
-/*
- * excel_write_init_v8
- * @context  Command context
- * @filename File name
- *
- * Check if we are able to save to the file. Return FALSE if we do not
- * have access or we would lose data.
- *
- * TODO: Ask before continuing if there are minor problems, like
- * losing style information.
- */
 ExcelWriteState *
-excel_write_init_v8 (IOContext *context, WorkbookView *gwb_view)
+excel_write_state_new (IOContext *context, WorkbookView *gwb_view,
+		       gboolean biff7, gboolean biff8)
 {
+	ExcelWriteState *ewb = g_new (ExcelWriteState, 1);
+	int const maxrows = biff7 ? MsBiffMaxRowsV7 : MsBiffMaxRowsV8;
 	int i;
-	ExcelWriteState *ewb =
-		excel_write_state_new (context, gwb_view, MS_BIFF_V8);
 
-	ewb->sst.strings  = g_hash_table_new (g_direct_hash, g_direct_equal);
-	ewb->sst.indicies = g_ptr_array_new ();
+	g_return_val_if_fail (ewb != NULL, NULL);
+
+	ewb->bp   	  = NULL;
+	ewb->io_context   = context;
+	ewb->gnum_wb      = wb_view_workbook (gwb_view);
+	ewb->gnum_wb_view = gwb_view;
+	ewb->sheets	  = g_ptr_array_new ();
+	ewb->names	  = g_ptr_array_new ();
+	ewb->externnames  = g_ptr_array_new ();
+	ewb->function_map = g_hash_table_new_full (g_direct_hash, g_direct_equal,
+		NULL, g_free);
+	ewb->double_stream_file = biff7 && biff8;
+
+	fonts_init (ewb);
+	formats_init (ewb);
+	palette_init (ewb);
+	xf_init (ewb);
 
 	for (i = 0 ; i < workbook_sheet_count (ewb->gnum_wb) ; i++) {
 		Sheet *sheet = workbook_sheet_by_index (ewb->gnum_wb, i);
-		g_hash_table_foreach (sheet->cell_hash,
-			(GHFunc) sst_collect_str, ewb);
+		ExcelSheet *esheet = excel_sheet_new (ewb, sheet, maxrows);
+		if (esheet != NULL)
+			g_ptr_array_add (ewb->sheets, esheet);
+		excel_write_prep_expressions (ewb);
+	}
+
+	gather_style_info (ewb);
+
+	if (biff7) {
+		ewb->sst.strings  = NULL;
+		ewb->sst.indicies = NULL;
+	}
+
+	if (biff8) {
+		ewb->sst.strings  = g_hash_table_new (g_direct_hash, g_direct_equal);
+		ewb->sst.indicies = g_ptr_array_new ();
+
+		for (i = 0 ; i < workbook_sheet_count (ewb->gnum_wb) ; i++) {
+			Sheet *sheet = workbook_sheet_by_index (ewb->gnum_wb, i);
+			g_hash_table_foreach (sheet->cell_hash,
+				(GHFunc) sst_collect_str, ewb);
+		}
 	}
 
 	return ewb;
 }
 
-void
-excel_write_v8 (ExcelWriteState *ewb, GsfOutfile *outfile)
+static void
+excel_sheet_free (ExcelSheet *esheet)
 {
-	GsfOutput   *content;
-
-	g_return_if_fail (outfile != NULL);
-
-	content = gsf_outfile_new_child (outfile, "Workbook", FALSE);
-	if (content != NULL) {
-		ewb->bp = ms_biff_put_new (content, MS_BIFF_V8);
-		write_workbook (ewb);
-	} else
-		gnumeric_error_save (COMMAND_CONTEXT (ewb->io_context),
-			_("Couldn't open stream for writing\n"));
-	excel_write_state_free (ewb);
+	if (esheet) {
+		g_free (esheet);
+	}
 }
+
+void
+excel_write_state_free (ExcelWriteState *ewb)
+{
+	unsigned i;
+
+	fonts_free   (ewb);
+	formats_free (ewb);
+	palette_free (ewb);
+	xf_free  (ewb);
+
+	for (i = 0; i < ewb->sheets->len; i++)
+		excel_sheet_free (g_ptr_array_index (ewb->sheets, i));
+
+	g_ptr_array_free (ewb->sheets, TRUE);
+	g_ptr_array_free (ewb->names, TRUE);
+	g_ptr_array_free (ewb->externnames, TRUE);
+
+	if (ewb->sst.strings != NULL) {
+		g_hash_table_destroy (ewb->sst.strings);
+		g_ptr_array_free (ewb->sst.indicies, TRUE);
+	}
+
+	g_free (ewb);
+}
+

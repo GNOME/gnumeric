@@ -128,10 +128,12 @@ excel_file_open (GnumFileOpener const *fo, IOContext *context,
 		"Book",		"BOOK",		"book"
 	};
 
-	GsfInput *stream = NULL;
-	GError   *err = NULL;
+	GsfInput  *stream = NULL;
+	GError    *err = NULL;
 	GsfInfile *ole = gsf_infile_msole_new (input, &err);
-	unsigned i = 0;
+	Workbook  *wb = wb_view_workbook (wbv);
+	gboolean   is_double_stream_file;
+	unsigned   i = 0;
 
 	if (ole == NULL) {
 		guint8 const *data;
@@ -141,7 +143,9 @@ excel_file_open (GnumFileOpener const *fo, IOContext *context,
 		data= gsf_input_read (input, 2, NULL);
 		if (data[0] == 0x09 && (data[1] & 0xf1) == 0) {
 			gsf_input_seek (input, -2, G_SEEK_CUR);
-			excel_read_workbook (context, wbv, input);
+			excel_read_workbook (context, wbv, input,
+					     &is_double_stream_file);
+			/* NOTE : we lack a saver for the early formats */
 			return;
 		}
 
@@ -163,7 +167,7 @@ excel_file_open (GnumFileOpener const *fo, IOContext *context,
 		return;
 	}
 
-	excel_read_workbook (context, wbv, stream);
+	excel_read_workbook (context, wbv, stream, &is_double_stream_file);
 	g_object_unref (G_OBJECT (stream));
 
 	excel_read_metadata (ole, "\05SummaryInformation", COMMAND_CONTEXT (context));
@@ -172,31 +176,33 @@ excel_file_open (GnumFileOpener const *fo, IOContext *context,
 	/* See if there are any macros to keep around */
 	stream = gsf_infile_child_by_name (ole, "_VBA_PROJECT_CUR");
 	if (stream != NULL) {
-		Workbook *wb = wb_view_workbook (wbv);
 		g_object_set_data_full (G_OBJECT (wb), "MS_EXCEL_MACROS",
 			gsf_structured_blob_read (stream), g_object_unref);
 		g_object_unref (G_OBJECT (stream));
 	}
 
 	g_object_unref (G_OBJECT (ole));
+
+	/* simple guess of format based on stream names */
+	if (is_double_stream_file)
+		workbook_set_saveinfo (wb, FILE_FL_MANUAL_REMEMBER,
+			get_file_saver_by_id ("Gnumeric_Excel:excel_dsf"));
+	else if (i < 3)
+		workbook_set_saveinfo (wb, FILE_FL_MANUAL_REMEMBER,
+			get_file_saver_by_id ("Gnumeric_Excel:excel_biff8"));
+	else
+		workbook_set_saveinfo (wb, FILE_FL_MANUAL_REMEMBER,
+			get_file_saver_by_id ("Gnumeric_Excel:excel_biff7"));
 }
 
-/*
- * Here's why the state which is carried from excel_check_write to
- * ms_excel_write_workbook is void *: The state is actually an
- * ExcelWorkbook * as defined in ms-excel-write.h. But we can't
- * import that definition here: There's a different definition of
- * ExcelWorkbook in ms-excel-read.h.
- */
 static void
 excel_save (IOContext *context, WorkbookView *wbv, char const *filename,
-            MsBiffVersion ver)
+	    gboolean biff7, gboolean biff8)
 {
 	Workbook *wb;
 	GsfOutput *output, *content;
 	GsfOutfile *outfile;
-	ExcelWriteState *state_v7 = NULL;
-	ExcelWriteState *state_v8 = NULL;
+	ExcelWriteState *ewb = NULL;
 	GError    *err;
 	GsfStructuredBlob *macros;
 
@@ -210,15 +216,11 @@ excel_save (IOContext *context, WorkbookView *wbv, char const *filename,
 		return;
 	}
 
-	io_progress_message (context, _("Preparing for save..."));
+	io_progress_message (context, _("Preparing to save..."));
 	io_progress_range_push (context, 0.0, 0.1);
-	if (ver != MS_BIFF_V8)
-		state_v7 = excel_write_init_v7 (context, wbv);
-	if (ver != MS_BIFF_V7)
-		state_v8 = excel_write_init_v8 (context, wbv);
-
+	ewb = excel_write_state_new (context, wbv, biff7, biff8);
 	io_progress_range_pop (context);
-	if (state_v7 == NULL && state_v8 == NULL)
+	if (ewb == NULL)
 		return;
 
 	outfile = gsf_outfile_msole_new (output);
@@ -226,10 +228,11 @@ excel_save (IOContext *context, WorkbookView *wbv, char const *filename,
 
 	io_progress_message (context, _("Saving file..."));
 	io_progress_range_push (context, 0.1, 1.0);
-	if (state_v7 != NULL)
-		excel_write_v7 (state_v7, outfile);
-	if (state_v8 != NULL)
-		excel_write_v8 (state_v8, outfile);
+	if (biff7)
+		excel_write_v7 (ewb, outfile);
+	if (biff8)
+		excel_write_v8 (ewb, outfile);
+	excel_write_state_free (ewb);
 	io_progress_range_pop (context);
 
 	wb = wb_view_workbook (wbv);
@@ -255,17 +258,23 @@ excel_save (IOContext *context, WorkbookView *wbv, char const *filename,
 }
 
 void
+excel_dsf_file_save (GnumFileSaver const *fs, IOContext *context,
+		       WorkbookView *wbv, char const *filename)
+{
+	excel_save (context, wbv, filename, TRUE, TRUE);
+}
+void
 excel_biff8_file_save (GnumFileSaver const *fs, IOContext *context,
 		       WorkbookView *wbv, char const *filename)
 {
-	excel_save (context, wbv, filename, MS_BIFF_V8);
+	excel_save (context, wbv, filename, FALSE, TRUE);
 }
 
 void
 excel_biff7_file_save (GnumFileSaver const *fs, IOContext *context,
 		       WorkbookView *wbv, char const *filename)
 {
-	excel_save (context, wbv, filename, MS_BIFF_V7);
+	excel_save (context, wbv, filename, TRUE, FALSE);
 }
 
 

@@ -238,21 +238,19 @@ void
 dif_file_open (GnumFileOpener const *fo, IOContext *io_context,
                WorkbookView *wbv, GsfInput *input)
 {
-	DifInputContext *ctxt;
+	Workbook *wb = wb_view_workbook (wbv);
+	DifInputContext *ctxt = dif_input_context_new (io_context, wb, input);
 
-	ctxt = dif_input_context_new (io_context, wb_view_workbook (wbv), input);
+	workbook_set_saveinfo (wb, FILE_FL_MANUAL_REMEMBER,
+		get_file_saver_by_id ("Gnumeric_dif:dif"));
 	if (ctxt != NULL) {
 		dif_parse_sheet (ctxt);
-		if (gnumeric_io_error_occurred (io_context)) {
-			gnumeric_io_error_push (io_context, error_info_new_str (
-			_("Error while reading DIF file.")));
-		}
+		if (gnumeric_io_error_occurred (io_context))
+			gnumeric_io_error_push (io_context,
+				error_info_new_str (_("Error while reading DIF file.")));
 		dif_input_context_destroy (ctxt);
-	} else {
-		if (!gnumeric_io_error_occurred) {
-			gnumeric_io_error_unknown (io_context);
-		}
-	}
+	} else if (!gnumeric_io_error_occurred)
+		gnumeric_io_error_unknown (io_context);
 }
 
 /*
@@ -308,9 +306,8 @@ dif_file_save (GnumFileSaver const *fs, IOContext *io_context,
 	}
 	fputs ("-1,0\n" "EOD\n", f);
 
-	if (ferror (f)) {
+	if (ferror (f))
 		gnumeric_io_error_string (io_context, _("Error while saving DIF file."));
-	}
 
 	fclose (f);
 }

@@ -13,7 +13,6 @@
 			<information>
 				<_description>EXPERIMENTAL SAX based Gnumeric (*.gnumeric)</_description>
 			</information>
-			<save_info saver_id="" format_level="manual_remember"/>
 		</service>
 	</services>
 </plugin>

@@ -13,17 +13,19 @@
 #include <gsf/gsf.h>
 
 void excel_read_workbook (IOContext *context, WorkbookView *new_wb,
-			  GsfInput *input);
+			  GsfInput *input, gboolean *is_double_stream_file);
 
-typedef struct _ExcelWriteState		ExcelWriteState;
-ExcelWriteState *excel_write_init_v7 (IOContext *context, WorkbookView *wbv);
-void		 excel_write_v7	     (ExcelWriteState *ewb, GsfOutfile *output);
-ExcelWriteState *excel_write_init_v8 (IOContext *context, WorkbookView *wbv);
-void		 excel_write_v8	     (ExcelWriteState *ewb, GsfOutfile *output);
+typedef struct _ExcelWriteState	 ExcelWriteState;
+void		 excel_write_state_free (ExcelWriteState *ewb);
+ExcelWriteState *excel_write_state_new  (IOContext *context, WorkbookView *wbv,
+					 gboolean biff7, gboolean biff8);
+
+void excel_write_v7 (ExcelWriteState *ewb, GsfOutfile *output);
+void excel_write_v8 (ExcelWriteState *ewb, GsfOutfile *output);
 
 /* We need to use these for both read and write */
 typedef struct {
-	int r, g, b;
+	guint8 r, g, b;
 } ExcelPaletteEntry;
 extern  ExcelPaletteEntry const excel_default_palette[];
 #define EXCEL_DEF_PAL_LEN   56

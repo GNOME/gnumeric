@@ -951,10 +951,8 @@ get_file_opener_by_id (gchar const *id)
 {
 	g_return_val_if_fail (id != NULL, NULL);
 
-	if (file_opener_id_hash == NULL) {
+	if (file_opener_id_hash == NULL)
 		return NULL;
-	}
-
 	return GNUM_FILE_OPENER (g_hash_table_lookup (file_opener_id_hash, id));
 }
 
@@ -972,10 +970,8 @@ get_file_saver_by_id (gchar const *id)
 {
 	g_return_val_if_fail (id != NULL, NULL);
 
-	if (file_saver_id_hash == NULL) {
+	if (file_saver_id_hash == NULL)
 		return NULL;
-	}
-
 	return GNUM_FILE_SAVER (g_hash_table_lookup (file_saver_id_hash, id));
 }
 
