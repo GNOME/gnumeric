@@ -1040,7 +1040,6 @@ workbook_sheet_attach (Workbook *wb, Sheet *new_sheet,
 gboolean
 workbook_sheet_detach (Workbook *wb, Sheet *sheet)
 {
-	gboolean do_recalc = FALSE;
 	Sheet *focus = NULL;
 	int sheet_index;
 
@@ -1058,7 +1057,6 @@ workbook_sheet_detach (Workbook *wb, Sheet *sheet)
 	/* If not exiting, adjust the focus for any views whose focuse sheet
 	 * was the one being deleted, and prepare to recalc */
 	if (!wb->priv->during_destruction) {
-		do_recalc = TRUE;
 		if (sheet_index > 0)
 			focus = g_ptr_array_index (wb->sheets, sheet_index-1);
 		else if ((sheet_index+1) < wb->sheets->len)
@@ -1080,7 +1078,7 @@ workbook_sheet_detach (Workbook *wb, Sheet *sheet)
 	g_hash_table_remove (wb->sheet_hash_private, sheet->name_unquoted);
 	sheet_destroy (sheet);
 
-	if (do_recalc);
+	if (focus != NULL)
 		workbook_recalc_all (wb);
 
 	return TRUE;
