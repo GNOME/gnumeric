@@ -154,7 +154,7 @@ gnumeric_unix2date (FunctionEvalInfo *ei, GnmValue **argv)
 		return value_new_error_VALUE (ei->pos);
 
 	return make_date (value_new_float (datetime_timet_to_serial_raw (utime, DATE_CONV (ei->pos)) +
-					   (futime - utime)));
+					   (futime - utime) / DAY_SECONDS));
 }
 
 /***************************************************************************/

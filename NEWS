@@ -9,6 +9,9 @@ Andreas
 Jukka:
 	* GLPK upgrade to version 4.2
 
+Morten:
+	* Handle fractional seconds correctly for UNIX2DATE.
+
 --------------------------------------------------------------------------
 Gnumeric 1.2.2
 
