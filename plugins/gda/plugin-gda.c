@@ -45,7 +45,7 @@ display_recordset (GdaDataModel *recset)
 	gint   fieldcount = 0;
 	gint   rowcount = 0;
 
-	g_return_val_if_fail (GDA_IS_RECORDSET (recset), NULL);
+	g_return_val_if_fail (GDA_IS_DATA_MODEL (recset), NULL);
 
 	fieldcount = gda_data_model_get_n_columns (GDA_DATA_MODEL (recset));
 	rowcount = gda_data_model_get_n_rows (GDA_DATA_MODEL (recset));
