@@ -1,3 +1,9 @@
+2002-03-18  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* solver.glade : Added a button for quadratic programming.
+
+	* dialog-solver.c : Handle LP, QP radio buttons.
+
 2002-03-17  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/dialogs/goto.glade : new

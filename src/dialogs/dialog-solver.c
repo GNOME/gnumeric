@@ -93,6 +93,13 @@ static const char *problem_type_group[] = {
 	0
 };
 
+static const char *model_type_group[] = {
+	"lp_model_button",
+	"qp_model_button",
+	"nlp_model_button",
+	0
+};
+
 /**
  * is_hom_row_or_col_ref:
  * @Widget:
@@ -647,6 +654,103 @@ cb_destroy (gpointer data, gpointer user_data)
 }
 
 
+static void
+solver_lp_reporting (SolverState *state, SolverResults *res, gchar *errmsg)
+{
+	SolverOptions *opt = &res->param->options;
+
+	switch (res->status) {
+	case SolverOptimal :
+		gnumeric_notice_nonmodal
+			((GtkWindow *) state->dialog,
+			 &(state->warning_dialog),
+			 GTK_MESSAGE_INFO,
+			 _("Solver found an optimal solution.  All "
+			   "constraints and optimality conditions are "
+			   "satisfied.\n"));
+		if ((opt->sensitivity_report || opt->limits_report)
+		    && res->ilp_flag)
+			gnumeric_notice_nonmodal
+				((GtkWindow *) state->dialog,
+				 &(state->warning_dialog),
+				 GTK_MESSAGE_INFO,
+				 _("Sensitivity nor limits report are "
+				   "not meaningful if the program has "
+				   "integer constraints. These reports "
+				   "will thus not be created."));
+		solver_lp_reports (WORKBOOK_CONTROL(state->wbcg),
+				   state->sheet, res,
+				   opt->answer_report,
+				   opt->sensitivity_report,
+				   opt->limits_report,
+				   opt->performance_report,
+				   opt->program_report,
+				   opt->dual_program_report);
+		break;
+	case SolverUnbounded :
+		gnumeric_notice_nonmodal
+			((GtkWindow *) state->dialog,
+			 &(state->warning_dialog),
+			 GTK_MESSAGE_WARNING, 
+			 _("The Target Cell value specified does not "
+			   "converge!  The program is unbounded."));
+		solver_lp_reports (WORKBOOK_CONTROL(state->wbcg),
+				   state->sheet, res,
+				   FALSE, FALSE, FALSE,
+				   opt->performance_report,
+				   opt->program_report,
+				   opt->dual_program_report);
+		break;
+	case SolverInfeasible :
+		gnumeric_notice_nonmodal
+			((GtkWindow *) state->dialog,
+			 &(state->warning_dialog),
+			 GTK_MESSAGE_WARNING, 
+			 _("A feasible solution could not be found.  "
+			   "All specified constraints cannot be met "
+			   "simultaneously. "));
+		solver_lp_reports (WORKBOOK_CONTROL(state->wbcg),
+				   state->sheet, res,
+				   FALSE, FALSE, FALSE,
+				   opt->performance_report,
+				   opt->program_report,
+				   opt->dual_program_report);
+		break;
+	default:
+		gnumeric_notice_nonmodal
+			((GtkWindow *) state->dialog,
+			 &(state->warning_dialog),
+			 GTK_MESSAGE_WARNING, errmsg);
+		break;
+	}
+
+}
+
+static void
+solver_qp_reporting (SolverState *state, SolverResults *res, gchar *errmsg)
+{
+}
+
+static void
+solver_nlp_reporting (SolverState *state, SolverResults *res, gchar *errmsg)
+{
+}
+
+static void
+solver_reporting (SolverState *state, SolverResults *res, gchar *errmsg)
+{
+	switch (res->param->options.model_type) {
+	case SolverLPModel:
+		solver_lp_reporting (state, res, errmsg);
+		break;
+	case SolverQPModel:
+		solver_qp_reporting (state, res, errmsg);
+		break;
+	case SolverNLPModel:
+		solver_nlp_reporting (state, res, errmsg);
+		break;
+	}
+}
 
 /**
  * cb_dialog_solve_clicked:
@@ -659,6 +763,7 @@ static void
 cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 {
 	constraint_conversion_t conv = {NULL, NULL, NULL};
+	SolverResults           *res;
 	Value                   *target_range;
 	Value                   *input_range;
         CellList                *input_cells = NULL;
@@ -714,9 +819,8 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 
 	state->sheet->solver_parameters->problem_type =
 		gnumeric_glade_group_value (state->gui, problem_type_group);
-	state->sheet->solver_parameters->options.assume_linear_model =
-		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
-			glade_xml_get_widget (state->gui, "lin_model_button")));
+	state->sheet->solver_parameters->options.model_type =
+		gnumeric_glade_group_value (state->gui, model_type_group);
 	state->sheet->solver_parameters->options.assume_non_negative =
 		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
 			glade_xml_get_widget (state->gui, "non_neg_button")));
@@ -814,78 +918,18 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 	state->ov_cell_stack = g_slist_prepend (state->ov_cell_stack,
 						input_cells);
 
-	if (state->sheet->solver_parameters->options.assume_linear_model) {
-		SolverResults *res;
 
-		res = solver (WORKBOOK_CONTROL (state->wbcg),
-			      state->sheet, &errmsg);
+	res = solver (WORKBOOK_CONTROL (state->wbcg), state->sheet, &errmsg);
+	workbook_recalc (state->sheet->workbook);
 
-		workbook_recalc (state->sheet->workbook);
-
-		if (res == NULL)
-			gnumeric_notice_nonmodal
-				((GtkWindow *) state->dialog,
-				 &(state->warning_dialog),
-				 GTK_MESSAGE_WARNING, errmsg);
-		else switch (res->status) {
-		case SolverOptimal :
-			gnumeric_notice_nonmodal
-				((GtkWindow *) state->dialog,
-				 &(state->warning_dialog),
-				 GTK_MESSAGE_INFO,
-				 _("Solver found an optimal solution.  All "
-				   "constraints and optimality conditions are "
-				   "satisfied.\n"));
-			if ((sensitivity || limits) && res->ilp_flag)
-				gnumeric_notice_nonmodal
-					((GtkWindow *) state->dialog,
-					 &(state->warning_dialog),
-					 GTK_MESSAGE_INFO,
-					 _("Sensitivity nor limits report are "
-					   "not meaningful if the program has "
-					   "integer constraints. These reports "
-					   "will thus not be created."));
-			solver_lp_reports (WORKBOOK_CONTROL(state->wbcg),
-					   state->sheet, res,
-					   answer, sensitivity, limits,
-					   performance, program, dual_program);
-			break;
-		case SolverUnbounded :
-			gnumeric_notice_nonmodal
-				((GtkWindow *) state->dialog,
-				 &(state->warning_dialog),
-				 GTK_MESSAGE_WARNING, 
-				 _("The Target Cell value specified does not "
-				   "converge!  The program is unbounded."));
-			solver_lp_reports (WORKBOOK_CONTROL(state->wbcg),
-					   state->sheet, res,
-					   FALSE, FALSE, FALSE,
-					   performance, program, dual_program);
-			break;
-		case SolverInfeasible :
-			gnumeric_notice_nonmodal
-				((GtkWindow *) state->dialog,
-				 &(state->warning_dialog),
-				 GTK_MESSAGE_WARNING, 
-				 _("A feasible solution could not be found.  "
-				   "All specified constraints cannot be met "
-				   "simultaneously. "));
-			solver_lp_reports (WORKBOOK_CONTROL(state->wbcg),
-					   state->sheet, res,
-					   FALSE, FALSE, FALSE,
-					   performance, program, dual_program);
-			break;
-		default:
-			gnumeric_notice_nonmodal
-				((GtkWindow *) state->dialog,
-				 &(state->warning_dialog),
-				 GTK_MESSAGE_WARNING, errmsg);
-			break;
-		}
-		if (res != NULL)
-			solver_results_free (res);
-	} else {
-		printf ("NLP not implemented yet!\n");
+	if (res == NULL)
+		gnumeric_notice_nonmodal
+			((GtkWindow *) state->dialog,
+			 &(state->warning_dialog),
+			 GTK_MESSAGE_WARNING, errmsg);
+	else {
+		solver_reporting (state, res, errmsg);
+		solver_results_free (res);
 	}
 out:
 	if (target_range != NULL)
@@ -1071,9 +1115,6 @@ dialog_init (SolverState *state)
 /* Loading the old solver specs... from state->sheet->solver_parameters  */
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
-		glade_xml_get_widget(state->gui, "lin_model_button")),
-			state->sheet->solver_parameters->options.assume_linear_model);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget(state->gui, "non_neg_button")),
 			state->sheet->solver_parameters->options.assume_non_negative);
 
@@ -1108,6 +1149,14 @@ dialog_init (SolverState *state)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget(state->gui, "min_button")),
 			state->sheet->solver_parameters->problem_type == SolverMinimize);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
+		glade_xml_get_widget(state->gui, "lp_model_button")),
+			state->sheet->solver_parameters->options.model_type
+				      == SolverLPModel);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
+		glade_xml_get_widget(state->gui, "qp_model_button")),
+			state->sheet->solver_parameters->options.model_type
+				      == SolverQPModel);
 
 	conv.c_listing = state->constraint_list;
 	conv.c_list = state->sheet->solver_parameters->constraints;

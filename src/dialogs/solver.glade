@@ -96,7 +96,7 @@
                 <property name="homogeneous">no</property>
                 <property name="row_spacing">0</property>
                 <property name="column_spacing">0</property>
-                <property name="n-rows">7</property>
+                <property name="n-rows">8</property>
                 <property name="n-columns">2</property>
                 <property name="visible">yes</property>
 
@@ -162,23 +162,44 @@
                 </child>
 
                 <child>
-                  <widget class="GtkCheckButton" id="lin_model_button">
-                    <property name="sensitive">no</property>
+                  <widget class="GtkRadioButton" id="lp_model_button">
                     <property name="can_focus">yes</property>
-                    <property name="label" translatable="yes">Assume _Linear Model</property>
+                    <property name="label" translatable="yes">_Linear Model (LP/MILP)</property>
                     <property name="active">yes</property>
                     <property name="draw_indicator">yes</property>
                     <property name="visible">yes</property>
-                    <property name="use_underline">yes</property>
+	            <property name="use_underline">yes</property>
                   </widget>
                   <packing>
                     <property name="left_attach">0</property>
                     <property name="right_attach">1</property>
-                    <property name="top_attach">3</property>
+                    <property name="top_attach">4</property>
                     <property name="bottom_attach">4</property>
-                    <property name="x_padding">5</property>
-                    <property name="y_padding">5</property>
-                    <property name="x_options">fill</property>
+                    <property name="x_padding">0</property>
+                    <property name="y_padding">0</property>
+                    <property name="x_options">expand</property>
+                    <property name="y_options"></property>
+                  </packing>
+                </child>
+
+                <child>
+                  <widget class="GtkRadioButton" id="qp_model_button">
+                    <property name="can_focus">yes</property>
+                    <property name="label" translatable="yes">_Quadratic Model (QP)</property>
+                    <property name="active">no</property>
+                    <property name="draw_indicator">yes</property>
+                    <property name="visible">yes</property>
+                    <property name="group">lp_model_button</property>
+	            <property name="use_underline">yes</property>
+                  </widget>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="right_attach">2</property>
+                    <property name="top_attach">4</property>
+                    <property name="bottom_attach">4</property>
+                    <property name="x_padding">0</property>
+                    <property name="y_padding">0</property>
+                    <property name="x_options">expand</property>
                     <property name="y_options"></property>
                   </packing>
                 </child>
@@ -195,8 +216,8 @@
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="right_attach">2</property>
-                    <property name="top_attach">3</property>
-                    <property name="bottom_attach">4</property>
+                    <property name="top_attach">4</property>
+                    <property name="bottom_attach">5</property>
                     <property name="x_padding">5</property>
                     <property name="y_padding">5</property>
                     <property name="x_options">fill</property>
@@ -216,8 +237,8 @@
                   <packing>
                     <property name="left_attach">0</property>
                     <property name="right_attach">1</property>
-                    <property name="top_attach">4</property>
-                    <property name="bottom_attach">5</property>
+                    <property name="top_attach">5</property>
+                    <property name="bottom_attach">6</property>
                     <property name="x_padding">5</property>
                     <property name="y_padding">5</property>
                     <property name="x_options">fill</property>
@@ -238,8 +259,8 @@
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="right_attach">2</property>
-                    <property name="top_attach">4</property>
-                    <property name="bottom_attach">5</property>
+                    <property name="top_attach">5</property>
+                    <property name="bottom_attach">6</property>
                     <property name="x_padding">5</property>
                     <property name="y_padding">5</property>
                     <property name="x_options">fill</property>
@@ -262,8 +283,8 @@
                   <packing>
                     <property name="left_attach">0</property>
                     <property name="right_attach">1</property>
-                    <property name="top_attach">6</property>
-                    <property name="bottom_attach">6</property>
+                    <property name="top_attach">7</property>
+                    <property name="bottom_attach">7</property>
                     <property name="x_padding">0</property>
                     <property name="y_padding">0</property>
                     <property name="x_options">expand</property>
@@ -283,8 +304,8 @@
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="right_attach">2</property>
-                    <property name="top_attach">6</property>
-                    <property name="bottom_attach">6</property>
+                    <property name="top_attach">7</property>
+                    <property name="bottom_attach">7</property>
                     <property name="x_padding">0</property>
                     <property name="y_padding">0</property>
                     <property name="x_options">expand|fill</property>
@@ -307,8 +328,8 @@
                   <packing>
                     <property name="left_attach">0</property>
                     <property name="right_attach">1</property>
-                    <property name="top_attach">7</property>
-                    <property name="bottom_attach">7</property>
+                    <property name="top_attach">8</property>
+                    <property name="bottom_attach">8</property>
                     <property name="x_padding">0</property>
                     <property name="y_padding">0</property>
                     <property name="x_options">expand</property>
@@ -328,8 +349,8 @@
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="right_attach">2</property>
-                    <property name="top_attach">7</property>
-                    <property name="bottom_attach">7</property>
+                    <property name="top_attach">8</property>
+                    <property name="bottom_attach">8</property>
                     <property name="x_padding">0</property>
                     <property name="y_padding">0</property>
                     <property name="x_options">expand|fill</property>
