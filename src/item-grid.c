@@ -283,7 +283,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	int start_row = gnm_canvas_find_row (gcanvas, draw_y-2, &y);
 	int end_row = gnm_canvas_find_row (gcanvas, draw_y+height+2, NULL);
 	int const diff_y = y - draw_y;
-	int prev_row = -666; /* any impossible value will due */
+	int prev_row = -666; /* any impossible value will do */
 
 	StyleRow sr, next_sr;
 	MStyle const **styles;
