@@ -691,19 +691,22 @@ parse_error_free (ParseError *pe)
 /***************************************************************************/
 
 static char const *
-check_quoted (char const *str, int *num_escapes)
+check_quoted (char const *start, int *num_escapes)
 {
+	char const *str = start;
 	if (*str == '\'' || *str == '\"') {
-		char const quote = *str;
+		char const quote = *str++;
 		*num_escapes = 0;
 		for (; *str && *str != quote; str = g_utf8_next_char (str))
 			if (*str == '\\' && str[1]) {
 				str++;
 				(*num_escapes)++;
 			}
+		if (*str)
+			return str+1;
 	} else
 		*num_escapes = -1;
-	return str;
+	return start;
 }
 
 static void

@@ -136,6 +136,16 @@ typedef struct _FormatState
 		GtkLabel	*preview;
 		GtkBox		*box;
 		GtkWidget	*widget[F_MAX_WIDGET];
+		struct {
+			GtkTreeView	 *view;
+			GtkListStore	 *model;
+			GtkTreeSelection *selection;
+		} negative_types;
+		struct {
+			GtkTreeView	 *view;
+			GtkListStore	 *model;
+			GtkTreeSelection *selection;
+		} formats;
 
 		StyleFormat	*spec;
 		gint		 current_type;
@@ -565,7 +575,7 @@ draw_format_preview (FormatState *state, gboolean regen_format)
 }
 
 static void
-fillin_negative_samples (FormatState *state, int const page)
+fillin_negative_samples (FormatState *state)
 {
 	static char const * const decimals = "098765432109876543210987654321";
 	static char const * const formats[4] = {
@@ -576,23 +586,23 @@ fillin_negative_samples (FormatState *state, int const page)
 	};
 	int const n = 30 - state->format.num_decimals;
 
+	int const page = state->format.current_type;
 	char const *space = "", *currency;
 	char decimal[2] = { '\0', '\0' } ;
 	char thousand_sep[2] = { '\0', '\0' } ;
-
-	GtkCList *cl;
 	char buf[50];
 	int i;
+	GtkTreeIter  iter;
+	GtkTreePath *path;
+
+	g_return_if_fail (page == 1 || page == 2);
+	g_return_if_fail (state->format.num_decimals <= 30);
 
 	if (state->format.use_separator)
 		thousand_sep[0] = format_get_thousand ();
 	if (state->format.num_decimals > 0)
 		decimal[0] = format_get_decimal ();
 
-	g_return_if_fail (page == 1 || page == 2);
-	g_return_if_fail (state->format.num_decimals <= 30);
-
-	cl = GTK_CLIST (state->format.widget[F_NEGATIVE]);
 	if (page == 2) {
 		currency = currency_symbols[state->format.currency_index].symbol;
 		/*
@@ -608,14 +618,26 @@ fillin_negative_samples (FormatState *state, int const page)
 	} else
 		currency = "";
 
-	for (i = 4; --i >= 0 ; ) {
+	gtk_list_store_clear (state->format.negative_types.model);
+
+	for (i = 0 ; i < 4; i++) {
+		gtk_list_store_append (state->format.negative_types.model, &iter);
 		sprintf (buf, formats[i], currency, space, thousand_sep, decimal, decimals + n);
-		gtk_clist_set_text (cl, i, 0, buf);
+		gtk_list_store_set (state->format.negative_types.model, &iter,
+			0,	i,
+			1,  buf,
+			2, (i % 2) ? "red" : NULL,
+			-1);
 	}
 
 	/* If non empty then free the string */
 	if (*currency)
 		g_free ((char *)currency);
+
+	path = gtk_tree_path_new ();
+	gtk_tree_path_append_index (path, state->format.negative_format);
+	gtk_tree_selection_select_path (state->format.negative_types.selection, path);
+	gtk_tree_path_free (path);
 }
 
 static void
@@ -627,7 +649,7 @@ cb_decimals_changed (GtkEditable *editable, FormatState *state)
 		gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (editable));
 
 	if (page == 1 || page == 2)
-		fillin_negative_samples (state, page);
+		fillin_negative_samples (state);
 
 	draw_format_preview (state, TRUE);
 }
@@ -637,31 +659,29 @@ cb_separator_toggle (GtkObject *obj, FormatState *state)
 {
 	state->format.use_separator =
 		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (obj));
-	fillin_negative_samples (state, 1);
+	fillin_negative_samples (state);
 
 	draw_format_preview (state, TRUE);
 }
 
-static int
-fmt_dialog_init_fmt_list (GtkCList *cl, char const * const *formats,
-			  StyleFormat const *cur_format,
-			  int select, int *count)
+static void
+fmt_dialog_init_fmt_list (FormatState *state, char const * const *formats,
+			  GtkTreeIter *select)
 {
-	int j;
+	GtkTreeIter iter;
+	char *fmt;
+	char const *cur_fmt = state->format.spec->format;
 
-	for (j = 0; formats[j]; ++j) {
-		gchar *t[1];
+	for (; *formats; formats++) {
+		gtk_list_store_append (state->format.formats.model, &iter);
+		fmt = style_format_str_as_XL (*formats, TRUE);
+		gtk_list_store_set (state->format.formats.model, &iter,
+			0, fmt, -1);
+		g_free (fmt);
 
-		t[0] = style_format_str_as_XL (formats[j], TRUE);
-		gtk_clist_append (cl, t);
-		g_free (t[0]);
-
-		if (!strcmp (formats[j], cur_format->format))
-			select = j + *count;
+		if (!strcmp (*formats, cur_fmt))
+			*select = iter;
 	}
-
-	*count += j;
-	return select;
 }
 
 static void
@@ -697,7 +717,7 @@ fmt_dialog_enable_widgets (FormatState *state, int page)
 	};
 
 	int const old_page = state->format.current_type;
-	int i, count = 0;
+	int i;
 	FormatWidget tmp;
 
 	/* Hide widgets from old page */
@@ -724,8 +744,8 @@ fmt_dialog_enable_widgets (FormatState *state, int page)
 		gtk_widget_show (w);
 
 		if (tmp == F_LIST) {
-			GtkCList *cl = GTK_CLIST (w);
-			int select = -1, start = 0, end = -1;
+			int start = 0, end = -1;
+			GtkTreeIter select;
 
 			switch (page) {
 			case 4: case 5: case 7:
@@ -740,16 +760,11 @@ fmt_dialog_enable_widgets (FormatState *state, int page)
 				g_assert_not_reached ();
 			};
 
-			gtk_clist_freeze (cl);
-			gtk_clist_clear (cl);
-			gtk_clist_set_auto_sort (cl, FALSE);
-
+			select.stamp = 0;
+			gtk_list_store_clear (state->format.formats.model);
 			for (; start <= end ; ++start)
-				select = fmt_dialog_init_fmt_list (cl,
-						cell_formats[start],
-						state->format.spec,
-						select, &count);
-			gtk_clist_thaw (cl);
+				fmt_dialog_init_fmt_list (state,
+					cell_formats[start], &select);
 
 			/* If this is the custom page and the format has
 			 * not been found append it */
@@ -757,18 +772,32 @@ fmt_dialog_enable_widgets (FormatState *state, int page)
 			 *      It should be easy.  All that is needed is a way to differentiate
 			 *      the std formats and the custom formats in the StyleFormat hash.
 			 */
-			if  (page == 11 && select == -1) {
+			if  (page == 11 && select.stamp == 0) {
 				char *tmp = style_format_as_XL (state->format.spec, TRUE);
 				gtk_entry_set_text (GTK_ENTRY (state->format.widget[F_ENTRY]), tmp);
 				g_free (tmp);
-			} else if (select < 0)
-				select = 0;
+			} else if (select.stamp == 0)
+				gtk_tree_model_get_iter_first (
+					GTK_TREE_MODEL (state->format.formats.model),
+					&select);
 
-			if (select >= 0)
-				gtk_clist_select_row (cl, select, 0);
+			if (select.stamp != 0)
+				gtk_tree_selection_select_iter (
+					state->format.formats.selection, &select);
 		} else if (tmp == F_NEGATIVE)
-			fillin_negative_samples (state, page);
+			fillin_negative_samples (state);
+		else if (tmp == F_DECIMAL_SPIN)
+			gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->format.widget[F_DECIMAL_SPIN]),
+				state->format.num_decimals);
+		else if (tmp == F_SEPARATOR)
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->format.widget[F_SEPARATOR]),
+				state->format.use_separator);
 	}
+
+#if 0
+	if ((cl = GTK_CLIST (state->format.widget[F_LIST])) != NULL)
+		gnumeric_clist_make_selection_visible (cl);
+#endif
 
 	draw_format_preview (state, TRUE);
 }
@@ -778,7 +807,7 @@ fmt_dialog_enable_widgets (FormatState *state, int page)
  * formating radio buttons and the widgets required for each mode.
  */
 static void
-cb_format_changed (GtkObject *obj, FormatState *state)
+cb_format_class_changed (GtkObject *obj, FormatState *state)
 {
 	GtkToggleButton *button = GTK_TOGGLE_BUTTON (obj);
 	if (gtk_toggle_button_get_active (button))
@@ -805,61 +834,53 @@ cb_format_entry_changed (GtkEditable *w, FormatState *state)
 }
 
 static void
-cb_format_list_select (GtkCList *clist, gint row, gint column,
-		       GdkEventButton *event, FormatState *state)
+cb_format_list_select (GtkTreeSelection *selection, FormatState *state)
 {
+	GtkTreeIter iter;
 	gchar *text;
-	gtk_clist_get_text (clist, row, column, &text);
+
+	if (!gtk_tree_selection_get_selected (selection, NULL, &iter))
+		return;
+
+	gtk_tree_model_get (GTK_TREE_MODEL (state->format.formats.model),
+		&iter, 0, &text, -1);
 	gtk_entry_set_text (GTK_ENTRY (state->format.widget[F_ENTRY]), text);
 }
 
-static void
-cb_format_currency_select (GtkEditable *w, FormatState *state)
+static gboolean
+cb_format_currency_select (GtkWidget *ct, char *new_text, FormatState *state)
 {
-	int const page = state->format.current_type;
-	gchar const *tmp = gtk_entry_get_text (GTK_ENTRY (w));
-
-	/* There must be a better way than this */
 	int i;
+
+	/* ignore the clear while assigning a new value */
+	if (!state->enable_edit || new_text == NULL || *new_text == '\0')
+		return FALSE;
+
 	for (i = 0; currency_symbols[i].symbol != NULL ; ++i)
-		if (!strcmp (_(currency_symbols[i].description), tmp)) {
+		if (!strcmp (_(currency_symbols[i].description), new_text)) {
 			state->format.currency_index = i;
 			break;
 		}
 
-	if (page == 1 || page == 2)
-		fillin_negative_samples (state, state->format.current_type);
+	if (state->format.current_type == 1 || state->format.current_type == 2)
+		fillin_negative_samples (state);
 	draw_format_preview (state, TRUE);
+
+	return TRUE;
 }
 
-/*
- * Callback routine to make the selected line visible once our geometry is
- * known
- */
 static void
-cb_format_list_size_allocate (GtkCList *clist, GtkAllocation *allocation,
-		       FormatState *state)
+cb_format_negative_form_selected (GtkTreeSelection *selection, FormatState *state)
 {
-	gint r, rmin, rmax;
+	GtkTreeIter iter;
+	int type;
 
-	if (!clist->selection)
+	if (!gtk_tree_selection_get_selected (selection, NULL, &iter))
 		return;
 
-	r = (gint) clist->selection->data;
-
-	/* GTK visbility calculation sometimes is too optimistic */
-	rmin = (r - 1 > 0) ? r - 1 : 0;
-	rmax = (r + 1 < clist->rows - 1) ? r + 1 : clist->rows - 1;
-	if (! (gtk_clist_row_is_visible (clist, rmin) &&
-	       gtk_clist_row_is_visible (clist, rmax)))
-		gtk_clist_moveto (clist, r, 0, 0.5, 0.);
-}
-
-static void
-cb_format_negative_form_selected (GtkCList *clist, gint row, gint column,
-				  GdkEventButton *event, FormatState *state)
-{
-	state->format.negative_format = row;
+	gtk_tree_model_get (GTK_TREE_MODEL (state->format.negative_types.model),
+		&iter, 0, &type, -1);
+	state->format.negative_format = type;
 	draw_format_preview (state, TRUE);
 }
 
@@ -906,17 +927,18 @@ fmt_dialog_init_format_page (FormatState *state)
 		"format_general_label",	"format_decimal_box",
 		"format_separator",	"format_symbol_label",
 		"format_symbol_select",	"format_delete",
-		"format_entry",		"format_list_scroll",
-		"format_list",		"format_text_label",
-		"format_number_decimals", "format_negative_scroll",
-		"format_negatives",     NULL
+		"format_entry",
+		"format_list_scroll",	"format_list",
+		"format_text_label",	"format_number_decimals",
+		"format_negatives_scroll", "format_negatives",
+		NULL
 	};
 
 	GtkWidget *tmp;
-	GtkCList *cl;
-	GtkCombo *combo;
+	GtkTreeViewColumn *column;
+	GnmComboText *combo;
 	char const *name;
-	int i, j, page;
+	int i, page;
 	FormatCharacteristics info;
 	StyleFormat *fmt;
 
@@ -961,42 +983,26 @@ fmt_dialog_init_format_page (FormatState *state)
 		state->format.widget[i] = tmp;
 	}
 
-	/* setup the red elements of the negative list box */
-	cl = GTK_CLIST (state->format.widget[F_NEGATIVE]);
-	if (cl != NULL) {
-		const char *dummy[1] = { "321" };
-		GtkStyle *style;
-
-		/* stick in some place holders */
-		for (j = 4; --j >= 0 ;)
-		    gtk_clist_append  (cl, (char **)dummy);
-
-		/* Make the 2nd and 4th elements red */
-		gtk_widget_ensure_style (GTK_WIDGET (cl));
-		style = gtk_widget_get_style (GTK_WIDGET (cl));
-		style = gtk_style_copy (style);
-		style->fg[GTK_STATE_NORMAL] = gs_red;
-		style->fg[GTK_STATE_ACTIVE] = gs_red;
-		style->fg[GTK_STATE_PRELIGHT] = gs_red;
-		gtk_clist_set_cell_style (cl, 1, 0, style);
-		gtk_clist_set_cell_style (cl, 3, 0, style);
-		gtk_style_unref (style);
-
-		gtk_clist_select_row (cl, state->format.negative_format, 0);
-		g_signal_connect (G_OBJECT (cl),
-			"select-row",
-			G_CALLBACK (cb_format_negative_form_selected), state);
-		gtk_clist_column_titles_passive (cl);
-	}
-
-	/* Ensure that list rows are visible */
-	if ((cl = GTK_CLIST (state->format.widget[F_LIST])) != NULL)
-		gnumeric_clist_make_selection_visible (cl);
-	if ((cl = GTK_CLIST (state->format.widget[F_NEGATIVE])) != NULL)
-		gnumeric_clist_make_selection_visible (cl);
-
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->format.widget[F_DECIMAL_SPIN]),
-				   state->format.num_decimals);
+	/* setup the structure of the negative type list */
+	state->format.negative_types.model = gtk_list_store_new (3, 
+		G_TYPE_INT, G_TYPE_STRING, G_TYPE_STRING); 
+	state->format.negative_types.view =
+		GTK_TREE_VIEW (state->format.widget[F_NEGATIVE]);
+	gtk_tree_view_set_model (state->format.negative_types.view,
+		GTK_TREE_MODEL (state->format.negative_types.model));
+	column = gtk_tree_view_column_new_with_attributes (_("Negative Number Format"),
+			gtk_cell_renderer_text_new (),
+			"text",		1, 
+			"foreground",	2,
+			NULL);
+	gtk_tree_view_append_column (state->format.negative_types.view, column);
+	state->format.negative_types.selection =
+		gtk_tree_view_get_selection (state->format.negative_types.view);
+	gtk_tree_selection_set_mode (state->format.negative_types.selection,
+				     GTK_SELECTION_SINGLE);
+	g_signal_connect (G_OBJECT (state->format.negative_types.selection),
+		"changed",
+		G_CALLBACK (cb_format_negative_form_selected), state);
 
 	/* Catch changes to the spin box */
 	g_signal_connect (G_OBJECT (state->format.widget[F_DECIMAL_SPIN]),
@@ -1008,39 +1014,49 @@ fmt_dialog_init_format_page (FormatState *state)
 		GTK_WINDOW (state->dialog),
 		GTK_WIDGET (state->format.widget[F_DECIMAL_SPIN]));
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->format.widget[F_SEPARATOR]),
-				      state->format.use_separator);
-
 	/* Setup special handlers for : Numbers */
 	g_signal_connect (G_OBJECT (state->format.widget[F_SEPARATOR]),
 		"toggled",
 		G_CALLBACK (cb_separator_toggle), state);
-	g_signal_connect (G_OBJECT (state->format.widget[F_LIST]),
-		"select-row",
+
+	/* setup custom format list */
+	state->format.formats.model = gtk_list_store_new (1, 
+		G_TYPE_STRING); 
+	state->format.formats.view =
+		GTK_TREE_VIEW (state->format.widget[F_LIST]);
+	gtk_tree_view_set_model (state->format.formats.view,
+		GTK_TREE_MODEL (state->format.formats.model));
+	column = gtk_tree_view_column_new_with_attributes (_("Number Formats"),
+			gtk_cell_renderer_text_new (),
+			"text",		0, 
+			NULL);
+	gtk_tree_view_append_column (state->format.formats.view, column);
+	state->format.formats.selection =
+		gtk_tree_view_get_selection (state->format.formats.view);
+	gtk_tree_selection_set_mode (state->format.formats.selection,
+				     GTK_SELECTION_BROWSE);
+	g_signal_connect (G_OBJECT (state->format.formats.selection),
+		"changed",
 		G_CALLBACK (cb_format_list_select), state);
-	g_signal_connect (G_OBJECT (state->format.widget[F_LIST]),
-		"size-allocate",
-		G_CALLBACK (cb_format_list_size_allocate), state);
 
 	/* Setup handler Currency & Accounting currency symbols */
-	combo = GTK_COMBO (state->format.widget[F_SYMBOL]);
+	combo = GNM_COMBO_TEXT (state->format.widget[F_SYMBOL]);
 	if (combo != NULL) {
-		GList *l = NULL;
-		gtk_combo_set_value_in_list (combo, TRUE, FALSE);
-		gtk_combo_set_case_sensitive (combo, FALSE);
-		gtk_entry_set_editable (GTK_ENTRY (combo->entry), FALSE);
+		GList *ptr, *l = NULL;
 
 		for (i = 0; currency_symbols[i].symbol != NULL ; ++i)
 			l = g_list_append (l, _(currency_symbols[i].description));
 		l = g_list_sort (l, funny_currency_order);
 
-		gtk_combo_set_popdown_strings (combo, l);
+		for (ptr = l; ptr != NULL ; ptr = ptr->next)
+			gnm_combo_text_add_item	(combo, ptr->data);
 		g_list_free (l);
-		gtk_entry_set_text (GTK_ENTRY (combo->entry),
-				    _(currency_symbols[state->format.currency_index].description));
+		gnm_combo_text_set_text	 (combo,
+			_(currency_symbols[state->format.currency_index].description),
+			GNM_COMBO_TEXT_FROM_TOP);
 
-		g_signal_connect (G_OBJECT (combo->entry),
-			"changed",
+		g_signal_connect (GTK_OBJECT (combo),
+			"entry_changed",
 			G_CALLBACK (cb_format_currency_select), state);
 	}
 
@@ -1057,22 +1073,19 @@ fmt_dialog_init_format_page (FormatState *state)
 		tmp = glade_xml_get_widget (state->gui, name);
 		if (tmp == NULL)
 			continue;
-
 		gtk_object_set_data (GTK_OBJECT (tmp), "index",
 				     GINT_TO_POINTER (i));
-		g_signal_connect (G_OBJECT (tmp),
-			"toggled",
-			G_CALLBACK (cb_format_changed), state);
 
 		if (i == page) {
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tmp), TRUE);
-			if (i == 0)
-				/* We have to invoke callback ourselves */
-				cb_format_changed (GTK_OBJECT (tmp), state);
+			cb_format_class_changed (GTK_OBJECT (tmp), state);
 		}
-	}
 
-	draw_format_preview (state, TRUE);
+		g_signal_connect (G_OBJECT (tmp),
+			"toggled",
+			G_CALLBACK (cb_format_class_changed), state);
+
+	}
 }
 
 /*****************************************************************************/
@@ -2129,8 +2142,8 @@ static void
 cb_validation_error_action_deactivate (GtkMenuShell *ignored, FormatState *state)
 {
 	int index = gnumeric_option_menu_get_selected_index (state->validation.error.action);
-	gboolean const flag = (index != 0) &&
-		(gnumeric_option_menu_get_selected_index (state->validation.constraint_type) != 0);
+	gboolean const flag = (index > 0) &&
+		(gnumeric_option_menu_get_selected_index (state->validation.constraint_type) > 0);
 
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.title_label), flag);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.msg_label), flag);
@@ -2290,24 +2303,31 @@ fmt_dialog_init_validation_page (FormatState *state)
 		GTK_WINDOW (state->dialog),
 		GTK_WIDGET (state->validation.error.title));
 
-	g_signal_connect (GTK_OBJECT (gtk_option_menu_get_menu (state->validation.constraint_type)), "deactivate",
-			    G_CALLBACK (cb_validation_sensitivity), state);
-	g_signal_connect (GTK_OBJECT (gtk_option_menu_get_menu (state->validation.op)), "deactivate",
-			    G_CALLBACK (cb_validation_sensitivity), state);
-	g_signal_connect (GTK_OBJECT (gtk_option_menu_get_menu (state->validation.error.action)), "deactivate",
-			    G_CALLBACK (cb_validation_error_action_deactivate), state);
+	g_signal_connect (GTK_OBJECT (gtk_option_menu_get_menu (state->validation.constraint_type)),
+		"deactivate",
+		G_CALLBACK (cb_validation_sensitivity), state);
+	g_signal_connect (GTK_OBJECT (gtk_option_menu_get_menu (state->validation.op)),
+		"deactivate",
+		G_CALLBACK (cb_validation_sensitivity), state);
+	g_signal_connect (GTK_OBJECT (gtk_option_menu_get_menu (state->validation.error.action)),
+		"deactivate",
+		G_CALLBACK (cb_validation_error_action_deactivate), state);
 
 	fmt_dialog_init_validation_expr_entry (state, &state->validation.expr0, "validation_expr0_name", 0);
 	fmt_dialog_init_validation_expr_entry (state, &state->validation.expr1, "validation_expr1_name", 1);
 
-	g_signal_connect (GTK_OBJECT (state->validation.allow_blank), "toggled",
-			    G_CALLBACK (cb_validation_rebuild), state);
-	g_signal_connect (GTK_OBJECT (state->validation.use_dropdown), "toggled",
-			    G_CALLBACK (cb_validation_rebuild), state);
-	g_signal_connect (GTK_OBJECT (state->validation.error.title), "changed",
-			    G_CALLBACK (cb_validation_rebuild), state);
-	g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (state->validation.error.msg)), "changed",
-			  G_CALLBACK (cb_validation_rebuild), state);
+	g_signal_connect (GTK_OBJECT (state->validation.allow_blank),
+		"toggled",
+		G_CALLBACK (cb_validation_rebuild), state);
+	g_signal_connect (GTK_OBJECT (state->validation.use_dropdown),
+		"toggled",
+		G_CALLBACK (cb_validation_rebuild), state);
+	g_signal_connect (GTK_OBJECT (state->validation.error.title),
+		"changed",
+		G_CALLBACK (cb_validation_rebuild), state);
+	g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (state->validation.error.msg)),
+		"changed",
+		G_CALLBACK (cb_validation_rebuild), state);
 
 	/* Initialize */
 	if (mstyle_is_element_set (state->style, MSTYLE_VALIDATION) &&

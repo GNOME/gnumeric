@@ -1,3 +1,8 @@
+2002-10-07  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (ms_excel_read_workbook) : handle workbook protected
+	  files (thanks jpablo).
+
 2002-10-04  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (ms_excel_parse_NAME) : ahhh, I understand now.

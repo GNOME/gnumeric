@@ -27,8 +27,7 @@ struct _ColRowInfo {
 	void *spans;	/* Only used for rows */
 };
 
-struct _ColRowCollection
-{
+struct _ColRowCollection {
 	int         max_used;
 	ColRowInfo  default_style;
 	GPtrArray * info;
@@ -47,8 +46,7 @@ struct _ColRowCollection
 #define COLROW_GET_SEGMENT(seg_array, i) \
 	(g_ptr_array_index ((seg_array)->info, COLROW_SEGMENT_INDEX(i)))
 
-struct _ColRowSegment
-{
+struct _ColRowSegment {
 	ColRowInfo *info [COLROW_SEGMENT_SIZE];
 	float	size_pts;
 	int	size_pixels;

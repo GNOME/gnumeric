@@ -1,3 +1,13 @@
+2002-10-07  Jody Goldberg <jody@gnome.org>
+
+	* cell-format.glade : restore the information that glade convert
+	  appears to have lost.  I hope that is all of it.
+	  Remove deprecated widgets by porting to treeview, and
+	  gnumeric-combo-text.
+	* dialog-cell-format.c : remove deprecated widgets and fix the bug
+	  where by the type of negative numbers was lost because the list was
+	  later cleared.
+
 2002-10-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-cell-sort.c (cb_delete_clicked) : no need to update the

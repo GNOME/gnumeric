@@ -4948,11 +4948,18 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			break;
 
 		case BIFF_FILEPASS: /* All records after this are encrypted */
+			/* files with workbook protection are encrypted using a
+			 * static password (why ??).
+			 */
+			if (ms_biff_query_set_decrypt (q, "VelvetSweatshop"))
+				break;
 			do {
 				char *passwd = cmd_context_get_password (COMMAND_CONTEXT (context),
 					_("This file is encrypted"));
-				if (passwd == NULL)
+				if (passwd == NULL) {
+					problem_loading = _("No password supplied");
 					break;
+				}
 				if (!ms_biff_query_set_decrypt (q, passwd))
 					problem_loading = _("Invalid password");
 				g_free (passwd);

@@ -56,9 +56,6 @@ void gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event);
 /* Scroll the viewing area of the list to the given row */
 void gnumeric_clist_moveto (GtkCList *clist, gint row);
 
-/* Scroll the viewing area of the list to the first selected row */
-void gnumeric_clist_make_selection_visible (GtkCList *clist);
-
 /* Get the selected index of an option menu */
 int  gnumeric_option_menu_get_selected_index (GtkOptionMenu *optionmenu);
 

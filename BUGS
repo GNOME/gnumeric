@@ -30,6 +30,7 @@ Release Critical
     6.5) non-ole import ?
 8) Notice mismatch between suffix and saver (eg .xls for gnumeric file)
 9) Manual recalc
+    9.1) finish calculation ui in workbook attr dialog
 10) fix highlighting of completion code
 11) look into using the default gtk font rather than our own
 12) audit all of the import plugins to do utf8 conversions

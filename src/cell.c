@@ -31,6 +31,7 @@
  *
  * INTERNAL.
  */
+#warning this is just plain silly handle this at a higher level
 static inline void
 cell_dirty (Cell *cell)
 {
@@ -255,18 +256,16 @@ cell_assign_value (Cell *cell, Value *v)
 	cell_render_value (cell, TRUE);
 }
 
-/*
+/**
  * cell_set_value : Stores (WITHOUT COPYING) the supplied value.  It marks the
  *          sheet as dirty.
  *
- * The value is rendered but spans are not calculated, then the rendered string
- * is stored as if that is what the user had entered.
- *
  * WARNING : This is an internal routine that does not queue redraws,
- *           does not auto-resize, and does not calculate spans.
+ *           does not auto-resize, does not calculate spans, and it does it
+ *           does not render.
  *
  * NOTE : This DOES check for array partitioning.
- */
+ **/
 void
 cell_set_value (Cell *cell, Value *v)
 {

@@ -23,6 +23,8 @@ Jody:
 	* Fix handling of 3d references in context of sheet reorder
 	* Some optimization of case insensitive sheet name lookup
 	* Make named expression ids case sensitive.
+	* Port cell format dialog to TreeView.
+	* Handle encryption from 'Tools -> Protection -> Workbook Protected'
 
 Morten:
 	* Port search center from gal's e-table to gtk's treeview.
