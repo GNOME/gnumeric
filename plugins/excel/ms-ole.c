@@ -491,7 +491,8 @@ ms_ole_new (const char *name)
 	int file;
 	MS_OLE *f;
 
-	printf ("New OLE file '%s'\n", name);
+	if (OLE_DEBUG>0)
+		printf ("New OLE file '%s'\n", name);
 	f = g_new0 (MS_OLE, 1);
 
 	f->file_descriptor = file = open (name, O_RDWR);
@@ -509,19 +510,19 @@ ms_ole_new (const char *name)
 		g_free (f) ;
 		return 0;
 	}
-	if (f->length%BB_BLOCK_SIZE)
-		printf ("Warning file '%s':%d non-integer number of blocks\n", name, f->length);
 
 	f->mem = mmap (0, f->length, PROT_READ|PROT_WRITE, MAP_SHARED, file, 0);
 
 	if (GET_GUINT32(f->mem    ) != 0xe011cfd0 ||
 	    GET_GUINT32(f->mem + 4) != 0xe11ab1a1)
 	{
-		printf ("Failed magic number %x %x\n",
+		printf ("Failed OLE2 magic number %x %x\n",
 			GET_GUINT32(f->mem), GET_GUINT32(f->mem+4));
 		ms_ole_destroy (f);
 		return 0;
 	}
+	if (f->length%BB_BLOCK_SIZE)
+		printf ("Warning file '%s':%d non-integer number of blocks\n", name, f->length);
 	if (!ms_ole_analyse (f))
 	{
 		printf ("Directory error\n");
@@ -538,7 +539,8 @@ ms_ole_new (const char *name)
 void
 ms_ole_destroy (MS_OLE *f)
 {
-	printf ("FIXME: should truncate to remove unused blocks\n");
+	if (OLE_DEBUG>0)
+		printf ("FIXME: should truncate to remove unused blocks\n");
 	if (f)
 	{
 		munmap (f->mem, f->length);
@@ -552,10 +554,9 @@ ms_ole_destroy (MS_OLE *f)
 			g_free (f->header.sbf_list);
 		g_free (f);
 
-		printf ("Closing file\n");
+		if (OLE_DEBUG>0)
+			printf ("Closing OLE file\n");
 	}
-	else
-		printf ("Closing NULL file\n");
 }
 
 static void

@@ -187,7 +187,111 @@ gnumeric_stdevp (void *tsheet, GList *expr_node_list, int eval_col, int eval_row
 	return ans ;
 }
 
+static char *help_geomean = {
+	N_("@FUNCTION=GEOMEAN\n"
+	   "@SYNTAX=GEOMEAN(b1, b2, ...)\n"
+
+	   "@DESCRIPTION="
+	   "GEOMEAN returns the geometric mean of the N data"
+	   "This is equal to the Nth root of the product of the terms"
+	   "\n"
+	   "Performing this function on a string or empty cell simply does nothing."
+	   "\n"
+	   "@SEEALSO=MEDIAN,MEAN,MODE")
+};
+
+typedef struct {
+	int first ;
+	guint32 num ;
+	float_t product ;
+} stat_prod_t;
+
+static int
+callback_function_stat_prod (Sheet *sheet, Value *value, char **error_string, void *closure)
+{
+	stat_prod_t *mm = closure;
+	
+	switch (value->type){
+	case VALUE_INTEGER:
+		mm->num++ ;
+		mm->product = mm->first?value->v.v_int:mm->product*value->v.v_int ;
+		break;
+
+	case VALUE_FLOAT:
+		mm->num++ ;
+		mm->product = mm->first?value->v.v_float:mm->product*value->v.v_float ;
+		break ;
+	default:
+		/* ignore strings */
+		break;
+	}
+	mm->first = FALSE ;
+	return TRUE;
+}
+
+static Value *
+gnumeric_geomean (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+{
+	stat_prod_t pr;
+	Sheet *sheet = (Sheet *) tsheet;
+	float_t ans, num ;
+
+	pr.first   = TRUE ;
+	pr.num     = 0 ;
+	pr.product = 0.0 ;
+
+	function_iterate_argument_values (sheet, callback_function_stat_prod,
+					  &pr, expr_node_list,
+					  eval_col, eval_row, error_string);
+
+	num = (float_t)pr.num ;
+	return value_float (pow (pr.product, 1.0/num)) ;
+}
+
+static char *help_expondist = {
+	N_("@FUNCTION=EXPONDIST\n"
+	   "@SYNTAX=EXPONDIST(x,y,cumulative)\n"
+
+	   "@DESCRIPTION="
+	   "The EXPONDIST function returns the exponential distribution "
+	   "If the cumulative boolean is false it will return: "
+	   "y * exp (-y*x), otherwise it will return 1 - exp (-y*x). "
+	   "If x<0 or y<=0 this will return an error"
+	   "\n"
+	   "Performing this function on a string or empty cell simply does nothing. "
+	   "\n"
+	   "@SEEALSO=POISSON")
+};
+
+static Value *
+gnumeric_expondist (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+	float_t x, y;
+	int cuml, err=0 ;
+
+	x = value_get_as_double (argv [0]);
+	y = value_get_as_double (argv [1]);
+	if (x < 0.0 || y <= 0.0) {
+		*error_string = _("expondist - range error");
+		return NULL;
+	}
+	cuml = value_get_bool (argv[2], &err) ;
+	if (err) {
+		*error_string = _("expondist - cumulative?");
+		return NULL;
+	}
+	
+	if (cuml) {
+		return value_float (1.0 - exp(-y*x)) ;
+	} else {
+		return value_float (y*exp(-y*x)) ;
+	}
+}
+
+
 FunctionDefinition stat_functions [] = {
+	{ "expondist", "ffb",  "",          &help_expondist, NULL, gnumeric_expondist },
+	{ "geomean",   0,      "",          &help_geomean,   gnumeric_geomean, NULL },
 	{ "stdev",     0,      "",          &help_stdev,     gnumeric_stdev, NULL },
 	{ "stdevp",    0,      "",          &help_stdevp,    gnumeric_stdevp, NULL },
 	{ "var",       0,      "",          &help_var,       gnumeric_var, NULL },
