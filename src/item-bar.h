@@ -12,7 +12,7 @@ struct _ItemBar {
 	SheetControlGUI *scg;
 	int              dragging : 1;
 	int              is_col_header : 1;
-	GdkGC           *gc, *lines;		/* Draw gc */
+	GdkGC           *gc, *lines, *shade; /* Draw gc */
 	GdkCursor       *normal_cursor;
 	GdkCursor       *change_cursor;
 	GdkCursor       *guru_cursor;

@@ -146,9 +146,14 @@ item_bar_realize (GnomeCanvasItem *item)
 	/* Configure our gc */
 	item_bar->gc = gc = gdk_gc_new (window);
 	{
-		GtkWidget* w = gtk_button_new();
+		GtkWidget *w = gtk_button_new();
+		GtkStyle *style;
 		gtk_widget_ensure_style(w);
-		gdk_gc_set_foreground (item_bar->gc, &w->style->text[GTK_STATE_NORMAL]);
+
+		style = gtk_widget_get_style (w);
+		gdk_gc_set_foreground (item_bar->gc, &style->text[GTK_STATE_NORMAL]);
+
+		item_bar->shade = gdk_gc_ref (style->dark_gc[GTK_STATE_NORMAL]);
 		gtk_widget_destroy(w);		
 	}
 	item_bar->lines = gdk_gc_new (window);
@@ -173,6 +178,7 @@ item_bar_unrealize (GnomeCanvasItem *item)
 
 	gdk_gc_unref (item_bar->gc);
 	gdk_gc_unref (item_bar->lines);
+	gdk_gc_unref (item_bar->shade);
 	gdk_cursor_destroy (item_bar->change_cursor);
 	gdk_cursor_destroy (item_bar->normal_cursor);
 	gdk_cursor_destroy (item_bar->guru_cursor);
@@ -286,11 +292,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 		rect.y = item_bar->indent - y;
 		rect.height = item_bar->cell_height;
 
-		/* FIXME : How to avoid hard coding this color ?
-		 * We need the color that will be drawn as the right bevel
-		 * for the button shadow
-		 */
-		gdk_draw_line (drawable, canvas->style->black_gc,
+		gdk_draw_line (drawable, item_bar->shade,
 			       total-1, rect.y,
 			       total-1, rect.y + rect.height);
 
@@ -408,11 +410,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 		rect.x = item_bar->indent - x;
 		rect.width = item_bar->cell_width;
 
-		/* FIXME : How to avoid hard coding this color ?
-		 * We need the color that will be drawn as the bottom bevel
-		 * for the button shadow
-		 */
-		gdk_draw_line (drawable, canvas->style->black_gc,
+		gdk_draw_line (drawable, item_bar->shade,
 			       rect.x, total-1,
 			       rect.x + rect.width, total-1);
 		if (row > 0) {
