@@ -27,6 +27,8 @@
 #include "workbook-control-gui-priv.h"
 #include "workbook.h"
 #include "commands.h"
+#include "cmd-edit.h"
+#include "clipboard.h"
 
 #ifdef ENABLE_BONOBO
 #  include "sheet-object-container.h"
@@ -267,10 +269,22 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 				(*movefn)(gsheet->scg, r.end.row - sheet->edit_pos.row, FALSE, FALSE);
 		}
 		break;
-	
+
+	case GDK_KP_Insert :
+	case GDK_Insert :
+		if (state == GDK_CONTROL_MASK)
+			sheet_selection_copy (WORKBOOK_CONTROL (wbcg), sheet);
+		else if (state == GDK_SHIFT_MASK)
+			cmd_paste_to_selection (WORKBOOK_CONTROL (wbcg), sheet, PASTE_DEFAULT);
+		break;
+
 	case GDK_KP_Delete:
 	case GDK_Delete:
-		cmd_clear_selection (WORKBOOK_CONTROL (wbcg), sheet, CLEAR_VALUES);
+		if (state == GDK_SHIFT_MASK) {
+			scg_mode_edit (sc);
+			sheet_selection_cut (WORKBOOK_CONTROL (wbcg), sheet);
+		} else
+			cmd_clear_selection (WORKBOOK_CONTROL (wbcg), sheet, CLEAR_VALUES);
 		break;
 
 	/*

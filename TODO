@@ -29,8 +29,6 @@ to features that already work.
 
    + Colouring a parsed formula for editing.
 
-   + C-Insert: Copy, S-Insert: Paste, S-Delete: cut; test.
-
 * Functions
 
    + Implement more functions :

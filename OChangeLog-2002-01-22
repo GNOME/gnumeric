@@ -1,5 +1,11 @@
 2001-07-25  Almer S. Tigelaar  <almer@gnome.org>
  
+ 	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet): Add
+ 	C-Insert, S-Insert and S-Delete shortcuts for cutting, pasting
+ 	and copying.
+ 
+2001-07-25  Almer S. Tigelaar  <almer@gnome.org>
+ 
  	* src/workbook-control-gui.c (cb_notebook_switch_page): If we are
  	still editing and the expression is invalid, don't switch pages, but
  	insist the user correct it first.
