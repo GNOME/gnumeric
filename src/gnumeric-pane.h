@@ -34,6 +34,7 @@ struct _GnumericPane {
 	FooCanvasItem   *control_points [9]; /* Control points for the current item */
 
 	GdkCursor	*mouse_cursor;
+	GtkWidget       *size_tip;
 };
 
 void gnm_pane_init	(GnumericPane *pane, SheetControlGUI *scg,

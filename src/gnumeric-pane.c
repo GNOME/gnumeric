@@ -29,6 +29,9 @@
 
 #include <libfoocanvas/foo-canvas-line.h>
 #include <libfoocanvas/foo-canvas-rect-ellipse.h>
+#include <gtk/gtklabel.h>
+#include <gdk/gdkdisplay.h>
+#include <glib/gi18n.h>
 #include <math.h>
 #define GNUMERIC_ITEM "GnmPane"
 #include "item-debug.h"
@@ -37,22 +40,6 @@ static void
 gnumeric_pane_realized (GtkWidget *widget, gpointer ignored)
 {
 	gdk_window_set_back_pixmap (GTK_LAYOUT (widget)->bin_window, NULL, FALSE);
-}
-
-static void
-cb_pane_popup_menu (GnumericPane *pane)
-{
-	g_warning ("pane popup");
-}
-static void
-cb_pane_col_header_popup_menu (GnumericPane *pane)
-{
-	g_warning ("This should not happen, the sheet should always have focus. pane col header_popup");
-}
-static void
-cb_pane_row_header_popup_menu (GnumericPane *pane)
-{
-	g_warning ("This should not happen, the sheet should always have focus. pane row header_popup");
 }
 
 static void
@@ -66,12 +53,6 @@ gnumeric_pane_header_init (GnumericPane *pane, SheetControlGUI *scg,
 		"GnumericCanvas", pane->gcanvas,
 		"IsColHeader", is_col_header,
 		NULL);
-
-	g_signal_connect_swapped (GTK_WIDGET (canvas),
-		"popup-menu", is_col_header
-			? G_CALLBACK (cb_pane_col_header_popup_menu)
-			: G_CALLBACK (cb_pane_row_header_popup_menu),
-		pane);
 
 	/* give a non-constraining default in case something scrolls before we
 	 * are realized
@@ -104,6 +85,73 @@ gnumeric_pane_header_init (GnumericPane *pane, SheetControlGUI *scg,
 	g_signal_connect (G_OBJECT (canvas),
 		"realize",
 		G_CALLBACK (gnumeric_pane_realized), NULL);
+}
+
+static void
+gnm_pane_clear_obj_size_tip (GnumericPane *pane)
+{
+	if (pane->size_tip) {
+		gtk_widget_destroy (gtk_widget_get_toplevel (pane->size_tip));
+		pane->size_tip = NULL;
+	}
+}
+
+static void
+gnm_pane_display_obj_size_tip (GnumericPane *pane, int idx)
+{
+	char *msg;
+	double pts[4], pixels[4];
+	SheetControlGUI *scg = pane->gcanvas->simple.scg;
+
+	if (pane->size_tip == NULL) {
+		GtkWidget *top;
+		int x, y;
+		pane->size_tip = gnumeric_create_tooltip ();
+		top = gtk_widget_get_toplevel (pane->size_tip);
+		/* do not use gnumeric_position_tooltip because it places the tip
+		 * too close to the mouse and generates LEAVE events */
+		gdk_window_get_pointer (NULL, &x, &y, NULL);
+		gtk_window_move (GTK_WINDOW (top), x + 10, y + 10);
+		gtk_widget_show_all (top);
+	}
+
+	g_return_if_fail (pane->size_tip != NULL);
+	g_return_if_fail (scg->current_object != NULL);
+
+	sheet_object_position_pts_get (scg->current_object, pts);
+	sheet_object_position_pixels_get (scg->current_object,
+		SHEET_CONTROL (scg), pixels);
+	msg = g_strdup_printf (_("%.1f x %.1f pts\n%d x %d pixels"),
+		fabs (pts[3]-pts[1]), fabs (pts[2] - pts[0]),
+		(int)floor (fabs (pixels[3]-pixels[1]) + .5),
+		(int)floor (fabs (pixels[2] - pixels[0]) + .5));
+	gtk_label_set_text (GTK_LABEL (pane->size_tip), msg);
+	g_free (msg);
+}
+
+static void
+cb_pane_popup_menu (GnumericPane *pane)
+{
+	/* the popup-menu signal is a binding. the grid almost always has focus
+	 * we need to cheat to find out if the user realllllly wants a col/row
+	 * header menu */
+	gboolean is_col = FALSE;
+	gboolean is_row = FALSE;
+	GdkWindow *gdk_win = gdk_display_get_window_at_pointer (
+		gtk_widget_get_display (GTK_WIDGET (pane->gcanvas)),
+		NULL, NULL);
+
+	if (gdk_win != NULL) {
+		GtkWindow *gtk_win = NULL;
+		gdk_window_get_user_data (gdk_win, (gpointer *) &gtk_win);
+		if (gtk_win != NULL) {
+			if (gtk_win == (GtkWindow *)pane->col.canvas)
+				is_col = TRUE;
+			else if (gtk_win == (GtkWindow *)pane->row.canvas)
+				is_row = TRUE;
+		}
+	}
+	scg_context_menu (pane->gcanvas->simple.scg, NULL, is_col, is_row);
 }
 
 void
@@ -144,6 +192,7 @@ gnm_pane_init (GnumericPane *pane, SheetControlGUI *scg,
 	pane->cursor.special = NULL;
 	pane->cursor.rangehighlight = NULL;
 	pane->anted_cursors = NULL;
+	pane->size_tip = NULL;
 
 	if (col_headers)
 		gnumeric_pane_header_init (pane, scg, TRUE);
@@ -200,6 +249,7 @@ gnm_pane_release (GnumericPane *pane)
 		gdk_cursor_unref (pane->mouse_cursor);
 		pane->mouse_cursor = NULL;
 	}
+	gnm_pane_clear_obj_size_tip (pane);
 
 	/* Be anal just in case we somehow manage to remove a pane
 	 * unexpectedly.
@@ -501,6 +551,7 @@ gnm_pane_object_stop_editing (GnumericPane *pane)
 		gtk_object_destroy (GTK_OBJECT (pane->control_points [i]));
 		pane->control_points [i] = NULL;
 	}
+	gnm_pane_clear_obj_size_tip (pane);
 }
 
 #define CTRL_PT_SIZE		4
@@ -509,10 +560,10 @@ gnm_pane_object_stop_editing (GnumericPane *pane)
 #define CTRL_PT_TOTAL_SIZE 	(CTRL_PT_SIZE*4 + CTRL_PT_OUTLINE*2)
 
 static void
-gnm_pane_object_move (SheetControlGUI *scg, SheetObject *so,
-		      GtkObject *ctrl_pt,
+gnm_pane_object_move (GnumericPane *pane, GtkObject *ctrl_pt,
 		      gdouble new_x, gdouble new_y)
 {
+	SheetControlGUI *scg = pane->gcanvas->simple.scg;
 	int i, idx = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (ctrl_pt), "index"));
 	double new_coords [4], dx, dy;
 
@@ -558,14 +609,16 @@ gnm_pane_object_move (SheetControlGUI *scg, SheetObject *so,
 	/* moving any of the points other than the overlay resizes */
 	if (idx != 8)
 		scg->object_was_resized = TRUE;
-	sheet_object_direction_set (so, new_coords);
+	sheet_object_direction_set (scg->current_object, new_coords);
 
 	/* Tell the object to update its co-ordinates */
-	scg_object_update_bbox (scg, so, new_coords);
+	scg_object_update_bbox (scg, scg->current_object, new_coords);
+	if (idx != 8)
+		gnm_pane_display_obj_size_tip (pane, idx);
 }
 
 static gboolean
-cb_slide_handler (GnmCanvas *gcanvas, int col, int row, gpointer user)
+cb_slide_handler (GnmCanvas *gcanvas, int col, int row, gpointer ctrl_pt)
 {
 	int x, y;
 	gdouble new_x, new_y;
@@ -576,7 +629,7 @@ cb_slide_handler (GnmCanvas *gcanvas, int col, int row, gpointer user)
 	y = scg_colrow_distance_get (scg, FALSE, gcanvas->first.row, row);
 	y += gcanvas->first_offset.row;
 	foo_canvas_c2w (FOO_CANVAS (gcanvas), x, y, &new_x, &new_y);
-	gnm_pane_object_move (scg, scg->current_object, user, new_x, new_y);
+	gnm_pane_object_move (gcanvas->pane, ctrl_pt, new_x, new_y);
 
 	return TRUE;
 }
@@ -620,18 +673,23 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event,
 		gnm_widget_set_cursor_type (GTK_WIDGET (ctrl_pt->canvas),
 			GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (ctrl_pt), "cursor")));
 
-		if (pane->control_points [8] != ctrl_pt)
+		if (pane->control_points [8] != ctrl_pt) {
 			foo_canvas_item_set (ctrl_pt,
 				"fill_color",    "green",
 				NULL);
+			gnm_pane_display_obj_size_tip (pane,
+				GPOINTER_TO_INT (g_object_get_data (G_OBJECT (ctrl_pt), "index")));
+		}
 		break;
 
 	case GDK_LEAVE_NOTIFY:
 		scg_set_display_cursor (scg);
-		if (pane->control_points [8] != ctrl_pt)
+		if (pane->control_points [8] != ctrl_pt) {
 			foo_canvas_item_set (ctrl_pt,
 				"fill_color",    "white",
 				NULL);
+			gnm_pane_clear_obj_size_tip (pane);
+		}
 		break;
 
 	case GDK_BUTTON_RELEASE:
@@ -693,8 +751,8 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event,
 					      ctrl_pt->canvas, &event->motion,
 					      GNM_CANVAS_SLIDE_X | GNM_CANVAS_SLIDE_Y | GNM_CANVAS_SLIDE_EXTERIOR_ONLY,
 					      cb_slide_handler, ctrl_pt))
-			gnm_pane_object_move (scg, scg->current_object,
-				GTK_OBJECT (ctrl_pt), event->motion.x, event->motion.y);
+			gnm_pane_object_move (pane, GTK_OBJECT (ctrl_pt),
+				event->motion.x, event->motion.y);
 		break;
 
 	default:

@@ -5,6 +5,8 @@ Harald Ashburner:
 
 Jody:
 	* Use SAX exporter by default.
+	* Enable 'popup-menu' binding support
+	* Add tooltip for object resizing
 
 Uwe Steinmann:
 	* Paradox DB import.

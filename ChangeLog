@@ -1,3 +1,14 @@
+2004-07-20  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : add test for sysconf as per Mark's request
+
+	* src/gnumeric-pane.c (cb_pane_popup_menu) : cheese up a little hack
+	  to get 'popup-menu' binding context menus for col/row headers too.
+	(gnm_pane_clear_obj_size_tip) : new
+	(gnm_pane_display_obj_size_tip) : new
+	(gnm_pane_object_move) : use gnm_pane_display_obj_size_tip to provide
+	 an indication of the object size.
+
 2004-07-20  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (lbeta3): Use lgamma_rgnum.
