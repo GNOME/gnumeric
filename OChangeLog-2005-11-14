@@ -9,7 +9,7 @@
 
 2005-04-01  Steve Murphy  <murf@e-tools.com>
 
-        * configure.in: Added "rw" to ALL_LINGUAS.
+	* configure.in: Added "rw" to ALL_LINGUAS.
 
 2005-04-01  Morten Welinder  <terra@gnome.org>
 
@@ -195,6 +195,12 @@
 
 	* src/*.c src/*/*.c plugins/*/*.c: Use canonical object property
 	names.
+
+2005-03-24  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=171503
+	* src/gnumeric-gconf.c (gnm_gconf_set_printer_config) : take control
+	  of the string.
 
 2005-03-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
