@@ -33,8 +33,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-16 09:55+0100\n"
-"PO-Revision-Date: 2005-03-16 09:55+0100\n"
+"POT-Creation-Date: 2005-03-22 10:14+0100\n"
+"PO-Revision-Date: 2005-03-22 10:13+0100\n"
 "Last-Translator: Frank Arnold <frank@scirocco-5v-turbo.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -274,7 +274,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Funktionen aus dem Finanzbereich"
 
 #: ../plugins/dif/dif.c:66 ../plugins/excel/ms-excel-read.c:5840
-#: ../plugins/mps/mps.c:547 ../src/xml-io.c:3979
+#: ../plugins/mps/mps.c:547 ../src/xml-io.c:3972
 msgid "Reading file..."
 msgstr "Datei wird gelesen..."
 
@@ -360,14 +360,14 @@ msgstr "Vorbereiten auf das Speichern..."
 msgid "Saving file..."
 msgstr "Datei wird gespeichert..."
 
-#: ../plugins/excel/excel-xml-read.c:83 ../plugins/xml_sax/xml-sax-read.c:276
+#: ../plugins/excel/excel-xml-read.c:83 ../plugins/xml_sax/xml-sax-read.c:277
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Unerwartetes Attribut %s::%s == '%s'."
 
 #: ../plugins/excel/excel-xml-read.c:196
 #: ../plugins/openoffice/openoffice-read.c:1503
-#: ../plugins/xml_sax/xml-sax-read.c:1771
+#: ../plugins/xml_sax/xml-sax-read.c:1765
 msgid "XML document not well formed!"
 msgstr "Das XML-Dokument ist nicht wohlgeformt (\"well formed\")!"
 
@@ -463,11 +463,11 @@ msgstr ""
 "Beim Speichern im MS Excel (tm)-Format gehen einige Daten verloren. Es "
 "unterstützt lediglich %d Zeilen, dieses Arbeitsbuch hat jedoch %d"
 
-#: ../plugins/excel/ms-excel-write.c:4991
+#: ../plugins/excel/ms-excel-write.c:4992
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Datenstrom »Book« konnte nicht zum Schreiben geöffnet werden.\n"
 
-#: ../plugins/excel/ms-excel-write.c:5011
+#: ../plugins/excel/ms-excel-write.c:5012
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Datenstrom »Workbook« konnte nicht zum Schreiben geöffnet werden.\n"
 
@@ -1395,28 +1395,6 @@ msgstr "Zeichenkette"
 msgid "String Functions"
 msgstr "Zeichenketten-Funktionen"
 
-#: ../plugins/gb/plugin.c:131
-msgid "Unknown GB error"
-msgstr "Unbekannter GB-Fehler"
-
-#: ../plugins/gb/plugin.c:364
-#, c-format
-msgid "Error initializing gb '%s'"
-msgstr "Fehler bei der gb-Initialisierung »%s«"
-
-#: ../plugins/gb/plugin.c:379
-#, c-format
-msgid "Error in project '%s'"
-msgstr "Fehler in Projekt »%s«"
-
-#: ../plugins/gb/plugin.xml.in.h:1
-msgid "Enables Gnome Basic support"
-msgstr "Unterstützung von GNOME Basic"
-
-#: ../plugins/gb/plugin.xml.in.h:2
-msgid "Gnome Basic"
-msgstr "GNOME Basic"
-
 #: ../plugins/gda/plugin-gda.c:59
 msgid "Too much data returned"
 msgstr "Zu viele Daten geliefert"
@@ -1471,34 +1449,6 @@ msgstr "GNOME .po-Glossar-Dateiformat"
 #: ../plugins/gnome-glossary/plugin.xml.in.h:3
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr "Erlaubt GNOME, Glossare im .po-Dateiformat zu speichern"
-
-#: ../plugins/guile/plugin.c:107
-msgid "Guile error"
-msgstr "Guile-Fehler"
-
-#: ../plugins/guile/plugin.xml.in.h:1
-msgid "Guile Plugin"
-msgstr "Guile-Plugin"
-
-#: ../plugins/guile/plugin.xml.in.h:2
-msgid "This plugin enables Guile(scheme) support in Gnumeric"
-msgstr "Dieses Plugin aktiviert Guile-Unterstützung (Scheme) in Gnumeric"
-
-#: ../plugins/guile/smob-value.c:102
-msgid "Unable to convert value from Guile"
-msgstr "Wert von Guile konnte nicht importiert werden"
-
-#: ../plugins/guile/smob-value.c:163
-msgid "Not a Guile boolean"
-msgstr "Kein Guile-Boolean"
-
-#: ../plugins/guile/smob-value.c:181
-msgid "Not a Guile number"
-msgstr "Keine Guile-Zahl"
-
-#: ../plugins/guile/smob-value.c:199
-msgid "Not a Guile string"
-msgstr "Kein Guile-String"
 
 #: ../plugins/html/html_read.c:535
 msgid "Unable to parse the html."
@@ -1907,7 +1857,7 @@ msgstr "Python-Funktionen"
 msgid "Sample Python plugin providing some (useless) functions."
 msgstr "Beispiel-Python-Plugin mit ein paar Beispielsfunktionen"
 
-#: ../plugins/python-loader/gnm-py-interpreter.c:253
+#: ../plugins/python-loader/gnm-py-interpreter.c:255
 msgid "Default interpreter"
 msgstr "Vorgabeinterpreter"
 
@@ -2156,7 +2106,7 @@ msgstr "Fehler beim Öffnen der xbase-Datei."
 #: ../plugins/xbase/boot.c:176 ../src/dialogs/dialog-goto-cell.c:289
 #: ../src/dialogs/dialog-search.c:447 ../src/dialogs/dialog-stf-export.c:444
 #: ../src/dialogs/print.glade.h:21 ../src/commands.c:4966
-#: ../src/print-info.c:398 ../src/workbook.c:1108 ../src/xml-io.c:3569
+#: ../src/print-info.c:398 ../src/workbook.c:1083 ../src/xml-io.c:3569
 msgid "Sheet"
 msgstr "Blatt"
 
@@ -2196,7 +2146,7 @@ msgstr "EXPERIMENTELLES Gnumeric-SAX-XML-Dateiformat (*.gnumeric)"
 msgid "EXPERIMENTAL SAX based XML"
 msgstr "EXPERIMENTELLES SAX-basiertes XML"
 
-#: ../plugins/xml_sax/plugin.xml.in.h:3 ../src/xml-io.c:4107
+#: ../plugins/xml_sax/plugin.xml.in.h:3 ../src/xml-io.c:4100
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric-XML (*.gnumeric)"
 
@@ -2204,16 +2154,16 @@ msgstr "Gnumeric-XML (*.gnumeric)"
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "Die nächste Generation des SAX-basierten E/A-Subsystems"
 
-#: ../plugins/xml_sax/xml-sax-read.c:308
+#: ../plugins/xml_sax/xml-sax-read.c:309
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
 msgstr "Mehrfache Versionsangaben. %d wird angenommen"
 
-#: ../plugins/xml_sax/xml-sax-read.c:481
+#: ../plugins/xml_sax/xml-sax-read.c:482
 msgid "File has inconsistent SheetNameIndex element."
 msgstr "Dateielement SheetNameIndex inkonsistent."
 
-#: ../plugins/xml_sax/xml-sax-read.c:1321 ../src/xml-io.c:2551
+#: ../plugins/xml_sax/xml-sax-read.c:1322 ../src/xml-io.c:2551
 #, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Nicht unterstützter Objekttyp »%s«."
@@ -6249,40 +6199,40 @@ msgstr "Importieren von %i Spalten, keine wird ignoriert."
 msgid "Importing %i columns and ignoring %i."
 msgstr "Importieren von %i Spalten, %i Spalten werden ignoriert."
 
-#: ../src/dialogs/dialog-stf-format-page.c:156
-#: ../src/dialogs/dialog-stf-format-page.c:440
+#: ../src/dialogs/dialog-stf-format-page.c:157
+#: ../src/dialogs/dialog-stf-format-page.c:441
 #, c-format
 msgid "A maximum of %d columns can be imported."
 msgstr "Es können maximal %d Spalten importiert werden."
 
-#: ../src/dialogs/dialog-stf-format-page.c:287
+#: ../src/dialogs/dialog-stf-format-page.c:288
 msgid "Ignore all columns on right"
 msgstr "Alle Spalten rechts ignorieren"
 
-#: ../src/dialogs/dialog-stf-format-page.c:288
+#: ../src/dialogs/dialog-stf-format-page.c:289
 msgid "Ignore all columns on left"
 msgstr "Alle Spalten links ignorieren"
 
-#: ../src/dialogs/dialog-stf-format-page.c:289
+#: ../src/dialogs/dialog-stf-format-page.c:290
 msgid "Import all columns on right"
 msgstr "Alle Spalten rechts importieren"
 
-#: ../src/dialogs/dialog-stf-format-page.c:290
+#: ../src/dialogs/dialog-stf-format-page.c:291
 msgid "Import all columns on left"
 msgstr "Alle Spalten links importieren"
 
-#: ../src/dialogs/dialog-stf-format-page.c:291
+#: ../src/dialogs/dialog-stf-format-page.c:292
 msgid "Copy format to right"
 msgstr "Format nach rechts kopieren"
 
-#: ../src/dialogs/dialog-stf-format-page.c:470
+#: ../src/dialogs/dialog-stf-format-page.c:471
 msgid ""
 "If this checkbox is selected, the column will be imported into Gnumeric."
 msgstr ""
 "Falls dieses Kontrollkästchen angewählt ist, wird die Spalte in Gnumeric "
 "importiert"
 
-#: ../src/dialogs/dialog-stf-format-page.c:627
+#: ../src/dialogs/dialog-stf-format-page.c:628
 #: ../src/dialogs/dialog-stf-preview.h:26
 #, c-format
 msgid "Column %d"
@@ -6825,7 +6775,7 @@ msgstr "Wählen Sie die einzufügende Funktion:"
 #: ../src/dialogs/function-select.glade.h:6 ../src/wbcg-actions.c:1428
 #: ../src/wbcg-actions.c:1586
 msgid "_Insert"
-msgstr "_Einfügen"
+msgstr "E_infügen"
 
 #: ../src/dialogs/goalseek.glade.h:1
 msgid "(Ma_ximum):"
@@ -7131,7 +7081,7 @@ msgstr "Arbeitsbuch"
 #: ../src/dialogs/names.glade.h:8 ../src/dialogs/solver.glade.h:23
 #: ../src/wbcg-actions.c:1421
 msgid "_Delete"
-msgstr "_Löschen"
+msgstr "Lösc_hen"
 
 #: ../src/dialogs/names.glade.h:9
 msgid "_Expression: "
@@ -9350,7 +9300,7 @@ msgstr "Fett-kursiv"
 msgid "Italic"
 msgstr "Kursiv"
 
-#: ../src/application.c:307
+#: ../src/application.c:309
 msgid "Cut Object"
 msgstr "Objekt ausschneiden"
 
@@ -10192,7 +10142,7 @@ msgstr "Objektwerkzeugleiste"
 msgid "StandardToolbar"
 msgstr "Standardwerkzeugleiste"
 
-#: ../src/gnumeric-pane.c:119
+#: ../src/gnumeric-pane.c:125
 #, c-format
 msgid ""
 "%.1f x %.1f pts\n"
@@ -10334,10 +10284,12 @@ msgid "Display Gnumeric's version"
 msgstr "Versionsnummer von Gnumeric anzeigen"
 
 #: ../src/main-application.c:62 ../src/ssconvert.c:47 ../src/ssindex.c:54
+#: ../src/test-pango.c:32
 msgid "Set the root library directory"
 msgstr "Wurzelverzeichnis für die Bibliotheken setzen"
 
 #: ../src/main-application.c:64 ../src/ssconvert.c:49 ../src/ssindex.c:56
+#: ../src/test-pango.c:34
 msgid "Adjust the root data directory"
 msgstr "Wurzelverzeichnis für Datenmaterial anpassen"
 
@@ -10353,12 +10305,13 @@ msgstr "DATEI"
 msgid "Generate new help and po files"
 msgstr "Neue Hilfe- und PO-Dateien erzeugen"
 
-#: ../src/main-application.c:74
+#: ../src/main-application.c:74 ../src/test-pango.c:36
 msgid "Enables some debugging functions"
 msgstr "Einige Debug-Funktionen einschalten"
 
 #: ../src/main-application.c:74 ../src/main-application.c:77
 #: ../src/main-application.c:79 ../src/main-application.c:81
+#: ../src/test-pango.c:36
 msgid "LEVEL"
 msgstr "WERT"
 
@@ -10376,11 +10329,11 @@ msgstr ""
 msgid "Enables some print debugging behavior"
 msgstr "Ein Druck-Debug-Verhalten einschalten"
 
-#: ../src/main-application.c:84
+#: ../src/main-application.c:84 ../src/test-pango.c:38
 msgid "Specify the size and location of the initial window"
 msgstr "Geben Sie die Größe und Position des initialen Fensters an"
 
-#: ../src/main-application.c:84
+#: ../src/main-application.c:84 ../src/test-pango.c:38
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "BREITExHÖHE+XPOS+YPOS"
 
@@ -10508,7 +10461,7 @@ msgstr ""
 "datadir := »%s«\n"
 "libdir := »%s«\n"
 
-#: ../src/mathfunc.c:7111
+#: ../src/mathfunc.c:7433
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "gnm_yn."
@@ -10757,7 +10710,7 @@ msgstr "E_infügen"
 
 #: ../src/sheet-control-gui.c:1507
 msgid "Paste _Special"
-msgstr "Einfügen _spezial"
+msgstr "Einfügen spe_zial"
 
 #. TODO : One day make the labels smarter.  Generate them to include
 #. * quantities.
@@ -10810,12 +10763,12 @@ msgstr "Spalten_breite..."
 #: ../src/sheet-control-gui.c:1546 ../src/sheet-control-gui.c:1554
 #: ../src/wbcg-actions.c:1714 ../src/wbcg-actions.c:1731
 msgid "_Hide"
-msgstr "_Verbergen"
+msgstr "Ver_bergen"
 
 #: ../src/sheet-control-gui.c:1548 ../src/sheet-control-gui.c:1556
 #: ../src/wbcg-actions.c:1717 ../src/wbcg-actions.c:1734
 msgid "_Unhide"
-msgstr "_Hervorholen"
+msgstr "Her_vorholen"
 
 #. Row specific (Note some labels duplicate col labels)
 #: ../src/sheet-control-gui.c:1552
@@ -11434,7 +11387,7 @@ msgstr "_Ansicht"
 
 #: ../src/wbcg-actions.c:1426
 msgid "_Windows"
-msgstr "Fen_ster"
+msgstr "F_enster"
 
 #: ../src/wbcg-actions.c:1427
 msgid "_Toolbars"
@@ -11467,7 +11420,7 @@ msgstr "_Werkzeuge"
 
 #: ../src/wbcg-actions.c:1436
 msgid "Sce_narios"
-msgstr "_Szenarien"
+msgstr "Sze_narien"
 
 #: ../src/wbcg-actions.c:1437
 msgid "Statistical Anal_ysis"
@@ -11523,7 +11476,7 @@ msgstr "Die Gnumeric-Dokumentation anzeigen"
 
 #: ../src/wbcg-actions.c:1460
 msgid "Gnumeric on the _Web"
-msgstr "Gnumeric im _Internet"
+msgstr "_Gnumeric im Internet"
 
 #: ../src/wbcg-actions.c:1461
 msgid "Browse to Gnumeric's website"
@@ -11585,7 +11538,7 @@ msgstr "Die aktuelle Datei unter einem anderen Namen speichern."
 
 #: ../src/wbcg-actions.c:1494
 msgid "Sen_d To..."
-msgstr "Verschicken _An..."
+msgstr "Verschicken _an..."
 
 #: ../src/wbcg-actions.c:1495
 msgid "Send the current file via email"
@@ -11605,7 +11558,7 @@ msgstr "Die aktuelle Datei drucken"
 
 #: ../src/wbcg-actions.c:1506
 msgid "Proper_ties..."
-msgstr "_Eigenschaften..."
+msgstr "Ei_genschaften..."
 
 #: ../src/wbcg-actions.c:1507
 msgid "Edit descriptive information"
@@ -11750,7 +11703,7 @@ msgstr "Entsprechend einer linearen oder exponentiellen Folge füllen"
 
 #: ../src/wbcg-actions.c:1578
 msgid "_Random Generator..."
-msgstr "_Zufallsgenerator..."
+msgstr "Zufalls_generator..."
 
 #: ../src/wbcg-actions.c:1579
 msgid "Generate random numbers of a selection of distributions"
@@ -11787,7 +11740,7 @@ msgstr "Ein gesamtes Blatt unwiderruflich löschen"
 
 #: ../src/wbcg-actions.c:1602
 msgid "Re_name"
-msgstr "Umbe_nennen"
+msgstr "_Umbenennen"
 
 #: ../src/wbcg-actions.c:1603
 msgid "Rename the current sheet"
@@ -11861,7 +11814,7 @@ msgstr "Den oberen linken Teil des Blattes einfrieren"
 
 #: ../src/wbcg-actions.c:1636
 msgid "_Zoom..."
-msgstr "_Vergrößerung..."
+msgstr "Ver_größerung..."
 
 #: ../src/wbcg-actions.c:1637
 msgid "Zoom the spreadsheet in or out"
@@ -11913,7 +11866,7 @@ msgstr "Ein Diagramm einfügen"
 
 #: ../src/wbcg-actions.c:1663
 msgid "_Image..."
-msgstr "_Bild..."
+msgstr "B_ild..."
 
 #: ../src/wbcg-actions.c:1664
 msgid "Insert an image"
@@ -11973,7 +11926,7 @@ msgstr "Die aktuelle Markierung verwenden, um Namen zu erzeugen"
 #. Format
 #: ../src/wbcg-actions.c:1694
 msgid "_Cells..."
-msgstr "_Zellen..."
+msgstr "Ze_llen..."
 
 #: ../src/wbcg-actions.c:1695
 msgid "Modify the formatting of the selected cells"
@@ -12237,7 +12190,7 @@ msgstr "Pearson-Korrelation"
 
 #: ../src/wbcg-actions.c:1807
 msgid "Co_variance..."
-msgstr "Ko_varianz..."
+msgstr "Kov_arianz..."
 
 #: ../src/wbcg-actions.c:1810
 msgid "_Descriptive Statistics..."
@@ -12367,7 +12320,7 @@ msgstr "Eine Übersichtsgruppe hinzufügen"
 
 #: ../src/wbcg-actions.c:1865
 msgid "_Ungroup..."
-msgstr "Gr_uppierung aufheben..."
+msgstr "Gruppierung auf_heben..."
 
 #: ../src/wbcg-actions.c:1866
 msgid "Remove an outline group"
@@ -12654,7 +12607,7 @@ msgstr "Die Einrückung erhöhen und die Inhalte nach links ausrichten."
 
 #: ../src/wbcg-actions.c:2030
 msgid "Display _Outlines"
-msgstr "_Umrisse anzeigen"
+msgstr "Umrisse an_zeigen"
 
 #: ../src/wbcg-actions.c:2031
 msgid "Toggle whether or not to display outline groups"
@@ -12662,7 +12615,7 @@ msgstr "Festlegen, ob die Übersichtsgruppen angezeigt werden oder nicht."
 
 #: ../src/wbcg-actions.c:2033
 msgid "Outlines _Below"
-msgstr "Umriss _Unten"
+msgstr "Umriss _unten"
 
 #: ../src/wbcg-actions.c:2034
 msgid "Toggle whether to display row outlines on top or bottom"
@@ -12671,7 +12624,7 @@ msgstr ""
 
 #: ../src/wbcg-actions.c:2036
 msgid "Outlines _Right"
-msgstr "Umriss _Rechts"
+msgstr "Umriss _rechts"
 
 #: ../src/wbcg-actions.c:2037
 msgid "Toggle whether to display column outlines on the left or right"
@@ -12962,41 +12915,41 @@ msgstr ""
 "Im Menü »%s« wird die Zugriffstaste »%s« für »%s« und »%s« gleichermaßen "
 "verwendet."
 
-#: ../src/wbc-gtk.c:1198
+#: ../src/wbc-gtk.c:1201
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "Werkzeugleiste %s anzeigen/verbergen"
 
-#: ../src/workbook.c:441
+#: ../src/workbook.c:429
 #, c-format
 msgid "Book%d.%s"
 msgstr "Buch%d.%s"
 
-#: ../src/workbook.c:1312
+#: ../src/workbook.c:1288
 msgid "Sheet name is NULL"
 msgstr "Blattname ist NULL."
 
-#: ../src/workbook.c:1321
+#: ../src/workbook.c:1297
 msgid "Sheet name is not valid utf-8"
 msgstr "Blattname ist ungültiges UTF-8."
 
-#: ../src/workbook.c:1329
+#: ../src/workbook.c:1305
 msgid "Sheet name must have at least 1 letter"
 msgstr "Der Name des Blatts muss mindestens aus einem Buchstaben bestehen."
 
-#: ../src/workbook.c:1351
+#: ../src/workbook.c:1327
 msgid "There is already a sheet named"
 msgstr "Es gibt bereits ein Blatt mit Namen"
 
-#: ../src/workbook.c:1363
+#: ../src/workbook.c:1339
 msgid "You may not use this name twice"
 msgstr "Sie dürfen diesen Namen nicht zweimal verwenden"
 
-#: ../src/workbook-control.c:253
+#: ../src/workbook-control.c:255
 msgid "Define Name"
 msgstr "Namen festlegen"
 
-#: ../src/workbook-control.c:274
+#: ../src/workbook-control.c:276
 msgid "Address"
 msgstr "Adresse"
 
@@ -13179,15 +13132,15 @@ msgstr "Zwischenablage hat ein unbekanntes Format"
 msgid "Processing file..."
 msgstr "Datei wird eingelesen..."
 
-#: ../src/xml-io.c:4027
+#: ../src/xml-io.c:4020
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Die Datei ist keine Gnumeric-Arbeitsbuch-Datei"
 
-#: ../src/xml-io.c:4064
+#: ../src/xml-io.c:4057
 msgid "Failure saving file"
 msgstr "Datei konnte nicht gespeichert werden"
 
-#: ../src/xml-io.c:4112
+#: ../src/xml-io.c:4105
 msgid "Gnumeric XML (*.gnumeric) original slow exporter"
 msgstr "Gnumeric XML (*.gnumeric) ursprünglicher, langsamer Export"
 
@@ -13379,6 +13332,42 @@ msgstr "Lilafarbene Listenvorlage"
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:1
 msgid "A simple list template"
 msgstr "Eine einfache Listenvorlage"
+
+#~ msgid "Unknown GB error"
+#~ msgstr "Unbekannter GB-Fehler"
+
+#~ msgid "Error initializing gb '%s'"
+#~ msgstr "Fehler bei der gb-Initialisierung »%s«"
+
+#~ msgid "Error in project '%s'"
+#~ msgstr "Fehler in Projekt »%s«"
+
+#~ msgid "Enables Gnome Basic support"
+#~ msgstr "Unterstützung von GNOME Basic"
+
+#~ msgid "Gnome Basic"
+#~ msgstr "GNOME Basic"
+
+#~ msgid "Guile error"
+#~ msgstr "Guile-Fehler"
+
+#~ msgid "Guile Plugin"
+#~ msgstr "Guile-Plugin"
+
+#~ msgid "This plugin enables Guile(scheme) support in Gnumeric"
+#~ msgstr "Dieses Plugin aktiviert Guile-Unterstützung (Scheme) in Gnumeric"
+
+#~ msgid "Unable to convert value from Guile"
+#~ msgstr "Wert von Guile konnte nicht importiert werden"
+
+#~ msgid "Not a Guile boolean"
+#~ msgstr "Kein Guile-Boolean"
+
+#~ msgid "Not a Guile number"
+#~ msgstr "Keine Guile-Zahl"
+
+#~ msgid "Not a Guile string"
+#~ msgstr "Kein Guile-String"
 
 #~ msgid "Not a valid UTF-8 filename."
 #~ msgstr "Kein gültiger UTF-8-Dateiname."
