@@ -1,3 +1,8 @@
+2000-05-29  Jody Goldberg <jgoldberg@home.com>
+
+	* POTFILES.in : src/command-context.c, src/cmd-edit.c, and
+	  src/dialogs/dialog-workbook-attr.c
+
 2000-05-28  Karl Eichwalder  <ke@suse.de>
 
 	* de.po: Update.
