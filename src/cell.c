@@ -201,6 +201,8 @@ cell_set_font_from_style (Cell *cell, StyleFont *style_font)
 	cell_queue_redraw (cell);
 }
 
+#if 0
+/* Ready for deletion?  */
 static void
 cell_set_font (Cell *cell, const char *font_name, double points)
 {
@@ -221,6 +223,7 @@ cell_set_font (Cell *cell, const char *font_name, double points)
 	if (style_font)
 		cell_set_font_from_style (cell, style_font);
 }
+#endif
 
 void
 cell_set_style (Cell *cell, Style *reference_style)

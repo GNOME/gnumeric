@@ -1,5 +1,10 @@
 1999-08-05  Morten Welinder  <terra@diku.dk>
 
+	* src/cell.c (cell_set_font): Obsolete -- #if 0 for now.
+
+	* src/cell.h: Remove now-static cell_formula_changed,
+ 	calc_text_dimensions, and cell_set_font.
+
 	* src/dialog-analysis-tools.c (add_output_frame): Plug leak.
 
 1999-08-05  Michael Meeks  <michael@imaginator.com>

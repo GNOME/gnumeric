@@ -129,7 +129,6 @@ void        cell_set_array_formula       (Sheet *sheet, int rowa, int cola,
 void        cell_set_format              (Cell *cell, const char *format);
 void        cell_set_format_simple       (Cell *cell, const char *format);
 void        cell_set_format_from_style   (Cell *cell, StyleFormat *style_format);
-void        cell_set_font                (Cell *cell, const char *font_name, double points);
 void        cell_set_style               (Cell *cell, Style *reference_style);
 void        cell_set_comment             (Cell *cell, const char *str);
 void        cell_comment_destroy         (Cell *cell);
@@ -161,7 +160,6 @@ void        cell_render_value            (Cell *cell);
 void        cell_calc_dimensions         (Cell *cell);
 Cell       *cell_copy                    (const Cell *cell);
 void        cell_destroy                 (Cell *cell);
-void        cell_formula_changed         (Cell *cell);
 void        cell_queue_redraw            (Cell *cell);
 int         cell_get_horizontal_align    (const Cell *cell);
 int	    cell_is_number  		 (const Cell *cell);
@@ -169,9 +167,6 @@ int	    cell_is_number  		 (const Cell *cell);
 int         cell_draw                    (Cell *cell, SheetView *sheet_view,
 					  GdkGC *gc, GdkDrawable *drawable,
 					  int x, int y);
-
-void        calc_text_dimensions         (int is_number, Style *style, const char *text,
-					  int cell_w, int cell_h, int *h, int *w);
 
 void        cell_realize                 (Cell *cell);
 void        cell_unrealize               (Cell *cell);
