@@ -2118,10 +2118,12 @@ opt_fixed_strk_lkbk(FunctionEvalInfo *ei, GnmValue *argv[])
 	gnm_float d1, d2;
 	gnm_float e1, e2, m;
 
-	if(OS_Call == call_put_flag)
+	if (OS_Call == call_put_flag)
 		m = s_max;
-	else if(OS_Put == call_put_flag)
+	else if (OS_Put == call_put_flag)
 		m = s_min;
+	else
+		return value_new_error_VALUE (ei->pos);
 
 	d1 = (gnm_log(s / x) + (b + (v * v) / 2.0) * t) / (v * gnm_sqrt(t));
 	d2 = d1 - v * gnm_sqrt(t);
