@@ -1,3 +1,10 @@
+2000-01-26  Jon K Hellan  <hellan@acm.org>
+
+	* src/item-cursor.c (item_cursor_draw): Clip to bounds of
+	drawable.  Avoid guint16 overflow during line drawing. Do the
+	right thing when autofill handle is at top of viewport.
+	Use explicit lower right coordinate for cursor.
+	
 2000-01-26  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-view.c (sheet_view_set_zoom_factor) : Keep the cursor in

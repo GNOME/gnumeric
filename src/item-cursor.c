@@ -22,6 +22,7 @@ static GnomeCanvasItem *item_cursor_parent_class;
 static void item_cursor_request_redraw (ItemCursor *item_cursor);
 
 #define AUTO_HANDLE_SPACE	5
+#define CLIP_SAFETY_MARGIN      (AUTO_HANDLE_SPACE + 5)
 #define IS_LITTLE_SQUARE(item,x,y) \
 	(((x) > (item)->canvas_item.x2 - 6) && \
 	 ((item->auto_fill_handle_at_top && ((y) < (item)->canvas_item.y1 + 6)) || \
@@ -173,18 +174,28 @@ item_cursor_configure_bounds (ItemCursor *item_cursor)
 	gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
 }
 
+/*
+ * item_cursor_draw
+ *
+ * Draw an item of this type.  (x, y) are the upper-left canvas pixel
+ * coordinates of the drawable, a temporary pixmap, where things get
+ * drawn.  (width, height) are the dimensions of the drawable.
+ *
+ * In other words - a clipping region.
+ */
 static void
 item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width, int height)
 {
 	ItemCursor *item_cursor = ITEM_CURSOR (item);
-	int xd, yd, dx, dy;
+	int xd, yd, dx0, dy0, dx1, dy1;
 	int cursor_width, cursor_height, w, h;
 	GdkPoint points [40];
 	int draw_external, draw_internal, draw_handle;
 	int draw_stippled, draw_center, draw_thick;
 	int premove = 0;
 	GdkColor *fore = NULL, *back = NULL;
-
+	GdkRectangle clip_rect;
+	
 	if (!item_cursor->visible)
 		return;
 
@@ -202,9 +213,12 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 		item_cursor_configure_bounds (item_cursor);
 	}
 
-	dx = xd - x;
-	dy = yd - y;
-
+	/* Top left and bottom right corner of cursor, in pixmap coordinates */
+	dx0 = xd - x;
+	dy0 = yd - y;
+	dx1 = dx0 + cursor_width;
+	dy1 = dy0 + cursor_height;
+	
 	draw_external = 0;
 	draw_internal = 0;
 	draw_handle   = 0;
@@ -226,11 +240,12 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 		draw_internal = 1;
 		draw_external = 1;
 		{
-			GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_cursor);
 			GnumericSheet   *gsheet = GNUMERIC_SHEET (item->canvas);
 			if (item_cursor->pos.end.row <= gsheet->row.last_full)
 				draw_handle = 1;
-			else if (item_cursor->pos.start.row != 0)
+			else if (item_cursor->pos.start.row < gsheet->row.first)
+				draw_handle = 0;
+			else if (item_cursor->pos.start.row != gsheet->row.first)
 				draw_handle = 2;
 			else
 				draw_handle = 3;
@@ -254,6 +269,21 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 
 	item_cursor->auto_fill_handle_at_top = (draw_handle >= 2);
 
+	clip_rect.x = 0;
+	clip_rect.y = 0;
+	clip_rect.width = width;
+	clip_rect.height= height;
+	gdk_gc_set_clip_rectangle (item_cursor->gc, &clip_rect);
+
+	/* Avoid guint16 overflow during line drawing.  We can change
+	 * the shape we draw, so long as no lines or parts of
+	 * rectangles are moved from outside to inside the clipping
+	 * region */
+	dx0 = MAX (dx0, - CLIP_SAFETY_MARGIN);
+	dy0 = MAX (dy0, - CLIP_SAFETY_MARGIN);
+	dx1 = MIN (dx1, width + CLIP_SAFETY_MARGIN);
+	dy1 = MIN (dy1, height + CLIP_SAFETY_MARGIN);
+
 	gdk_gc_set_line_attributes (item_cursor->gc, 1,
 				    GDK_LINE_SOLID, -1, -1);
 	gdk_gc_set_foreground (item_cursor->gc, &gs_black);
@@ -266,15 +296,15 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 
 		/* No auto handle */
 		case 0 :
-			points [0].x = dx + cursor_width + 1;
-			points [0].y = dy + cursor_height + 1 - premove;
+			points [0].x = dx1 + 1;
+			points [0].y = dy1 + 1 - premove;
 			points [1].x = points [0].x;
-			points [1].y = dy - 1;
-			points [2].x = dx - 1;
-			points [2].y = dy - 1;
-			points [3].x = dx - 1;
-			points [3].y = dy + cursor_height + 1;
-			points [4].x = dx + cursor_width + 1 - premove;
+			points [1].y = dy0 - 1;
+			points [2].x = dx0 - 1;
+			points [2].y = dy0 - 1;
+			points [3].x = dx0 - 1;
+			points [3].y = dy1 + 1;
+			points [4].x = dx1 + 1 - premove;
 			points [4].y = points [3].y;
 			break;
 
@@ -284,15 +314,15 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 
 		/* Auto handle at top of sheet */
 		case 3 :
-			points [0].x = dx + cursor_width + 1;
-			points [0].y = dy - 1 + AUTO_HANDLE_SPACE;
+			points [0].x = dx1 + 1;
+			points [0].y = dy0 - 1 + AUTO_HANDLE_SPACE;
 			points [1].x = points [0].x;
-			points [1].y = dy + cursor_height + 1;
-			points [2].x = dx - 1;
+			points [1].y = dy1 + 1;
+			points [2].x = dx0 - 1;
 			points [2].y = points [1].y;
 			points [3].x = points [2].x;
-			points [3].y = dy - 1;
-			points [4].x = dx + cursor_width + 1 - premove;
+			points [3].y = dy0 - 1;
+			points [4].x = dx1 + 1 - premove;
 			points [4].y = points [3].y;
 			break;
 
@@ -326,31 +356,31 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 	}
 
 	if (draw_handle == 1 || draw_handle == 2) {
-		int const y_off = (draw_handle == 1) ? cursor_height : 0;
+		int const y_off = (draw_handle == 1) ? dy1 - dy0 : 0;
 		gdk_draw_rectangle (drawable, item_cursor->gc, TRUE,
-				    dx + cursor_width - 2,
-				    dy + y_off - 2,
+				    dx1 - 2,
+				    dy0 + y_off - 2,
 				    2, 2);
 		gdk_draw_rectangle (drawable, item_cursor->gc, TRUE,
-				    dx + cursor_width + 1,
-				    dy + y_off - 2,
+				    dx1 + 1,
+				    dy0 + y_off - 2,
 				    2, 2);
 		gdk_draw_rectangle (drawable, item_cursor->gc, TRUE,
-				    dx + cursor_width - 2,
-				    dy + y_off + 1,
+				    dx1 - 2,
+				    dy0 + y_off + 1,
 				    2, 2);
 		gdk_draw_rectangle (drawable, item_cursor->gc, TRUE,
-				    dx + cursor_width + 1,
-				    dy + y_off + 1,
+				    dx1 + 1,
+				    dy0 + y_off + 1,
 				    2, 2);
 	} else if (draw_handle == 3) {
 		gdk_draw_rectangle (drawable, item_cursor->gc, TRUE,
-				    dx + cursor_width - 2,
-				    dy + 1,
+				    dx1 - 2,
+				    dy0 + 1,
 				    2, 4);
 		gdk_draw_rectangle (drawable, item_cursor->gc, TRUE,
-				    dx + cursor_width + 1,
-				    dy + 1,
+				    dx1 + 1,
+				    dy0 + 1,
 				    2, 4);
 	}
 
@@ -369,8 +399,8 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 		}
 
 		gdk_draw_rectangle (drawable, item_cursor->gc, FALSE,
-				    dx, dy,
-				    cursor_width, cursor_height);
+				    dx0, dy0,
+				    dx1 - dx0, dy1 - dy0);
 	}
 }
 
