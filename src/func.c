@@ -244,6 +244,47 @@ function_add_nodes (FunctionCategory *category,
 	return fndef;
 }
 
+/* Handle unknown functions on import without losing their names */
+static Value *
+unknownFunctionHandler (FunctionEvalInfo *ei, GList *expr_node_list)
+{
+	return value_new_error (ei->pos, gnumeric_err_NAME);
+}
+
+/*
+ * When importing it is useful to keep track of unknown function names.
+ * We may be missing a plugin or something similar.
+ *
+ * TODO : Eventully we should be able to keep track of these
+ *        and replace them with something else.  Possibly even reordering the
+ *        arguments.
+ */
+FunctionDefinition *
+function_add_placeholder (char const *name, char const *type)
+{
+	FunctionCategory *cat;
+	FunctionDefinition *func = func_lookup_by_name (name, NULL);
+
+	g_return_val_if_fail (func == NULL, func);
+
+	cat = function_get_category (_("Unknown Function"));
+
+	/*
+	 * TODO TODO TODO : should add a
+	 *    function_add_{nodes,args}_fake
+	 * This will allow a user to load a missing
+	 * plugin to supply missing functions.
+	 */
+	func = function_add_nodes (cat, g_strdup (name),
+				   "", "...", NULL,
+				   &unknownFunctionHandler);
+
+	/* WISHLIST : it would be nice to have a log if these. */
+	g_warning ("Unknown %sfunction : %s", type, name);
+
+	return func;
+}
+
 gpointer
 function_def_get_user_data (const FunctionDefinition *fndef)
 {

@@ -253,19 +253,26 @@ application_workbook_get_by_index (int i)
 	return close.wb;
 }
 
-float
+inline float
 application_display_dpi_get (gboolean const horizontal)
 {
-    return horizontal ? app.horizontal_dpi : app.vertical_dpi;
+	return horizontal ? app.horizontal_dpi : app.vertical_dpi;
 }
 
 void
 application_display_dpi_set (gboolean const horizontal, float const val)
 {
-    if (horizontal)
-	    app.horizontal_dpi  = val;
-    else
-	    app.vertical_dpi = val;
+	if (horizontal)
+		app.horizontal_dpi  = val;
+	else
+		app.vertical_dpi = val;
+}
+
+float
+application_dpi_to_pixels ()
+{
+	return MIN (application_display_dpi_get (FALSE),
+		    application_display_dpi_get (TRUE)) / 72.;
 }
 
 /**

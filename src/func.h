@@ -93,6 +93,7 @@ FunctionDefinition *function_add_nodes	(FunctionCategory *parent,
 					 char const *arg_names,
 					 char **help,
 					 FunctionNodes *fn);
+FunctionDefinition *function_add_placeholder (char const *name, char const *type);
 
 gpointer function_def_get_user_data    (const FunctionDefinition *fndef);
 void     function_def_set_user_data    (FunctionDefinition *fndef,

@@ -189,7 +189,7 @@ expr_parse_string (char const *expr, ParsePos const *pp,
 	ExprTree *tree;
 	g_return_val_if_fail (expr != NULL, NULL);
 
-	switch (gnumeric_expr_parser (expr, pp, TRUE, desired_format, &tree)) {
+	switch (gnumeric_expr_parser (expr, pp, TRUE, FALSE, desired_format, &tree)) {
 	case PARSE_OK:
 		*error_msg = NULL;
 		return tree;

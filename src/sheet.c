@@ -3270,8 +3270,8 @@ sheet_move_range (CommandContext *context,
 }
 
 static void
-col_row_info_init (Sheet *sheet, double pts, int margin_a, int margin_b,
-		   gboolean is_horizontal)
+sheet_col_row_default_init (Sheet *sheet, double units, int margin_a, int margin_b,
+			    gboolean is_horizontal, gboolean is_pts)
 {
 	ColRowInfo *cri = is_horizontal
 	    ? &sheet->cols.default_style
@@ -3283,8 +3283,13 @@ col_row_info_init (Sheet *sheet, double pts, int margin_a, int margin_b,
 	cri->hard_size = FALSE;
 	cri->visible = TRUE;
 	cri->spans = NULL;
-	cri->size_pts = pts;
-	colrow_compute_pixels_from_pts (sheet, cri, is_horizontal);
+	if (is_pts) {
+		cri->size_pts = units;
+		colrow_compute_pixels_from_pts (sheet, cri, is_horizontal);
+	} else {
+		cri->size_pixels = units;
+		colrow_compute_pts_from_pixels (sheet, cri, is_horizontal);
+	}
 }
 
 /************************************************************************/
@@ -3434,7 +3439,12 @@ sheet_col_get_default_size_pts (Sheet const *sheet)
 void
 sheet_col_set_default_size_pts (Sheet *sheet, double width_pts)
 {
-	col_row_info_init (sheet, width_pts, 2, 2, TRUE);
+	sheet_col_row_default_init (sheet, width_pts, 2, 2, TRUE, TRUE);
+}
+void
+sheet_col_set_default_size_pixels (Sheet *sheet, int width_pixels)
+{
+	sheet_col_row_default_init (sheet, width_pixels, 2, 2, TRUE, FALSE);
 }
 
 /**************************************************************************/
@@ -3641,7 +3651,17 @@ sheet_row_set_default_size_pts (Sheet *sheet, double height_pts,
 	/* Why XL chooses to be asymetric I don't know */
 	int const a = thick_a ? 2 : 1;
 	int const b = thick_b ? 1 : 0;
-	col_row_info_init (sheet, height_pts, a, b, FALSE);
+	sheet_col_row_default_init (sheet, height_pts, a, b, FALSE, TRUE);
+}
+void
+sheet_row_set_default_size_pixels (Sheet *sheet, int height_pixels,
+				   gboolean thick_a, gboolean thick_b)
+{
+	/* There are an addition few pixels above due the the fonts ascent */
+	/* Why XL chooses to be asymetric I don't know */
+	int const a = thick_a ? 2 : 1;
+	int const b = thick_b ? 1 : 0;
+	sheet_col_row_default_init (sheet, height_pixels, a, b, FALSE, FALSE);
 }
 
 void

@@ -333,7 +333,7 @@ dialog_cell_sort_ok (SortFlow *sf)
 				if (sf->header) {
 					division = divstart + string_pos_in_list(txt, sf->colnames_header);
 				} else {
-					division = col_from_name(txt);
+					division = parse_col_name (txt, NULL);
 				}
 			} else {
 				if (sf->header) {

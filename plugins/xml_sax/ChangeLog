@@ -1,0 +1,5 @@
+2000-07-07  Jody Goldberg <jgoldberg@home.com>
+
+	* xml2.c (xml2ParseStyleRegionBorders) : Make border color is optional
+	  for style STYLE_BORDER_NONE.
+

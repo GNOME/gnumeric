@@ -147,9 +147,12 @@ cellref_a1_get (CellRef *out, const char *in, CellPos const *pos)
 }
 
 static gboolean
-r1c1_get_item (int *num, unsigned char *rel, const char * *const in)
+r1c1_get_item (int *num, unsigned char *rel, char const * *in)
 {
 	gboolean neg = FALSE;
+
+	if (**in == '\0')
+		return FALSE;
 
 	if (**in == '[') {
 		(*in)++;
@@ -192,21 +195,19 @@ cellref_r1c1_get (CellRef *out, const char *in, CellPos const *pos)
 	out->row = pos->row;
 	out->sheet = NULL;
 
-	if (!*in)
+	if (*in == 'R') {
+		in++;
+		if (!r1c1_get_item (&out->row, &out->row_relative, &in))
+			return FALSE;
+	} else
 		return FALSE;
 
-	while (*in) {
-		if (*in == 'R') {
-			in++;
-			if (!r1c1_get_item (&out->row, &out->row_relative, &in))
-				return FALSE;
-		} else if (*in == 'C') {
-			in++;
-			if (!r1c1_get_item (&out->col, &out->col_relative, &in))
-				return FALSE;
-		} else
+	if (*in == 'C') {
+		in++;
+		if (!r1c1_get_item (&out->col, &out->col_relative, &in))
 			return FALSE;
-	}
+	} else
+		return FALSE;
 
 	out->col--;
 	out->row--;
@@ -305,22 +306,32 @@ col_name (int col)
  * Converts a column name into an integer
  **/
 int
-col_from_name (const char *cell_str)
+parse_col_name (const char *cell_str, const char **endptr)
 {
 	char c;
 	int col = 0;
 
+	if (endptr)
+		*endptr = cell_str;
+
 	c = toupper ((unsigned char)*cell_str++);
 	if (c < 'A' || c > 'Z')
-		return FALSE;
+		return 0;
+
 	col = c - 'A';
 	c = toupper ((unsigned char)*cell_str);
-	if (c >= 'A' && c <= 'Z')
+	if (c >= 'A' && c <= 'Z') {
 		col = ((col + 1) * ('Z' - 'A' + 1)) + (c - 'A');
+		cell_str++;
+	}
+
 	if (col >= SHEET_MAX_COLS)
-		return FALSE;
-	else
-		return col;
+		return 0;
+
+	if (endptr)
+		*endptr = cell_str;
+
+	return col;
 }
 
 /*

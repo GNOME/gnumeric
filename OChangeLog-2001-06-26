@@ -1,3 +1,45 @@
+2000-07-09  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_col_row_default_init) : Take units in pixels or
+	  points.
+	(sheet_{col,row}_set_default_size_pixels) : new functions.  This
+	  interface sucks.  Clean it up.
+
+	* src/parser.y : Optionally insert a place holder when an
+	  unknown function is found.
+
+	* src/func.c (function_add_placeholder) : New function, moved from the
+	  XL import code.
+
+	* src/expr.c (expr_parse_string) : gnumeric_expr_parser signature
+	  change.
+	* src/workbook.c (workbook_set_auto_expr) : Ditto.
+
+	* src/application.c (application_dpi_to_pixels) : New function.
+	* src/item-bar.c (item_bar_fonts_init) : Use it here.
+	* src/sheet-view.c (sheet_view_get_style_font) : And here.
+	* src/style.c (font_init) : and here.
+
+2000-07-08  Jody Goldberg <jgoldberg@home.com>
+
+	* src/parse-util.c (cellref_r1c1_get) : Make stricter.
+	(r1c1_get_item) : Ditto.
+
+2000-07-08  Jody Goldberg <jgoldberg@home.com>
+
+	* plugins/Makefile.am (SUBDIRS) : Enable applix.
+
+2000-07-08  Jody Goldberg <jgoldberg@home.com>
+
+	* src/parse-util.c (col_from_name) : Add optional arg to indicate
+	  where parsing stoped.  Similar to strtod.
+
+2000-07-07  Jody Goldberg <jgoldberg@home.com>
+
+	* src/xml-io.c (xml_write_style_border) : Trivial optimization.  No
+	  need to save colour for STYLE_BORDER_NONE.
+	(xml_read_style_border) : Ditto.
+
 2000-07-08  Morten Welinder  <terra@diku.dk>
 
 	* src/sheet.c (sheet_cell_foreach_range): Change traversal order

@@ -88,8 +88,7 @@ item_bar_fonts_init (ItemBar *item_bar)
 {
 	double const zoom_factor =
 		item_bar->sheet_view->sheet->last_zoom_factor_used;
-	double const res    = MIN(application_display_dpi_get (FALSE), 
-				  application_display_dpi_get (TRUE)) / 72.;
+	double const res  = application_dpi_to_pixels ();
 	StyleFont * const normal_font =
 		style_font_new_simple (DEFAULT_FONT, DEFAULT_SIZE,
 				       res*zoom_factor, FALSE, FALSE);

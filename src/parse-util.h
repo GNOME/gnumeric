@@ -7,7 +7,6 @@
  * Names
  */
 const char *col_name                 (int col);
-int         col_from_name            (const char *cell_str);
 
 char        *cellref_name            (CellRef const *cell_ref,
 				      ParsePos const *pp, gboolean no_sheetname);
@@ -23,6 +22,7 @@ const char *cell_pos_name	     (CellPos const *pos);
 const char *cell_name                (Cell const *cell);
 
 /* Various parsing routines */
+int         parse_col_name           (const char *cell_str, const char **endptr);
 gboolean    parse_cell_name          (const char *cell_str, int *col, int *row,
 				      gboolean strict, int *chars_read);
 gboolean    parse_cell_name_or_range (const char *cell_str, int *col, int *row,
@@ -49,6 +49,7 @@ typedef enum {
 ParseErr    gnumeric_expr_parser   (const char *expr,
 				    const ParsePos *pp,
 				    gboolean use_excel_range_conventions,
+				    gboolean create_place_holder_for_unknown_func,
 				    StyleFormat **desired_format,
 				    ExprTree **result);
 

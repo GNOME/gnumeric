@@ -1,6 +1,4 @@
-/* vim: set sw=8:
- * $Id$
- */
+/* vim: set sw=8: */
 
 /*
  * xml2.c : a test harness for the sax based xml parse routines.
@@ -718,6 +716,7 @@ xml2ParseStyleRegionBorders (XML2ParseState *state, CHAR const **attrs)
 
 	g_return_if_fail (state->style != NULL);
 
+	/* Colour is optional */
 	for (; attrs[0] && attrs[1] ; attrs += 2) {
 		if (xml2ParseAttrColour (attrs, "Color", &colour)) ;
 		else if (xml2ParseAttrInt (attrs, "Style", &pattern)) ;
@@ -725,14 +724,13 @@ xml2ParseStyleRegionBorders (XML2ParseState *state, CHAR const **attrs)
 			xml2UnknownAttr (state, attrs, "StyleBorder");
 	}
 
-	if (colour != NULL && pattern >= 0) {
+	if (pattern >= STYLE_BORDER_NONE) {
 		MStyleElementType const type = MSTYLE_BORDER_TOP +
 			state->state - STATE_BORDER_TOP;
 		MStyleBorder *border =
 			style_border_fetch ((StyleBorderType)pattern, colour,
 					    style_border_get_orientation (type));
-		if (border)
-			mstyle_set_border (state->style, type, border);
+		mstyle_set_border (state->style, type, border);
 	}
 }
 

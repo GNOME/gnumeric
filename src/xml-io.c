@@ -808,8 +808,9 @@ xml_write_style_border (XmlParseContext *ctxt,
  			side = xmlNewChild (cur, ctxt->ns,
 					    StyleSideNames [i - MSTYLE_BORDER_TOP],
  					    NULL);
- 			xml_set_color_value (side, "Color", col);
 			xml_set_value_int (side, "Style", t);
+			if (t != STYLE_BORDER_NONE)
+				xml_set_color_value (side, "Color", col);
  		}
 	}
 	return cur;
@@ -837,11 +838,11 @@ xml_read_style_border (XmlParseContext *ctxt, xmlNodePtr tree, MStyle *mstyle)
 			StyleColor      *color = NULL;
 			MStyleBorder    *border;
 			xml_get_value_int (side, "Style", &t);
-			xml_get_color_value (side, "Color", &color);
+			if (t != STYLE_BORDER_NONE)
+				xml_get_color_value (side, "Color", &color);
 			border = style_border_fetch ((StyleBorderType)t, color,
 						     style_border_get_orientation (i));
-			if (border)
-				mstyle_set_border (mstyle, i, border);
+			mstyle_set_border (mstyle, i, border);
  		}
 	}
 }

@@ -2053,7 +2053,7 @@ workbook_set_auto_expr (Workbook *wb,
 
 	res = gnumeric_expr_parser (expression,
 				    parse_pos_init (&pp, wb, NULL, 0, 0),
-				    TRUE, NULL, &wb->auto_expr);
+				    TRUE, FALSE, NULL, &wb->auto_expr);
 
 	g_assert (res == PARSE_OK);
 

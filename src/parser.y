@@ -205,6 +205,7 @@ static char parser_decimal_point;
 static char parser_separator;
 static char parser_array_col_separator;
 static gboolean parser_use_excel_reference_conventions;
+static gboolean parser_create_place_holder_for_unknown_func;
 
 static ExprTree **parser_result;
 
@@ -379,20 +380,24 @@ exp:	  CONSTANT 	{ $$ = $1; }
 	}
 
 	| STRING '(' arg_list ')' {
-		FunctionDefinition *func = func_lookup_by_name (
-			$1->constant.value->v_str.val->str,
+		char *name = $1->constant.value->v_str.val->str;
+		FunctionDefinition *f = func_lookup_by_name (name,
 			parser_pos->wb);
+
+		/* THINK TODO : Do we want to make this workbook local ?? */
+		if (f == NULL && parser_create_place_holder_for_unknown_func)
+			f = function_add_placeholder (name, "");
 
 		unregister_allocation ($3);
 		unregister_allocation ($1); expr_tree_unref ($1);
 
-		if (func == NULL) {
+		if (f == NULL) {
 			/* TODO : Get rid of ParseErr and replace it with something richer. */
 			parser_error = PARSE_ERR_SYNTAX;
-                        return ERROR;
+			return ERROR;
 		}
 
-		$$ = register_expr_allocation (expr_tree_new_funcall (func, $3));
+		$$ = register_expr_allocation (expr_tree_new_funcall (f, $3));
 	}
 	| sheetref string_opt_quote {
 		NamedExpression *expr_name;
@@ -758,6 +763,7 @@ yyerror (char *s)
 ParseErr
 gnumeric_expr_parser (const char *expr, const ParsePos *pp,
 		      gboolean use_excel_range_conventions,
+		      gboolean create_place_holder_for_unknown_func,
 		      StyleFormat **desired_format, ExprTree **result)
 {
 	struct lconv *locinfo;
@@ -776,6 +782,7 @@ gnumeric_expr_parser (const char *expr, const ParsePos *pp,
 		*parser_desired_format = NULL;
 
 	parser_use_excel_reference_conventions = use_excel_range_conventions;
+	parser_create_place_holder_for_unknown_func = create_place_holder_for_unknown_func;
 
 	locinfo = localeconv ();
 	if (locinfo->decimal_point && locinfo->decimal_point[0] &&

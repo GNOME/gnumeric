@@ -425,8 +425,7 @@ color_hash (gconstpointer v)
 static void
 font_init (void)
 {
-	double const scale = MIN (application_display_dpi_get (TRUE),
-				  application_display_dpi_get (FALSE)) / 72.;
+	double const scale  = application_dpi_to_pixels ();
 	gnumeric_default_font = style_font_new_simple (DEFAULT_FONT, DEFAULT_SIZE,
 						       scale, FALSE, FALSE);
 

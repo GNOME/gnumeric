@@ -26,6 +26,7 @@ void 	     application_history_write_config 	(void);
 
 float	     application_display_dpi_get (gboolean const horizontal);
 void 	     application_display_dpi_set (gboolean const horizontal, float const);
+float	     application_dpi_to_pixels ();
 
 gboolean     application_use_auto_complete_get (void);
 void         application_use_auto_complete_set (gboolean use_auto_complete);
