@@ -108,10 +108,7 @@ function_dump_defs (char const *filename)
 
 	for (i = 0; i < ordered->len; i++) {
 		FunctionDefinition const *fd = g_ptr_array_index (ordered, i);
-		if (fd->fn_type == FUNCTION_ARGS)
-			fprintf (output_file, "%s : %s\n",
-				 fd->name,
-				 fd->fn.args.arg_types);
+		fprintf (output_file, "%s\n\n", _( *(fd->help) ) );
 	}
 
 	g_ptr_array_free (ordered,TRUE);

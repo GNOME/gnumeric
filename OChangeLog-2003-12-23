@@ -1,3 +1,7 @@
+2002-09-22  Jon K Hellan  <hellan@acm.org>
+
+	* src/func.c (function_dump_defs): Re-enable function doc dumping.
+
 2002-09-22  Jody Goldberg <jody@gnome.org>
 
 	* src/parse-util.c (col_parse) : doh!
