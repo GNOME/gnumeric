@@ -1,3 +1,18 @@
+2004-08-27  Jon K Hellan  <hellan@acm.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=151152
+	
+	* src/workbook-control-gui.c (wbcg_close_if_user_permits): Define
+	responses GNM_RESPONSE_SAVE_ALL, GNM_RESPONSE_DISCARD_ALL. These
+	are negative, to work with druid logic in gnumeric_dialog_run.
+
+2004-08-26  Jon K Hellan  <hellan@acm.org>
+
+	* src/gui-file.c (gui_wb_view_show): New. Factored out of
+	gui_file_read. Show  view in a wbcg. Use current or new wbcg
+	according to policy. 
+	(gui_file_read): Use it.
+
 2004-08-26  Morten Welinder  <terra@gnome.org>
 
 	* src/wbcg-actions.c (cb_help_bug, cb_help_web): Do something

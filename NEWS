@@ -57,6 +57,8 @@ Jon Kåre:
 	* Add format chooser to 'Save As' dialog for images and graphs.
 	* Resurrect the Psion Sheet importer.
 	* Fix file drag from nautilus -> gnumeric.
+	* Fix "Save changes?" bug.
+	http://bugzilla.gnome.org/show_bug.cgi?id=151152
 
 Morten:
 	* Add Ctrl-5 for strike-through.

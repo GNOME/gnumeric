@@ -92,6 +92,9 @@
 #include <string.h>
 #include <errno.h>
 
+#define GNM_RESPONSE_SAVE_ALL -1000
+#define GNM_RESPONSE_DISCARD_ALL -1001
+
 #define WBCG_CLASS(o) WORKBOOK_CONTROL_GUI_CLASS (G_OBJECT_GET_CLASS (o))
 #define WBCG_VIRTUAL_FULL(func, handle, arglist, call)		\
 void wbcg_ ## func arglist				\
@@ -1188,11 +1191,11 @@ wbcg_close_if_user_permits (WorkbookControlGUI *wbcg,
 			if (n_of_wb > 1)
 			{
 			  	gnumeric_dialog_add_button (GTK_DIALOG(d), _("Discard all"), 
-							    GTK_STOCK_DELETE, - GTK_RESPONSE_NO);
+							    GTK_STOCK_DELETE, GNM_RESPONSE_DISCARD_ALL);
 				gnumeric_dialog_add_button (GTK_DIALOG(d), _("Discard"), 
 							    GTK_STOCK_DELETE, GTK_RESPONSE_NO);
 				gnumeric_dialog_add_button (GTK_DIALOG(d), _("Save all"), 
-							    GTK_STOCK_SAVE, - GTK_RESPONSE_YES);
+							    GTK_STOCK_SAVE, GNM_RESPONSE_SAVE_ALL);
 				gnumeric_dialog_add_button (GTK_DIALOG(d), _("Don't quit"), 
 							    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 			}
@@ -1222,7 +1225,7 @@ wbcg_close_if_user_permits (WorkbookControlGUI *wbcg,
 			done = gui_file_save (wbcg, wb_view);
 			break;
 
-		case (- GTK_RESPONSE_YES):
+		case GNM_RESPONSE_SAVE_ALL:
 			done = gui_file_save (wbcg, wb_view);
 			break;
 
@@ -1231,7 +1234,7 @@ wbcg_close_if_user_permits (WorkbookControlGUI *wbcg,
 			workbook_set_dirty (wb, FALSE);
 			break;
 
-		case (- GTK_RESPONSE_NO):
+		case GNM_RESPONSE_DISCARD_ALL:
 			done      = TRUE;
 			workbook_set_dirty (wb, FALSE);
 			break;
@@ -1248,9 +1251,9 @@ wbcg_close_if_user_permits (WorkbookControlGUI *wbcg,
 	if (can_close) {
 		workbook_unref (wb);
 		switch (button) {
-		case (- GTK_RESPONSE_YES):
+		case GNM_RESPONSE_SAVE_ALL:
 			return 3;
-		case (- GTK_RESPONSE_NO):
+		case GNM_RESPONSE_DISCARD_ALL:
 			return 4;
 		default:
 			return 1;
@@ -2025,8 +2028,7 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 			if (input != NULL) {
 				wbv = wb_view_new_from_input (input, NULL, ioc, NULL);
 				if (wbv != NULL)
-					wb_control_wrapper_new (WORKBOOK_CONTROL (wbcg),
-						wbv, NULL, NULL);
+					gui_wb_view_show (wbcg, wbv);
 			} else {
 				gnm_cmd_context_error_import (GNM_CMD_CONTEXT (ioc),
 					err->message);

@@ -91,6 +91,33 @@ make_format_chooser (GList *list, GtkComboBox *combo)
 	}
 }
 
+/* Show view in a wbcg. Use current or new wbcg according to policy */
+void
+gui_wb_view_show (WorkbookControlGUI *wbcg, WorkbookView *wbv)
+{
+	WorkbookControlGUI *new_wbcg = NULL;
+	Workbook *tmp_wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+
+	if (workbook_is_pristine (tmp_wb)) {
+		g_object_ref (G_OBJECT (wbcg));
+		workbook_unref (tmp_wb);
+		wb_control_set_view (WORKBOOK_CONTROL (wbcg), wbv, NULL);
+		wb_control_init_state (WORKBOOK_CONTROL (wbcg));
+	} else {
+		GdkScreen *screen = gtk_window_get_screen (wbcg_toplevel (wbcg));
+		WorkbookControl *new_wbc =
+			wb_control_wrapper_new (WORKBOOK_CONTROL (wbcg),
+						wbv, NULL, screen);
+		new_wbcg = WORKBOOK_CONTROL_GUI (new_wbc);
+
+		wbcg_copy_toolbar_visibility (new_wbcg, wbcg);
+	}
+
+	sheet_update (wb_view_cur_sheet	(wbv));
+
+	return new_wbcg ? new_wbcg : wbcg;
+}
+
 gboolean
 gui_file_read (WorkbookControlGUI *wbcg, char const *uri,
 	       GnmFileOpener const *optional_format, gchar const *optional_encoding)
@@ -111,22 +138,7 @@ gui_file_read (WorkbookControlGUI *wbcg, char const *uri,
 	gnm_cmd_context_set_sensitive (GNM_CMD_CONTEXT (wbcg), TRUE);
 
 	if (wbv != NULL) {
-		Workbook *tmp_wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-		if (workbook_is_pristine (tmp_wb)) {
-			g_object_ref (G_OBJECT (wbcg));
-			workbook_unref (tmp_wb);
-			wb_control_set_view (WORKBOOK_CONTROL (wbcg), wbv, NULL);
-			wb_control_init_state (WORKBOOK_CONTROL (wbcg));
-		} else {
-			GdkScreen *screen = gtk_window_get_screen (wbcg_toplevel (wbcg));
-			WorkbookControl *new_wbc =
-				wb_control_wrapper_new (WORKBOOK_CONTROL (wbcg),
-							wbv, NULL, screen);
-			WorkbookControlGUI *new_wbcg = WORKBOOK_CONTROL_GUI (new_wbc);
-			wbcg_copy_toolbar_visibility (new_wbcg, wbcg);
-		}
-
-		sheet_update (wb_view_cur_sheet	(wbv));
+		gui_wb_view_show (wbcg, wbv);
 		return TRUE;
 	}
 	return FALSE;
