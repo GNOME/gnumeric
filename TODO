@@ -9,11 +9,18 @@ GNOME Spread Sheet task list
 
      A4 -> $A$4 -> $A4 -> A$4 -> A4
 
+* Even More Functions
+
+   FORECAST, FTEST, GROWTH, INTERCEPT, LINEST, LOGEST, PERCENTILE,
+   QUARTILE, TREND, TTEST, ERROR.TYPE.
+
+   (This is not a claim that these are all.)
+
 * Cell range naming
 
    Finish implementing.
 
-* Cell dimensio computation is broken on font change for multilines.
+* Cell dimension computation is broken on font change for multilines.
 
 * Number formatting
 
@@ -30,6 +37,10 @@ GNOME Spread Sheet task list
 
 * Auditing
    Write the sheet auditing code.
+
+* Searching
+
+   Searching text on the spreadhseet.
 
 * EDITION
 
@@ -116,5 +127,4 @@ When adding a sheet or renaming a sheet, should we reparse everything?
 
 Perhaps make a global clipboard and remove all the hacks in the
 current clipboard code to find the clipboard.=======
-
 

@@ -11,7 +11,7 @@
 #include "../../src/func.h"
 #include "../../src/plugin.h"
 
-static FuncReturn *
+static Value *
 func_plusone (FunctionEvalInfo *ei, Value *argv [])
 {
 	Value *v = g_new (Value, 1);
@@ -19,7 +19,7 @@ func_plusone (FunctionEvalInfo *ei, Value *argv [])
 	v->type = VALUE_FLOAT;
 	v->v.v_float = value_get_as_float (argv [0]) + 1.0;
 	
-	FUNC_RETURN_VAL(v);
+	return v;
 }
 
 static int

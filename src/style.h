@@ -127,6 +127,8 @@ typedef struct {
 } Style;
 
 void           style_init  	      (void);
+void	       style_shutdown         (void);
+
 Style         *style_new   	      (void);
 void           style_merge_to         (Style *target, Style *source);
 Style         *style_duplicate        (const Style *style);

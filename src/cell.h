@@ -1,6 +1,8 @@
 #ifndef GNUMERIC_CELL_H
 #define GNUMERIC_CELL_H
 
+#include <glib.h>
+
 /* Forward references for structures.  */
 typedef struct _Cell Cell;
 typedef struct _CellRegion CellRegion;

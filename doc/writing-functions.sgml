@@ -2,49 +2,50 @@
 Writing builtin functions for Gnumeric:
 ---------------------------------------
 
-Functions in Gnumeric should be registered in the symbol table, to
-register a function you just need to prepare a function definition
-record. 
+Functions in Gnumeric should be registered in a category, to do this
+you must get a category handle:
 
-For example, a simple routine to sum two numbers, you would do:
+FunctionCategory *cat = function_get_category (_("My functions"));
 
-char *help_add2numbers = "ADD2NUMBERS: Adds two numbers";
+If the category already exists it will be returned, otherwise a new
+category will be created. Then, you will have to add your functions
+individualy to the category. For example, a simple routine to sum
+two numbers, you would do:
 
-FunctionDefinition add_two_numbers = 
-{ "add2numers", "ff", "number1,number2", help_add2numbers, NULL, add2numbers }
+        char *help_add2numbers = "ADD2NUMBERS: Adds two numbers";
 
-The first C declaration defines the HELP associated with this
+This C declaration defines the HELP associated with this
 function.
 
-The second declaration is our function definition record:  the name of
-the function is the first parameter (this is how the function will be
-exposed to Gnumeric), the next parameter tells gnumeric that we are
-expecting two floating point arguments.  The third parameter describes
-the symbolic names for the arguments (in case our function supports
-them, this allows users to specify named paramters); The fourth
-parameter links in the help description.
+        function_add_args (cat, "add2numbers", "ff", "number1,number2",
+	                   help_add2numbers, add2numbers);
+
+[ NB. there are several types of function; more of this later ]
+
+This defines our function, the paramters in order are:
+
+'cat'          The category handle obtained earlier
+'add2numbers'  The function name ( as used in gnumeric )
+'ff'           The argument token type string, this tells gnumeric that
+               we are expecting two floating point arguments.
+'number1,...'  Symbolic names for the arguments (in case our function
+               supports them, this allows users to specify named paramters)
+'help_add2..'  This links in the help text
+'add2numbers'  This is the name of the function that gnumeric will call
+               to evaluate the function.
 
 Now, our routine is pretty simple: it will always require two arguments
 to be passed, so we can let Gnumeric deal with argument count and we
 can let the Gnumeric engine compute the values in the expression for
-us.  So, for this case we leave the fift parameter set as NULL and set
-the sixth parameter to point to the function that will do the function
-evaluation. 
-
-Now, to register the function we just do:
-
-register_add2numbers ()
-{
-	symbol_install (global_symbol_table, add_two_numbers.name, 
-			SYMBOL_FUNCTION, &add_two_numbers);
-}
+us. If we had a more complex function we would need to use
+function_add_nodes ( more later ).
 
 When the user calls the function "ADD2NUMBERS" in a Gnumeric
 expression, our routine will be invoked, this is how the add2numbers
 function signature looks like:
 
 static Value *
-add2numbers (FunctionDefinition *fn_def, Value *argv [], char **error_string)
+add2numbers (FunctionEvalInfo *ei, Value *argv [])
 {
 	
 }
@@ -54,17 +55,36 @@ Arguments are passed in the argv array and they contain Value
 structures (look in gnumeric/src/expr.h for the definition of the
 Value structure).
 
-The first parameter, fn_def is a pointer to the FunctionDefinition
-structure that was used to define this function.  This is normally
-ignored, but some functions might want to access this (for example, a
-single function callback might implement various functions and can
-figure how it was invoked by poking at this value)
+The first parameter, ei is a pointer to the FunctionEvalInfo
+structure, this looks like this: ( from expr.h )
 
+struct _FunctionEvalInfo {
+	EvalPosition        pos;
+	ErrorMessage       *error;
+	FunctionDefinition *func_def;
+};
+
+EvalPosition - Position at which the function is being evaluated. 
+ErrorMessage - Standard error passing interface.
+
+NB. Unless you are doing something _extremely_ clever the correct way to
+return an error is thus:
+
+if (foo && bar)
+        return function_error (ei, _("My error"));
+
+FunctionDefinition - This returns a handle to a magic structure that
+                     should not be used. In future this will allow for
+                     extra function attributes to be set. This is normally
+		     ignored, but some functions might want to access this
+		     (for example, a single function callback might implement
+		     various functions and can figure how it was invoked by
+		     poking at this value).
 
 Here is the actual implementation:
 
 static Value *
-add2numbers (FunctionDefinition *fn_def, Value *argv [], char **error_string)
+add2numbers (FunctionEvalPos *ei, Value *argv [])
 {
 	Value *result;
 	float number_a, number_b;
@@ -79,8 +99,7 @@ add2numbers (FunctionDefinition *fn_def, Value *argv [], char **error_string)
 		break;
 
 	default:
-		*error_string = "Invalid argument type";
-		return NULL;
+	        return function_error (ei, "Invalid argument type");
 	}
 
 	switch (argv [1].type){
@@ -93,8 +112,7 @@ add2numbers (FunctionDefinition *fn_def, Value *argv [], char **error_string)
 		break;
 
 	default:
-		*error_string = "Invalid argument type";
-		return NULL;
+	        return function_error (ei, "Invalid argument type");
 	}
 
 	result = value_float (number_a + number_b);
@@ -106,48 +124,29 @@ Note that although typechecking is done in upper layers, both INTEGER
 and FLOAT types are passed through the 'f' function declaration token.
 It is of course good practice to provide a sensible default: case.
 
-If there is an error during the function processing, *error_string
-should be set to the error message describing what went wrong and the
-NULL value should be returned.
+If there is an error during the function processing, the ei->error
+field must be set using an error_message_set* routine, and NULL must
+be returned. Since this is liable to change instead the:
+
+        Value *function_error       (FunctionEvalInfo *fe,
+	        		     char *error_string);     and
+        Value *function_error_alloc (FunctionEvalInfo *fe,
+				     char *error_string);
+
+functions should be used to return errors ( as above ), use the latter if
+you have a particularly flowery error to return:
+
+        return function_error_alloc (ei, g_strdup_printf ("%s (%s), %d",
+	                             "foo", "bar", 2));
 
 Return values and Strings.
 --------------------------
 
-There are a couple of utility functions provided by Gnumeric to create 
-Values: these are value_float and value_int, they take respectively 
-a double and an integer as their first parameter.
-
-Other value types have to be created manually (there is no utility
-function yet).  Sometimes you might want to do something more complex, 
-so you might want as well create the Value yourself even if the result
-is a float or an integer (for performance reasons, reuse reasons, or
-the way your procedure is used), you can use this code snippet to
-create a Value Float as well:
-
-	/* 
-	 * the line below is equivalent to:
-	 * result = (Value *) malloc (sizeof (Value));
-	 *
-	 */
-	result = g_new (Value, 1);
-	result->type = VALUE_FLOAT;
-	result->v.v_float = your_number
-
-Values of type string are created like this:
-
-	Value *value_string;
-
-	value_string = g_new (Value, 1);
-	v->v.str = string_get ("String");
-
-Notice that the field "v.str" is of type (String *) not of type char
-*.  Strings unlike char * are read-only structures, you should under
-no circustance modify the value returned by string_get.  They are
-designed to be shared between various Gnumeric components, so they
-keep a reference count.
-
-When you are done with a String, you should call the string_unref
-routine on the String. 
+There are a several utility functions provided by Gnumeric to create 
+Values: value_new_float, value_new_int, value_new_bool, value_new_string,
+value_new_cellrange. [ the nomenclature is as of different constructors
+for the same class: Value ]. All Values should idealy be created with
+these routines.
 
 
 Functions with some optional arguments
@@ -168,7 +167,8 @@ standard type checking the argument can be specified as optional,
 and if unspecified a NULL will be passed in the appropriate
 argv[] entry. Hence for erf (fn-eng.c):
 
-{ "erf",  "f|f",  "lower,upper", &help_erf, NULL, gnumeric_erf  },
+	function_add_args  (cat, "erf",         "f|f",  "lower,upper",
+		           &help_erf, gnumeric_erf );
 
 	Note "f|f" specifying  'upper' is optional. Any arguments that
 appear after a '|' symbol in the function definition string are
@@ -178,7 +178,7 @@ deemed optional.
 before assuming they are valid hence:
 
 static Value *
-gnumeric_erf (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_erf (FunctionEvalInfo *ei, Value **argv)
 {
 	float_t ans, lower, upper=0.0 ;
 
@@ -206,7 +206,10 @@ the fifth parameter, like this:
 
 char *help_factadd = "Adds all of its arguments";
 
-{ "addall", "", "",  help_addall, addall, NULL }
+	function_add_nodes (cat, "addall", "", "...", &help_addall,
+			    addall);
+
+NB. _add_nodes not _add_all.
 
 We will now implement addall, a function that takes any number and
 kind of arguments: strings, integers, floating point numbers, arrays
@@ -223,17 +226,25 @@ addall (a1:a3,1)		returns 9
 Here is the function signature for addall:
 
 Value *
-addall (void *sheet, GList *expr_node_list, int eval_col, 
-	int eval_row, char **error_string)
+addall (FunctionEvalInfo *ei, GList *expr_node_list)
 
 As usual, this routine would return a newly allocated Value or NULL if
 an error is found (and in that case, error_string would be set to
 point to a message describing the problem).
 
-The first argument points to a (Sheet *) structure, and the second
+The first argument points to the usual EvalInfo structure, and the second
 argument is a linked list (a GList) that contains (ExprTree *) nodes.
 
-The eval_col and eval_row parameters are used to inform the function
+The ei->pos structure can be used to determine position ( as normal )
+
+struct _EvalPosition {
+	Sheet *sheet;
+	int    eval_col;
+	int    eval_row;
+};
+
+'sheet' points to the sheet in which the function is being evaluated.
+The 'eval_col' and 'eval_row' parameters are used to inform the function
 in which context the expression should be evaluated (ie, from which
 cell it is being invoked) and it is used when invoking the expr_eval
 function.

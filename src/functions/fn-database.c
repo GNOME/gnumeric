@@ -5,10 +5,7 @@
  *  Jukka-Pekka Iivonen (iivonen@iki.fi)
  */
 #include <config.h>
-#include <gnome.h>
 #include <math.h>
-#include "gnumeric.h"
-#include "gnumeric-sheet.h"
 #include "utils.h"
 #include "func.h"
 #include "sheet.h"
@@ -346,7 +343,7 @@ static char *help_daverage = {
            "@SEEALSO=DCOUNT")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_daverage (FunctionEvalInfo *ei, Value **argv)
 {
         Value       *database, *criteria;
@@ -362,6 +359,7 @@ gnumeric_daverage (FunctionEvalInfo *ei, Value **argv)
 	field = find_column_of_field(database, argv[1]);
 	if (field < 0)
 		return function_error (ei, gnumeric_err_NUM);
+
 	criterias = parse_database_criteria(database, criteria);
 	if (criterias == NULL)
 		return function_error (ei, gnumeric_err_NUM);
@@ -383,7 +381,7 @@ gnumeric_daverage (FunctionEvalInfo *ei, Value **argv)
 	g_slist_free(cells);
 	free_criterias(criterias);
 
-        FUNC_RETURN_VAL (value_new_float (sum / count));
+        return value_new_float (sum / count);
 }
 
 static char *help_dcount = {
@@ -410,7 +408,7 @@ static char *help_dcount = {
            "@SEEALSO=DAVERAGE")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_dcount (FunctionEvalInfo *ei, Value **argv)
 {
         Value       *database, *criteria;
@@ -446,7 +444,7 @@ gnumeric_dcount (FunctionEvalInfo *ei, Value **argv)
 	g_slist_free(cells);
 	free_criterias(criterias);
 
-        FUNC_RETURN_VAL (value_new_int (count));
+        return value_new_int (count);
 }
 
 static char *help_dcounta = {
@@ -473,7 +471,7 @@ static char *help_dcounta = {
            "@SEEALSO=DCOUNT")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_dcounta (FunctionEvalInfo *ei, Value **argv)
 {
         Value       *database, *criteria;
@@ -506,7 +504,7 @@ gnumeric_dcounta (FunctionEvalInfo *ei, Value **argv)
 	g_slist_free(cells);
 	free_criterias(criterias);
 
-        FUNC_RETURN_VAL (value_new_int (count));
+        return value_new_int (count);
 }
 
 static char *help_dget = {
@@ -538,7 +536,7 @@ static char *help_dget = {
            "@SEEALSO=DCOUNT")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_dget (FunctionEvalInfo *ei, Value **argv)
 {
         Value       *database, *criteria;
@@ -581,7 +579,7 @@ gnumeric_dget (FunctionEvalInfo *ei, Value **argv)
 	if (count > 1)
 		return function_error (ei, gnumeric_err_NUM);
 
-        FUNC_RETURN_VAL (value_new_float (value_get_as_float (cell->value)));
+        return value_new_float (value_get_as_float (cell->value));
 }
 
 static char *help_dmax = {
@@ -608,7 +606,7 @@ static char *help_dmax = {
            "@SEEALSO=DMIN")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_dmax (FunctionEvalInfo *ei, Value **argv)
 {
         Value       *database, *criteria;
@@ -650,7 +648,7 @@ gnumeric_dmax (FunctionEvalInfo *ei, Value **argv)
 	g_slist_free(cells);
 	free_criterias(criterias);
 
-        FUNC_RETURN_VAL (value_new_float (max));
+        return value_new_float (max);
 }
 
 static char *help_dmin = {
@@ -677,7 +675,7 @@ static char *help_dmin = {
            "@SEEALSO=DMAX")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_dmin (FunctionEvalInfo *ei, Value **argv)
 {
         Value       *database, *criteria;
@@ -719,7 +717,7 @@ gnumeric_dmin (FunctionEvalInfo *ei, Value **argv)
 	g_slist_free(cells);
 	free_criterias(criterias);
 
-        FUNC_RETURN_VAL (value_new_float (min));
+        return value_new_float (min);
 }
 
 static char *help_dproduct = {
@@ -746,7 +744,7 @@ static char *help_dproduct = {
            "@SEEALSO=DSUM")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_dproduct (FunctionEvalInfo *ei, Value **argv)
 {
         Value       *database, *criteria;
@@ -764,10 +762,12 @@ gnumeric_dproduct (FunctionEvalInfo *ei, Value **argv)
 		return function_error (ei, gnumeric_err_NUM);
 
 	criterias = parse_database_criteria(database, criteria);
+
 	if (criterias == NULL)
 		return function_error (ei, gnumeric_err_NUM);
 
 	cells = find_cells_that_match(database, field, criterias);
+
 	if (cells == NULL)
 		return function_error (ei, gnumeric_err_NUM);
 
@@ -787,7 +787,7 @@ gnumeric_dproduct (FunctionEvalInfo *ei, Value **argv)
 	g_slist_free(cells);
 	free_criterias(criterias);
 
-        FUNC_RETURN_VAL (value_new_float (product));
+        return value_new_float (product);
 }
 
 static char *help_dstdev = {
@@ -815,7 +815,7 @@ static char *help_dstdev = {
            "@SEEALSO=DSTDEVP")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_dstdev (FunctionEvalInfo *ei, Value **argv)
 {
         Value          *database, *criteria;
@@ -859,7 +859,7 @@ gnumeric_dstdev (FunctionEvalInfo *ei, Value **argv)
 	if (p.N - 1 == 0)
 		return function_error (ei, gnumeric_err_NUM);
 
-        FUNC_RETURN_VAL (value_new_float (sqrt(p.Q / (p.N - 1))));
+        return value_new_float (sqrt(p.Q / (p.N - 1)));
 }
 
 static char *help_dstdevp = {
@@ -887,7 +887,7 @@ static char *help_dstdevp = {
            "@SEEALSO=DSTDEV")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_dstdevp (FunctionEvalInfo *ei, Value **argv)
 {
         Value          *database, *criteria;
@@ -929,7 +929,7 @@ gnumeric_dstdevp (FunctionEvalInfo *ei, Value **argv)
 	if (p.N == 0)
 		return function_error (ei, gnumeric_err_NUM);
 
-        FUNC_RETURN_VAL (value_new_float (sqrt(p.Q / p.N)));
+        return value_new_float (sqrt(p.Q / p.N));
 }
 
 static char *help_dsum = {
@@ -956,7 +956,7 @@ static char *help_dsum = {
            "@SEEALSO=DPRODUCT")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_dsum (FunctionEvalInfo *ei, Value **argv)
 {
         Value       *database, *criteria;
@@ -997,7 +997,7 @@ gnumeric_dsum (FunctionEvalInfo *ei, Value **argv)
 	g_slist_free(cells);
 	free_criterias(criterias);
 
-        FUNC_RETURN_VAL (value_new_float (sum));
+        return value_new_float (sum);
 }
 
 static char *help_dvar = {
@@ -1025,7 +1025,7 @@ static char *help_dvar = {
            "@SEEALSO=DVARP")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_dvar (FunctionEvalInfo *ei, Value **argv)
 {
         Value          *database, *criteria;
@@ -1069,7 +1069,7 @@ gnumeric_dvar (FunctionEvalInfo *ei, Value **argv)
 	if (p.N - 1 == 0)
 		return function_error (ei, gnumeric_err_NUM);
 
-        FUNC_RETURN_VAL (value_new_float (p.Q / (p.N - 1)));
+        return value_new_float (p.Q / (p.N - 1));
 }
 
 static char *help_dvarp = {
@@ -1097,7 +1097,7 @@ static char *help_dvarp = {
            "@SEEALSO=DVAR")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_dvarp (FunctionEvalInfo *ei, Value **argv)
 {
         Value          *database, *criteria;
@@ -1116,10 +1116,12 @@ gnumeric_dvarp (FunctionEvalInfo *ei, Value **argv)
 		return function_error (ei, gnumeric_err_NUM);
 
 	criterias = parse_database_criteria(database, criteria);
+
 	if (criterias == NULL)
 		return function_error (ei, gnumeric_err_NUM);
 
 	cells = find_cells_that_match(database, field, criterias);
+
 	if (cells == NULL)
 		return function_error (ei, gnumeric_err_NUM);
 
@@ -1141,7 +1143,7 @@ gnumeric_dvarp (FunctionEvalInfo *ei, Value **argv)
 	if (p.N == 0)
 		return function_error (ei, gnumeric_err_NUM);
 
-        FUNC_RETURN_VAL ( value_new_float (p.Q / p.N));
+        return  value_new_float (p.Q / p.N);
 }
 
 void

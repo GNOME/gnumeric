@@ -17,22 +17,27 @@ extern void logical_functions_init(void);
 extern void database_functions_init(void);
 extern void information_functions_init(void);
 
-typedef int (*FunctionIterateCallback)(Sheet *sheet, Value *value, ErrorMessage *error, void *);
+typedef int (*FunctionIterateCallback)(const EvalPosition *ep, Value *value,
+				       ErrorMessage *error, void *);
 
 /*
  * function_iterate_argument_values
  *
- * sheet:            The sheet on which the expression is evaluated.
+ * fp:               The position in a workbook at which to evaluate
  * callback:         The routine to be invoked for every value computed
  * callback_closure: Closure for the callback.
  * expr_node_list:   a GList of ExprTrees (what a Gnumeric function would get).
- * eval_col:         Context column in which expressions are evaluated
- * eval_row:         Context row in which expressions are evaluated
  * error:            a pointer to an ErrorMessage where an error description is stored.
+ * strict:           If TRUE, the function is considered "strict".  This means
+ *                   that if an error value occurs as an argument, the iteration
+ *                   will stop and that error will be returned.  If FALSE, an
+ *                   error will be passed on to the callback (as a NULL Value *
+ *                   with error_string set).
  *
  * Return value:
  *    TRUE  if no errors were reported.
- *    FALSE if an error was found during evaluation.
+ *    FALSE if an error was found during strict evaluation, or if the callback
+ *          requested termination of the iteration.
  *
  * This routine provides a simple way for internal functions with variable
  * number of arguments to be written: this would iterate over a list of
@@ -40,35 +45,35 @@ typedef int (*FunctionIterateCallback)(Sheet *sheet, Value *value, ErrorMessage 
  * Value found on the list (this means that ranges get properly expaned).
  */
 int
-function_iterate_argument_values (const EvalPosition           *fp,
+function_iterate_argument_values (const EvalPosition      *fp,
 				  FunctionIterateCallback callback,
 				  void                    *callback_closure,
 				  GList                   *expr_node_list,
-				  ErrorMessage            *error);
+				  ErrorMessage            *error,
+				  gboolean                strict);
 				  
 /*
  * function_call_with_values
  */
-FuncReturn      *function_call_with_values     (Sheet     *sheet,
-						const char      *name,
-						int argc,
-						Value *values [],
-						ErrorMessage *error);
+Value      *function_call_with_values     (const EvalPosition *ep,
+					   const char         *name,
+					   int                 argc,
+					   Value              *values [],
+					   ErrorMessage       *error);
 
-FuncReturn      *function_def_call_with_values (Sheet              *sheet,
-						FunctionDefinition *fd,
-						int                 argc,
-						Value              *values [],
-						ErrorMessage       *error);
+Value      *function_def_call_with_values (const EvalPosition *ep,
+					   FunctionDefinition *fd,
+					   int                 argc,
+					   Value              *values [],
+					   ErrorMessage       *error);
 
 int
-function_iterate_do_value (Sheet                   *sheet,
+function_iterate_do_value (const EvalPosition      *fp,
 			   FunctionIterateCallback callback,
 			   void                    *closure,
-			   int                     eval_col,
-			   int                     eval_row,
 			   Value                   *value,
-			   ErrorMessage            *error);
+			   ErrorMessage            *error,
+			   gboolean                strict);
 
 /*
  * Gnumeric function defintion API.
@@ -113,20 +118,20 @@ void           tokenized_help_destroy (TokenizedHelp *tok) ;
 float_t combin (int n, int k);
 float_t fact   (int n);
 void setup_stat_closure (stat_closure_t *cl);
-int callback_function_stat (Sheet *sheet, Value *value, ErrorMessage *error,
+int callback_function_stat (const EvalPosition *ep, Value *value, ErrorMessage *error,
 			    void *closure);
 
-FuncReturn *gnumeric_average     (FunctionEvalInfo *s, GList *nodes);
-FuncReturn *gnumeric_count       (FunctionEvalInfo *s, GList *nodes);
-FuncReturn *gnumeric_sum         (FunctionEvalInfo *s, GList *nodes);
-FuncReturn *gnumeric_stdev       (FunctionEvalInfo *s, GList *nodes);
-FuncReturn *gnumeric_stdevp      (FunctionEvalInfo *s, GList *nodes);
-FuncReturn *gnumeric_var         (FunctionEvalInfo *s, GList *nodes);
-FuncReturn *gnumeric_varp        (FunctionEvalInfo *s, GList *nodes);
-FuncReturn *gnumeric_counta      (FunctionEvalInfo *s, GList *nodes);
-FuncReturn *gnumeric_min         (FunctionEvalInfo *s, GList *nodes);
-FuncReturn *gnumeric_max         (FunctionEvalInfo *s, GList *nodes);
-FuncReturn *gnumeric_suma        (FunctionEvalInfo *s, GList *nodes);
+Value *gnumeric_average     (FunctionEvalInfo *s, GList *nodes);
+Value *gnumeric_count       (FunctionEvalInfo *s, GList *nodes);
+Value *gnumeric_sum         (FunctionEvalInfo *s, GList *nodes);
+Value *gnumeric_stdev       (FunctionEvalInfo *s, GList *nodes);
+Value *gnumeric_stdevp      (FunctionEvalInfo *s, GList *nodes);
+Value *gnumeric_var         (FunctionEvalInfo *s, GList *nodes);
+Value *gnumeric_varp        (FunctionEvalInfo *s, GList *nodes);
+Value *gnumeric_counta      (FunctionEvalInfo *s, GList *nodes);
+Value *gnumeric_min         (FunctionEvalInfo *s, GList *nodes);
+Value *gnumeric_max         (FunctionEvalInfo *s, GList *nodes);
+Value *gnumeric_suma        (FunctionEvalInfo *s, GList *nodes);
 
 
 /* Type definitions and function prototypes for criteria functions.

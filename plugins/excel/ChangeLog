@@ -1,3 +1,152 @@
+1999-06-17  Michael Meeks  <michael@edenproject.org>
+
+	* ms-formula-read.c (formula_func_data): Fixed up, should work
+	again.
+
+1999-06-17  Morten Welinder  <terra@diku.dk>
+
+	* ms-formula-read.c (make_function): Yet another leak fix.
+
+	* ms-formula-read.c (expr_tree_unary): Obsolete.  Use
+ 	expr_tree_new_unary instead.
+	(expr_tree_cellref): Obsolete.  Use expr_tree_new_var instead.
+	(expr_tree_value): Obsolete.  Use expr_tree_new_constant instead.
+	(expr_tree_string): Simplify.
+	(ms_excel_parse_formula): Use expr_tree_string.  Use
+ 	expr_tree_new_binary.
+	(make_function): Use expr_tree_new_funcall.  Fix leak.
+
+	* ms-excel-read.c (ms_excel_read_name): Don't print null pointers.
+	(ms_excel_read_workbook): Ditto.
+
+1999-06-17  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* ms-formula-read.c (formula_func_data): LOG, ROMAN, TRUNC, and
+ 	BETADIST made var args.
+	
+1999-06-17  Michael Meeks  <michael@edenproject.org>
+
+	* ms-formula-read.c (make_function): Added debug.
+	(formula_func_data): Expand comments.
+
+1999-06-17  Jody Goldberg  <jgoldberg@home.com>
+
+	* ms-formula-read.c (formula_func_data): Fixed some
+	minor errors.
+	
+1999-06-16  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* ms-formula-read.c (formula_func_data): SUMIF made var args.
+	
+1999-06-15  Morten Welinder  <terra@diku.dk>
+
+	* ms-formula-read.c (ms_excel_parse_formula): Handle bools.  Plug
+ 	leak.
+	(make_function): Plug leak.
+
+	* ms-excel-read.c (biff_font_data_get_style_font): Supply correct
+ 	size when initialising.
+	(biff_nasty_font_check_function): Revert last change.  Extra
+ 	parameter ptsize.
+
+1999-06-15  Jody Goldberg  <jgoldberg@home.com>
+
+	* ms-formula-read.c (formula_func_data): Repopulate using xlcall.h and
+	reading the docs for each function to deduce the number of args.
+	
+1999-06-14  Morten Welinder  <terra@diku.dk>
+
+	* ms-excel-read.c (biff_nasty_font_check_function): Load fontset,
+ 	not font.
+	(biff_font_data_get_style_font): Make sure size constraints don't
+ 	conflict.
+
+1999-06-15  Michael Meeks  <michael@edenproject.org>
+
+	* ms-excel-read.c (biff_font_data_get_style_font): Add check
+	for NULL font name; return default font.
+
+1999-06-13  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* ms-formula-read.c (formula_func_data): LOG, ROMAN, and TRUNC
+ 	made var args.
+	
+1999-06-13  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* ms-formula-read.c (formula_func_data): PRODUCT, ROUNDDOWN,
+ 	ROUNDUP, SUBTOTAL, SUMSQ, and SUMIF fixed.  SUMX2MY2 and SUMX2PY2
+ 	added but they don't work (I don't know why?).
+
+1999-06-13  Michael Meeks  <michael@edenproject.org>
+
+	* ms-excel-read.c (ms_excel_set_cell_colors): Remove identical color
+	warning. This is a useful bug at the moment.
+
+1999-06-13  Jody Goldberg  <jgoldberg@home.com>
+        * ms-excel-read.c (biff_get_error_text) : Use new global error strings.
+        (ms_excel_default_palette) : New function.
+        (ms_excel_palette_new) : Colors are stored
+                    <DontCare><Blue><Green><Red>
+            rather than
+                    <DontCare><Red><Green><Blue>
+        (ms_excel_palette_get) : Clone bytes to scale colors, begin to
+        handle more of the 'special' color indices and guess that indices
+        are offset by 8.
+        (ms_excel_palette_destroy) : Don't delete the default palette.
+        (ms_excel_set_cell_colors) : Don't filter too many bits, support
+        initial contrast methods.
+        (ms_excel_set_cell_font) : Ditto.
+        (ms_excel_set_cell_xf) : Ditto.
+        (biff_xf_data_new) : Default palette to internal palette.
+
+1999-06-12  Michael Meeks  <michael@edenproject.org>
+
+	* ms-excel-read.c (ms_excel_read_supporting_wb): 
+	Renamed from _WB.
+	(ms_excel_read_name): Remove buggy names assert.
+
+1999-06-11  Jody Goldberg  <jgoldberg@home.com>
+
+        * biff-types.h: Add some missing types as defined in
+        the Excel 97 Developers kit.  Begin coverage of Chart specific records.
+        Improve documentation of 'odd-ball' entries and collsions in the low
+        order numbering scheme.
+
+        * ms-obj.c (ms_obj_read_obj) : Remove unused sheet param
+        to facilitate support for Workbook level objects.  Extend known object
+        types.
+        * ms-obj.h (ms_obj_read_obj) : Ditto.
+
+        * ms-obj.c (ms_chart_biff_read) : Initial experimental
+        harness for excel charts.
+        * ms-obj.h (ms_chart_biff_read) : Ditto.
+
+        * ms-excel-read.c (biff_name_data_new) : Take Workbook instead of sheet.
+            (ms_biff_unknown_code) : New function split out from.
+            (ms_excel_read_workbook) : Here.
+            (ms_excel_read_name) : New function split out from.
+            (ms_excel_read_cell) : Here.
+            (ms_excel_externname): New function split out from
+            (ms_excel_read_cell) : Here.
+            (ms_excel_read_supporting_WB) : New function.  Will probably
+            split up in the future when the filename encoding is clarified.
+            (ms_excel_read_workbook) : Precheck for odd-balls and chart types.
+            Add hooks for other fields.
+
+1999-06-09  Michael Meeks  <michael@edenproject.org>
+
+	* ms-excel-read.c (ms_excel_read_workbook): Added version
+	printout.
+	(ms_excel_set_cell_colors): More debug.
+	(biff_font_data_new): Added strange truncation of font
+	color_idx.
+	(ms_excel_palette_get): >= 0.
+
+1999-06-08  Michael Meeks  <michael@edenproject.org>
+
+	* ms-formula-read.c (formula_func_data): correct DAYS360,
+	add TIMEVALUE.
+
 1999-06-07  Michael Meeks  <michael@edenproject.org>
 
 	* ms-formula-read.c (formula_func_data): Fix ATAN2 -> PI

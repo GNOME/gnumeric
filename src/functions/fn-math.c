@@ -6,10 +6,8 @@
  *  Jukka-Pekka Iivonen (iivonen@iki.fi)
  */
 #include <config.h>
-#include <gnome.h>
 #include <math.h>
 #include "gnumeric.h"
-#include "gnumeric-sheet.h"
 #include "utils.h"
 #include "func.h"
 
@@ -37,30 +35,42 @@ static char *help_ = {
 #endif
 
 static int
-gcd(int a, int b)
+gcd (int a, int b)
 {
-        int ri, ri_1, ri_2, qi;
+	/* Euclid's Algorithm.	Assumes non-negative numbers.  */
 
-	if (b == 0)
-	        return a;
+	while (b != 0) {
+		int r;
 
-	qi = a/b;
-	ri_2 = a - qi*b;
-
-	if (ri_2 == 0)
-	        return 1;
-
-	qi = b/ri_2;
-	ri = ri_1 = b - qi*ri_2;
-
-	while (ri > 0) {
-	        qi = ri_2/ri_1;
-		ri = ri_2 - qi*ri_1;
-		ri_2 = ri_1;
-		ri_1 = ri;
+		r = a - (a / b) * b;	/* r = remainder from
+					 * dividing a by b	*/
+		a = b;
+		b = r;
 	}
+	return a;
+}
 
-	return ri_2;
+static float_t
+gpow10 (int n)
+{
+	float_t res = 1.0;
+	float_t p;
+	const int maxn = 300;
+
+	if (n >= 0) {
+		p = 10.0;
+		n = (n > maxn) ? maxn : n;
+	} else {
+		p = 0.1;
+		/* Note carefully that we avoid overflow.  */
+		n = (n < -maxn) ? maxn : -n;
+	}
+	while (n > 0) {
+		if (n & 1) res *= p;
+		p *= p;
+		n >>= 1;
+	}
+	return res;
 }
 
 
@@ -99,6 +109,33 @@ callback_function_sumxy (Sheet *sheet, int col, int row,
 	return TRUE;
 }
 
+static int
+callback_function_makeslist (const EvalPosition *ep, Value *value,
+			     ErrorMessage *error, void *closure)
+{
+        math_sums_t *mm = closure;
+        float_t     x;
+	gpointer    p;
+
+        switch (value->type) {
+	case VALUE_INTEGER:
+	        x = value->v.v_int;
+		break;
+	case VALUE_FLOAT:
+	        x = value->v.v_float;
+		break;
+	default:
+	        return TRUE;
+	}
+
+	p = g_new(float_t, 1);
+	*((float_t *) p) = x;
+	mm->list = g_slist_append(mm->list, p);
+	mm->num++;
+
+	return TRUE;
+}
+
 typedef struct {
         GSList              *list;
         criteria_test_fun_t fun;
@@ -112,7 +149,6 @@ callback_function_criteria (Sheet *sheet, int col, int row,
 {
         math_criteria_t *mm = user_data;
 	Value           *v;
-	gpointer        p;
 
 	if (cell == NULL || cell->value == NULL)
 	        return TRUE;
@@ -132,9 +168,7 @@ callback_function_criteria (Sheet *sheet, int col, int row,
 	}
 
 	if (mm->fun(v, mm->test_value)) {
-	        p = g_new(Value, 1);
-		*((Value **) p) = v;
-		mm->list = g_slist_append(mm->list, p);
+		mm->list = g_slist_append (mm->list, v);
 		mm->num++;
 	} else
 	        value_release(v);
@@ -144,10 +178,10 @@ callback_function_criteria (Sheet *sheet, int col, int row,
 
 static char *help_gcd = {
 	N_("@FUNCTION=GCD\n"
-	   "@SYNTAX=GCD(a,b)\n"
+	   "@SYNTAX=GCD(number1,number2,...)\n"
 
 	   "@DESCRIPTION="
-	   "GCD returns the greatest common divisor of two numbers. "
+	   "GCD returns the greatest common divisor of given numbers. "
 	   "\n"
 	   "If any of the arguments is less than zero, GCD returns #NUM! "
 	   "error. "
@@ -155,18 +189,52 @@ static char *help_gcd = {
 	   "@SEEALSO=LCM")
 };
 
-static FuncReturn *
-gnumeric_gcd (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_gcd (FunctionEvalInfo *ei, GList *expr_node_list)
 {
-        float_t a, b;
+        math_sums_t p;
+	GSList      *current;
+        int         a, b, old_gcd, new_gcd;
 
-	a = value_get_as_float (args[0]);
-	b = value_get_as_float (args[1]);
+	p.num  = 0;
+	p.list = NULL;
+	if (function_iterate_argument_values (&ei->pos, 
+					      callback_function_makeslist,
+					      &p, expr_node_list,
+					      ei->error, TRUE) == FALSE) {
+		if (error_message_is_set (ei->error))
+			return function_error (ei, gnumeric_err_NUM);
+	}
 
-        if (a < 0 || b < 0)
+	if (p.list == NULL || p.list->next == NULL)
 		return function_error (ei, gnumeric_err_NUM);
 
-	FUNC_RETURN_VAL (value_new_int (gcd(a, b)));
+try_again:
+	a = *((float_t *) p.list->data);
+	current=p.list->next;
+	b = *((float_t *) current->data);
+	old_gcd = gcd(a, b);
+
+	for (current=current->next; current!=NULL; current=current->next) {
+	        b = *((float_t *) current->data);
+		new_gcd = gcd(a, b);
+		if (old_gcd != new_gcd) {
+		        GSList *tmp;
+			for (tmp=p.list; tmp!=NULL; tmp=tmp->next) {
+			        b = *((float_t *) current->data);
+				if (b % old_gcd == 0)
+				        *((float_t *) current->data) = 
+					  b / old_gcd;
+			}
+			goto try_again;
+		}
+	}
+
+	for (current=p.list; current!=NULL; current=current->next)
+	        g_free(current->data);
+	g_slist_free(p.list);
+
+	return value_new_int (old_gcd);
 }
 
 static char *help_lcm = {
@@ -185,7 +253,7 @@ static char *help_lcm = {
 };
 
 static int
-callback_function_lcm (Sheet *sheet, Value *value,
+callback_function_lcm (const EvalPosition *ep, Value *value,
 		       ErrorMessage *error, void *closure)
 {
 	Value *result = closure;
@@ -204,7 +272,7 @@ callback_function_lcm (Sheet *sheet, Value *value,
 	return TRUE;
 }
 
-static FuncReturn *
+static Value *
 gnumeric_lcm (FunctionEvalInfo *ei, GList *nodes)
 {
 	Value *result;
@@ -215,10 +283,12 @@ gnumeric_lcm (FunctionEvalInfo *ei, GList *nodes)
 
 	if (function_iterate_argument_values (&ei->pos, callback_function_lcm,
 					      result, nodes,
-					      ei->error) == FALSE)
-		return function_error (ei, gnumeric_err_NUM);
+					      ei->error, TRUE) == FALSE) {
+		if (error_message_is_set (ei->error))
+			return function_error (ei, gnumeric_err_NUM);
+	}
 
-	FUNC_RETURN_VAL (result);
+	return result;
 }
 
 static char *help_abs = {
@@ -234,10 +304,10 @@ static char *help_abs = {
 	   "@SEEALSO=CEIL, FLOOR")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_abs (FunctionEvalInfo *ei, Value **args)
 {
-	FUNC_RETURN_VAL (value_new_float (fabs (value_get_as_float (args [0]))));
+	return value_new_float (fabs (value_get_as_float (args [0])));
 }
 
 static char *help_acos = {
@@ -256,7 +326,7 @@ static char *help_acos = {
 	   "@SEEALSO=COS, SIN, DEGREES, RADIANS")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_acos (FunctionEvalInfo *ei, Value **args)
 {
 	float_t t;
@@ -265,7 +335,7 @@ gnumeric_acos (FunctionEvalInfo *ei, Value **args)
 	if ((t < -1.0) || (t > 1.0))
 		return function_error (ei, _("acos - domain error"));
 
-	FUNC_RETURN_VAL (value_new_float (acos (t)));
+	return value_new_float (acos (t));
 }
 
 static char *help_acosh = {
@@ -284,7 +354,7 @@ static char *help_acosh = {
 	   "@SEEALSO=ACOS, DEGREES, RADIANS ")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_acosh (FunctionEvalInfo *ei, Value **args)
 {
 	float_t t;
@@ -293,7 +363,7 @@ gnumeric_acosh (FunctionEvalInfo *ei, Value **args)
 	if (t < 1.0)
 		return function_error (ei, _("acosh - domain error"));
 
-	FUNC_RETURN_VAL (value_new_float (acosh (t)));
+	return value_new_float (acosh (t));
 }
 
 static char *help_asin = {
@@ -311,7 +381,7 @@ static char *help_asin = {
 	   "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_asin (FunctionEvalInfo *ei, Value **args)
 {
 	float_t t;
@@ -320,7 +390,7 @@ gnumeric_asin (FunctionEvalInfo *ei, Value **args)
 	if ((t < -1.0) || (t > 1.0))
 		return function_error (ei, _("asin - domain error"));
 
-	FUNC_RETURN_VAL (value_new_float (asin (t)));
+	return value_new_float (asin (t));
 }
 
 static char *help_asinh = {
@@ -338,10 +408,10 @@ static char *help_asinh = {
 	   "@SEEALSO=ASIN, SIN, COS, DEGREES, RADIANS")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_asinh (FunctionEvalInfo *ei, Value **args)
 {
-	FUNC_RETURN_VAL (value_new_float (asinh (value_get_as_float (args [0]))));
+	return value_new_float (asinh (value_get_as_float (args [0])));
 }
 
 static char *help_atan = {
@@ -361,10 +431,10 @@ static char *help_atan = {
 	   "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_atan (FunctionEvalInfo *ei, Value **args)
 {
-	FUNC_RETURN_VAL (value_new_float (atan (value_get_as_float (args [0]))));
+	return value_new_float (atan (value_get_as_float (args [0])));
 }
 
 static char *help_atanh = {
@@ -384,7 +454,7 @@ static char *help_atanh = {
 	   "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_atanh (FunctionEvalInfo *ei, Value **args)
 {
 	float_t t;
@@ -393,7 +463,7 @@ gnumeric_atanh (FunctionEvalInfo *ei, Value **args)
 	if ((t <= -1.0) || (t >= 1.0))
 		return function_error (ei, _("atanh: domain error"));
 
-	FUNC_RETURN_VAL (value_new_float (atanh (value_get_as_float (args [0]))));
+	return value_new_float (atanh (value_get_as_float (args [0])));
 }
 
 static char *help_atan2 = {
@@ -413,11 +483,11 @@ static char *help_atan2 = {
 	   "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_atan2 (FunctionEvalInfo *ei, Value **args)
 {
-	FUNC_RETURN_VAL (value_new_float (atan2 (value_get_as_float (args [0]),
-				   value_get_as_float (args [1]))));
+	return value_new_float (atan2 (value_get_as_float (args [0]),
+							   value_get_as_float (args [1])));
 }
 
 static char *help_ceil = {
@@ -433,10 +503,10 @@ static char *help_ceil = {
 	   "@SEEALSO=ABS, FLOOR, INT")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_ceil (FunctionEvalInfo *ei, Value **args)
 {
-	FUNC_RETURN_VAL (value_new_float (ceil (value_get_as_float (args [0]))));
+	return value_new_float (ceil (value_get_as_float (args [0])));
 }
 
 static char *help_countif = {
@@ -452,10 +522,12 @@ static char *help_countif = {
 	   "@SEEALSO=COUNT,SUMIF")
 };
 
-static FuncReturn *
-gnumeric_countif (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_countif (FunctionEvalInfo *ei, Value **argv)
 {
-        Value           *range = args[0];
+        Value           *range = argv[0];
+	Value           *tmpvalue = NULL;
+
 	math_criteria_t items;
 	int             ret;
 	GSList          *list;
@@ -463,37 +535,43 @@ gnumeric_countif (FunctionEvalInfo *ei, Value **args)
 	items.num  = 0;
 	items.list = NULL;
 
-	if ((!VALUE_IS_NUMBER(args[1]) && args[1]->type != VALUE_STRING)
+	if ((!VALUE_IS_NUMBER(argv[1]) && argv[1]->type != VALUE_STRING)
 	    || (range->type != VALUE_CELLRANGE))
 	        return function_error (ei, gnumeric_err_VALUE);
 
-	if (VALUE_IS_NUMBER(args[1])) {
+	if (VALUE_IS_NUMBER(argv[1])) {
 	        items.fun = (criteria_test_fun_t) criteria_test_equal;
-		items.test_value = args[1];
-	} else
-	        parse_criteria(args[1]->v.str->str,
+		items.test_value = argv[1];
+	} else {
+	        parse_criteria(argv[1]->v.str->str,
 			       &items.fun, &items.test_value);
+		tmpvalue = items.test_value;
+	}
 
 	ret = sheet_cell_foreach_range (
-	  range->v.cell_range.cell_a.sheet, TRUE,
-	  range->v.cell_range.cell_a.col,
-	  range->v.cell_range.cell_a.row,
-	  range->v.cell_range.cell_b.col,
-	  range->v.cell_range.cell_b.row,
-	  callback_function_criteria,
-	  &items);
+		range->v.cell_range.cell_a.sheet, TRUE,
+		range->v.cell_range.cell_a.col,
+		range->v.cell_range.cell_a.row,
+		range->v.cell_range.cell_b.col,
+		range->v.cell_range.cell_b.row,
+		callback_function_criteria,
+		&items);
+
+	if (tmpvalue)
+		value_release (tmpvalue);
+
 	if (ret == FALSE)
 	        return function_error (ei, gnumeric_err_VALUE);
 
         list = items.list;
 
 	while (list != NULL) {
-		g_free(list->data);
+		value_release (list->data);
 		list = list->next;
 	}
 	g_slist_free(items.list);
 
-	FUNC_RETURN_VAL (value_new_int (items.num));
+	return value_new_int (items.num);
 }
 
 static char *help_sumif = {
@@ -509,10 +587,12 @@ static char *help_sumif = {
 	   "@SEEALSO=COUNTIF,SUM")
 };
 
-static FuncReturn *
-gnumeric_sumif (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 {
-        Value           *range = args[0];
+        Value           *range = argv[0];
+	Value           *tmpvalue = NULL;
+
 	math_criteria_t items;
 	int             ret;
 	float_t         sum;
@@ -521,16 +601,18 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **args)
 	items.num  = 0;
 	items.list = NULL;
 
-	if ((!VALUE_IS_NUMBER(args[1]) && args[1]->type != VALUE_STRING)
+	if ((!VALUE_IS_NUMBER(argv[1]) && argv[1]->type != VALUE_STRING)
 	    || (range->type != VALUE_CELLRANGE))
 	        return function_error (ei, gnumeric_err_VALUE);
 
-	if (VALUE_IS_NUMBER(args[1])) {
+	if (VALUE_IS_NUMBER(argv[1])) {
 	        items.fun = (criteria_test_fun_t) criteria_test_equal;
-		items.test_value = args[1];
-	} else
-	        parse_criteria(args[1]->v.str->str,
+		items.test_value = argv[1];
+	} else {
+	        parse_criteria(argv[1]->v.str->str,
 			       &items.fun, &items.test_value);
+		tmpvalue = items.test_value;
+	}
 
 	ret = sheet_cell_foreach_range (
 	  range->v.cell_range.cell_a.sheet, TRUE,
@@ -540,6 +622,10 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **args)
 	  range->v.cell_range.cell_b.row,
 	  callback_function_criteria,
 	  &items);
+
+	if (tmpvalue)
+		value_release (tmpvalue);
+
 	if (ret == FALSE)
 	        return function_error (ei, gnumeric_err_VALUE);
 
@@ -547,16 +633,16 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **args)
 	sum = 0;
 
 	while (list != NULL) {
-	        Value *v = *((Value **) list->data);
+	        Value *v = list->data;
 
 		if (v != NULL)
 		       sum += value_get_as_float (v);
-		g_free(list->data);
+		value_release (v);
 		list = list->next;
 	}
 	g_slist_free(items.list);
 
-	FUNC_RETURN_VAL (value_new_float (sum));
+	return value_new_float (sum);
 }
 
 static char *help_ceiling = {
@@ -574,43 +660,22 @@ static char *help_ceiling = {
 	   "@SEEALSO=CEIL")
 };
 
-static FuncReturn *
-gnumeric_ceiling (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_ceiling (FunctionEvalInfo *ei, Value **argv)
 {
-        float_t k=1;
-	float_t div, mod, ceiled;
-        float_t x, significance;
-	int     n, sign=1;
+        float_t number, s;
 
-	if (!VALUE_IS_NUMBER(args[0]) ||
-	    !VALUE_IS_NUMBER(args[1]))
-                return function_error (ei, gnumeric_err_VALUE );
-
-	x = value_get_as_float (args[0]);
-	significance = value_get_as_float (args[1]);
-	if ((x < 0.0 && significance > 0.0) ||
-	    (x > 0.0 && significance < 0.0))
-                return function_error (ei, gnumeric_err_NUM );
-
-	if (significance < 0) {
-	        sign=-1;
-		x = -x;
-		significance = -significance;
+	number = value_get_as_float (argv[0]);
+	if (argv[1] == NULL)
+	        s = (number >= 0) ? 1.0 : -1.0;
+	else {
+	        s = value_get_as_float (argv[1]);
 	}
-	/* Find significance level */
-	for (n=0; n<12; n++) {
-	        ceiled = ceil (significance * k);
-		if (fabs (ceiled - (significance * k)) < significance/2)
-		        break;
-		k *= 10;
-	}
-	ceiled *= 10;
 
-	div = ceil ((x * k * 10) / ceiled);
-	mod = ((x * k * 10) / ceiled) - div;
+	if (s == 0 || number / s < 0)
+		return function_error (ei, gnumeric_err_NUM);
 
-	FUNC_RETURN_VAL (value_new_float (sign * ceiled * div / (k*10) -
-			    sign * significance * (mod > 0)));
+	return value_new_float (ceil (number / s) * s);
 }
 
 static char *help_cos = {
@@ -627,10 +692,10 @@ static char *help_cos = {
 	   "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES")
 };
 
-static FuncReturn *
-gnumeric_cos (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_cos (FunctionEvalInfo *ei, Value **argv)
 {
-	FUNC_RETURN_VAL (value_new_float (cos (value_get_as_float (args [0]))));
+	return value_new_float (cos (value_get_as_float (argv [0])));
 }
 
 static char *help_cosh = {
@@ -648,10 +713,10 @@ static char *help_cosh = {
 	   "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP")
 };
 
-static FuncReturn *
-gnumeric_cosh (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_cosh (FunctionEvalInfo *ei, Value **argv)
 {
-	FUNC_RETURN_VAL (value_new_float (cosh (value_get_as_float (args [0]))));
+	return value_new_float (cosh (value_get_as_float (argv [0])));
 }
 
 static char *help_degrees = {
@@ -669,10 +734,10 @@ static char *help_degrees = {
 	   "@SEEALSO=RADIANS, PI")
 };
 
-static FuncReturn *
-gnumeric_degrees (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_degrees (FunctionEvalInfo *ei, Value **argv)
 {
-	FUNC_RETURN_VAL (value_new_float ((value_get_as_float (args [0]) * 180.0) / M_PI));
+	return value_new_float ((value_get_as_float (argv [0]) * 180.0) / M_PI);
 }
 
 static char *help_exp = {
@@ -688,10 +753,10 @@ static char *help_exp = {
 	   "@SEEALSO=LOG, LOG2, LOG10")
 };
 
-static FuncReturn *
-gnumeric_exp (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_exp (FunctionEvalInfo *ei, Value **argv)
 {
-	FUNC_RETURN_VAL (value_new_float (exp (value_get_as_float (args [0]))));
+	return value_new_float (exp (value_get_as_float (argv [0])));
 }
 
 float_t
@@ -715,35 +780,28 @@ static char *help_fact = {
 	   "@SEEALSO=")
 };
 
-static FuncReturn *
-gnumeric_fact (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_fact (FunctionEvalInfo *ei, Value **argv)
 {
-	Value *res;
-	float i;
+	float_t x;
+	gboolean x_is_integer;
 
-	switch (args [0]->type){
-	case VALUE_FLOAT:
-		i = args [0]->v.v_float;
-		break;
-	case VALUE_INTEGER:
-		i = args [0]->v.v_int;
-		break;
-	default:
-		return function_error (ei, gnumeric_err_NUM);
-	}
-
-	if (i < 0)
+	if (!VALUE_IS_NUMBER (argv[0]))
 		return function_error (ei, gnumeric_err_NUM);
 
-	res = g_new (Value, 1);
-	if (i > 12){
-		res->type = VALUE_FLOAT;
-		res->v.v_float = exp (lgamma (i + 1));
-	} else {
-		res->type = VALUE_INTEGER;
-		res->v.v_int = fact ((int)i);
-	}
-	FUNC_RETURN_VAL (res);
+	x = value_get_as_float (argv[0]);
+	if (x < 0)
+		return function_error (ei, gnumeric_err_NUM);
+
+	x_is_integer = (x == floor (x));
+
+	if (x > 12 || !x_is_integer) {
+		float_t res = exp (lgamma (x + 1));
+		if (x_is_integer)
+			res = floor (res + 0.5);  /* Round, just in case.  */
+		return value_new_float (res);
+	} else
+		return value_new_int (fact (x));
 }
 
 static char *help_combin = {
@@ -776,37 +834,48 @@ combin (int n, int k)
 	}
 }
 
-static FuncReturn *
-gnumeric_combin (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_combin (FunctionEvalInfo *ei, Value **argv)
 {
 	int n ,k;
 
-	n = value_get_as_int (args[0]);
-	k = value_get_as_int (args[1]);
+	n = value_get_as_int (argv[0]);
+	k = value_get_as_int (argv[1]);
 
 	if (k >= 0 && n >= k)
-		FUNC_RETURN_VAL (value_new_float (combin (n ,k)));
+		return value_new_float (combin (n ,k));
 
 	return function_error (ei, gnumeric_err_NUM);
 }
 
 static char *help_floor = {
 	N_("@FUNCTION=FLOOR\n"
-	   "@SYNTAX=FLOOR(x)\n"
+	   "@SYNTAX=FLOOR(x,significance)\n"
 
 	   "@DESCRIPTION=The FLOOR function rounds x down to the next nearest "
-	   "integer."
+	   "multiple of @significance.  @significance defaults to 1."
 	   "\n"
-
 	   "Performing this function on a string or empty cell simply does nothing."
 	   "\n"
 	   "@SEEALSO=CEIL, ABS, INT")
 };
 
-static FuncReturn *
-gnumeric_floor (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_floor (FunctionEvalInfo *ei, Value **argv)
 {
-	FUNC_RETURN_VAL (value_new_float (floor (value_get_as_float (args [0]))));
+        float_t number, s;
+
+	number = value_get_as_float (argv[0]);
+	if (argv[1] == NULL)
+	        s = (number >= 0) ? 1.0 : -1.0;
+	else {
+	        s = value_get_as_float (argv[1]);
+	}
+
+	if (s == 0 || number / s < 0)
+		return function_error (ei, gnumeric_err_NUM);
+
+	return value_new_float (floor (number / s) * s);
 }
 
 static char *help_int = {
@@ -825,16 +894,15 @@ static char *help_int = {
 	   "@SEEALSO=FLOOR, CEIL, ABS")
 };
 
-static FuncReturn *
-gnumeric_int (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_int (FunctionEvalInfo *ei, Value **argv)
 {
 	float_t t;
 
 	/* FIXME: What about strings and empty cells?  */
+	t = value_get_as_float (argv [0]);
 
-	t = value_get_as_float (args [0]);
-
-	FUNC_RETURN_VAL (value_new_float (t > 0.0 ? floor (t) : ceil (t)));
+	return value_new_float (floor (value_get_as_float (argv [0])));
 }
 
 static char *help_log = {
@@ -848,22 +916,22 @@ static char *help_log = {
 	   "@SEEALSO=LN, LOG2, LOG10")
 };
 
-static FuncReturn *
-gnumeric_log (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_log (FunctionEvalInfo *ei, Value **argv)
 {
 	float_t t, base;
 
-	t = value_get_as_float (args [0]);
+	t = value_get_as_float (argv [0]);
 
-	if (args[1] == NULL)
+	if (argv[1] == NULL)
 	        base = 10;
 	else
-	        base = value_get_as_float (args[1]);
+	        base = value_get_as_float (argv[1]);
 
 	if (t <= 0.0)
 		return function_error (ei, gnumeric_err_VALUE);
 
-	FUNC_RETURN_VAL (value_new_float (log (t) / log (base)));
+	return value_new_float (log (t) / log (base));
 }
 
 static char *help_ln = {
@@ -876,17 +944,17 @@ static char *help_ln = {
 	   "@SEEALSO=EXP, LOG2, LOG10")
 };
 
-static FuncReturn *
-gnumeric_ln (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_ln (FunctionEvalInfo *ei, Value **argv)
 {
 	float_t t;
 
-	t = value_get_as_float (args [0]);
+	t = value_get_as_float (argv [0]);
 
 	if (t <= 0.0)
 		return function_error (ei, gnumeric_err_VALUE);
 
-	FUNC_RETURN_VAL (value_new_float (log (t)));
+	return value_new_float (log (t));
 }
 
 static char *help_power = {
@@ -901,16 +969,16 @@ static char *help_power = {
 	   "@SEEALSO=EXP")
 };
 
-static FuncReturn *
-gnumeric_power (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_power (FunctionEvalInfo *ei, Value **argv)
 {
 	float_t x, y;
 
-	x = value_get_as_float (args [0]);
-	y = value_get_as_float (args [1]);
+	x = value_get_as_float (argv [0]);
+	y = value_get_as_float (argv [1]);
 
 	if ((x > 0) || (x == 0 && y > 0) || (x < 0 && y == floor (y)))
-		FUNC_RETURN_VAL (value_new_float (pow (x, y)));
+		return value_new_float (pow (x, y));
 
 	/* FIXME: What is supposed to happen for x=y=0?  */
 	return function_error (ei, gnumeric_err_VALUE);
@@ -928,16 +996,16 @@ static char *help_log2 = {
 	   "@SEEALSO=EXP, LOG10, LOG")
 };
 
-static FuncReturn *
-gnumeric_log2 (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_log2 (FunctionEvalInfo *ei, Value **argv)
 {
 	float_t t;
 
-	t = value_get_as_float (args [0]);
+	t = value_get_as_float (argv [0]);
 	if (t <= 0.0)
 		return function_error (ei, _("log2: domain error"));
 
-	FUNC_RETURN_VAL (value_new_float (log (t) / M_LN2));
+	return value_new_float (log (t) / M_LN2);
 }
 
 static char *help_log10 = {
@@ -953,16 +1021,16 @@ static char *help_log10 = {
 	   "@SEEALSO=EXP, LOG2, LOG")
 };
 
-static FuncReturn *
-gnumeric_log10 (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_log10 (FunctionEvalInfo *ei, Value **argv)
 {
 	float_t t;
 
-	t = value_get_as_float (args [0]);
+	t = value_get_as_float (argv [0]);
 	if (t <= 0.0)
 		return function_error (ei, _("log10: domain error"));
 
-	FUNC_RETURN_VAL (value_new_float (log10 (t)));
+	return value_new_float (log10 (t));
 }
 
 static char *help_mod = {
@@ -971,35 +1039,35 @@ static char *help_mod = {
 
 	   "@DESCRIPTION="
 	   "Implements modulo arithmetic."
-	   "Returns the remainder when divisor is divided into abs(number)."
+	   "Returns the remainder when @divisor is divided into @number."
 	   "\n"
 	   "Returns #DIV/0! if divisor is zero."
 	   "@SEEALSO=INT,FLOOR,CEIL")
 };
 
-static FuncReturn *
-gnumeric_mod (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_mod (FunctionEvalInfo *ei, Value **argv)
 {
 	int a,b;
 
-	a = value_get_as_int (args[0]);
-	b = value_get_as_int (args[1]);
-	/* Obscure handling of C's mod function */
-	if (a<0) a = -a;
-	if (a<0) /* -0 */
+	a = value_get_as_int (argv[0]);
+	b = value_get_as_int (argv[1]);
+
+	if (b == 0)
 		return function_error (ei, gnumeric_err_NUM);
 
-	if (b<0) {
+	if (b < 0) {
 		a = -a;
 		b = -b;
+		/* FIXME: check for overflow.  */
 	}
-	if (b<0) /* -0 */
-		return function_error (ei, gnumeric_err_NUM);
 
-	if (b==0)
-		return function_error (ei, gnumeric_err_DIV0);
-
-	FUNC_RETURN_VAL (value_new_int (a%b));
+	if (a >= 0)
+		return value_new_int (a % b);
+	else {
+		int invres = (-a) % b;
+		return value_new_int (invres == 0 ? 0 : b - invres);
+	}
 }
 
 static char *help_radians = {
@@ -1017,10 +1085,10 @@ static char *help_radians = {
 	   "@SEEALSO=PI,DEGREES")
 };
 
-static FuncReturn *
-gnumeric_radians (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_radians (FunctionEvalInfo *ei, Value **argv)
 {
-	FUNC_RETURN_VAL (value_new_float ((value_get_as_float (args [0]) * M_PI) / 180));
+	return value_new_float ((value_get_as_float (argv [0]) * M_PI) / 180);
 }
 
 static char *help_rand = {
@@ -1035,10 +1103,10 @@ static char *help_rand = {
 	   "@SEEALSO=")
 };
 
-static FuncReturn *
-gnumeric_rand (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_rand (FunctionEvalInfo *ei, Value **argv)
 {
-	FUNC_RETURN_VAL (value_new_float (random_01 ()));
+	return value_new_float (random_01 ());
 }
 
 static char *help_sin = {
@@ -1055,10 +1123,10 @@ static char *help_sin = {
 	   "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES")
 };
 
-static FuncReturn *
-gnumeric_sin (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_sin (FunctionEvalInfo *ei, Value **argv)
 {
-	FUNC_RETURN_VAL (value_new_float (sin (value_get_as_float (args [0]))));
+	return value_new_float (sin (value_get_as_float (argv [0])));
 }
 
 static char *help_sinh = {
@@ -1075,10 +1143,10 @@ static char *help_sinh = {
 	   "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP")
 };
 
-static FuncReturn *
-gnumeric_sinh (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_sinh (FunctionEvalInfo *ei, Value **argv)
 {
-	FUNC_RETURN_VAL (value_new_float (sinh (value_get_as_float (args [0]))));
+	return value_new_float (sinh (value_get_as_float (argv [0])));
 }
 
 static char *help_sqrt = {
@@ -1094,14 +1162,14 @@ static char *help_sqrt = {
 	   "@SEEALSO=POW")
 };
 
-static FuncReturn *
-gnumeric_sqrt (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_sqrt (FunctionEvalInfo *ei, Value **argv)
 {
-	float_t x = value_get_as_float (args[0]);
-	if (x<0)
+	float_t x = value_get_as_float (argv[0]);
+	if (x < 0)
 		return function_error (ei, gnumeric_err_NUM);
 
-	FUNC_RETURN_VAL (value_new_float (sqrt(x)));
+	return value_new_float (sqrt(x));
 }
 
 static char *help_sum = {
@@ -1117,7 +1185,7 @@ static char *help_sum = {
 };
 
 static int
-callback_function_sum (Sheet *sheet, Value *value,
+callback_function_sum (const EvalPosition *ep, Value *value,
 		       ErrorMessage *error, void *closure)
 {
 	Value *result = (Value *) closure;
@@ -1179,7 +1247,7 @@ callback_function_sum (Sheet *sheet, Value *value,
 	return TRUE;
 }
 
-FuncReturn *
+Value *
 gnumeric_sum (FunctionEvalInfo *ei, GList *nodes)
 {
 	Value *result;
@@ -1188,10 +1256,14 @@ gnumeric_sum (FunctionEvalInfo *ei, GList *nodes)
 	result->type = VALUE_INTEGER;
 	result->v.v_int = 0;
 
-	function_iterate_argument_values (&ei->pos, callback_function_sum, result, nodes,
-					  ei->error);
+	if (!function_iterate_argument_values (&ei->pos, callback_function_sum,
+					       result, nodes,
+					       ei->error, TRUE)) {
+		value_release (result);
+		return NULL;
+	}
 
-	FUNC_RETURN_VAL (result);
+	return result;
 }
 
 static char *help_suma = {
@@ -1210,7 +1282,7 @@ static char *help_suma = {
 	   "@SEEALSO=AVERAGE, SUM, COUNT")
 };
 
-FuncReturn *
+Value *
 gnumeric_suma (FunctionEvalInfo *ei, GList *nodes)
 {
 	Value *result;
@@ -1219,11 +1291,14 @@ gnumeric_suma (FunctionEvalInfo *ei, GList *nodes)
 	result->type = VALUE_INTEGER;
 	result->v.v_int = 0;
 
-	function_iterate_argument_values (&ei->pos, callback_function_sum,
-					  result, nodes,
-					  ei->error);
+	if (!function_iterate_argument_values (&ei->pos, callback_function_sum,
+					       result, nodes,
+					       ei->error, TRUE)) {
+		value_release (result);
+		return NULL;
+	}
 
-	FUNC_RETURN_VAL (result);
+	return result;
 }
 
 static char *help_sumsq = {
@@ -1244,7 +1319,7 @@ typedef struct {
 } math_sumsq_t;
 
 static int
-callback_function_sumsq (Sheet *sheet, Value *value,
+callback_function_sumsq (const EvalPosition *ep, Value *value,
 			 ErrorMessage *error, void *closure)
 {
 	math_sumsq_t *mm = closure;
@@ -1265,7 +1340,7 @@ callback_function_sumsq (Sheet *sheet, Value *value,
 	return TRUE;
 }
 
-static FuncReturn *
+static Value *
 gnumeric_sumsq (FunctionEvalInfo *ei, GList *nodes)
 {
         math_sumsq_t p;
@@ -1273,11 +1348,12 @@ gnumeric_sumsq (FunctionEvalInfo *ei, GList *nodes)
 	p.num = 0;
 	p.sum = 0;
 
-	function_iterate_argument_values (&ei->pos, callback_function_sumsq,
-					  &p, nodes,
-					  ei->error);
+	if (!function_iterate_argument_values (&ei->pos, callback_function_sumsq,
+					       &p, nodes,
+					       ei->error, TRUE))
+		return NULL;
 
-	FUNC_RETURN_VAL (value_new_float (p.sum));
+	return value_new_float (p.sum);
 }
 
 static char *help_multinomial = {
@@ -1299,7 +1375,7 @@ typedef struct {
 } math_multinomial_t;
 
 static int
-callback_function_multinomial (Sheet *sheet, Value *value,
+callback_function_multinomial (const EvalPosition *ep, Value *value,
 			       ErrorMessage *error, void *closure)
 {
 	math_multinomial_t *mm = closure;
@@ -1316,7 +1392,7 @@ callback_function_multinomial (Sheet *sheet, Value *value,
 	return TRUE;
 }
 
-static FuncReturn *
+static Value *
 gnumeric_multinomial (FunctionEvalInfo *ei, GList *nodes)
 {
         math_multinomial_t p;
@@ -1328,10 +1404,10 @@ gnumeric_multinomial (FunctionEvalInfo *ei, GList *nodes)
 	if (function_iterate_argument_values (&ei->pos,
 					      callback_function_multinomial,
 					      &p, nodes,
-					      ei->error) == FALSE)
+					      ei->error, TRUE) == FALSE)
 	        return function_error (ei, gnumeric_err_VALUE);
 
-	FUNC_RETURN_VAL (value_new_float (fact(p.sum) / p.product));
+	return value_new_float (fact(p.sum) / p.product);
 }
 
 static char *help_product = {
@@ -1352,7 +1428,7 @@ typedef struct {
 } math_product_t;
 
 static int
-callback_function_product (Sheet *sheet, Value *value,
+callback_function_product (const EvalPosition *ep, Value *value,
 			   ErrorMessage *error, void *closure)
 {
 	math_product_t *mm = closure;
@@ -1373,7 +1449,7 @@ callback_function_product (Sheet *sheet, Value *value,
 	return TRUE;
 }
 
-static FuncReturn *
+static Value *
 gnumeric_product (FunctionEvalInfo *ei, GList *nodes)
 {
         math_product_t p;
@@ -1381,11 +1457,12 @@ gnumeric_product (FunctionEvalInfo *ei, GList *nodes)
 	p.num = 0;
 	p.product = 1;
 
-	function_iterate_argument_values (&ei->pos, callback_function_product,
-					  &p, nodes,
-					  ei->error);
+	if (!function_iterate_argument_values (&ei->pos, callback_function_product,
+					       &p, nodes,
+					       ei->error, TRUE))
+		return NULL;
 
-	FUNC_RETURN_VAL (value_new_float (p.product));
+	return value_new_float (p.product);
 }
 
 static char *help_tan = {
@@ -1402,10 +1479,10 @@ static char *help_tan = {
 	   "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS")
 };
 
-static FuncReturn *
-gnumeric_tan (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_tan (FunctionEvalInfo *ei, Value **argv)
 {
-	FUNC_RETURN_VAL (value_new_float (tan (value_get_as_float (args [0]))));
+	return value_new_float (tan (value_get_as_float (argv [0])));
 }
 
 static char *help_tanh = {
@@ -1422,10 +1499,10 @@ static char *help_tanh = {
 	   "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS")
 };
 
-static FuncReturn *
-gnumeric_tanh (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_tanh (FunctionEvalInfo *ei, Value **argv)
 {
-	FUNC_RETURN_VAL (value_new_float (tanh (value_get_as_float (args [0]))));
+	return value_new_float (tanh (value_get_as_float (argv [0])));
 }
 
 static char *help_pi = {
@@ -1441,10 +1518,10 @@ static char *help_pi = {
 	   "@SEEALSO=")
 };
 
-static FuncReturn *
-gnumeric_pi (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_pi (FunctionEvalInfo *ei, Value **argv)
 {
-	FUNC_RETURN_VAL (value_new_float (M_PI));
+	return value_new_float (M_PI);
 }
 
 static char *help_trunc = {
@@ -1452,51 +1529,33 @@ static char *help_trunc = {
 	   "@SYNTAX=TRUNC(number[,digits])\n"
 
 	   "@DESCRIPTION=The TRUNC function returns the value of @number "
-	   "truncated to the number of digits specified.  If @digits is omited "
+	   "truncated to the number of digits specified.  If @digits is omitted "
 	   "then @digits defaults to zero."
 	   "\n"
 
 	   "\n"
 	   "@SEEALSO=")
 };
-static FuncReturn *
-gnumeric_trunc (FunctionEvalInfo *ei, GList *nodes)
+
+static Value *
+gnumeric_trunc (FunctionEvalInfo *ei, Value **argv)
 {
-	Value *number;
-	int args = g_list_length (nodes);
-	int decimals = 0;
-	double v, integral, fraction;
+        float_t number, p10;
+        int digits;
 
-	if (args < 1 || args > 2)
-		return function_error (ei, _("Invalid number of arguments"));
+	number = value_get_as_float (argv[0]);
+	if (argv[1] == NULL)
+	        digits = 0;
+	else
+	        digits = value_get_as_int (argv[1]);
 
-	number = (Value *)eval_expr (ei, (ExprTree *) nodes->data);
-	if (!number)
-		return NULL;
-
-	v = number->v.v_float;
-	value_release (number);
-
-	if (args == 2){
-		Value *value;
-
-		value = (Value *)eval_expr (ei,(ExprTree *) nodes->next->data);
-		if (!value){
-			return NULL;
-		}
-
-		decimals = value_get_as_int (value);
-		value_release (value);
-	}
-
-	fraction = modf (v, &integral);
-	if (decimals){
-		double pot = pow (10, decimals);
-
-		FUNC_RETURN_VAL (value_new_float (integral + floor (fraction * pot) / pot));
-	} else
-		FUNC_RETURN_VAL (value_new_float (integral));
+	p10 = gpow10 (digits);
+	if (number < 0)
+		return value_new_float (-floor (-number * p10) / p10);
+	else
+		return value_new_float (floor (number * p10) / p10);
 }
+
 
 static char *help_even = {
 	N_("@FUNCTION=EVEN\n"
@@ -1508,13 +1567,13 @@ static char *help_even = {
 	   "@SEEALSO=ODD")
 };
 
-static FuncReturn *
-gnumeric_even (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_even (FunctionEvalInfo *ei, Value **argv)
 {
         float_t number, ceiled;
 	int     sign = 1;
 
-	number = value_get_as_float (args[0]);
+	number = value_get_as_float (argv[0]);
 	if (number < 0) {
 	        sign = -1;
 		number = -number;
@@ -1522,11 +1581,11 @@ gnumeric_even (FunctionEvalInfo *ei, Value **args)
 	ceiled = ceil(number);
 	if (fmod(ceiled, 2) == 0)
 	        if (number > ceiled)
-		        FUNC_RETURN_VAL (value_new_int ((int) (sign * (ceiled + 2))));
+		        return value_new_int ((int) (sign * (ceiled + 2)));
 		else
-		        FUNC_RETURN_VAL (value_new_int ((int) (sign * ceiled)));
+		        return value_new_int ((int) (sign * ceiled));
 	else
-	        FUNC_RETURN_VAL (value_new_int ((int) (sign * (ceiled + 1))));
+	        return value_new_int ((int) (sign * (ceiled + 1)));
 }
 
 static char *help_odd = {
@@ -1539,13 +1598,13 @@ static char *help_odd = {
 	   "@SEEALSO=EVEN")
 };
 
-static FuncReturn *
-gnumeric_odd (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_odd (FunctionEvalInfo *ei, Value **argv)
 {
         float_t number, ceiled;
 	int     sign = 1;
 
-	number = value_get_as_float (args[0]);
+	number = value_get_as_float (argv[0]);
 	if (number < 0) {
 	        sign = -1;
 		number = -number;
@@ -1553,11 +1612,11 @@ gnumeric_odd (FunctionEvalInfo *ei, Value **args)
 	ceiled = ceil(number);
 	if (fmod(ceiled, 2) == 1)
 	        if (number > ceiled)
-		        FUNC_RETURN_VAL (value_new_int ((int) (sign * (ceiled + 2))));
+		        return value_new_int ((int) (sign * (ceiled + 2)));
 		else
-		        FUNC_RETURN_VAL (value_new_int ((int) (sign * ceiled)));
+		        return value_new_int ((int) (sign * ceiled));
 	else
-	        FUNC_RETURN_VAL (value_new_int ((int) (sign * (ceiled + 1))));
+	        return value_new_int ((int) (sign * (ceiled + 1)));
 }
 
 static char *help_factdouble = {
@@ -1573,21 +1632,22 @@ static char *help_factdouble = {
 	   "@SEEALSO=FACT")
 };
 
-static FuncReturn *
-gnumeric_factdouble (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_factdouble (FunctionEvalInfo *ei, Value **argv)
 
 {
         int number;
 	int n;
-	int product = 1;
+	float_t product = 1;
 
-	number = value_get_as_int (args[0]);
+	number = value_get_as_int (argv[0]);
 	if (number < 0)
 		return function_error (ei, gnumeric_err_NUM );
 
-	for (n=number; n > 0; n-=2)
+	for (n = number; n > 0; n-= 2)
 	        product *= n;
-	FUNC_RETURN_VAL (value_new_int (product));
+
+	return value_new_float (product);
 }
 
 static char *help_quotient = {
@@ -1600,15 +1660,15 @@ static char *help_quotient = {
 	   "@SEEALSO=MOD")
 };
 
-static FuncReturn *
-gnumeric_quotient (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_quotient (FunctionEvalInfo *ei, Value **argv)
 {
         float_t num, den;
 
-	num = value_get_as_float (args[0]);
-	den = value_get_as_float (args[1]);
+	num = value_get_as_float (argv[0]);
+	den = value_get_as_float (argv[1]);
 
-	FUNC_RETURN_VAL (value_new_int ((int) (num / den)));
+	return value_new_int ((int) (num / den));
 }
 
 static char *help_sign = {
@@ -1621,19 +1681,19 @@ static char *help_sign = {
 	   "@SEEALSO=")
 };
 
-static FuncReturn *
-gnumeric_sign (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_sign (FunctionEvalInfo *ei, Value **argv)
 {
         float_t n;
 
-	n = value_get_as_float (args[0]);
+	n = value_get_as_float (argv[0]);
 
 	if (n > 0)
-	      FUNC_RETURN_VAL (value_new_int (1));
+	      return value_new_int (1);
 	else if (n == 0)
-	      FUNC_RETURN_VAL (value_new_int (0));
+	      return value_new_int (0);
 	else
-	      FUNC_RETURN_VAL (value_new_int (-1));
+	      return value_new_int (-1);
 }
 
 static char *help_sqrtpi = {
@@ -1646,16 +1706,16 @@ static char *help_sqrtpi = {
 	   "@SEEALSO=PI")
 };
 
-static FuncReturn *
-gnumeric_sqrtpi (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_sqrtpi (FunctionEvalInfo *ei, Value **argv)
 {
         float_t n;
 
-	n = value_get_as_float (args[0]);
+	n = value_get_as_float (argv[0]);
 	if (n < 0)
 		return function_error (ei, gnumeric_err_NUM);
 
-	FUNC_RETURN_VAL (value_new_float (sqrt (M_PI * n)));
+	return value_new_float (sqrt (M_PI * n));
 }
 
 static char *help_randbetween = {
@@ -1669,22 +1729,22 @@ static char *help_randbetween = {
 	   "@SEEALSO=RAND")
 };
 
-static FuncReturn *
-gnumeric_randbetween (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_randbetween (FunctionEvalInfo *ei, Value **argv)
 {
         int bottom, top;
 	double range, r;
 
-	bottom = value_get_as_int (args[0]);
-	top = value_get_as_int (args[1]);
+	bottom = value_get_as_int (argv[0]);
+	top    = value_get_as_int (argv[1]);
 	if (bottom > top)
 		return function_error (ei, gnumeric_err_NUM );
 
 	r = bottom + floor ((top + 1.0 - bottom) * random_01 ());
 	if (fabs (r) < INT_MAX)
-		FUNC_RETURN_VAL (value_new_int ((int)r));
+		return value_new_int ((int)r);
 	else
-		FUNC_RETURN_VAL (value_new_float (r));
+		return value_new_float (r);
 }
 
 static char *help_rounddown = {
@@ -1706,31 +1766,23 @@ static char *help_rounddown = {
 	   "@SEEALSO=ROUNDUP")
 };
 
-static FuncReturn *
-gnumeric_rounddown (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_rounddown (FunctionEvalInfo *ei, Value **argv)
 {
-        float_t number;
-        int     digits, k, n;
+        float_t number, p10;
+        int digits;
 
-	number = value_get_as_float (args[0]);
-	if (args[1] == NULL)
+	number = value_get_as_float (argv[0]);
+	if (argv[1] == NULL)
 	        digits = 0;
 	else
-	        digits = value_get_as_int (args[1]);
+	        digits = value_get_as_int (argv[1]);
 
-	if (digits > 0) {
-	        k=1;
-		for (n=0; n<digits; n++)
-		        k *= 10;
-	        FUNC_RETURN_VAL (value_new_float ((float_t) ((int) (number * k)) / k));
-	} else if (digits == 0) {
-	        FUNC_RETURN_VAL (value_new_int ((int) number));
-	} else {
-	        k=1;
-		for (n=0; n<-digits; n++)
-		        k *= 10;
-		FUNC_RETURN_VAL (value_new_float ((float_t) ((int) (number / k)) * k));
-	}
+	p10 = gpow10 (digits);
+	if (number < 0)
+		return value_new_float (-ceil (-number * p10) / p10);
+	else
+		return value_new_float (floor (number * p10) / p10);
 }
 
 static char *help_round = {
@@ -1752,31 +1804,20 @@ static char *help_round = {
 	   "@SEEALSO=ROUNDDOWN,ROUNDUP")
 };
 
-static FuncReturn *
-gnumeric_round (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_round (FunctionEvalInfo *ei, Value **argv)
 {
-        float_t number;
-        int     digits, k, n;
+        float_t number, p10;
+        int     digits;
 
-	number = value_get_as_float (args[0]);
-	if (args[1] == NULL)
+	number = value_get_as_float (argv[0]);
+	if (argv[1] == NULL)
 	        digits = 0;
 	else
-	        digits = value_get_as_int (args[1]);
+	        digits = value_get_as_int (argv[1]);
 
-	if (digits > 0) {
-	        k=1;
-		for (n=0; n<digits; n++)
-		        k *= 10;
-	        FUNC_RETURN_VAL (value_new_float ( rint(number * k) / k));
-	} else if (digits == 0) {
-	        FUNC_RETURN_VAL (value_new_int ((int) number));
-	} else {
-	        k=1;
-		for (n=0; n<-digits; n++)
-		        k *= 10;
-		FUNC_RETURN_VAL (value_new_float (rint(number / k) * k));
-	}
+	p10 = gpow10 (digits);
+	return value_new_float (rint (number * p10) / p10);
 }
 
 static char *help_roundup = {
@@ -1798,35 +1839,23 @@ static char *help_roundup = {
 	   "@SEEALSO=ROUNDDOWN")
 };
 
-static FuncReturn *
-gnumeric_roundup (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_roundup (FunctionEvalInfo *ei, Value **argv)
 {
-        float_t number, sign;
-        int     digits, k, n;
+        float_t number, p10;
+        int digits;
 
-	number = value_get_as_float (args[0]);
-	if (args[1] == NULL)
+	number = value_get_as_float (argv[0]);
+	if (argv[1] == NULL)
 	        digits = 0;
 	else
-	        digits = value_get_as_int (args[1]);
+	        digits = value_get_as_int (argv[1]);
 
-	sign = (number < 0) ? -1.0 : 1.0;
-
-	if (digits > 0) {
-	        k=1;
-		for (n=0; n<digits; n++)
-		        k *= 10;
-	        FUNC_RETURN_VAL (value_new_float (sign * (ceil (fabs(number) * k)) / k));
-	} else if (digits == 0) {
-	        FUNC_RETURN_VAL (value_new_int (sign * ceil(fabs(number))));
-	} else {
-	        k=1;
-		for (n=0; n<-digits; n++)
-		        k *= 10;
-		if (fabs(number) < k)
-		        FUNC_RETURN_VAL (value_new_float (0));
-		FUNC_RETURN_VAL (value_new_float (sign * (ceil (fabs(number) / k)) * k));
-	}
+	p10 = gpow10 (digits);
+	if (number < 0)
+		return value_new_float (-floor (-number * p10) / p10);
+	else
+		return value_new_float (ceil (number * p10) / p10);
 }
 
 static char *help_mround = {
@@ -1845,16 +1874,16 @@ static char *help_mround = {
 	   "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP")
 };
 
-static FuncReturn *
-gnumeric_mround (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_mround (FunctionEvalInfo *ei, Value **argv)
 {
         const float_t accuracy_limit = 0.0000003;
         float_t number, multiple;
 	float_t div, mod;
 	int     sign = 1;
 
-	number = value_get_as_float (args[0]);
-	multiple = value_get_as_float (args[1]);
+	number = value_get_as_float (argv[0]);
+	multiple = value_get_as_float (argv[1]);
 
 	if ((number > 0 && multiple < 0)
 	    || (number < 0 && multiple > 0))
@@ -1869,8 +1898,8 @@ gnumeric_mround (FunctionEvalInfo *ei, Value **args)
 	mod = fmod(number, multiple);
 	div = number-mod;
 
-        FUNC_RETURN_VAL (value_new_float (sign * (
-		div + ((mod + accuracy_limit >= multiple/2) ? multiple : 0))));
+        return value_new_float (sign * (
+		div + ((mod + accuracy_limit >= multiple/2) ? multiple : 0)));
 }
 
 static char *help_roman = {
@@ -1891,8 +1920,8 @@ static char *help_roman = {
 	   "@SEEALSO=")
 };
 
-static FuncReturn *
-gnumeric_roman (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_roman (FunctionEvalInfo *ei, Value **argv)
 {
 	const char letter[] = { 'M', 'D', 'C', 'L', 'X', 'V', 'I' };
 	const int  largest = 1000;
@@ -1902,17 +1931,17 @@ gnumeric_roman (FunctionEvalInfo *ei, Value **args)
 	int i, j, dec;
 
 	dec = largest;
-	n = value_get_as_int (args[0]);
-	if (args[1] == NULL)
+	n = value_get_as_int (argv[0]);
+	if (argv[1] == NULL)
 	        form = 0;
 	else
-	        form = value_get_as_int (args[1]);
+	        form = value_get_as_int (argv[1]);
 
 	if (n < 0 || n > 3999)
 		return function_error (ei, gnumeric_err_VALUE );
 
 	if (n == 0)
-		FUNC_RETURN_VAL (value_new_string (""));
+		return value_new_string ("");
 
 	if (form < 0 || form > 4)
 		return function_error (ei, gnumeric_err_NUM );
@@ -1920,32 +1949,32 @@ gnumeric_roman (FunctionEvalInfo *ei, Value **args)
 	if (form > 0)
 		return function_error (ei, _("#Unimplemented!") );
 
-	for (i=j=0; dec > 1; dec/=10, j+=2) {
-	        for ( ; n>0; i++) {
-		        if (n >= dec) {
-			        buf[i] = letter[j];
+	for (i = j = 0; dec > 1; dec /= 10, j+=2){
+	        for (; n > 0; i++){
+		        if (n >= dec){
+			        buf[i] = letter [j];
 				n -= dec;
-			} else if (n >= dec - dec/10) {
-			        buf[i++] = letter[j+2];
-				buf[i] = letter[j];
+			} else if (n >= dec - dec/10){
+			        buf [i++] = letter [j+2];
+				buf [i] = letter [j];
 				n -= dec - dec/10;
-			} else if (n >= dec/2) {
-			        buf[i] = letter[j+1];
+			} else if (n >= dec/2){
+			        buf [i] = letter [j+1];
 				n -= dec/2;
-			} else if (n >= dec/2 - dec/10) {
-			        buf[i++] = letter[j+2];
-				buf[i] = letter[j+1];
+			} else if (n >= dec/2 - dec/10){
+			        buf [i++] = letter [j+2];
+				buf [i] = letter [j+1];
 				n -= dec/2 - dec/10;
-			} else if (dec == 10) {
-			        buf[i] = letter[j+2];
+			} else if (dec == 10){
+			        buf [i] = letter [j+2];
 				n--;
 			} else
 			        break;
 		}
 	}
-	buf[i] = '\0';
+	buf [i] = '\0';
 
-	FUNC_RETURN_VAL (value_new_string (buf));
+	return value_new_string (buf);
 }
 
 static char *help_sumx2my2 = {
@@ -1967,11 +1996,11 @@ static char *help_sumx2my2 = {
 	   "@SEEALSO=SUMSQ")
 };
 
-static FuncReturn *
-gnumeric_sumx2my2 (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_sumx2my2 (FunctionEvalInfo *ei, Value **argv)
 {
-        Value       *values_x = args[0];
-        Value       *values_y = args[1];
+        Value       *values_x = argv[0];
+        Value       *values_y = argv[1];
 	math_sums_t items_x, items_y;
 	int         ret;
 	float_t     sum;
@@ -1991,6 +2020,7 @@ gnumeric_sumx2my2 (FunctionEvalInfo *ei, Value **args)
 		  values_x->v.cell_range.cell_b.row,
 		  callback_function_sumxy,
 		  &items_x);
+
 		if (ret == FALSE)
 		        return function_error (ei, gnumeric_err_VALUE);
 	} else
@@ -2011,7 +2041,7 @@ gnumeric_sumx2my2 (FunctionEvalInfo *ei, Value **args)
 		return function_error (ei, _("Array version not implemented!"));
 
 	if (items_x.num != items_y.num)
-	        return function_error (ei, _("#N/A!"));
+		return function_error (ei, gnumeric_err_NA);
 
 	list1 = items_x.list;
 	list2 = items_y.list;
@@ -2031,7 +2061,7 @@ gnumeric_sumx2my2 (FunctionEvalInfo *ei, Value **args)
 	g_slist_free(items_x.list);
 	g_slist_free(items_y.list);
 
-	FUNC_RETURN_VAL (value_new_float (sum));
+	return value_new_float (sum);
 }
 
 static char *help_sumx2py2 = {
@@ -2053,11 +2083,11 @@ static char *help_sumx2py2 = {
 	   "@SEEALSO=SUMSQ")
 };
 
-static FuncReturn *
-gnumeric_sumx2py2 (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_sumx2py2 (FunctionEvalInfo *ei, Value **argv)
 {
-        Value       *values_x = args[0];
-        Value       *values_y = args[1];
+        Value       *values_x = argv[0];
+        Value       *values_y = argv[1];
 	math_sums_t items_x, items_y;
 	int         ret;
 	float_t     sum;
@@ -2097,7 +2127,7 @@ gnumeric_sumx2py2 (FunctionEvalInfo *ei, Value **args)
 		return function_error (ei, _("Array version not implemented!"));
 
 	if (items_x.num != items_y.num)
-	        return function_error (ei, _("#N/A!"));
+		return function_error (ei, gnumeric_err_NA);
 
 	list1 = items_x.list;
 	list2 = items_y.list;
@@ -2117,7 +2147,7 @@ gnumeric_sumx2py2 (FunctionEvalInfo *ei, Value **args)
 	g_slist_free(items_x.list);
 	g_slist_free(items_y.list);
 
-	FUNC_RETURN_VAL (value_new_float (sum));
+	return value_new_float (sum);
 }
 
 static char *help_sumxmy2 = {
@@ -2139,11 +2169,11 @@ static char *help_sumxmy2 = {
 	   "@SEEALSO=SUMSQ")
 };
 
-static FuncReturn *
-gnumeric_sumxmy2 (FunctionEvalInfo *ei, Value **args)
+static Value *
+gnumeric_sumxmy2 (FunctionEvalInfo *ei, Value **argv)
 {
-        Value       *values_x = args[0];
-        Value       *values_y = args[1];
+        Value       *values_x = argv[0];
+        Value       *values_y = argv[1];
 	math_sums_t items_x, items_y;
 	int         ret;
 	float_t     sum;
@@ -2183,7 +2213,7 @@ gnumeric_sumxmy2 (FunctionEvalInfo *ei, Value **args)
 		return function_error (ei, _("Array version not implemented!"));
 
 	if (items_x.num != items_y.num)
-	        return function_error (ei, _("#N/A!"));
+	        return function_error (ei, gnumeric_err_NA);
 
 	list1 = items_x.list;
 	list2 = items_y.list;
@@ -2203,7 +2233,7 @@ gnumeric_sumxmy2 (FunctionEvalInfo *ei, Value **args)
 	g_slist_free(items_x.list);
 	g_slist_free(items_y.list);
 
-	FUNC_RETURN_VAL (value_new_float (sum));
+	return value_new_float (sum);
 }
 
 static char *help_subtotal = {
@@ -2230,54 +2260,57 @@ static char *help_subtotal = {
 	   "@SEEALSO=COUNT,SUM")
 };
 
-static FuncReturn *
-gnumeric_subtotal (FunctionEvalInfo *ei, GList *nodes)
+static Value *
+gnumeric_subtotal (FunctionEvalInfo *ei, GList *expr_node_list)
 {
         ExprTree *tree;
 	Value    *val;
 	int      fun_nbr;
 
-	if (nodes == NULL)
+	if (expr_node_list == NULL)
 		return function_error (ei, gnumeric_err_NUM);
 
-	tree = (ExprTree *) nodes->data;
+	tree = (ExprTree *) expr_node_list->data;
 	if (tree == NULL)
 		return function_error (ei, gnumeric_err_NUM);
 
-	val = (Value *)eval_expr (ei, tree);
-	if (! VALUE_IS_NUMBER(val))
+	val = eval_expr (ei, tree);
+	if (!val) return NULL;
+	if (!VALUE_IS_NUMBER (val)) {
+		value_release (val);
 		return function_error (ei, gnumeric_err_VALUE);
+	}
 
 	fun_nbr = value_get_as_int(val);
 	if (fun_nbr < 1 || fun_nbr > 11)
 		return function_error (ei, gnumeric_err_NUM);
 
 	/* Skip the first node */
-	nodes = nodes->next;
+	expr_node_list = expr_node_list->next;
 
 	switch (fun_nbr) {
 	case 1:
-	        return gnumeric_average(ei, nodes);
+	        return gnumeric_average(ei, expr_node_list);
 	case 2:
-	        return gnumeric_count(ei, nodes);
+	        return gnumeric_count(ei, expr_node_list);
 	case 3:
-		return gnumeric_counta(ei, nodes);
+		return gnumeric_counta(ei, expr_node_list);
 	case 4:
-		return gnumeric_max(ei, nodes);
+		return gnumeric_max(ei, expr_node_list);
 	case 5:
-		return gnumeric_min(ei, nodes);
+		return gnumeric_min(ei, expr_node_list);
 	case 6:
-	        return gnumeric_product(ei, nodes);
+	        return gnumeric_product(ei, expr_node_list);
 	case 7:
-	        return gnumeric_stdev(ei, nodes);
+	        return gnumeric_stdev(ei, expr_node_list);
 	case 8:
-	        return gnumeric_stdevp(ei, nodes);
+	        return gnumeric_stdevp(ei, expr_node_list);
 	case 9:
-	        return gnumeric_sum(ei, nodes);
+	        return gnumeric_sum(ei, expr_node_list);
 	case 10:
-	        return gnumeric_var(ei, nodes);
+	        return gnumeric_var(ei, expr_node_list);
 	case 11:
-	        return gnumeric_varp(ei, nodes);
+	        return gnumeric_varp(ei, expr_node_list);
 	}
 
 	return NULL;
@@ -2306,22 +2339,16 @@ typedef struct {
 } math_seriessum_t;
 
 static int
-callback_function_seriessum (Sheet *sheet, Value *value,
+callback_function_seriessum (const EvalPosition *ep, Value *value,
 			     ErrorMessage *error, void *closure)
 {
 	math_seriessum_t *mm = closure;
-	float_t          coefficient=0;
+	float_t coefficient;
 
-	switch (value->type){
-	case VALUE_INTEGER:
-	        coefficient = value->v.v_int;
-		break;
-	case VALUE_FLOAT:
-	        coefficient = value->v.v_float;
-		break;
-	default:
-	        return FALSE;
-	}
+	if (!VALUE_IS_NUMBER (value))
+		return FALSE;
+
+	coefficient = value_get_as_float (value);
 
 	mm->sum += coefficient * pow(mm->x, mm->n);
 	mm->n += mm->m;
@@ -2329,7 +2356,7 @@ callback_function_seriessum (Sheet *sheet, Value *value,
 	return TRUE;
 }
 
-static FuncReturn *
+static Value *
 gnumeric_seriessum (FunctionEvalInfo *ei, GList *nodes)
 {
         math_seriessum_t p;
@@ -2346,10 +2373,12 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GList *nodes)
 		return function_error (ei, gnumeric_err_NUM);
 
 	val = (Value *)eval_expr (ei, tree);
+	if (!val) return NULL;
 	if (! VALUE_IS_NUMBER(val))
 		return function_error (ei, gnumeric_err_VALUE);
 
-	x = value_get_as_int(val);
+	x = value_get_as_float (val);
+	value_release (val);
 	nodes = nodes->next;
 
 	/* Get n */
@@ -2358,10 +2387,14 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GList *nodes)
 		return function_error (ei, gnumeric_err_NUM);
 
 	val = (Value *)eval_expr (ei, tree);
-	if (! VALUE_IS_NUMBER(val))
+	if (!val) return NULL;
+	if (! VALUE_IS_NUMBER(val)) {
+		value_release (val);
 		return function_error (ei, gnumeric_err_VALUE);
+	}
 
 	n = value_get_as_int(val);
+	value_release (val);
 	nodes = nodes->next;
 
 	/* Get m */
@@ -2370,8 +2403,11 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GList *nodes)
 		return function_error (ei, gnumeric_err_NUM);
 
 	val = (Value *)eval_expr (ei, tree);
-	if (! VALUE_IS_NUMBER(val))
+	if (!val) return NULL;
+	if (! VALUE_IS_NUMBER(val)) {
+		value_release (val);
 		return function_error (ei, gnumeric_err_VALUE);
+	}
 
 	m = value_get_as_int(val);
 	nodes = nodes->next;
@@ -2384,13 +2420,11 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GList *nodes)
 	if (function_iterate_argument_values (&ei->pos,
 					      callback_function_seriessum,
 					      &p, nodes,
-					      ei->error) == FALSE)
+					      ei->error, TRUE) == FALSE)
 		return function_error (ei, gnumeric_err_VALUE);
 
-	FUNC_RETURN_VAL (value_new_float (p.sum));
+	return value_new_float (p.sum);
 }
-
-
 
 void math_functions_init()
 {
@@ -2420,9 +2454,9 @@ void math_functions_init()
 			    gnumeric_factdouble);
 	function_add_args  (cat, "combin",  "ff",   "n,k",       &help_combin,
 			    gnumeric_combin);
-	function_add_args  (cat, "floor",   "f",    "number",    &help_floor,
+	function_add_args  (cat, "floor",   "f|f",  "number",    &help_floor,
 			    gnumeric_floor);
-	function_add_args  (cat, "gcd",     "ff",   "number1,number2", &help_gcd,
+	function_add_nodes (cat, "gcd",     "ff",   "number1,number2", &help_gcd,
 			    gnumeric_gcd);
 	function_add_args  (cat, "int",     "f",    "number",    &help_int,      gnumeric_int);
 	function_add_nodes (cat, "lcm",     0,      "",          &help_lcm,      gnumeric_lcm);
@@ -2478,6 +2512,6 @@ void math_functions_init()
 	function_add_args  (cat, "sumxmy2",  "AA", "array1,array2", &help_sumxmy2,  gnumeric_sumxmy2);
 	function_add_args  (cat, "tan",     "f",    "number",    &help_tan,     gnumeric_tan);
 	function_add_args  (cat, "tanh",    "f",    "number",    &help_tanh,    gnumeric_tanh);
-	function_add_nodes (cat, "trunc",   "f",    "number",    &help_trunc,   gnumeric_trunc);
+	function_add_args  (cat, "trunc",   "f|f",  "number,digits",    &help_trunc,   gnumeric_trunc);
 	function_add_args  (cat, "pi",      "",     "",          &help_pi,      gnumeric_pi);
 }

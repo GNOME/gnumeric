@@ -139,10 +139,11 @@ cell_set_font_from_style (Cell *cell, StyleFont *style_font)
 
 	cell_queue_redraw (cell);
 
-	style_font_unref (cell->style->font);
 	style_font_ref (style_font);
+	style_font_unref (cell->style->font);
 
 	cell->style->font = style_font;
+	cell->style->valid_flags |= STYLE_FONT;
 
 	cell_calc_dimensions (cell);
 
@@ -200,10 +201,11 @@ cell_comment_destroy (Cell *cell)
 		gtk_timeout_remove (comment->timer_tag);
 
 	if (comment->window)
-		gtk_object_destroy (GTK_OBJECT (comment->window));
+		gtk_object_unref (GTK_OBJECT (comment->window));
 
 	for (l = comment->realized_list; l; l = l->next)
-		gtk_object_destroy (l->data);
+		gtk_object_unref (l->data);
+	g_list_free (comment->realized_list);
 
 	g_free (comment);
 }
@@ -278,7 +280,7 @@ cell_comment_clicked (GnomeCanvasItem *item, GdkEvent *event, Cell *cell)
 	case GDK_LEAVE_NOTIFY:
 		cell_comment_cancel_timer (cell);
 		if (cell->comment->window){
-			gtk_object_destroy (GTK_OBJECT (cell->comment->window));
+			gtk_object_unref (GTK_OBJECT (cell->comment->window));
 			cell->comment->window = NULL;
 		}
 		break;
@@ -324,7 +326,7 @@ cell_comment_unrealize (Cell *cell)
 	for (l = cell->comment->realized_list; l; l = l->next){
 		GnomeCanvasItem *o = l->data;
 
-		gtk_object_destroy (GTK_OBJECT (o));
+		gtk_object_unref (GTK_OBJECT (o));
 	}
 	g_list_free (cell->comment->realized_list);
 	cell->comment->realized_list = NULL;
@@ -636,22 +638,16 @@ cell_set_text_simple (Cell *cell, const char *text)
  	if (text [0] == '=' && text [1] != 0){
 		cell_set_formula (cell, text);
 	} else {
-		const char *p;
 		char *end;
 		long l;
 
-		/* Skip spaces, just in case.  */
-		p = text;
-		while (isspace (*p)) p++;
-
-		l = strtol (p, &end, 10);
-		if (p != end && *end == 0) {
-			/* It is an int.  FIXME: long/int confusion here.  */
+		l = strtol (text, &end, 10);
+		if (text != end && *end == 0 && l == (int)l) {
 			cell->value = value_new_int (l);
 		} else {
 			double d;
-			d = strtod (p, &end);
-			if (p != end && *end == 0) {
+			d = strtod (text, &end);
+			if (text != end && *end == 0){
 				/* It is a floating point number.  */
 				cell->value = value_new_float ((float_t)d);
 			} else {
@@ -727,13 +723,14 @@ cell_set_formula_tree_simple (Cell *cell, ExprTree *formula)
 
 	cell_modified (cell);
 
-	if (cell->parsed_node) {
+	expr_tree_ref (formula);
+
+	if (cell->parsed_node){
 		sheet_cell_formula_unlink (cell);
 		expr_tree_unref (cell->parsed_node);
 	}
 
 	cell->parsed_node = formula;
-	expr_tree_ref (formula);
 	cell_formula_changed (cell);
 }
 
@@ -970,10 +967,11 @@ cell_set_format_from_style (Cell *cell, StyleFormat *style_format)
 	cell_queue_redraw (cell);
 
 	/* Change the format */
-	style_format_unref (cell->style->format);
 	style_format_ref (style_format);
+	style_format_unref (cell->style->format);
 
 	cell->style->format = style_format;
+	cell->style->valid_flags |= STYLE_FORMAT;
 	cell->flags |= CELL_FORMAT_SET;
 
 	/* re-render the cell text */

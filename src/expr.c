@@ -20,7 +20,9 @@ Value *value_zero = NULL;
 EvalPosition *
 eval_pos_init (EvalPosition *fp, Sheet *s, int col, int row)
 {
+	g_return_val_if_fail (s, NULL);
 	g_return_val_if_fail (fp, NULL);
+	g_return_val_if_fail (IS_SHEET (s), NULL);
 
 	fp->sheet = s;
 	fp->eval_col = col;
@@ -33,6 +35,8 @@ eval_pos_cell (EvalPosition *fp, Cell *cell)
 {
 	g_return_val_if_fail (fp, NULL);
 	g_return_val_if_fail (cell, NULL);
+	g_return_val_if_fail (cell->sheet, NULL);
+	g_return_val_if_fail (IS_SHEET (cell->sheet), NULL);
 
 	return eval_pos_init (fp,
 			      cell->sheet,
@@ -70,9 +74,9 @@ func_eval_info_pos (FunctionEvalInfo *s, const EvalPosition *fp)
 	g_return_val_if_fail (fp, NULL);
 
 	return func_eval_info_init (s,
-				  fp->sheet,
-				  fp->eval_col,
-				  fp->eval_row);
+				    fp->sheet,
+				    fp->eval_col,
+				    fp->eval_row);
 }
 
 ErrorMessage *error_message_new (void)
@@ -85,13 +89,19 @@ ErrorMessage *error_message_new (void)
 	return em;
 }
 
-/**
- * These may leak magically.
- **/
+#define ERROR_MESSAGE_CLEAN(em) do { em->err_msg = NULL; \
+                                     if (em->err_alloced) { \
+					     g_free (em->err_alloced); \
+					     em->err_alloced = NULL; \
+				     } \
+                                     em->small_err[0] = '\0'; \
+				} while (0)
+
 void
 error_message_set (ErrorMessage *em, const char *message)
 {
 	g_return_if_fail (em);
+	ERROR_MESSAGE_CLEAN (em);
 
 	em->err_msg = message;
 }
@@ -100,6 +110,7 @@ void
 error_message_set_alloc (ErrorMessage *em, char *message)
 {
 	g_return_if_fail (em);
+	ERROR_MESSAGE_CLEAN (em);
 
 	em->err_alloced  = message;
 }
@@ -110,6 +121,7 @@ error_message_set_small (ErrorMessage *em, const char *message)
 	g_return_if_fail (em);
 	g_return_if_fail (message);
 	g_return_if_fail (strlen(message) < 19);
+	ERROR_MESSAGE_CLEAN (em);
 
 	strcpy (em->small_err, message);
 }
@@ -127,6 +139,18 @@ error_message_txt (ErrorMessage *em)
 	return em->small_err;
 }
 
+/* Can be turned into a #define for speed later */
+gboolean
+error_message_is_set (ErrorMessage *em)
+{
+	g_return_val_if_fail (em, FALSE);
+	
+	if (em->err_msg || em->err_alloced ||
+	    em->small_err[0] != '\0')
+		return TRUE;
+	return FALSE;
+}
+
 void
 error_message_free (ErrorMessage *em)
 {
@@ -137,7 +161,67 @@ error_message_free (ErrorMessage *em)
 	g_free (em);
 }
 
-FuncReturn *
+ExprTree *
+expr_tree_new_constant (Value *v)
+{
+	ExprTree *ans;
+
+	ans = g_new (ExprTree, 1);
+	if (ans) {
+		ans->ref_count = 1;
+		ans->oper = OPER_CONSTANT;
+		ans->u.constant = v;
+	}
+	return ans;
+}
+
+ExprTree *
+expr_tree_new_unary  (Operation op, ExprTree *e)
+{
+	ExprTree *ans;
+
+	ans = g_new (ExprTree, 1);
+	if (ans) {
+		ans->ref_count = 1;
+		ans->oper = op;
+		ans->u.value = e;
+	}
+	return ans;
+}
+
+
+ExprTree *
+expr_tree_new_binary (ExprTree *l, Operation op, ExprTree *r)
+{
+	ExprTree *ans;
+
+	ans = g_new (ExprTree, 1);
+	if (ans) {
+		ans->ref_count = 1;
+		ans->oper = op;
+		ans->u.binary.value_a = l;
+		ans->u.binary.value_b = r;
+	}
+	return ans;
+}
+
+ExprTree *
+expr_tree_new_funcall (Symbol *sym, GList *args)
+{
+	ExprTree *ans;
+	g_return_val_if_fail (sym, NULL);
+
+	ans = g_new (ExprTree, 1);
+	if (ans) {
+		ans->ref_count = 1;
+		ans->oper = OPER_FUNCALL;
+		ans->u.function.symbol = sym;;
+		ans->u.function.arg_list = args;
+	}
+	return ans;
+}
+       
+Value *
 function_error (FunctionEvalInfo *fe, char *error_string)
 {
 	g_return_val_if_fail (fe, NULL);
@@ -146,14 +230,14 @@ function_error (FunctionEvalInfo *fe, char *error_string)
 	error_message_set (fe->error, error_string);
 	return NULL;
 }
-       
-FuncReturn *
+
+Value *
 function_error_alloc (FunctionEvalInfo *fe, char *error_string)
 {
 	g_return_val_if_fail (fe, NULL);
 	g_return_val_if_fail (error_string, NULL);
 
-	error_message_set_alloc (fe->error, g_strdup(error_string));
+	error_message_set_alloc (fe->error, error_string);
 	return NULL;
 }
        
@@ -186,7 +270,7 @@ expr_parse_string (const char *expr, const EvalPosition *fp,
 }
 
 
-ExprTree *
+/*ExprTree *
 expr_tree_new (void)
 {
 	ExprTree *ans;
@@ -199,6 +283,32 @@ expr_tree_new (void)
 	ans->oper = OPER_CONSTANT;
 	ans->u.constant = NULL;
 	return ans;
+}*/
+
+ExprTree *
+expr_tree_new_var (const CellRef *cr)
+{
+	ExprTree *ans;
+
+	ans = g_new (ExprTree, 1);
+	if (ans) {
+		ans->ref_count = 1;
+		ans->oper = OPER_VAR;
+		ans->u.ref = *cr;
+	}
+	return ans;
+}
+
+ExprTree *
+expr_tree_new_error (const char *txt)
+{
+	ExprTree *val, *call;
+	Symbol *func;
+
+	val = expr_tree_new_constant (value_new_string (txt));
+	func = symbol_lookup (global_symbol_table, "ERROR");
+	symbol_ref (func);
+	return expr_tree_new_funcall (func, g_list_prepend (NULL, val));
 }
 
 /*
@@ -443,6 +553,14 @@ value_new_int (int i)
 }
 
 Value *
+value_new_bool (gboolean b)
+{
+	/* Currently our booleans are really just ints.  This will have to
+	   change if we want Excel's ISLOGICAL.  */
+	return value_new_int (b ? 1 : 0);
+}
+
+Value *
 value_new_string (const char *str)
 {
 	Value *v = g_new (Value, 1);
@@ -494,6 +612,8 @@ value_get_as_bool (const Value *v, int *err)
 
 	switch (v->type) {
 	case VALUE_STRING:
+		/* FIXME FIXME FIXME */
+		/* Use locale to support TRUE, FALSE */
 		return atoi (v->v.str->str);
 
 	case VALUE_CELLRANGE:
@@ -632,7 +752,7 @@ value_array_resize (Value *v, guint width, guint height)
 
 	tmp = v->v.array.vals;
 	v->v.array.vals = newval->v.array.vals;
-	newval->v.array.vals = tmp ;
+	newval->v.array.vals = tmp;
 	value_release (newval);
 
 	v->v.array.x = width;
@@ -765,44 +885,6 @@ cell_ref_restore_absolute (CellRef *cell_ref, const CellRef *orig, int eval_col,
 	}
 }
 
-#if 0
-static Value *
-eval_cell_value (Sheet *sheet, Value *value)
-{
-	Value *res;
-
-	res = g_new (Value, 1);
-	res->type = value->type;
-
-	switch (res->type){
-	case VALUE_STRING:
-		res->v.str = value->v.str;
-		string_ref (res->v.str);
-		break;
-
-	case VALUE_INTEGER:
-		res->v.v_int = value->v.v_int;
-		break;
-
-	case VALUE_FLOAT:
-		res->v.v_float = value->v.v_float;
-		break;
-
-	case VALUE_ARRAY:
-		res = value_duplicate (value);
-		break;
-
-	case VALUE_CELLRANGE:
-		res->v.cell_range = value->v.cell_range;
-		break;
-	default:
-		g_warning ("eval_cell_value error\n");
-		break;
-	}
-	return res;
-}
-#endif
-
 static void
 free_values (Value **values, int top)
 {
@@ -814,13 +896,13 @@ free_values (Value **values, int top)
 	g_free (values);
 }
 
-static FuncReturn *
+static Value *
 eval_funcall (FunctionEvalInfo *s, ExprTree *tree)
 {
 	FunctionDefinition *fd;
 	GList *l;
 	int argc, arg, i;
-	FuncReturn *v = NULL;
+	Value *v = NULL;
 	Sheet *sheet;
 	int eval_col;
 	int eval_row;
@@ -940,17 +1022,17 @@ eval_funcall (FunctionEvalInfo *s, ExprTree *tree)
 	return v;
 }
 
-FuncReturn *
-function_def_call_with_values (Sheet              *sheet,
+Value *
+function_def_call_with_values (const EvalPosition *ep,
 			       FunctionDefinition *fd,
 			       int                 argc,
 			       Value              *values [],
 			       ErrorMessage       *error)
 {
-	FuncReturn *retval;
+	Value *retval;
 	FunctionEvalInfo s;
 
-	func_eval_info_init (&s, sheet, 0, 0);
+	func_eval_info_pos (&s, ep);
 	s.error = error;
 
 	if (fd->fn_type == FUNCTION_NODES) {
@@ -991,15 +1073,16 @@ function_def_call_with_values (Sheet              *sheet,
  * Use this to invoke a register function: the only drawback is that
  * you have to compute/expand all of the values to use this
  */
-FuncReturn *
-function_call_with_values (Sheet *sheet, const char *name, int argc, Value *values[], ErrorMessage *error)
+Value *
+function_call_with_values (const EvalPosition *ep, const char *name,
+			   int argc, Value *values[], ErrorMessage *error)
 {
 	FunctionDefinition *fd;
-	FuncReturn *retval;
+	Value *retval;
 	Symbol *sym;
 
-	g_return_val_if_fail (sheet != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	g_return_val_if_fail (ep, NULL);
+	g_return_val_if_fail (ep->sheet != NULL, NULL);
 	g_return_val_if_fail (name != NULL, NULL);
 
 	sym = symbol_lookup (global_symbol_table, name);
@@ -1015,8 +1098,8 @@ function_call_with_values (Sheet *sheet, const char *name, int argc, Value *valu
 	fd = sym->data;
 
 	symbol_ref (sym);
-	retval = function_def_call_with_values ( sheet, fd, argc,
-						 values, error);
+	retval = function_def_call_with_values (ep, fd, argc,
+						values, error);
 	
 	symbol_unref (sym);
 
@@ -1111,7 +1194,7 @@ compare (const Value *a, const Value *b)
 	return TYPE_ERROR;
 }
 
-FuncReturn *
+Value *
 eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 {
 	Value *res, *a, *b;
@@ -1129,14 +1212,15 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 		int comp;
 
 		a = (Value *)eval_expr (s, tree->u.binary.value_a);
+		if (!a)
+			return NULL;
+
 		b = (Value *)eval_expr (s, tree->u.binary.value_b);
-		if (!(a && b)){
-			if (a)
-				value_release (a);
-			if (b)
-				value_release (b);
+		if (!b) {
+			value_release (a);
 			return NULL;
 		}
+
 		comp = compare (a, b);
 		value_release (a);
 		value_release (b);
@@ -1148,27 +1232,27 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 
 		switch (tree->oper){
 		case OPER_EQUAL:
-			res = value_new_int (comp == IS_EQUAL);
+			res = value_new_bool (comp == IS_EQUAL);
 			break;
 
 		case OPER_GT:
-			res = value_new_int (comp == IS_GREATER);
+			res = value_new_bool (comp == IS_GREATER);
 			break;
 
 		case OPER_LT:
-			res = value_new_int (comp == IS_LESS);
+			res = value_new_bool (comp == IS_LESS);
 			break;
 
 		case OPER_LTE:
-			res = value_new_int (comp == IS_EQUAL || comp == IS_LESS);
+			res = value_new_bool (comp == IS_EQUAL || comp == IS_LESS);
 			break;
 
 		case OPER_GTE:
-			res = value_new_int (comp == IS_EQUAL || comp == IS_GREATER);
+			res = value_new_bool (comp == IS_EQUAL || comp == IS_GREATER);
 			break;
 
 		case OPER_NOT_EQUAL:
-			res = value_new_int (comp != IS_EQUAL);
+			res = value_new_bool (comp != IS_EQUAL);
 			break;
 
 		default:
@@ -1176,7 +1260,7 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 			error_message_set (s->error, _("Internal type error"));
 			res = NULL;
 		}
-		return (FuncReturn *)res;
+		return (Value *)res;
 	}
 
 	case OPER_ADD:
@@ -1249,8 +1333,8 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 					value_release (a);
 					value_release (b);
 					value_release (res);
-					error_message_set (s->error, _("Division by zero"));
-					return NULL;
+				       
+					return function_error (s, gnumeric_err_DIV0);
 				}
 				res->type = VALUE_FLOAT;
 				res->v.v_float =  a->v.v_int / (float_t)b->v.v_int;
@@ -1286,8 +1370,8 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 					value_release (a);
 					value_release (b);
 					value_release (res);
-					error_message_set (s->error, _("Division by zero"));
-					return NULL;
+
+					return function_error (s, gnumeric_err_DIV0);
 				}
 
 				res->v.v_float = a->v.v_float / b->v.v_float;
@@ -1302,7 +1386,7 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 		}
 		value_release (a);
 		value_release (b);
-		return (FuncReturn *)res;
+		return (Value *)res;
 
 	case OPER_CONCAT: {
 		char *sa, *sb, *tmp;
@@ -1316,20 +1400,18 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 			return NULL;
 		}
 
-		res = g_new (Value, 1);
-		res->type = VALUE_STRING;
 		sa = value_get_as_string (a);
 		sb = value_get_as_string (b);
-
 		tmp = g_strconcat (sa, sb, NULL);
-		res->v.str = string_get (tmp);
+		res = value_new_string (tmp);
+
 		g_free (sa);
 		g_free (sb);
 		g_free (tmp);
 
 		value_release (a);
 		value_release (b);
-		return (FuncReturn *)res;
+		return (Value *)res;
 	}
 
 	case OPER_FUNCALL:
@@ -1341,14 +1423,9 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 		Cell *cell;
 		int col, row;
 
-		if (s->pos.sheet == NULL){
+		if (s->pos.sheet == NULL) {
 			/* Only the test program requests this */
-			res = g_new (Value, 1);
-
-			res->type = VALUE_FLOAT;
-			res->v.v_float = 3.14;
-
-			return (FuncReturn *)res;
+			return value_new_float (3.14);
 		}
 
 		ref = &tree->u.ref;
@@ -1366,7 +1443,7 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 			}
 
 			if (cell->value)
-				return (FuncReturn *)value_duplicate (cell->value);
+				return (Value *)value_duplicate (cell->value);
 			else {
 				if (cell->text)
 					error_message_set (s->error, cell->text->str);
@@ -1376,11 +1453,11 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 			}
 		}
 
-		return (FuncReturn *)value_new_int (0);
+		return (Value *)value_new_int (0);
 	}
 
 	case OPER_CONSTANT:
-		return (FuncReturn *)value_duplicate (tree->u.constant);
+		return (Value *)value_duplicate (tree->u.constant);
 
 	case OPER_NEG:
 		a = (Value *)eval_expr (s, tree->u.value);
@@ -1391,15 +1468,12 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 			value_release (a);
 			return NULL;
 		}
-		res = g_new (Value, 1);
-		res->type = a->type;
-		if (a->type == VALUE_INTEGER){
-			res->v.v_int = -a->v.v_int;
-		} else {
-			res->v.v_float = -a->v.v_float;
-		}
+		if (a->type == VALUE_INTEGER)
+			res = value_new_int (-a->v.v_int);
+		else
+			res = value_new_float (-a->v.v_float);
 		value_release (a);
-		return (FuncReturn *)res;
+		return (Value *)res;
 	}
 
 	error_message_set (s->error, _("Unknown evaluation error"));
@@ -1689,19 +1763,12 @@ do_expr_tree_invalidate_references (ExprTree *src, const struct expr_tree_frob_r
 		if (a == NULL && b == NULL)
 			return NULL;
 		else {
-			ExprTree *dst;
-
 			if (a == NULL)
 				expr_tree_ref ((a = src->u.binary.value_a));
 			if (b == NULL)
 				expr_tree_ref ((b = src->u.binary.value_b));
 
-			dst = g_new (ExprTree, 1);
-			dst->oper = src->oper;
-			dst->ref_count = 1;
-			dst->u.binary.value_a = a;
-			dst->u.binary.value_b = b;
-			return dst;
+			return expr_tree_new_binary (a, src->oper, b);
 		}
 	}
 
@@ -1710,15 +1777,8 @@ do_expr_tree_invalidate_references (ExprTree *src, const struct expr_tree_frob_r
 			do_expr_tree_invalidate_references (src->u.value, info);
 		if (a == NULL)
 			return NULL;
-		else {
-			ExprTree *dst;
-
-			dst = g_new (ExprTree, 1);
-			dst->oper = src->oper;
-			dst->ref_count = 1;
-			dst->u.value = a;
-			return dst;
-		}
+		else
+			return expr_tree_new_unary (src->oper, a);
 	}
 
 	case OPER_FUNCALL: {
@@ -1733,7 +1793,6 @@ do_expr_tree_invalidate_references (ExprTree *src, const struct expr_tree_frob_r
 		}
 
 		if (any) {
-			ExprTree *dst;
 			GList *m;
 
 			for (l = src->u.function.arg_list, m = new_args; l; l = l->next, m = m->next) {
@@ -1741,13 +1800,8 @@ do_expr_tree_invalidate_references (ExprTree *src, const struct expr_tree_frob_r
 					expr_tree_ref ((m->data = l->data));
 			}
 
-			dst = g_new (ExprTree, 1);
-			dst->oper = OPER_FUNCALL;
-			dst->ref_count = 1;
-			symbol_ref ((dst->u.function.symbol = src->u.function.symbol));
-			dst->u.function.arg_list = new_args;
-
-			return dst;
+			symbol_ref (src->u.function.symbol);
+			return expr_tree_new_funcall (src->u.function.symbol, new_args);
 		} else {
 			g_list_free (new_args);
 			return NULL;
@@ -1764,7 +1818,7 @@ do_expr_tree_invalidate_references (ExprTree *src, const struct expr_tree_frob_r
 		cell_ref_make_absolute (&cr, info->src_col, info->src_row);
 
 		if (cell_in_range (&cr, info))
-			return build_error_string ("#Reference to deleted cell!");
+			return expr_tree_new_error (_("#Reference to deleted cell!"));
 		else
 			return NULL;
 	}
@@ -1789,7 +1843,7 @@ do_expr_tree_invalidate_references (ExprTree *src, const struct expr_tree_frob_r
 			cell_ref_make_absolute (&cb, info->src_col, info->src_row);
 
 			if (cell_in_range (&ca, info) && cell_in_range (&cb, info))
-				return build_error_string ("#Reference to deleted range!");
+				return expr_tree_new_error (_("#Reference to deleted range!"));
 			else
 				return NULL;
 		}
@@ -1916,19 +1970,12 @@ do_expr_tree_fixup_references (ExprTree *src, const struct expr_tree_frob_refere
 		if (a == NULL && b == NULL)
 			return NULL;
 		else {
-			ExprTree *dst;
-
 			if (a == NULL)
 				expr_tree_ref ((a = src->u.binary.value_a));
 			if (b == NULL)
 				expr_tree_ref ((b = src->u.binary.value_b));
 
-			dst = g_new (ExprTree, 1);
-			dst->oper = src->oper;
-			dst->ref_count = 1;
-			dst->u.binary.value_a = a;
-			dst->u.binary.value_b = b;
-			return dst;
+			return expr_tree_new_binary (a, src->oper, b);
 		}
 	}
 
@@ -1937,15 +1984,8 @@ do_expr_tree_fixup_references (ExprTree *src, const struct expr_tree_frob_refere
 			do_expr_tree_fixup_references (src->u.value, info);
 		if (a == NULL)
 			return NULL;
-		else {
-			ExprTree *dst;
-
-			dst = g_new (ExprTree, 1);
-			dst->oper = src->oper;
-			dst->ref_count = 1;
-			dst->u.value = a;
-			return dst;
-		}
+		else
+			return expr_tree_new_unary (src->oper, a);
 	}
 
 	case OPER_FUNCALL: {
@@ -1960,7 +2000,6 @@ do_expr_tree_fixup_references (ExprTree *src, const struct expr_tree_frob_refere
 		}
 
 		if (any) {
-			ExprTree *dst;
 			GList *m;
 
 			for (l = src->u.function.arg_list, m = new_args; l; l = l->next, m = m->next) {
@@ -1968,13 +2007,8 @@ do_expr_tree_fixup_references (ExprTree *src, const struct expr_tree_frob_refere
 					expr_tree_ref ((m->data = l->data));
 			}
 
-			dst = g_new (ExprTree, 1);
-			dst->oper = OPER_FUNCALL;
-			dst->ref_count = 1;
-			symbol_ref ((dst->u.function.symbol = src->u.function.symbol));
-			dst->u.function.arg_list = new_args;
-
-			return dst;
+			symbol_ref (src->u.function.symbol);
+			return expr_tree_new_funcall (src->u.function.symbol, new_args);
 		} else {
 			g_list_free (new_args);
 			return NULL;
@@ -1982,7 +2016,6 @@ do_expr_tree_fixup_references (ExprTree *src, const struct expr_tree_frob_refere
 	}
 
 	case OPER_VAR: {
-		ExprTree *dst;
 		CellRef cr = src->u.ref; /* Copy a structure, not a pointer.  */
 
 		/* If the sheet is wrong, do nothing.  */
@@ -1992,12 +2025,7 @@ do_expr_tree_fixup_references (ExprTree *src, const struct expr_tree_frob_refere
 		if (!fixup_calc_new_cellref (&cr, info))
 			return NULL;
 
-		dst = g_new (ExprTree, 1);
-		dst->oper = src->oper;
-		dst->ref_count = 1;
-		dst->u.ref = cr;
-
-		return dst;
+		return expr_tree_new_var (&cr);
 	}
 
 	case OPER_CONSTANT: {
@@ -2011,8 +2039,6 @@ do_expr_tree_fixup_references (ExprTree *src, const struct expr_tree_frob_refere
 
 		case VALUE_CELLRANGE: {
 			gboolean a_changed, b_changed;
-			ExprTree *dst;
-			Value *nv;
 
 			CellRef ca = v->v.cell_range.cell_a; /* Copy a structure, not a pointer.  */
 			CellRef cb = v->v.cell_range.cell_b; /* Copy a structure, not a pointer.  */
@@ -2027,17 +2053,7 @@ do_expr_tree_fixup_references (ExprTree *src, const struct expr_tree_frob_refere
 			if (!a_changed && !b_changed)
 				return NULL;
 
-			nv = g_new (Value, 1);
-			nv->type = v->type;
-			nv->v.cell_range.cell_a = ca;
-			nv->v.cell_range.cell_b = cb;
-
-			dst = g_new (ExprTree, 1);
-			dst->oper = src->oper;
-			dst->ref_count = 1;
-			dst->u.constant = nv;
-
-			return dst;
+			return expr_tree_new_constant (value_new_cellrange (&ca, &cb));
 		}
 		case VALUE_ARRAY:
 			fprintf (stderr, "Reminder: FIXME in do_expr_tree_fixup_references\n");

@@ -208,6 +208,6 @@ dialog_function_select (Workbook *wb)
 		ans = g_list_nth_data (cat->functions, selector_state.selected_func);
 	}
 	
-	gtk_object_destroy (GTK_OBJECT (dialog));
+	gtk_object_unref (GTK_OBJECT (dialog));
 	return ans;
 }

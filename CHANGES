@@ -1,37 +1,60 @@
 Changes between version 0.26 and 0.27
 
 
-Jukka has added the following functions:
-	* SEARCH(), ADDRESS(), CHITEST(), BETAINV(), PERCENTRANK(),
-	* SERIESSUM(), SUMA(), SUBTOTAL(), SLOPE(), AVERAGEA(),
-	* MAXA(), MINA(), STDEVA(), STDEVPA(), VARA(), and VARPA().
-
-And fixed these:
-	* BETADIST(), NORMDIST(), and POISSON().
+Jukka:
+	* Added the following functions:
+	 - SEARCH(), ADDRESS(), CHITEST(), BETAINV(), PERCENTRANK(),
+	   SERIESSUM(), SUMA(), SUBTOTAL(), SLOPE(), AVERAGEA(),
+	   MAXA(), MINA(), STDEVA(), STDEVPA(), VARA(), and VARPA().
+        * And fixed these functions:
+	 - BETADIST(), NORMDIST(), RANK(), and POISSON().
+	* Lots of test files added
 
 Morten:
-	* Found everyone else's bugs.
 	* Reworked the insert/delete column/row again.
 	* Reworked the Goal Seek function to produce more accurate
-	  result faster, and fail less often.
+	  results faster, and fail less often.
 	* Improved the recalculation engine.
 	* Shined up date calculations.
-	* WEEKDAY(), DAYS360, TIMEVALUE().
+	* Added WEEKDAY(), DAYS360(), TIMEVALUE().
+	* Fixed PROPER(), FLOOR(), SERIESSUM(), ROUND(), ROUNDUP(),
+	  ROUNDDOWN(), ATAN2(), MOD(), INT(), COUNT(), COUNTA(),
+	  AND(), OR().
+	* Improved precision here and there.
+	* Fixed font-reusage when writing in Gnumeric's default file
+	  format.
+	* Fixed cell editing code.
+	* Fixed many internationalisation bugs.  Translators, please
+	  make sure the default floating-point format, "0.0########",
+	  has been translated for your locale.  (German translators,
+	  please revisit "Zoom factor should be at least 50%" also, :-)
 
 Miguel
 	* Worked on other things
 
+Sean
+	* Implemented 'X-base' importing support ( DBase, FoxPro etc. )
+
 Michael
 	* Re-wrote the OLE block layer again...
+	* Re-wrote all the function code for more uniformity, lucidity
+	and expandibility.
+	* Re-wrote the function documentation.
 	* Tentative alpha Excel sheet writing
 	 - StarOffice is only tested importer
-	 - Only Excel 95 likely to work
+	 - Only Excel 95 likely to 'work'
 	 - only basic numbers and text are stored.
 	* Fix writing code to preserve sheet order.
 
 Nick Lamb
-	* Lots of work adding excel function mappings.
+	* Added excel function mappings.
 	* Fixed absolute shared formulae cell references.
+	* Supplied a spreadsheet to check date functions.
+
+Jody Goldberg
+	* Supplied many new error and error checking functions.
+	* Vastly improved Excel color loading.
+	* Completed Excel funtion mappings, as far as possible.
 
 Several translations updated: thanks to our translators
 

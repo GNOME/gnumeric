@@ -17,10 +17,13 @@
 /* The list of categories */
 static GList *categories = NULL;
 
+/* ------------------------------------------------------------------------- */
+
 typedef struct {
 	FunctionIterateCallback  callback;
 	void                     *closure;
 	ErrorMessage             *error;
+	gboolean                 strict;
 } IterateCallbackClosure;
 
 /*
@@ -33,7 +36,7 @@ static int
 iterate_cellrange_callback (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
 	IterateCallbackClosure *data = user_data;
-	int cont;
+	EvalPosition ep;
 
 	if (cell->generation != sheet->workbook->generation){
 		cell->generation = sheet->workbook->generation;
@@ -41,54 +44,56 @@ iterate_cellrange_callback (Sheet *sheet, int col, int row, Cell *cell, void *us
 		if (cell->parsed_node && (cell->flags & CELL_QUEUED_FOR_RECALC))
 			cell_eval (cell);
 	}
-	
-	if (!cell->value){
-		/*
-		 * FIXME: If this is a formula, is it worth recursing on
-		 * this one? IFF !(cell->flags & CELL_ERROR) &&
-		 * cell->generation != cell->sheet->workbook->generation?
-		 */
-		return TRUE;
-	}
-	
-	cont = (*data->callback)(sheet, cell->value, data->error, data->closure);
 
-	return cont;
+	/* If we encounter an error for the strict case, short-circuit here.  */
+	if (data->strict && !cell->value) {
+		if (cell->text)
+			error_message_set (data->error, cell->text->str);
+		else
+			error_message_set (data->error, _("Unknown error"));
+		return FALSE;
+	}
+
+	/* All other cases -- including error -- just call the handler.  */
+	return (*data->callback)(eval_pos_init (&ep, sheet, col, row),
+				 cell->value, data->error, data->closure);
 }
 
 /*
  * function_iterate_do_value:
  *
  * Helper routine for function_iterate_argument_values.
- */ 
+ */
 int
-function_iterate_do_value (Sheet                   *sheet,
+function_iterate_do_value (const EvalPosition      *fp,
 			   FunctionIterateCallback callback,
 			   void                    *closure,
-			   int                     eval_col,
-			   int                     eval_row,
 			   Value                   *value,
-			   ErrorMessage            *error)
+			   ErrorMessage            *error,
+			   gboolean                strict)
 {
+	Sheet *sheet = fp->sheet;
+	int eval_col = fp->eval_col;
+	int eval_row = fp->eval_row;
 	int ret = TRUE;
-	
+
 	switch (value->type){
 	case VALUE_INTEGER:
 	case VALUE_FLOAT:
 	case VALUE_STRING:
-		ret = (*callback)(sheet, value, error, closure);
+		ret = (*callback)(fp, value, error, closure);
 			break;
-			
+
 	case VALUE_ARRAY:
 	{
 		int x, y;
-
-		for (x = 0; x < value->v.array.x; x++){
-			for (y = 0; y < value->v.array.y; y++){
+		
+		for (x = 0; x < value->v.array.x; x++) {
+			for (y = 0; y < value->v.array.y; y++) {
 				ret = function_iterate_do_value (
-					sheet, callback, closure,
-					eval_col, eval_row,
-					value->v.array.vals [x][y], error);
+					fp, callback, closure,
+					value->v.array.vals [x][y],
+					error, strict);
 				if (ret == FALSE)
 					return FALSE;
 			}
@@ -98,11 +103,12 @@ function_iterate_do_value (Sheet                   *sheet,
 	case VALUE_CELLRANGE: {
 		IterateCallbackClosure data;
 		int start_col, start_row, end_col, end_row;
-		
+
 		data.callback = callback;
 		data.closure  = closure;
 		data.error    = error;
-		
+		data.strict   = strict;
+
 		cell_get_abs_col_row (&value->v.cell_range.cell_a,
 				      eval_col, eval_row,
 				      &start_col, &start_row);
@@ -123,11 +129,12 @@ function_iterate_do_value (Sheet                   *sheet,
 }
 
 int
-function_iterate_argument_values (const EvalPosition           *fp,
+function_iterate_argument_values (const EvalPosition      *fp,
 				  FunctionIterateCallback callback,
 				  void                    *callback_closure,
 				  GList                   *expr_node_list,
-				  ErrorMessage            *error)
+				  ErrorMessage            *error,
+				  gboolean                strict)
 {
 	int result = TRUE;
 	FunctionEvalInfo fs;
@@ -138,19 +145,25 @@ function_iterate_argument_values (const EvalPosition           *fp,
 
 		func_eval_info_pos (&fs, fp);
 		fs.error = error;
-		val = (Value *)eval_expr (&fs, tree);
+		val = eval_expr (&fs, tree);
 
-		if (val){
+		if (val) {
 			result = function_iterate_do_value (
-				fp->sheet, callback, callback_closure,
-				fp->eval_col, fp->eval_row, val,
-				error);
-			
+				fp, callback, callback_closure,
+				val, error, strict);
 			value_release (val);
+		} else if (strict) {
+			/* A strict function -- just short circuit.  */
+			return FALSE;
+		} else {
+			/* A non-strict function -- call the handler.  */
+			result = (*callback) (fp, val, error, callback_closure);
 		}
 	}
 	return result;
 }
+
+/* ------------------------------------------------------------------------- */
 
 GList *
 function_categories_get (void)
@@ -173,15 +186,15 @@ tokenized_help_new (FunctionDefinition *fd)
 		char *ptr;
 		int seek_att = 1;
 		int last_newline = 1;
-		
+
 		tok->help_copy = g_strdup (fd->help [0]);
 		tok->sections = g_ptr_array_new ();
 		ptr = tok->help_copy;
-		
+
 		while (*ptr){
 			if (*ptr == '\\' && *(ptr+1))
 				ptr+=2;
-			
+
 			if (*ptr == '@' && seek_att && last_newline){
 				*ptr = 0;
 				g_ptr_array_add (tok->sections, (ptr+1));
@@ -199,7 +212,7 @@ tokenized_help_new (FunctionDefinition *fd)
 		tok->help_copy = NULL;
 		tok->sections = NULL;
 	}
-	
+
 	return tok;
 }
 
@@ -213,7 +226,7 @@ tokenized_help_find (TokenizedHelp *tok, char *token)
 
 	if (!tok || !tok->sections)
 		return "Incorrect Function Description.";
-	
+
 	for (lp = 0; lp < tok->sections->len-1; lp++){
 		char *cmp = g_ptr_array_index (tok->sections, lp);
 
@@ -253,7 +266,22 @@ FunctionCategory *function_get_category (gchar *description)
 static void
 fn_def_init (FunctionDefinition *fd, char *name, char *args, char *arg_names, char **help)
 {
+	int lp, lp2;
+	char valid_tokens[] = "fsbraA?|";
 	g_return_if_fail (fd);
+
+	/* Check those arguements */
+	if (args) {
+		int lena = strlen (args);
+		int lenb = strlen (valid_tokens);
+		for (lp=0;lp<lena;lp++) {
+			int ok = 0;
+			for (lp2=0;lp2<lenb;lp2++)
+				if (valid_tokens[lp2] == args[lp])
+					ok = 1;
+			g_return_if_fail (ok);
+		}
+	}
 
 	fd->name      = name;
 	fd->args      = args;
@@ -273,6 +301,7 @@ FunctionDefinition *function_add_nodes (FunctionCategory *parent,
 {
 	FunctionDefinition *fd;
 
+	g_return_val_if_fail (fn, NULL);
 	g_return_val_if_fail (parent, NULL);
 
 	fd = g_new (FunctionDefinition, 1);
@@ -291,7 +320,12 @@ FunctionDefinition *function_add_args (FunctionCategory *parent,
 				       char **help,
 				       FunctionArgs *fn)
 {
-	FunctionDefinition *fd = g_new (FunctionDefinition, 1);
+	FunctionDefinition *fd;
+
+	g_return_val_if_fail (fn, NULL);
+	g_return_val_if_fail (parent, NULL);
+
+	fd = g_new (FunctionDefinition, 1);
 	fn_def_init (fd, name, args, arg_names, help);
 
 	fd->fn_type   = FUNCTION_ARGS;
@@ -331,28 +365,21 @@ char * gnumeric_err_NA = "#N/A";
 void
 constants_init (void)
 {
-	Value *true, *false, *version;
-
-	/* FALSE */
-	false = g_new (Value, 1);
-	false->type = VALUE_INTEGER;
-	false->v.v_int = 0;
-
-	/* TRUE */
-	true = g_new (Value, 1);
-	true->type = VALUE_INTEGER;
-	true->v.v_int = 1;
-
-	/* GNUMERIC_VERSION */
-	version = g_new (Value, 1);
-	version->type = VALUE_FLOAT;
-	version->v.v_float = atof (GNUMERIC_VERSION);
-	
-	symbol_install (global_symbol_table, "FALSE", SYMBOL_VALUE, false);
-	symbol_install (global_symbol_table, "TRUE", SYMBOL_VALUE, true);
-	symbol_install (global_symbol_table, "GNUMERIC_VERSION", SYMBOL_VALUE, version);
+	symbol_install (global_symbol_table, "FALSE", SYMBOL_VALUE,
+			value_new_bool (FALSE));
+	symbol_install (global_symbol_table, "TRUE", SYMBOL_VALUE,
+			value_new_bool (TRUE));
+	symbol_install (global_symbol_table, "GNUMERIC_VERSION", SYMBOL_VALUE,
+			value_new_float (atof (GNUMERIC_VERSION)));
 
 	/* Global helper value for arrays */
 	value_zero = value_new_float (0);
-}
 
+	gnumeric_err_NULL = _("#NULL!");
+	gnumeric_err_DIV0 = _("#DIV/0!");
+	gnumeric_err_VALUE = _("#VALUE!");
+	gnumeric_err_REF = _("#REF!");
+	gnumeric_err_NAME = _("#NAME?");
+	gnumeric_err_NUM = _("#NUM!");
+	gnumeric_err_NA = _("#N/A");
+}

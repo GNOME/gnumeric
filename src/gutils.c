@@ -124,11 +124,11 @@ col_from_name (const char *cell_str)
 	char c;
 	int col = 0;
 
-	c = toupper (*cell_str++);
+	c = toupper ((unsigned char)*cell_str++);
 	if (c < 'A' || c > 'Z')
 		return FALSE;
 	col = c - 'A';
-	c = toupper (*cell_str);
+	c = toupper ((unsigned char)*cell_str);
 	if (c >= 'A' && c <= 'Z')
 		col = ((col + 1) * ('Z' - 'A' + 1)) + (c - 'A');
 	if (col >= SHEET_MAX_COLS)
@@ -151,11 +151,11 @@ parse_cell_name (const char *cell_str, int *col, int *row)
 	char c;
 
 	/* Parse column name: one or two letters.  */
-	c = toupper (*cell_str++);
+	c = toupper ((unsigned char)*cell_str++);
 	if (c < 'A' || c > 'Z')
 		return FALSE;
 	*col = c - 'A';
-	c = toupper (*cell_str);
+	c = toupper ((unsigned char)*cell_str);
 	if (c >= 'A' && c <= 'Z') {
 		*col = ((*col + 1) * ('Z' - 'A' + 1)) + (c - 'A');
 		cell_str++;
@@ -165,7 +165,7 @@ parse_cell_name (const char *cell_str, int *col, int *row)
 
 	/* Parse row number: a sequence of digits.  */
 	for (*row = 0; *cell_str; cell_str++) {
-		if (!isdigit (*cell_str))
+		if (*cell_str < '0' || *cell_str > '9')
 			return FALSE;
 		*row = *row * 10 + (*cell_str - '0');
 		if (*row > SHEET_MAX_ROWS) /* Note: ">" is deliberate.  */
@@ -189,8 +189,8 @@ gnumeric_strcase_equal (gconstpointer v, gconstpointer v2)
 guint
 gnumeric_strcase_hash (gconstpointer v)
 {
-	const char *s = (const char*)v;
-	const char *p;
+	const unsigned char *s = (const unsigned char*)v;
+	const unsigned char *p;
 	guint h=0, g;
 
 	for(p = s; *p != '\0'; p += 1) {

@@ -11,6 +11,7 @@
 #include "dialogs.h"
 #include "xml-io.h"
 #include "file.h"
+#include <locale.h>
 
 static GList *gnumeric_file_savers = NULL;
 static GList *gnumeric_file_openers = NULL;
@@ -135,21 +136,30 @@ Workbook *
 workbook_read (const char *filename)
 {
 	GList *l;
+	char *oldlocale;
+	Workbook *w = NULL;
 
 	g_return_val_if_fail (filename != NULL, NULL);
+
+	/* Files are expected to be in standard C format.  */
+	oldlocale = g_strdup (setlocale (LC_NUMERIC, "C"));
 
 	for (l = gnumeric_file_openers; l; l = l->next){
 		const FileOpener *fo = l->data;
 
 		if ((*fo->probe) (filename)){
-			Workbook *w;
 			w = (*fo->open) (filename);
 
-			if (w)
-				return w;
+			if (w) {
+				workbook_mark_clean (w);
+				break;
+			}
 		}
 	}
-	return NULL;
+
+	setlocale (LC_NUMERIC, oldlocale);
+	g_free (oldlocale);
+	return w;
 }
 
 static void
@@ -316,6 +326,8 @@ workbook_save_as (Workbook *wb)
 				gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
 						 _("Sorry, there are no file savers loaded, I cannot save"));
 			else {
+				char *oldlocale;
+
 				if (strchr (base, '.') == NULL){
 					name = g_strconcat (name, current_saver->extension, NULL);
 				} else
@@ -323,7 +335,13 @@ workbook_save_as (Workbook *wb)
 
 				workbook_set_filename (wb, name);
 
+				/* Files are expected to be in standard C format.  */
+				oldlocale = g_strdup (setlocale (LC_NUMERIC, "C"));
+
 				current_saver->save (wb, wb->filename);
+
+				setlocale (LC_NUMERIC, oldlocale);
+				g_free (oldlocale);
 
 				g_free (name);
 			}
@@ -335,6 +353,8 @@ workbook_save_as (Workbook *wb)
 void
 workbook_save (Workbook *wb)
 {
+	char *oldlocale;
+
 	g_return_if_fail (wb != NULL);
 
 	if (!wb->filename){
@@ -342,7 +362,12 @@ workbook_save (Workbook *wb)
 		return;
 	}
 
+	/* Files are expected to be in standard C format.  */
+	oldlocale = g_strdup (setlocale (LC_NUMERIC, "C"));
 	gnumericWriteXmlWorkbook (wb, wb->filename);
+
+	setlocale (LC_NUMERIC, oldlocale);
+	g_free (oldlocale);
 }
 
 char *

@@ -11,7 +11,6 @@
 typedef struct {
 	GnomeCanvas     canvas;
 
-	GdkPixmap       *patterns [GNUMERIC_SHEET_PATTERNS];
 	int             selected_item;
 	GnomeCanvasItem *selector;
 } PatternSelector;

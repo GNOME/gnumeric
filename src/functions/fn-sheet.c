@@ -6,9 +6,7 @@
  *
  */
 #include <config.h>
-#include <gnome.h>
 #include "gnumeric.h"
-#include "gnumeric-sheet.h"
 #include "utils.h"
 #include "func.h"
 
@@ -24,11 +22,11 @@ static char *help_selection = {
 	   "@SEEALSO=")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_selection  (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	Value *value;
-	GList *l ;
+	GList *l;
 	int numrange,lp;
 	Sheet *sheet;
 	
@@ -69,7 +67,7 @@ gnumeric_selection  (FunctionEvalInfo *ei, GList *expr_node_list)
 		cell_ref->row = ss->end_row;
 	}
 
-	FUNC_RETURN_VAL (value);
+	return value;
 }
 
 void sheet_functions_init()

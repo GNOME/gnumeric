@@ -52,6 +52,7 @@ dialog_paste_special (Workbook *wb)
 	GtkWidget *f1, *f1v, *f2, *f2v;
 	GSList *group_type, *group_ops;
 	int result, i;
+	int v;
 	
 	dialog = gnome_dialog_new (_("Paste special"),
 				   GNOME_STOCK_BUTTON_OK,
@@ -103,54 +104,58 @@ dialog_paste_special (Workbook *wb)
 
 	/* Run the dialog */
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-	gnome_dialog_run (GNOME_DIALOG (dialog));
+	v = gnome_dialog_run (GNOME_DIALOG (dialog));
 
+	/* If closed with the window manager, cancel */
+	if (v == -1)
+		return 0;
+		
 	/* Fetch the results */
-
-	result = 0;
-	i = gtk_radio_group_get_selected (group_type);
-
-	switch (i){
-	case 0: /* all */
-		result = PASTE_ALL_TYPES;
-		break;
-			      
-	case 1: /* formulas */
-		result = PASTE_FORMULAS;
-		break;
+	if (v == 0){
+		result = 0;
+		i = gtk_radio_group_get_selected (group_type);
 		
-	case 2: /* values */
-		result = PASTE_VALUES;
-		break;
-		
-	case 3: /* formats */
-		result = PASTE_FORMATS;
-		break;
-	}
-
-	/* If it was not just formats, check operation */
-	if (i != 3){
-		i = gtk_radio_group_get_selected (group_ops);
 		switch (i){
-		case 1:		/* Add */
-			result |= PASTE_OPER_ADD;
+		case 0: /* all */
+			result = PASTE_ALL_TYPES;
 			break;
-
-		case 2:
-			result |= PASTE_OPER_SUB;
+			
+		case 1: /* formulas */
+			result = PASTE_FORMULAS;
 			break;
-
-		case 3:
-			result |= PASTE_OPER_MULT;
+			
+		case 2: /* values */
+			result = PASTE_VALUES;
 			break;
-
-		case 4:
-			result |= PASTE_OPER_DIV;
+			
+		case 3: /* formats */
+			result = PASTE_FORMATS;
 			break;
 		}
-	}
 		
-	gtk_object_destroy (GTK_OBJECT (dialog));
+		/* If it was not just formats, check operation */
+		if (i != 3){
+			i = gtk_radio_group_get_selected (group_ops);
+			switch (i){
+			case 1:		/* Add */
+				result |= PASTE_OPER_ADD;
+				break;
+				
+			case 2:
+				result |= PASTE_OPER_SUB;
+				break;
+				
+			case 3:
+				result |= PASTE_OPER_MULT;
+				break;
+				
+			case 4:
+				result |= PASTE_OPER_DIV;
+				break;
+			}
+		}
+	}
+	gtk_object_unref (GTK_OBJECT (dialog));
 
 	return result;
 }

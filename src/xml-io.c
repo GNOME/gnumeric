@@ -22,13 +22,14 @@
  * A parsing context.
  */
 typedef struct parseXmlContext {
-	xmlDocPtr doc;		/* Xml document */
-	xmlNsPtr ns;		/* Main name space */
-	xmlNodePtr parent;	/* used only for g_hash_table_foreach callbacks */
-	GHashTable *nameTable;	/* to reproduce multiple refs with HREFs */
-	int fontIdx;		/* for Font refs names ... */
-	Sheet *sheet;		/* the associated sheet */
-	Workbook *wb;		/* the associated sheet */
+	xmlDocPtr doc;			/* Xml document */
+	xmlNsPtr ns;			/* Main name space */
+	xmlNodePtr parent;		/* used only for g_hash_table_foreach callbacks */
+	GHashTable *nameTable;		/* to reproduce multiple refs with HREFs */
+	int fontIdx;			/* for Font refs names ... */
+	GHashTable *fontname2name;	/* For re-using fonts during writes */
+	Sheet *sheet;			/* the associated sheet */
+	Workbook *wb;			/* the associated sheet */
 } parseXmlContext, *parseXmlContextPtr;
 
 static Sheet      *readXmlSheet     (parseXmlContextPtr ctxt, xmlNodePtr tree);
@@ -38,6 +39,8 @@ static xmlNodePtr  writeXmlWorkbook (parseXmlContextPtr ctxt, Workbook *wb);
 /* static guint       ptrHash          (gconstpointer a);
    static gint        ptrCompare       (gconstpointer a, gconstpointer b); */
 static void nameFree                (gpointer key, gpointer value,
+				     gpointer user_data);
+static void fontname_nameFree       (gpointer key, gpointer value,
 				     gpointer user_data);
 
 /*
@@ -150,18 +153,13 @@ xmlGetDoubleValue (xmlNodePtr node, const char *name, double *val)
 {
 	int res;
 	char *ret;
-	float f;
 
 	ret = xmlGetValue (node, name);
 	if (ret == NULL) return(0);
-	res = sscanf (ret, "%f", &f);
+	res = sscanf (ret, "%lf", val);
 	free(ret);
 	
-	if (res == 1) {
-	        *val = f;
-		return 1;
-	}
-	return 0;
+	return (res == 1);
 }
 
 #if 0
@@ -174,19 +172,13 @@ xmlGetCoordinate (xmlNodePtr node, const char *name,
 {
 	int res;
 	char *ret;
-	float X, Y;
 
 	ret = xmlGetValue (node, name);
 	if (ret == NULL) return(0);
-	res = sscanf (ret, "(%f %f)", &X, &Y);
+	res = sscanf (ret, "(%lf %lf)", x, y);
 	free(ret);
 	
-	if (res == 2) {
-		*x = X;
-		*y = Y;
-		return 1;
-	}
-	return 0;
+	return (res == 2);
 }
 #endif
 
@@ -224,7 +216,7 @@ xmlGetGnomeCanvasPoints (xmlNodePtr node, const char *name)
 	int res;
 	const char *ptr;
 	int index = 0, i;
-	float coord[20];	/* TODO: must be dynamic !!!! */
+	double coord[20];	/* TODO: must be dynamic !!!! */
 
 	val = xmlGetValue (node, name);
 	if (val == NULL) return(NULL);
@@ -234,7 +226,7 @@ xmlGetGnomeCanvasPoints (xmlNodePtr node, const char *name)
 			ptr++;
 		if (*ptr == 0)
 			break;
-		res = sscanf (ptr, "(%f %f)", &coord[index], &coord[index + 1]);
+		res = sscanf (ptr, "(%lf %lf)", &coord[index], &coord[index + 1]);
 		if (res != 2)
 			break;
 		index += 2;
@@ -551,6 +543,7 @@ Sheet *gnumericReadXmlSheet (const char *filename)
 	ctxt.ns = gmr;
 	ctxt.nameTable = g_hash_table_new (g_str_hash, g_str_equal);
 	ctxt.fontIdx = 1;
+	ctxt.fontname2name = NULL;
 	sheet = readXmlSheet (&ctxt, res->root);
 	g_hash_table_foreach (ctxt.nameTable, nameFree, NULL);
 	g_hash_table_destroy (ctxt.nameTable);
@@ -591,9 +584,12 @@ gnumericWriteXmlSheet (Sheet * sheet, const char *filename)
 	ctxt.ns = gmr;
 	ctxt.nameTable = g_hash_table_new (g_str_hash, g_str_equal);
 	ctxt.fontIdx = 1;
+	ctxt.fontname2name = g_hash_table_new (g_str_hash, g_str_equal);
 	xml->root = writeXmlSheet (&ctxt, sheet);
 	g_hash_table_foreach (ctxt.nameTable, nameFree, NULL);
 	g_hash_table_destroy (ctxt.nameTable);
+	g_hash_table_foreach (ctxt.fontname2name, fontname_nameFree, NULL);
+	g_hash_table_destroy (ctxt.fontname2name);
 
 	/*
 	 * Dump it.
@@ -647,6 +643,7 @@ Workbook *gnumericReadXmlWorkbook (const char *filename)
 	ctxt.ns = gmr;
 	ctxt.nameTable = g_hash_table_new (g_str_hash, g_str_equal);
 	ctxt.fontIdx = 1;
+	ctxt.fontname2name = NULL;
 	wb = readXmlWorkbook (&ctxt, res->root);
 	workbook_set_filename (wb, (char *) filename);
 	workbook_recalc_all (wb);
@@ -686,9 +683,12 @@ gnumericWriteXmlWorkbook (Workbook *wb, const char *filename)
 	ctxt.ns = gmr;
 	ctxt.nameTable = g_hash_table_new (g_str_hash, g_str_equal);
 	ctxt.fontIdx = 1;
+	ctxt.fontname2name = g_hash_table_new (g_str_hash, g_str_equal);
 	xml->root = writeXmlWorkbook (&ctxt, wb);
 	g_hash_table_foreach (ctxt.nameTable, nameFree, NULL);
 	g_hash_table_destroy (ctxt.nameTable);
+	g_hash_table_foreach (ctxt.fontname2name, fontname_nameFree, NULL);
+	g_hash_table_destroy (ctxt.fontname2name);
 
 	/*
 	 * Dump it.
@@ -714,6 +714,16 @@ static void
 nameFree (gpointer key, gpointer value, gpointer user_data)
 {
 	g_free (key);
+}
+
+/*
+ * Free a fontname and name when cleaning up the name Hash table.
+ */
+static void
+fontname_nameFree (gpointer key, gpointer value, gpointer user_data)
+{
+	g_free (key);
+	g_free (value);
 }
 
 static int
@@ -829,7 +839,6 @@ writeXmlStyle (parseXmlContextPtr ctxt, Style * style)
 {
 	xmlNodePtr cur, child;
 	char str[50];
-	char *name;
 
 	if ((style->halign == 0) && (style->valign == 0) &&
 	    (style->orientation == 0) && (style->format == NULL) &&
@@ -854,8 +863,10 @@ writeXmlStyle (parseXmlContextPtr ctxt, Style * style)
 	}
 
 	if (style->font != NULL){
-		if ((name = (char *)
-		     g_hash_table_lookup (ctxt->nameTable, style->font)) != NULL){
+		const char *name;
+		name = (const char *) g_hash_table_lookup (ctxt->fontname2name,
+							   style->font->font_name);
+		if (name) {
 			child = xmlNewChild (cur, ctxt->ns, "Font", NULL);
 			sprintf (str, "#%s", name);
 			xmlNewProp (child, "HREF", str);
@@ -867,8 +878,10 @@ writeXmlStyle (parseXmlContextPtr ctxt, Style * style)
 			sprintf (str, "FontDef%d", ctxt->fontIdx++);
 			xmlNewProp (child, "NAME", str);
 			g_hash_table_insert (ctxt->nameTable, g_strdup (str), style->font);
+			g_hash_table_insert (ctxt->fontname2name,
+					     g_strdup (style->font->font_name),
+					     g_strdup (str));
 		}
-
 	}
 
 	if (style->border != NULL){

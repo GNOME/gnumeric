@@ -1,5 +1,5 @@
 #
-# Makefile for the Python Gnumeric plugin.
+# Makefile for the Perl Gnumeric plugin.
 #
 
 #

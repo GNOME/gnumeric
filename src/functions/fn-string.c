@@ -7,11 +7,9 @@
  *  Jukka-Pekka Iivonen (iivonen@iki.fi)
  */
 #include <config.h>
-#include <gnome.h>
 #include <ctype.h>
 #include <math.h>
 #include "gnumeric.h"
-#include "gnumeric-sheet.h"
 #include "utils.h"
 #include "func.h"
 
@@ -26,7 +24,7 @@ static char *help_char = {
 	   "@SEEALSO=CODE")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_char (FunctionEvalInfo *ei, Value **argv)
 {
 	char result [2];
@@ -34,7 +32,7 @@ gnumeric_char (FunctionEvalInfo *ei, Value **argv)
 	result [0] = value_get_as_int (argv [0]);
 	result [1] = 0;
 
-	FUNC_RETURN_VAL (value_new_string (result));
+	return value_new_string (result);
 }
 
 static char *help_code = {
@@ -48,7 +46,7 @@ static char *help_code = {
 	   "@SEEALSO=CHAR")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_code (FunctionEvalInfo *ei, Value **argv)
 {
 	unsigned char c;
@@ -57,7 +55,7 @@ gnumeric_code (FunctionEvalInfo *ei, Value **argv)
 		return function_error (ei, _("Type mismatch"));
 
 	c = argv [0]->v.str->str [0];
-	FUNC_RETURN_VAL (value_new_int (c));
+	return value_new_int (c);
 }
 
 static char *help_exact = {
@@ -72,14 +70,14 @@ static char *help_exact = {
 	   "@SEEALSO=LEN")  /* FIXME: DELTA, LEN, SEARCH */
 };
 
-static FuncReturn *
+static Value *
 gnumeric_exact (FunctionEvalInfo *ei, Value **argv)
 {
 	if (argv [0]->type != VALUE_STRING || argv [1]->type != VALUE_STRING)
 		return function_error (ei, _("Type mismatch"));
 
-	FUNC_RETURN_VAL (value_new_int (strcmp (argv [0]->v.str->str,
-						argv [1]->v.str->str) == 0));
+	return value_new_int (strcmp (argv [0]->v.str->str,
+				      argv [1]->v.str->str) == 0);
 }
 
 static char *help_len = {
@@ -93,13 +91,13 @@ static char *help_len = {
 	   "@SEEALSO=CHAR, CODE")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_len (FunctionEvalInfo *ei, Value **argv)
 {
 	if (argv [0]->type != VALUE_STRING)
 		return function_error (ei, _("Type mismatch"));
 
-	FUNC_RETURN_VAL (value_new_int (strlen (argv [0]->v.str->str)));
+	return value_new_int (strlen (argv [0]->v.str->str));
 }
 
 static char *help_left = {
@@ -113,7 +111,7 @@ static char *help_left = {
 	   "@SEEALSO=MID, RIGHT")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_left (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
@@ -132,7 +130,7 @@ gnumeric_left (FunctionEvalInfo *ei, Value **argv)
 	v = value_new_string (s);
 	g_free (s);
 
-	FUNC_RETURN_VAL (v);
+	return v;
 }
 
 static char *help_lower = {
@@ -145,25 +143,23 @@ static char *help_lower = {
 	   "@SEEALSO=UPPER")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_lower (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
-	char *s, *p;
+	unsigned char *s, *p;
 
 	if (argv [0]->type != VALUE_STRING)
 		return function_error (ei, _("Type mismatch"));
 
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
-	p = s = strdup (argv [0]->v.str->str);
+	p = s = g_strdup (argv [0]->v.str->str);
 	for (; *p; p++){
 		*p = tolower (*p);
 	}
-	v->v.str = string_get (s);
+	v = value_new_string (s);
 	g_free (s);
 
-	FUNC_RETURN_VAL (v);
+	return v;
 }
 
 static char *help_mid = {
@@ -178,7 +174,7 @@ static char *help_mid = {
 	   "@SEEALSO=LEFT, RIGHT")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_mid  (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
@@ -198,7 +194,7 @@ gnumeric_mid  (FunctionEvalInfo *ei, Value **argv)
 
 	source = argv [0]->v.str->str;
 	if (pos > strlen (source))
-		FUNC_RETURN_VAL (value_new_string (""));
+		return value_new_string ("");
 	pos--;
 	s = g_new (gchar, len+1);
 	strncpy (s, &source[pos], len);
@@ -206,7 +202,7 @@ gnumeric_mid  (FunctionEvalInfo *ei, Value **argv)
 	v = value_new_string (s);
 	g_free (s);
 
-	FUNC_RETURN_VAL (v);
+	return v;
 }
 
 static char *help_right = {
@@ -220,7 +216,7 @@ static char *help_right = {
 	   "@SEEALSO=MID, LEFT")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_right (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
@@ -243,7 +239,7 @@ gnumeric_right (FunctionEvalInfo *ei, Value **argv)
 	v = value_new_string (s);
 	g_free (s);
 
-	FUNC_RETURN_VAL (v);
+	return v;
 }
 
 static char *help_upper = {
@@ -256,26 +252,24 @@ static char *help_upper = {
 	   "@SEEALSO=LOWER")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_upper (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
-	char *s, *p;
+	unsigned char *s, *p;
 
 	if (argv [0]->type != VALUE_STRING)
 		return function_error (ei, _("Type mismatch"));
 
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
-	p = s = strdup (argv [0]->v.str->str);
+	p = s = g_strdup (argv [0]->v.str->str);
 
 	for (;*p; p++){
 		*p = toupper (*p);
 	}
-	v->v.str = string_get (s);
+	v = value_new_string (s);
 	g_free (s);
 
-	FUNC_RETURN_VAL (v);
+	return v;
 }
 
 static char *help_concatenate = {
@@ -287,7 +281,7 @@ static char *help_concatenate = {
 	   "@SEEALSO=LEFT, MID, RIGHT")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_concatenate (FunctionEvalInfo *ei, GList *l)
 {
 	Value *v;
@@ -304,7 +298,7 @@ gnumeric_concatenate (FunctionEvalInfo *ei, GList *l)
 		if (v->type != VALUE_STRING) {
 			return function_error (ei, _("Invalid argument"));
 			value_release (v);
-			FUNC_RETURN_VAL (NULL);
+			return NULL;
 		}
 */
 		tmp = value_get_as_string (v);
@@ -317,12 +311,10 @@ gnumeric_concatenate (FunctionEvalInfo *ei, GList *l)
 		l = g_list_next (l);
 	}
 
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
-	v->v.str = string_get (s);
+	v = value_new_string (s);
 	g_free (s);
 
-	FUNC_RETURN_VAL (v);
+	return v;
 }
 
 static char *help_rept = {
@@ -334,7 +326,7 @@ static char *help_rept = {
 	   "@SEEALSO=CONCATENATE")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_rept (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
@@ -348,18 +340,16 @@ gnumeric_rept (FunctionEvalInfo *ei, Value **argv)
 		return function_error (ei, _("Invalid argument"));
 
 	len = strlen (argv[0]->v.str->str);
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
 	p = s = g_new (gchar, 1 + len * num);
 	while (num--) {
 		strncpy (p, argv[0]->v.str->str, len);
 		p += len;
 	}
 	*p = '\0';
-	v->v.str = string_get (s);
+	v = value_new_string (s);
 	g_free (s);
 
-	FUNC_RETURN_VAL (v);
+	return v;
 }
 
 static char *help_clean = {
@@ -373,11 +363,11 @@ static char *help_clean = {
 	   "@SEEALSO=")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_clean  (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *res;
-	char *copy, *p, *q;
+	unsigned char *copy, *p, *q;
 
 	if (argv [0]->type != VALUE_STRING)
 		return function_error (ei, _("Type mismatch"));
@@ -392,12 +382,10 @@ gnumeric_clean  (FunctionEvalInfo *ei, Value **argv)
 	}
 	*q = 0;
 
-	res = g_new (Value, 1);
-	res->type = VALUE_STRING;
-	res->v.str = string_get (copy);
+	res = value_new_string (copy);
 	g_free (copy);
 
-	FUNC_RETURN_VAL (res);
+	return res;
 }
 
 static char *help_find = {
@@ -411,10 +399,9 @@ static char *help_find = {
 	   "@SEEALSO=EXACT, LEN, MID, SEARCH")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_find (FunctionEvalInfo *ei, Value **argv)
 {
-	Value *ret;
 	int count;
 	char *s, *p;
 
@@ -432,10 +419,7 @@ gnumeric_find (FunctionEvalInfo *ei, Value **argv)
 	if ( (p = strstr(s, argv[0]->v.str->str)) == NULL )
 		return function_error (ei, _("Invalid argument"));
 
-	ret = g_new(Value, 1);
-	ret->type = VALUE_INTEGER;
-	ret->v.v_int = count + p - s;
-	FUNC_RETURN_VAL (ret);
+	return value_new_int (count + p - s);
 }
 
 static char *help_fixed = {
@@ -450,7 +434,7 @@ static char *help_fixed = {
 	   "@SEEALSO=")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_fixed (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
@@ -532,11 +516,9 @@ gnumeric_fixed (FunctionEvalInfo *ei, Value **argv)
 		}
 	}
 
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
-	v->v.str = string_get (s);
+	v = value_new_string (s);
 	g_free (s);
-	FUNC_RETURN_VAL (v);
+	return v;
 }
 
 /*
@@ -554,17 +536,17 @@ static char *help_proper = {
 	   "@SEEALSO=LOWER, UPPER")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_proper (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
-	gchar *s, *p;
+	unsigned char *s, *p;
 	gboolean inword = FALSE;
 
 	if (argv [0]->type != VALUE_STRING)
 		return function_error (ei, _("Type mismatch"));
 
-	s = p = argv[0]->v.str->str;
+	s = p = g_strdup (argv[0]->v.str->str);
 	while (*s) {
 		if (isalpha(*s)) {
 			if (inword) {
@@ -578,10 +560,9 @@ gnumeric_proper (FunctionEvalInfo *ei, Value **argv)
 		s++;
 	}
 
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
-	v->v.str = string_get (p);
-	FUNC_RETURN_VAL (v);
+	v = value_new_string (p);
+	g_free (p);
+	return v;
 }
 
 static char *help_replace = {
@@ -593,7 +574,7 @@ static char *help_replace = {
 	   "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_replace (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
@@ -623,13 +604,11 @@ gnumeric_replace (FunctionEvalInfo *ei, Value **argv)
 
 	s [newlen+oldlen-num] = '\0';
 
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
-	v->v.str = string_get (s);
+	v = value_new_string (s);
 
 	g_free(s);
 
-	FUNC_RETURN_VAL (v);
+	return v;
 }
 
 static char *help_t = {
@@ -641,20 +620,17 @@ static char *help_t = {
 	   "@SEEALSO=CELL, N, VALUE")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_t (FunctionEvalInfo *ei, Value **argv)
 {
-	Value *v;
-
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
-
-	if (argv [0]->type == VALUE_STRING)
-		v->v.str = string_get (argv[0]->v.str->str);
-	else
-		v->v.str = string_get ("");
-
-	FUNC_RETURN_VAL (v);
+	if (argv [0]->type == VALUE_STRING) {
+		Value *v;
+		v = g_new (Value, 1);
+		v->type = VALUE_STRING;
+		v->v.str = string_ref (argv[0]->v.str);
+		return v;
+	} else
+		return value_new_string ("");
 }
 
 static char *help_trim = {
@@ -666,7 +642,7 @@ static char *help_trim = {
 	   "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_trim (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
@@ -696,12 +672,10 @@ gnumeric_trim (FunctionEvalInfo *ei, Value **argv)
 
 	*dest = '\0';
 
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
-	v->v.str = string_get (new);
+	v = value_new_string (new);
 	g_free(new);
 
-	FUNC_RETURN_VAL (v);
+	return v;
 }
 
 static char *help_value = {
@@ -713,18 +687,14 @@ static char *help_value = {
 	   "@SEEALSO=DOLLAR, FIXED, TEXT")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_value (FunctionEvalInfo *ei, Value **argv)
 /* FIXME: in Excel, VALUE("$1, 000") = 1000, and dates etc. supported */
 {
-	Value *v;
 	if (argv[0]->type != VALUE_STRING)
 		return function_error (ei, _("Type mismatch"));
 
-	v = g_new (Value, 1);
-	v->type = VALUE_FLOAT;
-	v->v.v_float = value_get_as_float (argv[0]);
-	FUNC_RETURN_VAL (v);
+	return value_new_float (value_get_as_float (argv[0]));
 }
 
 struct subs_string {
@@ -777,7 +747,7 @@ static char *help_substitute = {
 	   "@SEEALSO=REPLACE, TRIM")
 };
 
-static FuncReturn *
+static Value *
 gnumeric_substitute (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
@@ -826,9 +796,7 @@ gnumeric_substitute (FunctionEvalInfo *ei, Value **argv)
 	} else
 		p = text;
 
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
-	v->v.str = string_get (p);
+	v = value_new_string (p);
 
 	g_free (new);
 	g_free (old);
@@ -836,7 +804,7 @@ gnumeric_substitute (FunctionEvalInfo *ei, Value **argv)
 	if (s != NULL)
 		subs_string_free (s);
 
-	FUNC_RETURN_VAL (v);
+	return v;
 }
 
 static char *help_dollar = {
@@ -849,7 +817,7 @@ static char *help_dollar = {
 };
 
 /* FIXME: should use lc->[pn]_sign_posn, mon_thousands_sep, negative_sign */
-static FuncReturn *
+static Value *
 gnumeric_dollar (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v, *ag [3];
@@ -864,7 +832,7 @@ gnumeric_dollar (FunctionEvalInfo *ei, Value **argv)
 
 	v = (Value *)gnumeric_fixed (ei, ag);
 	if (v == NULL)
-		FUNC_RETURN_VAL (NULL);
+		return NULL;
 
 	g_assert (v->type == VALUE_STRING);
 
@@ -884,7 +852,7 @@ gnumeric_dollar (FunctionEvalInfo *ei, Value **argv)
 	s[len + 1 + neg] = '\0';
 	v->v.str = string_get (s);
 	g_free (s);
-	FUNC_RETURN_VAL (v);
+	return v;
 }
 
 static char *help_search = {
@@ -1041,7 +1009,7 @@ free_all_after_search(GSList *conditions, gchar *text, gchar *within)
 	g_free(within);
 }
 
-static FuncReturn *
+static Value *
 gnumeric_search (FunctionEvalInfo *ei, Value **argv)
 {
         GSList          *conditions, *current;
@@ -1087,7 +1055,7 @@ match_again:
 	        current = current->next;
 		if (current == NULL) {
 			free_all_after_search(conditions, text, within);
-			FUNC_RETURN_VAL (value_new_int (p_start - within + 1));
+			return value_new_int (p_start - within + 1);
 		}
 		current_cond = current->data;
 		match_str = p_start;
@@ -1097,7 +1065,7 @@ match_again:
 			if (current == NULL) {
 				free_all_after_search(conditions,
 						      text, within);
-				FUNC_RETURN_VAL (value_new_int (match_str - within + 1));
+				return value_new_int (match_str - within + 1);
 			}
 			current_cond = current->data;
 		}
@@ -1106,6 +1074,7 @@ match_again:
 	}
 
 	free_all_after_search(conditions, text, within);
+
 	return function_error (ei, gnumeric_err_VALUE);
 }
 

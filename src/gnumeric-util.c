@@ -1,5 +1,5 @@
 /*
- * gnumeric-util.c:  Various GUI utility functions. 
+ * gnumeric-util.c:  Various GUI utility functions.
  *
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)
@@ -22,7 +22,7 @@ gnumeric_notice (Workbook *wb, const char *type, const char *str)
 	if (wb)
 		gnome_dialog_set_parent (GNOME_DIALOG (dialog),
 					 GTK_WINDOW (wb->toplevel));
-			
+
 	gnome_dialog_run (GNOME_DIALOG (dialog));
 }
 
@@ -33,9 +33,9 @@ gtk_radio_group_get_selected (GSList *radio_group)
 	int i, c;
 
 	g_return_val_if_fail (radio_group != NULL, 0);
-	
+
 	c = g_slist_length (radio_group);
-		
+
 	for (i = 0, l = radio_group; l; l = l->next, i++){
 		GtkRadioButton *button = l->data;
 
@@ -51,7 +51,7 @@ gtk_radio_button_select (GSList *group, int n)
 {
 	GSList *l;
 	int len = g_slist_length (group);
-	
+
 	l = g_slist_nth (group, len - n - 1);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (l->data), 1);
 }
@@ -80,7 +80,7 @@ run_popup_menu (GdkEvent *event, int button, char **strings)
 		GtkWidget *item;
 
 		item = gtk_menu_item_new_with_label (_(*strings));
-		
+
 		gtk_widget_show (item);
 		gtk_signal_connect (
 			GTK_OBJECT (item), "activate",
@@ -88,12 +88,12 @@ run_popup_menu (GdkEvent *event, int button, char **strings)
 
 		/* Pass a pointer where we want the result stored */
 		gtk_object_set_user_data (GTK_OBJECT (item), &i);
-		
+
 		gtk_menu_append (GTK_MENU (menu), item);
 	}
 
 	i = -1;
-	
+
 	/* Configure it: */
 	gtk_signal_connect (GTK_OBJECT (menu), "deactivate",
 			    GTK_SIGNAL_FUNC (gtk_main_quit), NULL);
@@ -104,7 +104,7 @@ run_popup_menu (GdkEvent *event, int button, char **strings)
 	gtk_main ();
 
 	gtk_widget_destroy (menu);
-	
+
 	return i;
 }
 
@@ -120,55 +120,77 @@ range_contains (Range *range, int col, int row)
 	return FALSE;
 }
 
-char *
-font_change_component (const char *fontname, int idx, char *newvalue)
-{
-	/* FIXME: don't work well for a comma-sepated fontset name */
-	char *components [15*10];
-	char *new = g_strdup (fontname), *res;
-	char *p = new;
-	int  n = 0, i, len;
 
-	/* split the font name */
-	for (;*p; p++){
-		if (*p == '-'){
-			*p = 0;
-			p++;
-			components [n++] = p;
-			if (n >= sizeof(components)/sizeof(components[0]))
-				break;
+static char *
+font_change_component_1 (const char *fontname, int idx,
+			 const char *newvalue, char const **end)
+{
+	char *res, *dst;
+	int hyphens = 0;
+
+	dst = res = (char *)g_malloc (strlen (fontname) + strlen (newvalue) + idx + 5);
+	while (*fontname && *fontname != ',') {
+		if (hyphens != idx)
+			*dst++ = *fontname;
+		if (*fontname++ == '-') {
+			if (hyphens == idx)
+				*dst++ = '-';
+			if (++hyphens == idx) {
+				strcpy (dst, newvalue);
+				dst += strlen (newvalue);
+			}
 		}
 	}
-
-	/* Change the value */
-	components [idx] = newvalue;
-
-	/* reassemble */
-	len = 1;
-	for (i = 0; i < n; i++){
-		len += strlen (components [i]) + 1;
+	*end = fontname;
+	if (hyphens < idx) {
+		while (hyphens++ < idx)
+			*dst++ = '-';
+		strcpy (dst, newvalue);
+		dst += strlen (newvalue);
 	}
-	len++;
-	res = g_malloc (len);
-	res [0] = '-';
-	res [1] = 0;
-	
-	for (i = 0; i < n; i++){
-		strcat (res, components [i]);
-		if (i + 1 != n)
-			strcat (res, "-");
-	}
-	g_free (new);
-
+	*dst = 0;
 	return res;
 }
 
 char *
-font_get_bold_name (const char *fontname)
+font_change_component (const char *fontname, int idx, const char *newvalue)
+{
+	char *res = 0;
+	int reslen = 0;
+
+	while (*fontname) {
+		const char *end;
+		char *new;
+		int newlen;
+
+		new = font_change_component_1 (fontname, idx + 1, newvalue, &end);
+		newlen = strlen (new);
+
+		res = (char *)g_realloc (res, reslen + newlen + 2);
+		strcpy (res + reslen, new);
+		g_free (new);
+		reslen += newlen;
+		fontname = end;
+		if (*fontname == ',') {
+			res[reslen++] = ',';
+			fontname++;
+		}
+	}
+	if (reslen) {
+		res[reslen] = 0;
+		return res;
+	} else
+		return g_strdup ("");
+}
+
+
+
+char *
+font_get_bold_name (const char *fontname, int units)
 {
 	char *f;
-	
-	/* FIXME: this scheme is poor: in some cases, the fount strength is called 'bold', 
+
+	/* FIXME: this scheme is poor: in some cases, the fount strength is called 'bold',
 	whereas in some others it is 'black', in others... Look font_get_italic_name  */
 	f = font_change_component (fontname, 2, "bold");
 
@@ -176,14 +198,18 @@ font_get_bold_name (const char *fontname)
 }
 
 char *
-font_get_italic_name (const char *fontname)
+font_get_italic_name (const char *fontname, int units)
 {
 	char *f;
-	
+	StyleFont *sf;
+
 	f = font_change_component (fontname, 3, "o");
-	if (style_font_new (f, 1) == NULL) {
+	sf = style_font_new_simple (f, units);
+	if (sf == NULL) {
+		g_free (f);
 		f = font_change_component (fontname, 3, "i");
-	}
+	} else
+		style_font_unref (sf);
 
 	return f;
 }
@@ -194,7 +220,7 @@ kill_popup_menu (GtkWidget *widget, GtkMenu *menu)
 	g_return_if_fail (menu != NULL);
 	g_return_if_fail (GTK_IS_MENU (menu));
 
-	gtk_object_unref (GTK_OBJECT (menu)); 
+	gtk_object_unref (GTK_OBJECT (menu));
 }
 
 void
@@ -212,7 +238,7 @@ gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event)
 {
 	g_return_if_fail (menu != NULL);
 	g_return_if_fail (GTK_IS_MENU (menu));
-	
+
 	gnumeric_auto_kill_popup_menu_on_hide (menu);
-	gtk_menu_popup (menu, NULL, NULL, 0, NULL, event->button, event->time);	
+	gtk_menu_popup (menu, NULL, NULL, 0, NULL, event->button, event->time);
 }

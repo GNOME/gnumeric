@@ -1,0 +1,8 @@
+XBase plugin by Sean Atkinson <sca20@cam.ac.uk>
+
+TODO:
+	* Pay attention to index files (*.ndx), MDX etc.
+	* Add write functionality (could include rollback transactions)
+	* Implement dBase II
+	* Sort out FIXME's
+	* remove copious debug output

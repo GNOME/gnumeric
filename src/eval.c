@@ -295,7 +295,7 @@ cell_drop_dependencies (Cell *cell)
 	if (remove_list){
 		GList *l = remove_list;
 
-		for (; l ; l = l->next){
+		for (; l; l = l->next){
 			g_hash_table_remove (dependency_hash, l->data);
 			g_free (l->data);
 		}
@@ -517,7 +517,7 @@ workbook_recalc (Workbook *wb)
 		cell_eval (cell);
 		deps = cell_get_dependencies (cell->sheet, cell->col->pos, cell->row->pos);
 
-		for (l = deps ; l; l = l->next){
+		for (l = deps; l; l = l->next){
 			Cell *one_cell;
 
 			one_cell = l->data;

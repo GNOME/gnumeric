@@ -6,115 +6,248 @@
  **/
 /**
  * See S59D52.HTM for the spec.
+ * NOTE : Use the low byte as much as possible.  The high byte is supposed to
+ *        be a version (not mentioned in more recent docs).  However,  some
+ *        of the low bytes types have multiple record types with different 
+ *        high bytes.... So much for consistancy.
  * As you add low numbers, check you don't glup an odd-ball
  **/
 
-#define BIFF_DIMENSIONS                 0x00
-#define BIFF_BLANK                      0x01
-#define BIFF_NUMBER                     0x03
-#define BIFF_LABEL                      0x04
-#define BIFF_FORMULA                    0x06
-#define BIFF_ROW                        0x08
-#define BIFF_BOF                        0x09
-#define BIFF_EOF                        0x0a
-#define BIFF_CALCCOUNT                  0x0c
-#define BIFF_CALCMODE                   0x0d
-#define BIFF_PRECISION                  0x0e
-#define BIFF_REFMODE                    0x0f
-#define BIFF_DELTA                      0x10
-#define BIFF_ITERATION                  0x11
-#define BIFF_PROTECT                    0x12
-#define BIFF_PASSWORD                   0x13
-#define BIFF_HEADER                     0x14
-#define BIFF_FOOTER                     0x15
-#define BIFF_EXTERNCOUNT                0x16
-#define BIFF_EXTERNSHEET                0x17
-#define BIFF_WINDOWPROTECT              0x19
-#define BIFF_VERTICALPAGEBREAKS         0x1a
-#define BIFF_HORIZONTALPAGEBREAKS       0x1b
-#define BIFF_NOTE                       0x1c
-#define BIFF_SELECTION                  0x1d
-#define BIFF_FORMAT                     0x1e
-#define BIFF_ARRAY                      0x21
-#define BIFF_1904                       0x22
-#define BIFF_EXTERNNAME                 0x23
-#define BIFF_LEFTMARGIN                 0x26
-#define BIFF_RIGHTMARGIN                0x27
-#define BIFF_TOPMARGIN                  0x28
-#define BIFF_BOTTOMMARGIN               0x29
-#define BIFF_PRINTHEADERS               0x2a
-#define BIFF_PRINTGRIDLINES             0x2b
-#define BIFF_FILEPASS                   0x2f
-#define BIFF_FONT                       0x31
-#define BIFF_CONTINUE                   0x3c
-#define BIFF_WINDOW1                    0x3d
-#define BIFF_PANE                       0x40
-#define BIFF_CODENAME                   0x41
-#define BIFF_CODEPAGE                   0x42
-#define BIFF_XF_OLD                     0x43
-#define BIFF_PLS                        0x4D
-#define BIFF_DCON                       0x50
-#define BIFF_DCONREF                    0x51
-#define BIFF_DCONNAME                   0x52
-#define BIFF_DEFCOLWIDTH                0x55
-
-#define BIFF_FILESHARING                0x5b
-#define BIFF_WRITEACCESS                0x5c
-#define BIFF_OBJ                        0x5d
-#define BIFF_SAVERECALC                 0x5f
-#define BIFF_COLINFO                    0x7d
-#define BIFF_RK                         0x7e
-#define BIFF_IMDATA                     0x7f
-#define BIFF_GUTS                       0x80
-#define BIFF_WSBOOL                     0x81
-#define BIFF_GRIDSET                    0x82
-#define BIFF_HCENTER                    0x83
-#define BIFF_VCENTER                    0x84
-#define BIFF_BOUNDSHEET                 0x85
-#define BIFF_WRITEPROT                  0x86
-#define BIFF_ADDIN                      0x87
-#define BIFF_ENG                        0x88
-#define BIFF_PUB                        0x89
-#define BIFF_COUNTRY                    0x8c
-#define BIFF_HIDEOBJ                    0x8d
-#define BIFF_PALETTE                    0x92
-#define BIFF_FNGROUPCOUNT               0x9c
-#define BIFF_AUTOFILTERINFO             0x9d
-#define BIFF_AUTOFILTER                 0x9e
-#define BIFF_SETUP                      0xa1
-#define BIFF_SHRFMLA                    0xbc
-#define BIFF_MULRK                      0xbd
-#define BIFF_MULBLANK                   0xbe
-#define BIFF_MMS                        0xc1
-#define BIFF_ADDMENU                    0xc2
-#define BIFF_DELMENU                    0xc3
-#define BIFF_SXDI                       0xc5
-#define BIFF_SXDB                       0xc6
-#define BIFF_SXSTRING                   0xcd
-#define BIFF_RSTRING                    0xd6
-#define BIFF_DBCELL                     0xd7
-#define BIFF_OLESIZE                    0xde
-#define BIFF_BOOKBOOL                   0xda
-#define BIFF_XF                         0xe0
-#define BIFF_INTERFACEHDR               0xe1
-#define BIFF_INTERFACEEND               0xe2
-#define BIFF_SXVX                       0xe3
-#define BIFF_TABIDCONF                  0xea
-#define BIFF_MS_O_DRAWING_GROUP         0xeb
-#define BIFF_MS_O_DRAWING               0xec
-#define BIFF_MS_O_DRAWING_SELECTION     0xed
-#define BIFF_SST                        0xfc
-#define BIFF_LABELSST                   0xfd
-#define BIFF_EXTSST                     0xff
+#define BIFF_DIMENSIONS                 0x00	/* 2, NOT 1,10 */
+#define BIFF_BLANK                      0x01	/* 2, NOT 10 */
+#define BIFF_NUMBER                     0x03	/* 2, NOT 1,10 */
+#define BIFF_LABEL                      0x04	/* 2 */
+#define BIFF_FORMULA                    0x06	/* 4, NOT 10 */
+#define BIFF_ROW                        0x08	/* 2 */
+#define BIFF_BOF                        0x09	/* 8, NOT 10 */
+#define BIFF_EOF                        0x0a	/* 0, NOT 10 */
+#define BIFF_CALCCOUNT                  0x0c	/* 0, NOT 10 */
+#define BIFF_CALCMODE                   0x0d	/* 0, NOT 10 */
+#define BIFF_PRECISION                  0x0e	/* 0 */
+#define BIFF_REFMODE                    0x0f	/* 0 */
+#define BIFF_DELTA                      0x10	/* 0 */
+#define BIFF_ITERATION                  0x11	/* 0 */
+#define BIFF_PROTECT                    0x12	/* 0 */
+#define BIFF_PASSWORD                   0x13	/* 0 */
+#define BIFF_HEADER                     0x14	/* 0, NOT 10 */
+#define BIFF_FOOTER                     0x15	/* 0, NOT 10 */
+#define BIFF_EXTERNCOUNT                0x16	/* 0, NOT 10 */
+#define BIFF_EXTERNSHEET                0x17	/* 0, NOT 10 */
+#define BIFF_WINDOWPROTECT              0x19	/* 0, NOT 10 */
+#define BIFF_VERTICALPAGEBREAKS         0x1a	/* 0, NOT 10 */
+#define BIFF_HORIZONTALPAGEBREAKS       0x1b	/* 0, NOT 10 */
+#define BIFF_NOTE                       0x1c	/* 0, NOT 10 */
+#define BIFF_SELECTION                  0x1d	/* 0, NOT 10 */
+#define BIFF_FORMAT                     0x1e	/* 4, NOT 10 */
+#define BIFF_ARRAY                      0x21	/* 2, NOT 10 */
+#define BIFF_1904                       0x22	/* 0, NOT 1,10 */
+#define BIFF_EXTERNNAME                 0x23	/* 2 */
+#define BIFF_LEFTMARGIN                 0x26	/* 0, NOT 10 */
+#define BIFF_RIGHTMARGIN                0x27	/* 0, NOT 10 */
+#define BIFF_TOPMARGIN                  0x28	/* 0 */
+#define BIFF_BOTTOMMARGIN               0x29	/* 0 */
+#define BIFF_PRINTHEADERS               0x2a	/* 0 */
+#define BIFF_PRINTGRIDLINES             0x2b	/* 0 */
+#define BIFF_FILEPASS                   0x2f	/* 0 */
+#define BIFF_FONT                       0x31	/* 2 */
+#define BIFF_CONTINUE                   0x3c	/* 0, NOT 10 */
+#define BIFF_WINDOW1                    0x3d	/* 0, NOT 1,10 */
+#define BIFF_BACKUP                     0x40	/* 0, NOT 10 */
+#define BIFF_PANE                       0x41	/* 0, NOT 10 */
+#define BIFF_CODENAME                   0x42	/* DUPLICATE 42 */
+#define BIFF_CODEPAGE                   0x42	/* DUPLICATE 42 */
+#define BIFF_XF_OLD                     0x43	/* What is this ?, NOT 10 */
+#define BIFF_PLS                        0x4D	/* 0 */
+#define BIFF_DCON                       0x50	/* 0, NOT 10 */
+#define BIFF_DCONREF                    0x51	/* 0, NOT 10 */
+#define BIFF_DCONNAME                   0x52	/* 0 */
+#define BIFF_DEFCOLWIDTH                0x55	/* 0 */
+#define BIFF_XCT                        0x59	/* 0 */
+#define BIFF_CRN                        0x5a	/* 0 */
+#define BIFF_FILESHARING                0x5b	/* 0, NOT 10 */
+#define BIFF_WRITEACCESS                0x5c	/* 0 */
+#define BIFF_OBJ                        0x5d	/* 0, NOT 10 */
+#define BIFF_UNCALCED                   0x5e	/* 0 */
+#define BIFF_SAVERECALC                 0x5f	/* 0 */
+#define BIFF_TEMPLATE                   0x60	/* 0, NOT 1,10 */
+#define BIFF_OBJPROTECT                 0x63	/* 0, NOT 10 */
+#define BIFF_COLINFO                    0x7d	/* 0 */
+#define BIFF_RK                         0x7e	/* 0 */
+#define BIFF_IMDATA                     0x7f	/* 0 */
+#define BIFF_GUTS                       0x80	/* 0 */
+#define BIFF_WSBOOL                     0x81	/* 0 */
+#define BIFF_GRIDSET                    0x82	/* 0 */
+#define BIFF_HCENTER                    0x83	/* 0 */
+#define BIFF_VCENTER                    0x84	/* 0 */
+#define BIFF_BOUNDSHEET                 0x85	/* 0 */
+#define BIFF_WRITEPROT                  0x86	/* 0 */
+#define BIFF_ADDIN                      0x87	/* 0 */
+#define BIFF_EDG                        0x88	/* 0 */
+#define BIFF_PUB                        0x89	/* 0 */
+#define BIFF_COUNTRY                    0x8c	/* 0 */
+#define BIFF_HIDEOBJ                    0x8d	/* 0 */
+#define BIFF_SORT                       0x90	/* 0 */
+#define BIFF_SUB                        0x91	/* 0 */
+#define BIFF_PALETTE                    0x92	/* 0 */
+#define BIFF_LHRECORD                   0x94	/* 0 */
+#define BIFF_LHNGRAPH                   0x95	/* 0 */
+#define BIFF_SOUND                      0x96	/* 0 */
+#define BIFF_LPR                        0x98	/* 0 */
+#define BIFF_STANDARDWIDTH              0x99	/* 0 */
+#define BIFF_FNGROUPNAME                0x9a	/* 0 */
+#define BIFF_FILTERMODE                 0x9b	/* 0 */
+#define BIFF_FNGROUPCOUNT               0x9c	/* 0 */
+#define BIFF_AUTOFILTERINFO             0x9d	/* 0 */
+#define BIFF_AUTOFILTER                 0x9e	/* 0 */
+#define BIFF_SCL                        0xa0	/* 0 */
+#define BIFF_SETUP                      0xa1	/* 0 */
+#define BIFF_COORDLIST                  0xa9	/* 0 NOT 1 */
+#define BIFF_GCW                        0xab	/* 0 NOT 1 */
+#define BIFF_SCENMAN                    0xae	/* 0 NOT 1 */
+#define BIFF_SCENARIO                   0xaf	/* 0 NOT 1 */
+#define BIFF_SXVIEW                     0xb0	/* 0 */
+#define BIFF_SXVD                       0xb1	/* 0 NOT 1 */
+#define BIFF_SXVI                       0xb2	/* 0 NOT 1 */
+#define BIFF_SXIVD                      0xb4	/* 0 */
+#define BIFF_SXLI                       0xb5	/* 0 NOT 1 */
+#define BIFF_SXPI                       0xb6	/* 0 NOT 1 */
+#define BIFF_DOCROUTE                   0xb8	/* 0 NOT 1 */
+#define BIFF_RECIPNAME                  0xb9	/* 0 */
+#define BIFF_SHRFMLA                    0xbc	/* 0 NOT 1 */
+#define BIFF_MULRK                      0xbd	/* 0 */
+#define BIFF_MULBLANK                   0xbe	/* 0 NOT 1 */
+#define BIFF_MMS                        0xc1	/* 0 */
+#define BIFF_ADDMENU                    0xc2	/* 0 */
+#define BIFF_DELMENU                    0xc3	/* 0 */
+#define BIFF_SXDI                       0xc5	/* 0 */
+#define BIFF_SXDB                       0xc6	/* 0 */
+#define BIFF_SXSTRING                   0xcd	/* 0 */
+#define BIFF_SXTBL                      0xd0	/* 0 */
+#define BIFF_SXTBRGIITM                 0xd1	/* 0 */
+#define BIFF_SXTBPG                     0xd2	/* 0 */
+#define BIFF_OBPROJ                     0xd3	/* 0 */
+#define BIFF_SXIDSTM                    0xd5	/* 0 */
+#define BIFF_RSTRING                    0xd6	/* 0 */
+#define BIFF_DBCELL                     0xd7	/* 0 */
+#define BIFF_BOOKBOOL                   0xda	/* 0 */
+#define BIFF_PARAMQRY                   0xdc	/* DUPLICATE dc */
+#define BIFF_SXEXT                      0xdc	/* DUPLICATE dc */
+#define BIFF_SCENPROTECT                0xdd	/* 0 */
+#define BIFF_OLESIZE                    0xde	/* 0 */
+#define BIFF_UDDESC                     0xdf	/* 0 */
+#define BIFF_XF                         0xe0	/* 0 */
+#define BIFF_INTERFACEHDR               0xe1	/* 0 */
+#define BIFF_INTERFACEEND               0xe2	/* 0 */
+#define BIFF_SXVX                       0xe3	/* 0 */
+#define BIFF_TABIDCONF                  0xea	/* 0 */
+#define BIFF_MS_O_DRAWING_GROUP         0xeb	/* 0 */
+#define BIFF_MS_O_DRAWING               0xec	/* 0 */
+#define BIFF_MS_O_DRAWING_SELECTION     0xed	/* 0 */
+#define BIFF_SXRULE                     0xf0	/* 0 */
+#define BIFF_SXEX                       0xf1	/* 0 */
+#define BIFF_SXFILT                     0xf2	/* 0 */
+#define BIFF_SXNAME                     0xf6	/* 0 */
+#define BIFF_SXSELECT                   0xf7	/* 0 */
+#define BIFF_SXPAIR                     0xf8	/* 0 */
+#define BIFF_SXFMLA                     0xf9	/* 0 */
+#define BIFF_SXFORMAT                   0xfb	/* 0 */
+#define BIFF_SST                        0xfc	/* 0 */
+#define BIFF_LABELSST                   0xfd	/* 0 */
+#define BIFF_EXTSST                     0xff	/* 0 */
 
 /* Odd balls */
-#define BIFF_SUPBOOK                   0x1ae /* Supporting Workbook */
-#define BIFF_DV                        0x1be
-#define BIFF_BOOLERR                   0x205
-#define BIFF_STRING                    0x207
-#define BIFF_INDEX                     0x20b
-#define BIFF_NAME                      0x218
-#define BIFF_DEFAULTROWHEIGHT	       0x225
-#define BIFF_WINDOW2                   0x23e
-#define BIFF_STYLE                     0x293
+#define BIFF_SXVDEX                    0x100	/* ONLY 1 */
+#define BIFF_SXFORMULA                 0x103	/* ONLY 1 */
+#define BIFF_SXDBEX                    0x122	/* ONLY 1 */
+#define BIFF_TABID                     0x13d	/* ONLY 1 */
+#define BIFF_USESELFS                  0x160	/* ONLY 1 */
+#define BIFF_DFS                       0x161	/* ONLY 1 */
+#define BIFF_XL5MODIFY                 0x162	/* ONLY 1 */
+#define BIFF_FILESHARING2              0x1a5
+#define BIFF_USERDBVIEW                0x1a9	/* ONLY 1 */
+#define BIFF_USERSVIEWBEGIN            0x1aa
+#define BIFF_USERSVIEWEND              0x1ab	/* ONLY 1 */
+#define BIFF_QSI                       0x1ad
+#define BIFF_SUPBOOK                   0x1ae	/* ONLY 1 */
+#define BIFF_PROT4REV                  0x1af	/* ONLY 1 */
+#define BIFF_CF                        0x1b1	/* ONLY 1 */
+#define BIFF_DVAL                      0x1b2	/* ONLY 1 */
+#define BIFF_DCONBIN                   0x1b5	/* ONLY 1 */
+#define BIFF_TXO                       0x1b6	/* ONLY 1 */
+#define BIFF_REFRESHALL                0x1b7	/* ONLY 1 */
+#define BIFF_HLINK                     0x1b8	/* ONLY 1 */
+#define BIFF_SXFDBTYPE                 0x1bb
+#define BIFF_PROT4REVPASS              0x1bc	/* ONLY 1 */
+#define BIFF_DV                        0x1be	/* ONLY 1 */
 
+#define BIFF_BOOLERR                   0x205	/* Why not as 05 */
+#define BIFF_STRING                    0x207	/* Why not as 07, NOT 10 */
+#define BIFF_INDEX                     0x20b	/* Why not as 0b */
+#define BIFF_NAME                      0x218	/* Why not as 18, NOT 10 */
+#define BIFF_DEFAULTROWHEIGHT	       0x225	/* Why not as 25, NOT 10 */
+#define BIFF_TABLE                     0x236	/* Why not as 36 */
+#define BIFF_WINDOW2                   0x23e	/* Why not as 3e, NOT 10 */
+#define BIFF_STYLE                     0x293	/* Why not as 93 */
+
+/* Chart Specific */
+#define BIFF_CHART_UNITS                0x1001
+#define BIFF_CHART_CHART                0x1002
+#define BIFF_CHART_SERIES               0x1003
+#define BIFF_CHART_DATAFORMAT           0x1006
+#define BIFF_CHART_LINEFORMAT           0x1007
+#define BIFF_CHART_MARKERFORMAT         0x1009
+#define BIFF_CHART_AREAFORMAT           0x100a
+#define BIFF_CHART_PIEFORMAT            0x100b
+#define BIFF_CHART_ATTACHEDLABEL        0x100c
+#define BIFF_CHART_SERIESTEXT           0x100d
+#define BIFF_CHART_CHARTFORMAT          0x1014
+#define BIFF_CHART_LEGEND               0x1015
+#define BIFF_CHART_SERIESLIST           0x1016
+#define BIFF_CHART_BAR                  0x1017
+#define BIFF_CHART_LINE                 0x1018
+#define BIFF_CHART_PIE                  0x1019
+#define BIFF_CHART_AREA                 0x101a
+#define BIFF_CHART_SCATTER              0x101b
+#define BIFF_CHART_CHARTLINE            0x101c
+#define BIFF_CHART_AXIS                 0x101d
+#define BIFF_CHART_TICK                 0x101e
+#define BIFF_CHART_VALUERANGE           0x101f
+#define BIFF_CHART_CATSERRANGE          0x1020
+#define BIFF_CHART_AXISLINEFORMAT       0x1021
+#define BIFF_CHART_CHARTFORMATLINK      0x1022
+#define BIFF_CHART_DEFAULTTEXT          0x1024
+#define BIFF_CHART_TEXT                 0x1025
+#define BIFF_CHART_FONTX                0x1026
+#define BIFF_CHART_OBJECTLINK           0x1027
+#define BIFF_CHART_FRAME                0x1032
+#define BIFF_CHART_BEGIN                0x1033
+#define BIFF_CHART_END                  0x1034
+#define BIFF_CHART_PLOTAREA             0x1035
+#define BIFF_CHART_3D                   0x103a
+#define BIFF_CHART_PICF                 0x103c
+#define BIFF_CHART_DROPBAR              0x103d
+#define BIFF_CHART_RADAR                0x103e
+#define BIFF_CHART_SURF                 0x103f
+#define BIFF_CHART_RADARAREA            0x1040
+#define BIFF_CHART_AXISPARENT           0x1041
+#define BIFF_CHART_LEGENDXN             0x1043
+#define BIFF_CHART_SHTPROPS             0x1044
+#define BIFF_CHART_SERTOCRT             0x1045
+#define BIFF_CHART_AXESUSED             0x1046
+#define BIFF_CHART_SBASEREF             0x1048
+#define BIFF_CHART_SERPARENT            0x104a
+#define BIFF_CHART_SERAUXTREND          0x104b
+#define BIFF_CHART_IFMT                 0x104e
+#define BIFF_CHART_POS                  0x104f
+#define BIFF_CHART_ALRUNS               0x1050
+#define BIFF_CHART_AI                   0x1051
+#define BIFF_CHART_SERAUXERRBAR         0x105b
+#define BIFF_CHART_SERFMT               0x105d
+#define BIFF_CHART_FBI                  0x1060
+#define BIFF_CHART_BOPPOP               0x1061
+#define BIFF_CHART_AXCEXT               0x1062
+#define BIFF_CHART_DAT                  0x1063
+#define BIFF_CHART_PLOTGROWTH           0x1064
+#define BIFF_CHART_SIINDEX              0x1065
+#define BIFF_CHART_GELFRAME             0x1066
+#define BIFF_CHART_BOPPOPCUSTOM         0x1067

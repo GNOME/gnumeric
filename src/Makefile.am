@@ -42,6 +42,8 @@ GNUMERIC_BASE_SOURCES =				\
 	clipboard.h				\
 	color.c					\
 	color.h					\
+	complex.h				\
+	complex.c				\
 	corba.h					\
 	cursors.c				\
 	cursors.h				\
@@ -184,6 +186,7 @@ gnumeric_LDFLAGS = -export-dynamic
 gnumeric_LDADD = 				\
 	../plugins/excel/libexcel.a		\
 	../plugins/excel/libole2/libole2.a 	\
+	../plugins/xbase/libxbase.a		\
 	../libglade/glade/libglade.a		\
 	$(GNOME_LIBDIR) 			\
 	$(GNOMEUI_LIBS)				\
@@ -194,6 +197,7 @@ gnumeric_LDADD = 				\
 gnumeric_bonobo_LDADD =				\
 	../plugins/excel/libexcel.a		\
 	../plugins/excel/libole2/libole2.a 	\
+	../plugins/xbase/libxbase.a		\
 	../libglade/glade/libglade.a		\
 	$(BONOBO_LIBS)				\
 	$(GNOME_XML_LIB) 			\
