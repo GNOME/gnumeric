@@ -570,10 +570,20 @@ summary_cb (int col, int row, Value *v, summary_cb_t *p)
 	/* Check if some of the previous scenarios already included that
 	 * cell. If so, it's row will be put into *index. */
 	index = g_hash_table_lookup (p->names, tmp);
-	if (index != NULL)
+	if (index != NULL) {
 		dao_set_cell_value (&p->dao, 2 + p->col, 3 + *index, 
 				    value_duplicate (v));
-	else {
+
+		/* Set the colors. */
+		dao_set_colors (&p->dao, 2 + p->col, 3 + *index,
+				2 + p->col, 3 + *index,
+				style_color_new (gs_black.red, gs_black.green, 
+						 gs_black.blue),
+				style_color_new (gs_light_gray.red,
+						 gs_light_gray.green,
+						 gs_light_gray.blue));
+	
+	} else {
 		/* New cell. */
 		Cell *cell;
 		int  *r;
@@ -589,7 +599,16 @@ summary_cb (int col, int row, Value *v, summary_cb_t *p)
 		cell = sheet_cell_fetch (p->sheet, col, row);
 		dao_set_cell_value (&p->dao, 1, 3 + p->row,
 				    value_duplicate (cell->value));
-		
+
+		/* Set the colors. */
+		dao_set_colors (&p->dao, 2 + p->col, 3 + p->row,
+				2 + p->col, 3 + p->row,
+				style_color_new (gs_black.red, gs_black.green, 
+						 gs_black.blue),
+				style_color_new (gs_light_gray.red,
+						 gs_light_gray.green,
+						 gs_light_gray.blue));
+	
 		/* Insert row number into the hash table. */
 		r  = g_new (int, 1);
 		*r = row;
@@ -717,6 +736,13 @@ scenario_summary (WorkbookControl *wbc,
 					 gs_white.blue),
 			style_color_new (gs_dark_gray.red, gs_dark_gray.green,
 					 gs_dark_gray.blue));
+	dao_set_colors (&cb.dao, 0, 2, 0, 2 + cb.row,
+			style_color_new (gs_black.red, gs_black.green, 
+					 gs_black.blue),
+			style_color_new (gs_light_gray.red,
+					 gs_light_gray.green,
+					 gs_light_gray.blue));
+
 	dao_set_align (&cb.dao, 1, 1, cb.col + 1, 1, HALIGN_RIGHT, 
 		       VALIGN_BOTTOM);
 
