@@ -219,17 +219,17 @@
 
 		<menuitem name="EditSelectRow" verb=""
 		    _label="Select _Row"
-		    accel="*Shift* "
+		    accel="*Alt*space"
 		    _tip="Select an entire row"/>
 
 		<menuitem name="EditSelectColumn" verb=""
 		    _label="Select _Column"
-		    accel="*Control* "
+		    accel="*Control*space"
 		    _tip="Select an entire column"/>
 
 		<menuitem name="EditSelectArray" verb=""
 		    _label="Select Arra_y"
-		    accel="*Control*/"
+		    accel="*Control*slash"
 		    _tip="Select an array of cells"/>
 
 		<menuitem name="EditSelectDepends" verb=""

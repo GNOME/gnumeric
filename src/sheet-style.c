@@ -738,6 +738,11 @@ cell_tile_apply_pos (CellTile **tile, int level,
 	CellTile *tmp;
 	CellTileType type;
 
+	g_return_if_fail (col >= 0);
+	g_return_if_fail (col < SHEET_MAX_COLS);
+	g_return_if_fail (row >= 0);
+	g_return_if_fail (row < SHEET_MAX_ROWS);
+
 tail_recursion :
 	g_return_if_fail (TILE_TOP_LEVEL >= level && level >= 0);
 	g_return_if_fail (tile != NULL);

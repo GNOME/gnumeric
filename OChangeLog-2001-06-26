@@ -1,3 +1,12 @@
+2001-05-18  Jody Goldberg <jgoldberg@home.com>
+
+	* src/GNOME_Gnumeric.xml : Fix the accelerators to use xkeysym names
+	  rather than the physical key for slash and space.
+
+2001-05-17  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-style.c (cell_tile_apply_pos) : Add more sanity checking.
+
 2001-05-16  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-bar.c (is_pointer_on_division) : Use

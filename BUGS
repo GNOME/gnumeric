@@ -8,11 +8,12 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    - smarter support for unicode characters that do not convert to the
-      current encoding during XL import.	(Vlad is looking at this)
-
 Long term breakage
 ------------------
+
+- smarter support for unicode characters that do not convert to the
+  current encoding during XL import.	(Vlad is looking at this)
+  Apply Vlads patch for 0.66
 
 - outline mode
     : finish implementing optionally putting markers above/left
@@ -23,6 +24,9 @@ Long term breakage
   (Zbigniew is working on it)
 
 - It is possible to navigate to hidden cols/rows at the start/end of the sheet.
+
+- clean up the range_list codes to differentiate a list of ranges from a list
+  of cellranges.
 
 Names :
     : Fix XL named expr import for sheet local names
@@ -126,6 +130,10 @@ Dialogs
     : As we auto add new entries for varargs we should make them visible.
     : Editing nested functions.  How best to express this.
     : Switching between multiple function at the same level.
+
+- Recalc Engine
+    : Evaluate the cost of queueing depends when things change not when they
+      eval.
 
 Function Breakage
 -----------------
