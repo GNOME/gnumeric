@@ -233,23 +233,24 @@ html32_file_save (GnumFileSaver const *fs, IOContext *io_context,
 		return;
 	}
 
-	fprintf (fp, "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2//EN\">\n");
-	fprintf (fp, "<HTML>\n");
-	fprintf (fp, "<HEAD>\n\t<TITLE>Tables</TITLE>\n");
-	fprintf (fp, "\t<!-- "G_PLUGIN_FOR_HTML" -->\n");
-	fprintf (fp, "<STYLE><!--\n");
-	fprintf (fp, "TT {\n");
-	fprintf (fp, "\tfont-family: courier;\n");
-	fprintf (fp, "}\n");
-	fprintf (fp, "TD {\n");
-	fprintf (fp, "\tfont-family: helvetica, sans-serif;\n");
-	fprintf (fp, "}\n");
-	fprintf (fp, "CAPTION {\n");
-	fprintf (fp, "\tfont-size: 14pt;\n");
-	fprintf (fp, "\ttext-align: left;\n");
-	fprintf (fp, "}\n");
-	fprintf (fp, "--></STYLE>\n");
-	fprintf (fp, "</HEAD>\n</BODY>\n");
+	fprintf (fp,
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2//EN\">\n"
+"<HTML>\n"
+"<HEAD>\n\t<TITLE>Tables</TITLE>\n"
+"\t<!-- "G_PLUGIN_FOR_HTML" -->\n"
+"<STYLE><!--\n"
+"TT {\n"
+"\tfont-family: courier;\n"
+"}\n"
+"TD {\n"
+"\tfont-family: helvetica, sans-serif;\n"
+"}\n"
+"CAPTION {\n"
+"\tfont-size: 14pt;\n"
+"\ttext-align: left;\n"
+"}\n"
+"--></STYLE>\n"
+"</HEAD>\n</BODY>\n");
 	sheets = workbook_sheets (wb);
 	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
 		Sheet *sheet = ptr->data;
@@ -301,24 +302,26 @@ html40_file_save (GnumFileSaver const *fs, IOContext *io_context,
 		return;
 	}
 
-	fprintf (fp, "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n");
-	fprintf (fp, "<HTML>\n");
-	fprintf (fp, "<HEAD>\n\t<TITLE>Tables</TITLE>\n");
-	fprintf (fp, "\t<!-- "G_PLUGIN_FOR_HTML" -->\n");
-	fprintf (fp, "<STYLE><!--\n");
-	fprintf (fp, "TT {\n");
-	fprintf (fp, "\tfont-family: courier;\n");
-	fprintf (fp, "}\n");
-	fprintf (fp, "TD {\n");
-	fprintf (fp, "\tfont-family: helvetica, sans-serif;\n");
-	fprintf (fp, "}\n");
-	fprintf (fp, "CAPTION {\n");
-	fprintf (fp, "\tfont-family: helvetica, sans-serif;\n");
-	fprintf (fp, "\tfont-size: 14pt;\n");
-	fprintf (fp, "\ttext-align: left;\n");
-	fprintf (fp, "}\n");
-	fprintf (fp, "--></STYLE>\n");
-	fprintf (fp, "</HEAD>\n</BODY>\n");
+	fprintf (fp,
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\"\n"
+"\t\t\"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<HTML>\n"
+"<HEAD>\n\t<TITLE>Tables</TITLE>\n"
+"\t<!-- "G_PLUGIN_FOR_HTML" -->\n"
+"<STYLE><!--\n"
+"TT {\n"
+"\tfont-family: courier;\n"
+"}\n"
+"TD {\n"
+"\tfont-family: helvetica, sans-serif;\n"
+"}\n"
+"CAPTION {\n"
+"\tfont-family: helvetica, sans-serif;\n"
+"\tfont-size: 14pt;\n"
+"\ttext-align: left;\n"
+"}\n"
+"--></STYLE>\n"
+"</HEAD>\n</BODY>\n");
 	sheets = workbook_sheets (wb);
 	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
 		Sheet *sheet = ptr->data;
