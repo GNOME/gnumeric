@@ -43,7 +43,7 @@ Gnumeric Spread Sheet task list
 
 * Fix the Following Functions
 
-    * INDEX, MATCH, and VLOOKUP
+    * INDEX, MATCH, VLOOKUP, and LOOKUP
 
 * Printing
   * Preview
@@ -57,7 +57,6 @@ Gnumeric Spread Sheet task list
   * Add the missing options to the Print Dialog
   * Display printing status (pages to go).
   * Add column/row title printing
-  * Add color printing support.
   * patterns.
 
 * Font dialog
@@ -96,9 +95,6 @@ Gnumeric Spread Sheet task list
    Should be possible to bind a name by typing the name on the
    region box and applying it to the selection
    
-   When inserting columns / rows the _sheet_ names should resize to take
-   account of this.
-
 ** Column sizes
 
    Columns should have an "auto-grow-up-to-this-point" feature.  Beyond that

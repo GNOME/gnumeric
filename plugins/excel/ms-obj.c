@@ -78,7 +78,6 @@ object_anchor_to_position (double pixels[4], MSObj*obj, Sheet const * sheet,
 
 			pixels[i] = ri->size_pixels;
 			pixels[i] *= nths / row_denominator;
-			pixels[i] = 0;
 			pixels[i] += sheet_row_get_distance_pixels (sheet, 0, pos);
 
 #ifndef NO_DEBUG_EXCEL
@@ -94,7 +93,6 @@ object_anchor_to_position (double pixels[4], MSObj*obj, Sheet const * sheet,
 
 			pixels[i] = ci->size_pixels;
 			pixels[i] *= nths / 1024.;
-			pixels[i] = 0;
 			pixels[i] += sheet_col_get_distance_pixels (sheet, 0, pos);
 
 #ifndef NO_DEBUG_EXCEL

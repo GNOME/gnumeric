@@ -1290,6 +1290,7 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 static void
 ms_excel_set_xf (ExcelSheet *sheet, int col, int row, guint16 xfidx)
 {
+	MStyleBorder const * b;
 	Range   range;
 	MStyle * const * const mstyle  =
 	    ms_excel_get_style_from_xf (sheet, xfidx);
@@ -1307,7 +1308,11 @@ ms_excel_set_xf (ExcelSheet *sheet, int col, int row, guint16 xfidx)
 	range.end       = range.start;
 
 	sheet_style_attach (sheet->gnum_sheet, range, mstyle[0]);
-
+#if 0
+	printf ("%s%d == %hd\n", col_name(col), row+1, xfidx);
+	b = mstyle_get_border (mstyle[0], MSTYLE_BORDER_LEFT);
+	printf ("Left = %d\n", b->line_type);
+#endif
 	if (mstyle[1] != NULL) {
 		range.start.col = col;
 		range.start.row = row+1;
@@ -1315,6 +1320,10 @@ ms_excel_set_xf (ExcelSheet *sheet, int col, int row, guint16 xfidx)
 		sheet_style_attach (sheet->gnum_sheet, range, mstyle[1]);
 	}
 	if (mstyle[2] != NULL) {
+#if 0
+		b = mstyle_get_border (mstyle[2], MSTYLE_BORDER_LEFT);
+		printf ("Right = %d\n", b->line_type);
+#endif
 		range.start.col = col+1;
 		range.start.row = row;
 		range.end       = range.start;

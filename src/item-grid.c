@@ -209,7 +209,9 @@ item_grid_find_row (ItemGrid *item_grid, int y, int *row_origin)
 				}
 				pixel -= tmp;
 			}
-		} while (row-- >= 0);
+		} while (--row >= 0);
+		if (row_origin)
+			*row_origin = 1;
 		return 0;
 	}
 
@@ -225,6 +227,10 @@ item_grid_find_row (ItemGrid *item_grid, int y, int *row_origin)
 			pixel += tmp;
 		}
 	} while (++row < SHEET_MAX_ROWS);
+	if (row_origin) {
+		g_warning ("What goes here ?");
+		*row_origin = pixel;
+	}
 	return SHEET_MAX_ROWS-1;
 }
 

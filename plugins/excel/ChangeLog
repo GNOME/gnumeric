@@ -1,3 +1,7 @@
+2000-03-23  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-obj.c (object_anchor_to_position) : remove some debug code.
+
 2000-03-23  Jon K Hellan  <hellan@acm.org>
 
 	* boot.c (excel_load): No longer add ".gnumeric" to filename. Set
