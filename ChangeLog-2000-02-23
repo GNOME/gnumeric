@@ -1,3 +1,10 @@
+2000-02-20  Tuomas Kuosmanen  <tigert@gimp.org>
+
+	* src/pixmaps/graphic.xpm: New icon for the "add graph" -button
+	requested by miguel 
+
+	(hello fellow finn below btw :)
+	
 2000-02-20  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/mathfunc.c: Implemented Affine Scaling algorithm for the
