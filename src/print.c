@@ -687,22 +687,28 @@ compute_scale_fit_to (PrintJobInfo const *pj, Sheet const *sheet,
               ColRowInfo const *(get_info)(Sheet const *sheet, int const p),
               gint pages)
 {
-       float size_pts = 1.; /* The initial grid line */
+       float size_pts = 1. * pages; /* The initial grid line on each page*/
        int idx;
        gdouble scale;
+       float max_unit = 0;
 
        /* Work how much space the sheet requires. */
        for (idx = start; idx <= end; idx++) {
                ColRowInfo const *info = (*get_info) (sheet, idx);
                if (info->visible) {
                        size_pts += info->size_pts;
+		       if (info->size_pts > max_unit)
+			       max_unit = (info->size_pts > usable) ?
+				       usable : info->size_pts;
                }
        }
 
        usable = usable * (double) pages; /* Our usable area is this big. */
 
        /* What scale is required to fit the sheet onto this usable area? */
-       scale = (double) (usable / size_pts * 100.);
+       /* Note that on each page but the last we may loose space that can */
+       /* be nearly as large as the largest unit. */
+       scale = (double) (usable / (size_pts + (pages - 1) * max_unit) * 100.);
 
        /* If the sheet needs to be shrunk, we update the scale.
         * If it already fits, we simply leave the scale at 100.

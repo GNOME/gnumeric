@@ -1,5 +1,10 @@
 Gnumeric 1.2.0
 
+Andreas:
+	* Fix Advanced Filter dialog
+	* Fix Scaled Printing
+	* Fix `Fit to' printing.
+
 Christian Neumair:
 	* Start adding ATK relations to the dialogs.
 
