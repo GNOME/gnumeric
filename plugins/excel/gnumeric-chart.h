@@ -14,6 +14,7 @@
 
 typedef struct _GnumericChartSeries
 {
+	gint dummy;
 } GnumericChartSeries;
 
 typedef struct _GnumericChart

@@ -770,6 +770,7 @@ ms_escher_read_Dgg (MSEscherState * state, MSEscherHeader * h)
 
 typedef struct
 {
+	gint dummy;
 } EscherOption;
 
 typedef enum
