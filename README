@@ -1,24 +1,26 @@
 Gnumeric -- The GNOME spreadsheet program
 Miguel de Icaza <miguel@kernel.org>
 
+
 This is the Gnumeric, the GNOME spreadsheet program.  
 
-Gnumeric is licensed under the terms of the GNU GPL included in the
+   Gnumeric is licensed under the terms of the GNU GPL included in the
 file COPYING.
 
-The goal of this spreadsheet is to become as powerful as other
-spreadsheets on the market and do this cleanly and smartly.  We have
-to do this while being as compatible as possible with Excel.
+   The goal of this spreadsheet is to become as powerful as other
+spreadsheets on the market and do this cleanly and smartly.  We have to
+do this while being as compatible as possible with Excel.
 
-   If you are familiar with Excel, you should be ready to use
-Gnumeric.  We have tried to clone all of the good features and stay as
-compatible as possible with Excel in terms of usability.  
+   If you are familiar with Excel, you should be ready to use Gnumeric.
+We have tried to clone all of the good features and stay as compatible
+as possible with Excel in terms of usability.
 
    Gnumeric is still a young program and it is advancing steadily.  If
 you are interested in contributing to the development of Gnumeric, you
 probably will want to read the doc/Design file.  I have scribbled my
 ideas on how Gnumeric should be developed in the future in the file
-doc/Future-Roadmap.  
+doc/Future-Roadmap.
+
 
 Requirements
 ------------
@@ -26,12 +28,13 @@ Requirements
 You need:
 
 	gnome-libs-1.0
-	gnome-print-0.3
+	gnome-print-0.6
 	libxml-1.0
 	libglade-0.2
 
 Optionally:
 	bonobo-0.1
+
 
 Notes regarding plugins
 -----------------------
@@ -47,19 +50,21 @@ provided and then it will be possible to create Gnumeric plugins with
 other license, until then, the only setup available requires plugins
 to fall under the GNU GPL license.
 
+
 Mailing lists
 -------------
 
-    There is a mailing list used to discuss Gnumeric, to subscribe
+   There is a mailing list used to discuss Gnumeric, to subscribe
 send a mail to:
 
 	gnumeric-list-request@gnome.org
 
-    And in the body of the message write "subscribe"
+   And in the body of the message write "subscribe"
 
-    An archive of the mailing lists is available in:
+   An archive of the mailing lists is available in:
 
 	http://www.gnome.org/mailing-lists/archives/gnumeric-list/
+
 
 Random notes:
 -------------
@@ -68,12 +73,12 @@ This is a partial list of Features implemented in Gnumeric, we need
 documentation for these:
 
 	- Autofill
-		Number autofill (computes delta, autofills from that)
+		Number autofill (computes delta, autofills from that).
 	 	String autofill (daynames, months are built in).
-		String+Number combo integer autofill
+		String+Number combo integer autofill.
 		Formula autofill.
 
-	- Drag and drop selection.
+	- Drag and drop selection
 		Select an area and use the border to drag the
 	 	contents (shift/control/alt are modifiers to copy
 		or move)
@@ -83,26 +88,26 @@ documentation for these:
 		  key to augment the existing selection (it might be
 		  discotinuous).
 
-		- Walking selection
+		- Walking selection.
 		  Use return/tab and shift-return/shift-tab to capture 
 		  information in a selection.
 
 		- Fill quickly a region with the same text: just enter
-		  the text in a selection and press contorl-enter.
+		  the text in a selection and press control-enter.
 
 	- Number formatting
 		- The formatting of numbers is very powerful, we do
-		  emulate the Excel number formatting specifciation.
+		  emulate the Excel number formatting specification.
 
 		- Format rules: you can use rules to specify which
-		  format to use
+		  format to use.
 
 		- Format colors: you can specify a color to format
 		  with in the format.
 
 	- Column/Row resizing
 		- Drag the column/row division to adjust the column
-		  and row dimenssions.
+		  and row dimensions.
 
 		- To make changes to various columns/rows
 		  simultaneously, select the columns and then change
@@ -122,26 +127,26 @@ documentation for these:
 	- An expression is evaluated constantly on top of the current
 	  selection.  There is a number of pre-defined auto-compute
 	  expressions, you can change this by right clicking on this
-	  expression (it is on the bottom right corner)
+	  expression (it is on the bottom right corner).
 
 	- If you drag a selection with button 3 instead of button one
 	  there is no default action, rather, a menu pops up with 
-	  a list of possibel options on actions to perform.
+	  a list of possible options on actions to perform.
 
 	- Gnumeric distinguishes regular text from formulas by preceding
 	  formulas with an equal sign.  So to enter an expression you have	
 	  to enter for example: =1+2.
 
-	- Control-Space selects a column
+	- Control-Space selects a column.
 
-	- Control-A selects all
+	- Control-A selects all.
 
-	- SHift-Space selects the row.
+	- Shift-Space selects the row.
 
 	- Selection-keys + control extend the selection to boundary of
 	  worksheet.
 
-	- SHift-Backspace:  Collapses selection to active cell.
+	- Shift-Backspace:  Collapses selection to active cell.
 
 	- Home: move to the beginning of the row.
 	
@@ -151,7 +156,7 @@ documentation for these:
 
 	- Control-Shift-Enter: If there is a single range selected and the
 	  current edit text is a formula, the formula is made into an
-	  'array-formula'
+	  'array-formula'.
 
 	- Control-Pg{Up,Down}: Switch to the previous/next worksheet.
 

@@ -1,3 +1,9 @@
+1999-09-14  Karl Eichwalder  <ke@suse.de>
+
+	* README: Increase gnome-print version (0.6); not sure, whether
+	other version numbers are to be increased, too.  Fix typos; small
+	prettifications.
+
 1999-09-13  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* src/parser.y (forget_array): Created. exp: added array_row, array_exp,
@@ -18,6 +24,7 @@
 
 	* src/xml-io.c (xml_read_print_info, xml_write_print_info, xml_get_print_hf),
 	(xml_set_print_hf): Header / footer, paper size writing.
+
 1999-09-13  Karl Eichwalder  <ke@suse.de>
 
 	* src/dialogs/hf-config.glade: Add missing `:'.  Is this the right
