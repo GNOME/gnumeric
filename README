@@ -150,6 +150,8 @@ documentation for these:
 	  current edit text is a formula, the formula is made into an
 	  'array-formula'
 
+	- Control-Pg{Up,Down}: Switch to the previous/next worksheet.
+
      o Auto-convert-on-input features: When you enter text in Gnumeric
        it is now matched against the known formats of Gnumeric and if
        possible, converted to a (number, format) pair.  This works

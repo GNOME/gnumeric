@@ -7,6 +7,22 @@
 
 	* src/corba-sheet.c (fill_corba_value): Corrected the argument here.
 	
+1999-08-03  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.h : Add GHashTable *dependency_hash to sheet.
+
+	* src/sheet.c (sheet_destroy) : Clear dependency_hash.
+
+	* src/eval.c (dependency_hash_init) : dependency_hash sheet specific.
+	(add_cell_range_dep) : Ditto.
+	(cell_add_dependencies) : Ditto.
+	(cell_drop_dependencies) : Ditto.
+	(region_get_dependencies) : Ditto.
+	(cell_get_dependencies) : Ditto.
+
+	* src/workbook.c (workbook_do_destroy) : Add some debugging code to
+          catch dangling dependancies.
+
 1999-07-27  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/corba-workbook-factory.c (WorkbookFactory_read): Duplicate

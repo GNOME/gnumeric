@@ -246,6 +246,16 @@ cb_sheet_do_erase (gpointer key, gpointer value, gpointer user_data)
 }
 
 static void
+dump_dep (gpointer key, gpointer value, gpointer closure)
+{
+	DependencyRange const *deprange = key;
+	Range const *range = &(deprange->range);
+
+	printf ("\t%d : %s%d:%s%d\n", deprange->ref_count,
+		col_name(range->start_col), range->start_row+1,
+		col_name(range->end_col), range->end_row+1);
+}
+static void
 workbook_do_destroy (Workbook *wb)
 {
 	/* First do all deletions that leave the workbook in a working
@@ -286,6 +296,23 @@ workbook_do_destroy (Workbook *wb)
 		sheets = workbook_sheets (wb);
 		for (l = sheets; l; l = l->next){
 			Sheet *sheet = l->data;
+
+			/*
+			 * We need to put this test BEFORE we detach
+			 * the sheet from the workbook.  Its ugly, but should
+			 * be ok for debug code.
+			 */
+			if (gnumeric_debugging > 0 &&
+			    sheet->dependency_hash != NULL &&
+			    g_hash_table_size (sheet->dependency_hash) != 0) {
+				printf ("Hash %s:%s = %d\n",
+					sheet->workbook->filename
+					?  sheet->workbook->filename
+					: "(no name)",
+					sheet->name,
+					g_hash_table_size (sheet->dependency_hash));
+				g_hash_table_foreach (sheet->dependency_hash, dump_dep, NULL);
+			}
 
 			workbook_detach_sheet (sheet->workbook, sheet, TRUE);
 			sheet_destroy (sheet);

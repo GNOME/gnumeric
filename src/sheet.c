@@ -2277,6 +2277,8 @@ sheet_cell_add_to_hash (Sheet *sheet, Cell *cell)
 void
 sheet_cell_add (Sheet *sheet, Cell *cell, int col, int row)
 {
+	GList *tmp;
+
 	cell->sheet = sheet;
 	cell->col   = sheet_col_get (sheet, col);
 	cell->row   = sheet_row_get (sheet, row);
@@ -2535,6 +2537,13 @@ sheet_destroy (Sheet *sheet)
 
 	g_assert (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
+
+	if (sheet->dependency_hash != NULL) {
+		if (g_hash_table_size (sheet->dependency_hash) != 0)
+			g_warning ("Dangling dependencies");
+		g_hash_table_destroy (sheet->dependency_hash);
+		sheet->dependency_hash = NULL;
+	}
 
 	if (sheet->objects) {
 		g_warning ("Reminder: need to destroy SheetObjects");

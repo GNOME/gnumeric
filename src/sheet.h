@@ -202,6 +202,8 @@ struct _Sheet {
         /* Solver parameters */
         SolverParameters solver_parameters;
 
+	GHashTable *dependency_hash;
+
 	void         *corba_server;
 };
 

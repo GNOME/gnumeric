@@ -14,8 +14,6 @@
 
 #undef DEBUG_EVALUATION
 
-static GHashTable *dependency_hash;
-
 void
 cell_eval (Cell *cell)
 {
@@ -105,16 +103,18 @@ dependency_hash_func (gconstpointer v)
  * Initializes the hash table for the dependency ranges
  */
 static void
-dependency_hash_init (void)
+dependency_hash_init (Sheet *sheet)
 {
-	dependency_hash = g_hash_table_new (dependency_hash_func, dependency_equal);
+	sheet->dependency_hash =
+	    g_hash_table_new (dependency_hash_func, dependency_equal);
 }
 
 static void
 add_cell_range_dep (Cell *cell, DependencyRange const * const range)
 {
 	/* Look it up */
-	DependencyRange *result = g_hash_table_lookup (dependency_hash, range);
+	DependencyRange *result = g_hash_table_lookup (cell->sheet->dependency_hash,
+						       range);
 	if (result){
 		GList *cl;
 
@@ -136,7 +136,7 @@ add_cell_range_dep (Cell *cell, DependencyRange const * const range)
 	result->ref_count = 1;
 	result->cell_list = g_list_prepend (NULL, cell);
 
-	g_hash_table_insert (dependency_hash, result, result);
+	g_hash_table_insert (cell->sheet->dependency_hash, result, result);
 }
 
 /*
@@ -277,9 +277,10 @@ cell_add_dependencies (Cell *cell)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell->parsed_node != NULL);
+	g_return_if_fail (cell->sheet != NULL);
 
-	if (!dependency_hash)
-		dependency_hash_init ();
+	if (!cell->sheet->dependency_hash)
+		dependency_hash_init (cell->sheet);
 
 	add_tree_deps (cell, cell->parsed_node);
 }
@@ -305,7 +306,7 @@ dependency_remove_cell (gpointer key, gpointer value, gpointer the_cell)
 	range->cell_list = g_list_remove_link (range->cell_list, list);
 	g_list_free_1 (list);
 
-	range->ref_count--;
+	--range->ref_count;
 
 	if (range->ref_count == 0)
 		remove_list = g_list_prepend (remove_list, range);
@@ -317,9 +318,12 @@ dependency_remove_cell (gpointer key, gpointer value, gpointer the_cell)
 void
 cell_drop_dependencies (Cell *cell)
 {
+	GHashTable *dependency_hash;
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell->parsed_node != NULL);
+	g_return_if_fail (cell->sheet != NULL);
 
+	dependency_hash = cell->sheet->dependency_hash;
 	if (!dependency_hash)
 		return;
 
@@ -346,33 +350,23 @@ typedef struct {
 	GList *list;
 } get_range_dep_closure_t;
 
-static gboolean
-intersects (Sheet *sheet, int col, int row, DependencyRange *range)
-{
-	if ((sheet == range->sheet) &&
-	    range_contains (&range->range, col, row))
-		return TRUE;
-
-	return FALSE;
-}
-
 static void
 search_range_deps (gpointer key, gpointer value, gpointer closure)
 {
-	DependencyRange *range = key;
+	DependencyRange *deprange = key;
+	Range *range = &(deprange->range);
 	get_range_dep_closure_t *c = closure;
-	Sheet *sheet = c->sheet;
 	GList *l;
 
 	/* No intersection is the common case */
 
-	if (!(intersects (sheet, c->start_col, c->start_row, range) ||
-	      intersects (sheet, c->end_col,   c->end_row,   range) ||
-	      intersects (sheet, c->start_col, c->end_row,   range) ||
-	      intersects (sheet, c->end_col,   c->start_row, range)))
+	if (!(range_contains (range, c->start_col, c->start_row) ||
+	      range_contains (range, c->end_col,   c->end_row  ) ||
+	      range_contains (range, c->start_col, c->end_row  ) ||
+	      range_contains (range, c->end_col,   c->start_row)))
 		return;
 
-	for (l = range->cell_list; l; l = l->next){
+	for (l = deprange->cell_list; l; l = l->next){
 		Cell *cell = l->data;
 
 		c->list = g_list_prepend (c->list, cell);
@@ -384,8 +378,10 @@ region_get_dependencies (Sheet *sheet, int start_col, int start_row, int end_col
 {
 	get_range_dep_closure_t closure;
 
-	if (!dependency_hash)
-		dependency_hash_init ();
+	g_return_val_if_fail (sheet != NULL, NULL);
+
+	if (!sheet->dependency_hash)
+		dependency_hash_init (sheet);
 
 	closure.start_col = start_col;
 	closure.start_row = start_row;
@@ -394,7 +390,8 @@ region_get_dependencies (Sheet *sheet, int start_col, int start_row, int end_col
 	closure.sheet = sheet;
 	closure.list = NULL;
 
-	g_hash_table_foreach (dependency_hash, &search_range_deps, &closure);
+	g_hash_table_foreach (sheet->dependency_hash,
+			      &search_range_deps, &closure);
 
 	return closure.list;
 }
@@ -408,16 +405,16 @@ typedef struct {
 static void
 search_cell_deps (gpointer key, gpointer value, gpointer closure)
 {
-	DependencyRange *range = key;
+	DependencyRange *deprange = key;
+	Range *range = &(deprange->range);
 	get_cell_dep_closure_t *c = closure;
-	Sheet *sheet = c->sheet;
 	GList *l;
 
 	/* No intersection is the common case */
-	if (!intersects (sheet, c->col, c->row, range))
+	if (!range_contains (range, c->col, c->row))
 		return;
 
-	for (l = range->cell_list; l; l = l->next){
+	for (l = deprange->cell_list; l; l = l->next){
 		Cell *cell = l->data;
 
 		c->list = g_list_prepend (c->list, cell);
@@ -429,15 +426,22 @@ cell_get_dependencies (Sheet *sheet, int col, int row)
 {
 	get_cell_dep_closure_t closure;
 
-	if (!dependency_hash)
-		dependency_hash_init ();
+	g_return_val_if_fail (sheet != NULL, NULL);
+
+	if (!sheet->dependency_hash)
+		dependency_hash_init (sheet);
 
 	closure.col = col;
 	closure.row = row;
 	closure.sheet = sheet;
 	closure.list = NULL;
 
-	g_hash_table_foreach (dependency_hash, &search_cell_deps, &closure);
+#if 0
+	printf ("Checking deps for %s:%s%d\n",
+		sheet->name, col_name(col), row+1);
+#endif
+	g_hash_table_foreach (sheet->dependency_hash,
+			      &search_cell_deps, &closure);
 
 	return closure.list;
 }
