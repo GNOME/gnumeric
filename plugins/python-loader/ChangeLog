@@ -1,3 +1,8 @@
+2005-03-23  Morten Welinder  <terra@gnome.org>
+
+	* python-loader.c (gnumeric_fopen_error_info): Use g_fopen, not
+	fopen.
+
 2005-03-04  Jody Goldberg <jody@gnome.org>
 
 	* boot.c (go_plugin_init) : register types dynamicly using the plugin

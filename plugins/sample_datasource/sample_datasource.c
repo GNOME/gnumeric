@@ -39,6 +39,7 @@
 #include <string.h>
 #include <fcntl.h>
 #include <stdio.h>
+#include <glib/gstdio.h>
 
 #undef G_LOG_DOMAIN
 #define G_LOG_DOMAIN "gnumeric:atl"
@@ -149,13 +150,14 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	fprintf (stderr, ">>>>>>>>>>>>>>>>>>>>>>>>>>>> LOAD ATL\n");
 	g_return_if_fail (atl_fd < 0);
 
-	filename = g_strdup_printf ("%s/%s", g_get_home_dir (), "atl");
+	filename = g_build_filename (g_get_home_dir (), "atl", NULL);
 
 	/* NOTE : better to use popen here, but this is fine for testing */
 #ifdef HAVE_MKFIFO
+#warning "If gstdio.h had g_mkfifo, that's what we should use here"
 	if (mkfifo (filename, S_IRUSR | S_IWUSR) == 0) {
 		atl_filename = filename;
-		atl_fd = open (atl_filename, O_RDWR|O_NONBLOCK);
+		atl_fd = g_open (atl_filename, O_RDWR|O_NONBLOCK, 0);
 	} else
 #endif /* HAVE_MKFIFO */
 		g_free (filename);
@@ -190,7 +192,7 @@ go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 	}
 
 	if (atl_filename) {
-		unlink (atl_filename);
+		g_unlink (atl_filename);
 		g_free (atl_filename);
 		atl_filename = NULL;
 	}

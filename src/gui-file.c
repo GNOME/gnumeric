@@ -39,7 +39,6 @@
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
-#include <sys/stat.h>
 
 typedef struct {
 	GOCharmapSel *go_charmap_sel;

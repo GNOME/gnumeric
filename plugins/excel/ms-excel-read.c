@@ -20,6 +20,7 @@
  **/
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
+#include <glib/gstdio.h>
 #include <gnumeric.h>
 #include <string.h>
 
@@ -3639,7 +3640,7 @@ excel_read_IMDATA (BiffQuery *q, gboolean keep_image)
 			from_name, format_name);
 
 		file_name = g_strdup_printf ("imdata%d", count++);
-		f = fopen (file_name, "w");
+		f = g_fopen (file_name, "w");
 		fwrite (q->data+8, 1, q->length-8, f);
 		g_free (file_name);
 		image_len += 8;

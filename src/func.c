@@ -11,6 +11,7 @@
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
+#include <glib/gstdio.h>
 #include "gnumeric.h"
 #include "func.h"
 
@@ -190,7 +191,7 @@ function_dump_defs (char const *filename, int dump_type)
 
 	g_return_if_fail (filename != NULL);
 
-	if ((output_file = fopen (filename, "w")) == NULL){
+	if ((output_file = g_fopen (filename, "w")) == NULL){
 		printf (_("Cannot create file %s\n"), filename);
 		exit (1);
 	}

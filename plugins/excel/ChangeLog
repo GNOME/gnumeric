@@ -1,3 +1,8 @@
+2005-03-23  Morten Welinder  <terra@gnome.org>
+
+	* ms-escher.c (ms_escher_read_OPT): Use g_fopen, not fopen.
+	* ms-excel-read.c (excel_read_IMDATA): Ditto.
+
 2005-03-15  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (excel_write_workbook) : init n when totaling the

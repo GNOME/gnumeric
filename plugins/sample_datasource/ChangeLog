@@ -1,3 +1,9 @@
+2005-03-23  Morten Welinder  <terra@gnome.org>
+
+	* sample_datasource.c (go_plugin_init): Use g_open, not open.  Use
+	g_build_filename, not concat.
+	(go_plugin_shutdown): Use g_unlink, not unlink.
+
 2005-02-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.5.0

@@ -36,6 +36,7 @@
 #include "ms-obj.h"
 
 #include <gsf/gsf-utils.h>
+#include <glib/gstdio.h>
 #include <zlib.h>
 
 #undef G_LOG_DOMAIN
@@ -1879,11 +1880,12 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 			d (7, { 
 				static int count = 0;
 				char *name = g_strdup_printf ("gnumeric-complex-opt-[%d]-%d", pid, count++);
-				FILE *f = fopen (name, "w");
+				FILE *f = g_fopen (name, "w");
 				if (f != NULL) {
 					fwrite (extra, 1, val, f);
 					fclose (f);
 				}
+				g_free (name);
 			});
 			if (id & MS_OBJ_ATTR_IS_PTR_MASK) {
 				ms_escher_header_add_attr (h,

@@ -35,7 +35,6 @@
 #include <gsf/gsf-impl-utils.h>
 
 #include <sys/types.h>
-#include <sys/stat.h>
 #include <string.h>
 #include <errno.h>
 
@@ -122,10 +121,9 @@ category_list_get_from_dir_list (GSList *dir_list)
 
 		while ((d_name = g_dir_read_name (dir)) != NULL) {
 			gchar *full_entry_name;
-			struct stat entry_info;
 
 			full_entry_name = g_build_filename (dir_name, d_name, NULL);
-			if (d_name[0] != '.' && stat (full_entry_name, &entry_info) == 0 && S_ISDIR(entry_info.st_mode)) {
+			if (d_name[0] != '.' && g_file_test (full_entry_name, G_FILE_TEST_IS_DIR)) {
 				FormatTemplateCategory *category;
 
 				category = gnumeric_xml_read_format_template_category (full_entry_name);

@@ -56,7 +56,6 @@
 #include <string.h>
 #include <unistd.h>
 #include <errno.h>
-#include <sys/stat.h>
 #include "mathfunc.h"
 #include <goffice/utils/go-file.h>
 #ifdef WITH_GNOME
@@ -740,8 +739,8 @@ static gboolean
 cb_cleanup_sendto (gpointer path)
 {
 	char *dir = g_path_get_dirname (path);
-	unlink (path);	g_free (path);	/* the attachment */
-	rmdir (dir);	g_free (dir);	/* the tempdir */
+	g_unlink (path); g_free (path);	/* the attachment */
+	g_rmdir (dir); g_free (dir);	/* the tempdir */
 	return FALSE;
 }
 
@@ -779,17 +778,10 @@ wb_view_sendto (WorkbookView *wbv, GOCmdContext *context)
 				 (int)(1e8 * random_01 ()));
 
 			template = g_build_filename (g_get_tmp_dir (), dirname, NULL);
-#ifdef G_OS_WIN32
-			if (mkdir (template) == 0) {
+			if (g_mkdir (template, 0700) == 0) {
 				problem = TRUE;
 				break;
 			}
-#else
-			if (mkdir (template, 0700) == 0) {
-				problem = TRUE;
-				break;
-			}
-#endif
 
 			if (errno != EEXIST) {
 				g_free (template);

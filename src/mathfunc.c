@@ -63,6 +63,7 @@
 #include <locale.h>
 #include <string.h>
 #include <goffice/utils/go-math.h>
+#include <glib/gstdio.h>
 
 #if defined (HAVE_IEEEFP_H) || defined (HAVE_IEEE754_H)
 /* Make sure we have this symbol defined, since the existance of either
@@ -6132,7 +6133,7 @@ random_01 (void)
 	}
 
 	if (device_fd == -2) {
-		device_fd = open (RANDOM_DEVICE, O_RDONLY);
+		device_fd = g_open (RANDOM_DEVICE, O_RDONLY, 0);
 		/*
 		 * We could check that we really have a device, but it hard
 		 * to come up with a non-paranoid reason to.

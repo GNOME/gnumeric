@@ -33,6 +33,7 @@
 #include <goffice/app/module-plugin-defs.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>
+#include <glib/gstdio.h>
 #include <stdlib.h>
 #include <glib.h>
 
@@ -81,7 +82,7 @@ gnumeric_fopen_error_info (const char *file_name, const char *mode, ErrorInfo **
 	g_return_val_if_fail (ret_error != NULL, NULL);
 
 	*ret_error = NULL;
-	f = fopen (file_name, mode);
+	f = g_fopen (file_name, mode);
 	if (f == NULL) {
 		if (strchr (mode, 'w') != NULL && strchr (mode, 'r') == NULL) {
 			*ret_error = error_info_new_printf (

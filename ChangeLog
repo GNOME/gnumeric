@@ -1,3 +1,19 @@
+2005-03-23  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-view.c (wb_view_sendto): Use g_mkdir, not mkdir.
+	(cb_cleanup_sendto): Use g_unlink and g_rmdir, not unlink and
+	rmdir.
+
+	* src/mathfunc.c (random_01): Use g_open, not open.
+
+	* src/main-application.c (warn_about_ancient_gnumerics): use
+	g_stat, not stat.
+
+	* src/func.c (function_dump_defs): Use g_fopen, not fopen.
+
+	* src/file-autoft.c (category_list_get_from_dir_list): Use
+	g_file_test, not stat.
+
 2005-03-23  Stepan Kasal  <kasal@ucw.cz>
 
 	* configure.in (HAVE_LIBZ): Don't define it, noone uses it, since

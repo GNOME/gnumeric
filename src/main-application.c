@@ -33,11 +33,11 @@
 #include "gnm-plugin.h"
 
 #include <gtk/gtkmain.h>
+#include <glib/gstdio.h>
 #include <goffice/utils/go-file.h>
 #include <goffice/app/go-cmd-context.h>
 
 #include <sys/types.h>
-#include <sys/stat.h>
 #include <fcntl.h>
 #include <time.h>
 #include <string.h>
@@ -113,7 +113,7 @@ warn_about_ancient_gnumerics (const char *binary, IOContext *ioc)
 
 	if (binary &&
 	    strchr (binary, '/') != NULL &&
-	    stat (binary, &buf) != -1 &&
+	    g_stat (binary, &buf) != -1 &&
 	    buf.st_mtime != -1 &&
 	    now - buf.st_mtime > days * 24 * 60 * 60) {
 		handle_paint_events ();
