@@ -20,7 +20,7 @@
 #include "ms-formula-write.h"
 #include "formula-types.h"
 
-#define FORMULA_DEBUG 1
+#define FORMULA_DEBUG 0
 
 /* FIXME: Leaks like a leaky bucket */
 
@@ -44,7 +44,9 @@ get_formula_index (const gchar *name)
 		formula_cache = g_hash_table_new (g_str_hash, g_str_equal);
 
 	if ((fce = g_hash_table_lookup (formula_cache, name))) {
+#if FORMULA_DEBUG > 0
 		printf ("Found '%s' in fn cache\n", name);
+#endif
 		return fce;
 	} else {
 		for (i=0;i<FORMULA_FUNC_DATA_LEN;i++) {
@@ -54,7 +56,9 @@ get_formula_index (const gchar *name)
 				fce->fd  = &formula_func_data[i];
 				fce->idx = i;
 				g_hash_table_insert (formula_cache, fce->fd->prefix, fce);
+#if FORMULA_DEBUG > 0
 				printf ("Caching and returning '%s' as %d\n", name, i);
+#endif
 				return fce;
 			}
 		}
@@ -116,6 +120,13 @@ write_cellref_v7 (PolishData *pd, const CellRef *ref, guint8 *out_col, guint16 *
 
 	BIFF_SET_GUINT16 (out_row, row);
 	BIFF_SET_GUINT8  (out_col, col);
+}
+
+static void
+write_string (PolishData *pd, gchar *txt)
+{
+	push_guint8 (pd, FORMULA_PTG_STR);
+	biff_put_text (pd->bp, txt, eBiffV8, TRUE, SIXTEEN_BIT);
 }
 
 /**
@@ -191,6 +202,7 @@ write_node (PolishData *pd, ExprTree *tree)
 	case OPER_FUNCALL:
 	{
 		FormulaCacheEntry *fce;
+		gchar *name = tree->u.function.symbol->str;
 		
 		if ((fce = get_formula_index (tree->u.function.symbol->str))) {
 			GList   *args     = tree->u.function.arg_list;
@@ -204,9 +216,10 @@ write_node (PolishData *pd, ExprTree *tree)
 				num_args++;
 			}
 
+#if FORMULA_DEBUG > 1
 			printf ("Writing function '%s' as idx %d, args %d\n",
-				tree->u.function.symbol->str, fce->idx,
-				fce->fd->num_args);
+				name, fce->idx, fce->fd->num_args);
+#endif
 
 			g_assert (num_args < 128);
 			if (fce->fd->num_args < 0) {
@@ -218,9 +231,12 @@ write_node (PolishData *pd, ExprTree *tree)
 				push_guint16 (pd, fce->idx);
 			}
 		} else {
-			printf ("Untranslatable function '%s'\n", tree->u.function.symbol->str);
-			push_guint8 (pd, FORMULA_PTG_STR);
-			biff_put_text (pd->bp, "Untranslatable", eBiffV8, TRUE, SIXTEEN_BIT);
+			gchar *err = g_strdup_printf ("Untranslatable '%s'", name);
+#if FORMULA_DEBUG > 0
+			printf ("Untranslatable function '%s'\n", name);
+#endif
+			write_string (pd, err);
+			g_free (err);
 		}
 		break;
 	}
@@ -238,11 +254,8 @@ write_node (PolishData *pd, ExprTree *tree)
 			break;
 		}
 		case VALUE_STRING:
-		{
-			push_guint8 (pd, FORMULA_PTG_STR);
-			biff_put_text (pd->bp, v->v.str->str, eBiffV8, TRUE, SIXTEEN_BIT);
+			write_string (pd, v->v.str->str);
 			break;
-		}
 		case VALUE_CELLRANGE:
 		{ /* FIXME: Could be 3D ! */
 			guint8 data[6];
@@ -253,10 +266,15 @@ write_node (PolishData *pd, ExprTree *tree)
 			break;
 		}
 		default:
-			push_guint8 (pd, FORMULA_PTG_STR);
-			biff_put_text (pd->bp, "Unknown type", eBiffV8, TRUE, SIXTEEN_BIT);
+		{
+			gchar *err = g_strdup_printf ("Uknown type %d\n", v->type);
+			write_string (pd, err);
+			g_free (err);
+#if FORMULA_DEBUG > 0
 			printf ("Unhandled type %d\n", v->type);
+#endif
 			break;
+		}
 		}
 		break;
 	}
@@ -274,10 +292,15 @@ write_node (PolishData *pd, ExprTree *tree)
 	}
 	case OPER_ARRAY:
 	default:
-		push_guint8 (pd, FORMULA_PTG_STR);
-		biff_put_text (pd->bp, "Unknown", eBiffV8, TRUE, SIXTEEN_BIT);
+	{
+		gchar *err = g_strdup_printf ("Unknown Operator %d", tree->oper);
+		write_string (pd, err);
+		g_free (err);
+#if FORMULA_DEBUG > 0
 		printf ("Unhandled node type %d\n", tree->oper);
+#endif
 		break;
+	}
 	}
 }
 

@@ -1,6 +1,13 @@
 Michael
 	* Change all structure names ToCapitalisedLikeThisNames
-	* Implement ms-formula-write.c
+	* In ms-formula-write.c
+		* 3D areas & Intersheet references.
+		* Booleans
+		* IF
+		* Arrays
+	* New style support so we can do
+		* Colours
+		* Fonts etc.
 	* Remove silly name record in writing ( after debbugging is done )
 
 Jody

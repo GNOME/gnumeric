@@ -1,5 +1,8 @@
 1999-07-01  Michael Meeks  <michael@edenproject.org>
 
+	* ms-formula-write.c (write_string): Created
+	Implemented throughout for simplicity.
+
 	* ms-excel-write.c (biff_put_text): Expanded to allow
 	more flexible string writing.
 
