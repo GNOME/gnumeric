@@ -151,23 +151,26 @@ syntax_error(char *err)
 /* ---------------------------- Start cut from ms-escher.c ---------------------------- */
 
 typedef struct { /* See: S59FDA.HTM */
-	guint   ver:4;
-	guint   instance:12;
-	guint16 type;   /* fbt */
-	gint32  length; /* Misleading really 16bits */
-	guint8 *data;
-	gint32  length_left;
+	guint    ver:4;
+	guint    instance:12;
+	guint16  type;   /* fbt */
+	guint32  length;
+	guint8  *data;
+	guint32  length_left;
+	gboolean first;
 } ESH_HEADER;
+#define ESH_HEADER_LEN 8
 
 static ESH_HEADER *
 esh_header_new (guint8 *data, gint32 length)
 {
 	ESH_HEADER *h = g_new (ESH_HEADER,1);
-	h->length=-6;
+	h->length=0;
 	h->type=0;
 	h->instance=0;
 	h->data=data;
 	h->length_left=length;
+	h->first = TRUE;
 	return h;
 }
 
@@ -178,12 +181,17 @@ esh_header_next (ESH_HEADER *h)
 	g_return_val_if_fail(h, 0);
 	g_return_val_if_fail(h->data, 0);
 
-	h->data+=h->length+6;
-	h->length_left-=h->length+6;
-
-	if (h->length_left<=5)
+	if (h->length_left < h->length + ESH_HEADER_LEN*2)
 		return 0;
-	h->length   = BIFF_GETWORD(h->data+4);
+
+	if (h->first==TRUE)
+		h->first = FALSE;
+	else {
+		h->data+=h->length+ESH_HEADER_LEN;
+		h->length_left-=h->length+ESH_HEADER_LEN;
+	}
+
+	h->length   = BIFF_GETLONG(h->data+4);
 	h->type     = BIFF_GETWORD(h->data+2);
 	split       = BIFF_GETWORD(h->data+0);
 	h->ver      = (split&0x0f);
@@ -226,6 +234,20 @@ biff_to_flat_data (const BIFF_QUERY *q, guint8 **data, guint32 *length)
 }
 
 /* ---------------------------- End cut ---------------------------- */
+
+static void
+dump_escher (guint8 *data, guint32 len)
+{
+	ESH_HEADER *h = esh_header_new (data, len);
+	while (esh_header_next(h)) {
+		printf ("Header: type 0x%4x : '%s', inst 0x%x ver 0x%x len 0x%x\n",
+			h->type, get_escher_opcode_name (h->type), h->instance,
+			h->ver, h->length);
+		if (h->ver == 0xf) /* A container */
+			dump_escher (data+ESH_HEADER_LEN, len-ESH_HEADER_LEN);
+	}
+	esh_header_destroy (h); 
+}
 
 int main (int argc, char **argv)
 {
@@ -333,16 +355,9 @@ int main (int argc, char **argv)
 						guint8 *data;
 						guint32 len;
 						guint32 str_pos=q->streamPos;
-						ESH_HEADER *h ;
-						printf("Drawing: '%s'\n", get_biff_opcode_name(q->opcode));
 						biff_to_flat_data (q, &data, &len);
-						h = esh_header_new (data, len);
-						while (esh_header_next(h)) {
-							printf ("Header: type 0x%4x : '%s', inst 0x%x ver 0x%x len 0x%x\n",
-								h->type, get_escher_opcode_name (h->type), h->instance,
-								h->ver, h->length);
-						}
-						esh_header_destroy (h); 
+						printf("Drawing: '%s'\n", get_biff_opcode_name(q->opcode));
+						dump_escher (data, len);
 					}
 				}
 				printf ("\n");

@@ -1,5 +1,14 @@
 1999-04-13  Michael Meeks <michael@imaginator.com>
 
+	* ms-escher.c (esh_header_next): Fixedup to use correct lengths.
+	Various major bits of work, started parsing the heirarchical
+	bitstream. Escher looks better than BIFF, 32bit clean seemingly.
+	
+	* ole.c: Copied in updates.
+	(dump_escher): Recursive dump of structures.
+
+1999-04-13  Michael Meeks <michael@imaginator.com>
+
 	* ms-ole.c(ms_biff_query_copy): Fix nasty bug: duplicate
 	stream pos record too.
 

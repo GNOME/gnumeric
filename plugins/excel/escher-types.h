@@ -10,7 +10,7 @@
  * MS use similar names with 'msofbt' prefix.
  **/
 
-#define DggContainer           0xf000
+#define DggContainer           0xf000 /* Drawing Group Container */
 #define Dgg                    0xf006
 #define CLSID                  0xf016
 #define OPT                    0xf00b
@@ -20,7 +20,7 @@
 #define BSE                    0xf007
 #define Blip_START             0xf018 /* Blip types are between */
 #define Blip_END               0xf117 /* these two values */
-#define DgContainer            0xf002
+#define DgContainer            0xf002 /* Drawing Container */
 #define Dg                     0xf008
 #define RegroupItems           0xf118
 #define ColorScheme            0xf120 /* bug in docs */
