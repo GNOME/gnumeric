@@ -1,3 +1,7 @@
+1999-10-17  Morten Welinder  <terra@diku.dk>
+
+	* src/eval.c (cell_get_dependencies): Plug leak.
+
 1999-10-16  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/xml-io.c (xml_read_colrow_info): Set the Column/Row

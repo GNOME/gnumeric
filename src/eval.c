@@ -427,7 +427,7 @@ GList *
 cell_get_dependencies (Cell *cell)
 {
 	get_cell_dep_closure_t closure;
-	GList *l;
+	GList *l, *sheets;
 	
 	if (!cell->sheet->dependency_hash)
 		dependency_hash_init (cell->sheet);
@@ -437,7 +437,8 @@ cell_get_dependencies (Cell *cell)
 	closure.sheet = cell->sheet;
 	closure.list = NULL;
 
-	for (l = workbook_sheets (cell->sheet->workbook); l; l = l->next){
+	sheets = workbook_sheets (cell->sheet->workbook);
+	for (l = sheets; l; l = l->next){
 		Sheet *sheet = l->data;
 
 		if (!sheet->dependency_hash)
@@ -446,6 +447,7 @@ cell_get_dependencies (Cell *cell)
 		g_hash_table_foreach (sheet->dependency_hash,
 				      &search_cell_deps, &closure);
 	}
+	g_list_free (sheets);
 
 	return closure.list;
 }
