@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Gnumeric cs.po\n"
-"POT-Creation-Date: 2002-11-22 11:49+0100\n"
-"PO-Revision-Date: 2002-11-22 11:49GMT\n"
+"POT-Creation-Date: 2002-11-24 16:44+0100\n"
+"PO-Revision-Date: 2002-11-24 16:43GMT\n"
 "Last-Translator: Michal Bukovjan <bukm@centrum.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -857,8 +857,8 @@ msgstr "Finanční deriváty"
 msgid "Functions related to financial derivatives"
 msgstr "Funkce spojené s finančními deriváty"
 
-#: plugins/dif/dif.c:64 plugins/excel/ms-excel-read.c:4957
-#: plugins/mps/mps.c:549 src/xml-io.c:3375
+#: plugins/dif/dif.c:64 plugins/excel/ms-excel-read.c:4973
+#: plugins/gnumeric_1_0/xml-io.c:3370 plugins/mps/mps.c:549 src/xml-io.c:3375
 msgid "Reading file..."
 msgstr "Načítá se soubor..."
 
@@ -947,44 +947,44 @@ msgstr "Připravuje se ukládání..."
 msgid "Saving file..."
 msgstr "Soubor se ukládá..."
 
-#: plugins/excel/ms-excel-read.c:894
+#: plugins/excel/ms-excel-read.c:910
 msgid "Workbook uses unsupported 1904 Date System, Dates will be incorrect"
 msgstr "Sešit používá nepodporovaný systém dat 1904, data nebudou správně"
 
-#: plugins/excel/ms-excel-read.c:948
+#: plugins/excel/ms-excel-read.c:964
 msgid "#UNKNOWN!"
 msgstr "#NEZNÁMÝ!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1040 plugins/excel/ms-excel-read.c:1051
+#: plugins/excel/ms-excel-read.c:1056 plugins/excel/ms-excel-read.c:1067
 #: plugins/oleo/oleo.c:339 plugins/psiconv/psiconv-read.c:516
 #: src/dialogs/dialog-sheet-order.c:433 src/dialogs/dialog-sheet-order.c:437
 #, c-format
 msgid "Sheet%d"
 msgstr "List %d"
 
-#: plugins/excel/ms-excel-read.c:1054
+#: plugins/excel/ms-excel-read.c:1070
 #, c-format
 msgid "Macro%d"
 msgstr "Makro%d"
 
-#: plugins/excel/ms-excel-read.c:1057
+#: plugins/excel/ms-excel-read.c:1073
 #, c-format
 msgid "Chart%d"
 msgstr "Graf%d"
 
-#: plugins/excel/ms-excel-read.c:1060
+#: plugins/excel/ms-excel-read.c:1076
 #, c-format
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:2630
+#: plugins/excel/ms-excel-read.c:2646
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Chyba při zpracování názvu '%s'"
 
-#: plugins/excel/ms-excel-read.c:2687
+#: plugins/excel/ms-excel-read.c:2703
 #, c-format
 msgid ""
 "DDE links are no supported.\n"
@@ -993,7 +993,7 @@ msgstr ""
 "Odkazy DDE nejsou podporovány.\n"
 "Název '%s' bude ztracen.\n"
 
-#: plugins/excel/ms-excel-read.c:2693
+#: plugins/excel/ms-excel-read.c:2709
 #, c-format
 msgid ""
 "OLE links are no supported.\n"
@@ -1002,23 +1002,23 @@ msgstr ""
 "Odkazy OLE nejsou podporovány.\n"
 "Název '%s' bude ztracen.\n"
 
-#: plugins/excel/ms-excel-read.c:4365
+#: plugins/excel/ms-excel-read.c:4381
 msgid "external references"
 msgstr "externí odkazy"
 
-#: plugins/excel/ms-excel-read.c:5101
+#: plugins/excel/ms-excel-read.c:5117
 msgid "This file is encrypted"
 msgstr "Tento soubor je šifrovaný"
 
-#: plugins/excel/ms-excel-read.c:5103
+#: plugins/excel/ms-excel-read.c:5119
 msgid "No password supplied"
 msgstr "Nebylo zadáno žádné heslo"
 
-#: plugins/excel/ms-excel-read.c:5107
+#: plugins/excel/ms-excel-read.c:5123
 msgid "Invalid password"
 msgstr "Neplatné heslo"
 
-#: plugins/excel/ms-excel-read.c:5202
+#: plugins/excel/ms-excel-read.c:5218
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Nepodařilo se nalézt platný sešit MS Excel"
 
@@ -16516,6 +16516,36 @@ msgstr "Formát souborů PO slovníku Gnome"
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr "Poskytuje podporu pro ukládání Slovníku Gnome do souborů .po."
 
+#: plugins/gnumeric_1_0/xml-io.c:2825 src/xml-io.c:2830
+msgid "Unparsable xml in clipboard"
+msgstr "Obsah schránky v XML není možné zpracovat"
+
+#: plugins/gnumeric_1_0/xml-io.c:2832 src/xml-io.c:2837
+msgid "Clipboard is in unknown format"
+msgstr "Obsah schránky má neznámý formát."
+
+#: plugins/gnumeric_1_0/xml-io.c:3112 plugins/xbase/boot.c:172
+#: src/dialogs/dialog-goto-cell.c:284 src/dialogs/dialog-search.c:731
+#: src/dialogs/print.glade.h:20 src/workbook.c:1032 src/workbook.c:1362
+#: src/xml-io.c:3117
+msgid "Sheet"
+msgstr "List"
+
+#.
+#. * Pass 2: read the contents
+#.
+#: plugins/gnumeric_1_0/xml-io.c:3239 src/xml-io.c:3244
+msgid "Processing file..."
+msgstr "Zpracovává se soubor..."
+
+#: plugins/gnumeric_1_0/xml-io.c:3412 src/xml-io.c:3417
+msgid "Is not an Gnumeric Workbook file"
+msgstr "Není soubor se sešitem Gnumeric"
+
+#: plugins/gnumeric_1_0/xml-io.c:3447 src/xml-io.c:3453
+msgid "Failure saving file"
+msgstr "Chyba při ukládání souboru."
+
 #: plugins/guile/plugin.c:108
 msgid "Guile error"
 msgstr "Chyba Guile"
@@ -16629,7 +16659,7 @@ msgstr "Objektivní funkce:"
 msgid "Constraints:"
 msgstr "Omezení:"
 
-#: plugins/mps/mps.c:247 src/commands.c:5388
+#: plugins/mps/mps.c:247 src/commands.c:5412
 #: src/cut-n-paste-code/egg/menu/egg-action.c:120
 #: src/dialogs/dialog-define-names.c:498 src/dialogs/dialog-formula-guru.c:812
 #: src/dialogs/dialog-function-select.c:419
@@ -17293,12 +17323,6 @@ msgstr "Toto je zpráva ze zásuvného modulu \"%s\"."
 msgid "Error while opening xbase file."
 msgstr "Chyba při otevírání souboru Xbase."
 
-#: plugins/xbase/boot.c:172 src/dialogs/dialog-goto-cell.c:284
-#: src/dialogs/dialog-search.c:731 src/dialogs/print.glade.h:20
-#: src/workbook.c:1032 src/workbook.c:1362 src/xml-io.c:3117
-msgid "Sheet"
-msgstr "List"
-
 #: plugins/xbase/plugin.xml.in.h:1
 msgid "Imports XBase files"
 msgstr "Importuje soubory XBase"
@@ -17397,7 +17421,7 @@ msgstr "Tučné"
 msgid "Borders"
 msgstr "Okraje"
 
-#: src/GNOME_Gnumeric.xml.h:15 src/sheet-object-widget.c:516
+#: src/GNOME_Gnumeric.xml.h:15 src/sheet-object-widget.c:423
 #: src/workbook-object-toolbar.c:138
 msgid "Button"
 msgstr "Tlačítko"
@@ -17607,7 +17631,7 @@ msgstr "Vytvoří posuvník"
 msgid "Create an arrow"
 msgstr "Vytvoří šipku"
 
-#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1440
+#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1442
 msgid "Cu_t"
 msgstr "Vyjmou_t"
 
@@ -17747,7 +17771,7 @@ msgstr "Formátuje oblast buněk podle předdefinované šablony"
 msgid "Fourier Analysis"
 msgstr "Fourierova analýza"
 
-#: src/GNOME_Gnumeric.xml.h:96 src/sheet-object-widget.c:285
+#: src/GNOME_Gnumeric.xml.h:96 src/sheet-object-widget.c:192
 #: src/workbook-object-toolbar.c:133
 msgid "Frame"
 msgstr "Rámec"
@@ -17919,7 +17943,7 @@ msgstr "Přejde na zadanou buňku"
 
 #: src/GNOME_Gnumeric.xml.h:137 src/cut-n-paste-code/egg/menu/egg-action.c:128
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbutton.c:101
-#: src/sheet-object-widget.c:192 src/workbook-object-toolbar.c:130
+#: src/sheet-object-graphic.c:1461 src/workbook-object-toolbar.c:130
 msgid "Label"
 msgstr "Titulek"
 
@@ -18444,7 +18468,7 @@ msgstr "_ANOVA"
 msgid "_About..."
 msgstr "O _aplikaci..."
 
-#: src/GNOME_Gnumeric.xml.h:261 src/sheet-control-gui.c:1473
+#: src/GNOME_Gnumeric.xml.h:261 src/sheet-control-gui.c:1475
 #: src/workbook-control-gui.c:3387
 msgid "_Add / Modify comment..."
 msgstr "Přid_at / upravit komentář..."
@@ -18495,7 +18519,7 @@ msgid "_Content"
 msgstr "O_bsah"
 
 #: src/GNOME_Gnumeric.xml.h:271 src/item-cursor.c:1008
-#: src/sheet-control-gui.c:1442
+#: src/sheet-control-gui.c:1444
 msgid "_Copy"
 msgstr "_Kopírovat"
 
@@ -18511,7 +18535,7 @@ msgstr "_Data"
 msgid "_Define..."
 msgstr "_Definovat..."
 
-#: src/GNOME_Gnumeric.xml.h:275 src/sheet-control-gui.c:1460
+#: src/GNOME_Gnumeric.xml.h:275 src/sheet-control-gui.c:1462
 #: src/workbook-control-gui.c:3269
 msgid "_Delete..."
 msgstr "_Smazat..."
@@ -18590,8 +18614,8 @@ msgstr "_Skupiny a přehledy"
 msgid "_Help"
 msgstr "Nápo_věda"
 
-#: src/GNOME_Gnumeric.xml.h:294 src/sheet-control-gui.c:1485
-#: src/sheet-control-gui.c:1493 src/workbook-control-gui.c:3408
+#: src/GNOME_Gnumeric.xml.h:294 src/sheet-control-gui.c:1487
+#: src/sheet-control-gui.c:1495 src/workbook-control-gui.c:3408
 #: src/workbook-control-gui.c:3427
 msgid "_Hide"
 msgstr "_Skrýt"
@@ -18654,7 +18678,7 @@ msgstr "_Otevřít..."
 msgid "_Paired Samples: T-Test"
 msgstr "_Párové výběry: T-Test"
 
-#: src/GNOME_Gnumeric.xml.h:309 src/sheet-control-gui.c:1444
+#: src/GNOME_Gnumeric.xml.h:309 src/sheet-control-gui.c:1446
 msgid "_Paste"
 msgstr "V_ložit"
 
@@ -18779,8 +18803,8 @@ msgstr "_Zpět"
 msgid "_Ungroup"
 msgstr "Zr_ušit seskupení"
 
-#: src/GNOME_Gnumeric.xml.h:338 src/sheet-control-gui.c:1487
-#: src/sheet-control-gui.c:1495 src/workbook-control-gui.c:3411
+#: src/GNOME_Gnumeric.xml.h:338 src/sheet-control-gui.c:1489
+#: src/sheet-control-gui.c:1497 src/workbook-control-gui.c:3411
 #: src/workbook-control-gui.c:3430
 msgid "_Unhide"
 msgstr "_Zviditelnit"
@@ -18915,6 +18939,15 @@ msgstr "Posunout sloupce %s"
 msgid "Shift column %s"
 msgstr "Posunout sloupec %s"
 
+#: src/command-context.c:89
+#, c-format
+msgid "Would split array %s"
+msgstr "Rozdelí pole %s"
+
+#: src/command-context.c:92
+msgid "Would split an array"
+msgstr "Rozdelí pole"
+
 #: src/commands.c:249
 #, c-format
 msgid "%s is locked. Unprotect the workbook to enable editing."
@@ -18943,11 +18976,11 @@ msgstr "Napsání \"%s%s\" v %s"
 msgid "Typing \"%s%s\""
 msgstr "Napsání \"%s%s\""
 
-#: src/commands.c:1190 src/commands.c:1195 src/sheet.c:3108
+#: src/commands.c:1190 src/commands.c:1195 src/sheet.c:3117
 msgid "Delete Columns"
 msgstr "Odstranit sloupce"
 
-#: src/commands.c:1190 src/commands.c:1195 src/sheet.c:3220
+#: src/commands.c:1190 src/commands.c:1195 src/sheet.c:3229
 msgid "Delete Rows"
 msgstr "Odstranit řádky"
 
@@ -19106,235 +19139,235 @@ msgstr "Zobrazení skrytých řádků"
 msgid "Hide rows"
 msgstr "Skrytí řádků"
 
-#: src/commands.c:2211
+#: src/commands.c:2210
 msgid "Expand columns"
 msgstr "Rozbalení sloupců"
 
-#: src/commands.c:2211
+#: src/commands.c:2210
 msgid "Collapse columns"
 msgstr "Sbalení sloupců"
 
-#: src/commands.c:2212
+#: src/commands.c:2211
 msgid "Expand rows"
 msgstr "Rozbalení řádků"
 
-#: src/commands.c:2212
+#: src/commands.c:2211
 msgid "Collapse rows"
 msgstr "Sbalení řádků"
 
-#: src/commands.c:2235
+#: src/commands.c:2238
 #, c-format
 msgid "Show column outline %d"
 msgstr "Zobrazit přehled sloupců %d"
 
-#: src/commands.c:2235
+#: src/commands.c:2238
 #, c-format
 msgid "Show row outline %d"
 msgstr "Zobrazit přehled řádků %d"
 
-#: src/commands.c:2304
+#: src/commands.c:2305
 msgid "Those columns are already grouped"
 msgstr "Tyto sloupce už jsou seskupeny"
 
-#: src/commands.c:2305
+#: src/commands.c:2306
 msgid "Those rows are already grouped"
 msgstr "Tyto řádky už jsou seskupeny"
 
-#: src/commands.c:2308
+#: src/commands.c:2329
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Tyto sloupce nejsou ve skupině, takže je nemůžete rozeskupit"
 
-#: src/commands.c:2309
+#: src/commands.c:2330
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Tyto řádky nejsou ve skupině, takže je nemůžete rozeskupit"
 
-#: src/commands.c:2320
+#: src/commands.c:2344
 #, c-format
 msgid "Group columns %s"
 msgstr "Seskupit sloupce %s"
 
-#: src/commands.c:2320
+#: src/commands.c:2344
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Rozeskupit sloupce %s"
 
-#: src/commands.c:2322
+#: src/commands.c:2346
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Seskupit řádky %d:%d"
 
-#: src/commands.c:2322
+#: src/commands.c:2346
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Rozeskupit řádky %d:%d"
 
-#: src/commands.c:2530
+#: src/commands.c:2554
 #, c-format
 msgid "Moving %s"
 msgstr "Přesun %s"
 
-#: src/commands.c:2539 src/commands.c:2750
+#: src/commands.c:2563 src/commands.c:2774
 msgid "is beyond sheet boundaries"
 msgstr "je mimo okraje listu"
 
 #. FIXME?
-#: src/commands.c:2694
+#: src/commands.c:2718
 #, c-format
 msgid "Pasting into %s"
 msgstr "Vložení do %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:2928 src/commands.c:2929 src/workbook-control-gui.c:2232
+#: src/commands.c:2952 src/commands.c:2953 src/workbook-control-gui.c:2232
 msgid "Autofill"
 msgstr "Automatické vyplňování"
 
 #. Changed in initial redo.
-#: src/commands.c:2952
+#: src/commands.c:2976
 #, c-format
 msgid "Autofilling %s"
 msgstr "Automatické vyplňování %s"
 
-#: src/commands.c:3102
+#: src/commands.c:3126
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Automatický formát %s"
 
-#: src/commands.c:3212
+#: src/commands.c:3236
 #, c-format
 msgid "Unmerging %s"
 msgstr "Rozdělení buněk %s"
 
-#: src/commands.c:3350
+#: src/commands.c:3374
 #, c-format
 msgid "Merging %s"
 msgstr "Spojení %s"
 
 #. Corrected below.
-#: src/commands.c:3731 src/dialogs/search-replace.glade.h:20
+#: src/commands.c:3755 src/dialogs/search-replace.glade.h:20
 msgid "Search and Replace"
 msgstr "Hledat a nahradit"
 
-#: src/commands.c:3829
+#: src/commands.c:3853
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Nastavení výchozí šířky sloupců na %.2f bodů"
 
-#: src/commands.c:3830
+#: src/commands.c:3854
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Nastavení výchozí výšky řádků na %.2f bodů"
 
 #. Changed in initial redo.
-#: src/commands.c:3916
+#: src/commands.c:3940
 #, c-format
 msgid "Consolidating to %s!%s"
 msgstr "Konsoliduje se do %s!%s"
 
-#: src/commands.c:4035
+#: src/commands.c:4059
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zvětšení %s na %.0f%%"
 
-#: src/commands.c:4106
+#: src/commands.c:4130
 msgid "Insert object"
 msgstr "Vložit objekt"
 
-#: src/commands.c:4166
+#: src/commands.c:4190
 msgid "Delete object"
 msgstr "Odstranit objekt"
 
-#: src/commands.c:4248
+#: src/commands.c:4272
 msgid "Resize object"
 msgstr "Změnit velikost objektu"
 
-#: src/commands.c:4248
+#: src/commands.c:4272
 msgid "Move object"
 msgstr "Přesunout objekt"
 
-#: src/commands.c:4492
+#: src/commands.c:4516
 msgid "Renaming Sheets"
 msgstr "Přejmenování listů"
 
-#: src/commands.c:4495
+#: src/commands.c:4519
 msgid "Reordering Sheets"
 msgstr "Změna pořadí listů"
 
-#: src/commands.c:4500
+#: src/commands.c:4524
 msgid "Adding a sheet"
 msgstr "Přidání listu"
 
-#: src/commands.c:4503
+#: src/commands.c:4527
 #, c-format
 msgid "Adding sheet '%s'"
 msgstr "Přidání listu '%s'"
 
-#: src/commands.c:4507
+#: src/commands.c:4531
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr "Přejmenování listu '%s' '%s'"
 
-#: src/commands.c:4512
+#: src/commands.c:4536
 msgid "Changing Tab Colors"
 msgstr "Změna barev záložky"
 
-#: src/commands.c:4515
+#: src/commands.c:4539
 msgid "Changing Sheet Protection"
 msgstr "Změna ochrany listu"
 
-#: src/commands.c:4518
+#: src/commands.c:4542
 msgid "Reorganizing Sheets"
 msgstr "Reorganizace listů"
 
-#: src/commands.c:4647
+#: src/commands.c:4671
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Smazání komentáře %s"
 
-#: src/commands.c:4648
+#: src/commands.c:4672
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Nastavení komentáře %s"
 
-#: src/commands.c:5011
+#: src/commands.c:5035
 #, c-format
 msgid "Merging data into %s"
 msgstr "Spojení dat do %s"
 
-#: src/commands.c:5113
+#: src/commands.c:5137
 msgid "Changing summary info"
 msgstr "Změna souhrnných informací"
 
-#: src/commands.c:5205
+#: src/commands.c:5229
 msgid "Raise object"
 msgstr "Přesun objektu výše"
 
-#: src/commands.c:5208
+#: src/commands.c:5232
 msgid "Lower object"
 msgstr "Přesun objektu níže"
 
-#: src/commands.c:5211
+#: src/commands.c:5235
 msgid "Raise object to top"
 msgstr "Přesun objektu nahoru"
 
-#: src/commands.c:5214
+#: src/commands.c:5238
 msgid "Lower object to bottom"
 msgstr "Přesun objektu dolů"
 
-#: src/commands.c:5330
+#: src/commands.c:5354
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Nastavení stránky pro %s"
 
-#: src/commands.c:5332
+#: src/commands.c:5356
 msgid "Page Setup For All Sheets"
 msgstr "Nastavení stránky pro všechny listy"
 
-#: src/commands.c:5460 src/commands.c:5542
+#: src/commands.c:5484 src/commands.c:5566
 #, c-format
 msgid "Define Name %s"
 msgstr "Definovat název %s"
 
-#: src/commands.c:5463 src/commands.c:5545
+#: src/commands.c:5487 src/commands.c:5569
 #, c-format
 msgid "Update Name %s"
 msgstr "Aktualizovat název %s"
@@ -19720,7 +19753,7 @@ msgstr "O_blast seznamu:"
 #: src/dialogs/moving-averages.glade.h:8
 #: src/dialogs/random-generation.glade.h:4 src/dialogs/rank.glade.h:6
 #: src/dialogs/regression.glade.h:7 src/dialogs/sampling.glade.h:6
-#: src/dialogs/variance-tests.glade.h:5
+#: src/dialogs/simulation.glade.h:9 src/dialogs/variance-tests.glade.h:5
 msgid "N_ew Workbook"
 msgstr "Nový s_ešit"
 
@@ -19744,7 +19777,7 @@ msgstr "_Vstup"
 #: src/dialogs/mean-tests.glade.h:26 src/dialogs/moving-averages.glade.h:15
 #: src/dialogs/random-generation.glade.h:13 src/dialogs/rank.glade.h:16
 #: src/dialogs/regression.glade.h:16 src/dialogs/sampling.glade.h:19
-#: src/dialogs/variance-tests.glade.h:15
+#: src/dialogs/simulation.glade.h:21 src/dialogs/variance-tests.glade.h:15
 msgid "_New Sheet"
 msgstr "_Nový list"
 
@@ -19999,45 +20032,45 @@ msgstr "Název šablony"
 msgid "Name:"
 msgstr "Název:"
 
-#: src/dialogs/autoformat.glade.h:15
+#: src/dialogs/autoformat.glade.h:15 src/dialogs/font-sel.glade.h:4
+msgid "Preview"
+msgstr "Náhled"
+
+#: src/dialogs/autoformat.glade.h:16
+msgid "Template Details"
+msgstr "Podrobnosti šablony"
+
+#: src/dialogs/autoformat.glade.h:17
 msgid "The category this template belongs to"
 msgstr "Kategorie, do které tato šablona patří"
 
-#: src/dialogs/autoformat.glade.h:16
+#: src/dialogs/autoformat.glade.h:18
 msgid "The current category"
 msgstr "Současná kategorie"
 
-#: src/dialogs/autoformat.glade.h:17
+#: src/dialogs/autoformat.glade.h:19
 msgid "The group/individual that made the template"
 msgstr "Skupina/autor šablony"
 
-#: src/dialogs/autoformat.glade.h:18 src/dialogs/cell-format.glade.h:100
+#: src/dialogs/autoformat.glade.h:20 src/dialogs/cell-format.glade.h:100
 msgid "_Bottom"
 msgstr "_Dole"
 
-#: src/dialogs/autoformat.glade.h:19
+#: src/dialogs/autoformat.glade.h:21
 msgid "_Category"
 msgstr "_Kategorie"
 
-#: src/dialogs/autoformat.glade.h:20 src/dialogs/cell-format.glade.h:114
+#: src/dialogs/autoformat.glade.h:22 src/dialogs/cell-format.glade.h:114
 msgid "_Left"
 msgstr "V_levo"
 
-#: src/dialogs/autoformat.glade.h:21
-msgid "_Preview"
-msgstr "_Náhled"
-
-#: src/dialogs/autoformat.glade.h:22 src/dialogs/cell-format.glade.h:119
+#: src/dialogs/autoformat.glade.h:23 src/dialogs/cell-format.glade.h:119
 msgid "_Right"
 msgstr "Vp_ravo"
 
-#: src/dialogs/autoformat.glade.h:23
+#: src/dialogs/autoformat.glade.h:24
 msgid "_Show Gridlines"
 msgstr "Zobrazit _mřížku"
-
-#: src/dialogs/autoformat.glade.h:24
-msgid "_Template Details"
-msgstr "Po_drobnosti šablony"
 
 #: src/dialogs/autoformat.glade.h:25 src/dialogs/cell-format.glade.h:124
 msgid "_Top"
@@ -22788,10 +22821,6 @@ msgstr "Styl písma:"
 msgid "Font:"
 msgstr "Písmo:"
 
-#: src/dialogs/font-sel.glade.h:4
-msgid "Preview"
-msgstr "Náhled"
-
 #: src/dialogs/font-sel.glade.h:5
 msgid "Size:"
 msgstr "Velikost:"
@@ -22953,7 +22982,7 @@ msgstr "_Vypočtené třídy"
 msgid "_N:"
 msgstr "_N:"
 
-#: src/dialogs/histogram.glade.h:28
+#: src/dialogs/histogram.glade.h:28 src/dialogs/simulation.glade.h:22
 msgid "_Options"
 msgstr "_Možnosti"
 
@@ -23686,6 +23715,91 @@ msgstr "_Výsledky"
 #: src/dialogs/sheet-order.glade.h:1
 msgid "Manage Sheets..."
 msgstr "Správa listů..."
+
+#: src/dialogs/simulation.glade.h:1
+msgid "A_utofit columns"
+msgstr "A_utomatická úprava šířky sloupců"
+
+#: src/dialogs/simulation.glade.h:2
+msgid "Find Max."
+msgstr "Nalézt max."
+
+#: src/dialogs/simulation.glade.h:3
+msgid "Find Min."
+msgstr "Nalézt min."
+
+#: src/dialogs/simulation.glade.h:4
+msgid "First Round #: "
+msgstr "První kolo: "
+
+#: src/dialogs/simulation.glade.h:5
+msgid "Inputs: "
+msgstr "Vstupy:"
+
+#: src/dialogs/simulation.glade.h:6
+msgid "Iterations: "
+msgstr "Iterace: "
+
+#: src/dialogs/simulation.glade.h:7
+msgid "Last Round #: "
+msgstr "Poslední kolo: "
+
+#: src/dialogs/simulation.glade.h:8
+msgid "Max Time:       "
+msgstr "Max čas:       "
+
+#: src/dialogs/simulation.glade.h:10
+msgid "Next Sim."
+msgstr "Další sim."
+
+#: src/dialogs/simulation.glade.h:11
+msgid "Output: "
+msgstr "Výstup: "
+
+#: src/dialogs/simulation.glade.h:12
+msgid "Outputs: "
+msgstr "Výstupy: "
+
+#: src/dialogs/simulation.glade.h:13
+msgid "Prev. Sim. "
+msgstr "Předch. sim. "
+
+#: src/dialogs/simulation.glade.h:14
+msgid "Reporting: "
+msgstr "Výkazy: "
+
+#. Fill in the header titles.
+#: src/dialogs/simulation.glade.h:15 src/tools/simulation.c:349
+msgid "Risk Simulation"
+msgstr "Simulace rizika"
+
+#: src/dialogs/simulation.glade.h:16
+msgid "Simulation: "
+msgstr "Simulace: "
+
+#: src/dialogs/simulation.glade.h:17
+msgid "Summary of Results: "
+msgstr "Souhrn výsledků: "
+
+#: src/dialogs/simulation.glade.h:18
+msgid "Summary report grupped by rounds"
+msgstr "Výsledné výkazy seskupené podle kol"
+
+#: src/dialogs/simulation.glade.h:19
+msgid "Summary: "
+msgstr "Souhrn: "
+
+#: src/dialogs/simulation.glade.h:20
+msgid "Variables: "
+msgstr "Proměnné: "
+
+#: src/dialogs/simulation.glade.h:23
+msgid "_Output Range: "
+msgstr "Výstupní _oblast: "
+
+#: src/dialogs/simulation.glade.h:24
+msgid "_Summary"
+msgstr "_Souhrn"
 
 #: src/dialogs/so-arrow.glade.h:1
 msgid "Configure Arrow/Line"
@@ -25136,12 +25250,12 @@ msgstr "Nelze aktivovat URL '%s'"
 msgid "Unable to open '%s'"
 msgstr "Nelze otevřít '%s'"
 
-#: src/item-bar.c:627
+#: src/item-bar.c:705
 #, c-format
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "Šířka: %.2f bodů (%d pixelů)"
 
-#: src/item-bar.c:630
+#: src/item-bar.c:708
 #, c-format
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Výška: %.2f bodů (%d pixelů)"
@@ -25852,11 +25966,11 @@ msgstr "Neplatné zpětné lomítko na konci v náhradě."
 msgid "cannot be performed with multiple ranges selected"
 msgstr "nelze vykonat s vícenásobným výběrem"
 
-#: src/sheet-control-gui.c:1410
+#: src/sheet-control-gui.c:1412
 msgid "Remove Hyperlink"
 msgstr "Odstranit hypertextový odkaz"
 
-#: src/sheet-control-gui.c:1446
+#: src/sheet-control-gui.c:1448
 msgid "Paste _Special"
 msgstr "Vložit j_inak"
 
@@ -25867,53 +25981,53 @@ msgstr "Vložit j_inak"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1458
+#: src/sheet-control-gui.c:1460
 msgid "_Insert..."
 msgstr "Vlož_it..."
 
-#: src/sheet-control-gui.c:1462
+#: src/sheet-control-gui.c:1464
 msgid "_Insert Column(s)"
 msgstr "Vlož_it sloupce"
 
-#: src/sheet-control-gui.c:1464
+#: src/sheet-control-gui.c:1466
 msgid "_Delete Column(s)"
 msgstr "O_dstranit sloupce"
 
-#: src/sheet-control-gui.c:1466
+#: src/sheet-control-gui.c:1468
 msgid "_Insert Row(s)"
 msgstr "Vlož_it řádky"
 
-#: src/sheet-control-gui.c:1468
+#: src/sheet-control-gui.c:1470
 msgid "_Delete Row(s)"
 msgstr "O_dstranit řádky"
 
-#: src/sheet-control-gui.c:1471
+#: src/sheet-control-gui.c:1473
 msgid "Clear Co_ntents"
 msgstr "Vymazat _obsah"
 
-#: src/sheet-control-gui.c:1479
+#: src/sheet-control-gui.c:1481
 msgid "_Format Cells..."
 msgstr "_Formát buněk..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1483
+#: src/sheet-control-gui.c:1485
 msgid "Column _Width..."
 msgstr "Ší_řka sloupce..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1491
+#: src/sheet-control-gui.c:1493
 msgid "_Row Height..."
 msgstr "_Výška řádku..."
 
-#: src/sheet-control-gui.c:1498
+#: src/sheet-control-gui.c:1500
 msgid "_Hyperlink"
 msgstr "_Hypertextový odkaz"
 
-#: src/sheet-control-gui.c:1501
+#: src/sheet-control-gui.c:1503
 msgid "Edit _Hyperlink"
 msgstr "Upravit _hypertextový odkaz"
 
-#: src/sheet-control-gui.c:1504
+#: src/sheet-control-gui.c:1506
 msgid "_Remove Hyperlink"
 msgstr "Odst_ranit hypertextový odkaz"
 
@@ -25940,14 +26054,27 @@ msgstr "nelze vytvořit objekt pro '%s'"
 msgid "Could not load file: %s"
 msgstr "Nelze načíst soubor: %s"
 
-#: src/sheet-object-graphic.c:914 src/sheet-object-graphic.c:928
+#: src/sheet-object-graphic.c:943 src/sheet-object-graphic.c:957
 msgid "Transparent"
 msgstr "Průhledný"
 
-#: src/sheet-object-widget.c:1119
+#: src/sheet-object-widget.c:1026
 #, c-format
 msgid "CheckBox %d"
 msgstr "Zaškrtávací okénko %d"
+
+#. Oh, yeah?
+#: src/sheet-style.c:445
+msgid ""
+"This is a special version of Gnumeric.  It has been compiled\n"
+"with support for a very large number of rows.  Access to the\n"
+"column named TRUE may conflict with the constant of the same\n"
+"name.  Expect weirdness."
+msgstr ""
+"Toto je speciální verze aplikace Gnumeric. Byla sestavena\n"
+"s podporou velmi velkého počtu řádků. Přístup ke sloupci\n"
+"s názvem TRUE může kolidovat s konstantou stejného názvu.\n"
+"Očekávejte podivné chování."
 
 #: src/sheet.c:1938
 msgid "Target region contains merged cells"
@@ -25961,11 +26088,11 @@ msgstr "nelze vykonat na spojených buňkách"
 msgid "cannot operate on array formulae"
 msgstr "nelze vykonat na poli vzorců"
 
-#: src/sheet.c:3050
+#: src/sheet.c:3059
 msgid "Insert Columns"
 msgstr "Vložit sloupce"
 
-#: src/sheet.c:3162
+#: src/sheet.c:3171
 msgid "Insert Rows"
 msgstr "Vložit řádky"
 
@@ -26594,11 +26721,6 @@ msgstr "Horní limit (95%)"
 #: src/tools/simulation.c:335
 msgid "SUMMARY OF SIMULATION ROUND #"
 msgstr "SOUHRN KOLA SIMULACE Č. "
-
-#. Fill in the header titles.
-#: src/tools/simulation.c:349
-msgid "Risk Simulation"
-msgstr "Simulace rizika"
 
 #: src/tools/simulation.c:349
 msgid "Report"
@@ -27342,16 +27464,16 @@ msgstr "Definovat název"
 msgid "Address"
 msgstr "Adresa"
 
-#: src/workbook-edit.c:331
+#: src/workbook-edit.c:334
 #, c-format
 msgid "%s!%s is locked"
 msgstr "%s!%s je zamknutý"
 
-#: src/workbook-edit.c:335
+#: src/workbook-edit.c:338
 msgid "Unprotect the workbook to enable editing."
 msgstr "Zrušit ochranu sešitu pro umožnění změn."
 
-#: src/workbook-edit.c:336
+#: src/workbook-edit.c:339
 msgid "Unprotect the sheet to enable editing."
 msgstr "Zrušit ochranu listu pro umožnění změn."
 
@@ -27593,29 +27715,6 @@ msgstr "Již existuje list s názvem"
 #: src/workbook.c:1309
 msgid "You may not use this name twice"
 msgstr "Nemůžete použít jeden název dvakrát"
-
-#: src/xml-io.c:2830
-msgid "Unparsable xml in clipboard"
-msgstr "Obsah schránky v XML není možné zpracovat"
-
-#: src/xml-io.c:2837
-msgid "Clipboard is in unknown format"
-msgstr "Obsah schránky má neznámý formát."
-
-#.
-#. * Pass 2: read the contents
-#.
-#: src/xml-io.c:3244
-msgid "Processing file..."
-msgstr "Zpracovává se soubor..."
-
-#: src/xml-io.c:3417
-msgid "Is not an Gnumeric Workbook file"
-msgstr "Není soubor se sešitem Gnumeric"
-
-#: src/xml-io.c:3453
-msgid "Failure saving file"
-msgstr "Chyba při ukládání souboru."
 
 #: src/xml-io.c:3481
 msgid "Gnumeric XML file format"
@@ -28492,6 +28591,9 @@ msgstr ""
 "vyhledávací klauzule. Toto číslo určuje maximální počet klauzulí, které se "
 "mají přidat automaticky."
 
+#~ msgid "_Preview"
+#~ msgstr "_Náhled"
+
 #~ msgid "Lock or unlock the top left cols/rows"
 #~ msgstr "Zamknout nebo odemknout levé horní řádky/sloupce"
 
@@ -29111,12 +29213,6 @@ msgstr ""
 
 #~ msgid "Unhandled Python exception: %s"
 #~ msgstr "Nespracovaná výnimka Python: %s"
-
-#~ msgid "Would split array %s"
-#~ msgstr "Rozdelí pole %s"
-
-#~ msgid "Would split an array"
-#~ msgstr "Rozdelí pole"
 
 #~ msgid "_Type"
 #~ msgstr "_Typ"
