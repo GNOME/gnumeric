@@ -12,8 +12,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
-"POT-Creation-Date: 2002-12-11 00:35-0500\n"
-"PO-Revision-Date: 2002-11-20 00:27+0100\n"
+"POT-Creation-Date: 2002-12-10 07:13+0100\n"
+"PO-Revision-Date: 2002-12-11 20:38+0100\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: nl <vertaling@nl.linux.org>\n"
 "MIME-Version: 1.0\n"
@@ -93,6 +93,10 @@ msgid ""
 "@DESCRIPTION=CUM_BIV_NORM_DIST calculates the cumulative bivariatenormal "
 "distribution from parameters a, b & rho"
 msgstr ""
+"@FUNCTION=CUM_BIV_NORM_DIST\n"
+"@SYNTAX=CUM_BIV_NORM_DIST(a;b;rho)\n"
+"@DESCRIPTION=CUM_BIV_NORM_DIST berekent de cumulatieve bivariaatnormale "
+"distributie met parameters a, b en rho"
 
 #: plugins/derivatives/options.c:202
 #, fuzzy
@@ -755,25 +759,25 @@ msgstr "Financieel Afgeleiden"
 msgid "Functions related to financial derivatives"
 msgstr "Functies gerelateerd aan financieel afgeleiden"
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5080
-#: plugins/gnumeric_1_0/xml-io.c:3370 plugins/mps/mps.c:549 src/xml-io.c:3552
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5079
+#: plugins/gnumeric_1_0/xml-io.c:3370 plugins/mps/mps.c:549 src/xml-io.c:3393
 msgid "Reading file..."
 msgstr "Bezig bestand te lezen..."
 
 #: plugins/dif/dif.c:181
 #, c-format
 msgid "Syntax error at line %d. Ignoring."
-msgstr "Syntactische fout in regel %d. Genegeerd."
+msgstr "Syntactische fout in regel %d wordt genegeerd."
 
 #: plugins/dif/dif.c:212
 #, c-format
 msgid "Unknown data value \"%s\" at line %d. Ignoring."
-msgstr "Onbekende data waarde \"%s\" in regel %d. Genegeerd."
+msgstr "Onbekende data waarde \"%s\" in regel %d wordt genegeerd."
 
 #: plugins/dif/dif.c:219
 #, c-format
 msgid "Unknown value type %d at line %d. Ignoring."
-msgstr "Onbekend waarde type %d in regel %d. Genegeerd."
+msgstr "Onbekend waarde type %d in regel %d wordt genegeerd."
 
 #: plugins/dif/dif.c:228
 #, c-format
@@ -782,7 +786,7 @@ msgid ""
 "rows."
 msgstr ""
 "csv bestand heeft meer dan het maximale aantal rijen %d. De overige rijen "
-"zullen genegeerd worden."
+"zullen worden genegeerd."
 
 #: plugins/dif/dif.c:232
 #, c-format
@@ -833,9 +837,8 @@ msgid "No Workbook or Book streams found."
 msgstr "Geen Werkmap of Mapstromen gevonden."
 
 #: plugins/excel/boot.c:208
-#, fuzzy
 msgid "Preparing to save..."
-msgstr "Bezig voor te bereiden voor opslaan..."
+msgstr "Opslaan wordt nu voorbereid..."
 
 #: plugins/excel/boot.c:217
 msgid "Saving file..."
@@ -898,28 +901,28 @@ msgstr ""
 "OLE-links worden niet ondersteund.\n"
 "Naam '%s' zal verloren gaan.\n"
 
-#: plugins/excel/ms-excel-read.c:2781
+#: plugins/excel/ms-excel-read.c:2780
 #, fuzzy
 msgid "Failure parsing AutoFilter."
 msgstr "Fout bij opslaan bestand."
 
-#: plugins/excel/ms-excel-read.c:4490
+#: plugins/excel/ms-excel-read.c:4489
 msgid "external references"
 msgstr "externe verwijzingen"
 
-#: plugins/excel/ms-excel-read.c:5224
+#: plugins/excel/ms-excel-read.c:5223
 msgid "This file is encrypted"
 msgstr "Dit bestand is versleuteld"
 
-#: plugins/excel/ms-excel-read.c:5226
+#: plugins/excel/ms-excel-read.c:5225
 msgid "No password supplied"
 msgstr "Geen wachtwoord opgegeven"
 
-#: plugins/excel/ms-excel-read.c:5230
+#: plugins/excel/ms-excel-read.c:5229
 msgid "Invalid password"
 msgstr "Ongeldig wachtwoord"
 
-#: plugins/excel/ms-excel-read.c:5325
+#: plugins/excel/ms-excel-read.c:5324
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Niet in staat om een geldig MS Excel werkmap te vinden"
 
@@ -929,6 +932,9 @@ msgid ""
 "We already wrote a length for a string that is being truncated due to "
 "encoding problems."
 msgstr ""
+"Dit is ietwat gebroken.\n"
+"We hebben reeds een lengte geschreven van een tekenreeks die wordt afgekapt "
+"vanwege tekenset-problemen."
 
 #: plugins/excel/ms-excel-write.c:3151 plugins/excel/ms-excel-write.c:3156
 #, c-format
@@ -1057,7 +1063,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMABS\n"
 "@SYNTAX=IMABS(igetal)\n"
-"@DESCRIPTION=IMABS geeft de absulute waarde van een complex getal.\n"
+"@DESCRIPTION=IMABS geeft de absolute waarde van een complex getal.\n"
 "\n"
 "* Als @igetal geen geldig complex getal is, geeft IMABS een #WAARDE! "
 "foutmelding.\n"
@@ -1590,8 +1596,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMSINH\n"
 "@SYNTAX=IMSINH(igetal)\n"
-"@DESCRIPTION=IMSINH geeft de complexe sinushyperbolicus van een complex "
-"getal z (@igetal), waarbij:\n"
+"@DESCRIPTION=IMSINH geeft de complex sinushyperbolicus van een complex getal "
+"z (@igetal), waarbij:\n"
 "\n"
 "\tsinh(z) = (exp(z) - exp(-z))/2\n"
 "\n"
@@ -1604,7 +1610,6 @@ msgstr ""
 "@SEEALSO=IMCOS,IMTAN"
 
 #: plugins/fn-complex/functions.c:776
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCOSH\n"
 "@SYNTAX=IMCOSH(inumber)\n"
@@ -1620,17 +1625,22 @@ msgid ""
 "\n"
 "@SEEALSO=IMSINH,IMTANH"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(igetal)\n"
-"@DESCRIPTION=IMCOS geeft de cosinus van een complex getal. \n"
-"Deze functie is compatibel met Excel.\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") is 0,833730-0,988898j\n"
+"@FUNCTION=IMCOSH\n"
+"@SYNTAX=IMCOSH(igetal)\n"
+"@DESCRIPTION=IMCOSH geeft de complexe cosinushyperbolicus van het complexe "
+"getal z (@igetal), waarbij\n"
 "\n"
-"@SEEALSO=IMSIN,IMTAN"
+"\tcosh(z) = (exp(z) + exp(-z))/2.\n"
+"\n"
+"* Als @igetal geen geldig complex getal is, geeft IMCOSH een #WAARDE! "
+"foutmelding.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMCOSH(\"1+j\") is 0,83373+0,988898j\n"
+"\n"
+"@SEEALSO=IMSINH,IMTANH"
 
 #: plugins/fn-complex/functions.c:807
-#, fuzzy
 msgid ""
 "@FUNCTION=IMTANH\n"
 "@SYNTAX=IMTANH(inumber)\n"
@@ -1646,17 +1656,22 @@ msgid ""
 "\n"
 "@SEEALSO=IMSINH,IMCOSH"
 msgstr ""
-"@FUNCTION=IMSIN\n"
-"@SYNTAX=IMSIN(igetal)\n"
-"@DESCRIPTION=IMSIN geeft de sinus van een complex getal. \n"
-"Deze functie is compatibel met Excel.\n"
-"@EXAMPLES=\n"
-"IMSIN(\"1+j\") is 1,29846+0,63496j\n"
+"@FUNCTION=IMTANH\n"
+"@SYNTAX=IMTANH(igetal)\n"
+"@DESCRIPTION=IMTANH geeft de complexe tangenshyperbolicus van het complexe "
+"getal z (@igetal), waarbij\n"
 "\n"
-"@SEEALSO=IMCOS,IMTAN"
+"\ttanh(z) = sinh(z)/cosh(z).\n"
+"\n"
+"* Als @igetal geen geldig complex getal is, geeft IMTANH een #WAARDE! "
+"foutmelding.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMTANH(\"1+j\") is 1,083923+0,2717526j\n"
+"\n"
+"@SEEALSO=IMSINH,IMCOSH"
 
 #: plugins/fn-complex/functions.c:838
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSECH\n"
 "@SYNTAX=IMSECH(inumber)\n"
@@ -1672,17 +1687,22 @@ msgid ""
 "\n"
 "@SEEALSO=IMCSCH,IMCOTH"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(igetal)\n"
-"@DESCRIPTION=IMCOS geeft de cosinus van een complex getal. \n"
-"Deze functie is compatibel met Excel.\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") is 0,833730-0,988898j\n"
+"@FUNCTION=IMSECH\n"
+"@SYNTAX=IMSECH(igetal)\n"
+"@DESCRIPTION=IMSECH geeft de complexe secans-hyperbolicus van het complexe "
+"getal z (@igetal), waarbij\n"
 "\n"
-"@SEEALSO=IMSIN,IMTAN"
+"\tsech(z) = 1/cosh(z).\n"
+"\n"
+"* Als @igetal geen geldig complex getal is, geeft IMSECH een #WAARDE! "
+"foutmelding.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMSECH(\"1+j\") is 0,498337-0,5910838j\n"
+"\n"
+"@SEEALSO=IMCSCH,IMCOTH"
 
 #: plugins/fn-complex/functions.c:869
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCSCH\n"
 "@SYNTAX=IMCSCH(inumber)\n"
@@ -1698,17 +1718,22 @@ msgid ""
 "\n"
 "@SEEALSO=IMSECH,IMCOTH"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(igetal)\n"
-"@DESCRIPTION=IMCOS geeft de cosinus van een complex getal. \n"
-"Deze functie is compatibel met Excel.\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") is 0,833730-0,988898j\n"
+"@FUNCTION=IMCSCH\n"
+"@SYNTAX=IMCSCH(igetal)\n"
+"@DESCRIPTION=IMCSCH geeft de complexe cosecans-hyperbolicus van het complexe "
+"getal z (@igetal), waarnbij\n"
 "\n"
-"@SEEALSO=IMSIN,IMTAN"
+"\tcsch(z) = 1/sinh(z).\n"
+"\n"
+"* Als @igetal geen geldig complex getal is, geeft IMCSCH een #WAARDE! "
+"foutmelding.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMCSCH(\"1+j\") is 0,303931-0,621518j\n"
+"\n"
+"@SEEALSO=IMSECH,IMCOTH"
 
 #: plugins/fn-complex/functions.c:900
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCOTH\n"
 "@SYNTAX=IMCOTH(inumber)\n"
@@ -1724,17 +1749,22 @@ msgid ""
 "\n"
 "@SEEALSO=IMSECH,IMCSCH"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(igetal)\n"
-"@DESCRIPTION=IMCOS geeft de cosinus van een complex getal. \n"
-"Deze functie is compatibel met Excel.\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") is 0,833730-0,988898j\n"
+"@FUNCTION=IMCOTH\n"
+"@SYNTAX=IMCOTH(igetal)\n"
+"@DESCRIPTION=IMCOTH geeft dde complexe cotangens-hyperbolicus van het "
+"complexe getal z (@igetal) waarbij\n"
 "\n"
-"@SEEALSO=IMSIN,IMTAN"
+"\tcoth(z) = 1/tanh(z).\n"
+"\n"
+"* Als @igetal geen geldig complex getal is, geeft IMCOTH een #WAARDE! "
+"foutmelding.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMCOTH(\"1+j\") is 0,868014-0,217622j\n"
+"\n"
+"@SEEALSO=IMSECH,IMCSCH"
 
 #: plugins/fn-complex/functions.c:931
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCSIN\n"
 "@SYNTAX=IMARCSIN(inumber)\n"
@@ -1750,17 +1780,21 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCCOS,IMARCTAN"
 msgstr ""
-"@FUNCTION=IMSIN\n"
-"@SYNTAX=IMSIN(igetal)\n"
-"@DESCRIPTION=IMSIN geeft de sinus van een complex getal. \n"
-"Deze functie is compatibel met Excel.\n"
-"@EXAMPLES=\n"
-"IMSIN(\"1+j\") is 1,29846+0,63496j\n"
+"@FUNCTION=IMARCSIN\n"
+"@SYNTAX=IMARCSIN(igetal)\n"
+"@DESCRIPTION=IMARCSIN geeft de complexe arcsinus van het complexe getal "
+"@igetal. De vertakkingen bevinden zich op de reële as, kleiner dan -1 en "
+"groter dan 1.\n"
 "\n"
-"@SEEALSO=IMCOS,IMTAN"
+"* Als @igetal geen geldig complex getal is, geeft IMARCSIN een #WAARDE! "
+"foutmelding.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMARCSIN(\"1+j\") is 0,6662394+1,061275j\n"
+"\n"
+"@SEEALSO=IMARCCOS,IMARCTAN"
 
 #: plugins/fn-complex/functions.c:963
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCCOS\n"
 "@SYNTAX=IMARCCOS(inumber)\n"
@@ -1776,17 +1810,21 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSIN,IMARCTAN"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(igetal)\n"
-"@DESCRIPTION=IMCOS geeft de cosinus van een complex getal. \n"
-"Deze functie is compatibel met Excel.\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") is 0,833730-0,988898j\n"
+"@FUNCTION=IMARCCOS\n"
+"@SYNTAX=IMARCCOS(igetal)\n"
+"@DESCRIPTION=IMARCCOS geeft de complexe arccosinus van het complexe getal "
+"@igetal. De vertakkingen bevinden zich op de reële as, kleiner dan -1 en "
+"groter dan 1.\n"
 "\n"
-"@SEEALSO=IMSIN,IMTAN"
+"* Als @igetal geen geldig complex getal is, geeft IMARCCOS een #WAARDE! "
+"foutmelding.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMARCCOS(\"1+j\") is 0,9045569-1,061275j\n"
+"\n"
+"@SEEALSO=IMARCSIN,IMARCTAN"
 
 #: plugins/fn-complex/functions.c:995
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCTAN\n"
 "@SYNTAX=IMARCTAN(inumber)\n"
@@ -1801,17 +1839,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSIN,IMARCCOS"
 msgstr ""
-"@FUNCTION=IMSIN\n"
-"@SYNTAX=IMSIN(igetal)\n"
-"@DESCRIPTION=IMSIN geeft de sinus van een complex getal. \n"
-"Deze functie is compatibel met Excel.\n"
-"@EXAMPLES=\n"
-"IMSIN(\"1+j\") is 1,29846+0,63496j\n"
-"\n"
-"@SEEALSO=IMCOS,IMTAN"
 
 #: plugins/fn-complex/functions.c:1027
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCSEC\n"
 "@SYNTAX=IMARCSEC(inumber)\n"
@@ -1828,17 +1857,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCCSC,IMARCCOT"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(igetal)\n"
-"@DESCRIPTION=IMCOS geeft de cosinus van een complex getal. \n"
-"Deze functie is compatibel met Excel.\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") is 0,833730-0,988898j\n"
-"\n"
-"@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-complex/functions.c:1058
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCCSC\n"
 "@SYNTAX=IMARCCSC(inumber)\n"
@@ -1855,17 +1875,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSEC,IMARCCOT"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(igetal)\n"
-"@DESCRIPTION=IMCOS geeft de cosinus van een complex getal. \n"
-"Deze functie is compatibel met Excel.\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") is 0,833730-0,988898j\n"
-"\n"
-"@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-complex/functions.c:1089
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCCOT\n"
 "@SYNTAX=IMARCCOT(inumber)\n"
@@ -1882,17 +1893,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSEC,IMARCCSC"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(igetal)\n"
-"@DESCRIPTION=IMCOS geeft de cosinus van een complex getal. \n"
-"Deze functie is compatibel met Excel.\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") is 0,833730-0,988898j\n"
-"\n"
-"@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-complex/functions.c:1120
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCSINH\n"
 "@SYNTAX=IMARCSINH(inumber)\n"
@@ -1908,17 +1910,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCCOSH,IMARCTANH"
 msgstr ""
-"@FUNCTION=IMSIN\n"
-"@SYNTAX=IMSIN(igetal)\n"
-"@DESCRIPTION=IMSIN geeft de sinus van een complex getal. \n"
-"Deze functie is compatibel met Excel.\n"
-"@EXAMPLES=\n"
-"IMSIN(\"1+j\") is 1,29846+0,63496j\n"
-"\n"
-"@SEEALSO=IMCOS,IMTAN"
 
 #: plugins/fn-complex/functions.c:1152
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCCOSH\n"
 "@SYNTAX=IMARCCOSH(inumber)\n"
@@ -1933,14 +1926,18 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSINH,IMARCTANH"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(igetal)\n"
-"@DESCRIPTION=IMCOS geeft de cosinus van een complex getal. \n"
-"Deze functie is compatibel met Excel.\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") is 0,833730-0,988898j\n"
+"@FUNCTION=IMARCCOSH\n"
+"@SYNTAX=IMARCCOSH(igetal)\n"
+"@DESCRIPTION=IMARCCOSH geeft de complexe arccosinus hyperbolicus van het "
+"complexe getal @igetal. De vertakking is op de reële as, kleiner dan 1.\n"
 "\n"
-"@SEEALSO=IMSIN,IMTAN"
+"* Als @igetal geen geldig complex getal is, geeft IMARCCOSH een #WAARDE! "
+"foutmelding.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMARCCOSH(\"1+j\") is 1,06127506+0,904557j\n"
+"\n"
+"@SEEALSO=IMARCSINH,IMARCTANH"
 
 #: plugins/fn-complex/functions.c:1184
 msgid ""
@@ -1961,7 +1958,7 @@ msgstr ""
 "@FUNCTION=IMARCTANH\n"
 "@SYNTAX=IMARCTANH(igetal)\n"
 "@DESCRIPTION=IMARCTANH geeft de complexe hyperbolische arctangens van het "
-"complexe getal @igetal. De vertakkingen zijn op de reeele as, kleiner dan -1 "
+"complexe getal @igetal. De vertakkingen zijn op de reële as, kleiner dan -1 "
 "en groter dan 1.\n"
 "\n"
 "* Als @igetal geen geldig complex getal is, geeft IMARCTANH een #WAARDE! "
@@ -1973,7 +1970,6 @@ msgstr ""
 "@SEEALSO=IMARCSINH,IMARCCOSH"
 
 #: plugins/fn-complex/functions.c:1216
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCSECH\n"
 "@SYNTAX=IMARCSECH(inumber)\n"
@@ -1990,17 +1986,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCCSCH,IMARCCOTH"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(igetal)\n"
-"@DESCRIPTION=IMCOS geeft de cosinus van een complex getal. \n"
-"Deze functie is compatibel met Excel.\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") is 0,833730-0,988898j\n"
-"\n"
-"@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-complex/functions.c:1248
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCCSCH\n"
 "@SYNTAX=IMARCCSCH(inumber)\n"
@@ -2017,17 +2004,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSECH,IMARCCOTH"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(igetal)\n"
-"@DESCRIPTION=IMCOS geeft de cosinus van een complex getal. \n"
-"Deze functie is compatibel met Excel.\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") is 0,833730-0,988898j\n"
-"\n"
-"@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-complex/functions.c:1279
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCCOTH\n"
 "@SYNTAX=IMARCCOTH(inumber)\n"
@@ -2044,14 +2022,6 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSECH,IMARCCSCH"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(igetal)\n"
-"@DESCRIPTION=IMCOS geeft de cosinus van een complex getal. \n"
-"Deze functie is compatibel met Excel.\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") is 0,833730-0,988898j\n"
-"\n"
-"@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-complex/functions.c:1311
 msgid ""
@@ -2109,7 +2079,6 @@ msgstr ""
 "@SEEALSO=IMSUM"
 
 #: plugins/fn-complex/functions.c:1376
-#, fuzzy
 msgid ""
 "@FUNCTION=IMPRODUCT\n"
 "@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])\n"
@@ -2126,15 +2095,18 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMPRODUCT\n"
 "@SYNTAX=IMPRODUCT(igetal1[;igetal2;...])\n"
-"@DESCRIPTION=IMPRODUCT geeft het product van de gegeven complexe getallen. \n"
-"Deze functie is compatibel met Excel.\n"
+"@DESCRIPTION=IMPRODUCT geeft het product van de gegeven complexe getallen.\n"
+"\n"
+"* Als een van de gegeven argumenten geen geldig complex getal is, geeft "
+"IMPRODUCT een #WAARDE! foutmelding.\n"
+"* Deze functie is compatibel met Excel.\n"
+"\n"
 "@EXAMPLES=\n"
 "IMPRODUCT(\"2-j\";\"4-2j\") is 6-8j\n"
 "\n"
 "@SEEALSO=IMDIV"
 
 #: plugins/fn-complex/functions.c:1448
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSUM\n"
 "@SYNTAX=IMSUM(inumber1,inumber2)\n"
@@ -2150,9 +2122,13 @@ msgid ""
 "@SEEALSO=IMSUB"
 msgstr ""
 "@FUNCTION=IMSUM\n"
-"@SYNTAX=IMSUM(igetal;igetal)\n"
-"@DESCRIPTION=IMSUM geeft de som van twee complexe getallen. \n"
-"Deze functie is compatibel met Excel.\n"
+"@SYNTAX=IMSUM(igetal1;igetal2)\n"
+"@DESCRIPTION=IMSUM geeft de som van twee complexe getallen.\n"
+"\n"
+"* Als @igetal1 of @igetal2 geen geldige complexe getallen zijn, geeft IMSUM "
+"een #WAARDE! foutmelding.\n"
+"* Deze functie is compatibel met Excel.\n"
+"\n"
 "@EXAMPLES=\n"
 "IMSUM(\"2-4j\";\"9-j\") is 11-5j\n"
 "\n"
@@ -3379,7 +3355,6 @@ msgstr ""
 "@SEEALSO=DAY, MONTH, TIME, NOW, YEAR"
 
 #: plugins/fn-date/functions.c:788
-#, fuzzy
 msgid ""
 "@FUNCTION=DAYS360 \n"
 "@SYNTAX=DAYS360 (date1,date2,method)\n"
@@ -3404,16 +3379,19 @@ msgid ""
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
 "@FUNCTION=DAYS360\n"
-"@SYNTAX=DAYS360(datum1;datum2;methode)\n"
+"@SYNTAX=DAYS360 (datum1;datum2;methode)\n"
 "@DESCRIPTION=DAYS360 geeft het aantal dagen tussen @datum1 en @datum2 "
 "uitgaande van een kalender met 360 dagen waarin elke maand precies 30 dagen "
 "heeft.\n"
 "\n"
-"* Als @methode waar is (true), wordt de Europese methode gehanteerd. In dat "
-"geval wordt de 31ste van de maand beschouwd als de 30ste.\n"
-"* Als @methode onwaar(false) of wordt weggelaten, wordt de Amerikaanse "
-"methode gehanteerd.  Dit is een ietwat gecompliceerde industrie-standaard "
-"methode.\n"
+"* Als @methode 1 is, wordt de Europese methode gehanteerd. In dat geval "
+"wordt de 31ste van de maand beschouwd als de 30ste.\n"
+"* Als @methode 0 is, of wordt weggelaten, wordt de Excel-Amerikaanse methode "
+"gehanteerd.  Dit is een ietwat gecompliceerde industrie-standaard methode "
+"waarbij de laatste dag in februari beschouwd wordt als de 30ste dag van de "
+"maand, maar alleen voor @datum1.\n"
+"* Als @methode 2 is, wordt een meer logische Amerikaanse methode gehanteerd "
+"waarbij beide datums dezelfde februari-behandeling krijgen.\n"
 "* Merk op dat Gnumeric gewone strings om kan zetten in serienummers, zodat "
 "je een datum als een string kunt invoeren.\n"
 "* Deze functie is compatibel met Excel.\n"
@@ -5792,7 +5770,6 @@ msgstr ""
 "@SEEALSO=IRR,XNPV"
 
 #: plugins/fn-financial/functions.c:1930
-#, fuzzy
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,nper,pmt[,pv,type])\n"
@@ -5810,7 +5787,7 @@ msgid ""
 "@SEEALSO=PV,PMT,PPMT"
 msgstr ""
 "@FUNCTION=FV\n"
-"@SYNTAX=FV(rente;aantal_termijnen;bet;hw;type)\n"
+"@SYNTAX=FV(rente;aantal_termijnen;bet;[hw;type])\n"
 "@DESCRIPTION=FV (ned. TW) berekent de toekomstige waarde van een investering "
 "op basis van periodieke, vaste betalingen en een vast rentepercentage.\n"
 "@rente is het rentepercentage per termijn. @aantal_termijnen is het aantal "
@@ -6001,7 +5978,6 @@ msgstr ""
 "@SEEALSO=PPMT,PV,FV"
 
 #: plugins/fn-financial/functions.c:2157
-#, fuzzy
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(settlement,maturity,coup,yield,freq[,basis])\n"
@@ -6028,12 +6004,12 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=DURATION\n"
-"@SYNTAX=DURATION(stortingsdatum;vervaldatum;coup;renndement;freq[;"
+"@SYNTAX=DURATION(stortingsdatum;vervaldatum;coup;rendement;freq[;"
 "soort_jaar])\n"
 "@DESCRIPTION=DURATION berekent de levensduur van een waardepapier.\n"
 "\n"
 "@stortingsdatum is de stortingsdatum van het waardepapier.\n"
-"@vervaldatum is de vervaldatum van het waardepapier. \n"
+"@vervaldatum is de vervaldatum van het waardepapier.\n"
 "@soort_jaar is het type dagentelling dat wordt gebruikt:\n"
 "\n"
 "  0  Amerikaans 30/360\n"
@@ -9583,7 +9559,6 @@ msgstr ""
 "@SEEALSO=FLOOR, CEIL, ABS"
 
 #: plugins/fn-math/functions.c:1070
-#, fuzzy
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[,base])\n"
@@ -9601,9 +9576,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[;grondtal])\n"
-"@DESCRIPTION=LOG berekent het logaritme van @x met als grondtal: @grondtal.\n"
-"Als er geen @grondtal gegeven wordt, gebruikt LOG als grondtal 10.\n"
-"@grondtal moet > 0 zijn en mag niet gelijk zijn aan 1.\n"
+"@DESCRIPTION=LOG berekent het logaritme van @x met als grondtal: @grondtal.  "
+"Als er geen @grondtal gegeven wordt, gebruikt LOG als grondtal 10. @grondtal "
+"moet > 0 zijn en mag niet gelijk zijn aan 1.\n"
 "\n"
 "* Deze functie is compatibel met Excel.\n"
 "\n"
@@ -10983,7 +10958,6 @@ msgstr ""
 "@SEEALSO=RAND,RANDBETWEEN"
 
 #: plugins/fn-random/functions.c:285
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDBINOM\n"
 "@SYNTAX=RANDBINOM(p,trials)\n"
@@ -10998,17 +10972,18 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDBINOM\n"
 "@SYNTAX=RANDBINOM(p;trekkingen)\n"
-"@DESCRIPTION=RANDNEGBINOM geeft een willekeurig getal volgens een Binomiale "
-"distributie. \n"
-"Als @p < 0 of @p > 1, geeft RANDBINOM een #GETAL! foutmelding. Als "
-"@trekkingen < 0 geeft RANDBINOM een #GETAL! foutmelding.\n"
+"@DESCRIPTION=RANDBINOM geeft een willekeurig getal volgens een Binomiale "
+"distributie.\n"
+"\n"
+"* Als @p < 0 of @p > 1, geeft RANDBINOM een #GETAL! foutmelding.\n"
+"* Als @trekkingen < 0 geeft RANDBINOM een #GETAL! foutmelding.\n"
+"\n"
 "@EXAMPLES=\n"
 "RANDBINOM(0,5;2)\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
 #: plugins/fn-random/functions.c:315
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bottom,top)\n"
@@ -11027,10 +11002,12 @@ msgstr ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(onder;boven)\n"
 "@DESCRIPTION=RANDBETWEEN geeft een willekeurig getal tussen @onder en @boven "
-"(inclusief de grensen).\n"
-"Als @onder of @boven geen gehele getallen zijn worden ze afgekapt. Als "
-"@bottom > @top geeft RANDBETWEEN een #GETAL! foutmelding.\n"
-"Deze functie is compatibel met Excel.\n"
+"(inclusief de grenzen).\n"
+"\n"
+"* Als @onder of @boven geen gehele getallen zijn worden ze afgekapt.\n"
+"* Als @onder > @boven geeft RANDBETWEEN een #GETAL! foutmelding.\n"
+"* Deze functie is compatibel met Excel.\n"
+"\n"
 "@EXAMPLES=\n"
 "RANDBETWEEN(3;7)\n"
 "\n"
@@ -11132,7 +11109,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-random/functions.c:492
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDWEIBULL\n"
 "@SYNTAX=RANDWEIBULL(a,b)\n"
@@ -11143,14 +11119,15 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
-"@FUNCTION=RANDEXP\n"
-"@SYNTAX=RANDEXP(b)\n"
-"@DESCRIPTION=RANDEXP geeft een willekeurig getal volgens een exponentiele "
+"@FUNCTION=RANDWEIBULL\n"
+"@SYNTAX=RANDWEIBULL(a;b)\n"
+"@DESCRIPTION=RANDWEIBULL geeft een willekeurig getal volgens een Weibull-"
 "distributie.\n"
-"@EXAMPLES=\n"
-"RANDEXP(0,5)\n"
 "\n"
-"@SEEALSO=RAND,RANDBETWEEN\""
+"@EXAMPLES=\n"
+"RANDWEIBULL(1;2)\n"
+"\n"
+"@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:516
 msgid ""
@@ -11206,7 +11183,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-random/functions.c:592
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDGAMMA\n"
 "@SYNTAX=RANDGAMMA(a,b)\n"
@@ -11219,18 +11195,19 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
-"@FUNCTION=RANDBERNOULLI\n"
-"@SYNTAX=RANDBERNOULLI(p)\n"
-"@DESCRIPTION=RANDBERNOULLI geeft een willekeurig getal volgens een Bernoulli "
+"@FUNCTION=RANDGAMMA\n"
+"@SYNTAX=RANDGAMMA(a;b)\n"
+"@DESCRIPTION=RANDGAMMA geeft een willekeurig getal volgens een Gamma-"
 "distributie\n"
-"Als @p < 0 of @p > 1 geeft RANDBERNOULLI een #GETAL! foutmelding.\n"
-"@EXAMPLES=\n"
-"RANDBERNOULLI(0,5)\n"
 "\n"
-"@SEEALSO=RAND,RANDBETWEEN"
+"* Als @a <= 0 geeft RANDGAMMA een #GETAL! foutmelding.\n"
+"\n"
+"@EXAMPLES=\n"
+"RANDGAMMA(1;2)\n"
+"\n"
+"@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:621
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDPARETO\n"
 "@SYNTAX=RANDPARETO(a,b)\n"
@@ -11241,14 +11218,15 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
-"@FUNCTION=RANDEXP\n"
-"@SYNTAX=RANDEXP(b)\n"
-"@DESCRIPTION=RANDEXP geeft een willekeurig getal volgens een exponentiele "
+"@FUNCTION=RANDPARETO\n"
+"@SYNTAX=RANDPARETO(a;b)\n"
+"@DESCRIPTION=RANDPARETO geeft een willekeurig getal volgens een Pareto-"
 "distributie.\n"
-"@EXAMPLES=\n"
-"RANDEXP(0,5)\n"
 "\n"
-"@SEEALSO=RAND,RANDBETWEEN\""
+"@EXAMPLES=\n"
+"RANDEXP(1;2)\n"
+"\n"
+"@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:645
 msgid ""
@@ -11263,7 +11241,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-random/functions.c:669
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDBETA\n"
 "@SYNTAX=RANDBETA(a,b)\n"
@@ -11274,14 +11251,15 @@ msgid ""
 "\n"
 "@SEEALSO=RAND,RANDGAMMA"
 msgstr ""
-"@FUNCTION=RANDEXP\n"
-"@SYNTAX=RANDEXP(b)\n"
-"@DESCRIPTION=RANDEXP geeft een willekeurig getal volgens een exponentiele "
+"@FUNCTION=RANDBETA\n"
+"@SYNTAX=RANDBETA(a;b)\n"
+"@DESCRIPTION=RANDBETA geeft een willekeurig getal volgens een Beta-"
 "distributie.\n"
-"@EXAMPLES=\n"
-"RANDEXP(0,5)\n"
 "\n"
-"@SEEALSO=RAND,RANDBETWEEN\""
+"@EXAMPLES=\n"
+"RANDBETA(1;2)\n"
+"\n"
+"@SEEALSO=RAND,RANDGAMMA"
 
 #: plugins/fn-random/functions.c:693
 msgid ""
@@ -11632,7 +11610,6 @@ msgstr ""
 "@SEEALSO=AVERAGE,DVAR,DVARP,STDEV,VAR"
 
 #: plugins/fn-stat/functions.c:221
-#, fuzzy
 msgid ""
 "@FUNCTION=VAR\n"
 "@SYNTAX=VAR(b1, b2, ...)\n"
@@ -11653,21 +11630,22 @@ msgstr ""
 "@FUNCTION=VAR\n"
 "@SYNTAX=VAR(b1; b2; ...)\n"
 "@DESCRIPTION=VAR geeft een schatting van de variantie van een steekproef uit "
-"een populatie.\n"
-"gebruik @VARP om de ware variantie van een complete populate te verkrijgen.\n"
-"(VAR is ook wel bekend als de N-1-variantie. Onder redelijke voorwaarden is "
-"het de beste schatter\n"
-"voor de ware variantie)\n"
-"Deze functie is compatibel met Excel.\n"
-"Als A1, A2, ..., A5 de getallen 11,4, 17,3, 21,3, 25,9 en 40,1 bevatten, dan "
-"geldt:\n"
+"een populatie. Om de ware variantie van een complete populatie ge "
+"verkrijgen, moet u @VARP gebruiken.\n"
+"\n"
+"* VAR is ook wel bekend als de N-1-variantie. Onder redelijke voorwaarden is "
+"het de beste schatter voor de ware variantie.\n"
+"* Deze functie is compatibel met Excel.\n"
+"\n"
+"\n"
 "@EXAMPLES=\n"
+"Als de cellen A1, A2, A3, ..., A5 de getallen 11,4 17,3 21,3 25,9 en 40,1 "
+"bevatten. dan geldt:\n"
 "VAR(A1:A5) is 117,64\n"
 "\n"
 "@SEEALSO=VARP,STDEV"
 
 #: plugins/fn-stat/functions.c:255
-#, fuzzy
 msgid ""
 "@FUNCTION=STDEV\n"
 "@SYNTAX=STDEV(b1, b2, ...)\n"
@@ -11685,10 +11663,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=STDEV\n"
 "@SYNTAX=STDEV(b1; b2; ...)\n"
-"@DESCRIPTION=STDEV geeft de standaard deviatie van een verzameling getallen "
-"alsof\n"
-"deze een steekproef uit een populatie is.\n"
-"Deze functie is compatibel met Excel.\n"
+"@DESCRIPTION=STDEV geeft de standaarddeviatie van een verzameling getallen "
+"alsof deze een steekproef uit een populatie is.\n"
+"\n"
+"* Deze functie is compatibel met Excel.\n"
+"\n"
 "@EXAMPLES=\n"
 "Als A1, A2, ..., A5 de getallen 11,4, 17,3, 21,3, 25,9 en 40,1 bevatten, dan "
 "geldt:\n"
@@ -11765,7 +11744,6 @@ msgstr ""
 "@SEEALSO=PERCENTRANK"
 
 #: plugins/fn-stat/functions.c:407
-#, fuzzy
 msgid ""
 "@FUNCTION=TRIMMEAN\n"
 "@SYNTAX=TRIMMEAN(ref,fraction)\n"
@@ -11787,7 +11765,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=TRIMMEAN\n"
 "@SYNTAX=TRIMMEAN(verwijzing; fractie)\n"
-"@DESCRIPTION=TRIMMEAN geeft het gemiddelde van het middelste gedeelte van "
+"@DESCRIPTION=TRIMMEAN geeft het gemiddelde van het binnenste gedeelte van "
 "een gegevensverzameling.\n"
 "@verwijzing is de lijst met getallen waarvan je het gemiddelde wilt "
 "berekenen.\n"
@@ -11796,7 +11774,9 @@ msgstr ""
 "Bijvoorbeeld, als @fractie=0,2 en de gegevensverzameling heeft 40 getallen "
 "dan worden\n"
 "er 8 (=40 x 0,2) getallen weggelaten; 4 van boven en 4 van onderen.\n"
-"Deze functie is compatibel met Excel.\n"
+"\n"
+"* Deze functie is compatibel met Excel.\n"
+"\n"
 "@EXAMPLES=\n"
 "Als de cellen A1, A2, ..., A5 de getallen 11,4 17,3 21,3 25,9 en 40,1 "
 "bevatten, dan geldt:\n"
@@ -14144,7 +14124,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-stat/functions.c:3798
-#, fuzzy
 msgid ""
 "@FUNCTION=LINEST\n"
 "@SYNTAX=LINEST(known_y's[,known_x's[,const[,stat]]])\n"
@@ -14177,27 +14156,30 @@ msgid ""
 "@SEEALSO=LOGEST,TREND"
 msgstr ""
 "@FUNCTION=LINEST\n"
-"@SYNTAX=LINEST(bekende_y's[;bekende_x'en[;const[;stat]]])\n"
-"@DESCRIPTION=LINEST berekent de ``kleinste kwadraten'' lijn die het best de "
-"datapunten in @bekende_y's fit. @bekende_x'en bevat de corresponderende x-"
-"waarden waarbij y=mx+b.\n"
-"Als @bekende_x'en is weggelaten wordt een array {1, 2, 3, ...} gebruikt.\n"
+"@SYNTAX=LINEST(y_bekend[;x_bekend[;const[;stat]]])\n"
+"@DESCRIPTION=LINEST berekent de ``kleinste kwadraten''-lijn die het best de "
+"datapunten in @y_bekend fit. @x_bekend bevat de corresponderende x-waarden "
+"waarbij y=mx+b.\n"
+"\n"
 "LINEST geeft een array met twee kolommen en een rij. De helling (m) van de "
 "regressielijn y=mx+b staat in de eerste kolom en het snijpunt met de y as "
 "(b) in de tweede kolom.\n"
-"Als @bekende_y's en @bekende_x'en een ongelijk aantal datapunten hebben, "
-"geeft LINEST een #GETAL! foutmelding.\n"
-"Als @const ONWAAR is, gaat de lijn door de Oorsprong, d.w.z: b zal nul zijn. "
-"Standaard is @const WAAR.\n"
-"Als @stat WAAR is, zal extra statistische informatie worden getoond. Deze "
+"\n"
+"* Als @stat WAAR is, zal extra statistische informatie worden getoond. Deze "
 "zal onder de coefficienten van de regressielijn komen te staan. Extra "
 "statistische informatie bestaat uit vier rijen gegevens. In de eerste rij "
 "worden de standaard fouten voor de coefficienten m1, (m2, ...), b gegeven. "
 "De tweede rij bevat de kwadraten van R en de standaard fout voor de "
 "schatting van y. De derde rij bevat de F-waargenomen waarde en het aantal "
 "vrijheidsgraden. De laatste rij bevat de regressies-som van de kwadraten en "
-"en de residue-som van de kwadraten. De standaarde waarde van @stat is "
-"ONWAAR.\n"
+"en de residue-som van de kwadraten.\n"
+"\n"
+"* Als @x_bekend is weggelaten wordt een array {1, 2, 3, ...} gebruikt.\n"
+"* Als @y_bekend en @x_bekend een ongelijk aantal datapunten hebben, geeft "
+"LINEST een #GETAL! foutmelding.\n"
+"* Als @const ONWAAR is, gaat de lijn door de Oorsprong, met andere woorden: "
+"b zal nul zijn. Standaard is @const WAAR.\n"
+"* De standaard waarde van @stat is ONWAAR.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=LOGEST,TREND"
@@ -14449,7 +14431,6 @@ msgstr ""
 "@SEEALSO=INTERCEPT,TREND"
 
 #: plugins/fn-stat/functions.c:4998
-#, fuzzy
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -14470,18 +14451,20 @@ msgid ""
 "@SEEALSO=FORECAST,TREND"
 msgstr ""
 "@FUNCTION=INTERCEPT\n"
-"@SYNTAX=INTERCEPT(bekende_y's,bekende_x'en)\n"
+"@SYNTAX=INTERCEPT(y_bekend;x_bekend)\n"
 "@DESCRIPTION=INTERCEPT berekent het snijpunt van de lineaire regressielijn "
 "met de y-as.\n"
-"Als @bekende_y of @bekende_x geen gegevens bevatten, of een ongelijk aantal "
+"\n"
+"* Als @y_bekend of @x_bekend geen gegevens bevatten, of een ongelijk aantal "
 "gegevens,\n"
-"geeft INTERCEPT een #N/B! foutmelding. Als de variantie van de @bekende_x'en "
-"gelijk\n"
-"aan nul is, geeft INTERCEPT eeen #DEEL/0! foutmelding.\n"
-"Deze functie is compatibel met Excel.\n"
+"geeft INTERCEPT een #N/B! foutmelding.\n"
+"* Als de variantie van @x_bekend nul is, geeft INTERCEPT eeen #DEEL/0! "
+"foutmelding.\n"
+"* Deze functie is compatibel met Excel.\n"
+"\n"
 "@EXAMPLES=\n"
-"Als A1, A2, ..., A5 de getallen 11,4 17,3 21,3 25,9 en 40,1 bevatten en\n"
-"B1, B2, ... B5 de getallen 23,2 25,8 29,9 33,5 en 42,7 dan geldt:\n"
+"Als A1, A2, ..., A5 de getallen 11,4 17,3 21,3 25,9 en 40,1 bevatten en B1, "
+"B2, ... B5 de getallen 23,2 25,8 29,9 33,5 en 42,7 dan geldt:\n"
 "INTERCEPT(A1:A5;B1:B5) is -20,785117212\n"
 "\n"
 "@SEEALSO=FORECAST,TREND"
@@ -15390,7 +15373,6 @@ msgstr ""
 "@SEEALSO=CELL, N, VALUE"
 
 #: plugins/fn-string/functions.c:719
-#, fuzzy
 msgid ""
 "@FUNCTION=TEXT\n"
 "@SYNTAX=TEXT(value,format_text)\n"
@@ -15406,8 +15388,10 @@ msgid ""
 msgstr ""
 "FUNCTION=TEXT\n"
 "@SYNTAX=TEXT(waarde;formaat_tekst)\n"
-"@DESCRIPTION=TEXT geeft @waarde weer in het opgegeven formaat\n"
-"Deze functie is compatibel met Excel.\n"
+"@DESCRIPTION=TEXT geeft @waarde weer in het opgegeven formaat.\n"
+"\n"
+"* Deze functie is compatibel met Excel.\n"
+"\n"
 "@EXAMPLES=\n"
 "TEXT(3,223;\"$0,00\") is \"$3,22\".\n"
 "TEXT(date(1999;4;15);\"mmmm; dd; yy\") is \"April, 15, 99\"\n"
@@ -15419,7 +15403,6 @@ msgid "Type mismatch"
 msgstr "Typen komen niet overeen"
 
 #: plugins/fn-string/functions.c:767
-#, fuzzy
 msgid ""
 "@FUNCTION=TRIM\n"
 "@SYNTAX=TRIM(text)\n"
@@ -15436,7 +15419,9 @@ msgstr ""
 "@SYNTAX=TRIM(tekst)\n"
 "@DESCRIPTION=TRIM geeft de @tekst maar dan met een enkele spatie tussen "
 "woorden.\n"
-"Deze functie is compatibel met Excel.\n"
+"\n"
+"* Deze functie is compatibel met Excel.\n"
+"\n"
 "@EXAMPLES=\n"
 "TRIM(\"  a bbb  cc\") is \"a bbb cc\"\n"
 "\n"
@@ -15715,36 +15700,35 @@ msgstr ""
 "Het bied ondersteuning voor het opslaan van Gnome Woordenlijsten in .po "
 "bestanden."
 
-#: plugins/gnumeric_1_0/xml-io.c:2825 src/xml-io.c:3016
+#: plugins/gnumeric_1_0/xml-io.c:2825 src/xml-io.c:2857
 msgid "Unparsable xml in clipboard"
 msgstr "Niet te verwerken xml in klembord"
 
-#: plugins/gnumeric_1_0/xml-io.c:2832 src/xml-io.c:3023
+#: plugins/gnumeric_1_0/xml-io.c:2832 src/xml-io.c:2864
 msgid "Clipboard is in unknown format"
 msgstr "Klembord is in onbekend formaat"
 
 #: plugins/gnumeric_1_0/xml-io.c:3112 plugins/xbase/boot.c:172
 #: src/dialogs/dialog-goto-cell.c:286 src/dialogs/dialog-search.c:731
 #: src/dialogs/print.glade.h:20 src/workbook.c:1047 src/workbook.c:1377
-#: src/xml-io.c:3303
+#: src/xml-io.c:3144
 msgid "Sheet"
 msgstr "Blad"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: plugins/gnumeric_1_0/xml-io.c:3239 src/xml-io.c:3430
+#: plugins/gnumeric_1_0/xml-io.c:3239 src/xml-io.c:3271
 msgid "Processing file..."
 msgstr "Bezig met verwerken bestand..."
 
-#: plugins/gnumeric_1_0/xml-io.c:3412 src/xml-io.c:3594
+#: plugins/gnumeric_1_0/xml-io.c:3412 src/xml-io.c:3435
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Is geen Gnumeric Werkmapbestand"
 
-#: plugins/gnumeric_1_0/xml-io.c:3447 src/xml-io.c:3631
-#, fuzzy
+#: plugins/gnumeric_1_0/xml-io.c:3447 src/xml-io.c:3472
 msgid "Failure saving file"
-msgstr "Fout bij opslaan bestand."
+msgstr "Fout bij opslaan bestand"
 
 #: plugins/guile/plugin.c:108
 msgid "Guile error"
@@ -16193,15 +16177,19 @@ msgid "Invalid array expression does no specify number of rows"
 msgstr "Ongeldige array-uitdrukking geeft het aantal rijen niet op."
 
 #: plugins/openoffice/openoffice-read.c:701
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to parse position for expression '%s' @ '%s' because '%s'"
-msgstr "Niet in staat om bestand '%s' te openen"
+msgstr ""
+"Niet in staat om de positie voor de uitdrukking '%s' @ '%s' te verwerken "
+"vanwege '%s'"
 
 #: plugins/openoffice/openoffice-read.c:714
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to parse position for expression '%s' with value '%s' because '%s'"
-msgstr "Niet in staat om bestand '%s' te openen"
+msgstr ""
+"Niet in staat om de positie van uitdrukking '%s' met waarde '%s' te "
+"verwerken vanwege '%s'"
 
 #: plugins/openoffice/openoffice-read.c:865
 msgid "No stream named content.xml found."
@@ -16562,9 +16550,8 @@ msgstr "Over dit programma"
 
 #: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:1358
 #: src/workbook-control-gui.c:3732
-#, fuzzy
 msgid "Add _Auto Filter"
-msgstr "Geavanceerd Filter"
+msgstr "_Auto-Filter toevoegen"
 
 #: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:3695
 msgid "Add an outline group"
@@ -16572,21 +16559,19 @@ msgstr "Voeg een outline-groep toe"
 
 #: src/GNOME_Gnumeric.xml.h:4 src/workbook-control-gui.c:3733
 msgid "Add or remove a filter"
-msgstr ""
+msgstr "Een filter toevoegen of verwijderen"
 
 #: src/GNOME_Gnumeric.xml.h:5 src/workbook-control-gui.c:3738
 msgid "Advanced _Filter..."
 msgstr "Geavanceerd _Filter..."
 
 #: src/GNOME_Gnumeric.xml.h:6 src/workbook-format-toolbar.c:473
-#, fuzzy
 msgid "Align the contents to the left and decrease the indent"
-msgstr "Lijnt de inhoud naar links uit en verkleint de inspringafstand"
+msgstr "De inhoud naar links uitlijnen en de tabulatie verkleinen"
 
 #: src/GNOME_Gnumeric.xml.h:7 src/workbook-format-toolbar.c:476
-#, fuzzy
 msgid "Align the contents to the left and increase the indent"
-msgstr "Lijnt de inhoud naar links uit en vergroot de inspringafstand"
+msgstr "De inhoud naar links uitlijnen en de tabulatie vergroten."
 
 #: src/GNOME_Gnumeric.xml.h:8 src/workbook-object-toolbar.c:163
 msgid "Arrow"
@@ -16598,7 +16583,7 @@ msgstr "Automatische _Correctie..."
 
 #: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:3263
 msgid "Auto_fill"
-msgstr "Autovul"
+msgstr "Auto_vullen"
 
 #: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3264
 msgid "Automatically fill the current selection"
@@ -16650,14 +16635,12 @@ msgid "Center"
 msgstr "Centreren"
 
 #: src/GNOME_Gnumeric.xml.h:22 src/workbook-format-toolbar.c:442
-#, fuzzy
 msgid "Center Across Selection"
-msgstr "CentrerenOverSelectie"
+msgstr "Centreren Over Selectie"
 
 #: src/GNOME_Gnumeric.xml.h:23 src/workbook-format-toolbar.c:442
-#, fuzzy
 msgid "Center across the selected cells"
-msgstr "Centreer over de geselecteerde cellen"
+msgstr "Centreren over de geselecteerde cellen"
 
 #: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:3205
 msgid "Change Gnumeric Preferences"
@@ -16772,9 +16755,8 @@ msgid "Copy the selection"
 msgstr "Kopiëer de selectie"
 
 #: src/GNOME_Gnumeric.xml.h:48 src/workbook-control-gui.c:3817
-#, fuzzy
 msgid "Copy the selection to the clipboard"
-msgstr "Kopiëert de selectie naar het klembord"
+msgstr "De selectie naar het klembord kopiëren"
 
 #: src/GNOME_Gnumeric.xml.h:49 src/dialogs/covariance.glade.h:3
 #: src/tools/analysis-tools.c:891 src/tools/analysis-tools.c:894
@@ -16803,57 +16785,52 @@ msgid "Create a label"
 msgstr "Maak een label"
 
 #: src/GNOME_Gnumeric.xml.h:55 src/workbook-object-toolbar.c:160
-#, fuzzy
 msgid "Create a line object"
-msgstr "Maakt een lijn-object"
+msgstr "Een lijn-object maken"
 
 #: src/GNOME_Gnumeric.xml.h:56 src/workbook-object-toolbar.c:154
 msgid "Create a list"
-msgstr "Maak een lijst object"
+msgstr "Een lijst object maken"
 
 #: src/GNOME_Gnumeric.xml.h:57 src/workbook-control-gui.c:3363
 msgid "Create a new shared view of the workbook"
-msgstr "Maak een nieuwe gedeelde zicht op de werkmap"
+msgstr "Een nieuwe gedeelde weergave van de werkmap maken"
 
 #: src/GNOME_Gnumeric.xml.h:58 src/workbook-control-gui.c:3178
 msgid "Create a new spreadsheet"
-msgstr "Nieuw rekenblad maken"
+msgstr "Een nieuw rekenblad maken"
 
 #: src/GNOME_Gnumeric.xml.h:59 src/workbook-control-gui.c:3366
 msgid "Create a new unshared view of the workbook"
-msgstr "Maak een nieuwe ongedeelde zicht op de werkmap"
+msgstr "Een nieuwe ongedeelde weergave van de werkmap maken"
 
 #: src/GNOME_Gnumeric.xml.h:60 src/workbook-control-gui.c:3793
 msgid "Create a new workbook"
-msgstr "Maak een nieuwe werkmap"
+msgstr "Een nieuwe werkmap maken"
 
 #: src/GNOME_Gnumeric.xml.h:61
-#, fuzzy
 msgid "Create a pivot table"
-msgstr "Maak een label"
+msgstr "Een draaitabel maken"
 
 #: src/GNOME_Gnumeric.xml.h:62 src/workbook-object-toolbar.c:150
 msgid "Create a radio button"
-msgstr "Maak een  radio knop"
+msgstr "Een radio knop maken"
 
 #: src/GNOME_Gnumeric.xml.h:63 src/workbook-object-toolbar.c:166
-#, fuzzy
 msgid "Create a rectangle object"
-msgstr "Maakt een rechthoek-object"
+msgstr "Een rechthoek-object maken"
 
 #: src/GNOME_Gnumeric.xml.h:64 src/workbook-object-toolbar.c:142
 msgid "Create a scrollbar"
-msgstr "Maak een schuifbalk"
+msgstr "Een schuifbalk maken"
 
 #: src/GNOME_Gnumeric.xml.h:65 src/workbook-object-toolbar.c:163
-#, fuzzy
 msgid "Create an arrow object"
-msgstr "Maakt een pijl-object"
+msgstr "Een pijl-object maken"
 
 #: src/GNOME_Gnumeric.xml.h:66 src/workbook-object-toolbar.c:169
-#, fuzzy
 msgid "Create an ellipse object"
-msgstr "Maakt een ellips-object"
+msgstr "Een ellips-object maken"
 
 #: src/GNOME_Gnumeric.xml.h:67 src/sheet-control-gui.c:1444
 msgid "Cu_t"
@@ -16879,23 +16856,21 @@ msgid "Cut the selection"
 msgstr "De selectie knippen"
 
 #: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:3814
-#, fuzzy
 msgid "Cut the selection to the clipboard"
-msgstr "Knipt de selectie naar het klembord"
+msgstr "De selectie naar het klembord knippen"
 
 #: src/GNOME_Gnumeric.xml.h:73 src/workbook-format-toolbar.c:393
 #: src/workbook-format-toolbar.c:473
 msgid "Decrease Indent"
-msgstr "Inspringafstand kleiner maken"
+msgstr "Tabulatie verkleinen"
 
 #: src/GNOME_Gnumeric.xml.h:74 src/workbook-format-toolbar.c:467
 msgid "Decrease Precision"
-msgstr "Precisie Verlagen"
+msgstr "Precisie verlagen"
 
 #: src/GNOME_Gnumeric.xml.h:75 src/workbook-format-toolbar.c:467
-#, fuzzy
 msgid "Decrease the number of decimals displayed"
-msgstr "Verlaagt het aantal weergegeven decimalen"
+msgstr "Het aantal weergegeven decimalen verminderen"
 
 #: src/GNOME_Gnumeric.xml.h:76 src/workbook-control-gui.c:3502
 msgid "Display _Formulas"
@@ -16907,12 +16882,11 @@ msgstr "_Outlines weergeven"
 
 #: src/GNOME_Gnumeric.xml.h:78 src/workbook-control-gui.c:3503
 msgid "Display the value of a formula or the formula itself"
-msgstr "Toon de waarde van een formule of de formule zelf"
+msgstr "De waarde van een formule tonen of de formule zelf"
 
 #: src/GNOME_Gnumeric.xml.h:79 src/workbook-control-gui.c:3848
-#, fuzzy
 msgid "Edit a function in the current cell"
-msgstr "Bewerk een functie in de huidige cel"
+msgstr "Een functie in de huidige cel bewerken"
 
 #: src/GNOME_Gnumeric.xml.h:80 src/workbook-control-gui.c:3201
 msgid "Edit descriptive information"
@@ -16920,15 +16894,15 @@ msgstr "Beschrijvende informatie bewerken"
 
 #: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:3399
 msgid "Edit sheet and workbook names"
-msgstr "Bewerk blad en werkmap namen"
+msgstr "Blad en werkmap namen bewerken"
 
 #: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:3549
 msgid "Edit the Gnumeric Preferences"
-msgstr "Bewerk de Gnumeric Voorkeuren"
+msgstr "De Gnumeric Voorkeuren bewerken"
 
 #: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:3441
 msgid "Edit the selected cell's comment"
-msgstr "Bewerk de opmerking van de geselecteerde cel"
+msgstr "De opmerking bij de geselecteerde cel bewerken"
 
 #: src/GNOME_Gnumeric.xml.h:84 src/workbook-object-toolbar.c:169
 msgid "Ellipse"
@@ -16969,7 +16943,6 @@ msgid "Font selector"
 msgstr "Lettertype selecteren"
 
 #: src/GNOME_Gnumeric.xml.h:93 src/workbook-format-toolbar.c:870
-#, fuzzy
 msgid "Font size"
 msgstr "Lettergrootte"
 
@@ -17049,9 +17022,8 @@ msgid "Hyper_link..."
 msgstr "Hyper_link..."
 
 #: src/GNOME_Gnumeric.xml.h:111 src/workbook-control-gui.c:3839
-#, fuzzy
 msgid "Hyperlink"
-msgstr "_Hyperlink"
+msgstr "Hyperlink"
 
 #: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:3725
 msgid "Import _Text File..."
@@ -17064,16 +17036,15 @@ msgstr "De tekst vanuit een bestand importeren."
 #: src/GNOME_Gnumeric.xml.h:114 src/workbook-format-toolbar.c:372
 #: src/workbook-format-toolbar.c:476
 msgid "Increase Indent"
-msgstr "Inspringafstand groter maken"
+msgstr "Tabulatie vergroten"
 
 #: src/GNOME_Gnumeric.xml.h:115 src/workbook-format-toolbar.c:464
 msgid "Increase Precision"
-msgstr "Precisie Ophogen"
+msgstr "Precisie Verhogen"
 
 #: src/GNOME_Gnumeric.xml.h:116 src/workbook-format-toolbar.c:464
-#, fuzzy
 msgid "Increase the number of decimals displayed"
-msgstr "Verhoogt het aantal weergegeven decimalen"
+msgstr "Het aantal weergegeven decimalen verhogen"
 
 #: src/GNOME_Gnumeric.xml.h:117
 msgid "Insert Component"
@@ -17174,7 +17145,6 @@ msgid "Launch the Graph Guru"
 msgstr "De Grafiek Goeroe opstarten"
 
 #: src/GNOME_Gnumeric.xml.h:140 src/workbook-format-toolbar.c:430
-#, fuzzy
 msgid "Left Align"
 msgstr "Links uitlijnen"
 
@@ -17312,9 +17282,8 @@ msgid "Paste the clipboard"
 msgstr "De inhoud van het klembord plakken"
 
 #: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:3820
-#, fuzzy
 msgid "Paste the contents of the clipboard"
-msgstr "Plak de inhoud van het klembord of de buffer"
+msgstr "De inhoud van het klembord plakken"
 
 #: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:3315
 msgid "Paste with optional filters and transformations"
@@ -17365,14 +17334,12 @@ msgstr "Druk het werkboek af"
 
 #: src/GNOME_Gnumeric.xml.h:184 src/GNOME_Gnumeric_Component.xml.h:8
 #: src/workbook-control-gui.c:3200
-#, fuzzy
 msgid "Proper_ties..."
-msgstr "Eigenschappen..."
+msgstr "_Eigenschappen..."
 
 #: src/GNOME_Gnumeric.xml.h:185
-#, fuzzy
 msgid "Quit the application"
-msgstr "Over dit programma"
+msgstr "Het programma afsluiten"
 
 #: src/GNOME_Gnumeric.xml.h:186
 msgid "Radio Button"
@@ -17427,7 +17394,6 @@ msgid "Rename the current sheet"
 msgstr "Geef het huidige werkblad een andere naam"
 
 #: src/GNOME_Gnumeric.xml.h:198 src/workbook-format-toolbar.c:438
-#, fuzzy
 msgid "Right Align"
 msgstr "Rechts uitlijnen"
 
@@ -17525,21 +17491,17 @@ msgid "Select an entire row"
 msgstr "Selecteer gehele rij"
 
 #: src/GNOME_Gnumeric.xml.h:222 src/workbook-format-toolbar.c:461
-#, fuzzy
 msgid "Set the format of the selected cells to include a thousands separator"
 msgstr ""
-"Maakt dat het formaat van de geselecteerde cellen een scheidingsteken voor "
-"duizendtallen gebruikt"
+"De geselecteerde cellen gebruiken een scheidingsteken voor duizendtallen"
 
 #: src/GNOME_Gnumeric.xml.h:223 src/workbook-format-toolbar.c:455
-#, fuzzy
 msgid "Set the format of the selected cells to monetary"
-msgstr "Stelt het formaat van de geselecteerde cellen in op monetair"
+msgstr "De geselecteerde cellen gebruiken een monetair opmaakformaat"
 
 #: src/GNOME_Gnumeric.xml.h:224 src/workbook-format-toolbar.c:458
-#, fuzzy
 msgid "Set the format of the selected cells to percentage"
-msgstr "Stelt het formaat van de geselecteerde cellen in op percentage"
+msgstr "De geselecteerde cellen gebruiken een percentage opmaakformaat"
 
 #: src/GNOME_Gnumeric.xml.h:225 src/GNOME_Gnumeric_Component.xml.h:11
 #: src/workbook-control-gui.c:3188
@@ -17560,9 +17522,8 @@ msgid "Sort Descending"
 msgstr "Sorteer Aflopend"
 
 #: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:3748
-#, fuzzy
 msgid "Sort the selected region"
-msgstr "Sorteer de geselecteerde cellen"
+msgstr "Het geselecteerde gebied sorteren"
 
 #: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:3852
 msgid ""
@@ -17593,7 +17554,7 @@ msgid "Statistical Anal_ysis"
 msgstr "_Statistische Analyses"
 
 #: src/GNOME_Gnumeric.xml.h:235 src/dialogs/consolidate.glade.h:19
-#: src/workbook-control-gui.c:3844 src/workbook-control-gui.c:4594
+#: src/workbook-control-gui.c:3844 src/workbook-control-gui.c:4591
 #: src/workbook-view.c:511
 msgid "Sum"
 msgstr "Som"
@@ -17612,7 +17573,6 @@ msgstr ""
 "waarschijnlijke uitkomsten te vinden en hun gerelateerde risico's"
 
 #: src/GNOME_Gnumeric.xml.h:238 src/workbook-format-toolbar.c:461
-#, fuzzy
 msgid "Thousands Separator"
 msgstr "Scheidingsteken voor Duizendtallen"
 
@@ -17694,9 +17654,8 @@ msgid "_ANOVA"
 msgstr "_ANOVA"
 
 #: src/GNOME_Gnumeric.xml.h:258
-#, fuzzy
 msgid "_About"
-msgstr "_Info..."
+msgstr "_Info"
 
 #: src/GNOME_Gnumeric.xml.h:259 src/sheet-control-gui.c:1477
 #: src/workbook-control-gui.c:3440
@@ -17911,9 +17870,8 @@ msgid "_Paste"
 msgstr "_Plakken"
 
 #: src/GNOME_Gnumeric.xml.h:307 src/workbook-control-gui.c:3765
-#, fuzzy
 msgid "_PivotTable..."
-msgstr "_Afdrukken..."
+msgstr "_Draaitabel..."
 
 #: src/GNOME_Gnumeric.xml.h:308 src/workbook-control-gui.c:3651
 msgid "_Plug-ins..."
@@ -17924,9 +17882,8 @@ msgid "_Print..."
 msgstr "_Afdrukken..."
 
 #: src/GNOME_Gnumeric.xml.h:310
-#, fuzzy
 msgid "_Quit"
-msgstr "_Zet:"
+msgstr "_Afsluiten"
 
 #: src/GNOME_Gnumeric.xml.h:311 src/workbook-control-gui.c:3272
 msgid "_Random Generator..."
@@ -18070,9 +18027,8 @@ msgid "_Zoom..."
 msgstr "_Zoom..."
 
 #: src/GNOME_Gnumeric_Component.xml.h:1
-#, fuzzy
 msgid "About the Gnumeric spreadsheet program"
-msgstr "Over het Gnumeric Spreadsheet-programma"
+msgstr "Over het Gnumeric spreadsheet-programma"
 
 #: src/GNOME_Gnumeric_Component.xml.h:2
 msgid "C_lear Cells"
@@ -18403,12 +18359,12 @@ msgstr "Rijen inklappen"
 #: src/commands.c:2238
 #, c-format
 msgid "Show column outline %d"
-msgstr ""
+msgstr "Kolom-outline %d tonen"
 
 #: src/commands.c:2238
 #, c-format
 msgid "Show row outline %d"
-msgstr ""
+msgstr "Rij-outline %d tonen"
 
 #: src/commands.c:2305
 msgid "Those columns are already grouped"
@@ -19059,76 +19015,68 @@ msgstr "*"
 
 #: src/dialogs/autofilter-expression.glade.h:3
 #: src/dialogs/autofilter-top10.glade.h:2
-#, fuzzy
 msgid "Gnumeric : AutoFilter"
-msgstr "Gnumeric XML bestandsformaat"
+msgstr "Gnumeric : AutoFilter"
 
 #: src/dialogs/autofilter-expression.glade.h:4
-#, fuzzy
 msgid "Show rows where:"
-msgstr "Pijl tonen"
+msgstr "Rijenl tonen waarbij:"
 
 #: src/dialogs/autofilter-expression.glade.h:5
-#, fuzzy
 msgid "_And"
-msgstr "Toevoegen"
+msgstr "_En"
 
 #: src/dialogs/autofilter-expression.glade.h:6
 msgid "_Or"
-msgstr ""
+msgstr "_Of"
 
 #: src/dialogs/autofilter-expression.glade.h:7
 msgid "begins with"
-msgstr ""
+msgstr "begint met"
 
 #: src/dialogs/autofilter-expression.glade.h:8
-#, fuzzy
 msgid "contains"
-msgstr "inhoud"
+msgstr "bevat"
 
 #: src/dialogs/autofilter-expression.glade.h:9
 msgid "does not begin with"
-msgstr ""
+msgstr "begint niet met"
 
 #: src/dialogs/autofilter-expression.glade.h:10
-#, fuzzy
 msgid "does not contain"
-msgstr "Bevat geen Werkmap bestand"
+msgstr "bevat niet"
 
 #: src/dialogs/autofilter-expression.glade.h:11
-#, fuzzy
 msgid "does not end with"
-msgstr "Functie bestaat niet"
+msgstr "eindigt niet met"
 
 #: src/dialogs/autofilter-expression.glade.h:12
 msgid "does not equal"
-msgstr ""
+msgstr "is niet gelijk aan"
 
 #: src/dialogs/autofilter-expression.glade.h:13
-#, fuzzy
 msgid "ends with"
-msgstr "Vaste bree_dte"
+msgstr "eindigt met"
 
 #: src/dialogs/autofilter-expression.glade.h:14
-#, fuzzy
 msgid "equals"
-msgstr "_Ongelijk"
+msgstr "is gelijk aan"
 
 #: src/dialogs/autofilter-expression.glade.h:15
 msgid "is greater than"
-msgstr ""
+msgstr "is groter dan"
 
 #: src/dialogs/autofilter-expression.glade.h:16
 msgid "is greater than or equal to"
-msgstr ""
+msgstr "is groter of gelijk aan"
 
 #: src/dialogs/autofilter-expression.glade.h:17
 msgid "is less than"
-msgstr ""
+msgstr "is kleiner dan"
 
 #: src/dialogs/autofilter-expression.glade.h:18
 msgid "is less than or equal to"
-msgstr ""
+msgstr "is kleiner of gelijk aan"
 
 #: src/dialogs/autofilter-top10.glade.h:1 src/dialogs/cell-format.glade.h:18
 #: src/workbook-format-toolbar.c:630
@@ -19137,17 +19085,15 @@ msgstr "Onder"
 
 #: src/dialogs/autofilter-top10.glade.h:3
 msgid "Items"
-msgstr ""
+msgstr "Items"
 
 #: src/dialogs/autofilter-top10.glade.h:4
-#, fuzzy
 msgid "Percentage"
-msgstr "_Percentage"
+msgstr "Percentage"
 
 #: src/dialogs/autofilter-top10.glade.h:5
-#, fuzzy
 msgid "Show:"
-msgstr "Toon"
+msgstr "Tonen:"
 
 #: src/dialogs/autofilter-top10.glade.h:6 src/dialogs/cell-format.glade.h:91
 msgid "Top"
@@ -19160,7 +19106,7 @@ msgstr "0.05"
 
 #: src/dialogs/anova-one.glade.h:2
 msgid "ANOVA - Single Factor"
-msgstr "ANOVA - Enkel Factor"
+msgstr "ANOVA - Enkel-Factor"
 
 #: src/dialogs/anova-one.glade.h:4 src/dialogs/anova-two.glade.h:5
 #: src/dialogs/correlation.glade.h:2 src/dialogs/covariance.glade.h:2
@@ -19213,7 +19159,7 @@ msgstr "Uitvoer"
 #: src/dialogs/regression.glade.h:10 src/dialogs/sampling.glade.h:10
 #: src/dialogs/variance-tests.glade.h:7
 msgid "Retain Output Range Comments"
-msgstr "Uitvoerbereik Commentaar Behouden"
+msgstr "Uitvoerbereik-commentaar Behouden"
 
 #: src/dialogs/anova-one.glade.h:10 src/dialogs/anova-two.glade.h:11
 #: src/dialogs/correlation.glade.h:9 src/dialogs/covariance.glade.h:9
@@ -19225,7 +19171,7 @@ msgstr "Uitvoerbereik Commentaar Behouden"
 #: src/dialogs/regression.glade.h:11 src/dialogs/sampling.glade.h:11
 #: src/dialogs/variance-tests.glade.h:8
 msgid "Retain Output Range Formatting"
-msgstr "Uitvoerbereik Opmaak Behouden"
+msgstr "Uitvoerbereik-opmaak Behouden"
 
 #: src/dialogs/anova-one.glade.h:11 src/dialogs/anova-two.glade.h:12
 msgid "_Alpha = "
@@ -19247,7 +19193,7 @@ msgstr "_Gebieden"
 #: src/dialogs/fourier-analysis.glade.h:12
 #: src/dialogs/moving-averages.glade.h:13 src/dialogs/rank.glade.h:14
 msgid "_Input Range:"
-msgstr "_Invoer Bereik:"
+msgstr "_Invoerbereik:"
 
 #: src/dialogs/anova-one.glade.h:15 src/dialogs/anova-two.glade.h:14
 #: src/dialogs/correlation.glade.h:13 src/dialogs/covariance.glade.h:13
@@ -19275,7 +19221,7 @@ msgstr "Aantal Rijen _Per Steekproef:"
 
 #: src/dialogs/autocorrect.glade.h:2
 msgid "Auto Correct"
-msgstr "Auto Correctie"
+msgstr "Autocorrectie"
 
 #: src/dialogs/autocorrect.glade.h:3
 msgid "Capitalize _first letter of sentence"
@@ -19301,15 +19247,15 @@ msgstr "Vervang:"
 #: src/dialogs/dialog-stf.glade.h:56 src/dialogs/names.glade.h:6
 #: src/dialogs/solver.glade.h:26
 msgid "_Add"
-msgstr "Toevoegen"
+msgstr "_Toevoegen"
 
 #: src/dialogs/autocorrect.glade.h:9
 msgid "_Do not capitalize after:"
-msgstr "Geen hoofdletters na:"
+msgstr "_Geen hoofdletters na:"
 
 #: src/dialogs/autocorrect.glade.h:10
 msgid "_First Letter"
-msgstr "Eerste Letter"
+msgstr "_Eerste Letter"
 
 #: src/dialogs/autocorrect.glade.h:11 src/dialogs/cell-format.glade.h:109
 msgid "_General"
@@ -19317,15 +19263,15 @@ msgstr "Al_gemeen"
 
 #: src/dialogs/autocorrect.glade.h:12
 msgid "_INitial CApitals"
-msgstr "HOofdletters AAn het BEg_in"
+msgstr "HOofdletters AAn het _BEgin"
 
 #: src/dialogs/autocorrect.glade.h:14
 msgid "_Replace text when typed"
-msgstr "Ve_rvang tekst tijdens typen"
+msgstr "_Vervang tekst tijdens typen"
 
 #: src/dialogs/autocorrect.glade.h:15
 msgid "_With:"
-msgstr "Door:"
+msgstr "_Door:"
 
 #: src/dialogs/autoformat.glade.h:2
 msgid "A short description of the template"
@@ -19333,11 +19279,11 @@ msgstr "Een korte beschrijving van het sjabloon"
 
 #: src/dialogs/autoformat.glade.h:3
 msgid "Apply _Alignment"
-msgstr "Uitlijning Toepassen"
+msgstr "_Uitlijning Toepassen"
 
 #: src/dialogs/autoformat.glade.h:4
 msgid "Apply _Borders"
-msgstr "Randen Toepassen"
+msgstr "_Randen Toepassen"
 
 #: src/dialogs/autoformat.glade.h:5
 msgid "Apply _Fonts"
@@ -19357,7 +19303,7 @@ msgstr "Auteur:"
 
 #: src/dialogs/autoformat.glade.h:9
 msgid "Autoformat"
-msgstr "Automatisch opmaken"
+msgstr "Automatische opmaak"
 
 #: src/dialogs/autoformat.glade.h:10
 msgid "Category:"
@@ -19384,9 +19330,8 @@ msgid "Preview"
 msgstr "Voorbeeld"
 
 #: src/dialogs/autoformat.glade.h:16
-#, fuzzy
 msgid "Template Details"
-msgstr "Bes_tands Details"
+msgstr "Sjabloondetails"
 
 #: src/dialogs/autoformat.glade.h:17
 msgid "The category this template belongs to"
@@ -19991,7 +19936,7 @@ msgid "Add the entered area to the list of source areas"
 msgstr "Voeg het opgegeven bereik toe aan de lijst met bron bereiken."
 
 #: src/dialogs/consolidate.glade.h:2 src/dialogs/dialog-simulation.c:204
-#: src/workbook-control-gui.c:4597
+#: src/workbook-control-gui.c:4594
 msgid "Average"
 msgstr "Gemiddelde"
 
@@ -20004,7 +19949,7 @@ msgid "Clear the list of source areas"
 msgstr "Schoon de lijst van bron bereiken"
 
 #: src/dialogs/consolidate.glade.h:5 src/tools/simulation.c:264
-#: src/workbook-control-gui.c:4598
+#: src/workbook-control-gui.c:4595
 msgid "Count"
 msgstr "Telling"
 
@@ -20037,12 +19982,12 @@ msgid "Labels"
 msgstr "Labels"
 
 #: src/dialogs/consolidate.glade.h:13 src/dialogs/dialog-simulation.c:204
-#: src/tools/simulation.c:256 src/workbook-control-gui.c:4596
+#: src/tools/simulation.c:256 src/workbook-control-gui.c:4593
 msgid "Max"
 msgstr "Max"
 
 #: src/dialogs/consolidate.glade.h:14 src/dialogs/dialog-simulation.c:204
-#: src/tools/simulation.c:254 src/workbook-control-gui.c:4595
+#: src/tools/simulation.c:254 src/workbook-control-gui.c:4592
 msgid "Min"
 msgstr "Min"
 
@@ -20234,9 +20179,8 @@ msgstr "Andreas J. Guelzow, Gnumeric hacker."
 
 #. The funny character between "K" and "r" here is 'aring'.
 #: src/dialogs/dialog-about.c:64
-#, fuzzy
 msgid "Jon Kre Hellan, Gnumeric hacker."
-msgstr "Jon K. Hellan, Gnumeric hacker."
+msgstr "Jon Kre Hellan, Gnumeric hacker."
 
 #: src/dialogs/dialog-about.c:65
 msgid "Ross Ihaka, special functions."
@@ -20928,9 +20872,8 @@ msgid "Send _Email"
 msgstr "_Email verzenden"
 
 #: src/dialogs/dialog-hyperlink.c:93
-#, fuzzy
 msgid "Prepare an email"
-msgstr "Maak een label"
+msgstr "Een email opstellen"
 
 #: src/dialogs/dialog-hyperlink.c:94
 msgid "_URL"
@@ -20941,9 +20884,8 @@ msgid "Browse to the specified URL"
 msgstr "Naar de opgegeven URL browsen"
 
 #: src/dialogs/dialog-hyperlink.c:274
-#, fuzzy
 msgid "Could not create the hyperlink dialog."
-msgstr "Kon het Oplosser dialoogvenster niet maken."
+msgstr "Kon het Hyperlink-dialoogvenster niet maken."
 
 #: src/dialogs/dialog-insert-cells.c:134 src/dialogs/insert-cells.glade.h:1
 msgid "Insert"
@@ -21090,14 +21032,12 @@ msgid "Error while activating plugin \"%s\"."
 msgstr "Fouten bij activeren plugins."
 
 #: src/dialogs/dialog-plugin-manager.c:670
-#, fuzzy
 msgid "Active"
-msgstr "actief"
+msgstr "Actief"
 
 #: src/dialogs/dialog-plugin-manager.c:675
-#, fuzzy
 msgid "Plugin name"
-msgstr "Plugin Beheerder"
+msgstr "Pluginnaam"
 
 #: src/dialogs/dialog-plugin-manager.c:698
 msgid "ID"
@@ -21177,9 +21117,8 @@ msgid "_Upper Bound:"
 msgstr "Bovengrens:"
 
 #: src/dialogs/dialog-random-generator.c:108
-#, fuzzy
 msgid "Uniform Integer"
-msgstr "Geheel getal"
+msgstr "Uniform geheel getal"
 
 #: src/dialogs/dialog-random-generator.c:111
 #: src/widgets/widget-font-selector.c:117
@@ -21311,9 +21250,8 @@ msgid "Gumbel (Type II)"
 msgstr "Gumbel (Type II)"
 
 #: src/dialogs/dialog-random-generator.c:145
-#, fuzzy
 msgid "Landau"
-msgstr "_Liggend"
+msgstr "Landau"
 
 #: src/dialogs/dialog-random-generator.c:147
 msgid "Laplace"
@@ -21336,9 +21274,8 @@ msgid "Logarithmic"
 msgstr "Logaritmisch"
 
 #: src/dialogs/dialog-random-generator.c:153
-#, fuzzy
 msgid "Logistic"
-msgstr "Lijst"
+msgstr "Logistisch"
 
 #: src/dialogs/dialog-random-generator.c:155
 msgid "Lognormal"
@@ -21369,9 +21306,8 @@ msgid "_Lambda:"
 msgstr "_Lambda:"
 
 #: src/dialogs/dialog-random-generator.c:164
-#, fuzzy
 msgid "Rayleigh"
-msgstr "Rechts"
+msgstr "Rayleigh"
 
 #: src/dialogs/dialog-random-generator.c:164
 #: src/dialogs/dialog-random-generator.c:166
@@ -21461,9 +21397,8 @@ msgstr ""
 "Verwijderen van bladen is niet te herstellen bewerking. Wilt u toch doorgaan?"
 
 #: src/dialogs/dialog-sheet-order.c:632
-#, fuzzy
 msgid "You may not delete all sheets in a workbook!"
-msgstr "Beheer de werkbladen in deze werkmap"
+msgstr "U kunt niet alle werkbladen in een werkboek verwijderen"
 
 #: src/dialogs/dialog-sheet-order.c:867
 msgid "The sheet order has changed. Do you want to update the list?"
@@ -22557,54 +22492,47 @@ msgstr "_Update"
 
 #: src/dialogs/pivottable.glade.h:1
 msgid "Layout"
-msgstr ""
+msgstr "Layout"
 
 #: src/dialogs/pivottable.glade.h:2
 msgid "Layout:"
-msgstr ""
+msgstr "Layout:"
 
 #: src/dialogs/pivottable.glade.h:3
 msgid "PivotTable Guru : Gnumeric"
-msgstr ""
+msgstr "Draaitabel-goeroe : Gnumeric"
 
 #: src/dialogs/pivottable.glade.h:4
-#, fuzzy
 msgid "Style"
-msgstr "_Stijl"
+msgstr "Stijl"
 
 #: src/dialogs/pivottable.glade.h:5
 msgid "Subtotal By"
-msgstr ""
+msgstr "Subtotaal door"
 
 #: src/dialogs/pivottable.glade.h:6
-#, fuzzy
 msgid "_Add:"
-msgstr "Toevoegen"
+msgstr "_Toevoegen:"
 
 #: src/dialogs/pivottable.glade.h:7
-#, fuzzy
 msgid "_Column"
-msgstr "_Kolommen"
+msgstr "_Kolom"
 
 #: src/dialogs/pivottable.glade.h:9
-#, fuzzy
 msgid "_Down"
-msgstr "Be_kend"
+msgstr "_Beneden"
 
 #: src/dialogs/pivottable.glade.h:10
-#, fuzzy
 msgid "_Format"
 msgstr "_Opmaak"
 
 #: src/dialogs/pivottable.glade.h:11
-#, fuzzy
 msgid "_Page"
-msgstr "Pagina"
+msgstr "_Pagina"
 
 #: src/dialogs/pivottable.glade.h:14
-#, fuzzy
 msgid "_Up"
-msgstr "_Update"
+msgstr "_Boven"
 
 #: src/dialogs/plugin-manager.glade.h:2
 msgid "Activate _new plugins by default"
@@ -23172,7 +23100,7 @@ msgstr "Automatisch kolommen passend maken "
 
 #: src/dialogs/simulation.glade.h:2
 msgid "Find Max."
-msgstr ""
+msgstr "Max. zoeken"
 
 #: src/dialogs/simulation.glade.h:3
 #, fuzzy
@@ -23184,14 +23112,12 @@ msgid "First Round #: "
 msgstr ""
 
 #: src/dialogs/simulation.glade.h:5
-#, fuzzy
 msgid "Inputs: "
-msgstr "_Invoer:"
+msgstr "Invoer: "
 
 #: src/dialogs/simulation.glade.h:6
-#, fuzzy
 msgid "Iterations: "
-msgstr "_Iteratie"
+msgstr "Iteraties: "
 
 #: src/dialogs/simulation.glade.h:7
 #, fuzzy
@@ -23199,27 +23125,24 @@ msgid "Last Round #: "
 msgstr "Laatste Resultaat:"
 
 #: src/dialogs/simulation.glade.h:8
-#, fuzzy
 msgid "Max Time:       "
-msgstr "Max Tijd:"
+msgstr "Max Tijd:       "
 
 #: src/dialogs/simulation.glade.h:10
 msgid "Next Sim."
-msgstr ""
+msgstr "Volgende Sim."
 
 #: src/dialogs/simulation.glade.h:11
-#, fuzzy
 msgid "Output: "
-msgstr "Uitvoer"
+msgstr "Uitvoer: "
 
 #: src/dialogs/simulation.glade.h:12
-#, fuzzy
 msgid "Outputs: "
-msgstr "_Uitvoer:"
+msgstr "Uitvoer: "
 
 #: src/dialogs/simulation.glade.h:13
 msgid "Prev. Sim. "
-msgstr ""
+msgstr "Vorige Sim. "
 
 #: src/dialogs/simulation.glade.h:14
 #, fuzzy
@@ -23232,37 +23155,32 @@ msgid "Risk Simulation"
 msgstr "Risico-simulatie"
 
 #: src/dialogs/simulation.glade.h:16
-#, fuzzy
 msgid "Simulation: "
-msgstr "Simulaties\t\t\t= "
+msgstr "Simulatie: "
 
 #: src/dialogs/simulation.glade.h:17
 msgid "Summary of Results: "
-msgstr ""
+msgstr "Ovezicht van de resultaten: "
 
 #: src/dialogs/simulation.glade.h:18
 msgid "Summary report grupped by rounds"
 msgstr ""
 
 #: src/dialogs/simulation.glade.h:19
-#, fuzzy
 msgid "Summary: "
-msgstr "Samenvatting"
+msgstr "Overzicht: "
 
 #: src/dialogs/simulation.glade.h:20
-#, fuzzy
 msgid "Variables: "
-msgstr "Variabelen"
+msgstr "Variabelen: "
 
 #: src/dialogs/simulation.glade.h:23
-#, fuzzy
 msgid "_Output Range: "
-msgstr "_Uitvoerbereik:"
+msgstr "_Uitvoerbereik: "
 
 #: src/dialogs/simulation.glade.h:24
-#, fuzzy
 msgid "_Summary"
-msgstr "Samenvatting"
+msgstr "_Overzicht"
 
 #: src/dialogs/so-arrow.glade.h:1
 msgid "Configure Arrow/Line"
@@ -23285,25 +23203,23 @@ msgstr "De afstand van de vleugelpunten tot de pijlschacht."
 
 #: src/dialogs/so-checkbox.glade.h:1
 msgid "Checkbox Configure"
-msgstr "Checkbox Instellingen"
+msgstr "Checkbox configuratie"
 
 #: src/dialogs/so-fill.glade.h:1
 msgid "Configure Filled Object"
-msgstr "Configureer Gevuld Object"
+msgstr "Gevuld Object configureren"
 
 #: src/dialogs/so-frame.glade.h:2
-#, fuzzy
 msgid "Frame Label"
-msgstr "Maak een label"
+msgstr "Kader-label"
 
 #: src/dialogs/so-frame.glade.h:3
-#, fuzzy
 msgid "Frame Properties"
-msgstr "_Eigenschappen"
+msgstr "Kader-eigenschappen"
 
 #: src/dialogs/so-scrollbar.glade.h:1
 msgid "Scrollbar Configure"
-msgstr "Schuifbalk Instellingen"
+msgstr "Schuifbalk configuratie"
 
 #: src/dialogs/solver.glade.h:5 src/tools/solver/reports-write.c:754
 msgid "Algorithm:"
@@ -23323,7 +23239,7 @@ msgstr "Automatisch _Schalen"
 
 #: src/dialogs/solver.glade.h:9
 msgid "B_y Changing Cells: "
-msgstr "Door Cellen te _Veranderen:"
+msgstr "Door Cellen te _Veranderen: "
 
 #: src/dialogs/solver.glade.h:11 src/tools/solver/reports-write.c:242
 #: src/tools/solver/reports-write.c:403 src/tools/solver/reports-write.c:616
@@ -23532,9 +23448,8 @@ msgid "Variable _2 Range:"
 msgstr "Variabele _2 Bereik:"
 
 #: src/dialogs/workbook-attr.glade.h:2
-#, fuzzy
 msgid "A_uto Complete Text in Cells"
-msgstr "_Automatisch Tekst Aanvullen"
+msgstr "_Automatisch tekst aanvullen in cellen"
 
 #: src/dialogs/workbook-attr.glade.h:3
 msgid "A_utomatic"
@@ -23778,7 +23693,7 @@ msgstr "Aruba, Gulden"
 
 #: src/formats.c:313
 msgid "Azerbaijan, Manats"
-msgstr ""
+msgstr "Azerbeijan, Manats"
 
 #: src/formats.c:314
 msgid "Bosnia and Herzegovina, Convertible Marka"
@@ -24061,9 +23976,8 @@ msgid "Cayman Islands, Dollars"
 msgstr "Kaaiman eilanden, Dollar"
 
 #: src/formats.c:384
-#, fuzzy
 msgid "Kazakstan, Tenge"
-msgstr "Pakistaanse roepie"
+msgstr "Kazachstan, Tenge"
 
 #: src/formats.c:385
 msgid "Laos, Kips"
@@ -24106,9 +24020,8 @@ msgid "Moldova, Lei"
 msgstr "Moldavië, Lei"
 
 #: src/formats.c:395
-#, fuzzy
 msgid "Madagascar, Malagasy Francs"
-msgstr "Malaga frank"
+msgstr "Madagascar, Malagese Franc"
 
 #: src/formats.c:396
 msgid "Macedonia, Denars"
@@ -24123,9 +24036,8 @@ msgid "Mongolia, Tugriks"
 msgstr "Mongolië, Tugrik"
 
 #: src/formats.c:399
-#, fuzzy
 msgid "Macau, Patacas"
-msgstr "Macau·pataca"
+msgstr "Macau, Pataca"
 
 #: src/formats.c:400
 msgid "Mauritania, Ouguiyas"
@@ -24148,14 +24060,12 @@ msgid "Malawi, Kwachas"
 msgstr "Malawi, Kwachas"
 
 #: src/formats.c:405
-#, fuzzy
 msgid "Mexico, Pesos"
-msgstr "Mexicaanse peso"
+msgstr "Mexico, Peso"
 
 #: src/formats.c:406
-#, fuzzy
 msgid "Malaysia, Ringgits"
-msgstr "Maleise·ringgit"
+msgstr "Maleisië, Ringgit"
 
 #: src/formats.c:407
 msgid "Mozambique, Meticais"
@@ -24224,19 +24134,16 @@ msgid "Paraguay, Guarani"
 msgstr "Paraguayaanse·guarani"
 
 #: src/formats.c:422
-#, fuzzy
 msgid "Qatar, Rials"
-msgstr "Qatari·rial"
+msgstr "Qatar, Rial"
 
 #: src/formats.c:423
-#, fuzzy
 msgid "Romania, Lei"
-msgstr "Romeense·leu"
+msgstr "Roemenië, Lei"
 
 #: src/formats.c:424
-#, fuzzy
 msgid "Russia, Rubles"
-msgstr "Russische roebel"
+msgstr "Rusland, Roebel"
 
 #: src/formats.c:425
 #, fuzzy
@@ -24308,9 +24215,8 @@ msgid "Sao Tome and Principe, Dobras"
 msgstr "Sao·Tome·en·Principe·dobra"
 
 #: src/formats.c:440
-#, fuzzy
 msgid "El Salvador, Colones"
-msgstr "El·Salvador·colon"
+msgstr "El Salvador, Colone"
 
 #: src/formats.c:441
 msgid "Syria, Pounds"
@@ -24335,9 +24241,8 @@ msgid "Turkmenistan, Manats"
 msgstr "Turkmenistan, Manats"
 
 #: src/formats.c:446
-#, fuzzy
 msgid "Tunisia, Dinars"
-msgstr "Tunesische dinar"
+msgstr "Tunesië, Dinar"
 
 #: src/formats.c:447
 msgid "Tonga, Pa'anga"
@@ -24348,9 +24253,8 @@ msgid "Turkey, Liras"
 msgstr "Turkije, Lire"
 
 #: src/formats.c:449
-#, fuzzy
 msgid "Trinidad and Tobago, Dollars"
-msgstr "Trinidad·en·Tobago·dollar"
+msgstr "Trinidad en Tobago, Dollar"
 
 #: src/formats.c:450
 msgid "Tuvalu, Tuvalu Dollars"
@@ -24366,23 +24270,20 @@ msgid "Tanzania, Shillings"
 msgstr "Tanzaniaanse·shilling"
 
 #: src/formats.c:453
-#, fuzzy
 msgid "Ukraine, Hryvnia"
-msgstr "Oekraiense·hryvnia"
+msgstr "Oekraïne, Hryvnia"
 
 #: src/formats.c:454
-#, fuzzy
 msgid "Uganda, Shillings"
-msgstr "Ugandese·shilling"
+msgstr "Oeganda, Shilling"
 
 #: src/formats.c:455
 msgid "United States of America, Dollars"
 msgstr "Verenigde staten van America, Dollar"
 
 #: src/formats.c:456
-#, fuzzy
 msgid "Uruguay, Pesos"
-msgstr "Uruguayaanse·peso"
+msgstr "Uruguay, Peso"
 
 #: src/formats.c:457
 msgid "Uzbekistan, Sums"
@@ -24401,9 +24302,8 @@ msgid "Vanuatu, Vatu"
 msgstr "Vanuatu, Vatu"
 
 #: src/formats.c:461
-#, fuzzy
 msgid "Samoa, Tala"
-msgstr "Samoa·tala"
+msgstr "Samoa, Tala"
 
 #: src/formats.c:462
 msgid "Communaute Financiere Africaine BEAC, Francs"
@@ -24418,9 +24318,8 @@ msgid "Gold, Ounces"
 msgstr "Goud, Ons"
 
 #: src/formats.c:465
-#, fuzzy
 msgid "East Caribbean Dollars"
-msgstr "Oost·Caribbië·dollar"
+msgstr "Oost Caribbië, Dollar"
 
 #: src/formats.c:466
 msgid "International Monetary Fund (IMF) Special Drawing Rights"
@@ -24447,9 +24346,8 @@ msgid "Yemen, Rials"
 msgstr "Yemen, Riaal"
 
 #: src/formats.c:472
-#, fuzzy
 msgid "Yugoslavia, New Dinars"
-msgstr "Nieuw·Joegoslavische·dinar"
+msgstr "Joegoslavië, Nieuwe Dinar"
 
 #: src/formats.c:473
 msgid "South Africa, Rand"
@@ -24464,7 +24362,6 @@ msgid "Zimbabwe, Zimbabwe Dollars"
 msgstr "Zimbabwe, Zimbabwe dollar"
 
 #: src/func-builtin.c:34
-#, fuzzy
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -24480,10 +24377,12 @@ msgid ""
 "@SEEALSO=AVERAGE, COUNT"
 msgstr ""
 "@FUNCTION=SUM\n"
-"@SYNTAX=SUM(waarde; waarde2; ...)\n"
-"@DESCRIPTION=SUM berekent de som van alle waarden en cellen die in de\n"
-"argumentenlijst staan. \n"
-"Deze functie is compatibel met Excel.\n"
+"@SYNTAX=SUM(waarde1; waarde2; ...)\n"
+"@DESCRIPTION=SUM berekent de som van alle waarden en cellen die in de "
+"argumentenlijst staan.\n"
+"\n"
+"* Deze functie is compatibel met Excel.\n"
+"\n"
 "@EXAMPLES=\n"
 "Als de cellen A1, A2, ..., A5 de getallen 11, 15, 17, 21,en 43 bevatten dan "
 "is\n"
@@ -24686,6 +24585,8 @@ msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyways?"
 msgstr ""
+"De opgegeven bestandsextentie komt niet overeen met het gekozen "
+"bestandstype. Wilt u evengoed deze naam gebruiken?"
 
 #. Pack it into file selector
 #: src/gui-file.c:296
@@ -24861,7 +24762,7 @@ msgstr "BREEDTExHOOGTE+XOFF+YOFF"
 
 #: src/main-application.c:78
 msgid "Don't show splash screen"
-msgstr ""
+msgstr "Het opstartscherm niet tonen"
 
 #: src/main-application.c:81
 msgid "Exit immediately after loading the selected books (useful for testing)."
@@ -24973,11 +24874,8 @@ msgstr ""
 "scheiden."
 
 #: src/parser.y:766
-#, fuzzy
 msgid "This locale uses ',' rather than '\\' to separate array columns."
-msgstr ""
-"Het teken %c kan niet worden gebruikt om array elementen van elkaar te "
-"scheiden."
+msgstr "Deze taal gebruikt ',' in plaats van '\\' om kolommen te scheiden."
 
 #: src/parser.y:895 src/parser.y:1118
 msgid "Could not find matching closing quote"
@@ -25517,38 +25415,35 @@ msgid "Edit _Hyperlink"
 msgstr "_Hyperlink bewerken"
 
 #: src/sheet-control-gui.c:1508
-#, fuzzy
 msgid "_Remove Hyperlink"
-msgstr "Huidige Ve_rwijderen"
+msgstr "Hyperlink Ve_rwijderen"
 
-#: src/sheet-filter.c:350
-#, fuzzy
+#: src/sheet-filter.c:351
 msgid "(All)"
-msgstr "Alles"
+msgstr "(Alles)"
 
-#: src/sheet-filter.c:355
+#: src/sheet-filter.c:356
 msgid "(Top 10...)"
-msgstr ""
+msgstr "(Top 10...)"
 
-#: src/sheet-filter.c:362
-#, fuzzy
+#: src/sheet-filter.c:363
 msgid "(Custom...)"
-msgstr "Aangepast"
+msgstr "(Aangepast...)"
 
-#: src/sheet-filter.c:405
+#: src/sheet-filter.c:406
 msgid "(Blanks...)"
-msgstr ""
+msgstr "(Spaties...)"
 
-#: src/sheet-filter.c:411
+#: src/sheet-filter.c:412
 msgid "(Non Blanks...)"
-msgstr ""
+msgstr "(Non-spaties...)"
 
 #: src/sheet-merge.c:80
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "There is already a merged region that intersects\n"
 "%s!%s"
-msgstr "Er is al een samengevoegd bereik dat hiermee overlapt"
+msgstr "Er is al een samengevoegd bereik dat met %s!%s overlapt"
 
 #: src/sheet-object-bonobo.c:243
 msgid "Open..."
@@ -25585,6 +25480,11 @@ msgid ""
 "column named TRUE may conflict with the constant of the same\n"
 "name.  Expect weirdness."
 msgstr ""
+"Dit is een bijzondere versie van Gnumeric.  Het is gecompileerd\n"
+"met ondersteuning voor een zeer groot aantal rijen.  Toegang tot\n"
+"de kolom genaamd WAAR kan conflicteren met de constante met\n"
+"dezelfde naam.  Er moet rekening worden gehouden met vreemd\n"
+"gedrag."
 
 #: src/sheet.c:1940
 msgid "Target region contains merged cells"
@@ -25647,9 +25547,8 @@ msgstr ""
 "Waarschijnlijk zijn je instellingen voor locale verkeerd."
 
 #: src/stf.c:274 src/stf.c:304
-#, fuzzy
 msgid "Text to Columns"
-msgstr "Kolommen Verwijderen"
+msgstr "Tekst naar kolommen"
 
 #: src/stf.c:279
 #, c-format
@@ -25673,7 +25572,7 @@ msgstr "Fout tijdens het schrijven csv bestand"
 
 #: src/stf.c:467
 msgid "Comma or tab separated files (CSV/TSV))"
-msgstr ""
+msgstr "Bestanden met kolommen gescheiden door kommas of tabs (CSV/TSV)"
 
 #: src/stf.c:471
 msgid "Text import (configurable)"
@@ -26232,9 +26131,8 @@ msgid "SUMMARY OF SIMULATION ROUND #"
 msgstr "SAMENVATTING VAN SIMULATIERONDE #"
 
 #: src/tools/simulation.c:349
-#, fuzzy
 msgid "Report"
-msgstr "Rapportages"
+msgstr "Rapportage"
 
 #: src/tools/simulation.c:396
 msgid "(Input) "
@@ -26723,9 +26621,8 @@ msgid "Remove a filter"
 msgstr "&lt;- Alles verwijderen"
 
 #: src/workbook-control-gui.c:1361
-#, fuzzy
 msgid "Add a filter"
-msgstr "Geavanceerd Filter"
+msgstr "Een filter toevoegen"
 
 #: src/workbook-control-gui.c:1380 src/workbook-control-gui.c:3827
 #: src/workbook-control-gui.c:4048
@@ -26759,8 +26656,8 @@ msgid "Discard All"
 msgstr "Alles Verwerpen"
 
 #: src/workbook-control-gui.c:1617 src/workbook-control-gui.c:1624
-#: src/workbook-control-gui.c:1630 src/workbook-control-gui.c:5170
-#: src/workbook-control-gui.c:5175
+#: src/workbook-control-gui.c:1630 src/workbook-control-gui.c:5167
+#: src/workbook-control-gui.c:5172
 msgid "Discard"
 msgstr "Verwerpen"
 
@@ -26809,9 +26706,8 @@ msgid "Insert columns"
 msgstr "Kolommen Invoegen"
 
 #: src/workbook-control-gui.c:2810
-#, fuzzy
 msgid "Add Filter"
-msgstr "Geavanceerd Filter"
+msgstr "Filter toevoegen"
 
 #: src/workbook-control-gui.c:2863 src/workbook-control-gui.c:2882
 msgid "Show Detail"
@@ -26865,9 +26761,8 @@ msgid "Ranks And _Percentiles"
 msgstr "Rangen en Percentielen"
 
 #: src/workbook-control-gui.c:3766
-#, fuzzy
 msgid "Create a pivot table."
-msgstr "Maak een label"
+msgstr "Een draaitabel maken"
 
 #: src/workbook-control-gui.c:3827
 msgid "Undo the operation"
@@ -26877,24 +26772,24 @@ msgstr "Maakt de ingreep ongedaan"
 msgid "Redo the operation"
 msgstr "Herhaal de ingreep"
 
-#: src/workbook-control-gui.c:4886
+#: src/workbook-control-gui.c:4883
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr "Bestand \"%s\" heeft een onbekend formaat."
 
-#: src/workbook-control-gui.c:4937
+#: src/workbook-control-gui.c:4934
 msgid "Send"
 msgstr "Verzenden"
 
-#: src/workbook-control-gui.c:4937
+#: src/workbook-control-gui.c:4934
 msgid "Send the current file in email"
 msgstr "Verstuur het huidige bestand per email"
 
-#: src/workbook-control-gui.c:5169 src/workbook-control-gui.c:5184
+#: src/workbook-control-gui.c:5166 src/workbook-control-gui.c:5181
 msgid "Re-Edit"
 msgstr "Opnieuw B_ewerken"
 
-#: src/workbook-control-gui.c:5174 src/workbook-control-gui.c:5185
+#: src/workbook-control-gui.c:5171 src/workbook-control-gui.c:5182
 msgid "Accept"
 msgstr "Accepteer"
 
@@ -27040,9 +26935,9 @@ msgid "Unsupported file format."
 msgstr "Niet ondersteund bestandsformaat."
 
 #: src/workbook-view.c:778
-#, fuzzy, c-format
+#, c-format
 msgid "An unexplained error happened while opening %s"
-msgstr "Er ontstond een onverklaarbare fout bij het openen van '%s'"
+msgstr "Er trad een onverklaarbare fout op bij het openen van %s"
 
 #: src/workbook.c:448
 #, c-format
@@ -27061,7 +26956,7 @@ msgstr "Er is reeds een blad genaamd"
 msgid "You may not use this name twice"
 msgstr "Je mag deze naam niet twee keer gebruiken"
 
-#: src/xml-io.c:3663
+#: src/xml-io.c:3504
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML bestandsformaat"
 
@@ -27130,9 +27025,8 @@ msgid "Adjacent Bars"
 msgstr "Aanliggende balken"
 
 #: schemas/plot-types.xml.in.h:17
-#, fuzzy
 msgid "Adjacent Columns"
-msgstr "Kolommen Invoegen"
+msgstr "Naastliggende kolommen"
 
 #: schemas/plot-types.xml.in.h:18
 msgid "Adjacent horizontal 3D bars grouped by major and minor categories."
@@ -27410,9 +27304,8 @@ msgid "Autocorrect Names od Days"
 msgstr "Namen van dagen corrigeren"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:7
-#, fuzzy
 msgid "Autocorrect Replace"
-msgstr "Auto Correctie"
+msgstr "Autocorrectie vervanging"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:8
 msgid "Autocorrect first letter"
@@ -27423,9 +27316,8 @@ msgid "Autocorrect initial caps"
 msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:10
-#, fuzzy
 msgid "Autocorrect names of days"
-msgstr "Maak de eerste letter van een dag_naam een hoofdletter"
+msgstr "Autocorrectie toepassen op dagnamen"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:11
 msgid "Autocorrect replace"
@@ -27515,6 +27407,8 @@ msgid ""
 "The configuration name of the printer in gnome-print. Do not edit this "
 "variable."
 msgstr ""
+"De configuratienaam van de printer in gnome-print. Deze variabele niet "
+"veranderen."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:31
 msgid "The custom printing command (lpr, xpp, ...)"
@@ -27686,18 +27580,16 @@ msgid "Live Scrolling"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:19
-#, fuzzy
 msgid "Maximal Undo Size"
-msgstr "Maximaliseren"
+msgstr "Maximum omvang van Herstellen"
 
 #: schemas/gnumeric-general.schemas.in.h:20
-#, fuzzy
 msgid "Number of Automatic Clauses"
-msgstr "Aantal Misl_ukkingen"
+msgstr "Aantal automatisch clausules"
 
 #: schemas/gnumeric-general.schemas.in.h:21
 msgid "Number of Undo Items"
-msgstr "Aantal herstellen-items"
+msgstr "Aantal Herstellen-items"
 
 #: schemas/gnumeric-general.schemas.in.h:22
 msgid "Screen resolution in the horizontal direction."
