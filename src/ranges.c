@@ -809,15 +809,15 @@ range_is_full (GnmRange const *r, gboolean is_cols)
  * range_is_infinite:
  * @r: the range.
  *
- *  This determines whether @r completely spans a sheet
+ * This determines whether @r completely spans a sheet
  * in either dimension ( semi-infinite )
  *
- * Return value: TRUE if it is infinite else FALSE
+ * Return value: TRUE if it is infinite, FALSE otherwise.
  **/
 gboolean
 range_is_infinite (GnmRange const *r)
 {
-	return range_is_full (r, TRUE) || range_is_full (r, TRUE);
+	return range_is_full (r, TRUE) || range_is_full (r, FALSE);
 }
 
 /**

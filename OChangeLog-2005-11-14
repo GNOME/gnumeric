@@ -1,3 +1,7 @@
+2004-07-20  Morten Welinder  <terra@gnome.org>
+
+	* src/ranges.c (range_is_infinite): Fix.  (Still unused, though.)
+
 2004-07-19  Jody Goldberg <jody@gnome.org>
 	win32 portability patch from Mark Gilbert
 
