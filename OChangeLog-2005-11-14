@@ -1,3 +1,10 @@
+2002-04-08  Morten Welinder  <terra@diku.dk>
+
+	* src/expr.c (cb_expression_pool_leak): New function.
+	(expr_shutdown): Show leaking expressions.
+
+	* src/validation.c (validation_eval): Plug leaks.
+
 2002-04-08  Jon K Hellan  <hellan@acm.org>
 
 	* configure.in: Test for <wctype.h>
