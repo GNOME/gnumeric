@@ -644,16 +644,16 @@ lookup_color (const gchar *str, const gchar *end)
 	return NULL;
 }
 
-static double beyond_precision;
+static gnum_float beyond_precision;
 void
 render_number (GString *result,
-	       gdouble number,
+	       gnum_float number,
 	       format_info_t const *info)
 {
 	char thousands_sep = format_get_thousand ();
 	char num_buf[(DBL_MANT_DIG + DBL_MAX_EXP) * 2 + 1];
 	gchar *num = num_buf + sizeof (num_buf) - 1;
-	double frac_part, int_part;
+	gnum_float frac_part, int_part;
 	int group, zero_count, digit_count = 0;
 	int left_req = info->left_req;
 	int right_req = info->right_req;
@@ -664,7 +664,7 @@ render_number (GString *result,
 	if (right_allowed >= 0 && !info->has_fraction) {
 		/* Change "rounding" into "truncating".   */
 		/* Note, that we assume number >= 0 here. */
-		gdouble delta = 5 * gpow10 (-right_allowed - 1);
+		gnum_float delta = 5 * gpow10 (-right_allowed - 1);
 		number += delta;
 	}
 	frac_part = modf (gnumeric_add_epsilon (number), &int_part);
@@ -680,7 +680,7 @@ render_number (GString *result,
 	}
 
 	for (; int_part >= 1. ; int_part /= 10., digit_count++) {
-		double r = floor (int_part);
+		gnum_float r = floor (int_part);
 		int digit = r - floor (r / 10) * 10;
 
 		if (group-- == 0) {
@@ -749,7 +749,7 @@ render_number (GString *result,
 }
 
 static void
-do_render_number (gdouble number, format_info_t *info, GString *result)
+do_render_number (gnum_float number, format_info_t *info, GString *result)
 {
 	info->rendered = TRUE;
 
@@ -795,7 +795,7 @@ do_render_number (gdouble number, format_info_t *info, GString *result)
  * > If no one noticed anything wrong, it must be that no one did it that way.
  */
 static struct tm *
-split_time (gdouble number)
+split_time (gnum_float number)
 {
 	static struct tm tm;
 	guint secs;
@@ -976,7 +976,7 @@ format_add_decimal (StyleFormat const *fmt)
 /*********************************************************************/
 
 static gchar *
-format_number (gdouble number, int col_width, StyleFormatEntry const *entry)
+format_number (gnum_float number, int col_width, StyleFormatEntry const *entry)
 {
 	GString *result = g_string_new ("");
 	guchar const *format = (guchar *)(entry->format);
@@ -991,7 +991,7 @@ format_number (gdouble number, int col_width, StyleFormatEntry const *entry)
 
 	struct tm *time_split = 0;
 	char *res;
-	gdouble signed_number;
+	gnum_float signed_number;
 
 	memset (&info, 0, sizeof (info));
 	signed_number = number;
@@ -1085,10 +1085,8 @@ format_number (gdouble number, int col_width, StyleFormatEntry const *entry)
 					break;
 
 			sprintf (buffer, is_lower ? "%s%.*e" : "%s%.*E",
-				 info.negative
-				 ? "-" :
-				 shows_plus
-				 ? "+" : "",
+				 info.negative ? "-" :
+				 shows_plus ? "+" : "",
 				 prec, number);
 
 			g_string_append (result, buffer);
@@ -1156,7 +1154,7 @@ format_number (gdouble number, int col_width, StyleFormatEntry const *entry)
 							g_string_prepend_c (result, '-');
 					}
 					if (numerator > 0) {
-						char buffer[30];
+						char buffer[4 * sizeof (numerator) + 4 * sizeof (denominator)];
 						sprintf (buffer, "%d/%d", numerator, denominator);
 						g_string_append (result, buffer);
 					}
@@ -1416,7 +1414,7 @@ style_format_condition (StyleFormatEntry const *entry, Value const *value)
 static char *
 fmt_general_float (gnum_float val, float col_width)
 {
-	double tmp;
+	gnum_float tmp;
 	int log_val, prec;
 
 	if (col_width < 0.)
@@ -1566,7 +1564,7 @@ format_value (StyleFormat const *format, Value const *value, StyleColor **color,
 		if (entry == NULL) {
 			gnum_float val = value->v_float.val;
 			if ((gnum_float)INT_MAX >= val && val >= (gnum_float)INT_MIN) {
-				double int_val = floor (value->v_float.val);
+				gnum_float int_val = floor (value->v_float.val);
 				if (int_val == value->v_float.val)
 					return fmt_general_int (int_val, col_width);
 			}
@@ -1598,6 +1596,7 @@ void
 number_format_init (void)
 {
 	style_format_hash = g_hash_table_new (g_str_hash, g_str_equal);
+	/* FIXME: should be related to gnum_float, not double:  */
 	beyond_precision = gpow10 (DBL_DIG + 1);
 }
 

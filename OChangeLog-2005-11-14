@@ -1,5 +1,7 @@
 2002-02-19  Morten Welinder  <terra@diku.dk>
 
+	* src/format.c: Use gnum_float instead of double.
+
 	* src/mathfunc.c (random_01): Use /dev/urandom when available.
 
 	* src/sheet-autofill.c (autofill_cell): Use gnum_float instead of
