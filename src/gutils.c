@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <glib.h>
 #include <string.h>
+#include <ctype.h>
 #include "numbers.h"
 #include "symbol.h"
 #include "str.h"
@@ -115,5 +116,43 @@ cellref_name (CellRef *cell_ref, int eval_col, int eval_row)
 	sprintf (p, "%d", row+1);
 
 	return buffer;
+}
+
+/*
+ * parse_cell_name
+ * @cell_name:   a string representation of a cell name.
+ * @col:         result col
+ * @row:         result row
+ *
+ * Return value: true if the cell_name could be successfully parsed
+ */
+int
+parse_cell_name (char *cell_str, int *col, int *row)
+{
+	*col = 0;
+	*row = 0;
+
+	if (!isalpha (*cell_str))
+		return FALSE;
+
+	*col = toupper (*cell_str++) - 'A';
+
+	if (isalpha (*cell_str))
+		*col = *col * ('Z' - 'A') + toupper (*cell_str++) - 'A';
+
+	if (!isdigit (*cell_str))
+		return FALSE;
+
+	for (;*cell_str; cell_str++){
+		if (!isdigit (*cell_str))
+			return FALSE;
+		*row = *row * 10 + (*cell_str - '0');
+	}
+	if (*row == 0)
+		return FALSE;
+
+	(*row)--;
+	
+	return TRUE;
 }
 

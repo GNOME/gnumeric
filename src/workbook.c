@@ -2,8 +2,10 @@
 #include <gnome.h>
 #include <gdk/gdkkeysyms.h>
 #include "gnumeric.h"
+#include "gnumeric-util.h"
 #include "gnumeric-sheet.h"
 #include "xml-io.h"
+#include "dialogs.h"
 
 /* The locations within the main table in the workbook */
 #define WB_EA_LINE   0
@@ -61,6 +63,12 @@ paste_special_cmd (GtkWidget *widget, Workbook *wb)
 	dialog_paste_special ();
 }
 
+static void
+goto_cell_cmd (GtkWidget *widget, Workbook *wb)
+{
+	dialog_goto_cell (wb);
+}
+
 static GnomeUIInfo workbook_menu_file [] = {
 	{ GNOME_APP_UI_ITEM, N_("Save"), NULL, save_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_SAVE },
@@ -71,13 +79,16 @@ static GnomeUIInfo workbook_menu_file [] = {
 
 static GnomeUIInfo workbook_menu_edit [] = {
 	{ GNOME_APP_UI_ITEM, N_("Cut"), NULL, cut_cmd, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_CUT },
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_CUT, GDK_x, GDK_CONTROL_MASK },
 	{ GNOME_APP_UI_ITEM, N_("Copy"), NULL, copy_cmd, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_COPY },
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_COPY, GDK_c, GDK_CONTROL_MASK },
 	{ GNOME_APP_UI_ITEM, N_("Paste"), NULL, paste_cmd, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_PASTE },
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_PASTE, GDK_v, GDK_CONTROL_MASK },
 	{ GNOME_APP_UI_ITEM, N_("Paste special"), NULL, paste_special_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_PASTE },
+	GNOMEUIINFO_SEPARATOR,
+	{ GNOME_APP_UI_ITEM, N_("Goto cell.."), NULL, goto_cell_cmd, NULL, NULL,
+	  0, 0, GDK_i, GDK_CONTROL_MASK },
 	GNOMEUIINFO_END
 };
 
@@ -141,6 +152,34 @@ wb_input_finished (GtkEntry *entry, Workbook *wb)
 	workbook_focus_current_sheet (wb);
 }
 
+int
+workbook_parse_and_jump (Workbook *wb, char *text)
+{
+	int col, row;
+
+	col = row = 0;
+
+	if (!parse_cell_name (text, &col, &row)){
+		gnumeric_notice (_("You should introduce a valid cell name"));
+		return FALSE;
+	} else {
+		Sheet *sheet = workbook_get_current_sheet (wb);
+		
+		gnumeric_sheet_move_cursor (GNUMERIC_SHEET (sheet->sheet_view),
+					    col, row);
+		return TRUE;
+	}
+}
+
+static void
+wb_jump_to_cell (GtkEntry *entry, Workbook *wb)
+{
+	char *text = gtk_entry_get_text (entry);
+
+	workbook_parse_and_jump (wb, text);
+	workbook_focus_current_sheet (wb);
+}
+
 static int
 wb_edit_key_pressed (GtkEntry *entry, GdkEvent *event, Workbook *wb)
 {
@@ -160,6 +199,15 @@ wb_edit_key_pressed (GtkEntry *entry, GdkEvent *event, Workbook *wb)
 	default:
 		return 0;
 	}
+}
+
+void
+workbook_set_region_status (Workbook *wb, char *str)
+{
+	g_return_if_fail (wb != NULL);
+	g_return_if_fail (str != NULL);
+	
+	gtk_entry_set_text (GTK_ENTRY (wb->ea_status), str);
 }
 
 static void
@@ -201,6 +249,11 @@ workbook_setup_edit_area (Workbook *wb)
 			    wb);
 	gtk_signal_connect (GTK_OBJECT (wb->ea_input), "key_press_event",
 			    GTK_SIGNAL_FUNC(wb_edit_key_pressed),
+			    wb);
+
+	/* Do signal setup for the status input line */
+	gtk_signal_connect (GTK_OBJECT (wb->ea_status), "activate",
+			    GTK_SIGNAL_FUNC (wb_jump_to_cell),
 			    wb);
 }
 

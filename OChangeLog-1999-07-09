@@ -1,3 +1,35 @@
+1998-08-13  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/workbook.c (workbook_set_region_status): Support going to a
+	cell by typing the cell name on the entry line.
+	(workbook_parse_and_jump): new routine for jumpting to a specific
+	cell. 
+
+	* src/dialog-goto-cell.c: New file.  Implements the goto cell
+	dialog box. 
+
+	* src/clipboard.c: implemented paste-special dialog box.
+	(clipboard_paste_region): Redraw after clearing and after each
+	cell is pasted.
+
+	* src/sheet.c (sheet_selection_changed_hook): Display the current
+	selection.
+	(sheet_selection_walk_step): Fix the movememnt code to walk
+	correctly over the selection.
+
+	* src/cell.c (cell_formula_changed): New function used to notify
+	of a cell formula change (required for recomputation and to add
+	the cells to the proper computation lists).
+
+	* src/expr.c (expr_decode_tree): Goes from ExprTree to a string
+	representation.  This is required when copying cell values to
+	recompute the string that is displayed to the user.
+
+	* src/util.c (cellref_name): New function, get a string
+	representation for a CellRef.
+	(parse_cell_name): New function, returns integers for col, row
+	from a cell string representation. 
+	
 Thu Aug 13 19:08:28 1998  Tom Tromey  <tromey@cygnus.com>
 
 	* src/xml-io.c: Look in gnome-xml for tree.h and parser.h.
@@ -5,8 +37,11 @@ Thu Aug 13 19:08:28 1998  Tom Tromey  <tromey@cygnus.com>
 Thu Aug 13 00:02:23 EDT 1998  Daniel Veillard <Daniel.Veillard@w3.org>
 
 	* src/xml-io.c : adapated to the new version 0.2 of the xml lib
-
+	
 1998-08-11  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/fn-math.c (gnumeric_bin2dec): finish implementation of
+	BIN2DEC 
 
 	* src/item-grid.c (item_grid_event): Call
 	gnumeric_sheet_accept_pending_output before moving the cursor.

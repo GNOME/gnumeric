@@ -2,7 +2,7 @@
 #define CLIPBOARD_H
 
 enum {
-	PASTE_TEXT     = 0,	/* NOte that Text/Formulas are mutually exclusive */
+	PASTE_VALUES   = 0,
 	PASTE_FORMULAS = 1,
 	PASTE_FORMATS  = 2,
 
@@ -13,8 +13,9 @@ enum {
 	PASTE_OP_DIV   = 32
 };
 
-#define PASTE_DEFAULT (PASTE_FORMULAS | PASTE_FORMATS)
-#define PASTE_OP_MASK (PASTE_OP_ADD | PASTE_OP_SUB | PASTE_OP_MULT | PASTE_OP_DIV)
+#define PASTE_ALL_TYPES (PASTE_FORMULAS | PASTE_VALUES | PASTE_FORMATS)
+#define PASTE_DEFAULT   PASTE_ALL
+#define PASTE_OP_MASK   (PASTE_OP_ADD | PASTE_OP_SUB | PASTE_OP_MULT | PASTE_OP_DIV)
 
 CellRegion *clipboard_copy_cell_range    (Sheet *sheet,
 					  int start_col, int start_row,

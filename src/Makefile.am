@@ -17,6 +17,8 @@ GNUMERIC_BASE_SOURCES =		\
 	cell.c			\
 	clipboard.c		\
 	clipboard.h		\
+	dialog-goto-cell.c	\
+	dialogs.h		\
 	eval.c			\
 	expr.c			\
 	expr.h			\
@@ -90,3 +92,5 @@ test_parser_LDADD =		\
 #	$(GNOME_LIBDIR)	\
 #	$(GNOMEUI_LIBS) -lgmp
 
+wc:
+	wc -l $(gnumeric_SOURCES)

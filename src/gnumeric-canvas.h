@@ -50,6 +50,8 @@ GtkWidget *gnumeric_sheet_new            	 (Sheet *sheet, ItemBar *colbar, ItemB
 void       gnumeric_sheet_set_selection  	 (GnumericSheet *gsheet, SheetSelection *ss);
 void       gnumeric_sheet_cursor_set     	 (GnumericSheet *gsheet,
 					 	  int col, int row);
+void       gnumeric_sheet_move_cursor            (GnumericSheet *gsheet,
+						  int col, int row);
 void       gnumeric_sheet_load_cell_val          (GnumericSheet *gsheet);
 void       gnumeric_sheet_accept_pending_output  (GnumericSheet *sheet);
 void       gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet);

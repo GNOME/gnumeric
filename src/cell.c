@@ -4,6 +4,16 @@
 #include "eval.h"
 
 void
+cell_formula_changed (Cell *cell)
+{
+	g_return_if_fail (cell != NULL);
+	
+	sheet_cell_formula_link (cell);
+	cell_add_dependencies (cell);
+	cell_queue_recalc (cell);
+}
+
+void
 cell_set_formula (Cell *cell, char *text)
 {
 	char *error_msg = NULL;
@@ -21,10 +31,7 @@ cell_set_formula (Cell *cell, char *text)
 		cell->text = string_get (error_msg);
 		return;
 	}
-
-	sheet_cell_formula_link (cell);
-	cell_add_dependencies (cell);
-	cell_queue_recalc (cell);
+	cell_formula_changed (cell);
 }
 
 void

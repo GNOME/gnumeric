@@ -71,6 +71,7 @@ void        cell_set_formula          (Cell *cell, char *text);
 void        cell_calc_dimensions      (Cell *cell);
 Cell       *cell_copy                 (Cell *cell);
 void        cell_destroy              (Cell *cell);
+void        cell_formula_changed      (Cell *cell);
 
 #endif /* GNUMERIC_CELL_H */
 

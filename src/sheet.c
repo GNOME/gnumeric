@@ -623,10 +623,27 @@ sheet_update_auto_expr (Sheet *sheet)
 		workbook_auto_expr_label_set (wb, error);
 }
 
+static char *
+sheet_get_selection_name (Sheet *sheet)
+{
+	SheetSelection *ss = sheet->selections->data;
+	static char buffer [40];
+	
+	if (ss->start_col == ss->end_col && ss->start_row == ss->end_row){
+		return cell_name (ss->start_col, ss->start_row);
+	} else {
+		snprintf (buffer, sizeof (buffer), "%dLx%dC",
+			  ss->end_row - ss->start_row + 1,
+			  ss->end_col - ss->start_col + 1);
+		return buffer;
+	}
+}
+
 static void
 sheet_selection_changed_hook (Sheet *sheet)
 {
 	sheet_update_auto_expr (sheet);
+	workbook_set_region_status (sheet->workbook, sheet_get_selection_name (sheet));
 }
 
 void

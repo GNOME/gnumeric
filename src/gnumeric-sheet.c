@@ -213,6 +213,15 @@ move_cursor (GnumericSheet *gsheet, int col, int row, int clear_selection)
 	gnumeric_sheet_load_cell_val (gsheet);
 }
 
+void
+gnumeric_sheet_move_cursor (GnumericSheet *gsheet, int col, int row)
+{
+	g_return_if_fail (gsheet != NULL);
+	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
+
+	move_cursor (gsheet, col, row, 1);
+}
+
 /*
  * move_cursor_horizontal:
  *  @Sheet:  The sheet name

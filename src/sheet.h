@@ -207,6 +207,8 @@ Sheet      *workbook_focus_current_sheet (Workbook *wb);
 Sheet      *workbook_get_current_sheet   (Workbook *wb);
 void        workbook_auto_expr_label_set (Workbook *wb, char *text);
 void        workbook_next_generation     (Workbook *wb);
+void        workbook_set_region_status   (Workbook *wb, char *str);
+int         workbook_parse_and_jump      (Workbook *wb, char *text);
 
 /*
  * Does any pending recalculations
