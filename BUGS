@@ -6,7 +6,6 @@ Release Critical
 ----------------
 - gnumeric depends on unreleased bonobo
 - gnumeric depends on unreleased gnome-print
-- text in print-preview is vertically offset (lewing has a patch for gnome-print)
 - print-preview is not cleared between pages.
 
 Long term breakage
@@ -22,6 +21,8 @@ Long term breakage
 
 - non string values entered directly are not really editable in that we
   may not be able to parse the formated version.
+
+- Names : sheet vs workbook, addresses not changing with row/col ins/del.
 
 Function Breakage
 -----------------

@@ -3,9 +3,6 @@
 
 #include <libgnome/gnome-defs.h>
 #include <gtk/gtkwidget.h>
-#include <gtk/gtkentry.h>
-#include <libgnomeui/gnome-canvas.h>
-#include "gtk-combo-box.h"
 
 BEGIN_GNOME_DECLS
 
@@ -14,55 +11,12 @@ BEGIN_GNOME_DECLS
 #define COLOR_COMBO_CLASS(k) (GTK_CHECK_CLASS_CAST(k), COLOR_COMBO_TYPE)
 #define IS_COLOR_COMBO(obj)  (GTK_CHECK_TYPE((obj), COLOR_COMBO_TYPE))
 
-typedef struct {
-	GtkComboBox     combo_box;
+typedef struct _ColorCombo ColorCombo;
 
-	/*
-	 * Canvas where we display
-	 */
-	GtkWidget       *preview_button;
-	GnomeCanvas     *preview_canvas;
-	GnomeCanvasItem *preview_color_item;
+GtkType    color_combo_get_type (void);
 
-	GtkWidget       *color_table;
-
-	/*
-	 * Array of colors
-	 */
-	GnomeCanvasItem **items;
-
-        /*
-	 * Current color
-	 */
-        GdkColor *current;
-
-        /*
-	 * Number of default colors in **items
-	 */
-	int total;
-
-} ColorCombo;
-
-typedef struct {
-  char *color; /* rgb color or otherwise - eg. "rgb:FF/FF/FF" */
-  char *name; /* english name - eg. "white" */
-} ColorNamePair;
-
-GtkType    color_combo_get_type      (void);
-GtkWidget *color_combo_new           (char **icon, char const * const no_color_label);
-GtkWidget *color_combo_new_with_vals (char **icon,
-				      char const * const no_color_label,
-				      int ncols, int nrows,
-				      ColorNamePair *color_names);
-void       color_combo_select_color  (ColorCombo *color_combo, GdkColor *color);
-void       color_combo_select_clear  (ColorCombo *color_combo);
-				  
-typedef struct {
-	GnomeCanvasClass parent_class;
-
-	/* Signals emited by this widget */
-	void (* changed) (ColorCombo *color_combo, GdkColor *color);
-} ColorComboClass;
+GtkWidget *color_combo_new      (char **icon, char const * const no_color_label,
+				 GdkColor *default_color);
 
 END_GNOME_DECLS
 

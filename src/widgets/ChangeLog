@@ -1,3 +1,16 @@
+2000-03-25  Jody Goldberg <jgoldberg@home.com>
+
+	* widget-color-combo.c (color_table_setup) : Init the new custom_color data.
+	(set_color) : We can set the colour to NULL.  This signifies that the
+	  optional no_color is in use.  Outline the colour bar if the current is NULL.
+	(cb_nocolor_clicked) : Renamed from desc_label_clicked.  This is NOT a
+	  descriptive label, it is a button.
+	(color_combo_finalize) : Free the custom colour.
+	(cust_color_set) : Do not use static variables for things like this.
+
+	* widget-color-combo.h (ColorCombo) : Add custom_colour and
+	  custom_colour_allocated.
+
 2000-03-24  Jody Goldberg <jgoldberg@home.com>
 
 	* gtk-combo-text.c (gtk_combo_text_select_item) : New function.

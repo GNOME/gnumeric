@@ -22,8 +22,10 @@
 #include "application.h"
 #include "commands.h"
 #include "format.h"
+#include "color.h"
 #include "border.h"
 #include "ranges.h"
+#include "widgets/gtk-combo-text.h"
 
 /*
  * Pixmaps
@@ -134,20 +136,25 @@ underline_cmd (GtkToggleButton *t, Workbook *wb)
 }
 
 static void
-change_font_in_selection_cmd (GtkMenuItem *item, Workbook *wb)
+change_font_in_selection_cmd (GtkWidget *caller, Workbook *wb)
 {
-	Sheet *sheet;
-	const char *font_name = gtk_object_get_user_data (GTK_OBJECT (item));
-	MStyle *mstyle;
+	Sheet *sheet = wb->current_sheet;
 
-	wb->priv->current_font_name = font_name;
-	
-	sheet = wb->current_sheet;
+	if (sheet != NULL) {
+		const char *font_name = gtk_entry_get_text (GTK_ENTRY(caller));
+		MStyle *mstyle;
 
-	mstyle = mstyle_new ();
-	mstyle_set_font_name (mstyle, font_name);
-	cmd_format (workbook_command_context_gui (wb),
-		    sheet, mstyle, NULL);
+		wb->priv->current_font_name = font_name;
+
+
+		mstyle = mstyle_new ();
+		mstyle_set_font_name (mstyle, font_name);
+		cmd_format (workbook_command_context_gui (wb),
+			    sheet, mstyle, NULL);
+
+		/* Restore the focus to the sheet */
+		workbook_focus_current_sheet (wb);
+	}
 }
 
 static void
@@ -323,34 +330,34 @@ static GnomeUIInfo workbook_format_toolbar [] = {
 };
 
 static void
-fore_color_changed (ColorCombo *cc, GdkColor *color, Workbook *wb)
+fore_color_changed (ColorCombo *combo, GdkColor *c, Workbook *wb)
 {
 	Sheet  *sheet  = wb->current_sheet;
 	MStyle *mstyle = mstyle_new ();
 
-	g_return_if_fail (color != NULL);
-
-	mstyle_set_color (mstyle, MSTYLE_COLOR_FORE, 
-			  style_color_new (color->red, color->green, color->blue));
+	mstyle_set_color (mstyle, MSTYLE_COLOR_FORE,
+			  (c != NULL)
+			  ? style_color_new (c->red, c->green, c->blue)
+			  : style_color_black() /* FIXME: add auto colours ? */);
 
 	cmd_format (workbook_command_context_gui (wb),
 		    sheet, mstyle, NULL);
 }
 
 static void
-back_color_changed (ColorCombo *cc, GdkColor *color, Workbook *wb)
+back_color_changed (ColorCombo *combo, GdkColor *c, Workbook *wb)
 {
 	Sheet  *sheet = wb->current_sheet;
 	MStyle *mstyle = mstyle_new ();
 
-	if (color != NULL) {
+	if (c != NULL) {
 		/* We need to have a pattern of at least solid to draw a background colour */
 		if (!mstyle_is_element_set  (mstyle, MSTYLE_PATTERN) ||
 		    mstyle_get_pattern (mstyle) < 1)
 			mstyle_set_pattern (mstyle, 1);
 
 		mstyle_set_color (mstyle, MSTYLE_COLOR_BACK, 
-				  style_color_new (color->red, color->green, color->blue));
+				  style_color_new (c->red, c->green, c->blue));
 	} else
 		/* Set background to NONE */
 		mstyle_set_pattern (mstyle, 0);
@@ -512,7 +519,7 @@ cb_border_changed (PixmapCombo *pixmap_combo, int index, Workbook *wb)
 GtkWidget *
 workbook_create_format_toolbar (Workbook *wb)
 {
-	GtkWidget *menu, *item, *toolbar;
+	GtkWidget *menu, *toolbar, *fontsel, *entry;
 	const char *name = "FormatToolbar";
 	GList *l;
 	int len;
@@ -530,29 +537,31 @@ workbook_create_format_toolbar (Workbook *wb)
 	/*
 	 * Create a font name selector
 	 */
-	wb->priv->option_menu = gtk_option_menu_new ();
+	fontsel = wb->priv->option_menu = gtk_combo_text_new ();
+	if (!gnome_preferences_get_toolbar_relief_btn ())
+		gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (fontsel), GTK_RELIEF_NONE);
+	entry = GTK_COMBO_TEXT (fontsel)->entry;
+	gtk_signal_connect (GTK_OBJECT (entry), "activate",
+			    GTK_SIGNAL_FUNC (change_font_in_selection_cmd), wb);
 	gtk_container_set_border_width (GTK_CONTAINER (wb->priv->option_menu), 0);
 	menu = gtk_menu_new ();
 
 	/* An empty item for the case of no font that applies */
-	item = gtk_menu_item_new_with_label ("");
-	gtk_widget_show (item);
-	gtk_menu_append (GTK_MENU (menu), item);
+	gtk_combo_text_add_item(GTK_COMBO_TEXT (fontsel), "", "");
 	
+	len = 0;
 	for (l = gnumeric_font_family_list; l; l = l->next){
-		item = gtk_menu_item_new_with_label (l->data);
-		gtk_widget_show (item);
-		gtk_menu_append (GTK_MENU (menu), item);
-
-		gtk_signal_connect (
-			GTK_OBJECT (item), "activate",
-			change_font_in_selection_cmd, wb);
-		gtk_object_set_user_data (
-			GTK_OBJECT (item), l->data);
+		int tmp = gdk_string_measure (entry->style->font, l->data);
+		if (tmp > len)
+			len = tmp;
+		gtk_combo_text_add_item(GTK_COMBO_TEXT (fontsel), l->data, l->data);
 	}
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (wb->priv->option_menu), menu);
-	gtk_widget_show (wb->priv->option_menu);
 
+	/* Set a reasonable default width */
+	gtk_widget_set_usize (entry, len, 0);
+
+	/* Add it to the toolbar */
+	gtk_widget_show (wb->priv->option_menu);
 	gtk_toolbar_insert_widget (
 		GTK_TOOLBAR (toolbar), wb->priv->option_menu,
 		_("Font selector"), NULL, 0);
@@ -588,14 +597,16 @@ workbook_create_format_toolbar (Workbook *wb)
 			    GTK_SIGNAL_FUNC (cb_border_changed), wb);
 	disable_focus (wb->priv->border_combo, NULL);
 
-	wb->priv->back_combo = color_combo_new (bucket_xpm, _("Clear"));
-	color_combo_select_clear (COLOR_COMBO (wb->priv->back_combo));
+	wb->priv->back_combo = color_combo_new (bucket_xpm, _("Clear Background"),
+						NULL);
 	gtk_widget_show (wb->priv->back_combo);
 	gtk_signal_connect (GTK_OBJECT (wb->priv->back_combo), "changed",
 			    GTK_SIGNAL_FUNC (back_color_changed), wb);
 	disable_focus (wb->priv->back_combo, NULL);
 	
-	wb->priv->fore_combo = color_combo_new (font_xpm, _("Automatic"));
+	/* Draw black for the default */
+	wb->priv->fore_combo = color_combo_new (font_xpm, _("Automatic"),
+						&gs_black);
 	gtk_widget_show (wb->priv->fore_combo);
 	gtk_signal_connect (GTK_OBJECT (wb->priv->fore_combo), "changed",
 			    GTK_SIGNAL_FUNC (fore_color_changed), wb);
@@ -710,7 +721,7 @@ workbook_feedback_set (Workbook *workbook, MStyle *style)
 	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_NAME));
 	{
 		const char *font_name = mstyle_get_font_name (style);
-		void *np = NULL;
+		int np = 0;
 		
 		workbook->priv->current_font_name = font_name;
 
@@ -727,7 +738,7 @@ workbook_feedback_set (Workbook *workbook, MStyle *style)
 				char *f = l->data;
 				
 				if (strcmp (f, font_name) == 0) {
-					np = GINT_TO_POINTER (idx);
+					np = idx;
 /*					gtk_object_set_data ((GtkObject *) font,
 					"gnumeric-idx", np);*/
 					break;
@@ -737,12 +748,13 @@ workbook_feedback_set (Workbook *workbook, MStyle *style)
 		/*
 		 * +1 means, skip over the "undefined font" element
 		 */
-		gtk_option_menu_set_history (
-			GTK_OPTION_MENU (workbook->priv->option_menu),
-			GPOINTER_TO_INT (np)+1);
+		gtk_combo_text_select_item (
+			GTK_COMBO_TEXT (workbook->priv->option_menu),
+			np+1);
 		font_set = TRUE;
 	}
 	if (!font_set)
-		gtk_option_menu_set_history (
-			GTK_OPTION_MENU (workbook->priv->option_menu), 0);
+		gtk_combo_text_select_item (
+			GTK_COMBO_TEXT (workbook->priv->option_menu),
+			0);
 }

@@ -1,3 +1,12 @@
+2000-03-25  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-format-toolbar.c (change_font_in_selection_cmd) :
+	  Switch to the gnumeric gtk-combo-text.
+	(workbook_create_format_toolbar) : Pass in a default colour.
+	(fore_color_changed) : Handle the NULL indicator as auto colour.
+	  Hard code to black for now.
+	(back_color_changed) : Handle the NULL indicator as no background.
+
 2000-03-25  Jon K Hellan  <hellan@acm.org>
 
 	* src/dialogs/workbook-attr.glade: Deflickerize + set initial focus.

@@ -2,6 +2,7 @@
 #include <gtk/gtksignal.h>
 #include <gtk/gtkentry.h>
 #include <gtk/gtklist.h>
+#include <gtk/gtkscrolledwindow.h>
 
 /* static GtkComboBoxClass *gtk_combo_text_parent_class;*/
 
@@ -59,14 +60,21 @@ list_select_cb (GtkWidget *caller, gpointer data)
 void
 gtk_combo_text_construct (GtkComboText *combo_text)
 {
-	GtkWidget *entry, *list;
+	GtkWidget *entry, *list, *scroll;
 
 	entry = combo_text->entry = gtk_entry_new ();
 	list = combo_text->list = gtk_list_new ();
+	scroll = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW(scroll),
+				       GTK_POLICY_NEVER,
+				       GTK_POLICY_AUTOMATIC);
+
+	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW(scroll), list);
+	gtk_widget_set_usize (scroll, 0, 200); /* MAGIC NUMBER */
 
 	gtk_widget_show (entry);
-	gtk_widget_show (list);
-	gtk_combo_box_construct (GTK_COMBO_BOX (combo_text), entry, list);
+	gtk_widget_show (scroll);
+	gtk_combo_box_construct (GTK_COMBO_BOX (combo_text), entry, scroll);
 }
 
 GtkWidget*

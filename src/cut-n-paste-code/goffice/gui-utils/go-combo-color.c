@@ -7,18 +7,66 @@
  */
 #include <config.h>
 #include <gnome.h>
+#include <gtk/gtkentry.h>
+#include <libgnomeui/gnome-canvas.h>
 #include "color.h"
 #include "gtk-combo-box.h"
 #include "widget-color-combo.h"
 
 #define COLOR_PREVIEW_WIDTH 15
 #define COLOR_PREVIEW_HEIGHT 15
-#define DEFAULT_COLOR &gs_black
 
 enum {
 	CHANGED,
 	LAST_SIGNAL
 };
+
+typedef struct {
+	char *color;	/* rgb color or otherwise - eg. "rgb:FF/FF/FF" */
+	char *name;	/* english name - eg. "white" */
+} ColorNamePair;
+
+struct _ColorCombo {
+	GtkComboBox     combo_box;
+
+	/*
+	 * Canvas where we display
+	 */
+	GtkWidget       *preview_button;
+	GnomeCanvas     *preview_canvas;
+	GnomeCanvasItem *preview_color_item;
+
+	GtkWidget       *color_table;
+
+	/*
+	 * Array of colors
+	 */
+	GnomeCanvasItem **items;
+
+        /*
+	 * Current color
+	 */
+        GdkColor *current;
+
+	/* The (potententially NULL) default color */
+        GdkColor *default_color;
+
+	/* Is there a custom color ? */
+	gboolean custom_color_allocated;
+        GdkColor custom_color;
+
+        /*
+	 * Number of default colors in **items
+	 */
+	int total;
+
+};
+typedef struct {
+	GnomeCanvasClass parent_class;
+
+	/* Signals emited by this widget */
+	void (* changed) (ColorCombo *color_combo, GdkColor *color);
+} ColorComboClass;
 
 static gint color_combo_signals [LAST_SIGNAL] = { 0, };
 
@@ -27,18 +75,30 @@ static GtkObjectClass *color_combo_parent_class;
 typedef enum { COLOR_COPY, COLOR_NO_COPY } colcopy;
 
 static void
-set_color (ColorCombo *cc, GdkColor *color, colcopy copy)
+set_color (ColorCombo *cc, GdkColor *color, colcopy mode)
 {
-	g_return_if_fail (color != NULL);
+	GdkColor *outline_color;
 
 	if (cc->current)
 		g_free (cc->current);
 
-	if (copy == COLOR_COPY) {
+	if (color != NULL && mode == COLOR_COPY) {
 		cc->current = g_new (GdkColor, 1);
 		memcpy (cc->current, color, sizeof (GdkColor));
 	} else
 		cc->current = color;
+
+	/* If the new colour is NULL use the default */
+	if (color == NULL)
+		color = cc->default_color;
+
+	/* If the new and the default are NULL draw an outline */
+	outline_color = (color) ? color : &gs_dark_gray;
+
+	gnome_canvas_item_set (cc->preview_color_item,
+			       "fill_color_gdk", color,
+			       "outline_color_gdk", outline_color,
+			       NULL);
 }
 
 static void
@@ -49,6 +109,11 @@ color_combo_finalize (GtkObject *object)
 	if (cc->current)
 		g_free (cc->current);
 	
+	if (cc->custom_color_allocated) {
+	        gdk_colormap_free_colors (gdk_imlib_get_colormap (), &cc->custom_color, 1);
+		cc->custom_color_allocated = FALSE;
+	}
+
 	g_free (cc->items);
 	(*color_combo_parent_class->finalize) (object);
 }
@@ -104,11 +169,6 @@ emit_change (ColorCombo *cc)
   	gtk_signal_emit (
 		GTK_OBJECT (cc), color_combo_signals [CHANGED], cc->current);
 
-	gnome_canvas_item_set (
-		cc->preview_color_item,
-		"fill_color_gdk", cc->current,
-		NULL);
-
 	gtk_combo_box_popup_hide (GTK_COMBO_BOX (cc));
 }
 
@@ -119,13 +179,14 @@ preview_clicked (GtkWidget *button, ColorCombo *cc)
 }
 
 /*
- * The descriptive label was clicked. This should do absolutely nothing but hide the combo box
- * We *DO NOT* want to change or emit anything here
+ * NoColour/Auto button was pressed.
+ * emit a signal with 'NULL' color.
  */
 static void
-desc_label_clicked (GtkWidget *button, ColorCombo *cc)
+cb_nocolor_clicked (GtkWidget *button, ColorCombo *cc)
 {
-        gtk_combo_box_popup_hide (GTK_COMBO_BOX (cc));
+	set_color (cc, NULL, COLOR_NO_COPY);
+        emit_change (cc);
 }
 
 /*
@@ -157,24 +218,22 @@ static void
 cust_color_set (GtkWidget  *color_picker, guint r, guint g, guint b, guint a,
 		ColorCombo *cc)
 {
-	static gboolean valid = FALSE;
-        static GdkColor gdk_color;
+	if (cc->custom_color_allocated) {
+	        gdk_colormap_free_colors (gdk_imlib_get_colormap (), &cc->custom_color, 1);
+		cc->custom_color_allocated = FALSE;
+	}
 
-	if (!valid)
-		valid = TRUE;
-	else
-	        gdk_colormap_free_colors (gdk_imlib_get_colormap (), &gdk_color, 1);
-
-	gdk_color.red   = (gushort)r;
-	gdk_color.green = (gushort)g;
-	gdk_color.blue  = (gushort)b;
+	cc->custom_color.red   = (gushort)r;
+	cc->custom_color.green = (gushort)g;
+	cc->custom_color.blue  = (gushort)b;
 
 	if (!gdk_colormap_alloc_color (gdk_imlib_get_colormap (),
-				       &gdk_color,
+				       &cc->custom_color,
 				       TRUE, TRUE))
 	        return;
 
-	set_color   (cc, &gdk_color, COLOR_COPY);
+	cc->custom_color_allocated = TRUE;
+	set_color   (cc, &cc->custom_color, COLOR_COPY);
 	emit_change (cc);
 }
 
@@ -190,7 +249,7 @@ cust_color_clicked (GtkWidget *widget, ColorCombo *cc)
 static GtkWidget *
 color_table_setup (ColorCombo *cc, char const * const no_color_label, int ncols, int nrows, ColorNamePair *color_names)
 {
-	GtkWidget *desc_label;
+	GtkWidget *nocolor_button;
 	GtkWidget *cust_label;
 	GtkWidget *cust_color;
 	GtkWidget *table;
@@ -200,12 +259,12 @@ color_table_setup (ColorCombo *cc, char const * const no_color_label, int ncols,
 	table = gtk_table_new (ncols, nrows, 0);
 
 	if (no_color_label != NULL) {
-	        desc_label = gtk_button_new_with_label (no_color_label);
+	        nocolor_button = gtk_button_new_with_label (no_color_label);
 
-		gtk_table_attach (GTK_TABLE (table), desc_label,
+		gtk_table_attach (GTK_TABLE (table), nocolor_button,
 				  0, ncols, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
-		gtk_signal_connect (GTK_OBJECT (desc_label), "clicked",
-				    GTK_SIGNAL_FUNC(desc_label_clicked), cc);
+		gtk_signal_connect (GTK_OBJECT (nocolor_button), "clicked",
+				    GTK_SIGNAL_FUNC(cb_nocolor_clicked), cc);
 	}
 
 	tool_tip = gtk_tooltips_new();
@@ -295,8 +354,6 @@ color_combo_construct (ColorCombo *cc, char **icon,
 	g_return_if_fail (IS_COLOR_COMBO (cc));
 	g_return_if_fail (color_names != NULL);
 
-	set_color (cc, DEFAULT_COLOR, COLOR_COPY);
-
 	/*
 	 * Our button with the canvas preview
 	 */
@@ -333,6 +390,7 @@ color_combo_construct (ColorCombo *cc, char **icon,
 		"x2",         20.0,
 		"y2",         22.0,
 		"fill_color", color_names [0].color,
+		"width_pixels", 1,
 		NULL);
 	gtk_container_add (GTK_CONTAINER (cc->preview_button), GTK_WIDGET (cc->preview_canvas));
 	gtk_widget_set_usize (GTK_WIDGET (cc->preview_canvas), 24, 24);
@@ -352,15 +410,19 @@ color_combo_construct (ColorCombo *cc, char **icon,
 
 	if (!gnome_preferences_get_toolbar_relief_btn ())
 		gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (cc), GTK_RELIEF_NONE);
+
+	/* Start with the default color */
+	set_color (cc, NULL, COLOR_NO_COPY);
 }
 
 /*
  * More verbose constructor. Allows for specifying the rows, columns, and 
  * Colors this box will contain
  */
-GtkWidget *
+static GtkWidget *
 color_combo_new_with_vals (char **icon, char const * const no_color_label,
-			   int ncols, int nrows, ColorNamePair *color_names)
+			   int ncols, int nrows, ColorNamePair *color_names,
+			   GdkColor *default_color)
 {
 	ColorCombo *cc;
 	
@@ -368,6 +430,10 @@ color_combo_new_with_vals (char **icon, char const * const no_color_label,
 	g_return_val_if_fail (color_names != NULL, NULL);
 	
 	cc = gtk_type_new (color_combo_get_type ());
+
+        cc->default_color = default_color;
+	cc->current = NULL;
+	cc->custom_color_allocated = FALSE;
 
 	color_combo_construct (cc, icon, no_color_label, ncols, nrows, color_names);
 	
@@ -377,7 +443,7 @@ color_combo_new_with_vals (char **icon, char const * const no_color_label,
 /*
  * this list of colors should match the Excel 2000 list of colors
  */
-static ColorNamePair default_colors [] = {
+static ColorNamePair default_color_set [] = {
 	{"rgb:0/0/0", N_("black")},
 	{"rgb:99/33/0", N_("light brown")},
 	{"rgb:33/33/0", N_("brown gold")},
@@ -452,51 +518,13 @@ static ColorNamePair default_colors [] = {
 };
 
 /* 
- * Default constructor. Pass an XPM icon and a label for what this dialog represents(or NULL)
+ * Default constructor. Pass an XPM icon and an optional label for
+ * the no/auto color button.
  */
 GtkWidget *
-color_combo_new (char **icon, char const * const no_color_label)
+color_combo_new (char **icon, char const * const no_color_label,
+		 GdkColor *default_color)
 {
-	return color_combo_new_with_vals (icon, no_color_label, 8, 5, default_colors);
+	return color_combo_new_with_vals (icon, no_color_label, 8, 5, default_color_set,
+					  default_color);
 }
-
-/*
- * Set the color combo to some pre-defined GdkColor
- */
-void
-color_combo_select_color (ColorCombo *cc, GdkColor *color)
-{
-	g_return_if_fail (cc != NULL);
-	g_return_if_fail (IS_COLOR_COMBO (cc));
-	g_return_if_fail (cc->items != NULL);
-	/* g_return_if_fail (color != NULL) */
-
-	set_color (cc, color, COLOR_COPY);
-	gnome_canvas_item_set (
-		cc->preview_color_item,
-		"fill_color_gdk", color,
-		NULL);
-}
-
-/*
- * Resets color in ColorCombo cc to its default state
- */
-void
-color_combo_select_clear (ColorCombo *cc)
-{
-	GdkColor *color;
-
-	g_return_if_fail (cc != NULL);
-	g_return_if_fail (IS_COLOR_COMBO (cc));
-	g_return_if_fail (cc->items != NULL);
-
-	gtk_object_get (
-		GTK_OBJECT (cc->items [0]),
-		"fill_color_gdk", &color,
-		NULL);
-
-	color_combo_select_color (cc, color);
-	g_free (color);
-}
-
-
