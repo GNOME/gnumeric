@@ -634,9 +634,9 @@ wbcg_auto_expr_value (WorkbookControl *wbc)
 	g_return_if_fail (wbv->auto_expr_value_as_string != NULL);
 
 	if (wbcg_ui_update_begin (wbcg)) {
-		gnome_canvas_item_set (wbcg->auto_expr_label,
-				       "text", wbv->auto_expr_value_as_string,
-				       NULL);
+		gtk_label_set_text(
+			 GTK_LABEL (GTK_BIN (wbcg->auto_expr_label)->child),
+			 wbv->auto_expr_value_as_string);
 		wbcg_ui_update_end (wbcg);
 	}
 }
@@ -3039,6 +3039,12 @@ setup_progress_bar (WorkbookControlGUI *wbcg)
 }
 #endif
 
+void
+wb_control_gui_set_status_text (WorkbookControlGUI *wbcg, char const *text)
+{
+	gtk_label_set_text (GTK_LABEL (wbcg->status_text), text);
+}
+
 static void
 cb_auto_expr_changed (GtkWidget *item, WorkbookControlGUI *wbcg)
 {
@@ -3102,74 +3108,36 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, Workbook *wbcg)
 	gnumeric_popup_menu (GTK_MENU (menu), event);
 }
 
-/*
- * Sets up the autocalc label on the workbook.
- *
- * This code is more complex than it should for a number of
- * reasons:
- *
- *    1. GtkLabels flicker a lot, so we use a GnomeCanvas to
- *       avoid the unnecessary flicker
- *
- *    2. Using a Canvas to display a label is tricky, there
- *       are a number of ugly hacks here to do what we want
- *       to do.
- *
- * When GTK+ gets a flicker free label (Owen mentions that the
- * new repaint engine in GTK+ he is working on will be flicker free)
- * we can remove most of these hacks
- */
+/* Setup the autocalc and status labels */
 static void
 workbook_setup_auto_calc (WorkbookControlGUI *wbcg)
 {
-	GtkWidget *canvas;
-	GnomeCanvasGroup *root;
-	GtkWidget *l, *frame;
+	GtkWidget *tmp, *frame1, *frame2;
 
-	canvas = gnome_canvas_new ();
-
-	l = gtk_label_new ("Info");
-	gtk_widget_ensure_style (l);
-
-	/* The canvas that displays text */
-	root = GNOME_CANVAS_GROUP (GNOME_CANVAS (canvas)->root);
-	wbcg->auto_expr_label = GNOME_CANVAS_ITEM (gnome_canvas_item_new (
-		root, gnome_canvas_text_get_type (),
-		"text",     "x",
-		"x",        (double) 0,
-		"y",        (double) 0,	/* FIXME :-) */
-		"font_gdk", l->style->font,
-		"anchor",   GTK_ANCHOR_NW,
-		"fill_color", "black",
-		NULL));
-	gtk_widget_set_usize (
-		GTK_WIDGET (canvas),
-		gdk_text_measure (l->style->font, "W", 1) * 15, -1);
-
-	frame = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
-	gtk_container_add (GTK_CONTAINER (frame), canvas);
-#ifdef ENABLE_BONOBO
-	{
-		BonoboControl *control;
-
-		control = bonobo_control_new (frame);
-		g_return_if_fail (control != NULL);
-
-		bonobo_ui_component_object_set (
-			wbcg->uic,
-			"/status/AutoExpr",
-			bonobo_object_corba_objref (BONOBO_OBJECT (control)),
-			NULL);
-	}
-#else
-	gtk_box_pack_start (GTK_BOX (wbcg->appbar), frame, FALSE, TRUE, 0);
-#endif
-	gtk_signal_connect (GTK_OBJECT (canvas), "button_press_event",
+	wbcg->auto_expr_label = tmp = gtk_button_new_with_label ("");
+	gtk_widget_ensure_style (tmp);
+	gtk_widget_set_usize (tmp,
+		gdk_text_measure (tmp->style->font, "W", 1) * 15, -1);
+	gtk_signal_connect (GTK_OBJECT (tmp), "button_press_event",
 			    GTK_SIGNAL_FUNC (cb_select_auto_expr), wbcg);
+	frame1 = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (frame1), GTK_SHADOW_IN);
+	gtk_container_add (GTK_CONTAINER (frame1), tmp);
 
-	gtk_object_unref (GTK_OBJECT (l));
-	gtk_widget_show_all (frame);
+	wbcg->status_text = tmp = gtk_label_new ("");
+	gtk_widget_ensure_style (tmp);
+	gtk_widget_set_usize (tmp,
+		gdk_text_measure (tmp->style->font, "W", 1) * 15, -1);
+	frame2 = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (frame2), GTK_SHADOW_IN);
+	gtk_container_add (GTK_CONTAINER (frame2), tmp);
+#ifdef ENABLE_BONOBO
+	gnumeric_inject_widget_into_bonoboui (wbcg, frame1, "/status/AutoExpr");
+	gnumeric_inject_widget_into_bonoboui (wbcg, frame2, "/status/Status");
+#else
+	gtk_box_pack_end (GTK_BOX (wbcg->appbar), frame2, FALSE, TRUE, 0);
+	gtk_box_pack_end (GTK_BOX (wbcg->appbar), frame1, FALSE, TRUE, 0);
+#endif
 }
 
 /*

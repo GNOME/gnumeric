@@ -88,7 +88,8 @@ struct _WorkbookControlGUI {
 	gboolean     select_single_cell;
 
 	GtkWidget  *table;
-	GnomeCanvasItem  *auto_expr_label;
+	GtkWidget  *auto_expr_label;
+	GtkWidget  *status_text;
 
 	/* Edit area */
 	GtkWidget *selection_descriptor;	/* A GtkEntry */

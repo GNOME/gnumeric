@@ -744,7 +744,8 @@
 
     <status>
 	<item name="main"/>
-	<control name="Progress"/>
+	<control name="Status"/>
 	<control name="AutoExpr"/>
+	<control name="Progress"/>
     </status>
 </Root>

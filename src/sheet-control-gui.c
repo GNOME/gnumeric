@@ -328,7 +328,7 @@ scg_scrollbar_config (SheetControlGUI const *scg)
 	gtk_adjustment_changed (va);
 	gtk_adjustment_changed (ha);
 
-	gnome_appbar_set_status (scg->wbcg->appbar, "");
+	wb_control_gui_set_status_text (scg->wbcg, "");
 }
 
 #if 0
@@ -462,12 +462,10 @@ vertical_scroll_offset_changed (GtkAdjustment *adj, int top, int is_hint, SheetC
 
 	if (is_hint) {
 		char *buffer = g_strdup_printf (_("Row: %d"), top + 1);
-		
-		gnome_appbar_set_status (scg->wbcg->appbar, buffer);
+		wb_control_gui_set_status_text (scg->wbcg, buffer);
 		g_free (buffer);
 	} else {
-		/* NOTE : Excel does not move the cursor, just scrolls the sheet. */
-		gnome_appbar_set_status (scg->wbcg->appbar, "");
+		wb_control_gui_set_status_text (scg->wbcg, "");
 		gnumeric_sheet_set_top_row (gsheet, top);
 	}
 }
@@ -479,12 +477,10 @@ horizontal_scroll_offset_changed (GtkAdjustment *adj, int left, int is_hint, She
 
 	if (is_hint) {
 		char *buffer = g_strdup_printf (_("Column: %s"), col_name (left));
-
-		gnome_appbar_set_status (scg->wbcg->appbar, buffer);
+		wb_control_gui_set_status_text (scg->wbcg, buffer);
 		g_free (buffer);
 	} else {
-		/* NOTE : Excel does not move the cursor, just scrolls the sheet. */
-		gnome_appbar_set_status (scg->wbcg->appbar, "");
+		wb_control_gui_set_status_text (scg->wbcg, "");
 		gnumeric_sheet_set_left_col (gsheet, left);
 	}
 }

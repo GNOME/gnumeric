@@ -27,5 +27,7 @@ gboolean   wb_control_gui_is_editing	  (WorkbookControlGUI const *wbcg);
 void       wb_control_gui_autosave_cancel (WorkbookControlGUI *wbcg);
 void       wb_control_gui_autosave_set    (WorkbookControlGUI *wbcg,
 					   int minutes, gboolean prompt);
+void	   wb_control_gui_set_status_text (WorkbookControlGUI *wbcg,
+					   char const *text);
 
 #endif /* GNUMERIC_WORKBOOK_CONTROL_GUI_H */
