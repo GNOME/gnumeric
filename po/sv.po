@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.31\n"
-"POT-Creation-Date: 1999-08-04 20:35+0200\n"
+"POT-Creation-Date: 1999-08-06 19:41-0500\n"
 "PO-Revision-Date: 1999-08-04 14:30+0200\n"
 "Last-Translator: Richard Hult <rhult@hem2.passagen.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -399,7 +399,7 @@ msgid "Left"
 msgstr "Vänster"
 
 #: src/dialog-cell-format.c:362 src/dialog-cell-format.c:371
-#: src/workbook.c:1081
+#: src/workbook.c:1099
 msgid "Center"
 msgstr "Centrera"
 
@@ -663,19 +663,19 @@ msgstr "#Referens till borttaget område!"
 msgid "Could not read file %s"
 msgstr "Kunde inte läsa filen %s"
 
-#: src/file.c:339
+#: src/file.c:355
 msgid "File format:"
 msgstr "Filformat:"
 
-#: src/file.c:383
+#: src/file.c:399
 msgid "Save workbook as"
 msgstr "Spara arbetsbok som"
 
-#: src/file.c:422
+#: src/file.c:438
 msgid "Sorry, there are no file savers loaded, I cannot save"
 msgstr "Det finns inga filsparare, kan inte spara"
 
-#: src/file.c:476
+#: src/file.c:492
 msgid "Load file"
 msgstr "Öppna fil"
 
@@ -2442,7 +2442,7 @@ msgstr ""
 "existerande cellerna i det området. Vill du ersätta\n"
 "innehållet i området?"
 
-#: src/item-cursor.c:580 src/item-grid.c:600 src/workbook.c:1069
+#: src/item-cursor.c:580 src/item-grid.c:600 src/workbook.c:1087
 msgid "Copy"
 msgstr "Kopiera"
 
@@ -2474,11 +2474,11 @@ msgstr "Flytta celler nedåt och flytta"
 msgid "Shift cells right and move"
 msgstr "Flytta celler åt höger och flytta"
 
-#: src/item-grid.c:599 src/workbook.c:1066
+#: src/item-grid.c:599 src/workbook.c:1084
 msgid "Cut"
 msgstr "Klipp ut"
 
-#: src/item-grid.c:601 src/workbook.c:1072
+#: src/item-grid.c:601 src/workbook.c:1090
 msgid "Paste"
 msgstr "Klistra in"
 
@@ -2563,6 +2563,96 @@ msgstr "init_plugin returnerade felvärde"
 msgid "Plugin is still in use.\n"
 msgstr "Tillägget används fortfarande.\n"
 
+#: src/print-info.c:20 src/print-info.c:23 src/print-info.c:24
+msgid "Page &[PAGE]"
+msgstr ""
+
+#: src/print-info.c:21 src/print-info.c:26
+msgid "Page &[PAGE] of &[PAGES]"
+msgstr ""
+
+#: src/print-info.c:22 src/print-info.c:23 src/print-info.c:24
+#: src/print-info.c:26
+msgid "&[TAB]"
+msgstr ""
+
+#: src/print-info.c:24 src/print-info.c:25 src/print-info.c:26
+msgid "&[DATE]"
+msgstr ""
+
+#: src/print-info.c:267
+msgid "Sheet &[NUM]"
+msgstr ""
+
+#: src/print-info.c:268
+msgid "Page &[NUM]"
+msgstr ""
+
+#: src/print-info.c:418
+#, fuzzy
+msgid "pts"
+msgstr "Alternativ"
+
+#: src/print-info.c:418
+#, fuzzy
+msgid "points"
+msgstr "Alternativ"
+
+#: src/print-info.c:419
+#, fuzzy
+msgid "mm"
+msgstr "d-mm"
+
+#: src/print-info.c:419
+msgid "millimeter"
+msgstr ""
+
+#: src/print-info.c:420
+msgid "cm"
+msgstr ""
+
+#: src/print-info.c:420
+#, fuzzy
+msgid "centimeter"
+msgstr "Centrera"
+
+#: src/print-info.c:421
+msgid "In"
+msgstr ""
+
+#: src/print-info.c:421
+msgid "inch"
+msgstr ""
+
+#: src/print-info.c:481
+#, fuzzy
+msgid "Sheet 1"
+msgstr "Blad"
+
+#: src/print-info.c:539
+msgid "tab"
+msgstr ""
+
+#: src/print-info.c:540
+#, fuzzy
+msgid "page"
+msgstr "Sida"
+
+#: src/print-info.c:541
+#, fuzzy
+msgid "pages"
+msgstr "Sida"
+
+#: src/print-info.c:542
+#, fuzzy
+msgid "date"
+msgstr "Datum"
+
+#: src/print-info.c:543
+#, fuzzy
+msgid "time"
+msgstr "Tid"
+
 #: src/sheet-view.c:337 src/sheet-view.c:411
 #, c-format
 msgid "Row: %d"
@@ -2606,467 +2696,467 @@ msgstr "Kunde inte aktivera objekt %s"
 msgid "I was unable to the bind object"
 msgstr "Kunde inte binda objektet"
 
-#: src/workbook.c:416
+#: src/workbook.c:434
 msgid "Warning"
 msgstr "Varning"
 
-#: src/workbook.c:424
+#: src/workbook.c:442
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr "Arbetsboken %s har osparade ändringar, spara dem?"
 
-#: src/workbook.c:427
+#: src/workbook.c:445
 msgid "Workbook has unsaved changes, save them?"
 msgstr "Arbetsboken har osparade ändringar, spara dem?"
 
-#: src/workbook.c:616
+#: src/workbook.c:634
 msgid "Insert cols"
 msgstr "Infoga kolumner"
 
-#: src/workbook.c:635
+#: src/workbook.c:653
 msgid "Insert rows"
 msgstr "Infoga rader"
 
-#: src/workbook.c:731
+#: src/workbook.c:749
 msgid ">mm/dd/yyyy"
 msgstr ">mm/dd/åååå"
 
-#: src/workbook.c:750
+#: src/workbook.c:768
 msgid ">hh:mm"
 msgstr ">tt:mm"
 
-#: src/workbook.c:858
+#: src/workbook.c:876
 msgid "_New"
 msgstr "_Nytt"
 
-#: src/workbook.c:858
+#: src/workbook.c:876
 msgid "Create a new spreadsheet"
 msgstr "Skapa ett nytt kalkylark"
 
-#: src/workbook.c:862
+#: src/workbook.c:880
 msgid "_Import"
 msgstr "_Importera"
 
-#: src/workbook.c:862
+#: src/workbook.c:880
 msgid "Imports a file"
 msgstr "Importerar en fil"
 
-#: src/workbook.c:868
+#: src/workbook.c:886
 msgid "Su_mmary..."
 msgstr ""
 
-#: src/workbook.c:868
+#: src/workbook.c:886
 msgid "Summary information"
 msgstr ""
 
-#: src/workbook.c:873
+#: src/workbook.c:891
 msgid "Plu_g-ins..."
 msgstr "Tillä_gg..."
 
-#: src/workbook.c:873
+#: src/workbook.c:891
 msgid "Gnumeric plugins"
 msgstr "Gnumeric-tillägg"
 
-#: src/workbook.c:894
+#: src/workbook.c:912
 msgid "_All"
 msgstr "_Allt"
 
-#: src/workbook.c:895
+#: src/workbook.c:913
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Ta bort markerade cellers formatering, kommentarer och innehåll"
 
-#: src/workbook.c:897
+#: src/workbook.c:915
 msgid "_Formats"
 msgstr "_Formatering"
 
-#: src/workbook.c:898
+#: src/workbook.c:916
 msgid "Clear the selected cells' formats"
 msgstr "Ta bort markerade cellers formatering"
 
-#: src/workbook.c:899
+#: src/workbook.c:917
 msgid "_Comments"
 msgstr "_Kommentarer"
 
-#: src/workbook.c:900
+#: src/workbook.c:918
 msgid "Clear the selected cells' comments"
 msgstr "Ta bort markerade cellers kommentarer"
 
-#: src/workbook.c:901
+#: src/workbook.c:919
 msgid "_Content"
 msgstr "_Innehåll"
 
-#: src/workbook.c:902
+#: src/workbook.c:920
 msgid "Clear the selected cells' contents"
 msgstr "Ta bort markerade cellers innehåll"
 
-#: src/workbook.c:910
+#: src/workbook.c:928
 msgid "P_aste special..."
 msgstr "Klistra in _special..."
 
-#: src/workbook.c:911
+#: src/workbook.c:929
 msgid "C_lear"
 msgstr "_Ta bort"
 
-#: src/workbook.c:912
+#: src/workbook.c:930
 msgid "Clear the selected cell(s)"
 msgstr "Ta bort markerade cell(er)"
 
-#: src/workbook.c:916
+#: src/workbook.c:934
 msgid "_Select All"
 msgstr "Markera _allt"
 
-#: src/workbook.c:917
+#: src/workbook.c:935
 msgid "Select all cells in the spreadsheet"
 msgstr "Markera alla celler på kalkylarket"
 
-#: src/workbook.c:919
+#: src/workbook.c:937
 msgid "_Goto cell..."
 msgstr "_Gå till cell.."
 
-#: src/workbook.c:920
+#: src/workbook.c:938
 msgid "Jump to a specified cell"
 msgstr "Gå till specifierad cell"
 
-#: src/workbook.c:926
+#: src/workbook.c:944
 msgid "Insert object..."
 msgstr "Infoga objekt..."
 
-#: src/workbook.c:927
+#: src/workbook.c:945
 msgid "Inserts a Bonobo object"
 msgstr "Infogar ett Bonobo-objekt"
 
-#: src/workbook.c:934
+#: src/workbook.c:952
 msgid "_Define cell names"
 msgstr "_Definera cellnamn"
 
-#: src/workbook.c:938
+#: src/workbook.c:956
 msgid "_Recalculate"
 msgstr "_Räkna om"
 
-#: src/workbook.c:939
+#: src/workbook.c:957
 msgid "Recalculate the spreadsheet"
 msgstr "Räkna om kalkylbladet"
 
-#: src/workbook.c:947
+#: src/workbook.c:965
 msgid "_Zoom..."
 msgstr "_Zooma..."
 
-#: src/workbook.c:948
+#: src/workbook.c:966
 msgid "Zoom the spreadsheet in or out"
 msgstr "Zooma in eller ut i kalkylbladet"
 
-#: src/workbook.c:955
+#: src/workbook.c:973
 msgid "Current _date"
 msgstr "Dagens _datum"
 
-#: src/workbook.c:956
+#: src/workbook.c:974
 msgid "Insert the current data into the selected cell(s)"
 msgstr "Infoga dagens datum i markerade cell(er)"
 
-#: src/workbook.c:959
+#: src/workbook.c:977
 msgid "Current _time"
 msgstr "Nuvarande _klockslag"
 
-#: src/workbook.c:960
+#: src/workbook.c:978
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Infoga nuvarande tid i markerade cell(er)"
 
-#: src/workbook.c:967 src/workbook.c:1013
+#: src/workbook.c:985 src/workbook.c:1031
 msgid "_Sheet"
 msgstr "_Blad"
 
-#: src/workbook.c:967
+#: src/workbook.c:985
 msgid "Insert a new spreadsheet"
 msgstr "Infoga ett nytt kalkylblad"
 
-#: src/workbook.c:969 src/workbook.c:1007
+#: src/workbook.c:987 src/workbook.c:1025
 msgid "_Cells..."
 msgstr "_Celler..."
 
-#: src/workbook.c:969
+#: src/workbook.c:987
 msgid "Insert new cells"
 msgstr "Infoga nya celler"
 
-#: src/workbook.c:971
+#: src/workbook.c:989
 msgid "_Rows"
 msgstr "_Rader"
 
-#: src/workbook.c:971
+#: src/workbook.c:989
 msgid "Insert new rows"
 msgstr "Infoga nya rader"
 
-#: src/workbook.c:973
+#: src/workbook.c:991
 msgid "C_olumns"
 msgstr "_Kolumner"
 
-#: src/workbook.c:973
+#: src/workbook.c:991
 msgid "Insert new columns"
 msgstr "Infoga nya kolumner"
 
-#: src/workbook.c:978
+#: src/workbook.c:996
 msgid "_Add/modify comment..."
 msgstr "_Lägg till/ändra kommentar..."
 
-#: src/workbook.c:979
+#: src/workbook.c:997
 msgid "Edit the selected cell's comment"
 msgstr "Ändra den markerade cellens kommentar"
 
-#: src/workbook.c:980
+#: src/workbook.c:998
 msgid "_Special"
 msgstr "_Special"
 
-#: src/workbook.c:989 src/workbook.c:995
+#: src/workbook.c:1007 src/workbook.c:1013
 msgid "_Autoadjust"
 msgstr "_Autojustera"
 
-#: src/workbook.c:990
+#: src/workbook.c:1008
 msgid "_Width"
 msgstr "_Bredd"
 
-#: src/workbook.c:996
+#: src/workbook.c:1014
 msgid "_Height"
 msgstr "_Höjd"
 
-#: src/workbook.c:1001
+#: src/workbook.c:1019
 msgid "_Change name"
 msgstr "_Ändra namn"
 
-#: src/workbook.c:1008
+#: src/workbook.c:1026
 msgid "Modify the formatting of the selected cells"
 msgstr "Ändra formateringen på markerade celler"
 
-#: src/workbook.c:1011
+#: src/workbook.c:1029
 msgid "C_olumn"
 msgstr "_Kolumn"
 
-#: src/workbook.c:1012
+#: src/workbook.c:1030
 msgid "_Row"
 msgstr "_Rad"
 
-#: src/workbook.c:1020
+#: src/workbook.c:1038
 msgid "_Sort..."
 msgstr "_Sortera..."
 
-#: src/workbook.c:1021
+#: src/workbook.c:1039
 msgid "Sort the selected cells"
 msgstr "Sortera merkerade cell(er)"
 
-#: src/workbook.c:1022
+#: src/workbook.c:1040
 msgid "_Goal Seek..."
 msgstr "_Målsökning..."
 
-#: src/workbook.c:1024
+#: src/workbook.c:1042
 msgid "_Solver..."
 msgstr "_Problemlösare..."
 
-#: src/workbook.c:1026
+#: src/workbook.c:1044
 msgid "_Data Analysis..."
 msgstr ""
 
-#: src/workbook.c:1040
+#: src/workbook.c:1058
 msgid "_Insert"
 msgstr "_Infoga"
 
-#: src/workbook.c:1041
+#: src/workbook.c:1059
 msgid "F_ormat"
 msgstr "F_ormat"
 
-#: src/workbook.c:1042
+#: src/workbook.c:1060
 msgid "_Tools"
 msgstr "Verk_tyg"
 
-#: src/workbook.c:1051
+#: src/workbook.c:1069
 msgid "New"
 msgstr "Nytt"
 
-#: src/workbook.c:1051
+#: src/workbook.c:1069
 msgid "Creates a new sheet"
 msgstr "Skapar ett nytt kalkylblad"
 
-#: src/workbook.c:1054
+#: src/workbook.c:1072
 msgid "Open"
 msgstr "Öppna"
 
-#: src/workbook.c:1054
+#: src/workbook.c:1072
 msgid "Opens an existing workbook"
 msgstr "Öppnar en existerande arbetsbok"
 
-#: src/workbook.c:1057
+#: src/workbook.c:1075
 msgid "Save"
 msgstr "Spara"
 
-#: src/workbook.c:1057
+#: src/workbook.c:1075
 msgid "Saves the workbook"
 msgstr "Sparar arbetsboken"
 
 #: src/print.glade.h:19 src/print.glade.h:32 src/print.glade.h:40
-#: src/print.glade.h:48 src/print.glade.h:56 src/workbook.c:1060
+#: src/print.glade.h:48 src/print.glade.h:56 src/workbook.c:1078
 msgid "Print"
 msgstr "Skriv ut"
 
-#: src/workbook.c:1060
+#: src/workbook.c:1078
 msgid "Prints the workbook"
 msgstr "Skriver ut arbetsboken"
 
-#: src/workbook.c:1066
+#: src/workbook.c:1084
 msgid "Cuts the selection to the clipboard"
 msgstr "Klipper ut markeringen till urklipp"
 
-#: src/workbook.c:1069
+#: src/workbook.c:1087
 msgid "Copies the selection to the clipboard"
 msgstr "Kopierar markeringen till urklipp"
 
-#: src/workbook.c:1072
+#: src/workbook.c:1090
 msgid "Pastes the clipboard"
 msgstr "Klistrar in från urklipp"
 
-#: src/workbook.c:1078
+#: src/workbook.c:1096
 msgid "Left align"
 msgstr "Vänsterjusterat"
 
-#: src/workbook.c:1078
+#: src/workbook.c:1096
 msgid "Left justifies the cell contents"
 msgstr "Vänsterjusterar cellinnehållet"
 
-#: src/workbook.c:1081
+#: src/workbook.c:1099
 msgid "Centers the cell contents"
 msgstr "Centrerar cellinnehållet"
 
-#: src/workbook.c:1084
+#: src/workbook.c:1102
 msgid "Right align"
 msgstr "Högerjustera"
 
-#: src/workbook.c:1084
+#: src/workbook.c:1102
 msgid "Right justifies the cell contents"
 msgstr "Högerjusterar cellinnehållet"
 
-#: src/workbook.c:1089
+#: src/workbook.c:1107
 msgid "Bold"
 msgstr "Fetstil"
 
-#: src/workbook.c:1089
+#: src/workbook.c:1107
 msgid "Sets the bold font"
 msgstr "Sätter fetstil på typsnittet"
 
-#: src/workbook.c:1092
+#: src/workbook.c:1110
 msgid "Italic"
 msgstr "Kursiv"
 
-#: src/workbook.c:1092
+#: src/workbook.c:1110
 msgid "Makes the font italic"
 msgstr "Gör typsnittet kursivt"
 
-#: src/workbook.c:1099
+#: src/workbook.c:1117
 msgid "Graphic"
 msgstr "Diagram"
 
-#: src/workbook.c:1099
+#: src/workbook.c:1117
 msgid "Creates a graphic in the spreadsheet"
 msgstr "Skapar ett diagram på kalkylbladet"
 
-#: src/workbook.c:1103
+#: src/workbook.c:1121
 msgid "Line"
 msgstr "Linje"
 
-#: src/workbook.c:1103
+#: src/workbook.c:1121
 msgid "Creates a line object"
 msgstr "Skapar ett linje-objekt"
 
-#: src/workbook.c:1106
+#: src/workbook.c:1124
 msgid "Arrow"
 msgstr "Pil"
 
-#: src/workbook.c:1106
+#: src/workbook.c:1124
 msgid "Creates an arrow object"
 msgstr "Skapar ett pil-objekt"
 
-#: src/workbook.c:1109
+#: src/workbook.c:1127
 msgid "Rectangle"
 msgstr "Rektangel"
 
-#: src/workbook.c:1109
+#: src/workbook.c:1127
 msgid "Creates a rectangle object"
 msgstr "Skapar ett rektangel-objekt"
 
-#: src/workbook.c:1112
+#: src/workbook.c:1130
 msgid "Ellipse"
 msgstr "Ellips"
 
-#: src/workbook.c:1112
+#: src/workbook.c:1130
 msgid "Creates an ellipse object"
 msgstr "Skapar ett ellips-objekt"
 
-#: src/workbook.c:1253
+#: src/workbook.c:1267
 msgid "You should introduce a valid cell name"
 msgstr "Du måste ange ett giltigt cellnamn"
 
-#: src/workbook.c:1262
+#: src/workbook.c:1276
 msgid "Column out of range"
 msgstr "Kolumn utanför giltigt område"
 
-#: src/workbook.c:1268
+#: src/workbook.c:1282
 msgid "Row number out of range"
 msgstr "Radnummer utanför giltigt område"
 
-#: src/workbook.c:1360
+#: src/workbook.c:1374
 msgid "Selection must be a single range"
 msgstr "Markeringen måste bestå av ett enkelt område"
 
-#: src/workbook.c:1468
+#: src/workbook.c:1482
 msgid "Sum"
 msgstr "Sum"
 
-#: src/workbook.c:1469
+#: src/workbook.c:1483
 msgid "Min"
 msgstr "Min"
 
-#: src/workbook.c:1470
+#: src/workbook.c:1484
 msgid "Max"
 msgstr "Max"
 
-#: src/workbook.c:1471
+#: src/workbook.c:1485
 msgid "Average"
 msgstr "Medelvärde"
 
-#: src/workbook.c:1472
+#: src/workbook.c:1486
 msgid "Count"
 msgstr "Räkna"
 
-#: src/workbook.c:1733
+#: src/workbook.c:1829
 msgid "Untitled.gnumeric"
 msgstr "Namnlös.gnumeric"
 
-#: src/workbook.c:1822
+#: src/workbook.c:1918
 msgid "Zoom out"
 msgstr "Zooma ut"
 
-#: src/workbook.c:1829
+#: src/workbook.c:1925
 msgid "Zoom in"
 msgstr "Zooma in"
 
-#: src/workbook.c:1924
+#: src/workbook.c:2020
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s' "
 msgstr "Är du säker på att du vill ta bort bladet med namn `%s' "
 
-#: src/workbook.c:1943
+#: src/workbook.c:2039
 msgid "Other sheets depend on the values on this sheet; I cannot remove it"
 msgstr "Andra blad refererar till värden på detta blad; kan inte ta bort det"
 
-#: src/workbook.c:1963
+#: src/workbook.c:2059
 msgid "Add another sheet"
 msgstr "Lägg till ett nytt blad"
 
-#: src/workbook.c:1964
+#: src/workbook.c:2060
 msgid "Remove this sheet"
 msgstr "Ta bort detta blad"
 
-#: src/workbook.c:2221 src/workbook.c:2256
+#: src/workbook.c:2326 src/workbook.c:2361
 #, c-format
 msgid "Sheet%d"
 msgstr "Blad%d"
 
-#: src/workbook.c:2329
+#: src/workbook.c:2434
 msgid "Gnumeric: "
 msgstr "Gnumeric: "
 
@@ -3229,6 +3319,14 @@ msgstr "Ned, sedan höger"
 #: src/print.glade.h:55
 msgid "Right, then down"
 msgstr "Höger, sedan ned"
+
+#: src/print.glade.h:60
+msgid "Customize header"
+msgstr ""
+
+#: src/print.glade.h:61
+msgid "Customize footer"
+msgstr ""
 
 #.
 #. * Translatable strings file generated by Glade.

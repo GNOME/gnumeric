@@ -76,8 +76,9 @@ embeddable_grid_view_factory (GnomeEmbeddable *embeddable,
 			      void *data)
 {
 	GnomeView *view;
-
-	view = grid_view_new (embeddable);
+	EmbeddableGrid *eg = EMBEDDABLE_GRID (embeddable);
+	
+	view = grid_view_new (eg);
 
 	return GNOME_VIEW (view);
 }
@@ -109,23 +110,6 @@ embeddable_grid_class_init (GtkObjectClass *class)
 static void
 embeddable_grid_init (GtkObject *object)
 {
-	EmbeddableGrid *eg = EMBEDDABLE_GRID (object);
-
-	eg->workbook = gtk_type_new (WORKBOOK_TYPE);
-	eg->sheet = sheet_new (eg->workbook, _("Embedded Sheet"));
-	workbook_attach_sheet (eg->workbook, eg->sheet);
-
-	/*
-	 * Workaround code.  Sheets are born with a sheet_view,
-	 * but we do not need it at all.  So manually get rid of it.
-	 *
-	 * When sheet_new semantics change (see TODO), the code below
-	 * will warn about this condition to remove this piece of code
-	 */
-	if (eg->sheet->sheet_views != NULL){
-		sheet_destroy_sheet_view (eg->sheet, SHEET_VIEW (eg->sheet->sheet_views->data));
-	} else
-		g_error ("Remove workaround code here");
 }
 
 static CORBA_Object
@@ -145,13 +129,34 @@ create_embeddable_grid (GnomeObject *object)
 	return gnome_object_activate_servant (object, servant);
 }
 
+static void
+embeddable_grid_init_anon (EmbeddableGrid *eg)
+{
+	eg->workbook = gtk_type_new (WORKBOOK_TYPE);
+	eg->sheet = sheet_new (eg->workbook, _("Embedded Sheet"));
+	workbook_attach_sheet (eg->workbook, eg->sheet);
+
+	/*
+	 * Workaround code.  Sheets are born with a sheet_view,
+	 * but we do not need it at all.  So manually get rid of it.
+	 *
+	 * When sheet_new semantics change (see TODO), the code below
+	 * will warn about this condition to remove this piece of code
+	 */
+	if (eg->sheet->sheet_views != NULL){
+		sheet_destroy_sheet_view (eg->sheet, SHEET_VIEW (eg->sheet->sheet_views->data));
+	} else
+		g_error ("Remove workaround code here");
+}
+
 EmbeddableGrid *
-embeddable_grid_new (void)
+embeddable_grid_new_anon (void)
 {
 	EmbeddableGrid *embeddable_grid;
 	GNOME_Gnumeric_Grid corba_embeddable_grid;
 		
 	embeddable_grid = gtk_type_new (EMBEDDABLE_GRID_TYPE);
+	embeddable_grid_init_anon (embeddable_grid);
 	corba_embeddable_grid = create_embeddable_grid (GNOME_OBJECT (embeddable_grid));
 
 	if (corba_embeddable_grid == CORBA_OBJECT_NIL){
@@ -166,12 +171,41 @@ embeddable_grid_new (void)
 	return embeddable_grid;
 }
 
+EmbeddableGrid *
+embeddable_grid_new (Workbook *wb, Sheet *sheet)
+{
+	EmbeddableGrid *embeddable_grid;
+	GNOME_Gnumeric_Grid corba_embeddable_grid;
+		
+	embeddable_grid = gtk_type_new (EMBEDDABLE_GRID_TYPE);
+	corba_embeddable_grid = create_embeddable_grid (GNOME_OBJECT (embeddable_grid));
+
+	if (corba_embeddable_grid == CORBA_OBJECT_NIL){
+		gtk_object_destroy (GTK_OBJECT (embeddable_grid));
+		return NULL;
+	}
+
+	embeddable_grid->workbook = wb;
+	embeddable_grid->sheet = sheet;
+
+	/*
+	 * We keep a handle to the Workbook
+	 */
+	gnome_object_ref (GNOME_OBJECT (embeddable_grid->workbook));
+	
+	gnome_embeddable_construct (
+		GNOME_EMBEDDABLE (embeddable_grid), corba_embeddable_grid,
+		embeddable_grid_view_factory, NULL);
+
+	return embeddable_grid;
+}
+
 static GnomeObject *
 embeddable_grid_factory (GnomeEmbeddableFactory *this, void *data)
 {
 	EmbeddableGrid *embeddable_grid;
 
-	embeddable_grid = embeddable_grid_new ();
+	embeddable_grid = embeddable_grid_new_anon ();
 
 	if (embeddable_grid == NULL)
 		return NULL;

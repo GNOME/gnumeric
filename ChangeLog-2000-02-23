@@ -1,5 +1,8 @@
 1999-08-06  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/xml-io.c (xml_write_summary): I think this is the correct
+	fix.  We should not add childs if no summary info is available.
+
 	* src/corba-sheet.c (Sheet_cell_set_font): Use the standard
 	procedure to set the font.
 

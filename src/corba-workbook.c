@@ -192,9 +192,6 @@ workbook_corba_setup (Workbook *workbook)
 	CORBA_Environment ev;
         PortableServer_ObjectId *objid;
 
-	/*
-	 * 1. The CORBA servant for the Workbook
-	 */
 	Workbook_corba_class_init ();
 
 	ws = g_new0 (WorkbookServant, 1);
@@ -206,7 +203,7 @@ workbook_corba_setup (Workbook *workbook)
 	objid = PortableServer_POA_activate_object (gnumeric_poa, ws, &ev);
 	CORBA_free (objid);
 	workbook->corba_server = PortableServer_POA_servant_to_reference (gnumeric_poa, ws, &ev);
-	
+
 	CORBA_exception_free (&ev);
 }
 

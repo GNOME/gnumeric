@@ -777,8 +777,8 @@ xml_write_summary (parse_xml_context_t *ctxt, SummaryInfo *sin)
 
 			}
 			g_free (text);
+			xmlAddChild (cur, tmp);
 		}
-		xmlAddChild (cur, tmp);
 		items = g_list_next (items);
 	}
 	g_list_free (m);

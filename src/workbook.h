@@ -33,6 +33,9 @@ struct _Workbook {
 
 	/* A GnomeContainer */
 	GnomeContainer *gnome_container;
+
+	/* A list of EmbeddableGrids exported to the world */
+	GList      *bonobo_regions;
 #else
 	GtkObject  gtk_object;
 #endif

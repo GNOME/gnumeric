@@ -25,6 +25,10 @@
 #include "widget-editable-label.h"
 #include "print-info.h"
 
+#ifdef ENABLE_BONOBO
+#include "embeddable-grid.h"
+#endif
+
 /* The locations within the main table in the workbook */
 #define WB_EA_LINE   0
 #define WB_EA_SHEETS 1
@@ -371,10 +375,17 @@ workbook_destroy (GtkObject *wb_object)
 	GTK_OBJECT_CLASS (workbook_parent_class)->destroy (wb_object);
 }
 
-static void
-workbook_widget_destroy (GtkWidget *widget, Workbook *wb)
+static int
+workbook_widget_delete_event (GtkWidget *widget, Workbook *wb)
 {
+#ifdef ENABLE_BONOBO
+	if (wb->bonobo_regions){
+		gtk_widget_hide (GTK_WIDGET (wb->toplevel));
+		return FALSE;
+	}
+#endif
 	gtk_object_unref (GTK_OBJECT (wb));
+	return TRUE;
 }
 
 static void
@@ -1678,6 +1689,59 @@ workbook_configure_minimized_pixmap (Workbook *wb)
 	/* FIXME: Use the new function provided by Raster */
 }
 
+#ifdef ENABLE_BONOBO
+
+static void
+grid_destroyed (GtkObject *embeddable_grid, Workbook *wb)
+{
+	wb->bonobo_regions = g_list_remove (wb->bonobo_regions, embeddable_grid);
+}
+
+static GNOME_Unknown
+workbook_container_get_object (GnomeObject *container, CORBA_char *item_name,
+			       CORBA_boolean only_if_exists, CORBA_Environment *ev,
+			       Workbook *wb)
+{
+	EmbeddableGrid *eg;
+	Sheet *sheet;
+	char *p;
+	
+	p = strchr (item_name, '!');
+	if (!p)
+		return CORBA_OBJECT_NIL;
+	*p = 0;
+	sheet = workbook_sheet_lookup (wb, item_name);
+
+	if (!sheet)
+		return CORBA_OBJECT_NIL;
+
+	eg = embeddable_grid_new (wb, sheet);
+	if (!eg)
+		return CORBA_OBJECT_NIL;
+
+	gtk_signal_connect (GTK_OBJECT (eg), "destroy",
+			    grid_destroyed, wb);
+	
+	wb->bonobo_regions = g_list_prepend (wb->bonobo_regions, eg);
+
+	return CORBA_Object_duplicate (
+		gnome_object_corba_objref (GNOME_OBJECT (eg)), ev);
+}
+
+static void
+workbook_bonobo_setup (Workbook *wb)
+{
+	wb->gnome_container = GNOME_CONTAINER (gnome_container_new ());
+	gnome_object_add_interface (
+		GNOME_OBJECT (wb),
+		GNOME_OBJECT (wb->gnome_container));
+
+	gtk_signal_connect (
+		GTK_OBJECT (wb->gnome_container), "get_object",
+		GTK_SIGNAL_FUNC (workbook_container_get_object), wb);
+}
+#endif
+
 static void
 workbook_init (GtkObject *object)
 {
@@ -1701,13 +1765,8 @@ workbook_init (GtkObject *object)
 	workbook_count++;
 	workbook_list = g_list_prepend (workbook_list, wb);
 
-#ifdef ENABLE_BONOBO
-	wb->gnome_container = GNOME_CONTAINER (gnome_container_new ());
-#endif
-
 	workbook_corba_setup (wb);
-
-	return wb;
+	workbook_bonobo_setup (wb);
 }
 
 static void
@@ -1797,8 +1856,8 @@ workbook_new (void)
 		GTK_SIGNAL_FUNC (workbook_set_focus), wb);
 
 	gtk_signal_connect (
-		GTK_OBJECT (wb->toplevel), "destroy",
-		GTK_SIGNAL_FUNC (workbook_widget_destroy), wb);
+		GTK_OBJECT (wb->toplevel), "delete_event",
+		GTK_SIGNAL_FUNC (workbook_widget_delete_event), wb);
 
 	/* Enable toplevel as a drop target */
 
