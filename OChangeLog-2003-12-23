@@ -1,11 +1,14 @@
 2002-10-31  Jody Goldberg <jody@gnome.org>
 
+	* src/item-edit.c (scan_for_range) : merge a pile of 1 time routine
+	  together to make it clearer what they are trying to do.  I still
+	  don't think this belongs here but at least its getting easier to
+	  read.
+
 	* src/workbook-edit.c (wbcg_edit_finish) : allow a user to enter "-"
 	  without a hassle.  If a user accepts the result of a parse error
 	  as a string restore focus to the sheet.  The patch that focused on
 	  the entry would confuse things, and we would pop backinto edit mode.
-
-2002-10-31  Jody Goldberg <jody@gnome.org>
 
 	* src/gnumeric.h : Bring things back down to 256x64k memory usage is
 	  still too high.

@@ -38,7 +38,7 @@ void	  gnm_expr_entry_set_scg	(GnumericExprEntry *e,
 GtkEntry *gnm_expr_entry_get_entry	(GnumericExprEntry *e);
 gboolean  gnm_expr_entry_get_rangesel	(GnumericExprEntry *e,
 					 Range *r, Sheet **sheet);
-void	  gnm_expr_entry_rangesel_start	(GnumericExprEntry *e);
+void	  gnm_expr_expr_find_range	(GnumericExprEntry *e);
 void	  gnm_expr_entry_rangesel_stop	(GnumericExprEntry *e,
 					 gboolean clear_string);
 

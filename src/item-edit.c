@@ -48,39 +48,10 @@ enum {
 	ARG_SHEET_CONTROL_GUI	/* The SheetControlGUI * argument */
 };
 
-static gboolean
-point_is_inside_range (ItemEdit *item_edit, const char *text, Range *range)
-{
-	Sheet *sheet = ((SheetControl *) item_edit->scg)->sheet;
-	Sheet *parse_sheet;
-
-	return (gnm_expr_entry_get_rangesel (GNUMERIC_EXPR_ENTRY 
-					     (gtk_widget_get_parent (
-						     GTK_WIDGET (item_edit->entry))), 
-					     range, &parse_sheet) && (parse_sheet == sheet));
-}
-
-static void
-entry_create_feedback_range (ItemEdit *item_edit, Range *r)
-{
-	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_edit);
-
-	if (!item_edit->feedback_cursor)
-		item_edit->feedback_cursor = gnome_canvas_item_new (
-			GNOME_CANVAS_GROUP (item->canvas->root),
-			item_cursor_get_type (),
-			"SheetControlGUI",  item_edit->scg,
-			"Style",  ITEM_CURSOR_BLOCK,
-			"Color",  "red",
-			NULL);
-
-	item_cursor_bound_set (ITEM_CURSOR (item_edit->feedback_cursor), r);
-}
-
 static void
 entry_destroy_feedback_range (ItemEdit *item_edit)
 {
-	if (item_edit->feedback_cursor){
+	if (item_edit->feedback_cursor != NULL) {
 		gtk_object_destroy (GTK_OBJECT (item_edit->feedback_cursor));
 		item_edit->feedback_cursor = NULL;
 	}
@@ -91,15 +62,32 @@ entry_destroy_feedback_range (ItemEdit *item_edit)
  *           canvas.
  */
 static void
-scan_for_range (ItemEdit *item_edit, const char *text)
+scan_for_range (ItemEdit *ie)
 {
-	Range range;
+	Range  range;
+	Sheet *sheet = ((SheetControl *) ie->scg)->sheet;
+	Sheet *parse_sheet;
+	GnumericExprEntry *gee = GNUMERIC_EXPR_ENTRY (
+		gtk_widget_get_parent (GTK_WIDGET (ie->entry)));
 
-	if (point_is_inside_range (item_edit, text, &range)){
-		if (!item_edit->feedback_disabled)
-			entry_create_feedback_range (item_edit, &range);
-	} else
-		entry_destroy_feedback_range (item_edit);
+	if (!ie->feedback_disabled) {
+		gnm_expr_expr_find_range (gee);
+		if (gnm_expr_entry_get_rangesel (gee, &range, &parse_sheet) &&
+		    (parse_sheet == sheet)) {
+			if (ie->feedback_cursor == NULL)
+				ie->feedback_cursor = gnome_canvas_item_new (
+					GNOME_CANVAS_GROUP (ie->canvas_item.canvas->root),
+					item_cursor_get_type (),
+					"SheetControlGUI",	ie->scg,
+					"Style",		ITEM_CURSOR_BLOCK,
+					"Color",		"blue",
+					NULL);
+			item_cursor_bound_set (ITEM_CURSOR (ie->feedback_cursor), &range);
+			return;
+		}
+	}
+
+	entry_destroy_feedback_range (ie);
 }
 
 static void
@@ -451,7 +439,7 @@ entry_changed (GnumericExprEntry *ignore, void *data)
 	char const *text = gtk_entry_get_text (item_edit->entry);
 
 	if (gnm_expr_char_start_p (text))
-		scan_for_range (item_edit, text);
+		scan_for_range (item_edit);
 
 	gnome_canvas_item_request_update (item);
 }
@@ -531,7 +519,7 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		"notify::cursor-position",
 		G_CALLBACK (entry_cursor_event), item_edit);
 
-	scan_for_range (item_edit, "");
+	scan_for_range (item_edit);
 
 	/* set the font and the upper left corner if this is the first pass */
 	if (item_edit->style_font == NULL) {

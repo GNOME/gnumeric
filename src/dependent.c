@@ -1180,8 +1180,8 @@ iterate :
 			}
 			value_release (cell->value);
 			cell->value = v;
-			puts ("/* LOOP */");
 #ifdef DEBUG_EVALUATION
+			puts ("/* LOOP */");
 #endif
 			goto iterate;
 		}

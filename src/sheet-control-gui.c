@@ -2176,7 +2176,7 @@ scg_rangesel_start (SheetControlGUI *scg,
 	scg->wbcg->rangesel = scg;
 	scg->rangesel.active = TRUE;
 
-	gnm_expr_entry_rangesel_start (wbcg_get_entry_logical (scg->wbcg));
+	gnm_expr_expr_find_range (wbcg_get_entry_logical (scg->wbcg));
 
 	range_init (&r, base_col, base_row, move_col, move_row);
 	SCG_FOREACH_PANE (scg, pane, gnm_pane_rangesel_start (pane, &r););

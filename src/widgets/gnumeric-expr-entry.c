@@ -369,10 +369,9 @@ gee_rangesel_update_text (GnumericExprEntry *gee)
  *
  * Look at the current selection to see how much of it needs to be changed when
  * selecting a range.
- *
  **/
 void
-gnm_expr_entry_rangesel_start (GnumericExprEntry *gee)
+gnm_expr_expr_find_range (GnumericExprEntry *gee)
 {
 	gboolean  single;
 	char const *text, *cursor, *tmp, *ptr;
@@ -427,12 +426,16 @@ gnm_expr_entry_rangesel_start (GnumericExprEntry *gee)
 			if (*ptr == quote)
 				ptr = g_utf8_next_char (ptr+1);
 
-		/* rangerefs can not start in the middle of a sequence of
-		 * alphanumerics
-		 */
-		} else do
-			ptr = g_utf8_next_char (ptr);
-		while (ptr <= cursor && g_unichar_isalnum (g_utf8_get_char (ptr)));
+		} else {
+			/* rangerefs can not start in the middle of a sequence
+			 * of alphanumerics */
+			if (g_unichar_isalnum (g_utf8_get_char (ptr))) {
+				do
+					ptr = g_utf8_next_char (ptr);
+				while (ptr <= cursor && g_unichar_isalnum (g_utf8_get_char (ptr)));
+			} else
+				ptr = g_utf8_next_char (ptr);
+		}
 	}
 
 	if (single) {
@@ -559,7 +562,7 @@ cb_gee_button_press_event (GtkEntry *entry, GdkEventButton *event, GnumericExprE
 
 	if (gee->scg) {
 		scg_rangesel_stop (gee->scg, FALSE);
-		gnm_expr_entry_rangesel_start (gee);
+		gnm_expr_expr_find_range (gee);
 		g_signal_emit (G_OBJECT (gee), signals [CHANGED], 0);
 	}
 	
@@ -597,7 +600,7 @@ cb_gee_key_press_event (GtkEntry	  *entry,
 
 		/* Look for a range */
 		if (rs->text_start >= rs->text_end)
-			gnm_expr_entry_rangesel_start (gee);
+			gnm_expr_expr_find_range (gee);
 
 		/* no range found */
 		if (rs->text_start >= rs->text_end)
@@ -1132,7 +1135,7 @@ gnm_expr_entry_can_rangesel (GnumericExprEntry *gee)
 	    gnm_expr_char_start_p (text) == NULL)
 		return FALSE;
 
-	gnm_expr_entry_rangesel_start (gee);
+	gnm_expr_expr_find_range (gee);
 	if (gee->rangesel.is_valid)
 		return TRUE;
 
