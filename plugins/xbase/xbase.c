@@ -9,6 +9,7 @@
 #include <io-context.h>
 
 #include <string.h>
+#include <gsf/gsf-input.h>
 
 #define XBASE_DEBUG 0
 
@@ -64,10 +65,8 @@ record_seek (XBrecord *record, int whence, glong row)
 		return FALSE;
 	record->row = offset;
 	offset = (offset-1) * record->file->fieldlen + record->file->offset;
-	if (fseek (record->file->f, offset, SEEK_SET) ||
-	    fread(record->data, record->file->fieldlen, 1, record->file->f) != 1)
-		return FALSE;
-	return TRUE;
+	return !gsf_input_seek (record->file->input, offset, GSF_SEEK_SET) &&
+	    gsf_input_read (record->file->input, record->file->fieldlen, record->data) != NULL;
 }
 
 /**
@@ -95,7 +94,7 @@ static gboolean
 xbase_read_header (XBfile *x)
 {
 	guint8 hdr[32];
-	if (fread (hdr, 1, 32, x->f) != 32) {
+	if (gsf_input_read (x->input, 32, hdr) == NULL) {
 		g_warning ("Header short");
 		return TRUE;
 	}
@@ -167,17 +166,17 @@ xbase_field_new (XBfile *file)
 	XBfield *field;
 	guint8   buf[33];
 	char *p;
-	if (fread (buf, sizeof (guint8), 2, file->f) != 2) { /* 1 byte out ? */
+	if (gsf_input_read (file->input, 2, buf) == NULL) { /* 1 byte out ? */
 		g_warning ("xbase_field_new: fread error");
 		return NULL;
 	} else if (buf[0] == 0x0D || buf[0] == 0) { /* field array terminator */
 		if (buf[1] == 0) { /* FIXME: crude test, not in spec */
-			if (fseek(file->f, 263, SEEK_CUR)) /* skip DBC */
+			if (gsf_input_seek (file->input, 263, GSF_SEEK_CUR)) /* skip DBC */
 				g_warning ("xbase_field_new: fseek error");
 		}
-		file->offset = ftell (file->f);
+		file->offset = gsf_input_tell (file->input);
 		return NULL;
-	} else if (fread(&buf[2], sizeof(buf[0]), 30, file->f) != 30) {
+	} else if (gsf_input_read (file->input, 30, buf+2) == NULL) {
 		g_warning ("Field descriptor short");
 		return NULL;
 	}
@@ -213,20 +212,15 @@ xbase_field_new (XBfile *file)
 }
 
 XBfile *
-xbase_open (char const *filename, ErrorInfo **ret_error)
+xbase_open (GsfInput *input, ErrorInfo **ret_error)
 {
-	FILE *f;
 	XBfile *ans;
 	XBfield *field;
 
 	*ret_error = NULL;
-	if ((f = fopen (filename, "rb")) == NULL) {
-		*ret_error = error_info_new_from_errno ();
-		return NULL;
-	}
 
 	ans = g_new (XBfile, 1);
-	ans->f = f;
+	ans->input = input;
 	ans->offset = 0;
 
 	xbase_read_header (ans); /* FIXME: Clean up xbase_read_header
@@ -246,7 +240,6 @@ xbase_close (XBfile *x)
 {
 	unsigned i;
 
-	fclose (x->f);
 	for (i = 0; i < x->fields; i++) {
 		XBfield *field = x->format[i];
 		if (field->fmt != NULL)

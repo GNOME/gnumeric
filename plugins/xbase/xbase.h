@@ -2,8 +2,7 @@
 #define GNUMERIC_PLUGIN_XBASE_XBASE_H
 
 #include <gnumeric.h>
-#include <stdio.h>
-#include <error-info.h>
+#include <gsf/gsf.h>
 
 typedef struct { /* field format */
 	gchar name[11]; /* name, including terminating '\0' */
@@ -14,7 +13,7 @@ typedef struct { /* field format */
 } XBfield;
 
 typedef struct { /* database instance */
-	FILE     *f; /* file handle */
+	GsfInput *input;	/* file handle */
 	guint     records; /* number of records */
 	guint     fields; /* number of fields */
 	guint     fieldlen; /* bytes per record */
@@ -33,7 +32,7 @@ gboolean  record_seek (XBrecord *record, int whence, glong row);
 void      record_free (XBrecord *record);
 gchar	*record_get_field (const XBrecord *record, guint num);
 
-XBfile *xbase_open (const char *filename, ErrorInfo **ret_error);
+XBfile *xbase_open (GsfInput *input, ErrorInfo **ret_error);
 void    xbase_close (XBfile *file);
 
 #endif

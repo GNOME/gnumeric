@@ -1,3 +1,9 @@
+2002-06-08  Jody Goldberg <jody@gnome.org>
+
+	* xbase.c (xbase_field_new) : convert to libgsf.
+	(xbase_close) : ditto.
+	(xbase_open) : ditto.
+
 2002-05-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.4

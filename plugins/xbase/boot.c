@@ -28,7 +28,7 @@
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 void xbase_file_open (GnumFileOpener const *fo, IOContext *io_context,
-                      WorkbookView *wb_view, char const *filename);
+                      WorkbookView *wb_view, GsfInput *input);
 
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN
 
@@ -146,7 +146,7 @@ xbase_field_as_value (gchar *content, XBfield *field)
 
 void
 xbase_file_open (GnumFileOpener const *fo, IOContext *io_context,
-                 WorkbookView *wb_view, char const *filename)
+                 WorkbookView *wb_view, GsfInput *input)
 {
 	Workbook  *wb;
 	XBfile	  *file;
@@ -159,19 +159,16 @@ xbase_file_open (GnumFileOpener const *fo, IOContext *io_context,
 	ErrorInfo *open_error;
 	guint row, i;
 
-	if ((file = xbase_open (filename, &open_error)) == NULL) {
+	if ((file = xbase_open (input, &open_error)) == NULL) {
 		gnumeric_io_error_info_set (io_context, error_info_new_str_with_details (
 		                            _("Error while opening xbase file."),
 		                            open_error));
 		return;
 	}
 
-	name = g_strdup(filename);
-
-	*((gchar *) g_extension_pointer (name)) = '\0'; /* remove "dbf" */
-
 	wb = wb_view_workbook (wb_view);
-	sheet = sheet_new (wb, g_basename (name));
+	name = workbook_sheet_get_free_name (wb, _("Sheet"), FALSE, TRUE);
+	sheet = sheet_new (wb, name);
 	g_free (name);
 	workbook_sheet_attach (wb, sheet, NULL);
 
