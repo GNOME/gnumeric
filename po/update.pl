@@ -137,16 +137,18 @@ elsif(-s "$LANG.po"){
       ." --files-from\=\.\/POTFILES\.in ";  
     $c1="test \! -f $PACKAGE\.po \|\| \( rm -f \.\/$PACKAGE\.pot "
        ."&& mv $PACKAGE\.po \.\/$PACKAGE\.pot \)";
+    $c2="\.\/xml2pot\.pl";
 
     `$c`;
     `$c1`;
+    `$c2`;
 
     print "...done";
 
     print "\nNow merging $LANG.po with $PACKAGE.pot, and creating an updated $LANG.po ...\n";
 
     
-    $d="mv $LANG.po $LANG.po.old && msgmerge $LANG.po.old $PACKAGE.pot -o $LANG.po";
+    $d="cp $LANG.po $LANG.po.old && msgmerge $LANG.po.old $PACKAGE.pot -o $LANG.po";
 
     $f="msgfmt --statistics $LANG.po";
 
