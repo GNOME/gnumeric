@@ -357,13 +357,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=BITOR\n"
 "@SYNTAX=BITOR(a,b)\n"
-"@DESCRIPTION=Функц╕я BITOR поверта╓ результат виконання лог╕чно╖ операц╕╖ "
-"АБО над б╕тами ╖╖ ар╜умент╕в.\n"
+"@DESCRIPTION=Функц╕я BITOR поверта╓ результат виконання лог╕чного додавання "
+"б╕т╕в ╖╖ ар╜умент╕в.\n"
 "@EXAMPLES=\n"
 "@SEEALSO=BITXOR,BITAND"
 
 #: plugins/numtheory/numtheory.c:436
-#, fuzzy
 msgid ""
 "@FUNCTION=BITXOR\n"
 "@SYNTAX=BITXOR(a,b)\n"
@@ -373,13 +372,13 @@ msgid ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITOR,BITAND"
 msgstr ""
-"@FUNCTION=ITHPRIME\n"
-"@SYNTAX=ITHPRIME(i)\n"
-"@DESCRIPTION=Функц╕я ITHPRIME поверта╓ @i-те просте число.\n"
-"Ця функц╕я прийма╓ лише одне значення. \n"
-"@EXAMPLES=\n"
+"@FUNCTION=BITXOR\n"
+"@SYNTAX=BITXOR(a,b)\n"
+"@DESCRIPTION=Функц╕я BITOR поверта╓ результат виконання операц╕╖ заперечення "
+"екв╕валентност╕ б╕т╕в ар╜умент╕в функц╕╖.\n"
 "\n"
-"@SEEALSO=NT_D, NT_SIGMA"
+"@EXAMPLES=\n"
+"@SEEALSO=BITOR,BITAND"
 
 #: plugins/numtheory/numtheory.c:455
 msgid ""
@@ -392,8 +391,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=BITAND\n"
 "@SYNTAX=BITAND(a,b)\n"
-"@DESCRIPTION=Функц╕я BITAND поверта╓ результат виконання лог╕чно╖ операц╕╖ ╤ "
-"над б╕тами ╖╖ ар╜умент╕в.\n"
+"@DESCRIPTION=Функц╕я BITAND поверта╓ результат виконання лог╕чного множення "
+"б╕т╕в ╖╖ ар╜умент╕в.\n"
 "@EXAMPLES=\n"
 "@SEEALSO=BITOR,BITXOR"
 
@@ -1523,7 +1522,7 @@ msgstr "Д╕я"
 
 #: po/tmp/advanced-filter.glade.h:8
 msgid "Advanced Filter"
-msgstr ""
+msgstr "Розширений ф╕льтр"
 
 #: po/tmp/advanced-filter.glade.h:9
 msgid "C_opy to:        "
@@ -3245,7 +3244,6 @@ msgid "Gnumeric : Exporting structured text"
 msgstr "Gnumeric : Експортування структурованого тексту"
 
 #: po/tmp/dialog-stf-export.glade.h:24
-#, fuzzy
 msgid "Hyphen (-)"
 msgstr "Перенос (-)"
 
@@ -3255,16 +3253,15 @@ msgstr "Розд╕лювач радяка: "
 
 #: po/tmp/dialog-stf-export.glade.h:26
 msgid "Macintosh (carriage return)"
-msgstr ""
+msgstr "Macintosh (переведення каретки)"
 
 #: po/tmp/dialog-stf-export.glade.h:27 po/tmp/dialog-stf.glade.h:42
-#, fuzzy
 msgid "Never"
-msgstr "Листопад"
+msgstr "Н╕коли"
 
 #: po/tmp/dialog-stf-export.glade.h:28
 msgid "Pipe (|)"
-msgstr ""
+msgstr "Вертикальна риска (|)"
 
 #: po/tmp/dialog-stf-export.glade.h:29
 msgid ""
@@ -3281,7 +3278,6 @@ msgid "Quoting :"
 msgstr "Цитування: "
 
 #: po/tmp/dialog-stf-export.glade.h:32
-#, fuzzy
 msgid "Semicolon (;)"
 msgstr "Крапка з комою (;)"
 
@@ -3294,35 +3290,32 @@ msgid "Sheets to export"
 msgstr "Аркуш╕ для експорту"
 
 #: po/tmp/dialog-stf-export.glade.h:35
-#, fuzzy
 msgid "Slash (/)"
 msgstr "Коса (/)"
 
 #: po/tmp/dialog-stf-export.glade.h:36
-#, fuzzy
 msgid "Space"
 msgstr "Пропуск"
 
 #: po/tmp/dialog-stf-export.glade.h:37
-#, fuzzy
 msgid "Tab"
 msgstr "Табуляц╕я"
 
 #: po/tmp/dialog-stf-export.glade.h:38
 msgid "Unix (linefeed)"
-msgstr ""
+msgstr "Unix (зм╕на рядка)"
 
 #: po/tmp/dialog-stf-export.glade.h:39
 msgid "Windows (carriage return + linefeed)"
-msgstr ""
+msgstr "Windows (переведення каретки та зм╕на рядка)"
 
 #: po/tmp/dialog-stf-export.glade.h:40 po/tmp/dialog-stf.glade.h:75
 msgid "`"
-msgstr ""
+msgstr "`"
 
 #: src/dialogs/dialog-stf-fixed-page.c:63
 msgid "Autodiscovery did not find any columns in the text. Try manually"
-msgstr ""
+msgstr "Автовизначення не виявило стовпчик╕в у текст╕. Спробуйте зробити це вручну."
 
 #: src/dialogs/dialog-stf-main-page.c:85
 #, c-format
@@ -10417,13 +10410,14 @@ msgid ""
 "\n"
 "@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX"
 msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(inumber)\n"
-"@DESCRIPTION=IMTAN поверта╓ тангенс комплексного числа. Ця функц╕я ╓ "
-"сум╕сною з Excel. \n"
+"@FUNCTION=PEARSON\n"
+"@SYNTAX=PEARSON(масив1,масив2)\n"
+"@DESCRIPTION=PEARSON поверта╓ коф╕ц╕╓нт кореляц╕╖ П╕рсона двох набор╕в "
+"даних.\n"
+"Рядки ╕ порожн╕ ком╕рки просто ╕╜норуються. Ця функц╕я сум╕сна з Excel. \n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=IMSIN,IMCOS"
+"@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX"
 
 #: src/functions/fn-stat.c:2312
 msgid ""
