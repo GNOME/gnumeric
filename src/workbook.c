@@ -1396,10 +1396,10 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Undo"), N_("Undo"),
+		N_("Undo"), N_("Undo the operation"),
 		undo_cmd, GNOME_STOCK_PIXMAP_UNDO),
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Redo"), N_("Reo"),
+		N_("Redo"), N_("Redo the operation"),
 		undo_cmd, GNOME_STOCK_PIXMAP_REDO),
 
 #ifdef ENABLE_BONOBO

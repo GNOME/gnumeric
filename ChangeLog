@@ -1,3 +1,7 @@
+2000-03-26  Karl EICHWALDER  <ke@suse.de>
+
+	* src/workbook.c: A little bit more text.
+
 2000-03-26  Jon K Hellan  <hellan@acm.org>
 
 	* configure.in: Make Bonobo version require Bonobo >= 0.9. We have
