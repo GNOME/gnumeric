@@ -162,38 +162,155 @@
                 </child>
 
                 <child>
-                  <widget class="GtkRadioButton" id="lp_model_button">
-                    <property name="can_focus">yes</property>
-                    <property name="label" translatable="yes">_Linear Model (LP/MILP)</property>
-                    <property name="active">yes</property>
-                    <property name="draw_indicator">yes</property>
+                  <widget class="GtkFrame" id="frame_assumptions">
+                    <property name="border_width">5</property>
+                    <property name="label" translatable="yes">Model Assumptions:</property>
+                    <property name="label_xalign">0</property>
+                    <property name="shadow">GTK_SHADOW_ETCHED_IN</property>
                     <property name="visible">yes</property>
-	            <property name="use_underline">yes</property>
+
+                    <child>
+                      <widget class="GtkTable" id="options_table">
+                        <property name="homogeneous">no</property>
+                        <property name="row_spacing">0</property>
+                        <property name="column_spacing">0</property>
+                        <property name="n-rows">3</property>
+                        <property name="n-columns">2</property>
+                        <property name="visible">yes</property>
+
+                      <child>      
+                        <widget class="GtkRadioButton" id="lp_model_button">
+                          <property name="can_focus">yes</property>
+                          <property name="label" translatable="yes">_Linear Model (LP/MILP)</property>
+                          <property name="active">yes</property>
+                          <property name="draw_indicator">yes</property>
+                          <property name="visible">yes</property>
+	                  <property name="use_underline">yes</property>
+                        </widget>
+                        <packing>
+                          <property name="left_attach">0</property>
+                          <property name="right_attach">1</property>
+                          <property name="top_attach">4</property>
+                          <property name="bottom_attach">4</property>
+                          <property name="x_padding">0</property>
+                          <property name="y_padding">0</property>
+                          <property name="x_options">expand</property>
+                          <property name="y_options"></property>
+                        </packing>
+                      </child>
+
+                      <child>
+                        <widget class="GtkRadioButton" id="qp_model_button">
+                          <property name="can_focus">yes</property>
+                          <property name="label" translatable="yes">_Quadratic Model (QP/MIQP)</property>
+                          <property name="active">no</property>
+                          <property name="draw_indicator">yes</property>
+                          <property name="visible">yes</property>
+                          <property name="group">lp_model_button</property>
+	                  <property name="use_underline">yes</property>
+                        </widget>
+                        <packing>
+                          <property name="left_attach">1</property>
+                          <property name="right_attach">2</property>
+                          <property name="top_attach">4</property>
+                          <property name="bottom_attach">4</property>
+                          <property name="x_padding">0</property>
+                          <property name="y_padding">0</property>
+                          <property name="x_options">expand</property>
+                          <property name="y_options"></property>
+                        </packing>
+                      </child>
+
+                      <child>
+                        <widget class="GtkCheckButton" id="non_neg_button">
+                          <property name="can_focus">yes</property>
+                          <property name="label" translatable="yes">Assume _Non-Negative</property>
+                          <property name="active">yes</property>
+                          <property name="draw_indicator">yes</property>
+                          <property name="visible">yes</property>
+                          <property name="use_underline">yes</property>
+                        </widget>
+                        <packing>
+                          <property name="left_attach">0</property>
+                          <property name="right_attach">0</property>
+                          <property name="top_attach">4</property>
+                          <property name="bottom_attach">5</property>
+                          <property name="x_padding">5</property>
+                          <property name="y_padding">5</property>
+                          <property name="x_options">fill</property>
+                          <property name="y_options"></property>
+                        </packing>
+                      </child>
+
+                      <child>
+                        <widget class="GtkCheckButton" id="all_int_button">
+                          <property name="can_focus">yes</property>
+                          <property name="label" translatable="yes">Assume _Integer (Discrete)</property>
+                          <property name="active">no</property>
+                          <property name="draw_indicator">yes</property>
+                          <property name="visible">yes</property>
+                          <property name="use_underline">yes</property>
+                        </widget>
+                        <packing>
+                          <property name="left_attach">1</property>
+                          <property name="right_attach">2</property>
+                          <property name="top_attach">4</property>
+                          <property name="bottom_attach">5</property>
+                          <property name="x_padding">5</property>
+                          <property name="y_padding">5</property>
+                          <property name="x_options">fill</property>
+                          <property name="y_options"></property>
+                        </packing>
+                      </child>
+
+                      <child>
+                        <widget class="GtkCheckButton" id="autoscale_button">
+                          <property name="can_focus">yes</property>
+                          <property name="label" translatable="yes">Automatic _Scaling</property>
+                          <property name="active">no</property>
+                          <property name="draw_indicator">yes</property>
+                          <property name="visible">yes</property>
+                          <property name="use_underline">yes</property>
+                        </widget>
+                        <packing>
+                          <property name="left_attach">0</property>
+                          <property name="right_attach">1</property>
+                          <property name="top_attach">5</property>
+                          <property name="bottom_attach">6</property>
+                          <property name="x_padding">5</property>
+                          <property name="y_padding">5</property>
+                          <property name="x_options">fill</property>
+                          <property name="y_options"></property>
+                        </packing>
+                      </child>
+
+                      <child>
+                        <widget class="GtkCheckButton" id="show_iter_button">
+                          <property name="can_focus">yes</property>
+                          <property name="label" translatable="yes">Show Iteration _Results</property>
+                          <property name="active">no</property>
+                          <property name="sensitive">no</property>
+                          <property name="draw_indicator">yes</property>
+                          <property name="visible">yes</property>
+                          <property name="use_underline">yes</property>
+                        </widget>
+                        <packing>
+                          <property name="left_attach">1</property>
+                          <property name="right_attach">2</property>
+                          <property name="top_attach">5</property>
+                          <property name="bottom_attach">6</property>
+                          <property name="x_padding">5</property>
+                          <property name="y_padding">5</property>
+                          <property name="x_options">fill</property>
+                          <property name="y_options"></property>
+                        </packing>
+                      </child>
+
+                    </widget>
+                  </child>
                   </widget>
                   <packing>
                     <property name="left_attach">0</property>
-                    <property name="right_attach">1</property>
-                    <property name="top_attach">4</property>
-                    <property name="bottom_attach">4</property>
-                    <property name="x_padding">0</property>
-                    <property name="y_padding">0</property>
-                    <property name="x_options">expand</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-
-                <child>
-                  <widget class="GtkRadioButton" id="qp_model_button">
-                    <property name="can_focus">yes</property>
-                    <property name="label" translatable="yes">_Quadratic Model (QP/MIQP)</property>
-                    <property name="active">no</property>
-                    <property name="draw_indicator">yes</property>
-                    <property name="visible">yes</property>
-                    <property name="group">lp_model_button</property>
-	            <property name="use_underline">yes</property>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">1</property>
                     <property name="right_attach">2</property>
                     <property name="top_attach">4</property>
                     <property name="bottom_attach">4</property>
@@ -205,178 +322,122 @@
                 </child>
 
                 <child>
-                  <widget class="GtkCheckButton" id="non_neg_button">
-                    <property name="can_focus">yes</property>
-                    <property name="label" translatable="yes">Assume _Non-Negative</property>
-                    <property name="active">yes</property>
-                    <property name="draw_indicator">yes</property>
+                  <widget class="GtkFrame" id="frame_options">
+                    <property name="border_width">5</property>
+                    <property name="label" translatable="yes">Options:</property>
+                    <property name="label_xalign">0</property>
+                    <property name="shadow">GTK_SHADOW_ETCHED_IN</property>
                     <property name="visible">yes</property>
-                    <property name="use_underline">yes</property>
+
+                    <child>
+                      <widget class="GtkTable" id="options_table">
+                        <property name="homogeneous">no</property>
+                        <property name="row_spacing">0</property>
+                        <property name="column_spacing">0</property>
+                        <property name="n-rows">2</property>
+                        <property name="n-columns">2</property>
+                        <property name="visible">yes</property>
+
+                      <child>
+                        <widget class="GtkLabel" id="label17">
+                          <property name="label" translatable="yes">Max _Iterations</property>
+                          <property name="justify">GTK_JUSTIFY_LEFT</property>
+                          <property name="wrap">no</property>
+                          <property name="xalign">0.5</property>
+                          <property name="yalign">0.5</property>
+                          <property name="xpad">5</property>
+                          <property name="ypad">5</property>
+                          <property name="visible">yes</property>
+                          <property name="use_underline">yes</property>
+                        </widget>
+                        <packing>
+                          <property name="left_attach">0</property>
+                          <property name="right_attach">1</property>
+                          <property name="top_attach">7</property>
+                          <property name="bottom_attach">7</property>
+                          <property name="x_padding">0</property>
+                          <property name="y_padding">0</property>
+                          <property name="x_options">expand</property>
+                          <property name="y_options"></property>
+                          </packing>
+                      </child>
+
+                      <child>
+                        <widget class="GtkEntry" id="max_iter_entry">
+                          <property name="can_focus">yes</property>
+                          <property name="editable">yes</property>
+                          <property name="text" translatable="yes"></property>
+                          <property name="max-length">0</property>
+                          <property name="visibility">yes</property>
+                          <property name="visible">yes</property>
+                        </widget>
+                        <packing>
+                          <property name="left_attach">1</property>
+                          <property name="right_attach">2</property>
+                          <property name="top_attach">7</property>
+                          <property name="bottom_attach">7</property>
+                          <property name="x_padding">0</property>
+                          <property name="y_padding">0</property>
+                          <property name="x_options">expand|fill</property>
+                          <property name="y_options"></property>
+                        </packing>
+                      </child>
+
+                      <child>
+                        <widget class="GtkLabel" id="label18">
+                          <property name="label" translatable="yes">Max _Time (sec.)</property>
+                          <property name="justify">GTK_JUSTIFY_LEFT</property>
+                          <property name="wrap">no</property>
+                          <property name="xalign">0.5</property>
+                          <property name="yalign">0.5</property>
+                          <property name="xpad">5</property>
+                          <property name="ypad">5</property>
+                          <property name="visible">yes</property>
+                          <property name="use_underline">yes</property>
+                        </widget>
+                        <packing>
+                          <property name="left_attach">0</property>
+                          <property name="right_attach">1</property>
+                          <property name="top_attach">8</property>
+                          <property name="bottom_attach">8</property>
+                          <property name="x_padding">0</property>
+                          <property name="y_padding">0</property>
+                          <property name="x_options">expand</property>
+                          <property name="y_options"></property>
+                        </packing>
+                      </child>
+
+                      <child>
+                        <widget class="GtkEntry" id="max_time_entry">
+                          <property name="can_focus">yes</property>
+                          <property name="editable">yes</property>
+                          <property name="text" translatable="yes"></property>
+                          <property name="max-length">0</property>
+                          <property name="visibility">yes</property>
+                          <property name="visible">yes</property>
+                        </widget>
+                        <packing>
+                          <property name="left_attach">1</property>
+                          <property name="right_attach">2</property>
+                          <property name="top_attach">8</property>
+                          <property name="bottom_attach">8</property>
+                          <property name="x_padding">0</property>
+                          <property name="y_padding">0</property>
+                          <property name="x_options">expand|fill</property>
+                          <property name="y_options"></property>
+                        </packing>
+                      </child>
+
+                    </widget>
+                  </child>
                   </widget>
                   <packing>
                     <property name="left_attach">0</property>
-                    <property name="right_attach">0</property>
-                    <property name="top_attach">4</property>
-                    <property name="bottom_attach">5</property>
-                    <property name="x_padding">5</property>
-                    <property name="y_padding">5</property>
-                    <property name="x_options">fill</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-
-                <child>
-                  <widget class="GtkCheckButton" id="all_int_button">
-                    <property name="can_focus">yes</property>
-                    <property name="label" translatable="yes">Assume _Integer (Discrete)</property>
-                    <property name="active">no</property>
-                    <property name="draw_indicator">yes</property>
-                    <property name="visible">yes</property>
-                    <property name="use_underline">yes</property>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="right_attach">2</property>
-                    <property name="top_attach">4</property>
-                    <property name="bottom_attach">5</property>
-                    <property name="x_padding">5</property>
-                    <property name="y_padding">5</property>
-                    <property name="x_options">fill</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-
-                <child>
-                  <widget class="GtkCheckButton" id="autoscale_button">
-                    <property name="can_focus">yes</property>
-                    <property name="label" translatable="yes">Automatic _Scaling</property>
-                    <property name="active">no</property>
-                    <property name="draw_indicator">yes</property>
-                    <property name="visible">yes</property>
-                    <property name="use_underline">yes</property>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="right_attach">1</property>
-                    <property name="top_attach">5</property>
-                    <property name="bottom_attach">6</property>
-                    <property name="x_padding">5</property>
-                    <property name="y_padding">5</property>
-                    <property name="x_options">fill</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-
-                <child>
-                  <widget class="GtkCheckButton" id="show_iter_button">
-                    <property name="can_focus">yes</property>
-                    <property name="label" translatable="yes">Show Iteration _Results</property>
-                    <property name="active">no</property>
-                    <property name="sensitive">no</property>
-                    <property name="draw_indicator">yes</property>
-                    <property name="visible">yes</property>
-                    <property name="use_underline">yes</property>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="right_attach">2</property>
-                    <property name="top_attach">5</property>
-                    <property name="bottom_attach">6</property>
-                    <property name="x_padding">5</property>
-                    <property name="y_padding">5</property>
-                    <property name="x_options">fill</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-
-                <child>
-                  <widget class="GtkLabel" id="label17">
-                    <property name="label" translatable="yes">Max _Iterations</property>
-                    <property name="justify">GTK_JUSTIFY_LEFT</property>
-                    <property name="wrap">no</property>
-                    <property name="xalign">0.5</property>
-                    <property name="yalign">0.5</property>
-                    <property name="xpad">5</property>
-                    <property name="ypad">5</property>
-                    <property name="visible">yes</property>
-                    <property name="use_underline">yes</property>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="right_attach">1</property>
-                    <property name="top_attach">7</property>
-                    <property name="bottom_attach">7</property>
-                    <property name="x_padding">0</property>
-                    <property name="y_padding">0</property>
-                    <property name="x_options">expand</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-
-                <child>
-                  <widget class="GtkEntry" id="max_iter_entry">
-                    <property name="can_focus">yes</property>
-                    <property name="editable">yes</property>
-                    <property name="text" translatable="yes"></property>
-                    <property name="max-length">0</property>
-                    <property name="visibility">yes</property>
-                    <property name="visible">yes</property>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="right_attach">2</property>
-                    <property name="top_attach">7</property>
-                    <property name="bottom_attach">7</property>
-                    <property name="x_padding">0</property>
-                    <property name="y_padding">0</property>
-                    <property name="x_options">expand|fill</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-
-                <child>
-                  <widget class="GtkLabel" id="label18">
-                    <property name="label" translatable="yes">Max _Time (sec.)</property>
-                    <property name="justify">GTK_JUSTIFY_LEFT</property>
-                    <property name="wrap">no</property>
-                    <property name="xalign">0.5</property>
-                    <property name="yalign">0.5</property>
-                    <property name="xpad">5</property>
-                    <property name="ypad">5</property>
-                    <property name="visible">yes</property>
-                    <property name="use_underline">yes</property>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="right_attach">1</property>
-                    <property name="top_attach">8</property>
-                    <property name="bottom_attach">8</property>
-                    <property name="x_padding">0</property>
-                    <property name="y_padding">0</property>
-                    <property name="x_options">expand</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-
-                <child>
-                  <widget class="GtkEntry" id="max_time_entry">
-                    <property name="can_focus">yes</property>
-                    <property name="editable">yes</property>
-                    <property name="text" translatable="yes"></property>
-                    <property name="max-length">0</property>
-                    <property name="visibility">yes</property>
-                    <property name="visible">yes</property>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">1</property>
                     <property name="right_attach">2</property>
                     <property name="top_attach">8</property>
                     <property name="bottom_attach">8</property>
-                    <property name="x_padding">0</property>
-                    <property name="y_padding">0</property>
-                    <property name="x_options">expand|fill</property>
-                    <property name="y_options"></property>
                   </packing>
+
                 </child>
 
                 <child>

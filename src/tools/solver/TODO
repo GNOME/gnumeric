@@ -10,7 +10,6 @@
 	* Add `equal to' option for target cell.
 	* Add `in range' option for target cell.
 	* Improve the usability of the dialog (e.g. focus issues).
-	* Add frames and improve grupping of the dialog.
 	* Performance reporting:
 	  - Add status.
 	  - Add options used (Max/min, non-neg, int, scaling, max it/t).
