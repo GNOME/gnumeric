@@ -113,15 +113,6 @@ gog_radar_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 	return N_("PlotRadar");
 }
 
-extern gpointer gog_radar_plot_pref (GogRadarPlot *radar, GnmCmdContext *cc);
-static gpointer
-gog_radar_plot_editor (GogObject *item,
-		       G_GNUC_UNUSED GogDataAllocator *dalloc,
-		       GnmCmdContext *cc)
-{
-	return gog_radar_plot_pref (GOG_RADAR_PLOT (item), cc);
-}
-
 static void
 gog_radar_plot_update (GogObject *obj)
 {
@@ -221,7 +212,6 @@ gog_radar_plot_class_init (GogPlotClass *gog_plot_klass)
 	/* Fill in GOGObject superclass values */
 	gog_object_klass->update	= gog_radar_plot_update;
 	gog_object_klass->type_name	= gog_radar_plot_type_name;
-	gog_object_klass->editor	= gog_radar_plot_editor;
 	gog_object_klass->view_type	= gog_radar_view_get_type ();
 
 	g_object_class_install_property (gobject_klass, 

@@ -1,3 +1,12 @@
+2004-09-29  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=153402
+	* graph/plugins/gog-radar-prefs.c: removed.
+	* graph/plugins/gog-radar-prefs.glade: removed.
+	* graph/plugins/gog-radar.c: removed reference to plot editor.
+	* graph/plugins/Makefile.am: removed reference to
+	gog-radar-prefs.[c,glade].
+
 2004-09-29  Morten Welinder  <terra@gnome.org>
 
 	* graph/gog-renderer-pixbuf.c (gog_renderer_pixbuf_finalize):
