@@ -1,3 +1,8 @@
+2003-01-28  Jody Goldberg <jody@gnome.org>
+
+	* src/commands.c (cmd_area_set_text_redo) : fix minor warning from
+	  autoformating.
+
 2003-01-28  Morten Welinder  <terra@diku.dk>
 
 	* src/mstyle.c (mstyle_get_pango_attrs): Cache attributes.

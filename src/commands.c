@@ -960,10 +960,11 @@ cmd_area_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 			eval_pos_init (&ep, me->cmd.sheet, &me->pp.eval));
 		gnm_expr_unref (expr);
 		expr = NULL;
-
-		new_style = mstyle_new ();
-		mstyle_set_format (new_style, sf);
-		style_format_unref (sf);
+		if (sf != NULL) {
+			new_style = mstyle_new ();
+			mstyle_set_format (new_style, sf);
+			style_format_unref (sf);
+		}
 	}
 
 	/* Everything is ok. Store previous contents and perform the operation */
