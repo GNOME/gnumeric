@@ -14,6 +14,14 @@
  * "serial_raw": serial plus time as fractional day.
  */
 
+/* Week numbering methods */
+/* 1:   Week starts on Sunday. Days before first Sunday are in week 0. */
+/* 2:   Week starts on Monday. Days before first Monday are in week 0. */
+/* 150: ISO 8601 week number. */
+#define WEEKNUM_METHOD_SUNDAY 1
+#define WEEKNUM_METHOD_MONDAY 2
+#define WEEKNUM_METHOD_ISO    150
+
 /* These do not round and produces fractional values, i.e., includes time.  */
 gnum_float datetime_value_to_serial_raw (const Value *v);
 gnum_float datetime_timet_to_serial_raw (time_t t);
@@ -46,5 +54,7 @@ int datetime_g_months_between (GDate *date1, GDate *date2);
 /* (g_date_add_years (date1, result) <= date2; largest such value. */
 /*  treat add_years (29-feb, x) > 28-feb ) */
 int datetime_g_years_between (GDate *date1, GDate *date2);
+/* week number according to the given method. */
+int datetime_weeknum (GDate *date, int method);
 
 #endif

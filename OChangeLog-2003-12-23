@@ -1,3 +1,13 @@
+2002-01-10  Jon K Hellan  <hellan@acm.org>
+
+	* src/datetime.c (datetime_isoweeknum): Added. Return the ISO 8601
+	week number of date. 
+	(datetime_weeknum): Added. Return week number of date according to
+	method.
+
+	* src/datetime.h: define week numbering methods. Declare
+	datetime_isoweeknum and datetime_weeknum.
+
 2002-01-09  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* analysis-tools.c (histogram_tool) : implement calculated bins

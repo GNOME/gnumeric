@@ -1,3 +1,11 @@
+2002-01-10  Jon K Hellan  <hellan@acm.org>
+
+	* fn-date.c (gnumeric_isoweeknum): New function. Return the ISO
+	8601 week number of date.
+	(gnumeric_weeknum): New function. Return week number of date
+	according to method.
+	(date_functions_init): Include them in table.
+
 2002-01-08  Morten Welinder  <terra@diku.dk>
 
 	* fn-lookup.c (gnumeric_address): Fix most of the errors from the

@@ -227,3 +227,84 @@ datetime_g_years_between (GDate *date1, GDate *date2)
 }
 
 /* ------------------------------------------------------------------------- */
+
+/**
+ * datetime_isoweeknum (GDate *date)
+ * @date date
+ *
+ * Returns the ISO 8601 week number.
+ */
+static int
+datetime_isoweeknum (GDate *date)
+{
+	int year;
+	int week;
+	int wday, jan1wday, nextjan1wday;
+	GDate jan1date, nextjan1date;
+
+	g_assert (g_date_valid (date));
+
+	year = g_date_year (date);
+	wday  = g_date_weekday (date);
+	g_date_set_dmy (&jan1date, 1, 1, year);
+	jan1wday = g_date_weekday (&jan1date);
+
+	week = g_date_monday_week_of_year (date);
+
+	/* Does date belong to last week of previous year? */
+	if ((week == 0) && (jan1wday > G_DATE_THURSDAY)) {
+		GDate tmpdate;
+		g_date_set_dmy (&tmpdate, 31, 12, year - 1);
+		return datetime_isoweeknum (&tmpdate);
+	}
+
+	if ((jan1wday <= G_DATE_THURSDAY) &&
+	    (jan1wday > G_DATE_MONDAY))
+		week++;
+
+	if (week == 53) {
+		g_date_set_dmy (&nextjan1date, 1, 1, year + 1);
+		nextjan1wday = g_date_weekday (&nextjan1date);
+		if (nextjan1wday <= G_DATE_THURSDAY)
+			week = 1;
+	}
+	
+	return week;
+}
+
+/* ------------------------------------------------------------------------- */
+
+/**
+ * datetime_weeknum (GDate *date, int method)
+ * @date      date
+ * @method    week numbering method
+ *
+ * Returns week number according to the given method.
+ * 1:   Week starts on Sunday. Days before first Sunday are in week 0.
+ * 2:   Week starts on Monday. Days before first Monday are in week 0.
+ * 150: ISO 8601 week number. See datetime_isoweeknum.
+ */
+int
+datetime_weeknum (GDate *date, int method)
+{
+	int res;
+
+	g_assert (g_date_valid (date));
+	g_assert (method == WEEKNUM_METHOD_SUNDAY ||
+		  method == WEEKNUM_METHOD_MONDAY ||
+		  method == WEEKNUM_METHOD_ISO);
+
+	switch (method) {
+	case WEEKNUM_METHOD_SUNDAY:
+		res = g_date_sunday_week_of_year (date); break;
+	case WEEKNUM_METHOD_MONDAY:
+		res = g_date_monday_week_of_year (date); break;
+	case WEEKNUM_METHOD_ISO:
+		res = datetime_isoweeknum (date); break;
+	default: res = -1;
+	}
+
+	return res;
+}
+
+/* ------------------------------------------------------------------------- */

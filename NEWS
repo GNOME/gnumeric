@@ -18,6 +18,9 @@ Morten:
 	  that parse as numbers.
 	* Partly fix ADDRESS.
 
+Jon Kåre:
+	* Added WEEKNUM and ISOWEEKNUM
+
 --------------------------------------------------------------------------
 Gnumeric 1.0.1
 

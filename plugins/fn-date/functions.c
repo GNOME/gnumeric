@@ -1112,6 +1112,105 @@ gnumeric_networkdays (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+static char *help_isoweeknum = {
+	N_("@FUNCTION=ISOWEEKNUM\n"
+	   "@SYNTAX=ISOWEEKNUM (date)\n"
+
+	   "@DESCRIPTION="
+	   "ISOWEEKNUM returns the ISO 8601 week number of @date."
+	   "\n"
+	   "Returns #NUM! if date is invalid."
+	   "\n"
+	   "An ISO 8601 week starts on Monday. Weeks are numbered from 1. A "
+	   "week including days from two different years is assigned to the "
+	   "year which includes the most days. This means that Dec 31 could "
+	   "be in week 1 of the following year, and Jan 1 could be in week 52 "
+	   "or 53 of the previous year."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "If A1 contains 12/21/00 then ISOWEEKNUM(A1)=51"
+	   "\n"
+	   "@SEEALSO=WEEKNUM")
+};
+
+static Value *
+gnumeric_isoweeknum (FunctionEvalInfo *ei, Value **argv)
+{
+	Value *res;
+	GDate *date;
+	int isoweeknum;
+	
+	if (argv[0]->type == VALUE_ERROR)
+		return value_duplicate (argv[0]);
+
+	date = datetime_value_to_g (argv[0]);
+	if (date == NULL || !g_date_valid (date))
+                  return value_new_error (ei->pos, gnumeric_err_VALUE);
+
+	isoweeknum = datetime_weeknum (date, WEEKNUM_METHOD_ISO);
+	res = value_new_int (isoweeknum);
+	
+	g_date_free (date);
+	return res;
+}
+
+/***************************************************************************/
+
+static char *help_weeknum = {
+	N_("@FUNCTION=WEEKNUM\n"
+	   "@SYNTAX=WEEKNUM (date, method)\n"
+
+	   "@DESCRIPTION="
+	   "WEEKNUM returns the week number of @date according to the given "
+	   "@method.\n"
+	   "\n"
+	   "@method defaults to 1.\n"
+	   "For method=1, week starts on Sunday, and days before first Sunday "
+	   "are in week 0.\n"
+	   "For method=2, week starts on Monday, and days before first Monday "
+	   "are in week 0.\n"
+	   "For method=150, the ISO 8601 week number is returned.\n"
+	   "\n"
+	   "Returns #NUM! if date or method is invalid."
+	   "\n"
+	   "This function is Excel compatible, except that Excel does not "
+	   "support ISO 8601 week numbers."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "If A1 contains 12/21/00 then WEEKNUM(A1,2)=51"
+	   "\n"
+	   "@SEEALSO=ISOWEEKNUM")
+};
+
+static Value *
+gnumeric_weeknum (FunctionEvalInfo *ei, Value **argv)
+{
+	Value *res;
+	GDate *date;
+	int weeknum;
+	int method = argv[1] ? value_get_as_int (argv[1]) : 1;
+
+	if (!(method == WEEKNUM_METHOD_SUNDAY ||
+	      method == WEEKNUM_METHOD_MONDAY ||
+	      method == WEEKNUM_METHOD_ISO))
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
+	
+	if (argv[0]->type == VALUE_ERROR)
+		return value_duplicate (argv[0]);
+
+	date = datetime_value_to_g (argv[0]);
+	if (date == NULL || !g_date_valid (date))
+                  return value_new_error (ei->pos, gnumeric_err_VALUE);
+
+	weeknum = datetime_weeknum (date, method);
+	res = value_new_int (weeknum);
+	
+	g_date_free (date);
+	return res;
+}
+
+/***************************************************************************/
+
 void date_functions_init(void);
 void
 date_functions_init(void)
@@ -1208,4 +1307,12 @@ date_functions_init(void)
 	def = function_add_args (cat,  "year",           "S",
 				 "date",
 				 &help_year,        gnumeric_year);
+
+	def = function_add_args (cat,  "isoweeknum",         "S",
+				 "date",
+				 &help_isoweeknum,  gnumeric_isoweeknum);
+
+	def = function_add_args (cat,  "weeknum",         "S|f",
+				 "date",
+				 &help_weeknum,     gnumeric_weeknum);
 }
