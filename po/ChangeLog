@@ -1,3 +1,7 @@
+2002-01-27  Yukihiro Nakai <nakai@gnome.gr.jp>
+
+	* ja.po: Use UTF-8 for GNOME2 Japanese translation.
+
 2002-01-27  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* no.po: Updated Norwegian (bokmål) translation.
