@@ -128,7 +128,7 @@ void        cell_set_array_formula       (Sheet *sheet, int rowa, int cola,
 void        cell_set_format              (Cell *cell, const char *format);
 void        cell_set_format_simple       (Cell *cell, const char *format);
 void        cell_set_format_from_style   (Cell *cell, StyleFormat *style_format);
-void        cell_set_font                (Cell *cell, const char *font_name);
+void        cell_set_font                (Cell *cell, const char *font_name, double points);
 void        cell_set_style               (Cell *cell, Style *reference_style);
 void        cell_set_comment             (Cell *cell, const char *str);
 void        cell_comment_destroy         (Cell *cell);

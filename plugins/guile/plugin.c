@@ -429,9 +429,11 @@ init_plugin (PluginData *pd)
 	FunctionCategory *cat;
 	char *init_file_name;
 
+#if 0
 	cat = function_get_category ("Guile");
 	function_add_args  (cat, "scm_eval", "s", "expr",  NULL, func_scm_eval);
 	function_add_nodes (cat, "scm_apply", 0, "symbol", NULL, func_scm_apply);
+#endif
 
 	pd->can_unload = no_unloading_for_me;
 	pd->title = g_strdup(_("Guile Plugin"));

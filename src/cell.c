@@ -179,7 +179,7 @@ cell_set_font_from_style (Cell *cell, StyleFont *style_font)
 }
 
 void
-cell_set_font (Cell *cell, const char *font_name)
+cell_set_font (Cell *cell, const char *font_name, double points)
 {
 	StyleFont *style_font;
 	Sheet *sheet;
@@ -190,7 +190,7 @@ cell_set_font (Cell *cell, const char *font_name)
 	sheet = cell->sheet;
 	style_font = style_font_new (
 		font_name,
-		cell->style->font->size,
+		points,
 		sheet->last_zoom_factor_used,
 		cell->style->font->is_bold,
 		cell->style->font->is_italic);

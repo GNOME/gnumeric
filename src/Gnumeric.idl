@@ -94,7 +94,7 @@ module GNOME {
 			string  cell_get_format (in long col, in long row)
 				raises (OutOfRange);
 
-			void    cell_set_font (in long col, in long row, in string font, in short points)
+			void    cell_set_font (in long col, in long row, in string font, in double points)
 				raises (OutOfRange);
 			string  cell_get_font (in long col, in long row)
 				raises (OutOfRange);

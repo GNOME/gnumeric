@@ -536,26 +536,34 @@ create_font_page (GtkWidget *prop_win, CellList *cells)
 static void
 apply_font_format (Style *style, Sheet *sheet, CellList *cells)
 {
-	GnomeFontSelection *font_sel = GNOME_FONT_SELECTION (font_widget);
+	FontSelector *font_sel = FONT_SELECTOR (font_widget);
 	GnomeDisplayFont *gnome_display_font;
 	GnomeFont *gnome_font;
 	GList *l;
-	char *font_name;
+	char *family_name;
 	double height;
 
-	gnome_display_font = gnome_font_selection_get_font (font_sel);
+	gnome_display_font = font_sel->display_font;
 	if (!gnome_display_font)
 		return;
 
 	gnome_font = gnome_display_font->gnome_font;
-	font_name = gnome_font->fontmap_entry->font_name;
+	family_name = gnome_font->fontmap_entry->familyname;
 	height = gnome_display_font->gnome_font->size;
-	
+
+	style->valid_flags |= STYLE_FONT;
+	style->font = style_font_new (
+		family_name,
+		gnome_font->size,
+		sheet->last_zoom_factor_used,
+		gnome_font->fontmap_entry->weight_code >= GNOME_FONT_BOLD,
+		gnome_font->fontmap_entry->italic);
+		
 	/* Apply the new font to all of the cell rows */
 	for (; cells; cells = cells->next){
 		Cell *cell = cells->data;
 		
-		cell_set_font (cell, font_name);
+		cell_set_font_from_style (cell, style->font);
 	}
 
 	/* Now apply it to every row in the selection */
@@ -578,13 +586,6 @@ apply_font_format (Style *style, Sheet *sheet, CellList *cells)
 			sheet_row_set_internal_height (sheet, ri, height);
 		}
 	}
-	style->valid_flags |= STYLE_FONT;
-	style->font = style_font_new (
-		font_name,
-		gnome_font->size,
-		sheet->last_zoom_factor_used,
-		gnome_font->fontmap_entry->weight_code >= GNOME_FONT_BOLD,
-		gnome_font->fontmap_entry->italic);
 }
 
 

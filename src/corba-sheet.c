@@ -468,7 +468,7 @@ Sheet_cell_set_font (PortableServer_Servant servant,
 		     const CORBA_long col,
 		     const CORBA_long row,
 		     const CORBA_char * font,
-		     const CORBA_short points,
+		     const CORBA_double points,
 		     CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
@@ -478,7 +478,7 @@ Sheet_cell_set_font (PortableServer_Servant servant,
 	verify_row (row);
 	
 	cell = sheet_cell_fetch (sheet, col, row);
-	cell_set_font (cell, font);
+	cell_set_font (cell, font, points);
 }
 
 static CORBA_char *

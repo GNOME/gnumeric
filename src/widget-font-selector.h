@@ -28,6 +28,8 @@ typedef struct {
 	/* The current gnome_font */
 	GnomeFont        *gnome_font;
 	GnomeDisplayFont *display_font;
+
+	GList *family_list;
 } FontSelector;
 
 typedef struct {
@@ -42,6 +44,6 @@ void       font_selector_set      (FontSelector *fs,
 				   gboolean bold,
 				   gboolean italic,
 				   double  point_size);
-
 				   
 #endif /* GNUMERIC_WIDGET_FONT_SELECTOR_H */
+

@@ -1,3 +1,10 @@
+1999-07-12  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/cell.c (cell_set_font): Now takes a "points" argument.
+
+	* src/Gnumeric.idl (Sheet): Take a double for the cell_set_font
+	points parameter.
+
 1999-07-11  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* configure.in: Don't use `foo >& /dev/null' style redirection, 
@@ -5,8 +12,19 @@
 
 1999-07-11  Miguel de Icaza  <miguel@gnu.org>
 
+	* src/dialog-cell-format.c (apply_font_format): Use the
+	FontSelector here. 
+
+	* src/widget-font-selector.c (reload_preview): New approach for
+	font loading, by using the scale explicitly I got it to work ;-).
+	(font_selector_choose): New routine to set the font style.
+
+	* src/sheet.c (sheet_init_default_styles): Change of plans, we are
+	going to use 80 units for the default width.
+
 	* src/widget-font-selector.c: New file.  A simplified and robust
 	font selector for Gnumeric.
+	(fs_fill_font_name_list): Free this.
 
 1999-07-11  Jody Goldberg  <jgoldberg@home.com>
 

@@ -84,7 +84,7 @@ static void
 sheet_init_default_styles (Sheet *sheet)
 {
 	/* Sizes seem to match excel */
-	col_row_info_init (&sheet->default_col_style, 62.0);
+	col_row_info_init (&sheet->default_col_style, 80.0);
 	col_row_info_init (&sheet->default_row_style, 18.0);
 }
 
@@ -148,7 +148,7 @@ sheet_rename (Sheet *sheet, const char *new_name)
 SheetView *
 sheet_new_sheet_view (Sheet *sheet)
 {
-	SheetView *sheet_view;
+	GtkWidget *sheet_view;
 	
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
@@ -158,7 +158,7 @@ sheet_new_sheet_view (Sheet *sheet)
 
 	sheet->sheet_views = g_list_prepend (sheet->sheet_views, sheet_view);
 
-	return sheet_view;
+	return GTK_WIDGET (sheet_view);
 }
 
 void
@@ -202,7 +202,7 @@ sheet_new (Workbook *wb, const char *name)
 	if (0)
 		sheet_init_dummy_stuff (sheet);
 
-	sheet_view = sheet_new_sheet_view (sheet);
+	sheet_view = GTK_WIDGET (sheet_new_sheet_view (sheet));
 
 	sheet_selection_append (sheet, 0, 0);
 
