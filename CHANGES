@@ -8,10 +8,12 @@ Jukka has added the following functions:
 	* DVAR(), DVARP(), DCOUNTA(), STEYX(), ROUND(), DATEVALUE()
 	* EDATE(), COMPLEX(), IMABS(), IMAGINARY(), IMREAL(), CONVERT()
 	* LN(), MROUND(), started ROMAN(), COUNTIF(), SUMIF(), IMLOG10()
-	* IMLOG2(), GCD(), LCM()
+	* IMLOG2(), GCD(), LCM(), IMARGUMENT(), IMCONJUGATE(),
+        * IMCOS(), IMDIV(), IMEXP(), IMLN(), IMPOWER(), IMPRODUCT(),
+        * IMSIN(), IMSQRT(), IMSUB(), IMSUM(), COUNTBLACK()
 
 And fixed these:
-	* CONFIDENCE(), VAR(), VARP(), COUNTBLANK(), LOG()
+	* CONFIDENCE(), VAR(), VARP(), LOG()
 
 Morten:
 	* Finished implementation of insert/delete column/row support
