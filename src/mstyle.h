@@ -101,6 +101,8 @@ StyleOrientation    mstyle_get_orientation (const MStyle *st);
 void                mstyle_set_fit_in_cell (MStyle *st, gboolean f);
 gboolean            mstyle_get_fit_in_cell (const MStyle *st);
 
+gboolean            mstyle_visible_in_blank(const MStyle *st);
+
 MStyle     *mstyle_merge       (MStyle *master, MStyle *slave);
 char       *mstyle_to_string   (const MStyle *st); /* Debug only ! leaks like a sieve */
 void        mstyle_dump        (const MStyle *st);

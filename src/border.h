@@ -49,6 +49,7 @@ MStyleBorder *style_border_none  (void);
 MStyleBorder *style_border_fetch (StyleBorderType const	 line_type,
 				  StyleColor 			*color,
 				  StyleBorderOrientation       orientation);
+gboolean style_border_visible_in_blank (MStyleBorder const *border);
 
 StyleBorderOrientation style_border_get_orientation (MStyleElementType type);
 

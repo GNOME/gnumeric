@@ -159,6 +159,14 @@ style_border_fetch (StyleBorderType const	 line_type,
 	return border;
 }
 
+gboolean
+style_border_visible_in_blank (MStyleBorder const *border)
+{
+	g_return_val_if_fail (border != NULL, FALSE);
+
+	return border->line_type != STYLE_BORDER_NONE;
+}
+
 gint
 style_border_get_width (StyleBorderType const line_type)
 {

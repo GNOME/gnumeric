@@ -1138,3 +1138,20 @@ mstyle_get_fit_in_cell (const MStyle *style)
 
 	return style->elements [MSTYLE_FIT_IN_CELL].u.fit_in_cell;
 }
+
+gboolean
+mstyle_visible_in_blank (const MStyle *st)
+{
+	MStyleElementType i;
+
+	if (mstyle_is_element_set (st, MSTYLE_PATTERN) &&
+	    mstyle_get_pattern (st) > 0)
+		return TRUE;
+
+	for (i = MSTYLE_BORDER_TOP ; i <= MSTYLE_BORDER_REV_DIAGONAL ; ++i)
+		if (mstyle_is_element_set (st, i) &&
+		    style_border_visible_in_blank (mstyle_get_border (st, i)))
+			return TRUE;
+
+	return FALSE;
+}

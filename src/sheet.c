@@ -880,16 +880,8 @@ sheet_get_extent (Sheet const *sheet)
 	if (r.end.row < 0)
 		r.end.row = 0;
 
-#if 0
-	/*
-	 * Disable until this is more intelligent.
-	 * if a style is applied to rows 0->10 the default
-	 * style gets split and a style that ranges from 11->MAX
-	 * This screws printing and several of the export
-	 * routines.
-	 */
+	/* Extend region to include styles that are visible in blank cells */
 	sheet_style_get_extent (&r, sheet);
-#endif
 
 	/*
 	 *  Print can't handle stuff outside these walls.

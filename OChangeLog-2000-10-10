@@ -1,3 +1,17 @@
+2000-08-16  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_get_extent) : re-enable the use of
+	  sheet_style_get_extent.
+
+	* src/sheet-style.c (sheet_style_get_extent) : rework to use
+	  'visible in blank cell' rather than non-infinite.
+
+	* src/mstyle.c (mstyle_visible_in_blank) : new function.
+	* src/border.c (style_border_visible_in_blank) : new function.
+
+	* src/xml-io.c (xml_write_style) : Save font info even if it only
+	  specifies underline or strikethrough.
+
 2000-08-15  Morten Welinder  <terra@diku.dk>
 
 	* src/gutils.c (gnumeric_get_le_int16, gnumeric_get_le_uint16,

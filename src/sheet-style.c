@@ -1830,23 +1830,22 @@ sheet_selection_get_unique_style (Sheet *sheet, MStyleBorder **borders)
 /**
  * sheet_style_get_extent:
  * @r: input / output range
- * @sheet: for this sheet.
+ * @sheet: the sheet whose styles are being examined.
  * 
- *   This enlarges r by a union with each non infinite style
- * range.
- **/
+ * The union of @r and all stylesregions that are visible in blank cells.
+ */
 void
 sheet_style_get_extent (Range *r, const Sheet *sheet)
 {
-	GList          *l;
-	SheetStyleData *sd;
+	SheetStyleData const *sd = sheet->style_data;
+	GList *l;
+	Range res = *r;
 
-	sd = sheet->style_data;
+	for (l = sd->style_list; l != NULL ; l = g_list_next (l)) {
+		StyleRegion const *sr = (StyleRegion const *)l->data;
 
-	for (l = sd->style_list; l && l->next; l = g_list_next (l)) {
-		Range *sr = (Range *)l->data;
-
-		if (!range_is_infinite (sr))
-			*r = range_union (r, sr);
+		if (mstyle_visible_in_blank (sr->style))
+			res = range_union (&res, &sr->range);
 	}
+	*r = res;
 }

@@ -885,9 +885,11 @@ xml_write_style (XmlParseContext *ctxt,
 		xml_set_value (cur, "Format", mstyle_get_format (style)->format);
 
 	if (mstyle_is_element_set (style, MSTYLE_FONT_NAME) ||
+	    mstyle_is_element_set (style, MSTYLE_FONT_SIZE) ||
 	    mstyle_is_element_set (style, MSTYLE_FONT_BOLD) ||
 	    mstyle_is_element_set (style, MSTYLE_FONT_ITALIC) ||
-	    mstyle_is_element_set (style, MSTYLE_FONT_SIZE)) {
+	    mstyle_is_element_set (style, MSTYLE_FONT_UNDERLINE) ||
+	    mstyle_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH)) {
 		const char *fontname;
 
 		if (mstyle_is_element_set (style, MSTYLE_FONT_NAME))
