@@ -1,3 +1,15 @@
+2001-10-30  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-write.c : Use d() debug macors to make things
+	  more readable.  And use esheet in place of sheet to avoid
+	  confusion with gnumeric core.
+	(write_colinfo) : make xf_index an argument.
+	(pre_colstyle) : new routine to gather the most common style in each col
+	(gather_styles) : called from here.
+	(write_mulblank) : take an array rather than a GList.
+	(write_block) : only write a blank cell if it is different from the
+	column default.
+
 2001-10-30  Morten Welinder  <terra@diku.dk>
 
 	* ms-chart.c (BC_R-ai): Plug leak.

@@ -67,6 +67,7 @@ struct _ExcelSheet {
 	ExcelCell    **cells;
 	double         base_char_width;
 	double         base_char_width_default;
+	guint16	       col_xf [SHEET_MAX_COLS];
 };
 
 struct _ExcelWorkbook {
