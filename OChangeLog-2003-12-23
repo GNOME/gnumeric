@@ -1,3 +1,18 @@
+2002-03-05  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet.c (sheet_cell_remove_from_hash) : only unlink if it is
+	  linked.
+	(sheet_cell_destroy) : simplify slightly.
+	(cb_remove_allcells) : just destroy them, no need to remove from hash.
+	(sheet_destroy_contents) : ditto.
+
+	* src/eval.c (UNLINK_DEP) : delete.
+	(dependent_unlink) : simplify.
+	(dependent_unlink_sheet) : clean up and don't bother to unlink from
+	  deps list.
+
+	* src/cell.c : s/CELL_BEING_ITERATED/DEPENDENT_BEING_ITERATED/
+
 2002-03-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/clipboard.c (clipboard_copy_range, clipboard_prepend_cell

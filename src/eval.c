@@ -39,17 +39,6 @@
 
 #define BUCKET_SIZE	128
 
-#define UNLINK_DEP(dep)							\
-  do {									\
-	if (dep->sheet->deps->dependent_list == dep)			\
-		dep->sheet->deps->dependent_list = dep->next_dep;	\
-	if (dep->next_dep)						\
-		dep->next_dep->prev_dep = dep->prev_dep;		\
-	if (dep->prev_dep)						\
-		dep->prev_dep->next_dep = dep->next_dep;		\
-	/* Note, that ->prev_dep and ->next_dep are still valid.  */	\
-  } while (0)
-
 static GPtrArray *dep_classes = NULL;
 
 void
@@ -859,31 +848,27 @@ dependent_unlink (Dependent *dep, CellPos const *pos)
 	static CellPos const dummy = { 0, 0 };
 	g_return_if_fail (dep != NULL);
 
+	g_return_if_fail (dependent_is_linked (dep));
+	g_return_if_fail (dep->expression != NULL);
+	g_return_if_fail (IS_SHEET (dep->sheet));
+
 	if (pos == NULL)
 		pos = &dummy;
 
-	if (dep->sheet != NULL) {
-		g_return_if_fail (dep->expression != NULL);
-		g_return_if_fail (dep->flags & DEPENDENT_IS_LINKED);
-		g_return_if_fail (IS_SHEET (dep->sheet));
+	/* see note in do_deps_destroy */
+	/* A good idea would be to flag dependents with links outside the
+	 * current sheet and book (both) and use that to save time later.
+	 */
+	handle_tree_deps (dep, pos, dep->expression, REMOVE_DEPS);
 
-		/* see note in do_deps_destroy */
-		/* NOTE That notion is wrong it is only viable for removing
-		 * dependents within the sheet or book being destroyed.
-		 * If we are deleting a sheet with references outside that sheet
-		 * we need to drop those dependencies.  A good idea would be to
-		 * flag dependents with links outside the current sheet and
-		 * book (both) and use that to save time later.
-		 */
-
-		if (dep->sheet->deps != NULL) {
-			handle_tree_deps (dep, pos, dep->expression, REMOVE_DEPS);
-			UNLINK_DEP (dep);
-/* FIXME FIXME FIXME : Massive hack !  rework dependent linkage cycle after release */
-		} if (!dependent_is_cell (dep))
-			handle_tree_deps (dep, pos, dep->expression, REMOVE_DEPS);
-
-		dep->flags &= ~(DEPENDENT_IS_LINKED | DEPENDENT_NEEDS_RECALC);
+	dep->flags &= ~(DEPENDENT_IS_LINKED | DEPENDENT_NEEDS_RECALC);
+	if (dep->sheet->deps != NULL) {
+		if (dep->sheet->deps->dependent_list == dep)
+			dep->sheet->deps->dependent_list = dep->next_dep;
+		if (dep->next_dep)
+			dep->next_dep->prev_dep = dep->prev_dep;
+		if (dep->prev_dep)
+			dep->prev_dep->next_dep = dep->next_dep;
 	}
 }
 
@@ -899,12 +884,20 @@ dependent_unlink (Dependent *dep, CellPos const *pos)
 void
 dependent_unlink_sheet (Sheet *sheet)
 {
+	static CellPos const dummy = { 0, 0 };
+
 	g_return_if_fail (IS_SHEET (sheet));
 
+	/* see note in do_deps_destroy */
+	/* A good idea would be to flag dependents with links outside the
+	 * current sheet or book and use that to save time later.
+	 */
 	SHEET_FOREACH_DEPENDENT (sheet, dep, {
-		 dep->flags &= ~DEPENDENT_IS_LINKED;
-		 UNLINK_DEP (dep);
-	 });
+		handle_tree_deps (dep, dependent_is_cell (dep)
+			? &DEP_TO_CELL (dep)->pos : &dummy,
+			dep->expression, REMOVE_DEPS);
+		dep->flags &= ~(DEPENDENT_IS_LINKED | DEPENDENT_NEEDS_RECALC);
+	});
 }
 
 /**
@@ -1283,7 +1276,7 @@ sheet_deps_destroy (Sheet *sheet)
 {
 	ExprRewriteInfo rwinfo;
 
-	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
 
 	rwinfo.type = EXPR_REWRITE_SHEET;
 	rwinfo.u.sheet = sheet;
@@ -1296,24 +1289,20 @@ workbook_deps_destroy (Workbook *wb)
 {
 	ExprRewriteInfo rwinfo;
 
-	g_return_if_fail (wb != NULL);
+	g_return_if_fail (IS_WORKBOOK (wb));
 	g_return_if_fail (wb->sheets != NULL);
 
 	rwinfo.type = EXPR_REWRITE_WORKBOOK;
 	rwinfo.u.workbook = wb;
 
-	WORKBOOK_FOREACH_SHEET (wb, sheet, {
-		do_deps_destroy (sheet, &rwinfo);
-	});
+	WORKBOOK_FOREACH_SHEET (wb, sheet, do_deps_destroy (sheet, &rwinfo););
 }
 
 void
 workbook_queue_all_recalc (Workbook *wb)
 {
 	/* FIXME : warning what about dependents in other workbooks */
-
-	WORKBOOK_FOREACH_DEPENDENT
-		(wb, dep, { dependent_queue_recalc (dep); });
+	WORKBOOK_FOREACH_DEPENDENT (wb, dep, dependent_queue_recalc (dep););
 }
 
 /**

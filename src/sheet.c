@@ -2627,8 +2627,9 @@ sheet_cell_remove_from_hash (Sheet *sheet, Cell *cell)
 {
 	g_return_if_fail (cell_is_linked (cell));
 
-	cell_unregister_span   (cell);
-	dependent_unlink (CELL_TO_DEP (cell), &cell->pos);
+	cell_unregister_span (cell);
+	if (cell_expr_is_linked (cell))
+		dependent_unlink (CELL_TO_DEP (cell), &cell->pos);
 	g_hash_table_remove (sheet->cell_hash, &cell->pos);
 	cell->base.flags &= ~(CELL_IN_SHEET_LIST|CELL_IS_MERGED);
 }
@@ -2640,12 +2641,11 @@ sheet_cell_remove_from_hash (Sheet *sheet, Cell *cell)
 static void
 sheet_cell_destroy (Sheet *sheet, Cell *cell, gboolean queue_recalc)
 {
-	if (cell_has_expr (cell)) {
+	if (cell_expr_is_linked (cell)) {
 		/* if it needs recalc then its depends are already queued
 		 * check recalc status before we unlink
 		 */
 		queue_recalc &= !cell_needs_recalc (cell);
-
 		dependent_unlink (CELL_TO_DEP (cell), &cell->pos);
 	}
 
@@ -2766,15 +2766,11 @@ sheet_row_destroy (Sheet *sheet, int const row, gboolean free_cells)
 	}
 }
 
-static gboolean
-cb_remove_allcells (gpointer ignored, gpointer value, gpointer flags)
+static void
+cb_remove_allcells (gpointer ignore0, Cell *cell, gpointer ignore1)
 {
-	Cell *cell = value;
-
 	cell->base.flags &= ~CELL_IN_SHEET_LIST;
-	cell->base.sheet = NULL;
 	cell_destroy (cell);
-	return TRUE;
 }
 
 void
@@ -2815,7 +2811,9 @@ sheet_destroy_contents (Sheet *sheet)
 	dependent_unlink_sheet (sheet);
 
 	/* Remove all the cells */
-	g_hash_table_foreach_remove (sheet->cell_hash, &cb_remove_allcells, NULL);
+	g_hash_table_foreach (sheet->cell_hash,
+		(GHFunc) &cb_remove_allcells, NULL);
+	g_hash_table_destroy (sheet->cell_hash);
 
 	/* Delete in ascending order to avoid decrementing max_used each time */
 	for (i = 0; i <= max_col; ++i)
@@ -2901,8 +2899,6 @@ sheet_destroy (Sheet *sheet)
 		application_clipboard_clear (TRUE);
 
 	sheet_style_shutdown (sheet);
-
-	g_hash_table_destroy (sheet->cell_hash);
 
 	if (sheet->tab_color != NULL)
 		style_color_unref (sheet->tab_color);

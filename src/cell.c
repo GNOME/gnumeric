@@ -167,7 +167,7 @@ cell_eval_content (Cell *cell)
 			return TRUE;
 
 		/* but not the first bottom */
-		if (cell->base.flags & CELL_BEING_ITERATED) {
+		if (cell->base.flags & DEPENDENT_BEING_ITERATED) {
 #ifdef DEBUG_EVALUATION
 			printf ("}; /* already-iterate (%d) */\n", iterating == NULL);
 #endif
@@ -183,7 +183,7 @@ cell_eval_content (Cell *cell)
 #endif
 			return TRUE;
 		} else if (iterating == NULL) {
-			cell->base.flags |= CELL_BEING_ITERATED;
+			cell->base.flags |= DEPENDENT_BEING_ITERATED;
 			iterating = cell;
 #ifdef DEBUG_EVALUATION
 			puts ("}; /* START iterate = TRUE (0) */");
@@ -218,8 +218,8 @@ iterate :
 #endif
 
 	/* The top of a cycle */
-	if (cell->base.flags & CELL_BEING_ITERATED) {
-		cell->base.flags &= ~CELL_BEING_ITERATED;
+	if (cell->base.flags & DEPENDENT_BEING_ITERATED) {
+		cell->base.flags &= ~DEPENDENT_BEING_ITERATED;
 
 		/* We just completed the last iteration, don't change things */
 		if (iterating && max_iteration-- > 0) {
