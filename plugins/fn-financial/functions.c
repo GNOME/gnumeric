@@ -2475,108 +2475,99 @@ static const char *help_yield = {
 	   "@SEEALSO=")
 };
 
+typedef struct {
+        GDate *settlement, *maturity;
+	gnum_float rate, redemption, par;
+	int freq, basis;
+} gnumeric_yield_t;
+
+static GoalSeekStatus
+gnumeric_yield_f (gnum_float yield, gnum_float *y, void *user_data)
+{
+	gnumeric_yield_t *data = user_data;
+
+	*y = price (data->settlement, data->maturity, data->rate, yield,
+		    data->redemption, data->freq, data->basis)
+		- data->par;
+	return GOAL_SEEK_OK;
+}
+
+
 static Value *
 gnumeric_yield (FunctionEvalInfo *ei, Value **argv)
 {
-        GDate      *settlement;
-        GDate      *maturity;
-        gnum_float a, d, e, n;
-	gnum_float coeff, num, den;
-	gnum_float rate, par, redemption;
-	gint       i, freq, basis;
+        gnum_float n;
 	Value      *result;
+	gnumeric_yield_t udata;
 
-        settlement = datetime_value_to_g (argv[0]);
-        maturity   = datetime_value_to_g (argv[1]);
-	rate       = value_get_as_float (argv[2]);
-	par        = value_get_as_float (argv[3]);
-	redemption = value_get_as_float (argv[4]);
-        freq       = value_get_as_int (argv[5]);
-        basis      = argv[6] ? value_get_as_int (argv[6]) : 0;
+        udata.settlement = datetime_value_to_g (argv[0]);
+        udata.maturity   = datetime_value_to_g (argv[1]);
+	udata.rate       = value_get_as_float (argv[2]);
+	udata.par        = value_get_as_float (argv[3]);
+	udata.redemption = value_get_as_float (argv[4]);
+        udata.freq       = value_get_as_int (argv[5]);
+        udata.basis      = argv[6] ? value_get_as_int (argv[6]) : 0;
 
-	if (!maturity || !settlement) {
+	if (!udata.maturity || !udata.settlement) {
 		result = value_new_error (ei->pos, gnumeric_err_VALUE);
 		goto out;
 	}
 
-        if (!is_valid_basis (basis)
-	    || !is_valid_freq (freq)
-            || g_date_compare (settlement, maturity) > 0) {
+        if (!is_valid_basis (udata.basis)
+	    || !is_valid_freq (udata.freq)
+            || g_date_compare (udata.settlement, udata.maturity) > 0) {
 		result = value_new_error (ei->pos, gnumeric_err_NUM);
 		goto out;
 	}
 
-        if (rate < 0.0 || par < 0.0 || redemption <= 0.0) {
+        if (udata.rate < 0.0 || udata.par < 0.0 || udata.redemption <= 0.0) {
 		result = value_new_error (ei->pos, gnumeric_err_NUM);
 		goto out;
 	}
 
-	a = coupdaybs (settlement, maturity, freq, basis, TRUE);
-	d = coupdaysnc (settlement, maturity, freq, basis, TRUE);
-	e = coupdays (settlement, maturity, freq, basis, TRUE);
-	n = coupnum (settlement, maturity, freq, basis, TRUE);
-
+	n = coupnum (udata.settlement, udata.maturity, udata.freq, udata.basis, TRUE);
 	if (n <= 1.0) {
-	        coeff = freq * e / d;
-		num = (redemption / 100.0  +  rate / freq)
-		        - (par / 100.0  +  (a / e  *  rate / freq));
-		den = par / 100.0  +  (a / e  *   rate / freq);
+		gnum_float a = coupdaybs (udata.settlement, udata.maturity, udata.freq, udata.basis, TRUE);
+		gnum_float d = coupdaysnc (udata.settlement, udata.maturity, udata.freq, udata.basis, TRUE);
+		gnum_float e = coupdays (udata.settlement, udata.maturity, udata.freq, udata.basis, TRUE);
+
+	        gnum_float coeff = udata.freq * e / d;
+		gnum_float num = (udata.redemption / 100.0  +  udata.rate / udata.freq)
+		        - (udata.par / 100.0  +  (a / e  *  udata.rate / udata.freq));
+		gnum_float den = udata.par / 100.0  +  (a / e  *   udata.rate / udata.freq);
 
 		result = value_new_float (num / den * coeff);
 	} else {
-		gnum_float price0 = 0, price1, price2;
-		gnum_float yield0, yield1 = 0, yield2 = 1;
-		
-		price1 = price (settlement, maturity, rate, yield1, redemption,
-				freq, basis);
-		price2 = price (settlement, maturity, rate, yield2, redemption,
-				freq, basis);
+		GoalSeekData     data;
+		GoalSeekStatus   status;
+		gnum_float       yield0 = 0.1;
 
-		for (i = 0; (i < 1000) && (par != price0); i++) {
-			price0 = price (settlement, maturity, rate, yield0,
-					redemption, freq, basis);
-			if (par == price0) {
-				result = value_new_float ( yield0 );
-				goto out;
-			} else if (par == price1) {
-				result = value_new_float ( yield1 );
-				goto out;
-			} else if (par == price2) {
-				result = value_new_float ( yield2 );
-				goto out;
-			} else if (par >= price2) {
-				if (par >= price0) {
-					yield2 = yield0;
-					price2 = price0;
-				} else {
-					yield1 = yield0;
-					price1 = price0;
-				}
-				yield0 = (yield2 - yield1) *
-					((par - price2) / (price1 - price2));
-				yield0 = yield2 - yield0;
-			} else {
-				yield2 *= 2;
-				price2 = price (settlement, maturity, rate,
-						yield2, redemption, freq, 
-						basis);
-				yield0 = 0.5 * (yield2 - yield1);
-			}
+		goal_seek_initialise (&data);
+		data.xmin = MAX (data.xmin, 0);
+		data.xmax = MIN (data.xmax, 1000);
+
+		/* Newton search from guess.  */
+		status = goal_seek_newton (&gnumeric_yield_f, NULL,
+					   &data, &udata, yield0);
+
+		if (status != GOAL_SEEK_OK) {
+			for (yield0 = 1e-10; yield0 < data.xmax; yield0 *= 2)
+				goal_seek_point (&gnumeric_yield_f, &data,
+						 &udata, yield0);
+
+			/* Pray we got both sides of the root.  */
+			status = goal_seek_bisection (&gnumeric_yield_f, &data, &udata);
 		}
 
-		/* Check how close we did get; return NUM! if we are not close
-		 * enough. */
-		if (fabs (par - price0) > par / 1000) {
+		if (status == GOAL_SEEK_OK)
+			result = value_new_float (data.root);
+		else
 			result = value_new_error (ei->pos, gnumeric_err_NUM);
-			goto out;
-		}
-
-		result = value_new_float (yield0);
 	}
 
  out:
-	datetime_g_free (settlement);
-	datetime_g_free (maturity);
+	datetime_g_free (udata.settlement);
+	datetime_g_free (udata.maturity);
 
 	return result;
 }

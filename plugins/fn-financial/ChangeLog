@@ -1,5 +1,10 @@
 2002-07-16  Morten Welinder  <terra@diku.dk>
 
+	* functions.c (gnumeric_yield): Use existing root finding
+	machinery.
+
+2002-07-16  Morten Welinder  <terra@diku.dk>
+
 	* sc-fin.c: Use powgnum, not pow.
 
 2002-07-13  Jody Goldberg <jody@gnome.org>
