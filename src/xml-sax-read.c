@@ -1568,6 +1568,7 @@ xml_sax_finish_parse_wb_names_name (XMLSaxParseState *state)
 				pos.eval.row = tmp.row;
 			}
 		}
+		parse_error_init (&perr);
 		if (!expr_name_create (&pos, state->name.name,
 				       state->name.value, &perr))
 			g_warning (perr.message);
@@ -1613,6 +1614,7 @@ xml_sax_finish_parse_sheet_names_name (XMLSaxParseState *state)
 		}
 	}
 
+	parse_error_init (&perr);
 	if (!expr_name_create (&pos, state->name.name,
 			       state->name.value, &perr))
 		g_warning (perr.message);

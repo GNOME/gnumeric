@@ -800,42 +800,34 @@ xml_write_style (XmlParseContext *ctxt,
 static xmlNodePtr
 xml_write_names (XmlParseContext *ctxt, GList *names)
 {
-	xmlNodePtr  cur;
-	char       *tstr;
+	char *txt, *expr_str;
+	xmlNodePtr  namesContainer, nameNode;
+	NamedExpression const *nexpr;
 
-#if 0  /* Don't return, We need to have a names node in the worksheet
-	   * all the time becasue xml_search_child looks for a node down the
-	   * tree and it will find the first "Names" node in the sheet #1
-	   */
-	if (!names)
-		return NULL;
-#endif
+	namesContainer = xmlNewDocNode (ctxt->doc, ctxt->ns, "Names", NULL);
 
-	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Names", NULL);
+	for (; names != NULL ; names = names->next) {
+		nexpr = names->data;
 
-	while (names) {
-		xmlNodePtr   tmp;
-		NamedExpression    *expr_name = names->data;
-		char        *text;
+		g_return_val_if_fail (nexpr != NULL, NULL);
 
-		g_return_val_if_fail (expr_name != NULL, NULL);
+		nameNode = xmlNewChild (namesContainer, ctxt->ns, "Name", NULL);
 
-		tmp = xmlNewDocNode (ctxt->doc, ctxt->ns, "Name", NULL);
-		tstr = xmlEncodeEntitiesReentrant (ctxt->doc, expr_name->name->str);
-		xmlNewChild (tmp, ctxt->ns, "name", tstr);
-		if (tstr) xmlFree (tstr);
+		txt = xmlEncodeEntitiesReentrant (ctxt->doc, nexpr->name->str);
+		xmlNewChild (nameNode, ctxt->ns, "name", txt);
+		if (txt) xmlFree (txt);
 
-		text = expr_name_as_string (expr_name, NULL);
-		tstr = xmlEncodeEntitiesReentrant (ctxt->doc, text);
-		xmlNewChild (tmp, ctxt->ns, "value", tstr);
-		if (tstr) xmlFree (tstr);
-		g_free (text);
+		expr_str = expr_name_as_string (nexpr, NULL);
+		txt = xmlEncodeEntitiesReentrant (ctxt->doc, expr_str);
+		xmlNewChild (nameNode, ctxt->ns, "value", txt);
+		if (txt) xmlFree (txt);
+		g_free (expr_str);
 
-		xmlAddChild (cur, tmp);
-		names = g_list_next (names);
+		xmlNewChild (nameNode, ctxt->ns, "position",
+			cell_pos_name (&nexpr->pos.eval));
 	}
 
-	return cur;
+	return namesContainer;
 }
 
 static void
@@ -882,6 +874,7 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree,
 			}
 		}
 
+		parse_error_init (&perr);
 		if (!expr_name_create (&pp, name_str, expr_str, &perr))
 			g_warning (perr.message);
 		parse_error_free (&perr);

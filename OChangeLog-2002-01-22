@@ -1,3 +1,12 @@
+2001-11-27  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-io.c (xml_write_names) : export the position correctly.
+	(xml_read_names) : init the parse error.
+
+2001-11-26  Jody Goldberg <jody@gnome.org>
+
+	* GNOME_Gnumeric.oaf.in : remove references to gnumeric-bonobo
+
 2001-11-26  Jody Goldberg <jody@gnome.org>
 
 	* src/ranges.c (global_range_list_parse) : remove debug spew.

@@ -4308,7 +4308,8 @@ sheet_clone_names (Sheet const *src, Sheet *dst)
 		gchar *text;
 		g_return_if_fail (expresion != NULL);
 		text = expr_name_value (expresion);
-		if (!expr_name_create (dst->workbook, dst, expresion->name->str, text, &perr))
+		if (!expr_name_create (dst->workbook, dst, expresion->name->str, text,
+			parse_error_init (&perr)))
 			g_warning ("Could not create expression. Sheet.c :%i, Error %s",
 				   __LINE__, perr.message);
 		parse_error_free (&perr);
