@@ -1,5 +1,9 @@
 2002-08-13  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
+	* import-GLPK: Makefile.am generation improvements.
+
+2002-08-13  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
 	* import-GLPK: Added. Will be used in importing GLPK.
 
 2002-08-12  Jody Goldberg <jody@gnome.org>

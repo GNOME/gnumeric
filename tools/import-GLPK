@@ -1,5 +1,5 @@
 #
-# import-GLPK: Use this script to import GLPK into the Gnumeric
+# import-GLPK: Use this Perl script to import GLPK into Gnumeric.
 #              Tested with glpk 3.2.
 #
 # GLPK is the GNU Linear Programming Kit. You can get the latest version
@@ -11,6 +11,7 @@
 #         distribution
 #       - creates the necessary 'Makefile.am's
 #       - uses gnum_float instead of double in all places
+#	- uses sqrtgnum instead of sqrt in all places
 #
 #
 # Author:
@@ -212,9 +213,7 @@ print outfile "\t-I\$(top_srcdir)/src/tools\t\t\t\\\n";
 print outfile "\t-I\$(top_srcdir)/src/tools/solver\t\t\\\n";
 print outfile "\t-I\$(top_srcdir)/src/tools/solver/glpk/include\t\\\n";
 print outfile "\t\$(GNUMERIC_CFLAGS)\n\n";
-print outfile "noinst_LIBRARIES = dummy.a\n\n";
-print outfile "dummy_a_SOURCES =\t\t\t\t\t\\\n";
-print outfile "\thello.c\n";
+print outfile "noinst_LIBRARIES =\n\n";
 close outfile;
 
 # glpk/source/Makefile.am
