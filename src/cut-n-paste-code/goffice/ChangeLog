@@ -1,3 +1,12 @@
+2003-09-13  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-view.c (gog_view_size_child_request) : hard code some
+	  inter-child padding.  We can be more elegant in the future.
+	(gog_view_size_allocate_real) : ditto.
+
+	* graph/gog-axis.c (gog_axis_view_size_request) : request space for
+	  children too.
+
 2003-09-13  Jon K Hellan  <hellan@acm.org>
 
 	* graph/gog-legend.c (cb_render_elements): Allow for floating

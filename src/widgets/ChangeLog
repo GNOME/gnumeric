@@ -1,3 +1,9 @@
+2003-09-13  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric-expr-entry.c (gee_class_init) : add a w/r 'text' property.
+	(gee_set_property) : ditto.
+	(gee_get_property) : ditto.
+
 2003-09-10  Jon K Hellan  <hellan@acm.org>
 
 	* gnumeric-combo-text.c (cb_scroll_size_request): Compute size

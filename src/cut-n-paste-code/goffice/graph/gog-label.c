@@ -51,6 +51,9 @@ static GType gog_label_view_get_type (void);
 static GObjectClass *label_parent_klass;
 static GogViewClass *lview_parent_klass;
 
+/* a property ? */
+#define PAD_HACK	4	/* pts */
+
 static void
 gog_label_set_property (GObject *obj, guint param_id,
 			     GValue const *value, GParamSpec *pspec)
@@ -180,50 +183,60 @@ typedef GogViewClass	GogLabelViewClass;
 #define IS_GOG_LABEL_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_LABEL_VIEW_TYPE))
 
 static void
-gog_label_view_size_request (GogView *view, GogViewRequisition *req)
+gog_label_view_size_request (GogView *v, GogViewRequisition *req)
 {
-	GogLabel *label = GOG_LABEL (view->model);
+	GogLabel *l = GOG_LABEL (v->model);
 	double outline = gog_renderer_line_size (
-		view->renderer, label->base.style->outline.width);
+		v->renderer, l->base.style->outline.width);
 
 	req->w = req->h = 1.;
-	if (label->text.data != NULL) {
-		char const *text = go_data_scalar_get_str (GO_DATA_SCALAR (label->text.data));
+	if (l->text.data != NULL) {
+		char const *text = go_data_scalar_get_str (GO_DATA_SCALAR (l->text.data));
 		if (text != NULL) {
-			gog_renderer_push_style (view->renderer, label->base.style);
-			gog_renderer_measure_text (view->renderer, text, req);
-			gog_renderer_pop_style (view->renderer);
+			gog_renderer_push_style (v->renderer, l->base.style);
+			gog_renderer_measure_text (v->renderer, text, req);
+			gog_renderer_pop_style (v->renderer);
 		}
 	}
-	req->w += outline * 2;
-	req->h += outline * 2;
+	if (outline > 0) {
+		double pad_y = gog_renderer_pt2r_y (v->renderer, PAD_HACK);
+		double pad_x = gog_renderer_pt2r_y (v->renderer, PAD_HACK);
+		req->w += outline * 2 + pad_x;
+		req->h += outline * 2 + pad_y;
+	}
 }
 
 static void
-gog_label_view_size_allocate (GogView *view, GogViewAllocation const *a)
+gog_label_view_size_allocate (GogView *v, GogViewAllocation const *a)
 {
-	GogLabel *label = GOG_LABEL (view->model);
+	GogLabel *l = GOG_LABEL (v->model);
 	GogViewAllocation res = *a;
 	double outline = gog_renderer_line_size (
-		view->renderer, label->base.style->outline.width);
+		v->renderer, l->base.style->outline.width);
 
-	res.x += outline;
-	res.y += outline;
-	res.w -= outline * 2.;
-	res.h -= outline * 2.;
-	(lview_parent_klass->size_allocate) (view, &res);
+	/* We only need internal padding if there is an outline */
+	if (outline > 0) {
+		double pad_x = gog_renderer_pt2r_x (v->renderer, PAD_HACK);
+		double pad_y = gog_renderer_pt2r_y (v->renderer, PAD_HACK);
+
+		res.x += outline + pad_x/2;
+		res.y += outline + pad_y/2;
+		res.w -= outline * 2. + pad_x;
+		res.h -= outline * 2. + pad_y;
+	}
+	(lview_parent_klass->size_allocate) (v, &res);
 }
 
 static void
 gog_label_view_render (GogView *view, GogViewAllocation const *bbox)
 {
-	GogLabel *label = GOG_LABEL (view->model);
+	GogLabel *l = GOG_LABEL (view->model);
 
-	gog_renderer_push_style (view->renderer, label->base.style);
+	gog_renderer_push_style (view->renderer, l->base.style);
 	gog_renderer_draw_rectangle (view->renderer, &view->allocation);
 
-	if (label->text.data != NULL) {
-		char const *text = go_data_scalar_get_str (GO_DATA_SCALAR (label->text.data));
+	if (l->text.data != NULL) {
+		char const *text = go_data_scalar_get_str (GO_DATA_SCALAR (l->text.data));
 		if (text != NULL) {
 			ArtPoint  point;
 			point.x = view->residual.x;

@@ -27,6 +27,9 @@
 #include <gsf/gsf-impl-utils.h>
 #include <src/gnumeric-i18n.h>
 
+/* this should be per model */
+#define PAD_HACK	4	/* pts */
+
 enum {
 	GOG_VIEW_PROP_0,
 	GOG_VIEW_PROP_PARENT,
@@ -198,6 +201,8 @@ gog_view_size_allocate_real (GogView *view, GogViewAllocation const *allocation)
 	GogObjectPosition pos;
 	GogViewRequisition req;
 	GogViewAllocation tmp, available = *allocation, res = *allocation;
+	double const pad_h = gog_renderer_pt2r_y (view->renderer, PAD_HACK);
+	double const pad_w = gog_renderer_pt2r_x (view->renderer, PAD_HACK);
 
 	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
 		child = ptr->data;
@@ -221,27 +226,27 @@ gog_view_size_allocate_real (GogView *view, GogViewAllocation const *allocation)
 			tmp = res;
 
 			if (pos & GOG_POSITION_N) {
-				res.y += req.h;
-				res.h -= req.h;
+				res.y += req.h + pad_h;
+				res.h -= req.h + pad_h;
 				tmp.h  = req.h;
 				vertical = FALSE;
 			} else if (pos & GOG_POSITION_S) {
-				res.h -= req.h;
-				tmp.y  = res.y + res.h;
+				res.h -= req.h + pad_h;
+				tmp.y  = res.y + res.h + pad_h;
 				tmp.h  = req.h;
 				vertical = FALSE;
 			} 
 
 			if (pos & GOG_POSITION_E) {
-				res.w -= req.w;
-				tmp.x  = res.x + res.w;
+				res.w -= req.w + pad_w;
+				tmp.x  = res.x + res.w + pad_w;
 				tmp.w  = req.w;
 				/* For NE & NW only alignment fill makes sense */
 				if (pos & (GOG_POSITION_N|GOG_POSITION_S))
 					pos = GOG_POSITION_ALIGN_FILL;
 			} else if (pos & GOG_POSITION_W) {
-				res.x += req.w;
-				res.w -= req.w;
+				res.x += req.w + pad_w;
+				res.w -= req.w + pad_w;
 				tmp.w  = req.w;
 				/* For NE & NW only alignment fill makes sense */
 				if (pos & (GOG_POSITION_N|GOG_POSITION_S))
@@ -523,6 +528,8 @@ gog_view_size_child_request (GogView *view,
 	GogView *child;
 	GogObjectPosition pos;
 	GogViewRequisition req;
+	double const pad_h = gog_renderer_pt2r_y (view->renderer, PAD_HACK);
+	double const pad_w = gog_renderer_pt2r_x (view->renderer, PAD_HACK);
 
 	/* walk the list in reverse */
 	list = g_slist_reverse (g_slist_copy (view->children));
@@ -537,12 +544,12 @@ gog_view_size_child_request (GogView *view,
 			gog_view_size_request (child, &req);
 
 			if (pos & (GOG_POSITION_N|GOG_POSITION_S))
-				res->h += req.h;
+				res->h += req.h + pad_h;
 			else if (res->h < req.h)
 				res->h = req.h;
 
 			if (pos & (GOG_POSITION_E|GOG_POSITION_W))
-				res->w += req.w;
+				res->w += req.w + pad_w;
 			else if (res->w < req.w)
 				res->w = req.w;
 

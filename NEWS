@@ -24,6 +24,7 @@ Jody:
 	  Gnumeric-1.0.x
 	* Support index/implicit axis for scatter plots
 	* Fix horizontal data sets
+	* Auto pad between chart child with compass layouts
 
 Jon Kåre:
         * Ensure that scrollbars always show up in font combo when

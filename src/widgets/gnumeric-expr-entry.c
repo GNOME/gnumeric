@@ -84,6 +84,7 @@ enum {
 	PROP_0,
 	PROP_UPDATE_POLICY,
 	PROP_WITH_ICON,
+	PROP_TEXT,
 	PROP_SCG,
 	PROP_WBCG
 };
@@ -164,6 +165,10 @@ gee_set_property (GObject      *object,
 			gtk_object_destroy (GTK_OBJECT (gee->icon));
 		break;
 
+	case PROP_TEXT:
+		gnm_expr_entry_load_from_text (gee, g_value_get_string (value));
+		break;
+
 	case PROP_SCG:
 		gnm_expr_entry_set_scg (gee, 
 			SHEET_CONTROL_GUI (g_value_get_object (value)));
@@ -190,6 +195,9 @@ gee_get_property (GObject      *object,
 		break;
 	case PROP_WITH_ICON:
 		g_value_set_boolean (value, gee->icon != NULL);
+		break;
+	case PROP_TEXT:
+		g_value_set_string (value, gnm_expr_entry_get_text (gee));
 		break;
 	case PROP_SCG:
 		g_value_set_object (value, G_OBJECT (gee->scg));
@@ -450,6 +458,12 @@ gee_class_init (GObjectClass *gobject_class)
 			"Should there be an icon to the right of the entry",
 			TRUE,
 			G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		PROP_TEXT,
+		g_param_spec_string ("text", "Text",
+			"The contents of the entry",
+			"",
+			G_PARAM_READABLE | G_PARAM_WRITABLE));
 	g_object_class_install_property (gobject_class,
 		PROP_SCG,
 		g_param_spec_object ("scg", "SheetControlGUI",

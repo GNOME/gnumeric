@@ -62,7 +62,7 @@ struct _GogAxis {
 	gboolean major_tick_labeled;
 	gboolean inverted;
 
-	double		bound_min, bound_max, bound_step;
+	double		bound_min, bound_max, major_tick;
 	double		min_val, max_val;
 	double		logical_min_val, logical_max_val;
 	gpointer	min_contrib, max_contrib; /* NULL means use the manual sources */
@@ -315,7 +315,7 @@ gog_axis_update (GogObject *obj)
 		/* we want the bounds to be loose so jump up a step if we get too close */
 		axis->bound_min = step * floor (gnumeric_sub_epsilon (minima/step));
 		axis->bound_max = step * ceil (gnumeric_add_epsilon (maxima/step));
-		axis->bound_step = step;
+		axis->major_tick = step;
 
 		/* pull to zero if its nearby */
 		if (axis->bound_min > 0 && (axis->bound_min - 10. * step) < 0)
@@ -323,7 +323,7 @@ gog_axis_update (GogObject *obj)
 		if (axis->bound_max < 0 && (axis->bound_max + 10. * step) < 0)
 			axis->bound_max = 0;
 	} else
-		axis->bound_min = axis->bound_max = axis->bound_step = 0.;
+		axis->bound_min = axis->bound_max = axis->major_tick = 0.;
 
 	if (old_min != axis->bound_min || old_max != axis->bound_max)
 		gog_object_emit_changed (GOG_OBJECT (obj), TRUE);
@@ -682,16 +682,16 @@ gog_axis_bound_changed (GogAxis *axis, GogObject *contrib)
 static unsigned
 gog_axis_num_markers (GogAxis *axis)
 {
-	if (axis->bound_step <= 0.)
+	if (axis->major_tick <= 0.)
 		return 0;
 
-	return 1 + fabs (axis->bound_max - axis->bound_min) / (double)axis->bound_step;
+	return 1 + fabs (axis->bound_max - axis->bound_min) / (double)axis->major_tick;
 }
 
 static char *
 gog_axis_get_marker (GogAxis *axis, unsigned i)
 {
-	return g_strdup_printf ("%g", axis->bound_min + ((double)i) * axis->bound_step);
+	return g_strdup_printf ("%g", axis->bound_min + ((double)i) * axis->major_tick);
 }
 
 /****************************************************************************/
@@ -706,23 +706,23 @@ typedef GogViewClass	GogAxisViewClass;
 static GogViewClass *aview_parent_klass;
 
 static void
-gog_axis_view_size_request (GogView *view, GogViewRequisition *req)
+gog_axis_view_size_request (GogView *v, GogViewRequisition *req)
 {
-	GogAxis *axis = GOG_AXIS (view->model);
+	GogAxis *axis = GOG_AXIS (v->model);
 	GogViewRequisition tmp;
 	gboolean const is_horiz = axis->type == GOG_AXIS_X;
 	int i;
 	double total = 0., max = 0., tick_major = 0., tick_minor = 0., pad = 0.;
 	double line_width = gog_renderer_line_size (
-		view->renderer, axis->base.style->line.width);
+		v->renderer, axis->base.style->line.width);
 
 /* TODO : Think about rotating things or dropping markers periodically if
  * things are too big */
 	if (axis->major_tick_labeled) {
-		gog_renderer_push_style (view->renderer, axis->base.style);
+		gog_renderer_push_style (v->renderer, axis->base.style);
 		for (i = gog_axis_num_markers (axis) ; i-- > 0 ; ) {
 			char *txt = gog_axis_get_marker (axis, i);
-			gog_renderer_measure_text (view->renderer, txt, &tmp);
+			gog_renderer_measure_text (v->renderer, txt, &tmp);
 			g_free (txt);
 			if (is_horiz) {
 				total += tmp.w;
@@ -734,33 +734,36 @@ gog_axis_view_size_request (GogView *view, GogViewRequisition *req)
 					max = tmp.w;
 			}
 		}
-		gog_renderer_pop_style (view->renderer);
+		gog_renderer_pop_style (v->renderer);
 	}
 
+	tmp = *req; /* store available */
 	max += line_width;
 	if (is_horiz) {
 		if (axis->major_tick_labeled)
-			pad = gog_renderer_pt2r_y (view->renderer, TICK_LABEL_PAD);
+			pad = gog_renderer_pt2r_y (v->renderer, TICK_LABEL_PAD);
 		if (axis->major.tick_out)
-			tick_major = gog_renderer_pt2r_y (view->renderer,
+			tick_major = gog_renderer_pt2r_y (v->renderer,
 				axis->major.size_pts);
 		if (axis->minor.tick_out)
-			tick_minor = gog_renderer_pt2r_y (view->renderer,
+			tick_minor = gog_renderer_pt2r_y (v->renderer,
 							  axis->minor.size_pts);
 		req->w = total;
 		req->h = max + MAX (tick_major, tick_minor) + pad;
 	} else {
 		if (axis->major_tick_labeled)
-			pad = gog_renderer_pt2r_x (view->renderer, TICK_LABEL_PAD);
+			pad = gog_renderer_pt2r_x (v->renderer, TICK_LABEL_PAD);
 		if (axis->major.tick_out)
-			tick_major = gog_renderer_pt2r_x (view->renderer,
+			tick_major = gog_renderer_pt2r_x (v->renderer,
 				axis->major.size_pts);
 		if (axis->minor.tick_out)
-			tick_minor = gog_renderer_pt2r_x (view->renderer,
+			tick_minor = gog_renderer_pt2r_x (v->renderer,
 							  axis->minor.size_pts);
 		req->h = total;
 		req->w = max + MAX (tick_major, tick_minor) + pad;
 	}
+
+	gog_view_size_child_request (v, &tmp, req);
 }
 
 static void
