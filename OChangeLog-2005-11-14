@@ -6,7 +6,9 @@
 
 	* src/plugin.c (plugin_load) : Fix leak.
 
-	* src/formats.c (currency_symbols) : Add Yen.
+	* src/formats.c (currency_symbols) : Add Yen.  Attempt to add
+	  a version of the Euro.  It uses an iso_8859_15 encoding
+	  which is not commonly available.
 
 	* src/corba-sheet.c (Sheet_cell_set_value): 
 	cell_set_value -> sheet_cell_set_value
