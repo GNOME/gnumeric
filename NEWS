@@ -59,6 +59,7 @@ Morten:
 	* Work on using pango layouts for printing.
 	* Fix endless recursion.  [#153544.]
 	* Plug leaks.
+	* Improve save-as dialog.
 
 Uwe Steinmann:
 	* Validate the field names for paradox databases

@@ -530,7 +530,7 @@ gui_get_image_save_info (WorkbookControlGUI *wbcg,
 	}
 
 	/* Show file selector */
-loop :
+ loop:
 	if (!gnumeric_dialog_file_selection (wbcg, GTK_WIDGET (fsel)))
 		goto out;
 	uri = gtk_file_chooser_get_uri (fsel);
@@ -614,21 +614,9 @@ check_multiple_sheet_support_if_needed (GnmFileSaver *fs,
  */
 static gboolean
 do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view,
-            GnmFileSaver *fs, char const *uri1, GtkWindow *parent)
+            GnmFileSaver *fs, char const *uri, GtkWindow *parent)
 {
-	char *uri2 = NULL;
 	gboolean success = FALSE;
-
-	if (!gnm_vrfy_uri_ext (gnm_file_saver_get_extension (fs), 
-			       uri1, &uri2) &&
-		!gnumeric_dialog_question_yes_no (parent,
-                      _("The given file extension does not match the"
-			" chosen file type. Do you want to use this name"
-			" anyway?"), TRUE))
-		goto out;
-
-	success = go_file_is_writable (uri2, parent);
-	if (!success) goto out;
 
 	wb_view_preferred_size (wb_view, GTK_WIDGET (wbcg->notebook)->allocation.width,
 				GTK_WIDGET (wbcg->notebook)->allocation.height);
@@ -636,10 +624,9 @@ do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view,
 	success = check_multiple_sheet_support_if_needed (fs, parent, wb_view);
 	if (!success) goto out;
 
-	success = wb_view_save_as (wb_view, fs, uri2, GNM_CMD_CONTEXT (wbcg));
+	success = wb_view_save_as (wb_view, fs, uri, GNM_CMD_CONTEXT (wbcg));
 
 out:
-	g_free (uri2);
 	return success;
 }
 
@@ -652,6 +639,7 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	GnmFileSaver *fs;
 	gboolean success  = FALSE;
 	gchar const *wb_uri;
+	char *uri;
 
 	g_return_val_if_fail (wbcg != NULL, FALSE);
 
@@ -745,21 +733,43 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 		g_free (basename);
 	}
 
-	/* Show file selector */
-	if (gnumeric_dialog_file_selection (wbcg, GTK_WIDGET (fsel))) {
-		fs = g_list_nth_data (savers, gtk_combo_box_get_active (format_combo));
-		if (fs != NULL) {
-			char *uri = gtk_file_chooser_get_uri (fsel);
-			success = do_save_as (wbcg, wb_view, fs, uri,
-					      GTK_WINDOW (fsel));
-			g_free (uri);
+	while (1) {
+		char *uri2 = NULL;
 
-			if (success)
-				wbcg->current_saver = fs;
-		} else
-			success = FALSE;
+		/* Show file selector */
+		if (!gnumeric_dialog_file_selection (wbcg, GTK_WIDGET (fsel)))
+			goto out;
+		fs = g_list_nth_data (savers, gtk_combo_box_get_active (format_combo));
+		if (!fs)
+			goto out;
+		uri = gtk_file_chooser_get_uri (fsel);
+		if (!gnm_vrfy_uri_ext (gnm_file_saver_get_extension (fs), 
+				       uri, &uri2) &&
+		    !gnumeric_dialog_question_yes_no (GTK_WINDOW (fsel),
+						      _("The given file extension does not match the"
+							" chosen file type. Do you want to use this name"
+							" anyway?"), TRUE)) {
+			g_free (uri);
+			g_free (uri2);
+			goto out;
+		}
+
+		g_free (uri);
+		uri = uri2;
+
+		if (go_file_is_writable (uri, GTK_WINDOW (fsel)))
+			break;
+
+		g_free (uri);
 	}
 
+	success = do_save_as (wbcg, wb_view, fs, uri, GTK_WINDOW (fsel));
+	if (success)
+		wbcg->current_saver = fs;
+
+	g_free (uri);
+
+ out:
 	gtk_widget_destroy (GTK_WIDGET (fsel));
 	g_list_free (savers);
 

@@ -2,6 +2,8 @@
 
 	* src/gui-file.c (go_file_is_writable): Make the file-exist dialog
 	use GTK_MESSAGE_WARNING and have buttons OK and Cancel.
+	(gui_file_save_as): Cleaup.
+	(do_save_as): Cleanup and move parts up to sole caller.
 
 	* src/Makefile.am: Link in egg-recent.
 
