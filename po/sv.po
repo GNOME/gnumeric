@@ -31,8 +31,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-27 22:41+0900\n"
-"PO-Revision-Date: 2004-09-27 22:42+0900\n"
+"POT-Creation-Date: 2004-09-28 22:40+0900\n"
+"PO-Revision-Date: 2004-09-28 22:42+0900\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1526,7 +1526,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Funktioner relaterade till finansiella derivat"
 
 #: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5683
-#: plugins/mps/mps.c:547 src/xml-io.c:4198
+#: plugins/mps/mps.c:547 src/xml-io.c:4203
 msgid "Reading file..."
 msgstr "Läser fil..."
 
@@ -17706,7 +17706,7 @@ msgstr "Objektivfunktion:"
 msgid "Constraints:"
 msgstr "Bivillkor:"
 
-#: plugins/mps/mps.c:245 src/commands.c:6177
+#: plugins/mps/mps.c:245 src/commands.c:6183
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1052
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:373
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
@@ -18481,10 +18481,10 @@ msgstr "Detta är ett meddelande från \"%s\" insticksmodulen."
 msgid "Error while opening xbase file."
 msgstr "Fel vid öppnande av xbase-fil."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4968
+#: plugins/xbase/boot.c:175 src/commands.c:4974
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
 #: src/dialogs/dialog-stf-export.c:353 src/dialogs/print.glade.h:21
-#: src/print-info.c:391 src/workbook.c:1065 src/xml-io.c:3788
+#: src/print-info.c:391 src/workbook.c:1065 src/xml-io.c:3793
 msgid "Sheet"
 msgstr "Blad"
 
@@ -18523,7 +18523,7 @@ msgstr "EXPERIMENTELL SAX-baserad Gnumeric (*.gnumeric)"
 msgid "EXPERIMENTAL SAX based XML"
 msgstr "EXPERIMENTELL SAX-baserad XML"
 
-#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4324
+#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4329
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML (*.gnumeric)"
 
@@ -19323,16 +19323,16 @@ msgstr ""
 msgid "Use UTF-8 in LaTeX Export"
 msgstr "Använd UTF-8 i LaTeX-export"
 
-#: src/clipboard.c:304 src/clipboard.c:316 src/clipboard.c:327
-#: src/clipboard.c:335
+#: src/clipboard.c:314 src/clipboard.c:326 src/clipboard.c:337
+#: src/clipboard.c:345
 msgid "Unable to paste"
 msgstr "Kan inte klistra in"
 
-#: src/clipboard.c:305
+#: src/clipboard.c:315
 msgid "Content can only be pasted by value or by link."
 msgstr "Innehåll kan endast klistras in via värde eller genom länk."
 
-#: src/clipboard.c:313
+#: src/clipboard.c:323
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -19343,7 +19343,7 @@ msgstr ""
 "\n"
 "Försök markera en enstaka cell eller en yta med samma form och storlek."
 
-#: src/clipboard.c:324
+#: src/clipboard.c:334
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -19354,7 +19354,7 @@ msgstr ""
 "\n"
 "Försök markera en enstaka cell eller en yta med samma form och storlek."
 
-#: src/clipboard.c:336
+#: src/clipboard.c:346
 msgid "result passes the sheet boundary"
 msgstr "resultatet går utanför bladets kant"
 
@@ -19440,439 +19440,437 @@ msgstr "Inmatning av \"%s%s\""
 msgid "Ins/Del Column/Row"
 msgstr "Infoga/ta bort kolumn/rad"
 
-#: src/commands.c:1292 src/commands.c:1297 src/sheet.c:3243
+#: src/commands.c:1293 src/commands.c:1298 src/sheet.c:3243
 msgid "Delete Columns"
 msgstr "Ta bort kolumner"
 
-#: src/commands.c:1292 src/commands.c:1297 src/sheet.c:3361
+#: src/commands.c:1293 src/commands.c:1298 src/sheet.c:3361
 msgid "Delete Rows"
 msgstr "Ta bort rader"
 
-#: src/commands.c:1447
+#: src/commands.c:1448
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Infogning av %d kolumner före %s"
 
-#: src/commands.c:1448
+#: src/commands.c:1449
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Infogning av %d kolumn före %s"
 
-#: src/commands.c:1463
+#: src/commands.c:1464
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "Infogning av %d rader före %s"
 
-#: src/commands.c:1464
+#: src/commands.c:1465
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "Infogning av %d rad före %s"
 
-#: src/commands.c:1475
+#: src/commands.c:1476
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Borttagning av kolumnerna %s"
 
-#: src/commands.c:1476
+#: src/commands.c:1477
 #, c-format
 msgid "Deleting column %s"
 msgstr "Borttagning av kolumn %s"
 
-#: src/commands.c:1486
+#: src/commands.c:1487
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Borttagning av raderna %s"
 
-#: src/commands.c:1487
+#: src/commands.c:1488
 #, c-format
 msgid "Deleting row %s"
 msgstr "Borttagning av rad %s"
 
 #. Check for locked cells
-#: src/commands.c:1569 src/commands.c:1573 src/sheet.c:2857
+#: src/commands.c:1570 src/commands.c:1574 src/sheet.c:2857
 msgid "Clear"
 msgstr "Töm"
 
-#: src/commands.c:1645
+#: src/commands.c:1646
 msgid "contents"
 msgstr "innehåll"
 
-#: src/commands.c:1647
+#: src/commands.c:1648
 msgid "formats"
 msgstr "format"
 
-#: src/commands.c:1649
+#: src/commands.c:1650
 msgid "comments"
 msgstr "kommentarer"
 
-#: src/commands.c:1665
+#: src/commands.c:1666
 msgid "all"
 msgstr "alla"
 
 # detta står i sammanhanget Ångra: "blabla"
-#: src/commands.c:1672
+#: src/commands.c:1673
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Tömmande av %s i %s"
 
-#: src/commands.c:1756
+#: src/commands.c:1757
 msgid "Changing Format"
 msgstr "Byter format"
 
-#: src/commands.c:1881
+#: src/commands.c:1882
 #, c-format
 msgid "Changing format of %s"
 msgstr "Byter format på %s"
 
-#: src/commands.c:1993
+#: src/commands.c:1994
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Autopassar kolumn %s"
 
-#: src/commands.c:1994
+#: src/commands.c:1995
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Autopassar rad %s"
 
-#: src/commands.c:1997
+#: src/commands.c:1998
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Ställer in bredden på kolumn %s till %d bildpunkter"
 
-#: src/commands.c:1999
+#: src/commands.c:2000
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Ställer in höjd på rad %s till %d bildpunkter"
 
-#: src/commands.c:2002
+#: src/commands.c:2003
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "Ställer in bredden på kolumn %s till standardbredd"
 
-#: src/commands.c:2005
+#: src/commands.c:2006
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "Ställer in höjd på rad %s till standardhöjd"
 
-#: src/commands.c:2009
+#: src/commands.c:2010
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Autopassar kolumner %s"
 
-#: src/commands.c:2010
+#: src/commands.c:2011
 #, c-format
 msgid "Autofitting rows %s"
 msgstr "Autopassar rader %s"
 
-#: src/commands.c:2013
+#: src/commands.c:2014
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Ställer in bredd på kolumner %s till %d bildpunkter"
 
-#: src/commands.c:2015
+#: src/commands.c:2016
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Ställer in höjd på rader %s till %d bildpunkter"
 
-#: src/commands.c:2019
+#: src/commands.c:2020
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "Ställer in bredd på kolumner %s till standardbredden"
 
-#: src/commands.c:2021
+#: src/commands.c:2022
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "Ställer in höjd på rader %s till standardhöjden"
 
-#: src/commands.c:2088 src/dialogs/dialog-preferences.c:816
+#: src/commands.c:2089 src/dialogs/dialog-preferences.c:816
 msgid "Sorting"
 msgstr "Sorterar"
 
-#: src/commands.c:2108
+#: src/commands.c:2109
 #, c-format
 msgid "Sorting %s"
 msgstr "Sorterar %s"
 
-#: src/commands.c:2252
+#: src/commands.c:2253
 msgid "Unhide columns"
 msgstr "Visa kolumner"
 
-#: src/commands.c:2252
+#: src/commands.c:2253
 msgid "Hide columns"
 msgstr "Dölj kolumner"
 
-#: src/commands.c:2253
+#: src/commands.c:2254
 msgid "Unhide rows"
 msgstr "Visa rader"
 
-#: src/commands.c:2253
+#: src/commands.c:2254
 msgid "Hide rows"
 msgstr "Dölj rader"
 
-#: src/commands.c:2336
+#: src/commands.c:2337
 msgid "Expand columns"
 msgstr "Fäll ut kolumner"
 
-#: src/commands.c:2336
+#: src/commands.c:2337
 msgid "Collapse columns"
 msgstr "Fäll ihop kolumner"
 
-#: src/commands.c:2337
+#: src/commands.c:2338
 msgid "Expand rows"
 msgstr "Fäll ut rader"
 
-#: src/commands.c:2337
+#: src/commands.c:2338
 msgid "Collapse rows"
 msgstr "Fäll ihop rader"
 
-#: src/commands.c:2364
+#: src/commands.c:2365
 #, c-format
 msgid "Show column outline %d"
 msgstr "Visa kolumnutdrag %d"
 
-#: src/commands.c:2364
+#: src/commands.c:2365
 #, c-format
 msgid "Show row outline %d"
 msgstr "Visa radutdrag %d"
 
-#: src/commands.c:2435
+#: src/commands.c:2436
 msgid "Those columns are already grouped"
 msgstr "Dessa kolumner är redan grupperade"
 
-#: src/commands.c:2436
+#: src/commands.c:2437
 msgid "Those rows are already grouped"
 msgstr "Dessa rader är redan grupperade"
 
-#: src/commands.c:2459
+#: src/commands.c:2460
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "De kolumnerna är inte grupperade, du kan inte ogruppera dem"
 
-#: src/commands.c:2460
+#: src/commands.c:2461
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "De raderna är inte grupperade, du kan inte ogruppera dem"
 
-#: src/commands.c:2474
+#: src/commands.c:2475
 #, c-format
 msgid "Group columns %s"
 msgstr "Gruppera kolumner %s"
 
-#: src/commands.c:2474
+#: src/commands.c:2475
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Ogruppera kolumner %s"
 
-#: src/commands.c:2476
+#: src/commands.c:2477
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Gruppera rader %d:%d"
 
-#: src/commands.c:2476
+#: src/commands.c:2477
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Ogruppera rader %d:%d"
 
-#: src/commands.c:2714
+#: src/commands.c:2715
 #, c-format
 msgid "Moving %s"
 msgstr "Flyttar %s"
 
-#: src/commands.c:2723 src/commands.c:2950
+#: src/commands.c:2724 src/commands.c:2954
 msgid "is beyond sheet boundaries"
 msgstr "är utanför bladets gränser"
 
-#: src/commands.c:2788
+#: src/commands.c:2789
 msgid "Paste Copy"
 msgstr "Klistra in kopia"
 
 #. FIXME?
-#: src/commands.c:2894
+#: src/commands.c:2895
 #, c-format
 msgid "Pasting into %s"
 msgstr "Klistrar in i %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:2987 src/commands.c:3144 src/commands.c:3145
+#: src/commands.c:2992 src/commands.c:3149 src/commands.c:3150
 #: src/wbcg-actions.c:425
 msgid "Autofill"
 msgstr "Autofyllning"
 
 #. Changed in initial redo.
-#: src/commands.c:3168
+#: src/commands.c:3173
 #, c-format
 msgid "Autofilling %s"
 msgstr "Autofyllning av %s"
 
-#: src/commands.c:3490
+#: src/commands.c:3495
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Autoformatering av %s"
 
-#: src/commands.c:3608
+#: src/commands.c:3613
 #, c-format
 msgid "Unmerging %s"
 msgstr "Splittring av %s"
 
-#: src/commands.c:3773
+#: src/commands.c:3778
 #, c-format
 msgid "Merge and Center %s"
 msgstr "Slå samman och centrera %s"
 
-#: src/commands.c:3773
+#: src/commands.c:3778
 #, c-format
 msgid "Merging %s"
 msgstr "Sammanslagning av %s"
 
 #. Corrected below.
-#: src/commands.c:4155 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:4160 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "Sök och ersätt"
 
-#: src/commands.c:4252
+#: src/commands.c:4257
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Inställning av standardbredd på kolumner till %.2f punkter"
 
-#: src/commands.c:4253
+#: src/commands.c:4258
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Inställning av standardhöjd på rader till %.2f punkter"
 
-#: src/commands.c:4370
+#: src/commands.c:4375
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Inzoomning av %s till %.0f%%"
 
-#: src/commands.c:4432
+#: src/commands.c:4437
 msgid "Insert object"
 msgstr "Infogning av objekt"
 
-#: src/commands.c:4491
-msgid "Delete object"
-msgstr "Borttagning av objekt"
+#: src/commands.c:4497
+msgid "Delete Object"
+msgstr "Ta bort objekt"
 
-#: src/commands.c:4572
+#: src/commands.c:4578
 msgid "Resize object"
 msgstr "Storleksändring av objekt"
 
-#: src/commands.c:4572
+#: src/commands.c:4578
 msgid "Move object"
 msgstr "Flyttning av objekt"
 
-#: src/commands.c:4643
+#: src/commands.c:4649
 msgid "Format Object"
 msgstr "Formattera objekt"
 
-#: src/commands.c:5242
+#: src/commands.c:5248
 msgid "Reordering Sheets"
 msgstr "Ändring av ordning av blad"
 
-#: src/commands.c:5245
+#: src/commands.c:5251
 msgid "Renaming Sheets"
 msgstr "Namnbyte på blad"
 
-#: src/commands.c:5248
+#: src/commands.c:5254
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "Lägger till %i blad"
 
-#: src/commands.c:5252
+#: src/commands.c:5258
 msgid "Changing Tab Colors"
 msgstr "Färgbyte på flikar"
 
-#: src/commands.c:5255
+#: src/commands.c:5261
 msgid "Changing Sheet Protection"
 msgstr "Ändrar bladskydd"
 
-#: src/commands.c:5258
+#: src/commands.c:5264
 msgid "Delete sheets"
 msgstr "Ta bort blad"
 
-#: src/commands.c:5261
+#: src/commands.c:5267
 msgid "Delete a sheet"
 msgstr "Ta bort ett blad"
 
-#: src/commands.c:5264
+#: src/commands.c:5270
 msgid "Changing Sheet Visibility"
 msgstr "Ändrar bladsynlighet"
 
-#: src/commands.c:5267
+#: src/commands.c:5273
 msgid "Reorganizing Sheets"
 msgstr "Ändring av ordning av blad"
 
-#: src/commands.c:5418
+#: src/commands.c:5424
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Tömning av kommentar för %s"
 
-#: src/commands.c:5419
+#: src/commands.c:5425
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Sättande av kommentar till %s"
 
-#: src/commands.c:5799
+#: src/commands.c:5805
 #, c-format
 msgid "Merging data into %s"
 msgstr "Sammanslagning av data i %s"
 
-#: src/commands.c:5901
+#: src/commands.c:5907
 msgid "Changing summary info"
 msgstr "Ändrar sammanfattningsinformation"
 
-#: src/commands.c:5992
-#, fuzzy
-msgid "Pull object to the front"
-msgstr "Föremål för bivillkoren:"
-
-#: src/commands.c:5995
-msgid "Pull object forward"
-msgstr ""
-
 #: src/commands.c:5998
-msgid "Push object backward"
-msgstr ""
+msgid "Pull object to the front"
+msgstr "Sätt objektet överst"
 
 #: src/commands.c:6001
-#, fuzzy
-msgid "Push object to the back"
-msgstr "Höj objektet överst"
+msgid "Pull object forward"
+msgstr "Flytta objektet framåt"
 
-#: src/commands.c:6116
+#: src/commands.c:6004
+msgid "Push object backward"
+msgstr "Flytta objektet bakåt"
+
+#: src/commands.c:6007
+msgid "Push object to the back"
+msgstr "Sätt objektet underst"
+
+#: src/commands.c:6122
 #, c-format
 msgid "Page Setup For %s"
 msgstr "SIdegenskaper för %s"
 
-#: src/commands.c:6118
+#: src/commands.c:6124
 msgid "Page Setup For All Sheets"
 msgstr "Sidegenskaper för alla blad"
 
-#: src/commands.c:6234
+#: src/commands.c:6240
 msgid "has a circular reference"
 msgstr "har en cirkelreferens"
 
-#: src/commands.c:6257
+#: src/commands.c:6263
 #, c-format
 msgid "Define Name %s"
 msgstr "Definiera namn %s"
 
-#: src/commands.c:6260
+#: src/commands.c:6266
 #, c-format
 msgid "Update Name %s"
 msgstr "Uppdatera namn %s"
 
-#: src/commands.c:6324
+#: src/commands.c:6330
 msgid "Add scenario"
 msgstr "Lägg till scenarium"
 
-#: src/commands.c:6399
+#: src/commands.c:6405
 msgid "Scenario Show"
 msgstr "Scenarievisning"
 
-#: src/commands.c:6463
+#: src/commands.c:6469
 msgid "Shuffle Data"
 msgstr "Blanda data"
 
 #. FIXME?
-#: src/commands.c:6574
+#: src/commands.c:6580
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Text (%s) till kolumner (%s)"
@@ -19882,28 +19880,28 @@ msgstr "Text (%s) till kolumner (%s)"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6721 src/dialogs/solver.glade.h:17
+#: src/commands.c:6727 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
 #: src/tools/solver/reports-write.c:904 src/tools/solver/reports-write.c:955
 msgid "Solver"
 msgstr "Lösare"
 
-#: src/commands.c:6808
+#: src/commands.c:6814
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Målsök (%s)"
 
-#: src/commands.c:6954
+#: src/commands.c:6960
 #, c-format
 msgid "Duplicating %s"
 msgstr "Duplicerar %s"
 
-#: src/commands.c:7034
+#: src/commands.c:7040
 msgid "Tabulating Dependencies"
 msgstr "Tabulerar beroenden"
 
-#: src/commands.c:7110
+#: src/commands.c:7116
 msgid "Reconfigure Graph"
 msgstr "Konfigurera om graf"
 
@@ -19923,28 +19921,24 @@ msgid "Discrete"
 msgstr "Diskret"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:605
-#, fuzzy
 msgid "Discrete mapping"
-msgstr "Diskret"
+msgstr "Diskret mappning"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:614
-#, fuzzy
 msgid "Linear"
-msgstr "_Linjär"
+msgstr "Linjär"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:614
 msgid "Linear mapping"
-msgstr ""
+msgstr "Linjär mappning"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:620
-#, fuzzy
 msgid "Log"
-msgstr "Logik"
+msgstr "Log"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:620
-#, fuzzy
 msgid "Logarithm mapping"
-msgstr "Logaritmisk"
+msgstr "Logaritmisk mappning"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1403
 msgid "Details"
@@ -19952,16 +19946,15 @@ msgstr "Detaljer"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1452
 msgid "Categories between _ticks"
-msgstr ""
+msgstr "Kategorier mellan _skalstreck"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1453
 msgid "Categories between _labels"
-msgstr ""
+msgstr "Kategorier mellan _etiketter"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1454
-#, fuzzy
 msgid "_Cross at category #"
-msgstr "_Kategori"
+msgstr "_Kors vid kategori #"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1460
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1474
@@ -20007,35 +20000,29 @@ msgid "Label"
 msgstr "Rubrik"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1528
-#, fuzzy
 msgid "MinorGrid"
-msgstr "Rutnät"
+msgstr "FintRutnät"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1531
-#, fuzzy
 msgid "MajorGrid"
-msgstr "Rutnät"
+msgstr "GrovtRutnät"
 
 # ZZZ
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:1
-#, fuzzy
 msgid "<b>Major ticks</b>"
-msgstr "<b>Stora skalstreck:</b>"
+msgstr "<b>Stora skalstreck</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:2
-#, fuzzy
 msgid "<b>Mapping</b>"
-msgstr "<b>rad</b>"
+msgstr "<b>Mappning</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
-#, fuzzy
 msgid "<b>Minor ticks</b>"
-msgstr "<b>Små skalstreck:</b>"
+msgstr "<b>Små skalstreck</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
-#, fuzzy
 msgid "<b>Position</b>"
-msgstr "<b>rad</b>"
+msgstr "<b>Position</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
 msgid "I_nside"
@@ -20054,9 +20041,8 @@ msgid "_Inside"
 msgstr "_Inuti"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:10
-#, fuzzy
 msgid "_Invert axis"
-msgstr "_Invertera"
+msgstr "_Invertera axel"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:11
 msgid "_Low"
@@ -20104,11 +20090,11 @@ msgstr "Z-Axel"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:216
 msgid "Circular-Axis"
-msgstr ""
+msgstr "Cirkulär axel"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:220
 msgid "Radial-Axis"
-msgstr ""
+msgstr "Radiell axel"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:224
 msgid "Plot"
@@ -20132,35 +20118,34 @@ msgstr "Bredd"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:242
 msgid "No error bar displayed"
-msgstr ""
+msgstr "Ingen felstapel visad"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:248
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:264
 msgid "Positive error bar displayed"
-msgstr ""
+msgstr "Positiv felstapel visad"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:253
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:269
 msgid "Negative error bar displayed"
-msgstr ""
+msgstr "Negativ felstapel visad"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:258
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:274
 msgid "Full error bar displayed"
-msgstr ""
+msgstr "Hel felstapel visad"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:1
 msgid "(+)"
-msgstr ""
+msgstr "(+)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:2
 msgid "(-)"
-msgstr ""
+msgstr "(-)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:3
-#, fuzzy
 msgid "<b>Error category</b>"
-msgstr "<b>Felvarning</b>"
+msgstr "<b>Felkategori</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:4
 #: src/dialogs/cell-format.glade.h:21
@@ -20168,19 +20153,16 @@ msgid "<b>Style</b>"
 msgstr "<b>Stil</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:5
-#, fuzzy
 msgid "<b>Values</b>"
-msgstr "<b>Skala</b>"
+msgstr "<b>Värden</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:6
-#, fuzzy
 msgid "Colo_r:"
-msgstr "Färg:"
+msgstr "Fä_rg:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:7
-#, fuzzy
 msgid "Dis_play:"
-msgstr "D_ag"
+msgstr "S_kärm:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:8
 msgid ""
@@ -20189,16 +20171,18 @@ msgid ""
 "Relative\n"
 "Percent"
 msgstr ""
+"Ingen\n"
+"Absolut\n"
+"Relativ\n"
+"Procent"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:12
-#, fuzzy
 msgid "_Line width:"
-msgstr "Linjebredd:"
+msgstr "_Linjebredd:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:13
-#, fuzzy
 msgid "_Width:"
-msgstr "_Med:"
+msgstr "_Bredd:"
 
 #. default
 #. Cheat and assign a name here, graphs will not have parents until we
@@ -20272,7 +20256,7 @@ msgid "_Increase"
 msgstr "_Öka"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:7
-#: src/sheet-object.c:113
+#: src/sheet-object.c:104
 msgid "_Order"
 msgstr "_Ordning"
 
@@ -20309,14 +20293,12 @@ msgid "Chart Theme"
 msgstr "Diagramtema"
 
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:145
-#, fuzzy
 msgid "Index:"
-msgstr "_Indrag:"
+msgstr "Index:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:162
-#, fuzzy
 msgid "Settings"
-msgstr "In_ställningar"
+msgstr "Inställningar"
 
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:440
 #: src/tools/analysis-tools.c:3919
@@ -20339,11 +20321,12 @@ msgid "Style"
 msgstr "Stil"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:1
-#, fuzzy
 msgid ""
 "2 Colors\n"
 "Brightness"
-msgstr "Ljusstyrka"
+msgstr ""
+"2 färger\n"
+"Ljusstyrka"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:3
 msgid "<b>Fill</b>"
@@ -20373,6 +20356,10 @@ msgid ""
 "Gradient\n"
 "Image"
 msgstr ""
+"Inget\n"
+"Mönster\n"
+"Färgskala\n"
+"Bild"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:12
 msgid "O_utline color:"
@@ -20444,11 +20431,12 @@ msgid "pts"
 msgstr "pkter"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:30
-#, fuzzy
 msgid ""
 "stretched\n"
 "wallpaper"
-msgstr "utsträckt"
+msgstr ""
+"utsträckt\n"
+"tapet"
 
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
@@ -20476,9 +20464,8 @@ msgid "Values"
 msgstr "Värden"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:448
-#, fuzzy
 msgid "Error bars"
-msgstr "Fel vid tolkning av rad"
+msgstr "Felstaplar"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd bar/col plot in a chart will be called
@@ -20740,7 +20727,7 @@ msgstr "Stapel/kolumn ritmotor"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:3
 msgid "Charting : Bar/Col/Line/Area"
-msgstr ""
+msgstr "Grafritning : Stapel/Kolumn/Linje/Yta"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:4
 msgid "Default 1.5d plot types"
@@ -20751,9 +20738,8 @@ msgid "Line plotting engine"
 msgstr "Linjediagramsritmotor"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:6
-#, fuzzy
 msgid "Line, Area, Bar and Column plots"
-msgstr "Linje-, area-, stapel- och kolumngrafer"
+msgstr "Linje, area, stapel och kolumngrafer"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:180
 msgid "PlotPie"
@@ -20763,12 +20749,14 @@ msgstr "GrafCirkel"
 msgid "PlotRing"
 msgstr "GrafRing"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:582
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:593
 #, c-format
 msgid ""
 "%s point %d\n"
 "Value %g (%g)"
 msgstr ""
+"%s punkt %d\n"
+"Värde %g (%g)"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:3
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:4
@@ -23560,30 +23548,30 @@ msgstr "Multiplicera"
 msgid "D_ivide"
 msgstr "Dividera"
 
-#: src/dialogs/dialog-paste-special.c:185
+#: src/dialogs/dialog-paste-special.c:186
 #, fuzzy
 msgid "Paste Special"
 msgstr "Klistra in _special"
 
-#: src/dialogs/dialog-paste-special.c:188
+#: src/dialogs/dialog-paste-special.c:189
 #, fuzzy
 msgid "Paste _Link"
 msgstr "Klistra in länk"
 
-#: src/dialogs/dialog-paste-special.c:197
+#: src/dialogs/dialog-paste-special.c:198
 msgid "Paste type"
 msgstr "Klistra in"
 
-#: src/dialogs/dialog-paste-special.c:201
+#: src/dialogs/dialog-paste-special.c:202
 msgid "Operation"
 msgstr "Åtgärd"
 
-#: src/dialogs/dialog-paste-special.c:233
+#: src/dialogs/dialog-paste-special.c:234
 #, fuzzy
 msgid "_Transpose"
 msgstr "Transponera"
 
-#: src/dialogs/dialog-paste-special.c:239
+#: src/dialogs/dialog-paste-special.c:240
 #, fuzzy
 msgid "Skip _Blanks"
 msgstr "Hoppa över blanksteg"
@@ -27419,11 +27407,13 @@ msgid "Line/Arrow Properties"
 msgstr "Pil/Linje-egenskaper"
 
 #: src/gnumeric-pane.c:127
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%.1f x %.1f pts\n"
 "%d x %d pixels"
-msgstr "Bredd: %.2f pt (%d bildpunkter)"
+msgstr ""
+"%.1f x %.1f punkter\n"
+"%d x %d bildpunkter"
 
 #: src/gui-clipboard.c:120
 msgid "clipboard"
@@ -27525,7 +27515,7 @@ msgstr "Flera fel\n"
 msgid "Unable to open file '%s'"
 msgstr "Kan inte öppna filen \"%s\""
 
-#: src/gutils.c:546
+#: src/gutils.c:520
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "yngnum."
@@ -28466,19 +28456,19 @@ msgstr ""
 "Det finns redan ett sammanslaget område som skär\n"
 "%s!%s"
 
-#: src/sheet-object.c:114
+#: src/sheet-object.c:105
 msgid "Pul_l to Front"
 msgstr ""
 
-#: src/sheet-object.c:115
+#: src/sheet-object.c:106
 msgid "Pull _Forward"
 msgstr ""
 
-#: src/sheet-object.c:116
+#: src/sheet-object.c:107
 msgid "Push _Backward"
 msgstr ""
 
-#: src/sheet-object.c:117
+#: src/sheet-object.c:108
 msgid "Pus_h to Back"
 msgstr ""
 
@@ -31414,14 +31404,14 @@ msgid "Font Name %s"
 msgstr "Uppdatera namn %s"
 
 #: src/wbc-gtk.c:664
-#, fuzzy, c-format
+#, c-format
 msgid "Font Size %f"
-msgstr "Typsnittstorlek"
+msgstr "Typsnittstorlek %f"
 
 #: src/wbc-gtk.c:731
-#, fuzzy, c-format
+#, c-format
 msgid "Open %s"
-msgstr "Öppna"
+msgstr "Öppna %s"
 
 #: src/wbc-gtk.c:796
 msgid "Nothing"
@@ -31441,7 +31431,7 @@ msgstr ""
 #: src/wbc-gtk.c:1104
 #, fuzzy, c-format
 msgid "Show/Hide toolbar %s"
-msgstr "Konfigurera verktygsrader"
+msgstr "Visa/dölj verktygsrad %s"
 
 #: src/widgets/gnumeric-expr-entry.c:1249
 msgid "Expecting a single range"
@@ -32689,19 +32679,19 @@ msgstr "Kan inte öppna \"%s\"för att skriva: %s"
 msgid "An unexplained error happened while saving %s"
 msgstr "Ett oförklarligt fel inträffade vid sparande av %s"
 
-#: src/workbook-view.c:679 src/workbook-view.c:836
+#: src/workbook-view.c:679 src/workbook-view.c:856
 msgid "Default file saver is not available."
 msgstr "Standardfilspararen är inte tillgänglig."
 
-#: src/workbook-view.c:752
+#: src/workbook-view.c:800
 msgid "Failed to create temporary file for sending."
 msgstr "Kan inte skapa temporär fil för att skicka."
 
-#: src/workbook-view.c:924
+#: src/workbook-view.c:944
 msgid "Unsupported file format."
 msgstr "Filformatet stöds inte."
 
-#: src/workbook-view.c:972
+#: src/workbook-view.c:992
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Ett oförklarat fel inträffade vid öppnande av %s"
@@ -32711,30 +32701,30 @@ msgstr "Ett oförklarat fel inträffade vid öppnande av %s"
 msgid "Unsupported object type '%s'"
 msgstr "Objekttypen \"%s\" stöds inte"
 
-#: src/xml-io.c:3474
+#: src/xml-io.c:3477
 msgid "Unparsable xml in clipboard"
 msgstr "Otolkningsbar xml i urklipp"
 
-#: src/xml-io.c:3481
+#: src/xml-io.c:3484
 msgid "Clipboard is in unknown format"
 msgstr "Urklipp är i ett okänt format"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3919
+#: src/xml-io.c:3924
 msgid "Processing file..."
 msgstr "Bearbetar fil..."
 
-#: src/xml-io.c:4246
+#: src/xml-io.c:4251
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Filen är inte en Gnumeric-arbetsboksfil"
 
-#: src/xml-io.c:4283
+#: src/xml-io.c:4288
 msgid "Failure saving file"
 msgstr "Fel vid sparande av fil"
 
-#: src/xml-io.c:4328
+#: src/xml-io.c:4333
 #, fuzzy
 msgid "Gnumeric XML (*.gnumeric) original slow exporter"
 msgstr "Gnumeric-filformat (*.gnumeric), XML-baserat"
