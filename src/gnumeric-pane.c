@@ -118,6 +118,7 @@ gnm_pane_init (GnumericPane *pane, SheetControlGUI *scg,
 	pane->editor = NULL;
 	pane->cursor.rangesel = NULL;
 	pane->cursor.special = NULL;
+	pane->cursor.rangehighlight = NULL;
 	pane->anted_cursors = NULL;
 
 	if (col_headers)
@@ -175,7 +176,7 @@ gnm_pane_release (GnumericPane *pane)
 	 */
 	pane->grid = NULL;
 	pane->editor = NULL;
-	pane->cursor.std = pane->cursor.rangesel = pane->cursor.special = NULL;
+	pane->cursor.std = pane->cursor.rangesel = pane->cursor.special = pane->cursor.rangehighlight = NULL;
 	pane->colrow_resize.guide = NULL;
 	pane->colrow_resize.start = NULL;
 	pane->colrow_resize.points = NULL;
@@ -311,10 +312,10 @@ gnm_pane_reposition_cursors (GnumericPane *pane)
 		item_cursor_reposition (pane->cursor.rangesel);
 	if (NULL != pane->cursor.special)
 		item_cursor_reposition (pane->cursor.special);
+	if (NULL != pane->cursor.rangehighlight)
+		item_cursor_reposition (ITEM_CURSOR (pane->cursor.rangehighlight));
 	for (l = pane->anted_cursors; l; l = l->next)
 		item_cursor_reposition (ITEM_CURSOR (l->data));
-	if (NULL != pane->editor && NULL != pane->editor->feedback_cursor)
-		item_cursor_reposition (ITEM_CURSOR (pane->editor->feedback_cursor));
 }
 
 gboolean

@@ -25,7 +25,7 @@ struct _GnumericPane {
 	ItemEdit      *editor;
 
 	struct {
-		ItemCursor *std, *rangesel, *special;
+		ItemCursor *std, *rangesel, *special, *rangehighlight;
 	} cursor;
 	GSList		*anted_cursors;
 

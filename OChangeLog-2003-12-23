@@ -1,3 +1,11 @@
+2002-10-31  Jody Goldberg <jody@gnome.org>
+
+	* src/rendered-value.c (cell_get_entered_text) : only display the
+	 leading quote for strings that might be misinterpretted.
+
+	* src/workbook-control-gui.c (cb_autosum) : force focus back onto the
+	  sheet so that we can edit.
+
 2002-10-31  Morten Welinder  <terra@diku.dk>
 
 	* src/mathfunc.c (qgamma): Handle the scale parameter at the very

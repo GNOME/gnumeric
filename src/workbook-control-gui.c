@@ -2926,6 +2926,9 @@ cb_autosum (GtkWidget *widget, WorkbookControlGUI *wbcg)
 		 */
 		gtk_editable_set_position (GTK_EDITABLE (entry), entry->text_length-1);
 	}
+
+	/* force focus back to sheet */
+	wbcg_focus_cur_scg (wbcg);
 }
 
 static void

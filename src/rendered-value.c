@@ -30,6 +30,7 @@
 #include "cell.h"
 #include "style.h"
 #include "style-color.h"
+#include "number-match.h"
 #include "sheet.h"
 #include "sheet-merge.h"
 #include "sheet-style.h"
@@ -371,8 +372,18 @@ cell_get_entered_text (Cell const *cell)
 	}
 
 	if (cell->value != NULL) {
-		if (cell->value->type == VALUE_STRING)
-			return g_strconcat ("\'", cell->value->v_str.val->str, NULL);
+		if (cell->value->type == VALUE_STRING) {
+			/* Try to be reasonably smart about adding a leading quote */
+			char const *tmp = cell->value->v_str.val->str;
+			if (NULL == gnm_expr_char_start_p (tmp)) {
+				Value *val = format_match_number (tmp,
+					cell_get_format	(cell));
+				if (val == NULL)
+					return g_strdup (tmp);
+				value_release (val);
+			}
+			return g_strconcat ("\'", tmp, NULL);
+		}
 		return format_value (NULL, cell->value, NULL, -1);
 	}
 

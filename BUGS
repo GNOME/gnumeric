@@ -7,8 +7,6 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-- validate expression names to ensure that they are not simple values (eg TRUE)
-
 Pending Patches
 ---------------
     - ?? more work on D&D based sheet reorg ?
@@ -16,6 +14,8 @@ Pending Patches
 
 1.2 Targets
 -----------
+
+- validate expression names to ensure that they are not simple values (eg TRUE)
 
 1) graphs
 2) stf
