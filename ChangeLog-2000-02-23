@@ -1,3 +1,8 @@
+2000-01-27  Nick Lamb <njl195@zepler.org.uk>
+
+	* doc/C/images/*.png: New screenshots for documentation, part 2/3
+	Still no changes to live documentation yet.
+
 2000-01-26  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_{insert,delete}_{cols,rows}) : Do the
