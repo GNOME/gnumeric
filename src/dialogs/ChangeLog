@@ -1,3 +1,24 @@
+2001-10-11 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+        * anova-one.glade : change variable name to be consistent across
+	  various glade files to be able to use unified code
+	* anova-two.glade : ditto
+	* correlation.glade: ditto
+	* correlation.glade: ditto
+	* covariance.glade: ditto
+	* descriptive-stats.glade : ditto
+	* fourier-analysis.glade : ditto
+	* histogram.glade : ditto
+	* mean-tests.glade : ditto
+	* moving-averages.glade : ditto
+	* rank.glade : ditto
+	* dialog-analysis-tools.c (tool_destroy) : enable accelerators for expr-entry 
+	  widgets
+	(dialog_tool_init) : add forgotten gnumeric_editable_enters and 
+	  enable accelerators for expr-entry widgets
+	(dialog_*_tool) : ditto
+	(dialog_*_tool_init) : ditto
+	
 2001-10-10  Jody Goldberg <jgoldberg@home.com>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=62109

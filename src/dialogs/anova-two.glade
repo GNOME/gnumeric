@@ -106,7 +106,7 @@
 
 	<widget>
 	  <class>GtkLabel</class>
-	  <name>label1</name>
+	  <name>var1-label</name>
 	  <label>_Input Range:</label>
 	  <justify>GTK_JUSTIFY_RIGHT</justify>
 	  <wrap>False</wrap>
@@ -180,7 +180,7 @@
 	<yalign>0.5</yalign>
 	<xpad>5</xpad>
 	<ypad>0</ypad>
-	<default_focus_target>alpha-entry</default_focus_target>
+	<focus_target>alpha-entry</focus_target>
 	<child>
 	  <left_attach>0</left_attach>
 	  <right_attach>1</right_attach>
@@ -224,13 +224,14 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>label4</name>
-	<label>Number of Rows Per Sample:</label>
+	<label>Number of Rows _Per Sample:</label>
 	<justify>GTK_JUSTIFY_RIGHT</justify>
 	<wrap>False</wrap>
 	<xalign>0</xalign>
 	<yalign>0.5</yalign>
 	<xpad>5</xpad>
 	<ypad>0</ypad>
+	<focus_target>replication-entry</focus_target>
 	<child>
 	  <left_attach>0</left_attach>
 	  <right_attach>1</right_attach>

@@ -133,7 +133,7 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>var2-label</name>
-	  <label>_Bin Range:</label>
+	  <label>Bin _Range:</label>
 	  <justify>GTK_JUSTIFY_RIGHT</justify>
 	  <wrap>False</wrap>
 	  <xalign>0</xalign>
