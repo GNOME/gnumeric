@@ -161,13 +161,13 @@ static const struct {
 	const char *name;
 	int args;
 } qpro_functions[QPRO_OP_LAST_FUNC - QPRO_OP_FIRST_FUNC + 1] = {
-	{ "err", ARGS_UNKNOWN },
+	{ "err", ARGS_UNKNOWN }, /* No args -- returns error.  */
 	{ "abs", 1 },
 	{ "int", 1 },
 	{ "sqrt", 1 },
 	{ "log", 1 },
 	{ "ln", 1 },
-	{ "pi", 1 },
+	{ "pi", 0 },
 	{ "sin", 1 },
 	{ "cos", 1 },
 	{ "tan", 1 },
@@ -185,30 +185,30 @@ static const struct {
 	{ "rand", 0 },
 	{ "date", 1 },
 	{ "now", 0 },
-	{ "pmt", ARGS_UNKNOWN },
-	{ "pv", ARGS_UNKNOWN },
-	{ "fv", ARGS_UNKNOWN },
+	{ "pmt", ARGS_UNKNOWN }, /* (pv,Rate,Nper) */
+	{ "pv", ARGS_UNKNOWN },  /* (pmt, Rate, Nper) */
+	{ "fv", ARGS_UNKNOWN },  /* (pmt, Rate, Nper) */
 	{ "if", 3 },
 	{ "day", 1 },
 	{ "month", 1 },
 	{ "year", 1 },
-	{ "round", ARGS_UNKNOWN },
+	{ "round", 2 },
 	{ "time", 1 },
 	{ "hour", 1 },
 	{ "minute", 1 },
 	{ "second", 1 },
-	{ "isnum", ARGS_UNKNOWN },
-	{ "isstr", ARGS_UNKNOWN },
-	{ "len", ARGS_UNKNOWN },
-	{ "value", ARGS_UNKNOWN },
-	{ "string", ARGS_UNKNOWN },
-	{ "mid", ARGS_UNKNOWN },
+	{ "isnumber", 1 },
+	{ "istext", 1 },
+	{ "len", 1 },
+	{ "n", 1 },
+	{ "fixed", 2 },
+	{ "mid", 3 },
 	{ "char", 1 },
 	{ "code", 1 },
-	{ "find", ARGS_UNKNOWN },
-	{ "dateval", ARGS_UNKNOWN },
-	{ "timeval", ARGS_UNKNOWN },
-	{ "cellptr", ARGS_UNKNOWN },
+	{ "find", ARGS_UNKNOWN }, /* (subString, String,StartNumber) */
+	{ "dateval", ARGS_UNKNOWN }, /* @datevalue(datestring) */
+	{ "timeval", ARGS_UNKNOWN }, /* @timevalue(timestring) */
+	{ "cellptr", ARGS_UNKNOWN }, /* @cellpointer(attribute) -- the requested attribute of the current cell */
 	{ "sum", ARGS_COUNT_FOLLOWS },
 	{ "avg", ARGS_COUNT_FOLLOWS },
 	{ "count", ARGS_COUNT_FOLLOWS },
@@ -218,59 +218,59 @@ static const struct {
 	{ "npv1", ARGS_UNKNOWN },
 	{ "var", ARGS_COUNT_FOLLOWS },
 	{ "std", ARGS_COUNT_FOLLOWS },
-	{ "irr", ARGS_UNKNOWN },
-	{ "hlookup", ARGS_UNKNOWN },
-	{ "dsum", ARGS_UNKNOWN },
-	{ "davg", ARGS_UNKNOWN },
-	{ "dcount", ARGS_UNKNOWN },
-	{ "dmin", ARGS_UNKNOWN },
-	{ "dmax", ARGS_UNKNOWN },
-	{ "dvar", ARGS_UNKNOWN },
-	{ "dstd", ARGS_UNKNOWN },
-	{ "index2d", ARGS_UNKNOWN },
-	{ "cols", ARGS_UNKNOWN },
-	{ "rows", ARGS_UNKNOWN },
-	{ "repeat", ARGS_UNKNOWN },
+	{ "irr", ARGS_UNKNOWN }, /* @irr(guess,block) */
+	{ "hlookup", 3 }, /* @hlookup(X,Block,Row) */
+	{ "dsum", 3 },
+	{ "davg", 3 },
+	{ "dcount", 3 },
+	{ "dmin", 3 },
+	{ "dmax", 3 },
+	{ "dvar", 3 },
+	{ "dstdev", 3 },
+	{ "index2d", ARGS_UNKNOWN }, /* Possibly @index(Block, Column, Row, <Page>) */
+	{ "columns", 1 },
+	{ "rows", 1 },
+	{ "rept", 1 },
 	{ "upper", 1 },
 	{ "lower", 1 },
 	{ "left", 2 },
 	{ "right", 2 },
-	{ "replace", ARGS_UNKNOWN },
-	{ "proper", ARGS_UNKNOWN },
-	{ "cell", ARGS_UNKNOWN },
+	{ "replace", 4 },
+	{ "proper", 1 },
+	{ "cell", ARGS_UNKNOWN }, /* @cell(attribute,Block) */
 	{ "trim", 1 },
 	{ "clean", 1 },
-	{ "s", ARGS_UNKNOWN },
-	{ "n", ARGS_UNKNOWN },
-	{ "exact", ARGS_UNKNOWN },
+	{ "s", ARGS_UNKNOWN }, /* @s(Block) -- The string value of the upper left cell in Block (blank, if it is a value entry). */
+	{ "n", ARGS_UNKNOWN }, /* @n(block) -- The numberic vlue of the upper lwft cell in Block (0, if it is a label or blank). */
+	{ "exact", 2 },
 	{ "call", ARGS_UNKNOWN },
-	{ "at", ARGS_UNKNOWN },
-	{ "rate", ARGS_UNKNOWN },
-	{ "term", ARGS_UNKNOWN },
-	{ "cterm", ARGS_UNKNOWN },
-	{ "sln", ARGS_UNKNOWN },
-	{ "syd", ARGS_UNKNOWN },
-	{ "ddb", ARGS_UNKNOWN },
+	{ "at", ARGS_UNKNOWN }, /* @@(Cell) */
+	{ "rate", ARGS_UNKNOWN }, /* @rate(Fv,Pv,Nper) */
+	{ "term", ARGS_UNKNOWN }, /* @term(Pmt,Rate,Fv) */
+	{ "cterm", ARGS_UNKNOWN }, /* @cterm(Rate,Fv,Pv) */
+	{ "sln", ARGS_UNKNOWN }, /* @sln(cost,salvage,life) */
+	{ "syd", ARGS_UNKNOWN }, /* (cost,salvage,life,period) */
+	{ "ddb", ARGS_UNKNOWN }, /* (cost,salvage,life,period) */
 	{ "stdp", ARGS_COUNT_FOLLOWS },
 	{ "varp", ARGS_COUNT_FOLLOWS },
-	{ "dstds", ARGS_UNKNOWN },
-	{ "dvars", ARGS_UNKNOWN },
-	{ "pval", ARGS_UNKNOWN },
-	{ "paymt", ARGS_UNKNOWN },
-	{ "fval", ARGS_UNKNOWN },
-	{ "nper", ARGS_UNKNOWN },
-	{ "irate", ARGS_UNKNOWN },
-	{ "ipaymt", ARGS_UNKNOWN },
-	{ "ppaymt", ARGS_UNKNOWN },
-	{ "sumproduct", ARGS_UNKNOWN },
-	{ "memavail", ARGS_UNKNOWN },
-	{ "mememsavail", ARGS_UNKNOWN },
-	{ "fileexists", ARGS_UNKNOWN },
+	{ "dstdevp", 3 },
+	{ "dvarp", 3 },
+	{ "pval", ARGS_UNKNOWN }, /* (Rate,Nper,Pmt,<Fv>,<Type>) */
+	{ "paymt", ARGS_UNKNOWN }, /* (Rate,Nper,Pv,<Fv>,<Type>) */
+	{ "fval", ARGS_UNKNOWN }, /* (Rate,Nper,Pmt,<Fv>,<Type>) */
+	{ "nper", ARGS_UNKNOWN }, /* (Rate,Pmt,Pv,<Fv><Type>) */
+	{ "irate", ARGS_UNKNOWN }, /* (Nper,Pmt,Pv,<Fv>,<Type>) */
+	{ "ipaymt", ARGS_UNKNOWN }, /* (Rate,Per,Nper,Pv,<Fv>,<Type>) */
+	{ "ppaymt", ARGS_UNKNOWN }, /* (Rate,Per,Nper,Pv,<Fv>,<Type>) */
+	{ "sumproduct", 2 },
+	{ "memavail", ARGS_UNKNOWN }, /* No args.  */
+	{ "mememsavail", ARGS_UNKNOWN }, /* No args.  Returns NA.  */
+	{ "fileexists", ARGS_UNKNOWN }, /* @fileexists(FileName) */
 	{ "curvalue", ARGS_UNKNOWN },
 	{ "degrees", 1 },
 	{ "radians", 1 },
-	{ "hex2dec", ARGS_UNKNOWN },
-	{ "dec2hex", ARGS_UNKNOWN },
+	{ "hex2dec", 1 },
+	{ "dec2hex", 2 },
 	{ "today", 0 },
 	{ "npv2", ARGS_UNKNOWN },
 	{ "cellindex2d", ARGS_UNKNOWN },
