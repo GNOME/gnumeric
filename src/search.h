@@ -10,11 +10,13 @@
 #define GNM_SEARCH_REPLACE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_SEARCH_REPLACE_TYPE, GnmSearchReplace))
 #define GNM_IS_SEARCH_REPLACE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_SEARCH_REPLACE_TYPE))
 
-typedef enum { SRE_fail = 0,
-	       SRE_skip,
-	       SRE_query,
-	       SRE_error,
-	       SRE_string } SearchReplaceError;
+typedef enum {
+	SRE_fail = 0,
+	SRE_skip,
+	SRE_query,
+	SRE_error,
+	SRE_string
+} SearchReplaceError;
 
 typedef enum {
 	GNM_SRS_WORKBOOK = 0,
@@ -24,13 +26,17 @@ typedef enum {
 GType gnm_search_replace_scope_get_type (void);
 #define GNM_SEARCH_REPLACE_SCOPE_TYPE (gnm_search_replace_scope_get_type ())
 
-typedef enum { SRQ_fail,
-	       SRQ_query,
-	       SRQ_querycommment } SearchReplaceQuery;
+typedef enum {
+	SRQ_fail,
+	SRQ_query,
+	SRQ_querycommment
+} SearchReplaceQuery;
 
-typedef enum { SRL_contents,
-	       SRL_value,
-	       SRL_commment } SearchReplaceLocus;
+typedef enum {
+	SRL_contents,
+	SRL_value,
+	SRL_commment
+} SearchReplaceLocus;
 
 typedef  int (*SearchReplaceQueryFunc) (SearchReplaceQuery q, GnmSearchReplace *sr, ...);
 

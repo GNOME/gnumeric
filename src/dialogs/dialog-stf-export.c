@@ -87,7 +87,7 @@ typedef struct {
 	} format;
 
 	TextExportPage	cur_page;
-	StfExportOptions_t *result;
+	GnmStfExport *result;
 } TextExportState;
 
 static void
@@ -127,10 +127,10 @@ stf_export_dialog_format_page_init (TextExportState *state)
 
 	if (stf_export_can_transliterate ()) {
 		gtk_combo_box_set_active (state->format.transliterate,
-			TRANSLITERATE_MODE_TRANS);
+			GNM_STF_TRANSLITERATE_MODE_TRANS);
 	} else {
 		gtk_combo_box_set_active (state->format.transliterate,
-			TRANSLITERATE_MODE_ESCAPE);
+			GNM_STF_TRANSLITERATE_MODE_ESCAPE);
 		/* It might be better to render insensitive only one option than
 		the whole list as in the following line but it is not possible
 		with gtk-2.4. May be it should be changed when 2.6 is available	
@@ -162,23 +162,19 @@ cb_collect_exported_sheets (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter 
 		-1);
 	if (exported)
 		stf_export_options_sheet_list_add (state->result, sheet);
+	g_object_unref (sheet);
 	return FALSE;
 }
 static void
 stf_export_dialog_finish (TextExportState *state)
 {
 	GsfOutputCsvQuotingMode	quotingmode;
-	StfTransliterateMode_t transliteratemode;
+	GnmStfTransliterateMode transliteratemode;
 	const char *eol;
 	GString *triggers = g_string_new (" \t");
 	char *separator, *quote;
-
-	state->result = stf_export_options_new ();
-
-	/* Which sheets */
-	stf_export_options_sheet_list_clear (state->result);
-	gtk_tree_model_foreach (GTK_TREE_MODEL (state->sheets.model),
-		(GtkTreeModelForeachFunc) cb_collect_exported_sheets, state);
+	gboolean preserve;
+	const char *charset;
 
 	/* What options */
 	switch (gtk_combo_box_get_active (state->format.termination)) {
@@ -196,14 +192,13 @@ stf_export_dialog_finish (TextExportState *state)
 	}
 
 	switch (gtk_combo_box_get_active (state->format.transliterate)) {
-	case 0 :  transliteratemode = TRANSLITERATE_MODE_TRANS; break;
-	case 1 :  transliteratemode = TRANSLITERATE_MODE_ESCAPE; break;
-	default : transliteratemode  = TRANSLITERATE_MODE_UNKNOWN; break;
+	case 0 :  transliteratemode = GNM_STF_TRANSLITERATE_MODE_TRANS; break;
+	default:
+	case 1 :  transliteratemode = GNM_STF_TRANSLITERATE_MODE_ESCAPE; break;
 	}
-	stf_export_options_set_transliterate_mode (state->result, transliteratemode);
 
-	stf_export_options_set_format_mode (state->result,
-		 gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->format.preserve)));
+	preserve = gtk_toggle_button_get_active
+		(GTK_TOGGLE_BUTTON (state->format.preserve));
 
 	quote = gtk_editable_get_chars (GTK_EDITABLE (gtk_bin_get_child (GTK_BIN (state->format.quotechar))), 0, -1);
 
@@ -224,23 +219,32 @@ stf_export_dialog_finish (TextExportState *state)
 		break;
 	}
 
+	charset = go_charmap_sel_get_encoding (GO_CHARMAP_SEL (state->format.charset));
+
 	g_string_append (triggers, eol);
 	g_string_append (triggers, quote);
 	g_string_append (triggers, separator);
 
-	g_object_set (G_OBJECT (state->result->csv),
-		      "eol", eol,
-		      "quote", quote,
-		      "quoting-mode", quotingmode,
-		      "quoting-triggers", triggers->str,
-		      "separator", separator,
-		      NULL);
+	state->result = g_object_new
+		(GNM_STF_EXPORT_TYPE,
+		 "eol", eol,
+		 "quote", quote,
+		 "quoting-mode", quotingmode,
+		 "quoting-triggers", triggers->str,
+		 "separator", separator,
+		 "transliterate-mode", transliteratemode,
+		 "preserve-format", preserve,
+		 "charset", charset,
+		 NULL);
+
+	/* Which sheets */
+	stf_export_options_sheet_list_clear (state->result);
+	gtk_tree_model_foreach (GTK_TREE_MODEL (state->sheets.model),
+		(GtkTreeModelForeachFunc) cb_collect_exported_sheets, state);
+
 	g_free (separator);
 	g_free (quote);
 	g_string_free (triggers, TRUE);
-
-	stf_export_options_set_charset (state->result,
-		go_charmap_sel_get_encoding (GO_CHARMAP_SEL (state->format.charset)));
 
 	gtk_dialog_response (GTK_DIALOG (state->window), GTK_RESPONSE_OK);
 }
@@ -549,9 +553,9 @@ cb_next_page (TextExportState *state)
  * @wb : The #Workbook to export
  *
  * This will start the export assistant.
- * returns : A newly allocated StfExportOptions_t struct on success, NULL otherwise.
+ * returns : A newly allocated GnmStfExport struct on success, NULL otherwise.
  **/
-StfExportOptions_t *
+GnmStfExport *
 stf_export_dialog (WorkbookControlGUI *wbcg, Workbook *wb)
 {
 	TextExportState state;
@@ -575,6 +579,7 @@ stf_export_dialog (WorkbookControlGUI *wbcg, Workbook *wb)
 	stf_export_dialog_sheet_page_init (&state);
 	stf_export_dialog_format_page_init (&state);
 	if (state.sheets.non_empty == 0) {
+		gtk_widget_destroy (GTK_WIDGET (state.window));
 		go_gtk_notice_dialog (wbcg_toplevel (wbcg),  GTK_MESSAGE_ERROR, 
 				 _("This workbook does not contain any "
 				   "exportable content."));
@@ -593,7 +598,8 @@ stf_export_dialog (WorkbookControlGUI *wbcg, Workbook *wb)
 
 		go_gtk_dialog_run (GTK_DIALOG (state.window), wbcg_toplevel (wbcg));
 	}
-	g_object_unref (G_OBJECT (state.gui));
+	g_object_unref (state.gui);
+	g_object_unref (state.sheets.model);
 
 	return state.result;
 }

@@ -1,3 +1,8 @@
+2005-04-04  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-export.c (stf_export_dialog_finish): Plug leak.
+	(stf_export_dialog): Plug several leaks.
+
 2005-04-03  Jody Goldberg <jody@gnome.org>
 
 	* dialog-printer-setup.c (header_preview_event) : suppress warning.

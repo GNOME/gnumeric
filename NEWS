@@ -74,6 +74,7 @@ Morten:
 	  last time.  [#143188]
 	* Fix conversion problems with stf export.  [#126513]
 	* Improve text import for strange encodings.  [#167191]
+	* Rework stf export code and fix crash-on-exit-causing leaks.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.0

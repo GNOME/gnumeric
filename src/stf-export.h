@@ -4,37 +4,28 @@
 #include "gnumeric.h"
 #include <gsf/gsf-output-csv.h>
 
+#define GNM_STF_EXPORT_TYPE        (gnm_stf_export_get_type ())
+#define GNM_STF_EXPORT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_STF_EXPORT_TYPE, GnmStfExport))
+#define GNM_IS_STF_EXPORT(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_STF_EXPORT_TYPE))
+
 typedef enum {
-	TRANSLITERATE_MODE_TRANS   = 0, /* Automatically quote where needed */
-	TRANSLITERATE_MODE_ESCAPE  = 1, /* Always quote */
-	TRANSLITERATE_MODE_UNKNOWN = 2  /* Dummy entry */
-} StfTransliterateMode_t;
+	GNM_STF_TRANSLITERATE_MODE_TRANS  = 0, /* Automatically quote where needed */
+	GNM_STF_TRANSLITERATE_MODE_ESCAPE = 1  /* Always quote */
+} GnmStfTransliterateMode;
+GType gnm_stf_transliterate_mode_get_type (void);
+#define GNM_STF_TRANSLITERATE_MODE_TYPE (gnm_stf_transliterate_mode_get_type ())
 
-typedef struct {
-	GsfOutputCsv *csv;
+typedef struct _GnmStfExport GnmStfExport;
+GType gnm_stf_export_get_type (void);
 
-	GSList             *sheet_list;           /* Sheets to export */
-
-	char *charset;				  /* Desired charset */
-	StfTransliterateMode_t transliterate_mode;/* How to handle strange chars */
-	gboolean            preserve_format;      /* whether to use rendered strings */
-} StfExportOptions_t;
-
-StfExportOptions_t *stf_export_options_new (void);
-void stf_export_options_free (StfExportOptions_t *export_options);
-
-void stf_export_options_set_charset 	    (StfExportOptions_t *export_options, char const * charset);
-void stf_export_options_set_transliterate_mode (StfExportOptions_t *export_options, StfTransliterateMode_t transliterate_mode);
-void stf_export_options_set_format_mode (StfExportOptions_t *export_options, gboolean preserve_format);
-void stf_export_options_sheet_list_clear    (StfExportOptions_t *export_options);
-void stf_export_options_sheet_list_add      (StfExportOptions_t *export_options, Sheet *sheet);
+void stf_export_options_sheet_list_clear    (GnmStfExport *export_options);
+void stf_export_options_sheet_list_add      (GnmStfExport *export_options, Sheet *sheet);
 
 gboolean stf_export_can_transliterate (void);
-
 
 /*
  * Functions that do the actual thing
  */
-gboolean stf_export (StfExportOptions_t *export_options, GsfOutput *sink);
+gboolean stf_export (GnmStfExport *export_options);
 
 #endif

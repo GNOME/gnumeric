@@ -1,3 +1,7 @@
+2005-04-04  Morten Welinder  <terra@gnome.org>
+
+	* src/stf-export.c: Derive from GsfOutputCsv.
+
 2005-04-04  Jody Goldberg <jody@gnome.org>
 
 	* src/xml-sax-write.c (gnm_cellregion_to_xml) : add a namespace decl

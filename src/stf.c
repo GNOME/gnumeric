@@ -403,7 +403,7 @@ static void
 stf_write_workbook (GOFileSaver const *fs, IOContext *context,
 		    gconstpointer wbv, GsfOutput *output)
 {
-	StfExportOptions_t *result = NULL;
+	GnmStfExport *result = NULL;
 
 	if (IS_WORKBOOK_CONTROL_GUI (context->impl))
 		result = stf_export_dialog (WORKBOOK_CONTROL_GUI (context->impl),
@@ -414,27 +414,30 @@ stf_write_workbook (GOFileSaver const *fs, IOContext *context,
 		return;
 	}
 
-	if (stf_export (result, output) == FALSE)
+	g_object_set (G_OBJECT (result), "sink", output, NULL);
+	if (stf_export (result) == FALSE)
 		go_cmd_context_error_import (GO_CMD_CONTEXT (context),
 			_("Error while trying to export file as text"));
-	stf_export_options_free (result);
+	g_object_unref (result);
 }
 
 static void
 stf_write_csv (GOFileSaver const *fs, IOContext *context,
 	       gconstpointer wbv, GsfOutput *output)
 {
-	StfExportOptions_t *config = stf_export_options_new ();
-	g_object_set (config->csv,
-		      "quoting-triggers", ", \t\n\"",
-		      NULL);
+	GnmStfExport *config = g_object_new
+		(GNM_STF_EXPORT_TYPE,
+		 "sink", output,
+		 "quoting-triggers", ", \t\n\"",
+		 NULL);
 	stf_export_options_sheet_list_add (config,
 					   wb_view_cur_sheet (wbv));
 
-	if (stf_export (config, output) == FALSE)
+	if (stf_export (config) == FALSE)
 		go_cmd_context_error_import (GO_CMD_CONTEXT (context),
 			_("Error while trying to write CSV file"));
-	stf_export_options_free (config);
+
+	g_object_unref (config);
 }
 
 static gboolean
