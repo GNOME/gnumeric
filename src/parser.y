@@ -593,7 +593,6 @@ yylex (void)
 	case '\'':
 	case '"': {
 		char *string, *s;
-		int v;
 		char quotes_end = c;
 		
                 p = parser_expr;
@@ -619,8 +618,7 @@ yylex (void)
 		*s = 0;
 		parser_expr++;
 
-		v = try_symbol (string, FALSE);
-		return v;
+		return make_string_return (string, FALSE); 
 	}
 
 	}

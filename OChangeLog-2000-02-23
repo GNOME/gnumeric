@@ -1,3 +1,10 @@
+2000-01-02  Martin Sheppard <martin.sheppard@iname.com>
+
+	* src/parser.{c,y} (yylex) : fixed so that while parsing a formula,
+	a quoted function is convered to a string token rather than a 
+	function call token. i.e. so that things like "sin" work properly in 
+	formulas.
+	
 2000-01-03  Martin Sheppard <martin.sheppard@iname.com>
 
 	* src/expr.c (strescape) : new function to escape strings
