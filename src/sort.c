@@ -43,9 +43,9 @@ int
 sort_data_length (const SortData *data)
 {
 	if (data->top)
-		return data->range->end.row - data->range->start.row + 1;
+		return range_height (data->range);
 	else
-		return data->range->end.col - data->range->start.col + 1;
+		return range_width (data->range);
 }
 
 /* The routines to do the sorting */
@@ -254,6 +254,7 @@ sort_contents (WorkbookControl *context, SortData *data)
 	ColRowInfo const *cra;
 	SortDataPerm *perm;
 	int length, real_length, i, cur, *iperm, *real;
+	int const first = data->top ? data->range->start.row : data->range->start.col;
 
 	length = sort_data_length (data);
 	real_length = 0;
@@ -262,8 +263,8 @@ sort_contents (WorkbookControl *context, SortData *data)
 	real = g_new (int, length);
 	for (i = 0; i < length; i++) {
 		cra = data->top
-			? sheet_row_get (data->sheet, i)
-			: sheet_col_get (data->sheet, i);
+			? sheet_row_get (data->sheet, first + i)
+			: sheet_col_get (data->sheet, first + i);
 
 		if (cra && !cra->visible) {
 			real[i] = -1;

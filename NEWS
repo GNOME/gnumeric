@@ -43,6 +43,7 @@ Jody:
 	* Remove some dead code.
 	* Minor etable warning tweak.
 	* Improve cursor handling for frozen panes.
+	* Fix sorting with hidden cols/rows before region.
 
 Morten:
 	* Fix EXPRESSION crash.

@@ -1,3 +1,9 @@
+2001-12-09  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=66442
+	* src/sort.c (sort_contents) : support sorting that does not start at
+	  col/row 0.
+
 2001-12-07  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet.c (sheet_make_cell_visible) : add a couple_pane argument.
