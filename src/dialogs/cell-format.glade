@@ -2516,7 +2516,7 @@ Double
 		<border_width>3</border_width>
 		<width>30</width>
 		<height>29</height>
-		<tooltip>75% grey</tooltip>
+		<tooltip>75% Grey</tooltip>
 		<can_focus>True</can_focus>
 		<active>False</active>
 		<child>
