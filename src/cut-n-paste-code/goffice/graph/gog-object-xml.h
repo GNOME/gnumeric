@@ -19,7 +19,7 @@
  * USA
  */
 #ifndef GOG_OBJECT_XML_H
-#define GOG_OBJECT_HXML_
+#define GOG_OBJECT_XML_H
 
 #include <goffice/graph/goffice-graph.h>
 #include <glib-object.h>
@@ -54,4 +54,4 @@ GogObject *gog_object_new_from_xml (GogObject *parent, xmlNode *node);
 
 G_END_DECLS
 
-#endif /* GOG_OBJECT_H */
+#endif /* GOG_OBJECT_XML_H */
