@@ -19,9 +19,9 @@
 #include "workbook-control-gui-priv.h"
 #include "workbook-view.h"
 #include "workbook.h"
+#include "gnumeric-gconf.h"
 
 #include <libgnome/gnome-i18n.h>
-#include <libgnome/gnome-config.h>
 #include <libgnome/gnome-util.h>
 #include <errno.h>
 #include <sys/stat.h>
@@ -92,12 +92,11 @@ gui_file_import (WorkbookControlGUI *wbcg)
 	GnumFileOpener *fo = NULL;
 	gchar const *file_name;
 
-	if (gnome_config_get_bool_with_default (
-	    "Gnumeric/File/ImportUsesAllOpeners=false", NULL)) {
+	if (gnm_gconf_get_import_uses_all_openers ())
 		importers = get_file_openers ();
-	} else {
+	else
 		importers = get_file_importers ();
-	}
+
 	importers = g_list_copy (importers);
 	importers = g_list_sort (importers, file_opener_description_cmp);
 
@@ -165,9 +164,8 @@ can_try_save_to (WorkbookControlGUI *wbcg, const char *name)
 		msg = g_strdup_printf (
 		      _("Workbook %s already exists.\n"
 		      "Do you want to save over it?"), name);
-		result = gnumeric_dialog_question_yes_no (wbcg, msg,
-		         gnome_config_get_bool_with_default (
-		         "Gnumeric/File/FileOverwriteDefaultAnswer=false", NULL));
+		result = gnumeric_dialog_question_yes_no (
+			wbcg, msg, gnm_gconf_get_file_overwrite_default_answer());
 		g_free (msg);
 	}
 
@@ -182,7 +180,7 @@ check_multiple_sheet_support_if_needed (GnumFileSaver *fs,
 	gboolean ret_val = TRUE;
 
 	if (gnum_file_saver_get_save_scope (fs) == FILE_SAVE_SHEET &&
-	    gnome_config_get_bool_with_default ("Gnumeric/File/AskBeforeSavingOneSheet=true", NULL)) {
+	    gnm_gconf_get_file_ask_single_sheet_save ()) {
 		GList *sheets;
 		gchar *msg = _("Selected file format doesn't support "
 			       "saving multiple sheets in one file.\n"

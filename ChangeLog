@@ -1,5 +1,13 @@
 2002-04-17  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/gui-file.c : replace gnome-config with get/set methods from
+	  src/gnumeric-gconf.h
+	* schemas/gnumeric-general.schemas : new schemas
+	* src/gnumeric-gconf-priv.h : new keys
+	* src/gnumeric-gconf.[ch] : new get/set methods
+	
+2002-04-17  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/gui-util.[ch] (gnumeric_dialog_show) : deleted
 	* src/gui-file.c (ask_for_file_saver) : change GnomeDialog to GtkDialog
 	  NOTE: untested change!

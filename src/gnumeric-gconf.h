@@ -94,6 +94,15 @@ void     gnm_gconf_set_recent_funcs (GSList *list);
 guint    gnm_gconf_get_num_of_recent_funcs (void);
 void     gnm_gconf_set_num_of_recent_funcs (guint val);
 
+gboolean gnm_gconf_get_import_uses_all_openers (void);
+void     gnm_gconf_set_import_uses_all_openers (gboolean val);
+
+gboolean gnm_gconf_get_file_overwrite_default_answer (void);
+void     gnm_gconf_set_file_overwrite_default_answer (gboolean val);
+
+gboolean gnm_gconf_get_file_ask_single_sheet_save (void);
+void     gnm_gconf_set_file_ask_single_sheet_save (gboolean val);
+
 /* others */
 gnum_float gnm_gconf_get_horizontal_dpi (void);
 void     gnm_gconf_set_horizontal_dpi  (gnum_float val);

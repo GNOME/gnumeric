@@ -980,6 +980,68 @@ cb_pref_file_xml_compression_changed (GtkSpinButton *button, PrefState *state)
 				       NULL);
 }
 
+static void
+cb_pref_file_set_overwrite (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
+				   GtkToggleButton *button)
+{
+	gboolean is_set_gconf = gconf_client_get_bool (gconf,
+						       GNUMERIC_GCONF_FILE_OVERWRITE_DEFAULT, 
+						       NULL);
+	gboolean is_set_button = gtk_toggle_button_get_active (button);
+	if (is_set_gconf != is_set_button)
+		gtk_toggle_button_set_active (button, is_set_gconf);
+}
+
+static void 
+cb_pref_file_overwrite_toggled (GtkToggleButton *button, PrefState *state)
+{
+		gconf_client_set_bool (state->gconf,
+				       GNUMERIC_GCONF_FILE_OVERWRITE_DEFAULT,
+				       gtk_toggle_button_get_active (button), 
+				       NULL);
+}
+
+static void
+cb_pref_file_set_single_sheet_warn (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
+				   GtkToggleButton *button)
+{
+	gboolean is_set_gconf = gconf_client_get_bool (gconf,
+						       GNUMERIC_GCONF_FILE_SINGLE_SHEET_SAVE, 
+						       NULL);
+	gboolean is_set_button = gtk_toggle_button_get_active (button);
+	if (is_set_gconf != is_set_button)
+		gtk_toggle_button_set_active (button, is_set_gconf);
+}
+
+static void 
+cb_pref_file_single_sheet_warn_toggled (GtkToggleButton *button, PrefState *state)
+{
+		gconf_client_set_bool (state->gconf,
+				       GNUMERIC_GCONF_FILE_SINGLE_SHEET_SAVE,
+				       gtk_toggle_button_get_active (button), 
+				       NULL);
+}
+
+static void
+cb_pref_file_set_import_all_op (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
+				   GtkToggleButton *button)
+{
+	gboolean is_set_gconf = gconf_client_get_bool (gconf,
+						       GNUMERIC_GCONF_FILE_IMPORT_USES_ALL_OP, 
+						       NULL);
+	gboolean is_set_button = gtk_toggle_button_get_active (button);
+	if (is_set_gconf != is_set_button)
+		gtk_toggle_button_set_active (button, is_set_gconf);
+}
+
+static void 
+cb_pref_file_import_all_op_toggled (GtkToggleButton *button, PrefState *state)
+{
+		gconf_client_set_bool (state->gconf,
+				       GNUMERIC_GCONF_FILE_IMPORT_USES_ALL_OP,
+				       gtk_toggle_button_get_active (button), 
+				       NULL);
+}
 
 static 
 GtkWidget *pref_file_page_initializer (PrefState *state, gpointer data, 
@@ -1003,6 +1065,27 @@ GtkWidget *pref_file_page_initializer (PrefState *state, gpointer data,
 				     9, 0, 9, 1,
 				     cb_pref_file_set_xml_compression,
 				     cb_pref_file_xml_compression_changed);
+
+	/* Overwrite Default check box */
+	dialog_pref_create_checkbox (GNUMERIC_GCONF_FILE_OVERWRITE_DEFAULT, 
+				     "/schemas" GNUMERIC_GCONF_FILE_OVERWRITE_DEFAULT, 
+				     page, row++, state,
+				     cb_pref_file_set_overwrite,
+				     cb_pref_file_overwrite_toggled);
+
+	/* Single Sheet Warning check box */
+	dialog_pref_create_checkbox (GNUMERIC_GCONF_FILE_SINGLE_SHEET_SAVE, 
+				     "/schemas" GNUMERIC_GCONF_FILE_SINGLE_SHEET_SAVE, 
+				     page, row++, state,
+				     cb_pref_file_set_single_sheet_warn,
+				     cb_pref_file_single_sheet_warn_toggled);
+
+	/* Import with all Openers check box */
+	dialog_pref_create_checkbox (GNUMERIC_GCONF_FILE_IMPORT_USES_ALL_OP, 
+				     "/schemas" GNUMERIC_GCONF_FILE_IMPORT_USES_ALL_OP, 
+				     page, row++, state,
+				     cb_pref_file_set_import_all_op,
+				     cb_pref_file_import_all_op_toggled);
 
 	gtk_widget_show_all (page);
 	return page;

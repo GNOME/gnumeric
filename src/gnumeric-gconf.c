@@ -582,3 +582,54 @@ gnm_gconf_set_xml_compression_level (gint val)
 			       GNUMERIC_GCONF_XML_COMPRESSION,
 			       val, NULL);
 }
+
+gboolean
+gnm_gconf_get_import_uses_all_openers (void)
+{
+	return gconf_client_get_bool (application_get_gconf_client (), 
+				      GNUMERIC_GCONF_FILE_IMPORT_USES_ALL_OP,
+				      NULL);
+}
+
+void
+gnm_gconf_set_import_uses_all_openers (gboolean val)
+{
+	gconf_client_set_bool (application_get_gconf_client (), 
+			       GNUMERIC_GCONF_FILE_IMPORT_USES_ALL_OP,
+			       val, NULL);
+}
+
+gboolean
+gnm_gconf_get_file_overwrite_default_answer (void)
+{
+	return gconf_client_get_bool (application_get_gconf_client (), 
+				      GNUMERIC_GCONF_FILE_OVERWRITE_DEFAULT,
+				      NULL);
+}
+
+void
+gnm_gconf_set_file_overwrite_default_answer (gboolean val)
+{
+	gconf_client_set_bool (application_get_gconf_client (), 
+			       GNUMERIC_GCONF_FILE_OVERWRITE_DEFAULT,
+			       val, NULL);
+}
+
+gboolean
+gnm_gconf_get_file_ask_single_sheet_save (void)
+{
+	return gconf_client_get_bool (application_get_gconf_client (), 
+				      GNUMERIC_GCONF_FILE_SINGLE_SHEET_SAVE,
+				      NULL);
+}
+
+void
+gnm_gconf_set_file_ask_single_sheet_save (gboolean val)
+{
+	gconf_client_set_bool (application_get_gconf_client (), 
+			       GNUMERIC_GCONF_FILE_SINGLE_SHEET_SAVE,
+			       val, NULL);
+}
+
+
+
