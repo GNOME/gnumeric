@@ -4,4 +4,3 @@ Makefile
 .libs
 *.lo
 *.la
-version.c

@@ -10,13 +10,13 @@ libole2_sources = 		\
 	ms-ole.c		\
 	ms-ole.h		\
 	ms-ole-summary.c	\
-	ms-ole-summary.h	\
-	version.c
+	ms-ole-summary.h
 
 if LIBOLE2_PUBLIC_LIBRARY
 lib_LTLIBRARIES = libole2.la
 libole2_la_SOURCES =		\
-	$(libole2_sources)
+	$(libole2_sources)	\
+	version.c
 libole2includedir      = $(includedir)/libole2
 libole2include_HEADERS =	\
 	libole2.h		\
