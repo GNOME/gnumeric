@@ -96,12 +96,16 @@
 # values                  waarden
 # volatility              volatiliteit
 # yield                   rendement
+# --------------------------------------------
+# workbook                werkmap
+# worksheet               werkblad
+# encrypted               beveiligd
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
-"POT-Creation-Date: 2003-05-12 17:26-0400\n"
-"PO-Revision-Date: 2003-03-12 18:11+0100\n"
+"POT-Creation-Date: 2003-05-11 13:02+0200\n"
+"PO-Revision-Date: 2003-05-16 18:05+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: nl <vertaling@nl.linux.org>\n"
 "MIME-Version: 1.0\n"
@@ -1012,7 +1016,7 @@ msgstr ""
 "We hebben reeds een lengte geschreven van een tekenreeks die wordt afgekapt "
 "vanwege tekenset-problemen."
 
-#: plugins/excel/ms-excel-write.c:3684
+#: plugins/excel/ms-excel-write.c:3682
 #, c-format
 msgid ""
 "Some content will be lost when saving as excel 95.It only supports %d rows, "
@@ -1021,7 +1025,7 @@ msgstr ""
 "Een deel van de inhoud zal verloren gaan bij het opslaan in Excel95-formaat. "
 "Dit formaat ondersteunt slechts %d rijen, en dit werkboek heeft er %d"
 
-#: plugins/excel/ms-excel-write.c:3691
+#: plugins/excel/ms-excel-write.c:3689
 #, c-format
 msgid ""
 "Some content will be lost when saving as excel.It only supports %d rows, and "
@@ -1030,11 +1034,11 @@ msgstr ""
 "Een deel van de inhoud zal verloren gaan bij het opslaan in Excel-formaat. "
 "Dit formaat ondersteunt slechts %d rijen en dit werkboek heeft er %d"
 
-#: plugins/excel/ms-excel-write.c:4095
+#: plugins/excel/ms-excel-write.c:4093
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Kon de stroom 'Map' niet openen voor schrijven\n"
 
-#: plugins/excel/ms-excel-write.c:4115
+#: plugins/excel/ms-excel-write.c:4113
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Kon de stroom 'Werkmap' niet openen voor schrijven\n"
 
@@ -8532,7 +8536,6 @@ msgid "Logical Functions"
 msgstr "Logische Functies"
 
 #: plugins/fn-lookup/functions.c:327
-#, fuzzy
 msgid ""
 "@FUNCTION=ADDRESS\n"
 "@SYNTAX=ADDRESS(row_num,col_num[,abs_num,a1,text])\n"
@@ -8558,7 +8561,7 @@ msgid ""
 "ADDRESS(5,4,4) equals \"D5\".\n"
 "ADDRESS(5,4,3,FALSE) equals \"R[5]C4\".\n"
 "\n"
-"@SEEALSO=COLUMNNUMBER"
+"@SEEALSO="
 msgstr ""
 "@FUNCTION=ADDRESS\n"
 "@SYNTAX=ADDRESS(rij_getal;kolom_getal[;abs_getal;a1;tekst])\n"
@@ -8887,34 +8890,6 @@ msgstr ""
 "@SEEALSO=COLUMNS,ROW,ROWS"
 
 #: plugins/fn-lookup/functions.c:956
-#, fuzzy
-msgid ""
-"@FUNCTION=COLUMNNUMBER\n"
-"@SYNTAX=COLUMNNUMBER(name)\n"
-"@DESCRIPTION=COLUMNNUMBER function returns an integer corresponding to the "
-"column name supplied as a string.\n"
-"\n"
-"* If @name is invalid, COLUMNNUMBER returns the #VALUE! error.\n"
-"\n"
-"@EXAMPLES=\n"
-"COLUMNNUMBER(\"E\") equals 5.\n"
-"\n"
-"@SEEALSO=ADDRESS"
-msgstr ""
-"@FUNCTION=COLUMNS\n"
-"@SYNTAX=COLUMNS(verwijzing)\n"
-"@DESCRIPTION=COLUMNS geeft het aantal kolommen in het opgegeven bereik of de "
-"array-verwijzing.\n"
-"\n"
-"* Als @verwijzing noch een array is, noch een verwijzing noch een bereik, "
-"geeft COLUMNS een #WAARDE! foutmelding.\n"
-"\n"
-"@EXAMPLES=\n"
-"COLUMNS(H2:J3) is 3\n"
-"\n"
-"@SEEALSO=COLUMN,ROW,ROWS"
-
-#: plugins/fn-lookup/functions.c:988
 msgid ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(reference)\n"
@@ -8942,7 +8917,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: plugins/fn-lookup/functions.c:1013
+#: plugins/fn-lookup/functions.c:981
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col,height,width)\n"
@@ -8971,7 +8946,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
-#: plugins/fn-lookup/functions.c:1070
+#: plugins/fn-lookup/functions.c:1038
 msgid ""
 "@FUNCTION=ROW\n"
 "@SYNTAX=ROW([reference])\n"
@@ -8999,7 +8974,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
-#: plugins/fn-lookup/functions.c:1123
+#: plugins/fn-lookup/functions.c:1091
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -9027,7 +9002,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: plugins/fn-lookup/functions.c:1148
+#: plugins/fn-lookup/functions.c:1116
 msgid ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(link_location, optional_label)\n"
@@ -9049,7 +9024,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-lookup/functions.c:1173
+#: plugins/fn-lookup/functions.c:1141
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
@@ -9068,57 +9043,52 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT"
 
-#: plugins/fn-lookup/functions.c:1217
+#: plugins/fn-lookup/functions.c:1185
 msgid "row_num,col_num,abs_num,a1,text"
 msgstr "rij_num;kol_num;abs_num;a1;tekst"
 
-#: plugins/fn-lookup/functions.c:1220
+#: plugins/fn-lookup/functions.c:1188
 msgid "reference"
 msgstr "verwijzing"
 
-#: plugins/fn-lookup/functions.c:1223
+#: plugins/fn-lookup/functions.c:1191
 msgid "index,value,"
 msgstr "index;waarde;"
 
-#: plugins/fn-lookup/functions.c:1226 plugins/fn-lookup/functions.c:1232
-#: plugins/fn-lookup/functions.c:1256 plugins/fn-lookup/functions.c:1259
+#: plugins/fn-lookup/functions.c:1194 plugins/fn-lookup/functions.c:1197
+#: plugins/fn-lookup/functions.c:1221 plugins/fn-lookup/functions.c:1224
 msgid "ref"
 msgstr "verw"
 
-#: plugins/fn-lookup/functions.c:1229
-#, fuzzy
-msgid "colname"
-msgstr "Een naam"
-
-#: plugins/fn-lookup/functions.c:1235 plugins/fn-lookup/functions.c:1265
+#: plugins/fn-lookup/functions.c:1200 plugins/fn-lookup/functions.c:1230
 msgid "val,range,col_idx,approx,as_index"
 msgstr "waarde;bereik;kol_indx;benaderen;als_index"
 
-#: plugins/fn-lookup/functions.c:1238
+#: plugins/fn-lookup/functions.c:1203
 msgid "link_location, label"
 msgstr "link_locatie; label"
 
-#: plugins/fn-lookup/functions.c:1241
+#: plugins/fn-lookup/functions.c:1206
 msgid "ref_string,format"
 msgstr "verw_tekenreeks;formaat"
 
-#: plugins/fn-lookup/functions.c:1244
+#: plugins/fn-lookup/functions.c:1209
 msgid "reference,row,col,area"
 msgstr "verwijzing;rij;kol;gebied"
 
-#: plugins/fn-lookup/functions.c:1247
+#: plugins/fn-lookup/functions.c:1212
 msgid "val,range,range"
 msgstr "waarde;bereik;bereik"
 
-#: plugins/fn-lookup/functions.c:1250
+#: plugins/fn-lookup/functions.c:1215
 msgid "val,range,approx"
 msgstr "waarde;bereik;benader"
 
-#: plugins/fn-lookup/functions.c:1253
+#: plugins/fn-lookup/functions.c:1218
 msgid "ref,row,col,height,width"
 msgstr "ref;rij;kol;hoogte;breedte"
 
-#: plugins/fn-lookup/functions.c:1262 plugins/fn-math/functions.c:3269
+#: plugins/fn-lookup/functions.c:1227 plugins/fn-math/functions.c:3269
 msgid "array"
 msgstr "reeks"
 
@@ -11441,6 +11411,15 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
+"@FUNCTION=RANDLOGNORM\n"
+"@SYNTAX=RANDLOGNORM(zeta;sigma)\n"
+"@DESCRIPTION=RANDLOGNORM geeft een willekeurig getal volgens een lognormale "
+"distributie.\n"
+"\n"
+"@EXAMPLES=\n"
+"RANDLOGNORM(1;2)\n"
+"\n"
+"@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:492
 msgid ""
@@ -11583,6 +11562,15 @@ msgid ""
 "\n"
 "@SEEALSO=RAND,RANDGAMMA"
 msgstr ""
+"@FUNCTION=RANDFDIST\n"
+"@SYNTAX=RANDFDIST(nu1;nu2)\n"
+"@DESCRIPTION=RANDFDIST geeft een willekeurig getal volgens een F-"
+"distributie.\n"
+"\n"
+"@EXAMPLES=\n"
+"RANDFDIST(1;2)\n"
+"\n"
+"@SEEALSO=RAND,RANDGAMMA"
 
 #: plugins/fn-random/functions.c:669
 msgid ""
@@ -11681,6 +11669,15 @@ msgid ""
 "\n"
 "@SEEALSO=RAND,RANDGAMMA"
 msgstr ""
+"@FUNCTION=RANDCHISQ\n"
+"@SYNTAX=RANDCHISQ(nu)\n"
+"@DESCRIPTION=RANDCHISQ geeft een willekeurig getal volgens een Chi-kwadraat "
+"distributie.\n"
+"\n"
+"@EXAMPLES=\n"
+"RANDCHISQ(0,5)\n"
+"\n"
+"@SEEALSO=RAND,RANDGAMMA"
 
 #: plugins/fn-random/functions.c:831
 msgid ""
@@ -17025,10 +17022,10 @@ msgstr "Lijst van recentelijk gebruikte functies."
 msgid "Maximum Length of Recently Used Functions List"
 msgstr "Maximumlengte van de lijst met recentelijk gebruikte functies."
 
+# printerconfiguratie?
 #: schemas/gnumeric-dialogs.schemas.in.h:17
-#, fuzzy
 msgid "Print Config"
-msgstr "Bereik Afdrukken"
+msgstr "Printer configuratie"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:18
 msgid ""
@@ -17036,8 +17033,8 @@ msgid ""
 "in the workbook. Setting this variable to TRUE directs selections to this "
 "entry even the entry does not have keyboard focus."
 msgstr ""
-"Sommige dialoogvensters bevatten slecht een enkel invoerveld voor bereik-"
-"selecties in het werkboek. Als deze variabele op TRUE (WAAR) wordt gezet "
+"Sommige dialoogvensters bevatten slechts een enkel invoerveld voor bereik-"
+"selecties in het werkboek. Als deze variabele op TRUE (WAAR) wordt gezet, "
 "gaan selecties rechtstreeks naar dit invoerveld, zelfs al heeft dit "
 "invoerveld geen toetsenbord-aandacht."
 
@@ -17062,11 +17059,8 @@ msgstr ""
 "lijst staan."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:22
-#, fuzzy
 msgid "The configuration of gnome-print. Do not edit this variable."
-msgstr ""
-"De configuratienaam van de printer in gnome-print. Deze variabele niet "
-"veranderen."
+msgstr "De configuratie van  gnome-printer. Deze variabele niet veranderen."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:23
 msgid ""
@@ -17235,7 +17229,7 @@ msgstr "Aantal Herstellen-items"
 
 #: schemas/gnumeric-general.schemas.in.h:22
 msgid "Prefer CLIPBOARD over PRIMARY selection"
-msgstr ""
+msgstr "bij selecteren CLIPBOARD prefereren boven PRIMARY"
 
 #: schemas/gnumeric-general.schemas.in.h:23
 msgid "Screen resolution in the horizontal direction."
@@ -17399,11 +17393,14 @@ msgstr ""
 "Deze waarde bepaalt of de bladnamen worden getoond in de herstellen/opnieuw "
 "lijsten."
 
+# lijsten ipv ketens ivm constistentie vorige msg
 #: schemas/gnumeric-general.schemas.in.h:49
 msgid ""
 "This value is indicative of the maximum length of the command descriptors in "
 "the undo and redo chains."
 msgstr ""
+"Deze waarde geeft de maximum lengte van de opdracht-beschrijvingen in de "
+"herstellen/opnieuw lijsten."
 
 #: schemas/gnumeric-general.schemas.in.h:50
 msgid "This variable determines whether autocompletion is set on."
@@ -17520,9 +17517,8 @@ msgid "Add _Auto Filter"
 msgstr "_Auto-Filter toevoegen"
 
 #: src/GNOME_Gnumeric.xml.h:3
-#, fuzzy
 msgid "Add a scenario"
-msgstr "Een filter toevoegen"
+msgstr "Een scenario toevoegen"
 
 #: src/GNOME_Gnumeric.xml.h:4 src/workbook-control-gui.c:3765
 msgid "Add an outline group"
@@ -17898,7 +17894,7 @@ msgstr "_Opmaak"
 
 #: src/GNOME_Gnumeric.xml.h:90 src/workbook-control-gui.c:3324
 msgid "Fill according to a linear or exponential serie"
-msgstr ""
+msgstr "Vullen volgens een lineaire of exponentiele serie"
 
 #: src/GNOME_Gnumeric.xml.h:91 src/workbook-control-gui.c:3809
 msgid "Filter data with given criteria"
@@ -18211,9 +18207,8 @@ msgid "Open"
 msgstr "Openenen"
 
 #: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:3871
-#, fuzzy
 msgid "Open a file"
-msgstr "Een filter verwijderen"
+msgstr "Een bestand openen"
 
 #: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:3780
 msgid "Outlines _Below"
@@ -18383,17 +18378,15 @@ msgstr "Opslaan _Als..."
 
 #: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:3874
 msgid "Save the current workbook"
-msgstr "Sla de huidige werkmap op"
+msgstr "De huidige werkmap opslaan"
 
 #: src/GNOME_Gnumeric.xml.h:205
-#, fuzzy
 msgid "Save the current workbook with a different name"
-msgstr "Sla huidige bestand op onder een andere naam"
+msgstr "De huidige werkmap opslaan onder een andere naam"
 
 #: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:3745
-#, fuzzy
 msgid "Sce_narios"
-msgstr "Scheidingstekens"
+msgstr "Sce_narios"
 
 #: src/GNOME_Gnumeric.xml.h:207 src/workbook-object-toolbar.c:143
 msgid "Scrollbar"
@@ -18606,8 +18599,9 @@ msgstr "Verschillende samenvattingsstatistieken"
 
 #: src/GNOME_Gnumeric.xml.h:256 src/workbook-control-gui.c:3616
 msgid "View, delete and report different scenarios"
-msgstr ""
+msgstr "Verschillende scenarios bekijken, verwijderen en rapporteren"
 
+# inzoomen of uitzoomen
 #: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:3426
 #: src/workbook-control-gui.c:4155
 msgid "Zoom the spreadsheet in or out"
@@ -18627,9 +18621,8 @@ msgid "_Add / Modify comment..."
 msgstr "Opmerking _Toevoegen/Aanpassen ..."
 
 #: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:3618
-#, fuzzy
 msgid "_Add..."
-msgstr "_Toevoegen"
+msgstr "_Toevoegen..."
 
 #: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:3268
 msgid "_All"
@@ -18905,9 +18898,8 @@ msgid "_Select"
 msgstr "_Selecteren"
 
 #: src/GNOME_Gnumeric.xml.h:323
-#, fuzzy
 msgid "_Series..."
-msgstr "_Series"
+msgstr "_Series..."
 
 #: src/GNOME_Gnumeric.xml.h:324
 msgid "_Shaped Object"
@@ -18990,9 +18982,8 @@ msgid "_View"
 msgstr "B_eeld"
 
 #: src/GNOME_Gnumeric.xml.h:343 src/workbook-control-gui.c:3615
-#, fuzzy
 msgid "_View..."
-msgstr "B_eeld"
+msgstr "B_eeld..."
 
 #: src/GNOME_Gnumeric.xml.h:344 src/workbook-control-gui.c:3509
 msgid "_Width..."
@@ -19556,15 +19547,15 @@ msgstr "Naam %s bijwerken"
 
 #: src/commands.c:5563
 msgid "Add scenario"
-msgstr ""
+msgstr "scenario toevoegen"
 
 #: src/commands.c:5639
 msgid "Scenario Show"
-msgstr ""
+msgstr "Scenario tonen"
 
 #: src/commands.c:5704
 msgid "Shuffle Data"
-msgstr ""
+msgstr "Data husselen"
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:121
 msgid "A unique name for the action."
@@ -20020,7 +20011,7 @@ msgstr "0.05"
 #: src/dialogs/rank.glade.h:1 src/dialogs/sampling.glade.h:3
 #: src/dialogs/variance-tests.glade.h:3
 msgid "<span weight=\"bold\">Input</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Invoer</span>"
 
 #: src/dialogs/anova-one.glade.h:4 src/dialogs/anova-two.glade.h:5
 #: src/dialogs/descriptive-stats.glade.h:6 src/dialogs/exp-smoothing.glade.h:4
@@ -20028,7 +20019,7 @@ msgstr ""
 #: src/dialogs/rank.glade.h:2 src/dialogs/sampling.glade.h:4
 #: src/dialogs/variance-tests.glade.h:4
 msgid "<span weight=\"bold\">Options</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Opties</span>"
 
 #: src/dialogs/anova-one.glade.h:5 src/dialogs/anova-two.glade.h:6
 #: src/dialogs/correlation.glade.h:2 src/dialogs/covariance.glade.h:2
@@ -20037,7 +20028,7 @@ msgstr ""
 #: src/dialogs/rank.glade.h:3 src/dialogs/sampling.glade.h:5
 #: src/dialogs/variance-tests.glade.h:5
 msgid "<span weight=\"bold\">Output</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Uitvoer</span>"
 
 #: src/dialogs/anova-one.glade.h:6
 msgid "ANOVA - Single Factor"
@@ -20089,9 +20080,8 @@ msgstr "Uitvoerbereik-opmaak Behouden"
 
 #: src/dialogs/anova-one.glade.h:13 src/dialogs/anova-two.glade.h:13
 #: src/dialogs/mean-tests.glade.h:24 src/dialogs/variance-tests.glade.h:14
-#, fuzzy
 msgid "_Alpha:"
-msgstr "_alpha ="
+msgstr "_Alpha:"
 
 #: src/dialogs/anova-one.glade.h:14 src/dialogs/correlation.glade.h:10
 #: src/dialogs/covariance.glade.h:10 src/dialogs/descriptive-stats.glade.h:20
@@ -20131,10 +20121,10 @@ msgstr "1"
 msgid "ANOVA - Two-Factor"
 msgstr "ANOVA - Twee-Factor"
 
+# Te veel hoofdletters?
 #: src/dialogs/anova-two.glade.h:18
-#, fuzzy
 msgid "_Rows Per Sample:"
-msgstr "Aantal Rijen _Per Steekproef:"
+msgstr "_Rijen Per Steekproef:"
 
 #: src/dialogs/autocorrect.glade.h:2
 msgid "Auto Correct"
@@ -20153,7 +20143,6 @@ msgid "Correct _TWo INitial CApitals                           "
 msgstr "Corrigeer _TWee HOofdletters"
 
 #: src/dialogs/autocorrect.glade.h:6
-#, fuzzy
 msgid "Do _not capitalize after:"
 msgstr "_Geen hoofdletters na:"
 
@@ -20430,12 +20419,11 @@ msgstr "75% Grijs"
 
 #: src/dialogs/cell-format.glade.h:12
 msgid "<span weight=\"bold\">Criteria</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Criteria</span>"
 
 #: src/dialogs/cell-format.glade.h:13
-#, fuzzy
 msgid "Act_ion:"
-msgstr "A_ctie:"
+msgstr "Act_ie:"
 
 #: src/dialogs/cell-format.glade.h:14
 msgid "Alignment"
@@ -20446,7 +20434,6 @@ msgid "Any Value     (no validation)"
 msgstr "Willekeurige waarde  (geen controle)"
 
 #: src/dialogs/cell-format.glade.h:17
-#, fuzzy
 msgid "Background Color"
 msgstr "Achtergrondkleur:"
 
@@ -20471,9 +20458,8 @@ msgid "Co_lor:"
 msgstr "K_leur:"
 
 #: src/dialogs/cell-format.glade.h:24
-#, fuzzy
 msgid "Color"
-msgstr "Kleur:"
+msgstr "Kleur"
 
 #: src/dialogs/cell-format.glade.h:25 src/dialogs/so-arrow.glade.h:5
 msgid "Color:"
@@ -20498,9 +20484,8 @@ msgid "Date"
 msgstr "Datum"
 
 #: src/dialogs/cell-format.glade.h:30
-#, fuzzy
 msgid "De_lete Format"
-msgstr "Verwijder opmaak"
+msgstr "Opmaak verwijderen"
 
 #: src/dialogs/cell-format.glade.h:31
 msgid "Deci_mal places:"
@@ -20512,11 +20497,11 @@ msgstr "Diagonaal"
 
 #: src/dialogs/cell-format.glade.h:33
 msgid "Diagonal Crosshatch"
-msgstr "Diagonaal Gearceerd"
+msgstr "Diagonaal gearceerd"
 
 #: src/dialogs/cell-format.glade.h:34
 msgid "Diagonal Stripe"
-msgstr "Diagonaal Gestreept"
+msgstr "Diagonaal gestreept"
 
 #: src/dialogs/cell-format.glade.h:35
 msgid "Display the value exactly as it was entered"
@@ -20528,11 +20513,11 @@ msgstr "Effecten"
 
 #: src/dialogs/cell-format.glade.h:37
 msgid "Error Alert"
-msgstr "Fout Melding"
+msgstr "Foutmelding"
 
 #: src/dialogs/cell-format.glade.h:39
 msgid "Foreground Solid"
-msgstr "Effen Voorgrond"
+msgstr "Effen voorgrond"
 
 #: src/dialogs/cell-format.glade.h:40 src/dialogs/dialog-cell-format.c:2820
 msgid "Format Cells"
@@ -20540,7 +20525,7 @@ msgstr "Cel eigenschappen"
 
 #: src/dialogs/cell-format.glade.h:41
 msgid "Formatted Sample"
-msgstr "Opgemaakt Voorbeeld"
+msgstr "Opgemaakt voorbeeld"
 
 #: src/dialogs/cell-format.glade.h:42
 msgid ""
@@ -20550,28 +20535,28 @@ msgstr ""
 "Het algemene formaat probeert een geschikte opmaak te kiezen afhankelijk van "
 "de waarde van de cel."
 
+# horizontale uitlijning instellen
 #: src/dialogs/cell-format.glade.h:43
-#, fuzzy
 msgid "Horizontal Alignment"
-msgstr "Horizontale uitlijning instellen"
+msgstr "Horizontale uitlijning"
 
 #: src/dialogs/cell-format.glade.h:44
 msgid "Horizontal Stripe"
-msgstr "Horizontaal Gestreept"
+msgstr "Horizontaal gestreept"
 
 #: src/dialogs/cell-format.glade.h:45
 msgid "In a list"
 msgstr "In een lijst"
 
 #: src/dialogs/cell-format.glade.h:46
-#, fuzzy
 msgid "In-cell _dropdown"
-msgstr "In _cel dropdown"
+msgstr "In-cel _dropdown"
 
 #: src/dialogs/cell-format.glade.h:47
 msgid "Information (allow invalid input)"
 msgstr "Informatie (incorrecte invoer toestaan)"
 
+# Dubbele hoofdletters?
 #: src/dialogs/cell-format.glade.h:48
 msgid "Input Message"
 msgstr "Invoer Bericht"
@@ -20588,13 +20573,14 @@ msgstr "Binnen Horizontaal"
 msgid "Inside Vertical"
 msgstr "Binnen Verticaal"
 
+# uitlijning
 #: src/dialogs/cell-format.glade.h:52
 msgid "J_ustify"
-msgstr "_Uitvullen"
+msgstr "_Uitvullen?"
 
 #: src/dialogs/cell-format.glade.h:53
 msgid "Large Circles"
-msgstr "Grote Cirkels"
+msgstr "Grote cirkels"
 
 #: src/dialogs/cell-format.glade.h:54 src/workbook-format-toolbar.c:622
 msgid "Left"
@@ -20811,14 +20797,15 @@ msgid "_Ignore blank cells"
 msgstr "_Lege cellen overslaan"
 
 #: src/dialogs/cell-format.glade.h:112
-#, fuzzy
 msgid "_Indent:"
-msgstr "_Inspringen"
+msgstr "_Inspringen:"
 
+# Uitvullen?
 #: src/dialogs/cell-format.glade.h:113
 msgid "_Justify"
-msgstr "Uitlijnen"
+msgstr "_Uitlijnen"
 
+# beveiligd?
 #: src/dialogs/cell-format.glade.h:115
 #, fuzzy
 msgid "_Lock"
@@ -20830,16 +20817,15 @@ msgstr "_Bericht:"
 
 #: src/dialogs/cell-format.glade.h:117
 msgid "_Number"
-msgstr "Getal"
+msgstr "_Getal"
 
 #: src/dialogs/cell-format.glade.h:118
 msgid "_Percentage"
 msgstr "_Percentage"
 
 #: src/dialogs/cell-format.glade.h:119
-#, fuzzy
 msgid "_Protect worksheet"
-msgstr "_Huidig werkblad"
+msgstr "Werkblad be_veiligen"
 
 #: src/dialogs/cell-format.glade.h:121
 msgid "_Scientific"
@@ -20903,25 +20889,23 @@ msgstr "waarde >= gebonden            (groter of gelijk aan)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "<span weight=\"bold\">Sort Options</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Sorteringsopties</span>"
 
 #: src/dialogs/cell-sort.glade.h:2
 msgid "<span weight=\"bold\">Sort Specification</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Sorteringsspecificaties</span>"
 
 #: src/dialogs/cell-sort.glade.h:3
-#, fuzzy
 msgid "Direction:"
-msgstr "Map"
+msgstr "Richting:"
 
 #: src/dialogs/cell-sort.glade.h:4
-#, fuzzy
 msgid "Range:"
-msgstr "Bereik"
+msgstr "Bereik:"
 
 #: src/dialogs/cell-sort.glade.h:5
 msgid "Sort range has a _header"
-msgstr ""
+msgstr "Sorteringsbereik heeft een _kop"
 
 #: src/dialogs/cell-sort.glade.h:6
 msgid "Sort..."
@@ -20944,9 +20928,8 @@ msgid "Column Width"
 msgstr "Kolombreedte"
 
 #: src/dialogs/col-width.glade.h:2
-#, fuzzy
 msgid "_Column width (pt.):"
-msgstr "_Kolombreedte (pts):"
+msgstr "_Kolombreedte (pt.):"
 
 #: src/dialogs/col-width.glade.h:3 src/dialogs/row-height.glade.h:3
 msgid "_Use Default"
@@ -21087,7 +21070,7 @@ msgstr "Correlatie"
 
 #: src/dialogs/delete-cells.glade.h:1
 msgid "<span weight=\"bold\">Delete Method</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Methode verwijderen</span>"
 
 #: src/dialogs/delete-cells.glade.h:2
 msgid "Delete _column(s)"
@@ -21110,9 +21093,8 @@ msgid "Shift cells _up"
 msgstr "Cellen naar boven verplaatsen"
 
 #: src/dialogs/descriptive-stats.glade.h:1
-#, fuzzy
 msgid "(1 - alpha):"
-msgstr "(1 - alpha) = "
+msgstr "(1 - alpha):"
 
 #: src/dialogs/descriptive-stats.glade.h:3
 msgid ".95"
@@ -21129,7 +21111,7 @@ msgstr "Beschrijvende Statistieken"
 
 #: src/dialogs/descriptive-stats.glade.h:13
 msgid "K:"
-msgstr ""
+msgstr "K:"
 
 #: src/dialogs/descriptive-stats.glade.h:14
 msgid "Kth Largest"
@@ -21902,20 +21884,22 @@ msgid "Merge Field"
 msgstr "Samenvoegen Veld"
 
 #: src/dialogs/dialog-password.c:30
-#, fuzzy, c-format
+#, c-format
 msgid "%s is encrypted"
-msgstr "%s!%s is beveiligd"
+msgstr "%s is beveiligd"
 
 #: src/dialogs/dialog-password.c:32
 msgid ""
 "Encrypted files require a password\n"
 "before they can be opened."
 msgstr ""
+"Beveiligde bestanden vragen om een\n"
+"wachtwoord voordat ze geopend kunnen\n"
+"worden."
 
 #: src/dialogs/dialog-password.c:64
-#, fuzzy
 msgid "Password :"
-msgstr "_Wachtwoord:"
+msgstr "Wachtwoord :"
 
 #: src/dialogs/dialog-paste-special.c:39
 msgid "All"
@@ -22357,14 +22341,12 @@ msgid "Changing cells should be on the current sheet only."
 msgstr "Zoek en vervang enkel in huidig werkblad"
 
 #: src/dialogs/dialog-scenarios.c:134
-#, fuzzy
 msgid "Scenario name already used"
-msgstr "Deze rijen zijn reeds gegroepeerd."
+msgstr "Deze naam is al voor een scenario gebruikt"
 
 #: src/dialogs/dialog-scenarios.c:139
-#, fuzzy
 msgid "Invalid scenario name"
-msgstr "Ongeldig zoekpatroon."
+msgstr "Ongeldige naam voor scenario"
 
 #: src/dialogs/dialog-scenarios.c:164
 msgid ""
@@ -22374,33 +22356,28 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/dialog-scenarios.c:199
-#, fuzzy
 msgid "Could not create the Scenario Add dialog."
-msgstr "Kon het Oplosser dialoogvenster niet maken."
+msgstr "Kon het Scenario toevoegen dialoogvenster niet maken."
 
 #: src/dialogs/dialog-scenarios.c:216 src/dialogs/scenario-add.glade.h:5
-#, fuzzy
 msgid "_Changing cells:"
-msgstr "Door Cellen te _Veranderen: "
+msgstr "Door Cellen te _Veranderen:"
 
 #: src/dialogs/dialog-scenarios.c:231
-#, fuzzy
 msgid "Created on "
-msgstr "Maak een knop"
+msgstr "Aangemaakt op "
 
 #: src/dialogs/dialog-scenarios.c:553
 msgid "Results entry did not contain valid cell names."
 msgstr ""
 
 #: src/dialogs/dialog-scenarios.c:620
-#, fuzzy
 msgid "Could not create the Scenarios dialog."
-msgstr "Kon het Oplosser dialoogvenster niet maken."
+msgstr "Kon het Scenarios dialoogvenster niet maken."
 
 #: src/dialogs/dialog-scenarios.c:637 src/dialogs/scenario-manager.glade.h:6
-#, fuzzy
 msgid "Results:"
-msgstr "_Resultaat"
+msgstr "Resultaat:"
 
 #: src/dialogs/dialog-search-replace.c:151 src/dialogs/dialog-search.c:655
 msgid "You must select some cell types to search."
@@ -22465,9 +22442,8 @@ msgid "Default"
 msgstr "Standaard"
 
 #: src/dialogs/dialog-shuffle.c:74
-#, fuzzy
 msgid "The input range is invalid."
-msgstr "Het uitvoerbereik is ongeldig."
+msgstr "Het invoerbereik is ongeldig."
 
 #: src/dialogs/dialog-shuffle.c:151
 #, fuzzy
@@ -22483,34 +22459,30 @@ msgid "The output variable range is invalid."
 msgstr "Het bereik van de uitvoervariabele is ongeldig."
 
 #: src/dialogs/dialog-simulation.c:168
-#, fuzzy
 msgid "Simulations"
-msgstr "Simulatie: "
+msgstr "Simulaties"
 
 #: src/dialogs/dialog-simulation.c:168
-#, fuzzy
 msgid "Iterations"
-msgstr "Iteraties: "
+msgstr "Iteraties"
 
 #: src/dialogs/dialog-simulation.c:168
-#, fuzzy
 msgid "# Input variables"
-msgstr "# Invoervariabelen\t\t= "
+msgstr "# Invoervariabelen"
 
 #: src/dialogs/dialog-simulation.c:169
-#, fuzzy
 msgid "# Output variables"
-msgstr "# Uitvoervariabelen\t= "
+msgstr "# Uitvoervariabelen"
 
+# looptijd / uitvoeringstijd
 #: src/dialogs/dialog-simulation.c:169
 #, fuzzy
 msgid "Runtime"
 msgstr "unixtijd"
 
 #: src/dialogs/dialog-simulation.c:169
-#, fuzzy
 msgid "Run on"
-msgstr "Uitvoeren op\t\t\t= "
+msgstr "Uitvoeren op"
 
 #: src/dialogs/dialog-simulation.c:246
 msgid "Variable"
@@ -22621,7 +22593,7 @@ msgstr "Voorwaarde `%s' is voor een cel dat geen invoercel is."
 
 #: src/dialogs/dialog-solver.c:1007
 msgid "No constraints defined for the problem."
-msgstr ""
+msgstr "Geen randvoorwaarden voor het probleem gedefinieerd."
 
 #: src/dialogs/dialog-solver.c:1057
 msgid ""
@@ -22683,9 +22655,10 @@ msgstr "Beschikbare bladen"
 msgid "Bang (!)"
 msgstr "Uitroepteken (!)"
 
-#: src/dialogs/dialog-stf-export.glade.h:12 src/gui-file.c:183
-msgid "Character encoding:"
-msgstr ""
+#: src/dialogs/dialog-stf-export.glade.h:12
+#, fuzzy
+msgid "Charset:"
+msgstr "Kaart%d"
 
 #: src/dialogs/dialog-stf-export.glade.h:13
 msgid "Choose export formatting"
@@ -22786,18 +22759,18 @@ msgstr "Spatie"
 msgid "Tab"
 msgstr "Tab"
 
+# Woordenboek: Overzetten in lettertekens van een andere taal
 #: src/dialogs/dialog-stf-export.glade.h:35
 msgid "Transliterate"
-msgstr ""
+msgstr "Overzetten"
 
 #: src/dialogs/dialog-stf-export.glade.h:36
 msgid "Unix (linefeed)"
 msgstr "Unix (nieuwe  regel)"
 
 #: src/dialogs/dialog-stf-export.glade.h:37
-#, fuzzy
-msgid "Unknown characters:"
-msgstr "Onbekende operator"
+msgid "Unknown Characters:"
+msgstr "Onbekende tekens:"
 
 #: src/dialogs/dialog-stf-export.glade.h:38
 msgid "Windows (carriage return + linefeed)"
@@ -22929,7 +22902,7 @@ msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:24
 msgid "End"
-msgstr ""
+msgstr "Einde"
 
 #: src/dialogs/dialog-stf.glade.h:25
 msgid "Example"
@@ -23238,18 +23211,16 @@ msgid "  Stop Value: "
 msgstr "_p Waarde:"
 
 #: src/dialogs/fill-series.glade.h:2
-#, fuzzy
 msgid " Step Value: "
-msgstr "_p Waarde:"
+msgstr " Stapgrootte: "
 
 #: src/dialogs/fill-series.glade.h:4
 msgid "D_ay"
-msgstr ""
+msgstr "D_ag"
 
 #: src/dialogs/fill-series.glade.h:5
-#, fuzzy
 msgid "Date unit"
-msgstr "Afsluiten Annuleren"
+msgstr "Datum eenheid"
 
 #: src/dialogs/fill-series.glade.h:6
 #, fuzzy
@@ -23263,27 +23234,23 @@ msgstr "Serie naam"
 
 #: src/dialogs/fill-series.glade.h:11
 msgid "_Growth"
-msgstr ""
+msgstr "_Groei"
 
 #: src/dialogs/fill-series.glade.h:12
-#, fuzzy
 msgid "_Linear"
-msgstr "Lijn"
+msgstr "_Linear"
 
 #: src/dialogs/fill-series.glade.h:13
-#, fuzzy
 msgid "_Month"
-msgstr "*Maa"
+msgstr "_Maand"
 
 #: src/dialogs/fill-series.glade.h:15
-#, fuzzy
 msgid "_Weekday"
-msgstr "Woensdag"
+msgstr "_Weekdag"
 
 #: src/dialogs/fill-series.glade.h:16
-#, fuzzy
 msgid "_Year"
-msgstr "_Wissen"
+msgstr "_Jaar"
 
 #: src/dialogs/font-sel.glade.h:2
 msgid "Font style:"
@@ -23323,11 +23290,11 @@ msgstr "(_Minimum):"
 
 #: src/dialogs/goalseek.glade.h:4
 msgid "<span weight=\"bold\">Goal</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Doel</span>"
 
 #: src/dialogs/goalseek.glade.h:5
 msgid "<span weight=\"bold\">Last Result</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Laatste Resultaat</span>"
 
 #: src/dialogs/goalseek.glade.h:6
 msgid "Current Value:"
@@ -23475,9 +23442,10 @@ msgstr "_Tip:"
 msgid "_Web Address:"
 msgstr "_Web-adres:"
 
+# waarschijnlijk geen invoegmethode omdat er ook Delete Method is
 #: src/dialogs/insert-cells.glade.h:1
 msgid "<span weight=\"bold\">Insert Method</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Methode invoegen</span>"
 
 #: src/dialogs/insert-cells.glade.h:2
 msgid "Insert _row(s)"
@@ -23925,17 +23893,15 @@ msgstr "_Willekeurig"
 
 #: src/dialogs/scenario-add.glade.h:2
 msgid "Add Scenario"
-msgstr ""
+msgstr "Scenario toevoegen"
 
 #: src/dialogs/scenario-add.glade.h:3 src/dialogs/scenario-manager.glade.h:3
-#, fuzzy
 msgid "Comment:"
-msgstr "Opmerking"
+msgstr "Opmerking:"
 
 #: src/dialogs/scenario-add.glade.h:4
-#, fuzzy
 msgid "Scenario name:"
-msgstr "Serie naam"
+msgstr "Scenarionaam:"
 
 #: src/dialogs/scenario-manager.glade.h:2
 #, fuzzy
@@ -23973,7 +23939,7 @@ msgstr ""
 
 #: src/dialogs/search-replace.glade.h:3
 msgid "<span weight=\"bold\">Miscellaneous</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Overige</span>"
 
 #: src/dialogs/search-replace.glade.h:4
 msgid "<span weight=\"bold\">Search Text Type</span>"
@@ -24262,8 +24228,9 @@ msgstr "_Resultaat"
 #: src/dialogs/search.glade.h:39
 #, fuzzy
 msgid "_Search for:"
-msgstr "Zoek _naar"
+msgstr "Zoek _naar:"
 
+# werkbladen?
 #: src/dialogs/sheet-order.glade.h:1
 msgid "Manage Sheets..."
 msgstr "Bladen Beheren..."
@@ -24273,9 +24240,8 @@ msgid "Data Shuffling"
 msgstr ""
 
 #: src/dialogs/shuffle.glade.h:2
-#, fuzzy
 msgid "Input Range: "
-msgstr "_Invoerbereik:"
+msgstr "_Invoerbereik: "
 
 #: src/dialogs/shuffle.glade.h:3
 #, fuzzy
@@ -24283,9 +24249,8 @@ msgid "Shuffle Method: "
 msgstr "Steekproefmethode:"
 
 #: src/dialogs/shuffle.glade.h:4
-#, fuzzy
 msgid "_Area"
-msgstr "_Gebieden"
+msgstr "_Gebied"
 
 #: src/dialogs/simulation.glade.h:1
 msgid "A_utofit columns"
@@ -24378,16 +24343,15 @@ msgstr "_Overzicht"
 
 #: src/dialogs/so-arrow.glade.h:1
 msgid "Arrow Length:"
-msgstr ""
+msgstr "Pijllengte:"
 
 #: src/dialogs/so-arrow.glade.h:2
-#, fuzzy
 msgid "Arrow Tip:"
-msgstr "Pijl"
+msgstr "Pijlpunt:"
 
 #: src/dialogs/so-arrow.glade.h:3
 msgid "Arrow Width:"
-msgstr ""
+msgstr "Pijlbreedte:"
 
 #: src/dialogs/so-arrow.glade.h:4
 #, fuzzy
@@ -24410,9 +24374,8 @@ msgid "Distance of trailing point from outside edge of shaft"
 msgstr "De afstand van de vleugelpunten tot de pijlschacht."
 
 #: src/dialogs/so-arrow.glade.h:9
-#, fuzzy
 msgid "Line Width:"
-msgstr "Kolombreedte"
+msgstr "Lijnbreedte:"
 
 #: src/dialogs/so-checkbox.glade.h:2
 #, fuzzy
@@ -24420,9 +24383,8 @@ msgid "Checkbox Properties"
 msgstr "Kader-eigenschappen"
 
 #: src/dialogs/so-checkbox.glade.h:3 src/dialogs/so-frame.glade.h:3
-#, fuzzy
 msgid "Label:"
-msgstr "Label"
+msgstr "Label:"
 
 #: src/dialogs/so-checkbox.glade.h:4 src/dialogs/so-scrollbar.glade.h:2
 #, fuzzy
@@ -24458,19 +24420,16 @@ msgid "Increment:"
 msgstr "Ophogen"
 
 #: src/dialogs/so-scrollbar.glade.h:3
-#, fuzzy
 msgid "Max:"
-msgstr "Ma_x:"
+msgstr "Max:"
 
 #: src/dialogs/so-scrollbar.glade.h:4
-#, fuzzy
 msgid "Min:"
-msgstr "M_in:"
+msgstr "Min:"
 
 #: src/dialogs/so-scrollbar.glade.h:5
-#, fuzzy
 msgid "Page:"
-msgstr "Pagina"
+msgstr "Pagina:"
 
 #: src/dialogs/so-scrollbar.glade.h:6
 #, fuzzy
@@ -24557,9 +24516,8 @@ msgid "Parameters"
 msgstr "Parameters"
 
 #: src/dialogs/solver.glade.h:22
-#, fuzzy
 msgid "Reports:"
-msgstr "Rapportages"
+msgstr "Rapportages:"
 
 #: src/dialogs/solver.glade.h:24
 msgid "Solve"
@@ -24587,13 +24545,13 @@ msgstr "_Veranderen"
 
 #: src/dialogs/solver.glade.h:30
 msgid "_Create a scenario if the optimal solution is found"
-msgstr ""
+msgstr "Een scenario _aanmaken als de optimale oplossing niet is gevonden"
 
 #: src/dialogs/solver.glade.h:32
-#, fuzzy
 msgid "_Do not create scenarios"
-msgstr "_Geen hoofdletters na:"
+msgstr "_Geen scenarios aanmaken"
 
+# linkerzijde
 #: src/dialogs/solver.glade.h:33
 msgid "_Left Hand Side:"
 msgstr "_Linkerkant:"
@@ -24648,9 +24606,8 @@ msgid "Com_pany:"
 msgstr "_Bedrijf:"
 
 #: src/dialogs/summary.glade.h:5
-#, fuzzy
 msgid "File:"
-msgstr "_Bestand:"
+msgstr "Bestand:"
 
 #: src/dialogs/summary.glade.h:6
 msgid "Summary"
@@ -24747,10 +24704,10 @@ msgstr "A_utomatisch"
 msgid "Calculation"
 msgstr "Berekening"
 
+# opmaak van de werkmap
 #: src/dialogs/workbook-attr.glade.h:5
-#, fuzzy
 msgid "Format Workbook"
-msgstr "Werkmap"
+msgstr "Opmaak Werkmap"
 
 #: src/dialogs/workbook-attr.glade.h:6
 msgid "Maximum c_hange:"
@@ -24781,9 +24738,8 @@ msgid "View"
 msgstr "Beeld"
 
 #: src/dialogs/workbook-attr.glade.h:14
-#, fuzzy
 msgid "_Horizontal Scrollbar"
-msgstr "_Horizontale Schuifbalk"
+msgstr "_Horizontale schuifbalk"
 
 #: src/dialogs/workbook-attr.glade.h:15
 msgid "_Iteration"
@@ -24793,15 +24749,14 @@ msgstr "_Iteratie"
 msgid "_Manual"
 msgstr "Hand_matig"
 
+# er wordt beveiliging bedoeld, geen bescherming
 #: src/dialogs/workbook-attr.glade.h:17
-#, fuzzy
 msgid "_Protect Workbook"
-msgstr "Ni_euwe Werkmap"
+msgstr "Werkmap _beveiligen"
 
 #: src/dialogs/workbook-attr.glade.h:18
-#, fuzzy
 msgid "_Vertical Scrollbar"
-msgstr "_Vertikale Schuifbalk"
+msgstr "_Vertikale schuifbalk"
 
 #: src/expr-name.c:354
 #, c-format
@@ -25815,6 +25770,10 @@ msgstr "Bestanden openen"
 msgid "File format:"
 msgstr "Bestandsformaat:"
 
+#: src/gui-file.c:183
+msgid "Character encoding:"
+msgstr "Tekenset:"
+
 #: src/gui-file.c:230
 #, c-format
 msgid ""
@@ -26224,9 +26183,9 @@ msgid "Unknown verb: %s"
 msgstr "Onbekend werkwoord: %s"
 
 #: src/plugin-loader.c:259 src/plugin-loader.c:299
-#, fuzzy, c-format
+#, c-format
 msgid "Service '%s' not supported by loader."
-msgstr "Service niet ondersteund door lader."
+msgstr "Service '%s' wordt niet ondersteund door lader."
 
 #: src/plugin-service.c:164 src/plugin-service.c:254 src/plugin-service.c:1162
 msgid "Error while loading plugin service."
@@ -26762,25 +26721,25 @@ msgstr "Kolommen Invoegen"
 msgid "Insert Rows"
 msgstr "Rijen Invoegen"
 
-#: src/stf-parse.c:48
+#: src/stf-parse.c:45
 #, c-format
 msgid "Too many rows in data to parse: %d"
 msgstr "Te veel rijen in gegevens om te verwerken: %d"
 
-#: src/stf-parse.c:49
+#: src/stf-parse.c:46
 #, c-format
 msgid "Too many columns in data to parse: %d"
 msgstr "Gegevens bevatten te veel kolommen om te verwerken: %d"
 
-#: src/stf.c:112
+#: src/stf.c:111
 msgid "Error while trying to read file"
 msgstr "Fout tijdens het lezen bestand"
 
-#: src/stf.c:123
+#: src/stf.c:122
 msgid "Error while trying to pre-convert file"
 msgstr "Fout tijdens pre-converteren bestand"
 
-#: src/stf.c:148
+#: src/stf.c:147
 #, c-format
 msgid ""
 "The file does not appear to use the %s encoding.\n"
@@ -26789,15 +26748,18 @@ msgid ""
 "The next two bytes have (hex) values %02X and %02X."
 msgstr ""
 
-#: src/stf.c:155
+#: src/stf.c:154
 #, c-format
 msgid ""
 "The file does not appear to use the %s encoding.\n"
 "After %i of %i bytes a conversion error occurred:\n"
 "%s.\n"
 msgstr ""
+"Het bestand gebruikt kennelijk niet de %s tekenset.\n"
+"Na %i van %i bytes trad een conversie-fout op:\n"
+"%s\n"
 
-#: src/stf.c:183
+#: src/stf.c:182
 #, c-format
 msgid ""
 "This file does not seem to be a valid text file.\n"
@@ -26808,7 +26770,7 @@ msgstr ""
 "Het letterteken '%s'(ASCII waarde %d) kwam voor.\n"
 "Waarschijnlijk zijn uw instellingen van de locale verkeerd."
 
-#: src/stf.c:189
+#: src/stf.c:188
 #, c-format
 msgid ""
 "This file does not seem to be a valid text file.\n"
@@ -26819,11 +26781,11 @@ msgstr ""
 "Ik kwam byte 0x%d tegen.\n"
 "Waarschijnlijk zijn je instellingen voor locale verkeerd."
 
-#: src/stf.c:328 src/stf.c:358
+#: src/stf.c:327 src/stf.c:357
 msgid "Text to Columns"
 msgstr "Tekst naar kolommen"
 
-#: src/stf.c:333
+#: src/stf.c:332
 #, c-format
 msgid "Only 1 one column of <b>input</b> data can be parsed at a time, not %d"
 msgstr ""
@@ -26831,28 +26793,28 @@ msgstr ""
 "niet %d."
 
 # parse-> taalkundig ontleden ?
-#: src/stf.c:364
+#: src/stf.c:363
 msgid "Error while trying to parse data into sheet"
 msgstr "Fout tijdens het verwerken van data naar blad"
 
-#: src/stf.c:457
+#: src/stf.c:458
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Verwerkingsfout bij het verwerken van data naar blad"
 
-#: src/stf.c:523
+#: src/stf.c:524
 msgid "Error while trying to write csv file"
 msgstr "Fout tijdens het schrijven csv bestand"
 
-#: src/stf.c:538
-#, fuzzy
+# CHECK misschien is dit te lang
+#: src/stf.c:539
 msgid "Comma or tab separated files (CSV/TSV)"
 msgstr "Bestanden met kolommen gescheiden door kommas of tabs (CSV/TSV)"
 
-#: src/stf.c:542
+#: src/stf.c:543
 msgid "Text import (configurable)"
 msgstr "Tekst invoer (instelbaar)"
 
-#: src/stf.c:546
+#: src/stf.c:547
 msgid "Text export (configurable)"
 msgstr "Tekst uitvoer (instelbaar)"
 
@@ -27413,25 +27375,25 @@ msgid "(Input) "
 msgstr "(Invoer)"
 
 #: src/tools/simulation.c:411
-#, fuzzy
 msgid "Maximum time exceeded. Simulation was not completed. "
-msgstr "Maximumtijd is overschreden: optimalisatie onderbroken"
+msgstr "Maximumtijd is overschreden. Simulatie is niet voltooid."
 
+# of een beantwoordingsrapportage?
 #: src/tools/solver/reports-write.c:67 src/tools/solver/reports-write.c:195
 msgid "Answer Report"
-msgstr "Verslag Beantwoorden"
+msgstr "Verslag beantwoorden"
 
 #: src/tools/solver/reports-write.c:82 src/tools/solver/reports-write.c:104
 msgid "Original Value"
-msgstr "Oorspronkelijke Waarde"
+msgstr "Oorspronkelijke waarde"
 
 #: src/tools/solver/reports-write.c:83 src/tools/solver/reports-write.c:105
 msgid "Final Value"
-msgstr "Eind Waarde"
+msgstr "Eindwaarde"
 
 #: src/tools/solver/reports-write.c:131
 msgid "Cell Value"
-msgstr "Cel Waarde"
+msgstr "Celwaarde"
 
 #: src/tools/solver/reports-write.c:132
 msgid "Formula"
@@ -27457,20 +27419,21 @@ msgstr "Aannemen dat alle variabelen gehele getallen zijn."
 
 #: src/tools/solver/reports-write.c:190
 msgid "Target Cell (Maximize)"
-msgstr "Doel Cel (Maximaliseren)"
+msgstr "Doelcel (Maximaliseren)"
 
 #: src/tools/solver/reports-write.c:192
 msgid "Target Cell (Minimize)"
-msgstr "Doel Cel (Minimaliseren)"
+msgstr "Doelcel (Minimaliseren)"
 
 #. Fill in other titles.
 #: src/tools/solver/reports-write.c:198 src/tools/solver/reports-write.c:359
 msgid "Adjustable Cells"
-msgstr "Aanpasbare Cellen"
+msgstr "Aanpasbare cellen"
 
+# Rapportage?
 #: src/tools/solver/reports-write.c:216 src/tools/solver/reports-write.c:356
 msgid "Sensitivity Report"
-msgstr "Gevoeligheids Verslag"
+msgstr "Gevoeligheidsverslag"
 
 #.
 #. * Fill in the labels of `Adjustable Cells' section.
@@ -27859,6 +27822,7 @@ msgstr "#NAAM?"
 msgid "#NUM!"
 msgstr "#GETAL!"
 
+# not available, niet beschikbaar
 #: src/value.c:58
 msgid "#N/A"
 msgstr "#N/B"
@@ -27872,207 +27836,195 @@ msgid "Expecting a single range"
 msgstr "Verwachtte een enkel bereik"
 
 #: src/widgets/widget-charmap-selector.c:68
-#, fuzzy
 msgid "Arabic"
-msgstr "Gebied %i"
+msgstr "Arabisch"
 
+# oost europees?
 #: src/widgets/widget-charmap-selector.c:69
-#, fuzzy
 msgid "Baltic"
-msgstr "Schuin"
+msgstr "Baltisch"
 
 #: src/widgets/widget-charmap-selector.c:70
-#, fuzzy
 msgid "Central European"
-msgstr "Centreren op pagina"
+msgstr "Centraal Europees"
 
 #: src/widgets/widget-charmap-selector.c:71
-#, fuzzy
 msgid "Chinese"
-msgstr "Chisq"
+msgstr "Chinees"
 
 #: src/widgets/widget-charmap-selector.c:72
 msgid "Cyrillic"
-msgstr ""
+msgstr "Cyrillisch"
 
 #: src/widgets/widget-charmap-selector.c:73
-#, fuzzy
 msgid "Greek"
-msgstr "Groen"
+msgstr "Grieks"
 
 #: src/widgets/widget-charmap-selector.c:74
 msgid "Hebrew"
-msgstr ""
+msgstr "Hebreeuws"
 
 #: src/widgets/widget-charmap-selector.c:75
-#, fuzzy
 msgid "Indian"
-msgstr "Mediaan"
+msgstr "Indisch"
 
 #: src/widgets/widget-charmap-selector.c:76
-#, fuzzy
 msgid "Japanese"
-msgstr "Japan, Yen"
+msgstr "Japans"
 
 #: src/widgets/widget-charmap-selector.c:77
-#, fuzzy
 msgid "Korean"
-msgstr "Bools"
+msgstr "Koreaans"
 
 #: src/widgets/widget-charmap-selector.c:78
-#, fuzzy
 msgid "Turkish"
-msgstr "Turkije, Lire"
+msgstr "Turks"
 
 #: src/widgets/widget-charmap-selector.c:79
-#, fuzzy
 msgid "Unicode"
-msgstr "_Zichtbaar maken"
+msgstr "Unicode"
 
+# trema?
 #: src/widgets/widget-charmap-selector.c:80
-#, fuzzy
 msgid "Vietnamese"
-msgstr "Definieer Namen"
+msgstr "Vietnamees"
 
 #: src/widgets/widget-charmap-selector.c:81
-#, fuzzy
 msgid "Western"
-msgstr "West"
+msgstr "Westers"
 
 #: src/widgets/widget-charmap-selector.c:82
-#, fuzzy
 msgid "Other"
-msgstr "Oktober"
+msgstr "Overige"
 
 #: src/widgets/widget-charmap-selector.c:87
 msgid "Arabic (IBM-864)"
-msgstr ""
+msgstr "Arabisch (IBM-864)"
 
 #: src/widgets/widget-charmap-selector.c:88
 msgid "Arabic (IBM-864-I)"
-msgstr ""
+msgstr "Arabisch (IBM-864-I)"
 
 #: src/widgets/widget-charmap-selector.c:89
 msgid "Arabic (ISO-8859-6)"
-msgstr ""
+msgstr "Arabisch (ISO-8859-6)"
 
 #: src/widgets/widget-charmap-selector.c:90
 msgid "Arabic (ISO-8859-6-E)"
-msgstr ""
+msgstr "Arabisch (ISO-8859-6-E)"
 
 #: src/widgets/widget-charmap-selector.c:91
 msgid "Arabic (ISO-8859-6-I)"
-msgstr ""
+msgstr "Arabisch (ISO-8859-6-I)"
 
 #: src/widgets/widget-charmap-selector.c:92
 msgid "Arabic (MacArabic)"
-msgstr ""
+msgstr "Arabisch (MacArabic)"
 
 #: src/widgets/widget-charmap-selector.c:93
 msgid "Arabic (Windows-1256)"
-msgstr ""
+msgstr "Arabisch (Windows-1256)"
 
 #: src/widgets/widget-charmap-selector.c:94
 msgid "Armenian (ARMSCII-8)"
-msgstr ""
+msgstr "Armeens (ARMSCII-8)"
 
+# oost europees?
 #: src/widgets/widget-charmap-selector.c:95
 msgid "Baltic (ISO-8859-13)"
-msgstr ""
+msgstr "Baltisch (ISO-8859-13)"
 
 #: src/widgets/widget-charmap-selector.c:96
 msgid "Baltic (ISO-8859-4)"
-msgstr ""
+msgstr "Baltisch (ISO-8859-4)"
 
 #: src/widgets/widget-charmap-selector.c:97
 msgid "Baltic (Windows-1257)"
-msgstr ""
+msgstr "Baltisch (Windows-1257)"
 
 #: src/widgets/widget-charmap-selector.c:98
 msgid "Celtic (ISO-8859-14)"
-msgstr ""
+msgstr "Keltisch (ISO-8859-14)"
 
 #: src/widgets/widget-charmap-selector.c:99
 msgid "Central European (IBM-852)"
-msgstr ""
+msgstr "Centraal Europees (IBM-852)"
 
 #: src/widgets/widget-charmap-selector.c:100
 msgid "Central European (ISO-8859-2)"
-msgstr ""
+msgstr "Centraal Europees (ISO-8859-2)"
 
 #: src/widgets/widget-charmap-selector.c:101
 msgid "Central European (MacCE)"
-msgstr ""
+msgstr "Centraal Europees (MacCE)"
 
 #: src/widgets/widget-charmap-selector.c:102
 msgid "Central European (Windows-1250)"
-msgstr ""
+msgstr "Centraal Europees (Windows-1250)"
 
 #: src/widgets/widget-charmap-selector.c:103
 msgid "Chinese Simplified (GB18030)"
-msgstr ""
+msgstr "Chinees Vereenvoudigd (GB18030)"
 
 #: src/widgets/widget-charmap-selector.c:104
-#, fuzzy
 msgid "Chinese Simplified (GB2312)"
-msgstr "Gereviseerde Simplex (GLPK 3.2)"
+msgstr "Chinees Vereenvoudigd (GB2312)"
 
 #: src/widgets/widget-charmap-selector.c:105
-#, fuzzy
 msgid "Chinese Simplified (GBK)"
-msgstr "Gereviseerde Simplex (GLPK 3.2)"
+msgstr "Chinees Vereenvoudigd (GBK)"
 
 #: src/widgets/widget-charmap-selector.c:106
 msgid "Chinese Simplified (HZ)"
-msgstr ""
+msgstr "Chinees Vereenvoudigd (HZ)"
 
 #: src/widgets/widget-charmap-selector.c:107
 msgid "Chinese Simplified (Windows-936)"
-msgstr ""
+msgstr "Chinees Vereenvoudigd (Windows-936)"
 
 #: src/widgets/widget-charmap-selector.c:108
 msgid "Chinese Traditional (Big5)"
-msgstr ""
+msgstr "Chinees Traditioneel (Big5)"
 
 #: src/widgets/widget-charmap-selector.c:109
 msgid "Chinese Traditional (Big5-HKSCS)"
-msgstr ""
+msgstr "Chinees Traditioneel (Big5-HKSCS)"
 
 #: src/widgets/widget-charmap-selector.c:110
 msgid "Chinese Traditional (EUC-TW)"
-msgstr ""
+msgstr "Chinees Traditioneel (EUC-TW)"
 
 #: src/widgets/widget-charmap-selector.c:111
 msgid "Croatian (MacCroatian)"
-msgstr ""
+msgstr "Kroatisch (MacCroatian)"
 
 #: src/widgets/widget-charmap-selector.c:112
 msgid "Cyrillic (IBM-855)"
-msgstr ""
+msgstr "Cyrillisch (IBM-855)"
 
 #: src/widgets/widget-charmap-selector.c:113
 msgid "Cyrillic (ISO-8859-5)"
-msgstr ""
+msgstr "Cyrillisch (ISO-8859-5)"
 
 #: src/widgets/widget-charmap-selector.c:114
 msgid "Cyrillic (ISO-IR-111)"
-msgstr ""
+msgstr "Cyrillisch (ISO-IR-111)"
 
 #: src/widgets/widget-charmap-selector.c:115
 msgid "Cyrillic (KOI8-R)"
-msgstr ""
+msgstr "Cyrillisch (KOI8-R)"
 
 #: src/widgets/widget-charmap-selector.c:116
 msgid "Cyrillic (MacCyrillic)"
-msgstr ""
+msgstr "Cyrillisch (MacCyrillic)"
 
 #: src/widgets/widget-charmap-selector.c:117
 msgid "Cyrillic (Windows-1251)"
-msgstr ""
+msgstr "Cyrillisch (Windows-1251)"
 
 #: src/widgets/widget-charmap-selector.c:118
 msgid "Russian (CP-866)"
-msgstr ""
+msgstr "Russisch (CP-866)"
 
 #: src/widgets/widget-charmap-selector.c:119
 msgid "Ukrainian (KOI8-U)"
@@ -28084,196 +28036,198 @@ msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:121
 msgid "English (US-ASCII)"
-msgstr ""
+msgstr "Engels (US-ASCII)"
 
 #: src/widgets/widget-charmap-selector.c:122
 msgid "Farsi (MacFarsi)"
-msgstr ""
+msgstr "Farsi (MacFarsi)"
 
 #: src/widgets/widget-charmap-selector.c:123
 msgid "Georgian (GEOSTD8)"
-msgstr ""
+msgstr "Georgisch (GEOSTD8)"
 
 #: src/widgets/widget-charmap-selector.c:124
 msgid "Greek (ISO-8859-7)"
-msgstr ""
+msgstr "Grieks (ISO-8859-7)"
 
 #: src/widgets/widget-charmap-selector.c:125
 msgid "Greek (MacGreek)"
-msgstr ""
+msgstr "Grieks (MacGreek)"
 
 #: src/widgets/widget-charmap-selector.c:126
 msgid "Greek (Windows-1253)"
-msgstr ""
+msgstr "Grieks (Windows-1253)"
 
 #: src/widgets/widget-charmap-selector.c:127
 msgid "Gujarati (MacGujarati)"
-msgstr ""
+msgstr "Gujarati (MacGujarati)"
 
 #: src/widgets/widget-charmap-selector.c:128
 msgid "Gurmukhi (MacGurmukhi)"
-msgstr ""
+msgstr "Gurmukhi (MacGurmukhi)"
 
 #: src/widgets/widget-charmap-selector.c:129
 msgid "Hebrew (IBM-862)"
-msgstr ""
+msgstr "Hebreeuws (IBM-862)"
 
 #: src/widgets/widget-charmap-selector.c:130
 msgid "Hebrew (ISO-8859-8-E)"
-msgstr ""
+msgstr "Hebreeuws (ISO-8859-8-E)"
 
 #: src/widgets/widget-charmap-selector.c:131
 msgid "Hebrew (ISO-8859-8-I)"
-msgstr ""
+msgstr "Hebreeuws (ISO-8859-8-I)"
 
 #: src/widgets/widget-charmap-selector.c:132
 msgid "Hebrew (MacHebrew)"
-msgstr ""
+msgstr "Hebreeuws (MacHebrew)"
 
 #: src/widgets/widget-charmap-selector.c:133
 msgid "Hebrew (Windows-1255)"
-msgstr ""
+msgstr "Hebreeuws (Windows-1255)"
 
+# Hindoestaans?
 #: src/widgets/widget-charmap-selector.c:134
 msgid "Hindi (MacDevanagari)"
-msgstr ""
+msgstr "Hindi (MacDevanagari)"
 
 #: src/widgets/widget-charmap-selector.c:135
 msgid "Icelandic (MacIcelandic)"
-msgstr ""
+msgstr "IJslands (MacIcelandic)"
 
 #: src/widgets/widget-charmap-selector.c:136
 msgid "Japanese (EUC-JP)"
-msgstr ""
+msgstr "Japans (EUC-JP)"
 
 #: src/widgets/widget-charmap-selector.c:137
 msgid "Japanese (ISO-2022-JP)"
-msgstr ""
+msgstr "Japans (ISO-2022-JP)"
 
 #: src/widgets/widget-charmap-selector.c:138
 msgid "Japanese (Shift_JIS)"
-msgstr ""
+msgstr "Japans (Shift_JIS)"
 
 #: src/widgets/widget-charmap-selector.c:139
 msgid "Korean (EUC-KR)"
-msgstr ""
+msgstr "Koreaans (EUC-KR)"
 
 #: src/widgets/widget-charmap-selector.c:140
 msgid "Korean (ISO-2022-KR)"
-msgstr ""
+msgstr "Koreaans (ISO-2022-KR)"
 
 #: src/widgets/widget-charmap-selector.c:141
 msgid "Korean (JOHAB)"
-msgstr ""
+msgstr "Koreaans (JOHAB)"
 
 #: src/widgets/widget-charmap-selector.c:142
 msgid "Korean (UHC)"
-msgstr ""
+msgstr "Koreaans (UHC)"
 
 #: src/widgets/widget-charmap-selector.c:143
 msgid "Nordic (ISO-8859-10)"
-msgstr ""
+msgstr "Noors (ISO-8859-10)"
 
 #: src/widgets/widget-charmap-selector.c:144
 msgid "Romanian (MacRomanian)"
-msgstr ""
+msgstr "Roemeens (MacRomanian)"
 
 #: src/widgets/widget-charmap-selector.c:145
 msgid "Romanian (ISO-8859-16)"
-msgstr ""
+msgstr "Roemeens (ISO-8859-16)"
 
 #: src/widgets/widget-charmap-selector.c:146
 msgid "South European (ISO-8859-3)"
-msgstr ""
+msgstr "Zuid Europees (ISO-8859-3)"
 
 #: src/widgets/widget-charmap-selector.c:147
 msgid "Thai (TIS-620)"
-msgstr ""
+msgstr "Thais (TIS-620)"
 
 #: src/widgets/widget-charmap-selector.c:148
 msgid "Turkisk (IBM-857)"
-msgstr ""
+msgstr "Turks (IBM-857)"
 
 #: src/widgets/widget-charmap-selector.c:149
 msgid "Turkisk (ISO-8859-9)"
-msgstr ""
+msgstr "Turks (ISO-8859-9)"
 
 #: src/widgets/widget-charmap-selector.c:150
 msgid "Turkisk (MacTurkish)"
-msgstr ""
+msgstr "Turks (MacTurkish)"
 
 #: src/widgets/widget-charmap-selector.c:151
 msgid "Turkisk (Windows-1254)"
-msgstr ""
+msgstr "Turks (Windows-1254)"
 
 #: src/widgets/widget-charmap-selector.c:152
 msgid "Unicode (UTF-7)"
-msgstr ""
+msgstr "Unicode (UTF-7)"
 
 #: src/widgets/widget-charmap-selector.c:153
 msgid "Unicode (UTF-8)"
-msgstr ""
+msgstr "Unicode (UTF-8)"
 
 #: src/widgets/widget-charmap-selector.c:154
 msgid "Unicode (UTF-16BE)"
-msgstr ""
+msgstr "Unicode (UTF-16BE)"
 
 #: src/widgets/widget-charmap-selector.c:155
 msgid "Unicode (UTF-16LE)"
-msgstr ""
+msgstr "Unicode (UTF-16LE)"
 
 #: src/widgets/widget-charmap-selector.c:156
 msgid "Unicode (UTF-32BE)"
-msgstr ""
+msgstr "Unicode (UTF-32BE)"
 
 #: src/widgets/widget-charmap-selector.c:157
 msgid "Unicode (UTF-32LE)"
-msgstr ""
+msgstr "Unicode (UTF-32LE)"
 
 #: src/widgets/widget-charmap-selector.c:158
 #, fuzzy
 msgid "User Defined"
 msgstr "Onderstrepen gebruiken"
 
+# trema?
 #: src/widgets/widget-charmap-selector.c:159
 msgid "Vietnamese (TCVN)"
-msgstr ""
+msgstr "Vietnamees (TCVN)"
 
 #: src/widgets/widget-charmap-selector.c:160
 msgid "Vietnamese (VISCII)"
-msgstr ""
+msgstr "Vietnamees (VISCII)"
 
 #: src/widgets/widget-charmap-selector.c:161
 msgid "Vietnamese (VPS)"
-msgstr ""
+msgstr "Vietnamees (VPS)"
 
 #: src/widgets/widget-charmap-selector.c:162
 msgid "Vietnamese (Windows-1258)"
-msgstr ""
+msgstr "Vietnamees (Windows-1258)"
 
 #: src/widgets/widget-charmap-selector.c:163
 msgid "Visual Hebrew(ISO-8859-8)"
-msgstr ""
+msgstr "Visueel Hebreews (ISO-8859-8)"
 
 #: src/widgets/widget-charmap-selector.c:164
 msgid "Western (IBM-850)"
-msgstr ""
+msgstr "Westers (IBM-850)"
 
 #: src/widgets/widget-charmap-selector.c:165
 msgid "Western (ISO-8859-1)"
-msgstr ""
+msgstr "Westers (ISO-8859-1)"
 
 #: src/widgets/widget-charmap-selector.c:166
 msgid "Western (ISO-8859-15)"
-msgstr ""
+msgstr "Westers (ISO-8859-15)"
 
 #: src/widgets/widget-charmap-selector.c:167
 msgid "Western (MacRoman)"
-msgstr ""
+msgstr "Westers (MacRoman)"
 
 #: src/widgets/widget-charmap-selector.c:168
 msgid "Western (Windows-1252)"
-msgstr ""
+msgstr "Westers (Windows-1252)"
 
 #: src/widgets/widget-charmap-selector.c:287
 #, fuzzy
@@ -28465,9 +28419,8 @@ msgid "Unable to create object of type '%s'"
 msgstr "Kan object van type '%s' niet maken"
 
 #: src/workbook-control-gui.c:3323
-#, fuzzy
 msgid "Series..."
-msgstr "_Series"
+msgstr "Series..."
 
 #: src/workbook-control-gui.c:3368
 msgid "P_aste special..."
@@ -28488,9 +28441,8 @@ msgid "Use the current selection to create names"
 msgstr "Gebruik de huidige selectie om namen te maken"
 
 #: src/workbook-control-gui.c:3619
-#, fuzzy
 msgid "Add a new scenario"
-msgstr "Voeg een nieuwe kolom toe"
+msgstr "Een nieuw scenario toevoegen"
 
 #: src/workbook-control-gui.c:3695
 msgid "Ranks And _Percentiles"
@@ -28498,11 +28450,11 @@ msgstr "Rangen en Percentielen"
 
 #: src/workbook-control-gui.c:3820
 msgid "Sh_uffle..."
-msgstr ""
+msgstr "_Husselen..."
 
 #: src/workbook-control-gui.c:3821
 msgid "Shuffle cells, rows or columns"
-msgstr ""
+msgstr "Cellen, rijen of kolommen husselen"
 
 #: src/workbook-control-gui.c:3840
 msgid "Create a pivot table."
@@ -28703,13 +28655,9 @@ msgstr "Je mag deze naam niet twee keer gebruiken"
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Het bestand is geen Gnumeric Werkmapbestand"
 
-#: src/xml-io.c:3861
+#: src/xml-io.c:3860
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML bestandsformaat"
-
-#, fuzzy
-#~ msgid "Charset:"
-#~ msgstr "Kaart%d"
 
 #~ msgid "Create a new spreadsheet"
 #~ msgstr "Een nieuw rekenblad maken"
@@ -29584,10 +29532,6 @@ msgstr "Gnumeric XML bestandsformaat"
 
 #~ msgid "[Red]"
 #~ msgstr "[Rood]"
-
-#, fuzzy
-#~ msgid "autoformat-templates"
-#~ msgstr "Is geen autoformat sjabloon bestand"
 
 #~ msgid ""
 #~ "The data on the clipboard does not seem to be valid text.\n"
