@@ -87,7 +87,8 @@ Workbook_save_to (PortableServer_Servant servant, const CORBA_char * filename, C
 
 	g_warning ("Failure to save will not be noticed");
 
-	if (gnumeric_xml_write_workbook (wb, filename) == 0)
+	if (gnumeric_xml_write_workbook (command_context_corba (wb),
+					 wb, filename) == 0)
 		workbook_mark_clean (wb);
 	else
 		g_error ("Could not save to file %s", wb->filename);

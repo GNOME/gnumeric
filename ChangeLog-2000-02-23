@@ -1,3 +1,8 @@
+2000-01-31  Jody Goldberg <jgoldberg@home.com>
+
+	* src/corba-workbook.c (Workbook_save_to) : Adjust to new calling
+	  convention.
+
 2000-01-31  Matthias Warkus  <mawa@iname.com>
 
 	* *.png, Makefile.am, gnumeric.keys.in: New file type icons. Flame
@@ -22,6 +27,9 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	catalog's file spec.
 
 2000-01-30  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-bar.c (item_bar_event) : Propage scroll-wheel events up to
+	  the parent.
 
 	* src/sheet.c (sheet_cancel_pending_input) : Reload the edit area with
 	   the current cell's value when an edit is canceled.
