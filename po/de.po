@@ -49,7 +49,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0.x\n"
 "POT-Creation-Date: 2002-03-26 16:15-0500\n"
-"PO-Revision-Date: 2002-01-01 17:19+0100\n"
+"PO-Revision-Date: 2002-04-10 00:09-0600\n"
 "Last-Translator: Mihael Vrbanec <miqster@gmx.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -4460,9 +4460,8 @@ msgstr "John Gotts, RPM-Pakete"
 #. if your charset allows it, replace the 'ue' of 'Guelzow'
 #. * with 'uumlaut'
 #: src/dialogs/dialog-about.c:61
-#, fuzzy
 msgid "Andreas J. Guelzow, Gnumeric hacker."
-msgstr "Jon K. Hellan, Gnumeric-Hacker."
+msgstr "Andreas J. Gülzow, Gnumeric-Hacker."
 
 #: src/dialogs/dialog-about.c:62
 msgid "Jon K. Hellan, Gnumeric hacker."
@@ -4547,9 +4546,8 @@ msgid "Gnumeric"
 msgstr "Gnumeric"
 
 #: src/dialogs/dialog-about.c:105
-#, fuzzy
 msgid "(C) 1998-2000 Miguel de Icaza, 2001-2002 Jody Goldberg"
-msgstr "(C) 1998-2001 Miguel de Icaza"
+msgstr "(C) 1998-2000 Miguel de Icaza, 2001-2002 Jody Goldberg"
 
 #: src/dialogs/dialog-about.c:106
 #, fuzzy
@@ -4560,6 +4558,12 @@ msgstr "Ein Arbeitsblatt öffnen"
 #: src/dialogs/dialog-about.c:109
 msgid "This is an untranslated version of Gnumeric."
 msgstr ""
+"Ralf Baechle\n"
+"Karl Eichwalder\n"
+"Andreas J. Gülzow\n"
+"Christian Meyer\n"
+"Matthias Warkus\n"
+"Karsten Weiss"
 
 #: src/dialogs/dialog-about.c:114
 msgid "Gnumeric Home Page"
@@ -9034,8 +9038,9 @@ msgid "Scalar"
 msgstr "Skalar"
 
 #: src/func.c:653
+#, fuzzy
 msgid "Any"
-msgstr "Irgend einer"
+msgstr "Unbestimmt"
 
 #: src/func.c:923
 msgid "Function does not exist"
