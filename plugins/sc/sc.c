@@ -99,7 +99,7 @@ static void
 sc_parse_coord (const char **strdata, int *col, int *row)
 {
 	const char *s = *strdata, *eq;
-	size_t len = strlen (s);
+	int len = strlen (s);
 	char tmpstr [16];
 
 	g_return_if_fail (strdata);

@@ -1,3 +1,7 @@
+2001-05-13  Almer S. Tigelaar  <almer@gnome.org>
+
+	* sc.c (sc_parse_coord): Fix signedness.
+
 2001-05-07  Morten Welinder  <terra@diku.dk>
 
 	* sc.c (sc_parse_cell_name_list): g_free, not free.
