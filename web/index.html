@@ -15,6 +15,7 @@
 <P><BR><A HREF="#whatis">What is Gnumeric</A>
 <BR><A HREF="screenshots">Screenshots</a>
 <BR><A HREF="doc/C/gnumeric/gnumeric.html">User Manual</a>
+<br><a href="#graphics">Graphics</a>
 <BR><A HREF="#future">Future Gnumeric projects</A>
 <BR><A HREF="#corba">CORBA and compound documents</A>
 <BR><A HREF="#plugin">Plugin system&nbsp;</A>
@@ -50,27 +51,72 @@ HREF="http://www.gnu.org/philosophy/free-sw.html">free
 software</A>&nbsp; (Some other people like to call this OpenSource
 software) and it is licensed under the terms of the GNU <A
 HREF="http://www.gnu.org/copyleft/gpl.html">GPL.</A>
+<p>
+Gnumeric will import your existing Excel, 1-2-3, and Oleo files.  If
+you are a developer and you want to contribute new importers (or
+polishing and perfect existing importers) we welcome your patches.
+<P>
+Gnumeric is intended to be a replacement for a commercial spreadsheet,
+so a lot of effort and work has still to go into it, but I believe we
+have the right framework to do it.
 
 <h3>
 <a name="screenshots"></a>Screenshots</h3>
 These screenshots are for the latest version of Gnumeric.
 <ul>
+	<li>When you first launch Gnumeric, it looks like <a
+	href="new-pics/startup.gif">this</a>
+	
+	<li>The new cell format dialog has been much improved, some
+	pictures here show the <a
+	href="new-pics/format-background.gif">background</a>, <a
+	href="new-pics/format-border.gif">border</a>, <a
+	href="new-pics/format-font.gif">font</a>, and <a
+	href="new-pics/format-number.gif">number </a> pages.
+
+	<li>Gnumeric has a number of <a
+	href="new-pics/analysis-tools.gif">Analysis tools</a>, once
+	you select a tool, you get to run it with your own data as
+	shown <a href="new-pics/regression.gif">here</a>.  Of course
+	we do have a <a href="new-pics/goal-seek.gif">Goal seek</a>
+	feature.
+
+	<li>Gnumeric acts as the test-bed for the <a
+	href="http://developer.gnome.org/doc/guides/corba/book1.html">Bonobo
+	component architecture and compound document architecture for
+	Unix systems</a>.  Here you can see <a
+	href="new-pics/bonobo-embedded.gif">Gnumeric embedding a
+	shaped Gill object</a> (an SVG file).
+
+	<li>You can see how Gnumeric <a
+	href="new-pics/patterns.gif">supports the various excel
+	patterns and border types.  Of course, the coloring there is
+	terrible, but that just proves that we were not born with
+	a clear idea of good visual composition.
+
+	<li>You can customize the printing options in a number of
+	ways: <a href="new-pics/print-setup.gif">Page setup</a>, <a
+	href="new-pics/print-header-footer.gif">headers and
+	footers</a>, <a href="new-pics/print-margins.gif">margins</a>,
+	<a href="new-pics/print-page.gif">page details</a>.
+
+	<li>Printing is achieved using the GNOME printing architecture
+	(gnome-print, yes, we do need a web page for this too).  This
+	enables us to use a unified API to print.  Here you can see
+	the <a href="new-pics/print-preview.gif">print preview</a> in
+	action.  Gnome Print uses Type1 fonts and supports fully
+	anti-aliasing of them, so you get a high quality printing, you
+	can see a detail here after the preview has been <a
+	href="new-pics/print-zoom.gif">zoomed in.</a>
+
+	<li>We do support many usability features found on other
+	spreadsheets, here you can see a <a
+	href="new-pics/editing.gif">formula being entered</a>
+</ul>
 
 <P>You can see some older <A
 HREF="http://www.gnome.org/gnumeric/screenshots">screenshots</A> of
 Gnumeric.
-
-<h3>
-<hr>
-<h3>Breaking news!</h3>
-The Printing code is stabilising now, hence the slew of releases fixing
-various bugs. However Miguel is still polishing it and more quick
-fire releases may follow shortly.  Stay tuned.
-
-<p>
-<P>Gnumeric is intended to be a replacement for a commercial
-spreadsheet, so a lot of effort and work has still to go into it, but
-I believe we have the right framework to do it.
 
 <h3>
 <a name="download"></a>Downloading</h3>
@@ -99,44 +145,58 @@ href="ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric">ftp://ftp.gnome.org/pub/GN
 	<li><a href="palaeolithic.html">palaeolithic versions</a></li>
 </ul>
 
+<h3>Graphics in Gnumeric</h3>
+Support for graphics is coming up nicely using the Bonobo architecture
+and a graphics component that is aimed at emulating all of the plot
+modes from Excel.  More plotting types can be added in the future.
+<p>
+The graphics engine should be ready for user consumption in early
+jannuary 2000.  
+
 <H3>
 <A NAME="future"></A>Future projects</H3>
 
 I would like to add support for arbitrary precision arithmetic in the
 future using the GNU Multi-precision library.
 
-<P>To learn more about our plans read the README and the Future-Roadmap files 
-included with Gnumeric.
+<P>
+To learn more about our plans read the README and the Future-Roadmap
+files included with Gnumeric.
 
-<p>Graphics in Gnumeric will be implemented by using the <a
-href="/guppi">GUPPI</a> plotting engine through the CORBA and Bonobo
-infrastructure.  To test drive the code that includes Bonobo support
-you need to get a copy of Bonobo (this is not yet released, you need
-to get a snapshot from the CVS, using the command "cvs co bonobo".  Be
-warned that until Bonobo's release we are not commiting to any sort of
-support on Gnumeric).
-
-<p> Michael Meeks, Jody Goldberg, Arturo Tena, Frank Chiulli and Sean Atkinson
-are working on the import / export code.  Talk to them if you are interested
-in helping the project.
+<p>
+Michael Meeks, Jody Goldberg, Arturo Tena, Frank Chiulli and Sean
+Atkinson are working on the import / export code.  Talk to them if you
+are interested in helping the project.
 
 <H3>
 <A NAME="corba"></A>CORBA, compound documents</H3>
 
-As part of the GNOME desktop, Gnumeric will be using the <A
+As part of the GNOME desktop, Gnumeric uses the <A
 HREF="http://cvs.labs.redhat.com/ORBit">ORBit</A> CORBA implementation
-to expose its services to the world. It will also be available to other
-applications as a Bonobo component.
-(<A HREF="http://developer.gnome.org/arch/component/bonobo.html">Bonobo</A> is
-the compound document architecture of GNOME).
+to expose its services to the world.  This means that you can remotely
+control Gnumeric from any language that has CORBA bindings for it.
+Recently Owen Taylor's <a
+href="http://people.redhat.com/otaylor/corba/orbit.html">Perl bindings
+for CORBA/ORBit</a> has caused a great deal of interest for
+controlling Gnumeric remotely.
+<p>
+You might know this as "Automation".
+<p>
+Gnumeric is also available to other applications as a Bonobo
+component.  (<A
+HREF="http://developer.gnome.org/arch/component/bonobo.html">Bonobo</A>
+is the compound document architecture of GNOME).  This enables your
+application to embedd Gnumeric into your application for editing, or
+displaying information.  One line of code would achieve all the magic
+you need.
 
 <H3>
 <A NAME="plugin"></A>Plugin system</H3>
 
 Gnumeric has a plugin system based on shared libraries right now
 (which means that all plugins right now fall under the GNU GPL). A
-plugin exists for defining your own functions in Python.<P>
-
+plugin exists for defining your own functions in Python.
+<p>
 Gnumeric exports a number of CORBA interfaces that enable programmers
 to control Gnumeric remotely within an authenticated GNOME desktop
 
@@ -164,7 +224,6 @@ and imlib packages.
 
 <H3>
 <A NAME="support"></A>Gnumeric Support</h3>
-
 If you are interested in contracting support for Gnumeric, please
 check the <a href="http://www.gnome-support.com/gnumeric">GNOME
 Support for Gnumeric</a> web page.
