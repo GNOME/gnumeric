@@ -1,3 +1,7 @@
+2000-12-19 Morten Welinder <terra@diku.dk>
+
+	* check-config-h.pl: new script, stolen from Nautilus.
+
 2000-12-18 Morten Welinder <terra@diku.dk>
 
 	* release-do-CLog: handle file names with spaces, just in case.
