@@ -1,3 +1,11 @@
+2001-08-26  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* boot.c (excel_save):
+	Remove GNUMERIC_ENABLE_XL_OVERWRITE hack. This is now supported via
+	flag in plugin.xml file.
+
+	* plugin.xml.in: s/file_overwrite/overwrite_files/
+
 2001-08-24  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c : fix and prune includes.
