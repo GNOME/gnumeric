@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: gnumeric 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-10-25 16:05+0900\n"
-"PO-Revision-Date: 2004-03-08 18:30+0900\n"
+"PO-Revision-Date: 2004-10-28 18:30+0900\n"
 "Last-Translator: Yukihiro Nakai <nakai@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -91,7 +91,6 @@ msgid "Provides a CORBA scripting interface"
 msgstr "CORBAスクリプトインターフェースの生成"
 
 #: plugins/derivatives/options.c:159
-#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=CUM_BIV_NORM_DIST\n"
 "@SYNTAX=CUM_BIV_NORM_DIST(a,b,rho)\n"
@@ -115,7 +114,6 @@ msgstr ""
 "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV"
 
 #: plugins/derivatives/options.c:218
-#, fuzzy
 msgid ""
 "@FUNCTION=OPT_BS\n"
 "@SYNTAX=OPT_BS(call_put_flag,spot,strike,time,rate,volatility [,"
@@ -136,22 +134,19 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA"
 msgstr ""
-"@FUNCTION=opt_bs_put_delta\n"
-"@SYNTAX=opt_bs_put_delta(危険証券の価格,市場価格,ボラティリティ,満期,収益"
-"率)\n"
-"@DESCRIPTION=@市場価格 で @危険証券の価格 をオプションにしてヨーロピアンプッ"
-"トの \"δ\" を計算するためにブラック=ショールズ方式を使用します。\n"
-"(あるオプションに対するδは基本資産の価格に関連するその価格自体の変更率で"
-"す。)\n"
-"@ボラティリティ は可変はボラティリティで、取り引きを行った期間に対する資産の"
-"百分率で表現します。@満期 は取り引きが完了するまでの期間で、@収益率 は市場取"
-"り引きの期間に対する安全証券の利率で、百分率で表現します。\n"
-"返り値は @市場価格 の変更単位に対するオプション価格の変更率です。\n"
+"@FUNCTION=OPT_BS\n"
+"@SYNTAX=OPT_BS(コールプットフラグ,市場価格,行使価格,満期,レート,ボラティリティ [,持越費用])\n"
+"@DESCRIPTION=OPT_BSは'c'または'p'の@コールプットフラグ、@市場価格の資産を行使する@行使価格から、ブラックショールズモデルを使ってヨーロピアンオプションの価格を計算します。\n"
+"@満期 はオプションの満期の年数です。\n"
+"@レート は、安全金利です。\n"
+"@ボラティリティ は年間のボラティリティで、取り引きを行った期間に対する資産の"
+"百分率で表現します。\n"
+"@持越費用 は原資産の流出で、普通株の場合にはこれは配当利回りなどになります。\n"
+"* 返り値は、@行使価格と@市場価格と同じ単位で表現されます。\n"
+"\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta opt_bs_call_rho, "
-"opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
-"opt_bs_gamma"
+"@SEEALSO=OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:285
 #, fuzzy
@@ -18977,78 +18972,64 @@ msgid "Minor categories stacked in vertical columns grouped by major category."
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:29
-#, fuzzy
 msgid "Percentage Areas"
-msgstr "パーセンテージバー"
+msgstr "パーセンテージエリア"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:30
 msgid "Percentage Bars"
 msgstr "パーセンテージバー"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:31
-#, fuzzy
 msgid "Percentage Columns"
-msgstr "列を削除"
+msgstr "パーセンテージ列"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:32
-#, fuzzy
 msgid "Percentage Lines"
-msgstr "パーセント(_C)"
+msgstr "パーセント線"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:33
-#, fuzzy
 msgid "Percentage area plot."
-msgstr "パーセンテージバー"
+msgstr "パーセンテージエリアプロット。"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:34
-#, fuzzy
 msgid "Percentage line plot."
-msgstr "パーセント(_C)"
+msgstr "パーセント線プロット。"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:35
-#, fuzzy
 msgid "Stacked Areas"
-msgstr "列を削除"
+msgstr "スタックエリア"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:36
-#, fuzzy
 msgid "Stacked Bars"
-msgstr "列を削除"
+msgstr "スタックバー"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:37
-#, fuzzy
 msgid "Stacked Columns"
-msgstr "列を削除"
+msgstr "スタック列"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:38
-#, fuzzy
 msgid "Stacked Lines"
-msgstr "枠線(_G)"
+msgstr "スタック線"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:39
-#, fuzzy
 msgid "Stacked area plot."
-msgstr "列を削除"
+msgstr "スタックエリアプロット。"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:40
-#, fuzzy
 msgid "Stacked line plot."
-msgstr "列を削除"
+msgstr "スタック線プロット。"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:41
-#, fuzzy
 msgid "Unmarked Lines"
-msgstr "枠線(_G)"
+msgstr "マークされていない線"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:42
-#, fuzzy
 msgid "Unmarked Percentage Lines"
-msgstr "パーセント(_C)"
+msgstr "マークされていないパーセンテージ線"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:43
-#, fuzzy
 msgid "Unmarked Stacked Lines"
-msgstr "枠線(_G)"
+msgstr "マークされていないスタック線"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:1
 msgid "Area plotting engine"
@@ -19063,9 +19044,8 @@ msgid "Charting : Bar/Col/Line/Area"
 msgstr "グラフ: 棒/列/行/エリア"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:4
-#, fuzzy
 msgid "Default 1.5d plot types"
-msgstr "デフォルト円グラフタイプ"
+msgstr "デフォルト 1.5d プロットタイプ"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:5
 msgid "Line plotting engine"
@@ -19089,6 +19069,8 @@ msgid ""
 "%s point %d\n"
 "Value %g (%g)"
 msgstr ""
+"%s は %d を指しています\n"
+"値は %g (%g) です"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:3
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:4
