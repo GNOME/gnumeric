@@ -1,3 +1,17 @@
+2001-03-05  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/sheet-control-gui.c
+	(vertical_scroll_change) : Remove.
+	(horizontal_scroll_change) : Remove.
+	(vertical_scroll_event) : Remove.
+	(horizontal_scroll_event) : Remove.
+	(vertical_scroll_changed) : New function, handles the 
+	GnumericVScrollbar's "changed" signal.
+	(horizontal_scroll_changed) : Idem for the GnumericHScrollbar.
+	(scg_construct) : Create a gnumeric-vscrollbar instead of a
+	gtk-vscrollbar and connect the "changed" signal do the same
+	for gnumeric-hscrollbar.
+
 2001-03-04  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/workbook-control-gui.c

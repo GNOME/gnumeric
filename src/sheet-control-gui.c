@@ -31,6 +31,8 @@
 #include "clipboard.h"
 #include "dialogs.h"
 #include "gnumeric-type-util.h"
+#include "widgets/gnumeric-vscrollbar.h"
+#include "widgets/gnumeric-hscrollbar.h"
 
 #ifdef ENABLE_BONOBO
 #include <bonobo/bonobo-view-frame.h>
@@ -451,55 +453,21 @@ button_select_all (GtkWidget *the_button, SheetControlGUI *scg)
 }
 
 static void
-vertical_scroll_change (GtkAdjustment *adj, SheetControlGUI *scg)
+vertical_scroll_offset_changed (GtkAdjustment *adj, int top, SheetControlGUI *scg)
 {
 	GnumericSheet  *gsheet = GNUMERIC_SHEET (scg->canvas);
-	int const row = GTK_ADJUSTMENT (scg->va)->value;
 
 	/* NOTE : Excel does not move the cursor, just scrolls the sheet. */
-	gnumeric_sheet_set_top_row (gsheet, row);
+	gnumeric_sheet_set_top_row (gsheet, top);
 }
 
 static void
-horizontal_scroll_change (GtkAdjustment *adj, SheetControlGUI *scg)
+horizontal_scroll_offset_changed (GtkAdjustment *adj, int left, SheetControlGUI *scg)
 {
 	GnumericSheet  *gsheet = GNUMERIC_SHEET (scg->canvas);
-	int const col = GTK_ADJUSTMENT (scg->ha)->value;
 
 	/* NOTE : Excel does not move the cursor, just scrolls the sheet. */
-	gnumeric_sheet_set_left_col (gsheet, col);
-}
-
-static int
-vertical_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetControlGUI *scg)
-{
-	if (event->type == GDK_BUTTON_PRESS) {
-		GnumericSheet  *gsheet      = GNUMERIC_SHEET (scg->canvas);
-		GtkAdjustment  *adjustment  = GTK_ADJUSTMENT (scg->va);
-
-		if (gsheet->row.last_full > adjustment->upper - 1) {
-			gnumeric_sheet_set_top_row (gsheet, adjustment->value + adjustment->step_increment);
-			scg_scrollbar_config (scg);
-		}
-	}
-
-	return FALSE;
-}
-
-static int
-horizontal_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetControlGUI *scg)
-{
-	if (event->type == GDK_BUTTON_PRESS) {
-		GnumericSheet  *gsheet      = GNUMERIC_SHEET (scg->canvas);
-		GtkAdjustment  *adjustment  = GTK_ADJUSTMENT (scg->ha);
-
-		if (gsheet->col.last_full > adjustment->upper - 1) {
-			gnumeric_sheet_set_left_col (gsheet, adjustment->value + adjustment->step_increment);
-			scg_scrollbar_config (scg);
-		}
-	}
-
-	return FALSE;
+	gnumeric_sheet_set_left_col (gsheet, left);
 }
 
 static void
@@ -597,17 +565,13 @@ scg_construct (SheetControlGUI *scg)
 	/* Scroll bars and their adjustments */
 	scg->va = gtk_adjustment_new (0.0, 0.0, sheet->rows.max_used, 1.0, 1.0, 1.0);
 	scg->ha = gtk_adjustment_new (0.0, 0.0, sheet->cols.max_used, 1.0, 1.0, 1.0);
-	scg->hs = gtk_hscrollbar_new (GTK_ADJUSTMENT (scg->ha));
-	scg->vs = gtk_vscrollbar_new (GTK_ADJUSTMENT (scg->va));
+	scg->hs = gnumeric_hscrollbar_new (GTK_ADJUSTMENT (scg->ha));
+	scg->vs = gnumeric_vscrollbar_new (GTK_ADJUSTMENT (scg->va));
 
-	gtk_signal_connect (GTK_OBJECT (scg->ha), "value_changed",
-			    GTK_SIGNAL_FUNC (horizontal_scroll_change), scg);
-	gtk_signal_connect (GTK_OBJECT (scg->va), "value_changed",
-			    GTK_SIGNAL_FUNC (vertical_scroll_change), scg);
-	gtk_signal_connect (GTK_OBJECT (scg->hs), "event",
-			    GTK_SIGNAL_FUNC (horizontal_scroll_event), scg);
-	gtk_signal_connect (GTK_OBJECT (scg->vs), "event",
-			    GTK_SIGNAL_FUNC (vertical_scroll_event), scg);
+	gtk_signal_connect (GTK_OBJECT (scg->hs), "offset_changed",
+			    GTK_SIGNAL_FUNC (horizontal_scroll_offset_changed), scg);
+	gtk_signal_connect (GTK_OBJECT (scg->vs), "offset_changed",
+			    GTK_SIGNAL_FUNC (vertical_scroll_offset_changed), scg);
 
 	/* Attach the horizontal scroll */
 	gtk_table_attach (table, scg->hs,

@@ -1,3 +1,11 @@
+2001-03-05  Almer S. Tigelaar  <almer@gnome.org>
+
+	* gnumeric-vscrollbar.c, gnumeric-vscrollbar.h : New, vscrollbar widget.
+
+	* gnumeric-hscrollbar.c, gnumeric-hscrollbar.h : New, hscrollbar widget.
+
+	* Makefile.am : Add gnumeric-[vh]scrollbar.*
+
 2001-02-23  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.63

@@ -11,6 +11,10 @@ noinst_LIBRARIES = libwidgets.a
 libwidgets_a_SOURCES =				\
 	gnumeric-toolbar.c			\
 	gnumeric-toolbar.h			\
+	gnumeric-vscrollbar.c			\
+	gnumeric-vscrollbar.h			\
+	gnumeric-hscrollbar.c			\
+	gnumeric-hscrollbar.h			\
 	widget-editable-label.c			\
 	widget-editable-label.h			\
 	widget-font-selector.c			\
