@@ -1,3 +1,7 @@
+2002-02-01  Christian Rose  <menthos@menthos.com>
+
+	* sv, sv/topic.dat: Added these.
+
 2002-01-22  Kevin Breit  <mrproper@ximian.com>
 
 	* sgmldocs.make (omffile): Added omffile=gnumeric-C.omf
