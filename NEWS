@@ -1,5 +1,8 @@
 Gnumeric 1.2.2
 
+Andreas:
+	* Updated some docs.
+
 Jody:
 	* More renaming
 	* Don't install schemas when building an rpm

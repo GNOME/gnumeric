@@ -2,46 +2,77 @@
   <title>Printing to a Printer or a File.</title>
 
   <para>
-    The <interface>Print dialog</interface> includes some options
-    related to printing. More detailed options related to printing are
+    The <interface>Print dialog</interface> includes the most important options
+    related to printing. More detailed options related to printing can be set
     in the <interface> Page Setup dialog</interface>, detailed in
     <xref linkend="sect-printing-setup" /> Press the
     <guibutton>Print</guibutton> to print out the workbook. Press the
-    <guibutton>Preview</guibutton> button to display the
+    <guibutton>Print Preview</guibutton> button to display the
     <interface>Print Preview dialog</interface>.
   </para>
 
-  <figure id="print-workbook-fig">
-    <title><interface>Print Dialog</interface></title>
+  <para>
+    The <interface>Print dialog</interface> has 3 tabs that include 
+    different groups of options.
+  </para>
+
+  <figure id="print-workbook-printer-fig">
+    <title><interface>Print Dialog Printer Tab</interface></title>
     <mediaobject>
       <imageobject>
 	<imagedata format="PNG"
-		   fileref="figures/print-worksheet.png" />
+		   fileref="figures/print-worksheet-printer.png" />
       </imageobject>
     </mediaobject>
   </figure>
 
   <para>
-    Click on the <guimenuitem>Printer</guimenuitem> radiobutton and
-    click on <interface>Print</interface> to send the document to your
-    printer. You can also send the printed document to a
-    <keycap>postscript</keycap> file. 
+    Normally you  want to select <guimenuitem>Generic Postscript</guimenuitem> 
+    as <interface>Printer</interface> and the appropriate printer name as 
+    <interface>Location</interface>.
+    Then click on <interface>Print</interface> to send the document to your
+    printer. 
+  </para>
+  <para>
+    You can also send the printed document to a
+    <keycap>postscript</keycap> file by selecting 
+    <guimenuitem>File</guimenuitem> as <interface>Location</interface> and
+    specifying an appropriate output file.
   </para>
 
-  <para>
-    You may also select a multiple number of copies, or print a subset
-    of the pages of the document.
-  </para>
+  <figure id="print-workbook-job-fig">
+    <title><interface>Print Dialog Job Tab</interface></title>
+    <mediaobject>
+      <imageobject>
+	<imagedata format="PNG"
+		   fileref="figures/print-worksheet-job.png" />
+      </imageobject>
+    </mediaobject>
+  </figure>
 
   <para>
-    If you are not sure which pages you need, click on the preview
-    button to see the layout of the printed document.
+    In the <guimenuitem>Job</guimenuitem> tab you may also select a multiple number of copies, or specify which sheets to print. Choose Selection to print just the range of cells currently selected on the active sheet. 
   </para>
 
+  <figure id="print-workbook-paper-fig">
+    <title><interface>Print Dialog Paper Tab</interface></title>
+    <mediaobject>
+      <imageobject>
+	<imagedata format="PNG"
+		   fileref="figures/print-worksheet-paper.png" />
+      </imageobject>
+    </mediaobject>
+  </figure>
+
   <para>
-    If you need to change your page size or scale the output to fit
-    properly onto your page, see the <xref linkend="sect-printing-setup" />
-    </para>
+    In the <guimenuitem>Paper</guimenuitem> tab you can select the paper size 
+    used for printing, the page orientation and the layout. The layout 
+    specification allows to print several logical pages on the same physical 
+    sheet of paper.
+    If you need to change your margins, scale the output to fit
+    properly onto your page or customize the page footers or headers, 
+    see the <xref linkend="sect-printing-setup" />
+  </para>
 
 </sect1>
 
@@ -76,7 +107,7 @@
       <mediaobject>
 	<imageobject>
 	  <imagedata fileref="figures/printing-setup-page"
-	  format="PNG" srccredit="Wayne Schuller" />
+	  format="PNG" srccredit="Thomas Miesbauer" />
 	</imageobject>
       </mediaobject>
     </figure>
@@ -107,7 +138,7 @@
       <mediaobject>
 	<imageobject>
 	  <imagedata fileref="figures/printing-setup-margins"
-		     format="PNG" srccredit="Wayne Schuller" />
+		     format="PNG" srccredit="Thomas Miesbauer" />
 	</imageobject>
       </mediaobject>
     </figure>
@@ -134,7 +165,7 @@
       <mediaobject>
 	<imageobject>
 	  <imagedata fileref="figures/printing-setup-header"
-	  format="PNG" srccredit="Wayne Schuller" />
+	  format="PNG" srccredit="Thomas Miesbauer" />
 	</imageobject>
       </mediaobject>
     </figure>
@@ -167,7 +198,7 @@
       <mediaobject>
 	<imageobject>
 	  <imagedata fileref="figures/printing-setup-header-config"
-		     format="PNG" srccredit="Wayne Schuller" />
+		     format="PNG" srccredit="Thomas Miesbauer" />
 	</imageobject>
       </mediaobject>	
     </figure>
@@ -253,7 +284,7 @@
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="figures/printing-setup-sheet"
-		       format="PNG" srccredit="Wayne Schuller" />
+		       format="PNG" srccredit="Thomas Miesbauer" />
 	  </imageobject>
 	</mediaobject>
       </figure>
