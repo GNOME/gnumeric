@@ -1,3 +1,9 @@
+Gnumeric 1.2.10
+
+Jody:
+	* Revert incomplete patch to duration functions that disabled them.
+
+--------------------------------------------------------------------------
 Gnumeric 1.2.9
 
 Jody:
