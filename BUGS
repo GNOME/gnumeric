@@ -98,6 +98,13 @@ STF - pasting a single line should not invoke the importer
 		: Add acetate_create virtual to handle shaped objects.
 - Other anchor types for sheet objects
 
+- Merged Cells
+    - autofill
+    - persistance
+    - sheet copy
+    - cut/copy/paste
+    - undo/redo
+
 Dialogs
 -------
 - Use color combos in format dialog.
