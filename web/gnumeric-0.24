@@ -1,0 +1,54 @@
+
+Hello Taxpayers!
+
+   A new version of Gnumeric "Late Taxpayer Cow" 0.24.
+
+   Here are the new features since version 0.23:
+
+* New features:
+
+	* Can do some limited importing of drawings from Excel
+	  (Michael Meeks)
+
+	* Can import Excel cell comments (Michael Meeks).
+
+	* New functions:
+		EVEN(), FACTDOUBLE(), ODD(), QUOTIENT(),
+	        RANDBETWEEN(), LOGINV(), NORMINV(), RSQ(),
+		ZTEST() by Jukka-Pekka.
+
+	* Preliminary Array handling by Michael Meeks (we still need
+	  to add the parser code, but we need to decode the
+	  ultra-badly written Microsoft documentation).
+
+	* Michale implemented the CHOOSE() function.
+
+	* 
+	  
+* New code not enabled by default nor finished:
+
+	* The beginning of a Solver (Jukka-Pekka)
+
+	* Bonobo component embedding.
+
+	* More work on the function wizard
+
+* Fixes:
+
+	* Pasting cells from X had a little bug that did not paste all
+	  of the columns.  Fixed now.
+
+	* Now does a better job at pasting numbers. It will not
+	  consider some strings as strings, but as numbers.
+
+	* Warnings fixes for various Excel loading features.
+
+	* Zbigniew Chyla fixed the popup menus for the
+	  auto-computations.
+
+* Internal changes:
+
+	* Now Sheet Objects are GtkObjects and can be subclassed to
+	  add more types.
+
+	* Reimplemented the Ranges as Arrays (Michael).

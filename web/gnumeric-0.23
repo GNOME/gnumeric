@@ -1,0 +1,39 @@
+Hello guys!
+
+   A new version of Gnumeric has been released, version 0.23.  Trained
+eyes will notice that I have skipped version 0.22.  Well, I did not.
+I just did not announce it because I had promised not to make a new
+release (which I ended up doing) because it included a pile of cool
+features.
+
+   So, here is the new stuff since 0.21, major features:
+
+	* Michael Meeks added multiple-clause sort to the sort dialog.
+
+	* GNUMERIC_NORMDIST() function now uses a more efficient
+	  method of computation (Morten Wellinder).
+
+	* Should load properly workbooks with references to other
+	  sheets.
+	
+	* Starts up with a bigger size (Michael).
+
+	* Michael has begun a function wizard, it is disabled in this
+	  version by default.
+
+	* RAND() function. 
+
+	* Fixes for some cases of circular references (the other cases
+	  were fine), by Morten.
+	
+	* IF() now can take variable arguments (Michael).
+
+	* Updated documentation
+
+	* Many small fixes.
+
+Getting Gnumeric 0.23:
+
+ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric
+
+Miguel.
