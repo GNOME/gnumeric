@@ -994,7 +994,7 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 			/* FIXME: this is a gross hack */
 			{
 				char buffer [40 + DBL_DIG];
-				sprintf (buffer, "%.*g", DBL_DIG, number);
+				sprintf (buffer, "%.*e", info.right_req, number);
 
 				g_string_append (result, buffer);
 				goto finish;

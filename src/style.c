@@ -284,6 +284,7 @@ style_color_new (gushort red, gushort green, gushort blue)
 		sc->red = red;
 		sc->green = green;
 		sc->blue = blue;
+		sc->name = NULL;
 		
 		sc->color.pixel = color_alloc (red, green, blue);
 
