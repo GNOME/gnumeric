@@ -1,3 +1,62 @@
+2000-04-08  Jon K Hellan  <hellan@acm.org>
+
+	* src/dialogs/dialog-analysis-tools.c (struct
+	random_tool_callback_t): Use gladified random dialog: changed most
+	members.
+	(struct DistributionStrs): New struct to hold name to show in list
+	and parameter labels for a random distribution.
+	(distribution_strs): Change to a DistributionStrs struct.
+	(output_range_selected): New callback function. This is part of a
+	change which selects the corresponding toggle button when the
+	output range field is entered. This works for all gladified
+	dialogs in this file.
+	(set_output_option_signals): Set up output_range_selected callback
+	on output range field. The widget is retrieved by name, so widget
+	names in analysis-tools.glade had to be changed.
+	(dialog_correlation_tool, dialog_covariance_tool,
+	dialog_ttest_paired_tool, dialog_ttest_eq_tool,
+	dialog_ttest_neq_tool, dialog_ftest_tool, dialog_average_tool,
+	dialog_ranking_tool, dialog_anova_single_factor_tool,
+	dialog_anova_two_factor_without_r_tool): New widget name for
+	output range field.
+	(dialog_correlation_tool, dialog_covariance_tool,
+	dialog_ttest_paired_tool, dialog_ttest_eq_tool,
+	dialog_ttest_neq_tool, dialog_ftest_tool, dialog_average_tool,
+	dialog_ranking_tool, dialog_anova_single_factor_tool,
+	dialog_anova_two_factor_without_r_tool): Make <Enter> in entry
+	fields activate default button.
+	(distribution_strs_find, distribution_parbox_config,
+	combo_get_distribution, dialog_random_realized): These new
+	functions are helpers for gladified random generation dialog.
+	(distribution_strs_find): Find strings record, given distribution
+	enum.
+	(distribution_parbox_config): Configure parameter widgets given
+	random distribution.
+	(combo_get_distribution): Find from combo the distribution the
+	user selected.
+	(distribution_callback): Configure parameter widgets for the
+	distribution which was selected.
+	(dialog_random_realized): Make initial geometry of distribution
+	table permanent.
+	(dialog_random_tool): Libgladify. This is a complete
+	rewrite. Other changes: Make the "distribution" variable function
+	static instead of file static. Rebuild the dialog each time it is
+	displayed. This is like the other libglade dialogs in this file.
+	Make <Enter> in entry fields activate default button. Get random
+	distribution name and parameter label strings from
+	distribution_strs struct. Use a "realized" callback to make
+	initial geometry permanent. Unref accel group for distribution
+	parameter widgets when dialog is destroyed.
+
+	* src/dialogs/analysis-tools.glade (All dialogs): Remove ':' from
+	frame labels. Add accelerators. Rename output range entry widgets
+	to xxx_output_range_entry. Minor output options tweaks.
+	(FTest dialog, TTest1 dialog, TTest2 dialog, TTest3 dialog): Use
+	alignment and fill instead of spaces to place label strings.
+	(Anova2 dialog, MovingAverage dialog): Use table in input frame so
+	that entry fields are aligned.
+	(Random dialog:) New dialog.
+
 2000-04-07  Morten Welinder  <terra@diku.dk>
 
 	* src/selection.c (sheet_selection_reset_only): Free the right list.
