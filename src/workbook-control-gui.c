@@ -492,6 +492,7 @@ wbcg_sheet_add (WorkbookControl *wbc, Sheet *sheet)
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
 	SheetView *sheet_view;
 	GtkWidget *sheet_label;
+	GList     *ptr;
 
 	g_return_if_fail (wbcg != NULL);
 
@@ -532,6 +533,10 @@ wbcg_sheet_add (WorkbookControl *wbc, Sheet *sheet)
 	/* Only be scrollable if there are more than 3 tabs */
 	if (g_list_length (wbcg->notebook->children) > 3)
 		gtk_notebook_set_scrollable (wbcg->notebook, TRUE);
+
+	/* create views for the sheet objects */
+	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next)
+		(void) sheet_object_new_view (ptr->data, sheet_view);
 }
 
 static void

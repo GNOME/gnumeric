@@ -33,7 +33,6 @@
 #include "sheet-object-container.h"
 #include "sheet-object-bonobo.h"
 #include "embeddable-grid.h"
-#include "sheet-object-container.h"
 #endif
 
 #include <ctype.h>

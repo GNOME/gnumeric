@@ -1,3 +1,10 @@
+2000-11-12  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-object.c (sheet_object_new_view) : Make public.
+
+	* src/workbook-control-gui.c (wbcg_sheet_add) : Create views of all
+	  sheet objects.
+
 2000-11-12  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* src/stf-export.c (stf_export_sheet): Use sheet_get_extent

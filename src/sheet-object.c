@@ -195,7 +195,7 @@ sheet_object_item_destroyed (GnomeCanvasItem *item, SheetObject *so)
  * Creates a GnomeCanvasItem for a SheetView and sets up the event
  * handlers.
  */
-static GnomeCanvasItem *
+GnomeCanvasItem *
 sheet_object_new_view (SheetObject *so, SheetView *sheet_view)
 {
 	GnomeCanvasItem *item;

@@ -70,6 +70,8 @@ void    sheet_object_construct     (SheetObject *sheet_object, Sheet *sheet);
 int     sheet_object_canvas_event  (GnomeCanvasItem *item, GdkEvent *event,
 				    SheetObject *so);
 void    sheet_object_print         (SheetObject *so, SheetObjectPrintInfo *pi);
+GnomeCanvasItem *sheet_object_new_view (SheetObject *so,
+					SheetView *sheet_view);
 
 /* b = bottom, t = top, l = left, r = right */
 void    sheet_object_get_bounds (SheetObject *sheet_object, double *tlx, double *tly,
