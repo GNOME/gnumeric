@@ -1,0 +1,12 @@
+<Root>
+<commands>
+	<cmd name="HelloWorld"
+         _label="Hello World"
+         _tip="Hello World"/>
+</commands>
+<menu>
+	<submenu name="Tools">
+		<menuitem name="HelloWorld" verb=""/>
+	</submenu>
+</menu>
+</Root>
