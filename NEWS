@@ -1,5 +1,9 @@
 Gnumeric 1.0.14
 
+Morten
+	http://bugzilla.gnome.org/show_bug.cgi?id=105035
+	* Work around a crash when pressing delete in the main sheet when the 
+	  search centre is open.
 
 --------------------------------------------------------------------------
 Gnumeric 1.0.13

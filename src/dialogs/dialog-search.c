@@ -100,6 +100,15 @@ value_at (ETableModel *etc, int col, int row, void *data)
 	Cell *cell = item->cell;
 	char *result, *cached;
 
+	if (cell) {
+		Sheet *sheet = item->ep.sheet;
+		int col = item->ep.eval.col;
+		int row = item->ep.eval.row;
+		cell = sheet_cell_get (sheet, col, row);
+		if (!cell)
+			return (void *)"?";
+	}
+
 	switch (col) {
 	case COL_SHEET:
 		result = e_utf8_from_locale_string (item->ep.sheet->name_unquoted);
