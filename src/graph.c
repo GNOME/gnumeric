@@ -897,7 +897,9 @@ gnm_go_data_matrix_load_values (GODataMatrix *dat)
 			closure.row = closure.col = 0;
 			closure.columns = dat->size.columns;
 			sheet_foreach_cell_in_range (start_sheet, CELL_ITER_ALL,
-				r.start.col, r.start.row, r.end.col, r.end.row,
+				r.start.col, r.start.row,
+				r.start.col + dat->size.columns - 1,
+				r.start.row + dat->size.rows - 1,
 				(CellIterFunc)cb_assign_matrix_val, &closure);
 #warning Should we clip the matrix?
 			minimum = closure.minimum;

@@ -1,3 +1,8 @@
+2005-01-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/graph.c: (gnm_go_data_matrix_load_values): don't write data outside of
+	allocated matrix. Fixes #163626.
+
 2005-01-12  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=163223
