@@ -1,3 +1,10 @@
+1998-09-19  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/format.c (split_time): New code that works correctly
+	in the range expected by Microsoft Excel [1900,1900+65535].  We of
+	course work on a wider range than Excel can.  We can work on
+	pre-1900 dates and on 1900+2^31 dates, but it might make little sense.
+
 1998-09-18  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/sheet-autofill.c (fill_item_new): Trivial bug fix (I was

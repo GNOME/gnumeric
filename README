@@ -26,3 +26,60 @@ send a mail to:
 
     And in the body of the message write "subscribe"
 
+
+This is a partial list of Features implemented in Gnumeric, we need
+documentation for these:
+
+	- Autofill
+		Number autofill (computes delta, autofills from that)
+	 	String autofill (daynames, months are built in).
+		String+Number combo integer autofill
+		Formula autofill.
+
+	- Drag and drop selection.
+		Select an area and use the border to drag the
+	 	contents (shift/control/alt are modifiers to copy
+		or move)
+
+	- Selection
+		- Multiple selection is supported, hold down control
+		  key to augment the existing selection (it might be
+		  discotinuous).
+
+		- Walking selection
+		  Use return/tab and shift-return/shift-tab to capture 
+		  information in a selection.
+
+		- Fill quickly a region with the same text: just enter
+		  the text in a selection and press contorl-enter.
+
+	- Number formatting
+		- The formatting of numbers is very powerful, we do
+		  emulate the Excel number formatting specifciation.
+
+		- Format rules: you can use rules to specify which
+		  format to use
+
+		- Format colors: you can specify a color to format
+		  with in the format.
+
+	- Column/Row resizing
+		- Drag the column/row division to adjust the column
+		  and row dimenssions.
+
+		- To make changes to various columns/rows
+		  simultaneously, select the columns and then change
+		  the dimension of one of them.  
+
+	- To edit the contents of a cell that already has a value,
+	  press F2 key.
+
+	- When typing a formula, you can use the cursor keys to select
+	  a cell or a cell range in the expression.  This will only
+	  work if a cell name is valid at the cursor point.
+
+	  To specify a cell range, just move to the start of the cell
+	  range and then hold down the shift key while making the size
+	  of the selection cursor bigger.
+
+	- 

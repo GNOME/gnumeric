@@ -29,255 +29,276 @@
 #include "gnumeric.h"
 #include "format.h"
 #include <glib.h>
+#include <libgnome/lib_date.h>
 
-static int append_year( GString *string, gchar *format, struct tm *time_split );
-static int append_month( GString *string, gchar *format, struct tm *time_split );
-static int append_hour( GString *string, gchar *format, struct tm *time_split, int timeformat );
-static int append_day( GString *string, gchar *format, struct tm *time_split );
-static int append_minute( GString *string, gchar *format, struct tm *time_split );
-static int append_second( GString *string, gchar *format, struct tm *time_split );
-static int append_half( GString *string, gchar *format, struct tm *time_split );
-static void style_entry_free( gpointer data, gpointer user_data );
+static void style_entry_free (gpointer data, gpointer user_data);
 
 
 /*
-   The returned string is newly allocated.
+ * The returned string is newly allocated.
+ *
+ * Current format is an optional date specification followed by an
+ * optional number specification.
+ *
+ * A date specification is an arbitrary sequence of characters (other
+ * than '#', '0', '?', or '.') which is copied to the output.  The
+ * standard date fields are substituted for.  If it ever finds an a or
+ * a p it lists dates in 12 hour time, otherwise, it lists dates in 24
+ * hour time.
+ *
+ * A number specification is as described in the relavent portions of
+ * the excel formatting information.  Commas can currently only appear
+ * at the end of the number specification.  Fractions are not yet
+ * supported.  
+ */
 
-   Current format is an optional date specification followed by an
-   optional number specification.
 
-   A date specification is an arbitrary sequence of characters (other
-   than '#', '0', '?', or '.') which is copied to the output.  The
-   standard date fields are substituted for.  If it ever finds an a or
-   a p it lists dates in 12 hour time, otherwise, it lists dates in 24
-   hour time.
-
-   A number specification is as described in the relavent portions of
-   the excel formatting information.  Commas can currently only appear
-   at the end of the number specification.  Fractions are not yet
-   supported.  
-*/
-
-
-gchar *day_short[] =
+static char *day_short [] =
 {
-  N_( "Sun" ),
-  N_( "Mon" ),
-  N_( "Tue" ),
-  N_( "Wed" ),
-  N_( "Thu" ),
-  N_( "Fri" ),
-  N_( "Sat" )
+	N_("Sun"),
+	N_("Mon"),
+	N_("Tue"),
+	N_("Wed"),
+	N_("Thu"),
+	N_("Fri"),
+	N_("Sat")
 };
 
-gchar *day_long[] =
+static char *day_long [] =
 {
-  N_( "Sunday" ),
-  N_( "Monday" ),
-  N_( "Tuesday" ),
-  N_( "Wednesday" ),
-  N_( "Thursday" ),
-  N_( "Friday" ),
-  N_( "Saturday" )
+	N_("Sunday"),
+	N_("Monday"),
+	N_("Tuesday"),
+	N_("Wednesday"),
+	N_("Thursday"),
+	N_("Friday"),
+	N_("Saturday")
 };
 
-gchar *month_short[] =
+static char *month_short [] =
 {
-  N_( "Jan" ),
-  N_( "Feb" ),
-  N_( "Mar" ),
-  N_( "Apr" ),
-  N_( "May" ),
-  N_( "Jun" ),
-  N_( "Jul" ),
-  N_( "Aug" ),
-  N_( "Sep" ),
-  N_( "Oct" ),
-  N_( "Nov" ),
-  N_( "Dec" )
+	N_("Jan"),
+	N_("Feb"),
+	N_("Mar"),
+	N_("Apr"),
+	N_("May"),
+	N_("Jun"),
+	N_("Jul"),
+	N_("Aug"),
+	N_("Sep"),
+	N_("Oct"),
+	N_("Nov"),
+	N_("Dec")
 };
 
-gchar *month_long[] =
+static char *month_long [] =
 {
-  N_( "January" ),
-  N_( "Februrary" ),
-  N_( "March" ),
-  N_( "April" ),
-  N_( "May" ),
-  N_( "June" ),
-  N_( "July" ),
-  N_( "August" ),
-  N_( "September" ),
-  N_( "October" ),
-  N_( "November" ),
-  N_( "December" )
+	N_("January"),
+	N_("Februrary"),
+	N_("March"),
+	N_("April"),
+	N_("May"),
+	N_("June"),
+	N_("July"),
+	N_("August"),
+	N_("September"),
+	N_("October"),
+	N_("November"),
+	N_("December")
 };
 
-static void do_roundup( GString *string )
+static void
+do_roundup (GString *string)
 {
-  int i;
+	int i;
   
-  for ( i = string->len - 1; string->str[i] == '9'; i--)
-    {
-      string->str[i] = '0';
-    }
-  if ( string->str[i] == '.' )
-    {
-      /* FIXME */
-    }
-  else
-    {
-      string->str[i] ++;
-    }
+	for (i = string->len - 1; string->str [i] == '9'; i--)
+		string->str[i] = '0';
+
+	if (string->str [i] == '.')
+	{
+		/* FIXME */
+	}
+	else
+	{
+		string->str [i]++;
+	}
 }
 
-/* Parses the year field at the beginning of the format.  Returns the
-   number of characters used. */
+/*
+ * Parses the year field at the beginning of the format.  Returns the
+ * number of characters used.
+ */
 static
-int append_year( GString *string, gchar *format, struct tm *time_split )
+int append_year (GString *string, gchar *format, struct tm *time_split)
 {
-  gchar temp[5];
-  if ( format[ 1 ] != 'y' )
-    {
-      g_string_append_c( string, 'y' );
-      return 1;
-    }
-  if ( format[ 2 ] != 'y' || format[ 3 ] != 'y' )
-    {
-      sprintf( temp, "%02d", time_split->tm_year );
-      g_string_append( string, temp );
-      return 2;
-    }
-  sprintf( temp, "%04d", time_split->tm_year + 1900);
-  g_string_append( string, temp );
-  return 4;
+	char temp [5];
+	
+	if (format [1] != 'y'){
+		g_string_append_c (string, 'y');
+		return 1;
+	}
+	
+	if (format [2] != 'y' || format [3] != 'y'){
+		sprintf (temp, "%02d", time_split->tm_year);
+		g_string_append (string, temp);
+		return 2;
+	}
+
+	sprintf (temp, "%04d", time_split->tm_year + 1900);
+	g_string_append (string, temp);
+
+	return 4;
 }
 
-/* Parses the month field at the beginning of the format.  Returns the
-   number of characters used. */
-static int append_month( GString *string, gchar *format, struct tm *time_split )
+/*
+ * Parses the month field at the beginning of the format.  Returns the
+ * number of characters used.
+ */
+static int
+append_month (GString *string, gchar *format, struct tm *time_split)
 {
-  gchar temp[3];
-  if ( format[ 1 ] != 'm' )
-    {
-      sprintf( temp, "%d", time_split->tm_mon );
-      g_string_append( string, temp );
-      return 1;
-    }
-  if ( format[ 2 ] != 'm' )
-  {
-    sprintf( temp, "%02d", time_split->tm_mon );
-    g_string_append( string, temp );
-    return 2;
-  }
-  if ( format[ 3 ] != 'm' )
-  {
-    g_string_append( string, _( month_short[time_split->tm_mon] ) );
-    return 3;
-  }
-  g_string_append( string, _( month_long[time_split->tm_mon] ) );
-  return 4;
+	char temp [3];
+	
+	if (format [1] != 'm'){
+		sprintf( temp, "%d", time_split->tm_mon);
+		g_string_append( string, temp);
+		return 1;
+	}
+	
+	if (format [2] != 'm')
+	{
+		sprintf (temp, "%02d", time_split->tm_mon);
+		g_string_append (string, temp);
+		return 2;
+	}
+	
+	if (format [3] != 'm'){
+		g_string_append (string, _(month_short [time_split->tm_mon]));
+		return 3;
+	}
+
+	g_string_append (string, _(month_long [time_split->tm_mon]));
+	return 4;
 }
 
-/* Parses the hour field at the beginning of the format.  Returns the
-   number of characters used. */
-static int append_hour( GString *string, gchar *format, struct tm *time_split, int timeformat )
+/*
+ * Parses the hour field at the beginning of the format.  Returns the
+ * number of characters used.
+ */
+static int
+append_hour (GString *string, gchar *format, struct tm *time_split, int timeformat)
 {
-  gchar temp[3];
-  if ( format[ 1 ] != 'h' )
-    {
-      sprintf( temp, "%d", timeformat ? ( time_split->tm_hour % 12 ) : time_split->tm_hour );
-      g_string_append( string, temp );
-      return 1;
-    }
-  sprintf( temp, "%02d", timeformat ? ( time_split->tm_hour % 12 ) : time_split->tm_hour );
-  g_string_append( string, temp );
-  return 2;
+	char temp[3];
+
+	if (format [1] != 'h'){
+	    sprintf (temp, "%d", timeformat ? (time_split->tm_hour % 12) : time_split->tm_hour);
+	    g_string_append (string, temp);
+	    return 1;
+	}
+	sprintf (temp, "%02d", timeformat ? (time_split->tm_hour % 12) : time_split->tm_hour);
+	g_string_append (string, temp);
+	return 2;
 }
 
-/* Parses the day field at the beginning of the format.  Returns the
-   number of characters used. */
-static int append_day( GString *string, gchar *format, struct tm *time_split )
+/*
+ * Parses the day field at the beginning of the format.  Returns the
+ * number of characters used.
+ */
+static int
+append_day (GString *string, gchar *format, struct tm *time_split)
 {
-  gchar temp[3];
-  if ( format[ 1 ] != 'd' )
-    {
-      sprintf( temp, "%d", time_split->tm_mday );
-      g_string_append( string, temp );
-      return 1;
-    }
-  if ( format[ 2 ] != 'd' )
-  {
-    sprintf( temp, "%02d", time_split->tm_mday );
-    g_string_append( string, temp );
-    return 2;
-  }
-  if ( format[ 3 ] != 'd' )
-  {
-    g_string_append( string, _( day_short[time_split->tm_wday] ) );
-    return 3;
-  }
-  g_string_append( string, _( day_long[time_split->tm_wday] ) );
-  return 4;
+	char temp[3];
+
+	if (format [1] != 'd'){
+		sprintf (temp, "%d", time_split->tm_mday);
+		g_string_append (string, temp);
+		return 1;
+	}
+
+	if (format [2] != 'd'){
+		sprintf (temp, "%02d", time_split->tm_mday);
+		g_string_append (string, temp);
+		return 2;
+	}
+
+	if (format [3] != 'd'){
+		g_string_append (string, _(day_short[time_split->tm_wday]));
+		return 3;
+	}
+
+	g_string_append (string, _(day_long[time_split->tm_wday]));
+
+	return 4;
 }
 
-/* Parses the minute field at the beginning of the format.  Returns the
-   number of characters used. */
-static int append_minute( GString *string, gchar *format, struct tm *time_split )
+/*
+ * Parses the minute field at the beginning of the format.  Returns the
+ * number of characters used.
+ */
+static int
+append_minute (GString *string, gchar *format, struct tm *time_split)
 {
-  gchar temp[3];
-  if ( format[ 1 ] != 'm' )
-    {
-      sprintf( temp, "%d", time_split->tm_min );
-      g_string_append( string, temp );
-      return 1;
-    }
-  sprintf( temp, "%02d", time_split->tm_min );
-  g_string_append( string, temp );
-  return 2;
+	char temp [3];
+
+	if (format [1] != 'm'){
+		sprintf (temp, "%d", time_split->tm_min);
+		g_string_append (string, temp);
+		return 1;
+	}
+
+	sprintf (temp, "%02d", time_split->tm_min);
+	g_string_append (string, temp);
+
+	return 2;
 }
 
-/* Parses the second field at the beginning of the format.  Returns the
-   number of characters used. */
-static int append_second( GString *string, gchar *format, struct tm *time_split )
+/*
+ * Parses the second field at the beginning of the format.  Returns the
+ * number of characters used.
+ */
+static int
+append_second (GString *string, gchar *format, struct tm *time_split)
 {
-  gchar temp[3];
-  if ( format[ 1 ] != 's' )
-    {
-      sprintf( temp, "%d", time_split->tm_sec );
-      g_string_append( string, temp );
-      return 1;
-    }
-  sprintf( temp, "%02d", time_split->tm_sec );
-  g_string_append( string, temp );
-  return 2;
+	char temp[3];
+	
+	if (format [1] != 's'){
+		sprintf (temp, "%d", time_split->tm_sec);
+		g_string_append (string, temp);
+		return 1;
+	}
+
+	sprintf (temp, "%02d", time_split->tm_sec);
+	g_string_append (string, temp);
+
+	return 2;
 }
 
-/* Parses the day part field at the beginning of the format.  Returns
-   the number of characters used. */
-static int append_half( GString *string, gchar *format, struct tm *time_split )
+/*
+ * Parses the day part field at the beginning of the format.  Returns
+ * the number of characters used.
+ */
+static int
+append_half (GString *string, gchar *format, struct tm *time_split)
 {
-  if ( time_split->tm_hour <= 11 )
-    {
-      if ( format[ 0 ] == 'a' || format[ 0 ] == 'p' )
-	g_string_append_c( string, 'a' );
-      else
-	g_string_append_c( string, 'A' );
-    }
-  else
-    {
-      if ( format[ 0 ] == 'a' || format[ 0 ] == 'p' )
-	g_string_append_c( string, 'p' );
-      else
-	g_string_append_c( string, 'P' );
-    }
-  
-  if ( format[ 1 ] == 'm' || format[ 1 ] == 'M' )
-    {
-      g_string_append_c( string, format[ 1 ] );
-      return 2;
-    }
-  else return 1;
+	if (time_split->tm_hour <= 11){
+		if (format [0] == 'a' || format [0] == 'p')
+			g_string_append_c (string, 'a');
+		else
+			g_string_append_c (string, 'A');
+	}
+	else {
+		if (format [0] == 'a' || format [0] == 'p')
+			g_string_append_c (string, 'p');
+		else
+			g_string_append_c (string, 'P');
+	}
+	
+	if (format [1] == 'm' || format [1] == 'M'){
+		g_string_append_c (string, format [1]);
+		return 2;
+	} else
+		return 1;
 }
 
 /*
@@ -310,7 +331,7 @@ pre_parse_format (StyleFormatEntry *style)
 		case 'A':
 		case 'P':
 			if ((*(format+1) == 'm') ||
-			    (*(format+1) == 'M'))
+			   (*(format+1) == 'M'))
 				style->want_am_pm = 1;
 			break;
 		}
@@ -319,85 +340,86 @@ pre_parse_format (StyleFormatEntry *style)
 
 typedef struct
 {
-  int decimal;
-  int timeformat;
-  int hasnumbers;
+	int decimal;
+	int timeformat;
+	int hasnumbers;
 } xformat_info;
 
-/* This routine should always return, it cant fail, in the worst
+/*
+ * This routine should always return, it cant fail, in the worst
  * case it should just downgrade to stupid formatting
  */
 void
 format_compile (StyleFormat *format)
 {
-  GString *string = g_string_new( "" );
-  int i;
-  int which = 0;
-  int length = strlen( format->format );
-  StyleFormatEntry standard_entries[4];
-  StyleFormatEntry *temp;
+	GString *string = g_string_new ("");
+	int i;
+	int which = 0;
+	int length = strlen (format->format);
+	StyleFormatEntry standard_entries[4];
+	StyleFormatEntry *temp;
+	
+	g_list_free (format->format_list);
+	format->format_list = 0;
+	
+	/* g_string_maybe_expand (string, length); */
+	
+	for (i = 0; i < length; i++){
 
-  g_list_free( format->format_list );
-  format->format_list = 0;
-
-  /* g_string_maybe_expand( string, length ); */
-  
-  for ( i = 0; i < length; i++ )
-    {
-      switch( format->format[i] )
-	{
-	case ';':
-	  if ( which < 4 )
-	    {
-	      standard_entries[which].format = g_malloc0( string->len + 1 );
-	      strncpy( standard_entries[which].format, string->str, string->len );
-	      standard_entries[which].format[string->len] = 0;
-	      standard_entries[which].restriction_type = '*';
-	      which++;
-	    }
-	  string = g_string_truncate( string, 0 );
-	  break;
-	default:
-	  string = g_string_append_c( string, format->format[i] );
-	  break;
+		switch (format->format[i])
+		{
+		case ';':
+			if (which < 4)
+			{
+				standard_entries [which].format = g_malloc0 (string->len + 1);
+				strncpy (standard_entries[which].format, string->str, string->len);
+				standard_entries [which].format[string->len] = 0;
+				standard_entries [which].restriction_type = '*';
+				which++;
+			}
+			string = g_string_truncate (string, 0);
+			break;
+		default:
+			string = g_string_append_c (string, format->format [i]);
+			break;
+		}
 	}
-    }
-  if ( which < 4 )
-    {
-      standard_entries[which].format = g_malloc0( string->len + 1 );
-      strncpy( standard_entries[which].format, string->str, string->len );
-      standard_entries[which].format[string->len] = 0;
-      standard_entries[which].restriction_type = '*';
-      which++;
-    }
-  
-  /* Set up restriction types. */
-  standard_entries[1].restriction_type = '<';
-  standard_entries[1].restriction_value = 0;
-  switch( which )
-    {
-    case 4:
-      standard_entries[3].restriction_type = '@';
-      /* Fall through. */
-    case 3:
-      standard_entries[2].restriction_type = '=';
-      standard_entries[2].restriction_value = 0;
-      standard_entries[0].restriction_type = '>';
-      standard_entries[0].restriction_value = 0;
-      break;
-    case 2:
-      standard_entries[0].restriction_type = '.';  /* . >= */
-      standard_entries[0].restriction_value = 0;
-      break;
-    }
-  for( i = 0; i < which; i++ )
-    {
-      temp = g_new( StyleFormatEntry, 1 );
-      *temp = standard_entries[i];
-      pre_parse_format (temp);
-      format->format_list = g_list_append( format->format_list, temp );
-    }
-  g_string_free( string, TRUE );
+
+	if (which < 4){
+		standard_entries[which].format = g_malloc0 (string->len + 1);
+		strncpy (standard_entries[which].format, string->str, string->len);
+		standard_entries[which].format[string->len] = 0;
+		standard_entries[which].restriction_type = '*';
+		which++;
+	}
+	
+	/* Set up restriction types. */
+	standard_entries[1].restriction_type = '<';
+	standard_entries[1].restriction_value = 0;
+	switch (which)
+	{
+	case 4:
+		standard_entries[3].restriction_type = '@';
+		/* Fall through. */
+	case 3:
+		standard_entries[2].restriction_type = '=';
+		standard_entries[2].restriction_value = 0;
+		standard_entries[0].restriction_type = '>';
+		standard_entries[0].restriction_value = 0;
+		break;
+	case 2:
+		standard_entries[0].restriction_type = '.';  /* . >= */
+		standard_entries[0].restriction_value = 0;
+		break;
+	}
+	for (i = 0; i < which; i++)
+	{
+		temp = g_new (StyleFormatEntry, 1);
+		*temp = standard_entries[i];
+		pre_parse_format (temp);
+		format->format_list = g_list_append (format->format_list, temp);
+	}
+	g_string_free (string, TRUE);
 }
 
 static void
@@ -406,7 +428,7 @@ style_entry_free(gpointer data, gpointer user_data)
 	StyleFormatEntry *entry = data;
 	
 	g_free (entry->format);
-	g_free (entry );
+	g_free (entry);
 }
 
 void
@@ -473,7 +495,7 @@ lookup_color (char *str, char *end)
 		int len = strlen (format_colors [i].name);
 
 		if ((strncasecmp (format_colors [i].name, str, len) == 0) ||
-		    (strncasecmp (_(format_colors [i].name), str, len) == 0)){
+		   (strncasecmp (_(format_colors [i].name), str, len) == 0)){
 			style_color_ref (format_colors [i].color);
 			return format_colors [i].color;
 		}
@@ -536,23 +558,23 @@ render_number (gdouble number,
 
       temp = number - floor (number);
 
-      for ( ; right_req > 0; right_req --, right_allowed --, right_spaces -- )
+      for (; right_req > 0; right_req --, right_allowed --, right_spaces --)
       {
 	      gint digit;
 	      temp *= 10.0;
-	      digit = floor( temp );
-	      temp -= floor( temp );
-	      if ( right_allowed == 1 && floor( temp * 10.0 ) >= 5 )
+	      digit = floor (temp);
+	      temp -= floor (temp);
+	      if (right_allowed == 1 && floor (temp * 10.0) >= 5)
 	      {
-		      if ( digit < 9 )
+		      if (digit < 9)
 			      digit ++;
 		      else
 		      {
 			      digit = 0;
-			      do_roundup( number_string );
+			      do_roundup (number_string);
 		      }
 	      }
-	      g_string_append_c( number_string, digit + '0' );
+	      g_string_append_c (number_string, digit + '0');
       }
       
       zero_count = 0;
@@ -612,7 +634,7 @@ old_format_number(gdouble number, StyleFormatEntry *style_format_entry)
   gint right_allowed = 0;
   gint i = 0;
   gboolean negative = FALSE;
-  GString *string = g_string_new( "" );
+  GString *string = g_string_new ("");
   GString *number_string;
   gchar *format = style_format_entry->format;
   gint length = strlen(format);
@@ -634,7 +656,7 @@ old_format_number(gdouble number, StyleFormatEntry *style_format_entry)
 
   timec = date;
 
-  time_split = localtime( &timec );
+  time_split = localtime (&timec);
 
   info.decimal = -1;
   info.timeformat = 0;
@@ -643,9 +665,9 @@ old_format_number(gdouble number, StyleFormatEntry *style_format_entry)
   if (strcmp (format, "General") == 0){
   }
   
-  for ( i = 0; i < length; i++ )
+  for (i = 0; i < length; i++)
     {
-      switch ( format[i] )
+      switch (format[i])
 	{
 	case '.':
 	  info.decimal = i;
@@ -664,38 +686,38 @@ old_format_number(gdouble number, StyleFormatEntry *style_format_entry)
 	}
     }
 
-  for ( i = 0; i < length && !done; i++ )
+  for (i = 0; i < length && !done; i++)
     {
-      switch ( format[i] )
+      switch (format[i])
 	{
 	case 'm':
-	  if ( minute_mode )
-	    i += append_minute( string, format + i, time_split ) - 1;
+	  if (minute_mode)
+	    i += append_minute (string, format + i, time_split) - 1;
 	  else
-	    i += append_month( string, format + i, time_split ) - 1;
+	    i += append_month (string, format + i, time_split) - 1;
 	  minute_mode = FALSE;
 	  break;
 	case 'y':
-	  i += append_year( string, format + i, time_split ) - 1;
+	  i += append_year (string, format + i, time_split) - 1;
 	  minute_mode = FALSE;
 	  break;
 	case 'h':
-	  i += append_hour( string, format + i, time_split, info.timeformat ) - 1;
+	  i += append_hour (string, format + i, time_split, info.timeformat) - 1;
 	  minute_mode = TRUE;
 	  break;
 	case 'd':
-	  i += append_day( string, format + i, time_split ) - 1;
+	  i += append_day (string, format + i, time_split) - 1;
 	  minute_mode = FALSE;
 	  break;
 	case 's':
-	  i += append_second( string, format + i, time_split ) - 1;
+	  i += append_second (string, format + i, time_split) - 1;
 	  minute_mode = FALSE;
 	  break;
 	case 'a':
 	case 'A':
 	case 'p':
 	case 'P':
-	  i += append_half( string, format + i, time_split ) - 1;
+	  i += append_half (string, format + i, time_split) - 1;
 	  minute_mode = FALSE;
 	  break;
 
@@ -713,38 +735,38 @@ old_format_number(gdouble number, StyleFormatEntry *style_format_entry)
 
   if(any)
     {
-      for ( ; format[i] == '#'; i++ )
+      for (; format[i] == '#'; i++)
 	{
 	}
-      for ( ; format[i] == '?'; i++ )
+      for (; format[i] == '?'; i++)
 	{
 	  left_spaces ++;
 	}
-      for ( ; format[i] == '0'; i++ )
+      for (; format[i] == '0'; i++)
 	{
 	  left_req ++;
 	  left_spaces ++;
 	}
-      if ( format[i] == '.' )
+      if (format[i] == '.')
 	{
 	  i++;
-	  for ( ; format[i] == '0'; i++ )
+	  for (; format[i] == '0'; i++)
 	    {
 	      right_req ++;
 	      right_allowed ++;
 	      right_spaces ++;
 	    }
-	  for ( ; format[i] == '?'; i++ )
+	  for (; format[i] == '?'; i++)
 	    {
 	      right_spaces ++;
 	      right_allowed ++;
 	    }
-	  for ( ; format[i] == '#'; i++ )
+	  for (; format[i] == '#'; i++)
 	    {
 	      right_allowed ++;
 	    }
 	}
-      for ( ; format[i] == ','; i++ )
+      for (; format[i] == ','; i++)
 	{
 	  number /= 1000.0;
 	}
@@ -754,14 +776,14 @@ old_format_number(gdouble number, StyleFormatEntry *style_format_entry)
 	  negative = TRUE;
       }
 #if 0
-      length = ceil( log10( number ) );
-      if ( log10( number ) == ceil( log10( number ) ) )
+      length = ceil (log10 (number));
+      if (log10 (number) == ceil (log10 (number)))
 	length ++;
       length = length > left_req ? length : left_req;
       length += 1;
       length += right_allowed;
       
-      g_string_maybe_expand( number_string, length );
+      g_string_maybe_expand (number_string, length);
 #endif
 
       number_string = render_number (
@@ -775,7 +797,7 @@ old_format_number(gdouble number, StyleFormatEntry *style_format_entry)
       g_string_free (number_string, TRUE);
     } 
   returnvalue = g_malloc (string->len + 1);
-  strncpy (returnvalue, string->str, string->len );
+  strncpy (returnvalue, string->str, string->len);
   returnvalue[string->len] = 0;
   
   g_string_free (string, TRUE);
@@ -861,6 +883,32 @@ do_render_number (gdouble number, format_info_t *info)
 	return result;
 }
 
+static struct tm *
+split_time (gdouble number)
+{
+	static struct tm tm;
+	long secs;
+	int diff;
+
+	tm.tm_year = 1900;
+	tm.tm_mon  = 1;
+	tm.tm_mday = 1;
+
+	/* Day 1 means 1st of jannuary of 1900 */
+	diff = floor (number - 1.0);
+	calc_new_date (&tm.tm_year, &tm.tm_mon, &tm.tm_mday, diff);
+	tm.tm_mon--;
+
+	tm.tm_year -= 1900;
+
+	secs = (number - floor (number)) * 86400;
+	tm.tm_hour = secs / 3600;
+	tm.tm_min  = (secs % 3600) / 60;
+	tm.tm_sec  = ((secs % 3600) % 60);
+
+	return &tm;
+}
+
 static gchar *
 format_number (gdouble number, StyleFormatEntry *style_format_entry)
 {
@@ -869,19 +917,11 @@ format_number (gdouble number, StyleFormatEntry *style_format_entry)
 	format_info_t info;
 	int can_render_number = 0;
 	int hour_seen = 0;
-	time_t timec;
-	struct tm *time_split;
-	gdouble date;
+	struct tm *time_split = 0;
 	char *res;
 	
 	memset (&info, 0, sizeof (info));
 
-	date = number;
-	date -= 25569.0;
-	date *= 86400.0;
-	timec = date;
-	time_split = localtime (&timec);
-	
 	if (number < 0.0){
 		info.negative = TRUE;
 		number = -number;
@@ -1007,6 +1047,8 @@ format_number (gdouble number, StyleFormatEntry *style_format_entry)
 			break;
 
 		case 'm':
+			if (!time_split)
+				time_split = split_time (number);
 			if (hour_seen)
 				format += append_minute (result, format, time_split) - 1;
 			else
@@ -1014,14 +1056,20 @@ format_number (gdouble number, StyleFormatEntry *style_format_entry)
 			break;
 
 		case 'd':
+			if (!time_split)
+				time_split = split_time (number);
 			format += append_day (result, format, time_split) -1;
 			break;
 
 		case 'y':
+			if (!time_split)
+				time_split = split_time (number);
 			format += append_year (result, format, time_split) - 1;
 			break;
 
 		case 's':
+			if (!time_split)
+				time_split = split_time (number);
 			format += append_second (result, format, time_split) - 1;
 			break;
 
@@ -1030,11 +1078,15 @@ format_number (gdouble number, StyleFormatEntry *style_format_entry)
 			break;
 
 		case 'h':
+			if (!time_split)
+				time_split = split_time (number);
 			format += append_hour (result, format, time_split, style_format_entry->want_am_pm) - 1;
 			break;
 			
 		case 'A':
 		case 'a':
+			if (!time_split)
+				time_split = split_time (number);
 			if (time_split->tm_hour < 12){
 				g_string_append_c (result, *format);
 				format++;
@@ -1052,6 +1104,8 @@ format_number (gdouble number, StyleFormatEntry *style_format_entry)
 			break;
 			
 		case 'P': case 'p':
+			if (!time_split)
+				time_split = split_time (number);
 			if (time_split->tm_hour >= 12){
 				g_string_append_c (result, *format);
 				if (*(format+1) == 'm' || *(format+1) == 'M'){
@@ -1085,7 +1139,7 @@ check_valid (StyleFormatEntry *entry, Value *value)
     case VALUE_STRING:
       return entry->restriction_type == '@';
     case VALUE_FLOAT:
-      switch( entry->restriction_type )
+      switch (entry->restriction_type)
 	{
 	case '*': 
 	  return TRUE;
@@ -1105,7 +1159,7 @@ check_valid (StyleFormatEntry *entry, Value *value)
 	  return FALSE;
 	}
     case VALUE_INTEGER:
-      switch( entry->restriction_type )
+      switch (entry->restriction_type)
 	{
 	case '*': 
 	  return TRUE;
