@@ -54,10 +54,14 @@
 #include <gtk/gtkcellrenderer.h>
 #include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtkliststore.h>
+#include <gtk/gtkmenu.h>
 #include <gsf/gsf-impl-utils.h>
+#include <gdk/gdkkeysyms.h>
 #include <stdio.h>
 
 #define CELL_SORT_KEY "cell-sort-dialog"
+
+
 
 typedef struct {
 	WorkbookControlGUI  *wbcg;
@@ -105,6 +109,15 @@ enum {
 	NUM_COLMNS
 };
 
+static const gint MAX_MENU_SIZE = 20;
+typedef struct {
+	gint index;
+	gint start;
+	gint end;
+	gboolean done_submenu;
+	SortFlowState *state;
+} AddSortFieldMenuState;
+
 static gchar *
 col_row_name (Sheet *sheet, int col, int row, gboolean header, gboolean is_cols)
 {
@@ -129,36 +142,74 @@ col_row_name (Sheet *sheet, int col, int row, gboolean header, gboolean is_cols)
 	return str;
 }
 
+
 static gboolean
-translate_range (GnmValue *range, SortFlowState *state)
+already_in_sort_fields(int index, SortFlowState *state)
 {
-	gboolean old_header = state->header;
-	gboolean old_is_cols = state->is_cols;
+	GtkTreeIter iter;
+	int item = 0;
+	gint number;
+	
+	/* See if index is already in the sort fields */
+	while (gtk_tree_model_iter_nth_child  (GTK_TREE_MODEL (state->model),
+					       &iter, NULL, item)) {
+		gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
+				    ITEM_NUMBER, &number,
+				    -1);
+		item++;
 
-	state->header = gtk_toggle_button_get_active (
-		GTK_TOGGLE_BUTTON (state->cell_sort_header_check));
-	state->is_cols = !gtk_toggle_button_get_active (
-		GTK_TOGGLE_BUTTON (state->cell_sort_row_rb));
-
-	if (state->sel == NULL) {
-		state->sel = range;
-		return TRUE;
+		if (number == index) {
+			return TRUE;
+		}
 	}
 
-	if (old_header != state->header || old_is_cols != state->is_cols ||
-		state->sel->v_range.cell.a.sheet != range->v_range.cell.a.sheet ||
-		state->sel->v_range.cell.a.col != range->v_range.cell.a.col ||
-		state->sel->v_range.cell.a.row != range->v_range.cell.a.row ||
-		state->sel->v_range.cell.b.col != range->v_range.cell.b.col ||
-		state->sel->v_range.cell.b.row != range->v_range.cell.b.row) {
-		value_release (state->sel);
-		state->sel = range;
-		return TRUE;
-	} else {
-		value_release (state->sel);
-		state->sel = range;
-		return FALSE;
+	/* Here means not already in sort fields */
+	return FALSE;
+}
+
+static gboolean
+range_already_in_sort_criteria(gint start, gint end, SortFlowState *state)
+{
+	gint i;
+	for (i=start; i<=end; i++) {
+		if (!already_in_sort_fields(i, state)) 
+			return FALSE;
 	}
+	return TRUE;
+}
+
+
+static void
+build_sort_field_menu (gint start, gint end, gint index, GtkWidget *menu, SortFlowState *state);
+
+static void
+cb_sort_field_menu_activate(GtkWidget *item, AddSortFieldMenuState *menu_state)
+{
+  GtkWidget *menu = GTK_WIDGET (gtk_menu_item_get_submenu(GTK_MENU_ITEM (item)));
+
+  if (menu_state->done_submenu == FALSE) {
+	  build_sort_field_menu(menu_state->start,
+				menu_state->end,
+				menu_state->index,
+				menu,
+				menu_state->state);
+	  menu_state->done_submenu = TRUE;
+  }
+}
+
+static void
+set_ok_button_sensitivity(SortFlowState *state)
+{
+	int items;
+	items = state->is_cols ? (state->sel->v_range.cell.b.row -
+				  state->sel->v_range.cell.a.row + 1) :
+		                 (state->sel->v_range.cell.b.col -
+		                  state->sel->v_range.cell.a.col + 1);
+	if (state->header)
+		items -= 1;
+	gtk_widget_set_sensitive (state->ok_button,
+				  (state->sort_items != 0) &&
+				  (items > 1));
 }
 
 static void
@@ -185,6 +236,100 @@ append_data (SortFlowState *state, int i, int index)
 			    -1);
 	state->sort_items++;
 	g_free (str);
+}
+
+static void
+cb_sort_field_selection(GtkWidget *item, AddSortFieldMenuState *menu_state)
+{
+	append_data(menu_state->state,
+		    menu_state->start,
+		    menu_state->index);
+	/* Update sensitivity if this is the first sort item. */
+	if (menu_state->state->sort_items == 1)
+		set_ok_button_sensitivity(menu_state->state);
+}
+
+static void
+build_sort_field_menu (gint start, gint end, gint index, GtkWidget *menu, SortFlowState *state)
+{
+	Sheet *sheet = state->sel->v_range.cell.a.sheet;
+	GtkWidget *item;
+	GtkWidget *submenu;
+	int i;
+	int this_end;
+	char *str;
+	char *str_start;
+	char *str_end;
+	AddSortFieldMenuState *menu_state;
+	gint menu_size;
+	gint submenu_size;
+	
+	menu_size = 1 + end - start;
+	if (MAX_MENU_SIZE < menu_size) {
+		
+		submenu_size = (menu_size + MAX_MENU_SIZE + 1) / MAX_MENU_SIZE;
+		
+		for (i = start; i <= end; i+=submenu_size) {
+			this_end = i + submenu_size - 1;
+			if (this_end > end)
+				this_end = end;
+			
+			/* See if there are any fields in this range that aren't already
+			   in the sort.
+			 */
+			if (range_already_in_sort_criteria(i, this_end, state))
+			    continue;
+			
+			str_start  = state->is_cols
+			  ? col_row_name (sheet, i, index, state->header, TRUE)
+			  : col_row_name (sheet, index, i, state->header, FALSE);
+			
+			str_end  = state->is_cols
+			  ? col_row_name (sheet, this_end, index, state->header, TRUE)
+			  : col_row_name (sheet, index, this_end, state->header, FALSE);
+			
+#warning: Untranslated string (use "%s to %s" when preparing for translation)			
+			str = g_strdup_printf("%s - %s", str_start, str_end);
+			g_free(str_start);
+			g_free(str_end);
+
+			item = (GtkWidget *) gtk_menu_item_new_with_label(str);
+			gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+			gtk_widget_show (item);
+			
+			menu_state = g_new(AddSortFieldMenuState, 1);
+			menu_state->start = i;
+			menu_state->end = this_end;
+			menu_state->index = index;
+			menu_state->state = state;
+			menu_state->done_submenu = FALSE;
+			submenu = gtk_menu_new();
+			gtk_menu_item_set_submenu(GTK_MENU_ITEM (item), submenu);
+			g_signal_connect (item, "activate",
+					  G_CALLBACK (cb_sort_field_menu_activate), menu_state);
+		}
+	}  else {
+		for (i = start; i <= end; i++) {
+			if (FALSE == already_in_sort_fields(i, state)) {
+			
+				str  = state->is_cols
+					? col_row_name (sheet, i, index, state->header, TRUE)
+					: col_row_name (sheet, index, i, state->header, FALSE);
+				item = (GtkWidget *) gtk_menu_item_new_with_label(str);
+				gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+				gtk_widget_show (item);
+				menu_state = g_new(AddSortFieldMenuState, 1);
+				menu_state->start = i;
+				menu_state->end = i;
+				menu_state->index = index;
+				menu_state->state = state;
+				menu_state->done_submenu = FALSE;
+				g_signal_connect (item, "activate",
+						  G_CALLBACK (cb_sort_field_selection), 
+						  menu_state);
+			}
+		}
+	}
 }
 
 static void
@@ -217,31 +362,73 @@ load_model_data (SortFlowState *state)
 }
 
 static void
-cb_update_add_sensitivity (SortFlowState *state)
+translate_range (GnmValue *range, SortFlowState *state)
 {
-        GnmValue *range_add;
+	state->is_cols = !gtk_toggle_button_get_active (
+		GTK_TOGGLE_BUTTON (state->cell_sort_row_rb));
+	state->header = gtk_toggle_button_get_active (
+		GTK_TOGGLE_BUTTON (state->cell_sort_header_check));
 
-        range_add = gnm_expr_entry_parse_as_value
-		(GNM_EXPR_ENTRY (state->add_entry), state->sheet);
-
-	if (state->sel == NULL || range_add == NULL) {
-		gtk_widget_set_sensitive (state->add_button, FALSE);
-	} else {
-		GnmSheetRange a, b;
-		value_to_global_range (state->sel, &a);
-		value_to_global_range (range_add, &b);
-		gtk_widget_set_sensitive (state->add_button,
-			global_range_overlap (&a, &b));
+	if (state->sel == NULL) {
+		state->sel = range;
+		load_model_data(state);
+		return;
 	}
-	if (range_add != NULL)
-		value_release (range_add);
+	
+	if (state->sel->v_range.cell.a.sheet != range->v_range.cell.a.sheet ||
+	    state->sel->v_range.cell.a.col != range->v_range.cell.a.col ||
+	    state->sel->v_range.cell.a.row != range->v_range.cell.a.row ||
+	    state->sel->v_range.cell.b.col != range->v_range.cell.b.col ||
+	    state->sel->v_range.cell.b.row != range->v_range.cell.b.row) {
+		value_release (state->sel);
+		state->sel = range;
+	} else {
+		value_release (state->sel);
+		state->sel = range;
+	}
+	load_model_data(state);
+}
+
+static void
+cb_sort_header_check(SortFlowState *state)
+{
+	gchar *str;
+	GtkTreeIter iter;
+	Sheet *sheet = state->sel->v_range.cell.a.sheet;
+	int top_or_left;
+	gint number;
+	int item = 0;
+
+	state->header = gtk_toggle_button_get_active (
+		GTK_TOGGLE_BUTTON (state->cell_sort_header_check));
+
+	if (state->is_cols) {
+			top_or_left = state->sel->v_range.cell.a.row;
+		} else {
+			top_or_left = state->sel->v_range.cell.a.col;
+		}
+
+	while (gtk_tree_model_iter_nth_child  (GTK_TREE_MODEL (state->model),
+					       &iter, NULL, item)) {
+		gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
+				    ITEM_NUMBER, &number,
+				    -1);
+		item++;
+		str  = state->is_cols
+			? col_row_name (sheet, number, top_or_left, state->header, TRUE)
+			: col_row_name (sheet, top_or_left, number, state->header, FALSE);
+
+		gtk_list_store_set (state->model, &iter,
+				    ITEM_NAME,  str,
+				    -1);
+		g_free (str);
+	}
 }
 
 static void
 cb_update_sensitivity (SortFlowState *state)
 {
         GnmValue *range;
-	int items;
 
         range = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->range_entry), state->sheet);
@@ -253,21 +440,11 @@ cb_update_sensitivity (SortFlowState *state)
 			state->sort_items = 0;
 		}
 		gtk_widget_set_sensitive (state->ok_button, FALSE);
-		gtk_widget_set_sensitive (state->add_button, FALSE);
 	} else {
-		if (translate_range (range, state))
-			load_model_data (state);
-		items = state->is_cols ? (state->sel->v_range.cell.b.row -
-			state->sel->v_range.cell.a.row + 1) :
-			(state->sel->v_range.cell.b.col -
-			state->sel->v_range.cell.a.col + 1);
-		if (state->header)
-			items -= 1;
-		gtk_widget_set_sensitive (state->ok_button,
-					  (state->sort_items != 0) &&
-					  (items > 1));
-		cb_update_add_sensitivity (state);
+		translate_range (range, state);
+		set_ok_button_sensitivity(state);
 	}
+	
 	gtk_widget_set_sensitive (state->clear_button, state->sort_items != 0);
 }
 
@@ -430,6 +607,20 @@ location_of_iter (GtkTreeIter  *iter, GtkListStore *model)
 	return -1;
 }
 
+static void
+select_iter_at_row (gint row, 
+		    SortFlowState *state)
+{
+	/* Select the thing at row  */
+	GtkTreeIter this_iter;
+	GtkListStore *model = state->model;
+	
+	gtk_tree_model_iter_nth_child  (GTK_TREE_MODEL (model),
+					&this_iter, NULL, row);
+	gtk_tree_selection_select_iter (state->selection, &this_iter);
+	return;
+}	
+
 /**
  * Refreshes the buttons on a row (un)selection
  *
@@ -534,22 +725,78 @@ static void
 cb_delete_clicked (G_GNUC_UNUSED GtkWidget *w, SortFlowState *state)
 {
 	GtkTreeIter iter;
-
+	gint row;
+	
 	if (!gtk_tree_selection_get_selected (state->selection, NULL, &iter))
 		return;
-
+	
+	row = location_of_iter (&iter, state->model);
 	state->sort_items -= 1;
 	gtk_list_store_remove (state->model, &iter);
+	
 	if (state->sort_items == 0)
-		cb_update_sensitivity (state);
+		set_ok_button_sensitivity(state);
+	else {
+		/* select item that has replaced the deleted item */
+		if (row >= state->sort_items)
+			row--;
+		select_iter_at_row(row, state);
+	}
 }
+
 
 static void
 cb_clear_clicked (G_GNUC_UNUSED GtkWidget *w, SortFlowState *state)
 {
 	state->sort_items = 0;
 	gtk_list_store_clear (state->model);
-	cb_update_sensitivity (state);
+	set_ok_button_sensitivity(state);
+}
+
+static GtkMenu *
+build_sort_field_base_menu (SortFlowState *state)
+{
+	gint start;
+	gint end;
+	gint index;
+
+	GtkWidget *menu = gtk_menu_new ();
+	GList* items;
+
+	if (state->is_cols) {
+		start = state->sel->v_range.cell.a.col;
+		end  = state->sel->v_range.cell.b.col;
+		index = state->sel->v_range.cell.a.row;
+	} else {
+		start = state->sel->v_range.cell.a.row;
+		end  = state->sel->v_range.cell.b.row;
+		index = state->sel->v_range.cell.a.col;
+	}
+
+	build_sort_field_menu (start, end, index, menu, state);
+
+	items = gtk_container_get_children (GTK_CONTAINER (menu));
+
+	if (items == NULL) {
+		GtkWidget *item;
+#warning: Untranslated strings!
+		item = (GtkWidget *) gtk_menu_item_new_with_label(state->is_cols ? 
+			"no available row" : "no available column");
+		gtk_widget_set_sensitive( GTK_WIDGET (item), FALSE);
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+		gtk_widget_show (item);
+	}
+
+	g_list_free (items);
+	
+	return GTK_MENU (menu);
+}
+
+static void
+show_add_menu (SortFlowState *state)
+{
+	gnumeric_popup_menu (build_sort_field_base_menu(state), 
+			     NULL);	
 }
 
 static void
@@ -567,6 +814,11 @@ cb_add_clicked (G_GNUC_UNUSED GtkWidget *w, SortFlowState *state)
         range_add = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->add_entry), state->sheet);
 
+	if (range_add == NULL) {
+		show_add_menu (state);
+		return;
+	}
+
 	g_return_if_fail (range_add != NULL && state->sel != NULL);
 
 	value_to_global_range (state->sel, &grange_sort);
@@ -579,11 +831,11 @@ cb_add_clicked (G_GNUC_UNUSED GtkWidget *w, SortFlowState *state)
 		if (state->is_cols) {
 			start = intersection.start.col;
 			end  = intersection.end.col;
-			index = intersection.start.row;
+			index = state->sel->v_range.cell.a.row;
 		} else {
 			start = intersection.start.row;
 			end  = intersection.end.row;
-			index = intersection.start.col;
+			index = state->sel->v_range.cell.a.col;
 		}
 
 		for (i = start; i <= end; i++) {
@@ -610,8 +862,66 @@ cb_add_clicked (G_GNUC_UNUSED GtkWidget *w, SortFlowState *state)
 			}
 		}
 		if (!had_items && (state->sort_items > 0)) 
-			cb_update_sensitivity (state);
+			set_ok_button_sensitivity(state);
+	} else 
+		show_add_menu (state);
+	gnm_expr_entry_load_from_text (GNM_EXPR_ENTRY (state->add_entry), "");
+}
+
+static gint
+cb_treeview_button_press(GtkWidget *w, GdkEvent *event, SortFlowState *state)
+{
+	if ((event->type == GDK_BUTTON_PRESS) &&
+	    (event->button.button == 3)) {
+		gnumeric_popup_menu (build_sort_field_base_menu(state), 
+				     &(event->button));
+		return TRUE;
 	}
+	
+	return FALSE;
+}
+
+static gint
+cb_treeview_keypress (G_GNUC_UNUSED GtkWidget *w, GdkEventKey *event,
+		      SortFlowState *state)
+{
+	gboolean ctrl = (event->state & GDK_CONTROL_MASK);
+	long row;
+	GtkTreeIter iter;
+	
+	switch (event->keyval) {
+	case GDK_Delete:
+	case GDK_KP_Delete:
+		cb_delete_clicked(w, state);
+		return TRUE;
+	case GDK_KP_Up: case GDK_Up:
+		if (ctrl) 
+			cb_up(w, state);
+		else {
+		  if (gtk_tree_selection_get_selected (state->selection, NULL, &iter)) {
+		    row = location_of_iter(&iter, state->model);
+		    if (row > 0) 
+		      row--;
+		    select_iter_at_row(row, state);
+		  }
+		}
+		return TRUE;
+
+	case GDK_KP_Down: case GDK_Down:
+		if (ctrl)
+			cb_down(w, state);
+		else {
+		  if (gtk_tree_selection_get_selected (state->selection, NULL, &iter)) {
+		    row = location_of_iter(&iter, state->model);
+		    row++;
+		    if (row == state->sort_items) 
+		      row --;
+		    select_iter_at_row(row, state);
+		  }
+		}
+		return TRUE;
+	}
+	return FALSE;
 }
 
 static void
@@ -627,7 +937,6 @@ cb_toggled_descending (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 
 	gtk_tree_model_get_iter (model, &iter, path);
 	gtk_tree_model_get (model, &iter, ITEM_DESCENDING, &value, -1);
-
 	if (value) {
 		gtk_list_store_set (GTK_LIST_STORE (model), &iter, ITEM_DESCENDING, FALSE,
 				   ITEM_DESCENDING_IMAGE, state->image_ascending, -1);
@@ -656,6 +965,7 @@ cb_toggled_case_sensitive (GtkCellRendererToggle *cell,
 {
 	toggled (cell, path_string, data, ITEM_CASE_SENSITIVE);
 }
+
 
 static gboolean
 dialog_init (SortFlowState *state)
@@ -698,9 +1008,6 @@ dialog_init (SortFlowState *state)
  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->add_entry));
 	gtk_widget_show (GTK_WIDGET (state->add_entry));
-	g_signal_connect_swapped (G_OBJECT (state->add_entry),
-		"changed",
-		G_CALLBACK (cb_update_add_sensitivity), state);
 
 /* Set-up tree view */
 	scrolled = glade_xml_get_widget (state->gui, "scrolled_cell_sort_list");
@@ -741,7 +1048,14 @@ dialog_init (SortFlowState *state)
 	gtk_tree_view_append_column (state->treeview, column);
 
 	gtk_tree_view_columns_autosize (state->treeview);
-
+	
+	
+	g_signal_connect (G_OBJECT (state->treeview),
+		"key_press_event",
+		G_CALLBACK (cb_treeview_keypress), state);
+	g_signal_connect (G_OBJECT (state->treeview),
+		"button_press_event",
+		G_CALLBACK (cb_treeview_button_press), state);
 #if 0
 	/* We are currently not supporting `by-value' vs not. */
 	renderer = gtk_cell_renderer_toggle_new ();
@@ -770,7 +1084,7 @@ dialog_init (SortFlowState *state)
 							      "cell_sort_header_check");
 	g_signal_connect_swapped (G_OBJECT (state->cell_sort_header_check),
 		"toggled",
-		G_CALLBACK (cb_update_sensitivity), state);
+		G_CALLBACK (cb_sort_header_check), state);
 
 	state->retain_format_check = glade_xml_get_widget (state->gui,
 							    "retain_format_button");
@@ -791,7 +1105,7 @@ dialog_init (SortFlowState *state)
 	g_signal_connect (G_OBJECT (state->add_button),
 		"clicked",
 		G_CALLBACK (cb_add_clicked), state);
-	gtk_widget_set_sensitive (state->add_button, FALSE);
+	gtk_widget_set_sensitive (state->add_button, TRUE);
 	state->delete_button  = glade_xml_get_widget (state->gui, "delete_button");
 	g_signal_connect (G_OBJECT (state->delete_button),
 		"clicked",
@@ -837,6 +1151,7 @@ dialog_init (SortFlowState *state)
 	cb_update_sensitivity (state);
 
 	gnm_expr_entry_grab_focus(GNM_EXPR_ENTRY (state->add_entry), TRUE);
+	
 	return FALSE;
 }
 
@@ -846,9 +1161,9 @@ dialog_init (SortFlowState *state)
 void
 dialog_cell_sort (WorkbookControlGUI *wbcg)
 {
-	SortFlowState* state;
+	SortFlowState *state;
 	GladeXML *gui;
-
+	
 	g_return_if_fail (wbcg != NULL);
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, CELL_SORT_KEY))
@@ -890,3 +1205,4 @@ dialog_cell_sort (WorkbookControlGUI *wbcg)
 
 	gtk_widget_show (state->dialog);
 }
+

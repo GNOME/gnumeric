@@ -719,7 +719,9 @@ gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event)
 	 * instead pass 0.  Otherwise bringing up a menu with
 	 * the right button will disable clicking on the menu with the left.
 	 */
-	gtk_menu_popup (menu, NULL, NULL, 0, NULL, 0, event->time);
+	gtk_menu_popup (menu, NULL, NULL, 0, NULL, 0, 
+			(event != NULL) ? event->time 
+			: gtk_get_current_event_time());
 }
 
 

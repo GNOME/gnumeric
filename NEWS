@@ -7,6 +7,7 @@ Andreas
 	* http://bugzilla.gnome.org/show_bug.cgi?id=128166
 	  Mark workbook as dirty on sheet deletion/addition
 	* Bug fixes: 128915
+	* Minor changes to the sort dialog
 
 Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=128565
@@ -25,6 +26,9 @@ Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=128837
 	* Scroll wheel zoom
 	* Horizontal scroll wheels
+
+John Gill:
+	* Add a field menu and keyboard shortcuts to the sort dialog
 
 Jon Kåre:
 	* Fix encoding of author field in summary.

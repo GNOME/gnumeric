@@ -1,3 +1,7 @@
+2003-12-20  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/gui-util.c (gnumeric_popup_menu): handle NULL event.
+	
 2003-12-19  Jon K Hellan  <hellan@acm.org>
 
 	* src/format-template.c (format_template_new): Use gnm_get_real_name.

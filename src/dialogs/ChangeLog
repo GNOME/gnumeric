@@ -1,4 +1,27 @@
-2003-11-09  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+2003-12-20  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+	mostly for John Gill <sufc@utvinternet.com>
+
+	* dialog-cell-sort.c (AddSortFieldMenuState): new structure
+	(already_in_sort_fields): new
+	(range_already_in_sort_criteria): new
+	(build_sort_field_menu): new
+	(cb_sort_field_menu_activate): new
+	(cb_sort_field_selection): new
+	(cb_update_add_sensitivity): deleted
+	(cb_sort_header_check): new
+	(cb_update_sensitivity): don't count items here
+	(select_iter_at_row): new
+	(cb_delete_clicked): reselect an item after deletion
+	(set_ok_button_sensitivity): new
+	(build_sort_field_base_menu): new
+	(show_add_menu): new
+	(cb_add_clicked): if the entry field does not contain valid data
+	  show the menu instead
+	(cb_treeview_button_press): new
+	(cb_treeview_keypress): new
+	(dialog_init): hook up additional signals for the treeview
+
+2003-11-27  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=128915
 	* preferences.glade: make description field non-editable
