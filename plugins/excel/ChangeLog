@@ -1,3 +1,8 @@
+2004-11-16  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (ms_excel_chart_write) : ultra-basic handling of graphs
+	  with multiple charts
+
 2004-11-15  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (excel_read_SETUP) : hide some spurious debug spew

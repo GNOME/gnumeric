@@ -3333,7 +3333,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 	XLChartWriteState state;
 	unsigned i, num_series = 0;
 	GSList const *plots, *series;
-	GSList *sets, *ptr;
+	GSList *charts, *sets, *ptr;
 	XLAxisSet *axis_set;
 
 	state.bp  = ewb->bp;
@@ -3341,17 +3341,23 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 	state.so  = so;
 	state.graph = sheet_object_graph_get_gog (so);
 
-	/* WARNING : catch multiple charts */
-	state.chart = gog_object_get_child_by_role (GOG_OBJECT (state.graph),
+	g_return_if_fail (state.graph != NULL);
+
+	charts = gog_object_get_children (GOG_OBJECT (state.graph),
 		gog_object_find_role_by_name (GOG_OBJECT (state.graph), "Chart"));
+
+	g_return_if_fail (charts != NULL);
+
+	/* TODO : handle multiple charts */
+	state.chart = charts->data;
 	state.nest_level = 0;
-#warning TODO : create a null renderer class for use in sizing things
+
+	/* TODO : create a null renderer class for use in sizing things */
 	renderer  = g_object_new (GOG_RENDERER_TYPE,
 				  "model", state.graph,
 				  NULL);
 	g_object_get (G_OBJECT (renderer), "view", &state.root_view, NULL);
 
-	g_return_if_fail (state.graph != NULL);
 
 	excel_write_BOF (state.bp, MS_BIFF_TYPE_Chart);
 	ms_biff_put_empty (state.bp, BIFF_HEADER);
