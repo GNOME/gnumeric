@@ -92,8 +92,6 @@ struct _MStyle {
 #define MSTYLE_ANY_FLOAT             MSTYLE_FONT_SIZE
 
 
-extern const char *mstyle_names [MSTYLE_ELEMENT_MAX];
-
 const char *mstyle_names [MSTYLE_ELEMENT_MAX] = {
 	"--UnSet--",
 	"--Conflict--",

@@ -200,7 +200,6 @@ Gnumeric-impl.o: Gnumeric.h
 
 $(GNUMERIC_CORBA_GENERATED): Gnumeric.idl 
 	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) $(srcdir)/Gnumeric.idl
-	touch my_gnumeric_idl
 
 gnumeric_SOURCES =				\
 	main.c					\

@@ -1,3 +1,9 @@
+2000-01-14  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/mstyle.c: Removed extern from he too.
+
+	* src/commands.c (cmd_set_text): Kill extern from here.
+
 2000-01-14  Jon K Hellan  <hellan@acm.org>
 
 	* src/functions/fn-financial.c (help_disc): Fix typo 

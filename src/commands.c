@@ -353,9 +353,6 @@ cmd_set_text_destroy (GtkObject *cmd)
 	gnumeric_command_destroy (cmd);
 }
 
-/* From src/dialogs/dialog-autocorrect.c */
-extern void autocorrect_tool (char *text);
-
 gboolean
 cmd_set_text (CommandContext *context,
 	      Sheet *sheet, CellPos const * const pos,

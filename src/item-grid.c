@@ -731,7 +731,6 @@ create_popup_menu (Sheet *sheet,
 				GTK_PIXMAP_MENU_ITEM (item),
 				pixmap);
 		}
-
 		if (item_grid_context_menu [i].fn)
 			gtk_signal_connect (
 				GTK_OBJECT (item), "activate",
