@@ -10,7 +10,8 @@ GNUMERIC_SRC_DIR = $(srcdir)/../../src
 #
 plugindir = $(libdir)/gnumeric/plugins/$(VERSION)
 
-plugin_LTLIBRARIES = libgnum_python.la
+#plugin_LTLIBRARIES = libgnum_python.la
+noinst_LTLIBRARIES = libgnum_python.la
 
 libgnum_python_la_SOURCES = python.c
 

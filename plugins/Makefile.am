@@ -1,10 +1,10 @@
 # Do not build by default until the libtool problems with
 # a static libpython are resolved.
-# if WITH_PYTHON
-# PYTHON = python
-# else
-# PYTHON = 
-# endif
+if WITH_PYTHON
+PYTHON = python
+else
+PYTHON = 
+endif
 
 if WITH_PERL
 PERL = perl

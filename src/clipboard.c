@@ -232,7 +232,7 @@ x_selection_to_cell_region (char const * data, int len)
 	int rows = 0;
 	GList *list = NULL;
 	char const *p = data;
-	gboolean	not_comma_decimal, not_semicolon_decimal;
+	gboolean not_comma_decimal, not_semicolon_decimal;
 
 	/* Points to the locale information for number display */
 	static struct lconv *lc = NULL;

@@ -1,3 +1,14 @@
+2000-01-18  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/clipboard.c (x_selection_to_cell_region): Do not hardcode
+	',' as a number separator.  Use the locale information to select
+	the proper separator.
+
+2000-01-16  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/sheet.c (sheet_set_current_value): Change the logic to
+	always shutdown gracefully.
+
 2000-01-21  Jody Goldberg <jgoldberg@home.com>
 
 	* src/dialogs/dialog-printer-setup.c (do_hf_config) : Take a Workbook.
