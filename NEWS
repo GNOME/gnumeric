@@ -10,6 +10,9 @@ Andreas:
 Harald Ashburner:
 	* Update derivatives.gnumeric
 
+J.H.M. Dassen (Ray):
+	* XLS import for paper sizes known to gnome-print.
+
 Morten:
 	* Fix crash with weird history items.  [#157682]
 
