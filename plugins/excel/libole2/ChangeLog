@@ -1,3 +1,8 @@
+1999-09-25    <arturo@localhost.localdomain>
+
+	* gnome-stream-ole.c, gnome-stream-ole.h, gnome-storage-ole.h,
+	gnome-storage-ole.c: Killed again.
+
 1999-09-25  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* Makefile.am (lib_LT_LIBRARIES): Make libole2
