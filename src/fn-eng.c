@@ -45,7 +45,7 @@ val_to_base (Value *value, int src_base, int dest_base, int places ,char **error
 	int lp, max, bit, neg ;
 	char *p, *ans ;
 	char *err="\0", buffer[40], *str ;
-	gint32 v ;
+	double v ;
 
 	if (src_base<=1 || dest_base<=1) {
 		*error_string = _("Base error") ;
@@ -76,7 +76,7 @@ val_to_base (Value *value, int src_base, int dest_base, int places ,char **error
 		return NULL ;
 	}
 
-	if ((float_t)v >= (pow (src_base, 10)/2.0)) /* N's complement */
+	if (v >= (pow (src_base, 10)/2.0)) /* N's complement */
 		v = -v ;
 
 	if (dest_base == 10)
@@ -84,18 +84,23 @@ val_to_base (Value *value, int src_base, int dest_base, int places ,char **error
 
 	if (v<0) {
 		neg = 1 ;
-		v = -v+1 ;
+		v = -v ;
 	}
 	else
 		neg = 0 ;
+	
+	if (neg) /* Pad the number */
+		max = 10 ;
+	else {
+		if (v==0)
+			max = 1 ;
+		else
+			max = (int)(log(v)/log(dest_base)) + 1 ;
+	}
 
-	if (v==0)
-		max = 1 ;
-	else
-		max = (int)(log(v)/log(dest_base)) + 1 ;
 	if (places>max)
 		max = places ;
-	if (v<0 || max > 15) { /* Think '-0' */
+	if (max > 15) {
 		*error_string = _("Unimplemented") ;
 		return NULL ;
 	}
@@ -103,10 +108,10 @@ val_to_base (Value *value, int src_base, int dest_base, int places ,char **error
 	ans = buffer ;
 	p = &ans[max-1] ;
 	for (lp = 0; lp < max; lp++) {
-		bit = v % dest_base ;
-		v   = v / dest_base ;
+		bit = ((int)v) % dest_base ;
+		v   = fabs (v / (double)dest_base) ;
 		if (neg)
-			bit = dest_base-bit ;
+			bit = dest_base-bit-1 ;
 		if (bit>=0 && bit <= 9)
 			*p-- = '0'+bit ;
 		else

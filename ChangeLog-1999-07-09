@@ -1,4 +1,8 @@
-1999-03-18  Sean Atkinson <sca20@cam.ac.uk>
+1999-03-18  Michael Meeks  <michael@imaginator.com>
+
+	* src/fn-eng.c (val_to_base): Minor fixes
+
+1999-03-18  Sean Atkinson  <sca20@cam.ac.uk>
 	
 	* notes: typos
 
