@@ -1,6 +1,5 @@
 /*
  * dialog-cell-format.c:  Implements the Cell Format dialog box.
- * (C) 1998 The Free Software Foundation
  *
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)

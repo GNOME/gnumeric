@@ -1,6 +1,5 @@
 /*
  * fn-math.c:  Built in mathematical functions and functions registration
- * (C) 1998 The Free Software Foundation
  *
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)

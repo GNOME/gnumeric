@@ -1,6 +1,5 @@
 /*
  * fn-misc.c:  Miscelaneous built-in functions
- * (C) 1998 The Free Software Foundation
  *
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)

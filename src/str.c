@@ -1,8 +1,6 @@
 /*
  * String management for the Gnumeric Spreadsheet
  *
- * (C) 1998 the Free Software Foundation
- *
  * Author:
  *   Miguel de Icaza (miguel@kernel.org)
  *

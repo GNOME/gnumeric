@@ -1,6 +1,5 @@
 /*
  * fn-sheet.c:  Built in sheet functions
- * (C) 1998 The Free Software Foundation
  *
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)

@@ -1,6 +1,5 @@
 /*
  * Sheet.c:  Implements the sheet management and per-sheet storage
- * (C) 1998 The Free Software Foundation
  *
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)

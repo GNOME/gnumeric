@@ -1,8 +1,6 @@
 /*
  * Symbol management for the Gnumeric spreadsheet
  *
- * (C) 1998 the Free Software Foundation
- *
  * Author:
  *   Miguel de Icaza (miguel@kernel.org)
  */

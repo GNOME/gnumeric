@@ -1,5 +1,10 @@
 1998-09-18  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/sheet-autofill.c (fill_item_new): Trivial bug fix (I was
+	using a variable before testing if it wsa ok).
+
+1998-09-18  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
 	* src/item-cursor.c (item_cursor_autofill_event): Accept pending
 	input when the user autofills.
 

@@ -189,8 +189,8 @@ fill_item_destroy (FillItem *fi)
 static FillItem *
 fill_item_new (Cell *cell)
 {
-	Value     *value = cell->value;
-	ValueType  value_type = value->type;
+	Value     *value;
+	ValueType  value_type;
 	FillItem  *fi;
 
 	fi = g_new (FillItem, 1);
@@ -198,6 +198,9 @@ fill_item_new (Cell *cell)
 
 	if (!cell)
 		return fi;
+
+	value = cell->value;
+	value_type = value->type;
 	
 	if (CELL_IS_FORMULA (cell)){
 		fi->type = FILL_FORMULA;

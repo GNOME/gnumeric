@@ -1,6 +1,5 @@
 /*
  * gnumeric-util.c:  Various GUI utility functions. 
- * (C) 1998 The Free Software Foundation
  *
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)

@@ -1,6 +1,5 @@
 /*
  * Clipboard.c: Implements the copy/paste operations
- * (C) 1998 The Free Software Foundation.
  *
  * Author:
  *  MIguel de Icaza (miguel@gnu.org)
