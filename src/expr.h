@@ -93,7 +93,7 @@ typedef enum {
 /*
  * Functions come in two fashions:  Those that only deal with
  * very specific data types and a constant number of arguments,
- * and those who dont.
+ * and those who don't.
  *
  * The former kind of functions receives a precomputed array of
  * Value pointers.

@@ -14,7 +14,11 @@
 <listitem><para><link linkend="gnumeric-ATAN2">ATAN2</link></para></listitem>
 <listitem><para><link linkend="gnumeric-ATANH">ATANH</link></para></listitem>
 <listitem><para><link linkend="gnumeric-AVERAGE">AVERAGE</link></para></listitem>
+<listitem><para><link linkend="gnumeric-BESSELJ">BESSELJ</link></para></listitem>
+<listitem><para><link linkend="gnumeric-BESSELY">BESSELY</link></para></listitem>
 <listitem><para><link linkend="gnumeric-BIN2DEC">BIN2DEC</link></para></listitem>
+<listitem><para><link linkend="gnumeric-BIN2HEX">BIN2HEX</link></para></listitem>
+<listitem><para><link linkend="gnumeric-BIN2OCT">BIN2OCT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-CEIL">CEIL</link></para></listitem>
 <listitem><para><link linkend="gnumeric-CHAR">CHAR</link></para></listitem>
 <listitem><para><link linkend="gnumeric-CLEAN">CLEAN</link></para></listitem>
@@ -24,8 +28,14 @@
 <listitem><para><link linkend="gnumeric-COUNT">COUNT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DATE">DATE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DAY">DAY</link></para></listitem>
+<listitem><para><link linkend="gnumeric-DEC2BIN">DEC2BIN</link></para></listitem>
+<listitem><para><link linkend="gnumeric-DEC2HEX">DEC2HEX</link></para></listitem>
+<listitem><para><link linkend="gnumeric-DEC2OCT">DEC2OCT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DEGREES">DEGREES</link></para></listitem>
+<listitem><para><link linkend="gnumeric-DELTA">DELTA</link></para></listitem>
 <listitem><para><link linkend="gnumeric-EFFECT">EFFECT</link></para></listitem>
+<listitem><para><link linkend="gnumeric-ERF">ERF</link></para></listitem>
+<listitem><para><link linkend="gnumeric-ERFC">ERFC</link></para></listitem>
 <listitem><para><link linkend="gnumeric-EXACT">EXACT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-EXP">EXP</link></para></listitem>
 <listitem><para><link linkend="gnumeric-EXPONDIST">EXPONDIST</link></para></listitem>
@@ -34,6 +44,10 @@
 <listitem><para><link linkend="gnumeric-GAMMALN">GAMMALN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-GCD">GCD</link></para></listitem>
 <listitem><para><link linkend="gnumeric-GEOMEAN">GEOMEAN</link></para></listitem>
+<listitem><para><link linkend="gnumeric-GESTEP">GESTEP</link></para></listitem>
+<listitem><para><link linkend="gnumeric-HEX2BIN">HEX2BIN</link></para></listitem>
+<listitem><para><link linkend="gnumeric-HEX2DEC">HEX2DEC</link></para></listitem>
+<listitem><para><link linkend="gnumeric-HEX2OCT">HEX2OCT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-HOUR">HOUR</link></para></listitem>
 <listitem><para><link linkend="gnumeric-IF">IF</link></para></listitem>
 <listitem><para><link linkend="gnumeric-INT">INT</link></para></listitem>
@@ -53,6 +67,9 @@
 <listitem><para><link linkend="gnumeric-NOT">NOT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-NOW">NOW</link></para></listitem>
 <listitem><para><link linkend="gnumeric-NVARIANCE">NVARIANCE</link></para></listitem>
+<listitem><para><link linkend="gnumeric-OCT2BIN">OCT2BIN</link></para></listitem>
+<listitem><para><link linkend="gnumeric-OCT2DEC">OCT2DEC</link></para></listitem>
+<listitem><para><link linkend="gnumeric-OCT2HEX">OCT2HEX</link></para></listitem>
 <listitem><para><link linkend="gnumeric-OR">OR</link></para></listitem>
 <listitem><para><link linkend="gnumeric-PI">PI</link></para></listitem>
 <listitem><para><link linkend="gnumeric-POISSON">POISSON</link></para></listitem>
@@ -65,6 +82,8 @@
 <listitem><para><link linkend="gnumeric-SIN">SIN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-SINH">SINH</link></para></listitem>
 <listitem><para><link linkend="gnumeric-SLN">SLN</link></para></listitem>
+<listitem><para><link linkend="gnumeric-SQRT">SQRT</link></para></listitem>
+<listitem><para><link linkend="gnumeric-SQRTPI">SQRTPI</link></para></listitem>
 <listitem><para><link linkend="gnumeric-STDEV">STDEV</link></para></listitem>
 <listitem><para><link linkend="gnumeric-STDEVP">STDEVP</link></para></listitem>
 <listitem><para><link linkend="gnumeric-SUM">SUM</link></para></listitem>
@@ -153,6 +172,32 @@
       <para>        <link linkend="gnumeric-STDEV">STDEV</link>
 ,         <link linkend="gnumeric-VAR">VAR</link>
 ,         <link linkend="gnumeric-MEAN">MEAN</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-BESSELY">BESSELY</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>BESSELY</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>BESSELY(x,y)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The BESSELY function returns the Neumann, Weber or Bessel function. x is where the function is evaluated. y is the order of the bessel function, if non-integer it is truncated. </para>
+        <para>if x or n are not numeric a #VALUE! error is returned.if n < 0 a #NUM! error is returned.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-BESSELJ">BESSELJ</link>
+,         <link linkend="gnumeric-BESSELK">BESSELK</link>
+,         <link linkend="gnumeric-BESSELY">BESSELY</link>
       </para>
     </refsect1>
   </refentry>
@@ -258,32 +303,6 @@
 
   <refentry>
     <refmeta>
-      <refentrytitle><anchor id="gnumeric-INT">INT</refentrytitle><refmiscinfo></refmiscinfo>
-    </refmeta>
-    <refnamediv>
-      <refname>INT</refname>
-      <refpurpose></refpurpose>
-    </refnamediv>
-    <refsynopsisdiv>
-      <synopsis>INT(b1, b2, ...)</synopsis>
-    </refsynopsisdiv>
-      <refsect1>
-        <title>Description</title>
-        <para>The INT function round b1 now to the nearest int. Where 'nearest' implies being closer to zero. Equivalent to FLOOR(b1) for b1 >0, amd CEIL(b1) for b1 < 0. </para>
-        <para>Performing this function on a string or empty cell simply does nothing.</para>
-    </refsect1>
-    <refsect1><title>See also</title>
-      <para>        <link linkend="gnumeric-FLOOR">FLOOR</link>
-,         <link linkend="gnumeric-CEIL">CEIL</link>
-,         <link linkend="gnumeric-ABS">ABS</link>
-      </para>
-    </refsect1>
-  </refentry>
-
-
-
-  <refentry>
-    <refmeta>
       <refentrytitle><anchor id="gnumeric-SINH">SINH</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -307,6 +326,32 @@
 ,         <link linkend="gnumeric-DEGREES">DEGREES</link>
 ,         <link linkend="gnumeric-RADIANS">RADIANS</link>
 ,         <link linkend="gnumeric-EXP">EXP</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-INT">INT</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>INT</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>INT(b1, b2, ...)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The INT function round b1 now to the nearest int. Where 'nearest' implies being closer to zero. Equivalent to FLOOR(b1) for b1 >0, amd CEIL(b1) for b1 < 0. </para>
+        <para>Performing this function on a string or empty cell simply does nothing.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-FLOOR">FLOOR</link>
+,         <link linkend="gnumeric-CEIL">CEIL</link>
+,         <link linkend="gnumeric-ABS">ABS</link>
       </para>
     </refsect1>
   </refentry>
@@ -383,6 +428,54 @@
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-AVERAGE">AVERAGE</link>
 ,         <link linkend="gnumeric-COUNT">COUNT</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-HEX2DEC">HEX2DEC</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>HEX2DEC</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>HEX2DEC(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The HEX2DEC function converts a binary number in string or number to its decimal equivalent.</para>
+        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-DEC2HEX">DEC2HEX</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-SQRTPI">SQRTPI</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>SQRTPI</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>SQRTPI(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The SQRTPI returns the square root of PI * x. </para>
+        <para>if x < 0 a #NUM! error is returned.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-ERF">ERF</link>
       </para>
     </refsect1>
   </refentry>
@@ -490,6 +583,30 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-DEC2HEX">DEC2HEX</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>DEC2HEX</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>DEC2HEX(number,places)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The DEC2HEX function converts a binary number to an octal number.places is an optional field, specifying to zero pad to that number of spaces.</para>
+        <para>if places is too small or negative #NUM! error is returned.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-HEX2DEC">HEX2DEC</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-MONTH">MONTH</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -534,6 +651,30 @@
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-TODAY">TODAY</link>
 ,         <link linkend="gnumeric-NOW">NOW</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-OCT2BIN">OCT2BIN</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>OCT2BIN</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>OCT2BIN(number,places)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The OCT2BIN function converts a binary number to a hexadecimal number.places is an optional field, specifying to zero pad to that number of spaces.</para>
+        <para>if places is too small or negative #NUM! error is returned.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-BIN2OCT">BIN2OCT</link>
       </para>
     </refsect1>
   </refentry>
@@ -746,6 +887,30 @@
     </refsect1>
     <refsect1><title>See also</title>
       <para>      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-BIN2OCT">BIN2OCT</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>BIN2OCT</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>BIN2OCT(number,places)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The BIN2OCT function converts a binary number to an octal number.places is an optional field, specifying to zero pad to that number of spaces.</para>
+        <para>if places is too small or negative #NUM! error is returned.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-OCT2BIN">OCT2BIN</link>
+      </para>
     </refsect1>
   </refentry>
 
@@ -1083,6 +1248,30 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-SQRT">SQRT</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>SQRT</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>SQRT(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The SQRT  function  returns  the  square root of x, </para>
+        <para>If x is negative returns #NUM!.This function only takes one argument.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-POW">POW</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-SELECTION">SELECTION</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -1099,6 +1288,30 @@
     </refsect1>
     <refsect1><title>See also</title>
       <para>      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-OCT2DEC">OCT2DEC</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>OCT2DEC</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>OCT2DEC(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The OCT2DEC function converts an octal number in a string or number to its decimal equivalent.</para>
+        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-DEC2OCT">DEC2OCT</link>
+      </para>
     </refsect1>
   </refentry>
 
@@ -1295,6 +1508,56 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-BESSELJ">BESSELJ</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>BESSELJ</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>BESSELJ(x,y)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The BESSELJ function returns the bessel function with x is where the function is evaluated. y is the order of the bessel function, if non-integer it is truncated. </para>
+        <para>if x or n are not numeric a #VALUE! error is returned.if n < 0 a #NUM! error is returned.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-BESSELJ">BESSELJ</link>
+,         <link linkend="gnumeric-BESSELK">BESSELK</link>
+,         <link linkend="gnumeric-BESSELY">BESSELY</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-OCT2HEX">OCT2HEX</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>OCT2HEX</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>OCT2HEX(number,places)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The OCT2HEX function converts a binary number to a hexadecimal number.places is an optional field, specifying to zero pad to that number of spaces.</para>
+        <para>if places is too small or negative #NUM! error is returned.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-OCT2HEX">OCT2HEX</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-ASIN">ASIN</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -1323,30 +1586,6 @@
 
   <refentry>
     <refmeta>
-      <refentrytitle><anchor id="gnumeric-BIN2DEC">BIN2DEC</refentrytitle><refmiscinfo></refmiscinfo>
-    </refmeta>
-    <refnamediv>
-      <refname>BIN2DEC</refname>
-      <refpurpose></refpurpose>
-    </refnamediv>
-    <refsynopsisdiv>
-      <synopsis>BIN2DEC(x)</synopsis>
-    </refsynopsisdiv>
-      <refsect1>
-        <title>Description</title>
-        <para>The BIN2DEC function converts a binary number in string or number to its decimal equivalent.</para>
-        <para>Performing this function on a string or empty cell simply does nothing.</para>
-    </refsect1>
-    <refsect1><title>See also</title>
-      <para>        <link linkend="gnumeric-DEC2BIN">DEC2BIN</link>
-      </para>
-    </refsect1>
-  </refentry>
-
-
-
-  <refentry>
-    <refmeta>
       <refentrytitle><anchor id="gnumeric-EXP">EXP</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -1365,6 +1604,78 @@
       <para>        <link linkend="gnumeric-LOG">LOG</link>
 ,         <link linkend="gnumeric-LOG2">LOG2</link>
 ,         <link linkend="gnumeric-LOG10">LOG10</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-BIN2DEC">BIN2DEC</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>BIN2DEC</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>BIN2DEC(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The BIN2DEC function converts a binary number in string or number to its decimal equivalent.</para>
+        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-DEC2BIN">DEC2BIN</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-DEC2OCT">DEC2OCT</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>DEC2OCT</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>DEC2OCT(number,places)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The DEC2OCT function converts a binary number to an octal number.places is an optional field, specifying to zero pad to that number of spaces.</para>
+        <para>if places is too small or negative #NUM! error is returned.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-OCT2DEC">OCT2DEC</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-GESTEP">GESTEP</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>GESTEP</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>GESTEP(x,y)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The GESTEP function test for if x is >= y, returning 1 if it is so, and 0 otherwise y is optional, and defaults to 0</para>
+        <para>if either argument is non-numeric returns a #VALUE! error</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-DELTA">DELTA</link>
       </para>
     </refsect1>
   </refentry>
@@ -1447,6 +1758,30 @@
       <para>        <link linkend="gnumeric-MEDIAN">MEDIAN</link>
 ,         <link linkend="gnumeric-MEAN">MEAN</link>
 ,         <link linkend="gnumeric-MODE">MODE</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-DEC2BIN">DEC2BIN</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>DEC2BIN</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>DEC2BIN(number,places)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The DEC2BIN function converts a binary number to an octal number.places is an optional field, specifying to zero pad to that number of spaces.</para>
+        <para>if places is too small or negative #NUM! error is returned.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-BIN2DEC">BIN2DEC</link>
       </para>
     </refsect1>
   </refentry>
@@ -1554,6 +1889,30 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-ERF">ERF</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>ERF</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>ERF(lower limit, upper_limit)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The ERF function returns the integral of the error function between the limits. If the upper limit ommitted ERF returns the integral between zero and the lower limit</para>
+        <para>if either lower or upper are not numeric a #VALUE! error is returned.if either lower or upper are < 0 a #NUM! error is returned.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-ERFC">ERFC</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-LEN">LEN</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -1590,8 +1949,8 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The EXPONDIST function returns the exponential distribution If the cumulative boolean is false it will return: y * exp (-y*x), otherwise it will return 1 - exp (-y*x). If x<0 or y<=0 this will return an error</para>
-        <para>Performing this function on a string or empty cell simply does nothing. </para>
+        <para>The EXPONDIST function returns the exponential distribution If the cumulative boolean is false it will return: y * exp (-y*x), otherwise it will return 1 - exp (-y*x). </para>
+        <para>If x<0 or y<=0 this will return an errorPerforming this function on a string or empty cell simply does nothing. </para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-POISSON">POISSON</link>
@@ -1621,6 +1980,54 @@
       <para>        <link linkend="gnumeric-STDEV">STDEV</link>
 ,         <link linkend="gnumeric-VAR">VAR</link>
 ,         <link linkend="gnumeric-MEAN">MEAN</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-HEX2OCT">HEX2OCT</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>HEX2OCT</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>HEX2OCT(number,places)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The HEX2OCT function converts a binary number to a hexadecimal number.places is an optional field, specifying to zero pad to that number of spaces.</para>
+        <para>if places is too small or negative #NUM! error is returned.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-BIN2HEX">BIN2HEX</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-HEX2BIN">HEX2BIN</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>HEX2BIN</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>HEX2BIN(number,places)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The HEX2BIN function converts a binary number to a hexadecimal number.places is an optional field, specifying to zero pad to that number of spaces.</para>
+        <para>if places is too small or negative #NUM! error is returned.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-BIN2HEX">BIN2HEX</link>
       </para>
     </refsect1>
   </refentry>
@@ -1662,6 +2069,30 @@
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-VARIANCE">VARIANCE</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-BIN2HEX">BIN2HEX</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>BIN2HEX</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>BIN2HEX(number,places)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The BIN2HEX function converts a binary number to a hexadecimal number.places is an optional field, specifying to zero pad to that number of spaces.</para>
+        <para>if places is too small or negative #NUM! error is returned.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-HEX2BIN">HEX2BIN</link>
       </para>
     </refsect1>
   </refentry>
@@ -1789,6 +2220,30 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-ERFC">ERFC</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>ERFC</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>ERFC(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The ERFC function returns the integral of the complimentary error function between the limits 0 and x. </para>
+        <para>if x is not numeric a #VALUE! error is returned.if x < 0 a #NUM! error is returned.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-ERF">ERF</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-SIN">SIN</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -1860,6 +2315,31 @@
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-CHAR">CHAR</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-DELTA">DELTA</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>DELTA</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>DELTA(x,y)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The DELTA function test for numerical eqivilance of two arguments returning 1 in equality y is optional, and defaults to 0</para>
+        <para>if either argument is non-numeric returns a #VALUE! error</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-EXACT">EXACT</link>
+,         <link linkend="gnumeric-GESTEP">GESTEP</link>
       </para>
     </refsect1>
   </refentry>

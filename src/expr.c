@@ -172,29 +172,24 @@ expr_tree_unref (ExprTree *tree)
 char *
 value_string (Value *value)
 {
-	char buffer [40];
-		
 	switch (value->type){
 	case VALUE_STRING:
 		return g_strdup (value->v.str->str);
 
 	case VALUE_INTEGER:
-		snprintf (buffer, sizeof (buffer)-1, "%d", value->v.v_int);
-		break;
+		return g_strdup_printf ("%d", value->v.v_int) ;
 
 	case VALUE_FLOAT:
-		snprintf (buffer, sizeof (buffer)-1, "%g", value->v.v_float);
-		break;
+		return g_strdup_printf ("%g", value->v.v_float) ;
 
 	case VALUE_ARRAY:
-		snprintf (buffer, sizeof (buffer)-1, "ARRAY");
-		break;
+		return g_strdup ("ARRAY") ;
 		
 	case VALUE_CELLRANGE:
-		return g_strdup ("Internal problem");
-
+		break ;
 	}
-	return g_strdup (buffer);
+
+	return g_strdup ("Internal problem") ;
 }
 
 void

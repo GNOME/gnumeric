@@ -1,3 +1,19 @@
+1999-03-18  Sean Atkinson <sca20@cam.ac.uk>
+	
+	* notes: typos
+
+	* src/expr.c (value_string): cleaned to use g_strdup_printf
+
+	* src/expr.h: typo
+
+	* src/fn-string.c (gnumeric_mid): fixed
+	internationalized various strings, typos
+	(subs_string_new, subs_string_append_n, subs_string_free): added to
+	speed gnumeric_substitute
+	(gnumeric_concatenate, gnumeric_rept, gnumeric_find, gnumeric_fixed)
+	(gnumeric_proper, gnumeric_replace, gnumeric_t, gnumeric_value)
+	(gnumeric_substitute, gnumeric_dollar): implemented.
+
 1999-03-16  Vladimir Vuksan <vuksan@veus.hr>
 
 	* src/fn-financial.c: More financial functions: gnumeric_nominal,
