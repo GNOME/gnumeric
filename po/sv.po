@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.43\n"
-"POT-Creation-Date: 1999-12-03 20:25-0600\n"
+"POT-Creation-Date: 1999-12-15 15:44+0100\n"
 "PO-Revision-Date: 1999-12-01 11:00+0100\n"
 "Last-Translator: Richard Hult <rhult@hem2.passagen.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -126,36 +126,32 @@ msgstr "GNU Oleo-filformat (*.oleo)"
 msgid "GNU Oleo import plugin"
 msgstr "GNU Oleo-import"
 
-#: plugins/python/python.c:101
+#: plugins/python/python.c:103
 msgid "Unable to lookup Python code object."
 msgstr "Kan inte hitta Python-kodobjektet."
 
 #. XXX should popup window with exception info
-#: plugins/python/python.c:116
+#: plugins/python/python.c:118
 msgid "Python exception."
 msgstr "Python-undantag."
 
-#: plugins/python/python.c:137
+#: plugins/python/python.c:139
 msgid "object must be callable"
 msgstr "objektet måste vara anropningsbart"
 
 #: plugins/python/python.c:143
-msgid "could not alloc FuncDef"
-msgstr "kunde inte allokera FuncDef"
-
-#: plugins/python/python.c:147
 msgid "Perl"
 msgstr "Perl"
 
-#: plugins/python/python.c:173
+#: plugins/python/python.c:169
 msgid "Gnumeric/Python module initialized\n"
 msgstr "Gnumeric/Python-modul initialiserad\n"
 
-#: plugins/python/python.c:186
+#: plugins/python/python.c:182
 msgid "Python Plugin"
 msgstr "Python-tillägg"
 
-#: plugins/sample/plugin-sample.c:49
+#: plugins/sample/plugin-sample.c:43
 msgid "Sample Plugin"
 msgstr "Exempeltillägg"
 
@@ -462,360 +458,389 @@ msgstr "November"
 msgid "December"
 msgstr "December"
 
-#: src/dialogs/dialog-analysis-tools.c:73
-#: src/dialogs/dialog-analysis-tools.c:1800
+#: src/dialogs/dialog-analysis-tools.c:74
+#: src/dialogs/dialog-analysis-tools.c:1897
 msgid "Anova: Single Factor"
 msgstr "Anova: En faktor"
 
-#: src/dialogs/dialog-analysis-tools.c:75
-#: src/dialogs/dialog-analysis-tools.c:1888
+#: src/dialogs/dialog-analysis-tools.c:76
+#: src/dialogs/dialog-analysis-tools.c:1985
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Anova: Två faktorer utan upprepning"
 
-#: src/dialogs/dialog-analysis-tools.c:77
-#: src/dialogs/dialog-analysis-tools.c:395
+#: src/dialogs/dialog-analysis-tools.c:78
+#: src/dialogs/dialog-analysis-tools.c:464
 msgid "Correlation"
 msgstr "Korrelation"
 
-#: src/dialogs/dialog-analysis-tools.c:79
-#: src/dialogs/dialog-analysis-tools.c:476
+#: src/dialogs/dialog-analysis-tools.c:80
+#: src/dialogs/dialog-analysis-tools.c:545
 msgid "Covariance"
 msgstr "Kovarians"
 
-#: src/dialogs/dialog-analysis-tools.c:81
-#: src/dialogs/dialog-analysis-tools.c:664
+#: src/dialogs/dialog-analysis-tools.c:82
+#: src/dialogs/dialog-analysis-tools.c:733
 msgid "Descriptive Statistics"
 msgstr "Deskriptiv statistik"
 
-#: src/dialogs/dialog-analysis-tools.c:83
-#: src/dialogs/dialog-analysis-tools.c:1191
+#: src/dialogs/dialog-analysis-tools.c:84
+#: src/dialogs/dialog-analysis-tools.c:1260
 msgid "F-Test: Two-Sample for Variances"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:85
-#: src/dialogs/dialog-analysis-tools.c:1627
+#: src/dialogs/dialog-analysis-tools.c:86
+#: src/dialogs/dialog-analysis-tools.c:1724
 msgid "Moving Average"
 msgstr "Medelvärde"
 
-#: src/dialogs/dialog-analysis-tools.c:87
-#: src/dialogs/dialog-analysis-tools.c:1336
+#: src/dialogs/dialog-analysis-tools.c:88
+#: src/dialogs/dialog-analysis-tools.c:1405
 msgid "Random Number Generation"
 msgstr "Slumptalsgenerering"
 
-#: src/dialogs/dialog-analysis-tools.c:89
-#: src/dialogs/dialog-analysis-tools.c:1717
+#: src/dialogs/dialog-analysis-tools.c:90
+#: src/dialogs/dialog-analysis-tools.c:1814
 msgid "Rank and Percentile"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:91
-#: src/dialogs/dialog-analysis-tools.c:1527
+#. TODO This would be better using the
+#. value in the checkbox instead of this
+#. global, but I don't know GTK very well
+#: src/dialogs/dialog-analysis-tools.c:92
+#: src/dialogs/dialog-analysis-tools.c:1602
 msgid "Regression"
 msgstr "Regression"
 
-#: src/dialogs/dialog-analysis-tools.c:93
-#: src/dialogs/dialog-analysis-tools.c:553
+#: src/dialogs/dialog-analysis-tools.c:94
+#: src/dialogs/dialog-analysis-tools.c:622
 msgid "Sampling"
 msgstr "Sampling"
 
-#: src/dialogs/dialog-analysis-tools.c:95
-#: src/dialogs/dialog-analysis-tools.c:877
+#: src/dialogs/dialog-analysis-tools.c:96
+#: src/dialogs/dialog-analysis-tools.c:946
 msgid "t-Test: Paired Two Sample for Means"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:97
-#: src/dialogs/dialog-analysis-tools.c:982
+#: src/dialogs/dialog-analysis-tools.c:98
+#: src/dialogs/dialog-analysis-tools.c:1051
 msgid "t-Test: Two-Sample Assuming Equal Variances"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:99
-#: src/dialogs/dialog-analysis-tools.c:1087
+#: src/dialogs/dialog-analysis-tools.c:100
+#: src/dialogs/dialog-analysis-tools.c:1156
 msgid "t-Test: Two-Sample Assuming Unequal Variances"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:101
-#: src/dialogs/dialog-analysis-tools.c:760
+#: src/dialogs/dialog-analysis-tools.c:102
+#: src/dialogs/dialog-analysis-tools.c:829
 msgid "z-Test: Two Sample for Means"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:108
-#: src/dialogs/dialog-analysis-tools.c:1305
-#: src/dialogs/dialog-analysis-tools.c:1484
+#: src/dialogs/dialog-analysis-tools.c:109
+#: src/dialogs/dialog-analysis-tools.c:1374
+#: src/dialogs/dialog-analysis-tools.c:1553
 msgid "Discrete"
 msgstr "Diskret"
 
-#: src/dialogs/dialog-analysis-tools.c:109
-#: src/dialogs/dialog-analysis-tools.c:1302
-#: src/dialogs/dialog-analysis-tools.c:1474
+#: src/dialogs/dialog-analysis-tools.c:110
+#: src/dialogs/dialog-analysis-tools.c:1371
+#: src/dialogs/dialog-analysis-tools.c:1543
 #: src/widgets/widget-font-selector.c:125
 msgid "Normal"
 msgstr "Normal"
 
-#: src/dialogs/dialog-analysis-tools.c:110
-#: src/dialogs/dialog-analysis-tools.c:1299
-#: src/dialogs/dialog-analysis-tools.c:1480
+#: src/dialogs/dialog-analysis-tools.c:111
+#: src/dialogs/dialog-analysis-tools.c:1368
+#: src/dialogs/dialog-analysis-tools.c:1549
 msgid "Bernoulli"
 msgstr "Bernoulli"
 
-#: src/dialogs/dialog-analysis-tools.c:111
-#: src/dialogs/dialog-analysis-tools.c:1296
-#: src/dialogs/dialog-analysis-tools.c:1468
+#: src/dialogs/dialog-analysis-tools.c:112
+#: src/dialogs/dialog-analysis-tools.c:1365
+#: src/dialogs/dialog-analysis-tools.c:1537
 msgid "Uniform"
 msgstr "Likafördelad"
 
-#: src/dialogs/dialog-analysis-tools.c:152
+#: src/dialogs/dialog-analysis-tools.c:159
 msgid "Summary Statistics"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:154
+#: src/dialogs/dialog-analysis-tools.c:161
 msgid "Confidence Level for Mean"
 msgstr "Konfidensnivå för medelvärde"
 
-#: src/dialogs/dialog-analysis-tools.c:155
+#: src/dialogs/dialog-analysis-tools.c:162
 msgid "0.95"
 msgstr "0.95"
 
-#: src/dialogs/dialog-analysis-tools.c:156
+#: src/dialogs/dialog-analysis-tools.c:163
 msgid "Kth Largest:"
 msgstr "K:te största:"
 
-#: src/dialogs/dialog-analysis-tools.c:157
-#: src/dialogs/dialog-analysis-tools.c:159
+#: src/dialogs/dialog-analysis-tools.c:164
+#: src/dialogs/dialog-analysis-tools.c:166
 msgid "1"
 msgstr "1"
 
-#: src/dialogs/dialog-analysis-tools.c:158
+#: src/dialogs/dialog-analysis-tools.c:165
 msgid "Kth Smallest:"
 msgstr "K:te minsta:"
 
-#: src/dialogs/dialog-analysis-tools.c:164
+#: src/dialogs/dialog-analysis-tools.c:171
 msgid "Labels in First Row"
 msgstr "Rubriker för första raden"
 
-#: src/dialogs/dialog-analysis-tools.c:170
+#: src/dialogs/dialog-analysis-tools.c:177
 msgid "Labels"
 msgstr "Rubriker"
 
-#: src/dialogs/dialog-analysis-tools.c:176
+#: src/dialogs/dialog-analysis-tools.c:183
+msgid "Force Intercept to Be Zero"
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:189
 msgid "Standard Errors"
 msgstr "Standardfel"
 
-#: src/dialogs/cell-sort.glade.h:12 src/dialogs/dialog-analysis-tools.c:203
+#: src/dialogs/cell-sort.glade.h:12 src/dialogs/dialog-analysis-tools.c:272
 msgid "Columns"
 msgstr "Kolumner"
 
-#: src/dialogs/cell-sort.glade.h:11 src/dialogs/dialog-analysis-tools.c:204
+#: src/dialogs/cell-sort.glade.h:11 src/dialogs/dialog-analysis-tools.c:273
 msgid "Rows"
 msgstr "Rader"
 
-#: src/dialogs/dialog-analysis-tools.c:209
+#: src/dialogs/dialog-analysis-tools.c:278
 msgid "Periodic"
 msgstr "Periodisk"
 
-#: src/dialogs/dialog-analysis-tools.c:210
+#: src/dialogs/dialog-analysis-tools.c:279
 msgid "Random"
 msgstr "Slumpmässig"
 
-#: src/dialogs/dialog-analysis-tools.c:220
-#: src/dialogs/dialog-analysis-tools.c:1977
-msgid "OK"
-msgstr "OK"
+#: src/dialogs/dialog-analysis-tools.c:368
+msgid "You should introduce a valid cell range in 'Into a Range:'"
+msgstr "Du måste ange ett giltigt cellnamn i \"I området:\""
 
-#: src/dialogs/dialog-analysis-tools.c:331
+#: src/dialogs/dialog-analysis-tools.c:400
 msgid "New Sheet"
 msgstr "Nytt blad"
 
 #. hbox = gtk_hbox_new (FALSE, 0);
-#: src/dialogs/dialog-analysis-tools.c:335
+#: src/dialogs/dialog-analysis-tools.c:404
 msgid "New Workbook"
 msgstr "Ny arbetsbok"
 
-#: src/dialogs/dialog-analysis-tools.c:340
+#: src/dialogs/dialog-analysis-tools.c:409
 msgid "Output Range:"
 msgstr "Utdataområde:"
 
-#: src/dialogs/dialog-analysis-tools.c:360
+#: src/dialogs/dialog-analysis-tools.c:429
 msgid "Grouped By:"
 msgstr "Grupperad efter:"
 
-#: src/dialogs/dialog-analysis-tools.c:405
-#: src/dialogs/dialog-analysis-tools.c:486
-#: src/dialogs/dialog-analysis-tools.c:563
-#: src/dialogs/dialog-analysis-tools.c:674
-#: src/dialogs/dialog-analysis-tools.c:1636
+#: src/dialogs/dialog-analysis-tools.c:471
+#: src/dialogs/dialog-analysis-tools.c:552
+#: src/dialogs/dialog-analysis-tools.c:629
+#: src/dialogs/dialog-analysis-tools.c:740
+#: src/dialogs/dialog-analysis-tools.c:837
+#: src/dialogs/dialog-analysis-tools.c:954
+#: src/dialogs/dialog-analysis-tools.c:1059
+#: src/dialogs/dialog-analysis-tools.c:1165
+#: src/dialogs/dialog-analysis-tools.c:1605
 #: src/dialogs/dialog-analysis-tools.c:1727
-#: src/dialogs/dialog-analysis-tools.c:1810
-#: src/dialogs/dialog-analysis-tools.c:1899
-msgid "Input Range:"
-msgstr "Indataområde:"
-
-#: src/dialogs/dialog-analysis-tools.c:440
-#: src/dialogs/dialog-analysis-tools.c:520
-#: src/dialogs/dialog-analysis-tools.c:624
-#: src/dialogs/dialog-analysis-tools.c:714
-#: src/dialogs/dialog-analysis-tools.c:1762
-#: src/dialogs/dialog-analysis-tools.c:1847
-#: src/dialogs/dialog-analysis-tools.c:1933
-msgid "You should introduce a valid cell range in 'Range:'"
-msgstr "Du måste ange ett giltigt cellnamn i \"Område:\""
-
-#: src/dialogs/dialog-analysis-tools.c:483
-#: src/dialogs/dialog-analysis-tools.c:560
-#: src/dialogs/dialog-analysis-tools.c:671
-#: src/dialogs/dialog-analysis-tools.c:768
-#: src/dialogs/dialog-analysis-tools.c:885
-#: src/dialogs/dialog-analysis-tools.c:990
-#: src/dialogs/dialog-analysis-tools.c:1096
-#: src/dialogs/dialog-analysis-tools.c:1530
-#: src/dialogs/dialog-analysis-tools.c:1630
-#: src/dialogs/dialog-analysis-tools.c:1724
-#: src/dialogs/dialog-analysis-tools.c:1807
-#: src/dialogs/dialog-analysis-tools.c:1896
+#: src/dialogs/dialog-analysis-tools.c:1821
+#: src/dialogs/dialog-analysis-tools.c:1904
+#: src/dialogs/dialog-analysis-tools.c:1993
 msgid "Input:"
 msgstr "Indata:"
 
-#: src/dialogs/dialog-analysis-tools.c:565
+#: src/dialogs/dialog-analysis-tools.c:474
+#: src/dialogs/dialog-analysis-tools.c:555
+#: src/dialogs/dialog-analysis-tools.c:632
+#: src/dialogs/dialog-analysis-tools.c:743
+#: src/dialogs/dialog-analysis-tools.c:1733
+#: src/dialogs/dialog-analysis-tools.c:1824
+#: src/dialogs/dialog-analysis-tools.c:1907
+#: src/dialogs/dialog-analysis-tools.c:1996
+msgid "Input Range:"
+msgstr "Indataområde:"
+
+#: src/dialogs/dialog-analysis-tools.c:509
+#: src/dialogs/dialog-analysis-tools.c:589
+#: src/dialogs/dialog-analysis-tools.c:693
+#: src/dialogs/dialog-analysis-tools.c:783
+#: src/dialogs/dialog-analysis-tools.c:1859
+#: src/dialogs/dialog-analysis-tools.c:1944
+#: src/dialogs/dialog-analysis-tools.c:2030
+msgid "You should introduce a valid cell range in 'Range:'"
+msgstr "Du måste ange ett giltigt cellnamn i \"Område:\""
+
+#: src/dialogs/dialog-analysis-tools.c:634
 msgid "Sampling Method:"
 msgstr "Stickprovsmetod:"
 
-#: src/dialogs/dialog-analysis-tools.c:577
+#: src/dialogs/dialog-analysis-tools.c:646
 msgid "Period:"
 msgstr "Periodisk:"
 
-#: src/dialogs/dialog-analysis-tools.c:580
+#: src/dialogs/dialog-analysis-tools.c:649
 msgid "Number of Samples:"
 msgstr "Antal stickprov:"
 
-#: src/dialogs/dialog-analysis-tools.c:771
-#: src/dialogs/dialog-analysis-tools.c:888
-#: src/dialogs/dialog-analysis-tools.c:993
-#: src/dialogs/dialog-analysis-tools.c:1099
-#: src/dialogs/dialog-analysis-tools.c:1201
+#: src/dialogs/dialog-analysis-tools.c:840
+#: src/dialogs/dialog-analysis-tools.c:957
+#: src/dialogs/dialog-analysis-tools.c:1062
+#: src/dialogs/dialog-analysis-tools.c:1168
+#: src/dialogs/dialog-analysis-tools.c:1270
 msgid "Variable 1 Range:"
 msgstr "Intervall för variabel 1:"
 
-#: src/dialogs/dialog-analysis-tools.c:774
-#: src/dialogs/dialog-analysis-tools.c:891
-#: src/dialogs/dialog-analysis-tools.c:996
-#: src/dialogs/dialog-analysis-tools.c:1102
-#: src/dialogs/dialog-analysis-tools.c:1204
+#: src/dialogs/dialog-analysis-tools.c:843
+#: src/dialogs/dialog-analysis-tools.c:960
+#: src/dialogs/dialog-analysis-tools.c:1065
+#: src/dialogs/dialog-analysis-tools.c:1171
+#: src/dialogs/dialog-analysis-tools.c:1273
 msgid "Variable 2 Range:"
 msgstr "Intervall för variabel 2:"
 
-#: src/dialogs/dialog-analysis-tools.c:777
-#: src/dialogs/dialog-analysis-tools.c:894
-#: src/dialogs/dialog-analysis-tools.c:999
-#: src/dialogs/dialog-analysis-tools.c:1105
+#: src/dialogs/dialog-analysis-tools.c:846
+#: src/dialogs/dialog-analysis-tools.c:963
+#: src/dialogs/dialog-analysis-tools.c:1068
+#: src/dialogs/dialog-analysis-tools.c:1174
 msgid "Hypothesized Mean Difference:"
 msgstr "Trolig standard-differens:"
 
-#: src/dialogs/dialog-analysis-tools.c:780
+#: src/dialogs/dialog-analysis-tools.c:849
 msgid "Variable 1 Variance (known):"
 msgstr "Varians för variabel 1 (känd):"
 
-#: src/dialogs/dialog-analysis-tools.c:783
+#: src/dialogs/dialog-analysis-tools.c:852
 msgid "Variable 2 Variance (known):"
 msgstr "Varians för variabel 2 (känd):"
 
-#: src/dialogs/dialog-analysis-tools.c:785
-#: src/dialogs/dialog-analysis-tools.c:896
-#: src/dialogs/dialog-analysis-tools.c:1001
-#: src/dialogs/dialog-analysis-tools.c:1107
-#: src/dialogs/dialog-analysis-tools.c:1206
-#: src/dialogs/dialog-analysis-tools.c:1814
-#: src/dialogs/dialog-analysis-tools.c:1901
+#: src/dialogs/dialog-analysis-tools.c:854
+#: src/dialogs/dialog-analysis-tools.c:965
+#: src/dialogs/dialog-analysis-tools.c:1070
+#: src/dialogs/dialog-analysis-tools.c:1176
+#: src/dialogs/dialog-analysis-tools.c:1275
+#: src/dialogs/dialog-analysis-tools.c:1911
+#: src/dialogs/dialog-analysis-tools.c:1998
 msgid "Alpha:"
 msgstr "Alpha:"
 
-#: src/dialogs/dialog-analysis-tools.c:817
-#: src/dialogs/dialog-analysis-tools.c:928
-#: src/dialogs/dialog-analysis-tools.c:1033
-#: src/dialogs/dialog-analysis-tools.c:1139
-#: src/dialogs/dialog-analysis-tools.c:1239
-#: src/dialogs/dialog-analysis-tools.c:1574
+#: src/dialogs/dialog-analysis-tools.c:886
+#: src/dialogs/dialog-analysis-tools.c:997
+#: src/dialogs/dialog-analysis-tools.c:1102
+#: src/dialogs/dialog-analysis-tools.c:1208
+#: src/dialogs/dialog-analysis-tools.c:1308
+#: src/dialogs/dialog-analysis-tools.c:1650
 msgid "You should introduce a valid cell range in 'Variable 1:'"
 msgstr "Du måste ange ett giltigt cellnamn i \"Variabel 1:\""
 
-#: src/dialogs/dialog-analysis-tools.c:828
-#: src/dialogs/dialog-analysis-tools.c:939
-#: src/dialogs/dialog-analysis-tools.c:1044
-#: src/dialogs/dialog-analysis-tools.c:1150
-#: src/dialogs/dialog-analysis-tools.c:1250
-#: src/dialogs/dialog-analysis-tools.c:1585
+#: src/dialogs/dialog-analysis-tools.c:897
+#: src/dialogs/dialog-analysis-tools.c:1008
+#: src/dialogs/dialog-analysis-tools.c:1113
+#: src/dialogs/dialog-analysis-tools.c:1219
+#: src/dialogs/dialog-analysis-tools.c:1319
+#: src/dialogs/dialog-analysis-tools.c:1658
 msgid "You should introduce a valid cell range in 'Variable 2:'"
 msgstr "Du måste ange ett giltigt cellnamn i \"Variabel 2:\""
 
-#: src/dialogs/dialog-analysis-tools.c:1347
+#: src/dialogs/dialog-analysis-tools.c:1416
 msgid "Number of Variables:"
 msgstr "Antal variabler:"
 
-#: src/dialogs/dialog-analysis-tools.c:1350
+#: src/dialogs/dialog-analysis-tools.c:1419
 msgid "Number of Random Numbers:"
 msgstr "Antal slumptal:"
 
-#: src/dialogs/dialog-analysis-tools.c:1361
+#: src/dialogs/dialog-analysis-tools.c:1430
 msgid "Parameters:"
 msgstr "Parametrar:"
 
-#: src/dialogs/dialog-analysis-tools.c:1374
+#: src/dialogs/dialog-analysis-tools.c:1443
 msgid "Value and Probability Input Range:"
 msgstr "Indataområde, värde och sannolikhet:"
 
-#: src/dialogs/dialog-analysis-tools.c:1379
+#: src/dialogs/dialog-analysis-tools.c:1448
 msgid "Between:"
 msgstr "Bellan:"
 
-#: src/dialogs/dialog-analysis-tools.c:1382
+#: src/dialogs/dialog-analysis-tools.c:1451
 msgid "And:"
 msgstr "Och:"
 
-#: src/dialogs/dialog-analysis-tools.c:1387
+#: src/dialogs/dialog-analysis-tools.c:1456
 msgid "Mean = "
 msgstr "Medelvårde = "
 
-#: src/dialogs/dialog-analysis-tools.c:1389
+#: src/dialogs/dialog-analysis-tools.c:1458
 msgid "Standard Deviation = "
 msgstr "Standardavvikelse = "
 
-#: src/dialogs/dialog-analysis-tools.c:1393
+#: src/dialogs/dialog-analysis-tools.c:1462
 msgid "Lambda"
 msgstr "Lamba"
 
-#: src/dialogs/dialog-analysis-tools.c:1397
+#: src/dialogs/dialog-analysis-tools.c:1466
 msgid "p Value"
 msgstr "p-värde"
 
-#: src/dialogs/dialog-analysis-tools.c:1492
+#: src/dialogs/dialog-analysis-tools.c:1561
 msgid ""
 "You should introduce a valid cell range in 'Value and Probability Input "
 "Range:'"
 msgstr ""
 "Du måste ange ett giltigt cellnamn i \"Indata, värde och sannolikhet:\""
 
-#: src/dialogs/dialog-analysis-tools.c:1536
+#: src/dialogs/dialog-analysis-tools.c:1611
 msgid "Input Y Range:"
 msgstr "Indataområde Y:"
 
-#: src/dialogs/dialog-analysis-tools.c:1539
+#: src/dialogs/dialog-analysis-tools.c:1614
 msgid "Input X Range:"
 msgstr "Indataområde X:"
 
-#: src/dialogs/dialog-analysis-tools.c:1541
+#: src/dialogs/dialog-analysis-tools.c:1616
 msgid "Confidence Level:"
 msgstr "Konfidensnivå:"
 
-#: src/dialogs/dialog-analysis-tools.c:1638
+#: src/dialogs/dialog-analysis-tools.c:1682
+msgid ""
+"There are too few data points to conduct this regression.\n"
+"There must be at least as many data points as free variables."
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:1688
+msgid ""
+"Two or more of the independent variables are linearly dependent,\n"
+"and the regression cannot be calculated. Remove one of these\n"
+"variables and try the regression again."
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:1695
+msgid ""
+"There must be an equal number of entries for each variable in the regression."
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:1735
 msgid "Interval:"
 msgstr "Intervall:"
 
-#: src/dialogs/dialog-analysis-tools.c:1673
+#: src/dialogs/dialog-analysis-tools.c:1770
 msgid "You should introduce a valid cell range in 'Range Input:'"
 msgstr "Du måste ange ett giltigt cellnamn i \"Indataområde:\""
 
-#: src/dialogs/dialog-analysis-tools.c:1976
+#: src/dialogs/dialog-analysis-tools.c:2073
 msgid "Data Analysis"
 msgstr "Dataanalys"
 
-#: src/dialogs/dialog-analysis-tools.c:1984
+#: src/dialogs/dialog-analysis-tools.c:2074
+msgid "OK"
+msgstr "OK"
+
+#: src/dialogs/dialog-analysis-tools.c:2081
 msgid "Analysis Tools"
 msgstr "Analysverktyg"
 
@@ -839,55 +864,51 @@ msgstr "_);[Röd]("
 msgid "Format Cells"
 msgstr "Formatera celler"
 
-#: src/dialogs/dialog-cell-sort.c:133
+#: src/dialogs/dialog-cell-sort.c:136
 msgid "Ascending"
 msgstr "Stigande"
 
-#: src/dialogs/dialog-cell-sort.c:136
+#: src/dialogs/dialog-cell-sort.c:139
 msgid "Descending"
 msgstr "Sjunkande"
 
-#: src/dialogs/dialog-cell-sort.c:444
+#: src/dialogs/dialog-cell-sort.c:452
 msgid "At least one clause is required."
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:453
+#: src/dialogs/dialog-cell-sort.c:461
 msgid "Can't add more than the selection length."
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:456
+#: src/dialogs/dialog-cell-sort.c:464
 msgid "Maximum number of clauses has been reached."
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:588 src/print.c:508 src/workbook.c:1501
+#: src/dialogs/dialog-cell-sort.c:597 src/print.c:515 src/workbook.c:1574
 msgid "Selection must be a single range"
 msgstr "Markeringen måste bestå av ett sammanhängande område"
 
-#: src/dialogs/dialog-cell-sort.c:600
-msgid "Selection must be a finite range"
-msgstr "Markeringen måste bestå av ett ändligt område"
-
-#: src/dialogs/dialog-cell-sort.c:650
+#: src/dialogs/dialog-cell-sort.c:667
 msgid "then by"
 msgstr "sedan efter"
 
-#: src/dialogs/cell-sort.glade.h:16 src/dialogs/dialog-cell-sort.c:650
+#: src/dialogs/cell-sort.glade.h:16 src/dialogs/dialog-cell-sort.c:667
 msgid "Sort by"
 msgstr "Sortera efter"
 
-#: src/dialogs/dialog-cell-sort.c:685
+#: src/dialogs/dialog-cell-sort.c:702
 msgid "Column must be within range"
 msgstr "Kolumnen måste vara inom området"
 
-#: src/dialogs/dialog-cell-sort.c:702
+#: src/dialogs/dialog-cell-sort.c:719
 msgid "Row must be within range"
 msgstr "Raden måste vara inom området"
 
-#: src/dialogs/dialog-cell-sort.c:709
+#: src/dialogs/dialog-cell-sort.c:726
 msgid "First column must be valid"
 msgstr "Den första kolumnen måste vara giltig"
 
-#: src/dialogs/dialog-cell-sort.c:709
+#: src/dialogs/dialog-cell-sort.c:726
 msgid "First row must be valid"
 msgstr "Den första raden måste vara giltig"
 
@@ -899,39 +920,39 @@ msgstr "ta bort celler"
 msgid "Formula Selection"
 msgstr "Formelval"
 
-#: src/dialogs/dialog-function-wizard.c:206 src/functions/fn-string.c:1295
+#: src/dialogs/dialog-function-wizard.c:202 src/functions/fn-string.c:1295
 msgid "String"
 msgstr "Sträng"
 
-#: src/dialogs/cell-format.glade.h:31 src/dialogs/dialog-function-wizard.c:209
+#: src/dialogs/cell-format.glade.h:31 src/dialogs/dialog-function-wizard.c:205
 msgid "Number"
 msgstr "Tal"
 
-#: src/dialogs/dialog-function-wizard.c:212
+#: src/dialogs/dialog-function-wizard.c:208
 msgid "Boolean"
 msgstr "Boolesk variabel"
 
-#: src/dialogs/dialog-function-wizard.c:215
+#: src/dialogs/dialog-function-wizard.c:211
 msgid "Range"
 msgstr "Område"
 
-#: src/dialogs/dialog-function-wizard.c:218
+#: src/dialogs/dialog-function-wizard.c:214
 msgid "Array"
 msgstr "Fält"
 
-#: src/dialogs/dialog-function-wizard.c:221
+#: src/dialogs/dialog-function-wizard.c:217
 msgid "Range/Array"
 msgstr "Område/Fält"
 
-#: src/dialogs/dialog-function-wizard.c:224
+#: src/dialogs/dialog-function-wizard.c:220
 msgid "Any"
 msgstr "Vilken som helst"
 
-#: src/dialogs/dialog-function-wizard.c:227
+#: src/dialogs/dialog-function-wizard.c:223
 msgid "Unknown"
 msgstr "Okänd"
 
-#: src/dialogs/dialog-function-wizard.c:334
+#: src/dialogs/dialog-function-wizard.c:332
 msgid "Formula Wizard"
 msgstr "Formelhjälpreda"
 
@@ -1110,11 +1131,11 @@ msgstr "<="
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:44 src/workbook.c:1617
+#: src/dialogs/dialog-solver.c:44 src/workbook.c:1690
 msgid "Max"
 msgstr "Max"
 
-#: src/dialogs/dialog-solver.c:45 src/workbook.c:1616
+#: src/dialogs/dialog-solver.c:45 src/workbook.c:1689
 msgid "Min"
 msgstr "Min"
 
@@ -1458,7 +1479,7 @@ msgstr "_Rader att upprepa till vänster:"
 msgid "_Rows to repeat on the upper region:"
 msgstr "Ra_der att upprepa överst:"
 
-#: src/dialogs/print.glade.h:50 src/workbook.c:1128
+#: src/dialogs/print.glade.h:50 src/workbook.c:1201
 msgid "Print"
 msgstr "Skriv ut"
 
@@ -1466,7 +1487,7 @@ msgstr "Skriv ut"
 msgid "Row and co_lumn headings"
 msgstr "Rad- och kolumnrubriker"
 
-#: src/dialogs/print.glade.h:52 src/workbook.c:952
+#: src/dialogs/print.glade.h:52 src/workbook.c:1025
 msgid "Co_mments"
 msgstr "Ko_mmentarer"
 
@@ -1802,16 +1823,14 @@ msgid "Inside Vertical"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:73
-#, fuzzy
 msgid "Inside"
-msgstr "Infoga"
+msgstr "Inuti"
 
 #: src/dialogs/cell-format.glade.h:74
-#, fuzzy
 msgid "Inside Horizontal"
-msgstr "Vågrätt"
+msgstr "Inuti, vågrätt"
 
-#: src/dialogs/cell-format.glade.h:75 src/workbook.c:1168
+#: src/dialogs/cell-format.glade.h:75 src/workbook.c:1241
 msgid "Line"
 msgstr "Linje"
 
@@ -1962,9 +1981,8 @@ msgid "Sort..."
 msgstr "Sortera..."
 
 #: src/dialogs/cell-sort.glade.h:8
-#, fuzzy
 msgid "Selection has"
-msgstr "markering"
+msgstr "markeringen har"
 
 #: src/dialogs/cell-sort.glade.h:9
 msgid "A header"
@@ -1980,19 +1998,16 @@ msgid "Remove"
 msgstr "Ta bort"
 
 #: src/dialogs/cell-sort.glade.h:15
-#, fuzzy
 msgid "Advanced Sort Options"
-msgstr "Gnumeric problemlösningsalternativ"
+msgstr "Avancerade sorteringsinställningar"
 
 #: src/dialogs/cell-sort.glade.h:17
-#, fuzzy
 msgid "Value"
-msgstr "Värden"
+msgstr "Värde"
 
 #: src/dialogs/cell-sort.glade.h:18
-#, fuzzy
 msgid "Text"
-msgstr "Te_xt"
+msgstr "Text"
 
 #: src/dialogs/cell-sort.glade.h:19
 msgid "Entries are"
@@ -2054,11 +2069,6 @@ msgstr "%"
 msgid "Sheets"
 msgstr "Blad"
 
-#: src/dump.c:31
-#, c-format
-msgid "Can not create file %s\n"
-msgstr "Kan inte skapa filen %s\n"
-
 #: src/embeddable-grid.c:153
 msgid "Embedded Sheet"
 msgstr "Inbäddat ark"
@@ -2095,28 +2105,19 @@ msgstr "Apostrof saknas"
 msgid "Impossible!"
 msgstr "Omöjligt!"
 
-#: src/expr.c:477
+#: src/expr.c:439
 msgid "Internal error"
 msgstr "Internt fel"
 
-#: src/expr.c:504 src/functions/fn-information.c:572
-#: src/functions/fn-information.c:641 src/functions/fn-information.c:668
-#: src/functions/fn-information.c:694 src/functions/fn-information.c:743
-#: src/functions/fn-information.c:772 src/functions/fn-information.c:837
-#: src/functions/fn-logical.c:191 src/functions/fn-lookup.c:468
-#: src/functions/fn-lookup.c:579 src/functions/fn-string.c:342
-msgid "Invalid number of arguments"
-msgstr "Ogiltigt antal argument"
-
-#: src/expr.c:855
+#: src/expr.c:696
 msgid "Internal type error"
 msgstr "Internt typfel"
 
-#: src/expr.c:993
+#: src/expr.c:834
 msgid "Unknown operator"
 msgstr "Okänd operator"
 
-#: src/expr.c:1129
+#: src/expr.c:970
 msgid "Unknown evaluation error"
 msgstr "Okänt evalueringsfel"
 
@@ -2129,20 +2130,20 @@ msgstr "Kunde inte läsa filen %s"
 msgid "File format:"
 msgstr "Filformat:"
 
-#: src/file.c:458
+#: src/file.c:459
 msgid "Save workbook as"
 msgstr "Spara arbetsbok som"
 
-#: src/file.c:502
+#: src/file.c:503
 msgid "Sorry, there are no file savers loaded, I cannot save"
 msgstr "Det finns inga filsparare, kan inte spara"
 
-#: src/file.c:515 src/file.c:539
+#: src/file.c:517 src/file.c:542
 #, c-format
 msgid "Could not save to file %s"
 msgstr "Kunde inte spara filen %s"
 
-#: src/file.c:550
+#: src/file.c:555
 msgid "Load file"
 msgstr "Öppna fil"
 
@@ -4271,7 +4272,32 @@ msgid ""
 "@SEEALSO=PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1883
+#: src/functions/fn-financial.c:1881
+msgid ""
+"@FUNCTION=EURO\n"
+"@SYNTAX=EURO(currency)\n"
+"@DESCRIPTION=EURO converts one Euro to a given national currency in the "
+"European monetary union.  Currency is one of the following:\n"
+"    ATS     (Austria)\n"
+"    BEF     (Belgium)\n"
+"    DEM     (Germany)\n"
+"    ESP     (Spain)\n"
+"    FIM     (Finland)\n"
+"    FRF     (France)\n"
+"    IEP     (Ireland)\n"
+"    ITL     (Italy)\n"
+"    LUF     (Luxemburg)\n"
+"    NLG     (Netherlands)\n"
+"    PTE     (Portugal)\n"
+"\n"
+"If the given currency is other than one of the above, EURO returns NUM! "
+"error. \n"
+"@EXAMPLES=\n"
+"EURO(\"DEM\") returns 1.95583.\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:1965
 msgid "Financial"
 msgstr "Finansiella"
 
@@ -4489,6 +4515,15 @@ msgstr ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
+
+#: src/func.c:363 src/functions/fn-information.c:572
+#: src/functions/fn-information.c:641 src/functions/fn-information.c:668
+#: src/functions/fn-information.c:694 src/functions/fn-information.c:743
+#: src/functions/fn-information.c:772 src/functions/fn-information.c:837
+#: src/functions/fn-logical.c:191 src/functions/fn-lookup.c:468
+#: src/functions/fn-lookup.c:579 src/functions/fn-string.c:342
+msgid "Invalid number of arguments"
+msgstr "Ogiltigt antal argument"
 
 #: src/functions/fn-information.c:601
 msgid ""
@@ -4874,7 +4909,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-lookup.c:703
+#: src/functions/fn-lookup.c:709
 msgid ""
 "@FUNCTION=INDEX\n"
 "@SYNTAX=INDEX(reference, [row, col, area])\n"
@@ -4886,7 +4921,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-lookup.c:754
+#: src/functions/fn-lookup.c:760
 msgid ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([reference])\n"
@@ -4908,7 +4943,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMNS,ROW,ROWS"
 
-#: src/functions/fn-lookup.c:807
+#: src/functions/fn-lookup.c:813
 msgid ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(reference)\n"
@@ -4930,7 +4965,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: src/functions/fn-lookup.c:832
+#: src/functions/fn-lookup.c:838
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col,height,width)\n"
@@ -4944,7 +4979,7 @@ msgid ""
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 msgstr ""
 
-#: src/functions/fn-lookup.c:895
+#: src/functions/fn-lookup.c:901
 msgid ""
 "@FUNCTION=ROW\n"
 "@SYNTAX=ROW([reference])\n"
@@ -4966,7 +5001,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
-#: src/functions/fn-lookup.c:948
+#: src/functions/fn-lookup.c:954
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -4988,7 +5023,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROW"
 
-#: src/functions/fn-lookup.c:973
+#: src/functions/fn-lookup.c:979
 msgid ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(reference)\n"
@@ -5008,7 +5043,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-lookup.c:998
+#: src/functions/fn-lookup.c:1004
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
@@ -5024,7 +5059,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT"
 
-#: src/functions/fn-lookup.c:1048
+#: src/functions/fn-lookup.c:1054
 msgid "Data / Lookup"
 msgstr ""
 
@@ -7910,7 +7945,7 @@ msgid ""
 "@SEEALSO=LOGEST,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:3923
+#: src/functions/fn-stat.c:3925
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's],new_x's])\n"
@@ -7931,7 +7966,7 @@ msgid ""
 "@SEEALSO=LINEST"
 msgstr ""
 
-#: src/functions/fn-stat.c:4035
+#: src/functions/fn-stat.c:4037
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -7957,7 +7992,7 @@ msgid ""
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4165
+#: src/functions/fn-stat.c:4169
 msgid ""
 "@FUNCTION=GROWTH\n"
 "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
@@ -7977,7 +8012,7 @@ msgid ""
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4279
+#: src/functions/fn-stat.c:4283
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -7996,7 +8031,7 @@ msgid ""
 "@SEEALSO=INTERCEPT,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4350
+#: src/functions/fn-stat.c:4354
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -8014,7 +8049,7 @@ msgid ""
 "@SEEALSO=FORECAST,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4399
+#: src/functions/fn-stat.c:4403
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -8029,7 +8064,7 @@ msgid ""
 "@SEEALSO=STDEV,STDEVPA"
 msgstr ""
 
-#: src/functions/fn-stat.c:4444
+#: src/functions/fn-stat.c:4448
 msgid "Statistics"
 msgstr "Statistik"
 
@@ -8768,13 +8803,18 @@ msgstr "##0.0E+0"
 msgid "[Red]"
 msgstr "[Red]"
 
-#: src/func.c:422
+#: src/func.c:725
 msgid "Function does not exist"
 msgstr "Funktionen existerar inte"
 
-#: src/func.c:424
+#: src/func.c:727
 msgid "Calling non-function"
 msgstr "Anropar icke-existerande funktion"
+
+#: src/func.c:779
+#, c-format
+msgid "Can not create file %s\n"
+msgstr "Kan inte skapa filen %s\n"
 
 #: src/gnumeric-util.c:20
 msgid "You cannot change part of an array."
@@ -8800,7 +8840,7 @@ msgstr ""
 "existerande cellerna i det området. Vill du ersätta\n"
 "innehållet i området?"
 
-#: src/item-cursor.c:659 src/workbook.c:1140
+#: src/item-cursor.c:659 src/workbook.c:1213
 msgid "Copy"
 msgstr "Kopiera"
 
@@ -8852,7 +8892,7 @@ msgstr "Klistra in _special"
 msgid "_Insert..."
 msgstr "_Infoga..."
 
-#: src/item-grid.c:653 src/workbook.c:972
+#: src/item-grid.c:653 src/workbook.c:1045
 msgid "_Delete..."
 msgstr "Ta bort..."
 
@@ -9110,7 +9150,7 @@ msgstr "Nästa"
 msgid "Last"
 msgstr "Sista"
 
-#: src/print-preview.c:539 src/workbook.c:2180
+#: src/print-preview.c:539 src/workbook.c:2256
 msgid "Zoom in"
 msgstr "Zooma in"
 
@@ -9118,7 +9158,7 @@ msgstr "Zooma in"
 msgid "Zooms the page in"
 msgstr "Zoomar in sidan"
 
-#: src/print-preview.c:540 src/workbook.c:2173
+#: src/print-preview.c:540 src/workbook.c:2249
 msgid "Zoom out"
 msgstr "Zooma ut"
 
@@ -9139,31 +9179,31 @@ msgstr "bladet"
 msgid "the workbook"
 msgstr "arbetsboken"
 
-#: src/print.c:623
+#: src/print.c:631
 msgid "Printing failed -- bad filename?"
 msgstr ""
 
-#: src/selection.c:144
+#: src/selection.c:149
 msgid "The command `"
 msgstr ""
 
-#: src/selection.c:146
+#: src/selection.c:151
 msgid "' cannot be performed with multiple selections"
 msgstr ""
 
-#: src/selection.c:594
+#: src/selection.c:599
 msgid "copy"
 msgstr "kopiera"
 
-#: src/selection.c:625
+#: src/selection.c:630
 msgid "cut"
 msgstr "klipp ut"
 
-#: src/selection.c:665
+#: src/selection.c:670
 msgid "paste"
 msgstr "klistra in"
 
-#: src/selection.c:688
+#: src/selection.c:693
 #, c-format
 msgid ""
 "The area can not be pasted into the selection because it\n"
@@ -9172,11 +9212,11 @@ msgid ""
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
 
-#: src/sheet-object.c:359 src/workbook.c:1158
+#: src/sheet-object.c:359 src/workbook.c:1231
 msgid "Button"
 msgstr "Knapp"
 
-#: src/sheet-object.c:728 src/workbook.c:899
+#: src/sheet-object.c:728 src/workbook.c:972
 msgid "Select an object"
 msgstr "Välj ett objekt"
 
@@ -9190,16 +9230,16 @@ msgstr "Rad: %d"
 msgid "Column: %s"
 msgstr "Kolumn: %s"
 
-#: src/sheet.c:1005
+#: src/sheet.c:1118
 msgid "Internal ERROR"
 msgstr "Internt FEL"
 
-#: src/sheet.c:3001
+#: src/sheet.c:3096
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Kunde inte aktivera objekt %s"
 
-#: src/sheet.c:3013
+#: src/sheet.c:3108
 msgid "I was unable to the bind object"
 msgstr "Kunde inte binda objektet"
 
@@ -9355,435 +9395,439 @@ msgstr "Storlek"
 msgid "Foreground"
 msgstr "Förgrund"
 
-#: src/workbook.c:436
+#: src/workbook.c:525
 msgid "Warning"
 msgstr "Varning"
 
-#: src/workbook.c:445
+#: src/workbook.c:534
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr "Arbetsboken %s har osparade ändringar, spara dem?"
 
-#: src/workbook.c:448
+#: src/workbook.c:537
 msgid "Workbook has unsaved changes, save them?"
 msgstr "Arbetsboken har osparade ändringar, spara dem?"
 
-#: src/workbook.c:679
+#: src/workbook.c:752
 msgid "Insert cols"
 msgstr "Infoga kolumner"
 
-#: src/workbook.c:699
+#: src/workbook.c:772
 msgid "Insert rows"
 msgstr "Infoga rader"
 
-#: src/workbook.c:794
+#: src/workbook.c:867
 msgid ">mm/dd/yyyy"
 msgstr ">mm/dd/åååå"
 
-#: src/workbook.c:813
+#: src/workbook.c:886
 msgid ">hh:mm"
 msgstr ">tt:mm"
 
-#: src/workbook.c:908
+#: src/workbook.c:981
 msgid "_New"
 msgstr "_Nytt"
 
-#: src/workbook.c:908
+#: src/workbook.c:981
 msgid "Create a new spreadsheet"
 msgstr "Skapa ett nytt kalkylark"
 
-#: src/workbook.c:912
+#: src/workbook.c:985
 msgid "_Import..."
 msgstr "_Importera..."
 
-#: src/workbook.c:912
+#: src/workbook.c:985
 msgid "Imports a file"
 msgstr "Importerar en fil"
 
-#: src/workbook.c:918
+#: src/workbook.c:991
 msgid "Su_mmary..."
 msgstr "Sammanfattning..."
 
-#: src/workbook.c:918
+#: src/workbook.c:991
 msgid "Summary information"
 msgstr "Sammanfattningsinformation"
 
-#: src/workbook.c:923
+#: src/workbook.c:996
 msgid "Plu_g-ins..."
 msgstr "Tillä_gg..."
 
-#: src/workbook.c:923
+#: src/workbook.c:996
 msgid "Gnumeric plugins"
 msgstr "Gnumeric-tillägg"
 
-#: src/workbook.c:930 src/workbook.c:1131
+#: src/workbook.c:1003 src/workbook.c:1204
 msgid "Print pre_view"
 msgstr "Förhands_granskning"
 
-#: src/workbook.c:930 src/workbook.c:1131
+#: src/workbook.c:1003 src/workbook.c:1204
 msgid "Print preview"
 msgstr "Förhandsgranskning"
 
-#: src/workbook.c:946
+#: src/workbook.c:1019
 msgid "_All"
 msgstr "_Allt"
 
-#: src/workbook.c:947
+#: src/workbook.c:1020
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Ta bort markerade cellers formatering, kommentarer och innehåll"
 
-#: src/workbook.c:949
+#: src/workbook.c:1022
 msgid "_Formats"
 msgstr "_Formatering"
 
-#: src/workbook.c:950
+#: src/workbook.c:1023
 msgid "Clear the selected cells' formats"
 msgstr "Ta bort markerade cellers formatering"
 
-#: src/workbook.c:953
+#: src/workbook.c:1026
 msgid "Clear the selected cells' comments"
 msgstr "Ta bort markerade cellers kommentarer"
 
-#: src/workbook.c:955
+#: src/workbook.c:1028
 msgid "_Content"
 msgstr "_Innehåll"
 
-#: src/workbook.c:956
+#: src/workbook.c:1029
 msgid "Clear the selected cells' contents"
 msgstr "Ta bort markerade cellers innehåll"
 
-#: src/workbook.c:970
+#: src/workbook.c:1043
 msgid "P_aste special..."
 msgstr "Klistra in _special..."
 
-#: src/workbook.c:974
+#: src/workbook.c:1047
 msgid "C_lear"
 msgstr "_Ta bort"
 
-#: src/workbook.c:975
+#: src/workbook.c:1048
 msgid "Clear the selected cell(s)"
 msgstr "Ta bort markerade cell(er)"
 
-#: src/workbook.c:979
+#: src/workbook.c:1052
 msgid "_Select All"
 msgstr "Markera _allt"
 
-#: src/workbook.c:980
+#: src/workbook.c:1053
 msgid "Select all cells in the spreadsheet"
 msgstr "Markera alla celler på kalkylarket"
 
-#: src/workbook.c:982
+#: src/workbook.c:1055
 msgid "_Goto cell..."
 msgstr "_Gå till cell.."
 
-#: src/workbook.c:983
+#: src/workbook.c:1056
 msgid "Jump to a specified cell"
 msgstr "Gå till specifierad cell"
 
-#: src/workbook.c:989
+#: src/workbook.c:1062
 msgid "Insert object..."
 msgstr "Infoga objekt..."
 
-#: src/workbook.c:990
+#: src/workbook.c:1063
 msgid "Inserts a Bonobo object"
 msgstr "Infogar ett Bonobo-objekt"
 
-#: src/workbook.c:994
+#: src/workbook.c:1067
 msgid "_Define cell names"
 msgstr "_Definera cellnamn"
 
-#: src/workbook.c:997
+#: src/workbook.c:1070
 msgid "_Recalculate"
 msgstr "_Räkna om"
 
-#: src/workbook.c:998
+#: src/workbook.c:1071
 msgid "Recalculate the spreadsheet"
 msgstr "Räkna om kalkylbladet"
 
-#: src/workbook.c:1006
+#: src/workbook.c:1079
 msgid "_Zoom..."
 msgstr "_Zooma..."
 
-#: src/workbook.c:1007
+#: src/workbook.c:1080
 msgid "Zoom the spreadsheet in or out"
 msgstr "Zooma in eller ut i kalkylbladet"
 
-#: src/workbook.c:1014
+#: src/workbook.c:1087
 msgid "Current _date"
 msgstr "Dagens _datum"
 
-#: src/workbook.c:1015
+#: src/workbook.c:1088
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Infoga dagens datum i markerade cell(er)"
 
-#: src/workbook.c:1018
+#: src/workbook.c:1091
 msgid "Current _time"
 msgstr "Nuvarande _klockslag"
 
-#: src/workbook.c:1019
+#: src/workbook.c:1092
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Infoga nuvarande tid i markerade cell(er)"
 
-#: src/workbook.c:1026 src/workbook.c:1074
+#: src/workbook.c:1099 src/workbook.c:1147
 msgid "_Sheet"
 msgstr "_Blad"
 
-#: src/workbook.c:1026
+#: src/workbook.c:1099
 msgid "Insert a new spreadsheet"
 msgstr "Infoga ett nytt kalkylblad"
 
-#: src/workbook.c:1028 src/workbook.c:1069
+#: src/workbook.c:1101 src/workbook.c:1142
 msgid "_Cells..."
 msgstr "_Celler..."
 
-#: src/workbook.c:1028
+#: src/workbook.c:1101
 msgid "Insert new cells"
 msgstr "Infoga nya celler"
 
-#: src/workbook.c:1030
+#: src/workbook.c:1103
 msgid "_Rows"
 msgstr "_Rader"
 
-#: src/workbook.c:1030
+#: src/workbook.c:1103
 msgid "Insert new rows"
 msgstr "Infoga nya rader"
 
-#: src/workbook.c:1032
+#: src/workbook.c:1105
 msgid "C_olumns"
 msgstr "_Kolumner"
 
-#: src/workbook.c:1032
+#: src/workbook.c:1105
 msgid "Insert new columns"
 msgstr "Infoga nya kolumner"
 
-#: src/workbook.c:1037
+#: src/workbook.c:1110
 msgid "_Add/modify comment..."
 msgstr "_Lägg till/ändra kommentar..."
 
-#: src/workbook.c:1038
+#: src/workbook.c:1111
 msgid "Edit the selected cell's comment"
 msgstr "Ändra den markerade cellens kommentar"
 
-#: src/workbook.c:1039
+#: src/workbook.c:1112
 msgid "S_pecial"
 msgstr "S_pecial"
 
-#: src/workbook.c:1047 src/workbook.c:1055
+#: src/workbook.c:1120 src/workbook.c:1128
 msgid "_Auto fit selection"
 msgstr "_Anpassa till markeringen"
 
-#: src/workbook.c:1049
+#: src/workbook.c:1122
 msgid "_Width"
 msgstr "_Bredd"
 
-#: src/workbook.c:1057
+#: src/workbook.c:1130
 msgid "_Height"
 msgstr "_Höjd"
 
-#: src/workbook.c:1063
+#: src/workbook.c:1136
 msgid "_Change name"
 msgstr "_Ändra namn"
 
-#: src/workbook.c:1070
+#: src/workbook.c:1143
 msgid "Modify the formatting of the selected cells"
 msgstr "Ändra formateringen på markerade celler"
 
-#: src/workbook.c:1072
+#: src/workbook.c:1145
 msgid "C_olumn"
 msgstr "_Kolumn"
 
-#: src/workbook.c:1073
+#: src/workbook.c:1146
 msgid "_Row"
 msgstr "_Rad"
 
-#: src/workbook.c:1081
+#: src/workbook.c:1154
 msgid "_Sort..."
 msgstr "_Sortera..."
 
-#: src/workbook.c:1082
+#: src/workbook.c:1155
 msgid "Sort the selected cells"
 msgstr "Sortera merkerade celler"
 
-#: src/workbook.c:1083
+#: src/workbook.c:1156
 msgid "_Goal Seek..."
 msgstr "_Målsökning..."
 
-#: src/workbook.c:1085
+#: src/workbook.c:1158
 msgid "_Solver..."
 msgstr "_Problemlösare..."
 
-#: src/workbook.c:1087
+#: src/workbook.c:1160
 msgid "_Data Analysis..."
 msgstr "_Dataanalys..."
 
-#: src/workbook.c:1103
+#: src/workbook.c:1176
 msgid "_Insert"
 msgstr "_Infoga"
 
-#: src/workbook.c:1104
+#: src/workbook.c:1177
 msgid "F_ormat"
 msgstr "F_ormat"
 
-#: src/workbook.c:1105
+#: src/workbook.c:1178
 msgid "_Tools"
 msgstr "Verk_tyg"
 
-#: src/workbook.c:1116
+#: src/workbook.c:1189
 msgid "New"
 msgstr "Nytt"
 
-#: src/workbook.c:1116
+#: src/workbook.c:1189
 msgid "Creates a new sheet"
 msgstr "Skapar ett nytt kalkylblad"
 
-#: src/workbook.c:1119
+#: src/workbook.c:1192
 msgid "Open"
 msgstr "Öppna"
 
-#: src/workbook.c:1119
+#: src/workbook.c:1192
 msgid "Opens an existing workbook"
 msgstr "Öppnar en existerande arbetsbok"
 
-#: src/workbook.c:1122
+#: src/workbook.c:1195
 msgid "Save"
 msgstr "Spara"
 
-#: src/workbook.c:1122
+#: src/workbook.c:1195
 msgid "Saves the workbook"
 msgstr "Sparar arbetsboken"
 
-#: src/workbook.c:1128
+#: src/workbook.c:1201
 msgid "Prints the workbook"
 msgstr "Skriver ut arbetsboken"
 
-#: src/workbook.c:1137
+#: src/workbook.c:1210
 msgid "Cut"
 msgstr "Klipp ut"
 
-#: src/workbook.c:1137
+#: src/workbook.c:1210
 msgid "Cuts the selection to the clipboard"
 msgstr "Klipper ut markeringen till urklipp"
 
-#: src/workbook.c:1140
+#: src/workbook.c:1213
 msgid "Copies the selection to the clipboard"
 msgstr "Kopierar markeringen till urklipp"
 
-#: src/workbook.c:1143
+#: src/workbook.c:1216
 msgid "Paste"
 msgstr "Klistra in"
 
-#: src/workbook.c:1143
+#: src/workbook.c:1216
 msgid "Pastes the clipboard"
 msgstr "Klistrar in från urklipp"
 
-#: src/workbook.c:1150
+#: src/workbook.c:1223
 msgid "Graphic"
 msgstr "Diagram"
 
-#: src/workbook.c:1150
+#: src/workbook.c:1223
 msgid "Creates a graphic in the spreadsheet"
 msgstr "Skapar ett diagram på kalkylbladet"
 
-#: src/workbook.c:1153
-#, fuzzy
+#: src/workbook.c:1226
 msgid "Bonobo Item"
-msgstr "Bonobo-object"
+msgstr "Bonobo-objekt"
 
-#: src/workbook.c:1153
+#: src/workbook.c:1226
 msgid "Creates a Bonobo shaped item"
 msgstr "Skapar ett format Bonobo-objekt"
 
-#: src/workbook.c:1158
+#: src/workbook.c:1231
 msgid "Creates a button"
 msgstr "Skapar en knapp"
 
-#: src/workbook.c:1161
+#: src/workbook.c:1234
 msgid "Checkbox"
 msgstr "Kryssruta"
 
-#: src/workbook.c:1161
+#: src/workbook.c:1234
 msgid "Creates a checkbox"
 msgstr "Skapar en kryssruta"
 
-#: src/workbook.c:1168
+#: src/workbook.c:1241
 msgid "Creates a line object"
 msgstr "Skapar ett linje-objekt"
 
-#: src/workbook.c:1171
+#: src/workbook.c:1244
 msgid "Arrow"
 msgstr "Pil"
 
-#: src/workbook.c:1171
+#: src/workbook.c:1244
 msgid "Creates an arrow object"
 msgstr "Skapar ett pil-objekt"
 
-#: src/workbook.c:1174
+#: src/workbook.c:1247
 msgid "Rectangle"
 msgstr "Rektangel"
 
-#: src/workbook.c:1174
+#: src/workbook.c:1247
 msgid "Creates a rectangle object"
 msgstr "Skapar ett rektangel-objekt"
 
-#: src/workbook.c:1177
+#: src/workbook.c:1250
 msgid "Ellipse"
 msgstr "Ellips"
 
-#: src/workbook.c:1177
+#: src/workbook.c:1250
 msgid "Creates an ellipse object"
 msgstr "Skapar ett ellips-objekt"
 
-#: src/workbook.c:1395
+#: src/workbook.c:1468
 msgid "You should introduce a valid cell name"
 msgstr "Du måste ange ett giltigt cellnamn"
 
-#: src/workbook.c:1404
+#: src/workbook.c:1477
 msgid "Column out of range"
 msgstr "Kolumn utanför giltigt område"
 
-#: src/workbook.c:1410
+#: src/workbook.c:1483
 msgid "Row number out of range"
 msgstr "Radnummer utanför giltigt område"
 
-#: src/workbook.c:1615
+#: src/workbook.c:1688
 msgid "Sum"
 msgstr "Sum"
 
-#: src/workbook.c:1618
+#: src/workbook.c:1691
 msgid "Average"
 msgstr "Medelvärde"
 
-#: src/workbook.c:1619
+#: src/workbook.c:1692
 msgid "Count"
 msgstr "Räkna"
 
-#: src/workbook.c:2054
-#, fuzzy, c-format
+#: src/workbook.c:2127
 msgid "Book%d.gnumeric"
-msgstr "Namnlös.gnumeric"
+msgstr "Bok%d.gnumeric"
 
-#: src/workbook.c:2304
+#: src/workbook.c:2380
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Är du säker på att du vill ta bort bladet med namn `%s'?"
 
-#: src/workbook.c:2353
+#: src/workbook.c:2429
 msgid "Add another sheet"
 msgstr "Lägg till ett nytt blad"
 
-#: src/workbook.c:2354
+#: src/workbook.c:2430
 msgid "Remove this sheet"
 msgstr "Ta bort detta blad"
 
-#: src/workbook.c:2622 src/workbook.c:2655
+#: src/workbook.c:2698 src/workbook.c:2731
 #, c-format
 msgid "Sheet%d"
 msgstr "Blad%d"
 
-#: src/workbook.c:2691
+#: src/workbook.c:2767
 msgid "Gnumeric: "
 msgstr "Gnumeric: "
 
-#: src/xml-io.c:2344
+#: src/xml-io.c:2369
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
+
+#~ msgid "could not alloc FuncDef"
+#~ msgstr "kunde inte allokera FuncDef"
+
+#~ msgid "Selection must be a finite range"
+#~ msgstr "Markeringen måste bestå av ett ändligt område"
