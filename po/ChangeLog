@@ -1,3 +1,7 @@
+2001-12-25  Andreas Guelzow <aguelzow@taliesin.ca>
+
+	* de.po: Updated German translation.
+
 2001-12-24  Christian Meyer  <chrisime@gnome.org>
 
 	* de.po: Updated German translation.
@@ -6,19 +10,19 @@
 
 	* ja.po: Updated Japanese translation.
 
-2001-12-23  Germ-A·n Poo-CaamaÒo  <gpoo@ubiobio.cl>$)B
+2001-12-23  Germ.Aé·n Poo-CaamaéÒo  <gpoo@ubiobio.cl>
 
 	* es.po: Updated spanish translation
 
-2001-12-23  Germ-A·n Poo-CaamaÒo  <gpoo@ubiobio.cl>$)B
+2001-12-23  Germé·n Poo-CaamaéÒo  <gpoo@ubiobio.cl>
 
 	* es.po: Updated spanish translation.
 
-2001-12-22  Germ-A·n Poo-CaamaÒo  <gpoo@ubiobio.cl>$)B
+2001-12-22  Germé·n Poo-CaamaéÒo  <gpoo@ubiobio.cl>
 
 	* es.po: Updated spanish translation.
 
-2001-12-22  Germ-A·n Poo-CaamaÒo  <gpoo@ubiobio.cl>$)B
+2001-12-22  Germé·n Poo-CaamaéÒo  <gpoo@ubiobio.cl>
 
 	* es.po: Updated spanish translation.
 
@@ -39,7 +43,7 @@
 	* pl.po: Updated Polish translation by
 	GNOME PL Team <translators@gnome.pl>.
 
-2001-12-21  Germ-A·n Poo-CaamaÒo  <gpoo@ubiobio.cl>$)B
+2001-12-21  Germé·n Poo-CaamaéÒo  <gpoo@ubiobio.cl>
 
 	* es.po: Updated spanish translation.
 
@@ -128,7 +132,7 @@
 
 2001-12-12  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm√•l) translation.
+	* no.po: Updated Norwegian (bokm$(BC%(Bl) translation.
 
 2001-12-12  Abel Cheung  <maddog@linux.org.hk>
 
@@ -163,7 +167,7 @@
 
 2001-12-06  Fatih Demir <kabalak@gtranslator.org>
 
-	* tr.po: Committed updated Turkish translation by Nilg√ºn.
+	* tr.po: Committed updated Turkish translation by Nilg$(BC<(Bn.
 
 2001-12-06  Jarkko Ranta  <jjranta@cc.joensuu.fi>
 
@@ -200,7 +204,7 @@
 
 2001-11-29  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm√•l) translation.
+	* no.po: Updated Norwegian (bokm$(BC%(Bl) translation.
 
 2001-11-29  Abel Cheung  <maddog@linux.org.hk>
 
@@ -221,7 +225,7 @@
 
 2001-11-25  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm√•l) translation.
+	* no.po: Updated Norwegian (bokm$(BC%(Bl) translation.
 
 2001-11-22  Christian Rose  <menthos@menthos.com>
 
@@ -249,7 +253,7 @@
 
 2001-11-15  Fatih Demir <kabalak@gtranslator.org>
 
-	* tr.po: Committed updated Turkish translation by Nilg√ºn.
+	* tr.po: Committed updated Turkish translation by Nilg$(BC<(Bn.
 
 2000-11-15  Christophe Merlet  <redfox@eikonex.org>
 
@@ -295,7 +299,7 @@
 
 2001-11-06  Fatih Demir <kabalak@gtranslator.org>
 
-	* tr.po: Committed updated Turkish translation by Nilg√ºn.
+	* tr.po: Committed updated Turkish translation by Nilg$(BC<(Bn.
 
 2001-11-06  Jody Goldberg <jgoldberg@home.com>
 
@@ -447,7 +451,7 @@
 
 2001-10-01  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm√•l) translation.
+	* no.po: Updated Norwegian (bokm$(BC%(Bl) translation.
 
 2001-09-28  Valek Filippov  <frob@df.ru>
 
@@ -472,13 +476,13 @@
 
 2001-09-14  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm√•l) translation.
+	* no.po: Updated Norwegian (bokm$(BC%(Bl) translation.
 
 2001-09-03  Christian Rose  <menthos@menthos.com>
 
 	* POTFILES.in: Removed non-existant src/gnumeric-util.c.
 	* sv.po: Added additional translations from
-	J√∂rgen Tegnir <jorgen.tegner@telia.com>, and updated
+	J$(BC6(Brgen Tegnir <jorgen.tegner@telia.com>, and updated
 	some more.
 
 2001-08-31  Abel Cheung  <maddog@linux.org.hk>
@@ -535,7 +539,7 @@
 
 2001-08-08  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm√•l) translation.
+	* no.po: Updated Norwegian (bokm$(BC%(Bl) translation.
 	* nn.po: Updated Norwegian (nynorsk) translation from
 	Roy-Magne Mo <rmo@sunnmore.net>.	
 
@@ -590,7 +594,7 @@
 
 2001-08-08  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm√•l) translation.
+	* no.po: Updated Norwegian (bokm$(BC%(Bl) translation.
 	
 2001-08-07  Yukihiro Nakai <ynakai@redhat.com>
 
@@ -1004,7 +1008,7 @@
 
 2001-02-21  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm√•l) translation.
+	* no.po: Updated Norwegian (bokm$(BC%(Bl) translation.
 
 2001-02-21  Jody Goldberg <jgoldberg@home.com>
 
@@ -1065,7 +1069,7 @@
 
 2001-02-12  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm√•l) translation.
+	* no.po: Updated Norwegian (bokm$(BC%(Bl) translation.
 
 2001-02-12  Valek Filippov  <frob@df.ru>
 

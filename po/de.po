@@ -39,7 +39,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.99.x\n"
 "POT-Creation-Date: 2001-12-24 14:43+0100\n"
-"PO-Revision-Date: 2001-12-24 14:43+0100\n"
+"PO-Revision-Date: 2001-12-25 00:44-0700\n"
 "Last-Translator: Christian Meyer <chrisime@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -60,7 +60,7 @@ msgstr "Applix (*.as)"
 
 #: plugins/applix/plugin.xml.in.h:3
 msgid "Imports version 4.[234] spreadsheets"
-msgstr ""
+msgstr "Einlesen von Applix Version 4.[234] Dateien"
 
 #: plugins/derivatives/plugin.xml.in.h:1 src/functions/fn-financial.c:3894
 msgid "Financial"
@@ -192,7 +192,7 @@ msgstr "Makro%d"
 #: plugins/excel/ms-excel-read.c:569
 #, c-format
 msgid "Chart%d"
-msgstr ""
+msgstr "Graph%d"
 
 #: plugins/excel/ms-excel-read.c:572
 #, c-format
@@ -780,8 +780,9 @@ msgid "Python functions"
 msgstr "Python-Funktionen"
 
 #: plugins/py-func/plugin.xml.in.h:3
+#, fuzzy
 msgid "Sample Python plugin providing some (useless) functions."
-msgstr ""
+msgstr "Beispiel Python Plugin mit ein paar Beispielsfunktionen"
 
 #: plugins/python-loader/plugin.xml.in.h:1
 msgid "Python plugin loader"
@@ -2377,9 +2378,7 @@ msgstr "Regressionsanalyse"
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
-msgstr ""
-"/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
-"Standardfehler/Beobachtungen//ANOVA//Regression/Residual/Total///Intercept"
+msgstr "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/Standardfehler/Beobachtungen//Varianzanalyse//Regression/Residual/Total///Intercept"
 
 #: src/analysis-tools.c:2365
 msgid "/df/SS/MS/F/Significance of F"
@@ -2415,11 +2414,11 @@ msgstr "Wertebereich"
 #: src/analysis-tools.c:2794 src/analysis-tools.c:2980
 #: src/analysis-tools.c:3240
 msgid "Anova"
-msgstr "Anova"
+msgstr "Varianzanalyse"
 
 #: src/analysis-tools.c:2796 src/dialogs/dialog-analysis-tools.c:4365
 msgid "Anova: Single Factor"
-msgstr "Anova: Einzelner Faktor"
+msgstr "Varianzanalyse: Ein Faktor"
 
 #: src/analysis-tools.c:2797 src/analysis-tools.c:3243
 msgid "SUMMARY"
@@ -2431,17 +2430,16 @@ msgstr "/Gruppen/Count/Sum/Durchschnitt/Varianz"
 
 #: src/analysis-tools.c:2861
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
-msgstr ""
-"/ANOVA/Quelle der Abweichung/Zwischen Gruppen/Innerhalb von Gruppen/Total"
+msgstr "/Varianzanalyse/Quelle der Abweichung/Zwischen Gruppen/Innerhalb von Gruppen/Total"
 
 #: src/analysis-tools.c:2866 src/analysis-tools.c:3062
 #: src/analysis-tools.c:3276
 msgid "/SS/df/MS/F/P-value/F critical"
-msgstr ""
+msgstr "/SS/df/MS/F/P-Wert/Kritisches F"
 
 #: src/analysis-tools.c:2986
 msgid "Anova: Two-Factor Without Replication"
-msgstr ""
+msgstr "Doppelte Varianzanalyse: 1 Beobachtung je Kombination"
 
 #. POST-RELEASE-FIX:  Next 2 commands should be fused
 #: src/analysis-tools.c:2987 src/analysis-tools.c:3249
@@ -2455,7 +2453,7 @@ msgstr "/ANOVA/Quelle der Abweichung/Zeilen/Spalten/Fehler/Total"
 
 #: src/analysis-tools.c:3242
 msgid "Anova: Two-Factor With Replication"
-msgstr ""
+msgstr "Doppelte Varianzanalyse: 2 Beobachtungen je Kombination"
 
 # There isn't enough space for "Gesamt"
 #: src/analysis-tools.c:3257 src/analysis-tools.c:3264
@@ -2467,7 +2465,7 @@ msgstr "Total"
 #. POST-RELEASE-FIX:  We should be using / notation for the next 7 commands
 #: src/analysis-tools.c:3267
 msgid "ANOVA"
-msgstr "ANOVA"
+msgstr "Varianzanalyse"
 
 # Checkit
 # 2001-02-16 06:53:51 CET -ke-
@@ -3428,7 +3426,7 @@ msgstr "Zulassen :"
 
 #: src/dialogs/cell-format.glade.h:15
 msgid "Any Value                     (no validation)"
-msgstr ""
+msgstr "All Werte                     (Keine Überprüfung der Eingabe)"
 
 #: src/dialogs/cell-format.glade.h:17
 msgid "Background Color"
@@ -3564,7 +3562,7 @@ msgstr ""
 
 #: src/dialogs/cell-format.glade.h:48
 msgid "Information  (allows invalid input)"
-msgstr ""
+msgstr "Information  (Ungültige Eingaben sind erlaubt.)"
 
 #: src/dialogs/cell-format.glade.h:49
 msgid "Input Message"
@@ -3613,7 +3611,7 @@ msgstr "Keine"
 
 #: src/dialogs/cell-format.glade.h:62
 msgid "None          (silently accept invalid input)"
-msgstr ""
+msgstr "Nichts        (Ungültige Eingaben werden ohne Warnung akzeptiert.)"
 
 #: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-formula-guru.c:432
 #: src/dialogs/dialog-search.c:134
@@ -3680,7 +3678,7 @@ msgstr "Sp_ezial"
 
 #: src/dialogs/cell-format.glade.h:80
 msgid "Stop           (never allow invalid input)"
-msgstr ""
+msgstr "Halt           (Ungültige Eingaben sind nie erlaubt.)"
 
 #: src/dialogs/cell-format.glade.h:81
 msgid "Stri_kethrough"
@@ -3765,7 +3763,7 @@ msgstr "Vertikale Streifen"
 
 #: src/dialogs/cell-format.glade.h:101
 msgid "Warning      (accept/discard invalid input)"
-msgstr ""
+msgstr "Warnung      (Ungültige Eingaben werden akzeptiert oder verworfen.)"
 
 #: src/dialogs/cell-format.glade.h:102
 msgid "Whole numbers"
@@ -3869,35 +3867,35 @@ msgstr "Text um_brechen"
 
 #: src/dialogs/cell-format.glade.h:128
 msgid "min <= val <= max         (between)"
-msgstr ""
+msgstr "Min <= Eingabe <= Max     (zwischen)"
 
 #: src/dialogs/cell-format.glade.h:129
 msgid "val != bound                  (not equal to)"
-msgstr ""
+msgstr "Eingabe != Wert               (ungleich)"
 
 #: src/dialogs/cell-format.glade.h:130
 msgid "val >  bound                  (greater than)"
-msgstr ""
+msgstr "Eingabe > Wert                (größer als)"
 
 #: src/dialogs/cell-format.glade.h:131
 msgid "val >=bound                  (greater than or equal to)"
-msgstr ""
+msgstr "Eingabe >= Wert              (wenigstens)"
 
 #: src/dialogs/cell-format.glade.h:132
 msgid "val <  bound                  (less than)"
-msgstr ""
+msgstr "Eingabe < Wert                (kleiner als)"
 
 #: src/dialogs/cell-format.glade.h:133
 msgid "val <= min || max <= val (not between)"
-msgstr ""
+msgstr "Eingabe <= Min  oder  Max <= Eingabe  (nicht dazwischen)"
 
 #: src/dialogs/cell-format.glade.h:134
 msgid "val <=bound                  (less than or equal to)"
-msgstr ""
+msgstr "Eingabe <= Wert              (höchstens)"
 
 #: src/dialogs/cell-format.glade.h:135
 msgid "val == bound                 (equal to)"
-msgstr ""
+msgstr "Eingabe == Wert              (gleich)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A header"
@@ -4054,11 +4052,11 @@ msgstr "Werte"
 
 #: src/dialogs/consolidate.glade.h:24
 msgid "Var (sample)"
-msgstr "Wert (Beispiel)"
+msgstr "Stichproben Varianz"
 
 #: src/dialogs/consolidate.glade.h:25
 msgid "Varp (population)"
-msgstr ""
+msgstr "Population Varianz"
 
 #: src/dialogs/consolidate.glade.h:27 src/dialogs/dialog-stf.glade.h:63
 msgid "_Clear"
@@ -4368,13 +4366,13 @@ msgstr "Es war nicht möglich, den Druiden zu erzeugen."
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
-msgstr ""
+msgstr "Bitte geben sie eine gültige Population Varianz für die erste Variable ein."
 
 #: src/dialogs/dialog-analysis-tools.c:1699
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
-msgstr ""
+msgstr "Bitte geben sie eine gültige Population Varianz für die zweite Variable ein."
 
 #: src/dialogs/dialog-analysis-tools.c:1719
 msgid "The two input ranges must have the same size."
@@ -4610,8 +4608,9 @@ msgid "Random Number Generation"
 msgstr "Erzeugung von Zufallszahlen"
 
 #: src/dialogs/dialog-analysis-tools.c:4387 src/dialogs/rank.glade.h:5
+#, fuzzy
 msgid "Rank and Percentile"
-msgstr ""
+msgstr "Stelle und Perzentile"
 
 #: src/dialogs/dialog-analysis-tools.c:4391 src/dialogs/sampling.glade.h:9
 msgid "Sampling"
@@ -5925,7 +5924,7 @@ msgstr "H_ypothetische Mitteldifferenz:"
 
 #: src/dialogs/mean-tests.glade.h:8
 msgid "Population Variances are:"
-msgstr ""
+msgstr "Die Populations Varianzen sind:"
 
 #: src/dialogs/mean-tests.glade.h:9 src/dialogs/variance-tests.glade.h:5
 msgid "Test"
@@ -15827,9 +15826,9 @@ msgid "Unknown sheet '%s'"
 msgstr "Unbekanntes Blatt »%s«"
 
 #: src/parser.y:650 src/parser.y:664
-#, c-format
+#, c-format, fuzzy
 msgid "The character %c cannot be used to separate array elements"
-msgstr ""
+msgstr "Der Buchstabe %c kann nicht benutzt werden um Array Elemente zu trennen."
 
 #: src/parser.y:825 src/parser.y:835 src/parser.y:868
 msgid "The number is out of range"
@@ -15860,7 +15859,7 @@ msgstr "Ungültiger Ausdruck"
 #: src/parser.y:1097
 #, c-format
 msgid "Unexpected token %c"
-msgstr "Unerwartetes Zeichen %s"
+msgstr "Unerwartetes Zeichen %c"
 
 #: src/plugin-loader-module.c:84
 msgid "Module file name not given."
@@ -16372,8 +16371,9 @@ msgid "Could not load file: %s"
 msgstr "Datei kann nicht geladen werden: %s"
 
 #: src/sheet-object-graphic.c:445
+#, fuzzy
 msgid "Configure line or arrow"
-msgstr ""
+msgstr "Linie oder Pfeil konfigurieren"
 
 #: src/sheet-object-graphic.c:461
 msgid "Line Width"
