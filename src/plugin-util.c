@@ -60,9 +60,9 @@ gnumeric_fopen (IOContext *context, const char *path, const char *mode)
 		return f;
 
 	if (mode != NULL && (*mode == 'r' || *mode == 'R'))
-		gnumeric_error_read (GNM_CMD_CONTEXT (context), g_strerror (errno));
+		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context), g_strerror (errno));
 	else
-		gnumeric_error_save (GNM_CMD_CONTEXT (context), g_strerror (errno));
+		gnm_cmd_context_error_export (GNM_CMD_CONTEXT (context), g_strerror (errno));
 	return NULL;
 }
 
@@ -94,9 +94,9 @@ gnumeric_open (IOContext *context, const char *pathname, int flags)
 		 * has been set. if O_WRONLY report as write error
 		 */
 		if (flags & O_WRONLY)
-			gnumeric_error_save (GNM_CMD_CONTEXT (context), g_strerror (errno));
+			gnm_cmd_context_error_export (GNM_CMD_CONTEXT (context), g_strerror (errno));
 		else
-			gnumeric_error_read (GNM_CMD_CONTEXT (context), g_strerror (errno));
+			gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context), g_strerror (errno));
 
 		return -1;
 	}
@@ -125,7 +125,7 @@ gnumeric_mmap_close (IOContext *context, const unsigned char *data, int fdesc, i
 	     char *message;
 
 	     message = g_strdup_printf (_("Unable to unmap the file, error : %s"), g_strerror (errno));
-	     gnumeric_error_read (GNM_CMD_CONTEXT (context), message);
+	     gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context), message);
 
 	     g_free (message);
 	}
@@ -134,7 +134,7 @@ gnumeric_mmap_close (IOContext *context, const unsigned char *data, int fdesc, i
 	     char *message;
 
 	     message = g_strdup_printf (_("Error while closing file, error : %s"), g_strerror (errno));
-	     gnumeric_error_read (GNM_CMD_CONTEXT (context), message);
+	     gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context), message);
 
 	     g_free (message);
 	}
@@ -176,7 +176,7 @@ gnumeric_mmap_open (IOContext *context, const char *filename, int *fdesc, int *f
 
 	if (fstat(fd, &sbuf) < 0) {
 		close (fd);
-		gnumeric_error_read (GNM_CMD_CONTEXT (context), g_strerror (errno));
+		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context), g_strerror (errno));
 		return NULL;
 	}
 
@@ -188,7 +188,7 @@ gnumeric_mmap_open (IOContext *context, const char *filename, int *fdesc, int *f
 
 		close (fd);
 		message = g_strdup_printf (_("Unable to mmap the file, error : %s"), g_strerror (errno));
-		gnumeric_error_read (GNM_CMD_CONTEXT (context), message);
+		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context), message);
 
 		g_free (message);
 		return NULL;

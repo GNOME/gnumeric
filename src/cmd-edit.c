@@ -303,7 +303,7 @@ cmd_paste (WorkbookControl *wbc, PasteTarget const *pt)
 				(dst.end.row - dst.start.row)+1,
 				(dst.end.col - dst.start.col)+1,
 				rows+1, cols+1);
-			gnumeric_error_invalid (GNM_CMD_CONTEXT (wbc),
+			gnm_cmd_context_error_invalid (GNM_CMD_CONTEXT (wbc),
 				_("Unable to paste into selection"), msg);
 			g_free (msg);
 			return;

@@ -343,7 +343,7 @@ selection_first_range (SheetView const *sv,
 
 	r = l->data;
 	if (cc != NULL && l->next != NULL) {
-		gnumeric_error_invalid (cc, cmd_name,
+		gnm_cmd_context_error_invalid (cc, cmd_name,
 			_("cannot be performed with multiple ranges selected"));
 		return NULL;
 	}

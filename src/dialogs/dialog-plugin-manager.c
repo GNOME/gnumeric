@@ -181,7 +181,7 @@ cb_pm_button_rescan_directories_clicked (PluginManagerGUI *pm_gui)
 
 	plugins_rescan (&error, &new_plugins);
 	if (error != NULL) {
-		gnumeric_error_error_info (GNM_CMD_CONTEXT (pm_gui->wbcg), error);
+		gnm_cmd_context_error_info (GNM_CMD_CONTEXT (pm_gui->wbcg), error);
 		error_info_free (error);
 	}
 	GNM_SLIST_SORT (new_plugins, plugin_compare_name);
@@ -621,7 +621,7 @@ cb_active_toggled (G_GNUC_UNUSED GtkCellRendererToggle *celltoggle,
 				gnm_plugin_get_name (plugin));
 		}
 		error_info_add_details (new_error, error);
-		gnumeric_error_error_info (GNM_CMD_CONTEXT (pm_gui->wbcg), new_error);
+		gnm_cmd_context_error_info (GNM_CMD_CONTEXT (pm_gui->wbcg), new_error);
 	}
 }
 

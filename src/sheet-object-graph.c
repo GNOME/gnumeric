@@ -201,7 +201,7 @@ cb_save_as (GtkWidget *widget, GObject *obj_view)
 		}
 
 		if (!ret)
-			cmd_context_error (GNM_CMD_CONTEXT (wbcg), err);
+			gnm_cmd_context_error (GNM_CMD_CONTEXT (wbcg), err);
 		if (extension == NULL)
 			g_free ((char *)fname);
 	}

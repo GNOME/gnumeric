@@ -1243,7 +1243,7 @@ workbook_sheet_rename_check (Workbook *wb,
 
 			if (the_new_name == NULL && 
 			    GPOINTER_TO_INT (sheet_index->data) != -1) {
-				gnumeric_error_invalid 
+				gnm_cmd_context_error_invalid 
 					(cc, 
 					 _("Sheet name is NULL"),
 					 the_new_name);
@@ -1254,7 +1254,7 @@ workbook_sheet_rename_check (Workbook *wb,
 				
 				/* Is the sheet name valid utf-8 ?*/
 				if (!g_utf8_validate (the_new_name, -1, NULL)) {
-					gnumeric_error_invalid 
+					gnm_cmd_context_error_invalid 
 						(cc, 
 						 _("Sheet name is not valid utf-8"),
 						 the_new_name);
@@ -1263,7 +1263,7 @@ workbook_sheet_rename_check (Workbook *wb,
 				
 				/* Is the sheet name to short ?*/
 				if (1 > g_utf8_strlen (the_new_name, -1)) {
-					gnumeric_error_invalid 
+					gnm_cmd_context_error_invalid 
 						(cc,
 						 _("Sheet name must have at "
 						   "least 1 letter"),
@@ -1287,7 +1287,7 @@ workbook_sheet_rename_check (Workbook *wb,
 					}
 
 					if (NULL == tmp_sheets) {
-						gnumeric_error_invalid 
+						gnm_cmd_context_error_invalid 
 							(cc,
 							 _("There is already a "
 							   "sheet named"),
@@ -1301,7 +1301,7 @@ workbook_sheet_rename_check (Workbook *wb,
 				    g_slist_find_custom (new_name->next, 
 							 the_new_name, 
 							 g_str_compare) != NULL) {
-					gnumeric_error_invalid 
+					gnm_cmd_context_error_invalid 
 						(cc,
 						 _("You may not use this name twice"),
 						 the_new_name);

@@ -463,7 +463,7 @@ format_template_new_from_file (char const *filename, GnmCmdContext *cc)
 
 	doc = xmlParseFile (filename);
 	if (doc == NULL) {
-		gnumeric_error_read (cc,
+		gnm_cmd_context_error_import (cc,
 			_("Error while trying to load autoformat template"));
 		return NULL;
 	}
@@ -480,16 +480,16 @@ format_template_new_from_file (char const *filename, GnmCmdContext *cc)
 			} else {
 				format_template_free (ft);
 				ft = NULL;
-				gnumeric_error_read (cc,
+				gnm_cmd_context_error_import (cc,
 					_("Error while trying to build tree from autoformat template file"));
 			}
 
 			xml_parse_ctx_destroy (ctxt);
 		} else
-			gnumeric_error_read (cc,
+			gnm_cmd_context_error_import (cc,
 				_("Is not an autoformat template file"));
 	} else
-		gnumeric_error_read (cc,
+		gnm_cmd_context_error_import (cc,
 			_("Invalid xml file. Tree is empty?"));
 
 	xmlFreeDoc (doc);
@@ -602,7 +602,7 @@ format_template_save (FormatTemplate const *ft, GnmCmdContext *cc)
 
 			success = TRUE;
 		} else
-			gnumeric_error_save (cc, "");
+			gnm_cmd_context_error_export (cc, "");
 
 		fclose (file);
 	}
@@ -839,7 +839,7 @@ format_template_range_check (FormatTemplate *ft, GnmRange const *r,
 		}
 
 		if (errmsg != NULL) {
-			gnumeric_error_system (optional_cc, errmsg);
+			gnm_cmd_context_error_system (optional_cc, errmsg);
 			g_free (errmsg);
 		}
 	}

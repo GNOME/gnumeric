@@ -153,12 +153,12 @@ wbcc_error (GnmCmdContext *ctxt, GError *gerr)
 		err->msg = CORBA_string_dup (gerr->message);
 		CORBA_exception_set (wbcc->ev, CORBA_USER_EXCEPTION,
 			ex_GNOME_Gnumeric_ErrorSystem, err);
-	} else if (gerr->domain == gnm_error_read ()) {
+	} else if (gerr->domain == gnm_error_import ()) {
 		GNOME_Gnumeric_ErrorRead *err = GNOME_Gnumeric_ErrorRead__alloc();
 		err->msg = CORBA_string_dup (gerr->message);
 		CORBA_exception_set (wbcc->ev, CORBA_USER_EXCEPTION,
 			ex_GNOME_Gnumeric_ErrorRead, err);
-	} else if (gerr->domain == gnm_error_write ()) {
+	} else if (gerr->domain == gnm_error_export ()) {
 		GNOME_Gnumeric_ErrorSave *err = GNOME_Gnumeric_ErrorSave__alloc();
 		err->msg = CORBA_string_dup (gerr->message);
 		CORBA_exception_set (wbcc->ev, CORBA_USER_EXCEPTION,

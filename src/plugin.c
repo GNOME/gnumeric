@@ -1756,7 +1756,7 @@ plugins_init (GnmCmdContext *context)
 		        _("Errors while initializing plugin system."),
 		        error_list);
 
-		gnumeric_error_error_info (context, error);
+		gnm_cmd_context_error_info (context, error);
 		error_info_free (error);
 	}
 

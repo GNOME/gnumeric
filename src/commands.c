@@ -255,7 +255,7 @@ cmd_cell_range_is_locked_effective (Sheet *sheet, GnmRange *range,
 				 _("%s is locked. Unprotect the sheet to enable editing."),
 								undo_global_range_name (
 									sheet, range));
-					gnumeric_error_invalid (GNM_CMD_CONTEXT (wbc), cmd_name,
+					gnm_cmd_context_error_invalid (GNM_CMD_CONTEXT (wbc), cmd_name,
 								text);
 					g_free (text);
 					return TRUE;
@@ -884,7 +884,7 @@ cmd_set_text (WorkbookControl *wbc,
 	/* Ensure that we are not splitting up an array */
 	cell = sheet_cell_get (sheet, pos->col, pos->row);
 	if (cell_is_partial_array (cell)) {
-		gnumeric_error_splits_array (GNM_CMD_CONTEXT (wbc),
+		gnm_cmd_context_error_splits_array (GNM_CMD_CONTEXT (wbc),
 					     _("Set Text"), NULL);
 		return TRUE;
 	}
@@ -2339,7 +2339,7 @@ cmd_selection_group (WorkbookControl *wbc,
 	/* Check if this really is possible and display an error if it's not */
 	if (sheet_colrow_can_group (sv->sheet, &r, is_cols) != group) {
 		if (group) {
-			gnumeric_error_system (GNM_CMD_CONTEXT (wbc), is_cols
+			gnm_cmd_context_error_system (GNM_CMD_CONTEXT (wbc), is_cols
 					       ? _("Those columns are already grouped")
 					       : _("Those rows are already grouped"));
 			return TRUE;
@@ -2363,7 +2363,7 @@ cmd_selection_group (WorkbookControl *wbc,
 		}
 
 		if (sheet_colrow_can_group (sv->sheet, &r, is_cols) != group) {
-			gnumeric_error_system (GNM_CMD_CONTEXT (wbc), is_cols
+			gnm_cmd_context_error_system (GNM_CMD_CONTEXT (wbc), is_cols
 					       ? _("Those columns are not grouped, you can't ungroup them")
 					       : _("Those rows are not grouped, you can't ungroup them"));
 			return TRUE;
@@ -2595,7 +2595,7 @@ cmd_paste_cut (WorkbookControl *wbc, GnmExprRelocateInfo const *info,
 	r = info->origin;
 	if (range_translate (&r, info->col_offset, info->row_offset)) {
 
-		gnumeric_error_invalid (GNM_CMD_CONTEXT (wbc), descriptor,
+		gnm_cmd_context_error_invalid (GNM_CMD_CONTEXT (wbc), descriptor,
 					_("is beyond sheet boundaries"));
 		g_free (descriptor);
 		return TRUE;
@@ -2804,7 +2804,7 @@ cmd_paste_copy (WorkbookControl *wbc,
 
 	/* Use translate to do a quiet sanity check */
 	if (range_translate (&me->dst.range, 0, 0)) {
-		gnumeric_error_invalid (GNM_CMD_CONTEXT (wbc),
+		gnm_cmd_context_error_invalid (GNM_CMD_CONTEXT (wbc),
 					me->cmd.cmd_descriptor,
 					_("is beyond sheet boundaries"));
 		g_object_unref (G_OBJECT (me));
@@ -5700,7 +5700,7 @@ cmd_define_name_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		char *err = NULL;
 		nexpr = expr_name_add (&me->pp, me->name, me->expr, &err, TRUE);
 		if (nexpr == NULL) {
-			gnumeric_error_invalid (GNM_CMD_CONTEXT (wbc), _("Name"), err);
+			gnm_cmd_context_error_invalid (GNM_CMD_CONTEXT (wbc), _("Name"), err);
 			g_free (err);
 			return TRUE;
 		}
@@ -5756,7 +5756,7 @@ cmd_define_name (WorkbookControl *wbc, char const *name,
 	g_return_val_if_fail (expr != NULL, TRUE);
 
 	if (expr_name_check_for_loop (name, expr)) {
-		gnumeric_error_invalid (GNM_CMD_CONTEXT (wbc), name,
+		gnm_cmd_context_error_invalid (GNM_CMD_CONTEXT (wbc), name,
 					_("has a circular reference"));
 		gnm_expr_unref (expr);
 		return TRUE;

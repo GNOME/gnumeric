@@ -108,7 +108,7 @@ stf_preparse (GnmCmdContext *context, GsfInput *input, size_t *data_len)
 
 	if (!data) {
 		if (context)
-			gnumeric_error_read (context,
+			gnm_cmd_context_error_import (context,
 				_("Error while trying to read file"));
 		return NULL;
 	}
@@ -269,7 +269,7 @@ stf_text_to_columns (WorkbookControl *wbc, GnmCmdContext *cc)
 	if (src == NULL)
 		return;
 	if (range_width	(src) > 1) {
-		cmd_context_error (cc, g_error_new (gnm_error_invalid (), 0,
+		gnm_cmd_context_error (cc, g_error_new (gnm_error_invalid (), 0,
 			_("Only 1 one column of <b>input</b> data can be parsed at a time, not %d"),
 			range_width (src)));
 		return;
@@ -295,7 +295,7 @@ stf_text_to_columns (WorkbookControl *wbc, GnmCmdContext *cc)
 	data = gsf_output_memory_get_bytes (buf);
 	data_len = (size_t)gsf_output_size (GSF_OUTPUT (buf));
 	if (data_len == 0) {
-		gnumeric_error_read (GNM_CMD_CONTEXT (cc),
+		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (cc),
 					     _("There is no data "
 					       "to convert"));
 	} else {
@@ -315,7 +315,7 @@ stf_text_to_columns (WorkbookControl *wbc, GnmCmdContext *cc)
 		if (cr == NULL ||
 		    cmd_text_to_columns (wbc, src, src_sheet, 
 					 &target, target_sheet, cr))
-			gnumeric_error_read (GNM_CMD_CONTEXT (cc),
+			gnm_cmd_context_error_import (GNM_CMD_CONTEXT (cc),
 					     _("Error while trying to "
 					       "parse data into sheet"));
 		stf_dialog_result_free (dialogresult);
@@ -358,7 +358,7 @@ stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc,
 	g_free (data);
 
 	if (!enc) {
-		gnumeric_error_read (GNM_CMD_CONTEXT (context),
+		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context),
 				     _("That file is not in the given encoding."));
 		return;
 	}
@@ -375,7 +375,7 @@ stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc,
 		sheet_queue_respan (sheet, 0, SHEET_MAX_ROWS-1);
 	} else {
 		workbook_sheet_detach (book, sheet, TRUE);
-		gnumeric_error_read (GNM_CMD_CONTEXT (context),
+		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context),
 			_("Parse error while trying to parse data into sheet"));
 	}
 
@@ -409,7 +409,7 @@ stf_write_workbook (GnmFileSaver const *fs, IOContext *context,
 	stf_export_options_set_write_callback (result->export_options,
 		(StfEWriteFunc) stf_write_func, (gpointer) output);
 	if (stf_export (result->export_options) == FALSE)
-		gnumeric_error_read (GNM_CMD_CONTEXT (context),
+		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context),
 #warning change string after branch
 			_("Error while trying to write csv file"));
 	stf_export_dialog_result_free (result);
@@ -430,7 +430,7 @@ stf_write_csv (GnmFileSaver const *fs, IOContext *context,
 		(StfEWriteFunc) stf_write_func, (gpointer) output);
 
 	if (stf_export (config) == FALSE)
-		gnumeric_error_read (GNM_CMD_CONTEXT (context),
+		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context),
 			_("Error while trying to write csv file"));
 	stf_export_options_free (config);
 }

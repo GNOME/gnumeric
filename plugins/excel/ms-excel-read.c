@@ -5415,7 +5415,7 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 				break;
 			do {
 				char const *filename = workbook_get_filename (ewb->gnum_wb);
-				char *passwd = cmd_context_get_password (GNM_CMD_CONTEXT (ewb->context), filename);
+				char *passwd = gnm_cmd_context_get_password (GNM_CMD_CONTEXT (ewb->context), filename);
 				if (passwd == NULL) {
 					problem_loading = _("No password supplied");
 					break;
@@ -5517,11 +5517,11 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 
 		/* If we were forced to stop then the load failed */
 		if (problem_loading != NULL)
-			gnumeric_error_read (GNM_CMD_CONTEXT (context), problem_loading);
+			gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context), problem_loading);
 		return;
 	}
 
-	gnumeric_error_read (GNM_CMD_CONTEXT (context),
+	gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context),
 		_("Unable to locate valid MS Excel workbook"));
 }
 

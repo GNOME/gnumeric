@@ -105,7 +105,7 @@ excel_read_metadata (GsfInfileMSOle *ole, char const *name, GnmCmdContext *conte
 	if (stream != NULL) {
 		gsf_msole_metadata_read (stream, &err);
 		if (err != NULL) {
-			gnumeric_error_read (context, err->message);
+			gnm_cmd_context_error_import (context, err->message);
 			g_error_free (err);
 		}
 		g_object_unref (G_OBJECT (stream));
@@ -153,7 +153,7 @@ excel_file_open (GnmFileOpener const *fo, IOContext *context,
 
 		/* OK, it really isn't an Excel file */
 		g_return_if_fail (err != NULL);
-		gnumeric_error_read (GNM_CMD_CONTEXT (context),
+		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context),
 			err->message);
 		g_error_free (err);
 		return;
@@ -163,7 +163,7 @@ excel_file_open (GnmFileOpener const *fo, IOContext *context,
 		stream = gsf_infile_child_by_name (GSF_INFILE (ole), content[i++]);
 	} while (stream == NULL && i < G_N_ELEMENTS (content));
 	if (stream == NULL) {
-		gnumeric_error_read (GNM_CMD_CONTEXT (context),
+		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context),
 			 _("No Workbook or Book streams found."));
 		g_object_unref (G_OBJECT (ole));
 		return;

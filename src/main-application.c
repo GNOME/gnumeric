@@ -109,7 +109,7 @@ warn_about_ancient_gnumerics (const char *binary, IOContext *ioc)
 	    now - buf.st_mtime > days * 24 * 60 * 60) {
 		handle_paint_events ();
 
-		gnumeric_error_system (GNM_CMD_CONTEXT (ioc),
+		gnm_cmd_context_error_system (GNM_CMD_CONTEXT (ioc),
 				       _("Thank you for using Gnumeric!\n"
 					 "\n"
 					 "The version of Gnumeric you are using is quite old\n"

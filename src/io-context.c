@@ -69,7 +69,7 @@ static char *
 ioc_get_password (GnmCmdContext *cc, char const *filename)
 {
 	IOContext *ioc = (IOContext *)cc;
-	return cmd_context_get_password (ioc->impl, filename);
+	return gnm_cmd_context_get_password (ioc->impl, filename);
 }
 
 static void
@@ -178,7 +178,7 @@ gnumeric_io_error_display (IOContext *context)
 			cc = context->impl;
 		else
 			cc = GNM_CMD_CONTEXT (context);
-		gnumeric_error_error_info (cc, context->info);
+		gnm_cmd_context_error_info (cc, context->info);
 	}
 }
 

@@ -926,7 +926,7 @@ openoffice_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	zip = gsf_infile_zip_new (input, &err);
 	if (zip == NULL) {
 		g_return_if_fail (err != NULL);
-		gnumeric_error_read (GNM_CMD_CONTEXT (io_context),
+		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (io_context),
 			err->message);
 		g_error_free (err);
 		return;
@@ -935,7 +935,7 @@ openoffice_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	content = gsf_infile_child_by_name (GSF_INFILE (zip),
 					    "content.xml");
 	if (content == NULL) {
-		gnumeric_error_read (GNM_CMD_CONTEXT (io_context),
+		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (io_context),
 			 _("No stream named content.xml found."));
 		g_object_unref (G_OBJECT (zip));
 		return;

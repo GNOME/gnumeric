@@ -803,7 +803,7 @@ gnm_glade_xml_new (GnmCmdContext *cc, char const *gladefile,
 	gui = glade_xml_new (f, root, domain);
 	if (gui == NULL && cc != NULL) {
 		char *msg = g_strdup_printf (_("Unable to open file '%s'"), f);
-		gnumeric_error_system (cc, msg);
+		gnm_cmd_context_error_system (cc, msg);
 		g_free (msg);
 	}
 	g_free (f);

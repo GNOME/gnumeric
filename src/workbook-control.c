@@ -250,7 +250,7 @@ wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 		} else {
 			target = gnm_expr_get_range (nexpr->expr);
 			if (target == NULL) {
-				gnumeric_error_invalid (GNM_CMD_CONTEXT (wbc), _("Address"), text);
+				gnm_cmd_context_error_invalid (GNM_CMD_CONTEXT (wbc), _("Address"), text);
 				return FALSE;
 			}
 		}

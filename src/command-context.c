@@ -24,61 +24,61 @@ format_message (GQuark id, char const *message)
 }
 
 void
-cmd_context_error (GnmCmdContext *context, GError *err)
+gnm_cmd_context_error (GnmCmdContext *context, GError *err)
 {
 	g_return_if_fail (IS_GNM_CMD_CONTEXT (context));
 	CC_CLASS (context)->error.error (context, err);
 }
 
 void
-gnumeric_error_error_info (GnmCmdContext *context, ErrorInfo *error)
+gnm_cmd_context_error_info (GnmCmdContext *context, ErrorInfo *error)
 {
 	g_return_if_fail (IS_GNM_CMD_CONTEXT (context));
 	CC_CLASS (context)->error.error_info (context, error);
 }
 
 void
-gnumeric_error_system (GnmCmdContext *context, char const *message)
+gnm_cmd_context_error_system (GnmCmdContext *context, char const *message)
 {
 	GError *err = format_message (gnm_error_system (), message);
-	cmd_context_error (context, err);
+	gnm_cmd_context_error (context, err);
 	g_error_free (err);
 }
 
 void
-gnumeric_error_read (GnmCmdContext *context, char const *message)
+gnm_cmd_context_error_import (GnmCmdContext *context, char const *message)
 {
-	GError *err = format_message (gnm_error_read (), message);
-	cmd_context_error (context, err);
+	GError *err = format_message (gnm_error_import (), message);
+	gnm_cmd_context_error (context, err);
 	g_error_free (err);
 }
 
 void
-gnumeric_error_save (GnmCmdContext *context, char const *message)
+gnm_cmd_context_error_export (GnmCmdContext *context, char const *message)
 {
-	GError *err = format_message (gnm_error_write (), message);
-	cmd_context_error (context, err);
+	GError *err = format_message (gnm_error_export (), message);
+	gnm_cmd_context_error (context, err);
 	g_error_free (err);
 }
 
 void
-gnumeric_error_invalid (GnmCmdContext *context, char const *msg, char const *val)
+gnm_cmd_context_error_invalid (GnmCmdContext *context, char const *msg, char const *val)
 {
 	GError *err = g_error_new (gnm_error_invalid(), 0, "Invalid %s : '%s'", msg, val);
-	cmd_context_error (context, err);
+	gnm_cmd_context_error (context, err);
 	g_error_free (err);
 }
 
 void
-gnumeric_error_calc (GnmCmdContext *context, char const *msg)
+gnm_cmd_context_error_calc (GnmCmdContext *context, char const *msg)
 {
 	GError *err = format_message (gnm_error_calc (), msg);
-	cmd_context_error (context, err);
+	gnm_cmd_context_error (context, err);
 	g_error_free (err);
 }
 
 void
-gnumeric_error_splits_array (GnmCmdContext *context,
+gnm_cmd_context_error_splits_array (GnmCmdContext *context,
 			     G_GNUC_UNUSED char const *cmd,
 			     GnmRange const *array)
 {
@@ -90,7 +90,7 @@ gnumeric_error_splits_array (GnmCmdContext *context,
 	else
 		err = g_error_new (gnm_error_array(), 0,
 			_("Would split an array"));
-	cmd_context_error (context, err);
+	gnm_cmd_context_error (context, err);
 }
 
 GQuark
@@ -102,19 +102,19 @@ gnm_error_system (void)
 	return quark;
 }
 GQuark
-gnm_error_read (void)
+gnm_error_import (void)
 {
 	static GQuark quark;
 	if (!quark)
-		quark = g_quark_from_static_string ("gnm_error_read");
+		quark = g_quark_from_static_string ("gnm_error_import");
 	return quark;
 }
 GQuark
-gnm_error_write (void)
+gnm_error_export (void)
 {
 	static GQuark quark;
 	if (!quark)
-		quark = g_quark_from_static_string ("gnm_error_write");
+		quark = g_quark_from_static_string ("gnm_error_export");
 	return quark;
 }
 GQuark
@@ -161,7 +161,7 @@ cmd_context_progress_message_set (GnmCmdContext *context, gchar const *msg)
 }
 
 char *
-cmd_context_get_password (GnmCmdContext *cc, char const *filename)
+gnm_cmd_context_get_password (GnmCmdContext *cc, char const *filename)
 {
 	g_return_val_if_fail (IS_GNM_CMD_CONTEXT (cc), NULL);
 
@@ -169,7 +169,7 @@ cmd_context_get_password (GnmCmdContext *cc, char const *filename)
 }
 
 void
-cmd_context_set_sensitive (GnmCmdContext *cc, gboolean sensitive)
+gnm_cmd_context_set_sensitive (GnmCmdContext *cc, gboolean sensitive)
 {
 	g_return_if_fail (IS_GNM_CMD_CONTEXT (cc));
 

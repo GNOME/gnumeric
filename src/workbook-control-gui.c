@@ -2908,7 +2908,7 @@ cb_auto_filter (GtkWidget *widget, WorkbookControlGUI *wbcg)
 			sheet_filter_guess_region  (sv->sheet, &region);
 
 		if (src == NULL || region.start.row == region.end.row) {
-			gnumeric_error_invalid	(GNM_CMD_CONTEXT (wbcg),
+			gnm_cmd_context_error_invalid	(GNM_CMD_CONTEXT (wbcg),
 				 _("AutoFilter"), _("Requires more than 1 row"));
 			return;
 		}
@@ -2972,7 +2972,7 @@ hide_show_detail_real (WorkbookControlGUI *wbcg, gboolean is_cols, gboolean show
 
 	/* This operation can only be performed on a whole existing group */
 	if (sheet_colrow_can_group (sv_sheet (sv), r, is_cols)) {
-		gnumeric_error_invalid (GNM_CMD_CONTEXT (wbc), operation,
+		gnm_cmd_context_error_invalid (GNM_CMD_CONTEXT (wbc), operation,
 					_("can only be performed on an existing group"));
 		return;
 	}
@@ -5091,7 +5091,7 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 			GnomeVFSURI const *uri = ptr->data;
 			gchar *str = gnome_vfs_uri_to_string (uri, GNOME_VFS_URI_HIDE_NONE);
 			gchar *msg = g_strdup_printf (_("File \"%s\" has unknown format."), str);
-			gnumeric_error_read (GNM_CMD_CONTEXT (wbcg), msg);
+			gnm_cmd_context_error_import (GNM_CMD_CONTEXT (wbcg), msg);
 			g_free (msg);
 #if 0
 			if (gnome_vfs_uri_is_local (uri)) {

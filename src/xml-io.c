@@ -3292,14 +3292,14 @@ xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, guchar *buffer, int len
 
 	doc = xmlParseDoc (buffer);
 	if (doc == NULL) {
-		gnumeric_error_read (GNM_CMD_CONTEXT (wbc),
+		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (wbc),
 			_("Unparsable xml in clipboard"));
 		return NULL;
 	}
 	clipboard = doc->xmlRootNode;
 	if (clipboard == NULL || strcmp (clipboard->name, "ClipboardRange")) {
 		xmlFreeDoc (doc);
-		gnumeric_error_read (GNM_CMD_CONTEXT (wbc),
+		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (wbc),
 			_("Clipboard is in unknown format"));
 		return NULL;
 	}
@@ -3966,7 +3966,7 @@ gnumeric_xml_read_workbook (GnmFileOpener const *fo,
 	if (gmr == NULL) {
 		if (res != NULL)
 			xmlFreeDoc (res);
-		gnumeric_error_read (GNM_CMD_CONTEXT (context),
+		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context),
 			_("The file is not a Gnumeric Workbook file"));
 		return;
 	}
@@ -4003,7 +4003,7 @@ gnumeric_xml_write_workbook (GnmFileSaver const *fs,
 
 	xml = xmlNewDoc (CC2XML ("1.0"));
 	if (xml == NULL) {
-		gnumeric_error_save (GNM_CMD_CONTEXT (context),
+		gnm_cmd_context_error_export (GNM_CMD_CONTEXT (context),
 			_("Failure saving file"));
 		return;
 	}
@@ -4023,7 +4023,7 @@ gnumeric_xml_write_workbook (GnmFileSaver const *fs,
 	}
 	xmlIndentTreeOutput = TRUE;
 	if (gsf_xmlDocFormatDump (output, xml, "UTF-8", TRUE) < 0)
-		gnumeric_error_save (GNM_CMD_CONTEXT (context),
+		gnm_cmd_context_error_export (GNM_CMD_CONTEXT (context),
 				     "Error saving XML");
 	if (gzout) {
 		gsf_output_close (gzout);
