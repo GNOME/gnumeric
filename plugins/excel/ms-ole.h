@@ -108,7 +108,7 @@ typedef struct _MS_OLE_STREAM_POS
 extern MS_OLE_STREAM_POS *MS_OLE_open_stream (MS_OLE_FILE *f, MS_OLE_PPS *p) ;
 
 extern void dump (BYTE *ptr, int len) ;
-extern MS_OLE_FILE *new_ms_ole_file (char *name) ;
+extern MS_OLE_FILE *new_ms_ole_file (const char *name) ;
 extern int ms_ole_analyse_file (MS_OLE_FILE *f) ;
 extern void free_ms_ole_file (MS_OLE_FILE *ptr) ;
 

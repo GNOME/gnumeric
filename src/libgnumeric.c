@@ -48,7 +48,7 @@ main (int argc, char *argv [])
 	startup_files = poptGetArgs(ctx);
 	if(startup_files)
 		for(i = 0; startup_files[i]; i++) {
-		  current_workbook = gnumericReadXmlWorkbook (startup_files[i]);
+		  current_workbook = workbook_read (startup_files[i]);
 	  
 		  if (current_workbook)
 		    gtk_widget_show (current_workbook->toplevel);

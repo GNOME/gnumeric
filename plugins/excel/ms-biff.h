@@ -76,7 +76,8 @@ typedef enum _eBiff_eastern { eBiffEContext=0, eBiffEleftToRight=1,
 
 typedef enum _eBiff_direction { eBiffDirTop=0, eBiffDirBottom=1,
 				eBiffDirLeft=2, eBiffDirRight=3 } eBiff_direction ;
-typedef enum _eBiff_border_orientation { eBiffBODiagDown=1,
+typedef enum _eBiff_border_orientation { eBiffBONone=0,
+                                         eBiffBODiagDown=1,
 					 eBiffBODiagUp=2,
 					 eBiffBODiagBoth=3 } eBiff_border_orientation ;
 typedef enum _eBiff_border_linestyle // Magic numbers !

@@ -36,7 +36,7 @@ void dump (BYTE *ptr, int len)
   #undef OK
 }
 
-MS_OLE_FILE *new_ms_ole_file (char *name)
+MS_OLE_FILE *new_ms_ole_file (const char *name)
 {
   struct stat st ;
   MS_OLE_FILE *ptr = (MS_OLE_FILE *)malloc (sizeof(MS_OLE_FILE)) ;

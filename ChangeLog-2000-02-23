@@ -1,3 +1,11 @@
+1998-11-08  Michael Meeks    <michael@imaginator.com>
+
+	* src/workbook.c, src/sheet.h, src/main.c (workbook_read):
+	Added generic routine to read a file
+
+	* plugins/excel/ms-excel.c: Major code overhaul, multiple bug
+	fixes, BLANK, MULBLANK implemented & tested
+	
 1998-11-02  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/cell.c, src/workbook.c, src/sheet-view.c: Finish cell

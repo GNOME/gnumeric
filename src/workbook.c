@@ -33,11 +33,29 @@ static int workbook_count;
 
 static GList *workbook_list = NULL;
 
+/**
+ * Wrapper that decides which format to use
+ **/
+Workbook *
+workbook_read (const char *filename)
+{
+  // A slow and possibly buggy check for now.
+  MS_OLE_FILE *f = new_ms_ole_file(filename) ;
+  Workbook *wb;
+  if (f)
+    {
+      wb = ms_excelReadWorkbook(f) ;
+      free (f) ;
+    }
+  else
+    wb = gnumericReadXmlWorkbook (filename);
+  return wb ;
+}
+
 static void
 new_cmd (void)
 {
 	Workbook *wb;
-	
 	wb = workbook_new_with_sheets (1);
 	gtk_widget_show (wb->toplevel);
 }
@@ -47,19 +65,9 @@ open_cmd (void)
 {
 	char *fname = dialog_query_load_file ();
 	Workbook *wb;
-	
-	{ 
-	  MS_OLE_FILE *f = new_ms_ole_file(fname) ;
-	  if (f)
-	    {
-	      wb = ms_excelReadWorkbook(f) ;
-	      free (f) ;
-	    }
-	  else
-	    wb = gnumericReadXmlWorkbook (fname);
-	}
-	if (wb)
-		gtk_widget_show (wb->toplevel);
+
+	if ((wb = workbook_read (fname)))
+	  gtk_widget_show (wb->toplevel);
 }
 
 static void

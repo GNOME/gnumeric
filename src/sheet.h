@@ -335,6 +335,7 @@ Workbook   *workbook_new_with_sheets     (int sheet_count);
 
 void        workbook_set_filename        (Workbook *, char *);
 void        workbook_set_title           (Workbook *, char *);
+Workbook   *workbook_read                (const char *filename);
 
 void        workbook_save_as             (Workbook *);
 void        workbook_save                (Workbook *);
