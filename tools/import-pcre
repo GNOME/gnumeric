@@ -167,7 +167,7 @@ for my $filename (@SRC_C, @EXTRA_C, @SRC_H) {
     print DST "\t\$(GNUMERIC_CFLAGS) -I\$(top_srcdir) \\\n";
     print DST "\t -DSUPPORT_UTF8 \\\n";
     print DST "\t -DNEWLINE=10 \\\n";
-    print DST "\t -DPOSIX_MALLOC_THRESHOLD=10 \\\n";
+    print DST "\t -DPOSIX_MALLOC_THRESHOLD=100 \\\n";
     print DST "\t -DLINK_SIZE=2 \\\n";
     print DST "\t -DMATCH_LIMIT=10000000\n\n";
 

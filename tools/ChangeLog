@@ -1,3 +1,8 @@
+2003-09-24  Morten Welinder  <terra@gnome.org>
+
+	* import-pcre: Up POSIX_MALLOC_THRESHOLD since we have lots of
+	()s.
+
 2003-09-15  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.0
