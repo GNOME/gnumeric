@@ -79,7 +79,6 @@
 #include <gsf/gsf-impl-utils.h>
 #ifdef WITH_GNOME
 #include <libgnomevfs/gnome-vfs-uri.h>
-#include <gsf-gnome/gsf-input-gnomevfs.h>
 #endif
 
 
