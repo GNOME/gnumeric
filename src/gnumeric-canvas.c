@@ -112,7 +112,7 @@ gnumeric_sheet_cursor_set (GnumericSheet *gsheet, int col, int row)
  *
  * Set the current selection to cover the inclusive area delimited by
  * start_col, start_row, end_col and end_row.  The actual cursor is
- * placed at start_col, start_row
+ * placed at base_col, base_row
  */
 void
 gnumeric_sheet_set_selection (GnumericSheet *gsheet, SheetSelection *ss)
@@ -146,6 +146,7 @@ move_cursor (GnumericSheet *gsheet, int col, int row, gboolean clear_selection)
 	if (clear_selection)
 		sheet_selection_reset_only (sheet);
 
+	sheet_make_cell_visible (sheet, col, row);
 	sheet_cursor_set (sheet, col, row, col, row, col, row);
 
 	if (clear_selection)
@@ -686,6 +687,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 
 	case GDK_Home:
 		if ((event->state & GDK_CONTROL_MASK) != 0){
+			sheet_make_cell_visible (sheet, 0, 0);
 			sheet_cursor_move (sheet, 0, 0);
 			break;
 		} else

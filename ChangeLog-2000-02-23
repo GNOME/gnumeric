@@ -1,3 +1,28 @@
+1998-10-13  Jakub Jelinek  <jj@ultra.penguin.cz>
+
+	* src/item-grid.c (item_grid_stop_sliding,
+	item_grid_sliding_callback, item_grid_start_sliding):
+	New functions.
+	(item_grid_event): If x or y is out of canvas bounds,
+	do sliding for both cell and formula selection.
+	For button release from formula selection, make cell
+	being edited visible afterwards.
+	(item_grid_button_1): If not extending selection with
+	shift, make cursor cell visible.
+
+	* src/gnumeric-sheet.c (move_cursor,
+	gnumeric_sheet_key_mode_sheet): Make cursor cell visible.
+
+	* src/sheet.c (sheet_select_all): Make home visible.
+	(sheet_make_cell_visible): New function.
+	(sheet_cursor_move, sheet_cursor_set): Don't make cursor
+	visible, caller has to do it himself if desired.	
+
+	* src/sheet.h (sheet_make_cell_visible): New prototype.
+
+	* src/workbook.c (workbook_parse_and_jump): Make cursor
+	cell visible.
+	
 1998-10-13  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/utils.c (col_name): It is amazing the number of times I

@@ -153,6 +153,7 @@ void        sheet_cursor_set             (Sheet *sheet,
 					  int start_col, int start_row,
 					  int end_col,   int end_row);
 void        sheet_cursor_move            (Sheet *sheet, int col, int row);
+void        sheet_make_cell_visible      (Sheet *sheet, int col, int row);
 
 /* Selection management */
 void        sheet_select_all             (Sheet *sheet);

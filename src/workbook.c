@@ -815,7 +815,8 @@ workbook_parse_and_jump (Workbook *wb, char *text)
 			gnumeric_notice (_("Row number out of range"));
 			return FALSE;
 		}
-			
+		
+		sheet_make_cell_visible (sheet, col, row);
 		sheet_cursor_move (sheet, col, row);
 		return TRUE;
 	}

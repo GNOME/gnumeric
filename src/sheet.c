@@ -1023,6 +1023,7 @@ sheet_select_all (Sheet *sheet)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	sheet_selection_reset_only (sheet);
+	sheet_make_cell_visible (sheet, 0, 0);
 	sheet_cursor_move (sheet, 0, 0);
 	sheet_selection_append_range (sheet, 0, 0, 0, 0,
 		SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
@@ -2896,6 +2897,21 @@ sheet_style_compute (Sheet *sheet, int col, int row, int *non_default)
 }
 
 void
+sheet_make_cell_visible (Sheet *sheet, int col, int row)
+{
+	GList *l;
+	
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	for (l = sheet->sheet_views; l; l = l->next){
+		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
+
+		gnumeric_sheet_make_cell_visible (gsheet, col, row);
+	}
+}
+
+void
 sheet_cursor_move (Sheet *sheet, int col, int row)
 {
 	GList *l;
@@ -2912,7 +2928,6 @@ sheet_cursor_move (Sheet *sheet, int col, int row)
 		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
 
 		gnumeric_sheet_cursor_set (gsheet, col, row);
-		gnumeric_sheet_make_cell_visible (gsheet, col, row);
 		gnumeric_sheet_set_cursor_bounds (gsheet, col, row, col, row);
 	}
 	sheet_load_cell_val (sheet);
@@ -2928,16 +2943,21 @@ sheet_cursor_set (Sheet *sheet, int base_col, int base_row, int start_col, int s
 	g_return_if_fail (start_col <= end_col);
 	g_return_if_fail (start_row <= end_row);
 	
-	sheet_cursor_move (sheet, base_col, base_row);
+	sheet_accept_pending_input (sheet);
+	
+	sheet->cursor_col = base_col;
+	sheet->cursor_row = base_row;
 
 	for (l = sheet->sheet_views; l; l = l->next){
 		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
 
+		gnumeric_sheet_cursor_set (gsheet, base_col, base_row);
 		gnumeric_sheet_set_cursor_bounds (
 			gsheet,
 			start_col, start_row,
 			end_col, end_row);
 	}
+	sheet_load_cell_val (sheet);
 }
 
 void

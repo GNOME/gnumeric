@@ -712,10 +712,10 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 		col = item_grid_find_col (item_cursor->item_grid, x, NULL);
 		row = item_grid_find_row (item_cursor->item_grid, y, NULL);
 
-		if (col < item_cursor->base_col)
+		if (col < item_cursor->base_col || col > SHEET_MAX_COLS-1)
 			col = item_cursor->base_col;
 
-		if (row < item_cursor->base_row)
+		if (row < item_cursor->base_row || row > SHEET_MAX_ROWS-1)
 			row = item_cursor->base_row;
 		
 		if ((item_cursor->base_x - x) > (item_cursor->base_y - y)){
