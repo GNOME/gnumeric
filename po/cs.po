@@ -20665,7 +20665,7 @@ msgid "Fill from start color to end color"
 msgstr "Vyplnit od počáteční barvy do koncové barvy"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
-msgid "Fill from start colour to a darker/lighter version of that color"
+msgid "Fill from start color to a darker/lighter version of that color"
 msgstr "Vyplnit od počáteční barvy do její tmavší/světlejší verze"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:10

@@ -13768,7 +13768,7 @@ msgid "Fill from start color to end color"
 msgstr "Ispuni od početne boje do završne boje"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
-msgid "Fill from start colour to a darker/lighter version of that color"
+msgid "Fill from start color to a darker/lighter version of that color"
 msgstr ""
 "Ispuni od početne boje do tamnije/svetlije nijanse te boje završne boje"
 

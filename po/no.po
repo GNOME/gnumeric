@@ -17922,7 +17922,7 @@ msgid "Fill from start color to end color"
 msgstr "Fyll fra startfarge til sluttfarge"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
-msgid "Fill from start colour to a darker/lighter version of that color"
+msgid "Fill from start color to a darker/lighter version of that color"
 msgstr "Fyll fra startfarge til en mørkere/lysere versjon av den fargen"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:10

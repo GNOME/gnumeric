@@ -18179,7 +18179,7 @@ msgid "Fill from start color to end color"
 msgstr "Заливка от начального до конечного цвета"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
-msgid "Fill from start colour to a darker/lighter version of that color"
+msgid "Fill from start color to a darker/lighter version of that color"
 msgstr "Заливка от начального цвета до более тёмного/светлого оттенка этого цвета"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:10

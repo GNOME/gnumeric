@@ -21121,7 +21121,7 @@ msgid "Fill from start color to end color"
 msgstr "Vullen van beginkleur tot eindkleur"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
-msgid "Fill from start colour to a darker/lighter version of that color"
+msgid "Fill from start color to a darker/lighter version of that color"
 msgstr "Vullen van beginkleur tot een donkere/lichtere versie van die kleur"
 
 # Kleurverloop

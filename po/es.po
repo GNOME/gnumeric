@@ -21148,7 +21148,7 @@ msgid "Fill from start color to end color"
 msgstr "Rellenar desde el color de inicio hasta el color de fin"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
-msgid "Fill from start colour to a darker/lighter version of that color"
+msgid "Fill from start color to a darker/lighter version of that color"
 msgstr ""
 "Rellenar desde el color de inicio hasta una versión más clara/oscura de ese "
 "color"
