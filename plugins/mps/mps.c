@@ -106,10 +106,10 @@ typedef struct {
         IOContext *io_context;
 
         gint   data_size;
-        gchar *data, *cur;
+        guchar *data, *cur;
 
         gint   line_no;
-        gchar *line;
+        guchar *line;
         gint   line_len, alloc_line_len;
   
         Sheet  *sheet;
@@ -542,7 +542,7 @@ mps_input_context_new (IOContext *io_context, Workbook *wb, char const *file_nam
 {
         MpsInputContext *ctxt = NULL;
 	gint size;
-	char *data;
+	guchar *data;
 	ErrorInfo *mmap_error;
 
 	data = gnumeric_mmap_error_info (file_name, &size, &mmap_error);
@@ -666,7 +666,7 @@ mps_input_context_destroy (MpsInputContext *ctxt)
 static gboolean
 mps_get_line (MpsInputContext *ctxt)
 {
-        gchar *p, *p_limit;
+        guchar *p, *p_limit;
 
  try_again:
 	p_limit = ctxt->data + ctxt->data_size;
@@ -930,7 +930,7 @@ static gboolean
 mps_parse_name (MpsInputContext *ctxt)
 {
         while (1) {
-	        gchar *line;
+	        guchar *line;
 
 		if (!mps_get_line (ctxt))
 		        return FALSE;

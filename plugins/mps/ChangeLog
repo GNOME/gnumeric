@@ -1,5 +1,11 @@
 2001-12-31  Jody Goldberg <jody@gnome.org>
 
+	* mps.c (mps_input_context_new) : supress warnings.
+	(mps_get_line) : ditto.
+	(mps_parse_name) : ditto.
+
+2001-12-31  Jody Goldberg <jody@gnome.org>
+
 	* Release 1.0.0
 
 2001-12-29  Jody Goldberg <jody@gnome.org>
