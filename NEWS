@@ -38,6 +38,7 @@ Morten:
 	* Add chunk allocators for cells, dependents, and some values.
 	* Fix conditional formats, more or less.
 	* Fix F4 key.
+	* Fix PROB function's argument order.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.0 and 1.1.1

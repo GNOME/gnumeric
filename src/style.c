@@ -168,9 +168,8 @@ style_font_new_simple (char const *font_name, double size_pts, double scale,
 				   font->is_italic ? " italic" : "",
 				   gdk_string_width (font->gdk_font, "4444444444") / 10.,
 				   w);
-			font->approx_width.pixels = w;
 #endif
-
+			font->approx_width.pixels = w;
 		}
 
 #warning FIXME
