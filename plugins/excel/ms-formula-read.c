@@ -1298,8 +1298,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 		{
 			/*
 			 * The beginings of 'extended' ptg support.
-			 * Unfortunately, 0x08 seems the most common and it is
-			 * undocumented and the rest are mostly undocumented.
+			 * These are mostly undocumented.
 			 */
 			/* Use 0 for unknown sizes, and ignore the trailing
 			 * extended info completely for now.
@@ -1346,10 +1345,37 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 			} else
 				ptg_length = 1 + extended_ptg_size[eptg_type];
 
-			printf ("-------------------\n");
-			printf ("EXTEND %x\n", eptg_type);
-			dump (mem, length);
-			printf ("-------------------\n");
+			/* WARNING : No documentation for this.  However this seems
+			 * to make sense.
+			 */
+			if (eptg_type == 0x06 || /* eptgElfRwV,	 No,  Value */
+			    eptg_type == 0x07) { /* eptgElfColV, No,  Value */
+				CellRef end;
+				CellRef *start = getRefV8 (MS_OLE_GET_GUINT16(cur + 1),
+							   MS_OLE_GET_GUINT16(cur + 3),
+							   fn_col, fn_row, shared);
+
+				if (start) {
+					end = *start;
+					if (eptg_type == 0x07) { /* Column */
+						end.row = SHEET_MAX_ROWS-1;
+						if (start->row_relative)
+							end.row -= fn_row;
+					} else { 		 /* Row */
+						end.col = SHEET_MAX_COLS-1;
+						if (start->col_relative)
+							end.col -= fn_col;
+					}
+
+					parse_list_push_raw (&stack, value_new_cellrange (start, &end));
+					g_free (start) ;
+				}
+			} else {
+				printf ("-------------------\n");
+				printf ("XL : Extended ptg %x\n", eptg_type);
+				dump (mem+2, length-2);
+				printf ("-------------------\n");
+			}
 		}
 		break;
 

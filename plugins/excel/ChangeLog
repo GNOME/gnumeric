@@ -1,3 +1,13 @@
+1999-11-26  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-formula-read.c (ms_excel_parse_formula) : Add support for
+	  extended-ptg ElfColV and ElfRowV.  They seem to refer to the
+	  use of an implicit vector defined by a column header.
+	  ie A1 = 'bob'  A2 = 2 B2 = '=bob^2'
+	  The eptg would indicate that 'bob' in B2 refered to the column below
+	  A1.  Presumably implicit intersection (not implemented yet) would
+	  handle the rest.
+
 1999-11-25  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-obj.c (object_anchor_to_position) : Use 1/1024 for pre-XL97
