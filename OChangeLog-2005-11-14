@@ -1,3 +1,13 @@
+2002-01-18  Jody Goldberg <jody@gnome.org>
+
+	* src/eval.c : Add a new dependency hashing scheme but leave it
+	  disabled until 1.1  so thet we can get it tested.
+
+2002-01-18  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-graph.c (gnm_graph_range_to_vectors) : be smarter about
+	  handling vectors rather than ranges.  vectors maintain orientation.
+
 2002-01-18  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/bonobo-io.c

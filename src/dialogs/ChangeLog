@@ -1,3 +1,14 @@
+2002-01-18  Jody Goldberg <jody@gnome.org>
+
+	* dialog-graph-guru.c (graph_guru_plot_name) : fix the stupid name
+	  generation.
+	(vector_state_series_set_dimension) : create a series if necessary.
+	(cb_graph_guru_series_add) : implement.
+	(graph_guru_select_plot) : make series reset optional.
+	(graph_guru_init) : hook up the add/delete series buttons.
+	(cb_graph_guru_series_delete) : new.
+	(cb_graph_guru_series_add) : new.
+
 2002-01-18  Morten Welinder  <terra@diku.dk>
 
 	* dialog-formula-guru.c (formula_guru_init): Always show table.

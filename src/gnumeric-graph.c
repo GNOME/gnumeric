@@ -52,10 +52,10 @@
 #define d(code)	
 #endif
 
-#define	MANAGER		  GNOME_Gnumeric_Graph_v1_Manager
-#define	MANAGER1(suffix)  GNOME_Gnumeric_Graph_v1_Manager_ ## suffix
-#define	CMANAGER1(suffix) CORBA_sequence_GNOME_v1_Gnumeric_Graph_Manager_ ## suffix
-#define	MANAGER_OAF	 "IDL:GNOME/Gnumeric/Graph_v1/Manager:1.0"
+#define	MANAGER		  GNOME_Gnumeric_Graph_v2_Manager
+#define	MANAGER1(suffix)  GNOME_Gnumeric_Graph_v2_Manager_ ## suffix
+#define	CMANAGER1(suffix) CORBA_sequence_GNOME_v2_Gnumeric_Graph_Manager_ ## suffix
+#define	MANAGER_OAF	 "IDL:GNOME/Gnumeric/Graph_v2/Manager:1.0"
 
 struct _GnmGraph {
 	SheetObjectContainer	parent;
@@ -812,10 +812,10 @@ void
 gnm_graph_range_to_vectors (GnmGraph *graph,
 			    Sheet *sheet,
 			    Range const *src,
-			    gboolean as_cols)
+			    gboolean default_to_cols)
 {
 	int i, count;
-	gboolean has_header = range_has_header (sheet, src, as_cols, TRUE);
+	gboolean has_header, as_cols;
 	Range vector = *src;
 	CellRef header;
 
@@ -823,6 +823,11 @@ gnm_graph_range_to_vectors (GnmGraph *graph,
 	    range_trim (sheet, &vector, FALSE))
 		return;
 
+	/* Special case the handling of a vector rather than a range.
+	 * it should stay in its orientation,  only ranges get split
+	 */
+	as_cols = (src->start.col == src->end.col || default_to_cols);
+	has_header = range_has_header (sheet, src, as_cols, TRUE);
 	header.sheet = sheet;
 	header.col_relative = header.row_relative = FALSE;
 	header.col = vector.start.col;

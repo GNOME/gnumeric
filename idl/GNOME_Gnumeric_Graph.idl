@@ -46,7 +46,7 @@ module GNOME {
 	    };
 	};
 
-	module Graph_v1 {
+	module Graph_v2 {
 	    interface ConfigGuru : Bonobo::Control {
 		oneway void applyChanges ();
 	    };
@@ -67,12 +67,10 @@ module GNOME {
 					 in VectorID vectorID)
 		    raises (Error);
 
-		/**
-		 * seriesDelete :
-		 *
-		 * Remove a series from a plot.
-		 */
-		void seriesDelete (in SeriesID series) raises (Error);
+		PlotID   plotAdd      ()		   raises (Error);
+		void     plotDelete   (in PlotID plot)	   raises (Error);
+		SeriesID seriesAdd    (in PlotID plot)	   raises (Error);
+		void     seriesDelete (in SeriesID series) raises (Error);
 	    };
 
 	    interface Manager : Bonobo::Embeddable {

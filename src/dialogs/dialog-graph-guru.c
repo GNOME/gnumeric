@@ -41,10 +41,10 @@
 #include <gal/util/e-xml-utils.h>
 #include <libxml/parser.h>
 
-#define CONFIG_GURU		GNOME_Gnumeric_Graph_v1_ConfigGuru
-#define CONFIG_GURU1(suffix)	GNOME_Gnumeric_Graph_v1_ConfigGuru_ ## suffix
-#define DATA_GURU		GNOME_Gnumeric_Graph_v1_DataGuru
-#define DATA_GURU1(suffix)	GNOME_Gnumeric_Graph_v1_DataGuru_ ## suffix
+#define CONFIG_GURU		GNOME_Gnumeric_Graph_v2_ConfigGuru
+#define CONFIG_GURU1(suffix)	GNOME_Gnumeric_Graph_v2_ConfigGuru_ ## suffix
+#define DATA_GURU		GNOME_Gnumeric_Graph_v2_DataGuru
+#define DATA_GURU1(suffix)	GNOME_Gnumeric_Graph_v2_DataGuru_ ## suffix
 
 typedef struct _GraphGuruState GraphGuruState;
 typedef struct
@@ -78,7 +78,7 @@ struct _GraphGuruState
 	GtkWidget *plot_remove;
 	GtkWidget *series_selector;
 	GtkWidget *series_add;
-	GtkWidget *series_remove;
+	GtkWidget *series_delete;
 	GtkWidget *series_details;
 	GtkWidget *shared_series_details;
 	GtkWidget *sample_frame;
@@ -99,8 +99,6 @@ struct _GraphGuruState
 	gboolean updating;
 	xmlDoc *xml_doc;
 
-	gboolean  is_columns;
-
 	/* external state */
 	WorkbookControlGUI *wbcg;
 	SheetControlGUI	   *scg;
@@ -108,7 +106,7 @@ struct _GraphGuruState
 	Sheet		   *sheet;
 };
 
-static void graph_guru_select_plot (GraphGuruState *s, xmlNode *plot);
+static void graph_guru_select_plot (GraphGuruState *s, xmlNode *plot, int seriesID);
 
 static void
 graph_guru_clear_xml (GraphGuruState *state)
@@ -156,16 +154,20 @@ graph_guru_get_series (GraphGuruState *s, int indx)
 static char *
 graph_guru_plot_name (GraphGuruState *s, xmlNode *plot)
 {
-	xmlChar const *t = (xmlChar *)"Plot";
+	char *name;
+	xmlChar *t;
 	int i = e_xml_get_integer_prop_by_name_with_default (plot, (xmlChar *)"index", -1);
 	xmlNode *type = e_xml_get_child_by_name (plot, (xmlChar *)"Type");
 
 	g_return_val_if_fail (i >= 0, g_strdup ("ERROR Missing Index"));
 
-	if (type != NULL && type->xmlChildrenNode)
-		t = type->xmlChildrenNode->name;
+	t = xml_node_get_cstr (type, "name");
+	if (t == NULL)
+		t = xmlMemStrdup ("Plot");
 
-	return g_strdup_printf ("%s%d", t, i+1);
+	name = g_strdup_printf ("%s%d", t, i+1);
+	xmlFree (t);
+	return name;
 }
 
 static void
@@ -231,7 +233,7 @@ graph_guru_get_spec (GraphGuruState *s)
 			GINT_TO_POINTER (indx));
 
 		if (s->current_plot < 0 || s->current_plot == indx)
-			graph_guru_select_plot (s, plot);
+			graph_guru_select_plot (s, plot, s->current_series);
 	}
 }
 
@@ -270,10 +272,23 @@ vector_state_series_set_dimension (VectorState *vs, ExprTree *expr)
 		vector_id = gnm_graph_add_vector (vs->state->graph,
 			expr, GNM_VECTOR_AUTO, vs->state->sheet);
 
+	CORBA_exception_init (&ev);
+
+	/* We need to create the series */
+	if (vs->series_index < 0) {
+		vs->series_index = DATA_GURU1 (seriesAdd) (vs->state->data_guru,
+			vs->state->current_plot, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("'%s' : adding a series to graph data_guru %p",
+				   gnm_graph_exception (&ev), vs->state->data_guru);
+			CORBA_exception_free (&ev);
+			return;
+		}
+	}
+
 	/* Future simplification.  If we are changing an unshared dimension we
 	 * can do the substitution in place.  and just tweak the expression.
 	 */
-	CORBA_exception_init (&ev);
 	DATA_GURU1 (seriesSetDimension) (vs->state->data_guru,
 		vs->series_index, (CORBA_char *)vs->dim_name, vector_id, &ev);
 	if (ev._major == CORBA_NO_EXCEPTION)
@@ -458,7 +473,7 @@ graph_guru_state_destroy (GraphGuruState *state)
 {
 	g_return_if_fail (state != NULL);
 
-	graph_guru_select_plot (state, NULL);
+	graph_guru_select_plot (state, NULL, -1);
 
 	if (state->plot_selector) {
 		gtk_signal_disconnect_by_data (
@@ -575,13 +590,13 @@ graph_guru_select_series (GraphGuruState *s, xmlNode *series)
 }
 
 static void
-graph_guru_select_plot (GraphGuruState *s, xmlNode *plot)
+graph_guru_select_plot (GraphGuruState *s, xmlNode *plot, int seriesID)
 {
 	xmlNode *layout, *series;
 	char *name;
 	GtkWidget *item;
 	int shared, unshared;
-	int indx;
+	int indx, count = 0;
 
 	if (s->updating)
 		return;
@@ -591,10 +606,12 @@ graph_guru_select_plot (GraphGuruState *s, xmlNode *plot)
 		gnm_combo_text_clear (GNM_COMBO_TEXT (s->series_selector));
 		s->current_plot = -1;
 	}
-	s->current_series = -1;
 
-	if (plot == NULL)
+	if (plot == NULL) {
+		s->current_series = -1;
 		return;
+	}
+	s->current_series = seriesID;
 
 	s->current_plot =
 		e_xml_get_integer_prop_by_name_with_default (plot, (xmlChar *)"index", -1);
@@ -656,6 +673,7 @@ graph_guru_select_plot (GraphGuruState *s, xmlNode *plot)
 			GINT_TO_POINTER (indx));
 		if (s->current_series < 0)
 			graph_guru_select_series (s, series);
+		count++;
 	}
 
 	s->updating = TRUE;
@@ -668,7 +686,12 @@ graph_guru_select_plot (GraphGuruState *s, xmlNode *plot)
 	gtk_widget_show_all (s->series_details);
 	gtk_widget_show_all (s->shared_series_details);
 
-	g_return_if_fail (s->current_series >= 0);
+	/* It is ok for the current_series to do -1,
+	 * that indicates that there are no series yet
+	 */
+	/* g_return_if_fail (s->current_series >= 0); */
+	gtk_widget_set_sensitive (s->series_add, TRUE);
+	gtk_widget_set_sensitive (s->series_delete, count > 1);
 }
 
 static void
@@ -748,7 +771,7 @@ graph_guru_set_page (GraphGuruState *state, int page)
 	switch (page) {
 	case 0: name = _("Step 1 of 3: Select graph type");
 		prev_ok = FALSE;
-		graph_guru_select_plot (state, NULL);
+		graph_guru_select_plot (state, NULL, -1);
 		break;
 	case 1:
 		if (state->initial_page == 0)
@@ -869,7 +892,7 @@ cb_plot_selection_changed (GtkWidget *ct, GtkWidget *item, GraphGuruState *s)
 	if (!s->updating) {
 		gpointer *tmp = gtk_object_get_data (GTK_OBJECT (item), "index");
 		graph_guru_select_plot (s, graph_guru_get_plot (s,
-			GPOINTER_TO_INT (tmp)));
+			GPOINTER_TO_INT (tmp)), -1);
 	}
 	return FALSE;
 }
@@ -910,6 +933,46 @@ cb_graph_guru_focus (GtkWindow *window, GtkWidget *focus, GraphGuruState *state)
 	wbcg_set_entry (state->wbcg, NULL);
 }
 
+static void
+cb_graph_guru_series_add (GtkWidget *button, GraphGuruState *s)
+{
+	int new_index;
+	CORBA_Environment  ev;
+
+	CORBA_exception_init (&ev);
+
+	new_index = DATA_GURU1 (seriesAdd) (s->data_guru, s->current_plot, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("'%s' : adding a series to graph data_guru %p",
+			   gnm_graph_exception (&ev), s->data_guru);
+		CORBA_exception_free (&ev);
+		return;
+	}
+	graph_guru_get_spec (s);
+	graph_guru_select_series (s, graph_guru_get_series (s, new_index));
+
+	CORBA_exception_free (&ev);
+}
+
+static void
+cb_graph_guru_series_delete (GtkWidget *button, GraphGuruState *s)
+{
+	if (s->current_series >= 0) {
+		CORBA_Environment  ev;
+		CORBA_exception_init (&ev);
+		DATA_GURU1 (seriesDelete) (s->data_guru, s->current_series, &ev);
+
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("'%s' : deleting a series from graph data_guru %p",
+				   gnm_graph_exception (&ev), s->data_guru);
+		} else {
+			s->current_series = -1;
+			graph_guru_get_spec (s);
+		}
+		CORBA_exception_free (&ev);
+	}
+}
+
 static gboolean
 graph_guru_init (GraphGuruState *s)
 {
@@ -929,12 +992,19 @@ graph_guru_init (GraphGuruState *s)
 	s->plot_add	    = glade_xml_get_widget (s->gui, "plot_add");
 	s->plot_remove	    = glade_xml_get_widget (s->gui, "plot_remove");
 	s->series_add	    = glade_xml_get_widget (s->gui, "series_add");
-	s->series_remove    = glade_xml_get_widget (s->gui, "series_remove");
+	s->series_delete    = glade_xml_get_widget (s->gui, "series_remove");
 	s->series_details   = glade_xml_get_widget (s->gui, "series_details");
 	s->selection_table  = glade_xml_get_widget (s->gui, "selection_table");
 	s->shared_separator = glade_xml_get_widget (s->gui, "shared_separator");
 	s->sample_frame	    = glade_xml_get_widget (s->gui, "sample_frame");
 	s->shared_series_details = glade_xml_get_widget (s->gui, "shared_series_details");
+
+	gtk_signal_connect (GTK_OBJECT (s->series_add),
+		"clicked",
+		GTK_SIGNAL_FUNC (cb_graph_guru_series_add), s);
+	gtk_signal_connect (GTK_OBJECT (s->series_delete),
+		"clicked",
+		GTK_SIGNAL_FUNC (cb_graph_guru_series_delete), s);
 
 	s->plot_selector    = graph_guru_selector_init (s, N_("Plot name"), 0,
 		GTK_SIGNAL_FUNC (cb_plot_entry_changed),
@@ -1004,22 +1074,21 @@ dialog_graph_guru (WorkbookControlGUI *wbcg, GnmGraph *graph, int page)
 		state->graph = gnm_graph_new (state->wb);
 
 	if (state->graph != NULL && page == 0) {
-		GList *ptr;
-		Range const * r = selection_first_range (state->sheet,
-			NULL, NULL);
+		GList *ptr = g_list_last (state->sheet->selections);
+		Range const *r = ptr->data;
 		int num_cols = range_width (r);
 		int num_rows = range_height (r);
+		gboolean default_to_cols = (num_cols < num_rows);
 
 		gnm_graph_clear_vectors (state->graph);
 
 		/* Excel docs claim that rows == cols uses rows */
-		state->is_columns = num_cols < num_rows;
 
 		/* selections are in reverse order */
 		ptr = g_list_last (state->sheet->selections);
 		for (; ptr != NULL; ptr = ptr->prev)
 			gnm_graph_range_to_vectors (state->graph, state->sheet,
-						    ptr->data, state->is_columns);
+				ptr->data, default_to_cols);
 		gnm_graph_arrange_vectors (state->graph);
 	}
 

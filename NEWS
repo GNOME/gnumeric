@@ -4,6 +4,7 @@ Andreas:
 	* Improve compatibility of COUP_ fuctions
 
 Jody:
+	* Enable Add/Delete Series for Graph Guru
 	* More work on XL import for 3d references.
 	* Import checkbox links from XL.
 

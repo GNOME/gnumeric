@@ -49,7 +49,6 @@
 	/* Note, that ->prev_dep and ->next_dep are still valid.  */	\
   } while (0)
 
-
 static GPtrArray *dep_classes = NULL;
 
 void
@@ -263,6 +262,202 @@ cb_dependent_queue_recalc (Dependent *dep, gpointer ignore)
 }
 
 
+/**************************************************************************/
+#undef ENABLE_MICRO_HASH
+#ifdef ENABLE_MICRO_HASH
+typedef struct {
+	gint     num_buckets;
+	gint     num_elements;
+	union {
+		GSList **buckets;
+		GSList *singleton;
+	} u;
+} MicroHash;
+
+#define MICRO_HASH_MIN_SIZE 11
+#define MICRO_HASH_MAX_SIZE 13845163
+#define MICRO_HASH_RESIZE(hash_table)				\
+G_STMT_START {							\
+	if ((hash_table->num_buckets > MICRO_HASH_MIN_SIZE &&		\
+	     hash_table->num_buckets >= 3 * hash_table->num_elements) || 	\
+	    (hash_table->num_buckets < MICRO_HASH_MAX_SIZE &&		\
+	     3 * hash_table->num_buckets <= hash_table->num_elements))	\
+		micro_hash_resize (hash_table);			\
+} G_STMT_END
+
+/* The records are aligned so the bottom few bits don't hold much
+ * entropy
+ */
+#define MICRO_HASH_hash(key)	((guint)((int) (key) >> 9))
+
+static void
+micro_hash_resize (MicroHash *hash_table)
+{
+	GSList **new_buckets, *node, *next;
+	guint bucket;
+	gint old_num_buckets = hash_table->num_buckets;
+	gint new_num_buckets = CLAMP (g_spaced_primes_closest (hash_table->num_elements),
+		MICRO_HASH_MIN_SIZE, MICRO_HASH_MAX_SIZE);
+
+	if (old_num_buckets <= 1) {
+		if (new_num_buckets == 1)
+			return;
+		new_buckets = g_new0 (GSList *, new_num_buckets);
+		for (node = hash_table->u.singleton; node; node = next) {
+			next = node->next;
+			bucket =  MICRO_HASH_hash (node->data) % new_num_buckets;
+			node->next = new_buckets [bucket];
+			new_buckets [bucket] = node;
+		}
+		hash_table->u.buckets = new_buckets;
+	} else if (new_num_buckets > 1) {
+		new_buckets = g_new0 (GSList *, new_num_buckets);
+		for (old_num_buckets = hash_table->num_buckets; old_num_buckets-- > 0 ; )
+			for (node = hash_table->u.buckets [old_num_buckets]; node; node = next) {
+				next = node->next;
+				bucket =  MICRO_HASH_hash (node->data) % new_num_buckets;
+				node->next = new_buckets [bucket];
+				new_buckets [bucket] = node;
+			}
+		g_free (hash_table->u.buckets);
+		hash_table->u.buckets = new_buckets;
+	} else {
+		GSList *singleton = NULL;
+		while (old_num_buckets-- > 0)
+			singleton = g_slist_concat (singleton, hash_table->u.buckets [old_num_buckets]);
+		g_free (hash_table->u.buckets);
+		hash_table->u.singleton = singleton;
+	}
+
+	hash_table->num_buckets = new_num_buckets;
+}
+
+static void
+micro_hash_insert (MicroHash *hash_table, gpointer key)
+{
+	GSList **head;
+	int const hash_size = hash_table->num_buckets;
+
+	if (hash_size > 1) {
+		guint const bucket = MICRO_HASH_hash (key) % hash_size;
+		head = hash_table->u.buckets + bucket;
+	} else
+		head = & (hash_table->u.singleton);
+
+	if (g_slist_find (*head, key) == NULL) {
+		*head = g_slist_prepend (*head, key);
+		hash_table->num_elements++;
+		MICRO_HASH_RESIZE (hash_table);
+	}
+}
+
+static void
+micro_hash_remove (MicroHash *hash_table, gpointer key)
+{
+	GSList **head;
+	int const hash_size = hash_table->num_buckets;
+
+	if (hash_size > 1) {
+		guint const bucket = MICRO_HASH_hash (key) % hash_size;
+		head = hash_table->u.buckets + bucket;
+	} else
+		head = & (hash_table->u.singleton);
+
+	for (; *head != NULL ; head = &((*head)->next))
+		if ((*head)->data == key) {
+			*head = (*head)->next;
+			hash_table->num_elements--;
+			MICRO_HASH_RESIZE (hash_table);
+			return;
+		}
+}
+
+static void
+micro_hash_release (MicroHash *hash_table)
+{
+	guint i = hash_table->num_buckets;
+
+	if (i > 1) {
+		while (i-- > 0)
+			g_slist_free (hash_table->u.buckets[i]);
+		g_free (hash_table->u.buckets);
+		hash_table->u.buckets = NULL;
+	} else {
+		g_slist_free (hash_table->u.singleton);
+		hash_table->u.singleton = NULL;
+	}
+	hash_table->num_elements = 0;
+	hash_table->num_buckets = 1;
+}
+
+static void
+micro_hash_init (MicroHash *hash_table, gpointer key)
+{
+	hash_table->num_elements = 0;
+	hash_table->num_buckets = 1;
+	hash_table->u.singleton = g_slist_prepend (NULL, key);
+}
+
+/*************************************************************************/
+
+typedef MicroHash	DepCollection;
+#define dep_collection_init(dc, dep)	\
+	micro_hash_init (&(dc), dep)
+#define dep_collection_insert(dc, dep)	\
+	micro_hash_insert (&(dc), dep)
+#define dep_collection_remove(dc, dep)	\
+	micro_hash_remove (&(dc), dep)
+#define dep_collection_is_empty(dc)				\
+	(dc.num_elements == 0)
+#define dep_collection_foreach_dep(dc, dep, code) do {		\
+	GSList *l;						\
+	int i = dc.num_buckets;					\
+	if (i <= 1) { 						\
+		for (l = dc.u.singleton; l ; l = l->next) {	\
+			Dependent *dep = l->data;		\
+			code					\
+		}						\
+	} else while (i-- > 0) {				\
+		for (l = dc.u.buckets [i]; l ; l = l->next) {	\
+			Dependent *dep = l->data;		\
+			code					\
+		}						\
+	}							\
+} while (0)
+#define dep_collection_foreach_list(dc, list, code) do {	\
+	GSList *list;						\
+	int i = dc.num_buckets;					\
+	if (i <= 1) { 						\
+		list = dc.u.singleton;				\
+		code						\
+	} else while (i-- > 0) {				\
+		list = dc.u.buckets[i];				\
+		code						\
+	}							\
+} while (0)
+#else
+typedef GSList *	DepCollection;
+#define dep_collection_init(dc, dep)	\
+	dc = g_slist_prepend (NULL, dep)
+#define dep_collection_insert(dc, dep) \
+	if (!g_slist_find (dc, dep)) dc = g_slist_prepend (dc, dep)
+#define dep_collection_remove(dc, dep)	\
+	dc = g_slist_remove (dc, dep);
+#define dep_collection_is_empty(dc)	\
+	(dc == NULL)
+#define dep_collection_foreach_dep(dc, dep, code) do {		\
+	GSList *l;						\
+	for (l = dc; l != NULL ; l = l->next) {			\
+		Dependent *dep = l->data;			\
+		code						\
+	}							\
+} while (0)
+#define dep_collection_foreach_list(dc, list, code) do {	\
+	GSList *list = dc;					\
+	code							\
+} while (0)
+#endif
+
 /**************************************************************************
  * Data structures for managing dependencies between objects.
  *
@@ -275,10 +470,10 @@ cb_dependent_queue_recalc (Dependent *dep, gpointer ignore)
  * are used by another objects in the spreadsheet.
  *
  * A change in those cells will trigger a recomputation on the
- * cells listed in dependent_list.
+ * cells listed in deps.
  */
 typedef struct {
-	GSList *dependent_list;		/* Must be first */
+	DepCollection	deps;	/* Must be first */
 	Range  range;
 } DependencyRange;
 
@@ -287,16 +482,16 @@ typedef struct {
  * on the cell at @pos.
  * 
  * A change in this cell will trigger a recomputation on the
- * cells listed in dependent_list.
+ * cells listed in deps.
  */
 typedef struct {
-	GSList  *dependent_list;	/* Must be first */
+	DepCollection	deps;	/* Must be first */
 	CellPos pos;
 } DependencySingle;
 
 /* A utility type */
 typedef struct {
-	GSList  *dependent_list;	/* Must be first */
+	DepCollection	deps;	/* Must be first */
 } DependencyAny;
 
 typedef enum {
@@ -372,21 +567,18 @@ handle_cell_single_dep (Dependent *dep, CellPos const *pos,
 
 	if (operation == ADD_DEPS) {
 		if (single) {
-			if (!g_slist_find (single->dependent_list, dep))
-				single->dependent_list =
-					g_slist_prepend (single->dependent_list, dep);
-			else
-				/* Referenced twice in the same formula */;
+			/* Inserts if it is not already there */
+			dep_collection_insert (single->deps, dep);
 		} else {
 			single  = g_new (DependencySingle, 1);
 			*single = lookup;
-			single->dependent_list = g_slist_prepend (NULL, dep);
+			dep_collection_init (single->deps, dep);
 			g_hash_table_insert (deps->single_hash, single, single);
 		}
 	} else { /* Remove */
 		if (single) {
-			single->dependent_list = g_slist_remove (single->dependent_list, dep);
-			if (single->dependent_list == NULL) {
+			dep_collection_remove (single->deps, dep);
+			if (dep_collection_is_empty (single->deps)) {
 				g_hash_table_remove (deps->single_hash, single);
 				g_free (single);
 			}
@@ -396,7 +588,7 @@ handle_cell_single_dep (Dependent *dep, CellPos const *pos,
 }
 
 static void
-add_range_dep (DependencyContainer *deps, Dependent *dependent,
+add_range_dep (DependencyContainer *deps, Dependent *dep,
 	       DependencyRange const *r)
 {
 	int i = r->range.start.row / BUCKET_SIZE;
@@ -415,16 +607,8 @@ add_range_dep (DependencyContainer *deps, Dependent *dependent,
 			result = g_hash_table_lookup (deps->range_hash[i], r);
 
 			if (result) {
-				/* Is the dependent already listed? */
-				GSList const *cl = g_slist_find (result->dependent_list,
-								 dependent);
-				if (cl)
-					continue;
-
-				/* It was not: add it */
-				result->dependent_list = g_slist_prepend (result->dependent_list,
-									  dependent);
-
+				/* Inserts if it is not already there */
+				dep_collection_insert (result->deps, dep);
 				continue;
 			}
 		}
@@ -432,48 +616,32 @@ add_range_dep (DependencyContainer *deps, Dependent *dependent,
 		/* Create a new DependencyRange structure */
 		result = g_new (DependencyRange, 1);
 		*result = *r;
-		result->dependent_list = g_slist_prepend (NULL, dependent);
-
+		dep_collection_init (result->deps, dep);
 		g_hash_table_insert (deps->range_hash[i], result, result);
 	}
 }
 
 static void
-drop_range_dep (DependencyContainer *deps, Dependent *dependent,
+drop_range_dep (DependencyContainer *deps, Dependent *dep,
 		DependencyRange const *r)
 {
 	int i = r->range.start.row / BUCKET_SIZE;
 	int const end = r->range.end.row / BUCKET_SIZE;
+	DependencyRange *result;
 
 	if (!deps)
 		return;
 
 	for ( ; i <= end; i++) {
-		DependencyRange *result;
-
 		result = g_hash_table_lookup (deps->range_hash[i], r);
 		if (result) {
-			result->dependent_list =
-				g_slist_remove (result->dependent_list, dependent);
-			if (result->dependent_list == NULL) {
+			dep_collection_remove (result->deps, dep);
+			if (dep_collection_is_empty (result->deps)) {
 				g_hash_table_remove (deps->range_hash[i], result);
 				g_free (result);
 			}
 		}
 	}
-}
-
-static void
-deprange_init (DependencyRange *range, CellPos const *pos,
-	       CellRef const *a,  CellRef const *b)
-{
-	cellref_get_abs_pos (a, pos, &range->range.start);
-	cellref_get_abs_pos (b, pos, &range->range.end);
-	range_normalize (&range->range);
-
-	range->dependent_list = NULL;
-	if (b->sheet && a->sheet != b->sheet)
-		g_warning ("FIXME: 3D references need work");
 }
 
 /*
@@ -489,7 +657,9 @@ handle_cell_range_deps (Dependent *dep, CellPos const *pos,
 	DependencyRange range;
 	DependencyContainer *depsa, *depsb;
 
-	deprange_init (&range, pos, a, b);
+	cellref_get_abs_pos (a, pos, &range.range.start);
+	cellref_get_abs_pos (b, pos, &range.range.end);
+	range_normalize (&range.range);
 
 	depsa = eval_sheet (a->sheet, dep->sheet)->deps;
 	if (operation)
@@ -848,11 +1018,9 @@ cb_search_rangedeps (gpointer key, gpointer value, gpointer closure)
 
 	/* No intersection is the common case */
 	if (range_contains (range, c->col, c->row)) {
-		GSList *l;
-		for (l = deprange->dependent_list; l; l = l->next) {
-			Dependent *dep = l->data;
-			(*c->func) (dep, c->user);
-		}
+		DepFunc	 func = c->func;
+		dep_collection_foreach_dep (deprange->deps, dep, 
+			(func) (dep, c->user););
 	}
 }
 
@@ -887,19 +1055,14 @@ cell_foreach_single_dep (Sheet const *sheet, int col, int row,
 {
 	DependencySingle lookup, *single;
 	DependencyContainer *deps = sheet->deps;
-	GSList *ptr;
 
 	lookup.pos.col = col;
 	lookup.pos.row = row;
 
 	single = g_hash_table_lookup (deps->single_hash, &lookup);
-	if (single == NULL)
-		return;
-
-	for (ptr = single->dependent_list ; ptr != NULL ; ptr = ptr->next) {
-		Dependent *dep = ptr->data;
-		(*func) (dep, user);
-	}
+	if (single != NULL)
+		dep_collection_foreach_dep (single->deps, dep,
+			(*func) (dep, user););
 }
 
 void
@@ -920,7 +1083,8 @@ static void
 cb_recalc_all_depends (gpointer key, gpointer value, gpointer ignore)
 {
 	DependencyAny const *depany = key;
-	dependent_queue_recalc_list (depany->dependent_list);
+	dep_collection_foreach_list (depany->deps, list,
+		dependent_queue_recalc_list (list););
 }
 
 static void
@@ -931,7 +1095,8 @@ cb_range_contained_depend (gpointer key, gpointer value, gpointer user)
 	Range const *target = user;
 
 	if (range_overlap (target, range))
-		dependent_queue_recalc_list (deprange->dependent_list);
+		dep_collection_foreach_list (deprange->deps, list,
+			dependent_queue_recalc_list (list););
 }
 
 static void
@@ -941,7 +1106,8 @@ cb_single_contained_depend (gpointer key, gpointer value, gpointer user)
 	Range const *target = user;
 
 	if (range_contains (target, depsingle->pos.col, depsingle->pos.row))
-		dependent_queue_recalc_list (depsingle->dependent_list);
+		dep_collection_foreach_list (depsingle->deps, list,
+			dependent_queue_recalc_list (list););
 }
 
 /**
@@ -1026,11 +1192,12 @@ cb_dep_hash_invalidate (gpointer key, gpointer value, gpointer closure)
 {
 	ExprRewriteInfo const *rwinfo = closure;
 	DependencyAny *depany = value;
-	GSList *deps = depany->dependent_list;
+#ifndef ENABLE_MICRO_HASH
+	GSList *deps = depany->deps;
 	GSList *ptr = deps;
 	Dependent *dependent;
 
-	depany->dependent_list = NULL;	/* poison it */
+	depany->deps = NULL;	/* poison it */
 	if (rwinfo->type == EXPR_REWRITE_SHEET) {
 		Sheet const *target = rwinfo->u.sheet;
 		for (; ptr != NULL; ptr = ptr->next) {
@@ -1050,6 +1217,23 @@ cb_dep_hash_invalidate (gpointer key, gpointer value, gpointer closure)
 	}
 
 	g_slist_free (deps);
+#else
+	if (rwinfo->type == EXPR_REWRITE_SHEET) {
+		Sheet const *target = rwinfo->u.sheet;
+		dep_collection_foreach_dep (depany->deps, dep,
+			if (dep->sheet != target)
+				invalidate_refs (dep, rwinfo););
+	} else if (rwinfo->type == EXPR_REWRITE_WORKBOOK) {
+		Workbook const *target = rwinfo->u.workbook;
+		dep_collection_foreach_dep(depany->deps, dep,
+			if (dep->sheet->workbook != target)
+				invalidate_refs (dep, rwinfo););
+	} else {
+		g_assert_not_reached ();
+	}
+
+	micro_hash_release (&depany->deps);
+#endif
 	g_free (depany);
 }
 
@@ -1262,17 +1446,19 @@ dump_range_dep (gpointer key, gpointer value, gpointer closure)
 	printf ("\t%s:", cell_pos_name (&range->start));
 	printf ("%s -> ", cell_pos_name (&range->end));
 
-	dump_dependent_list (deprange->dependent_list);
+	dep_collection_foreach_list (deprange->deps, list,
+		dump_dependent_list (list););
 }
 
 static void
 dump_single_dep (gpointer key, gpointer value, gpointer closure)
 {
-	DependencySingle *dep = key;
+	DependencySingle *depsingle = key;
 
-	printf ("\t%s -> ", cell_pos_name (&dep->pos));
+	printf ("\t%s -> ", cell_pos_name (&depsingle->pos));
 
-	dump_dependent_list (dep->dependent_list);
+	dep_collection_foreach_list (depsingle->deps, list,
+		dump_dependent_list (list););
 }
 
 /**
