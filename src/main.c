@@ -7,32 +7,32 @@
 #include "cursors.h"
 #include "number-match.h"
 #include "dump.h"
+#include "main.h"
 
 #ifdef HAVE_GUILE
 #include <libguile.h>
 #endif
 
 static char *dump_file_name = NULL;
+static char **startup_files = NULL;
 
-static const struct poptOption options[] = {
-  {"dump-func-defs", '\0', POPT_ARG_STRING, &dump_file_name, 0, N_("Dumps the function definitions"), N_("FILE")},
-  {NULL, '\0', 0, NULL, 0}
+poptContext ctx;
+const struct poptOption gnumeric_popt_options [] = {
+	{ "dump-func-defs", '\0', POPT_ARG_STRING, &dump_file_name, 0,
+	  N_("Dumps the function definitions"), N_("FILE") },
+	{ NULL, '\0', 0, NULL, 0 }
 };
 
-static int
+static void
 gnumeric_main (void *closure, int argc, char *argv [])
 {
 	GList *l;
-	poptContext ctx;
 	int i;
-	/* If set, the file to load at startup time */
-	char **startup_files = NULL;
 	
 	bindtextdomain (PACKAGE, GNOMELOCALEDIR);
 	textdomain (PACKAGE);
 
-	gnome_init_with_popt_table ("gnumeric", VERSION, argc, argv,
-				    options, 0, &ctx);
+	gnumeric_arg_parse (argc, argv);
 
 	string_init ();
 	format_match_init ();
@@ -49,15 +49,15 @@ gnumeric_main (void *closure, int argc, char *argv [])
 		exit (1);
 	}
 
-	startup_files = poptGetArgs(ctx);
-	if(startup_files)
-		for(i = 0; startup_files[i]; i++) {
-		  current_workbook = workbook_read (startup_files[i]);
-	  
-		  if (current_workbook)
-		    gtk_widget_show (current_workbook->toplevel);
+	startup_files = poptGetArgs (ctx);
+	if (startup_files)
+		for (i = 0; startup_files [i]; i++) {
+			current_workbook = workbook_read (startup_files [i]);
+			
+			if (current_workbook)
+				gtk_widget_show (current_workbook->toplevel);
 		}
-	poptFreeContext(ctx);
+	poptFreeContext (ctx);
 	
 	if (current_workbook == NULL){
 		current_workbook = workbook_new_with_sheets (1);
@@ -71,7 +71,6 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	format_color_shutdown ();
 
 	gnome_config_drop_all ();
-	return 0;
 }
 
 int

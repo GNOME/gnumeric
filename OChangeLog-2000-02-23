@@ -1,5 +1,18 @@
 1998-11-27  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/item-grid.c (item_grid_realize): Oops.  This was not a bug.
+	gc was actually initialized as being item_grid->grid_gc, it was
+	just not obvious.
+
+	* src/main.c (gnumeric_main): Fix the prototype.
+
+	* src/dialog-goto-cell.c (dialog_goto_cell): Revert const from gtk-clist.
+
+	* src/dialog-cell-format.c (create_number_format_page): Revert
+	const from gtk-clist.
+
+	* src/dialog-goto-cell.c (dialog_goto_cell): Revert const from gtk-clist.
+
 	* src/Gnumeric-impl.c: Empty stubs for now.
 	
 	* src/Makefile.am (GNUMERIC_CORBA_SOURCES): Add rules for

@@ -91,7 +91,7 @@ format_list_fill (int n)
 	gtk_clist_clear (cl);
 
 	for (i = 0; texts [i]; i++){
-		const gchar *t [1];
+		gchar *t [1];
 
 		t [0] = _(texts [i]);
 		
@@ -270,7 +270,7 @@ create_number_format_page (GtkWidget *prop_win, CellList *cells)
 	/* 1.2 Fill the category list */
 	gtk_clist_freeze (GTK_CLIST (number_cat_list));
 	for (i = 0; cell_formats [i].name; i++){
-		const gchar *text [1] = { _(cell_formats [i].name) };
+		gchar *text [1] = { _(cell_formats [i].name) };
 		
 		gtk_clist_append (GTK_CLIST (number_cat_list), text);
 	}

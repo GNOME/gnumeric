@@ -19,26 +19,30 @@ GNOME_X_CHECKS
 GNOME_XML_CHECK
 GNOME_CHECK_GUILE
 
-dnl
-dnl Check for ORBit
-dnl
-AC_CHECK_PROG(orbit_val, orbit-config, true, false)
-
-AM_CONDITIONAL(WITH_ORBIT, $orbit_val)
-
-if $orbit_val; then
-    AC_DEFINE(HAVE_ORBIT)
-fi
-
 AC_SUBST(CFLAGS)
 AC_SUBST(CPPFLAGS)
 AC_SUBST(LDFLAGS)
 
-dnl ## internationalization support
-dnl ## all 'es_??' only differ from 'es' in number formats
+dnl **************************************************
+dnl * internationalization support
+dnl **************************************************
+dnl 
+dnl
+dnl Check doc/translating.sgml for a description of how to translate
+dnl and why we have so many translations.
+dnl
 ALL_LINGUAS="cs es es_DO es_GT es_HN es_MX es_PA es_PE es_SV fr hu it ko no no_NO pt"
 AM_GNU_GETTEXT
 AC_LINK_FILES($nls_cv_header_libgt, $nls_cv_header_intl)
+
+
+
+dnl **************************************************
+dnl * ORBit support
+dnl **************************************************
+GNOMEGNORBA_LIBS="$GNOMEGNORBA_LIBS"
+AC_SUBST(GNOMEGNORBA_LIBS)
+
 
 dnl
 dnl Compatibility with old Gtk+ (will be removed when new Gtk+ and gnome-libs go out).
@@ -48,8 +52,11 @@ LIBS="$LIBS $GTK_LIBS"
 AC_CHECK_FUNC(gtk_selection_add_target, AC_DEFINE(HAVE_GTK_SELECTION_ADD_TARGET))
 LIBS="$OLD_LIBS"
 
-dnl
-dnl Check for Perl
+
+
+dnl **************************************************
+dnl * Check for Perl
+dnl **************************************************
 dnl
 AC_CHECK_PROG(perl_val, perl, true, false)
 if $perl_val; then
@@ -77,8 +84,9 @@ if $perl_val; then
 fi
 AM_CONDITIONAL(WITH_PERL, $perl_val)
 
-dnl
-dnl Check for Python
+dnl **************************************************
+dnl * Check for Python
+dnl **************************************************
 dnl
 AC_CHECK_PROG(python_val, python, true, false)
 if $python_val; then

@@ -512,12 +512,12 @@ impl_GNOME_GnumericFactory__destroy(impl_POA_GNOME_GnumericFactory * servant, CO
 }
 
 CORBA_Object
-impl_GNOME_GnumericFactory_new(impl_POA_GNOME_GnumericFactory * servant,
-			       CORBA_Environment * ev)
+impl_GNOME_GnumericFactory_new (impl_POA_GNOME_GnumericFactory * servant,
+				CORBA_Environment * ev)
 {
-   CORBA_Object retval;
+	CORBA_Object retval;
 
-   return retval;
+	return retval;
 }
 
 CORBA_Object

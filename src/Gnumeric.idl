@@ -12,9 +12,11 @@ module GNOME {
 	};
 		
 	interface Gnumeric : Spreadsheet {
+		
 	};
 
 	interface GnumericFactory : Factory {
+		
 	};
 };
 	

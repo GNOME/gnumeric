@@ -2,7 +2,7 @@
 # 	-Wshadow             -Wpointer-arith  	\
 # 	-Wmissing-prototypes -Wmissing-declarations 
 
-bin_PROGRAMS = gnumeric 
+bin_PROGRAMS = gnumeric gnumeric-corba
 
 #noinst_PROGRAMS = number-match
 
@@ -114,10 +114,17 @@ $(GNUMERIC_CORBA_GENERATED): Gnumeric.idl
 
 gnumeric_SOURCES =			\
 	main.c				\
+	normal-args.c			\
+	$(GNUMERIC_BASE_SOURCES)
+
+gnumeric_corba_SOURCES = 		\
+	main.c				\
+	corba-args.c			\
 	$(GNUMERIC_CORBA_SOURCES)	\
 	$(GNUMERIC_BASE_SOURCES)
 
 gnumeric_LDFLAGS = -export-dynamic
+gnumeric_corba_LDFLAGS = $(gnumeric_LDFLAGS)
 
 gnumeric_LDADD = 			\
 	../plugins/excel/libexcel.a	\
@@ -127,6 +134,7 @@ gnumeric_LDADD = 			\
 	$(GUILE_LIBS)			\
 	$(INTLLIBS)
 
+gnumeric_corba_LDADD = $(gnumeric_LDADD) $(GNOMEGNORBA_LIBS)
 
 wc:
 	wc -l $(gnumeric_SOURCES)

@@ -37,7 +37,7 @@ dialog_goto_cell (Workbook *wb)
 	
 	if (!dialog){
 		GtkWidget *box;
-		const gchar *titles [2];
+		gchar *titles [2];
 
 		titles [0] = _("Cell");
 		titles [1] = NULL;
@@ -84,7 +84,7 @@ dialog_goto_cell (Workbook *wb)
 
 	if (*text){
 		if (workbook_parse_and_jump (wb, text)){
-			const gchar *texts [1];
+			gchar *texts [1];
 			
 			texts [0] = text;
 			
