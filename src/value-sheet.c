@@ -1,8 +1,11 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /*
  * value-sheet.c:  Utilies for sheet specific value handling
  *
  * Author:
  *   Miguel de Icaza (miguel@gnu.org).
+ *   Jody Goldberg (jody@gnome.org)
  */
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
@@ -223,7 +226,8 @@ typedef struct
 {
 	ValueAreaFunc  callback;
 	GnmEvalPos const *ep;
-	void	      *real_data;
+	gpointer	  real_data;
+	int base_col, base_row;
 } WrapperClosure;
 
 static GnmValue *
@@ -237,7 +241,8 @@ cb_wrapper_foreach_cell_in_area (Sheet *sheet, int col, int row,
 		v = cell->value;
 	} else
 		v = NULL;
-       	return (*wrap->callback) (v, wrap->ep, wrap->real_data);
+       	return (*wrap->callback) (v, wrap->ep,
+		col - wrap->base_col, row - wrap->base_row, wrap->real_data);
 }
 
 /**
@@ -249,7 +254,7 @@ cb_wrapper_foreach_cell_in_area (Sheet *sheet, int col, int row,
  * Return value:
  *    non-NULL on error, or VALUE_TERMINATE if some invoked routine requested
  *    to stop (by returning non-NULL).
- */
+ **/
 GnmValue *
 value_area_foreach (GnmValue const *v, GnmEvalPos const *ep,
 		    CellIterFlags flags,
@@ -263,9 +268,16 @@ value_area_foreach (GnmValue const *v, GnmEvalPos const *ep,
 
         if (v->type == VALUE_CELLRANGE) {
 		WrapperClosure wrap;
+		GnmRange  r;
+		Sheet *start_sheet, *end_sheet;
+
+		rangeref_normalize (&v->v_range.cell, ep, &start_sheet, &end_sheet, &r);
+
 		wrap.callback = callback;
 		wrap.ep = ep;
 		wrap.real_data = closure;
+		wrap.base_col = r.start.col;
+		wrap.base_row = r.start.row;
 		return workbook_foreach_cell_in_range (
 			ep, v, flags,
 			&cb_wrapper_foreach_cell_in_area,
@@ -274,11 +286,11 @@ value_area_foreach (GnmValue const *v, GnmEvalPos const *ep,
 
 	/* If not an array, apply callback to singleton */
         if (v->type != VALUE_ARRAY)
-		return (*callback) (v, ep, closure);
+		return (*callback) (v, ep, 0, 0, closure);
 
 	for (x = v->v_array.x; --x >= 0;)
 		for (y = v->v_array.y; --y >= 0;)
-			if ((tmp = (*callback)(v->v_array.vals [x][y], ep, closure)) != NULL)
+			if ((tmp = (*callback)(v->v_array.vals [x][y], ep, x, y, closure)) != NULL)
 				return tmp;
 
 	return NULL;

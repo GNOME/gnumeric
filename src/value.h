@@ -156,7 +156,8 @@ GnmRangeRef const *value_get_rangeref (GnmValue const *v);
 /* Area functions ( works on VALUE_RANGE or VALUE_ARRAY */
 /* The GnmEvalPos provides a Sheet context; this allows
    calculation of relative references. 'x','y' give the position */
-typedef GnmValue *(*ValueAreaFunc) (GnmValue const *v, GnmEvalPos const *ep, void *user);
+typedef GnmValue *(*ValueAreaFunc) (GnmValue const *v, GnmEvalPos const *ep,
+				    int x, int y, gpointer user);
 GnmValue       *value_area_foreach    (GnmValue const *v, GnmEvalPos const *ep,
 				       CellIterFlags flags,
 				       ValueAreaFunc func, gpointer user);

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-05-05 02:22-0400\n"
+"POT-Creation-Date: 2004-06-22 22:55-0400\n"
 "PO-Revision-Date: 2003-09-24 00:24+0200\n"
 "Last-Translator: Stanislav Visnovsky <visnovsky@kde.org>\n"
 "Language-Team: Slovak <sk-i18n@linux.sk>\n"
@@ -881,7 +881,7 @@ msgstr "Finančné produkty"
 msgid "Functions related to financial derivatives"
 msgstr "Funkcie pre finančné produkty"
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5524
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5542
 #: plugins/mps/mps.c:549 src/xml-io.c:4136
 msgid "Reading file..."
 msgstr "Čítam súbor..."
@@ -954,15 +954,15 @@ msgid ""
 "Reads and writes information stored in the Data Interchange Format (*.dif)"
 msgstr "Zapisuje a číta informácie uložené v Data Interchange Format (*.dif)"
 
-#: plugins/excel/boot.c:181
+#: plugins/excel/boot.c:183
 msgid "No Workbook or Book streams found."
 msgstr "Neboli nájdené žiadne kanále pre zošit."
 
-#: plugins/excel/boot.c:230
+#: plugins/excel/boot.c:232
 msgid "Preparing to save..."
 msgstr "Pripravujem ukladanie..."
 
-#: plugins/excel/boot.c:242
+#: plugins/excel/boot.c:244
 msgid "Saving file..."
 msgstr "Súbor sa ukladá..."
 
@@ -1027,15 +1027,15 @@ msgstr ""
 "Odkazy OLE nie sú podporované.\n"
 "Meno '%s' bude stratené.\n"
 
-#: plugins/excel/ms-excel-read.c:4884
+#: plugins/excel/ms-excel-read.c:4902
 msgid "external references"
 msgstr "externé referencie"
 
-#: plugins/excel/ms-excel-read.c:4909
+#: plugins/excel/ms-excel-read.c:4927
 msgid "No password supplied"
 msgstr "Nezadané heslo"
 
-#: plugins/excel/ms-excel-read.c:5757
+#: plugins/excel/ms-excel-read.c:5775
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Nepodarilo sa nájsť platný zošit MS Excel"
 
@@ -1048,7 +1048,7 @@ msgstr ""
 "Toto je čiastočne poškodené.\n"
 "Už sme zapísali dĺžku reťazca, ktorý se skrátený kvôli problémom s kódovaním."
 
-#: plugins/excel/ms-excel-write.c:3824
+#: plugins/excel/ms-excel-write.c:3834
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -1057,7 +1057,7 @@ msgstr ""
 "Pri ukladaní ako MS Excel (tm) 95 bude časť obsahu stratená. Podporuje iba %"
 "d riadkov a tento zošit ich má %d"
 
-#: plugins/excel/ms-excel-write.c:3831
+#: plugins/excel/ms-excel-write.c:3841
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -1066,11 +1066,11 @@ msgstr ""
 "Pri ukladaní ako MS Excel (tm) bude časť obsahu stratená. Podporuje iba %d "
 "riadkov a tento zošit ich má %d"
 
-#: plugins/excel/ms-excel-write.c:4349
+#: plugins/excel/ms-excel-write.c:4363
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Nepodarilo sa otvoriť kanál 'Book' pre zápis\n"
 
-#: plugins/excel/ms-excel-write.c:4369
+#: plugins/excel/ms-excel-write.c:4383
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Nepodarilo sa otvoriť kanál 'Workbook' pre zápis\n"
 
@@ -1078,7 +1078,7 @@ msgstr "Nepodarilo sa otvoriť kanál 'Workbook' pre zápis\n"
 msgid "Broken function"
 msgstr "Pokazená funkcia"
 
-#: plugins/excel/ms-formula-write.c:536
+#: plugins/excel/ms-formula-write.c:537
 #, c-format
 msgid ""
 "Too many arguments for function, MS Excel expects exactly %d and we have more"
@@ -7568,6 +7568,7 @@ msgstr "%s verzia %s"
 #: plugins/fn-info/functions.c:1308
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:675
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:120
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:910
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:591
 #: src/dialogs/dialog-cell-format.c:2278 src/dialogs/dialog-cell-format.c:2283
 #: src/dialogs/dialog-cell-format.c:2293 src/workbook-format-toolbar.c:837
@@ -15981,8 +15982,8 @@ msgid "Constraints:"
 msgstr "Obmedzenia:"
 
 #: plugins/mps/mps.c:247 src/commands.c:5739
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1032
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:107
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1049
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:159
 #: src/dialogs/dialog-define-names.c:494 src/dialogs/dialog-formula-guru.c:815
 #: src/dialogs/dialog-function-select.c:445
 #: src/dialogs/dialog-function-select.c:467 src/dialogs/dialog-scenarios.c:362
@@ -16706,6 +16707,10 @@ msgstr "Chyba pri zápise súboru xbase."
 #: src/xml-io.c:3726
 msgid "Sheet"
 msgstr "List"
+
+#: plugins/xbase/xbase.c:142
+msgid "Failed to read DBF header."
+msgstr ""
 
 #: plugins/xbase/plugin.xml.in.h:1
 msgid "Imports XBase files"
@@ -17616,7 +17621,7 @@ msgstr "Vytvorí objekt šípka"
 msgid "Create an ellipse object"
 msgstr "Vytvorí objekt elipsa"
 
-#: src/GNOME_Gnumeric.xml.h:72 src/sheet-control-gui.c:1486
+#: src/GNOME_Gnumeric.xml.h:72 src/sheet-control-gui.c:1502
 msgid "Cu_t"
 msgstr "Vystri_hnúť"
 
@@ -17721,7 +17726,7 @@ msgid "Filter data with given criteria"
 msgstr "Filtruje dáta podľa daného kritéria"
 
 #: src/GNOME_Gnumeric.xml.h:97
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:913
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:924
 #: src/dialogs/cell-format.glade.h:43 src/dialogs/dialog-preferences.c:1500
 #: src/workbook-format-toolbar.c:412
 msgid "Font"
@@ -18337,7 +18342,7 @@ msgid "Statistical Anal_ysis"
 msgstr "Štatistická ana_lýza"
 
 #: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:4049
-#: src/workbook-control-gui.c:4869 src/workbook-view.c:541
+#: src/workbook-control-gui.c:4869 src/workbook-view.c:542
 msgid "Sum"
 msgstr "Súčet"
 
@@ -18496,7 +18501,7 @@ msgid "_Contents"
 msgstr "O_bsah"
 
 #: src/GNOME_Gnumeric.xml.h:278 src/item-cursor.c:1021
-#: src/sheet-control-gui.c:1488
+#: src/sheet-control-gui.c:1504
 msgid "_Copy"
 msgstr "_Kopírovať"
 
@@ -18513,7 +18518,7 @@ msgstr "_Dáta"
 msgid "_Define..."
 msgstr "_Definovať..."
 
-#: src/GNOME_Gnumeric.xml.h:282 src/sheet-control-gui.c:1506
+#: src/GNOME_Gnumeric.xml.h:282 src/sheet-control-gui.c:1522
 #: src/workbook-control-gui.c:3506
 msgid "_Delete..."
 msgstr "_Zmazať..."
@@ -18589,8 +18594,8 @@ msgstr "_Zoskupiť..."
 msgid "_Help"
 msgstr "_Pomocník"
 
-#: src/GNOME_Gnumeric.xml.h:300 src/sheet-control-gui.c:1531
-#: src/sheet-control-gui.c:1539 src/workbook-control-gui.c:3643
+#: src/GNOME_Gnumeric.xml.h:300 src/sheet-control-gui.c:1547
+#: src/sheet-control-gui.c:1555 src/workbook-control-gui.c:3643
 #: src/workbook-control-gui.c:3662
 msgid "_Hide"
 msgstr "_Skryť"
@@ -18657,7 +18662,7 @@ msgstr "_Otvoriť..."
 msgid "_Paired Samples: T-Test..."
 msgstr "_Párové výbery: T-Test..."
 
-#: src/GNOME_Gnumeric.xml.h:316 src/sheet-control-gui.c:1490
+#: src/GNOME_Gnumeric.xml.h:316 src/sheet-control-gui.c:1506
 msgid "_Paste"
 msgstr "V_ložiť"
 
@@ -18791,8 +18796,8 @@ msgstr "_Vrátiť"
 msgid "_Ungroup..."
 msgstr "Zrušiť z_oskupenie..."
 
-#: src/GNOME_Gnumeric.xml.h:347 src/sheet-control-gui.c:1533
-#: src/sheet-control-gui.c:1541 src/workbook-control-gui.c:3646
+#: src/GNOME_Gnumeric.xml.h:347 src/sheet-control-gui.c:1549
+#: src/sheet-control-gui.c:1557 src/workbook-control-gui.c:3646
 #: src/workbook-control-gui.c:3665
 msgid "_Unhide"
 msgstr "_Zobraziť skryté"
@@ -19503,33 +19508,33 @@ msgstr "Hranice"
 msgid "Format"
 msgstr "Formát"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:183
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:190
 msgid "Legend"
 msgstr "Legenda"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:186
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:193
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:157
-#: src/cut-n-paste-code/goffice/graph/gog-legend.c:179
+#: src/cut-n-paste-code/goffice/graph/gog-legend.c:180
 msgid "Title"
 msgstr "Titulok"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:189
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:196
 msgid "Grid"
 msgstr "Mriežka"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:192
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:199
 msgid "X-Axis"
 msgstr "Os X"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:196
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:203
 msgid "Y-Axis"
 msgstr "Os Y"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:200
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:207
 msgid "Z-Axis"
 msgstr "Os Z"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:204
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:211
 msgid "Plot"
 msgstr "Kresliť"
 
@@ -19561,24 +19566,24 @@ msgstr "Graf"
 msgid "Chart"
 msgstr "Graf"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1058
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1075
 msgid "Step 1 of 2: Select Chart Type"
 msgstr "Krok 1 z 2: Výber typu grafu"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1066
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1083
 msgid "Step 2 of 2: Customize Chart"
 msgstr "Krok 2 z 2: Úprava grafu"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1071
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1088
 msgid "Customize Chart"
 msgstr "Upraviť graf"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1166
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1183
 msgid "_Plot Type"
 msgstr "Typ _kresby"
 
 #. Set up sample button
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1256
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1273
 msgid ""
 "Show\n"
 "Sample"
@@ -19586,7 +19591,7 @@ msgstr ""
 "Zobraziť\n"
 "náhľad"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1265
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1282
 #: src/dialogs/dialog-plugin-manager.c:712
 #: src/dialogs/dialog-preferences.c:558 src/dialogs/function-select.glade.h:2
 msgid "Description"
@@ -19634,7 +19639,7 @@ msgid "_Text:"
 msgstr "_Text:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-label.c:113
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:133
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:196
 #: src/dialogs/dialog-stf.glade.h:15
 msgid "Data"
 msgstr "Dáta"
@@ -19804,7 +19809,7 @@ msgstr "%d x %d"
 msgid "Select an image"
 msgstr "Vyberte obrázok"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:985
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:995
 #: src/dialogs/pivottable.glade.h:4
 msgid "Style"
 msgstr "Štýl"
@@ -19822,13 +19827,13 @@ msgid "Guppi"
 msgstr "Guppi"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:304
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:195
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:154
 #: src/dialogs/consolidate.glade.h:12
 msgid "Labels"
 msgstr "Popisy"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:306
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:197
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:156
 #: src/dialogs/consolidate.glade.h:27
 msgid "Values"
 msgstr "Hodnoty"
@@ -20144,7 +20149,7 @@ msgstr "stupne"
 msgid "PlotPie"
 msgstr "GrafKoláč"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:268
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:226
 msgid "PlotRing"
 msgstr "GrafKruh"
 
@@ -20891,7 +20896,7 @@ msgstr "_Vstup"
 #: src/dialogs/correlation.glade.h:11 src/dialogs/covariance.glade.h:11
 #: src/dialogs/descriptive-stats.glade.h:21
 #: src/dialogs/dialog-analysis-tools.c:341
-#: src/dialogs/dialog-analysis-tools.c:2586 src/dialogs/dialog-shuffle.c:151
+#: src/dialogs/dialog-analysis-tools.c:2587 src/dialogs/dialog-shuffle.c:151
 #: src/dialogs/exp-smoothing.glade.h:14
 #: src/dialogs/fourier-analysis.glade.h:12
 #: src/dialogs/moving-averages.glade.h:16 src/dialogs/rank.glade.h:14
@@ -21875,8 +21880,8 @@ msgstr "Nenájdené žiadne odpovedajúce záznamy."
 #: src/dialogs/dialog-advanced-filter.c:162
 #: src/dialogs/dialog-analysis-tools.c:588
 #: src/dialogs/dialog-analysis-tools.c:706
-#: src/dialogs/dialog-analysis-tools.c:1988
-#: src/dialogs/dialog-analysis-tools.c:2878
+#: src/dialogs/dialog-analysis-tools.c:1989
+#: src/dialogs/dialog-analysis-tools.c:2879
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Nastala neočakávaná chyba: %d."
@@ -21916,15 +21921,15 @@ msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre kovarianciu."
 msgid "Could not create the Rank and Percentile Tools dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre rozloženie a percentily."
 
-#: src/dialogs/dialog-analysis-tools.c:928
+#: src/dialogs/dialog-analysis-tools.c:929
 msgid "Could not create the Fourier Analysis Tool dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre Fourierovu analýzu."
 
-#: src/dialogs/dialog-analysis-tools.c:1090
+#: src/dialogs/dialog-analysis-tools.c:1091
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre popisnú štatistiku."
 
-#: src/dialogs/dialog-analysis-tools.c:1232
+#: src/dialogs/dialog-analysis-tools.c:1233
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
@@ -21932,7 +21937,7 @@ msgstr ""
 "Prosím, zadajte platný\n"
 "rozptyl populácie pre premennú 1."
 
-#: src/dialogs/dialog-analysis-tools.c:1241
+#: src/dialogs/dialog-analysis-tools.c:1242
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
@@ -21940,74 +21945,74 @@ msgstr ""
 "Prosím, zadajte platný\n"
 "rozptyl populácie pre premennú 2."
 
-#: src/dialogs/dialog-analysis-tools.c:1466
+#: src/dialogs/dialog-analysis-tools.c:1467
 msgid "Var_iable 1 Range:"
 msgstr "Rozsah premennej _1:"
 
-#: src/dialogs/dialog-analysis-tools.c:1467
+#: src/dialogs/dialog-analysis-tools.c:1468
 msgid "_Variable 2 Range:"
 msgstr "Rozsah premennej _2:"
 
-#: src/dialogs/dialog-analysis-tools.c:1468
+#: src/dialogs/dialog-analysis-tools.c:1469
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg nástroja testy priemeru."
 
-#: src/dialogs/dialog-analysis-tools.c:1665
+#: src/dialogs/dialog-analysis-tools.c:1666
 msgid "Var_iable 1 Range"
 msgstr "Rozsah premennej _1"
 
-#: src/dialogs/dialog-analysis-tools.c:1665
+#: src/dialogs/dialog-analysis-tools.c:1666
 msgid "_Variable 2 Range"
 msgstr "Rozsah premennej _2"
 
-#: src/dialogs/dialog-analysis-tools.c:1666
+#: src/dialogs/dialog-analysis-tools.c:1667
 msgid "Could not create the FTest Tool dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg nástroja F-test."
 
-#: src/dialogs/dialog-analysis-tools.c:1868
+#: src/dialogs/dialog-analysis-tools.c:1869
 msgid "Could not create the Sampling Tool dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre výbery."
 
-#: src/dialogs/dialog-analysis-tools.c:1983 src/tools/analysis-tools.c:2152
+#: src/dialogs/dialog-analysis-tools.c:1984 src/tools/analysis-tools.c:2152
 #: src/tools/analysis-tools.c:2231
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr "Pre každú premennú regresie musí byť rovnaký počet položiek."
 
-#: src/dialogs/dialog-analysis-tools.c:2086 src/dialogs/regression.glade.h:21
+#: src/dialogs/dialog-analysis-tools.c:2087 src/dialogs/regression.glade.h:21
 msgid "_X Variables:"
 msgstr "Premenné _X:"
 
-#: src/dialogs/dialog-analysis-tools.c:2086 src/dialogs/regression.glade.h:22
+#: src/dialogs/dialog-analysis-tools.c:2087 src/dialogs/regression.glade.h:22
 msgid "_Y Variable:"
 msgstr "Premenné _Y:"
 
-#: src/dialogs/dialog-analysis-tools.c:2087
+#: src/dialogs/dialog-analysis-tools.c:2088
 msgid "Could not create the Regression Tool dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre regresiu."
 
-#: src/dialogs/dialog-analysis-tools.c:2223
+#: src/dialogs/dialog-analysis-tools.c:2224
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre exponenciálne vyhladenie."
 
-#: src/dialogs/dialog-analysis-tools.c:2364
+#: src/dialogs/dialog-analysis-tools.c:2365
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre kĺzavý priemer."
 
-#: src/dialogs/dialog-analysis-tools.c:2586 src/dialogs/histogram.glade.h:3
+#: src/dialogs/dialog-analysis-tools.c:2587 src/dialogs/histogram.glade.h:3
 msgid "Bin _Range:"
 msgstr "Rozsah _tried:"
 
-#: src/dialogs/dialog-analysis-tools.c:2587
+#: src/dialogs/dialog-analysis-tools.c:2588
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre histogram."
 
-#: src/dialogs/dialog-analysis-tools.c:2765
+#: src/dialogs/dialog-analysis-tools.c:2766
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr ""
 "Nepodarilo sa vytvoriť dialóg nástroja pre ANOVA (jednoduché triedenie)."
 
-#: src/dialogs/dialog-analysis-tools.c:2844
+#: src/dialogs/dialog-analysis-tools.c:2845
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
@@ -22015,38 +22020,38 @@ msgstr ""
 "Zadaný vstupný rozsah by mal obsahovať aspoň dva stĺpce a dva riadky dát a "
 "popisov."
 
-#: src/dialogs/dialog-analysis-tools.c:2847
+#: src/dialogs/dialog-analysis-tools.c:2848
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
 msgstr ""
 "Zadaný vstupný rozsah by mal obsahovať aspoň dva stĺpce a dva riadky dát."
 
-#: src/dialogs/dialog-analysis-tools.c:2853
+#: src/dialogs/dialog-analysis-tools.c:2854
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
 msgstr "Zadaný vstupný rozsah by mal obsahovať aspoň dva stĺpce dát a popisov."
 
-#: src/dialogs/dialog-analysis-tools.c:2856
+#: src/dialogs/dialog-analysis-tools.c:2857
 msgid "The given input range should contain at least two columns of data."
 msgstr "Zadaný vstupný rozsah by mal obsahovať aspoň dva stĺpce dát."
 
-#: src/dialogs/dialog-analysis-tools.c:2862
+#: src/dialogs/dialog-analysis-tools.c:2863
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
 msgstr "Zadaný vstupný rozsah by mal obsahovať aspoň dva riadky dát a popisov."
 
-#: src/dialogs/dialog-analysis-tools.c:2865
+#: src/dialogs/dialog-analysis-tools.c:2866
 msgid "The given input range should contain at least two rows of data."
 msgstr "Zadaný vstupný rozsah by mal obsahovať aspoň dva riadky dát."
 
-#: src/dialogs/dialog-analysis-tools.c:2872
+#: src/dialogs/dialog-analysis-tools.c:2873
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr "Počet riadkov dát musí byť násobok počtu replikácií."
 
-#: src/dialogs/dialog-analysis-tools.c:2969
+#: src/dialogs/dialog-analysis-tools.c:2970
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre ANOVA (dvojité triedenie)."
 
@@ -22407,7 +22412,7 @@ msgstr "Pridať odkaz"
 msgid "Edit Hyperlink"
 msgstr "Upraviť odkaz"
 
-#: src/dialogs/dialog-hyperlink.c:292 src/sheet-control-gui.c:1456
+#: src/dialogs/dialog-hyperlink.c:292 src/sheet-control-gui.c:1472
 msgid "Remove Hyperlink"
 msgstr "Odstrániť odkaz"
 
@@ -25504,15 +25509,15 @@ msgstr "'%s' už je v liste definované"
 msgid "'%s' is already defined in workbook"
 msgstr "'%s' už je v zošite definované"
 
-#: src/expr.c:681
-msgid "Internal type error"
-msgstr "Interná chyba typu"
-
-#: src/expr.c:891
+#: src/expr.c:719
 msgid "Unknown operator"
 msgstr "Neznámy operátor"
 
-#: src/expr.c:1100
+#: src/expr.c:751
+msgid "Internal type error"
+msgstr "Interná chyba typu"
+
+#: src/expr.c:1370
 msgid "Unknown evaluation error"
 msgstr "Neznáma chyba pri vyhodnocovaní"
 
@@ -25573,35 +25578,35 @@ msgstr "TRUE"
 msgid "FALSE"
 msgstr "FALSE"
 
-#: src/format.c:663
+#: src/format.c:659
 msgid "Black"
 msgstr "Čierna"
 
-#: src/format.c:664
+#: src/format.c:660
 msgid "Blue"
 msgstr "Modrá"
 
-#: src/format.c:665
+#: src/format.c:661
 msgid "Cyan"
 msgstr "Modrozelená"
 
-#: src/format.c:666
+#: src/format.c:662
 msgid "Green"
 msgstr "Zelená"
 
-#: src/format.c:667
+#: src/format.c:663
 msgid "Magenta"
 msgstr "Fialová"
 
-#: src/format.c:668
+#: src/format.c:664
 msgid "Red"
 msgstr "Červená"
 
-#: src/format.c:669
+#: src/format.c:665
 msgid "White"
 msgstr "Biela"
 
-#: src/format.c:670
+#: src/format.c:666
 msgid "Yellow"
 msgstr "Žltá"
 
@@ -26623,64 +26628,64 @@ msgstr "Posunúť bunky dopra_va a presunúť"
 msgid "C_ancel"
 msgstr "_Zrušiť"
 
-#: src/main-application.c:55
+#: src/main-application.c:56
 msgid "Display Gnumeric's version"
 msgstr "Vypísať verziu Gnumericu"
 
-#: src/main-application.c:57
+#: src/main-application.c:58
 msgid "Set the root library directory"
 msgstr "Nastaviť koreňový priečinok knižníc"
 
-#: src/main-application.c:59
+#: src/main-application.c:60
 msgid "Adjust the root data directory"
 msgstr "Prispôsobiť koreňový priečinok dát"
 
-#: src/main-application.c:62 src/main-application.c:64
+#: src/main-application.c:63 src/main-application.c:65
 msgid "Dumps the function definitions"
 msgstr "Vypísať definície funkcií"
 
-#: src/main-application.c:62 src/main-application.c:64
+#: src/main-application.c:63 src/main-application.c:65
 msgid "FILE"
 msgstr "SÚBOR"
 
-#: src/main-application.c:67
+#: src/main-application.c:68
 msgid "Enables some debugging functions"
 msgstr "Povoliť niektoré odlaďovacie funkcie"
 
-#: src/main-application.c:67 src/main-application.c:70
-#: src/main-application.c:72 src/main-application.c:74
+#: src/main-application.c:68 src/main-application.c:71
+#: src/main-application.c:73 src/main-application.c:75
 msgid "LEVEL"
 msgstr "ÚROVEŇ"
 
-#: src/main-application.c:70
+#: src/main-application.c:71
 msgid "Enables some dependency related debugging functions"
 msgstr "Povoliť niektoré odlaďovacie funkcie týkajúce sa závislostí"
 
-#: src/main-application.c:72
+#: src/main-application.c:73
 msgid "Enables some debugging functions for expression sharing"
 msgstr "Povoliť niektoré odlaďovacie funkcie pre zdieľanie výrazov"
 
-#: src/main-application.c:74
+#: src/main-application.c:75
 msgid "Enables some print debugging behavior"
 msgstr "Povoliť niektoré odlaďovacie funkcie tlače"
 
-#: src/main-application.c:77
+#: src/main-application.c:78
 msgid "Specify the size and location of the initial window"
 msgstr "Určenie veľkosti a umiestnenia počiatočného okna"
 
-#: src/main-application.c:77
+#: src/main-application.c:78
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "ŠÍRKAxVÝŠKA+XPOS+YPOS"
 
-#: src/main-application.c:81
+#: src/main-application.c:82
 msgid "Don't show splash screen"
 msgstr "Nezobrazovať úvodný obrázok"
 
-#: src/main-application.c:84
+#: src/main-application.c:85
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr "Skončiť hneď po načítaní vybraných zošitov (výhodné pri testovaní)."
 
-#: src/main-application.c:114
+#: src/main-application.c:115
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -26705,7 +26710,7 @@ msgstr ""
 "\n"
 "-- Tím Gnumericu."
 
-#: src/main-application.c:145
+#: src/main-application.c:146
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -26743,49 +26748,49 @@ msgstr "Meno '%s' neexistuje v liste '%s'"
 msgid "Unknown workbook '%s'"
 msgstr "Neznámy zošit '%s'"
 
-#: src/parser.y:758
+#: src/parser.y:763
 msgid "This locale uses '\\' rather than ',' to separate array columns."
 msgstr ""
 "Toto kódovanie locale používa '\\' a nie ',' pre oddelenie polí stĺpcov."
 
-#: src/parser.y:771
+#: src/parser.y:776
 msgid "This locale uses ',' rather than '\\' to separate array columns."
 msgstr ""
 "Toto kódovanie locale používa ',' a nie '\\' pre oddelenie polí stĺpcov."
 
-#: src/parser.y:903 src/parser.y:1152
+#: src/parser.y:908 src/parser.y:1157
 msgid "Could not find matching closing quote"
 msgstr "Nepodarilo sa nájsť odpovedajúce koncové úvodzovky"
 
-#: src/parser.y:1012
+#: src/parser.y:1017
 msgid "Sheet name is required"
 msgstr "Je požadované meno listu"
 
-#: src/parser.y:1065 src/parser.y:1074 src/parser.y:1099
+#: src/parser.y:1070 src/parser.y:1079 src/parser.y:1104
 msgid "The number is out of range"
 msgstr "Číslo je mimo rozsah"
 
-#: src/parser.y:1134
+#: src/parser.y:1139
 msgid "Improperly formatted error token"
 msgstr "Nesprávne formátovaný token chyby"
 
-#: src/parser.y:1296
+#: src/parser.y:1301
 msgid "Multiple expressions are not supported in this context"
 msgstr "V tomto kontexte nie sú podporované viacnásobné výrazy"
 
-#: src/parser.y:1319
+#: src/parser.y:1324
 msgid "Could not find matching opening parenthesis"
 msgstr "Nepodarilo sa nájsť odpovedajúcu začiatočnú zátvorku"
 
-#: src/parser.y:1323
+#: src/parser.y:1328
 msgid "Could not find matching closing parenthesis"
 msgstr "Nepodarilo sa nájsť odpovedajúcu koncovú zátvorku"
 
-#: src/parser.y:1327
+#: src/parser.y:1332
 msgid "Invalid expression"
 msgstr "Neplatný výraz"
 
-#: src/parser.y:1331
+#: src/parser.y:1336
 #, c-format
 msgid "Unexpected token %c"
 msgstr "Neočakávaný token %c"
@@ -27266,7 +27271,7 @@ msgstr "Neukladať"
 msgid "Do not log out"
 msgstr "Neodhlásiť sa"
 
-#: src/sheet-control-gui.c:1492
+#: src/sheet-control-gui.c:1508
 msgid "Paste _Special"
 msgstr "Vložiť _inak"
 
@@ -27277,57 +27282,57 @@ msgstr "Vložiť _inak"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1504
+#: src/sheet-control-gui.c:1520
 msgid "_Insert..."
 msgstr "_Pridať..."
 
-#: src/sheet-control-gui.c:1508
+#: src/sheet-control-gui.c:1524
 msgid "_Insert Column(s)"
 msgstr "_Vložiť stĺpce"
 
-#: src/sheet-control-gui.c:1510
+#: src/sheet-control-gui.c:1526
 msgid "_Delete Column(s)"
 msgstr "_Odstrániť stĺpce"
 
-#: src/sheet-control-gui.c:1512
+#: src/sheet-control-gui.c:1528
 msgid "_Insert Row(s)"
 msgstr "_Vložiť riadky"
 
-#: src/sheet-control-gui.c:1514
+#: src/sheet-control-gui.c:1530
 msgid "_Delete Row(s)"
 msgstr "_Odstrániť riadky"
 
-#: src/sheet-control-gui.c:1517
+#: src/sheet-control-gui.c:1533
 msgid "Clear Co_ntents"
 msgstr "Vymazať _obsah"
 
-#: src/sheet-control-gui.c:1519
+#: src/sheet-control-gui.c:1535
 msgid "Edit Co_mment..."
 msgstr "Upraviť _komentár..."
 
-#: src/sheet-control-gui.c:1525
+#: src/sheet-control-gui.c:1541
 msgid "_Format Cells..."
 msgstr "_Formát buniek..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1529
+#: src/sheet-control-gui.c:1545
 msgid "Column _Width..."
 msgstr "Ší_rka stĺpca..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1537
+#: src/sheet-control-gui.c:1553
 msgid "_Row Height..."
 msgstr "_Výška riadku..."
 
-#: src/sheet-control-gui.c:1544
+#: src/sheet-control-gui.c:1560
 msgid "_Hyperlink"
 msgstr "_Odkaz"
 
-#: src/sheet-control-gui.c:1547
+#: src/sheet-control-gui.c:1563
 msgid "Edit _Hyperlink"
 msgstr "Upraviť _odkaz"
 
-#: src/sheet-control-gui.c:1550
+#: src/sheet-control-gui.c:1566
 msgid "_Remove Hyperlink"
 msgstr "_Odstrániť odkaz"
 
@@ -30205,31 +30210,31 @@ msgstr "Nastaviť okraje"
 msgid "SpinButton"
 msgstr "SpinButton"
 
-#: src/workbook-view.c:274
+#: src/workbook-view.c:275
 #, c-format
 msgid "%dC"
 msgstr "%dC"
 
-#: src/workbook-view.c:276
+#: src/workbook-view.c:277
 #, c-format
 msgid "%dR"
 msgstr "%dR"
 
-#: src/workbook-view.c:278
+#: src/workbook-view.c:279
 #, c-format
 msgid "%dR x %dC"
 msgstr "%dL x %dC"
 
-#: src/workbook-view.c:420
+#: src/workbook-view.c:421
 msgid "Internal ERROR"
 msgstr "Interná CHYBA"
 
-#: src/workbook-view.c:590
+#: src/workbook-view.c:589
 #, c-format
 msgid "Can't open '%s' for writing: %s"
 msgstr "Nemôžem otvoriť '%s' pre zápis: %s"
 
-#: src/workbook-view.c:615
+#: src/workbook-view.c:614
 #, c-format
 msgid "An unexplained error happened while saving %s"
 msgstr "Nastala nevysvetlená chyba pri ukladaní '%s'"
@@ -30238,23 +30243,23 @@ msgstr "Nastala nevysvetlená chyba pri ukladaní '%s'"
 #. * This should be quite rare.  To provoke, use
 #. * gnumeric `echo -e '\377\376'`
 #.
-#: src/workbook-view.c:622 src/workbook-view.c:983
+#: src/workbook-view.c:621 src/workbook-view.c:982
 msgid "The filename given is not valid in the current encoding."
 msgstr "Meno súboru nie je platné v aktuálnom kódovaní."
 
-#: src/workbook-view.c:707 src/workbook-view.c:816
+#: src/workbook-view.c:706 src/workbook-view.c:815
 msgid "Default file saver is not available."
 msgstr "Štandardné ukladanie súboru nie je k dispozícii."
 
-#: src/workbook-view.c:776
+#: src/workbook-view.c:775
 msgid "Failed to create temporary file for sending."
 msgstr "Nemôžem vytvoriť dočasný súbor pre posielanie."
 
-#: src/workbook-view.c:909
+#: src/workbook-view.c:908
 msgid "Unsupported file format."
 msgstr "Nepodporovaný formát súborov."
 
-#: src/workbook-view.c:976
+#: src/workbook-view.c:975
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Nastala nevysvetlená chyba pri otváraní '%s'"

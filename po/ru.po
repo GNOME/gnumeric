@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-05-05 02:22-0400\n"
+"POT-Creation-Date: 2004-06-22 22:55-0400\n"
 "PO-Revision-Date: 2003-12-20 22:32+0300\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
@@ -703,7 +703,7 @@ msgstr "Финансовые производные"
 msgid "Functions related to financial derivatives"
 msgstr "Функции относящиеся к финансовым производным"
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5524
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5542
 #: plugins/mps/mps.c:549 src/xml-io.c:4136
 msgid "Reading file..."
 msgstr "Чтение файла..."
@@ -778,15 +778,15 @@ msgstr ""
 "Читает и записывает информацию сохранённую в формате Data Interchange Format "
 "(*.dif)"
 
-#: plugins/excel/boot.c:181
+#: plugins/excel/boot.c:183
 msgid "No Workbook or Book streams found."
 msgstr "Не найден поток рабочей книги или книги."
 
-#: plugins/excel/boot.c:230
+#: plugins/excel/boot.c:232
 msgid "Preparing to save..."
 msgstr "Подготовка к сохранению..."
 
-#: plugins/excel/boot.c:242
+#: plugins/excel/boot.c:244
 msgid "Saving file..."
 msgstr "Сохранение файла..."
 
@@ -851,15 +851,15 @@ msgstr ""
 "Связи OLE не поддерживаются.\n"
 "Имя \"%s\" будет потеряно.\n"
 
-#: plugins/excel/ms-excel-read.c:4884
+#: plugins/excel/ms-excel-read.c:4902
 msgid "external references"
 msgstr "внешняя ссылка"
 
-#: plugins/excel/ms-excel-read.c:4909
+#: plugins/excel/ms-excel-read.c:4927
 msgid "No password supplied"
 msgstr "Не предоставлен пароль"
 
-#: plugins/excel/ms-excel-read.c:5757
+#: plugins/excel/ms-excel-read.c:5775
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Невозможно найти рабочую книгу MS Excel"
 
@@ -870,7 +870,7 @@ msgid ""
 "encoding problems."
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:3824
+#: plugins/excel/ms-excel-write.c:3834
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -879,7 +879,7 @@ msgstr ""
 "Некоторые данные могут быть потеряны при сохранении в формате M$ Excel (tm) "
 "95, т.к. этот формат поддерживает %d строк, а в этой рабочей книге их %d."
 
-#: plugins/excel/ms-excel-write.c:3831
+#: plugins/excel/ms-excel-write.c:3841
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -888,11 +888,11 @@ msgstr ""
 "Некоторые данные могут быть потеряны при сохранении в формате M$ Excel (tm), "
 "т.к. этот формат поддерживает %d строк, а в этой рабочей книге их %d."
 
-#: plugins/excel/ms-excel-write.c:4349
+#: plugins/excel/ms-excel-write.c:4363
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Не удалось открыть поток \"Book\" для записи\n"
 
-#: plugins/excel/ms-excel-write.c:4369
+#: plugins/excel/ms-excel-write.c:4383
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Не удалось открыть поток \"Workbook\" для записи\n"
 
@@ -900,7 +900,7 @@ msgstr "Не удалось открыть поток \"Workbook\" для зап
 msgid "Broken function"
 msgstr "Ошибочная функция"
 
-#: plugins/excel/ms-formula-write.c:536
+#: plugins/excel/ms-formula-write.c:537
 #, c-format
 msgid ""
 "Too many arguments for function, MS Excel expects exactly %d and we have more"
@@ -6453,6 +6453,7 @@ msgstr "%s версия %s"
 #: plugins/fn-info/functions.c:1308
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:675
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:120
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:910
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:591
 #: src/dialogs/dialog-cell-format.c:2278 src/dialogs/dialog-cell-format.c:2283
 #: src/dialogs/dialog-cell-format.c:2293 src/workbook-format-toolbar.c:837
@@ -14597,8 +14598,8 @@ msgid "Constraints:"
 msgstr "Ограничения:"
 
 #: plugins/mps/mps.c:247 src/commands.c:5739
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1032
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:107
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1049
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:159
 #: src/dialogs/dialog-define-names.c:494 src/dialogs/dialog-formula-guru.c:815
 #: src/dialogs/dialog-function-select.c:445
 #: src/dialogs/dialog-function-select.c:467 src/dialogs/dialog-scenarios.c:362
@@ -15311,6 +15312,10 @@ msgstr "Ошибка при открытии файла xbase."
 #: src/xml-io.c:3726
 msgid "Sheet"
 msgstr "Лист"
+
+#: plugins/xbase/xbase.c:142
+msgid "Failed to read DBF header."
+msgstr ""
 
 #: plugins/xbase/plugin.xml.in.h:1
 msgid "Imports XBase files"
@@ -16179,7 +16184,7 @@ msgstr "Создать стрелку"
 msgid "Create an ellipse object"
 msgstr "Создать овал"
 
-#: src/GNOME_Gnumeric.xml.h:72 src/sheet-control-gui.c:1486
+#: src/GNOME_Gnumeric.xml.h:72 src/sheet-control-gui.c:1502
 msgid "Cu_t"
 msgstr "_Вырезать"
 
@@ -16286,7 +16291,7 @@ msgid "Filter data with given criteria"
 msgstr "Фильтрация данных по заданным критериям"
 
 #: src/GNOME_Gnumeric.xml.h:97
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:913
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:924
 #: src/dialogs/cell-format.glade.h:43 src/dialogs/dialog-preferences.c:1500
 #: src/workbook-format-toolbar.c:412
 msgid "Font"
@@ -16904,7 +16909,7 @@ msgid "Statistical Anal_ysis"
 msgstr "Статистический анализ"
 
 #: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:4049
-#: src/workbook-control-gui.c:4869 src/workbook-view.c:541
+#: src/workbook-control-gui.c:4869 src/workbook-view.c:542
 msgid "Sum"
 msgstr "Сумма"
 
@@ -17061,7 +17066,7 @@ msgid "_Contents"
 msgstr "Содержимое"
 
 #: src/GNOME_Gnumeric.xml.h:278 src/item-cursor.c:1021
-#: src/sheet-control-gui.c:1488
+#: src/sheet-control-gui.c:1504
 msgid "_Copy"
 msgstr "Скопировать"
 
@@ -17078,7 +17083,7 @@ msgstr "Данные"
 msgid "_Define..."
 msgstr "Определить..."
 
-#: src/GNOME_Gnumeric.xml.h:282 src/sheet-control-gui.c:1506
+#: src/GNOME_Gnumeric.xml.h:282 src/sheet-control-gui.c:1522
 #: src/workbook-control-gui.c:3506
 msgid "_Delete..."
 msgstr "Удаление..."
@@ -17154,8 +17159,8 @@ msgstr "Сгруппировать..."
 msgid "_Help"
 msgstr "Справка"
 
-#: src/GNOME_Gnumeric.xml.h:300 src/sheet-control-gui.c:1531
-#: src/sheet-control-gui.c:1539 src/workbook-control-gui.c:3643
+#: src/GNOME_Gnumeric.xml.h:300 src/sheet-control-gui.c:1547
+#: src/sheet-control-gui.c:1555 src/workbook-control-gui.c:3643
 #: src/workbook-control-gui.c:3662
 msgid "_Hide"
 msgstr "Скрыть"
@@ -17222,7 +17227,7 @@ msgstr "Открыть..."
 msgid "_Paired Samples: T-Test..."
 msgstr "Парные выборки: T-тест..."
 
-#: src/GNOME_Gnumeric.xml.h:316 src/sheet-control-gui.c:1490
+#: src/GNOME_Gnumeric.xml.h:316 src/sheet-control-gui.c:1506
 msgid "_Paste"
 msgstr "Вставить"
 
@@ -17356,8 +17361,8 @@ msgstr "Откат"
 msgid "_Ungroup..."
 msgstr "Разгруппировать..."
 
-#: src/GNOME_Gnumeric.xml.h:347 src/sheet-control-gui.c:1533
-#: src/sheet-control-gui.c:1541 src/workbook-control-gui.c:3646
+#: src/GNOME_Gnumeric.xml.h:347 src/sheet-control-gui.c:1549
+#: src/sheet-control-gui.c:1557 src/workbook-control-gui.c:3646
 #: src/workbook-control-gui.c:3665
 msgid "_Unhide"
 msgstr "Показать"
@@ -18068,33 +18073,33 @@ msgstr "Границы"
 msgid "Format"
 msgstr "Формат"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:183
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:190
 msgid "Legend"
 msgstr "Подпись"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:186
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:193
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:157
-#: src/cut-n-paste-code/goffice/graph/gog-legend.c:179
+#: src/cut-n-paste-code/goffice/graph/gog-legend.c:180
 msgid "Title"
 msgstr "Заголовок"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:189
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:196
 msgid "Grid"
 msgstr "Сетка"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:192
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:199
 msgid "X-Axis"
 msgstr "Оси X"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:196
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:203
 msgid "Y-Axis"
 msgstr "Оси Y"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:200
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:207
 msgid "Z-Axis"
 msgstr "Оси Z"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:204
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:211
 msgid "Plot"
 msgstr "Начертить"
 
@@ -18126,24 +18131,24 @@ msgstr "График"
 msgid "Chart"
 msgstr "Диаграмма"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1058
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1075
 msgid "Step 1 of 2: Select Chart Type"
 msgstr "Шаг 1 из 2: Выбор типа диаграммы"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1066
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1083
 msgid "Step 2 of 2: Customize Chart"
 msgstr "Шаг 2 из 2: Настройка диаграммы"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1071
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1088
 msgid "Customize Chart"
 msgstr "Настройка диаграмы"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1166
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1183
 msgid "_Plot Type"
 msgstr "Тип графика"
 
 #. Set up sample button
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1256
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1273
 msgid ""
 "Show\n"
 "Sample"
@@ -18151,7 +18156,7 @@ msgstr ""
 "Показать\n"
 "образец"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1265
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1282
 #: src/dialogs/dialog-plugin-manager.c:712
 #: src/dialogs/dialog-preferences.c:558 src/dialogs/function-select.glade.h:2
 msgid "Description"
@@ -18199,7 +18204,7 @@ msgid "_Text:"
 msgstr "Текст:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-label.c:113
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:133
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:196
 #: src/dialogs/dialog-stf.glade.h:15
 msgid "Data"
 msgstr "Данные"
@@ -18369,7 +18374,7 @@ msgstr "%d x %d"
 msgid "Select an image"
 msgstr "Выбрать изображение"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:985
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:995
 #: src/dialogs/pivottable.glade.h:4
 msgid "Style"
 msgstr "Стиль"
@@ -18387,13 +18392,13 @@ msgid "Guppi"
 msgstr "Guppi"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:304
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:195
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:154
 #: src/dialogs/consolidate.glade.h:12
 msgid "Labels"
 msgstr "Метки"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:306
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:197
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:156
 #: src/dialogs/consolidate.glade.h:27
 msgid "Values"
 msgstr "Значения"
@@ -18691,7 +18696,7 @@ msgstr ""
 msgid "PlotPie"
 msgstr "Начертить"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:268
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:226
 #, fuzzy
 msgid "PlotRing"
 msgstr "Ничего"
@@ -19431,7 +19436,7 @@ msgstr "Ввод"
 #: src/dialogs/correlation.glade.h:11 src/dialogs/covariance.glade.h:11
 #: src/dialogs/descriptive-stats.glade.h:21
 #: src/dialogs/dialog-analysis-tools.c:341
-#: src/dialogs/dialog-analysis-tools.c:2586 src/dialogs/dialog-shuffle.c:151
+#: src/dialogs/dialog-analysis-tools.c:2587 src/dialogs/dialog-shuffle.c:151
 #: src/dialogs/exp-smoothing.glade.h:14
 #: src/dialogs/fourier-analysis.glade.h:12
 #: src/dialogs/moving-averages.glade.h:16 src/dialogs/rank.glade.h:14
@@ -20417,8 +20422,8 @@ msgstr "Не найдено совпадающих записей."
 #: src/dialogs/dialog-advanced-filter.c:162
 #: src/dialogs/dialog-analysis-tools.c:588
 #: src/dialogs/dialog-analysis-tools.c:706
-#: src/dialogs/dialog-analysis-tools.c:1988
-#: src/dialogs/dialog-analysis-tools.c:2878
+#: src/dialogs/dialog-analysis-tools.c:1989
+#: src/dialogs/dialog-analysis-tools.c:2879
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Возникла неожиданная ошибка: %d."
@@ -20458,15 +20463,15 @@ msgstr "Невозможно создать диалог расчёта кова
 msgid "Could not create the Rank and Percentile Tools dialog."
 msgstr "Невозможно создать диалог расчёта рангов и процентилей."
 
-#: src/dialogs/dialog-analysis-tools.c:928
+#: src/dialogs/dialog-analysis-tools.c:929
 msgid "Could not create the Fourier Analysis Tool dialog."
 msgstr "Невозможно создать диалог Фурье анализа."
 
-#: src/dialogs/dialog-analysis-tools.c:1090
+#: src/dialogs/dialog-analysis-tools.c:1091
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr "Невозможно создать диалог описательной статистики."
 
-#: src/dialogs/dialog-analysis-tools.c:1232
+#: src/dialogs/dialog-analysis-tools.c:1233
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
@@ -20474,7 +20479,7 @@ msgstr ""
 "Введите допустимую дисперсию\n"
 "выборки для переменной 1."
 
-#: src/dialogs/dialog-analysis-tools.c:1241
+#: src/dialogs/dialog-analysis-tools.c:1242
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
@@ -20482,74 +20487,74 @@ msgstr ""
 "Введите допустимую дисперсию\n"
 "выборки для переменной 2."
 
-#: src/dialogs/dialog-analysis-tools.c:1466
+#: src/dialogs/dialog-analysis-tools.c:1467
 msgid "Var_iable 1 Range:"
 msgstr "Диапазон переменной 1:"
 
-#: src/dialogs/dialog-analysis-tools.c:1467
+#: src/dialogs/dialog-analysis-tools.c:1468
 msgid "_Variable 2 Range:"
 msgstr "Диапазон переменной 2:"
 
-#: src/dialogs/dialog-analysis-tools.c:1468
+#: src/dialogs/dialog-analysis-tools.c:1469
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "Невозможно создать диалог проверки среднего."
 
-#: src/dialogs/dialog-analysis-tools.c:1665
+#: src/dialogs/dialog-analysis-tools.c:1666
 msgid "Var_iable 1 Range"
 msgstr "Диапазон переменной 1"
 
-#: src/dialogs/dialog-analysis-tools.c:1665
+#: src/dialogs/dialog-analysis-tools.c:1666
 msgid "_Variable 2 Range"
 msgstr "Диапазон переменной 2"
 
-#: src/dialogs/dialog-analysis-tools.c:1666
+#: src/dialogs/dialog-analysis-tools.c:1667
 msgid "Could not create the FTest Tool dialog."
 msgstr "Невозможно создать диалог вычисления F-теста."
 
-#: src/dialogs/dialog-analysis-tools.c:1868
+#: src/dialogs/dialog-analysis-tools.c:1869
 msgid "Could not create the Sampling Tool dialog."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1983 src/tools/analysis-tools.c:2152
+#: src/dialogs/dialog-analysis-tools.c:1984 src/tools/analysis-tools.c:2152
 #: src/tools/analysis-tools.c:2231
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr ""
 "Число значений для каждой переменной в регрессии должно быть одинаковым."
 
-#: src/dialogs/dialog-analysis-tools.c:2086 src/dialogs/regression.glade.h:21
+#: src/dialogs/dialog-analysis-tools.c:2087 src/dialogs/regression.glade.h:21
 msgid "_X Variables:"
 msgstr "Переменные X:"
 
-#: src/dialogs/dialog-analysis-tools.c:2086 src/dialogs/regression.glade.h:22
+#: src/dialogs/dialog-analysis-tools.c:2087 src/dialogs/regression.glade.h:22
 msgid "_Y Variable:"
 msgstr "Переменная Y:"
 
-#: src/dialogs/dialog-analysis-tools.c:2087
+#: src/dialogs/dialog-analysis-tools.c:2088
 msgid "Could not create the Regression Tool dialog."
 msgstr "Невозможно создать диалог расчёта регрессии."
 
-#: src/dialogs/dialog-analysis-tools.c:2223
+#: src/dialogs/dialog-analysis-tools.c:2224
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "Невозможно создать диалог экспоненциального сглаживания."
 
-#: src/dialogs/dialog-analysis-tools.c:2364
+#: src/dialogs/dialog-analysis-tools.c:2365
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "Невозможно создать диалог скользящих средних."
 
-#: src/dialogs/dialog-analysis-tools.c:2586 src/dialogs/histogram.glade.h:3
+#: src/dialogs/dialog-analysis-tools.c:2587 src/dialogs/histogram.glade.h:3
 msgid "Bin _Range:"
 msgstr "Двоичный диапазон:"
 
-#: src/dialogs/dialog-analysis-tools.c:2587
+#: src/dialogs/dialog-analysis-tools.c:2588
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Невозможно создать диалог расчёта гистограммы."
 
-#: src/dialogs/dialog-analysis-tools.c:2765
+#: src/dialogs/dialog-analysis-tools.c:2766
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "Невозможно создать диалог однофакторного дисперсионного анализа.."
 
-#: src/dialogs/dialog-analysis-tools.c:2844
+#: src/dialogs/dialog-analysis-tools.c:2845
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
@@ -20557,7 +20562,7 @@ msgstr ""
 "Задаваемый входной диапазон должен содержать хотя бы два столбца и две "
 "строки данных и метки."
 
-#: src/dialogs/dialog-analysis-tools.c:2847
+#: src/dialogs/dialog-analysis-tools.c:2848
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
@@ -20565,7 +20570,7 @@ msgstr ""
 "Задаваемый входной диапазон должен содержать хотя бы два столбца и две "
 "строки данных."
 
-#: src/dialogs/dialog-analysis-tools.c:2853
+#: src/dialogs/dialog-analysis-tools.c:2854
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
@@ -20573,12 +20578,12 @@ msgstr ""
 "Задаваемый входной диапазон должен содержать хотя бы два столбца данных и "
 "метки."
 
-#: src/dialogs/dialog-analysis-tools.c:2856
+#: src/dialogs/dialog-analysis-tools.c:2857
 msgid "The given input range should contain at least two columns of data."
 msgstr ""
 "Задаваемый входной диапазон должен содержать хотя бы два столбца данных."
 
-#: src/dialogs/dialog-analysis-tools.c:2862
+#: src/dialogs/dialog-analysis-tools.c:2863
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
@@ -20586,16 +20591,16 @@ msgstr ""
 "Задаваемый входной диапазон должен содержать хотя бы две строки данных и "
 "метки."
 
-#: src/dialogs/dialog-analysis-tools.c:2865
+#: src/dialogs/dialog-analysis-tools.c:2866
 msgid "The given input range should contain at least two rows of data."
 msgstr ""
 "Задаваемый входной диапазон должен содержать хотя бы две строки данных."
 
-#: src/dialogs/dialog-analysis-tools.c:2872
+#: src/dialogs/dialog-analysis-tools.c:2873
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2969
+#: src/dialogs/dialog-analysis-tools.c:2970
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Невозможно создать диалог двухфакторного дисперсионного анализа."
 
@@ -20958,7 +20963,7 @@ msgstr "Добавить гиперссылку"
 msgid "Edit Hyperlink"
 msgstr "Исправить гиперссылку"
 
-#: src/dialogs/dialog-hyperlink.c:292 src/sheet-control-gui.c:1456
+#: src/dialogs/dialog-hyperlink.c:292 src/sheet-control-gui.c:1472
 msgid "Remove Hyperlink"
 msgstr "Удалить гиперссылку"
 
@@ -24038,15 +24043,15 @@ msgstr "\"%s\" уже определено в таблице"
 msgid "'%s' is already defined in workbook"
 msgstr "\"%s\" уже определено в рабочей книге"
 
-#: src/expr.c:681
-msgid "Internal type error"
-msgstr "Ошибка встроенного типа"
-
-#: src/expr.c:891
+#: src/expr.c:719
 msgid "Unknown operator"
 msgstr "Неизвестный оператор"
 
-#: src/expr.c:1100
+#: src/expr.c:751
+msgid "Internal type error"
+msgstr "Ошибка встроенного типа"
+
+#: src/expr.c:1370
 msgid "Unknown evaluation error"
 msgstr "Неизвестная ошибка в выражении"
 
@@ -24112,35 +24117,35 @@ msgstr "ИСТИНА"
 msgid "FALSE"
 msgstr "ЛОЖЬ"
 
-#: src/format.c:663
+#: src/format.c:659
 msgid "Black"
 msgstr "Чёрный"
 
-#: src/format.c:664
+#: src/format.c:660
 msgid "Blue"
 msgstr "Синий"
 
-#: src/format.c:665
+#: src/format.c:661
 msgid "Cyan"
 msgstr "Голубой"
 
-#: src/format.c:666
+#: src/format.c:662
 msgid "Green"
 msgstr "Зеленый"
 
-#: src/format.c:667
+#: src/format.c:663
 msgid "Magenta"
 msgstr "Пурпурный"
 
-#: src/format.c:668
+#: src/format.c:664
 msgid "Red"
 msgstr "Красный"
 
-#: src/format.c:669
+#: src/format.c:665
 msgid "White"
 msgstr "Белый"
 
-#: src/format.c:670
+#: src/format.c:666
 msgid "Yellow"
 msgstr "Жёлтый"
 
@@ -25162,65 +25167,65 @@ msgstr "Сдвинуть ячейки вправо и переместить"
 msgid "C_ancel"
 msgstr "Отмена"
 
-#: src/main-application.c:55
+#: src/main-application.c:56
 msgid "Display Gnumeric's version"
 msgstr "Показать версию Gnumeric"
 
-#: src/main-application.c:57
+#: src/main-application.c:58
 msgid "Set the root library directory"
 msgstr "Установить корневой каталог библиотек"
 
-#: src/main-application.c:59
+#: src/main-application.c:60
 msgid "Adjust the root data directory"
 msgstr "Подобрать корневой каталог данных"
 
-#: src/main-application.c:62 src/main-application.c:64
+#: src/main-application.c:63 src/main-application.c:65
 msgid "Dumps the function definitions"
 msgstr "Выдать определения функций"
 
-#: src/main-application.c:62 src/main-application.c:64
+#: src/main-application.c:63 src/main-application.c:65
 msgid "FILE"
 msgstr "ФАЙЛ"
 
-#: src/main-application.c:67
+#: src/main-application.c:68
 msgid "Enables some debugging functions"
 msgstr "Разрешить некоторые отладочные функции"
 
-#: src/main-application.c:67 src/main-application.c:70
-#: src/main-application.c:72 src/main-application.c:74
+#: src/main-application.c:68 src/main-application.c:71
+#: src/main-application.c:73 src/main-application.c:75
 msgid "LEVEL"
 msgstr "УРОВЕНЬ"
 
-#: src/main-application.c:70
+#: src/main-application.c:71
 msgid "Enables some dependency related debugging functions"
 msgstr "Разрешить некоторые отладочные функции относящиеся к зависимостям"
 
-#: src/main-application.c:72
+#: src/main-application.c:73
 msgid "Enables some debugging functions for expression sharing"
 msgstr "Разрешить некоторые отладочные функции для разделения выражений"
 
-#: src/main-application.c:74
+#: src/main-application.c:75
 msgid "Enables some print debugging behavior"
 msgstr "Разрешить некоторые отладочные функции печати"
 
-#: src/main-application.c:77
+#: src/main-application.c:78
 msgid "Specify the size and location of the initial window"
 msgstr "Указать размер и положение первоначального окна"
 
-#: src/main-application.c:77
+#: src/main-application.c:78
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "WIDTHxHEIGHT+XOFF+YOFF"
 
-#: src/main-application.c:81
+#: src/main-application.c:82
 msgid "Don't show splash screen"
 msgstr "Не показывать заставку"
 
-#: src/main-application.c:84
+#: src/main-application.c:85
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr ""
 "Выйти немедленно после загрузки выбранных книг (полезно для тестирования)."
 
-#: src/main-application.c:114
+#: src/main-application.c:115
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -25244,7 +25249,7 @@ msgstr ""
 "\n"
 "-- Команда разработчиков Gnumeric."
 
-#: src/main-application.c:145
+#: src/main-application.c:146
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -25282,47 +25287,47 @@ msgstr "Имя \"%s\" отсутствует в таблице \"%s\""
 msgid "Unknown workbook '%s'"
 msgstr "Неизвестная книга \"%s\""
 
-#: src/parser.y:758
+#: src/parser.y:763
 msgid "This locale uses '\\' rather than ',' to separate array columns."
 msgstr ""
 
-#: src/parser.y:771
+#: src/parser.y:776
 msgid "This locale uses ',' rather than '\\' to separate array columns."
 msgstr ""
 
-#: src/parser.y:903 src/parser.y:1152
+#: src/parser.y:908 src/parser.y:1157
 msgid "Could not find matching closing quote"
 msgstr "Не удалось найти парную закрывающую кавычку"
 
-#: src/parser.y:1012
+#: src/parser.y:1017
 msgid "Sheet name is required"
 msgstr "Требуется название таблицы"
 
-#: src/parser.y:1065 src/parser.y:1074 src/parser.y:1099
+#: src/parser.y:1070 src/parser.y:1079 src/parser.y:1104
 msgid "The number is out of range"
 msgstr "Число вне допустимого диапазона"
 
-#: src/parser.y:1134
+#: src/parser.y:1139
 msgid "Improperly formatted error token"
 msgstr ""
 
-#: src/parser.y:1296
+#: src/parser.y:1301
 msgid "Multiple expressions are not supported in this context"
 msgstr "Множественные выражения не поддерживаются в этом контексте"
 
-#: src/parser.y:1319
+#: src/parser.y:1324
 msgid "Could not find matching opening parenthesis"
 msgstr "Не удалось найти парную открывающую скобку"
 
-#: src/parser.y:1323
+#: src/parser.y:1328
 msgid "Could not find matching closing parenthesis"
 msgstr "Не удалось найти парную закрывающую скобку"
 
-#: src/parser.y:1327
+#: src/parser.y:1332
 msgid "Invalid expression"
 msgstr "Недопустимое выражение"
 
-#: src/parser.y:1331
+#: src/parser.y:1336
 #, c-format
 msgid "Unexpected token %c"
 msgstr "Неожиданный токен %c"
@@ -25803,7 +25808,7 @@ msgstr "Не сохранять"
 msgid "Do not log out"
 msgstr "Не отключаться"
 
-#: src/sheet-control-gui.c:1492
+#: src/sheet-control-gui.c:1508
 msgid "Paste _Special"
 msgstr "Специальная вставка"
 
@@ -25814,57 +25819,57 @@ msgstr "Специальная вставка"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1504
+#: src/sheet-control-gui.c:1520
 msgid "_Insert..."
 msgstr "Вставка..."
 
-#: src/sheet-control-gui.c:1508
+#: src/sheet-control-gui.c:1524
 msgid "_Insert Column(s)"
 msgstr "Вставить столбцы"
 
-#: src/sheet-control-gui.c:1510
+#: src/sheet-control-gui.c:1526
 msgid "_Delete Column(s)"
 msgstr "Удалить столбцы"
 
-#: src/sheet-control-gui.c:1512
+#: src/sheet-control-gui.c:1528
 msgid "_Insert Row(s)"
 msgstr "Вставить строки"
 
-#: src/sheet-control-gui.c:1514
+#: src/sheet-control-gui.c:1530
 msgid "_Delete Row(s)"
 msgstr "Удалить строки"
 
-#: src/sheet-control-gui.c:1517
+#: src/sheet-control-gui.c:1533
 msgid "Clear Co_ntents"
 msgstr "Очистить содержимое"
 
-#: src/sheet-control-gui.c:1519
+#: src/sheet-control-gui.c:1535
 msgid "Edit Co_mment..."
 msgstr "Правка комментария..."
 
-#: src/sheet-control-gui.c:1525
+#: src/sheet-control-gui.c:1541
 msgid "_Format Cells..."
 msgstr "Формат ячеек..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1529
+#: src/sheet-control-gui.c:1545
 msgid "Column _Width..."
 msgstr "Ширина столбца..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1537
+#: src/sheet-control-gui.c:1553
 msgid "_Row Height..."
 msgstr "Высота строки..."
 
-#: src/sheet-control-gui.c:1544
+#: src/sheet-control-gui.c:1560
 msgid "_Hyperlink"
 msgstr "Гиперссылка"
 
-#: src/sheet-control-gui.c:1547
+#: src/sheet-control-gui.c:1563
 msgid "Edit _Hyperlink"
 msgstr "Правка гиперссылки"
 
-#: src/sheet-control-gui.c:1550
+#: src/sheet-control-gui.c:1566
 msgid "_Remove Hyperlink"
 msgstr "Удалить гиперссылка"
 
@@ -28725,31 +28730,31 @@ msgstr "Установить обрамления"
 msgid "SpinButton"
 msgstr "Кнопка"
 
-#: src/workbook-view.c:274
+#: src/workbook-view.c:275
 #, c-format
 msgid "%dC"
 msgstr "%dC"
 
-#: src/workbook-view.c:276
+#: src/workbook-view.c:277
 #, c-format
 msgid "%dR"
 msgstr "%dR"
 
-#: src/workbook-view.c:278
+#: src/workbook-view.c:279
 #, c-format
 msgid "%dR x %dC"
 msgstr "%dR x %dC"
 
-#: src/workbook-view.c:420
+#: src/workbook-view.c:421
 msgid "Internal ERROR"
 msgstr "Внутренняя ОШИБКА"
 
-#: src/workbook-view.c:590
+#: src/workbook-view.c:589
 #, c-format
 msgid "Can't open '%s' for writing: %s"
 msgstr "Невозможно открыть \"%s\" для записи: %s"
 
-#: src/workbook-view.c:615
+#: src/workbook-view.c:614
 #, c-format
 msgid "An unexplained error happened while saving %s"
 msgstr ""
@@ -28758,23 +28763,23 @@ msgstr ""
 #. * This should be quite rare.  To provoke, use
 #. * gnumeric `echo -e '\377\376'`
 #.
-#: src/workbook-view.c:622 src/workbook-view.c:983
+#: src/workbook-view.c:621 src/workbook-view.c:982
 msgid "The filename given is not valid in the current encoding."
 msgstr "Заданное имя файла не допустимо для текущей кодировки."
 
-#: src/workbook-view.c:707 src/workbook-view.c:816
+#: src/workbook-view.c:706 src/workbook-view.c:815
 msgid "Default file saver is not available."
 msgstr "Функция сохранения используемая по умолчанию не доступна."
 
-#: src/workbook-view.c:776
+#: src/workbook-view.c:775
 msgid "Failed to create temporary file for sending."
 msgstr ""
 
-#: src/workbook-view.c:909
+#: src/workbook-view.c:908
 msgid "Unsupported file format."
 msgstr "Неподдерживаемый формат файла."
 
-#: src/workbook-view.c:976
+#: src/workbook-view.c:975
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr ""

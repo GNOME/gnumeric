@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-05-05 02:22-0400\n"
+"POT-Creation-Date: 2004-06-22 22:55-0400\n"
 "PO-Revision-Date: 2003-02-23 09:00+0700\n"
 "Last-Translator: pclouds <pclouds@gmx.net>\n"
 "Language-Team: GnomeVI <gnomevi-list@lists.sourceforge.net>\n"
@@ -707,7 +707,7 @@ msgstr "Liên quan đến tài chính"
 msgid "Functions related to financial derivatives"
 msgstr "Các hàm liên quan đến tài chính"
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5524
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5542
 #: plugins/mps/mps.c:549 src/xml-io.c:4136
 msgid "Reading file..."
 msgstr "Đang đọc tập tin..."
@@ -776,15 +776,15 @@ msgid ""
 "Reads and writes information stored in the Data Interchange Format (*.dif)"
 msgstr "Đọc và ghi thông tin được lưu vào Data Interchange Format (*.dif)"
 
-#: plugins/excel/boot.c:181
+#: plugins/excel/boot.c:183
 msgid "No Workbook or Book streams found."
 msgstr "Không tìm thấy luồng Book hoặc Workbook."
 
-#: plugins/excel/boot.c:230
+#: plugins/excel/boot.c:232
 msgid "Preparing to save..."
 msgstr "Đang chuẩn bị để lưu..."
 
-#: plugins/excel/boot.c:242
+#: plugins/excel/boot.c:244
 msgid "Saving file..."
 msgstr "Đang lưu tập tin..."
 
@@ -845,15 +845,15 @@ msgid ""
 "Name '%s' will be lost.\n"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:4884
+#: plugins/excel/ms-excel-read.c:4902
 msgid "external references"
 msgstr "tham chiếu ngoại"
 
-#: plugins/excel/ms-excel-read.c:4909
+#: plugins/excel/ms-excel-read.c:4927
 msgid "No password supplied"
 msgstr "Chưa cho biết mật khẩu"
 
-#: plugins/excel/ms-excel-read.c:5757
+#: plugins/excel/ms-excel-read.c:5775
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Không thể định vị workbook MS Excel hợp lệ "
 
@@ -864,25 +864,25 @@ msgid ""
 "encoding problems."
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:3824
+#: plugins/excel/ms-excel-write.c:3834
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
 "d rows, and this workbook has %d"
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:3831
+#: plugins/excel/ms-excel-write.c:3841
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
 "rows, and this workbook has %d"
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:4349
+#: plugins/excel/ms-excel-write.c:4363
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Không thể mở luồng 'Book' để ghi\n"
 
-#: plugins/excel/ms-excel-write.c:4369
+#: plugins/excel/ms-excel-write.c:4383
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Không thể mở luồng 'Workbook' để ghi\n"
 
@@ -890,7 +890,7 @@ msgstr "Không thể mở luồng 'Workbook' để ghi\n"
 msgid "Broken function"
 msgstr "Hàm lỗi"
 
-#: plugins/excel/ms-formula-write.c:536
+#: plugins/excel/ms-formula-write.c:537
 #, c-format
 msgid ""
 "Too many arguments for function, MS Excel expects exactly %d and we have more"
@@ -6521,6 +6521,7 @@ msgstr "%s phiên bản %s"
 #: plugins/fn-info/functions.c:1308
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:675
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:120
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:910
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:591
 #: src/dialogs/dialog-cell-format.c:2278 src/dialogs/dialog-cell-format.c:2283
 #: src/dialogs/dialog-cell-format.c:2293 src/workbook-format-toolbar.c:837
@@ -13458,8 +13459,8 @@ msgid "Constraints:"
 msgstr "Ràng buộc:"
 
 #: plugins/mps/mps.c:247 src/commands.c:5739
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1032
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:107
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1049
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:159
 #: src/dialogs/dialog-define-names.c:494 src/dialogs/dialog-formula-guru.c:815
 #: src/dialogs/dialog-function-select.c:445
 #: src/dialogs/dialog-function-select.c:467 src/dialogs/dialog-scenarios.c:362
@@ -14171,6 +14172,11 @@ msgstr "Lỗi mở tập tin XBase"
 #: src/xml-io.c:3726
 msgid "Sheet"
 msgstr "Trang"
+
+#: plugins/xbase/xbase.c:142
+#, fuzzy
+msgid "Failed to read DBF header."
+msgstr "Lỗi phân tích tập tin"
 
 #: plugins/xbase/plugin.xml.in.h:1
 msgid "Imports XBase files"
@@ -15063,7 +15069,7 @@ msgstr "Tạo đối tượng mũi tên"
 msgid "Create an ellipse object"
 msgstr "Tạo đối tượng hình êlíp"
 
-#: src/GNOME_Gnumeric.xml.h:72 src/sheet-control-gui.c:1486
+#: src/GNOME_Gnumeric.xml.h:72 src/sheet-control-gui.c:1502
 msgid "Cu_t"
 msgstr "_Cắt"
 
@@ -15168,7 +15174,7 @@ msgid "Filter data with given criteria"
 msgstr "Lọc dữ liệu dựa vào tiêu chuẩn được cho"
 
 #: src/GNOME_Gnumeric.xml.h:97
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:913
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:924
 #: src/dialogs/cell-format.glade.h:43 src/dialogs/dialog-preferences.c:1500
 #: src/workbook-format-toolbar.c:412
 msgid "Font"
@@ -15793,7 +15799,7 @@ msgid "Statistical Anal_ysis"
 msgstr "Phân tích thống kê"
 
 #: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:4049
-#: src/workbook-control-gui.c:4869 src/workbook-view.c:541
+#: src/workbook-control-gui.c:4869 src/workbook-view.c:542
 msgid "Sum"
 msgstr "Tổng"
 
@@ -15952,7 +15958,7 @@ msgid "_Contents"
 msgstr "_Nội dung"
 
 #: src/GNOME_Gnumeric.xml.h:278 src/item-cursor.c:1021
-#: src/sheet-control-gui.c:1488
+#: src/sheet-control-gui.c:1504
 msgid "_Copy"
 msgstr "_Sao chép"
 
@@ -15970,7 +15976,7 @@ msgstr "_Dữ liệu"
 msgid "_Define..."
 msgstr "Định _nghĩa..."
 
-#: src/GNOME_Gnumeric.xml.h:282 src/sheet-control-gui.c:1506
+#: src/GNOME_Gnumeric.xml.h:282 src/sheet-control-gui.c:1522
 #: src/workbook-control-gui.c:3506
 msgid "_Delete..."
 msgstr "_Xóa"
@@ -16049,8 +16055,8 @@ msgstr "_Nhóm..."
 msgid "_Help"
 msgstr "Trợ _giúp"
 
-#: src/GNOME_Gnumeric.xml.h:300 src/sheet-control-gui.c:1531
-#: src/sheet-control-gui.c:1539 src/workbook-control-gui.c:3643
+#: src/GNOME_Gnumeric.xml.h:300 src/sheet-control-gui.c:1547
+#: src/sheet-control-gui.c:1555 src/workbook-control-gui.c:3643
 #: src/workbook-control-gui.c:3662
 msgid "_Hide"
 msgstr "Ẩ_n"
@@ -16122,7 +16128,7 @@ msgstr "_Mở..."
 msgid "_Paired Samples: T-Test..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:316 src/sheet-control-gui.c:1490
+#: src/GNOME_Gnumeric.xml.h:316 src/sheet-control-gui.c:1506
 msgid "_Paste"
 msgstr "_Dán"
 
@@ -16260,8 +16266,8 @@ msgstr "_Hoàn lại"
 msgid "_Ungroup..."
 msgstr "_Tách nhóm..."
 
-#: src/GNOME_Gnumeric.xml.h:347 src/sheet-control-gui.c:1533
-#: src/sheet-control-gui.c:1541 src/workbook-control-gui.c:3646
+#: src/GNOME_Gnumeric.xml.h:347 src/sheet-control-gui.c:1549
+#: src/sheet-control-gui.c:1557 src/workbook-control-gui.c:3646
 #: src/workbook-control-gui.c:3665
 msgid "_Unhide"
 msgstr "Hiện"
@@ -16993,36 +16999,36 @@ msgstr "Nền"
 msgid "Format"
 msgstr "Dạng thức"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:183
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:190
 #, fuzzy
 msgid "Legend"
 msgstr "Gửi"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:186
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:193
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:157
-#: src/cut-n-paste-code/goffice/graph/gog-legend.c:179
+#: src/cut-n-paste-code/goffice/graph/gog-legend.c:180
 #, fuzzy
 msgid "Title"
 msgstr "Tựa đề:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:189
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:196
 #, fuzzy
 msgid "Grid"
 msgstr "Thứ Sáu"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:192
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:199
 msgid "X-Axis"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:196
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:203
 msgid "Y-Axis"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:200
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:207
 msgid "Z-Axis"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:204
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:211
 #, fuzzy
 msgid "Plot"
 msgstr "_Vẽ"
@@ -17059,28 +17065,28 @@ msgstr "Đồ _thị..."
 msgid "Chart"
 msgstr "Bieudo%d"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1058
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1075
 #, fuzzy
 msgid "Step 1 of 2: Select Chart Type"
 msgstr "Bước 1 trên 3: Chọn loại đồ thị"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1066
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1083
 #, fuzzy
 msgid "Step 2 of 2: Customize Chart"
 msgstr "Bước 3 trên 3: Tùy biến biểu đồ"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1071
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1088
 #, fuzzy
 msgid "Customize Chart"
 msgstr "Tùy biến header"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1166
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1183
 #, fuzzy
 msgid "_Plot Type"
 msgstr "Tên vẽ"
 
 #. Set up sample button
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1256
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1273
 msgid ""
 "Show\n"
 "Sample"
@@ -17088,7 +17094,7 @@ msgstr ""
 "Hiện\n"
 "Mẫu"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1265
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1282
 #: src/dialogs/dialog-plugin-manager.c:712
 #: src/dialogs/dialog-preferences.c:558 src/dialogs/function-select.glade.h:2
 msgid "Description"
@@ -17140,7 +17146,7 @@ msgid "_Text:"
 msgstr "Chữ"
 
 #: src/cut-n-paste-code/goffice/graph/gog-label.c:113
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:133
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:196
 #: src/dialogs/dialog-stf.glade.h:15
 #, fuzzy
 msgid "Data"
@@ -17338,7 +17344,7 @@ msgstr "%dR x %dC"
 msgid "Select an image"
 msgstr "Chọn nguyên cột"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:985
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:995
 #: src/dialogs/pivottable.glade.h:4
 msgid "Style"
 msgstr "Kiểu"
@@ -17357,13 +17363,13 @@ msgid "Guppi"
 msgstr "Nhóm"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:304
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:195
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:154
 #: src/dialogs/consolidate.glade.h:12
 msgid "Labels"
 msgstr "Nhãn"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:306
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:197
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:156
 #: src/dialogs/consolidate.glade.h:27
 msgid "Values"
 msgstr "Giá trị"
@@ -17681,7 +17687,7 @@ msgstr "Cạnh"
 msgid "PlotPie"
 msgstr "_Vẽ"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:268
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:226
 #, fuzzy
 msgid "PlotRing"
 msgstr "Không có gì"
@@ -18443,7 +18449,7 @@ msgstr "Đầu vào"
 #: src/dialogs/correlation.glade.h:11 src/dialogs/covariance.glade.h:11
 #: src/dialogs/descriptive-stats.glade.h:21
 #: src/dialogs/dialog-analysis-tools.c:341
-#: src/dialogs/dialog-analysis-tools.c:2586 src/dialogs/dialog-shuffle.c:151
+#: src/dialogs/dialog-analysis-tools.c:2587 src/dialogs/dialog-shuffle.c:151
 #: src/dialogs/exp-smoothing.glade.h:14
 #: src/dialogs/fourier-analysis.glade.h:12
 #: src/dialogs/moving-averages.glade.h:16 src/dialogs/rank.glade.h:14
@@ -19459,8 +19465,8 @@ msgstr "Không tìm thấy bản ghi nào trùng khớp."
 #: src/dialogs/dialog-advanced-filter.c:162
 #: src/dialogs/dialog-analysis-tools.c:588
 #: src/dialogs/dialog-analysis-tools.c:706
-#: src/dialogs/dialog-analysis-tools.c:1988
-#: src/dialogs/dialog-analysis-tools.c:2878
+#: src/dialogs/dialog-analysis-tools.c:1989
+#: src/dialogs/dialog-analysis-tools.c:2879
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Lỗi bất ngờ: %d"
@@ -19500,15 +19506,15 @@ msgstr "Không thể tạo hộp thoại Công cụ hiệp biên."
 msgid "Could not create the Rank and Percentile Tools dialog."
 msgstr "Không thể tạo hộp thoại Công cụ Hạng và Tỷ lệ Phần trăm."
 
-#: src/dialogs/dialog-analysis-tools.c:928
+#: src/dialogs/dialog-analysis-tools.c:929
 msgid "Could not create the Fourier Analysis Tool dialog."
 msgstr "Không thể tạo hộp thoại Công cụ phân tích Fourier."
 
-#: src/dialogs/dialog-analysis-tools.c:1090
+#: src/dialogs/dialog-analysis-tools.c:1091
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr "Không thể tạo hộp thoại Công cụ thống kê mô tả."
 
-#: src/dialogs/dialog-analysis-tools.c:1232
+#: src/dialogs/dialog-analysis-tools.c:1233
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
@@ -19516,7 +19522,7 @@ msgstr ""
 "Vui lòng nhập sai số dân số\n"
 "hợp lệ cho biến 1."
 
-#: src/dialogs/dialog-analysis-tools.c:1241
+#: src/dialogs/dialog-analysis-tools.c:1242
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
@@ -19524,109 +19530,109 @@ msgstr ""
 "Vui lòng nhập sai số dân số\n"
 "hợp lệ cho biến 2."
 
-#: src/dialogs/dialog-analysis-tools.c:1466
+#: src/dialogs/dialog-analysis-tools.c:1467
 msgid "Var_iable 1 Range:"
 msgstr "Phạm vi biến _1:"
 
-#: src/dialogs/dialog-analysis-tools.c:1467
+#: src/dialogs/dialog-analysis-tools.c:1468
 msgid "_Variable 2 Range:"
 msgstr "Phạm vi biến _2:"
 
-#: src/dialogs/dialog-analysis-tools.c:1468
+#: src/dialogs/dialog-analysis-tools.c:1469
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "Không thể tạo hộp thoại Công cụ kiểm tra kỳ vọng."
 
-#: src/dialogs/dialog-analysis-tools.c:1665
+#: src/dialogs/dialog-analysis-tools.c:1666
 msgid "Var_iable 1 Range"
 msgstr "Phạm vi biến _1"
 
-#: src/dialogs/dialog-analysis-tools.c:1665
+#: src/dialogs/dialog-analysis-tools.c:1666
 msgid "_Variable 2 Range"
 msgstr "Phạm vi biến _2"
 
-#: src/dialogs/dialog-analysis-tools.c:1666
+#: src/dialogs/dialog-analysis-tools.c:1667
 msgid "Could not create the FTest Tool dialog."
 msgstr "Không thể tạo hộp thoại Công cụ FTest"
 
-#: src/dialogs/dialog-analysis-tools.c:1868
+#: src/dialogs/dialog-analysis-tools.c:1869
 msgid "Could not create the Sampling Tool dialog."
 msgstr "Không thể tạo hộp thoại Công cụ lấy mẫu."
 
-#: src/dialogs/dialog-analysis-tools.c:1983 src/tools/analysis-tools.c:2152
+#: src/dialogs/dialog-analysis-tools.c:1984 src/tools/analysis-tools.c:2152
 #: src/tools/analysis-tools.c:2231
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2086 src/dialogs/regression.glade.h:21
+#: src/dialogs/dialog-analysis-tools.c:2087 src/dialogs/regression.glade.h:21
 msgid "_X Variables:"
 msgstr "Biến _X:"
 
-#: src/dialogs/dialog-analysis-tools.c:2086 src/dialogs/regression.glade.h:22
+#: src/dialogs/dialog-analysis-tools.c:2087 src/dialogs/regression.glade.h:22
 msgid "_Y Variable:"
 msgstr "Biến _Y:"
 
-#: src/dialogs/dialog-analysis-tools.c:2087
+#: src/dialogs/dialog-analysis-tools.c:2088
 msgid "Could not create the Regression Tool dialog."
 msgstr "Không thể tạo hộp thoại Công cụ hồi quy."
 
-#: src/dialogs/dialog-analysis-tools.c:2223
+#: src/dialogs/dialog-analysis-tools.c:2224
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2364
+#: src/dialogs/dialog-analysis-tools.c:2365
 msgid "Could not create the Moving Average Tool dialog."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2586 src/dialogs/histogram.glade.h:3
+#: src/dialogs/dialog-analysis-tools.c:2587 src/dialogs/histogram.glade.h:3
 msgid "Bin _Range:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2587
+#: src/dialogs/dialog-analysis-tools.c:2588
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Không thể tạo hộp thoại Công cụ biểu đồ."
 
-#: src/dialogs/dialog-analysis-tools.c:2765
+#: src/dialogs/dialog-analysis-tools.c:2766
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2844
+#: src/dialogs/dialog-analysis-tools.c:2845
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2847
+#: src/dialogs/dialog-analysis-tools.c:2848
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2853
+#: src/dialogs/dialog-analysis-tools.c:2854
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2856
+#: src/dialogs/dialog-analysis-tools.c:2857
 msgid "The given input range should contain at least two columns of data."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2862
+#: src/dialogs/dialog-analysis-tools.c:2863
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2865
+#: src/dialogs/dialog-analysis-tools.c:2866
 msgid "The given input range should contain at least two rows of data."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2872
+#: src/dialogs/dialog-analysis-tools.c:2873
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2969
+#: src/dialogs/dialog-analysis-tools.c:2970
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr ""
 
@@ -19992,7 +19998,7 @@ msgstr "_Thêm siêu liên kết"
 msgid "Edit Hyperlink"
 msgstr "Sửa _siêu liên kết"
 
-#: src/dialogs/dialog-hyperlink.c:292 src/sheet-control-gui.c:1456
+#: src/dialogs/dialog-hyperlink.c:292 src/sheet-control-gui.c:1472
 msgid "Remove Hyperlink"
 msgstr "Bỏ siêu liên kết"
 
@@ -23173,15 +23179,15 @@ msgstr "'%s' đã định nghĩa trong trang"
 msgid "'%s' is already defined in workbook"
 msgstr "'%s' đã định nghĩa trong workbook"
 
-#: src/expr.c:681
-msgid "Internal type error"
-msgstr "Lỗi hệ thống"
-
-#: src/expr.c:891
+#: src/expr.c:719
 msgid "Unknown operator"
 msgstr "Toán tử lạ"
 
-#: src/expr.c:1100
+#: src/expr.c:751
+msgid "Internal type error"
+msgstr "Lỗi hệ thống"
+
+#: src/expr.c:1370
 msgid "Unknown evaluation error"
 msgstr "Lỗi định giá lạ"
 
@@ -23242,35 +23248,35 @@ msgstr "TRUE"
 msgid "FALSE"
 msgstr "FALSE"
 
-#: src/format.c:663
+#: src/format.c:659
 msgid "Black"
 msgstr "Đen"
 
-#: src/format.c:664
+#: src/format.c:660
 msgid "Blue"
 msgstr "Dương"
 
-#: src/format.c:665
+#: src/format.c:661
 msgid "Cyan"
 msgstr "Da trời"
 
-#: src/format.c:666
+#: src/format.c:662
 msgid "Green"
 msgstr "Lục"
 
-#: src/format.c:667
+#: src/format.c:663
 msgid "Magenta"
 msgstr "Hồng"
 
-#: src/format.c:668
+#: src/format.c:664
 msgid "Red"
 msgstr "Đỏ"
 
-#: src/format.c:669
+#: src/format.c:665
 msgid "White"
 msgstr "Trắng"
 
-#: src/format.c:670
+#: src/format.c:666
 msgid "Yellow"
 msgstr "Vàng"
 
@@ -24291,65 +24297,65 @@ msgstr "Dịch p_hải và di chuyển"
 msgid "C_ancel"
 msgstr "Hủ_y bỏ"
 
-#: src/main-application.c:55
+#: src/main-application.c:56
 msgid "Display Gnumeric's version"
 msgstr "Hiện phiên bản Gnumeric"
 
-#: src/main-application.c:57
+#: src/main-application.c:58
 msgid "Set the root library directory"
 msgstr "Đặt thư mục thư viện gốc"
 
-#: src/main-application.c:59
+#: src/main-application.c:60
 msgid "Adjust the root data directory"
 msgstr "Chỉnh thư mục dữ liệu gốc"
 
-#: src/main-application.c:62 src/main-application.c:64
+#: src/main-application.c:63 src/main-application.c:65
 msgid "Dumps the function definitions"
 msgstr "Kết xuất các định nghĩa hàm"
 
-#: src/main-application.c:62 src/main-application.c:64
+#: src/main-application.c:63 src/main-application.c:65
 msgid "FILE"
 msgstr "TẬP TIN"
 
-#: src/main-application.c:67
+#: src/main-application.c:68
 msgid "Enables some debugging functions"
 msgstr "Bật các hàm debug"
 
-#: src/main-application.c:67 src/main-application.c:70
-#: src/main-application.c:72 src/main-application.c:74
+#: src/main-application.c:68 src/main-application.c:71
+#: src/main-application.c:73 src/main-application.c:75
 msgid "LEVEL"
 msgstr "CẤP ĐỘ"
 
-#: src/main-application.c:70
+#: src/main-application.c:71
 msgid "Enables some dependency related debugging functions"
 msgstr "Bật các hàm phụ thuộc debug"
 
-#: src/main-application.c:72
+#: src/main-application.c:73
 msgid "Enables some debugging functions for expression sharing"
 msgstr "Bật các hàm debug chia sẽ biểu thức"
 
-#: src/main-application.c:74
+#: src/main-application.c:75
 msgid "Enables some print debugging behavior"
 msgstr "Bật hành vi debug khi in"
 
-#: src/main-application.c:77
+#: src/main-application.c:78
 msgid "Specify the size and location of the initial window"
 msgstr "Xác định kích thước và vị trí cửa sổ ban đầu"
 
-#: src/main-application.c:77
+#: src/main-application.c:78
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "RỘNGxCAO+TOẠĐỘ_X+TỌAĐỘ_Y"
 
-#: src/main-application.c:81
+#: src/main-application.c:82
 msgid "Don't show splash screen"
 msgstr ""
 
-#: src/main-application.c:84
+#: src/main-application.c:85
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr ""
 "Thoát ngay lập tức sau khi nạp các book đã chọn (hữu dụng khi kiểm tra)."
 
-#: src/main-application.c:114
+#: src/main-application.c:115
 #, fuzzy
 msgid ""
 "Thank you for using Gnumeric!\n"
@@ -24376,7 +24382,7 @@ msgstr ""
 "\n"
 "-- Nhóm phát triển Gnumeric."
 
-#: src/main-application.c:145
+#: src/main-application.c:146
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -24414,47 +24420,47 @@ msgstr "Tên '%s' đã tồn tại trong trang '%s' rồi"
 msgid "Unknown workbook '%s'"
 msgstr "Workbook lạ '%s'"
 
-#: src/parser.y:758
+#: src/parser.y:763
 msgid "This locale uses '\\' rather than ',' to separate array columns."
 msgstr "Locale này dùng '\\' thay vì ',' để ngăn cách dãy cột."
 
-#: src/parser.y:771
+#: src/parser.y:776
 msgid "This locale uses ',' rather than '\\' to separate array columns."
 msgstr "Locale này dùng ',' thay vì '\\' để ngăn cách dãy cột."
 
-#: src/parser.y:903 src/parser.y:1152
+#: src/parser.y:908 src/parser.y:1157
 msgid "Could not find matching closing quote"
 msgstr "Không thể tìm thấy dấu đóng ngoặc tương ứng"
 
-#: src/parser.y:1012
+#: src/parser.y:1017
 msgid "Sheet name is required"
 msgstr "Yêu cầu tên trang"
 
-#: src/parser.y:1065 src/parser.y:1074 src/parser.y:1099
+#: src/parser.y:1070 src/parser.y:1079 src/parser.y:1104
 msgid "The number is out of range"
 msgstr "Số này nằm ngoài vùng cho phép"
 
-#: src/parser.y:1134
+#: src/parser.y:1139
 msgid "Improperly formatted error token"
 msgstr ""
 
-#: src/parser.y:1296
+#: src/parser.y:1301
 msgid "Multiple expressions are not supported in this context"
 msgstr "Không hỗ trợ đa biểu thức trong trường hợp này"
 
-#: src/parser.y:1319
+#: src/parser.y:1324
 msgid "Could not find matching opening parenthesis"
 msgstr "Không thể tìm thấy dấu mở ngoặc tương ứng"
 
-#: src/parser.y:1323
+#: src/parser.y:1328
 msgid "Could not find matching closing parenthesis"
 msgstr "Không thể tìm thấy dấu đóng ngoặc tương ứng"
 
-#: src/parser.y:1327
+#: src/parser.y:1332
 msgid "Invalid expression"
 msgstr "Biểu thức không hợp lệ"
 
-#: src/parser.y:1331
+#: src/parser.y:1336
 #, c-format
 msgid "Unexpected token %c"
 msgstr "Yêu cầu token %c"
@@ -24942,7 +24948,7 @@ msgstr "Đừng đóng"
 msgid "Do not log out"
 msgstr "Không sửa"
 
-#: src/sheet-control-gui.c:1492
+#: src/sheet-control-gui.c:1508
 msgid "Paste _Special"
 msgstr "Dán đặc biệt"
 
@@ -24953,58 +24959,58 @@ msgstr "Dán đặc biệt"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1504
+#: src/sheet-control-gui.c:1520
 msgid "_Insert..."
 msgstr "_Chèn..."
 
-#: src/sheet-control-gui.c:1508
+#: src/sheet-control-gui.c:1524
 msgid "_Insert Column(s)"
 msgstr "_Chèn cột"
 
-#: src/sheet-control-gui.c:1510
+#: src/sheet-control-gui.c:1526
 msgid "_Delete Column(s)"
 msgstr "_Xóa cột"
 
-#: src/sheet-control-gui.c:1512
+#: src/sheet-control-gui.c:1528
 msgid "_Insert Row(s)"
 msgstr "_Chèn hàng"
 
-#: src/sheet-control-gui.c:1514
+#: src/sheet-control-gui.c:1530
 msgid "_Delete Row(s)"
 msgstr "_Xóa hàng"
 
-#: src/sheet-control-gui.c:1517
+#: src/sheet-control-gui.c:1533
 msgid "Clear Co_ntents"
 msgstr "Xoá _nội dung"
 
-#: src/sheet-control-gui.c:1519
+#: src/sheet-control-gui.c:1535
 #, fuzzy
 msgid "Edit Co_mment..."
 msgstr "_Ghi chú"
 
-#: src/sheet-control-gui.c:1525
+#: src/sheet-control-gui.c:1541
 msgid "_Format Cells..."
 msgstr "_Định _dạng ô..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1529
+#: src/sheet-control-gui.c:1545
 msgid "Column _Width..."
 msgstr "Bề _rộng cột..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1537
+#: src/sheet-control-gui.c:1553
 msgid "_Row Height..."
 msgstr "Bề _cao hàng..."
 
-#: src/sheet-control-gui.c:1544
+#: src/sheet-control-gui.c:1560
 msgid "_Hyperlink"
 msgstr "_Siêu liên kết"
 
-#: src/sheet-control-gui.c:1547
+#: src/sheet-control-gui.c:1563
 msgid "Edit _Hyperlink"
 msgstr "Sửa _siêu liên kết"
 
-#: src/sheet-control-gui.c:1550
+#: src/sheet-control-gui.c:1566
 msgid "_Remove Hyperlink"
 msgstr "_Bỏ siêu liên kết"
 
@@ -27908,31 +27914,31 @@ msgstr "Chỉnh biên"
 msgid "SpinButton"
 msgstr "Nút"
 
-#: src/workbook-view.c:274
+#: src/workbook-view.c:275
 #, c-format
 msgid "%dC"
 msgstr ""
 
-#: src/workbook-view.c:276
+#: src/workbook-view.c:277
 #, c-format
 msgid "%dR"
 msgstr ""
 
-#: src/workbook-view.c:278
+#: src/workbook-view.c:279
 #, c-format
 msgid "%dR x %dC"
 msgstr "%dR x %dC"
 
-#: src/workbook-view.c:420
+#: src/workbook-view.c:421
 msgid "Internal ERROR"
 msgstr "LỖI nội tại"
 
-#: src/workbook-view.c:590
+#: src/workbook-view.c:589
 #, fuzzy, c-format
 msgid "Can't open '%s' for writing: %s"
 msgstr "Không thể mở '%s': %s"
 
-#: src/workbook-view.c:615
+#: src/workbook-view.c:614
 #, c-format
 msgid "An unexplained error happened while saving %s"
 msgstr ""
@@ -27941,25 +27947,25 @@ msgstr ""
 #. * This should be quite rare.  To provoke, use
 #. * gnumeric `echo -e '\377\376'`
 #.
-#: src/workbook-view.c:622 src/workbook-view.c:983
+#: src/workbook-view.c:621 src/workbook-view.c:982
 #, fuzzy
 msgid "The filename given is not valid in the current encoding."
 msgstr "Tên tập tin không hợp lệ."
 
-#: src/workbook-view.c:707 src/workbook-view.c:816
+#: src/workbook-view.c:706 src/workbook-view.c:815
 msgid "Default file saver is not available."
 msgstr "Bộ lưu tập tin mặc định không sẵn sàng."
 
-#: src/workbook-view.c:776
+#: src/workbook-view.c:775
 #, fuzzy
 msgid "Failed to create temporary file for sending."
 msgstr "Không thể tạo tập tin tạm."
 
-#: src/workbook-view.c:909
+#: src/workbook-view.c:908
 msgid "Unsupported file format."
 msgstr "Dạng thức tập tin không được hỗ trợ."
 
-#: src/workbook-view.c:976
+#: src/workbook-view.c:975
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr ""
@@ -28907,9 +28913,6 @@ msgstr "Dạng thức tập tin Gnumeric XML"
 
 #~ msgid "Error '%s' opening workbook stream"
 #~ msgstr "Lỗi '%s' khi mở workbook stream"
-
-#~ msgid "Failed to parse file"
-#~ msgstr "Lỗi phân tích tập tin"
 
 #~ msgid "EXPERIMENTAL Bonobo EFS format"
 #~ msgstr "Dạng thức EXPERIMENTAL Bonobo EFS"

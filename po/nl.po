@@ -120,7 +120,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-06-18 04:11+0200\n"
+"POT-Creation-Date: 2004-06-22 22:55-0400\n"
 "PO-Revision-Date: 2004-06-18 06:42+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: nl <vertaling@nl.linux.org>\n"
@@ -1547,7 +1547,8 @@ msgid "MS Excel (tm) 97/2000/XP"
 msgstr "MS Excel (tm) 97/2000/XP"
 
 #: plugins/excel/plugin.xml.in.h:6
-msgid "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
+#, fuzzy
+msgid "MS Excel (tm) 97/2000/XP & 5.0/95"
 msgstr "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
 
 #: plugins/excel/plugin.xml.in.h:7
@@ -17663,7 +17664,8 @@ msgid "HTML"
 msgstr "HTML"
 
 #: plugins/html/plugin.xml.in.h:2
-msgid "HTML &amp; TeX"
+#, fuzzy
+msgid "HTML & TeX"
 msgstr "HTML &amp; TeX"
 
 #: plugins/html/plugin.xml.in.h:3
@@ -18467,6 +18469,10 @@ msgstr "Fout bij het openen van xbase bestand"
 #: src/xml-io.c:3726
 msgid "Sheet"
 msgstr "Blad"
+
+#: plugins/xbase/xbase.c:142
+msgid "Failed to read DBF header."
+msgstr ""
 
 #: plugins/xbase/plugin.xml.in.h:1
 msgid "Imports XBase files"
@@ -27420,15 +27426,15 @@ msgstr "'%s' is reeds in blad gedefinieerd"
 msgid "'%s' is already defined in workbook"
 msgstr "'%s' is reeds in werkmap gedefinieerd"
 
-#: src/expr.c:720
+#: src/expr.c:719
 msgid "Unknown operator"
 msgstr "Onbekende operator"
 
-#: src/expr.c:752
+#: src/expr.c:751
 msgid "Internal type error"
 msgstr "Interne type fout"
 
-#: src/expr.c:1362
+#: src/expr.c:1370
 msgid "Unknown evaluation error"
 msgstr "Onbekende evaluatiefout"
 
@@ -28546,66 +28552,66 @@ msgstr "Schuif cellen naar rechts en verplaats"
 msgid "C_ancel"
 msgstr "_Annuleren"
 
-#: src/main-application.c:55
+#: src/main-application.c:56
 msgid "Display Gnumeric's version"
 msgstr "Geef Gnumeric's versie nummer weer"
 
-#: src/main-application.c:57
+#: src/main-application.c:58
 msgid "Set the root library directory"
 msgstr "Stel het pad van de root bibliotheek in"
 
-#: src/main-application.c:59
+#: src/main-application.c:60
 msgid "Adjust the root data directory"
 msgstr "Verander het root data pad"
 
-#: src/main-application.c:62 src/main-application.c:64
+#: src/main-application.c:63 src/main-application.c:65
 msgid "Dumps the function definitions"
 msgstr "Dump de functie definities"
 
-#: src/main-application.c:62 src/main-application.c:64
+#: src/main-application.c:63 src/main-application.c:65
 msgid "FILE"
 msgstr "BESTAND"
 
-#: src/main-application.c:67
+#: src/main-application.c:68
 msgid "Enables some debugging functions"
 msgstr "Schakelt enkele debug functies in"
 
-#: src/main-application.c:67 src/main-application.c:70
-#: src/main-application.c:72 src/main-application.c:74
+#: src/main-application.c:68 src/main-application.c:71
+#: src/main-application.c:73 src/main-application.c:75
 msgid "LEVEL"
 msgstr "LEVEL"
 
-#: src/main-application.c:70
+#: src/main-application.c:71
 msgid "Enables some dependency related debugging functions"
 msgstr "Zet enkele afhankelijkheids gerelateerde debug functies aan"
 
-#: src/main-application.c:72
+#: src/main-application.c:73
 msgid "Enables some debugging functions for expression sharing"
 msgstr "Schakelt enkele debug functies in voor het delen van uitdrukkingen"
 
-#: src/main-application.c:74
+#: src/main-application.c:75
 msgid "Enables some print debugging behavior"
 msgstr "Schakelt enkele debug functies voor printen in"
 
-#: src/main-application.c:77
+#: src/main-application.c:78
 msgid "Specify the size and location of the initial window"
 msgstr "Geef de maat en de plaats van het eerste window"
 
-#: src/main-application.c:77
+#: src/main-application.c:78
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "BREEDTExHOOGTE+XOFF+YOFF"
 
-#: src/main-application.c:81
+#: src/main-application.c:82
 msgid "Don't show splash screen"
 msgstr "Het opstartscherm niet tonen"
 
-#: src/main-application.c:84
+#: src/main-application.c:85
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr ""
 "Stop onmiddelijk na het laden van de geselecteerde mappen (handig voor "
 "testen)"
 
-#: src/main-application.c:114
+#: src/main-application.c:115
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -28631,7 +28637,7 @@ msgstr ""
 "\n"
 "-- Het Gnumeric Team."
 
-#: src/main-application.c:145
+#: src/main-application.c:146
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"

@@ -979,7 +979,7 @@ typedef struct
 
 static GnmValue *
 networkdays_holiday_callback (GnmValue const *v, GnmEvalPos const *ep,
-			      void *user_data)
+			      int x, int y, void *user_data)
 {
 	networkdays_holiday_closure * close =
 	    (networkdays_holiday_closure *)user_data;

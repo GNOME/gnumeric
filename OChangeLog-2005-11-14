@@ -1,5 +1,9 @@
 2004-06-22  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.2.13
+
+2004-06-22  Jody Goldberg <jody@gnome.org>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=134014
 	* src/print-cell.c (print_merged_range) : sync with canvas item
 	  recalling that y-coords are negative.  Enable diagonals.

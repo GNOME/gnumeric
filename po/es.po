@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-05-05 02:22-0400\n"
+"POT-Creation-Date: 2004-06-22 22:55-0400\n"
 "PO-Revision-Date: 2004-04-09 01:29+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
@@ -1226,7 +1226,7 @@ msgstr "Derivadas financieras"
 msgid "Functions related to financial derivatives"
 msgstr "Funciones relacionadas con derivados de finanzas"
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5524
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5542
 #: plugins/mps/mps.c:549 src/xml-io.c:4136
 msgid "Reading file..."
 msgstr "Leyendo archivo..."
@@ -1304,15 +1304,15 @@ msgstr ""
 "Lee y escribe información almacenada en formato de intercambio de datos (*."
 "dif)"
 
-#: plugins/excel/boot.c:181
+#: plugins/excel/boot.c:183
 msgid "No Workbook or Book streams found."
 msgstr "No se ha encontrado ningún flujo de libro de cuentas o libro."
 
-#: plugins/excel/boot.c:230
+#: plugins/excel/boot.c:232
 msgid "Preparing to save..."
 msgstr "Preparando para guardar..."
 
-#: plugins/excel/boot.c:242
+#: plugins/excel/boot.c:244
 msgid "Saving file..."
 msgstr "Guardando archivo..."
 
@@ -1377,15 +1377,15 @@ msgstr ""
 "Los enlaces OLE no están soportados.\n"
 "El nombre «%s» se perderá.\n"
 
-#: plugins/excel/ms-excel-read.c:4884
+#: plugins/excel/ms-excel-read.c:4902
 msgid "external references"
 msgstr "referencias externas"
 
-#: plugins/excel/ms-excel-read.c:4909
+#: plugins/excel/ms-excel-read.c:4927
 msgid "No password supplied"
 msgstr "No se suministró contraseña"
 
-#: plugins/excel/ms-excel-read.c:5757
+#: plugins/excel/ms-excel-read.c:5775
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Es imposible ubicar un libro de cuentas MS Excel válido"
 
@@ -1399,7 +1399,7 @@ msgstr ""
 "Ya escribimos una longitud para una cadena que ha sido truncada debido a "
 "problemas de codificación."
 
-#: plugins/excel/ms-excel-write.c:3824
+#: plugins/excel/ms-excel-write.c:3834
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -1408,7 +1408,7 @@ msgstr ""
 "Se perderá algo de contenido si lo guarda como MS Excel (tm) 95. Sólo "
 "soporta %d filas, y este libro de cuentas tiene %d"
 
-#: plugins/excel/ms-excel-write.c:3831
+#: plugins/excel/ms-excel-write.c:3841
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -1417,11 +1417,11 @@ msgstr ""
 "Algunos contenidos se perderán al guardar como MS Excel (tm). Excel sólo "
 "soporta %d filas y este libro de cuentas tiene %d"
 
-#: plugins/excel/ms-excel-write.c:4349
+#: plugins/excel/ms-excel-write.c:4363
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "No se pudo el flujo «Libro» para escritura\n"
 
-#: plugins/excel/ms-excel-write.c:4369
+#: plugins/excel/ms-excel-write.c:4383
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "No se puede abrir el flujo «Libro de cuentas» para escritura\n"
 
@@ -1429,7 +1429,7 @@ msgstr "No se puede abrir el flujo «Libro de cuentas» para escritura\n"
 msgid "Broken function"
 msgstr "Función rota"
 
-#: plugins/excel/ms-formula-write.c:536
+#: plugins/excel/ms-formula-write.c:537
 #, c-format
 msgid ""
 "Too many arguments for function, MS Excel expects exactly %d and we have more"
@@ -8587,6 +8587,7 @@ msgstr "%s versión %s"
 #: plugins/fn-info/functions.c:1308
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:675
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:120
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:910
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:591
 #: src/dialogs/dialog-cell-format.c:2278 src/dialogs/dialog-cell-format.c:2283
 #: src/dialogs/dialog-cell-format.c:2293 src/workbook-format-toolbar.c:837
@@ -17473,8 +17474,8 @@ msgid "Constraints:"
 msgstr "Restricciones:"
 
 #: plugins/mps/mps.c:247 src/commands.c:5739
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1032
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:107
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1049
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:159
 #: src/dialogs/dialog-define-names.c:494 src/dialogs/dialog-formula-guru.c:815
 #: src/dialogs/dialog-function-select.c:445
 #: src/dialogs/dialog-function-select.c:467 src/dialogs/dialog-scenarios.c:362
@@ -18214,6 +18215,10 @@ msgstr "Error al abrir archivo xbase."
 #: src/xml-io.c:3726
 msgid "Sheet"
 msgstr "Hoja"
+
+#: plugins/xbase/xbase.c:142
+msgid "Failed to read DBF header."
+msgstr ""
 
 #: plugins/xbase/plugin.xml.in.h:1
 msgid "Imports XBase files"
@@ -19154,7 +19159,7 @@ msgstr "Crea una flecha"
 msgid "Create an ellipse object"
 msgstr "Crea una elipse"
 
-#: src/GNOME_Gnumeric.xml.h:72 src/sheet-control-gui.c:1486
+#: src/GNOME_Gnumeric.xml.h:72 src/sheet-control-gui.c:1502
 msgid "Cu_t"
 msgstr "Cor_tar"
 
@@ -19262,7 +19267,7 @@ msgid "Filter data with given criteria"
 msgstr "Filtrar datos con un criterio dado"
 
 #: src/GNOME_Gnumeric.xml.h:97
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:913
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:924
 #: src/dialogs/cell-format.glade.h:43 src/dialogs/dialog-preferences.c:1500
 #: src/workbook-format-toolbar.c:412
 msgid "Font"
@@ -19885,7 +19890,7 @@ msgid "Statistical Anal_ysis"
 msgstr "Anál_isis estadístico"
 
 #: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:4049
-#: src/workbook-control-gui.c:4869 src/workbook-view.c:541
+#: src/workbook-control-gui.c:4869 src/workbook-view.c:542
 msgid "Sum"
 msgstr "Suma"
 
@@ -20045,7 +20050,7 @@ msgid "_Contents"
 msgstr "Índi_ce"
 
 #: src/GNOME_Gnumeric.xml.h:278 src/item-cursor.c:1021
-#: src/sheet-control-gui.c:1488
+#: src/sheet-control-gui.c:1504
 msgid "_Copy"
 msgstr "_Copiar"
 
@@ -20062,7 +20067,7 @@ msgstr "_Datos"
 msgid "_Define..."
 msgstr "_Definir..."
 
-#: src/GNOME_Gnumeric.xml.h:282 src/sheet-control-gui.c:1506
+#: src/GNOME_Gnumeric.xml.h:282 src/sheet-control-gui.c:1522
 #: src/workbook-control-gui.c:3506
 msgid "_Delete..."
 msgstr "_Borrar..."
@@ -20138,8 +20143,8 @@ msgstr "_Agrupar..."
 msgid "_Help"
 msgstr "A_yuda"
 
-#: src/GNOME_Gnumeric.xml.h:300 src/sheet-control-gui.c:1531
-#: src/sheet-control-gui.c:1539 src/workbook-control-gui.c:3643
+#: src/GNOME_Gnumeric.xml.h:300 src/sheet-control-gui.c:1547
+#: src/sheet-control-gui.c:1555 src/workbook-control-gui.c:3643
 #: src/workbook-control-gui.c:3662
 msgid "_Hide"
 msgstr "_Ocultar"
@@ -20206,7 +20211,7 @@ msgstr "_Abrir..."
 msgid "_Paired Samples: T-Test..."
 msgstr "Muestras con _paridad: T-Test..."
 
-#: src/GNOME_Gnumeric.xml.h:316 src/sheet-control-gui.c:1490
+#: src/GNOME_Gnumeric.xml.h:316 src/sheet-control-gui.c:1506
 msgid "_Paste"
 msgstr "_Pegar"
 
@@ -20340,8 +20345,8 @@ msgstr "_Deshacer"
 msgid "_Ungroup..."
 msgstr "_Desagrupar..."
 
-#: src/GNOME_Gnumeric.xml.h:347 src/sheet-control-gui.c:1533
-#: src/sheet-control-gui.c:1541 src/workbook-control-gui.c:3646
+#: src/GNOME_Gnumeric.xml.h:347 src/sheet-control-gui.c:1549
+#: src/sheet-control-gui.c:1557 src/workbook-control-gui.c:3646
 #: src/workbook-control-gui.c:3665
 msgid "_Unhide"
 msgstr "_Mostrar"
@@ -21054,33 +21059,33 @@ msgstr "Bordes"
 msgid "Format"
 msgstr "Formato"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:183
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:190
 msgid "Legend"
 msgstr "Leyenda"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:186
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:193
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:157
-#: src/cut-n-paste-code/goffice/graph/gog-legend.c:179
+#: src/cut-n-paste-code/goffice/graph/gog-legend.c:180
 msgid "Title"
 msgstr "Título"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:189
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:196
 msgid "Grid"
 msgstr "Rejilla"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:192
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:199
 msgid "X-Axis"
 msgstr "Eje-X"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:196
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:203
 msgid "Y-Axis"
 msgstr "Eje-Y"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:200
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:207
 msgid "Z-Axis"
 msgstr "Eje-Z"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:204
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:211
 msgid "Plot"
 msgstr "Gráfico"
 
@@ -21112,24 +21117,24 @@ msgstr "Gráfico"
 msgid "Chart"
 msgstr "Gráfica"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1058
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1075
 msgid "Step 1 of 2: Select Chart Type"
 msgstr "Paso 1 de 2: Seleccione el tipo de diagrama"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1066
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1083
 msgid "Step 2 of 2: Customize Chart"
 msgstr "Paso 2 de 2: Personalice su diagrama"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1071
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1088
 msgid "Customize Chart"
 msgstr "Personalizar diagrama"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1166
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1183
 msgid "_Plot Type"
 msgstr "Tipo de _gráfico"
 
 #. Set up sample button
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1256
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1273
 msgid ""
 "Show\n"
 "Sample"
@@ -21137,7 +21142,7 @@ msgstr ""
 "Mostrar\n"
 "ejemplo"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1265
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1282
 #: src/dialogs/dialog-plugin-manager.c:712
 #: src/dialogs/dialog-preferences.c:558 src/dialogs/function-select.glade.h:2
 msgid "Description"
@@ -21185,7 +21190,7 @@ msgid "_Text:"
 msgstr "_Texto:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-label.c:113
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:133
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:196
 #: src/dialogs/dialog-stf.glade.h:15
 msgid "Data"
 msgstr "Datos"
@@ -21356,7 +21361,7 @@ msgstr "%d x %d"
 msgid "Select an image"
 msgstr "Seleccione una imagen"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:985
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:995
 #: src/dialogs/pivottable.glade.h:4
 msgid "Style"
 msgstr "Estilo"
@@ -21374,13 +21379,13 @@ msgid "Guppi"
 msgstr "Guppi"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:304
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:195
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:154
 #: src/dialogs/consolidate.glade.h:12
 msgid "Labels"
 msgstr "Etiquetas"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:306
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:197
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:156
 #: src/dialogs/consolidate.glade.h:27
 msgid "Values"
 msgstr "Valores"
@@ -21696,7 +21701,7 @@ msgstr "grados"
 msgid "PlotPie"
 msgstr "GráficoTarta"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:268
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:226
 msgid "PlotRing"
 msgstr "GráficoAnillo"
 
@@ -22437,7 +22442,7 @@ msgstr "_Entrada"
 #: src/dialogs/correlation.glade.h:11 src/dialogs/covariance.glade.h:11
 #: src/dialogs/descriptive-stats.glade.h:21
 #: src/dialogs/dialog-analysis-tools.c:341
-#: src/dialogs/dialog-analysis-tools.c:2586 src/dialogs/dialog-shuffle.c:151
+#: src/dialogs/dialog-analysis-tools.c:2587 src/dialogs/dialog-shuffle.c:151
 #: src/dialogs/exp-smoothing.glade.h:14
 #: src/dialogs/fourier-analysis.glade.h:12
 #: src/dialogs/moving-averages.glade.h:16 src/dialogs/rank.glade.h:14
@@ -23429,8 +23434,8 @@ msgstr "No se encontraron registros coincidentes."
 #: src/dialogs/dialog-advanced-filter.c:162
 #: src/dialogs/dialog-analysis-tools.c:588
 #: src/dialogs/dialog-analysis-tools.c:706
-#: src/dialogs/dialog-analysis-tools.c:1988
-#: src/dialogs/dialog-analysis-tools.c:2878
+#: src/dialogs/dialog-analysis-tools.c:1989
+#: src/dialogs/dialog-analysis-tools.c:2879
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Ha ocurrido un error inesperado: %d."
@@ -23471,17 +23476,17 @@ msgid "Could not create the Rank and Percentile Tools dialog."
 msgstr ""
 "No se puede crear el diálogo para las Herramientas de Rangos y Percentiles."
 
-#: src/dialogs/dialog-analysis-tools.c:928
+#: src/dialogs/dialog-analysis-tools.c:929
 msgid "Could not create the Fourier Analysis Tool dialog."
 msgstr ""
 "No se puede crear el diálogo para la Herramienta de Análisis de Fourier."
 
-#: src/dialogs/dialog-analysis-tools.c:1090
+#: src/dialogs/dialog-analysis-tools.c:1091
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr ""
 "No se puede crear el diálogo para la Herramienta de Estadística Descriptiva."
 
-#: src/dialogs/dialog-analysis-tools.c:1232
+#: src/dialogs/dialog-analysis-tools.c:1233
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
@@ -23489,7 +23494,7 @@ msgstr ""
 "Debe introducir una varianza\n"
 "de población válida para la variable 1."
 
-#: src/dialogs/dialog-analysis-tools.c:1241
+#: src/dialogs/dialog-analysis-tools.c:1242
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
@@ -23497,35 +23502,35 @@ msgstr ""
 "Debe introducir una varianza\n"
 "de población válida para la variable 2."
 
-#: src/dialogs/dialog-analysis-tools.c:1466
+#: src/dialogs/dialog-analysis-tools.c:1467
 msgid "Var_iable 1 Range:"
 msgstr "Rango de la _1ª variable:"
 
-#: src/dialogs/dialog-analysis-tools.c:1467
+#: src/dialogs/dialog-analysis-tools.c:1468
 msgid "_Variable 2 Range:"
 msgstr "Rango de la _2ª variable:"
 
-#: src/dialogs/dialog-analysis-tools.c:1468
+#: src/dialogs/dialog-analysis-tools.c:1469
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "No se puede crear el diálogo para la Herramienta de Prueba de Medias."
 
-#: src/dialogs/dialog-analysis-tools.c:1665
+#: src/dialogs/dialog-analysis-tools.c:1666
 msgid "Var_iable 1 Range"
 msgstr "Rango de la _1ª variable"
 
-#: src/dialogs/dialog-analysis-tools.c:1665
+#: src/dialogs/dialog-analysis-tools.c:1666
 msgid "_Variable 2 Range"
 msgstr "Rango de la _2ª variable"
 
-#: src/dialogs/dialog-analysis-tools.c:1666
+#: src/dialogs/dialog-analysis-tools.c:1667
 msgid "Could not create the FTest Tool dialog."
 msgstr "No se puede crear el diálogo para la Herramienta de Prueba-F."
 
-#: src/dialogs/dialog-analysis-tools.c:1868
+#: src/dialogs/dialog-analysis-tools.c:1869
 msgid "Could not create the Sampling Tool dialog."
 msgstr "No se puede crear el diálogo para la Herramienta de Muestreo."
 
-#: src/dialogs/dialog-analysis-tools.c:1983 src/tools/analysis-tools.c:2152
+#: src/dialogs/dialog-analysis-tools.c:1984 src/tools/analysis-tools.c:2152
 #: src/tools/analysis-tools.c:2231
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
@@ -23533,42 +23538,42 @@ msgstr ""
 "Debe existir un número equivalente de registros por cada variable en la "
 "regresión."
 
-#: src/dialogs/dialog-analysis-tools.c:2086 src/dialogs/regression.glade.h:21
+#: src/dialogs/dialog-analysis-tools.c:2087 src/dialogs/regression.glade.h:21
 msgid "_X Variables:"
 msgstr "Variables _X:"
 
-#: src/dialogs/dialog-analysis-tools.c:2086 src/dialogs/regression.glade.h:22
+#: src/dialogs/dialog-analysis-tools.c:2087 src/dialogs/regression.glade.h:22
 msgid "_Y Variable:"
 msgstr "Variable _Y:"
 
-#: src/dialogs/dialog-analysis-tools.c:2087
+#: src/dialogs/dialog-analysis-tools.c:2088
 msgid "Could not create the Regression Tool dialog."
 msgstr "No se puede crear el diálogo para la Herramienta de Regresión."
 
-#: src/dialogs/dialog-analysis-tools.c:2223
+#: src/dialogs/dialog-analysis-tools.c:2224
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr ""
 "No se ha podido crear el diálogo de la Herramienta de Suavizado Exponencial."
 
-#: src/dialogs/dialog-analysis-tools.c:2364
+#: src/dialogs/dialog-analysis-tools.c:2365
 msgid "Could not create the Moving Average Tool dialog."
 msgstr ""
 "No se puede crear el diálogo para la Herramienta de Desplazamiento "
 "Promediado."
 
-#: src/dialogs/dialog-analysis-tools.c:2586 src/dialogs/histogram.glade.h:3
+#: src/dialogs/dialog-analysis-tools.c:2587 src/dialogs/histogram.glade.h:3
 msgid "Bin _Range:"
 msgstr "_Rango binario:"
 
-#: src/dialogs/dialog-analysis-tools.c:2587
+#: src/dialogs/dialog-analysis-tools.c:2588
 msgid "Could not create the Histogram Tool dialog."
 msgstr "No se puede crear el diálogo para la herramienta de histograma."
 
-#: src/dialogs/dialog-analysis-tools.c:2765
+#: src/dialogs/dialog-analysis-tools.c:2766
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "No se puede crear el diálogo para la herramienta ANOVA (un factor)."
 
-#: src/dialogs/dialog-analysis-tools.c:2844
+#: src/dialogs/dialog-analysis-tools.c:2845
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
@@ -23576,7 +23581,7 @@ msgstr ""
 "El rango de entrada dado debe contener al menos dos columnas y dos filas de "
 "datos y la etiquetas."
 
-#: src/dialogs/dialog-analysis-tools.c:2847
+#: src/dialogs/dialog-analysis-tools.c:2848
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
@@ -23584,7 +23589,7 @@ msgstr ""
 "El rango de entrada dado debe contener al menos dos columnas y dos filas de "
 "datos."
 
-#: src/dialogs/dialog-analysis-tools.c:2853
+#: src/dialogs/dialog-analysis-tools.c:2854
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
@@ -23592,13 +23597,13 @@ msgstr ""
 "El rango de entrada dado debe contener al menos dos o más columnas de datos "
 "y las etiquetas."
 
-#: src/dialogs/dialog-analysis-tools.c:2856
+#: src/dialogs/dialog-analysis-tools.c:2857
 msgid "The given input range should contain at least two columns of data."
 msgstr ""
 "El rango de entrada dado debe contener al menos dos o más columnas de datos "
 "y las etiquetas."
 
-#: src/dialogs/dialog-analysis-tools.c:2862
+#: src/dialogs/dialog-analysis-tools.c:2863
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
@@ -23606,16 +23611,16 @@ msgstr ""
 "El rango de entrada dado debe contener al menos dos filas de datos y las "
 "etiquetas."
 
-#: src/dialogs/dialog-analysis-tools.c:2865
+#: src/dialogs/dialog-analysis-tools.c:2866
 msgid "The given input range should contain at least two rows of data."
 msgstr "El rango de entrada dado debe contener al menos dos filas de datos."
 
-#: src/dialogs/dialog-analysis-tools.c:2872
+#: src/dialogs/dialog-analysis-tools.c:2873
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr ""
 "El número de filas de datos debe ser múltiplo del número de replicación."
 
-#: src/dialogs/dialog-analysis-tools.c:2969
+#: src/dialogs/dialog-analysis-tools.c:2970
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "No se puede crear el diálogo para la herramienta ANOVA (dos factores)."
 
@@ -23981,7 +23986,7 @@ msgstr "Añadir hiperenlace"
 msgid "Edit Hyperlink"
 msgstr "Editar hiperenlace"
 
-#: src/dialogs/dialog-hyperlink.c:292 src/sheet-control-gui.c:1456
+#: src/dialogs/dialog-hyperlink.c:292 src/sheet-control-gui.c:1472
 msgid "Remove Hyperlink"
 msgstr "Eliminar hiperenlace"
 
@@ -27092,15 +27097,15 @@ msgstr "«%s» ya se encuentra definido en la hoja"
 msgid "'%s' is already defined in workbook"
 msgstr "«%s» ya se encuentra definido en el libro de cuentas"
 
-#: src/expr.c:681
-msgid "Internal type error"
-msgstr "Error de tipo interno"
-
-#: src/expr.c:891
+#: src/expr.c:719
 msgid "Unknown operator"
 msgstr "Operador desconocido"
 
-#: src/expr.c:1100
+#: src/expr.c:751
+msgid "Internal type error"
+msgstr "Error de tipo interno"
+
+#: src/expr.c:1370
 msgid "Unknown evaluation error"
 msgstr "Error al evaluar"
 
@@ -27166,35 +27171,35 @@ msgstr "VERDADERO"
 msgid "FALSE"
 msgstr "FALSO"
 
-#: src/format.c:663
+#: src/format.c:659
 msgid "Black"
 msgstr "Negro"
 
-#: src/format.c:664
+#: src/format.c:660
 msgid "Blue"
 msgstr "Azul"
 
-#: src/format.c:665
+#: src/format.c:661
 msgid "Cyan"
 msgstr "Océano"
 
-#: src/format.c:666
+#: src/format.c:662
 msgid "Green"
 msgstr "Verde"
 
-#: src/format.c:667
+#: src/format.c:663
 msgid "Magenta"
 msgstr "Rosa"
 
-#: src/format.c:668
+#: src/format.c:664
 msgid "Red"
 msgstr "Rojo"
 
-#: src/format.c:669
+#: src/format.c:665
 msgid "White"
 msgstr "Blanco"
 
-#: src/format.c:670
+#: src/format.c:666
 msgid "Yellow"
 msgstr "Amarillo"
 
@@ -28221,67 +28226,67 @@ msgstr "Desplazar hacia  la _derecha y mover"
 msgid "C_ancel"
 msgstr "C_ancelar"
 
-#: src/main-application.c:55
+#: src/main-application.c:56
 msgid "Display Gnumeric's version"
 msgstr "Muestra la versión de Gnumeric"
 
-#: src/main-application.c:57
+#: src/main-application.c:58
 msgid "Set the root library directory"
 msgstr "Definir el directorio raíz de bibliotecas"
 
-#: src/main-application.c:59
+#: src/main-application.c:60
 msgid "Adjust the root data directory"
 msgstr "Ajustar el directorio de datos raíz"
 
-#: src/main-application.c:62 src/main-application.c:64
+#: src/main-application.c:63 src/main-application.c:65
 msgid "Dumps the function definitions"
 msgstr "Vacía la definición de las funciones"
 
-#: src/main-application.c:62 src/main-application.c:64
+#: src/main-application.c:63 src/main-application.c:65
 msgid "FILE"
 msgstr "ARCHIVO"
 
-#: src/main-application.c:67
+#: src/main-application.c:68
 msgid "Enables some debugging functions"
 msgstr "Activar algunas funciones de depuración"
 
-#: src/main-application.c:67 src/main-application.c:70
-#: src/main-application.c:72 src/main-application.c:74
+#: src/main-application.c:68 src/main-application.c:71
+#: src/main-application.c:73 src/main-application.c:75
 msgid "LEVEL"
 msgstr "NIVEL"
 
-#: src/main-application.c:70
+#: src/main-application.c:71
 msgid "Enables some dependency related debugging functions"
 msgstr "Activar algunas funciones de depuración relativas a dependencias"
 
-#: src/main-application.c:72
+#: src/main-application.c:73
 msgid "Enables some debugging functions for expression sharing"
 msgstr ""
 "Activar algunas funciones de depuración para compartición de expresiones"
 
-#: src/main-application.c:74
+#: src/main-application.c:75
 msgid "Enables some print debugging behavior"
 msgstr "Activar algunas funciones de depuración"
 
-#: src/main-application.c:77
+#: src/main-application.c:78
 msgid "Specify the size and location of the initial window"
 msgstr "Especifica el tamaño y la posición de la ventana inicial"
 
-#: src/main-application.c:77
+#: src/main-application.c:78
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "ANCHOxALTO+DESPX+DESPY"
 
-#: src/main-application.c:81
+#: src/main-application.c:82
 msgid "Don't show splash screen"
 msgstr "No mostrar pantalla de presentación"
 
-#: src/main-application.c:84
+#: src/main-application.c:85
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr ""
 "Salir inmediatamente después de cargar los libros seleccionados (útil para "
 "pruebas)."
 
-#: src/main-application.c:114
+#: src/main-application.c:115
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -28307,7 +28312,7 @@ msgstr ""
 "\n"
 "-- El equipo de Gnumeric."
 
-#: src/main-application.c:145
+#: src/main-application.c:146
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -28345,49 +28350,49 @@ msgstr "El nombre «%s» no existe en la hoja «%s»."
 msgid "Unknown workbook '%s'"
 msgstr "Libro de cuentas  «%s» desconocido"
 
-#: src/parser.y:758
+#: src/parser.y:763
 msgid "This locale uses '\\' rather than ',' to separate array columns."
 msgstr "Este locale usa «\\» en vez de «,» para separar un array de columnas."
 
-#: src/parser.y:771
+#: src/parser.y:776
 msgid "This locale uses ',' rather than '\\' to separate array columns."
 msgstr "Este locale usa «,» en vez de «\\» para separar un array de columnas."
 
-#: src/parser.y:903 src/parser.y:1152
+#: src/parser.y:908 src/parser.y:1157
 msgid "Could not find matching closing quote"
 msgstr "No coinciden las comillas abiertas y cerradas"
 
-#: src/parser.y:1012
+#: src/parser.y:1017
 msgid "Sheet name is required"
 msgstr "Se requiere el nombre de la hoja"
 
-#: src/parser.y:1065 src/parser.y:1074 src/parser.y:1099
+#: src/parser.y:1070 src/parser.y:1079 src/parser.y:1104
 msgid "The number is out of range"
 msgstr "El número se encuentra fuera de rango"
 
-#: src/parser.y:1134
+#: src/parser.y:1139
 msgid "Improperly formatted error token"
 msgstr "Símbolo de error formateado inapropiadamente"
 
-#: src/parser.y:1296
+#: src/parser.y:1301
 msgid "Multiple expressions are not supported in this context"
 msgstr "En en este contexto no es soportado disponer de múltiples expresiones"
 
-#: src/parser.y:1319
+#: src/parser.y:1324
 msgid "Could not find matching opening parenthesis"
 msgstr ""
 "No coinciden los paréntesis abiertos y cerrados (faltan paréntesis abiertos)"
 
-#: src/parser.y:1323
+#: src/parser.y:1328
 msgid "Could not find matching closing parenthesis"
 msgstr ""
 "No coinciden los paréntesis abiertos y cerrados (faltan paréntesis cerrados)"
 
-#: src/parser.y:1327
+#: src/parser.y:1332
 msgid "Invalid expression"
 msgstr "Expresión inválida"
 
-#: src/parser.y:1331
+#: src/parser.y:1336
 #, c-format
 msgid "Unexpected token %c"
 msgstr "Señal (token) inesperada %c"
@@ -28885,7 +28890,7 @@ msgstr "No guardar"
 msgid "Do not log out"
 msgstr "No cerrar sesión"
 
-#: src/sheet-control-gui.c:1492
+#: src/sheet-control-gui.c:1508
 msgid "Paste _Special"
 msgstr "Pegado _Especial"
 
@@ -28896,57 +28901,57 @@ msgstr "Pegado _Especial"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1504
+#: src/sheet-control-gui.c:1520
 msgid "_Insert..."
 msgstr "_Insertar..."
 
-#: src/sheet-control-gui.c:1508
+#: src/sheet-control-gui.c:1524
 msgid "_Insert Column(s)"
 msgstr "_Insertar columna(s)"
 
-#: src/sheet-control-gui.c:1510
+#: src/sheet-control-gui.c:1526
 msgid "_Delete Column(s)"
 msgstr "Borrar _columna(s)"
 
-#: src/sheet-control-gui.c:1512
+#: src/sheet-control-gui.c:1528
 msgid "_Insert Row(s)"
 msgstr "_Insertar fila(s)"
 
-#: src/sheet-control-gui.c:1514
+#: src/sheet-control-gui.c:1530
 msgid "_Delete Row(s)"
 msgstr "Borrar _fila(s)"
 
-#: src/sheet-control-gui.c:1517
+#: src/sheet-control-gui.c:1533
 msgid "Clear Co_ntents"
 msgstr "Limpiar el co_ntenido"
 
-#: src/sheet-control-gui.c:1519
+#: src/sheet-control-gui.c:1535
 msgid "Edit Co_mment..."
 msgstr "Editar co_mentarios"
 
-#: src/sheet-control-gui.c:1525
+#: src/sheet-control-gui.c:1541
 msgid "_Format Cells..."
 msgstr "_Formatear celdas..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1529
+#: src/sheet-control-gui.c:1545
 msgid "Column _Width..."
 msgstr "_Anchura de la columna..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1537
+#: src/sheet-control-gui.c:1553
 msgid "_Row Height..."
 msgstr "Altura de la _Fila..."
 
-#: src/sheet-control-gui.c:1544
+#: src/sheet-control-gui.c:1560
 msgid "_Hyperlink"
 msgstr "_Hiperenlace"
 
-#: src/sheet-control-gui.c:1547
+#: src/sheet-control-gui.c:1563
 msgid "Edit _Hyperlink"
 msgstr "Editar _hiperenlace"
 
-#: src/sheet-control-gui.c:1550
+#: src/sheet-control-gui.c:1566
 msgid "_Remove Hyperlink"
 msgstr "_Eliminar hiperenlace"
 
@@ -31828,31 +31833,31 @@ msgstr "Establecer bordes"
 msgid "SpinButton"
 msgstr "BotónIncremento"
 
-#: src/workbook-view.c:274
+#: src/workbook-view.c:275
 #, c-format
 msgid "%dC"
 msgstr "%dC"
 
-#: src/workbook-view.c:276
+#: src/workbook-view.c:277
 #, c-format
 msgid "%dR"
 msgstr "%dR"
 
-#: src/workbook-view.c:278
+#: src/workbook-view.c:279
 #, c-format
 msgid "%dR x %dC"
 msgstr "%dR x %dC"
 
-#: src/workbook-view.c:420
+#: src/workbook-view.c:421
 msgid "Internal ERROR"
 msgstr "ERROR interno"
 
-#: src/workbook-view.c:590
+#: src/workbook-view.c:589
 #, c-format
 msgid "Can't open '%s' for writing: %s"
 msgstr "No se puede abrir «%s» para escritura: %s"
 
-#: src/workbook-view.c:615
+#: src/workbook-view.c:614
 #, c-format
 msgid "An unexplained error happened while saving %s"
 msgstr "Ocurrió un error inexplicable mientras se guardaba %s"
@@ -31861,23 +31866,23 @@ msgstr "Ocurrió un error inexplicable mientras se guardaba %s"
 #. * This should be quite rare.  To provoke, use
 #. * gnumeric `echo -e '\377\376'`
 #.
-#: src/workbook-view.c:622 src/workbook-view.c:983
+#: src/workbook-view.c:621 src/workbook-view.c:982
 msgid "The filename given is not valid in the current encoding."
 msgstr "El nombre del archivo dado no está en la codificación actual."
 
-#: src/workbook-view.c:707 src/workbook-view.c:816
+#: src/workbook-view.c:706 src/workbook-view.c:815
 msgid "Default file saver is not available."
 msgstr "No se encuentra disponible el guardador de archivos preestablecido."
 
-#: src/workbook-view.c:776
+#: src/workbook-view.c:775
 msgid "Failed to create temporary file for sending."
 msgstr "No se puede crear archivo temporal para el envío."
 
-#: src/workbook-view.c:909
+#: src/workbook-view.c:908
 msgid "Unsupported file format."
 msgstr "Formato de archivo no soportado."
 
-#: src/workbook-view.c:976
+#: src/workbook-view.c:975
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Ocurrió un error no explicado mientras se abría %s"

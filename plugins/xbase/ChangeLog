@@ -1,3 +1,7 @@
+2004-06-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.13
+
 2004-06-04  Morten Welinder  <terra@gnome.org>
 
 	* xbase.c (xbase_read_header): Return error in ErrorInfo way.
