@@ -33,7 +33,7 @@ sheet_object_container_destroy (GtkObject *object)
 	g_free (soc->repoid);
 
 	if (soc->client_site)
-		gtk_object_destroy (GTK_OBJECT (soc->client_site));
+		gnome_object_destroy (GNOME_OBJECT (soc->client_site));
 	
 	/* Call parent's destroy method */
 	GTK_OBJECT_CLASS(sheet_object_container_parent_class)->destroy (object);
@@ -160,6 +160,8 @@ get_file_name (void)
  * sheet_object_container_land:
  * @so: Sheet Object
  * @fname: Optional file name
+ * @own_size: Whether the component is sized to the size it
+ *            requests.
  * 
  * Creates client site for object, and binds object to it.
  * Loads data from specified file. If no filename specified
@@ -168,7 +170,8 @@ get_file_name (void)
  * Returns: success.
  **/
 gboolean
-sheet_object_container_land (SheetObject *so, const gchar *fname)
+sheet_object_container_land (SheetObject *so, const gchar *fname,
+			     gboolean own_size)
 {
 	SheetObjectContainer *soc;
 	GList *l;
@@ -262,9 +265,20 @@ sheet_object_container_land (SheetObject *so, const gchar *fname)
 		
 		CORBA_exception_free (&ev);
 	}
+
+	/*
+	 * 4. Ask the component how big it wants to be, if it is allowed.
+	 */
+	if (own_size) {
+		int dx = -1, dy = -1;
+		gtk_signal_emit_by_name (GTK_OBJECT (soc->client_site),
+					 "size_query", &dx, &dy);
+		if (dx > 0 && dy > 0)
+			g_warning ("unimplemented auto size to %d, %d", dx, dy);
+	}
 	
 	/*
-	 * 4. Instatiate the views of the object across the sheet views
+	 * 5. Instatiate the views of the object across the sheet views
 	 */
 	for (l = so->sheet->sheet_views; l; l = l->next){
 		GnomeCanvasItem *item;
@@ -393,7 +407,7 @@ sheet_object_container_creation_finished (SheetObject *so)
 	SheetObjectContainer *soc = SHEET_OBJECT_CONTAINER (so);
 	
 	if (soc->client_site == NULL)
-		if (!sheet_object_container_land (so, NULL)) {
+		if (!sheet_object_container_land (so, NULL, FALSE)) {
 			char *msg = g_strdup_printf ("Failed trying to instantiate '%s'",
 						     soc->repoid?soc->repoid:"No ID!");
 			gnome_dialog_run_and_close (GNOME_DIALOG (gnome_error_dialog (msg)));

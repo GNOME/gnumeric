@@ -180,8 +180,6 @@ sheet_object_drop_file (SheetView *sheet_view, gint x, gint y, const char *fname
 		SheetObject   *obj;
 		ObjectCoords   pos;
 
-		printf ("So far so good: the goad id = '%s'\n", mime_goad_id);
-
 		gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
 		pos.x = x;
 		pos.y = y;
@@ -190,13 +188,12 @@ sheet_object_drop_file (SheetView *sheet_view, gint x, gint y, const char *fname
 		obj = sheet_object_container_new (sheet_view->sheet, pos.x, pos.y,
 						  pos.x+100.0, pos.y+100.0,
 						  mime_goad_id);
-		if (!sheet_object_container_land (obj, fname)) {
+		if (!sheet_object_container_land (obj, fname, TRUE)) {
 			msg = g_strdup_printf ("Failed to bind or create client site for '%s'",
 					       mime_goad_id);
 			gnome_dialog_run_and_close (GNOME_DIALOG (gnome_error_dialog (msg)));
-			gnome_object_destroy (GNOME_OBJECT (obj));
-		} else
-			gtk_signal_emit_by_name (GTK_OBJECT (obj), "realize");
+			gtk_object_destroy (GTK_OBJECT (obj));
+		}
 	}
 	if (msg)
 		g_free (msg);
@@ -632,8 +629,6 @@ sheet_object_stop_editing (SheetObject *object)
 		sheet_object_destroy_control_points (sheet);
 }
 
-#define POINT(x) (1 << x)
-
 /*
  * set_item_x:
  *
@@ -678,7 +673,6 @@ control_point_handle_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject 
 	int idx;
 	GList *l;
 	static int last_x, last_y;
-	double dx, dy;
 	
 	switch (event->type){
 	case GDK_ENTER_NOTIFY:
@@ -704,8 +698,9 @@ control_point_handle_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject 
 		break;
 
 	case GDK_MOTION_NOTIFY: {
-		double *coords = object->bbox_points->coords;
-		int change = 0;
+		double   *coords = object->bbox_points->coords;
+		double    dx, dy;
+		int       left_dx, right_dx, top_dy, bottom_dy;
 		
 		if (!object->dragging)
 			return FALSE;
@@ -719,82 +714,82 @@ control_point_handle_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject 
 		last_x = event->button.x;
 		last_y = event->button.y;
 
-		switch (idx){
+		left_dx = 0; right_dx = 0; top_dy = 0; bottom_dy = 0;
+		
+		switch (idx) {
 		case 0:
-			change = POINT (0) | POINT (1);
+			left_dx   = 1;
+			top_dy    = 1;
 			break;
-			
 		case 1:
-			change = POINT (1);
+			top_dy    = 1;
 			break;
-			
 		case 2:
-			change = POINT (1) | POINT (2);
+			right_dx  = 1;
+			top_dy    = 1;
 			break;
-				
 		case 3:
-			change = POINT (0);
+			left_dx   = 1;
 			break;
-			
 		case 4:
-			change = POINT (2);
+			right_dx  = 1;
 			break;
-			
 		case 5:
-			change = POINT (0) | POINT (3);
+			left_dx   = 1;
+			bottom_dy = 1;
 			break;
-			
 		case 6:
-			change = POINT (3);
+			bottom_dy = 1;
 			break;
-			
 		case 7:
-			change = POINT (2) | POINT (3);
+			right_dx  = 1;
+			bottom_dy = 1;
 			break;
-			
 		default:
-			g_warning ("Should not happen");
+			g_warning ("Should not happen %d", idx);
 		}
 		
-		for (l = object->sheet->sheet_views; l; l = l->next){
+		for (l = object->sheet->sheet_views; l; l = l->next) {
 			SheetView *sheet_view = l->data;
 
-			if (change & POINT (0)){
-				set_item_x (sheet_view, 0, coords [0] + dx);
-				set_item_x (sheet_view, 3, coords [0] + dx);
-				set_item_x (sheet_view, 5, coords [0] + dx);
-			} else if (change & POINT (2)){
-				set_item_x (sheet_view, 2, coords [2] + dx);
-				set_item_x (sheet_view, 4, coords [2] + dx);
-				set_item_x (sheet_view, 7, coords [2] + dx);
-			}
+			if ((coords[2] - coords[0] + dx) > 8.0) {
+				if (left_dx) {
+					set_item_x (sheet_view, 0, coords [0] + dx);
+					set_item_x (sheet_view, 3, coords [0] + dx);
+					set_item_x (sheet_view, 5, coords [0] + dx);
+					set_item_x (sheet_view, 1, (coords [0] + dx + coords[2]) / 2.0);
+					set_item_x (sheet_view, 6, (coords [0] + dx + coords[2]) / 2.0);
+				} else if (right_dx) {
+					set_item_x (sheet_view, 2, coords [2] + dx);
+					set_item_x (sheet_view, 4, coords [2] + dx);
+					set_item_x (sheet_view, 7, coords [2] + dx);
+					set_item_x (sheet_view, 1, (coords [0] + coords[2] + dx) / 2.0);
+					set_item_x (sheet_view, 6, (coords [0] + coords[2] + dx) / 2.0);
+				}
+			} else
+				dx = 0.0;
 
-			if (change & POINT (1)){
-				set_item_y (sheet_view, 0, coords [1] + dy);
-				set_item_y (sheet_view, 1, coords [1] + dy);
-				set_item_y (sheet_view, 2, coords [1] + dy);
-			} else if (change & POINT (3)){
-				set_item_y (sheet_view, 5, coords [3] + dy);
-				set_item_y (sheet_view, 6, coords [3] + dy);
-				set_item_y (sheet_view, 7, coords [3] + dy);
-			}
+			if ((coords[3] - coords[1] + dy) > 8.0) {
+				if (top_dy) {
+					set_item_y (sheet_view, 0, coords [1] + dy);
+					set_item_y (sheet_view, 1, coords [1] + dy);
+					set_item_y (sheet_view, 2, coords [1] + dy);
+					set_item_y (sheet_view, 3, (coords [1] + dy + coords[3]) / 2.0);
+					set_item_y (sheet_view, 4, (coords [1] + dy + coords[3]) / 2.0);
+				} else if (bottom_dy) {
+					set_item_y (sheet_view, 5, coords [3] + dy);
+					set_item_y (sheet_view, 6, coords [3] + dy);
+					set_item_y (sheet_view, 7, coords [3] + dy);
+					set_item_y (sheet_view, 3, (coords [1] + coords[3] + dy) / 2.0);
+					set_item_y (sheet_view, 4, (coords [1] + coords[3] + dy) / 2.0);
+				}
+			} else
+				dy = 0.0;
 
-			if (change & (POINT (0) | POINT (2))){
-				set_item_x (sheet_view, 1, (coords [0] + dx + coords [2])/2);
-				set_item_x (sheet_view, 6, (coords [0] + dx + coords [2])/2);
-			}
+			SO_CLASS(object)->update_coords (object,
+				left_dx   ? dx : 0, top_dy    ? dy : 0,
+				right_dx  ? dx : 0, bottom_dy ? dy : 0);
 
-			if (change & (POINT (1) | POINT (3))){
-				set_item_y (sheet_view, 3, (coords [1] + dy + coords [3])/2);
-				set_item_y (sheet_view, 4, (coords [1] + dy + coords [3])/2);
-			}
-
-			SO_CLASS(object)->update_coords (
-				object,
-				change & POINT (0) ? dx : 0,
-				change & POINT (1) ? dy : 0,
-				change & POINT (2) ? dx : 0,
-				change & POINT (3) ? dy : 0);
 		}
 		break;
 	}

@@ -44,7 +44,8 @@ SheetObject *sheet_object_container_new      (Sheet *sheet,
 					      double x2, double y2,
 					      const char *object_name);
 gboolean     sheet_object_container_land     (SheetObject *so,
-					      const gchar *fname);
+					      const gchar *fname,
+					      gboolean     own_size);
 /*
  * Graphics
  */
