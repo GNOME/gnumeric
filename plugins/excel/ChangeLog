@@ -1,3 +1,11 @@
+2005-01-13  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=163409
+	* ms-excel-write.c (excel_write_COLINFO) : handle ci == NULL
+	  so that we can export empty cols with formats.  If the format is the
+	  same as the sheet default don't bother to export.
+	(excel_write_colinfos) : we may need to export empty cols.
+
 2005-01-10  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=163406

@@ -95,11 +95,13 @@ colrow_is_empty (ColRowInfo const *cri)
  * @b : ColRowInfo #2
  *
  * Returns true if the infos are equivalent.
- */
+ **/
 gboolean
 colrow_equal (ColRowInfo const *a, ColRowInfo const *b)
 {
-	if (a == NULL || b == NULL)
+	if (a == NULL)
+		return b == NULL;
+	if (b == NULL)
 		return FALSE;
 
 	return  a->size_pts	 == b->size_pts &&
@@ -466,6 +468,12 @@ colrow_set_sizes (Sheet *sheet, gboolean is_cols,
 				colrow_foreach (&sheet->rows, 0, SHEET_MAX_ROWS-1,
 					&cb_set_colrow_size, &closure);
 			}
+
+			/* force a re-render of cells with expanding formats */
+			if (is_cols)
+				sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
+					0, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1,
+					(CellIterFunc) &cb_clear_variable_width_content, NULL);
 
 			/* Result is a magic 'default' record + >= 1 normal */
 			return g_slist_prepend (res, g_slist_append (NULL, rles));

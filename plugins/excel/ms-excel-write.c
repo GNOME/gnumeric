@@ -2940,46 +2940,52 @@ excel_write_DEFCOLWIDTH (BiffPut *bp, ExcelWriteSheet *esheet)
  * excel_write_COLINFO
  * @bp:   BIFF buffer
  * @esheet:
- * @ci   : the descriptor of the first col
- * @last_index : the index of the last contiguous identical col
+ * @ci   : the descriptor of the first col (possibly NULL)
+ * @first_col : the index of the last contiguous identical col
+ * @last_col  : the index of the last contiguous identical col
  * @xf_index   : the style index to the entire col (< 0 for none)
  *
  * Write column info for a run of identical columns
  **/
 static void
-excel_write_COLINFO (BiffPut *bp, ExcelWriteSheet *esheet,
-		     ColRowInfo const *ci, int last_index, guint16 xf_index)
+excel_write_COLINFO (BiffPut *bp, ExcelWriteSheet *esheet, ColRowInfo const *ci,
+		     int first_col, int last_col, guint16 xf_index)
 {
 	guint8 *data;
 	guint16 charwidths, options = 0;
 	float   width, scale;
-	XL_font_width const *spec = xl_find_fontspec (esheet, &scale);
+	XL_font_width const *spec;
 
-	width = ci->size_pts;		/* pts to avoid problems when zooming */
+	if (NULL != ci) {
+		width = ci->size_pts;		/* pts to avoid problems when zooming */
+		if (!ci->visible)
+			options = 1;
+		options |= (MIN (ci->outline_level, 0x7) << 8);
+		if (ci->is_collapsed)
+			options |= 0x1000;
+	} else {
+		if (xf_index == esheet->ewb->xf.default_style_index)
+			return; /* there is no point exporting this */
+		width = esheet->gnum_sheet->cols.default_style.size_pts;
+	}
+
 	width /= scale * 72. / 96;	/* pixels at 96dpi */
 	/* center the measurement on the known default size */
+	spec = xl_find_fontspec (esheet, &scale);
 	charwidths = (guint16)((width - 8. * spec->defcol_unit) * spec->colinfo_step +
 			       spec->colinfo_baseline + .5);
-
-	if (!ci->visible)
-		options = 1;
-	options |= (MIN (ci->outline_level, 0x7) << 8);
-	if (ci->is_collapsed)
-		options |= 0x1000;
-
 	d (1, {
 		fprintf (stderr, "Column Formatting %s!%s of width "
-		      "%hu/256 characters (%f pts)\n",
-		      esheet->gnum_sheet->name_quoted,
-		      cols_name (ci->pos, last_index), charwidths,
-		      ci->size_pts);
+			 "%hu/256 characters\n",
+			 esheet->gnum_sheet->name_quoted,
+			 cols_name (first_col, last_col), charwidths);
 		fprintf (stderr, "Options %hd, default style %hd\n", options, xf_index);
 	});
 
 	/* NOTE : Docs are wrong, length is 12 not 11 */
 	data = ms_biff_put_len_next (bp, BIFF_COLINFO, 12);
-	GSF_LE_SET_GUINT16 (data +  0, ci->pos);	/* 1st  col formatted */
-	GSF_LE_SET_GUINT16 (data +  2, last_index);	/* last col formatted */
+	GSF_LE_SET_GUINT16 (data +  0, first_col);	/* 1st  col formatted */
+	GSF_LE_SET_GUINT16 (data +  2, last_col);	/* last col formatted */
 	GSF_LE_SET_GUINT16 (data +  4, charwidths);
 	GSF_LE_SET_GUINT16 (data +  6, xf_index);
 	GSF_LE_SET_GUINT16 (data +  8, options);
@@ -2990,24 +2996,25 @@ excel_write_COLINFO (BiffPut *bp, ExcelWriteSheet *esheet,
 static void
 excel_write_colinfos (BiffPut *bp, ExcelWriteSheet *esheet)
 {
-	ColRowInfo const *ci, *first = NULL;
-	int i;
+	ColRowInfo const *ci, *info;
+	int first_col = 0, i;
 	guint16	new_xf, xf = 0;
 
-	for (i = 0; i < esheet->max_col; i++) {
+	if (esheet->max_col <= 0)
+		return;
+	info = sheet_col_get (esheet->gnum_sheet, 0);
+	xf   = esheet->col_xf [0];
+	for (i = 1; i < esheet->max_col; i++) {
 		ci = sheet_col_get (esheet->gnum_sheet, i);
 		new_xf = esheet->col_xf [i];
-		if (first == NULL) {
-			first = ci;
-			xf = new_xf;
-		} else if (xf != new_xf || !colrow_equal (first, ci)) {
-			excel_write_COLINFO (bp, esheet, first, i-1, xf);
-			first = ci;
-			xf = new_xf;
+		if (xf != new_xf || !colrow_equal (info, ci)) {
+			excel_write_COLINFO (bp, esheet, info, first_col, i-1, xf);
+			info	  = ci;
+			xf	  = new_xf;
+			first_col = i;
 		}
 	}
-	if (first != NULL)
-		excel_write_COLINFO (bp, esheet, first, i-1, xf);
+	excel_write_COLINFO (bp, esheet, info, first_col, i-1, xf);
 }
 
 static char const *

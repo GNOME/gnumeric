@@ -1,3 +1,21 @@
+2005-01-14  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-pane.c (cb_control_point_event) : fix double click
+	  handling to not start a drag when the editor is gone
+
+2005-01-13  Jody Goldberg <jody@gnome.org>
+
+	http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=288157
+	* src/colrow.c (colrow_set_sizes) : we need to rerender variable width
+	  content when resizing all cols at the same time, just like we do for
+	  smaller sections
+
+2005-01-13  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=161782
+	* templates/autoformat/Makefile.am : applied patch to use non
+	  bash-specific variable substitution.
+
 2005-01-13  Morten Welinder  <terra@gnome.org>
 
 	* src/style.c (style_font_new_simple): Don't ref and unref the

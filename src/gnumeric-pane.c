@@ -812,7 +812,8 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event, GnmPane *pane)
 	case GDK_2BUTTON_PRESS:
 		if (pane->drag.button == 1)
 			sheet_object_get_editor (so, SHEET_CONTROL (scg));
-		break;
+		else
+			break;
 
 	case GDK_BUTTON_RELEASE:
 		if (pane->drag.button != (int)event->button.button)
