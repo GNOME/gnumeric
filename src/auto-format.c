@@ -269,8 +269,8 @@ do_af_suggest_list (ExprList *list, const EvalPos *epos, StyleFormat **explicit)
 
 /* ------------------------------------------------------------------------- */
 
-static char *
-auto_format_suggest (ExprTree const *expr, EvalPos const *epos)
+StyleFormat *
+auto_style_format_suggest (ExprTree const *expr, EvalPos const *epos)
 {
 	StyleFormat *explicit = NULL;
 
@@ -306,22 +306,3 @@ auto_format_suggest (ExprTree const *expr, EvalPos const *epos)
 
 	return explicit;
 }
-
-/* ------------------------------------------------------------------------- */
-/* This is just a StyleFormat version of the above.  Eventually, this needs  */
-/* to be the primitive and the above should go away.                         */
-
-StyleFormat *
-auto_style_format_suggest (const ExprTree *expr, const EvalPos *epos)
-{
-	char *format;
-	StyleFormat *result = NULL;
-	format = auto_format_suggest (expr, epos);
-	if (format) {
-		result = style_format_new_XL (format, FALSE);
-		g_free (format);
-	}
-	return result;
-}
-
-/* ------------------------------------------------------------------------- */
