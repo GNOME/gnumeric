@@ -10,6 +10,8 @@
 	(ms_ole_create): Fix killer stupid bug ! setting whole map to
 	END_OF_CHAIN instead of UNUSED_BLOCK ! idiot !
 	Correctly terminated the root directory chain.
+	Added magic numbers.
+	(ms_ole_directory_create): Added magic numbers.
 
 	* ms-ole.h (struct _MS_OLE_STREAM): Add tell method, and fix
 	broken comments.

@@ -14,10 +14,10 @@
 #define EX_GETXF(p)       (BIFF_GETWORD(p->data + 4))
 #define EX_GETSTRLEN(p)   (BIFF_GETWORD(p->data + 6))
 
-#define EX_SETROW(p,d)    (BIFF_SET_GUINT16(p->data + 0, d))
-#define EX_SETCOL(p,d)    (BIFF_SET_GUINT16(p->data + 2, d))
-#define EX_SETXF(p,d)     (BIFF_SET_GUINT16(p->data + 4, d))
-#define EX_SETSTRLEN(p,d) (BIFF_SET_GUINT16(p->data + 6, d))
+#define EX_SETROW(p,d)    (BIFF_SET_GUINT16(p + 0, d))
+#define EX_SETCOL(p,d)    (BIFF_SET_GUINT16(p + 2, d))
+#define EX_SETXF(p,d)     (BIFF_SET_GUINT16(p + 4, d))
+#define EX_SETSTRLEN(p,d) (BIFF_SET_GUINT16(p + 6, d))
 
 /* Version info types as found in various Biff records */
 typedef enum _eBiff_filetype { eBiffTWorkbook=0, eBiffTVBModule=1, eBiffTWorksheet=2,

@@ -85,7 +85,9 @@ ms_bug_get_padding (guint16 opcode)
 		ans=0;
 		break;
 	default:
+#if BIFF_DEBUG > 0
 		printf ("Unknown padding to fix bug on record 0x%x\n", opcode);
+#endif
 		break;
 	}
 #if BIFF_DEBUG > 0

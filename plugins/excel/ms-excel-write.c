@@ -31,6 +31,8 @@
 #include "excel.h"
 #include "ms-excel-write.h"
 
+#define EXCEL_DEBUG 0
+
 typedef struct _SHEET    SHEET;
 typedef struct _WORKBOOK WORKBOOK;
 
@@ -53,7 +55,7 @@ struct _WORKBOOK {
  *  it returns the length of the string.
  **/
 static void
-biff_put_text (BIFF_PUT *bp, char *txt, eBiff_version ver)
+biff_put_text (BIFF_PUT *bp, char *txt, eBiff_version ver, gboolean write_len)
 {
 #define BLK_LEN 16
 
@@ -66,14 +68,22 @@ biff_put_text (BIFF_PUT *bp, char *txt, eBiff_version ver)
 	len = strlen (txt);
 	if (ver >= eBiffV8) { /* Write header & word length*/
 		data[0] = 0;
-		BIFF_SET_GUINT16(data+1, len);
-		ms_biff_put_var_write (bp, data, 3);
-		ans = len + 3;
+		if (write_len) {
+			BIFF_SET_GUINT16(data+1, len);
+			ms_biff_put_var_write (bp, data, 3);
+			ans = len + 3;
+		} else {
+			ms_biff_put_var_write (bp, data, 1);
+			ans = len;
+		}
 	} else { /* Byte length */
-		g_return_if_fail (len<256);
-		BIFF_SET_GUINT8(data, len);
-		ms_biff_put_var_write (bp, data, 1);
-		ans = len + 1;
+		if (write_len) {
+			g_return_if_fail (len<256);
+			BIFF_SET_GUINT8(data, len);
+			ms_biff_put_var_write (bp, data, 1);
+			ans = len + 1;
+		} else
+			ans = len;
 	}
 
 	/* An attempt at efficiency */
@@ -189,7 +199,7 @@ biff_boundsheet_write_first (BIFF_PUT *bp, eBiff_filetype type,
 	BIFF_SET_GUINT8 (data+5, 0); /* Visible */
 	ms_biff_put_var_write (bp, data, 6);
 
-	biff_put_text (bp, name, ver);
+	biff_put_text (bp, name, ver, TRUE);
 
 	ms_biff_put_var_commit (bp);
 	return pos;
@@ -214,11 +224,84 @@ biff_boundsheet_write_last (MS_OLE_STREAM *s, guint32 pos,
 	s->lseek (s, oldpos, MS_OLE_SEEK_SET);
 }
 
+static void
+write_value (BIFF_PUT *bp, Value *v, eBiff_version ver, guint32 col, guint32 row, guint16 xf)
+{
+	switch (v->type) {
+
+	case VALUE_INTEGER:
+	{
+		int_t vint = v->v.v_int;
+		guint head = 3;
+		guint8 *data;
+
+		if (vint%100==0)
+			vint/=100;
+		else
+			head = 2;
+#if EXCEL_DEBUG > 0
+		printf ("writing %d %d %d\n", vint, v->v.v_int, head);
+#endif
+		if (vint & ~0x3fff) /* Chain to floating point then. */
+			printf ("FIXME: Serious loss of precision saving number\n");
+		data = ms_biff_put_len_next (bp, BIFF_RK, 10);
+		EX_SETROW(data, row);
+		EX_SETCOL(data, col);
+		EX_SETXF (data, xf);
+		BIFF_SET_GUINT32 (data + 6, (vint<<2) + head);
+		ms_biff_put_len_commit (bp);
+		break;
+	}
+	case VALUE_FLOAT:
+	{
+		if (ver >= eBiffV8) { /* See: S59DAC.HTM */
+			guint8 *data =ms_biff_put_len_next (bp, BIFF_NUMBER, 14);
+			EX_SETROW(data, row);
+			EX_SETCOL(data, col);
+			EX_SETXF (data, xf);
+			BIFF_SETDOUBLE (data + 6, v->v.v_float);
+			ms_biff_put_len_commit (bp);
+		} else { /* Nasty RK thing S59DDA.HTM */
+			guint8 data[16];
+
+			ms_biff_put_var_next   (bp, BIFF_RK);
+			BIFF_SETDOUBLE (data+6-4, v->v.v_float);
+			EX_SETROW(data, row);
+			EX_SETCOL(data, col);
+			EX_SETXF (data, xf);
+			data[6] &= 0xfc;
+			ms_biff_put_var_write  (bp, data, 10); /* Yes loose it. */
+			ms_biff_put_var_commit (bp);
+		}
+		break;
+	}
+	case VALUE_STRING:
+	{
+		char data[16];
+		g_return_if_fail (v->v.str->str);
+
+		if (ver == eBiffV8); /* Use SST stuff in fulness of time */
+		/* See: S59DDC.HTM */
+		ms_biff_put_var_next   (bp, BIFF_RSTRING);
+		EX_SETXF (data, xf);
+		EX_SETCOL(data, col);
+		EX_SETROW(data, row);
+		EX_SETSTRLEN (data, strlen(v->v.str->str));
+		ms_biff_put_var_write  (bp, data, 8);
+		biff_put_text (bp, v->v.str->str, ver, FALSE);
+		ms_biff_put_var_commit (bp);
+		break;
+	}
+	default:
+		printf ("Unhandled value type %d\n", v->type);
+		break;
+	}
+}
+
 typedef struct {
 	SHEET    *sheet;
 	BIFF_PUT *bp;
 } CellArgs;
-
 static void
 write_cell (gpointer key, Cell *cell, CellArgs *a)
 {
@@ -227,16 +310,15 @@ write_cell (gpointer key, Cell *cell, CellArgs *a)
 	g_return_if_fail (a);
 	g_return_if_fail (cell);
 
-	if (cell->value && VALUE_IS_NUMBER (cell->value)) {
-		guint8  *data;
-		data = ms_biff_put_len_next (bp, BIFF_NUMBER, 14);
-		EX_SETROW(bp, cell->row->pos);
-		EX_SETCOL(bp, cell->col->pos);
-		EX_SETXF (bp, 0);
-		BIFF_SETDOUBLE (bp->data + 6,
-				value_get_as_float (cell->value));
-		ms_biff_put_len_commit (bp);	
-	}
+	if (cell->parsed_node)
+#if EXCEL_DEBUG > 0
+		printf ("FIXME: Skipping function\n");
+#else
+;
+#endif
+	else if (cell->value)
+		write_value (bp, cell->value, a->sheet->wb->ver,
+			     cell->col->pos, cell->row->pos, 0);
 }
 
 static void

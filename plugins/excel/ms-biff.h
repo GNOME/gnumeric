@@ -29,7 +29,8 @@ typedef guint64 DLONG;
                                (*((guint8 *)(p)+2)=((n)>>16)&0xff), \
                                (*((guint8 *)(p)+3)=((n)>>24)&0xff))
 
-double biff_getdouble(guint8 *p);
+extern double biff_getdouble(guint8 *p);
+extern void   biff_setdouble (guint8 *p, double d);
 	
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN
 #     define BIFF_GETDOUBLE(p)   (*((double*)(p)))

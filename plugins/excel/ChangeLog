@@ -1,5 +1,12 @@
 1999-05-17  Michael Meeks  <michael@imaginator.com>
 
+	* ms-formula-read.c (formula_func_data): Function data from
+	Luke Plant.
+
+	* ms-biff.h: Add biff_setdouble prototype.
+
+	* ms-excel-read.c: Updated commenting.
+
 	* ms-biff.c (ms_bug_get_padding): Quietened.
 	Implemented 'tell' throught
 	(ms_biff_put_var_commit): Fixed seeking over end.

@@ -1538,7 +1538,7 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		}
  		break;
 	}
-	case BIFF_RSTRING:
+	case BIFF_RSTRING: /* See: S59DDC.HTM */
 	{
 		char *txt ;
 		/*
@@ -1554,7 +1554,8 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 	case BIFF_DBCELL: /* S59D6D.HTM */
 		/* Can be ignored on read side */
 		break ;
-	case BIFF_NUMBER: {
+	case BIFF_NUMBER: /* S59DAC.HTM */
+	{
 		Value *v = value_new_float (BIFF_GETDOUBLE (q->data + 6));
 #if EXCEL_DEBUG > 0
 		printf ("Read number %g\n", BIFF_GETDOUBLE (q->data + 6));
@@ -1594,9 +1595,10 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 	case BIFF_RK: /* See: S59DDA.HTM */
 	{
 		Value *v = biff_get_rk(q->data+6);
-		
-/*		printf ("RK number : 0x%x, length 0x%x\n", q->opcode, q->length);
-		dump (q->data, q->length);*/
+#if EXCEL_DEBUG > 2
+		printf ("RK number : 0x%x, length 0x%x\n", q->opcode, q->length);
+		dump (q->data, q->length);
+#endif
 		ms_excel_sheet_insert_val (sheet, EX_GETXF (q), EX_GETCOL (q),
 					   EX_GETROW (q), v);
 		break;

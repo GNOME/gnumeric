@@ -333,6 +333,30 @@ check (MS_OLE *f)
 
 }
 
+/* Pass a pointer to the raw memory at start of PPS */
+static void
+init_pps (guint8 *mem, char *name)
+{
+	int lp;
+
+	/* Blank stuff I don't understand */
+	for (lp=0;lp<PPS_BLOCK_SIZE;lp++)
+		SET_GUINT8(mem+lp, 0);
+
+	lp = 0;
+	while (name[lp] && lp < (PPS_BLOCK_SIZE/2)-1)
+	{
+		SET_GUINT8(mem + lp*2, name[lp]);
+		SET_GUINT8(mem + lp*2 + 1, 0);
+		lp++;
+	}
+	SET_GUINT16(mem + 0x40, lp);
+
+	/* Magic numbers */
+	SET_GUINT32 (mem + 0x50, 0x00020900);
+	SET_GUINT32 (mem + 0x5c, 0x46000000);
+}
+
 /* Create a nice linear array and return count of the number in the array */
 static GArray *
 read_link_array (MS_OLE *f, BBPtr first)
@@ -429,7 +453,7 @@ ms_ole_create (const char *name)
 	int file;
 	MS_OLE *f;
 	int init_blocks = 5, lp;
-	guint8 *ptr;
+	guint8 *ptr, *mem;
 	guint32 root_startblock = 0;
 	guint32 sbd_startblock  = 0, zero = 0;
 	char title[] ="Root Entry";
@@ -479,10 +503,19 @@ ms_ole_create (const char *name)
 	/* The header block */
 
 	for (lp=0;lp<BB_BLOCK_SIZE/4;lp++)
-		SET_GUINT32(f->mem + lp*4, END_OF_CHAIN);
+		SET_GUINT32(f->mem + lp*4, (lp<(0x52/4))?0:END_OF_CHAIN);
 
 	SET_GUINT32(f->mem, 0xe011cfd0); /* Magic number */
 	SET_GUINT32(f->mem + 4, 0xe11ab1a1);
+
+	/* More magic numbers */
+	SET_GUINT32(f->mem + 0x18, 0x0003003b);
+	SET_GUINT32(f->mem + 0x1c, 0x0009fffe);
+	SET_GUINT32(f->mem + 0x20, 0x6); 
+	SET_GUINT32(f->mem + 0x38, 0x00001000); 
+	SET_GUINT32(f->mem + 0x40, 0x1); 
+	SET_GUINT32(f->mem + 0x44, 0xfffffffe); 
+
 	SET_NUM_BBD_BLOCKS(f, 1);
 	SET_BBD_LIST(f, 0, 1);
 
@@ -503,15 +536,9 @@ ms_ole_create (const char *name)
 
 	read_root_list (f);
 	
-
 	/* The first PPS block : 0 */
-	lp = 0;
 	ptr = f->mem + BB_BLOCK_SIZE;
-	while (title[lp])
-		*ptr++ = title[lp++];
-
-	for (;lp<PPS_BLOCK_SIZE;lp++) /* Blank stuff I don't understand */
-		*ptr++ = 0;
+	init_pps (f->mem + BB_BLOCK_SIZE, title);
 
 	PPS_SET_NAME_LEN(f, PPS_ROOT_BLOCK, lp);
 
@@ -1561,6 +1588,7 @@ ms_ole_directory_create (MS_OLE_DIRECTORY *d, char *name, PPS_TYPE type)
 
 	/* Memory Debug */
 
+#if OLE_DEBUG > 0
 	{
 		int idx = (((p)*PPS_BLOCK_SIZE)/BB_BLOCK_SIZE);
 		guint32 ptr = ms_array_index ((f)->header.root_list, BBPtr, idx);
@@ -1572,19 +1600,10 @@ ms_ole_directory_create (MS_OLE_DIRECTORY *d, char *name, PPS_TYPE type)
 	SET_GUINT8(mem, 0);
 	mem+= PPS_BLOCK_SIZE-1;
 	SET_GUINT8(mem, 0);
+#endif
 
-  /* Blank stuff I don't understand */
-	for (lp=0;lp<PPS_BLOCK_SIZE;lp++)
-		SET_GUINT8(PPS_PTR(f, p)+lp, 0);
+	init_pps (PPS_PTR(f,p), name);
 
-	lp = 0;
-	while (name[lp] && lp < (PPS_BLOCK_SIZE/2)-1)
-	{
-		SET_GUINT8(PPS_PTR(f, p) + lp*2, name[lp]);
-		SET_GUINT8(PPS_PTR(f, p) + lp*2 + 1, 0);
-		lp++;
-	}
-	PPS_SET_NAME_LEN(f, p, lp);
 	PPS_SET_STARTBLOCK(f, p, END_OF_CHAIN);
 
 	/* Chain into the directory */
