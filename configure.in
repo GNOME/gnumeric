@@ -74,7 +74,7 @@ AC_ARG_WITH(long_double,
 		fi
 
 		need_sunmath=no
-		for ldfunc in fabsl sqrtl expl logl log10l log1pl ceill floorl powl hypotl \
+		for ldfunc in fabsl sqrtl expl expm1l logl log10l log1pl ceill floorl powl hypotl \
 				sinl cosl tanl asinl acosl atanl atan2l \
 				sinhl coshl tanhl asinhl acoshl atanhl \
 				erfl erfcl ynl isnanl finitel; do
@@ -111,8 +111,8 @@ AC_ARG_WITH(long_double,
 					const char *s = "+3.1415e+0";
 					char *theend;
 					long double res = strtold (s, &theend);
-					return (*theend == 0 && finitel (res) &&
-						res >= 3.14 && res <= 3.15);
+					return !(*theend == 0 && finitel (res) &&
+						 res >= 3.14 && res <= 3.15);
 				}],
 				AC_MSG_RESULT(no),
 				[AC_MSG_RESULT(yes)
