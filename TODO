@@ -163,3 +163,18 @@ Update xml-io to read/write name tables.
 
 Write an XML plugin to output 'Publish as Web' style XML for
 Office 2000 and 'explorer' compatibility.
+
+* Internals
+
+  * Kill cell_set_font in its current way, the font used to encode
+    type, size, boldness and italicness.  This is not the case
+    anymore.  We should kill this and only use
+    cell_set_font_from_style.
+
+  * Exceptions.
+
+    Currently some code is refusing to make changes when an array
+    operation is acted on.  This code is inside the core, and a CORBA
+    client might find this problem without being able to do anything
+    about it, nor knowing about the error condition.
+
