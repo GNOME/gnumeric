@@ -1,6 +1,6 @@
 2005-04-01  Morten Welinder  <terra@gnome.org>
 
-	* src/stf-export.c: Gut.  Use GsfOutputCsv.
+	* src/stf-export.c: Gut.  Use GsfOutputCsv.  (Fixes #126513.)
 
 2005-03-31  Morten Welinder  <terra@gnome.org>
 

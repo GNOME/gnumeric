@@ -71,6 +71,7 @@ Morten:
 	* Make sure we update our window menu when we create a new view.
 	* When we reopen insert->image, start in the directory we were
 	  last time.  [#143188]
+	* Fix conversion problems with stf export.  [#126513]
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.0
