@@ -1,3 +1,8 @@
+2000-01-02  Jody Goldberg <jgoldberg@home.com>
+
+	* src/application.h : Add application_clipboard_unant now that
+	  it is used elsewhere.
+
 2000-01-02  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/sheet.h (Sheet): Make generation guint8.
