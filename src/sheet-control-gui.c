@@ -357,41 +357,6 @@ sheet_view_size_allocate (GtkWidget *widget, GtkAllocation *alloc, SheetControlG
 	scg_scrollbar_config (scg);
 }
 
-static void
-sheet_view_col_selection_changed (ItemBar *item_bar, int col, int modifiers, SheetControlGUI *scg)
-{
-	Sheet *sheet = scg->sheet;
-	GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
-
-	if (modifiers){
-		if ((modifiers & GDK_SHIFT_MASK) && sheet->selections){
-			Range *ss = sheet->selections->data;
-			int start_col, end_col;
-
-			start_col = MIN (ss->start.col, col);
-			end_col = MAX (ss->end.col, col);
-
-			sheet_selection_set (sheet,
-					     start_col, gsheet->row.first,
-					     start_col, 0,
-					     end_col, SHEET_MAX_ROWS-1);
-			return;
-		}
-
-		if (!(modifiers & GDK_CONTROL_MASK))
-			sheet_selection_reset_only (sheet);
-
-		sheet_selection_add_range (sheet,
-					   col, gsheet->row.first,
-					   col, 0,
-					   col, SHEET_MAX_ROWS-1);
-	} else
-		sheet_selection_extend_to (sheet, col, SHEET_MAX_ROWS - 1);
-
-	/* The edit pos, and the selection may have changed */
-	sheet_update (sheet);
-}
-
 void
 scg_colrow_size_set (SheetControlGUI *scg,
 		     gboolean is_cols, int index, int new_size_pixels)
@@ -410,36 +375,57 @@ scg_colrow_size_set (SheetControlGUI *scg,
 						     sheet, new_size_pixels);
 }
 
-static void
-sheet_view_row_selection_changed (ItemBar *item_bar, int row, int modifiers, SheetControlGUI *scg)
+void
+scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
+		   int index, int modifiers)
 {
 	Sheet *sheet = scg->sheet;
 	GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
+	gboolean const rangesel = gnumeric_sheet_can_select_expr_range (gsheet);
 
-	if (modifiers){
-		if ((modifiers & GDK_SHIFT_MASK) && sheet->selections){
-			Range *ss = sheet->selections->data;
-			int start_row, end_row;
+	if (rangesel && !gsheet->selecting_cell)
+		gnumeric_sheet_start_cell_selection (gsheet, index, index);
 
-			start_row = MIN (ss->start.row, row);
-			end_row = MAX (ss->end.row, row);
-
-			sheet_selection_set (sheet,
-					     gsheet->col.first, start_row,
-					     0, start_row,
-					     SHEET_MAX_COLS-1, end_row);
-			return;
+	if (modifiers & GDK_SHIFT_MASK) {
+		if (is_cols) {
+			if (rangesel)
+				gnumeric_sheet_rangesel_cursor_extend (gsheet,
+					index, -1);
+			else
+				sheet_selection_extend_to (sheet,
+					index, SHEET_MAX_ROWS-1);
+		} else {
+			if (rangesel)
+				gnumeric_sheet_rangesel_cursor_extend (gsheet,
+					-1, index);
+			else
+				sheet_selection_extend_to (sheet,
+					SHEET_MAX_COLS-1, index);
 		}
+	} else {
+		if (!rangesel && !(modifiers & GDK_CONTROL_MASK))
+			sheet_selection_reset_only (sheet);
 
-		if (!(modifiers & GDK_CONTROL_MASK))
- 			sheet_selection_reset_only (sheet);
-
-		sheet_selection_add_range (sheet,
-					   gsheet->col.first, row,
-					   0, row,
-					   SHEET_MAX_COLS-1, row);
-	} else
-		sheet_selection_extend_to (sheet, SHEET_MAX_COLS-1, row);
+		if (is_cols) {
+			if (rangesel)
+				gnumeric_sheet_rangesel_cursor_bounds (gsheet,
+					index, 0, index, SHEET_MAX_ROWS-1);
+			else
+				sheet_selection_add_range (sheet,
+					index, gsheet->row.first,
+					index, 0,
+					index, SHEET_MAX_ROWS-1);
+		} else {
+			if (rangesel)
+				gnumeric_sheet_rangesel_cursor_bounds (gsheet,
+					0, index, SHEET_MAX_COLS-1, index);
+			else
+				sheet_selection_add_range (sheet,
+					gsheet->col.first, index,
+					0, index,
+					SHEET_MAX_COLS-1, index);
+		}
+	}
 
 	/* The edit pos, and the selection may have changed */
 	sheet_update (sheet);
@@ -571,9 +557,6 @@ sheet_view_construct (SheetControlGUI *scg)
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			  GTK_FILL,
 			  0, 0);
-	gtk_signal_connect (GTK_OBJECT (scg->col_item), "selection_changed",
-			    GTK_SIGNAL_FUNC (sheet_view_col_selection_changed),
-			    scg);
 
 	/* Row canvas */
 	scg->row_canvas = new_canvas_bar (scg, GTK_ORIENTATION_VERTICAL, &scg->row_item);
@@ -582,9 +565,6 @@ sheet_view_construct (SheetControlGUI *scg)
 			  0, 1, 1, 2,
 			  GTK_FILL, GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			  0, 0);
-	gtk_signal_connect (GTK_OBJECT (scg->row_item), "selection_changed",
-			    GTK_SIGNAL_FUNC (sheet_view_row_selection_changed),
-			    scg);
 
 	scg->canvas = gnumeric_sheet_new (scg);
 	gtk_signal_connect_after (

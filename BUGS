@@ -12,11 +12,11 @@ Release Critical
     - autofill should not fill in the invisible areas.
 
 - the selection cursor is confused by making selection via the item-bars
+- Fix Borders
 
 Long term breakage
 ------------------
 
-- Fix Borders
 - Entering "=1e11111" yields "Syntax Error", not "overflow".
   In general parsing needs better error messages.
 

@@ -35,8 +35,6 @@ struct _ItemBar {
 	int             start_selection;
 };
 
-#define ITEM_BAR_IS_SELECTING(ib) ((ib)->start_selection != -1)
-
 GtkType item_bar_get_type (void);
 void    item_bar_fonts_init (ItemBar *item_bar);
 

@@ -1,4 +1,48 @@
+2001-01-04  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-cursor.c (item_cursor_event) : animated cursors can no be
+	  dragged or resized.   NOTE : This introduces a small bug while
+	  fixing another.  The animated cursor is frequently drawn on top of
+	  the current selection cursor when it is first created.  As such the
+	  selection cursor does not receive all the events it should.
+	  Ideally the canvas would pass ignored events to the widget below, but
+	  that is not going to happen.  We can not just forward the events to
+	  the other cursor because it may have moved.  We would need to ensure
+	  that we only forward things in the areas that are overlapping.  Which
+	  is not easy.
+	(item_cursor_set_spin_base) : delete.
+
+	* src/item-grid.c (item_grid_button_1) : support shift-extending a
+	  range selection cursor.
+
+	* src/workbook-view.c (wb_view_selection_desc) : Add some safety.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_rangesel_cursor_extend) :
+	  Intelligently handle extension to full rows/cols and rename from
+	  gnumeric_sheet_selection_extend.
+	(start_cell_selection_at) : no need to set the base a second time.
+	(gnumeric_sheet_rangesel_cursor_bounds) : rename from
+	  gnumeric_sheet_selection_cursor_place and allow the specification of
+	  base and move coords.
+	(gnumeric_sheet_selection_cursor_base) : delete.
+
+	* src/item-bar.c (is_pointer_on_division) : no resizing while range
+	  selecting.
+	(get_element_from_pixel) : delete dead code.
+
 2001-01-03  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-bar.c (item_bar_event) : Call scg_colrow_select directly.
+	  and convert from using 'is_vertical' to 'is_cols' which is the
+	  convention everywhere else.
+	(cb_extend_selection) : ditto.
+	(colrow_tip_setlabel) : ditto.
+	(item_bar_marshal) : delete.
+	(get_row_name) : fortify a bit.
+
+	* src/sheet-control-gui.c (scg_colrow_select) : merge together from
+	  sheet_view_{col,row}_selection_changed and rewrite.
+	(sheet_view_construct) : remove handlers for the item-bar signal.
 
 	* src/commands.c (cmd_autofill_redo) : check for array violations.
 	  Clear the target range.  This will allow entire arrays to be filled.

@@ -785,12 +785,14 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 
 	/*
 	 * If we were already selecting a range of cells for a formula,
-	 * reset the location to a new place.
+	 * reset the location to a new place, or extend the selection.
 	 */
 	if (gsheet->selecting_cell) {
 		item_grid->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
-		gnumeric_sheet_selection_cursor_place (gsheet, col, row);
-		gnumeric_sheet_selection_cursor_base (gsheet, col, row);
+		if (event->state & GDK_SHIFT_MASK)
+			gnumeric_sheet_rangesel_cursor_extend (gsheet, col, row);
+		else
+			gnumeric_sheet_rangesel_cursor_bounds (gsheet, col, row, col, row);
 		return 1;
 	}
 
@@ -801,7 +803,6 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 	if (gnumeric_sheet_can_select_expr_range (gsheet)){
 		gnumeric_sheet_start_cell_selection (gsheet, col, row);
 		item_grid->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
-		gnumeric_sheet_selection_cursor_place (gsheet, col, row);
 		return 1;
 	}
 
@@ -865,7 +866,7 @@ static gboolean
 cb_extend_expr_range (SheetControlGUI *scg, int col, int row, gpointer ignored)
 {
 	GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
-	gnumeric_sheet_selection_extend (gsheet, col, row);
+	gnumeric_sheet_rangesel_cursor_extend (gsheet, col, row);
 	return TRUE;
 }
 
@@ -979,7 +980,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			return 1;
 
 		if (item_grid->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE){
-			gnumeric_sheet_selection_extend (gsheet, col, row);
+			gnumeric_sheet_rangesel_cursor_extend (gsheet, col, row);
 			return 1;
 		}
 

@@ -203,7 +203,12 @@ wb_view_selection_desc (WorkbookView *wbv, gboolean use_pos,
 	if (sheet != NULL) {
 		char buffer [10 + 2 * 4 * sizeof (int)];
 		char const *sel_descr = buffer;
-		Range const *ss = sheet->selections->data;
+		Range const *ss;
+		
+		g_return_if_fail (IS_SHEET (sheet));
+		g_return_if_fail (sheet->selections);
+
+		ss = sheet->selections->data;
 
 		if (use_pos)
 			sel_descr = cell_pos_name (&ss->start);

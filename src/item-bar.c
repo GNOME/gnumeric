@@ -20,12 +20,6 @@
 #include "application.h"
 #include "style.h"
 
-/* Marshal forward declarations */
-static void   item_bar_marshal      (GtkObject *,
-				     GtkSignalFunc,
-				     gpointer,
-				     GtkArg *);
-
 /* The signal signatures */
 typedef void (*ItemBarSignal1) (GtkObject *, gint arg1, gpointer data);
 typedef void (*ItemBarSignal2) (GtkObject *, gint arg1, gint arg2, gpointer data);
@@ -48,7 +42,6 @@ typedef void (*ItemBarSignal2) (GtkObject *, gint arg1, gint arg2, gpointer data
 
 /* The signals we emit */
 enum {
-	SELECTION_CHANGED,
 	LAST_SIGNAL
 };
 static guint item_bar_signals [LAST_SIGNAL] = { 0 };
@@ -180,9 +173,9 @@ get_row_name (int n)
 {
 	static char x [4 * sizeof (int)];
 
-	g_assert (n >= 0 && n < SHEET_MAX_ROWS);
+	g_return_val_if_fail (n >= 0 && n < SHEET_MAX_ROWS, "0");
 
-	sprintf (x, "%d", n + 1);
+	snprintf (x, sizeof (x)-1, "%d", n + 1);
 	return x;
 }
 
@@ -350,6 +343,7 @@ item_bar_translate (GnomeCanvasItem *item, double dx, double dy)
 static ColRowInfo *
 is_pointer_on_division (ItemBar *item_bar, int pos, int *the_total, int *the_element)
 {
+	GnumericSheet * const gsheet = GNUMERIC_SHEET (item_bar->scg->canvas);
 	ColRowInfo *cri;
 	Sheet *sheet;
 	int i, total;
@@ -370,7 +364,14 @@ is_pointer_on_division (ItemBar *item_bar, int pos, int *the_total, int *the_ele
 
 		if (cri->visible) {
 			total += cri->size_pixels;
-			if ((total - 4 < pos) && (pos < total + 4)) {
+
+			/* TODO : This is more expensive than it needs to be.
+			 * We should really set a flag (in gsheet ?) and adjust
+			 * it as the cursor in the entry is moved.  The current
+			 * approach recalculates the state every time.
+			 */
+			if (!gnumeric_sheet_can_select_expr_range (gsheet) &&
+			    (total - 4 < pos) && (pos < total + 4)) {
 				if (the_total)
 					*the_total = total;
 				if (the_element)
@@ -398,7 +399,7 @@ set_cursor (ItemBar *item_bar, int pos)
 	if (!canvas->window)
 		return;
 
-	if (is_pointer_on_division (item_bar, pos, NULL, NULL))
+	if (is_pointer_on_division (item_bar, pos, NULL, NULL) != NULL)
 		gdk_window_set_cursor (canvas->window, item_bar->change_cursor);
 	else
 		gdk_window_set_cursor (canvas->window, item_bar->normal_cursor);
@@ -463,46 +464,17 @@ item_bar_start_resize (ItemBar *bar)
 	bar->resize_start = GTK_OBJECT (item);
 }
 
-static int
-get_element_from_pixel (ItemBar *item_bar, int pos)
-{
-	ColRowInfo *cri;
-	Sheet *sheet;
-	int i, total;
-
-	total = 0;
-	sheet = item_bar->scg->sheet;
-	for (i = item_bar->first_element; total < pos; i++){
-		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL){
-			if (i >= SHEET_MAX_ROWS)
-				return i-1;
-			cri = sheet_row_get_info (sheet, i);
-		} else {
-			if (i >= SHEET_MAX_COLS)
-				return i-1;
-			cri = sheet_col_get_info (sheet, i);
-		}
-
-		if (cri->visible) {
-			total += cri->size_pixels;
-			if (total > pos)
-				return i;
-		}
-	}
-	return i;
-}
-
 static void
-colrow_tip_setlabel (ItemBar *item_bar, gboolean const is_vertical, int size_pixels)
+colrow_tip_setlabel (ItemBar *item_bar, gboolean const is_cols, int size_pixels)
 {
 	if (item_bar->tip) {
 		char *buffer;
-		double const scale = 72. / application_display_dpi_get (is_vertical);
-		if (is_vertical)
-			buffer = g_strdup_printf (_("Height: %.2f pts (%d pixels)"),
+		double const scale = 72. / application_display_dpi_get (!is_cols);
+		if (is_cols)
+			buffer = g_strdup_printf (_("Width: %.2f pts (%d pixels)"),
 				  scale*size_pixels, size_pixels);
 		else
-			buffer = g_strdup_printf (_("Width: %.2f pts (%d pixels)"),
+			buffer = g_strdup_printf (_("Height: %.2f pts (%d pixels)"),
 				  scale*size_pixels, size_pixels);
 		gtk_label_set_text (GTK_LABEL (item_bar->tip), buffer);
 		g_free(buffer);
@@ -539,10 +511,8 @@ static gboolean
 cb_extend_selection (SheetControlGUI *scg, int col, int row, gpointer user_data)
 {
 	ItemBar * const item_bar = user_data;
-	gboolean const is_vertical = (item_bar->orientation == GTK_ORIENTATION_VERTICAL);
-	gtk_signal_emit (GTK_OBJECT (item_bar),
-			 item_bar_signals [SELECTION_CHANGED],
-			 is_vertical ? row : col, 0);
+	gboolean const is_cols = (item_bar->orientation != GTK_ORIENTATION_VERTICAL);
+	scg_colrow_select (item_bar->scg, is_cols, is_cols ? col : row, GDK_SHIFT_MASK);
 	return TRUE;
 }
 
@@ -554,13 +524,13 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 	ItemBar * const item_bar = ITEM_BAR (item);
 	Sheet   * const sheet = item_bar->scg->sheet;
 	GnumericSheet * const gsheet = GNUMERIC_SHEET (item_bar->scg->canvas);
-	gboolean const is_vertical = (item_bar->orientation == GTK_ORIENTATION_VERTICAL);
+	gboolean const is_cols = (item_bar->orientation != GTK_ORIENTATION_VERTICAL);
 #if 0
 	/*
 	 * handle the zoom from the item-grid canvas, the resolution scaling is
 	 * handled elsewhere
 	 */
-	double const res  = application_display_dpi_get (is_vertical);
+	double const res  = application_display_dpi_get (!is_cols);
 #endif
 	double const zoom = sheet->last_zoom_factor_used; /* * res / 72.; */
 	int pos, start, element;
@@ -571,18 +541,12 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 	 */
 	switch (e->type){
 	case GDK_ENTER_NOTIFY:
-		if (is_vertical)
-			pos = e->crossing.y;
-		else
-			pos = e->crossing.x;
+		pos = (is_cols) ? e->crossing.x : e->crossing.y;
 		set_cursor (item_bar, pos);
 		break;
 
 	case GDK_MOTION_NOTIFY:
-		if (is_vertical)
-			pos = e->motion.y;
-		else
-			pos = e->motion.x;
+		pos = (is_cols) ? e->motion.x : e->motion.y;
 
 		/* Do col/row resizing or incremental marking */
 		if (item_bar->resize_pos != -1) {
@@ -605,14 +569,14 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 
 			item_bar->resize_width = npos;
 
-			colrow_tip_setlabel (item_bar, is_vertical, item_bar->resize_width);
+			colrow_tip_setlabel (item_bar, is_cols, item_bar->resize_width);
 			resize_guide = GNOME_CANVAS_ITEM (item_bar->resize_guide);
 			points = item_bar->resize_points;
 
-			if (is_vertical)
-				points->coords [1] = points->coords [3] = pos / zoom;
-			else
+			if (is_cols)
 				points->coords [0] = points->coords [2] = pos / zoom;
+			else
+				points->coords [1] = points->coords [3] = pos / zoom;
 
 			gnome_canvas_item_set (resize_guide, "points",  points, NULL);
 
@@ -620,14 +584,8 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			gnome_canvas_request_redraw (
 				canvas, 0, 0, INT_MAX, INT_MAX);
 
-		} else if (ITEM_BAR_IS_SELECTING (item_bar)) {
+		} else if (item_bar->start_selection != -1) {
 			int x, y, left, top, width, height, col, row;
-			element = get_element_from_pixel (item_bar, pos);
-
-			gtk_signal_emit (
-				GTK_OBJECT (item),
-				item_bar_signals [SELECTION_CHANGED],
-				element, 0);
 
 			gnome_canvas_w2c (canvas, e->motion.x, e->motion.y, &x, &y);
 			gnome_canvas_get_scroll_offsets (canvas, &left, &top);
@@ -638,19 +596,21 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			col = gnumeric_sheet_find_col (gsheet, x, NULL);
 			row = gnumeric_sheet_find_row (gsheet, y, NULL);
 
+			scg_colrow_select (item_bar->scg, is_cols, is_cols ? col : row,
+					   GDK_SHIFT_MASK);
 			if (x < left || y < top || x >= left + width || y >= top + height) {
 				int dx = 0, dy = 0;
 
-				if (is_vertical) {
-					if (y < top)
-						dy = y - top;
-					else if (y >= top + height)
-						dy = y - height - top;
-				} else {
+				if (is_cols) {
 					if (x < left)
 						dx = x - left;
 					else if (x >= left + width)
 						dx = x - width - left;
+				} else {
+					if (y < top)
+						dy = y - top;
+					else if (y >= top + height)
+						dy = y - height - top;
 				}
 
 				sheet_view_start_sliding (item_bar->scg,
@@ -671,18 +631,14 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 
 		scg_mode_edit (item_bar->scg);
 
-		if (is_vertical)
-			pos = e->button.y;
-		else
-			pos = e->button.x;
-
+		pos = (is_cols) ? e->button.x : e->button.y;
 		cri = is_pointer_on_division (item_bar, pos, &start, &element);
 
-		if (is_vertical) {
-			if (element > SHEET_MAX_ROWS-1)
+		if (is_cols) {
+			if (element > SHEET_MAX_COLS-1)
 				break;
 		} else {
-			if (element > SHEET_MAX_COLS-1)
+			if (element > SHEET_MAX_ROWS-1)
 				break;
 		}
 
@@ -690,14 +646,13 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			/* If the selection does not contain the current row/col
 			 * then clear the selection and add it.
 			 */
-			if (!selection_contains_colrow (sheet, element, !is_vertical))
-				gtk_signal_emit (GTK_OBJECT (item),
-						 item_bar_signals [SELECTION_CHANGED],
-						 element, e->button.state | GDK_BUTTON1_MASK);
+			if (!selection_contains_colrow (sheet, element, is_cols))
+				scg_colrow_select (item_bar->scg, is_cols, element,
+						   GDK_SHIFT_MASK);
 
 			scg_context_menu (item_bar->scg, &e->button,
-					  !is_vertical, is_vertical);
-		} else if (cri) {
+					  is_cols, !is_cols);
+		} else if (cri != NULL) {
 			/*
 			 * Record the important bits.
 			 *
@@ -711,8 +666,8 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 
 			if (item_bar->tip == NULL) {
 				item_bar->tip = gnumeric_create_tooltip ();
-				colrow_tip_setlabel (item_bar, is_vertical, item_bar->resize_width);
-				gnumeric_position_tooltip (item_bar->tip, !is_vertical);
+				colrow_tip_setlabel (item_bar, is_cols, item_bar->resize_width);
+				gnumeric_position_tooltip (item_bar->tip, is_cols);
 				gtk_widget_show_all (gtk_widget_get_toplevel (item_bar->tip));
 			}
 		} else {
@@ -722,9 +677,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 						GDK_BUTTON_RELEASE_MASK,
 						item_bar->normal_cursor,
 						e->button.time);
-			gtk_signal_emit (GTK_OBJECT (item),
-					 item_bar_signals [SELECTION_CHANGED],
-					 element, e->button.state | GDK_BUTTON1_MASK);
+			scg_colrow_select (item_bar->scg, is_cols, element, e->button.state);
 		}
 		break;
 
@@ -847,16 +800,6 @@ item_bar_class_init (ItemBarClass *item_bar_class)
 	gtk_object_add_arg_type ("ItemBar::Orientation", GTK_TYPE_INT,
 				 GTK_ARG_WRITABLE, ARG_ORIENTATION);
 
-	item_bar_signals [SELECTION_CHANGED] =
-		gtk_signal_new ("selection_changed",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (ItemBarClass, selection_changed),
-				item_bar_marshal,
-				GTK_TYPE_NONE,
-				2,
-				GTK_TYPE_INT, GTK_TYPE_INT);
-
 	/* Register our signals */
 	gtk_object_class_add_signals (object_class, item_bar_signals,
 				      LAST_SIGNAL);
@@ -897,23 +840,3 @@ item_bar_get_type (void)
 
 	return item_bar_type;
 }
-
-
-/*
- * Marshaling routines for our signals
- */
-static void
-item_bar_marshal (GtkObject     *object,
-		  GtkSignalFunc func,
-		  gpointer      func_data,
-		  GtkArg        *args)
-{
-	ItemBarSignal2 rfunc;
-
-	rfunc = (ItemBarSignal2) func;
-	(*rfunc) (object,
-		  GTK_VALUE_INT (args [0]),
-		  GTK_VALUE_INT (args [1]),
-		  func_data);
-}
-

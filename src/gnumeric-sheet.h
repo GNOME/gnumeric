@@ -62,11 +62,10 @@ void       gnumeric_sheet_start_cell_selection   (GnumericSheet *gsheet,
 						  int col, int row);
 void       gnumeric_sheet_stop_cell_selection    (GnumericSheet *gsheet,
 						  gboolean const clear_string);
-void       gnumeric_sheet_selection_cursor_place (GnumericSheet *gsheet,
-						  int col, int row);
-void       gnumeric_sheet_selection_cursor_base  (GnumericSheet *gsheet,
-						  int col, int row);
-void       gnumeric_sheet_selection_extend       (GnumericSheet *gsheet,
+void       gnumeric_sheet_rangesel_cursor_bounds (GnumericSheet *gsheet,
+						  int base_col, int base_row,
+						  int move_col, int move_row);
+void       gnumeric_sheet_rangesel_cursor_extend (GnumericSheet *gsheet,
 						  int col, int row);
 
 int	   gnumeric_sheet_find_col		 (GnumericSheet *item_grid,

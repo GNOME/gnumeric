@@ -999,15 +999,6 @@ item_cursor_set_visibility (ItemCursor *item_cursor, gboolean visible)
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (item_cursor));
 }
 
-void
-item_cursor_set_spin_base (ItemCursor *item_cursor, int col, int row)
-{
-	g_return_if_fail (IS_ITEM_CURSOR (item_cursor));
-
-	item_cursor->base.col = col;
-	item_cursor->base.row = row;
-}
-
 #if 0
 /*
  * This cannot be used yet.  It exercises a bug in GtkLayout
@@ -1239,7 +1230,24 @@ item_cursor_event (GnomeCanvasItem *item, GdkEvent *event)
 	};
 #endif
 	switch (item_cursor->style){
+	    /*
+FIXME :
+2001-01-04  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-cursor.c (item_cursor_event) : animated cursors can no be
+	  dragged or resized.   NOTE : This introduces a small bug while
+	  fixing another.  The animated cursor is frequently drawn on top of
+	  the current selection cursor when it is first created.  As such the
+	  selection cursor does not receive all the events it should.
+	  Ideally the canvas would pass ignored events to the widget below, but
+	  that is not going to happen.  We can not just forward the events to
+	  the other cursor because it may have moved.  We would need to ensure
+	  that we only forward things in the areas that are overlapping.  Which
+	  is not easy.
+	  */
 	case ITEM_CURSOR_ANTED:
+		return FALSE;
+
 	case ITEM_CURSOR_SELECTION:
 		return item_cursor_selection_event (item, event);
 

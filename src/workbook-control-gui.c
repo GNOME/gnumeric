@@ -150,9 +150,18 @@ cb_autosave (gpointer *data)
 	return TRUE;
 }
 
+gboolean
+wb_control_gui_is_editing (WorkbookControlGUI const *wbcg)
+{
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), FALSE);
+	return wbcg->editing;
+}
+
 void
 wb_control_gui_autosave_cancel (WorkbookControlGUI *wbcg)
 {
+	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+
 	if (wbcg->autosave_timer != 0) {
 		gtk_timeout_remove (wbcg->autosave_timer);
 		wbcg->autosave_timer = 0;
@@ -163,6 +172,8 @@ void
 wb_control_gui_autosave_set (WorkbookControlGUI *wbcg,
 			     int minutes, gboolean prompt)
 {
+	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+
 	wb_control_gui_autosave_cancel (wbcg);
 
 	wbcg->autosave = (minutes != 0);

@@ -74,9 +74,6 @@ gboolean item_cursor_set_bounds (ItemCursor *item_cursor,
 				 int base_col, int base_row,
 				 int move_col, int move_row);
 
-void item_cursor_set_spin_base  (ItemCursor *item_cursor,
-				 int col, int row);
-
 void item_cursor_set_visibility (ItemCursor *item_cursor,
 				 gboolean const visible);
 void item_cursor_reposition     (ItemCursor *item_cursor);

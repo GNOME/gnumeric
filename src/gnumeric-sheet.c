@@ -272,7 +272,6 @@ start_cell_selection_at (GnumericSheet *gsheet, int col, int row)
 		"SheetControlGUI", gsheet->scg,
 		"Grid",  gsheet->item_grid,
 		"Style", ITEM_CURSOR_ANTED, NULL));
-	item_cursor_set_spin_base (gsheet->sel_cursor, col, row);
 	item_cursor_set_bounds (ITEM_CURSOR (gsheet->sel_cursor), col, row, col, row);
 
 	/* If we are selecting a range on a different sheet this may be NULL */
@@ -354,25 +353,38 @@ gnumeric_sheet_stop_editing (GnumericSheet *gsheet)
 	}
 }
 
-/*
- * Invoked by Item-Grid to extend the cursor selection
+/**
+ * gnumeric_sheet_rangesel_cursor_extend :
+ *
+ * @gsheet :
+ * @col :
+ * @row :
+ *
+ * Extend the range selection cursor.  If col < 0 then extend to full 
  */
 void
-gnumeric_sheet_selection_extend (GnumericSheet *gsheet, int col, int row)
+gnumeric_sheet_rangesel_cursor_extend (GnumericSheet *gsheet, int col, int row)
 {
 	ItemCursor *ic;
+	int base_col, base_row;
 
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 	g_return_if_fail (gsheet->selecting_cell);
-	g_return_if_fail (col < SHEET_MAX_COLS);
-	g_return_if_fail (row < SHEET_MAX_ROWS);
 
 	ic = gsheet->sel_cursor;
+	if (col < 0) {
+		base_col = 0;
+		col = SHEET_MAX_COLS - 1;
+	} else
+		base_col = ic->base_corner.col;
+	if (row < 0) {
+		base_row = 0;
+		row = SHEET_MAX_ROWS - 1;
+	} else
+		base_row = ic->base_corner.row;
 
 	selection_remove_selection_string (gsheet);
-	item_cursor_set_bounds (ic,
-				ic->base_corner.col, ic->base_corner.row,
-				col, row);
+	item_cursor_set_bounds (ic, base_col, base_row, col, row);
 	selection_insert_selection_string (gsheet);
 }
 
@@ -381,34 +393,19 @@ gnumeric_sheet_selection_extend (GnumericSheet *gsheet, int col, int row)
  * spot.
  */
 void
-gnumeric_sheet_selection_cursor_place (GnumericSheet *gsheet, int col, int row)
+gnumeric_sheet_rangesel_cursor_bounds (GnumericSheet *gsheet,
+				       int base_col, int base_row,
+				       int move_col, int move_row)
 {
 	ItemCursor *ic;
 
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 	g_return_if_fail (gsheet->selecting_cell);
-	g_return_if_fail (col < SHEET_MAX_COLS);
-	g_return_if_fail (row < SHEET_MAX_ROWS);
 
 	ic = gsheet->sel_cursor;
-
 	selection_remove_selection_string (gsheet);
-	item_cursor_set_bounds (ic, col, row, col, row);
+	item_cursor_set_bounds (ic, base_col, base_row, move_col, move_row);
 	selection_insert_selection_string (gsheet);
-}
-
-void
-gnumeric_sheet_selection_cursor_base (GnumericSheet *gsheet, int col, int row)
-{
-	ItemCursor *ic;
-
-	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
-	g_return_if_fail (gsheet->selecting_cell);
-	g_return_if_fail (col < SHEET_MAX_COLS);
-	g_return_if_fail (row < SHEET_MAX_ROWS);
-
-	ic = gsheet->sel_cursor;
-	item_cursor_set_spin_base (ic, col, row);
 }
 
 static void

@@ -4,6 +4,7 @@ Jody:
 	* Undo, persistance, cursor handling, and printing for merged cells
 	* Fix inverted objects
 	* Fix stupid memory corruption problem in the applix importer.
+	* Improve range selection for expressions.
 
 Jon Kåre:
 	* Improve file save dialog.
