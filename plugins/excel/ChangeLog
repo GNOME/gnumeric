@@ -1,5 +1,23 @@
 1999-04-14  Michael Meeks  <michael@mejm2.dow.cam.ac.uk>
 
+	* ms-formula.h: Updated ms_excel_parse_formula prototype.
+
+	* ms-excel.c (ms_excel_read_cell): Added 'shared' flag
+	to all ms_excel_parse_formula instances.
+	(biff_get_error_text): Set arg to const.
+	(ms_excel_sheet_shared_formula): Removed debug.
+	(ms_excel_read_cell): Removed debug.
+	(ms_excel_sheet_insert): const text arg.
+
+	* ms-excel.h: Updated prototypes.
+
+	* ms-formula.c (ms_excel_parse_formula): RefN replaced.
+	updated prototype & args. Updated optimised if call.
+	(getRefV8, getRefV7): Attempt at shared formulae.
+	Fairly brutal hack: seems to work :-)
+
+1999-04-14  Michael Meeks  <michael@mejm2.dow.cam.ac.uk>
+
 	* ms-excel.c (biff_get_text): Remove platform dependance.
 	(biff_get_error_text): Changed type.
 	(biff_boundsheet_data_new): s/int strlen/int slen/

@@ -45,7 +45,7 @@ typedef struct {
 
 extern void ms_excel_sheet_insert          (MS_EXCEL_SHEET *sheet,
 					    int xfidx, int col,
-					    int row, char *text) ;
+					    int row, const char *text) ;
 extern char *ms_excel_sheet_shared_formula (MS_EXCEL_SHEET *sheet,
 					    int shr_col, int shr_row,
 					    int col, int row) ;
@@ -108,6 +108,6 @@ typedef struct _MS_EXCEL_WORKBOOK
 
 extern char* biff_get_externsheet_name (MS_EXCEL_WORKBOOK *wb, guint16 idx, gboolean get_first) ;
 extern char* biff_get_text (BYTE *ptr, guint32 length, guint32 *byte_length) ;
-extern const char* biff_get_error_text (guint8 err) ;
+extern const char* biff_get_error_text (const guint8 err) ;
 extern char* biff_name_data_get_name (MS_EXCEL_SHEET *sheet, guint16 idx) ;
 #endif

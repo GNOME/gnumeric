@@ -185,7 +185,7 @@ biff_get_global_string(MS_EXCEL_SHEET *sheet, int number)
 }
 
 const char *
-biff_get_error_text (guint8 err)
+biff_get_error_text (const guint8 err)
 {
 	char *buf ;
 	switch (err)
@@ -1200,9 +1200,10 @@ ms_excel_sheet_shared_formula (MS_EXCEL_SHEET *sheet,
 	sf = g_hash_table_lookup (sheet->shared_formulae, &k) ;
 	if (sf)
 		return ms_excel_parse_formula (sheet, sf->data,
-					       col, row, shr_col, shr_row,
+					       col, row, 1,
 					       sf->data_len) ;
-	printf ("Duff shared formula index %d %d\n", col, row) ;
+	if (EXCEL_DEBUG>0)
+		printf ("Duff shared formula index %d %d\n", col, row) ;
 	return strdup ("00") ;
 }
 
@@ -1213,7 +1214,8 @@ ms_excel_sheet_set_version (MS_EXCEL_SHEET *sheet, eBiff_version ver)
 }
 
 void
-ms_excel_sheet_insert (MS_EXCEL_SHEET * sheet, int xfidx, int col, int row, char *text)
+ms_excel_sheet_insert (MS_EXCEL_SHEET * sheet, int xfidx,
+		       int col, int row, const char *text)
 {
 	Cell *cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
 	/* NB. cell_set_text _certainly_ strdups *text */
@@ -1657,12 +1659,12 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 					      data, data_len) ;
 		g_hash_table_insert (sheet->shared_formulae, &sf->key, sf) ;
 
-		printf ("Shared formula of extent %d %d %d %d\n",
-			array_col_first, array_row_first, array_col_last, array_row_last) ;
+		if (EXCEL_DEBUG>0)
+			printf ("Shared formula of extent %d %d %d %d\n",
+				array_col_first, array_row_first, array_col_last, array_row_last) ;
 		txt = ms_excel_parse_formula (sheet, data,
 					      array_col_first, array_row_first,
-					      array_col_first, array_row_first,
-					      data_len) ;
+					      1, data_len) ;
 		/* NB. This keeps the pre-set XF record */
 		cell = sheet_cell_fetch (sheet->gnum_sheet,
 					 array_col_first, array_row_first);
@@ -1696,7 +1698,7 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 			{
 				char *txt = ms_excel_parse_formula (sheet, data,
 								    xlp, ylp, 
-								    xlp, ylp, data_len) ;
+								    0, data_len) ;
 				/* NB. This keeps the pre-set XF record */
 				Cell *cell = sheet_cell_fetch (sheet->gnum_sheet, xlp, ylp);
 				if (cell)
@@ -1709,8 +1711,7 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 	{
 		char *txt = ms_excel_parse_formula (sheet, (q->data + 22),
 						    EX_GETCOL (q), EX_GETROW (q),
-						    EX_GETCOL (q), EX_GETROW (q),
-						    BIFF_GETWORD(q->data+20));
+						    0, BIFF_GETWORD(q->data+20));
 		ms_excel_sheet_insert (sheet, EX_GETXF(q), EX_GETCOL(q), EX_GETROW(q), txt) ;
 		g_free (txt) ;
 		break;
@@ -1830,8 +1831,8 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		case BIFF_BOOLERR: /* S59D5F.HTM */
 		{
 			if (BIFF_GETBYTE(q->data + 7)) /* Error */
-				ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q)
-						       , EX_GETROW (q), 
+				ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q),
+						       EX_GETROW (q), 
 						       biff_get_error_text (BIFF_GETBYTE(q->data + 6))) ;
 			else /* Boolean */
 			{

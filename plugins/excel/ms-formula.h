@@ -14,7 +14,7 @@
 
 char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 			      int fn_col, int fn_row,
-			      int shr_col, int shr_row, guint16 length) ;
+			      int shared, guint16 length) ;
 
 /**
  * See S59E2B.HTM

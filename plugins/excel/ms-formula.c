@@ -427,19 +427,27 @@ FORMULA_FUNC_DATA formula_func_data[] =
  * storage structure.
  **/
 static CellRef *
-getRefV7(MS_EXCEL_SHEET *sheet, BYTE col, WORD gbitrw, int curcol, int currow)
+getRefV7(MS_EXCEL_SHEET *sheet, BYTE col, WORD gbitrw, int curcol, int currow, int shrfmla)
 {
 	CellRef *cr = (CellRef *)g_malloc(sizeof(CellRef)) ;
 	cr->col          = col ;
 	cr->row          = (gbitrw & 0x3fff) ;
 	cr->row_relative = (gbitrw & 0x8000)==0x8000 ;
 	cr->col_relative = (gbitrw & 0x4000)==0x4000 ;
+	cr->sheet = sheet->gnum_sheet ;
+	if (FORMULA_DEBUG>2)
+		printf ("7In : 0x%x, 0x%x  at %d, %d shared %d\n", col, gbitrw,
+			curcol, currow, shrfmla) ; 
+	if (shrfmla) {  /* FIXME: Brutal hack, docs are vague */
+		gint8 t = (cr->row&0x00ff);
+		cr->row = currow+t ;
+		t = (cr->col&0x00ff);
+		cr->col = curcol+t ;
+	}
 	if (cr->row_relative)
 		cr->row-= currow ;
 	if (cr->col_relative)
 		cr->col-= curcol ;
-	cr->sheet = sheet->gnum_sheet ;
-/*	printf ("7Out : %d, %d  at %d, %d\n", cr->col, cr->row, curcol, currow) ; */
 	return cr ;
 }
 /**
@@ -447,19 +455,34 @@ getRefV7(MS_EXCEL_SHEET *sheet, BYTE col, WORD gbitrw, int curcol, int currow)
  * storage structure.
  **/
 static CellRef *
-getRefV8(MS_EXCEL_SHEET *sheet, WORD row, WORD gbitcl, int curcol, int currow)
+getRefV8(MS_EXCEL_SHEET *sheet, WORD row, WORD gbitcl, int curcol, int currow, int shrfmla)
 {
 	CellRef *cr = (CellRef *)g_malloc(sizeof(CellRef)) ;
+	cr->sheet = sheet->gnum_sheet ;
+	if (FORMULA_DEBUG>2)
+		printf ("8In : 0x%x, 0x%x  at %d, %d shared %d\n", row, gbitcl,
+			curcol, currow, shrfmla) ;
 	cr->row          = row ;
 	cr->col          = (gbitcl & 0x3fff) ;
 	cr->row_relative = (gbitcl & 0x8000)==0x8000 ;
 	cr->col_relative = (gbitcl & 0x4000)==0x4000 ;
+	if (shrfmla) { /* FIXME: Brutal hack, docs are vague */
+		gint8 t = (cr->row&0x00ff);
+		if (FORMULA_DEBUG>2)
+			printf ("row off %d ",t);
+		cr->row = currow+t ;
+		t = (cr->col&0x00ff);
+		if (FORMULA_DEBUG>2)
+			printf ("col off %d\n",t);
+		cr->col = curcol+t ;
+	}
 	if (cr->row_relative)
 		cr->row-= currow ;
 	if (cr->col_relative)
 		cr->col-= curcol ;
-	cr->sheet = sheet->gnum_sheet ;
-/*	printf ("8Out : %d, %d  at %d, %d\n", cr->col, cr->row, curcol, currow) ; */
+	if (FORMULA_DEBUG>2)
+		printf ("Returns : %d,%d Rel:(%d %d)\n", cr->col, cr->row,
+			cr->col_relative, cr->row_relative);
 	return cr ;
 }
 
@@ -696,8 +719,7 @@ make_function (PARSE_LIST *stack, int fn_idx, int numargs)
  * Return a dynamicaly allocated string containing the formula, never NULL
  **/
 char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
-			      int fn_col, int fn_row, 
-			      int shr_col, int shr_row, guint16 length)
+			      int fn_col, int fn_row, int shared, guint16 length)
 {
 	Cell *cell ;
 	int len_left = length ;
@@ -734,21 +756,20 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 		switch (ptgbase)
 		{
 		case FORMULA_PTG_REFN:
-			printf ("REFN\n") ;
-			error = 1 ;
-			break ;
 		case FORMULA_PTG_REF:
 		{
 			CellRef *ref ;
 			char *buffer ;
 			if (sheet->ver == eBiffV8)
 			{
-				ref = getRefV8 (sheet, BIFF_GETWORD(cur), BIFF_GETWORD(cur + 2), fn_col, fn_row) ;
+				ref = getRefV8 (sheet, BIFF_GETWORD(cur), BIFF_GETWORD(cur + 2),
+						fn_col, fn_row, shared) ;
 				ptg_length = 4 ;
 			}
 			else
 			{
-				ref = getRefV7 (sheet, BIFF_GETBYTE(cur+2), BIFF_GETWORD(cur), fn_col, fn_row) ;
+				ref = getRefV7 (sheet, BIFF_GETBYTE(cur+2), BIFF_GETWORD(cur),
+						fn_col, fn_row, shared) ;
 				ptg_length = 3 ;
 			}
 			buffer = cellref_name (ref, sheet->gnum_sheet, fn_col, fn_row) ;
@@ -793,7 +814,8 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 				char *ans, *intertxt, *ptr ;
 
 				intertxt = get_inter_sheet_ref (sheet->wb, extn_idx) ;
-				ref = getRefV8 (sheet, BIFF_GETWORD(cur+2), BIFF_GETWORD(cur + 4), fn_col, fn_row) ;
+				ref = getRefV8 (sheet, BIFF_GETWORD(cur+2), BIFF_GETWORD(cur + 4),
+						fn_col, fn_row, 0) ;
 				ptr = cellref_name (ref, sheet->gnum_sheet, fn_col, fn_row) ;
 
 				ans = g_new (char, strlen(intertxt)+strlen(ptr)+1) ;
@@ -829,8 +851,10 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 				CellRef *first, *last ;
 
 				intertxt = get_inter_sheet_ref (sheet->wb, extn_idx) ; 
-				first = getRefV8(sheet, BIFF_GETBYTE(cur+2), BIFF_GETWORD(cur+6), fn_col, fn_row) ;
-				last  = getRefV8(sheet, BIFF_GETBYTE(cur+4), BIFF_GETWORD(cur+8), fn_col, fn_row) ;
+				first = getRefV8(sheet, BIFF_GETBYTE(cur+2), BIFF_GETWORD(cur+6),
+						 fn_col, fn_row, 0) ;
+				last  = getRefV8(sheet, BIFF_GETBYTE(cur+4), BIFF_GETWORD(cur+8),
+						 fn_col, fn_row, 0) ;
 
 				fstr = cellref_name (first, sheet->gnum_sheet, fn_col, fn_row) ;
 				lstr = cellref_name (last, sheet->gnum_sheet, fn_col, fn_row) ;
@@ -871,14 +895,16 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 			char *fstr, *lstr, *buffer ;
 			if (sheet->ver == eBiffV8)
 			{
-				first = getRefV8(sheet, BIFF_GETBYTE(cur+0), BIFF_GETWORD(cur+4), fn_col, fn_row) ;
-				last  = getRefV8(sheet, BIFF_GETBYTE(cur+2), BIFF_GETWORD(cur+6), fn_col, fn_row) ;
+				first = getRefV8(sheet, BIFF_GETBYTE(cur+0), BIFF_GETWORD(cur+4),
+						 fn_col, fn_row, 0) ;
+				last  = getRefV8(sheet, BIFF_GETBYTE(cur+2), BIFF_GETWORD(cur+6),
+						 fn_col, fn_row, 0) ;
 				ptg_length = 8 ;
 			}
 			else
 			{
-				first = getRefV7(sheet, BIFF_GETBYTE(cur+4), BIFF_GETWORD(cur+0), fn_col, fn_row) ;
-				last  = getRefV7(sheet, BIFF_GETBYTE(cur+5), BIFF_GETWORD(cur+2), fn_col, fn_row) ;
+				first = getRefV7(sheet, BIFF_GETBYTE(cur+4), BIFF_GETWORD(cur+0), fn_col, fn_row, 0) ;
+				last  = getRefV7(sheet, BIFF_GETBYTE(cur+5), BIFF_GETWORD(cur+2), fn_col, fn_row, 0) ;
 				ptg_length = 6 ;
 			}
 			fstr = cellref_name (first, sheet->gnum_sheet, fn_col, fn_row) ;
@@ -962,7 +988,7 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 				}
 				if (w)
 					txt = ms_excel_parse_formula (sheet, cur+ptg_length,
-								      fn_col, fn_row, shr_col, shr_row,
+								      fn_col, fn_row, shared,
 								      w) ;
 				else
 					txt = g_strdup(" ") ;
