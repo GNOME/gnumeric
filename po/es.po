@@ -4083,7 +4083,7 @@ msgstr "Imprimir re_gión:"
 #: po/tmp/gnumeric.xml.h:145 po/tmp/print.glade.h:26 src/print.c:1189
 #: src/workbook-control-gui.c:1696 src/workbook-control-gui.c:2050
 msgid "Print preview"
-msgstr "Vista preliminar de la impresión"
+msgstr "Previsualización de la impresión"
 
 #: po/tmp/print.glade.h:27
 msgid "Print setup"
@@ -13169,14 +13169,12 @@ msgstr "Es imposible abrir el archivo '%s'"
 #. * 'File' menu
 #.
 #: src/history.c:124 src/history.c:137
-#, fuzzy
 msgid "File/Print preview"
-msgstr "Vista preliminar de la impresión"
+msgstr "Archivo/Previsualización de la impresión"
 
 #: src/history.c:225
-#, fuzzy
 msgid "File/"
-msgstr "Archivo"
+msgstr "Archivo/"
 
 #: src/item-bar.c:502
 #, fuzzy, c-format
@@ -15158,7 +15156,7 @@ msgstr "Pre_visualización de la impresión"
 #: po/tmp/gnumeric.xml.h:143
 #, fuzzy
 msgid "Print Preview"
-msgstr "Vista preliminar de la impresión"
+msgstr "Previsualización de la impresión"
 
 #: po/tmp/gnumeric.xml.h:144
 #, fuzzy

@@ -2152,9 +2152,6 @@ msgstr "Fejl ved deaktivering af et indstik"
 msgid "Plugin is still in use."
 msgstr "Modulet er stadig i brug."
 
-#: src/dialogs/dialog-plugin-manager.c:242
-msgid "Errors while activating plugins"
-
 #: src/dialogs/dialog-plugin-manager.c:261
 msgid "Errors while deactivating plugins"
 msgstr "Fejl ved deaktivering af indstik"

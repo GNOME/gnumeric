@@ -1,3 +1,7 @@
+2001-01-29  Jody Goldberg <jgoldberg@home.com>
+
+	* es.po : Fix some typos to get file history working.
+
 2001-01-25  Szabolcs Ban  <shooby@gnome.hu>
 
         * hu.po: Updated Hungarian translation from
