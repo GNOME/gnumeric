@@ -1080,10 +1080,14 @@ gboolean
 cmd_insert_cols (WorkbookControl *wbc,
 		 Sheet *sheet, int start_col, int count)
 {
-	char *mesg = g_strdup_printf ((count > 1)
-				      ? _("Inserting %d columns before %s")
-				      : _("Inserting %d column before %s"),
-				      count, col_name (start_col));
+	/* g_strdup_printf does not support positional args, which screws the translators.
+	 * We control the buffer content so there is no worry of overflow
+	 */
+	char mesg[128];
+	snprintf (mesg, sizeof (mesg), (count > 1)
+		  ? _("Inserting %d columns before %s")
+		  : _("Inserting %d column before %s"),
+		  count, col_name (start_col));
 	return cmd_ins_del_colrow (wbc, sheet, TRUE, TRUE, mesg,
 				   start_col, count);
 }
@@ -1092,10 +1096,14 @@ gboolean
 cmd_insert_rows (WorkbookControl *wbc,
 		 Sheet *sheet, int start_row, int count)
 {
-	char *mesg = g_strdup_printf ((count > 1)
-				      ? _("Inserting %d rows before %s")
-				      : _("Inserting %d row before %s"),
-				      count, row_name (start_row));
+	/* g_strdup_printf does not support positional args, which screws the translators.
+	 * We control the buffer content so there is no worry of overflow
+	 */
+	char mesg[128];
+	snprintf (mesg, sizeof (mesg), (count > 1)
+		  ? _("Inserting %d rows before %s")
+		  : _("Inserting %d row before %s"),
+		  count, row_name (start_row));
 	return cmd_ins_del_colrow (wbc, sheet, FALSE, TRUE, mesg,
 				   start_row, count);
 }

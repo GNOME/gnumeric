@@ -815,7 +815,6 @@
 	    pixtype="stock" pixname="Gnumeric_Radiobutton"
 	    _label="Radio Button"
 	    _tip="Create a radio button" verb="CreateRadiobutton"/>
-	-->
 
 	<toolitem name="List"
 	    pixtype="stock" pixname="Gnumeric_List"
@@ -826,6 +825,7 @@
 	    pixtype="stock" pixname="Gnumeric_Combo"
 	    _label="Combo Box"
 	    _tip="Create a combo box" verb="CreateCombobox"/>
+	-->
 
 	<toolitem name="Line"
 	    pixtype="stock" pixname="Gnumeric_Line"

@@ -1,7 +1,15 @@
 2001-12-30  Jody Goldberg <jody@gnome.org>
 
+	* src/commands.c (cmd_insert_rows) : avoid using g_strdup_printf.  It
+	  does not support positional arguments, which makes translation
+	  difficult.
+	(cmd_insert_cols) : ditto.
+
+	* src/auto-correct.c (autocorrect_tool) : ispunct is too liberal for
+	  what we want. Use a translated set of names for the capitalization.
+
 	* src/GNOME_Gnumeric.xml : sync with non-bonobo text and fix some
-	  mis-named items.
+	  mis-named items.  disable the combo and list until 1.0.1
 
 	* src/cell.h : fix warning on s390
 	* src/collect.h : ditto.

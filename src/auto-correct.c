@@ -11,10 +11,12 @@
 #include <gnumeric-config.h>
 #include "gnumeric.h"
 #include "auto-correct.h"
+#include "dates.h"
 
 #include <ctype.h>
 #include <string.h>
 #include <libgnome/gnome-config.h>
+#include <libgnome/gnome-i18n.h>
 
 static struct {
 	gboolean init_caps	: 1;
@@ -104,8 +106,6 @@ autocorrect_set_exceptions (AutoCorrectFeature feature, GList *list)
 	};
 }
 
-/* Add the name of the days on your language if they are always capitalized.
- */
 static char const * const autocorrect_day [] = {
         /* English */
         "monday", "tuesday", "wednesday", "thursday",
@@ -148,9 +148,11 @@ autocorrect_tool (char const *command)
 		unsigned char *p;
 
 		for (s = ucommand; *s; s = p+1) {
+			static char const * const not_punct = "~@#$%^&*()[]{}<>,/_-+=`\'\"\\";
 		skip_first_letter:
 			/* We need to find the end of a sentence assume ',' is not */
-			for (p = s; *p != '\0' && !(ispunct (*p) || *p == ',') ; p++)
+			for (p = s; *p != '\0' &&
+			     !(ispunct (*p) || strchr (not_punct, *p)) ; p++)
 				;
 			if (*p == '\0')
 				break;
@@ -182,12 +184,17 @@ autocorrect_tool (char const *command)
 	}
 
 	if (autocorrect.names_of_days)
-		for (i = 0; autocorrect_day[i] != NULL; i++) {
-			do {
-				s = strstr (ucommand, autocorrect_day[i]);
-				if (s != NULL)
-					*s = toupper (*s);
-			} while (s != NULL);
+		for (i = 0; day_long[i] != NULL; i++) {
+			char const *day = _(day_long [i]) + 1;
+			s = ucommand;
+loop :
+			s = strstr (s, day);
+			if (s != NULL) {
+				if (s > ucommand)
+					s[-1] = toupper (s[-1]);
+				s++;
+				goto loop;
+			}
 		}
 
 	return ucommand;
