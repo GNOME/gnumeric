@@ -1,21 +1,37 @@
 <sect1 id="formulas">
   <title>Formulas</title>
   
-  <para>Formulas are the key to making a powerful spreadsheet. A formula can take almost anything as its arguments
-    including single numbers, cell references, ranges of cells, arrays
-    of cells, and more. </para>
+  <para>
+    Formulas are the key to making a powerful spreadsheet. A formula
+    can perform calculations on almost anything, including single
+    numbers, cells of data ("cell references"), ranges of cells,
+    arrays of cells, and more.
+ </para>
     
   <sect2>
     <title>Syntax</title>
     
-    <para> Formulas are distinguished from regular data by a '=' as
-      the first character. Everything following a '=' is evaluated as
-      a formula, not a string. </para>
-    
-    <para> The simplest formula's just use the standard math operator
-     and symbols. +,-,*,/ are intrepreted just as you would expect
-     them to.  +,- can be used as unary operators and indicate sign,
-     just as can be expected.</para>
+    <para> Formulas are distinguished from regular data by an equals
+      sign, '=,' as the first character. Everything following a '=' is
+      evaluated as a formula, not a string or a number. 
+    </para>
+
+<tip>
+<title>Alternate Beginnings for Formulas</title>
+<para>
+      To accomodate those more familiar with Lotus spreadsheets,
+      Gnumeric recognizes the at symbol as the beginning of a formula.
+      The plus and minus characters (+ and -) may also start formulas
+      that involve calculation, but when used in front of a single
+      number indicate the sign of the number.
+   </para>    
+ </tip>
+    <para> The simplest formulas just use the standard math operator
+     and symbols.  Addition, subtraction, multiplication, and division
+     are represented by +, -, *, and /, just as you would expect.  +,-
+     can be placed in front of numbers to indicate sign, as
+     well.
+    </para>
       
     <example id="standardoperators">
       <title>Examples of standard operators</title>
@@ -50,8 +66,9 @@
       </programlisting>
     </example>
     
-    <para> While the documentation generally refers to functions in all caps,
-      their use is not actually case sensitive.</para>
+    <para> While the documentation generally refers to functions and
+      to cells in capital letters, their use is not actually case
+      sensitive.</para>
 	
 	<example id="functionsyntax">
 	  <title>Some examples of function syntax</title>

@@ -122,11 +122,11 @@
 		incrementing the date by month, date, or year.
 	      </para>
 		<para>
-		  While <application>Gnumeric</application> will
-		  increment days of the month, if you do 11/14/2001
-		  and 12/14/2001, it will recognize it as the same day
-		  of the month and increment to 1/14/2002 instead of
-		  the day difference.
+		  Note that, While <application>Gnumeric</application>
+		  will increment days of the month, if you do
+		  11/14/2001 and 12/14/2001, it will recognize it as
+		  the same day of the month and increment to 1/14/2002
+		  instead of the day difference.
 		</para>
 	    </listitem>
 	  </varlistentry>

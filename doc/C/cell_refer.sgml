@@ -1,13 +1,18 @@
 <sect1 id="cell-referencing">
   <title>Cell Referencing</title>
   
-  
-  <para>To reference the value stored in a single cell, B1 for example, just 
-        enter "B1"
-     as the function argument.</para>
-  
-  <para>Cells are referenced in a format like C4, where C is the column label
-    and 4 is the row label.</para>
+  <para>
+     Each cell in a spreadsheet is named by its column and row
+     labels. The row labels are numbers and the column labels are
+     letters.  The first cell, therefore, is called A1. One row down
+     and one column over is cell B2, and so forth.
+  </para>
+
+  <para>
+    To reference the value stored in a single cell, enter its
+    coordinates as a function argument.  For example, to have the data
+    in cell B1 appear in another cell, enter =B1 into that cell.
+  </para>
   
   <example id="simplecellrefer">
     <title>Some examples of function syntax</title>
@@ -22,36 +27,109 @@
   <sect2>
     <title>Absolute cell referencing</title>
 
-    <para>Cells can be referenced in the default way (relative referencing),
-      or by using absolute referening. Absolute referencing means that when the cell
-      is copied, the cell reference does not change. Normally, autofilling a 
-cell
-      range or moving cell will change its cell reference to so that it maintains
-      a relation to the original cell. With absolute cell referencing this, behaviour is
-      overridden. </para>
+    <para>Cells can be referenced in the default way (relative
+      referencing), or by using absolute referening. Absolute
+      referencing means that when the cell is copied, the cell
+      reference does not change. Normally, autofilling a cell range or
+      moving cell will change its cell reference to so that it
+      maintains a relation to the original cell. Absolute referencing
+      prevents these changes.
+     </para>
 
-    <para>The format for absolute cell refencing is to use a '$' in front of the
-      cell coordinate that the user wants to stay constant. The column, row, sheet, or
-      any combination of these can be held constant.</para>
+<tip id="why-bother">
+<title>When Does Relative Referencing Make a Difference?</title>
+      <para>
+        The difference between absolute and relative cell references
+        only matters if you are copying or moving cells that contain
+        cell references. For cells that are going to remain in place,
+        both the relative and absolute references have the same result.
+      </para>
+    </tip>
+
+<example id="relative-referencing-explained">
+      <title>Relative References</title>
+     <para>
+       For example, if =A1 is the formula entered into cell B2, cell
+       B2 will displat the data in cell A1, which is one row up and
+       one column left.  Then, if you copy the contents of B2 to cell
+       F6, cell F6 will contain the value from E5, which is also one
+       row up and one column left.
+     </para>
+     <para>
+       For the copied cell to still refer to A1, specify absolute
+       references using the $ character: $A$1 refers to cell A1, no
+       matter where it is copied.
+     </para>
+    </example>
+
+    <para>
+      The format for absolute cell refencing is to use a '$' in front
+      of the cell coordinate that the you want to stay constant. The
+      column, row, sheet, or any combination of these can be held
+      constant.
+    </para>
 
     <example id="cell-refer-absolute-reference">
       <title>Absolute cell referencing examples</title>
-      <programlisting>
-	A1          Normal cell reference
-	$A2         Hold the column value constant
-	A$2         Hold the row value constant
-	$A$2        Hold row and columns constant.
-      </programlisting>
-    </example>
+        <para>
+          What happens when a given formula is entered into cell B2,
+          then copied to other cells?
+	<variablelist>
+	  <varlistentry>
+	    <term>=A1</term> 
 
+<listitem><para> 
+            =A1 is a normal, or relative, cell reference
+            function. When =A1 is entered into cell B2, it refers to
+            the value of data one cell up and one cell left from the
+            cell it is in. Therefore the value displayed in cell C2
+            will be the value of data in cell B1.  Copied to cell R19,
+            the formula will display the data in cell Q18.
+</para></listitem>
+	    </varlistentry>
+
+	  <varlistentry>
+	    <term>=$A1</term>
+            <listitem><para>
+
+             In this case, the column value is absolute, but the row
+             value is relative.  Therefore, if =$A1 is entered into
+             cell B2, the formula refers to the data in column A that
+             is one row up from the current location.  Copied to cell
+             C2, the formula will refer to the data in cell A1. Copied
+             to cell R19, it will refer to the data in A18.
+             </para></listitem>
+	    </varlistentry>
+
+	  <varlistentry>
+	    <term>=A$1</term>
+            <listitem><para>
+
+               This formula uses a relative column value and an
+               absolute row value. In cell B2, it refers to cell A1 as
+               the data in the cell one column left and in row
+               1. Copied to cell C3, the formula will display the data
+               in cell B1.
+         </para></listitem>
+	    </varlistentry>
+
+	  <varlistentry>
+	    <term>=$A$1</term> <listitem><para> No matter where this
+            formula is copied, it will always refer to the data in
+            cell A1.  </para></listitem>
+	    </varlistentry>
+	</variablelist>
+      </para>
+    </example>
   </sect2>
 
 
   <sect2>
     <title>Referencing multiple cells</title>
     
-    <para>Many functions can take multiple cells as arguments. This can either
-      be a comma separated list, an array, or any combination thereof.</para>
+    <para>Many functions can take multiple cells as arguments. This
+      can either be a comma separated list, an array, or any
+      combination thereof.</para>
     
     <sect3>
       <title>Multiple individual cells</title>

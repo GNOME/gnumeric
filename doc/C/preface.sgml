@@ -69,14 +69,14 @@
 	</itemizedlist> 
 	</para>
 
-	<figure id="sample_gnumeric.png">
+	<figure id="sample-gnumeric.png">
 		<title>An example of what Gnumeric can do.</title>
 		<screenshot>
 		<graphic fileref="figures/preface-screenshot.png" format="png"></graphic>
 		</screenshot>
 	</figure>
 
-	<para> This picture, <xref linkend="sample_gnumeric.png">, shows some advanced 
+	<para> This picture, <xref linkend="sample-gnumeric.png">, shows some advanced 
 	uses of the Gnumeric spreadsheet. These include support for graphing and 
 	embedding other GNOME programs. The table on the upper left shows a calculation 
 	which has been performed by gnumeric. The rightmost column of numbers (in grey) 

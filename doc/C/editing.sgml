@@ -1,17 +1,60 @@
 <sect1 id="strings-and-numbers">
   <title>Strings and numbers</title>
   
-  <para>The basic forms of data that can be entered into a cell include
-    strings, numbers, formulas, and cell references. </para>
-  
-  <para>The simplest of these types are strings and numbers. They are
-    just constant values that are stored in a cell. There is  no special
-    syntax for this kind of data. The only limitation is that strings and
-    numbers cannot contain newlines or begin with a '='. The '=' is
-    used to denote cells that contain formulas or cell references.</para>
-  
-  <para>See <xref linkend="stringnumber"> for an example of entering
-      a string.</para>
+  <para>
+    There are four basic types of data that can be entered into cells.
+    They are:
+    <variablelist>
+       <varlistentry>
+         <term>Strings</term>
+         <listitem>
+           <para>
+              A string is any set of letters, or of letters and
+              numbers. The only limitations are that strings cannot
+              contain newlines, and they may not begin with the equals
+              or at symbols (= and @). See <xref
+              linkend="stringnumber"> for an example of entering a
+              string.
+            </para>
+          </listitem>
+        </varlistentry>
+           <varlistentry>
+         <term>Numbers</term>
+         <listitem>
+           <para>
+              Numbers can be formatted as money, ($10.00), dates (11
+              Nov. 2002), or scientific notation (2.3e12). If you want
+              a number to be displayed as a plain string without any
+              number formatting, you can put a single quote (') before
+              it.
+            </para>
+          </listitem>
+        </varlistentry>
+
+           <varlistentry>
+         <term>Formulas</term>
+         <listitem>
+           <para>Formulas are ways of describing a calculation you
+           want Gnumeric to make automatically.  Formulas always begin
+           with a special character, which is usually the equals sign
+           (=). You may also use the at symbol (@) or the plus or
+           minus symbols (+ or -).
+            </para>
+          </listitem>
+        </varlistentry>
+
+           <varlistentry>
+         <term>Cell References</term>
+         <listitem>
+           <para>
+           A cell reference is the part of a formula which refers to
+           another cell.  For example, in the formula to add two cells
+           =(A4+A1), both A4 and A1 are cell references. 
+            </para>
+          </listitem>
+        </varlistentry>
+    </variablelist>
+  </para>
   
   <figure id="stringnumber">
     <title>Entering strings and numbers.</title>
@@ -23,19 +66,18 @@
 <sect2 id="entering-dates-and-numbers">
   <title>Dates and Numbers</title>
 
-  <para>Dates and numbers are a special case of strings that are automatically
-    converted to numerical types. If a string entered matches one of the formats
-    for dates or times, the string is converted into a serial number (representative
-    of the time in the string) and the cell format is set to that of the
-    original string.</para>
+  <para>
+    When you begin entering a number, Gnumeric will attempt to match
+    the data you enter with existing formats for numbered data. If it
+    matches a data format, Gnumeric will automatically convert the
+    entered data into the appropriate serial number, displaying it in
+    an appropriate format.
+  </para>
 
-  <para>To make use of this feature, the user just needs to enter in a number in
-    a recognizable format. Gnumeric will automatically convert it into an appropriate serial
-    number. Because of this, it is possible to enter a date or time in a human readable 
-    format, and have it stored in a numerical format inside of Gnumeric.</para>
-
-  <para>The interesting part of this is that a user entered string, can be autofilled (see 
-    <xref linkend="autofill">) properly. </para>
+  <para>
+    Because of the format matching ability, user-entered data can be
+    autofilled (see <xref linkend="autofill"> for more information)
+    properly. </para>
 
   <para>See <xref linkend="number-format-date-time-examples"> for some examples of 
       the many date and time formats that are accepted by Gnumeric.</para>
@@ -48,11 +90,14 @@
     <procedure>
       <title>Entering data in a cell</title>
       <step>
-        <para>Activate the cell by clicking on it with the white-cross cursor.
-          This will make the cell become the active cell. 
-            </para></step>
+        <para>Select the cell where you want to enter data by clicking
+         on it with the white cross cursor.
+  </para></step>
       <step>
         <para>Type in the data or formula.</para></step>
+
+      <step>
+        <para>Press Enter.</para></step>
     </procedure>
  
     <para>
@@ -72,13 +117,16 @@
       <title>Advanced Editing mode</title>
       
       <para>For a more complete set of editing options, especially for
-	longer entries, there is an advanced editing mode.
-	This mode is accessed by pressing <keycap>F2</keycap>. This shifts the
-	focus from the current cell to the editing region in the worksheet. This
-	allows more complete control over the text and data in the cell. This includes
-	the use of the cursor keys to position the cursor within the data in the cell.
-        See <xref linkend="data-entry"> For more info on the data entry area.</para>
-      
+	longer entries, there is an advanced editing mode.  To enter
+	the advanced editing mode, press <keycap>F2</keycap>. The
+	keyboard focus will then shift from the current cell to the
+	editing region at the top of the worksheet. There, you can use
+	cursor keys to position the cursor within the data in the
+	cell, and have all of the capabilities of the data entry area
+	available. 
+ </para>
+ <para>
+    For example, you can use:      
       <variablelist>
 	<varlistentry>
 	  <term><keycap>Backspace</keycap></term>
@@ -93,19 +141,21 @@
 	  <listitem><para>Delete to the end of the line</para></listitem>
 	</varlistentry>
       </variablelist>
-      
+       See <xref linkend="data-entry"> For more info on
+	the data entry area.</para>
+
       <tip>
-        <title>TIP</title>
-	<para>All the normal key bindings for Gnome application entry boxes
-	  also apply here.</para>
+        <title>TIP</title> <para>All the normal key bindings for Gnome
+	application entry boxes also apply in the data entry
+	box.</para>
       </tip>
     </sect3>
     
     <sect3 id="error-message">
       <title>Error Messages</title>
 
-      <para>If the user enters a formula or set of data that is not acceptable,
-	Gnumeric will display an error message in the cell.</para>
+      <para>If a formula or set of data is not acceptable, Gnumeric
+	will display an error message in the cell.</para>
     </sect3>
   </sect2>
 </sect1>
@@ -119,8 +169,8 @@
 <sect1 id="selecting-cells-entering-formulas">
   <title>Selecting Cells While Entering Formulas.</title>
 
-  <para>When entering a formula into a cell, it is possible to use the
-    mouse and the keyboard cursor keys to quickly enter data.</para>
+  <para>When entering a formula into a cell, you can use the mouse and
+    the keyboard cursor keys enter data more quickly.</para>
 
   <para>There are several ways to enter a cell range into a formula. Cell
     ranges and references can be entered into a formula simply by typing in
@@ -138,34 +188,26 @@
     <screenshot>
       <graphic fileref="figures/editing-cell-selection-1.png" format="png"></graphic>
     </screenshot>
-  </figure>
+ </figure>
   
   <sect2 id="entering-data-formula-mouse">
     <title>Entering data into a formula with the mouse</title>
-
-    <para>When entering a formula, if the cursor is at a point
-      where a cell reference may be appropriate, the user just needs
-      to click on a cell to automatically enter its cell reference 
-      into the formula; then finish the formula as normal.</para>
-
+<para>
+To make a cell reference using the mouse:
+</para>
     <procedure>
       <title>Using the mouse to enter a cell reference into a formula</title>
       <step>
 	<para>
-	  Select a cell to enter a formula into. For example A1.
-	</para>
-      </step>
-      <step>
-	<para>Enter a formula, but stop the cursor at a point
-	  where a cell reference is appropriate. For this example,
-	  =exp( 
+          Begin entering a formula as you would normally. Stop at the
+	  point where a cell reference is appropriate. For example,
+	  example, type <userinput>=exp(</userinput>
 	</para>
 	</step>
       <step>
 	<para>
-	  Now use the mouse to click on another cell to reference. For example,
-	  just click on the Cell B1. Its reference will be entered into the formula
-	  in cell A1.
+	  Click on the cell you want to reference. Its reference will
+	  be entered into the formula.
 	</para>
       </step>
       <step>
