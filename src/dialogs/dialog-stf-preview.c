@@ -218,6 +218,9 @@ stf_preview_set_lines (RenderData_t *renderdata,
 			(text, cell,
 			 "text", renderdata->colcount,
 			 NULL);
+		g_object_set (cell,
+			      "single_paragraph_mode", TRUE,
+			      NULL);
 		gtk_tree_view_append_column (renderdata->tree_view, column);
 		g_free (text);
 		renderdata->colcount++;
