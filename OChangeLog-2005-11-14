@@ -1,4 +1,4 @@
-2003-06-20  Jon Kåre Hellan  <Jon.Kare.hellan@uninett.no>
+2003-06-20  Jon K Hellan  <hellan@acm.org>
 
 	* src/io-context-gtk.c (cb_realize): New. Called when splash is
 	realized. Move placement logic here, and use natural size.
