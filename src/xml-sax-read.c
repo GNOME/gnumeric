@@ -55,8 +55,8 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-gboolean xml_sax_file_probe (FileOpener const *fo, const gchar *file_name);
-void     xml_sax_file_open (FileOpener const *fo, IOContext *io_context,
+gboolean xml_sax_file_probe (GnumFileOpener const *fo, const gchar *file_name);
+void     xml_sax_file_open (GnumFileOpener const *fo, IOContext *io_context,
 			    WorkbookView *wb_view, char const *filename);
 
 /*****************************************************************************/
@@ -1295,7 +1295,7 @@ xml_sax_unknown_state (XMLSaxParseState *state, CHAR const *name)
  * We parse and do some limited validation of the XML file, if this
  * passes, then we return TRUE
 gboolean
-xmlSax_file_probe (FileOpener const *fo, const gchar *file_name)
+xml_sax_file_probe (GnumFileOpener const *fo, const gchar *file_name)
 {
 	return TRUE;
 }
@@ -1532,7 +1532,7 @@ xml_sax_end_element (XMLSaxParseState *state, const CHAR *name)
 		break;
 
 	case STATE_WB_ATTRIBUTES :
-		wb_view_set_attributev (state->wb_view, state->attributes);
+		wb_view_set_attribute_list (state->wb_view, state->attributes);
 		xml_sax_free_arg_list (state->attributes);
 		state->attributes = NULL;
 		break;
@@ -1714,7 +1714,7 @@ static xmlSAXHandler xmlSaxSAXParser = {
 };
 
 void
-xml_sax_file_open (FileOpener const *fo, IOContext *io_context,
+xml_sax_file_open (GnumFileOpener const *fo, IOContext *io_context,
 		   WorkbookView *wb_view, char const *filename)
 {
 	xmlParserCtxtPtr ctxt;

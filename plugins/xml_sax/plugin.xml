@@ -5,7 +5,8 @@
 		<attribute name="module_file" value="xml_sax.so"/>
 	</loader>
 	<services>
-		<service type="file_opener" id="xml_sax" priority="1" probe="FALSE">
+		<service type="file_opener" id="xml_sax" priority="1" probe="FALSE"
+		         open="FALSE" import="TRUE">
 			<information description="EXPERIMENTAL Gnumeric (*.gnumeric) SAX based XML file format"/>
 			<save_info saver_id="" format_level="manual_remember"/>
 		</service>
