@@ -274,7 +274,7 @@ unset libole2_ok
 dnl ******************************
 dnl Check for Bonobo
 dnl ******************************
-try_bonobo=false
+try_bonobo=true
 bonobo=
 bonobo_msg=no
 using_oaf=no
@@ -282,25 +282,25 @@ bonobo_suffix=
 have_bonobo=false
 AC_ARG_WITH(bonobo,
 	[--{with,without}-bonobo   Compile with Bonobo support or without it],
-	if test x$withval = xyes; then
-		try_bonobo=true
+	if test x$withval = xno; then
+		try_bonobo=false
 	fi
 )
 
 gnumeric_executable=gnumeric
 AC_SUBST(gnumeric_executable)
 if $try_bonobo; then
-	AC_MSG_CHECKING(for Bonobo >= 0.35						)
+	AC_MSG_CHECKING(for Bonobo >= 1.03						)
 	if gnome-config --libs bonobo > /dev/null 2>&1; then
 		verstxt=`gnome-config --modversion bonobo`
 		vers=`echo "$verstxt" | sed -e "s/^bonobo-//" | \
-			awk -F. '{ printf "%d", $1 * 1000 + $2; }'`
+			awk -F. '{ printf "%d", ($1 * 1000 + $2) * 1000 + $3;}'`
 	else
 		verstxt="-"
 		vers=0
 	fi
 
-	if test "$vers" -ge 35; then
+	if test "$vers" -ge 1000003; then
 		AC_MSG_RESULT($marker_ok found $verstxt)
 		AC_DEFINE(ENABLE_BONOBO)
 		have_bonobo=true
@@ -650,12 +650,6 @@ Configuration:
 	Bonobo Support:		${bonobo_msg}
 	GB Support:		${gb_msg}
 "
-if $have_bonobo; then
-	echo "
-Please do not distribute prebuilt binaries with bonobo support.
-However, as of the 0.65 release we consider it stable enough
-to accept bug reports."
-fi
 
 if $have_gb; then
 	echo "

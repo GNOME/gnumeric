@@ -22,6 +22,9 @@ Long term breakage
     : finish implementing optionally putting markers above/left
     : connect the hide/show menu items
 
+- Version the idl file so that future versions will not be confused by attempts
+  to use an older version of the idl.
+
 - It is possible to navigate to hidden cols/rows at the start/end of the sheet.
 
 - clean up the range_list codes to differentiate a list of ranges from a list

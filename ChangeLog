@@ -1,3 +1,7 @@
+2001-06-25  Jody Goldberg <jgoldberg@home.com>
+
+	* src/xml-io.c (xml_not_used_old_array_spec) : fix a few warnings.
+
 2001-06-23  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/item-cursor.c (item_cursor_do_drop): Always clear
