@@ -1,5 +1,11 @@
 2002-05-14  Jon K Hellan  <hellan@acm.org>
 
+	* src/main-component.c (control_activated_cb): Don't call
+	bonobo_ui_component_rm. We got a warning from bonobo when the
+	containing shell was deleted.
+
+2002-05-14  Jon K Hellan  <hellan@acm.org>
+
 	* src/GNOME_Gnumeric_Component.xml: Add File/Print setup,
 	File/Print, File/Print preview.
 

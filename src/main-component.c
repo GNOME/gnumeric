@@ -50,7 +50,6 @@ control_activated_cb (BonoboControl *control, gboolean activate,
 
 		uic = bonobo_control_get_ui_component (control);
 		if (uic) {
-			bonobo_ui_component_rm (uic, "/", NULL);
 			bonobo_ui_component_unset_container (uic, NULL);
 		}
 	}
