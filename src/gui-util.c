@@ -464,7 +464,7 @@ gnumeric_keyed_dialog (WorkbookControlGUI *wbcg, GtkWindow *dialog, const char *
  * Raise the dialog identified by key if it is registered on the wbcg.
  * Returns TRUE if dialog found, FALSE if not.
  */
-gboolean
+gpointer
 gnumeric_dialog_raise_if_exists (WorkbookControlGUI *wbcg, const char *key)
 {
 	GtkWidget *dialog;
@@ -476,9 +476,9 @@ gnumeric_dialog_raise_if_exists (WorkbookControlGUI *wbcg, const char *key)
 	dialog = g_object_get_data (G_OBJECT (wbcg), key);
 	if (dialog && GTK_IS_WINDOW (dialog)) {
 		gdk_window_raise (dialog->window);
-		return TRUE;
+		return dialog;
 	} else
-		return FALSE;
+		return NULL;
 }
 
 /**

@@ -1,10 +1,28 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * dialog-function-select.c:  Implements the function selector
  *
- * Author:
+ * Authors:
  *  Michael Meeks <michael@imaginator.com>
+ *  Andreas J. Guelzow <aguelzow@taliesin.ca>
  *
+ * Copyright (C) Andreas J. Guelzow <aguelzow@taliesin.ca>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
+
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include "dialogs.h"
@@ -13,56 +31,121 @@
 #include <func.h>
 #include <workbook.h>
 #include <str.h>
+#include <workbook-edit.h>
 
 #include <ctype.h>
 #include <glade/glade.h>
+#include <libgnome/gnome-i18n.h>
 
-#define HELP_BUTTON (GNOME_CANCEL + 1)
+#define GLADE_FILE "function-select.glade"
+
+#define FUNCTION_SELECT_KEY "function-selector-dialog"
+#define FUNCTION_SELECT_DIALOG_KEY "function-selector-dialog"
+
 
 typedef struct {
+	WorkbookControlGUI  *wbcg;
+	Workbook  *wb;
+
+	GladeXML  *gui;
 	GtkWidget *dialog;
-	GtkCList  *functions;
-	GtkCList  *categories;
-	GtkLabel  *func_name;
-	GtkLabel  *description;
+	GtkWidget *ok_button;
+	GtkTreeStore  *model;
+	GtkTreeView   *treeview;
+	GtkTextBuffer   *description;
 
-	int selected_cat;
-	FunctionCategory const * cat;
-
-	int selected_func;
-	FunctionDefinition const * func;
-	TokenizedHelp *func_help;
+	char const *formula_guru_key;
 } FunctionSelectState;
 
-static void
-category_list_fill (FunctionSelectState *state)
+enum {
+	CAT_FUN_NAME,
+	IS_FUNCTION,
+	CATEGORY,
+	FUNCTION,
+	NUM_COLMNS
+};
+
+/**
+ * dialog_function_select_destroy:
+ * @window:
+ * @state:
+ *
+ * Destroy the dialog and associated data structures.
+ *
+ **/
+static gboolean
+dialog_function_select_destroy (GtkObject *w, FunctionSelectState  *state)
 {
-	GtkCList * const list = state->categories;
-	int i = 0, cur_row;
+	g_return_val_if_fail (w != NULL, FALSE);
+	g_return_val_if_fail (state != NULL, FALSE);
 
-	gtk_clist_freeze (list);
-	gtk_clist_clear (list);
-
-	for (i = cur_row = 0 ;; ++i) {
-		gchar *cols[1];
-		FunctionCategory const * const cat =
-		    function_category_get_nth (i);
-		if (cat == NULL)
-			break;
-
-		cols[0] = (gchar *) cat->display_name->str; /* Const cast */
-		gtk_clist_append (list, cols);
-
-		gtk_clist_set_row_data (list, i, (gpointer)cat);
+	if (state->formula_guru_key && 
+	    gnumeric_dialog_raise_if_exists (state->wbcg, state->formula_guru_key)) {
+		/* The formula guru is waiting for us.*/
+		state->formula_guru_key = NULL;
+		dialog_formula_guru (state->wbcg, NULL);	
 	}
 
-	gtk_clist_select_row (list, state->selected_cat, 0);
-	gtk_clist_thaw (list);
-	gnumeric_clist_moveto (list, state->selected_cat);
+	if (state->gui != NULL) {
+		g_object_unref (G_OBJECT (state->gui));
+		state->gui = NULL;
+	}
+	state->dialog = NULL;
+	g_free (state);
+
+	return FALSE;
+}
+
+/**
+ * cb_dialog_function_select_cancel_clicked:
+ * @button:
+ * @state:
+ *
+ * Close (destroy) the dialog
+ **/
+static void
+cb_dialog_function_select_cancel_clicked (GtkWidget *button, FunctionSelectState *state)
+{
+	gtk_widget_destroy (state->dialog);
+	return;
+}
+
+/**
+ * cb_dialog_function_select_ok_clicked:
+ * @button:
+ * @state:
+ *
+ * Close (destroy) the dialog
+ **/
+static void
+cb_dialog_function_select_ok_clicked (GtkWidget *button, FunctionSelectState *state)
+{
+	GtkTreeIter  iter;
+	GtkTreeModel *model;
+	gboolean     is_func;
+	FunctionDefinition const *func;
+	GtkTreeSelection *the_selection = gtk_tree_view_get_selection (state->treeview);
+
+	if (gtk_tree_selection_get_selected (the_selection, &model, &iter)) {
+		gtk_tree_model_get (model, &iter,
+				    IS_FUNCTION, &is_func,
+				    FUNCTION, &func,
+				    -1);
+		if (is_func) {
+			WorkbookControlGUI *wbcg = state->wbcg;
+			state->formula_guru_key = NULL;
+			gtk_widget_destroy (state->dialog);
+			dialog_formula_guru (wbcg, func);
+			return;
+		}
+	}
+	g_warning ("Something wrong, we should never get here!");
+	gtk_widget_destroy (state->dialog);
+	return;
 }
 
 static gint
-by_name (gconstpointer _a, gconstpointer _b)
+dialog_function_select_by_name (gconstpointer _a, gconstpointer _b)
 {
 	FunctionDefinition const * const a = (FunctionDefinition const * const)_a;
 	FunctionDefinition const * const b = (FunctionDefinition const * const)_b;
@@ -71,179 +154,170 @@ by_name (gconstpointer _a, gconstpointer _b)
 }
 
 static void
-function_list_fill (FunctionSelectState *state)
+dialog_function_select_load_tree (FunctionSelectState *state)
 {
 	int i = 0;
-	GtkCList * const list = state->functions;
-	FunctionCategory const * const cat = state->cat;
-	GList *tmp, *funcs;
+	GtkTreeIter p_iter;
+	GtkTreeIter iter;
+	FunctionCategory const * cat;
+	GList *funcs, *this_func;
 
-	gtk_clist_freeze (list);
-	gtk_clist_clear (list);
+	gtk_tree_store_clear (state->model);
 
-	funcs = g_list_sort (g_list_copy (cat->functions), by_name);
-	for (tmp = funcs; tmp; tmp = tmp->next) {
-		FunctionDefinition const * const func = tmp->data;
-		gchar *cols[1];
+	while ((cat = function_category_get_nth (i++)) != NULL) {
+		gtk_tree_store_append (state->model, &p_iter, NULL);
+		gtk_tree_store_set (state->model, &p_iter,
+				    CAT_FUN_NAME, cat->display_name->str,
+				    IS_FUNCTION, FALSE,
+				    CATEGORY, cat,
+				    FUNCTION, NULL,
+				    -1);
+		this_func = funcs = g_list_sort (g_list_copy (cat->functions), 
+						 dialog_function_select_by_name);
+		while (this_func) {
+			FunctionDefinition const *a_func = this_func->data;
+			TokenizedHelp *help = tokenized_help_new (a_func);
+			char const *f_syntax = tokenized_help_find (help, "SYNTAX");
 
-		cols[0] = (gchar *)function_def_get_name (func); /* Const cast */
-		gtk_clist_append (list, cols);
-
-		gtk_clist_set_row_data (list, i++, (gpointer)func);
+			gtk_tree_store_append (state->model, &iter, &p_iter);
+			gtk_tree_store_set (state->model, &iter,
+					    CAT_FUN_NAME, f_syntax,
+					    IS_FUNCTION, TRUE,
+					    CATEGORY, NULL,
+					    FUNCTION, a_func,
+					    -1);
+			this_func = this_func->next;
+			tokenized_help_destroy (help);
+		}
+		g_list_free (funcs);
 	}
-	g_list_free (funcs);
 
-	gtk_clist_select_row (list, state->selected_func, 0);
-	gtk_clist_thaw (list);
-	gnumeric_clist_moveto (list, state->selected_func);
+}
+
+
+static void
+cb_dialog_function_select_selection_changed (GtkTreeSelection *the_selection, 
+					     FunctionSelectState *state)
+{
+	GtkTreeIter  iter;
+	GtkTreeModel *model;
+	gboolean     is_func;
+	FunctionDefinition const *func;
+
+	if (gtk_tree_selection_get_selected (the_selection, &model, &iter)) {
+		gtk_tree_model_get (model, &iter,
+				    IS_FUNCTION, &is_func,
+				    FUNCTION, &func,
+				    -1);
+		if (is_func) {
+			TokenizedHelp *help = tokenized_help_new (func);
+			char const *f_desc = tokenized_help_find (help, "DESCRIPTION");
+			gtk_text_buffer_set_text (state->description, f_desc, -1);
+			gtk_widget_set_sensitive (state->ok_button, TRUE);
+			return;
+		}
+	}
+	gtk_widget_set_sensitive (state->ok_button, FALSE);
+	gtk_text_buffer_set_text (state->description, "", 0);
 }
 
 static gboolean
-cb_key_press (GtkCList *list, GdkEventKey *event, int *index)
+dialog_function_select_init (FunctionSelectState *state)
 {
-	if (event->string && isalpha ((unsigned char)(*event->string))) {
-		int i, first, next;
+	GtkWidget *scrolled;
+	GtkTreeViewColumn *column;
+	GtkTreeSelection *selection;
+	GtkTextView *textview;
 
-		first = next = -1;
-		for (i = 0; i < list->rows; i++) {
-			char *t[1];
+	g_object_set_data (G_OBJECT (state->dialog), FUNCTION_SELECT_DIALOG_KEY, 
+			   state);
 
-			gtk_clist_get_text (list, i, 0, t);
-			if (strncasecmp (t[0], event->string, 1) == 0) {
-				if (first == -1)
-					first = i;
-				if (next == -1 && i > *index)
-					next = i;
-			}
-		}
+	/* Set-up treeview */
+	scrolled = glade_xml_get_widget (state->gui, "scrolled_tree");
+	state->model = gtk_tree_store_new (NUM_COLMNS, G_TYPE_STRING, G_TYPE_BOOLEAN,
+					   G_TYPE_POINTER, G_TYPE_POINTER);
+	state->treeview = GTK_TREE_VIEW (
+		gtk_tree_view_new_with_model (GTK_TREE_MODEL (state->model)));
+	selection = gtk_tree_view_get_selection (state->treeview);
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
+	g_signal_connect (selection,
+		"changed",
+		G_CALLBACK (cb_dialog_function_select_selection_changed), state);
 
-		i = -1;
-		if (next == -1 && first != -1)
-			i = first;
-		else
-			i = next;
+	column = gtk_tree_view_column_new_with_attributes (_("Name"),
+							   gtk_cell_renderer_text_new (),
+							   "text", CAT_FUN_NAME, NULL);
+	gtk_tree_view_column_set_sort_column_id (column, CAT_FUN_NAME);
+	gtk_tree_view_append_column (state->treeview, column);
 
-		if (i >= 0) {
-			gtk_clist_select_row (list, i, 0);
-			gnumeric_clist_moveto (list,i);
-		}
-	}
+	gtk_tree_view_set_headers_visible (state->treeview, FALSE);
+	gtk_container_add (GTK_CONTAINER (scrolled), GTK_WIDGET (state->treeview));
+	dialog_function_select_load_tree (state);
+	/* Finished set-up of treeview */
 
-	return TRUE;
+	gtk_paned_set_position (GTK_PANED (glade_xml_get_widget 
+					   (state->gui, "vpaned1")), 300);
+
+	textview = GTK_TEXT_VIEW (glade_xml_get_widget (state->gui, "description"));
+	state->description =  gtk_text_view_get_buffer (textview);
+
+	state->ok_button = glade_xml_get_widget (state->gui, "ok_button");
+	gtk_widget_set_sensitive (state->ok_button, FALSE);
+	g_signal_connect (G_OBJECT (state->ok_button),
+		"clicked",
+		G_CALLBACK (cb_dialog_function_select_ok_clicked), state);
+	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "cancel_button")),
+		"clicked",
+		G_CALLBACK (cb_dialog_function_select_cancel_clicked), state);
+
+	gnumeric_init_help_button (
+		glade_xml_get_widget (state->gui, "help_button"),
+		"cell-sort.html");
+
+	g_signal_connect (G_OBJECT (state->dialog),
+		"destroy",
+		G_CALLBACK (dialog_function_select_destroy), state);
+
+	return FALSE;
 }
 
-static void
-function_select_row (GtkCList *clist, gint row, gint col,
-		     GdkEvent *event, FunctionSelectState *state)
+void
+dialog_function_select (WorkbookControlGUI *wbcg, char const *key)
 {
-	if (event && event->type == GDK_2BUTTON_PRESS)
-		g_signal_emit_by_name (G_OBJECT (state->dialog), "clicked", 0);
-	state->selected_func = row;
-	state->func = gtk_clist_get_row_data (state->functions, row);
+	FunctionSelectState* state;
 
-	/* This seems to happen before we fill in things.  */
-	if (state->func == NULL)
+	g_return_if_fail (wbcg != NULL);
+
+	if (gnumeric_dialog_raise_if_exists (wbcg, FUNCTION_SELECT_KEY))
 		return;
 
-	if (state->func_help != NULL)
-		tokenized_help_destroy (state->func_help);
-	state->func_help = tokenized_help_new (state->func);
+	state = g_new (FunctionSelectState, 1);
+	state->wbcg  = wbcg;
+	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->formula_guru_key = key;
 
-	gtk_label_set_text (state->func_name,
-			    tokenized_help_find (state->func_help, "SYNTAX"));
+	/* Get the dialog and check for errors */
+	state->gui = gnumeric_glade_xml_new (wbcg, GLADE_FILE);
+        if (state->gui == NULL) {
+		g_warning ("glade file missing or corrupted");
+		g_free (state);
+                return;
+	}
 
-	gtk_label_set_text (state->description,
-			    tokenized_help_find (state->func_help, "DESCRIPTION"));
+        state->dialog = glade_xml_get_widget (state->gui, "selection_dialog");
+
+	if (dialog_function_select_init (state)) {
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
+				 _("Could not create the function selector dialog."));
+		g_free (state);
+		return;
+	}
+
+	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+			       FUNCTION_SELECT_KEY);
+
+	gtk_widget_show_all (state->dialog);
+
+	return;
 }
 
-static void
-category_select_row (GtkCList *clist, gint row, gint col,
-		     GdkEvent *event, FunctionSelectState *state)
-{
-	state->selected_cat = row;
-	state->cat = function_category_get_nth (row);
-	state->selected_func = 0;
-	function_list_fill (state);
-}
-
-static FunctionDefinition *
-dialog_function_select_impl (WorkbookControlGUI *wbcg, GladeXML *gui)
-{
-	int res;
-	FunctionDefinition *func = NULL;
-	FunctionSelectState state;
-
-	g_return_val_if_fail (wbcg, NULL);
-
-	state.dialog	  = glade_xml_get_widget (gui, "FunctionSelect");
-	state.categories  = GTK_CLIST (glade_xml_get_widget (gui, "category_list"));
-	state.functions   = GTK_CLIST (glade_xml_get_widget (gui, "function_list"));
-	state.func_name	  = GTK_LABEL (glade_xml_get_widget (gui, "function_name"));
-	state.description = GTK_LABEL (glade_xml_get_widget (gui, "function_description"));
-	state.func_help	  = NULL;
-
-	g_return_val_if_fail (state.dialog, NULL);
-	g_return_val_if_fail (state.categories, NULL);
-	g_return_val_if_fail (state.functions, NULL);
-	g_return_val_if_fail (state.func_name, NULL);
-	g_return_val_if_fail (state.description, NULL);
-
-	g_signal_connect (G_OBJECT (state.categories),
-		"key-press-event",
-		G_CALLBACK (cb_key_press), &state.selected_cat);
-	g_signal_connect (G_OBJECT (state.functions),
-		"key-press-event",
-		G_CALLBACK (cb_key_press), &state.selected_func);
-	g_signal_connect (G_OBJECT (state.categories),
-		"select-row",
-		G_CALLBACK (category_select_row), &state);
-	g_signal_connect (G_OBJECT (state.functions),
-		"select-row",
-		G_CALLBACK (function_select_row), &state);
-
-	/* Init the selection */
-	state.selected_cat  = state.selected_func = 0;
-	category_list_fill (&state);
-
-	gtk_clist_column_titles_passive (GTK_CLIST (state.categories));
-	gtk_clist_column_titles_passive (GTK_CLIST (state.functions));
-
-	do
-		/* Bring up the dialog */
-		res = gnumeric_dialog_run (wbcg, GTK_DIALOG (state.dialog));
-	while (res == HELP_BUTTON);
-
-	if (state.func_help != NULL)
-		tokenized_help_destroy (state.func_help);
-
-	if (res == GNOME_OK)
-		func = gtk_clist_get_row_data (state.functions,
-					       state.selected_func);
-
-	/* If the user closed the dialog with prejudice,
-	   its already destroyed */
-	if (res >= 0)
-		gnome_dialog_close (GNOME_DIALOG (state.dialog));
-
-	return func;
-}
-
-/* Wrapper to ensure the libglade object gets removed on error */
-FunctionDefinition *
-dialog_function_select (WorkbookControlGUI *wbcg)
-{
-	GladeXML  *gui;
-	FunctionDefinition * fd;
-
-	g_return_val_if_fail (wbcg != NULL, NULL);
-
-	gui = gnumeric_glade_xml_new (wbcg, "function-select.glade");
-        if (gui == NULL)
-                return NULL;
-
-	fd = dialog_function_select_impl (wbcg, gui);
-
-	g_object_unref (G_OBJECT (gui));
-
-	return fd;
-}

@@ -1,3 +1,12 @@
+2002-03-19  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-formula-guru.c : rewritten
+	* dialog-function-select.c : rewritten
+	* formula-guru.glade : rewritten
+	* function-select.glade : rewritten
+	* dialogs.h (dialog_formula_guru) : change argument
+	(dialog_function_select) : change argument and return type
+
 2002-03-19  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* solver.glade : Improved label.

@@ -1,7 +1,10 @@
-/* vim: set sw=8: */
-
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * dialog-function-wizard.c:  The formula guru
+ *
+ * Authors:
+ *  Jody Goldberg <jody@gnome.org> 
+ *  Andreas J. Guelzow <aguelzow@taliesin.ca>
  *
  * Copyright (C) 2000 Jody Goldberg (jody@gnome.org)
  *
@@ -40,669 +43,455 @@
 #include <gdk/gdkkeysyms.h>
 #include <locale.h>
 
-#define MAX_ARGS_DISPLAYED 4
+#warning: Formula Guru is currently disabled.
+#warning: FIXME: use expression entry widgets.
 
-typedef struct _FormulaGuruState FormulaGuruState;
+#define GLADE_FILE "formula-guru.glade"
+
+#define FORMULA_GURU_KEY "formula-guru-dialog"
+#define FORMULA_GURU_KEY_DIALOG "formula-guru-dialog"
+
+#define MIN_VAR_ARGS_DISPLAYED 4
+#define AV_FORMULA_SIZE 100
+
 typedef struct
 {
-	FormulaGuruState	*state;
-	GnumericExprEntry	*entry;
-	GtkWidget *name_label, *type_label;
+	WorkbookControlGUI  *wbcg;
+	Workbook  *wb;
 
-	gchar 	  *name;
-	gchar	   type;
-	gboolean   is_optional;
-	gboolean   is_blank;
-	int	   index;
-} ArgumentState;
-
-struct _FormulaGuruState
-{
 	GladeXML  *gui;
-
 	GtkWidget *dialog;
-	GtkWidget *help_button;
-	GtkWidget *rollup_button;
-	GtkWidget *rolldown_button;
 	GtkWidget *ok_button;
-	GtkWidget *cancel_button;
-	GtkWidget *rolled_box;
-	GtkWidget *rolled_label;
-	GnumericExprEntry *rolled_entry;
-	GtkWidget *unrolled_box;
-	GtkWidget *arg_table;
-	GtkWidget *arg_frame;
-	GtkWidget *description;
-	GtkWidget *arg_view;
-	GtkRequisition arg_requisition;
+	GtkWidget *selector_button;
+	GtkWidget *clear_button;
+	GtkTreePath* active_path;
 
-	char		  *prefix, *suffix;
-	gboolean	    valid;
-	gboolean	    is_rolled;
-	gboolean	    var_args;
-	ArgumentState	   *cur_arg;
-	int		    max_arg; /* max arg # with a value */
-	WorkbookControlGUI *wbcg;
-	FunctionDefinition *fd;
-	TokenizedHelp	   *help_tokens;
-	GPtrArray	   *args;
+	GtkTreeStore  *model;
+	GtkTreeView   *treeview;
+
+} FormulaGuruState;
+
+enum {
+	FUN_ARG_ENTRY,
+	IS_NON_FUN,
+	ARG_NAME,
+	ARG_TYPE,
+	MIN_ARG,
+	MAX_ARG,
+	FUNCTION,
+	NUM_COLMNS
 };
 
-static void formula_guru_arg_delete (FormulaGuruState *state, int i);
-static void formula_guru_arg_new    (char * const name, char const type,
-				     gboolean const is_optional,
-				     FormulaGuruState *state);
+static void dialog_formula_guru_update_parent (GtkTreeIter *child, FormulaGuruState *state);
 
 static void
-formula_guru_free (FormulaGuruState *state)
+dialog_formula_guru_update_this_parent (GtkTreeIter *parent, FormulaGuruState *state) 
 {
-	if (state->prefix!= NULL) {
-		g_free (state->prefix);
-		state->prefix = NULL;
-	}
-	if (state->suffix != NULL) {
-		g_free (state->suffix);
-		state->suffix = NULL;
+	GString  *text = g_string_sized_new  (AV_FORMULA_SIZE);
+	gboolean is_non_fun;
+	FunctionDefinition const *fd;
+	GtkTreeIter iter;
+	char *argument;
+	gboolean not_first = FALSE;
+	int arg_min, arg_num = 0;
+
+	gtk_tree_model_get (GTK_TREE_MODEL(state->model), parent,
+			    IS_NON_FUN, &is_non_fun,
+			    FUNCTION, &fd,
+			    MIN_ARG, &arg_min,
+			    -1);
+
+	g_return_if_fail (!is_non_fun);
+	g_return_if_fail (fd != NULL);
+
+	text = g_string_append (text, function_def_get_name (fd));
+	text = g_string_append (text, " (");
+
+	if (gtk_tree_model_iter_children (GTK_TREE_MODEL(state->model), &iter, parent)) {
+		do {
+			gtk_tree_model_get (GTK_TREE_MODEL(state->model), &iter,
+					    FUN_ARG_ENTRY, &argument,
+					    -1);
+			if ((argument == NULL  || strlen (argument) == 0) && arg_num > arg_min)
+				break;
+			if (not_first) {
+				text = g_string_append_c (text, format_get_arg_sep ());
+				text = g_string_append_c (text, ' ');
+			}
+			if (argument && strlen (argument) > 0) 
+				text = g_string_append (text, argument);
+			g_free (argument);
+			not_first = TRUE;
+			arg_num++;
+			
+		} while (gtk_tree_model_iter_next (GTK_TREE_MODEL(state->model), &iter));
 	}
 
-	if (state->wbcg != NULL)
-		wbcg_edit_detach_guru (state->wbcg);
+	text = g_string_append_c (text, ')');
 
-	if (state->args != NULL) {
-		int i;
+	gtk_tree_store_set (state->model, parent,
+			    FUN_ARG_ENTRY, text->str,
+			    -1);	
 
-		for (i = state->args->len; i-- > 0 ;)
-			formula_guru_arg_delete (state, i);
-		g_ptr_array_free (state->args, TRUE);
-		state->args = NULL;
+	g_string_free (text, TRUE);
+
+	dialog_formula_guru_update_parent (parent, state);
+}
+
+static void
+dialog_formula_guru_update_parent (GtkTreeIter *child, FormulaGuruState *state) 
+{
+	GtkTreeIter iter;
+
+	if (gtk_tree_model_iter_parent (GTK_TREE_MODEL (state->model), &iter,
+					child)) {
+		dialog_formula_guru_update_this_parent (&iter, state);
+	}
+}
+
+
+static void
+dialog_formula_guru_adjust_children (GtkTreeIter *parent, FunctionDefinition const *fd,
+				     FormulaGuruState *state)
+{
+	gboolean is_non_fun;
+	GtkTreeIter iter;
+	gint min_arg, max_arg, args = 0, i;
+	char *arg_name;
+	
+
+	if (fd == NULL) {
+		gtk_tree_model_get (GTK_TREE_MODEL(state->model), parent,
+				    IS_NON_FUN, &is_non_fun,
+				    FUNCTION, &fd,
+				    -1);
+		if (is_non_fun) {
+			while  (gtk_tree_model_iter_children (GTK_TREE_MODEL(state->model),
+						       &iter, parent))
+				gtk_tree_store_remove (state->model, &iter);
+			return;
+		}
+	}
+	g_return_if_fail (fd != NULL);
+	
+	gtk_tree_model_get (GTK_TREE_MODEL(state->model), parent,
+			    MIN_ARG, &min_arg,
+			    MAX_ARG, &max_arg,
+			    -1);
+	if (max_arg == G_MAXINT) {
+		args = MAX (MIN_VAR_ARGS_DISPLAYED, 
+			    gtk_tree_model_iter_n_children (GTK_TREE_MODEL(state->model),
+							    parent));
+	} else 
+		args = max_arg;
+	
+	while  (gtk_tree_model_iter_nth_child (GTK_TREE_MODEL(state->model),
+					       &iter, parent, args))
+		gtk_tree_store_remove (state->model, &iter);
+	for (i = 0; i < args; i++) {
+		if (!gtk_tree_model_iter_nth_child (GTK_TREE_MODEL(state->model),
+						    &iter, parent, i))
+			gtk_tree_store_append (state->model, &iter, parent);
+		arg_name = function_def_get_arg_name (fd, i);
+		if (i >= min_arg && arg_name != NULL) {
+			char *mod_name = g_strdup_printf (_("[%s]"), arg_name);
+			g_free (arg_name);
+			arg_name = mod_name;
+		}
+		gtk_tree_store_set (state->model, &iter,
+				    FUN_ARG_ENTRY, "",
+				    IS_NON_FUN, TRUE,
+				    ARG_NAME, arg_name,
+				    ARG_TYPE, function_def_get_arg_type_string (fd, i),
+				    FUNCTION, NULL,
+				    MIN_ARG, 0,
+				    MAX_ARG, 0,
+				    -1);
+		g_free (arg_name);
 	}
 
-	if (state->help_tokens != NULL) {
-		tokenized_help_destroy (state->help_tokens);
-		state->help_tokens = NULL;
-	}
+	dialog_formula_guru_update_this_parent (parent, state);
+}
+
+static void
+dialog_formula_guru_load_fd (GtkTreePath* path, FunctionDefinition const *fd, 
+			     FormulaGuruState *state)
+{
+	GtkTreeIter iter;
+	TokenizedHelp *help = tokenized_help_new (fd);
+	char const *f_syntax = tokenized_help_find (help, "SYNTAX");
+	gint min_arg, max_arg;
+	GtkTreePath *new_path;
+
+	if (path == NULL || 
+	    !gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model), &iter, path)) {
+		gtk_tree_store_clear (state->model);
+		gtk_tree_store_append (state->model, &iter, NULL); 
+	} 		
+
+	function_def_count_args (fd, &min_arg, &max_arg);
+
+	gtk_tree_store_set (state->model, &iter,
+			    FUN_ARG_ENTRY, f_syntax,
+			    IS_NON_FUN, FALSE,
+			    FUNCTION, fd,
+			    MIN_ARG, min_arg,
+			    MAX_ARG, max_arg,
+			    -1);
+	tokenized_help_destroy (help);
+
+	dialog_formula_guru_adjust_children (&iter, fd, state);
+	new_path = gtk_tree_model_get_path (GTK_TREE_MODEL (state->model),
+                                             &iter);
+	gtk_tree_view_expand_row (state->treeview, new_path, FALSE);
+	gtk_tree_path_free (new_path);
+}
+
+
+/**
+ * dialog_function_select_destroy:
+ * @window:
+ * @state:
+ *
+ * Destroy the dialog and associated data structures.
+ *
+ **/
+static gboolean
+dialog_formula_guru_destroy (GtkObject *w, FormulaGuruState *state)
+{
+	g_return_val_if_fail (w != NULL, FALSE);
+	g_return_val_if_fail (state != NULL, FALSE);
+
+	wbcg_edit_detach_guru (state->wbcg);
 
 	if (state->gui != NULL) {
 		g_object_unref (G_OBJECT (state->gui));
 		state->gui = NULL;
 	}
-
-	/* Handle window manger closing the dialog.
-	 * This will be ignored if we are being destroyed differently.
-	 */
-	if (state->wbcg != NULL) {
-		wbcg_edit_finish (state->wbcg, FALSE);
-		state->wbcg = NULL;
-	}
-
 	state->dialog = NULL;
-
 	g_free (state);
-}
-
-static void
-formula_guru_set_expr (FormulaGuruState *state, int index, gboolean set_text)
-{
-	GtkEntry *entry;
-	GString *str;
-	int pos = 0;
-	guint i;
-	char const sep = format_get_arg_sep ();
-
-	g_return_if_fail (state != NULL);
-	g_return_if_fail (state->fd != NULL);
-	g_return_if_fail (state->args != NULL);
-
-	/* Do not do anything until we are fully up and running */
-	if (!state->valid)
-		return;
-
-	str = g_string_new ((state->prefix != NULL) ?  state->prefix : "=");
-	g_string_append (str, function_def_get_name (state->fd));
-	g_string_append_c (str, '(');
-
-	for (i = 0; i < state->args->len; i++) {
-		ArgumentState *as = g_ptr_array_index (state->args, i);
-		gchar const *val = gnm_expr_entry_get_text (as->entry);
-
-		if (!as->is_optional || (int)i <= state->max_arg || (int)i <= index || strlen (val)) {
-			if (i > 0)
-				g_string_append_c (str, sep);
-			if (i == (guint) index) {
-				GtkEntry *entry = gnm_expr_entry_get_entry (as->entry);
-				pos = str->len +
-					gtk_editable_get_position (GTK_EDITABLE (entry));
-			}
-
-			g_string_append (str, val);
-		}
-	}
-	g_string_append_c (str, ')');
-	if (state->suffix != NULL)
-		g_string_append (str, state->suffix);
-
-	entry = wbcg_get_entry (state->wbcg);
-	if (set_text)
-		gtk_entry_set_text (entry, str->str);
-
-#warning do we still need this ?
-#if 0
-	/*
-	 * ICK!
-	 * This is necessary until Gtk-1.4.
-	 * Setting the text resets the cursor position to 0 then triggers the
-	 * changed event.  The changed handler is what handles creating the
-	 * magic cursor to mark the range being edited
-	 */
-	gtk_editable_set_position (GTK_EDITABLE (entry), pos);
-	gtk_editable_changed (GTK_EDITABLE (entry));
-#endif
-
-	g_string_free (str, TRUE);
-}
-
-static void
-cb_formula_guru_rolled_entry_changed (GtkEditable *editable,
-				      FormulaGuruState *state)
-{
-	gnm_expr_entry_load_from_text (state->cur_arg->entry,
-		gnm_expr_entry_get_text (state->rolled_entry));
-}
-
-static gboolean
-cb_formula_guru_entry_event (GtkWidget *w, GdkEvent *ev, ArgumentState *as)
-{
-	g_return_val_if_fail (as != NULL, TRUE);
-
-	/* FIXME : this is lazy.  Have a special routine */
-	formula_guru_set_expr (as->state, as->index, FALSE);
-	return FALSE;
-}
-
-static gboolean
-cb_formula_guru_rolled_entry_event (GtkWidget *w, GdkEvent *ev,
-				    FormulaGuruState *state)
-{
-	return cb_formula_guru_entry_event (w, ev, state->cur_arg);
-}
-
-static void
-cb_formula_guru_entry_changed (GtkEditable *editable, ArgumentState *as)
-{
-	as->is_blank = gnm_expr_entry_is_blank (as->entry);
-
-	if (as->is_blank) {
-		if (as->state->max_arg < as->index)
-			as->state->max_arg = as->index;
-	} else if (as->state->max_arg == as->index) {
-		FormulaGuruState *state = as->state;
-		int i = as->index;
-		while (--i > 0) {
-			ArgumentState *tmp = g_ptr_array_index (state->args, i);
-			if (!tmp->is_blank)
-				break;
-		}
-		as->state->max_arg = i;
-	}
-
-	formula_guru_set_expr (as->state, as->index, TRUE);
-}
-
-static void
-formula_guru_set_rolled_state (FormulaGuruState *state, gboolean is_rolled)
-{
-	GnumericExprEntry *new_entry;
-
-	if (state->cur_arg == NULL) {
-		gtk_widget_hide	(state->rolled_box);
-		gtk_widget_show	(state->unrolled_box);
-		gtk_widget_hide (state->rolldown_button);
-		gtk_widget_hide (state->rollup_button);
-		return;
-	}
-
-	state->is_rolled = is_rolled;
-	if (is_rolled) {
-		new_entry = state->rolled_entry;
-		gnm_expr_entry_load_from_text (new_entry,
-			gnm_expr_entry_get_text	(state->cur_arg->entry));
-		gtk_label_set_text (GTK_LABEL (state->rolled_label),
-			state->cur_arg->name);
-
-		gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-					  GTK_WIDGET (new_entry));
-
-		gtk_widget_show	(state->rolled_box);
-		gtk_widget_hide	(state->unrolled_box);
-		gtk_widget_show (state->rolldown_button);
-		gtk_widget_hide (state->rollup_button);
-	} else {
-		new_entry = state->cur_arg->entry;
-		gtk_widget_hide	(state->rolled_box);
-		gtk_widget_show	(state->unrolled_box);
-		gtk_widget_hide (state->rolldown_button);
-		gtk_widget_show (state->rollup_button);
-	}
-	gtk_widget_grab_focus (GTK_WIDGET (new_entry));
-	wbcg_set_entry (state->wbcg, new_entry);
-}
-
-static gboolean
-cb_formula_guru_entry_focus_in (GtkWidget *ignored0, GdkEventFocus *ignored1, ArgumentState *as)
-{
-	ArgumentState *tmp;
-	FormulaGuruState *state = as->state;
-	GtkViewport *view = GTK_VIEWPORT (as->state->arg_view);
-	GtkAdjustment *va = view->vadjustment;
-	gboolean scrolled = FALSE;
-	int i, lim;
-
-	if (state->var_args) {
-		i = state->args->len - 1;
-
-		if (i == as->index) {
-			formula_guru_arg_new (NULL, '?', TRUE, state);
-			gtk_widget_show_all (state->arg_table);
-			/* FIXME : scroll window to make visible if necessary */
-		} else {
-			lim = MAX (as->index+1, state->max_arg) + 1;
-			if (lim < MAX_ARGS_DISPLAYED)
-				lim = MAX_ARGS_DISPLAYED;
-
-			for (; i >= lim ; --i) {
-				tmp = g_ptr_array_index (state->args, i);
-
-				gtk_container_remove (GTK_CONTAINER (state->arg_table),
-						      GTK_WIDGET (tmp->name_label));
-				gtk_container_remove (GTK_CONTAINER (state->arg_table),
-						      GTK_WIDGET (tmp->entry));
-				gtk_container_remove (GTK_CONTAINER (state->arg_table),
-						      GTK_WIDGET (tmp->type_label));
-				formula_guru_arg_delete (state, i);
-			}
-
-			g_ptr_array_set_size (state->args, lim);
-		}
-	}
-
-	/* Do we want to scroll */
-	if (as->index > 0) {
-		ArgumentState *tmp = g_ptr_array_index (state->args,
-							as->index-1);
-		GtkWidget const *prev_entry =  GTK_WIDGET (tmp->entry);
-		GtkWidget const *cur_entry  =  GTK_WIDGET (as->entry);
-		int const prev_top = prev_entry->allocation.y;
-		int const cur_bottom =
-			cur_entry->allocation.y +
-			cur_entry->allocation.height;
-
-		if (va->value > prev_top &&
-		    (prev_top + va->page_size) >= cur_bottom) {
-			va->value = prev_top;
-			scrolled = TRUE;
-		}
-	}
-	if (!scrolled && as->index < (int) as->state->args->len-1) {
-		ArgumentState *tmp = g_ptr_array_index (state->args, as->index+1);
-		GtkWidget const *cur_entry  =  GTK_WIDGET (as->entry);
-		GtkWidget const *next_entry =  GTK_WIDGET (tmp->entry);
-		int const cur_top = cur_entry->allocation.y;
-		int const next_bottom =
-			next_entry->allocation.y +
-			next_entry->allocation.height;
-
-		if (next_bottom > (va->value + va->page_size) &&
-		    cur_top >= (next_bottom - va->page_size)) {
-			va->value = next_bottom - va->page_size;
-			scrolled = TRUE;
-		} else if (va->value > cur_top) {
-			va->value = cur_top;
-			scrolled = TRUE;
-		}
-	}
-
-	if (scrolled)
-		gtk_adjustment_value_changed (va);
-
-	state->cur_arg = as;
-	wbcg_set_entry (state->wbcg, as->entry);
-	formula_guru_set_expr (state, as->index, TRUE);
 
 	return FALSE;
 }
 
+/**
+ * cb_dialog_formula_guru_cancel_clicked:
+ * @button:
+ * @state:
+ *
+ * Close (destroy) the dialog
+ **/
 static void
-cb_formula_guru_destroy (GtkObject *w, FormulaGuruState *state)
+cb_dialog_formula_guru_cancel_clicked (GtkWidget *button, FormulaGuruState *state)
 {
-	g_return_if_fail (state != NULL);
-
-	formula_guru_free (state);
+	gtk_widget_destroy (state->dialog);
+	return;
 }
 
-static  gint
-cb_formula_guru_key_press (GtkWidget *widget, GdkEventKey *event,
-			   FormulaGuruState *state)
+/**
+ * cb_dialog_formula_guru_selector_clicked:
+ * @button:
+ * @state:
+ *
+ **/
+static void
+cb_dialog_formula_guru_selector_clicked (GtkWidget *button, FormulaGuruState *state)
 {
-	if (event->keyval == GDK_Escape) {
-		wbcg_edit_finish (state->wbcg, FALSE);
-		return TRUE;
+	GtkTreeSelection *selection = gtk_tree_view_get_selection (state->treeview);
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+
+	g_return_if_fail (state->active_path == NULL);
+
+	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
+		state->active_path = gtk_tree_model_get_path (model, &iter);
+		gtk_widget_hide (state->dialog);
+		dialog_function_select (state->wbcg, FORMULA_GURU_KEY);
 	} else
-		return FALSE;
+	    g_warning ("We should never be here!?");
+
+	return;
+}
+
+/**
+ * cb_dialog_formula_guru_cancel_clicked:
+ * @button:
+ * @state:
+ *
+ **/
+static void
+cb_dialog_formula_guru_clear_clicked (GtkWidget *button, FormulaGuruState *state)
+{
+	GtkTreeSelection *selection = gtk_tree_view_get_selection (state->treeview);
+	GtkTreeModel *model;
+	GtkTreeIter iter, parent;
+
+	g_return_if_fail (state->active_path == NULL);
+
+	if (gtk_tree_selection_get_selected (selection, &model, &parent)) {
+		gtk_tree_store_set (state->model, &parent,
+				    FUN_ARG_ENTRY, "",
+				    IS_NON_FUN, TRUE,
+				    FUNCTION, NULL,
+				    MIN_ARG, 0,
+				    MAX_ARG, 0,
+				    -1);
+		while (gtk_tree_model_iter_children (GTK_TREE_MODEL(state->model), 
+						     &iter, &parent)) 
+			    gtk_tree_store_remove (state->model, &iter);
+		dialog_formula_guru_update_parent (&parent, state);
+	} else
+	    g_warning ("We should never be here!?");
+	return;
+}
+
+
+/**
+ * cb_dialog_formula_guru_ok_clicked:
+ * @button:
+ * @state:
+ *
+ * Close (destroy) the dialog
+ **/
+static void
+cb_dialog_formula_guru_ok_clicked (GtkWidget *button, FormulaGuruState *state)
+{
+	g_warning ("Sorry, but the formula guru hasn't been competed yet.");
+	gtk_widget_destroy (state->dialog);
+	return;
 }
 
 static void
-cb_formula_guru_clicked (GtkWidget *button, FormulaGuruState *state)
+cb_dialog_formula_guru_selection_changed (GtkTreeSelection *the_selection, 
+					     FormulaGuruState *state)
 {
-	if (state->dialog == NULL)
-		return;
+	GtkTreeIter iter;
+	GtkTreeModel *model;
 
-	if (button == state->help_button)
-		return;
-
-	if (button == state->rolldown_button) {
-		formula_guru_set_rolled_state (state, FALSE);
-		return;
-	}
-	if (button == state->rollup_button) {
-		formula_guru_set_rolled_state (state, TRUE);
-		return;
+	if (!gtk_tree_selection_get_selected (the_selection, &model, &iter)) {
+		gtk_widget_set_sensitive (state->clear_button, FALSE);
+		gtk_widget_set_sensitive (state->selector_button, FALSE);
 	}
 
-	/* This will call destroy if things are ok */
-	wbcg_edit_finish (state->wbcg, button == state->ok_button);
+/* Due to a GTK+ bug we may still get `Critical' warnings for the next lines */
+/* `VALID_ITER (iter, tree_store)' failed                                    */
+	gtk_widget_set_sensitive (state->clear_button, 
+				  0 != gtk_tree_store_iter_depth (state->model,
+								  &iter));
+	gtk_widget_set_sensitive (state->selector_button, TRUE);
 }
+
+/* We shouln't need that if it weren't for a GTK+ bug*/
+static void        
+cb_dialog_formula_guru_row_collapsed (GtkTreeView *treeview, GtkTreeIter *iter,
+				      GtkTreePath *path, FormulaGuruState *state)
+{
+	GtkTreeSelection *selection = gtk_tree_view_get_selection (state->treeview);
+
+	cb_dialog_formula_guru_selection_changed (selection, state);
+}
+
+
 
 static void
-formula_guru_arg_delete (FormulaGuruState *state, int i)
+cb_dialog_formula_guru_edited (GtkCellRendererText *cell,
+	gchar               *path_string,
+	gchar               *new_text,
+        FormulaGuruState    *state)
 {
-	ArgumentState *as = g_ptr_array_index (state->args, i);
-	g_free (as->name);
-	g_free (as);
+	GtkTreeIter iter;
+	GtkTreePath *path;
+
+	path = gtk_tree_path_new_from_string (path_string);
+	
+	gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model), &iter, path);
+	gtk_tree_store_set (state->model, &iter, FUN_ARG_ENTRY, new_text, -1);
+	
+	gtk_tree_path_free (path);
+
+	dialog_formula_guru_update_parent (&iter, state);
 }
 
-static void
-formula_guru_arg_new (char * const name,
-		      char const type,
-		      gboolean const is_optional,
-		      FormulaGuruState *state)
-{
-	ArgumentState *as;
-	gchar *txt = NULL, *label;
-	int row;
-
-	as = g_new (ArgumentState, 1);
-	as->index = row = state->args->len;
-	as->name = name ? name : g_strdup_printf (_("Value%d"), row+1);
-	as->is_optional = is_optional;
-	as->type = type;
-	as->is_blank = TRUE;
-	as->state = state;
-
-	switch (as->type){
-	case 's': txt = _("String"); break;
-	case 'f': txt = _("Number"); break;
-	case 'b': txt = _("Boolean"); break;
-	case 'r': txt = _("Range"); break;
-	case 'a': txt = _("Array"); break;
-	case 'A': txt = _("Range/Array"); break;
-	case 'S': txt = _("Scalar"); break;
-	case '?':
-	default: txt = _("Any");
-	}
-
-	as->name_label = gtk_label_new (as->name);
-	gtk_table_attach (GTK_TABLE (state->arg_table),
-			  as->name_label,
-			  0, 1, row, row+1,
-			  0, 0, 0, 0);
-
-	as->entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
-	gnm_expr_entry_set_flags (
-		as->entry, GNUM_EE_SHEET_OPTIONAL, GNUM_EE_SHEET_OPTIONAL);
-	gtk_table_attach (GTK_TABLE (state->arg_table),
-			  GTK_WIDGET (as->entry),
-			  1, 2, row, row+1,
-			  GTK_EXPAND|GTK_FILL, 0, 0, 0);
-
-	if (as->is_optional)
-		label = g_strconcat ("(", txt, ")", NULL);
-	else
-		label = g_strconcat ("=", txt, NULL);
-
-	as->type_label = gtk_label_new (label);
-	gtk_table_attach (GTK_TABLE (state->arg_table),
-			  as->type_label,
-			  2, 3, row, row+1,
-			  0, 0, 0, 0);
-	g_free (label);
-
-	/* FIXME : Do I really need focus-in ?  is there something less draconian */
-	g_signal_connect (G_OBJECT (as->entry),
-		"focus-in-event",
-		G_CALLBACK (cb_formula_guru_entry_focus_in), as);
-	g_signal_connect (G_OBJECT (as->entry),
-		"changed",
-		G_CALLBACK (cb_formula_guru_entry_changed), as);
-	g_signal_connect_after (G_OBJECT (as->entry),
-		"key-press-event",
-		G_CALLBACK (cb_formula_guru_entry_event), as);
-	g_signal_connect_after (G_OBJECT (as->entry),
-		"button-press-event",
-		G_CALLBACK (cb_formula_guru_entry_event), as);
-
-	gnm_expr_entry_set_scg (as->entry, wbcg_cur_scg (state->wbcg));
-
-	g_ptr_array_add (state->args, as);
-	if (row == 0)
-		as->state->cur_arg = as;
-	if (row + 1 == MAX_ARGS_DISPLAYED) {
-		gtk_widget_show_all (state->arg_table);
-		gtk_widget_size_request (state->arg_table,
-					 &state->arg_requisition);
-	}
-}
-
-static void
-formula_guru_init_args (FormulaGuruState *state)
-{
-	gchar *copy_args;
-	const gchar *syntax;
-	gchar *ptr, *start = NULL;
-	int i;
-	int arg_max, arg_min;
-	gchar arg_separator;
-
-	g_return_if_fail (state != NULL);
-	g_return_if_fail (state->fd != NULL);
-	g_return_if_fail (state->help_tokens != NULL);
-
-	state->cur_arg = NULL;
-
-	function_def_count_args (state->fd, &arg_min, &arg_max);
-
-	/* Var arg function */
-	state->var_args = (arg_max == G_MAXINT);
-
-	if (state->var_args) {
-		/* Display at least MAX_ARGS_DISPLAYED vararg functions */
-		for (i = 0; i < MAX_ARGS_DISPLAYED; i++)
-			formula_guru_arg_new (NULL, '?', TRUE, state);
-		return;
-	}
-
-	syntax = tokenized_help_find (state->help_tokens, "SYNTAX");
-	if (!syntax) {
-		g_ptr_array_free (state->args, FALSE);
-		state->args = NULL;
-		return;
-	}
-	ptr = copy_args = g_strdup (syntax);
-	i   = 0;
-	/*
-	 We must use different argument separator for parsing depending
-	 on if the function's help is localized or not. If the help is
-	 translated, e.g. to Polish ("@SYNTAX=DGET(baza_danych;pole;kryteria)")
-	 then we use locale dependent separator. If the help is not translated
-	 then we use comma. */
-	arg_separator = state->help_tokens->help_is_localized
-	                ? format_get_arg_sep ()
-	                : ',';
-	while (*ptr) {
-		if (*ptr == '(' && !start)
-			start = ptr + 1;
-		if (*ptr == '[' || *ptr == ']') {
-			*ptr = '\0';
-			if (start == ptr)
-				start++;
-			ptr++;
-			continue;
-		}
-		if (*ptr == arg_separator || *ptr == ')') {
-			if (ptr > start) {
-				formula_guru_arg_new (g_strndup (start, (int)(ptr - start)),
-						      function_def_get_arg_type (state->fd, i),
-						      (i >= arg_min), state);
-				++i;
-			}
-			start = ptr + 1;
-		}
-		ptr++;
-	}
-
-	if (i != arg_max)
-		g_warning ("Function mis-match : %s has %d named arguments but was declared to have %d",
-			   function_def_get_name (state->fd), i, arg_max);
-
-	while (i < arg_max) {
-		formula_guru_arg_new (NULL,
-				      function_def_get_arg_type (state->fd, i),
-				      (i >= arg_min), state);
-		++i;
-	}
-
-	g_free (copy_args);
-}
-
-static GtkWidget *
-formula_guru_init_button (FormulaGuruState *state, char const *name)
-{
-	GtkWidget *tmp = glade_xml_get_widget (state->gui, name);
-	g_signal_connect (G_OBJECT (tmp),
-		"clicked",
-		G_CALLBACK (cb_formula_guru_clicked), state);
-	return tmp;
-}
-
-static void
-formula_guru_set_scrollwin_size (FormulaGuruState *state)
-{
-	GtkWidget *scrollwin;
-	gint height;
-
-	scrollwin = glade_xml_get_widget (state->gui, "scrolledwindow1");
-
-	if (state->arg_requisition.height == 0) {
-		gtk_widget_show_all (state->arg_table);
-		gtk_widget_size_request (state->arg_table,
-					 &state->arg_requisition);
-	}
-
-	height = state->arg_requisition.height +
-		2 * GTK_CONTAINER (scrollwin)->border_width;
-	gtk_widget_set_usize (scrollwin, -2, height);
-}
 
 static gboolean
-formula_guru_init (FormulaGuruState *state, ExprTree const *expr, Cell const *cell)
+dialog_formula_guru_init (FormulaGuruState *state)
 {
-	TokenizedHelp *help_tokens;
+	GtkWidget *scrolled;
+	GtkTreeViewColumn *column;
+	GtkTreeSelection *selection;
+	GtkCellRenderer *renderer;
 
-	state->gui = gnumeric_glade_xml_new (state->wbcg, "formula-guru.glade");
-        if (state->gui == NULL)
-                return TRUE;
+	g_object_set_data (G_OBJECT (state->dialog), FORMULA_GURU_KEY_DIALOG, 
+			   state);
 
-	state->args	= NULL;
-	state->max_arg	= 0;
-	state->help_tokens = tokenized_help_new (state->fd);
-	state->args = g_ptr_array_new ();
-
-	state->dialog	    = glade_xml_get_widget (state->gui, "FormulaGuru");
-	state->help_button  = formula_guru_init_button (state, "help_button");
-	state->rollup_button  = formula_guru_init_button (state, "rollup_button");
-	state->rolldown_button= formula_guru_init_button (state, "rolldown_button");
-	state->ok_button    = formula_guru_init_button (state, "ok_button");
-	state->cancel_button= formula_guru_init_button (state, "cancel_button");
-	state->rolled_box   = glade_xml_get_widget (state->gui, "rolled_box");
-	state->rolled_label = glade_xml_get_widget (state->gui, "rolled_label");
-	state->rolled_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
-	gnm_expr_entry_set_flags (state->rolled_entry,
-		GNUM_EE_SHEET_OPTIONAL, GNUM_EE_SHEET_OPTIONAL);
-	gtk_box_pack_start (GTK_BOX (state->rolled_box),
-		GTK_WIDGET (state->rolled_entry),
-		TRUE, TRUE, 0);
-	gtk_widget_show (GTK_WIDGET (state->rolled_entry));
-	state->unrolled_box = glade_xml_get_widget (state->gui, "unrolled_box");
-	state->arg_table    = glade_xml_get_widget (state->gui, "arg_table");
-	state->arg_frame    = glade_xml_get_widget (state->gui, "arg_frame");
-	state->description  = glade_xml_get_widget (state->gui, "description");
-	state->arg_view	    = glade_xml_get_widget (state->gui, "arg_view");
-	state->arg_requisition.width = state->arg_requisition.height = 0;
-
-	formula_guru_init_args (state);
-
-	g_signal_connect (G_OBJECT (state->rolled_entry),
+	/* Set-up treeview */
+	scrolled = glade_xml_get_widget (state->gui, "scrolled");
+	state->model = gtk_tree_store_new (NUM_COLMNS, G_TYPE_STRING, G_TYPE_BOOLEAN,
+					   G_TYPE_STRING, G_TYPE_STRING, 
+					   G_TYPE_INT, G_TYPE_INT, G_TYPE_POINTER);
+	state->treeview = GTK_TREE_VIEW (
+		gtk_tree_view_new_with_model (GTK_TREE_MODEL (state->model)));
+	g_signal_connect (state->treeview,
+		"row_collapsed",
+		G_CALLBACK (cb_dialog_formula_guru_row_collapsed), state);
+	selection = gtk_tree_view_get_selection (state->treeview);
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
+	g_signal_connect (selection,
 		"changed",
-		G_CALLBACK (cb_formula_guru_rolled_entry_changed), state);
-	g_signal_connect_after (G_OBJECT (state->rolled_entry),
-		"key-press-event",
-		G_CALLBACK (cb_formula_guru_rolled_entry_event), state);
-	g_signal_connect_after (G_OBJECT (state->rolled_entry),
-		"button-press-event",
-		G_CALLBACK (cb_formula_guru_rolled_entry_event), state);
+		G_CALLBACK (cb_dialog_formula_guru_selection_changed), state);
 
-	/* If there were arguments initialize the fields */
-	if (expr != NULL) {
-		ExprList *l;
-		guint i = 0;
-		ParsePos pos;
-		parse_pos_init_cell (&pos, cell);
+	column = gtk_tree_view_column_new_with_attributes (_("Name"),
+							   gtk_cell_renderer_text_new (),
+							   "text", ARG_NAME, NULL);
+	gtk_tree_view_append_column (state->treeview, column);
+	column = gtk_tree_view_column_new_with_attributes (_("Type"),
+							   gtk_cell_renderer_text_new (),
+							   "text", ARG_TYPE, NULL);
+	gtk_tree_view_append_column (state->treeview, column);
+	renderer = gtk_cell_renderer_text_new ();
+	g_signal_connect (G_OBJECT (renderer), "edited",
+			  G_CALLBACK (cb_dialog_formula_guru_edited), state);
+	column = gtk_tree_view_column_new_with_attributes (_("Function/Argument"),
+							   renderer,
+							   "text", FUN_ARG_ENTRY, 
+							   "editable", IS_NON_FUN,
+							   NULL);
+	gtk_tree_view_append_column (state->treeview, column);
+	gtk_tree_view_set_headers_visible (state->treeview, TRUE);
+	gtk_container_add (GTK_CONTAINER (scrolled), GTK_WIDGET (state->treeview));
+	/* Finished set-up of treeview */
 
-		for (l = expr->func.arg_list; l; l = l->next, ++i) {
-			ArgumentState *as;
+	state->ok_button = glade_xml_get_widget (state->gui, "ok_button");
+	gtk_widget_set_sensitive (state->ok_button, FALSE);
+	g_signal_connect (G_OBJECT (state->ok_button),
+		"clicked",
+		G_CALLBACK (cb_dialog_formula_guru_ok_clicked), state);
 
-			while (i >= state->args->len)
-				formula_guru_arg_new (NULL, '?', TRUE, state);
+	state->selector_button = glade_xml_get_widget (state->gui, "select_func");
+	gtk_widget_set_sensitive (state->selector_button, FALSE);
+	g_signal_connect (G_OBJECT (state->selector_button),
+		"clicked",
+		G_CALLBACK (cb_dialog_formula_guru_selector_clicked), state);
 
-			as = g_ptr_array_index (state->args, i);
-			gnm_expr_entry_load_from_expr (as->entry, l->data, &pos);
-			if (i == 0)
-				gnm_expr_entry_grab_focus (as->entry, TRUE);
-		}
-	}
-	gtk_widget_show_all (state->arg_table);
+	state->clear_button = glade_xml_get_widget (state->gui, "trash");
+	gtk_widget_set_sensitive (state->clear_button, FALSE);
+	g_signal_connect (G_OBJECT (state->clear_button),
+		"clicked",
+		G_CALLBACK (cb_dialog_formula_guru_clear_clicked), state);
 
-	/* Lifecyle management */
-	wbcg_edit_attach_guru (state->wbcg, state->dialog);
-	gnm_expr_entry_set_scg (state->rolled_entry, wbcg_cur_scg (state->wbcg));
+	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "cancel_button")),
+		"clicked",
+		G_CALLBACK (cb_dialog_formula_guru_cancel_clicked), state);
+
+	gnumeric_init_help_button (
+		glade_xml_get_widget (state->gui, "help_button"),
+		"cell-sort.html");
+
 	g_signal_connect (G_OBJECT (state->dialog),
 		"destroy",
-		G_CALLBACK (cb_formula_guru_destroy), state);
-	g_signal_connect (G_OBJECT (state->dialog),
-		"key_press_event",
-		G_CALLBACK (cb_formula_guru_key_press), state);
+		G_CALLBACK (dialog_formula_guru_destroy), state);
 
-	help_tokens = tokenized_help_new (state->fd);
-	gtk_frame_set_label (GTK_FRAME (state->arg_frame),
-			     tokenized_help_find (help_tokens, "SYNTAX"));
-	gtk_label_set_text  (GTK_LABEL (state->description),
-			     tokenized_help_find (help_tokens, "DESCRIPTION"));
-	tokenized_help_destroy (help_tokens);
-
-	formula_guru_set_scrollwin_size (state);
-	gnumeric_set_transient (state->wbcg, GTK_WINDOW (state->dialog));
-
-	formula_guru_set_expr (state, 0, TRUE);
-	formula_guru_set_rolled_state (state, FALSE);
+	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 
 	return FALSE;
 }
@@ -714,70 +503,91 @@ formula_guru_init (FormulaGuruState *state, ExprTree const *expr, Cell const *ce
  * Pop up a function selector then a formula guru.
  */
 void
-dialog_formula_guru (WorkbookControlGUI *wbcg)
+dialog_formula_guru (WorkbookControlGUI *wbcg, FunctionDefinition const *fd)
 {
+	Sheet	  *sheet;
+	Cell	  *cell;
+	GtkWidget *dialog;
 	FormulaGuruState *state;
-	FunctionDefinition *fd;
-	ExprTree const *expr = NULL;
-	Sheet	 *sheet;
-	Cell	 *cell;
-	char *prefix = NULL, *suffix = NULL;
 
 	g_return_if_fail (wbcg != NULL);
 
-	sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
-	cell = sheet_cell_get (sheet,
-			       sheet->edit_pos.col,
-			       sheet->edit_pos.row);
+	dialog = gnumeric_dialog_raise_if_exists (wbcg, FORMULA_GURU_KEY);
 
-	if (cell != NULL && cell_has_expr (cell)) {
-		expr = expr_tree_first_func (cell->base.expression);
-	}
+	if (dialog) {
+		/* We already exist */
+		state = g_object_get_data (G_OBJECT (dialog),
+					   FORMULA_GURU_KEY_DIALOG);
+		gtk_widget_show_all (state->dialog);	
+		if (fd) {
+			if (state->active_path) {
+				dialog_formula_guru_load_fd (state->active_path, fd, state);
+				gtk_tree_path_free (state->active_path);
+				state->active_path = NULL;
+			} else
+				dialog_formula_guru_load_fd (NULL, fd, state);
+		} else {
+			if (state->active_path) {
+				gtk_tree_path_free (state->active_path);
+				state->active_path = NULL;
+			}
 
-	/* If the current cell has no function calls,  clear cell, and start an
-	 * expression
-	 */
-	if (expr == NULL) {
-		wbcg_edit_start (wbcg, TRUE, TRUE);
-		gtk_entry_set_text (wbcg_get_entry (wbcg), "=");
-
-		fd = dialog_function_select (wbcg);
-		if (fd == NULL) {
-			wbcg_edit_finish (wbcg, FALSE);
-			return;
+			if (0 == gtk_tree_model_iter_n_children (GTK_TREE_MODEL(state->model),
+								 NULL))
+				gtk_widget_destroy(state->dialog);
 		}
-	} else {
-		ParsePos pos;
-		char const *sub_str;
-		char const *full_str = gtk_entry_get_text (wbcg_get_entry (wbcg));
-		char *func_str = expr_tree_as_string (expr,
-			parse_pos_init_cell (&pos, cell));
-
-		wbcg_edit_start (wbcg, FALSE, TRUE);
-		fd = expr_tree_get_func_def (expr);
-
-		sub_str = strstr (full_str, func_str);
-
-		g_return_if_fail (sub_str != NULL);
-
-		prefix = g_strndup (full_str, sub_str - full_str);
-		suffix = g_strdup (sub_str + strlen (func_str));
-		g_free (func_str);
-	}
-
-	state = g_new0 (FormulaGuruState, 1);
-	state->wbcg	= wbcg;
-	state->fd	= fd;
-	state->valid	= FALSE;
-	state->prefix	= prefix;
-	state->suffix	= suffix;
-	if (formula_guru_init (state, expr, cell)) {
-		formula_guru_free (state);
 		return;
 	}
 
-	/* Ok everything is hooked up. Let-er rip */
-	state->valid = TRUE;
+
+	state = g_new (FormulaGuruState, 1);
+	state->wbcg  = wbcg;
+	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->active_path = NULL;
+	
+	/* Get the dialog and check for errors */
+	state->gui = gnumeric_glade_xml_new (wbcg, GLADE_FILE);
+	if (state->gui == NULL) {
+		g_warning ("glade file missing or corrupted");
+			g_free (state);
+			return;
+	}
+	
+	state->dialog = glade_xml_get_widget (state->gui, "formula_guru");
+	
+	if (dialog_formula_guru_init (state)) {
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
+				 _("Could not create the formula guru."));
+		g_free (state);
+		return;
+	}
+	
+	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+			       FORMULA_GURU_KEY);
+	
+	gtk_widget_show_all (GTK_DIALOG (state->dialog)->vbox);
+	gtk_widget_realize (state->dialog);
+
+	if (fd == NULL) {
+		sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+		cell = sheet_cell_get (sheet,
+				       sheet->edit_pos.col,
+				       sheet->edit_pos.row);
+		if (cell_is_blank (cell) || !cell_has_expr (cell)) {
+			/* Note: on success dialog_function_select */
+                        /*       will again call this function,    */
+                        /*       this time with fd != NULL         */
+			dialog_function_select (wbcg, FORMULA_GURU_KEY);
+			return;
+		}
+		g_warning ("We cannot edit existing formulas at this time.\n");
+		dialog_function_select (wbcg, FORMULA_GURU_KEY);
+		return;
+	}
+
+
+	dialog_formula_guru_load_fd (NULL, fd, state);
+	
 	gtk_widget_show (state->dialog);
-	formula_guru_set_expr (state, 0, TRUE);
+	return;
 }

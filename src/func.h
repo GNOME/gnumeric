@@ -153,6 +153,10 @@ void        function_def_count_args    (FunctionDefinition const *fn_def,
                                         gint *min, int *max);
 char        function_def_get_arg_type  (FunctionDefinition const *fn_def,
                                         gint arg_idx);
+char const *function_def_get_arg_type_string  (FunctionDefinition const *fn_def,
+                                        gint arg_idx);
+char       *function_def_get_arg_name  (FunctionDefinition const *fn_def,
+                                        gint arg_idx);
 
 void function_set_link_handlers (FunctionDefinition *fn_def,
 				 FuncLinkHandle   link,

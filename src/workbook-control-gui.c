@@ -2435,7 +2435,7 @@ cb_autosum (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 cb_formula_guru (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	dialog_formula_guru (wbcg);
+	dialog_formula_guru (wbcg, NULL);
 }
 
 static void

@@ -22,7 +22,7 @@ typedef enum {
 #ifdef ENABLE_BONOBO
 void     dialog_graph_guru	(WorkbookControlGUI *wbcg, GnmGraph *graph, int page);
 #endif
-void	   dialog_formula_guru	(WorkbookControlGUI *wbcg);
+void	   dialog_formula_guru	(WorkbookControlGUI *wbcg, FunctionDefinition const *);
 void	   dialog_plugin_manager  (WorkbookControlGUI *wbcg);
 void	   dialog_goto_cell       (WorkbookControlGUI *wbcg);
 GtkWidget* dialog_cell_number_fmt (WorkbookControlGUI *wbcg, Value *sample_val);
@@ -69,7 +69,7 @@ void dialog_tabulate (WorkbookControlGUI *wbcg, Sheet *sheet);
 
 void dialog_merge (WorkbookControlGUI *wbcg);
 
-FunctionDefinition *dialog_function_select (WorkbookControlGUI *wbcg);
+void dialog_function_select (WorkbookControlGUI *wbcg, char const *key);
 
 int dialog_correlation_tool (WorkbookControlGUI *wbcg, Sheet *sheet);
 int dialog_covariance_tool (WorkbookControlGUI *wbcg, Sheet *sheet);

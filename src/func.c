@@ -622,6 +622,71 @@ function_def_get_arg_type (FunctionDefinition const *fn_def,
 	return '?';
 }
 
+/**
+ * function_def_get_arg_type_string:
+ * @fn_def: the fn defintion
+ * @arg_idx: zero based argument offset
+ *
+ * Return value: the type of the argument as a string
+ **/
+char const *
+function_def_get_arg_type_string (FunctionDefinition const *fn_def,
+                           int arg_idx)
+{
+	switch (function_def_get_arg_type (fn_def, arg_idx)) {
+	case 'f':
+		return _("Number");
+	case 's':
+		return _("String");
+	case 'b':
+		return _("Boolean");
+	case 'r':
+		return _("Cell Range");
+	case 'a':
+		return _("Array");
+	case 'A':
+		return _("Area");
+	case 'S':
+		return _("Scalar");
+	default:
+		return _("Any");
+	}
+}
+
+/**
+ * function_def_get_arg_name:
+ * @fn_def: the fn defintion
+ * @arg_idx: zero based argument offset
+ *
+ * Return value: the name of the argument (must be freed)
+ **/
+char*
+function_def_get_arg_name (FunctionDefinition const *fn_def,
+                           int arg_idx)
+{
+	gchar **names, **o_names;
+	gchar *name;
+
+	g_return_val_if_fail (arg_idx >= 0, NULL);
+	g_return_val_if_fail (fn_def != NULL, NULL);
+
+	if (fn_def->fn_type == FUNCTION_NAMEONLY)
+		func_def_load ((FunctionDefinition *) fn_def);
+
+	names = g_strsplit (fn_def->named_arguments, ",", G_MAXINT);
+	o_names = names;
+
+	while (arg_idx-- && *names) {
+		names++;
+	}
+	
+	if (*names == NULL)
+		return NULL;
+	name = g_strdup (*names);
+	g_strfreev (o_names);
+	return name;
+}
+
 /* ------------------------------------------------------------------------- */
 
 static inline Value *
