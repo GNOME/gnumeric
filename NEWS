@@ -41,6 +41,9 @@ Jody:
 	* add an icon to the expr-entry (thanks Jacub)
 	* make images available without bonobo, including printing.
 	* fix scrollwheels for gnome2.
+	* more fixage for libxml2.
+	* improve xl import of images.
+	* start moving to utf8 internals.
 
 Jon Kåre:
 	* More correct import of "automatic" colors from Excel.
