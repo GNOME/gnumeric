@@ -258,6 +258,8 @@ wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 	tmp.col = r->a.col;
 	tmp.row = r->a.row;
 	sv_selection_set (sv, &tmp, r->a.col, r->a.row, r->b.col, r->b.row);
+	sv_make_cell_visible (sv, r->b.col, r->b.row, FALSE);
+	sv_make_cell_visible (sv, r->a.col, r->a.row, FALSE);
 	sv_update (sv);
 	if (wb_control_cur_sheet (wbc) != sheet)
 		wb_view_sheet_focus (wbc->wb_view, sheet);

@@ -1,3 +1,8 @@
+2003-08-12  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/workbook-control.c (wb_control_parse_and_jump): make the range 
+	  also visible
+
 2003-08-12  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-filter.c (filter_expr_init): Set ->date_conv before we
