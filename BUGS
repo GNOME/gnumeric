@@ -81,7 +81,7 @@ Pending Patches
          this as a special "format".)
     2.7) Create interface for line terminator selection
     2.8) Make listed separators locale dependent
-    2.9) User specifiable locale encoding
+    2.9) User specifiable locale encoding			(DONE)
     2.10) Fix stf bugs
     2.11) Improve initial file preview
     2.12) Hook up workbook-control-gui.c:cb_data_import_text
