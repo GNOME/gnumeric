@@ -570,3 +570,39 @@ range_median_inter_nonconst (gnum_float *xs, int n, gnum_float *res)
 {
 	return range_fractile_inter_nonconst (xs, n, res, 0.5);
 }
+
+/* k-th smallest.  Note: k is zero-based.  */
+int
+range_min_k (const gnum_float *xs, int n, gnum_float *res, int k)
+{
+	gnum_float *ys;
+
+	if (k < 0 || k >= n)
+		return 1;
+	if (k == 0)
+		return range_min (xs, n, res);
+	if (k == n - 1)
+		return range_max (xs, n, res);
+
+	ys = range_sort (xs, n);
+	*res = ys[k];
+	g_free (ys);
+	return 0;
+}
+
+/* k-th smallest.  Note: k is zero-based.  */
+/* This version may reorder data points.  */
+int
+range_min_k_nonconst (gnum_float *xs, int n, gnum_float *res, int k)
+{
+	if (k < 0 || k >= n)
+		return 1;
+	if (k == 0)
+		return range_min (xs, n, res);
+	if (k == n - 1)
+		return range_max (xs, n, res);
+
+	qsort (xs, n, sizeof (xs[0]), (int (*) (const void *, const void *))&float_compare);
+	*res = xs[k];
+	return 0;
+}

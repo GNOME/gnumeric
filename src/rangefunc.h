@@ -40,4 +40,7 @@ int range_fractile_inter_nonconst (gnum_float *xs, int n, gnum_float *res, gnum_
 int range_median_inter (const gnum_float *xs, int n, gnum_float *res);
 int range_median_inter_nonconst (gnum_float *xs, int n, gnum_float *res);
 
+int range_min_k (const gnum_float *xs, int n, gnum_float *res, int k);
+int range_min_k_nonconst (gnum_float *xs, int n, gnum_float *res, int k);
+
 #endif

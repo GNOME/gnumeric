@@ -2351,21 +2351,15 @@ static char *help_large = {
 };
 
 static int
-range_large (const gnum_float *xs, int n, gnum_float *res)
+range_large (gnum_float *xs, int n, gnum_float *res)
 {
 	int k;
 
 	if (n < 2)
 		return 1;
 
-	k = (int)xs[--n] - 1;
-	if (k < 0 || k >= n)
-		return 1;
-
-	/* OK, so we ignore the constness here.  Tough.  */
-	qsort ((gnum_float *)xs, n, sizeof (xs[0]), (void *)&float_compare);
-	*res = xs[n - 1 - k];
-	return 0;
+	k = (int)xs[--n];
+	return range_min_k_nonconst (xs, n, res, n - k);
 }
 
 static Value *
@@ -2373,7 +2367,7 @@ gnumeric_large (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
 				     ei,
-				     range_large,
+				     (float_range_function_t)range_large,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
@@ -2404,21 +2398,15 @@ static char *help_small = {
 };
 
 static int
-range_small (const gnum_float *xs, int n, gnum_float *res)
+range_small (gnum_float *xs, int n, gnum_float *res)
 {
 	int k;
 
 	if (n < 2)
 		return 1;
 
-	k = (int) xs[--n] - 1;
-	if (k < 0 || k >= n)
-		return 1;
-
-	/* OK, so we ignore the constness here.  Tough.  */
-	qsort ((gnum_float *) xs, n, sizeof (xs[0]), (void *) &float_compare);
-	*res = xs[k];
-	return 0;
+	k = (int)xs[--n];
+	return range_min_k_nonconst (xs, n, res, k - 1);
 }
 
 static Value *
@@ -2426,7 +2414,7 @@ gnumeric_small (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
 				     ei,
-				     range_small,
+				     (float_range_function_t)range_small,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
@@ -3046,7 +3034,7 @@ static char *help_percentrank = {
 	   "value.  If @significance is omitted, PERCENTRANK uses three "
 	   "digits."
 	   "\n"
-	   "If @array contains not data points, PERCENTRANK returns #NUM! "
+	   "If @array contains no data points, PERCENTRANK returns #NUM! "
 	   "error. "
 	   "If @significance is less than one, PERCENTRANK returns #NUM! "
 	   "error. "

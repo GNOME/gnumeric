@@ -964,21 +964,8 @@ confidence_level (WorkbookControl *wbc, GPtrArray *data, gnum_float c_level,
 }
 
 
-int
-range_min_k (const gnum_float *xs, int n, gnum_float *res, int k)
-{
-	if ((0 < k) && (k <= n)) {
-		/* OK, so we ignore the constness here.  Tough.  */
-		qsort ((gnum_float *) xs, n, sizeof (xs[0]),
-		       (void *) &float_compare);
-		*res = xs[k - 1];
-		return 0;
-	} else
-		return 1;
-}
-
 static void
-kth_largest (WorkbookControl *wbc, GPtrArray *data,  int k,
+kth_largest (WorkbookControl *wbc, GPtrArray *data, int k,
 	     GPtrArray* labels, data_analysis_output_t *dao)
 {
         gnum_float x;
@@ -994,8 +981,8 @@ kth_largest (WorkbookControl *wbc, GPtrArray *data,  int k,
 
 	for (col = 0; col < labels->len; col++) {
 		the_col = g_ptr_array_index (data, col);
-		error = range_min_k ((gnum_float *)(the_col->data),
-				     the_col->len, &x, the_col->len - k + 1);
+		error = range_min_k_nonconst ((gnum_float *)(the_col->data),
+					      the_col->len, &x, the_col->len - k);
 		if (error == 0) {
 			set_cell_float (dao, col + 1, 1, x);
 		} else {
@@ -1021,7 +1008,8 @@ kth_smallest (WorkbookControl *wbc, GPtrArray  *data, int k,
 
 	for (col = 0; col < labels->len; col++) {
 		the_col = g_ptr_array_index (data, col);
-		error = range_min_k ((gnum_float *)(the_col->data), the_col->len, &x, k);
+		error = range_min_k_nonconst ((gnum_float *)(the_col->data), the_col->len,
+					      &x, k - 1);
 		if (error == 0) {
 			set_cell_float (dao, col + 1, 1, x);
 		} else {

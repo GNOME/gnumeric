@@ -1,6 +1,7 @@
 2001-07-27  Morten Welinder  <terra@diku.dk>
 
-	* fn-stat.c (gnumeric_quartile, gnumeric_percentile): Cleanup.
+	* fn-stat.c (gnumeric_quartile, gnumeric_percentile,
+ 	gnumeric_large, gnumeric_small): Cleanup.
 
 2001-07-20  Morten Welinder  <terra@diku.dk>
 

@@ -1,5 +1,11 @@
 2001-07-27  Morten Welinder  <terra@diku.dk>
 
+	* src/rangefunc.c (range_min_k, range_min_k_nonconst): New
+ 	function.
+
+	* src/analysis-tools.c (kth_largest, kth_smallest): Use
+ 	range_min_k_nonconst.
+
 	* src/analysis-tools.c (summary_statistics): Constify data.
 
 	* src/rangefunc.c (range_median_inter): Respect const.
