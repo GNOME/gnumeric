@@ -9,7 +9,7 @@
 
 #include <gnumeric-config.h>
 #include <glib.h>
-#include <main.h>
+#include <libgnumeric.h>
 #include <libgnome/gnome-i18n.h>
 
 static	int gnumeric_show_version = FALSE;

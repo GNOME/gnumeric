@@ -127,8 +127,8 @@ GNUMERIC_BASE =					\
 	item-edit.h				\
 	item-grid.c				\
 	item-grid.h				\
-	main.h					\
-	main.c					\
+	libgnumeric.h				\
+	libgnumeric.c				\
 	mathfunc.c				\
 	mathfunc.h				\
 	module-plugin-defs.h			\

@@ -1,5 +1,23 @@
 2002-04-15  Jon K Hellan  <hellan@acm.org>
 
+	* src/libgnumeric.c: Renamed from src/main.c. Don't include main.h
+
+	* src/corba-args.c: s/main.h/libgnumeric.h/
+
+	* src/main-application.c: s/main.h/libgnumeric.h/
+
+	* src/main-component.c: s/main.h/libgnumeric.h/
+
+	* src/normal-args.c: s/main.h/libgnumeric.h/
+
+	* src/print.c: s/main.h/libgnumeric.h/
+
+	* src/workbook.c: s/main.h/libgnumeric.h/
+
+	* src/workbook-control-gui.c: s/main.h/libgnumeric.h/
+
+2002-04-15  Jon K Hellan  <hellan@acm.org>
+
 	* src/main.[ch]: Restructure.
 
 	* src/gui-gnumeric.h: Declare WorkbookControlComponent and

@@ -29,7 +29,7 @@
 #include "ranges.h"
 #include "history.h"
 #include "commands.h"
-#include "main.h"
+#include "libgnumeric.h"
 #include "file.h"
 #include "io-context.h"
 #include "gutils.h"

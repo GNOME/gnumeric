@@ -13,7 +13,7 @@
 #include <gnumeric.h>
 #include <gnome.h>
 #include "file.h"
-#include "main.h"
+#include "libgnumeric.h"
 #include "io-context.h"
 #include "workbook-view.h"
 #include "workbook.h"

@@ -45,7 +45,7 @@
 #include "print.h"
 #include "gui-clipboard.h"
 #include "workbook-edit.h"
-#include "main.h"
+#include "libgnumeric.h"
 #include "dependent.h"
 #include "expr.h"
 #include "position.h"

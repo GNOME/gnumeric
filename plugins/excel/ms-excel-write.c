@@ -36,7 +36,7 @@
 #include <style.h>
 #include <sheet-style.h>
 #include <format.h>
-#include <main.h>
+#include <libgnumeric.h>
 #include <value.h>
 #include <parse-util.h>
 #include <print-info.h>

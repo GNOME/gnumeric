@@ -9,7 +9,7 @@
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"
-#include "main.h"
+#include "libgnumeric.h"
 
 #include <libgnome/gnome-program.h>
 #include <libgnomeui/gnome-ui-init.h>

@@ -16,7 +16,7 @@
 #include "selection.h"
 #include "workbook.h"
 #include "dialogs.h"
-#include "main.h"
+#include "libgnumeric.h"
 #include "sheet.h"
 #include "value.h"
 #include "cellspan.h"

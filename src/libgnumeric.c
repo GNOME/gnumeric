@@ -10,7 +10,6 @@
 #include <gnumeric-config.h>
 #include "gnumeric.h"
 #include "libgnumeric.h"
-#include "main.h"
 
 #include "stf.h"
 #include "plugin.h"
