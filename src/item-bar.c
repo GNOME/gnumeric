@@ -488,8 +488,8 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 	GnomeCanvas *canvas = item->canvas;
 	ItemBar *item_bar = ITEM_BAR (item);
 	int pos, start, element, x, y;
-	gboolean const resizing = ITEM_BAR_RESIZING (item_bar);
-	gboolean const is_vertical = (item_bar->orientation == GTK_ORIENTATION_VERTICAL);
+	const gboolean resizing = ITEM_BAR_RESIZING (item_bar);
+	const gboolean is_vertical = (item_bar->orientation == GTK_ORIENTATION_VERTICAL);
 
 	switch (e->type){
 	case GDK_ENTER_NOTIFY:

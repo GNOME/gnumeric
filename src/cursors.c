@@ -130,5 +130,5 @@ cursor_get (CursorType type)
 {
 	g_return_val_if_fail (type >= 0 && type < GNUMERIC_CURSOR_NUM_CURSORS, NULL);
 
-	return cursors[type].cursor;
+	return cursors [type].cursor;
 }
