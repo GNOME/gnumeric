@@ -25,6 +25,7 @@ typedef FILE * OutputStream;
 #endif
 
 #include <gnumeric.h>
+#include <glib/gi18n.h>
 #include <expr.h>
 #include <func.h>
 #include <value.h>
@@ -140,7 +141,7 @@ register_function(name, arg_spec, arg_names, help, subref)
     GnmFunc *func;
 
  CODE:
-    fncat = gnm_func_group_fetch ("Perl plugin");
+    fncat = gnm_func_group_fetch (_("Perl plugin"));
     desc.name     = name;
     desc.arg_spec     = arg_spec;
     desc.arg_names   = arg_names;
