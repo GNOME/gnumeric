@@ -1,3 +1,132 @@
+2000-02-18  Jody Goldberg <jgoldberg@home.com>
+
+	* src/widgets/widget-color-combo.c (color_combo_construct) : typo.
+	(color_combo_new) : Disable the charting colours for now.  They are
+	  mostly duplicates.
+
+2000-02-16 Dom Lachowicz <dominicl@seas.upenn.edu>
+
+	* src/widgets/widget-color-combo.[ch]
+	Changed the code some to enable tooltips
+	Minor api changes
+	
+2000-02-18  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-view.c : Add history.h.
+
+2000-02-18  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_redraw_selection) : Delete.
+
+	* src/selection.c (sheet_selection_extend_to) : Short circuit when
+	  there would be no change to the selection.
+	(sheet_selection_change) : The sheet already has the correct edit,
+	  move, base positions.  Use them.
+
+	* src/sheet-view.c (sheet_view_redraw_headers) : gnome_canvas_request_redraw
+	  EXCLUDES the far coordinates.  Add 1 so that the last pixel get
+	  redrawn too.
+
+2000-02-18  Jody Goldberg <jgoldberg@home.com>
+
+	* src/history.c (history_menu_item_create) : typo.
+
+2000-02-18  Jody Goldberg <jgoldberg@home.com>
+
+	* src/dialogs/dialog-goal-seek.c (dialog_goal_seek) : Use edit_pos.
+	* src/dialogs/dialog-solver.c (dialog_solver) : Ditto.
+
+	* src/xml-io.c (xml_read_selection_info) : Use edit_pos.
+	(xml_write_selection_info) : Ditto.
+
+	* src/workbook.c (cb_sheet_check_dirty) : Use edit_pos.
+	(paste_cmd) : Ditto.
+	(paste_special_cmd) : Ditto.
+	(insert_current_date_cmd) : Ditto.
+	(insert_current_time_cmd) : Ditto.
+	(workbook_edit_comment) : Ditto.
+
+	* src/sheet.c (sheet_new) : sheet_selection_append -> sheet_selection_add.
+	(sheet_accept_pending_input) : Use edit_pos.
+	(sheet_load_cell_val) : Ditto.
+	(sheet_start_editing_at_cursor) : Ditto.
+	(sheet_update_controls) : Ditto.
+	(sheet_{col,row}_selection_type) : Fix cut-paste-o.
+	(walk_boundaries) : Move to selection.c.
+	(walk_boundaries_wrapped) : Ditto.
+	(sheet_selection_walk_step) : Reworked and moved to selection.c.
+	(sheet_cursor_move) : Switch to new framework.
+	(sheet_cursor_set) : Ditto.
+	(sheet_set_selection) : Delete.
+
+	* src/sheet.h : (SheetSlection) : Remove base member.
+	(Sheet) : adjsut notion of cursor to differentiate between,
+	edit, base, and movement.  (see comments).
+	* src/sheet-view.c (sheet_view_set_zoom_factor) : Use edit_pos.
+	(sheet_view_scrollbar_config) : Switch to new scheme.
+	(sheet_view_{col,row}_selection_changed) : Make the Top/Left visible
+	  cell the edit cursor when things are out of range.
+
+	* src/sheet-style.c (sheet_style_attach) : Use sheet_redraw_range directly.
+	(sheet_range_apply_style) : Ditto.
+	(sheet_range_set_border) : Ditto.
+
+	* src/selection.c (sheet_selection_add_range) : Renamed from,
+	  sheet_selection_append.  Document.  Switch to new edit, base, move
+	  scheme.  Directly call sheet_cursor_set rather than the confusingly
+	  named sheet_set_selection.
+	(sheet_selection_add) : Renamed from sheet_selection_append.
+	(sheet_selection_change) : Adjsut parm name from 'new' -> 'new_sel' to
+	  enable test compiles from C++.
+	(sheet_selection_extend_to) : Switch to new edit, base, move scheme.
+	(sheet_selection_extend) : Just call sheet_selection_extend_to for the
+	  main work.  Document.
+	(sheet_select_all) : sheet_selection_append_range -> sheet_selection_add_range.
+	(sheet_selection_extend_{horizontal, vertical} : Merge in to
+	  sheet_seletion_extend and fix.
+	(sheet_selection_set) : Switch to the new scheme.
+	(sheet_selection_reset) : sheet_selection_append -> sheet_selection_add.
+	  Use edit_pos.
+	(walk_boundaries) : Moved from sheet.c, merged with
+	  walk_boundaries_wrap, and change signature.
+	(sheet_selection_walk_step) : Moved from sheet.c and switched to the
+	  new method.  Do not change the selected region while iterating.
+
+	* src/item-grid.c (item_grid_paint_empty_cell) : Use edit_pos.
+	(item_grid_draw_cell) : Ditto.
+	(item_grid_event) : Ditto.
+	(context_paste_cmd) : Use the base and move cursors.
+	(context_paste_special_cmd) : Ditto.
+	(item_grid_button_1) : sheet_selection_append -> sheet_selection_add.
+
+	* src/item-cursor.c (item_cursor_autofill_event) : Use
+	  sheet_selection_add_range rather than the two step select extend.
+
+	* src/clipboard.c (sheet_paste_selection) : Use
+	  sheet_selection_add_range rather than the 2 step process
+	  of setting the corner and extending.
+
+	* plugins/excel/ms-excel-read.c (ms_excel_read_selection) :
+	    sheet_selection_append_range -> sheet_selection_add_range
+	* src/corba-sheet.c (Sheet_selection_append) : Ditto.
+	(Sheet_selection_append_range) : Ditto.
+
+	* src/gnumeric-sheet.c (move_cursor) : Ditto.
+	(gnumeric_sheet_key_mode_sheet) : Ditto.  Use edit_pos.
+          sheet_selection_walk_step now handles the cursor and selection
+	  changes.
+	(gnumeric_sheet_set_selection) : Delete this was unnecessary.
+	(gnumeric_sheet_set_cursor_bounds) : Add preconditions.
+	(move_cursor_horizontal) : Use the edit_pos for movement.
+	(move_cursor_vertical) : Ditto.
+	(gnumeric_sheet_create_editing_cursor) : Ditto.
+	(start_cell_selection) : Ditto.
+	(move_horizontal_selection) : Use sheet_selection_extend.
+	(move_vertical_selection) : Ditto.
+	(gnumeric_sheet_compute_visible_ranges) : Force a redraw of the
+	  item-cursor when the visible region changes.  FIXME : This should be
+	  an update not a redraw.
+
 2000-02-18  Miguel de Icaza  <miguel@gnu.org>
 
 	* configure.in (EXTRA_GNOME_CFLAGS): Remove stf plugin from here. 

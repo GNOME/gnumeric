@@ -159,7 +159,7 @@ Sheet_selection_append (PortableServer_Servant servant,
 	verify_col (col);
 	verify_row (row);
 	
-	sheet_selection_append (sheet, col, row);
+	sheet_selection_add (sheet, col, row);
 }
 
 static void
@@ -172,9 +172,10 @@ Sheet_selection_append_range (PortableServer_Servant servant,
 
 	verify_region (start_col, start_row, end_col, end_row);
 
-	sheet_selection_append_range (sheet, start_col, start_row,
-				      start_col, start_row,
-				      end_col, end_row);
+	sheet_selection_add_range (sheet,
+				   start_col, start_row,
+				   start_col, start_row,
+				   end_col, end_row);
 }
 
 static void

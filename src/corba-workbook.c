@@ -257,5 +257,3 @@ command_context_corba (Workbook *wb)
 {
 	return wb->priv->corba_context;
 }
-
-

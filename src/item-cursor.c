@@ -916,13 +916,11 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 					item_cursor->base_cols+1, item_cursor->base_rows+1,
 					item_cursor->pos.end.col,     item_cursor->pos.end.row);
 		}
-		sheet_cursor_set (sheet,
-				  item_cursor->base_col, item_cursor->base_row,
-				  item_cursor->base_col, item_cursor->base_row,
-				  item_cursor->pos.end.col,  item_cursor->pos.end.row);
 		sheet_selection_reset_only (sheet);
-		sheet_selection_append (sheet, item_cursor->base_col, item_cursor->base_row);
-		sheet_selection_extend_to (sheet, item_cursor->pos.end.col, item_cursor->pos.end.row);
+		sheet_selection_add_range (sheet,
+					   item_cursor->base_col, item_cursor->base_row,
+					   item_cursor->base_col, item_cursor->base_row,
+					   item_cursor->pos.end.col, item_cursor->pos.end.row);
 
 		gtk_object_destroy (GTK_OBJECT (item));
 

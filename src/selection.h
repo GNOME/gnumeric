@@ -6,17 +6,21 @@
 /* Selection management */
 void        sheet_select_all             (Sheet *sheet);
 int         sheet_is_all_selected        (Sheet *sheet);
-void        sheet_selection_append       (Sheet *sheet, int col, int row);
 void        sheet_selection_extend_to    (Sheet *sheet, int col, int row);
+void        sheet_selection_extend       (Sheet *sheet, int count, gboolean jump_to_boundaries,
+					  gboolean const horizontal);
 void	    sheet_selection_set		 (Sheet *sheet,
-					  int start_col, int start_row,
-					  int end_col, int end_row);
+					  int edit_col, int edit_row,
+					  int base_col, int base_row,
+					  int move_col, int move_row);
+void        sheet_selection_add          (Sheet *sheet, int col, int row);
+void        sheet_selection_add_range    (Sheet *sheet,
+					  int edit_col, int edit_row,
+					  int base_col, int base_row,
+					  int move_col, int move_row);
+
 void        sheet_selection_reset        (Sheet *sheet);
 void        sheet_selection_reset_only   (Sheet *sheet);
-void        sheet_selection_append_range (Sheet *sheet,
-					  int base_col,  int base_row,
-					  int start_col, int start_row,
-					  int end_col,   int end_row);
 void        sheet_selection_free         (Sheet *sheet);
 CellList   *sheet_selection_to_list      (Sheet *sheet);
 void        sheet_cell_list_free         (CellList *cell_list);
@@ -31,12 +35,9 @@ gboolean    sheet_selection_cut               (CommandContext *context, Sheet *s
 void        sheet_selection_paste             (CommandContext *context, Sheet *sheet,
 					       int dest_col,    int dest_row,
 					       int paste_flags, guint32 time32);
-int         sheet_selection_walk_step         (Sheet *sheet,
-					       int   forward,     int horizontal,
-					       int   current_col, int current_row,
-					       int   *new_col,    int *new_row);
-void        sheet_selection_extend_horizontal (Sheet *sheet, int count, gboolean jump_to_boundaries);
-void        sheet_selection_extend_vertical   (Sheet *sheet, int count, gboolean jump_to_boundaries);
+void        sheet_selection_walk_step         (Sheet *sheet,
+					       gboolean const forward,
+					       gboolean const horizontal);
 int         sheet_selection_is_cell_selected  (Sheet *sheet, int col, int row);
 
 gboolean    selection_contains_colrow         (Sheet *sheet, int colrow, gboolean is_col);

@@ -24,11 +24,6 @@
 #include "workbook.h"
 #include "commands.h"
 
-#undef DEBUG_POSITIONS
-
-#define CURSOR_COL(gsheet) (gsheet)->sheet_view->sheet->cursor_col
-#define CURSOR_ROW(gsheet) (gsheet)->sheet_view->sheet->cursor_row
-
 static GnomeCanvasClass *sheet_parent_class;
 
 static void
@@ -80,31 +75,6 @@ gnumeric_sheet_get_cell_bounds (GnumericSheet *gsheet, int col, int row, int *x,
 }
 
 /*
- * gnumeric_sheet_set_selection:
- * @gsheet:	The sheet name
- * @ss:		The selection
- *
- * Set the current selection to cover the inclusive area delimited by
- * start_col, start_row, end_col and end_row.  The actual cursor is
- * placed at base_col, base_row
- */
-void
-gnumeric_sheet_set_selection (GnumericSheet *gsheet,
-			      int base_col, int base_row,
-			      SheetSelection const *ss)
-{
-	g_return_if_fail (gsheet != NULL);
-	g_return_if_fail (ss != NULL);
-	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
-
-	sheet_cursor_set (
-		gsheet->sheet_view->sheet,
-		base_col, base_row,
-		ss->user.start.col, ss->user.start.row,
-		ss->user.end.col, ss->user.end.row);
-}
-
-/*
  * move_cursor:
  * @gsheet:   The sheet where the cursor is located
  * @col:      The new column for the cursor.
@@ -139,7 +109,7 @@ move_cursor (GnumericSheet *gsheet, int col, int row, gboolean clear_selection)
 	sheet_make_cell_visible (sheet, col, row);
 
 	if (clear_selection)
-		sheet_selection_append (sheet, col, row);
+		sheet_selection_add (sheet, col, row);
 }
 
 void
@@ -158,6 +128,8 @@ gnumeric_sheet_set_cursor_bounds (GnumericSheet *gsheet,
 {
 	g_return_if_fail (gsheet != NULL);
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
+	g_return_if_fail (start_row <= end_row);
+	g_return_if_fail (start_col <= end_col);
 
 	item_cursor_set_bounds (
 		gsheet->item_cursor,
@@ -178,18 +150,20 @@ static void
 move_cursor_horizontal (GnumericSheet *gsheet, int count, gboolean jump_to_boundaries)
 {
 	Sheet *sheet = gsheet->sheet_view->sheet;
-	int const new_col = sheet_find_boundary_horizontal (
-		sheet,
-		sheet->cursor_col,
-		sheet->cursor_row,
-		count, jump_to_boundaries);
-	move_cursor (gsheet, new_col, CURSOR_ROW (gsheet), TRUE);
+	int const new_col =
+	    sheet_find_boundary_horizontal (sheet,
+					    sheet->cursor.edit_pos.col,
+					    sheet->cursor.edit_pos.row,
+					    count, jump_to_boundaries);
+	move_cursor (gsheet, new_col, sheet->cursor.edit_pos.row, TRUE);
 }
 
 static void
-move_horizontal_selection (GnumericSheet *gsheet, int count, gboolean jump_to_boundaries)
+move_horizontal_selection (GnumericSheet *gsheet,
+			   int count, gboolean jump_to_boundaries)
 {
-	sheet_selection_extend_horizontal (gsheet->sheet_view->sheet, count, jump_to_boundaries);
+	sheet_selection_extend (gsheet->sheet_view->sheet,
+				count, jump_to_boundaries, TRUE);
 }
 
 /*
@@ -207,16 +181,18 @@ move_cursor_vertical (GnumericSheet *gsheet, int count, gboolean jump_to_boundar
 	Sheet *sheet = gsheet->sheet_view->sheet;
 	int const new_row =
 	    sheet_find_boundary_vertical (sheet,
-					  sheet->cursor_col,
-					  sheet->cursor_row,
+					  sheet->cursor.edit_pos.col,
+					  sheet->cursor.edit_pos.row,
 					  count, jump_to_boundaries);
-	move_cursor (gsheet, CURSOR_COL (gsheet), new_row, TRUE);
+	move_cursor (gsheet, sheet->cursor.edit_pos.col, new_row, TRUE);
 }
 
 static void
-move_vertical_selection (GnumericSheet *gsheet, int count, gboolean jump_to_boundaries)
+move_vertical_selection (GnumericSheet *gsheet,
+			 int count, gboolean jump_to_boundaries)
 {
-	sheet_selection_extend_vertical (gsheet->sheet_view->sheet, count, jump_to_boundaries);
+	sheet_selection_extend (gsheet->sheet_view->sheet,
+				count, jump_to_boundaries, FALSE);
 }
 
 /*
@@ -289,7 +265,7 @@ start_cell_selection (GnumericSheet *gsheet)
 {
 	Sheet *sheet = gsheet->sheet_view->sheet;
 
-	start_cell_selection_at (gsheet, sheet->cursor_col, sheet->cursor_row);
+	start_cell_selection_at (gsheet, sheet->cursor.edit_pos.col, sheet->cursor.edit_pos.row);
 }
 
 void
@@ -327,8 +303,8 @@ gnumeric_sheet_create_editing_cursor (GnumericSheet *gsheet)
 	int col, row;
 
 	sheet = gsheet->sheet_view->sheet;
-	col = sheet->cursor_col;
-	row = sheet->cursor_row;
+	col = sheet->cursor.edit_pos.col;
+	row = sheet->cursor.edit_pos.row;
 
 	item = gnome_canvas_item_new (GNOME_CANVAS_GROUP (canvas->root),
 				      item_edit_get_type (),
@@ -661,44 +637,30 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		}
 	}
 
-	/*
-	 * The following sequences do not trigger an editor-start
-	 * but if the editor is running we forward the events to it.
-	 */
-	if (!gsheet->item_editor){
+	/* If not editing {Ctrl,Shift}space select a full col/row */
+	if (gsheet->item_editor == NULL && event->keyval == GDK_space) {
 
+		/* select full column */
 		if ((event->state & GDK_CONTROL_MASK) != 0) {
-
-			switch (event->keyval) {
-
-			case GDK_space:
-				sheet_selection_reset_only (sheet);
-				sheet_selection_append_range (
-					sheet,
-					sheet->cursor_col, sheet->cursor_row,
-					sheet->cursor_col, 0,
-					sheet->cursor_col, SHEET_MAX_ROWS-1);
-				sheet_redraw_all (sheet);
-				return 1;
-			}
+			sheet_selection_reset_only (sheet);
+			sheet_selection_add_range (sheet,
+				sheet->cursor.edit_pos.col, sheet->cursor.edit_pos.row,
+				sheet->cursor.edit_pos.col, 0,
+				sheet->cursor.edit_pos.col, SHEET_MAX_ROWS-1);
+			sheet_redraw_all (sheet);
+			return 1;
 		}
 
+		/* select full row */
 		if ((event->state & GDK_SHIFT_MASK) != 0){
-
-			switch (event->keyval) {
-				/* select row */
-			case GDK_space:
-				sheet_selection_reset_only (sheet);
-				sheet_selection_append_range (
-					sheet,
-					sheet->cursor_col, sheet->cursor_row,
-					0, sheet->cursor_row,
-					SHEET_MAX_COLS-1, sheet->cursor_row);
-				sheet_redraw_all (sheet);
-				return 1;
-			}
+			sheet_selection_reset_only (sheet);
+			sheet_selection_add_range (sheet,
+				sheet->cursor.edit_pos.col, sheet->cursor.edit_pos.row,
+				0, sheet->cursor.edit_pos.row,
+				SHEET_MAX_COLS-1, sheet->cursor.edit_pos.row);
+			sheet_redraw_all (sheet);
+			return 1;
 		}
-
 	}
 
 	switch (event->keyval){
@@ -749,7 +711,8 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 			sheet_cursor_move (sheet, 0, 0, TRUE, TRUE);
 			break;
 		} else
-			(*movefn_horizontal)(gsheet, -CURSOR_COL (gsheet), FALSE);
+			(*movefn_horizontal)(gsheet, -sheet->cursor.edit_pos.col, FALSE);
+
 		break;
 
 	case GDK_KP_Delete:
@@ -774,8 +737,8 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 				command_list_pop_top_undo (wb);
 
 				cell = sheet_cell_get (sheet,
-						       sheet->cursor_col,
-						       sheet->cursor_row);
+						       sheet->cursor.edit_pos.col,
+						       sheet->cursor.edit_pos.row);
 
 				/* I am assuming sheet_accept_pending_input
 				 * will always create the cell with the given
@@ -799,19 +762,10 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	case GDK_ISO_Left_Tab:
 	case GDK_KP_Tab:
 	{
-		int col, row;
-		int walking_selection;
-		int direction, horizontal;
-
 		/* Figure out the direction */
-		direction = (event->state & GDK_SHIFT_MASK) ? 0 : 1;
-		horizontal = (event->keyval == GDK_Tab) ? 1 : 0;
-
-		walking_selection = sheet_selection_walk_step (
-			sheet, direction, horizontal,
-			sheet->cursor_col, sheet->cursor_row,
-			&col, &row);
-		move_cursor (gsheet, col, row, walking_selection == 0);
+		gboolean const direction = (event->state & GDK_SHIFT_MASK) ? FALSE : TRUE;
+		gboolean const horizontal = (event->keyval == GDK_Tab) ? TRUE : FALSE;
+		sheet_selection_walk_step (sheet, direction, horizontal);
 		break;
 	}
 
@@ -1048,6 +1002,7 @@ void
 gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet)
 {
 	GnomeCanvas   *canvas = GNOME_CANVAS (gsheet);
+	ItemCursor    *ic = gsheet->item_cursor;
 	int pixels, col, row, width, height;
 
 	/* Find out the last visible col and the last full visible column */
@@ -1117,6 +1072,11 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet)
 
 	/* Update the scrollbar sizes */
 	sheet_view_scrollbar_config (gsheet->sheet_view);
+
+	/* Force the cursor to update its bounds relative to the new visible region */
+	item_cursor_set_bounds (ic,
+				ic->pos.start.col, ic->pos.start.row,
+				ic->pos.end.col,   ic->pos.end.row);
 }
 
 static int

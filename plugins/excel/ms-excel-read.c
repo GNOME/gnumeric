@@ -2822,10 +2822,10 @@ ms_excel_read_selection (ExcelSheet *sheet, BiffQuery *q)
 #endif
 
 		/* FIXME : This should not trigger a recalc */
-		sheet_selection_append_range (sheet->gnum_sheet,
-					      start_col, start_row,
-					      start_col, start_row,
-					      end_col, end_row);
+		sheet_selection_add_range (sheet->gnum_sheet,
+					   start_col, start_row,
+					   start_col, start_row,
+					   end_col, end_row);
 	}
 	sheet_cursor_set (sheet->gnum_sheet,
 			  act_col, act_row, act_col, act_row, act_col, act_row);

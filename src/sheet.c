@@ -177,7 +177,7 @@ sheet_new (Workbook *wb, const char *name)
 
 	sheet_view = GTK_WIDGET (sheet_new_sheet_view (sheet));
 
-	sheet_selection_append (sheet, 0, 0);
+	sheet_selection_add (sheet, 0, 0);
 
 	gtk_widget_show (sheet_view);
 
@@ -912,8 +912,7 @@ sheet_accept_pending_input (Sheet *sheet)
 		g_free (new_text);
 	}
 
-	r.start.col = r.end.col = sheet->cursor_col;
-	r.start.row = r.end.row = sheet->cursor_row;
+	r.start = r.end = sheet->cursor.edit_pos;
 
 	/* TODO : Get a context */
 	/* Store the old value for undo */
@@ -963,7 +962,9 @@ sheet_load_cell_val (Sheet *sheet)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	entry = GTK_ENTRY (sheet->workbook->ea_input);
-	cell = sheet_cell_get (sheet, sheet->cursor_col, sheet->cursor_row);
+	cell = sheet_cell_get (sheet,
+			       sheet->cursor.edit_pos.col,
+			       sheet->cursor.edit_pos.row);
 
 	if (cell)
 		text = cell_get_text (cell);
@@ -971,9 +972,12 @@ sheet_load_cell_val (Sheet *sheet)
 		text = g_strdup ("");
 
 	gtk_entry_set_text (entry, text);
+
+	/* FIXME : Nothing uses this ???? */
 	gtk_signal_emit_by_name (GTK_OBJECT (sheet->workbook), "cell_changed",
 				 sheet, text,
-				 sheet->cursor_col, sheet->cursor_row);
+				 sheet->cursor.edit_pos.col,
+				 sheet->cursor.edit_pos.row);
 
 	g_free (text);
 }
@@ -1013,7 +1017,9 @@ sheet_start_editing_at_cursor (Sheet *sheet, gboolean blankp, gboolean cursorp)
 
 	sheet->editing = TRUE;
 	sheet->editing_cell =
-	    sheet_cell_get (sheet, sheet->cursor_col, sheet->cursor_row);
+	    sheet_cell_get (sheet,
+			    sheet->cursor.edit_pos.col,
+			    sheet->cursor.edit_pos.row);
 }
 
 /**
@@ -1030,8 +1036,9 @@ sheet_update_controls (Sheet *sheet)
 
 	g_return_if_fail (sheet != NULL);
 
-	mstyle = sheet_style_compute (sheet, sheet->cursor_col,
-				      sheet->cursor_row);
+	mstyle = sheet_style_compute (sheet,
+				      sheet->cursor.edit_pos.col,
+				      sheet->cursor.edit_pos.row);
 
 	workbook_feedback_set (sheet->workbook, mstyle);
 	mstyle_unref (mstyle);
@@ -1044,14 +1051,11 @@ sheet_col_selection_type (Sheet const *sheet, int col)
 	GList *l;
 	int ret = ITEM_BAR_NO_SELECTION;
 
-	g_return_val_if_fail (sheet != NULL, FALSE);
-	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
+	g_return_val_if_fail (sheet != NULL, ITEM_BAR_NO_SELECTION);
+	g_return_val_if_fail (IS_SHEET (sheet), ITEM_BAR_NO_SELECTION);
 
-	if (sheet->selections == NULL){
-		if (col == sheet->cursor_col)
-			return ITEM_BAR_PARTIAL_SELECTION;
-		return ret;
-	}
+	if (sheet->selections == NULL)
+		return ITEM_BAR_NO_SELECTION;
 
 	for (l = sheet->selections; l != NULL; l = l->next){
 		ss = l->data;
@@ -1077,14 +1081,11 @@ sheet_row_selection_type (Sheet const *sheet, int row)
 	GList *l;
 	int ret = ITEM_BAR_NO_SELECTION;
 
-	g_return_val_if_fail (sheet != NULL, FALSE);
-	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
+	g_return_val_if_fail (sheet != NULL, ITEM_BAR_NO_SELECTION);
+	g_return_val_if_fail (IS_SHEET (sheet), ITEM_BAR_NO_SELECTION);
 
-	if (sheet->selections == NULL){
-		if (row == sheet->cursor_row)
-			return ITEM_BAR_PARTIAL_SELECTION;
-		return ret;
-	}
+	if (sheet->selections == NULL)
+		return ITEM_BAR_NO_SELECTION;
 
 	for (l = sheet->selections; l != NULL; l = l->next){
 		ss = l->data;
@@ -1141,12 +1142,6 @@ sheet_redraw_range (Sheet const *sheet, Range const *range)
 	sheet_redraw_cell_region (sheet,
 				  range->start.col, range->start.row,
 				  range->end.col, range->end.row);
-}
-
-void
-sheet_redraw_selection (Sheet const *sheet, SheetSelection const *ss)
-{
-	sheet_redraw_range (sheet, &ss->user);
 }
 
 int
@@ -1361,158 +1356,6 @@ sheet_check_for_partial_array (Sheet *sheet,
 	}
 
 	return valid;
-}
-
-/*
- * walk_boundaries: implements the decisions for walking a region
- * returns TRUE if the cursor left the boundary region
- */
-static int
-walk_boundaries (int lower_col,   int lower_row,
-		 int upper_col,   int upper_row,
-		 int inc_x,       int inc_y,
-		 int current_col, int current_row,
-		 int *new_col,    int *new_row)
-{
-	if (current_row + inc_y > upper_row ||
-	    current_col + inc_x > upper_col){
-		*new_row = current_row;
-		*new_col = current_col;
-		return TRUE;
-	} else {
-		if (current_row + inc_y < lower_row ||
-		    current_col + inc_x < lower_col){
-			*new_row = current_row;
-			*new_col = current_col;
-			return TRUE;
-		} else {
-			*new_row = current_row + inc_y;
-			*new_col = current_col + inc_x;
-		}
-	}
-	return FALSE;
-}
-
-/*
- * walk_boundaries: implements the decitions for walking a region
- * returns TRUE if the cursor left the boundary region.  This
- * version implements wrapping on the regions.
- */
-static int
-walk_boundaries_wrapped (int lower_col,   int lower_row,
-			 int upper_col,   int upper_row,
-			 int inc_x,       int inc_y,
-			 int current_col, int current_row,
-			 int *new_col,    int *new_row)
-{
-	if (current_row + inc_y > upper_row){
-		if (current_col + 1 > upper_col)
-			goto overflow;
-
-		*new_row = lower_row;
-		*new_col = current_col + 1;
-		return FALSE;
-	}
-
-	if (current_row + inc_y < lower_row){
-		if (current_col - 1 < lower_col)
-			goto overflow;
-
-		*new_row = upper_row;
-		*new_col = current_col - 1;
-		return FALSE;
-	}
-
-	if (current_col + inc_x > upper_col){
-		if (current_row + 1 > upper_row)
-			goto overflow;
-
-		*new_row = current_row + 1;
-		*new_col = lower_col;
-		return FALSE;
-	}
-
-	if (current_col + inc_x < lower_col){
-		if (current_row - 1 < lower_row)
-			goto overflow;
-		*new_row = current_row - 1;
-		*new_col = upper_col;
-		return FALSE;
-	}
-
-	*new_row = current_row + inc_y;
-	*new_col = current_col + inc_x;
-	return FALSE;
-
-overflow:
-	*new_row = current_row;
-	*new_col = current_col;
-	return TRUE;
-}
-
-int
-sheet_selection_walk_step (Sheet *sheet, int forward, int horizontal,
-			   int current_col, int current_row,
-			   int *new_col, int *new_row)
-{
-	SheetSelection *ss;
-	int inc_x = 0, inc_y = 0;
-	int selections_count, diff, overflow;;
-
-	diff = forward ? 1 : -1;
-
-	if (horizontal)
-		inc_x = diff;
-	else
-		inc_y = diff;
-
-	selections_count = g_list_length (sheet->selections);
-
-	if (selections_count == 1){
-		ss = sheet->selections->data;
-
-		/* If there is no selection besides the cursor, plain movement */
-		if (ss->user.start.col == ss->user.end.col && ss->user.start.row == ss->user.end.row){
-			walk_boundaries (0, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1,
-					 inc_x, inc_y, current_col, current_row,
-					 new_col, new_row);
-			return FALSE;
-		}
-	}
-
-	if (!sheet->cursor_selection)
-		sheet->cursor_selection = sheet->selections->data;
-
-	ss = sheet->cursor_selection;
-
-	overflow = walk_boundaries_wrapped (
-		ss->user.start.col, ss->user.start.row,
-		ss->user.end.col,   ss->user.end.row,
-		inc_x, inc_y, current_col, current_row,
-		new_col, new_row);
-
-	if (overflow){
-		int p;
-
-		p = g_list_index (sheet->selections, ss);
-		p += diff;
-		if (p < 0)
-			p = selections_count - 1;
-		else if (p == selections_count)
-			p = 0;
-
-		ss = g_list_nth (sheet->selections, p)->data;
-		sheet->cursor_selection = ss;
-
-		if (forward){
-			*new_col = ss->user.start.col;
-			*new_row = ss->user.start.row;
-		} else {
-			*new_col = ss->user.end.col;
-			*new_row = ss->user.end.row;
-		}
-	}
-	return TRUE;
 }
 
 /**
@@ -2234,10 +2077,10 @@ sheet_cursor_move (Sheet *sheet, int col, int row,
 
 	sheet_accept_pending_input (sheet);
 
-	old_row = sheet->cursor_col;
-	old_col = sheet->cursor_row;
-	sheet->cursor_col = col;
-	sheet->cursor_row = row;
+	old_col = sheet->cursor.edit_pos.col;
+	old_row = sheet->cursor.edit_pos.row;
+	sheet->cursor.edit_pos.col = col;
+	sheet->cursor.edit_pos.row = row;
 
 	for (l = sheet->sheet_views; l; l = l->next){
 		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
@@ -2250,32 +2093,38 @@ sheet_cursor_move (Sheet *sheet, int col, int row,
 		if (clear_selection)
 			sheet_selection_reset_only (sheet);
 		if (add_dest_to_selection)
-			sheet_selection_append (sheet, col, row);
+			sheet_selection_add (sheet, col, row);
 	}
 }
 
 void
-sheet_cursor_set (Sheet *sheet, int base_col, int base_row, int start_col, int start_row, int end_col, int end_row)
+sheet_cursor_set (Sheet *sheet,
+		  int edit_col, int edit_row,
+		  int base_col, int base_row,
+		  int move_col, int move_row)
 {
 	GList *l;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (start_col <= end_col);
-	g_return_if_fail (start_row <= end_row);
 
 	sheet_accept_pending_input (sheet);
 
-	sheet->cursor_col = base_col;
-	sheet->cursor_row = base_row;
+	sheet->cursor.edit_pos.col = edit_col;
+	sheet->cursor.edit_pos.row = edit_row;
+	sheet->cursor.base_corner.col = base_col;
+	sheet->cursor.base_corner.row = base_row;
+	sheet->cursor.move_corner.col = move_col;
+	sheet->cursor.move_corner.row = move_row;
 
 	for (l = sheet->sheet_views; l; l = l->next){
 		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
 
-		gnumeric_sheet_set_cursor_bounds (
-			gsheet,
-			start_col, start_row,
-			end_col, end_row);
+		gnumeric_sheet_set_cursor_bounds ( gsheet,
+			MIN (base_col, move_col),
+			MIN (base_row, move_row),
+			MAX (base_col, move_col),
+			MAX (base_row, move_row));
 	}
 	sheet_load_cell_val (sheet);
 }
@@ -2725,19 +2574,6 @@ sheet_insert_object (Sheet *sheet, char *goadid)
 	}
 
 #endif
-}
-
-void
-sheet_set_selection (Sheet *sheet, int base_col, int base_row,
-		     SheetSelection const *ss)
-{
-	GList *l = sheet->sheet_views;
-
-	for (; l != NULL; l = l->next) {
-		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
-
-		gnumeric_sheet_set_selection (gsheet, base_col, base_row, ss);
-	}
 }
 
 /****************************************************************************/

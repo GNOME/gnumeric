@@ -37,14 +37,20 @@ typedef struct {
 	int last_index;
 } ColorCombo;
 
+typedef struct {
+  char *color; /* rgb color or otherwise - eg. "rgb:FF/FF/FF" */
+  char *name; /* english name - eg. "white" */
+} ColorNamePair;
+
 GtkType    color_combo_get_type      (void);
 GtkWidget *color_combo_new           (char **icon, char const * const no_color_label);
 void       color_combo_construct     (ColorCombo *cc, char **icon,
-				      char const * const no_color_label,
-				      int ncols, int nrows, char **color_names);
+                                      char const * const no_color_label,
+				      int ncols, int nrows, ColorNamePair *color_names);
 GtkWidget *color_combo_new_with_vals (char **icon,
 				      char const * const no_color_label,
-				      int ncols, int nrows, char **color_names);
+				      int ncols, int nrows,
+				      ColorNamePair *color_names);
 void       color_combo_select_color  (ColorCombo *color_combo, int index);
 				  
 typedef struct {

@@ -493,6 +493,7 @@ item_bar_end_resize (ItemBar *item_bar, int new_size)
 				 item_bar_signals [SIZE_CHANGED],
 				 item_bar->resize_pos,
 				 new_size);
+
 	if (item_bar->resize_points) {
 		gnome_canvas_points_free (item_bar->resize_points);
 		item_bar->resize_points = NULL;
@@ -549,7 +550,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		else
 			pos = e->motion.x;
 
-		/* Do column resizing or incremental marking */
+		/* Do col/row resizing or incremental marking */
 		if (resizing){
 			GnomeCanvasItem *resize_guide;
 			GnomeCanvasPoints *points;

@@ -559,10 +559,10 @@ xml_read_selection_info (parse_xml_context_t *ctxt, Sheet *sheet, xmlNodePtr tre
 	sheet_selection_reset_only (sheet);
 	for (sel = selections->childs; sel; sel = sel->next) {
 		if (xml_read_range (sel, &r))
-			sheet_selection_append_range (sheet,
-						      r.start.col, r.start.row,
-						      r.start.col, r.start.row,
-						      r.end.col, r.end.row);
+			sheet_selection_add_range (sheet,
+						   r.start.col, r.start.row,
+						   r.start.col, r.start.row,
+						   r.end.col, r.end.row);
 	}
 
 	if (xml_get_value_int (tree, "CursorCol", &col) &&
@@ -586,8 +586,8 @@ xml_write_selection_info (parse_xml_context_t *ctxt, Sheet *sheet, xmlNodePtr tr
 	}
 	g_list_free (copy);
 
-	xml_set_value_int (tree, "CursorCol", sheet->cursor_col);
-	xml_set_value_int (tree, "CursorRow", sheet->cursor_row);
+	xml_set_value_int (tree, "CursorCol", sheet->cursor.edit_pos.col);
+	xml_set_value_int (tree, "CursorRow", sheet->cursor.edit_pos.row);
 }
 
 /*

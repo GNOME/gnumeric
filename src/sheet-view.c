@@ -30,7 +30,7 @@ sheet_view_redraw_all (SheetView *sheet_view)
 {
 	g_return_if_fail (sheet_view != NULL);
 	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
-	
+
 	gnome_canvas_request_redraw (
 		GNOME_CANVAS (sheet_view->sheet_view),
 		0, 0, INT_MAX, INT_MAX);
@@ -51,7 +51,7 @@ sheet_view_redraw_cell_region (SheetView *sheet_view, int start_col, int start_r
 	int first_col, first_row, last_col, last_row;
 	int col, row, min_col, max_col;
 	int x, y, w, h;
-	
+
 	g_return_if_fail (sheet_view != NULL);
 	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
 
@@ -64,7 +64,7 @@ sheet_view_redraw_cell_region (SheetView *sheet_view, int start_col, int start_r
 	    (start_col > gsheet->col.last_visible) ||
 	    (start_row > gsheet->row.last_visible))
 		return;
-	
+
 	/* The region on which we care to redraw */
 	first_col = MAX (gsheet->col.first, start_col);
 	first_row = MAX (gsheet->row.first, start_row);
@@ -89,7 +89,7 @@ sheet_view_redraw_cell_region (SheetView *sheet_view, int start_col, int start_r
 				min_col = MIN (col1, min_col);
 				max_col = MAX (col2, max_col);
 			}
-			
+
 		}
 
 	/* Only draw those regions that are visible */
@@ -136,9 +136,10 @@ sheet_view_redraw_headers (SheetView *sheet_view,
 							    r->start.col, r->end.col+1);
 			}
 		}
+		/* Request excludes the far coordinate.  Add 1 to include them */
 		gnome_canvas_request_redraw (
 			GNOME_CANVAS (sheet_view->col_canvas),
-			left, 0, right, INT_MAX);
+			left, 0, right+1, INT_MAX);
 	}
 
 	if (row) {
@@ -158,9 +159,10 @@ sheet_view_redraw_headers (SheetView *sheet_view,
 							    r->start.row, r->end.row+1);
 			}
 		}
+		/* Request excludes the far coordinate.  Add 1 to include them */
 		gnome_canvas_request_redraw (
 			GNOME_CANVAS (sheet_view->row_canvas),
-			0, top, INT_MAX, bottom);
+			0, top, INT_MAX, bottom+1);
 	}
 }
 
@@ -174,14 +176,14 @@ sheet_view_set_zoom_factor (SheetView *sheet_view, double factor)
 
 	g_return_if_fail (sheet_view != NULL);
 	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
-	
+
 	gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
 	col_item = ITEM_BAR (sheet_view->col_item);
 	row_item = ITEM_BAR (sheet_view->row_item);
 
 	/* Set pixels_per_unit before the font.  The item bars look here for the number */
 	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (gsheet), factor);
-	
+
 	/* resize the header fonts */
 	item_bar_fonts_init (col_item);
 	item_bar_fonts_init (row_item);
@@ -212,8 +214,9 @@ sheet_view_set_zoom_factor (SheetView *sheet_view, double factor)
 
 	/* Ensure that the current cell remains visible when we zoom */
 	gnumeric_sheet_make_cell_visible (gsheet,
-					  sheet_view->sheet->cursor_col,
-					  sheet_view->sheet->cursor_row, TRUE);
+					  sheet_view->sheet->cursor.edit_pos.col,
+					  sheet_view->sheet->cursor.edit_pos.row,
+					  TRUE);
 
 	/* Repsition the cursor */
 	item_cursor_reposition (gsheet->item_cursor);
@@ -249,7 +252,7 @@ new_canvas_bar (SheetView *sheet_view, GtkOrientation o, GnomeCanvasItem **itemp
 
 	*itemp = item;
 	gtk_widget_show (canvas);
-	
+
 	return GNOME_CANVAS(canvas);
 }
 
@@ -266,15 +269,17 @@ sheet_view_scrollbar_config (SheetView const *sheet_view)
 
 	va->upper = MAX (MAX (last_row,
 			      sheet_view->sheet->rows.max_used),
-			 sheet->cursor_row);
+			 MAX (sheet->cursor.move_corner.row,
+			      sheet->cursor.base_corner.row));
 	va->page_size = last_row - gsheet->row.first;
 	va->value = gsheet->row.first;
 	va->step_increment = va->page_increment =
 	    va->page_size / 2;
-	
+
 	ha->upper = MAX (MAX (last_col,
 			      sheet_view->sheet->cols.max_used),
-			 sheet->cursor_col);
+			 MAX (sheet->cursor.move_corner.col,
+			      sheet->cursor.base_corner.col));
 	ha->page_size = last_col - gsheet->col.first;
 	ha->value = gsheet->col.first;
 	ha->step_increment = ha->page_increment =
@@ -291,37 +296,38 @@ sheet_view_size_allocate (GtkWidget *widget, GtkAllocation *alloc, SheetView *sh
 }
 
 static void
-sheet_view_col_selection_changed (ItemBar *item_bar, int column, int modifiers, SheetView *sheet_view)
-{	
+sheet_view_col_selection_changed (ItemBar *item_bar, int col, int modifiers, SheetView *sheet_view)
+{
 	Sheet *sheet = sheet_view->sheet;
-	
+	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
+
 	/* Ensure that col row exists, ignore result */
-	sheet_col_fetch (sheet, column);
-	
+	sheet_col_fetch (sheet, col);
+
 	if (modifiers){
 		if ((modifiers & GDK_SHIFT_MASK) && sheet->selections){
 			SheetSelection *ss = sheet->selections->data;
 			int start_col, end_col;
-			
-			start_col = MIN (ss->base.col, column);
-			end_col = MAX (ss->base.col, column);
-			
+
+			start_col = MIN (ss->user.start.col, col);
+			end_col = MAX (ss->user.end.col, col);
+
 			sheet_selection_set (sheet,
+					     start_col, gsheet->row.first,
 					     start_col, 0,
 					     end_col, SHEET_MAX_ROWS-1);
 			return;
 		}
 
-		sheet_cursor_move (sheet, column, sheet->cursor_row, FALSE, FALSE);
 		if (!(modifiers & GDK_CONTROL_MASK))
 			sheet_selection_reset_only (sheet);
 
-		sheet_selection_append_range (sheet,
-					      column, 0,
-					      column, 0,
-					      column, SHEET_MAX_ROWS-1);
+		sheet_selection_add_range (sheet,
+					   col, gsheet->row.first,
+					   col, 0,
+					   col, SHEET_MAX_ROWS-1);
 	} else
-		sheet_selection_extend_to (sheet, column, SHEET_MAX_ROWS - 1);
+		sheet_selection_extend_to (sheet, col, SHEET_MAX_ROWS - 1);
 }
 
 static void
@@ -338,13 +344,13 @@ sheet_view_col_size_changed (ItemBar *item_bar, int col, int width, SheetView *s
  			ColRowInfo *ci = sheet_col_get (sheet, i);
 			if (ci == NULL)
 				continue;
- 
+
  			if (sheet_col_selection_type (sheet, ci->pos) == ITEM_BAR_FULL_SELECTION)
  				sheet_col_set_size_pixels (sheet, ci->pos, width, TRUE);
  		}
 	} else
  		sheet_col_set_size_pixels (sheet, col, width, TRUE);
-	
+
 	gnumeric_sheet_compute_visible_ranges (GNUMERIC_SHEET (sheet_view->sheet_view));
 }
 
@@ -352,32 +358,33 @@ static void
 sheet_view_row_selection_changed (ItemBar *item_bar, int row, int modifiers, SheetView *sheet_view)
 {
 	Sheet *sheet = sheet_view->sheet;
+	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
 
 	/* Ensure that the row exists, ignore result */
 	sheet_row_fetch (sheet, row);
-	
+
 	if (modifiers){
 		if ((modifiers & GDK_SHIFT_MASK) && sheet->selections){
 			SheetSelection *ss = sheet->selections->data;
 			int start_row, end_row;
-			
-			start_row = MIN (ss->base.row, row);
-			end_row = MAX (ss->base.row, row);
-			
+
+			start_row = MIN (ss->user.start.row, row);
+			end_row = MAX (ss->user.end.row, row);
+
 			sheet_selection_set (sheet,
+					     gsheet->col.first, start_row,
 					     0, start_row,
 					     SHEET_MAX_COLS-1, end_row);
 			return;
 		}
 
-		sheet_cursor_move (sheet, sheet->cursor_col, row, FALSE, FALSE);
 		if (!(modifiers & GDK_CONTROL_MASK))
  			sheet_selection_reset_only (sheet);
-	
-		sheet_selection_append_range (sheet,
-					      0, row,
-					      0, row,
-					      SHEET_MAX_COLS-1, row);
+
+		sheet_selection_add_range (sheet,
+					   gsheet->col.first, row,
+					   0, row,
+					   SHEET_MAX_COLS-1, row);
 	} else
 		sheet_selection_extend_to (sheet, SHEET_MAX_COLS-1, row);
 }
@@ -396,7 +403,7 @@ sheet_view_row_size_changed (ItemBar *item_bar, int row, int height, SheetView *
  			ColRowInfo *ri = sheet_row_get (sheet, i);
 			if (ri == NULL)
 				continue;
-			
+
 			if (sheet_row_selection_type (sheet, ri->pos) == ITEM_BAR_FULL_SELECTION)
 					sheet_row_set_size_pixels (sheet, ri->pos, height, TRUE);
 		}
@@ -443,7 +450,7 @@ horizontal_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet
 	{
 		GnumericSheet  *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
 		int col;
-		
+
 		/* A button release can be generated without a press by people
 		 * with mouse wheels */
 		if (sheet_view->tip) {
@@ -456,7 +463,7 @@ horizontal_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet
 		gnumeric_sheet_set_left_col (gsheet, col);
 		/* NOTE : Excel does not move the cursor, just scrolls the sheet. */
 	}
-	
+
 	return FALSE;
 }
 
@@ -473,7 +480,7 @@ vertical_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet_v
 	{
 		GnumericSheet  *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
 		int row;
-		
+
 		/* A button release can be generated without a press by people
 		 * with mouse wheels */
 		if (sheet_view->tip) {
@@ -482,7 +489,7 @@ vertical_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet_v
 		}
 
 		row = GTK_ADJUSTMENT (sheet_view->va)->value;
-		
+
 		gnumeric_sheet_set_top_row (gsheet, row);
 		/* NOTE : Excel does not move the cursor, just scrolls the sheet. */
 	}
@@ -494,7 +501,7 @@ static void
 sheet_view_init (SheetView *sheet_view)
 {
 	GtkTable *table = GTK_TABLE (sheet_view);
-	
+
 	table->homogeneous = FALSE;
 	gtk_table_resize (table, 4, 4);
 }
@@ -505,7 +512,7 @@ sheet_view_construct (SheetView *sheet_view)
 	GnomeCanvasGroup *root_group;
 	GtkTable  *table = GTK_TABLE (sheet_view);
 	Sheet *sheet = sheet_view->sheet;
-	
+
 	/* Column canvas */
 	sheet_view->col_canvas = new_canvas_bar (sheet_view, GTK_ORIENTATION_HORIZONTAL, &sheet_view->col_item);
 	gtk_table_attach (table, GTK_WIDGET (sheet_view->col_canvas),
@@ -522,7 +529,7 @@ sheet_view_construct (SheetView *sheet_view)
 
 	/* Row canvas */
 	sheet_view->row_canvas = new_canvas_bar (sheet_view, GTK_ORIENTATION_VERTICAL, &sheet_view->row_item);
-	
+
 	gtk_table_attach (table, GTK_WIDGET (sheet_view->row_canvas),
 			  0, 1, 1, 2,
 			  GTK_FILL, GTK_EXPAND | GTK_FILL | GTK_SHRINK,
@@ -555,7 +562,7 @@ sheet_view_construct (SheetView *sheet_view)
 			"x", 0.0,
 			"y", 0.0,
 			NULL));
-		
+
 	/* Attach the GnumericSheet */
 	gtk_table_attach (table, sheet_view->sheet_view,
 			  1, 2, 1, 2,
@@ -574,14 +581,14 @@ sheet_view_construct (SheetView *sheet_view)
 			"x", 0.0,
 			"y", 0.0,
 			NULL));
-	
+
 	/* The select-all button */
 	sheet_view->select_all = gtk_button_new ();
 	GTK_WIDGET_UNSET_FLAGS (sheet_view->select_all, GTK_CAN_FOCUS);
 	gtk_table_attach (table, sheet_view->select_all, 0, 1, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
 	gtk_signal_connect (GTK_OBJECT (sheet_view->select_all), "clicked",
 			    GTK_SIGNAL_FUNC (button_select_all), sheet_view);
-	
+
 	/* Scroll bars and their adjustments */
 	sheet_view->va = gtk_adjustment_new (0.0, 0.0, sheet->rows.max_used, 1.0, 1.0, 1.0);
 	sheet_view->ha = gtk_adjustment_new (0.0, 0.0, sheet->cols.max_used, 1.0, 1.0, 1.0);
@@ -596,7 +603,7 @@ sheet_view_construct (SheetView *sheet_view)
 			    GTK_SIGNAL_FUNC (horizontal_scroll_event), sheet_view);
 	gtk_signal_connect (GTK_OBJECT (sheet_view->vs), "event",
 			    GTK_SIGNAL_FUNC (vertical_scroll_event), sheet_view);
-	
+
 	/* Attach the horizontal scroll */
 	gtk_table_attach (table, sheet_view->hs,
 			  1, 2, 2, 3,
@@ -628,7 +635,7 @@ sheet_view_set_header_visibility (SheetView *sheet_view,
 		if (GTK_WIDGET_VISIBLE (GTK_WIDGET (sheet_view->col_canvas)))
 			gtk_widget_hide (GTK_WIDGET (sheet_view->col_canvas));
 	}
-	
+
 	if (row_headers_visible){
 		if (!GTK_WIDGET_VISIBLE (GTK_WIDGET (sheet_view->row_canvas)))
 			gtk_widget_show (GTK_WIDGET (sheet_view->row_canvas));
@@ -648,7 +655,7 @@ sheet_view_new (Sheet *sheet)
 	sheet_view->tip = NULL;
 
 	sheet_view_construct (sheet_view);
-	
+
 	return GTK_WIDGET (sheet_view);
 }
 
@@ -660,7 +667,7 @@ sheet_view_destroy (GtkObject *object)
 	/* Add shutdown code here */
 	if (sheet_view->tip)
 		gtk_object_unref (GTK_OBJECT (sheet_view->tip));
-	
+
 	if (GTK_OBJECT_CLASS (sheet_view_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (sheet_view_parent_class)->destroy)(object);
 }
@@ -673,7 +680,7 @@ sheet_view_class_init (SheetViewClass *Class)
 	object_class = (GtkObjectClass *) Class;
 
 	sheet_view_parent_class = gtk_type_class (gtk_table_get_type ());
-	
+
 	object_class->destroy = sheet_view_destroy;
 }
 
@@ -699,7 +706,7 @@ sheet_view_get_type (void)
 
 	return sheet_view_type;
 }
-		     
+
 void
 sheet_view_hide_cursor (SheetView *sheet_view)
 {
@@ -752,7 +759,7 @@ sheet_view_comment_create_marker (SheetView *sheet_view, int col, int row)
 	GnomeCanvasPoints *points;
 	GnomeCanvasGroup *group;
 	GnomeCanvasItem *i;
-	
+
 	g_return_val_if_fail (sheet_view != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET_VIEW (sheet_view), NULL);
 
@@ -807,20 +814,20 @@ sheet_view_selection_ant (SheetView *sheet_view)
 	GnomeCanvasGroup *group;
 	ItemGrid *grid;
 	GList *l;
-	
+
 	g_return_if_fail (sheet_view != NULL);
 	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
-	
+
 	if (sheet_view->anted_cursors)
 		sheet_view_selection_unant (sheet_view);
 
 	group = sheet_view->selection_group;
 	grid = GNUMERIC_SHEET (sheet_view->sheet_view)->item_grid;
-	
+
 	for (l = sheet_view->sheet->selections; l; l = l->next){
 		SheetSelection *ss = l->data;
 		ItemCursor *item_cursor;
-		
+
 		item_cursor = ITEM_CURSOR (gnome_canvas_item_new (
 			group, item_cursor_get_type (),
 			"Sheet", sheet_view->sheet,
@@ -872,7 +879,7 @@ StyleFont *
 sheet_view_get_style_font (const Sheet *sheet, MStyle *mstyle)
 {
 	/* Scale the font size by the average scaling factor for the
-	 * display.  72dpi is base size 
+	 * display.  72dpi is base size
 	 */
 
 	double const zoom = sheet->last_zoom_factor_used;
@@ -893,7 +900,7 @@ sheet_view_insert_object (SheetView *sheet_view, BonoboObjectClient *object)
 	 * Commented out because the new_view api changed and it isn't
 	 * used anyways.
 	 */
-	   
+
 	/* view = gnome_bonobo_object_new_view (object); */
 	g_warning ("Stick this into the SheetView");
 }

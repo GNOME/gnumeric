@@ -69,11 +69,21 @@ sheet_selection_changed_hook (Sheet *sheet)
 	workbook_set_region_status (sheet->workbook, sheet_get_selection_name (sheet));
 }
 
+/**
+ * sheet_selection_add_range : prepends a new range to the selection list.
+ *
+ * @sheet          : sheet whose selection to append to.
+ * @edit_{col,row} : cell to mark as the new edit cursor.
+ * @base_{col,row} : stationary corner of the newly selected range.
+ * @move_{col,row} : moving corner of the newly selected range.
+ *
+ * Prepends a new range to the selection list.
+ */
 void
-sheet_selection_append_range (Sheet *sheet,
-			      int base_col,  int base_row,
-			      int start_col, int start_row,
-			      int end_col,   int end_row)
+sheet_selection_add_range (Sheet *sheet,
+			   int edit_col, int edit_row,
+			   int base_col, int base_row,
+			   int move_col, int move_row)
 {
 	SheetSelection *ss;
 
@@ -82,21 +92,31 @@ sheet_selection_append_range (Sheet *sheet,
 
 	ss = g_new0 (SheetSelection, 1);
 
-	ss->base.col  = base_col;
-	ss->base.row  = base_row;
+	sheet->cursor.edit_pos.col = edit_col;
+	sheet->cursor.edit_pos.row = edit_row;
+	sheet->cursor.base_corner.col = base_col;
+	sheet->cursor.base_corner.row = base_row;
+	sheet->cursor.move_corner.col = move_col;
+	sheet->cursor.move_corner.row = move_row;
 
-	ss->user.start.col = start_col;
-	ss->user.end.col   = end_col;
-	ss->user.start.row = start_row;
-	ss->user.end.row   = end_row;
+	ss->user.start.col = MIN (base_col, move_col);
+	ss->user.start.row = MIN (base_row, move_row);
+	ss->user.end.col   = MAX (base_col, move_col);
+	ss->user.end.row   = MAX (base_row, move_row);
 
 	sheet->selections = g_list_prepend (sheet->selections, ss);
 
 	sheet_accept_pending_input (sheet);
 	sheet_load_cell_val (sheet);
 
-	sheet_set_selection (sheet, base_col, base_row, ss);
-	sheet_redraw_selection (sheet, ss);
+	sheet_cursor_set (sheet,
+			  sheet->cursor.edit_pos.col,
+			  sheet->cursor.edit_pos.row,
+			  ss->user.start.col,
+			  ss->user.start.row,
+			  ss->user.end.col,
+			  ss->user.end.row);
+	sheet_redraw_range (sheet, &ss->user);
 	sheet_redraw_headers (sheet, TRUE, TRUE, &ss->user);
 
 	sheet_selection_changed_hook (sheet);
@@ -154,30 +174,36 @@ selection_is_simple (CommandContext *context, Sheet const *sheet,
 }
 
 void
-sheet_selection_append (Sheet *sheet, int col, int row)
+sheet_selection_add (Sheet *sheet, int col, int row)
 {
-	sheet_selection_append_range (sheet, col, row, col, row, col, row);
+	sheet_selection_add_range (sheet, col, row, col, row, col, row);
 }
 
 static void
-sheet_selection_change (Sheet *sheet, SheetSelection *old, SheetSelection *new)
+sheet_selection_change (Sheet *sheet,
+			Range const * const old,
+			Range const * const new_sel)
 {
 	GList *ranges, *l;
 	
-	if (range_equal (&old->user, &new->user))
+	if (range_equal (old, new_sel))
 		return;
 
-	sheet_accept_pending_input (sheet);
-
-	sheet_set_selection (sheet, new->base.col, new->base.row, new);
+	sheet_cursor_set (sheet,
+			  sheet->cursor.edit_pos.col,
+			  sheet->cursor.edit_pos.row,
+			  sheet->cursor.base_corner.col,
+			  sheet->cursor.base_corner.row,
+			  sheet->cursor.move_corner.col,
+			  sheet->cursor.move_corner.row);
 	sheet_selection_changed_hook (sheet);
 
-	if (range_overlap (&old->user, &new->user)){
+	if (range_overlap (old, new_sel)){
 		/*
 		 * Compute the blocks that need to be repainted: those that
 		 * are in the complement of the intersection.
 		 */
-		ranges = range_fragment (&old->user, &new->user);
+		ranges = range_fragment (old, new_sel);
 		
 		for (l = ranges->next; l; l = l->next){
 			Range *range = l->data;
@@ -186,69 +212,72 @@ sheet_selection_change (Sheet *sheet, SheetSelection *old, SheetSelection *new)
 		}
 		range_fragment_free (ranges);
 	} else {
-		sheet_redraw_selection (sheet, old);
-		sheet_redraw_selection (sheet, new);
+		sheet_redraw_range (sheet, old);
+		sheet_redraw_range (sheet, new_sel);
 	}
 	
 	/* Has the entire row been selected/unselected */
-	if ((new->user.start.row == 0 && new->user.end.row == SHEET_MAX_ROWS-1) ^
-	    (old->user.start.row == 0 && old->user.end.row == SHEET_MAX_ROWS-1)) {
-		sheet_redraw_headers (sheet, TRUE, FALSE, &new->user);
+	if ((new_sel->start.row == 0 && new_sel->end.row == SHEET_MAX_ROWS-1) ^
+	    (old->start.row == 0 && old->end.row == SHEET_MAX_ROWS-1)) {
+		sheet_redraw_headers (sheet, TRUE, FALSE, new_sel);
 	} else
 	{
-		Range tmp = new->user;
+		Range tmp = *new_sel;
 		int diff;
-		diff = new->user.start.col - old->user.start.col;
+		
+		diff = new_sel->start.col - old->start.col;
 		if (diff != 0) {
 			if (diff > 0) {
-				tmp.start.col = old->user.start.col;
-				tmp.end.col = new->user.start.col;
+				tmp.start.col = old->start.col;
+				tmp.end.col = new_sel->start.col;
 			} else {
-				tmp.end.col = old->user.start.col;
-				tmp.start.col = new->user.start.col;
+				tmp.end.col = old->start.col;
+				tmp.start.col = new_sel->start.col;
 			}
 			sheet_redraw_headers (sheet, TRUE, FALSE, &tmp);
 		}
-		diff = new->user.end.col - old->user.end.col;
+		diff = new_sel->end.col - old->end.col;
 		if (diff != 0) {
 			if (diff > 0) {
-				tmp.start.col = old->user.end.col;
-				tmp.end.col = new->user.end.col;
+				tmp.start.col = old->end.col;
+				tmp.end.col = new_sel->end.col;
 			} else {
-				tmp.end.col = old->user.end.col;
-				tmp.start.col = new->user.end.col;
+				tmp.end.col = old->end.col;
+				tmp.start.col = new_sel->end.col;
 			}
 			sheet_redraw_headers (sheet, TRUE, FALSE, &tmp);
 		}
 	}
 
 	/* Has the entire col been selected/unselected */
-	if ((new->user.start.col == 0 && new->user.end.col == SHEET_MAX_COLS-1) ^
-	    (old->user.start.col == 0 && old->user.end.col == SHEET_MAX_COLS-1)) {
-		sheet_redraw_headers (sheet, FALSE, TRUE, &new->user);
+	if ((new_sel->start.col == 0 && new_sel->end.col == SHEET_MAX_COLS-1) ^
+	    (old->start.col == 0 && old->end.col == SHEET_MAX_COLS-1)) {
+		sheet_redraw_headers (sheet, FALSE, TRUE, new_sel);
 	} else
 	{
-		Range tmp = new->user;
+		Range tmp = *new_sel;
 		int diff;
-		diff = new->user.start.row - old->user.start.row;
+
+		diff = new_sel->start.row - old->start.row;
 		if (diff != 0) {
 			if (diff > 0) {
-				tmp.start.row = old->user.start.row;
-				tmp.end.row = new->user.start.row;
+				tmp.start.row = old->start.row;
+				tmp.end.row = new_sel->start.row;
 			} else {
-				tmp.end.row = old->user.start.row;
-				tmp.start.row = new->user.start.row;
+				tmp.end.row = old->start.row;
+				tmp.start.row = new_sel->start.row;
 			}
 			sheet_redraw_headers (sheet, FALSE, TRUE, &tmp);
 		}
-		diff = new->user.end.row - old->user.end.row;
+
+		diff = new_sel->end.row - old->end.row;
 		if (diff != 0) {
 			if (diff > 0) {
-				tmp.start.row = old->user.end.row;
-				tmp.end.row = new->user.end.row;
+				tmp.start.row = old->end.row;
+				tmp.end.row = new_sel->end.row;
 			} else {
-				tmp.end.row = old->user.end.row;
-				tmp.start.row = new->user.end.row;
+				tmp.end.row = old->end.row;
+				tmp.start.row = new_sel->end.row;
 			}
 			sheet_redraw_headers (sheet, FALSE, TRUE, &tmp);
 		}
@@ -266,7 +295,7 @@ sheet_selection_change (Sheet *sheet, SheetSelection *old, SheetSelection *new)
 void
 sheet_selection_extend_to (Sheet *sheet, int col, int row)
 {
-	SheetSelection *ss, old;
+	SheetSelection *ss, old_selection;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -274,26 +303,84 @@ sheet_selection_extend_to (Sheet *sheet, int col, int row)
 	g_assert (sheet->selections);
 
 	ss = (SheetSelection *) sheet->selections->data;
+	old_selection = *ss;
 
-	old = *ss;
+	/* If nothing was going to change dont redraw */
+	if (sheet->cursor.move_corner.col == col && sheet->cursor.move_corner.row == row)
+		return;
 
-	if (col < ss->base.col){
-		ss->user.start.col = col;
-		ss->user.end.col   = ss->base.col;
+#if 0
+	fprintf (stderr, "extend to %s%d\n", col_name(col), row+1);
+	fprintf (stderr, "edit %s%d\n", col_name(sheet->cursor.edit_pos.col), sheet->cursor.edit_pos.row+1);
+	fprintf (stderr, "base %s%d\n", col_name(sheet->cursor.base_corner.col), sheet->cursor.base_corner.row+1);
+	fprintf (stderr, "move %s%d\n", col_name(sheet->cursor.move_corner.col), sheet->cursor.move_corner.row+1);
+#endif
+
+	sheet->cursor.move_corner.col = col;
+	sheet->cursor.move_corner.row = row;
+	if (sheet->cursor.base_corner.col < sheet->cursor.move_corner.col) {
+		ss->user.start.col	= sheet->cursor.base_corner.col;
+		ss->user.end.col	= sheet->cursor.move_corner.col;
 	} else {
-		ss->user.start.col = ss->base.col;
-		ss->user.end.col   = col;
+		ss->user.end.col	= sheet->cursor.base_corner.col;
+		ss->user.start.col	= sheet->cursor.move_corner.col;
 	}
-
-	if (row < ss->base.row){
-		ss->user.end.row   = ss->base.row;
-		ss->user.start.row = row;
+	if (sheet->cursor.base_corner.row < sheet->cursor.move_corner.row) {
+		ss->user.start.row	= sheet->cursor.base_corner.row;
+		ss->user.end.row	= sheet->cursor.move_corner.row;
 	} else {
-		ss->user.end.row   = row;
-		ss->user.start.row = ss->base.row;
+		ss->user.end.row	= sheet->cursor.base_corner.row;
+		ss->user.start.row	= sheet->cursor.move_corner.row;
 	}
+#if 0
+	range_dump (&ss->user);
+#endif
 
-	sheet_selection_change (sheet, &old, ss);
+	/* Be sure that the edit_pos is contained in the new_sel area */
+	if (sheet->cursor.edit_pos.col < ss->user.start.col)
+		sheet->cursor.edit_pos.col = ss->user.start.col;
+	else if (sheet->cursor.edit_pos.col > ss->user.end.col)
+		sheet->cursor.edit_pos.col = ss->user.end.col;
+
+	if (sheet->cursor.edit_pos.row < ss->user.start.row)
+		sheet->cursor.edit_pos.row = ss->user.start.row;
+	else if (sheet->cursor.edit_pos.row > ss->user.end.row)
+		sheet->cursor.edit_pos.row = ss->user.end.row;
+
+	sheet_selection_change (sheet, &old_selection.user, &ss->user);
+}
+
+/*
+ * sheet_selection_extend
+ * @sheet              : Sheet to operate in.
+ * @n                  : Units to extend the selection
+ * @jump_to_boundaries : Move to transitions between cells and blanks,
+ *                       or move in single steps.
+ * @horizontal         : extend vertically or horizontally.
+ */
+void
+sheet_selection_extend (Sheet *sheet, int n, gboolean jump_to_boundaries,
+			gboolean const horizontal)
+{
+	if (horizontal)
+		sheet->cursor.move_corner.col =
+			sheet_find_boundary_horizontal (sheet,
+				sheet->cursor.move_corner.col,
+				sheet->cursor.move_corner.row,
+				n, jump_to_boundaries);
+	else
+		sheet->cursor.move_corner.row =
+			sheet_find_boundary_vertical (sheet,
+				sheet->cursor.move_corner.col,
+				sheet->cursor.move_corner.row,
+				n, jump_to_boundaries);
+
+	sheet_selection_extend_to (sheet, 
+				   sheet->cursor.move_corner.col,
+				   sheet->cursor.move_corner.row);
+	sheet_make_cell_visible (sheet, 
+				 sheet->cursor.move_corner.col,
+				 sheet->cursor.move_corner.row);
 }
 
 /**
@@ -311,7 +398,7 @@ sheet_select_all (Sheet *sheet)
 	sheet_selection_reset_only (sheet);
 	sheet_make_cell_visible (sheet, 0, 0);
 	sheet_cursor_move (sheet, 0, 0, FALSE, FALSE);
-	sheet_selection_append_range (sheet, 0, 0, 0, 0,
+	sheet_selection_add_range (sheet, 0, 0, 0, 0,
 		SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
 
 	/* Queue redraws for columns and rows */
@@ -339,97 +426,11 @@ sheet_is_all_selected (Sheet *sheet)
 	return FALSE;
 }
 
-/**
- * sheet_selection_extend_horizontal:
- *
- * @sheet:  The Sheet *
- * @count:  units to extend the selection horizontally
- * @jump_to_boundaries : Jump to range boundaries.
- */
 void
-sheet_selection_extend_horizontal (Sheet *sheet, int n, gboolean jump_to_boundaries)
-{
-	SheetSelection *ss;
-	SheetSelection old_selection;
-	int row, col;
-
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-
-	ss = (SheetSelection *)sheet->selections->data;
-	old_selection = *ss;
-
-	if (ss->base.col < ss->user.end.col)
-		col = ss->user.end.col =
-		    sheet_find_boundary_horizontal (sheet,
-						    ss->user.end.col, row = ss->user.end.row,
-						    n, jump_to_boundaries);
-	else if (ss->base.col > ss->user.start.col || n < 0)
-		col = ss->user.start.col =
-		    sheet_find_boundary_horizontal (sheet,
-						    ss->user.start.col, row = ss->user.start.row,
-						    n, jump_to_boundaries);
-	else
-		col = ss->user.end.col =
-		    sheet_find_boundary_horizontal (sheet,
-						    ss->user.end.col,  row = ss->user.end.row,
-						    n, jump_to_boundaries);
-
-	if (ss->user.end.col < ss->user.start.col) {
-		int const tmp = ss->user.start.col;
-		ss->user.start.col = ss->user.end.col;
-		ss->user.end.col = tmp;
-	}
-	sheet_selection_change (sheet, &old_selection, ss);
-	sheet_make_cell_visible (sheet, col, row);
-}
-
-/*
- * sheet_selection_extend_vertical
- * @sheet:  The Sheet *
- * @n:      units to extend the selection vertically
- * @jump_to_boundaries : Jump to range boundaries.
- */
-void
-sheet_selection_extend_vertical (Sheet *sheet, int n, gboolean jump_to_boundaries)
-{
-	SheetSelection *ss;
-	SheetSelection old_selection;
-	int row, col;
-
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-
-	ss = (SheetSelection *)sheet->selections->data;
-	old_selection = *ss;
-
-	if (ss->base.row < ss->user.end.row)
-		row = ss->user.end.row =
-		    sheet_find_boundary_vertical (sheet,
-						  col = ss->user.end.col, ss->user.end.row,
-						  n, jump_to_boundaries);
-	else if (ss->base.row > ss->user.start.row || n < 0)
-		row = ss->user.start.row =
-		    sheet_find_boundary_vertical (sheet,
-						  col = ss->user.start.col, ss->user.start.row,
-						  n, jump_to_boundaries);
-	else
-		row = ss->user.end.row =
-		    sheet_find_boundary_vertical (sheet,
-						  col = ss->user.end.col, ss->user.end.row,
-						  n, jump_to_boundaries);
-
-	if (ss->user.end.row < ss->user.start.row) {
-		int const tmp = ss->user.start.row;
-		ss->user.start.row = ss->user.end.row;
-		ss->user.end.row = tmp;
-	}
-	sheet_selection_change (sheet, &old_selection, ss);
-	sheet_make_cell_visible (sheet, col, row);
-}
-
-void
-sheet_selection_set (Sheet *sheet, int start_col, int start_row, int end_col, int end_row)
+sheet_selection_set (Sheet *sheet,
+		     int edit_col, int edit_row,
+		     int base_col, int base_row,
+		     int move_col, int move_row)
 {
 	SheetSelection *ss;
 	SheetSelection old_selection;
@@ -440,12 +441,19 @@ sheet_selection_set (Sheet *sheet, int start_col, int start_row, int end_col, in
 	ss = (SheetSelection *)sheet->selections->data;
 	old_selection = *ss;
 
-	ss->user.start.row = start_row;
-	ss->user.end.row = end_row;
-	ss->user.start.col = start_col;
-	ss->user.end.col = end_col;
+	sheet->cursor.edit_pos.col = edit_col;
+	sheet->cursor.edit_pos.row = edit_row;
+	sheet->cursor.base_corner.col = base_col;
+	sheet->cursor.base_corner.row = base_row;
+	sheet->cursor.move_corner.col = move_col;
+	sheet->cursor.move_corner.row = move_row;
 
-	sheet_selection_change (sheet, &old_selection, ss);
+	ss->user.start.col = MIN(base_col, move_col);
+	ss->user.start.row = MIN(base_row, move_row);
+	ss->user.end.col = MAX(base_col, move_col);
+	ss->user.end.row = MAX(base_row, move_row);
+
+	sheet_selection_change (sheet, &old_selection.user, &ss->user);
 }
 
 /**
@@ -492,21 +500,20 @@ sheet_selection_reset_only (Sheet *sheet)
 	for (tmp = list; tmp; tmp = tmp->next){
 		SheetSelection *ss = tmp->data;
 
-		sheet_redraw_selection (sheet, ss);
+		sheet_redraw_range (sheet, &ss->user);
 		sheet_redraw_headers (sheet, TRUE, TRUE, &ss->user);
 		g_free (ss);
 	}
 
 	g_list_free (tmp);
-	sheet->cursor_selection = NULL;
 }
 
 /**
  * sheet_selection_reset:
- * sheet:  The sheet
+ * @sheet:  The sheet
  *
  * Clears all of the selection ranges and resets it to a
- * selection that only covers the cursor
+ * selection that only covers the edit cursor.
  */
 void
 sheet_selection_reset (Sheet *sheet)
@@ -515,7 +522,9 @@ sheet_selection_reset (Sheet *sheet)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	sheet_selection_reset_only (sheet);
-	sheet_selection_append (sheet, sheet->cursor_col, sheet->cursor_row);
+	sheet_selection_add (sheet,
+			     sheet->cursor.edit_pos.col,
+			     sheet->cursor.edit_pos.row);
 }
 
 int
@@ -723,6 +732,7 @@ sheet_selection_move (ExprRelocateInfo *rinfo)
 	range_translate (&r, rinfo->col_offset, rinfo->row_offset);
 
 	sheet_selection_set (sheet,
+			     r.start.col, r.start.row,
 			     r.start.col, r.start.row,
 			     r.end.col, r.end.row);
 
@@ -1282,4 +1292,150 @@ sheet_selection_height_update (Sheet *sheet)
 				      ss->user.start.row, ss->user.end.row,
 				      &cb_set_row_height, NULL);
 	}
+}
+
+/*
+ * walk_boundaries : Iterates through a region by row then column.
+ *
+ * returns TRUE if the cursor leaves the boundary region.
+ */
+static gboolean
+walk_boundaries (Range const * const bound,
+		 int const inc_x, int const inc_y,
+		 CellPos const * const current,
+		 CellPos       * const result)
+{
+	if (current->row + inc_y > bound->end.row){
+		if (current->col + 1 > bound->end.col)
+			goto overflow;
+
+		result->row = bound->start.row;
+		result->col = current->col + 1;
+		return FALSE;
+	}
+
+	if (current->row + inc_y < bound->start.row){
+		if (current->col - 1 < bound->start.col)
+			goto overflow;
+
+		result->row = bound->end.row;
+		result->col = current->col - 1;
+		return FALSE;
+	}
+
+	if (current->col + inc_x > bound->end.col){
+		if (current->row + 1 > bound->end.row)
+			goto overflow;
+
+		result->row = current->row + 1;
+		result->col = bound->start.col;
+		return FALSE;
+	}
+
+	if (current->col + inc_x < bound->start.col){
+		if (current->row - 1 < bound->start.row)
+			goto overflow;
+		result->row = current->row - 1;
+		result->col = bound->end.col;
+		return FALSE;
+	}
+
+	result->row = current->row + inc_y;
+	result->col = current->col + inc_x;
+	return FALSE;
+
+overflow:
+	*result = *current;
+	return TRUE;
+}
+
+void
+sheet_selection_walk_step (Sheet *sheet,
+			   gboolean const forward,
+			   gboolean const horizontal)
+{
+	int const diff = forward ? 1 : -1;
+	int inc_x = 0, inc_y = 0;
+	int selections_count;
+	CellPos current, destination;
+	SheetSelection const *ss;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (sheet->selections != NULL);
+
+	current = sheet->cursor.edit_pos;
+
+	if (horizontal)
+		inc_x = diff;
+	else
+		inc_y = diff;
+
+	ss = sheet->selections->data;
+	selections_count = g_list_length (sheet->selections);
+
+	if (selections_count == 1) {
+		/* If there is no selection besides the cursor
+		 * iterate through the entire sheet.  Move the
+		 * cursor and selection as we go.
+		 * Ignore wrapping.  At that scale it is irrelevant.
+		 */
+		if (ss->user.start.col == ss->user.end.col &&
+		    ss->user.start.row == ss->user.end.row) {
+			Range full_sheet;
+			full_sheet.start.col = 0;
+			full_sheet.start.row = 0;
+			full_sheet.end.col   = SHEET_MAX_COLS-1;
+			full_sheet.end.row   = SHEET_MAX_ROWS-1;
+			if (!walk_boundaries (&full_sheet,
+					      inc_x, inc_y, &current, &destination))
+				sheet_make_cell_visible (sheet, 
+							 destination.col,
+							 destination.row);
+				sheet_cursor_move (sheet,
+						   destination.col,
+						   destination.row,
+						   TRUE, TRUE);
+		}
+	}
+
+	if (walk_boundaries (&ss->user, inc_x, inc_y, &current, &destination))
+	{
+		if (forward) {
+			GList *tmp = g_list_last (sheet->selections);
+			sheet->selections =
+			    g_list_concat (tmp,
+					   g_list_remove_link (sheet->selections,
+							       tmp));
+			ss = sheet->selections->data;
+			destination = ss->user.start;
+		} else {
+			GList *tmp = sheet->selections;
+			sheet->selections =
+			    g_list_concat (g_list_remove_link (sheet->selections,
+							       tmp),
+					   tmp);
+			ss = sheet->selections->data;
+			destination = ss->user.end;
+		}
+		if (selections_count != 1)
+			sheet_cursor_set (sheet,
+					  destination.col, destination.row,
+					  ss->user.start.col, ss->user.start.row,
+					  ss->user.end.col, ss->user.end.row);
+	}
+
+	sheet_redraw_cell_region (sheet,
+				  sheet->cursor.edit_pos.col,
+				  sheet->cursor.edit_pos.row,
+				  sheet->cursor.edit_pos.col,
+				  sheet->cursor.edit_pos.row);
+	sheet->cursor.edit_pos = destination;
+	sheet_redraw_cell_region (sheet,
+				  sheet->cursor.edit_pos.col,
+				  sheet->cursor.edit_pos.row,
+				  sheet->cursor.edit_pos.col,
+				  sheet->cursor.edit_pos.row);
+	sheet_make_cell_visible (sheet, 
+				 destination.col,
+				 destination.row);
 }

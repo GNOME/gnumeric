@@ -48,8 +48,6 @@ typedef struct {
 GtkType    gnumeric_sheet_get_type               (void);
 
 GtkWidget *gnumeric_sheet_new            	 (SheetView *sheet, ItemBar *colbar, ItemBar *rowbar);
-void       gnumeric_sheet_set_selection  	 (GnumericSheet *gsheet, int base_col, int base_row,
-						  SheetSelection const *ss);
 void       gnumeric_sheet_set_top_row            (GnumericSheet *gsheet, int new_first_row);
 void       gnumeric_sheet_set_left_col           (GnumericSheet *gsheet, int new_first_col);
 void       gnumeric_sheet_move_cursor            (GnumericSheet *gsheet,

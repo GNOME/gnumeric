@@ -3,6 +3,8 @@
  *
  * Author:
  *   Miguel de Icaza (miguel@kernel.org)
+ * Tooltip support:
+ *   Dom Lachowicz (dominicl@seas.upenn.edu)
  */
 #include <config.h>
 #include <gnome.h>
@@ -116,14 +118,14 @@ color_clicked (GtkWidget *button, ColorCombo *combo)
 }
 
 static GtkWidget *
-color_table_setup (ColorCombo *cc, char const * const no_color_label, int ncols, int nrows, char **color_names)
+color_table_setup (ColorCombo *cc, char const * const no_color_label, int ncols, int nrows, ColorNamePair *color_names)
 {
 	GtkWidget *label;
 	GtkWidget *table;
 	int total, row, col;
 	
 	table = gtk_table_new (ncols, nrows, 0);
-	
+
 	if (no_color_label != NULL) {
 		label = gtk_button_new_with_label (no_color_label);
 
@@ -136,11 +138,12 @@ color_table_setup (ColorCombo *cc, char const * const no_color_label, int ncols,
 		for (col = 0; col < ncols; col++){
 			GtkWidget *button;
 			GtkWidget *canvas;
+			GtkTooltips *tool_tip;
 			int pos;
 
 			pos = row * ncols + col;
 
-			if (color_names [pos] == NULL) {
+			if (color_names [pos].color == NULL) {
 				/* Break out of two for-loops.  */
 				row = nrows;
 				break;
@@ -165,9 +168,13 @@ color_table_setup (ColorCombo *cc, char const * const no_color_label, int ncols,
 				"y1", 0.0,
 				"x2", (double) COLOR_PREVIEW_WIDTH,
 				"y2", (double) COLOR_PREVIEW_HEIGHT,
-				"fill_color", color_names [pos],
+				"fill_color", color_names [pos].color,
 				NULL);
-			
+
+			tool_tip = gtk_tooltips_new();
+			gtk_tooltips_set_tip (tool_tip, button, _(color_names [pos].name),
+					      "Private+Unused");
+
 			gtk_table_attach (GTK_TABLE (table), button,
 					  col, col+1, row+1, row+2, GTK_FILL, GTK_FILL, 1, 1);
 
@@ -203,9 +210,9 @@ emit_change (GtkWidget *button, ColorCombo *cc)
 }
 
 void
-color_combo_construct (ColorCombo *cc, char **icon,
-		       char const * const no_color_label,
-		       int ncols, int nrows, char **color_names)
+color_combo_construct (ColorCombo *cc, char **icon, 
+		       char const * const no_color_label, 
+		       int ncols, int nrows, ColorNamePair *color_names)
 {
 	GdkImlibImage *image;
 	
@@ -218,8 +225,7 @@ color_combo_construct (ColorCombo *cc, char **icon,
 	 */
 	cc->preview_button = gtk_button_new ();
 	if (!gnome_preferences_get_toolbar_relief_btn ())
-		gtk_button_set_relief (GTK_BUTTON (cc->preview_button), GTK_RELIEF_NONE);
-			
+	  gtk_button_set_relief (GTK_BUTTON (cc->preview_button), GTK_RELIEF_NONE);
 	gtk_widget_push_visual (gdk_imlib_get_visual ());
 	gtk_widget_push_colormap (gdk_imlib_get_colormap ());
 	cc->preview_canvas = GNOME_CANVAS (gnome_canvas_new ());
@@ -248,7 +254,7 @@ color_combo_construct (ColorCombo *cc, char **icon,
 		"y1",         19.0,
 		"x2",         20.0,
 		"y2",         22.0,
-		"fill_color", color_names [0],
+		"fill_color", color_names [0].color,
 		NULL);
 	gtk_container_add (GTK_CONTAINER (cc->preview_button), GTK_WIDGET (cc->preview_canvas));
 	gtk_widget_set_usize (GTK_WIDGET (cc->preview_canvas), 24, 24);
@@ -266,13 +272,14 @@ color_combo_construct (ColorCombo *cc, char **icon,
 				 cc->preview_button,
 				 cc->color_table);
 
+
 	if (!gnome_preferences_get_toolbar_relief_btn ())
-		gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (cc), GTK_RELIEF_NONE);
+	  gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (cc), GTK_RELIEF_NONE);
 }
 
 GtkWidget *
 color_combo_new_with_vals (char **icon, char const * const no_color_label,
-			   int ncols, int nrows, char **color_names)
+			   int ncols, int nrows, ColorNamePair *color_names)
 {
 	ColorCombo *cc;
 	
@@ -289,76 +296,78 @@ color_combo_new_with_vals (char **icon, char const * const no_color_label,
 /*
  * this list of colors should match the Excel 2000 list of colors
  */
-static char *default_colors [] = {
-	"rgb:0/0/0", /* black */
-	"rgb:99/33/0", /* light brown */
-	"rgb:33/33/0", /* brown gold */
-	"rgb:0/33/0", /* dark green #2 */
-	"rgb:0/33/66", /* navy */
-	"rgb:0/0/80", /* dark blue */
-	"rgb:33/33/99", /* purple #2 */
-	"rgb:33/33/33", /* very dark gray */
+static ColorNamePair default_colors [] = {
+	{"rgb:0/0/0", N_("black")},
+	{"rgb:99/33/0", N_("light brown")},
+	{"rgb:33/33/0", N_("brown gold")},
+	{"rgb:0/33/0", N_("dark green #2")},
+	{"rgb:0/33/66", N_("navy")},
+	{"rgb:0/0/80", N_("dark blue")},
+	{"rgb:33/33/99", N_("purple #2")},
+	{"rgb:33/33/33", N_("very dark gray")},
 
 
-	"rgb:80/0/0", /* dark red */
-	"rgb:FF/66/0", /* red-orange */
-	"rgb:80/80/0", /* gold */
-	"rgb:0/80/0", /* dark green */
-	"rgb:0/80/80", /* dull blue */
-	"rgb:0/0/FF", /* blue */
-	"rgb:66/66/99", /* dull purple */
-	"rgb:80/80/80", /* dark grey */
+	{"rgb:80/0/0", N_("dark red")},
+	{"rgb:FF/66/0", N_("red-orange")},
+	{"rgb:80/80/0", N_("gold")},
+	{"rgb:0/80/0", N_("dark green")},
+	{"rgb:0/80/80", N_("dull blue")},
+	{"rgb:0/0/FF", N_("blue")},
+	{"rgb:66/66/99", N_("dull purple")},
+	{"rgb:80/80/80", N_("dark grey")},
 
 
-	"rgb:FF/0/0", /* red */
-	"rgb:FF/99/0", /* orange */
-	"rgb:99/CC/0", /* lime */
-	"rgb:33/99/66", /* dull green */
-	"rgb:33/CC/CC",/* dull blue #2 */
-	"rgb:33/66/FF", /* sky blue #2 */
-	"rgb:80/0/80", /* purple */
-	"rgb:96/96/96", /* gray */
+	{"rgb:FF/0/0", N_("red")},
+	{"rgb:FF/99/0", N_("orange")},
+	{"rgb:99/CC/0", N_("lime")},
+	{"rgb:33/99/66", N_("dull green")},
+	{"rgb:33/CC/CC",N_("dull blue #2")},
+	{"rgb:33/66/FF", N_("sky blue #2")},
+	{"rgb:80/0/80", N_("purple")},
+	{"rgb:96/96/96", N_("gray")},
 
 
-	"rgb:FF/0/FF", /* magenta */
-	"rgb:FF/CC/0", /* bright orange */
-	"rgb:FF/FF/0", /* yellow */
-	"rgb:0/FF/0", /* green */
-	"rgb:0/FF/FF", /* cyan */
-	"rgb:0/CC/FF", /* bright blue */
-	"rgb:99/33/66", /* red purple */
-	"rgb:c0/c0/c0", /* light grey */
+	{"rgb:FF/0/FF", N_("magenta")},
+	{"rgb:FF/CC/0", N_("bright orange")},
+	{"rgb:FF/FF/0", N_("yellow")},
+	{"rgb:0/FF/0", N_("green")},
+	{"rgb:0/FF/FF", N_("cyan")},
+	{"rgb:0/CC/FF", N_("bright blue")},
+	{"rgb:99/33/66", N_("red purple")},
+	{"rgb:c0/c0/c0", N_("light grey")},
 
 
-	"rgb:FF/99/CC", /* pink */
-	"rgb:FF/CC/99", /* light orange */
-	"rgb:FF/FF/99", /* light yellow */
-	"rgb:CC/FF/CC", /* light green */
-	"rgb:CC/FF/FF", /* light cyan */
-	"rgb:99/CC/FF", /* light blue */
-	"rgb:CC/99/FF", /* light purple */
-	"rgb:FF/FF/FF", /* white */
+	{"rgb:FF/99/CC", N_("pink")},
+	{"rgb:FF/CC/99", N_("light orange")},
+	{"rgb:FF/FF/99", N_("light yellow")},
+	{"rgb:CC/FF/CC", N_("light green")},
+	{"rgb:CC/FF/FF", N_("light cyan")},
+	{"rgb:99/CC/FF", N_("light blue")},
+	{"rgb:CC/99/FF", N_("light purple")},
+	{"rgb:FF/FF/FF", N_("white")},
 
+	/* Disable these for now, they are mostly repeats */
+	{NULL, NULL},
 
-	"rgb:99/99/FF", /* purplish blue */
-	"rgb:99/33/66", /* red purple */
-	"rgb:FF/FF/CC", /* light yellow */
-	"rgb:CC/FF/FF", /* light blue */
-	"rgb:66/0/66", /* dark purple */
-	"rgb:FF/80/80", /* pink */
-	"rgb:0/66/CC", /* sky blue */
-	"rgb:CC/CC/FF", /* light purple */
+	{"rgb:99/99/FF", N_("purplish blue")},
+	{"rgb:99/33/66", N_("red purple")},
+	{"rgb:FF/FF/CC", N_("light yellow")},
+	{"rgb:CC/FF/FF", N_("light blue")},
+	{"rgb:66/0/66", N_("dark purple")},
+	{"rgb:FF/80/80", N_("pink")},
+	{"rgb:0/66/CC", N_("sky blue")},
+	{"rgb:CC/CC/FF", N_("light purple")},
 
-	"rgb:0/0/80", /* dark blue */
-	"rgb:FF/0/FF", /* magenta */
-	"rgb:FF/FF/0", /* yellow */
-	"rgb:0/FF/FF", /* cyan */
-	"rgb:80/0/80", /* purple */
-	"rgb:80/0/0", /* dark red */
-	"rgb:0/80/80", /* dull blue */
-	"rgb:0/0/FF", /* blue */
+	{"rgb:0/0/80", N_("dark blue")},
+	{"rgb:FF/0/FF", N_("magenta")},
+	{"rgb:FF/FF/0", N_("yellow")},
+	{"rgb:0/FF/FF", N_("cyan")},
+	{"rgb:80/0/80", N_("purple")},
+	{"rgb:80/0/0", N_("dark red")},
+	{"rgb:0/80/80", N_("dull blue")},
+	{"rgb:0/0/FF", N_("blue")},
 
-	NULL
+	{NULL, NULL}
 };
 
 GtkWidget *

@@ -268,7 +268,8 @@ dialog_goal_seek (Workbook *wb, Sheet *sheet)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	set_entry_str = cell_name (sheet->cursor_col, sheet->cursor_row);
+	set_entry_str = cell_name (sheet->cursor.edit_pos.col,
+				   sheet->cursor.edit_pos.row);
 
 	if (!dialog) {
 		GtkWidget *set_label, *target_label, *change_label;

@@ -441,8 +441,8 @@ cb_sheet_check_dirty (gpointer key, gpointer value, gpointer user_data)
 
 		entry = GTK_ENTRY (sheet->workbook->ea_input);
 		txt   = gtk_entry_get_text (entry);
-		cell = sheet_cell_get (sheet, sheet->cursor_col,
-				       sheet->cursor_row);
+		cell = sheet_cell_get (sheet, sheet->cursor.edit_pos.col,
+				       sheet->cursor.edit_pos.row);
 		if (!cell) {
 			if (!strlen (txt))
 				return;
@@ -691,7 +691,7 @@ paste_cmd (GtkWidget *widget, Workbook *wb)
 	Sheet *sheet = wb->current_sheet;
 
 	sheet_selection_paste (workbook_command_context_gui (wb), sheet,
-			       sheet->cursor_col, sheet->cursor_row,
+			       sheet->cursor.edit_pos.col, sheet->cursor.edit_pos.row,
 			       PASTE_DEFAULT, GDK_CURRENT_TIME);
 }
 
@@ -707,7 +707,7 @@ paste_special_cmd (GtkWidget *widget, Workbook *wb)
 	flags = dialog_paste_special (wb);
 	if (flags != 0)
 		sheet_selection_paste (workbook_command_context_gui (wb), sheet,
-				       sheet->cursor_col, sheet->cursor_row,
+				       sheet->cursor.edit_pos.col, sheet->cursor.edit_pos.row,
 				       flags, GDK_CURRENT_TIME);
 
 }
@@ -952,7 +952,7 @@ insert_current_date_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
 	cmd_set_date_time (workbook_command_context_gui (wb), TRUE,
-			   sheet, sheet->cursor_col, sheet->cursor_row);
+			   sheet, sheet->cursor.edit_pos.col, sheet->cursor.edit_pos.row);
 }
 
 static void
@@ -960,7 +960,7 @@ insert_current_time_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
 	cmd_set_date_time (workbook_command_context_gui (wb), TRUE,
-			   sheet, sheet->cursor_col, sheet->cursor_row);
+			   sheet, sheet->cursor.edit_pos.col, sheet->cursor.edit_pos.row);
 }
 
 static void
@@ -969,10 +969,14 @@ workbook_edit_comment (GtkWidget *widget, Workbook *wb)
 	Sheet *sheet = wb->current_sheet;
 	Cell *cell;
 
-	cell = sheet_cell_get (sheet, sheet->cursor_col, sheet->cursor_row);
+	cell = sheet_cell_get (sheet,
+			       sheet->cursor.edit_pos.col,
+			       sheet->cursor.edit_pos.row);
 
 	if (!cell) {
-		cell = sheet_cell_new (sheet, sheet->cursor_col, sheet->cursor_row);
+		cell = sheet_cell_new (sheet,
+				       sheet->cursor.edit_pos.col,
+				       sheet->cursor.edit_pos.row);
 		cell_set_value (cell, value_new_empty ());
 	}
 

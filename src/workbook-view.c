@@ -12,6 +12,7 @@
 #include "command-context.h"
 #include "command-context-gui.h"
 #include "workbook.h"
+#include "history.h"
 #include "workbook-private.h"
 #include "gnumeric-util.h"
 #include "application.h"

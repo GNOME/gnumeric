@@ -596,8 +596,8 @@ dialog_solver (Workbook *wb, Sheet *sheet)
 	}
 
 	if (!target_entry_str)
-	        target_entry_str = (gchar *) cell_name (sheet->cursor_col,
-							sheet->cursor_row);
+	        target_entry_str = (gchar *) cell_name (sheet->cursor.edit_pos.col,
+							sheet->cursor.edit_pos.row);
 
 	dialog = glade_xml_get_widget (gui, "Solver");
 	target_entry = glade_xml_get_widget (gui, "target-cell");

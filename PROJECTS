@@ -22,9 +22,9 @@ Description                                             Difficulty  Integration
   browsing/listing the funtions & I/O routines it
   provides.
 
-- Add tooltips for colours in
-  src/widgets/widget-color-combo.c			Low	    Low.
-  Have a look at widget-pixmap-combo.c for an example.
+- Make the new combo boxes tear-off-able   		High	    Low.
+
+- Add 'custom' button to color combo boxes. 		Low	    Low.
 
 - Save/Restore the values of the last selected colours	Low	    Low.
   from the toolbar for background or font.

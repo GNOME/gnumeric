@@ -487,9 +487,7 @@ sheet_style_attach (Sheet  *sheet, Range range,
 	sheet_style_cache_flush (sheet);
 
 	/* FIXME: Need to clip range against view port */
-	sheet_redraw_cell_region (sheet,
-				  range.start.col, range.start.row,
-				  range.end.col,   range.end.row);
+	sheet_redraw_range (sheet, &range);
 }
 
 static inline MStyle *
@@ -575,8 +573,7 @@ sheet_range_apply_style (Sheet       *sheet,
 	sheet_style_optimize (sheet, *range);
 	sheet_cells_update   (sheet, *range,
 			      mstyle_is_element_set (style, MSTYLE_FORMAT));
-	sheet_redraw_cell_region (sheet, range->start.col, range->start.row,
-				  range->end.col, range->end.row);
+	sheet_redraw_range (sheet, range);
 }
 
 void
@@ -1195,8 +1192,7 @@ sheet_range_set_border (Sheet         *sheet,
 		sheet_style_attach (sheet, *range, mstyle);
 
 	sheet_style_optimize (sheet, *range);
-	sheet_redraw_cell_region (sheet, range->start.col, range->start.row,
-				  range->end.col, range->end.row);
+	sheet_redraw_range (sheet, range);
 }
 
 /**

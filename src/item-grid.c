@@ -279,7 +279,7 @@ item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 	int const w    = ci->size_pixels;
 	int const h    = ri->size_pixels;
 
-	gboolean const is_selected = !(sheet->cursor_col == col && sheet->cursor_row == row) &&
+	gboolean const is_selected = !(sheet->cursor.edit_pos.col == col && sheet->cursor.edit_pos.row == row) &&
 	    sheet_selection_is_cell_selected (sheet, col, row);
 
 	if (gnumeric_background_set_gc (mstyle, gc, item_grid->canvas_item.canvas, is_selected))
@@ -316,8 +316,8 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 		int const w = cell->col->size_pixels;
 		int const h = cell->row->size_pixels;
 
-		gboolean const is_selected = !(sheet->cursor_col == cell->col->pos &&
-					       sheet->cursor_row == cell->row->pos) &&
+		gboolean const is_selected = !(sheet->cursor.edit_pos.col == cell->col->pos &&
+					       sheet->cursor.edit_pos.row == cell->row->pos) &&
 		    sheet_selection_is_cell_selected (sheet, cell->col->pos, cell->row->pos);
 
 		/* Draw cell contents BEFORE border */
@@ -525,9 +525,12 @@ context_copy_cmd (GtkWidget *widget, Sheet *sheet)
 static void
 context_paste_cmd (GtkWidget *widget, Sheet *sheet)
 {
+	/* Paste starting at the upper left of the selection */
 	sheet_selection_paste (workbook_command_context_gui (sheet->workbook), sheet,
-			       sheet->cursor_col,
-			       sheet->cursor_row,
+			       MIN(sheet->cursor.base_corner.col,
+				   sheet->cursor.move_corner.col),
+			       MIN(sheet->cursor.base_corner.row,
+				   sheet->cursor.move_corner.row),
 			       PASTE_DEFAULT,
 			       GDK_CURRENT_TIME);
 	context_destroy_menu (widget);
@@ -538,11 +541,14 @@ context_paste_special_cmd (GtkWidget *widget, Sheet *sheet)
 {
 	int flags;
 
+	/* Paste starting at the upper left of the selection */
 	flags = dialog_paste_special (sheet->workbook);
 	if (flags != 0)
 		sheet_selection_paste (workbook_command_context_gui (sheet->workbook), sheet,
-				       sheet->cursor_col,
-				       sheet->cursor_row,
+				       MIN(sheet->cursor.base_corner.col,
+					   sheet->cursor.move_corner.col),
+				       MIN(sheet->cursor.base_corner.row,
+					   sheet->cursor.move_corner.row),
 				       flags,
 				       GDK_CURRENT_TIME);
 	context_destroy_menu (widget);
@@ -839,7 +845,7 @@ item_grid_button_1 (Sheet *sheet, GdkEvent *event, ItemGrid *item_grid, int col,
 	if ((event->button.state & GDK_SHIFT_MASK) && sheet->selections)
 		sheet_selection_extend_to (sheet, col, row);
 	else
-		sheet_selection_append (sheet, col, row);
+		sheet_selection_add (sheet, col, row);
 
 	gnome_canvas_item_grab (item,
 				GDK_POINTER_MOTION_MASK |
@@ -1015,7 +1021,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		switch (event->button.button) {
 		case 1 :
 			if (item_grid->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE)
-				sheet_make_cell_visible (sheet, sheet->cursor_col, sheet->cursor_row);
+				sheet_make_cell_visible (sheet, sheet->cursor.edit_pos.col, sheet->cursor.edit_pos.row);
 
 			item_grid->selecting = ITEM_GRID_NO_SELECTION;
 			gnome_canvas_item_ungrab (item, event->button.time);

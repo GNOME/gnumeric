@@ -37,7 +37,9 @@ static POA_GNOME_Gnumeric_WorkbookFactory__vepv gnumeric_workbook_factory_vepv;
 static GNOME_Gnumeric_Workbook
 WorkbookFactory_read (PortableServer_Servant servant, const CORBA_char * filename, CORBA_Environment * ev)
 {
-	Workbook *workbook = workbook_read (command_context_corba (workbook), filename);
+	Workbook *workbook = workbook_read (
+					    command_context_corba (
+								   ), filename);
 	gtk_widget_show (workbook->toplevel);
 	
 	if (workbook)

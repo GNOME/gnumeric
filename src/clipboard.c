@@ -352,9 +352,12 @@ sheet_paste_selection (CommandContext *context, Sheet *sheet,
 			  pc->dest_col, pc->dest_row,
 			  end_col,      end_row);
 
+	/* Make the newly pasted region the selection */
 	sheet_selection_reset_only (pc->dest_sheet);
-	sheet_selection_append (pc->dest_sheet, pc->dest_col, pc->dest_row);
-	sheet_selection_extend_to (pc->dest_sheet, end_col, end_row);
+	sheet_selection_add_range (pc->dest_sheet,
+				   pc->dest_col, pc->dest_row,
+				   pc->dest_col, pc->dest_row,
+				   end_col, end_row);
 }
 
 /**

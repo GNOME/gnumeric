@@ -16,10 +16,6 @@ struct _StyleRegion {
 };
 
 struct _SheetSelection {
-	/* TODO : Remove this.  It should be part of the sheet cursor
-	 * data structures */
-        CellPos base;
-
 	/* This range may overlap other regions in the selection list */
         Range user;
 };
@@ -75,14 +71,20 @@ struct _Sheet {
 
 	GHashTable  *cell_hash;	/* The cells in hashed format */
 
-	GList       *selections;
+	struct {
+		/* Cell that would be edited */
+		CellPos	 edit_pos;
+		/* Static corner to rubber band the selecton range around */
+		CellPos	 base_corner;
+		/* Corner that is moved when the selection range is extended */
+		CellPos	 move_corner;
+	} cursor;
 
-	/* Cursor information */
-	/* TODO switch to CellPos */
-	int         cursor_col, cursor_row; /* Where the cursor is */
-	SheetSelection *cursor_selection;
-	/* TODO : seperate cursor handling from selection */
-/*	CellPos  selection_corner;*/	/* A corner of the current selection */
+	/*
+	 * an ordered list of Ranges, the first of
+	 * which corresponds to the range base_corner:move_corner
+	 */
+	GList       *selections;
 
 	/* The list of cells that have a comment */
 	GList       *comment_list;
@@ -145,9 +147,9 @@ void        sheet_foreach_colrow	 (Sheet *sheet, ColRowCollection *infos,
 					  void *user_data);
 void        sheet_set_zoom_factor      	 (Sheet *sheet, double factor);
 void        sheet_cursor_set             (Sheet *sheet,
-					  int base_col,  int base_row,
-					  int start_col, int start_row,
-					  int end_col,   int end_row);
+					  int edit_col, int edit_row,
+					  int base_col, int base_row,
+					  int move_col, int move_row);
 void        sheet_cursor_move            (Sheet *sheet, int col, int row,
 					  gboolean clear_selection, gboolean add_dest_to_selection);
 void        sheet_make_cell_visible      (Sheet *sheet, int col, int row);
@@ -251,14 +253,6 @@ void    sheet_row_set_default_size_pts  (Sheet *sheet, double height_pts,
 int     sheet_col_size_fit_pixels     (Sheet *sheet, int col);
 int     sheet_row_size_fit_pixels     (Sheet *sheet, int row);
 
-void        sheet_col_set_selection       (Sheet *sheet,
-					   ColRowInfo *ci, int value);
-void        sheet_row_set_selection       (Sheet *sheet,
-					   ColRowInfo *ri, int value);
-void        sheet_set_selection           (Sheet *sheet,
-					   int base_col, int base_row,
-					   SheetSelection const *ss);
-
 void	    sheet_row_col_visible         (Sheet *sheet, gboolean const is_col,
 					   gboolean const visible,
 					   int index, int count);
@@ -309,7 +303,6 @@ void        sheet_redraw_cell_region      (Sheet const *sheet,
 void	    sheet_redraw_headers          (Sheet const *sheet,
 					   gboolean const col, gboolean const row,
 					   Range const * r /* optional == NULL */);
-void        sheet_redraw_selection        (Sheet const *sheet, SheetSelection const *ss);
 void        sheet_redraw_range            (Sheet const *sheet, Range const *sheet_selection);
 void        sheet_redraw_all              (Sheet const *sheet);
 
