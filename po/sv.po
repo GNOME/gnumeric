@@ -30,14 +30,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-10 00:27-0400\n"
+"POT-Creation-Date: 2003-09-10 20:59+0200\n"
 "PO-Revision-Date: 2003-09-08 13:15+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 
 #: GNOME_Gnumeric.server.in.in.h:1
 msgid "Gnumeric Workbook"
@@ -17091,11 +17091,11 @@ msgstr "Kunde inte köra GNOME-verktyget för databaskonfiguration"
 
 #: plugins/gnome-db/plugin.xml.in.h:1
 msgid "Database UI services plugin"
-msgstr ""
+msgstr "Insticksmodul för databas UI-tjänster"
 
 #: plugins/gnome-db/plugin.xml.in.h:2
 msgid "GNOME-DB"
-msgstr ""
+msgstr "GNOME-DB"
 
 #: plugins/gnome-db/ui.xml.h:1
 msgid "Data Sources..."
@@ -17324,11 +17324,10 @@ msgstr ""
 
 #. xgettext: you can translate the funny character as an 'o' if unicode is not available.
 #: plugins/numtheory/numtheory.c:247
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=NT_MU function (Möbius mu function) returns \n"
+"@DESCRIPTION=NT_MU function (Mbius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "\n"
@@ -17681,26 +17680,24 @@ msgstr "Standardtolk"
 
 #: plugins/python-loader/gnm-python.c:130
 #: plugins/python-loader/gnm-python.c:152
-#, fuzzy, c-format
+#, c-format
 msgid "Could not import %s."
-msgstr ""
-"Kunde inte importera filen %s\n"
-"%%s"
+msgstr "Kunde inte importera %si."
 
 #: plugins/python-loader/gnm-python.c:137
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find %s."
-msgstr "Kunde inte läsa in fil: %s"
+msgstr "Kunde inte hitta %s."
 
 #: plugins/python-loader/gnm-python.c:145
 #, c-format
 msgid "Could not initialize Python bindings for Gtk+, etc: %s"
-msgstr ""
+msgstr "Kunde inte initialisera Python-bindningar för Gtk+, osv: %s"
 
 #: plugins/python-loader/gnm-python.c:159
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find %s"
-msgstr "Kunde inte läsa in fil: %s"
+msgstr "Kunde inte hitta %s"
 
 #: plugins/python-loader/plugin.xml.in.h:1
 msgid "Python plugin loader"
@@ -17854,12 +17851,11 @@ msgstr ""
 
 #: plugins/sample_datasource/plugin.xml.in.h:1
 msgid "A proof of concept external data source"
-msgstr ""
+msgstr "En exempelversion av en extern datakälla"
 
 #: plugins/sample_datasource/plugin.xml.in.h:3
-#, fuzzy
 msgid "Sample DataSource"
-msgstr "Stickprovsvarians"
+msgstr "Stickprov datakälla"
 
 #: plugins/sample_datasource/sample_datasource.c:264
 #, no-c-format
@@ -17944,11 +17940,11 @@ msgstr "Hej Världen"
 
 #: plugins/uihello/plugin.xml.in.h:1
 msgid "Hello World plugin using ui service"
-msgstr ""
+msgstr "Hej Världen-plugin som använder ui-tjänster"
 
 #: plugins/uihello/plugin.xml.in.h:2
 msgid "UI Hello"
-msgstr ""
+msgstr "UI Hej"
 
 #: plugins/uihello/uihello.c:24
 #, c-format
@@ -19137,7 +19133,7 @@ msgstr "Gå till specifierad cell"
 
 #: src/GNOME_Gnumeric.xml.h:142
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:299
-#: src/sheet-object-graphic.c:1434 src/workbook-object-toolbar.c:147
+#: src/sheet-object-graphic.c:1440 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Rubrik"
 
@@ -20619,39 +20615,33 @@ msgid "Reconfigure Graph"
 msgstr "Konfigurera om graf"
 
 #: src/consolidate.c:773
-#, fuzzy, c-format
+#, c-format
 msgid "Consolidating to (%s)"
-msgstr "Konsolidiering till %s!%s"
+msgstr "Konsolidiering till (%s)"
 
 #: src/consolidate.c:812 src/consolidate.c:815
-#, fuzzy
 msgid "Data Consolidation"
 msgstr "Datakonsolidation"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:1
-#, fuzzy
 msgid "_Cross"
-msgstr "kors"
+msgstr "_Kors"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:2
-#, fuzzy
 msgid "_High"
-msgstr "Höjd"
+msgstr "_Hög"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
-#, fuzzy
 msgid "_Invert"
-msgstr "_Infoga"
+msgstr "_Invertera"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
-#, fuzzy
 msgid "_Low"
-msgstr "_Rad"
+msgstr "_Låg"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
-#, fuzzy
 msgid "_Map:"
-msgstr "_Mellanrum:"
+msgstr "_Karta:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
 #: src/dialogs/solver.glade.h:14
@@ -21044,18 +21034,16 @@ msgstr "PlotStapKol"
 #. * 	PlotLine2
 #.
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:44
-#, fuzzy
 msgid "PlotLine"
-msgstr "GrafCirkel"
+msgstr "GrafLinje"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotArea2
 #.
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:114
-#, fuzzy
 msgid "PlotArea"
-msgstr "GrafCirkel"
+msgstr "GrafArea"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:1
 msgid "3D Adjacent Bars"
@@ -22010,7 +21998,7 @@ msgstr "_Indata"
 #: src/dialogs/correlation.glade.h:11 src/dialogs/covariance.glade.h:11
 #: src/dialogs/descriptive-stats.glade.h:21
 #: src/dialogs/dialog-analysis-tools.c:338
-#: src/dialogs/dialog-analysis-tools.c:2584 src/dialogs/dialog-shuffle.c:149
+#: src/dialogs/dialog-analysis-tools.c:2586 src/dialogs/dialog-shuffle.c:149
 #: src/dialogs/exp-smoothing.glade.h:14
 #: src/dialogs/fourier-analysis.glade.h:12
 #: src/dialogs/moving-averages.glade.h:16 src/dialogs/rank.glade.h:14
@@ -22876,15 +22864,13 @@ msgstr "John Gotts, rpm-paketering."
 #. xgettext:
 #. * The funny character between "G" and "l" here is a \"u.
 #: src/dialogs/dialog-about.c:65
-#, fuzzy
-msgid "Andreas J. Gülzow, Gnumeric hacker."
+msgid "Andreas J. Glzow, Gnumeric hacker."
 msgstr "Andreas J. Gülzow, Gnumeric-hacker."
 
 #. xgettext:
 #. * The funny character between "K" and "r" here is 'aring'.
 #: src/dialogs/dialog-about.c:68
-#, fuzzy
-msgid "Jon Kåre Hellan, Gnumeric hacker."
+msgid "Jon Kre Hellan, Gnumeric hacker."
 msgstr "Jon Kåre Hellan, Gnumeric-hacker."
 
 #: src/dialogs/dialog-about.c:69
@@ -23003,10 +22989,10 @@ msgid "No matching records were found."
 msgstr "Inga matachande poster hittades."
 
 #: src/dialogs/dialog-advanced-filter.c:160
-#: src/dialogs/dialog-analysis-tools.c:583
-#: src/dialogs/dialog-analysis-tools.c:701
-#: src/dialogs/dialog-analysis-tools.c:1983
-#: src/dialogs/dialog-analysis-tools.c:2874
+#: src/dialogs/dialog-analysis-tools.c:585
+#: src/dialogs/dialog-analysis-tools.c:703
+#: src/dialogs/dialog-analysis-tools.c:1985
+#: src/dialogs/dialog-analysis-tools.c:2876
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Ett oväntat fel har inträffat: %d."
@@ -23019,42 +23005,42 @@ msgstr "_Listområde:"
 msgid "Could not create the Advanced Filter dialog."
 msgstr "Kunde inte skapa den avancerade filterdialogen."
 
-#: src/dialogs/dialog-analysis-tools.c:569
-#: src/dialogs/dialog-analysis-tools.c:687
+#: src/dialogs/dialog-analysis-tools.c:571
+#: src/dialogs/dialog-analysis-tools.c:689
 msgid "The selected input rows must have equal size!"
 msgstr "De valda indataraderna måste ha samma storlek!"
 
-#: src/dialogs/dialog-analysis-tools.c:574
-#: src/dialogs/dialog-analysis-tools.c:692
+#: src/dialogs/dialog-analysis-tools.c:576
+#: src/dialogs/dialog-analysis-tools.c:694
 msgid "The selected input columns must have equal size!"
 msgstr "De valda indatakolumnerna måste ha samma storlek!"
 
-#: src/dialogs/dialog-analysis-tools.c:579
-#: src/dialogs/dialog-analysis-tools.c:697
+#: src/dialogs/dialog-analysis-tools.c:581
+#: src/dialogs/dialog-analysis-tools.c:699
 msgid "The selected input areas must have equal size!"
 msgstr "De valda indataområdena måste ha samma storlek!"
 
-#: src/dialogs/dialog-analysis-tools.c:626
+#: src/dialogs/dialog-analysis-tools.c:628
 msgid "Could not create the Correlation Tool dialog."
 msgstr "Kunde inte skapa korrelationsverktygsdialogen."
 
-#: src/dialogs/dialog-analysis-tools.c:744
+#: src/dialogs/dialog-analysis-tools.c:746
 msgid "Could not create the Covariance Tool dialog."
 msgstr "Kunde inte skapa kovariansverktygsdialogen."
 
-#: src/dialogs/dialog-analysis-tools.c:833
+#: src/dialogs/dialog-analysis-tools.c:835
 msgid "Could not create the Rank and Percentile Tools dialog."
 msgstr "Kunde inte skapa dialogen för rank- och percentil-verktyget."
 
-#: src/dialogs/dialog-analysis-tools.c:923
+#: src/dialogs/dialog-analysis-tools.c:925
 msgid "Could not create the Fourier Analysis Tool dialog."
 msgstr "Kunde inte skapa dialogen för fourieranalysverktyget."
 
-#: src/dialogs/dialog-analysis-tools.c:1085
+#: src/dialogs/dialog-analysis-tools.c:1087
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr "Kunde inte skapa dialogen för beskrivande statistik-verktyget."
 
-#: src/dialogs/dialog-analysis-tools.c:1227
+#: src/dialogs/dialog-analysis-tools.c:1229
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
@@ -23062,7 +23048,7 @@ msgstr ""
 "Ange en giltig populationsvarians\n"
 "för variabel 1."
 
-#: src/dialogs/dialog-analysis-tools.c:1236
+#: src/dialogs/dialog-analysis-tools.c:1238
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
@@ -23070,73 +23056,73 @@ msgstr ""
 "Ange en giltig populationsvarians\n"
 "för variabel 2."
 
-#: src/dialogs/dialog-analysis-tools.c:1461
+#: src/dialogs/dialog-analysis-tools.c:1463
 msgid "Var_iable 1 Range:"
 msgstr "_Område för variabel 1:"
 
-#: src/dialogs/dialog-analysis-tools.c:1462
+#: src/dialogs/dialog-analysis-tools.c:1464
 msgid "_Variable 2 Range:"
 msgstr "Om_råde för variabel 2:"
 
-#: src/dialogs/dialog-analysis-tools.c:1463
+#: src/dialogs/dialog-analysis-tools.c:1465
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "Kunde inte skapa dialogen för medelvärdestestverktyget."
 
-#: src/dialogs/dialog-analysis-tools.c:1660
+#: src/dialogs/dialog-analysis-tools.c:1662
 msgid "Var_iable 1 Range"
 msgstr "_Område för variabel 1"
 
-#: src/dialogs/dialog-analysis-tools.c:1660
+#: src/dialogs/dialog-analysis-tools.c:1662
 msgid "_Variable 2 Range"
 msgstr "Om_råde för variabel 2"
 
-#: src/dialogs/dialog-analysis-tools.c:1661
+#: src/dialogs/dialog-analysis-tools.c:1663
 msgid "Could not create the FTest Tool dialog."
 msgstr "Kunde inte skapa FTest-verktygsdialogen."
 
-#: src/dialogs/dialog-analysis-tools.c:1863
+#: src/dialogs/dialog-analysis-tools.c:1865
 msgid "Could not create the Sampling Tool dialog."
 msgstr "Kunde inte skapa dialogen för provtagningsverkyget."
 
-#: src/dialogs/dialog-analysis-tools.c:1978 src/tools/analysis-tools.c:2158
+#: src/dialogs/dialog-analysis-tools.c:1980 src/tools/analysis-tools.c:2158
 #: src/tools/analysis-tools.c:2237
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr "Det måste finnas samma antal poster för varje variabel i regressionen."
 
-#: src/dialogs/dialog-analysis-tools.c:2081 src/dialogs/regression.glade.h:21
+#: src/dialogs/dialog-analysis-tools.c:2083 src/dialogs/regression.glade.h:21
 msgid "_X Variables:"
 msgstr "_X-variabler:"
 
-#: src/dialogs/dialog-analysis-tools.c:2081 src/dialogs/regression.glade.h:22
+#: src/dialogs/dialog-analysis-tools.c:2083 src/dialogs/regression.glade.h:22
 msgid "_Y Variable:"
 msgstr "_Y-variabel:"
 
-#: src/dialogs/dialog-analysis-tools.c:2082
+#: src/dialogs/dialog-analysis-tools.c:2084
 msgid "Could not create the Regression Tool dialog."
 msgstr "Kunde inte skapa regressionsverktygsdialogen."
 
-#: src/dialogs/dialog-analysis-tools.c:2218
+#: src/dialogs/dialog-analysis-tools.c:2220
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "Kunde inte skapa dialogen för det exponentiella utsmetningsverkyget."
 
-#: src/dialogs/dialog-analysis-tools.c:2359
+#: src/dialogs/dialog-analysis-tools.c:2361
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "Kunde inte skapa dialogen för rullande medelvärdesverktyget."
 
-#: src/dialogs/dialog-analysis-tools.c:2584 src/dialogs/histogram.glade.h:3
+#: src/dialogs/dialog-analysis-tools.c:2586 src/dialogs/histogram.glade.h:3
 msgid "Bin _Range:"
 msgstr "_Gruppområde:"
 
-#: src/dialogs/dialog-analysis-tools.c:2585
+#: src/dialogs/dialog-analysis-tools.c:2587
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Kunde inte skapa histogramverktygsdialogen."
 
-#: src/dialogs/dialog-analysis-tools.c:2761
+#: src/dialogs/dialog-analysis-tools.c:2763
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "Kunde inte skapa ANOVA-verktygsdialogen (enkel faktor)."
 
-#: src/dialogs/dialog-analysis-tools.c:2840
+#: src/dialogs/dialog-analysis-tools.c:2842
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
@@ -23144,7 +23130,7 @@ msgstr ""
 "Det angivna indataområdet bör innehålla åtminstone två kolumner och två "
 "rader med data och rubrikerna."
 
-#: src/dialogs/dialog-analysis-tools.c:2843
+#: src/dialogs/dialog-analysis-tools.c:2845
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
@@ -23152,7 +23138,7 @@ msgstr ""
 "Det angivna indataområdet bör innehålla åtminstone två kolumner och två "
 "rader med data."
 
-#: src/dialogs/dialog-analysis-tools.c:2849
+#: src/dialogs/dialog-analysis-tools.c:2851
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
@@ -23160,12 +23146,12 @@ msgstr ""
 "Det angivna indataområdet bör innehålla åtminstone två kolumner med data och "
 "rubrikerna."
 
-#: src/dialogs/dialog-analysis-tools.c:2852
+#: src/dialogs/dialog-analysis-tools.c:2854
 msgid "The given input range should contain at least two columns of data."
 msgstr ""
 "Det angivna indataområdet bör innehålla åtminstone två kolumner med data."
 
-#: src/dialogs/dialog-analysis-tools.c:2858
+#: src/dialogs/dialog-analysis-tools.c:2860
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
@@ -23173,15 +23159,15 @@ msgstr ""
 "Det angivna indataområdet bör innehålla åtminstone två rader med data och "
 "rubrikerna."
 
-#: src/dialogs/dialog-analysis-tools.c:2861
+#: src/dialogs/dialog-analysis-tools.c:2863
 msgid "The given input range should contain at least two rows of data."
 msgstr "Det angivna indataområdet bör innehålla åtminstone två rader med data."
 
-#: src/dialogs/dialog-analysis-tools.c:2868
+#: src/dialogs/dialog-analysis-tools.c:2870
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr "Antalet datarader måste vara en multipel av upprepningstalet."
 
-#: src/dialogs/dialog-analysis-tools.c:2965
+#: src/dialogs/dialog-analysis-tools.c:2967
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Kunde inte skapa ANOVA-verktygsdialogen (dubbel faktor)."
 
@@ -28517,27 +28503,26 @@ msgstr "Kunde inte läsa in fil: %s"
 
 #: src/sheet-object-graph.c:158
 msgid "Save graph as image"
-msgstr ""
+msgstr "Spara graf som bild"
 
 #: src/sheet-object-graph.c:196
 msgid "Sorry, gnumeric can only save graphs as png images"
-msgstr ""
+msgstr "Tyvärr kan gnumeric endast spara grafer som png-bilder"
 
 #: src/sheet-object-graph.c:214
-#, fuzzy
 msgid "_Save as image"
-msgstr "Välj en bild"
+msgstr "_Spara som bild"
 
-#: src/sheet-object-graphic.c:934 src/sheet-object-graphic.c:951
+#: src/sheet-object-graphic.c:936 src/sheet-object-graphic.c:955
 msgid "Transparent"
 msgstr "Genomskinlig"
 
-#: src/sheet-object-widget.c:1130
+#: src/sheet-object-widget.c:1132
 #, c-format
 msgid "CheckBox %d"
 msgstr "Kryssruta %d"
 
-#: src/sheet-object-widget.c:1561 src/workbook-object-toolbar.c:164
+#: src/sheet-object-widget.c:1565 src/workbook-object-toolbar.c:164
 msgid "RadioButton"
 msgstr "Radioknapp"
 
