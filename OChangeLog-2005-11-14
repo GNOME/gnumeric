@@ -1,3 +1,7 @@
+2004-11-08  Jon K Hellan  <hellan@acm.org>
+
+	* configure.in: Fix psiconv test.
+
 2004-11-08  Morten Welinder  <terra@gnome.org>
 
 	* configure.in (perl_msg): Disable buggy perl_construct check.

@@ -420,7 +420,7 @@ AC_ARG_WITH(psiconv,
 	[--{with,without}-psiconv  Compile with Psiconv support or without it])
 AC_ARG_VAR(PSICONV_CONFIG, [The psiconv-config executable.])
 if test "x$with_psiconv" != xno; then
-    AC_CHECK_PROG(PSICONV_CONFIG,psiconv-config)
+    AC_CHECK_PROG(PSICONV_CONFIG,psiconv-config,psiconv-config)
     if test x"$PSICONV_CONFIG" = x; then
 	psiconv_msg="missing dependencies"
     else
