@@ -2865,8 +2865,7 @@ xml_cellregion_write (WorkbookControl *wbc, CellRegion *cr, int *size)
 
 	ctxt->doc->xmlRootNode = clipboard;
 	xmlIndentTreeOutput = TRUE;
-	xmlDocDumpFormatMemoryEnc(ctxt->doc, &buffer, size, "UTF-8", TRUE);
-	xmlDocDumpMemory (ctxt->doc, &buffer, size);
+	xmlDocDumpFormatMemoryEnc (ctxt->doc, &buffer, size, "UTF-8", TRUE);
 	xmlFreeDoc (ctxt->doc);
 	xml_parse_ctx_destroy (ctxt);
 
