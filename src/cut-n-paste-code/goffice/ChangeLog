@@ -1,3 +1,15 @@
+2003-12-14  Jody Goldberg <jody@gnome.org>
+
+	* utils/go-pattern.c (go_pattern_selector) : fix leak.
+	* utils/go-gradient.c (go_gradient_selector) : fix leak.
+	* utils/go-marker.c (go_marker_selector) : fix leak.
+
+2003-12-14  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=128874
+	* graph/gog-axis.c (gog_axis_finalize) : unref labels.
+	(gog_axis_update) : ref them here.
+
 2003-11-26  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.2

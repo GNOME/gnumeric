@@ -254,7 +254,9 @@ go_pattern_selector (GOColor fore, GOColor back,
 	}
 	g_object_unref (pixbuf);
 	art_svp_free (svp);
-	w = pixmap_combo_new (elements, 6, 4, FALSE);
+	w = pixmap_combo_new (elements, 6, 4, TRUE);
+	for (i = 0; i < G_N_ELEMENTS (elements); i++)
+		g_free (elements[i].inline_gdkpixbuf);
 	gnm_combo_box_set_tearable (GNM_COMBO_BOX (w), FALSE);
 	return w;
 }

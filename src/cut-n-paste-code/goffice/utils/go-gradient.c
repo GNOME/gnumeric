@@ -124,8 +124,6 @@ go_gradient_selector (GOColor start, GOColor end)
 					 rowstride,
 					 n_channels - 1,
 					 8, ART_ALPHA_SEPARATE, NULL);
-		if (elements[i].inline_gdkpixbuf != NULL)
-			g_free ((gpointer) elements[i].inline_gdkpixbuf);
 
 		go_gradient_setup (&gradient,
 				   i, start, end,
@@ -141,7 +139,9 @@ go_gradient_selector (GOColor start, GOColor end)
 		g_free (data);
 	}
 	g_object_unref (pixbuf);
-	w = pixmap_combo_new (elements, 4, 4, FALSE);
+	w = pixmap_combo_new (elements, 4, 4, TRUE);
+	for (i = 0; i < G_N_ELEMENTS (elements); i++)
+		g_free (elements[i].inline_gdkpixbuf);
 	gnm_combo_box_set_tearable (GNM_COMBO_BOX (w), FALSE);
 	return w;
 }

@@ -58,9 +58,22 @@ go_data_init (GOData *data)
 	data->flags = 0;
 }
 
+#if 0
+static GObjectClass *parent_klass;
+static void
+go_data_finalize (GOData *obj)
+{
+	g_warning ("finalize");
+	if (parent_klass->finalize)
+		(parent_klass->finalize) (obj);
+}
+#endif
+
 static void
 go_data_class_init (GODataClass *klass)
 {
+	GObjectClass *gobj_klass = (GObjectClass *)klass;
+
 	go_data_signals [CHANGED] = g_signal_new ("changed",
 		G_TYPE_FROM_CLASS (klass),
 		G_SIGNAL_RUN_LAST,
@@ -69,6 +82,10 @@ go_data_class_init (GODataClass *klass)
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
 	klass->dup = go_data_dup_real;
+#if 0
+	gobj_klass->finalize = go_data_finalize;
+	parent_klass = g_type_class_peek_parent (klass);
+#endif
 }
 
 GSF_CLASS_ABSTRACT (GOData, go_data,

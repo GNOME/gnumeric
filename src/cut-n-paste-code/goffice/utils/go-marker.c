@@ -584,9 +584,6 @@ go_marker_selector (GOColor outline_color, GOColor fill_color,
 	go_marker_set_size (marker, 15);
 
 	for (i = 0; i < G_N_ELEMENTS (elements); i++) {
-		if (elements[i].inline_gdkpixbuf != NULL)
-			g_free ((gpointer) elements[i].inline_gdkpixbuf);
-
 		if (i == G_N_ELEMENTS (elements) -1) {
 			elements[i].id = -default_shape;
 			shape = default_shape;
@@ -617,7 +614,9 @@ go_marker_selector (GOColor outline_color, GOColor fill_color,
 	g_object_unref (marker);
 	g_object_unref (pixbuf);
 
-	widget = pixmap_combo_new (elements, 4, 4, FALSE);
+	widget = pixmap_combo_new (elements, 4, 4, TRUE);
+	for (i = 0; i < G_N_ELEMENTS (elements); i++)
+		g_free (elements[i].inline_gdkpixbuf);
 	gnm_combo_box_set_tearable (GNM_COMBO_BOX (widget), FALSE);
 
 	g_free ((char *)elements [i-1].untranslated_tooltip);

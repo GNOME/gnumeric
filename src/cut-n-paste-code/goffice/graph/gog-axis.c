@@ -287,6 +287,10 @@ gog_axis_finalize (GObject *obj)
 	gog_axis_clear_contributors (axis);
 
 	g_slist_free (axis->contributors);	axis->contributors = NULL;
+	if (axis->labels != NULL) {
+		g_object_unref (axis->labels);
+		axis->labels   = NULL;
+	}
 
 	gog_dataset_finalize (GOG_DATASET (axis));
 	if (parent_klass != NULL && parent_klass->finalize != NULL)
@@ -329,8 +333,11 @@ gog_axis_update (GogObject *obj)
 
 	gog_debug (0, g_warning ("axis::update"););
 
+	if (axis->labels != NULL) {
+		g_object_unref (axis->labels);
+		axis->labels   = NULL;
+	}
 	axis->is_discrete = TRUE;
-	axis->labels   = NULL;
 	axis->min_val  =  DBL_MAX;
 	axis->max_val  = -DBL_MAX;
 	axis->min_contrib = axis->max_contrib = NULL;
@@ -342,8 +349,10 @@ gog_axis_update (GogObject *obj)
 		 * At least thats what I am guessing today*/
 		if (!is_discrete)
 			axis->is_discrete = FALSE;
-		else if (axis->labels == NULL && labels != NULL)
+		else if (axis->labels == NULL && labels != NULL) {
 			axis->labels = GO_DATA_VECTOR (labels);
+			g_object_ref (labels);
+		}
 
 		if (axis->min_val > minima) {
 			axis->min_val = minima;
