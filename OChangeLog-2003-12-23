@@ -1,5 +1,10 @@
 2001-12-31  Jody Goldberg <jody@gnome.org>
 
+	* configure.in : post release version bump.  We won't branch 1.1
+	  until the gnome2 port links.
+
+2001-12-31  Jody Goldberg <jody@gnome.org>
+
 	* Release 1.0.0
 
 2001-12-31  Jody Goldberg <jody@gnome.org>
