@@ -179,8 +179,8 @@
 
 			<submenu name="Names" _label="N_ames">
 
-				<menuitem name="Names" verb="EditNames"
-				_label="Edit sheet and workbook names"/>
+				<menuitem name="Define" verb="EditNames"
+				_label="_Define" _tip="Edit sheet and workbook names"/>
 
 			</submenu>
 

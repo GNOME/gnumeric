@@ -183,8 +183,13 @@ cb_name_guru_add (NameGuruState *state)
 
 	expr = expr_parse_string (value, pp, NULL, &error);
 
+	/* If the expression is invalid */
+	if (expr == NULL) {
+		gnumeric_notice (state->wb, GNOME_MESSAGE_BOX_ERROR, error);
+		return FALSE;
+
 	/* If name already exists replace the its content */
-	if (expr_name) {
+	} else if (expr_name) {
 		if (!expr_name->builtin) {
 			expr_tree_unref (expr_name->t.expr_tree);
 			expr_name->t.expr_tree = expr;
@@ -194,13 +199,7 @@ cb_name_guru_add (NameGuruState *state)
 	} else
 		expr_name = expr_name_add (state->wb, NULL, name, expr, &error);
 
-	if (expr_name == NULL) {
-		if (error)
-			gnumeric_notice (state->wb, GNOME_MESSAGE_BOX_ERROR, error);
-		else
-			g_warning ("serious name error");
-		return FALSE;
-	}
+	g_return_val_if_fail (expr_name != NULL, FALSE);
 
 	gtk_list_clear_items (state->list, 0, -1);
 	name_guru_populate_list (state);
@@ -233,7 +232,9 @@ cb_name_guru_clicked (GtkWidget *button, NameGuruState *state)
 	}
 
 	if (button == state->add_button || button == state->ok_button)
-		cb_name_guru_add (state);
+		/* If adding the name failed do not exit */
+		if (!cb_name_guru_add (state))
+			return;
 
 	if (button == state->close_button || button == state->ok_button)
 		gtk_widget_destroy (state->dialog);

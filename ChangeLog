@@ -1,3 +1,11 @@
+2000-10-13  Jody Goldberg <jgoldberg@home.com>
+
+	* src/position.c (parse_pos_init) : Relax the restrictions.
+
+	* src/workbook.c : Improve wording of Names->Define.
+
+	* src/gnumeric.xml : fix typo with Insert->Names->Define
+
 2000-10-12  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-cursor.c (item_cursor_destroy) : Move the destruction of

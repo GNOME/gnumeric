@@ -52,6 +52,21 @@ typedef struct
 	GtkWidget   *button_finish;
 	GtkNotebook *steps;
 
+	/* Data widgets */
+	GtkWidget   *data_notebook;
+
+	/* simple selection */
+	GtkWidget   *data_is_cols_radio;
+	GtkWidget   *data_is_rows_radio;
+	GtkWidget   *data_range;
+
+	/* complex selection */
+	GtkWidget   *data_series_list;
+	GtkWidget   *data_series_name;
+	GtkWidget   *data_series_range;
+	GtkWidget   *data_add_series;
+	GtkWidget   *data_remove_series;
+
 	/* internal state */
 	int current_page;
 	gboolean valid;
@@ -393,7 +408,7 @@ cb_create_series_from_range (Sheet *sheet, Range const *src, gpointer user_data)
 }
 
 static gboolean
-graph_guru_guess_series (GraphGuruState *state)
+graph_guru_init_series (GraphGuruState *state)
 {
 	Sheet *sheet;
 	Range const * r;
@@ -409,6 +424,22 @@ graph_guru_guess_series (GraphGuruState *state)
 	state->series = g_ptr_array_new ();
 	(void) selection_foreach_range (sheet, FALSE,
 					&cb_create_series_from_range, state);
+
+
+	/* Data widgets */
+	state->data_notebook = glade_xml_get_widget (state->gui, "data_notebook");
+
+	/* simple selection */
+	state->data_is_cols_radio = glade_xml_get_widget (state->gui, "data_is_cols");
+	state->data_is_rows_radio = glade_xml_get_widget (state->gui, "data_is_rows");
+	state->data_range = glade_xml_get_widget (state->gui, "data_range");
+
+	/* complex selection */
+	state->data_series_list = glade_xml_get_widget (state->gui, "data_series_list");
+	state->data_series_name = glade_xml_get_widget (state->gui, "data_series_name");
+	state->data_series_range = glade_xml_get_widget (state->gui, "data_series_range");
+	state->data_add_series = glade_xml_get_widget (state->gui, "data_add_series");
+	state->data_remove_series = glade_xml_get_widget (state->gui, "data_remove_series");
 
 	return FALSE;
 }
@@ -432,7 +463,7 @@ dialog_graph_guru (Workbook *wb)
 	state->series   = NULL;
 	state->gui	= NULL;
 	if (graph_guru_init_manager (state) || graph_guru_init (state) ||
-	    graph_guru_guess_series (state)) {
+	    graph_guru_init_series (state)) {
 		graph_guru_state_destroy (state);
 		return;
 	}

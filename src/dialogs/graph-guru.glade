@@ -148,7 +148,7 @@
 
 	<widget>
 	  <class>GtkNotebook</class>
-	  <name>notebook7</name>
+	  <name>data_notebook</name>
 	  <can_focus>True</can_focus>
 	  <show_tabs>True</show_tabs>
 	  <show_border>True</show_border>
@@ -222,12 +222,12 @@
 
 	      <widget>
 		<class>GtkRadioButton</class>
-		<name>series-cols</name>
+		<name>data_is_cols</name>
 		<can_focus>True</can_focus>
 		<label>_Columns</label>
 		<active>False</active>
 		<draw_indicator>True</draw_indicator>
-		<group>row_col</group>
+		<group>data_is_row_col</group>
 		<child>
 		  <padding>0</padding>
 		  <expand>False</expand>
@@ -237,12 +237,12 @@
 
 	      <widget>
 		<class>GtkRadioButton</class>
-		<name>series-rows</name>
+		<name>data_is_rows</name>
 		<can_focus>True</can_focus>
 		<label>_Rows</label>
 		<active>False</active>
 		<draw_indicator>True</draw_indicator>
-		<group>row_col</group>
+		<group>data_is_row_col</group>
 		<child>
 		  <padding>0</padding>
 		  <expand>False</expand>
@@ -253,7 +253,7 @@
 
 	    <widget>
 	      <class>GtkEntry</class>
-	      <name>range-data</name>
+	      <name>data_range</name>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -326,7 +326,7 @@
 
 	    <widget>
 	      <class>GtkEntry</class>
-	      <name>range-series-values</name>
+	      <name>data_series_range</name>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -350,7 +350,7 @@
 
 	    <widget>
 	      <class>GtkEntry</class>
-	      <name>range-series-name</name>
+	      <name>data_series_name</name>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -374,7 +374,7 @@
 
 	    <widget>
 	      <class>GtkCList</class>
-	      <name>series-list</name>
+	      <name>data_series_list</name>
 	      <can_focus>True</can_focus>
 	      <columns>1</columns>
 	      <column_widths>80</column_widths>
@@ -476,7 +476,7 @@
 
 	      <widget>
 		<class>GtkButton</class>
-		<name>series-add</name>
+		<name>data_add_series</name>
 		<can_focus>True</can_focus>
 		<label>_Add</label>
 		<relief>GTK_RELIEF_NORMAL</relief>
@@ -489,7 +489,7 @@
 
 	      <widget>
 		<class>GtkButton</class>
-		<name>series-remove</name>
+		<name>data_remove_series</name>
 		<can_focus>True</can_focus>
 		<label>_Remove</label>
 		<relief>GTK_RELIEF_NORMAL</relief>

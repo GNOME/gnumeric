@@ -1395,7 +1395,7 @@ static GnomeUIInfo workbook_menu_insert_special [] = {
 };
 
 static GnomeUIInfo workbook_menu_names [] = {
-	GNOMEUIINFO_ITEM_NONE(N_("_Names..."),
+	GNOMEUIINFO_ITEM_NONE(N_("_Define..."),
 		N_("Edit sheet and workbook names"),
 		&cb_edit_named_expr),
 #if 0

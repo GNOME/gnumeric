@@ -74,7 +74,16 @@ eval_pos_init_cellref (EvalPos *dest, EvalPos const *src,
 }
 
 /*
- * Supply either a sheet (preferred) or a workbook.
+ * parse_pos_init :
+ *
+ * @pp : The position to init.
+ * @sheet : The sheet being selected
+ * @wb : The workbook being selected.
+ * @row :
+ * @col :
+ *
+ * Use either a sheet (preferred) or a workbook to initialize the supplied
+ * ParsePosition.
  */
 ParsePos *
 parse_pos_init (ParsePos *pp, Workbook *wb, Sheet *sheet, int col, int row)
@@ -83,8 +92,8 @@ parse_pos_init (ParsePos *pp, Workbook *wb, Sheet *sheet, int col, int row)
 	if (wb == NULL && sheet == NULL)
 		return NULL;
 
-	/* Either sheet or workbook, not both */
-	g_return_val_if_fail ((sheet != NULL) != (wb != NULL), NULL);
+	/* Either sheet or workbook */
+	g_return_val_if_fail ((sheet != NULL) || (wb != NULL), NULL);
 	g_return_val_if_fail (pp != NULL, NULL);
 
 	pp->sheet = sheet;
