@@ -1728,8 +1728,7 @@ BC_R(vector_details)(ExcelChartReadState *s, BiffQuery *q, ExcelChartSeries *ser
 	guint16 e_type = MS_OLE_GET_GUINT16 (q->data + type_offset);
 
 	switch (e_type) {
-	case 0 : g_warning ("Unsupported vector type 'date', converting to scalar");
-		 type = GNM_VECTOR_SCALAR;
+	case 0 : type = GNM_VECTOR_DATE;
 		 break;
 
 	case 1 : type = GNM_VECTOR_SCALAR;

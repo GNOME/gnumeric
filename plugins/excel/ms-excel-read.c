@@ -1800,7 +1800,7 @@ ms_excel_formula_shared (BiffQuery *q, ExcelSheet *esheet, Cell *cell)
 		return expr;
 	}
 
-	g_warning ("EXCEL: unexpected record after a formula 0x%x in '%s'\n",
+	g_warning ("EXCEL: unexpected record '0x%x' after a formula in '%s'\n",
 		   q->opcode, cell_name (cell));
 	return NULL;
 }

@@ -2519,7 +2519,7 @@ write_value (BiffPut *bp, Value *v, MsBiffVersion ver,
 		guint8 data[16];
 		g_return_if_fail (v->v_str.val->str);
 
-		if (ver >= MS_BIFF_V8); /* Use SST stuff in fulness of time */
+		g_return_if_fail (ver < MS_BIFF_V8); /* Use SST stuff in fulness of time */
 
 		/* See: S59DDC.HTM ( for RSTRING ) */
 		/* See: S59D9D.HTM ( for LABEL ) */

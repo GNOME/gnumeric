@@ -1,3 +1,7 @@
+2002-01-20  jody goldberg <jody@gnome.org>
+
+	* ms-chart.c (BC_R(vector_details)) : use gnm_vector_date.
+
 2002-01-17  Jody Goldberg <jody@gnome.org>
 
 	* ms-obj.c (ms_object_attr_new_expr) : new.
