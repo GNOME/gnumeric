@@ -5,17 +5,17 @@
 #
 #  Authors: Kenneth Christiansen <kenneth@gnu.org>
 
-
 use strict;
 use Getopt::Long;
+
+my $VERSION     = "0.6.1";
 
 my $FILE	= $ARGV[0];
 my $HELP_ARG 	= "0";
 my $VERSION_ARG = "0";
 my $UPDATE_ARG  = "0";
-my $VERSION 	= "0.5";
+my $NCOUNT      = "0";
 my %string 	= ();
-my $n		= 0;
 
 $| = 1;
 
@@ -23,7 +23,7 @@ GetOptions (
 	    "help|h|?"   => \$HELP_ARG,
 	    "version|v"  => \$VERSION_ARG,
 	    "update"     => \$UPDATE_ARG,
-	    ) or &Error2;
+	    ) or &Error;
 
 &SplitOnArgument;
 
@@ -77,7 +77,7 @@ sub Help{
 }
 
 #------------------- 
-sub Error2{
+sub Error{
 #   print "ui-extract: invalid option @ARGV\n";
     print "Try `ui-extract.pl --help' for more information.\n";
     exit;
@@ -134,31 +134,25 @@ sub Convert($) {
         }   
        	close OUT;
 
-	### For generic translatable XML files ### 
-
-        while ($input =~ /_[a-zA-Z0-9_]+=\"([^\"]*)\"/sg) {
+	### For generic translatable XML files ###
+ 
+        if ($FILE =~ /xml$/sg){
+        while ($input =~ /[\t\n\s]_[a-zA-Z0-9_]+=\"([^\"]+)\"/sg) {
 	   	$string{$1} = [];
         }
 
 	while ($input =~ /<_[a-zA-Z0-9_]+>(..[^_]*)<\/_[a-zA-Z0-9_]+>/sg) {
 		$string{$1} = [];
- 	}
+ 	}}
 
         ### For translatable Glade XML files ###
-	#end_label        = translate_this_string
-	#end_title        = translate_this_string
-	#end_text         = translate_this_string
-	#end_format       = translate_this_string
-	#end_copyright    = translate_this_string
-	#end_comments     = translate_this_string
-	#end_preview_text = translate_this_string
-	#end_tooltip      = translate_this_string
 
+        if ($FILE =~ /glade$/sg){
         my $translate = "label|title|text|format|copyright|comments|preview_text|tooltip";
 
         while ($input =~ /<($translate)>(..[^<]*)<\/($translate)>/sg) {
                 $string{$2} = [];
-        }
+        }}
     }
 
 sub addMessages{
@@ -169,11 +163,11 @@ sub addMessages{
     if ($theMessage =~ /\n/) {
 	print OUT "gchar *s = N_("; 
 
-	$n = 1;
+	$NCOUNT = 1;
         for (split /\n/, $theMessage) {
 	    $_ =~ s/^\s+//mg;
-	    if ($n > 1) { print OUT "              ";}
-            $n++;
+	    if ($NCOUNT > 1) { print OUT "              ";}
+            $NCOUNT++;
 	    print OUT "\"$_\");\n";
 	}
 

@@ -12,9 +12,9 @@
 #  Also remember to change $PACKAGE to reflect the package the script is
 #  used within.
 
+$VERSION = "1.4";
 
-$VERSION = "1.3";
-$LANG    = $ARGV[0];
+$LANG     = $ARGV[0];
 $PACKAGE  = "gnumeric";
 $| = 1;
 
@@ -35,7 +35,6 @@ if ($LANG=~/^-(.)*/){
     }
     elsif ($LANG eq "--dist" || "$LANG" eq "-D"){
         &Merging;
-#       &Status;
     }
     elsif ($LANG eq "--pot" || "$LANG" eq "-P"){
    	&GeneratePot;
