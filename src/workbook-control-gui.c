@@ -1743,6 +1743,13 @@ cb_data_filter (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 static void
+cb_data_validate (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	dialog_validate (wbcg, wb_control_cur_sheet (wbc));
+}
+
+static void
 cb_help_about (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	dialog_about (wbcg);
@@ -2254,6 +2261,9 @@ static GnomeUIInfo workbook_menu_data [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("_Filter..."),
 		N_("Filter data with given criteria"),
 		cb_data_filter),
+	GNOMEUIINFO_ITEM_NONE (N_("_Validate..."),
+		N_("Validate input with preset criteria"),
+		cb_data_validate),
 
 	GNOMEUIINFO_END
 };
@@ -2432,6 +2442,7 @@ static BonoboUIVerb verbs [] = {
 
 	BONOBO_UI_UNSAFE_VERB ("DataSort", cb_data_sort),
 	BONOBO_UI_UNSAFE_VERB ("DataFilter", cb_data_filter),
+	BONOBO_UI_UNSAFE_VERB ("DataValidate", cb_data_validate),
 
 	BONOBO_UI_UNSAFE_VERB ("AutoSum", cb_autosum),
 	BONOBO_UI_UNSAFE_VERB ("FunctionGuru", cb_formula_guru),

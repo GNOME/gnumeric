@@ -1,3 +1,8 @@
+2001-03-04  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/workbook-control-gui.c
+	(cb_data_validate) : New, invokes the data validation dialog.
+
 2001-03-03  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_cell_calc_span) : rewrite to be less stupid.

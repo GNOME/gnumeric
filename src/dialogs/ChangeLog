@@ -1,3 +1,11 @@
+2001-03-04  Almer S. Tigelaar  <almer@gnome.org>
+
+	* validate.glade : Improve.
+
+	* dialog-validate.glade : Implement.
+
+	* dialogs.h : Add dialog-validate entry point here.
+
 2001-02-24  Morten Welinder  <terra@diku.dk>
 
 	* dialog-search-replace.c (dialog_search_replace): Rework to be
