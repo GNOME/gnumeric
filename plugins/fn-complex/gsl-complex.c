@@ -87,8 +87,6 @@ gsl_complex_inverse (const complex_t *a, complex_t *res)
 void
 gsl_complex_negative (const complex_t *a, complex_t *res)
 {                               /* z=1/a */
-        gnum_float s = 1.0 / complex_mod (a);
-
 	complex_init (res, -GSL_REAL (a), -GSL_IMAG (a));
 }
 
