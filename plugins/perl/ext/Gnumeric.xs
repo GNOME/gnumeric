@@ -165,4 +165,4 @@ register_function(name, args, named_args, help1, subref)
     *fndef->help           = g_strdup (help1);
     fndef->fn              = marshal_func;
 
-    symbol_install (fndef->name, SYMBOL_FUNCTION, fndef);
+    symbol_install (global_symbol_table, fndef->name, SYMBOL_FUNCTION, fndef);
