@@ -17,22 +17,22 @@ Group: 		Applications/Productivity
 Source: ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric/gnumeric-%{version}.tar.gz
 Url:		http://www.gnome.org/gnumeric
 BuildRoot:	%{_tmppath}/%{name}-%{PACKAGE_VERSION}-root
-BuildRequires:	glib2-devel		>= 2.0.0
+BuildRequires:	glib2-devel		>= 2.4.0
 BuildRequires:	libgsf-devel		>= 1.10.0
-BuildRequires:	gtk2-devel		>= 2.0.0
+BuildRequires:	gtk2-devel		>= 2.4.0
 BuildRequires:	libxml2-devel		>= 2.4.12
-BuildRequires:	libglade2-devel		>= 1.99.7
+BuildRequires:	libglade2-devel		>= 2.3.6
 BuildRequires:	libgnomecanvas-devel	>= 1.113.0
-BuildRequires:	libgnome-devel		>= 1.105.0
-BuildRequires:	libgnomeui-devel	>= 1.106.0
-BuildRequires:	libgnomeprint24-devel	>= 2.4.2
-BuildRequires:	libgnomeprintui24	>= 2.4.2
+BuildRequires:	libgnome-devel		>= 2.0.0
+BuildRequires:	libgnomeui-devel	>= 2.0.0
+BuildRequires:	libgnomeprint24-devel	>= 2.5.2
+BuildRequires:	libgnomeprintui24	>= 2.5.2
 # What about libart requirement?
 %if %{?_with_bonobo:1}%{!?_with_bonobo:0}
 BuildRequires: libbonobo-devel		>= 2.0.0
 BuildRequires: libbonoboui-devel	>= 2.0.0
 %endif
-%{?_with_gda:BuildRequires:	libgda-devel		>= 0.10}
+%{?_with_gda:BuildRequires:	libgda-devel		>= 1.0.1}
 %{?_with_guile:BuildRequires:	guile-devel		>= 1.5}
 %{?_with_python:BuildRequires:	pygtk2-devel		>= 1.99.10}
 Prereq:		GConf2
