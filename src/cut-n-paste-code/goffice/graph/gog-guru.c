@@ -443,7 +443,7 @@ cb_plot_families_init (char const *id, GogPlotFamily *family,
 	gtk_list_store_append (typesel->model, &iter);
 	gtk_list_store_set (typesel->model, &iter,
 		PLOT_FAMILY_TYPE_IMAGE,		get_pixbuf (family->sample_image_file),
-		PLOT_FAMILY_TYPE_NAME,		family->name,
+		PLOT_FAMILY_TYPE_NAME,		_(family->name),
 		PLOT_FAMILY_TYPE_CANVAS_GROUP,	group,
 		-1);
 
@@ -579,7 +579,7 @@ cb_plot_family_menu_create (char const *id, GogPlotFamily *family,
 	if (g_hash_table_size (family->types) <= 0)
 		return;
 
-	menu = gtk_image_menu_item_new_with_label (family->name);
+	menu = gtk_image_menu_item_new_with_label (_(family->name));
 	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menu),
 		gtk_image_new_from_pixbuf (
 			get_pixbuf (family->sample_image_file)));
@@ -992,7 +992,7 @@ graph_guru_set_page (GraphGuruState *s, int page)
 		return;
 
 	switch (page) {
-	case 0: name = _("Step 1 of 2: Select graph type");
+	case 0: name = _("Step 1 of 2: Select Chart Type");
 		gtk_widget_set_sensitive (s->button_navigate, s->plot != NULL);
 		gtk_button_set_label (GTK_BUTTON (s->button_navigate),
 				      GTK_STOCK_GO_FORWARD);
@@ -1000,19 +1000,19 @@ graph_guru_set_page (GraphGuruState *s, int page)
 
 	case 1:
 		if (s->initial_page == 0) {
-			name = _("Step 2 of 2: Configure Graph");
+			name = _("Step 2 of 2: Customize Chart");
 			gtk_widget_set_sensitive (s->button_navigate, s->chart != NULL);
 			gtk_button_set_label (GTK_BUTTON (s->button_navigate),
 					      GTK_STOCK_GO_BACK);
 		} else {
-			name = _("Configure Graph");
+			name = _("Customize Chart");
 			gtk_widget_hide	(s->button_navigate);
 		}
 		graph_guru_init_format_page (s);
 		break;
 
 	default:
-		g_warning ("Invalid Graph Guru page");
+		g_warning ("Invalid Chart Guru page");
 		return;
 	}
 

@@ -356,13 +356,11 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 			((flip_h == NULL) ? SO_DIR_RIGHT : 0) |
 			((flip_v == NULL) ? SO_DIR_DOWN : 0);
 		SheetObjectAnchor anchor;
+
 		sheet_object_anchor_init (&anchor, &range,
-					  offsets, anchor_types,
-					  direction);
-		sheet_object_anchor_set (obj->gnum_obj,
-					 &anchor);
-		sheet_object_set_sheet (obj->gnum_obj,
-					esheet->sheet);
+			offsets, anchor_types, direction);
+		sheet_object_anchor_set (obj->gnum_obj, &anchor);
+		sheet_object_set_sheet (obj->gnum_obj, esheet->sheet);
 
 		/* cannot be done until we have set the sheet */
 		if (obj->excel_type == 0x0B) {
@@ -372,23 +370,35 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 			sheet_widget_scrollbar_set_details (obj->gnum_obj,
 				ms_obj_attr_get_expr (obj, MS_OBJ_ATTR_SCROLLBAR_LINK, NULL),
 				0,
-				ms_obj_attr_get_int  (obj, MS_OBJ_ATTR_SCROLLBAR_MIN, 0),
-				ms_obj_attr_get_int  (obj, MS_OBJ_ATTR_SCROLLBAR_MAX, 100),
-				ms_obj_attr_get_int  (obj, MS_OBJ_ATTR_SCROLLBAR_INC, 1),
-				ms_obj_attr_get_int  (obj, MS_OBJ_ATTR_SCROLLBAR_PAGE, 10));
+				ms_obj_attr_get_int (obj, MS_OBJ_ATTR_SCROLLBAR_MIN, 0),
+				ms_obj_attr_get_int (obj, MS_OBJ_ATTR_SCROLLBAR_MAX, 100),
+				ms_obj_attr_get_int (obj, MS_OBJ_ATTR_SCROLLBAR_INC, 1),
+				ms_obj_attr_get_int (obj, MS_OBJ_ATTR_SCROLLBAR_PAGE, 10));
+		} else if (obj->excel_type == 0x19 &&
+			   obj->comment_pos.col >= 0 && obj->comment_pos.row >= 0) {
+			/* our comment object is too weak.  This anchor is for the text box,
+			 * we need to store the indicator */
+			cell_comment_set_cell (CELL_COMMENT (obj->gnum_obj),
+				&obj->comment_pos);
 		}
 
 		label = ms_obj_attr_get_ptr (obj, MS_OBJ_ATTR_TEXT, NULL);
 		if (label != NULL) {
 			SheetObject *so = obj->gnum_obj;
 			switch (obj->excel_type) {
+
+			case 0x06: sheet_object_text_set_text (so, label);
+				   break;
 			case 0x07: sheet_widget_button_set_label (so, label);
 				   break;
 			case 0x0B: sheet_widget_checkbox_set_label (so, label);
 				   break;
-			case 0x0C: sheet_widget_radio_button_set_label(so, label);
+			case 0x0C: sheet_widget_radio_button_set_label (so, label);
+				   break;
+			case 0x19: cell_comment_text_set (CELL_COMMENT (so), label);
 				   break;
 			default:
+				   g_warning ("text for type %x", obj->excel_type);
 				   break;
 			};
 		}
@@ -467,9 +477,6 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 			MS_OBJ_ATTR_FONT_COLOR);
 		if (color)
 			sheet_object_test_font_color_set (so, color);
-
-		sheet_object_text_set_text (so, 
-			ms_obj_attr_get_ptr (obj, MS_OBJ_ATTR_TEXT, (char *)""));
 		break;
 	}
 
@@ -519,9 +526,8 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 			so = g_object_new (sheet_widget_combo_get_type (), NULL);
 	break;
 
-	case 0x19: /* Comment */
-		/* TODO: we'll need a special widget for this */
-		return NULL;
+	case 0x19: so = g_object_new (cell_comment_get_type (), NULL);
+		break;
 
 	default:
 		g_warning ("EXCEL: unhandled excel object of type %s (0x%x) id = %d.",
@@ -2384,11 +2390,18 @@ excel_read_NOTE (BiffQuery *q, ExcelReadSheet *esheet)
 		gboolean hidden = (options & 0x2)==0;
 		guint16  obj_id  = GSF_LE_GET_GUINT16 (q->data + 6);
 		guint16  author_len = GSF_LE_GET_GUINT16 (q->data + 8);
-		char *author;
+		MSObj  *obj;
+		char   *author;
 
-		if (options & 0xffd)
-			fprintf (stderr,"FIXME: Error in options\n");
+		/* docs mention   0x002 == hidden
+		 * real life adds 0x100 == no indicator visible */
+		if (options & 0xefd)
+			g_warning ("unknown flag on NOTE record %hx", options);
 
+		/* Buggers.
+		 * Docs claim that only 0x2 is valid, all other flags should be 0
+		 * but we have seen examples with 0x100 (pusiuhendused\ juuli\ 2003.xls)
+		 **/
 		author = biff_get_text (author_len % 2 ? q->data + 11 : q->data + 10,
 					author_len, NULL);
 		d (1, fprintf (stderr,"Comment at %s%d id %d options"
@@ -2396,6 +2409,14 @@ excel_read_NOTE (BiffQuery *q, ExcelReadSheet *esheet)
 			      col_name (pos.col), pos.row + 1,
 			      obj_id, options, hidden, author););
 
+		obj = ms_container_get_obj (&esheet->container, obj_id);
+		if (obj != NULL) {
+			cell_comment_author_set (CELL_COMMENT (obj->gnum_obj), author);
+			obj->comment_pos = pos;
+		} else {
+			g_warning ("DOH!");
+			cell_set_comment (esheet->sheet, &pos, author, NULL);
+		}
 		g_free (author);
 	} else {
 		guint len = GSF_LE_GET_GUINT16 (q->data + 4);
@@ -4171,8 +4192,9 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 	g_return_if_fail (!memcmp (data + 8, stdlink_guid, sizeof (stdlink_guid)));
 
 	data += 32;
+
 	/* label */
-	if (options & 0x14) {
+	if ((options & 0x14) == 0x14) {
 		len = GSF_LE_GET_GUINT32 (data);
 		data += 4;
 		g_return_if_fail (data + len*2 - q->data <= (int)q->length);
@@ -4181,7 +4203,7 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 	}
 
 	/* target frame */
-	if (options & 0x8) {
+	if (options & 0x80) {
 		len = GSF_LE_GET_GUINT32 (data);
 		data += 4;
 		g_return_if_fail (len*2 + data - q->data <= (int)q->length);

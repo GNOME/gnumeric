@@ -120,7 +120,7 @@ gog_graph_finalize (GObject *obj)
 static char const *
 gog_graph_type_name (GogObject const *gobj)
 {
-	return "Graph";
+	return N_("Graph");
 }
 
 static void
@@ -225,9 +225,11 @@ gog_graph_init (GogGraph *graph)
 	graph->idle_handler = 0;
 	graph->theme = gog_theme_lookup (NULL); /* default */
 
-	/* Cheat and assign a name here, graphs will not parents
-	 * until we support graphs in graphs */
-	graph->base.base.name = g_strdup ("Graph");
+	/* Cheat and assign a name here, graphs will not have parents until we
+	 * support graphs in graphs */
+	graph->base.base.user_name = g_strdup (_("Graph"));
+	gog_theme_init_style (graph->theme,
+		graph->base.style, GOG_OBJECT (graph), 0);
 }
 
 GSF_CLASS (GogGraph, gog_graph,

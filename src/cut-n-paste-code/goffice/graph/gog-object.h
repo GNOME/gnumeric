@@ -48,8 +48,8 @@ struct _GogObjectRole {
 struct _GogObject {
 	GObject		 base;
 
-	char		*id;	/* translatable type name */
-	char		*name;	/* user assigned */
+	char		*user_name;	/* user assigned, NULL will fall back to id */
+	char		*id;	/* system generated */
 	GogObjectRole const *role;
 
 	GogObject	*parent;
@@ -82,6 +82,7 @@ typedef struct {
 	void (*child_removed) (GogObject *parent, GogObject *child);
 	void (*name_changed)  (GogObject *obj);
 	void (*changed)	      (GogObject *obj, gboolean size);
+	void (*possible_additions_changed) (GogObject const *obj);
 } GogObjectClass;
 
 #define GOG_OBJECT_TYPE		(gog_object_get_type ())

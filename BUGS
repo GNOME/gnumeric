@@ -79,7 +79,10 @@ Pending Patches
 	1.5.3) Keep state::chart,plot safe for typeselector	(DONE)
 	       in case they get deleted
     1.6) data allocator in gnumeric				(DONE)
-    1.7) XLS import
+	1.6.1) initial interface				(DONE)
+	1.6.2) generalize container to be a DataSet		(DONE)
+	1.6.3) editor to specify pref for vector or scalar	(DONE)
+    1.7) XLS
 	1.7.1) check overlap percentage for bars		(DONE)
 	1.7.2) Add gog_object_set_position
 	1.7.3) Handle 'use_one_style'				(DONE)
@@ -108,6 +111,7 @@ Pending Patches
 	1.10.6) Work around bleed through with overlap 100	(DONE)
 	1.10.7) Check for short vectors				(DONE)
 	1.10.8) Clip when values are out of range
+	1.10.9) Support vary style by element for type=normal
     1.11) Rethink GraphItem lifecyle to simplify removal	(DONE)
     1.12) Extend GogObjectRole to include more handlers		(DONE)
     1.13) Decide on recalc strategy				(DONE)
@@ -178,7 +182,7 @@ Pending Patches
 	1.21.2) load from xml
 	1.21.3) selector for graphs
 	1.21.4) How to change a graph's theme
-	1.21.5) Use Roles rather than Types to enumerate
+	1.21.5) Use Roles rather than Types to enumerate	(DONE)
     1.22) Legend
 	1.22.1) Set up cardinality framework.			(DONE)
 	1.22.2) Get things to update when chart changes		(DONE)
@@ -201,7 +205,7 @@ Pending Patches
 	1.25.3) paths						(DONE)
 	1.25.4) solid and empty polygons			(DONE)
 	1.25.5) image filled polygons
-		Jean has patch, we should cache the pixbuf as qdata.
+		we should cache the pixbuf as qdata.
 	1.25.6) gradient filled polygons
 		Jean has patch but method is questionable
 	1.25.7) measure text
@@ -518,7 +522,7 @@ Function Breakage
 -----------------
 - Function range_min_k uses an O(n*log n) algorithm.  It should use O(n)
   algorithm, see Knuth.
-- WORKDAY	Add holiday support
+- WORKDAY	Add holiday support (Leonard is working on this)
 
 Printing
 --------

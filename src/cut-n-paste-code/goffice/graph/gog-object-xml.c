@@ -23,7 +23,7 @@
 #include <goffice/graph/gog-object-xml.h>
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-plot.h>
-#include <goffice/graph/gog-data-allocator.h>
+#include <goffice/graph/gog-data-set.h>
 #include <goffice/graph/go-data.h>
 
 #include <glade/glade-build.h>	/* for the xml utils */

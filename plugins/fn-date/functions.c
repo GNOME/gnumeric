@@ -171,6 +171,7 @@ static char const *help_date2unix = {
 	   "1970.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "DATE2UNIX(\"01/01/2000\") equals 946656000.\n"
 	   "\n"
 	   "@SEEALSO=NOW, DATE, UNIX2DATE")
 };

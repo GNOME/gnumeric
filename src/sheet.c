@@ -1546,7 +1546,7 @@ sheet_row_is_hidden (Sheet const *sheet, int row)
  * TRUE @n must be 1 and the jump is to the edge of the logical range.
  *
  * NOTE : This routine implements the logic necasary for ctrl-arrow style
- * movement.  That is more compilcated than simpfy finding the last in a list
+ * movement.  That is more compilcated than simply finding the last in a list
  * of cells with content.  If you are at the end of a range it will find the
  * start of the next.  Make sure that is the sort of behavior you want before
  * calling this.

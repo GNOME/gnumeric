@@ -802,7 +802,9 @@ wb_view_sendto (WorkbookView *wbv, CommandContext *context)
 		problem = TRUE;
 	}
 
+#ifndef HAVE_MKDTEMP
  out:
+#endif
 	g_object_unref (G_OBJECT (io_context));
 
 	return !problem;

@@ -1925,18 +1925,34 @@ scg_comment_display (SheetControlGUI *scg, CellComment *cc)
 	g_return_if_fail (IS_CELL_COMMENT (cc));
 
 	if (scg->comment.item == NULL) {
-		GtkWidget *label, *frame, *scroll;
+		GtkWidget *text, *frame, *scroll;
 		GtkAdjustment *adjust_1, *adjust_2;
+		GtkTextBuffer *buffer;
+		GtkTextIter iter;
 
 		scg->comment.item = gtk_window_new (GTK_WINDOW_POPUP);
 		gdk_window_get_pointer (NULL, &x, &y, NULL);
 		gtk_window_move (GTK_WINDOW (scg->comment.item), x+10, y+10);
 
-		label = gtk_text_view_new ();
-		gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW(label), GTK_WRAP_NONE);
-		gnumeric_textview_set_text (GTK_TEXT_VIEW(label),
-					    cell_comment_text_get (cc));
-		gtk_text_view_set_editable (GTK_TEXT_VIEW(label), FALSE);
+		text = gtk_text_view_new ();
+		gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (text), GTK_WRAP_NONE);
+		gtk_text_view_set_editable  (GTK_TEXT_VIEW (text), FALSE);
+		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text));
+		gtk_text_buffer_get_iter_at_offset (buffer, &iter, 0);
+
+		if (cell_comment_author_get (cc) != NULL) {
+			gtk_text_buffer_create_tag (buffer, "bold",
+						    "weight", PANGO_WEIGHT_BOLD,
+						    NULL);  
+			gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
+				cell_comment_author_get (cc), -1,
+				"bold", NULL);
+			gtk_text_buffer_insert (buffer, &iter, "\n", 1);
+		}
+
+		if (cell_comment_text_get (cc) != NULL)
+			gtk_text_buffer_insert (buffer, &iter, 
+				cell_comment_text_get (cc), -1);
 
 /* FIXME: when gtk+ has been fixed (#73562), we should skip the scrolled window */
 
@@ -1951,7 +1967,7 @@ scg_comment_display (SheetControlGUI *scg, CellComment *cc)
 
 		gtk_container_add (GTK_CONTAINER (scg->comment.item), frame);
 		gtk_container_add (GTK_CONTAINER (frame), scroll);
-		gtk_container_add (GTK_CONTAINER (scroll), label);
+		gtk_container_add (GTK_CONTAINER (scroll), text);
 		gtk_widget_show_all (scg->comment.item);
 	}
 }

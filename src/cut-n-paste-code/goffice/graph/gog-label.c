@@ -25,6 +25,7 @@
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
+#include <goffice/graph/gog-data-set.h>
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/go-data.h>
 
@@ -36,8 +37,8 @@
 struct _GogLabel {
 	GogStyledObject	base;
 
-	GODataScalar	*text;
-	gboolean	 allow_markup;
+	GogDatasetElement text;
+	gboolean	  allow_markup;
 };
 typedef GogStyledObjectClass GogLabelClass;
 
@@ -86,12 +87,7 @@ gog_label_get_property (GObject *obj, guint param_id,
 static void
 gog_label_finalize (GObject *obj)
 {
-	GogLabel *label = GOG_LABEL (obj);
-
-	if (label->text != NULL) {
-		g_object_unref (label->text);
-		label->text = NULL;
-	}
+	gog_dataset_finalize (GOG_DATASET (obj));
 	if (label_parent_klass->finalize != NULL)
 		(label_parent_klass->finalize) (obj);
 }
@@ -99,7 +95,7 @@ gog_label_finalize (GObject *obj)
 static char const *
 gog_label_type_name (GogObject const *item)
 {
-	return "GraphLabel";
+	return N_("GraphLabel");
 }
 static gpointer
 gog_label_editor (GogObject *gobj, GogDataAllocator *dalloc, CommandContext *cc)
@@ -110,7 +106,8 @@ gog_label_editor (GogObject *gobj, GogDataAllocator *dalloc, CommandContext *cc)
 	gtk_box_pack_start (GTK_BOX (hbox), 
 		gtk_label_new_with_mnemonic (_("_Text:")), TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), 
-		gog_data_allocator_editor (dalloc, GOG_DATASET (gobj), 0), TRUE, TRUE, 0);
+		gog_data_allocator_editor (dalloc, GOG_DATASET (gobj), 0, TRUE),
+		TRUE, TRUE, 0);
 	gtk_widget_show (hbox);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), 
@@ -145,31 +142,18 @@ gog_label_dims (GogDataset const *set, int *first, int *last)
 	*first = *last = 0;
 }
 
-static GOData *
-gog_label_get_dim (GogDataset const *set, int dim_i)
-{
-	GogLabel const *label = GOG_LABEL (set);
-	return GO_DATA (label->text);
-}
-
-static void
-gog_label_set_dim (GogDataset *set, int dim_i, GOData *val, GError **err)
+static GogDatasetElement *
+gog_label_get_elem (GogDataset const *set, int dim_i)
 {
 	GogLabel *label = GOG_LABEL (set);
-	if (val != NULL)
-		g_object_ref (val);
-	if (label->text != NULL)
-		g_object_unref (label->text);
-	label->text = GO_DATA_SCALAR (val);
-	gog_object_request_update (GOG_OBJECT (label));
+	return &label->text;
 }
 
 static void
 gog_label_dataset_init (GogDatasetClass *iface)
 {
 	iface->dims	= gog_label_dims;
-	iface->get_dim	= gog_label_get_dim;
-	iface->set_dim	= gog_label_set_dim;
+	iface->get_elem	= gog_label_get_elem;
 }
 
 GSF_CLASS_FULL (GogLabel, gog_label,
@@ -216,8 +200,8 @@ gog_label_view_render (GogView *view, GogViewAllocation const *bbox)
 	gog_renderer_draw_rectangle (view->renderer, &view->allocation);
 
 
-	if (label->text != NULL) {
-		char const *text = go_data_scalar_get_str (label->text);
+	if (label->text.data != NULL) {
+		char const *text = go_data_scalar_get_str (GO_DATA_SCALAR (label->text.data));
 		if (text != NULL) {
 			ArtPoint  point;
 			point.x = view->residual.x;

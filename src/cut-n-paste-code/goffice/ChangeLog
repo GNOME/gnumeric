@@ -1,3 +1,12 @@
+2003-07-09  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-object-xml.h : fix guards
+
+2003-07-07  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-legend.c (gog_legend_parent_changed) : chain upwards.
+	* graph/gog-series.c (gog_series_parent_changed) : ditto.
+
 2003-07-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* graph/plugins/plot_pie/gog-ring-prefs.glade: colour -> color

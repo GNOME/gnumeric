@@ -1,5 +1,8 @@
 Gnumeric 1.1.20
 
+Adrian Custer:
+	* Get the new documentation building.
+
 Andreas:
 	* Fix analysis tools dialogs again
 	* Fix text export of non-ascii charaters
@@ -52,6 +55,13 @@ Jody:
 	* Cleanup line/arrow/filled sheet object config dialogs
 	* An initial implementation of bonobo-less File -> Send To
 	* Recalc fix for functions that did not use the collect utils
+	* Work on Charting Engine.
+	* Function doc patches to go with the new doc framework.
+	* Function doc spelling and grammar.
+	* Fix glitch in xls hyperlink import.
+	* Undocumented flag on cell comments in xls
+	* Import cell comments from >= xl97.
+	* Object text labels from >= xl97
 
 John Gill:
 	* More More XLish heuristics for autofill range selection.

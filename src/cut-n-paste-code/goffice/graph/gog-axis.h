@@ -31,12 +31,19 @@ typedef enum {
 	GOG_AXIS_IN_MIDDLE = 0,
 	GOG_AXIS_AT_HIGH = 1
 } GogAxisPosition;
+typedef enum {
+	GOG_AXIS_TICK_LEVEL_NONE = 0,
+	GOG_AXIS_TICK_LEVEL_MAJOR,
+	GOG_AXIS_TICK_LEVEL_MINOR,
+	GOG_AXIS_TICK_LEVEL_MICRO
+} GogAxisTickLevel;
 
 #define GOG_AXIS_TYPE	(gog_axis_get_type ())
 #define GOG_AXIS(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_AXIS_TYPE, GogAxis))
 #define IS_GOG_AXIS(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_AXIS_TYPE))
 
 GType gog_axis_get_type (void);
+GogAxisType gog_axis_type (GogAxis const *axis);
 
 G_END_DECLS
 

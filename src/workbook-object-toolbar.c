@@ -151,7 +151,7 @@ static GnomeUIInfo workbook_object_toolbar [] = {
 	/* need to think about how to manage groups */
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("RadioButton"), N_("Create a radio button"),
-		&cmd_create_radiobutton, "Gnumeric_ObjectRadiobutton"),
+		&cmd_create_radiobutton, "Gnumeric_ObjectRadioButton"),
 #endif
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("List"), N_("Create a list"),
@@ -189,7 +189,7 @@ static BonoboUIVerb verbs [] = {
 	/* BONOBO_UI_UNSAFE_VERB ("CreateButton", cmd_create_button), */
 	BONOBO_UI_UNSAFE_VERB ("CreateScrollbar", cmd_create_scrollbar),
 	BONOBO_UI_UNSAFE_VERB ("CreateCheckbox", cmd_create_checkbox),
-	/* BONOBO_UI_UNSAFE_VERB ("CreateRadiobutton", cmd_create_radiobutton), */
+	/* BONOBO_UI_UNSAFE_VERB ("CreateRadioButton", cmd_create_radiobutton), */
 	BONOBO_UI_UNSAFE_VERB ("CreateList", cmd_create_list),
 	BONOBO_UI_UNSAFE_VERB ("CreateCombo", cmd_create_combo),
 	BONOBO_UI_UNSAFE_VERB ("CreateLine", cmd_create_line),

@@ -410,7 +410,7 @@
       <title>Description</title>
       <para>IMARCCSCH returns the complex hyperbolic arccosecant of the complex number z (@inumber), where</para>
       <para/>
-      <para>	arccsch(z) = arcsin(1/z).</para>
+      <para>	arccsch(z) = arcsinh(1/z).</para>
       <para/>
       <para>* If @inumber is not a valid complex number, IMARCCSCH returns #VALUE! error.</para>
       <para/>
@@ -2188,6 +2188,7 @@
     <refsect1>
       <title>Examples</title>
       <para/>
+      <para>DATE2UNIX(&quot;01/01/2000&quot;) equals 946656000.</para>
       <para/>
     </refsect1>
     <refsect1>
@@ -2570,7 +2571,7 @@
       <refpurpose/>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>NETWORKDAYS (start_date,end_date,holidays)</synopsis>
+      <synopsis>NETWORKDAYS (start_date,end_date[,holidays])</synopsis>
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
@@ -2834,7 +2835,7 @@
       <refpurpose/>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>WEEKNUM (date, method)</synopsis>
+      <synopsis>WEEKNUM (date[,method])</synopsis>
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
@@ -2870,7 +2871,7 @@
       <refpurpose/>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>WORKDAY (start_date,days,holidays)</synopsis>
+      <synopsis>WORKDAY (start_date,days[,holidays])</synopsis>
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
@@ -2936,7 +2937,7 @@
       <refpurpose/>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>YEARFRAC (start_date, end_date, basis)</synopsis>
+      <synopsis>YEARFRAC (start_date, end_date [,basis])</synopsis>
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
@@ -3922,7 +3923,7 @@
       <refpurpose/>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>COUPDAYBS(settlement,maturity,frequency[,basis])</synopsis>
+      <synopsis>COUPDAYBS(settlement,maturity,frequency[,basis,eom])</synopsis>
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
@@ -5004,7 +5005,7 @@
       <refpurpose/>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>NPER(rate,pmt,pv,fv,type)</synopsis>
+      <synopsis>NPER(rate,pmt,pv[,fv,type])</synopsis>
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
@@ -5415,7 +5416,6 @@
     <refsect1>
       <title>Description</title>
       <para>OPT_BS_GAMMA uses the Black-Scholes model to calculate the &quot;gamma&quot; of a European option struck at @strike on an asset with spot price @spot.</para>
-      <para>@call_put_flag is c or p to indicate whether the option is a call or a put</para>
       <para/>
       <para>(The gamma of an option is the second derivative of its price with respect to the price of the underlying asset, and is the same for calls and puts.)</para>
       <para/>
@@ -5455,7 +5455,7 @@
     <refsect1>
       <title>Description</title>
       <para>OPT_BS_RHO uses the Black-Scholes model to calculate the &quot;rho&quot; of a European option with call_put_flag, @call_put_flag struck at @strike on an asset with spot price @spot.</para>
-      <para>@call_put_flag is c or p to indicate whether the option is a call or a put</para>
+      <para>@call_put_flag is c or p to indicate whether the option is a call or a put.</para>
       <para/>
       <para>(The rho of an option is the rate of change of its price with respect to the risk free interest rate.)</para>
       <para>@time is the time to maturity of the option expressed in years</para>
@@ -5652,14 +5652,14 @@
       <title>Description</title>
       <para>OPT_EXTENDIBLE_WRITER models the theoretical price of extendible writer options. These are options that can be exercised at an initial period, @time1, or their maturity extended to @time2 if the option is out of the money at @time1</para>
       <para>@call_put_flag is c or p to indicate whether the option is a call or a put</para>
-      <para>@spot is the spot price of the underlying asset</para>
-      <para>@strike1 is the strike price at which the option is struck</para>
-      <para>@strike2 is the strike price at which the option is struck</para>
-      <para>@time1 is the initial maturity of the option in years</para>
-      <para>@time2 is the is the extended maturity in years if chosen</para>
-      <para>@rate is the risk annualised free rate of interest</para>
-      <para>@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield</para>
-      <para>@volatility is the annualised volatility in price of the underlying</para>
+      <para>@spot is the spot price of the underlying asset.</para>
+      <para>@strike1 is the strike price at which the option is struck.</para>
+      <para>@strike2 is the strike price at which the option is struck.</para>
+      <para>@time1 is the initial maturity of the option in years.</para>
+      <para>@time2 is the is the extended maturity in years if chosen.</para>
+      <para>@rate is the risk annualised free rate of interest.</para>
+      <para>@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield.</para>
+      <para>@volatility is the annualised volatility in price of the underlying.</para>
       <para/>
     </refsect1>
     <refsect1>
@@ -5729,11 +5729,11 @@
     <refsect1>
       <title>Description</title>
       <para>OPT_FRENCH values the theoretical price of a European option adjusted for trading day volatility, struck at @strike on an asset with spot price @spot.</para>
-      <para>@call_put_flag is c or p to indicate whether the option is a call or a put</para>
+      <para>@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a put.</para>
       <para>@volatility is the annualized volatility, in percent, of the asset for the period through to the exercise date.</para>
-      <para> @time the number of calendar days to exercise divided by calander days in the year</para>
-      <para>@t2 is the number of trading days to exercise divided by trading days in the year</para>
-      <para>@rate is the risk-free interest rate</para>
+      <para> @time the number of calendar days to exercise divided by calander days in the year.</para>
+      <para>@t2 is the number of trading days to exercise divided by trading days in the year.</para>
+      <para>@rate is the risk-free interest rate.</para>
       <para>@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield to the exercise date, in percent.</para>
       <para/>
       <para>* The returned value will be expressed as the rate of change of option value, per 100% volatility.</para>
@@ -5890,12 +5890,12 @@
     <refsect1>
       <title>Description</title>
       <para>OPT_ON_OPTIONS models the theoretical price of options on options</para>
-      <para>@type_flag is</para>
-      <para>@spot is the spot price of the underlying asset</para>
-      <para>@strike1 is the strike price at which the option is struck</para>
-      <para>@strike2 is the strike price at which the option is struck</para>
-      <para>@time1 is the time in years to maturity of the option</para>
-      <para>@time2 is the time in years to the maturity of the underlying option</para>
+      <para>@type_flag is 'cc' for calls on calls, 'cp' for calls on puts, and so on for 'pc', and 'pp'</para>
+      <para>@spot is the spot price of the underlying asset.</para>
+      <para>@strike1 is the strike price at which the option is struck.</para>
+      <para>@strike2 is the strike price at which the option is struck.</para>
+      <para>@time1 is the time in years to maturity of the option.</para>
+      <para>@time2 is the time in years to the maturity of the underlying option.</para>
       <para>(@time2 &gt;= @time1)</para>
       <para>@rate is the risk annualised free rate of interest</para>
       <para>@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield</para>
@@ -6119,7 +6119,7 @@
       <refpurpose/>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>PRICE(settle,mat,rate,yield,redemption_price,frequency[,basis])</synopsis>
+      <synopsis>PRICE(settle,mat,rate,yield,redemption_price,[frequency,basis])</synopsis>
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
@@ -6616,7 +6616,7 @@
       <refpurpose/>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>YIELD(settle,mat,rate,price,redemption_price,frequency[,basis])</synopsis>
+      <synopsis>YIELD(settlement,maturity,rate,price,redemption_price,frequency[,basis])</synopsis>
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
@@ -7876,7 +7876,7 @@
       <refpurpose/>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>HYPERLINK(link_location, optional_label)</synopsis>
+      <synopsis>HYPERLINK(link_location[,optional_label])</synopsis>
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
@@ -7904,7 +7904,7 @@
       <refpurpose/>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>INDEX(array,[row, col, area])</synopsis>
+      <synopsis>INDEX(array[,row, col, area])</synopsis>
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
@@ -7934,7 +7934,7 @@
       <refpurpose/>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>INDIRECT(ref_text,[format])</synopsis>
+      <synopsis>INDIRECT(ref_text[,format])</synopsis>
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
@@ -8934,7 +8934,7 @@
       <refpurpose/>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>FLOOR(x,significance)</synopsis>
+      <synopsis>FLOOR(x[,significance])</synopsis>
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
@@ -15388,7 +15388,7 @@
       <title>Examples</title>
       <para/>
       <para>UNICHAR(65) equals A.</para>
-      <para>UNICHAR(8232) equals an carriage return error.</para>
+      <para>UNICHAR(960) equals a small greek pi.</para>
       <para/>
     </refsect1>
     <refsect1>

@@ -22,6 +22,7 @@
 #include <gnumeric-config.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-style.h>
+#include <goffice/graph/gog-object.h>
 #include <goffice/utils/go-color.h>
 
 #include <gsf/gsf-impl-utils.h>
@@ -38,8 +39,9 @@ struct _GogTheme {
 
 	char 		*name;
 	char 		*load_from_file; /* optionally NULL */
+	GHashTable	*elem_hash_by_role;
 	GHashTable	*elem_hash_by_class;
-	GHashTable	*elem_hash_by_name;
+	GHashTable	*elem_hash_by_class_name;
 };
 typedef GObjectClass GogThemeClass;
 
@@ -54,10 +56,12 @@ gog_theme_finalize (GObject *obj)
 
 	g_free (theme->name); theme->name = NULL;
 	g_free (theme->load_from_file); theme->load_from_file = NULL;
+	if (theme->elem_hash_by_role)
+		g_hash_table_destroy (theme->elem_hash_by_role);
 	if (theme->elem_hash_by_class)
 		g_hash_table_destroy (theme->elem_hash_by_class);
-	if (theme->elem_hash_by_name)
-		g_hash_table_destroy (theme->elem_hash_by_name);
+	if (theme->elem_hash_by_class_name)
+		g_hash_table_destroy (theme->elem_hash_by_class_name);
 
 	if (parent_klass != NULL && parent_klass->finalize != NULL)
 		(parent_klass->finalize) (obj);
@@ -75,9 +79,11 @@ gog_theme_class_init (GogThemeClass *klass)
 static void
 gog_theme_init (GogTheme *theme)
 {
+	theme->elem_hash_by_role =
+		g_hash_table_new (g_direct_hash, g_direct_equal);
 	theme->elem_hash_by_class =
 		g_hash_table_new (g_direct_hash, g_direct_equal);
-	theme->elem_hash_by_name =
+	theme->elem_hash_by_class_name =
 		g_hash_table_new (g_str_hash, g_str_equal);
 }
 
@@ -87,9 +93,10 @@ GSF_CLASS (GogTheme, gog_theme,
 
 void
 gog_theme_init_style (GogTheme *theme, GogStyle *style,
-		      GObjectClass *klass, int ind)
+		      GogObject *obj, int ind)
 {
-	GogThemeElement *elem;
+	GogThemeElement *elem = NULL;
+	GObjectClass *klass;
 
 	if (theme == NULL)
 		theme = default_theme;
@@ -100,17 +107,21 @@ gog_theme_init_style (GogTheme *theme, GogStyle *style,
 #warning TODO parse some xml
 	}
 
-	elem = g_hash_table_lookup (theme->elem_hash_by_class, klass);
+	if (obj->role != NULL)
+		elem = g_hash_table_lookup (theme->elem_hash_by_role, obj->role);
 	if (elem == NULL) {
-		while (1) {
-			elem = g_hash_table_lookup (theme->elem_hash_by_name,
+		klass = G_OBJECT_GET_CLASS (obj);
+		elem = g_hash_table_lookup (theme->elem_hash_by_class, klass);
+	}
+	if (elem == NULL) {
+		for (; klass != NULL ; klass = g_type_class_peek_parent (klass)) {
+			elem = g_hash_table_lookup (theme->elem_hash_by_class_name,
 				G_OBJECT_CLASS_NAME (klass));
 			if (elem != NULL)
 				break;
-			klass = g_type_class_peek_parent (klass);
-			g_return_if_fail (klass != NULL);
 		}
-		g_hash_table_insert (theme->elem_hash_by_class, klass, elem);
+		if (klass != NULL)
+			g_hash_table_insert (theme->elem_hash_by_class, klass, elem);
 	}
 
 	gog_style_copy (style, elem->style);
@@ -149,30 +160,15 @@ gog_theme_register_file (char const *name, char const *file)
 }
 
 static void
-gog_theme_element_add_applies_to (GogTheme *theme, GogThemeElement *elem,
-				  char const *applies_to)
-{
-	g_hash_table_insert (theme->elem_hash_by_name,
-		(gpointer)applies_to, elem);
-}
-
-static GogThemeElement *
-gog_theme_add_element_full (GogTheme *theme, GogStyle *style,
-			    GogThemeStyleMap	*map)
-{
-	GogThemeElement *res = g_new0 (GogThemeElement, 1);
-	res->style = style;
-	res->map = map;
-	return res;
-}
-
-static void
 gog_theme_add_element (GogTheme *theme, GogStyle *style,
-		       char const *applies_to)
+		       GogThemeStyleMap	*map,
+		       char const *klass_name, char const *role_name)
 {
-	gog_theme_element_add_applies_to (theme, 
-		gog_theme_add_element_full (theme, style, NULL),
-		applies_to);
+	GogThemeElement *elem = g_new0 (GogThemeElement, 1);
+	elem->style = style;
+	elem->map = map;
+	g_hash_table_insert (theme->elem_hash_by_class_name,
+		(gpointer)klass_name, elem);
 }
 
 /**************************************************************************/
@@ -223,69 +219,83 @@ gog_themes_init	(void)
 {
 	GogTheme *theme;
 	GogStyle *style;
-	GogThemeElement *elem;
 
-	/* An MS Excel-ish theme * TODO : have a look at apple's themes */
+/* TODO : have a look at apple's themes */
+	/* An MS Excel-ish theme */
 	theme = gog_theme_new (_("Default"));
-	style = gog_style_new (); /* graph */
-		style->outline.width = -1;
-		style->fill.type = GOG_FILL_STYLE_SOLID;
-		style->fill.u.solid.is_auto = FALSE;
-		style->fill.u.solid.color = RGBA_WHITE;
-		gog_theme_add_element (theme, style, "GogGraph");
-	style = gog_style_new (); /* chart */
-		style->outline.width = 0; /* hairline */
-		style->outline.color = RGBA_BLACK;
-		style->fill.type = GOG_FILL_STYLE_NONE;
-		gog_theme_add_element (theme, style, "GogChart");
-	style = gog_style_new (); /* legend */
-		style->outline.width = 0; /* hairline */
-		style->outline.color = RGBA_BLACK;
-		style->fill.type = GOG_FILL_STYLE_SOLID;
-		style->fill.u.solid.is_auto = FALSE;
-		style->fill.u.solid.color = RGBA_WHITE;
-		gog_theme_add_element (theme, style, "GogLegend");
-	style = gog_style_new (); /* series */
-		style->outline.width = 0.; /* hairline */
-		style->outline.color = RGBA_BLACK;
-		style->fill.type = GOG_FILL_STYLE_SOLID;
-		style->fill.u.solid.is_auto = TRUE;
-		elem = gog_theme_add_element_full (theme, style,
-			map_area_series_solid_default);
-		/* FIXME : not really true, will want to split area from line */
-		gog_theme_element_add_applies_to (theme, elem, "GogSeries");
 	gog_theme_register (theme, TRUE);
 
-	/* guppi theme */
+	/* graph */
+	style = gog_style_new ();
+	style->outline.width = -1;
+	style->fill.type = GOG_FILL_STYLE_SOLID;
+	style->fill.u.solid.is_auto = FALSE;
+	style->fill.u.solid.color = RGBA_WHITE;
+	gog_theme_add_element (theme, style, NULL, "GogGraph", NULL);
+
+	/* chart */
+	style = gog_style_new ();
+	style->outline.width = 0; /* hairline */
+	style->outline.color = RGBA_BLACK;
+	style->fill.type = GOG_FILL_STYLE_NONE;
+	gog_theme_add_element (theme, style, NULL, "GogChart", NULL);
+
+	/* legend */
+	style = gog_style_new ();
+	style->outline.width = 0; /* hairline */
+	style->outline.color = RGBA_BLACK;
+	style->fill.type = GOG_FILL_STYLE_SOLID;
+	style->fill.u.solid.is_auto = FALSE;
+	style->fill.u.solid.color = RGBA_WHITE;
+	gog_theme_add_element (theme, style, NULL, "GogLegend", NULL);
+
+	/* series */
+	style = gog_style_new ();
+	style->outline.width = 0.; /* hairline */
+	style->outline.color = RGBA_BLACK;
+	style->fill.type = GOG_FILL_STYLE_SOLID;
+	style->fill.u.solid.is_auto = TRUE;
+	/* FIXME : not really true, will want to split area from line */
+	gog_theme_add_element (theme, style,
+		map_area_series_solid_default, "GogSeries", NULL);
+
+	/* Guppi */
 	theme = gog_theme_new (_("Guppi"));
-	style = gog_style_new (); /* graph */
-		style->outline.width = -1;
-		style->fill.type = GOG_FILL_STYLE_GRADIENT;
-		style->fill.u.gradient.start = RGBA_BLUE;
-		style->fill.u.gradient.end = RGBA_BLACK;
-		style->fill.u.gradient.type = GOG_GRADIENT_N_TO_S;
-		gog_theme_add_element (theme, style, "GogGraph");
-	style = gog_style_new (); /* chart */
-		style->outline.width = 0; /* hairline */
-		style->outline.color = RGBA_BLACK;
-		style->fill.type = GOG_FILL_STYLE_NONE;
-		gog_theme_add_element (theme, style, "GogChart");
-	style = gog_style_new (); /* legend */
-		style->outline.width = 0; /* hairline */
-		style->outline.color = RGBA_BLACK;
-		style->fill.u.solid.color = RGBA_GREY (0xB0);
-		gog_theme_add_element (theme, style, "GogLegend");
-	style = gog_style_new (); /* series */
-		style->outline.width = 0.; /* hairline */
-		style->outline.color = RGBA_BLACK;
-		style->fill.type = GOG_FILL_STYLE_SOLID;
-		style->fill.u.solid.is_auto = FALSE;
-		style->fill.u.solid.color = RGBA_GREY (0xB0);
-		elem = gog_theme_add_element_full (theme, style,
-			map_area_series_solid_guppi);
-		/* FIXME : not really true, will want to split area from line */
-		gog_theme_element_add_applies_to (theme, elem, "GogSeries");
 	gog_theme_register (theme, FALSE);
+
+	/* graph */
+	style = gog_style_new ();
+	style->outline.width = -1;
+	style->fill.type = GOG_FILL_STYLE_GRADIENT;
+	style->fill.u.gradient.start = RGBA_BLUE;
+	style->fill.u.gradient.end = RGBA_BLACK;
+	style->fill.u.gradient.type = GOG_GRADIENT_N_TO_S;
+	gog_theme_add_element (theme, style, NULL, "GogGraph", NULL);
+
+	/* chart */
+	style = gog_style_new ();
+	style->outline.width = 0; /* hairline */
+	style->outline.color = RGBA_BLACK;
+	style->fill.type = GOG_FILL_STYLE_NONE;
+	gog_theme_add_element (theme, style, NULL, "GogChart", NULL);
+
+	/* legend */
+	style = gog_style_new ();
+	style->outline.width = 0; /* hairline */
+	style->outline.color = RGBA_BLACK;
+	style->fill.u.solid.color = RGBA_GREY (0xB0);
+	gog_theme_add_element (theme, style, NULL, "GogLegend", NULL);
+
+	/* series */
+	style = gog_style_new ();
+	style->outline.width = 0.; /* hairline */
+	style->outline.color = RGBA_BLACK;
+	style->fill.type = GOG_FILL_STYLE_SOLID;
+	style->fill.u.solid.is_auto = FALSE;
+	style->fill.u.solid.color = RGBA_GREY (0xB0);
+	/* FIXME : not really true, will want to split area from line */
+	gog_theme_add_element (theme, style,
+		map_area_series_solid_guppi, "GogSeries", NULL);
 }
 
 GogTheme *

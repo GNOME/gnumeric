@@ -42,7 +42,7 @@ static GObjectClass *chart_parent_klass;
 static char const *
 gog_chart_type_name (GogObject const *obj)
 {
-	return "Chart";
+	return N_("Chart");
 }
 
 static gpointer
@@ -62,9 +62,16 @@ static void
 role_plot_post_add (GogObject *parent, GogObject *plot)
 {
 	GogChart *chart = GOG_CHART (parent);
+
 	/* APPEND to keep order, there won't be that many */
 	chart->plots = g_slist_append (chart->plots, plot);
 	gog_chart_request_cardinality_update (chart);
+
+	if (chart->plots->data == plot)
+		gog_chart_axis_set_assign (chart,
+			gog_plot_axis_set_pref (GOG_PLOT (plot)));
+	else
+		gog_plot_axis_set_assign (GOG_PLOT (plot), chart->axis_set);
 }
 
 static void
@@ -101,6 +108,26 @@ gog_chart_get_property (GObject *obj, guint param_id,
 	}
 }
 
+static gboolean
+axis_can_add (GogObject const *parent, GogAxisType t)
+{
+	GogChart *chart = GOG_CHART (parent);
+	if (chart->axis_set == GOG_AXIS_SET_UNKNOWN)
+		return FALSE;
+	return (chart->axis_set & (1 << t)) != 0;
+}
+
+static void
+axis_pre_remove (GogObject const *child, GogAxisType t)
+{
+}
+static gboolean x_axis_can_add (GogObject const *parent) { return axis_can_add (parent, GOG_AXIS_X); }
+static void x_axis_pre_remove  (GogObject *parent, GogObject *child)  { axis_pre_remove (child, GOG_AXIS_X); }
+static gboolean y_axis_can_add (GogObject const *parent) { return axis_can_add (parent, GOG_AXIS_Y); }
+static void y_axis_pre_remove  (GogObject *parent, GogObject *child)  { axis_pre_remove (child, GOG_AXIS_Y); }
+static gboolean z_axis_can_add (GogObject const *parent) { return axis_can_add (parent, GOG_AXIS_Z); }
+static void z_axis_pre_remove  (GogObject *parent, GogObject *child)  { axis_pre_remove (child, GOG_AXIS_Z); }
+
 static void
 gog_chart_class_init (GogObjectClass *gog_klass)
 {
@@ -115,6 +142,15 @@ gog_chart_class_init (GogObjectClass *gog_klass)
 		{ N_("Title"), "GogLabel",
 		  GOG_POSITION_COMPASS, GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER, FALSE,
 		  NULL, NULL, NULL, NULL, NULL, NULL },
+		{ N_("X-Axis"), "GogAxis",
+		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, FALSE,
+		  x_axis_can_add, NULL, NULL, NULL, x_axis_pre_remove, NULL },
+		{ N_("Y-Axis"), "GogAxis",
+		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, FALSE,
+		  y_axis_can_add, NULL, NULL, NULL, y_axis_pre_remove, NULL },
+		{ N_("Z-Axis"), "GogAxis",
+		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, FALSE,
+		  z_axis_can_add, NULL, NULL, NULL, z_axis_pre_remove, NULL },
 	};
 	GObjectClass *gobject_klass = (GObjectClass *)gog_klass;
 
@@ -142,6 +178,7 @@ gog_chart_init (GogChart *chart)
 	chart->rows  = 0;
 	/* start as true so that we can queue an update when it changes */
 	chart->cardinality_valid = TRUE;
+	chart->axis_set = GOG_AXIS_SET_UNKNOWN;
 }
 
 GSF_CLASS (GogChart, gog_chart,
@@ -203,12 +240,6 @@ gog_chart_set_position (GogChart *chart,
 	gog_object_emit_changed (GOG_OBJECT (chart), TRUE);
 }
 
-GogGraph *
-gog_chart_get_graph (GogChart const *chart)
-{
-	return GOG_GRAPH (GOG_OBJECT (chart)->parent);
-}
-
 unsigned
 gog_chart_get_cardinality (GogChart *chart)
 {
@@ -247,6 +278,37 @@ gog_chart_foreach_elem (GogChart *chart, GogEnumFunc handler, gpointer data)
 
 	for (ptr = chart->plots ; ptr != NULL ; ptr = ptr->next)
 		gog_plot_foreach_elem (ptr->data, handler, data);
+}
+
+gboolean
+gog_chart_axis_set_is_valid (GogChart const *chart, GogAxisSet type)
+{
+	GSList *ptr;
+
+	g_return_val_if_fail (GOG_CHART (chart) != NULL, FALSE);
+
+	for (ptr = chart->plots ; ptr != NULL ; ptr = ptr->next)
+		if (!gog_plot_axis_set_is_valid (ptr->data, type))
+			return FALSE;
+	return TRUE;
+}
+
+gboolean
+gog_chart_axis_set_assign (GogChart *chart, GogAxisSet type)
+{
+	GSList *ptr;
+
+	g_return_val_if_fail (GOG_CHART (chart) != NULL, FALSE);
+
+	for (ptr = chart->plots ; ptr != NULL ; ptr = ptr->next)
+		if (!gog_plot_axis_set_assign (ptr->data, type))
+			return FALSE;
+	chart->axis_set = type;
+
+	/* remove any existing axis that do not fit this scheme */
+	for (ptr = chart->plots ; ptr != NULL ; ptr = ptr->next)
+	/* Add at least 1 instance of any required axis */
+	return TRUE;
 }
 
 /*********************************************************************/

@@ -48,6 +48,7 @@ typedef struct {
 	float		 horizontal_dpi;
 	float		 vertical_dpi;
 	gboolean	 auto_complete;
+	gboolean	 transition_keys;
 	gboolean	 live_scrolling;
 	gint		 recalc_lag;
 	gboolean	 unfocused_range_selection;

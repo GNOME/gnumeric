@@ -2,8 +2,6 @@ Simply select an excel file and watch those bits go flying.
 
 For information on the Excel file format simply see:
 
-	http://www.microsoft.com/msdn
-
 	Microsoft Excel97 Developer's Kit, Microsoft Press
 	ISBN 1-57231-498-2 at $50
 
@@ -13,7 +11,8 @@ If you are going to work on the excel import or export functionality you
 need to do the following:
 
 checkout CVS module libgsf
-build libgsf
-sym link libole2/test/test-msole1 to plugins/excel/biffdump
+cd libgsf
+make check
+sym link libgsf/test/test-msole1 to plugins/excel/biffdump
 
 2002-01-01 Please direct comments to <jody@gnome.org>

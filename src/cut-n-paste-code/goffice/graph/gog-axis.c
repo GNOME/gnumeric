@@ -22,10 +22,20 @@
 #include <gnumeric-config.h>
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-object.h>
-#include <goffice/graph/gog-data-allocator.h>
+#include <goffice/graph/gog-data-set.h>
+#include <goffice/graph/go-data.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <src/gnumeric-i18n.h>
+
+enum {
+	AXIS_ELEM_MIN = 0,
+	AXIS_ELEM_MAX,
+	AXIS_ELEM_MAJOR_TICK,
+	AXIS_ELEM_MINOR_TICK,
+	AXIS_ELEM_MICRO_TICK,
+	AXIS_ELEM_LAST_ENTRY
+};
 
 struct _GogAxis {
 	GogObject	 base;
@@ -33,7 +43,9 @@ struct _GogAxis {
 	GogAxisType	 type;
 	GogAxisPosition	 pos;
 	GSList		*i_cross, *crosses_me, *plots;
-	GOData		*min_source, *max_source;
+
+	GogDatasetElement source [AXIS_ELEM_LAST_ENTRY];
+	GogAxisTickLevel  tick_level;
 };
 
 typedef struct {
@@ -50,15 +62,8 @@ gog_axis_finalize (GObject *obj)
 	g_slist_free (axis->i_cross);	 axis->i_cross = NULL;
 	g_slist_free (axis->crosses_me); axis->crosses_me = NULL;
 	g_slist_free (axis->plots);	 axis->plots = NULL;
-	if (axis->min_source != NULL) {
-		g_object_unref (axis->min_source);
-		axis->min_source = NULL;
-	}
-	if (axis->max_source != NULL) {
-		g_object_unref (axis->max_source);
-		axis->max_source = NULL;
-	}
 
+	gog_dataset_finalize (GOG_DATASET (axis));
 	if (parent_klass != NULL && parent_klass->finalize != NULL)
 		(parent_klass->finalize) (obj);
 }
@@ -66,21 +71,20 @@ gog_axis_finalize (GObject *obj)
 static char const *
 gog_axis_type_name (GogObject const *obj)
 {
-	return "Axis";
+	return N_("Axis");
 }
 
 static void
-gog_axis_class_init (GogAxisClass *klass)
+gog_axis_class_init (GObjectClass *gobject_klass)
 {
 	static GogObjectRole const roles[] = {
 		{ N_("Label"), "GogLabel",
 		  GOG_POSITION_COMPASS, GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER, FALSE,
 		  NULL, NULL, NULL, NULL, NULL, NULL },
 	};
-	GObjectClass *gobject_klass   = (GObjectClass *) klass;
-	GogObjectClass *gog_klass = (GogObjectClass *) klass;
+	GogObjectClass *gog_klass = (GogObjectClass *) gobject_klass;
 
-	parent_klass = g_type_class_peek_parent (klass);
+	parent_klass = g_type_class_peek_parent (gobject_klass);
 	gobject_klass->finalize	    = gog_axis_finalize;
 
 	gog_klass->type_name = gog_axis_type_name;
@@ -95,26 +99,24 @@ gog_axis_init (GogGraph *graph)
 static void
 gog_axis_dataset_dims (GogDataset const *set, int *first, int *last)
 {
+	*first = AXIS_ELEM_MIN;
+	*last  = AXIS_ELEM_MICRO_TICK;
 }
 
-static GOData *
-gog_axis_dataset_get_dim (GogDataset const *set, int dim_i)
+static GogDatasetElement *
+gog_axis_dataset_get_elem (GogDataset const *set, int dim_i)
 {
+	GogAxis *axis = GOG_AXIS (set);
+	if (AXIS_ELEM_MIN <= dim_i && dim_i <= AXIS_ELEM_MICRO_TICK)
+		return &axis->source[dim_i];
 	return NULL;
-}
-
-static void
-gog_axis_dataset_set_dim (GogDataset *set, int dim_i,
-			  GOData *val, GError **err)
-{
 }
 
 static void
 gog_axis_dataset_init (GogDatasetClass *iface)
 {
 	iface->dims	= gog_axis_dataset_dims;
-	iface->get_dim	= gog_axis_dataset_get_dim;
-	iface->set_dim	= gog_axis_dataset_set_dim;
+	iface->get_elem	= gog_axis_dataset_get_elem;
 }
 
 GSF_CLASS_FULL (GogAxis, gog_axis,
@@ -122,3 +124,9 @@ GSF_CLASS_FULL (GogAxis, gog_axis,
 		GOG_OBJECT_TYPE, 0,
 		GSF_INTERFACE (gog_axis_dataset_init, GOG_DATASET_TYPE))
 
+GogAxisType
+gog_axis_type (GogAxis const *axis)
+{
+	g_return_val_if_fail (GOG_AXIS (axis) != NULL, FALSE);
+	return axis->type;
+}

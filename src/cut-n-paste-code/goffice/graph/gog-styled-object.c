@@ -23,6 +23,7 @@
 #include <goffice/graph/gog-styled-object.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-theme.h>
+#include <goffice/graph/gog-graph.h>
 
 #include <src/gnumeric-i18n.h>
 #include <gsf/gsf-impl-utils.h>
@@ -91,14 +92,31 @@ gog_styled_object_finalize (GObject *obj)
 }
 
 static void
-gog_styled_object_class_init (GogStyledObjectClass *klass)
+gog_styled_object_parent_changed (GogObject *obj, gboolean was_set)
 {
-	GObjectClass *gobject_klass = (GObjectClass *) klass;
+	GogObjectClass *gog_object_klass = GOG_OBJECT_CLASS (parent_klass);
+	if (was_set) {
+		GogGraph const *graph = gog_object_get_graph (obj);
+		if (graph != NULL) {
+			GogStyledObject *gso = GOG_STYLED_OBJECT (obj);
+			gog_theme_init_style (gog_graph_get_theme (graph),
+					      gso->style, obj, 0);
+		}
+	}
 
-	parent_klass = g_type_class_peek_parent (klass);
+	gog_object_klass->parent_changed (obj, was_set);
+}
+
+static void
+gog_styled_object_class_init (GogObjectClass *gog_klass)
+{
+	GObjectClass *gobject_klass = (GObjectClass *) gog_klass;
+
+	parent_klass = g_type_class_peek_parent (gog_klass);
 	gobject_klass->set_property = gog_styled_object_set_property;
 	gobject_klass->get_property = gog_styled_object_get_property;
 	gobject_klass->finalize	    = gog_styled_object_finalize;
+	gog_klass->parent_changed   = gog_styled_object_parent_changed;
 
 	g_object_class_install_property (gobject_klass, STYLED_OBJECT_PROP_STYLE,
 		g_param_spec_object ("style", "style",
@@ -107,10 +125,9 @@ gog_styled_object_class_init (GogStyledObjectClass *klass)
 }
 
 static void
-gog_styled_object_init (GogStyledObject *gso, gpointer klass)
+gog_styled_object_init (GogStyledObject *gso)
 {
 	gso->style = gog_style_new (); /* use the defaults */
-	gog_theme_init_style (NULL, gso->style, klass, 0);
 }
 
 GSF_CLASS (GogStyledObject, gog_styled_object,

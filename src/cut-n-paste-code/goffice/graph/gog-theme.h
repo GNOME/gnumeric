@@ -33,7 +33,7 @@ G_BEGIN_DECLS
 GType gog_theme_get_type (void);
 
 void gog_theme_init_style (GogTheme *theme, GogStyle *style,
-			   GObjectClass *klass, int i);
+			   GogObject *obj, int i);
 
 void gog_themes_init	       (void);
 void gog_theme_register        (GogTheme *theme, gboolean is_default);

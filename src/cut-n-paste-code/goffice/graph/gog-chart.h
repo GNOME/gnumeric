@@ -33,7 +33,6 @@ G_BEGIN_DECLS
 
 GType gog_chart_get_type (void);
 
-GogGraph *gog_chart_get_graph	  (GogChart const *chart);
 gboolean  gog_chart_get_position  (GogChart const *chart, unsigned *x, unsigned *y,
 				   unsigned *cols, unsigned *rows);
 void	  gog_chart_set_position  (GogChart *chart, unsigned x, unsigned y,
@@ -43,6 +42,9 @@ void	  gog_chart_request_cardinality_update (GogChart *chart);
 unsigned  gog_chart_get_cardinality (GogChart *);
 void	  gog_chart_foreach_elem  (GogChart *,
 				   GogEnumFunc handler, gpointer data);
+
+gboolean  gog_chart_axis_set_is_valid (GogChart const *chart, GogAxisSet type);
+gboolean  gog_chart_axis_set_assign   (GogChart *chart, GogAxisSet type);
 
 G_END_DECLS
 

@@ -190,6 +190,17 @@
         </locale>
       </schema>
       <schema>
+        <key>/schemas/apps/gnumeric/core/gui/editing/transitionkeys</key>
+        <applyto>/apps/gnumeric/core/gui/editing/transitionkeys</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>TRUE</default>
+        <locale name="C">
+        <short>Transition Keys</short>
+        <long>This variable determines whether transition keys are set on.</long>
+        </locale>
+      </schema>
+      <schema>
         <key>/schemas/apps/gnumeric/core/gui/window/x</key>
         <applyto>/apps/gnumeric/core/gui/window/x</applyto>
         <owner>Gnumeric</owner>

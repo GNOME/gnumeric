@@ -26,7 +26,7 @@ struct _MSContainer {
 	MsBiffVersion	 ver;
 	gboolean	 free_blips;
 	GPtrArray	*blips;
-	GList		*obj_queue;
+	GSList		*obj_queue;
 
 	GPtrArray	 	*names;
 	struct {
@@ -46,6 +46,7 @@ void           ms_container_add_blip	 (MSContainer *c, MSEscherBlip *blip);
 MSEscherBlip  *ms_container_get_blip	 (MSContainer *c, int blip_id);
 void	       ms_container_set_blips    (MSContainer *c, GPtrArray *blips);
 void	       ms_container_add_obj	 (MSContainer *c, MSObj *obj);
+MSObj	      *ms_container_get_obj	 (MSContainer *c, int obj_id);
 void	       ms_container_realize_objs (MSContainer *c);
 GnmExpr	const *ms_container_parse_expr   (MSContainer *c,
 					  guint8 const *data, int length);

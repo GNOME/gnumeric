@@ -73,6 +73,7 @@ typedef struct _MSEscherHeader
 	struct _MSEscherHeader *container;
 
 	MSObjAttrBag *attrs;
+	gboolean      release_attrs;
 } MSEscherHeader;
 
 #define COMMON_HEADER_LEN	 8
@@ -84,13 +85,15 @@ ms_escher_header_init (MSEscherHeader *h)
 {
 	h->ver = h->instance = h->fbt = h->len = 0;
 	h->attrs = NULL;
+	h->release_attrs = TRUE;
 }
 
 static void
 ms_escher_header_release (MSEscherHeader *h)
 {
 	if (h->attrs != NULL) {
-		ms_obj_attr_bag_destroy (h->attrs);
+		if (h->release_attrs)
+			ms_obj_attr_bag_destroy (h->attrs);
 		h->attrs = NULL;
 	}
 }
@@ -1779,7 +1782,7 @@ ms_escher_read_ClientTextbox (MSEscherState *state, MSEscherHeader *h)
 	text = ms_read_TXO (state->q);
 	ms_escher_header_add_attr (h,
 		ms_obj_attr_new_ptr (MS_OBJ_ATTR_TEXT, text));
-	d (0 , printf ("'%s';\n", text););
+	d (0, printf ("'%s';\n", text););
 	return FALSE;
 }
 
@@ -1801,7 +1804,7 @@ ms_escher_read_ClientData (MSEscherState *state, MSEscherHeader *h)
 
 	/* The object takes responsibility for the attributes */
 	ms_read_OBJ (state->q, state->container, h->attrs);
-	h->attrs = NULL;
+	h->release_attrs = FALSE;
 
 	return FALSE;
 }

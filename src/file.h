@@ -59,12 +59,12 @@ typedef struct _GnmFileOpenerClass GnmFileOpenerClass;
 #define IS_GNM_FILE_OPENER(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_GNM_FILE_OPENER))
 
 typedef gboolean (*GnmFileOpenerProbeFunc) (GnmFileOpener const *fo,
-					     GsfInput *input,
-                                             FileProbeLevel pl);
+					    GsfInput *input,
+					    FileProbeLevel pl);
 typedef void     (*GnmFileOpenerOpenFunc) (GnmFileOpener const *fo,
-                                            IOContext *io_context,
-                                            WorkbookView *wbv,
-                                            GsfInput *input);
+					   IOContext *io_context,
+					   WorkbookView *wbv,
+					   GsfInput *input);
 typedef void     (*GnmFileOpenerOpenFuncWithEnc) (GnmFileOpener const *fo,
 						  gchar const *enc,
 						  IOContext *io_context,
@@ -73,24 +73,25 @@ typedef void     (*GnmFileOpenerOpenFuncWithEnc) (GnmFileOpener const *fo,
 
 GType gnm_file_opener_get_type (void);
 
-GnmFileOpener *gnm_file_opener_new (const gchar *id,
-                                      const gchar *description,
-                                      GnmFileOpenerProbeFunc probe_func,
-                                      GnmFileOpenerOpenFunc open_func);
-GnmFileOpener *gnm_file_opener_new_with_enc (const gchar *id,
-				    const gchar *description,
+GnmFileOpener *gnm_file_opener_new (char const *id,
+				    char const *description,
 				    GnmFileOpenerProbeFunc probe_func,
-				    GnmFileOpenerOpenFuncWithEnc open_func);
+				    GnmFileOpenerOpenFunc open_func);
+GnmFileOpener *gnm_file_opener_new_with_enc (char const *id,
+					     char const *description,
+					     GnmFileOpenerProbeFunc probe_func,
+					     GnmFileOpenerOpenFuncWithEnc open_func);
 
 
 gboolean     gnm_file_opener_probe (GnmFileOpener const *fo, GsfInput *input,
-                                     FileProbeLevel pl);
+				    FileProbeLevel pl);
 void         gnm_file_opener_open (GnmFileOpener const *fo, gchar const *opt_enc,
 				   IOContext *io_context,
 				   WorkbookView *wbv, GsfInput *input);
-const gchar *gnm_file_opener_get_id (GnmFileOpener const *fo);
-const gchar *gnm_file_opener_get_description (GnmFileOpener const *fo);
-gboolean gnm_file_opener_is_encoding_dependent (GnmFileOpener const *fo);
+
+char const *gnm_file_opener_get_id		  (GnmFileOpener const *fo);
+char const *gnm_file_opener_get_description	  (GnmFileOpener const *fo);
+gboolean    gnm_file_opener_is_encoding_dependent (GnmFileOpener const *fo);
 
 /*
  * GnmFileSaver
@@ -104,14 +105,14 @@ typedef struct _GnmFileSaverClass GnmFileSaverClass;
 #define IS_GNM_FILE_SAVER(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_GNM_FILE_SAVER))
 
 typedef void (*GnmFileSaverSaveFunc) (GnmFileSaver const *fs,
-                                       IOContext *io_context,
-                                       WorkbookView const *wbv,
-                                       GsfOutput *output);
+				      IOContext *io_context,
+				      WorkbookView const *wbv,
+				      GsfOutput *output);
 GType gnm_file_saver_get_type (void);
 
-GnmFileSaver *gnm_file_saver_new (const gchar *id,
-				  const gchar *extension,
-				  const gchar *description,
+GnmFileSaver *gnm_file_saver_new (char const *id,
+				  char const *extension,
+				  char const *description,
 				  FileFormatLevel level,
 				  GnmFileSaverSaveFunc save_func);
 
@@ -119,16 +120,16 @@ void          gnm_file_saver_set_save_scope (GnmFileSaver *fs, FileSaveScope sco
 FileSaveScope gnm_file_saver_get_save_scope (GnmFileSaver const *fs);
 
 void         gnm_file_saver_save (GnmFileSaver const *fs, IOContext *io_context,
-                                   WorkbookView const *wbv, GsfOutput *output);
+				  WorkbookView const *wbv, GsfOutput *output);
 void         gnm_file_saver_set_overwrite_files	(GnmFileSaver *fs,
 						 gboolean overwrite);
 gboolean     gnm_file_saver_fix_file_name	(GnmFileSaver const *fs,
 						 char const *file_name,
 						 char **new_file_name);
-const gchar *gnm_file_saver_get_id	  	(GnmFileSaver const *fs);
-const gchar *gnm_file_saver_get_extension	(GnmFileSaver const *fs);
-const gchar *gnm_file_saver_get_mime_type	(GnmFileSaver const *fs);
-const gchar *gnm_file_saver_get_description	(GnmFileSaver const *fs);
+char const *gnm_file_saver_get_id	  	(GnmFileSaver const *fs);
+char const *gnm_file_saver_get_extension	(GnmFileSaver const *fs);
+char const *gnm_file_saver_get_mime_type	(GnmFileSaver const *fs);
+char const *gnm_file_saver_get_description	(GnmFileSaver const *fs);
 FileFormatLevel gnm_file_saver_get_format_level	(GnmFileSaver const *fs);
 
 /*

@@ -277,6 +277,7 @@ ms_obj_new (MSObjAttrBag *attrs)
 	obj->attrs = (attrs != NULL) ? attrs : ms_obj_attr_bag_new ();
 	obj->ignore_combo_in_filter	= FALSE;
 	obj->is_linked			= FALSE;
+	obj->comment_pos.col = obj->comment_pos.row = -1;
 
 	return obj;
 }
@@ -898,12 +899,8 @@ ms_read_OBJ (BiffQuery *q, MSContainer *container, MSObjAttrBag *attrs)
 		return;
 	}
 
-	if (obj->gnum_obj == NULL) {
-		ms_obj_delete (obj);
-		return;
-	}
 #if 0
-	printf ("Registered object 0x%p\n", obj);
+	g_warning ("registered obj %d\n", obj->id);
 #endif
 	ms_container_add_obj (container, obj);
 }

@@ -40,6 +40,7 @@ struct _GogChart {
 	unsigned x, y, cols, rows;
 
 	GList *axes;
+	GogAxisSet axis_set;
 };
 
 typedef struct {

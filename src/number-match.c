@@ -105,7 +105,7 @@ typedef enum {
  * the format as well as the regexp are UTF-8 encoded.
  */
 static char *
-format_create_regexp (const unsigned char *format, GByteArray **dest)
+format_create_regexp (unsigned char const *format, GByteArray **dest)
 {
 	GString *regexp;
 	GByteArray *match_types;

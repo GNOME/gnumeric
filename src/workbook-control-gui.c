@@ -5480,6 +5480,7 @@ typedef struct {
 	GnmExprEntry *entry;
 	GogDataset *dataset;
 	int dim_i;
+	gboolean prefers_scalar;
 } GraphDimEditor;
 
 static void
@@ -5507,10 +5508,9 @@ cb_graph_dim_editor_update (G_GNUC_UNUSED GnmExprEntry *gee,
 		if (expr == NULL)
 			return;
 
-		if (editor->dim_i >= 0)
-			data = gnm_go_data_vector_new_expr (sheet, expr);
-		else
-			data = gnm_go_data_scalar_new_expr (sheet, expr);
+		data = (editor->prefers_scalar)
+			? gnm_go_data_scalar_new_expr (sheet, expr)
+			: gnm_go_data_vector_new_expr (sheet, expr);
 	}
 
 	/* The SheetObjectGraph does the magic to link things in */
@@ -5519,16 +5519,17 @@ cb_graph_dim_editor_update (G_GNUC_UNUSED GnmExprEntry *gee,
 
 static gpointer
 wbcg_data_allocator_editor (GogDataAllocator *dalloc,
-			    GogDataset *dataset, int dim_i)
+			    GogDataset *dataset, int dim_i, gboolean prefers_scalar)
 {
 	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (dalloc);
 	GraphDimEditor *editor;
 	GOData *val;
 
 	editor = g_new (GraphDimEditor, 1);
-	editor->dataset = dataset;
-	editor->dim_i   = dim_i;
-	editor->entry   = gnm_expr_entry_new (wbcg, TRUE);
+	editor->dataset		= dataset;
+	editor->dim_i		= dim_i;
+	editor->prefers_scalar	= prefers_scalar;
+	editor->entry  		= gnm_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_update_policy (editor->entry,
 		GTK_UPDATE_DISCONTINUOUS);
 

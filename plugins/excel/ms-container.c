@@ -7,7 +7,7 @@
  * Author:
  *    Jody Goldberg (jody@gnome.org)
  *
- * (C) 2000-2002 Jody Goldberg
+ * (C) 2000-2003 Jody Goldberg
  **/
 
 #include <gnumeric-config.h>
@@ -56,11 +56,11 @@ ms_container_finalize (MSContainer *container)
 	}
 
 	if (container->obj_queue != NULL) {
-		GList *l;
-		for (l = container->obj_queue; l != NULL; l = l->next)
-			ms_obj_delete (l->data);
+		GSList *ptr;
+		for (ptr = container->obj_queue; ptr != NULL; ptr = ptr->next)
+			ms_obj_delete (ptr->data);
 
-		g_list_free (container->obj_queue);
+		g_slist_free (container->obj_queue);
 		container->obj_queue = NULL;
 	}
 
@@ -121,7 +121,22 @@ ms_container_set_blips (MSContainer *container, GPtrArray *blips)
 void
 ms_container_add_obj (MSContainer *container, MSObj *obj)
 {
-	container->obj_queue = g_list_prepend (container->obj_queue, obj);
+	container->obj_queue = g_slist_prepend (container->obj_queue, obj);
+}
+
+MSObj *
+ms_container_get_obj (MSContainer *c, int obj_id)
+{
+	MSObj *obj;
+	GSList *ptr;
+	
+	for (ptr = c->obj_queue ; ptr != NULL ; ptr = ptr->next) {
+		obj = (MSObj *)ptr->data;
+		if (obj != NULL && obj->id == obj_id)
+			return obj;
+	}
+	g_warning ("did not find %d\n", obj_id);
+	return NULL;
 }
 
 /**
@@ -134,14 +149,18 @@ ms_container_add_obj (MSContainer *container, MSObj *obj)
 void
 ms_container_realize_objs (MSContainer *container)
 {
-	GList *l;
+	GSList *ptr;
+	MSObj *obj;
 
 	g_return_if_fail (container != NULL);
 	g_return_if_fail (container->vtbl != NULL);
 	g_return_if_fail (container->vtbl->realize_obj != NULL);
 
-	for (l = container->obj_queue; l != NULL; l = l->next)
-		(void) (*container->vtbl->realize_obj) (container, l->data);
+	for (ptr = container->obj_queue; ptr != NULL; ptr = ptr->next) {
+		obj = (MSObj *)ptr->data;
+		if (obj->gnum_obj != NULL)
+			(void) (*container->vtbl->realize_obj) (container, obj);
+	}
 }
 
 /**

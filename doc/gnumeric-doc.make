@@ -30,3 +30,8 @@ EXTRA_DIST +=		\
 	func-header.xml func-footer.xml
 
 #	functions.xml	# an entity, shipped via xmldocs.make
+
+.PHONY : html
+html :
+	-mkdir -p html
+	xsltproc --noout -o html/ $(top_srcdir)/../gnome-docu/gdp/xsl/general-customization.xsl gnumeric.xml

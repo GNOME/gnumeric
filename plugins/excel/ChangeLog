@@ -1,3 +1,29 @@
+2003-07-16  Jody Goldberg <jody@gnome.org>
+
+	* ms-obj.c (ms_read_OBJ) : always register the object.
+
+	* ms-container.c : Make the obj_queue a GSList.
+	(ms_container_get_obj) : new.
+	(ms_container_realize_objs) : only realize MSObjs that have gnumeric
+	  objects.
+
+	* ms-escher.c (ms_escher_header_init) : init new 'release_attrs' flag
+	  to allow us to pass management of an attr bag to an object, but still
+	  retain access to it.
+	 (ms_escher_header_release) : honour the flag.
+	 (ms_escher_read_ClientData) : set the flag.
+
+	* ms-excel-read.c (excel_read_NOTE) : Discover an undocumented flag.
+	  0x100 == no indicator visible
+	  While we're here store the author, and the inidcator position.
+	(excel_read_HLINK) : frames are 0x80 not 0x8
+	(ms_sheet_realize_obj) : cheat to handle cell comments.  In xl97 and
+	  up the comment objects store the possition of the display box, not the
+	  position of the indicator.  We need a better comment object.
+	(ms_sheet_realize_obj) : Store the text for text boxes too.
+	(ms_sheet_create_obj) : no need to set a blank text, we assign it later.
+	(ms_sheet_create_obj) : create comments.
+
 2003-07-07  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (excel_palette_get) : fix error message.

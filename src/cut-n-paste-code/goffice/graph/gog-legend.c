@@ -96,12 +96,13 @@ gog_legend_get_property (GObject *obj, guint param_id,
 static char const *
 gog_legend_type_name (GogObject const *item)
 {
-	return "Legend";
+	return N_("Legend");
 }
 
 static void
 gog_legend_parent_changed (GogObject *obj, gboolean was_set)
 {
+	GogObjectClass *gog_object_klass = GOG_OBJECT_CLASS (parent_klass);
 	GogLegend *legend = GOG_LEGEND (obj);
 
 	if (was_set && legend->chart_cardinality_handle == 0)
@@ -110,6 +111,8 @@ gog_legend_parent_changed (GogObject *obj, gboolean was_set)
 				"notify::cardinality-valid",
 				G_CALLBACK (gog_object_request_update),
 				legend, G_CONNECT_SWAPPED);
+
+	gog_object_klass->parent_changed (obj, was_set);
 }
 
 static void

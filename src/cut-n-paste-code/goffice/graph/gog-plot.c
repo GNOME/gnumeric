@@ -86,7 +86,7 @@ role_series_post_add (GogObject *parent, GogObject *child)
 	num_dim = plot->desc.series.num_dim;
 
 	/* Alias things so that dim -1 is valid */
-	series->values = g_new0 (GogDim, num_dim+1) + 1;
+	series->values = g_new0 (GogDatasetElement, num_dim+1) + 1;
 	series->plot = plot;
 
 	/* if there are other series associated with the plot, and there are 
@@ -99,7 +99,8 @@ role_series_post_add (GogObject *parent, GogObject *child)
 
 		for (i = num_dim; i-- > 0 ; ) /* name is never shared */
 			if (desc->dim[i].is_shared)
-				gog_series_set_dim_internal (series, i, src->values[i].data, graph);
+				gog_dataset_set_dim_internal (GOG_DATASET (series),
+					i, src->values[i].data, graph);
 
 		gog_series_check_validity (series);
 	}
@@ -237,7 +238,8 @@ gog_plot_description (GogPlot const *plot)
 	g_return_val_if_fail (GOG_PLOT (plot) != NULL, NULL);
 	return &plot->desc;
 }
-GogChart *
+
+static GogChart *
 gog_plot_get_chart (GogPlot const *plot)
 {
 	return GOG_CHART (GOG_OBJECT (plot)->parent);
@@ -333,6 +335,39 @@ gog_plot_supports_vary_style_by_element (GogPlot const *plot)
 	if (klass->supports_vary_style_by_element)
 		return (klass->supports_vary_style_by_element) (plot);
 	return TRUE; /* default */
+}
+
+GogAxisSet
+gog_plot_axis_set_pref (GogPlot const *plot)
+{
+	GogPlotClass *klass = GOG_PLOT_GET_CLASS (plot);
+
+	g_return_val_if_fail (klass != NULL, FALSE);
+	if (klass->axis_set_pref != NULL)
+		return (klass->axis_set_pref) (plot);
+	return GOG_AXIS_SET_NONE;
+}
+
+gboolean
+gog_plot_axis_set_is_valid (GogPlot const *plot, GogAxisSet type)
+{
+	GogPlotClass *klass = GOG_PLOT_GET_CLASS (plot);
+
+	g_return_val_if_fail (klass != NULL, FALSE);
+	if (klass->axis_set_is_valid != NULL)
+		return (klass->axis_set_is_valid) (plot, type);
+	return type == GOG_AXIS_SET_NONE;
+}
+
+gboolean
+gog_plot_axis_set_assign (GogPlot *plot, GogAxisSet type)
+{
+	GogPlotClass *klass = GOG_PLOT_GET_CLASS (plot);
+
+	g_return_val_if_fail (klass != NULL, FALSE);
+	if (klass->axis_set_assign != NULL)
+		return (klass->axis_set_assign) (plot, type);
+	return type == GOG_AXIS_SET_NONE;
 }
 
 /****************************************************************************/

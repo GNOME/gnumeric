@@ -16,6 +16,7 @@ char const  *cell_comment_text_get   (CellComment const *cc);
 void         cell_comment_text_set   (CellComment       *cc, char const *);
 
 /* convenience routine */
+void	     cell_comment_set_cell   (CellComment *cc, CellPos const *pos);
 CellComment *cell_set_comment (Sheet *sheet, CellPos const *pos,
 			       char const *author, char const *text);
 

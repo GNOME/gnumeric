@@ -21,6 +21,7 @@
 
 #include <gnumeric-config.h>
 #include <goffice/graph/gog-object.h>
+#include <goffice/graph/gog-data-set.h>
 #include <goffice/graph/gog-graph-impl.h> /* for gog_graph_request_update */
 
 #include <gsf/gsf-impl-utils.h>
@@ -43,7 +44,8 @@ gog_object_finalize (GObject *gobj)
 {
 	GogObject *obj = GOG_OBJECT (gobj);
 
-	g_free (obj->name); obj->name = NULL;
+	g_free (obj->user_name); obj->user_name = NULL;
+	g_free (obj->id); obj->id = NULL;
 
 	g_slist_foreach (obj->children, (GFunc) g_object_unref, NULL);
 	g_slist_free (obj->children);
@@ -61,6 +63,9 @@ gog_object_parent_changed (GogObject *child, gboolean was_set)
 		GogObjectClass *klass = GOG_OBJECT_GET_CLASS (ptr->data);
 		(*klass->parent_changed) (ptr->data, was_set);
 	}
+
+	if (IS_GOG_DATASET (child))
+		gog_dataset_parent_changed (GOG_DATASET (child), was_set);
 }
 
 static void
@@ -109,7 +114,8 @@ static void
 gog_object_init (GogObject *obj)
 {
 	obj->children = NULL;
-	obj->name = NULL;
+	obj->user_name = NULL;
+	obj->id = NULL;
 	obj->needs_update = FALSE;
 	obj->being_updated = FALSE;
 }
@@ -131,18 +137,18 @@ gog_object_generate_name (GogObject *obj)
 
 	if (*klass->type_name == NULL) {
 		g_return_val_if_fail (obj->role != NULL, NULL);
-		type_name = obj->role->id;
+		type_name = _(obj->role->id);
 	} else
-		type_name = (*klass->type_name) (obj);
+		type_name = _((*klass->type_name) (obj));
 
 	g_return_val_if_fail (type_name != NULL, NULL);
 	name_len = strlen (type_name);
 
 	for (ptr = obj->parent->children; ptr != NULL ; ptr = ptr->next) {
 		tmp = GOG_OBJECT (ptr->data);
-		if (tmp->name != NULL &&
-		    0 == strncmp (type_name, tmp->name, name_len)) {
-			i = strtol (tmp->name+name_len, NULL, 10);
+		if (tmp->id != NULL &&
+		    0 == strncmp (type_name, tmp->id, name_len)) {
+			i = strtol (tmp->id + name_len, NULL, 10);
 			if (max_index < i)
 				max_index = i;
 		}
@@ -218,7 +224,7 @@ char const *
 gog_object_get_name (GogObject const *obj)
 {
 	g_return_val_if_fail (GOG_OBJECT (obj) != NULL, NULL);
-	return obj->name;
+	return obj->user_name ? obj->user_name : obj->id;
 }
 
 /**
@@ -236,10 +242,10 @@ gog_object_set_name (GogObject *obj, char *name, GError **err)
 {
 	g_return_if_fail (GOG_OBJECT (obj) != NULL);
 
-	if (obj->name == name)
+	if (obj->user_name == name)
 		return;
-	g_free (obj->name);
-	obj->name = (name != NULL) ? name : gog_object_generate_name (obj);
+	g_free (obj->user_name);
+	obj->user_name = name;
 
 	g_signal_emit (G_OBJECT (obj),
 		gog_object_signals [NAME_CHANGED], 0);
@@ -478,14 +484,14 @@ gog_object_clear_parent (GogObject *obj)
  * gog_object_set_parent :
  * @child  : #GogObject.
  * @parent : #GogObject.
- * @name : optionally %NULL.
+ * @id : optionally %NULL.
  * @role : a static string that can be sent to @parent::add
  *
  * Absorbs a ref to @child
  **/
 gboolean
 gog_object_set_parent (GogObject *child, GogObject *parent,
-		       GogObjectRole const *role, char *name)
+		       GogObjectRole const *role, char *id)
 {
 	GogObjectClass *klass = GOG_OBJECT_GET_CLASS (child);
 	GSList **step;
@@ -507,9 +513,9 @@ gog_object_set_parent (GogObject *child, GogObject *parent,
 		step = &((*step)->next);
 	*step = g_slist_prepend (*step, child);
 
-	if (child->name != NULL)
-		g_free (child->name);
-	child->name = (name != NULL) ? name : gog_object_generate_name (child);
+	g_free (child->id);
+	g_free (child->user_name);
+	child->id = (id != NULL) ? id : gog_object_generate_name (child);
 
 	if (role->post_add != NULL)
 		(role->post_add) (parent, child);

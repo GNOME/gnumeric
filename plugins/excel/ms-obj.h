@@ -102,13 +102,14 @@ struct _MSObj {
 	int		 excel_type;
 	char const	*excel_type_name;
 
+	/* a kludge for now until the indicator and the box have distinct objects */
+	CellPos		 comment_pos;
 	gboolean	 ignore_combo_in_filter;
 	gboolean	 is_linked;
 	GHashTable	*attrs;
 };
 
-void  ms_read_OBJ   (BiffQuery *q, MSContainer *container,
-		     MSObjAttrBag *attrs);
+void  ms_read_OBJ   (BiffQuery *q, MSContainer *c, MSObjAttrBag *attrs);
 void  ms_obj_delete (MSObj *obj);
 char *ms_read_TXO   (BiffQuery *q);
 

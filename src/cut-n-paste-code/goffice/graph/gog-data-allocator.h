@@ -31,7 +31,8 @@ typedef struct {
 	GTypeInterface		   base;
 
 	void	 (*allocate) (GogDataAllocator *a, GogPlot *plot);
-	gpointer (*editor)   (GogDataAllocator *a, GogDataset *set, int dim_i);
+	gpointer (*editor)   (GogDataAllocator *a, GogDataset *set,
+			      int dim_i, gboolean prefers_scalar);
 } GogDataAllocatorClass;
 
 #define GOG_DATA_ALLOCATOR_TYPE		(gog_data_allocator_get_type ())
@@ -44,33 +45,8 @@ typedef struct {
 GType gog_data_allocator_get_type (void);
 
 void	 gog_data_allocator_allocate (GogDataAllocator *a, GogPlot *plot);
-gpointer gog_data_allocator_editor   (GogDataAllocator *dalloc,
-				      GogDataset *set, int dim_i);
-
-/****************************************************************************/
-
-typedef struct {
-	GTypeInterface		   base;
-
-	void	 (*dims)    (GogDataset const *set, int *first, int *last);
-	GOData	*(*get_dim) (GogDataset const *set, int dim_i);
-	void	 (*set_dim) (GogDataset *set, int dim_i,
-			     GOData *val, GError **err);
-} GogDatasetClass;
-
-#define GOG_DATASET_TYPE		(gog_dataset_get_type ())
-#define GOG_DATASET(o)			(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_DATASET_TYPE, GogDataset))
-#define IS_GOG_DATASET(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_DATASET_TYPE))
-#define GOG_DATASET_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), GOG_DATASET_TYPE, GogDatasetClass))
-#define IS_GOG_DATASET_CLASS(k)		(G_TYPE_CHECK_CLASS_TYPE ((k), GOG_DATASET_TYPE))
-#define GOG_DATASET_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_INTERFACE ((o), GOG_DATASET_TYPE, GogDatasetClass))
-
-GType gog_dataset_get_type (void);
-
-void    gog_dataset_dims    (GogDataset const *set, int *first, int *last);
-GOData *gog_dataset_get_dim (GogDataset const *set, int dim_i);
-void	gog_dataset_set_dim (GogDataset *set, int dim_i,
-			     GOData *val, GError **err);
+gpointer gog_data_allocator_editor   (GogDataAllocator *dalloc, GogDataset *set,
+				      int dim_i, gboolean prefers_scalar);
 
 G_END_DECLS
 

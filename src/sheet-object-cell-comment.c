@@ -323,9 +323,8 @@ cell_comment_text_set (CellComment *cc, char const *text)
 }
 
 /* convenience routine */
-CellComment *
-cell_set_comment (Sheet *sheet, CellPos const *pos,
-		  char const *author, char const *text)
+void
+cell_comment_set_cell (CellComment *cc, CellPos const *pos)
 {
 	/* top right */
 	static SheetObjectAnchorType const anchor_types [4] = {
@@ -335,8 +334,21 @@ cell_set_comment (Sheet *sheet, CellPos const *pos,
 		SO_ANCHOR_PERCENTAGE_FROM_COLROW_START
 	};
 	SheetObjectAnchor anchor;
+	Range	     	  r;
+
+	g_return_if_fail (IS_CELL_COMMENT (cc));
+
+	r.start = r.end = *pos;
+	sheet_object_anchor_init (&anchor, &r, NULL,
+		anchor_types, SO_DIR_DOWN_RIGHT);
+	sheet_object_anchor_set (SHEET_OBJECT (cc), &anchor);
+}
+
+CellComment *
+cell_set_comment (Sheet *sheet, CellPos const *pos,
+		  char const *author, char const *text)
+{
 	CellComment *cc;
-	Range	     r;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (pos != NULL, NULL);
@@ -345,13 +357,11 @@ cell_set_comment (Sheet *sheet, CellPos const *pos,
 	cc->author = author ? g_strdup (author) : NULL;
 	cc->text = text ? g_strdup (text) : NULL;
 
-	r.start = r.end = *pos;
-	sheet_object_anchor_init (&anchor, &r, NULL, anchor_types,
-				  SO_DIR_DOWN_RIGHT);
-	sheet_object_anchor_set (SHEET_OBJECT (cc), &anchor);
-	sheet_object_set_sheet (SHEET_OBJECT (cc), sheet);
+	cell_comment_set_cell (cc, pos);
 
+	sheet_object_set_sheet (SHEET_OBJECT (cc), sheet);
 	/* setting the sheet added a reference */
 	g_object_unref (G_OBJECT (cc));
+
 	return cc;
 }

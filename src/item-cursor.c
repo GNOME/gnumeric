@@ -603,18 +603,6 @@ item_cursor_set_cursor (FooCanvas *canvas, ItemCursor *ic, int x, int y)
 	gnm_widget_set_cursor_type (GTK_WIDGET (canvas), cursor);
 }
 
-static Value *
-cb_autofill_bound (Sheet *sheet, int col, int row,
-		   Cell *cell, gpointer want_cols)
-{
-	gboolean cols = GPOINTER_TO_INT (want_cols);
-
-	if (!cell_is_blank (cell))
-		return cols ? value_new_int (col) : value_new_int (row);
-	else
-		return NULL;
-}
-
 static gint
 item_cursor_selection_event (FooCanvasItem *item, GdkEvent *event)
 {
@@ -718,7 +706,6 @@ item_cursor_selection_event (FooCanvasItem *item, GdkEvent *event)
 		Sheet *sheet = sc->sheet;
 		int final_col = ic->pos.end.col;
 		int final_row = ic->pos.end.row;
-		Value *tmp = NULL;
 
 		if (ic->drag_button != (int)event->button.button)
 			return TRUE;
@@ -729,37 +716,33 @@ item_cursor_selection_event (FooCanvasItem *item, GdkEvent *event)
 		if (sheet_is_region_empty (sheet, &ic->pos))
 			return TRUE;
 
-		/* Excel It works as follows.  If the cell(s) immediately
-		 * below the ones in the auto-fill template are not blank
-		 * then excel will over-write them and any white space
-		 * beyond.
+		/* If the cell(s) immediately below the ones in the
+		 * auto-fill template are not blank then over-write
+		 * them.
 		 *
-		 * Otherwise, it will only go as far as the next
-		 * non-blank cells.  At least I think that is what
-		 * Excel does.  If you know better please let me know.
+		 * Otherwise, only go as far as the next non-blank
+		 * cells.  
 		 *
-		 * The code below uses find_boundary up to three
-		 * times: a. to find the boundary of the column/row
-		 * that acts as a template to define the region to
-		 * file and b. to find the boundary of the region
-		 * being filled.  It then checks to see if the region
-		 * being filled already contains data -- if so then it
-		 * calls find boundary a third time to find the end of
-		 * the blank cells beyond the block of data that will
-		 * be over-written.
+		 * The code below uses find_boundary twice.  a. to
+		 * find the boundary of the column/row that acts as a
+		 * template to define the region to file and b. to
+		 * find the boundary of the region being filled.  
 		 */
+
 		if (event->button.state & GDK_MOD1_MASK) {
 			int template_col = ic->pos.end.col + 1;
 			int template_row = ic->pos.start.row - 1;
 			int boundary_col_for_target;
+			int target_row;
 
-			if (template_row < 0 ||
-			    sheet_is_cell_empty (sheet, ic->pos.start.col+1,
+			if (template_row < 0 || template_col >= SHEET_MAX_COLS ||
+			    sheet_is_cell_empty (sheet, template_col,
 						 template_row)) {
 
 				template_row = ic->pos.end.row + 1;
-				if (template_row >= SHEET_MAX_ROWS ||
-				    sheet_is_cell_empty (sheet, ic->pos.end.col+1,
+				if (template_row >= SHEET_MAX_ROWS || 
+				    template_col >= SHEET_MAX_COLS ||
+				    sheet_is_cell_empty (sheet, template_col,
 							 template_row))
 					return TRUE;
 			}
@@ -774,40 +757,48 @@ item_cursor_selection_event (FooCanvasItem *item, GdkEvent *event)
 			if (final_col <= ic->pos.end.col)
 				return TRUE;
 
-			/* Find the boundary of the target region.  We don't
-			 * want to go beyond this boundary.  */
-			boundary_col_for_target = sheet_find_boundary_horizontal (sheet,
-				ic->pos.end.col+1, ic->pos.start.row,
-				ic->pos.start.row, 1, TRUE);
+			/* 
+			   Find the boundary of the target region.
+			   We don't want to go beyond this boundary.
+			*/
+			for (target_row = ic->pos.start.row; target_row <= ic->pos.end.row; target_row++) {
+				/* find_boundary is designed for Ctrl-arrow movement.  (Ab)using it for
+				 * finding autofill regions works fairly well.  One little gotcha is
+				 * that if the current col is the last row of a block of data Ctrl-arrow
+				 * will take you to then next block.  The workaround for this is to
+				 * start the search at the last col of the selection, rather than
+				 * the first col of the region being filled.
+				 */
+				boundary_col_for_target = sheet_find_boundary_horizontal 
+					(sheet,
+					 ic->pos.end.col, target_row,
+					 target_row, 1, TRUE);
 
-			/* We have now reached the end of the non-empty cells.
-			 * We need to find how far the empty cells go. */
-			if (! sheet_is_cell_empty (sheet, boundary_col_for_target-1, ic->pos.start.row) &&
-			    boundary_col_for_target <= final_col)
-				boundary_col_for_target =
-					sheet_find_boundary_vertical (sheet,
-						 boundary_col_for_target+1,
-						 ic->pos.start.row,
-						 ic->pos.start.row, 1, TRUE);
-
-			/* boundary is now one beyond  where it is safe to autofill. */
-			boundary_col_for_target--;
-			if (boundary_col_for_target < final_col)
-				final_col = boundary_col_for_target;
+				if (sheet_is_cell_empty (sheet, boundary_col_for_target-1, target_row) &&
+				    ! sheet_is_cell_empty (sheet, boundary_col_for_target, target_row)) { 
+					/* target region was empty, we are now one col
+					   beyond where it is safe to autofill. */
+					boundary_col_for_target--;
+				}
+				if (boundary_col_for_target < final_col) {
+					final_col = boundary_col_for_target;
+				}
+			}
 		} else {
 			int template_row = ic->pos.end.row + 1;
 			int template_col = ic->pos.start.col - 1;
 			int boundary_row_for_target;
+			int target_col;
 
-			if (template_col < 0 ||
+			if (template_col < 0 || template_row >= SHEET_MAX_ROWS ||
 			    sheet_is_cell_empty (sheet, template_col,
-						 ic->pos.start.row+1)) {
+						 template_row)) {
 
 				template_col = ic->pos.end.col + 1;
-				if (template_col >= SHEET_MAX_COLS ||
+				if (template_col >= SHEET_MAX_COLS || 
+				    template_row >= SHEET_MAX_ROWS ||
 				    sheet_is_cell_empty (sheet, template_col,
-
-							 ic->pos.start.row))
+							 template_row))
 					return TRUE;
 			}
 
@@ -821,26 +812,33 @@ item_cursor_selection_event (FooCanvasItem *item, GdkEvent *event)
 			if (final_row <= ic->pos.end.row)
 				return TRUE;
 
-			/* Find the boundary of the target region.  We don't
-			 * want to go beyond this boundary. */
-			boundary_row_for_target = sheet_find_boundary_vertical (sheet,
-				ic->pos.start.col, ic->pos.end.row+1,
-				ic->pos.end.col, 1, TRUE);
+			/* 
+			   Find the boundary of the target region.
+			   We don't want to go beyond this boundary.
+			*/
+			for (target_col = ic->pos.start.col; target_col <= ic->pos.end.col; target_col++) {
+				/* find_boundary is designed for Ctrl-arrow movement.  (Ab)using it for
+				 * finding autofill regions works fairly well.  One little gotcha is
+				 * that if the current row is the last row of a block of data Ctrl-arrow
+				 * will take you to then next block.  The workaround for this is to
+				 * start the search at the last row of the selection, rather than
+				 * the first row of the region being filled.
+				 */
+				boundary_row_for_target = sheet_find_boundary_vertical 
+					(sheet,
+					 target_col, ic->pos.end.row,
+					 target_col, 1, TRUE);
+				if (sheet_is_cell_empty (sheet, target_col, boundary_row_for_target-1) &&
+				    ! sheet_is_cell_empty (sheet, target_col, boundary_row_for_target)) { 
+					/* target region was empty, we are now one row
+					   beyond where it is safe to autofill. */
+					boundary_row_for_target--;
+				}
 
-			/* We have now reached the end of the non-empty cells.
-			 * We need to find how far the empty cells go.  */
-			if (! sheet_is_cell_empty (sheet, ic->pos.start.col, boundary_row_for_target-1) &&
-			    boundary_row_for_target <= final_row)
-				boundary_row_for_target =
-					sheet_find_boundary_vertical (sheet,
-						 ic->pos.start.col,
-						 boundary_row_for_target+1,
-						 ic->pos.end.col, 1, TRUE);
-			
-			/* boundary is now one beyond  where it is safe to autofill. */
-			boundary_row_for_target--;
-			if (boundary_row_for_target < final_row)
-				final_row = boundary_row_for_target;
+				if (boundary_row_for_target < final_row) {
+					final_row = boundary_row_for_target;
+				}
+			}
 		}
 
 		/* fill the row/column */

@@ -66,6 +66,11 @@ typedef struct {
 	unsigned   (*cardinality)  (GogPlot *plot);
 	gboolean   (*foreach_elem) (GogPlot *plot,
 				    GogEnumFunc handler, gpointer data);
+
+	GogAxisSet (*axis_set_pref)     (GogPlot const *plot);
+	gboolean   (*axis_set_is_valid) (GogPlot const *plot, GogAxisSet type);
+	gboolean   (*axis_set_assign)   (GogPlot *plot, GogAxisSet type);
+
 	gboolean   (*supports_vary_style_by_element) (GogPlot const *plot);
 } GogPlotClass;
 

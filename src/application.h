@@ -57,6 +57,8 @@ double	     application_display_dpi_get (gboolean horizontal);
 double	     application_dpi_to_pixels (void);
 
 gboolean     application_use_auto_complete    (void);
+gboolean     application_use_transition_keys  (void);
+void         application_set_transition_keys  (gboolean);
 gboolean     application_live_scrolling	      (void);
 int	     application_auto_expr_recalc_lag (void);
 

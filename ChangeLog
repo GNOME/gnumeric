@@ -1,3 +1,15 @@
+2003-07-15  Jody Goldberg <jody@gnome.org>
+
+	From John Gill :
+	* schemas/gnumeric-general.schemas.in : Add core/gui/editing/transitionkeys
+	* src/application.c (application_history_add) : new.
+	(application_set_transition_keys) : new.
+	* src/gnumeric-gconf.c (gnm_conf_init) : load the new pref.
+	(gnm_gconf_set_transition_keys) : new.
+
+	* src/item-cursor.c (item_cursor_selection_event) : Improve the
+	  heuristics even further.
+
 2003-07-15  Morten Welinder  <terra@gnome.org>
 
 	* src/format.c (style_format_build): New function.

@@ -154,7 +154,7 @@ IMARCCSC("1+j") equals 0.45227845-0.5306375j.
 @SYNTAX=IMARCCSCH(inumber)
 @DESCRIPTION=IMARCCSCH returns the complex hyperbolic arccosecant of the complex number z (@inumber), where
 
-	arccsch(z) = arcsin(1/z).
+	arccsch(z) = arcsinh(1/z).
 
 * If @inumber is not a valid complex number, IMARCCSCH returns #VALUE! error.
 
@@ -1040,6 +1040,7 @@ DATE(2001, 3, 30) returns 'Mar 30, 2001'.
 A unix time is the number of seconds since midnight January 1, 1970.
 
 @EXAMPLES=
+DATE2UNIX("01/01/2000") equals 946656000.
 
 @SEEALSO=NOW, DATE, UNIX2DATE
 
@@ -1194,7 +1195,7 @@ MONTH(DATE(2003, 4, 30)) equals 4.
 
 @CATEGORY=Date/Time
 @FUNCTION=NETWORKDAYS
-@SYNTAX=NETWORKDAYS (start_date,end_date,holidays)
+@SYNTAX=NETWORKDAYS (start_date,end_date[,holidays])
 @DESCRIPTION=NETWORKDAYS returns the number of non-weekend non-holidays between @start_date and @end_date including these dates. Holidays are optionally supplied in @holidays.
 
 * NETWORKDAYS returns #NUM! if @start_date or @end_date are invalid.
@@ -1304,7 +1305,7 @@ WEEKDAY("10/24/1968") equals 5 (Thursday).
 
 @CATEGORY=Date/Time
 @FUNCTION=WEEKNUM
-@SYNTAX=WEEKNUM (date, method)
+@SYNTAX=WEEKNUM (date[,method])
 @DESCRIPTION=WEEKNUM returns the week number of @date according to the given @method.
 
 @method defaults to 1.
@@ -1322,7 +1323,7 @@ If A1 contains 12/21/00 then WEEKNUM(A1,2)=51
 
 @CATEGORY=Date/Time
 @FUNCTION=WORKDAY
-@SYNTAX=WORKDAY (start_date,days,holidays)
+@SYNTAX=WORKDAY (start_date,days[,holidays])
 @DESCRIPTION=WORKDAY returns the date which is @days working days from the @start_date.  Weekends and holidays optionally supplied in @holidays are respected.
 
 * WORKDAY returns #NUM! if @start_date or @days are invalid.
@@ -1349,7 +1350,7 @@ YEAR(DATE(2003, 4, 30)) equals 2003.
 
 @CATEGORY=Date/Time
 @FUNCTION=YEARFRAC
-@SYNTAX=YEARFRAC (start_date, end_date, basis)
+@SYNTAX=YEARFRAC (start_date, end_date [,basis])
 @DESCRIPTION=YEARFRAC returns the number of full days between @start_date and @end_date according to the @basis.
 
 @EXAMPLES=
@@ -1834,7 +1835,7 @@ Allowed frequencies are:
 
 @CATEGORY=Finance
 @FUNCTION=COUPDAYBS
-@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])
+@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis,eom])
 @DESCRIPTION=COUPDAYBS returns the number of days from the beginning of the coupon period to the settlement date.
 
 @settlement is the settlement date of the security.
@@ -2393,7 +2394,7 @@ where:
 
 @CATEGORY=Finance
 @FUNCTION=NPER
-@SYNTAX=NPER(rate,pmt,pv,fv,type)
+@SYNTAX=NPER(rate,pmt,pv[,fv,type])
 @DESCRIPTION=NPER calculates number of periods of an investment based on periodic constant payments and a constant interest rate.
 
 The interest rate per period is @rate, @pmt is the payment made each period, @pv is the present value, @fv is the future value and @type is when the payments are due. If @type = 1, payments are due at the beginning of the period, if @type = 0, payments are due at the end of the period.
@@ -2580,13 +2581,12 @@ Where @time is the time to maturity of the option expressed in years
 @FUNCTION=OPT_BS_GAMMA
 @SYNTAX=OPT_BS_GAMMA(spot,strike,time,rate,volatility[,cost_of_carry])
 @DESCRIPTION=OPT_BS_GAMMA uses the Black-Scholes model to calculate the "gamma" of a European option struck at @strike on an asset with spot price @spot.
-@call_put_flag is c or p to indicate whether the option is a call or a put 
 
 (The gamma of an option is the second derivative of its price with respect to the price of the underlying asset, and is the same for calls and puts.)
 
 @time is the time to maturity of the option expressed in years
 @rate is the risk-free interest rate to the exercise date, in percent.
-@volatility is the annualized volatility, in percent, of the asset for the period through to the exercise date.  
+@volatility is the annualized volatility, in percent, of the asset for the period through to the exercise date.
 @cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield
 * The returned value will be expressed as the rate of change of delta per unit change in @spot.
 
@@ -2598,7 +2598,7 @@ Where @time is the time to maturity of the option expressed in years
 @FUNCTION=OPT_BS_RHO
 @SYNTAX=OPT_BS_RHO(call_put_flag,spot,strike,time,rate,volatility[,cost_of_carry])
 @DESCRIPTION=OPT_BS_RHO uses the Black-Scholes model to calculate the "rho" of a European option with call_put_flag, @call_put_flag struck at @strike on an asset with spot price @spot.
-@call_put_flag is c or p to indicate whether the option is a call or a put 
+@call_put_flag is c or p to indicate whether the option is a call or a put.
 
 (The rho of an option is the rate of change of its price with respect to the risk free interest rate.)
 @time is the time to maturity of the option expressed in years
@@ -2684,14 +2684,14 @@ One would expect this to always be a call option
 @SYNTAX=OPT_EXTENDIBLE_WRITER(call_put_flag,spot,strike1,strike2,time1,time2,rate,cost_of_carry,volatility)
 @DESCRIPTION=OPT_EXTENDIBLE_WRITER models the theoretical price of extendible writer options. These are options that can be exercised at an initial period, @time1, or their maturity extended to @time2 if the option is out of the money at @time1 
 @call_put_flag is c or p to indicate whether the option is a call or a put 
-@spot is the spot price of the underlying asset 
-@strike1 is the strike price at which the option is struck 
-@strike2 is the strike price at which the option is struck 
-@time1 is the initial maturity of the option in years 
-@time2 is the is the extended maturity in years if chosen 
-@rate is the risk annualised free rate of interest 
-@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield 
-@volatility is the annualised volatility in price of the underlying 
+@spot is the spot price of the underlying asset.
+@strike1 is the strike price at which the option is struck.
+@strike2 is the strike price at which the option is struck.
+@time1 is the initial maturity of the option in years.
+@time2 is the is the extended maturity in years if chosen.
+@rate is the risk annualised free rate of interest.
+@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield.
+@volatility is the annualised volatility in price of the underlying.
 
 @EXAMPLES=
 
@@ -2717,11 +2717,11 @@ One would expect this to always be a call option
 @FUNCTION=OPT_FRENCH
 @SYNTAX=OPT_FRENCH(call_put_flag,spot,strike,time,t2,rate,volatility[,cost_of_carry])
 @DESCRIPTION=OPT_FRENCH values the theoretical price of a European option adjusted for trading day volatility, struck at @strike on an asset with spot price @spot.
-@call_put_flag is c or p to indicate whether the option is a call or a put 
+@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a put.
 @volatility is the annualized volatility, in percent, of the asset for the period through to the exercise date.
- @time the number of calendar days to exercise divided by calander days in the year 
-@t2 is the number of trading days to exercise divided by trading days in the year
-@rate is the risk-free interest rate 
+ @time the number of calendar days to exercise divided by calander days in the year.
+@t2 is the number of trading days to exercise divided by trading days in the year.
+@rate is the risk-free interest rate.
 @cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield to the exercise date, in percent.
 
 * The returned value will be expressed as the rate of change of option value, per 100% volatility.
@@ -2790,12 +2790,12 @@ One would expect this to always be a call option
 @FUNCTION=OPT_ON_OPTIONS
 @SYNTAX=OPT_ON_OPTIONS(type_flag,spot,strike1,strike2,time1,time2,rate,cost_of_carry,volatility)
 @DESCRIPTION=OPT_ON_OPTIONS models the theoretical price of options on options 
-@type_flag is 
-@spot is the spot price of the underlying asset 
-@strike1 is the strike price at which the option is struck 
-@strike2 is the strike price at which the option is struck 
-@time1 is the time in years to maturity of the option 
-@time2 is the time in years to the maturity of the underlying option 
+@type_flag is 'cc' for calls on calls, 'cp' for calls on puts, and so on for 'pc', and 'pp'
+@spot is the spot price of the underlying asset.
+@strike1 is the strike price at which the option is struck.
+@strike2 is the strike price at which the option is struck.
+@time1 is the time in years to maturity of the option.
+@time2 is the time in years to the maturity of the underlying option.
 (@time2 >= @time1)
 @rate is the risk annualised free rate of interest 
 @cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield
@@ -2894,7 +2894,7 @@ IPMT(per) = amount of interest for period @per
 
 @CATEGORY=Finance
 @FUNCTION=PRICE
-@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency[,basis])
+@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,[frequency,basis])
 @DESCRIPTION=PRICE returns price per $100 face value of a security. This method can only be used if the security pays periodic interest.
 
 @frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:
@@ -3133,7 +3133,7 @@ XIRR(A1:A5,B1:B5) returns 0.224838.
 
 @CATEGORY=Finance
 @FUNCTION=YIELD
-@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency[,basis])
+@SYNTAX=YIELD(settlement,maturity,rate,price,redemption_price,frequency[,basis])
 @DESCRIPTION=YIELD returns the yield on a security that pays periodic interest.
 
 @frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:
@@ -3679,7 +3679,7 @@ COLUMNS(H2:J3) equals 3.
 
 @CATEGORY=Lookup
 @FUNCTION=HYPERLINK
-@SYNTAX=HYPERLINK(link_location, optional_label)
+@SYNTAX=HYPERLINK(link_location[,optional_label])
 @DESCRIPTION=HYPERLINK function currently returns its 2nd argument, or if that is omitted the 1st argument.
 
 @EXAMPLES=
@@ -3689,7 +3689,7 @@ HYPERLINK("www.gnome.org","GNOME").
 
 @CATEGORY=Lookup
 @FUNCTION=INDEX
-@SYNTAX=INDEX(array,[row, col, area])
+@SYNTAX=INDEX(array[,row, col, area])
 @DESCRIPTION=INDEX gives a reference to a cell in the given @array.The cell is pointed out by @row and @col, which count the rows and columns in the array.
 
 * If @row and @col are omited the are assumed to be 1.
@@ -3701,7 +3701,7 @@ HYPERLINK("www.gnome.org","GNOME").
 
 @CATEGORY=Lookup
 @FUNCTION=INDIRECT
-@SYNTAX=INDIRECT(ref_text,[format])
+@SYNTAX=INDIRECT(ref_text[,format])
 @DESCRIPTION=INDIRECT function returns the contents of the cell pointed to by the @ref_text string. The string specifies a single cell reference the format of which is either A1 or R1C1 style. The style is set by the @format boolean, which defaults to the A1 style.
 
 * If @ref_text is not a valid reference returns #REF! 
@@ -4099,7 +4099,7 @@ FIB(12) equals 144.
 
 @CATEGORY=Mathematics
 @FUNCTION=FLOOR
-@SYNTAX=FLOOR(x,significance)
+@SYNTAX=FLOOR(x[,significance])
 @DESCRIPTION=FLOOR function rounds @x down to the next nearest multiple of @significance.
 
 * @significance defaults to 1.
@@ -6761,7 +6761,7 @@ TRIM("  a bbb  cc") equals "a bbb cc".
 
 @EXAMPLES=
 UNICHAR(65) equals A.
-UNICHAR(8232) equals an carriage return error.
+UNICHAR(960) equals a small greek pi.
 
 @SEEALSO=CHAR,UNICODE,CODE
 

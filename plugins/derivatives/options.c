@@ -221,9 +221,7 @@ static char const *help_opt_bs = {
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=OPT_BS_DELTA, "
-	   "OPT_BS_RHO, OPT_BS_THETA, "
-	   "OPT_BS_VEGA, OPT_BS_GAMMA")
+	   "@SEEALSO=OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA")
 };
 
 /* Delta for the generalized Black and Scholes formula */
@@ -291,8 +289,7 @@ static char const *help_opt_bs_delta = {
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_RHO, OPT_BS_THETA, "
-	   "OPT_BS_VEGA, OPT_BS_GAMMA")
+	   "@SEEALSO=OPT_BS, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA")
 };
 
 
@@ -329,8 +326,6 @@ static char const *help_opt_bs_gamma = {
 	   "OPT_BS_GAMMA uses the Black-Scholes model to calculate the "
 	   "\"gamma\" of a European option struck at @strike on an asset "
 	   "with spot price @spot.\n"
-	   "@call_put_flag is c or p to indicate whether the option is a call or a put \n" 
-	   
 	   "\n"
 	   "(The gamma of an option is the second derivative of its price "
 	   "with respect to the price of the underlying asset, and is the "
@@ -340,7 +335,7 @@ static char const *help_opt_bs_gamma = {
 	   "@rate is "
 	   "the risk-free interest rate to the exercise date, in percent.\n"
 	   "@volatility is the annualized volatility, in percent, of the "
-	   "asset for the period through to the exercise date.  \n"
+	   "asset for the period through to the exercise date.\n"
 	   "@cost_of_carry is the leakage in value of the underlying asset, "
 	   "for common stocks, this would be the dividend yield"
 	   "\n"
@@ -349,8 +344,7 @@ static char const *help_opt_bs_gamma = {
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, "
-	   "OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA")
+	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA")
 };
 
 /* theta for the generalized Black and Scholes formula */
@@ -416,9 +410,7 @@ static char const *help_opt_bs_theta = {
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, "
-	   "OPT_BS_RHO, OPT_BS_THETA, "
-	   "OPT_BS_VEGA, OPT_BS_GAMMA")
+	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA")
 };
 
 
@@ -470,8 +462,7 @@ static char const *help_opt_bs_vega = {
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, "
-	   "OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
+	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
 };
 
 
@@ -526,7 +517,7 @@ static char const *help_opt_bs_rho = {
 	   "OPT_BS_RHO uses the Black-Scholes model to calculate the "
 	   "\"rho\" of a European option with call_put_flag, @call_put_flag "
 	   "struck at @strike on an asset with spot price @spot.\n"
-	   "@call_put_flag is c or p to indicate whether the option is a call or a put \n" 
+	   "@call_put_flag is c or p to indicate whether the option is a call or a put.\n" 
 	   "\n"
 	   "(The rho of an option is the rate of change of its price with "
 	   "respect to the risk free interest rate.)\n"
@@ -723,18 +714,17 @@ static char const *help_opt_french = {
 	/* xgettext:no-c-format */
 	N_("@FUNCTION=OPT_FRENCH\n"
 
-	   "@SYNTAX=OPT_FRENCH(call_put_flag,spot,strike,time,t2,rate,"
-	   "volatility[,cost_of_carry])\n"
+	   "@SYNTAX=OPT_FRENCH(call_put_flag,spot,strike,time,t2,rate,volatility[,cost_of_carry])\n"
 	   "@DESCRIPTION="
 	   "OPT_FRENCH values the theoretical price of a "
 	   "European option adjusted for trading day volatility, struck at "
 	   "@strike on an asset with spot price @spot.\n"
-	   "@call_put_flag is c or p to indicate whether the option is a call or a put \n" 
+	   "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a put.\n" 
 	   "@volatility is the annualized volatility, in percent, of the "
 	   "asset for the period through to the exercise date.\n "
-	   "@time the number of calendar days to exercise divided by calander days in the year \n"
-	   "@t2 is the number of trading days to exercise divided by trading days in the year\n"
-	   "@rate is the risk-free interest rate \n"
+	   "@time the number of calendar days to exercise divided by calendar days in the year.\n"
+	   "@t2 is the number of trading days to exercise divided by trading days in the year.\n"
+	   "@rate is the risk-free interest rate.\n"
 	   "@cost_of_carry is the leakage in value of the underlying asset, "
 	   "for common stocks, this would be the dividend yield "
 	   "to the exercise date, in percent.\n"
@@ -744,8 +734,7 @@ static char const *help_opt_french = {
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, "
-	   "OPT_BS_THETA, OPT_BS_GAMMA")
+	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
 };
 
 /* Merton jump diffusion model*/
@@ -1447,8 +1436,7 @@ static char const *help_opt_time_switch = {
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, "
-	   "OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
+	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
 };
 
 
@@ -1500,8 +1488,7 @@ static char const *help_opt_simple_chooser = {
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, "
-	   "OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
+	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
 };
 
 
@@ -1566,8 +1553,7 @@ static char const *help_opt_complex_chooser = {
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, "
-	   "OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
+	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
 };
 
 
@@ -1665,12 +1651,12 @@ static char const *help_opt_on_options = {
 	   "rate,cost_of_carry,volatility)\n"
 	   "@DESCRIPTION="
 	   "OPT_ON_OPTIONS models the theoretical price of options on options \n"
-	   "@type_flag is \n"
-	   "@spot is the spot price of the underlying asset \n"
-	   "@strike1 is the strike price at which the option is struck \n"
-	   "@strike2 is the strike price at which the option is struck \n"
-	   "@time1 is the time in years to maturity of the option \n"
-	   "@time2 is the time in years to the maturity of the underlying option \n"
+	   "@type_flag is 'cc' for calls on calls, 'cp' for calls on puts, and so on for 'pc', and 'pp'\n"
+	   "@spot is the spot price of the underlying asset.\n"
+	   "@strike1 is the strike price at which the option is struck.\n"
+	   "@strike2 is the strike price at which the option is struck.\n"
+	   "@time1 is the time in years to maturity of the option.\n"
+	   "@time2 is the time in years to the maturity of the underlying option.\n"
 	   "(@time2 >= @time1)\n"
 	   "@rate is the risk annualised free rate of interest \n"
 	   "@cost_of_carry is the leakage in value of the underlying asset, "
@@ -1679,8 +1665,7 @@ static char const *help_opt_on_options = {
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, "
-	   "OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
+	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
 };
 
 
@@ -1755,21 +1740,20 @@ static char const *help_opt_extendible_writer = {
 	   "period, @time1, or their maturity extended to @time2 if the option is "
 	   "out of the money at @time1 \n"
 	   "@call_put_flag is c or p to indicate whether the option is a call or a put \n" 
-	   "@spot is the spot price of the underlying asset \n"
-	   "@strike1 is the strike price at which the option is struck \n"
-	   "@strike2 is the strike price at which the option is struck \n"
-	   "@time1 is the initial maturity of the option in years \n"
-	   "@time2 is the is the extended maturity in years if chosen \n"
-	   "@rate is the risk annualised free rate of interest \n"
+	   "@spot is the spot price of the underlying asset.\n"
+	   "@strike1 is the strike price at which the option is struck.\n"
+	   "@strike2 is the strike price at which the option is struck.\n"
+	   "@time1 is the initial maturity of the option in years.\n"
+	   "@time2 is the is the extended maturity in years if chosen.\n"
+	   "@rate is the risk annualised free rate of interest.\n"
 	   "@cost_of_carry is the leakage in value of the underlying asset, "
-	   "for common stocks, this would be the dividend yield \n"
-	   "@volatility is the annualised volatility in price of the underlying \n"
+	   "for common stocks, this would be the dividend yield.\n"
+	   "@volatility is the annualised volatility in price of the underlying.\n"
 
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, "
-	   "OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
+	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
 };
 
 GnmFuncDescriptor const derivatives_functions [] = {

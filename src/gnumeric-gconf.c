@@ -69,6 +69,8 @@ gnm_conf_init (void)
 		GNUMERIC_GCONF_GUI_RES_V, NULL);
 	prefs.auto_complete = gconf_client_get_bool (client,
 		GNUMERIC_GCONF_GUI_ED_AUTOCOMPLETE, NULL);
+	prefs.transition_keys = gconf_client_get_bool (client,
+		GNUMERIC_GCONF_GUI_ED_TRANSITION_KEYS, NULL);
 	prefs.live_scrolling = gconf_client_get_bool (client,
 		GNUMERIC_GCONF_GUI_ED_LIVESCROLLING, NULL);
 	prefs.recalc_lag = gconf_client_get_int (client,
@@ -255,6 +257,14 @@ gnm_gconf_set_auto_complete (gboolean val)
 {
 	gconf_client_set_bool (application_get_gconf_client (),
 			       GNUMERIC_GCONF_GUI_ED_AUTOCOMPLETE,
+			       val, NULL);
+}
+
+void
+gnm_gconf_set_transition_keys (gboolean val)
+{
+	gconf_client_set_bool (application_get_gconf_client (),
+			       GNUMERIC_GCONF_GUI_ED_TRANSITION_KEYS,
 			       val, NULL);
 }
 

@@ -38,7 +38,7 @@
 static GHashTable *services = NULL;
 
 static FileFormatLevel
-parse_format_level_str (const gchar *format_level_str, FileFormatLevel def)
+parse_format_level_str (gchar const *format_level_str, FileFormatLevel def)
 {
 	FileFormatLevel	format_level;
 
@@ -1101,7 +1101,7 @@ plugin_service_function_group_get_description (PluginService *service)
 {
 	PluginServiceFunctionGroup *service_function_group = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
 	int n_functions;
-	const char *category_name;
+	char const *category_name;
 
 	n_functions = g_slist_length (service_function_group->function_name_list);
 	category_name = service_function_group->translated_category_name != NULL
@@ -1307,7 +1307,7 @@ plugin_service_ui_read_xml (PluginService *service, xmlNode *tree, ErrorInfo **r
 }
 
 static void
-ui_verb_fn (BonoboUIComponent *uic, gpointer user_data, const gchar *cname)
+ui_verb_fn (BonoboUIComponent *uic, gpointer user_data, gchar const *cname)
 {
 	PluginService *service = GNM_PLUGIN_SERVICE (user_data);
 	ErrorInfo *load_error = NULL;
@@ -1341,7 +1341,7 @@ plugin_service_ui_activate (PluginService *service, ErrorInfo **ret_error)
 	char *full_file_name;
 	BonoboUINode *uinode;
 	char *xml_ui;
-	const char *textdomain;
+	char const *textdomain;
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	full_file_name = g_build_path (
@@ -1556,7 +1556,7 @@ plugin_service_new (GnmPlugin *plugin, xmlNode *tree, ErrorInfo **ret_error)
 	return service;
 }
 
-const char *
+char const *
 plugin_service_get_id (PluginService *service)
 {
 	g_return_val_if_fail (GNM_IS_PLUGIN_SERVICE (service), NULL);
@@ -1564,7 +1564,7 @@ plugin_service_get_id (PluginService *service)
 	return service->id;
 }
 
-const char *
+char const *
 plugin_service_get_description (PluginService *service)
 {
 	g_return_val_if_fail (GNM_IS_PLUGIN_SERVICE (service), NULL);

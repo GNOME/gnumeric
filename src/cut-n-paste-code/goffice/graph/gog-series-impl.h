@@ -25,6 +25,7 @@
 #include <goffice/graph/goffice-graph.h>
 #include <goffice/graph/gog-styled-object.h>
 #include <goffice/graph/gog-series.h>
+#include <goffice/graph/gog-data-set.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS
@@ -48,13 +49,6 @@ struct _GogSeriesDesc {
 	GogSeriesDimDesc const *dim;
 };
 
-typedef struct {
-	GOData	  *data;
-	GogSeries *series;
-	int	   dim_i;
-	gulong	   handler;
-} GogDim;
-
 struct _GogSeries {
 	GogStyledObject base;
 
@@ -63,9 +57,9 @@ struct _GogSeries {
 	unsigned is_valid     : 1;
 	unsigned needs_recalc : 1;
 
-	GogPlot	  *plot;
-	GogDim	  *values;
-	unsigned   num_elements;
+	GogPlot	  	  *plot;
+	GogDatasetElement *values;
+	unsigned   	   num_elements;
 
 	GogSeriesElementStyleList *element_style_overrides;
 };
@@ -83,8 +77,6 @@ typedef struct {
 
 /* protected */
 void gog_series_check_validity   (GogSeries *series);
-void gog_series_set_dim_internal (GogSeries *series,
-				  int dim_i, GOData *val, GogGraph *graph);
 
 G_END_DECLS
 

@@ -109,7 +109,7 @@ typedef struct _PluginServiceUI PluginServiceUI;
 typedef struct {
 	void (*plugin_func_exec_verb) (
 		PluginService *service, WorkbookControlGUI *wbcg,
-		BonoboUIComponent *uic, const char *cname, ErrorInfo **ret_error);
+		BonoboUIComponent *uic, char const *cname, ErrorInfo **ret_error);
 } PluginServiceUICallbacks;
 
 #endif
