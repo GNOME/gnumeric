@@ -231,7 +231,7 @@ random_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	random_distribution_t the_dist;
 
         output_range = gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->base.output_entry), state->base.sheet);
+		(GNM_EXPR_ENTRY (state->base.output_entry), state->base.sheet);
 	the_dist = combo_get_distribution (state->distribution_combo);
 
 	i = gnumeric_glade_group_value (state->base.gui, output_group);
@@ -412,7 +412,7 @@ random_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		break;
 	case DiscreteDistribution:
 		disc_prob_range = gnm_expr_entry_parse_as_value
-			(GNUMERIC_EXPR_ENTRY (state->par1_expr_entry), state->base.sheet);
+			(GNM_EXPR_ENTRY (state->par1_expr_entry), state->base.sheet);
 		ready = ready && disc_prob_range != NULL;
 		if (disc_prob_range != NULL) value_release (disc_prob_range);
 		break;
@@ -712,7 +712,7 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 		break;
 	case DiscreteDistribution:
 		data->param.discrete.range = gnm_expr_entry_parse_as_value (
-			GNUMERIC_EXPR_ENTRY (state->par1_expr_entry),
+			GNM_EXPR_ENTRY (state->par1_expr_entry),
 			state->base.sheet);
 		break;
 	case UniformIntDistribution:
@@ -803,11 +803,9 @@ dialog_random_tool_init (RandomToolState *state)
 		G_CALLBACK (random_tool_update_sensitivity_cb), state);
 
 	table = GTK_TABLE (glade_xml_get_widget (state->base.gui, "distribution_table"));
-	state->par1_expr_entry = GTK_WIDGET (gnumeric_expr_entry_new (state->base.wbcg, TRUE));
-	gnm_expr_entry_set_flags (GNUMERIC_EXPR_ENTRY (state->par1_expr_entry),
-				       GNM_EE_SINGLE_RANGE, GNM_EE_MASK);
-        gnm_expr_entry_set_scg (GNUMERIC_EXPR_ENTRY (state->par1_expr_entry),
-				wbcg_cur_scg (state->base.wbcg));
+	state->par1_expr_entry = GTK_WIDGET (gnm_expr_entry_new (state->base.wbcg, TRUE));
+	gnm_expr_entry_set_flags (GNM_EXPR_ENTRY (state->par1_expr_entry),
+				  GNM_EE_SINGLE_RANGE, GNM_EE_MASK);
 	gtk_table_attach (table, state->par1_expr_entry,
 			  1, 2, 1, 2,
 			  GTK_EXPAND | GTK_FILL, 0,

@@ -27,9 +27,9 @@ typedef struct _scenario_state scenario_state_t;
 typedef struct {
 	GladeXML  *gui;
 	GtkWidget *dialog;
-	GnumericExprEntry *input_entry;
-	GnumericExprEntry *input_entry_2;
-	GnumericExprEntry *output_entry;
+	GnmExprEntry *input_entry;
+	GnmExprEntry *input_entry_2;
+	GnmExprEntry *output_entry;
         GtkWidget *clear_outputrange_button;
         GtkWidget *retain_format_button;
         GtkWidget *retain_comments_button;
@@ -74,6 +74,6 @@ gboolean dialog_tool_init (GenericToolState *state,
 			   GtkSignalFunc ok_function, 
 			   GtkSignalFunc close_function, 
 			   GtkSignalFunc sensitivity_cb,
-			   GnumericExprEntryFlags flags);
+			   GnmExprEntryFlags flags);
 
 #endif

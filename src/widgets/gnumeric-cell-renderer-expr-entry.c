@@ -99,12 +99,12 @@ gnumeric_cell_renderer_expr_entry_editing_done (GtkCellEditable *entry,
   const gchar *new_text;
   
   celltext->entry = NULL;
-  if (gnm_expr_entry_editing_canceled (GNUMERIC_EXPR_ENTRY (entry)))
+  if (gnm_expr_entry_editing_canceled (GNM_EXPR_ENTRY (entry)))
 	  return;
   
   wbcg_set_entry (celltext->wbcg, NULL);
   path = g_object_get_data (G_OBJECT (entry), GNUMERIC_CELL_RENDERER_EXPR_ENTRY_PATH);
-  new_text = gnm_expr_entry_get_text (GNUMERIC_EXPR_ENTRY (entry));
+  new_text = gnm_expr_entry_get_text (GNM_EXPR_ENTRY (entry));
   
   g_signal_emit_by_name (G_OBJECT (celltext), "edited", path, new_text);
 }
@@ -120,7 +120,7 @@ gnumeric_cell_renderer_expr_entry_start_editing (GtkCellRenderer      *cell,
 {
   GnumericCellRendererExprEntry *celltext;
   GtkEntry *entry;
-  GnumericExprEntry *gentry;
+  GnmExprEntry *gentry;
 
   celltext = GNUMERIC_CELL_RENDERER_EXPR_ENTRY (cell);
 
@@ -128,9 +128,8 @@ gnumeric_cell_renderer_expr_entry_start_editing (GtkCellRenderer      *cell,
   if (celltext->parent.parent.editable == FALSE)
     return NULL;
 
-  gentry = gnumeric_expr_entry_new (celltext->wbcg, FALSE);
+  gentry = gnm_expr_entry_new (celltext->wbcg, FALSE);
   celltext->entry = gentry;
-  gnm_expr_entry_set_scg (gentry, wbcg_cur_scg (celltext->wbcg));
   entry  = gnm_expr_entry_get_entry (gentry);
 
   gtk_entry_set_text (entry, celltext->parent.parent.text);

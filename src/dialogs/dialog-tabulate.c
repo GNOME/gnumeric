@@ -275,8 +275,7 @@ typedef struct {
 	GtkDialog *dialog;
 
 	GtkTable *source_table;
-	GnumericExprEntry *resultrangetext;
-
+	GnmExprEntry *resultrangetext;
 } DialogState;
 
 static const char *mode_group[] = {
@@ -306,7 +305,7 @@ non_model_dialog (WorkbookControlGUI *wbcg,
 }
 
 static Cell *
-single_cell (Sheet *sheet, GnumericExprEntry *gee)
+single_cell (Sheet *sheet, GnmExprEntry *gee)
 {
 	int col, row;
 	gboolean issingle;
@@ -326,7 +325,7 @@ single_cell (Sheet *sheet, GnumericExprEntry *gee)
 		return NULL;
 }
 
-static GnumericExprEntry *
+static GnmExprEntry *
 get_table_expr_entry (GtkTable *t, int y, int x)
 {
 	GList *l;
@@ -334,8 +333,8 @@ get_table_expr_entry (GtkTable *t, int y, int x)
 	for (l = t->children; l; l = l->next) {
 		GtkTableChild *child = l->data;
 		if (child->left_attach == x && child->top_attach == y &&
-		    IS_GNUMERIC_EXPR_ENTRY (child->widget)) {
-			return GNUMERIC_EXPR_ENTRY (child->widget);
+		    IS_GNM_EXPR_ENTRY (child->widget)) {
+			return GNM_EXPR_ENTRY (child->widget);
 		}
 	}
 
@@ -396,7 +395,7 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 
 	for (row = 1; row < dd->source_table->nrows; row++) {
 		GtkEntry *e_w;
-		GnumericExprEntry *w = get_table_expr_entry (dd->source_table, row, COL_CELL);
+		GnmExprEntry *w = get_table_expr_entry (dd->source_table, row, COL_CELL);
 
 		if (!w || gnm_expr_entry_is_blank (w))
 			continue;
@@ -405,13 +404,13 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 		if (!cells[dims]) {
 			gnumeric_notice (dd->wbcg, GTK_MESSAGE_ERROR,
 					 _("You should introduce a single valid cell as dependency cell"));
-			gnm_expr_entry_grab_focus (GNUMERIC_EXPR_ENTRY (w), TRUE);
+			gnm_expr_entry_grab_focus (GNM_EXPR_ENTRY (w), TRUE);
 			goto error;
 		}
 		if (cell_has_expr (cells[dims])) {
 			gnumeric_notice (dd->wbcg, GTK_MESSAGE_ERROR,
 					 _("The dependency cells should not contain an expression"));
-			gnm_expr_entry_grab_focus (GNUMERIC_EXPR_ENTRY (w), TRUE);
+			gnm_expr_entry_grab_focus (GNM_EXPR_ENTRY (w), TRUE);
 			goto error;
 		}
 
@@ -533,10 +532,10 @@ dialog_tabulate (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	dd->source_table = GTK_TABLE (glade_xml_get_widget (gui, "source_table"));
 	for (i = 1; i < dd->source_table->nrows; i++) {
-		GnumericExprEntry *ge = gnumeric_expr_entry_new (wbcg, TRUE);
+		GnmExprEntry *ge = gnm_expr_entry_new (wbcg, TRUE);
 		gnm_expr_entry_set_flags (ge,
-					       GNM_EE_SINGLE_RANGE | GNM_EE_SHEET_OPTIONAL,
-					       GNM_EE_MASK);
+			GNM_EE_SINGLE_RANGE | GNM_EE_SHEET_OPTIONAL,
+			GNM_EE_MASK);
 
 		gtk_table_attach (dd->source_table,
 				  GTK_WIDGET (ge),
@@ -544,18 +543,16 @@ dialog_tabulate (WorkbookControlGUI *wbcg, Sheet *sheet)
 				  i, i + 1,
 				  GTK_FILL, GTK_FILL,
 				  0, 0);
-		gnm_expr_entry_set_scg (ge, wbcg_cur_scg (wbcg));
 		gtk_widget_show (GTK_WIDGET (ge));
 	}
 
-	dd->resultrangetext = gnumeric_expr_entry_new (wbcg, TRUE);
+	dd->resultrangetext = gnm_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_flags (dd->resultrangetext,
-				       GNM_EE_SINGLE_RANGE | GNM_EE_SHEET_OPTIONAL,
-				       GNM_EE_MASK);
+		GNM_EE_SINGLE_RANGE | GNM_EE_SHEET_OPTIONAL,
+		GNM_EE_MASK);
 	gtk_box_pack_start (GTK_BOX (glade_xml_get_widget (gui, "result_hbox")),
 			    GTK_WIDGET (dd->resultrangetext),
 			    TRUE, TRUE, 0);
-	gnm_expr_entry_set_scg (dd->resultrangetext, wbcg_cur_scg (wbcg));
 	gtk_widget_show (GTK_WIDGET (dd->resultrangetext));
 
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "ok_button")),

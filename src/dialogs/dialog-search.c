@@ -56,7 +56,7 @@ typedef struct {
 
 	GladeXML *gui;
 	GtkDialog *dialog;
-	GnumericExprEntry *rangetext;
+	GnmExprEntry *rangetext;
 	GnomeEntry *gentry;
 	GtkWidget *prev_button, *next_button;
 	GtkNotebook *notebook;
@@ -711,7 +711,7 @@ cb_focus_on_entry (GtkWidget *widget, GtkWidget *entry)
 {
         if (GTK_TOGGLE_BUTTON (widget)->active)
 		gtk_widget_grab_focus (GTK_WIDGET (gnm_expr_entry_get_entry
-						   (GNUMERIC_EXPR_ENTRY (entry))));
+						   (GNM_EXPR_ENTRY (entry))));
 }
 
 static const struct {
@@ -784,10 +784,9 @@ dialog_search (WorkbookControlGUI *wbcg)
 		gtk_notebook_page_num (dd->notebook,
 				       glade_xml_get_widget (gui, "matches_tab"));
 
-	dd->rangetext = gnumeric_expr_entry_new (wbcg, TRUE);
+	dd->rangetext = gnm_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_flags (dd->rangetext, 0, GNM_EE_MASK);
 	table = GTK_TABLE (glade_xml_get_widget (gui, "page1-table"));
-	gnm_expr_entry_set_scg (dd->rangetext, wbcg_cur_scg (wbcg));
 	gtk_table_attach (table, GTK_WIDGET (dd->rangetext),
 			  1, 2, 6, 7,
 			  GTK_EXPAND | GTK_FILL, 0,

@@ -65,8 +65,8 @@ typedef struct {
 	GtkWidget *down_button;
 	GtkWidget *add_button;
 	GtkWidget *delete_button;
-	GnumericExprEntry *range_entry;
-	GnumericExprEntry *add_entry;
+	GnmExprEntry *range_entry;
+	GnmExprEntry *add_entry;
 	GtkListStore  *model;
 	GtkTreeView   *treeview;
 	GtkTreeSelection   *selection;
@@ -219,7 +219,7 @@ cb_update_add_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
         Value *range_add;
 
         range_add = gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->add_entry), state->sheet);
+		(GNM_EXPR_ENTRY (state->add_entry), state->sheet);
 
 	if (state->sel == NULL || range_add == NULL) {
 		gtk_widget_set_sensitive (state->add_button, FALSE);
@@ -247,7 +247,7 @@ cb_update_sensitivity (GtkWidget *dummy, SortFlowState *state)
 	int items;
 
         range = gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->range_entry), state->sheet);
+		(GNM_EXPR_ENTRY (state->range_entry), state->sheet);
 	if (range == NULL) {
 		if (state->sel != NULL) {
 			value_release (state->sel);
@@ -558,7 +558,7 @@ cb_add_clicked (G_GNUC_UNUSED GtkWidget *w, SortFlowState *state)
 	int i;
 
         range_add = gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->add_entry), state->sheet);
+		(GNM_EXPR_ENTRY (state->add_entry), state->sheet);
 
 	g_return_if_fail (range_add != NULL && state->sel != NULL);
 
@@ -670,18 +670,17 @@ dialog_init (SortFlowState *state)
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "cell_sort_table"));
 
 /* setup range entry */
-	state->range_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
+	state->range_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->range_entry,
-                                      GNM_EE_SINGLE_RANGE,
-                                      GNM_EE_MASK);
-        gnm_expr_entry_set_scg (state->range_entry, wbcg_cur_scg (state->wbcg));
+				  GNM_EE_SINGLE_RANGE,
+				  GNM_EE_MASK);
 	gtk_table_attach (table, GTK_WIDGET (state->range_entry),
 			  1, 2, 0, 1,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->range_entry));
-	gnumeric_expr_entry_set_update_policy (state->range_entry, GTK_UPDATE_DISCONTINUOUS);
+	gnm_expr_entry_set_update_policy (state->range_entry, GTK_UPDATE_DISCONTINUOUS);
 	gtk_widget_show (GTK_WIDGET (state->range_entry));
 	g_signal_connect (G_OBJECT (state->range_entry),
 		"update",
@@ -690,11 +689,10 @@ dialog_init (SortFlowState *state)
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "cell_sort_buttons_table"));
 
 /* setup add entry */
-	state->add_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
+	state->add_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->add_entry,
-                                      GNM_EE_SINGLE_RANGE,
-                                      GNM_EE_MASK);
-        gnm_expr_entry_set_scg (state->add_entry, wbcg_cur_scg (state->wbcg));
+				  GNM_EE_SINGLE_RANGE,
+				  GNM_EE_MASK);
 	gtk_table_attach (table, GTK_WIDGET (state->add_entry),
 			  0, 2, 1, 2,
 			  GTK_EXPAND | GTK_FILL, 0,

@@ -696,7 +696,7 @@ sheet_widget_scrollbar_clone (SheetObject const *src_so, Sheet *new_sheet)
 typedef struct {
 	GladeXML           *gui;
 	GtkWidget          *dialog;
-	GnumericExprEntry  *expression;
+	GnmExprEntry  *expression;
 	GtkWidget          *min;
 	GtkWidget          *max;
 	GtkWidget          *inc;
@@ -720,10 +720,10 @@ cb_scrollbar_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 	 * needs tweaking (eg make it absolute)
 	 */
 	if (state->old_focus != NULL &&
-	    IS_GNUMERIC_EXPR_ENTRY (state->old_focus->parent)) {
+	    IS_GNM_EXPR_ENTRY (state->old_focus->parent)) {
 		ParsePos  pp;
 		GnmExpr const *expr = gnm_expr_entry_parse (
-			GNUMERIC_EXPR_ENTRY (state->old_focus->parent),
+			GNM_EXPR_ENTRY (state->old_focus->parent),
 			parse_pos_init (&pp, NULL, state->sheet, 0, 0),
 			NULL, FALSE);
 		if (expr != NULL)
@@ -809,11 +809,10 @@ sheet_widget_scrollbar_user_config (SheetObject *so, SheetControl *sc)
 
  	table = glade_xml_get_widget (state->gui, "table");
 
-	state->expression = gnumeric_expr_entry_new (wbcg, TRUE);
+	state->expression = gnm_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->expression,
 		GNM_EE_ABS_ROW | GNM_EE_ABS_COL | GNM_EE_SHEET_OPTIONAL | GNM_EE_SINGLE_RANGE,
 		GNM_EE_MASK);
-	gnm_expr_entry_set_scg (state->expression, SHEET_CONTROL_GUI (sc));
 	gnm_expr_entry_load_from_dep (state->expression, &swb->dep);
 	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (state->expression),
 			  1, 2, 0, 1,
@@ -1154,7 +1153,7 @@ sheet_widget_checkbox_clone (SheetObject const *src_so, Sheet *new_sheet)
 typedef struct {
 	GladeXML           *gui;
 	GtkWidget *dialog;
-	GnumericExprEntry *expression;
+	GnmExprEntry *expression;
 	GtkWidget *label;
 
 	char *old_label;
@@ -1176,10 +1175,10 @@ cb_checkbox_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 	 * needs tweaking (eg make it absolute)
 	 */
 	if (state->old_focus != NULL &&
-	    IS_GNUMERIC_EXPR_ENTRY (state->old_focus->parent)) {
+	    IS_GNM_EXPR_ENTRY (state->old_focus->parent)) {
 		ParsePos  pp;
 		GnmExpr const *expr = gnm_expr_entry_parse (
-			GNUMERIC_EXPR_ENTRY (state->old_focus->parent),
+			GNM_EXPR_ENTRY (state->old_focus->parent),
 			parse_pos_init (&pp, NULL, state->sheet, 0, 0),
 			NULL, FALSE);
 		if (expr != NULL)
@@ -1267,11 +1266,10 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
 
  	table = glade_xml_get_widget (state->gui, "table");
 
-	state->expression = gnumeric_expr_entry_new (wbcg, TRUE);
+	state->expression = gnm_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->expression,
 		GNM_EE_ABS_ROW | GNM_EE_ABS_COL | GNM_EE_SHEET_OPTIONAL | GNM_EE_SINGLE_RANGE,
 		GNM_EE_MASK);
-	gnm_expr_entry_set_scg (state->expression, SHEET_CONTROL_GUI (sc));
 	gnm_expr_entry_load_from_dep (state->expression, &swc->dep);
 	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (state->expression),
 			  1, 2, 0, 1,

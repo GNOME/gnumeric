@@ -35,16 +35,14 @@ G_BEGIN_DECLS
 typedef struct _GnumericCellRendererExprEntry      GnumericCellRendererExprEntry;
 typedef struct _GnumericCellRendererExprEntryClass GnumericCellRendererExprEntryClass;
 
-struct _GnumericCellRendererExprEntry
-{
+struct _GnumericCellRendererExprEntry {
 	GnumericCellRendererText parent;
 
 	WorkbookControlGUI *wbcg;
-	GnumericExprEntry  *entry;
+	GnmExprEntry	   *entry;
 };
 
-struct _GnumericCellRendererExprEntryClass
-{
+struct _GnumericCellRendererExprEntryClass {
 	GnumericCellRendererTextClass parent_class;
 };
 

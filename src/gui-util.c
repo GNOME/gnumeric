@@ -515,8 +515,8 @@ gnumeric_editable_enters (GtkWindow *window, GtkWidget *w)
 	g_return_if_fail (GTK_IS_WINDOW(window));
 
 	/* because I really do not feel like changing all the calls to this routine */
-	if (IS_GNUMERIC_EXPR_ENTRY (w))
-		w = GTK_WIDGET (gnm_expr_entry_get_entry (GNUMERIC_EXPR_ENTRY (w)));
+	if (IS_GNM_EXPR_ENTRY (w))
+		w = GTK_WIDGET (gnm_expr_entry_get_entry (GNM_EXPR_ENTRY (w)));
 
 	g_signal_connect_swapped (G_OBJECT (w),
 		"activate",

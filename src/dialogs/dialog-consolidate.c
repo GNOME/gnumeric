@@ -46,9 +46,9 @@ typedef struct {
 
 		GtkOptionMenu     *function;
 		GtkOptionMenu     *put;
-		GnumericExprEntry *source;
+		GnmExprEntry	  *source;
 
-		GnumericExprEntry *destination;
+		GnmExprEntry	  *destination;
 		GtkButton         *add;
 		GtkCList          *areas;
 		GtkButton         *clear;
@@ -113,7 +113,7 @@ construct_consolidate (ConsolidateState *state)
 	consolidate_set_mode (cs, mode);
 
 	range_value = gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->gui.destination), state->sheet);
+		(GNM_EXPR_ENTRY (state->gui.destination), state->sheet);
 	g_return_val_if_fail (range_value != NULL, NULL);
 
 	if (!consolidate_set_destination (cs, range_value)) {
@@ -345,15 +345,15 @@ connect_signal_btn_clicked (ConsolidateState *state, GtkButton *button)
 static void
 setup_widgets (ConsolidateState *state, GladeXML *glade_gui)
 {
-	GnumericExprEntryFlags flags;
+	GnmExprEntryFlags flags;
 
 	state->gui.dialog      = GTK_DIALOG        (glade_xml_get_widget (glade_gui, "dialog"));
 
 	state->gui.function    = GTK_OPTION_MENU     (glade_xml_get_widget (glade_gui, "function"));
 	state->gui.put         = GTK_OPTION_MENU     (glade_xml_get_widget (glade_gui, "put"));
 
-	state->gui.destination = gnumeric_expr_entry_new (state->wbcg, TRUE);
-	state->gui.source      = gnumeric_expr_entry_new (state->wbcg, TRUE);
+	state->gui.destination = gnm_expr_entry_new (state->wbcg, TRUE);
+	state->gui.source      = gnm_expr_entry_new (state->wbcg, TRUE);
 
 	state->gui.add         = GTK_BUTTON          (glade_xml_get_widget (glade_gui, "add"));
 	state->gui.areas       = GTK_CLIST           (glade_xml_get_widget (glade_gui, "areas"));
@@ -377,9 +377,6 @@ setup_widgets (ConsolidateState *state, GladeXML *glade_gui)
 			    TRUE, TRUE, 0);
 	gtk_widget_show (GTK_WIDGET (state->gui.destination));
 	gtk_widget_show (GTK_WIDGET (state->gui.source));
-
-	gnm_expr_entry_set_scg (state->gui.destination, wbcg_cur_scg (state->wbcg));
-	gnm_expr_entry_set_scg (state->gui.source, wbcg_cur_scg (state->wbcg));
 
 	flags = GNM_EE_SINGLE_RANGE;
 	gnm_expr_entry_set_flags (state->gui.destination, flags, flags);

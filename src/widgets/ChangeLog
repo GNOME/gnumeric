@@ -1,5 +1,22 @@
 2003-04-22  Jody Goldberg <jody@gnome.org>
 
+	* gnumeric-expr-entry.c : Tidy up the namespacing.
+	(gnm_expr_entry_new) : use the scg property which seems like a better
+	  match than wbcg, but continue to take a wbcg to keep life simple.
+	(gnm_expr_entry_thaw) : actually implement the update policies
+	  partially.  Things are still broken for direct edits.  Mouse based
+	  selection should work smoothly.
+
+2003-04-22  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric-expr-entry.c (gnm_expr_entry_thaw) : cheesy hack to only
+	  send an update at the end of a drag, not during.  This actually
+	  implements part of the update_policy stuff.  Not complete enough to
+	  trust though.  It only works in the context of dragging, not
+	  editing.
+
+2003-04-22  Jody Goldberg <jody@gnome.org>
+
 	* gnumeric-expr-entry.c : make with_icon, and wbcg parameters and move
 	  the majority of _new into _init.  Then add gee_mnemonic_activate and
 	  link it to GtkWidget inclass_init so that entries can be selected

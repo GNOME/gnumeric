@@ -67,7 +67,7 @@ scan_for_range (ItemEdit *ie)
 	Range  range;
 	Sheet *sheet = ((SheetControl *) ie->scg)->sheet;
 	Sheet *parse_sheet;
-	GnumericExprEntry *gee = GNUMERIC_EXPR_ENTRY (
+	GnmExprEntry *gee = GNM_EXPR_ENTRY (
 		gtk_widget_get_parent (GTK_WIDGET (ie->entry)));
 
 	if (!ie->feedback_disabled) {
@@ -433,7 +433,7 @@ item_edit_init (ItemEdit *item_edit)
  * We use this to sync up the GtkEntry with our display on the screen.
  */
 static void
-entry_changed (GnumericExprEntry *ignore, void *data)
+entry_changed (GnmExprEntry *ignore, void *data)
 {
 	FooCanvasItem *item = FOO_CANVAS_ITEM (data);
 	ItemEdit *item_edit = ITEM_EDIT (item);

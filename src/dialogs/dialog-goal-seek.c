@@ -53,8 +53,8 @@
 typedef struct {
 	GladeXML  *gui;
 	GtkWidget *dialog;
-	GnumericExprEntry *set_cell_entry;
-	GnumericExprEntry *change_cell_entry;
+	GnmExprEntry *set_cell_entry;
+	GnmExprEntry *change_cell_entry;
 	GtkWidget *to_value_entry;
 	GtkWidget *at_least_entry;
 	GtkWidget *at_most_entry;
@@ -536,12 +536,11 @@ dialog_init (GoalSeekState *state)
 	state->result_frame = glade_xml_get_widget (state->gui, "result-frame");
 
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "goal-table"));
-	state->set_cell_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
+	state->set_cell_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->set_cell_entry,
 		GNM_EE_SINGLE_RANGE | GNM_EE_SHEET_OPTIONAL |
 				  GNM_EE_ABS_ROW | GNM_EE_ABS_COL,
 		GNM_EE_MASK);
-        gnm_expr_entry_set_scg (state->set_cell_entry, wbcg_cur_scg (state->wbcg));
 	gtk_table_attach (table, GTK_WIDGET (state->set_cell_entry),
 			  1, 2, 0, 1,
 			  GTK_EXPAND | GTK_FILL, 0,
@@ -550,12 +549,11 @@ dialog_init (GoalSeekState *state)
 				  GTK_WIDGET (state->set_cell_entry));
 	gtk_widget_show (GTK_WIDGET (state->set_cell_entry));
 
-	state->change_cell_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
+	state->change_cell_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->change_cell_entry,
 		GNM_EE_SINGLE_RANGE | GNM_EE_SHEET_OPTIONAL |
 				  GNM_EE_ABS_ROW | GNM_EE_ABS_COL,
 		GNM_EE_MASK);
-	gnm_expr_entry_set_scg (state->change_cell_entry, wbcg_cur_scg (state->wbcg));
 	gtk_table_attach (table, GTK_WIDGET (state->change_cell_entry),
 			  1, 2, 2, 3,
 			  GTK_EXPAND | GTK_FILL, 0,

@@ -77,8 +77,8 @@ struct _WorkbookControlGUI {
 	GtkWidget *undo_combo, *redo_combo;
 
 	struct {
-		GnumericExprEntry *entry; /* The real edit line */
-		GnumericExprEntry *temp_entry; /* A tmp overlay eg from a guru */
+		GnmExprEntry *entry; /* The real edit line */
+		GnmExprEntry *temp_entry; /* A tmp overlay eg from a guru */
 		GtkWidget*guru;
 		int       signal_changed;
 	} edit_line;

@@ -191,8 +191,8 @@ error_in_entry (GenericToolState *state, GtkWidget *entry, const char *err_str)
 				  &(state->warning_dialog),
 				  GTK_MESSAGE_ERROR, err_str);
 
-	if (IS_GNUMERIC_EXPR_ENTRY (entry))
-		gnm_expr_entry_grab_focus (GNUMERIC_EXPR_ENTRY (entry), TRUE);
+	if (IS_GNM_EXPR_ENTRY (entry))
+		gnm_expr_entry_grab_focus (GNM_EXPR_ENTRY (entry), TRUE);
 	else
 		focus_on_entry (GTK_ENTRY (entry));
 }
@@ -322,7 +322,7 @@ dialog_tool_init (GenericToolState *state,
 		  GtkSignalFunc ok_function,
 		  GtkSignalFunc close_function,
 		  GtkSignalFunc sensitivity_cb,
-		  GnumericExprEntryFlags flags)
+		  GnmExprEntryFlags flags)
 {
 	GtkTable  *table;
 	GtkWidget *widget;
@@ -358,12 +358,9 @@ dialog_tool_init (GenericToolState *state,
 		state->accel = gtk_accel_group_new ();
 		table = GTK_TABLE (glade_xml_get_widget (state->gui,
 							 "input-table"));
-		state->input_entry = gnumeric_expr_entry_new (state->wbcg,
-							      TRUE);
+		state->input_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 		gnm_expr_entry_set_flags (state->input_entry, flags,
 					  GNM_EE_MASK);
-		gnm_expr_entry_set_scg (state->input_entry,
-					wbcg_cur_scg (state->wbcg));
 		gtk_table_attach (table, GTK_WIDGET (state->input_entry),
 				  1, 2, 0, 1,
 				  GTK_EXPAND | GTK_FILL, 0,
@@ -393,12 +390,9 @@ dialog_tool_init (GenericToolState *state,
 		GList *this_label_widget;
 		GtkTableChild *tchild;
 
-		state->input_entry_2 = gnumeric_expr_entry_new (state->wbcg,
-								TRUE);
+		state->input_entry_2 = gnm_expr_entry_new (state->wbcg, TRUE);
 		gnm_expr_entry_set_flags (state->input_entry_2,
 					  GNM_EE_SINGLE_RANGE, GNM_EE_MASK);
-		gnm_expr_entry_set_scg (state->input_entry_2,
-					wbcg_cur_scg (state->wbcg));
 		table = GTK_TABLE (gtk_widget_get_parent (widget));
 
 		this_label_widget = g_list_find_custom
@@ -475,7 +469,7 @@ tool_load_selection (GenericToolState *state, gboolean allow_multiple)
 	}
 
 	gtk_widget_show (state->dialog);
-	gnm_expr_entry_grab_focus (GNUMERIC_EXPR_ENTRY (state->input_entry),
+	gnm_expr_entry_grab_focus (GNM_EXPR_ENTRY (state->input_entry),
 				   FALSE);
 }
 
@@ -509,13 +503,13 @@ tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
         Value *input_range_2;
 
         output_range = gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->output_entry), state->sheet);
+		(GNM_EXPR_ENTRY (state->output_entry), state->sheet);
         input_range = gnm_expr_entry_parse_as_list (
-		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
+		GNM_EXPR_ENTRY (state->input_entry), state->sheet);
 
 	if (state->input_entry_2 != NULL) {
 		input_range_2 =  gnm_expr_entry_parse_as_value
-			(GNUMERIC_EXPR_ENTRY (state->input_entry_2), state->sheet);
+			(GNM_EXPR_ENTRY (state->input_entry_2), state->sheet);
 	} else {
 		input_range_2 = NULL;
 	}
@@ -573,7 +567,7 @@ corr_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	dao  = parse_output (state, NULL);
 
 	data->input = gnm_expr_entry_parse_as_list (
-		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
+		GNM_EXPR_ENTRY (state->input_entry), state->sheet);
 	data->group_by = gnumeric_glade_group_value (state->gui, grouped_by_group);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
@@ -690,7 +684,7 @@ cov_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	dao  = parse_output (state, NULL);
 
 	data->input = gnm_expr_entry_parse_as_list (
-		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
+		GNM_EXPR_ENTRY (state->input_entry), state->sheet);
 	data->group_by = gnumeric_glade_group_value (state->gui, grouped_by_group);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
@@ -803,7 +797,7 @@ rank_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	dao  = parse_output (state, NULL);
 
 	data->base.input = gnm_expr_entry_parse_as_list (
-		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
+		GNM_EXPR_ENTRY (state->input_entry), state->sheet);
 	data->base.group_by = gnumeric_glade_group_value (state->gui, grouped_by_group);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
@@ -892,7 +886,7 @@ fourier_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	dao  = parse_output (state, NULL);
 
 	data->base.input = gnm_expr_entry_parse_as_list (
-		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
+		GNM_EXPR_ENTRY (state->input_entry), state->sheet);
 	data->base.group_by = gnumeric_glade_group_value (state->gui, grouped_by_group);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
@@ -991,7 +985,7 @@ cb_desc_stat_tool_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	dao  = parse_output ((GenericToolState *)state, NULL);
 
 	data->base.input = gnm_expr_entry_parse_as_list (
-		GNUMERIC_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
+		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
 	data->base.group_by = gnumeric_glade_group_value (state->base.gui, grouped_by_group);
 
 	data->summary_statistics = gtk_toggle_button_get_active (
@@ -1039,9 +1033,9 @@ desc_stat_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
         GSList *input_range;
 
         output_range = gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->base.output_entry), state->base.sheet);
+		(GNM_EXPR_ENTRY (state->base.output_entry), state->base.sheet);
         input_range = gnm_expr_entry_parse_as_list (
-		GNUMERIC_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
+		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
 	i = gnumeric_glade_group_value (state->base.gui, output_group);
 	j = gnumeric_glade_group_value (state->base.gui, stats_group);
 
@@ -1196,10 +1190,10 @@ ttest_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		gtk_widget_destroy (state->base.warning_dialog);
 
 	data->base.range_1 = gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
+		(GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
 
 	data->base.range_2 = gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->base.input_entry_2), state->base.sheet);
+		(GNM_EXPR_ENTRY (state->base.input_entry_2), state->base.sheet);
 
 	w = glade_xml_get_widget (state->base.gui, "labels_button");
         data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
@@ -1292,11 +1286,11 @@ ttest_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
         Value *input_range_2;
 
 	output_range = gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->base.output_entry), state->base.sheet);
+		(GNM_EXPR_ENTRY (state->base.output_entry), state->base.sheet);
         input_range = gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
+		(GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
 	input_range_2 = gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->base.input_entry_2), state->base.sheet);
+		(GNM_EXPR_ENTRY (state->base.input_entry_2), state->base.sheet);
 
 	i = gnumeric_glade_group_value (state->base.gui, output_group);
 	err = entry_to_float (GTK_ENTRY (state->mean_diff_entry), &mean_diff, FALSE);
@@ -1580,10 +1574,10 @@ ftest_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		gtk_widget_destroy (state->base.warning_dialog);
 
 	data->range_1 = gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
+		(GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
 
 	data->range_2 =  gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->base.input_entry_2), state->base.sheet);
+		(GNM_EXPR_ENTRY (state->base.input_entry_2), state->base.sheet);
 
 	w = glade_xml_get_widget (state->base.gui, "labels_button");
         data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
@@ -1621,11 +1615,11 @@ ftest_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
         Value *input_range_2;
 
 	output_range = gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->base.output_entry), state->base.sheet);
+		(GNM_EXPR_ENTRY (state->base.output_entry), state->base.sheet);
         input_range = gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
+		(GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
 	input_range_2 = gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->base.input_entry_2), state->base.sheet);
+		(GNM_EXPR_ENTRY (state->base.input_entry_2), state->base.sheet);
 
 	i = gnumeric_glade_group_value (state->base.gui, output_group);
 	err = entry_to_float (GTK_ENTRY (state->alpha_entry), &alpha, FALSE);
@@ -1723,9 +1717,9 @@ sampling_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
         GSList *input_range;
 
         output_range = gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->base.output_entry), state->base.sheet);
+		(GNM_EXPR_ENTRY (state->base.output_entry), state->base.sheet);
         input_range = gnm_expr_entry_parse_as_list (
-		GNUMERIC_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
+		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
 	i = gnumeric_glade_group_value (state->base.gui, output_group);
         periodic = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->periodic_button));
 
@@ -1777,7 +1771,7 @@ sampling_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data->base.wbc = WORKBOOK_CONTROL (state->base.wbcg);
 
 	data->base.input = gnm_expr_entry_parse_as_list (
-		GNUMERIC_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
+		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
 	data->base.group_by = gnumeric_glade_group_value (state->base.gui, grouped_by_group);
 
 	w = glade_xml_get_widget (state->base.gui, "labels_button");
@@ -1964,9 +1958,9 @@ regression_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data->base.wbc = WORKBOOK_CONTROL (state->base.wbcg);
 
 	data->base.input = gnm_expr_entry_parse_as_list (
-		GNUMERIC_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
+		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
 	data->y_input = gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->base.input_entry_2), state->base.sheet);
+		(GNM_EXPR_ENTRY (state->base.input_entry_2), state->base.sheet);
 	data->base.group_by = gnumeric_glade_group_value (state->base.gui, grouped_by_group);
 
 	w = glade_xml_get_widget (state->base.gui, "labels_button");
@@ -2033,11 +2027,11 @@ regression_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
         Value *input_range_2;
 
         output_range = gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->base.output_entry), state->base.sheet);
+		(GNM_EXPR_ENTRY (state->base.output_entry), state->base.sheet);
         input_range = gnm_expr_entry_parse_as_list (
-		GNUMERIC_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
+		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
 	input_range_2 = gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->base.input_entry_2), state->base.sheet);
+		(GNM_EXPR_ENTRY (state->base.input_entry_2), state->base.sheet);
 
 	i = gnumeric_glade_group_value (state->base.gui, output_group);
 	err = entry_to_float (GTK_ENTRY (state->confidence_entry), &confidence, FALSE);
@@ -2140,7 +2134,7 @@ exp_smoothing_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	dao  = parse_output ((GenericToolState *)state, NULL);
 
 	data->base.input = gnm_expr_entry_parse_as_list (
-		GNUMERIC_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
+		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
 	data->base.group_by = gnumeric_glade_group_value (state->base.gui, grouped_by_group);
 
 	w = glade_xml_get_widget (state->base.gui, "labels_button");
@@ -2178,9 +2172,9 @@ exp_smoothing_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
         GSList *input_range;
 
         output_range = gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->base.output_entry), state->base.sheet);
+		(GNM_EXPR_ENTRY (state->base.output_entry), state->base.sheet);
         input_range = gnm_expr_entry_parse_as_list (
-		GNUMERIC_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
+		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
 	i = gnumeric_glade_group_value (state->base.gui, output_group);
 	err = entry_to_float (GTK_ENTRY (state->damping_fact_entry), &damp_fact, FALSE);
 
@@ -2282,7 +2276,7 @@ average_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	dao  = parse_output ((GenericToolState *)state, NULL);
 
 	data->base.input = gnm_expr_entry_parse_as_list (
-		GNUMERIC_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
+		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
 	data->base.group_by = gnumeric_glade_group_value (state->base.gui, grouped_by_group);
 
 	w = glade_xml_get_widget (state->base.gui, "labels_button");
@@ -2319,9 +2313,9 @@ average_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
         GSList *input_range;
 
         output_range = gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->base.output_entry), state->base.sheet);
+		(GNM_EXPR_ENTRY (state->base.output_entry), state->base.sheet);
         input_range = gnm_expr_entry_parse_as_list (
-		GNUMERIC_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
+		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
 	i = gnumeric_glade_group_value (state->base.gui, output_group);
 	err = entry_to_int (GTK_ENTRY (state->interval_entry), &interval, FALSE);
 
@@ -2421,18 +2415,18 @@ histogram_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
         Value *input_range_2 = NULL;
 
         input_range = gnm_expr_entry_parse_as_list (
-		GNUMERIC_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
+		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
 
 	i = gnumeric_glade_group_value (state->base.gui, output_group);
 	if (i == 2)
 		output_range = gnm_expr_entry_parse_as_value
-			(GNUMERIC_EXPR_ENTRY (state->base.output_entry), state->base.sheet);
+			(GNM_EXPR_ENTRY (state->base.output_entry), state->base.sheet);
 
 	predetermined_bins = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->predetermined_button));
 	if (predetermined_bins)
 		input_range_2 =  gnm_expr_entry_parse_as_value
-			(GNUMERIC_EXPR_ENTRY (state->base.input_entry_2), state->base.sheet);
+			(GNM_EXPR_ENTRY (state->base.input_entry_2), state->base.sheet);
 
 	input_ready = (input_range != NULL);
 	bin_ready = (predetermined_bins && input_range_2 != NULL) ||
@@ -2475,7 +2469,7 @@ histogram_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	dao  = parse_output ((GenericToolState *)state, NULL);
 
 	data->input = gnm_expr_entry_parse_as_list (
-		GNUMERIC_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
+		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
 	data->group_by = gnumeric_glade_group_value (state->base.gui, grouped_by_group);
 
 	if (gtk_toggle_button_get_active (
@@ -2483,7 +2477,7 @@ histogram_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		w = glade_xml_get_widget (state->base.gui, "labels_2_button");
 		data->bin_labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 		data->bin = g_slist_prepend (NULL, gnm_expr_entry_parse_as_value
-					     (GNUMERIC_EXPR_ENTRY (state->base.input_entry_2),
+					     (GNM_EXPR_ENTRY (state->base.input_entry_2),
 					      state->base.sheet));
 	} else {
 		entry_to_int(state->n_entry, &data->n,TRUE);
@@ -2678,7 +2672,7 @@ anova_single_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	dao  = parse_output ((GenericToolState *)state, NULL);
 
 	data->base.input = gnm_expr_entry_parse_as_list (
-		GNUMERIC_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
+		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
 	data->base.group_by = gnumeric_glade_group_value (state->base.gui, grouped_by_group);
 
 	w = glade_xml_get_widget (state->base.gui, "labels_button");
@@ -2715,10 +2709,10 @@ anova_single_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
         GSList *input_range;
 
         output_range = gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->base.output_entry),
+		(GNM_EXPR_ENTRY (state->base.output_entry),
 		 state->base.sheet);
         input_range = gnm_expr_entry_parse_as_list (
-		GNUMERIC_EXPR_ENTRY (state->base.input_entry),
+		GNM_EXPR_ENTRY (state->base.input_entry),
 		state->base.sheet);
 
 	i = gnumeric_glade_group_value (state->base.gui, output_group);
@@ -2828,7 +2822,7 @@ anova_two_factor_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	dao  = parse_output ((GenericToolState *)state, NULL);
 
 	data->input = gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->base.input_entry),
+		(GNM_EXPR_ENTRY (state->base.input_entry),
 		 state->base.sheet);
 	data->err = analysis_tools_noerr;
 	data->wbc = WORKBOOK_CONTROL (state->base.wbcg);
@@ -2920,10 +2914,10 @@ anova_two_factor_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
         Value *input_range;
 
         output_range = gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->base.output_entry),
+		(GNM_EXPR_ENTRY (state->base.output_entry),
 		 state->base.sheet);
         input_range = gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->base.input_entry),
+		(GNM_EXPR_ENTRY (state->base.input_entry),
 		 state->base.sheet);
 	i = gnumeric_glade_group_value (state->base.gui, output_group);
 	err_alpha = entry_to_float (GTK_ENTRY (state->alpha_entry), &alpha,

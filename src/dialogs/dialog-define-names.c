@@ -52,7 +52,7 @@ typedef struct {
 	GtkListStore		*model;
 	GtkTreeSelection	*selection;
 	GtkEntry		*name;
-	GnumericExprEntry	*expr_entry;
+	GnmExprEntry		*expr_entry;
 	GtkToggleButton		*sheet_scope, *wb_scope;
 
 	GtkWidget *ok_button;
@@ -480,14 +480,15 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 	state->dialog = glade_xml_get_widget (state->gui, "NameGuru");
 	table2 = GTK_TABLE (glade_xml_get_widget (state->gui, "table2"));
 	state->name  = GTK_ENTRY (glade_xml_get_widget (state->gui, "name"));
-	state->expr_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
+	state->expr_entry = gnm_expr_entry_new (state->wbcg, TRUE);
+	gnm_expr_entry_set_absolute (state->expr_entry);
 	gtk_table_attach (table2, GTK_WIDGET (state->expr_entry),
 			  1, 2, 1, 2,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
-	gnm_expr_entry_set_absolute (state->expr_entry);
 	gtk_widget_show (GTK_WIDGET (state->expr_entry));
 	state->sheet_scope = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "sheet_scope"));
+
 	state->wb_scope = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "workbook_scope"));
 	state->expr_names = NULL;
 	state->cur_name   = NULL;
@@ -539,8 +540,6 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 	g_signal_connect (G_OBJECT (gnm_expr_entry_get_entry (state->expr_entry)),
 		"activate",
 		G_CALLBACK (cb_entry_activate), state);
-
-	gnm_expr_entry_set_scg (state->expr_entry, wbcg_cur_scg (wbcg));
 
 	name_guru_populate_list (state);
 

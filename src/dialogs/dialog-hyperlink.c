@@ -46,7 +46,7 @@ typedef struct {
 
 	GtkImage  *type_image;
 	GtkLabel  *type_descriptor;
-	GnumericExprEntry *internal_link_ee;
+	GnmExprEntry *internal_link_ee;
 	GnmHLink  *link;
 	gboolean   is_new;
 } HyperlinkState;
@@ -104,7 +104,7 @@ static const char *
 dhl_get_target_cur_wb (HyperlinkState *state, gboolean *success)
 {
 	char *ret = NULL;
-	GnumericExprEntry *gee = state->internal_link_ee;
+	GnmExprEntry *gee = state->internal_link_ee;
 	char const *target = gnm_expr_entry_get_text (gee);
 	Sheet *sheet = sc_sheet (state->sc);
 	Value *val;
@@ -340,7 +340,7 @@ dhl_init (HyperlinkState *state)
 	};
 	GtkWidget *w, *menu;
 	GtkSizeGroup *size_group;
-	GnumericExprEntry *expr_entry;
+	GnmExprEntry *expr_entry;
 	unsigned i, select = 0;
 
 #ifdef GNM_NO_MAILTO
@@ -357,11 +357,10 @@ dhl_init (HyperlinkState *state)
 	state->type_descriptor = GTK_LABEL (w);
 
 	w = glade_xml_get_widget (state->gui, "internal-link-box");
-	expr_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
+	expr_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gtk_box_pack_end (GTK_BOX (w), GTK_WIDGET (expr_entry), TRUE, TRUE, 0);
 	gtk_entry_set_activates_default
 		(gnm_expr_entry_get_entry (expr_entry), TRUE);
-	gnm_expr_entry_set_scg (expr_entry, wbcg_cur_scg (state->wbcg));
 	state->internal_link_ee = expr_entry;
 
 	w = glade_xml_get_widget (state->gui, "cancel_button");

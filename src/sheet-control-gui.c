@@ -2124,7 +2124,7 @@ scg_rangesel_changed (SheetControlGUI *scg,
 		      int base_col, int base_row,
 		      int move_col, int move_row)
 {
-	GnumericExprEntry *expr_entry;
+	GnmExprEntry *expr_entry;
 	gboolean ic_changed;
 	Range *r, last_r;
 	Sheet *sheet;

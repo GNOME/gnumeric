@@ -108,7 +108,7 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	scenario_t              *scenario;
 
 	cell_range = gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
+		(GNM_EXPR_ENTRY (state->input_entry), state->sheet);
 
 	if (cell_range == NULL) {
 		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
@@ -154,7 +154,7 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	res = scenario_add_new (name, cell_range,
 				(gchar *) gnm_expr_entry_get_text
-				(GNUMERIC_EXPR_ENTRY (state->input_entry)),
+				(GNM_EXPR_ENTRY (state->input_entry)),
 				comment, state->sheet, &scenario);
 
 	cmd_scenario_add (wbc, scenario, state->sheet);
@@ -546,7 +546,7 @@ scenarios_summary_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	restore_old_values (state);
 
 	results = gnm_expr_entry_parse_as_list (
-		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
+		GNM_EXPR_ENTRY (state->input_entry), state->sheet);
 
 	if (results == NULL) {
 		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,

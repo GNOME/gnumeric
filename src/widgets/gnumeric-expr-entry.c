@@ -15,7 +15,7 @@
 
 #include <workbook-edit.h>
 #include <workbook-control-gui-priv.h>
-#include <sheet-control-gui.h>
+#include <sheet-control-gui-priv.h>
 #include <sheet-merge.h>
 #include <parse-util.h>
 #include <gui-util.h>
@@ -42,17 +42,17 @@ typedef struct {
 	gboolean  is_valid;
 } Rangesel;
 
-struct _GnumericExprEntry {
+struct _GnmExprEntry {
 	GtkHBox	parent;
 
 	GtkEntry		*entry;
 	GtkWidget		*icon;
 	SheetControlGUI		*scg;	/* the source of the edit */
-	WorkbookControlGUI	*wbcg;	/* from scg */
 	Sheet			*sheet;	/* from scg */
+	WorkbookControlGUI	*wbcg;	/* from scg */
 	Rangesel		 rangesel;
 
-	GnumericExprEntryFlags	 flags;
+	GnmExprEntryFlags	 flags;
 	int			 freeze_count;
 
 	GtkUpdateType		 update_policy;
@@ -63,12 +63,12 @@ struct _GnumericExprEntry {
 	gboolean                 ignore_changes; /* internal mutex */
 };
 
-typedef struct _GnumericExprEntryClass {
+typedef struct _GnmExprEntryClass {
 	GtkHBoxClass base;
 
-	void (* update)  (GnumericExprEntry *gee);
-	void (* changed) (GnumericExprEntry *gee);
-} GnumericExprEntryClass;
+	void (* update)  (GnmExprEntry *gee);
+	void (* changed) (GnmExprEntry *gee);
+} GnmExprEntryClass;
 
 /* Signals */
 enum {
@@ -83,45 +83,21 @@ enum {
 	PROP_0,
 	PROP_UPDATE_POLICY,
 	PROP_WITH_ICON,
-	PROP_WBCG,
+	PROP_SCG
 };
 
 static GQuark signals [LAST_SIGNAL] = { 0 };
 
-
-/* GObject, GtkObject methods
- */
-static void     gee_set_property (GObject *object, guint prop_id,
-				  GValue const *value, GParamSpec *pspec);
-static void     gee_get_property (GObject *object, guint prop_id,
-				  GValue *value, GParamSpec *pspec);
-
-
-/* GtkHBox methods
- */
-
-
-/* GtkCellEditable
- */
-static void     gee_start_editing (GtkCellEditable *cell_editable,
-						   GdkEvent *event);
-
-/* Call Backs
- */
-static void     cb_scg_destroy (GnumericExprEntry *gee, SheetControlGUI *scg);
-static gint     cb_gee_key_press_event (GtkEntry *entry, GdkEventKey *key_event,
-					GnumericExprEntry *gee);
-
 /* Internal routines
  */
-static void     gee_rangesel_reset (GnumericExprEntry *gee);
-static void     gee_rangesel_update_text (GnumericExprEntry *gee);
-static void     gee_detach_scg (GnumericExprEntry *gee);
+static void     gee_rangesel_reset (GnmExprEntry *gee);
+static void     gee_rangesel_update_text (GnmExprEntry *gee);
+static void     gee_detach_scg (GnmExprEntry *gee);
 static gboolean gee_update_timeout (gpointer data);
-static void     gee_remove_update_timer (GnumericExprEntry *range);
-static void     gee_reset_update_timer (GnumericExprEntry *gee);
+static void     gee_remove_update_timer (GnmExprEntry *range);
+static void     gee_reset_update_timer (GnmExprEntry *gee);
 static void     gee_notify_cursor_position (GObject *object, GParamSpec *pspec,
-					    GnumericExprEntry *gee);
+					    GnmExprEntry *gee);
 
 static GtkObjectClass *parent_class = NULL;
 
@@ -140,7 +116,7 @@ split_char_p (unsigned char const *c)
 }
 
 static void
-gee_rangesel_reset (GnumericExprEntry *gee)
+gee_rangesel_reset (GnmExprEntry *gee)
 {
 	Rangesel *rs = &gee->rangesel;
 
@@ -158,7 +134,7 @@ gee_rangesel_reset (GnumericExprEntry *gee)
 static void
 gee_destroy (GtkObject *object)
 {
-	gee_detach_scg (GNUMERIC_EXPR_ENTRY (object));
+	gee_detach_scg (GNM_EXPR_ENTRY (object));
 	parent_class->destroy (object);
 }
 
@@ -168,10 +144,10 @@ gee_set_property (GObject      *object,
 		  GValue const *value,
 		  GParamSpec   *pspec)
 {
-	GnumericExprEntry *gee = GNUMERIC_EXPR_ENTRY (object);
+	GnmExprEntry *gee = GNM_EXPR_ENTRY (object);
 	switch (prop_id) {
 	case PROP_UPDATE_POLICY:
-		gnumeric_expr_entry_set_update_policy (gee, g_value_get_enum (value));
+		gnm_expr_entry_set_update_policy (gee, g_value_get_enum (value));
 		break;
 
 	case PROP_WITH_ICON:
@@ -186,9 +162,9 @@ gee_set_property (GObject      *object,
 			gtk_object_destroy (GTK_OBJECT (gee->icon));
 		break;
 
-	case PROP_WBCG:
-		g_return_if_fail (gee->wbcg == NULL);
-		gee->wbcg =  WORKBOOK_CONTROL_GUI (g_value_get_object (value));
+	case PROP_SCG:
+		gnm_expr_entry_set_scg (gee, 
+			SHEET_CONTROL_GUI (g_value_get_object (value)));
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -201,7 +177,7 @@ gee_get_property (GObject      *object,
 		  GValue       *value,
 		  GParamSpec   *pspec)
 {
-	GnumericExprEntry *gee = GNUMERIC_EXPR_ENTRY (object);
+	GnmExprEntry *gee = GNM_EXPR_ENTRY (object);
 	switch (prop_id) {
 	case PROP_UPDATE_POLICY:
 		g_value_set_enum (value, gee->update_policy);
@@ -209,8 +185,8 @@ gee_get_property (GObject      *object,
 	case PROP_WITH_ICON:
 		g_value_set_boolean (value, gee->icon != NULL);
 		break;
-	case PROP_WBCG:
-		g_value_set_object (value, G_OBJECT (gee->wbcg));
+	case PROP_SCG:
+		g_value_set_object (value, G_OBJECT (gee->scg));
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -225,7 +201,7 @@ cb_entry_activate (G_GNUC_UNUSED GtkWidget *w, GObject *gee)
 
 static void
 cb_entry_changed (G_GNUC_UNUSED GtkEntry *ignored,
-		  GnumericExprEntry *gee)
+		  GnmExprEntry *gee)
 {
 	if (!gee->ignore_changes) {
 		if (!gee->is_cell_renderer &&
@@ -240,7 +216,7 @@ cb_entry_changed (G_GNUC_UNUSED GtkEntry *ignored,
 static gboolean
 cb_gee_key_press_event (GtkEntry	  *entry,
 			GdkEventKey	  *event,
-			GnumericExprEntry *gee)
+			GnmExprEntry *gee)
 {
 	WorkbookControlGUI *wbcg  = gee->wbcg;
 	int state = gnumeric_filter_modifiers (event->state);
@@ -358,9 +334,9 @@ cb_gee_key_press_event (GtkEntry	  *entry,
 static gboolean
 cb_gee_button_press_event (G_GNUC_UNUSED GtkEntry *entry,
 			   G_GNUC_UNUSED GdkEventButton *event,
-			   GnumericExprEntry *gee)
+			   GnmExprEntry *gee)
 {
-	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), FALSE);
+	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), FALSE);
 
 	if (gee->scg) {
 		scg_rangesel_stop (gee->scg, FALSE);
@@ -374,13 +350,13 @@ cb_gee_button_press_event (G_GNUC_UNUSED GtkEntry *entry,
 static gboolean
 gee_mnemonic_activate (GtkWidget *w, gboolean group_cycling)
 {
-	GnumericExprEntry *gee = GNUMERIC_EXPR_ENTRY (w);
-	gtk_widget_grab_focus (gee->entry);
+	GnmExprEntry *gee = GNM_EXPR_ENTRY (w);
+	gtk_widget_grab_focus (GTK_WIDGET (gee->entry));
 	return TRUE;
 }
 
 static void
-gee_init (GnumericExprEntry *gee)
+gee_init (GnmExprEntry *gee)
 {
 	gee->editing_canceled = FALSE;
 	gee->is_cell_renderer = FALSE;
@@ -391,6 +367,7 @@ gee_init (GnumericExprEntry *gee)
 	gee->wbcg = NULL;
 	gee->freeze_count = 0;
 	gee->update_timeout_id = 0;
+	gee->update_policy = GTK_UPDATE_CONTINUOUS;
 	gee_rangesel_reset (gee);
 
 	gee->entry = GTK_ENTRY (gtk_entry_new ());
@@ -427,17 +404,17 @@ gee_class_init (GObjectClass *gobject_class)
 	widget_class->mnemonic_activate = gee_mnemonic_activate;
 
 	signals [UPDATE] = g_signal_new ("update",
-		GNUMERIC_TYPE_EXPR_ENTRY,
+		GNM_EXPR_ENTRY_TYPE,
 		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (GnumericExprEntryClass, update),
+		G_STRUCT_OFFSET (GnmExprEntryClass, update),
 		(GSignalAccumulator) NULL, NULL,
 		gnm__VOID__VOID,
 		G_TYPE_NONE,
 		0, G_TYPE_NONE);
 	signals [CHANGED] = g_signal_new ("changed",
-		GNUMERIC_TYPE_EXPR_ENTRY,
+		GNM_EXPR_ENTRY_TYPE,
 		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (GnumericExprEntryClass, changed),
+		G_STRUCT_OFFSET (GnmExprEntryClass, changed),
 		(GSignalAccumulator) NULL, NULL,
 		gnm__VOID__VOID,
 		G_TYPE_NONE,
@@ -464,28 +441,17 @@ gee_class_init (GObjectClass *gobject_class)
 			TRUE,
 			G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class,
-		PROP_WBCG,
-		g_param_spec_object ("wbcg", "WorkbookControlGUI",
+		PROP_SCG,
+		g_param_spec_object ("scg", "SheetControlGUI",
 			"The GUI container associated with the entry.",
-			WORKBOOK_CONTROL_GUI_TYPE,
+			SHEET_CONTROL_GUI_TYPE,
 			G_PARAM_READWRITE));
 
 }
 
 static void
-gee_cell_editable_init (GtkCellEditableIface *iface)
-{
-	iface->start_editing = gee_start_editing;
-}
-
-GSF_CLASS_FULL (GnumericExprEntry, gnumeric_expr_entry,
-		gee_class_init, gee_init,
-		GTK_TYPE_HBOX, 0,
-		GSF_INTERFACE (gee_cell_editable_init, GTK_TYPE_CELL_EDITABLE))
-
-static void
-gnumeric_cell_editable_entry_activated (G_GNUC_UNUSED gpointer data,
-					GnumericExprEntry *entry)
+cb_entry_activated (G_GNUC_UNUSED gpointer data,
+		    GnmExprEntry *entry)
 {
 	gtk_cell_editable_editing_done (GTK_CELL_EDITABLE (entry));
 }
@@ -494,16 +460,27 @@ static void
 gee_start_editing (GtkCellEditable *cell_editable,
 		   G_GNUC_UNUSED GdkEvent *event)
 {
-	GtkEntry *entry = gnm_expr_entry_get_entry (GNUMERIC_EXPR_ENTRY (cell_editable));
+	GtkEntry *entry = gnm_expr_entry_get_entry (GNM_EXPR_ENTRY (cell_editable));
 
-	GNUMERIC_EXPR_ENTRY (cell_editable)->is_cell_renderer = TRUE;
+	GNM_EXPR_ENTRY (cell_editable)->is_cell_renderer = TRUE;
 
 	g_signal_connect (G_OBJECT (entry),
 		"activate",
-		G_CALLBACK (gnumeric_cell_editable_entry_activated), cell_editable);
+		G_CALLBACK (cb_entry_activated), cell_editable);
 
 	gtk_widget_grab_focus (GTK_WIDGET (entry));
 }
+
+static void
+gee_cell_editable_init (GtkCellEditableIface *iface)
+{
+	iface->start_editing = gee_start_editing;
+}
+
+GSF_CLASS_FULL (GnmExprEntry, gnm_expr_entry,
+		gee_class_init, gee_init,
+		GTK_TYPE_HBOX, 0,
+		GSF_INTERFACE (gee_cell_editable_init, GTK_TYPE_CELL_EDITABLE))
 
 /**
  * gee_prepare_range :
@@ -513,7 +490,7 @@ gee_start_editing (GtkCellEditable *cell_editable,
  * Adjust @dst as necessary to conform to @gee's requirements
  **/
 static void
-gee_prepare_range (GnumericExprEntry const *gee, RangeRef *dst)
+gee_prepare_range (GnmExprEntry const *gee, RangeRef *dst)
 {
 	Rangesel const *rs = &gee->rangesel;
 
@@ -549,7 +526,7 @@ gee_prepare_range (GnumericExprEntry const *gee, RangeRef *dst)
 }
 
 static char *
-gee_rangesel_make_text (GnumericExprEntry const *gee)
+gee_rangesel_make_text (GnmExprEntry const *gee)
 {
 	RangeRef ref;
 	ParsePos pp;
@@ -562,7 +539,7 @@ gee_rangesel_make_text (GnumericExprEntry const *gee)
 }
 
 static void
-gee_rangesel_update_text (GnumericExprEntry *gee)
+gee_rangesel_update_text (GnmExprEntry *gee)
 {
 	GtkEditable *editable = GTK_EDITABLE (gee->entry);
 	Rangesel *rs = &gee->rangesel;
@@ -602,13 +579,13 @@ gee_rangesel_update_text (GnumericExprEntry *gee)
 
 /**
  * gnm_expr_entry_rangesel_start
- * @gee:   a #GnumericExprEntry
+ * @gee:   a #GnmExprEntry
  *
  * Look at the current selection to see how much of it needs to be changed when
  * selecting a range.
  **/
 void
-gnm_expr_expr_find_range (GnumericExprEntry *gee)
+gnm_expr_expr_find_range (GnmExprEntry *gee)
 {
 	gboolean  single;
 	char const *text, *cursor, *tmp, *ptr;
@@ -699,18 +676,18 @@ gnm_expr_expr_find_range (GnumericExprEntry *gee)
 
 /**
  * gnm_expr_entry_rangesel_stop
- * @gee:   a #GnumericExprEntry
+ * @gee:   a #GnmExprEntry
  * @clear_string: clear string flag
  *
  * Perform the appropriate action when a range selection has been completed.
  **/
 void
-gnm_expr_entry_rangesel_stop (GnumericExprEntry *gee,
+gnm_expr_entry_rangesel_stop (GnmExprEntry *gee,
 			      gboolean clear_string)
 {
 	Rangesel *rs;
 
-	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee));
+	g_return_if_fail (IS_GNM_EXPR_ENTRY (gee));
 
 	rs = &gee->rangesel;
 	if (clear_string && rs->text_end > rs->text_start)
@@ -724,7 +701,7 @@ gnm_expr_entry_rangesel_stop (GnumericExprEntry *gee,
 /***************************************************************************/
 
 static void
-cb_scg_destroy (GnumericExprEntry *gee, SheetControlGUI *scg)
+cb_scg_destroy (GnmExprEntry *gee, SheetControlGUI *scg)
 {
 	g_return_if_fail (scg == gee->scg);
 
@@ -734,7 +711,7 @@ cb_scg_destroy (GnumericExprEntry *gee, SheetControlGUI *scg)
 }
 
 static void
-gee_detach_scg (GnumericExprEntry *gee)
+gee_detach_scg (GnmExprEntry *gee)
 {
 	if (gee->scg != NULL) {
 		g_object_weak_unref (G_OBJECT (gee->scg),
@@ -754,7 +731,7 @@ gee_detach_scg (GnumericExprEntry *gee)
  * depend on the modified expression without doing it in real time.
  **/
 void
-gnm_expr_entry_end_of_drag (GnumericExprEntry *gee)
+gnm_expr_entry_end_of_drag (GnmExprEntry *gee)
 {
 	g_signal_emit (G_OBJECT (gee), signals [UPDATE], 0);
 }
@@ -762,14 +739,14 @@ gnm_expr_entry_end_of_drag (GnumericExprEntry *gee)
 static gboolean
 gee_update_timeout (gpointer data)
 {
-	GnumericExprEntry *gee = GNUMERIC_EXPR_ENTRY (data);
+	GnmExprEntry *gee = GNM_EXPR_ENTRY (data);
 	gee->update_timeout_id = 0;
 	g_signal_emit (G_OBJECT (gee), signals [UPDATE], 0);
 	return FALSE;
 }
 
 static void
-gee_remove_update_timer (GnumericExprEntry *range)
+gee_remove_update_timer (GnmExprEntry *range)
 {
 	if (range->update_timeout_id != 0) {
 		g_source_remove (range->update_timeout_id);
@@ -777,7 +754,7 @@ gee_remove_update_timer (GnumericExprEntry *range)
 	}
 }
 static void
-gee_reset_update_timer (GnumericExprEntry *gee)
+gee_reset_update_timer (GnmExprEntry *gee)
 {
 	gee_remove_update_timer (gee);
 
@@ -789,9 +766,9 @@ gee_reset_update_timer (GnumericExprEntry *gee)
 static void
 gee_notify_cursor_position (G_GNUC_UNUSED GObject *object,
 			    G_GNUC_UNUSED GParamSpec *pspec,
-			    GnumericExprEntry *gee)
+			    GnmExprEntry *gee)
 {
-	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee));
+	g_return_if_fail (IS_GNM_EXPR_ENTRY (gee));
 
 	if (gee->ignore_changes)
 		return;
@@ -800,8 +777,8 @@ gee_notify_cursor_position (G_GNUC_UNUSED GObject *object,
 }
 
 /**
- * gnumeric_expr_entry_set_update_policy:
- * @range: a #GnumericExprEntry
+ * gnm_expr_entry_set_update_policy:
+ * @range: a #GnmExprEntry
  * @policy: update policy
  *
  * Sets the update policy for the expr-entry. #GTK_UPDATE_CONTINUOUS means that
@@ -813,10 +790,10 @@ gee_notify_cursor_position (G_GNUC_UNUSED GObject *object,
  *
  **/
 void
-gnumeric_expr_entry_set_update_policy (GnumericExprEntry *gee,
+gnm_expr_entry_set_update_policy (GnmExprEntry *gee,
 				       GtkUpdateType  policy)
 {
-	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee));
+	g_return_if_fail (IS_GNM_EXPR_ENTRY (gee));
 
 	if (gee->update_policy == policy)
 		return;
@@ -825,46 +802,57 @@ gnumeric_expr_entry_set_update_policy (GnumericExprEntry *gee,
 }
 
 /**
- * gnumeric_expr_entry_new:
+ * gnm_expr_entry_new:
  *
- * Creates a new #GnumericExprEntry, which is an entry widget with support
+ * Creates a new #GnmExprEntry, which is an entry widget with support
  * for range selections.
  * The entry is created with default flag settings which are suitable for use
  * in many dialogs, but see #gnm_expr_entry_set_flags.
  *
- * Return value: a new #GnumericExprEntry.
+ * Return value: a new #GnmExprEntry.
  **/
-GnumericExprEntry *
-gnumeric_expr_entry_new (WorkbookControlGUI *wbcg, gboolean with_icon)
+GnmExprEntry *
+gnm_expr_entry_new (WorkbookControlGUI *wbcg, gboolean with_icon)
 {
-	return g_object_new (GNUMERIC_TYPE_EXPR_ENTRY,
-			     "wbcg",	 wbcg,
+	return g_object_new (GNM_EXPR_ENTRY_TYPE,
+			     "scg",	 wbcg_cur_scg (wbcg),
 			     "with_icon", with_icon,
 			     NULL);
 }
 
 void
-gnm_expr_entry_freeze (GnumericExprEntry *gee)
+gnm_expr_entry_freeze (GnmExprEntry *gee)
 {
-	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee));
+	g_return_if_fail (IS_GNM_EXPR_ENTRY (gee));
 
 	gee->freeze_count++;
 }
 
 void
-gnm_expr_entry_thaw (GnumericExprEntry *gee)
+gnm_expr_entry_thaw (GnmExprEntry *gee)
 {
-	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee));
+	g_return_if_fail (IS_GNM_EXPR_ENTRY (gee));
 
 	if (gee->freeze_count > 0 && (--gee->freeze_count) == 0) {
 		gee_rangesel_update_text (gee);
-		g_signal_emit (G_OBJECT (gee), signals [UPDATE], 0);
+		switch (gee->update_policy) {
+		case GTK_UPDATE_DELAYED :
+			gee_reset_update_timer (gee);
+			break;
+
+		default :
+		case GTK_UPDATE_DISCONTINUOUS :
+			if (gee->scg->rangesel.active)
+				break;
+		case GTK_UPDATE_CONTINUOUS:
+			g_signal_emit (G_OBJECT (gee), signals [UPDATE], 0);
+		};
 	}
 }
 
 /**
  * gnm_expr_entry_set_flags:
- * @gee: a #GnumericExprEntry
+ * @gee: a #GnmExprEntry
  * @flags:      bitmap of flag values
  * @mask:       bitmap with ones for flags to be changed
  *
@@ -879,13 +867,13 @@ gnm_expr_entry_thaw (GnumericExprEntry *gee)
  * %GNM_EE_SHEET_OPTIONAL    Current sheet name not auto-added.
  **/
 void
-gnm_expr_entry_set_flags (GnumericExprEntry *gee,
-			  GnumericExprEntryFlags flags,
-			  GnumericExprEntryFlags mask)
+gnm_expr_entry_set_flags (GnmExprEntry *gee,
+			  GnmExprEntryFlags flags,
+			  GnmExprEntryFlags mask)
 {
 	Rangesel *rs;
 
-	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee));
+	g_return_if_fail (IS_GNM_EXPR_ENTRY (gee));
 
 	gee->flags = (gee->flags & ~mask) | (flags & mask);
 	rs = &gee->rangesel;
@@ -897,7 +885,7 @@ gnm_expr_entry_set_flags (GnumericExprEntry *gee,
 
 /**
  * gnm_expr_entry_set_scg
- * @gee: a #GnumericExprEntry
+ * @gee: a #GnmExprEntry
  * @scg: a #SheetControlGUI
  *
  * Associates the entry with a SheetControlGUI. The entry widget
@@ -905,9 +893,9 @@ gnm_expr_entry_set_flags (GnumericExprEntry *gee,
  * destroyed.
  **/
 void
-gnm_expr_entry_set_scg (GnumericExprEntry *gee, SheetControlGUI *scg)
+gnm_expr_entry_set_scg (GnmExprEntry *gee, SheetControlGUI *scg)
 {
-	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee));
+	g_return_if_fail (IS_GNM_EXPR_ENTRY (gee));
 	g_return_if_fail (scg == NULL || IS_SHEET_CONTROL_GUI (scg));
 
 	if ((gee->flags & GNM_EE_SINGLE_RANGE) || scg != gee->scg)
@@ -919,8 +907,11 @@ gnm_expr_entry_set_scg (GnumericExprEntry *gee, SheetControlGUI *scg)
 		g_object_weak_ref (G_OBJECT (gee->scg),
 				   (GWeakNotify) cb_scg_destroy, gee);
 		gee->sheet = sc_sheet (SHEET_CONTROL (scg));
-	} else
+		gee->wbcg = scg_get_wbcg (gee->scg);
+	} else {
 		gee->sheet = NULL;
+		gee->wbcg = NULL;
+	}
 }
 
 /**
@@ -929,9 +920,9 @@ gnm_expr_entry_set_scg (GnumericExprEntry *gee, SheetControlGUI *scg)
  * @txt :
  */
 void
-gnm_expr_entry_load_from_text (GnumericExprEntry *gee, char const *txt)
+gnm_expr_entry_load_from_text (GnmExprEntry *gee, char const *txt)
 {
-	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee));
+	g_return_if_fail (IS_GNM_EXPR_ENTRY (gee));
 	/* We have nowhere to store the text while frozen. */
 	g_return_if_fail (gee->freeze_count == 0);
 
@@ -941,16 +932,16 @@ gnm_expr_entry_load_from_text (GnumericExprEntry *gee, char const *txt)
 
 /**
  * gnm_expr_entry_load_from_dep
- * @gee: a #GnumericExprEntry
+ * @gee: a #GnmExprEntry
  * @dep: A dependent
  *
  * Sets the text of the entry, and removes saved information about earlier
  * range selections.
  **/
 void
-gnm_expr_entry_load_from_dep (GnumericExprEntry *gee, Dependent const *dep)
+gnm_expr_entry_load_from_dep (GnmExprEntry *gee, Dependent const *dep)
 {
-	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee));
+	g_return_if_fail (IS_GNM_EXPR_ENTRY (gee));
 	g_return_if_fail (dep != NULL);
 	/* We have nowhere to store the text while frozen. */
 	g_return_if_fail (gee->freeze_count == 0);
@@ -970,7 +961,7 @@ gnm_expr_entry_load_from_dep (GnumericExprEntry *gee, Dependent const *dep)
 
 /**
  * gnm_expr_entry_load_from_expr
- * @gee: a #GnumericExprEntry
+ * @gee: a #GnmExprEntry
  * @expr: An expression
  * @pp  : The parse position
  *
@@ -978,10 +969,10 @@ gnm_expr_entry_load_from_dep (GnumericExprEntry *gee, Dependent const *dep)
  * range selections.
  **/
 void
-gnm_expr_entry_load_from_expr (GnumericExprEntry *gee,
+gnm_expr_entry_load_from_expr (GnmExprEntry *gee,
 			       GnmExpr const *expr, ParsePos const *pp)
 {
-	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee));
+	g_return_if_fail (IS_GNM_EXPR_ENTRY (gee));
 	/* We have nowhere to store the text while frozen. */
 	g_return_if_fail (gee->freeze_count == 0);
 
@@ -998,7 +989,7 @@ gnm_expr_entry_load_from_expr (GnumericExprEntry *gee,
 
 /**
  * gnm_expr_entry_load_from_range
- * @gee: a #GnumericExprEntry
+ * @gee: a #GnmExprEntry
  * @r:          a #Range
  * @sheet:      a #sheet
  * @pos:        position
@@ -1011,13 +1002,13 @@ gnm_expr_entry_load_from_expr (GnumericExprEntry *gee,
  * old. Otherwise, it is inserted at @pos.
  **/
 gboolean
-gnm_expr_entry_load_from_range (GnumericExprEntry *gee,
+gnm_expr_entry_load_from_range (GnmExprEntry *gee,
 				Sheet *sheet, Range const *r)
 {
 	Rangesel *rs;
 	gboolean needs_change = FALSE;
 
-	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), FALSE);
+	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 	g_return_val_if_fail (r != NULL, FALSE);
 
@@ -1057,7 +1048,7 @@ gnm_expr_entry_load_from_range (GnumericExprEntry *gee,
 
 /**
  * gnm_expr_entry_get_rangesel
- * @gee: a #GnumericExprEntry
+ * @gee: a #GnmExprEntry
  * @r:          address to receive #Range
  * @sheet:      address to receive #sheet
  *
@@ -1067,13 +1058,13 @@ gnm_expr_entry_load_from_range (GnumericExprEntry *gee,
  * The resulting range is normalized.
  **/
 gboolean
-gnm_expr_entry_get_rangesel (GnumericExprEntry *gee,
+gnm_expr_entry_get_rangesel (GnmExprEntry *gee,
 			     Range *r, Sheet **sheet)
 {
 	RangeRef ref;
 	Rangesel const *rs = &gee->rangesel;
 
-	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), FALSE);
+	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), FALSE);
 
 	gee_prepare_range (gee, &ref);
 	if (r != NULL) {
@@ -1109,16 +1100,16 @@ gnm_expr_entry_get_rangesel (GnumericExprEntry *gee,
 
 /**
  * gnm_expr_entry_set_absolute
- * @gee:   a #GnumericExprEntry
+ * @gee:   a #GnmExprEntry
  *
  * Select absolute reference mode for rows and columns. Do not change
  * displayed text. This is a convenience function which wraps
  * gnm_expr_entry_set_flags.
  **/
 void
-gnm_expr_entry_set_absolute (GnumericExprEntry *gee)
+gnm_expr_entry_set_absolute (GnmExprEntry *gee)
 {
-	GnumericExprEntryFlags flags;
+	GnmExprEntryFlags flags;
 
 	flags = GNM_EE_ABS_ROW | GNM_EE_ABS_COL;
 	gnm_expr_entry_set_flags (gee, flags, flags);
@@ -1127,7 +1118,7 @@ gnm_expr_entry_set_absolute (GnumericExprEntry *gee)
 
 /**
  * gnm_expr_entry_can_rangesel
- * @gee:   a #GnumericExprEntry
+ * @gee:   a #GnmExprEntry
  *
  * Returns TRUE if a range selection is meaningful at current position.
  * eg it isn't at '=sum', or 'bob', but it is at '=sum('.
@@ -1147,12 +1138,12 @@ gnm_expr_entry_set_absolute (GnumericExprEntry *gee)
  * 2000-05-22 Jon Kåre Hellan <hellan@acm.org>
  **/
 gboolean
-gnm_expr_entry_can_rangesel (GnumericExprEntry *gee)
+gnm_expr_entry_can_rangesel (GnmExprEntry *gee)
 {
 	int cursor_pos;
 	char const *text;
 
-	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), FALSE);
+	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), FALSE);
 
 	if (wbcg_edit_has_guru (gee->wbcg) != NULL && gee == gee->wbcg->edit_line.entry)
 		return FALSE;
@@ -1182,7 +1173,7 @@ gnm_expr_entry_can_rangesel (GnumericExprEntry *gee)
  * the flags.
  */
 GnmExpr const *
-gnm_expr_entry_parse (GnumericExprEntry *gee, ParsePos const *pp,
+gnm_expr_entry_parse (GnmExprEntry *gee, ParsePos const *pp,
 		      ParseError *perr, gboolean start_sel)
 {
 	char const *text;
@@ -1190,7 +1181,7 @@ gnm_expr_entry_parse (GnumericExprEntry *gee, ParsePos const *pp,
 	int flags;
 	GnmExpr const *expr;
 
-	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), NULL);
+	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), NULL);
 
 	text = gtk_entry_get_text (gee->entry);
 
@@ -1248,16 +1239,16 @@ gnm_expr_entry_parse (GnumericExprEntry *gee, ParsePos const *pp,
  * There are lots of parse routines that serve the common case.
  */
 char const *
-gnm_expr_entry_get_text	(GnumericExprEntry const *gee)
+gnm_expr_entry_get_text	(GnmExprEntry const *gee)
 {
-	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), NULL);
+	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), NULL);
 	return gtk_entry_get_text (gee->entry);
 }
 
 /**
  * gnm_expr_entry_parse_as_value :
  *
- * @gee: GnumericExprEntry
+ * @gee: GnmExprEntry
  * @sheet: the sheet where the cell range is evaluated. This really only needed if
  *         the range given does not include a sheet specification.
  *
@@ -1265,9 +1256,9 @@ gnm_expr_entry_get_text	(GnumericExprEntry const *gee)
  *	succesfully parsed or NULL on failure.
  */
 Value *
-gnm_expr_entry_parse_as_value (GnumericExprEntry *gee, Sheet *sheet)
+gnm_expr_entry_parse_as_value (GnmExprEntry *gee, Sheet *sheet)
 {
-	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), NULL);
+	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), NULL);
 
 	return global_range_parse (sheet,
 		gtk_entry_get_text (gnm_expr_entry_get_entry (gee)));
@@ -1276,7 +1267,7 @@ gnm_expr_entry_parse_as_value (GnumericExprEntry *gee, Sheet *sheet)
 /**
  * gnm_expr_entry_parse_as_list:
  *
- * @gee: GnumericExprEntry
+ * @gee: GnmExprEntry
  * @sheet: the sheet where the cell range is evaluated. This really only needed if
  *         the range given does not include a sheet specification.
  *
@@ -1284,30 +1275,30 @@ gnm_expr_entry_parse_as_value (GnumericExprEntry *gee, Sheet *sheet)
  *	or NULL on failure.
  */
 GSList *
-gnm_expr_entry_parse_as_list (GnumericExprEntry *gee, Sheet *sheet)
+gnm_expr_entry_parse_as_list (GnmExprEntry *gee, Sheet *sheet)
 {
-	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), NULL);
+	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), NULL);
 
 	return global_range_list_parse (sheet,
 		gtk_entry_get_text (gnm_expr_entry_get_entry (gee)));
 }
 
 GtkEntry *
-gnm_expr_entry_get_entry (GnumericExprEntry *gee)
+gnm_expr_entry_get_entry (GnmExprEntry *gee)
 {
-	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), NULL);
+	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), NULL);
 
 	return gee->entry;
 }
 
 gboolean
-gnm_expr_entry_is_cell_ref (GnumericExprEntry *gee, Sheet *sheet,
+gnm_expr_entry_is_cell_ref (GnmExprEntry *gee, Sheet *sheet,
 			    gboolean allow_multiple_cell)
 {
         Value *val;
 	gboolean res;
 
-	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), FALSE);
+	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), FALSE);
 
 	val = gnm_expr_entry_parse_as_value (gee, sheet);
         if (val == NULL)
@@ -1323,14 +1314,14 @@ gnm_expr_entry_is_cell_ref (GnumericExprEntry *gee, Sheet *sheet,
 }
 
 gboolean
-gnm_expr_entry_is_blank	(GnumericExprEntry *gee)
+gnm_expr_entry_is_blank	(GnmExprEntry *gee)
 {
 	GtkEntry *entry = gnm_expr_entry_get_entry (gee);
 	char const *text = gtk_entry_get_text (entry);
 	char *new_text;
 	int len;
 
-	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), FALSE);
+	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), FALSE);
 
 	if (text == NULL)
 		return TRUE;
@@ -1343,12 +1334,12 @@ gnm_expr_entry_is_blank	(GnumericExprEntry *gee)
 }
 
 char *
-gnm_expr_entry_global_range_name (GnumericExprEntry *gee, Sheet *sheet)
+gnm_expr_entry_global_range_name (GnmExprEntry *gee, Sheet *sheet)
 {
 	Value *val;
 	char *text = NULL;
 
-	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), NULL);
+	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), NULL);
 
 	val = gnm_expr_entry_parse_as_value (gee, sheet);
 	if (val != NULL) {
@@ -1361,9 +1352,9 @@ gnm_expr_entry_global_range_name (GnumericExprEntry *gee, Sheet *sheet)
 }
 
 void
-gnm_expr_entry_grab_focus (GnumericExprEntry *gee, gboolean select_all)
+gnm_expr_entry_grab_focus (GnmExprEntry *gee, gboolean select_all)
 {
-	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee));
+	g_return_if_fail (IS_GNM_EXPR_ENTRY (gee));
 
 	gtk_widget_grab_focus (GTK_WIDGET (gee->entry));
 	if (select_all) {
@@ -1373,9 +1364,9 @@ gnm_expr_entry_grab_focus (GnumericExprEntry *gee, gboolean select_all)
 }
 
 gboolean
-gnm_expr_entry_editing_canceled (GnumericExprEntry *gee)
+gnm_expr_entry_editing_canceled (GnmExprEntry *gee)
 {
-	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), TRUE);
+	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), TRUE);
 
 	return gee->editing_canceled;
 }

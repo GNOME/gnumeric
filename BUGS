@@ -27,7 +27,7 @@ Pending Patches
     1.5) Make colour combos viable mnemonic activation targets
     1.6) make the 'apply' behavior of the color combo optional
     1.7) Pinch Guppi's property bag code for GOGraphItem ?
-    1.8) chart group canvas item
+    1.8) chart group canvas item				(DONE)
     1.9) 2d plot group canvas item
     1.10) gradient for background item
     1.11) images for background item
@@ -37,9 +37,9 @@ Pending Patches
     - theme
     - series style
     - attributes for
-	: type
-	: instance
-	: data point
+	: type			: GObject::parms
+	: instance		: GObject::parms with a flag
+	: data point		:
     - layout
     - axis management
 

@@ -49,8 +49,8 @@
 typedef struct {
 	GladeXML            *gui;
 	GtkWidget           *dialog;
-	GnumericExprEntry   *target_entry;
-	GnumericExprEntry   *change_cell_entry;
+	GnmExprEntry	    *target_entry;
+	GnmExprEntry	    *change_cell_entry;
 	GtkWidget           *max_iter_entry;
 	GtkWidget           *max_time_entry;
 	GtkWidget           *solve_button;
@@ -61,8 +61,8 @@ typedef struct {
 	GtkWidget           *delete_button;
 	GtkWidget           *model_button;
 	GtkWidget           *scenario_name_entry;
-	GnumericExprEntry   *lhs_entry;
-	GnumericExprEntry   *rhs_entry;
+	GnmExprEntry	    *lhs_entry;
+	GnmExprEntry	    *rhs_entry;
 	GtkOptionMenu       *type_combo;
 	GtkCombo            *algorithm_combo;
 	GtkCList            *constraint_list;
@@ -129,7 +129,7 @@ const gchar *solver_max_time_err;
  *
  **/
 static gboolean
-is_hom_row_or_col_ref (GnumericExprEntry *entry_1, GnumericExprEntry *entry_2,
+is_hom_row_or_col_ref (GnmExprEntry *entry_1, GnmExprEntry *entry_2,
 		       Sheet *sheet)
 {
         Value    *input_range_1;
@@ -1121,12 +1121,10 @@ dialog_init (SolverState *state)
 	/* target_entry */
 	table = GTK_TABLE (glade_xml_get_widget (state->gui,
 						 "parameter_table"));
-	state->target_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
+	state->target_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->target_entry,
-				  GNM_EE_SINGLE_RANGE |
-				  GNM_EE_SHEET_OPTIONAL, GNM_EE_MASK);
-        gnm_expr_entry_set_scg (state->target_entry,
-				wbcg_cur_scg (state->wbcg));
+		GNM_EE_SINGLE_RANGE |
+		GNM_EE_SHEET_OPTIONAL, GNM_EE_MASK);
 	gtk_table_attach (table, GTK_WIDGET (state->target_entry),
 			  1, 2, 0, 1,
 			  GTK_EXPAND | GTK_FILL, 0, 0, 0);
@@ -1140,12 +1138,10 @@ dialog_init (SolverState *state)
 	/* change_cell_entry */
 	table = GTK_TABLE (glade_xml_get_widget (state->gui,
 						 "parameter_table"));
-	state->change_cell_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
+	state->change_cell_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->change_cell_entry,
-				  GNM_EE_SINGLE_RANGE |
-				  GNM_EE_SHEET_OPTIONAL, GNM_EE_MASK);
-        gnm_expr_entry_set_scg (state->change_cell_entry,
-				wbcg_cur_scg (state->wbcg));
+		GNM_EE_SINGLE_RANGE |
+		GNM_EE_SHEET_OPTIONAL, GNM_EE_MASK);
 	gtk_table_attach (table, GTK_WIDGET (state->change_cell_entry),
 			  1, 2, 2, 3,
 			  GTK_EXPAND | GTK_FILL, 0, 0, 0);
@@ -1190,11 +1186,10 @@ dialog_init (SolverState *state)
 
 /* lhs_entry */
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "edit-table"));
-	state->lhs_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
+	state->lhs_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->lhs_entry,
-				  GNM_EE_SINGLE_RANGE |
-				  GNM_EE_SHEET_OPTIONAL, GNM_EE_MASK);
-        gnm_expr_entry_set_scg (state->lhs_entry, wbcg_cur_scg (state->wbcg));
+		GNM_EE_SINGLE_RANGE |
+		GNM_EE_SHEET_OPTIONAL, GNM_EE_MASK);
 	gtk_table_attach (table, GTK_WIDGET (state->lhs_entry),
 			  0, 1, 1, 2,
 			  GTK_EXPAND | GTK_FILL, 0,
@@ -1208,11 +1203,10 @@ dialog_init (SolverState *state)
 
 /* rhs_entry */
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "edit-table"));
-	state->rhs_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
+	state->rhs_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->rhs_entry,
-				  GNM_EE_SINGLE_RANGE |
-				  GNM_EE_SHEET_OPTIONAL, GNM_EE_MASK);
-        gnm_expr_entry_set_scg (state->rhs_entry, wbcg_cur_scg (state->wbcg));
+		GNM_EE_SINGLE_RANGE |
+		GNM_EE_SHEET_OPTIONAL, GNM_EE_MASK);
 	gtk_table_attach (table, GTK_WIDGET (state->rhs_entry),
 			  2, 3, 1, 2,
 			  GTK_EXPAND | GTK_FILL, 0, 0, 0);

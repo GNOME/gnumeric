@@ -5348,6 +5348,7 @@ workbook_control_gui_class_init (GObjectClass *object_class)
 /***************************************************************************/
 #ifdef NEW_GRAPHS
 #include <goffice/graph/go-plot-data-impl.h>
+#include <goffice/graph/go-data.h>
 
 static void
 wbcg_plot_data_allocator_allocate (GOPlotDataAllocator *dalloc, GOPlot *plot)
@@ -5356,12 +5357,78 @@ wbcg_plot_data_allocator_allocate (GOPlotDataAllocator *dalloc, GOPlot *plot)
 	sv_selection_to_plot (sc_view (SHEET_CONTROL (scg)), plot);
 }
 
-static gpointer
-wbcg_plot_data_allocator_editor (GOPlotDataAllocator *a,
-				 GOPlotSeries *series, unsigned dim_i)
+typedef struct {
+	GnmExprEntry *entry;
+	GOPlotSeries *series;
+	int dim_i;
+} GraphDimEditor;
+
+static void
+cb_graph_dim_editor_update (G_GNUC_UNUSED GnmExprEntry *gee,
+			    GraphDimEditor *editor)
 {
-#warning TODO
-	return NULL;
+	gboolean changed;
+
+	g_warning ("update");
+#if 0
+	/* If we are setting something */
+	if (!gnm_expr_entry_is_blank (editor->entry)) {
+		ParsePos pos;
+		GnmExpr const *expr = gnm_expr_entry_parse (editor->entry,
+			parse_pos_init (&pos, NULL, editor->state->sheet, 0, 0),
+			NULL, TRUE);
+
+		/* TODO : add some error dialogs split out
+		 * the code in workbok_edit.
+		 */
+		changed = (expr != NULL);
+	} else
+		/* or we are clearing something optional */
+		changed = (editor->is_optional && editor->vector != NULL);
+
+	if (changed)
+		go_plot_series_set_dim (editor->series, editor->dim_i, data);
+#endif
+}
+
+static void
+cb_graph_dim_editor_focus (GtkWidget *w)
+{
+	g_warning ((GTK_WIDGET_HAS_FOCUS (w) ? "has focus %p" : "lost focus %p"), w);
+}
+
+static gpointer
+wbcg_plot_data_allocator_editor (GOPlotDataAllocator *dalloc,
+				 GOPlotSeries *series, int dim_i)
+{
+	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (dalloc);
+	GraphDimEditor *editor;
+	GOData *val;
+
+	editor = g_new (GraphDimEditor, 1);
+	editor->series = series;
+	editor->dim_i  = dim_i;
+	editor->entry  = gnm_expr_entry_new (wbcg, TRUE);
+	gnm_expr_entry_set_update_policy (editor->entry,
+		GTK_UPDATE_DISCONTINUOUS);
+
+	val = go_plot_series_get_dim (series, dim_i);
+	if (val != NULL)
+		gnm_expr_entry_load_from_text (editor->entry,
+			go_data_as_str (val));
+	gnm_expr_entry_set_flags (editor->entry,
+		GNM_EE_ABS_COL|GNM_EE_ABS_ROW, GNM_EE_MASK);
+
+	g_signal_connect (G_OBJECT (editor->entry),
+		"update",
+		G_CALLBACK (cb_graph_dim_editor_update), editor);
+	g_signal_connect (G_OBJECT (gnm_expr_entry_get_entry (editor->entry)),
+		"notify::is_focus",
+		G_CALLBACK (cb_graph_dim_editor_focus), editor);
+	g_object_set_data_full (G_OBJECT (editor->entry),
+		"editor", editor, (GDestroyNotify) g_free);
+
+	return editor->entry;
 }
 
 static void

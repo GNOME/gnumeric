@@ -116,8 +116,8 @@ typedef struct
 } BorderPicker;
 
 typedef struct {
-	GtkLabel          *name;
-	GnumericExprEntry *entry;
+	GtkLabel	*name;
+	GnmExprEntry	*entry;
 } ExprEntry;
 typedef struct _FormatState
 {
@@ -2286,7 +2286,7 @@ fmt_dialog_init_protection_page (FormatState *state)
 /*****************************************************************************/
 
 static GnmExpr const *
-validation_entry_to_expr (Sheet *sheet, GnumericExprEntry *gee)
+validation_entry_to_expr (Sheet *sheet, GnmExprEntry *gee)
 {
 	ParsePos pp;
 	parse_pos_init (&pp, sheet->workbook, sheet, 0, 0);
@@ -2461,10 +2461,10 @@ static void
 fmt_dialog_init_validation_expr_entry (FormatState *state, ExprEntry *entry,
 				       char const *name, int i)
 {
-	GnumericExprEntryFlags flags = GNM_EE_ABS_ROW | GNM_EE_ABS_COL | GNM_EE_SHEET_OPTIONAL;
+	GnmExprEntryFlags flags = GNM_EE_ABS_ROW | GNM_EE_ABS_COL | GNM_EE_SHEET_OPTIONAL;
 
 	entry->name  = GTK_LABEL (glade_xml_get_widget (state->gui, name));
-	entry->entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
+	entry->entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gtk_table_attach (state->validation.criteria_table,
 		GTK_WIDGET (entry->entry),
 		1, 3, 2+i, 3+i, GTK_EXPAND | GTK_FILL, 0, 0, 0);
@@ -2472,7 +2472,6 @@ fmt_dialog_init_validation_expr_entry (FormatState *state, ExprEntry *entry,
 	gnumeric_editable_enters (
 		GTK_WINDOW (state->dialog),
 		GTK_WIDGET (entry->entry));
-	gnm_expr_entry_set_scg (entry->entry, wbcg_cur_scg (state->wbcg));
 	g_signal_connect (G_OBJECT (entry->entry),
 		"changed",
 		G_CALLBACK (cb_validation_changed), state);

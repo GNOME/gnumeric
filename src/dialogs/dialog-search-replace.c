@@ -41,7 +41,7 @@ typedef struct {
 	GtkDialog *dialog;
 	GnomeEntry *search_text;
 	GnomeEntry *replace_text;
-	GnumericExprEntry *rangetext;
+	GnmExprEntry *rangetext;
 	SearchDialogCallback cb;
 } DialogState;
 
@@ -250,9 +250,8 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 		(GTK_WINDOW (dialog), gnome_entry_gtk_entry (dd->replace_text));
 
 	table = GTK_TABLE (glade_xml_get_widget (gui, "scope_table"));
-	dd->rangetext = gnumeric_expr_entry_new (wbcg, TRUE);
+	dd->rangetext = gnm_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_flags (dd->rangetext, 0, GNM_EE_MASK);
-	gnm_expr_entry_set_scg (dd->rangetext, wbcg_cur_scg (wbcg));
 	gtk_table_attach (table, GTK_WIDGET (dd->rangetext),
 			  1, 2, 2, 3,
 			  GTK_EXPAND | GTK_FILL, 0,

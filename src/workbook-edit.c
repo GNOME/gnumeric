@@ -418,7 +418,7 @@ wbcg_get_entry (WorkbookControlGUI const *wbcg)
 	return gnm_expr_entry_get_entry (wbcg->edit_line.entry);
 }
 
-GnumericExprEntry *
+GnmExprEntry *
 wbcg_get_entry_logical (WorkbookControlGUI const *wbcg)
 {
 	g_return_val_if_fail (wbcg != NULL, NULL);
@@ -430,7 +430,7 @@ wbcg_get_entry_logical (WorkbookControlGUI const *wbcg)
 }
 
 void
-wbcg_set_entry (WorkbookControlGUI *wbcg, GnumericExprEntry *entry)
+wbcg_set_entry (WorkbookControlGUI *wbcg, GnmExprEntry *entry)
 {
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 
@@ -465,9 +465,9 @@ static void
 cb_guru_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 		   WorkbookControlGUI *wbcg)
 {
-	GnumericExprEntry *gee = NULL;
-	if (focus_widget != NULL && IS_GNUMERIC_EXPR_ENTRY (focus_widget->parent))
-		gee = GNUMERIC_EXPR_ENTRY (focus_widget->parent);
+	GnmExprEntry *gee = NULL;
+	if (focus_widget != NULL && IS_GNM_EXPR_ENTRY (focus_widget->parent))
+		gee = GNM_EXPR_ENTRY (focus_widget->parent);
 	wbcg_set_entry (wbcg, gee);
 }
 
@@ -486,7 +486,7 @@ wbcg_edit_attach_guru (WorkbookControlGUI *wbcg, GtkWidget *guru)
 
 void
 wbcg_edit_attach_guru_with_unfocused_rs (WorkbookControlGUI *wbcg, GtkWidget *guru,
-					 GnumericExprEntry *gee)
+					 GnmExprEntry *gee)
 {
 	g_return_if_fail (guru != NULL);
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
@@ -601,7 +601,9 @@ wbcg_edit_ctor (WorkbookControlGUI *wbcg)
 	g_assert (IS_WORKBOOK_CONTROL_GUI (wbcg));
 	g_assert (wbcg->edit_line.entry == NULL);
 
-	wbcg->edit_line.entry = gnumeric_expr_entry_new (wbcg, FALSE);
+	wbcg->edit_line.entry = g_object_new (GNM_EXPR_ENTRY_TYPE,
+					      "with_icon", FALSE,
+					      NULL);
 	wbcg->edit_line.temp_entry = NULL;
 	wbcg->edit_line.guru = NULL;
 	wbcg->edit_line.signal_changed = -1;

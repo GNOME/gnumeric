@@ -68,7 +68,7 @@ shuffle_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
         Value *input_range    = NULL;
 
         input_range = gnm_expr_entry_parse_as_value (
-		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
+		GNM_EXPR_ENTRY (state->input_entry), state->sheet);
 	if (input_range == NULL) {
 		gtk_label_set_text (GTK_LABEL (state->warning),
 				    _("The input range is invalid."));
@@ -104,7 +104,7 @@ shuffle_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button, ShuffleState *state)
 	dao = g_new (data_analysis_output_t, 1);
 
 	input = gnm_expr_entry_parse_as_value (
-		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
+		GNM_EXPR_ENTRY (state->input_entry), state->sheet);
 
 	type = gnumeric_glade_group_value (state->gui, shuffle_by);
 

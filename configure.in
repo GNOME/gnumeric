@@ -56,45 +56,6 @@ libgnomeui-2.0	>= 1.106.0
 libgnomeprint-2.2 >= 2.2.0
 libgnomeprintui-2.2 >= 2.2.0
 "
-#try_graphs=auto
-#graph_msg="disabled by default"
-#AC_ARG_WITH(graphs,
-#	[--{with,without}-graphs      ],
-#	if test "x$withval" = xyes ; then 
-#		try_graphs=auto
-#	elif test "x$withval" = xgtkextra -o "x$withval" = xGtkExtra -o "x$withval" = xGTKEXTRA; then
-#		try_graphs=gtkextra
-#	elif test "x$withval" = xguppi -o "x$withval" = xGuppi -o "x$withval" = xGUPPI; then
-#		try_graphs=guppi
-#	fi
-#)
-#if test "x$try_graphs" = "xgtkextra" -o "x$try_graphs" = "xauto" ; then
-#	PKG_CHECK_MODULES(LIBGTKEXTRA, [gtkextra-2.0 >= 1.1.0],
-#		[found_gtkextra="yes"],
-#		[found_gtkextra="no"])
-#	if test "x$found_gtkextra" = "xyes"; then
-#		gnumeric_reqs="$gnumeric_reqs gtkextra-2.0 >= 1.1.0"
-#		graph_msg=GtkExtra-2
-#		try_graphs=gtkextra # in case we were auto
-#	elif test "x$try_graphs" = "xgtkextra"; then
-#		graph_msg="GtkExtra not found"
-#	fi
-#fi
-#if test "x$try_graphs" = "xguppi" -o "x$try_graphs" = "xauto" ; then
-#	PKG_CHECK_MODULES(LIBGUPPI, [libguppi-2 >= 0.50.0],
-#		[found_guppi="yes"],
-#		[found_guppi="no"])
-#	if test "x$found_guppi" = "xyes"; then
-#		gnumeric_reqs="$gnumeric_reqs libguppi-2 >= 0.50.0"
-#		graph_msg=Guppi
-#		try_graphs=guppi # in case we were auto
-#	elif test "x$try_graphs" = "xguppi"; then
-#		graph_msg="Guppi not found"
-#	else
-#		graph_msg="Neither GtkExtra nor Guppi was found"
-#	fi
-#fi
-#
 dnl **************
 dnl Bonobo support
 dnl **************

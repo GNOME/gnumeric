@@ -139,9 +139,9 @@ typedef struct {
 
 	GtkWidget *icon_rd;
 	GtkWidget *icon_dr;
-	GnumericExprEntry *area_entry;
-	GnumericExprEntry *top_entry;
-	GnumericExprEntry *left_entry;
+	GnmExprEntry *area_entry;
+	GnmExprEntry *top_entry;
+	GnmExprEntry *left_entry;
 
 	/* The header and footer data. */
 	PrintHF *header;
@@ -1258,8 +1258,7 @@ do_setup_page_info (PrinterSetupState *state)
 	GtkCombo *comments_combo;
 	GtkWidget *order;
 
-	state->area_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
-	gnm_expr_entry_set_scg (state->area_entry, wbcg_cur_scg (state->wbcg));
+	state->area_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->area_entry,
 		GNM_EE_SHEET_OPTIONAL,
 		GNM_EE_SHEET_OPTIONAL);
@@ -1267,8 +1266,7 @@ do_setup_page_info (PrinterSetupState *state)
 			    TRUE, TRUE, 0);
 	gtk_widget_show (GTK_WIDGET (state->area_entry));
 
-	state->top_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
-	gnm_expr_entry_set_scg (state->top_entry, wbcg_cur_scg (state->wbcg));
+	state->top_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->top_entry,
 		GNM_EE_SINGLE_RANGE | GNM_EE_FULL_ROW | GNM_EE_SHEET_OPTIONAL,
 		GNM_EE_SINGLE_RANGE | GNM_EE_FULL_ROW | GNM_EE_ABS_ROW | GNM_EE_SHEET_OPTIONAL);
@@ -1278,8 +1276,7 @@ do_setup_page_info (PrinterSetupState *state)
 			  GTK_EXPAND|GTK_FILL, 0, 0, 0);
 	gtk_widget_show (GTK_WIDGET (state->top_entry));
 
-	state->left_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
-	gnm_expr_entry_set_scg (state->left_entry, wbcg_cur_scg (state->wbcg));
+	state->left_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->left_entry,
 		GNM_EE_SINGLE_RANGE | GNM_EE_FULL_COL | GNM_EE_SHEET_OPTIONAL,
 		GNM_EE_SINGLE_RANGE | GNM_EE_FULL_COL | GNM_EE_ABS_COL | GNM_EE_SHEET_OPTIONAL);

@@ -64,7 +64,7 @@ advanced_filter_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	int i;
 
         input_range = gnm_expr_entry_parse_as_value (
-		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
+		GNM_EXPR_ENTRY (state->input_entry), state->sheet);
 	if (input_range == NULL) {
 		gtk_label_set_text (GTK_LABEL (state->warning),
 				    _("The list range is invalid."));
@@ -86,7 +86,7 @@ advanced_filter_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	i = gnumeric_glade_group_value (state->gui, output_group);
 	if (i == 2) {
 		output_range = gnm_expr_entry_parse_as_value
-			(GNUMERIC_EXPR_ENTRY (state->output_entry),
+			(GNM_EXPR_ENTRY (state->output_entry),
 			 state->sheet);
 		if (output_range == NULL) {
 			gtk_label_set_text (GTK_LABEL (state->warning),
@@ -124,7 +124,7 @@ advanced_filter_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	gboolean                unique;
 
 	input = gnm_expr_entry_parse_as_value (
-		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
+		GNM_EXPR_ENTRY (state->input_entry), state->sheet);
 
 	criteria = gnm_expr_entry_parse_as_value
 		(state->input_entry_2, state->sheet);
