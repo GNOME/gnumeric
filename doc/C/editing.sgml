@@ -1,5 +1,5 @@
 <sect1 id="strings-and-numbers">
-  <title>Strings and numbers</title>
+  <title>Strings and Numbers</title>
   
   <para>
     There are four basic types of data that can be entered into cells.
@@ -58,7 +58,7 @@
   </para>
   
   <figure id="stringnumber">
-    <title>Entering strings and numbers.</title>
+    <title>Entering Strings and Numbers</title>
     <screenshot>
       <graphic fileref="figures/editing-1.png" format="png"></graphic>
     </screenshot>
@@ -88,10 +88,10 @@
   </sect2>
 
  <sect2 id="editing-of-cells">
-    <title>Editing of cells.</title>
+    <title>Editing of Cells</title>
     
     <procedure>
-      <title>Entering data in a cell</title>
+      <title>Entering Data in a Cell</title>
       <step>
         <para>Select the cell where you want to enter data by clicking
          on it with the white cross cursor.
@@ -109,7 +109,7 @@
   </sect2>
 
   <sect2 id="editing-commands">
-    <title>Editing commands</title>
+    <title>Editing Commands</title>
     
     <para>After selecting the cell and initially entering the data, the user is in
       a limited editing mode, designed to aid in entering data which may contain
@@ -117,7 +117,7 @@
       key.</para>
     
     <sect3 id="advanced-editing-mode">
-      <title>Advanced Editing mode</title>
+      <title>Advanced Editing Mode</title>
       
       <para>For a more complete set of editing options, especially for
 	longer entries, there is an advanced editing mode.  To enter
@@ -170,7 +170,7 @@
 &cellrefer;
 
 <sect1 id="selecting-cells-entering-formulas">
-  <title>Selecting Cells While Entering Formulas.</title>
+  <title>Selecting Cells While Entering Formulas</title>
 
   <para>When entering a formula into a cell, you can use the mouse and
     the keyboard cursor keys enter data more quickly.</para>
@@ -194,7 +194,7 @@
  </figure>
   
   <sect2 id="entering-data-formula-mouse">
-    <title>Entering data into a formula with the mouse</title>
+    <title>Entering Data into a Formula With the Mouse</title>
 <para>
 To make a cell reference using the mouse:
 </para>
@@ -226,7 +226,7 @@ To make a cell reference using the mouse:
   </sect2>
 
   <sect2 id="entering-data-formula-keyboard">
-    <title>Entering data into a formula with the keyboard.</title>
+    <title>Entering Data into a Formula With the Keyboard</title>
 
     <para>If entering lots of formulas or even just entering a few formulas, it is
       often quickest to use the keyboard to select cells and ranges of cells for use

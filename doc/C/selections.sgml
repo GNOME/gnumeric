@@ -1,5 +1,5 @@
 <sect1 id="editing-selections">
-  <title>Editing cells using the selection</title>
+  <title>Editing Cells Using the Selection</title>
   
   <para>There are various ways of using the selection to ease the
     edition of the cells in the spreadsheet. </para>
@@ -26,7 +26,7 @@
     
     
     <figure id="activecell">
-      <title>An Active cell.</title>
+      <title>An Active cell</title>
       <screenshot>
 	<graphic fileref="figures/selection-2.png" format="png"></graphic>
       </screenshot>
@@ -37,7 +37,7 @@
       over the cell and press the <mousebutton>MB1</mousebutton>.</para> 
     
     <figure id="activecellcursor">
-      <title>The active cell with the cursor.</title>
+      <title>The active cell with the cursor</title>
       <screenshot>
 	<graphic fileref="figures/selection-1.png" format="png"></graphic>
       </screenshot>
@@ -45,7 +45,7 @@
   </sect2>
   
   <sect2 id="selecting-multiple-cells">
-    <title>Selecting multiple cells</title>
+    <title>Selecting Multiple Cells</title>
     
     <para>A selection of multiple cells is indicated by a dark double line around
       the extents of the selection. The top-left cell appears much like a single
@@ -63,7 +63,7 @@
       it comprises the area you wish to select, and release.</para>
     
     <figure id="multicellsect2">
-      <title>Multiple cells being selected with the cursor.</title> 
+      <title>Multiple cells being selected with the cursor</title> 
       <screenshot>
         <graphic fileref="figures/selection-4.png" format="png"></graphic>
       </screenshot>
@@ -72,7 +72,7 @@
   </sect2>
   
   <sect2 id="discontinuous-selections">
-    <title>Discontinuous selections</title>
+    <title>Discontinuous Selections</title>
     
     <para>To select a set of cells that may not be continuous,
       use <keycombo><keycap>ctrl</keycap></keycombo>+<mousebutton>MB1</mousebutton> and 
@@ -100,7 +100,7 @@
       to pressing the row label button on the left side of the sheet.</para> 
     
  <figure id="selectrow">
-      <title>An entire row being selected.</title>
+      <title>An entire row being selected</title>
       <screenshot>
 	<graphic fileref="figures/selection-8.png" format="png"></graphic>
       </screenshot>
@@ -108,12 +108,12 @@
     
     
     <para>To select an entire column of cells, press <keycombo><keycap>Ctrl</keycap><keycap>
-	  Space</keycap></keycombo>
-      . This is equivalent 
+	  Space</keycap></keycombo>.
+      This is equivalent 
       to pressing the column label button on the top of the sheet.</para>
 
     <figure id="selectcol">
-      <title>An entire column being selected.</title>
+      <title>An entire column being selected</title>
       <screenshot>
 	<graphic fileref="figures/selection-9.png" format="png"></graphic>
       </screenshot>
@@ -124,7 +124,7 @@
       pressing the button in the top left corner of the sheet.</para>
     
     <figure id="selectall">
-      <title>The entire worksheet being selected.</title>
+      <title>The entire worksheet being selected</title>
       <screenshot>
 	<graphic fileref="figures/selection-10.png" format="png"></graphic>
       </screenshot>
@@ -178,7 +178,7 @@
   </sect2>
   
   <sect2 id="filling-region-with-same-text-or-value">
-    <title>Filling a region with the same text or value.</title>
+    <title>Filling a Region With the Same Text or Value</title>
     <para> For a set of cells that need to get filled with the same value,
       the easiest way is to make a selection using one of the above mentioned, then
       enter the value into one of the cells like normal, but instead of pressing
@@ -191,14 +191,14 @@
     
     
     <figure id="cellselectfillbefore">
-      <title>A selection of several cells.</title>
+      <title>A selection of several cells</title>
       <screenshot>
 	<graphic fileref="figures/selection-6.png" format="png"></graphic>
       </screenshot>
     </figure>  
     
     <figure id="cellselectfillafter">
-      <title>A selection of several cells, filled with the same values.</title>
+      <title>A selection of several cells, filled with the same values</title>
       <screenshot>
 	<graphic fileref="figures/selection-7.png" format="png"></graphic> 
       </screenshot>

@@ -112,10 +112,10 @@
   <para>
     It is important to understand that <guilabel>Print
       Setup</guilabel> dialog sets the options for printing the
-      current workbook.  These options are part of the workbook; 
-      they are saved when you save the workbook and loaded when you
-      open a workbook.
-      For example, assume that you are currently working with workbook
+      current workbook (see below for multi-sheet workbooks).  These
+      options are part of the workbook; they are saved when you save
+      the workbook and loaded when you open a workbook.  For example,
+      assume that you are currently working with workbook
       <filename>Workbook1</filename> and set in <guilabel>Print
       Setup</guilabel> dialog <guilabel>Orientation:
       landscape</guilabel>, then save the workbook. If you open
@@ -123,9 +123,36 @@
       printed using landscape orientation. However, if you open
       another workbook (say, <filename>Workbook2</filename>) and print
       it, it will be printed using orientation which was set for
-      Workbook2 (most probably, portrait). 
+      Workbook2 (most probably, portrait).
       </para>
-
+  <para>
+    For multi-sheet workbooks, <guilabel>Print Setup</guilabel> dialog
+      actually sets print options for current sheet only, without
+      affecting other sheets.  For example, assume that have a
+      workbook with two sheets, <guilabel>Sheet 1</guilabel> and
+      <guilabel>Sheet 2</guilabel>, and you want to have <guilabel>Sheet
+      2</guilabel> printed at 80% scale (otherwise it does not fit on
+      one page). To do so, switch to <guilabel>Sheet
+      2</guilabel>, open <guilabel>Print Setup</guilabel> dialog,
+      select in it scale 80% and click
+      <guibutton>Save</guibutton>. Now whenever you print <guilabel>Sheet
+      2</guilabel>, it will be printed at 80% scale; whenever you
+      print <guilabel>Sheet 1</guilabel>, it will still be printed at
+      100%.  
+  </para>
+  <para>
+     Finally, if you are printing more than one sheet in a multi-sheet
+     workbook (for example, when printing the whole workbook), then
+     all of them will be printed using the print setup options of the
+     currently selected sheet. Thus, in the example of the previous
+     paragraph, if you are printing both sheets at once (by selecting
+     <guilabel>All</guilabel> in <guilabel>Print  Sheets</guilabel>
+     dialog), then the scale used will depend on which sheet is
+     currently active. If <guilabel>Sheet 1</guilabel> is the current
+     sheet, then <emphasis>both</emphasis> sheets will be printed at
+     100%; if <guilabel>Sheet 2</guilabel> is the current sheet, then
+     both sheets will be printed at 80%. 
+  </para>
 
     <sect2 id="print-setup-page">
     <title>Page Tab</title>

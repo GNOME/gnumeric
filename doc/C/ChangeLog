@@ -1,3 +1,10 @@
+2002-05-22  Alexander Kirillov  <kirillov@math.sunysb.edu>
+
+	* printing.sgml: updated to explain that Print Setup controls
+	options for current *sheet* only, not for current workbook
+	* editing.sgml, selection.sgml: fixed capitalization and periods
+	in titles - no contents changes. 
+
 2002-05-20  Alexander Kirillov  <kirillov@math.sunysb.edu>
 
 	* printing.sgml: updated, added more info about "columns to
