@@ -1,3 +1,7 @@
+2002-10-27  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.10
+
 2002-10-01  Jody Goldberg <jody@gnome.org>
 
 	* xbase.c (xbase_close) : close the iconv handler.

@@ -1,3 +1,7 @@
+2002-10-27  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.10
+
 2002-10-26  Jody Goldberg <jody@gnome.org>
 
 	* POTFILES.in : Add input-msg.c

@@ -1,3 +1,7 @@
+2002-10-27  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.10
+
 2002-10-22  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* latex.c: add missing border connector (Thanks Adrian!)

@@ -1,3 +1,7 @@
+2002-10-27  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.10
+
 2002-10-14  Morten Welinder  <terra@diku.dk>
 
 	* options.c: Use powgnum, not pow.  Use gnumabs, not fabs.

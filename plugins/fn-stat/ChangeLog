@@ -1,3 +1,7 @@
+2002-10-27  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.10
+
 2002-10-25  Morten Welinder  <terra@diku.dk>
 
 	* functions.c (gnumeric_gammainv): Don't declare floating point
