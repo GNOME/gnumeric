@@ -46,20 +46,6 @@ enum {
 };
 
 static void
-item_bar_destroy (GtkObject *object)
-{
-	ItemBar *bar;
-
-	bar = ITEM_BAR (object);
-
-	if (bar->tip)
-		gtk_object_unref (GTK_OBJECT (bar->tip));
-
-	if (GTK_OBJECT_CLASS (item_bar_parent_class)->destroy)
-		(*GTK_OBJECT_CLASS (item_bar_parent_class)->destroy)(object);
-}
-
-static void
 item_bar_fonts_unref (ItemBar *item_bar)
 {
 	if (item_bar->normal_font != NULL) {
@@ -71,6 +57,22 @@ item_bar_fonts_unref (ItemBar *item_bar)
 		style_font_unref (item_bar->bold_font);
 		item_bar->bold_font = NULL;
 	}
+}
+
+static void
+item_bar_destroy (GtkObject *object)
+{
+	ItemBar *bar;
+
+	bar = ITEM_BAR (object);
+
+	item_bar_fonts_unref (bar);
+
+	if (bar->tip)
+		gtk_object_unref (GTK_OBJECT (bar->tip));
+
+	if (GTK_OBJECT_CLASS (item_bar_parent_class)->destroy)
+		(*GTK_OBJECT_CLASS (item_bar_parent_class)->destroy)(object);
 }
 
 /*
