@@ -1,3 +1,10 @@
+Mon May  7 14:07:45 2001  Morten Welinder  <welinder@rentec.com>
+
+	* src/stf.c (stf_write_workbook): Plug file descriptor leak.
+	(stf_write_func): Constify.
+	(stf_open_and_read): Protect against missing file size after
+ 	fstat.
+
 2001-05-07  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/workbook-edit.c

@@ -68,13 +68,18 @@ stf_open_and_read (const char *filename)
 {
 	struct stat sbuf;
 	char *data;
-	int const fd = open (filename, O_RDONLY);
+	int fd = open (filename, O_RDONLY);
 
 	if (fd < 0)
 		return NULL;
 
-	if (fstat(fd, &sbuf) < 0) {
+	if (fstat (fd, &sbuf) < 0) {
+		close (fd);
+		return NULL;
+	}
 
+	/* If we don't know the size, give up.  */
+	if (sbuf.st_size < 0) {
 		close (fd);
 		return NULL;
 	}
@@ -87,16 +92,16 @@ stf_open_and_read (const char *filename)
 	if (!data)
 		return NULL;
 
+	/*
+	 * FIXME: read might not read everything in one go.
+	 */
 	if (read (fd, data, sbuf.st_size) != sbuf.st_size) {
-
 		free (data);
 		close (fd);
-
 		return NULL;
 	}
 
 	close (fd);
-
 	return data;
 }
 
@@ -263,10 +268,8 @@ stf_open_for_write (IOContext *context, const char *filename)
  * Return value: TRUE on successful write, FALSE otherwise
  **/
 static gboolean
-stf_write_func (char *string, gpointer data)
+stf_write_func (const char *string, FILE *f)
 {
-	FILE *f = data;
-
 	if (fputs (string, f) >= 0)
 		return TRUE;
 	else
@@ -305,6 +308,7 @@ stf_write_workbook (FileSaver const *fs, IOContext *context, WorkbookView *wb_vi
 
 		stf_export_options_set_write_callback (result->export_options,
 						       (StfEWriteFunc) stf_write_func, (gpointer) f);
+		fclose (f);
 
 		if (stf_export (result->export_options) == FALSE) {
 
@@ -315,8 +319,6 @@ stf_write_workbook (FileSaver const *fs, IOContext *context, WorkbookView *wb_vi
 		}
 
 		stf_export_dialog_result_free (result);
-
-		fclose (f);
 
 		return TRUE;
 	} else
@@ -332,7 +334,7 @@ stf_write_workbook (FileSaver const *fs, IOContext *context, WorkbookView *wb_vi
 void
 stf_init (void)
 {
-	char *desc;
+	const char *desc;
 
 	desc = _("Text File import");
 	file_format_register_open (1, desc, NULL, stf_read_workbook);

@@ -220,7 +220,7 @@ sc_parse_cell_name_list (Sheet *sheet, const char *cell_name_str,
 
 			if (!parse_cell_name (buf, &col, &row)){
 			        *error_flag = 1;
-				free (buf);
+				g_free (buf);
 				g_slist_free (cells);
 				return NULL;
 			}
@@ -233,7 +233,7 @@ sc_parse_cell_name_list (Sheet *sheet, const char *cell_name_str,
 	}
 
 	*error_flag = 0;
-	free (buf);
+	g_free (buf);
 	return cells;
 }
 
