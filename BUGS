@@ -28,6 +28,9 @@ Release Critical
     : crash 	: fixed
     : we mis-import multiple axis sets
 
+    http://bugzilla.gnome.org/show_bug.cgi?id=152511
+    : crash when adding a xy plot over a pie plot
+
 Worries
 
     We init gnome_print at sheet creation time.  With cups this can cause
