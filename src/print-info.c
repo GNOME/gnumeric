@@ -51,12 +51,12 @@ print_info_free (PrintInformation *pi)
 }
 
 static PrintUnit
-print_unit_new (double points)
+print_unit_new (UnitName unit, double value)
 {
 	PrintUnit u;
 
-	u.points = points;
-	u.desired_display = UNIT_POINTS;
+	u.points = unit_convert (value, unit, UNIT_POINTS);
+	u.desired_display = unit;
 
 	return u;
 }
@@ -81,18 +81,18 @@ print_info_new (void)
 	pi->scaling.percentage = 100.0;
 
 	/* Margins */
-	pi->margins.top    = unit_new (METERS_TO_POINTS (0.01));
-	pi->margins.bottom = unit_new (METERS_TO_POINTS (0.01));
-	pi->margins.left   = unit_new (METERS_TO_POINTS (0.01));
-	pi->margins.right  = unit_new (METERS_TO_POINTS (0.01));
-	pi->margins.header = unit_new (METERS_TO_POINTS (0.005));
-	pi->margins.footer = unit_new (METERS_TO_POINTS (0.005));
+	pi->margins.top    = print_unit_new (UNIT_CENTIMETER, 1);
+	pi->margins.bottom = print_unit_new (UNIT_CENTIMETER, 1);
+	pi->margins.left   = print_unit_new (UNIT_CENTIMETER, 1);
+	pi->margins.right  = print_unit_new (UNIT_CENTIMETER, 1);
+	pi->margins.header = print_unit_new (UNIT_CENTIMETER, 0.5);
+	pi->margins.footer = print_unit_new (UNIT_CENTIMETER, 0.5);
 
 	pi->header = print_hf_new (NULL, _("Sheet &[NUM]"), NULL);
 	pi->footer = print_hf_new (NULL, _("Page &[NUM]"), NULL);
 
 	pi->paper = gnome_paper_with_name (gnome_paper_name_default ());
-	
+
 	return pi;
 }
 

@@ -20,7 +20,8 @@
 typedef struct {
 	UnitName   unit;
 	double     value;
-	GtkWidget *spin;
+	GtkSpinButton *spin;
+	GtkAdjustment *adj;
 } UnitInfo;
 
 typedef struct {
@@ -35,12 +36,14 @@ typedef struct {
 		UnitInfo left, right;
 		UnitInfo header, footer;
 	} margins;
+
+	const GnomePaper *paper;
 } dialog_print_info_t;
 
 static double
 unit_into_to_points (UnitInfo *ui)
 {
-	return ui->value * units [ui->unit].factor;
+	return unit_convert (ui->value, ui->unit, UNIT_POINTS);
 }
 
 static GtkWidget *
@@ -70,7 +73,10 @@ do_convert (UnitInfo *target, UnitName new_unit)
 	if (target->unit == new_unit)
 		return;
 
-	
+	target->value = unit_convert (target->value, target->unit, new_unit);
+	target->unit = new_unit;
+
+	gtk_spin_button_set_value (target->spin, target->value);
 }
 
 static void
@@ -97,12 +103,12 @@ convert_to_in (GtkWidget *widget, UnitInfo *target)
 	do_convert (target, UNIT_INCH);
 }
 
-static GtkWidget *
-add_unit (GtkWidget *menu, int i, (*convert)(GtkWidget *, UnitInfo *), void *data)
+static void
+add_unit (GtkWidget *menu, int i, void (*convert)(GtkWidget *, UnitInfo *), void *data)
 {
 	GtkWidget *item;
 
-	item = gtk_menu_item_new_with_label (unit_name_get_string (i));
+	item = gtk_menu_item_new_with_label (unit_name_get_short_name (i));
 	gtk_widget_show (item);
 	gtk_menu_append (GTK_MENU (menu), item);
 
@@ -115,16 +121,20 @@ static GtkWidget *
 unit_editor_new (UnitInfo *target, PrintUnit init)
 {
 	GtkWidget *box, *om, *menu;
-	GtkSpinButton *spin;
 	int i;
 	
 	box = gtk_hbox_new (0, 0);
 
-	spin = GTK_SPIN_BUTTON (gtk_spin_button_new (NULL, 1, 0));
-	gtk_spin_button_set_value (spin, init.points);
-	gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET (spin), FALSE, FALSE, 0);
+	target->unit = init.desired_display;
+	target->value = unit_convert (init.points, UNIT_POINTS, init.desired_display);
+
+	target->adj = gtk_adjustment_new (
+		target->value,
+		0.0, 1000.0, 0.1, 1.0, 1.0);
+	target->spin = GTK_SPIN_BUTTON (gtk_spin_button_new (target->adj, 1, 1));
+	gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET (target->spin), TRUE, TRUE, 0);
 	om = gtk_option_menu_new ();
-	gtk_box_pack_start (GTK_BOX (box), om, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (box), om, FALSE, FALSE, 0);
 	gtk_widget_show_all (box);
 
 	menu = gtk_menu_new ();
@@ -132,11 +142,11 @@ unit_editor_new (UnitInfo *target, PrintUnit init)
 	add_unit (menu, UNIT_POINTS, convert_to_pt, target);
 	add_unit (menu, UNIT_MILLIMITER, convert_to_mm, target);
 	add_unit (menu, UNIT_CENTIMETER, convert_to_cm, target);
-	add_unit (menu, UNIT_INCH, convert_to_inch, target);
+	add_unit (menu, UNIT_INCH, convert_to_in, target);
 
 	gtk_menu_set_active (GTK_MENU (menu), target->unit);
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (om), menu);
-	gtk_option_menu_set_history (GTK_OPTION_MENU (om), target->unit);
+	gtk_option_menu_set_history (GTK_OPTION_MENU (om), init.desired_display);
 
 	return box;
 }
@@ -149,7 +159,7 @@ tattach (GtkTable *table, int x, int y, PrintUnit init, UnitInfo *target)
 	w = unit_editor_new (target, init);
 	gtk_table_attach (
 		table, w, x, x+1, y, y+1,
-		0, 0, 0, 0);
+		GTK_FILL | GTK_EXPAND, 0, 0, 0);
 }
 
 static void
@@ -193,21 +203,59 @@ do_setup_margin (dialog_print_info_t *dpi)
 	container = glade_xml_get_widget (dpi->gui, "container-margin-page");
 	remove_placeholders (GTK_CONTAINER (container));
 	gtk_box_pack_start (GTK_BOX (container), dpi->margin_preview, TRUE, TRUE, 0);
+
+	if (dpi->pi->center_vertically)
+		gtk_toggle_button_set_active (
+			GTK_TOGGLE_BUTTON (
+				glade_xml_get_widget (dpi->gui, "center-vertical")),
+			TRUE);
+
+	if (dpi->pi->center_horizontally)
+		gtk_toggle_button_set_active (
+			GTK_TOGGLE_BUTTON (
+				glade_xml_get_widget (dpi->gui, "center-horizontal")),
+			TRUE);
+}
+
+static void
+do_setup_hf (dialog_print_info_t *dpi)
+{
+	GtkEntry *header = GTK_ENTRY (glade_xml_get_widget (dpi->gui, "header-entry"));
+	GtkEntry *footer = GTK_ENTRY (glade_xml_get_widget (dpi->gui, "footer-entry"));
+	
+	gtk_entry_set_text (header, dpi->pi->header->middle_format);
+	gtk_entry_set_text (footer, dpi->pi->footer->middle_format);
+}
+
+static void
+do_setup_page_info (dialog_print_info_t *dpi)
+{
+	GtkWidget *divisions = glade_xml_get_widget (dpi->gui, "check-print-divisions");
+	GtkWidget *bw        = glade_xml_get_widget (dpi->gui, "check-black-white");
+	GtkWidget *titles    = glade_xml_get_widget (dpi->gui, "check-print-titles");
+	GtkWidget *order     = glade_xml_get_widget (dpi->gui, "radio-order-right");
+	
+	if (dpi->pi->print_line_divisions)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (divisions), TRUE);
+
+	if (dpi->pi->print_black_and_white)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (bw), TRUE);
+
+	if (dpi->pi->print_titles)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (titles), TRUE);
+
+	if (dpi->pi->print_order)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (order), TRUE);
 }
 
 static void
 paper_size_changed (GtkEntry *entry, dialog_print_info_t *dpi)
 {
 	char *text;
-	GnomePaper *paper;
 	
 	text = gtk_entry_get_text (entry);
 
-	paper = gnome_paper_with_name (text);
-	if (paper != NULL){
-		dpi->pi->paper = paper;
-		margin_preview_update (dpi);
-	}
+	dpi->paper = gnome_paper_with_name (text);
 }
 
 static void
@@ -248,7 +296,7 @@ do_setup_page (dialog_print_info_t *dpi)
 		toggle = "scale-size-fit-radio";
 
 	gtk_toggle_button_set_active (
-		GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, toggle)), 1);
+		GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, toggle)), TRUE);
 
 	gtk_spin_button_set_value (
 		GTK_SPIN_BUTTON (glade_xml_get_widget (
@@ -271,6 +319,7 @@ do_setup_page (dialog_print_info_t *dpi)
 	gtk_signal_connect (GTK_OBJECT (combo->entry), "changed",
 			    paper_size_changed, dpi);
 
+	dpi->paper = dpi->pi->paper;
 	gtk_entry_set_text (GTK_ENTRY (combo->entry), gnome_paper_name (dpi->pi->paper));
 }
 
@@ -320,6 +369,90 @@ dialog_print_info_new (Workbook *wb)
 }
 
 static void
+do_fetch_page (dialog_print_info_t *dpi)
+{
+	GtkWidget *w;
+	GladeXML *gui = dpi->gui;
+	char *t;
+	
+	w = glade_xml_get_widget (gui, "vertical-radio");
+	if (GTK_TOGGLE_BUTTON (w)->active)
+		dpi->pi->orientation = PRINT_ORIENT_VERTICAL;
+	else
+		dpi->pi->orientation = PRINT_ORIENT_HORIZONTAL;
+
+	w = glade_xml_get_widget (gui, "scale-percent-radio");
+	if (GTK_TOGGLE_BUTTON (w)->active)
+		dpi->pi->scaling.type = PERCENTAGE;
+	else
+		dpi->pi->scaling.type = SIZE_FIT;
+
+	w = glade_xml_get_widget (gui, "scale-percent-spin");
+	dpi->pi->scaling.percentage = GTK_SPIN_BUTTON (w)->adjustment->value;
+
+	w = glade_xml_get_widget (gui, "scale-width-spin");
+	dpi->pi->scaling.dim.cols = GTK_SPIN_BUTTON (w)->adjustment->value;
+
+	w = glade_xml_get_widget (gui, "scale-height-spin");
+	dpi->pi->scaling.dim.rows = GTK_SPIN_BUTTON (w)->adjustment->value;
+
+	w = glade_xml_get_widget (gui, "paper-size-combo");
+	t = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (w)->entry));
+	
+	if (gnome_paper_with_name (t) != NULL)
+		dpi->pi->paper = gnome_paper_with_name (t);
+}
+
+static PrintUnit
+unit_info_to_print_unit (UnitInfo *ui)
+{
+	PrintUnit u;
+
+	u.desired_display = ui->unit;
+        u.points = unit_convert (ui->value, ui->unit, UNIT_POINTS);
+
+	return u;
+}
+
+static void
+do_fetch_margins (dialog_print_info_t *dpi)
+{
+	PrintMargins *m = &dpi->pi->margins;
+	GtkToggleButton *t;
+	
+	m->top = unit_info_to_print_unit (&dpi->margins.top);
+	m->bottom = unit_info_to_print_unit (&dpi->margins.bottom);
+	m->left = unit_info_to_print_unit (&dpi->margins.left);
+	m->right = unit_info_to_print_unit (&dpi->margins.right);
+	m->header = unit_info_to_print_unit (&dpi->margins.header);
+	m->footer = unit_info_to_print_unit (&dpi->margins.footer);
+
+	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (dpi->gui, "center-horizontal"));
+	dpi->pi->center_horizontally = t->active;
+
+	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (dpi->gui, "center-vertical"));
+	dpi->pi->center_vertically = t->active;
+}
+
+static void
+do_fetch_hf (dialog_print_info_t *dpi)
+{
+	g_free (dpi->pi->header->middle_format);
+	g_free (dpi->pi->footer->middle_format);
+
+	dpi->pi->header->middle_format = g_strdup (gtk_entry_get_text (
+		GTK_ENTRY (glade_xml_get_widget (dpi->gui, "header-entry"))));
+
+	dpi->pi->footer->middle_format = g_strdup (gtk_entry_get_text (
+		GTK_ENTRY (glade_xml_get_widget (dpi->gui, "footer-entry"))));
+}
+
+static void
+do_fetch_page_info (dialog_print_info_t *dpi)
+{
+}
+
+static void
 dialog_print_info_destroy (dialog_print_info_t *dpi)
 {
 	gtk_object_unref (GTK_OBJECT (dpi->gui));
@@ -339,12 +472,17 @@ dialog_printer_setup (Workbook *wb)
 
 	do_setup_main_dialog (dpi);
 	do_setup_margin (dpi);
+	do_setup_hf (dpi);
+	do_setup_page_info (dpi);
 	do_setup_page (dpi);
-
+	
 	v = gnome_dialog_run_and_close (GNOME_DIALOG (dpi->dialog));
 
 	if (v == 0){
-		/* fetch information from dialog */
+		do_fetch_page (dpi);
+		do_fetch_margins (dpi);
+		do_fetch_hf (dpi);
+		do_fetch_page_info (dpi);
 	}
 	
 	dialog_print_info_destroy (dpi);
