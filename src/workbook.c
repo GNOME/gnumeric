@@ -275,70 +275,70 @@ format_cells_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static GnomeUIInfo workbook_menu_file [] = {
-	{ GNOME_APP_UI_ITEM, N_("New"), NULL, new_cmd, NULL, NULL,
+	{ GNOME_APP_UI_ITEM, N_("_New"), NULL, new_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_NEW },
-	{ GNOME_APP_UI_ITEM, N_("Open"), NULL, open_cmd, NULL, NULL,
+	{ GNOME_APP_UI_ITEM, N_("_Open"), NULL, open_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_OPEN },
-	{ GNOME_APP_UI_ITEM, N_("Save"), NULL, save_cmd, NULL, NULL,
+	{ GNOME_APP_UI_ITEM, N_("_Save"), NULL, save_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_SAVE },
-	{ GNOME_APP_UI_ITEM, N_("Save as..."), NULL, save_as_cmd, NULL, NULL,
+	{ GNOME_APP_UI_ITEM, N_("S_ave as..."), NULL, save_as_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_SAVE },
-	{ GNOME_APP_UI_ITEM, N_("Plugins..."), NULL, plugins_cmd },
-	{ GNOME_APP_UI_ITEM, N_("Exit"), NULL, quit_cmd, NULL, NULL,
+	{ GNOME_APP_UI_ITEM, N_("_Plugins..."), NULL, plugins_cmd },
+	{ GNOME_APP_UI_ITEM, N_("_Exit"), NULL, quit_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_EXIT },
 	GNOMEUIINFO_END
 };
 
 static GnomeUIInfo workbook_menu_edit_clear [] = {
-	{ GNOME_APP_UI_ITEM, N_("All"),     NULL, clear_all_cmd },
-	{ GNOME_APP_UI_ITEM, N_("Formats"), NULL, clear_formats_cmd },
-	{ GNOME_APP_UI_ITEM, N_("Content"), NULL, clear_content_cmd },
+	{ GNOME_APP_UI_ITEM, N_("_All"),     NULL, clear_all_cmd },
+	{ GNOME_APP_UI_ITEM, N_("_Formats"), NULL, clear_formats_cmd },
+	{ GNOME_APP_UI_ITEM, N_("_Content"), NULL, clear_content_cmd },
 	GNOMEUIINFO_END
 };
 
 static GnomeUIInfo workbook_menu_edit [] = {
-	{ GNOME_APP_UI_ITEM, N_("Cut"), NULL, cut_cmd, NULL, NULL,
+	{ GNOME_APP_UI_ITEM, N_("_Cut"), NULL, cut_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_CUT, GDK_x, GDK_CONTROL_MASK },
-	{ GNOME_APP_UI_ITEM, N_("Copy"), NULL, copy_cmd, NULL, NULL,
+	{ GNOME_APP_UI_ITEM, N_("C_opy"), NULL, copy_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_COPY, GDK_c, GDK_CONTROL_MASK },
-	{ GNOME_APP_UI_ITEM, N_("Paste"), NULL, paste_cmd, NULL, NULL,
+	{ GNOME_APP_UI_ITEM, N_("_Paste"), NULL, paste_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_PASTE, GDK_v, GDK_CONTROL_MASK },
-	{ GNOME_APP_UI_ITEM, N_("Paste special"), NULL, paste_special_cmd, NULL, NULL,
+	{ GNOME_APP_UI_ITEM, N_("P_aste special"), NULL, paste_special_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_PASTE },
 	GNOMEUIINFO_SEPARATOR,
-	{ GNOME_APP_UI_SUBTREE, N_("Clear"), NULL, &workbook_menu_edit_clear },
+	{ GNOME_APP_UI_SUBTREE, N_("C_lear"), NULL, &workbook_menu_edit_clear },
 	GNOMEUIINFO_SEPARATOR,
-	{ GNOME_APP_UI_ITEM, N_("Goto cell.."), NULL, goto_cell_cmd, NULL, NULL,
+	{ GNOME_APP_UI_ITEM, N_("_Goto cell.."), NULL, goto_cell_cmd, NULL, NULL,
 	  0, 0, GDK_i, GDK_CONTROL_MASK },
 	GNOMEUIINFO_END
 };
 
 static GnomeUIInfo workbook_menu_view [] = {
-	{ GNOME_APP_UI_ITEM, N_("Zoom..."), NULL, zoom_cmd },
+	{ GNOME_APP_UI_ITEM, N_("_Zoom..."), NULL, zoom_cmd },
 	GNOMEUIINFO_END
 };
 
 static GnomeUIInfo workbook_menu_insert [] = {
-	{ GNOME_APP_UI_ITEM, N_("Cells..."), NULL, insert_cells_cmd },
-	{ GNOME_APP_UI_ITEM, N_("Rows"),     NULL, insert_rows_cmd },
-	{ GNOME_APP_UI_ITEM, N_("Columns"),  NULL, insert_cols_cmd },
+	{ GNOME_APP_UI_ITEM, N_("_Cells..."), NULL, insert_cells_cmd },
+	{ GNOME_APP_UI_ITEM, N_("_Rows"),     NULL, insert_rows_cmd },
+	{ GNOME_APP_UI_ITEM, N_("C_olumns"),  NULL, insert_cols_cmd },
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_END
 };
 
 
 static GnomeUIInfo workbook_menu_format [] = {
-	{ GNOME_APP_UI_ITEM, N_("Cells.."), NULL, format_cells_cmd, NULL, NULL,
+	{ GNOME_APP_UI_ITEM, N_("_Cells.."), NULL, format_cells_cmd, NULL, NULL,
 	  0, 0, GDK_1, GDK_CONTROL_MASK },
 	GNOMEUIINFO_END
 };
 
 static GnomeUIInfo workbook_menu [] = {
-	{ GNOME_APP_UI_SUBTREE, N_("File"),   NULL, &workbook_menu_file },
-	{ GNOME_APP_UI_SUBTREE, N_("Edit"),   NULL, &workbook_menu_edit },
-	{ GNOME_APP_UI_SUBTREE, N_("View"),   NULL, &workbook_menu_view },
-	{ GNOME_APP_UI_SUBTREE, N_("Insert"), NULL, &workbook_menu_insert },
-	{ GNOME_APP_UI_SUBTREE, N_("Format"), NULL, &workbook_menu_format },
+	{ GNOME_APP_UI_SUBTREE, N_("_File"),   NULL, &workbook_menu_file },
+	{ GNOME_APP_UI_SUBTREE, N_("_Edit"),   NULL, &workbook_menu_edit },
+	{ GNOME_APP_UI_SUBTREE, N_("_View"),   NULL, &workbook_menu_view },
+	{ GNOME_APP_UI_SUBTREE, N_("_Insert"), NULL, &workbook_menu_insert },
+	{ GNOME_APP_UI_SUBTREE, N_("F_ormat"), NULL, &workbook_menu_format },
 	GNOMEUIINFO_END
 };
 
