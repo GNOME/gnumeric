@@ -13,6 +13,7 @@
 #include "color.h"
 #include "gnumeric-util.h"
 
+#undef DEBUG_REF_COUNT
 #undef DEBUG_FONTS
 
 static GHashTable *style_format_hash;
@@ -151,6 +152,13 @@ style_font_new_simple (const char *font_name, double size, double scale, int bol
 	}
 
 	font->ref_count++;
+#ifdef DEBUG_REF_COUNT
+	fprintf (stderr, __FUNCTION__ " font=%p name=%s%s%s ref_count=%d\n",
+		 font, font->font_name,
+		 font->is_bold ? " bold" : "",
+		 font->is_italic ? " italic" : "",
+		 font->ref_count);
+#endif
 	return font;
 }
 
@@ -244,6 +252,13 @@ style_font_ref (StyleFont *sf)
 	g_return_if_fail (sf != NULL);
 
 	sf->ref_count++;
+#ifdef DEBUG_REF_COUNT
+	fprintf (stderr, __FUNCTION__ " font=%p name=%s%s%s ref_count=%d\n",
+		 sf, sf->font_name,
+		 sf->is_bold ? " bold" : "",
+		 sf->is_italic ? " italic" : "",
+		 sf->ref_count);
+#endif
 }
 
 void
@@ -253,6 +268,13 @@ style_font_unref (StyleFont *sf)
 	g_return_if_fail (sf->ref_count > 0);
 
 	sf->ref_count--;
+#ifdef DEBUG_REF_COUNT
+	fprintf (stderr, __FUNCTION__ " font=%p name=%s%s%s ref_count=%d\n",
+		 sf, sf->font_name,
+		 sf->is_bold ? " bold" : "",
+		 sf->is_italic ? " italic" : "",
+		 sf->ref_count);
+#endif
 	if (sf->ref_count != 0)
 		return;
 
@@ -469,12 +491,30 @@ delete_neg_font (gpointer key, gpointer value, gpointer user_data)
 void
 style_shutdown (void)
 {
-	style_font_unref (gnumeric_default_font);
-	gnumeric_default_font = NULL;
+	if (gnumeric_default_font != gnumeric_default_bold_font &&
+	    gnumeric_default_bold_font->ref_count != 1) {
+		g_warning ("Default bold font has %d references.  It should have only one.",
+			   gnumeric_default_bold_font->ref_count);
+	}
 	style_font_unref (gnumeric_default_bold_font);
 	gnumeric_default_bold_font = NULL;
+
+	if (gnumeric_default_font != gnumeric_default_italic_font &&
+	    gnumeric_default_italic_font->ref_count != 1) {
+		g_warning ("Default italic font has %d references.  It should have only one.",
+			   gnumeric_default_italic_font->ref_count);
+	}
 	style_font_unref (gnumeric_default_italic_font);
 	gnumeric_default_italic_font = NULL;
+
+	/* At this point, even if we had bold == normal (etc), we should
+	   have exactly one reference to default.  */
+	if (gnumeric_default_font->ref_count != 1) {
+		g_warning ("Default font has %d references.  It should have only one.",
+			   gnumeric_default_font->ref_count);
+	}
+	style_font_unref (gnumeric_default_font);
+	gnumeric_default_font = NULL;
 
 	g_hash_table_destroy (style_format_hash);
 	style_format_hash = NULL;

@@ -1,3 +1,11 @@
+1999-12-18  Morten Welinder  <terra@diku.dk>
+
+	* src/item-bar.c (item_bar_destroy): Unref fonts.  (Found by
+ 	Miguel.)
+
+	* src/style.c (style_shutdown): Add code to warn of font ref leaks
+ 	on exit.
+
 1999-12-18  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/corba-sheet.c (command_context_corba): clean.
