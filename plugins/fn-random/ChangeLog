@@ -1,3 +1,8 @@
+2002-07-17  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c: Added RANDNORM(), RANDLOGNORM(), RANDCAUCHY(), and
+	RANDUNIFORM().
+
 2002-07-13  Jody Goldberg <jody@gnome.org>
 
 	* functions.c : fix includes.

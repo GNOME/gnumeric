@@ -1,6 +1,7 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * fn-logical.c:  Built in logical functions and functions registration
+ * fn-random.c:  Built in random number generation functions and functions
+ *               registration
  *
  * Authors:
  *   Miguel de Icaza (miguel@gnu.org)
@@ -59,6 +60,39 @@ static Value *
 gnumeric_rand (FunctionEvalInfo *ei, Value **argv)
 {
 	return value_new_float (random_01 ());
+}
+
+/***************************************************************************/
+
+static const char *help_randuniform = {
+	N_("@FUNCTION=RANDUNIFORM\n"
+	   "@SYNTAX=RANDUNIFORM(a,b)\n"
+
+	   "@DESCRIPTION="
+	   "RANDUNIFORM returns a random variate from the uniform (flat) "
+	   "distribution from a to b. The distribution is, p(x) dx = "
+	   "{1 over (b-a)} dx.  If a <= x < b and 0 otherwise. a random "
+	   "number between zero and one ([0..1]).\n"
+	   "\n"
+           "If @a > @b RANDUNIFORM returns #NUM! error. "
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "RANDUNIFORM(1.4,4.2) returns a random number greater than or "
+	   "equal to 1.4 but less than 4.2.\n"
+	   "\n"
+	   "@SEEALSO=RANDBETWEEN,RAND")
+};
+
+static Value *
+gnumeric_randuniform (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float a = value_get_as_float (argv[0]);
+	gnum_float b = value_get_as_float (argv[1]);
+
+	if (a > b)
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+
+	return value_new_float (a  +  ( random_01 ()  *  (b - a) ) );
 }
 
 /***************************************************************************/
@@ -156,7 +190,7 @@ static const char *help_randbetween = {
 	   "@EXAMPLES=\n"
 	   "RANDBETWEEN(3,7).\n"
 	   "\n"
-	   "@SEEALSO=RAND")
+	   "@SEEALSO=RAND,RANDUNIFORM")
 };
 
 static Value *
@@ -235,6 +269,90 @@ gnumeric_randbernoulli (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+static const char *help_randnorm = {
+        N_("@FUNCTION=RANDNORM\n"
+           "@SYNTAX=RANDNORM(mean,stdev)\n"
+
+           "@DESCRIPTION="
+           "RANDNORM returns a normal-distributed random number. "
+           "\n"
+           "If @stdev < 0 RANDNORM returns #NUM! error. "
+	   "\n"
+           "@EXAMPLES=\n"
+           "RANDNORM(0,1).\n"
+           "\n"
+           "@SEEALSO=RAND")
+};
+
+static Value *
+gnumeric_randnorm (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float mean  = value_get_as_float (argv[0]);
+	gnum_float stdev = value_get_as_float (argv[1]);
+
+	if (stdev < 0)
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+
+        return value_new_float (stdev * random_normal () + mean);
+}
+
+/***************************************************************************/
+
+static const char *help_randcauchy = {
+        N_("@FUNCTION=RANDCAUCHY\n"
+           "@SYNTAX=RANDCAUCHY(a)\n"
+
+           "@DESCRIPTION="
+           "RANDCAUCHY returns a cauchy-distributed random number with "
+	   "scale parameter a. The Cauchy distribution is also known as the "
+	   "Lorentz distribution. "
+           "\n"
+           "If @a <= 0 RANDCAUCHY returns #NUM! error. "
+	   "\n"
+           "@EXAMPLES=\n"
+           "RANDCAUCHY(1).\n"
+           "\n"
+           "@SEEALSO=RAND")
+};
+
+static Value *
+gnumeric_randcauchy (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float a = value_get_as_float (argv[0]);
+
+	if (a < 0)
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+
+        return value_new_float (random_cauchy (a));
+}
+
+/***************************************************************************/
+
+static const char *help_randlognorm = {
+        N_("@FUNCTION=RANDLOGNORM\n"
+           "@SYNTAX=RANDLOGNORM(zeta,sigma)\n"
+
+           "@DESCRIPTION="
+           "RANDLOGNORM returns a lognormal-distributed random number. "
+           "\n"
+           "@EXAMPLES=\n"
+           "RANDLOGNORM(1,2).\n"
+           "\n"
+           "@SEEALSO=RAND")
+};
+
+static Value *
+gnumeric_randlognorm (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float zeta  = value_get_as_float (argv[0]);
+	gnum_float sigma = value_get_as_float (argv[1]);
+
+        return value_new_float (random_lognormal (zeta, sigma));
+}
+
+
+/***************************************************************************/
+
 const ModulePluginFunctionInfo random_functions[] = {
 	{ "rand",    "", "",           &help_rand,
 	  gnumeric_rand, NULL, NULL, NULL },
@@ -244,12 +362,20 @@ const ModulePluginFunctionInfo random_functions[] = {
 	  gnumeric_randbetween, NULL, NULL, NULL },
         { "randbinom", "ff", N_("p,trials"), &help_randbinom,
 	  gnumeric_randbinom, NULL, NULL, NULL },
+        { "randcauchy", "f", N_("a"),   &help_randcauchy,
+	  gnumeric_randcauchy, NULL, NULL, NULL },
         { "randexp", "f", N_("b"),         &help_randexp,
 	  gnumeric_randexp, NULL, NULL, NULL },
+        { "randlognorm", "ff", N_("zeta,sigma"), &help_randlognorm,
+	  gnumeric_randlognorm, NULL, NULL, NULL },
         { "randnegbinom", "ff", N_("p,failures"), &help_randnegbinom,
 	  gnumeric_randnegbinom, NULL, NULL, NULL },
+        { "randnorm", "ff", N_("mean,stdev"), &help_randnorm,
+	  gnumeric_randnorm, NULL, NULL, NULL },
         { "randpoisson", "f", N_("lambda"), &help_randpoisson,
 	  gnumeric_randpoisson, NULL, NULL, NULL },
+        { "randuniform", "ff", N_("a,b"), &help_randuniform,
+	  gnumeric_randuniform, NULL, NULL, NULL },
         {NULL}
 };
 

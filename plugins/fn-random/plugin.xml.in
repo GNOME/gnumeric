@@ -15,9 +15,13 @@
 				<function name="randbernoulli"/>
 				<function name="randbetween"/>
 				<function name="randbinom"/>
+				<function name="randcauchy"/>
 				<function name="randexp"/>
+				<function name="randlognorm"/>
 				<function name="randnegbinom"/>
+				<function name="randnorm"/>
 				<function name="randpoisson"/>
+				<function name="randuniform"/>
 			</functions>
 		</service>
 	</services>
