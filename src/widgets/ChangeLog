@@ -1,3 +1,9 @@
+2003-06-03  Morten Welinder  <terra@gnome.org>
+
+	* gnumeric-lazy-list.c (gnumeric_lazy_list_add_column): New
+	function for init-time adding of columns.
+	(gnumeric_lazy_list_new): Allow zero columns.
+
 2003-06-02  Morten Welinder  <terra@gnome.org>
 
 	* gnumeric-lazy-list.[ch]: New files, split out from

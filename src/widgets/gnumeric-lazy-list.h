@@ -78,8 +78,12 @@ GnumericLazyList  *gnumeric_lazy_list_new (GnumericLazyListValueGetFunc get_valu
 					   gpointer user_data,
 					   gint n_columns,
 					   ...);
+void               gnumeric_lazy_list_add_column (GnumericLazyList *ll,
+						  int count,
+						  GType typ);
 
-void               gnumeric_lazy_list_set_rows (GnumericLazyList *ll, gint rows);
+void               gnumeric_lazy_list_set_rows (GnumericLazyList *ll,
+						gint rows);
 
 #ifdef __cplusplus
 }

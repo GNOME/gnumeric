@@ -261,7 +261,7 @@ gnumeric_lazy_list_new (GnumericLazyListValueGetFunc get_value,
 	va_list args;
 	gint i;
 
-	g_return_val_if_fail (n_columns > 0, NULL);
+	g_return_val_if_fail (n_columns >= 0, NULL);
 
 	retval = GNUMERIC_LAZY_LIST (g_object_new (gnumeric_lazy_list_get_type (), NULL));
 	retval->get_value = get_value;
@@ -276,6 +276,18 @@ gnumeric_lazy_list_new (GnumericLazyListValueGetFunc get_value,
 
 	return retval;
 }
+
+void
+gnumeric_lazy_list_add_column (GnumericLazyList *ll, int count, GType typ)
+{
+	int i;
+
+	ll->column_headers = g_renew (GType, ll->column_headers,
+				      ll->cols + count);
+	for (i = 0; i < count; i++)
+		ll->column_headers[ll->cols++] = typ;
+}
+
 
 void
 gnumeric_lazy_list_set_rows (GnumericLazyList *ll, gint rows)
