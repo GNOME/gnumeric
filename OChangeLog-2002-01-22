@@ -27,12 +27,13 @@
 	(workbook_cmd_format_row_std_height) : Idem.
 
 	* src/commands.c, src/commands.h
-	(cmd_colrow_std_size_undo) : New, Undo for the std row-height/col-width
-	setting.
+	(cmd_colrow_std_size_undo) : New, Undo for the std
+ 	row-height/col-width setting.
 	(cmd_colrow_std_size_redo) : Idem, for redo.
 	(cmd_colrow_std_size_destroy) : Idem.
-	(cmd_colrow_std_size) : Entry point for std row-height/col-width command.
-	
+	(cmd_colrow_std_size) : Entry point for std row-height/col-width
+ 	command.
+
 2001-02-25  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-control-gui.c (zoom_changed) : round the zoom factor
@@ -106,8 +107,8 @@
 	(init_plugin, can_deactivate_plugin, cleanup_plugin): Rename and
 	signature changes.
 
-	* plugins/excel/boot.c (excel_save_95, excel_save_98, excel_save, excel_probe,
-	excel_load): Signature changes.
+	* plugins/excel/boot.c (excel_save_95, excel_save_98, excel_save,
+ 	excel_probe, excel_load): Signature changes.
 
 	* plugins/excel/ms-formula-write.c: Use accessor functions from
 	func.h instead of accessing FunctionDefinition struct directly.
@@ -251,12 +252,13 @@
 	Add sheet remove and sheet re-order menu items.
 
 	* src/workbook-control-gui.c
-	(wbcg_menu_state_sheet_count) : New, Take care of sheet counts dependant
-	gui elements like the sheet remove/re-order menus.
+	(wbcg_menu_state_sheet_count) : New, Take care of sheet counts
+ 	dependant gui elements like the sheet remove/re-order menus.
 	(wbcg_sheet_add) : Call menu_state_sheet_count from here.
 	(wbcg_sheet_remove) : Idem.
-	(workbook_control_gui_init) : Initialize the remove and re-order menu-items.
-	
+	(workbook_control_gui_init) : Initialize the remove and re-order
+ 	menu-items.
+
 2001-02-24  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-control-gui.c (workbook_control_gui_new) : Why was I
@@ -274,14 +276,14 @@
 	(vertical_scroll_change) : Idem.
 
 2001-02-23  Jody Goldberg <jgoldberg@home.com>
-  
+
  	* src/commands.c (cmd_merge_cells_redo) : reorder to handle unmerging
  	  directly.
  	(cmd_merge_cells_undo) : ditto.
  	(CmdMergeCells) : no need to inherit from CmdUnmergeCells.
  	(cmd_unmerge_cells_redo) : merge the 'internal' versions.
  	(cmd_unmerge_cells_undo) : merge the 'internal' versions.
- 
+
 2001-02-22  Jody Goldberg <jgoldberg@home.com>
 
 	* src/style-border.c (style_border_vmargins) : remove unnecessary
@@ -573,7 +575,7 @@
 	(set_selection_halign) : If the current alignment is already set to
 	  the target type revert to general.
 
-	* src/preview-grid.c (preview_grid_draw) : cell_draw::h_center 
+	* src/preview-grid.c (preview_grid_draw) : cell_draw::h_center
 	  will default to width / 2.
 	* src/item-grid.c (item_grid_draw_merged_range) : Ditto.
 	(item_grid_draw) : Ditto.
@@ -634,23 +636,27 @@
 	* src/sheet-private.h : Add flag for insert cells.
 
 	* src/workbook-control-gui.c :
-	(wbcg_insert_cells_enable) : New, enable/disable the Insert->Cells menu item.
-	(workbook_control_gui_init) : Initialize the insert_cells menu item.
-	(workbook_control_gui_ctor_class) : Initialize insert_cells function pointer.
+	(wbcg_insert_cells_enable) : New, enable/disable the Insert->Cells
+ 	menu item.
+	(workbook_control_gui_init) : Initialize the insert_cells menu
+ 	item.
+	(workbook_control_gui_ctor_class) : Initialize insert_cells
+ 	function pointer.
 
 	* src/workbook-control-gui.h : Add menu_item_insert_cells.
-	
-	* src/workbook-control.c, src/workbook-control.h, src/workbook-control-priv.h :
-	Export wbcg_insert_cell_enable to workbook-control.
-	
+
+	* src/workbook-control.c, src/workbook-control.h,
+ 	src/workbook-control-priv.h : Export wbcg_insert_cell_enable to
+ 	workbook-control.
+
 	* src/selection.c
-	(sheet_selection_set_internal) : If the whole sheet is selected, 
+	(sheet_selection_set_internal) : If the whole sheet is selected,
 	disable Insert->Cells. Otherwise enable it.
 	(sheet_selection_reset) : Enable Insert->Cells.
 
  	* src/workbook-view.c
  	(wb_view_menus_update) : Update Insert->Cells too.
-	
+
 2001-02-17  Jody Goldberg <jgoldberg@home.com>
 
 	* src/xml-io.c (xml_sheet_write) : Store some flags about the sheet.
@@ -686,14 +692,14 @@
 
 2001-02-17  Almer S. Tigelaar  <almer1@dds.nl>
 
-	* src/commands.c 
+	* src/commands.c
 	(cmd_hide_colrow_correct_selection) : Make sure the
 	hidden cols/rows are not selected. Selecting adjacent cols/rows
 	instead. Fixes #38179.
 	(cmd_hide_colrow_undo) : Call cmd_hide_colrow_correct_selectio here.
 	(cmd_hide_colrow_redo) : And here.
-	
-	* src/colrow.h, src/colrow.c (colrow_find_adjacent_visible) : 
+
+	* src/colrow.h, src/colrow.c (colrow_find_adjacent_visible) :
 	New, Find the next visible col/row in the sheet.
 
 2001-02-17  Jody Goldberg <jgoldberg@home.com>
@@ -771,12 +777,14 @@
 2001-02-15  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* preview-grid-controller.c
-	(preview_grid_controller_new) : Properly initialize the selection_rect.
-	(preview_grid_controller_free) : Remove rect and selection_rect from canvas.
+	(preview_grid_controller_new) : Properly initialize the
+ 	selection_rect.
+	(preview_grid_controller_free) : Remove rect and selection_rect
+ 	from canvas.
 
-	* templates/autoformat/autoformat.General.advanced.xml : Correct wrongly
-	set border.
-	
+	* templates/autoformat/autoformat.General.advanced.xml : Correct
+ 	wrongly set border.
+
 2001-02-15  Jody Goldberg <jgoldberg@home.com>
 
 	* src/mstyle.c (mstyle_visible_in_blank) : off by one error.
@@ -795,7 +803,7 @@
 2001-02-14  Jody Goldberg <jgoldberg@home.com>
 
 	* src/preview-grid.c (pg_style_get_row) : new function.
-	(preview_grid_draw) : for use here. 
+	(preview_grid_draw) : for use here.
 
 	* src/sheet-style.c (style_row_init) : New routine spit out from.
 	* src/item-grid.c (item_grid_draw) : here.
@@ -829,7 +837,7 @@
 	* configure.in : bump the libglade req to get some translation fixes.
 	* README : ditto.
 	* gnumeric.spec.in : ditto.
-	
+
 2001-02-14  Karl Eichwalder  <ke@suse.de>
 
 	* src/workbook-control-gui.c (cb_edit_search_replace_query):
@@ -947,7 +955,7 @@
 	  col tile segments.
 
 2001-02-09  Jeffrey Stedfast  <fejj@ximian.com>
-	
+
 	* src/print.c: include ranges.h
 
 	* src/expr.c: include gutils.h
@@ -961,7 +969,7 @@
 
 2001-02-08  Jon K Hellan  <hellan@acm.org>
 
-	* src/embeddable-grid.[ch]: Adapt to more Bonobo changes. 
+	* src/embeddable-grid.[ch]: Adapt to more Bonobo changes.
 
 	* src/embeddable-grid.h (struct EmbeddableGridClass): Add
 	POA_GNOME_Gnumeric_Grid__epv.
@@ -978,11 +986,11 @@
 
 2001-02-08  Almer S. Tigelaar  <almer1@dds.nl>
 
-	* src/style-border.h, src/style-border.c (style_borders_row_draw): 
-	Adjust so it uses a vector of ints for column widths instead of 
+	* src/style-border.h, src/style-border.c (style_borders_row_draw):
+	Adjust so it uses a vector of ints for column widths instead of
 	reading them out of the Sheet directly.
-	
-	* src/item-grid.c (item_grid_draw): Built a column width 
+
+	* src/item-grid.c (item_grid_draw): Built a column width
 	vector and pass it to the style_borders_row_draw routine.
 
 2001-02-08  Morten Welinder  <terra@diku.dk>
@@ -1238,8 +1246,9 @@
  	(application_clipboard_clear): Ditto.
 
  	* src/workbook-view.c:
- 	(wb_view_menus_update): Update to don't pass flags as argument, don't
- 	do separate calls for cols and rows and optimize to do all calls in one loop.
+ 	(wb_view_menus_update): Update to don't pass flags as argument,
+ 	don't do separate calls for cols and rows and optimize to do all
+ 	calls in one loop.
 
  	* src/selection.c:
  	(sheet_selection_set_internal): Disable or enable insert cols/rows,
@@ -1414,7 +1423,8 @@
 
 	* src/workbook-control-gui.c
 	(wbcg_paste_special_enable): Use change_menu_sensitivity.
-	(workbook_control_gui_ctor_class): Adjust for removal of the insert struct.
+	(workbook_control_gui_ctor_class): Adjust for removal of the
+ 	insert struct.
 
 2001-01-25  Morten Welinder  <terra@diku.dk>
 
@@ -1729,8 +1739,8 @@
 
 2001-01-21  Almer S. Tigelaar  <almer1@dds.nl>
 
-	* src/sheet-autofill.c (autofill_cell):
-	Use sheet_cell_set_value instead of sheet_cell_set_text. Fixes bug #38175.
+	* src/sheet-autofill.c (autofill_cell): Use sheet_cell_set_value
+ 	instead of sheet_cell_set_text. Fixes bug #38175.
 
 2001-01-17  Morten Welinder  <terra@diku.dk>
 
@@ -1832,7 +1842,8 @@
 	(mstyle_get_format) : constness.
 
 	* src/format-template.c (cb_format_sheet_border) : delete.
-	(format_template_apply_to_sheet_regions) : borders are no longer special.
+	(format_template_apply_to_sheet_regions) : borders are no longer
+ 	special.
 
 	* src/expr.c (expr_tree_array_formula_corner) : do not store the
 	  corner anymore.
@@ -2204,9 +2215,10 @@
 
 2000-12-29  Jody Goldberg <jgoldberg@home.com>
 
-	* src/sheet-control-gui.c (scg_object_update_bbox) : Use the stored
-	  coordinates for movement.
-	(scg_object_calc_position) : handle inversion and store the coordinates.
+	* src/sheet-control-gui.c (scg_object_update_bbox) : Use the
+ 	  stored coordinates for movement.
+	(scg_object_calc_position) : handle inversion and store the
+ 	coordinates.
 	(cb_control_point_event) : use the stored coordinates.
 
 2000-12-29  Jody Goldberg <jgoldberg@home.com>
@@ -2639,17 +2651,22 @@
 
 	* src/gnumeric-sheet.c
 	(cursor_horizontal_move) : renamed from move_cursor_horizontal.
-	(cursor_horizontal_extend) : renamed from move_horizontal_selection.
+	(cursor_horizontal_extend) : renamed from
+ 	move_horizontal_selection.
 	(cursor_vertical_move) : renamed from move_cursor_vertical.
 	(cursor_vertical_extend) : renamed from move_vertical_selection.
 	(gnumeric_sheet_selection_extend) : no need to normalize.  the
-	  item-cursor now does it for us.
-	(rangesel_horizontal_move) : renamed from selection_cursor_move_horizontal.
-	(rangesel_vertical_move) : renamed from selection_cursor_move_vertical.
-	(rangesel_horizontal_extend) : renamed from selection_expand_horizontal.
-	  Use the new item-cursor base/move corners.
-	(rangesel_vertical_extend) : renamed from selection_expand_vertical.
-	  Use the new item-cursor base/move corners.
+ 	  item-cursor now does it for us.
+	(rangesel_horizontal_move) : renamed from
+ 	selection_cursor_move_horizontal.
+	(rangesel_vertical_move) : renamed from
+ 	selection_cursor_move_vertical.
+	(rangesel_horizontal_extend) : renamed from
+ 	  selection_expand_horizontal.  Use the new item-cursor base/move
+ 	  corners.
+	(rangesel_vertical_extend) : renamed from
+ 	  selection_expand_vertical.  Use the new item-cursor base/move
+ 	  corners.
 	(gnumeric_sheet_key_mode_sheet) : simplify.
 
 	* src/sheet.c (sheet_find_boundary_horizontal) : support merged cells.
@@ -2705,7 +2722,8 @@
 
 2000-12-14  Jody Goldberg <jgoldberg@home.com>
 
-	* src/cell.c (cell_convert_expr_to_value) : rename from cell_make_value.
+	* src/cell.c (cell_convert_expr_to_value) : rename from
+ 	cell_make_value.
 
 	* src/format.c (format_number) : adjust signature to take the
 	  colwidth in preparation for supporting
@@ -2831,8 +2849,8 @@
 	  function.  we need to move the dependent into the new sheet.
 	(sheet_widget_checkbox_clear_sheet) :  ditto.
 
-	* src/sheet-object-graphic.c : (sheet_object_graphic_{read,write)_xml) :
-	  new functions.
+	* src/sheet-object-graphic.c :
+ 	  (sheet_object_graphic_{read,write)_xml) : new functions.
 	(sheet_object_filled_{read,write)_xml) : new functions.
 
 	* src/sheet-object-container.c (view_activated_cb) : no more
@@ -3094,7 +3112,8 @@
 	Add support for persistance here.
 	Delete get/set bound.
 
-	* src/sheet-object-container.c : convert to new object management design
+	* src/sheet-object-container.c : convert to new object management
+	  design
 	* src/sheet-object-graphic.c : Ditto.
 	* src/sheet-object-item.c : Ditto.
 	* src/sheet-object-widget.c : Ditto.
@@ -3497,8 +3516,9 @@
 
 2000-11-13  Jody Goldberg <jgoldberg@home.com>
 
-	* src/dialogs/dialog-graph-guru.c (graph_guru_create_vectors_from_range) :
-	  small improvement to vector selection heuristics.
+	* src/dialogs/dialog-graph-guru.c
+ 	  (graph_guru_create_vectors_from_range) : small improvement to
+ 	  vector selection heuristics.
 
 2000-11-12  Jody Goldberg <jgoldberg@home.com>
 
