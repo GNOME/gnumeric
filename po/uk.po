@@ -136,7 +136,7 @@ msgstr "Формат файлу EPS (*.eps)"
 
 #: plugins/html/boot.c:106
 msgid "HTML (simple html export/import plugin)"
-msgstr ""
+msgstr "HTML (просте доповнення експорту/╕мпорту html)"
 
 #: plugins/lotus-123/boot.c:89
 msgid "Lotus (*.wk1) file format"
@@ -144,7 +144,7 @@ msgstr "Формат файлу Lotus (*.wk1)"
 
 #: plugins/lotus-123/boot.c:98
 msgid "Lotus 123 file import/export plugin"
-msgstr ""
+msgstr "Доповнення експорту/╕мпорту файл╕в Lotus 123"
 
 #: plugins/oleo/boot.c:89
 msgid "GNU Oleo (*.oleo) file format"
@@ -152,11 +152,11 @@ msgstr "Формат файлу GNU Oleo (*.oleo)"
 
 #: plugins/oleo/boot.c:98
 msgid "GNU Oleo import plugin"
-msgstr ""
+msgstr "Доповнення ╕мпорту GNU Oleo"
 
 #: plugins/python/python.c:103
 msgid "Unable to lookup Python code object."
-msgstr ""
+msgstr "Hеможливо знайти об'╓кт коду Python"
 
 #. XXX should popup window with exception info
 #: plugins/python/python.c:118
@@ -173,23 +173,23 @@ msgstr "Perl"
 
 #: plugins/python/python.c:184
 msgid "Python Plugin"
-msgstr ""
+msgstr "Доповнення Python"
 
 #: plugins/sample/plugin-sample.c:48
 msgid "Sample Plugin"
-msgstr ""
+msgstr "Приклад доповнення"
 
 #: plugins/stat/stat.c:30
 msgid "OLD Statistics Plugin, not required anymore"
-msgstr ""
+msgstr "СТАРЕ доповнення статистики, б╕льше не потр╕бно"
 
 #: plugins/sylk/sylk.c:502
 msgid "MultiPlan (SYLK) import"
-msgstr ""
+msgstr "╤мпорт MultiPlan (SYLK)"
 
 #: plugins/sylk/sylk.c:507
 msgid "MultiPlan (SYLK) file import module"
-msgstr ""
+msgstr "Модуль ╕мпорту файл╕в MultiPlan (SYLK)"
 
 #: plugins/text/text-io.c:312
 msgid "Empty file"
@@ -209,11 +209,11 @@ msgstr "БезНазви"
 
 #: plugins/text/text-io.c:417
 msgid "Simple Text Format"
-msgstr "Звичайний текст"
+msgstr "Формат простого тексту"
 
 #: plugins/text/text-io.c:451
 msgid "TXT (simple text import/export plugin)"
-msgstr ""
+msgstr "TXT (доповнення експорту/╕мпорту простого тексту)"
 
 #: plugins/xbase/boot.c:208
 msgid "Xbase (*.dbf) file format"
@@ -221,7 +221,7 @@ msgstr "Формат файлу Xbase (*.bdf)"
 
 #: plugins/xbase/boot.c:218
 msgid "XBase file import/export plugin"
-msgstr ""
+msgstr "Доповнення експорту/╕мпорту файл╕в XBase"
 
 #: src/about.c:24
 msgid "Miguel de Icaza, main programmer."
@@ -229,11 +229,11 @@ msgstr "Miguel de Icaza, головний програм╕ст."
 
 #: src/about.c:25
 msgid "Sean Atkinson, Functions and X-Base importing."
-msgstr ""
+msgstr "Sean Atkinson, Функц╕╖ та ╕мпортування з X-Base."
 
 #: src/about.c:26
 msgid "Tom Dyas, Plugin support."
-msgstr ""
+msgstr "Tom Dyas, П╕дтримка доповнень."
 
 #: src/about.c:27
 msgid "Jody Goldberg, Excel hacker."
@@ -245,7 +245,7 @@ msgstr "Ross Ihaka, спец╕альн╕ функц╕╖."
 
 #: src/about.c:29
 msgid "Jukka-Pekka Iivonen, numerous functions and tools."
-msgstr ""
+msgstr "Jukka-Pekka Iivonen, численн╕ функц╕╖ та засоби."
 
 #: src/about.c:30
 msgid "Jakub Jelinek, Gnumeric hacker."
@@ -265,7 +265,7 @@ msgstr "Adrian Likins, Документац╕я, налагодження."
 
 #: src/about.c:34
 msgid "Takashi Matsuda, simple text plugin."
-msgstr ""
+msgstr "Takashi Matsuda, доповнення простого тексту."
 
 #: src/about.c:35
 msgid "Federico Mena, Canvas support."
@@ -273,19 +273,19 @@ msgstr ""
 
 #: src/about.c:36
 msgid "Michael Meeks, Excel and OLE2 importing."
-msgstr ""
+msgstr "Michael Meeks, ╕мпортування з Excel та OLE2."
 
 #: src/about.c:37
 msgid "Mark Probst, Guile support."
-msgstr "Mark Probst, Guile support."
+msgstr "Mark Probst, п╕дтримка Guile."
 
 #: src/about.c:38
 msgid "Rasca, HTML, troff, LaTeX exporters."
-msgstr "Rasca, Експорт у HTML, troff, LaTeX."
+msgstr "Rasca, експорт у HTML, troff, LaTeX."
 
 #: src/about.c:39
 msgid "Vincent Renardias, CSV support, French localisation."
-msgstr ""
+msgstr "Vincent Renardias, п╕дтримка CSV, французька локал╕зац╕я."
 
 #: src/about.c:40
 msgid "Ariel Rios, Guile support."
@@ -297,7 +297,7 @@ msgstr ""
 
 #: src/about.c:42
 msgid "Daniel Veillard, XML support."
-msgstr ""
+msgstr "Daniel Veillard, п╕дтримка XML."
 
 #: src/about.c:43
 msgid "Vladimir Vuksan, financial functions."
@@ -406,22 +406,22 @@ msgstr ">hh:mm"
 #: src/commands.c:1059
 #, c-format
 msgid "Setting current date in %s"
-msgstr ""
+msgstr "Встановлення поточно╖ дати в %s"
 
 #: src/commands.c:1060
 #, c-format
 msgid "Setting current time in %s"
-msgstr ""
+msgstr "Встановлення поточного часу в %s"
 
 #: src/commands.c:1146
 #, c-format
 msgid "Setting width of column %s"
-msgstr ""
+msgstr "Встановлення ширини стовпчика %s"
 
 #: src/commands.c:1147
 #, c-format
 msgid "Setting height of row %d"
-msgstr ""
+msgstr "Встановлення висоти стовпчика %s"
 
 #: src/corba-args.c:33
 msgid "Could not initialize the Gnumeric Workbook factory"
@@ -750,7 +750,7 @@ msgstr "Новий аркуш"
 #. hbox = gtk_hbox_new (FALSE, 0);
 #: src/dialogs/dialog-analysis-tools.c:404
 msgid "New Workbook"
-msgstr ""
+msgstr "Нова книга"
 
 #: src/dialogs/dialog-analysis-tools.c:409
 msgid "Output Range:"
@@ -946,7 +946,7 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:1735
 msgid "Interval:"
-msgstr ""
+msgstr "╤нтервал:"
 
 #: src/dialogs/dialog-analysis-tools.c:1770
 msgid "You should introduce a valid cell range in 'Range Input:'"
@@ -1224,7 +1224,7 @@ msgstr ""
 
 #: src/dialogs/dialog-printer.c:129
 msgid "Select Printer"
-msgstr ""
+msgstr "Виб╕р принтера"
 
 #: src/dialogs/dialog-printer-setup.c:504
 msgid "Custom header configuration"
@@ -1236,7 +1236,7 @@ msgstr ""
 
 #: src/dialogs/dialog-printer-setup.c:730
 msgid "Print setup"
-msgstr ""
+msgstr "Установка прантера"
 
 #: src/dialogs/dialog-solver.c:22
 msgid "<="
@@ -1308,13 +1308,13 @@ msgstr ""
 
 #: src/dialogs/dialog-solver.c:233
 msgid "Add Constraint"
-msgstr ""
+msgstr "Додати обмеження"
 
 #. Constraint buttons
 #: src/dialogs/cell-sort.glade.h:13 src/dialogs/dialog-solver.c:236
 #: src/dialogs/dialog-solver.c:409 src/dialogs/names.glade.h:9
 msgid "Add"
-msgstr ""
+msgstr "Додати"
 
 #: src/dialogs/dialog-solver.c:352
 msgid "Gnumeric Solver Parameters"
@@ -1363,7 +1363,7 @@ msgstr ""
 #.
 #: src/dialogs/col-width.glade.h:7
 msgid "_Column width:"
-msgstr ""
+msgstr "Ширина стовпчика:"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1413,7 +1413,7 @@ msgstr ""
 
 #: src/dialogs/font-sel.glade.h:12
 msgid "AaBbCcDdEeJj12345"
-msgstr ""
+msgstr "АаБбЖжМм╤╕1234AaBbEeJj"
 
 #: src/dialogs/font-sel.glade.h:13
 msgid "label8"
@@ -1493,7 +1493,7 @@ msgstr ""
 #: src/dialogs/print.glade.h:19 src/dialogs/print.glade.h:33
 #: src/dialogs/print.glade.h:43 src/dialogs/print.glade.h:59
 msgid "_Print"
-msgstr ""
+msgstr "Друкувати"
 
 #: src/dialogs/print.glade.h:20 src/dialogs/print.glade.h:34
 #: src/dialogs/print.glade.h:44 src/dialogs/print.glade.h:60
@@ -1595,7 +1595,7 @@ msgstr ""
 
 #: src/dialogs/print.glade.h:51 src/workbook.c:1187
 msgid "Print"
-msgstr ""
+msgstr "Друкувати"
 
 #: src/dialogs/print.glade.h:52
 msgid "Row and co_lumn headings"
@@ -1603,7 +1603,7 @@ msgstr ""
 
 #: src/dialogs/print.glade.h:53 src/workbook.c:1008
 msgid "Co_mments"
-msgstr ""
+msgstr "Коментар╕"
 
 #: src/dialogs/print.glade.h:54
 msgid "_Grid lines"
@@ -1615,7 +1615,7 @@ msgstr ""
 
 #: src/dialogs/print.glade.h:56
 msgid "Page order"
-msgstr ""
+msgstr "Порялок стор╕нок"
 
 #: src/dialogs/print.glade.h:57
 msgid "_Down, then right"
@@ -1649,7 +1649,7 @@ msgstr ""
 #.
 #: src/dialogs/row-height.glade.h:7
 msgid "_Row height:"
-msgstr ""
+msgstr "Висота рядка:"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1687,15 +1687,15 @@ msgstr ""
 
 #: src/dialogs/summary.glade.h:12
 msgid "Document Summary Information\n"
-msgstr ""
+msgstr "Резюме документу\n"
 
 #: src/dialogs/summary.glade.h:14
 msgid "Comments"
-msgstr ""
+msgstr "Коментар╕"
 
 #: src/dialogs/summary.glade.h:15
 msgid "Company"
-msgstr ""
+msgstr "Компан╕я"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1947,7 +1947,7 @@ msgstr ""
 
 #: src/dialogs/cell-format.glade.h:76
 msgid "_Style"
-msgstr ""
+msgstr "Стиль"
 
 #: src/dialogs/cell-format.glade.h:80
 msgid "Pick a border color"
@@ -1984,27 +1984,27 @@ msgstr ""
 #: src/dialogs/cell-format.glade.h:90
 #, c-format
 msgid "75% grey"
-msgstr ""
+msgstr "75% с╕рого"
 
 #: src/dialogs/cell-format.glade.h:91
 #, c-format
 msgid "50% Grey"
-msgstr ""
+msgstr "50% с╕рого"
 
 #: src/dialogs/cell-format.glade.h:92
 #, c-format
 msgid "25% Grey"
-msgstr ""
+msgstr "25% с╕рого"
 
 #: src/dialogs/cell-format.glade.h:93
 #, c-format
 msgid "12.5% Grey"
-msgstr ""
+msgstr "12.5% с╕рого"
 
 #: src/dialogs/cell-format.glade.h:94
 #, c-format
 msgid "6.25% Grey"
-msgstr ""
+msgstr "6.25% с╕рого"
 
 #: src/dialogs/cell-format.glade.h:95
 msgid "Horizontal Stripe"
@@ -2375,7 +2375,7 @@ msgstr ""
 
 #: src/functions/fn-database.c:1207
 msgid "Database"
-msgstr ""
+msgstr "База даних"
 
 #: src/functions/fn-date.c:68
 msgid ""
@@ -2434,6 +2434,13 @@ msgid ""
 "\n"
 "@SEEALSO=TODAY, NOW"
 msgstr ""
+"@FUNCTION=TODAY\n"
+"@SYNTAX=TODAY ()\n"
+"@DESCRIPTION=Поверта╓ порядковий номер цього для (номер дня починаючи з "
+"1 с╕чня 1900 року).\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=TODAY, NOW"
 
 #: src/functions/fn-date.c:219
 msgid ""
@@ -2632,7 +2639,7 @@ msgstr ""
 
 #: src/functions/fn-date.c:831
 msgid "Date / Time"
-msgstr ""
+msgstr "Дата / Час"
 
 #: src/functions/fn-eng.c:22
 msgid ""
@@ -3980,6 +3987,13 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=CELL\n"
+"@SYNTAX=CELL()\n"
+"@DESCRIPTION=CELL поверта╓ ╕нформац╕ю про форматування, розм╕щення чи "
+"вм╕ст ком╕рки. \n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
 
 #: src/functions/fn-information.c:208 src/functions/fn-information.c:326
 msgid "Unknown info_type"
@@ -6900,7 +6914,7 @@ msgstr ""
 
 #: src/functions/fn-string.c:227 src/functions/fn-string.c:680
 msgid "Invalid arguments"
-msgstr ""
+msgstr "Нев╕рн╕ аргументи"
 
 #: src/functions/fn-string.c:245
 msgid ""
@@ -6947,6 +6961,13 @@ msgid ""
 "\n"
 "@SEEALSO=CONCATENATE"
 msgstr ""
+"@FUNCTION=REPT\n"
+"@SYNTAX=REPT(рядок,к╕льк╕сть)\n"
+"@DESCRIPTION=REPT поверта╓ @к╕льк╕сть раз повторений @рядок.\n"
+"@EXAMPLES=\n"
+"REPT(\".\",3) equals \"...\".\n"
+"\n"
+"@SEEALSO=CONCATENATE"
 
 #. start position too high or low
 #: src/functions/fn-string.c:397 src/functions/fn-string.c:480
