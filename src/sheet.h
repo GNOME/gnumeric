@@ -149,6 +149,7 @@ void        sheet_foreach_row          	 (Sheet *sheet,
 					  void *user_data);
 void        sheet_set_zoom_factor      	 (Sheet *sheet, double factor);
 void        sheet_cursor_set             (Sheet *sheet,
+					  int base_col,  int base_row,
 					  int start_col, int start_row,
 					  int end_col,   int end_row);
 void        sheet_cursor_move            (Sheet *sheet, int col, int row);

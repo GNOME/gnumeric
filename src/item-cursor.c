@@ -696,6 +696,7 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 		}
 		sheet_cursor_set (sheet,
 				  item_cursor->base_col, item_cursor->base_row,
+				  item_cursor->base_col, item_cursor->base_row,
 				  item_cursor->end_col,  item_cursor->end_row);
 		sheet_selection_reset_only (sheet);
 		sheet_selection_append (sheet, item_cursor->base_col, item_cursor->base_row);
@@ -776,7 +777,7 @@ item_cursor_init (ItemCursor *item_cursor)
 	item_cursor->end_col   = 0;
 	item_cursor->start_row = 0;
 	item_cursor->end_row   = 0;
-	item_cursor->start_row = ITEM_CURSOR_SELECTION;
+	item_cursor->style = ITEM_CURSOR_SELECTION;
 	item_cursor->tag = -1;
 	item_cursor->visible = 1;
 }

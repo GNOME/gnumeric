@@ -282,6 +282,7 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, gpointer data)
 	
 	sheet_cursor_set (pc->dest_sheet,
 			  pc->dest_col, pc->dest_row,
+			  pc->dest_col, pc->dest_row,
 			  end_col,      end_row);
 
 	sheet_selection_reset_only (pc->dest_sheet);

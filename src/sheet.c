@@ -2919,7 +2919,7 @@ sheet_cursor_move (Sheet *sheet, int col, int row)
 }
 
 void
-sheet_cursor_set (Sheet *sheet, int start_col, int start_row, int end_col, int end_row)
+sheet_cursor_set (Sheet *sheet, int base_col, int base_row, int start_col, int start_row, int end_col, int end_row)
 {
 	GList *l;
 
@@ -2928,7 +2928,7 @@ sheet_cursor_set (Sheet *sheet, int start_col, int start_row, int end_col, int e
 	g_return_if_fail (start_col <= end_col);
 	g_return_if_fail (start_row <= end_row);
 	
-	sheet_cursor_move (sheet, start_col, start_row);
+	sheet_cursor_move (sheet, base_col, base_row);
 
 	for (l = sheet->sheet_views; l; l = l->next){
 		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);

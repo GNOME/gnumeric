@@ -123,6 +123,7 @@ gnumeric_sheet_set_selection (GnumericSheet *gsheet, SheetSelection *ss)
 
 	sheet_cursor_set (
 		gsheet->sheet_view->sheet,
+		ss->base_col, ss->base_row,
 		ss->start_col, ss->start_row,
 		ss->end_col, ss->end_row);
 }
@@ -145,7 +146,7 @@ move_cursor (GnumericSheet *gsheet, int col, int row, gboolean clear_selection)
 	if (clear_selection)
 		sheet_selection_reset_only (sheet);
 
-	sheet_cursor_set (sheet, col, row, col, row);
+	sheet_cursor_set (sheet, col, row, col, row, col, row);
 
 	if (clear_selection)
 		sheet_selection_append (sheet, col, row);
