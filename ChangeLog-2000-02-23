@@ -1,5 +1,9 @@
 1999-09-14  Karl Eichwalder  <ke@suse.de>
 
+	* src/workbook.c: The "import" item needs dots; it opens a dialog.
+
+1999-09-14  Karl Eichwalder  <ke@suse.de>
+
 	* DEPENDS: Add gnome-print.
 
 	* README: Increase gnome-print version (0.6); not sure, whether

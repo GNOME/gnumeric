@@ -896,7 +896,7 @@ static GnomeUIInfo workbook_menu_file [] = {
 				  new_cmd, NULL),
 
 	GNOMEUIINFO_MENU_OPEN_ITEM(file_open_cmd, NULL),
-	GNOMEUIINFO_ITEM_STOCK (N_("_Import"), N_("Imports a file"),
+	GNOMEUIINFO_ITEM_STOCK (N_("_Import..."), N_("Imports a file"),
 				file_import_cmd, GNOME_STOCK_MENU_OPEN),
 	GNOMEUIINFO_MENU_SAVE_ITEM(file_save_cmd, NULL),
 
