@@ -18787,7 +18787,7 @@ msgstr "行の構文解析中にエラーが発生しました"
 #. * 	PlotBarCol2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:97
 msgid "PlotBarCol"
-msgstr ""
+msgstr "棒/列でのプロット"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:2
@@ -18820,18 +18820,16 @@ msgstr "グラフ(_G)..."
 #. * 	PlotLine2
 #.
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:92
-#, fuzzy
 msgid "PlotLine"
-msgstr "プロット(_P)"
+msgstr "線でプロット"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotArea2
 #.
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:211
-#, fuzzy
 msgid "PlotArea"
-msgstr "プロット(_P)"
+msgstr "エリアでプロット"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:1
 #, fuzzy
@@ -18892,20 +18890,19 @@ msgstr ""
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:13
 #: src/func.c:679
 msgid "Area"
-msgstr "範囲"
+msgstr "エリア"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:14
 msgid "Area plot."
-msgstr ""
+msgstr "エリアでプロットします。"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:15
-#, fuzzy
 msgid "Areas"
-msgstr "範囲(_A)"
+msgstr "エリア"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:16
 msgid "Bar"
-msgstr "棒グラフ"
+msgstr "棒"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:17
 msgid "Column"
@@ -18914,17 +18911,15 @@ msgstr "列"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:18
 #: src/dialogs/dialog-stf-main-page.c:370 src/wbcg-actions.c:1935
 msgid "Line"
-msgstr "直線"
+msgstr "線"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:19
-#, fuzzy
 msgid "Line plot."
-msgstr "インポートする行"
+msgstr "線でプロットします。"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:20
-#, fuzzy
 msgid "Lines"
-msgstr "直線"
+msgstr "線"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:21
 msgid ""
@@ -19043,17 +19038,16 @@ msgid "Unmarked Stacked Lines"
 msgstr "枠線(_G)"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:1
-#, fuzzy
 msgid "Area plotting engine"
-msgstr "円グラフプロットエンジン"
+msgstr "エリアプロットエンジン"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:2
 msgid "Bar/Col plotting engine"
-msgstr ""
+msgstr "棒/列プロットエンジン"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:3
 msgid "Charting : Bar/Col/Line/Area"
-msgstr ""
+msgstr "グラフ: 棒/列/行/エリア"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:4
 #, fuzzy
@@ -19061,24 +19055,20 @@ msgid "Default 1.5d plot types"
 msgstr "デフォルト円グラフタイプ"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:5
-#, fuzzy
 msgid "Line plotting engine"
-msgstr "円グラフプロットエンジン"
+msgstr "線プロットエンジン"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:6
-#, fuzzy
 msgid "Line, Area, Bar and Column plots"
-msgstr "行列番号(_L)"
+msgstr "線、エリア、棒、列でプロットします"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:180
-#, fuzzy
 msgid "PlotPie"
-msgstr "プロット(_P)"
+msgstr "パイのプロット"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:303
-#, fuzzy
 msgid "PlotRing"
-msgstr "なし"
+msgstr "円のプロット"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:593
 #, c-format
@@ -28974,9 +28964,8 @@ msgid "Exponential smoothing..."
 msgstr "指数のスムーズ化..."
 
 #: src/wbcg-actions.c:1793
-#, fuzzy
 msgid "_Moving Average..."
-msgstr "移動平均(_M)"
+msgstr "移動平均(_M)..."
 
 #: src/wbcg-actions.c:1794
 msgid "Moving average..."
@@ -28992,9 +28981,8 @@ msgid "Comparing two population means for two paired samples: t-test..."
 msgstr "2つの母平均を2つの対応するサンプルで比較します: t-検定..."
 
 #: src/wbcg-actions.c:1802
-#, fuzzy
 msgid "Unpaired Samples, _Equal Variances: T-Test..."
-msgstr "対でないサンプル、変化量は等しい: T-検定(_E)"
+msgstr "対でないサンプル、等分散: T-検定(_E)..."
 
 #: src/wbcg-actions.c:1803
 msgid ""
@@ -29005,7 +28993,7 @@ msgstr ""
 
 #: src/wbcg-actions.c:1806
 msgid "Unpaired Samples, _Unequal Variances: T-Test..."
-msgstr "対でないサンプル、等しくない変化量: T-検定(_U)..."
+msgstr "対でないサンプル、等しくない分散: T-検定(_U)..."
 
 #: src/wbcg-actions.c:1807
 msgid ""
