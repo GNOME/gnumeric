@@ -3041,13 +3041,15 @@ static char *help_percentrank = {
 	   "set.  @array is the range of numeric values, @x is the data "
 	   "point which you want to rank, and the optional @significance "
 	   "indentifies the number of significant digits for the returned "
-	   "value.  If @significance is omitted, PERCENTRANK uses three "
-	   "digits."
+	   "value, truncating the remainder.  If @significance is omitted, "
+	   "PERCENTRANK uses three digits."
 	   "\n"
 	   "If @array contains no data points, PERCENTRANK returns #NUM! "
-	   "error. "
+	   "error.\n"
 	   "If @significance is less than one, PERCENTRANK returns #NUM! "
-	   "error. "
+	   "error.\n"
+	   "If @x exceeds the largest value or is less than the smallest "
+	   "value in @array, PERCENTRANK returns #NUM! error.\n"
 	   "If @x does not match any of the values in @array or @x matches "
 	   "more than once, PERCENTRANK interpolates the returned value."
 	   "\n"
@@ -3096,7 +3098,6 @@ gnumeric_percentrank (FunctionEvalInfo *ei, Value **argv)
 {
         stat_percentrank_t p;
         gnum_float         x, k, pr;
-	int                n;
         int                significance;
 	Value		   *ret;
 
@@ -3122,7 +3123,8 @@ gnumeric_percentrank (FunctionEvalInfo *ei, Value **argv)
 					 &p, argv[0],
 					 TRUE, TRUE);
 
-	if (ret != NULL || (p.smaller + p.greater + p.equal == 0))
+	if (ret != NULL || (p.smaller + p.equal == 0) ||
+		(p.greater + p.equal == 0))
 	        return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	if (p.equal == 1)
@@ -3134,15 +3136,8 @@ gnumeric_percentrank (FunctionEvalInfo *ei, Value **argv)
 	        pr = (p.smaller + 0.5 * p.equal) /
 		  (p.smaller + p.equal + p.greater);
 
-	k = 1;
-	for (n = 0; n < significance; n++)
-	        k *= 10;
-
-	pr *= k;
-	pr = rint (pr + 1e-12);  /* Round up */
-	pr /= k;
-
-	return value_new_float (pr);
+	k = gpow10 (significance);
+	return value_new_float (gnumeric_fake_trunc (pr * k) / k);
 }
 
 /***************************************************************************/

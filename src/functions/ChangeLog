@@ -1,3 +1,8 @@
+2002-01-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* fn-stat.c (gnumeric_percentrank) : truncate rather 
+	  than round, check whether the value is within the data
+
 2002-01-04  Morten Welinder  <terra@diku.dk>
 
 	* fn-date.c (gnumeric_weekday): Fix value for Saturday.
