@@ -1,5 +1,19 @@
 2003-06-07  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.1.19
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* src/Makefile.am : Suck it up and ignore the make warnings about
+	  circular dependencies.   automake-1.4 pisses me off.
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* src/dependent.c (link_expr_dep) : be more anal in case something
+	  unexpected gets in.
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
 	* configure.in : post release bump
 
 2003-06-07  Jody Goldberg <jody@gnome.org>
