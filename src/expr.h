@@ -5,6 +5,7 @@
 typedef struct _Value Value;
 typedef struct _ExprTree ExprTree;
 typedef struct _CellRef CellRef;
+typedef struct _ArrayRef ArrayRef;
 
 #include "sheet.h"
 #include "symbol.h"
@@ -41,6 +42,7 @@ typedef enum {
         OPER_CONSTANT,		/* Constant value */
 	OPER_VAR,		/* Cell content lookup (variable) */
 	OPER_NEG,		/* Sign inversion */
+	OPER_ARRAY		/* Array access */
 } Operation;
 
 /* Shorthands for case statements.  Easy to read, easy to maintain.  */
@@ -64,6 +66,21 @@ struct _CellRef {
 
 	unsigned char col_relative;
 	unsigned char row_relative;
+};
+
+struct _ArrayRef {
+	int   x, y;
+	int   rows, cols;
+	union {
+		/* Upper left corner */
+		struct {
+			Value *value;	/* Last array result */
+			ExprTree *expr;	/* Real Expression */
+		} func;
+
+		/* Others refer to corner cell directly */
+		Cell *cell;
+	} corner;
 };
 
 struct _Value {
@@ -108,6 +125,8 @@ struct _ExprTree {
 		ExprTree *value;
 
 		CellRef ref;
+
+		ArrayRef array;
 	} u;
 };
 
@@ -231,6 +250,8 @@ ExprTree   *expr_tree_new_binary   (ExprTree *l, Operation op, ExprTree *r);
 ExprTree   *expr_tree_new_funcall  (Symbol *sym, GList *args);
 ExprTree   *expr_tree_new_var      (const CellRef *cr);
 ExprTree   *expr_tree_new_error    (const char *txt);
+ExprTree   *expr_tree_array_formula (int const x, int const y, int const rows,
+				     int const cols);
 
 void        expr_tree_ref          (ExprTree *tree);
 void        expr_tree_unref        (ExprTree *tree);
@@ -242,6 +263,11 @@ ExprTree   *expr_tree_invalidate_references (ExprTree *src, EvalPosition *src_fp
 ExprTree   *expr_tree_fixup_references (ExprTree *src, EvalPosition *src_fp,
 					const EvalPosition *fp,
 					int coldelta, int rowdelta);
+
+int expr_tree_get_const_int (ExprTree const * const expr);
+ 
+/* Debugging */ 
+void expr_dump_tree (ExprTree *tree);
 
 Value *eval_expr            (FunctionEvalInfo *s, ExprTree *tree);
 
@@ -272,7 +298,14 @@ void         value_dump            (const Value *value);
    calculation of relative references. 'x','y' give the position */
 guint        value_area_get_width  (const EvalPosition *ep, Value *v);
 guint        value_area_get_height (const EvalPosition *ep, Value *v);
-const Value *value_area_get_at_x_y (const EvalPosition *ep, Value *v, guint x, guint y);
+
+/* Return Value(int 0) if non-existant */
+const Value *value_area_fetch_x_y  (const EvalPosition *ep, Value const * v,
+				    guint x, guint y);
+
+/* Return NULL if non-existant */
+const Value * value_area_get_x_y (const EvalPosition *ep, Value const * v,
+				  guint x, guint y);
 
 Value       *value_array_new       (guint width, guint height);
 void         value_array_set       (Value *array, guint col, guint row, Value *v);

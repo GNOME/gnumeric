@@ -21,7 +21,7 @@
 /*
  * Callback information.
  *
- * Passed trough the workbook structure.
+ * Passed through the workbook structure.
  */
 typedef struct {
 	Sheet      *dest_sheet;

@@ -2305,6 +2305,123 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GList *nodes)
 	return value_new_float (p.sum);
 }
 
+
+static char *help_mmult = {
+	N_("@FUNCTION=MMULT\n"
+	   "@SYNTAX=MMULT(array1,array2)\n"
+
+	   "@DESCRIPTION="
+	   "SERIESSUM function Returns the matrix product of two arrays. The "
+	   "result is an array with the same number of rows as array1 and the "
+	   "same number of columns as array2."
+	   "\n"
+	   "@SEEALSO=SUMPRODUCT")
+};
+
+
+static int
+callback_function_mmult_validate(Sheet *sheet, int col, int row,
+				 Cell *cell, void *user_data)
+{
+        int * item_count = user_data;
+
+	if (cell == NULL || cell->value == NULL ||
+	    !VALUE_IS_NUMBER(cell->value))
+	        return FALSE;
+
+	++(*item_count);
+	return TRUE;
+}
+static int
+validate_range_numeric_matrix (const EvalPosition *ep, Value * matrix,
+			       int *rows, int *cols,
+			       char **error_string)
+{
+	int res;
+	int cell_count = 0;
+
+	*cols = value_area_get_width (ep, matrix);
+	*rows = value_area_get_height (ep, matrix);
+
+	/* No checking needed for arrays */
+	if (matrix->type == VALUE_ARRAY)
+	    return FALSE;
+
+	if (matrix->v.cell_range.cell_a.sheet !=
+	    matrix->v.cell_range.cell_b.sheet)
+	{
+		*error_string = _("#3D MULT?");
+		return TRUE;
+	}
+
+	res = sheet_cell_foreach_range (
+	  matrix->v.cell_range.cell_a.sheet, TRUE,
+	  matrix->v.cell_range.cell_a.col,
+	  matrix->v.cell_range.cell_a.row,
+	  matrix->v.cell_range.cell_b.col,
+	  matrix->v.cell_range.cell_b.row,
+	  callback_function_mmult_validate,
+	  &cell_count);
+
+	if (!res || cell_count != (*rows * *cols))
+	{
+		/* As specified in the Excel Docs */
+		*error_string = gnumeric_err_VALUE;
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+static Value *
+gnumeric_mmult (FunctionEvalInfo *ei, Value **argv)
+{
+	EvalPosition const * const ep = &ei->pos;
+	int	r, rows_a, rows_b, i;
+	int	c, cols_a, cols_b;
+        Value *res;
+        Value *values_a = argv[0];
+        Value *values_b = argv[1];
+	char *error_string = NULL;
+
+	if (validate_range_numeric_matrix (ep, values_a, &rows_a, &cols_a,
+					   &error_string) ||
+	    validate_range_numeric_matrix (ep, values_b, &rows_b, &cols_b,
+					   &error_string)){
+		return function_error (ei, error_string);
+	}
+
+	/* Guarantee shape and non-zero size */
+	if (cols_a != rows_b || !rows_a || !rows_b || !cols_a || !cols_b)
+		return function_error (ei, gnumeric_err_VALUE);
+
+	res = value_array_new (cols_b, rows_a);
+	res = g_new (Value, 1);
+	res->type = VALUE_ARRAY;
+	res->v.array.x = cols_b;
+	res->v.array.y = rows_a;
+	res->v.array.vals = g_new (Value **, cols_b);
+
+	for (c = 0; c < cols_b; ++c){
+		res->v.array.vals [c] = g_new (Value *, rows_a);
+		for (r = 0; r < rows_a; ++r){
+			/* TODO TODO : Use ints for integer only areas */
+			float_t tmp = 0.;
+			for (i = 0; i < cols_a; ++i){
+				Value const * a =
+				    value_area_get_x_y (ep, values_a, i, r);
+				Value const * b =
+				    value_area_get_x_y (ep, values_b, c, i);
+				tmp += value_get_as_float (a) *
+				    value_get_as_float (b);
+			}
+			res->v.array.vals[c][r] = value_new_float (tmp);
+		}
+	}
+
+	return res;
+}
+
 static char *help_sumproduct = {
 	N_("@FUNCTION=SUMPRODUCT\n"
 	   "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -2493,4 +2610,5 @@ void math_functions_init()
 	function_add_args  (cat, "tanh",    "f",    "number",    &help_tanh,    gnumeric_tanh);
 	function_add_args  (cat, "trunc",   "f|f",  "number,digits",    &help_trunc,   gnumeric_trunc);
 	function_add_args  (cat, "pi",      "",     "",          &help_pi,      gnumeric_pi);
+	function_add_args  (cat, "mmult",   "AA",   "array1,array2", &help_mmult, gnumeric_mmult);
 }

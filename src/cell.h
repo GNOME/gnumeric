@@ -122,6 +122,9 @@ void        cell_content_changed         (Cell *cell);
 void        cell_set_formula             (Cell *cell, const char *text);
 void        cell_set_formula_tree        (Cell *cell, ExprTree *formula);
 void        cell_set_formula_tree_simple (Cell *cell, ExprTree *formula);
+void        cell_set_array_formula       (Sheet *sheet, int rowa, int cola,
+					  int rowb, int colb,
+					  ExprTree *formula);
 void        cell_set_format              (Cell *cell, const char *format);
 void        cell_set_format_simple       (Cell *cell, const char *format);
 void        cell_set_format_from_style   (Cell *cell, StyleFormat *style_format);

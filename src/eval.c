@@ -119,28 +119,11 @@ dependency_hash_init (void)
 	dependency_hash = g_hash_table_new (dependency_hash_func, dependency_equal);
 }
 
-/*
- * We add the dependency of Cell a in the ranges
- * enclose by CellRef a and CellRef b
- *
- * We compute the location from cell->row->pos and cell->col->pos
- */
 static void
-add_cell_range_deps (Cell *cell, const CellRef *a, const CellRef *b)
+add_cell_range_dep (Cell *cell, DependencyRange const * const range)
 {
-	DependencyRange range, *result;
-	int col = cell->col->pos;
-	int row = cell->row->pos;
-
-	/* Convert to absolute cordinates */
-	cell_get_abs_col_row (a, col, row, &range.range.start_col, &range.range.start_row);
-	cell_get_abs_col_row (b, col, row, &range.range.end_col,   &range.range.end_row);
-
-	range.ref_count = 0;
-	range.sheet = cell->sheet;
-
 	/* Look it up */
-	result = g_hash_table_lookup (dependency_hash, &range);
+	DependencyRange *result = g_hash_table_lookup (dependency_hash, range);
 	if (result){
 		GList *cl;
 
@@ -158,11 +141,33 @@ add_cell_range_deps (Cell *cell, const CellRef *a, const CellRef *b)
 
 	/* Create a new DependencyRange structure */
 	result = g_new (DependencyRange, 1);
-	*result = range;
+	*result = *range;
 	result->ref_count = 1;
 	result->cell_list = g_list_prepend (NULL, cell);
 
 	g_hash_table_insert (dependency_hash, result, result);
+}
+
+/*
+ * We add the dependency of Cell a in the ranges
+ * enclose by CellRef a and CellRef b
+ *
+ * We compute the location from cell->row->pos and cell->col->pos
+ */
+static void
+add_cell_range_deps (Cell *cell, const CellRef *a, const CellRef *b)
+{
+	DependencyRange range;
+	int col = cell->col->pos;
+	int row = cell->row->pos;
+
+	/* Convert to absolute cordinates */
+	cell_get_abs_col_row (a, col, row, &range.range.start_col, &range.range.start_row);
+	cell_get_abs_col_row (b, col, row, &range.range.end_col,   &range.range.end_row);
+
+	range.ref_count = 0;
+	range.sheet = cell->sheet;
+	add_cell_range_dep (cell, &range);
 }
 
 /*
@@ -233,6 +238,22 @@ add_tree_deps (Cell *cell, ExprTree *tree)
 			add_tree_deps (cell, l->data);
 		return;
 
+	case OPER_ARRAY:
+		if (tree->u.array.x != 0 || tree->u.array.y != 0){
+			/* Non-corner cells depend on the corner */
+			DependencyRange range;
+			Cell * corner = tree->u.array.corner.cell;
+			range.ref_count = 0;
+			range.sheet = cell->sheet;
+			range.range.start_col = range.range.end_col =
+			    corner->col->pos;
+			range.range.start_row = range.range.end_row =
+			    corner->row->pos;
+			add_cell_range_dep (cell, &range);
+		} else
+			/* Corner cell depends on the contents of the expr */
+			add_tree_deps (cell, tree->u.array.corner.func.expr);
+		return;
 	} /* switch */
 }
 

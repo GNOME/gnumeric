@@ -1013,6 +1013,10 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color)
 	}
 	/* FIXME: what about translated "General"?  */
 
+	/* Use top left corner of an array result */
+	if (value->type == VALUE_ARRAY)
+		value = value_area_fetch_x_y (NULL, value, 0, 0);
+
 	switch (value->type){
 	case VALUE_FLOAT:
 		if (finite (value->v.v_float)) {
@@ -1040,8 +1044,8 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color)
 		return g_strdup (_("CELLRANGE"));
 
 	case VALUE_ARRAY:
+		/* Array of arrays ?? */
 		return g_strdup (_("ARRAY"));
-		
 	default:
 		return g_strdup ("Internal error");
 	}

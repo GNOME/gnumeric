@@ -1147,6 +1147,12 @@ xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
 			*p = 0;
 		}
 
+		/*
+		 * Handle special case of a non corner element of an array
+		 * that has already been created.
+		 */
+		if (ret->parsed_node == NULL ||
+		    OPER_ARRAY != ret->parsed_node->oper)
 		cell_set_text_simple (ret, content);
 		free (content);
 	} else

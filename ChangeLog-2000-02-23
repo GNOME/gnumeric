@@ -1,3 +1,45 @@
+1999-06-29  Jody Goldberg  <jgoldberg@home.com>
+	* src/cell.c (cell_set_formula) : Handle special case of array by
+	  setting the entire matrix from the top left corner.
+	(cell_set_array_formula) : New function.
+
+	* src/cell.h : Add cell_set_array_formula.
+
+	* src/eval.c (add_cell_range_deps) : Split setup into new function.
+	(add_cell_range_dep) : Here.
+	(add_tree_deps) : Support Array operators.
+
+	* src/parser.y : Parse new array formula syntax.
+	(dump_tree) : rename to expr_dump_tree and move to.
+
+	* src/expr.c (expr_dump_tree) : From parser.y.
+	  (expr_tree_get_const_int) : New function.
+	  (expr_tree_array_formula) : New function. 
+	  (expr_tree_array_formula_corner) : New function.
+	  (do_expr_tree_unref) : Support Array operators.
+	  (value_area_get_at_x_y) : Renamed to value_area_fetch_x_y, fixed
+	    thinko, completed support for relative ranges.
+	  (value_area_get_x_y) : New function, like value_area_fetch_x_y but
+	    does not create missing values.
+	  (eval_expr) : Support Array operators.
+	  (do_expr_decode_tree) : Ditto.
+          (do_expr_tree_invalidate_references) : Ditto.
+	  (do_expr_tree_fixup_references) : Ditto.
+
+	* src/expr.h : Add expr_tree_get_const_int, expr_tree_array_formula,
+	  value_area_get_x_y, and Array operators. Rename value_area_get_at_x_y.
+
+	* src/fn-lookup.c : Handle renamed value_area_fetch_x_y.
+	* src/fn-math.c : Ditto. Add MMULT.
+
+	* src/format.c : (format_value) Handle arrays.
+
+	(assemble_clear_cell_list) : check that a subset of an array is not
+	  being cleared.
+	* src/item-cursor.c : Ditto.
+	* src/item-grid.c : Ditto.
+	* src/xml-io.c : Deal with Array formula I/O.
+
 1999-06-29  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/print-info.c (save_range): Save the repeat ranges routine.

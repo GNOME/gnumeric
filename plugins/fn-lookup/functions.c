@@ -287,7 +287,7 @@ gnumeric_vlookup (FunctionEvalInfo *ei, Value **args)
 		int compare;
 		const Value *v;
 
-		v = value_area_get_at_x_y (&ei->pos, args[1], 0, lp);
+		v = value_area_fetch_x_y (&ei->pos, args[1], 0, lp);
 
 		g_return_val_if_fail (v != NULL, NULL);
 
@@ -296,7 +296,7 @@ gnumeric_vlookup (FunctionEvalInfo *ei, Value **args)
 		if (compare == 1){
 			const Value *v;
 
-			v = value_area_get_at_x_y (&ei->pos, args [1], col_idx-1, lp);
+			v = value_area_fetch_x_y (&ei->pos, args [1], col_idx-1, lp);
 			g_return_val_if_fail (v != NULL, NULL);
 
 			return value_duplicate (v);
@@ -309,7 +309,7 @@ gnumeric_vlookup (FunctionEvalInfo *ei, Value **args)
 	if (approx && next_largest){
 	        const Value *v;
 
-		v = value_area_get_at_x_y (&ei->pos, args [1], col_idx-1,
+		v = value_area_fetch_x_y (&ei->pos, args [1], col_idx-1,
 					   next_largest_row);
 		g_return_val_if_fail (v != NULL, NULL);
 		return value_duplicate (v);
@@ -367,7 +367,7 @@ gnumeric_hlookup (FunctionEvalInfo *ei, Value **args)
 		int compare;
 		const Value *v;
 
-		v = value_area_get_at_x_y (&ei->pos, args[1],lp, 0);
+		v = value_area_fetch_x_y (&ei->pos, args[1],lp, 0);
 
 		g_return_val_if_fail (v != NULL, NULL);
 
@@ -376,7 +376,7 @@ gnumeric_hlookup (FunctionEvalInfo *ei, Value **args)
 		if (compare == 1){
 			const Value *v;
 
-			v = value_area_get_at_x_y (&ei->pos, args [1], lp, row_idx-1);
+			v = value_area_fetch_x_y (&ei->pos, args [1], lp, row_idx-1);
 			g_return_val_if_fail (v != NULL, NULL);
 
 			return value_duplicate (v);
@@ -390,7 +390,7 @@ gnumeric_hlookup (FunctionEvalInfo *ei, Value **args)
 	if (approx && next_largest){
 		const Value *v;
 
-		v = value_area_get_at_x_y (&ei->pos, args [1],
+		v = value_area_fetch_x_y (&ei->pos, args [1],
 					   next_largest_col, row_idx-1);
 		g_return_val_if_fail (v != NULL, NULL);
 
@@ -468,10 +468,10 @@ gnumeric_lookup (FunctionEvalInfo *ei, Value **args)
 
 		touched = 0;
 		for (lpx=0,lpy=0;lpx<maxx && lpy<maxy;) {
-			const Value *v = value_area_get_at_x_y (&ei->pos, src, lpx, lpy);
+			const Value *v = value_area_fetch_x_y (&ei->pos, src, lpx, lpy);
 			compare = lookup_similar (v, args[0], next_largest, 1);
 			if (compare == 1)
-				return value_duplicate (value_duplicate (value_area_get_at_x_y (&ei->pos, dest, next_largest_x+x_offset,
+				return value_duplicate (value_duplicate (value_area_fetch_x_y (&ei->pos, dest, next_largest_x+x_offset,
 													  next_largest_y+y_offset)));
 			if (compare < 0) {
 				next_largest = v;
@@ -489,7 +489,7 @@ gnumeric_lookup (FunctionEvalInfo *ei, Value **args)
 		if (!next_largest)
 			return function_error (ei, gnumeric_err_NA);
 
-		return value_duplicate (value_area_get_at_x_y (&ei->pos, dest,
+		return value_duplicate (value_area_fetch_x_y (&ei->pos, dest,
 							       next_largest_x+x_offset,
 							       next_largest_y+y_offset));
 	}

@@ -48,9 +48,6 @@ typedef struct {
 /* This keeps a list of  AllocRecs */
 static GList *alloc_list;
  
-/* Debugging */ 
-static void dump_tree (ExprTree *tree);
-
 /* Bison/Yacc internals */ 
 static int  yylex (void);
 static int  yyerror (char *s);
@@ -88,6 +85,20 @@ build_binop (ExprTree *l, Operation op, ExprTree *r)
 	return res;
 }
 
+static ExprTree *
+build_array_formula (ExprTree * func,
+		     ExprTree * expr_num_cols, ExprTree * expr_num_rows,
+		     ExprTree * expr_x, ExprTree * expr_y)
+{
+	int const num_cols = expr_tree_get_const_int (expr_num_cols);
+	int const num_rows = expr_tree_get_const_int (expr_num_rows);
+	int const x = expr_tree_get_const_int (expr_x);
+	int const y = expr_tree_get_const_int (expr_y);
+	ExprTree * res = expr_tree_array_formula (x, y, num_rows, num_cols);
+	res->u.array.corner.func.expr = func;
+	return res;
+}
+
 %}
 
 %union {
@@ -112,6 +123,11 @@ build_binop (ExprTree *l, Operation op, ExprTree *r)
 
 %%
 line:	  exp           { *parser_result = $1; }
+
+        | '{' exp '}' '(' NUMBER ',' NUMBER ')' '[' NUMBER ']' '[' NUMBER ']' {
+		*parser_result = build_array_formula ($2, $5, $7, $10, $13) ;
+	}
+
 	| error 	{ parser_error = PARSE_ERR_SYNTAX; }
 	;
 
@@ -685,60 +701,6 @@ value_dump (const Value *value)
 	}
 	default:
 		printf ("Unhandled item type\n");
-	}
-}
-
-void
-dump_tree (ExprTree *tree)
-{
-	Symbol *s;
-	CellRef *cr;
-	
-	switch (tree->oper){
-	case OPER_VAR:
-		cr = &tree->u.ref;
-		printf ("Cell: %s%c%s%d\n",
-			cr->col_relative ? "" : "$",
-			cr->col + 'A',
-			cr->row_relative ? "" : "$",
-			cr->row + '1');
-		return;
-		
-	case OPER_CONSTANT:
-		value_dump (tree->u.constant);
-		return;
-
-	case OPER_FUNCALL:
-		s = symbol_lookup (global_symbol_table, tree->u.function.symbol->str);
-		printf ("Function call: %s\n", s->str);
-		break;
-
-	case OPER_ANY_BINARY:
-		dump_tree (tree->u.binary.value_a);
-		dump_tree (tree->u.binary.value_b);
-		switch (tree->oper){
-		case OPER_ADD: printf ("ADD\n"); break;
-		case OPER_SUB: printf ("SUB\n"); break;
-		case OPER_MULT: printf ("MULT\n"); break;
-		case OPER_DIV: printf ("DIV\n"); break;
-		case OPER_CONCAT: printf ("CONCAT\n"); break;
-		case OPER_EQUAL: printf ("==\n"); break;
-		case OPER_NOT_EQUAL: printf ("!=\n"); break;
-		case OPER_LT: printf ("<\n"); break;
-		case OPER_GT: printf (">\n"); break;
-		case OPER_GTE: printf (">=\n"); break;
-		case OPER_LTE: printf ("<=\n"); break;
-		case OPER_EXP: printf ("EXP\n"); break;
-		default:
-			printf ("Error\n");
-		}
-		break;
-		
-	case OPER_NEG:
-		dump_tree (tree->u.value);
-		printf ("NEGATIVE\n");
-		break;
-		
 	}
 }
 

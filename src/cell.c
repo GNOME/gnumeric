@@ -43,6 +43,7 @@ cell_modified (Cell *cell)
 void
 cell_set_formula (Cell *cell, const char *text)
 {
+	ExprTree *new_expr;
 	char *error_msg = _("ERROR");
 	const char *desired_format = NULL;
 	EvalPosition fp;
@@ -51,11 +52,12 @@ cell_set_formula (Cell *cell, const char *text)
 	g_return_if_fail (text != NULL);
 
 	cell_modified (cell);
-	cell->parsed_node = expr_parse_string (&text [1],
+	new_expr = expr_parse_string (&text [1],
 					       eval_pos_cell (&fp, cell),
 					       &desired_format,
 					       &error_msg);
-	if (cell->parsed_node == NULL){
+	if (new_expr == NULL){
+		cell->parsed_node = NULL;
 		cell->flags |= CELL_ERROR;
 		cell_set_rendered_text (cell, error_msg);
 
@@ -63,16 +65,32 @@ cell_set_formula (Cell *cell, const char *text)
 			value_release (cell->value);
 		cell->value = NULL;
 		return;
-	} else {
+	}
+
+	if (new_expr->oper == OPER_ARRAY){
+		if (new_expr->u.array.x == 0 && new_expr->u.array.y == 0){
+			cell->parsed_node = new_expr;
+			cell_set_array_formula (cell->sheet,
+						cell->row->pos,
+						cell->col->pos,
+						cell->row->pos + new_expr->u.array.rows -1,
+						cell->col->pos + new_expr->u.array.cols -1,
+						new_expr->u.array.corner.func.expr);
+		} else
+			new_expr = NULL;
+	} else
+		cell->parsed_node = new_expr;
+
 		if (cell->flags & CELL_ERROR)
 			cell->flags &= ~CELL_ERROR;
-	}
 
 	if (desired_format && strcmp (cell->style->format->format, "General") == 0){
 		style_format_unref (cell->style->format);
 		cell->style->format = style_format_new (desired_format);
 	}
 
+	/* Don't touch things if this was part of an array not at the corner */
+	if (new_expr)
 	cell_formula_changed (cell);
 }
 
@@ -719,7 +737,7 @@ cell_set_text (Cell *cell, const char *text)
  *   - It does not queue redraws (so you have to queue the redraw yourself
  *     or queue a full redraw).
  *
- *   - It does not queue any recomputations.  YOu have to queue the
+ *   - It does not queue any recomputations.  You have to queue the
  *     recompute yourself.
  */
 void
@@ -739,6 +757,63 @@ cell_set_formula_tree_simple (Cell *cell, ExprTree *formula)
 
 	cell->parsed_node = formula;
 	cell_formula_changed (cell);
+}
+
+/**
+ * cell_set_array_formula:
+ * @sheet:   The sheet to set the formula to.
+ * @row_a:   The top row in the destination region.
+ * @col_a:   The left column in the destination region.
+ * @row_b:   The bottom row in the destination region.
+ * @col_b:   The right column in the destination region.
+ * @formula: an expression tree with the formula
+ *
+ * Uses cell_set_formula_tree_simple to store the formula as an 
+ * 'array-formula'.  The supplied expression is wrapped in an array
+ * operator for each cell in the range and scheduled for recalc.  The
+ * upper left corner is handled as a special case and care is taken to
+ * out it at the head of the recalc queue.
+ */
+void
+cell_set_array_formula (Sheet *sheet,
+			int row_a, int col_a, int row_b, int col_b,
+			ExprTree *formula)
+{
+	int const num_rows = 1 + row_b - row_a;
+	int const num_cols = 1 + col_b - col_a;
+	int x, y;
+	Cell * const corner = sheet_cell_fetch (sheet, col_a, row_a);
+	Cell * cell = NULL;
+	ExprTree *wrapper = NULL;
+
+	g_return_if_fail (num_cols > 0);
+	g_return_if_fail (num_rows > 0);
+	g_return_if_fail (formula != NULL);
+	g_return_if_fail (corner != NULL);
+
+	wrapper = expr_tree_array_formula (0, 0, num_rows, num_cols);
+	wrapper->u.array.corner.func.value = NULL;
+	wrapper->u.array.corner.func.expr = formula;
+	expr_tree_ref (formula);
+	cell_set_formula_tree_simple (corner, wrapper);
+
+	/* The corner must be 1st on the recalc list, queue it later */
+	cell_unqueue_from_recalc (corner);
+
+	for (x = 0; x < num_cols; ++x)
+		for (y = 0; y < num_rows; ++y)
+		{
+			if (x == 0 && y == 0)
+				continue;
+			cell = sheet_cell_fetch (sheet, col_a+x,row_a+y);
+			wrapper = expr_tree_array_formula (x, y,
+							   num_rows, num_cols);
+			wrapper->u.array.corner.cell = corner;
+			cell_set_formula_tree_simple (cell, wrapper);
+		}
+
+	/* Put the corner at the head of the recalc list */
+	cell_queue_recalc (corner);
 }
 
 void
@@ -1422,7 +1497,7 @@ cell_get_content (Cell *cell)
 	}
 
 	/*
-	 * Return the value wihtout parsing.
+	 * Return the value without parsing.
 	 */
 	if (cell->value)
 		str = value_get_as_string (cell->value);

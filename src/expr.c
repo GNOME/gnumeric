@@ -249,6 +249,17 @@ function_error_alloc (FunctionEvalInfo *fe, char *error_string)
 	return NULL;
 }
 
+int
+expr_tree_get_const_int (ExprTree const * const expr)
+{
+	g_return_val_if_fail (expr != NULL, 0);
+	g_return_val_if_fail (expr->oper == OPER_CONSTANT, 0);
+	g_return_val_if_fail (expr->u.constant, 0);
+	g_return_val_if_fail (expr->u.constant->type == VALUE_INTEGER, 0);
+
+	return expr->u.constant->v.v_int;
+}
+
 ExprTree *
 expr_parse_string (const char *expr, const EvalPosition *fp,
 		   const char **desired_format, char **error_msg)
@@ -327,6 +338,43 @@ expr_tree_new_error (const char *txt)
 	return expr_tree_new_funcall (func, args);
 }
 
+ExprTree *
+expr_tree_array_formula (int const x, int const y, int const rows, int const cols)
+{
+	ExprTree *ans;
+
+	ans = g_new (ExprTree, 1);
+	if (ans == NULL)
+		return NULL;
+	
+	ans->ref_count = 1;
+	ans->oper = OPER_ARRAY;
+	ans->u.array.x = x;
+	ans->u.array.y = y;
+	ans->u.array.rows = rows;
+	ans->u.array.cols = cols;
+	ans->u.array.corner.func.value = NULL;
+	ans->u.array.corner.func.expr = NULL;
+	ans->u.array.corner.cell = NULL;
+	return ans;
+}
+
+
+static ExprTree *
+expr_tree_array_formula_corner (ExprTree *expr)
+{
+	Cell * const corner = expr->u.array.corner.cell;
+
+	g_return_val_if_fail (corner, NULL);
+	g_return_val_if_fail (corner->parsed_node != NULL, NULL);
+
+	/* Sanity check incase the corner gets removed for some reason */
+	g_return_val_if_fail (corner->parsed_node != (void *)0xdeadbeef, NULL);
+	g_return_val_if_fail (corner->parsed_node->oper == OPER_ARRAY, NULL);
+
+	return corner->parsed_node;
+}
+
 /*
  * expr_tree_ref:
  * Increments the ref_count for part of a tree
@@ -371,6 +419,10 @@ do_expr_tree_unref (ExprTree *tree)
 
 	case OPER_ANY_UNARY:
 		do_expr_tree_unref (tree->u.value);
+		break;
+	case OPER_ARRAY:
+		if (tree->u.array.x == 0 && tree->u.array.y == 0)
+			do_expr_tree_unref (tree->u.array.corner.func.expr);
 		break;
 	default:
 		g_warning ("do_expr_tree_unref error\n");
@@ -887,48 +939,90 @@ value_area_get_height (const EvalPosition *ep, Value *v)
 	}
 }
 
+/*
+ * An internal routine to get a cell from an array or range.  If any
+ * problems occur a NULL is returned.
+ */
 const Value *
-value_area_get_at_x_y (const EvalPosition *ep, Value *v, guint x, guint y)
+value_area_get_x_y (EvalPosition const *ep, Value const *v, guint x, guint y)
 {
-	g_return_val_if_fail (v, 0);
+	g_return_val_if_fail (v, NULL);
 	g_return_val_if_fail (v->type == VALUE_ARRAY ||
 			      v->type == VALUE_CELLRANGE,
-			      value_zero);
+			      NULL);
 
 	if (v->type == VALUE_ARRAY){
-		g_return_val_if_fail (v->v.array.x < x &&
-				      v->v.array.y < y,
+		g_return_val_if_fail (x < v->v.array.x &&
+				      y < v->v.array.y,
 				      value_zero);
 		return v->v.array.vals [x][y];
 	} else {
-		CellRef *a, *b;
+		CellRef const * const a = &v->v.cell_range.cell_a;
+		CellRef const * const b = &v->v.cell_range.cell_b;
+		int a_col = a->col;
+		int a_row = a->row;
+		int b_col = b->col;
+		int b_row = b->row;
 		Cell *cell;
 		Sheet *sheet;
 
-		a = &v->v.cell_range.cell_a;
-		b = &v->v.cell_range.cell_b;
-		/* Fixme: these need to be altered to use 'ep' to calc.
-		   non relative values if necessary */
-		g_return_val_if_fail (!a->col_relative, value_zero);
-		g_return_val_if_fail (!b->col_relative, value_zero);
-		g_return_val_if_fail (!a->row_relative, value_zero);
-		g_return_val_if_fail (!b->row_relative, value_zero);
-		g_return_val_if_fail (a->col<=b->col, value_zero);
-		g_return_val_if_fail (a->row<=b->row, value_zero);
+		/* Handle relative references */
+		if (a->col_relative)
+			a_col += ep->eval_col;
+		if (a->row_relative)
+			a_row += ep->eval_row;
+		if (b->col_relative)
+			b_col += ep->eval_col;
+		if (b->row_relative)
+			b_row += ep->eval_row;
+
+		/* Handle inverted refereneces */
+		if (a_row > b_row)
+		{
+			int tmp = a_row;
+			a_row = b_row;
+			b_row = tmp;
+		}
+		if (a_col > b_col)
+		{
+			int tmp = a_col;
+			a_col = b_col;
+			b_col = tmp;
+		}
+
+		a_col += x;
+		a_row += y;
+
+		/*
+		 * FIXME FIXME FIXME
+		 * This should return NA but some of the math functions may
+		 * rely on this for now.
+		 */
+		g_return_val_if_fail (a_row<=b_row, value_zero);
+
 		sheet = a->sheet?a->sheet:ep->sheet;
-		g_return_val_if_fail (sheet,          value_zero);
+		g_return_val_if_fail (sheet != NULL, NULL);
 
 		/* Speedup */
-		if (a->sheet->max_col_used < a->col+x ||
-		    a->sheet->max_row_used < a->row+y)
-			return value_zero;
+		if (sheet->max_col_used < a_col ||
+		    sheet->max_row_used < a_row)
+			return NULL;
 
-		cell = sheet_cell_get (sheet, a->col+x, a->row+y);
+		cell = sheet_cell_get (sheet, a_col, a_row);
 
 		if (cell && cell->value)
 			return cell->value;
 	}
 	
+	return NULL;
+}
+
+const Value *
+value_area_fetch_x_y (EvalPosition const *ep, Value const *v, guint x, guint y)
+{
+	Value const * const res = value_area_get_x_y (ep, v, x, y);
+	if (res)
+		return res;
 	return value_zero;
 }
 
@@ -1556,6 +1650,46 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 			res = value_new_float (-a->v.v_float);
 		value_release (a);
 		return res;
+
+	case OPER_ARRAY:
+	{
+		/* The upper left corner manages the recalc of the expr */
+		int const x = tree->u.array.x;
+		int const y = tree->u.array.y;
+		if (x == 0 && y == 0){
+			/* Store real result */
+			a = eval_expr (s, tree->u.array.corner.func.expr);
+			if (tree->u.array.corner.func.value != NULL)
+				value_release (tree->u.array.corner.func.value);
+			tree->u.array.corner.func.value = a;
+		} else
+		{
+			ExprTree const * const array =
+			    expr_tree_array_formula_corner (tree);
+			if (array)
+				a = array->u.array.corner.func.value;
+			else
+				a = NULL;
+	}
+		g_return_val_if_fail (a != NULL,
+				      function_error (s, gnumeric_err_NA));
+
+		if (a->type == VALUE_CELLRANGE || a->type == VALUE_ARRAY){
+			int const num_x = value_area_get_width (&s->pos, a);
+			int const num_y = value_area_get_height (&s->pos, a);
+			if (x < num_x && y < num_y){
+				/* Evaluate relative to the upper left corner */
+				EvalPosition tmp_ep = s->pos; /* blit copy */
+				tmp_ep.eval_col -= x;
+				tmp_ep.eval_row -= y;
+				a = (Value *)value_area_fetch_x_y (&s->pos,
+								   a, x, y);
+			} else
+				return function_error (s, gnumeric_err_NA);
+		} else if (x >= 1 || y >= 1)
+			return function_error (s, gnumeric_err_NA);
+		return value_duplicate (a);
+	}
 	}
 
 	error_message_set (s->error, _("Unknown evaluation error"));
@@ -1758,6 +1892,43 @@ do_expr_decode_tree (ExprTree *tree, const EvalPosition *fp, int paren_level)
 			return NULL;
 		}
 	}
+	case OPER_ARRAY:
+	{
+		int const x = tree->u.array.x;
+		int const y = tree->u.array.y;
+		char *res = "<ERROR>";
+		if (x != 0 || y != 0)
+		{
+			ExprTree *array = expr_tree_array_formula_corner (tree);
+			if (array)
+			{
+				EvalPosition tmp_pos;
+				tmp_pos.sheet = fp->sheet;
+				tmp_pos.eval_col = fp->eval_col - x;
+				tmp_pos.eval_row = fp->eval_row - y;
+				res = do_expr_decode_tree (
+					array->u.array.corner.func.expr,
+					&tmp_pos, 0);
+	}
+		} else
+		{
+			res = do_expr_decode_tree (
+			    tree->u.array.corner.func.expr, fp, 0);
+		}
+
+		/* Not exactly Excel format but more useful */
+		{
+			GString *str = g_string_new ("{");
+			g_string_sprintfa (str, "%s}(%dx%d)[%d][%d]", res,
+					   tree->u.array.rows,
+					   tree->u.array.cols,
+					   tree->u.array.y,
+					   tree->u.array.x);
+			res = str->str;
+			g_string_free (str, FALSE);
+			return res;
+		}
+        }
 	}
 
 	g_warning ("ExprTree: This should not happen\n");
@@ -1936,6 +2107,13 @@ do_expr_tree_invalidate_references (ExprTree *src, const struct expr_tree_frob_r
 			g_warning ("do_expr_tree_invalidate_references error\n");
 			break;
 		}
+		g_assert_not_reached ();
+		return NULL;
+	}
+	case OPER_ARRAY:
+	{
+		/* FIXME FIXME FIXME : what should this do ? */
+		return NULL;
 		g_assert_not_reached ();
 		return NULL;
 	}
@@ -2144,6 +2322,16 @@ do_expr_tree_fixup_references (ExprTree *src, const struct expr_tree_frob_refere
 		g_assert_not_reached ();
 		return NULL;
 	}
+	case OPER_ARRAY:
+	{
+		/*
+		 * FIXME FIXME FIXME : This is the mirror of above.
+		 * Read and find out what they do
+		 */
+		return NULL;
+		g_assert_not_reached ();
+		return NULL;
+	}
 	}
 
 	g_assert_not_reached ();
@@ -2201,3 +2389,62 @@ expr_tree_fixup_references (ExprTree *src, EvalPosition *src_fp,
 
 	return dst;
 }
+
+/* Debugging utility to print an expression */
+void
+expr_dump_tree (ExprTree *tree)
+{
+	Symbol *s;
+	CellRef *cr;
+	
+	switch (tree->oper){
+	case OPER_VAR:
+		cr = &tree->u.ref;
+		printf ("Cell: %s%c%s%d\n",
+			cr->col_relative ? "" : "$",
+			cr->col + 'A',
+			cr->row_relative ? "" : "$",
+			cr->row + '1');
+		return;
+		
+	case OPER_CONSTANT:
+		value_dump (tree->u.constant);
+		return;
+
+	case OPER_FUNCALL:
+		s = symbol_lookup (global_symbol_table, tree->u.function.symbol->str);
+		printf ("Function call: %s\n", s->str);
+		break;
+
+	case OPER_ANY_BINARY:
+		expr_dump_tree (tree->u.binary.value_a);
+		expr_dump_tree (tree->u.binary.value_b);
+		switch (tree->oper){
+		case OPER_ADD: printf ("ADD\n"); break;
+		case OPER_SUB: printf ("SUB\n"); break;
+		case OPER_MULT: printf ("MULT\n"); break;
+		case OPER_DIV: printf ("DIV\n"); break;
+		case OPER_CONCAT: printf ("CONCAT\n"); break;
+		case OPER_EQUAL: printf ("==\n"); break;
+		case OPER_NOT_EQUAL: printf ("!=\n"); break;
+		case OPER_LT: printf ("<\n"); break;
+		case OPER_GT: printf (">\n"); break;
+		case OPER_GTE: printf (">=\n"); break;
+		case OPER_LTE: printf ("<=\n"); break;
+		case OPER_EXP: printf ("EXP\n"); break;
+		default:
+			printf ("Error\n");
+		}
+		break;
+		
+	case OPER_NEG:
+		expr_dump_tree (tree->u.value);
+		printf ("NEGATIVE\n");
+		break;
+
+	case OPER_ARRAY:
+		printf ("ARRAY??\n");
+		break;
+	}
+}
+

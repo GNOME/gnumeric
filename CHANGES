@@ -22,6 +22,9 @@ Michael
 Nick Lamb
 
 Jody Goldberg
+	* Completed Excel colour handling (Hopefully).
+	* Improved Excel format support for formulas.
+	* Initial implementation of array formulas.
 	* Worked on embryonic Excel chart code
 
 Several translations updated: thanks to our translators

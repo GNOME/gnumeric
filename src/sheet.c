@@ -2468,6 +2468,47 @@ sheet_destroy (Sheet *sheet)
 }
 
 
+struct sheet_clear_region_callback_data
+{
+	int start_col, start_row, end_col, end_row;
+	GList *l;
+};
+
+/*
+ * assemble_cell_list: A callback for sheet_cell_foreach_range
+ * intented to assemble a list of cells in a region to be cleared.
+ *
+ * The closure parameter should be a pointer to a
+ * sheet_clear_region_callback_data.
+ */
+static int
+assemble_clear_cell_list (Sheet *sheet, int col, int row, Cell *cell,
+			  void *user_data)
+{
+	struct sheet_clear_region_callback_data * cb =
+	    (struct sheet_clear_region_callback_data *) user_data;
+
+	cb->l = g_list_prepend (cb->l, cell);
+
+	/* TODO TODO TODO : Where to deal with a user creating
+	 * several adjacent regions to clear ??
+	 */
+
+	/* Flag an attempt to delete a subset of an array */
+	if (cell->parsed_node && cell->parsed_node->oper == OPER_ARRAY){
+		ArrayRef * ref = &cell->parsed_node->u.array;
+		if ((col - ref->x) < cb->start_col)
+			return FALSE;
+		if ((row - ref->y) < cb->start_row)
+			return FALSE;
+		if ((col - ref->x + ref->cols -1) > cb->end_col)
+			return FALSE;
+		if ((row - ref->y + ref->rows -1) > cb->end_row)
+			return FALSE;
+	}
+	return TRUE;
+}
+
 /**
  * sheet_clear_region:
  *
@@ -2479,7 +2520,8 @@ sheet_destroy (Sheet *sheet)
 void
 sheet_clear_region (Sheet *sheet, int start_col, int start_row, int end_col, int end_row)
 {
-	GList *destroyable_cells, *l;
+	struct sheet_clear_region_callback_data cb;
+	GList *l;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -2489,22 +2531,28 @@ sheet_clear_region (Sheet *sheet, int start_col, int start_row, int end_col, int
 	/* Queue a redraw for the cells being removed */
 	sheet_redraw_cell_region (sheet, start_col, start_row, end_col, end_row);
 
-	destroyable_cells = NULL;
-	sheet_cell_foreach_range (
-		sheet, TRUE,
+	cb.start_col = start_col;
+	cb.start_row = start_row;
+	cb.end_col = end_col;
+	cb.end_row = end_row;
+	cb.l = NULL;
+	if (sheet_cell_foreach_range ( sheet, TRUE,
 		start_col, start_row,
 		end_col, end_row,
-		assemble_cell_list, &destroyable_cells);
-
-	for (l = destroyable_cells; l; l = l->next){
+				       assemble_clear_cell_list, &cb)){
+		for (l = cb.l; l; l = l->next){
 		Cell *cell = l->data;
 
 		sheet_cell_remove (sheet, cell);
 		cell_destroy (cell);
 	}
-	g_list_free (destroyable_cells);
-
 	workbook_recalc (sheet->workbook);
+	} else 
+	{
+	    /* FIXME : put up a dialog ?? */
+	    g_warning ("Tell user not to try to delete subset of array\n");
+	}
+	g_list_free (cb.l);
 }
 
 void
@@ -3526,11 +3574,13 @@ void
 sheet_fill_selection_with (Sheet *sheet, const char *str)
 {
 	GList *l;
-	int  col, row;
-
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (str != NULL);
+
+	/* Not a formula, just paste the results */
+	if (*str != '='){
+		int  col, row;
 
 	for (l = sheet->selections; l; l = l->next){
 		SheetSelection *ss = l->data;
@@ -3538,6 +3588,29 @@ sheet_fill_selection_with (Sheet *sheet, const char *str)
 		for (col = ss->start_col; col <= ss->end_col; col++)
 			for (row = ss->start_row; row <= ss->end_row; row++)
 				sheet_set_text (sheet, col, row, str);
+		}
+		return;
+	}
+
+	/* Single range only */
+	if ((l = sheet->selections)) {
+		char *error_string = NULL;
+		SheetSelection *ss = l->data;
+		EvalPosition fp;
+		ExprTree *expr =
+			expr_parse_string (str+1,
+					   eval_pos_init (&fp, sheet,
+							  ss->start_col,
+							  ss->start_row),
+					   NULL, &error_string);
+		if (expr) {
+			cell_set_array_formula (sheet,
+						ss->start_row, ss->start_col,
+						ss->end_row, ss->end_col,
+						expr);
+			workbook_recalc (sheet->workbook);
+		} else
+			puts(error_string);
 	}
 }
 
