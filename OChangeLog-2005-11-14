@@ -1,3 +1,10 @@
+2000-12-18  Jon K Hellan  <hellan@acm.org>
+
+	* src/print.c (print_page): Fix bug: We must use gnome-print
+	coordinate system when clipping to page limit. Also take into
+	account that Postscript/gnome-print clip paths exclude the pixels
+	on the path.
+
 2000-12-18  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* configure.in : Fix typo in gb check.

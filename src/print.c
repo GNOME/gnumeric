@@ -500,6 +500,7 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 	for (i = 0; i < pj->n_copies; i++){
 		double x = base_x;
 		double y = base_y;
+		double clip_y;
 		char *pagenotxt;
 
 		/* Note: we cannot have spaces in page numbers.  */
@@ -526,9 +527,13 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 		}
 
 		/* Clip the page */
+		/* Gnome-print coordinates are lower left based,
+		 * like Postscript */
+		clip_y = 1 + pj->height - y;
 		print_make_rectangle_path (
 			pj->print_context,
-			x, y, x + pj->x_points, y + pj->y_points);
+			x - 1, clip_y,
+			x + pj->x_points + 1, clip_y - pj->y_points - 2);
 		gnome_print_clip      (pj->print_context);
 
 		/* Start a new path because the background fill function does not */
