@@ -1,3 +1,8 @@
+2005-02-02  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/graph.c: (gnm_go_data_matrix_get_value): duplicate value before
+	releasing (#166051)
+
 2005-02-01  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-parse.c (stf_parse_csv_is_separator): Handle

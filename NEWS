@@ -7,6 +7,7 @@ Emmanuel Pacaud:
 Jean Brefort:
 	* add scatter plots with spline interpolation.
 	* Box-plots.
+	* Fix crash in contour plots (#166051).
 
 J.H.M. Dassen (Ray):
 	* Generate an error when no proper UTF-8 filename is produced when
