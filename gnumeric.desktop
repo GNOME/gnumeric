@@ -1,10 +1,12 @@
 [Desktop Entry]
 Name=Gnumeric spreadsheet
+Name[ja]=Gnumeric ¥¹¥×¥ì¥Ã¥É¥·¡¼¥È
 Name[es]=Gnumeric
 Name[fr]=Tableur Gnumeric
 Name[pt]=Gnumeric
 Name[no]=Gnumeric regneark
 Comment=Spreadsheet
+Comment[ja]=É½·×»»¥×¥í¥°¥é¥à
 Comment[es]=Hoja de cálculo
 Comment[fr]=Tableur Gnumeric
 Comment[pt]=Folha de cálculo Gnumeric

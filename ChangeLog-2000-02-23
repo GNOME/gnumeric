@@ -1,3 +1,8 @@
+1998-12-04  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* configure.in (ALL_LINGUAS): Added Japanese translation courtesy
+	of Mitsuru Oka <moka@globe.to>.  Also updated the .desktop file.
+
 1998-12-02  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_set_top_row,

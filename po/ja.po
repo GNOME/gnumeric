@@ -1,0 +1,2105 @@
+# ja.po file for gnumeric.
+# Copyright (C) 1998 Free Software Foundation, Inc.
+# Mitsuru Oka <95i44@is.kochi-u.ac.jp>, 1998.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: gnumeric 0.3\n"
+"POT-Creation-Date: 1998-12-04 21:25+0900\n"
+"PO-Revision-Date: 1998-12-05 07:00+09:00\n"
+"Last-Translator: Mitsuru Oka <95i44@is.kochi-u.ac.jp>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=euc-jp\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: plugins/stat/stat.c:10
+msgid ""
+"@FUNCTION=STDEV\n"
+"@SYNTAX = STDEV(value1, value2, ...)@DESCRIPTION=Computes the standard "
+"deviation of all the values and cells referenced in the argument list. This "
+"is equivalent to the square root of the variance.\n"
+"@SEEALSO=VARIANCE"
+msgstr ""
+"@FUNCTION=STDEV\n"
+"@SYNTAX=STDEV(値1, 値2,...)\n"
+"@DESCRIPTION=全ての値および引数リストで参照されているセルの標準偏差を計算しま"
+"す。これは分散(VARIANCE)の平方根と同等です。\n"
+"@SEEALSO=VARIANCE"
+
+#: plugins/stat/stat.c:21
+msgid ""
+"@FUNCTION=VARIANCE\n"
+"@SYNTAX = VARIANCE(value1, value2, ...)@DESCRIPTION=Computes the variation "
+"of all the values and cells referenced in the argument list. This "
+"is\tequivalent to the sum of (value - average)^2, divided by the number of "
+"values minus 1. If you want it divided by N instead of N - 1, use "
+"NVARIANCE.@SEEALSO=AVERAGE, NVARIANCE"
+msgstr ""
+"@FUNCTION=VARIANCE\n"
+"@SYNTAX=VARIANCE(値1, 値2,...)\n"
+"@DESCRIPTION=全ての値および引数リストで参照されているセルの分散を計算します。"
+"これは (値 - 平均)^2 の総和を(値の数 - 1)で割ったものと同等です。もし N - 1 "
+"の代わりに N で割りたければ、NVARIANCE を使って下さい。\n"
+"@SEEALSO=AVARAGE, NVARIANCE"
+
+#: plugins/stat/stat.c:32
+msgid ""
+"@FUNCTION=NVARIANCE\n"
+"@SYNTAX = NVARIANVE(value1, value2, ...)@DESCRIPTION=Computes the variation "
+"of all the values and cells references in the argument list. This is "
+"equivalent to the sum of (value - average)^2, divided by the number of "
+"values. If you want it divided by N - 1 instead of N, use "
+"VARIANCE.@SEEALSO=AVERAGE, VARIANCE"
+msgstr ""
+"@FUNCTION=NVARIANCE\n"
+"@SYNTAX=NVARIANCE(値1, 値2, ...)\n"
+"@DESCRIPTION=全ての値および引数リストで参照されているセルの不偏分散を計算しま"
+"す。これは (値 - 平均)^2 の総和を値の数で割ったものと同等です。もし N "
+"の代わに N -1 で割りたければ、VARIANCE を使って下さい。\n"
+"@SEEALSO=AVERAGE, VARIANCE"
+
+#: plugins/stat/stat.c:67
+msgid "Statistics Plugin"
+msgstr "統計プラグイン"
+
+#: plugins/stat/stat.c:100
+msgid "variance - division by 0"
+msgstr "分散 - 0 で除算しました"
+
+#: src/about.c:33
+msgid "Gnumeric"
+msgstr ""
+
+#: src/about.c:36
+msgid ""
+"The GNOME spreadsheet.\n"
+"http://www.gnome.org/gnumeric"
+msgstr ""
+"GNOME スプレッドシート\n"
+"http://www.gnome.org/gnumeric"
+
+#: src/dates.c:14
+msgid "*Sun"
+msgstr "*日"
+
+#: src/dates.c:15
+msgid "*Mon"
+msgstr "*月"
+
+#: src/dates.c:16
+msgid "*Tue"
+msgstr "*火"
+
+#: src/dates.c:17
+msgid "*Wed"
+msgstr "*水"
+
+#: src/dates.c:18
+msgid "*Thu"
+msgstr "*木"
+
+#: src/dates.c:19
+msgid "*Fri"
+msgstr "*金"
+
+#: src/dates.c:20
+msgid "*Sat"
+msgstr "*土"
+
+#: src/dates.c:26
+msgid "Sunday"
+msgstr "日曜日"
+
+#: src/dates.c:27
+msgid "Monday"
+msgstr "月曜日"
+
+#: src/dates.c:28
+msgid "Tuesday"
+msgstr "火曜日"
+
+#: src/dates.c:29
+msgid "Wednesday"
+msgstr "水曜日"
+
+#: src/dates.c:30
+msgid "Thursday"
+msgstr "木曜日"
+
+#: src/dates.c:31
+msgid "Friday"
+msgstr "金曜日"
+
+#: src/dates.c:32
+msgid "Saturday"
+msgstr "土曜日"
+
+#: src/dates.c:38
+msgid "*Jan"
+msgstr "*1"
+
+#: src/dates.c:39
+msgid "*Feb"
+msgstr "*2"
+
+#: src/dates.c:40
+msgid "*Mar"
+msgstr "*3"
+
+#: src/dates.c:41
+msgid "*Apr"
+msgstr "*4"
+
+#: src/dates.c:42
+msgid "*May"
+msgstr "*5"
+
+#: src/dates.c:43
+msgid "*Jun"
+msgstr "*6"
+
+#: src/dates.c:44
+msgid "*Jul"
+msgstr "*7"
+
+#: src/dates.c:45
+msgid "*Aug"
+msgstr "*8"
+
+#: src/dates.c:46
+msgid "*Sep"
+msgstr "*9"
+
+#: src/dates.c:47
+msgid "*Oct"
+msgstr "*10"
+
+#: src/dates.c:48
+msgid "*Nov"
+msgstr "*11"
+
+#: src/dates.c:49
+msgid "*Dec"
+msgstr "*12"
+
+#: src/dates.c:55
+msgid "January"
+msgstr "1月"
+
+#: src/dates.c:56
+msgid "February"
+msgstr "2月"
+
+#: src/dates.c:57
+msgid "March"
+msgstr "3月"
+
+#: src/dates.c:58
+msgid "April"
+msgstr "4月"
+
+#: src/dates.c:59
+msgid "May"
+msgstr "5月"
+
+#: src/dates.c:60
+msgid "June"
+msgstr "6月"
+
+#: src/dates.c:61
+msgid "July"
+msgstr "7月"
+
+#: src/dates.c:62
+msgid "August"
+msgstr "8月"
+
+#: src/dates.c:63
+msgid "September"
+msgstr "9月"
+
+#: src/dates.c:64
+msgid "October"
+msgstr "10月"
+
+#: src/dates.c:65
+msgid "November"
+msgstr "11月"
+
+#: src/dates.c:66
+msgid "December"
+msgstr "12月"
+
+#: src/dialog-cell-format.c:66
+msgid "Numbers"
+msgstr "数値"
+
+#: src/dialog-cell-format.c:67
+msgid "Accounting"
+msgstr "会計"
+
+#: src/dialog-cell-format.c:68
+msgid "Date"
+msgstr "日付"
+
+#: src/dialog-cell-format.c:69
+msgid "Time"
+msgstr "時間"
+
+#: src/dialog-cell-format.c:70
+msgid "Percent"
+msgstr "パーセント"
+
+#: src/dialog-cell-format.c:71
+msgid "Fraction"
+msgstr "分数"
+
+#: src/dialog-cell-format.c:72
+msgid "Scientific"
+msgstr "科学技術"
+
+#: src/dialog-cell-format.c:73
+msgid "Text"
+msgstr "テキスト"
+
+#: src/dialog-cell-format.c:74
+msgid "Money"
+msgstr "通貨"
+
+#. 1. Categories
+#: src/dialog-cell-format.c:253
+msgid "Categories"
+msgstr "部類"
+
+#. 2.1 Input line
+#: src/dialog-cell-format.c:283
+msgid "Code:"
+msgstr "コード:"
+
+#. 2.2 Sample
+#: src/dialog-cell-format.c:292
+msgid "Sample:"
+msgstr "例:"
+
+#: src/dialog-cell-format.c:304
+msgid "Format codes"
+msgstr "コード形式"
+
+#: src/dialog-cell-format.c:353 src/formats.c:16 src/number-match.c:449
+msgid "General"
+msgstr "汎用"
+
+#: src/dialog-cell-format.c:354
+msgid "Left"
+msgstr "左"
+
+#: src/dialog-cell-format.c:355 src/dialog-cell-format.c:364
+#: src/workbook.c:826
+msgid "Center"
+msgstr "中心"
+
+#: src/dialog-cell-format.c:356
+msgid "Right"
+msgstr "右"
+
+#: src/dialog-cell-format.c:357
+msgid "Fill"
+msgstr "満たす"
+
+#: src/dialog-cell-format.c:358 src/dialog-cell-format.c:366
+msgid "Justify"
+msgstr "揃える"
+
+#: src/dialog-cell-format.c:363
+msgid "Top"
+msgstr "上"
+
+#: src/dialog-cell-format.c:365
+msgid "Bottom"
+msgstr "下"
+
+#. Vertical alignment
+#: src/dialog-cell-format.c:421
+msgid "Vertical"
+msgstr "垂直"
+
+#. Horizontal alignment
+#: src/dialog-cell-format.c:425
+msgid "Horizontal"
+msgstr "水平"
+
+#: src/dialog-cell-format.c:428
+msgid "Auto return"
+msgstr "自動改行"
+
+#: src/dialog-cell-format.c:597
+msgid "Text color"
+msgstr "テキストカラー"
+
+#. The radio buttons
+#: src/dialog-cell-format.c:601 src/dialog-cell-format.c:631
+#: src/dialog-paste-special.c:28
+msgid "None"
+msgstr "なし"
+
+#: src/dialog-cell-format.c:603
+msgid "Use this color"
+msgstr "この色を使う"
+
+#: src/dialog-cell-format.c:625
+msgid "Background configuration"
+msgstr "バックグラウンドの設定"
+
+#: src/dialog-cell-format.c:633
+msgid "Use solid color"
+msgstr "固定色を使う"
+
+#: src/dialog-cell-format.c:635
+msgid "Use a pattern"
+msgstr "パターンを使う"
+
+#: src/dialog-cell-format.c:724
+msgid "Number"
+msgstr "数"
+
+#: src/dialog-cell-format.c:725
+msgid "Alignment"
+msgstr "配置"
+
+#: src/dialog-cell-format.c:726
+msgid "Font"
+msgstr "フォント"
+
+#: src/dialog-define-names.c:23
+msgid "Define names"
+msgstr "名前を定義"
+
+#: src/dialog-define-names.c:26 src/dialog-paste-special.c:29
+msgid "Add"
+msgstr "加算"
+
+#: src/dialog-define-names.c:27 src/plugin-manager.c:129
+msgid "Remove"
+msgstr "削除"
+
+#: src/dialog-define-names.c:41
+msgid "Names in the workbook"
+msgstr "このワークブックの名前"
+
+#: src/dialog-define-names.c:48
+msgid "Refers to"
+msgstr "参照"
+
+#: src/dialog-delete-cells.c:25
+msgid "delete cells"
+msgstr "セルを削除"
+
+#: src/dialog-delete-cells.c:29
+msgid "Delete cells"
+msgstr "セルを削除"
+
+#: src/dialog-delete-cells.c:32 src/item-grid.c:524
+msgid "Delete"
+msgstr "削除"
+
+#: src/dialog-delete-cells.c:33
+msgid "Shift cells left"
+msgstr "セルを左に移動"
+
+#: src/dialog-delete-cells.c:34
+msgid "Shift cells up"
+msgstr "セルを上に移動"
+
+#: src/dialog-delete-cells.c:35
+msgid "Delete row(s)"
+msgstr "行を削除"
+
+#: src/dialog-delete-cells.c:36
+msgid "Delete column(s)"
+msgstr "列を削除"
+
+#: src/dialog-goto-cell.c:42
+msgid "Cell"
+msgstr "セル"
+
+#: src/dialog-goto-cell.c:45
+msgid "Go to..."
+msgstr "移動先..."
+
+#: src/dialog-goto-cell.c:47
+msgid "Special..."
+msgstr "特別..."
+
+#: src/dialog-insert-cells.c:25
+msgid "insert cells"
+msgstr "セルを挿入"
+
+#: src/dialog-insert-cells.c:29
+msgid "Insert cells"
+msgstr "セルを挿入"
+
+#: src/dialog-insert-cells.c:32 src/item-grid.c:523
+msgid "Insert"
+msgstr "挿入"
+
+#: src/dialog-insert-cells.c:33
+msgid "Shift cells right"
+msgstr "セルを右に移動"
+
+#: src/dialog-insert-cells.c:34
+msgid "Shift cells down"
+msgstr "セルを下に移動"
+
+#: src/dialog-insert-cells.c:35
+msgid "Insert row(s)"
+msgstr "行を挿入"
+
+#: src/dialog-insert-cells.c:36
+msgid "Insert column(s)"
+msgstr "列を挿入"
+
+#: src/dialog-paste-special.c:20
+msgid "All"
+msgstr "全て"
+
+#: src/dialog-paste-special.c:21
+msgid "Formulas"
+msgstr "公式"
+
+#: src/dialog-paste-special.c:22
+msgid "Values"
+msgstr "値"
+
+#: src/dialog-paste-special.c:23
+msgid "Formats"
+msgstr "形式"
+
+#: src/dialog-paste-special.c:30
+msgid "Substract"
+msgstr "引き算"
+
+#: src/dialog-paste-special.c:31
+msgid "Multiply"
+msgstr "掛け算"
+
+#: src/dialog-paste-special.c:32
+msgid "Divide"
+msgstr "割り算"
+
+#: src/dialog-paste-special.c:56 src/item-grid.c:521
+msgid "Paste special"
+msgstr "特別貼り付け"
+
+#: src/dialog-paste-special.c:60
+msgid "Paste type"
+msgstr "貼り付ける型"
+
+#: src/dialog-paste-special.c:64
+msgid "Operation"
+msgstr "演算"
+
+#: src/dialog-zoom.c:47 src/dialog-zoom.c:50
+msgid "Zoom"
+msgstr "ズーム"
+
+#: src/dialog-zoom.c:56
+msgid "Custom"
+msgstr "カスタム"
+
+#: src/dialog-zoom.c:83
+#, c-format
+msgid "Zoom factor should be at least 50%"
+msgstr "縮小比は最小 50% まで"
+
+#: src/dialog-zoom.c:88
+#, c-format
+msgid "Zoom factor should be at most 900%"
+msgstr "拡大比は最大 900% まで"
+
+#: src/expr.c:59
+msgid "Syntax error"
+msgstr "構文エラーです"
+
+#: src/expr.c:63
+msgid "Missing quote"
+msgstr "引用符に間違いがあります"
+
+#: src/expr.c:467 src/fn-sheet.c:25 src/fn-sheet.c:59
+msgid "Invalid number of arguments"
+msgstr "引数の数が不正です"
+
+#: src/expr.c:695
+msgid "Type error"
+msgstr "型エラーです"
+
+#: src/expr.c:753 src/expr.c:911 src/fn-misc.c:40 src/fn-misc.c:67
+msgid "Type mismatch"
+msgstr "型が合致しません"
+
+#: src/expr.c:779 src/expr.c:815
+msgid "Division by zero"
+msgstr "ゼロによる除算が生じました"
+
+#: src/expr.c:926
+msgid "Unknown evaluation error"
+msgstr "未知の式評価エラーです"
+
+#: src/file.c:28
+msgid "Save workbook as"
+msgstr "名前を付けてワークブックを保存します"
+
+#: src/file.c:76
+msgid "Load file"
+msgstr "ファイルを読み込みます"
+
+#: src/fn-date.c:19
+msgid ""
+"@FUNCTION=DATE\n"
+"@SYNTAX=DATE (year,month,day)\n"
+"@DESCRIPTION=Computes the number of days since the 1st of january of "
+"1900(the date serial number) for the given year, month and day.\n"
+"The day might be negative (to count backwards) and it is relative to the "
+"previous month.  The years should be at least 1900\n"
+"@SEEALSO=TODAY, NOW"
+msgstr ""
+"@FUNCTION=DATE\n"
+"@SYNTAX=DATE (年,月,日)\n"
+"@DESCRIPTION=与えられた年月日の、1900年1月1日からの日数を計算します(その日のシ"
+"リアル値)。\n"
+"日は負数(後ろ向きに数えること)かもしれず、この場合は前の月に対応します。年は少"
+"なくとも 1900 でなければなりません。\n"
+"@SEEALSO=TODAY, NOW"
+
+#: src/fn-date.c:61
+msgid ""
+"@FUNCTION=TODAY\n"
+"@SYNTAX=TODAY ()\n"
+"@DESCRIPTION=Returns the serial number for today (the number of days elapsed "
+"since the 1st of January of 1900)\n"
+"@SEEALSO=TODAY, NOW"
+msgstr ""
+"@FUNCTION=TODAY\n"
+"@SYNTAX=TODAY ()\n"
+"@DESCRIPTION=今日のシリアル値を返します (1900年1月1日から経過した日数)\n"
+"@SEEALSO=TODAY, NOW"
+
+#: src/fn-date.c:88
+msgid ""
+"@FUNCTION=NOW\n"
+"@SYNTAX=NOW ()\n"
+"@DESCRIPTION=Returns the serial number for the date and time at the time it "
+"is evaluated.\n"
+"Serial Numbers in Gnumeric are represented as follows:The integral part is "
+"the number of days since the 1st of January of 1900.  The decimal part "
+"represent the fraction of the day and is mapped into hour, minutes and "
+"seconds\n"
+"For example: .0 represents the beginning of the day, and 0.5 represents "
+"noon\n"
+"@SEEALSO=TODAY, NOW"
+msgstr ""
+"@FUNCTION=NOW\n"
+"@SYNTAX=NOW ()\n"
+"@DESCRIPTION=評価された時間における日付と時間のシリアル値を返します。\n"
+"Gnumeric におけるシリアル値は次のように表現されます: "
+"整数部は1900年1月1日からの日数です。小数部はその日の部分を表現していて、時間、"
+"分、および秒に対応しています。\n"
+"例: .0 はその日の最初を表現し、0.5 は正午を表現します。\n"
+"@SEEALSO=TODAY, NOW"
+
+#: src/fn-date.c:124
+msgid ""
+"@FUNCTION=TIME\n"
+"@SYNTAX=TIME (hours,minutes,seconds)\n"
+"@DESCRIPTION=Returns a fraction representing the hour\n"
+"@SEEALSO=HOUR"
+msgstr ""
+"@FUNCTION=TIME\n"
+"@SYNTAX=TIME (時,分,秒)\n"
+"@DESCRIPTION=Returns a fraction representing the hour\n"
+"@SEEALSO=HOUR"
+
+#: src/fn-date.c:151
+msgid ""
+"@FUNCTION=HOUR\n"
+"@SYNTAX=HOUR (serial_number)\n"
+"@DESCRIPTION=Converts a serial number to an hour.  The hour is returned as "
+"an integer in the range 0 (12:00 A.M.) to 23 (11:00 P.M.)\n"
+"Note that Gnumeric will perform regular string to serial number conversion "
+"for you, so you can enter a date as a string@SEEALSO=MINUTE, NOW, TIME, "
+"SECOND"
+msgstr ""
+"@FUNCTION=HOUR\n"
+"@SYNTAX=HOUR (シリアル値)\n"
+"@DESCRIPTION=シリアル値を時間に変換します。この時間は 0 (12:00 A.M.)から 23 "
+"(11:00 P.M.) の範囲の整数です。\n"
+"注意、Gnumeric "
+"は通常の文字列からシリアル値への変換を行うので、日付は文字列として入力すれば結"
+"構です。\n"
+"@SEEALSO=MINUTE, NOW, TIME, SECOND"
+
+#: src/fn-date.c:166
+msgid ""
+"@FUNCTION=MINUTE\n"
+"@SYNTAX=MINUTE (serial_number)\n"
+"@DESCRIPTION=Converts a serial number to a minute.  The minute is returned "
+"as an integer in the range 0 to 59\n"
+"Note that Gnumeric will perform regular string to serial number conversion "
+"for you, so you can enter a date as a string@SEEALSO=HOUR, NOW, TIME, SECOND"
+msgstr ""
+"@FUNCTION=MINUTE\n"
+"@SYNTAX=MINUTE (シリアル値)\n"
+"@DESCRIPTION=シリアル値から分に変換します。この分は 0 から 59 "
+"までの整数として返されます\n"
+"注意、Gnumeric "
+"は通常の文字列からシリアル値への変換を行うので、日付は文字列として入力すれば結"
+"構です。\n"
+"@SEEALSO=MINUTE, NOW, TIME, SECOND"
+
+#: src/fn-date.c:181
+msgid ""
+"@FUNCTION=SECOND\n"
+"@SYNTAX=SECOND (serial_number)\n"
+"@DESCRIPTION=Converts a serial number to a second.  The second is returned "
+"as an integer in the range 0 to 59\n"
+"Note that Gnumeric will perform regular string to serial number conversion "
+"for you, so you can enter a date as a string@SEEALSO=HOUR, MINUTE, NOW, TIME"
+msgstr ""
+"@FUNCTION=SECOND\n"
+"@SYNTAX=SECOND (シリアル値)\n"
+"@DESCRIPTION=シリアル値から秒へ変換します。秒は 0 から 59 "
+"の範囲の整数として返されます\n"
+"注意、Gnumeric "
+"は通常の文字列からシリアル値への変換を行うので、日付は文字列として入力すれば結"
+"構です。\n"
+"@SEEALSO=HOUR, MINUTE, NOW, TIME"
+
+#: src/fn-date.c:219
+msgid ""
+"@FUNCTION=YEAR\n"
+"@SYNTAX=YEAR (serial_number)\n"
+"@DESCRIPTION=Converts a serial number to a year.\n"
+"Note that Gnumeric will perform regular string to serial number conversion "
+"for you, so you can enter a date as a string@SEEALSO=DAY, MONTH, TIME, NOW"
+msgstr ""
+"@FUNCTION=YEAR\n"
+"@SYNTAX=YEAR (シリアル値)\n"
+"@DESCRIPTION=シリアル値から年に変換します。\n"
+"注意、Gnumeric "
+"は通常の文字列からシリアル値への変換を行うので、日付は文字列として入力すれば結"
+"構です。\n"
+"@SEEALSO=DAY, MONTH, TIME, NOW"
+
+#: src/fn-date.c:233
+msgid ""
+"@FUNCTION=MONTH\n"
+"@SYNTAX=MONTH (serial_number)\n"
+"@DESCRIPTION=Converts a serial number to a month.\n"
+"Note that Gnumeric will perform regular string to serial number conversion "
+"for you, so you can enter a date as a string@SEEALSO=DAY, TIME, NOW, YEAR"
+msgstr ""
+"@FUNCTION=MONTH\n"
+"@SYNTAX=MONTH (シリアル値)\n"
+"@DESCRIPTION=シリアル値から月に変換します。\n"
+"注意、Gnumeric "
+"は通常の文字列からシリアル値への変換を行うので、日付は文字列として入力すれば結"
+"構です。\n"
+"@SEEALSO=DAY, MONTH, TIME, NOW, YEAR"
+
+#: src/fn-date.c:247
+msgid ""
+"@FUNCTION=DAY\n"
+"@SYNTAX=DAY (serial_number)\n"
+"@DESCRIPTION=Converts a serial number to a day.\n"
+"Note that Gnumeric will perform regular string to serial number conversion "
+"for you, so you can enter a date as a string@SEEALSO=MONTH, TIME, NOW, YEAR"
+msgstr ""
+"@FUNCTION=DAY\n"
+"@SYNTAX=DAY (シリアル値)\n"
+"@DESCRIPTION=シリアル値から日に変換します。\n"
+"注意、Gnumeric "
+"は通常の文字列からシリアル値への変換を行うので、日付は文字列として入力すれば結"
+"構です。\n"
+"@SEEALSO=DAY, MONTH, TIME, NOW, YEAR"
+
+#: src/fn-math.c:27
+msgid ""
+"@FUNCTION=NAME\n"
+"@SYNTAX=(b1, b2, ...)\n"
+"@DESCRIPTION\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-math.c:48
+msgid ""
+"@FUNCTION=ABS\n"
+"@SYNTAX=ABS(b1)\n"
+"@DESCRIPTION=Implements the Absolute Value function:  the result is to drop "
+"the negative sign (if present).  This can be done for integers and floating "
+"point numbers.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=CEIL, FLOOR"
+msgstr ""
+"@FUNCTION=ABS\n"
+"@SYNTAX=ABS(b1)\n"
+"@DESCRIPTION=絶対値関数を実行します。この結果は(もしあれば)負の符号を切り落と"
+"します。これは整数と浮動小数点実数で行われます。\n"
+"この関数を文字列や空白のセルで実行すると何も行われません。\n"
+"@SEEALSO=CEIL, FLOOR"
+
+#: src/fn-math.c:67
+msgid ""
+"@FUNCTION=ACOS\n"
+"@SYNTAX=ACOS(x)\n"
+"@DESCRIPTION=The ACOS function calculates the arc cosine of x; that  is the "
+"value whose cosine is x.  If x  falls  outside  the  range -1 to 1, ACOS "
+"fails and returns the error 'acos - domain error'.  The value it returns is "
+"in radians. \n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=COS, SIN, DEGREES, RADIANS"
+msgstr ""
+"@FUNCTION=ACOS\n"
+"@SYNTAX=ACOS(x)\n"
+"@DESCRIPTION=ACOS 関数は x の逆余弦を求めます。つまり、結果の値の余弦は x "
+"になります。もし x が -1 から 1 の範囲外なら、ACOS は失敗し、エラー 'acos - "
+"値域エラー' を返します。返り値はラジアンで返されます。\n"
+"この関数を文字列や空白のセルで実行すると何も起こりません。この関数は引数を1つ"
+"だけ取ります。\n"
+"@SEEALSO=COS, SIN, DEGREES, RADIANS"
+
+#: src/fn-math.c:89
+msgid "acos - domain error"
+msgstr "acos - 値域エラー"
+
+#: src/fn-math.c:96
+msgid ""
+"@FUNCTION=ACOSH\n"
+"@SYNTAX=ACOSH(x)\n"
+"@DESCRIPTION=The ACOSH  function  calculates  the inverse hyperbolic cosine "
+"of x; that is the value whose hyperbolic cosine is x. If x is less than 1.0, "
+"acosh() returns the error  'acosh - domain error'\n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=ACOS, DEGREES, RADIANS "
+msgstr ""
+"@FUNCTION=ACOSH\n"
+"@SYNTAX=ACOSH(x)\n"
+"@DESCRIPTION=ACOSH 関数は x "
+"の逆双曲線余弦を計算します。つまり、結果の値の双曲線余弦(cosh)が x "
+"となります。もし x が 1.0 以下なら、acosh() はエラー 'acosh - 値域エラー' "
+"を返します。\n"
+"この関数を文字列や空白のセルで実行すると何も起こりません。この関数は引数を1つ"
+"だけ取ります。\n"
+"@SEEALSO=ACOS, DEGREES, RADIANS "
+
+#: src/fn-math.c:118
+msgid "acosh - domain error"
+msgstr "acosh - 値域エラー"
+
+#: src/fn-math.c:125
+msgid ""
+"@FUNCTION=AND\n"
+"@SYNTAX=AND(b1, b2, ...)\n"
+"@DESCRIPTION=Implements the logical AND function: the result is TRUE if all "
+"of the expression evaluates to TRUE, otherwise it returns FALSE.\n"
+"b1, trough bN are expressions that should evaluate to TRUE or FALSE.If an "
+"integer or floating point value is provided zero is considered FALSE and "
+"anything else is TRUE.\n"
+"If the values contain strings or empty cells those values are ignored.  If "
+"no logical values are provided, then the error '#VALUE!' is returned. \n"
+"@SEEALSO=OR"
+msgstr ""
+"@FUNCTION=AND\n"
+"@SYNTAX=AND(b1, b2, ...)\n"
+"@DESCRIPTION=論理積関数を実行します。この結果が TRUE "
+"になるのは、全ての式の評価が TRUE の場合で、それ以外は FALSE を返します。\n"
+"b1 から bN は、評価が TRUE か FALSE "
+"になる式です。もし整数か実数が与えられた場合、零が FALSE "
+"とみなされ、それ以外は TRUE とみなされます。\n"
+"もしこの値に文字列や空白のセルが含まれているとこれらの値は無視されます。もし非"
+"論理値が与えられると、エラー '#値!' が返されます。\n"
+"@SEEALSO=OR"
+
+#: src/fn-math.c:188 src/fn-math.c:919
+msgid "#VALUE"
+msgstr "#値"
+
+#: src/fn-math.c:195
+msgid ""
+"@FUNCTION=ASIN\n"
+"@SYNTAX=ASIN(x)\n"
+"@DESCRIPTION=The ASIN function calculates the arc sine of x; that is the "
+"value whose sine is x. If x falls outside  the  range -1 to 1, ASIN fails "
+"and returns the error 'asin - domain error'   \n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
+msgstr ""
+"@FUNCTION=ASIN\n"
+"@SYNTAX=ASIN(x)\n"
+"@DESCRIPTION=ASIN 関数は x の逆正弦を計算します。つまり、結果の正弦が x "
+"になります。もし x が -1 から 1 の範囲外だと、ASIN は失敗し、エラー 'asin - "
+"値域エラー' を返します。\n"
+"この関数を文字列や空白のセルで実行すると何も起こりません。この関数は引数を1つ"
+"だけ取ります。\n"
+"@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
+
+#: src/fn-math.c:216
+msgid "asin - domain error"
+msgstr "asin - 値域エラー"
+
+#: src/fn-math.c:223
+msgid ""
+"@FUNCTION=ASINH\n"
+"@SYNTAX=ASINH(x)\n"
+"@DESCRIPTION=The ASINH  function  calculates  the inverse hyperbolic  sine "
+"of x; that is the value whose hyperbolic sine is x. \n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=ASIN, SIN, COS, DEGREES, RADIANS"
+msgstr ""
+"@FUNCTION=ASINH\n"
+"@SYNTAX=ASINH(x)\n"
+"@DESCRIPTION=ASIN 関数は x "
+"の逆双曲線正弦を計算します。つまり、結果の双曲線正弦が x になります。\n"
+"この関数を文字列や空白のセルで実行すると何も起こりません。この関数は引数を1つ"
+"だけ取ります。\n"
+"@SEEALSO=ASIN, SIN, COS, DEGREES, RADIANS"
+
+#: src/fn-math.c:244
+msgid ""
+"@FUNCTION=ATAN\n"
+"@SYNTAX=ATAN(x)\n"
+"@DESCRIPTION=The ATAN function calculates the arc tangent of x; that  is the "
+"value whose tangent is x.Return value is in radians.\n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
+msgstr ""
+"@FUNCTION=ATAN\n"
+"@SYNTAX=ATAN(x)\n"
+"@DESCRIPTION=ATAN 関数は x の逆正接を計算します。すなわち、結果の正接が x "
+"になります。返り値はラジアンで返されます。\n"
+"この関数を文字列や空白のセルで実行すると何も起こりません。この関数は引数を1つ"
+"だけ取ります。\n"
+"@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
+
+#: src/fn-math.c:267
+msgid ""
+"@FUNCTION=ATANH\n"
+"@SYNTAX=ATANH(x)\n"
+"@DESCRIPTION=The  ATANH  function  calculates  the inverse hyperbolic "
+"tangent of x; that is the value whose  hyperbolic  tangent is  x.   If  the  "
+"absolute value of x is greater than 1.0,  ATANH returns an error of 'atanh: "
+"domain error'      \n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
+msgstr ""
+"@FUNCTION=ATANH\n"
+"@SYNTAX=ATANH(x)\n"
+"@DESCRIPTION=ATANH 関数は x "
+"の逆双曲線正接を計算します。すなわち結果の双曲線正接が x となります。もし x "
+"の絶対値が 1.0 より大きいと、ATANH はエラー 'atanh: 値域エラー' "
+"を返します。\n"
+"この関数を文字列や空白のセルで実行すると何も起こりません。この関数は引数を1つ"
+"だけ取ります。\n"
+"@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
+
+#: src/fn-math.c:290
+msgid "atanh: domain error"
+msgstr "atanh: 値域エラー"
+
+#: src/fn-math.c:297
+msgid ""
+"@FUNCTION=ATAN2\n"
+"@SYNTAX=ATAN2(b1,b2)\n"
+"@DESCRIPTION=The ATAN2 function calculates the arc tangent of the two "
+"variables b1 and b2.  It is similar to calculating  the  arc tangent  of b2 "
+"/ b1, except that the signs of both arguments are used to determine the "
+"quadrant of the result. The result is in Radians.\n"
+"Performing this function on a string or empty cell simply does nothing. \n"
+"@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
+msgstr ""
+"@FUNCTION=ATAN2\n"
+"@SYNTAX=ATAN2(b1,b2)\n"
+"@DESCRIPTION=ATAN2 関数は二つの変数 b1 と b2 の逆正接を計算します。これは b2 "
+"/ b1 "
+"の逆正接を求めるのに似ていますが、両引数の符号が結果の象限を決定するのに使われ"
+"ます。結果はラジアンです。\n"
+"この関数を文字列や空白のセルで実行すると何も行いません。この関数は引数を2つだ"
+"け取ります。\n"
+"@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
+
+#: src/fn-math.c:321
+msgid ""
+"@FUNCTION=AVERAGE\n"
+"@SYNTAX=AVERAGE(value1, value2,...)\n"
+"@DESCRIPTION=Computes the average of all the values and cells referenced in "
+"the argument list.  This is equivalent to the sum of the arguments divided "
+"by the count of the arguments.\n"
+"@SEEALSO=SUM, COUNT"
+msgstr ""
+"@FUNCTION=AVERAGE\n"
+"@SYNTAX=AVERAGE(値1, 値2,...)\n"
+"@DESCRIPTION=全ての値および引数リストで参照されているセルの平均を計算します。"
+"これは引数の合計を引数の数で割ったものと同等です。\n"
+"@SEEALSO=SUM, COUNT"
+
+#: src/fn-math.c:366
+msgid ""
+"@FUNCTION=CEIL\n"
+"@SYNTAX=CEIL(x)\n"
+"@DESCRIPTION=The CEIL function rounds x up to the next nearest integer.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=ABS, FLOOR, INT"
+msgstr ""
+"@FUNCTION=CEIL\n"
+"@SYNTAX=CEIL(x)\n"
+"@DESCRIPTION=CEIL 関数は x "
+"を一番近い次の整数に切り上げます。この関数を文字列や空白のセルで実行すると何も"
+"行いません。\n"
+"@SEEALSO=ABS, FLOOR, INT"
+
+#: src/fn-math.c:385
+msgid ""
+"@FUNCTION=BIN2DEC\n"
+"@SYNTAX=BIN2DEC(x)\n"
+"@DESCRIPTION=The BIN2DEC function converts a binary number in string or "
+"number to its decimal equivalent.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=DEC2BIN"
+msgstr ""
+"@FUNCTION=BIN2DEC\n"
+"@SYNTAX=BIN2DEC(b1)\n"
+"@DESCRIPTION=BIN2DEC "
+"関数は二進数を文字列あるいは対応する十進数に変換します。\n"
+"この関数を文字列や空白のセルで実行すると何も行いません。\n"
+"@SEEALSO=DEC2BIN"
+
+#: src/fn-math.c:435
+msgid ""
+"@FUNCTION=COS\n"
+"@SYNTAX=COS(x)\n"
+"@DESCRIPTION=The  COS  function  returns  the cosine of x, where x is given "
+"in radians.  \n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
+msgstr ""
+"@FUNCTION=COS\n"
+"@SYNTAX=COS(x)\n"
+"@DESCRIPTION=COS 関数は x の余弦を返します。この x "
+"はラジアンで与えられます。\n"
+"この関数を文字列や空白のセルで実行すると単に何も行いません。この関数は一つだけ"
+"引数を取ります。\n"
+"@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
+
+#: src/fn-math.c:455
+msgid ""
+"@FUNCTION=COSH\n"
+"@SYNTAX=COSH(x)\n"
+"@DESCRIPTION=The COSH  function  returns the hyperbolic cosine of x,  which "
+"is defined mathematically as (exp(x) + exp(-x)) / 2.    x is in radians. \n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
+msgstr ""
+"@FUNCTION=COSH\n"
+"@SYNTAX=COSH(x)\n"
+"@DESCRIPTION=COSH 関数は x の双曲線余弦を返します。これは数学的に (exp(x) + "
+"exp(-x)) / 2 として定義されます。x はラジアンを用います。\n"
+"この関数を文字列や空白のセルで実行すると単に何も行いません。この関数は引数を一"
+"つだけ取ります。\n"
+"@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
+
+#: src/fn-math.c:496
+msgid ""
+"@FUNCTION=COUNT\n"
+"@SYNTAX=COUNT(b1, b2, ...)\n"
+"@DESCRIPTION=Returns the total number of arguments passed.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=AVERAGE"
+msgstr ""
+"@FUNCTION=COUNT\n"
+"@SYNTAX=COUNT(b1, b2, ...)\n"
+"@DESCRIPTION=渡された引数の全体の数を返します。\n"
+"この関数を文字列や空白のセルで実行すると単に何も行いません。\n"
+"@SEEALSO=AVERAGE"
+
+#: src/fn-math.c:524
+msgid ""
+"@FUNCTION=DEGREES\n"
+"@SYNTAX=DEGREES(x)\n"
+"@DESCRIPTION=Computes the number of degrees equivalent to  x radians.\n"
+"Performing this function on a string or empty cell simply does nothing. \n"
+"@SEEALSO=RADIANS, PI"
+msgstr ""
+"@FUNCTION=DEGREES\n"
+"@SYNTAX=DEGREES(x)\n"
+"@DESCRIPTION=x ラジアンに対応する度数を計算します。\n"
+"この関数を文字列や空白のセルに対して実行すると単に何も行いません。\n"
+"@SEEALSO=RADIANS, PI"
+
+#: src/fn-math.c:545
+msgid ""
+"@FUNCTION=EXP\n"
+"@SYNTAX=EXP(x)\n"
+"@DESCRIPTION=Computes the value of e(the base of natural logarithmns) raised "
+"to the power of x. \n"
+"Performing this function on a string or empty cell returns an error.\n"
+"@SEEALSO=LOG, LOG2, LOG10"
+msgstr ""
+"@FUNCTION=EXP\n"
+"@SYNTAX=EXP(x)\n"
+"@DESCRIPTION=e(自然対数の底)の x 乗(羃乗)の値を計算します。\n"
+"この関数を文字列や空白のセルで実行するとエラーを返します。\n"
+"@SEEALSO=LOG, LOG2, LOG10"
+
+#: src/fn-math.c:572
+msgid ""
+"@FUNCTION=FACT\n"
+"@SYNTAX=FACT(x)\n"
+"@DESCRIPTION=Computes the factorial of x. ie, x!\n"
+"Performing this function on a string or empty cell returns an error\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=FACT\n"
+"@SYNTAX=FACT(x)\n"
+"@DESCRIPTION=x の階乗を計算します(x!)。\n"
+"この関数を文字列や空白のセルで実行するとエラーを返します。\n"
+"@SEEALSO="
+
+#: src/fn-math.c:619
+msgid ""
+"@FUNCTION=FLOOR\n"
+"@SYNTAX=FLOOR(x)\n"
+"@DESCRIPTION=The FLOOR function rounds x down to the next nearestinteger.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=CEIL, ABS, INT"
+msgstr ""
+"@FUNCTION=FLOOR\n"
+"@SYNTAX=FLOOR(x)\n"
+"@DESCRIPTION=FLOOR 関数は x "
+"を一番近い次の整数に切り下げます。この関数を文字列や空白のセルで実行すると何も"
+"行いません。\n"
+"@SEEALSO=CEIL, ABS, INT"
+
+#: src/fn-math.c:638
+msgid ""
+"@FUNCTION=INT\n"
+"@SYNTAX=INT(b1, b2, ...)\n"
+"@DESCRIPTION=The INT function round b1 now to the nearest int. Where "
+"'nearest' implies being closer to zero. Equivalent to FLOOR(b1) for b1 >0, "
+"amd CEIL(b1) for b1 < 0. \n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=FLOOR, CEIL, ABS"
+msgstr ""
+"@FUNCTION=INT\n"
+"@SYNTAX=INT(b1, b2, ...)\n"
+"@DESCRIPTION=INT 関数は b1 を最も近い整数で丸めます。ここで '最も近い' "
+"とは零方向に近付くことを意味します。b1 >0 では FLOOR(b1) に、b1 < 0 では "
+"CEIL(b1) と同等です。\n"
+"この関数を文字列や空白のセルで実行すると何も行いません。\n"
+"@SEEALSO=FLOOR, CEIL, ABS"
+
+#: src/fn-math.c:664
+msgid ""
+"@FUNCTION=LOG\n"
+"@SYNTAX=LOG(x)\n"
+"@DESCRIPTION=Computes the natural logarithm  of x. \n"
+"Performing this function on a string or empty cell returns an error. \n"
+"@SEEALSO=EXP, LOG2, LOG10"
+msgstr ""
+"@FUNCTION=LOG\n"
+"@SYNTAX=LOG(x)\n"
+"@DESCRIPTION=x の自然対数を計算します。\n"
+"この関数を文字列や空白のセルで実行するとエラーを返します。\n"
+"@SEEALSO=EXP, LOG2, LOG10"
+
+#: src/fn-math.c:682
+msgid "log: domain error"
+msgstr "log: 値域エラー"
+
+#: src/fn-math.c:689
+msgid ""
+"@FUNCTION=LOG2@SYNTAX=LOG2(x)\n"
+"@DESCRIPTION=Computes the base-2 logarithm  of x. \n"
+"Performing this function on a string or empty cell returns an error. \n"
+"@SEEALSO=EXP, LOG10, LOG"
+msgstr ""
+"@FUNCTION=LOG2@SYNTAX=LOG2(x)\n"
+"@DESCRIPTION=底を 2 とした x の対数を計算します。\n"
+"この関数を文字列や空白のセルで実行するとエラーを返します。\n"
+"@SEEALSO=EXP, LOG10, LOG"
+
+#: src/fn-math.c:707
+msgid "log2: domain error"
+msgstr "log2: 値域エラー"
+
+#: src/fn-math.c:714
+msgid ""
+"@FUNCTION=LOG10@SYNTAX=LOG10(x)\n"
+"@DESCRIPTION=Computes the base-10 logarithm  of x. \n"
+"Performing this function on a string or empty cell returns an error. \n"
+"@SEEALSO=EXP, LOG2, LOG"
+msgstr ""
+"@FUNCTION=LOG10\n"
+"@SYNTAX=LOG10(x)\n"
+"@DESCRIPTION=底を 10 とした x の対数を求めます。\n"
+"この関数を文字列や空白のセルで実行するとエラーを返します。\n"
+"@SEEALSO=EXP, LOG2, LOG"
+
+#: src/fn-math.c:733
+msgid "log10: domain error"
+msgstr "log10: 値域エラー"
+
+#: src/fn-math.c:740
+msgid ""
+"@FUNCTION=MIN\n"
+"@SYNTAX=MIN(b1, b2, ...)\n"
+"@DESCRIPTION=MIN returns the value of the element of the values passed that "
+"has the smallest value. With negative numbers considered smaller than "
+"positive numbers.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=MAX,ABS"
+msgstr ""
+"@FUNCTION=MIN\n"
+"@SYNTAX=MIN(b1, b2, ...)\n"
+"@DESCRIPTION=MIN "
+"は渡された値のうちで一番小さい値を返します。負の数は正の数より小さいと見なされ"
+"ます。\n"
+"この関数を文字列や空白のセルで実行すると単に何も行いません。\n"
+"@SEEALSO=MAX,ABS"
+
+#: src/fn-math.c:754
+msgid ""
+"@FUNCTION=MAX\n"
+"@SYNTAX=MAX(b1, b2, ...)\n"
+"@DESCRIPTION=MAX returns the value of the element of the values passed that "
+"has the largest value. With negative numbers considered smaller than "
+"positive numbers.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=MIN,ABS"
+msgstr ""
+"@FUNCTION=MAX\n"
+"@SYNTAX=MAX(b1, b2, ...)\n"
+"@DESCRIPTION=MAX "
+"は渡された値のうち一番大きい値を返します。負の数は正の数より小さいと見なされま"
+"す。\n"
+"この関数を文字列や空白のセルで実行すると単に何も行いません。\n"
+"@SEEALSO=MIN,ABS"
+
+#: src/fn-math.c:858
+msgid ""
+"@FUNCTION=OR\n"
+"@SYNTAX=OR(b1, b2, ...)@DESCRIPTION=Implements the logical OR function: the "
+"result is TRUE if any of thevalues evaluated to TRUE.\n"
+"b1, trough bN are expressions that should evaluate to TRUE or FALSE.If an "
+"integer or floating point value is provided zero is consideredFALSE and "
+"anything else is TRUE.\n"
+"If the values contain strings or empty cells those values are ignored.  If "
+"no logical values are provided, then the error '#VALUE!'is returned.\n"
+"@SEEALSO=AND"
+msgstr ""
+"@FUNCTION=OR\n"
+"@SYNTAX=OR(b1, b2, ...)\n"
+"@DESCRIPTION=論理 OR 関数を実行します。いずれかの値が TRUE であれば結果は "
+"TRUE になります。\n"
+"b1 から bN は TRUE か FALSE "
+"に評価される式です。もし整数か浮動小数実数が与えられると零が FALSE "
+"に、それ以外は TRUE と見なされます。\n"
+"もし値が文字列や空白のセルを含んでいるならこれらの値は無視されます。もし非論理"
+"値が与えられると、エラー '#値!' が返されます。\n"
+"@SEEALSO=AND"
+
+#: src/fn-math.c:926
+msgid ""
+"@FUNCTION=RADIANS\n"
+"@SYNTAX=RADIANS(x)\n"
+"@DESCRIPTION=Computes the number of radians equivalent to  x degrees. \n"
+"Performing this function on a string or empty cell simply does nothing. \n"
+"@SEEALSO=PI,DEGREES"
+msgstr ""
+"@FUNCTION=RADIANS\n"
+"@SYNTAX=RADIANS(x)\n"
+"@DESCRIPTION=x 度に対応するラジアンの数を求めます。\n"
+"この関数に文字列や空白のセルを与えて実行すると単に何も行いません。\n"
+"@SEEALSO=PI,DEGREES"
+
+#: src/fn-math.c:947
+msgid ""
+"@FUNCTION=SIN\n"
+"@SYNTAX=SIN(x)\n"
+"@DESCRIPTION=The SIN function returns the sine of x, where x is given  in "
+"radians. \n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
+msgstr ""
+"@FUNCTION=SIN\n"
+"@SYNTAX=SIN(x)\n"
+"@DESCRIPTION=SIN 関数は x の正弦を返します。ここで x "
+"はラジアンで与えられます。\n"
+"この関数を文字列や空白のセルで実行すると単に何も行いません。この関数は引数を一"
+"つだけ取ります。\n"
+"@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
+
+#: src/fn-math.c:967
+msgid ""
+"@FUNCTION=SINH\n"
+"@SYNTAX=SINH(x)\n"
+"@DESCRIPTION=The SINH  function  returns  the  hyperbolic sine of x, which "
+"is defined mathematically as (exp(x) - exp(-x)) / 2.  x is in radians. \n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
+msgstr ""
+"@FUNCTION=SINH\n"
+"@SYNTAX=SINH(x)\n"
+"@DESCRIPTION=SINH 関数は x の双曲線正弦を返します。これは数学的に (exp(x) - "
+"exp(-x)) / 2 として定義されます。x にはラジアンを用います。\n"
+"この関数を文字列や空白のセルで実行すると単に何も行いません。この関数は引数を一"
+"つだけ取ります。\n"
+"@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
+
+#: src/fn-math.c:988
+msgid ""
+"@FUNCTION=SUM\n"
+"@SYNTAX=SUM(value1, value2, ...)\n"
+"@DESCRIPTION=Computes the sum of all the values and cells referenced in the "
+"argument list. \n"
+"@SEEALSO=AVERAGE, COUNT"
+msgstr ""
+"@FUNCTION=SUM\n"
+"@SYNTAX=SUM(値1, 値2, ...)\n"
+"@DESCRIPTION=全ての値と引数リストで参照されたセルの合計を求めます。\n"
+"@SEEALSO=AVERAGE, COUNT"
+
+#: src/fn-math.c:1052
+msgid ""
+"@FUNCTION=TAN\n"
+"@SYNTAX=TAN(x)\n"
+"@DESCRIPTION=The TAN function  returns the tangent of x, where x is given in "
+"radians. \n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
+msgstr ""
+"@FUNCTION=TAN\n"
+"@SYNTAX=TAN(x)\n"
+"@DESCRIPTION=TAN 関数は x の正弦を返します。ここで x "
+"はラジアンで与えられます。\n"
+"この関数を文字列や空白のセルを与えて実行すると単に何も行いません。この関数は引"
+"数を一つだけ取ります。\n"
+"@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
+
+#: src/fn-math.c:1072
+msgid ""
+"@FUNCTION=TANH\n"
+"@SYNTAX=TANH(x)\n"
+"@DESCRIPTION= The TANH function returns the hyperbolic tangent of x,  which "
+"is defined mathematically as sinh(x) / cosh(x). \n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
+msgstr ""
+"@FUNCTION=TANH\n"
+"@SYNTAX=TANH(x)\n"
+"@DESCRIPTION=TANH 関数は x の双曲線余弦を返します。これは数学的に sinh(x) / "
+"cosh(x) で定義されます。\n"
+"この関数を文字列や空白のセルで実行すると単に何も行いません。この関数は引数を一"
+"つだけ取ります。\n"
+"@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
+
+#: src/fn-math.c:1092
+msgid ""
+"@FUNCTION=PI\n"
+"@SYNTAX=PI()\n"
+"@DESCRIPTION=The PI functions returns the value of Pi as defined by M_PI.\n"
+"Performing this function on a string or empty cellreturns an error. This "
+"function is called with no arguments.\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=PI\n"
+"@SYNTAX=PI()\n"
+"@DESCRIPTION=PI 関数は M_PI で定義された Pi の値を返します。\n"
+"この関数を文字列や空白のセルで実行するとエラーを返します。この関数は無引数で呼"
+"ばれます。\n"
+"@SEEALSO="
+
+#: src/fn-string.c:101
+msgid ""
+"@FUNCTION=LEFT\n"
+"@SYNTAX=LEFT(text[,num_chars])\n"
+"@DESCRIPTION=Returns the leftmost num_chars characters or the left character "
+"if num_chars is not specified\n"
+"@SEEALSO=MID, RIGHT"
+msgstr ""
+"@FUNCTION=LEFT\n"
+"@SYNTAX=LEFT(文字列[,文字数])\n"
+"@DESCRIPTION=文字列の左から指定された文字数分の文字列を、文字数の指定がない場"
+"合は左端の文字を返します。\n"
+"@SEEALSO=MID, RIGHT"
+
+#: src/fn-string.c:160
+msgid ""
+"@FUNCTION=RIGHT\n"
+"@SYNTAX=RIGHT(text[,num_chars])\n"
+"@DESCRIPTION=Returns the rightmost num_chars characters or the right "
+"character if num_chars is not specified\n"
+"@SEEALSO=MID, LEFT"
+msgstr ""
+"@FUNCTION=RIGHT\n"
+"@SYNTAX=RIGHT(文字列[,文字数])\n"
+"@DESCRIPTION=文字列の右から指定された文字数分の文字列を、文字数の指定がない場"
+"合は右端の文字を返します。\n"
+"@SEEALSO=MID, LEFT"
+
+#: src/format.c:403
+msgid "black"
+msgstr "黒"
+
+#: src/format.c:404
+msgid "blue"
+msgstr "青"
+
+#: src/format.c:405
+msgid "cyan"
+msgstr "シアン"
+
+#: src/format.c:406
+msgid "green"
+msgstr "緑"
+
+#: src/format.c:407
+msgid "magenta"
+msgstr "赤紫"
+
+#: src/format.c:408
+msgid "red"
+msgstr "赤"
+
+#: src/format.c:409
+msgid "white"
+msgstr "白"
+
+#: src/format.c:410
+msgid "yellow"
+msgstr "黄"
+
+#: src/formats.c:17
+msgid "0"
+msgstr ""
+
+#: src/formats.c:18
+msgid "0.00"
+msgstr ""
+
+#: src/formats.c:19
+msgid "#,##0"
+msgstr ""
+
+#: src/formats.c:20
+msgid "#,##0.00"
+msgstr ""
+
+#: src/formats.c:21
+msgid "#,##0_);(#,##0)"
+msgstr ""
+
+#: src/formats.c:22
+msgid "#,##0_);[red](#,##0)"
+msgstr "#,##0_);[赤](#,##0)"
+
+#: src/formats.c:23
+msgid "#,##0.00_);(#,##0.00)"
+msgstr ""
+
+#: src/formats.c:24
+msgid "#,##0.00_);[red](#,##0.00)"
+msgstr "#,##0.00_);[赤](#,##0.00)"
+
+#: src/formats.c:25
+msgid "0.0"
+msgstr ""
+
+#: src/formats.c:30
+msgid "_($*#,##0_);_($*(#,##0);_($*\"-\"_);_(@_)"
+msgstr ""
+
+#: src/formats.c:31
+msgid "_(*$,$$0_);_(*(#,##0);_(*\"-\"_);_(@_)"
+msgstr ""
+
+#: src/formats.c:32
+msgid "_($*#,##0.00_);_($*(#,##0.00);_($*\"-\"??_);_(@_)"
+msgstr ""
+
+#: src/formats.c:33
+msgid "_(*#,##0.00_);_(*(#,##0.00);_(*\"-\"??_);_(@_)"
+msgstr ""
+
+#: src/formats.c:38
+msgid "m/d/yy"
+msgstr ""
+
+#: src/formats.c:39
+msgid "m/d/yyyy"
+msgstr ""
+
+#: src/formats.c:40
+msgid "d-mmm-yy"
+msgstr ""
+
+#: src/formats.c:41
+msgid "d-mmm-yyyy"
+msgstr ""
+
+#: src/formats.c:42
+msgid "d-mmm"
+msgstr ""
+
+#: src/formats.c:43
+msgid "d-mm"
+msgstr ""
+
+#: src/formats.c:44
+msgid "mmm/d"
+msgstr ""
+
+#: src/formats.c:45
+msgid "mm/d"
+msgstr ""
+
+#: src/formats.c:46
+msgid "mm/dd/yy"
+msgstr ""
+
+#: src/formats.c:47
+msgid "mm/dd/yyyy"
+msgstr ""
+
+#: src/formats.c:48
+msgid "mmm/dd/yy"
+msgstr ""
+
+#: src/formats.c:49
+msgid "mmm/dd/yyyy"
+msgstr ""
+
+#: src/formats.c:50
+msgid "mmm/ddd/yy"
+msgstr ""
+
+#: src/formats.c:51
+msgid "mmm/ddd/yyyy"
+msgstr ""
+
+#: src/formats.c:52
+msgid "mm/ddd/yy"
+msgstr ""
+
+#: src/formats.c:53
+msgid "mm/ddd/yyyy"
+msgstr ""
+
+#: src/formats.c:54
+msgid "mmm-yy"
+msgstr ""
+
+#: src/formats.c:55
+msgid "mmm-yyyy"
+msgstr ""
+
+#: src/formats.c:56 src/formats.c:66
+msgid "m/d/yy h:mm"
+msgstr ""
+
+#: src/formats.c:57
+msgid "m/d/yyyy h:mm"
+msgstr ""
+
+#: src/formats.c:62
+msgid "h:mm AM/PM"
+msgstr ""
+
+#: src/formats.c:63
+msgid "h:mm:ss AM/PM"
+msgstr ""
+
+#: src/formats.c:64
+msgid "h:mm"
+msgstr ""
+
+#: src/formats.c:65
+msgid "h:mm:ss"
+msgstr ""
+
+#: src/formats.c:67
+msgid "mm:ss"
+msgstr ""
+
+#: src/formats.c:68
+msgid "mm:ss.0"
+msgstr ""
+
+#: src/formats.c:69
+msgid "[h]:mm:ss"
+msgstr ""
+
+#: src/formats.c:74
+#, c-format
+msgid "0%"
+msgstr ""
+
+#: src/formats.c:75
+#, c-format
+msgid "0.00%"
+msgstr ""
+
+#: src/formats.c:80
+msgid "# ?/?"
+msgstr ""
+
+#: src/formats.c:81
+msgid "# ??/??"
+msgstr ""
+
+#: src/formats.c:86
+msgid "0.00E+00"
+msgstr ""
+
+#: src/formats.c:87
+msgid "##0.0E+0"
+msgstr ""
+
+#: src/formats.c:97
+msgid "$#,##0_);($#,##0)"
+msgstr ""
+
+#: src/formats.c:98
+msgid "$#,##0_);[red]($#,##0)"
+msgstr "$#,##0_);[赤]($#,##0)"
+
+#: src/formats.c:99
+msgid "$#,##0.00_);($#,##0.00)"
+msgstr ""
+
+#: src/formats.c:100
+msgid "$#,##0.00_);[red]($#,##0.00)"
+msgstr "$#,##0.00_);[赤]($#,##0.00)"
+
+#: src/gnumeric-sheet.c:878
+#, c-format
+msgid "75%"
+msgstr ""
+
+#: src/gnumeric-sheet.c:881
+#, c-format
+msgid "50%"
+msgstr ""
+
+#: src/gnumeric-sheet.c:884
+#, c-format
+msgid "25%"
+msgstr ""
+
+#: src/gnumeric-sheet.c:887
+#, c-format
+msgid "12%"
+msgstr ""
+
+#: src/gnumeric-sheet.c:890
+#, c-format
+msgid "6%"
+msgstr ""
+
+#: src/gnumeric-sheet.c:893
+msgid "Horizontal lines"
+msgstr "水平線"
+
+#: src/gnumeric-sheet.c:896
+msgid "Vertical lines"
+msgstr "垂直線"
+
+#: src/gnumeric-sheet.c:899 src/gnumeric-sheet.c:902 src/gnumeric-sheet.c:905
+#: src/gnumeric-sheet.c:908
+msgid "Diagonal lines"
+msgstr "対角線"
+
+#: src/gnumeric-sheet.c:911
+msgid "Crossed diagonals"
+msgstr "交叉対角線"
+
+#: src/gnumeric-sheet.c:914
+msgid "Bricks"
+msgstr "レンガ"
+
+#: src/gnumeric-util.c:22
+msgid "Notice"
+msgstr "注意"
+
+#: src/item-cursor.c:554 src/item-grid.c:519 src/workbook.c:814
+msgid "Copy"
+msgstr "コピー"
+
+#: src/item-cursor.c:555
+msgid "Move"
+msgstr "移動"
+
+#: src/item-cursor.c:556
+msgid "Copy formats"
+msgstr "フォーマットをコピー"
+
+#: src/item-cursor.c:557
+msgid "Copy values"
+msgstr "値をコピー"
+
+#: src/item-cursor.c:558
+msgid "Shift cells down and copy"
+msgstr "セルを下にずらしてコピー"
+
+#: src/item-cursor.c:559
+msgid "Shift cells right and copy"
+msgstr "セルを右にずらしてコピー"
+
+#: src/item-cursor.c:560
+msgid "Shift cells down and move"
+msgstr "セルを下にずらして移動"
+
+#: src/item-cursor.c:561
+msgid "Shift cells right and move"
+msgstr "セルを右にずらして移動"
+
+#: src/item-grid.c:518 src/workbook.c:811
+msgid "Cut"
+msgstr "カット"
+
+#: src/item-grid.c:520 src/sheet.c:2396 src/workbook.c:817
+msgid "Paste"
+msgstr "貼付け"
+
+#: src/item-grid.c:525
+msgid "Erase content"
+msgstr "内容を消去"
+
+#: src/item-grid.c:527
+msgid "Cell format"
+msgstr "セルフォーマット"
+
+#: src/main.c:22
+msgid "Dumps the function definitions"
+msgstr "関数定義をダンプ"
+
+#: src/main.c:22
+msgid "FILE"
+msgstr "ファイル"
+
+#: src/number-match.c:149
+msgid "(([-+]?[0-9,])?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
+msgstr ""
+
+#: src/plugin-manager.c:93 src/plugin-manager.c:94
+msgid "Name"
+msgstr "名前"
+
+#: src/plugin-manager.c:93 src/plugin-manager.c:94
+msgid "File"
+msgstr "ファイル"
+
+#: src/plugin-manager.c:123
+msgid "Close"
+msgstr "閉じる"
+
+#: src/plugin-manager.c:126
+msgid "Add..."
+msgstr "加える..."
+
+#: src/plugin.c:36
+msgid "unable to open module file: "
+msgstr "モジュールファイルを開けません:"
+
+#: src/plugin.c:44
+msgid "Plugin must contain init_plugin function."
+msgstr "プラグインは init_plugin 関数が含まれていなければなりません。"
+
+#: src/plugin.c:49
+msgid "init_plugin returned error"
+msgstr "init_plugin がエラーを返しました"
+
+#: src/plugin.c:68
+msgid "Plugin is still in use.\n"
+msgstr "プラグインはまだ使用中です。\n"
+
+#: src/sheet-view.c:336 src/sheet-view.c:410
+#, c-format
+msgid "Row: %d"
+msgstr "行: %d"
+
+#: src/sheet-view.c:343 src/sheet-view.c:382
+#, c-format
+msgid "Column: %s"
+msgstr "列: %s"
+
+#: src/workbook.c:302
+msgid "Warning"
+msgstr "警告"
+
+#: src/workbook.c:313
+msgid "Workbook "
+msgstr "ワークブック "
+
+#: src/workbook.c:314
+msgid " has unsaved changes, save them?"
+msgstr " は変更されています、保存しますか?"
+
+#: src/workbook.c:503 src/workbook.c:519
+msgid "Insert rows"
+msgstr "行を挿入"
+
+#: src/workbook.c:608
+msgid ">mm/dd/yyyy"
+msgstr ""
+
+#: src/workbook.c:623
+msgid ">hh:mm"
+msgstr ""
+
+#: src/workbook.c:655
+msgid "_New"
+msgstr "新規(_N)"
+
+#: src/workbook.c:657
+msgid "_Open..."
+msgstr "開く(_O)..."
+
+#: src/workbook.c:659
+msgid "_Save"
+msgstr "保存(_S)"
+
+#: src/workbook.c:661
+msgid "Save _as..."
+msgstr "名前を付けて保存(_A)..."
+
+#: src/workbook.c:666
+msgid "Plu_g-ins..."
+msgstr "プラグイン(_G)"
+
+#: src/workbook.c:670
+msgid "_Close"
+msgstr "閉じる(_C)"
+
+#: src/workbook.c:672
+msgid "E_xit"
+msgstr "終了(_E)"
+
+#: src/workbook.c:680
+msgid "_All"
+msgstr "全て(_A)"
+
+#: src/workbook.c:681
+msgid "_Formats"
+msgstr "フォーマット(_F)"
+
+#: src/workbook.c:682
+msgid "_Comments"
+msgstr "注釈(_C)"
+
+#: src/workbook.c:683
+msgid "_Content"
+msgstr "内容(_C)"
+
+#: src/workbook.c:688
+msgid "Cu_t"
+msgstr "カット(_T)"
+
+#: src/workbook.c:690
+msgid "_Copy"
+msgstr "コピー(_C)"
+
+#: src/workbook.c:692
+msgid "_Paste"
+msgstr "貼付け(_P)"
+
+#: src/workbook.c:694
+msgid "P_aste special..."
+msgstr "特別貼り付け(_A)..."
+
+#: src/workbook.c:695
+msgid "C_lear"
+msgstr "消去(_L)"
+
+#: src/workbook.c:699
+msgid "_Select All"
+msgstr "全てを選択(_S)"
+
+#: src/workbook.c:701
+msgid "_Goto cell.."
+msgstr "セルに移動(_G).."
+
+#: src/workbook.c:707
+msgid "_Define cell names"
+msgstr "セル名を定義(_D)"
+
+#: src/workbook.c:711
+msgid "_Recalculate"
+msgstr "再計算(_R)"
+
+#: src/workbook.c:719
+msgid "_Zoom..."
+msgstr "拡大(_Z)..."
+
+#: src/workbook.c:726
+msgid "Current _date"
+msgstr "現在の日付(_D)"
+
+#: src/workbook.c:728
+msgid "Current _time"
+msgstr "現在の時間(_T)"
+
+#: src/workbook.c:734 src/workbook.c:774
+msgid "_Sheet"
+msgstr "シート(_S)"
+
+#: src/workbook.c:735 src/workbook.c:769
+msgid "_Cells..."
+msgstr "セル(_C)..."
+
+#: src/workbook.c:736
+msgid "_Rows"
+msgstr "行(_R)"
+
+#: src/workbook.c:737
+msgid "C_olumns"
+msgstr "列(_O)"
+
+#: src/workbook.c:741
+msgid "_Add/Modify comment"
+msgstr "注釈を加える/修正(_A)"
+
+#: src/workbook.c:742
+msgid "_Special"
+msgstr "特別(_S)"
+
+#: src/workbook.c:751 src/workbook.c:757
+msgid "_Autoadjust"
+msgstr "自動調整(_A)"
+
+#: src/workbook.c:752
+msgid "_Width"
+msgstr "幅(_W)"
+
+#: src/workbook.c:758
+msgid "_Height"
+msgstr "高さ(_H)"
+
+#: src/workbook.c:763
+msgid "_Change name"
+msgstr "名前を変更(_C)"
+
+#: src/workbook.c:772
+msgid "C_olumn"
+msgstr "列(_O)"
+
+#: src/workbook.c:773
+msgid "_Row"
+msgstr "行(_R)"
+
+#: src/workbook.c:780
+msgid "_About Gnumeric..."
+msgstr "Gnumeric について(_A)..."
+
+#: src/workbook.c:786
+msgid "_File"
+msgstr "ファイル(_F)"
+
+#: src/workbook.c:787
+msgid "_Edit"
+msgstr "編集(_E)"
+
+#: src/workbook.c:788
+msgid "_View"
+msgstr "表示(_V)"
+
+#: src/workbook.c:789
+msgid "_Insert"
+msgstr "挿入(_I)"
+
+#: src/workbook.c:790
+msgid "F_ormat"
+msgstr "フォーマット(_O)"
+
+#: src/workbook.c:791
+msgid "_Help"
+msgstr "ヘルプ(_H)"
+
+#: src/workbook.c:799
+msgid "New"
+msgstr "新規"
+
+#: src/workbook.c:799
+msgid "Create a new sheet"
+msgstr "新規にシートを作成"
+
+#: src/workbook.c:802
+msgid "Open"
+msgstr "開く"
+
+#: src/workbook.c:802
+msgid "Opens an existing workbook"
+msgstr "既存のワークブックを開く"
+
+#: src/workbook.c:805
+msgid "Save"
+msgstr "保存"
+
+#: src/workbook.c:805
+msgid "Saves the workbook"
+msgstr "ワークブックを保存"
+
+#: src/workbook.c:811
+msgid "Cuts the selection to the clipboard"
+msgstr "選択部分をクリップボードにカット"
+
+#: src/workbook.c:814
+msgid "Copies the selection to the clipboard"
+msgstr "選択部分をクリップボードにコピー"
+
+#: src/workbook.c:817
+msgid "Pastes the clipboard"
+msgstr "クリップボードを貼付け"
+
+#: src/workbook.c:823
+msgid "Left align"
+msgstr "左寄せ"
+
+#: src/workbook.c:823
+msgid "Sets the cell alignment to the left"
+msgstr "セルの配置を左に設定"
+
+#: src/workbook.c:826
+msgid "Centers the cell contents"
+msgstr "セルの内容を中央寄せ"
+
+#: src/workbook.c:829
+msgid "Right align"
+msgstr "右寄せ"
+
+#: src/workbook.c:829
+msgid "Sets the cell alignment to the right"
+msgstr "セルの配置を右に設定"
+
+#: src/workbook.c:835
+msgid "Bold"
+msgstr "太字"
+
+#: src/workbook.c:835
+msgid "Sets the bold attribute on the cell"
+msgstr "このセルの属性を太字に設定"
+
+#: src/workbook.c:839
+msgid "Italic"
+msgstr "傾斜"
+
+#: src/workbook.c:839
+msgid "Sets the italic attribute on the cell"
+msgstr "このセルの属性を傾斜に設定"
+
+#: src/workbook.c:845
+msgid "Line"
+msgstr "直線"
+
+#: src/workbook.c:845
+msgid "Creates a line object"
+msgstr "直線オブジェクトを作成"
+
+#: src/workbook.c:848
+msgid "Arrow"
+msgstr "矢印"
+
+#: src/workbook.c:848
+msgid "Creates an arrow object"
+msgstr "矢印オブジェクトを作成"
+
+#: src/workbook.c:851
+msgid "Rectangle"
+msgstr "矩形"
+
+#: src/workbook.c:851
+msgid "Creates a rectangle object"
+msgstr "矩形オブジェクトを作成"
+
+#: src/workbook.c:854
+msgid "Ellipse"
+msgstr "楕円"
+
+#: src/workbook.c:854
+msgid "Creates an ellipse object"
+msgstr "楕円オブジェクトを作成"
+
+#: src/workbook.c:933
+msgid "You should introduce a valid cell name"
+msgstr "正しいセル名を指定して下さい"
+
+#: src/workbook.c:939
+msgid "Column out of range"
+msgstr "列が範囲外です"
+
+#: src/workbook.c:944
+msgid "Row number out of range"
+msgstr "行数が範囲外です"
+
+#: src/workbook.c:1050
+msgid "Sum"
+msgstr "合計"
+
+#: src/workbook.c:1051
+msgid "Min"
+msgstr "最小"
+
+#: src/workbook.c:1052
+msgid "Max"
+msgstr "最大"
+
+#: src/workbook.c:1053
+msgid "Average"
+msgstr "平均"
+
+#: src/workbook.c:1054
+msgid "Count"
+msgstr "回数"
+
+#: src/workbook.c:1202
+msgid "Untitled.gnumeric"
+msgstr ""
+
+#: src/workbook.c:1267
+msgid "Zoom out"
+msgstr "拡大"
+
+#: src/workbook.c:1274
+msgid "Zoom in"
+msgstr "縮小"
+
+#: src/workbook.c:1323 src/workbook.c:1344
+#, c-format
+msgid "Sheet %d"
+msgstr "シート %d"
+
+#: src/xml-io.c:1415
+msgid "NoName"
+msgstr "無題"
+
+#~ msgid "_Cut"
+#~ msgstr "カット"
+
+#~ msgid "C_opy"
+#~ msgstr "コピー(_O)"
+
+#~ msgid "_Cells.."
+#~ msgstr "セル(C).."
