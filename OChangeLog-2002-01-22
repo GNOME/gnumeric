@@ -1,3 +1,45 @@
+2000-03-14  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook-view.c (workbook_view_history_update,
+	workbook_view_history_shrink): ): We introduce numbers in front of
+	the the history file names for the following reasons:
+	1. Bonobo won't let you make 2 entries with the same label in the
+	   same menu. But that's what happens if you e.g. access
+	   worksheets with the same name from 2 different directories.
+	2. The numbers are useful accelerators.  
+	This means that when a new item is added, all existing entries get
+	a new number. We access them via the label, so we have to remove
+	all the old list entries and make a new list.
+
+	history_menu_flush is called to remove the old list,
+	history_menu_update to build the new.
+	
+	* src/history.c
+	(history_item_label): Add accel_number parameter, make label from
+	accel_number and basename. Rename basename variable to label.
+	(history_menu_item_create): Add accel_number parameter. Use it
+	when calling history_item_label.
+	(history_menu_locate_separator): New static function. Locate the
+	menu and position of history separator. They may not yet exist.
+	(history_menu_insert_separator): New static function. Insert the
+	history separator. Return its position and the menu shell.
+	(history_menu_insert_items): New static function. Add the history
+	items to the file menu.
+	(history_menu_remove_items): New static function. Remove the
+	history items from the file menu.
+	(history_menu_setup): Split into lots of twisty little functions,
+	all different.
+	(history_menu_fill): New exported function. Make the menus for
+	the workbooks show the new history list.
+	(history_menu_flush): New exported function. Remove the history
+	list from the file menus of all workbooks.
+	(history_insert_menu_item): Remove.
+	(history_remove_menu_item): Remove.
+	
+	* src/history.h
+	(history_menu_fill, history_menu_flush): Declare.
+	(history_insert_menu_item, history_remove_menu_item): Remove.
+
 2000-03-13  Jody Goldberg <jgoldberg@home.com>
 
 	* wizards/graphics/Makefile.am : Include the idl build dir rather than

@@ -4,8 +4,8 @@
 #include <gnome.h>
 #include "workbook.h"
 
-void history_menu_setup       (Workbook *, GList *);
-void history_insert_menu_item (GList *, gchar *, gboolean);
-void history_remove_menu_item (GList *, gchar *);
+void history_menu_setup (Workbook *, GList *);
+void history_menu_fill  (GList *wl, GList *name_list, gboolean need_sep);
+void history_menu_flush (GList *wl, GList *name_list);
 
 #endif

@@ -145,6 +145,18 @@ workbook_view_history_setup (Workbook *wb)
 		history_menu_setup (wb, hl);
 }
 
+/* 
+ * We introduced numbers in front of the the history file names for two
+ * reasons:  
+ * 1. Bonobo won't let you make 2 entries with the same label in the same
+ *    menu. But that's what happens if you e.g. access worksheets with the
+ *    same name from 2 different directories.
+ * 2. The numbers are useful accelerators.
+ * 3. Excel does it this way.
+ *
+ * Because numbers are reassigned with each insertion, we have to remove all
+ * the old entries and insert new ones.
+ */
 void
 workbook_view_history_update (GList *wl, gchar *filename)
 {
@@ -158,21 +170,25 @@ workbook_view_history_update (GList *wl, gchar *filename)
 	/* If List is empty, a separator will be needed too. */
 	add_sep = (hl == NULL);
 
+	if (hl && strcmp ((gchar *)hl->data, filename) == 0)
+		/* Do nothing if filename already at head of list */
+		return;
+
+	history_menu_flush (wl, hl); /* Remove the old entries */
+
 	/* Update the history list */
 	del_name = application_history_update_list (filename);
+	g_free (del_name);
 
-	/* Remove the old menu item, if necessary. */
-	if (del_name) {
-		history_remove_menu_item (wl, del_name);
-		g_free (del_name);
-	}
-
-	/* Update the menus */
-	history_insert_menu_item (wl, filename, add_sep);
+	/* Fill the menus */
+	hl = application_history_get_list ();
+	history_menu_fill (wl, hl, add_sep);
 }
 
-/* This function will be used by the options dialog when the list size is reduced
- * by the user. */
+/*
+ * This function will be used by the options dialog when the list size is
+ * reduced by the user.
+ */
 void
 workbook_view_history_shrink (GList *wl, gint new_max)
 {
@@ -187,10 +203,11 @@ workbook_view_history_shrink (GList *wl, gint new_max)
 	if (length <= new_max)
 		return;
 
-	/* Remove the required number of items from the list and menus */
+	history_menu_flush (wl, hl); /* Remove the old entries */
 	for (; length > new_max; length--) {
 		del_name = application_history_list_shrink ();
-		history_remove_menu_item (wl, del_name);
 		g_free (del_name);
 	}
+	hl = application_history_get_list ();
+	history_menu_fill (wl, hl, FALSE);	
 }
