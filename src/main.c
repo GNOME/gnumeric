@@ -103,7 +103,16 @@ const struct poptOption gnumeric_popt_options [] = {
 	{ NULL, '\0', 0, NULL, 0 }
 };
 
-#include "ranges.h"
+static void
+handle_paint_events (void)
+{
+	/* FIXME: we need to mask input events correctly here */
+	/* Show something coherent */
+	while (gtk_events_pending () &&
+	       !initial_workbook_open_complete)
+		gtk_main_iteration ();
+}
+
 
 /*
  * FIXME: We hardcode the GUI command context. Change once we are able
@@ -113,8 +122,8 @@ static void
 gnumeric_main (void *closure, int argc, char *argv [])
 {
 	gboolean opened_workbook = FALSE;
-	int i;
 	WorkbookControl *context;
+	const char *gnumeric_binary = argv[0];
 
 	/* Make stdout line buffered - we only use it for debug info */
 	setvbuf (stdout, NULL, _IOLBF, 0);
@@ -192,26 +201,50 @@ gnumeric_main (void *closure, int argc, char *argv [])
 #endif
 	context = workbook_control_gui_new (NULL, NULL);
 	plugins_init (COMMAND_CONTEXT (context));
-	if (startup_files)
+	if (startup_files) {
+		int i;
 		for (i = 0; startup_files [i]  && !initial_workbook_open_complete ; i++) {
 			if (workbook_read (context, startup_files [i]) != NULL)
 				opened_workbook = TRUE;
 
-			/* FIXME: we need to mask input events correctly here */
-			/* Show something coherent */
-			while (gtk_events_pending () &&
-			       !initial_workbook_open_complete)
-				gtk_main_iteration ();
+			handle_paint_events ();
 		}
+	}
+
 	if (ctx)
 		poptFreeContext (ctx);
 
 	/* If we were intentionally short circuited exit now */
 	if (!initial_workbook_open_complete && !immediate_exit_flag) {
 		initial_workbook_open_complete = TRUE;
-		if (!opened_workbook)
+		if (!opened_workbook) {
 			workbook_sheet_add (wb_control_workbook (context),
 					    NULL, FALSE);
+			handle_paint_events ();
+		}
+
+		if (gnumeric_binary) {
+			struct stat buf;
+			time_t now = time (NULL);
+			int days = 180;
+
+			if (stat (gnumeric_binary, &buf) != -1 &&
+			    buf.st_mtime != -1 &&
+			    now - buf.st_mtime > days * 24 * 60 * 60) {
+				gnumeric_error_system (COMMAND_CONTEXT (context),
+						       _("Thank you for using Gnumeric\n"
+							 "\n"
+							 "The version of Gnumeric you are using is quite old\n"
+							 "by now.  It is likely that many bugs have been fixed\n"
+							 "and that new features have been added in the meantime.\n"
+							 "\n"
+							 "Please consider upgrading before reporting any bugs.\n"
+							 "Consult http://www.gnumeric.org/ for details.\n"
+							 "\n"
+							 "-- The Gnumeric Team."));
+			}
+		}
+
 		gtk_main ();
 	}
 

@@ -19,7 +19,7 @@ typedef struct {
 #ifdef __GNUC__
 
 /* Have gcc -- inline functions.  */
-#define GNUMERIC_COMPLEX_PROTO(p) p; extern inline p
+#define GNUMERIC_COMPLEX_PROTO(p) p; extern __inline__ p
 #define GNUMERIC_COMPLEX_BODY
 
 #else

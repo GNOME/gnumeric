@@ -1,3 +1,8 @@
+2001-05-10  Morten Welinder  <terra@diku.dk>
+
+	* src/main.c (gnumeric_main): Complain if binary is more than 180
+ 	days old.
+
 2001-05-10  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/commands.c (cmd_paste_cut_undo): Restore
@@ -203,7 +208,7 @@
 	both within and outside guru mode.
 	(button_select_all): Use scg_select_all.
 
-Mon May  7 14:07:45 2001  Morten Welinder  <welinder@rentec.com>
+2001-05-07  Morten Welinder  <terra@diku.dk>
 
 	* src/stf.c (stf_write_workbook): Plug file descriptor leak.
 	(stf_write_func): Constify.
