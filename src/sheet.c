@@ -1902,7 +1902,7 @@ sheet_cell_insert (Sheet *sheet, Cell *cell, int col, int row, gboolean recalc_s
 	cell_realize (cell);
 
 	if (recalc_span && !cell_needs_recalc (cell))
-		sheet_cell_calc_span (cell, SPANCALC_RESIZE);
+		sheet_cell_calc_span (cell, SPANCALC_RESIZE | SPANCALC_RENDER);
 }
 
 Cell *
@@ -3093,19 +3093,18 @@ sheet_move_range (WorkbookControl *wbc,
 		ExprRelocateInfo reloc_info;
 
 		/*
-		 * we DO need to be careful about invalidating references to the old
+		 * We need to be careful about invalidating references to the old
 		 * content of the destination region.  We only invalidate references
-		 * to regions that are actually lost.
+		 * to regions that are actually lost.  However, this care is
+		 * only necessary if the source and target sheets are the same.
 		 *
 		 * Handle dst cells being pasted over
 		 */
-		if (range_overlap (&rinfo->origin, &dst)) {
+		if (rinfo->origin_sheet == rinfo->target_sheet &&
+		    range_overlap (&rinfo->origin, &dst))
 			invalid = range_split_ranges (&rinfo->origin, &dst, NULL);
-		} else {
-			Range *r = g_new (Range, 1);
-			*r = dst;
-			invalid = g_list_append (NULL, r);
-		}
+		else
+			invalid = g_list_append (NULL, range_copy (&dst));
 
 		reloc_info.origin_sheet = reloc_info.target_sheet = rinfo->target_sheet;;
 		reloc_info.col_offset = SHEET_MAX_COLS; /* send to infinity */

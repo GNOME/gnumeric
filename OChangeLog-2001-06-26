@@ -1,9 +1,23 @@
+2000-11-01  Jody Goldberg <jgoldberg@home.com>
+
+	* src/expr.c (cellref_relocate) : inside is always calculatd based on
+	  the source sheet.  eg  Sheet1:A1 = '=A2' and we are moving A1:A2
+	  from Sheet1 -> Sheet2.  The reference to A2 should be considered
+	  'inside'.  References to Sheet2!A2 have already been #REF!ed.
+
+	* src/commands.c (cmd_paste_cut_redo) : Use range_check_sanity.
+
+	* src/sheet.c (sheet_cell_insert) : Render if necessary.
+	(sheet_move_range) : Extra care is only necessary if the source and
+	  target sheets are the same.  When they are different we should just
+	  invalidate all references to the target range.
+
 2000-11-02  Jon K Hellan  <hellan@acm.org>
 
 	* src/workbook.c (workbook_history_update): Fix test to avoid
-	changing an already correct history.
+	  changing an already correct history.
 	(workbook_destroy): Don't free wb->filename until we're through 
-	using it.
+	  using it.
 
 2000-11-01  Jody Goldberg <jgoldberg@home.com>
 

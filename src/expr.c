@@ -1338,7 +1338,7 @@ cellref_relocate (CellRef *ref,
 	 * Abs	In	Out 	: Sheet
 	 * Abs	Out	In 	: Positive, Sheet, Range (b)
 	 * Abs	Out	Out 	: (a)
-	 * Rel	In	In 	: (Sheet)
+	 * Rel	In	In 	: Sheet
 	 * Rel	In	Out 	: Negative, Sheet, Range (c)
 	 * Rel	Out	In 	: Positive, Sheet, Range (b)
 	 * Rel	Out	Out 	: (a)
@@ -1355,8 +1355,12 @@ cellref_relocate (CellRef *ref,
 	int row = cell_ref_get_abs_row (ref, &rinfo->pos);
 
 	Sheet * ref_sheet = (ref->sheet != NULL) ? ref->sheet : rinfo->pos.sheet;
+
+	/* Inside is based on the current location of the reference.
+	 * Hence we need to use the ORIGIN_sheet rather than the target.
+	 */
 	gboolean const to_inside =
-		(rinfo->target_sheet == ref_sheet) &&
+		(rinfo->origin_sheet == ref_sheet) &&
 		range_contains (&rinfo->origin, col, row);
 	gboolean const from_inside =
 		(rinfo->origin_sheet == rinfo->pos.sheet) &&

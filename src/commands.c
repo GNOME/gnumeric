@@ -1814,14 +1814,7 @@ cmd_paste_cut_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 		g_free (r);
 	}
 
-	if (tmp.start.col < 0)
-		tmp.start.col = 0;
-	if (tmp.start.row < 0)
-		tmp.start.row = 0;
-	if (tmp.end.col >= SHEET_MAX_COLS)
-		tmp.end.col = SHEET_MAX_COLS-1;
-	if (tmp.end.row >= SHEET_MAX_ROWS)
-		tmp.end.row = SHEET_MAX_ROWS-1;
+	range_check_sanity (&tmp);
 
 	/* Make sure the destination is selected */
 	if (me->move_selection)
