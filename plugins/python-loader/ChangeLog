@@ -1,3 +1,14 @@
+2003-03-04  Jon K Hellan  <hellan@acm.org>
+
+	* gnm-python.c (gnm_init_pygobject): New function. Try to import
+	gobject, and don't crash Gnumeric if it fails.
+	(gnm_python_object_get): Use gnm_init_pygobject.
+
+	* python-loader.c (gnumeric_plugin_loader_python_func_file_probe,
+	gnumeric_plugin_loader_python_func_file_open,
+	gnumeric_plugin_loader_python_func_file_save): Check that we
+	managed to import gobject before calling pygobject_new.
+
 2003-01-28  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.16

@@ -118,6 +118,24 @@ extern char **environ;
 #endif
 
 
+#ifdef WITH_PYGTK
+static void
+gnm_init_pygobject (void)
+{
+	_PyGObject_API = NULL;
+	PyObject *gobject = PyImport_ImportModule("gobject");
+	if (gobject != NULL) {
+		PyObject *mdict = PyModule_GetDict(gobject);
+		PyObject *cobject = PyDict_GetItemString(mdict,
+							 "_PyGObject_API");
+		if (PyCObject_Check(cobject))
+			_PyGObject_API = (struct _PyGObject_Functions *)PyCObject_AsVoidPtr(cobject);
+	}
+	if (! _PyGObject_API)
+		g_warning ("could not import gobject");
+}
+#endif
+
 GnmPython *
 gnm_python_object_get (void)
 {
@@ -140,7 +158,7 @@ gnm_python_object_get (void)
 		PyEval_InitThreads ();
 #endif
 #ifdef WITH_PYGTK
-		init_pygobject ();
+		gnm_init_pygobject ();
 #endif
 	}
 

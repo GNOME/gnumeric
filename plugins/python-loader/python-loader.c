@@ -243,6 +243,7 @@ gnumeric_plugin_loader_python_func_file_probe (
 
 	g_return_val_if_fail (GNM_IS_PLUGIN_SERVICE_FILE_OPENER (service), FALSE);
 	g_return_val_if_fail (input != NULL, FALSE);
+	g_return_val_if_fail (_PyGObject_API != NULL, FALSE);
 
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	SWITCH_TO_PLUGIN (plugin_service_get_plugin (service));
@@ -289,6 +290,7 @@ gnumeric_plugin_loader_python_func_file_open (GnmFileOpener const *fo,
 
 	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FILE_OPENER (service));
 	g_return_if_fail (input != NULL);
+	g_return_if_fail (_PyGObject_API != NULL);
 
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	SWITCH_TO_PLUGIN (plugin_service_get_plugin (service));
@@ -386,6 +388,7 @@ gnumeric_plugin_loader_python_func_file_save (GnmFileSaver const *fs, PluginServ
 
 	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FILE_SAVER (service));
 	g_return_if_fail (output != NULL);
+	g_return_if_fail (_PyGObject_API != NULL);
 
 	saver_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	SWITCH_TO_PLUGIN (plugin_service_get_plugin (service));
