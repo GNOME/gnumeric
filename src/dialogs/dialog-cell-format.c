@@ -2467,7 +2467,7 @@ fmt_dialog_init_validation_expr_entry (FormatState *state, ExprEntry *entry,
 	entry->entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gtk_table_attach (state->validation.criteria_table,
 		GTK_WIDGET (entry->entry),
-		1, 3, 2+i, 3+i, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+		2, 3, 3+i, 4+i, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 	gtk_widget_show (GTK_WIDGET (entry->entry));
 	gnumeric_editable_enters (
 		GTK_WINDOW (state->dialog),

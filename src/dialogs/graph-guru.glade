@@ -4,6 +4,7 @@
 <glade-interface>
 
 <widget class="GtkDialog" id="GraphGuru">
+  <property name="border_width">6</property>
   <property name="visible">True</property>
   <property name="title" translatable="yes">Graph Guru</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
@@ -11,13 +12,13 @@
   <property name="modal">False</property>
   <property name="resizable">True</property>
   <property name="destroy_with_parent">False</property>
-  <property name="has_separator">True</property>
+  <property name="has_separator">False</property>
 
   <child internal-child="vbox">
     <widget class="GtkVBox" id="dialog-vbox4">
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">0</property>
+      <property name="spacing">6</property>
 
       <child internal-child="action_area">
 	<widget class="GtkHButtonBox" id="dialog-action_area4">
@@ -94,17 +95,17 @@
 
       <child>
 	<widget class="GtkNotebook" id="notebook">
+	  <property name="border_width">5</property>
 	  <property name="visible">True</property>
 	  <property name="show_tabs">False</property>
 	  <property name="show_border">False</property>
 	  <property name="tab_pos">GTK_POS_TOP</property>
 	  <property name="scrollable">False</property>
-	  <property name="tab_hborder">2</property>
-	  <property name="tab_vborder">2</property>
 	  <property name="enable_popup">False</property>
 
 	  <child>
 	    <widget class="GtkVBox" id="data_box">
+	      <property name="border_width">5</property>
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
 	      <property name="spacing">0</property>

@@ -4,6 +4,7 @@
 <glade-interface>
 
 <widget class="GtkDialog" id="preferences">
+  <property name="border_width">6</property>
   <property name="title" translatable="yes">Gnumeric Preferences</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
@@ -11,21 +12,19 @@
   <property name="default_width">350</property>
   <property name="default_height">300</property>
   <property name="resizable">True</property>
-  <property name="has_separator">True</property>
+  <property name="destroy_with_parent">False</property>
+  <property name="has_separator">False</property>
 
   <child internal-child="vbox">
     <widget class="GtkVBox" id="dialog-vbox1">
-      <property name="border_width">2</property>
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">0</property>
+      <property name="spacing">6</property>
 
       <child internal-child="action_area">
 	<widget class="GtkHButtonBox" id="dialog-action_area1">
-	  <property name="border_width">5</property>
 	  <property name="visible">True</property>
 	  <property name="layout_style">GTK_BUTTONBOX_END</property>
-	  <property name="spacing">10</property>
 
 	  <child>
 	    <widget class="GtkButton" id="help_button">
@@ -61,9 +60,9 @@
 
       <child>
 	<widget class="GtkVPaned" id="vpaned1">
+	  <property name="border_width">4</property>
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
-	  <property name="border_width">5</property>
 
 	  <child>
 	    <widget class="GtkNotebook" id="notebook">
@@ -73,15 +72,16 @@
 	      <property name="show_border">True</property>
 	      <property name="tab_pos">GTK_POS_LEFT</property>
 	      <property name="scrollable">False</property>
-	      <property name="tab_hborder">2</property>
-	      <property name="tab_vborder">2</property>
 	      <property name="enable_popup">False</property>
 	    </widget>
+	    <packing>
+	      <property name="shrink">True</property>
+	      <property name="resize">False</property>
+	    </packing>
 	  </child>
 
 	  <child>
 	    <widget class="GtkScrolledWindow" id="scrolled_desc">
-	      <property name="border_width">5</property>
 	      <property name="visible">True</property>
 	      <property name="can_focus">True</property>
 	      <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
@@ -103,7 +103,7 @@
 		  <property name="left_margin">0</property>
 		  <property name="right_margin">0</property>
 		  <property name="indent">0</property>
-		  <property name="text" translatable="no"></property>
+		  <property name="text" translatable="yes"></property>
 		</widget>
 	      </child>
 	    </widget>
@@ -112,13 +112,12 @@
 	      <property name="resize">True</property>
 	    </packing>
 	  </child>
-
 	</widget>
-	    <packing>
-	      <property name="padding">0</property>
-	      <property name="expand">True</property>
-	      <property name="fill">True</property>
-	    </packing>
+	<packing>
+	  <property name="padding">0</property>
+	  <property name="expand">True</property>
+	  <property name="fill">True</property>
+	</packing>
       </child>
     </widget>
   </child>

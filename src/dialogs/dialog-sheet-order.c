@@ -874,7 +874,7 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 {
 	SheetManager *state;
 	GladeXML *gui;
-	GtkTable *table;
+	GtkBox *vbox;
 	ColorGroup *cg;
 	Workbook *wb;
 
@@ -919,15 +919,12 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 	gtk_button_stock_alignment_set (GTK_BUTTON (state->add_btn), 0., .5, 0., 0.);
 	gtk_button_stock_alignment_set (GTK_BUTTON (state->delete_btn), 0., .5, 0., 0.);
 
-	table = GTK_TABLE (glade_xml_get_widget (gui, "sheet_order_buttons_table"));
+	vbox = GTK_BOX (glade_xml_get_widget (gui,"sheet_order_buttons_vbox"));
 	cg = color_group_fetch ("back_color_group", wb_control_view (WORKBOOK_CONTROL (wbcg)));
 	state->ccombo_back = color_combo_new  (gdk_pixbuf_new_from_inline (-1, gnm_bucket,
 									   FALSE, NULL),
 					       _("Default"), NULL, cg);
-	gtk_table_attach (table, state->ccombo_back,
-			  0, 1, 6, 7,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
+	gtk_box_pack_start (vbox, state->ccombo_back, 0, 0, 0);
 	gtk_widget_set_sensitive (state->ccombo_back, FALSE);
 	gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (state->ccombo_back), GTK_RELIEF_NORMAL);
 	color_combo_box_set_preview_relief (COLOR_COMBO (state->ccombo_back), GTK_RELIEF_NORMAL);
@@ -936,10 +933,7 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 	state->ccombo_fore = color_combo_new  (gdk_pixbuf_new_from_inline (-1, gnm_font,
 									   FALSE, NULL),
 					       _("Default"), NULL, cg);
-	gtk_table_attach (table, state->ccombo_fore,
-			  0, 1, 5, 6,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
+	gtk_box_pack_start (vbox, state->ccombo_fore, 1, 1, 0);
 	gtk_widget_set_sensitive (state->ccombo_fore, FALSE);
 	gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (state->ccombo_fore), GTK_RELIEF_NORMAL);
 	color_combo_box_set_preview_relief (COLOR_COMBO (state->ccombo_fore), GTK_RELIEF_NORMAL);

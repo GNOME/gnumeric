@@ -4,6 +4,7 @@
 <glade-interface>
 
 <widget class="GtkDialog" id="comment_dialog">
+  <property name="border_width">6</property>
   <property name="visible">True</property>
   <property name="title" translatable="yes">Cell Comment</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
@@ -11,21 +12,18 @@
   <property name="modal">False</property>
   <property name="resizable">True</property>
   <property name="destroy_with_parent">False</property>
-  <property name="has_separator">True</property>
+  <property name="has_separator">False</property>
 
   <child internal-child="vbox">
     <widget class="GtkVBox" id="dialog-vbox1">
-      <property name="border_width">2</property>
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">0</property>
+      <property name="spacing">6</property>
 
       <child internal-child="action_area">
 	<widget class="GtkHButtonBox" id="dialog-action_area1">
-	  <property name="border_width">5</property>
 	  <property name="visible">True</property>
 	  <property name="layout_style">GTK_BUTTONBOX_END</property>
-	  <property name="spacing">10</property>
 
 	  <child>
 	    <widget class="GtkButton" id="help_button">
@@ -35,6 +33,7 @@
 	      <property name="label">gtk-help</property>
 	      <property name="use_stock">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
+	      <property name="response_id">0</property>
 	    </widget>
 	  </child>
 
@@ -46,6 +45,7 @@
 	      <property name="label">gtk-cancel</property>
 	      <property name="use_stock">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
+	      <property name="response_id">0</property>
 	    </widget>
 	  </child>
 
@@ -57,6 +57,7 @@
 	      <property name="label">gtk-ok</property>
 	      <property name="use_stock">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
+	      <property name="response_id">0</property>
 	    </widget>
 	  </child>
 	</widget>
@@ -70,7 +71,7 @@
 
       <child>
 	<widget class="GtkScrolledWindow" id="scrolledwindow1">
-	  <property name="border_width">4</property>
+	  <property name="border_width">5</property>
 	  <property name="width_request">100</property>
 	  <property name="height_request">100</property>
 	  <property name="visible">True</property>

@@ -4,6 +4,7 @@
 <glade-interface>
 
 <widget class="GtkDialog" id="selection_dialog">
+  <property name="border_width">6</property>
   <property name="width_request">620</property>
   <property name="height_request">550</property>
   <property name="title" translatable="yes">Function Selector</property>
@@ -12,13 +13,13 @@
   <property name="modal">False</property>
   <property name="resizable">True</property>
   <property name="destroy_with_parent">False</property>
-  <property name="has_separator">True</property>
+  <property name="has_separator">False</property>
 
   <child internal-child="vbox">
     <widget class="GtkVBox" id="dialog-vbox1">
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">0</property>
+      <property name="spacing">6</property>
 
       <child internal-child="action_area">
 	<widget class="GtkHButtonBox" id="dialog-action_area1">
@@ -71,6 +72,7 @@
 
       <child>
 	<widget class="GtkVPaned" id="vpaned1">
+	  <property name="border_width">4</property>
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 

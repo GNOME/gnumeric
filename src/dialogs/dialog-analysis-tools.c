@@ -362,7 +362,7 @@ dialog_tool_init (GenericToolState *state,
 		gnm_expr_entry_set_flags (state->input_entry, flags,
 					  GNM_EE_MASK);
 		gtk_table_attach (table, GTK_WIDGET (state->input_entry),
-				  1, 2, 0, 1,
+				  2, 3, 1, 2,
 				  GTK_EXPAND | GTK_FILL, 0,
 				  0, 0);
 		g_signal_connect_after (G_OBJECT (state->input_entry),
@@ -397,10 +397,10 @@ dialog_tool_init (GenericToolState *state,
 
 		this_label_widget = g_list_find_custom
 		  (table->children, widget, (GCompareFunc) dialog_tool_cmp);
-		tchild =  (GtkTableChild *)(this_label_widget->data);
+		tchild = (GtkTableChild *)(this_label_widget->data);
 
 		gtk_table_attach (table, GTK_WIDGET (state->input_entry_2),
-			  1, 2, tchild->top_attach, tchild->bottom_attach,
+			  2, 3, tchild->top_attach, tchild->bottom_attach,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
 		gnumeric_editable_enters (GTK_WINDOW (state->dialog),

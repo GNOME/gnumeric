@@ -667,7 +667,7 @@ dialog_init (SortFlowState *state)
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;
 
-	table = GTK_TABLE (glade_xml_get_widget (state->gui, "cell_sort_table"));
+	table = GTK_TABLE (glade_xml_get_widget (state->gui, "cell_sort_options_table"));
 
 /* setup range entry */
 	state->range_entry = gnm_expr_entry_new (state->wbcg, TRUE);
@@ -675,7 +675,7 @@ dialog_init (SortFlowState *state)
 				  GNM_EE_SINGLE_RANGE,
 				  GNM_EE_MASK);
 	gtk_table_attach (table, GTK_WIDGET (state->range_entry),
-			  1, 2, 0, 1,
+			  2, 3, 1, 2,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
@@ -686,7 +686,7 @@ dialog_init (SortFlowState *state)
 		"update",
 		G_CALLBACK (cb_update_sensitivity), state);
 
-	table = GTK_TABLE (glade_xml_get_widget (state->gui, "cell_sort_buttons_table"));
+	table = GTK_TABLE (glade_xml_get_widget (state->gui, "cell_sort_spec_table"));
 
 /* setup add entry */
 	state->add_entry = gnm_expr_entry_new (state->wbcg, TRUE);
@@ -694,7 +694,7 @@ dialog_init (SortFlowState *state)
 				  GNM_EE_SINGLE_RANGE,
 				  GNM_EE_MASK);
 	gtk_table_attach (table, GTK_WIDGET (state->add_entry),
-			  0, 2, 1, 2,
+			  1, 3, 2, 3,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
@@ -741,6 +741,8 @@ dialog_init (SortFlowState *state)
 							   renderer,
 							   "active", ITEM_CASE_SENSITIVE, NULL);
 	gtk_tree_view_append_column (state->treeview, column);
+
+	gtk_tree_view_columns_autosize (state->treeview);
 
 #if 0
 	/* We are currently not supporting `by-value' vs not. */

@@ -112,7 +112,7 @@ dialog_tool_init_outputs (GenericToolState *state, GtkSignalFunc sensitivity_cb)
 	gnm_expr_entry_set_flags (state->output_entry,
 				  GNM_EE_SINGLE_RANGE, GNM_EE_MASK);
 	gtk_table_attach (table, GTK_WIDGET (state->output_entry),
-			  1, 2, 2, 3,
+			  2, 3, 3, 4,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
 	g_signal_connect (G_OBJECT (state->output_range),

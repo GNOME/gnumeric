@@ -65,7 +65,7 @@ typedef struct {
 	GtkWidget *current_value_label;
 	GtkWidget *solution_label;
 	GtkWidget *result_label;
-	GtkWidget *result_frame;
+	GtkWidget *result_table;
 	Sheet	  *sheet;
 	Workbook  *wb;
 	WorkbookControlGUI  *wbcg;
@@ -469,7 +469,7 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 		gtk_label_set_text (GTK_LABEL (state->target_value_label), "");
 		break;
 	}
-	gtk_widget_show (state->result_frame);
+	gtk_widget_show (state->result_table);
 	return;
 }
 
@@ -485,7 +485,7 @@ static void
 dialog_realized (G_GNUC_UNUSED GtkWidget *dialog,
 		 GoalSeekState *state)
 {
-	gtk_widget_hide (state->result_frame);
+	gtk_widget_hide (state->result_table);
 }
 
 /**
@@ -533,7 +533,7 @@ dialog_init (GoalSeekState *state)
 	gtk_label_set_justify (GTK_LABEL (state->solution_label), GTK_JUSTIFY_RIGHT);
 
 	state->result_label = glade_xml_get_widget (state->gui, "result-label");
-	state->result_frame = glade_xml_get_widget (state->gui, "result-frame");
+	state->result_table = glade_xml_get_widget (state->gui, "result-table");
 
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "goal-table"));
 	state->set_cell_entry = gnm_expr_entry_new (state->wbcg, TRUE);
@@ -542,7 +542,7 @@ dialog_init (GoalSeekState *state)
 				  GNM_EE_ABS_ROW | GNM_EE_ABS_COL,
 		GNM_EE_MASK);
 	gtk_table_attach (table, GTK_WIDGET (state->set_cell_entry),
-			  1, 2, 0, 1,
+			  2, 3, 1, 2,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
@@ -555,7 +555,7 @@ dialog_init (GoalSeekState *state)
 				  GNM_EE_ABS_ROW | GNM_EE_ABS_COL,
 		GNM_EE_MASK);
 	gtk_table_attach (table, GTK_WIDGET (state->change_cell_entry),
-			  1, 2, 2, 3,
+			  2, 3, 3, 4,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),

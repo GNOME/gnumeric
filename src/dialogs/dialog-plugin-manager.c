@@ -629,7 +629,7 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	GladeXML *gui;
 	GtkWidget *scrolled;
 	GtkWidget *scrolled_directories;
-	GtkWidget *table;
+	GtkWidget *hbox;
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *rend;
 
@@ -710,7 +710,7 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 
 	/* Set-up directories page */
 
-	table = glade_xml_get_widget (gui, "directory-table");
+	hbox = glade_xml_get_widget (gui, "directory-box");
 	pm_gui->model_directories = gtk_list_store_new (DIR_NUM_COLMNS, G_TYPE_STRING,
 							G_TYPE_BOOLEAN);
 	pm_gui->list_directories = GTK_TREE_VIEW (
