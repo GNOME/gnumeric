@@ -1,3 +1,8 @@
+2004-11-07  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* configure.in: corrected $(GNUMERIC_PLUGIN_LDFLAGS) to
+	$GNUMERIC_PLUGIN_LDFLAGS.
+
 2004-11-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/gnumeric-gconf.c (go_conf_get_short_desc) return 
