@@ -1,3 +1,7 @@
+2003-06-19  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* format.c (update_lc): set locale_info_cached to TRUE
+
 2003-06-18  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/GNOME_Gnumeric.xml: spelling fixes
