@@ -218,8 +218,11 @@ dist-hook:
 	cp $(srcdir)/pixmaps/*.xpm $(distdir)/pixmaps
 	touch $(distdir)/Gnumeric.idl
 
-idldir=$(datadir)/idl
-idl_DATA=Gnumeric.idl
+idldir   = $(datadir)/idl
+idl_DATA = Gnumeric.idl
+
+EXTRA_DIST = $(idl_DATA)
+
 
 #number_match_SOURCES = number-match.c  formats.c dates.c number-match-test.c
 
@@ -229,3 +232,4 @@ idl_DATA=Gnumeric.idl
 #	$(GNOMEUI_LIBS)			\
 #	$(GNOME_XML_LIB) 		\
 #	$(INTLLIBS)
+
