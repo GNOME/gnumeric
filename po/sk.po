@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
-"POT-Creation-Date: 2002-06-18 01:32-0400\n"
-"PO-Revision-Date: 2002-06-03 13:16+0200\n"
+"POT-Creation-Date: 2002-07-03 16:59+0200\n"
+"PO-Revision-Date: 2002-07-03 17:00+0200\n"
 "Last-Translator: Stanislav Vi¹òovský <visnovsky@nenya.ms.mff.cuni.cz>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
@@ -458,8 +458,7 @@ msgid "Data Interchange Format (DIF) module"
 msgstr "Modul pre Data Interchange Format (DIF)"
 
 #: plugins/dif/plugin.xml.in.h:3
-msgid ""
-"Reads and writes information stored in the Data Interchange Format (*.dif)"
+msgid "Reads and writes information stored in the Data Interchange Format (*.dif)"
 msgstr "Zapisuje a èíta informácie ulo¾ené v Data Interchange Format (*.dif)"
 
 #: plugins/excel/boot.c:104
@@ -1839,8 +1838,7 @@ msgstr "Opakovane prepoèítava pre nájdenie cieµovej hodnoty"
 
 #: src/GNOME_Gnumeric.xml.h:127 src/workbook-control-gui.c:3092
 msgid "Iteratively recalculate with constraints to approach a target value"
-msgstr ""
-"Opakovane prepoèítava s obmedzeniami, a¾ kým nedosiahne cieµovú hodnotu"
+msgstr "Opakovane prepoèítava s obmedzeniami, a¾ kým nedosiahne cieµovú hodnotu"
 
 #: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:2788
 msgid "Jump to a specified cell"
@@ -4359,7 +4357,6 @@ msgid "_Wrap text"
 msgstr "_Zalamova» text"
 
 #: src/dialogs/cell-format.glade.h:129
-#, fuzzy
 msgid "min <= val <= max         (between)"
 msgstr "min <= hodnota <= max       (medzi)"
 
@@ -4368,17 +4365,14 @@ msgid "val != bound                  (not equal to)"
 msgstr "hod != limit                 (nerovná sa)"
 
 #: src/dialogs/cell-format.glade.h:131
-#, fuzzy
 msgid "val <  bound                  (less than)"
 msgstr "hodnota <  hranica                 (men¹ia)"
 
 #: src/dialogs/cell-format.glade.h:132
-#, fuzzy
 msgid "val <= min || max <= val (not between)"
 msgstr "hodnota <= min || max <= hodnota (nie medzi)"
 
 #: src/dialogs/cell-format.glade.h:133
-#, fuzzy
 msgid "val <=bound                  (less than or equal to)"
 msgstr "hodnota <= hranica                 (men¹ia alebo rovná)"
 
@@ -4387,12 +4381,10 @@ msgid "val == bound                 (equal to)"
 msgstr "hod == limit                (je rovná)"
 
 #: src/dialogs/cell-format.glade.h:135
-#, fuzzy
 msgid "val >  bound                  (greater than)"
 msgstr "hodnota >  hranica                 (väè¹ia)"
 
 #: src/dialogs/cell-format.glade.h:136
-#, fuzzy
 msgid "val >=bound                  (greater than or equal to)"
 msgstr "hodnota >= hranica                 (väè¹ia alebo rovná)"
 
@@ -5024,8 +5016,7 @@ msgstr ""
 "premenných a skúste to znovu."
 
 #: src/dialogs/dialog-analysis-tools.c:3085
-msgid ""
-"There must be an equal number of entries for each variable in the regression."
+msgid "There must be an equal number of entries for each variable in the regression."
 msgstr "Pre ka¾dú premennú regresie musí by» rovnaký poèet polo¾iek."
 
 #: src/dialogs/dialog-analysis-tools.c:3185 src/dialogs/regression.glade.h:16
@@ -5070,8 +5061,7 @@ msgstr "Nepodarilo sa vytvori» dialóg nástroja pre histogram."
 
 #: src/dialogs/dialog-analysis-tools.c:4252
 msgid "Could not create the ANOVA (single factor) tool dialog."
-msgstr ""
-"Nepodarilo sa vytvori» dialóg nástroja pre ANOVA (jednoduché triedenie)."
+msgstr "Nepodarilo sa vytvori» dialóg nástroja pre ANOVA (jednoduché triedenie)."
 
 #: src/dialogs/dialog-analysis-tools.c:4315
 msgid "Each sample must contain the same number of rows."
@@ -5869,8 +5859,7 @@ msgstr "Ståpec %d"
 msgid ""
 "Actual processing will start at this line, any previous lines will be "
 "ignored."
-msgstr ""
-"Spracovanie zaène na tomto riadku, v¹etky predchádzajúce budú ignorované."
+msgstr "Spracovanie zaène na tomto riadku, v¹etky predchádzajúce budú ignorované."
 
 #: src/dialogs/dialog-stf.glade.h:4
 msgid "Add a new column"
@@ -5956,8 +5945,7 @@ msgstr "Definova» ¹írku ka¾dého ståpca ruène."
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
-msgstr ""
-"Ka¾dý ståpec v texte je oddelený oddeµovacím znakom, napr. bodkoèiarkou."
+msgstr "Ka¾dý ståpec v texte je oddelený oddeµovacím znakom, napr. bodkoèiarkou."
 
 #: src/dialogs/dialog-stf.glade.h:23
 msgid "End"
@@ -6062,10 +6050,8 @@ msgid "See two successive separators as one."
 msgstr "Dva za sebou idúce oddeµovaèe chápa» ako jeden."
 
 #: src/dialogs/dialog-stf.glade.h:48
-msgid ""
-"See two successive text indicators as one that does not terminate the cell."
-msgstr ""
-"Dva za sebou idúce oznaèovaèe textu chápa» ako jeden, ktorý nekonèí bunku."
+msgid "See two successive text indicators as one that does not terminate the cell."
+msgstr "Dva za sebou idúce oznaèovaèe textu chápa» ako jeden, ktorý nekonèí bunku."
 
 #: src/dialogs/dialog-stf.glade.h:49
 msgid ""
@@ -7345,10 +7331,8 @@ msgid "Tabulate Dependency"
 msgstr "Tabulova» závistlosti"
 
 #: src/dialogs/tabulate.glade.h:10
-msgid ""
-"Use down for first source, right for second, and multiple sheets for third"
-msgstr ""
-"Smerom dolu prvý zdroj, smerom vpravo druhý, viacnásobné listy pre tretí"
+msgid "Use down for first source, right for second, and multiple sheets for third"
+msgstr "Smerom dolu prvý zdroj, smerom vpravo druhý, viacnásobné listy pre tretí"
 
 #: src/dialogs/tabulate.glade.h:11
 msgid "_Coordinate"
@@ -7461,18 +7445,15 @@ msgid "Saving over old files of this type is disabled for safety."
 msgstr "Ulo¾enie do starých súborov tohto typu je kvôli bezpeèenosti vypnuté."
 
 #: src/file.c:497
-msgid ""
-"You can turn this safety feature off by editing appropriate plugin.xml file."
+msgid "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
 "Túto funkciu mô¾ete bezpeène vypnú» úpravou zodpovedajúceho súboru plugin."
 "xml."
 
 #: src/format-template.c:875
 #, c-format
-msgid ""
-"The target region is too small.  It should be at least %d rows by %d columns"
-msgstr ""
-"Cieµová oblas» je príli¹ malá, mala by by» aspoò %d riadkov a %d ståpcov"
+msgid "The target region is too small.  It should be at least %d rows by %d columns"
+msgstr "Cieµová oblas» je príli¹ malá, mala by by» aspoò %d riadkov a %d ståpcov"
 
 #: src/format-template.c:878
 #, c-format
@@ -7517,12 +7498,12 @@ msgid "yellow"
 msgstr "¾ltá"
 
 #. Is it a boolean?
-#: src/format.c:1551 src/number-match.c:1066 src/value-sheet.c:34
+#: src/format.c:1551 src/number-match.c:1109 src/value-sheet.c:34
 #: src/value.c:255 src/value.c:494
 msgid "TRUE"
 msgstr "TRUE"
 
-#: src/format.c:1551 src/number-match.c:1068 src/value-sheet.c:34
+#: src/format.c:1551 src/number-match.c:1111 src/value-sheet.c:34
 #: src/value.c:257 src/value.c:494
 msgid "FALSE"
 msgstr "FALSE"
@@ -12132,7 +12113,6 @@ msgstr ""
 "@SEEALSO=PV,FV"
 
 #: src/functions/fn-financial.c:2170
-#, fuzzy
 msgid ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(currency)\n"
@@ -19182,35 +19162,35 @@ msgstr "Nemô¾em inicializova» factory pre zo¹it"
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr "Nemô¾em inicializova» factory EmbeddableGrid"
 
-#: src/number-match.c:672
+#: src/number-match.c:698
 msgid "#NULL!"
 msgstr "#NULL!"
 
-#: src/number-match.c:673
+#: src/number-match.c:699
 msgid "#DIV/0!"
 msgstr "#DIV/0!"
 
-#: src/number-match.c:674
+#: src/number-match.c:700
 msgid "#VALUE!"
 msgstr "#VALUE!"
 
-#: src/number-match.c:675
+#: src/number-match.c:701
 msgid "#REF!"
 msgstr "#REF!"
 
-#: src/number-match.c:676
+#: src/number-match.c:702
 msgid "#NAME?"
 msgstr "#MENO?"
 
-#: src/number-match.c:677
+#: src/number-match.c:703
 msgid "#NUM!"
 msgstr "#NUM!"
 
-#: src/number-match.c:678
+#: src/number-match.c:704
 msgid "#N/A"
 msgstr "#N/A"
 
-#: src/number-match.c:679
+#: src/number-match.c:705
 msgid "#RECALC!"
 msgstr "#PREPOÈ!"
 
@@ -20017,8 +19997,7 @@ msgstr "Chyba pri zápise csv súboru"
 
 #: src/stf.c:456
 msgid "Text import (auto-detect CSV or tab-delimited)"
-msgstr ""
-"Import textu (automatická detekcia CSV alebo text oddelený tabulátormi)"
+msgstr "Import textu (automatická detekcia CSV alebo text oddelený tabulátormi)"
 
 #: src/stf.c:460
 msgid "Text import (configurable)"
@@ -20820,3 +20799,4 @@ msgstr "Súborový formát Gnumeric XML"
 #~ "Detaily nájdete na http://www.gnumeric.org.\n"
 #~ "\n"
 #~ "-- Tím Gnumericu."
+
