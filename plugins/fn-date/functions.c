@@ -1197,7 +1197,7 @@ date_functions_init(void)
 				 &help_today,       gnumeric_today );
 	auto_format_function_result (def, AF_DATE);
 
-	def = function_add_args (cat,  "weekday",        "?|f",
+	def = function_add_args (cat,  "weekday",        "S|f",
 				 "date",
 				 &help_weekday,     gnumeric_weekday);
 
