@@ -85,91 +85,239 @@
     B3:D3.  They are currently all zeros.  The cell E4 contains the
     objective function definition.  The easiest way to define it is to
     use SUMPRODUCT build-in function.  Thus in our model, we have the
-    formula `=SUMPRODUCT(B3:D3,B4:D4)' in E3 .</para>
+    formula `=SUMPRODUCT(B3:D3,B4:D4)' in E3.</para>
 
-    <para>The constraints are defined in rows seven to ten.  Since the
-    coefficients of these functions are in columns B, C and D we will
-    get the total sum of each of the constraint using the formula
-    `SUMPRODUCT(B$3:D$3,Bn:Dn)' where n is the row number of
+    <para>The constraints are defined in rows seven to ten.  Since
+    the coefficients of these functions are in columns B, C and D we
+    will get the total sum of each of the constraint using the
+    formula `SUMPRODUCT(B$3:D$3,Bn:Dn)' where n is the row number of
     the constraint.  For example, in E7 we have
     `=SUMPRODUCT(B$3:D$3,B7:D7)', in E8 `=SUMPRODUCT(B$3:D$3,B8:D8)'
     and so on.  The right hand side (RHS) values of the constraints
     are typed into cells G7:G10.</para>
 
-    <para>Now it is time to select `Solver...' from the `Tools' menu.
-    After you have done it, the following dialog will appear:</para>
+  </sect2>
 
-    <figure id="solver-dialog-1">
-      <title>The empty Solver dialog.</title>
-      <screenshot>
-        <graphic fileref="figures/solver-02.png"></graphic>
-      </screenshot>
-    </figure>
+  <sect2>
+    <title>Using Solver</title>
 
-    <para>Since we have the objective function in E3 type this into
-    the `Set Target Cell:' entry.  We are about to maximize this
-    function, thus the radiobutton `Max' should be pressed on.  By
-    default, the problem is assumed to be maximization problem.  The
-    input variables (x, y, and z) were in cells B3:D3 so type the cell
-    range into the `By Changing Cells:' entry.  Now we can add the
-    constraints.  Click <mousebutton>Add</mousebutton> button and the
-    following dialog will appear.</para>
+    <sect3>
+      <title>Solver Parameters</title>
 
-    <figure id="solver-add-constraint-dialog">
-      <title>Add constraint dialog.</title>
-      <screenshot>
-        <graphic fileref="figures/solver-03.png"></graphic>
-      </screenshot>
-    </figure>
+      <para>Now it is time to select `Solver...' from the `Tools' menu.
+      After you have done it, the following dialog will appear:</para>
 
-    <para>Now type in the constraints (#1-#4) one by one.  The
-    constraint dialog has three entry boxes.  Put a cell name of the
-    total left hand side (LHS) cell into the `Left Hand Side:' entry
-    box.  In our example, this would be E7 for the constraint #1, E8
-    for constraint #2, and so on.  The combo entry in the middle
-    defines the type of the constraint.  It can be<![CDATA[ `<=', `=',
-    `>=' ]]> , or
-    `Int'.  We will explain the `Int' constraints later.  In this
-    example, you should select <![CDATA[ `<=' for constraints #1-#2, `>=' ]]>for
-    #3, and `=' for constraint #4.  The last entry on the right takes
-    the right hand side values of the constraints.  For constraints
-    #1-#4 they should be 5, 9, 1, and 4 in this order.  After typing
-    each constraint press <mousebutton>Add</mousebutton> button if you
-    still want to add more constraints after this one, or, press
-    <mousebutton>Ok</mousebutton> button after typing the last
-    constraint.  When you have typed in all the constraints, the
-    Solver dialog should look like this:</para>
+      <figure id="solver-dialog-1">
+        <title>The empty Solver dialog.</title>
+        <screenshot>
+          <graphic fileref="figures/solver-02.png"></graphic>
+        </screenshot>
+      </figure>
 
-    <figure id="solver-dialog-2">
-      <title>The solver dialog</title>
-      <screenshot>
-        <graphic fileref="figures/solver-04.png"></graphic>
-      </screenshot>
-    </figure>
+      <para>Since we have the objective function in E3 type this into
+      the `Set Target Cell:' entry.  We are about to maximize this
+      function, thus the radiobutton `Max' should be pressed on.  By
+      default, the problem is assumed to be maximization problem.  The
+      input variables (x, y, and z) were in cells B3:D3 so type the
+      cell range into the `By Changing Cells:' entry.</para>
 
-    <para>The order of the constraints does not matter.  If you want
-    to change or delete a constraint click it and then press `Change'
-    or `Delete' button.  If everything looks ok, we should check the
-    current settings of the Solver options by pressing the
-    <mousebutton>Options...</mousebutton> button.  Since the problem
-    is a linear problem the checkbutton called `Assume linear model'
-    should be checked on.  In addition, since we want the variables to
-    be positive in our problem setting, in this case, we should also
-    have the `Assume non-negative' button checked on.  Click
-    <mousebutton>OK</mousebutton> when done.  Now it's time to press
-    the <mousebutton>Solve</mousebutton> button.  If everything went
-    ok, the following window will appear:</para>
+      <para>The model to be optimized is a linear model.  Thus, we
+      should check that the checkbutton `Linear (LP/MILP)' is pressed
+      on under the `Model Assumptions'.  Also make sure that the
+      assume non-negative button is on, otherwise, the input variables
+      can also take negative values.  There is also a checkbutton
+      `Assume Integer (Discrete)' which adds an integer constraint for
+      all the input variables.  The integer optimizatation is
+      described, however, later.</para>
 
-    <figure id="solver-results">
-      <title>The Solver results dialog</title>
-      <screenshot>
-        <graphic fileref="figures/solver-05.png"></graphic>
-      </screenshot>
-    </figure>
+      <para>A few additional options can be set too.  If you want to
+      limit the number of iterations the optimization algorithm is
+      allowed to take you can set the mazimumn number in the `Max
+      iterations' entry box.  Similarly, you can limit the maximum
+      time the optimization is allowed to take in the `Max time' entry
+      box.  If either one of these settings is exceeded during the
+      optimization, the optimization is interrupted and an error
+      dialog is displayed.</para>
 
-    <para>If you look the sheet, you will notice that X and Z are set
-    to zero and Y is set to four.  It means that in the optimal
-    solution Y=4 and X=Z=0.</para>
+      <para>Some models can be better solved if the model is scaled
+      into another form before the actual optimization.  Gnumeric
+      solver supports automatic scaling which can be checked on by
+      using the checkbutton on the bottom of the dialog.  Note that
+      the automatic scaling does not change the model since before
+      checking out the results the model is scaled back to it's
+      original form.</para>
+
+    </sect3>
+
+    <sect3>
+      <title>Solver Constraints</title>
+
+      <para>Now we can add the constraints.  Select the `Constraints'
+      page from the top of the dialog and the following page should
+      appear.</para>
+
+      <figure id="solver-add-constraint-dialog">
+        <title>Add constraint dialog.</title>
+        <screenshot>
+          <graphic fileref="figures/solver-03.png"></graphic>
+        </screenshot>
+      </figure>
+
+      <para>In this page, you can see all constraints that have been
+      defined in the `Subject to the Constraints:' window.  Since none
+      has been defined, this window should be empty.  Now type in the
+      constraints (#1-#4) one by one.</para>
+
+      <para>When adding constraints, the three entry boxes in the
+      bottom of the dialog are used.  Put a cell name of the total
+      left hand side (LHS) cell into the `Left Hand Side:' entry box.
+      In our example, this would be E7 for the constraint #1, E8 for
+      constraint #2, and so on.  The combo entry in the middle defines
+      the type of the constraint.  It can be<![CDATA[ `<=', `=', `>='
+      ]]> , or `Int'.  We will explain the `Int' constraints later.
+      In this example, you should select <![CDATA[ `<=' for
+      constraints #1-#2, `>=' ]]>for #3, and `=' for constraint #4.
+      The last entry on the right takes the right hand side values of
+      the constraints.  For constraints #1-#4 they should be G7 (5),
+      G8 (9), G9 (1), and G10 (4) in this order.</para>
+
+      <para>After typing a constraint press
+      <mousebutton>Add</mousebutton> button, and you will be able to
+      define the next one.  When you have typed in all the
+      constraints, the Solver dialog should look like this:</para>
+
+      <figure id="solver-dialog-2">
+        <title>The solver dialog</title>
+        <screenshot>
+          <graphic fileref="figures/solver-04.png"></graphic>
+        </screenshot>
+      </figure>
+
+      <para>The order of the constraints does not matter.  If you want
+      to change or delete a constraint click it and then press
+      `Change' or `Delete' button.</para>
+
+      <para>Note that you can also type ranges into the LHS and RHS
+      entries.  For example, you could have typed D7:D8 and G7:G8
+      instead of the two separate constraints.</para>
+
+      <para>If the constraints have now been typed in correctly, we
+      should check what reports we want to produce.</para>
+
+    </sect3>
+
+    <sect3>
+      <title>Solver Reporting</title>
+
+      <para>Select the `Reports' page from the top of the dialog and
+      the a page containing five checkbuttons should appear.  By
+      pressing these checkbuttons on, you can produce various kinds of
+      reports.  You can read more about solver reporting in the
+      following section.</para>
+
+    </sect3>
+
+    <sect3>
+      <title>Optimization</title>
+
+      <para>After you have specified the parameters, the constraints
+      and the reporting options it is time to press the `OK' button.
+      If everything went ok, you will see a dialog saying: `Solver
+      found an optimal solution. All constraints and optimality
+      conditions are satisfied.'.  This means that the solver found an
+      optimal solution and the optimal values are now stored into the
+      input variables.  For all models, this, however, does not
+      happen.</para>
+
+      <para>If a feasible solution cannot be found, the solver reports
+      that `A feasible solution could not be found. All specified
+      constraints cannot be met simultaneously.'.</para>
+
+      <para>If the model is unbounded, the solver reports that `The
+      Target Cell value specified does not converge!  The program is
+      unbounded.'.</para>
+
+      <para>If the maximum number of iterations specified in the
+      options was exceeded, the solver reports that `The maximum
+      number of iterations exceeded. The optimal value could not be
+      found.'.</para>
+
+      <para>If the maximum time specified in the options was exceeded,
+      the solver reports that `The maximum time exceeded. The optimal
+      value could not be found in given time.'.</para>
+
+    </sect3>
+
+  </sect2>
+
+  <sect2>
+    <title>Solver Reports</title>
+
+    <sect3>
+      <title>Answer Report</title>
+
+      <para>Answer report gives the original and final values for the
+      problem and for all the input variables and the constraints.  In
+      addition, for the constraints their formulas, binding status and
+      the slacks are printed out nicely.  The answer report is given
+      as a new sheet.</para>
+
+    </sect3>
+
+    <sect3>
+      <title>Sensitivity Report</title>
+
+      <para>Sensitivity report gives the shadow prices for the
+      constraints.</para>
+
+      <para>Note that if the model contains integer or boolean
+      constraints, sensitivity report cannot be produced.</para>
+
+    </sect3>
+
+    <sect3>
+      <title>Limits Report</title>
+
+      <para>Limits report reports the attchieved optimal value all the
+      input variables of the model with the optimal values and with
+      upper and lower bound for the optimal value in with the
+      particular variable could vary without changing the optimal
+      solution.</para>
+
+      <para>If an optimal value for a variable x is 4, for example,
+      and the lower bound is 2.4 and upper bound 5.9, then x could
+      take any value between 2.4 and 5.9, and still all the same
+      constraints were binding as with the optimal value 4.  In limits
+      report, you can also find the value of the target cell for both
+      upper and lower bound values for the variable.  For example, if
+      the optimal value where x is 4 leads to a profit of $5,000,
+      limits report specifies that if x is set to 2.4 the profit drops
+      to $3,640.</para>
+
+      <para>Note that if the model contains integer or boolean
+      constraints, limits report cannot be produced.</para>
+
+    </sect3>
+
+    <sect3>
+      <title>Performance Report</title>
+
+      <para>Performance reports gives various statistical
+      characteristics about the given model like how many variables
+      and rows it contains, and how many non-zero matrix elements it
+      has.  It also gives out the performace numbers like how much
+      computing time was required to compute the results.</para>
+
+    </sect3>
+
+    <sect3>
+      <title>Program Report</title>
+
+      <para>Program report gives the model in it's mathematical form.
+      Program report is useful for checking out the correctness of the
+      model.  It can also be useful for educational purposes.</para>
+
+    </sect3>
 
   </sect2>
 
@@ -184,73 +332,6 @@
 
   </sect2>
 
-  <sect2>
-    <title>Reporting</title>
-
-    <para>Solver can produce various kinds of reports that can be very
-    useful in practise.  Currently there are five types of reports
-    that Solver can create for LP problems being solved.</para>
-
-    <sect3>
-      <title>Answer report</title>
-
-      Answer report reports the optimal solution found.  It will give
-      you the original values of the input variables with the optimal
-      values.  In addition, it reports all the model constraints,
-      their final values, right hand side values, binding status, and
-      slack.
-
-    </sect3>
-
-    <sect3>
-      <title>Sensitivity report</title>
-    </sect3>
-
-    <sect3>
-      <title>Limits report</title>
-
-      Limits report reports the attchieved optimal value all the input
-      variables of the model with the optimal values and with upper
-      and lower bound for the optimal value in with the particular
-      variable could vary without changing the optimal solution.
-
-      If an optimal value for a variable x is 4, for example, and the
-      lower bound is 2.4 and upper bound 5.9, then x could take any
-      value between 2.4 and 5.9, and still all the same constraints
-      were binding as with the optimal value 4.  In limits report, you
-      can also find the value of the target cell for both upper
-      and lower bound values for the variable.  For example, if the
-      optimal value where x is 4 leads to a profit of $5,000, limits
-      report specifies that if x is set to 2.4 the profit drops to
-      $3,640.
-
-    </sect3>
-
-    <sect3>
-      <title>Performance report</title>
-
-      In a performance report you will have various statistical
-      information about the problem, required computing time for
-      solving the problem, and various other information.
-
-    </sect3>
-
-    <sect3>
-      <title>Program report</title>
-
-      In a program report you will have the optimization problem
-      defined for the solver in a mathematical form.  The output is
-      nicely formatted especially if you have placed proper labels for
-      each variable and constraint in the model.
-
-      A program report can be very useful, for example, if you want to
-      check that you have defined the problem correctly for the tool.
-      It is easy to make a mistake or two if you have large programs
-      to be solved.
-
-    </sect3>
-
-  </sect2>
 </sect1>
 
 <sect1 id="goal-seek">

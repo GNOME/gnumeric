@@ -1,3 +1,7 @@
+2002-07-03  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* solver.xml, figures/solver-0[2-4]: Major update.
+
 2002-06-03  Jody Goldberg <jody@gnome.org>
 
 	* Makefile.am : finally clean up the EXTRA_DIST situation.
