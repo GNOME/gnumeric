@@ -1,3 +1,5 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /*
  * Global Gnome Font data structures.  To avoid duplicating this across
  * workbooks.
@@ -19,7 +21,8 @@
 
 GList *gnumeric_font_family_list = NULL;
 GList *gnumeric_point_size_list = NULL;
-static PangoFontFamily **pango_families;
+static PangoFontFamily	**pango_families;
+static GStringChunk	 *size_names;
 
 int const gnumeric_point_sizes [] = {
 	4, 8, 9, 10, 11, 12, 14, 16, 18,
@@ -39,8 +42,11 @@ compare_family_pointers_by_name (gconstpointer a, gconstpointer b)
 void
 global_gnome_font_init (void)
 {
+	char buffer [6]; 
 	int n_families, i;
 	PangoContext *context = gdk_pango_context_get ();
+
+	size_names = g_string_chunk_new (128);
 
 	pango_context_list_families (context,
 		&pango_families, &n_families);
@@ -55,12 +61,10 @@ global_gnome_font_init (void)
 	gnumeric_font_family_list = g_list_reverse (gnumeric_font_family_list);
 
 	for (i = 0; gnumeric_point_sizes [i] != 0; i++){
-		char buffer [6];
-
 		sprintf (buffer, "%d", gnumeric_point_sizes [i]);
 		gnumeric_point_size_list = g_list_prepend (
 			gnumeric_point_size_list,
-			g_strdup (buffer));
+			g_string_chunk_insert (size_names, buffer));
 	}
 
 	g_object_unref (G_OBJECT (context));
@@ -69,16 +73,12 @@ global_gnome_font_init (void)
 void
 global_gnome_font_shutdown (void)
 {
-	GList *l;
-
 	g_free (pango_families);
 	pango_families = NULL;
 	g_list_free (gnumeric_font_family_list);
 	gnumeric_font_family_list = NULL;
-
-	for (l = gnumeric_point_size_list; l; l = l->next)
-		g_free (l->data);
 	g_list_free (gnumeric_point_size_list);
 	gnumeric_point_size_list = NULL;
+	g_string_chunk_free (size_names);
+	size_names = NULL;
 }
-

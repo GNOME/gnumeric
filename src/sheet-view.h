@@ -5,7 +5,7 @@
 #include <gtk/gtkobject.h>
 
 struct _SheetView {
-	GtkObject  base;
+	GObject  base;
 
 	Sheet	  *s;
 	GPtrArray *controls;
@@ -41,7 +41,7 @@ struct _SheetView {
 };
 
 typedef struct {
-	GtkObjectClass   gtk_object_class;
+	GObjectClass   gtk_object_class;
 } SheetViewClass;
 
 #define SHEET_VIEW_TYPE     (sheet_view_get_type ())

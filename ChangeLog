@@ -1,5 +1,7 @@
 2002-03-02  Jody Goldberg <jody@gnome.org>
 
+	* src/global-gnome-font.c : Use string chunk.
+
 	* src/sheet-object-cell-comment.c :  This is a GObject now.
 
 2002-03-01  Morten Welinder  <terra@diku.dk>
