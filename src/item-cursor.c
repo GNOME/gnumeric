@@ -83,8 +83,21 @@ item_cursor_realize (GnomeCanvasItem *item)
 
 	if (item_cursor->style == ITEM_CURSOR_ANTED)
 		item_cursor_start_animation (item_cursor);
+
+	/*
+	 * Create the stipple pattern for the drag and the autofill cursors
+	 */
+	if (item_cursor->style == ITEM_CURSOR_DRAG || item_cursor->style == ITEM_CURSOR_AUTOFILL){
+		static char stipple_data [] = { 0x55, 0xaa, 0x55, 0xaa, 0x55, 0xaa, 0x55, 0xaa };
+		
+		item_cursor->stipple =
+			gdk_bitmap_create_from_data (window, stipple_data, 8, 8);
+	}
 }
 
+/*
+ * Release all of the resources we allocated
+ */
 static void
 item_cursor_unrealize (GnomeCanvasItem *item)
 {
@@ -92,6 +105,11 @@ item_cursor_unrealize (GnomeCanvasItem *item)
 
 	gdk_gc_unref (item_cursor->gc);
 	item_cursor->gc = 0;
+
+	if (item_cursor->stipple){
+		gdk_pixmap_unref (item_cursor->stipple);
+		item_cursor->stipple = NULL;
+	}
 	
 	if (GNOME_CANVAS_ITEM_CLASS (item_cursor_parent_class)->unrealize)
 		(*GNOME_CANVAS_ITEM_CLASS (item_cursor_parent_class)->unrealize)(item);
@@ -264,8 +282,17 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 	if (draw_center){
 		gdk_gc_set_foreground (item_cursor->gc, fore);
 		gdk_gc_set_background (item_cursor->gc, back);
-		gdk_gc_set_line_attributes (item_cursor->gc, draw_thick ? 3 : 1,
-					    GDK_LINE_DOUBLE_DASH, -1, -1);
+
+		if (draw_thick){
+			gdk_gc_set_fill (item_cursor->gc, GDK_STIPPLED);
+			gdk_gc_set_stipple (item_cursor->gc, item_cursor->stipple);
+			gdk_gc_set_line_attributes (item_cursor->gc, 3,
+						    GDK_LINE_SOLID, -1, -1);
+		} else {
+			gdk_gc_set_line_attributes (item_cursor->gc, 1,
+						    GDK_LINE_DOUBLE_DASH, -1, -1);
+		}
+
 		gdk_draw_rectangle (drawable, item_cursor->gc, FALSE,
 				    dx, dy,
 				    cursor_width, cursor_height);
@@ -400,10 +427,13 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 	
 }
 
+/*
+ * Invoked when the item has been dropped
+ */
 static void
-item_cursor_do_drop (ItemCursor *item_cursor)
+item_cursor_do_drop (ItemCursor *item_cursor, GdkEvent *event)
 {
-	printf ("DROP!\n");
+	
 }
 
 static void
@@ -442,8 +472,9 @@ item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 		
 	switch (event->type){
 	case GDK_BUTTON_RELEASE:
+		printf ("button release\n");
 		gnome_canvas_item_ungrab (item, event->button.time);
-		item_cursor_do_drop (item_cursor);
+		item_cursor_do_drop (item_cursor, event);
 		gtk_object_destroy (GTK_OBJECT (item));
 		return TRUE;
 
@@ -455,6 +486,10 @@ item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 
 	case GDK_MOTION_NOTIFY:
 		convert (canvas, event->button.x, event->button.y, &x, &y);
+		if (x < 0)
+			x = 0;
+		if (y < 0)
+			y = 0;
 		col = item_grid_find_col (item_cursor->item_grid, x, NULL);
 		row = item_grid_find_row (item_cursor->item_grid, y, NULL);
 		
@@ -470,6 +505,20 @@ item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 }
 
 static gint
+item_cursor_autofill (GnomeCanvasItem *item, GdkEvent *event)
+{
+	switch (event->type){
+	case GDK_BUTTON_RELEASE:
+		gnome_canvas_item_ungrab (item, event->button.time);
+		gtk_object_destroy (GTK_OBJECT (item));
+		return TRUE;
+
+	default:
+		return FALSE;
+	}	
+}
+
+static gint
 item_cursor_event (GnomeCanvasItem *item, GdkEvent *event)
 {
 	ItemCursor *item_cursor = ITEM_CURSOR (item);
@@ -482,7 +531,7 @@ item_cursor_event (GnomeCanvasItem *item, GdkEvent *event)
 		return item_cursor_drag_event (item, event);
 		
 	case ITEM_CURSOR_AUTOFILL:
-		return FALSE;
+		return item_cursor_autofill (item, event);
 		
 	default:
 		return FALSE;

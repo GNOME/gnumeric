@@ -1,5 +1,14 @@
 1998-08-18  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/cell.c (cell_set_alignment): Provide a way to change the
+	cell alignment.
+
+	* src/dialog-cell-format.c (create_align_page): Implement the cell
+	formats/alignment page. 
+
+	* src/item-cursor.c (item_cursor_realize): Add stypple support for
+	drag and autofill cursors.
+
 	* src/gnumeric-sheet.c (gnumeric_sheet_compute_visible_ranges):
 	Make the selected column and row be always fully visible (ie, use
 	the ->last_full_[col|row] instead of last_visible_[col|row].

@@ -22,6 +22,10 @@ static GtkWidget *number_input;
 static GtkWidget *number_cat_list;
 static GtkWidget *number_format_list;
 
+/* There point to the radio groups in the format/alignment page */
+static GSList *hradio_list;
+static GSList *vradio_list;
+
 /* Points to the first cell in the selection */
 static Cell *first_cell;
 
@@ -138,6 +142,31 @@ format_list_fill (int n)
 	}
 	gtk_clist_thaw (cl);
 }
+
+/*
+ * This routine is just used at startup to find the current
+ * format that applies to this cell
+ */
+static int
+format_find (char *format)
+{
+	int i, row;
+	char **p;
+	
+	for (i = 0; cell_formats [i].name; i++){
+		p = cell_formats [i].formats;
+
+		for (row = 0; *p; p++, row++){
+			if (strcmp (format, *p) == 0){
+				format_list_fill (i);
+				gtk_clist_select_row (GTK_CLIST (number_format_list), row, 0);
+				return 1;
+			}
+		}
+	}
+	return 0;
+}
+
 
 /*
  * Invoked when the user has selected a new format category
@@ -262,7 +291,7 @@ create_number_format_page (GtkWidget *prop_win, CellList *cells)
 		INPUT_LINE  = 3,
 	};
 
-	t = GTK_TABLE (gtk_table_new (0, 0, 0));
+	t = (GtkTable *) gtk_table_new (0, 0, 0);
 
 	/* try to select the current format the user is using */
 	format = cells_get_format (cells);
@@ -297,7 +326,7 @@ create_number_format_page (GtkWidget *prop_win, CellList *cells)
 	number_input = gtk_entry_new ();
 	gtk_signal_connect (GTK_OBJECT (number_input), "changed",
 			    GTK_SIGNAL_FUNC (format_code_changed), prop_win);
-	
+
 	gtk_table_attach (tt, number_input, 1, 2, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 2);
 	
 	/* 2.2 Sample */
@@ -322,8 +351,12 @@ create_number_format_page (GtkWidget *prop_win, CellList *cells)
 
 
 	/* 3.2: Invoke the current style for the cell if possible */
-	/* FIXME:  Currently we just select the first format */
-	gtk_clist_select_row (GTK_CLIST (number_format_list), 0, 0);
+
+	if (format){
+		if (!format_find (format->format))
+		    gtk_entry_set_text (GTK_ENTRY (number_input), format->format);
+	} else 
+		gtk_clist_select_row (GTK_CLIST (number_format_list), 0, 0);
 
 
 	/* 4. finish */
@@ -359,12 +392,137 @@ apply_number_formats (Sheet *sheet, CellList *list)
 	}
 }
 
+typedef struct {
+	char *name;
+	int  flag;
+} align_def_t;
+
+static align_def_t horizontal_aligns [] = {
+	{ N_("General"),   HALIGN_GENERAL },
+	{ N_("Left"),      HALIGN_LEFT    },
+	{ N_("Center"),    HALIGN_CENTER  },
+	{ N_("Right"),     HALIGN_RIGHT   },
+	{ N_("Fill"),      HALIGN_FILL    },
+	{ N_("Justify"),   HALIGN_JUSTIFY },
+	{ NULL, 0 }
+};
+
+static align_def_t vertical_aligns [] = {
+	{ N_("Top"),       VALIGN_TOP     },
+	{ N_("Center"),    VALIGN_CENTER  },
+	{ N_("Bottom"),    VALIGN_BOTTOM  },
+	{ N_("Justify"),   VALIGN_JUSTIFY },
+	{ NULL, 0 }
+};
+
+static GtkWidget *
+make_radio_selection (GtkWidget *prop_win, char *title, align_def_t *array, GSList **dest_list)
+{
+	GtkWidget *frame, *vbox;
+	GSList *group;
+
+	frame = gtk_frame_new (title);
+	vbox = gtk_vbox_new (0, 0);
+	gtk_container_add (GTK_CONTAINER (frame), vbox);
+
+	for (group = NULL;array->name; array++){
+		GtkWidget *item;
+
+		item = gtk_radio_button_new_with_label (group, _(array->name));
+		group = gtk_radio_button_group (GTK_RADIO_BUTTON (item));
+		gtk_box_pack_start_defaults (GTK_BOX (vbox), item);
+	}
+	
+	*dest_list = group;
+	return frame;
+}
+
+static void
+prop_modified (GtkWidget *widge, GnomePropertyBox *box)
+{
+	gnome_property_box_changed (box);
+}
+
+static GtkWidget *
+create_align_page (GtkWidget *prop_win, CellList *cells)
+{
+	GtkTable *t;
+	GtkWidget *w;
+	int ha, va, ok = 0;
+	GList *l;
+	GSList *sl;
+	
+	t = (GtkTable *) gtk_table_new (0, 0, 0);
+
+	/* Horizontal alignment */
+	w = make_radio_selection (prop_win, _("Horizontal"), horizontal_aligns, &hradio_list);
+	gtk_table_attach (t, w, 0, 1, 0, 2, 0, GTK_FILL, 4, 0);
+
+	/* Vertical alignment */
+	w = make_radio_selection (prop_win, _("Vertical"), vertical_aligns, &vradio_list);
+	gtk_table_attach (t, w, 1, 2, 0, 1, 0, GTK_FILL, 4, 0);
+
+	/* Check if all cells have the same properties */
+	if (cells){
+		ha = ((Cell *) (cells->data))->style->halign;
+		va = ((Cell *) (cells->data))->style->valign;
+		for (ok = 1, l = cells; l; l = l->data){
+			Cell *cell = l->data;
+			
+			if (cell->style->halign != ha || cell->style->valign != va){
+				ok = 0;
+				break;
+			}
+		}
+
+		/* If all the cells share the same alignment, select that on the radio boxes */
+		if (ok){
+			int n;
+			
+			for (n = 0; horizontal_aligns [n].name; n++)
+				if (horizontal_aligns [n].flag == ha){
+					gtk_radio_button_select (hradio_list, n);
+					break;
+				}
+			
+			for (n = 0; vertical_aligns [n].name; n++)
+				if (vertical_aligns [n].flag == va){
+					gtk_radio_button_select (vradio_list, n);
+					break;
+				}
+		}
+	}
+
+	/* Now after we *potentially toggled the radio button above, we
+	 * connect the signals to activate the propertybox
+	 */
+	for (sl = hradio_list; sl; sl = sl->next){
+		gtk_signal_connect (GTK_OBJECT (sl->data), "toggled",
+				    GTK_SIGNAL_FUNC (prop_modified), prop_win);
+	}
+
+	for (sl = vradio_list; sl; sl = sl->next){
+		gtk_signal_connect (GTK_OBJECT (sl->data), "toggled",
+				    GTK_SIGNAL_FUNC (prop_modified), prop_win);
+	}
+	
+	gtk_widget_show_all (GTK_WIDGET (t));
+
+	return GTK_WIDGET (t);
+}
+
+static void
+apply_align_format (Sheet *sheet, CellList *cells)
+{
+}
+
 static struct {
 	char      *title;
 	GtkWidget *(*create_page)(GtkWidget *prop_win, CellList *cells);
 	void      (*apply_page)(Sheet *sheet, CellList *cells);
 } cell_format_pages [] = {
-	{ N_("Number"), create_number_format_page,  apply_number_formats },
+	{ N_("Number"),    create_number_format_page,  apply_number_formats },
+	{ N_("Alignment"), create_align_page,          apply_align_format   },
 	{ NULL, NULL }
 };
 
@@ -389,7 +547,10 @@ cell_properties_close (void)
 	gtk_main_quit ();
 	cell_format_prop_win = 0;
 }
-		      
+
+/*
+ * Main entry point for the Cell Format dialog box
+ */
 void
 dialog_cell_format (Sheet *sheet)
 {

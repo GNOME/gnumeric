@@ -28,6 +28,8 @@ typedef struct {
 
 	/* Cached values of the last bounding box information used */
 	int      cached_x, cached_y, cached_w, cached_h;
+
+	GdkPixmap *stipple;
 } ItemCursor;
 
 GtkType item_cursor_get_type (void);

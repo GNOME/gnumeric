@@ -197,6 +197,8 @@ cell_destroy (Cell *cell)
 void
 cell_queue_redraw (Cell *cell)
 {
+	g_return_if_fail (cell != NULL);
+	
 	sheet_redraw_cell_region (cell->sheet,
 				  cell->col->pos, cell->row->pos,
 				  cell->col->pos, cell->row->pos);
@@ -205,6 +207,9 @@ cell_queue_redraw (Cell *cell)
 void
 cell_set_format (Cell *cell, char *format)
 {
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (format != NULL);
+	
 	if (strcmp (format, cell->style->format->format) == 0)
 		return;
 
@@ -214,5 +219,23 @@ cell_set_format (Cell *cell, char *format)
 
 	/* re-render the cell text */
 	cell_render_value (cell);
+	cell_queue_redraw (cell);
+}
+
+void
+cell_set_alignment (Cell *cell, int halign, int valign, int orient)
+{
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (cell->style != NULL);
+	
+	if ((cell->style->halign == halign) &&
+	    (cell->style->halign == valign) &&
+	    (cell->style->orientation == orient))
+		return;
+
+	cell->style->halign = halign;
+	cell->style->valign = valign;
+	cell->style->orientation = orient;
+
 	cell_queue_redraw (cell);
 }

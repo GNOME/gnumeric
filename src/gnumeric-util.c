@@ -44,3 +44,13 @@ gtk_radio_group_get_selected (GSList *radio_group)
 
 	return 0;
 }
+
+void
+gtk_radio_button_select (GSList *group, int n)
+{
+	GSList *l;
+	int len = g_slist_length (group);
+	
+	l = g_slist_nth (group, n);
+	gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (l->data));
+}
