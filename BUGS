@@ -8,17 +8,21 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-1.4.1
------
+Pending for 1.4.1
+-----------------
     : Use GNOME Recent for the gnome build
     : tie the custom ui into action sensitivity pools
     : kasal's popt patch
-    : JHM's paper size patch
+    : JHM's 2nd paper size patch
     : enable contour plots
+    : emmanuel's legend resize patch
+    : emmanuel's disable theme patch for xy plots with only lines
+    : support array evaluation for =LARGE and friends
+    http://bugzilla.gnome.org/show_bug.cgi?id=157997
+    : image import from xl95
 
 Worries
 -------
-    : provide undo for dropped objects from sheet_objects_relocate
     : provide undo for dropped objects from sheet_objects_clear
     : undo of pasting copy/cut of objects
     : Select graph, Copy, and paste to Emacs: used to crash, but now it
@@ -51,11 +55,9 @@ Worries
     menu (when relevant).
 
 -------------------------------------------------------------------------------
-Pending Patches
+Blocked Patches
 ---------------
 
-    http://bugzilla.gnome.org/show_bug.cgi?id=157997
-    : Apply after 1.4.0 to clean up the xls sheet object creation a bit.
     http://bugzilla.gnome.org/show_bug.cgi?id=84062
     - XIM menu, blocking on gtk changes
     http://bugzilla.gnome.org/show_bug.cgi?id=126513
