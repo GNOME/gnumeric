@@ -99,6 +99,7 @@ ms_biff_query_next (BiffQuery *bq)
 
 	if (bq->data_malloced) {
 		g_free (bq->data);
+		bq->data = 0;
 		bq->data_malloced = 0;
 	}
 
@@ -116,6 +117,7 @@ ms_biff_query_next (BiffQuery *bq)
 		if (!bq->pos->read_copy(bq->pos, bq->data, bq->length)) {
 			ans = 0;
 			g_free(bq->data);
+			bq->data = 0;
 			bq->length = 0;
 		} else
 			bq->data_malloced = 1;
@@ -137,8 +139,11 @@ void
 ms_biff_query_destroy (BiffQuery *bq)
 {
 	if (bq) {
-		if (bq->data_malloced)
+		if (bq->data_malloced) {
 			g_free (bq->data);
+			bq->data = 0;
+			bq->data_malloced = 0;
+		}
 		g_free (bq);
 	}
 }
@@ -163,6 +168,7 @@ ms_biff_put_new (MsOleStream *s)
 	bp->length        = 0;
 	bp->streamPos     = s->tell (s);
 	bp->data_malloced = 0;
+	bp->data          = 0;
 	bp->len_fixed     = 0;
 	bp->pos           = s;
 
@@ -183,6 +189,7 @@ ms_biff_put_len_next   (BiffPut *bp, guint16 opcode, guint32 len)
 {
 	g_return_val_if_fail (bp, 0);
 	g_return_val_if_fail (bp->pos, 0);
+	g_return_val_if_fail (bp->data == NULL, 0);
 	g_return_val_if_fail (len < MAX_LIKED_BIFF_LEN, 0);
 
 	bp->len_fixed  = 1;
@@ -190,11 +197,11 @@ ms_biff_put_len_next   (BiffPut *bp, guint16 opcode, guint32 len)
 	bp->ls_op      = (opcode & 0xff);
 	bp->length     = len;
 	bp->streamPos  = bp->pos->tell (bp->pos);
-	if (len > 0)
+	if (len > 0) {
 		bp->data = g_new (guint8, len);
-	else
-		bp->data = 0;
-
+		bp->data_malloced = 1;
+	}
+	
 	return bp->data;
 }
 void
@@ -291,6 +298,7 @@ ms_biff_put_len_commit (BiffPut *bp)
 
 	g_free (bp->data);
 	bp->data      = 0 ;
+	bp->data_malloced = 0;
 	bp->streamPos = bp->pos->tell (bp->pos);
 	bp->curpos    = 0;
 }

@@ -1,3 +1,12 @@
+2001-04-23  Jon K Hellan  <hellan@acm.org>
+
+	* ms-biff.c (ms_biff_query_next, ms_biff_query_next,
+	ms_biff_query_destroy, ms_biff_put_new, ms_biff_put_commit,
+	ms_biff_put_len_next): Make sure that bp->data = 0 when
+	bp->data_malloced = 0 & v.v. This helps heap debugging.
+	(ms_biff_put_len_next): Assert that data pointer is null. If it
+	weren't the old code would have been leaking.
+
 2001-04-23  Morten Welinder  <terra@diku.dk>
 
 	* ms-excel-write.c (ms_excel_check_write): Avoid double free of
