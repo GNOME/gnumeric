@@ -1,3 +1,7 @@
+2002-01-05  Kevin Breit  <mrproper@ximian.com>
+
+	* new/gnumeric.xml: I added a bunch of files to CVS for the XML conversion.  I also made changes to this so stuff would work.
+
 2002-01-04  Kevin Breit  <mrproper@ximian.com>
 
 	* new/gnumeric.xml: Added my name to the author list

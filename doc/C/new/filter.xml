@@ -1,0 +1,93 @@
+<sect1 id="filter">
+  <title>Data Filters</title>
+
+  <para>With data filters you can select a subset of rows in the
+  worksheet that meet the given criteria.  You can, for example, copy
+  rows of a table containing sales of departments whose profit has
+  been exceptionally high into a new sheet simply using a
+  filter.</para>
+
+  <sect2 id="advanced-filter">
+     <title>Advanced Filter</title>
+
+     <para>To use advanced filter, you should have a few blank rows
+     available in your worksheet to be used as a criteria range.
+     These rows should not overlap with the rows in the table to be
+     filtered.</para>
+
+     <para>Now copy all the column labels from the table you want to
+     filter into the first blank row in the criteria range.  Below the
+     criteria labels, you can now type the conditions you want to
+     match for the particular label.  For example, under a label
+     `Profit' you could type `>=1000'.  The tool selects only rows
+     that match all the criteria.</para>
+
+     <figure id="advanced-filter-1-figure">
+       <title>Worksheet containing the table to be filtered and a
+       simple criteria</title>
+       <screenshot>
+         <graphic fileref="figures/advanced-filter-1.png" format="PNG"></graphic>
+       </screenshot>
+     </figure>
+
+     <para>It is possible to have many conditions for a single label.
+     For example, you can select the departments whose profit is
+     either very high or very low.  To do this, type, for example,
+     <![CDATA[ `<=0' below the `>=40000' ]]> condition.</para>
+
+     <figure id="advanced-filter-2-figure">
+       <title>Criteria for selecting rows whose `Profit' column is between
+       0 and 40000.</title>
+       <screenshot>
+         <graphic fileref="figures/advanced-filter-2.png" format="PNG"></graphic>
+       </screenshot>
+     </figure>
+
+     <para>To start the tool, select ``Advanced Filter'' from the
+     ``Data'' menu.  It brings you the advanced filter dialog.  In the
+     dialog, select the action you want to take.</para>
+
+     <figure id="advanced-filter-dialog-figure">
+       <title>The Advanced Filter dialog.</title>
+       <screenshot>
+         <graphic fileref="figures/filter.png" format="PNG"></graphic>
+       </screenshot>
+     </figure>
+
+     <para>``Filter in-place'' writes the new table in-place.  Note
+     that you will loose all the rows in the table that will not match
+     the criteria.  ``Copy to a new location'' copies the selected
+     rows into the same sheet but into the specified cell range.  Type
+     the cell range into the ``Copy to'' entry if you want this action
+     to happen.  The other options let you to copy the selected rows
+     into a new sheet or a new workbook.</para>
+
+     <para>You should then specify the cell range containing the table
+     to be filtered in the ``List range'' entry.  The cell range
+     containing the criteria is specified in the ``Criteria range''
+     entry.  If the original table contains duplicate rows, you may
+     also want to specify the ``Unique records only''.  If it is
+     checked on, the filter removes all duplicates.</para>
+
+     <para>To start the tool, you can then click the ``OK'' button and
+     you will get the new table.</para>
+
+  </sect2>
+
+</sect1>
+
+  <!-- Keep this comment at the end of the file
+  Local variables:
+  mode: sgml
+  sgml-omittag:t
+  sgml-shorttag:t
+  sgml-minimize-attributes:nil
+  sgml-always-quote-attributes:t
+  sgml-indent-step:2
+  sgml-indent-data:t
+  sgml-parent-document:nil
+  sgml-exposed-tags:nil
+  sgml-local-catalogs:nil
+  sgml-local-ecat-files:nil
+  End:
+  -->             

@@ -1,0 +1,246 @@
+<sect1 id="cell-referencing">
+  <title>Cell Referencing</title>
+  
+  <para>
+     Each cell in a spreadsheet is named by its column and row
+     labels. The row labels are numbers and the column labels are
+     letters.  The first cell, therefore, is called A1. One row down
+     and one column over is cell B2, and so forth.
+  </para>
+
+  <para>
+    To reference the value stored in a single cell, enter its
+    coordinates as a function argument.  For example, to have the data
+    in cell B1 appear in another cell, enter =B1 into that cell.
+  </para>
+  
+  <example id="simplecellrefer">
+    <title>Some examples of function syntax</title>
+    <programlisting>
+      =EXP(B1)
+      
+      =COS(A2)
+      
+    </programlisting>
+  </example>
+  
+  <sect2>
+    <title>Absolute cell referencing</title>
+
+    <para>Cells can be referenced in the default way (relative
+      referencing), or by using absolute referening. Absolute
+      referencing means that when the cell is copied, the cell
+      reference does not change. Normally, autofilling a cell range or
+      moving cell will change its cell reference to so that it
+      maintains a relation to the original cell. Absolute referencing
+      prevents these changes.
+     </para>
+
+<tip id="why-bother">
+<title>When Does Relative Referencing Make a Difference?</title>
+      <para>
+        The difference between absolute and relative cell references
+        only matters if you are copying or moving cells that contain
+        cell references. For cells that are going to remain in place,
+        both the relative and absolute references have the same result.
+      </para>
+    </tip>
+
+<example id="relative-referencing-explained">
+      <title>Relative References</title>
+     <para>
+       For example, if =A1 is the formula entered into cell B2, cell
+       B2 will displat the data in cell A1, which is one row up and
+       one column left.  Then, if you copy the contents of B2 to cell
+       F6, cell F6 will contain the value from E5, which is also one
+       row up and one column left.
+     </para>
+     <para>
+       For the copied cell to still refer to A1, specify absolute
+       references using the $ character: $A$1 refers to cell A1, no
+       matter where it is copied.
+     </para>
+    </example>
+
+    <para>
+      The format for absolute cell refencing is to use a '$' in front
+      of the cell coordinate that the you want to stay constant. The
+      column, row, sheet, or any combination of these can be held
+      constant.
+    </para>
+
+    <example id="cell-refer-absolute-reference">
+      <title>Absolute cell referencing examples</title>
+        <para>
+          What happens when a given formula is entered into cell B2,
+          then copied to other cells?
+	<variablelist>
+	  <varlistentry>
+	    <term>=A1</term> 
+
+<listitem><para> 
+            =A1 is a normal, or relative, cell reference
+            function. When =A1 is entered into cell B2, it refers to
+            the value of data one cell up and one cell left from the
+            cell it is in. Therefore the value displayed in cell C2
+            will be the value of data in cell B1.  Copied to cell R19,
+            the formula will display the data in cell Q18.
+</para></listitem>
+	    </varlistentry>
+
+	  <varlistentry>
+	    <term>=$A1</term>
+            <listitem><para>
+
+             In this case, the column value is absolute, but the row
+             value is relative.  Therefore, if =$A1 is entered into
+             cell B2, the formula refers to the data in column A that
+             is one row up from the current location.  Copied to cell
+             C2, the formula will refer to the data in cell A1. Copied
+             to cell R19, it will refer to the data in A18.
+             </para></listitem>
+	    </varlistentry>
+
+	  <varlistentry>
+	    <term>=A$1</term>
+            <listitem><para>
+
+               This formula uses a relative column value and an
+               absolute row value. In cell B2, it refers to cell A1 as
+               the data in the cell one column left and in row
+               1. Copied to cell C3, the formula will display the data
+               in cell B1.
+         </para></listitem>
+	    </varlistentry>
+
+	  <varlistentry>
+	    <term>=$A$1</term> <listitem><para> No matter where this
+            formula is copied, it will always refer to the data in
+            cell A1.  </para></listitem>
+	    </varlistentry>
+	</variablelist>
+      </para>
+    </example>
+  </sect2>
+
+
+  <sect2>
+    <title>Referencing multiple cells</title>
+    
+    <para>Many functions can take multiple cells as arguments. This
+      can either be a comma separated list, an array, or any
+      combination thereof.</para>
+    
+    <sect3>
+      <title>Multiple individual cells</title>
+      
+      <para>A comma separated list of cell references can be used to
+	indicate cells that are discontinuous.</para>
+      
+      
+      <example id="cellrefermutiplecells">
+	<title>Some examples of function syntax</title>
+	<programlisting>
+	  =SUM(A1,B2,C4)
+	  
+	  =MIN(A1,B2, C4,C5,D6)
+	  
+	</programlisting>
+      </example>
+      
+      
+      <screenshot>
+	<graphic fileref="figures/cells-1.png" format="PNG"></graphic>
+      </screenshot>
+      
+	</sect3>
+    
+    <sect3>
+      <title>Referencing a continuous region of cells</title>
+      
+      <para>For functions that take more than one argument, it is often
+	easier to reference the cells as a group. This can include
+	cells in sets horizontally, vertically, or in arrays.</para>
+      
+      <para>The ':' operator is used to indicate a range of cells. The basic
+	syntax is upper left corner:bottom right corner. </para>
+      
+      <example id="cellrefercontin">
+	<title>Referencing blocks of cells</title>
+	<programlisting>
+	  =SUM(A1:E1)
+	  
+	  =AVERAGE(B4:E7)
+	  
+	  =MIN(A1:A5)            
+	</programlisting>
+      </example>
+      
+      
+      <screenshot>
+	<graphic fileref="figures/cells-2.png" format="PNG"></graphic>
+      </screenshot>
+    </sect3>
+    
+    <sect3>
+      <title>Referencing non-continuous regions</title>
+	  
+      <para>For referencing cells that are in non-continuous regions,
+	    you can use any combination of the above methods to get
+	the needed cells.</para>
+      
+      
+	  <example id="cellreferdiscontin">
+	<title>Referencing blocks of cells</title>
+	<programlisting>
+	  =SUM(A1:E1, B19, L14:L17)
+	  
+	  =AVERAGE(A1,A3, A5:C5)
+	  
+	</programlisting>
+      </example>
+    </sect3>
+  </sect2>
+
+  <sect2>
+    <title>Referencing cells on other sheets</title>
+
+    <para>It is possible to reference cells which are not part of the
+    current sheet.  This is done using the NAME!CELL syntax,
+    where NAME is an identifier (usually a sheet name) and CELL is a
+    regular cell reference as described in the previous
+    sections.</para>
+
+    <para>Note that if NAME contains spaces, you need to quote the
+    whole name to allow Gnumeric to group the separate words in NAME
+    as single name.  For example, you should use "Sheet 0" when
+    referencing the default created "Sheet 0".</para>
+
+    <example id="simple-sheet-ref">
+      <title>Referencing values in other sheets</title>
+      <programlisting>
+	='Sheet 0'!A1+'Sheet 3'!A5
+
+	=SUM('Sheet 1'!A1:'Sheet 1'!A5)
+      </programlisting>
+    </example>
+
+  </sect2>
+</sect1>
+
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->                         

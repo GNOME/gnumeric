@@ -1,167 +1,199 @@
-<?xml version="1.0"?>
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
 
-<!ENTITY version "0.72">
 <!ENTITY file-format-open "Excel 95/97/2000, gnumeric XML, HTML, comma separated CSV, Applix,  Lotus 1-2-3, 
 GNU oleo">
-
-<!ENTITY preface SYSTEM "preface.xml">
-<!ENTITY getting-started SYSTEM "chapter-getting-started.xml">
-<!ENTITY autofill SYSTEM "chapter-autofill.xml">
-<!ENTITY glossary SYSTEM "appendix-glossary.xml">
 <!--
-<!ENTITY advanced-features SYSTEM "advanced-features.xml">
-<!ENTITY data-analysis SYSTEM "data-analysis.xml">
-<!ENTITY menus SYSTEM "menus.xml">
-<!ENTITY function-reference SYSTEM "function-reference.xml">
-<!ENTITY bugs SYSTEM "bugs.xml">
-<!ENTITY author SYSTEM "author.xml">
-<!ENTITY license SYSTEM "license.xml">
+<!ENTITY preface	SYSTEM "preface.sgml">
+<!ENTITY gui-elements	SYSTEM "gui-elements.sgml">
+<!ENTITY menus		SYSTEM "menus.sgml">
+<!ENTITY toolbars	SYSTEM "toolbars.sgml">
+<!ENTITY worksheet	SYSTEM "worksheet.sgml">
+<!ENTITY editing	SYSTEM "editing.sgml">
+<!ENTITY numberformat	SYSTEM "number-format.sgml">
+<!ENTITY formulas	SYSTEM "formulas.sgml">
 -->
+<!ENTITY cellrefer	SYSTEM "cell_refer.xml">
+<!--
+<!ENTITY selections	SYSTEM "selections.sgml">
+<!ENTITY copying-moving	SYSTEM "copying-moving.sgml">
+<!ENTITY printing	SYSTEM "printing.sgml">
+<!ENTITY autofill	SYSTEM "autofill.sgml">
+<!ENTITY introduction	SYSTEM "introduction.sgml">
+<!ENTITY files		SYSTEM "files.sgml">
+<!ENTITY autosave	SYSTEM "autosave.sgml">
+<!ENTITY functions	SYSTEM "functions.sgml">
+<!ENTITY printing	SYSTEM "printing.sgml">
+<!ENTITY analysis-tools	SYSTEM "analysis-tools.sgml">
+-->
+<!ENTITY solver		SYSTEM "solver.xml">
+<!ENTITY autocorrect	SYSTEM "autocorrect.xml">
+<!ENTITY filter		SYSTEM "filter.xml">
+<!ENTITY graphs         SYSTEM "graphs.xml">
+<!ENTITY authors	SYSTEM "authors.xml">
+<!ENTITY license	SYSTEM "license.xml">
+<!ENTITY fdl            SYSTEM "fdl-appendix.xml">
 ]>
 
-<!--
-Note to Translator:
-This document is written in 2nd person.  If your language has a formal
-2nd person it should be written in this voice.
--->
-
-<book id="index" lang="en">
-  <title>Gnumeric User Manual</title>
+<book id="index">
+ <title>The Gnumeric Manual</title>
   <bookinfo>
-    
-    <authorgroup>
-      <author><firstname>Eric</firstname><surname>Baudais</surname></author>
-      <author><firstname>Kevin</firstname><surname>Breit</surname></author>
-    </authorgroup>
-    
     <releaseinfo>
-      This is release 0.4 of the Gnumeric User Manual.
+      This is release 1.0 of the Gnumeric Manual.
     </releaseinfo>
-    
+
     <copyright>
-      <year>1998, 1999, 2000, 2001</year> 
-      <holder>Miguel de Icaza</holder>
+      <year>1998, 1999, 2000, 2001, 2002</year>
+      <holder>
+	Miguel de Icaza, Jody Goldberg, Thomas Canty, 
+	Jukka-Pekka Iivonen, Andreas J. Guelzow, Wayne Schuller, 
+	Adrian Custer, Kevin Breit, Aaron Weber, 
+	Alexander Kirillov.
+      </holder> 
     </copyright>
-    
-    <legalnotice id="legalnotice">
+
+    <legalnotice id="legalnotice">   
       <para>
 	Permission is granted to copy, distribute and/or modify this
-	document under the terms of the <ulink type="help"
-						       url="gnome-help:fdl"><citetitle>GNU Free Documentation
-	    License</citetitle></ulink>, Version 1.1 or any later version
+	document under the terms of the <link
+	linkend="fdl"><citetitle>GNU Free Documentation
+	License</citetitle></link>, Version 1.1 or any later version
 	published by the Free Software Foundation with no Invariant
-	Sections, no Front-Cover Texts, and no Back-Cover Texts. You
-	may obtain a copy of the <citetitle>GNU Free Documentation
-	License</citetitle> from the Free Software Foundation by
-	visiting <ulink type="http" url="http://www.fsf.org">their
-        Web site</ulink> or by writing to: Free Software Foundation,
-	Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
-	USA.
+	Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+	copy of the license can be found in<xref linkend="fdl" />.
       </para>
+
       <para>
-	Many of the names used by companies to distinguish their
-	products and services are claimed as trademarks. Where those
-	names appear in any GNOME documentation, and those trademarks
-	are made aware to the members of the GNOME Documentation
-	Project, the names have been printed in caps or initial caps.
+	Many of the names used by companies to distinguish their products and
+	services are claimed as trademarks. Where those names appear in any
+	GNOME documentation, and those trademarks are made aware to the members
+	of the GNOME Documentation Project, the names have been printed in initial 
+	caps and a (tm) appended.
       </para>
-      
     </legalnotice>
     
   </bookinfo>
-  
-    &preface;
-  
-
-  <chapter id="introduction">
-    <title>Introduction</title> 
-    
-    <para>
-      <application>Gnumeric</application> is a spreadsheet program.  It's 
-      goal is to provide you with a tool to manipulate and calculate 
-      data.  Different people will have many different uses for 
-      <application>Gnumeric</application>.  Spreadsheet applications
-      have found themselves a home in most professions ranging from a
-      school teacher to financial manager.
-    </para>	
-    
-  </chapter>
-
-  <chapter id="start">
-    <title>Getting Started</title>
-      &getting-started;
-  </chapter>
-
-  <chapter id="autofill">
-    <title>Autofill</title>
-    &autofill;
-  </chapter>
 
 <!--
-
-  <chapter id="advanced-features">
-    <title>Advanced Features</title>
-
-        &advanced-features;
-
+  <chapter id="preface">
+    <title>Preface</title>
+    &preface;
   </chapter>
-
-  <chapter id="Data Analysis Tools">
-    <title>Data Analysis Tools</title>
-
-        &data-analysis;
-
+  
+  <chapter id="gui-elements">
+    <title>Elements of the Gnumeric User Interface</title>
+    &gui-elements;
   </chapter>
   
   <chapter id="menus">
-    <title>Menus</title>
-
-	&menus;
-
+    <title>Gnumeric Menus</title>
+    &menus;
+  </chapter>
+  
+  <chapter id="toolbars">
+    <title>Gnumeric Toolbars</title>
+    &toolbars;
+  </chapter>
+  
+  <chapter id="other-elements">
+    <title>Gnumeric Data Entry area, Cell Grid and Information Area
+    </title>
+    &worksheet;
+  </chapter>
+  
+  <chapter id="editing">
+    <title>Entering data</title>
+    &editing;
   </chapter>
 
-  
-  <chapter id="function-reference">
-    <title>Gnumeric Function Reference</title>
+  <chapter id="copying-moving">
+    <title>Copying and Moving</title>
+    &copying-moving;
+  </chapter>
 
-        &function-reference;
+   <chapter id="autofill">
+     <title>Autofill</title>
+     &autofill;
+   </chapter>
 
+   <chapter id="formatting">
+     <title>Cell Formatting</title>
+      &numberformat;
+   </chapter>
+
+  <chapter id="files">
+    <title>Working with files</title>
+    &files;
+  </chapter>
+
+  <chapter id="printing">
+    <title>Printing</title>
+    &printing;
   </chapter>
 -->
-  <glossary id="appendix-glossary">
-    <title>Glossary</title>
-
-        &glossary;
-
-  </glossary>
-
-  <!--
-  <chapter id="bugs">
-    <title>Known Bugs and Limitations</title>
-
-        &bugs;
-
+  <chapter id="filters">
+    <title>Data Filters</title>
+    &filter;
   </chapter>
-  
-  <chapter id="author">
-    <title>Author</title>
 
-        &author;
+  <chapter id="cell-referring">
+    <title>Cell Referencing</title>
+    &cellrefer;
+  </chapter>
 
+  <chapter id="solver">
+    <title>Solver</title>
+    &solver;
+  </chapter>
+<!--
+  <chapter id="analysis-tools">
+    <title>Data Analysis Tools</title>
+    &analysis-tools;
+  </chapter>
+-->
+  <chapter id="autocorrect-tool">
+    <title>Auto Correct Tool</title>
+    &autocorrect;
+  </chapter>
+
+<!-- disabled for now.
+  <chapter id="tutorials">
+    <title>Tutorials</title>
+    <para>Nothing yet, will be some walkthroughs eventually.</para>
+  </chapter>
+-->
+<!--
+  <chapter id="cell-elements">
+    <title>Drawing on a worksheet</title>
+    <para>boxes, labels, etc eventually.</para>
+  </chapter>
+-->
+  <chapter id="graphs">
+    <title>Graphs</title>
+    &graphs;
+  </chapter>
+
+  <chapter id="authors">
+    <title>Authors</title>
+    &authors;
   </chapter>
 
   <chapter id="license">
     <title>License</title>
+    &license;
+  </chapter>
 
-        &license;
-
+<!--
+  <chapter id="function-reference">
+    <title>Gnumeric Function Reference</title>
+    &functions;
   </chapter>
 -->
+<!-- appendix: free documentation license -->
+
+&fdl;
 
 </book>
-	
 
 <!-- Keep this comment at the end of the file
 Local variables:
