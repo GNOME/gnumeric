@@ -1,5 +1,13 @@
 2002-10-03  Morten Welinder  <terra@diku.dk>
 
+	* src/parse-util.c (col_name_internal): Handle larger number of
+	columns.
+
+	* src/sheet-style.c (sheet_style_init): Warn if we have a conflict
+	between column name TRUE and constant TRUE.
+
+2002-10-03  Morten Welinder  <terra@diku.dk>
+
 	* src/sheet-style.c (TILE_SIZE_COL, TILE_SIZE_ROW): Auto-size.
 
 2002-10-02  Jody Goldberg <jody@gnome.org>

@@ -3,8 +3,12 @@
 
 #include <glib.h>
 
-#define SHEET_MAX_ROWS		(64 * 1024)	/* 0 - 65535 inclusive */
-#define SHEET_MAX_COLS		256		/* 0 - 255 inclusive */
+#define SHEET_MAX_ROWS		(64 * 1024)	/* 0, 1, ... */
+#define SHEET_MAX_COLS		256		/* 0, 1, ... */
+
+/*
+ * Note: more than 364238 columns will introduce a column named TRUE.
+ */
 
 typedef struct _CommandContext		CommandContext;
 typedef struct _CommandContextStderr	CommandContextStderr;

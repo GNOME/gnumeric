@@ -13,6 +13,9 @@ Jody:
 
 Morten:
 	* Port search center from gal's e-table to gtk's treeview.
+	* Fix parse-utils to handle large number of columns.
+	* Reduce the number of source places that need to be changed in
+	  order to get more than 256 columns and/or 65536 rows.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.9

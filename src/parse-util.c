@@ -45,25 +45,34 @@
 inline static char *
 col_name_internal (char *buf, int col)
 {
-	g_return_val_if_fail (col < SHEET_MAX_COLS, buf);
-	g_return_val_if_fail (col >= 0, buf);
+  static const int steps[] = {
+	  26,
+	  26 * 26,
+	  26 * 26 * 26,
+	  26 * 26 * 26 * 26,
+	  26 * 26 * 26 * 26 * 26,
+	  26 * 26 * 26 * 26 * 26 * 26,
+	  INT_MAX
+  };
+  int i;
+  char *res;
 
-	if (col <= 'Z'-'A') {
-		*buf++ = col + 'A';
-	} else {
-		int a = col / ('Z'-'A'+1);
-		int b = col % ('Z'-'A'+1);
+  for (i = 0; col >= steps[i]; i++)
+    col -= steps[i];
 
-		*buf++ = a + 'A' - 1;
-		*buf++ = b + 'A';
-	}
-	return buf;
+  res = buf + i + 1;
+  while (i >= 0) {
+    buf[i--] = 'A' + col % 26;
+    col /= 26;
+  }
+
+  return res;
 }
 
 char const *
 col_name (int col)
 {
-	static char buffer [3]; /* What if SHEET_MAX_COLS is changed ? */
+	static char buffer[8];  /* 26^7 > 2^32.  */
 	char *res = col_name_internal (buffer, col);
 	*res = '\0';
 	return buffer;
@@ -72,7 +81,7 @@ col_name (int col)
 char const *
 cols_name (int start_col, int end_col)
 {
-	static char buffer [16]; /* Why is this 16 ? */
+	static char buffer[16]; /* See col_name.  */
 	char *res = col_name_internal (buffer, start_col);
 
 	if (start_col != end_col) {
@@ -110,14 +119,14 @@ col_parse (char const *str, int *res, unsigned char *relative)
 inline static char *
 row_name_internal (char *buf, int row)
 {
-	int len = g_snprintf (buf, 6, "%d", row + 1); /* The 6 is hardcoded, see comments in row{s}_name */
+	int len = g_snprintf (buf, 4 * sizeof (int), "%d", row + 1);
 	return buf + len;
 }
 
 char const *
 row_name (int row)
 {
-	static char buffer [6]; /* What if SHEET_MAX_ROWS changes? */
+	static char buffer[4 * sizeof (int)];
 	char *res = row_name_internal (buffer, row);
 	*res = '\0';
 	return buffer;
@@ -126,7 +135,7 @@ row_name (int row)
 char const *
 rows_name (int start_row, int end_row)
 {
-	static char buffer [13]; /* What if SHEET_MAX_ROWS changes? */
+	static char buffer[2 * 4 * sizeof (int)];
 	char *res = row_name_internal (buffer, start_row);
 
 	if (start_row != end_row) {

@@ -437,6 +437,14 @@ sheet_style_init (Sheet *sheet)
 	g_assert (SHEET_MAX_ROWS <= TILE_SIZE_ROW * TILE_SIZE_ROW * TILE_SIZE_ROW * TILE_SIZE_ROW);
 	g_return_if_fail (IS_SHEET (sheet));
 
+	if (SHEET_MAX_COLS > 364238) {
+		/* Oh, yeah?  */
+		g_warning (_("This is a special version of Gnumeric.  It has been compiled\n"
+			     "with support for a very large number of rows.  Access to the\n"
+			     "column named TRUE may conflict with the constant of the same\n"
+			     "name.  Expect weirdness."));
+	}
+
 	sheet->style_data = g_new (SheetStyleData, 1);
 	sheet->style_data->style_hash =
 		g_hash_table_new (mstyle_hash, (GCompareFunc) mstyle_equal);
