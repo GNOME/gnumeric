@@ -224,21 +224,23 @@ static Value *
 cb_get_content (Sheet *sheet, int col, int row,
 		Cell *cell, GsfOutput *buf)
 {
-	char *tmp;
-	if (cell_has_expr (cell)) {
-		ParsePos pp;
-		tmp = gnm_expr_as_string (cell->base.expression,
-			parse_pos_init_cell (&pp, cell),
-			gnm_expr_conventions_default);
-	} else if (VALUE_FMT (cell->value) != NULL)
-		tmp = format_value (NULL, cell->value, NULL, -1,
-				    workbook_date_conv (sheet->workbook));
-	else
-		tmp = value_get_as_string (cell->value);
+	if (cell != NULL) {
+		char *tmp;
+		if (cell_has_expr (cell)) {
+			ParsePos pp;
+			tmp = gnm_expr_as_string (cell->base.expression,
+				parse_pos_init_cell (&pp, cell),
+				gnm_expr_conventions_default);
+		} else if (VALUE_FMT (cell->value) != NULL)
+			tmp = format_value (NULL, cell->value, NULL, -1,
+				workbook_date_conv (sheet->workbook));
+		else
+			tmp = value_get_as_string (cell->value);
 
-	gsf_output_write (buf, strlen (tmp), tmp);
+		gsf_output_write (buf, strlen (tmp), tmp);
+		g_free (tmp);
+	}
 	gsf_output_write (buf, 1, "\n");
-	g_free (tmp);
 
 	return NULL;
 }
@@ -284,7 +286,7 @@ stf_text_to_columns (WorkbookControl *wbc, CommandContext *cc)
 
 	buf = gsf_output_memory_new ();
 	sheet_foreach_cell_in_range (src_sheet,
-		CELL_ITER_IGNORE_BLANK | CELL_ITER_IGNORE_HIDDEN,
+		CELL_ITER_ALL,
 		src->start.col, src->start.row,
 		src->end.col, src->end.row,
 		(CellIterFunc) &cb_get_content, buf);
@@ -303,15 +305,16 @@ stf_text_to_columns (WorkbookControl *wbc, CommandContext *cc)
 					   data, data_len);
 	}
 	if (dialogresult != NULL) {
-		CellRegion *cr = NULL;
-
-		cr = stf_parse_region (dialogresult->parseoptions, dialogresult->text, NULL);
+		CellRegion *cr = stf_parse_region (dialogresult->parseoptions,
+						   dialogresult->text, NULL);
 		if (cr != NULL) {
 			stf_dialog_result_attach_formats_to_cr (dialogresult, cr);
 			target.end.col = target.start.col + cr->cols - 1;
+			target.end.row = target.start.row + cr->rows - 1;
 		}
-		if (cr == NULL || cmd_text_to_columns (wbc, src, src_sheet, 
-						      &target, target_sheet, cr))
+		if (cr == NULL ||
+		    cmd_text_to_columns (wbc, src, src_sheet, 
+					 &target, target_sheet, cr))
 			gnumeric_error_read (COMMAND_CONTEXT (cc),
 					     _("Error while trying to "
 					       "parse data into sheet"));

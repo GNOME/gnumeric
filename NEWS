@@ -16,7 +16,8 @@ Jody:
 	* Fix crash with partial bar/col/line/area/xy series
 	* Patch warning when quiting with an keyed dialog
 	* Fix xls export of operand classes
-	* Minor pacakging bug in corba plugin
+	* Minor packaging bug in corba plugin
+	* Accept blank lines in text to cols.
 
 Morten:
 	* Invalid memory read in marker combo.

@@ -1,5 +1,9 @@
 2003-09-21  Jody Goldberg <jody@gnome.org>
 
+	* ms-formula-read.c (excel_parse_formula) : disable debug spew.
+
+2003-09-21  Jody Goldberg <jody@gnome.org>
+
 	* ms-formula-write.c (xl_map_char_to_type) : new util.
 	(xl_get_op_class) : wrapper to help calculate the result class.
 	(write_cellref_v7) : handle operand classes.

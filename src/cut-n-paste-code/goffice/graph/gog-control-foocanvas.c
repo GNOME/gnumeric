@@ -106,7 +106,7 @@ gog_control_foocanvas_set_property (GObject *gobject, guint param_id,
 
 static void
 gog_control_foocanvas_get_property (GObject *gobject, guint param_id,
-			      GValue *value, GParamSpec *pspec)
+				    GValue *value, GParamSpec *pspec)
 {
 	GogControlFooCanvas *ctrl = GOG_CONTROL_FOOCANVAS (gobject);
 

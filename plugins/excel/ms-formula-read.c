@@ -777,7 +777,7 @@ excel_parse_formula (MSContainer const *container,
 		*array_element = FALSE;
 
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_formula_debug > -1) {
+	if (ms_excel_formula_debug > 1) {
 		ms_excel_dump_cellname (container->ewb, esheet, fn_col, fn_row);
 		fprintf (stderr, "\n");
 		if (ms_excel_formula_debug > 2) {
@@ -793,7 +793,7 @@ excel_parse_formula (MSContainer const *container,
 		int ptgbase = ((ptg & 0x40) ? (ptg | 0x20): ptg) & 0x3F;
 		if (ptg > FORMULA_PTG_MAX)
 			break;
-		d (-1, {
+		d (2, {
 			fprintf (stderr, "Ptg : 0x%02x", ptg);
 			if (ptg != ptgbase)
 				fprintf (stderr, "(0x%02x)", ptgbase);

@@ -1,3 +1,11 @@
+2003-09-21  Jody Goldberg <jody@gnome.org>
+
+	* src/stf.c (stf_text_to_columns) : relax requirements, blanks and
+	  hidden are ok.  It might be nice to skip hidden, or filter blanks
+	  but we have no capabilities to paste into 'non-hidden' region.  So
+	  it makes sense to ignore hidden for consistency.
+	(cb_get_content) : accept blanks.
+
 2003-09-18  Jody Goldberg <jody@gnome.org>
 
 	* src/gui-util.c (cb_free_keyed_dialog_context) : remove the
