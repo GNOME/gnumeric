@@ -23,7 +23,7 @@ Numerous functions and tools:
 	Jukka-Pekka Iivonen <iivonen@iki.fi>
 
 LibCSV:
-	Alan Cox (alan@redhat.com).
+	Alan Cox <alan@redhat.com>.
 
 New LibCSV:
 	Miguel
@@ -34,5 +34,8 @@ Original CSV code:
 Engine & Excel enhancements:
 	Jody Goldberg <jgoldberg@home.com>
 
-Bug killer par excelence,
+Bug killer par excelence:
 	Morten Welinder <terra@diku.dk>
+
+Misc i18n stuff:
+	Kenneth Christiansen <kenneth@gnu.org>
