@@ -4,6 +4,8 @@
 #include "workbook-control-component-priv.h"
 #include <gal/util/e-util.h>
 
+#include "sheet.h"
+
 static char *
 wbcc_get_password (CommandContext *cc, char const* msg) { return NULL; }
 
@@ -145,6 +147,106 @@ wbcc_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 {}
 
 static void
+
+wbcc_set_transient_for (WorkbookControlGUI *wbcg, GtkWindow *window)
+{
+	WorkbookControlComponent *wbcc;
+
+	wbcc = WORKBOOK_CONTROL_COMPONENT (wbcg);
+	
+	g_return_if_fail (wbcc->bcontrol != NULL);
+
+#if 0
+	/* Waiting for resolution of bugs 80782/80783 */
+	bonobo_control_set_transient_for (wbcc->bcontrol, window, NULL);
+#endif
+}
+
+static WorkbookControlGUI*
+bcontrol_get_wbcg (BonoboControl *control)
+{
+	GtkWidget *w = bonobo_control_get_widget (control);
+	gpointer obj = g_object_get_data (G_OBJECT (w), WBC_KEY);
+
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (obj), NULL);
+
+	return WORKBOOK_CONTROL_GUI (obj);
+}
+
+static void
+cb_file_summary (GtkWidget *widget, BonoboControl *control)
+{
+	WorkbookControlGUI *wbcg = bcontrol_get_wbcg (control);
+
+	g_return_if_fail (wbcg != NULL);
+
+	dialog_summary_update (wbcg, TRUE);
+}
+
+static void
+cb_edit_copy (GtkWidget *widget, BonoboControl *control)
+{
+	WorkbookControlGUI *wbcg = bcontrol_get_wbcg (control);
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	Sheet *sheet;
+
+	g_return_if_fail (wbcg != NULL);
+
+	sheet = wb_control_cur_sheet (wbc);
+	sheet_selection_copy (wbc, sheet);
+}
+
+static void
+cb_edit_search (GtkWidget *unused, BonoboControl *control)
+{
+	WorkbookControlGUI *wbcg = bcontrol_get_wbcg (control);
+
+	g_return_if_fail (wbcg != NULL);
+
+	dialog_search (wbcg);
+}
+
+static void
+cb_help_about (GtkWidget *widget, BonoboControl *control)
+{
+	WorkbookControlGUI *wbcg = bcontrol_get_wbcg (control);
+
+	g_message (__PRETTY_FUNCTION__);
+
+	g_return_if_fail (wbcg != NULL);
+
+	dialog_about (wbcg);
+}
+
+static BonoboUIVerb verbs [] = {
+	BONOBO_UI_UNSAFE_VERB ("FileSummary", cb_file_summary),
+	BONOBO_UI_UNSAFE_VERB ("EditCopy", cb_edit_copy),
+	BONOBO_UI_UNSAFE_VERB ("EditSearch", cb_edit_search),
+	BONOBO_UI_UNSAFE_VERB ("HelpAbout", cb_help_about),
+	BONOBO_UI_VERB_END
+};
+
+void
+workbook_control_component_activate (WorkbookControlComponent *wbcc,
+				     BonoboControl *control,
+				     Bonobo_UIContainer ui_container)
+{
+	BonoboUIComponent* uic;
+	char *dir = gnumeric_sys_data_dir (NULL);
+
+	wbcc->bcontrol = control;
+	uic = bonobo_control_get_ui_component (control);
+	bonobo_ui_component_set_container (uic, ui_container, NULL);
+	bonobo_object_release_unref (ui_container, NULL);
+	
+	bonobo_ui_component_freeze (uic, NULL);
+	bonobo_ui_component_add_verb_list_with_data (uic, verbs, control);
+	bonobo_ui_util_set_ui
+		(uic, dir, "GNOME_Gnumeric_Component.xml", "gnumeric", NULL);
+	bonobo_ui_component_thaw (uic, NULL);
+}
+
+static void
 workbook_control_component_init (WorkbookControlComponent *wbcc,
 				 WorkbookView *optional_view,
 				 Workbook *optional_wb)
@@ -166,6 +268,7 @@ workbook_control_component_init (WorkbookControlComponent *wbcc,
 	wbcg->editing_cell = NULL;
 	wbcg->rangesel = NULL;
 
+	wbcc->bcontrol = NULL;
 	/* FIXME: Insert appropriate lifecycle here, and signal handlers
 	 * like for wbcg.  */
 }
@@ -175,6 +278,8 @@ workbook_control_component_ctor_class (GObjectClass *object_class)
 {
 	WorkbookControlClass *wbc_class
 		= WORKBOOK_CONTROL_CLASS (object_class);
+	WorkbookControlGUIClass *wbcg_class =
+		WORKBOOK_CONTROL_GUI_CLASS (object_class);
 
 	g_return_if_fail (wbc_class != NULL);
 	wbc_class->context_class.get_password = wbcc_get_password;
@@ -220,6 +325,7 @@ workbook_control_component_ctor_class (GObjectClass *object_class)
 	wbc_class->claim_selection       = wbcc_claim_selection;
 	/* wbc_class->paste_from_selection inherited from wbcg */
 	wbc_class->validation_msg	 = wbcc_validation_msg;
+	wbcg_class->set_transient        = wbcc_set_transient_for;
 }
 
 E_MAKE_TYPE(workbook_control_component, "WorkbookControlComponent",

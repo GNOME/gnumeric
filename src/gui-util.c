@@ -356,7 +356,7 @@ gnumeric_keyed_dialog (WorkbookControlGUI *wbcg, GtkWindow *dialog, const char *
 	g_return_if_fail (GTK_IS_WINDOW (dialog));
 	g_return_if_fail (key != NULL);
 
-	gnumeric_set_transient (wbcg, dialog);
+	wbcg_set_transient (wbcg, dialog);
 
 	ctxt = g_new (KeyedDialogContext, 1);
 	ctxt->wbcg = wbcg;

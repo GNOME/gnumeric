@@ -1,0 +1,74 @@
+<Root>
+    <commands>
+	<cmd name="FileSummary"
+	    _label="P_roperties"
+	    _tip="View descriptive information"/>
+
+        <!-- 
+        Cut, Paste and Clear are included to get sensible texts in the
+        menus, but the entries remain insensitive. By default,
+        Nautilus uses "Cut Text", etc. for these.
+        -->
+	<cmd name="EditCut"
+	    sensitive="0"/>
+
+	<cmd name="EditPaste"
+	    sensitive="0"/>
+
+	<cmd name="EditClear"
+	    sensitive="0"/>
+
+	<cmd name="HelpAbout"
+	    _label="_About Gnumeric"
+	    _tip="About the Gnumeric Spreadsheet Program"
+	    pixtype="stock" pixname="About"/>
+
+	<cmd name="MenuBar" sensitive="1"/>
+    </commands>
+
+    <menu id="MenuBar">
+	<submenu name="File" _label="_File">
+
+	    <menuitem name="FileSummary" verb=""/>
+	</submenu>
+	<submenu name="Edit" _label="_Edit">
+             <!--  See comment above re Cut, Paste and Clear -->
+	    <menuitem name="Cut"
+	        sensitive="0"
+	        _label="Cu_t Cells"
+		accel="*Control*x"
+		pixtype="stock" pixname="gtk-cut"
+		verb="EditCut"/>
+            <menuitem name="Copy"
+	        _label="_Copy Cells"
+		accel="*Control*x"
+	        pixtype="stock" pixname="gtk-copy"
+		verb="EditCopy"/>
+	    <menuitem name="Paste"
+		_label="_Paste Cells"
+		accel="*Control*v"
+		pixtype="stock" pixname="gtk-paste"
+		verb="EditPaste"/>
+	    <menuitem name="Clear"
+	    	_label="C_lear Cells"
+	    	pixtype="stock" pixname="gtk-clear"
+	    	verb="EditClear"/>
+	    <menuitem name="EditSearch" verb=""
+		_label="Search Workbook"
+		_tip="Search for some text"
+		pixtype="stock" pixname="gtk-find"
+		accel="F7"/>
+	</submenu>
+
+        <!-- Freeze/Thaw Panes would also be useful in the viewer -->
+
+	<submenu name="Help" _label="_Help">
+
+	    <placeholder name="BuiltMenuItems"/>
+
+	    <menuitem name="HelpAbout" verb=""/>
+
+	</submenu>
+
+    </menu>
+</Root>

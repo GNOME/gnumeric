@@ -93,6 +93,21 @@
 #include <fcntl.h>
 #include <sys/mman.h>
 
+#define WBCG_CLASS(o) WORKBOOK_CONTROL_GUI_CLASS (G_OBJECT_GET_CLASS (o))
+#define WBCG_VIRTUAL_FULL(func, handle, arglist, call)		\
+void wbcg_ ## func arglist				\
+{								\
+	WorkbookControlGUIClass *wbcg_class;			\
+								\
+	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));	\
+								\
+	wbcg_class = WBCG_CLASS (wbcg);				\
+	if (wbcg_class != NULL && wbcg_class->handle != NULL)	\
+		wbcg_class->handle call;			\
+}
+#define WBCG_VIRTUAL(func, arglist, call) \
+        WBCG_VIRTUAL_FULL(func, func, arglist, call)
+
 gboolean
 wbcg_ui_update_begin (WorkbookControlGUI *wbcg)
 {
@@ -143,6 +158,15 @@ wbcg_toplevel (WorkbookControlGUI *wbcg)
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), NULL);
 
 	return wbcg->toplevel;
+}
+
+WBCG_VIRTUAL (set_transient,
+	(WorkbookControlGUI *wbcg, GtkWindow *window), (wbcg, window))
+
+static void
+wbcg_set_transient_for (WorkbookControlGUI *wbcg, GtkWindow *window)
+{
+	gnumeric_set_transient (wbcg, window);
 }
 
 #warning merge these and clarfy whether we want the visible scg, or the logical (view) scg
@@ -3911,6 +3935,20 @@ workbook_setup_sheets (WorkbookControlGUI *wbcg)
 			  GTK_FILL | GTK_EXPAND | GTK_SHRINK,
 			  GTK_FILL | GTK_EXPAND | GTK_SHRINK,
 			  0, 0);
+
+	/* NOTE:
+	 * This is a dubious workaround for a redisplay problem in
+	 * gnumeric-component. One of the situations where the problem
+	 * happened is:
+	 * With a workbook displayed, load another workbook with a different
+	 * number of sheets with the Bonobo PersistStream interface. The
+	 * workbook isn't displayed. It turns out that the notebook is
+	 * allocated 1x1 pixels space. When the same workbook is reloaded,
+	 * it is displayed properly.
+	 * I tested this by viewing workbooks in Nautilus by means of
+	 * gnumeric-component.
+	 * */
+	gtk_idle_add ((GtkFunction) gtk_widget_queue_resize, w);
 	gtk_widget_show (w);
 }
 
@@ -4627,7 +4665,10 @@ wbcg_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 static void
 workbook_control_gui_ctor_class (GObjectClass *object_class)
 {
-	WorkbookControlClass *wbc_class = WORKBOOK_CONTROL_CLASS (object_class);
+	WorkbookControlClass *wbc_class =
+		WORKBOOK_CONTROL_CLASS (object_class);
+	WorkbookControlGUIClass *wbcg_class =
+		WORKBOOK_CONTROL_GUI_CLASS (object_class);
 
 	g_return_if_fail (wbc_class != NULL);
 
@@ -4675,6 +4716,7 @@ workbook_control_gui_ctor_class (GObjectClass *object_class)
 	wbc_class->claim_selection	 = wbcg_claim_selection;
 	wbc_class->paste_from_selection  = wbcg_paste_from_selection;
 	wbc_class->validation_msg	 = wbcg_validation_msg;
+	wbcg_class->set_transient        = wbcg_set_transient_for;
 }
 
 E_MAKE_TYPE(workbook_control_gui, "WorkbookControlGUI", WorkbookControlGUI,

@@ -26,6 +26,32 @@
 char const *gnumeric_lib_dir = GNUMERIC_LIBDIR;
 char const *gnumeric_data_dir = GNUMERIC_DATADIR;
 
+static void
+control_activated_cb (BonoboControl *control, gboolean activate,
+		      WorkbookControlComponent *wbcc)
+{
+	g_return_if_fail (BONOBO_IS_CONTROL (control));
+	g_return_if_fail (IS_WORKBOOK_CONTROL_COMPONENT (wbcc));
+
+	if (activate) {
+		Bonobo_UIContainer ui_container;
+
+		ui_container = bonobo_control_get_remote_ui_container (control,
+								       NULL);
+		if (ui_container != CORBA_OBJECT_NIL)
+			workbook_control_component_activate
+				(wbcc, control, ui_container);
+	} else {
+		BonoboUIComponent* uic;
+
+		uic = bonobo_control_get_ui_component (control);
+		if (uic) {
+			bonobo_ui_component_rm (uic, "/", NULL);
+			bonobo_ui_component_unset_container (uic, NULL);
+		}
+	}
+}
+
 /*
  * Loads an Workbook from a Bonobo_File
  */
@@ -83,11 +109,14 @@ gnumeric_component_factory (BonoboGenericFactory *this,
 	g_message ("Trying to produce a '%s'", oaf_iid);
 	wbc = workbook_control_component_new (NULL, NULL);
 	w = WORKBOOK_CONTROL_GUI (wbc)->table;
+	g_object_set_data (G_OBJECT (w), WBC_KEY, wbc);
 	gtk_widget_show(w);
 	control = bonobo_control_new (w);
-	g_message ("control=0x%p\n", control);
 	if (!add_interfaces (BONOBO_OBJECT (control), wbc))
 		return NULL;
+
+	g_signal_connect (G_OBJECT (control), "activate",
+			  G_CALLBACK (control_activated_cb), wbc);
 
  	return BONOBO_OBJECT (control);
 }

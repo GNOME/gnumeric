@@ -3,6 +3,7 @@
 
 #include "workbook-control-gui.h"
 #include "gui-gnumeric.h"
+#include <bonobo/bonobo-control.h>
 
 #define WORKBOOK_CONTROL_COMPONENT_TYPE \
     (workbook_control_component_get_type ())
@@ -19,4 +20,9 @@ GType            workbook_control_component_get_type  (void);
 WorkbookControl *
 workbook_control_component_new (WorkbookView *optional_view,
 				Workbook *optional_wb);
+
+void
+workbook_control_component_activate (WorkbookControlComponent *wbcc,
+				     BonoboControl *control,
+				     Bonobo_UIContainer ui_container);
 #endif /* GNUMERIC_WORKBOOK_CONTROL_COMPONENT_H */

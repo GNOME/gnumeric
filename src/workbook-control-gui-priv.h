@@ -124,6 +124,8 @@ struct _WorkbookControlGUI {
 
 typedef struct {
 	WorkbookControlClass   wb_control_class;
+	void (*set_transient) (WorkbookControlGUI *wbcg, GtkWindow *window);
 } WorkbookControlGUIClass;
 
 #endif /* GNUMERIC_WORKBOOK_CONTROL_GUI_PRIV_H */
+

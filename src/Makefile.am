@@ -4,9 +4,10 @@
 
 SUBDIRS = pixmaps dialogs widgets tools
 
-bin_PROGRAMS = gnumeric
 if WITH_BONOBO
-noinst_PROGRAMS = gnumeric-component
+bin_PROGRAMS = gnumeric gnumeric-component
+else
+bin_PROGRAMS = gnumeric
 endif
 #noinst_PROGRAMS = number-match
 
@@ -339,7 +340,8 @@ gnm-marshalers.c : gnm-marshalers.list $(GLIB_GENMARSHAL)
 
 # include conditional files to ensure everything gets distributed no matter
 # what the build
-EXTRA_DIST = GNOME_Gnumeric.xml gnm-marshalers.list		\
+EXTRA_DIST = GNOME_Gnumeric.xml GNOME_Gnumeric_Component.xml \
+	    gnm-marshalers.list	                        \
 	    main-application.c normal-args.c corba-args.c	\
 	    $(GNUMERIC_BONOBO)
 
@@ -353,7 +355,7 @@ EXTRA_DIST = GNOME_Gnumeric.xml gnm-marshalers.list		\
 
 # Bonobo requires things to be in a subdir of this form
 uidir=$(gnumeric_datadir)/gnome-2.0/ui
-ui_DATA = GNOME_Gnumeric.xml
+ui_DATA = GNOME_Gnumeric.xml GNOME_Gnumeric_component.xml
 
 CLEANFILES  = $(GNUMERIC_GENERATED)
 dist-hook :

@@ -1,3 +1,56 @@
+2002-05-05  Jon K Hellan  <hellan@acm.org>
+
+	* src/GNOME_Gnumeric_Component.xml: Add UI for the viewer component.
+
+	* src/Makefile.am: Add UI file for the viewer component.
+
+	* src/gui-util.c (gnumeric_keyed_dialog): Use
+	wbcg_set_transient instead of gnumeric_set_transient.
+
+	* src/main-component.c (control_activated_cb): New signal handler
+	to handle component activation/deactivation.
+	(gnumeric_component_factory): Register activation/deactivation
+	signal handler
+
+	* src/workbook-control-component.[ch]
+	(workbook_control_component_activate): New function. Merge in our
+	UI. 
+
+	* src/workbook-control-component-priv.h 
+	(struct	_WorkbookControlComponent): Add bcontrol member for the
+	BonoboControl.
+
+	* src/workbook-control-component.c (wbcc_set_transient_for): New
+	function. Set a dialog transient for the bonobo shell which
+	contains us.
+	(bcontrol_get_wbcg): New function. Get the WorkbookControl from
+	the BonoboControl. This is implemented by means of object data on
+	the BonoboControl.
+	(cb_file_summary): New function. Pop up the Properties dialog.
+	(cb_edit_copy): New function. Copy the selection.
+	(cb_edit_search): New function. Pop up the search dialog.
+	(cb_help_about): New function. Pop up the "About Gnumeric" dialog.
+	(verbs): Add them.
+	(workbook_control_component_init): Zero the bcontrol field.
+	(workbook_control_component_ctor_class): Override the wbcg
+	set_transient method.
+
+	* src/workbook-control-gui.[ch] (wbcg_set_transient): New virtual
+	method to set a dialog transient for the toplevel.
+
+	* src/workbook-control-gui-priv.h (WorkbookControlGUIClass): Add
+	set_transient virtual method.
+
+	* src/workbook-control-gui.c (WBCG_CLASS, WBCG_VIRTUAL_FULL,
+	WBGC_VIRTUAL): Define macros, analogous to macros in
+	workbook-control.c.
+	(wbcg_set_transient_for): New function. set_transient
+	implementation for wbcg.
+	(workbook_setup_sheets): Resize notebook from an idle handler to
+	work around a display problem in the component. Explain why we had
+	to do this.
+	(workbook_control_gui_ctor_class): Add set_transient virtual method.
+
 2002-05-04  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet.c (sheet_colrow_get_default) : new.

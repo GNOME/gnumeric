@@ -20,6 +20,8 @@ void		 workbook_control_gui_init      (WorkbookControlGUI *wbcg,
 int      wbcg_sheet_to_page_index (WorkbookControlGUI *wbcg, Sheet *sheet,
 				   SheetControlGUI **res);
 GtkWindow	*wbcg_toplevel	  (WorkbookControlGUI *wbcg);
+void	         wbcg_set_transient (WorkbookControlGUI *wbcg,
+				     GtkWindow *window);
 SheetControlGUI *wbcg_cur_scg	  (WorkbookControlGUI *wbcg);
 Sheet		*wbcg_focus_cur_scg (WorkbookControlGUI *wbcg);
 

@@ -5,8 +5,11 @@
 #include "workbook-control-component.h"
 #include "workbook-control-gui-priv.h"
 
+#define WBC_KEY "WBC"
+
 struct _WorkbookControlComponent {
 	WorkbookControlGUI wb_control_gui;
+	BonoboControl      *bcontrol;
 };
 
 typedef struct {
