@@ -1,3 +1,8 @@
+2004-04-01  Morten Welinder  <terra@gnome.org>
+
+	* src/format.c (append_hour_elapsed): Fix precision issues.
+	http://bugzilla.gnome.org/show_bug.cgi?id=138182.
+
 2004-04-01  Christian Neumair  <chris@gnome-de.org>
 
 	* src/sheet-control-gui.c:

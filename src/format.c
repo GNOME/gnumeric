@@ -399,18 +399,25 @@ append_hour (GString *string, int n, struct tm const *time_split,
 static void
 append_hour_elapsed (GString *string, struct tm *tm, gnm_float number)
 {
-	double res, int_part;
+	gnm_float whole_days, frac_days;
 	gboolean is_neg;
+	int cs;  /* Centi seconds.  */
+	const int secs_per_day = 24 * 60 * 60;
+
+	is_neg = (number < 0);
+	frac_days = modfgnum (number, &whole_days);
 
 	/* ick.  round assuming no more than 100th of a second, we really need
 	 * to know the precision earlier */
-	res = gnumeric_fake_round (number * (24 * 60 * 60 * 100));
-	res = modf (res / (60. * 60. * 100.), &int_part);
-	tm->tm_hour = int_part;
-	is_neg = (res < 0);
-	res = 3600 * fabs (res);
-	tm->tm_min = res / 60.;
-	tm->tm_sec = res - tm->tm_min * 60;
+	cs = (int)gnumeric_fake_round (gnumabs (frac_days) * secs_per_day * 100);
+
+	/* FIXME: Why limit hours to int? */
+	cs /= 100;
+	tm->tm_sec = cs % 60;
+	cs /= 60;
+	tm->tm_min = cs % 60;
+	cs /= 60;
+	tm->tm_hour = (is_neg ? -cs : cs) + (int)(whole_days * 24);
 
 	g_string_append_printf (string, "%d", tm->tm_hour);
 }

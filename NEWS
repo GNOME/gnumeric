@@ -6,6 +6,7 @@ Christian Neumair:
 
 Morten:
 	* Fix crash related to database functions.  [backported]
+	* Fix [h]:mm precision (#138182).
 
 --------------------------------------------------------------------------
 
