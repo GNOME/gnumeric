@@ -107,6 +107,9 @@ csv_parse_sheet (FileSource_t *src)
 				g_free (field);
 			} else
 				return FALSE;
+
+			if (src->cur [0] == '\r' && src->cur [1] == '\n')
+				src->cur++;
 		}
 	}
 	return TRUE;
