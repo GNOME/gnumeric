@@ -309,7 +309,7 @@ print_info_new (void)
 }
 
 static void
-save_margin (char const *prefix, PrintUnit *p)
+save_margin (char const *prefix, PrintUnit const *p)
 {
 	char *x = g_strconcat (prefix, "_units", NULL);
 
@@ -319,7 +319,7 @@ save_margin (char const *prefix, PrintUnit *p)
 }
 
 static void
-save_range (char const *section, PrintRepeatRange *repeat)
+save_range (char const *section, PrintRepeatRange const *repeat)
 {
 	char const *s = (repeat->use) ? range_name (&repeat->range) : "";
 	gnome_config_set_string (section, s);
@@ -700,10 +700,10 @@ print_shutdown (void)
 
 
 static void
-print_info_margin_copy (PrintUnit *src_print_unit, PrintUnit *dst_print_unit)
+print_info_margin_copy (PrintUnit const *src_print_unit, PrintUnit *dst_print_unit)
 {
 	dst_print_unit->points = src_print_unit->points;
-	dst_print_unit->desired_display = dst_print_unit->desired_display;
+	dst_print_unit->desired_display = src_print_unit->desired_display;
 }
 
 PrintInformation *
@@ -711,9 +711,11 @@ print_info_dup (PrintInformation const *src_pi)
 {
 	PrintInformation *dst_pi;
 
-	dst_pi = print_info_new();
+	dst_pi = print_info_new ();
+	
+	gnome_print_config_unref (dst_pi->print_config);
+	dst_pi->print_config       = gnome_print_config_dup (src_pi->print_config);
 
-	dst_pi->print_config       = gnome_print_config_ref (src_pi->print_config);
 	dst_pi->orientation        = src_pi->orientation;
 
 	/* Print Scaling */

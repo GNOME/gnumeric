@@ -6,6 +6,7 @@ Almer:
 
 Andreas:
 	* Improve printing dialogs.
+	* Make print-setup changes undoable.
 
 Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=79925

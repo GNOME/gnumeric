@@ -1,3 +1,13 @@
+2002-05-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/commands.c : add cmd_print_set_up and friends
+	* src/commands.h : add cmd_print_set_up
+	* src/print-info.c (save_margin) : constify second argument
+	(save_range) : ditto
+	(print_info_margin_copy) : constify first argument and fix
+	  silly typo
+	(print_info_dup) : fix leak
+	
 2002-05-05  Jon K Hellan  <hellan@acm.org>
 
 	* src/Makefile.am: Fix typo in GNOME_Gnumeric_Component.xml

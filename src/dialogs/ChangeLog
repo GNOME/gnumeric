@@ -1,3 +1,8 @@
+2002-05-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-printer-setup.c : Don't change print information
+	  directly but use new cmd_print_set_up
+
 2002-05-03  Almer S. Tigelaar  <almer@gnome.org>
 
 	* dialog-cell-format.c (validation_rebuild_validation) : Mark

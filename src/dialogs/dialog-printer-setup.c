@@ -25,6 +25,7 @@
 #include "dialogs.h"
 
 #include <gui-util.h>
+#include <commands.h>
 #include <print-info.h>
 #include <print.h>
 #include <ranges.h>
@@ -1590,6 +1591,7 @@ cb_do_print_ok (GtkWidget *w, PrinterSetupState *state)
 	wbcg_edit_finish (state->wbcg, TRUE);
 	fetch_settings (state);
 	print_info_save (state->pi);
+	cmd_print_set_up (state->wbcg, state->sheet, state->pi);
 	gtk_widget_destroy (state->dialog);
 }
 
@@ -1670,7 +1672,7 @@ printer_setup_state_new (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->sheet = sheet;
 	state->gui   = gui;
-	state->pi    = sheet->print_info;
+	state->pi    = print_info_dup(sheet->print_info);
 	state->customize_header = NULL;
 	state->customize_footer = NULL;
 
@@ -1690,6 +1692,7 @@ printer_setup_state_free (PrinterSetupState *state)
 
 	print_hf_free (state->header);
 	print_hf_free (state->footer);
+	print_info_free (state->pi);
 	g_free (state->pi_header);
 	g_free (state->pi_footer);
 	g_list_free (state->conversion_listeners);

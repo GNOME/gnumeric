@@ -107,6 +107,7 @@ gboolean cmd_merge_data        (WorkbookControl *wbc, Sheet *sheet,
 				Value *merge_zone, GSList *merge_fields, GSList *merge_data);
 
 gboolean cmd_change_summary    (WorkbookControlGUI *wbcg, GSList *sin_changes);
+gboolean cmd_print_set_up    (WorkbookControlGUI *wbcg, Sheet *sheet, PrintInformation const *pi);
 
 typedef enum  {
 	cmd_object_raise_up ,

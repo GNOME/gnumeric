@@ -44,6 +44,7 @@
 #include "cell.h"
 #include "sheet-merge.h"
 #include "parse-util.h"
+#include "print-info.h"
 #include "clipboard.h"
 #include "selection.h"
 #include "datetime.h"
@@ -4975,6 +4976,92 @@ cmd_object_raise (WorkbookControl *wbc, SheetObject *so, CmdObjectRaiseSelector 
 	me->changed_positions = 0;
 
 	return command_push_undo (wbc, object);
+}
+
+/******************************************************************/
+
+#define CMD_PRINT_SET_UP_TYPE        (cmd_print_set_up_get_type ())
+#define CMD_PRINT_SET_UP(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_PRINT_SET_UP_TYPE, CmdPrintSetUp))
+
+typedef struct
+{
+	GnumericCommand parent;
+
+	WorkbookControlGUI *wbcg;
+	GSList *old_pi;
+	PrintInformation *new_pi;
+} CmdPrintSetUp;
+
+GNUMERIC_MAKE_COMMAND (CmdPrintSetUp, cmd_print_set_up);
+
+static gboolean
+cmd_print_set_up_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdPrintSetUp *me = CMD_PRINT_SET_UP (cmd);
+
+	if (me->parent.sheet) {
+		if (me->old_pi) {
+			print_info_free (me->parent.sheet->print_info);
+			me->parent.sheet->print_info = print_info_dup (
+				(PrintInformation *) me->old_pi->data);
+			return FALSE;
+		} else
+			return TRUE;
+	}
+
+	return TRUE;
+}
+
+static gboolean
+cmd_print_set_up_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdPrintSetUp *me = CMD_PRINT_SET_UP (cmd);
+	
+	if (me->parent.sheet) {
+		if (me->old_pi)
+			print_info_free (me->parent.sheet->print_info);
+		else
+			me->old_pi = g_slist_append (me->old_pi, me->parent.sheet->print_info);
+		me->parent.sheet->print_info = print_info_dup (me->new_pi);
+		return FALSE;
+	}
+	return TRUE;
+}
+
+static void
+cmd_print_set_up_finalize (GObject *cmd)
+{
+	CmdPrintSetUp *me = CMD_PRINT_SET_UP (cmd);
+	GSList *list = me->old_pi;
+	
+	if (me->new_pi)
+		print_info_free (me->new_pi);
+	for (; list; list = list->next)
+		print_info_free ((PrintInformation *) list->data);
+	g_slist_free (me->old_pi);
+	gnumeric_command_finalize (cmd);
+}
+
+gboolean
+cmd_print_set_up (WorkbookControlGUI *wbcg, Sheet *sheet, PrintInformation const *pi)
+{
+	GObject          *obj;
+	CmdPrintSetUp *me;
+	WorkbookControl  *wbc = WORKBOOK_CONTROL (wbcg);
+
+	obj = g_object_new (CMD_PRINT_SET_UP_TYPE, NULL);
+	me = CMD_PRINT_SET_UP (obj);
+
+	me->parent.sheet = sheet;
+	me->parent.size = 10;
+	me->parent.cmd_descriptor =
+		g_strdup_printf (_("Print Setup for %s"), sheet->name_unquoted);
+	me->old_pi = NULL;
+	me->new_pi = print_info_dup (pi);
+	me->wbcg = wbcg;
+
+	/* Register the command object */
+	return command_push_undo (wbc, obj);
 }
 
 /******************************************************************/
