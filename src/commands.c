@@ -400,7 +400,7 @@ cmd_set_text (CommandContext *context,
 	GtkObject *obj;
 	CmdSetText *me;
 	gchar *pad = "";
-	gchar *text;
+	gchar *text, *corrected_text;
 	Cell const *cell;
 
 	g_return_val_if_fail (sheet != NULL, TRUE);
@@ -414,7 +414,7 @@ cmd_set_text (CommandContext *context,
 	}
 
 	/* From src/dialogs/dialog-autocorrect.c */
-	autocorrect_tool (new_text);
+	corrected_text = autocorrect_tool (new_text);
 
 	obj = gtk_type_new (CMD_SET_TEXT_TYPE);
 	me = CMD_SET_TEXT (obj);
@@ -422,19 +422,19 @@ cmd_set_text (CommandContext *context,
 	/* Store the specs for the object */
 	me->pos.sheet = sheet;
 	me->pos.eval = *pos;
-	me->text = g_strdup (new_text);
+	me->text = corrected_text;
 
 	/* Limit the size of the descriptor to something reasonable */
-	if (strlen(new_text) > max_descriptor_width) {
+	if (strlen (corrected_text) > max_descriptor_width) {
 		pad = "..."; /* length of 3 */
-		text = g_strndup (new_text,
+		text = g_strndup (corrected_text,
 				  max_descriptor_width - 3);
 	} else
-		text = (gchar *) new_text;
+		text = (gchar *) corrected_text;
 
 	me->parent.cmd_descriptor =
-	    g_strdup_printf (_("Typing \"%s%s\" in %s"), text, pad,
-			     cell_pos_name(pos));
+		g_strdup_printf (_("Typing \"%s%s\" in %s"), text, pad,
+				 cell_pos_name(pos));
 
 	if (*pad)
 		g_free (text);

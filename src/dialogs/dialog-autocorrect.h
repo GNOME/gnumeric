@@ -3,6 +3,6 @@
 
 #include "gnumeric.h"
 
-void autocorrect_tool (char *command);
+char *autocorrect_tool (const char *command);
 
 #endif /* DIALOG_AUTOCORRECT_H */

@@ -1,5 +1,7 @@
 2000-06-06  Miguel de Icaza  <miguel@helixcode.com>
 
+	* src/commands.c (cmd_set_text): Update code.
+
 	* src/workbook-edit.c (workbook_auto_complete_destroy): Simplify
 	test here. 
 

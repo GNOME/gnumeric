@@ -47,11 +47,11 @@ static char *autocorrect_day [] = {
 	"friday", "saturday", "sunday", NULL
 };
 
-void
-autocorrect_tool (char *command)
+char *
+autocorrect_tool (const char *command)
 {
         unsigned char *s;
-	unsigned char *ucommand = (unsigned char *)command;
+	unsigned char *ucommand = (unsigned char *)g_strdup (command);
 	gint i, len;
 
 	len = strlen (ucommand);
@@ -128,11 +128,13 @@ autocorrect_tool (char *command)
 		        for (i = 0; i < len; i++)
 			        if (isalpha (ucommand[i])) {
 				        if (isupper (ucommand[i]))
-					        command[i] = tolower (ucommand[i]);
+					        ucommand[i] = tolower (ucommand[i]);
 					else
-					        command[i] = toupper (ucommand[i]);
+					        ucommand[i] = toupper (ucommand[i]);
 				}
 	}
+
+	return ucommand;
 }
 
 static void
