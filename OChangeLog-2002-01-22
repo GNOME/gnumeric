@@ -1,3 +1,101 @@
+2001-12-06  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet.c (sheet_colrow_set_collapse) : new.
+	(sheet_colrow_insert_finish) : new.
+	(sheet_colrow_delete_finish) : new.
+	(sheet_{col,row}_{ins,del} : use them here, we shoulw now correctly
+	  handle collapse states and gutters when ins/del cols/row.
+
+2001-12-06  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet.c (sheet_colrow_gutter) : change signature and toggle the
+	  resize flag if necessary.
+	(sheet_update_only_grid) : handle the resize and
+	  recompute_max_{col,row}_group flags.
+
+	* src/colrow.c (colrow_set_states) : use simplified
+	  sheet_colrow_gutter signature.
+
+2001-12-06  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-cmd-format.c (sheet_dialog_set_row_height) : const.
+
+	* src/workbook-object-toolbar.c : disable some code that is not ready
+	  for release.
+
+	* src/sheet.c (sheet_colrow_insdel_finish) : new.
+	(sheet_{col,row}_{ins,del} : use it here, and adjust the arguments to
+	  include optional state to fill in the new cols/rows.
+	(sheet_colrow_fit_gutter) : simplify.
+	(sheet_colrow_group_ungroup) : ditto.
+	(sheet_colrow_fetch) : new utility.
+	(sheet_colrow_get_info) : ditto.
+
+	* src/sheet-control-gui.c (scg_setup_group_buttons) : new.
+	(scg_resize) : use it here.
+	(sheet_control_gui_new) : handle the layout for the group buttons.
+
+	* src/print.c (compute_group) : const.
+
+	* src/item-grid.c (item_grid_draw) : remove pointless use of
+	  ColRowInfo::pos because I want to remove that eventually.
+	* src/print-cell.c (print_cell_range) : ditto.
+
+	* src/item-bar.c (item_bar_normal_font) : new.
+	(item_bar_indent) : new.
+	(item_bar_draw) : draw the top line as black, to match other buttons,
+	 fix its length.
+
+	* src/history.c (history_menu_locate_separator) : sync with manu
+	  changes.
+
+	* src/gnumeric.h
+	(ColRowStateGroup) : rename from ColRowSizeList.
+	(ColRowStateList) : rename from ColRowRLESizeList.
+
+	* src/gnumeric-canvas.c (gnm_canvas_find_col) : const.
+
+	* src/complete-sheet.c (complete_sheet_search_iteration) : const.
+
+	* src/commands.c (cmd_ins_del_colrow_undo) : pass the states into the
+	  sheet_ routines.  They will handle restoring them, and cleaning up the
+	  collapse states.
+	(cmd_ins_del_colrow_redo) : ditto.
+	(cmd_ins_del_colrow_destroy) : simplify.
+	(cmd_colrow_outline_change) : use get_info and avoid the need to check
+	  for NULL.
+	(cmd_group_undo) : simplify.
+	(cmd_group_redo) : ditto.
+	(cmd_group) : simplify.
+
+	* src/colrow.c (colrow_compute_pixels_from_pts) : move here from
+	  sheet.c
+	(colrow_compute_pts_from_pixels) : ditto.
+	(colrow_is_default) : new utility routine so that we can remove ::pos
+	  eventually.
+	(ColRowState) : new struct, will eventually replace the ColRowInfo.
+	(colrow_make_state) : new.
+	(colrow_get_states) : renamed from colrow_save_sizes and add support
+	  for outline levels and collapse state.
+	(colrow_set_sizes) : use the correct aliases for the lists.
+	(colrow_set_states) : renamed from colrow_restore_sizes and support
+	  the extra state info.
+	(colrow_restore_state_group) : rename colrow_restore_sizes_group.
+	(colrow_set_outline) : simplify.
+
+2001-12-05  Jody Goldberg <jody@gnome.org>
+
+	* src/colrow.c (colrow_state_group_destroy) : rename from
+	colrow_rle_size_list_destroy.
+
+	* src/cellspan.c (cell_calc_span) : const.
+
+2001-11-29  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-control-gui.c (scg_resize) : size the select all button.
+
+	* src/item-bar.c (item_bar_indent) : new utility.
+
 2001-12-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/clipboard.c (clipboard_paste_region) : handle a 
@@ -35,7 +133,6 @@
 	(read_int) : taken from GTK 2.0
 	(gtk_XParseGeometry) : ditto
 
-	
 2001-12-01  Abel Cheung  <maddog@linux.org.hk>
 
 	* configure.in: Renamed zh_CN.GB2312 to zh_CN in ALL_LINGUAS .

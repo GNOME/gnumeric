@@ -3133,7 +3133,8 @@ ms_excel_read_guts (BiffQuery *q, ExcelSheet *esheet)
 	col_gut = MS_OLE_GET_GUINT16 (q->data + 6);
 	if (col_gut >= 1)
 		col_gut--;
-	sheet_col_row_gutter (esheet->gnum_sheet, col_gut, row_gut);
+	sheet_colrow_gutter (esheet->gnum_sheet, TRUE, col_gut);
+	sheet_colrow_gutter (esheet->gnum_sheet, FALSE, row_gut);
 }
 
 /* See: S59DE3.HTM */

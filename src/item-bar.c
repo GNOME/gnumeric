@@ -134,6 +134,18 @@ item_bar_calc_size (ItemBar *ib)
 		(ib->is_col_header ? ib->cell_height : ib->cell_width);
 }
 
+GdkFont *
+item_bar_normal_font (ItemBar const *ib)
+{
+	return style_font_gdk_font (ib->normal_font);
+}
+
+int
+item_bar_indent	(ItemBar const *ib)
+{
+	return ib->indent;
+}
+
 static void
 item_bar_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
 {
@@ -254,6 +266,12 @@ ib_draw_cell (ItemBar const * const ib,
 			 str);
 }
 
+int
+item_bar_group_size (ItemBar const *ib, int max_outline)
+{
+	return (max_outline > 0) ? (ib->indent - 2) / (max_outline + 1) : 0;
+}
+
 static void
 item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width, int height)
 {
@@ -270,9 +288,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 	gboolean has_object = scg->new_object != NULL || scg->current_object != NULL;
 
 	if (ib->is_col_header) {
-		int const inc = (sheet->cols.max_outline_level > 0)
-			? (ib->indent - 2) / (sheet->cols.max_outline_level + 1)
-			: 0;
+		int const inc = item_bar_group_size (ib, sheet->cols.max_outline_level);
 		int const base_pos = .2 * inc - y;
 		int const len = (inc > 4) ? 4 : inc;
 
@@ -283,9 +299,10 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 		rect.y = ib->indent - y;
 		rect.height = ib->cell_height;
 
-		gdk_draw_line (drawable, ib->shade,
+		/* See comment below for explaination of the line */
+		gdk_draw_line (drawable, ib->lines,
 			       total-1, rect.y,
-			       total-1, rect.y + rect.height);
+			       total-1, rect.y + rect.height - 1);
 
 		if (col > 0) {
 			cri = sheet_col_get_info (sheet, col-1);
@@ -383,16 +400,14 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 			++col;
 		} while (total < width);
 	} else {
-		int const inc = (sheet->rows.max_outline_level > 0)
-			? (ib->indent - 2) / (sheet->rows.max_outline_level + 1)
-			: 0;
+		int const inc = item_bar_group_size (ib, sheet->rows.max_outline_level);
 		int const base_pos = .2 * inc - x;
 		int const len = (inc > 4) ? 4 : inc;
 
 		/* Include a 1 pixel buffer.
-		 * To avoid overlaping the cells the shared pixel belongs to the cell above.
-		 * This has the nice property that the bottom dark line of the
-		 * shadow aligns with the grid lines.
+		 * To avoid overlaping the cells the shared pixel belongs to
+		 * the cell above.  This has the nice property that the bottom
+		 * dark line of the shadow aligns with the grid lines.
 		 * Unfortunately it also implies a 1 pixel empty space at the
 		 * top of the bar.  Which we are forced to fill in with
 		 * something.  For now I draw a black line there to be
@@ -405,9 +420,9 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 		rect.x = ib->indent - x;
 		rect.width = ib->cell_width;
 
-		gdk_draw_line (drawable, ib->shade,
-			       rect.x, total-1,
-			       rect.x + rect.width, total-1);
+		gdk_draw_line (drawable, ib->lines,
+			       rect.x,			total-1,
+			       rect.x + rect.width-1,	total-1);
 		if (row > 0) {
 			cri = sheet_row_get_info (sheet, row-1);
 			prev_visible = cri->visible;
@@ -523,11 +538,11 @@ item_bar_translate (GnomeCanvasItem *item, double dx, double dy)
  *
  * return -1 if the event is outside the item boundary
  */
-static ColRowInfo *
+static ColRowInfo const *
 is_pointer_on_division (ItemBar const *ib, int pos, int *the_total, int *the_element)
 {
 	Sheet *sheet = sc_sheet (SHEET_CONTROL (ib->gcanvas->scg));
-	ColRowInfo *cri;
+	ColRowInfo const *cri;
 	int i, total = 0;
 
 	for (i = 0; total < pos; i++) {
@@ -670,7 +685,7 @@ outline_button_press (ItemBar const *ib, int element, int pixel)
 static gint
 item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 {
-	ColRowInfo *cri;
+	ColRowInfo const *cri;
 	GnomeCanvas	* const canvas = item->canvas;
 	ItemBar		* const ib = ITEM_BAR (item);
 	GnumericCanvas	* const gcanvas = ib->gcanvas;
@@ -714,8 +729,6 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			new_size = pos - ib->resize_start_pos;
 			cri = sheet_colrow_get_info (sheet,
 				ib->colrow_being_resized, is_cols);
-
-			g_return_val_if_fail (cri != NULL, TRUE);
 
 			/* Ensure we always have enough room for the margins */
 			if (new_size <= (cri->margin_a + cri->margin_b)) {

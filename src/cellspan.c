@@ -276,7 +276,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 		margin = cell->col_info->margin_a;
 
 		for (; left > 0 && pos > min_col; pos--){
-			ColRowInfo *ci = sheet_col_get_info (sheet, pos);
+			ColRowInfo const *ci = sheet_col_get_info (sheet, pos);
 
 			if (ci->visible) {
 				if (!cellspan_is_empty (pos, ri, cell))
@@ -307,7 +307,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 		margin_b = cell->col_info->margin_b;
 
 		for (; remain_left > 0 || remain_right > 0;){
-			ColRowInfo *ci;
+			ColRowInfo const *ci;
 
 			if (--pos_l > min_col){
 				ci = sheet_col_get_info (sheet, pos_l);

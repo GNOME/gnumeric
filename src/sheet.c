@@ -274,48 +274,16 @@ sheet_new (Workbook *wb, char const *name)
 	return sheet;
 }
 
-static int
-compute_pixels_from_pts (Sheet const *sheet, float pts, gboolean const horizontal)
-{
-	double const scale =
-		sheet->last_zoom_factor_used *
-		application_display_dpi_get (horizontal) / 72.;
-
-	return (int)(pts * scale + 0.5);
-}
-
-static void
-colrow_compute_pixels_from_pts (Sheet const *sheet, ColRowInfo *info, gboolean const horizontal)
-{
-	info->size_pixels = compute_pixels_from_pts (sheet, info->size_pts,
-						     horizontal);
-}
-
-static void
-colrow_compute_pts_from_pixels (Sheet const *sheet, ColRowInfo *info, gboolean const horizontal)
-{
-	double const scale =
-	    sheet->last_zoom_factor_used *
-	    application_display_dpi_get (horizontal) / 72.;
-
-	info->size_pts = info->size_pixels / scale;
-
-	/* Disable this until we decide how to deal with scaling */
-#if 0
-	 g_return_if_fail (info->size_pts >= info->margin_a + info->margin_b);
-#endif
-}
-
 struct resize_colrow {
 	Sheet *sheet;
 	gboolean horizontal;
 };
 
 static gboolean
-cb_colrow_compute_pixels_from_pts (ColRowInfo *info, void *data)
+cb_colrow_compute_pixels_from_pts (ColRowInfo *cri, void *data)
 {
 	struct resize_colrow *closure = data;
-	colrow_compute_pixels_from_pts (closure->sheet, info, closure->horizontal);
+	colrow_compute_pixels_from_pts (cri, closure->sheet, closure->horizontal);
 	return FALSE;
 }
 
@@ -538,8 +506,8 @@ sheet_set_zoom_factor (Sheet *sheet, double f, gboolean force, gboolean update)
 	sheet->last_zoom_factor_used = factor;
 
 	/* First, the default styles */
-	colrow_compute_pixels_from_pts (sheet, &sheet->rows.default_style, FALSE);
-	colrow_compute_pixels_from_pts (sheet, &sheet->cols.default_style, TRUE);
+	colrow_compute_pixels_from_pts (&sheet->rows.default_style, sheet, FALSE);
+	colrow_compute_pixels_from_pts (&sheet->cols.default_style, sheet, TRUE);
 
 	/* Then every column and row */
 	closure.sheet = sheet;
@@ -609,7 +577,7 @@ sheet_col_add (Sheet *sheet, ColRowInfo *cp)
 
 	if (cp->outline_level > sheet->cols.max_outline_level)
 		sheet->cols.max_outline_level = cp->outline_level;
-	if (col > sheet->cols.max_used){
+	if (col > sheet->cols.max_used) {
 		sheet->cols.max_used = col;
 		sheet->priv->resize_scrollbar = TRUE;
 	}
@@ -630,38 +598,10 @@ sheet_row_add (Sheet *sheet, ColRowInfo *rp)
 
 	if (rp->outline_level > sheet->rows.max_outline_level)
 		sheet->rows.max_outline_level = rp->outline_level;
-	if (rp->pos > sheet->rows.max_used){
+	if (row > sheet->rows.max_used) {
 		sheet->rows.max_used = row;
 		sheet->priv->resize_scrollbar = TRUE;
 	}
-}
-
-ColRowInfo *
-sheet_col_get_info (Sheet const *sheet, int col)
-{
-	ColRowInfo *ci = sheet_col_get (sheet, col);
-
-	if (ci != NULL)
-		return ci;
-	return (ColRowInfo *) &sheet->cols.default_style;
-}
-
-ColRowInfo *
-sheet_row_get_info (Sheet const *sheet, int row)
-{
-	ColRowInfo *ri = sheet_row_get (sheet, row);
-
-	if (ri != NULL)
-		return ri;
-	return (ColRowInfo *) &sheet->rows.default_style;
-}
-
-ColRowInfo *
-sheet_colrow_get_info (Sheet const *sheet, int colrow, gboolean is_cols)
-{
-	return is_cols
-		? sheet_col_get_info (sheet, colrow)
-		: sheet_row_get_info (sheet, colrow);
 }
 
 static void
@@ -787,6 +727,31 @@ sheet_flag_recompute_spans (Sheet const *sheet)
 	sheet->priv->recompute_spans = TRUE;
 }
 
+static gboolean
+cb_outline_level (ColRowInfo *info, int *outline_level)
+{
+	if (*outline_level  < info->outline_level)
+		*outline_level  = info->outline_level;
+	return FALSE;
+}
+
+/**
+ * sheet_colrow_fit_gutter:
+ * @sheet: Sheet to change for.
+ * @is_cols: Column gutter or row gutter?
+ *
+ * Find the current max outline level.
+ **/
+static int
+sheet_colrow_fit_gutter (Sheet const *sheet, gboolean is_cols)
+{
+	int outline_level = 0;
+	colrow_foreach (is_cols ? &sheet->cols : &sheet->rows,
+		0, colrow_max (is_cols) - 1,
+		(ColRowHandler)cb_outline_level, &outline_level);
+	return outline_level;
+}
+			  
 /**
  * sheet_update_only_grid :
  *
@@ -801,6 +766,18 @@ sheet_update_only_grid (Sheet const *sheet)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	p = sheet->priv;
+
+	/* be careful these can toggle flags */
+	if (sheet->priv->recompute_max_col_group) {
+		sheet_colrow_gutter ((Sheet *)sheet, TRUE,
+			sheet_colrow_fit_gutter (sheet, TRUE));
+		sheet->priv->recompute_max_col_group = FALSE;
+	}
+	if (sheet->priv->recompute_max_row_group) {
+		sheet_colrow_gutter ((Sheet *)sheet, FALSE,
+			sheet_colrow_fit_gutter (sheet, FALSE));
+		sheet->priv->recompute_max_row_group = FALSE;
+	}
 
 	if (p->reposition_selection) {
 		p->reposition_selection = FALSE;
@@ -835,7 +812,7 @@ sheet_update_only_grid (Sheet const *sheet)
 
 	if (p->reposition_objects.row < SHEET_MAX_ROWS ||
 	    p->reposition_objects.col < SHEET_MAX_COLS) {
-		if (sheet_is_frozen (sheet)) {
+		if (!p->resize && sheet_is_frozen (sheet)) {
 			if (p->reposition_objects.col < sheet->unfrozen_top_left.col ||
 			    p->reposition_objects.row < sheet->unfrozen_top_left.row) {
 				SHEET_FOREACH_CONTROL(sheet, control,
@@ -845,6 +822,11 @@ sheet_update_only_grid (Sheet const *sheet)
 		sheet_reposition_objects (sheet, &p->reposition_objects);
 		p->reposition_objects.row = SHEET_MAX_ROWS;
 		p->reposition_objects.col = SHEET_MAX_COLS;
+	}
+
+	if (p->resize) {
+		p->resize = FALSE;
+		SHEET_FOREACH_CONTROL (sheet, control, sc_resize (control, FALSE););
 	}
 
 	if (p->recompute_visibility) {
@@ -1002,145 +984,102 @@ sheet_cell_fetch (Sheet *sheet, int col, int row)
 }
 
 /**
- * sheet_col_row_can_group:
+ * sheet_colrow_can_group:
  * 
  * Returns TRUE if @from to @to can be grouped, return
  * FALSE otherwise. You can invert the result if you need
  * to find out if a group can be ungrouped.
  **/
 gboolean
-sheet_col_row_can_group (Sheet *sheet, int from, int to, gboolean is_cols)
+sheet_colrow_can_group (Sheet *sheet, Range const *r, gboolean is_cols)
 {
-	ColRowInfo *from_cri, *to_cri;
+	ColRowInfo const *start_cri, *end_cri;
+	int start, end;
 	
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
-	g_return_val_if_fail (from >= 0, FALSE);
-	g_return_val_if_fail (is_cols ? to < SHEET_MAX_COLS : to < SHEET_MAX_ROWS, FALSE);
 
-	from_cri = is_cols
-		? sheet_col_fetch (sheet, from)
-		: sheet_row_fetch (sheet, from);
-
-	to_cri = is_cols
-		? sheet_col_fetch (sheet, to)
-		: sheet_row_fetch (sheet, to);
+	if (is_cols) {
+		start = r->start.col;
+		end = r->end.col;
+	} else {
+		start = r->start.row;
+		end = r->end.row;
+	}
+	start_cri = sheet_colrow_fetch (sheet, start, is_cols);
+	end_cri = sheet_colrow_fetch (sheet, end, is_cols);
 
 	/* Groups on outline level 0 (no outline) may always be formed */
-	if (from_cri->outline_level == 0 || to_cri->outline_level == 0)
+	if (start_cri->outline_level == 0 || end_cri->outline_level == 0)
 		return TRUE;
 
 	/* We just won't group a group that already exists (or doesn't), it's useless */
-	if (colrow_find_outline_bound (sheet, is_cols, from, from_cri->outline_level, FALSE) != from
-	    || colrow_find_outline_bound (sheet, is_cols, to, to_cri->outline_level, TRUE) != to)
-		return TRUE;
-	else
-		return FALSE;
+	return (colrow_find_outline_bound (sheet, is_cols, start, start_cri->outline_level, FALSE) != start ||
+		colrow_find_outline_bound (sheet, is_cols, end, end_cri->outline_level, TRUE) != end);
 }
 
-static gboolean
-cb_outline_level (ColRowInfo *info, int *outline_level)
-{
-	return (info->outline_level > *outline_level);
-}
-
-/**
- * sheet_col_row_fit_gutter:
- * @sheet: Sheet to change for.
- * @outline_level: The new outline level.
- * @is_cols: Column gutter or row gutter?
- * @group: Was the change to @outline_level a result of a group or an ungroup
- *         operation? (important to set this right)
- *
- * Attempts to change the gutter's size to fit @outline_level if possible.
- *
- * Returns : TRUE if the gutter's size was adjusted, FALSE otherwise.
- **/
-static gboolean
-sheet_col_row_fit_gutter (Sheet *sheet, int outline_level, gboolean is_cols, gboolean group)
-{
-	int gutter_size = is_cols
-		? sheet->cols.max_outline_level
-		: sheet->rows.max_outline_level;
-	int new_gutter_size = outline_level;
-	gboolean adjust = FALSE;
-
-	/* If the outline_level has been decreased we check all other
-	 * outline levels and if possible decrease the indent of the gutter.
-	 * If the level has been increased we check if the gutter is currently
-	 * big enough to hold this outline_level and if not we increase the
-	 * gutter's indent
-	 */
-	if (!group)
-		adjust = !colrow_foreach (is_cols ? &sheet->cols : &sheet->rows,
-					  0, (is_cols ? SHEET_MAX_COLS : SHEET_MAX_ROWS) - 1,
-					  (ColRowHandler) cb_outline_level, &outline_level);
-	else if (group && new_gutter_size > gutter_size)
-		adjust = TRUE;
-
-	if (adjust) {
-		if (is_cols)
-			sheet_col_row_gutter (sheet, new_gutter_size, sheet->rows.max_outline_level);
-		else
-			sheet_col_row_gutter (sheet, sheet->cols.max_outline_level, new_gutter_size);
-	}
-	
-	return adjust;
-}
-			  
 gboolean
-sheet_col_row_group_ungroup (Sheet *sheet, int from, int to, gboolean is_cols,
-			     gboolean inc, gboolean is_collapsed)
+sheet_colrow_group_ungroup (Sheet *sheet, Range const *r,
+			     gboolean is_cols, gboolean group)
 {
-	int i;
-	int highest;
+	int i, new_size, start, end;
+	int const step = group ? 1 : -1;
 	
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
-	g_return_val_if_fail (from >= 0, FALSE);
-	g_return_val_if_fail (is_cols ? to < SHEET_MAX_COLS : to < SHEET_MAX_ROWS, FALSE);
 
 	/* Can we group/ungroup ? */	
-	if (inc != sheet_col_row_can_group (sheet, from, to, is_cols))
+	if (group != sheet_colrow_can_group (sheet, r, is_cols))
 		return FALSE;
 
-	/* Set new outline for each col/row and find highest outline level */
-	for (highest = -1, i = from; i <= to; i++) {
-		ColRowInfo *cri = is_cols
-			? sheet_col_fetch (sheet, i)
-			: sheet_row_fetch (sheet, i);
-		int newlevel = colrow_set_outline (cri, is_cols, inc ? +1 : -1, TRUE, is_collapsed);
-
-		if (newlevel > highest)
-			highest = newlevel;
+	if (is_cols) {
+		start = r->start.col;
+		end = r->end.col;
+	} else {
+		start = r->start.row;
+		end = r->end.row;
 	}
 
-	/* Adjust the gutter's size if possible, make sure we redraw if the gutter
-	 * was not changed.
-	 */
-	if (!sheet_col_row_fit_gutter (sheet, highest, is_cols, inc))
-		SHEET_FOREACH_CONTROL (sheet, control, sc_resize (control, FALSE););
+	/* Set new outline for each col/row and find highest outline level */
+	for (new_size = -1, i = start; i <= end; i++) {
+		ColRowInfo *cri = sheet_colrow_fetch (sheet, i, is_cols);
+		int const new_level = cri->outline_level + step;
+
+		if (new_level >= 0) {
+			colrow_set_outline (cri, new_level, FALSE);
+			if (new_level > new_size)
+				new_size = new_level;
+		}
+	}
+
+	if (!group)
+		new_size = sheet_colrow_fit_gutter (sheet, is_cols);
+
+	sheet_colrow_gutter (sheet, is_cols, new_size);
+	sheet_redraw_headers (sheet, is_cols, !is_cols, NULL);
 
 	return TRUE;
 }
 
 /**
- * sheet_col_row_gutter :
+ * sheet_colrow_gutter :
  *
  * @sheet :
- * @col_max_outline :
- * @row_max_outline :
+ * @is_cols :
+ * @max_outline :
  *
- * Set the maximum outline levels for the cols and rows.
+ * Set the maximum outline levels for cols or rows.
  */
 void
-sheet_col_row_gutter (Sheet *sheet,
-		      int col_max_outline,
-		      int row_max_outline)
+sheet_colrow_gutter (Sheet *sheet, gboolean is_cols, int max_outline)
 {
+	ColRowCollection *infos;
+
 	g_return_if_fail (IS_SHEET (sheet));
 
-	sheet->cols.max_outline_level = col_max_outline;
-	sheet->rows.max_outline_level = row_max_outline;
-	SHEET_FOREACH_CONTROL (sheet, control, sc_resize (control, FALSE););
+	infos = is_cols ? &(sheet->cols) : &(sheet->rows);
+	if (infos->max_outline_level != max_outline) {
+		sheet->priv->resize = TRUE;
+		infos->max_outline_level = max_outline;
+	}
 }
 
 struct sheet_extent_data {
@@ -2280,22 +2219,6 @@ sheet_col_get (Sheet const *sheet, int pos)
 		return segment->info [COLROW_SUB_INDEX (pos)];
 	return NULL;
 }
-/**
- * sheet_col_get:
- *
- * Returns an allocated column:  either an existing one, or a fresh copy
- */
-ColRowInfo *
-sheet_col_fetch (Sheet *sheet, int pos)
-{
-	ColRowInfo * res = sheet_col_get (sheet, pos);
-	if (res == NULL)
-		if ((res = sheet_col_new (sheet)) != NULL) {
-			res->pos = pos;
-			sheet_col_add (sheet, res);
-		}
-	return res;
-}
 
 /**
  * sheet_row_get:
@@ -2326,6 +2249,23 @@ sheet_colrow_get (Sheet const *sheet, int colrow, gboolean is_cols)
 }
 
 /**
+ * sheet_col_fetch:
+ *
+ * Returns an allocated column:  either an existing one, or a fresh copy
+ */
+ColRowInfo *
+sheet_col_fetch (Sheet *sheet, int pos)
+{
+	ColRowInfo * res = sheet_col_get (sheet, pos);
+	if (res == NULL)
+		if ((res = sheet_col_new (sheet)) != NULL) {
+			res->pos = pos;
+			sheet_col_add (sheet, res);
+		}
+	return res;
+}
+
+/**
  * sheet_row_fetch:
  *
  * Returns an allocated row:  either an existing one, or a fresh copy
@@ -2341,6 +2281,44 @@ sheet_row_fetch (Sheet *sheet, int pos)
 		}
 	return res;
 }
+
+ColRowInfo *
+sheet_colrow_fetch (Sheet *sheet, int colrow, gboolean is_cols)
+{
+	if (is_cols)
+		return sheet_col_fetch (sheet, colrow);
+	return sheet_row_fetch (sheet, colrow);
+}
+
+ColRowInfo const *
+sheet_col_get_info (Sheet const *sheet, int col)
+{
+	ColRowInfo *ci = sheet_col_get (sheet, col);
+
+	if (ci != NULL)
+		return ci;
+	return &sheet->cols.default_style;
+}
+
+ColRowInfo const *
+sheet_row_get_info (Sheet const *sheet, int row)
+{
+	ColRowInfo *ri = sheet_row_get (sheet, row);
+
+	if (ri != NULL)
+		return ri;
+	return &sheet->rows.default_style;
+}
+
+ColRowInfo const *
+sheet_colrow_get_info (Sheet const *sheet, int colrow, gboolean is_cols)
+{
+	return is_cols
+		? sheet_col_get_info (sheet, colrow)
+		: sheet_row_get_info (sheet, colrow);
+}
+
+/*****************************************************************************/
 
 #define SWAP_INT(a,b) do { int t; t = a; a = b; b = t; } while (0)
 
@@ -3014,7 +2992,7 @@ sheet_regen_adjacent_spans (Sheet *sheet,
 
 			span = row_span_get (ri, col [i]);
 			if (span == NULL) {
-				cell = sheet_cell_get (sheet, col [i], ri->pos);
+				cell = sheet_cell_get (sheet, col [i], row);
 				if (cell == NULL)
 					continue;
 			} else
@@ -3379,6 +3357,70 @@ colrow_move (Sheet *sheet,
 	}
 }
 
+static void
+sheet_colrow_insdel_finish (ExprRelocateInfo const *rinfo, gboolean is_cols,
+			    int pos, int state_start, ColRowStateList *states)
+{
+	Sheet *sheet = rinfo->origin_sheet;
+
+	/* Order matters here, styles must be before merges */
+	sheet_style_insert_colrow (rinfo);
+	sheet_merge_relocate (rinfo);
+	sheet_relocate_objects (rinfo, FALSE);
+
+	/* Queue entire sheet for recalc (not strictly necessary) */
+	sheet_region_queue_recalc (sheet, NULL);
+
+	/* Notify sheet of pending updates */
+	sheet->priv->recompute_visibility = TRUE;
+	sheet_flag_recompute_spans (sheet);
+	sheet_flag_status_update_range (sheet, &rinfo->origin);
+	if (is_cols)
+		sheet->priv->reposition_objects.col = pos;
+	else
+		sheet->priv->reposition_objects.row = pos;
+	colrow_set_states (sheet, is_cols, state_start, states);
+}
+
+static void
+sheet_colrow_set_collapse (Sheet *sheet, gboolean is_cols, int pos)
+{
+	ColRowInfo *a = NULL, *b = NULL;
+	if (pos > 0)
+		a = sheet_colrow_get (sheet, pos-1, is_cols);
+	if ((pos+1) < colrow_max (is_cols))
+		b = sheet_colrow_get (sheet, pos, is_cols);
+	if ((is_cols ? sheet->outline_symbols_right : sheet->outline_symbols_below)) {
+		ColRowInfo *tmp = a; a = b; b = tmp;
+	}
+
+	if (a != NULL)
+		a->is_collapsed = (b != NULL &&
+				   !b->visible &&
+				   b->outline_level > a->outline_level);
+}
+
+static void
+sheet_colrow_insert_finish (ExprRelocateInfo const *rinfo, gboolean is_cols,
+			    int pos, int count, ColRowStateList *states)
+{
+	sheet_colrow_insdel_finish (rinfo, is_cols, pos, pos, states);
+	sheet_colrow_set_collapse (rinfo->origin_sheet, is_cols, pos);
+	sheet_colrow_set_collapse (rinfo->origin_sheet, is_cols, pos+count);
+	sheet_colrow_set_collapse (rinfo->origin_sheet, is_cols,
+				   colrow_max (is_cols));
+}
+
+static void
+sheet_colrow_delete_finish (ExprRelocateInfo const *rinfo, gboolean is_cols,
+			    int pos, int count, ColRowStateList *states)
+{
+	int end = colrow_max (is_cols) - count;
+	sheet_colrow_insdel_finish (rinfo, is_cols, pos, end, states);
+	sheet_colrow_set_collapse (rinfo->origin_sheet, is_cols, pos);
+	sheet_colrow_set_collapse (rinfo->origin_sheet, is_cols, end);
+}
+
 /**
  * sheet_insert_cols:
  * @sheet   The sheet
@@ -3387,7 +3429,8 @@ colrow_move (Sheet *sheet,
  */
 gboolean
 sheet_insert_cols (WorkbookControl *wbc, Sheet *sheet,
-		   int col, int count, GSList **reloc_storage)
+		   int col, int count, ColRowStateList *states,
+		   GSList **reloc_storage)
 {
 	ExprRelocateInfo reloc_info;
 	Range region;
@@ -3425,20 +3468,7 @@ sheet_insert_cols (WorkbookControl *wbc, Sheet *sheet,
 		colrow_move (sheet, i, 0, i, SHEET_MAX_ROWS-1,
 			     &sheet->cols, i, i + count);
 
-	/* 4. Slide the StyleRegions and Merged regions to the right */
-	sheet_style_insert_colrow (&reloc_info);
-	sheet_merge_relocate (&reloc_info);
-	sheet_relocate_objects (&reloc_info, FALSE);
-
-	/* 5. Queue entire sheet for recalc */
-	sheet_region_queue_recalc (sheet, NULL);
-
-	/* 6. Notify sheet of pending updates */
-	sheet->priv->recompute_visibility = TRUE;
-	sheet_flag_recompute_spans (sheet);
-	sheet_flag_status_update_range (sheet, &reloc_info.origin);
-	sheet->priv->reposition_objects.col = col;
-
+	sheet_colrow_insert_finish (&reloc_info, TRUE, col, count, states);
 	return FALSE;
 }
 
@@ -3450,7 +3480,8 @@ sheet_insert_cols (WorkbookControl *wbc, Sheet *sheet,
  */
 gboolean
 sheet_delete_cols (WorkbookControl *wbc, Sheet *sheet,
-		   int col, int count, GSList **reloc_storage)
+		   int col, int count, ColRowStateList *states,
+		   GSList **reloc_storage)
 {
 	ExprRelocateInfo reloc_info;
 	int i;
@@ -3496,20 +3527,7 @@ sheet_delete_cols (WorkbookControl *wbc, Sheet *sheet,
 		colrow_move (sheet, i, 0, i, SHEET_MAX_ROWS-1,
 			     &sheet->cols, i, i-count);
 
-	/* 5. Slide the StyleRegions and Merge regions left */
-	sheet_style_relocate (&reloc_info);
-	sheet_merge_relocate (&reloc_info);
-	sheet_relocate_objects (&reloc_info, FALSE);
-
-	/* 6. Queue entire sheet for recalc */
-	sheet_region_queue_recalc (sheet, NULL);
-
-	/* 7. Notify sheet of pending updates */
-	sheet->priv->recompute_visibility = TRUE;
-	sheet_flag_recompute_spans (sheet);
-	sheet_flag_status_update_range (sheet, &reloc_info.origin);
-	sheet->priv->reposition_objects.col = col;
-
+	sheet_colrow_delete_finish (&reloc_info, TRUE, col, count, states);
 	return FALSE;
 }
 
@@ -3521,7 +3539,8 @@ sheet_delete_cols (WorkbookControl *wbc, Sheet *sheet,
  */
 gboolean
 sheet_insert_rows (WorkbookControl *wbc, Sheet *sheet,
-		   int row, int count, GSList **reloc_storage)
+		   int row, int count, ColRowStateList *states,
+		   GSList **reloc_storage)
 {
 	ExprRelocateInfo reloc_info;
 	Range region;
@@ -3559,20 +3578,7 @@ sheet_insert_rows (WorkbookControl *wbc, Sheet *sheet,
 		colrow_move (sheet, 0, i, SHEET_MAX_COLS-1, i,
 			     &sheet->rows, i, i+count);
 
-	/* 4. Slide the StyleRegions and Merge regions down */
-	sheet_style_insert_colrow (&reloc_info);
-	sheet_merge_relocate (&reloc_info);
-	sheet_relocate_objects (&reloc_info, FALSE);
-
-	/* 5. Queue entire sheet for recalc */
-	sheet_region_queue_recalc (sheet, NULL);
-
-	/* 6. Notify sheet of pending updates */
-	sheet->priv->recompute_visibility = TRUE;
-	sheet_flag_recompute_spans (sheet);
-	sheet_flag_status_update_range (sheet, &reloc_info.origin);
-	sheet->priv->reposition_objects.row = row;
-
+	sheet_colrow_insert_finish (&reloc_info, FALSE, row, count, states);
 	return FALSE;
 }
 
@@ -3584,7 +3590,8 @@ sheet_insert_rows (WorkbookControl *wbc, Sheet *sheet,
  */
 gboolean
 sheet_delete_rows (WorkbookControl *wbc, Sheet *sheet,
-		   int row, int count, GSList **reloc_storage)
+		   int row, int count, ColRowStateList *states,
+		   GSList **reloc_storage)
 {
 	ExprRelocateInfo reloc_info;
 	int i;
@@ -3630,20 +3637,7 @@ sheet_delete_rows (WorkbookControl *wbc, Sheet *sheet,
 		colrow_move (sheet, 0, i, SHEET_MAX_COLS-1, i,
 			     &sheet->rows, i, i-count);
 
-	/* 5. Slide the StyleRegions and Merge regions up */
-	sheet_style_relocate (&reloc_info);
-	sheet_merge_relocate (&reloc_info);
-	sheet_relocate_objects (&reloc_info, FALSE);
-
-	/* 6. Queue entire sheet for recalc */
-	sheet_region_queue_recalc (sheet, NULL);
-
-	/* 7. Notify sheet of pending update */
-	sheet->priv->recompute_visibility = TRUE;
-	sheet_flag_recompute_spans (sheet);
-	sheet_flag_status_update_range (sheet, &reloc_info.origin);
-	sheet->priv->reposition_objects.row = row;
-
+	sheet_colrow_delete_finish (&reloc_info, FALSE, row, count, states);
 	return FALSE;
 }
 
@@ -3785,8 +3779,8 @@ sheet_move_range (WorkbookControl *wbc,
 }
 
 static void
-sheet_col_row_default_calc (Sheet *sheet, double units, int margin_a, int margin_b,
-			    gboolean is_horizontal, gboolean is_pts)
+sheet_colrow_default_calc (Sheet *sheet, double units, int margin_a, int margin_b,
+			   gboolean is_horizontal, gboolean is_pts)
 {
 	ColRowInfo *cri = is_horizontal
 		? &sheet->cols.default_style
@@ -3802,10 +3796,10 @@ sheet_col_row_default_calc (Sheet *sheet, double units, int margin_a, int margin
 	cri->spans = NULL;
 	if (is_pts) {
 		cri->size_pts = units;
-		colrow_compute_pixels_from_pts (sheet, cri, is_horizontal);
+		colrow_compute_pixels_from_pts (cri, sheet, is_horizontal);
 	} else {
 		cri->size_pixels = units;
-		colrow_compute_pts_from_pixels (sheet, cri, is_horizontal);
+		colrow_compute_pts_from_pixels (cri, sheet, is_horizontal);
 	}
 }
 
@@ -3869,12 +3863,12 @@ sheet_col_set_size_pts (Sheet *sheet, int col, double width_pts,
 	g_return_if_fail (width_pts > 0.0);
 
 	ci = sheet_col_fetch (sheet, col);
-	ci->hard_size |= set_by_user;
+	ci->hard_size = set_by_user;
 	if (ci->size_pts == width_pts)
 		return;
 
 	ci->size_pts = width_pts;
-	colrow_compute_pixels_from_pts (sheet, ci, TRUE);
+	colrow_compute_pixels_from_pts (ci, sheet, TRUE);
 
 	sheet->priv->recompute_visibility = TRUE;
 	sheet_flag_recompute_spans (sheet);
@@ -3892,12 +3886,12 @@ sheet_col_set_size_pixels (Sheet *sheet, int col, int width_pixels,
 	g_return_if_fail (width_pixels > 0.0);
 
 	ci = sheet_col_fetch (sheet, col);
-	ci->hard_size |= set_by_user;
+	ci->hard_size = set_by_user;
 	if (ci->size_pixels == width_pixels)
 		return;
 
 	ci->size_pixels = width_pixels;
-	colrow_compute_pts_from_pixels (sheet, ci, TRUE);
+	colrow_compute_pts_from_pixels (ci, sheet, TRUE);
 
 	sheet->priv->recompute_visibility = TRUE;
 	sheet_flag_recompute_spans (sheet);
@@ -3914,23 +3908,15 @@ sheet_col_set_size_pixels (Sheet *sheet, int col, int width_pixels,
 double
 sheet_col_get_default_size_pts (Sheet const *sheet)
 {
-	ColRowInfo const *ci;
-
 	g_return_val_if_fail (IS_SHEET (sheet), 1.);
-
-	ci = &sheet->cols.default_style;
-	return  ci->size_pts;
+	return sheet->cols.default_style.size_pts;
 }
 
 int
 sheet_col_get_default_size_pixels (Sheet const *sheet)
 {
-	ColRowInfo const *ci;
-
 	g_return_val_if_fail (IS_SHEET (sheet), 1.);
-
-	ci = &sheet->cols.default_style;
-	return  ci->size_pixels;
+	return sheet->cols.default_style.size_pixels;
 }
 
 void
@@ -3938,7 +3924,7 @@ sheet_col_set_default_size_pts (Sheet *sheet, double width_pts)
 {
 	g_return_if_fail (IS_SHEET (sheet));
 
-	sheet_col_row_default_calc (sheet, width_pts, 2, 2, TRUE, TRUE);
+	sheet_colrow_default_calc (sheet, width_pts, 2, 2, TRUE, TRUE);
 	sheet->priv->recompute_visibility = TRUE;
 	sheet_flag_recompute_spans (sheet);
 	sheet->priv->reposition_objects.col = 0;
@@ -3948,7 +3934,7 @@ sheet_col_set_default_size_pixels (Sheet *sheet, int width_pixels)
 {
 	g_return_if_fail (IS_SHEET (sheet));
 
-	sheet_col_row_default_calc (sheet, width_pixels, 2, 2, TRUE, FALSE);
+	sheet_colrow_default_calc (sheet, width_pixels, 2, 2, TRUE, FALSE);
 	sheet->priv->recompute_visibility = TRUE;
 	sheet_flag_recompute_spans (sheet);
 	sheet->priv->reposition_objects.col = 0;
@@ -4031,12 +4017,12 @@ sheet_row_set_size_pts (Sheet *sheet, int row, double height_pts,
 	g_return_if_fail (height_pts > 0.0);
 
 	ri = sheet_row_fetch (sheet, row);
-	ri->hard_size |= set_by_user;
+	ri->hard_size = set_by_user;
 	if (ri->size_pts == height_pts)
 		return;
 
 	ri->size_pts = height_pts;
-	colrow_compute_pixels_from_pts (sheet, ri, FALSE);
+	colrow_compute_pixels_from_pts (ri, sheet, FALSE);
 
 	sheet->priv->recompute_visibility = TRUE;
 	if (sheet->priv->reposition_objects.row > row)
@@ -4064,12 +4050,12 @@ sheet_row_set_size_pixels (Sheet *sheet, int row, int height_pixels,
 	g_return_if_fail (height_pixels > 0);
 
 	ri = sheet_row_fetch (sheet, row);
-	ri->hard_size |= set_by_user;
+	ri->hard_size = set_by_user;
 	if (ri->size_pixels == height_pixels)
 		return;
 
 	ri->size_pixels = height_pixels;
-	colrow_compute_pts_from_pixels (sheet, ri, FALSE);
+	colrow_compute_pts_from_pixels (ri, sheet, FALSE);
 
 	sheet->priv->recompute_visibility = TRUE;
 	if (sheet->priv->reposition_objects.row > row)
@@ -4079,42 +4065,34 @@ sheet_row_set_size_pixels (Sheet *sheet, int row, int height_pixels,
 /**
  * sheet_row_get_default_size_pts:
  *
- * Return the default number of units in a row, including margins.
+ * Return the defaul number of units in a row, including margins.
  * This function returns the raw sum, no rounding etc.
  */
 double
 sheet_row_get_default_size_pts (Sheet const *sheet)
 {
-	ColRowInfo const *ci;
-
 	g_return_val_if_fail (IS_SHEET (sheet), 1.);
-
-	ci = &sheet->rows.default_style;
-	return  ci->size_pts;
+	return sheet->rows.default_style.size_pts;
 }
 
 int
 sheet_row_get_default_size_pixels (Sheet const *sheet)
 {
-	ColRowInfo const *ci;
-
 	g_return_val_if_fail (IS_SHEET (sheet), 1.);
-
-	ci = &sheet->rows.default_style;
-	return  ci->size_pixels;
+	return sheet->rows.default_style.size_pixels;
 }
 
 void
 sheet_row_set_default_size_pts (Sheet *sheet, double height_pts)
 {
-	sheet_col_row_default_calc (sheet, height_pts, 1, 0, FALSE, TRUE);
+	sheet_colrow_default_calc (sheet, height_pts, 1, 0, FALSE, TRUE);
 	sheet->priv->recompute_visibility = TRUE;
 	sheet->priv->reposition_objects.row = 0;
 }
 void
 sheet_row_set_default_size_pixels (Sheet *sheet, int height_pixels)
 {
-	sheet_col_row_default_calc (sheet, height_pixels, 1, 0, FALSE, FALSE);
+	sheet_colrow_default_calc (sheet, height_pixels, 1, 0, FALSE, FALSE);
 	sheet->priv->recompute_visibility = TRUE;
 	sheet->priv->reposition_objects.row = 0;
 }

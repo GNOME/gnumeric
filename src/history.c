@@ -123,10 +123,10 @@ history_menu_locate_separator (WorkbookControlGUI *wbcg)
 /*
  * xgettext:
  * This string must translate to exactly the same strings as the
- * 'Print Preview' item in the
+ * 'Print Preview...' item in the
  * 'File' menu
  */
-	char const * menu_name = _("File/Print Preview");
+	char const * menu_name = _("File/Print Preview...");
 	ret.menu = gnome_app_find_menu_pos (GNOME_APP (wbcg->toplevel)->menubar,
 					    menu_name, &ret.pos);
 	return ret;

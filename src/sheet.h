@@ -146,21 +146,21 @@ int	    sheet_find_boundary_vertical   (Sheet *sheet, int move_col, int row,
 					    int base_col, int count,
 					    gboolean jump_to_boundaries);
 
-/* Retrieve information from a col/row */
-ColRowInfo *sheet_col_get_info            (Sheet const *sheet, int col);
-ColRowInfo *sheet_row_get_info            (Sheet const *sheet, int row);
-ColRowInfo *sheet_colrow_get_info	  (Sheet const *sheet,
-					   int colrow, gboolean is_cols);
-
-/* Returns a pointer to a ColRowInfo: existed or NULL */
-ColRowInfo *sheet_col_get                 (Sheet const *sheet, int pos);
-ColRowInfo *sheet_row_get                 (Sheet const *sheet, int pos);
+/* Returns a pointer to a ColRowInfo: existing or NULL */
+ColRowInfo *sheet_col_get                 (Sheet const *sheet, int col);
+ColRowInfo *sheet_row_get                 (Sheet const *sheet, int row);
 ColRowInfo *sheet_colrow_get              (Sheet const *sheet,
 					   int colrow, gboolean is_cols);
-
-/* Returns a pointer to a ColRowInfo: existed or freshly created */
-ColRowInfo *sheet_col_fetch               (Sheet *sheet, int pos);
-ColRowInfo *sheet_row_fetch               (Sheet *sheet, int pos);
+/* Returns a pointer to a ColRowInfo: existing or freshly created */
+ColRowInfo *sheet_col_fetch               (Sheet *sheet, int col);
+ColRowInfo *sheet_row_fetch               (Sheet *sheet, int row);
+ColRowInfo *sheet_colrow_fetch            (Sheet *sheet,
+					   int colrow, gboolean is_cols);
+/* Returns a pointer to a ColRowInfo: existed or default */
+ColRowInfo const *sheet_col_get_info	  (Sheet const *sheet, int col);
+ColRowInfo const *sheet_row_get_info	  (Sheet const *sheet, int row);
+ColRowInfo const *sheet_colrow_get_info	  (Sheet const *sheet,
+					   int colrow, gboolean is_cols);
 
 /* Add a ColRowInfo to the Sheet */
 void        sheet_col_add                 (Sheet *sheet, ColRowInfo *cp);
@@ -205,17 +205,15 @@ void    sheet_row_set_default_size_pts	  (Sheet *sheet, double height_pts);
 void    sheet_row_set_default_size_pixels (Sheet *sheet, int height_pixels);
 
 /* Find minimum pixel size to display contents (including margins and far grid line) */
-int     sheet_col_size_fit_pixels	  (Sheet *sheet, int col);
-int     sheet_row_size_fit_pixels	  (Sheet *sheet, int row);
+int     sheet_col_size_fit_pixels    (Sheet *sheet, int col);
+int     sheet_row_size_fit_pixels    (Sheet *sheet, int row);
 
-gboolean sheet_col_row_can_group         (Sheet *sheet, int from,
-					  int to, gboolean is_cols);
-gboolean sheet_col_row_group_ungroup     (Sheet *sheet, int from,
-					  int to, gboolean is_cols,
-					  gboolean inc, gboolean is_collapsed);
-void     sheet_col_row_gutter		 (Sheet *sheet,
-					  int max_col_indent,
-					  int max_row_indent);
+gboolean sheet_colrow_can_group	     (Sheet *sheet, Range const *r,
+				      gboolean is_cols);
+gboolean sheet_colrow_group_ungroup  (Sheet *sheet, Range const *r,
+				      gboolean is_cols, gboolean inc);
+void     sheet_colrow_gutter 	     (Sheet *sheet,
+				      gboolean is_cols, int max_outline);
 
 gboolean sheet_range_splits_array    (Sheet const *sheet,
 				      Range const *r, Range const *ignore,
@@ -287,18 +285,21 @@ void  sheet_regen_adjacent_spans (Sheet *sheet,
 				  int end_col, int end_row,
 				  int *min_col, int *max_col);
 
-/* TODO : give this decent undo capabilities */
 void sheet_adjust_outline_dir (Sheet *sheet, gboolean is_cols);
 
 /* Implementation for commands, no undo */
 gboolean  sheet_insert_cols (WorkbookControl *context, Sheet *sheet,
-			     int col, int count, GSList **reloc_storage);
+			     int col, int count, ColRowStateList *states,
+			     GSList **reloc_storage);
 gboolean  sheet_delete_cols (WorkbookControl *context, Sheet *sheet,
-			     int col, int count, GSList **reloc_storage);
+			     int col, int count, ColRowStateList *states,
+			     GSList **reloc_storage);
 gboolean  sheet_insert_rows (WorkbookControl *context, Sheet *sheet,
-			     int row, int count, GSList **reloc_storage);
+			     int row, int count, ColRowStateList *states,
+			     GSList **reloc_storage);
 gboolean  sheet_delete_rows (WorkbookControl *context, Sheet *sheet,
-			     int row, int count, GSList **reloc_storage);
+			     int row, int count, ColRowStateList *states,
+			     GSList **reloc_storage);
 
 typedef enum
 {

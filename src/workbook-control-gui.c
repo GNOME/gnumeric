@@ -2242,13 +2242,11 @@ hide_show_detail (WorkbookControlGUI *wbcg, gboolean show)
 	/* Do we need to ask the user what he/she wants to group/ungroup? */
 	if (range_is_full (r, TRUE) ^ range_is_full (r, FALSE))
 		is_cols = !range_is_full (r, TRUE);
-	else
-		if (!dialog_choose_cols_vs_rows (wbcg, operation, &is_cols))
-			return;
+	else if (!dialog_choose_cols_vs_rows (wbcg, operation, &is_cols))
+		return;
 
 	/* This operation can only be performed on a whole existing group */
-	if (sheet_col_row_can_group (sheet, is_cols ? r->start.col : r->start.row,
-				     is_cols ? r->end.col : r->end.row, is_cols)) {
+	if (sheet_colrow_can_group (sheet, r, is_cols)) {
 		gnumeric_error_invalid (COMMAND_CONTEXT (wbc), operation,
 					_("can only be performed on an existing group"));
 		return;

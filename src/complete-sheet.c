@@ -95,7 +95,7 @@ static gboolean
 complete_sheet_search_iteration (Complete *complete)
 {
 	CompleteSheet *cs = COMPLETE_SHEET (complete);
-	ColRowInfo *ci;
+	ColRowInfo const *ci;
 	int i;
 
 	if (strncmp (cs->current, complete->text, strlen (cs->current)) != 0)

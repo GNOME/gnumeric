@@ -30,6 +30,7 @@ struct _SheetPrivate {
 	gboolean	 recompute_max_col_group	: 1;
 	gboolean	 recompute_max_row_group	: 1;
 	gboolean	 resize_scrollbar		: 1;
+	gboolean	 resize				: 1;
 	CellPos		 reposition_objects;
 
 	guint            auto_expr_timer;

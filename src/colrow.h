@@ -14,6 +14,7 @@ struct _ColRowInfo {
 	unsigned  margin_a	: 3;  	/* top/left margin */
 	unsigned  margin_b	: 3; 	/* bottom/right margin */
 
+	unsigned  is_default	: 1;
 	unsigned  outline_level : 4;
 	unsigned  is_collapsed  : 1;	/* Does this terminate an outline ? */
 	unsigned  hard_size     : 1;	/* are dimensions explicitly set ? */
@@ -55,36 +56,44 @@ struct _ColRowSegment
 
 #define COL_INTERNAL_WIDTH(col) ((col)->size_pixels - ((col)->margin_b + (col)->margin_a + 1))
 
-gboolean colrow_equal	(ColRowInfo const *a, ColRowInfo const *b);
-void     colrow_copy	(ColRowInfo *dst, ColRowInfo const *src);
-gboolean colrow_foreach	(ColRowCollection const *infos,
-			 int first, int last,
-			 ColRowHandler callback,
-			 void *user_data);
+void	colrow_compute_pixels_from_pts (ColRowInfo *cri, Sheet const *sheet,
+					gboolean horizontal);
+void	colrow_compute_pts_from_pixels (ColRowInfo *cri, Sheet const *sheet,
+					gboolean horizontal);
 
-/* Support for Col/Row resizing */
-ColRowRLESizeList *colrow_rle_size_list_destroy (ColRowSizeList *list);
-ColRowSizeList	  *colrow_size_list_destroy	(ColRowSizeList *list);
-ColRowIndexList   *colrow_index_list_destroy	(ColRowIndexList *list);
-GString           *colrow_index_list_to_string  (ColRowIndexList *list,
-						 gboolean const is_cols,
-						 gboolean *is_single);
-ColRowIndexList   *colrow_get_index_list	(int first, int last,
-						 ColRowIndexList *list);
-GSList		  *colrow_save_sizes		(Sheet *sheet, gboolean const is_cols,
-						 int first, int last);
-ColRowSizeList	  *colrow_set_sizes		(Sheet *sheet, gboolean const is_cols,
+gboolean colrow_is_default (ColRowInfo const *a);
+gboolean colrow_equal	   (ColRowInfo const *a, ColRowInfo const *b);
+void     colrow_copy	   (ColRowInfo *dst, ColRowInfo const *src);
+gboolean colrow_foreach	   (ColRowCollection const *infos,
+			    int first, int last,
+			    ColRowHandler callback,
+			    void *user_data);
+
+ColRowIndexList *colrow_index_list_destroy   (ColRowIndexList *list);
+GString         *colrow_index_list_to_string (ColRowIndexList *list,
+					      gboolean is_cols,
+					      gboolean *is_single);
+ColRowIndexList *colrow_get_index_list	     (int first, int last,
+					      ColRowIndexList *list);
+
+ColRowStateList	*colrow_state_list_destroy   (ColRowStateList *list);
+ColRowStateList	*colrow_make_state	     (Sheet *sheet, int first, int last,
+					      float size_pts, gboolean hard_size,
+					      int outline_level);
+ColRowStateList	*colrow_get_states	     (Sheet *sheet, gboolean is_cols,
+					      int first, int last);
+void		 colrow_set_states	     (Sheet *sheet, gboolean is_cols,
+					      int first, ColRowStateList *states);
+
+ColRowStateGroup  *colrow_state_group_destroy	(ColRowStateGroup *set);
+ColRowStateGroup  *colrow_set_sizes		(Sheet *sheet, gboolean is_cols,
 						 ColRowIndexList *src, int new_size);
-void		   colrow_restore_sizes		(Sheet *sheet, gboolean const is_cols,
-						 int first, int last, GSList *sizes);
-void		   colrow_restore_sizes_group	(Sheet *sheet, gboolean const is_cols,
+void		   colrow_restore_state_group	(Sheet *sheet, gboolean is_cols,
 						 ColRowIndexList *selection,
-						 ColRowSizeList *saved_sizes,
-						 int old_size);
+						 ColRowStateGroup *saved_state);
 
 /* Support for Col/Row visibility */
-int              colrow_set_outline             (ColRowInfo *cri, gboolean is_cols,
-						 int outline_level, gboolean relative,
+void             colrow_set_outline             (ColRowInfo *cri, int outline_level,
 						 gboolean is_collapsed);
 void		 colrow_adjust_outline_dir	(ColRowCollection *colrows,
 						 gboolean pre_or_post);
@@ -104,8 +113,8 @@ void		 colrow_set_visibility_list	(Sheet *sheet, gboolean is_col,
 
 /* Misc */
 #define		 colrow_max(is_cols)		((is_cols) ? SHEET_MAX_COLS : SHEET_MAX_ROWS)
-int              colrow_find_adjacent_visible   (Sheet *sheet, gboolean const is_col,
-						 int const index, gboolean forward);
+int              colrow_find_adjacent_visible   (Sheet *sheet, gboolean is_col,
+						 int index, gboolean forward);
 
 void             rows_height_update		(Sheet *sheet, Range const *range,
 						 gboolean shrink);

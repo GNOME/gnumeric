@@ -4,7 +4,6 @@ This file is used as a scratch pad by developers.  It is a list of known
 issues that need to be addressed.  Divided into, things that will prevent
 release, and longer term bugs.
 
-
 Release Critical
 ----------------
 
@@ -20,6 +19,9 @@ Pending Patches
 Long term breakage
 ------------------
 
+- outline numbers
+    : implement 'clicked' callbacks
+
 - Fix user visible strings "Foo :" to be "Foo:".  (The former is a French
   habit that we should let the French l10n team handle.)
 
@@ -34,14 +36,12 @@ Long term breakage
 - Data->Filter dialog
     : use expr entry widget.
 
-- Outline mode 
-    : Ins/Del col/row breaks
-
 - Missing undo/redo for
     - Add/duplicate sheet.
     - Remove sheet.
     - Reorder sheets.
     - Delete Comment.
+    - Freeze panes.
 
 - Misc.
     - Add an idle handler at start up to check for availablity of
@@ -77,7 +77,6 @@ Long term breakage
 - outline mode
     : finish implementing optionally putting markers above/left
     : Make ungroup smarter about handling extra items of lower level at the edges
-    : support the numbers.
 - hidden rows/cols
     : Make unhide smarter to find hidden regions on either side of selected ranges.
 

@@ -64,6 +64,8 @@ cmd_create_frame (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	create_object_command (scg, so);
 }
 
+#if 0 
+	/* not useful until we have scripts */
 static void
 cmd_create_button (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
@@ -72,6 +74,7 @@ cmd_create_button (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	SheetObject *so = sheet_widget_button_new (sheet);
 	create_object_command (scg, so);
 }
+#endif
 static void
 cmd_create_checkbox (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
@@ -80,6 +83,7 @@ cmd_create_checkbox (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	SheetObject *so = sheet_widget_checkbox_new (sheet);
 	create_object_command (scg, so);
 }
+#if 0
 static void
 cmd_create_radiobutton (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
@@ -88,6 +92,7 @@ cmd_create_radiobutton (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	SheetObject *so = sheet_widget_radio_button_new	(sheet);
 	create_object_command (scg, so);
 }
+#endif
 static void
 cmd_create_list (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
@@ -209,9 +214,9 @@ workbook_create_object_toolbar (WorkbookControlGUI *wbcg)
 static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("CreateLabel", cmd_create_label),
 	BONOBO_UI_UNSAFE_VERB ("CreateFrame", cmd_create_frame),
-	BONOBO_UI_UNSAFE_VERB ("CreateButton", cmd_create_button),
+	/* BONOBO_UI_UNSAFE_VERB ("CreateButton", cmd_create_button), */
 	BONOBO_UI_UNSAFE_VERB ("CreateCheckbox", cmd_create_checkbox),
-	BONOBO_UI_UNSAFE_VERB ("CreateRadiobutton", cmd_create_radiobutton),
+	/* BONOBO_UI_UNSAFE_VERB ("CreateRadiobutton", cmd_create_radiobutton), */
 	BONOBO_UI_UNSAFE_VERB ("CreateList", cmd_create_list),
 	BONOBO_UI_UNSAFE_VERB ("CreateCombobox", cmd_create_combobox),
 	BONOBO_UI_UNSAFE_VERB ("CreateLine", cmd_create_line),

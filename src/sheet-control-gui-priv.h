@@ -15,7 +15,13 @@ struct _SheetControlGUI {
 
 	GtkTable	*table;
 	GtkTable	*inner_table;
+	GtkTable	*corner;
 	GtkWidget	*select_all_btn;
+	struct {
+		GPtrArray	*buttons;
+		GtkWidget	*button_box;
+	} col_group, row_group;
+
 	GnumericPane	 pane [4];
 	int		 active_panes;
 

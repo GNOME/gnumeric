@@ -258,7 +258,7 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 		}
 		return value_new_string ("b");
 	} else if (!g_strcasecmp (info_type, "width")) {
-		ColRowInfo *info = sheet_col_get_info (ei->pos->sheet, ref.col);
+		ColRowInfo const *info = sheet_col_get_info (ei->pos->sheet, ref.col);
 		double charwidth;
 		int    cellwidth;
 

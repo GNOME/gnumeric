@@ -670,7 +670,7 @@ print_page (PrintJobInfo const *pj, Sheet const *sheet, Range *range,
 static int
 compute_group (PrintJobInfo const *pj, Sheet const *sheet,
 	       int start, int end, float usable,
-	       ColRowInfo *(get_info)(Sheet const *sheet, int const p))
+	       ColRowInfo const *(get_info)(Sheet const *sheet, int const p))
 {
 	float size_pts = 1.; /* The initial grid line */
 	int idx, count = 0;

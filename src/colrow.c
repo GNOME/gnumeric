@@ -22,10 +22,45 @@
  */
 #include <config.h>
 #include "colrow.h"
-#include "parse-util.h"
-#include "selection.h"
 #include "sheet.h"
 #include "sheet-private.h"
+#include "application.h"
+#include "parse-util.h"
+#include "selection.h"
+
+void
+colrow_compute_pixels_from_pts (ColRowInfo *cri,
+				Sheet const *sheet, gboolean horizontal)
+{
+	double const scale =
+		sheet->last_zoom_factor_used *
+		application_display_dpi_get (horizontal) / 72.;
+
+	cri->size_pixels = (int)(cri->size_pts * scale + 0.5);
+}
+
+void
+colrow_compute_pts_from_pixels (ColRowInfo *cri,
+				Sheet const *sheet, gboolean horizontal)
+{
+	double const scale =
+	    sheet->last_zoom_factor_used *
+	    application_display_dpi_get (horizontal) / 72.;
+
+	cri->size_pts = cri->size_pixels / scale;
+#if 0
+	/* Disable this until we decide how to deal with scaling */
+	 g_return_if_fail (cri->size_pts >= cri->margin_a + cri->margin_b);
+#endif
+}
+
+/* TODO : use the is_default flag */
+gboolean
+colrow_is_default (ColRowInfo const *cri)
+{
+	g_return_val_if_fail (cri != NULL, FALSE);
+	return cri->pos < 0;
+}
 
 /**
  * colrow_equal :
@@ -83,6 +118,8 @@ colrow_foreach (ColRowCollection const *infos, int first, int last,
 	int i;
 
 	/* TODO : Do we need to support right -> left as an option */
+
+	/* clip */
 	if (last > infos->max_used)
 		last = infos->max_used;
 
@@ -114,28 +151,37 @@ typedef struct _ColRowIndex
 	int first, last;
 } ColRowIndex;
 
-typedef struct {
-	int    length;
-	float  size;
-} SavedSize;
+typedef struct _ColRowState {
+	float     size_pts;
+	unsigned  is_default	: 1;
+	unsigned  outline_level : 4;
+	unsigned  is_collapsed  : 1;	/* Does this terminate an outline ? */
+	unsigned  hard_size     : 1;	/* are dimensions explicitly set ? */
+	unsigned  visible       : 1;	/* visible */
+} ColRowState;
 
-ColRowRLESizeList *
-colrow_rle_size_list_destroy (ColRowSizeList *list)
+typedef struct {
+	int         length;
+	ColRowState state;
+} ColRowRLEState;
+
+ColRowStateList *
+colrow_state_list_destroy (ColRowStateList *list)
 {
-	GSList *ptr;
+	ColRowStateList *ptr;
 	for (ptr = list; ptr != NULL; ptr = ptr->next)
 		g_free (ptr->data);
 	g_slist_free (list);
 	return NULL;
 }
 
-ColRowSizeList *
-colrow_size_list_destroy (ColRowSizeList *list)
+ColRowStateGroup *
+colrow_state_group_destroy (ColRowStateGroup *group)
 {
-	ColRowSizeList *ptr;
-	for (ptr = list; ptr != NULL ; ptr = ptr->next)
-		colrow_rle_size_list_destroy ((ColRowSizeList *) ptr->data);
-	g_slist_free (list);
+	ColRowStateGroup *ptr;
+	for (ptr = group; ptr != NULL ; ptr = ptr->next)
+		colrow_state_list_destroy (ptr->data);
+	g_slist_free (group);
 	return NULL;
 }
 
@@ -165,7 +211,7 @@ colrow_index_compare (ColRowIndex const * a, ColRowIndex const * b)
  * @is_single: If non-null this will be set to TRUE if there's only a single col/row involved.
  */
 GString *
-colrow_index_list_to_string (ColRowIndexList *list, gboolean const is_cols, gboolean *is_single)
+colrow_index_list_to_string (ColRowIndexList *list, gboolean is_cols, gboolean *is_single)
 {
 	ColRowIndexList *ptr;
 	GString *result;
@@ -181,19 +227,19 @@ colrow_index_list_to_string (ColRowIndexList *list, gboolean const is_cols, gboo
 			g_string_append (result, cols_name (index->first, index->last));
 		else
 			g_string_append (result, rows_name (index->first, index->last));
-			
+
 		if (index->last != index->first)
 			single = FALSE;
-		
+
 		if (ptr->next) {
 			g_string_append (result, ", ");
 			single = FALSE;
 		}
 	}
-	
+
 	if (is_single)
 		*is_single = single;
-		
+
 	return result;
 }
 
@@ -235,61 +281,76 @@ colrow_get_index_list (int first, int last, ColRowIndexList *list)
 	return list;
 }
 
-ColRowRLESizeList *
-colrow_save_sizes (Sheet *sheet, gboolean const is_cols, int first, int last)
+ColRowStateList	*
+colrow_make_state (Sheet *sheet, int first, int last,
+		   float size_pts, gboolean hard_size,
+		   int outline_level)
 {
-	int                i;
-	ColRowRLESizeList *list = NULL;
-	SavedSize         *ss;
-	float              size, run_size = 0.;
-	int                run_length = 0;
+	ColRowRLEState  *rles = g_new0 (ColRowRLEState, 1);
+	rles->length = last - first +1;
+	rles->state.size_pts	  = size_pts;
+	rles->state.outline_level = outline_level;
+	rles->state.is_collapsed  = FALSE;
+	rles->state.hard_size	  = hard_size;
+	rles->state.visible	  = TRUE;
+	return g_slist_prepend (NULL, rles);
+}
+
+ColRowStateList *
+colrow_get_states (Sheet *sheet, gboolean is_cols, int first, int last)
+{
+	ColRowStateList *list = NULL;
+	ColRowRLEState  *rles;
+	ColRowState	 run_state, cur_state;
+	int              i, run_length = 0;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (first <= last, NULL);
 
 	for (i = first; i <= last; ++i) {
-		ColRowInfo *info = sheet_colrow_get_info (sheet, i, is_cols);
+		ColRowInfo const *info = sheet_colrow_get_info (sheet, i, is_cols);
 
-		g_return_val_if_fail (info != NULL, NULL); /* be anal, and leak */
-		
-		if (info->pos != -1) {
-			size = info->size_pts;
-			if (info->hard_size)
-				size *= -1.;
-		} else
-			size = 0.;
+		if (!(cur_state.is_default = colrow_is_default (info))) {
+			cur_state.size_pts	= info->size_pts;
+			cur_state.outline_level = info->outline_level;
+			cur_state.is_collapsed	= info->is_collapsed;
+			cur_state.hard_size	= info->hard_size;
+			cur_state.visible	= info->visible;
+		}
 
 		/* Initialize the run_size in the first loop */
-		if (i == first) {
-			run_size   = size;
+		if (run_length == 0) {
+			run_state = cur_state;
 			run_length = 1;
 			continue;
 		}
-			
-		/*
-		 * If the size does not equal the size of
-		 * the current run then the current run has ended
-		 */
-		if (size != run_size) {
-			ss         = g_new0 (SavedSize, 1);
-			ss->length = run_length;
-			ss->size   = run_size;
-			list = g_slist_prepend (list, ss);
 
-			run_size   = size;
+		/* If state changed, start a new block */
+		if (cur_state.size_pts	    != run_state.size_pts ||
+		    cur_state.outline_level != run_state.outline_level ||
+		    cur_state.is_collapsed  != run_state.is_collapsed ||
+		    cur_state.hard_size	    != run_state.hard_size ||
+		    cur_state.visible	    != run_state.visible) {
+			rles         = g_new0 (ColRowRLEState, 1);
+			rles->length = run_length;
+			rles->state  = run_state;
+			list = g_slist_prepend (list, rles);
+
+			run_state = cur_state;
 			run_length = 1;
 		} else
 			++run_length;
 	}
 
 	/* Store the final run */
-	ss         = g_new0 (SavedSize, 1);
-	ss->length = run_length;
-	ss->size   = run_size;
-	list = g_slist_prepend (list, ss);
+	if (run_length > 0) {
+		rles         = g_new0 (ColRowRLEState, 1);
+		rles->length = run_length;
+		rles->state  = run_state;
+		list = g_slist_prepend (list, rles);
+	}
 
-	list = g_slist_reverse (list);
-	return list;
+	return g_slist_reverse (list);
 }
 
 struct resize_closure
@@ -315,18 +376,18 @@ cb_set_colrow_size (ColRowInfo *info, void *userdata)
 	return FALSE;
 }
 
-ColRowSizeList *
-colrow_set_sizes (Sheet *sheet, gboolean const is_cols,
+ColRowStateGroup *
+colrow_set_sizes (Sheet *sheet, gboolean is_cols,
 		  ColRowIndexList *src, int new_size)
 {
 	int i;
-	ColRowSizeList *res = NULL;
+	ColRowStateGroup *res = NULL;
 	ColRowIndexList *ptr;
 
 	for (ptr = src; ptr != NULL ; ptr = ptr->next) {
-		ColRowIndex *index = ptr->data;
-		res = g_slist_prepend (res,
-			colrow_save_sizes (sheet, is_cols, index->first, index->last));
+		ColRowIndex const *index = ptr->data;
+		res = g_slist_prepend (res, colrow_get_states (sheet, is_cols,
+			index->first, index->last));
 
 		/* FIXME :
 		 * If we are changing the size of more than half of the rows/col to
@@ -338,27 +399,29 @@ colrow_set_sizes (Sheet *sheet, gboolean const is_cols,
 		 * defined calculation speed grinds to a halt.
 		 */
 		if (new_size >= 0 && index->first == 0 &&
-		    index->last == ((is_cols ?SHEET_MAX_COLS:SHEET_MAX_ROWS)-1)) {
+		    (index->last+1) >= colrow_max (is_cols)) {
 			struct resize_closure closure;
-			SavedSize *ss = g_new0 (SavedSize, 1);
+			ColRowRLEState *rles = g_new0 (ColRowRLEState, 1);
 
-			ss->length = -1; /* Not relevant/not used */
+			rles->length = -1; /* Flag as changing the default */
 
-			res = g_slist_prepend (res, g_slist_append (NULL, ss));
-
-			if (is_cols) {
-				ss->size = sheet_col_get_default_size_pts (sheet);
-				sheet_col_set_default_size_pixels (sheet, new_size);
-			} else {
-				ss->size = sheet_row_get_default_size_pts (sheet);
-				sheet_row_set_default_size_pixels (sheet, new_size);
-			}
-			closure.sheet = sheet;
+			closure.sheet	 = sheet;
 			closure.new_size = new_size;
-			closure.is_cols = is_cols;
-			colrow_foreach (&sheet->cols, 0, SHEET_MAX_COLS,
+			closure.is_cols  = is_cols;
+			if (is_cols) {
+				rles->state.size_pts = sheet_col_get_default_size_pts (sheet);
+				sheet_col_set_default_size_pixels (sheet, new_size);
+				colrow_foreach (&sheet->cols, 0, SHEET_MAX_COLS-1,
 					&cb_set_colrow_size, &closure);
-			return res;
+			} else {
+				rles->state.size_pts = sheet_row_get_default_size_pts (sheet);
+				sheet_row_set_default_size_pixels (sheet, new_size);
+				colrow_foreach (&sheet->rows, 0, SHEET_MAX_ROWS-1,
+					&cb_set_colrow_size, &closure);
+			}
+
+			/* Result is a magic 'default' record + >= 1 normal */
+			return g_slist_prepend (res, g_slist_append (NULL, rles));
 		}
 
 		for (i = index->first ; i <= index->last ; ++i) {
@@ -386,25 +449,27 @@ colrow_set_sizes (Sheet *sheet, gboolean const is_cols,
  *        reposition objects
  */
 void
-colrow_restore_sizes (Sheet *sheet, gboolean const is_cols,
-		      int first, int last, ColRowRLESizeList *sizes)
+colrow_set_states (Sheet *sheet, gboolean is_cols,
+		   int first, ColRowStateList *states)
 {
 	GSList *l;
-	int i, offset = first;
+	int i, max_outline, offset = first;
+	ColRowCollection *infos;
 
-	g_return_if_fail (sizes != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (first <= last);
 
-	for (l = sizes; l != NULL; l = l->next) {
-		SavedSize const *ss = l->data;
-		
-		for (i = offset; i < offset + ss->length; i++) {
-			gboolean hard_size = FALSE;
-			float   size      = ss->size;
+	infos = is_cols ? &(sheet->cols) : &(sheet->rows);
+	max_outline = infos->max_outline_level;
 
-			if (size == 0.) {
-				ColRowCollection *infos = is_cols ? &(sheet->cols) : &(sheet->rows);
+	for (l = states; l != NULL; l = l->next) {
+		ColRowRLEState const *rles = l->data;
+		ColRowState const *state = &rles->state;
+
+		if (max_outline < state->outline_level)
+			max_outline = state->outline_level;
+
+		for (i = offset; i < offset + rles->length; i++) {
+			if (state->is_default) {
 				ColRowSegment *segment = COLROW_GET_SEGMENT(infos, i);
 				if (segment != NULL) {
 					int const sub = COLROW_SUB_INDEX (i);
@@ -415,20 +480,18 @@ colrow_restore_sizes (Sheet *sheet, gboolean const is_cols,
 					}
 				}
 			} else {
-				if (size < 0.) {
-					hard_size = TRUE;
-					size *= -1.;
-				}
-				if (is_cols)
-					sheet_col_set_size_pts (sheet, i, size, hard_size);
-				else
-					sheet_row_set_size_pts (sheet, i, size, hard_size);
+				ColRowInfo *cri = sheet_colrow_fetch (sheet, i, is_cols);
+				cri->hard_size = state->hard_size;
+				cri->size_pts = state->size_pts;
+				colrow_compute_pixels_from_pts (cri, sheet, is_cols);
+				colrow_set_outline (cri, state->outline_level,
+					state->is_collapsed);
 			}
 		}
-		offset += ss->length;
+		offset += rles->length;
 	}
 
-	colrow_rle_size_list_destroy (sizes);
+	colrow_state_list_destroy (states);
 
 	/* Notify sheet of pending update */
 	sheet->priv->recompute_visibility = TRUE;
@@ -440,45 +503,43 @@ colrow_restore_sizes (Sheet *sheet, gboolean const is_cols,
 		if (sheet->priv->reposition_objects.row > first)
 			sheet->priv->reposition_objects.row = first;
 	}
+	sheet_colrow_gutter (sheet, is_cols, max_outline);
 }
 
 void
-colrow_restore_sizes_group (Sheet *sheet, gboolean const is_cols,
+colrow_restore_state_group (Sheet *sheet, gboolean is_cols,
 			    ColRowIndexList *selection,
-			    ColRowSizeList *saved_sizes,
-			    int old_size)
+			    ColRowStateGroup *state_groups)
 {
-	ColRowSizeList *ptr = saved_sizes;
+	ColRowStateGroup *ptr = state_groups;
 
 	/* Cycle to end, we have to traverse the selections
-	 * in parallel with the saved_sizes
+	 * in parallel with the state_groups
 	 */
 	selection = g_list_last (selection);
-	while (selection != NULL && ptr != NULL) {
-		ColRowIndex *index = selection->data;
+	for (; selection != NULL && ptr != NULL ; ptr = ptr->next) {
+		ColRowIndex const *index = selection->data;
+		ColRowStateList *list = ptr->data;
+		ColRowRLEState const *rles = list->data;
 
-		if (old_size >= 0 && index->first == 0 &&
-		    index->last == ((is_cols ?SHEET_MAX_COLS:SHEET_MAX_ROWS)-1)) {
-			ColRowRLESizeList *list = ptr->data;
-			SavedSize const *ss = list->data;
-
+		/* MAGIC : the -1 was set above to flag this */
+		if (rles->length == -1) {
 			if (is_cols)
-				sheet_col_set_default_size_pts (sheet, ss->size);
+				sheet_col_set_default_size_pts (sheet, rles->state.size_pts);
 			else
-				sheet_row_set_default_size_pts (sheet, ss->size);
+				sheet_row_set_default_size_pts (sheet, rles->state.size_pts);
 
+			/* we are guaranteed to have at least 1 more record */
 			ptr = ptr->next;
-			colrow_rle_size_list_destroy (list);
+			colrow_state_list_destroy (list);
 		}
 
-		colrow_restore_sizes (sheet, is_cols,
-				      index->first, index->last,
-				      ptr->data);
-
+		colrow_set_states (sheet, is_cols, index->first, ptr->data);
 		selection = selection->prev;
-		ptr = ptr->next;
 	}
-	g_slist_free (saved_sizes);
+
+	/* we clear the list as we go, do not use colrow_state_group_destroy */
+	g_slist_free (state_groups);
 }
 
 static gboolean
@@ -500,7 +561,7 @@ cb_autofit_height_no_shrink (ColRowInfo *info, void *sheet)
 	if (!info->hard_size) {
 		int const new_size     = sheet_row_size_fit_pixels (sheet, info->pos);
 		int const default_size = sheet_row_get_default_size_pixels (sheet);
-		
+
 		if (new_size > 0 && new_size > default_size)
 			sheet_row_set_size_pixels (sheet, info->pos, new_size, FALSE);
 	}
@@ -532,7 +593,7 @@ rows_height_update (Sheet *sheet, Range const * range, gboolean shrink)
 
 /*****************************************************************************/
 
-typedef struct 
+typedef struct
 {
 	gboolean is_cols, visible;
 	ColRowVisList *elements;
@@ -669,8 +730,8 @@ colrow_vis_list_destroy (ColRowVisList *list)
  * It should not be called by other commands.
  */
 void
-colrow_set_visibility_list (Sheet *sheet, gboolean const is_cols,
-			    gboolean const visible, ColRowVisList *list)
+colrow_set_visibility_list (Sheet *sheet, gboolean is_cols,
+			    gboolean visible, ColRowVisList *list)
 {
 	ColRowVisList *ptr;
 
@@ -699,30 +760,23 @@ colrow_set_visibility_list (Sheet *sheet, gboolean const is_cols,
 
 /**
  * colrow_set_outline :
+ * @cri		  : the col/row to tweak
+ * @outline_level :
+ * @is_collapsed  :
  *
- * Sets the outline level for a col/row.
- * Returns the new outline level of @index.
+ * Adjust the outline state of a col/row
  */
-int
-colrow_set_outline (ColRowInfo *cri, gboolean is_cols,
-		    int outline_level, gboolean relative,
-		    gboolean is_collapsed)
+void
+colrow_set_outline (ColRowInfo *cri, int outline_level, gboolean is_collapsed)
 {
-	int newlevel = relative ? cri->outline_level + outline_level : outline_level;
+	g_return_if_fail (outline_level >= 0);
 
-	cri->is_collapsed = (is_collapsed != 0);  /* needed for XL plugin */
-	g_return_val_if_fail (newlevel >= 0, 0);
-	
-	cri->outline_level = newlevel;	
-#if 0
-	printf ("%d = %d %d\n", index+1, outline_level, is_collapsed);
-#endif
-
-	return cri->outline_level;
+	cri->is_collapsed = (is_collapsed != 0);  /* be anal */
+	cri->outline_level = outline_level;
 }
 
 /**
- * colrow_adjust_outline_dir 
+ * colrow_adjust_outline_dir
  * @colrows :
  * @pre_or_post :
  */
@@ -751,7 +805,7 @@ colrow_find_outline_bound (Sheet const *sheet, gboolean is_cols,
 	while (1) {
 		ColRowInfo const *cri;
 		int const next = index + step;
-		
+
 		if (next < 0 || next >= max)
 			return index;
 		cri = (*get) (sheet, next);
@@ -769,22 +823,20 @@ colrow_find_outline_bound (Sheet const *sheet, gboolean is_cols,
  * @is_col: If true find next column else find next row.
  * @index: The col/row index to start at.
  * @forward: If set seek forward otherwise seek backwards.
- *  
+ *
  * Return value: The index of the next visible col/row or -1 if
  *               there are no more visible cols/rows left.
  **/
 int
-colrow_find_adjacent_visible (Sheet *sheet, gboolean const is_col,
-			      int const index, gboolean forward)
+colrow_find_adjacent_visible (Sheet *sheet, gboolean is_col,
+			      int index, gboolean forward)
 {
-	int const max    = is_col ? SHEET_MAX_COLS : SHEET_MAX_ROWS;
-	int i            = index; /* To avoid trouble at edges */
+	int const max = colrow_max (is_col);
+	int i         = index; /* To avoid trouble at edges */
 
 	do {
-		ColRowInfo * const cri = is_col
-			? sheet_col_fetch (sheet, i)
-			: sheet_row_fetch (sheet, i);
-			
+		ColRowInfo * const cri = sheet_colrow_fetch (sheet, i, is_col);
+
 		if (cri->visible)
 			return i;
 
@@ -812,8 +864,8 @@ colrow_find_adjacent_visible (Sheet *sheet, gboolean const is_col,
  * Change the visibility of the selected range of contiguous rows/cols.
  */
 void
-colrow_set_visibility (Sheet *sheet, gboolean const is_cols,
-		       gboolean const visible, int first, int last)
+colrow_set_visibility (Sheet *sheet, gboolean is_cols,
+		       gboolean visible, int first, int last)
 {
 	int i, prev_outline = 0;
 	gboolean prev_changed = FALSE;
@@ -849,9 +901,7 @@ colrow_set_visibility (Sheet *sheet, gboolean const is_cols,
 	}
 
 	for (i = first; i <= last ; ++i) {
-		ColRowInfo * const cri = is_cols
-			? sheet_col_fetch (sheet, i)
-			: sheet_row_fetch (sheet, i);
+		ColRowInfo * const cri = sheet_colrow_fetch (sheet, i, is_cols);
 
 		if (prev_changed && prev_outline > cri->outline_level && !visible)
 			cri->is_collapsed = FALSE;
@@ -874,9 +924,7 @@ colrow_set_visibility (Sheet *sheet, gboolean const is_cols,
 	if (prev_changed &&
 	    ((is_cols && i < SHEET_MAX_COLS) ||
 	     (!is_cols && i < SHEET_MAX_ROWS))) {
-		ColRowInfo * const cri = is_cols
-			? sheet_col_fetch (sheet, i)
-			: sheet_row_fetch (sheet, i);
+		ColRowInfo * const cri = sheet_colrow_fetch (sheet, i, is_cols);
 
 		if (prev_outline > cri->outline_level)
 			cri->is_collapsed = !visible;

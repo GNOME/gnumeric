@@ -708,7 +708,7 @@ gnm_canvas_find_col (GnumericCanvas *gcanvas, int x, int *col_origin)
 
 	if (x < pixel) {
 		while (col > 0) {
-			ColRowInfo *ci = sheet_col_get_info (sheet, --col);
+			ColRowInfo const *ci = sheet_col_get_info (sheet, --col);
 			if (ci->visible) {
 				pixel -= ci->size_pixels;
 				if (x >= pixel) {
@@ -724,7 +724,7 @@ gnm_canvas_find_col (GnumericCanvas *gcanvas, int x, int *col_origin)
 	}
 
 	do {
-		ColRowInfo *ci = sheet_col_get_info (sheet, col);
+		ColRowInfo const *ci = sheet_col_get_info (sheet, col);
 		if (ci->visible) {
 			int const tmp = ci->size_pixels;
 			if (x <= pixel + tmp) {
@@ -752,7 +752,7 @@ gnm_canvas_find_row (GnumericCanvas *gcanvas, int y, int *row_origin)
 
 	if (y < pixel) {
 		while (row > 0) {
-			ColRowInfo *ri = sheet_row_get_info (sheet, --row);
+			ColRowInfo const *ri = sheet_row_get_info (sheet, --row);
 			if (ri->visible) {
 				pixel -= ri->size_pixels;
 				if (y >= pixel) {
@@ -768,7 +768,7 @@ gnm_canvas_find_row (GnumericCanvas *gcanvas, int y, int *row_origin)
 	}
 
 	do {
-		ColRowInfo *ri = sheet_row_get_info (sheet, row);
+		ColRowInfo const *ri = sheet_row_get_info (sheet, row);
 		if (ri->visible) {
 			int const tmp = ri->size_pixels;
 			if (pixel <= y && y <= pixel + tmp) {

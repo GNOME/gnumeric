@@ -35,6 +35,9 @@ Jody:
 	* Memory error when parsing names.
 	* Fix xml storage of parse position for names.
 	* sync print code with draw code for merges.
+	* Fix ins/del col/row in outline mode.
+	* Support number buttons in outline mode.
+	* Implement XL export for array formulas.
 
 Morten:
 	* Fix EXPRESSION crash.

@@ -976,7 +976,7 @@ print_cell_range (GnomePrintContext *context,
 
 				if (col != cell->pos.col)
 					style = sheet_style_get (sheet,
-						cell->pos.col, ri->pos);
+						cell->pos.col, row);
 
 				/* x, y are relative to this cell origin, but the cell
 				 * might be using columns to the left (if it is set to right

@@ -161,9 +161,7 @@ sheet_dialog_set_row_height (GtkWidget *ignored, WorkbookControlGUI *wbcg)
 		int row;
 
 		for (row = ss->start.row; row <= ss->end.row; row++){
-			ColRowInfo *ri;
-
-			ri = sheet_row_get_info (sheet, row);
+			ColRowInfo const *ri = sheet_row_get_info (sheet, row);
 			if (value == 0.0)
 				value = ri->size_pts;
 			else if (value != ri->size_pts){

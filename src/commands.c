@@ -679,7 +679,7 @@ typedef struct
 	GnumericCommand parent;
 
 	ParsePos pos;
-	char 	*text;
+	char	*text;
 	gboolean as_array;
 	GSList	*old_content;
 	GSList	*selection;
@@ -855,9 +855,9 @@ typedef struct
 	int		 count;
 	Range           *cutcopied;
 
-	ColRowRLESizeList *sizes;
-	CellRegion 	  *contents;
-	GSList		  *reloc_storage;
+	ColRowStateList *saved_states;
+	CellRegion	*contents;
+	GSList		*reloc_storage;
 } CmdInsDelColRow;
 
 GNUMERIC_MAKE_COMMAND (CmdInsDelColRow, cmd_ins_del_colrow);
@@ -873,28 +873,28 @@ cmd_ins_del_colrow_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	PasteTarget pt;
 
 	g_return_val_if_fail (me != NULL, TRUE);
-	g_return_val_if_fail (me->sizes != NULL, TRUE);
+	g_return_val_if_fail (me->saved_states != NULL, TRUE);
 	g_return_val_if_fail (me->contents != NULL, TRUE);
 
 	if (!me->is_insert) {
 		index = me->index;
 		if (me->is_cols)
-			trouble = sheet_insert_cols (wbc, me->sheet, me->index, me->count, &tmp);
+			trouble = sheet_insert_cols (wbc, me->sheet, me->index, me->count, me->saved_states, &tmp);
 		else
-			trouble = sheet_insert_rows (wbc, me->sheet, me->index, me->count, &tmp);
+			trouble = sheet_insert_rows (wbc, me->sheet, me->index, me->count, me->saved_states, &tmp);
 	} else {
-		index = ((me->is_cols) ? SHEET_MAX_COLS : SHEET_MAX_ROWS) - me->count;
+		index = colrow_max (me->is_cols) - me->count;
 		if (me->is_cols)
-			trouble = sheet_delete_cols (wbc, me->sheet, me->index, me->count, &tmp);
+			trouble = sheet_delete_cols (wbc, me->sheet, me->index, me->count, me->saved_states, &tmp);
 		else
-			trouble = sheet_delete_rows (wbc, me->sheet, me->index, me->count, &tmp);
+			trouble = sheet_delete_rows (wbc, me->sheet, me->index, me->count, me->saved_states, &tmp);
 	}
+	me->saved_states = NULL;
 
-	/* restore row/col sizes */
-	colrow_restore_sizes (me->sheet, me->is_cols, index, index + me->count - 1, me->sizes);
-	me->sizes = NULL;
+	/* I really do not expect trouble on the undo leg */
+	g_return_val_if_fail (!trouble, TRUE);
 
-	/* restore row/col contents */
+	/* restore col/row contents */
 	if (me->is_cols)
 		range_init (&r, index, 0, index+me->count-1, SHEET_MAX_ROWS-1);
 	else
@@ -916,11 +916,11 @@ cmd_ins_del_colrow_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	/* Ins/Del Row/Col re-ants things completely to account
 	 * for the shift of col/rows.
 	 */
-	if (me->cutcopied)
+	if (me->cutcopied != NULL)
 		application_clipboard_cut_copy (wbc, me->is_cut, me->sheet,
 						me->cutcopied, FALSE);
 
-	return trouble;
+	return FALSE;
 }
 
 static gboolean
@@ -932,7 +932,7 @@ cmd_ins_del_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	int first, last;
 
 	g_return_val_if_fail (me != NULL, TRUE);
-	g_return_val_if_fail (me->sizes == NULL, TRUE);
+	g_return_val_if_fail (me->saved_states == NULL, TRUE);
 	g_return_val_if_fail (me->contents == NULL, TRUE);
 
 	first = (me->is_insert)
@@ -940,70 +940,57 @@ cmd_ins_del_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 		: me->index;
 
 	last = first + me->count - 1;
-	me->sizes = colrow_save_sizes (me->sheet, me->is_cols, first, last);
+	me->saved_states = colrow_get_states (me->sheet, me->is_cols, first, last);
 	me->contents = clipboard_copy_range (me->sheet,
 		(me->is_cols)
 		? range_init (&r, first, 0, last, SHEET_MAX_ROWS - 1)
 		: range_init (&r, 0, first, SHEET_MAX_COLS-1, last));
 
 	if (me->is_insert) {
-		int prev_visible;
+		ColRowStateList *state = NULL;
+		if (me->index > 0) {
+			/* Use the size of the preceding _visible_ col/row for
+			 * the new one.  If that has default size or this is
+			 * the the 1st visible col/row leave the new size as
+			 * default.
+			 */
+			int tmp = colrow_find_adjacent_visible (
+				me->sheet, me->is_cols, me->index - 1, FALSE);
+			ColRowInfo const *prev_vis = (tmp >= 0)
+				? sheet_colrow_get_info (me->sheet, tmp, me->is_cols)
+				: NULL;
+
+			/* Use the outline level of the preceding col/row
+			 * (visible or not), and leave the new ones visible.
+			 */
+			ColRowInfo const *prev = sheet_colrow_get_info (
+				me->sheet, me->index-1, me->is_cols);
+
+			if (prev->outline_level > 0 || !colrow_is_default (prev_vis))
+				state = colrow_make_state (me->sheet, me->index,
+					me->index + me->count - 1,
+					prev_vis->size_pts, prev_vis->hard_size,
+					prev->outline_level);
+		}
 
 		if (me->is_cols)
-			trouble = sheet_insert_cols (wbc, me->sheet, me->index,
-						     me->count, &me->reloc_storage);
+			trouble = sheet_insert_cols (wbc, me->sheet, me->index, me->count, state, &me->reloc_storage);
 		else
-			trouble = sheet_insert_rows (wbc, me->sheet, me->index,
-						     me->count, &me->reloc_storage);
+			trouble = sheet_insert_rows (wbc, me->sheet, me->index, me->count, state, &me->reloc_storage);
 
-		if (me->index >= 1)
-			prev_visible = colrow_find_adjacent_visible (me->sheet, me->is_cols,
-								     me->index - 1, FALSE);
-		else
-			prev_visible = -1;
-
-		/*
-		 * We use the size of the column/row to the left/top to determine
-		 * the size for the newly inserted column.
-		 * For column 0 we use the default size. And for columns having
-		 * the default size we'll just keep the default size aswell.
-		 */
-		if (prev_visible >= 0) {
-			ColRowInfo *info = me->is_cols ?
-				sheet_col_get (me->sheet, prev_visible) :
-				sheet_row_get (me->sheet, prev_visible);
-
-			if (info) {
-				int i;
-				ColRowInfo *cri = NULL;
-
-				for (i = me->index; i < me->index + me->count; i++)
-					if (me->is_cols) {
-						sheet_col_set_size_pixels (me->sheet, i, info->size_pixels,
-									   info->hard_size);
-						cri = sheet_col_fetch (me->sheet, i);
-					} else {
-						sheet_row_set_size_pixels (me->sheet, i, info->size_pixels,
-									   info->hard_size);
-						cri = sheet_row_fetch (me->sheet, i);
-					}
-				if (cri != NULL)
-					cri->outline_level = info->outline_level;
-			}
-		}
+		if (trouble)
+			colrow_state_list_destroy (state);
 	} else {
 		if (me->is_cols)
-			trouble = sheet_delete_cols (wbc, me->sheet, me->index,
-						     me->count, &me->reloc_storage);
+			trouble = sheet_delete_cols (wbc, me->sheet, me->index, me->count, NULL, &me->reloc_storage);
 		else
-			trouble = sheet_delete_rows (wbc, me->sheet, me->index,
-						     me->count, &me->reloc_storage);
+			trouble = sheet_delete_rows (wbc, me->sheet, me->index, me->count, NULL, &me->reloc_storage);
 	}
 
 	/* Ins/Del Row/Col re-ants things completely to account
 	 * for the shift of col/rows.
 	 */
-	if (me->cutcopied) {
+	if (!trouble && me->cutcopied != NULL) {
 		Range s = *me->cutcopied;
 		int key = me->is_insert ? me->count : -me->count;
 		int threshold = me->is_insert ? me->index : me->index + 1;
@@ -1011,9 +998,11 @@ cmd_ins_del_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 		/* Really only applies if the regions that are inserted/
 		 * deleted are above the cut/copied region.
 		 */
-		if (me->is_cols && threshold <= s.start.col) {
-			s.start.col += key;
-			s.end.col   += key;
+		if (me->is_cols) {
+			if (threshold <= s.start.col) {
+				s.start.col += key;
+				s.end.col   += key;
+			}
 		} else if (threshold <= s.start.row) {
 			s.start.row += key;
 			s.end.row   += key;
@@ -1030,8 +1019,8 @@ cmd_ins_del_colrow_destroy (GtkObject *cmd)
 {
 	CmdInsDelColRow *me = CMD_INS_DEL_COLROW (cmd);
 
-	if (me->sizes)
-		me->sizes = colrow_rle_size_list_destroy (me->sizes);
+	if (me->saved_states)
+		me->saved_states = colrow_state_list_destroy (me->saved_states);
 	if (me->contents) {
 		cellregion_free (me->contents);
 		me->contents = NULL;
@@ -1065,7 +1054,7 @@ cmd_ins_del_colrow (WorkbookControl *wbc,
 	me->is_insert = is_insert;
 	me->index = index;
 	me->count = count;
-	me->sizes = NULL;
+	me->saved_states = NULL;
 	me->contents = NULL;
 
 	/* We store the cut or/copied range if applicable */
@@ -1142,7 +1131,7 @@ typedef struct
 	int	 clear_flags;
 	int	 paste_flags;
 	Sheet	*sheet;
-	GSList 	*old_content;
+	GSList	*old_content;
 	GSList	*selection;
 } CmdClear;
 
@@ -1724,7 +1713,7 @@ typedef struct
 	Sheet		*sheet;
 	gboolean	 is_cols;
 	ColRowIndexList *selection;
-	ColRowSizeList	*saved_sizes;
+	ColRowStateGroup*saved_sizes;
 	int		 new_size;
 } CmdResizeColRow;
 
@@ -1739,9 +1728,8 @@ cmd_resize_colrow_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me->selection != NULL, TRUE);
 	g_return_val_if_fail (me->saved_sizes != NULL, TRUE);
 
-	colrow_restore_sizes_group (me->sheet, me->is_cols,
-				    me->selection, me->saved_sizes,
-				    me->new_size);
+	colrow_restore_state_group (me->sheet, me->is_cols,
+				    me->selection, me->saved_sizes);
 	me->saved_sizes = NULL;
 
 	return FALSE;
@@ -1773,7 +1761,7 @@ cmd_resize_colrow_destroy (GtkObject *cmd)
 		me->selection = colrow_index_list_destroy (me->selection);
 
 	if (me->saved_sizes)
-		me->saved_sizes = colrow_size_list_destroy (me->saved_sizes);
+		me->saved_sizes = colrow_state_group_destroy (me->saved_sizes);
 
 	gnumeric_command_destroy (cmd);
 }
@@ -2062,10 +2050,9 @@ cmd_colrow_outline_change (WorkbookControl *wbc, Sheet *sheet,
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
-	cri = is_cols ? sheet_col_get (sheet, index)
-		      : sheet_row_get (sheet, index);
+	cri = sheet_colrow_get_info (sheet, index, is_cols);
 
-	d = (cri != NULL) ?  cri->outline_level : 0;
+	d = cri->outline_level;
 	if (depth > d)
 		depth = d;
 
@@ -2079,8 +2066,7 @@ cmd_colrow_outline_change (WorkbookControl *wbc, Sheet *sheet,
 					sheet_colrow_get (sheet, index-1, is_cols);
 
 				if (prev != NULL && prev->outline_level > d) {
-					visible = (depth == d &&
-						   cri != NULL && cri->is_collapsed);
+					visible = (depth == d && cri->is_collapsed);
 					last = index - 1;
 					first = colrow_find_outline_bound (sheet, is_cols,
 						last, d+1, FALSE);
@@ -2091,8 +2077,7 @@ cmd_colrow_outline_change (WorkbookControl *wbc, Sheet *sheet,
 				sheet_colrow_get (sheet, index+1, is_cols);
 
 			if (next != NULL && next->outline_level > d) {
-				visible = (depth == d &&
-					   cri != NULL && cri->is_collapsed);
+				visible = (depth == d && cri->is_collapsed);
 				first = index + 1;
 				last = colrow_find_outline_bound (sheet, is_cols,
 					first, d+1, TRUE);
@@ -2101,7 +2086,7 @@ cmd_colrow_outline_change (WorkbookControl *wbc, Sheet *sheet,
 	}
 
 	/* If nothing done yet do a simple collapse */
-	if (first < 0 && cri != NULL && cri->outline_level > 0) {
+	if (first < 0 && cri->outline_level > 0) {
 		if (depth < d)
 			++depth;
 		first = colrow_find_outline_bound (sheet, is_cols, index, depth, FALSE);
@@ -2156,46 +2141,18 @@ GNUMERIC_MAKE_COMMAND (CmdGroup, cmd_group);
 static gboolean
 cmd_group_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
-	CmdGroup *me = CMD_GROUP (cmd);
-
-	/*
-	 * No need to worry about failure, cmd_group handles this
-	 */
-	sheet_col_row_group_ungroup (me->sheet,
-				     me->is_cols ? me->range.start.col : me->range.start.row,
-				     me->is_cols ? me->range.end.col : me->range.end.row,
-				     me->is_cols, !me->group, FALSE);
-
-	if (me->is_cols)
-		sheet_col_row_gutter (me->sheet, me->gutter_size, me->sheet->rows.max_outline_level);
-	else
-		sheet_col_row_gutter (me->sheet, me->sheet->cols.max_outline_level, me->gutter_size);
-
-	g_return_val_if_fail (me != NULL, TRUE);
-
+	CmdGroup const *me = CMD_GROUP (cmd);
+	sheet_colrow_group_ungroup (me->sheet,
+		&me->range, me->is_cols, !me->group);
 	return FALSE;
 }
 
 static gboolean
 cmd_group_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
-	CmdGroup *me = CMD_GROUP (cmd);
-
-	g_return_val_if_fail (me != NULL, TRUE);
-
-	/* Save gutter level */
-	me->gutter_size = me->is_cols
-		? me->sheet->cols.max_outline_level
-		: me->sheet->rows.max_outline_level;
-
-	/*
-	 * No need to worry about failure, cmd_group handles this.
-	 */
-	sheet_col_row_group_ungroup (me->sheet,
-				     me->is_cols ? me->range.start.col : me->range.start.row,
-				     me->is_cols ? me->range.end.col : me->range.end.row,
-				     me->is_cols, me->group, FALSE);
-
+	CmdGroup const *me = CMD_GROUP (cmd);
+	sheet_colrow_group_ungroup (me->sheet,
+		&me->range, me->is_cols, me->group);
 	return FALSE;
 }
 
@@ -2222,11 +2179,7 @@ cmd_group (WorkbookControl *wbc, Sheet *sheet,
 	me->range = *selection_first_range (sheet, NULL, NULL);
 
 	/* Check if this really is possible and display an error if it's not */
-	if (sheet_col_row_can_group (sheet,
-				     is_cols ? me->range.start.col : me->range.start.row,
-				     is_cols ? me->range.end.col : me->range.end.row,
-				     is_cols) != group) {
-
+	if (sheet_colrow_can_group (sheet, &me->range, is_cols) != group) {
 		if (group)
 			gnumeric_error_system (COMMAND_CONTEXT (wbc), is_cols
 					       ? _("Those columns are already grouped")
@@ -2263,11 +2216,11 @@ typedef struct
 {
 	GnumericCommand parent;
 
-	ExprRelocateInfo   info;
-	GSList		  *paste_content;
-	GSList		  *reloc_storage;
-	gboolean	   move_selection;
-	ColRowRLESizeList *saved_sizes;
+	ExprRelocateInfo info;
+	GSList		*paste_content;
+	GSList		*reloc_storage;
+	gboolean	 move_selection;
+	ColRowStateList *saved_sizes;
 } CmdPasteCut;
 
 GNUMERIC_MAKE_COMMAND (CmdPasteCut, cmd_paste_cut);
@@ -2322,8 +2275,8 @@ cmd_paste_cut_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	workbook_expr_unrelocate_free (tmp);
 
 	/* Restore the original row heights */
-	colrow_restore_sizes (me->info.target_sheet, FALSE, me->info.origin.start.row + me->info.row_offset,
-			      me->info.origin.end.row + me->info.row_offset, me->saved_sizes);
+	colrow_set_states (me->info.target_sheet, FALSE,
+		reverse.origin.start.row, me->saved_sizes);
 	me->saved_sizes = NULL;
 
 	/* Restore the changed expressions */
@@ -2377,8 +2330,7 @@ cmd_paste_cut_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	tmp.end.row   += me->info.row_offset;
 	(void) range_init (&valid_range, 0, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
 
-	/*
-	 * need to store any portions of src content that are moving off the
+	/* need to store any portions of src content that are moving off the
 	 * sheet.
 	 */
 	frag = range_split_ranges (&valid_range, &tmp);
@@ -2405,7 +2357,7 @@ cmd_paste_cut_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	cmd_paste_cut_update_origin (&me->info, wbc);
 
 	/* Backup row heights and adjust row heights to fit */
-	me->saved_sizes = colrow_save_sizes (me->info.target_sheet, FALSE, tmp.start.row, tmp.end.row);
+	me->saved_sizes = colrow_get_states (me->info.target_sheet, FALSE, tmp.start.row, tmp.end.row);
 	rows_height_update (me->info.target_sheet, &tmp, FALSE);
 
 	/* Make sure the destination is selected */
@@ -2423,10 +2375,8 @@ cmd_paste_cut_destroy (GtkObject *cmd)
 {
 	CmdPasteCut *me = CMD_PASTE_CUT (cmd);
 
-	if (me->saved_sizes) {
-		colrow_rle_size_list_destroy (me->saved_sizes);
-		me->saved_sizes = NULL;
-	}
+	if (me->saved_sizes)
+		me->saved_sizes = colrow_state_list_destroy (me->saved_sizes);
 	while (me->paste_content) {
 		PasteContent *pc = me->paste_content->data;
 		me->paste_content = g_slist_remove (me->paste_content, pc);
@@ -2511,10 +2461,10 @@ typedef struct
 {
 	GnumericCommand parent;
 
-	CellRegion        *content;
-	PasteTarget        dst;
-	gboolean           has_been_through_cycle;
-	ColRowRLESizeList *saved_sizes;
+	CellRegion      *content;
+	PasteTarget      dst;
+	gboolean         has_been_through_cycle;
+	ColRowStateList *saved_sizes;
 } CmdPasteCopy;
 
 GNUMERIC_MAKE_COMMAND (CmdPasteCopy, cmd_paste_copy);
@@ -2538,19 +2488,18 @@ cmd_paste_copy_impl (GnumericCommand *cmd, WorkbookControl *wbc,
 
 	if (me->has_been_through_cycle)
 		cellregion_free (me->content);
-	else {
+	else
 		/* Save the content */
 		me->dst.paste_flags = PASTE_CONTENT |
 			(me->dst.paste_flags & PASTE_FORMATS);
-	}
 
 	if (is_undo) {
-		colrow_restore_sizes (me->dst.sheet, FALSE, me->dst.range.start.row,
-				      me->dst.range.end.row, me->saved_sizes);
+		colrow_set_states (me->dst.sheet, FALSE,
+			me->dst.range.start.row, me->saved_sizes);
 		me->saved_sizes = NULL;
 	} else {
-		me->saved_sizes = colrow_save_sizes (me->dst.sheet, FALSE, me->dst.range.start.row,
-						     me->dst.range.end.row);
+		me->saved_sizes = colrow_get_states (me->dst.sheet,
+			FALSE, me->dst.range.start.row, me->dst.range.end.row);
 		rows_height_update (me->dst.sheet, &me->dst.range, FALSE);
 	}
 
@@ -2586,10 +2535,8 @@ cmd_paste_copy_destroy (GtkObject *cmd)
 {
 	CmdPasteCopy *me = CMD_PASTE_COPY (cmd);
 
-	if (me->saved_sizes) {
-		colrow_rle_size_list_destroy (me->saved_sizes);
-		me->saved_sizes = NULL;
-	}
+	if (me->saved_sizes)
+		me->saved_sizes = colrow_state_list_destroy (me->saved_sizes);
 	if (me->content) {
 		if (me->has_been_through_cycle)
 			cellregion_free (me->content);
