@@ -31,7 +31,7 @@ gboolean    parse_cell_range         (Sheet *sheet, char const *range, Value **v
 GSList     *parse_cell_name_list     (Sheet *sheet, char const *cell_name_str,
 				      int *error_flag, gboolean strict);
 
-StyleFormat *parse_text_value_or_expr (EvalPos const *pos,
+StyleFormat *parse_text_value_or_expr (ParsePos const *pos,
 				       char const *text,
 				       Value **val, ExprTree **expr,
 				       StyleFormat *current_format /* can be NULL */);

@@ -1733,3 +1733,36 @@ expr_tree_boundingbox (ExprTree const *expr, Range *bound)
 		g_assert_not_reached ();
 	}
 }
+
+/**
+ * expr_tree_get_range:
+ * @expr :
+ * 
+ * If this expression contains a single range return it.
+ */
+Value *
+expr_tree_get_range (ExprTree const *expr) 
+{
+	g_return_val_if_fail (expr != NULL, NULL);
+
+	switch (expr->any.oper) {
+	case OPER_VAR :
+		return value_new_cellrange_unsafe (
+			&expr->var.ref, &expr->var.ref);
+
+	case OPER_CONSTANT:
+		if (expr->constant.value->type == VALUE_CELLRANGE)
+			return value_duplicate (expr->constant.value);
+		return NULL;
+
+	case OPER_NAME:
+		if (expr->name.name->builtin)
+			return NULL;
+		else
+			return expr_tree_get_range (expr->name.name->t.expr_tree);
+
+	default:
+		return NULL;
+	}
+}
+

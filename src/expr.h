@@ -192,7 +192,8 @@ Value       *expr_implicit_intersection (EvalPos const *pos,
 					 Value *v);
 
 FunctionDefinition *expr_tree_get_func_def (ExprTree const *expr);
-ExprTree const *    expr_tree_first_func   (ExprTree const *expr);
+Value		   *expr_tree_get_range    (ExprTree const *expr) ;
+ExprTree const	   *expr_tree_first_func   (ExprTree const *expr);
 void		    expr_tree_boundingbox  (ExprTree const *expr, Range *bound);
 
 #endif /* GNUMERIC_EXPR_H */

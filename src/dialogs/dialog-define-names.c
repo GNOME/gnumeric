@@ -353,6 +353,7 @@ cb_name_guru_add (NameGuruState *state)
 
 	expr_name = expr_name_lookup (&state->pp, name);
 
+	/* strip off optional preceding '=' */
 	if (NULL != (tmp = gnumeric_char_start_expr_p (expr_text)))
 		expr_text = tmp;
 	expr = expr_parse_string (expr_text, &state->pp, NULL, &perr);

@@ -1,3 +1,31 @@
+2001-10-26  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-edit.c (wbcg_edit_finish) : remove the loops, and
+	  recursions.  match against formatted values before expressions, then
+	  fall back to strings.
+
+	* src/parse-util.c (parse_text_value_or_expr) : match against
+	  formatted values before expressions, then fall back to strings.
+
+	* src/cell.c (cell_set_text) : parse_text_value_or_expr takes a ParsePos.
+	* src/sheet.c (sheet_cell_set_text) : ditto.
+	* src/widgets/gnumeric-expr-entry.c
+	  (gnumeric_expr_entry_key_press_event) : ditto.
+	* src/commands.c (cmd_area_set_text_redo) : ditto.
+	(cmd_area_set_text) : ditto.
+	(cmd_search_replace_do_cell) : create a tmp EvalPos to avoid changing
+	  the search data structures.
+
+	* src/expr.c (expr_tree_get_range) : renamed from range_from_expr_tree.
+	  add support for singletons.
+
+	* src/ranges.c (global_range_parse) : tweak slightly.
+
+2001-10-26  Jody Goldberg <jgoldberg@home.com>
+
+	* src/number-match.c (format_match_init) : don't include text in the
+	  stock set of formats they should only match numbers.
+
 2001-10-25  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-autofill.c (autofill_compute_delta) : try to clarify

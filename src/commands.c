@@ -680,7 +680,7 @@ typedef struct
 {
 	GnumericCommand parent;
 
-	EvalPos	 pos;
+	ParsePos pos;
 	char 	*text;
 	gboolean as_array;
 	GSList	*old_content;
@@ -742,10 +742,7 @@ cmd_area_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	l = me->selection;
 	start = gnumeric_char_start_expr_p (me->text);
 	if (start != NULL && me->as_array && l != NULL && l->next == NULL) {
-		ParsePos pp;
-		expr = expr_parse_string (start,
-		    parse_pos_init_evalpos (&pp, &me->pos),
-		    NULL, NULL);
+		expr = expr_parse_string (start, &me->pos, NULL, NULL);
 
 		if (expr == NULL)
 			return TRUE;
@@ -812,7 +809,7 @@ cmd_area_set_text_destroy (GtkObject *cmd)
 }
 
 gboolean
-cmd_area_set_text (WorkbookControl *wbc, EvalPos const *pos,
+cmd_area_set_text (WorkbookControl *wbc, ParsePos const *pos,
 		   char const *new_text, gboolean as_array)
 {
 	GtkObject *obj;
@@ -3389,9 +3386,11 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, EvalPos *ep,
 		ExprTree *expr;
 		Value *val;
 		gboolean err;
+		ParsePos pp;
 
-		parse_text_value_or_expr (ep, cell_res.new_text, &val, &expr,
-					  mstyle_get_format (cell_get_mstyle (cell_res.cell)));
+		parse_pos_init_evalpos (&pp, ep);
+		parse_text_value_or_expr (&pp, cell_res.new_text, &val, &expr,
+			mstyle_get_format (cell_get_mstyle (cell_res.cell)));
 
 		/*
 		 * FIXME: this is a hack, but parse_text_value_or_expr

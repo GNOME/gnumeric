@@ -334,20 +334,16 @@ void
 cell_set_text (Cell *cell, char const *text)
 {
 	StyleFormat *format;
-	Value *val;
-	ExprTree *expr;
-	EvalPos pos;
-	MStyle *mstyle;
-	StyleFormat *cformat;
+	ExprTree    *expr;
+	Value	    *val;
+	ParsePos     pos;
 
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
 	g_return_if_fail (!cell_is_partial_array (cell));
 
-	mstyle = cell_get_mstyle (cell);
-	cformat = mstyle_get_format (mstyle);
-	format = parse_text_value_or_expr (eval_pos_init_cell (&pos, cell),
-					   text, &val, &expr, cformat);
+	format = parse_text_value_or_expr (parse_pos_init_cell (&pos, cell),
+		text, &val, &expr, mstyle_get_format (cell_get_mstyle (cell)));
 
 	if (val != NULL) {	/* String was a value */
 		if (format)

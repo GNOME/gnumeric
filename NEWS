@@ -23,9 +23,9 @@ Jody:
 	* Fix Name Support and Dialog.
 	* Improve data allocator for graphs.
 	* Begin code audit.
-	* Fix autofill by day.
-	* Fix minor leaks.
 	* Fix autofill of days with months visible.
+	* Fix minor leaks.
+	* Improve recognition of values vs expressions
 
 Jukka:
 	* Improved MPS plugin.

@@ -81,6 +81,7 @@ gint           style_compare (gconstpointer a, gconstpointer b);
 guint          style_font_hash_func (gconstpointer v);
 gint           style_font_equal (gconstpointer v, gconstpointer v2);
 
+SpanCalcFlags	 required_updates_for_style (MStyle *style);
 StyleHAlignFlags style_default_halign (MStyle const *mstyle, Cell const *c);
 
 extern StyleFont *gnumeric_default_font;

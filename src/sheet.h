@@ -275,16 +275,15 @@ void  sheet_cell_set_expr  (Cell *cell, ExprTree *expr);
 void  sheet_cell_set_value (Cell *cell, Value *v, StyleFormat *opt_fmt);
 void  sheet_cell_set_text  (Cell *cell, char const *str);
 Value const *sheet_cell_get_value (Sheet *sheet, int const col, int const row);
-void  sheet_range_set_text   (EvalPos const *pos, Range const *r, char const *str);
+void  sheet_range_set_text   (ParsePos const *pos, Range const *r, char const *str);
 void  sheet_apply_style	     (Sheet  *sheet, Range const *range, MStyle *mstyle);
-void  sheet_calc_spans	     (Sheet const *sheet,	SpanCalcFlags flags);
+void  sheet_calc_spans	     (Sheet const *sheet, SpanCalcFlags flags);
 void  sheet_range_calc_spans (Sheet *sheet, Range const *r, SpanCalcFlags flags);
 void  sheet_cell_calc_span   (Cell *cell, SpanCalcFlags flags);
 void  sheet_regen_adjacent_spans (Sheet *sheet,
-			     int start_col, int start_row,
-			     int end_col, int end_row,
-			     int *min_col, int *max_col);
-SpanCalcFlags required_updates_for_style (MStyle *style);
+				  int start_col, int start_row,
+				  int end_col, int end_row,
+				  int *min_col, int *max_col);
 
 /* TODO : give this decent undo capabilities */
 void sheet_adjust_outline_dir (Sheet *sheet, gboolean is_cols);

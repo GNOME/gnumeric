@@ -17,7 +17,7 @@ void command_list_release	(GSList *cmds);
 gboolean cmd_set_text		(WorkbookControl *wbc, Sheet *sheet,
 				 CellPos const *pos, const char *new_text);
 
-gboolean cmd_area_set_text	(WorkbookControl *wbc, EvalPos const *pos,
+gboolean cmd_area_set_text	(WorkbookControl *wbc, ParsePos const *pos,
 				 char const *text, gboolean as_array);
 
 gboolean cmd_set_date_time	(WorkbookControl *wbc, Sheet *sheet,

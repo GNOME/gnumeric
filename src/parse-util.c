@@ -248,6 +248,15 @@ cellref_get (CellRef *out, char const *in, CellPos const *pos)
 
 /****************************************************************************/
 
+/**
+ * gnumeric_char_start_expr_p :
+ *
+ * Can the supplied string be an expression ?  It does not guarantee that it is,
+ * however, it is possible.  If it is possible it strips off any header
+ * characters that are not relevant.
+ *
+ * NOTE : things like -1,234 will match
+ */
 char const *
 gnumeric_char_start_expr_p (char const * c)
 {
@@ -583,43 +592,31 @@ parse_cell_name_list (Sheet *sheet,
  * error is returned.
  */
 StyleFormat *
-parse_text_value_or_expr (EvalPos const *pos, char const *text,
+parse_text_value_or_expr (ParsePos const *pos, char const *text,
 			  Value **val, ExprTree **expr,
 			  StyleFormat *current_format /* can be NULL */)
 {
-	StyleFormat *desired_format = NULL;
-	char const * const expr_start = gnumeric_char_start_expr_p (text);
+	StyleFormat *desired_fmt = NULL;
+	char const *expr_start;
 
-	if (NULL != expr_start) {
-		if (*expr_start) {
-			ParsePos pp;
-
-			/* Parse in the supplied eval context */
-			*expr = expr_parse_string (expr_start,
-				parse_pos_init_evalpos (&pp, pos),
-				&desired_format, NULL);
-
-			/* If the parse fails set the value to be the syntax error */
-			if (*expr == NULL)
-				*val = value_new_string (text);
-			else
-				*val = NULL;
-		} else {
-			*val = value_new_string (text);
-			*expr = NULL;
-		}
-	} else {
-		/* Does it match any formats?  */
-		*val = format_match (text, current_format, &desired_format);
-
-		/* If it does not match known formats, assume it is text.  */
-		if (*val == NULL)
-			*val = value_new_string (text);
-
+	/* Does it match any formats?  */
+	*val = format_match (text, current_format, &desired_fmt);
+	if (*val != NULL) {
 		*expr = NULL;
+		return desired_fmt;
 	}
 
-	return desired_format;
+	/* If it does not match known formats, see if it is an expression */
+	expr_start = gnumeric_char_start_expr_p (text);
+	if (NULL != expr_start && *expr_start) {
+		*expr = expr_parse_string (expr_start, pos, &desired_fmt, NULL);
+		if (*expr != NULL)
+			return desired_fmt;
+	}
+
+	/* Fall back on string */
+	*val = value_new_string (text);
+	return NULL;
 }
 
 

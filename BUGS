@@ -1,6 +1,6 @@
 To report Gnumeric bugs, please visit bugzilla.gnome.org.
 
-This file is used as a scratch pad by developers.  It is a list of know
+This file is used as a scratch pad by developers.  It is a list of known
 issues that need to be addressed.  Divided into, things that will prevent
 release, and longer term bugs.
 
@@ -15,15 +15,14 @@ Release Critical
     - config check for xml-i18n-tool version (or should it be
       intltool ?)
 
-    - wbcg_edit_finish thinks that "-111,333" is a *formula*.  We need to match
-      agaist numbers even before considering that.
-
-    - Unbounded recursion in wbcg_edit_finish -- make it a loop.
-
 Pending Patches
 ---------------
 
+    Almer's validation persistence
+    Wayne's cleanup of print setup
     http://bugzilla.gnome.org/show_bug.cgi?id=60468	oleo
+
+    Status of acuster's latex fix ?
 
 Long term breakage
 ------------------
@@ -42,6 +41,7 @@ Long term breakage
 - outline mode
     : finish implementing optionally putting markers above/left
     : Make ungroup smarter about handling extra items of lower level at the edges
+    : support the numbers.
 - hidden rows/cols
     : Make unhide smarter to find hidden regions on either side of selected ranges.
 

@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * number-match.c: This file includes the support for matching
  * entered strings as numbers (by trying to apply one of the existing
@@ -640,6 +641,7 @@ void
 format_match_init (void)
 {
 	int i;
+	StyleFormat *fmt;
 
 	currency_date_format_init ();
 
@@ -647,12 +649,17 @@ format_match_init (void)
 		char const * const * p = cell_formats[i];
 
 		for (; *p; p++) {
-			StyleFormat *fmt = style_format_new_XL (*p, FALSE);
+			/*  do not include text formats in the standard set */
+			if (!strcmp ("@", *p))
+				continue;
+
+			fmt = style_format_new_XL (*p, FALSE);
 			if (fmt->regexp_str != NULL) {
-				/* TODO : we could hash the regexp and
-				 * only check those that are not already in use.
-				 * We could also keep track of the ones that General would match.
-				 * and avoid putting them in the list too.
+				/* TODO : we could hash the regexp and only
+				 * check those that are not already in use.  We
+				 * could also keep track of the ones that
+				 * General would match.  and avoid putting them
+				 * in the list too.
 				 */
 				format_match_list = g_slist_append (format_match_list, fmt);
 			}

@@ -218,7 +218,7 @@ range_merge (Range const *a, Range const *b)
 char const *
 range_name (Range const *src)
 {
-	static char buffer [(2 + 4 * sizeof (long)) * 2 + 1];
+	static char buffer[(2 + 4 * sizeof (long)) * 2 + 1];
 
 	if (src->start.col != src->end.col ||
 	    src->start.row != src->end.row) {
@@ -1028,57 +1028,28 @@ global_range_dup (GlobalRange const *src)
 	return global_range_new (src->sheet, &src->range);
 }
 
-
-/**
- * range_from_expr_tree:
- * @the_tree
- * 
- * figure out whether this is a range specification
- *
- */
-static Value *
-range_from_expr_tree(ExprTree   *the_tree) 
-{
-	if (the_tree == NULL)
-		return NULL;
-	switch (the_tree->any.oper) {
-	case OPER_CONSTANT:
-		if (the_tree->constant.value->type == VALUE_CELLRANGE)
-			return value_duplicate(the_tree->constant.value);
-		return NULL;
-	case OPER_NAME:
-		if (the_tree->name.name->builtin) {
-			return NULL;
-		} else {
-			return  range_from_expr_tree (the_tree->name.name->t.expr_tree);
-		}
-	default:
-		return NULL;
-	}
-}
-
 /**
  * global_range_parse:
  * @sheet: the sheet where the cell range is evaluated. This really only needed if
  *         the range given does not include a sheet specification.
- * @range: a range specification (ex: "A1", "A1:C3", "Sheet1!A1:C3).
+ * @str: a range specification (ex: "A1", "A1:C3", "Sheet1!A1:C3).
  *
  * Returns a (Value *) of type VALUE_CELLRANGE if the @range was
  * succesfully parsed or NULL on failure.
  */
 Value *
-global_range_parse (Sheet *sheet, char const *range)
+global_range_parse (Sheet *sheet, char const *str)
 {
-	ExprTree   *the_tree = NULL;
-	ParsePos pp;
-	Value *value;
+	Value    *value = NULL;
+	ExprTree *expr = NULL;
+	ParsePos  pp;
 
 	parse_pos_init (&pp, sheet->workbook, sheet, 0, 0);
-	the_tree = expr_parse_string (range, &pp,
-				    NULL, NULL);
-	value = range_from_expr_tree(the_tree);
-	if (the_tree != NULL) 
-		expr_tree_unref(the_tree);
+	expr = expr_parse_string (str, &pp, NULL, NULL);
+	if (expr != NULL)  {
+		value = expr_tree_get_range (expr);
+		expr_tree_unref (expr);
+	}
 	return value;
 }
 

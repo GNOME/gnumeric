@@ -1,10 +1,12 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * workbook-edit.c: Keeps track of the cell editing process.
  *
  * Author:
  *   Miguel de Icaza (miguel@helixcode.com)
+ *   Jody GOldberg (jgoldberg@home.com)
  *
- * (C) 2000 Helix Code, Inc.
+ * (C) 2000-2001 Ximian, Inc.
  */
 #include <config.h>
 #include "workbook-edit.h"
@@ -178,10 +180,9 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 	wbc = WORKBOOK_CONTROL (wbcg);
 	wbv = wb_control_view (wbc);
 
-	/* Restore the focus */
 	wb_control_gui_focus_cur_sheet (wbcg);
 
-	/* We may have a guru up even if if re not editing */
+	/* We may have a guru up even if we are not editing */
 	if (wbcg->edit_line.guru != NULL)
 		gtk_widget_destroy (wbcg->edit_line.guru);
 
@@ -198,109 +199,74 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 
 	/* Save the results before changing focus */
 	if (accept) {
+		char *free_txt = NULL;
 		char const *txt = wbcg_edit_get_display_text (wbcg);
-		char const *expr_txt = gnumeric_char_start_expr_p (txt);
+		MStyle *mstyle = sheet_style_get (sheet, sheet->edit_pos.col, sheet->edit_pos.row);
+		ExprTree *expr = NULL;
+		gboolean is_valid;
 
-		if (expr_txt != NULL) {
-			ParsePos    pp;
-			ParseError  perr, perr_paren;
-			ExprTree   *tree;
-			char       *real_txt = NULL;
-			char const *real_expr_txt = NULL;
-
-			while (TRUE) {
-				parse_pos_init (&pp, wb_control_workbook (wbc), sheet,
+		/* BE CAREFUL the standard fmts must not NOT include '@' */
+		Value *value = format_match (txt, mstyle_get_format (mstyle), NULL);
+		if (value == NULL) {
+			char const *expr_txt = gnumeric_char_start_expr_p (txt);
+			if (expr_txt != NULL) {
+				ParsePos    pp;
+				ParseError  perr;
+				ExprTree   *expr;
+				parse_pos_init (&pp, sheet->workbook, sheet,
 						sheet->edit_pos.col, sheet->edit_pos.row);
+
 				parse_error_init (&perr);
+				expr = gnumeric_expr_parser (expr_txt, &pp, TRUE, FALSE, NULL, &perr);
+				/* Try adding a single extra closing paren to see if it helps */
+				if (expr == NULL && perr.id == PERR_MISSING_PAREN_CLOSE) {
+					ParseError tmp_err;
+					char *tmp = g_strconcat (txt, ")", NULL);
+					parse_error_init (&tmp_err);
+					expr = gnumeric_expr_parser (gnumeric_char_start_expr_p (tmp),
+						&pp, TRUE, FALSE, NULL, &tmp_err);
+					parse_error_free (&tmp_err);
 
-				tree = gnumeric_expr_parser (real_expr_txt ? real_expr_txt : expr_txt,
-							     &pp, TRUE, FALSE, NULL, &perr);
+					if (expr != NULL)
+						txt = free_txt = tmp;
+					else
+						g_free (tmp);
+				}
 
-				if (!tree) {
-					gboolean result;
-					
-					/*
-					 * Try adding a single extra paren and see if it helps,
-					 * if an error still occurs we swap back the original
-					 * (closing paren) error and display that
-					 */
-					if (real_txt == NULL && perr.id == PERR_MISSING_PAREN_CLOSE) {
-						real_txt = g_strconcat (txt, ")", NULL);
-						real_expr_txt = gnumeric_char_start_expr_p (real_txt);
-						perr_paren = perr;
-						continue;
-					} else if (real_txt != NULL) {
-						parse_error_free (&perr);
-						perr = perr_paren;
-						g_free (real_txt);
-					}
-
-					result = wbcg_edit_error_dialog (wbcg, perr.message);
-
-					if (result) {
-						if (perr.begin_char == 0 && perr.end_char == 0)
-							gtk_editable_set_position (
-								GTK_EDITABLE (wbcg_get_entry (wbcg)), -1);
-						else
-							gtk_entry_select_region (
-								GTK_ENTRY (wbcg_get_entry (wbcg)),
-								perr.begin_char, perr.end_char);
-						parse_error_free (&perr);
-							
-						gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel),
+				if (expr == NULL &&
+				    wbcg_edit_error_dialog (wbcg, perr.message)) {
+					if (perr.begin_char == 0 && perr.end_char == 0)
+						gtk_editable_set_position (
+							GTK_EDITABLE (wbcg_get_entry (wbcg)), -1);
+					else
+						gtk_entry_select_region (
+							GTK_ENTRY (wbcg_get_entry (wbcg)),
+							perr.begin_char, perr.end_char);
+					gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel),
 							      GTK_WIDGET (wbcg_get_entry (wbcg)));
 
-						return FALSE;
-					} else {
-						parse_error_free (&perr);
-						return wbcg_edit_finish (wbcg, FALSE);
-					}
-				} else {
-					MStyle *mstyle = sheet_style_get (sheet, sheet->edit_pos.col, sheet->edit_pos.row);
-					gboolean result;
-					
-					result = wbcg_edit_validate (wbcg, mstyle, tree, NULL);
-
-					expr_tree_unref (tree);
-					if (real_txt)
-						parse_error_free (&perr_paren);
-						
-					if (!result) {
-						if (real_txt)
-							g_free (real_txt);
-						parse_error_free (&perr);
-						return wbcg_edit_finish (wbcg, FALSE);
-					} else {
-						cmd_set_text (wbc, sheet, &sheet->edit_pos, real_txt ? real_txt : txt);
-						break;
-					}
+					parse_error_free (&perr);
+					return FALSE;
 				}
 			}
-
-			if (real_txt)
-				g_free (real_txt);
-			parse_error_free (&perr);
-		} else {
-			MStyle *mstyle = sheet_style_get (sheet, sheet->edit_pos.col, sheet->edit_pos.row);
-			StyleFormat *cformat;
-			gboolean result;
-			Value *val;
-			
-			cformat = mstyle_get_format (mstyle);
-			val = format_match (txt, cformat, NULL);
-			if (!val)
-				val = value_new_string (txt);
-
-			result = wbcg_edit_validate (wbcg, mstyle, NULL, val);
-			value_release (val);
-
-			if (!result)
-				return wbcg_edit_finish (wbcg, FALSE);
-			else
-				/* Store the old value for undo */
-				cmd_set_text (wbc, sheet, &sheet->edit_pos, txt);
+			if (expr == NULL)
+				value = value_new_string (txt);
 		}
-	} else {
+
+		is_valid = wbcg_edit_validate (wbcg, mstyle, expr, value);
+		if (value != NULL)
+			value_release (value);
+		if (expr != NULL)
+			expr_tree_unref (expr);
+		if (is_valid)
+			cmd_set_text (wbc, sheet, &sheet->edit_pos, txt);
+		else
+			accept = FALSE;
+		if (free_txt != NULL)
+			g_free (free_txt);
+	}
+
+	if (!accept) {
 		/* Redraw the cell contents in case there was a span */
 		int const c = sheet->edit_pos.col;
 		int const r = sheet->edit_pos.row;

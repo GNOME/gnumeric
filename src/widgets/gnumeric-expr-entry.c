@@ -183,7 +183,7 @@ gnumeric_expr_entry_key_press_event (GtkWidget *widget, GdkEventKey *event)
 
 		if (state == GDK_CONTROL_MASK ||
 		    state == (GDK_CONTROL_MASK|GDK_SHIFT_MASK)) {
-			EvalPos pos;
+			ParsePos pos;
 			gboolean const is_array = (state & GDK_SHIFT_MASK);
 			char const *text = gtk_entry_get_text (
 				GTK_ENTRY (wbcg_get_entry (wbcg)));
@@ -191,7 +191,8 @@ gnumeric_expr_entry_key_press_event (GtkWidget *widget, GdkEventKey *event)
 
 			/* Be careful to use the editing sheet */
 			cmd_area_set_text (WORKBOOK_CONTROL (wbcg),
-				eval_pos_init (&pos, sheet, &sheet->edit_pos),
+				parse_pos_init (&pos, NULL, sheet,
+					sheet->edit_pos.col, sheet->edit_pos.row),
 				text, is_array);
 
 			/* Finish editing but do NOT store the results
