@@ -1992,13 +1992,16 @@ gnumeric_permut (FunctionEvalInfo *ei, GnmValue **argv)
 
 static char const *help_hypgeomdist = {
 	N_("@FUNCTION=HYPGEOMDIST\n"
-	   "@SYNTAX=HYPGEOMDIST(x,n,M,N)\n"
+	   "@SYNTAX=HYPGEOMDIST(x,n,M,N[,cumulative])\n"
 
 	   "@DESCRIPTION="
 	   "HYPGEOMDIST function returns the hypergeometric distribution. "
 	   "@x is the number of successes in the sample, @n is the number "
            "of trials, @M is the number of successes overall, and @N is the "
            "population size.\n"
+	   "\n"
+	   "If the optional argument @cumulative is TRUE, the cumulative "
+	   "left tail will be returned.\n"
 	   "\n"
 	   "* If @x,@n,@M or @N is a non-integer it is truncated.\n"
 	   "* If @x,@n,@M or @N < 0 HYPGEOMDIST returns #NUM! error.\n"
@@ -2014,17 +2017,19 @@ static char const *help_hypgeomdist = {
 static GnmValue *
 gnumeric_hypgeomdist (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	int x, n, M, N;
-
-	x = value_get_as_int (argv[0]);
-	n = value_get_as_int (argv[1]);
-	M = value_get_as_int (argv[2]);
-	N = value_get_as_int (argv[3]);
+	int x = value_get_as_int (argv[0]);
+	int n = value_get_as_int (argv[1]);
+	int M = value_get_as_int (argv[2]);
+	int N = value_get_as_int (argv[3]);
+	gboolean cum = argv[4] ? value_get_as_int (argv[4]) : FALSE;
 
 	if (x < 0 || n < 0 || M < 0 || N < 0 || x > M || n > N)
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (dhyper (x, M, N - M, n, FALSE));
+	if (cum)
+		return value_new_float (phyper (x, M, N - M, n, TRUE, FALSE));
+	else
+		return value_new_float (dhyper (x, M, N - M, n, FALSE));
 }
 
 /***************************************************************************/
@@ -5705,7 +5710,7 @@ const GnmFuncDescriptor stat_functions[] = {
 	  &help_harmean, NULL, gnumeric_harmean, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "hypgeomdist",  "ffff", N_("x,n,M,N"),
+	{ "hypgeomdist",  "ffff|b", N_("x,n,M,N,cumulative"),
 	  &help_hypgeomdist, gnumeric_hypgeomdist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         { "intercept",    "AA",   N_("number,number,"),

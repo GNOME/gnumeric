@@ -3,6 +3,7 @@
 	* functions.c (gnumeric_ftest): Improve precision when we end up
 	using the left tail.
 	(gnumeric_ztest): Welcome this to the 21st century.
+	(gnumeric_hypgeomdist): Add optional "cumulative" argument.
 
 2004-04-12  Morten Welinder  <terra@gnome.org>
 
