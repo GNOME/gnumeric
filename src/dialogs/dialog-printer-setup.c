@@ -542,10 +542,6 @@ spin_button_adapt_to_unit (GtkSpinButton *spin, UnitName new_unit)
 		step_increment = 0.25;
 		digits = 2;
 		break;
-	default:
-		digits = 2;
-		step_increment = 0.25;
-		g_assert_not_reached ();
 	}
 	adjustment->step_increment = step_increment;
 	adjustment->page_increment = step_increment * 10;
