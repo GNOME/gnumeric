@@ -1,4 +1,6 @@
 2002-02-16  Kevin Breit  <mrproper@ximian.com>
 
+	* C/funct-ref.xml: I hacked this file a bit.  I'm going to split this into individual files shortly.
+	
 	* C/funct-ref.xml: Added this file to CVS.  It's going to be a test bed for our exciting new documentation platform for Gnome 2.
 
