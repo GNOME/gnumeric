@@ -315,14 +315,12 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 	
 	switch (e->type){
 	case GDK_ENTER_NOTIFY:
-		if (!resizing) {
-			convert (canvas, e->crossing.x, e->crossing.y, &x, &y);
-			if (item_bar->orientation == GTK_ORIENTATION_VERTICAL)
-				pos = y;
-			else
-				pos = x;
-			set_cursor (item_bar, pos);
-		}
+		convert (canvas, e->crossing.x, e->crossing.y, &x, &y);
+		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL)
+			pos = y;
+		else
+			pos = x;
+		set_cursor (item_bar, pos);
 		break;
 		
 	case GDK_MOTION_NOTIFY:
@@ -363,12 +361,10 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			item_bar->resize_width = cri->pixels;
 
 			item_bar_start_resize (item_bar, pos);
-			gdk_pointer_grab (GTK_WIDGET (canvas)->window,
-					  FALSE,
-					  GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
-					  NULL,
-					  NULL,
-					  e->button.time);
+			gnome_canvas_item_grab (item,
+						GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
+						item_bar->change_cursor,
+						e->button.time);
 		} else {
 			gtk_signal_emit (GTK_OBJECT (item),
 					 item_bar_signals [SELECTION_CHANGED],
@@ -384,7 +380,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 					 item_bar->resize_width);
 			item_bar->resize_pos = -1;
 			gtk_object_destroy (item_bar->resize_guide);
-			gdk_pointer_ungrab (e->button.time);
+			gnome_canvas_item_ungrab (item, e->button.time);
 		} 
 	default:
 		return FALSE;

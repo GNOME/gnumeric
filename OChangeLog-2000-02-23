@@ -1,3 +1,8 @@
+1998-07-15  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* src/item-bar.c (item_bar_event): Use
+	gnome_canvas_item_grab/ungrab() now that they exist.
+
 1998-07-14  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* src/item-bar.c (item_bar_realize): Set the item_bar->gc's
