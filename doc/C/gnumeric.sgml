@@ -63,43 +63,43 @@
 </bookinfo>
 
    <chapter id="preface">
-     <title>Preface.</title>
+     <title>Preface</title>
       &preface;
    </chapter>
 
    <chapter id="gui-elements">
-     <title>Elements of the Gnumeric User Interface.</title>
+     <title>Elements of the Gnumeric User Interface</title>
      &gui-elements;
    </chapter>
 
    <chapter id="menus">
-     <title>Gnumeric Menus.</title>
+     <title>Gnumeric Menus</title>
      &menus;
    </chapter>
 
    <chapter id="toolbars">
-     <title>Gnumeric Toolbars.</title>
+     <title>Gnumeric Toolbars</title>
      &toolbars;
    </chapter>
 
    <chapter id="other-elements">
-     <title>Gnumeric Data Entry area, Cell Grid and Information Area.
+     <title>Gnumeric Data Entry area, Cell Grid and Information Area
 	 </title>
      &worksheet;
    </chapter>
 
   <chapter id="editing">
-    <title>Entering data.</title>
+    <title>Entering data</title>
     &editing;
   </chapter>
 
   <chapter id="copying-moving">
-    <title>Copying and Moving.</title>
+    <title>Copying and Moving</title>
     &copying-moving;
   </chapter>
 
    <chapter id="autofill">
-     <title>Autofill.</title>
+     <title>Autofill</title>
      &autofill;
    </chapter>
 
@@ -110,7 +110,7 @@
 
 
   <chapter id="files">
-    <title>Working with files.</title>
+    <title>Working with files</title>
     &files;
   </chapter>
 
