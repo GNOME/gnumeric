@@ -1,3 +1,8 @@
+2003-06-22  Jon K Hellan  <hellan@acm.org>
+
+	* src/file.c (gnm_file_saver_save): Don't check for overwrite if
+	not saving to a file.
+
 2003-06-22  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-object.c (sheet_object_register) : register the graph

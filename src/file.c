@@ -24,6 +24,7 @@
 
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-output.h>
+#include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 
@@ -539,18 +540,21 @@ gnm_file_saver_save (GnmFileSaver const *fs, IOContext *io_context,
 	g_return_if_fail (IS_GNM_FILE_SAVER (fs));
 	g_return_if_fail (GSF_IS_OUTPUT (output));
 
-	file_name = (char *) gsf_output_name (output);
-	g_return_if_fail (file_name != NULL);
+	if (GSF_IS_OUTPUT_STDIO (output)) {
+		file_name = (char *) gsf_output_name (output);
+		g_return_if_fail (file_name != NULL);
+		
+		if (!fs->overwrite_files &&
+		    g_file_test ((file_name), G_FILE_TEST_EXISTS)) {
+			ErrorInfo *save_error;
 
-	if (!fs->overwrite_files && g_file_test ((file_name), G_FILE_TEST_EXISTS)) {
-		ErrorInfo *save_error;
-
-		save_error = error_info_new_str_with_details (
-		_("Saving over old files of this type is disabled for safety."),
-		error_info_new_str (
-		_("You can turn this safety feature off by editing the appropriate plugin.xml file.")));
-		gnumeric_io_error_info_set (io_context, save_error);
-		return;
+			save_error = error_info_new_str_with_details (
+				_("Saving over old files of this type is disabled for safety."),
+				error_info_new_str (
+					_("You can turn this safety feature off by editing appropriate plugin.xml file.")));
+			gnumeric_io_error_info_set (io_context, save_error);
+			return;
+		}
 	}
 
 	GNM_FILE_SAVER_METHOD (fs, save) (fs, io_context, wbv, output);
