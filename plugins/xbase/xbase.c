@@ -12,6 +12,7 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "format.h"
+#include "gutils.h"
 #include "color.h"
 #include "sheet-object.h"
 #include "command-context.h"
