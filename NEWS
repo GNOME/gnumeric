@@ -3,10 +3,12 @@ Gnumeric 0.46
 Michael:
 	* Fixed problems closing workbooks
 	* Add pristine workbook discard
+	* Fixup html export.
 
 Jon:
 	* Lots of Excel style export work:
 	format, font, colors, borders, alignment, wrap, rotation.
+	* Excel export row/col sizing.
 
 JP:
 	* Added sorting of infinite ranges
