@@ -1,3 +1,8 @@
+2000-10-04  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (biff_get_rk) : Fix ancient thinko.  Thanks to
+	  heiko@hexco.de for noticing this.
+
 2000-09-20  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-formula-read.c (ms_excel_parse_formula) : Make the warning

@@ -2703,10 +2703,11 @@ biff_get_rk (const guint8 *ptr)
 	case eInt:
 		return value_new_int ((number>>2));
 	case eIntx100:
-		if (number%100==0)
-			return value_new_int ((number>>2)/100);
+		number >>= 2;
+		if ((number % 100) ==0)
+			return value_new_int (number/100);
 		else
-			return value_new_float ((number>>2)/100.0);
+			return value_new_float (number/100.0);
 	}
 	while (1) abort ();
 }
