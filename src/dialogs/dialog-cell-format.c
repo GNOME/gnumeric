@@ -2466,7 +2466,7 @@ cb_fmt_dialog_dialog_buttons (GtkWidget *btn, FormatState *state)
 
 /* Handler for destroy */
 static gboolean
-cb_fmt_dialog_dialog_destroy (GtkObject *unused, FormatState *state)
+cb_fmt_dialog_dialog_destroy (FormatState *state)
 {
 	wbcg_edit_detach_guru (state->wbcg);
 	style_format_unref (state->format.spec);
@@ -2772,6 +2772,9 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	/* Ok, edit events from now on are real */
 	state->enable_edit = TRUE;
 
+	g_signal_connect (G_OBJECT (dialog),
+		"set-focus",
+		G_CALLBACK (cb_fmt_dialog_set_focus), state);
 	/* We could now make it modeless, and arguably should do so. We must
 	 * then track the selection: styles should be applied to the current
 	 * selection.
@@ -2783,14 +2786,11 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	 *   cell is selected? May be, but then we can't first make a style,
 	 *   then move around and apply it to different cells.
 	 */
-	g_signal_connect (G_OBJECT (dialog),
-		"destroy",
-		G_CALLBACK (cb_fmt_dialog_dialog_destroy), state);
-	wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
-	g_signal_connect (G_OBJECT (dialog),
-		"set-focus",
-		G_CALLBACK (cb_fmt_dialog_set_focus), state);
 
+	/* a candidate for merging into attach guru */
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify)cb_fmt_dialog_dialog_destroy);
+	wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
 	gnumeric_non_modal_dialog (state->wbcg, GTK_WINDOW (state->dialog));
 	gtk_widget_show (GTK_WIDGET (state->dialog));
 }

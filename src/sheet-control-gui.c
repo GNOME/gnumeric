@@ -1180,8 +1180,10 @@ scg_finalize (GObject *object)
 	if (sc->view)
 		sv_detach_control (sc);
 
-	if (scg->table)
-		gtk_object_unref (GTK_OBJECT (scg->table));
+	if (scg->table) {
+		gtk_object_destroy (GTK_OBJECT (scg->table));
+		scg->table =NULL;
+	}
 
 	if (G_OBJECT_CLASS (scg_parent_class)->finalize)
 		(*G_OBJECT_CLASS (scg_parent_class)->finalize)(object);

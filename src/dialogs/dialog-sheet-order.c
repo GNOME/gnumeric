@@ -689,7 +689,7 @@ cb_ok_clicked (GtkWidget *ignore, SheetManager *state)
 }
 
 static void
-cb_sheet_order_destroy (GtkWidget *ignored, SheetManager *state)
+cb_sheet_order_destroy (SheetManager *state)
 {
 	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (state->wbcg));
 
@@ -960,11 +960,9 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 		"sheet-order.html");
 
 	/* a candidate for merging into attach guru */
-	g_signal_connect (G_OBJECT (state->dialog),
-		"destroy",
-		G_CALLBACK (cb_sheet_order_destroy), state);
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) cb_sheet_order_destroy);
 	gnumeric_non_modal_dialog (state->wbcg, GTK_WINDOW (state->dialog));
 	wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
 	gtk_widget_show_all (GTK_WIDGET (state->dialog));
-	
 }

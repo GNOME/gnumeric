@@ -1,3 +1,9 @@
+2002-10-08  Jody Goldberg <jody@gnome.org>
+
+	* dialog-define-names.c (cb_entry_activate) : try and be smart about
+	  what a user wants when they activate and entry.  If there is
+	  something there attempt to add it but don't close, else exit.
+
 2002-10-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-cell-sort.c (cb_add_clicked): plug leak

@@ -5296,6 +5296,7 @@ cmd_define_name_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 			gnumeric_error_invalid (COMMAND_CONTEXT (wbc), _("Name"), err);
 			return TRUE;
 		}
+		expr_name_ref (me->nexpr);
 		me->expr = NULL;
 	} else {/* assigning a value to a placeholder */
 		GnmExpr const *tmp = me->nexpr->t.expr_tree;

@@ -424,11 +424,11 @@ name_guru_init_button (NameGuruState *state, char const *name)
 }
 
 static gboolean
-cb_name_guru_destroy (GtkObject *w, NameGuruState *state)
+cb_name_guru_destroy (NameGuruState *state)
 {
-	g_return_val_if_fail (w != NULL, FALSE);
 	g_return_val_if_fail (state != NULL, FALSE);
 
+	puts ("foo");
 	wbcg_edit_detach_guru (state->wbcg);
 
 	if (state->gui != NULL) {
@@ -446,6 +446,17 @@ cb_name_guru_destroy (GtkObject *w, NameGuruState *state)
 	g_free (state);
 
 	return FALSE;
+}
+
+static void
+cb_entry_activate (GtkWidget *item, NameGuruState *state)
+{
+	char const *name = gtk_entry_get_text (state->name);
+
+	if (name == NULL || *name == '\0' ||
+	    gnm_expr_entry_is_blank (state->expr_entry))
+		gtk_widget_destroy (state->dialog);
+	name_guru_add (state);
 }
 
 static gboolean
@@ -515,6 +526,10 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 	g_signal_connect (G_OBJECT (state->name),
 		"changed",
 		G_CALLBACK (cb_name_guru_update_sensitivity), state);
+	g_signal_connect (G_OBJECT (state->name),
+		"activate",
+		G_CALLBACK (cb_entry_activate), state);
+
 	/* We need to connect after because this is an expresion, and it will
 	 * be changed by the mouse selecting a range, update after the entry
 	 * is updated with the new text.
@@ -522,22 +537,20 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 	g_signal_connect_after (G_OBJECT (state->expr_entry),
 		"changed",
 		G_CALLBACK (cb_name_guru_update_sensitivity), state);
-
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-				  GTK_WIDGET (state->name));
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-				  GTK_WIDGET (state->expr_entry));
-	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
-			       DEFINE_NAMES_KEY);
+	g_signal_connect (G_OBJECT (gnm_expr_entry_get_entry (state->expr_entry)),
+		"activate",
+		G_CALLBACK (cb_entry_activate), state);
 
 	gnm_expr_entry_set_scg (state->expr_entry, wbcg_cur_scg (wbcg));
 
 	name_guru_populate_list (state);
 
+	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+			       DEFINE_NAMES_KEY);
+
 	/* a candidate for merging into attach guru */
-	g_signal_connect (GTK_OBJECT (state->dialog),
-		"destroy",
-		G_CALLBACK (cb_name_guru_destroy), state);
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify)cb_name_guru_destroy);
 	gnumeric_non_modal_dialog (state->wbcg, GTK_WINDOW (state->dialog));
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gtk_widget_show_all (GTK_WIDGET (state->dialog));

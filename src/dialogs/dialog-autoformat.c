@@ -386,7 +386,7 @@ cb_cancel_clicked (GtkButton *button, AutoFormatState *state)
 }
 
 static void
-cb_autoformat_destroy (GtkWidget *ignored, AutoFormatState *state)
+cb_autoformat_destroy (AutoFormatState *state)
 {
 	wbcg_edit_detach_guru (state->wbcg);
 
@@ -685,9 +685,8 @@ dialog_autoformat (WorkbookControlGUI *wbcg)
 	gtk_dialog_set_default_response (state->dialog, GTK_RESPONSE_OK);
 
 	/* a candidate for merging into attach guru */
-	g_signal_connect (G_OBJECT (state->dialog),
-		"destroy",
-		G_CALLBACK (cb_autoformat_destroy), state);
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify)cb_autoformat_destroy);
 	gnumeric_non_modal_dialog (state->wbcg, GTK_WINDOW (state->dialog));
 	wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
 	gtk_widget_show_all (GTK_WIDGET (state->dialog));

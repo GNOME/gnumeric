@@ -30,6 +30,7 @@ Jody:
 	* Import named expressions, arrays and merged regions from OpenCalc
 	* More cleanup after the big parser rework
 	* Esoteric XL number formats #,,##0,,
+	* Simplify some dialog code
 
 Morten:
 	* Port search center from gal's e-table to gtk's treeview.

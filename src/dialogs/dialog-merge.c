@@ -291,7 +291,7 @@ cb_merge_merge_clicked (GtkWidget *ignore, MergeState *state)
 }
 
 static void
-cb_merge_destroy (GtkWidget *ignored, MergeState *state)
+cb_merge_destroy (MergeState *state)
 {
 	wbcg_edit_detach_guru (state->wbcg);
 	g_object_unref (G_OBJECT (state->gui));
@@ -422,13 +422,13 @@ dialog_merge (WorkbookControlGUI *wbcg)
 		glade_xml_get_widget (state->gui, "help_button"),
 		"merge.html");
 
-	g_signal_connect (G_OBJECT (state->dialog),
-		"destroy",
-		G_CALLBACK (cb_merge_destroy), state);
-	gnumeric_non_modal_dialog (state->wbcg, GTK_WINDOW (state->dialog));
-	wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
-
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       MERGE_KEY);
+
+	/* a candidate for merging into attach guru */
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) cb_merge_destroy);
+	gnumeric_non_modal_dialog (state->wbcg, GTK_WINDOW (state->dialog));
+	wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
 	gtk_widget_show_all (GTK_WIDGET (state->dialog));
 }

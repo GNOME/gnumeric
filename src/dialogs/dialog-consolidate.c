@@ -164,8 +164,8 @@ dialog_set_button_sensitivity (GtkWidget *dummy, ConsolidateState *state)
 	return;
 }
 
-static gboolean
-cb_dialog_destroy (GtkObject *object, ConsolidateState *state)
+static void
+cb_dialog_destroy (ConsolidateState *state)
 {
 	wbcg_edit_detach_guru (state->wbcg);
 
@@ -176,8 +176,6 @@ cb_dialog_destroy (GtkObject *object, ConsolidateState *state)
 		g_free (state->construct_error);
 	}
 	g_free (state);
-
-	return FALSE;
 }
 
 static void
@@ -385,9 +383,6 @@ setup_widgets (ConsolidateState *state, GladeXML *glade_gui)
  	gnumeric_editable_enters (GTK_WINDOW (state->gui.dialog),
 				  GTK_WIDGET (state->gui.source));
 
-	g_signal_connect (G_OBJECT (state->gui.dialog),
-		"destroy",
-		G_CALLBACK (cb_dialog_destroy), state);
 	g_signal_connect (G_OBJECT (state->gui.destination),
 		"changed",
 		G_CALLBACK (dialog_set_button_sensitivity), state);
@@ -479,9 +474,10 @@ dialog_consolidate (WorkbookControlGUI *wbcg)
 	gtk_widget_grab_focus   (GTK_WIDGET (state->gui.function));
 	gtk_widget_grab_default (GTK_WIDGET (state->gui.btn_ok));
 
-	/* Show the dialog */
-	gnumeric_non_modal_dialog (state->wbcg, GTK_WINDOW (state->gui.dialog));
+	/* a candidate for merging into attach guru */
+	g_object_set_data_full (G_OBJECT (state->gui.dialog),
+		"state", state, (GDestroyNotify) cb_dialog_destroy);
 	wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->gui.dialog));
-
+	gnumeric_non_modal_dialog (state->wbcg, GTK_WINDOW (state->gui.dialog));
 	gtk_widget_show (GTK_WIDGET (state->gui.dialog));
 }

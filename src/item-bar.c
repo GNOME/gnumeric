@@ -910,7 +910,7 @@ item_bar_destroy (GtkObject *object)
 	ib_fonts_unref (ib);
 
 	if (ib->tip) {
-		gtk_object_unref (GTK_OBJECT (ib->tip));
+		gtk_object_destroy (GTK_OBJECT (ib->tip));
 		ib->tip = NULL;
 	}
 
