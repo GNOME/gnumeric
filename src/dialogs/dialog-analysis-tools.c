@@ -39,8 +39,7 @@ static void dialog_anova_two_factor_without_r_tool(Workbook *wb, Sheet *sheet);
 
 
 static descriptive_stat_tool_t ds;
-static int                     label_row_flag, standard_errors_flag,
-			       intercept_flag; 
+static int                     label_row_flag, intercept_flag; 
 static random_distribution_t   distribution = DiscreteDistribution;
 
 
@@ -269,12 +268,6 @@ force_intercept_zero_signal_fun ()
 	intercept_flag = !intercept_flag;
 }
 
-static void
-standard_errors_signal_fun ()
-{
-        standard_errors_flag = !standard_errors_flag;
-}
-
 static check_button_t desc_stat_buttons[] = {
         { N_("Summary Statistics"), summary_stat_signal_fun, FALSE,
 	  "" },
@@ -293,23 +286,12 @@ static check_button_t first_row_label_button[] = {
         { NULL, NULL }
 };
 
-static check_button_t label_button[] = {
-        { N_("Labels"), first_row_label_signal_fun, FALSE,
-	  "" },
-        { NULL, NULL }
-};
-
 static check_button_t force_intercept_zero_button[] = {
 	{ N_("Force Intercept to Be Zero"), force_intercept_zero_signal_fun, 
 	  FALSE, ""},
 	{ NULL, NULL }
 };
 
-static check_button_t standard_errors_button[] = {
-        { N_("Standard Errors"), standard_errors_signal_fun, FALSE,
-	  "" },
-        { NULL, NULL }
-};
 
 static int selected_row;
 
@@ -2048,65 +2030,73 @@ dialog_loop:
  	gnome_dialog_close (GNOME_DIALOG (dialog));
 }
 
+
+
 static void
 dialog_average_tool (Workbook *wb, Sheet *sheet)
 {
-        static GtkWidget *dialog, *box, *vbox;
-	static GtkWidget *range_entry, *output_range_entry;
-	static GtkWidget *interval_entry;
-	static GSList    *output_ops;
-	static int       labels = 0;
+        GladeXML  *gui;
+	GtkWidget *range_entry;
+	GtkWidget *dialog;
+	GtkWidget *checkbutton;
+	GtkWidget *checkbutton2;
+	GtkWidget *output_range_entry;
+	GtkWidget *interval_entry;
 
-	data_analysis_output_t  dao;
-	int interval;
+	data_analysis_output_t dao;
 
-	char  *text;
-	int   selection, output;
-	static Range range;
+	gboolean labels = FALSE;
+	gboolean standard_errors_flag = FALSE;
+	char     *text;
+	int      interval;
+	int      selection, x1, x2, y1, y2;
+	Range    range;
 
-	if (!dialog) {
-	        dialog = new_dialog(_("Moving Average"));
+	gui = glade_xml_new (GNUMERIC_GLADEDIR "/analysis-tools.glade", NULL);
 
-		box = gtk_vbox_new (FALSE, 0);
-		vbox = new_frame(_("Input:"), box);
+        if (!gui) {
+                printf ("Could not find analysis-tools.glade\n");
+                return;
+        }
 
-		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
-						      (dialog)->vbox), box);
+	dao.type = NewSheetOutput;
 
-		range_entry = hbox_pack_label_and_entry
-		  (_("Input Range:"), "", 20, vbox);
+	dialog = glade_xml_get_widget (gui, "MovingAverage");
+        range_entry = glade_xml_get_widget (gui, "ma_entry1");
+	checkbutton = glade_xml_get_widget (gui, "ma_checkbutton");
+	checkbutton2 = glade_xml_get_widget (gui, "ma_checkbutton2");
+	interval_entry = glade_xml_get_widget (gui, "ma_entry2");
+	output_range_entry = glade_xml_get_widget (gui, "ma_entry3");
 
-		interval_entry = hbox_pack_label_and_entry(_("Interval:"), "3",
-							   20, vbox);
+        if (!dialog || !range_entry || !output_range_entry || !checkbutton ||
+	    !interval_entry || !checkbutton2) {
+                printf ("Corrupt file analysis-tools.glade\n");
+                return;
+        }
+	if (set_output_option_signals (gui, &dao, "ma"))
+	        return;
 
-		add_check_buttons(vbox, first_row_label_button);
-
-		box = gtk_vbox_new (FALSE, 0);
-		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
-						      (dialog)->vbox), box);
-
-		add_check_buttons(box, standard_errors_button);
-
-		output_range_entry = add_output_frame(box, &output_ops);
-
-		gtk_widget_show_all (dialog);
-	} else
-		gtk_widget_show_all (dialog);
+	gtk_signal_connect (GTK_OBJECT (checkbutton), "toggled",
+			    GTK_SIGNAL_FUNC (checkbutton_toggled), &labels);
+	gtk_signal_connect (GTK_OBJECT (checkbutton2), "toggled",
+			    GTK_SIGNAL_FUNC (checkbutton_toggled),
+			    &standard_errors_flag);
+	gtk_entry_set_text (GTK_ENTRY (interval_entry), "3");
 
         gtk_widget_grab_focus (range_entry);
 
 dialog_loop:
 
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
-	if (selection == -1)
-		return;
-	
-	if (selection != 0) {
-	        gnome_dialog_close (GNOME_DIALOG (dialog));
+	if (selection == -1) {
+	        gtk_object_unref (GTK_OBJECT (gui));
 		return;
 	}
-
-	output = gtk_radio_group_get_selected (output_ops);
+	
+	if (selection != 0) {
+		gtk_object_destroy (GTK_OBJECT (dialog));
+		return;
+	}
 
 	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
 	if (!parse_range (text, &range.start.col,
@@ -2115,28 +2105,39 @@ dialog_loop:
 			  &range.end.row)) {
 	        error_in_entry(wb, range_entry, 
 			       _("You should introduce a valid cell range "
-			       "in 'Range Input:'"));
+			       "in 'Range:'"));
 		goto dialog_loop;
 	}
 
-	text = gtk_entry_get_text (GTK_ENTRY (interval_entry));
-	interval = atoi(text);
+	dao.labels_flag = labels;
 
-	if (parse_output(output, sheet, output_range_entry, wb, &dao))
-	        goto dialog_loop;
-
-	labels = label_row_flag;
-	if (labels) {
-	        range.start.row++;
-	        range.start.row++;
+	if (dao.type == RangeOutput) {
+	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
+	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
+		        error_in_entry(wb, output_range_entry, 
+				       _("You should introduce a valid cell "
+					 "range in 'Output Range:'"));
+			goto dialog_loop;
+		} else {
+		        dao.start_col = x1;
+		        dao.start_row = y1;
+			dao.cols = x2-x1+1;
+			dao.rows = y2-y1+1;
+			dao.sheet = sheet;
+		}
 	}
+
+	text = gtk_entry_get_text (GTK_ENTRY (interval_entry));
+	interval = atoi (text);
 
 	if (average_tool (wb, sheet, &range, interval,
 			  standard_errors_flag, &dao))
 	        goto dialog_loop;
 
 	workbook_focus_sheet(sheet);
- 	gnome_dialog_close (GNOME_DIALOG (dialog));
+
+	gtk_object_destroy (GTK_OBJECT (dialog));
+	gtk_object_unref (GTK_OBJECT (gui));
 }
 
 
@@ -2327,7 +2328,7 @@ dialog_loop:
 		}
 	}
 
-	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
+	text = gtk_entry_get_text (GTK_ENTRY (alpha_entry));
 	alpha = atof (text);
 
 	if (anova_single_factor_tool (wb, sheet, &range, !group, alpha, &dao))
@@ -2343,59 +2344,62 @@ dialog_loop:
 static void
 dialog_anova_two_factor_without_r_tool (Workbook *wb, Sheet *sheet)
 {
-        static GtkWidget *dialog, *box;
-	static GtkWidget *range_entry, *output_range_entry, *alpha_entry;
-	static GSList    *output_ops;
-	static int       labels = 0;
+        GladeXML  *gui;
+	GtkWidget *range_entry;
+	GtkWidget *dialog;
+	GtkWidget *checkbutton;
+	GtkWidget *output_range_entry;
+	GtkWidget *alpha_entry;
 
-	data_analysis_output_t  dao;
+	data_analysis_output_t dao;
 
-	char         *text;
-	int          selection;
-	static Range range;
-	int          output;
-	float_t      alpha;
+	gboolean labels = FALSE;
+	char     *text;
+	float_t  alpha;
+	int      selection, x1, x2, y1, y2;
+	Range    range;
 
-	label_row_flag = labels;
+	gui = glade_xml_new (GNUMERIC_GLADEDIR "/analysis-tools.glade", NULL);
 
-	if (!dialog) {
-	        dialog = new_dialog(_("Anova: Two-Factor Without Replication"));
+        if (!gui) {
+                printf ("Could not find analysis-tools.glade\n");
+                return;
+        }
 
-		box = gtk_vbox_new (FALSE, 0);
+	dao.type = NewSheetOutput;
 
-		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
-						      (dialog)->vbox), box);
+	dialog = glade_xml_get_widget (gui, "Anova2");
+        range_entry = glade_xml_get_widget (gui, "anova2_entry1");
+	checkbutton = glade_xml_get_widget (gui, "anova2_checkbutton");
+	alpha_entry = glade_xml_get_widget (gui, "anova2_entry2");
+	output_range_entry = glade_xml_get_widget (gui, "anova2_entry3");
 
-		box = new_frame(_("Input:"), box);
+        if (!dialog || !range_entry || !output_range_entry || !checkbutton ||
+	    !alpha_entry) {
+                printf ("Corrupt file analysis-tools.glade\n");
+                return;
+        }
+	if (set_output_option_signals (gui, &dao, "anova2"))
+	        return;
 
-		range_entry = hbox_pack_label_and_entry
-		  (_("Input Range:"), "", 20, box);
-
-		alpha_entry = hbox_pack_label_and_entry(_("Alpha:"), "0.95",
-							20, box);
-		add_check_buttons(box, label_button);
-
-		box = gtk_vbox_new (FALSE, 0);
-		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
-						      (dialog)->vbox), box);
-
-		output_range_entry = add_output_frame(box, &output_ops);
-
-		gtk_widget_show_all (dialog);
-	} else
-		gtk_widget_show_all (dialog);
+	gtk_signal_connect (GTK_OBJECT (checkbutton), "toggled",
+			    GTK_SIGNAL_FUNC (checkbutton_toggled), &labels);
+	gtk_entry_set_text (GTK_ENTRY (alpha_entry), "0.95");
 
         gtk_widget_grab_focus (range_entry);
 
 dialog_loop:
 
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
-	if (selection != 0) {
-	        gnome_dialog_close (GNOME_DIALOG (dialog));
+	if (selection == -1) {
+	        gtk_object_unref (GTK_OBJECT (gui));
 		return;
 	}
-
-	output = gtk_radio_group_get_selected (output_ops);
+	
+	if (selection != 0) {
+		gtk_object_destroy (GTK_OBJECT (dialog));
+		return;
+	}
 
 	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
 	if (!parse_range (text, &range.start.col,
@@ -2408,20 +2412,34 @@ dialog_loop:
 		goto dialog_loop;
 	}
 
-	text = gtk_entry_get_text (GTK_ENTRY (alpha_entry));
-	alpha = atof(text);
-
-	if (parse_output(output, sheet, output_range_entry, wb, &dao))
-	        goto dialog_loop;
-
-	labels = label_row_flag;
 	dao.labels_flag = labels;
+
+	if (dao.type == RangeOutput) {
+	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
+	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
+		        error_in_entry(wb, output_range_entry, 
+				       _("You should introduce a valid cell "
+					 "range in 'Output Range:'"));
+			goto dialog_loop;
+		} else {
+		        dao.start_col = x1;
+		        dao.start_row = y1;
+			dao.cols = x2-x1+1;
+			dao.rows = y2-y1+1;
+			dao.sheet = sheet;
+		}
+	}
+
+	text = gtk_entry_get_text (GTK_ENTRY (alpha_entry));
+	alpha = atof (text);
 
 	if (anova_two_factor_without_r_tool (wb, sheet, &range, alpha, &dao))
 	        goto dialog_loop;
 
 	workbook_focus_sheet(sheet);
- 	gnome_dialog_close (GNOME_DIALOG (dialog));
+
+	gtk_object_destroy (GTK_OBJECT (dialog));
+	gtk_object_unref (GTK_OBJECT (gui));
 }
 
 
