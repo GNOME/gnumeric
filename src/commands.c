@@ -2843,24 +2843,27 @@ cmd_search_replace_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	/* Undo does replacements backwards.  */
 	for (tmp = g_list_last (me->cells); tmp; tmp = tmp->prev) {
 		SearchReplaceItem *sri = tmp->data;
-		Cell *cell = sheet_cell_get (sri->pos.sheet,
-					     sri->pos.eval.col,
-					     sri->pos.eval.row);
-
 		switch (sri->old_type) {
 		case SRI_text:
+		{
+			Cell *cell = sheet_cell_get (sri->pos.sheet,
+						     sri->pos.eval.col,
+						     sri->pos.eval.row);
 			sheet_cell_set_text (cell, sri->old.text);
 			break;
+		}
 		case SRI_comment:
-			{
-				CellComment *comment = cell_has_comment (cell);
-				if (comment) {
-					cell_comment_text_set (comment, sri->old.comment);
-				} else {
-					g_warning ("Undo/redo broken.");
-				}
+		{
+			CellComment *comment =
+				cell_has_comment_pos (sri->pos.sheet,
+						      &sri->pos.eval);
+			if (comment) {
+				cell_comment_text_set (comment, sri->old.comment);
+			} else {
+				g_warning ("Undo/redo broken.");
 			}
-			break;
+		}
+		break;
 		}
 	}
 	cmd_search_replace_update_after_action (me);
@@ -2877,24 +2880,27 @@ cmd_search_replace_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	/* Redo does replacements forward.  */
 	for (tmp = me->cells; tmp; tmp = tmp->next) {
 		SearchReplaceItem *sri = tmp->data;
-		Cell *cell = sheet_cell_get (sri->pos.sheet,
-					     sri->pos.eval.col,
-					     sri->pos.eval.row);
-
 		switch (sri->new_type) {
 		case SRI_text:
+		{
+			Cell *cell = sheet_cell_get (sri->pos.sheet,
+						     sri->pos.eval.col,
+						     sri->pos.eval.row);
 			sheet_cell_set_text (cell, sri->new.text);
 			break;
+		}
 		case SRI_comment:
-			{
-				CellComment *comment = cell_has_comment (cell);
-				if (comment) {
-					cell_comment_text_set (comment, sri->new.comment);
-				} else {
-					g_warning ("Undo/redo broken.");
-				}
+		{
+			CellComment *comment =
+				cell_has_comment_pos (sri->pos.sheet,
+						      &sri->pos.eval);
+			if (comment) {
+				cell_comment_text_set (comment, sri->new.comment);
+			} else {
+				g_warning ("Undo/redo broken.");
 			}
-			break;
+		}
+		break;
 		}
 	}
 	cmd_search_replace_update_after_action (me);
@@ -2928,7 +2934,6 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, EvalPos *ep,
 			StyleFormat *sf, *cf;
 			ExprTree *expr;
 			Value *val;
-			EvalPos ep;
 			gboolean err;
 
 			if (initial_quote) {
@@ -2945,9 +2950,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, EvalPos *ep,
 
 			mstyle = cell_get_mstyle (cell);
 			cf = mstyle_get_format (mstyle);
-			ep.sheet = cell->base.sheet;
-			ep.eval = cell->pos;
-			sf = parse_text_value_or_expr (&ep, new_text,
+			sf = parse_text_value_or_expr (ep, new_text,
 						       &val, &expr, cf);
 			/*
 			 * FIXME: this is a hack, but parse_text_value_or_expr
@@ -3002,8 +3005,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, EvalPos *ep,
 
 				sheet_cell_set_text (cell, new_text);
 
-				sri->pos.sheet = cell->base.sheet;
-				sri->pos.eval = cell->pos;
+				sri->pos = *ep;
 				sri->old_type = sri->new_type = SRI_text;
 				sri->old.text = old_text;
 				sri->new.text = new_text;
@@ -3031,8 +3033,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, EvalPos *ep,
 
 				if (doit) {
 					SearchReplaceItem *sri = g_new (SearchReplaceItem, 1);
-					sri->pos.sheet = ep->sheet;
-					sri->pos.eval = ep->eval;
+					sri->pos = *ep;
 					sri->old_type = sri->new_type = SRI_comment;
 					sri->old.comment = g_strdup (old_text);
 					sri->new.comment = new_text;
@@ -3055,7 +3056,7 @@ cb_order_sheet_row_col (const void *_a, const void *_b)
 	const EvalPos *b = *(const EvalPos **)_b;
 	int i;
 
-	/* By sheet name.  FIXME: Any better that this?  */
+	/* By sheet name.  FIXME: Any better way than this?  */
 	i = strcmp (a->sheet->name_unquoted, b->sheet->name_unquoted);
 
 	/* By row number.  */

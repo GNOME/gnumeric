@@ -13,6 +13,8 @@
  	sheet_cells.
 	(cmd_search_replace_do_cell): Change to take position instead of
  	cell.  Handle missing cells without crashing.
+	(cmd_search_replace_undo, cmd_search_replace_redo): Fix for
+ 	missing cells with comments.
 
 2001-03-25  Almer S. Tigelaar  <almer@gnome.org>
 
