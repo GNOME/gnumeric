@@ -1,5 +1,8 @@
 2005-02-25  Morten Welinder  <terra@gnome.org>
 
+	* src/main-application.c (main): Properly get rid of wbcgs when
+	using --quit.
+
 	* src/workbook-control-gui.c (wbcg_create_status_area): Keep a ref
 	for ->auto_expr_label in case the idle handler for updating it
 	triggers at an inconvenient time.

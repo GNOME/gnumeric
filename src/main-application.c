@@ -21,6 +21,7 @@
 /* TODO: Get rid of this one */
 #include "command-context-stderr.h"
 #include "workbook-control-gui.h"
+#include "workbook-control-gui-priv.h"
 #include "workbook-view.h"
 #include <goffice/app/go-plugin.h>
 #include "workbook.h"
@@ -254,14 +255,22 @@ gnumeric_arg_parse (int argc, char const *argv [])
  * This does not belong here
  * but it is expedient for now to get things to compile
  */
-#warning REMOVE REMOVE REMOVE
+#warning "REMOVE REMOVE REMOVE"
 static void
-store_plugin_state ()
+store_plugin_state (void)
 {
 	GSList *active_plugins = plugins_get_active_plugins ();
 	gnm_gconf_set_active_plugins (active_plugins);
 	g_slist_free (active_plugins);
 }
+
+static int
+cb_kill_wbcg (WorkbookControlGUI *wbcg)
+{
+	wbcg_close_control (wbcg);
+	return FALSE;
+}
+
 int
 main (int argc, char const *argv [])
 {
@@ -270,6 +279,7 @@ main (int argc, char const *argv [])
 	gboolean with_gui;
 	IOContext *ioc;
 	WorkbookView *wbv;
+	GSList *wbcgs_to_kill = NULL;
 
 	poptContext ctx;
 
@@ -357,6 +367,9 @@ main (int argc, char const *argv [])
   				opened_workbook = TRUE;
 				icg_set_transient_for (IO_CONTEXT_GTK (ioc),
 						       wbcg_toplevel (wbcg));
+				if (immediate_exit_flag)
+					wbcgs_to_kill = g_slist_prepend (wbcgs_to_kill,
+									   wbcg);
 			}
 			/* cheesy attempt to keep the ui from freezing during
 			   load */
@@ -369,7 +382,7 @@ main (int argc, char const *argv [])
 	   files and failed to do so. */
 
 	/* If we were intentionally short circuited exit now */
-	if (!initial_workbook_open_complete && !immediate_exit_flag) {
+	if (!initial_workbook_open_complete) {
 		initial_workbook_open_complete = TRUE;
 		if (!opened_workbook) {
 			gint n_of_sheets = gnm_app_prefs->initial_sheet_number;
@@ -380,7 +393,13 @@ main (int argc, char const *argv [])
 			handle_paint_events ();
 		}
 
-		warn_about_ancient_gnumerics (g_get_prgname(), ioc);
+		if (immediate_exit_flag) {
+			GSList *l;
+			for (l = wbcgs_to_kill; l; l = l->next)
+				g_idle_add ((GSourceFunc)cb_kill_wbcg, l->data);
+		} else {
+			warn_about_ancient_gnumerics (g_get_prgname(), ioc);
+		}
 		g_object_unref (ioc);
 #ifdef WITH_GNOME
 		bonobo_main ();
@@ -389,8 +408,10 @@ main (int argc, char const *argv [])
 #endif
 	} else {
 		g_object_unref (ioc);
+		g_slist_foreach (wbcgs_to_kill, (GFunc)cb_kill_wbcg, NULL);
 	}
 
+	g_slist_free (wbcgs_to_kill);
 	gnumeric_arg_shutdown ();
 	store_plugin_state ();
 	gnm_shutdown ();
