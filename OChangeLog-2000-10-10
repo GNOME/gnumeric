@@ -1,5 +1,15 @@
 2000-05-17  Jody Goldberg <jgoldberg@home.com>
 
+	* src/cell-draw.c (cell_draw) : Cache the vertical alignment, and
+	  ensure that verticaly justified lines do not overlap.
+	* src/print-cell.c (print_cell) : Ditto.
+
+	* src/sheet-object.c (sheet_set_mode_type_full) : Add a prototype to
+	  avoid warnings.
+
+	* src/sheet-object.c (create_object) : Ugly workaround for bug 9984.
+	  Ensure that objects do not start with size 0,0.
+
 	* src/workbook.c (workbook_expr_relocate) : Add missing
 	  initialization.
 

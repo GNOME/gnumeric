@@ -480,6 +480,11 @@ create_object (Sheet *sheet, gdouble to_x, gdouble to_y)
 
 	case SHEET_MODE_CREATE_GRAPHIC:
 #ifdef ENABLE_BONOBO
+		/* Bug 9984 : do not start objects with size 0,0 */
+		if (x1 == x2)
+			x2 += 50.;
+		if (y1 == y2)
+			y2 += 50.;
 		g_warning ("Ugly API name follows, fix it");
 		o = sheet_object_container_new_bonobo (
 			sheet, x1, y1, x2, y2, sheet->mode_data);
@@ -494,6 +499,11 @@ create_object (Sheet *sheet, gdouble to_x, gdouble to_y)
 			
 	case SHEET_MODE_CREATE_COMPONENT:
 #ifdef ENABLE_BONOBO
+		/* Bug 9984 : do not start objects with size 0,0 */
+		if (x1 == x2)
+			x2 += 50.;
+		if (y1 == y2)
+			y2 += 50.;
 		o = sheet_object_container_new_from_goadid (
 			sheet, x1, y1, x2, y1, sheet->mode_data);
 		g_free (sheet->mode_data);

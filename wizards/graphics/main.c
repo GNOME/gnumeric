@@ -12,6 +12,7 @@
 #include <gnome.h>
 #include "gnumeric.h"
 #include "workbook.h"
+#include "sheet-object.h"
 #include <libgnorba/gnorba.h>
 #include <glade/glade.h>
 #include "gnumeric-util.h"

@@ -145,7 +145,8 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 	int width, height;
 	int text_base;
 	int font_height;
-	int halign;
+	StyleHAlignFlags halign;
+	StyleVAlignFlags valign;
 	int num_lines = 0;
 	int line_offset[3]; /* There are up to 3 lines, double underlined strikethroughs */
 	gboolean is_single_line;
@@ -185,8 +186,9 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 	style_font = sheet_view_get_style_font (sheet, mstyle);
 	font = style_font_gdk_font (style_font);
 	font_height = style_font_get_height (style_font);
+	valign = mstyle_get_align_v (mstyle);
 	
-	switch (mstyle_get_align_v (mstyle)) {
+	switch (valign) {
 	default:
 		g_warning ("Unhandled cell vertical alignment\n");
 
@@ -218,7 +220,7 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 	halign = value_get_default_halign (cell->value, mstyle);
 
 	is_single_line = (halign != HALIGN_JUSTIFY &&
-			  mstyle_get_align_v (mstyle) != VALIGN_JUSTIFY &&
+			  valign != VALIGN_JUSTIFY &&
 			  !mstyle_get_fit_in_cell (mstyle));
 
 	/* This rectangle has the whole area used by this cell
@@ -332,7 +334,7 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 		int line_count = g_list_length (lines);
 		int x_offset, y_offset, inter_space;
 
-		switch (mstyle_get_align_v (mstyle)) {
+		switch (valign) {
 		case VALIGN_TOP:
 			y_offset = 0;
 			inter_space = font_height;
@@ -350,6 +352,10 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 				inter_space = font_height + 
 					(height - (line_count * font_height))
 					/ (line_count - 1);
+
+				/* lines should not overlap */
+				if (inter_space < font_height)
+					inter_space = font_height;
 				break;
 			} 
 			/* Else, we become a VALIGN_BOTTOM line */

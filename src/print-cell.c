@@ -167,7 +167,8 @@ print_cell (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninf
 	double width, height;
 	double text_base;
 	double font_height;
-	int halign;
+	StyleHAlignFlags halign;
+	StyleVAlignFlags valign;
 	int num_lines = 0;
 	double line_offset[3]; /* There are up to 3 lines, double underlined strikethroughs */
 	gboolean is_single_line;
@@ -196,14 +197,14 @@ print_cell (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninf
 	} else
 		start_col = end_col = cell->col_info->pos;
 
-
 	/* Get the sizes exclusive of margins and grids */
 	width  = cell->col_info->size_pts - cell->col_info->margin_a - cell->col_info->margin_b - 1;
 	height = cell->row_info->size_pts - cell->row_info->margin_a - cell->row_info->margin_b - 1;
 
 	font_height = style_font->size;
+	valign = mstyle_get_align_v (mstyle);
 
-	switch (mstyle_get_align_v (mstyle)) {
+	switch (valign) {
 	default:
 		g_warning ("Unhandled cell vertical alignment\n");
 
@@ -236,8 +237,9 @@ print_cell (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninf
 	text_width = gnome_font_get_width_string (print_font, text);
 
 	halign = value_get_default_halign (cell->value, mstyle);
+
 	is_single_line = (halign != HALIGN_JUSTIFY &&
-			  mstyle_get_align_v (mstyle) != VALIGN_JUSTIFY &&
+			  valign != VALIGN_JUSTIFY &&
 			  !mstyle_get_fit_in_cell (mstyle));
 
 	/* This rectangle has the whole area used by this cell
@@ -374,7 +376,7 @@ print_cell (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninf
 			}
 		}
 
-		switch (mstyle_get_align_v (mstyle)) {
+		switch (valign) {
 		case VALIGN_TOP:
 			y_offset = 0;
 			inter_space = font_height;
@@ -392,6 +394,10 @@ print_cell (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninf
 				inter_space = font_height +
 					(cell->row_info->size_pts - (line_count * font_height))
 					/ (line_count - 1);
+
+				/* lines should not overlap */
+				if (inter_space < font_height)
+					inter_space = font_height;
 				break;
 			}
 			/* Else, we become a VALIGN_BOTTOM line */
