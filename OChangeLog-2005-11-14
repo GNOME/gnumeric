@@ -1,5 +1,9 @@
 2001-05-18  Jody Goldberg <jgoldberg@home.com>
 
+	* gnumeric.spec.in : update GAL req.
+	* configure.in : ditto.
+	* README : update
+
 	* src/GNOME_Gnumeric.xml : Fix the accelerators to use xkeysym names
 	  rather than the physical key for slash and space.
 

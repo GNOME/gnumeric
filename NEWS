@@ -14,7 +14,6 @@ Chema:
 	* Implemented clone, write and load for some sheet objects
 
 Jody:
-	* Outline mode
 	* Restore horizontal FILL alignment.
 	* Fix array intercept checking.
 	* Some fine tuning to improve start and exit times.
@@ -23,10 +22,12 @@ Jody:
 	* Improve XL95 export and include merged regions & outlines
 	* Fix some irritating mouse behaviors
 	* More system portability enhancements.
-	* Support fractions.
+	* Support fraction formatting (not parsing)
 	* Fix printing of borders.
 	* Improve checking for array/merged region division.
 	* Prep for frozen panes.
+	* Partial support for outline mode
+	* Misc bugs.
 
 Jon Kåre:
 	* New architecture for selecting cell ranges into dialogs.

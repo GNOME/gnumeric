@@ -24,18 +24,18 @@ You need:
 	gnome-libs	>= 1.0.57 (gnome-libs 2.0 is not supported)
 	xml-i18n-tools	>= 0.8	  (only required to build, not while running)
 	libglade	>= 0.16
-	gal		>= 0.5
+	gal		>= 0.8
 	gnome-print	>= 0.25
 
-	gnome-xml   >= 1.8.10     (gnome-xml 2.x not supported yet)
+	gnome-xml   >= 1.8.12     (gnome-xml 2.x not supported yet)
 	NOTE : gnome-xml is also known as libxml
 
-	libole2	    >= 0.1.7	(0.2.0 is OK)
+	libole2	    >= 0.2.1
 	NOTE : libole2 is also known as libgnomeole2
 
 Optionally:
-	gb == 0.0.17            (Gnome Basic for macros)
-	bonobo >= 0.35
+	gb == 0.0.19            (Gnome Basic for macros)
+	bonobo >= 1.00
 	With the newer bonobo you will also want a newer gnome-libs
 	gnome-libs  >= 1.2.7	(gnome-libs 2.0 is not supported)
 	guppi == CVS module guppi3

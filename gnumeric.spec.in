@@ -18,22 +18,20 @@ Requires: gtk+ >= 1.2.7
 Requires: gnome-libs >= 1.0.57
 Requires: gnome-print >= 0.25
 Requires: libglade >= 0.16
-Requires: libxml >= 1.8.10
-Requires: libole2 >= 0.1.7
-Requires: gal >= 0.5
+Requires: libxml >= 1.8.12
+Requires: libole2 >= 0.2.1
+Requires: gal >= 0.8
 # The help menu commands require whatever package contains the gnome-help
 # program.
 
 %description
 GNOME (GNU Network Object Model Environment) is a user-friendly set of
 applications and desktop tools to be used in conjunction with a window
-manager for the X Window System.  GNOME is similar in purpose and scope
-to CDE and KDE, but GNOME is based completely on free software.
+manager for the X Window System.
 
-This is the Gnumeric, the GNOME spreadsheet program. If you are familiar with 
-Excel, you should be ready to use Gnumeric.  We have tried to clone all of 
-the good features and stay as compatible as possible with Excel in terms of 
-usability. Hopefully we left the bugs behind :).
+This is the Gnumeric, a spreadsheet for GNOME.  It aims to be a drop in
+replacement for commercial spreadsheets.  It provides import/export from
+MS Excel files and many other formats (csv, latex, xbase, applix).
 
 # Don't even think about it. -- MW
 #%package devel
@@ -95,13 +93,12 @@ fi
 
 %defattr (0444, bin, bin, 0555)
 %doc HACKING AUTHORS ChangeLog NEWS BUGS README COPYING TODO
-%config %{sysconfdir}/CORBA/servers/gnumeric.gnorba
 %{prefix}/lib/gnumeric/%{version}/plugins/*/*.xml
 %config %{prefix}/share/gnome/apps/Applications/gnumeric.desktop
 %{prefix}/share/gnome/help/gnumeric/C/images/*
 %{prefix}/share/gnome/help/gnumeric/C/*.*
-%{prefix}/share/gnome/ui/GNOME_gnumeric.xml
-%{prefix}/share/gnumeric/%{version}/autoformat-templates/*/*.xml
+%{prefix}/share/gnome/ui/GNOME_Gnumeric.xml
+%{prefix}/share/gnumeric/%{version}/autoformat-templates/*/*
 %{prefix}/share/gnumeric/%{version}/glade/*.glade
 %{prefix}/share/gnumeric/%{version}/python/*
 %{prefix}/share/gnumeric/%{version}/templates/*.gnumeric
@@ -109,7 +106,7 @@ fi
 %{prefix}/share/mc/templates/gnumeric.desktop
 %{prefix}/share/mime-info/gnumeric.keys
 %{prefix}/share/mime-info/gnumeric.mime
-%{prefix}/share/oaf/GNOME_Gnumeric.oafinfo
+%{prefix}/share/oaf/GNOME_Gnumeric.oaf
 %{prefix}/share/pixmaps/gnumeric/*
 %{prefix}/share/pixmaps/*.png
 %{prefix}/lib/gnumericConf.sh
@@ -124,6 +121,14 @@ fi
 ##%{prefix}/lib/gnumeric/%{version}/plugins/*/*.la
 
 %changelog
+* Sat May 19 2001 Jody Goldberg <jgoldberg@home.com>
+- update the gal req
+
+* Tue Apr 01 2001 Jody Goldberg <jgoldberg@home.com>
+- remove gnorba file
+- rename oaf file
+- include category files
+
 * Tue Feb 20 2001 John Gotts <jgotts@linuxsavvy.com>
 - Adapted to the recent directory reorganization.  Also alphabetically
   reordered the directories while I was at it.  Someone should figure out why
