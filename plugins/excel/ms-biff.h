@@ -58,6 +58,4 @@ extern int ms_biff_query_next_merge (BIFF_QUERY *, gboolean do_merge);
 /* Converts a merged query to the un-merged equivalent */
 extern void ms_biff_query_unmerge (BIFF_QUERY *);
 extern void ms_biff_query_destroy (BIFF_QUERY *);
-/* Returns a stream which contains the data in the BIFF record. */
-extern MS_OLE_STREAM *ms_biff_query_data_to_stream (BIFF_QUERY *);
 #endif

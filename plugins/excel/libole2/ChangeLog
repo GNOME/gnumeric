@@ -1,0 +1,7 @@
+1999-05-08  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c: Moved all biff code into ../ms-biff.c
+	Removed odd includes.
+	(pps_get_text): Changed types to guint8 from BYTE.
+	(ms_ole_stream_copy): Created, and made global.
+

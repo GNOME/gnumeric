@@ -1,5 +1,9 @@
 1999-05-08  Michael Meeks  <michael@imaginator.com>
 
+	* src/Makefile.am (gnumeric_LDADD): Added libole2 library.
+
+	* configure.in (XML_CFLAGS): Updated to add excel/libole2
+
 	* src/sheet.h: Commented sheet_cell_get vs. _fetch.
 
 	* src/expr.c (do_expr_tree_unref, value_string, value_release),

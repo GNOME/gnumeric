@@ -19,6 +19,8 @@
 #define BIFF_TYPES_FILE    "biff-types.h"
 #define ESCHER_TYPES_FILE  "escher-types.h"
 
+char delim[]=" \t\n";
+
 typedef struct {
 	guint16 opcode;
 	char *name;
@@ -145,6 +147,9 @@ syntax_error(char *err)
 	printf (" * biffraw <stream name>:   dump biff records no merge + raw data\n");
 	printf (" * draw    <stream name>:   dump drawing records\n");
 	printf (" * dump    <stream name>:   dump stream\n");
+	printf (" Raw transfer commands\n");
+	printf (" * get     <stream name> <fname>\n");
+	printf (" * put     <fname> <stream name>\n");
 	printf (" * quit,exit,bye:        exit\n");
 	exit(1);
 }
@@ -276,6 +281,193 @@ dump_escher (guint8 *data, guint32 len, int level)
 	esh_header_destroy (h); 
 }
 
+static void
+do_dump (MS_OLE *ole)
+{
+	char *ptr;
+	MS_OLE_DIRECTORY *dir;
+
+	ptr = strtok (NULL, delim);
+	if ((dir = get_file_handle (ole, ptr)))
+	{
+		MS_OLE_STREAM *stream = ms_ole_stream_open (dir, 'r');
+		guint8 *buffer = g_malloc (dir->length);
+		stream->read_copy (stream, buffer, dir->length);
+		printf ("Stream : '%s' length 0x%x\n", ptr, dir->length);
+		if (buffer)
+			dump (buffer, dir->length);
+		else
+			printf ("Failed read\n");
+		ms_ole_stream_close (stream);
+	} else
+		printf ("Need a stream name\n");
+}
+
+static void
+do_biff (MS_OLE *ole)
+{
+	char *ptr;
+	MS_OLE_DIRECTORY *dir;
+	
+	ptr = strtok (NULL, delim);
+	if ((dir = get_file_handle (ole, ptr)))
+	{
+		MS_OLE_STREAM *stream = ms_ole_stream_open (dir, 'r');
+		BIFF_QUERY *q = ms_biff_query_new (stream);
+		guint16 last_opcode=0xffff;
+		guint32 last_length=0;
+		guint32 count=0;
+		while (ms_biff_query_next(q)) {
+			if (q->opcode == last_opcode &&
+			    q->length == last_length)
+				count++;
+			else {
+				if (count>0)
+					printf (" x %d\n", count+1);
+				else
+					printf ("\n");
+				count=0;
+				printf ("Opcode 0x%3x : %15s, length %d",
+					q->opcode, get_biff_opcode_name (q->opcode), q->length);
+			}
+			last_opcode=q->opcode;
+			last_length=q->length;
+		}
+		printf ("\n");
+		ms_ole_stream_close (stream);
+	} else
+		printf ("Need a stream name\n");
+}
+
+static void
+do_biff_raw (MS_OLE *ole)
+{
+	char *ptr;
+	MS_OLE_DIRECTORY *dir;
+	
+	ptr = strtok (NULL, delim);
+	if ((dir = get_file_handle (ole, ptr)))
+	{
+		MS_OLE_STREAM *stream = ms_ole_stream_open (dir, 'r');
+		BIFF_QUERY *q = ms_biff_query_new (stream);
+		guint8 data[4], *buffer;
+		
+		buffer = g_new (guint8, 65550);
+		while (stream->read_copy (stream, data, 4)) {
+			guint32 len=BIFF_GETWORD(data+2);
+			printf ("Opcode 0x%3x : %15s, length 0x%x (=%d)\n",
+				BIFF_GETWORD(data), get_biff_opcode_name (BIFF_GETWORD(data)),
+				len, len);
+			stream->read_copy (stream, buffer, len);
+			dump (buffer, len);
+			buffer[0]=0;
+			buffer[len-1]=0;
+		}
+		ms_ole_stream_close (stream);
+	} else
+		printf ("Need a stream name\n");
+}
+
+static void
+do_draw (MS_OLE *ole)
+{
+	char *ptr;
+	MS_OLE_DIRECTORY *dir;
+
+	ptr = strtok (NULL, delim);
+	if ((dir = get_file_handle (ole, ptr)))
+	{
+		MS_OLE_STREAM *stream = ms_ole_stream_open (dir, 'r');
+		BIFF_QUERY *q = ms_biff_query_new (stream);
+		while (ms_biff_query_next(q)) {
+			if (q->ls_op == BIFF_MS_O_DRAWING ||
+			    q->ls_op == BIFF_MS_O_DRAWING_GROUP ||
+			    q->ls_op == BIFF_MS_O_DRAWING_SELECTION) {
+				guint8 *data;
+				guint32 len;
+				guint32 str_pos=q->streamPos;
+				guint skip = biff_to_flat_data (q, &data, &len) - 1;
+				printf("Drawing: '%s'\n", get_biff_opcode_name(q->opcode));
+				dump_escher (data, len, 0);
+				while (skip > 0 && ms_biff_query_next(q)) skip--;
+			}
+		}
+		printf ("\n");
+		ms_ole_stream_close (stream);
+	} else
+		printf ("Need a stream name\n");
+}
+
+static void
+do_get (MS_OLE *ole)
+{
+	char *from, *to;
+	MS_OLE_DIRECTORY *dir;
+
+	from = strtok (NULL, delim);
+	to   = strtok (NULL, delim);
+	if ((dir = get_file_handle (ole, from)))
+	{
+		MS_OLE_STREAM *stream = ms_ole_stream_open (dir, 'r');
+		guint8 *buffer = g_malloc (dir->length);
+		FILE *f = fopen (to, "w");
+		stream->read_copy (stream, buffer, dir->length);
+		printf ("Stream : '%s' length 0x%x\n", from, dir->length);
+		if (f && buffer) {
+			fwrite (buffer, dir->length, 1, f);
+			fclose (f);
+		} else
+			printf ("Failed write to '%s'\n", to);
+		ms_ole_stream_close (stream);
+
+	} else
+		printf ("Need a stream name\n");
+}
+
+static void
+do_put (MS_OLE *ole)
+{
+	char *from, *to;
+	MS_OLE_DIRECTORY *dir;
+	MS_OLE_STREAM *stream;
+	char buffer[1024];
+
+	from = strtok (NULL, delim);
+	to   = strtok (NULL, delim);
+
+	if (!from || !to) {
+		printf ("put <filename> <stream>\n");
+		return;
+	}
+	
+	if (!(dir = get_file_handle (ole, to)))
+		dir = ms_ole_directory_create (ms_ole_directory_get_root(ole),
+					       to, MS_OLE_PPS_STREAM);
+		
+	if (dir)
+	{
+		FILE *f = fopen (from, "r");
+		size_t len;
+
+		stream = ms_ole_stream_open (dir, 'w');
+		if (!f || !stream) {
+			printf ("Failed write\n");
+			return;
+		}
+
+		stream->lseek (stream, 0, MS_OLE_SEEK_SET);
+	       
+		do {
+			len = fread (buffer, 1024, 1, f);
+			stream->write (stream, buffer, len);
+		} while (!feof(f));
+
+		fclose (f);
+		ms_ole_stream_close (stream);
+	} else
+		printf ("Need a stream name\n");
+}
+
 int main (int argc, char **argv)
 {
 	MS_OLE *ole;
@@ -306,7 +498,6 @@ int main (int argc, char **argv)
 	do
 	{
 		char *ptr;
-		char delim[]=" \t\n";
 
 		if (interact) {
 			fprintf (stdout,"> ");
@@ -318,108 +509,19 @@ int main (int argc, char **argv)
 		printf ("Command : '%s'\n", ptr);
 		if (g_strcasecmp(ptr, "ls")==0) {
 			list_files (ole);
-		} else if (g_strcasecmp(ptr, "dump")==0) {
-			MS_OLE_DIRECTORY *dir;
-			ptr = strtok (NULL, delim);
-			if ((dir = get_file_handle (ole, ptr)))
-			{
-				MS_OLE_STREAM *stream = ms_ole_stream_open (dir, 'r');
-				guint8 *buffer = g_malloc (dir->length);
-				stream->read_copy (stream, buffer, dir->length);
-				printf ("Stream : '%s' length 0x%x\n", ptr, dir->length);
-				if (buffer)
-					dump (buffer, dir->length);
-				else
-					printf ("Failed read\n");
-				ms_ole_stream_close (stream);
-			} else {
-				printf ("Need a stream name\n");
-				return 0;
-			}
-		} else if (g_strcasecmp(ptr, "biff")==0) {
-			MS_OLE_DIRECTORY *dir;
-			ptr = strtok (NULL, delim);
-			if ((dir = get_file_handle (ole, ptr)))
-			{
-				MS_OLE_STREAM *stream = ms_ole_stream_open (dir, 'r');
-				BIFF_QUERY *q = ms_biff_query_new (stream);
-				guint16 last_opcode=0xffff;
-				guint32 last_length=0;
-				guint32 count=0;
-				while (ms_biff_query_next(q)) {
-					if (q->opcode == last_opcode &&
-					    q->length == last_length)
-						count++;
-					else {
-						if (count>0)
-							printf (" x %d\n", count+1);
-						else
-							printf ("\n");
-						count=0;
-						printf ("Opcode 0x%3x : %15s, length %d",
-							q->opcode, get_biff_opcode_name (q->opcode), q->length);
-					}
-					last_opcode=q->opcode;
-					last_length=q->length;
-				}
-				printf ("\n");
-				ms_ole_stream_close (stream);
-			} else {
-				printf ("Need a stream name\n");
-				return 0;
-			}
-		} else if (g_strcasecmp(ptr, "biffraw")==0) {
-			MS_OLE_DIRECTORY *dir;
-			ptr = strtok (NULL, delim);
-			if ((dir = get_file_handle (ole, ptr)))
-			{
-				MS_OLE_STREAM *stream = ms_ole_stream_open (dir, 'r');
-				BIFF_QUERY *q = ms_biff_query_new (stream);
-				guint8 data[4], *buffer;
-
-				buffer = g_new (guint8, 65550);
-				while (stream->read_copy (stream, data, 4)) {
-					guint32 len=BIFF_GETWORD(data+2);
-					printf ("Opcode 0x%3x : %15s, length 0x%x (=%d)\n",
-						BIFF_GETWORD(data), get_biff_opcode_name (BIFF_GETWORD(data)),
-						len, len);
-					stream->read_copy (stream, buffer, len);
-					dump (buffer, len);
-					buffer[0]=0;
-					buffer[len-1]=0;
-				}
-				ms_ole_stream_close (stream);
-			} else {
-				printf ("Need a stream name\n");
-				return 0;
-			}
-		} else if (g_strcasecmp(ptr, "draw")==0) { /* Assume its in a BIFF file */
-			MS_OLE_DIRECTORY *dir;
-			ptr = strtok (NULL, delim);
-			if ((dir = get_file_handle (ole, ptr)))
-			{
-				MS_OLE_STREAM *stream = ms_ole_stream_open (dir, 'r');
-				BIFF_QUERY *q = ms_biff_query_new (stream);
-				while (ms_biff_query_next(q)) {
-					if (q->ls_op == BIFF_MS_O_DRAWING ||
-					    q->ls_op == BIFF_MS_O_DRAWING_GROUP ||
-					    q->ls_op == BIFF_MS_O_DRAWING_SELECTION) {
-						guint8 *data;
-						guint32 len;
-						guint32 str_pos=q->streamPos;
-						guint skip = biff_to_flat_data (q, &data, &len) - 1;
-						printf("Drawing: '%s'\n", get_biff_opcode_name(q->opcode));
-						dump_escher (data, len, 0);
-						while (skip > 0 && ms_biff_query_next(q)) skip--;
-					}
-				}
-				printf ("\n");
-				ms_ole_stream_close (stream);
-			} else {
-				printf ("Need a stream name\n");
-				return 0;
-			}			
-		} else if (g_strcasecmp(ptr,"exit")==0 ||
+		} else if (g_strcasecmp(ptr, "dump")==0)
+			do_dump (ole);
+		else if (g_strcasecmp(ptr, "biff")==0)
+			do_biff (ole);
+		else if (g_strcasecmp(ptr, "biffraw")==0)
+			do_biff_raw (ole);
+		else if (g_strcasecmp(ptr, "draw")==0) /* Assume its in a BIFF file */
+			do_draw (ole);
+		else if (g_strcasecmp(ptr, "get")==0)
+			do_get (ole);
+		else if (g_strcasecmp(ptr, "put")==0)
+			do_put (ole);
+		else if (g_strcasecmp(ptr,"exit")==0 ||
 			   g_strcasecmp(ptr,"quit")==0 ||
 			   g_strcasecmp(ptr,"bye")==0)
 			exit = 1;

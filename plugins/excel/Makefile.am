@@ -3,37 +3,40 @@ INCLUDES = 						\
 	-DGNUMERIC_VERSION=\""$(VERSION)"\"		\
 	-I$(includedir)				 	\
 	-I$(top_srcdir)/src				\
+	-Ilibole2					\
 	$(GNOME_INCLUDEDIR)
 
 noinst_LIBRARIES = libexcel.a
 
-libexcel_a_SOURCES =	\
-	boot.c		\
-	boot.h		\
-	ms-excel-biff.h	\
-	ms-biff.h	\
-	biff-types.h	\
-	escher-types.h	\
-	ms-escher.c	\
-	ms-escher.h	\
-	ms-excel.c	\
-	ms-excel.h	\
-	ms-formula.c	\
-	ms-formula.h	\
-	ms-obj.c	\
-	ms-obj.h	\
-	ms-ole.c	\
-	ms-ole.h
+libexcel_a_SOURCES =		\
+	boot.c			\
+	boot.h			\
+	ms-excel-biff.h		\
+	ms-biff.c		\
+	ms-biff.h		\
+	biff-types.h		\
+	escher-types.h		\
+	ms-escher.c		\
+	ms-escher.h		\
+	ms-excel.c		\
+	ms-excel.h		\
+	ms-formula.c		\
+	ms-formula.h		\
+	ms-obj.c		\
+	ms-obj.h
 
-bin_PROGRAMS =		\
+bin_PROGRAMS =			\
 	ole
 
-ole_SOURCES =		\
+ole_SOURCES =			\
 	ole.c
 
-ole_LDADD =		\
-	ms-ole.o	\
-        $(GNOME_LIBDIR)	\
-        $(GNOME_LIBS)	\
+
+ole_LDADD =			\
+	ms-biff.o		\
+	libole2/libole2.a	\
+        $(GNOME_LIBDIR)		\
+        $(GNOME_LIBS)		\
         $(INTLLIBS)
 
+SUBDIRS = libole2

@@ -1,5 +1,18 @@
 1999-05-08  Michael Meeks  <michael@imaginator.com>
 
+	* ms-biff.c (ms_biff_query_copy): Updated to use new
+	global ms_ole_stream_copy.
+
+	* Makefile.am: Split out 'ole' program, added libole2
+	subdir. Added ms-biff.c.
+
+	* libole2/ Created, moved ole.c, ms-ole.[ch] there.
+	
+1999-05-08  Michael Meeks  <michael@imaginator.com>
+
+	* ole.c (main): Large re-structure, split out into smaller
+	functions.
+
 	* ms-formula.c (ms_excel_parse_formula): Hack at ARRAY
 	functionality...
 
