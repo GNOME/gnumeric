@@ -114,8 +114,8 @@ sheet_object_container_land (SheetObject *so)
 		GnomeViewFrame *view_frame;
 		GtkWidget *view_widget;
 
-		view_frame = gnome_bonobo_object_new_view (soc->object_server,
-							   soc->client_site);
+		view_frame = gnome_bonobo_object_client_new_view (
+			soc->object_server, soc->client_site);
 		view_widget = gnome_view_frame_get_wrapper (view_frame);
 		item = make_container_item (so, sheet_view, view_widget);
 		so->realized_list = g_list_prepend (so->realized_list, item);
@@ -135,8 +135,8 @@ sheet_object_container_realize (SheetObject *so, SheetView *sheet_view)
 	if (soc->client_site == NULL)
 		view_widget = gtk_button_new_with_label (_("Object server"));
 	else {
-		view_frame = gnome_bonobo_object_new_view (soc->object_server,
-							   soc->client_site);
+		view_frame = gnome_bonobo_object_client_new_view (
+			soc->object_server, soc->client_site);
 
 		view_widget = gnome_view_frame_get_wrapper (view_frame);
 	}
