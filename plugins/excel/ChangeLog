@@ -1,3 +1,8 @@
+1999-10-26  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* ms-formula-read.c (formula_func_data): Fixed the number of
+ 	arguments in GETPIVOTDATA to two.
+
 1999-10-24  Michael Meeks  <mmeeks@gnu.org>
 
 	* ms-excel-read.c (ms_excel_get_style_from_xf): add another ref.

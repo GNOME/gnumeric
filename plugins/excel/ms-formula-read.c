@@ -426,7 +426,7 @@ FormulaFuncData formula_func_data[FORMULA_FUNC_DATA_LEN] =
 /* 355 */	{ "OPENDIALOG", -2 },
 /* 356 */	{ "SAVEDIALOG", -2 },
 /* 357 */	{ "VIEWGET", -2 },
-/* 358 */	{ "GETPIVOTDATA", },
+/* 358 */	{ "GETPIVOTDATA", 2 },
 /* 359 */	{ "HYPERLINK", -1 },	/* cell_contents is optional */
 /* 360 */	{ "PHONETIC", -2 },
 /* 361 */	{ "AVERAGEA", -1 },
