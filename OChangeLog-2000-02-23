@@ -1,3 +1,11 @@
+2000-01-18  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/dialogs/dialog-autocorrect.c: Made the exceptions of first
+ 	two letter correction actually work.
+
+	* src/dialogs/autocorrect-exceptions.glade: Changed a list to a
+ 	columned list.
+	
 2000-01-18  Jody Goldberg <jgoldberg@home.com>
 
 	* src/clipboard.c (x_selection_handler) : Add some preconditions to

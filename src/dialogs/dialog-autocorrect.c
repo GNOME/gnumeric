@@ -36,7 +36,8 @@ gboolean   autocorrect_names_of_days;
 gboolean   autocorrect_caps_lock;
 gboolean   autocorrect_replace;
 GList      *autocorrect_fl_exceptions;
-gint       fl_row;
+GList      *autocorrect_in_exceptions;
+gint       fl_row, in_row;
 
 
 /* Add the name of the days on your language if they are always capitalized.
@@ -58,9 +59,18 @@ autocorrect_tool (char *command)
         if (autocorrect_init_caps) {
 		for (s = command; *s; s++) {
 		        if (isupper (*s) && isupper (s[1])) {
-			        if (islower (s[2]))
+			        if (islower (s[2])) {
+				        GList *c = autocorrect_in_exceptions;
+					while (c != NULL) {
+					        gchar *a = (gchar *) c->data;
+					        if (strncmp(s, a, strlen(a))
+						    == 0)
+						        goto skip_ic_correct;
+						c = c->next;
+					}
 				        s[1] = tolower (s[1]);
-				else
+				skip_ic_correct:
+				} else
 				        while (!isspace(*s))
 					        ++s;
 			}
@@ -185,6 +195,39 @@ add_fl_clicked (GtkWidget *widget, exceptions_t *p)
 }
 
 static void
+add_in_clicked (GtkWidget *widget, exceptions_t *p)
+{
+        gchar    *s[2], *txt, *str;
+	GList    *current;
+	gboolean new_flag = TRUE;
+
+	txt = gtk_entry_get_text (GTK_ENTRY (p->entry));
+	for (current = autocorrect_in_exceptions; current != NULL;
+	     current = current->next) {
+	        gchar *x = (gchar *) current->data;
+
+	        if (strcmp(x, txt) == 0) {
+		        new_flag = FALSE;
+			break;
+		}
+	}
+
+	if (new_flag) {
+	        gint row;
+
+	        s[0] = txt;
+		s[1] = NULL;
+		str = g_new(gchar, strlen(txt)+1);
+		strcpy(str, txt);
+		row = gtk_clist_append(GTK_CLIST (p->list), s);
+		gtk_clist_set_row_data (GTK_CLIST (p->list), row, str);
+		autocorrect_in_exceptions = 
+		  g_list_prepend (autocorrect_in_exceptions, (gpointer) str);
+	}
+	gtk_entry_set_text (GTK_ENTRY (p->entry), "");
+}
+
+static void
 remove_fl_clicked (GtkWidget *widget, exceptions_t *p)
 {
         if (fl_row >= 0) {
@@ -197,10 +240,29 @@ remove_fl_clicked (GtkWidget *widget, exceptions_t *p)
 }
 
 static void
+remove_in_clicked (GtkWidget *widget, exceptions_t *p)
+{
+        if (fl_row >= 0) {
+	        gpointer x = gtk_clist_get_row_data (GTK_CLIST (p->list),
+						     in_row);
+	        gtk_clist_remove (GTK_CLIST (p->list), in_row);
+		autocorrect_in_exceptions = 
+		  g_list_remove (autocorrect_in_exceptions, x);
+	}
+}
+
+static void
 fl_select_row (GtkWidget *widget, gint row, gint col, GdkEventButton *event,
 	       gpointer data)
 {
         fl_row = row;
+}
+
+static void
+in_select_row (GtkWidget *widget, gint row, gint col, GdkEventButton *event,
+	       gpointer data)
+{
+        in_row = row;
 }
 
 static void
@@ -213,7 +275,7 @@ exceptions_callback (GtkWidget *widget, autocorrect_t *p)
 	GtkWidget *remove;
 	GList     *cur;
 	gint      v;
-	exceptions_t e;
+	exceptions_t e1, e2;
 
 	dia = glade_xml_get_widget (gui, "AutoCorrectExceptions");
 
@@ -227,11 +289,17 @@ exceptions_callback (GtkWidget *widget, autocorrect_t *p)
 	gnome_dialog_set_parent (GNOME_DIALOG (dia),
 				 GTK_WINDOW (p->wb->toplevel));
 
-	e.entry = glade_xml_get_widget (gui, "entry1");
-	e.list = glade_xml_get_widget (gui, "clist1");
+	e1.entry = glade_xml_get_widget (gui, "entry1");
+	e1.list = glade_xml_get_widget (gui, "clist1");
 
-	gtk_signal_connect(GTK_OBJECT(e.list), "select_row",
+	gtk_signal_connect(GTK_OBJECT(e1.list), "select_row",
 			   GTK_SIGNAL_FUNC(fl_select_row), NULL);
+
+	e2.entry = glade_xml_get_widget (gui, "entry2");
+	e2.list = glade_xml_get_widget (gui, "clist2");
+
+	gtk_signal_connect(GTK_OBJECT(e2.list), "select_row",
+			   GTK_SIGNAL_FUNC(in_select_row), NULL);
 
 	for (cur = autocorrect_fl_exceptions; cur != NULL; cur = cur->next) {
 	        gchar *s[2], *txt = (gchar *) cur->data;
@@ -239,17 +307,35 @@ exceptions_callback (GtkWidget *widget, autocorrect_t *p)
 
 	        s[0] = txt;
 		s[1] = NULL;
-		row = gtk_clist_append(GTK_CLIST (e.list), s);
-		gtk_clist_set_row_data (GTK_CLIST (e.list), row, cur->data);
+		row = gtk_clist_append(GTK_CLIST (e1.list), s);
+		gtk_clist_set_row_data (GTK_CLIST (e1.list), row, cur->data);
+	}
+
+	for (cur = autocorrect_in_exceptions; cur != NULL; cur = cur->next) {
+	        gchar *s[2], *txt = (gchar *) cur->data;
+		gint  row;
+
+	        s[0] = txt;
+		s[1] = NULL;
+		row = gtk_clist_append(GTK_CLIST (e2.list), s);
+		gtk_clist_set_row_data (GTK_CLIST (e2.list), row, cur->data);
 	}
 
 	add = glade_xml_get_widget (gui, "button4");
 	gtk_signal_connect (GTK_OBJECT (add), "clicked",
-			    GTK_SIGNAL_FUNC (add_fl_clicked), &e);
+			    GTK_SIGNAL_FUNC (add_fl_clicked), &e1);
 
 	remove = glade_xml_get_widget (gui, "button5");
 	gtk_signal_connect (GTK_OBJECT (remove), "clicked",
-			    GTK_SIGNAL_FUNC (remove_fl_clicked), &e);
+			    GTK_SIGNAL_FUNC (remove_fl_clicked), &e1);
+
+	add = glade_xml_get_widget (gui, "button6");
+	gtk_signal_connect (GTK_OBJECT (add), "clicked",
+			    GTK_SIGNAL_FUNC (add_in_clicked), &e2);
+
+	remove = glade_xml_get_widget (gui, "button7");
+	gtk_signal_connect (GTK_OBJECT (remove), "clicked",
+			    GTK_SIGNAL_FUNC (remove_in_clicked), &e2);
 
 
 	v = gnome_dialog_run (GNOME_DIALOG (dia));
@@ -270,8 +356,9 @@ dialog_autocorrect (Workbook *wb)
 	GtkWidget *first_letter;
 	GtkWidget *names_of_days;
 	GtkWidget *caps_lock;
+#if 0
 	GtkWidget *replace;
-
+#endif
 	autocorrect_t p;
 
 	gint      v;
@@ -338,6 +425,7 @@ dialog_autocorrect (Workbook *wb)
 	gtk_signal_connect (GTK_OBJECT (caps_lock), "toggled",
 			    GTK_SIGNAL_FUNC (caps_lock_toggled), wb);
 
+#if 0
 	replace = glade_xml_get_widget (gui, "checkbutton5");
 	if (autocorrect_replace)
 	        gtk_toggle_button_set_active ((GtkToggleButton *)
@@ -345,7 +433,7 @@ dialog_autocorrect (Workbook *wb)
 					      autocorrect_replace);
 	gtk_signal_connect (GTK_OBJECT (replace), "toggled",
 			    GTK_SIGNAL_FUNC (replace_toggled), wb);
-
+#endif
 	v = gnome_dialog_run (GNOME_DIALOG (dia));
 
 	if (v != 0) {

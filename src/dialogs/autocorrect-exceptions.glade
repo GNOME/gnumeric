@@ -281,9 +281,28 @@
 	      <shadow_type>GTK_SHADOW_IN</shadow_type>
 
 	      <widget>
-		<class>GtkList</class>
-		<name>list2</name>
-		<selection_mode>GTK_SELECTION_SINGLE</selection_mode>
+		<class>GtkScrolledWindow</class>
+		<name>scrolledwindow4</name>
+		<hscrollbar_policy>GTK_POLICY_ALWAYS</hscrollbar_policy>
+		<vscrollbar_policy>GTK_POLICY_ALWAYS</vscrollbar_policy>
+		<hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
+		<vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
+
+		<widget>
+		  <class>GtkCList</class>
+		  <name>clist2</name>
+		  <can_focus>True</can_focus>
+		  <columns>1</columns>
+		  <column_widths>80</column_widths>
+		  <selection_mode>GTK_SELECTION_SINGLE</selection_mode>
+		  <show_titles>True</show_titles>
+		  <shadow_type>GTK_SHADOW_IN</shadow_type>
+
+		  <widget>
+		    <class>Placeholder</class>
+		    <child_name>CList:title</child_name>
+		  </widget>
+		</widget>
 	      </widget>
 	    </widget>
 	  </widget>
