@@ -727,30 +727,21 @@ char *excel_builtin_formats[EXCEL_BUILTIN_FORMAT_LEN] = {
 /* 0x31 */	"@"
 };
 
-/*
- * FIXME: This code falsely assumes that the builtin formats are
- * fixed. The builtins get translated to local currency formats. E.g.
- * Format data : 0x05 == '"kr"\ #,##0;"kr"\ \-#,##0'
-*/
 StyleFormat *
 biff_format_data_lookup (ExcelWorkbook *wb, guint16 idx)
 {
 	char *ans = NULL;
-	if (idx <= 0x31) {
+	BiffFormatData *d = g_hash_table_lookup (wb->format_data,
+						 &idx);
+	if (d)
+		ans = d->name;
+	else if (idx <= 0x31) {
 		ans = excel_builtin_formats[idx];
 		if (!ans)
 			printf ("Foreign undocumented format\n");
-	}
+	} else
+		printf ("Unknown format: 0x%x\n", idx);
 
-	if (!ans) {
-		BiffFormatData *d = g_hash_table_lookup (wb->format_data,
-							   &idx);
-		if (!d) {
-			printf ("Unknown format: 0x%x\n", idx);
-			ans = 0;
-		} else
-			ans = d->name;
-	}
 	if (ans)
 		return style_format_new (ans);
 	else
