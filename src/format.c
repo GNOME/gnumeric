@@ -100,7 +100,7 @@ main( int argc, gchar *argv )
   return 0;
 }
 
-void roundup( GString *string )
+static void do_roundup( GString *string )
 {
   int i;
   
@@ -223,7 +223,7 @@ format_text( gchar *format, gdouble number )
 	  else
 	    {
 	      digit = 0;
-	      roundup( string );
+	      do_roundup( string );
 	    }
 	}
       g_string_append_c( string, digit + '0' );
@@ -248,7 +248,7 @@ format_text( gchar *format, gdouble number )
 	      right_spaces -= zero_count;
 	      zero_count = nine_count;
 	      right_spaces += zero_count;
-	      roundup( string );
+	      do_roundup( string );
 	    }
 	}
       if ( digit == 0 )

@@ -3,7 +3,7 @@ CFLAGS += -g -Wall 	\
 	-Wmissing-prototypes -Wmissing-declarations 
 
 bin_PROGRAMS = gnumeric
-noinst_PROGRAMS = test-format test-parser
+check_PROGRAMS = test-format test-parser
 
 INCLUDES = 			\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
@@ -53,15 +53,16 @@ test_format_SOURCES = format.c
 
 test_format_LDADD = \
 	$(GNOME_LIBDIR) \
-	$(GNOMEUI_LIBS)
+	$(GNOMEUI_LIBS) \
+	$(INTLLIBS)
 
 test_parser_SOURCES = 		\
 	test-parser.c		\
 	$(GNUMERIC_BASE_SOURCES)
-	
+
 test_parser_LDADD =		\
 	$(GNOME_LIBDIR)	\
-	$(GNOMEUI_LIBS) -lgmp
+	$(GNOMEUI_LIBS) $(INTLLIBS) -lgmp
 
 #test_token_SOURCES = 		\
 #	test-token.c		\

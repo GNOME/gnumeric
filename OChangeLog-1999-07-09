@@ -1,3 +1,13 @@
+Sat Jul 25 14:10:23 1998  Tom Tromey  <tromey@cygnus.com>
+
+	* src/Makefile.am (test_parser_LDADD): Added INTLLIBS.
+	(test_format_LDADD): Likewise.
+	(check_PROGRAMS): Renamed from noinst_PROGRAMS.
+
+	* src/format.c (do_roundup): Renamed from roundup (my Linux
+	install has a 2-argument `roundup' macro in sys/types.h).  Now
+	static.
+
 1998-07-25  Nuno Ferreira  <nmrf@rnl.ist.utl.pt>
 
 	* configure.in (ALL_LINGUAS): Added "pt".
