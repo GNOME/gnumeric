@@ -12,6 +12,13 @@
 #include "../../src/expr.h"
 #include "../../src/func.h"
 
+/* This is damn ugly.
+ * However, it will get things working again (I hope)
+ * until someone who actually uses this thing takes
+ * over maintaing it.
+ */
+static EvalPosition *eval_pos = NULL;
+
 static int
 scm_num2int (SCM num)
 {
@@ -39,7 +46,8 @@ cell_ref_to_scm (CellRef cell, CellRef eval_cell)
 
 	return scm_cons(scm_symbolfrom0str("cell-ref"),
 			scm_cons(scm_long2num(col), scm_long2num(row)));
-				/* FIXME: we need the relative-flags also */
+				/* FIXME: we need the relative-flags,
+				 * and the sheet, and workbook */
 }
 
 static CellRef
@@ -69,6 +77,18 @@ value_to_scm (Value *val, CellRef cell_ref)
 
 	switch (val->type)
 	{
+		case VALUE_EMPTY :
+			/* FIXME ?? what belongs here */
+			return scm_long2num(0);
+
+		case VALUE_BOOLEAN :
+			/* FIXME ?? what belongs here */
+			return scm_long2num(val->v.v_bool);
+
+		case VALUE_ERROR :
+			/* FIXME ?? what belongs here */
+			return scm_makfrom0str(val->v.error.mesg->str);
+
 		case VALUE_STRING :
 			return scm_makfrom0str(val->v.str->str);
 
@@ -205,6 +225,8 @@ expr_to_scm (ExprTree *expr, CellRef cell_ref)
 		case OPER_VAR :
 			return scm_cons(scm_symbolfrom0str("var"),
 					cell_ref_to_scm(expr->u.constant->v.cell, cell_ref));
+
+		/* FIXME : default : */
 	}
 
 	return SCM_UNSPECIFIED;
@@ -277,7 +299,11 @@ static SCM
 scm_cell_value (SCM scm)
 {
 	CellRef cell_ref = scm_to_cell_ref(scm);
-	Cell *cell = sheet_cell_get(workbook_get_current_sheet(current_workbook), cell_ref.col, cell_ref.row);
+	Cell *cell;
+	
+	g_return_val_if_fail (eval_pos != NULL, SCM_EOL);
+
+	cell = sheet_cell_get(eval_pos->sheet, cell_ref.col, cell_ref.row);
 
 	if (cell == NULL)
 		return SCM_EOL;
@@ -291,7 +317,11 @@ static SCM
 scm_cell_expr (SCM scm)
 {
 	CellRef cell_ref = scm_to_cell_ref(scm);
-	Cell *cell = sheet_cell_get(workbook_get_current_sheet(current_workbook), cell_ref.col, cell_ref.row);
+	Cell *cell;
+
+	g_return_val_if_fail (eval_pos != NULL, SCM_EOL);
+
+	cell = sheet_cell_get(eval_pos->sheet, cell_ref.col, cell_ref.row);
 
 	if (cell == NULL || cell->parsed_node == NULL)
 		return SCM_EOL;
@@ -303,7 +333,11 @@ static SCM
 scm_set_cell_string (SCM scm_cell_ref, SCM scm_string)
 {
 	CellRef cell_ref = scm_to_cell_ref(scm_cell_ref);
-	Cell *cell = sheet_cell_fetch(workbook_get_current_sheet(current_workbook), cell_ref.col, cell_ref.row);
+	Cell *cell;
+
+	g_return_val_if_fail (eval_pos != NULL, SCM_EOL);
+
+	cell = sheet_cell_get(eval_pos->sheet, cell_ref.col, cell_ref.row);
 
 	SCM_ASSERT(SCM_NIMP(scm_string) && SCM_STRINGP(scm_string), scm_string, SCM_ARG2, "set-cell-string!");
 
@@ -320,8 +354,6 @@ scm_gnumeric_funcall(SCM funcname, SCM arglist)
 {
 	int i, num_args;
 	Value **values;
-	EvalPosition ep;
-	ErrorMessage *error;
 	CellRef cell_ref = { 0, 0, 0, 0 };
 
 	SCM_ASSERT(SCM_NIMP(funcname) && SCM_STRINGP(funcname), funcname, SCM_ARG1, "gnumeric-funcall");
@@ -335,13 +367,10 @@ scm_gnumeric_funcall(SCM funcname, SCM arglist)
 		arglist = SCM_CDR(arglist);
 	}
 
-	error = error_message_new ();
-	return value_to_scm(function_call_with_values(eval_pos_init (&ep, workbook_get_current_sheet(current_workbook),
-								     0, 0),
+	return value_to_scm(function_call_with_values(eval_pos,
 						      SCM_CHARS(funcname),
 						      num_args,
-						      values,
-						      error),
+						      values),
 			    cell_ref);
 }
 
@@ -363,12 +392,10 @@ func_marshal_func (FunctionEvalInfo *ei, Value *argv[])
 {
 	GList *l;
 	FunctionDefinition *fndef = ei->func_def;
-	SCM args = SCM_EOL,
-		result,
-		function;
+	SCM args = SCM_EOL, result, function;
 	CellRef dummy = { 0, 0, 0, 0 };
-	int i,
-		count = strlen(fndef->args);
+	int i, count = strlen(fndef->args);
+	EvalPosition *old_eval_pos;
 
 	l = g_list_find_custom(funclist, fndef, (GCompareFunc)fndef_compare);
 	if (l == NULL)
@@ -379,7 +406,10 @@ func_marshal_func (FunctionEvalInfo *ei, Value *argv[])
 	for (i = count - 1; i >= 0; --i)
 		args = scm_cons(value_to_scm(argv[i], dummy), args);
 
+	old_eval_pos = eval_pos;
+	eval_pos = &ei->pos;
 	result = scm_apply(function, args, SCM_EOL);
+	eval_pos = old_eval_pos;
 
 	return scm_to_value(result);
 }
@@ -429,11 +459,12 @@ init_plugin (PluginData *pd)
 	FunctionCategory *cat;
 	char *init_file_name;
 
-#if 0
+	/* Initialize just in case. */
+	eval_pos = NULL;
+
 	cat = function_get_category ("Guile");
 	function_add_args  (cat, "scm_eval", "s", "expr",  NULL, func_scm_eval);
 	function_add_nodes (cat, "scm_apply", 0, "symbol", NULL, func_scm_apply);
-#endif
 
 	pd->can_unload = no_unloading_for_me;
 	pd->title = g_strdup(_("Guile Plugin"));
