@@ -22,7 +22,6 @@ AM_PROG_LIBTOOL
 AC_PROG_INTLTOOL
 AM_PROG_LIBTOOL
 AC_STDC_HEADERS
-AC_ARG_PROGRAM
 
 if test "$GCC" = "yes"; then
   gcc_check=`$CC -v 2>&1 | grep '^gcc version 2\.96'`

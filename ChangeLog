@@ -2,7 +2,8 @@
 
 	* acconfig.h: obsoleted.
 	* configure.in: Added template descriptions to AC_DEFINE and 
-	  AC_DEFINE_UNQUOTED to obsolete acconfig.h .
+	  AC_DEFINE_UNQUOTED to obsolete acconfig.h . Removed AC_ARG_PROGRAM
+	  as AM_INIT_AUTOMAKE already calls it on our behalf.
 
 2002-11-01  Jody Goldberg <jody@gnome.org>
 
