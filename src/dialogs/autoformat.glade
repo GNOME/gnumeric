@@ -195,19 +195,6 @@
 		</widget>
 
 		<widget>
-		  <class>GtkCheckMenuItem</class>
-		  <name>format_dimensions</name>
-		  <signal>
-		    <name>activate</name>
-		    <handler>on_item13_activate</handler>
-		    <last_modification_time>Tue, 12 Sep 2000 23:09:03 GMT</last_modification_time>
-		  </signal>
-		  <label>Apply _Sizes</label>
-		  <active>True</active>
-		  <always_show_toggle>False</always_show_toggle>
-		</widget>
-
-		<widget>
 		  <class>GtkMenuItem</class>
 		  <name>separator1</name>
 		  <right_justify>False</right_justify>
@@ -309,7 +296,7 @@
 	      <class>GtkEntry</class>
 	      <child_name>GnomeEntry:entry</child_name>
 	      <name>combo-entry1</name>
-	      <can_focus>True</can_focus>
+	      <tooltip>The current category</tooltip>
 	      <editable>False</editable>
 	      <text_visible>True</text_visible>
 	      <text_max_length>0</text_max_length>
@@ -661,7 +648,7 @@
 	<class>GtkLabel</class>
 	<child_name>Notebook:tab</child_name>
 	<name>label9</name>
-	<label>Preview</label>
+	<label>_Preview</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0.5</xalign>
@@ -707,7 +694,6 @@
 	    <class>GtkText</class>
 	    <name>format_info_descr</name>
 	    <tooltip>A short description of the template</tooltip>
-	    <can_focus>True</can_focus>
 	    <editable>False</editable>
 	    <text></text>
 	  </widget>
@@ -717,7 +703,6 @@
 	  <class>GtkEntry</class>
 	  <name>format_info_cat</name>
 	  <tooltip>The category this template belongs to</tooltip>
-	  <can_focus>True</can_focus>
 	  <editable>False</editable>
 	  <text_visible>True</text_visible>
 	  <text_max_length>0</text_max_length>
@@ -742,7 +727,6 @@
 	  <class>GtkEntry</class>
 	  <name>format_info_author</name>
 	  <tooltip>The group/individual that made the template</tooltip>
-	  <can_focus>True</can_focus>
 	  <editable>False</editable>
 	  <text_visible>True</text_visible>
 	  <text_max_length>0</text_max_length>
@@ -767,7 +751,6 @@
 	  <class>GtkEntry</class>
 	  <name>format_info_name</name>
 	  <tooltip>Name of template</tooltip>
-	  <can_focus>True</can_focus>
 	  <editable>False</editable>
 	  <text_visible>True</text_visible>
 	  <text_max_length>0</text_max_length>
@@ -897,7 +880,7 @@
 	<class>GtkLabel</class>
 	<child_name>Notebook:tab</child_name>
 	<name>label10</name>
-	<label>Template Details</label>
+	<label>_Template Details</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0.5</xalign>

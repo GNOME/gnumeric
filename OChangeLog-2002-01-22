@@ -1,3 +1,18 @@
+2000-09-16  Almer S. Tigelaar  <almer1@dds.nl>
+
+	* src/dialogs/autoformat.glade:
+	Remove ability to focus widgets on the Template Details tab.
+	Remove the 'Apply Dimensions' checkbox.
+	Add some accelerators.
+	Add tooltip to category combo.
+
+	* src/dialogs/dialog-autoformat.c:
+	(cb_category_entry_changed): Replaced by cb_category_popwin_hide
+	(cb_category_popwin_hide): Invoked when the popup window of
+	the category window becomes hidden.
+	(dialog_autoformat): Remove handling for dimensions checkbox and
+	change signal binding for category combo.
+
 2000-09-16  Michael Meeks  <michael@helixcode.com>
 
 	* src/workbook.c (workbook_new): use datadir for get_ui_fname.

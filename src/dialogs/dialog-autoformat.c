@@ -99,7 +99,7 @@ typedef struct {
 	GtkEntry       *info_name, *info_author, *info_cat;
 	GtkText        *info_descr;
 
-	GtkCheckMenuItem *number, *border, *font, *patterns, *alignment, *dimensions;
+	GtkCheckMenuItem *number, *border, *font, *patterns, *alignment;
 
 	GtkButton      *ok, *cancel;
 
@@ -782,13 +782,10 @@ cb_canvas_button_release (GnomeCanvas *canvas, GdkEventButton *event, AutoFormat
 }
 
 /**
- * cb_category_entry_changed:
- * @clist: 
- * @row: 
- * @column: 
- * @event: 
- * @info: 
- * 
+ * cb_category_popwin_hide:
+ * @widget:
+ * @info:
+ *
  * Invoked when a category is selected in the category list, this will quickly load
  * all templates in the newly selected category, load the previews and select
  * the first one by default.
@@ -796,12 +793,12 @@ cb_canvas_button_release (GnomeCanvas *canvas, GdkEventButton *event, AutoFormat
  * menu items will be disable and the Template Information cleared.
  **/
 static void
-cb_category_entry_changed (GtkEntry *entry, AutoFormatInfo *info)
+cb_category_popwin_hide (GtkWidget *widget, AutoFormatInfo *info)
 {
 	/*
 	 * Don't directly modify current_category!
 	 */
-	info->current_category = gtk_entry_get_text (entry);
+	info->current_category = gtk_entry_get_text (GTK_ENTRY (info->category->entry));
 	
 	previews_free (info);
 	templates_free (info);
@@ -1002,7 +999,6 @@ dialog_autoformat (Workbook *wb)
 	info->font        = setup_apply_item (gui, info, "format_font");
 	info->patterns    = setup_apply_item (gui, info, "format_patterns");
 	info->alignment   = setup_apply_item (gui, info, "format_alignment");
-	info->dimensions  = setup_apply_item (gui, info, "format_dimensions");
 
 	/*
 	 * Connect signals
@@ -1011,10 +1007,16 @@ dialog_autoformat (Workbook *wb)
 			    "close",
 			    GTK_SIGNAL_FUNC (cb_dialog_close),
 			    info);
-			    
-	gtk_signal_connect (GTK_OBJECT (info->category->entry),
-			    "changed",
-			    GTK_SIGNAL_FUNC (cb_category_entry_changed),
+
+	/*
+	 * FIXME: UGLY! This actually connects a signal to the window
+	 * which is popped-up by the category combo, this is actually
+	 * not allowed (only entry and list are public) and may
+	 * very well break when gtkcombo's implementation changes
+	 */
+	gtk_signal_connect (GTK_OBJECT (info->category->popwin),
+			    "hide",
+			    GTK_SIGNAL_FUNC (cb_category_popwin_hide),
 			    info);
 
 	gtk_signal_connect (GTK_OBJECT (GTK_RANGE (info->scroll)->adjustment),
@@ -1069,6 +1071,11 @@ dialog_autoformat (Workbook *wb)
 	} else {
 	
 		gtk_combo_set_popdown_strings (info->category, info->categories);
+
+		/*
+		 * Call callback the screen updates
+		 */
+		cb_category_popwin_hide (GTK_WIDGET (info->category), info);
 	}
 
 	/*
