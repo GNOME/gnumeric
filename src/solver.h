@@ -4,15 +4,11 @@
 #include "gnumeric.h"
 #include "numbers.h"
 
-#define SOLVER_LP_RUNNING        0
-#define SOLVER_LP_OPTIMAL        1
-#define SOLVER_LP_UNBOUNDED      2
-#define SOLVER_LP_INFEASIBLE     3
-#define SOLVER_LP_FAILURE        4
-#define SOLVER_LP_MILP_FAIL      5
-#define SOLVER_LP_INVALID_RHS    6
-#define SOLVER_LP_INVALID_LHS    7
 
+typedef enum {
+        SolverRunning, SolverOptimal, SolverUnbounded, SolverInfeasible,
+	SolverFailure, SolverMilpFailure
+} SolverStatus;
 
 /* Forward references for structures.  */
 typedef struct _SolverOptions SolverOptions;
@@ -58,7 +54,7 @@ typedef void
 typedef void
         (solver_lp_set_int_fn)          (SolverProgram p, int col,
 					 gboolean must_be_int);
-typedef int
+typedef SolverStatus
         (solver_lp_solve_fn)            (SolverProgram p);
 typedef gnum_float
         (solver_lp_get_obj_fn_value_fn) (SolverProgram p);
@@ -148,7 +144,7 @@ typedef struct {
         gnum_float       *optimal_values;
         gnum_float       *original_values;
         gnum_float       *shadow_prizes;
-        int              status;
+        SolverStatus     status;
         gboolean         ilp_flag;   /* This is set if the problem has INT
 				      * constraints.  Some reports cannot
 				      * be created if there are any. */

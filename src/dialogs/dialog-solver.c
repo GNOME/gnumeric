@@ -32,29 +32,29 @@
 #define SOLVER_KEY            "solver-dialog"
 
 typedef struct {
-	GladeXML  *gui;
-	GtkWidget *dialog;
-	GnumericExprEntry *target_entry;
-	GnumericExprEntry *change_cell_entry;
-	GtkWidget *solve_button;
-	GtkWidget *cancel_button;
-	GtkWidget *close_button;
-	GtkWidget *add_button;
-	GtkWidget *change_button;
-	GtkWidget *delete_button;
-	GnumericExprEntry *lhs_entry;
-	GnumericExprEntry *rhs_entry;
-	GtkOptionMenu *type_combo;
-	GtkCList *constraint_list;
-	gint selected_row;
-	gnum_float ov_target;
-	GSList *ov;
-	GSList *ov_stack;
-	GSList *ov_cell_stack;
-	GtkWidget *warning_dialog;
+	GladeXML            *gui;
+	GtkWidget           *dialog;
+	GnumericExprEntry   *target_entry;
+	GnumericExprEntry   *change_cell_entry;
+	GtkWidget           *solve_button;
+	GtkWidget           *cancel_button;
+	GtkWidget           *close_button;
+	GtkWidget           *add_button;
+	GtkWidget           *change_button;
+	GtkWidget           *delete_button;
+	GnumericExprEntry   *lhs_entry;
+	GnumericExprEntry   *rhs_entry;
+	GtkOptionMenu       *type_combo;
+	GtkCList            *constraint_list;
+	gint                selected_row;
+	gnum_float          ov_target;
+	GSList              *ov;
+	GSList              *ov_stack;
+	GSList              *ov_cell_stack;
+	GtkWidget           *warning_dialog;
 
-	Sheet	  *sheet;
-	Workbook  *wb;
+	Sheet	            *sheet;
+	Workbook            *wb;
 	WorkbookControlGUI  *wbcg;
 } SolverState;
 
@@ -72,8 +72,8 @@ static char const * constraint_strs_untranslated[] = {
 
 typedef struct {
 	GtkCList *c_listing;
-	GSList *c_list;
-	Sheet *sheet;
+	GSList   *c_list;
+	Sheet    *sheet;
 } constraint_conversion_t;
 
 
@@ -96,11 +96,11 @@ static const char *problem_type_group[] = {
  *
  **/
 static gboolean
-is_hom_row_or_col_ref (GnumericExprEntry *entry_1, GnumericExprEntry *entry_2, Sheet *sheet)
+is_hom_row_or_col_ref (GnumericExprEntry *entry_1, GnumericExprEntry *entry_2,
+		       Sheet *sheet)
 {
-        Value *input_range_1;
-        Value *input_range_2;
-
+        Value    *input_range_1;
+        Value    *input_range_2;
 	gboolean res;
 
 	input_range_1 = gnm_expr_entry_parse_as_value (entry_1, sheet);
@@ -145,7 +145,8 @@ dialog_set_sec_button_sensitivity (GtkWidget *dummy, SolverState *state)
 	gboolean select_ready;
 
 	select_ready = (state->selected_row > -1);
-	ready = gnm_expr_entry_is_cell_ref (state->lhs_entry, state->sheet, TRUE) &&
+	ready = gnm_expr_entry_is_cell_ref (state->lhs_entry, state->sheet,
+					    TRUE) &&
 		((gnumeric_option_menu_get_selected_index (state->type_combo)
 		  == SolverINT)
 		 || (gnumeric_option_menu_get_selected_index (state->type_combo)
@@ -174,7 +175,7 @@ constraint_select_click (GtkWidget      *clist,
 			 gint           row,
 			 gint           column,
 			 GdkEventButton *event,
-			 SolverState *state)
+			 SolverState    *state)
 {
         state->selected_row = row;
 	dialog_set_sec_button_sensitivity (NULL, state);
@@ -192,10 +193,10 @@ constraint_select_click (GtkWidget      *clist,
 
 static void
 constraint_unselect_click (GtkWidget      *clist,
-			 gint           row,
-			 gint           column,
-			 GdkEventButton *event,
-			 SolverState *state)
+			   gint           row,
+			   gint           column,
+			   GdkEventButton *event,
+			   SolverState *state)
 {
         state->selected_row = -1;
 	dialog_set_sec_button_sensitivity (NULL, state);
@@ -242,8 +243,8 @@ cb_dialog_delete_clicked (GtkWidget *button, SolverState *state)
 static void
 cb_dialog_add_clicked (GtkWidget *button, SolverState *state)
 {
-	gint selection;
-	char *texts[2] = {NULL, NULL};
+	gint         selection;
+	char         *texts[2] = {NULL, NULL};
 	constraint_t *the_constraint = g_new (constraint_t, 1);
 
 	the_constraint->lhs_value = gnm_expr_entry_parse_as_value
@@ -255,7 +256,7 @@ cb_dialog_add_clicked (GtkWidget *button, SolverState *state)
 		the_constraint->rhs_value = gnm_expr_entry_parse_as_value
 			(state->rhs_entry, state->sheet);
 
-/* FIXMEE: We are dropping cross sheet references!! */
+/* FIXME: We are dropping cross sheet references!! */
 		texts[0] = write_constraint_str
 			(the_constraint->lhs_value->v_range.cell.a.col,
 			 the_constraint->lhs_value->v_range.cell.a.row,
@@ -523,7 +524,8 @@ convert_constraint_format (constraint_conversion_t *conv)
 
 	for (i = 0; ; i++) {
 		SolverConstraint *engine_constraint;
-		const constraint_t *a_constraint = gtk_clist_get_row_data (conv->c_listing, i);
+		const constraint_t *a_constraint = gtk_clist_get_row_data
+			(conv->c_listing, i);
 		if (a_constraint == NULL)
 			break;
 
@@ -570,7 +572,7 @@ static void
 revert_constraint_format (constraint_conversion_t * conv)
 {
 	GSList *engine_constraint_list = conv->c_list;
-	gchar *text[2] = {NULL, NULL};
+	gchar  *text[2] = {NULL, NULL};
 
 	while (engine_constraint_list != NULL) {
 		const SolverConstraint *engine_constraint =
@@ -653,15 +655,16 @@ cb_destroy (gpointer data, gpointer user_data)
 static void
 cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 {
-	Value              *target_range;
-	Value              *input_range;
-        CellList           *input_cells = NULL;
-	Value              *result;
-	EvalPos            pos;
-	gint               i;
-	gboolean           answer, sensitivity, limits, performance;
-	gboolean           program, dual_program;
-	gchar              *errmsg;
+	constraint_conversion_t conv = {NULL, NULL, NULL};
+	Value                   *target_range;
+	Value                   *input_range;
+        CellList                *input_cells = NULL;
+	Value                   *result;
+	EvalPos                 pos;
+	gint                    i;
+	gboolean                answer, sensitivity, limits, performance;
+	gboolean                program, dual_program;
+	gchar                   *errmsg;
 
 	if (state->warning_dialog != NULL)
 		gtk_widget_destroy (state->warning_dialog);
@@ -732,99 +735,7 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 
 	i = check_int_constraints (input_range, state->constraint_list);
 
-	if (i == -1) {
-		constraint_conversion_t conv = {NULL, NULL, NULL};
-		conv.sheet = state->sheet;
-		conv.c_listing = state->constraint_list;
-		convert_constraint_format (&conv);
-		if (state->sheet->solver_parameters->constraints != NULL) {
-			g_slist_foreach
-				(state->sheet->solver_parameters->constraints,
-				 cb_destroy, NULL);
-			g_slist_free (state->sheet->solver_parameters->constraints);
-			state->sheet->solver_parameters->constraints = NULL;
-		}
-		state->sheet->solver_parameters->constraints = conv.c_list;
-
-		state->ov_target = value_get_as_float
-			(state->sheet->solver_parameters->target_cell->value);
-		state->ov = save_original_values (input_cells);
-		state->ov_stack = g_slist_prepend (state->ov_stack, state->ov);
-		state->ov_cell_stack = g_slist_prepend (state->ov_cell_stack,
-							input_cells);
-
-	        if (state->sheet->solver_parameters->options.assume_linear_model) {
-			SolverResults *res;
-
-		        res = solver (WORKBOOK_CONTROL (state->wbcg),
-				      state->sheet, &errmsg);
-
-			workbook_recalc (state->sheet->workbook);
-
-			if (res == NULL)
-			        gnumeric_notice_nonmodal
-					((GtkWindow *) state->dialog,
-					 &(state->warning_dialog),
-					 GTK_MESSAGE_WARNING, errmsg);
-			else switch (res->status) {
-			case SOLVER_LP_OPTIMAL :
-				gnumeric_notice_nonmodal
-					((GtkWindow *) state->dialog,
-					 &(state->warning_dialog),
-					 GTK_MESSAGE_INFO,
-					 _("Solver found an optimal solution. "
-					   "All constraints and optimality "
-					   "conditions are satisfied.\n"));
-				if ((sensitivity || limits) && res->ilp_flag)
-					gnumeric_notice_nonmodal
-						((GtkWindow *) state->dialog,
-						 &(state->warning_dialog),
-						 GTK_MESSAGE_INFO,
-						 _("Sensitivity nor limits "
-						   "report is not meaningful "
-						   "if the program has integer "
-						   "constraints. These reports "
-						   "will thus not be created."));
-				solver_lp_reports (WORKBOOK_CONTROL(state->wbcg),
-						   state->sheet, res,
-						   answer, sensitivity, limits,
-						   performance, program,
-						   dual_program);
-				break;
-			case SOLVER_LP_UNBOUNDED :
-			        gnumeric_notice_nonmodal
-					((GtkWindow *) state->dialog,
-					 &(state->warning_dialog),
-					 GTK_MESSAGE_WARNING, 
-					 _("The Target Cell value specified "
-					   "does not converge!  The program is "
-					   "unbounded."));
-				solver_lp_reports (WORKBOOK_CONTROL(state->wbcg),
-						   state->sheet, res,
-						   FALSE, FALSE, FALSE,
-						   performance, program,
-						   dual_program);
-				break;
-			case SOLVER_LP_INFEASIBLE :
-			        gnumeric_notice_nonmodal
-					((GtkWindow *) state->dialog,
-					 &(state->warning_dialog),
-					 GTK_MESSAGE_WARNING, 
-					 _("A feasible solution could not be "
-					   "found.  All specified constraints "
-					   "cannot be met simultaneously. "));
-				solver_lp_reports (WORKBOOK_CONTROL(state->wbcg),
-						   state->sheet, res,
-						   FALSE, FALSE, FALSE,
-						   performance, program,
-						   dual_program);
-				break;
-			}
-			solver_results_free (res);
-		} else {
-		        printf ("NLP not implemented yet!\n");
-		}
-	} else {
+	if (i != -1) {
 		char *str;
 		char *s;
 
@@ -836,9 +747,101 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 					  &(state->warning_dialog),
 					  GTK_MESSAGE_ERROR, str);
 		g_free (str);
+		goto out;
 	}
 
+	conv.sheet = state->sheet;
+	conv.c_listing = state->constraint_list;
+	convert_constraint_format (&conv);
+	if (state->sheet->solver_parameters->constraints != NULL) {
+		g_slist_foreach
+			(state->sheet->solver_parameters->constraints,
+			 cb_destroy, NULL);
+		g_slist_free (state->sheet->solver_parameters->constraints);
+		state->sheet->solver_parameters->constraints = NULL;
+	}
+	state->sheet->solver_parameters->constraints = conv.c_list;
 
+	state->ov_target = value_get_as_float
+		(state->sheet->solver_parameters->target_cell->value);
+	state->ov = save_original_values (input_cells);
+	state->ov_stack = g_slist_prepend (state->ov_stack, state->ov);
+	state->ov_cell_stack = g_slist_prepend (state->ov_cell_stack,
+						input_cells);
+
+	if (state->sheet->solver_parameters->options.assume_linear_model) {
+		SolverResults *res;
+
+		res = solver (WORKBOOK_CONTROL (state->wbcg),
+			      state->sheet, &errmsg);
+
+		workbook_recalc (state->sheet->workbook);
+
+		if (res == NULL)
+			gnumeric_notice_nonmodal
+				((GtkWindow *) state->dialog,
+				 &(state->warning_dialog),
+				 GTK_MESSAGE_WARNING, errmsg);
+		else switch (res->status) {
+		case SolverOptimal :
+			gnumeric_notice_nonmodal
+				((GtkWindow *) state->dialog,
+				 &(state->warning_dialog),
+				 GTK_MESSAGE_INFO,
+				 _("Solver found an optimal solution.  All "
+				   "constraints and optimality conditions are "
+				   "satisfied.\n"));
+			if ((sensitivity || limits) && res->ilp_flag)
+				gnumeric_notice_nonmodal
+					((GtkWindow *) state->dialog,
+					 &(state->warning_dialog),
+					 GTK_MESSAGE_INFO,
+					 _("Sensitivity nor limits report are "
+					   "not meaningful if the program has "
+					   "integer constraints. These reports "
+					   "will thus not be created."));
+			solver_lp_reports (WORKBOOK_CONTROL(state->wbcg),
+					   state->sheet, res,
+					   answer, sensitivity, limits,
+					   performance, program, dual_program);
+			break;
+		case SolverUnbounded :
+			gnumeric_notice_nonmodal
+				((GtkWindow *) state->dialog,
+				 &(state->warning_dialog),
+				 GTK_MESSAGE_WARNING, 
+				 _("The Target Cell value specified does not "
+				   "converge!  The program is unbounded."));
+			solver_lp_reports (WORKBOOK_CONTROL(state->wbcg),
+					   state->sheet, res,
+					   FALSE, FALSE, FALSE,
+					   performance, program, dual_program);
+			break;
+		case SolverInfeasible :
+			gnumeric_notice_nonmodal
+				((GtkWindow *) state->dialog,
+				 &(state->warning_dialog),
+				 GTK_MESSAGE_WARNING, 
+				 _("A feasible solution could not be found.  "
+				   "All specified constraints cannot be met "
+				   "simultaneously. "));
+			solver_lp_reports (WORKBOOK_CONTROL(state->wbcg),
+					   state->sheet, res,
+					   FALSE, FALSE, FALSE,
+					   performance, program, dual_program);
+			break;
+		default:
+			gnumeric_notice_nonmodal
+				((GtkWindow *) state->dialog,
+				 &(state->warning_dialog),
+				 GTK_MESSAGE_WARNING, errmsg);
+			break;
+		}
+		solver_results_free (res);
+	} else {
+		printf ("NLP not implemented yet!\n");
+	}
+out:
 	if (target_range != NULL)
 		value_release (target_range);
 	if (input_range != NULL)
@@ -856,7 +859,7 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 static gboolean
 dialog_init (SolverState *state)
 {
-	GtkTable *table;
+	GtkTable                *table;
 	constraint_conversion_t conv;
 
 	state->gui = gnumeric_glade_xml_new (state->wbcg, "solver.glade");
@@ -894,12 +897,12 @@ dialog_init (SolverState *state)
 		"clicked",
 		G_CALLBACK (cb_dialog_add_clicked), state);
 
-	state->change_button  = glade_xml_get_widget (state->gui, "changebutton");
+	state->change_button = glade_xml_get_widget (state->gui, "changebutton");
 	g_signal_connect (G_OBJECT (state->change_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_change_clicked), state);
 
-	state->delete_button  = glade_xml_get_widget (state->gui, "deletebutton");
+	state->delete_button = glade_xml_get_widget (state->gui, "deletebutton");
 	g_signal_connect (G_OBJECT (state->delete_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_delete_clicked), state);
@@ -941,7 +944,6 @@ dialog_init (SolverState *state)
 		"changed",
 		G_CALLBACK (dialog_set_main_button_sensitivity), state);
 
-
 /* lhs_entry */
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "edit-table"));
 	state->lhs_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
@@ -980,10 +982,12 @@ dialog_init (SolverState *state)
 
 /* type_menu */
 	state->type_combo = GTK_OPTION_MENU (glade_xml_get_widget (state->gui, "type_menu"));
-	g_signal_connect (G_OBJECT (gtk_option_menu_get_menu (state->type_combo)),
+	g_signal_connect (G_OBJECT (gtk_option_menu_get_menu
+				    (state->type_combo)),
 		"selection-done",
 		G_CALLBACK (dialog_set_sec_button_sensitivity), state);
-	g_signal_connect (G_OBJECT (gtk_option_menu_get_menu (state->type_combo)),
+	g_signal_connect (G_OBJECT (gtk_option_menu_get_menu
+				    (state->type_combo)),
 		"selection-done",
 		G_CALLBACK (cb_dialog_set_rhs_sensitivity), state);
 
@@ -1084,13 +1088,13 @@ dialog_solver (WorkbookControlGUI *wbcg, Sheet *sheet)
 	if (gnumeric_dialog_raise_if_exists (wbcg, SOLVER_KEY))
 		return;
 
-	state = g_new (SolverState, 1);
-	state->wbcg  = wbcg;
-	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	state->sheet = sheet;
-	state->ov = NULL;
-	state->ov_stack = NULL;
-	state->ov_cell_stack = NULL;
+	state                 = g_new (SolverState, 1);
+	state->wbcg           = wbcg;
+	state->wb             = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->sheet          = sheet;
+	state->ov             = NULL;
+	state->ov_stack       = NULL;
+	state->ov_cell_stack  = NULL;
 	state->warning_dialog = NULL;
 
 	if (dialog_init (state)) {
