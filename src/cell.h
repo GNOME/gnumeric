@@ -134,6 +134,7 @@ void        cell_set_comment             (Cell *cell, const char *str);
 void        cell_comment_destroy         (Cell *cell);
 void        cell_comment_reposition      (Cell *cell);
 void        cell_set_font_from_style     (Cell *cell, StyleFont *style_font);
+char       *cell_get_comment             (Cell *cell);
 void        cell_set_foreground          (Cell *cell, gushort red,
 					  gushort green, gushort blue);
 void        cell_set_background          (Cell *cell, gushort red,

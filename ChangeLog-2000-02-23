@@ -1,3 +1,10 @@
+1999-06-30 Heath Martin <martinh@pegasus.cc.ucf.edu>
+	
+	* src/cell.[c,h]: (cell_get_comment) New function.
+ 
+ 	* src/xml-io.c: (xml_write_cell) Save comments.
+ 	(xml_read_cell) Load comments.
+ 
 1999-06-30  Michael Meeks  <michael@edenproject.org>
 
 	* TODO: Moved some bits to plugins/excel.

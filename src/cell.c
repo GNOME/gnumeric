@@ -1506,3 +1506,18 @@ cell_get_content (Cell *cell)
 
 	return str;
 }
+
+ char *
+ cell_get_comment (Cell *cell)
+ {
+ 	char *str;
+ 	
+ 	g_return_val_if_fail (cell != NULL, NULL);
+ 
+ 	if (cell->comment)
+ 	  str = g_strdup (cell->comment->comment->str);
+ 	else
+ 	  str = NULL;
+ 	
+ 	return str;
+ }

@@ -1055,6 +1055,14 @@ xml_write_cell (parse_xml_context_t *ctxt, Cell *cell)
 		     xmlEncodeEntities(ctxt->doc, text));
 	g_free (text);
 
+ 	text = cell_get_comment(cell);
+ 	if (text) {
+		xmlNewChild(cur, ctxt->ns, "Comment", 
+			    xmlEncodeEntities(ctxt->doc, text));
+		g_free(text);
+ 	}
+	
+
 	return cur;
 }
 
@@ -1069,6 +1077,7 @@ xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	xmlNodePtr childs;
 	int row = 0, col = 0;
 	char *content = NULL;
+	char *comment = NULL;
 	gboolean style_read = FALSE;
 	int style_idx;
 	
@@ -1132,6 +1141,13 @@ xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
 		}
 		if (!strcmp (childs->name, "Content"))
 			content = xmlNodeGetContent(childs);
+		if (!strcmp (childs->name, "Comment")) {
+			comment = xmlNodeGetContent(childs);
+ 			if (comment) {
+ 				cell_set_comment(ret, comment);
+ 				free(comment);
+			}
+ 		}
 		childs = childs->next;
 	}
 	
