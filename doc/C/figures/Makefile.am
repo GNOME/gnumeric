@@ -163,6 +163,8 @@ EXTRA_DIST = \
      dialog-auto-correct.png \
      dialog-autosave.png \
      dialog-border.png \
+     dialog-filesave-compact-withTags.png \
+     dialog-filesave-expanded-withTags.png \
      dialog-filter.png \
      dialog-graphing.png \
      dialog-insert-object.png \
@@ -184,7 +186,6 @@ EXTRA_DIST = \
      example-columnSelect.png \
      example-data.png \
      file-dialog.png \
-     file-formats-import-list.png \
      files-csv-export-ex1.png \
      files-csv-export-ex2.png \
      files-csv-import-ex1.png \
@@ -193,7 +194,6 @@ EXTRA_DIST = \
      files-csv-import-ex4.png \
      files-csv-import-ex5.png \
      files-dvi-example.png \
-     files-formats-list.png \
      files-html-example.png \
      files-html32-example.png \
      files-html40-example.png \

@@ -76,7 +76,86 @@
       TODO:
     </para>
 
+    <sect3 id="sect-file-format-open-dialog-components">
+      <title>
+        The components of the <interface>File Open</interface> dialog
+      </title>
 
+      <para>
+        The <interface>File Open</interface> dialog consists of ...
+
+	<xref linkend="fig-file-format-open-dialog-components" />
+        shows the different areas of the <interface>File
+        Open</interface> dialog.
+
+      </para>
+      
+      <figure id="fig-file-format-open-dialog-components">
+        <title>
+	  The <interface>File Open</interface> dialog with the
+	  component areas labeled.
+	</title>
+	<screenshot>
+          <mediaobject> 
+	    <imageobject> 
+	      <imagedata fileref="figures/dialog-fileopen-withTags.png"
+	                 format="PNG" />
+	    </imageobject>
+	    <textobject>
+	      <para> 
+	        This screenshot depicts the 'File Open' dialog with
+	        the different areas labeled.
+	      </para>
+	    </textobject>
+	  </mediaobject>
+	</screenshot>
+	<!-- <caption></caption>  -->
+      </figure>
+
+      <para>
+        The different parts of each panel of the <interface>File
+        Open</interface> dialog have been shaded with boxes of
+        different colors and labeled with a letter in <xref
+        linkend="fig-file-format-open-dialog-components" />. The
+        purpose of each of these sections will be explained below:
+
+	<variablelist>
+	  <title>The components of the dialog</title>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">A</emphasis> - The ... area.
+
+	    </term>
+	    <listitem>
+	      <para>
+	        This area ...
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">B</emphasis> - The ... area.
+
+	    </term>
+	    <listitem>
+	      <para>
+	        This area ...
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+
+
+        </variablelist>
+
+      </para>
+
+
+    </sect3>
+
+  
   </sect2>
 
 
@@ -85,18 +164,23 @@
 
 
 
-  <!-- Formats for opening files   *********************************  -->
+  <!-- Formats for opening files *** keep // to sect in files-saving.xml -->
 
   <sect2 id="file-format-open-formats">
     <title>The file formats which Gnumeric can read.</title>
 
     <para>
       &gnum; can open files which have been created in several formats
-      by other spreadsheet programs or databases. The opening of text
-      formatted files is described in <xref
-      linkend="file-format-export-text" />. &gnum; can also import text
-      data or HTML and XHTML tables through the clipboard mechanism,
-      as is explained in <xref linkend="sect-movecopy-xclipboard"/>.
+      by other spreadsheet programs or databases. The details of these
+      formats are provided in <xref linkend="sect-files-formats"/> and
+      the name of each file type in the table below skips to the
+      appropriate section of <xref linkend="sect-files-formats"/>. The
+      opening of text formatted files is described in <xref
+      linkend="file-format-export-text" />. &gnum; can also import
+      text data or HTML and XHTML tables through the clipboard
+      mechanism, as is explained in <xref
+      linkend="sect-movecopy-xclipboard"/>.
+
       <!-- TODO: &gnum can also read databases directly. -->
     </para> 
 
