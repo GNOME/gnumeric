@@ -30,6 +30,7 @@ Jody:
 	* Make the location status box smarter about named ranges
 	* Begin support for intersection
 	* Start parsing range sets
+	* Simple OpenOffice importer (lots more to do)
 
 Michael Meeks:
 	* Spruce up the CORBA code to use some bonobo utils.

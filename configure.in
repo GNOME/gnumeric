@@ -771,6 +771,7 @@ plugins/qpro/Makefile
 plugins/plan-perfect/Makefile
 plugins/xml_sax/Makefile
 plugins/applix/Makefile
+plugins/openoffice/Makefile
 plugins/psiconv/Makefile
 plugins/mps/Makefile
 plugins/sample_datasource/Makefile

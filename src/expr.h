@@ -62,6 +62,7 @@ FunctionDefinition *gnm_expr_get_func_def (GnmExpr const *expr);
 void	  gnm_expr_ref		     (GnmExpr const *expr);
 void	  gnm_expr_unref	     (GnmExpr const *expr);
 gboolean  gnm_expr_is_shared 	     (GnmExpr const *expr);
+gboolean  gnm_expr_is_rangeref 	     (GnmExpr const *expr);
 gboolean  gnm_expr_equal	     (GnmExpr const *a, GnmExpr const *b);
 char	 *gnm_expr_as_string	     (GnmExpr const *expr, ParsePos const *fp);
 void	  gnm_expr_get_boundingbox   (GnmExpr const *expr, Range *bound);
@@ -103,8 +104,9 @@ Value *gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 #define gnm_expr_list_length	   g_slist_length
 #define gnm_expr_list_free	   g_slist_free
 void 	 gnm_expr_list_unref	  (GnmExprList *list);
-char    *gnm_expr_list_as_string  (GnmExprList const *list, ParsePos const *p);
 gboolean gnm_expr_list_equal	  (GnmExprList const *a, GnmExprList const *b);
+char    *gnm_expr_list_as_string  (GnmExprList const *list, ParsePos const *p,
+				   char const *prefix);
 
 /*****************************************************************************/
 

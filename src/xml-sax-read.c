@@ -1479,8 +1479,8 @@ xml_sax_file_open (GnumFileOpener const *fo, IOContext *io_context,
 {
 	XMLSaxParseState state;
 
-	g_return_if_fail (wb_view != NULL);
-	g_return_if_fail (input != NULL);
+	g_return_if_fail (IS_WORKBOOK_VIEW (wb_view));
+	g_return_if_fail (GSF_IS_INPUT (input));
 
 	/* init */
 	state.context = io_context;

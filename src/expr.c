@@ -1104,12 +1104,14 @@ do_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
 		{ "%",  5, 0, 0 }, /* Percentage (NOT MODULO) */
 		{ NULL, 0, 0, 0 }, /* Array    */
 		{ NULL, 0, 0, 0 }, /* Set      */
-		{ NULL, 0, 0, 0 },  /* Range Ctor */
-		{ NULL, 0, 0, 0 }  /* intersection */
+		{ ":", 1, 1, 0 },  /* Range Ctor   */
+		{ " ", 1, 1, 0 }   /* Intersection */
 	};
 	int const op = expr->any.oper;
 
 	switch (op) {
+	case GNM_EXPR_OP_RANGE_CTOR:
+	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY: {
 		char *a, *b, *res;
 		char const *opname;
@@ -1158,13 +1160,10 @@ do_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
 	case GNM_EXPR_OP_FUNCALL: {
 		GnmExprList const * const arg_list = expr->func.arg_list;
 
-		if (arg_list != NULL) {
-			char *sum = gnm_expr_list_as_string (arg_list, pp);
-			char *res = g_strconcat (function_def_get_name (expr->func.func),
-				"(", sum, ")", NULL);
-			g_free (sum);
-			return res;
-		} else
+		if (arg_list != NULL)
+			return gnm_expr_list_as_string (arg_list, pp,
+				function_def_get_name (expr->func.func));
+		else
 			return g_strconcat (function_def_get_name (expr->func.func),
 					    "()", NULL);
 	}
@@ -1233,23 +1232,9 @@ do_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
         }
 
 	case GNM_EXPR_OP_SET:
-		return gnm_expr_list_as_string (expr->set.set, pp);
+		return gnm_expr_list_as_string (expr->set.set, pp, "");
+	};
 
-	case GNM_EXPR_OP_RANGE_CTOR: {
-		char *a, *b, *res;
-
-		a = do_expr_as_string (expr->binary.value_a, pp, 0);
-		b = do_expr_as_string (expr->binary.value_b, pp, 0);
-
-		res = g_strconcat (a, ":", b, NULL);
-
-		g_free (a);
-		g_free (b);
-		return res;
-	}
-	}
-
-	g_assert_not_reached ();
 	return g_strdup ("0");
 }
 
@@ -1928,6 +1913,47 @@ gnm_expr_get_range (GnmExpr const *expr)
 	}
 }
 
+/**
+ * gnm_expr_is_rangeref :
+ * @expr :
+ * 
+ * Returns TRUE if the expression can generate a reference.
+ * NOTE : in the future it would be nice to know if a function
+ * can return a reference to tighten that up a bit.
+ **/
+gboolean
+gnm_expr_is_rangeref (GnmExpr const *expr)
+{
+	g_return_val_if_fail (expr != NULL, FALSE);
+
+	switch (expr->any.oper) {
+	/* would be better if we could differential which functions can return refs */
+	case GNM_EXPR_OP_FUNCALL:
+
+	/* a set in a set, do we need this ? */
+	case GNM_EXPR_OP_SET:
+
+	case GNM_EXPR_OP_RANGE_CTOR:
+	case GNM_EXPR_OP_INTERSECT:
+	case GNM_EXPR_OP_CELLREF:
+		return TRUE;
+
+	case GNM_EXPR_OP_CONSTANT:
+		if (expr->constant.value->type == VALUE_CELLRANGE)
+			return TRUE;
+		return FALSE;
+
+	case GNM_EXPR_OP_NAME:
+		if (expr->name.name->active && !expr->name.name->builtin)
+			return gnm_expr_is_rangeref (expr->name.name->t.expr_tree);
+		return FALSE;
+
+	case GNM_EXPR_OP_ARRAY: /* I don't think this is possible */
+	default :
+		return FALSE;
+	};
+}
+
 void
 gnm_expr_list_unref (GnmExprList *list)
 {
@@ -1957,38 +1983,42 @@ gnm_expr_list_eq (GnmExprList const *la, GnmExprList const *lb)
 }
 
 char *
-gnm_expr_list_as_string (GnmExprList const *list, ParsePos const *pp)
+gnm_expr_list_as_string (GnmExprList const *list, ParsePos const *pp,
+			 char const *prefix)
 {
-	int i, len = 0;
+	int i, len = 0, *lengths;
 	int argc = gnm_expr_list_length ((GnmExprList *)list);
-	char sep[2] = { '\0', '\0' };
-	char *sum, **args;
+	char sep, *sum, *ptr, **args;
 	GnmExprList const *l;
 
-	sep[0] = format_get_arg_sep ();
+	sep = format_get_arg_sep ();
 
 	i = 0;
-	args = g_malloc (sizeof (char *) * argc);
+	args = g_alloca (sizeof (char *) * argc);
+	lengths = g_alloca (sizeof (int) * argc);
 	for (l = list; l; l = l->next, i++) {
-		GnmExpr *t = l->data;
-
-		args[i] = do_expr_as_string (t, pp, 0);
-		len += strlen (args[i]) + 1;
+		args[i] = do_expr_as_string (l->data, pp, 0);
+		len += 1 + (lengths[i] = strlen (args[i]));
 	}
-	len++;
-	sum = g_malloc (len + 2);
+	i = strlen (prefix);
+	sum = g_malloc (i + len + 4);
 
-	i = 0;
-	sum[0] = 0;
-	for (l = list; l != NULL; l = l->next) {
-		strcat (sum, args[i++]);
-		if (l->next)
-			strcat (sum, sep);
+	ptr = sum;
+	strcpy (ptr, prefix);
+	ptr += i;
+	*ptr++ = '(';
+	for (l = list; l != NULL; ) {
+		strcpy (ptr, *args++);
+		ptr += *lengths++;
+		l = l->next;
+		if (l != NULL)
+			*ptr++ = sep;
 	}
+	ptr[0] = ')';
+	ptr[1] = '\0';
 
-	for (i = 0; i < argc; i++)
-		g_free (args[i]);
-	g_free (args);
+	while (argc-- > 0)
+		g_free (*(--args));
 
 	return sum;
 }

@@ -181,8 +181,6 @@ unregister_allocation (void const *data)
 
 /* ------------------------------------------------------------------------- */
 
-#define ERROR -1
-
 /* Bison/Yacc internals */
 static int yylex (void);
 static int yyerror (const char *s);
@@ -220,7 +218,7 @@ typedef struct {
 /* The error returned from the */
 static ParserState *state;
 
-static int
+static void
 gnumeric_parse_error (ParserState *state, ParseErrorID id, char *message, int end, int relative_begin)
 {
 	if (state->error != NULL) {
@@ -230,8 +228,6 @@ gnumeric_parse_error (ParserState *state, ParseErrorID id, char *message, int en
 		state->error->end_char   = end;
 	} else
 		g_free (message);
-
-	return ERROR;
 }
 
 static GnmExpr *
@@ -342,15 +338,31 @@ build_range_ctor (GnmExpr *l, GnmExpr *r, GnmExpr *validate)
 static GnmExpr *
 build_intersect (GnmExpr *l, GnmExpr *r)
 {
-#if 0
-			gnumeric_parse_error (state, PERR_UNEXPECTED_TOKEN,
-				_("Constructed ranges use simple references"),
+	if (gnm_expr_is_rangeref (l) && gnm_expr_is_rangeref (r))
+		return build_binop (l, GNM_EXPR_OP_INTERSECT, r);
+	gnumeric_parse_error (
+		state, PERR_SET_CONTENT_MUST_BE_RANGE,
+		g_strdup (_("All entries in the set must be references")),
+		state->expr_text - state->expr_backup, 0);
+	return NULL;
+}
+
+static GnmExpr *
+build_set (GnmExprList *list)
+{
+	/* verify that every thing is a ref */
+	GnmExprList *ptr;
+	for (ptr = list; ptr != NULL ; ptr = ptr->next)
+		if (!gnm_expr_is_rangeref (ptr->data)) {
+			gnumeric_parse_error (
+				state, PERR_SET_CONTENT_MUST_BE_RANGE,
+				g_strdup (_("All entries in the set must be references")),
 				state->expr_text - state->expr_backup, 0);
 			return NULL;
-		    }
-	}
-#endif
-	return build_binop (l, GNM_EXPR_OP_INTERSECT, r);
+		}
+
+	unregister_allocation (list);
+	return register_expr_allocation (gnm_expr_new_set (list));
 }
 
 /**
@@ -425,11 +437,11 @@ parser_sheet_by_name (Workbook *wb, GnmExpr *name_expr)
 	    !state->use_excel_reference_conventions && *name == '$')
 		sheet = workbook_sheet_by_name (wb, name+1);
 
-	if (sheet == NULL) {
+	if (sheet == NULL)
 		gnumeric_parse_error (state, PERR_UNKNOWN_SHEET,
 			g_strdup_printf (_("Unknown sheet '%s'"), name),
 			state->expr_text - state->expr_backup, strlen (name));
-	}
+
 	return sheet;
 }
 
@@ -518,13 +530,19 @@ exp:	  CONSTANT 	{ $$ = $1; }
 			gnumeric_parse_error (state, PERR_INVALID_EMPTY,
 				g_strdup_printf (_("() is an invalid expression")),
 				state->expr_text - state->expr_backup + 1, 0);
-		} else if ($2->next != NULL) {
-			unregister_allocation ($2);
-			$$ = register_expr_allocation (gnm_expr_new_set ($2));
+			YYERROR;
 		} else {
 			unregister_allocation ($2);
-			$$ = register_expr_allocation ($2->data);
-			gnm_expr_list_free ($2);
+			if ($2->next == NULL) {
+				$$ = register_expr_allocation ($2->data);
+				/* NOTE : free list not content */
+				gnm_expr_list_free ($2);
+			} else {
+				$$ = build_set ($2);
+				if ($$ == NULL) {
+					YYERROR;
+				}
+			}
 		}
 	}
         | '{' array_cols '}' {
@@ -556,9 +574,10 @@ exp:	  CONSTANT 	{ $$ = $1; }
 					state->expr_text - state->expr_backup + 1, strlen (name));
 		}
 
+		if (expr_name == NULL) {
+			YYERROR;
+		}
 		unregister_allocation ($2); gnm_expr_unref ($2);
-		if (expr_name == NULL)
-			return ERROR;
 	        $$ = register_expr_allocation (gnm_expr_new_name (expr_name, $1.first, NULL));
 	}
 	| '[' string_opt_quote ']' string_opt_quote {
@@ -571,25 +590,19 @@ exp:	  CONSTANT 	{ $$ = $1; }
 		pos.wb = application_workbook_get_by_name (wb_name);
 
 		if (pos.wb == NULL) {
-			int retval = gnumeric_parse_error (state, PERR_UNKNOWN_WORKBOOK,
+			gnumeric_parse_error (state, PERR_UNKNOWN_WORKBOOK,
 				g_strdup_printf (_("Unknown workbook '%s'"), wb_name), 
 				state->expr_text - state->expr_backup + 1, strlen (name));
-
-			unregister_allocation ($4); gnm_expr_unref ($4);
-			unregister_allocation ($2); gnm_expr_unref ($2);
-			return retval;
+			YYERROR;
 		}
 
 		expr_name = expr_name_lookup (&pos, name);
 		if (expr_name == NULL) {
-			int retval = gnumeric_parse_error (state, PERR_UNKNOWN_NAME,
+			gnumeric_parse_error (state, PERR_UNKNOWN_NAME,
 				g_strdup_printf (_("Name '%s' does not exist in workbook '%s'"),
 						name, wb_name),
 				state->expr_text - state->expr_backup + 1, strlen (name));
-
-			unregister_allocation ($4); gnm_expr_unref ($4);
-			unregister_allocation ($2); gnm_expr_unref ($2);
-			return retval;
+			YYERROR;
 		} else {
 			unregister_allocation ($4); gnm_expr_unref ($4);
 			unregister_allocation ($2); gnm_expr_unref ($2);
@@ -626,8 +639,9 @@ string_opt_quote : STRING
 sheetref: string_opt_quote SHEET_SEP {
 		Sheet *sheet = parser_sheet_by_name (state->pos->wb, $1);
 		unregister_allocation ($1); gnm_expr_unref ($1);
-		if (sheet == NULL)
-			return ERROR;
+		if (sheet == NULL) {
+			YYERROR;
+		}
 	        $$.first = sheet;
 	        $$.last = NULL;
 	}
@@ -635,11 +649,12 @@ sheetref: string_opt_quote SHEET_SEP {
 		Sheet *a_sheet = parser_sheet_by_name (state->pos->wb, $1);
 		Sheet *b_sheet = parser_sheet_by_name (state->pos->wb, $3);
 
+		if (a_sheet == NULL || b_sheet == NULL) {
+			YYERROR;
+		}
+
 		unregister_allocation ($1); gnm_expr_unref ($1);
 		unregister_allocation ($3); gnm_expr_unref ($3);
-
-		if (a_sheet == NULL || b_sheet == NULL)
-			return ERROR;
 	        $$.first = a_sheet;
 	        $$.last = b_sheet;
 	}
@@ -649,11 +664,12 @@ sheetref: string_opt_quote SHEET_SEP {
 			$2->constant.value->v_str.val->str);
 		Sheet *sheet = parser_sheet_by_name (wb, $4);
 
+		if (sheet == NULL) {
+			YYERROR;
+		}
+
 		unregister_allocation ($2); gnm_expr_unref ($2);
 		unregister_allocation ($4); gnm_expr_unref ($4);
-
-		if (sheet == NULL)
-			return ERROR;
 	        $$.first = sheet;
 	        $$.last = NULL;
         }
@@ -663,12 +679,13 @@ sheetref: string_opt_quote SHEET_SEP {
 		Sheet *a_sheet = parser_sheet_by_name (wb, $4);
 		Sheet *b_sheet = parser_sheet_by_name (wb, $6);
 
+		if (a_sheet == NULL || b_sheet == NULL) {
+			YYERROR;
+		}
+
 		unregister_allocation ($2); gnm_expr_unref ($2);
 		unregister_allocation ($4); gnm_expr_unref ($4);
 		unregister_allocation ($6); gnm_expr_unref ($6);
-
-		if (a_sheet == NULL || b_sheet == NULL)
-			return ERROR;
 	        $$.first = a_sheet;
 	        $$.last = b_sheet;
         }
@@ -676,10 +693,14 @@ sheetref: string_opt_quote SHEET_SEP {
 
 cellref:  RANGEREF { $$ = $1; }
 	| function RANGE_SEP function { $$ = build_range_ctor ($1, $3, NULL); }
-	| RANGEREF RANGE_SEP function
-		{ $$ = build_range_ctor ($1, $3, $1); if ($$ == NULL) return ERROR; }
-	| function RANGE_SEP RANGEREF
-		{ $$ = build_range_ctor ($1, $3, $3); if ($$ == NULL) return ERROR; }
+	| RANGEREF RANGE_SEP function {
+		$$ = build_range_ctor ($1, $3, $1);
+		if ($$ == NULL) { YYERROR; }
+	}
+	| function RANGE_SEP RANGEREF {
+		$$ = build_range_ctor ($1, $3, $3);
+		if ($$ == NULL) { YYERROR; }
+	}
 	;
 
 arg_list: exp {
@@ -722,9 +743,10 @@ array_row: array_exp {
 			$$ = g_slist_prepend ($3, $1);
 			register_expr_list_allocation ($$);
 		} else {
-			return gnumeric_parse_error (state, PERR_INVALID_ARRAY_SEPARATOR,
+			gnumeric_parse_error (state, PERR_INVALID_ARRAY_SEPARATOR,
 				g_strdup_printf (_("The character %c cannot be used to separate array elements"),
 				state->array_col_separator), state->expr_text - state->expr_backup + 1, 1);
+			YYERROR;
 		}
 	}
 	| array_exp '\\' array_row {
@@ -735,9 +757,10 @@ array_row: array_exp {
 			register_expr_list_allocation ($$);
 		} else {
 			/* FIXME: Is this the right error to display? */
-			return gnumeric_parse_error (state, PERR_INVALID_ARRAY_SEPARATOR,
+			gnumeric_parse_error (state, PERR_INVALID_ARRAY_SEPARATOR,
 				g_strdup_printf (_("The character %c cannot be used to separate array elements"),
 				state->array_col_separator), state->expr_text - state->expr_backup + 1, 1);
+			YYERROR;
 		}
 	}
         | { $$ = NULL; }
@@ -801,9 +824,14 @@ yylex (void)
 	char const *start, *end;
 	RangeRef ref;
 	gboolean is_number = FALSE;
+	gboolean is_space = FALSE;
 
-        while (g_unichar_isspace (g_utf8_get_char (state->expr_text)))
+        while (g_unichar_isspace (g_utf8_get_char (state->expr_text))) {
                 state->expr_text = g_utf8_next_char (state->expr_text);
+		is_space = TRUE;
+	}
+	if (is_space)
+		return ' ';
 
 	start = state->expr_text;
 	c = g_utf8_get_char (start);

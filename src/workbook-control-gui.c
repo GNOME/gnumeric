@@ -4359,7 +4359,8 @@ cb_realize (GtkWindow *toplevel, WorkbookControlGUI *wbcg)
 
 	allocation = &GTK_WIDGET (toplevel)->allocation;
 	gtk_window_set_default_size (toplevel,
-				     allocation->width, allocation->height);
+		allocation->width, allocation->height);
+	wbcg_focus_cur_scg (wbcg);
 }
 
 static void
@@ -4852,16 +4853,15 @@ wbcg_get_label_for_position (WorkbookControlGUI *wbcg, GtkWidget *source,
 
 static gboolean
 cb_wbcg_drag_motion (GtkWidget *widget, GdkDragContext *context,
-		gint x, gint y, guint time, WorkbookControlGUI *wbcg)
+		     gint x, gint y, guint time, WorkbookControlGUI *wbcg)
 {
-	GtkWidget *source_widget, *arrow;
+	GtkWidget *source_widget;
 
 	source_widget = gtk_drag_get_source_widget (context);
 	if (IS_EDITABLE_LABEL (source_widget)) {
 		GtkWidget *label;
 
-		/*
-		 * The user wants to reorder sheets. We simulate a
+		/* The user wants to reorder sheets. We simulate a
 		 * drag motion over a label.
 		 */
 		label = wbcg_get_label_for_position (wbcg, source_widget, x);
@@ -4874,7 +4874,7 @@ cb_wbcg_drag_motion (GtkWidget *widget, GdkDragContext *context,
 
 static void
 cb_wbcg_drag_leave (GtkWidget *widget, GdkDragContext *context,
-	       gint x, gint y, guint time, WorkbookControlGUI *wbcg)
+		    gint x, gint y, guint time, WorkbookControlGUI *wbcg)
 {
 	GtkWidget *source_widget, *arrow;
 

@@ -717,10 +717,12 @@ link_expr_dep (Dependent *dep, CellPos const *pos, GnmExpr const *tree)
 		return  link_expr_dep (dep, pos, tree->binary.value_a) |
 			link_expr_dep (dep, pos, tree->binary.value_b);
 	case GNM_EXPR_OP_ANY_UNARY : return link_expr_dep (dep, pos, tree->unary.value);
-	case GNM_EXPR_OP_CELLREF	    : return link_single_dep (dep, pos, &tree->cellref.ref);
+	case GNM_EXPR_OP_CELLREF   : return link_single_dep (dep, pos, &tree->cellref.ref);
 
 	case GNM_EXPR_OP_CONSTANT:
-		/* TODO: use implicit intersection */
+		/* TODO: pass in eval flags so that we can use implicit
+		 * intersection
+		 */
 		if (VALUE_CELLRANGE == tree->constant.value->type)
 			return link_cellrange_dep (dep, pos,
 				&tree->constant.value->v_range.cell.a,
@@ -780,6 +782,7 @@ link_expr_dep (Dependent *dep, CellPos const *pos, GnmExpr const *tree)
 		return res;
 	}
 	case GNM_EXPR_OP_RANGE_CTOR:
+	case GNM_EXPR_OP_INTERSECT:
 		return DEPENDENT_NO_FLAG; /* handled at run time */
 
 	default:
@@ -861,6 +864,10 @@ unlink_expr_dep (Dependent *dep, CellPos const *pos, GnmExpr const *tree)
 			unlink_expr_dep (dep, pos, l->data);
 		return;
 	}
+
+	case GNM_EXPR_OP_RANGE_CTOR:
+	case GNM_EXPR_OP_INTERSECT:
+		return;
 
 	default:
 		g_warning ("Unknown Operation type, dependencies lost");

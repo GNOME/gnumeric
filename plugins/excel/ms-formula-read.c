@@ -1234,11 +1234,6 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 		}
 		break;
 
-		case FORMULA_PTG_MEM_FUNC:
-			/* Can I just ignore this ? */
-			ptg_length = 2; /* + GSF_LE_GET_GUINT16 (cur); */
-			break;
-
 		case FORMULA_PTG_REF_ERR:
 			ptg_length = (ver >= MS_BIFF_V8) ? 4 : 3;
 			parse_list_push_raw (&stack, value_new_error (NULL, gnumeric_err_REF));
@@ -1295,6 +1290,29 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 			parse_list_push_raw (&stack, value_new_cellrange (&first, &last, fn_col, fn_row));
 			break;
 		}
+
+		case FORMULA_PTG_MEM_AREA :
+			/* read the sub expression */
+			ptg_length = GSF_LE_GET_GUINT16 (cur+4),
+			parse_list_push (&stack, ms_excel_parse_formula (
+				ewb, esheet, fn_col, fn_row, cur+6, ptg_length,
+				shared, array_element));
+
+			/* ignore the cached rectangles */
+			ptg_length += 6 /* 4 reserved 2 len */ + 2 + /* ref count */
+				6 * GSF_LE_GET_GUINT16 (cur + ptg_length);
+			break;
+
+		case FORMULA_PTG_MEM_ERR :
+			/* ignore this, we handle at run time */
+			ptg_length = 6;
+			break;
+
+		case FORMULA_PTG_MEM_FUNC:
+			/* ignore this, we handle at run time */
+			ptg_length = 2;
+			break;
+
 
 		case FORMULA_PTG_NAME_X : { /* FIXME: Not using sheet_idx at all ... */
 			GnmExpr const *tree;
