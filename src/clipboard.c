@@ -359,8 +359,10 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time, gpoi
 		clipboard_release (content);
 
 	/* Remove our used resources */
-	g_free (wb->clipboard_paste_callback_data);
-	wb->clipboard_paste_callback_data = NULL;
+	if (wb->clipboard_paste_callback_data != NULL) {
+		g_free (wb->clipboard_paste_callback_data);
+		wb->clipboard_paste_callback_data = NULL;
+	}
 }
 
 /**
@@ -400,11 +402,13 @@ x_selection_clear (GtkWidget *widget, GdkEventSelection *event, Workbook *wb)
  * x_clipboard_bind_workbook:
  *
  * Binds the signals related to the X selection to the Workbook
+ * and initialized the clipboard data structures for the Workbook.
  */
 void
 x_clipboard_bind_workbook (Workbook *wb)
 {
 	wb->have_x_selection = FALSE;
+	wb->clipboard_paste_callback_data = NULL;
 	
 	gtk_signal_connect (
 		GTK_OBJECT (wb->toplevel), "selection_clear_event",
@@ -543,7 +547,7 @@ clipboard_paste_region (CellRegion *region, Sheet *dest_sheet,
 	g_return_if_fail (dest_sheet != NULL);
 	g_return_if_fail (IS_SHEET (dest_sheet));
 
-	if (dest_sheet->workbook->clipboard_paste_callback_data){
+	if (dest_sheet->workbook->clipboard_paste_callback_data != NULL) {
 		g_free (dest_sheet->workbook->clipboard_paste_callback_data);	
 		dest_sheet->workbook->clipboard_paste_callback_data = NULL;
 	}
@@ -580,8 +584,11 @@ clipboard_paste_region (CellRegion *region, Sheet *dest_sheet,
 
 		sheet_paste_selection (dest_sheet, content, dest_sheet->selections->data, data);
 		
-		workbook_holding_selection->clipboard_paste_callback_data = NULL;
-		g_free (data);
+		/* Check that this has not already been freed */
+		if (workbook_holding_selection->clipboard_paste_callback_data != NULL) {
+			workbook_holding_selection->clipboard_paste_callback_data = NULL;
+			g_free (data);
+		}
 		return;
 	}
 

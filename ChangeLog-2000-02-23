@@ -1,3 +1,16 @@
+1999-09-02  Jody Goldberg <jgoldberg@home.com>
+
+	* src/clipboard.c (clipboard_paste_region) : Check that another
+	  workbook has not already freed the selection before releasing.
+	(x_selection_received) : Ditto.
+	(x_clipboard_bind_workbook) : Init clipboard_paste_callback_data.
+
+1999-09-01  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-object.c (sheet_object_update_coords) : Scale movements by
+	  zoom factor.
+	* src/sheet-object-widget.c (sheet_object_widget_update_coords) : Ditto.
+
 1999-09-01  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_compute_col_row_new_size) :
