@@ -1,3 +1,7 @@
+2003-04-23  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-edit.c (wbcg_edit_ctor) : set the wbcg early.
+
 2003-04-22  Jody Goldberg <jody@gnome.org>
 
 	* src/gnm-marshalers.list : add NONE:BOOLEAN

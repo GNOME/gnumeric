@@ -84,7 +84,8 @@ enum {
 	PROP_0,
 	PROP_UPDATE_POLICY,
 	PROP_WITH_ICON,
-	PROP_SCG
+	PROP_SCG,
+	PROP_WBCG
 };
 
 static GQuark signals [LAST_SIGNAL] = { 0 };
@@ -165,6 +166,10 @@ gee_set_property (GObject      *object,
 		gnm_expr_entry_set_scg (gee, 
 			SHEET_CONTROL_GUI (g_value_get_object (value)));
 		break;
+	case PROP_WBCG:
+		g_return_if_fail (gee->wbcg == NULL);
+		gee->wbcg = WORKBOOK_CONTROL_GUI (g_value_get_object (value));
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 	}
@@ -186,6 +191,9 @@ gee_get_property (GObject      *object,
 		break;
 	case PROP_SCG:
 		g_value_set_object (value, G_OBJECT (gee->scg));
+		break;
+	case PROP_WBCG:
+		g_value_set_object (value, G_OBJECT (gee->wbcg));
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -446,7 +454,12 @@ gee_class_init (GObjectClass *gobject_class)
 			"The GUI container associated with the entry.",
 			SHEET_CONTROL_GUI_TYPE,
 			G_PARAM_READWRITE));
-
+	g_object_class_install_property (gobject_class,
+		PROP_WBCG,
+		g_param_spec_object ("wbcg", "WorkbookControlGUI",
+			"The toplevel GUI container associated with the entry.",
+			WORKBOOK_CONTROL_GUI_TYPE,
+			G_PARAM_READWRITE));
 }
 
 static void
@@ -916,10 +929,8 @@ gnm_expr_entry_set_scg (GnmExprEntry *gee, SheetControlGUI *scg)
 				   (GWeakNotify) cb_scg_destroy, gee);
 		gee->sheet = sc_sheet (SHEET_CONTROL (scg));
 		gee->wbcg = scg_get_wbcg (gee->scg);
-	} else {
+	} else
 		gee->sheet = NULL;
-		gee->wbcg = NULL;
-	}
 }
 
 /**

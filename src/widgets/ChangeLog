@@ -1,5 +1,12 @@
 2003-04-23  Jody Goldberg <jody@gnome.org>
 
+	* gnumeric-expr-entry.c (gee_class_init) : add wbcg property.
+	(gee_set_property) : ditto.
+	(gee_get_property) : ditto.
+	(gnm_expr_entry_set_scg) : don't clear the wbcg.
+
+2003-04-23  Jody Goldberg <jody@gnome.org>
+
 	* gnumeric-expr-entry.c (cb_entry_activate) : patch warning.
 
 2003-04-22  Jody Goldberg <jody@gnome.org>
