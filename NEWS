@@ -1,17 +1,14 @@
 Gnumeric 1.4.2
 
-<<<<<<< NEWS
 Caolan McNamara:
 	* Improve python config test for ia64 [#161547]
 	* Handle invalid DIMENSIONS records in xls [#161534]
 
-=======
 Emmanuel Pacaud:
 
 	* fix legend update on pie label change.
 	* don't disable theming for xy plot with line or marker only.
 	
->>>>>>> 1.1703
 J.H.M. Dassen (Ray):
 	* XLS import for paper sizes for which gnome-print doesn't have a
 	  name.
@@ -29,6 +26,7 @@ Morten:
 	* Print rotated text.
 	* Fix torn off undo/redo crash.
 	* Fix cell format dialog initialization problems.
+	* Doc fixes for ODD and EVEN.
 
 --------------------------------------------------------------------------
 Gnumeric 1.4.1

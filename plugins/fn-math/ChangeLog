@@ -1,3 +1,7 @@
+2004-12-20  Morten Welinder  <terra@gnome.org>
+
+	* functions.c: Doc fixes for ODD and EVEN.
+
 2004-12-09  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.4.1

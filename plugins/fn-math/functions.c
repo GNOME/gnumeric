@@ -1671,11 +1671,12 @@ static char const *help_even = {
 
 	   "@DESCRIPTION="
 	   "EVEN function returns the number rounded up to the "
-	   "nearest even integer.\n\n"
+	   "nearest even integer.  Negative numbers are rounded down.\n\n"
 	   "* This function is Excel compatible.\n "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "EVEN(5.4) equals 6.\n"
+	   "EVEN(-5.4) equals -6.\n"
 	   "\n"
 	   "@SEEALSO=ODD")
 };
@@ -1709,11 +1710,12 @@ static char const *help_odd = {
 
 	   "@DESCRIPTION="
 	   "ODD function returns the @number rounded up to the "
-	   "nearest odd integer.\n\n"
+	   "nearest odd integer.  Negative numbers are rounded down.\n\n"
 	   "* This function is Excel compatible.\n "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "ODD(4.4) equals 5.\n"
+	   "ODD(-4.4) equals -5.\n"
 	   "\n"
 	   "@SEEALSO=EVEN")
 };
