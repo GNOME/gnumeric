@@ -73,6 +73,7 @@ Morten:
 	* Various UTF-8 work.
 	* Fix double replacement problem for search-and-replace with a
           regular expression matching an empty string.
+	* Fix GAMMAINV.
 
 Nicolas Peninguy:
 	* Use regexps to classify currency and accounting formats
