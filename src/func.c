@@ -544,7 +544,7 @@ tokenized_help_destroy (TokenizedHelp *tok)
 		g_free (tok->help_copy);
 
 	if (tok->sections)
-		g_ptr_array_free (tok->sections, FALSE);
+		g_ptr_array_free (tok->sections, TRUE);
 
 	g_free (tok);
 }
