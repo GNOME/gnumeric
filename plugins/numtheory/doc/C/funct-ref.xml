@@ -18,6 +18,14 @@
 <!ENTITY nt_bitor         SYSTEM  "number_theory/bitor.xml">
 <!ENTITY nt_bitxor_title  SYSTEM  "number_theory/bitxor_title.xml">
 <!ENTITY nt_bitxor        SYSTEM  "number_theory/bitxor.xml">
+<!ENTITY nt_bitand_title  SYSTEM  "number_theory/bitand_title.xml">
+<!ENTITY nt_bitand        SYSTEM  "number_theory/bitand.xml">
+<!ENTITY nt_bitlshift_title     SYSTEM
+          "number_theory/bitlshift_title.xml">
+<!ENTITY nt_bitlshift     SYSTEM  "number_theory/bitlshift.xml">
+<!ENTITY nt_bitrshift_title     SYSTEM
+          "number_theory/bitrshift_title.xml">
+<!ENTITY nt_bitrshift     SYSTEM  "number_theory/bitrshift.xml">
 ]>
 
 <chapter>
@@ -31,6 +39,9 @@
 &nt_pi_title;
 &nt_bitor_title;
 &nt_bitxor_title;
+&nt_bitand_title;
+&nt_bitlshift_title;
+&nt_bitrshift_title;
 
   <sect1 id="numtheory">
     <title>Number Theory</title>
@@ -42,7 +53,9 @@
 &nt_pi_title;
 &nt_bitor_title;
 &nt_bitxor;
-
+&nt_bitand;
+&nt_bitlshift;
+&nt_bitrshift;
   </sect1>
 </chapter>
 

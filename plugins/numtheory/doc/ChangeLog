@@ -1,3 +1,7 @@
+2002-02-22  Kevin Breit  <mrproper@ximian.com>
+
+	* C/funct-ref.xml: Added the remaining entities to the document.  The files don't exactly...exist right now.  So this document won't build.  I was just sick of adding entities.  I'll have these files in CVS in the next day or two.
+
 2002-02-18  Kevin Breit  <mrproper@ximian.com>
 
 	* C/number_theory/bitxor_title.xml: Wrote and added this file.
