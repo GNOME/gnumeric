@@ -1,5 +1,9 @@
 2002-03-12  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
+	* api.h, Makefile.am, solver.c: Added api.h.
+
+	* solver.c, reports.c, api.c: Added GPL clause.
+
 	* Makefile.am, api.c: New file.  Contains the API wrappings for
 	the optimization algorithms.
 
