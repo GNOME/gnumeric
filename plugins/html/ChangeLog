@@ -1,3 +1,7 @@
+2002-01-30  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.4
+
 2002-01-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* latex.c don't let strings run over more than one line

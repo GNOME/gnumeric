@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.70\n"
-"POT-Creation-Date: 2002-01-21 23:04-0500\n"
+"POT-Creation-Date: 2002-01-30 22:58-0500\n"
 "PO-Revision-Date: 2001-08-10 11:05-0400\n"
 "Last-Translator: Donald Park <xlpark@kankou.cs.uec.ac.jp>\n"
 "Language-Team: Chinese Team\n"
@@ -404,7 +404,7 @@ msgstr "不能打开写入流\n"
 msgid "Broken function"
 msgstr "失效的函数"
 
-#: plugins/excel/ms-formula-read.c:1448
+#: plugins/excel/ms-formula-read.c:1467
 msgid " Unknown formula"
 msgstr "未知的公式"
 
@@ -744,7 +744,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=The NT_MU function (Mbius mu function) returns \n"
+"@DESCRIPTION=The NT_MU function (Mobius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "-1 if @n has an odd  number of different prime factors .\n"
@@ -1277,11 +1277,11 @@ msgstr ""
 msgid "The next generation sax based xml I/O subsystem"
 msgstr ""
 
-#: plugins/xml_sax/xml-sax-read.c:2173
+#: plugins/xml_sax/xml-sax-read.c:2179
 msgid "xmlCreateFileParserCtxt () failed."
 msgstr "xmlCreateFileParserCtxt () 失败."
 
-#: plugins/xml_sax/xml-sax-read.c:2182
+#: plugins/xml_sax/xml-sax-read.c:2188
 msgid "XML document not well formed!"
 msgstr "XML 文档还没有很好地成形!"
 
@@ -1354,7 +1354,7 @@ msgid "Borders"
 msgstr "边框线"
 
 # src/dialog-cell-format.c:370
-#: src/GNOME_Gnumeric.xml.h:15 src/sheet-object-widget.c:427
+#: src/GNOME_Gnumeric.xml.h:15 src/sheet-object-widget.c:430
 #: src/workbook-object-toolbar.c:163
 msgid "Button"
 msgstr "按钮"
@@ -1475,7 +1475,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3014
 msgid ""
-"Comparing two population means from pop. with known varinces or using a "
+"Comparing two population means from pop. with known variances or using a "
 "large sample: z- test"
 msgstr ""
 
@@ -1722,7 +1722,7 @@ msgid "Fourier Analysis"
 msgstr "Fourier分析"
 
 # src/plugin-manager.c:95 src/plugin-manager.c:96
-#: src/GNOME_Gnumeric.xml.h:95 src/sheet-object-widget.c:330
+#: src/GNOME_Gnumeric.xml.h:95 src/sheet-object-widget.c:333
 #: src/workbook-object-toolbar.c:158
 msgid "Frame"
 msgstr "桢"
@@ -1825,12 +1825,12 @@ msgid "Insert new cells"
 msgstr "插入新储存格"
 
 # src/dialog-insert-cells.c:37
-#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2850
+#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2847
 msgid "Insert new columns"
 msgstr "插入新列"
 
 # src/workbook.c:484 src/workbook.c:500
-#: src/GNOME_Gnumeric.xml.h:118 src/workbook-control-gui.c:2847
+#: src/GNOME_Gnumeric.xml.h:118 src/workbook-control-gui.c:2850
 msgid "Insert new rows"
 msgstr "插入新行"
 
@@ -1875,7 +1875,7 @@ msgstr "为了接近一个目标值用系统规定参数重复重新计算"
 msgid "Jump to a specified cell"
 msgstr "调到指定的单元"
 
-#: src/GNOME_Gnumeric.xml.h:129 src/sheet-object-widget.c:233
+#: src/GNOME_Gnumeric.xml.h:129 src/sheet-object-widget.c:236
 #: src/workbook-object-toolbar.c:155
 msgid "Label"
 msgstr "标签"
@@ -2232,7 +2232,7 @@ msgid "Select _All"
 msgstr "选择全部(_A)"
 
 # src/dialog-delete-cells.c:36
-#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2666
+#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2661
 msgid "Select _Column"
 msgstr "选择列(_C)"
 
@@ -2241,7 +2241,7 @@ msgid "Select _Depends"
 msgstr "选择依赖(_D)"
 
 # src/dialog-delete-cells.c:35
-#: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2661
+#: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2666
 msgid "Select _Row"
 msgstr "选择行(_R)"
 
@@ -2257,11 +2257,11 @@ msgstr "选择所有依赖于当前编辑单元的单元"
 msgid "Select an array of cells"
 msgstr "选择一个单元的数组"
 
-#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2667
+#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2662
 msgid "Select an entire column"
 msgstr "选择全部列"
 
-#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:2662
+#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:2667
 msgid "Select an entire row"
 msgstr "选择全部行"
 
@@ -2325,7 +2325,7 @@ msgstr "数据分析"
 # src/workbook.c:1130
 #: src/GNOME_Gnumeric.xml.h:225 src/dialogs/consolidate.glade.h:19
 #: src/workbook-control-gui.c:3226 src/workbook-control-gui.c:3844
-#: src/workbook-view.c:518
+#: src/workbook-view.c:521
 msgid "Sum"
 msgstr "合计"
 
@@ -2471,7 +2471,7 @@ msgstr "关闭(_C)"
 #: src/dialogs/fourier-analysis.glade.h:8 src/dialogs/histogram.glade.h:21
 #: src/dialogs/moving-averages.glade.h:9 src/dialogs/rank.glade.h:10
 #: src/dialogs/regression.glade.h:10 src/dialogs/sampling.glade.h:13
-#: src/workbook-control-gui.c:2849
+#: src/workbook-control-gui.c:2846
 msgid "_Columns"
 msgstr "列(_C)"
 
@@ -2710,7 +2710,7 @@ msgstr "行(_R)"
 #: src/dialogs/fourier-analysis.glade.h:13
 #: src/dialogs/moving-averages.glade.h:14 src/dialogs/rank.glade.h:15
 #: src/dialogs/regression.glade.h:15 src/dialogs/sampling.glade.h:20
-#: src/workbook-control-gui.c:2846
+#: src/workbook-control-gui.c:2849
 msgid "_Rows"
 msgstr "行(_R)"
 
@@ -3088,8 +3088,8 @@ msgid "Anova: Two-Factor With Replication"
 msgstr "分散解析: 有重复的二元配置"
 
 #: src/analysis-tools.c:3277 src/analysis-tools.c:3287
-#: src/analysis-tools.c:3295 src/dialogs/dialog-autoformat.c:73
-#: src/dialogs/dialog-autoformat.c:77
+#: src/analysis-tools.c:3295 src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:78
 msgid "Total"
 msgstr "合计"
 
@@ -4385,7 +4385,7 @@ msgid "None          (silently accept invalid input)"
 msgstr ""
 
 # src/dialog-cell-format.c:915
-#: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-formula-guru.c:432
+#: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-formula-guru.c:440
 #: src/dialogs/dialog-search.c:126
 msgid "Number"
 msgstr "数字"
@@ -5521,122 +5521,122 @@ msgstr "无法创建 Name Guru."
 msgid "Could not create the AutoCorrect dialog."
 msgstr "无法创建 Name Guru."
 
-#: src/dialogs/dialog-autoformat.c:73
+#: src/dialogs/dialog-autoformat.c:74
 msgid " "
 msgstr " "
 
 # src/dates.c:38
-#: src/dialogs/dialog-autoformat.c:73
+#: src/dialogs/dialog-autoformat.c:74
 msgid "Jan"
 msgstr "*一"
 
 # src/dates.c:39
-#: src/dialogs/dialog-autoformat.c:73
+#: src/dialogs/dialog-autoformat.c:74
 msgid "Feb"
 msgstr "*二"
 
-#: src/dialogs/dialog-autoformat.c:73
+#: src/dialogs/dialog-autoformat.c:74
 msgid "Mrt"
 msgstr "*三"
 
 # src/workbook.c:804
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 msgid "North"
 msgstr "北"
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 msgid "6"
 msgstr "6"
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 msgid "13"
 msgstr "13"
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 msgid "20"
 msgstr "20"
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 msgid "39"
 msgstr "39"
 
 # src/workbook.c:804
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 msgid "South"
 msgstr "南"
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 msgid "12"
 msgstr "12"
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 msgid "4"
 msgstr "4"
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 msgid "17"
 msgstr "17"
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 msgid "33"
 msgstr "33"
 
 # src/dialog-cell-format.c:73
-#: src/dialogs/dialog-autoformat.c:76
+#: src/dialogs/dialog-autoformat.c:77
 msgid "West"
 msgstr "西"
 
-#: src/dialogs/dialog-autoformat.c:76
+#: src/dialogs/dialog-autoformat.c:77
 msgid "8"
 msgstr "8"
 
-#: src/dialogs/dialog-autoformat.c:76
+#: src/dialogs/dialog-autoformat.c:77
 msgid "2"
 msgstr "2"
 
-#: src/dialogs/dialog-autoformat.c:76 src/dialogs/mean-tests.glade.h:1
+#: src/dialogs/dialog-autoformat.c:77 src/dialogs/mean-tests.glade.h:1
 msgid "0"
 msgstr "0"
 
-#: src/dialogs/dialog-autoformat.c:76
+#: src/dialogs/dialog-autoformat.c:77
 msgid "10"
 msgstr "10"
 
-#: src/dialogs/dialog-autoformat.c:77
+#: src/dialogs/dialog-autoformat.c:78
 msgid "26"
 msgstr "26"
 
-#: src/dialogs/dialog-autoformat.c:77
+#: src/dialogs/dialog-autoformat.c:78
 msgid "19"
 msgstr "19"
 
-#: src/dialogs/dialog-autoformat.c:77
+#: src/dialogs/dialog-autoformat.c:78
 msgid "37"
 msgstr "37"
 
-#: src/dialogs/dialog-autoformat.c:77
+#: src/dialogs/dialog-autoformat.c:78
 msgid "81"
 msgstr "81"
 
 # src/workbook.c:1509
-#: src/dialogs/dialog-autoformat.c:513
+#: src/dialogs/dialog-autoformat.c:512
 #, c-format
 msgid "Are you sure you want to remove the template '%s' ?"
 msgstr "确实要移除名为 `%s' 的表格吗?"
 
 # plugins/guile/plugin.c:278
-#: src/dialogs/dialog-autoformat.c:527
+#: src/dialogs/dialog-autoformat.c:526
 msgid "Could not remove template"
 msgstr "不能删除模板"
 
 # src/expr.c:63
-#: src/dialogs/dialog-autoformat.c:805 src/dialogs/dialog-stf-export.c:384
+#: src/dialogs/dialog-autoformat.c:804 src/dialogs/dialog-stf-export.c:384
 #: src/dialogs/dialog-stf.c:523
 #, c-format
 msgid "Missing %s file"
 msgstr "丢失 %s 文件"
 
-#: src/dialogs/dialog-autoformat.c:944
+#: src/dialogs/dialog-autoformat.c:943
 #, fuzzy
 msgid "An error occurred while reading the category list"
 msgstr "当读入分类表时出现错误"
@@ -5644,7 +5644,7 @@ msgstr "当读入分类表时出现错误"
 # src/dialog-cell-format.c:358 src/formats.c:16 src/number-match.c:455
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:954 src/format.c:1644 src/format.c:1736
+#: src/dialogs/dialog-autoformat.c:953 src/format.c:1644 src/format.c:1736
 #: src/format.c:1745 src/format.c:1814
 msgid "General"
 msgstr "一般"
@@ -5677,14 +5677,14 @@ msgstr "源域"
 
 # src/workbook.c:1131
 #: src/dialogs/dialog-cell-format.c:2118 src/dialogs/dialog-cell-format.c:2125
-#: src/sheet-object-widget.c:801
+#: src/sheet-object-widget.c:809
 #, fuzzy
 msgid "Min :"
 msgstr "最小"
 
 # src/workbook.c:1132
 #: src/dialogs/dialog-cell-format.c:2119 src/dialogs/dialog-cell-format.c:2128
-#: src/sheet-object-widget.c:805
+#: src/sheet-object-widget.c:813
 #, fuzzy
 msgid "Max :"
 msgstr "最大"
@@ -5798,40 +5798,40 @@ msgid "Could not create the Name Guru."
 msgstr "无法创建 Name Guru."
 
 # src/dialog-paste-special.c:22
-#: src/dialogs/dialog-formula-guru.c:424
+#: src/dialogs/dialog-formula-guru.c:432
 #, c-format
 msgid "Value%d"
 msgstr "值 %d"
 
 # src/workbook.c:284
-#: src/dialogs/dialog-formula-guru.c:431 src/dialogs/dialog-search.c:122
+#: src/dialogs/dialog-formula-guru.c:439 src/dialogs/dialog-search.c:122
 #: src/functions/fn-string.c:1217
 msgid "String"
 msgstr "文字列"
 
-#: src/dialogs/dialog-formula-guru.c:433
+#: src/dialogs/dialog-formula-guru.c:441
 msgid "Boolean"
 msgstr "布尔"
 
 # src/workbook.c:885
-#: src/dialogs/dialog-formula-guru.c:434
+#: src/dialogs/dialog-formula-guru.c:442
 msgid "Range"
 msgstr "范围"
 
 # src/workbook.c:882
-#: src/dialogs/dialog-formula-guru.c:435
+#: src/dialogs/dialog-formula-guru.c:443
 msgid "Array"
 msgstr "箭头"
 
-#: src/dialogs/dialog-formula-guru.c:436
+#: src/dialogs/dialog-formula-guru.c:444
 msgid "Range/Array"
 msgstr "范围/数组"
 
-#: src/dialogs/dialog-formula-guru.c:437
+#: src/dialogs/dialog-formula-guru.c:445
 msgid "Scalar"
 msgstr "数量"
 
-#: src/dialogs/dialog-formula-guru.c:439
+#: src/dialogs/dialog-formula-guru.c:447
 msgid "Any"
 msgstr "任意"
 
@@ -8177,7 +8177,7 @@ msgid "Unknown evaluation error"
 msgstr "不明的评估错误"
 
 # src/plugin.c:40
-#: src/file-autoft.c:143
+#: src/file-autoft.c:142
 #, c-format
 msgid "Invalid template file: %s"
 msgstr "无效的模板文件: %s"
@@ -20341,37 +20341,37 @@ msgstr "边框线"
 msgid "Transparent"
 msgstr "行列互换"
 
-#: src/sheet-object-widget.c:779
+#: src/sheet-object-widget.c:787
 #, fuzzy
 msgid "Scrollbar Configure"
 msgstr "检查盒配置"
 
-#: src/sheet-object-widget.c:795 src/sheet-object-widget.c:1260
+#: src/sheet-object-widget.c:803 src/sheet-object-widget.c:1269
 #, fuzzy
 msgid "Link to :"
 msgstr "适当收缩(_K)"
 
-#: src/sheet-object-widget.c:809
+#: src/sheet-object-widget.c:817
 #, fuzzy
 msgid "Increment :"
 msgstr "增加"
 
 # src/item-grid.c:528 src/sheet.c:2577 src/workbook.c:853
-#: src/sheet-object-widget.c:813
+#: src/sheet-object-widget.c:821
 #, fuzzy
 msgid "Page :"
 msgstr "页"
 
-#: src/sheet-object-widget.c:1023
+#: src/sheet-object-widget.c:1027
 #, fuzzy, c-format
 msgid "CheckBox %d"
 msgstr "检查盒"
 
-#: src/sheet-object-widget.c:1249
+#: src/sheet-object-widget.c:1253
 msgid "Checkbox Configure"
 msgstr "检查盒配置"
 
-#: src/sheet-object-widget.c:1264
+#: src/sheet-object-widget.c:1273
 msgid "Label :"
 msgstr "标签 :"
 
@@ -21255,20 +21255,20 @@ msgstr "创建一个椭圆对象"
 msgid "%dR x %dC"
 msgstr "%dLx%dC"
 
-#: src/workbook-view.c:377
+#: src/workbook-view.c:380
 msgid "Internal ERROR"
 msgstr "内部错误"
 
-#: src/workbook-view.c:655
+#: src/workbook-view.c:660
 msgid "Default file saver is not available."
 msgstr "缺省的文件存储器不可用"
 
 # src/file.c:257
-#: src/workbook-view.c:744
+#: src/workbook-view.c:750
 msgid "No sheets in workbook."
 msgstr "在工作本中没有表格"
 
-#: src/workbook-view.c:754
+#: src/workbook-view.c:760
 msgid "Unsupported file format."
 msgstr "不支持的文件格式"
 

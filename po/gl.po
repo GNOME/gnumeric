@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-01-21 23:04-0500\n"
+"POT-Creation-Date: 2002-01-30 22:58-0500\n"
 "PO-Revision-Date: 2000-05-16 23:20+0200\n"
 "Last-Translator: Jesús Bravo Álvarez <jba@pobox.com>\n"
 "Language-Team: Galician <gpul-traduccion@ceu.fi.udc.es>\n"
@@ -413,7 +413,7 @@ msgstr ""
 msgid "Broken function"
 msgstr ""
 
-#: plugins/excel/ms-formula-read.c:1448
+#: plugins/excel/ms-formula-read.c:1467
 msgid " Unknown formula"
 msgstr " Fórmula descoñecida"
 
@@ -724,7 +724,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=The NT_MU function (Möbius mu function) returns \n"
+"@DESCRIPTION=The NT_MU function (Mobius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "-1 if @n has an odd  number of different prime factors .\n"
@@ -1193,11 +1193,11 @@ msgstr "XML EXPERIMENTAL"
 msgid "The next generation sax based xml I/O subsystem"
 msgstr ""
 
-#: plugins/xml_sax/xml-sax-read.c:2173
+#: plugins/xml_sax/xml-sax-read.c:2179
 msgid "xmlCreateFileParserCtxt () failed."
 msgstr ""
 
-#: plugins/xml_sax/xml-sax-read.c:2182
+#: plugins/xml_sax/xml-sax-read.c:2188
 msgid "XML document not well formed!"
 msgstr ""
 
@@ -1266,7 +1266,7 @@ msgstr "Negriña"
 msgid "Borders"
 msgstr "Bordos"
 
-#: src/GNOME_Gnumeric.xml.h:15 src/sheet-object-widget.c:427
+#: src/GNOME_Gnumeric.xml.h:15 src/sheet-object-widget.c:430
 #: src/workbook-object-toolbar.c:163
 #, fuzzy
 msgid "Button"
@@ -1388,7 +1388,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3014
 msgid ""
-"Comparing two population means from pop. with known varinces or using a "
+"Comparing two population means from pop. with known variances or using a "
 "large sample: z- test"
 msgstr ""
 
@@ -1641,7 +1641,7 @@ msgstr ""
 msgid "Fourier Analysis"
 msgstr "Análise de Fourier"
 
-#: src/GNOME_Gnumeric.xml.h:95 src/sheet-object-widget.c:330
+#: src/GNOME_Gnumeric.xml.h:95 src/sheet-object-widget.c:333
 #: src/workbook-object-toolbar.c:158
 #, fuzzy
 msgid "Frame"
@@ -1746,11 +1746,11 @@ msgstr "Insire un obxecto na folla de cálculo"
 msgid "Insert new cells"
 msgstr "Inserir novas celas"
 
-#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2850
+#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2847
 msgid "Insert new columns"
 msgstr "Inserir novas columnas"
 
-#: src/GNOME_Gnumeric.xml.h:118 src/workbook-control-gui.c:2847
+#: src/GNOME_Gnumeric.xml.h:118 src/workbook-control-gui.c:2850
 msgid "Insert new rows"
 msgstr "Inserir novas ringleiras"
 
@@ -1796,7 +1796,7 @@ msgstr ""
 msgid "Jump to a specified cell"
 msgstr "Moverse á cela especificada"
 
-#: src/GNOME_Gnumeric.xml.h:129 src/sheet-object-widget.c:233
+#: src/GNOME_Gnumeric.xml.h:129 src/sheet-object-widget.c:236
 #: src/workbook-object-toolbar.c:155
 #, fuzzy
 msgid "Label"
@@ -2151,7 +2151,7 @@ msgstr ""
 msgid "Select _All"
 msgstr "Seleccionar _Todo"
 
-#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2666
+#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2661
 msgid "Select _Column"
 msgstr "Seleccionar _Columna"
 
@@ -2159,7 +2159,7 @@ msgstr "Seleccionar _Columna"
 msgid "Select _Depends"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2661
+#: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2666
 msgid "Select _Row"
 msgstr "Seleccionar _Ringleira"
 
@@ -2175,11 +2175,11 @@ msgstr ""
 msgid "Select an array of cells"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2667
+#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2662
 msgid "Select an entire column"
 msgstr "Seleccionar unha columna completa"
 
-#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:2662
+#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:2667
 msgid "Select an entire row"
 msgstr "Seleccionar unha ringleira completa"
 
@@ -2240,7 +2240,7 @@ msgstr "Análise de Datos"
 
 #: src/GNOME_Gnumeric.xml.h:225 src/dialogs/consolidate.glade.h:19
 #: src/workbook-control-gui.c:3226 src/workbook-control-gui.c:3844
-#: src/workbook-view.c:518
+#: src/workbook-view.c:521
 msgid "Sum"
 msgstr "Suma"
 
@@ -2384,7 +2384,7 @@ msgstr "Cor"
 #: src/dialogs/fourier-analysis.glade.h:8 src/dialogs/histogram.glade.h:21
 #: src/dialogs/moving-averages.glade.h:9 src/dialogs/rank.glade.h:10
 #: src/dialogs/regression.glade.h:10 src/dialogs/sampling.glade.h:13
-#: src/workbook-control-gui.c:2849
+#: src/workbook-control-gui.c:2846
 msgid "_Columns"
 msgstr "_Columnas"
 
@@ -2606,7 +2606,7 @@ msgstr "_Ringleira"
 #: src/dialogs/fourier-analysis.glade.h:13
 #: src/dialogs/moving-averages.glade.h:14 src/dialogs/rank.glade.h:15
 #: src/dialogs/regression.glade.h:15 src/dialogs/sampling.glade.h:20
-#: src/workbook-control-gui.c:2846
+#: src/workbook-control-gui.c:2849
 msgid "_Rows"
 msgstr "_Ringleiras"
 
@@ -2949,8 +2949,8 @@ msgid "Anova: Two-Factor With Replication"
 msgstr ""
 
 #: src/analysis-tools.c:3277 src/analysis-tools.c:3287
-#: src/analysis-tools.c:3295 src/dialogs/dialog-autoformat.c:73
-#: src/dialogs/dialog-autoformat.c:77
+#: src/analysis-tools.c:3295 src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:78
 msgid "Total"
 msgstr ""
 
@@ -4115,7 +4115,7 @@ msgstr ""
 msgid "None          (silently accept invalid input)"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-formula-guru.c:432
+#: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-formula-guru.c:440
 #: src/dialogs/dialog-search.c:126
 msgid "Number"
 msgstr "Número"
@@ -5155,124 +5155,124 @@ msgstr "Non se puido evalua-lo argumento"
 msgid "Could not create the AutoCorrect dialog."
 msgstr "Non se puido evalua-lo argumento"
 
-#: src/dialogs/dialog-autoformat.c:73
+#: src/dialogs/dialog-autoformat.c:74
 msgid " "
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:73
+#: src/dialogs/dialog-autoformat.c:74
 #, fuzzy
 msgid "Jan"
 msgstr "*Xan"
 
-#: src/dialogs/dialog-autoformat.c:73
+#: src/dialogs/dialog-autoformat.c:74
 #, fuzzy
 msgid "Feb"
 msgstr "*Feb"
 
-#: src/dialogs/dialog-autoformat.c:73
+#: src/dialogs/dialog-autoformat.c:74
 msgid "Mrt"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 msgid "North"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 msgid "6"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 msgid "13"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 msgid "20"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 msgid "39"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 msgid "South"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 msgid "12"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 msgid "4"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 msgid "17"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 msgid "33"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:76
+#: src/dialogs/dialog-autoformat.c:77
 msgid "West"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:76
+#: src/dialogs/dialog-autoformat.c:77
 msgid "8"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:76
+#: src/dialogs/dialog-autoformat.c:77
 msgid "2"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:76 src/dialogs/mean-tests.glade.h:1
+#: src/dialogs/dialog-autoformat.c:77 src/dialogs/mean-tests.glade.h:1
 msgid "0"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:76
+#: src/dialogs/dialog-autoformat.c:77
 msgid "10"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:77
+#: src/dialogs/dialog-autoformat.c:78
 msgid "26"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:77
+#: src/dialogs/dialog-autoformat.c:78
 msgid "19"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:77
+#: src/dialogs/dialog-autoformat.c:78
 msgid "37"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:77
+#: src/dialogs/dialog-autoformat.c:78
 msgid "81"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:513
+#: src/dialogs/dialog-autoformat.c:512
 #, fuzzy, c-format
 msgid "Are you sure you want to remove the template '%s' ?"
 msgstr "¿Está seguro de querer borrar a folla chamada '%s'?"
 
-#: src/dialogs/dialog-autoformat.c:527
+#: src/dialogs/dialog-autoformat.c:526
 #, fuzzy
 msgid "Could not remove template"
 msgstr "Non se puido evalua-lo argumento"
 
-#: src/dialogs/dialog-autoformat.c:805 src/dialogs/dialog-stf-export.c:384
+#: src/dialogs/dialog-autoformat.c:804 src/dialogs/dialog-stf-export.c:384
 #: src/dialogs/dialog-stf.c:523
 #, c-format
 msgid "Missing %s file"
 msgstr "Falta o ficheiro %s"
 
-#: src/dialogs/dialog-autoformat.c:944
+#: src/dialogs/dialog-autoformat.c:943
 #, fuzzy
 msgid "An error occurred while reading the category list"
 msgstr "Erro ó tentar preconverte-lo ficheiro"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:954 src/format.c:1644 src/format.c:1736
+#: src/dialogs/dialog-autoformat.c:953 src/format.c:1644 src/format.c:1736
 #: src/format.c:1745 src/format.c:1814
 msgid "General"
 msgstr ""
@@ -5303,13 +5303,13 @@ msgid "Source"
 msgstr "Modo"
 
 #: src/dialogs/dialog-cell-format.c:2118 src/dialogs/dialog-cell-format.c:2125
-#: src/sheet-object-widget.c:801
+#: src/sheet-object-widget.c:809
 #, fuzzy
 msgid "Min :"
 msgstr "Mín"
 
 #: src/dialogs/dialog-cell-format.c:2119 src/dialogs/dialog-cell-format.c:2128
-#: src/sheet-object-widget.c:805
+#: src/sheet-object-widget.c:813
 #, fuzzy
 msgid "Max :"
 msgstr "Máx"
@@ -5416,37 +5416,37 @@ msgstr ""
 msgid "Could not create the Name Guru."
 msgstr "Non se puido evalua-lo argumento"
 
-#: src/dialogs/dialog-formula-guru.c:424
+#: src/dialogs/dialog-formula-guru.c:432
 #, c-format
 msgid "Value%d"
 msgstr "Valor%d"
 
-#: src/dialogs/dialog-formula-guru.c:431 src/dialogs/dialog-search.c:122
+#: src/dialogs/dialog-formula-guru.c:439 src/dialogs/dialog-search.c:122
 #: src/functions/fn-string.c:1217
 msgid "String"
 msgstr "Cadea"
 
-#: src/dialogs/dialog-formula-guru.c:433
+#: src/dialogs/dialog-formula-guru.c:441
 msgid "Boolean"
 msgstr "Booléano"
 
-#: src/dialogs/dialog-formula-guru.c:434
+#: src/dialogs/dialog-formula-guru.c:442
 msgid "Range"
 msgstr ""
 
-#: src/dialogs/dialog-formula-guru.c:435
+#: src/dialogs/dialog-formula-guru.c:443
 msgid "Array"
 msgstr "Array"
 
-#: src/dialogs/dialog-formula-guru.c:436
+#: src/dialogs/dialog-formula-guru.c:444
 msgid "Range/Array"
 msgstr ""
 
-#: src/dialogs/dialog-formula-guru.c:437
+#: src/dialogs/dialog-formula-guru.c:445
 msgid "Scalar"
 msgstr "Escalar"
 
-#: src/dialogs/dialog-formula-guru.c:439
+#: src/dialogs/dialog-formula-guru.c:447
 msgid "Any"
 msgstr ""
 
@@ -7610,7 +7610,7 @@ msgstr "Operador descoñecido"
 msgid "Unknown evaluation error"
 msgstr "Erro de evaluación descoñecido"
 
-#: src/file-autoft.c:143
+#: src/file-autoft.c:142
 #, fuzzy, c-format
 msgid "Invalid template file: %s"
 msgstr "Non se puido abri-lo ficheiro '%s'"
@@ -17221,35 +17221,35 @@ msgstr "Bordo"
 msgid "Transparent"
 msgstr ""
 
-#: src/sheet-object-widget.c:779
+#: src/sheet-object-widget.c:787
 #, fuzzy
 msgid "Scrollbar Configure"
 msgstr "Barras de Desprazamento"
 
-#: src/sheet-object-widget.c:795 src/sheet-object-widget.c:1260
+#: src/sheet-object-widget.c:803 src/sheet-object-widget.c:1269
 msgid "Link to :"
 msgstr ""
 
-#: src/sheet-object-widget.c:809
+#: src/sheet-object-widget.c:817
 #, fuzzy
 msgid "Increment :"
 msgstr "Aumentar"
 
-#: src/sheet-object-widget.c:813
+#: src/sheet-object-widget.c:821
 #, fuzzy
 msgid "Page :"
 msgstr "Páxina"
 
-#: src/sheet-object-widget.c:1023
+#: src/sheet-object-widget.c:1027
 #, c-format
 msgid "CheckBox %d"
 msgstr ""
 
-#: src/sheet-object-widget.c:1249
+#: src/sheet-object-widget.c:1253
 msgid "Checkbox Configure"
 msgstr ""
 
-#: src/sheet-object-widget.c:1264
+#: src/sheet-object-widget.c:1273
 #, fuzzy
 msgid "Label :"
 msgstr "_Etiquetas"
@@ -18086,20 +18086,20 @@ msgstr "Crear unha nova folla de cálculo"
 msgid "%dR x %dC"
 msgstr ""
 
-#: src/workbook-view.c:377
+#: src/workbook-view.c:380
 msgid "Internal ERROR"
 msgstr "ERRO interno"
 
-#: src/workbook-view.c:655
+#: src/workbook-view.c:660
 msgid "Default file saver is not available."
 msgstr ""
 
-#: src/workbook-view.c:744
+#: src/workbook-view.c:750
 #, fuzzy
 msgid "No sheets in workbook."
 msgstr "Edita-los nomes da folla e do libro"
 
-#: src/workbook-view.c:754
+#: src/workbook-view.c:760
 #, fuzzy
 msgid "Unsupported file format."
 msgstr "Formato de ficheiro XML de Gnumeric"

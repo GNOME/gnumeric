@@ -29,7 +29,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-01-30 02:36+0100\n"
+"POT-Creation-Date: 2002-01-30 22:58-0500\n"
 "PO-Revision-Date: 2002-01-30 02:37+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -595,7 +595,7 @@ msgstr "Kan inte öppna ström för skrivning\n"
 msgid "Broken function"
 msgstr "Trasig funktion"
 
-#: plugins/excel/ms-formula-read.c:1448
+#: plugins/excel/ms-formula-read.c:1467
 msgid " Unknown formula"
 msgstr " Okänd formel"
 
@@ -2357,7 +2357,7 @@ msgstr "Statistisk anal_ys"
 
 #: src/GNOME_Gnumeric.xml.h:225 src/dialogs/consolidate.glade.h:19
 #: src/workbook-control-gui.c:3226 src/workbook-control-gui.c:3844
-#: src/workbook-view.c:518
+#: src/workbook-view.c:521
 msgid "Sum"
 msgstr "Summa"
 
@@ -3043,8 +3043,8 @@ msgid "Anova: Two-Factor With Replication"
 msgstr "Anova: Två faktorer med upprepning"
 
 #: src/analysis-tools.c:3277 src/analysis-tools.c:3287
-#: src/analysis-tools.c:3295 src/dialogs/dialog-autoformat.c:73
-#: src/dialogs/dialog-autoformat.c:77
+#: src/analysis-tools.c:3295 src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:78
 msgid "Total"
 msgstr "Totalt"
 
@@ -5200,120 +5200,120 @@ msgstr "Kunde inte skapa ANOVA-verktygsdialogen (dubbel faktor)."
 msgid "Could not create the AutoCorrect dialog."
 msgstr "Kunde inte skapa autokorrigeringsdialogen."
 
-#: src/dialogs/dialog-autoformat.c:73
+#: src/dialogs/dialog-autoformat.c:74
 msgid " "
 msgstr " "
 
-#: src/dialogs/dialog-autoformat.c:73
+#: src/dialogs/dialog-autoformat.c:74
 msgid "Jan"
 msgstr "jan"
 
-#: src/dialogs/dialog-autoformat.c:73
+#: src/dialogs/dialog-autoformat.c:74
 msgid "Feb"
 msgstr "feb"
 
-#: src/dialogs/dialog-autoformat.c:73
+#: src/dialogs/dialog-autoformat.c:74
 msgid "Mrt"
 msgstr "Mrt"
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 msgid "North"
 msgstr "Nord"
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 msgid "6"
 msgstr "6"
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 msgid "13"
 msgstr "13"
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 msgid "20"
 msgstr "20"
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 msgid "39"
 msgstr "39"
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 msgid "South"
 msgstr "Syd"
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 msgid "12"
 msgstr "12"
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 msgid "4"
 msgstr "4"
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 msgid "17"
 msgstr "17"
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 msgid "33"
 msgstr "33"
 
-#: src/dialogs/dialog-autoformat.c:76
+#: src/dialogs/dialog-autoformat.c:77
 msgid "West"
 msgstr "Väst"
 
-#: src/dialogs/dialog-autoformat.c:76
+#: src/dialogs/dialog-autoformat.c:77
 msgid "8"
 msgstr "8"
 
-#: src/dialogs/dialog-autoformat.c:76
+#: src/dialogs/dialog-autoformat.c:77
 msgid "2"
 msgstr "2"
 
-#: src/dialogs/dialog-autoformat.c:76 src/dialogs/mean-tests.glade.h:1
+#: src/dialogs/dialog-autoformat.c:77 src/dialogs/mean-tests.glade.h:1
 msgid "0"
 msgstr "0"
 
-#: src/dialogs/dialog-autoformat.c:76
+#: src/dialogs/dialog-autoformat.c:77
 msgid "10"
 msgstr "10"
 
-#: src/dialogs/dialog-autoformat.c:77
+#: src/dialogs/dialog-autoformat.c:78
 msgid "26"
 msgstr "26"
 
-#: src/dialogs/dialog-autoformat.c:77
+#: src/dialogs/dialog-autoformat.c:78
 msgid "19"
 msgstr "19"
 
-#: src/dialogs/dialog-autoformat.c:77
+#: src/dialogs/dialog-autoformat.c:78
 msgid "37"
 msgstr "37"
 
-#: src/dialogs/dialog-autoformat.c:77
+#: src/dialogs/dialog-autoformat.c:78
 msgid "81"
 msgstr "81"
 
-#: src/dialogs/dialog-autoformat.c:513
+#: src/dialogs/dialog-autoformat.c:512
 #, c-format
 msgid "Are you sure you want to remove the template '%s' ?"
 msgstr "Är du säker på att du vill ta bort mallen \"%s\"?"
 
-#: src/dialogs/dialog-autoformat.c:527
+#: src/dialogs/dialog-autoformat.c:526
 msgid "Could not remove template"
 msgstr "Kunde inte ta bort mall"
 
-#: src/dialogs/dialog-autoformat.c:805 src/dialogs/dialog-stf-export.c:384
+#: src/dialogs/dialog-autoformat.c:804 src/dialogs/dialog-stf-export.c:384
 #: src/dialogs/dialog-stf.c:523
 #, c-format
 msgid "Missing %s file"
 msgstr "Saknad fil %s"
 
-#: src/dialogs/dialog-autoformat.c:944
+#: src/dialogs/dialog-autoformat.c:943
 msgid "An error occurred while reading the category list"
 msgstr "Ett fel uppstod vid läsning av kategorilistan"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:954 src/format.c:1644 src/format.c:1736
+#: src/dialogs/dialog-autoformat.c:953 src/format.c:1644 src/format.c:1736
 #: src/format.c:1745 src/format.c:1814
 msgid "General"
 msgstr "Allmän"
@@ -7528,7 +7528,7 @@ msgstr "Okänd operator"
 msgid "Unknown evaluation error"
 msgstr "Okänt evalueringsfel"
 
-#: src/file-autoft.c:143
+#: src/file-autoft.c:142
 #, c-format
 msgid "Invalid template file: %s"
 msgstr "Ogiltig mallfil: %s"
@@ -20913,19 +20913,19 @@ msgstr "Skapar ett ellipsobjekt"
 msgid "%dR x %dC"
 msgstr "%d R × %d K"
 
-#: src/workbook-view.c:377
+#: src/workbook-view.c:380
 msgid "Internal ERROR"
 msgstr "Internt FEL"
 
-#: src/workbook-view.c:655
+#: src/workbook-view.c:660
 msgid "Default file saver is not available."
 msgstr "Standardfilspararen är inte tillgänglig."
 
-#: src/workbook-view.c:744
+#: src/workbook-view.c:750
 msgid "No sheets in workbook."
 msgstr "Inga blad i arbetsboken."
 
-#: src/workbook-view.c:754
+#: src/workbook-view.c:760
 msgid "Unsupported file format."
 msgstr "Filformatet stöds inte."
 

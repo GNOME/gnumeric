@@ -1,5 +1,9 @@
 2002-01-30  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.0.4
+
+2002-01-30  Jody Goldberg <jody@gnome.org>
+
 	* src/dialogs/dialog-autoformat.c (templates_load) : changes to
 	  category_group_get_templates_list.
 

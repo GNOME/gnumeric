@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0\n"
-"POT-Creation-Date: 2002-01-30 15:12+0100\n"
+"POT-Creation-Date: 2002-01-30 22:58-0500\n"
 "PO-Revision-Date: 2002-01-30 15:15CET\n"
 "Last-Translator: Stanislav Višňovský <visnovsky@nenya.ms.mff.cuni.cz>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
@@ -330,7 +330,8 @@ msgid "Data Interchange Format (DIF) module"
 msgstr "Modul pre Data Interchange Format (DIF)"
 
 #: plugins/dif/plugin.xml.in.h:3
-msgid "Reads and writes information stored in the Data Interchange Format (*.dif)"
+msgid ""
+"Reads and writes information stored in the Data Interchange Format (*.dif)"
 msgstr "Zapisuje a číta informácie uložené v Data Interchange Format (*.dif)"
 
 #: plugins/excel/boot.c:104
@@ -408,7 +409,7 @@ msgstr "Nepodarilo sa otvoriť kanál pre zápis\n"
 msgid "Broken function"
 msgstr "Pokazená funkcia"
 
-#: plugins/excel/ms-formula-read.c:1448
+#: plugins/excel/ms-formula-read.c:1467
 msgid " Unknown formula"
 msgstr " Neznámy vzorec"
 
@@ -1749,7 +1750,8 @@ msgstr "Opakovane prepočítava pre nájdenie cieľovej hodnoty"
 
 #: src/GNOME_Gnumeric.xml.h:127 src/workbook-control-gui.c:3083
 msgid "Iteratively recalculate with constraints to approach a target value"
-msgstr "Opakovane prepočítava s obmedzeniami, až kým nedosiahne cieľovú hodnotu"
+msgstr ""
+"Opakovane prepočítava s obmedzeniami, až kým nedosiahne cieľovú hodnotu"
 
 #: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:2779
 msgid "Jump to a specified cell"
@@ -2156,7 +2158,7 @@ msgstr "Štatistická ana_lýza"
 
 #: src/GNOME_Gnumeric.xml.h:225 src/dialogs/consolidate.glade.h:19
 #: src/workbook-control-gui.c:3226 src/workbook-control-gui.c:3844
-#: src/workbook-view.c:518
+#: src/workbook-view.c:521
 msgid "Sum"
 msgstr "Súčet"
 
@@ -2849,8 +2851,8 @@ msgid "Anova: Two-Factor With Replication"
 msgstr "Anova: Dvojité triedenie s opakovaním"
 
 #: src/analysis-tools.c:3277 src/analysis-tools.c:3287
-#: src/analysis-tools.c:3295 src/dialogs/dialog-autoformat.c:73
-#: src/dialogs/dialog-autoformat.c:77
+#: src/analysis-tools.c:3295 src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:78
 msgid "Total"
 msgstr "Celkom"
 
@@ -4924,7 +4926,8 @@ msgstr ""
 "premenných a skúste to znovu."
 
 #: src/dialogs/dialog-analysis-tools.c:3085
-msgid "There must be an equal number of entries for each variable in the regression."
+msgid ""
+"There must be an equal number of entries for each variable in the regression."
 msgstr "Pre každú premennú regresie musí byť rovnaký počet položiek."
 
 #: src/dialogs/dialog-analysis-tools.c:3185 src/dialogs/regression.glade.h:16
@@ -4969,7 +4972,8 @@ msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre histogram."
 
 #: src/dialogs/dialog-analysis-tools.c:4252
 msgid "Could not create the ANOVA (single factor) tool dialog."
-msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre ANOVA (jednoduché triedenie)."
+msgstr ""
+"Nepodarilo sa vytvoriť dialóg nástroja pre ANOVA (jednoduché triedenie)."
 
 #: src/dialogs/dialog-analysis-tools.c:4315
 msgid "Each sample must contain the same number of rows."
@@ -4999,120 +5003,120 @@ msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre ANOVA (dvojité triedenie)
 msgid "Could not create the AutoCorrect dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg pre automatické opravy."
 
-#: src/dialogs/dialog-autoformat.c:73
+#: src/dialogs/dialog-autoformat.c:74
 msgid " "
 msgstr " "
 
-#: src/dialogs/dialog-autoformat.c:73
+#: src/dialogs/dialog-autoformat.c:74
 msgid "Jan"
 msgstr "Jan"
 
-#: src/dialogs/dialog-autoformat.c:73
+#: src/dialogs/dialog-autoformat.c:74
 msgid "Feb"
 msgstr "Feb"
 
-#: src/dialogs/dialog-autoformat.c:73
+#: src/dialogs/dialog-autoformat.c:74
 msgid "Mrt"
 msgstr "Mrt"
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 msgid "North"
 msgstr "Sever"
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 msgid "6"
 msgstr "6"
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 msgid "13"
 msgstr "13"
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 msgid "20"
 msgstr "20"
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 msgid "39"
 msgstr "39"
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 msgid "South"
 msgstr "Juh"
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 msgid "12"
 msgstr "12"
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 msgid "4"
 msgstr "4"
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 msgid "17"
 msgstr "17"
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 msgid "33"
 msgstr "33"
 
-#: src/dialogs/dialog-autoformat.c:76
+#: src/dialogs/dialog-autoformat.c:77
 msgid "West"
 msgstr "Západ"
 
-#: src/dialogs/dialog-autoformat.c:76
+#: src/dialogs/dialog-autoformat.c:77
 msgid "8"
 msgstr "8"
 
-#: src/dialogs/dialog-autoformat.c:76
+#: src/dialogs/dialog-autoformat.c:77
 msgid "2"
 msgstr "2"
 
-#: src/dialogs/dialog-autoformat.c:76 src/dialogs/mean-tests.glade.h:1
+#: src/dialogs/dialog-autoformat.c:77 src/dialogs/mean-tests.glade.h:1
 msgid "0"
 msgstr "0"
 
-#: src/dialogs/dialog-autoformat.c:76
+#: src/dialogs/dialog-autoformat.c:77
 msgid "10"
 msgstr "10"
 
-#: src/dialogs/dialog-autoformat.c:77
+#: src/dialogs/dialog-autoformat.c:78
 msgid "26"
 msgstr "26"
 
-#: src/dialogs/dialog-autoformat.c:77
+#: src/dialogs/dialog-autoformat.c:78
 msgid "19"
 msgstr "19"
 
-#: src/dialogs/dialog-autoformat.c:77
+#: src/dialogs/dialog-autoformat.c:78
 msgid "37"
 msgstr "37"
 
-#: src/dialogs/dialog-autoformat.c:77
+#: src/dialogs/dialog-autoformat.c:78
 msgid "81"
 msgstr "81"
 
-#: src/dialogs/dialog-autoformat.c:513
+#: src/dialogs/dialog-autoformat.c:512
 #, c-format
 msgid "Are you sure you want to remove the template '%s' ?"
 msgstr "Naozaj chcete odstrániť šablónu '%s'?"
 
-#: src/dialogs/dialog-autoformat.c:527
+#: src/dialogs/dialog-autoformat.c:526
 msgid "Could not remove template"
 msgstr "Nie je možné odstrániť šablónu"
 
-#: src/dialogs/dialog-autoformat.c:805 src/dialogs/dialog-stf-export.c:384
+#: src/dialogs/dialog-autoformat.c:804 src/dialogs/dialog-stf-export.c:384
 #: src/dialogs/dialog-stf.c:523
 #, c-format
 msgid "Missing %s file"
 msgstr "Chýbajúci súbor %s"
 
-#: src/dialogs/dialog-autoformat.c:944
+#: src/dialogs/dialog-autoformat.c:943
 msgid "An error occurred while reading the category list"
 msgstr "Nastala chyba pri načítavaní zoznamu kategórií"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:954 src/format.c:1644 src/format.c:1736
+#: src/dialogs/dialog-autoformat.c:953 src/format.c:1644 src/format.c:1736
 #: src/format.c:1745 src/format.c:1814
 msgid "General"
 msgstr "Všeobecné"
@@ -5764,7 +5768,8 @@ msgstr "Stĺpec %d"
 msgid ""
 "Actual processing will start at this line, any previous lines will be "
 "ignored."
-msgstr "Spracovanie začne na tomto riadku, všetky predchádzajúce budú ignorované."
+msgstr ""
+"Spracovanie začne na tomto riadku, všetky predchádzajúce budú ignorované."
 
 #: src/dialogs/dialog-stf.glade.h:4
 msgid "Add a new column"
@@ -5850,7 +5855,8 @@ msgstr "Definovať šírku každého stĺpca ručne."
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
-msgstr "Každý stĺpec v texte je oddelený oddeľovacím znakom, napr. bodkočiarkou."
+msgstr ""
+"Každý stĺpec v texte je oddelený oddeľovacím znakom, napr. bodkočiarkou."
 
 #: src/dialogs/dialog-stf.glade.h:23
 msgid "End"
@@ -5955,8 +5961,10 @@ msgid "See two successive separators as one."
 msgstr "Dva za sebou idúce oddeľovače chápať ako jeden."
 
 #: src/dialogs/dialog-stf.glade.h:48
-msgid "See two successive text indicators as one that does not terminate the cell."
-msgstr "Dva za sebou idúce označovače textu chápať ako jeden, ktorý nekončí bunku."
+msgid ""
+"See two successive text indicators as one that does not terminate the cell."
+msgstr ""
+"Dva za sebou idúce označovače textu chápať ako jeden, ktorý nekončí bunku."
 
 #: src/dialogs/dialog-stf.glade.h:49
 msgid ""
@@ -7236,8 +7244,10 @@ msgid "Tabulate Dependency"
 msgstr "Tabulovať závistlosti"
 
 #: src/dialogs/tabulate.glade.h:10
-msgid "Use down for first source, right for second, and multiple sheets for third"
-msgstr "Smerom dolu prvý zdroj, smerom vpravo druhý, viacnásobné listy pre tretí"
+msgid ""
+"Use down for first source, right for second, and multiple sheets for third"
+msgstr ""
+"Smerom dolu prvý zdroj, smerom vpravo druhý, viacnásobné listy pre tretí"
 
 #: src/dialogs/tabulate.glade.h:11
 msgid "_Coordinate"
@@ -7316,7 +7326,7 @@ msgstr "Neznámy operátor"
 msgid "Unknown evaluation error"
 msgstr "Neznáma chyba pri vyhodnocovaní"
 
-#: src/file-autoft.c:143
+#: src/file-autoft.c:142
 #, c-format
 msgid "Invalid template file: %s"
 msgstr "Neplatný súbor šablóny: %s"
@@ -7350,15 +7360,18 @@ msgid "Saving over old files of this type is disabled for safety."
 msgstr "Uloženie do starých súborov tohto typu je kvôli bezpečenosti vypnuté."
 
 #: src/file.c:497
-msgid "You can turn this safety feature off by editing appropriate plugin.xml file."
+msgid ""
+"You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
 "Túto funkciu môžete bezpečne vypnúť úpravou zodpovedajúceho súboru plugin."
 "xml."
 
 #: src/format-template.c:874
 #, c-format
-msgid "The target region is too small.  It should be at least %d rows by %d columns"
-msgstr "Cieľová oblasť je príliš malá, mala by byť aspoň %d riadkov a %d stĺpcov"
+msgid ""
+"The target region is too small.  It should be at least %d rows by %d columns"
+msgstr ""
+"Cieľová oblasť je príliš malá, mala by byť aspoň %d riadkov a %d stĺpcov"
 
 #: src/format-template.c:877
 #, c-format
@@ -20553,19 +20566,19 @@ msgstr "Vytvorí objekt elipsa"
 msgid "%dR x %dC"
 msgstr "%dL x %dC"
 
-#: src/workbook-view.c:377
+#: src/workbook-view.c:380
 msgid "Internal ERROR"
 msgstr "Interná CHYBA"
 
-#: src/workbook-view.c:655
+#: src/workbook-view.c:660
 msgid "Default file saver is not available."
 msgstr "Štandardné ukladanie súboru nie je k dispozícii."
 
-#: src/workbook-view.c:744
+#: src/workbook-view.c:750
 msgid "No sheets in workbook."
 msgstr "V zošite nie sú listy."
 
-#: src/workbook-view.c:754
+#: src/workbook-view.c:760
 msgid "Unsupported file format."
 msgstr "Nepodporovaný formát súborov."
 
@@ -20624,4 +20637,3 @@ msgstr "Nie je súbor so zošitom Gnumeric"
 #: src/xml-io.c:3467
 msgid "Gnumeric XML file format"
 msgstr "Súborový formát Gnumeric XML"
-

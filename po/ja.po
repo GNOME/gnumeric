@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0.3\n"
-"POT-Creation-Date: 2002-01-21 23:04-0500\n"
+"POT-Creation-Date: 2002-01-30 22:58-0500\n"
 "PO-Revision-Date: 2002-01-22 00:50+0900\n"
 "Last-Translator: Takeshi Aihana <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
@@ -406,7 +406,7 @@ msgstr "書き出しのストリームが開けません\n"
 msgid "Broken function"
 msgstr "壊れた関数"
 
-#: plugins/excel/ms-formula-read.c:1448
+#: plugins/excel/ms-formula-read.c:1467
 msgid " Unknown formula"
 msgstr "不明な公式"
 
@@ -713,7 +713,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=The NT_MU function (Mbius mu function) returns \n"
+"@DESCRIPTION=The NT_MU function (Mobius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "-1 if @n has an odd  number of different prime factors .\n"
@@ -1205,11 +1205,11 @@ msgstr "[試験的] XML ベースの SAX"
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "XML I/O サブシステムに対応した次世代 SAX です"
 
-#: plugins/xml_sax/xml-sax-read.c:2173
+#: plugins/xml_sax/xml-sax-read.c:2179
 msgid "xmlCreateFileParserCtxt () failed."
 msgstr "xmlCreateFileParserCtxt () に失敗しました。"
 
-#: plugins/xml_sax/xml-sax-read.c:2182
+#: plugins/xml_sax/xml-sax-read.c:2188
 msgid "XML document not well formed!"
 msgstr "XML 文書がウエルフォーム形式ではありません！"
 
@@ -1273,7 +1273,7 @@ msgstr "ボールド"
 msgid "Borders"
 msgstr "罫線"
 
-#: src/GNOME_Gnumeric.xml.h:15 src/sheet-object-widget.c:427
+#: src/GNOME_Gnumeric.xml.h:15 src/sheet-object-widget.c:430
 #: src/workbook-object-toolbar.c:163
 msgid "Button"
 msgstr "ボタン"
@@ -1390,8 +1390,9 @@ msgstr ""
 "意味します: t-検定"
 
 #: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3014
+#, fuzzy
 msgid ""
-"Comparing two population means from pop. with known varinces or using a "
+"Comparing two population means from pop. with known variances or using a "
 "large sample: z- test"
 msgstr ""
 "二つの母集団の比較は既知の変化量または大きいサンプルを使って比較することを意"
@@ -1620,7 +1621,7 @@ msgstr "先にに定義されたテンプレートをセルの書式に適用します"
 msgid "Fourier Analysis"
 msgstr "フーリエ解析"
 
-#: src/GNOME_Gnumeric.xml.h:95 src/sheet-object-widget.c:330
+#: src/GNOME_Gnumeric.xml.h:95 src/sheet-object-widget.c:333
 #: src/workbook-object-toolbar.c:158
 msgid "Frame"
 msgstr "フレーム"
@@ -1711,11 +1712,11 @@ msgstr "オブジェクトをスプレッドシートに挿入します"
 msgid "Insert new cells"
 msgstr "新規にセルを挿入します"
 
-#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2850
+#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2847
 msgid "Insert new columns"
 msgstr "新規に列を挿入します"
 
-#: src/GNOME_Gnumeric.xml.h:118 src/workbook-control-gui.c:2847
+#: src/GNOME_Gnumeric.xml.h:118 src/workbook-control-gui.c:2850
 msgid "Insert new rows"
 msgstr "新規に行を挿入します"
 
@@ -1759,7 +1760,7 @@ msgstr "制約条件で再計算を繰り返し、最適解に近づけます"
 msgid "Jump to a specified cell"
 msgstr "特定のセルへ移動します"
 
-#: src/GNOME_Gnumeric.xml.h:129 src/sheet-object-widget.c:233
+#: src/GNOME_Gnumeric.xml.h:129 src/sheet-object-widget.c:236
 #: src/workbook-object-toolbar.c:155
 msgid "Label"
 msgstr "ラベル"
@@ -2074,7 +2075,7 @@ msgstr "配列を選択(_Y)"
 msgid "Select _All"
 msgstr "全て選択(_A)"
 
-#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2666
+#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2661
 msgid "Select _Column"
 msgstr "列の選択(_C)"
 
@@ -2082,7 +2083,7 @@ msgstr "列の選択(_C)"
 msgid "Select _Depends"
 msgstr "依存セルの選択(_D)"
 
-#: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2661
+#: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2666
 msgid "Select _Row"
 msgstr "行の選択(_R)"
 
@@ -2098,11 +2099,11 @@ msgstr "現在編集中のセルに依存するセルを全て選択します"
 msgid "Select an array of cells"
 msgstr "セル配列を選択します"
 
-#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2667
+#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2662
 msgid "Select an entire column"
 msgstr "列全体を選択します"
 
-#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:2662
+#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:2667
 msgid "Select an entire row"
 msgstr "行全体を選択します"
 
@@ -2160,7 +2161,7 @@ msgstr "統計学的手法(_Y)"
 
 #: src/GNOME_Gnumeric.xml.h:225 src/dialogs/consolidate.glade.h:19
 #: src/workbook-control-gui.c:3226 src/workbook-control-gui.c:3844
-#: src/workbook-view.c:518
+#: src/workbook-view.c:521
 msgid "Sum"
 msgstr "合計"
 
@@ -2296,7 +2297,7 @@ msgstr "閉じる(_C)"
 #: src/dialogs/fourier-analysis.glade.h:8 src/dialogs/histogram.glade.h:21
 #: src/dialogs/moving-averages.glade.h:9 src/dialogs/rank.glade.h:10
 #: src/dialogs/regression.glade.h:10 src/dialogs/sampling.glade.h:13
-#: src/workbook-control-gui.c:2849
+#: src/workbook-control-gui.c:2846
 msgid "_Columns"
 msgstr "列(_C)"
 
@@ -2496,7 +2497,7 @@ msgstr "行(_R)"
 #: src/dialogs/fourier-analysis.glade.h:13
 #: src/dialogs/moving-averages.glade.h:14 src/dialogs/rank.glade.h:15
 #: src/dialogs/regression.glade.h:15 src/dialogs/sampling.glade.h:20
-#: src/workbook-control-gui.c:2846
+#: src/workbook-control-gui.c:2849
 msgid "_Rows"
 msgstr "行(_R)"
 
@@ -2846,8 +2847,8 @@ msgid "Anova: Two-Factor With Replication"
 msgstr "分散解析: 繰り返しのある二元配置"
 
 #: src/analysis-tools.c:3277 src/analysis-tools.c:3287
-#: src/analysis-tools.c:3295 src/dialogs/dialog-autoformat.c:73
-#: src/dialogs/dialog-autoformat.c:77
+#: src/analysis-tools.c:3295 src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:78
 msgid "Total"
 msgstr "合計"
 
@@ -3994,7 +3995,7 @@ msgstr "なし"
 msgid "None          (silently accept invalid input)"
 msgstr "なし         (不正な入力を黙って受け入れます)"
 
-#: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-formula-guru.c:432
+#: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-formula-guru.c:440
 #: src/dialogs/dialog-search.c:126
 msgid "Number"
 msgstr "数値"
@@ -4998,120 +4999,120 @@ msgstr "分散解析 (二次元配置) ツールダイアログを作成できませんでした。"
 msgid "Could not create the AutoCorrect dialog."
 msgstr "自動収集ダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-autoformat.c:73
+#: src/dialogs/dialog-autoformat.c:74
 msgid " "
 msgstr " "
 
-#: src/dialogs/dialog-autoformat.c:73
+#: src/dialogs/dialog-autoformat.c:74
 msgid "Jan"
 msgstr "1月"
 
-#: src/dialogs/dialog-autoformat.c:73
+#: src/dialogs/dialog-autoformat.c:74
 msgid "Feb"
 msgstr "2月"
 
-#: src/dialogs/dialog-autoformat.c:73
+#: src/dialogs/dialog-autoformat.c:74
 msgid "Mrt"
 msgstr "3月"
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 msgid "North"
 msgstr "上"
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 msgid "6"
 msgstr "6"
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 msgid "13"
 msgstr "13"
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 msgid "20"
 msgstr "20"
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 msgid "39"
 msgstr "39"
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 msgid "South"
 msgstr "下"
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 msgid "12"
 msgstr "12"
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 msgid "4"
 msgstr "4"
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 msgid "17"
 msgstr "17"
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 msgid "33"
 msgstr "33"
 
-#: src/dialogs/dialog-autoformat.c:76
+#: src/dialogs/dialog-autoformat.c:77
 msgid "West"
 msgstr "左"
 
-#: src/dialogs/dialog-autoformat.c:76
+#: src/dialogs/dialog-autoformat.c:77
 msgid "8"
 msgstr "8"
 
-#: src/dialogs/dialog-autoformat.c:76
+#: src/dialogs/dialog-autoformat.c:77
 msgid "2"
 msgstr "2"
 
-#: src/dialogs/dialog-autoformat.c:76 src/dialogs/mean-tests.glade.h:1
+#: src/dialogs/dialog-autoformat.c:77 src/dialogs/mean-tests.glade.h:1
 msgid "0"
 msgstr "0"
 
-#: src/dialogs/dialog-autoformat.c:76
+#: src/dialogs/dialog-autoformat.c:77
 msgid "10"
 msgstr "10"
 
-#: src/dialogs/dialog-autoformat.c:77
+#: src/dialogs/dialog-autoformat.c:78
 msgid "26"
 msgstr "26"
 
-#: src/dialogs/dialog-autoformat.c:77
+#: src/dialogs/dialog-autoformat.c:78
 msgid "19"
 msgstr "19"
 
-#: src/dialogs/dialog-autoformat.c:77
+#: src/dialogs/dialog-autoformat.c:78
 msgid "37"
 msgstr "37"
 
-#: src/dialogs/dialog-autoformat.c:77
+#: src/dialogs/dialog-autoformat.c:78
 msgid "81"
 msgstr "81"
 
-#: src/dialogs/dialog-autoformat.c:513
+#: src/dialogs/dialog-autoformat.c:512
 #, c-format
 msgid "Are you sure you want to remove the template '%s' ?"
 msgstr "テンプレート `%s' を削除してもよろしいですか?"
 
-#: src/dialogs/dialog-autoformat.c:527
+#: src/dialogs/dialog-autoformat.c:526
 msgid "Could not remove template"
 msgstr "テンプレートを削除できませんでした"
 
-#: src/dialogs/dialog-autoformat.c:805 src/dialogs/dialog-stf-export.c:384
+#: src/dialogs/dialog-autoformat.c:804 src/dialogs/dialog-stf-export.c:384
 #: src/dialogs/dialog-stf.c:523
 #, c-format
 msgid "Missing %s file"
 msgstr "%s ファイルが見当たりません"
 
-#: src/dialogs/dialog-autoformat.c:944
+#: src/dialogs/dialog-autoformat.c:943
 msgid "An error occurred while reading the category list"
 msgstr "分類一覧を読み込み中にエラーが発生しました"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:954 src/format.c:1644 src/format.c:1736
+#: src/dialogs/dialog-autoformat.c:953 src/format.c:1644 src/format.c:1736
 #: src/format.c:1745 src/format.c:1814
 msgid "General"
 msgstr "標準"
@@ -5141,12 +5142,12 @@ msgid "Source"
 msgstr "ソース"
 
 #: src/dialogs/dialog-cell-format.c:2118 src/dialogs/dialog-cell-format.c:2125
-#: src/sheet-object-widget.c:801
+#: src/sheet-object-widget.c:809
 msgid "Min :"
 msgstr "最小 :"
 
 #: src/dialogs/dialog-cell-format.c:2119 src/dialogs/dialog-cell-format.c:2128
-#: src/sheet-object-widget.c:805
+#: src/sheet-object-widget.c:813
 msgid "Max :"
 msgstr "最大 :"
 
@@ -5250,37 +5251,37 @@ msgstr "ビルトイン名を再定義できません"
 msgid "Could not create the Name Guru."
 msgstr "Name Guruを作成できませんでした。"
 
-#: src/dialogs/dialog-formula-guru.c:424
+#: src/dialogs/dialog-formula-guru.c:432
 #, c-format
 msgid "Value%d"
 msgstr "値 %d"
 
-#: src/dialogs/dialog-formula-guru.c:431 src/dialogs/dialog-search.c:122
+#: src/dialogs/dialog-formula-guru.c:439 src/dialogs/dialog-search.c:122
 #: src/functions/fn-string.c:1217
 msgid "String"
 msgstr "文字列"
 
-#: src/dialogs/dialog-formula-guru.c:433
+#: src/dialogs/dialog-formula-guru.c:441
 msgid "Boolean"
 msgstr "論理値"
 
-#: src/dialogs/dialog-formula-guru.c:434
+#: src/dialogs/dialog-formula-guru.c:442
 msgid "Range"
 msgstr "範囲"
 
-#: src/dialogs/dialog-formula-guru.c:435
+#: src/dialogs/dialog-formula-guru.c:443
 msgid "Array"
 msgstr "配列"
 
-#: src/dialogs/dialog-formula-guru.c:436
+#: src/dialogs/dialog-formula-guru.c:444
 msgid "Range/Array"
 msgstr "範囲/配列"
 
-#: src/dialogs/dialog-formula-guru.c:437
+#: src/dialogs/dialog-formula-guru.c:445
 msgid "Scalar"
 msgstr "スカラ"
 
-#: src/dialogs/dialog-formula-guru.c:439
+#: src/dialogs/dialog-formula-guru.c:447
 msgid "Any"
 msgstr "任意"
 
@@ -7319,7 +7320,7 @@ msgstr "演算子の不明なエラーです"
 msgid "Unknown evaluation error"
 msgstr "式評価の不明なエラーです"
 
-#: src/file-autoft.c:143
+#: src/file-autoft.c:142
 #, c-format
 msgid "Invalid template file: %s"
 msgstr "不正なテンプレートファイル: %s"
@@ -19637,32 +19638,32 @@ msgstr "境界線の幅"
 msgid "Transparent"
 msgstr "透明にする"
 
-#: src/sheet-object-widget.c:779
+#: src/sheet-object-widget.c:787
 msgid "Scrollbar Configure"
 msgstr "スクロールバーの設定"
 
-#: src/sheet-object-widget.c:795 src/sheet-object-widget.c:1260
+#: src/sheet-object-widget.c:803 src/sheet-object-widget.c:1269
 msgid "Link to :"
 msgstr "リンク先 :"
 
-#: src/sheet-object-widget.c:809
+#: src/sheet-object-widget.c:817
 msgid "Increment :"
 msgstr "増加 :"
 
-#: src/sheet-object-widget.c:813
+#: src/sheet-object-widget.c:821
 msgid "Page :"
 msgstr "ページ :"
 
-#: src/sheet-object-widget.c:1023
+#: src/sheet-object-widget.c:1027
 #, c-format
 msgid "CheckBox %d"
 msgstr "チェックボックス %d"
 
-#: src/sheet-object-widget.c:1249
+#: src/sheet-object-widget.c:1253
 msgid "Checkbox Configure"
 msgstr "チェックボックス設定"
 
-#: src/sheet-object-widget.c:1264
+#: src/sheet-object-widget.c:1273
 msgid "Label :"
 msgstr "ラベル :"
 
@@ -20481,19 +20482,19 @@ msgstr "楕円オブジェクトを作成します"
 msgid "%dR x %dC"
 msgstr "%dR x %dC"
 
-#: src/workbook-view.c:377
+#: src/workbook-view.c:380
 msgid "Internal ERROR"
 msgstr "内部エラーです"
 
-#: src/workbook-view.c:655
+#: src/workbook-view.c:660
 msgid "Default file saver is not available."
 msgstr "デフォルトのファイルセーバーは無効です。"
 
-#: src/workbook-view.c:744
+#: src/workbook-view.c:750
 msgid "No sheets in workbook."
 msgstr "ワークブックにシートがありません。"
 
-#: src/workbook-view.c:754
+#: src/workbook-view.c:760
 msgid "Unsupported file format."
 msgstr "未サポートのファイル書式です。"
 

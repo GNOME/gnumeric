@@ -1,3 +1,7 @@
+2002-01-30  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.4
+
 2002-01-27  Jody Goldberg <jody@gnome.org>
 
 	* numtheory.c (help_nt_mu) : Use 'o' in place of 'ö' for gnome-1.4.

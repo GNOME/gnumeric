@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2002-01-29 23:20+0000\n"
+"POT-Creation-Date: 2002-01-30 22:58-0500\n"
 "PO-Revision-Date: 2002-01-30 00:35+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <none@none.org>\n"
@@ -74,8 +74,8 @@ msgstr ""
 "opção de compra Europeia com o alvo @alvo sobre um activo de preço @preço.  "
 "@volatilidade é a volvatilidade anualizada, em percentagem, do activo para o "
 "período até à data de exercício.  @dias_para_maturidade são o número de dias "
-"até ao exercício, e @taxa é a taxa de juro livre de risco para a data de exercício, "
-"em percentagem.\n"
+"até ao exercício, e @taxa é a taxa de juro livre de risco para a data de "
+"exercício, em percentagem.\n"
 "O valor devolvido será expresso nas mesmas unidades que @alvo e @preço.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -107,8 +107,8 @@ msgstr ""
 "opção de venda Europeia com o alvo @alvo sobre um activo de preço @preço.  "
 "@volatilidade é a volvatilidade anualizada, em percentagem, do activo para o "
 "período até à data de exercício.  @dias_para_maturidade são o número de dias "
-"até ao exercício, e @taxa é a taxa de juro livre de risco para a data de exercício, "
-"em percentagem.\n"
+"até ao exercício, e @taxa é a taxa de juro livre de risco para a data de "
+"exercício, em percentagem.\n"
 "O valor devolvido será expresso nas mesmas unidades que @alvo e @preço.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -137,17 +137,18 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 "@FUNCTION=opt_bs_call_delta\n"
-"@SYNTAX=opt_bs_call_delta(alvo,preço,volatilidade,dias_para_maturidade,taxa)\n"
+"@SYNTAX=opt_bs_call_delta(alvo,preço,volatilidade,dias_para_maturidade,"
+"taxa)\n"
 "@DESCRIPTION=Utiliza o modelo de Black-Scholes para calcular o \"rho\" de "
 "uma opção Europeia que o alvo em @alvo sobre um activo com o preço @preço.\n"
-"(O delta de uma opção é o rácio de alteração do seu preço relativamente "
-"ao preço do activo subjacente.)\n"
+"(O delta de uma opção é o rácio de alteração do seu preço relativamente ao "
+"preço do activo subjacente.)\n"
 "@volatilidade é a volvatilidade anualizada, em percentagem, do activo para o "
 "período até à data de exercício.  @dias_para_maturidade são o número de dias "
-"até ao exercício, e @taxa é a taxa de juro livre de risco para a data de exercício, "
-"em percentagem.\n"
-"O valor devolvido será expresso como o rácio de alteração do valor da opção por "
-"unidade de alteração no @preço.\n"
+"até ao exercício, e @taxa é a taxa de juro livre de risco para a data de "
+"exercício, em percentagem.\n"
+"O valor devolvido será expresso como o rácio de alteração do valor da opção "
+"por unidade de alteração no @preço.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_put_delta opt_bs_call_rho, "
@@ -178,14 +179,14 @@ msgstr ""
 "@SYNTAX=opt_bs_put_delta(alvo,preço,volatilidade,dias_para_maturidade,taxa)\n"
 "@DESCRIPTION=Utiliza o modelo de Black-Scholes para calcular o \"rho\" de "
 "uma opção Europeia que o alvo em @alvo sobre um activo com o preço @preço.\n"
-"(O delta de uma opção é o rácio de alteração do seu preço relativamente "
-"ao preço do activo subjacente.)\n"
+"(O delta de uma opção é o rácio de alteração do seu preço relativamente ao "
+"preço do activo subjacente.)\n"
 "@volatilidade é a volvatilidade anualizada, em percentagem, do activo para o "
 "período até à data de exercício.  @dias_para_maturidade são o número de dias "
-"até ao exercício, e @taxa é a taxa de juro livre de risco para a data de exercício, "
-"em percentagem.\n"
-"O valor devolvido será expresso como o rácio de alteração do valor da opção por "
-"unidade de alteração no @preço.\n"
+"até ao exercício, e @taxa é a taxa de juro livre de risco para a data de "
+"exercício, em percentagem.\n"
+"O valor devolvido será expresso como o rácio de alteração do valor da opção "
+"por unidade de alteração no @preço.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta opt_bs_call_rho, "
@@ -221,8 +222,8 @@ msgstr ""
 "juro sem risco.)\n"
 "@volatilidade é a volvatilidade anualizada, em percentagem, do activo para o "
 "período até à data de exercício.  @dias_para_maturidade são o número de dias "
-"até ao exercício, e @taxa é a taxa de juro livre de risco para a data de exercício, "
-"em percentagem.\n"
+"até ao exercício, e @taxa é a taxa de juro livre de risco para a data de "
+"exercício, em percentagem.\n"
 "O valor devolvido será expresso como o rácio de alteração do valor da opção, "
 "por 100% de alteração em @taxa.\n"
 "@EXAMPLES=\n"
@@ -260,8 +261,8 @@ msgstr ""
 "juro sem risco.)\n"
 "@volatilidade é a volvatilidade anualizada, em percentagem, do activo para o "
 "período até à data de exercício.  @dias_para_maturidade são o número de dias "
-"até ao exercício, e @taxa é a taxa de juro livre de risco para a data de exercício, "
-"em percentagem.\n"
+"até ao exercício, e @taxa é a taxa de juro livre de risco para a data de "
+"exercício, em percentagem.\n"
 "O valor devolvido será expresso como o rácio de alteração do valor da opção, "
 "por 100% de alteração em @taxa.\n"
 "@EXAMPLES=\n"
@@ -290,17 +291,18 @@ msgid ""
 "opt_bs_call_rho, opt_bs_put_rho, opt_bs_put_theta, opt_bs_vega, opt_bs_gamma"
 msgstr ""
 "@FUNCTION=opt_bs_call_theta\n"
-"@SYNTAX=opt_bs_call_theta(alvo,preço,volatilidade,dias_para_maturidade,taxa)\n"
+"@SYNTAX=opt_bs_call_theta(alvo,preço,volatilidade,dias_para_maturidade,"
+"taxa)\n"
 "@DESCRIPTION=Utiliza o modelo de Black-Scholes para calcular o \"theta\" de "
 "uma opção Europeia que o alvo em @alvo sobre um activo com o preço @preço.\n"
 "(O theta de uma opção é o rácio de alteração do seu preço relativamente ao "
 "tempo que falta para o exercício.)\n"
 "@volatilidade é a volvatilidade anualizada, em percentagem, do activo para o "
 "período até à data de exercício.  @dias_para_maturidade são o número de dias "
-"até ao exercício, e @taxa é a taxa de juro livre de risco para a data de exercício, "
-"em percentagem.\n"
-"O valor devolvido será expresso como o negativo do rácio de alteração do valor "
-"da opção, por 365.25 dias.\n"
+"até ao exercício, e @taxa é a taxa de juro livre de risco para a data de "
+"exercício, em percentagem.\n"
+"O valor devolvido será expresso como o negativo do rácio de alteração do "
+"valor da opção, por 365.25 dias.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta, opt_bs_put_delta, "
@@ -333,10 +335,10 @@ msgstr ""
 "tempo que falta para o exercício.)\n"
 "@volatilidade é a volvatilidade anualizada, em percentagem, do activo para o "
 "período até à data de exercício.  @dias_para_maturidade são o número de dias "
-"até ao exercício, e @taxa é a taxa de juro livre de risco para a data de exercício, "
-"em percentagem.\n"
-"O valor devolvido será expresso como o negativo do rácio de alteração do valor "
-"da opção, por 365.25 dias.\n"
+"até ao exercício, e @taxa é a taxa de juro livre de risco para a data de "
+"exercício, em percentagem.\n"
+"O valor devolvido será expresso como o negativo do rácio de alteração do "
+"valor da opção, por 365.25 dias.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta opt_bs_put_delta, "
@@ -370,8 +372,8 @@ msgstr ""
 "do activo subjacente, e é o mesmo para opções de compra e de venda.)\n"
 "@volatilidade é a volvatilidade anualizada, em percentagem, do activo para o "
 "período até à data de exercício.  @dias_para_maturidade são o número de dias "
-"até ao exercício, e @taxa é a taxa de juro livre de risco para a data de exercício, "
-"em percentagem.\n"
+"até ao exercício, e @taxa é a taxa de juro livre de risco para a data de "
+"exercício, em percentagem.\n"
 "O valor devolvido será expresso como o rácio de mudança de delta por unidade "
 "alterada em @preço.\n"
 "@EXAMPLES=\n"
@@ -409,8 +411,8 @@ msgstr ""
 "volatilidade, e é o mesmo para opções de compra e de venda.)\n"
 "@volatilidade é a volvatilidade anualizada, em percentagem, do activo para o "
 "período até à data de exercício.  @dias_para_maturidade são o número de dias "
-"até ao exercício, e @taxa é a taxa de juro livre de risco para a data de exercício, "
-"em percentagem.\n"
+"até ao exercício, e @taxa é a taxa de juro livre de risco para a data de "
+"exercício, em percentagem.\n"
 "O valor devolvido será expresso como o rácio de mudança do valor da opção, "
 "por 100% de volatilidade.\n"
 "@EXAMPLES=\n"
@@ -569,7 +571,7 @@ msgstr "Incapaz de abrir fluxo para escrita\n"
 msgid "Broken function"
 msgstr "Função incorrecta"
 
-#: plugins/excel/ms-formula-read.c:1448
+#: plugins/excel/ms-formula-read.c:1467
 msgid " Unknown formula"
 msgstr " Fórmula desconhecida"
 
@@ -2335,7 +2337,7 @@ msgstr "Anál_ise Estatística"
 
 #: src/GNOME_Gnumeric.xml.h:225 src/dialogs/consolidate.glade.h:19
 #: src/workbook-control-gui.c:3226 src/workbook-control-gui.c:3844
-#: src/workbook-view.c:518
+#: src/workbook-view.c:521
 msgid "Sum"
 msgstr "Soma"
 
@@ -3023,8 +3025,8 @@ msgid "Anova: Two-Factor With Replication"
 msgstr "Anova: Dois-Factores Com Replicação"
 
 #: src/analysis-tools.c:3277 src/analysis-tools.c:3287
-#: src/analysis-tools.c:3295 src/dialogs/dialog-autoformat.c:73
-#: src/dialogs/dialog-autoformat.c:77
+#: src/analysis-tools.c:3295 src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:78
 msgid "Total"
 msgstr "Total"
 
@@ -5181,120 +5183,120 @@ msgstr "Incapaz de criar a janela de Ferramenta de ANOVA (factor duplo)."
 msgid "Could not create the AutoCorrect dialog."
 msgstr "Incapaz de criar a janela de Auto Correcção."
 
-#: src/dialogs/dialog-autoformat.c:73
+#: src/dialogs/dialog-autoformat.c:74
 msgid " "
 msgstr " "
 
-#: src/dialogs/dialog-autoformat.c:73
+#: src/dialogs/dialog-autoformat.c:74
 msgid "Jan"
 msgstr "Jan"
 
-#: src/dialogs/dialog-autoformat.c:73
+#: src/dialogs/dialog-autoformat.c:74
 msgid "Feb"
 msgstr "Fev"
 
-#: src/dialogs/dialog-autoformat.c:73
+#: src/dialogs/dialog-autoformat.c:74
 msgid "Mrt"
 msgstr "Mrt"
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 msgid "North"
 msgstr "Norte"
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 msgid "6"
 msgstr "6"
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 msgid "13"
 msgstr "13"
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 msgid "20"
 msgstr "20"
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 msgid "39"
 msgstr "39"
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 msgid "South"
 msgstr "Sul"
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 msgid "12"
 msgstr "12"
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 msgid "4"
 msgstr "4"
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 msgid "17"
 msgstr "17"
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 msgid "33"
 msgstr "33"
 
-#: src/dialogs/dialog-autoformat.c:76
+#: src/dialogs/dialog-autoformat.c:77
 msgid "West"
 msgstr "Oeste"
 
-#: src/dialogs/dialog-autoformat.c:76
+#: src/dialogs/dialog-autoformat.c:77
 msgid "8"
 msgstr "8"
 
-#: src/dialogs/dialog-autoformat.c:76
+#: src/dialogs/dialog-autoformat.c:77
 msgid "2"
 msgstr "2"
 
-#: src/dialogs/dialog-autoformat.c:76 src/dialogs/mean-tests.glade.h:1
+#: src/dialogs/dialog-autoformat.c:77 src/dialogs/mean-tests.glade.h:1
 msgid "0"
 msgstr "0"
 
-#: src/dialogs/dialog-autoformat.c:76
+#: src/dialogs/dialog-autoformat.c:77
 msgid "10"
 msgstr "10"
 
-#: src/dialogs/dialog-autoformat.c:77
+#: src/dialogs/dialog-autoformat.c:78
 msgid "26"
 msgstr "26"
 
-#: src/dialogs/dialog-autoformat.c:77
+#: src/dialogs/dialog-autoformat.c:78
 msgid "19"
 msgstr "19"
 
-#: src/dialogs/dialog-autoformat.c:77
+#: src/dialogs/dialog-autoformat.c:78
 msgid "37"
 msgstr "37"
 
-#: src/dialogs/dialog-autoformat.c:77
+#: src/dialogs/dialog-autoformat.c:78
 msgid "81"
 msgstr "81"
 
-#: src/dialogs/dialog-autoformat.c:513
+#: src/dialogs/dialog-autoformat.c:512
 #, c-format
 msgid "Are you sure you want to remove the template '%s' ?"
 msgstr "Tem a certeza que deseja remover o modelo '%s' ?"
 
-#: src/dialogs/dialog-autoformat.c:527
+#: src/dialogs/dialog-autoformat.c:526
 msgid "Could not remove template"
 msgstr "Incapaz de remover modelo"
 
-#: src/dialogs/dialog-autoformat.c:805 src/dialogs/dialog-stf-export.c:384
+#: src/dialogs/dialog-autoformat.c:804 src/dialogs/dialog-stf-export.c:384
 #: src/dialogs/dialog-stf.c:523
 #, c-format
 msgid "Missing %s file"
 msgstr "Ficheiro %s não encontrado"
 
-#: src/dialogs/dialog-autoformat.c:944
+#: src/dialogs/dialog-autoformat.c:943
 msgid "An error occurred while reading the category list"
 msgstr "Ocorreu um erro ao ler a lista de categorias"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:954 src/format.c:1644 src/format.c:1736
+#: src/dialogs/dialog-autoformat.c:953 src/format.c:1644 src/format.c:1736
 #: src/format.c:1745 src/format.c:1814
 msgid "General"
 msgstr "Geral"
@@ -7512,7 +7514,7 @@ msgstr "Operador desconhecido"
 msgid "Unknown evaluation error"
 msgstr "Erro de avaliação desconhecido"
 
-#: src/file-autoft.c:143
+#: src/file-autoft.c:142
 #, c-format
 msgid "Invalid template file: %s"
 msgstr "Ficheiro de modelo inválido: %s"
@@ -9959,10 +9961,10 @@ msgstr ""
 "@SYNTAX=ISOWEEKNUM (data)\n"
 "@DESCRIPTION=ISOWEEKNUM devolve o número de semana ISO 8601 de @data.\n"
 "Devolve #NUM! se a data for inválida.\n"
-"Uma semana ISO 8601 começa à Segunda. As semanas são numeradas a partir de 1. "
-"Uma semana que inclua dias de anos diferentes é associada ao ano de que possua "
-"mais dias. Isto significa que 31 Dez pode pertencer à semana 1 do ano seguinte, "
-"e 1 Jan pode pertencer à semana 52 ou 53 do ano anterior.\n"
+"Uma semana ISO 8601 começa à Segunda. As semanas são numeradas a partir de "
+"1. Uma semana que inclua dias de anos diferentes é associada ao ano de que "
+"possua mais dias. Isto significa que 31 Dez pode pertencer à semana 1 do ano "
+"seguinte, e 1 Jan pode pertencer à semana 52 ou 53 do ano anterior.\n"
 "@EXAMPLES=\n"
 "Se A1 contém 12/21/00 então ISOWEEKNUM(A1)=51\n"
 "@SEEALSO=WEEKNUM"
@@ -9994,15 +9996,15 @@ msgstr ""
 "@método especificado.\n"
 "\n"
 "@método é 1 por defeito.\n"
-"Para método=1, a semana começa no Domingo, e os dias antes do primeiro Domingo "
-"são na semana 0.\n"
-"Para método=2, a semana começa à Segunda, e os dias antes da primeira Segunda "
-"são na semana 0.\n"
+"Para método=1, a semana começa no Domingo, e os dias antes do primeiro "
+"Domingo são na semana 0.\n"
+"Para método=2, a semana começa à Segunda, e os dias antes da primeira "
+"Segunda são na semana 0.\n"
 "Para método=150, é devolvido o número de semana ISO 8601.\n"
 "\n"
 "Devolve #NUM! se a data ou método for inválido.\n"
-"Esta função é compatível com o Excel, excepto em que o Excel não suporta números "
-"de semana ISO 8601.\n"
+"Esta função é compatível com o Excel, excepto em que o Excel não suporta "
+"números de semana ISO 8601.\n"
 "@EXAMPLES=\n"
 "Se A1 contém 12/21/00 então WEEKNUM(A1,2)=51\n"
 "@SEEALSO=ISOWEEKNUM"
@@ -12876,8 +12878,8 @@ msgstr ""
 "@maturidade é a data de maturidade da obrigação.\n"
 "@frequência é o número de pagamentos de cupão por ano.\n"
 "@eom = VERDADE gere datas de maturidade em final de mês especiais.\n"
-"Frequências permitidas são: 1 = anual, 2 = semi, 4 = trimestral, 6 0 bimensal, "
-"12 = mensal.\n"
+"Frequências permitidas são: 1 = anual, 2 = semi, 4 = trimestral, 6 0 "
+"bimensal, 12 = mensal.\n"
 "@base é o tipo de sistema de contagem de dias que deseja utilizar:\n"
 "\n"
 "0  MSRB 30/360 (MSRB Regra G33 (e))\n"
@@ -12938,8 +12940,8 @@ msgstr ""
 "@maturidade é a data de maturidade da obrigação.\n"
 "@frequência é o número de pagamentos de cupão por ano.\n"
 "@eom = VERDADE gere datas de maturidade em final de mês especiais.\n"
-"Frequências permitidas são: 1 = anual, 2 = semi, 4 = trimestral, 6 0 bimensal, "
-"12 = mensal.\n"
+"Frequências permitidas são: 1 = anual, 2 = semi, 4 = trimestral, 6 0 "
+"bimensal, 12 = mensal.\n"
 "@base é o tipo de sistema de contagem de dias que deseja utilizar:\n"
 "\n"
 "0  MSRB 30/360 (MSRB Regra G33 (e))\n"
@@ -12997,8 +12999,8 @@ msgstr ""
 "@maturidade é a data de maturidade da obrigação.\n"
 "@frequência é o número de pagamentos de cupão por ano.\n"
 "@eom = VERDADE gere datas de maturidade em final de mês especiais.\n"
-"Frequências permitidas são: 1 = anual, 2 = semi, 4 = trimestral, 6 0 bimensal, "
-"12 = mensal.\n"
+"Frequências permitidas são: 1 = anual, 2 = semi, 4 = trimestral, 6 0 "
+"bimensal, 12 = mensal.\n"
 "@base é o tipo de sistema de contagem de dias que deseja utilizar:\n"
 "\n"
 "0  MSRB 30/360 (MSRB Regra G33 (e))\n"
@@ -13056,8 +13058,8 @@ msgstr ""
 "@maturidade é a data de maturidade da obrigação.\n"
 "@frequência é o número de pagamentos de cupão por ano.\n"
 "@eom = VERDADE gere datas de maturidade em final de mês especiais.\n"
-"Frequências permitidas são: 1 = anual, 2 = semi, 4 = trimestral, 6 0 bimensal, "
-"12 = mensal.\n"
+"Frequências permitidas são: 1 = anual, 2 = semi, 4 = trimestral, 6 0 "
+"bimensal, 12 = mensal.\n"
 "@base é o tipo de sistema de contagem de dias que deseja utilizar:\n"
 "\n"
 "0  MSRB 30/360 (MSRB Regra G33 (e))\n"
@@ -13113,8 +13115,8 @@ msgstr ""
 "@acordo é a data de acordo da obrigação.\n"
 "@maturidade é a data de maturidade da obrigação.\n"
 "@frequência é o número de pagamentos de cupão por ano.\n"
-"Frequências permitidas são: 1 = anual, 2 = semi, 4 = trimestral, 6 = bimensal, "
-"12 = mensal.\n"
+"Frequências permitidas são: 1 = anual, 2 = semi, 4 = trimestral, 6 = "
+"bimensal, 12 = mensal.\n"
 "@base é o tipo de sistema de contagem de dias que deseja utilizar:\n"
 "\n"
 "0  MSRB 30/360 (MSRB Regra G33 (e))\n"
@@ -15675,9 +15677,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(número[,dígitos])\n"
-"@DESCRIPTION=A função ROUNDDOWN arredonda abaixo um dado @número. "
-"@número é o número que deseja arredondar e @dígitos é o número de "
-"dígitos para os quais quer arredondar o número. \n"
+"@DESCRIPTION=A função ROUNDDOWN arredonda abaixo um dado @número. @número é "
+"o número que deseja arredondar e @dígitos é o número de dígitos para os "
+"quais quer arredondar o número. \n"
 "Se @dígitos for maior do que zero, @número é arredondado para o número de "
 "dígitos indicado. Se @dígitos for zero ou omitido, @número é arredondado "
 "abaixo para o inteiro mais próximo. Se @dígitos for menor do que zero, "
@@ -17816,8 +17818,8 @@ msgstr ""
 "a probabilidade de valores na @área_x serem iguais ao @limite_inf.\n"
 "Se a soma das probabilidades em @área_prob não for igual a 1, PROB devolve o "
 "erro #NUM!. Se qualquer valor na @área_prob for <=0 ou > 1, PROB devolve o "
-"erro #NUM!. Se @área_x e @área_prob contiverem um número diferente de "
-"dados, PROB devolve o erro #N/A.\n"
+"erro #NUM!. Se @área_x e @área_prob contiverem um número diferente de dados, "
+"PROB devolve o erro #N/A.\n"
 "Esta função é compatível com o Excel.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -18541,8 +18543,8 @@ msgstr ""
 "existentes utilizando uma regressão linear simples. O valor estimado futuro "
 "é um valor-y para um dado valor-x (@x). \n"
 "Se @x_conhecidos ou @y_conhecidos não contiverem dados ou um número de dados "
-"for diferente, FORECAST devolve o erro #N/A!. Se a variância dos @x_conhecidos "
-"for zero, FORECAST devolve o erro #DIV/0.\n"
+"for diferente, FORECAST devolve o erro #N/A!. Se a variância dos "
+"@x_conhecidos for zero, FORECAST devolve o erro #DIV/0.\n"
 "Esta função é compatível com o Excel. \n"
 "@EXAMPLES=\n"
 "Vamos assumir que as células A1, A2, ..., A5 contêm os números 11.4, 17.3, "
@@ -18574,8 +18576,8 @@ msgstr ""
 "@SYNTAX=INTERCEPT(y_conhecido,x_conhecido)\n"
 "@DESCRIPTION=A função INTERCEPT calcula o ponto onde a linha de regressão "
 "linear intercepta o eixo-y.  \n"
-"Se @x_conhecido ou @y_conhecido não contêm dados ou o número de dados "
-"é diferente, INTERCEPT devolve o erro #N/A!. Se a variância do @x_conhecido "
+"Se @x_conhecido ou @y_conhecido não contêm dados ou o número de dados é "
+"diferente, INTERCEPT devolve o erro #N/A!. Se a variância do @x_conhecido "
 "for zero, INTERCEPT devolve o erro #DIV/0.\n"
 "Esta função é compatível com o Excel. \n"
 "@EXAMPLES=\n"
@@ -20942,19 +20944,19 @@ msgstr "Cria um objecto em elipse"
 msgid "%dR x %dC"
 msgstr "%dR x %dC"
 
-#: src/workbook-view.c:377
+#: src/workbook-view.c:380
 msgid "Internal ERROR"
 msgstr "ERRO Interno"
 
-#: src/workbook-view.c:655
+#: src/workbook-view.c:660
 msgid "Default file saver is not available."
 msgstr "Gravador de ficheiros de defeito não está disponível."
 
-#: src/workbook-view.c:744
+#: src/workbook-view.c:750
 msgid "No sheets in workbook."
 msgstr "Nenhuma folha no livro de trabalho."
 
-#: src/workbook-view.c:754
+#: src/workbook-view.c:760
 msgid "Unsupported file format."
 msgstr "Formato de ficheiro não suportado."
 

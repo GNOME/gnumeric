@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.40\n"
-"POT-Creation-Date: 2002-01-21 23:04-0500\n"
+"POT-Creation-Date: 2002-01-30 22:58-0500\n"
 "PO-Revision-Date: 1999-10-22 21:20+02:00\n"
 "Last-Translator: Petr Vyyhnalek <petr.vyhnalek@email.cz>\n"
 "Language-Team: \n"
@@ -406,7 +406,7 @@ msgstr ""
 msgid "Broken function"
 msgstr "Chybná funkce"
 
-#: plugins/excel/ms-formula-read.c:1448
+#: plugins/excel/ms-formula-read.c:1467
 msgid " Unknown formula"
 msgstr " Chybný vzorec"
 
@@ -722,7 +722,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=The NT_MU function (Möbius mu function) returns \n"
+"@DESCRIPTION=The NT_MU function (Mobius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "-1 if @n has an odd  number of different prime factors .\n"
@@ -1163,11 +1163,11 @@ msgstr ""
 msgid "The next generation sax based xml I/O subsystem"
 msgstr ""
 
-#: plugins/xml_sax/xml-sax-read.c:2173
+#: plugins/xml_sax/xml-sax-read.c:2179
 msgid "xmlCreateFileParserCtxt () failed."
 msgstr ""
 
-#: plugins/xml_sax/xml-sax-read.c:2182
+#: plugins/xml_sax/xml-sax-read.c:2188
 msgid "XML document not well formed!"
 msgstr ""
 
@@ -1236,7 +1236,7 @@ msgstr "Tuènì"
 msgid "Borders"
 msgstr "Poøadí stránek"
 
-#: src/GNOME_Gnumeric.xml.h:15 src/sheet-object-widget.c:427
+#: src/GNOME_Gnumeric.xml.h:15 src/sheet-object-widget.c:430
 #: src/workbook-object-toolbar.c:163
 #, fuzzy
 msgid "Button"
@@ -1359,7 +1359,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3014
 msgid ""
-"Comparing two population means from pop. with known varinces or using a "
+"Comparing two population means from pop. with known variances or using a "
 "large sample: z- test"
 msgstr ""
 
@@ -1617,7 +1617,7 @@ msgstr ""
 msgid "Fourier Analysis"
 msgstr "Analýza dat"
 
-#: src/GNOME_Gnumeric.xml.h:95 src/sheet-object-widget.c:330
+#: src/GNOME_Gnumeric.xml.h:95 src/sheet-object-widget.c:333
 #: src/workbook-object-toolbar.c:158
 #, fuzzy
 msgid "Frame"
@@ -1725,12 +1725,12 @@ msgstr "Vytvoø nový list"
 msgid "Insert new cells"
 msgstr "Vlo¾ buòky"
 
-#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2850
+#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2847
 #, fuzzy
 msgid "Insert new columns"
 msgstr "Vlo¾ sloupec(e)"
 
-#: src/GNOME_Gnumeric.xml.h:118 src/workbook-control-gui.c:2847
+#: src/GNOME_Gnumeric.xml.h:118 src/workbook-control-gui.c:2850
 #, fuzzy
 msgid "Insert new rows"
 msgstr "Vlo¾ øádky"
@@ -1778,7 +1778,7 @@ msgstr ""
 msgid "Jump to a specified cell"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:129 src/sheet-object-widget.c:233
+#: src/GNOME_Gnumeric.xml.h:129 src/sheet-object-widget.c:236
 #: src/workbook-object-toolbar.c:155
 msgid "Label"
 msgstr ""
@@ -2131,7 +2131,7 @@ msgstr "Vybrat v¹e"
 msgid "Select _All"
 msgstr "Vybrat v¹e"
 
-#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2666
+#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2661
 #, fuzzy
 msgid "Select _Column"
 msgstr "Vlo¾ sloupec(e)"
@@ -2140,7 +2140,7 @@ msgstr "Vlo¾ sloupec(e)"
 msgid "Select _Depends"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2661
+#: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2666
 #, fuzzy
 msgid "Select _Row"
 msgstr "Mazání"
@@ -2157,12 +2157,12 @@ msgstr ""
 msgid "Select an array of cells"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2667
+#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2662
 #, fuzzy
 msgid "Select an entire column"
 msgstr "Vytvoøí èáru"
 
-#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:2662
+#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:2667
 #, fuzzy
 msgid "Select an entire row"
 msgstr "Vytvoøí èáru"
@@ -2225,7 +2225,7 @@ msgstr "Statistické"
 
 #: src/GNOME_Gnumeric.xml.h:225 src/dialogs/consolidate.glade.h:19
 #: src/workbook-control-gui.c:3226 src/workbook-control-gui.c:3844
-#: src/workbook-view.c:518
+#: src/workbook-view.c:521
 msgid "Sum"
 msgstr "Suma"
 
@@ -2370,7 +2370,7 @@ msgstr "Zavøít"
 #: src/dialogs/fourier-analysis.glade.h:8 src/dialogs/histogram.glade.h:21
 #: src/dialogs/moving-averages.glade.h:9 src/dialogs/rank.glade.h:10
 #: src/dialogs/regression.glade.h:10 src/dialogs/sampling.glade.h:13
-#: src/workbook-control-gui.c:2849
+#: src/workbook-control-gui.c:2846
 #, fuzzy
 msgid "_Columns"
 msgstr "Sloupce"
@@ -2602,7 +2602,7 @@ msgstr "Øádek"
 #: src/dialogs/fourier-analysis.glade.h:13
 #: src/dialogs/moving-averages.glade.h:14 src/dialogs/rank.glade.h:15
 #: src/dialogs/regression.glade.h:15 src/dialogs/sampling.glade.h:20
-#: src/workbook-control-gui.c:2846
+#: src/workbook-control-gui.c:2849
 msgid "_Rows"
 msgstr "Øádky"
 
@@ -2961,8 +2961,8 @@ msgid "Anova: Two-Factor With Replication"
 msgstr ""
 
 #: src/analysis-tools.c:3277 src/analysis-tools.c:3287
-#: src/analysis-tools.c:3295 src/dialogs/dialog-autoformat.c:73
-#: src/dialogs/dialog-autoformat.c:77
+#: src/analysis-tools.c:3295 src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:78
 #, fuzzy
 msgid "Total"
 msgstr "Titulek"
@@ -4190,7 +4190,7 @@ msgstr "®ádný"
 msgid "None          (silently accept invalid input)"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-formula-guru.c:432
+#: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-formula-guru.c:440
 #: src/dialogs/dialog-search.c:126
 msgid "Number"
 msgstr "Èíslo"
@@ -5278,133 +5278,133 @@ msgstr "©patný poèet argumentu"
 msgid "Could not create the AutoCorrect dialog."
 msgstr "©patný poèet argumentu"
 
-#: src/dialogs/dialog-autoformat.c:73
+#: src/dialogs/dialog-autoformat.c:74
 msgid " "
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:73
+#: src/dialogs/dialog-autoformat.c:74
 #, fuzzy
 msgid "Jan"
 msgstr "*Led"
 
-#: src/dialogs/dialog-autoformat.c:73
+#: src/dialogs/dialog-autoformat.c:74
 #, fuzzy
 msgid "Feb"
 msgstr "*Úno"
 
-#: src/dialogs/dialog-autoformat.c:73
+#: src/dialogs/dialog-autoformat.c:74
 msgid "Mrt"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 #, fuzzy
 msgid "North"
 msgstr "seøadit podle"
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 msgid "6"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 #, fuzzy
 msgid "13"
 msgstr "1"
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 #, fuzzy
 msgid "20"
 msgstr "0"
 
-#: src/dialogs/dialog-autoformat.c:74
+#: src/dialogs/dialog-autoformat.c:75
 msgid "39"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 #, fuzzy
 msgid "South"
 msgstr "seøadit podle"
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 #, fuzzy
 msgid "12"
 msgstr "1"
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 msgid "4"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 #, fuzzy
 msgid "17"
 msgstr "1"
 
-#: src/dialogs/dialog-autoformat.c:75
+#: src/dialogs/dialog-autoformat.c:76
 msgid "33"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:76
+#: src/dialogs/dialog-autoformat.c:77
 #, fuzzy
 msgid "West"
 msgstr "Text"
 
-#: src/dialogs/dialog-autoformat.c:76
+#: src/dialogs/dialog-autoformat.c:77
 msgid "8"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:76
+#: src/dialogs/dialog-autoformat.c:77
 msgid "2"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:76 src/dialogs/mean-tests.glade.h:1
+#: src/dialogs/dialog-autoformat.c:77 src/dialogs/mean-tests.glade.h:1
 msgid "0"
 msgstr "0"
 
-#: src/dialogs/dialog-autoformat.c:76
+#: src/dialogs/dialog-autoformat.c:77
 #, fuzzy
 msgid "10"
 msgstr "1"
 
-#: src/dialogs/dialog-autoformat.c:77
+#: src/dialogs/dialog-autoformat.c:78
 msgid "26"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:77
+#: src/dialogs/dialog-autoformat.c:78
 #, fuzzy
 msgid "19"
 msgstr "1"
 
-#: src/dialogs/dialog-autoformat.c:77
+#: src/dialogs/dialog-autoformat.c:78
 msgid "37"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:77
+#: src/dialogs/dialog-autoformat.c:78
 #, fuzzy
 msgid "81"
 msgstr "1"
 
-#: src/dialogs/dialog-autoformat.c:513
+#: src/dialogs/dialog-autoformat.c:512
 #, c-format
 msgid "Are you sure you want to remove the template '%s' ?"
 msgstr ""
 
-#: src/dialogs/dialog-autoformat.c:527
+#: src/dialogs/dialog-autoformat.c:526
 #, fuzzy
 msgid "Could not remove template"
 msgstr "©patný poèet argumentu"
 
-#: src/dialogs/dialog-autoformat.c:805 src/dialogs/dialog-stf-export.c:384
+#: src/dialogs/dialog-autoformat.c:804 src/dialogs/dialog-stf-export.c:384
 #: src/dialogs/dialog-stf.c:523
 #, fuzzy, c-format
 msgid "Missing %s file"
 msgstr "Chybí uvozovky"
 
-#: src/dialogs/dialog-autoformat.c:944
+#: src/dialogs/dialog-autoformat.c:943
 msgid "An error occurred while reading the category list"
 msgstr ""
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:954 src/format.c:1644 src/format.c:1736
+#: src/dialogs/dialog-autoformat.c:953 src/format.c:1644 src/format.c:1736
 #: src/format.c:1745 src/format.c:1814
 msgid "General"
 msgstr "Obecný"
@@ -5437,13 +5437,13 @@ msgid "Source"
 msgstr "seøadit podle"
 
 #: src/dialogs/dialog-cell-format.c:2118 src/dialogs/dialog-cell-format.c:2125
-#: src/sheet-object-widget.c:801
+#: src/sheet-object-widget.c:809
 #, fuzzy
 msgid "Min :"
 msgstr "Min"
 
 #: src/dialogs/dialog-cell-format.c:2119 src/dialogs/dialog-cell-format.c:2128
-#: src/sheet-object-widget.c:805
+#: src/sheet-object-widget.c:813
 #, fuzzy
 msgid "Max :"
 msgstr "Max"
@@ -5555,38 +5555,38 @@ msgstr ""
 msgid "Could not create the Name Guru."
 msgstr "©patný poèet argumentu"
 
-#: src/dialogs/dialog-formula-guru.c:424
+#: src/dialogs/dialog-formula-guru.c:432
 #, fuzzy, c-format
 msgid "Value%d"
 msgstr "Hodnoty"
 
-#: src/dialogs/dialog-formula-guru.c:431 src/dialogs/dialog-search.c:122
+#: src/dialogs/dialog-formula-guru.c:439 src/dialogs/dialog-search.c:122
 #: src/functions/fn-string.c:1217
 msgid "String"
 msgstr "Øetìz"
 
-#: src/dialogs/dialog-formula-guru.c:433
+#: src/dialogs/dialog-formula-guru.c:441
 msgid "Boolean"
 msgstr ""
 
-#: src/dialogs/dialog-formula-guru.c:434
+#: src/dialogs/dialog-formula-guru.c:442
 msgid "Range"
 msgstr "Rozsah"
 
-#: src/dialogs/dialog-formula-guru.c:435
+#: src/dialogs/dialog-formula-guru.c:443
 msgid "Array"
 msgstr "Pole"
 
-#: src/dialogs/dialog-formula-guru.c:436
+#: src/dialogs/dialog-formula-guru.c:444
 msgid "Range/Array"
 msgstr "Rozsah/Pole"
 
-#: src/dialogs/dialog-formula-guru.c:437
+#: src/dialogs/dialog-formula-guru.c:445
 #, fuzzy
 msgid "Scalar"
 msgstr "Mìøítko"
 
-#: src/dialogs/dialog-formula-guru.c:439
+#: src/dialogs/dialog-formula-guru.c:447
 msgid "Any"
 msgstr ""
 
@@ -7812,7 +7812,7 @@ msgstr "Neznámý oprátor"
 msgid "Unknown evaluation error"
 msgstr "Neznámá chyba pøi výpoètu"
 
-#: src/file-autoft.c:143
+#: src/file-autoft.c:142
 #, fuzzy, c-format
 msgid "Invalid template file: %s"
 msgstr "nemohu otevøít soubor modulu:"
@@ -16105,34 +16105,34 @@ msgstr "Poøadí stránek"
 msgid "Transparent"
 msgstr "Transpozice"
 
-#: src/sheet-object-widget.c:779
+#: src/sheet-object-widget.c:787
 msgid "Scrollbar Configure"
 msgstr ""
 
-#: src/sheet-object-widget.c:795 src/sheet-object-widget.c:1260
+#: src/sheet-object-widget.c:803 src/sheet-object-widget.c:1269
 msgid "Link to :"
 msgstr ""
 
-#: src/sheet-object-widget.c:809
+#: src/sheet-object-widget.c:817
 #, fuzzy
 msgid "Increment :"
 msgstr "Vyma¾ content"
 
-#: src/sheet-object-widget.c:813
+#: src/sheet-object-widget.c:821
 #, fuzzy
 msgid "Page :"
 msgstr "Stránka: "
 
-#: src/sheet-object-widget.c:1023
+#: src/sheet-object-widget.c:1027
 #, c-format
 msgid "CheckBox %d"
 msgstr ""
 
-#: src/sheet-object-widget.c:1249
+#: src/sheet-object-widget.c:1253
 msgid "Checkbox Configure"
 msgstr ""
 
-#: src/sheet-object-widget.c:1264
+#: src/sheet-object-widget.c:1273
 #, fuzzy
 msgid "Label :"
 msgstr "Jméno"
@@ -17005,20 +17005,20 @@ msgstr "Vytvoøí elipsu"
 msgid "%dR x %dC"
 msgstr ""
 
-#: src/workbook-view.c:377
+#: src/workbook-view.c:380
 msgid "Internal ERROR"
 msgstr "Interní CHYBA"
 
-#: src/workbook-view.c:655
+#: src/workbook-view.c:660
 msgid "Default file saver is not available."
 msgstr ""
 
-#: src/workbook-view.c:744
+#: src/workbook-view.c:750
 #, fuzzy
 msgid "No sheets in workbook."
 msgstr "Jména v se¹itì:"
 
-#: src/workbook-view.c:754
+#: src/workbook-view.c:760
 #, fuzzy
 msgid "Unsupported file format."
 msgstr "Nepodporovaná metoda"
