@@ -46,17 +46,17 @@ parse_format_level_str (const gchar *format_level_str, FileFormatLevel def)
 
 	if (format_level_str == NULL) {
 		format_level = def;
-	} else if (g_strcasecmp (format_level_str, "none") == 0) {
+	} else if (g_ascii_strcasecmp (format_level_str, "none") == 0) {
 		format_level = FILE_FL_NONE;
-	} else if (g_strcasecmp (format_level_str, "write_only") == 0) {
+	} else if (g_ascii_strcasecmp (format_level_str, "write_only") == 0) {
 		format_level = FILE_FL_WRITE_ONLY;
-	} else if (g_strcasecmp (format_level_str, "new") == 0) {
+	} else if (g_ascii_strcasecmp (format_level_str, "new") == 0) {
 		format_level = FILE_FL_NEW;
-	} else if (g_strcasecmp (format_level_str, "manual") == 0) {
+	} else if (g_ascii_strcasecmp (format_level_str, "manual") == 0) {
 		format_level = FILE_FL_MANUAL;
-	} else if (g_strcasecmp (format_level_str, "manual_remember") == 0) {
+	} else if (g_ascii_strcasecmp (format_level_str, "manual_remember") == 0) {
 		format_level = FILE_FL_MANUAL_REMEMBER;
-	} else if (g_strcasecmp (format_level_str, "auto") == 0) {
+	} else if (g_ascii_strcasecmp (format_level_str, "auto") == 0) {
 		format_level = FILE_FL_AUTO;
 	} else {
 		format_level = def;
@@ -398,7 +398,7 @@ plugin_service_file_opener_read_xml (PluginService *service, xmlNode *tree, Erro
 				file_pattern->value = value;
 				if (type_str == NULL) {
 					file_pattern->pattern_type = FILE_PATTERN_SHELL;
-				} else if (g_strcasecmp (type_str, "shell_pattern") == 0) {
+				} else if (g_ascii_strcasecmp (type_str, "shell_pattern") == 0) {
 					file_pattern->pattern_type = FILE_PATTERN_SHELL;
 					file_pattern->case_sensitive = e_xml_get_bool_prop_by_name_with_default (
 					                               node, (xmlChar *)"case_sensitive", FALSE);
@@ -747,7 +747,7 @@ plugin_service_file_saver_read_xml (PluginService *service, xmlNode *tree, Error
 		service_file_saver->default_saver_priority = e_xml_get_integer_prop_by_name_with_default (
 		                                             tree, (xmlChar *)"default_saver_priority", -1);
 		service_file_saver->save_scope = (save_scope_str != NULL &&
-		                                 g_strcasecmp (save_scope_str, "sheet") == 0) ?
+		                                 g_ascii_strcasecmp (save_scope_str, "sheet") == 0) ?
 		                                 FILE_SAVE_SHEET : FILE_SAVE_WORKBOOK;
 		service_file_saver->overwrite_files = e_xml_get_bool_prop_by_name_with_default (
 		                                      tree, (xmlChar *)"overwrite_files", TRUE);
@@ -1450,7 +1450,7 @@ plugin_service_new (xmlNode *tree, ErrorInfo **ret_error)
 		return NULL;
 	}	
 	for (ti = 0; ti < GNM_SIZEOF_ARRAY (service_types); ti++) {
-		if (g_strcasecmp (service_types[ti].type_str, type_str) == 0)
+		if (g_ascii_strcasecmp (service_types[ti].type_str, type_str) == 0)
 			break;
 	}
 	if (ti == GNM_SIZEOF_ARRAY (service_types)) {
