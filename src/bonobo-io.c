@@ -55,7 +55,7 @@ write_stream_to_storage (xmlNodePtr           cur,
 		name = g_strdup_printf ("stream %d", idx++);
 		stream = Bonobo_Storage_openStream (storage, name, flags, ev);
 		if (ev->_major == CORBA_USER_EXCEPTION &&
-		    strcmp (ev->_repo_id, ex_Bonobo_Storage_NameExists)) {
+		    strcmp (ev->_id, ex_Bonobo_Storage_NameExists)) {
 			CORBA_exception_free (ev);
 			loop = TRUE;
 		}
@@ -104,8 +104,7 @@ gnumeric_bonobo_obj_write (xmlNodePtr   cur,
 	sob = SHEET_OBJECT_BONOBO (object);
 
 	ps = Bonobo_Unknown_queryInterface (
-		BONOBO_OBJREF (sob->object_server),
-		"IDL:Bonobo/PersistStream:1.0", &ev);
+		sob->object_server, "IDL:Bonobo/PersistStream:1.0", &ev);
 
 	if (!BONOBO_EX (&ev) && ps != CORBA_OBJECT_NIL) {
 		write_stream_to_storage (cur, ps, storage, &ev);
@@ -204,8 +203,7 @@ gnumeric_bonobo_obj_read (xmlNodePtr   tree,
 	sname = xmlGetProp (tree, (xmlChar *)"Stream");
 	if (sname)
 		read_stream_from_storage (
-			BONOBO_OBJREF (sob->object_server),
-			storage, (char *)sname, &ev);
+			sob->object_server, storage, (char *)sname, &ev);
 	else
 		g_warning ("No stream");
 
@@ -245,8 +243,12 @@ gnumeric_bonobo_write_workbook (GnumFileSaver const *fs,
 	flags = Bonobo_Storage_CREATE | Bonobo_Storage_WRITE |
 		Bonobo_Storage_FAILIFEXIST;
 
+#warning FIXME - needs grunt.
+#ifdef GNOME2_CONVERSION_COMPLETE
 	storage = bonobo_storage_open (BONOBO_IO_DRIVER_FS,
 				       filename, flags, 0664);
+#endif
+	storage = NULL;
 
 	if (!storage) {
 		char *msg = g_strdup_printf ("Can't open '%s'", filename);
@@ -290,7 +292,7 @@ gnumeric_bonobo_write_workbook (GnumFileSaver const *fs,
 			BONOBO_OBJREF (storage),
 			"Workbook", flags, &ev);
 		if (ev._major == CORBA_USER_EXCEPTION &&
-		    strcmp (ev._repo_id, ex_Bonobo_Storage_NameExists)) {
+		    strcmp (ev._id, ex_Bonobo_Storage_NameExists)) {
 			g_warning ("Workbook stream already exists");
 			gnumeric_io_error_unknown (context);
 		} else {
@@ -430,8 +432,13 @@ gnumeric_bonobo_read_workbook (GnumFileOpener const *fo,
 
 	g_return_if_fail (filename != NULL);
 
+#warning FIXME - needs grunt.
+#ifdef GNOME2_CONVERSION_COMPLETE
 	storage = bonobo_storage_open (BONOBO_IO_DRIVER_FS,
 				       filename, Bonobo_Storage_READ, 0);
+#endif
+	storage = NULL;
+
 	if (!storage) {
 		char *msg = g_strdup_printf ("Can't open '%s'", filename);
 		gnumeric_io_error_save (context, msg);

@@ -6,6 +6,7 @@
  *     Jody Goldberg <jody@gnome.org>
  */
 #include <gnumeric-config.h>
+#include <string.h>
 #include "gnumeric.h"
 #include "application.h"
 

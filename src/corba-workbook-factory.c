@@ -8,6 +8,10 @@
  *   Miguel de Icaza (miguel@gnu.org)
  */
 
+
+#warning re-write me with BonoboObject
+#ifdef GNOME2_CONVERSION_COMPLETE
+
 #include <gnumeric-config.h>
 #include "gnumeric.h"
 #include <idl/Gnumeric.h>
@@ -16,7 +20,6 @@
 #include "workbook.h"
 #include "corba.h"
 
-#include <liboaf/liboaf.h>
 #include <bonobo.h>
 #include <bonobo/bonobo-object-directory.h>
 
@@ -183,3 +186,4 @@ WorkbookFactory_init (void)
 
 	return retval;
 }
+#endif

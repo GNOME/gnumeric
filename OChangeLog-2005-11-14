@@ -1,3 +1,17 @@
+2002-02-06  Michael Meeks  <michael@ximian.com>
+
+	* src/workbook.c (workbook_bonobo_setup): don't
+	setup the item container.
+
+	* src/gnumeric-graph.c: porting action.
+	(bonobo_activation_exception_id): kill.
+
+	* src/corba-args.c (gnumeric_arg_parse): upd.
+
+	* src/bonobo-io.c: porting action.
+
+	* src/sheet-object-bonobo.c: porting action.
+
 2002-02-06  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-autofill.c (autofill_create_fill_items) : changes to the

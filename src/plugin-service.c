@@ -19,6 +19,7 @@
 #include "plugin.h"
 
 #include <fnmatch.h>
+#include <string.h>
 #include <glib.h>
 #include <libxml/tree.h>
 #include <libxml/xmlmemory.h>

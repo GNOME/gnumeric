@@ -32,6 +32,7 @@
 #include "ranges.h"
 #include "xml-io.h"
 #include "plugin-util.h"	/* for gnumeric_fopen */
+#include <string.h>
 #include <libxml/parser.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>

@@ -21,6 +21,7 @@
  * USA
  */
 #include <gnumeric-config.h>
+#include <string.h>
 #include "gnumeric.h"
 #include "sheet-style.h"
 
@@ -478,7 +479,6 @@ sheet_style_shutdown (Sheet *sheet)
 void
 sheet_style_set_auto_pattern_color (Sheet  *sheet, StyleColor *pattern_color)
 {
-	StyleColor *apc;
 	int ref_count;
 	
 	g_return_if_fail (IS_SHEET (sheet));

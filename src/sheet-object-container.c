@@ -23,11 +23,6 @@
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
 #include <bonobo/bonobo-item-container.h>
-#include <bonobo/bonobo-view-frame.h>
-#include <bonobo/bonobo-client-site.h>
-#include <bonobo/bonobo-embeddable.h>
-#include <bonobo/bonobo-object-client.h>
-#include <bonobo/bonobo-object-directory.h>
 #include <bonobo/bonobo-exception.h>
 
 static void

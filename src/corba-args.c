@@ -18,23 +18,19 @@
 #include "value.h"
 
 #include <libgnome/gnome-i18n.h>
-#include <liboaf/liboaf.h>
 #include <bonobo.h>
 
 void
 gnumeric_arg_parse (int argc, char *argv [])
 {
-	CORBA_ORB         orb;
-
 	ctx = NULL;
 
-	gnomelib_register_popt_table (oaf_popt_options, _("Oaf options"));
+#warning FIXME: this should use gnome_program_init
+
 	gnome_init_with_popt_table ("gnumeric", VERSION,
 				    argc, argv, gnumeric_popt_options, 0, &ctx);
 
-	orb = oaf_init (argc, argv);
-
-	if (bonobo_init (orb, NULL, NULL) == FALSE)
+	if (bonobo_init (&argc, argv) == FALSE)
 		g_error ("Failure starting up Bonobo");
 }
 

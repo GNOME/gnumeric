@@ -44,7 +44,6 @@
 
 #include <idl/GNOME_Gnumeric_Graph.h>
 #include <bonobo.h>
-#include <liboaf/liboaf.h>
 #include <gal/util/e-util.h>
 #include <gal/util/e-xml-utils.h>
 #include <libxml/parser.h>
@@ -64,7 +63,7 @@
 struct _GnmGraph {
 	SheetObjectContainer	parent;
 
-	BonoboObjectClient	*manager_client;
+	Bonobo_Unknown           manager_client;
 	MANAGER	 		 manager;
 
 	GPtrArray		*vectors;
@@ -709,21 +708,6 @@ gnm_graph_add_vector (GnmGraph *graph, ExprTree *expr,
 	return vector ? vector->id : -1;
 }
 
-static char *
-bonobo_activation_exception_id (CORBA_Environment *ev)
-{
-        if (ev->_major == CORBA_USER_EXCEPTION) {
-                if (!strcmp (ev->_id, "IDL:Bonobo/GeneralError:1.0")) {
-                        OAF_GeneralError *err = ev->_params;
-                        if (err != NULL && err->description != NULL)
-				return err->description;
-			return "No general exception error message";
-                } else
-                        return ev->_repo_id;
-        } else
-                return CORBA_exception_id (ev);
-}
-
 static gboolean
 gnm_graph_setup (GnmGraph *graph, Workbook *wb)
 {
@@ -738,18 +722,19 @@ gnm_graph_setup (GnmGraph *graph, Workbook *wb)
 	if (ev._major != CORBA_NO_EXCEPTION || o == CORBA_OBJECT_NIL) {
 		g_warning ("'%s' : while attempting to activate a graphing component.\n"
 			   "bonobo-activation-run-query \"repo_ids.has('" MANAGER_OAF "')\"\nshould return a value.",
-			   bonobo_activation_exception_id (&ev));
+			   bonobo_exception_get_text (&ev));
 		graph = NULL;
 	} else {
 		graph->manager = Bonobo_Unknown_queryInterface (o, MANAGER_OAF, &ev);
 
 		g_return_val_if_fail (graph->manager != CORBA_OBJECT_NIL, TRUE);
 
-		graph->manager_client = bonobo_object_client_from_corba (graph->manager);
+		graph->manager_client = graph->manager;
 		bonobo_object_release_unref (o, &ev);
 
+#warning FIXME - we need a Bonobo_UIContainer from somewhere.
 		if (sheet_object_bonobo_construct (SHEET_OBJECT_BONOBO (graph),
-						   wb->priv->bonobo_container, NULL) == NULL ||
+						   CORBA_OBJECT_NIL, NULL) == NULL ||
 		    !sheet_object_bonobo_set_server (SHEET_OBJECT_BONOBO (graph),
 						     graph->manager_client)) {
 			graph = NULL;
@@ -1005,10 +990,10 @@ gnm_graph_init (GtkObject *obj)
 {
 	GnmGraph *graph = GNUMERIC_GRAPH (obj);
 
+	graph->xml_doc = NULL;
 	graph->vectors = NULL;
 	graph->manager = CORBA_OBJECT_NIL;
-	graph->xml_doc = NULL;
-	graph->manager_client = NULL;
+	graph->manager_client = CORBA_OBJECT_NIL;
 	graph->vectors = g_ptr_array_new ();
 }
 
@@ -1019,9 +1004,9 @@ gnm_graph_destroy (GtkObject *obj)
 
 	d(printf ("gnumeric : graph destroy %p\n", obj));
 
-	if (graph->manager_client != NULL) {
-		bonobo_object_unref (BONOBO_OBJECT (graph->manager_client));
-		graph->manager_client = NULL;
+	if (graph->manager_client != CORBA_OBJECT_NIL) {
+		bonobo_object_release_unref (graph->manager_client, NULL);
+		graph->manager_client = CORBA_OBJECT_NIL;
 		graph->manager = CORBA_OBJECT_NIL;
 	}
 	if (graph->vectors != NULL) {
@@ -1227,7 +1212,7 @@ char *
 gnm_graph_exception (CORBA_Environment *ev)
 {
         if (ev->_major == CORBA_USER_EXCEPTION) {
-		if (!strcmp (ev->_repo_id, "IDL:GNOME/Gnumeric/Error:1.0")) {
+		if (!strcmp (ev->_id, "IDL:GNOME/Gnumeric/Error:1.0")) {
                         GNOME_Gnumeric_Error *err = ev->_params;
                         
                         if (!err || !err->mesg) {
@@ -1236,7 +1221,7 @@ gnm_graph_exception (CORBA_Environment *ev)
                                 return err->mesg;
                         }
                 } else {
-                        return ev->_repo_id;
+                        return ev->_id;
                 }
         } else
                 return CORBA_exception_id (ev);

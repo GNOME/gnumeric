@@ -41,6 +41,7 @@
 #include <workbook.h>
 #include <commands.h>
 #include <selection.h>
+#include <ranges.h>
 
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>

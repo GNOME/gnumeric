@@ -29,9 +29,6 @@
 #include <math.h>
 #include <gdk/gdkkeysyms.h>
 #include <bonobo/bonobo-item-container.h>
-#include <bonobo/bonobo-view-frame.h>
-#include <bonobo/bonobo-client-site.h>
-#include <bonobo/bonobo-embeddable.h>
 #include <bonobo/bonobo-stream-memory.h>
 
 #include <gal/util/e-util.h>
@@ -50,9 +47,9 @@ sheet_object_bonobo_destroy (GtkObject *object)
 		sob->control_frame = NULL;
 	}
 
-	if (sob->object_server != NULL) {
-		bonobo_object_unref (BONOBO_OBJECT (sob->object_server));
-		sob->object_server = NULL;
+	if (sob->object_server != CORBA_OBJECT_NIL) {
+		bonobo_object_release_unref (sob->object_server, NULL);
+		sob->object_server = CORBA_OBJECT_NIL;
 	}
 
 	if (sob->object_id != NULL) {
@@ -107,8 +104,9 @@ sheet_object_bonobo_load_persist_file (SheetObjectBonobo *sob,
 	g_return_if_fail (IS_SHEET_OBJECT_BONOBO (sob));
 	g_return_if_fail (sob->has_persist_file);
 
-	pf = Bonobo_Unknown_queryInterface (BONOBO_OBJREF (sob->object_server),
-					    "IDL:Bonobo/PersistFile:1.0", ev);
+	pf = Bonobo_Unknown_queryInterface (
+		sob->object_server, "IDL:Bonobo/PersistFile:1.0", ev);
+
 	if (!BONOBO_EX (ev)) {
 		Bonobo_PersistFile_load (pf, fname, ev);
 		bonobo_object_release_unref (pf, NULL);
@@ -125,9 +123,9 @@ sheet_object_bonobo_load_persist_stream (SheetObjectBonobo *sob,
 	bonobo_return_if_fail (IS_SHEET_OBJECT_BONOBO (sob), ev);
 	g_return_if_fail (sob->has_persist_stream);
 
-	ps = Bonobo_Unknown_queryInterface (BONOBO_OBJREF (sob->object_server),
-					    "IDL:Bonobo/PersistStream:1.0",
-					    ev);
+	ps = Bonobo_Unknown_queryInterface (
+		sob->object_server, "IDL:Bonobo/PersistStream:1.0", ev);
+
 	if (!BONOBO_EX (ev)) {
 		Bonobo_PersistStream_load (ps,
 			(Bonobo_Stream) BONOBO_OBJREF (stream), "", ev);
@@ -145,9 +143,9 @@ sheet_object_bonobo_save_persist_stream (SheetObjectBonobo const *sob,
 	bonobo_return_if_fail (IS_SHEET_OBJECT_BONOBO (sob), ev);
 	g_return_if_fail (sob->has_persist_stream);
 
-	ps = Bonobo_Unknown_queryInterface (BONOBO_OBJREF (sob->object_server),
-					    "IDL:Bonobo/PersistStream:1.0",
-					    ev);
+	ps = Bonobo_Unknown_queryInterface (
+		sob->object_server, "IDL:Bonobo/PersistStream:1.0", ev);
+
 	if (!BONOBO_EX (ev)) {
 		Bonobo_PersistStream_save (ps,
 			(Bonobo_Stream) BONOBO_OBJREF (stream), "", ev);
@@ -395,8 +393,7 @@ sheet_object_bonobo_set_server (SheetObjectBonobo *sob,
 				BonoboObjectClient *server)
 {
 	g_return_val_if_fail (IS_SHEET_OBJECT_BONOBO (sob), FALSE);
-	g_return_val_if_fail (sob->object_server == NULL, FALSE);
-	g_return_val_if_fail (BONOBO_IS_OBJECT_CLIENT (server), FALSE);
+	g_return_val_if_fail (sob->object_server == CORBA_OBJECT_NIL, FALSE);
 
 	if (!bonobo_client_site_bind_embeddable (sob->control_frame, server))
 		return FALSE;

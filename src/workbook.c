@@ -326,8 +326,6 @@ workbook_container_get_object (BonoboObject *container, CORBA_char *item_name,
 static void
 workbook_bonobo_setup (Workbook *wb)
 {
-	wb->priv->bonobo_container = BONOBO_ITEM_CONTAINER (bonobo_item_container_new ());
-
 	/* FIXME : This is totaly broken.
 	 * 1) it does not belong here at the workbook level
 	 * 2) which bonobo object to use ?

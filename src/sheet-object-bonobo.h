@@ -2,6 +2,7 @@
 #define GNUMERIC_SHEET_OBJECT_BONOBO_H
 
 #include "sheet-object-impl.h"
+#include <bonobo/bonobo-stream.h>
 #include <bonobo/bonobo-control-frame.h>
 
 /*
@@ -27,7 +28,9 @@ typedef struct {
 	BonoboControlFrame   *client_site;
 	char *object_id;
 
-	Bonobo_ControlFactory *factory;
+	Bonobo_Unknown        object_server;
+	Bonobo_ControlFactory factory;
+
 	gboolean has_persist_file;
 	gboolean has_persist_stream;
 } SheetObjectBonobo;
@@ -44,7 +47,7 @@ char const *sheet_object_bonobo_get_object_iid	(SheetObjectBonobo const *sob);
 gboolean    sheet_object_bonobo_set_object_iid	(SheetObjectBonobo	 *sob,
 						 char const	   	 *object_id);
 gboolean    sheet_object_bonobo_set_server	(SheetObjectBonobo	 *sob,
-						 BonoboObjectClient	 *object_server);
+						 Bonobo_Unknown           object_server);
 
 void sheet_object_bonobo_load_file           (SheetObjectBonobo *sob,
 					      char const        *fname, 

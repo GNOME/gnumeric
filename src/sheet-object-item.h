@@ -2,7 +2,6 @@
 #define GNUMERIC_SHEET_OBJECT_ITEM_H
 
 #include "sheet-object-bonobo.h"
-#include <bonobo/bonobo-client-site.h>
 
 /*
  * SheetObjectItem:
@@ -32,5 +31,3 @@ SheetObject *sheet_object_item_new      (Sheet *sheet,
 					 const char *object_id);
 
 #endif /* GNUMERIC_SHEET_OBJECT_ITEM_H */
-
-

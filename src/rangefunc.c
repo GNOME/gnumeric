@@ -13,6 +13,7 @@
 #include "mathfunc.h"
 #include <math.h>
 #include <stdlib.h>
+#include <string.h>
 
 /* Arithmetic sum.  */
 int

@@ -20,6 +20,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <string.h>
 #include "gnumeric.h"
 #include "validation.h"
 #include "expr.h"
