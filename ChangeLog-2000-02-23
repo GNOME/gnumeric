@@ -1,3 +1,16 @@
+1999-01-26  Bruno Unna  <bruno@iac.com.mx>
+
+	* src/dialog-cell-format.c (create_coloring_page): Now, the
+	method to find out whether a cell has been colored or not
+	is to compare the RGB values to zero.
+	Commented out the attachment of background_radio_list
+	because the functionality is not ready yet.
+
+	* src/dialog-cell-format.c (apply_coloring_format): Added support
+	for background solid coloring. Howver, changes to the style of
+	the cells in this regard have no effect in the display. The reason
+	for this is unknown to me as of now.
+
 1999-01-25  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/sheet-autofill.c (sheet_autofill_dir): Add a call to
