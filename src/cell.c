@@ -160,8 +160,6 @@ cell_destroy (Cell *cell)
  * @rwinfo : An OPTIONAL pointer to allow for bounds checking and relocation
  *
  * This routine is used to move a cell to a different location:
- *
- * Auxiliary items canvas items attached to the cell are moved.
  */
 void
 cell_relocate (Cell *cell, GnmExprRewriteInfo const *rwinfo)

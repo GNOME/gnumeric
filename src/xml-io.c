@@ -2834,7 +2834,7 @@ xml_read_colrow_info (XmlParseContext *ctxt, xmlNodePtr tree,
 	if (xml_node_get_int (tree, "MarginA", &val))
 		info->margin_a = val;
 	if (xml_node_get_int (tree, "MarginB", &val))
-		info->margin_a = val;
+		info->margin_b = val;
 	if (xml_node_get_int (tree, "HardSize", &val))
 		info->hard_size = val;
 	if (xml_node_get_int (tree, "Hidden", &val) && val)

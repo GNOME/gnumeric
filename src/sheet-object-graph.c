@@ -35,6 +35,7 @@
 
 #ifdef NEW_GRAPHS
 #include <goffice/graph/gog-graph.h>
+#include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-renderer-pixbuf.h>
 #include <goffice/graph/gog-control-foocanvas.h>
 #include <graph.h>
@@ -58,7 +59,7 @@ typedef struct {
 	SheetObject  base;
 #ifdef NEW_GRAPHS
 	GogGraph	*graph;
-	GogRenderer	*renderer;
+	GObject		*renderer;
 #endif
 } SheetObjectGraph;
 typedef struct {
@@ -69,7 +70,7 @@ static GObjectClass *parent_klass;
 
 #ifdef NEW_GRAPHS
 static void
-sog_data_set_sheet (SheetObjectGraph *graph, GOData *data, Sheet *sheet)
+sog_data_set_sheet (G_GNUC_UNUSED SheetObjectGraph *sog, GOData *data, Sheet *sheet)
 {
 	if (IS_GNM_GO_DATA_SCALAR (data))
 		gnm_go_data_scalar_set_sheet (GNM_GO_DATA_SCALAR (data), sheet);
@@ -121,16 +122,16 @@ sheet_object_graph_new (GogGraph *graph)
 static void
 sheet_object_graph_finalize (GObject *obj)
 {
-	SheetObjectGraph *graph = SHEET_OBJECT_GRAPH (obj);
+	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (obj);
 
 #ifdef NEW_GRAPHS
-	if (graph->renderer != NULL) {
-		g_object_unref (graph->renderer);
-		graph->renderer = NULL;
+	if (sog->renderer != NULL) {
+		g_object_unref (sog->renderer);
+		sog->renderer = NULL;
 	}
-	if (graph->graph != NULL) {
-		g_object_unref (graph->graph);
-		graph->graph = NULL;
+	if (sog->graph != NULL) {
+		g_object_unref (sog->graph);
+		sog->graph = NULL;
 	}
 #endif
 
@@ -211,7 +212,7 @@ sheet_object_graph_print (SheetObject const *so, GnomePrintContext *ctx,
 			  double base_x, double base_y)
 {
 #if 0
-	SheetObjectGraph *graph = SHEET_OBJECT_GRAPH (so);
+	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
 	double coords [4];
 
 	sheet_object_position_pts_get (so, coords);
@@ -222,29 +223,41 @@ sheet_object_graph_print (SheetObject const *so, GnomePrintContext *ctx,
 #endif
 }
 
+#ifdef NEW_GRAPHS
+static void
+cb_update_graph (GogGraph *graph, SheetObjectGraph *sog)
+{
+	g_object_set (sog->renderer, "model", graph, NULL);
+	g_object_ref (G_OBJECT (graph));
+	g_object_unref (G_OBJECT (sog->graph));
+	sog->graph = graph;
+}
+#endif
+
 static void
 sheet_object_graph_user_config (SheetObject *so, SheetControl *sc)
 {
-	SheetObjectGraph *graph = SHEET_OBJECT_GRAPH (so);
+	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
 	WorkbookControlGUI *wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
 
-	g_return_if_fail (graph != NULL);
+	g_return_if_fail (sog != NULL);
 
-	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
-		return;
+#ifdef NEW_GRAPHS
+	sheet_object_graph_guru (wbcg, sog->graph,
+				 (GogGuruRegister)cb_update_graph, so);
+#endif
 }
 
 static gboolean
 sheet_object_graph_set_sheet (SheetObject *so, Sheet *sheet)
 {
-	SheetObjectGraph *graph = SHEET_OBJECT_GRAPH (so);
+	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
 
 #ifdef NEW_GRAPHS
-	if (graph->graph != NULL) {
-		GSList *ptr = gog_graph_get_data (graph->graph);
+	if (sog->graph != NULL) {
+		GSList *ptr = gog_graph_get_data (sog->graph);
 		for (; ptr != NULL ; ptr = ptr->next)
-			sog_data_set_sheet (graph, ptr->data, sheet);
+			sog_data_set_sheet (sog, ptr->data, sheet);
 	}
 #endif
 
@@ -255,7 +268,7 @@ static void
 sheet_object_graph_default_size (SheetObject const *so, double *w, double *h)
 {
 #ifdef NEW_GRAPHS
-	g_object_get (G_OBJECT (SHEET_OBJECT_GRAPH (so)->renderer),
+	g_object_get (SHEET_OBJECT_GRAPH (so)->renderer,
 		"logical_width_pts",  w,
 		"logical_height_pts", h,
 		NULL);
@@ -272,7 +285,7 @@ sheet_object_graph_position_changed (SheetObject const *so)
 	double coords [4];
 
 	sheet_object_position_pts_get (so, coords);
-	g_object_set (G_OBJECT (SHEET_OBJECT_GRAPH (so)->renderer),
+	g_object_set (SHEET_OBJECT_GRAPH (so)->renderer,
 		"logical_width_pts",  fabs (coords[2] - coords[0]),
 		"logical_height_pts", fabs (coords[3] - coords[1]),
 		NULL);
@@ -306,12 +319,7 @@ sheet_object_graph_class_init (GObjectClass *klass)
 static void
 sheet_object_graph_init (GObject *obj)
 {
-	SheetObjectGraph *graph;
-	SheetObject *so;
-
-	graph = SHEET_OBJECT_GRAPH (obj);
-
-	so = SHEET_OBJECT (obj);
+	SheetObject *so = SHEET_OBJECT (obj);
 	so->anchor.direction = SO_DIR_DOWN_RIGHT;
 }
 
@@ -319,3 +327,24 @@ GSF_CLASS (SheetObjectGraph, sheet_object_graph,
 	   sheet_object_graph_class_init, sheet_object_graph_init,
 	   SHEET_OBJECT_TYPE);
 
+#ifdef NEW_GRAPHS
+
+static void
+cb_graph_guru_done (WorkbookControlGUI *wbcg)
+{
+	wbcg_edit_detach_guru (wbcg);
+	wbcg_edit_finish (wbcg, FALSE);
+}
+
+void
+sheet_object_graph_guru (WorkbookControlGUI *wbcg, GogGraph *graph,
+			 GogGuruRegister handler, gpointer handler_data)
+{
+	GtkWidget *dialog = gog_guru (NULL, GOG_DATA_ALLOCATOR (wbcg),
+		       COMMAND_CONTEXT (wbcg), wbcg_toplevel (wbcg),
+		       handler, handler_data);
+	wbcg_edit_attach_guru (wbcg, dialog);
+	g_object_set_data_full (G_OBJECT (dialog),
+		"guru", wbcg, (GDestroyNotify) cb_graph_guru_done);
+}
+#endif

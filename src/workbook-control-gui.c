@@ -658,7 +658,7 @@ cb_sheet_label_button_press (GtkWidget *widget, GdkEventButton *event,
 	notebook = child->parent;
 	page_number = gtk_notebook_page_num (GTK_NOTEBOOK (notebook), child);
 
-	gtk_notebook_set_page (GTK_NOTEBOOK (notebook), page_number);
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), page_number);
 
 	if (event->button == 1 || NULL != scg->wbcg->rangesel)
 		return TRUE;
@@ -999,7 +999,7 @@ wbcg_sheet_focus (WorkbookControl *wbc, Sheet *sheet)
 
 	/* A sheet added in another view may not yet have a view */
 	if (i >= 0) {
-		gtk_notebook_set_page (wbcg->notebook, i);
+		gtk_notebook_set_current_page (wbcg->notebook, i);
 		zoom_changed (wbcg, sheet);
 	}
 }
@@ -3131,24 +3131,12 @@ cb_add_graph (GogGraph *graph, gpointer wbcg)
 	scg_mode_create_object (scg, sheet_object_graph_new (graph));
 }
 
-static void
-cb_graph_guru_done (WorkbookControlGUI *wbcg)
-{
-	wbcg_edit_detach_guru (wbcg);
-	wbcg_edit_finish (wbcg, FALSE);
-}
-
 #endif
 static void
 cb_launch_graph_guru (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 #ifdef NEW_GRAPHS
-	GtkWidget *dialog = gog_guru (NULL, GOG_DATA_ALLOCATOR (wbcg),
-		       COMMAND_CONTEXT (wbcg), wbcg_toplevel (wbcg),
-		       cb_add_graph, (gpointer)wbcg);
-	wbcg_edit_attach_guru (wbcg, dialog);
-	g_object_set_data_full (G_OBJECT (dialog),
-		"guru", wbcg, (GDestroyNotify) cb_graph_guru_done);
+	sheet_object_graph_guru (wbcg, NULL, cb_add_graph, wbcg);
 #endif
 }
 
@@ -4417,10 +4405,10 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 			return;
 
 		if (!wbcg_edit_finish (wbcg, TRUE))
-			gtk_notebook_set_page (notebook, prev);
+			gtk_notebook_set_current_page (notebook, prev);
 		else
 			/* Looks silly, but is really neccesarry */
-			gtk_notebook_set_page (notebook, page_num);
+			gtk_notebook_set_current_page (notebook, page_num);
 		return;
 	}
 

@@ -113,7 +113,7 @@ wbcc_sheet_focus (WorkbookControl *wbc, Sheet *sheet)
 
 	/* A sheet added in another view may not yet have a view */
 	if (i >= 0) {
-		gtk_notebook_set_page (wbcg->notebook, i);
+		gtk_notebook_set_current_page (wbcg->notebook, i);
 		bonobo_zoomable_report_zoom_level_changed
 			(wbcc->zoomable, sheet->last_zoom_factor_used, NULL);
 	}
