@@ -1,5 +1,18 @@
 2002-12-17  Morten Welinder  <terra@diku.dk>
 
+	* src/xml-io.c (xml_io_conventions): New function.
+	(xml_parse_ctx_new): Add exprconv member to our context.
+	(xml_parse_ctx_destroy): Free it.
+	(xml_write_style, cb_xml_write_name, xml_read_names,
+	xml_read_style, xml_write_cell_and_position,
+	xml_cell_set_array_expr, xml_read_cell, xml_read_cell_copy): Use
+	exprconv.
+	(xml_cell_set_array_expr, xml_not_used_old_array_spec): Add parse
+	context argument.  All callers changed.
+	(xml_write_cell_and_position): Use value_get_as_gstring to get
+	non-local error names.
+	(xml_write_filter_expr): Ditto.
+
 	* src/gutils.c (gnm_strunescape): New function.
 
 	* src/parser.y (yylex): Handle error constants that don't end in

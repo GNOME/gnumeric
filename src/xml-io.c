@@ -81,6 +81,26 @@ static GnmFileSaver *xml_saver = NULL;
 
 /* ------------------------------------------------------------------------- */
 
+static GnmExprConventions *
+xml_io_conventions (void)
+{
+	GnmExprConventions *res = gnm_expr_conventions_new ();
+
+	res->decimal_sep_dot = TRUE;
+	res->ref_parser = gnm_1_0_rangeref_parse;
+	res->range_sep_colon = TRUE;
+	res->sheet_sep_exclamation = TRUE;
+	res->dots_in_names = TRUE;
+	res->output_sheet_name_sep = "!";
+	res->output_argument_sep = ",";
+	res->output_array_col_sep = ",";
+	res->output_translated = FALSE;
+	res->unknown_function_handler = gnm_func_placeholder_factory;
+
+	return res;
+}
+
+
 XmlParseContext *
 xml_parse_ctx_new (xmlDocPtr     doc,
 		   xmlNsPtr      ns,
@@ -101,6 +121,7 @@ xml_parse_ctx_new (xmlDocPtr     doc,
 	ctxt->expr_map     = g_hash_table_new (g_direct_hash, g_direct_equal);
 	ctxt->shared_exprs = g_ptr_array_new ();
 	ctxt->wb_view      = wb_view;
+	ctxt->exprconv     = xml_io_conventions ();
 
 	return ctxt;
 }
@@ -112,6 +133,7 @@ xml_parse_ctx_destroy (XmlParseContext *ctxt)
 
 	g_hash_table_destroy (ctxt->expr_map);
 	g_ptr_array_free (ctxt->shared_exprs, TRUE);
+	gnm_expr_conventions_free (ctxt->exprconv);
 
 	g_free (ctxt);
 }
@@ -617,12 +639,12 @@ xml_write_style (XmlParseContext *ctxt,
 
 		parse_pos_init (&pp, ctxt->wb, ctxt->sheet, 0, 0);
 		if (v->expr[0] != NULL &&
-		    (tmp = gnm_expr_as_string (v->expr[0], &pp, gnm_expr_conventions_default_1_0)) != NULL) {
+		    (tmp = gnm_expr_as_string (v->expr[0], &pp, ctxt->exprconv)) != NULL) {
 			xmlNewChild (child, child->ns, CC2XML ("Expression0"), CC2XML (tmp));
 			g_free (tmp);
 		}
 		if (v->expr[1] != NULL &&
-		    (tmp = gnm_expr_as_string (v->expr[1], &pp, gnm_expr_conventions_default_1_0)) != NULL) {
+		    (tmp = gnm_expr_as_string (v->expr[1], &pp, ctxt->exprconv)) != NULL) {
 			xmlNewChild (child, child->ns, CC2XML ("Expression1"), CC2XML (tmp));
 			g_free (tmp);
 		}
@@ -655,7 +677,7 @@ cb_xml_write_name (gpointer key, GnmNamedExpr *nexpr, XMLWriteNames *user)
 	if (txt)
 		xmlFree (txt);
 
-	expr_str = expr_name_as_string (nexpr, NULL, gnm_expr_conventions_default_1_0);
+	expr_str = expr_name_as_string (nexpr, NULL, user->ctxt->exprconv);
 	txt = xmlEncodeEntitiesReentrant (user->ctxt->doc, CC2XML (expr_str));
 	xmlNewChild (nameNode, user->ctxt->ns, CC2XML ("value"), txt);
 	if (txt)
@@ -730,8 +752,8 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree,
 
 		parse_error_init (&perr);
 		expr = gnm_expr_parse_str (CXML2C (expr_str), &pp,
-			GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC,
-			gnm_expr_conventions_default_1_0, &perr);
+					   GNM_EXPR_PARSE_DEFAULT,
+					   ctxt->exprconv, &perr);
 		if (exp != NULL) {
 			char *err = NULL;
 			expr_name_add (&pp, CXML2C (name_str), expr, &err, TRUE);
@@ -1444,8 +1466,8 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 				xmlChar *content = xml_node_get_cstr (e_node, NULL);
 				if (content != NULL) {
 					expr0 = gnm_expr_parse_str (CXML2C (content), &pp,
-							GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC,
-							gnm_expr_conventions_default_1_0, NULL);
+								    GNM_EXPR_PARSE_DEFAULT,
+								    ctxt->exprconv, NULL);
 					xmlFree (content);
 				}
 			}
@@ -1454,8 +1476,8 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 				xmlChar *content = xml_node_get_cstr (e_node, NULL);
 				if (content != NULL) {
 					expr1 = gnm_expr_parse_str (CXML2C (content), &pp,
-							GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC,
-							gnm_expr_conventions_default_1_0, NULL);
+								    GNM_EXPR_PARSE_DEFAULT,
+								    ctxt->exprconv, NULL);
 					xmlFree (content);
 				}
 			}
@@ -1605,7 +1627,7 @@ static xmlNodePtr
 xml_write_cell_and_position (XmlParseContext *ctxt, Cell const *cell, ParsePos const *pp)
 {
 	xmlNodePtr cellNode;
-	xmlChar *text, *tstr;
+	xmlChar *tstr;
 	GnmExprArray const *ar;
 	gboolean write_contents = TRUE;
 	gboolean const is_shared_expr =
@@ -1634,20 +1656,18 @@ xml_write_cell_and_position (XmlParseContext *ctxt, Cell const *cell, ParsePos c
 	}
 
 	if (write_contents) {
+		GString *str = g_string_sized_new (1000);
 		if (cell_has_expr (cell)) {
-			GString *str = g_string_sized_new (1000);
 			g_string_append_c (str, '=');
-			gnm_expr_as_gstring (str, cell->base.expression, pp, gnm_expr_conventions_default_1_0);
-			text = C2XML (g_string_free (str, FALSE));
+			gnm_expr_as_gstring (str, cell->base.expression, pp, ctxt->exprconv);
 		} else
-			text = C2XML (value_get_as_string (cell->value));
-
-		tstr = xmlEncodeEntitiesReentrant (ctxt->doc, text);
+			value_get_as_gstring (str, cell->value, ctxt->exprconv);
+		tstr = xmlEncodeEntitiesReentrant (ctxt->doc, CC2XML (str->str));
+		g_string_free (str, TRUE);
 
 		xmlNodeSetContent (cellNode, CC2XML (tstr));
 		if (tstr)
 			xmlFree (tstr);
-		g_free (text);
 
 		if (!cell_has_expr (cell)) {
 			g_return_val_if_fail (cell->value != NULL, cellNode);
@@ -1694,14 +1714,16 @@ xml_write_cell (XmlParseContext *ctxt, Cell const *cell)
  * @cols : The number of columns.
  */
 static void
-xml_cell_set_array_expr (Cell *cell, char const *text,
+xml_cell_set_array_expr (XmlParseContext *ctxt,
+			 Cell *cell, char const *text,
 			 int const rows, int const cols)
 {
 	ParsePos pp;
-	GnmExpr const *expr = gnm_expr_parse_str (text,
-		parse_pos_init_cell (&pp, cell),
-		GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC,
-		gnm_expr_conventions_default_1_0, NULL);
+	GnmExpr const *expr =
+		gnm_expr_parse_str (text,
+				    parse_pos_init_cell (&pp, cell),
+				    GNM_EXPR_PARSE_DEFAULT,
+				    ctxt->exprconv, NULL);
 
 	g_return_if_fail (expr != NULL);
 	cell_set_array_formula (cell->base.sheet,
@@ -1718,7 +1740,8 @@ xml_cell_set_array_expr (Cell *cell, char const *text,
  *     If it is not a member of an array return TRUE.
  */
 static gboolean
-xml_not_used_old_array_spec (Cell *cell, char *content)
+xml_not_used_old_array_spec (XmlParseContext *ctxt,
+			     Cell *cell, char *content)
 {
 	int rows, cols, row, col;
 
@@ -1751,7 +1774,7 @@ xml_not_used_old_array_spec (Cell *cell, char *content)
 
 	if (row == 0 && col == 0) {
 		*expr_end = '\0';
-		xml_cell_set_array_expr (cell, content + 2, rows, cols);
+		xml_cell_set_array_expr (ctxt, cell, content + 2, rows, cols);
 	}
 
 	return FALSE;
@@ -1891,10 +1914,10 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 		if (is_post_52_array) {
 			g_return_val_if_fail (content[0] == '=', NULL);
 
-			xml_cell_set_array_expr (cell, CXML2C (content + 1),
+			xml_cell_set_array_expr (ctxt, cell, CXML2C (content + 1),
 						 array_rows, array_cols);
 		} else if (ctxt->version >= GNUM_XML_V3 ||
-			   xml_not_used_old_array_spec (cell, XML2C (content))) {
+			   xml_not_used_old_array_spec (ctxt, cell, XML2C (content))) {
 			if (is_value)
 				cell_set_value (cell,
 					value_new_from_string (value_type,
@@ -1915,9 +1938,9 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 				char const *expr_start = gnm_expr_char_start_p (CXML2C (content));
 				if (NULL != expr_start && *expr_start)
 					expr = gnm_expr_parse_str (expr_start,
-						parse_pos_init_cell (&pos, cell),
-						GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC,
-						gnm_expr_conventions_default_1_0, NULL);
+								   parse_pos_init_cell (&pos, cell),
+								   GNM_EXPR_PARSE_DEFAULT,
+								   ctxt->exprconv, NULL);
 				if (expr != NULL) {
 					cell_set_expr (cell, expr);
 					gnm_expr_unref (expr);
@@ -2076,15 +2099,16 @@ static void
 xml_write_filter_expr (XmlParseContext *ctxt, xmlNode *field,
 		       GnmFilterCondition const *cond, unsigned i)
 {
-	char    *text;
+	GString *text = g_string_new ("");
+
 	xml_node_set_cstr (field, filter_expr_attrs[i].op,
 			   filter_cond_name [cond->op[i]]);
 	xml_node_set_int (field, filter_expr_attrs[i].valtype,
 			  cond->value[i]->type);
 
-	text = C2XML (value_get_as_string (cond->value[i]));
-	xml_node_set_cstr (field, filter_expr_attrs[i].val, text);
-	g_free (text);
+	value_get_as_gstring (text, cond->value[i], ctxt->exprconv);
+	xml_node_set_cstr (field, filter_expr_attrs[i].val, CC2XML (text->str));
+	g_string_free (text, TRUE);
 }
 
 static void
@@ -2927,8 +2951,8 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
 			g_return_if_fail (content[0] == '=');
 
 			expr = gnm_expr_parse_str (CXML2C (content), &pp,
-				GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC,
-				gnm_expr_conventions_default_1_0, NULL);
+						   GNM_EXPR_PARSE_DEFAULT,
+						   ctxt->exprconv, NULL);
 
 			g_return_if_fail (expr != NULL);
 #warning TODO : arrays

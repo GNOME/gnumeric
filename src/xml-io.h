@@ -26,6 +26,8 @@ struct _XmlParseContext {
 				 * When reading this is a map from index -> expr pointer
 				 */
 	GnumericXMLVersion    version;
+
+	GnmExprConventions *exprconv;
 };
 
 XmlParseContext *xml_parse_ctx_new     (xmlDoc		*doc,
