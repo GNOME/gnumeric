@@ -450,7 +450,6 @@ scenarios_cancel_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	restore_old_values (state);
 
-	gtk_widget_destroy (state->base.dialog);
 	wbc = WORKBOOK_CONTROL (state->base.wbcg);
 
 	/* Remove report sheets created on this dialog session. */
@@ -470,6 +469,7 @@ scenarios_cancel_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	scenario_recover_all (state->base.sheet->scenarios);
 
 	scenario_manager_free (state);
+	gtk_widget_destroy (state->base.dialog);
 }
 
 static void

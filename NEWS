@@ -32,7 +32,8 @@ John Gill:
 	* Heuristics to improve finger feel of autofilter range selection
 
 Jukka:
-	* Fixed solver's model maximization button
+	* Fixed solver's model maximization button.
+	* Fixed crash with Cancel in Scenarios->View.
 
 Nick Lamb:
 	* Improve import of ancient xls.

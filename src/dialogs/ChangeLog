@@ -1,5 +1,8 @@
 2003-09-23  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
+	* dialog-analysis-tools.c (scenarios_cancel_clicked_cb): Fix a
+	crash in cancel button.
+
 	* solver.glade: Fixed the groupping of the minimize button.
 
 2003-09-15  Morten Welinder  <terra@gnome.org>
