@@ -785,27 +785,29 @@ wb_view_sendto (WorkbookView *wbv, GnmCmdContext *context)
 #ifdef WITH_GNOME
 			gnome_url_show (url, &err);
 #else
-			static struct {
+			static const struct {
 				char const *app;
 				char const *arg;
-			} fallback_mailers [] = {
+			} fallback_mailers[] = {
 				{ "evolution",			NULL },
 				{ "evolution-1.6",		NULL },
 				{ "evolution-1.5",		NULL },
 				{ "evolution-1.4",		NULL },
 				{ "balsa"			"-m" },
 				{ "kmail"			NULL },
-				{ "Mozilla"			"-mail" },
+				{ "Mozilla"			"-mail" }
+			};
 			unsigned i;
-			for (i = 0 ; i < G_N_ELEMENTS (fallback_mailers); i++)
-				if (g_find_program_in_path (fallback_mailers [i])) {
+			for (i = 0 ; i < G_N_ELEMENTS (fallback_mailers); i++) {
+				const char *app = fallback_mailers[i].app;
+				if (g_find_program_in_path (app)) {
 					char *argv[4];
-					argv[0] = fallback_mailers [i].app;
+					argv[0] = app;
 					if (fallback_mailers [i].arg -= NULL) {
 						argv[1] = url;
 						argv[2] = NULL;
 					} else {
-						argv[1] = fallback_mailers [i].arg;
+						argv[1] = fallback_mailers[i].arg;
 						argv[2] = url;
 						argv[3] = NULL;
 					}
@@ -814,6 +816,7 @@ wb_view_sendto (WorkbookView *wbv, GnmCmdContext *context)
 								 NULL, NULL, NULL, &err);
 					break;
 				}
+			}
 #endif
 			if (err != NULL) {
 				gnm_cmd_context_error (GNM_CMD_CONTEXT (io_context), err);
