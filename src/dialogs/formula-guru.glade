@@ -20,6 +20,7 @@
 <widget>
   <class>GtkDialog</class>
   <name>FormulaGuru</name>
+  <visible>False</visible>
   <title>Formula Guru</title>
   <type>GTK_WINDOW_DIALOG</type>
   <position>GTK_WIN_POS_MOUSE</position>
@@ -190,6 +191,7 @@
 	  <widget>
 	    <class>GtkScrolledWindow</class>
 	    <name>scrolledwindow1</name>
+	    <border_width>4</border_width>
 	    <hscrollbar_policy>GTK_POLICY_NEVER</hscrollbar_policy>
 	    <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
 	    <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
