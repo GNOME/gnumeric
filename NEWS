@@ -3,6 +3,7 @@ Gnumeric 0.68
 Almer :
 	* Fix backspace key.
 	* Fix autosave dialog.
+	* Shine-up string functions.
 
 Jody :
 	* Even more missing files.

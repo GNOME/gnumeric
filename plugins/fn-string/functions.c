@@ -64,13 +64,7 @@ static char *help_code = {
 static Value *
 gnumeric_code (FunctionEvalInfo *ei, Value **argv)
 {
-	unsigned char c;
-
-	if (argv[0]->type != VALUE_STRING)
-		return value_new_error (ei->pos, _("Type mismatch"));
-
-	c = argv[0]->v_str.val->str[0];
-	return value_new_int (c);
+	return value_new_int (*value_peek_string (argv[0]));
 }
 
 /***************************************************************************/
@@ -87,7 +81,7 @@ static char *help_exact = {
 	   "EXACT(\"key\",\"key\") equals TRUE.\n"
 	   "EXACT(\"key\",\"Key\") equals FALSE.\n"
 	   "\n"
-	   "@SEEALSO=LEN")  /* FIXME: DELTA, LEN, SEARCH */
+	   "@SEEALSO=LEN, SEARCH")  /* FIXME: DELTA */
 };
 
 static Value *
@@ -172,11 +166,10 @@ static Value *
 gnumeric_lower (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
-	unsigned char *s, *p;
+	char *s;
 
 	s = value_get_as_string (argv[0]);
-	for (p = s; *p; p++)
-		*p = tolower (*p);
+	g_strdown (s);
 	v = value_new_string (s);
 	g_free (s);
 
@@ -200,16 +193,12 @@ static char *help_mid = {
 };
 
 static Value *
-gnumeric_mid  (FunctionEvalInfo *ei, Value **argv)
+gnumeric_mid (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
 	int pos, len;
-	char *s, *source;
-
-	if (argv[0]->type != VALUE_STRING ||
-	    !VALUE_IS_NUMBER (argv[1]) ||
-	    !VALUE_IS_NUMBER (argv[2]))
-		return value_new_error (ei->pos, _("Type mismatch"));
+	char *s;
+	char const *source;
 
 	pos = value_get_as_int (argv[1]);
 	len = value_get_as_int (argv[2]);
@@ -219,7 +208,7 @@ gnumeric_mid  (FunctionEvalInfo *ei, Value **argv)
 
 	pos--;  /* Make pos zero-based.  */
 
-	source = argv[0]->v_str.val->str;
+	source = value_peek_string (argv[0]);
 	len = MIN (len, (int)strlen (source) - pos);
 
 	s = g_new (gchar, len + 1);
@@ -288,11 +277,10 @@ static Value *
 gnumeric_upper (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
-	unsigned char *s, *p;
+	char *s;
 
 	s = value_get_as_string (argv[0]);
-	for (p = s; *p; p++)
-		*p = toupper (*p);
+	g_strup (s);
 	v = value_new_string (s);
 	g_free (s);
 
@@ -317,36 +305,20 @@ static Value *
 gnumeric_concatenate (FunctionEvalInfo *ei, GList *l)
 {
 	Value *v;
-	char *s, *p, *tmp;
+	GString *s;
 
-	if (l==NULL)
+	if (l == NULL)
 		return value_new_error (ei->pos,
 					_("Invalid number of arguments"));
 
-	s = g_new (gchar, 1);
-	*s = '\0';
-	while ( l != NULL &&
-		(v = eval_expr (ei->pos, l->data, EVAL_STRICT)) != NULL) {
-/*
-		if (v->type != VALUE_STRING) {
-			return value_new_error (ei->pos,
-			_("Invalid argument"));
-			value_release (v);
-			return NULL;
-		}
-*/
-		tmp = value_get_as_string (v);
-		/* FIXME: this could be massively sped-up with strlen's etc... */
-		p = g_strconcat (s, tmp, NULL);
-		g_free (tmp);
-		value_release (v);
-		g_free (s);
-		s = p;
+	s = g_string_new ("");
+	while (l != NULL && (v = eval_expr (ei->pos, l->data, EVAL_STRICT)) != NULL) {
+		g_string_append (s, value_peek_string (v));
 		l = g_list_next (l);
 	}
 
-	v = value_new_string (s);
-	g_free (s);
+	v = value_new_string (s->str);
+	g_string_free (s, TRUE);
 
 	return v;
 }
@@ -442,8 +414,8 @@ static char *help_find = {
 	N_("@FUNCTION=FIND\n"
 	   "@SYNTAX=FIND(string1,string2[,start])\n"
 	   "@DESCRIPTION="
-	   "FIND returns position of @string1 in @string2 (case-sesitive), "
-	   "searching only from character @start onwards (assumed 1 if "
+	   "FIND returns position of @string1 in @string2 (case-sensitive), "
+	   "searching only from character @start onwards (assuming 1 if "
 	   "omitted)."
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -645,36 +617,32 @@ static Value *
 gnumeric_replace (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
-	gchar *s;
+	GString *s;
 	gint start, num, oldlen, newlen;
-
-	/* Why do we need this ? */
-	if (argv[0]->type != VALUE_STRING ||
-	    argv[3]->type != VALUE_STRING )
-		return value_new_error (ei->pos, _("Type mismatch"));
+	char const *old;
+	char const *new;
 
 	start = value_get_as_int (argv[1]);
 	num = value_get_as_int (argv[2]);
-	oldlen = strlen (argv[0]->v_str.val->str);
+	old = value_peek_string (argv[0]);
+	oldlen = strlen (old);
 
 	if (start <= 0 || num <= 0)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
+	start--;  /* Make this zero-based.  */
 
-	if (--start + num > oldlen)
+	if (start + num > oldlen)
 		num = oldlen - start;
-	newlen = strlen (argv[3]->v_str.val->str);
 
-	s = g_new (gchar, 1 + newlen + oldlen - num);
-	strncpy (s, argv[0]->v_str.val->str, start);
-	strncpy (&s[start], argv[3]->v_str.val->str, newlen);
-	strncpy (&s[start+newlen], &argv[0]->v_str.val->str[start+num],
-		 oldlen - num - start );
+	new = value_peek_string (argv[3]);
+	newlen = strlen (new);
 
-	s[newlen + oldlen - num] = '\0';
+	s = g_string_new (old);
+	g_string_erase (s, start, num);
+	g_string_insert (s, start, new);
 
-	v = value_new_string (s);
-
-	g_free (s);
+	v = value_new_string (s->str);
+	g_string_free (s, TRUE);
 
 	return v;
 }
@@ -1301,6 +1269,7 @@ match_again:
 /***************************************************************************/
 
 void string_functions_init (void);
+
 void
 string_functions_init (void)
 {

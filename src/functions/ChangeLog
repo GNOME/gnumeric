@@ -1,3 +1,13 @@
+2001-07-07  Almer S. Tigelaar  <almer@gnome.org>
+
+	* fn-string.c (gnumeric_char): Beautify.
+	(gnumeric_code): Simplify, no need to check type.
+	(gnumeric_lower): Use gstrdown.
+	(gnumeric_mid): Beautify, no need to check type.
+	(gnumeric_upper): Use gstrup.
+	(gnumeric_concatenate): Drastically simplify using GString.
+	(gnumeric_replace): Idem.
+
 2001-06-28  Jody Goldberg <jgoldberg@home>
 
 	* Release 0.67
