@@ -1270,8 +1270,9 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		}
 		if (res->type == VALUE_ARRAY &&
 		    !(flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR)) {
+			a = value_dup (res->v_array.vals[0][0]);
 			value_release (res);
-			return value_new_error_VALUE (pos);
+			return a;
 		}
 		return res;
 	}
