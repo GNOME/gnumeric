@@ -84,8 +84,8 @@ oo_write_mimetype (GnmOOExport *state, GsfOutput *child)
 
 /*****************************************************************************/
 
-static unsigned oo_max_cols () { return 256; }
-static unsigned oo_max_rows () { return 32000; }
+static unsigned oo_max_cols (void) { return 256; }
+static unsigned oo_max_rows (void) { return 32000; }
 
 static void
 oo_start_style (GsfXMLOut *xml, char const *name, char const *family)
