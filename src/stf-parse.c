@@ -1131,7 +1131,8 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 		GPtrArray *line = g_ptr_array_index (lines, lrow);
 
 		for (lcol = 0; lcol < line->len; lcol++) {
-			if (parseoptions->col_import_array[lcol]) {
+			if (parseoptions->col_import_array == NULL ||
+			    parseoptions->col_import_array[lcol]) {
 				char *text = g_ptr_array_index (line, lcol);
 				if (text) {
 					Value *v;
@@ -1181,7 +1182,8 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 		GnmDateConventions date_conv = {FALSE};
 
 		for (col = 0; col < line->len; col++) {
-			if (parseoptions->col_import_array[col]) {
+			if (parseoptions->col_import_array == NULL ||
+			    parseoptions->col_import_array[col]) {
 				char *text = g_ptr_array_index (line, col);
 
 				if (text) {

@@ -121,13 +121,18 @@ stf_apply_formats (StfParseOptions_t *parseoptions,
 	unsigned int ui;
 	Range range;
 
+	/* If we didn't use the stf dialog, then formats will be NULL */
+	if (parseoptions->formats == NULL)
+		return;
+
 	range.start.col = col;
 	range.start.row = start_row;
 	range.end.col   = col;
 	range.end.row   = end_row;
 
 	for (ui = 0; ui < parseoptions->formats->len; ui++) {
-		if (parseoptions->col_import_array[ui]) {
+		if (parseoptions->col_import_array == NULL ||
+		    parseoptions->col_import_array[ui]) {
 			MStyle *style = mstyle_new ();
 			StyleFormat *sf = g_ptr_array_index 
 				(parseoptions->formats, ui);

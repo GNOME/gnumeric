@@ -1,4 +1,8 @@
-2003-07006  Andreas J. Guelzow <aguelzow@taliesin.ca>
+2003-07-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* graph/plugins/plot_pie/gog-ring-prefs.glade: colour -> color
+
+2003-07-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* graph/plugins/plot_pie/gog-pie-prefs.glade: colour -> color
 

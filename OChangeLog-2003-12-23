@@ -1,3 +1,10 @@
+2003-07-06  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/stf-parse.c (stf_parse_sheet): no col_import_array means 
+	  we want to import all columns
+	(stf_parse_region): ditto
+	* src/stf.c (stf_apply_formats): ditto
+
 2003-07-06  Rodrigo Moya <rodrigo@gnome-db.org>
 
 	* configure.in:
