@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<gnumeric_plugin_group>
+<plugin id="Gnumeric_PythonLoader">
+	<information name="Python plugin loader" description="This plugin provides support for Python plugins"/>
+	<loader type="g_module">
+		<attribute name="module_file" value="python_loader.so"/>
+	</loader>
+	<services>
+		<service type="plugin_loader" id="python"></service>
+	</services>
+</plugin>
+</gnumeric_plugin_group>

@@ -1,0 +1,5 @@
+2001-03-05  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* Makefile.am, plugin.xml, py-gnumeric.c, py-gnumeric.h,
+	python-loader.c, README-IMPORTANT:
+	New plugin, loader for Python plugins.
