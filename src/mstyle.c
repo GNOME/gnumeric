@@ -141,7 +141,8 @@ struct _GnmStyle {
 #define MSTYLE_ANY_FLOAT             MSTYLE_FONT_SIZE
 
 
-const char *mstyle_names[MSTYLE_ELEMENT_MAX] = {
+static const char *
+mstyle_names[MSTYLE_ELEMENT_MAX] = {
 	"--UnSet--",
 	"--Conflict--",
 	"Color.Back",
