@@ -30,6 +30,17 @@
  * MISC UTILITY FUNCTIONS
  *************************************************************************************************/
 
+static void
+main_page_update_preview (DruidPageData_t *pagedata)
+{
+	RenderData_t *renderdata = pagedata->main.main_run_renderdata;
+
+	stf_parse_general_free (pagedata->lines);
+	pagedata->lines = stf_parse_lines (pagedata->data, TRUE);
+	stf_preview_render (renderdata);
+}
+
+
 /**
  * main_page_set_spin_button_adjustment
  * @spinbutton : the spinbutton to adjust
@@ -66,8 +77,8 @@ main_page_import_range_changed (DruidPageData_t *data)
 	startrow = gtk_spin_button_get_value_as_int (data->main.main_startrow);
 	stoprow  = gtk_spin_button_get_value_as_int (data->main.main_stoprow);
 
-	if (stoprow > data->lines) {
-	     stoprow = data->lines;
+	if (stoprow > (int)data->lines->len) {
+	     stoprow = data->lines->len;
 	     gtk_spin_button_set_value (data->main.main_stoprow, stoprow);
 	}
 
@@ -77,10 +88,10 @@ main_page_import_range_changed (DruidPageData_t *data)
 	}
 
 	main_page_set_spin_button_adjustment (data->main.main_startrow, 1, stoprow);
-	main_page_set_spin_button_adjustment (data->main.main_stoprow, startrow, data->lines);
+	main_page_set_spin_button_adjustment (data->main.main_stoprow, startrow, data->lines->len);
 
 	data->importlines = (stoprow - startrow) + 1;
-	linescaption = g_strdup_printf (_("%d of %d lines to import"), data->importlines, data->lines);
+	linescaption = g_strdup_printf (_("%d of %d lines to import"), data->importlines, data->lines->len);
 	gtk_label_set_text (data->main.main_lines, linescaption);
 	g_free (linescaption);
 }
@@ -150,7 +161,6 @@ main_page_stringindicator_change (G_GNUC_UNUSED GtkWidget *widget,
 	stf_parse_options_csv_set_indicator_2x_is_single  (parseoptions,
 							   gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->main.main_2x_indicator)));
 
-	data->lines    = stf_parse_get_rowcount (parseoptions, data->data);
 	main_page_stoprow_changed (NULL, data);
 }
 
@@ -166,8 +176,6 @@ main_page_source_format_toggled (G_GNUC_UNUSED GtkWidget *widget,
 	       (GTK_WIDGET (data->main.main_textindicator), TRUE);
 	  gtk_widget_set_sensitive
 	       (GTK_WIDGET (data->main.main_textfield), TRUE);
-	  data->lines = stf_parse_get_rowcount
-	       (data->csv.csv_run_parseoptions, data->data);
      } else {
 	  gtk_widget_set_sensitive
 	       (GTK_WIDGET (data->main.main_2x_indicator), FALSE);
@@ -175,12 +183,28 @@ main_page_source_format_toggled (G_GNUC_UNUSED GtkWidget *widget,
 	       (GTK_WIDGET (data->main.main_textindicator), FALSE);
 	  gtk_widget_set_sensitive
 	       (GTK_WIDGET (data->main.main_textfield), FALSE);
-	  data->lines = stf_parse_get_rowcount
-	       (data->fixed.fixed_run_parseoptions, data->data);
      }
      main_page_stoprow_changed (NULL, data);
 }
 
+/**
+ * main_page_prepare
+ * @page : format page
+ * @druid : gnome druid hosting @page
+ * @data : mother struct
+ *
+ * This will prepare the widgets on the format page before
+ * the page gets displayed
+ *
+ * returns : nothing
+ **/
+static void
+main_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
+		   G_GNUC_UNUSED GnomeDruid *druid,
+		   DruidPageData_t *pagedata)
+{
+	main_page_update_preview (pagedata);
+}
 
 
 /*************************************************************************************************
@@ -207,7 +231,6 @@ void
 stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 {
 	RenderData_t *renderdata;
-	GPtrArray *lines;
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *cell;
 
@@ -221,12 +244,13 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	pagedata->main.main_textindicator = GTK_COMBO    (glade_xml_get_widget (gui, "main_textindicator"));
 	pagedata->main.main_textfield     = GTK_ENTRY    (glade_xml_get_widget (gui, "main_textfield"));
 
-	renderdata = pagedata->main.main_run_renderdata = stf_preview_new (pagedata->main.main_data_container,
-		workbook_date_conv (wb_control_workbook (WORKBOOK_CONTROL (pagedata->wbcg))));
+	renderdata = pagedata->main.main_run_renderdata = stf_preview_new
+		(pagedata->main.main_data_container,
+		 &pagedata->lines,
+		 NULL);
+	renderdata->ignore_formats = TRUE;
 
-	lines = stf_parse_lines (pagedata->data, TRUE);
-	pagedata->lines = lines->len;
-	stf_preview_render (renderdata, lines);
+	main_page_update_preview (pagedata);
 
 	column = stf_preview_get_column (renderdata, 0);
 	cell = stf_preview_get_cell_renderer (renderdata, 0);
@@ -245,9 +269,9 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 		      NULL);
 
 	/* Set properties */
-	main_page_set_spin_button_adjustment (pagedata->main.main_startrow, 1, pagedata->lines);
-	main_page_set_spin_button_adjustment (pagedata->main.main_stoprow, 1, pagedata->lines);
-	gtk_spin_button_set_value (pagedata->main.main_stoprow, pagedata->lines);
+	main_page_set_spin_button_adjustment (pagedata->main.main_startrow, 1, pagedata->lines->len);
+	main_page_set_spin_button_adjustment (pagedata->main.main_stoprow, 1, pagedata->lines->len);
+	gtk_spin_button_set_value (pagedata->main.main_stoprow, pagedata->lines->len);
 
 	{
 		GtkFrame *main_frame = GTK_FRAME (glade_xml_get_widget (gui, "main_frame"));
@@ -274,6 +298,10 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	g_signal_connect (G_OBJECT (pagedata->main.main_separated),
 		"toggled",
 		G_CALLBACK (main_page_source_format_toggled), pagedata);
+
+	g_signal_connect (G_OBJECT (pagedata->main_page),
+		"prepare",
+		G_CALLBACK (main_page_prepare), pagedata);
 
 	main_page_startrow_changed (pagedata->main.main_startrow, pagedata);
 }

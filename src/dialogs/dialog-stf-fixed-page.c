@@ -182,7 +182,6 @@ fixed_page_update_preview (DruidPageData_t *pagedata)
 {
 	StfParseOptions_t *parseoptions = pagedata->fixed.fixed_run_parseoptions;
 	RenderData_t *renderdata = pagedata->fixed.fixed_run_renderdata;
-	GPtrArray *lines;
 	char *t[2];
 	int i, temp;
 
@@ -193,9 +192,9 @@ fixed_page_update_preview (DruidPageData_t *pagedata)
 		stf_parse_options_fixed_splitpositions_add (parseoptions, temp);
 	}
 
-	lines = stf_parse_general (parseoptions, pagedata->cur);
-
-	stf_preview_render (renderdata, lines);
+	stf_parse_general_free (pagedata->lines);
+	pagedata->lines = stf_parse_general (parseoptions, pagedata->cur);
+	stf_preview_render (renderdata);
 
 	for (i = 0; i < renderdata->colcount; i++) {
 		GtkTreeViewColumn *column =
@@ -393,10 +392,6 @@ fixed_page_auto_clicked (G_GNUC_UNUSED GtkButton *button,
 	fixed_page_update_preview (data);
 }
 
-/*************************************************************************************************
- * FIXED EXPORTED FUNCTIONS
- *************************************************************************************************/
-
 /**
  * stf_dialog_fixed_page_prepare
  * @page : The druidpage that emitted the signal
@@ -407,10 +402,10 @@ fixed_page_auto_clicked (G_GNUC_UNUSED GtkButton *button,
  *
  * returns : nothing
  **/
-void
-stf_dialog_fixed_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
-			       G_GNUC_UNUSED GnomeDruid *druid,
-			       DruidPageData_t *pagedata)
+static void
+fixed_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
+		    G_GNUC_UNUSED GnomeDruid *druid,
+		    DruidPageData_t *pagedata)
 {
 	GtkAdjustment *spinadjust;
 
@@ -427,6 +422,10 @@ stf_dialog_fixed_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
 
 	fixed_page_update_preview (pagedata);
 }
+
+/*************************************************************************************************
+ * FIXED EXPORTED FUNCTIONS
+ *************************************************************************************************/
 
 /**
  * stf_dialog_fixed_page_cleanup
@@ -475,7 +474,10 @@ stf_dialog_fixed_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	pagedata->fixed.fixed_data_container =          (glade_xml_get_widget (gui, "fixed_data_container"));
 
 	/* Set properties */
-	pagedata->fixed.fixed_run_renderdata    = stf_preview_new (pagedata->fixed.fixed_data_container, NULL);
+	pagedata->fixed.fixed_run_renderdata    =
+		stf_preview_new (pagedata->fixed.fixed_data_container,
+				 &pagedata->lines,
+				 NULL);
 	pagedata->fixed.fixed_run_parseoptions  = stf_parse_options_new ();
 	pagedata->fixed.fixed_run_manual        = FALSE;
 	pagedata->fixed.fixed_run_index         = -1;
@@ -511,4 +513,8 @@ stf_dialog_fixed_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	g_signal_connect (G_OBJECT (pagedata->fixed.fixed_auto),
 		"clicked",
 		G_CALLBACK (fixed_page_auto_clicked), pagedata);
+
+	g_signal_connect (G_OBJECT (pagedata->fixed_page),
+		"prepare",
+		G_CALLBACK (fixed_page_prepare), pagedata);
 }

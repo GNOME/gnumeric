@@ -30,7 +30,7 @@
 
 typedef struct {
 	GtkWidget        *data_container;
-	GPtrArray        *lines;
+	GPtrArray        **plines;
 	GnumericLazyList *ll;
 	GtkTreeView      *tree_view;
 	int              colcount;
@@ -38,15 +38,17 @@ typedef struct {
 	int              startrow;        /* Row at which to start rendering */
 
 	GPtrArray        *colformats;     /* Array containing the desired column formats */
+	gboolean         ignore_formats;
 
 	GnmDateConventions const *date_conv;
 } RenderData_t;
 
 /* This will actually draw the stuff on screen */
-void               stf_preview_render                    (RenderData_t *renderdata, GPtrArray *lines);
+void               stf_preview_render                    (RenderData_t *renderdata);
 
 /* These are for creation/deletion */
 RenderData_t*      stf_preview_new                       (GtkWidget *data_container,
+							  GPtrArray **plines,
 							  GnmDateConventions const *date_conv);
 void               stf_preview_free                      (RenderData_t *data);
 

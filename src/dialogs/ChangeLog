@@ -1,6 +1,12 @@
+2003-06-05  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf*.[ch]: Another round of cleanups.
+
 2003-06-04  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf.c (stf_dialog): Take over formats here.
+	(stf_dialog_result_free): Plug leak.
+
 	* dialog-stf-format-page.c (stf_dialog_format_page_cleanup): Free
 	formats here.
 
@@ -5210,4 +5216,3 @@
 	* font-sel.glade{,.h} : Remove default labels from Clists.
 
 	* import.glade{,.h} : Ditto.
-

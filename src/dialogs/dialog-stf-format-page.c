@@ -82,7 +82,6 @@ static void
 format_page_update_preview (DruidPageData_t *pagedata)
 {
 	RenderData_t *renderdata = pagedata->format.format_run_renderdata;
-	GPtrArray *lines;
 	unsigned int ui;
 	int i;
 
@@ -92,9 +91,9 @@ format_page_update_preview (DruidPageData_t *pagedata)
 		stf_preview_colformats_add (renderdata, sf);
 	}
 
-	lines = stf_parse_general (pagedata->format.format_run_parseoptions, pagedata->cur);
-
-	stf_preview_render (renderdata, lines);
+	stf_parse_general_free (pagedata->lines);
+	pagedata->lines = stf_parse_general (pagedata->format.format_run_parseoptions, pagedata->cur);
+	stf_preview_render (renderdata);
 
 	for (i = 0; i < renderdata->colcount; i++) {
 		GtkTreeViewColumn *column =
@@ -242,12 +241,8 @@ format_page_format_changed (GtkEntry *entry, DruidPageData_t *data)
 	format_page_update_preview (data);
 }
 
-/*************************************************************************************************
- * FORMAT EXPORTED FUNCTIONS
- *************************************************************************************************/
-
 /**
- * stf_dialog_format_page_prepare
+ * format_page_prepare
  * @page : format page
  * @druid : gnome druid hosting @page
  * @data : mother struct
@@ -257,10 +252,10 @@ format_page_format_changed (GtkEntry *entry, DruidPageData_t *data)
  *
  * returns : nothing
  **/
-void
-stf_dialog_format_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
-				G_GNUC_UNUSED GnomeDruid *druid,
-				DruidPageData_t *data)
+static void
+format_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
+		     G_GNUC_UNUSED GnomeDruid *druid,
+		     DruidPageData_t *data)
 {
 	int i;
 
@@ -301,6 +296,10 @@ stf_dialog_format_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
 		g_free (fmt);
 	}
 }
+
+/*************************************************************************************************
+ * FORMAT EXPORTED FUNCTIONS
+ *************************************************************************************************/
 
 /**
  * stf_dialog_format_page_cleanup
@@ -360,8 +359,10 @@ stf_dialog_format_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	pagedata->format.format_trim   = GTK_OPTION_MENU  (glade_xml_get_widget (gui, "format_trim"));
 	
 	/* Set properties */
-	pagedata->format.format_run_renderdata    = stf_preview_new (pagedata->format.format_data_container,
-							  workbook_date_conv (wb_control_workbook (WORKBOOK_CONTROL (pagedata->wbcg))));
+	pagedata->format.format_run_renderdata =
+		stf_preview_new (pagedata->format.format_data_container,
+				 &pagedata->lines,
+				 workbook_date_conv (wb_control_workbook (WORKBOOK_CONTROL (pagedata->wbcg))));
 	pagedata->format.format_run_list          = g_ptr_array_new ();
 	pagedata->format.format_run_index         = -1;
 	pagedata->format.format_run_manual_change = FALSE;
@@ -402,4 +403,8 @@ stf_dialog_format_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 			  "deactivate",
 			  G_CALLBACK (format_page_trim_menu_deactivate), pagedata);
 	format_page_trim_menu_deactivate (menu, pagedata);
+
+	g_signal_connect (G_OBJECT (pagedata->format_page),
+		"prepare",
+		G_CALLBACK (format_page_prepare), pagedata);
 }

@@ -1,7 +1,8 @@
 /*
  * dialog-stf.c : implementation of the STF import dialog
  *
- * Copyright (C) Almer S. Tigelaar <almer@gnome.org>
+ * Copyright 2001 Almer S. Tigelaar <almer@gnome.org>
+ * Copyright 2003 Morten Welinder <terra@gnome.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,7 +39,7 @@
  * @druid : The parent Druid widget
  * @data : mother struct
  *
- * Presents the user with a nice cancel y/n dialognn
+ * Presents the user with a nice cancel y/n dialog.
  *
  * returns : TRUE if the user actually wants to cancel, FALSE otherwise.
  **/
@@ -324,16 +325,6 @@ stf_dialog_druid_format_page_finish (G_GNUC_UNUSED GnomeDruid *druid,
 static void
 stf_dialog_attach_page_signals (GladeXML *gui, DruidPageData_t *pagedata)
 {
-	pagedata->window     = GTK_WINDOW  (glade_xml_get_widget (gui, "window"));
-	pagedata->druid      = GNOME_DRUID (glade_xml_get_widget (gui, "druid"));
-
-	pagedata->main_page   = GNOME_DRUID_PAGE (glade_xml_get_widget (gui, "main_page"));
-	pagedata->csv_page    = GNOME_DRUID_PAGE (glade_xml_get_widget (gui, "csv_page"));
-	pagedata->fixed_page  = GNOME_DRUID_PAGE (glade_xml_get_widget (gui, "fixed_page"));
-	pagedata->format_page = GNOME_DRUID_PAGE (glade_xml_get_widget (gui, "format_page"));
-/*	pagedata->stop_page   = GNOME_DRUID_PAGE (glade_xml_get_widget (gui, "stop_page"));*/
-
-	pagedata->position  = DPG_MAIN;
 	gnome_druid_set_buttons_sensitive (pagedata->druid, FALSE, TRUE, TRUE, TRUE);
 
 	/* Signals for individual pages */
@@ -380,16 +371,6 @@ stf_dialog_attach_page_signals (GladeXML *gui, DruidPageData_t *pagedata)
 	g_signal_connect (G_OBJECT (pagedata->format_page),
 		"finish",
 		G_CALLBACK (stf_dialog_druid_format_page_finish), pagedata);
-
-	g_signal_connect (G_OBJECT (pagedata->csv_page),
-		"prepare",
-		G_CALLBACK (stf_dialog_csv_page_prepare), pagedata);
-	g_signal_connect (G_OBJECT (pagedata->fixed_page),
-		"prepare",
-		G_CALLBACK (stf_dialog_fixed_page_prepare), pagedata);
-	g_signal_connect (G_OBJECT (pagedata->format_page),
-		"prepare",
-		G_CALLBACK (stf_dialog_format_page_prepare), pagedata);
 
 	/* Signals for the druid itself */
 
@@ -456,7 +437,6 @@ stf_dialog (WorkbookControlGUI *wbcg, const char *filename, const char *data)
 	GladeXML *gui;
 	DialogStfResult_t *dialogresult;
 	DruidPageData_t pagedata;
-	StfParseOptions_t *parseoptions;
 
 	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
 		"dialog-stf.glade", NULL, NULL);
@@ -465,15 +445,19 @@ stf_dialog (WorkbookControlGUI *wbcg, const char *filename, const char *data)
 
 	pagedata.canceled = FALSE;
 
-	pagedata.wbcg	  = wbcg;
-	pagedata.filename = filename;
-	pagedata.data     = data;
-	pagedata.cur      = data;
+	pagedata.wbcg	     = wbcg;
+	pagedata.filename    = filename;
+	pagedata.data        = data;
+	pagedata.cur         = data;
+	pagedata.lines       = g_ptr_array_new ();
 
-	/* Just to check out the number of lines.... */
-	parseoptions      = stf_parse_options_new ();
-	pagedata.lines    = stf_parse_get_rowcount (parseoptions, data);
-	stf_parse_options_free (parseoptions);
+	pagedata.window      = GTK_WINDOW  (glade_xml_get_widget (gui, "window"));
+	pagedata.druid       = GNOME_DRUID (glade_xml_get_widget (gui, "druid"));
+	pagedata.main_page   = GNOME_DRUID_PAGE (glade_xml_get_widget (gui, "main_page"));
+	pagedata.csv_page    = GNOME_DRUID_PAGE (glade_xml_get_widget (gui, "csv_page"));
+	pagedata.fixed_page  = GNOME_DRUID_PAGE (glade_xml_get_widget (gui, "fixed_page"));
+	pagedata.format_page = GNOME_DRUID_PAGE (glade_xml_get_widget (gui, "format_page"));
+	pagedata.position    = DPG_MAIN;
 
 	stf_dialog_main_page_init   (gui, &pagedata);
 	stf_dialog_csv_page_init    (gui, &pagedata);
@@ -494,7 +478,6 @@ stf_dialog (WorkbookControlGUI *wbcg, const char *filename, const char *data)
 	gtk_main ();
 
 	if (pagedata.canceled) {
-
 		dialogresult = NULL;
 	} else {
 		dialogresult = g_new (DialogStfResult_t, 1);
@@ -506,7 +489,7 @@ stf_dialog (WorkbookControlGUI *wbcg, const char *filename, const char *data)
 			pagedata.csv.csv_run_parseoptions = NULL;
 		} else {
 			dialogresult->parseoptions = pagedata.fixed.fixed_run_parseoptions;
-			pagedata.fixed.fixed_run_parseoptions= NULL;
+			pagedata.fixed.fixed_run_parseoptions = NULL;
 		}
 
 		dialogresult->formats = pagedata.format.format_run_list;
@@ -522,6 +505,7 @@ stf_dialog (WorkbookControlGUI *wbcg, const char *filename, const char *data)
 	stf_dialog_csv_page_cleanup    (&pagedata);
 	stf_dialog_fixed_page_cleanup  (&pagedata);
 	stf_dialog_format_page_cleanup (&pagedata);
+	stf_parse_general_free (pagedata.lines);
 
 	gtk_widget_destroy (GTK_WIDGET (pagedata.window));
 	g_object_unref (pagedata.window);
@@ -543,15 +527,18 @@ void
 stf_dialog_result_free (DialogStfResult_t *dialogresult)
 {
 	unsigned int ui;
+	GPtrArray *formats;
 
 	g_return_if_fail (dialogresult != NULL);
 
 	stf_parse_options_free (dialogresult->parseoptions);
 
-	for (ui = 0; ui < dialogresult->formats->len; ui++) {
-		StyleFormat *sf = g_ptr_array_index (dialogresult->formats, ui);
+	formats = dialogresult->formats;
+	for (ui = 0; ui < formats->len; ui++) {
+		StyleFormat *sf = g_ptr_array_index (formats, ui);
 		style_format_unref (sf);
 	}
+	g_ptr_array_free (formats, TRUE);
 
 	g_free (dialogresult);
 }

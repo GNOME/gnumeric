@@ -96,7 +96,7 @@ render_get_value (gint row, gint column, gpointer _rd, GValue *value)
 {
 	RenderData_t *rd = (RenderData_t *)_rd;
 	GnumericLazyList *ll = rd->ll;
-	GPtrArray *lines = rd->lines;
+	GPtrArray *lines = *rd->plines;
 	GPtrArray *line = (row < (int)lines->len)
 		? g_ptr_array_index (lines, row)
 		: NULL;
@@ -126,14 +126,16 @@ render_get_value (gint row, gint column, gpointer _rd, GValue *value)
  *
  **/
 void
-stf_preview_render (RenderData_t *renderdata, GPtrArray *lines)
+stf_preview_render (RenderData_t *renderdata)
 {
+	GPtrArray *lines;
 	int colcount = 0;
 	unsigned int i;
 
 	g_return_if_fail (renderdata != NULL);
 	g_return_if_fail (renderdata->data_container != NULL);
 
+	lines = *(renderdata->plines);
 	for (i = 0; i < lines->len; i++) {
 		GPtrArray *line = g_ptr_array_index (lines, i);
 		colcount = MAX (colcount, (int)line->len);
@@ -171,10 +173,6 @@ stf_preview_render (RenderData_t *renderdata, GPtrArray *lines)
 		renderdata->colcount++;
 	}
 
-	if (renderdata->lines)
-		stf_parse_general_free (renderdata->lines);
-	renderdata->lines = lines;
-
 	/* Fill the table.  */
 	gnumeric_lazy_list_set_rows (renderdata->ll,
 				     MIN (lines->len, LINE_DISPLAY_LIMIT));
@@ -192,6 +190,7 @@ stf_preview_render (RenderData_t *renderdata, GPtrArray *lines)
  **/
 RenderData_t*
 stf_preview_new (GtkWidget *data_container,
+		 GPtrArray **plines,
 		 GnmDateConventions const *date_conv)
 {
 	RenderData_t* renderdata;
@@ -201,13 +200,14 @@ stf_preview_new (GtkWidget *data_container,
 	renderdata = g_new (RenderData_t, 1);
 
 	renderdata->data_container = data_container;
-	renderdata->startrow     = 1;
-	renderdata->colformats   = g_ptr_array_new ();
-	renderdata->lines        = NULL;
+	renderdata->startrow       = 1;
+	renderdata->colformats     = g_ptr_array_new ();
+	renderdata->ignore_formats = FALSE;
+	renderdata->plines         = plines;
 
-	renderdata->date_conv	 = date_conv;
+	renderdata->date_conv	   = date_conv;
 
-	renderdata->ll           =
+	renderdata->ll =
 		gnumeric_lazy_list_new (render_get_value, renderdata, 0);
 	gnumeric_lazy_list_add_column (renderdata->ll,
 				       SHEET_MAX_COLS,
@@ -240,9 +240,6 @@ stf_preview_free (RenderData_t *renderdata)
 
 	stf_preview_colformats_clear (renderdata);
 	g_ptr_array_free (renderdata->colformats, TRUE);
-
-	if (renderdata->lines)
-		stf_parse_general_free (renderdata->lines);
 
 	g_free (renderdata);
 }

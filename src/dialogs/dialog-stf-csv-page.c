@@ -43,7 +43,6 @@ csv_page_global_change (G_GNUC_UNUSED GtkWidget *widget,
 			DruidPageData_t *data)
 {
 	StfParseOptions_t *parseoptions = data->csv.csv_run_parseoptions;
-	GPtrArray *lines;
 	GSList *sepstr;
 	GString *sepc = g_string_new (NULL);
 
@@ -90,9 +89,10 @@ csv_page_global_change (G_GNUC_UNUSED GtkWidget *widget,
 	stf_parse_options_csv_set_duplicates (parseoptions,
 					      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->csv.csv_duplicates)));
 
-	lines = stf_parse_general (parseoptions, data->cur);
+	stf_parse_general_free (data->lines);
+	data->lines = stf_parse_general (parseoptions, data->cur);
 
-	stf_preview_render (data->csv.csv_run_renderdata, lines);
+	stf_preview_render (data->csv.csv_run_renderdata);
 }
 
 /**
@@ -122,10 +122,6 @@ csv_page_custom_toggled (GtkCheckButton *button, DruidPageData_t *data)
 	csv_page_global_change (NULL, data);
 }
 
-/*************************************************************************************************
- * CSV EXPORTED FUNCTIONS
- *************************************************************************************************/
-
 /**
  * stf_dialog_csv_page_prepare
  * @page : The druidpage that emitted the signal
@@ -136,10 +132,10 @@ csv_page_custom_toggled (GtkCheckButton *button, DruidPageData_t *data)
  *
  * returns : nothing
  **/
-void
-stf_dialog_csv_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
-			     G_GNUC_UNUSED GnomeDruid *druid,
-			     DruidPageData_t *pagedata)
+static void
+csv_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
+		  G_GNUC_UNUSED GnomeDruid *druid,
+		  DruidPageData_t *pagedata)
 {
 	stf_parse_options_set_trim_spaces (pagedata->csv.csv_run_parseoptions, pagedata->trim);
 
@@ -155,6 +151,10 @@ stf_dialog_csv_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
 	/* Calling this routine will also automatically call global change which updates the preview too */
 	csv_page_custom_toggled (pagedata->csv.csv_custom, pagedata);
 }
+
+/*************************************************************************************************
+ * CSV EXPORTED FUNCTIONS
+ *************************************************************************************************/
 
 /**
  * stf_dialog_csv_page_cleanup
@@ -209,7 +209,10 @@ stf_dialog_csv_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	pagedata->csv.csv_data_container  =                   glade_xml_get_widget (gui, "csv_data_container");
 
 	/* Set properties */
-	pagedata->csv.csv_run_renderdata    = stf_preview_new (pagedata->csv.csv_data_container, NULL);
+	pagedata->csv.csv_run_renderdata    =
+		stf_preview_new (pagedata->csv.csv_data_container,
+				 &pagedata->lines,
+				 NULL);
 	pagedata->csv.csv_run_parseoptions  = stf_parse_options_new ();
 
 	stf_parse_options_set_type  (pagedata->csv.csv_run_parseoptions, PARSE_TYPE_CSV);
@@ -251,4 +254,8 @@ stf_dialog_csv_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	g_signal_connect (G_OBJECT (pagedata->csv.csv_duplicates),
 		"toggled",
 		G_CALLBACK (csv_page_global_change), pagedata);
+
+	g_signal_connect (G_OBJECT (pagedata->csv_page),
+		"prepare",
+		G_CALLBACK (csv_page_prepare), pagedata);
 }

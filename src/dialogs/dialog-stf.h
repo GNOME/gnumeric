@@ -100,7 +100,9 @@ typedef struct {
 	const char            *filename;     /* File we are reading from */
 	const char            *data;         /* Pointer to beginning of data */
 	const char            *cur;          /* Pointer pointing to position in data to start parsing */
-	int                   lines;        /* Number of lines @data consists of */
+
+	GPtrArray             *lines;
+
 	int                   importlines;  /* Number of lines to import */
 
 	MainInfo_t            main;
@@ -136,21 +138,6 @@ void    stf_dialog_main_page_init                       (GladeXML *gui, DruidPag
 void    stf_dialog_csv_page_init                        (GladeXML *gui, DruidPageData_t *pagedata);
 void    stf_dialog_fixed_page_init                      (GladeXML *gui, DruidPageData_t *pagedata);
 void    stf_dialog_format_page_init                     (GladeXML *gui, DruidPageData_t *pagedata);
-
-/* PREPARE functions
- *
- * These functions are called just before a page is shown
- * and allows a page to set stuff that depends on previous
- * pages
- * NOTE : These are signal handlers which are directly coupled to
- *        the corresponding page. (in dialog_stf()) Don't call them directly!
- */
-void    stf_dialog_csv_page_prepare                     (GnomeDruidPage *page, GnomeDruid *druid,
-							 DruidPageData_t *data);
-void    stf_dialog_fixed_page_prepare                   (GnomeDruidPage *page, GnomeDruid *druid,
-							 DruidPageData_t *data);
-void    stf_dialog_format_page_prepare                  (GnomeDruidPage *page, GnomeDruid *druid,
-							 DruidPageData_t *data);
 
 /* CLEANUP functions
  *
