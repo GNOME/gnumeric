@@ -377,7 +377,7 @@ static GnomeUIInfo workbook_menu_file [] = {
 	{ GNOME_APP_UI_ITEM, N_("_Plugins..."), NULL, plugins_cmd },
 	{ GNOME_APP_UI_ITEM, N_("_Close"), NULL, close_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_EXIT, GDK_w, GDK_CONTROL_MASK },
-	{ GNOME_APP_UI_ITEM, N_("_Exit"), NULL, quit_cmd, NULL, NULL,
+	{ GNOME_APP_UI_ITEM, N_("_Quit"), NULL, quit_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_EXIT, GDK_q, GDK_CONTROL_MASK },
 	GNOMEUIINFO_END
 };
