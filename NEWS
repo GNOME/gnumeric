@@ -35,6 +35,7 @@ Andreas:
 	* Make add/modify comment undoable.
 	* Make comment clearing undoable.
 	* Make comment deletion undoable.
+	* Add `Add/Modify Comments' item to cell context menu.
 
 Jody:
 	* Initial port to gnome2.

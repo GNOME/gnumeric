@@ -354,9 +354,10 @@ clipboard_paste_region (WorkbookControl *wbc,
 	/* clear the region where we will paste */
 	if (has_content) {
 		clearFlags = CLEAR_VALUES | CLEAR_NORESPAN;
-		if (!(pt->paste_flags & PASTE_IGNORE_COMMENTS))
-			clearFlags |= CLEAR_COMMENTS;
 	}
+
+	if (pt->paste_flags & PASTE_COMMENTS) 
+		clearFlags |= CLEAR_COMMENTS;
 
 	/* No need to clear the formats.  We will paste over top of these. */
 	/* if (pt->paste_flags & PASTE_FORMATS) clearFlags |= CLEAR_FORMATS; */
@@ -412,10 +413,7 @@ clipboard_paste_region (WorkbookControl *wbc,
 						      content->styles);
 			}
 
-			if (!has_content)
-				continue;
-
-			if (!(pt->paste_flags & PASTE_DONT_MERGE)) {
+			if (has_content && !(pt->paste_flags & PASTE_DONT_MERGE)) {
 				GSList *ptr;
 				for (ptr = content->merged; ptr != NULL ; ptr = ptr->next) {
 					Range tmp = *((Range const *)ptr->data);
@@ -429,7 +427,7 @@ clipboard_paste_region (WorkbookControl *wbc,
 				}
 			}
 
-			if (pt->paste_flags & PASTE_LINK) {
+			if (has_content && (pt->paste_flags & PASTE_LINK)) {
 				paste_link (pt, top, left, content);
 				continue;
 			}

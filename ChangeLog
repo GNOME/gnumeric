@@ -1,3 +1,13 @@
+2002-03-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/clipboard.c (clipboard_paste_region) : preserve comments
+	  when pasting content
+	* src/clipboard.h : exclude comments from PASTE_DEFAULT
+	* src/sheet-control-gui.c : Add `Add/modify comments' item to
+	  cell context menu
+	* src/sheet.h : CLEAR_COMMENTS and CLEAR_MERGES should be distinct.
+	* src/workbook-control-gui.c : correct spelling
+
 2002-03-05  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet.c (sheet_cell_remove_from_hash) : only unlink if it is

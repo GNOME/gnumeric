@@ -1322,7 +1322,8 @@ enum {
 	CONTEXT_COL_UNHIDE,
 	CONTEXT_ROW_HEIGHT,
 	CONTEXT_ROW_HIDE,
-	CONTEXT_ROW_UNHIDE
+	CONTEXT_ROW_UNHIDE,
+	CONTEXT_COMMENT_EDIT
 };
 static gboolean
 context_menu_handler (GnumericPopupMenuElement const *element,
@@ -1383,6 +1384,9 @@ context_menu_handler (GnumericPopupMenuElement const *element,
 	case CONTEXT_ROW_UNHIDE :
 		cmd_colrow_hide_selection (wbc, sheet, FALSE, TRUE);
 		break;
+	case CONTEXT_COMMENT_EDIT:
+		dialog_cell_comment (wbcg, sheet, &sheet->edit_pos);
+		break;
 	default :
 		break;
 	};
@@ -1440,6 +1444,8 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 
 		{ N_("Clear Co_ntents"),NULL,
 		    0, 0, CONTEXT_CLEAR_CONTENT },
+		{ N_("_Add / Modify comment..."),"Gnumeric_CommentEdit",
+		    0, 0, CONTEXT_COMMENT_EDIT },
 
 		/* TODO : Add the comment modification elements */
 		{ "", NULL, 0, 0, 0 },

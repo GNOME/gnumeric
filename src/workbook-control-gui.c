@@ -2609,7 +2609,7 @@ static GnomeUIInfo workbook_menu_edit_clear [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("Co_mments"),
 		N_("Clear the selected cells' comments"),
 		cb_edit_clear_comments),
-	GNOMEUIINFO_ITEM_NONE (N_("_Content"),
+	GNOMEUIINFO_ITEM_NONE (N_("_Contents"),
 		N_("Clear the selected cells' contents"),
 		cb_edit_clear_content),
 	GNOMEUIINFO_END
