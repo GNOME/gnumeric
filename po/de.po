@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0.x\n"
 "POT-Creation-Date: 2002-01-01 17:20+0100\n"
-"PO-Revision-Date: 2002-01-01 17:19+0100\n"
+"PO-Revision-Date: 2002-01-04 00:44-0700\n"
 "Last-Translator: Christian Meyer <chrisime@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -228,9 +228,8 @@ msgid " Unknown formula"
 msgstr " Unbekannte Formel"
 
 #: plugins/excel/plugin.xml.in.h:1
-#, fuzzy
 msgid "Imports/Exports MS Excel (tm) files"
-msgstr "Importiert/Exportiert MS Excel-Dateien"
+msgstr "Importiert/Exportiert MS Excel (tm) Dateien"
 
 #: plugins/excel/plugin.xml.in.h:2
 msgid "MS Excel (tm)"
@@ -1442,16 +1441,14 @@ msgid "Inserts a Bonobo object"
 msgstr "Ein Bonobo-Objekt einfügen"
 
 #: src/GNOME_Gnumeric.xml.h:109
-#, fuzzy
 msgid "Inserts a Shaped Bonobo object"
-msgstr "Ein Bonobo-Objekt einfügen"
+msgstr "Ein geformtes Bonobo-Objekt einfügen"
 
 # Graph != Graphic?
 # 2001-02-10 19:31:00 CET -ke-
 #: src/GNOME_Gnumeric.xml.h:110
 msgid "Invoke the graph guru to create a graph"
-msgstr ""
-"Den Grafen-Druiden zur Unterstützung beim Erzeugen einer Grafik aufrufen"
+msgstr "Den Grafen-Druiden zum Erzeugen einer Graphik aufrufen"
 
 #: src/GNOME_Gnumeric.xml.h:111 src/workbook-control-gui.c:2579
 msgid "Irrevocably remove an entire sheet"
@@ -2139,9 +2136,8 @@ msgid "_Select"
 msgstr "_Auswählen"
 
 #: src/GNOME_Gnumeric.xml.h:268
-#, fuzzy
 msgid "_Shaped Object"
-msgstr "_Objekt"
+msgstr "Geformtes _Objekt"
 
 #: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:2707
 #: src/workbook-control-gui.c:2822
@@ -2479,14 +2475,12 @@ msgid "Total"
 msgstr "Total"
 
 #: src/analysis-tools.c:3249
-#, fuzzy
 msgid "/Count/Sum/Average/Variance"
-msgstr "/Gruppen/Count/Sum/Durchschnitt/Varianz"
+msgstr "/Anzahl/Summe/Durchschnitt/Varianz"
 
 #: src/analysis-tools.c:3259
-#, fuzzy
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
-msgstr "/ANOVA/Quelle der Abweichung/Zeilen/Spalten/Fehler/Total"
+msgstr "/Varianzanalyse/Quelle der Abweichung/Zeilen/Spalten/Wechselwirkung/Fehler"
 
 #: src/analysis-tools.c:3649
 msgid "More"
@@ -4489,20 +4483,24 @@ msgid ""
 "The probability input range contains a non-numeric value.\n"
 "All probabilities must be positive numerbers."
 msgstr ""
+"Der Eingabebereich für die Wahrscheinlichkeit enthält nicht-numerische Werte.\n"
+"Alle Wahrscheinlichkeiten müssen positive Nummern (oder 0) sein."
 
 #: src/dialogs/dialog-analysis-tools.c:2851
 msgid "The probabilities may not all be 0!"
-msgstr ""
+msgstr "Die Wahrscheinlichkeiten dürfen nicht alle 0 sein!"
 
 #: src/dialogs/dialog-analysis-tools.c:2855
 msgid ""
 "The probability input range contains a negative number.\n"
 "All probabilities must be non-negative!"
 msgstr ""
+"Der Eingabebereich für die Wahrscheinlichkeit enthält eine negative Nummer.\n"
+"Alle Wahrscheinlichkeiten müssen positive Nummern (oder 0) sein."
 
 #: src/dialogs/dialog-analysis-tools.c:2860
 msgid "None of the values in the value range may be empty!"
-msgstr ""
+msgstr "Keine Zelle im Eingabebereich der Werte darf leer sein."
 
 #: src/dialogs/dialog-analysis-tools.c:3026
 msgid "Could not create the Random Tool dialog."
@@ -4603,7 +4601,7 @@ msgstr ""
 msgid ""
 "One of the factor combinations does not contain\n"
 "any observations!"
-msgstr ""
+msgstr "Eine der Kombinationen der Faktoren enthält keine Beobachtungen!"
 
 #: src/dialogs/dialog-analysis-tools.c:4318
 msgid "Could not create the ANOVA (two factor) tool dialog."
@@ -5203,7 +5201,7 @@ msgstr "Int"
 msgid ""
 "Solver found an optimal solution. All constraints and optimality conditions "
 "are satisfied.\n"
-msgstr ""
+msgstr "Eine optimale Lösung wurde gefunden. Alle Bedingungen sinde erfüllt.\n"
 
 #: src/dialogs/dialog-solver.c:820
 msgid "The Target Cell value does not converge!"
@@ -5896,9 +5894,8 @@ msgid "Input _Labels"
 msgstr "_Beschriftungen der Variablen"
 
 #: src/dialogs/histogram.glade.h:10
-#, fuzzy
 msgid "Per_centages"
-msgstr "_Prozent"
+msgstr "Pro_zentwerte"
 
 #: src/dialogs/histogram.glade.h:12
 msgid "_Bin Labels"
@@ -6940,7 +6937,7 @@ msgstr ""
 #: src/file.c:497
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
-msgstr ""
+msgstr "Sie können diese Sicherheitsmaßnahme ausschalten, indem Sie die betreffende plugin.xml Datei ändern."
 
 #: src/format-template.c:874
 #, c-format
@@ -15718,11 +15715,11 @@ msgstr "Aktiviert zusätzliche Konsistenzprüfung beim Lesen von OLE-Dateien"
 
 #: src/main.c:106
 msgid "Specify the size and location of the initial window"
-msgstr ""
+msgstr "Die Größe und Lage des ersten Windows bestimmen."
 
 #: src/main.c:106
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
-msgstr ""
+msgstr "BREITExHÖHExXABSTANDxYABSTAND"
 
 #: src/main.c:110
 msgid "Exit immediately after loading the selected books (useful for testing)."
