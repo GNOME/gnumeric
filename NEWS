@@ -1,3 +1,12 @@
+Gnumeric 1.2.13
+
+Jody:
+	http://bugzilla.gnome.org/show_bug.cgi?id=141940
+	* Fix MS XL crash when there are too many strings
+	* xls import gradient backgrounds in chart elements
+	* Restore the font selector to chart editors
+
+--------------------------------------------------------------------------
 Gnumeric 1.2.12
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=127411

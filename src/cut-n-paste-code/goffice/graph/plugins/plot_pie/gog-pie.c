@@ -113,7 +113,8 @@ gog_pie_plot_editor (GogObject *item,
 }
 
 static gboolean
-gog_pie_plot_foreach_elem (GogPlot *plot, GogEnumFunc handler, gpointer data)
+gog_pie_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
+			   GogEnumFunc handler, gpointer data)
 {
 	unsigned i, n, num_labels = 0;
 	GogPiePlot const *model = GOG_PIE_PLOT (plot);

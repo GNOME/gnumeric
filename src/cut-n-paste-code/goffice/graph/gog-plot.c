@@ -328,7 +328,8 @@ gog_plot_get_cardinality (GogPlot *plot)
 }
 
 void
-gog_plot_foreach_elem (GogPlot *plot, GogEnumFunc func, gpointer data)
+gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
+		       GogEnumFunc func, gpointer data)
 {
 	GogPlotClass *klass = GOG_PLOT_GET_CLASS (plot);
 
@@ -336,7 +337,7 @@ gog_plot_foreach_elem (GogPlot *plot, GogEnumFunc func, gpointer data)
 	g_return_if_fail (plot->cardinality_valid);
 
 	if (klass->foreach_elem == NULL ||
-	    !(klass->foreach_elem) (plot, func, data)) {
+	    !(klass->foreach_elem) (plot, only_visible, func, data)) {
 		unsigned i = plot->index_num;
 		GSList *ptr;
 		for (ptr = plot->series; ptr != NULL ; ptr = ptr->next)

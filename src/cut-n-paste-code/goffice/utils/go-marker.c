@@ -597,7 +597,7 @@ go_marker_selector (GOColor outline_color, GOColor fill_color,
 
 		go_marker_set_shape (marker, shape);
 		mbuf = go_marker_get_pixbuf (marker);
-		gdk_pixbuf_fill (pixbuf, 0xffffff00);
+		gdk_pixbuf_fill (pixbuf, 0); /* in case the fill colours have alpha = 0 */
 		if (mbuf != NULL)  {
 			w = gdk_pixbuf_get_width (mbuf);
 			h = gdk_pixbuf_get_height (mbuf);

@@ -25,7 +25,9 @@ struct _MSEscherShape {
 	MSObjAttrBag *attrs;
 };
 
-MSObjAttrBag *ms_escher_parse     (BiffQuery  *q, MSContainer *container);
+MSObjAttrBag *ms_escher_parse (BiffQuery  *q, MSContainer *container,
+			       gboolean return_attrs);
+
 void	      ms_escher_blip_free (MSEscherBlip *blip);
 
 #if 0

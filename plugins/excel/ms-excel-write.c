@@ -291,7 +291,7 @@ points_to_inches (double pts)
 static void
 excel_write_SETUP (BiffPut *bp, ExcelWriteSheet *esheet)
 {
-	PrintInformation *pi = esheet->gnum_sheet->print_info;
+	PrintInformation const *pi = esheet->gnum_sheet->print_info;
 	double header, footer, dummy;
 	guint8 * data = ms_biff_put_len_next (bp, BIFF_SETUP, 34);
 	guint16 options = 0;

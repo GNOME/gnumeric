@@ -62,7 +62,7 @@ typedef struct {
 
 	/* Virtuals */
 	unsigned   (*cardinality)  (GogPlot *plot);
-	gboolean   (*foreach_elem) (GogPlot *plot,
+	gboolean   (*foreach_elem) (GogPlot *plot, gboolean only_visible,
 				    GogEnumFunc handler, gpointer data);
 
 	GogAxisSet (*axis_set_pref)     (GogPlot const *plot);

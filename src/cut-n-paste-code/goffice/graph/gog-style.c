@@ -896,7 +896,7 @@ cb_font_changed (FontSelector *fs, G_GNUC_UNUSED gpointer mstyle,
 static void
 font_init (StylePrefState *state, GogStyle const *style, guint32 enable, gpointer optional_notebook)
 {
-	GtkWidget *w;
+	GtkWidget *w, *box;
 
 	if (!enable)
 		return;
@@ -904,14 +904,24 @@ font_init (StylePrefState *state, GogStyle const *style, guint32 enable, gpointe
 	g_return_if_fail (style->font.font != NULL);
 	g_return_if_fail (GTK_NOTEBOOK (optional_notebook) != NULL);
 
+	box = gtk_vbox_new (FALSE, 5);
+
+#if 0
+	w = gtk_check_button_new_with_label (_("Automatic"));
+	gtk_box_pack_start (GTK_BOX (box), w, FALSE, TRUE, 0);
+#endif
+	gtk_widget_show_all (box);
+
 	w = font_selector_new ();
 	font_selector_set_from_pango  (FONT_SELECTOR (w), style->font.font->desc);
 	g_signal_connect (G_OBJECT (w),
 		"font_changed",
 		G_CALLBACK (cb_font_changed), state);
-	gtk_notebook_prepend_page (GTK_NOTEBOOK (optional_notebook), w,
-		gtk_label_new (_("Font")));
+	gtk_box_pack_end (GTK_BOX (box), w, TRUE, TRUE, 0);
 	gtk_widget_show (w);
+
+	gtk_notebook_prepend_page (GTK_NOTEBOOK (optional_notebook), box,
+		gtk_label_new (_("Font")));
 	gtk_widget_show (GTK_WIDGET (optional_notebook));
 }
 
@@ -1160,6 +1170,8 @@ gog_style_init (GogStyle *style)
 	style->fill.gradient_end_auto = TRUE;
 	style->fill.type = GOG_FILL_STYLE_PATTERN;
 	go_pattern_set_solid (&style->fill.u.pattern.pat, 0);
+
+	style->font.auto_scale = TRUE;
 	style->font.font = go_font_new_by_index (0);
 	style->font.color = RGBA_BLACK;
 }

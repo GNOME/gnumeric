@@ -31,8 +31,12 @@ typedef enum {
 	MS_OBJ_ATTR_IS_INT_MASK = 0x1000,
 	MS_OBJ_ATTR_BLIP_ID,
 	MS_OBJ_ATTR_FILL_TYPE,
+	MS_OBJ_ATTR_FILL_SHADE_TYPE,
+	MS_OBJ_ATTR_FILL_ANGLE,
+	MS_OBJ_ATTR_FILL_FOCUS,
 	MS_OBJ_ATTR_FILL_COLOR,
 	MS_OBJ_ATTR_FILL_ALPHA,
+	MS_OBJ_ATTR_FILL_PRESET,
 	MS_OBJ_ATTR_FILL_BACKGROUND,
 	MS_OBJ_ATTR_FILL_BACKGROUND_ALPHA,
 	MS_OBJ_ATTR_OUTLINE_COLOR,
@@ -91,13 +95,6 @@ MSObjAttr    *ms_obj_attr_new_array  (MSObjAttrID id, GArray *array);
 MSObjAttr    *ms_obj_attr_new_expr   (MSObjAttrID id, GnmExpr const *expr);
 MSObjAttr    *ms_obj_attr_new_markup (MSObjAttrID id, PangoAttrList *list);
 
-guint32   ms_obj_attr_get_uint		(MSObj *obj, MSObjAttrID id, guint32 default_value);
-gint32    ms_obj_attr_get_int		(MSObj *obj, MSObjAttrID id, gint32 default_value);
-gpointer  ms_obj_attr_get_ptr		(MSObj *obj, MSObjAttrID id, gpointer default_value);
-GArray   *ms_obj_attr_get_array		(MSObj *obj, MSObjAttrID id, GArray *default_value);
-GnmExpr const *ms_obj_attr_get_expr	(MSObj *obj, MSObjAttrID id, GnmExpr const *default_value);
-PangoAttrList *ms_obj_attr_get_markup	(MSObj *obj, MSObjAttrID id, PangoAttrList *default_value);
-
 typedef GHashTable MSObjAttrBag;
 MSObjAttrBag *ms_obj_attr_bag_new     (void);
 void          ms_obj_attr_bag_destroy (MSObjAttrBag *attrs);
@@ -105,7 +102,13 @@ void	      ms_obj_attr_bag_insert  (MSObjAttrBag *attrs,
 				       MSObjAttr *attr);
 MSObjAttr    *ms_obj_attr_bag_lookup  (MSObjAttrBag *attrs,
 				       MSObjAttrID id);
-MSObj        *ms_obj_new              (MSObjAttrBag *attrs);
+guint32   ms_obj_attr_get_uint	      (MSObjAttrBag *attrs, MSObjAttrID id, guint32 default_value);
+gint32    ms_obj_attr_get_int	      (MSObjAttrBag *attrs, MSObjAttrID id, gint32 default_value);
+gpointer  ms_obj_attr_get_ptr	      (MSObjAttrBag *attrs, MSObjAttrID id, gpointer default_value);
+GArray   *ms_obj_attr_get_array	      (MSObjAttrBag *attrs, MSObjAttrID id, GArray *default_value);
+GnmExpr const *ms_obj_attr_get_expr   (MSObjAttrBag *attrs, MSObjAttrID id, GnmExpr const *default_value);
+PangoAttrList *ms_obj_attr_get_markup (MSObjAttrBag *attrs, MSObjAttrID id, PangoAttrList *default_value);
+
 
 struct _MSObj {
 	int id;
@@ -121,6 +124,7 @@ struct _MSObj {
 	gboolean	 is_linked;
 	MSObjAttrBag	*attrs;
 };
+MSObj        *ms_obj_new              (MSObjAttrBag *attrs);
 
 void  ms_read_OBJ   (BiffQuery *q, MSContainer *c, MSObjAttrBag *attrs);
 void  ms_obj_delete (MSObj *obj);

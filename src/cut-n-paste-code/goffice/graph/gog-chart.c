@@ -326,7 +326,8 @@ gog_chart_request_cardinality_update (GogChart *chart)
 }
 
 void
-gog_chart_foreach_elem (GogChart *chart, GogEnumFunc handler, gpointer data)
+gog_chart_foreach_elem (GogChart *chart, gboolean only_visible,
+			GogEnumFunc handler, gpointer data)
 {
 	GSList *ptr;
 
@@ -334,7 +335,7 @@ gog_chart_foreach_elem (GogChart *chart, GogEnumFunc handler, gpointer data)
 	g_return_if_fail (chart->cardinality_valid);
 
 	for (ptr = chart->plots ; ptr != NULL ; ptr = ptr->next)
-		gog_plot_foreach_elem (ptr->data, handler, data);
+		gog_plot_foreach_elem (ptr->data, only_visible, handler, data);
 }
 
 gboolean

@@ -39,8 +39,8 @@ void	  gog_chart_set_position  (GogChart *chart, unsigned x, unsigned y,
 				   unsigned cols, unsigned rows);
 
 void	  gog_chart_request_cardinality_update (GogChart *chart);
-unsigned  gog_chart_get_cardinality (GogChart *);
-void	  gog_chart_foreach_elem  (GogChart *,
+unsigned  gog_chart_get_cardinality (GogChart *chart);
+void	  gog_chart_foreach_elem  (GogChart *chart, gboolean only_visible,
 				   GogEnumFunc handler, gpointer data);
 
 gboolean  gog_chart_axis_set_is_valid (GogChart const *chart, GogAxisSet type);

@@ -368,7 +368,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 
 	/* handle common attributes */
 	/* THIS IS DAMN UGLY we should be using gobject properties with common names or something */
-		label = ms_obj_attr_get_ptr (obj, MS_OBJ_ATTR_TEXT, NULL);
+		label = ms_obj_attr_get_ptr (obj->attrs, MS_OBJ_ATTR_TEXT, NULL);
 		if (label != NULL) {
 			switch (obj->excel_type) {
 
@@ -388,7 +388,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 				   break;
 			};
 		}
-	markup = ms_obj_attr_get_markup (obj, MS_OBJ_ATTR_MARKUP, NULL);
+	markup = ms_obj_attr_get_markup (obj->attrs, MS_OBJ_ATTR_MARKUP, NULL);
 	if (markup != NULL) {
 		switch (obj->excel_type) {
 
@@ -398,8 +398,8 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 		default:
 			   g_warning ("markup for type %x", obj->excel_type);
 			   break;
-		};
-}
+		}
+	}
 	switch (obj->excel_type) {
 	case 0x00:
 		break;
@@ -438,11 +438,11 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 				ms_sheet_map_color (esheet, obj, MS_OBJ_ATTR_FILL_COLOR));
 
 		gnm_so_filled_set_outline_style (so,
-			ms_obj_attr_get_int (obj, MS_OBJ_ATTR_OUTLINE_STYLE, 1));
+			ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_OUTLINE_STYLE, 1));
 		gnm_so_filled_set_outline_color (so,
 			ms_sheet_map_color (esheet, obj, MS_OBJ_ATTR_OUTLINE_COLOR));
 		gnm_so_graphic_set_width (so,
-			ms_obj_attr_get_int (obj, MS_OBJ_ATTR_OUTLINE_WIDTH, 0));
+			ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_OUTLINE_WIDTH, 0));
 		break;
 
 	/* Button */
@@ -469,7 +469,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 	}
 	case 0x09:
 		   gnm_so_polygon_set_points (SHEET_OBJECT (so),
-			ms_obj_attr_get_array (obj, MS_OBJ_ATTR_POLYGON_COORDS, NULL));
+			ms_obj_attr_get_array (obj->attrs, MS_OBJ_ATTR_POLYGON_COORDS, NULL));
 		   gnm_so_polygon_set_fill_color (so, 
 			ms_sheet_map_color (esheet, obj, MS_OBJ_ATTR_FILL_COLOR));
 		   gnm_so_polygon_set_outline_color (so, 
@@ -478,7 +478,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 
 	case 0x0B: 
 		sheet_widget_checkbox_set_link (obj->gnum_obj,
-			ms_obj_attr_get_expr (obj, MS_OBJ_ATTR_CHECKBOX_LINK, NULL));
+			ms_obj_attr_get_expr (obj->attrs, MS_OBJ_ATTR_CHECKBOX_LINK, NULL));
 		break;
 
 	case 0x0C:
@@ -487,12 +487,12 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 	case 0x10:
 	case 0x11:
 		sheet_widget_adjustment_set_details (obj->gnum_obj,
-			ms_obj_attr_get_expr (obj, MS_OBJ_ATTR_SCROLLBAR_LINK, NULL),
-			ms_obj_attr_get_int (obj, MS_OBJ_ATTR_SCROLLBAR_VALUE, 0),
-			ms_obj_attr_get_int (obj, MS_OBJ_ATTR_SCROLLBAR_MIN, 0),
-			ms_obj_attr_get_int (obj, MS_OBJ_ATTR_SCROLLBAR_MAX, 100) - 1,
-			ms_obj_attr_get_int (obj, MS_OBJ_ATTR_SCROLLBAR_INC, 1),
-			ms_obj_attr_get_int (obj, MS_OBJ_ATTR_SCROLLBAR_PAGE, 10));
+			ms_obj_attr_get_expr (obj->attrs, MS_OBJ_ATTR_SCROLLBAR_LINK, NULL),
+			ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_SCROLLBAR_VALUE, 0),
+			ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_SCROLLBAR_MIN, 0),
+			ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_SCROLLBAR_MAX, 100) - 1,
+			ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_SCROLLBAR_INC, 1),
+			ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_SCROLLBAR_PAGE, 10));
 		break;
 
 	case 0x12:
@@ -3431,7 +3431,7 @@ excel_read_ROW (BiffQuery *q, ExcelReadSheet *esheet)
 }
 
 static void
-excel_read_tab_color (BiffQuery *q, ExcelReadSheet *esheet)
+excel_read_TAB_COLOR (BiffQuery *q, ExcelReadSheet *esheet)
 {
 	/* this is a guess, but the only field I see
 	 * changing seems to be the colour.
@@ -5173,7 +5173,7 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 		case BIFF_OBJ:	ms_read_OBJ (q, sheet_container (esheet), NULL); break;
 
 		case BIFF_SAVERECALC:	break;
-		case BIFF_TAB_COLOR:	excel_read_tab_color (q, esheet);	break;
+		case BIFF_TAB_COLOR:	excel_read_TAB_COLOR (q, esheet);	break;
 		case BIFF_OBJPROTECT:	excel_read_PROTECT (q, "Sheet");	break;
 		case BIFF_COLINFO:	excel_read_COLINFO (q, esheet);		break;
 
@@ -5236,7 +5236,7 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 		case BIFF_MS_O_DRAWING:
 		case BIFF_MS_O_DRAWING_GROUP:
 		case BIFF_MS_O_DRAWING_SELECTION:
-			ms_obj_attr_bag_destroy (ms_escher_parse (q, sheet_container (esheet)));
+			ms_escher_parse (q, sheet_container (esheet), FALSE);
 			break;
 		case BIFF_PHONETIC:	break;
 
@@ -5710,7 +5710,7 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 		case BIFF_MS_O_DRAWING:
 		case BIFF_MS_O_DRAWING_GROUP:
 		case BIFF_MS_O_DRAWING_SELECTION:
-			ms_obj_attr_bag_destroy (ms_escher_parse (q, &ewb->container));
+			ms_escher_parse (q, &ewb->container, FALSE);
 			break;
 
 		case BIFF_ADDMENU:

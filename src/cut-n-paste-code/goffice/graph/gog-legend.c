@@ -270,7 +270,8 @@ gog_legend_view_size_request (GogView *v, GogViewRequisition *avail)
 	dat.maximum.w = 0.;
 	dat.maximum.h = gog_renderer_pt2r_y (v->renderer, l->swatch_size_pts);
 	dat.uses_lines = FALSE;
-	gog_chart_foreach_elem (chart, (GogEnumFunc) cb_size_elements, &dat);
+	gog_chart_foreach_elem (chart, TRUE,
+		(GogEnumFunc) cb_size_elements, &dat);
 	((GogLegendView *)v)->line_height = dat.maximum.h;
 	((GogLegendView *)v)->uses_lines = dat.uses_lines;
 
@@ -371,7 +372,7 @@ gog_legend_view_render (GogView *v, GogViewAllocation const *bbox)
 	dat.base_line = pad_y / 2.; /* bottom of the swatch */
 	dat.bottom    = v->residual.y + v->residual.h -
 		((GogLegendView *)v)->line_height;
-	gog_chart_foreach_elem (GOG_CHART (v->model->parent),
+	gog_chart_foreach_elem (GOG_CHART (v->model->parent), TRUE,
 		(GogEnumFunc) cb_render_elements, &dat);
 }
 

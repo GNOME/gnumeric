@@ -53,6 +53,7 @@
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-utils.h>
 #include <gsf-gnome/gsf-input-gnomevfs.h>
+#include <gsf-gnome/gsf-output-gnomevfs.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <locale.h>
@@ -577,10 +578,8 @@ wbv_save_to_file (WorkbookView *wbv, GnmFileSaver const *fs,
 		if (uri != NULL && uri->method_string != NULL &&
 		    0 != strcmp ("file", uri->method_string)) {
 			output = (GsfOutput *)gsf_output_gnomevfs_new (filename, &err);
-			g_warning ("vfs");
 		} else {
 			output = (GsfOutput *)gsf_output_stdio_new (filename, &err);
-			g_warning ("stdio");
 		}
 
 		if (uri != NULL)

@@ -23,6 +23,7 @@
 #include <value.h>
 #include <gutils.h>
 #include <graph.h>
+#include <style-color.h>
 #include <sheet-object-graph.h>
 
 #include <goffice/graph/goffice-graph.h>
@@ -71,6 +72,7 @@ typedef struct {
 	SheetObject	*sog;
 	GogGraph	*graph;
 	GogChart	*chart;
+	GogObject	*legend;
 	GogPlot		*plot;
 	GogStyle	*default_plot_style;
 	GogObject	*axis;
@@ -841,17 +843,126 @@ BC_R(frame)(XLChartHandler const *handle,
 
 /****************************************************************************/
 
+static GOColor
+ms_chart_map_color (XLChartReadState const *s, guint32 raw, guint32 alpha)
+{
+	GOColor res;
+	if ((~0x7ffffff) & raw) {
+		GnmColor *c= excel_palette_get (s->container.ewb->palette,
+			(0x7ffffff & raw));
+		res = GDK_TO_UINT (c->color);
+		style_color_unref (c);
+	} else {
+		guint8 r, g, b;
+		r = (raw)       & 0xff;
+		g = (raw >> 8)  & 0xff;
+		b = (raw >> 16) & 0xff;
+		res = RGBA_TO_UINT (r, g, b, 0xff);
+	}
+	return res;
+}
+
 static gboolean
 BC_R(gelframe) (XLChartHandler const *handle,
 		XLChartReadState *s, BiffQuery *q)
 {
-	MSObjAttrBag *attrs = ms_escher_parse (q, &s->container);
+	MSObjAttrBag *attrs = ms_escher_parse (q, &s->container, TRUE);
+	guint32 type = ms_obj_attr_get_uint (attrs,
+		MS_OBJ_ATTR_FILL_TYPE, 0);
+	guint32 shade_type = ms_obj_attr_get_uint (attrs,
+		MS_OBJ_ATTR_FILL_SHADE_TYPE, 0);
+	guint32 fill_color = ms_obj_attr_get_uint (attrs,
+		MS_OBJ_ATTR_FILL_COLOR, 0);
+	guint32 fill_alpha = ms_obj_attr_get_uint (attrs,
+		MS_OBJ_ATTR_FILL_ALPHA, 0x10000);
+	guint32 fill_back_color = ms_obj_attr_get_uint (attrs,
+		MS_OBJ_ATTR_FILL_BACKGROUND, 0);
+	guint32 fill_back_alpha = ms_obj_attr_get_uint (attrs,
+		MS_OBJ_ATTR_FILL_BACKGROUND_ALPHA, 0x10000);
+	guint32 preset = ms_obj_attr_get_uint (attrs,
+		MS_OBJ_ATTR_FILL_PRESET, 0);
 
-#if 0
-	MSObjAttr *crop_bottom_attr = ms_obj_attr_bag_lookup
-		(obj->attrs, MS_OBJ_ATTR_BLIP_CROP_BOTTOM);
-	MS_OBJ_ATTR_FILL_TYPE;
-#endif
+	s->style->fill.type = GOG_FILL_STYLE_GRADIENT;
+	s->style->fill.u.gradient.start = 
+		ms_chart_map_color (s, fill_color, fill_alpha);
+
+	/* FIXME : make presets the same as 2 color for now */
+	if (!(shade_type & 8) || preset > 0) {
+		s->style->fill.u.gradient.end = ms_chart_map_color (s,
+			fill_back_color, fill_back_alpha);
+	} else {
+		float brightness;
+		unsigned frac = (fill_back_color >> 16) & 0xff;
+
+		/**
+		 * 0x10 const
+		 * 0x00..0xff fraction
+		 * 0x02 == bright 0x01 == dark
+		 * 0xf0 == const
+		 **/
+		switch ((fill_back_color & 0xff00)) {
+		default :
+			g_warning ("looks like our theory of 1-color gradient brightness is incorrect");
+		case 0x0100 : brightness = 0. + frac/512.; break;
+		case 0x0200 : brightness = 1. - frac/512.; break;
+		}
+		gog_style_set_fill_brightness (s->style, (1. - brightness) * 100.);
+		d (1, fprintf (stderr, "%x : frac = %u, flag = 0x%hx ::: %f",
+			       fill_back_color, frac, fill_back_color & 0xff00, brightness););
+	}
+
+	if (type == 5) { /* Fill from corner */
+		/* TODO */
+	} else if (type == 6) { /* fill from center */
+		/* TODO */
+	} else if (type == 7) {
+		GOGradientDirection dir;
+		guint32 angle = ms_obj_attr_get_uint (attrs, MS_OBJ_ATTR_FILL_ANGLE, 0);
+		gint32 focus = ms_obj_attr_get_int (attrs, MS_OBJ_ATTR_FILL_FOCUS, 0);
+
+		if (focus < 0)
+			focus = ((focus - 25) / 50) % 4 + 4;
+		else
+			focus = ((focus + 25) / 50) % 4;
+
+		switch (angle) {
+		default :
+			g_warning ("non standard gradient angle %u, using horizontal", angle);
+		case 0 : /* horizontal */
+			switch (focus) {
+			case 0 : dir = GO_GRADIENT_S_TO_N; break;
+			case 1 : dir = GO_GRADIENT_N_TO_S_MIRRORED; break;
+			case 2 : dir = GO_GRADIENT_N_TO_S; break;
+			case 3 : dir = GO_GRADIENT_S_TO_N_MIRRORED; break;
+			}
+			break;
+		case 0xffd30000 : /* diag down (-45 in 16.16 fixed) */
+			switch (focus) {
+			case 0 : dir = GO_GRADIENT_SE_TO_NW; break;
+			case 1 : dir = GO_GRADIENT_SE_TO_NW_MIRRORED; break;
+			case 2 : dir = GO_GRADIENT_NW_TO_SE; break;
+			case 3 : dir = GO_GRADIENT_NW_TO_SE_MIRRORED; break;
+			}
+			break;
+		case 0xffa60000 : /* vertical (-90 in 16.16 fixed) */
+			switch (focus) {
+			case 0 : dir = GO_GRADIENT_E_TO_W; break;
+			case 1 : dir = GO_GRADIENT_E_TO_W_MIRRORED; break;
+			case 2 : dir = GO_GRADIENT_W_TO_E; break;
+			case 3 : dir = GO_GRADIENT_W_TO_E_MIRRORED; break;
+			}
+			break;
+		case 0xff790000 : /* diag up (-135 in 16.16 fixed) */
+			switch (focus) {
+			case 0 : dir = GO_GRADIENT_SE_TO_NW; break;
+			case 1 : dir = GO_GRADIENT_SE_TO_NW_MIRRORED; break;
+			case 2 : dir = GO_GRADIENT_NW_TO_SE; break;
+			case 3 : dir = GO_GRADIENT_NW_TO_SE_MIRRORED; break;
+			}
+		}
+		s->style->fill.u.gradient.dir = dir;
+	}
+
 	ms_obj_attr_bag_destroy (attrs);
 
 	return FALSE;
@@ -898,7 +1009,6 @@ BC_R(legend)(XLChartHandler const *handle,
 #endif
 	guint16 const XL_pos = GSF_LE_GET_GUINT8 (q->data+16);
 	GogObjectPosition pos;
-	GogObject *legend;
 
 	switch (XL_pos) {
 	case 0: pos = GOG_POSITION_S | GOG_POSITION_ALIGN_CENTER; break;
@@ -913,8 +1023,8 @@ BC_R(legend)(XLChartHandler const *handle,
 		pos = GOG_POSITION_E | GOG_POSITION_ALIGN_CENTER; break; 
 	};
 
-	legend = gog_object_add_by_name (GOG_OBJECT (s->chart), "Legend", NULL);
-	gog_object_set_pos (legend, pos);
+	s->legend = gog_object_add_by_name (GOG_OBJECT (s->chart), "Legend", NULL);
+	gog_object_set_pos (s->legend, pos);
 
 #if 0
 	fprintf (stderr, "Legend @ %f,%f, X=%f, Y=%f\n",
@@ -932,6 +1042,9 @@ static gboolean
 BC_R(legendxn)(XLChartHandler const *handle,
 	       XLChartReadState *s, BiffQuery *q)
 {
+	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+2);
+	if (flags & 1)
+		g_warning ("deleted legend entry");
 	return FALSE;
 }
 
@@ -1522,6 +1635,8 @@ BC_R(text)(XLChartHandler const *handle,
 		d (4, fputs ("Text follows defaulttext", stderr););
 	} else {
 	}
+	BC_R(get_style) (s);
+	s->style->font.color = BC_R(color) (q->data+0, "Font");
 
 #if 0
 case BIFF_CHART_chart :
@@ -1718,23 +1833,22 @@ BC_R(end)(XLChartHandler const *handle,
 
 	case BIFF_CHART_frame :
 		if (s->style != NULL) {
-			GogObject *obj;
-			if (s->chart != NULL) {
-				if (s->frame_for_grid) {
+			int top_state = BC_R(top_state) (s);
+			GogObject *obj = NULL;
+			if (top_state == BIFF_CHART_legend)
+				obj = s->legend;
+			else if (top_state == BIFF_CHART_chart)
+				obj = GOG_OBJECT (s->chart);
+			else if (s->frame_for_grid) {
 					GogGrid *tmp = gog_chart_get_grid (s->chart);
 					obj = (tmp == NULL)
 						? gog_object_add_by_name (GOG_OBJECT (s->chart), "Grid", NULL)
 						: GOG_OBJECT (tmp);
-				} else {
-					obj = GOG_OBJECT (s->chart);
-					s->style->outline = s->style->line;
-					s->style->line.width = -1.;
 				}
 				if (obj != NULL)
 					g_object_set (G_OBJECT (obj),
 						"style", s->style,
 						NULL);
-			}
 			g_object_unref (s->style);
 			s->style = NULL;
 		}
@@ -2094,7 +2208,7 @@ ms_excel_read_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 			}
 
 			case BIFF_MS_O_DRAWING:
-				ms_obj_attr_bag_destroy (ms_escher_parse (q, &state.container));
+				ms_escher_parse (q, &state.container, FALSE);
 				break;
 
 			case BIFF_EXTERNCOUNT: /* ignore */ break;
