@@ -139,16 +139,19 @@ col_row_get_index_list (int first, int last, ColRowIndexList *list)
 				     (GCompareFunc)&colrow_index_compare);
 
 	prev = list->data;
-	for (ptr = list->next ; ptr != NULL ; ptr = ptr->next, prev = tmp) {
+	for (ptr = list->next ; ptr != NULL ; ) {
 		tmp = ptr->data;
 
 		/* at the end of existing segment or contained */
 		if (prev->last+1 >= tmp->first) {
 			GList *next = ptr->next;
-			if (tmp->last > prev->last)
-				tmp->last = last;
+			if (prev->last < tmp->last)
+				prev->last = tmp->last;
 			list = g_list_remove_link (list, ptr);
 			ptr = next;
+		} else {
+			ptr = ptr->next;
+			prev = tmp;
 		}
 	}
 	return list;

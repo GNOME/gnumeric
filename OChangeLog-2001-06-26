@@ -1,5 +1,9 @@
 2000-11-20  Jody Goldberg <jgoldberg@home.com>
 
+	* src/colrow.c (col_row_get_index_list) : Take away my crack pipe.
+
+2000-11-20  Jody Goldberg <jgoldberg@home.com>
+
 	* configure.in : Use a more conventional approach to path seperators.
 	* src/gutils.c (gnumeric_usr_dir) : Adjust here.
 	(gnumeric_sys_data_dir) : and here.
