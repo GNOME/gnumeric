@@ -1094,3 +1094,55 @@ selection_contains_colrow (Sheet *sheet, int colrow, gboolean is_col)
 	}
 	return FALSE;
 }
+
+void
+selection_foreach_range (Sheet *sheet,
+			 void (*range_cb) (Sheet *sheet,
+					   Range const *range,
+					   gpointer user_data),
+			 gpointer user_data)
+{
+	GList *l;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	for (l = sheet->selections; l; l = g_list_next (l)) {
+		SheetSelection *ss = l->data;
+		range_cb (sheet, &ss->user, user_data);
+	}
+}
+
+static gboolean
+cb_set_row_height(Sheet *sheet, ColRowInfo *info, void *_height)
+{
+	double height = *(double *) _height;
+	
+	if (height > info->units)
+		sheet_row_set_internal_height (sheet, info, height);
+	
+	return FALSE;
+}
+
+/**
+ * sheet_selection_height_update:
+ * @sheet:  The sheet,
+ * @height: The font height.
+ * 
+ *  Use this function having changed the font height to auto
+ * resize the row heights to make the text fit nicely.
+ *
+ **/
+void
+sheet_selection_height_update (Sheet *sheet, double height)
+{
+	GList *l;
+
+	for (l = sheet->selections; l; l = l->next) {
+		SheetSelection *ss = l->data;
+
+		sheet_foreach_colrow (sheet, &sheet->rows,
+				      ss->user.start.row, ss->user.end.row,
+				      &cb_set_row_height, &height);
+	}
+}

@@ -22,8 +22,11 @@
 #define CELL_HEIGHT(cell) CELL_DIM(cell,row)
 #define CELL_WIDTH(cell)  CELL_DIM(cell,col)
 
+#if 0
+/* FIXME: need border support. */
 static void
-print_border (GnomePrintContext *pc, double x1, double y1, double x2, double y2, StyleBorder *b, int idx)
+print_border (GnomePrintContext *pc, double x1, double y1, double x2, double y2,
+	      StyleBorder *b, int idx)
 {
 	double width;
 	int dash_mode, dupit;
@@ -73,7 +76,7 @@ print_border (GnomePrintContext *pc, double x1, double y1, double x2, double y2,
 	if (!dupit)
 		return;
 
-	if (x1 == x2){
+	if (x1 == x2) {
 		gnome_print_moveto (pc, x1 + 1, y1);
 		gnome_print_lineto (pc, x2 + 1, y2);
 		gnome_print_stroke (pc);
@@ -84,6 +87,7 @@ print_border (GnomePrintContext *pc, double x1, double y1, double x2, double y2,
 	}
 }
 
+
 static void
 print_cell_border (GnomePrintContext *context, StyleBorder *border,
 		   double x1, double y1, double x2, double y2)
@@ -93,6 +97,7 @@ print_cell_border (GnomePrintContext *context, StyleBorder *border,
 	for (i = 0; i < STYLE_ORIENT_MAX; ++i)
 		print_border (context, x1, y1, x1, y2, border, i);
 }
+#endif
 
 static void
 print_overflow (GnomePrintContext *context, Cell *cell)
@@ -168,7 +173,7 @@ cell_split_text (GnomeFont *font, char const *text, int const width)
 static void
 print_cell_text (GnomePrintContext *context, Cell *cell, double base_x, double base_y)
 {
-	Style *style = cell->style;
+	Style *style = cell_get_style (cell);
 	GnomeFont *print_font = style->font->font;
 	double text_width;
 	double font_height;
@@ -179,25 +184,27 @@ print_cell_text (GnomePrintContext *context, Cell *cell, double base_x, double b
 	cell_get_span (cell, &start_col, &end_col);
 	
 	text_width = gnome_font_get_width_string (print_font, cell->text->str);
-	font_height = cell->style->font->size;
+	font_height = style->font->size;
 		
-	if (text_width > cell->col->units && cell_is_number (cell)){
+	if (text_width > cell->col->units && cell_is_number (cell)) {
 		print_overflow (context, cell);
+		style_unref (style);
 		return;
 	}
 
-	halign = cell_get_horizontal_align (cell);
+	halign = cell_get_horizontal_align (cell, style->halign);
 	if (halign == HALIGN_JUSTIFY || style->valign == VALIGN_JUSTIFY || style->fit_in_cell)
 		do_multi_line = TRUE;
 	else
 		do_multi_line = FALSE;
 
-	if (do_multi_line){
+	if (do_multi_line) {
 		GList *lines, *l;
 		int line_count, x_offset, y_offset;
 		double inter_space;
 		
-		lines = cell_split_text (print_font, cell->text->str, cell->col->units);
+		lines = cell_split_text (print_font, cell->text->str,
+					 cell->col->units);
 		line_count = g_list_length (lines);
 		
 		{
@@ -333,6 +340,7 @@ print_cell_text (GnomePrintContext *context, Cell *cell, double base_x, double b
 			total += len;
 		} while (halign == HALIGN_FILL && total < cell->col->units && len > 0);
 	}
+	style_unref (style);
 }
 
 static void
@@ -357,13 +365,14 @@ static void
 print_cell (GnomePrintContext *context, Cell *cell,
 	    double x1, double y1, double x2, double y2)
 {
-	StyleColor *fore = cell->style->fore_color;
+	Style *style = cell_get_style (cell);
+	StyleColor *fore = style->fore_color;
 	
 	g_assert (cell != NULL);
 
 	gnome_print_setrgbcolor (context, 0, 0, 0);
-	print_cell_border (context, cell->style->border, x1, y1, x2, y2);
-	print_cell_background (context, cell->style->back_color, x1, y1, x2, y2);
+/*	print_cell_border (context, style->border, x1, y1, x2, y2); */
+	print_cell_background (context, style->back_color, x1, y1, x2, y2);
 	
 	gnome_print_setrgbcolor (context,
 				 fore->red   / (double) 0xfff,
@@ -373,18 +382,21 @@ print_cell (GnomePrintContext *context, Cell *cell,
 	print_cell_text (context, cell,
 			 x1 + cell->col->margin_a_pt,
 			 y1 + cell->row->margin_b_pt);
+	style_unref (style);
 }
 
 static void
 print_empty_cell (GnomePrintContext *context, Sheet *sheet, int col, int row,
 		  double x1, double y1, double x2, double y2)
 {
-	Style *style;
+	MStyle *mstyle;
 
-	style = sheet_style_compute (sheet, col, row, NULL);
-	print_cell_background (context, style->back_color, x1, y1, x2, y2);
+	mstyle = sheet_style_compute (sheet, col, row);
+	print_cell_background (context,
+			       mstyle_get_color (mstyle, MSTYLE_COLOR_BACK),
+			       x1, y1, x2, y2);
 	
-	style_destroy (style);
+	mstyle_unref (mstyle);
 }
 
 void

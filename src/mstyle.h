@@ -1,0 +1,106 @@
+#ifndef GNUMERIC_MSTYLE_H
+#define GNUMERIC_MSTYLE_H
+
+#include <gdk/gdk.h>
+#include <libgnomeprint/gnome-font.h>
+
+typedef struct _MStyleBorder      MStyleBorder;
+typedef enum   _MStyleElementType MStyleElementType;
+
+/*
+ * Keep element_size up to date.
+ */
+enum _MStyleElementType {
+	/* Delimiter */ 
+	MSTYLE_ELEMENT_UNSET = 0,
+	/* When there is a conflict in a merge */
+	MSTYLE_ELEMENT_CONFLICT,
+	/* Types that are visible in blank cells */
+		MSTYLE_COLOR_BACK,
+		MSTYLE_COLOR_PATTERN,
+
+	        MSTYLE_BORDER_TOP,
+	        MSTYLE_BORDER_BOTTOM,
+	        MSTYLE_BORDER_LEFT,
+	        MSTYLE_BORDER_RIGHT,
+	        MSTYLE_BORDER_DIAGONAL,
+	        MSTYLE_BORDER_REV_DIAGONAL,
+
+		MSTYLE_PATTERN,
+	/* Delimiter */
+	MSTYLE_ELEMENT_MAX_BLANK,
+	/* Normal types */
+	        MSTYLE_COLOR_FORE,
+		MSTYLE_FONT_NAME,
+		MSTYLE_FONT_BOLD,
+		MSTYLE_FONT_ITALIC,
+	        MSTYLE_FONT_SIZE,
+
+		MSTYLE_FORMAT,
+
+	        MSTYLE_ALIGN_V,
+	        MSTYLE_ALIGN_H,
+
+		MSTYLE_ORIENTATION,
+
+		MSTYLE_FIT_IN_CELL,
+	/* Delimiter */
+	MSTYLE_ELEMENT_MAX
+};
+
+#include "sheet.h"
+#include "str.h"
+
+MStyle     *mstyle_new         (void);
+MStyle     *mstyle_new_name    (const gchar *name);
+MStyle     *mstyle_new_default (void);
+void        mstyle_ref         (MStyle *st);
+void        mstyle_unref       (MStyle *st);
+void        mstyle_destroy     (MStyle *st);
+gboolean    mstyle_equal       (const MStyle *a, const MStyle *b);
+gboolean    mstyle_verify      (const MStyle *st);
+
+/*
+ * Wafer thin element access functions.
+ */
+gboolean            mstyle_is_element_set  (const MStyle *st, MStyleElementType t);
+gboolean            mstyle_is_element_conflict (const MStyle *st, MStyleElementType t);
+void                mstyle_compare             (MStyle *a, const MStyle *b);
+void                mstyle_unset_element   (MStyle *st, MStyleElementType t);
+void                mstyle_set_color       (MStyle *st, MStyleElementType t,
+					    StyleColor *col);
+StyleColor         *mstyle_get_color       (MStyle *st, MStyleElementType t);
+void                mstyle_set_border      (MStyle *st, MStyleElementType t,
+					    MStyleBorder *border);
+const MStyleBorder *mstyle_get_border      (MStyle *st, MStyleElementType t);
+void                mstyle_set_pattern     (MStyle *st, int pattern);
+int                 mstyle_get_pattern     (MStyle *st);
+void                mstyle_set_font_name   (MStyle *st, const char *name);
+const char         *mstyle_get_font_name   (const MStyle *st);
+void                mstyle_set_font_bold   (MStyle *st, gboolean bold);
+gboolean            mstyle_get_font_bold   (MStyle *st);
+void                mstyle_set_font_italic (MStyle *st, gboolean italic);
+gboolean            mstyle_get_font_italic (MStyle *st);
+void                mstyle_set_font_size   (MStyle *st, double size);
+double              mstyle_get_font_size   (MStyle *st);
+StyleFont          *mstyle_get_font        (MStyle *st, double zoom);
+void                mstyle_set_format      (MStyle *st, const char *format);
+StyleFormat        *mstyle_get_format      (MStyle *st);
+void                mstyle_set_align_h     (MStyle *st, StyleHAlignFlags a);
+StyleHAlignFlags    mstyle_get_align_h     (MStyle *st);
+void                mstyle_set_align_v     (MStyle *st, StyleVAlignFlags a);
+StyleVAlignFlags    mstyle_get_align_v     (MStyle *st);
+void                mstyle_set_orientation (MStyle *st, StyleOrientation o);
+StyleOrientation    mstyle_get_orientation (MStyle *st);
+void                mstyle_set_fit_in_cell (MStyle *st, gboolean f);
+gboolean            mstyle_get_fit_in_cell (MStyle *st);
+
+/* commutative */
+MStyle     *mstyle_merge       (const MStyle *sta, const MStyle *stb);
+char       *mstyle_to_string   (const MStyle *st); /* Debug only ! leaks like a sieve */
+void        mstyle_dump        (const MStyle *st);
+
+MStyle     *mstyle_do_merge    (const GList *list, MStyleElementType max);
+gboolean    mstyle_list_check_sorted (const GList *list);
+
+#endif /* GNUMERIC_MSTYLE_H */

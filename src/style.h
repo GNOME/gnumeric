@@ -4,77 +4,14 @@
 #include <gdk/gdk.h>
 #include <libgnomeprint/gnome-font.h>
 
-typedef struct {
-        char     *format;
-	int      want_am_pm;
-        char     restriction_type;
-        int      restriction_value;
-} StyleFormatEntry;
+#define DEFAULT_FONT "Helvetica"
+#define DEFAULT_SIZE 12.0
 
-typedef struct {
-	int      ref_count;
-        GList    *format_list;  /* Of type StyleFormatEntry. */
-	char     *format;
-} StyleFormat;
-
-typedef struct {
-	int                ref_count;
-	char              *font_name;
-	double             size;
-	double             scale;
-	GnomeDisplayFont  *dfont;
-	GnomeFont         *font;
-
-	unsigned int is_bold:1;
-	unsigned int is_italic:1;
-} StyleFont;
-
-typedef struct {
-	int      ref_count;
-	GdkColor color;
-	char     *name;
-	gushort  red;
-	gushort  green;
-	gushort  blue;
-} StyleColor;
-
-/**
- *  The order or the following two records
- * is assumed in xml-io
- **/
-typedef enum {
- 	BORDER_NONE,
- 	BORDER_THIN,
- 	BORDER_MEDIUM,
- 	BORDER_DASHED,
- 	BORDER_DOTTED,
- 	BORDER_THICK,
- 	BORDER_DOUBLE,
- 	BORDER_HAIR,
-
- 	BORDER_MAX
-} StyleBorderType;
-
-typedef enum {
-	STYLE_TOP    = 0,
- 	STYLE_BOTTOM = 1,
- 	STYLE_LEFT   = 2,
- 	STYLE_RIGHT  = 3,
- 	STYLE_ORIENT_MAX  = 4
-} StyleBorderOrient;
-
-typedef struct {
-	int      ref_count;
-
-	/**
-	 * if the value is BORDER_NONE, then the respective
-	 * color is not allocated, otherwise, it has a
-	 * valid color.
-	 * NB. Use StyleBorderOrient to get orientation
-	 **/
- 	StyleBorderType type[STYLE_ORIENT_MAX];
- 	StyleColor  *color[STYLE_ORIENT_MAX];
-} StyleBorder;
+typedef struct _Style            Style;
+typedef struct _StyleFont        StyleFont;
+typedef struct _StyleColor       StyleColor;
+typedef struct _StyleFormat      StyleFormat;
+typedef struct _StyleFormatEntry StyleFormatEntry;
 
 /* Alignment definitions */
 typedef enum {
@@ -100,42 +37,93 @@ typedef enum {
 	ORIENT_VERT_VERT_TEXT2 = 8
 } StyleOrientation;
 
-#define STYLE_FORMAT       1
-#define STYLE_FONT         2
-#define STYLE_BORDER       4
-#define STYLE_PATTERN      8
-#define STYLE_ALIGN       16
-#define STYLE_FORE_COLOR  32
-#define STYLE_BACK_COLOR  64
-#define STYLE_MAXIMUM    128
+#include "mstyle.h"
+
+struct _StyleFormatEntry {
+        char     *format;
+	int      want_am_pm;
+        char     restriction_type;
+        int      restriction_value;
+};
+
+struct _StyleFormat {
+	int      ref_count;
+        GList    *format_list;  /* Of type StyleFormatEntry. */
+	char     *format;
+};
+
+struct _StyleFont {
+	int                ref_count;
+	char              *font_name;
+	double             size;
+	double             scale;
+	GnomeDisplayFont  *dfont;
+	GnomeFont         *font;
+
+	unsigned int is_bold:1;
+	unsigned int is_italic:1;
+};
+
+struct _StyleColor {
+	int      ref_count;
+	GdkColor color;
+	char     *name;
+	gushort  red;
+	gushort  green;
+	gushort  blue;
+};
+
+#define STYLE_FORMAT         0x0001
+#define STYLE_FONT           0x0002
+#define STYLE_PATTERN        0x0004
+#define STYLE_ALIGN          0x0008
+#define STYLE_FORE_COLOR     0x0010
+#define STYLE_BACK_COLOR     0x0020
+#define STYLE_PATTERN_COLOR  0x0040
+#define STYLE_BORDER_TOP     0x0080
+#define STYLE_BORDER_LEFT    0x0100
+#define STYLE_BORDER_BOTTOM  0x0200
+#define STYLE_BORDER_RIGHT   0x0400
+#define STYLE_MAXIMUM        0x0800
 
 /* Define all of the styles we actually know about */
-#define STYLE_ALL (STYLE_FORMAT | STYLE_FONT | STYLE_BORDER | STYLE_ALIGN | \
-		   STYLE_PATTERN | STYLE_FORE_COLOR | STYLE_BACK_COLOR)
+#define STYLE_ALL (STYLE_FORMAT | STYLE_FONT | STYLE_PATTERN | STYLE_ALIGN | \
+		   STYLE_FORE_COLOR | STYLE_BACK_COLOR | STYLE_PATTERN_COLOR | \
+		   STYLE_BORDER_TOP | STYLE_BORDER_LEFT | STYLE_BORDER_BOTTOM | STYLE_BORDER_RIGHT)
 
-typedef struct {
+struct _Style {
 	StyleFormat   *format;
 	StyleFont     *font;
-	StyleBorder   *border;
 	StyleColor    *fore_color;
 	StyleColor    *back_color;
+	StyleColor    *pattern_color;
 
+	/* Maybe make these an array */
+	MStyleBorder  *border_top;
+	MStyleBorder  *border_left;
+	MStyleBorder  *border_bottom;
+	MStyleBorder  *border_right;
+	MStyleBorder  *border_diagonal;		/* Unsupported */
+	MStyleBorder  *border_rev_diagonal;	/* Unsupported */
 	unsigned int pattern:4;
 	unsigned int valign:4;
 	unsigned int halign:6;
 	unsigned int orientation:4;
 	unsigned int fit_in_cell:1;
 	
-	unsigned char valid_flags;
-} Style;
+	unsigned int valid_flags;
+};
 
 void           style_init  	      (void);
 void	       style_shutdown         (void);
 
 Style         *style_new   	      (void);
+Style         *style_new_mstyle       (MStyle *e, guint len,
+				       double zoom);
 void           style_merge_to         (Style *target, Style *source);
 Style         *style_duplicate        (const Style *style);
 void           style_destroy          (Style *style);
+#define        style_unref(s)         style_destroy (s)
 Style         *style_new_empty        (void);
 
 StyleFormat   *style_format_new       (const char *name);
@@ -158,12 +146,6 @@ void           style_font_unref       (StyleFont *sf);
 StyleColor    *style_color_new        (gushort red, gushort green, gushort blue);
 void           style_color_ref        (StyleColor *sc);
 void           style_color_unref      (StyleColor *sc);
-
-StyleBorder   *style_border_new_plain (void);
-void           style_border_ref       (StyleBorder *sb);
-void           style_border_unref     (StyleBorder *sb);
-StyleBorder   *style_border_new       (StyleBorderType const border_type[STYLE_ORIENT_MAX],
- 				       StyleColor *border_color[STYLE_ORIENT_MAX]);
 
 /*
  * For hashing Styles

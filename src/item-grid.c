@@ -18,6 +18,7 @@
 #include "clipboard.h"
 #include "selection.h"
 #include "main.h"
+#include "border.h"
 
 static GnomeCanvasItem *item_grid_parent_class;
 
@@ -42,22 +43,6 @@ item_grid_destroy (GtkObject *object)
 		(*GTK_OBJECT_CLASS (item_grid_parent_class)->destroy)(object);
 }
 
-struct {
-	gint         width;
-	GdkLineStyle style;
-} static style_border_data[] = {
-	{ 0, GDK_LINE_SOLID },
-	{ 1, GDK_LINE_SOLID },
-	{ 2, GDK_LINE_SOLID },
-	{ 1, GDK_LINE_DOUBLE_DASH },
-	{ 1, GDK_LINE_ON_OFF_DASH },
-	{ 3, GDK_LINE_SOLID },
-	{ 4, GDK_LINE_SOLID },
-	{ 1, GDK_LINE_DOUBLE_DASH },
-	{ 1, GDK_LINE_ON_OFF_DASH },	
-	{ -1, GDK_LINE_SOLID} /* heffalump trap */
-};
-
 static void
 item_grid_realize (GnomeCanvasItem *item)
 {
@@ -66,7 +51,6 @@ item_grid_realize (GnomeCanvasItem *item)
 	GdkWindow *window;
 	ItemGrid  *item_grid;
 	GdkGC     *gc;
-	gint       i;
 
 	if (GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->realize)
 		(*GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->realize)(item);
@@ -84,22 +68,6 @@ item_grid_realize (GnomeCanvasItem *item)
 	item_grid->background = gs_white;
 	item_grid->grid_color = gs_light_gray;
 	item_grid->default_color = gs_black;
-
-	for (i = 0; i < BORDER_MAX; i++) {
-		GdkGC *b_gc = gdk_gc_new (window);
-
-		if (style_border_data[i].width < 0)
-			g_warning ("Serious style error");
-
-		gdk_gc_set_line_attributes (b_gc, style_border_data[i].width,
-					    style_border_data[i].style,
-					    GDK_CAP_BUTT, GDK_JOIN_MITER);
-
-		gdk_gc_set_foreground (b_gc, &item_grid->default_color);
-		gdk_gc_set_background (b_gc, &item_grid->background);
-
-		item_grid->border_gc[i] = b_gc;
-	}
 
 	gdk_gc_set_foreground (gc, &item_grid->grid_color);
 	gdk_gc_set_background (gc, &item_grid->background);
@@ -126,7 +94,6 @@ static void
 item_grid_unrealize (GnomeCanvasItem *item)
 {
 	ItemGrid *item_grid = ITEM_GRID (item);
-	gint i;
 
 	gdk_gc_unref (item_grid->grid_gc);
 	gdk_gc_unref (item_grid->fill_gc);
@@ -136,9 +103,6 @@ item_grid_unrealize (GnomeCanvasItem *item)
 	item_grid->fill_gc = 0;
 	item_grid->gc = 0;
 	item_grid->empty_gc = 0;
-
-	for (i = 0; i < BORDER_MAX; i++)
-		gdk_gc_unref (item_grid->border_gc[i]);
 
 	if (GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->unrealize)
 		(*GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->unrealize)(item);
@@ -248,6 +212,33 @@ item_grid_invert_gc (ItemGrid *item_grid)
 	}
 }
 
+static void
+item_grid_draw_border (GdkDrawable *drawable, Style *style,
+		       int x, int y, int w, int h)
+{
+	if (style->valid_flags & STYLE_BORDER_TOP)
+		border_draw (drawable, style->border_top,
+			     x, y, x+w, y);
+	if (style->valid_flags & STYLE_BORDER_LEFT)
+		border_draw (drawable, style->border_left,
+			     x, y, x, y+h);
+	if (style->valid_flags & STYLE_BORDER_BOTTOM)
+		border_draw (drawable, style->border_bottom,
+			     x, y+h, x+w, y+h);
+	if (style->valid_flags & STYLE_BORDER_RIGHT)
+		border_draw (drawable, style->border_right,
+			     x+w, y, x+w, y+h);
+#if 0
+	/* These would look ugly and should be ignored for now */
+	if (style->valid_flags & STYLE_BORDER_DIAGONAL)
+		border_draw (drawable, style->border_diagonal,
+			     x, y, x+w, y+h);
+	if (style->valid_flags & STYLE_BORDER_REV_DIAGONAL)
+		border_draw (drawable, style->border_rev_diagonal,
+			     x+w, y+h, x, y);
+#endif
+}
+
 /*
  * Draw a cell.  It gets pixel level coordinates
  *
@@ -256,30 +247,31 @@ item_grid_invert_gc (ItemGrid *item_grid)
 static int
 item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int x1, int y1)
 {
-	GdkGC       *gc     = item_grid->gc;
+	GdkGC      *gc     = item_grid->gc;
 	int         count;
 	int         w, h;
+	Style      *style;
 
+	style = cell_get_style (cell);
 	/* setup foreground */
 	gdk_gc_set_foreground (gc, &item_grid->default_color);
 	if (cell->render_color)
 		gdk_gc_set_foreground (gc, &cell->render_color->color);
 	else {
-		if (cell->style->valid_flags & STYLE_FORE_COLOR)
-			gdk_gc_set_foreground (gc, &cell->style->fore_color->color);
+		if (style->valid_flags & STYLE_FORE_COLOR)
+			gdk_gc_set_foreground (gc, &style->fore_color->color);
 	}
 
-	if (cell->style->valid_flags & STYLE_BACK_COLOR){
-		gdk_gc_set_background (gc, &cell->style->back_color->color);
+	if (style->valid_flags & STYLE_BACK_COLOR && style->back_color){
+		gdk_gc_set_background (gc, &style->back_color->color);
 	}
-
 
 	w = cell->col->pixels;
 	h = cell->row->pixels;
-	if ((cell->style->valid_flags & STYLE_PATTERN) && cell->style->pattern){
+	if ((style->valid_flags & STYLE_PATTERN) && style->pattern){
 #if 0
 		GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_grid);
-		int p = cell->style->pattern - 1;
+		int p = style->pattern - 1;
 
 		/*
 		 * Next two lines are commented since the pattern display code of the cell
@@ -298,37 +290,9 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 	/* Draw cell contents BEFORE border */
 	count = cell_draw (cell, item_grid->sheet_view, gc, drawable, x1, y1);
 
-	if ((gnumeric_debugging > 0) &&
-	    (cell->style->valid_flags & STYLE_BORDER) &&
-	    cell->style->border) {
-		StyleBorder     *b = cell->style->border;
-		GdkGC           *gc;
-		StyleBorderType  t;
+	item_grid_draw_border (drawable, style, x1, y1, w, h);
 
-		t = b->type [STYLE_TOP];
-		if (t != BORDER_NONE) {
-			gc = item_grid->border_gc [t];
-			gdk_draw_line (drawable, gc, x1, y1, x1 + w, y1);
-		}
-
-		t = b->type [STYLE_BOTTOM];
-		if (t != BORDER_NONE) {
-			gc = item_grid->border_gc [t];
-			gdk_draw_line (drawable, gc, x1, y1 + h, x1 + w, y1 + h);
-		}
-
-		t = b->type [STYLE_LEFT];
-		if (t != BORDER_NONE) {
-			gc = item_grid->border_gc [t];
-			gdk_draw_line (drawable, gc, x1, y1, x1, y1 + h);
-		}
-
-		t = b->type [STYLE_RIGHT];
-		if (t != BORDER_NONE) {
-			gc = item_grid->border_gc [t];
-			gdk_draw_line (drawable, gc, x1 + w, y1, x1 + w, y1 + h);
-		}
-	}
+	style_unref (style);
 
 	return count;
 }
@@ -338,23 +302,18 @@ item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 			    ColRowInfo *ci, ColRowInfo *ri, int col, int row,
 			    int x, int y)
 {
-	Style *style;
+	MStyle *mstyle;
 	
-	style = sheet_style_compute (item_grid->sheet, col, row, NULL);
+	mstyle = sheet_style_compute (item_grid->sheet, col, row);
 
-	if (style->valid_flags & (STYLE_PATTERN | STYLE_FORE_COLOR)){
-		/* FIXME: set the GC here */
-	}
+/*	if (style->valid_flags & (STYLE_PATTERN | STYLE_FORE_COLOR)) {
+		 FIXME: set the GC here
+		}*/
 
-	if ((style->valid_flags & STYLE_BACK_COLOR) && (style->back_color)){
-		Sheet *sheet = item_grid->sheet_view->sheet;
-		
-		if (style->back_color == sheet->default_style->back_color){
-			style_destroy (style);
-			return;
-		}
-
-		gdk_gc_set_foreground (item_grid->empty_gc, &style->back_color->color);
+	if (mstyle_is_element_set (mstyle, MSTYLE_COLOR_BACK) &&
+	    mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)) {
+		gdk_gc_set_foreground (item_grid->empty_gc,
+				       &mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)->color);
 		gdk_draw_rectangle (
 			drawable, item_grid->empty_gc, TRUE,
 			x + ci->margin_a, y + ri->margin_b,
@@ -362,7 +321,14 @@ item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 			ri->pixels - ri->margin_b);
 	}
 
-	style_destroy (style);
+	{
+		Style *style = style_new_mstyle (mstyle, MSTYLE_ELEMENT_MAX,
+						 item_grid->sheet->last_zoom_factor_used);
+		item_grid_draw_border (drawable, style, x, y, ci->pixels, ri->pixels);
+		style_unref (style);
+		mstyle_unref (mstyle);
+	}
+
 	return;
 }
 

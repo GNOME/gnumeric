@@ -14,13 +14,10 @@
 #include "gnumeric-util.h"
 
 #undef DEBUG_FONTS
-#define DEFAULT_FONT "Helvetica"
-#define DEFAULT_SIZE 12
 
 static GHashTable *style_format_hash;
 static GHashTable *style_font_hash;
 static GHashTable *style_font_negative_hash;
-static GHashTable *style_border_hash;
 static GHashTable *style_color_hash;
 
 StyleFont *gnumeric_default_font;
@@ -36,7 +33,7 @@ style_format_new (const char *name)
 
 	format = (StyleFormat *) g_hash_table_lookup (style_format_hash, name);
 
-	if (!format){
+	if (!format) {
 		format = g_new0 (StyleFormat, 1);
 		format->format = g_strdup (name);
 		format_compile (format);
@@ -266,66 +263,6 @@ style_font_unref (StyleFont *sf)
 	g_free (sf);
 }
 
-StyleBorder *
-style_border_new (StyleBorderType  border_type  [4],
-		  StyleColor      *border_color [4])
-
-{
-	StyleBorder key, *border;
-	int lp;
-
- 	memcpy (&key.type, border_type, sizeof(key.type));
- 	for (lp = 0; lp < 4; lp++){
-		if (border_color [lp])
-			key.color [lp] = border_color [lp];
-		else
- 			key.color [lp] = NULL;
- 	}
-
-	border = (StyleBorder *) g_hash_table_lookup (style_border_hash,
-						      &key);
-	if (!border){
-		border = g_new0 (StyleBorder, 1);
-		*border = key;
-		g_hash_table_insert (style_border_hash, border, border);
-		border->ref_count = 0;
-	}
-	border->ref_count++;
-
-	return border;
-}
-
-void
-style_border_ref (StyleBorder *sb)
-{
-	g_return_if_fail (sb != NULL);
-
-	sb->ref_count++;
-}
-
-void
-style_border_unref (StyleBorder *sb)
-{
-	g_return_if_fail (sb != NULL);
-	g_return_if_fail (sb->ref_count > 0);
-
-	sb->ref_count--;
-	if (sb->ref_count != 0)
-		return;
-
-	g_hash_table_remove (style_border_hash, sb);
-	g_free (sb);
-}
-
-StyleBorder *
-style_border_new_plain (void)
-{
- 	StyleBorderType style [4] = { BORDER_NONE, BORDER_NONE, BORDER_NONE, BORDER_NONE };
- 	StyleColor *color [4] = { NULL, NULL, NULL, NULL };
-
-	return style_border_new (style, color);
-}
-
 StyleColor *
 style_color_new (gushort red, gushort green, gushort blue)
 {
@@ -395,13 +332,20 @@ style_new (void)
 
 	style->format      = style_format_new ("General");
 	style->font        = style_font_new (DEFAULT_FONT, DEFAULT_SIZE, 1.0, FALSE, FALSE);
-	style->border      = style_border_new_plain ();
 	style->fore_color  = style_color_new (0, 0, 0);
+	style->pattern_color  = style_color_new (0, 0, 0);
 	style->back_color  = style_color_new (0xffff, 0xffff, 0xffff);
 	style->halign      = HALIGN_GENERAL;
 	style->valign      = VALIGN_CENTER;
 	style->orientation = ORIENT_HORIZ;
+	style->border_top = NULL;
+	style->border_left = NULL;
+	style->border_bottom = NULL;
+	style->border_right = NULL;
+	style->border_diagonal = NULL;		/* Unsupported */
+	style->border_rev_diagonal = NULL;	/* Unsupported */
 
+	g_warning ("Style new is deprecated: root it out");
 	if (0) {
 		static int warning_shown;
 
@@ -415,39 +359,119 @@ style_new (void)
 	return style;
 }
 
-guint
-style_hash (gconstpointer a)
+Style *
+style_new_mstyle (MStyle *st, guint len, gdouble zoom)
 {
-	Style *style = (Style *) a;
+	Style *style;
 
-	return ((int) style->format) ^ ((int) style->font) ^ ((int) style->border)
-		^ ((int) style->fore_color) ^ ((int) style->back_color);
-}
+	style = g_new0 (Style, 1);
 
-gint
-style_compare (gconstpointer a, gconstpointer b)
-{
-	Style *sa, *sb;
+	style->valign = VALIGN_CENTER;
+	style->halign = HALIGN_GENERAL;
+	style->orientation = ORIENT_HORIZ;
 
-	sa = (Style *) a;
-	sb = (Style *) b;
+	if (len > MSTYLE_ELEMENT_MAX_BLANK) {
+		const gchar *name;
+		int    bold, italic;
+		double size;
 
-	if (sa->format != sb->format)
-		return FALSE;
-	if (sa->font != sb->font)
-		return FALSE;
-	if (sa->border != sb->border)
-		return FALSE;
-	if (sa->fore_color != sb->fore_color)
-		return FALSE;
-	if (sa->halign != sb->halign)
-		return FALSE;
-	if (sa->valign != sb->valign)
-		return FALSE;
-	if (sa->orientation != sb->orientation)
-		return FALSE;
+		style->valid_flags = STYLE_ALL;
+		
+		if (mstyle_is_element_set (st, MSTYLE_FONT_NAME))
+			name = mstyle_get_font_name (st);
+		else
+			name = DEFAULT_FONT;
+		if (mstyle_is_element_set (st, MSTYLE_FONT_BOLD))
+			bold = mstyle_get_font_bold (st);
+		else
+			bold = 0;
+		if (mstyle_is_element_set (st, MSTYLE_FONT_ITALIC))
+			italic = mstyle_get_font_italic (st);
+		else
+			italic = 0;
+		if (mstyle_is_element_set (st, MSTYLE_FONT_SIZE))
+			size = mstyle_get_font_size (st);
+		else
+			size = DEFAULT_SIZE;
 
-	return TRUE;
+		if (bold || italic || (name != DEFAULT_FONT) ||
+		    (size != DEFAULT_SIZE))
+			style->font = style_font_new (name, size, zoom,
+						      bold, italic);
+		else {
+			style->font = gnumeric_default_font;
+			style_font_ref (style->font);
+		}
+
+		if (mstyle_is_element_set (st, MSTYLE_ALIGN_V))
+			style->valign = mstyle_get_align_v (st);
+
+		if (mstyle_is_element_set (st, MSTYLE_ALIGN_H))
+			style->halign = mstyle_get_align_h (st);
+
+		if (mstyle_is_element_set (st, MSTYLE_ORIENTATION))
+			style->orientation = mstyle_get_orientation (st);
+
+		if (mstyle_is_element_set (st, MSTYLE_COLOR_FORE)) {
+			style->fore_color = mstyle_get_color (st, MSTYLE_COLOR_FORE);
+			style_color_ref (style->fore_color);
+		} else
+			style->fore_color = style_color_new (0, 0, 0);
+		
+		if (mstyle_is_element_set (st, MSTYLE_FORMAT)) {
+			style->format = mstyle_get_format (st);
+			style_format_ref (style->format);
+		} else 
+			style->format = style_format_new ("General");
+	} else
+		style->valid_flags = STYLE_PATTERN_COLOR | STYLE_BACK_COLOR | STYLE_PATTERN
+			| STYLE_BORDER_TOP | STYLE_BORDER_LEFT
+			| STYLE_BORDER_BOTTOM | STYLE_BORDER_RIGHT;
+
+	/* Styles that will show up on blank cells */
+	if (mstyle_is_element_set (st, MSTYLE_COLOR_BACK)) {
+		style->back_color = mstyle_get_color (st, MSTYLE_COLOR_BACK);
+		style_color_ref (style->back_color);
+	} else
+		style->back_color = style_color_new (0xffff, 0xffff, 0xffff);
+
+	if (mstyle_is_element_set (st, MSTYLE_COLOR_PATTERN)) {
+		style->pattern_color = mstyle_get_color (st, MSTYLE_COLOR_PATTERN);
+		style_color_ref (style->pattern_color);
+	} else
+		style->pattern_color = style_color_new (0x0000, 0x0000, 0x0000);
+
+	if (mstyle_is_element_set (st, MSTYLE_FIT_IN_CELL))
+		style->fit_in_cell = mstyle_get_fit_in_cell (st);
+	else
+		style->fit_in_cell = 0;
+
+	if (mstyle_is_element_set (st, MSTYLE_BORDER_TOP))
+		style->border_top = mstyle_get_border (st, MSTYLE_BORDER_TOP);
+	else
+		style->border_top = NULL;
+	if (mstyle_is_element_set (st, MSTYLE_BORDER_LEFT))
+		style->border_left = mstyle_get_border (st, MSTYLE_BORDER_LEFT);
+	else
+		style->border_left = NULL;
+	if (mstyle_is_element_set (st, MSTYLE_BORDER_BOTTOM))
+		style->border_bottom = mstyle_get_border (st, MSTYLE_BORDER_BOTTOM);
+	else
+		style->border_bottom = NULL;
+	if (mstyle_is_element_set (st, MSTYLE_BORDER_RIGHT))
+		style->border_right = mstyle_get_border (st, MSTYLE_BORDER_RIGHT);
+	else
+		style->border_right = NULL;
+	if (mstyle_is_element_set (st, MSTYLE_BORDER_DIAGONAL))
+		style->border_diagonal = mstyle_get_border (st, MSTYLE_BORDER_DIAGONAL);
+	else
+		style->border_diagonal = NULL;
+	if (mstyle_is_element_set (st, MSTYLE_BORDER_REV_DIAGONAL))
+		style->border_rev_diagonal = mstyle_get_border (st, MSTYLE_BORDER_REV_DIAGONAL);
+	else
+		style->border_rev_diagonal = NULL;
+
+	return style;
 }
 
 Style *
@@ -472,9 +496,6 @@ style_destroy (Style *style)
 
 	if (style->valid_flags & STYLE_FONT)
 		style_font_unref (style->font);
-
-	if (style->valid_flags & STYLE_BORDER)
-		style_border_unref (style->border);
 
 	if (style->valid_flags & STYLE_FORE_COLOR)
 		if (style->fore_color)
@@ -508,11 +529,6 @@ style_duplicate (const Style *original)
 		style_font_ref (style->font);
 	else
 		style->font = NULL;
-
-	if (style->valid_flags & STYLE_BORDER)
-		style_border_ref (style->border);
-	else
-		style->border = NULL;
 
 	if (style->valid_flags & STYLE_FORE_COLOR)
 		style_color_ref (style->fore_color);
@@ -558,35 +574,6 @@ font_hash (gconstpointer v)
 }
 
 static gint
-border_equal (gconstpointer v, gconstpointer v2)
-{
-	const StyleBorder *k1 = (const StyleBorder *) v;
-	const StyleBorder *k2 = (const StyleBorder *) v2;
-	int lp;
-
- 	for (lp = 0; lp < 4; lp++)
- 	{
- 		if (k1->type [lp] != k2->type [lp])
- 			return 0;
- 		if (k1->type [lp] != BORDER_NONE &&
-		    k1->color [lp] != k2->color [lp])
-			return 0;
-	}
-
-	return 1;
-}
-
-static guint
-border_hash (gconstpointer v)
-{
-	const StyleBorder *k = (const StyleBorder *) v;
-
- 	return (k->type [STYLE_LEFT] << 12) | (k->type [STYLE_RIGHT] << 8) |
-	       (k->type [STYLE_TOP] << 4)   | (k->type [STYLE_BOTTOM]);
-
-}
-
-static gint
 color_equal (gconstpointer v, gconstpointer v2)
 {
 	const StyleColor *k1 = (const StyleColor *) v;
@@ -611,56 +598,7 @@ color_hash (gconstpointer v)
 void
 style_merge_to (Style *target, Style *source)
 {
-	if (!(target->valid_flags & STYLE_FORMAT))
-		if (source->valid_flags & STYLE_FORMAT){
-			target->valid_flags |= STYLE_FORMAT;
-			target->format = source->format;
-			style_format_ref (target->format);
-		}
-
-	if (!(target->valid_flags & STYLE_FONT))
-		if (source->valid_flags & STYLE_FONT){
-			target->valid_flags |= STYLE_FONT;
-			target->font = source->font;
-			style_font_ref (target->font);
-		}
-
-	if (!(target->valid_flags & STYLE_BORDER))
-		if (source->valid_flags & STYLE_BORDER){
-			target->valid_flags |= STYLE_BORDER;
-			target->border = source->border;
-			style_border_ref (target->border);
-		}
-
-	if (!(target->valid_flags & STYLE_ALIGN))
-		if (source->valid_flags & STYLE_ALIGN){
-			target->valid_flags |= STYLE_ALIGN;
-			target->halign      = source->halign;
-			target->valign      = source->valign;
-			target->orientation = source->orientation;
-		}
-
-	if (!(target->valid_flags & STYLE_FORE_COLOR))
-		if (source->valid_flags & STYLE_FORE_COLOR){
-			target->valid_flags |= STYLE_FORE_COLOR;
-			target->fore_color = source->fore_color;
-			if (target->fore_color)
-				style_color_ref (target->fore_color);
-		}
-
-	if (!(target->valid_flags & STYLE_BACK_COLOR))
-		if (source->valid_flags & STYLE_BACK_COLOR){
-			target->valid_flags |= STYLE_BACK_COLOR;
-			target->back_color = source->back_color;
-			if (target->back_color)
-				style_color_ref (target->back_color);
-		}
-
-	if (!(target->valid_flags & STYLE_PATTERN))
-		if (source->valid_flags & STYLE_PATTERN){
-			target->valid_flags |= STYLE_PATTERN;
-			target->pattern = source->pattern;
-		}
+	g_warning ("Deprecated style_merge_to");
 }
 
 static void
@@ -712,7 +650,6 @@ style_init (void)
 {
 	style_format_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	style_font_hash   = g_hash_table_new (font_hash, font_equal);
-	style_border_hash = g_hash_table_new (border_hash, border_equal);
 	style_color_hash  = g_hash_table_new (color_hash, color_equal);
 
 	style_font_negative_hash = g_hash_table_new (font_hash, font_equal);
@@ -746,8 +683,6 @@ style_shutdown (void)
 	style_format_hash = NULL;
 	g_hash_table_destroy (style_font_hash);
 	style_font_hash = NULL;
-	g_hash_table_destroy (style_border_hash);
-	style_border_hash = NULL;
 	g_hash_table_destroy (style_color_hash);
 	style_color_hash = NULL;
 

@@ -17,6 +17,7 @@ GRAPH_CORBA_GENERATED = 		\
 	Graph.h
 
 graph_SOURCES =			\
+	$(GRAPH_CORBA_GENERATED)\
 	graph.c			\
 	graph.h			\
 	graph-vector.c		\
@@ -37,21 +38,19 @@ graph_SOURCES =			\
 	layout-view.h		\
 	main.c			\
 	vector.c		\
-	vector.h		\
-	$(GRAPH_CORBA_GENERATED)
+	vector.h
 
 graph_LDADD =			\
 	$(EXTRA_GNOME_LIBS)	\
 	$(INTLLIBS)
 
-BUILT_SOURCES = $(GRAPH_CORBA_GENERATED)
-
-$(GRAPH_CORBA_GENERATED): my_graph_idl
-
-my_graph_idl: Graph.idl $(top_srcdir)/src/Gnumeric-value.idl $(top_srcdir)/src/Gnumeric.idl
+$(GRAPH_CORBA_GENERATED): Graph.idl $(top_srcdir)/src/Gnumeric-value.idl $(top_srcdir)/src/Gnumeric.idl
 	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) -I$(top_srcdir) $(srcdir)/Graph.idl
 	touch my_graph_idl
 
-CLEANFILES = my_graph_idl
+idldir   = $(datadir)/idl
+idl_DATA = Graph.idl
 
 MYHACKAROUNDAUTOMAKE=$(shell echo $(GNUMERIC_CORBA_GENERATED))
+
+EXTRA_DIST = $(idl_DATA) $(MYHACKAROUNDAUTOMAKE) graph.gnorba

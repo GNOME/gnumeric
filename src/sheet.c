@@ -20,6 +20,7 @@
 #include "selection.h"
 #include "ranges.h"
 #include "print-info.h"
+#include "mstyle.h"
 #ifdef ENABLE_BONOBO
 #    include <libgnorba/gnorba.h>
 #endif
@@ -173,7 +174,9 @@ Sheet *
 sheet_new (Workbook *wb, const char *name)
 {
 	GtkWidget *sheet_view;
-	Sheet *sheet;
+	Sheet  *sheet;
+	MStyle *mstyle;
+	Range   r;
 
 	g_return_val_if_fail (wb != NULL, NULL);
 	g_return_val_if_fail (name != NULL, NULL);
@@ -182,6 +185,7 @@ sheet_new (Workbook *wb, const char *name)
 	sheet->signature = SHEET_SIGNATURE;
 	sheet->workbook = wb;
 	sheet->name = g_strdup (name);
+	sheet_create_styles (sheet);
 	sheet->last_zoom_factor_used = -1.0;
 	sheet->cols.max_used = -1;
 	sheet->rows.max_used = -1;
@@ -195,8 +199,12 @@ sheet_new (Workbook *wb, const char *name)
 	sheet->cell_hash = g_hash_table_new (cell_hash,
 					     (GCompareFunc)&cell_compare);
 
-	sheet->default_style = style_new ();
-	sheet_style_attach (sheet, 0, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1, sheet->default_style);
+	mstyle = mstyle_new_default ();
+	r.start.col = 0;
+	r.start.row = 0;
+	r.end.col = SHEET_MAX_COLS - 1;
+	r.end.row = SHEET_MAX_ROWS - 1;
+	sheet_style_attach (sheet, r, mstyle);
 
 	sheet_init_default_styles (sheet);
 
@@ -282,24 +290,6 @@ sheet_compute_col_row_new_size (Sheet *sheet, ColRowInfo *ci, void *data)
 	return FALSE;
 }
 
-static Value *
-zoom_cell_style (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
-{
-	StyleFont *sf;
-
-	/*
-	 * If the size is already set, skip
-	 */
-	if (cell->style->font->scale == sheet->last_zoom_factor_used)
-		return NULL;
-
-	sf = style_font_new_from (cell->style->font, sheet->last_zoom_factor_used);
-	cell_set_font_from_style (cell, sf);
-	style_font_unref (sf);
-
-	return NULL;
-}
-
 void
 sheet_set_zoom_factor (Sheet *sheet, double factor)
 {
@@ -331,29 +321,6 @@ sheet_set_zoom_factor (Sheet *sheet, double factor)
 		Cell *cell = cl->data;
 
 		cell_comment_reposition (cell);
-	}
-
-	/*
-	 * Scale the fonts for every cell
-	 */
-	sheet_cell_foreach_range (
-		sheet, TRUE, 0, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1,
-		zoom_cell_style, sheet);
-
-	/*
-	 * Scale the internal font styles
-	 */
-	for (l = sheet->style_list; l; l = l->next){
-		StyleRegion *sr = l->data;
-		Style *style = sr->style;
-		StyleFont *scaled;
-		
-		if (!(style->valid_flags & STYLE_FONT))
-			continue;
-
-		scaled = style_font_new_from (style->font, factor);
-		style_font_unref (style->font);
-		style->font = scaled;
 	}
 }
 
@@ -1201,7 +1168,7 @@ sheet_load_cell_val (Sheet *sheet)
 	entry = GTK_ENTRY (sheet->workbook->ea_input);
 	cell = sheet_cell_get (sheet, sheet->cursor_col, sheet->cursor_row);
 
-	if (cell){
+	if (cell) {
 		char *text;
 
 		text = cell_get_text (cell);
@@ -1261,67 +1228,6 @@ sheet_start_editing_at_cursor (Sheet *sheet, gboolean blankp, gboolean cursorp)
 }
 
 /****************************************************************************/
-
-typedef struct
-{
-	gboolean bold;
-	gboolean bold_common;
-
-	gboolean italic;
-	gboolean italic_common;
-
-	GnomeFont *font;
-	gboolean font_common;
-
-	double font_size;
-	gboolean font_size_common;
-
-	gboolean first;
-} range_homogeneous_style_p;
-
-static Value *
-cell_is_homogeneous (Sheet *sheet, int col, int row,
-		     Cell *cell, void *user_data)
-{
-	range_homogeneous_style_p *accum = user_data;
-
-	if (accum->first) {
-		accum->bold = cell->style->font->is_bold;
-		accum->italic = cell->style->font->is_italic;
-		accum->font = cell->style->font->font;
-		accum->first = FALSE;
-		accum->font_size = cell->style->font->size;
-	} else {
-		if (accum->italic != cell->style->font->is_italic)
-			accum->italic_common = FALSE;
-		if (accum->bold != cell->style->font->is_bold)
-			accum->bold_common = FALSE;
-		if (accum->font != cell->style->font->font)
-			accum->font_common = FALSE;
-
-		if ((accum->bold_common == FALSE) &&
-		    (accum->italic_common == FALSE) &&
-		    (accum->font_common == FALSE))
-			return value_terminate();
-	}
-	return NULL;
-}
-
-static void
-range_is_homogeneous(Sheet *sheet, 
-		     int start_col, int start_row,
-		     int end_col,   int end_row,
-		     void *closure)
-{
-	/*
-	 * FIXME : Only check existing cells for now.  When styles are
-	 * redone this will need rethinking.
-	 */
-	sheet_cell_foreach_range (sheet, TRUE,
-				  start_col, start_row, end_col, end_row,
-				  &cell_is_homogeneous, closure);
-}
-
 /**
  * sheet_update_controls:
  *
@@ -1331,53 +1237,15 @@ range_is_homogeneous(Sheet *sheet,
 void
 sheet_update_controls (Sheet *sheet)
 {
-	range_homogeneous_style_p closure;
-	int flags;
-	
-	memset (&closure, 0, sizeof (closure));
-	closure.first = TRUE;
-	closure.bold_common = TRUE;
-	closure.italic_common = TRUE;
-	closure.font_common = TRUE;
-	closure.font_size_common = TRUE;
+	/* FIXME: hack for now, should be 'cursor cell' of selection */
+	MStyle *mstyle;
 
-	/* Double counting is ok, don't bother breaking up the regions */
-	selection_apply (sheet, &range_is_homogeneous,
-			 TRUE, &closure);
+	g_return_if_fail (sheet != NULL);
 
-	if (closure.first) {
-		/*
-		 * If no cells are on the selection, use the first cell
-		 * in the range to compute the values
-		 */
-		SheetSelection const * const ss = sheet->selections->data;
-		Style *style = sheet_style_compute (sheet, ss->user.start.col,
-						    ss->user.start.row, NULL);
-		closure.bold = style->font->is_bold;
-		closure.italic = style->font->is_italic;
-		closure.font = style->font->font;
-		closure.font_size = style->font->size;
+	mstyle = sheet_style_compute (sheet, sheet->cursor_col,
+				      sheet->cursor_row);
 
-		flags = WORKBOOK_FEEDBACK_BOLD |
-			WORKBOOK_FEEDBACK_ITALIC |
-			WORKBOOK_FEEDBACK_FONT_SIZE |
-			WORKBOOK_FEEDBACK_FONT;
-		
-		style_destroy (style);
-	} else 
-		flags = (closure.bold_common ? WORKBOOK_FEEDBACK_BOLD : 0) |
-			(closure.italic_common ? WORKBOOK_FEEDBACK_ITALIC : 0) |
-			(closure.font_size_common ? WORKBOOK_FEEDBACK_FONT_SIZE : 0) |
-			(closure.font_common ? WORKBOOK_FEEDBACK_FONT : 0);
-	
-	if (flags == 0)
-		return;
-	
-	workbook_feedback_set (sheet->workbook, flags,
-			       closure.italic,
-			       closure.bold,
-			       closure.font_size,
-			       closure.font);
+	workbook_feedback_set (sheet->workbook, mstyle);
 }		
 
 int
@@ -1860,7 +1728,7 @@ sheet_col_get (Sheet const *sheet, int const pos)
 	return ci;
 }
 /**
- * sheet_col_fetch:
+ * sheet_col_get:
  *
  * Returns an allocated column:  either an existing one, or a fresh copy
  */
@@ -1868,7 +1736,6 @@ ColRowInfo *
 sheet_col_fetch (Sheet *sheet, int pos)
 {
 	ColRowInfo * res = sheet_col_get (sheet, pos);
-
 	if (res == NULL)
 		if ((res = sheet_col_new (sheet)) != NULL) {
 			res->pos = pos;
@@ -2117,15 +1984,6 @@ sheet_cell_add (Sheet *sheet, Cell *cell, int col, int row)
 	cell->row   = sheet_row_fetch (sheet, row);
 
 	cell_realize (cell);
-
-	if (!cell->style){
-		int flags;
-
-		cell->style = sheet_style_compute (sheet, col, row, &flags);
-
-		if (flags & STYLE_FORMAT)
-			cell->flags |= CELL_FORMAT_SET;
-	}
 	cell_calc_dimensions (cell);
 
 	sheet_cell_add_to_hash (sheet, cell);
@@ -2351,21 +2209,6 @@ sheet_row_destroy (Sheet *sheet, int const row, gboolean free_cells)
 	}
 }
 
-static void
-sheet_destroy_styles (Sheet *sheet)
-{
-	GList *l;
-
-	for (l = sheet->style_list; l; l = l->next){
-		StyleRegion *sr = l->data;
-
-		style_destroy (sr->style);
-		g_free (sr);
-	}
-	g_list_free (sheet->style_list);
-	sheet->style_list = NULL;
-}
-
 void
 sheet_destroy_contents (Sheet *sheet)
 {
@@ -2536,9 +2379,10 @@ sheet_clear_region (Sheet *sheet, int start_col, int start_row, int end_col, int
 	cb.l = NULL;
 	if (sheet_cell_foreach_range (sheet, TRUE,
 				       start_col, start_row, end_col, end_row,
-				       assemble_clear_cell_list, &cb) == NULL){
+				       assemble_clear_cell_list, &cb) == NULL) {
 		cb.l = g_list_reverse (cb.l);
 		cell_freeze_redraws();
+
 		for (l = cb.l; l; l = l->next){
 			Cell *cell = l->data;
 
@@ -2650,72 +2494,6 @@ sheet_clear_region_formats (Sheet *sheet, int start_col, int start_row, int end_
 		start_col, start_row,
 		end_col, end_row,
 		clear_cell_format, NULL);
-}
-
-void
-sheet_style_attach (Sheet *sheet, int start_col, int start_row, int end_col, int end_row, Style *style)
-{
-	StyleRegion *sr;
-
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (style != NULL);
-	g_return_if_fail (start_col <= end_col);
-	g_return_if_fail (start_row <= end_row);
-
-	sr = g_new (StyleRegion, 1);
-	sr->range.start.col = start_col;
-	sr->range.start.row = start_row;
-	sr->range.end.col = end_col;
-	sr->range.end.row = end_row;
-	sr->style = style;
-
-	sheet->style_list = g_list_prepend (sheet->style_list, sr);
-}
-
-/**
- * sheet_style_compute:
- * @sheet:	 Which sheet we are looking up
- * @col:	 column
- * @row:	 row
- * @non_default: A pointer where we store the attributes
- *               the cell has which are not part of the
- *               default style.
- */
-Style *
-sheet_style_compute (Sheet const *sheet, int col, int row, int *non_default)
-{
-	GList *l;
-	Style *style;
-	g_return_val_if_fail (sheet != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-
-	style = style_new_empty ();
-
-	/* Look in the styles applied to the sheet */
-	for (l = sheet->style_list; l; l = l->next){
-		StyleRegion *sr = l->data;
-		int is_default_style = l->next == NULL;
-		int flags;
-
-		flags = style->valid_flags;
-
-		if (range_contains (&sr->range, col, row)) {
-			style_merge_to (style, sr->style);
-			if (style->valid_flags == STYLE_ALL){
-				if (non_default){
-					if (!is_default_style)
-						*non_default = STYLE_ALL;
-					else
-						*non_default = flags;
-				}
-				return style;
-			}
-		}
-	}
-
-	g_warning ("Strange, no style available here\n");
-	return style_new ();
 }
 
 void

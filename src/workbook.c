@@ -1431,42 +1431,48 @@ wizard_input (GtkWidget *widget, Workbook *wb)
 }
 
 static void
-deps_output (GtkWidget *widget, Workbook *wb)
+misc_output (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = workbook_get_current_sheet (wb);
 	Range const * selection;
 	GList *list;
 
-	summary_info_dump (wb->summary_info);
-
-	if ((selection = selection_first_range (sheet)) == NULL) {
-		gnumeric_notice (
-			wb, GNOME_MESSAGE_BOX_ERROR,
-			_("Selection must be a single range"));
-		return;
+	if (gnumeric_debugging > 3) {
+		summary_info_dump (wb->summary_info);
+		
+		if ((selection = selection_first_range (sheet)) == NULL) {
+			gnumeric_notice (
+				wb, GNOME_MESSAGE_BOX_ERROR,
+				_("Selection must be a single range"));
+			return;
+		}
+		
+		printf ("The cells that depend on ");
+		range_dump (selection);
+		
+		list = region_get_dependencies (sheet,
+						selection->start.col, selection->start.row,
+						selection->end.col, selection->end.row);
+		
+		if (!list)
+			printf ("No dependencies\n");
+		
+		while (list) {
+			Cell *cell = list->data;
+			
+			list = g_list_next (list);
+			if (!cell)
+				continue;
+			
+			if (sheet != cell->sheet && cell->sheet)
+				printf ("%s", cell->sheet->name);
+			
+			printf ("%s\n", cell_name (cell->col->pos, cell->row->pos));
+		}
 	}
-
-	printf ("The cells that depend on ");
-	range_dump (selection);
-
-	list = region_get_dependencies (sheet,
-					selection->start.col, selection->start.row,
-					selection->end.col, selection->end.row);
-
-	if (!list)
-		printf ("No dependencies\n");
-
-	while (list){
-		Cell *cell = list->data;
-
-		list = g_list_next (list);
-		if (!cell)
-			continue;
-
-		if (sheet != cell->sheet && cell->sheet)
-			printf ("%s", cell->sheet->name);
-
-		printf ("%s\n", cell_name (cell->col->pos, cell->row->pos));
+	if (style_debugging > 0) {
+		printf ("Style list\n");
+		sheet_styles_dump (sheet);
 	}
 }
 
@@ -1514,14 +1520,15 @@ workbook_setup_edit_area (Workbook *wb)
 		gtk_box_pack_start (GTK_BOX (box), wizard_button, 0, 0, 0);
 	}
 
-	/* Dependency Debugger, currently only enabled if you run with --debug=10 */
-	if (gnumeric_debugging > 9){
+	/* Dependency + Style debugger */
+	if (gnumeric_debugging > 9 ||
+	    style_debugging > 0) {
 		deps_button = gtk_button_new ();
 		pix = gnome_stock_pixmap_widget_new (wb->toplevel, GNOME_STOCK_PIXMAP_BOOK_RED);
 		gtk_container_add (GTK_CONTAINER (deps_button), pix);
 		GTK_WIDGET_UNSET_FLAGS (deps_button, GTK_CAN_FOCUS);
 		gtk_signal_connect (GTK_OBJECT (deps_button), "clicked",
-				    GTK_SIGNAL_FUNC(deps_output), wb);
+				    GTK_SIGNAL_FUNC(misc_output), wb);
 		gtk_box_pack_start (GTK_BOX (box), deps_button, 0, 0, 0);
 	}
 
@@ -1881,6 +1888,7 @@ workbook_init (GtkObject *object)
 	/* Set the default operation to be performed over selections */
 	wb->auto_expr      = NULL;
 	wb->auto_expr_desc = NULL;
+	wb->clipboard_contents = NULL;
 	workbook_set_auto_expr (wb,
 		_(quick_compute_routines [0].displayed_name),
 		quick_compute_routines [0].function);

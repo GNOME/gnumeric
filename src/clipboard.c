@@ -82,18 +82,33 @@ paste_cell_flags (Sheet *dest_sheet, int target_col, int target_row,
 		  CellCopy *c_copy, int paste_flags)
 {
 	if (!(paste_flags & (PASTE_FORMULAS | PASTE_VALUES))){
-		Cell *cell;
-		
-		cell = sheet_cell_get (dest_sheet,
-				       target_col,
-				       target_row);
-		if (cell && c_copy->u.cell)
-			cell_set_style (cell, c_copy->u.cell->style);
+		Range r;
+
+		r.start.col = target_col;
+		r.start.row = target_row;
+		r.end.col   = target_col;
+		r.end.row   = target_row;
+		if (c_copy->u.cell.mstyle) {
+			mstyle_ref (c_copy->u.cell.mstyle);
+			sheet_style_attach (dest_sheet, r, c_copy->u.cell.mstyle);
+		}
 	} else {
 		Cell *new_cell;
 		
-		if (c_copy->type != CELL_COPY_TYPE_TEXT){
-			new_cell = cell_copy (c_copy->u.cell);
+		if (c_copy->type != CELL_COPY_TYPE_TEXT) {
+			Range r;
+
+			new_cell = cell_copy (c_copy->u.cell.cell);
+			
+			r.start.col = target_col;
+			r.start.row = target_row;
+			r.end.col   = target_col;
+			r.end.row   = target_row;
+			if (c_copy->u.cell.mstyle) {
+				mstyle_ref (c_copy->u.cell.mstyle);
+				sheet_style_attach (dest_sheet, r,
+						    c_copy->u.cell.mstyle);
+			}
 			
 			return paste_cell (
 				dest_sheet, new_cell,
@@ -186,7 +201,7 @@ do_clipboard_paste_cell_region (CellRegion *region, Sheet *dest_sheet,
 		dest_col + paste_width - 1,
 		dest_row + paste_height -1);
 
-	if (deps){
+	if (deps) {
 		cell_queue_recalc_list (deps, TRUE);
 		formulas = 1;
 	}
@@ -320,6 +335,15 @@ sheet_paste_selection (Sheet *sheet, CellRegion *content, SheetSelection *ss, cl
 		pc->dest_col, pc->dest_row,
 		paste_width,  paste_height,
 		pc->paste_flags);
+
+	{
+		Range r;
+		r.start.col = pc->dest_col;
+		r.end.col   = pc->dest_col + paste_width;
+		r.start.row = pc->dest_row;
+		r.end.row   = pc->dest_row + paste_height;
+		sheet_style_optimize (sheet, r);
+	}
 
 	sheet_cursor_set (pc->dest_sheet,
 			  pc->dest_col, pc->dest_row,
@@ -461,7 +485,9 @@ clipboard_prepend_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_d
 	copy = g_new (CellCopy, 1);
 
 	copy->type = CELL_COPY_TYPE_CELL;
-	copy->u.cell = cell_copy (cell);
+	copy->u.cell.cell = cell_copy (cell);
+	/* Horrific inefficiency */
+	copy->u.cell.mstyle = sheet_style_compute (sheet, col, row);
 	copy->col_offset  = col - c->base_col;
 	copy->row_offset  = row - c->base_row;
 	
@@ -615,10 +641,12 @@ clipboard_release (CellRegion *region)
 		
 		if (this_cell->type != CELL_COPY_TYPE_TEXT) {
 			/* The cell is not really in the rows or columns */
-			this_cell->u.cell->sheet = NULL;
-			this_cell->u.cell->row = NULL;
-			this_cell->u.cell->col = NULL;
-			cell_destroy (this_cell->u.cell);
+			this_cell->u.cell.cell->sheet = NULL;
+			this_cell->u.cell.cell->row = NULL;
+			this_cell->u.cell.cell->col = NULL;
+			mstyle_unref (this_cell->u.cell.mstyle);
+			this_cell->u.cell.mstyle = NULL;
+			cell_destroy (this_cell->u.cell.cell);
 		} else
 			g_free (this_cell->u.text);
 		g_free (this_cell);

@@ -1,3 +1,8 @@
+1999-10-22  Miguel de Icaza  <miguel@gnu.org>
+
+	* Makefile.am ($(GRAPH_CORBA_GENERATED)): Do not use BUILT_SOURCES
+	as suggested by Tom.
+
 1999-09-30  Miguel de Icaza  <miguel@gnu.org>
 
 	* New ChangeLog file.

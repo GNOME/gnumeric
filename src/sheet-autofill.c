@@ -432,9 +432,13 @@ autofill_destroy_fill_items (GList *all_items)
 static void
 autofill_cell (Cell *cell, int idx, FillItem *fi)
 {
-	cell_set_style (cell, fi->reference->style);
+	MStyle *mstyle = sheet_style_compute (fi->reference->sheet,
+					      fi->reference->col->pos,
+					      fi->reference->row->pos);
+	sheet_style_attach_single (cell->sheet, cell->col->pos,
+				   cell->row->pos, mstyle);
 	
-	switch (fi->type){
+	switch (fi->type) {
 	case FILL_EMPTY:
 	case FILL_INVALID:
 		g_warning ("This case should not be handled here\n");

@@ -1,3 +1,41 @@
+1999-10-20  Michael Meeks  <mmeeks@gnu.org>
+
+	* roff.c (write_wb_roff): kill leak.
+
+	* latex.c (html_write_wb_latex, html_write_wb_latex2e): kill leaks.
+
+	* epsf.c (epsf_write_cell): kill leak.
+
+	* html.c (html_write_cell32): ditto.
+
+1999-10-19  Michael Meeks  <mmeeks@gnu.org>
+
+	* html.c (html_cell_bold, html_cell_italic, html_read): Update.
+
+1999-10-03  Jody Goldberg <jgoldberg@home.com>
+
+	* html.c (html_write_cell32, html_write_cell40) :
+	  Bug #2512.  Emit a </TD> after a <TD>.
+	  Use cell_get_horizontal_align to correctly handle
+	  the case of a 'General' format.
+
+1999-10-07  Michael Meeks  <mmeeks@gnu.org>
+
+	* html.c (html_cell_bold): Update to new style api.
+	(html_cell_italic, html_read): ditto.
+
+1999-09-28  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* html.c (html_write_cell32): Update style api.
+	(html_cell_bold, html_read, html_write_cell40): ditto.
+
+	* latex.c (html_write_wb_latex2e, html_write_wb_latex): 
+	ditto.
+
+	* roff.c (write_wb_roff): ditto.
+
+	* epsf.c (epsf_write_cell): ditto.
+
 1999-10-03  Jody Goldberg <jgoldberg@home.com>
 
 	* html.c (html_write_cell32, html_write_cell40) :

@@ -7,6 +7,7 @@
  */
 
 #include <config.h>
+#include <glib.h>
 #include "numbers.h"
 #include "utils.h"
 #include "func.h"

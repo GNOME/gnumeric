@@ -68,9 +68,6 @@ struct _Workbook {
 	String     *auto_expr_desc;
 	GnomeCanvasItem  *auto_expr_label;
 	
-	/* Styles */
-	Style      style;
-
 	/* The sheets */ 
 	GHashTable *sheets;	/* keeps a list of the Sheets on this workbook */
 
@@ -180,10 +177,7 @@ typedef enum {
 	WORKBOOK_FEEDBACK_FONT      = 1 << 3,
 } WorkbookFeedbackType;
 
-void     workbook_feedback_set        (Workbook *,
-				       int feedback_flags,
-				       gboolean italic, gboolean bold,
-				       double size, GnomeFont *font);
+void     workbook_feedback_set        (Workbook *, MStyle *style);
 
 extern   Workbook *current_workbook;
 

@@ -10,6 +10,7 @@
 #include <string.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
+#include "utils-dialog.h"
 #include "dialogs.h"
 #include "utils.h"
 #include "utils-dialog.h"

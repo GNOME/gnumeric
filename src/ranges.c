@@ -3,6 +3,7 @@
  *
  * Author:
  *   Miguel de Icaza (miguel@gnu.org).
+ *   Michael Meeks   (mmeeks@gnu.org).
  *
  */
 #include <config.h>
@@ -153,7 +154,8 @@ range_list_foreach_full (GSList *ranges, void (*callback)(Cell *cell, void *data
 		static int message_shown;
 
 		if (!message_shown){
-			g_warning ("This routine should also iterate trough the sheets in the ranges");
+			g_warning ("This routine should also iterate"
+				   "through the sheets in the ranges");
 			message_shown = TRUE;
 		}
 	}
@@ -198,46 +200,163 @@ range_list_foreach (GSList *ranges, void (*callback)(Cell *cell, void *data),
 }
 
 /**
- * range_set_style:
- * @ranges: a list of Cell ranges.
- * @style: a style definition to apply.
- *
- * This routine attaches the style to the cell ranges specified.
- */
+ * range_list_foreach_full:
+ * @sheet:     The current sheet.
+ * @ranges:    The list of ranges.
+ * @callback:  The user function
+ * @user_data: Passed to callback intact.
+ * 
+ * Iterates over the ranges calling the callback with the
+ * range, sheet and user data set
+ **/
 void
-range_set_style (GSList *ranges, Style *style)
+range_list_foreach_area (Sheet *sheet, GSList *ranges,
+			 void (*callback)(Sheet       *sheet,
+					  const Range *range,
+					  gpointer     user_data),
+			 gpointer user_data)
 {
 	GSList *l;
 
-	g_return_if_fail (style != NULL);
-	
-	for (l = ranges; l; l = l->next){
+	g_return_if_fail (sheet != NULL);
+
+	for (l = ranges; l; l = l->next) {
 		Value *value = l->data;
-		CellRef a, b;
+		Sheet *s;
+		Range   range;
 		
 		g_assert (value->type == VALUE_CELLRANGE);
 
-		a = value->v.cell_range.cell_a;
-		b = value->v.cell_range.cell_b;
+		range.start.col = value->v.cell_range.cell_a.col;
+		range.start.row = value->v.cell_range.cell_a.row;
+		range.end.col   = value->v.cell_range.cell_b.col;
+		range.end.row   = value->v.cell_range.cell_b.row;
 
-		sheet_style_attach (a.sheet, a.col, a.row, b.col, b.row, style);
+		s = sheet;
+		if (value->v.cell_range.cell_b.sheet)
+			s = value->v.cell_range.cell_b.sheet;
+		if (value->v.cell_range.cell_a.sheet)
+			s = value->v.cell_range.cell_a.sheet;
+		callback (s, &range, user_data);
 	}
 }
 
-gboolean
+/**
+ * range_contains:
+ * @range: range to operate on
+ * @col:   column,
+ * @row:   row co-ordinate
+ * 
+ * Determine if a range contains a col,row co-ordinate.
+ * 
+ * Return value: TRUE if co-ordinate contained.
+ **/
+gboolean inline
 range_contains (Range const *range, int col, int row)
 {
-	if ((col >= range->start.col) &&
+	if ((row <= range->end.row)   &&
 	    (row >= range->start.row) &&
-	    (col <= range->end.col)   &&
-	    (row <= range->end.row))
+	    (col >= range->start.col) &&
+	    (col <= range->end.col))
 		return TRUE;
 
 	return FALSE;
 }
 
+/**
+ * range_adjacent:
+ * @a: First range
+ * @b: Second range
+ * 
+ * Detects whether a range of similar size is adjacent
+ * to the other range. Similarity is determined by having
+ * a shared side of equal length. NB. this will clearly
+ * give odd results for overlapping regions.
+ * 
+ * Return value: if they share a side of equal length
+ **/
+gboolean
+range_adjacent (Range const *a, Range const *b)
+{
+	int adx, bdx, ady, bdy;
+       
+	g_return_val_if_fail (a != NULL, FALSE);
+	g_return_val_if_fail (b != NULL, FALSE);
+	
+	adx = a->end.col - a->start.col;
+	bdx = b->end.col - b->start.col;
+	ady = a->end.row - a->start.row;
+	bdy = b->end.row - b->start.row;
+
+	if ((a->start.col == b->start.col) &&
+	    (a->end.col   == b->end.col)) {
+		if (a->end.row + 1 == b->start.row ||
+		    b->end.row + 1 == a->start.row)
+			return TRUE;
+		else
+			return FALSE;
+	} else if ((a->start.row == b->start.row) &&
+	    (a->end.row   == b->end.row)) {
+		if (a->end.col + 1 == b->start.col ||
+		    b->end.col + 1 == a->start.col)
+			return TRUE;
+		else
+			return FALSE;
+	}
+	return FALSE;
+}
+
+/**
+ * range_merge:
+ * @a: Range a.
+ * @b: Range b.
+ * 
+ * This routine coalesces two adjacent regions, eg.
+ * (A1, B1) would return A1:B1 or (A1:B2, C1:D2)) would
+ * give A1:D2. NB. it is imperative that the regions are
+ * actualy adjacent or unexpected results will ensue.
+ *
+ * Fully commutative.
+ * 
+ * Return value: the merged range.
+ **/
+Range
+range_merge (Range const *a, Range const *b)
+{
+	Range ans;
+
+	ans.start.col = 0;
+	ans.start.row = 0;
+	ans.end.col   = 0;
+	ans.end.row   = 0;
+
+	g_return_val_if_fail (a != NULL, ans);
+	g_return_val_if_fail (b != NULL, ans);
+
+/*      Useful perhaps but kills performance */
+/*	g_return_val_if_fail (range_adjacent (a, b), ans); */
+	
+	if (a->start.row < b->start.row) {
+		ans.start.row = a->start.row;
+		ans.end.row   = b->end.row;
+	} else {
+		ans.start.row = b->start.row;
+		ans.end.row   = a->end.row;
+	}
+
+	if (a->start.col < b->start.col) {
+		ans.start.col = a->start.col;
+		ans.end.col   = b->end.col;
+	} else {
+		ans.start.col = b->start.col;
+		ans.end.col   = a->end.col;
+	}
+
+	return ans;
+}
+
 void
-range_dump (Range const * src)
+range_dump (Range const *src)
 {
 	/* keep these as 2 print statements, because
 	 * col_name uses a static buffer */
@@ -260,22 +379,247 @@ range_duplicate (Range const * src)
 	return res;
 }
 
-gboolean
-range_equal (Range const *a, Range const *b)
+/*
+ * This is totaly commutative of course; hence the symmetry.
+ */
+gboolean inline
+range_overlap (Range const *a, Range const *b)
 {
-	if (a->start.col != b->start.col)
+	if (a->end.row < b->start.row)
 		return FALSE;
-	if (a->start.row != b->start.row)
+
+	if (b->end.row < a->start.row)
 		return FALSE;
-	if (a->end.col != b->end.col)
+
+	if (a->end.col < b->start.col)
 		return FALSE;
-	if (a->end.row != b->end.row)
+
+	if (b->end.col < a->start.col)
 		return FALSE;
+
 	return TRUE;
 }
- 
+
+/**
+ * range_split_ranges:
+ * @hard: 
+ * @soft: 
+ * 
+ * Splits soft into several chunks, and returns the still
+ * overlapping remainder of soft as the first list item
+ * ( the central region in the pathalogical case ).
+ * 
+ * Return value: 
+ **/
+static GList *
+range_split_ranges (const Range *hard, const Range *soft)
+{
+	/*
+	 * There are lots of cases so think carefully.
+	 *
+	 * Original Methodology ( approximately )
+	 *	a) Get a vertex: is it contained ?
+	 *	b) Yes: split so it isn't
+	 *	c) Continue for all verticees.
+	 *
+	 * NB. We prefer to have long columns at the expense
+	 *     of long rows.
+	 */
+	GList *split  = NULL;
+	Range *middle = g_new (Range, 1), *sp;
+	gboolean tl, tr, bl, br; /* Top, Bottom, Left, Right */
+
+	*middle = *soft;
+
+	tl = range_contains (soft, hard->start.col, hard->start.row);
+	tr = range_contains (soft, hard->end.col,   hard->start.row);
+	bl = range_contains (soft, hard->start.col, hard->end.row);
+	br = range_contains (soft, hard->end.col,   hard->end.row);
+
+	/* Left */
+	if (tl || bl) {
+		/* Split off left entirely */
+		if (hard->start.col > soft->start.col) {
+			sp = g_new (Range, 1);
+			sp->start.col = soft->start.col;
+			sp->start.row = soft->start.row;
+			sp->end.col   = hard->start.col - 1;
+			sp->end.row   = soft->end.row;
+			split = g_list_prepend (split, sp);
+		} /* else shared edge */
+		middle->start.col = hard->start.col;
+	} 
+
+	/* Right */
+	if (tr || br) {
+		/* Split off right entirely */
+		if (hard->end.col < soft->end.col) {
+			sp = g_new (Range, 1);
+			sp->start.col = hard->end.col + 1;
+			sp->start.row = soft->start.row;
+			sp->end.col   = soft->end.col;
+			sp->end.row   = soft->end.row;
+			split = g_list_prepend (split, sp);
+		} /* else shared edge */
+		middle->end.col = hard->end.col;
+	} 
+
+	/* Top */
+	if (tl || tr)
+		middle->start.row = hard->start.row;
+	if (tl && tr) {
+		if (hard->start.row > soft->start.row) {
+			/* The top middle bit */
+			sp = g_new (Range, 1);
+			sp->start.col = hard->start.col;
+			sp->start.row = soft->start.row;
+			sp->end.col   = hard->end.col;
+			sp->end.row   = hard->start.row - 1;
+			split = g_list_prepend (split, sp);
+		} /* else shared edge */
+	} else if (tl) {
+		if (hard->start.row > soft->start.row) {
+			/* The top middle + right bits */
+			sp = g_new (Range, 1);
+			sp->start.col = hard->start.col;
+			sp->start.row = soft->start.row;
+			sp->end.col   = soft->end.col;
+			sp->end.row   = hard->start.row - 1;
+			split = g_list_prepend (split, sp);
+		} /* else shared edge */
+	} else if (tr) {
+		if (hard->start.row > soft->start.row) {
+			/* The top middle + left bits */
+			sp = g_new (Range, 1);
+			sp->start.col = soft->start.col;
+			sp->start.row = soft->start.row;
+			sp->end.col   = hard->end.col;
+			sp->end.row   = hard->start.row - 1;
+			split = g_list_prepend (split, sp);
+		} /* else shared edge */
+	}
+
+	/* Bottom */
+	if (bl || br)
+		middle->end.row = hard->end.row;
+	if (bl && br) {
+		if (hard->end.row < soft->end.row) {
+			/* The bottom middle bit */
+			sp = g_new (Range, 1);
+			sp->start.col = hard->start.col;
+			sp->start.row = hard->end.row + 1;
+			sp->end.col   = hard->end.col;
+			sp->end.row   = soft->end.row;
+			split = g_list_prepend (split, sp);
+		} /* else shared edge */
+	} else if (bl) {
+		if (hard->start.row > soft->start.row) {
+			/* The bottom middle + right bits */
+			sp = g_new (Range, 1);
+			sp->start.col = hard->start.col;
+			sp->start.row = hard->end.row + 1;
+			sp->end.col   = soft->end.col;
+			sp->end.row   = soft->end.row;
+			split = g_list_prepend (split, sp);
+		} /* else shared edge */
+	} else if (br) {
+		if (hard->start.row > soft->start.row) {
+			/* The bottom middle + left bits */
+			sp = g_new (Range, 1);
+			sp->start.col = soft->start.col;
+			sp->start.row = hard->end.row + 1;
+			sp->end.col   = hard->end.col;
+			sp->end.row   = soft->end.row;
+			split = g_list_prepend (split, sp);
+		} /* else shared edge */
+	}
+
+	return g_list_prepend (split, middle);
+}
+
+/**
+ * range_fragment:
+ * @ranges: A list of possibly overlapping ranges.
+ * 
+ *  Converts the ranges into non-overlapping sub-ranges.
+ * 
+ * Return value: new list of fully overlapping ranges.
+ **/
+GList *
+range_fragment (const GList *ra)
+{
+	GList *ranges = NULL;
+	GList *a; /* Order n*n: ugly */
+
+	for (a = (GList *)ra; a; a = g_list_next (a)) {
+		GList *b;
+		b = g_list_next (a);
+		while (b) {
+			GList *next = g_list_next (b);
+
+			/*
+			 * FIXME: we need to cull equal ranges to save time
+			 * and effort.
+			 */
+			if (range_equal (a->data, b->data)
+			    & range_overlap (a->data, b->data)) {
+				GList *split;
+
+				split  = range_split_ranges (a->data, b->data);
+				ranges = g_list_concat (ranges, split);
+
+				split  = range_split_ranges (b->data, a->data);
+				if (split)
+					split  = g_list_remove (split, split->data);
+				ranges = g_list_concat (ranges, split);
+			}
+			b = next;
+		}
+	}
+
+	return ranges;
+}
+
+void
+range_fragment_free (GList *fragments)
+{
+	GList *l = fragments;
+
+	for (l = fragments; l; l = g_list_next (l))
+		g_free (l->data);
+
+	g_list_free (fragments);
+}
+
+void
+range_clip (Range *clipped, Range const *master,
+	    Range const *slave)
+{
+	g_return_if_fail (slave != NULL);
+	g_return_if_fail (master != NULL);
+	g_return_if_fail (clipped != NULL);
+
+	*clipped = *slave;
+	g_warning ("Unimplemented");
+}
+
 gboolean
 range_is_singleton (Range const *r)
 {
 	return r->start.col == r->end.col && r->start.row == r->end.row;
+}
+
+static void
+range_style_apply_cb (Sheet *sheet, const Range *range, gpointer user_data)
+{
+	mstyle_ref ((MStyle *)user_data);
+	sheet_style_attach (sheet, *range, (MStyle *)user_data);
+}
+
+void
+ranges_set_style (Sheet *sheet, GSList *ranges, MStyle *mstyle)
+{
+	range_list_foreach_area (sheet, ranges,
+				 range_style_apply_cb, mstyle);
+	mstyle_unref (mstyle);
 }

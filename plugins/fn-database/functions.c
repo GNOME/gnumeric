@@ -6,6 +6,7 @@
  */
 #include <config.h>
 #include <math.h>
+#include <glib.h>
 #include "utils.h"
 #include "func.h"
 #include "sheet.h"

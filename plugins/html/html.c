@@ -65,14 +65,16 @@ html_write_cell32 (FILE *fp, Cell *cell)
 	Style *style;
 	unsigned char r, g, b;
 
-	fprintf (fp, "\t<TD>");
-	if (cell != NULL) {	/* empty cell */
-		style = cell->style;
+	if (!cell) {	/* empty cell */
+		fprintf (fp, "\t<TD>");
+	} else {
+		style = cell_get_style (cell);
+
 		if (!style) {
 			/* is this case posible? */
 			html_fprintf (fp, cell->text->str);
 		} else {
-			switch (cell_get_horizontal_align (cell)) {
+			switch (cell_get_horizontal_align (cell, style->halign)) {
 			case HALIGN_RIGHT :
 			    fprintf (fp, " align=right");
 			    break;
@@ -113,6 +115,7 @@ html_write_cell32 (FILE *fp, Cell *cell)
 			if (r != 0 || g != 0 || b != 0)
 				fprintf (fp, "</FONT>");
 		}
+		style_unref (style);
 	}
 	fprintf (fp, "</TD>\n");
 }
@@ -126,14 +129,16 @@ html_write_cell40 (FILE *fp, Cell *cell)
 	Style *style;
 	unsigned char r, g, b;
 
-	fprintf (fp, "\t<TD>");
-	if (cell != NULL) {
-		style = cell->style;
+	if (!cell) {	/* empty cell */
+		fprintf (fp, "\t<TD>");
+	} else {
+		style = cell_get_style (cell);
+
 		if (!style) {
 			/* is this case posible? */
 			html_fprintf (fp, cell->text->str);
 		} else {
-			switch (cell_get_horizontal_align (cell)) {
+			switch (cell_get_horizontal_align (cell, style->halign)) {
 			case HALIGN_RIGHT :
 			    fprintf (fp, " halign=right");
 			    break;
@@ -353,22 +358,15 @@ html_get_string (char *s, int *flags)
 static void
 html_cell_bold (Cell *cell)
 {
-	Style *style;
-	StyleFont *sf, *cf;
+	MStyle *mstyle;
 
 	if (!cell)
 		return;
-	style = cell->style;
-	if (!style)
-		return;
-	cf = style->font;
-	if (!cf)
-		return;
-	sf = style_font_new_simple (cf->font_name, cf->size, cf->scale,
-			1, cf->is_italic);
-	if (sf) {
-		cell_set_font_from_style (cell, sf);
-	}
+
+	mstyle = mstyle_new ();
+	mstyle_set_font_bold (mstyle, TRUE);
+
+	cell_set_mstyle (cell, mstyle);
 }
 
 /*
@@ -377,22 +375,15 @@ html_cell_bold (Cell *cell)
 static void
 html_cell_italic (Cell *cell)
 {
-	Style *style;
-	StyleFont *sf, *cf;
+	MStyle *mstyle;
 
 	if (!cell)
 		return;
-	style = cell->style;
-	if (!style)
-		return;
-	cf = style->font;
-	if (!cf)
-		return;
-	sf = style_font_new_simple (cf->font_name, cf->size, cf->scale,
-			cf->is_bold, 1);
-	if (sf) {
-		cell_set_font_from_style (cell, sf);
-	}
+
+	mstyle = mstyle_new ();
+	mstyle_set_font_italic (mstyle, TRUE);
+
+	cell_set_mstyle (cell, mstyle);
 }
 
 /*
@@ -472,9 +463,10 @@ html_read (Workbook *wb, const char *filename)
 					str = html_get_string (p, &flags);
 					cell = sheet_cell_fetch (sheet, col, row);
 					if (str && cell) {
+						Style *style = cell_get_style (cell);
 						/* set the attributes of the cell
 						 */
-						if (cell->style && cell->style->font && flags) {
+						if (style && style->font && flags) {
 							if (flags & HTML_BOLD) {
 								html_cell_bold (cell);
 							}
@@ -482,10 +474,9 @@ html_read (Workbook *wb, const char *filename)
 								html_cell_italic (cell);
 							}
 							if (flags & HTML_RIGHT) {
-								cell_set_halign (cell, HALIGN_RIGHT);
-							}
-							if (flags & HTML_CENTER) {
-								cell_set_halign (cell, HALIGN_CENTER);
+								MStyle *mstyle = mstyle_new ();
+								mstyle_set_align_h (mstyle, HALIGN_CENTER);
+								cell_set_mstyle (cell, mstyle);
 							}
 						}
 						/* set the content of the cell */

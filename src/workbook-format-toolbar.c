@@ -37,25 +37,16 @@ static const char *percent_format = "Default Percent Format:0.00%";
 static void
 set_selection_halign (Workbook *wb, StyleHAlignFlags align)
 {
-	Sheet *sheet;
-	GList *cells, *l;
+	MStyle *mstyle;
+	Sheet  *sheet;
 
 	sheet = workbook_get_current_sheet (wb);
-
 	sheet_selection_unant (sheet);
+
+	mstyle = mstyle_new ();
+	mstyle_set_align_h (mstyle, align);
 	
-	/*
-	 * TODO : switch to selection_apply, but for now we don't care about
-	 * intersection
-	 */
-	cells = selection_to_list (sheet, TRUE);
-
-	for (l = cells; l; l = l->next){
-		Cell *cell = l->data;
-
-		cell_set_halign (cell, align);
-	}
-	g_list_free (cells);
+	sheet_selection_apply_style (sheet, mstyle);
 }
 
 static void
@@ -76,7 +67,6 @@ center_cmd (GtkWidget *widget, Workbook *wb)
 	set_selection_halign (wb, HALIGN_CENTER);
 }
 
-
 /*
  * change_selection_font
  * @wb:  The workbook to operate on
@@ -87,37 +77,23 @@ center_cmd (GtkWidget *widget, Workbook *wb)
 static void
 change_selection_font (Workbook *wb, int bold, int italic)
 {
-	Sheet *sheet;
-	GList *cells, *l;
+	MStyle *mstyle;
+	Sheet  *sheet;
 
 	sheet = workbook_get_current_sheet (wb);
-
 	sheet_selection_unant (sheet);
-	/*
-	 * TODO : switch to selection_apply, but for now we don't care about
-	 * intersection
-	 */
-	cells = selection_to_list (sheet, TRUE);
 
-	for (l = cells; l; l = l->next){
-		StyleFont *cell_font;
-		Cell *cell = l->data;
-		StyleFont *f;
-
-		cell_font = cell->style->font;
-
-		f = style_font_new (
-			cell_font->font_name,
-			cell_font->size,
-			cell_font->scale,
-			bold == -1 ? cell_font->is_bold : bold,
-			italic == -1 ? cell_font->is_italic : italic);
-
-		if (f)
-			cell_set_font_from_style (cell, f);
+	if (bold >= 0) {
+		mstyle = mstyle_new ();
+		mstyle_set_font_bold (mstyle, bold);
+		sheet_selection_apply_style (sheet, mstyle);
 	}
 
-	g_list_free (cells);
+	if (italic >= 0) {
+		mstyle = mstyle_new ();
+		mstyle_set_font_italic (mstyle, italic);
+		sheet_selection_apply_style (sheet, mstyle);
+	}
 }
 
 static void
@@ -132,186 +108,58 @@ italic_cmd (GtkToggleButton *t, Workbook *wb)
 	change_selection_font (wb, -1, t->active);
 }
 
-/** 
- * apply_style_to_selection:
- * @style: style to be attached
- * @cb: callback routine to invoke to apply to individual cells
- *
- * This routine attaches @style to the various SheetSelections
- * and then invokes @cb for each existing cell on the selection
- *
- * This is of course, not as good as it should be, due to the
- * fact that our style flags have a very bad granularity (they
- * are too general), so the result is that the empty-cells do
- * not always get the correct style, but rather an aproximation
- * (ie, font size application would also set the font name).
- */
-typedef void (*style_apply_callback) (Cell *cell, Style *style, void *closure);
-
-typedef struct {
-	style_apply_callback callback;
-	Style *style;
-	void  *user_closure;
-} apply_style_closure_t;
-
-static Value *
-relay_apply (Sheet *sheet, int col, int row, Cell *cell, void *_closure)
-{
-	apply_style_closure_t *c = _closure;
-
-	(*c->callback)(cell, c->style, c->user_closure);
-
-	return NULL;
-}
-
-static void
-apply_style_to_range (Sheet *sheet, 
-		      int start_col, int start_row,
-		      int end_col,   int end_row,
-		      void *closure)
-{
-	Style *copy;
-	apply_style_closure_t *c = closure;
-
-	copy = style_duplicate (c->style);
-	sheet_style_attach (
-		sheet, start_col, start_row, end_col, end_row, copy);
-	sheet_cell_foreach_range (
-		sheet, TRUE,
-		start_col, start_row, end_col, end_row,
-		relay_apply, closure);
-}
-                                    
-static void
-apply_style_to_selection (Sheet *sheet, Style *style, style_apply_callback callback_fn, void *closure)
-{
-	apply_style_closure_t c;
-
-	c.style = style;
-	c.callback = callback_fn;
-	c.user_closure = closure;
-
-	selection_apply (sheet, apply_style_to_range, FALSE, &c);
-	style_destroy (style);
-	sheet_set_dirty (sheet, TRUE);
-}
-
-static void
-set_new_font (Cell *cell, Style *style, void *closure)
-{
-	StyleFont *new_font, *cell_font;
-	char *font_name = closure;
-	
-	cell_font = cell->style->font;
-
-	new_font = style_font_new (
-		font_name,
-		cell_font->size,
-		cell_font->scale,
-		cell_font->is_bold,
-		cell_font->is_italic);
-	
-	if (new_font)
-		cell_set_font_from_style (cell, new_font);
-	
-}
-
 static void
 change_font_in_selection_cmd (GtkMenuItem *item, Workbook *wb)
 {
 	Sheet *sheet;
 	const char *font_name = gtk_object_get_user_data (GTK_OBJECT (item));
-	Style *style;
-	double size;
+	MStyle *mstyle;
 
 	wb->priv->current_font_name = font_name;
 	
 	sheet = workbook_get_current_sheet (wb);
 
-	size = atof (gtk_entry_get_text (GTK_ENTRY (wb->priv->size_widget)));
-	if (size <= 0.0)
-		return;
-	
-	/*
-	 * First, create a new font with the defaults
-	 * and apply this to all the selections
-	 */
-	style = style_new_empty ();
-	style->valid_flags |= STYLE_FONT;
-	style->font = style_font_new (
-		font_name,
-		size,
-		sheet->last_zoom_factor_used,
-		0, 0);
-
-	apply_style_to_selection (sheet, style, set_new_font, (char *) font_name);
-}
-
-static void
-set_font_size (Cell *cell, Style *style, void *closure)
-{
-	StyleFont *new_font, *cell_font;
-	double *size = closure;
-
-	cell_font = cell->style->font;
-
-	new_font = style_font_new (
-		cell_font->font_name,
-		*size,
-		cell_font->scale,
-		cell_font->is_bold,
-		cell_font->is_italic);
-
-	if (new_font)
-		cell_set_font_from_style (cell, new_font);
+	mstyle = mstyle_new ();
+	mstyle_set_font_name (mstyle, font_name);
+	sheet_selection_apply_style (sheet, mstyle);
 }
 
 static void
 change_font_size_in_selection_cmd (GtkEntry *entry, Workbook *wb)
 {
-	Style *style = style_new_empty ();
-	Sheet *sheet = workbook_get_current_sheet (wb);
+	Sheet  *sheet = workbook_get_current_sheet (wb);
+	MStyle *mstyle;
 	double size;
 
 	size = atof (gtk_entry_get_text (entry));
-	if (size < 0.0){
+	if (size < 0.0) {
 		gtk_entry_set_text (entry, "12");
 		return;
 	}
 
-	style->valid_flags |= STYLE_FONT;
-	style->font = style_font_new (
-		wb->priv->current_font_name,
-		size,
-		sheet->last_zoom_factor_used,
-		0, 0);
+	mstyle = mstyle_new ();
+	mstyle_set_font_size (mstyle, size);
 	
-	apply_style_to_selection (sheet, style, set_font_size, &size);
+	sheet_selection_apply_style (sheet, mstyle);
+	sheet_selection_height_update (sheet, size);
 	workbook_focus_current_sheet (sheet->workbook);
 }
 
 static void
-set_cell_format_style (Cell *cell, Style *style, void *closure)
+do_sheet_selection_apply_style (Sheet *sheet, const char *format)
 {
-	cell_set_format_from_style (cell, style->format);
-}
-
-static void
-do_apply_style_to_selection (Sheet *sheet, const char *format)
-{
-	Style *style;
-	const char *real_format = strchr (_(format), ':');
+	const char   *real_format = strchr (_(format), ':');
+	MStyle *mstyle;
 
 	if (real_format)
 		real_format++;
 	else
 		return;
-	
-	style = style_new_empty ();
-	style->valid_flags = STYLE_FORMAT;
-	style->format = style_format_new (real_format);
 
-	apply_style_to_selection (sheet, style, set_cell_format_style, NULL);
+	mstyle = mstyle_new ();
+	mstyle_set_format (mstyle, real_format);
+
+	sheet_selection_apply_style (sheet, mstyle);
 }
 
 static void
@@ -319,7 +167,7 @@ workbook_cmd_format_as_money (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = workbook_get_current_sheet (wb);
 	
-	do_apply_style_to_selection (sheet, _(money_format));
+	do_sheet_selection_apply_style (sheet, _(money_format));
 }
 
 static void
@@ -327,7 +175,7 @@ workbook_cmd_format_as_percent (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = workbook_get_current_sheet (wb);
 	
-	do_apply_style_to_selection (sheet, _(percent_format));
+	do_sheet_selection_apply_style (sheet, _(percent_format));
 }
 
 /*
@@ -339,7 +187,8 @@ typedef char *(*format_modify_fn) (const char *format);
 static Value *
 modify_cell_format (Sheet *sheet, int col, int row, Cell *cell, void *closure)
 {
-	StyleFormat *sf = cell->style->format;
+	MStyle *mstyle = sheet_style_compute (sheet, col, row);
+	StyleFormat *sf = mstyle_get_format (mstyle);
 	format_modify_fn modify_format = closure;
 	char *new_fmt;
 		
@@ -349,6 +198,7 @@ modify_cell_format (Sheet *sheet, int col, int row, Cell *cell, void *closure)
 
 	cell_set_format (cell, new_fmt);
 	g_free (new_fmt);
+	mstyle_unref (mstyle);
 	return NULL;
 }
 
@@ -442,49 +292,28 @@ static GnomeUIInfo workbook_format_toolbar [] = {
 	GNOMEUIINFO_END
 };
 
-/*
- * Routines for handling the foreground color change for cells
- */
-static void
-set_cell_fore_color (Cell *cell, Style *style, void *closure)
-{
-	style_color_ref (cell->style->back_color);
-	cell_set_color_from_style (cell, style->fore_color, cell->style->back_color);
-	style_color_unref (cell->style->back_color);
-}
-
 static void
 fore_color_changed (ColorCombo *cc, GdkColor *color, int color_index, Workbook *wb)
 {
-	Sheet *sheet = workbook_get_current_sheet (wb);
-	Style *fore_style;
+	Sheet  *sheet  = workbook_get_current_sheet (wb);
+	MStyle *mstyle = mstyle_new ();
 
-	fore_style = style_new_empty ();
-	fore_style->valid_flags = STYLE_FORE_COLOR;
-	fore_style->fore_color = style_color_new (color->red, color->green, color->blue);
+	mstyle_set_color (mstyle, MSTYLE_COLOR_FORE, 
+			  style_color_new (color->red, color->green, color->blue));
 
-	apply_style_to_selection (sheet, fore_style, set_cell_fore_color, NULL);
-}
-
-static void
-set_cell_back_color (Cell *cell, Style *style, void *closure)
-{
-	style_color_ref (cell->style->fore_color);
-	cell_set_color_from_style (cell, cell->style->fore_color, style->back_color);
-	style_color_unref (cell->style->fore_color);
+	sheet_selection_apply_style (sheet, mstyle);
 }
 
 static void
 back_color_changed (ColorCombo *cc, GdkColor *color, int color_index, Workbook *wb)
 {
-	Sheet *sheet = workbook_get_current_sheet (wb);
-	Style *back_style;
+	Sheet  *sheet = workbook_get_current_sheet (wb);
+	MStyle *mstyle = mstyle_new ();
 
-	back_style = style_new_empty ();
-	back_style->valid_flags = STYLE_BACK_COLOR;
-	back_style->back_color = style_color_new (color->red, color->green, color->blue);
+	mstyle_set_color (mstyle, MSTYLE_COLOR_BACK, 
+			  style_color_new (color->red, color->green, color->blue));
 
-	apply_style_to_selection (sheet, back_style, set_cell_back_color, NULL);
+	sheet_selection_apply_style (sheet, mstyle);
 }
 
 /*
@@ -595,55 +424,49 @@ workbook_create_format_toolbar (Workbook *wb)
  * Updates the edit control state: bold, italic, font name and font size
  */
 void
-workbook_feedback_set (Workbook *workbook, int feedback_flags,
-		       gboolean italic, gboolean bold,
-		       double size, GnomeFont *font)
-		       
+workbook_feedback_set (Workbook *workbook, MStyle *style)
 {
 	GtkToggleButton *t;
 	GnumericToolbar *toolbar = GNUMERIC_TOOLBAR (workbook->priv->format_toolbar);
+	gboolean         font_set;
+	char             size_str [40];
 
+	g_return_if_fail (style != NULL);
 	g_return_if_fail (workbook != NULL);
 	g_return_if_fail (IS_WORKBOOK (workbook));
-	g_return_if_fail (GNOME_IS_FONT (font));
 
-	if (feedback_flags & WORKBOOK_FEEDBACK_BOLD){
-		t = GTK_TOGGLE_BUTTON (
-			gnumeric_toolbar_get_widget (
-				toolbar,
-				TOOLBAR_BOLD_BUTTON_INDEX));
+	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_BOLD));
+	t = GTK_TOGGLE_BUTTON (
+		gnumeric_toolbar_get_widget (
+			toolbar,
+			TOOLBAR_BOLD_BUTTON_INDEX));
+	
+	gtk_signal_handler_block_by_func (GTK_OBJECT (t),
+					  (GtkSignalFunc)&bold_cmd,
+					  workbook);
+	gtk_toggle_button_set_active (t, mstyle_get_font_bold (style));
+	gtk_signal_handler_unblock_by_func (GTK_OBJECT (t),
+					    (GtkSignalFunc)&bold_cmd,
+					    workbook);
 
-		gtk_signal_handler_block_by_func (GTK_OBJECT (t),
-						  (GtkSignalFunc)&bold_cmd,
-						  workbook);
-		gtk_toggle_button_set_active (t, bold);
-		gtk_signal_handler_unblock_by_func (GTK_OBJECT (t),
-						    (GtkSignalFunc)&bold_cmd,
-						    workbook);
-	}
+	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_ITALIC));
+	t = GTK_TOGGLE_BUTTON (
+		gnumeric_toolbar_get_widget (
+			toolbar,
+			TOOLBAR_ITALIC_BUTTON_INDEX));
+	
+	gtk_signal_handler_block_by_func (GTK_OBJECT (t),
+					  (GtkSignalFunc)&italic_cmd,
+					  workbook);
+	gtk_toggle_button_set_active (t, mstyle_get_font_italic (style));
+	gtk_signal_handler_unblock_by_func (GTK_OBJECT (t),
+					    (GtkSignalFunc)&italic_cmd,
+					    workbook);
 
-	if (feedback_flags & WORKBOOK_FEEDBACK_ITALIC){
-		t = GTK_TOGGLE_BUTTON (
-			gnumeric_toolbar_get_widget (
-				toolbar,
-				TOOLBAR_ITALIC_BUTTON_INDEX));
-
-		gtk_signal_handler_block_by_func (GTK_OBJECT (t),
-						  (GtkSignalFunc)&italic_cmd,
-						  workbook);
-		gtk_toggle_button_set_active (t, italic);
-		gtk_signal_handler_unblock_by_func (GTK_OBJECT (t),
-						    (GtkSignalFunc)&italic_cmd,
-						    workbook);
-	}
-
-	if (feedback_flags & WORKBOOK_FEEDBACK_FONT_SIZE){
-		char size_str [40];
-
-		sprintf (size_str, "%g", size);
-		gtk_entry_set_text (
-			GTK_ENTRY (workbook->priv->size_widget), size_str);
-	}
+	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_SIZE));
+	sprintf (size_str, "%g", mstyle_get_font_size (style));
+	gtk_entry_set_text (GTK_ENTRY (workbook->priv->size_widget),
+			    size_str);
 
 	/*
 	 * hack: we try to find the key "gnumeric-index" in the
@@ -652,39 +475,43 @@ workbook_feedback_set (Workbook *workbook, int feedback_flags,
 	 *
 	 * If this is not set, then we compute it
 	 */
-	if (feedback_flags & WORKBOOK_FEEDBACK_FONT){
-		char *font_name = font->fontmap_entry->font_name;
+	font_set = FALSE;
+	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_NAME));
+	{
+		const char *font_name = mstyle_get_font_name (style);
 		void *np;
-
-		workbook->priv->current_font_name = font_name;
 		
-		np = gtk_object_get_data ((GtkObject *)font, "gnumeric-idx");
-		if (np == NULL){
+		workbook->priv->current_font_name = font_name;
+
+		/*
+		 * We need the cache again sometime for performance on
+		 * systems with lots of fonts.
+		 */
+/*		np = gtk_object_get_data ((GtkObject *)font, "gnumeric-idx");
+		if (np == NULL)*/ {
 			GList *l;
 			int idx = 0;
-			
-			for (l = gnumeric_font_family_list; l; l = l->next, idx++){
+ 
+			for (l = gnumeric_font_family_list; l; l = l->next, idx++) {
 				char *f = l->data;
 				
-				if (strcmp (f, font_name) == 0){
+				if (strcmp (f, font_name) == 0) {
 					np = GINT_TO_POINTER (idx);
-					gtk_object_set_data (
-						(GtkObject *) font,
-						"gnumeric-idx", np);
+/*					gtk_object_set_data ((GtkObject *) font,
+					"gnumeric-idx", np);*/
 					break;
 				}
 			}
-		} 
+		}
 		/*
 		 * +1 means, skip over the "undefined font" element
 		 */
 		gtk_option_menu_set_history (
 			GTK_OPTION_MENU (workbook->priv->option_menu),
 			GPOINTER_TO_INT (np)+1);
-	} else {
+		font_set = TRUE;
+	}
+	if (!font_set)
 		gtk_option_menu_set_history (
 			GTK_OPTION_MENU (workbook->priv->option_menu), 0);
-
-	}
 }
-

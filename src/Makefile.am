@@ -35,9 +35,21 @@ INCLUDES = 						\
 	$(EXTRA_GNOME_CFLAGS)				\
 	$(GUILE_INCS)
 
+if BONOBO
+GNUMERIC_CORBA_GENERATED = 			\
+	Gnumeric-common.c			\
+	Gnumeric-skels.c			\
+	Gnumeric-stubs.c			\
+	Gnumeric.h
+else
+GNUMERIC_CORBA_GENERATED = 
+endif
+
 GNUMERIC_BASE_SOURCES =				\
 	about.c					\
 	analysis-tools.c			\
+	border.c				\
+	border.h				\
 	cell.h					\
 	cell.c					\
 	cell-draw.c				\
@@ -93,6 +105,8 @@ GNUMERIC_BASE_SOURCES =				\
 	main.h					\
 	mathfunc.c				\
 	mathfunc.h				\
+	mstyle.c				\
+	mstyle.h				\
 	number-match.c				\
 	number-match.h				\
 	numbers.h				\
@@ -130,6 +144,8 @@ GNUMERIC_BASE_SOURCES =				\
 	sheet-object-widget.h			\
 	sheet-object-graphic.c			\
 	sheet-object-graphic.h			\
+	sheet-style.c				\
+	sheet-style.h				\
 	sheet-view.c				\
 	sheet-view.h				\
 	solver-lp.c                     	\
@@ -155,15 +171,8 @@ GNUMERIC_BASE_SOURCES =				\
 	workbook-format-toolbar.h		\
 	workbook-private.h			\
 	xml-io.c				\
-	xml-io.h
-
-if BONOBO
-GNUMERIC_CORBA_GENERATED = 			\
-	Gnumeric-common.c			\
-	Gnumeric-skels.c			\
-	Gnumeric-stubs.c			\
-	Gnumeric.h
-endif
+	xml-io.h				\
+	$(GNUMERIC_CORBA_GENERATED)
 
 GNUMERIC_BONOBO_SOURCES = 			\
 	embeddable-grid.c			\
@@ -175,15 +184,9 @@ GNUMERIC_BONOBO_SOURCES = 			\
 	sheet-object-item.c			\
 	sheet-object-item.h
 
-BUILT_SOURCES = $(GNUMERIC_CORBA_GENERATED)
-
 Gnumeric-impl.o: Gnumeric.h
 
-CLEANFILES = my_gnumeric_idl
-
-$(GNUMERIC_CORBA_GENERATED): my_gnumeric_idl
-
-my_gnumeric_idl: Gnumeric.idl 
+$(GNUMERIC_CORBA_GENERATED): Gnumeric.idl 
 	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) $(srcdir)/Gnumeric.idl
 	touch my_gnumeric_idl
 

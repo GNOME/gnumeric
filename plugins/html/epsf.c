@@ -49,7 +49,7 @@ epsf_write_cell (FILE *fp, Cell *cell, float x, float y)
 	if (!cell) {	/* empty cell */
 		return;
 	} else {
-		style = cell->style;
+		style = cell_get_style (cell);
 		if (!style) {
 			/* is this case posible? */
 			return;
@@ -111,6 +111,7 @@ epsf_write_cell (FILE *fp, Cell *cell, float x, float y)
 				ps_text_left (fp, cell->text->str, x+2, y+2 + (font_size/3));
 			ps_write_raw (fp, "\n");
 		}
+		style_unref (style);
 	}
 }
 

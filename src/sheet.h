@@ -1,8 +1,11 @@
 #ifndef GNUMERIC_SHEET_H
 #define GNUMERIC_SHEET_H
 
+#include <glib.h>
+
 typedef struct _Workbook	Workbook;
 typedef struct _Sheet		Sheet;
+typedef struct _SheetStyleData  SheetStyleData;
 
 /* Used to locate cells in a sheet */
 typedef struct {
@@ -12,6 +15,14 @@ typedef struct {
 typedef struct {
 	CellPos start, end;
 } Range;
+#define range_equal(a,b) (((Range *)(a))->start.row == ((Range *)(b))->start.row && \
+			  ((Range *)(a))->end.row   == ((Range *)(b))->end.row && \
+			  ((Range *)(a))->start.col == ((Range *)(b))->start.col && \
+			  ((Range *)(a))->end.col   == ((Range *)(b))->end.col)
+
+typedef struct {
+	int dummy;
+} MStyle;
 
 typedef struct {
 	/* TODO : Remove this.  It should be part of the sheet cursor
@@ -48,6 +59,7 @@ typedef struct {
 
 #include "value.h"
 #include "solver.h"
+#include "mstyle.h"
 #include "style.h"
 #include "expr.h"
 #include "str.h"
@@ -63,7 +75,7 @@ typedef GList ColStyleList;
 
 typedef struct {
 	Range  range;
-	Style  *style;
+	MStyle  *style;
 } StyleRegion;
 
 typedef enum {
@@ -95,7 +107,7 @@ struct _Sheet {
 	
 	char        *name;
 
-	GList       *style_list;	/* The list of styles applied to the sheets */
+	void        *style_data; /* See sheet-style.c */
 
 	ColRowCollection cols, rows;
 
@@ -125,8 +137,6 @@ struct _Sheet {
 	String      *editing_saved_text;
 	Cell        *editing_cell;
 	int         editing;
-
-	Style       *default_style;
 
 	/* Objects */
 	SheetModeType mode;	/* Sheet mode */
@@ -278,9 +288,22 @@ void        sheet_row_set_selection       (Sheet *sheet,
 					   ColRowInfo *ri, int value);
 void        sheet_set_selection           (Sheet *sheet, SheetSelection const *ss);
 				       
-Style      *sheet_style_compute           (Sheet const *sheet,
-					   int col, int row,
-					   int *non_default_style_flags);
+/* sheet-style.c */
+MStyle        *sheet_style_compute              (Sheet const *sheet,
+						 int col, int row);
+void           sheet_style_attach               (Sheet  *sheet, Range   range,
+						 MStyle *mstyle);
+void           sheet_style_attach_single        (Sheet  *sheet, int col, int row,
+						 MStyle *mstyle);
+void           sheet_style_optimize             (Sheet *sheet, Range range);
+void           sheet_selection_apply_style      (Sheet *sheet, MStyle *style);
+MStyle        *sheet_selection_get_unique_style (Sheet *sheet);
+void           sheet_selection_height_update    (Sheet *sheet, double height);
+void           sheet_create_styles              (Sheet *sheet);
+void           sheet_destroy_styles             (Sheet *sheet);
+GList         *sheet_get_style_list             (Sheet *sheet);
+void           sheet_zoom_styles                (Sheet *sheet, double factor);
+void           sheet_styles_dump                (Sheet *sheet);
 
 /* Redraw */
 void        sheet_compute_visible_ranges  (Sheet const *sheet);
@@ -318,10 +341,10 @@ void        sheet_shift_cols              (Sheet *sheet,
 				           int start_col, int end_col,
 				           int row,       int count);
 
-void        sheet_style_attach            (Sheet *sheet,
+void        sheet_style_attach_old        (Sheet *sheet,
 					   int    start_col, int start_row,
 					   int    end_col,   int end_row,
-					   Style  *style);
+					   MStyle  *style);
 Sheet      *sheet_lookup_by_name          (Workbook *wb, const char *name);
 
 void        sheet_update_controls         (Sheet *sheet);

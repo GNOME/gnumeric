@@ -67,5 +67,10 @@ char       *selection_to_string    (Sheet *sheet,
 gboolean      selection_is_simple   (Sheet const *sheet,
 				     char const *command_name);
 Range const * selection_first_range (Sheet const *sheet);
+void          selection_foreach_range (Sheet *sheet,
+				       void (*range_cb) (Sheet *sheet,
+							 Range const *range,
+							 gpointer user_data),
+				       gpointer user_data);
 
 #endif /* GNUMERIC_SELECTION_H */

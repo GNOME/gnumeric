@@ -28,6 +28,7 @@
 
 /* The debugging level */
 int gnumeric_debugging = 0;
+int style_debugging = 0;
 extern int ms_excel_read_debug;
 extern int ms_excel_formula_debug;
 extern int ms_excel_color_debug;
@@ -45,6 +46,8 @@ const struct poptOption gnumeric_popt_options [] = {
 	  N_("Dumps the function definitions"),   N_("FILE") },
 	{ "debug", '\0', POPT_ARG_INT, &gnumeric_debugging, 0,
 	  N_("Enables some debugging functions"), N_("LEVEL") },
+	{ "debug_styles", '\0', POPT_ARG_INT, &style_debugging, 0,
+	  N_("Enables some style related debugging functions"), N_("LEVEL") },
 
 	{ "debug_excel_read", '\0', POPT_ARG_INT,
 	    &ms_excel_read_debug, 0,

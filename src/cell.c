@@ -7,16 +7,17 @@
 #include <config.h>
 #include <gnome.h>
 #include <locale.h>
+#include <ctype.h>
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
 #include "gnumeric-util.h"
 #include "eval.h"
 #include "format.h"
 #include "color.h"
+#include "border.h"
 #include "cursors.h"
 #include "utils.h"
 #include "gnumeric-util.h"
-#include <ctype.h>
 
 static int         redraws_frozen           = 0;
 static int         redraws_deep_frozen      = 0;
@@ -93,11 +94,8 @@ cell_set_formula (Cell *cell, const char *text)
 		return;
 	}
 
-	if (desired_format &&
-	    strcmp (cell->style->format->format, "General") == 0){
-		style_format_unref (cell->style->format);
-		cell->style->format = style_format_new (desired_format);
-	}
+	if (desired_format)
+		cell_set_format (cell, desired_format);
 
 	if (new_expr->oper == OPER_ARRAY){
 		/* The corner sets up the entire array block */
@@ -125,97 +123,6 @@ cell_set_formula (Cell *cell, const char *text)
 		cell->value = value_new_error (NULL, _("Pending recomputation"));
 		cell_formula_changed (cell);
 	}
-}
-
-/*
- * cell_set_alignment:
- *
- * @cell: the cell to change the alignment of
- * @halign: the horizontal alignemnt
- * @valign: the vertical alignemnt
- * @orient: the text orientation
- *
- * This routine changes the alignment of a cell to those specified.
- */
-void
-cell_set_alignment (Cell *cell, int halign, int valign, int orient, int auto_return)
-{
-	g_return_if_fail (cell != NULL);
-	g_return_if_fail (cell->style != NULL);
-
-	if ((cell->style->halign      == halign) &&
-	    (cell->style->valign      == valign) &&
-	    (cell->style->fit_in_cell == auto_return) &&
-	    (cell->style->orientation == orient))
-		return;
-
-	cell_modified (cell);
-
-	cell_queue_redraw (cell);
-
-	cell->style->halign = halign;
-	cell->style->valign = valign;
-	cell->style->orientation = orient;
-	cell->style->fit_in_cell = auto_return;
-
-	cell_calc_dimensions (cell);
-
-	cell_queue_redraw (cell);
-}
-
-void
-cell_set_halign (Cell *cell, StyleHAlignFlags halign)
-{
-	g_return_if_fail (cell != NULL);
-
-	if (((unsigned int)cell->style->halign) == ((unsigned int) halign))
-		return;
-
-	cell_modified (cell);
-
-	cell_queue_redraw (cell);
-	cell->style->halign = halign;
-
-	cell_calc_dimensions (cell);
-	cell_queue_redraw (cell);
-}
-
-void
-cell_set_font_from_style (Cell *cell, StyleFont *style_font)
-{
-	g_return_if_fail (cell != NULL);
-	g_return_if_fail (style_font != NULL);
-
-	cell_modified (cell);
-
-	cell_queue_redraw (cell);
-
-	style_font_ref (style_font);
-	style_font_unref (cell->style->font);
-
-	cell->style->font = style_font;
-	cell->style->valid_flags |= STYLE_FONT;
-
-	cell_calc_dimensions (cell);
-
-	cell_queue_redraw (cell);
-}
-
-void
-cell_set_style (Cell *cell, Style *reference_style)
-{
-	g_return_if_fail (cell != NULL);
-	g_return_if_fail (reference_style != NULL);
-
-	cell_modified (cell);
-
-	cell_queue_redraw (cell);
-	style_destroy (cell->style);
-	cell->style = style_duplicate (reference_style);
-	if (cell->value)
-		cell_render_value (cell);
-	cell_calc_dimensions (cell);
-	cell_queue_redraw (cell);
 }
 
 void
@@ -414,113 +321,6 @@ cell_set_comment (Cell *cell, const char *str)
 		cell_comment_realize (cell);
 }
 
-void
-cell_set_foreground (Cell *cell, gushort red, gushort green, gushort blue)
-{
-	g_return_if_fail (cell != NULL);
-
-	cell_modified (cell);
-
-	if (cell->style->valid_flags & STYLE_FORE_COLOR)
-		style_color_unref (cell->style->fore_color);
-
-	cell->style->valid_flags |= STYLE_FORE_COLOR;
-	cell->style->fore_color = style_color_new (red, green, blue);
-
-	cell_queue_redraw (cell);
-}
-
-void
-cell_set_background (Cell *cell, gushort red, gushort green, gushort blue)
-{
-	g_return_if_fail (cell != NULL);
-
-	cell_modified (cell);
-
-	if (cell->style->valid_flags & STYLE_BACK_COLOR)
-		style_color_unref (cell->style->back_color);
-
-	cell->style->valid_flags |= STYLE_BACK_COLOR;
-	cell->style->back_color = style_color_new (red, green, blue);
-
-	cell_queue_redraw (cell);
-}
-
-/**
- * Null pointers unset the style.
- **/
-void
-cell_set_color_from_style (Cell *cell, StyleColor *foreground,
-			   StyleColor *background)
-{
-	g_return_if_fail (cell != NULL);
-
-	cell_modified (cell);
-
-	if (cell->style->valid_flags & STYLE_FORE_COLOR) {
-		cell->style->valid_flags ^= STYLE_FORE_COLOR;
-		style_color_unref (cell->style->fore_color);
-	}
-
-	if (cell->style->valid_flags & STYLE_BACK_COLOR) {
-		cell->style->valid_flags ^= STYLE_BACK_COLOR;
-		style_color_unref (cell->style->back_color);
-	}
-
-	if (background) {
-		cell->style->valid_flags |= STYLE_BACK_COLOR;
-		style_color_ref (background);
-	}
-	cell->style->back_color = background;
-
-	if (foreground) {
-		cell->style->valid_flags |= STYLE_FORE_COLOR;
-		style_color_ref (foreground);
-	}
-	cell->style->fore_color = foreground;
-
-	cell_queue_redraw (cell);
-}
-
-
-void
-cell_set_pattern (Cell *cell, int pattern)
-{
-	g_return_if_fail (cell != NULL);
-
-	cell_modified (cell);
-
-	cell->style->valid_flags |= STYLE_PATTERN;
-	cell->style->pattern = pattern;
-
-	cell_queue_redraw (cell);
-}
-
-/**
- * cell_set_border:
- * @cell: the cell
- * @border_type: an array containing the borders for the cell
- * @border_color: an array of StyleColors with the
- * NB. don't unref the StyleColor *s you pass.
- */
-void
-cell_set_border (Cell *cell,
-		 StyleBorderType  const border_type[4],
-		 StyleColor      *border_color[4])
-{
-	g_return_if_fail (cell != NULL);
-
-	cell_modified (cell);
-
-  	if (cell->style->valid_flags & STYLE_BORDER)
-		style_border_unref (cell->style->border);
-
-	cell->style->valid_flags |= STYLE_BORDER;
-	cell->style->border = style_border_new (border_type, border_color);
-
-	cell_queue_redraw (cell);
-}
-
 /*
  * cell_set_rendered_text
  * @cell:          the cell we will modify
@@ -547,6 +347,25 @@ cell_set_rendered_text (Cell *cell, const char *rendered_text)
 	cell_calc_dimensions (cell);
 }
 
+static char *
+cell_get_formatted_val (Cell *cell, StyleColor **col)
+{
+	MStyle *mstyle;
+	char *txt;
+	
+	mstyle = sheet_style_compute (cell->sheet, cell->col->pos,
+				      cell->row->pos);
+	if (mstyle_is_element_set (mstyle, MSTYLE_FORMAT))
+		txt = format_value (mstyle_get_format (mstyle),
+				    cell->value, col);
+	else {
+		g_warning ("No format: serious error");
+		txt = g_strdup ("Error");
+	}
+	mstyle_unref (mstyle);
+	return txt;
+}
+
 /*
  * cell_render_value
  * @cell: The cell whose value needs to be rendered
@@ -562,12 +381,12 @@ cell_render_value (Cell *cell)
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell->value != NULL);
 
-	if (cell->render_color){
+	if (cell->render_color) {
 		style_color_unref (cell->render_color);
 		cell->render_color = NULL;
 	}
 
-	str = format_value (cell->style->format, cell->value, &color);
+	str = cell_get_formatted_val (cell, &color);
 	cell->render_color = color;
 
 	cell_set_rendered_text (cell, str);
@@ -856,8 +675,8 @@ cell_copy (const Cell *cell)
 	if (new_cell->entered_text)
 		string_ref (new_cell->entered_text);
 
-	if (new_cell->style)
-		new_cell->style = style_duplicate (new_cell->style);
+/*	if (new_cell->style)
+	new_cell->style = style_duplicate (new_cell->style);*/
 
 	if (new_cell->render_color)
 		style_color_ref (new_cell->render_color);
@@ -897,8 +716,7 @@ cell_destroy (Cell *cell)
 		string_unref (cell->text);
 	cell->text = (void *)0xdeadbeef;
 
-	style_destroy (cell->style);
-	cell->style = (void *)0xdeadbeef;
+/*	cell->style = (void *)0xdeadbeef;*/
 
 	g_free (cell);
 }
@@ -983,17 +801,11 @@ cell_queue_redraw (Cell *cell)
 void
 cell_set_format_simple (Cell *cell, const char *format)
 {
-	g_return_if_fail (cell != NULL);
-	g_return_if_fail (format != NULL);
+	MStyle *mstyle = mstyle_new ();
 
-	if (strcmp (format, cell->style->format->format) == 0)
-		return;
+	mstyle_set_format (mstyle, format);
 
-	/* Change the format */
-	cell_modified (cell);
-	style_format_unref (cell->style->format);
-	cell->style->format = style_format_new (format);
-	cell->flags |= CELL_FORMAT_SET;
+	cell_set_mstyle (cell, mstyle);
 }
 
 /*
@@ -1008,29 +820,6 @@ cell_set_format (Cell *cell, const char *format)
 	g_return_if_fail (cell != NULL);
 
 	cell_set_format_simple (cell, format);
-
-	/* re-render the cell text */
-	cell_render_value (cell);
-	cell_queue_redraw (cell);
-}
-
-void
-cell_set_format_from_style (Cell *cell, StyleFormat *style_format)
-{
-	g_return_if_fail (cell != NULL);
-	g_return_if_fail (cell->value);
-	g_return_if_fail (style_format != NULL);
-
-	cell_modified (cell);
-	cell_queue_redraw (cell);
-
-	/* Change the format */
-	style_format_ref (style_format);
-	style_format_unref (cell->style->format);
-
-	cell->style->format = style_format;
-	cell->style->valid_flags |= STYLE_FORMAT;
-	cell->flags |= CELL_FORMAT_SET;
 
 	/* re-render the cell text */
 	cell_render_value (cell);
@@ -1115,24 +904,25 @@ cell_make_value (Cell *cell)
 }
 
 int
-cell_get_horizontal_align (const Cell *cell)
+cell_get_horizontal_align (const Cell *cell, int align)
 {
-	g_return_val_if_fail (cell != NULL, HALIGN_LEFT);
+	g_return_val_if_fail (cell != NULL, HALIGN_RIGHT);
 
-	if (cell->style->halign == HALIGN_GENERAL){
-		if (cell->value){
-			if (cell->value->type== VALUE_FLOAT ||
+	if (align == HALIGN_GENERAL) {
+		if (cell->value) {
+			if (cell->value->type == VALUE_FLOAT ||
 			    cell->value->type == VALUE_INTEGER)
-				return HALIGN_RIGHT;
+				align = HALIGN_RIGHT;
 			else
-				return HALIGN_LEFT;
+				align = HALIGN_LEFT;
 		} else
-			return HALIGN_RIGHT;
-	} else
-		return cell->style->halign;
+			align = HALIGN_RIGHT;
+	}
+
+	return align;
 }
 
-int
+int inline
 cell_is_number (const Cell *cell)
 {
 	return cell->value && VALUE_IS_NUMBER (cell->value);
@@ -1161,6 +951,7 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 	Sheet *sheet;
 	int align, left;
 	int row, pos, margin;
+	MStyle *mstyle;
 
 	g_return_if_fail (cell != NULL);
 
@@ -1169,21 +960,31 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 	 * alignment modes are set to "justify", then we report only one
 	 * column is used.
 	 */
+
 	if (cell_is_number (cell) ||
-	    cell->style->fit_in_cell ||
-	    cell->style->valign == VALIGN_JUSTIFY ||
-	    cell->style->halign == HALIGN_JUSTIFY ||
-	    cell->style->halign == HALIGN_FILL    ||
-	    cell_contents_fit_inside_column (cell)){
+	    cell_contents_fit_inside_column (cell)) {
 		*col1 = *col2 = cell->col->pos;
 		return;
 	}
 
 	sheet = cell->sheet;
-	align = cell_get_horizontal_align (cell);
+	mstyle = sheet_style_compute (cell->sheet, cell->col->pos,
+				      cell->row->pos);
+	align = cell_get_horizontal_align (cell,
+					   mstyle_get_align_h (mstyle));
 	row   = cell->row->pos;
 
-	switch (align){
+	if (align == HALIGN_JUSTIFY ||
+	    align == HALIGN_FILL ||
+	    mstyle_get_fit_in_cell (mstyle) ||
+	    mstyle_get_align_v (mstyle) == VALIGN_JUSTIFY) {
+		*col1 = *col2 = cell->col->pos;
+		mstyle_unref (mstyle);
+		return;
+	}
+	mstyle_unref (mstyle);
+
+	switch (align) {
 	case HALIGN_LEFT:
 		*col1 = *col2 = cell->col->pos;
 		pos = cell->col->pos + 1;
@@ -1292,7 +1093,7 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 		break;
 
 	default:
-		g_warning ("Unknown horizontal alignment type\n");
+		g_warning ("Unknown horizontal alignment type %d\n", align);
 		*col1 = *col2 = cell->col->pos;
 	} /* case HALIGN_CENTER */
 
@@ -1313,9 +1114,11 @@ cell_get_span (Cell *cell, int *col1, int *col2)
  * constraints in the style using the font specified on the style.
  */
 static void
-calc_text_dimensions (int is_number, Style *style, const char *text, int cell_w, int cell_h, int *h, int *w)
+calc_text_dimensions (int is_number, MStyle *mstyle,
+		      const char *text, int cell_w, int cell_h, int *h, int *w,
+		      double zoom)
 {
-	StyleFont *style_font = style->font;
+	StyleFont *style_font = mstyle_get_font (mstyle, zoom);
 	GdkFont *gdk_font = style_font->dfont->gdk_font;
 	int text_width, font_height;
 	
@@ -1325,12 +1128,9 @@ calc_text_dimensions (int is_number, Style *style, const char *text, int cell_w,
 	if (text_width < cell_w || is_number){
 		*w = text_width;
 		*h = font_height;
-		return;
-	}
-
-	if (style->halign == HALIGN_JUSTIFY ||
-	    style->valign == VALIGN_JUSTIFY ||
-	    style->fit_in_cell){
+	} else if (mstyle_get_align_h (mstyle) == HALIGN_JUSTIFY ||
+	    mstyle_get_align_v (mstyle) == VALIGN_JUSTIFY ||
+	    mstyle_get_fit_in_cell (mstyle)) {
 		const char *ideal_cut_spot = NULL;
 		int  used, last_was_cut_point;
 		const char *p = text;
@@ -1340,7 +1140,7 @@ calc_text_dimensions (int is_number, Style *style, const char *text, int cell_w,
 		used = 0;
 		last_was_cut_point = FALSE;
 
-		for (; *p; p++){
+		for (; *p; p++) {
 			int len;
 
 			if (last_was_cut_point && *p != ' ')
@@ -1370,8 +1170,8 @@ calc_text_dimensions (int is_number, Style *style, const char *text, int cell_w,
 	} else {
 		*w = text_width;
 		*h = font_height;
-		return;
 	}
+	style_font_unref (style_font);
 }
 
 /*
@@ -1390,22 +1190,27 @@ cell_calc_dimensions (Cell *cell)
 
 	cell_unregister_span (cell);
 
-	if (cell->text){
-		Style *style = cell->style;
+	if (cell->text) {
+		MStyle *mstyle = sheet_style_compute (cell->sheet,
+						      cell->col->pos,
+						      cell->row->pos);
 		int h, w;
 
 		rendered_text = cell->text->str;
 		calc_text_dimensions (cell_is_number (cell),
-				      style, rendered_text,
+				      mstyle, rendered_text,
 				      COL_INTERNAL_WIDTH (cell->col),
 				      ROW_INTERNAL_HEIGHT (cell->row),
-				      &h, &w);
+				      &h, &w,
+				      cell->sheet->last_zoom_factor_used);
 
-		cell->width = cell->col->margin_a + cell->col->margin_b + w;
+		cell->width  = cell->col->margin_a + cell->col->margin_b + w;
 		cell->height = cell->row->margin_a + cell->row->margin_b + h;
 
 		if (cell->height > cell->row->pixels && !cell->row->hard_size)
 			sheet_row_set_internal_height (cell->sheet, cell->row, h);
+
+		mstyle_unref (mstyle);
 	} else
 		cell->width = cell->col->margin_a + cell->col->margin_b;
 
@@ -1446,9 +1251,8 @@ cell_get_text (Cell *cell)
 	if (cell->entered_text)
 		return g_strdup (cell->entered_text->str);
 	else
-		return format_value (cell->style->format, cell->value, NULL);
+		return cell_get_formatted_val (cell, NULL);
 }
-
 
 /**
  * cell_get_content:
@@ -1523,3 +1327,32 @@ cell_is_error (Cell const *cell)
 
 	return NULL;
 }
+
+Style *
+cell_get_style (const Cell *cell)
+{
+	MStyle *mstyle;
+	Style  *ans;
+
+	mstyle = sheet_style_compute (cell->sheet,
+				      cell->col->pos,
+				      cell->row->pos);
+	ans = style_new_mstyle (mstyle, MSTYLE_ELEMENT_MAX,
+				cell->sheet->last_zoom_factor_used);
+	mstyle_unref (mstyle);
+
+	return ans;
+}
+
+void
+cell_set_mstyle (const Cell *cell, MStyle *mstyle)
+{
+	Range         range;
+
+	range.start.col = cell->col->pos;
+	range.start.row = cell->row->pos;
+	range.end       = range.start;
+
+	sheet_style_attach (cell->sheet, range, mstyle);
+}
+

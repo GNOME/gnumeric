@@ -105,7 +105,7 @@ html_write_wb_latex (Workbook *wb, const char *filename)
 					else
 						fprintf (fp, "\t\n");
 				} else {
-					style = cell->style;
+					style = cell_get_style (cell);
 					if (!style) {
 						/* is this case posible? */
 						fprintf (fp, "\t&");
@@ -143,6 +143,7 @@ html_write_wb_latex (Workbook *wb, const char *filename)
 							fprintf (fp, "}");
 						fprintf (fp, "\n");
 					}
+					style_unref (style);
 				}
 			}
 			fprintf (fp, "\\\\\\hline\n");
@@ -201,7 +202,7 @@ html_write_wb_latex2e (Workbook *wb, const char *filename)
 					else
 						fprintf (fp, "\t\n");
 				} else {
-					style = cell->style;
+					style = cell_get_style (cell);
 					if (!style) {
 						/* is this case posible? */
 						fprintf (fp, "\t&");
@@ -247,6 +248,7 @@ html_write_wb_latex2e (Workbook *wb, const char *filename)
 							/* fprintf (fp, "\\hfill"); */
 						fprintf (fp, "\n");
 					}
+					style_unref (style);
 				}
 			}
 			fprintf (fp, "\\\\\\hline\n");

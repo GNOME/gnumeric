@@ -477,18 +477,18 @@ Sheet_cell_get_format (PortableServer_Servant servant,
 		       const CORBA_long row,
 		       CORBA_Environment *ev)
 {
+	CORBA_char *ans;
 	Sheet *sheet = sheet_from_servant (servant);
-	Cell *cell;
+	MStyle *mstyle;
 
 	verify_col_val (col, NULL);
 	verify_row_val (row, NULL);
-	
-	cell = sheet_cell_get (sheet, col, row);
-	if (cell){
-		return CORBA_string_dup (cell->style->format->format);
-	} else {
-		return CORBA_string_dup ("");
-	}
+
+	mstyle = sheet_style_compute (sheet, col, row);
+	ans = CORBA_string_dup (mstyle_get_format (mstyle)->format);
+	mstyle_unref (mstyle);
+
+	return ans;
 }
 
 static void
@@ -499,39 +499,28 @@ Sheet_cell_set_font (PortableServer_Servant servant,
 		     const CORBA_double points,
 		     CORBA_Environment *ev)
 {
-	Sheet *sheet = sheet_from_servant (servant);
-	StyleFont *style_font;
-	Cell *cell;
-
-	verify_col (col);
-	verify_row (row);
-	
-	cell = sheet_cell_fetch (sheet, col, row);
-
-	style_font = style_font_new (
-		font, points, sheet->last_zoom_factor_used,
-		cell->style->font->is_bold,
-		cell->style->font->is_italic);
-
-	if (style_font)
-		cell_set_font_from_style (cell, style_font);
+	MStyle *mstyle = mstyle_new ();
+	mstyle_set_font_name (mstyle, font);
+	mstyle_set_font_size (mstyle, points);
+	sheet_style_attach_single (sheet_from_servant (servant),
+				   col, row, mstyle);
 }
 
 static CORBA_char *
 Sheet_cell_get_font (PortableServer_Servant servant, const CORBA_long col, const CORBA_long row, CORBA_Environment *ev)
 {
+	CORBA_char *ans;
 	Sheet *sheet = sheet_from_servant (servant);
-	Cell *cell;
+	MStyle *mstyle;
 
 	verify_col_val (col, NULL);
 	verify_row_val (row, NULL);
-	
-	cell = sheet_cell_get (sheet, col, row);
-	if (cell){
-		return CORBA_string_dup (cell->style->font->font_name);
-	} else {
-		return CORBA_string_dup ("");
-	}
+
+	mstyle = sheet_style_compute (sheet, col, row);
+	ans = CORBA_string_dup (mstyle_get_font_name (mstyle));
+	mstyle_unref (mstyle);
+
+	return ans;
 }
 
 static void
@@ -572,17 +561,17 @@ Sheet_cell_set_foreground (PortableServer_Servant servant,
 			   const CORBA_long col, const CORBA_long row,
 			   const CORBA_char * color, CORBA_Environment *ev)
 {
-	Sheet *sheet = sheet_from_servant (servant);
-	Cell *cell;
 	GdkColor c;
+	MStyle *mstyle = mstyle_new ();
 
 	verify_col (col);
 	verify_row (row);
 	
 	gdk_color_parse (color, &c);
-	cell = sheet_cell_fetch (sheet, col, row);
-
-	cell_set_foreground (cell, c.red, c.green, c.blue);
+	mstyle_set_color (mstyle, MSTYLE_COLOR_FORE,
+			  style_color_new (c.red, c.green, c.blue));
+	sheet_style_attach_single (sheet_from_servant (servant),
+				   col, row, mstyle);
 }
 
 static CORBA_char *
@@ -590,9 +579,7 @@ Sheet_cell_get_foreground (PortableServer_Servant servant,
 			   const CORBA_long col, const CORBA_long row,
 			   CORBA_Environment *ev)
 {
-	Sheet *sheet = sheet_from_servant (servant);
-
-	g_error ("Foreground for sheet %p", sheet);
+	g_warning ("cell get foreground deprecated");
 
 	return NULL;
 }
@@ -602,17 +589,17 @@ Sheet_cell_set_background (PortableServer_Servant servant,
 			   const CORBA_long col, const CORBA_long row,
 			   const CORBA_char * color, CORBA_Environment *ev)
 {
-	Sheet *sheet = sheet_from_servant (servant);
-	Cell *cell;
 	GdkColor c;
+	MStyle *mstyle = mstyle_new ();
 
 	verify_col (col);
 	verify_row (row);
 	
 	gdk_color_parse (color, &c);
-	cell = sheet_cell_fetch (sheet, col, row);
-
-	cell_set_background (cell, c.red, c.green, c.blue);
+	mstyle_set_color (mstyle, MSTYLE_COLOR_BACK,
+			  style_color_new (c.red, c.green, c.blue));
+	sheet_style_attach_single (sheet_from_servant (servant),
+				   col, row, mstyle);
 }
 
 static CORBA_char *
@@ -620,12 +607,7 @@ Sheet_cell_get_background (PortableServer_Servant servant,
 			   const CORBA_long col, const CORBA_long row,
 			   CORBA_Environment *ev)
 {
-#if 0
-	Sheet *sheet = sheet_from_servant (servant);
-#endif
-
-	g_error ("Background");
-
+	g_warning ("Deprecated cell get background");
 	return NULL;
 }
 
@@ -634,14 +616,7 @@ Sheet_cell_set_pattern (PortableServer_Servant servant,
 			const CORBA_long col, const CORBA_long row,
 			const CORBA_long pattern, CORBA_Environment *ev)
 {
-	Sheet *sheet = sheet_from_servant (servant);
-	Cell *cell;
-
-	verify_col (col);
-	verify_row (row);
-	
-	cell = sheet_cell_fetch (sheet, col, row);
-	cell_set_pattern (cell, pattern);
+	g_warning ("Deprecated cell set pattern");
 }
 
 static CORBA_long
@@ -649,17 +624,8 @@ Sheet_cell_get_pattern (PortableServer_Servant servant,
 			const CORBA_long col, const CORBA_long row,
 			CORBA_Environment *ev)
 {
-	Sheet *sheet = sheet_from_servant (servant);
-	Cell *cell;
-	
-	verify_col_val (col, 0);
-	verify_row_val (row, 0);
-	
-	cell = sheet_cell_get (sheet, col, row);
-	if (cell)
-		return cell->style->pattern;
-	else
-		return 0;
+	g_warning ("Deprecated cell get pattern");
+	return 0;
 }
 
 static void
@@ -669,16 +635,13 @@ Sheet_cell_set_alignment (PortableServer_Servant servant,
 			  const CORBA_long orientation, const CORBA_boolean auto_return,
 			  CORBA_Environment *ev)
 {
-	Sheet *sheet = sheet_from_servant (servant);
-	Cell *cell;
-	int h, v;
-	
+	int v, h;
+	MStyle *mstyle = mstyle_new ();
+
 	verify_col (col);
 	verify_row (row);
 	
-	cell = sheet_cell_fetch (sheet, col, row);
-		
-	switch (halign){
+	switch (halign) {
 	case GNOME_Gnumeric_Sheet_HALIGN_GENERAL:
 		h = HALIGN_GENERAL;
 		break;
@@ -707,7 +670,7 @@ Sheet_cell_set_alignment (PortableServer_Servant servant,
 		h = HALIGN_GENERAL;
 	}
 
-	switch (valign){
+	switch (valign) {
 	case GNOME_Gnumeric_Sheet_VALIGN_TOP:
 		v = VALIGN_TOP;
 		break;
@@ -728,8 +691,11 @@ Sheet_cell_set_alignment (PortableServer_Servant servant,
 		v = VALIGN_TOP;
 		break;
 	}
-	
-	cell_set_alignment (cell, h, v, orientation, auto_return);
+
+	mstyle_set_align_v (mstyle, v);
+	mstyle_set_align_h (mstyle, h);
+	sheet_style_attach_single (sheet_from_servant (servant),
+				   col, row, mstyle);
 }
 
 static void
@@ -739,64 +705,58 @@ Sheet_cell_get_alignment (PortableServer_Servant servant,
 			  CORBA_long * orientation, CORBA_boolean * auto_return,
 			  CORBA_Environment *ev)
 {
-	Sheet *sheet = sheet_from_servant (servant);
-	Cell *cell;
-	
+	MStyle *mstyle;
+
 	verify_col (col);
 	verify_row (row);
 
-	cell = sheet_cell_get (sheet, col, row);
-	if (cell){
-		switch (cell->style->halign){
-		case HALIGN_GENERAL:
-			*halign = GNOME_Gnumeric_Sheet_HALIGN_GENERAL;
-			break;
-			
-		case HALIGN_LEFT:
-			*halign = GNOME_Gnumeric_Sheet_HALIGN_LEFT;
-			break;
-			
-		case HALIGN_RIGHT:
-			*halign = GNOME_Gnumeric_Sheet_HALIGN_RIGHT;
-			break;
-			
-		case HALIGN_CENTER:
-			*halign = GNOME_Gnumeric_Sheet_HALIGN_CENTER;
-			break;
-			
-		case HALIGN_FILL:
-			*halign = GNOME_Gnumeric_Sheet_HALIGN_FILL;
-			break;
-		default:
-			g_assert_not_reached ();
-		}
+	mstyle = sheet_style_compute (sheet_from_servant (servant), col, row);
 
-		switch (cell->style->valign){
-		case VALIGN_TOP:
-			*valign = GNOME_Gnumeric_Sheet_VALIGN_TOP;
-			break;
-			
-		case VALIGN_BOTTOM:
-			*valign = GNOME_Gnumeric_Sheet_VALIGN_BOTTOM;
-			break;
-
-		case VALIGN_CENTER:
-			*valign = GNOME_Gnumeric_Sheet_VALIGN_CENTER;
-			break;
-
-		case VALIGN_JUSTIFY:
-			*valign = GNOME_Gnumeric_Sheet_VALIGN_JUSTIFY;
-			break;
-		}
-		*orientation = cell->style->orientation;
-		*auto_return = cell->style->fit_in_cell;
-	} else {
+	switch (mstyle_get_align_h (mstyle)) {
+	case HALIGN_GENERAL:
 		*halign = GNOME_Gnumeric_Sheet_HALIGN_GENERAL;
-		*valign = GNOME_Gnumeric_Sheet_VALIGN_CENTER;
-		*orientation = 0;
-		*auto_return = 0;
-		return;
+		break;
+		
+	case HALIGN_LEFT:
+		*halign = GNOME_Gnumeric_Sheet_HALIGN_LEFT;
+		break;
+		
+	case HALIGN_RIGHT:
+		*halign = GNOME_Gnumeric_Sheet_HALIGN_RIGHT;
+		break;
+		
+	case HALIGN_CENTER:
+		*halign = GNOME_Gnumeric_Sheet_HALIGN_CENTER;
+		break;
+		
+	case HALIGN_FILL:
+		*halign = GNOME_Gnumeric_Sheet_HALIGN_FILL;
+		break;
+	default:
+		g_assert_not_reached ();
 	}
+
+	switch (mstyle_get_align_v (mstyle)) {
+	case VALIGN_TOP:
+		*valign = GNOME_Gnumeric_Sheet_VALIGN_TOP;
+		break;
+		
+	case VALIGN_BOTTOM:
+		*valign = GNOME_Gnumeric_Sheet_VALIGN_BOTTOM;
+		break;
+		
+	case VALIGN_CENTER:
+		*valign = GNOME_Gnumeric_Sheet_VALIGN_CENTER;
+		break;
+		
+	case VALIGN_JUSTIFY:
+		*valign = GNOME_Gnumeric_Sheet_VALIGN_JUSTIFY;
+		break;
+	}
+	*orientation = mstyle_get_orientation (mstyle);
+	*auto_return = mstyle_get_fit_in_cell (mstyle);
+
+	mstyle_unref (mstyle);
 }
 
 static void
@@ -915,7 +875,7 @@ Sheet_range_get_values (PortableServer_Servant servant, const CORBA_char *range,
 	vector->_buffer = CORBA_sequence_GNOME_Gnumeric_Value_allocbuf (size);
 
 	/* No memory, return an empty vector */
-	if (vector->_buffer == NULL){
+	if (vector->_buffer == NULL) {
 		vector->_length = 0;
 		vector->_maximum = 0;
 
@@ -925,7 +885,7 @@ Sheet_range_get_values (PortableServer_Servant servant, const CORBA_char *range,
 	/*
 	 * Fill in the vector
 	 */
-	for (i = 0, l = ranges; l; l = l->next, i++){
+	for (i = 0, l = ranges; l; l = l->next, i++) {
 		Value *value = l->data;
 		CellRef a, b;
 		int col, row;
@@ -987,12 +947,6 @@ Sheet_range_set_formula (PortableServer_Servant servant,
 }
 
 static void
-cb_range_set_format (Cell *cell, void *data)
-{
-	cell_set_format (cell, data);
-}
-
-static void
 Sheet_range_set_format (PortableServer_Servant servant,
 			const CORBA_char *range,
 			const CORBA_char *format,
@@ -1000,22 +954,15 @@ Sheet_range_set_format (PortableServer_Servant servant,
 {
 	Sheet *sheet = sheet_from_servant (servant);
 	GSList *ranges;
-	Style *style;
+	MStyle *mstyle;
 
 	verify_range (sheet, range, &ranges);
 
 	cell_freeze_redraws ();
 
-	/*
-	 * Create a style for the region
-	 */
-	style = style_new_empty ();
-	style->valid_flags = STYLE_FORMAT;
-	style->format = style_format_new (format);
-
-	/* Apply the style */
-	range_set_style (ranges, style);
-	range_list_foreach (ranges, cb_range_set_format, (char *) format);
+	mstyle = mstyle_new ();
+	mstyle_set_format (mstyle, format);
+	ranges_set_style (sheet, ranges, mstyle);
 
 	cell_thaw_redraws ();
 	

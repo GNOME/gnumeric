@@ -19,6 +19,7 @@ typedef struct _ExcelSheet
 	eBiff_version ver;
 	GHashTable *shared_formulae;
 	GList *obj_queue;
+	Range  style_optimize;
 } ExcelSheet;
 
 typedef struct _BiffBoundsheetData
@@ -67,7 +68,6 @@ typedef struct _BiffFontData
 	int script;         /* sub = -1, none = 0, super = 1 */
 	eBiffFontUnderline underline;
 	char *fontname;
-	StyleFont *style_font;
 } BiffFontData;
 
 typedef struct _BiffExternSheetData {

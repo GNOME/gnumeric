@@ -169,9 +169,12 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 	} else if (!g_strcasecmp (info_type, "format")) {
 		Cell *cell = sheet_cell_get (ei->pos.sheet, ref.col, ref.row);
 
-		if (cell && CELL_IS_FORMAT_SET (cell))
-			return translate_cell_format (cell->style->format);
-		else
+		if (cell && CELL_IS_FORMAT_SET (cell)) {
+			Style *style = cell_get_style (cell);
+			Value *val = translate_cell_format (style->format);
+			style_unref (style);
+			return val;
+		} else
 			return value_new_string ("G");
 	} else if (!g_strcasecmp (info_type, "prefix")) {
 		/* Text value corresponding to the "label prefix" of the cell.
