@@ -12,9 +12,44 @@
   be printed out into a new sheet, into a new workbook, or into the
   same sheet within a given output range.  To select the output method
   just select one of the radio buttons bellow the ``Output options:''
-  label.  Note that if the output is printed into a range that is too
-  small, some or all of the results will not be printed.</para>
+  label.  Note that if the output is pasted into a range that is too
+  small, some of the results will not fit in it.  Also not that the
+  old data in the output range is lost.</para>
 
+
+  <sect2>
+     <title>Anova: Single Factor Tool</title>
+
+     <para>Use this tool to make a single factor analysis of the
+     variances of given variables. The variables are specified by the
+     ``Input Range:'' entry.  The given range can be groupped either
+     by columns or by rows.  ``Alpha:'' entry specifies the level of
+     significance which is by default 95%.</para>
+
+     <para>If you have labels, for example the names of the variables,
+     in the first row of the given range, you should check the
+     ``Labels'' button on.  This leaves the first row (or the first
+     column if the data is groupped by rows) of the input range out of
+     the analysis.  In addition, the names of the variables are
+     pasted nicely into the output table.</para>
+
+     <para>The tool calculates the source of variation between groups,
+     within groups, and the total source of variation.  The values of
+     these are given in the ''SS'' column.  The degrees of freedom of
+     are given in the ''df'' column.  In ''MS'' column the sources of
+     variation are divided by the degrees of freedom.  The results of
+     these divisions are used in calculating the F value in the ''F''
+     column.  The F value is the division of MS in ''Between columns''
+     and ''MS'' in ''Within columns''.  You can compare this value
+     with the ''F critical'' value in the last column.  The F critical
+     value is the largest value of F that is statistically significant
+     using the given significance level (''Alpha'').  Bellow the
+     ''P-value'' is the result of the F-test.</para>
+
+     <para>In addition, the tool calculates the count, sum, average,
+     and the variance of all the variables.</para>
+
+  </sect2>
 
   <sect2>
      <title>Correlation Tool</title>
