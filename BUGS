@@ -13,6 +13,7 @@ Release Critical
 - Why doesn't float_range_function2 use its "flags" argument?
 - Printing dialogs are shot.
 - 3D reference fixes on sheet deletion
+- Modify Makefiles to install gconf schemas
 
 1.2 Targets
 -----------

@@ -1,0 +1,26 @@
+<gconfschemafile>
+    <schemalist>
+      <schema>
+        <key>/schemas/apps/gnumeric/functionselector/recentfunctions</key>
+        <applyto>/apps/gnumeric/functionselector/recentfunctions</applyto>
+        <owner>Gnumeric</owner>
+        <type>list</type>
+        <locale name="C">
+        <short>List of recently used functions.</short>
+        <long>The function selector keeps a list of recently used functions. This is that list.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/functionselector/num-of-recent</key>
+        <applyto>/apps/gnumeric/functionselector/num-of-recent</applyto>
+        <owner>Gnumeric</owner>
+        <type>int</type>
+	<default>12</default>
+        <locale name="C">
+        <short>Maximum length of recently used functions list</short>
+        <long>The function selector keeps a list of recently used functions. This is the maximum length of that list.</long>
+        </locale>
+      </schema>
+    </schemalist>
+</gconfschemafile>
+  

@@ -37,14 +37,15 @@
 #include <glade/glade.h>
 #include <libgnome/gnome-i18n.h>
 #include <gconf/gconf-client.h>
+#include <gal/util/e-util.h>
 
 #define GLADE_FILE "function-select.glade"
 
 #define FUNCTION_SELECT_KEY "function-selector-dialog"
 #define FUNCTION_SELECT_DIALOG_KEY "function-selector-dialog"
 
-#warning: verify FUNCTION_SELECT_GCONF_RECENT path
-#define FUNCTION_SELECT_GCONF_RECENT "/gnumeric/functionselector/recent"
+#define FUNCTION_SELECT_GCONF_RECENT "/apps/gnumeric/functionselector/recentfunctions"
+#define FUNCTION_SELECT_GCONF_NUM_OF_RECENT "/apps/gnumeric/functionselector/num-of-recent"
 
 #define FUNCTION_SELECT_NUM_OF_RECENT 10
 
@@ -81,23 +82,23 @@ static void
 dialog_function_load_recent_funcs (FunctionSelectState *state)
 {
 	GConfClient *client;
-	gint i;
-	char *name;
 	FunctionDefinition *fd;
+	GSList *recent_funcs, *this_funcs;
 
 	client = gconf_client_get_default ();
+	recent_funcs = gconf_client_get_list (client, FUNCTION_SELECT_GCONF_RECENT,
+					      GCONF_VALUE_STRING, NULL);
 
-	for (i = 0; i < FUNCTION_SELECT_NUM_OF_RECENT; i++) {
-		char *key = g_strdup_printf (FUNCTION_SELECT_GCONF_RECENT "/func%i",i);
-		name = gconf_client_get_string (client, key, NULL);
-		g_free (key);
+	for (this_funcs = recent_funcs; this_funcs; this_funcs = this_funcs->next) {
+		char *name = this_funcs->data;
 		if (name) {
 			fd = func_lookup_by_name (name, NULL);
 			g_free (name);
 			if (fd)
-				state->recent_funcs = g_slist_append (state->recent_funcs, fd);
+				state->recent_funcs = g_slist_prepend (state->recent_funcs, fd);
 		}
 	}
+	g_slist_free (recent_funcs);
 }
 
 static void
@@ -105,27 +106,32 @@ dialog_function_write_recent_func (FunctionSelectState *state, FunctionDefinitio
 {
 	GSList *rec_funcs;
 	GConfClient *client;
-	char const *name;
-	char *key;
-	gint i;
+	GSList *gconf_value_list = NULL;
+	GError *err = NULL;
+	gint limit;
 
 	client = gconf_client_get_default ();
 	
+	limit = gconf_client_get_int (client, FUNCTION_SELECT_GCONF_NUM_OF_RECENT, err);
+	if (err || limit <= 0) {
+		limit = FUNCTION_SELECT_NUM_OF_RECENT;
+	}
+
 	state->recent_funcs = g_slist_remove (state->recent_funcs, (gpointer) fd);
 	state->recent_funcs = g_slist_prepend (state->recent_funcs, (gpointer) fd);
 
-	if (g_slist_length (state->recent_funcs) > FUNCTION_SELECT_NUM_OF_RECENT)
+	while (g_slist_length (state->recent_funcs) > limit)
 		state->recent_funcs = g_slist_remove (state->recent_funcs,
 						      g_slist_last (state->recent_funcs)->data);
-
-	for (rec_funcs = state->recent_funcs, i = 0; rec_funcs; 
-	     rec_funcs = rec_funcs->next, i++) {
-		key = g_strdup_printf (FUNCTION_SELECT_GCONF_RECENT "/func%i",i);
-		name = function_def_get_name (rec_funcs->data);
-		gconf_client_set_string (client, key, name, NULL);  
-		g_free (key);
-	}
 	
+	for (rec_funcs = state->recent_funcs; rec_funcs; rec_funcs = rec_funcs->next) {
+		gconf_value_list = g_slist_prepend 
+			(gconf_value_list, g_strdup (function_def_get_name (rec_funcs->data)));
+	}
+	gconf_client_set_list (client, FUNCTION_SELECT_GCONF_RECENT, GCONF_VALUE_STRING,
+                                       gconf_value_list, NULL);
+	gconf_client_suggest_sync (client, NULL);
+	e_free_string_slist (gconf_value_list);
 }
 
 
