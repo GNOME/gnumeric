@@ -1,3 +1,9 @@
+2001-02-24  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-control-gui.c (workbook_control_gui_new) : Why was I
+	  protecting a generic call ?  Its constituents not the caller are
+	  responsible for blocking events.
+
 2001-02-24  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/sheet-control-gui.c

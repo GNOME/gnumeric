@@ -3390,10 +3390,7 @@ workbook_control_gui_new (WorkbookView *optional_view, Workbook *wb)
 	wbc = WORKBOOK_CONTROL (wbcg);
 	workbook_control_gui_init (wbcg, optional_view, wb);
 
-	if (wbcg_ui_update_begin (wbcg)) {
-		workbook_control_sheets_init (wbc);
-		wbcg_ui_update_end (wbcg);
-	}
+	workbook_control_sheets_init (wbc);
 
 	return wbc;
 }
