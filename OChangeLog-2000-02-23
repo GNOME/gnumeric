@@ -1,3 +1,10 @@
+1999-09-13  Karl Eichwalder  <ke@suse.de>
+
+	* src/dialogs/hf-config.glade: Add missing `:'.  Is this the right
+	place to fix this kind of a bug?
+	* src/dialogs/hf-config.glade.h (N_): Ditto (I don't know how to
+	autogenerate this file).
+
 1999-09-13  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/functions/fn-misc.c, src/functions/fn-information.c: Moved the
