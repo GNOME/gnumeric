@@ -301,7 +301,7 @@ file_io_progress_update (IOContext *io_context)
 	gdouble complete;
 
 	g_return_if_fail (IS_IO_CONTEXT (io_context));
-	g_return_if_fail (io_context->helper.helper_type = GNUM_PROGRESS_HELPER_FILE);
+	g_return_if_fail (io_context->helper.helper_type == GNUM_PROGRESS_HELPER_FILE);
 
 	pos = ftell (io_context->helper.v.file.f);
 	if (pos == -1) {
@@ -315,7 +315,7 @@ void
 memory_io_progress_set (IOContext *io_context, gpointer mem_start, gint mem_size)
 {
 	g_return_if_fail (IS_IO_CONTEXT (io_context));
-	g_return_if_fail (mem_start != NULL && mem_size >=0);
+	g_return_if_fail (mem_start != NULL && mem_size >= 0);
 
 	io_context->helper.helper_type = GNUM_PROGRESS_HELPER_MEM;
 	io_context->helper.v.mem.start = mem_start;
@@ -329,7 +329,7 @@ memory_io_progress_update (IOContext *io_context, void *mem_current)
 	gdouble complete;
 
 	g_return_if_fail (IS_IO_CONTEXT (io_context));
-	g_return_if_fail (io_context->helper.helper_type = GNUM_PROGRESS_HELPER_MEM);
+	g_return_if_fail (io_context->helper.helper_type == GNUM_PROGRESS_HELPER_MEM);
 
 	complete = 1.0 * (cur - io_context->helper.v.mem.start)
 	           / io_context->helper.v.mem.size;
@@ -340,7 +340,7 @@ void
 value_io_progress_set (IOContext *io_context, gint total, gint step)
 {
 	g_return_if_fail (IS_IO_CONTEXT (io_context));
-	g_return_if_fail (total >=0);
+	g_return_if_fail (total >= 0);
 
 	io_context->helper.helper_type = GNUM_PROGRESS_HELPER_VALUE;
 	io_context->helper.v.value.total = MAX (total, 1);
@@ -354,7 +354,7 @@ value_io_progress_update (IOContext *io_context, gint value)
 	gdouble complete;
 
 	g_return_if_fail (IS_IO_CONTEXT (io_context));
-	g_return_if_fail (io_context->helper.helper_type = GNUM_PROGRESS_HELPER_COUNT);
+	g_return_if_fail (io_context->helper.helper_type == GNUM_PROGRESS_HELPER_VALUE);
 
 	if (value - io_context->helper.v.value.last < io_context->helper.v.value.step) {
 		return;
@@ -369,7 +369,7 @@ void
 count_io_progress_set (IOContext *io_context, gint total, gint step)
 {
 	g_return_if_fail (IS_IO_CONTEXT (io_context));
-	g_return_if_fail (total >=0);
+	g_return_if_fail (total >= 0);
 
 	io_context->helper.helper_type = GNUM_PROGRESS_HELPER_COUNT;
 	io_context->helper.v.count.total = MAX (total, 1);
@@ -384,7 +384,7 @@ count_io_progress_update (IOContext *io_context, gint inc)
 	gdouble complete;
 
 	g_return_if_fail (IS_IO_CONTEXT (io_context));
-	g_return_if_fail (io_context->helper.helper_type = GNUM_PROGRESS_HELPER_COUNT);
+	g_return_if_fail (io_context->helper.helper_type == GNUM_PROGRESS_HELPER_COUNT);
 
 	io_context->helper.v.count.current += inc;
 	if (io_context->helper.v.count.current - io_context->helper.v.count.last
@@ -431,7 +431,7 @@ workbook_io_progress_update (IOContext *io_context, gint inc)
 	gdouble complete;
 
 	g_return_if_fail (IS_IO_CONTEXT (io_context));
-	g_return_if_fail (io_context->helper.helper_type = GNUM_PROGRESS_HELPER_WORKBOOK);
+	g_return_if_fail (io_context->helper.helper_type == GNUM_PROGRESS_HELPER_WORKBOOK);
 
 	io_context->helper.v.workbook.current += inc;
 	if (io_context->helper.v.workbook.current - io_context->helper.v.workbook.last

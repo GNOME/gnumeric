@@ -1,5 +1,12 @@
 2002-02-12  Morten Welinder  <terra@diku.dk>
 
+	* src/io-context.c (value_io_progress_update): Correct assertion.
+
+	* src/io-context.c (file_io_progress_update,
+	memory_io_progress_update, value_io_progress_update,
+	count_io_progress_update, workbook_io_progress_update): Use test,
+	not assignment.
+
 	* src/stf-parse.c (trim_spaces_inplace): Fix isspace usage.
 	(stf_parse_is_valid_data): Ditto.
 	* src/sheet.c (sheet_name_quote): Ditto.
