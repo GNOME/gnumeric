@@ -241,9 +241,7 @@ gog_themes_init	(void)
 	style = gog_style_new (); /* legend */
 		style->outline.width = 0; /* hairline */
 		style->outline.color = RGBA_BLACK;
-		style->fill.type = GOG_FILL_STYLE_SOLID;
-		style->fill.u.solid.is_auto = FALSE;
-		style->fill.u.solid.color = RGBA_GREY (0xB0);
+		style->fill.type = GOG_FILL_STYLE_NONE;
 		gog_theme_add_element (theme, style, "GogLegend");
 	style = gog_style_new (); /* series */
 		style->outline.width = 0.; /* hairline */
@@ -272,13 +270,14 @@ gog_themes_init	(void)
 	style = gog_style_new (); /* legend */
 		style->outline.width = 0; /* hairline */
 		style->outline.color = RGBA_BLACK;
-		style->fill.type = GOG_FILL_STYLE_NONE;
+		style->fill.u.solid.color = RGBA_GREY (0xB0);
 		gog_theme_add_element (theme, style, "GogLegend");
 	style = gog_style_new (); /* series */
 		style->outline.width = 0.; /* hairline */
 		style->outline.color = RGBA_BLACK;
 		style->fill.type = GOG_FILL_STYLE_SOLID;
-		style->fill.u.solid.is_auto = TRUE;
+		style->fill.u.solid.is_auto = FALSE;
+		style->fill.u.solid.color = RGBA_GREY (0xB0);
 		elem = gog_theme_add_element_full (theme, style,
 			map_area_series_solid_guppi);
 		/* FIXME : not really true, will want to split area from line */

@@ -78,7 +78,7 @@ gog_chart_class_init (GogObjectClass *gog_klass)
 		  NULL, NULL, NULL,
 		  role_plot_post_add, role_plot_pre_remove, NULL },
 		{ N_("Legend"), "GogLegend",
-		  GOG_POSITION_COMPASS, GOG_POSITION_E|GOG_POSITION_ALIGN_END, TRUE,
+		  GOG_POSITION_COMPASS, GOG_POSITION_E|GOG_POSITION_ALIGN_CENTER, TRUE,
 		  NULL, NULL, NULL, NULL, NULL, NULL },
 	};
 

@@ -151,11 +151,23 @@ gog_control_foocanvas_draw (FooCanvasItem *item, GdkDrawable *drawable,
 {
 	GogControlFooCanvas *ctrl = GOG_CONTROL_FOOCANVAS (item);
 	GdkPixbuf *buffer = gog_renderer_pixbuf_get (ctrl->renderer);
+	GdkRectangle display_rect, draw_rect;
 
-	gdk_draw_pixbuf (drawable, NULL, buffer,
-		0, 0, item->x1, item->y1, 
-		item->x2 - item->x1, item->y2 - item->y1,
-		GDK_RGB_DITHER_MAX, 0, 0);
+	display_rect.x = item->x1;
+	display_rect.y = item->y1;
+	display_rect.width  = item->x2 - item->x1;
+	display_rect.height = item->y2 - item->y1;
+
+	if (gdk_rectangle_intersect (&display_rect, &ev->area, &draw_rect))
+		gdk_draw_pixbuf (drawable, NULL, buffer,
+			/* pixbuf 0, 0 is at pix_rect.x, pix_rect.y */
+			     draw_rect.x - display_rect.x,
+			     draw_rect.y - display_rect.y,
+			     draw_rect.x,
+			     draw_rect.y,
+			     draw_rect.width,
+			     draw_rect.height,
+			     GDK_RGB_DITHER_NORMAL, 0, 0);
 
 	/* we are a canvas group, there could be some children */
 	if (FOO_CANVAS_ITEM_CLASS (parent_klass)->draw)

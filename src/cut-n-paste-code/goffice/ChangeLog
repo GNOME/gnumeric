@@ -1,5 +1,19 @@
 2003-05-30  Jody Goldberg <jody@gnome.org>
 
+	* graph/gog-control-foocanvas.c (gog_control_foocanvas_draw) : big
+	  speed win.  Only draw the piece of the chart that was exposed.
+
+	* graph/gog-plot.c (gog_plot_request_cardinality_update) : we may add
+	  a series before assigning to a chart.
+
+	* graph/gog-theme.c (gog_themes_init) : default and guppi themes were
+	  inverted for legends.
+
+	* graph/gog-chart.c (gog_chart_class_init) : default to centering
+	  legends.
+
+2003-05-30  Jody Goldberg <jody@gnome.org>
+
 	* graph/gog-chart.c (gog_chart_view_render) : re-enable.
 
 	* graph/gog-renderer-pixbuf.c (gog_renderer_pixbuf_update) :
