@@ -1,5 +1,9 @@
 2002-05-29  Jody Goldberg <jody@gnome.org>
 
+	* src/Makefile.am (EXTRA_DIST) : include main-component.c
+
+2002-05-29  Jody Goldberg <jody@gnome.org>
+
 	* configure.in : post release version bump
 
 2002-05-29  Jody Goldberg <jody@gnome.org>
