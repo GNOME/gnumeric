@@ -1,3 +1,8 @@
+2002-04-19  Morten Welinder  <terra@diku.dk>
+
+	* src/func-builtin.c (gnumeric_selection, gnumeric_version): Moved
+	from fn-sheet.
+
 2002-04-19  Jon K Hellan  <hellan@acm.org>
 
 	* src/bonobo-io.[ch] (gnumeric_bonobo_read_from_stream): New
