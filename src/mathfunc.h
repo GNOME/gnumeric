@@ -23,7 +23,10 @@ int range_var_pop (const float_t *xs, int n, float_t *res);
 int range_var_est (const float_t *xs, int n, float_t *res);
 int range_stddev_pop (const float_t *xs, int n, float_t *res);
 int range_stddev_est (const float_t *xs, int n, float_t *res);
-int range_skew (const float_t *xs, int n, float_t *res);
+int range_skew_pop (const float_t *xs, int n, float_t *res);
+int range_skew_est (const float_t *xs, int n, float_t *res);
+int range_kurtosis_m3_pop (const float_t *xs, int n, float_t *res);
+int range_kurtosis_m3_est (const float_t *xs, int n, float_t *res);
 
 /* ------------------------------------------------------------------------- */
 

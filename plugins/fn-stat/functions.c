@@ -920,6 +920,16 @@ static char *help_min = {
 	   "@SEEALSO=MAX,ABS")
 };
 
+Value *
+gnumeric_min (FunctionEvalInfo *ei, GList *expr_node_list)
+{
+	return float_range_function (expr_node_list,
+				     ei,
+				     range_min,
+				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     gnumeric_err_VALUE, ei->error);
+}
+
 static char *help_max = {
 	N_("@FUNCTION=MAX\n"
 	   "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -936,16 +946,6 @@ static char *help_max = {
 };
 
 Value *
-gnumeric_min (FunctionEvalInfo *ei, GList *expr_node_list)
-{
-	return float_range_function (expr_node_list,
-				     ei,
-				     range_min,
-				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
-				     gnumeric_err_VALUE, ei->error);
-}
-
-Value *
 gnumeric_max (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
@@ -960,13 +960,17 @@ static char *help_skew = {
 	   "@SYNTAX=SKEW(n1, n2, ...)\n"
 
 	   "@DESCRIPTION="
-	   "SKEW returns the skewness of a distribution."
+	   "SKEW returns an unbiased estimate for skewness of a distribution."
 	   "\n"
+	   "Note, that this is only meaningful is the underlying distribution really "
+	   "has a third moment.  The skewness of a symmetric (e.g., normal) "
+	   "distribution is zero."
+           "\n"
 	   "Strings and empty cells are simply ignored."
 	   "\n"
-	   "If less than three numbers are given SKEW returns #DIV/0! error."
+	   "If less than three numbers are given, SKEW returns #DIV/0! error."
 	   "\n"
-	   "@SEEALSO=VAR")
+	   "@SEEALSO=AVERAGE,VAR,SKEWP,KURT")
 };
 
 static Value *
@@ -974,9 +978,33 @@ gnumeric_skew (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
 				     ei,
-				     range_skew,
+				     range_skew_est,
 				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
-				     gnumeric_err_VALUE, ei->error);
+				     gnumeric_err_DIV0, ei->error);
+}
+
+static char *help_skewp = {
+	N_("@FUNCTION=SKEWP\n"
+	   "@SYNTAX=SKEWP(n1, n2, ...)\n"
+
+	   "@DESCRIPTION="
+	   "SKEW returns the population skewness of a data set."
+	   "\n"
+	   "Strings and empty cells are simply ignored."
+	   "\n"
+	   "If less than two numbers are given, SKEWP returns #DIV/0! error."
+	   "\n"
+	   "@SEEALSO=AVERAGE,VARP,SKEW,KURTP")
+};
+
+static Value *
+gnumeric_skewp (FunctionEvalInfo *ei, GList *expr_node_list)
+{
+	return float_range_function (expr_node_list,
+				     ei,
+				     range_skew_pop,
+				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     gnumeric_err_DIV0, ei->error);
 }
 
 static char *help_expondist = {
@@ -988,7 +1016,7 @@ static char *help_expondist = {
 	   "If the cumulative boolean is false it will return: "
 	   "y * exp (-y*x), otherwise it will return 1 - exp (-y*x)."
 	   "\n"
-	   "If x<0 or y<=0 this will return an error"
+	   "If x<0 or y<=0 this will return an error.  "
 	   "Performing this function on a string or empty cell simply "
 	   "does nothing."
 	   "\n"
@@ -1862,83 +1890,53 @@ static char *help_kurt = {
            "@SYNTAX=KURT(n1, n2, ...)\n"
 
            "@DESCRIPTION="
-           "KURT returns the kurtosis of a data set."
+           "KURT returns an unbiased estimate of the kurtosis of a data set."
+           "\n"
+	   "Note, that this is only meaningful is the underlying distribution really "
+	   "has a fourth moment.  The kurtosis is offset by three such that a normal "
+	   "distribution will have zero kurtosis."
            "\n"
            "Strings and empty cells are simply ignored."
            "\n"
            "If fewer than four numbers are given or all of them are equal "
            "KURT returns #DIV/0! error."
 	   "\n"
-           "@SEEALSO=VAR")
+           "@SEEALSO=AVERAGE,VAR,SKEW,KURTP")
 };
-
-typedef struct {
-        guint32 num;
-        float_t mean;
-        float_t stddev;
-        float_t sum;
-} stat_kurt_sum_t;
-
-static int
-callback_function_kurt_sum (const EvalPosition *ep, Value *value,
-			    ErrorMessage *error, void *closure)
-{
-        stat_kurt_sum_t *mm = closure;
-        float_t x;
-
-	if (!VALUE_IS_NUMBER (value))
-		return TRUE;
-
-	x = (value_get_as_float (value) - mm->mean) / mm->stddev;
-	mm->num++;
-	mm->sum += (x * x) * (x * x);
-	return TRUE;
-}
 
 static Value *
 gnumeric_kurt (FunctionEvalInfo *ei, GList *expr_node_list)
 {
-        stat_kurt_sum_t pr;
-	Value *vtmp;
+	return float_range_function (expr_node_list,
+				     ei,
+				     range_kurtosis_m3_est,
+				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     gnumeric_err_VALUE, ei->error);
+}
 
-	pr.num  = 0;
-	pr.sum  = 0.0;
+static char *help_kurtp = {
+        N_("@FUNCTION=KURTP\n"
+           "@SYNTAX=KURTP(n1, n2, ...)\n"
 
-	vtmp = gnumeric_average (ei, expr_node_list);
+           "@DESCRIPTION="
+           "KURT returns the population kurtosis of a data set."
+           "\n"
+           "Strings and empty cells are simply ignored."
+           "\n"
+           "If fewer than two numbers are given or all of them are equal "
+           "KURTP returns #DIV/0! error."
+	   "\n"
+           "@SEEALSO=AVERAGE,VARP,SKEWP,KURT")
+};
 
-	if (!vtmp)
-		return NULL;
-	pr.mean = value_get_as_float (vtmp);
-	value_release (vtmp);
-
-	vtmp = gnumeric_stdev (ei, expr_node_list);
-			       
-	if (!vtmp)
-		return NULL;
-	pr.stddev = value_get_as_float (vtmp);
-	value_release (vtmp);
-
-	if (pr.stddev == 0.0)
-	        return function_error (ei, gnumeric_err_NUM);
-
-	function_iterate_argument_values (&ei->pos, callback_function_kurt_sum,
-                                          &pr, expr_node_list, ei->error, TRUE);
-
-	if (error_message_is_set (ei->error))
-		return NULL;
-
-	if (pr.num < 4)
-                return function_error (ei, gnumeric_err_NUM);
-	else {
-		float_t n, d, num, dem;
-
-		n = pr.num;
-		num = n * (n + 1);
-		dem = (n - 1) * (n - 2) * (n - 3);
-		d = (3 * (n - 1) * (n - 1)) / ((n - 2) * (n - 3));
-
-		return value_new_float (pr.sum * (num / dem) - d);
-	}
+static Value *
+gnumeric_kurtp (FunctionEvalInfo *ei, GList *expr_node_list)
+{
+	return float_range_function (expr_node_list,
+				     ei,
+				     range_kurtosis_m3_pop,
+				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     gnumeric_err_VALUE, ei->error);
 }
 
 static char *help_avedev = {
@@ -3506,6 +3504,8 @@ void stat_functions_init()
 			    gnumeric_hypgeomdist);
         function_add_nodes (cat, "kurt",      0,      "",          &help_kurt,
 			    gnumeric_kurt);
+        function_add_nodes (cat, "kurtp",     0,      "",          &help_kurtp,
+			    gnumeric_kurtp);
 	function_add_nodes (cat, "large",  0,      "",             &help_large,
 			    gnumeric_large);
 	function_add_args  (cat, "loginv",  "fff",  "",            &help_loginv,
@@ -3546,6 +3546,8 @@ void stat_functions_init()
 			    gnumeric_rsq);
 	function_add_nodes (cat, "skew",      0,      "",          &help_skew,
 			    gnumeric_skew);
+	function_add_nodes (cat, "skewp",     0,      "",          &help_skewp,
+			    gnumeric_skewp);
 	function_add_args  (cat, "slope", "AA", "known_y's,known_x's",
 			    &help_slope,   gnumeric_slope);
 	function_add_nodes (cat, "small",  0,      "",             &help_small,

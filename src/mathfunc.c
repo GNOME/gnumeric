@@ -229,12 +229,30 @@ range_stddev_est (const float_t *xs, int n, float_t *res)
 	}		
 }
 
-/*
- * The skew of a population.  Note, that this might is a special Excel
- * meaning of "skew".  Caveat emptor.
- */
+/* Population skew.  */
 int
-range_skew (const float_t *xs, int n, float_t *res)
+range_skew_pop (const float_t *xs, int n, float_t *res)
+{
+	float_t m, s, dxn, x3 = 0;
+	int i;
+
+	if (n < 1 || range_average (xs, n, &m) || range_stddev_pop (xs, n, &s))
+		return 1;
+	if (s == 0)
+		return 1;
+
+	for (i = 0; i < n; i++) {
+		dxn = (xs[i] - m) / s;
+		x3 += dxn * dxn *dxn;
+	}
+
+	*res = x3 / n;
+	return 0;
+}
+
+/* Maximum-likelyhood estimator for skew.  */
+int
+range_skew_est (const float_t *xs, int n, float_t *res)
 {
 	float_t m, s, dxn, x3 = 0;
 	int i;
@@ -253,6 +271,52 @@ range_skew (const float_t *xs, int n, float_t *res)
 	return 0;
 }
 
+/* Population kurtosis (with offset 3).  */
+int
+range_kurtosis_m3_pop (const float_t *xs, int n, float_t *res)
+{
+	float_t m, s, dxn, x4 = 0;
+	int i;
+
+	if (n < 1 || range_average (xs, n, &m) || range_stddev_pop (xs, n, &s))
+		return 1;
+	if (s == 0)
+		return 1;
+
+	for (i = 0; i < n; i++) {
+		dxn = (xs[i] - m) / s;
+		x4 += (dxn * dxn) * (dxn * dxn);
+	}
+
+	*res = x4 / n - 3;
+	return 0;
+}
+
+/* Unbiased, I hope, estimator for kurtosis (with offset 3).  */
+int
+range_kurtosis_m3_est (const float_t *xs, int n, float_t *res)
+{
+	float_t m, s, dxn, x4 = 0;
+	float_t common_den, nth, three;
+	int i;
+
+	if (n < 4 || range_average (xs, n, &m) || range_stddev_est (xs, n, &s))
+		return 1;
+	if (s == 0)
+		return 1;
+
+	for (i = 0; i < n; i++) {
+		dxn = (xs[i] - m) / s;
+		x4 += (dxn * dxn) * (dxn * dxn);
+	}
+
+	common_den = (float_t)(n - 2) * (n - 3);
+	nth = (float_t)n * (n + 1) / ((n - 1) * common_den);
+	three = 3.0 * (n - 1) * (n - 1) / common_den;
+
+	*res = x4 * nth - three;
+	return 0;
+}
 
 /* Harmonic mean of positive numbers.  */
 int

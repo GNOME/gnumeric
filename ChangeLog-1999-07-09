@@ -1,3 +1,14 @@
+Fri Jun 25 12:56:37 1999  Morten Welinder  <welinder@rentec.com>
+
+	* src/fn-stat.c (gnumeric_kurt): Use range function.
+	(gnumeric_kurtp): New function.
+	(gnumeric_skewp): New function.
+
+	* src/mathfunc.c (range_skew_est): Rename from range_skew.
+	(range_skew_pop): New function.
+	(range_kurtosis_m3_est): New function.
+	(range_kurtosis_m3_pop): New function.
+
 1999-06-25  Morten Welinder  <terra@diku.dk>
 
 	* src/fn-math.c (gnumeric_gcd): Cleanup and fix.
