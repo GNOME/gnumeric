@@ -139,6 +139,8 @@ sub import_file {
 	    s/\b(lgammafn|lgamma)\b/lgammagnum/g;
 	    s/\bML_NAN\b/gnm_nan/g;
 	    s/\bML_VALID\b/\!isnangnum/g;
+	    s/\bML_NEGINF\b/gnm_ninf/g;
+	    s/\bML_POSINF\b/gnm_pinf/g;
 
 	    # Somewhat risky.
 	    s/\%([-0-9.]*)([efgEFG])/\%$1\" GNUM_FORMAT_$2 \"/g;
