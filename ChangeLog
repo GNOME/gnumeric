@@ -1,3 +1,9 @@
+2002-01-07  Jody Goldberg <jody@gnome.org>
+
+	* src/formats.c (currency_symbol) : add RUR.
+
+	* src/value.c (value_get_as_int) : be extra careful.
+
 2002-01-07  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* analysis-tools.c (ranking_tool) : calculate rank for ties

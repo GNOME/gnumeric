@@ -5,6 +5,10 @@ Andreas:
 	* Add radio buttons to rank dialog to let user choose 
 	  behaviour in case of ties.
 
+Jody:
+	* Generate spans after importing a lotus 123 file.
+	* Add Russian Ruble.
+
 Morten:
 	* Make sure Linux ends up using IEEE_754 code in mathfunc.c.
 

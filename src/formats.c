@@ -379,6 +379,7 @@ CurrencySymbol const currency_symbols[] =
 	{N_("[$PYG]"), N_("Paraguay guarani") },
 	{N_("[$QAR]"), N_("Qatari rial") },
 	{N_("[$ROL]"), N_("Romanian leu") },
+	{N_("[$RUR]"), N_("Russian ruble") },
 	{N_("[$RWF]"), N_("Rwanda franc") },
 	{N_("[$SAR]"), N_("Saudi Arabian riyal") },
 	{N_("[$SBD]"), N_("Solomon Islands dollar") },

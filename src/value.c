@@ -581,8 +581,6 @@ value_peek_string (Value const *v)
 	}
 }
 
-
-
 /*
  * FIXME FIXME FIXME : Support errors
  */
@@ -609,7 +607,7 @@ value_get_as_int (Value const *v)
 		return 0;
 
 	case VALUE_FLOAT:
-		return (int) v->v_float.val;
+		return (int) gnumeric_add_epsilon (v->v_float.val);
 
 	case VALUE_BOOLEAN:
 		return v->v_bool.val ? 1 : 0;
