@@ -28,17 +28,17 @@ format_page_update_preview (DruidPageData_t *pagedata)
 	FormatInfo_t *info = pagedata->format_info;
 	GSList *list;
 	GSList *iterator;
-	
+
 	stf_preview_colformats_clear (info->format_run_renderdata);
 	iterator = info->format_run_list;
 	while (iterator) {
 		stf_preview_colformats_add (info->format_run_renderdata, iterator->data);
 		iterator = g_slist_next (iterator);
 	}
-		
+
 	list = stf_parse_general_cached (info->format_run_parseoptions,
 					 info->format_run_cacheoptions);
-					 
+
 	stf_preview_render (info->format_run_renderdata,
 			    list,
 			    info->format_run_displayrows,
@@ -81,7 +81,7 @@ format_page_scroll_value_changed (GtkAdjustment *adjustment, DruidPageData_t *da
  * @data : a mother struct
  *
  * This signal responds to a click on the canvas, in fact it will find out what
- * column the user clicked on and then select that column in the column list 
+ * column the user clicked on and then select that column in the column list
  *
  * returns : always TRUE
  **/
@@ -97,10 +97,10 @@ format_page_canvas_button_press_event (GnomeCanvas *canvas, GdkEventButton *even
 	column = stf_preview_get_column_at_x (info->format_run_renderdata, worldx);
 	gtk_clist_select_row (info->format_collist, column, 0);
 	gnumeric_clist_moveto (info->format_collist, column);
-		
+
 	return TRUE;
 }
- 
+
 /**
  * format_page_collist_select_row
  * @clist : GtkCList which emmitted the signal
@@ -127,12 +127,12 @@ format_page_collist_select_row (GtkCList *clist, int row, int column, GdkEventBu
 	stf_preview_set_activecolumn (info->format_run_renderdata, row);
 
 	gnumeric_clist_moveto (info->format_collist, row);
-		
+
 	if (info->format_run_manual_change) {
 		info->format_run_manual_change = FALSE;
 		return;
 	}
-	
+
 	info->format_run_index = row;
 	fmt = style_format_as_XL (colformat, TRUE);
 	gtk_entry_set_text (info->format_format, fmt);
@@ -163,15 +163,15 @@ format_page_sublist_select_row (GtkCList *clist, int row, int column, GdkEventBu
 		info->format_run_manual_change = FALSE;
 		return;
 	}
-	
+
 	/* WEIRD THING : when scrolling with keys it will give the right row, but always -1 as column,
 	   because we have only one column, always set "column" to 0 for now */
 	column = 0;
-	
+
 	gtk_clist_get_text (clist, row, column, t);
 
 	info->format_run_sublist_select = FALSE;
-	if (strcmp (t[0], _("Custom")) != 0)  
+	if (strcmp (t[0], _("Custom")) != 0)
 		gtk_entry_set_text (info->format_format, t[0]);
 	info->format_run_sublist_select = TRUE;
 }
@@ -180,7 +180,7 @@ format_page_sublist_select_row (GtkCList *clist, int row, int column, GdkEventBu
  * format_page_format_changed
  * @entry : GtkEntry which emitted the signal
  * @data : Dialog "mother" record
- * 
+ *
  * Updates the selected column on the sheet with the new
  * format the user choose/entered.
  *
@@ -213,13 +213,10 @@ format_page_format_changed (GtkEntry *entry, DruidPageData_t *data)
 		listitem->data = style_format_new_XL (new_fmt, TRUE);
 
 		gtk_clist_set_text (info->format_collist, info->format_run_index, 1, new_fmt);
-		
-		g_free (new_fmt);
 
 		gtk_clist_set_column_width (info->format_collist,
 					    1,
 					    gtk_clist_optimal_column_width (info->format_collist, 1));
-
 
 		if (info->format_run_sublist_select) {
 			found = 0;
@@ -235,6 +232,8 @@ format_page_format_changed (GtkEntry *entry, DruidPageData_t *data)
 			gtk_clist_select_row (info->format_sublist, found, 0);
 			gnumeric_clist_moveto (info->format_sublist, found);
 		}
+
+		g_free (new_fmt);
 	}
 
 	format_page_update_preview (data);
@@ -264,7 +263,7 @@ stf_dialog_format_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPa
 	data->colcount = stf_parse_get_colcount (info->format_run_parseoptions, data->cur);
 
 	listcount = g_slist_length (info->format_run_list);
-	
+
 	/* If necessary add new items (non-visual) */
 	while (listcount <= data->colcount) {
 		info->format_run_list = g_slist_append (info->format_run_list,
@@ -365,18 +364,18 @@ stf_dialog_format_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	g_return_if_fail (pagedata->format_info != NULL);
 
 	info = pagedata->format_info;
-		
+
         /* Create/get object and fill information struct */
 	info->format_collist       = GTK_CLIST (glade_xml_get_widget (gui, "format_collist"));
 	info->format_sublist       = GTK_CLIST (glade_xml_get_widget (gui, "format_sublist"));
-	info->format_sublistholder = GTK_SCROLLED_WINDOW (glade_xml_get_widget (gui, "format_sublistholder"));     
+	info->format_sublistholder = GTK_SCROLLED_WINDOW (glade_xml_get_widget (gui, "format_sublistholder"));
 	info->format_format        = GTK_ENTRY (glade_xml_get_widget (gui, "format_format"));
 
 	info->format_canvas = GNOME_CANVAS   (glade_xml_get_widget (gui, "format_canvas"));
 	info->format_scroll = GTK_VSCROLLBAR (glade_xml_get_widget (gui, "format_scroll"));
 
 	/* Set properties */
-	info->format_run_renderdata    = stf_preview_new (info->format_canvas, TRUE); 
+	info->format_run_renderdata    = stf_preview_new (info->format_canvas, TRUE);
 	info->format_run_list          = NULL;
 	info->format_run_index         = -1;
 	info->format_run_manual_change = FALSE;
@@ -402,7 +401,7 @@ stf_dialog_format_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	}
 
 	gtk_clist_set_column_justification (info->format_collist, 0, GTK_JUSTIFY_RIGHT);
-	
+
 	/* Connect signals */
 	gtk_signal_connect (GTK_OBJECT (info->format_format),
 			    "changed",
@@ -420,7 +419,7 @@ stf_dialog_format_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 			    "button_press_event",
 			    GTK_SIGNAL_FUNC (format_page_canvas_button_press_event),
 			    pagedata);
-			    
+
 	gtk_signal_connect (GTK_OBJECT (GTK_RANGE (info->format_scroll)->adjustment),
 			    "value_changed",
 			    GTK_SIGNAL_FUNC (format_page_scroll_value_changed),

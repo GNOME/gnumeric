@@ -1,3 +1,8 @@
+2000-09-19  Morten Welinder  <terra@diku.dk>
+
+	* dialog-stf-format-page.c (format_page_format_changed): Don't
+ 	free new_fmt until we are done with it.
+
 2000-09-18  Jody Goldberg <jgoldberg@home.com>
 
 	* cell-format.glade : Set the descriptive string for cell protection
