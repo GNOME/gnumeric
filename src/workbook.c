@@ -2689,27 +2689,41 @@ workbook_get_attributev (Workbook *wb, guint *n_args)
  * @old_name: the name of the sheet we want to rename
  * @new_name: new name we want to assing to the sheet.
  *
- * Returns TRUE if it was possible to rename the sheet to @new_name,
- * otherwise it returns FALSE for any possible error condition.
+ * Returns TRUE if there was a problem changing the name
+ * return FALSE otherwise.
  */
 gboolean
-workbook_rename_sheet (Workbook *wb, const char *old_name, const char *new_name)
+workbook_rename_sheet (CommandContext *context,
+		       Workbook *wb,
+		       const char *old_name,
+		       const char *new_name)
 {
 	Sheet *sheet;
 	GtkNotebook *notebook;
 	int sheets, i;
 
-	g_return_val_if_fail (wb != NULL, FALSE);
-	g_return_val_if_fail (old_name != NULL, FALSE);
-	g_return_val_if_fail (new_name != NULL, FALSE);
+	g_return_val_if_fail (wb != NULL, TRUE);
+	g_return_val_if_fail (old_name != NULL, TRUE);
+	g_return_val_if_fail (new_name != NULL, TRUE);
+
+	if (strlen (new_name) < 1) {
+		gnumeric_error_invalid (context,
+					_("Sheet name"),
+					_("must have at least 1 letter"));
+		return TRUE;
+	}
 
 	/* Do not let two sheets in the workbook have the same name */
-	if (g_hash_table_lookup (wb->sheets, new_name))
-		return FALSE;
+	if (g_hash_table_lookup (wb->sheets, new_name)) {
+		gnumeric_error_invalid (context,
+					_("Duplicate Sheet name"),
+					new_name);
+		return TRUE;
+	}
 
 	sheet = (Sheet *) g_hash_table_lookup (wb->sheets, old_name);
-	if (sheet == NULL)
-		return FALSE;
+
+	g_return_val_if_fail (sheet != NULL, TRUE);
 
 	g_hash_table_remove (wb->sheets, old_name);
 	sheet_rename (sheet, new_name);
@@ -2737,7 +2751,7 @@ workbook_rename_sheet (Workbook *wb, const char *old_name, const char *new_name)
 		}
 	}
 
-	return TRUE;
+	return FALSE;
 }
 
 
@@ -2751,12 +2765,14 @@ sheet_label_editing_stopped_signal (EditableLabel *el, Workbook *wb)
  * Signal handler for EditableLabel's text_changed signal.
  */
 static gboolean
-sheet_label_text_changed_signal (EditableLabel *el, const char *new_name, Workbook *wb)
+sheet_label_text_changed_signal (EditableLabel *el,
+				 const char *new_name,
+				 Workbook *wb)
 {
 	gboolean ans;
 
-	ans = cmd_rename_sheet (workbook_command_context_gui (wb),
-				wb, el->text, new_name);
+	ans = !cmd_rename_sheet (workbook_command_context_gui (wb),
+				 wb, el->text, new_name);
 	workbook_focus_current_sheet (wb);
 
 	return ans;
@@ -2979,7 +2995,7 @@ workbook_attach_sheet (Workbook *wb, Sheet *sheet)
 	 * gtk_notebook_set_tab_label kills our widget & replaces with a label.
 	 */
 	gtk_object_set_data (GTK_OBJECT (t), "sheet_label", sheet_label);
-	gtk_signal_connect (
+	gtk_signal_connect_after (
 		GTK_OBJECT (sheet_label), "text_changed",
 		GTK_SIGNAL_FUNC (sheet_label_text_changed_signal), wb);
 	gtk_signal_connect (

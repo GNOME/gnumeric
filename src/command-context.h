@@ -19,14 +19,17 @@ struct _CommandContext {
 typedef struct {
 	GtkObjectClass parent_class;
 	void (*error_sys_err)        (CommandContext *context,
-				      char const * const message);
+				      char const * message);
 	void (*error_plugin_problem) (CommandContext *context,
-				      char const * const message);
+				      char const * message);
 	void (*error_read)           (CommandContext *context,
-				      char const * const message);
+				      char const * message);
 	void (*error_save)           (CommandContext *context,
-				      char const * const message);
+				      char const * message);
 	void (*error_splits_array)   (CommandContext *context);
+	void (*error_invalid)        (CommandContext *context,
+				      char const * message,
+				      char const * val);
 } CommandContextClass;
 
 GtkType   command_context_get_type (void);
@@ -49,6 +52,7 @@ void gnumeric_error_sys_err        (CommandContext *context, char const *message
 void gnumeric_error_plugin_problem (CommandContext *context, char const *message);
 void gnumeric_error_read           (CommandContext *context, char const *message);
 void gnumeric_error_save           (CommandContext *context, char const *message);
+void gnumeric_error_invalid        (CommandContext *context, char const *message, char const *val);
 void gnumeric_error_splits_array   (CommandContext *context);
 
 #endif /* GNUMERIC_COMMAND_CONTEXT_H */

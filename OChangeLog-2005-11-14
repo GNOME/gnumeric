@@ -1,5 +1,16 @@
 2000-05-03  Jody Goldberg <jgoldberg@home.com>
 
+	* src/command-context.c (gnumeric_error_invalid) : new function.
+	* src/command-context-gui.c (ccg_error_invalid) : Handle.
+	* src/command-context-corba.c (ccc_error_invalid) : Handle.
+
+	* src/commands.c (cmd_rename_sheet_{undo,redo}) : Pass a context to
+	  workbook_rename_sheet.
+
+	* src/workbook.c (workbook_rename_sheet) : Sheet names can not be
+	  empty.  Take a CommandContext and report the error.  Invert the
+	  return value.
+
 	* src/format.c (pre_parse_format) : Fix old typo that was causing
 	  bug 10001 by breaking AM/PM.
 

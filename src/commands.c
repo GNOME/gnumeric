@@ -1151,7 +1151,8 @@ cmd_rename_sheet_undo (GnumericCommand *cmd, CommandContext *context)
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
-	return !workbook_rename_sheet (me->wb, me->new_name, me->old_name);
+	return workbook_rename_sheet (context, me->wb,
+				      me->new_name, me->old_name);
 }
 
 static gboolean
@@ -1161,7 +1162,8 @@ cmd_rename_sheet_redo (GnumericCommand *cmd, CommandContext *context)
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
-	return !workbook_rename_sheet (me->wb, me->old_name, me->new_name);
+	return workbook_rename_sheet (context, me->wb,
+				      me->old_name, me->new_name);
 }
 static void
 cmd_rename_sheet_destroy (GtkObject *cmd)

@@ -173,7 +173,8 @@ Sheet      *workbook_sheet_lookup        (Workbook *wb, const char *sheet_name);
 void        workbook_set_dirty           (Workbook *wb, gboolean is_dirty);
 gboolean    workbook_is_dirty            (Workbook *wb);
 gboolean    workbook_is_pristine         (Workbook *wb);
-gboolean    workbook_rename_sheet        (Workbook *wb,
+gboolean    workbook_rename_sheet        (CommandContext *,
+					  Workbook *wb,
 					  const char *old_name,
 					  const char *new_name);
 int         workbook_sheet_count         (Workbook *wb);

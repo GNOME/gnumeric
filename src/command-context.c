@@ -124,5 +124,14 @@ gnumeric_error_sys_err (CommandContext *context, char const *message)
 	CC_CLASS (context)->error_sys_err (context, message);
 }
 
+void
+gnumeric_error_invalid (CommandContext *context, char const *message, char const *val)
+{
+	g_return_if_fail (context);
+	g_return_if_fail (IS_COMMAND_CONTEXT (context));
+
+	CC_CLASS (context)->error_invalid (context, message, val);
+}
+
 GNUMERIC_MAKE_TYPE(command_context, "CommandContext", CommandContext, NULL, NULL, PARENT_TYPE);
 

@@ -42,7 +42,8 @@ el_entry_activate (GtkWidget *entry, El *el)
 	gboolean accept = TRUE;
 	char *text = gtk_entry_get_text (GTK_ENTRY (el->entry));
 
-	gtk_signal_emit (GTK_OBJECT (el), el_signals [TEXT_CHANGED], text, &accept);
+	gtk_signal_emit (GTK_OBJECT (el), el_signals [TEXT_CHANGED], text,
+			 &accept);
 
 	if (accept)
 		editable_label_set_text (el, text);

@@ -16,19 +16,19 @@
 #define CCG_CLASS(o) CMD_CONTEXT_CORBA_CLASS (GTK_OBJECT (o)->klass)
 
 static void
-ccc_error_plugin_problem (CommandContext *context, char const * const message)
+ccc_error_plugin_problem (CommandContext *context, char const * message)
 {
 	/* FIXME set exception */
 }
 
 static void
-ccc_error_read (CommandContext *context, char const * const message)
+ccc_error_read (CommandContext *context, char const * message)
 {
 	/* FIXME set exception */
 }
 
 static void
-ccc_error_save (CommandContext *context, char const * const message)
+ccc_error_save (CommandContext *context, char const * message)
 {
 	/* FIXME set exception */
 }
@@ -44,7 +44,13 @@ ccc_error_splits_array (CommandContext *context)
 }
 
 static void
-ccc_error_sys_err (CommandContext *context, char const * const message)
+ccc_error_sys_err (CommandContext *context, char const * message)
+{
+	/* FIXME set exception */
+}
+
+static void
+ccc_error_invalid (CommandContext *context, char const * message, char const *value)
 {
 	/* FIXME set exception */
 }
@@ -59,6 +65,7 @@ ccc_init_class (GtkObjectClass *object_class)
 	cc_class->error_save           = ccc_error_save;
 	cc_class->error_splits_array   = ccc_error_splits_array;
 	cc_class->error_sys_err        = ccc_error_sys_err;
+	cc_class->error_invalid        = ccc_error_invalid;
 }
 
 GNUMERIC_MAKE_TYPE(command_context_corba, "CommandContextCorba", CommandContextCorba, ccc_init_class, NULL, PARENT_TYPE)

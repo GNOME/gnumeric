@@ -16,7 +16,7 @@
 #define CCG_CLASS(o) CMD_CONTEXT_GUI_CLASS (GTK_OBJECT (o)->klass)
 
 static void
-ccg_error_plugin_problem (CommandContext *context, char const * const message)
+ccg_error_plugin_problem (CommandContext *context, char const * message)
 {
 	CommandContextGui *ccg = COMMAND_CONTEXT_GUI (context);
 
@@ -24,7 +24,7 @@ ccg_error_plugin_problem (CommandContext *context, char const * const message)
 }
 
 static void
-ccg_error_read (CommandContext *context, char const * const message)
+ccg_error_read (CommandContext *context, char const * message)
 {
 	CommandContextGui *ccg = COMMAND_CONTEXT_GUI (context);
 
@@ -32,7 +32,7 @@ ccg_error_read (CommandContext *context, char const * const message)
 }
 
 static void
-ccg_error_save (CommandContext *context, char const * const message)
+ccg_error_save (CommandContext *context, char const * message)
 {
 	CommandContextGui *ccg = COMMAND_CONTEXT_GUI (context);
 
@@ -49,7 +49,7 @@ ccg_error_splits_array (CommandContext *context)
 }
 
 static void
-ccg_error_sys_err (CommandContext *context, char const * const message)
+ccg_error_sys_err (CommandContext *context, char const * message)
 {
 	CommandContextGui *ccg = COMMAND_CONTEXT_GUI (context);
 
@@ -57,15 +57,26 @@ ccg_error_sys_err (CommandContext *context, char const * const message)
 }
 
 static void
+ccg_error_invalid (CommandContext *context, char const * message, char const * value)
+{
+	CommandContextGui *ccg = COMMAND_CONTEXT_GUI (context);
+
+	char *buf = g_strconcat (message, " : ", value, NULL);
+	gnumeric_notice (ccg->wb, GNOME_MESSAGE_BOX_ERROR, buf);
+	g_free (buf);
+}
+
+static void
 ccg_init_class (GtkObjectClass *object_class)
 {
 	CommandContextClass *cc_class = (CommandContextClass *) object_class;
 
-	cc_class->error_plugin_problem = ccg_error_plugin_problem;
-	cc_class->error_read           = ccg_error_read;
-	cc_class->error_save           = ccg_error_save;
-	cc_class->error_splits_array   = ccg_error_splits_array;
-	cc_class->error_sys_err        = ccg_error_sys_err;
+	cc_class->error_plugin_problem = &ccg_error_plugin_problem;
+	cc_class->error_read           = &ccg_error_read;
+	cc_class->error_save           = &ccg_error_save;
+	cc_class->error_splits_array   = &ccg_error_splits_array;
+	cc_class->error_sys_err        = &ccg_error_sys_err;
+	cc_class->error_invalid        = &ccg_error_invalid;
 }
 
 GNUMERIC_MAKE_TYPE(command_context_gui, "CommandContextGui", CommandContextGui, ccg_init_class, NULL, PARENT_TYPE)
