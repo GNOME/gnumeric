@@ -97,7 +97,7 @@ cellref_name (CellRef *cell_ref, int eval_col, int eval_row)
 		col = cell_ref->col;
 	}
 	
-	if (col < 'Z'-'A'){
+	if (col <= 'Z'-'A'){
 		*p++ = col + 'A';
 	} else {
 		int a = col / ('Z'-'A'+1);
@@ -124,13 +124,13 @@ col_name (int col)
 	static char buffer [20];
 	char *p = buffer;
 	
-	if (col < 'Z'-'A'){
+	if (col <= 'Z'-'A'){
 		*p++ = col + 'A';
 	} else {
-		int a = col / ('Z'-'A');
-		int b = col % ('Z'-'A');
+		int a = col / ('Z'-'A'+1);
+		int b = col % ('Z'-'A'+1);
 
-		*p++ = a + 'A';
+		*p++ = a + 'A' - 1;
 		*p++ = b + 'A';
 	}
 	*p = 0;

@@ -979,14 +979,19 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet)
 	} while (pixels < canvas->height);
 }
 
-static int
+int
 gnumeric_sheet_set_top_row (GnumericSheet *gsheet, int new_top_row)
 {
-	GnomeCanvas *rowc = GNOME_CANVAS_ITEM (gsheet->rowbar)->canvas;
-	Sheet *sheet = gsheet->sheet_view->sheet;
+	GnomeCanvas *rowc;
+	Sheet *sheet;
 	int row_distance;
 	int x;
-	
+
+	g_return_val_if_fail (gsheet != NULL, 0);
+	g_return_val_if_fail (new_top_row >= 0 && new_top_row <= SHEET_MAX_ROWS-1, 0);
+
+	rowc = GNOME_CANVAS_ITEM (gsheet->rowbar)->canvas;
+	sheet = gsheet->sheet_view->sheet;
 	gsheet->top_row = new_top_row;
 	row_distance = sheet_row_get_distance (sheet, 0, gsheet->top_row);
 
@@ -996,13 +1001,19 @@ gnumeric_sheet_set_top_row (GnumericSheet *gsheet, int new_top_row)
 	return row_distance;
 }
 
-static int
+int
 gnumeric_sheet_set_top_col (GnumericSheet *gsheet, int new_top_col)
 {
-	GnomeCanvas *colc = GNOME_CANVAS_ITEM (gsheet->colbar)->canvas;
-	Sheet *sheet = gsheet->sheet_view->sheet;
+	GnomeCanvas *colc;
+	Sheet *sheet;
 	int col_distance;
 	int y;
+
+	g_return_val_if_fail (gsheet != NULL, 0);
+	g_return_val_if_fail (new_top_col >= 0 && new_top_col <= SHEET_MAX_COLS-1, 0);
+
+	colc = GNOME_CANVAS_ITEM (gsheet->colbar)->canvas;
+	sheet = gsheet->sheet_view->sheet;
 
 	gsheet->top_col = new_top_col;
 	col_distance = sheet_col_get_distance (sheet, 0, gsheet->top_col);

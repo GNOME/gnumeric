@@ -382,13 +382,20 @@ horizontal_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet
 		set_tip_label (sheet_view, _("Column: %s"), GTK_ADJUSTMENT (sheet_view->ha), 1);
 		position_tooltip (sheet_view, 1);
 		gtk_widget_show_all (gtk_widget_get_toplevel (sheet_view->tip));
-	} else if (event->type == GDK_BUTTON_RELEASE){
+	}
+	else if (event->type == GDK_BUTTON_RELEASE)
+	{
+		GnumericSheet  *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
 		SheetSelection *ss = sheet_view->sheet->selections->data;
+		int col;
 		
 		gtk_widget_destroy (gtk_widget_get_toplevel (sheet_view->tip));
 		sheet_view->tip = NULL;
 
-		sheet_cursor_move (sheet_view->sheet, GTK_ADJUSTMENT (sheet_view->ha)->value, ss->start_row);
+		col = GTK_ADJUSTMENT (sheet_view->ha)->value;
+
+		gnumeric_sheet_set_top_col (gsheet, col);
+		sheet_cursor_move (sheet_view->sheet, col, ss->start_row);
 	}
 	
 	return FALSE;
@@ -402,13 +409,20 @@ vertical_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet_v
 		set_tip_label (sheet_view, _("Row: %d"), GTK_ADJUSTMENT (sheet_view->va), 0);
 		position_tooltip (sheet_view, 0);
 		gtk_widget_show_all (gtk_widget_get_toplevel (sheet_view->tip));
-	} else if (event->type == GDK_BUTTON_RELEASE){
+	}
+	else if (event->type == GDK_BUTTON_RELEASE)
+	{
+		GnumericSheet  *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
 		SheetSelection *ss = sheet_view->sheet->selections->data;
+		int row;
 		
 		gtk_widget_destroy (gtk_widget_get_toplevel (sheet_view->tip));
 		sheet_view->tip = NULL;
 
-		sheet_cursor_move (sheet_view->sheet, ss->start_col, GTK_ADJUSTMENT (sheet_view->va)->value);
+		row = GTK_ADJUSTMENT (sheet_view->va)->value;
+		
+		gnumeric_sheet_set_top_row (gsheet, row);
+		sheet_cursor_move (sheet_view->sheet, ss->start_col, row);
 	}
 
 	return FALSE;

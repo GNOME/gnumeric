@@ -1,3 +1,19 @@
+1998-10-13  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/utils.c (col_name): It is amazing the number of times I
+	duplicated this code.  I wonder if I took prozac by accident.
+	This should fix the bug reported by Morten Welinder
+
+1998-10-12  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet-view.c (vertical_scroll_event,
+	horizontal_scroll_event): Set the top column/row from the
+	adjustment as well.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_set_top_col,
+	gnumeric_sheet_set_top_row): Export these functions to improve the
+	scrolling behaviour.
+
 1998-10-12  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/utils.c (cellref_name): Fixed another of column name
