@@ -245,7 +245,7 @@ order_box_new (GtkWidget * parent, const gchar *frame_text,
 	/* Advanced button */
 	orderbox->cs = FALSE;
 	orderbox->val = TRUE;
-	orderbox->adv_button = gtk_button_new_with_label("Advanced...");
+	orderbox->adv_button = gtk_button_new_with_label(_("Advanced..."));
 	gtk_box_pack_start (GTK_BOX (hbox), orderbox->adv_button, FALSE, FALSE, 0);
 	gtk_signal_connect (GTK_OBJECT (orderbox->adv_button), "clicked",
 		GTK_SIGNAL_FUNC (dialog_cell_sort_adv),  orderbox);
