@@ -283,6 +283,7 @@ gog_view_queue_resize (GogView *view)
 	gog_renderer_request_update (view->renderer);
 
 	view->requisition_valid = FALSE;
+	view->allocation_valid = FALSE; /* in case there is no parent */
 	if (NULL == (view = view->parent))
 		return;
 	view->allocation_valid = FALSE;
