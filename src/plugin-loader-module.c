@@ -49,10 +49,8 @@ static void gnumeric_plugin_loader_module_load_service_general (GnumericPluginLo
 static void gnumeric_plugin_loader_module_load_service_file_opener (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
 static void gnumeric_plugin_loader_module_load_service_file_saver (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
 static void gnumeric_plugin_loader_module_load_service_function_group (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
-static void gnumeric_plugin_loader_module_unload_service_function_group (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
 static void gnumeric_plugin_loader_module_load_service_plugin_loader (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
 static void gnumeric_plugin_loader_module_load_service_ui (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
-static void gnumeric_plugin_loader_module_unload_service_ui (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
 
 
 static void
@@ -192,10 +190,8 @@ gnumeric_plugin_loader_module_class_init (GObjectClass *gobject_class)
 	gnumeric_plugin_loader_class->load_service_file_opener = gnumeric_plugin_loader_module_load_service_file_opener;
 	gnumeric_plugin_loader_class->load_service_file_saver = gnumeric_plugin_loader_module_load_service_file_saver;
 	gnumeric_plugin_loader_class->load_service_function_group = gnumeric_plugin_loader_module_load_service_function_group;
-	gnumeric_plugin_loader_class->unload_service_function_group = gnumeric_plugin_loader_module_unload_service_function_group;
 	gnumeric_plugin_loader_class->load_service_plugin_loader = gnumeric_plugin_loader_module_load_service_plugin_loader;
 	gnumeric_plugin_loader_class->load_service_ui = gnumeric_plugin_loader_module_load_service_ui;
-	gnumeric_plugin_loader_class->unload_service_ui = gnumeric_plugin_loader_module_unload_service_ui;
 }
 
 GSF_CLASS (GnumericPluginLoaderModule, gnumeric_plugin_loader_module,
@@ -263,7 +259,8 @@ gnumeric_plugin_loader_module_load_service_general (GnumericPluginLoader *loader
 		loader_data = g_new (ServiceLoaderDataGeneral, 1);
 		loader_data->module_func_init = module_func_init;
 		loader_data->module_func_cleanup = module_func_cleanup;
-		g_object_set_data (G_OBJECT (service), "loader_data", loader_data);
+		g_object_set_data_full (
+			G_OBJECT (service), "loader_data", loader_data, g_free);
 	} else {
 		*ret_error = error_info_new_printf (
 		             _("Module file \"%s\" has invalid format."),
@@ -348,7 +345,8 @@ gnumeric_plugin_loader_module_load_service_file_opener (GnumericPluginLoader *lo
 		loader_data = g_new (ServiceLoaderDataFileOpener, 1);
 		loader_data->module_func_file_probe = module_func_file_probe;
 		loader_data->module_func_file_open = module_func_file_open;
-		g_object_set_data (G_OBJECT (service), "loader_data", loader_data);
+		g_object_set_data_full (
+			G_OBJECT (service), "loader_data", loader_data, g_free);
 	} else {
 		*ret_error = error_info_new_printf (
 		             _("Module file \"%s\" has invalid format."),
@@ -407,7 +405,8 @@ gnumeric_plugin_loader_module_load_service_file_saver (GnumericPluginLoader *loa
 
 		loader_data = g_new (ServiceLoaderDataFileSaver, 1);
 		loader_data->module_func_file_save = module_func_file_save;
-		g_object_set_data (G_OBJECT (service), "loader_data", loader_data);
+		g_object_set_data_full (
+			G_OBJECT (service), "loader_data", loader_data, g_free);
 	} else {
 		*ret_error = error_info_new_printf (
 		             _("Module file \"%s\" has invalid format."),
@@ -430,6 +429,15 @@ typedef struct {
 	ModulePluginFunctionInfo *module_fn_info_array;
 	GHashTable *function_indices;
 } ServiceLoaderDataFunctionGroup;
+
+static void
+function_group_loader_data_free (gpointer data)
+{
+	ServiceLoaderDataFunctionGroup *ld = data;
+
+	g_hash_table_destroy (ld->function_indices);
+	g_free (ld);
+}
 
 static gboolean
 gnumeric_plugin_loader_module_func_get_full_function_info (PluginService *service,
@@ -498,7 +506,8 @@ gnumeric_plugin_loader_module_load_service_function_group (GnumericPluginLoader 
 			                     (gpointer) module_fn_info_array[i].fn_name,
 			                     GINT_TO_POINTER (i));
 		}
-		g_object_set_data (G_OBJECT (service), "loader_data", loader_data);
+		g_object_set_data_full (
+			G_OBJECT (service), "loader_data", loader_data, function_group_loader_data_free);
 	} else {
 		*ret_error = error_info_new_printf (
 		             _("Module file \"%s\" has invalid format."),
@@ -511,22 +520,6 @@ gnumeric_plugin_loader_module_load_service_function_group (GnumericPluginLoader 
 		}
 	}
 	g_free (fn_info_array_name);
-}
-
-static void
-gnumeric_plugin_loader_module_unload_service_function_group (GnumericPluginLoader *loader,
-                                                             PluginService *service,
-                                                             ErrorInfo **ret_error)
-{
-	ServiceLoaderDataFunctionGroup *loader_data;
-
-	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER_MODULE (loader));
-	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (service));
-
-	GNM_INIT_RET_ERROR_INFO (ret_error);
-	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
-	g_hash_table_destroy (loader_data->function_indices);
-	GNUMERIC_PLUGIN_LOADER_CLASS (parent_class)->unload_service_function_group (loader, service, ret_error);
 }
 
 /*
@@ -583,7 +576,8 @@ gnumeric_plugin_loader_module_load_service_plugin_loader (GnumericPluginLoader *
 
 		loader_data = g_new (ServiceLoaderDataPluginLoader, 1);
 		loader_data->module_func_get_loader_type = module_func_get_loader_type;
-		g_object_set_data (G_OBJECT (service), "loader_data", loader_data);
+		g_object_set_data_full (
+			G_OBJECT (service), "loader_data", loader_data, g_free);
 	} else {
 		if (module_func_get_loader_type == NULL) {
 			*ret_error = error_info_new_printf (
@@ -602,6 +596,15 @@ typedef struct {
 	ModulePluginUIVerbInfo *module_ui_verbs_array;
 	GHashTable *ui_verbs_hash;
 } ServiceLoaderDataUI;
+
+static void
+ui_loader_data_free (gpointer data)
+{
+	ServiceLoaderDataUI *ld = data;
+
+	g_hash_table_destroy (ld->ui_verbs_hash);
+	g_free (ld);
+}
 
 static void
 gnumeric_plugin_loader_module_func_exec_verb (PluginService *service,
@@ -668,21 +671,6 @@ gnumeric_plugin_loader_module_load_service_ui (GnumericPluginLoader *loader,
 			(gpointer) module_ui_verbs_array[i].verb_name,
 			GINT_TO_POINTER (i));
 	}
-	g_object_set_data (G_OBJECT (service), "loader_data", loader_data);
-}
-
-static void
-gnumeric_plugin_loader_module_unload_service_ui (GnumericPluginLoader *loader,
-                                                 PluginService *service,
-                                                 ErrorInfo **ret_error)
-{
-	ServiceLoaderDataUI *loader_data;
-
-	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER_MODULE (loader));
-	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_UI (service));
-
-	GNM_INIT_RET_ERROR_INFO (ret_error);
-	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
-	g_hash_table_destroy (loader_data->ui_verbs_hash);
-	GNUMERIC_PLUGIN_LOADER_CLASS (parent_class)->unload_service_ui (loader, service, ret_error);
+	g_object_set_data_full (
+		G_OBJECT (service), "loader_data", loader_data, ui_loader_data_free);
 }
