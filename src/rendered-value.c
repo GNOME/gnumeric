@@ -114,8 +114,6 @@ rendered_value_new_ext (Cell *cell, MStyle *mstyle)
 				format = cell->format;
 		}
 		str = format_value (format, cell->value, &color, entered, col_width);
-
-		style_format_unref (format);
 	} else {
 		g_warning ("No format: serious error");
 		str = g_strdup ("Error");

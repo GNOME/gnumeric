@@ -44,6 +44,8 @@ STF - pasting a single line should not invoke the importer
 	   names.
 
 - formats with AM/PM need to be internationalized.
+- hour month and year format strings need to be internationalized.
+    eg tt:ss instead of hh:ss for other locales.
 
 - Changing an expression name that is in use does not recalc, or regen depends
   correctly.
@@ -62,8 +64,6 @@ STF - pasting a single line should not invoke the importer
   is large.  All accesses to a RangeRef need to be normalized. (1/2 done)
 
 - border style double_line does not handle all of the different intersection cases.
-
-- 'General' numbers need to be formated based on the width of the cell.
 
 - The File->Print Preview icon is too big.  Use the stock version when the next
   release of gnome-libs is made.

@@ -73,7 +73,6 @@ Gnumeric Spread Sheet task list
    that for small regions, numbers in scientific notation are displayed.
 
    - '*' does not work
-   - 'General' is rather stupid.  It needs to take the size of the cell into account.
 
     FIXME : The formating is incomplete.
 	  - It does not support seconds fractions.

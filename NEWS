@@ -3,6 +3,7 @@ Gnumeric 0.58
 Jody:
 	* Fix popup context menus.
 	* Fix embeddable grid.
+	* 'General' number formats.
 
 --------------------------------------------------------------------------
 Gnumeric 0.57
