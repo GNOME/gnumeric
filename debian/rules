@@ -16,7 +16,7 @@ endif
 #export DH_VERBOSE=1
 
 # This is the debhelper compatability version to use.
-export DH_COMPAT=3
+export DH_COMPAT=4
 
 # Try to preserve timestamps as much as possible
 export INSTALL=/usr/bin/install -p
@@ -39,12 +39,12 @@ features:=
 features+= --with-python=python2.3
 
 # Bonobo allows us to use parts of other applications as components via
-# CORBA, and allows us to work as a component for other applications.
-#
-# Once we get Gtk+ 2.4, be aware of 
-# http://bugzilla.gnome.org/show_bug.cgi?id=117579 
+# CORBA, and was supposed to allow us to work as a component for other
+# applications. However, that promise hasn't really been realised and
+# according to Morten Welinder "drop bonobo from your build.  it's
+# pointless."
 
-features+= --with-bonobo
+features+= --without-bonobo
 
 # Plugin to access databases through the GDA framework.
 
@@ -67,7 +67,6 @@ confflags :=	--prefix=/usr --sysconfdir=/etc \
 		--localstatedir=/var/lib \
 		--libexecdir=/usr/bin \
                 --enable-compile-warnings=minimum \
-                --enable-iso-c \
 		$(features)
 
 ifeq ($(DEB_BUILD_GNU_TYPE), $(DEB_HOST_GNU_TYPE))
@@ -99,6 +98,10 @@ build-stamp:
 
 	cd build && $(MAKE)
 	cd doc/C && yelp-pregenerate gnumeric.xml
+	# Touch up the pregenerated HTML so that yelp will know how to
+	# follow references and how to find images.
+	cd doc/C && perl -spi -e 's|"ghelp:gnumeric.xml|"ghelp:gnumeric|g;' \
+			-e 's|<img src="file://./|<img src="|g' gnumeric.html
 
 	touch build-stamp
 
@@ -126,7 +129,8 @@ clean:
 	-rm -f po/*.gmo
 
 	# Clean out files generated as part of the documentation generation
-	-rm -f doc/C/index.html doc/C/gnumeric.html omf-install/gnumeric-C.omf
+	-rm -f doc/C/index.html doc/C/gnumeric.html doc/C/ld-id*.html \
+		omf-install/gnumeric-C.omf
 	-rm -rf doc/C/gnumeric doc/C/DBTOHTML_OUTPUT_DIR*
 
 	-rm -rf aclocal.m4 config.h.in stamp-h.in autom4te.cache \
@@ -152,22 +156,21 @@ install: build
 		libexecdir=`pwd`/../debian/tmp/usr/bin
 
 	# Copy the prerendered manual
-	cp doc/C/gnumeric.html `pwd`/debian/tmp/usr/share/gnumeric/*-bonobo/share/gnome/help/gnumeric/C
+	cp doc/C/gnumeric.html `pwd`/debian/tmp/usr/share/gnome/help/gnumeric/C/
+	# Ensure that the prerendered manual won't be considered out of date
+	sleep 1 && touch `pwd`/debian/tmp/usr/share/gnome/help/gnumeric/C/gnumeric.html
 
 	# Plugins are not intended as stand-alone executables
 	find `pwd`/debian/tmp/usr/lib/gnumeric/*/plugins -type f -print0 | xargs -0 chmod a-x
 
-	# Change DTD reference from a URL to a local path for document
-	# registration
-	find `pwd`/debian/tmp -type f -name '*.xml' -exec \
-		perl -i -pe 's,http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd,/usr/share/sgml/docbook/dtd/xml/4.1.2/docbookx.dtd,' {} \;
-
 	# Remove unwanted files: static libraries and documentation sources
 	find `pwd`/debian/tmp/usr/ -name '*.a' -print0 | xargs -0 rm -f
 	find `pwd`/debian/tmp/ -name '*.sgml' -print0 | xargs -0 rm -f
+	# Bonobo-only files
+	rm -rf debian/tmp/usr/lib/bonobo
 
 	# We no longer remove the libtool files for plugins as we did for
-	# 1.0.x: 1.1.x actually needs them for the plugins to work.
+	# 1.0.x: 1.2.x actually needs them for the plugins to work.
 	#find `pwd`/debian/gnumeric/usr/lib/gnumeric/*/plugins -name '*.la' -print0 | xargs -0 rm -f
 
 	# Remove scrollkeeper stuff as well, as it should be done at package
@@ -179,13 +182,22 @@ install: build
 
 	dh_install --sourcedir=debian/tmp --list-missing
 
-	dh_link usr/share/gnumeric/$(upstreamversion)-bonobo/idl/GNOME_Gnumeric.idl usr/share/idl/GNOME_Gnumeric.idl
+	# gnumeric and gnumeric-common are always installed together; they
+	# can share a doc dir.
+	# (Note that's not the case with gnumeric-doc as it can be installed
+	# without having gnumeric installed)
+	dh_link -pgnumeric-common usr/share/doc/gnumeric/ usr/share/doc/gnumeric-common
 
-	dh_link -pgnumeric-doc usr/share/pixmaps/gnome-logo-icon.png usr/share/gnumeric/$(upstreamversion)-bonobo/share/gnome/help/gnumeric/C/stylesheet/gnome-logo-icon.png 
-	dh_link -pgnumeric-doc usr/share/gnumeric/$(upstreamversion)-bonobo/share/gnome/help/gnumeric/C/gnumeric.html usr/share/doc/gnumeric-doc/gnumeric.html
+	dh_link usr/share/gnumeric/$(upstreamversion)/idl/GNOME_Gnumeric.idl usr/share/idl/GNOME_Gnumeric.idl
 
-	# Remove a broken/superfluous link
-	rm -f debian/tmp/usr/share/gnumeric/*/gnome
+	dh_link -pgnumeric-doc usr/share/pixmaps/gnome-logo-icon.png usr/share/gnome/help/gnumeric/C/stylesheet/gnome-logo-icon.png 
+	# For the callout pngs
+	dh_link -pgnumeric-doc usr/share/xml/docbook/stylesheet/nwalsh/images/ usr/share/gnome/help/gnumeric/C/images
+
+	# Link to fix the Help buttons in dialogs
+	dh_link -pgnumeric-doc usr/share/gnome/help/gnumeric usr/share/gnumeric/$(upstreamversion)/gnome/help/gnumeric
+
+	dh_link -pgnumeric-doc usr/share/gnome/help/gnumeric/C/gnumeric.html usr/share/doc/gnumeric-doc/gnumeric.html
 
 	# Remove files from the main package that belong to a more
 	# specialist package
@@ -218,12 +230,13 @@ binary-indep: build install
 	dh_installinfo -i
 #	dh_undocumented -i
 	dh_installchangelogs ChangeLog -i
+	dh_gconf -i
 	dh_link -i
 	dh_compress -i
 	dh_fixperms -i
 	dh_installdeb -i
 #	dh_perl -i
-	dh_gencontrol -i -- -VUpstream-Version=$(upstreamversion)
+	dh_gencontrol -v -i -- -VUpstream-Version=$(upstreamversion)
 	dh_md5sums -i
 	dh_builddeb -i
 
@@ -245,6 +258,7 @@ binary-arch: build install
 	dh_installinfo -a
 #	dh_undocumented -a
 	dh_installchangelogs ChangeLog -a
+	dh_gconf -a
 	dh_strip -a
 	dh_link -a
 	dh_compress -a
@@ -256,9 +270,9 @@ binary-arch: build install
 	dh_installdeb -a
 #	dh_perl -a
 
-	dh_shlibdeps -a
+	dh_shlibdeps -v -a
 
-	dh_gencontrol -a -- -VUpstream-Version=$(upstreamversion)
+	dh_gencontrol -v -a -- -VUpstream-Version=$(upstreamversion)
 	dh_md5sums -a
 	dh_builddeb -a
 

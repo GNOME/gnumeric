@@ -1,7 +1,7 @@
-/usr/lib/gnumeric/*-bonobo/plugins/python/*
-/usr/lib/gnumeric/*-bonobo/plugins/python-loader/*
-/usr/lib/gnumeric/*-bonobo/plugins/py-func/*
-/usr/lib/gnumeric/*-bonobo/plugins/gnome-glossary/*
-/usr/share/gnumeric/*-bonobo/python
-/usr/lib/gnumeric/*-bonobo/plugins/gdaif/*
-/usr/lib/gnumeric/*-bonobo/plugins/gnome-db/*
+/usr/lib/gnumeric/*/plugins/python/*
+/usr/lib/gnumeric/*/plugins/python-loader/*
+/usr/lib/gnumeric/*/plugins/py-func/*
+/usr/lib/gnumeric/*/plugins/gnome-glossary/*
+/usr/share/gnumeric/*/python
+/usr/lib/gnumeric/*/plugins/gdaif/*
+/usr/lib/gnumeric/*/plugins/gnome-db/*

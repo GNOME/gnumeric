@@ -2,15 +2,14 @@ Source: gnumeric
 Section: math
 Priority: optional
 Maintainer: J.H.M. Dassen (Ray) <jdassen@debian.org>
-Build-Depends: debhelper (>= 3.0), dh-buildinfo, gettext, bison, flex,
- scrollkeeper, intltool, yelp,
+Build-Depends: debhelper (>= 4.1.87), dh-buildinfo, gettext, bison, flex,
+ scrollkeeper, yelp (>= 2.4.2-4), libxml-parser-perl,
  libglib2.0-dev (>= 2.0.6-1), libgsf-1-dev (>= 1.8.2-3),
  libgtk2.0-dev (>= 2.2.2-1), libxml2-dev (>= 2.4.23-2),
  libglade2-dev (>= 2.0.0-2), libgnomecanvas2-dev (>= 2.0.2-1),
  libgtk2.0-dev (>= 2.2.0-1),
  libgnome2-dev (>= 2.4.0-2), libgnomeui-dev (>= 2.4.0-2),
  libgnomeprint2.2-dev (>= 2.4.2), libgnomeprintui2.2-dev (>= 2.4.2),
- libbonobo2-dev (>= 2.4.0), libbonoboui2-dev (>= 2.4.0),
  libgsf-gnome-1-dev (>= 1.8.2-3),
  libart-2.0-dev (>= 2.3.11-1),
  python2.3-dev, python-gtk2-dev,
@@ -19,7 +18,7 @@ Standards-Version: 3.6.1
 
 Package: gnumeric
 Architecture: any
-Depends: ${shlibs:Depends}, gsfonts, gconf2
+Depends: ${shlibs:Depends}, gsfonts, gnumeric-common (= ${Source-Version}), ${misc:Depends}
 Suggests: gnumeric-doc (>= ${Upstream-Version}), gnumeric-plugins-extra
 Conflicts: gnumeric1.0, gnumeric1.0-doc, gnumeric-doc (<< ${Upstream-Version})
 Replaces: zh-trans (<< 0.8-1), gnumeric1.0
@@ -54,11 +53,20 @@ Description: A GNOME spreadsheet application
  is a user-friendly set of applications and desktop tools to be used in 
  conjunction with a window manager for the X Window System.
 
+Package: gnumeric-common
+Architecture: all
+Replaces: gnumeric (<= 1.2.6-1)
+Depends: gnumeric
+Description: Common files for Gnumeric, the GNOME spreadsheet application
+ This package contains architecture-independent data files needed by the
+ "gnumeric" package.
+
 Package: gnumeric-doc
 Architecture: all
 Section: doc
 Recommends: yelp, gnome-desktop-data
-Conflicts: gnumeric1.0-doc, gnumeric (<< ${Upstream-Version})
+Suggests: gnumeric (>= ${Upstream-Version})
+Conflicts: gnumeric1.0-doc
 Replaces: gnumeric (<< 1.1.17-2), gnumeric1.0-doc
 Description: Documentation for Gnumeric, the GNOME spreadsheet application
  The `Gnumeric's User Manual' in Gnome Help (DocBook XML) format.
