@@ -45,3 +45,4 @@ XML_I18N_XML_KIND = --pass-through
 	sh $(top_srcdir)/tools/fixup-plugin-xml $@ $(gnum_gb_LTLIBRARIES)
 
 EXTRA_DIST = README main.gba gnumeric.gbp $(xml_in_files)
+DISTCLEANFILES = $(xml_DATA)

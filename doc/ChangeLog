@@ -1,3 +1,8 @@
+2002-04-10  Jody Goldberg <jody@gnome.org>
+
+	* Makefile.am (SUBDIRS) : remove the other languages.  It is just too
+	  much damn work until we convert to xml in 1.1.
+
 2002-03-09  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.0.5

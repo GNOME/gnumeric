@@ -24,3 +24,4 @@ XML_I18N_XML_KIND = --pass-through
 	sh $(top_srcdir)/tools/fixup-plugin-xml $@ $(gnumeric_plugin_lotus_LTLIBRARIES)
 
 EXTRA_DIST = $(xml_in_files)
+DISTCLEANFILES = $(xml_DATA)

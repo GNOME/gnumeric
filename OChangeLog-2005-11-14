@@ -1,3 +1,7 @@
+2002-04-12  Jody Goldberg <jody@gnome.org>
+
+	* src/main.c (handle_paint_events) : disable warning for old versions.
+
 2002-04-12  Jon K Hellan  <hellan@acm.org>
 
 	* plugins/Makefile.am (SUBDIRS_FILE_FORMATS): Plan Perfect plugin

@@ -25,3 +25,4 @@ XML_I18N_XML_KIND = --pass-through
 	sh $(top_srcdir)/tools/fixup-plugin-xml $@ $(gnumeric_plugin_html_LTLIBRARIES)
 
 EXTRA_DIST = README ChangeLog $(xml_in_files)
+DISTCLEANFILES = $(xml_DATA)

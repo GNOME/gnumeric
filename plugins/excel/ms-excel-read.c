@@ -1131,6 +1131,13 @@ get_substitute_font (gchar *fontname)
 		{ "Times New Roman", "Times"},
 		{ "Arial",           "Helvetica"},
 		{ "Courier New",     "Courier"},
+		{ "£Í£Ó £Ð¥´¥·¥Ã¥¯", "Kochi Gothic"},
+		{ "£Í£Ó ¥´¥·¥Ã¥¯",   "Kochi Gothic"},
+		{ "¥´¥·¥Ã¥¯",        "Kochi Gothic"},
+		{ "MS UI Gothic",    "Kochi Gothic"},
+		{ "£Í£Ó £ÐÌÀÄ«",     "Kochi Mincho"},
+		{ "£Í£Ó ÌÀÄ«",       "Kochi Mincho"},
+		{ "ÌÀÄ«",            "Kochi Mincho"},
 		{ NULL }
 	};
 	for (p = temporary; (*p)[0]; p++)
