@@ -1,3 +1,7 @@
+2001-10-09  John Gotts <jgotts@linuxsavvy.com>
+
+	* gnumeric.spec.in: Added gnome-core and bonobo as requirements.
+
 2001-10-09  Jody Goldberg <jgoldberg@home.com>
 
 	* README : bump bonobo req to fix some crashes in printing.

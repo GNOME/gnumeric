@@ -21,8 +21,9 @@ Requires: libglade >= 0.16
 Requires: libxml >= 1.8.14
 Requires: libole2 >= 0.2.3
 Requires: gal >= 0.8
-# The help menu commands require whatever package contains the gnome-help
-# program.
+Requires: bonobo >= 1.0.9
+# The help menu requires gnome-help-browser.
+Requires: gnome-core
 
 %description
 GNOME (GNU Network Object Model Environment) is a user-friendly set of
@@ -143,6 +144,10 @@ fi
 ##%{prefix}/lib/gnumeric/%{version}-bonobo/plugins/*/*.la
 
 %changelog
+* Wed Oct  9 2001 John Gotts <jgotts@linuxsavvy.com>
+- gnome-core added as a requirement because gnumeric requires
+  gnome-help-browser.  Also added bonobo >= 1.0.9 as a requirement.
+
 * Wed Sep 12 2001 John Gotts <jgotts@linuxsavvy.com>
 - Keep the /usr/share/gnumeric directory structure under RPM revision control.
   %dirs should be used sparingly, but no other package will use this directory
