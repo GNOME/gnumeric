@@ -1,4 +1,8 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*************************************************************
+ * THIS FILE IS OBSOLETE. It got renamed, and this is the old
+ * version. The current version is libgnumeric.c
+ *************************************************************/
 /*
  * Gnumeric, the GNOME spreadsheet.
  *

@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_MAIN_H
-#define GNUMERIC_MAIN_H
+#ifndef GNUMERIC_LIBGNUMERIC_H
+#define GNUMERIC_LIBGNUMERIC_H
 
 #include <popt.h>
 

@@ -1,3 +1,7 @@
+/*************************************************************
+ * THIS FILE IS OBSOLETE. It got renamed, and this is the old
+ * version. The current version is libgnumeric.h
+ *************************************************************/
 #ifndef GNUMERIC_MAIN_H
 #define GNUMERIC_MAIN_H
 
