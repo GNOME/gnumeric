@@ -1,5 +1,10 @@
 2002-03-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/workbook-control-gui.c (workbook_close_if_user_permits) :
+	  use gtk_message_dialog_new/gnumeric_dialog_run
+
+2002-03-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/sheet-control-gui.c (scg_comment_display) : put
 	  a frame around the pop-up
 
