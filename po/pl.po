@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-01-20 19:06+0100\n"
-"PO-Revision-Date: 2002-01-20 19:14+0100\n"
+"POT-Creation-Date: 2002-01-21 11:44+0100\n"
+"PO-Revision-Date: 2002-01-21 11:50+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -53,6 +53,212 @@ msgstr "Pochodne finansowe"
 #: plugins/derivatives/plugin.xml.in.h:1
 msgid "Functions related to financial derivatives"
 msgstr "Funkcje zwi±zane z pochodnymi finansowymi"
+
+#: plugins/derivatives/options.c:1
+msgid ""
+"@FUNCTION=opt_bs_call\n"
+"@SYNTAX=opt_bs_call(strike,price,volatility,days_to_maturity,rate)\n"
+"@DESCRIPTION=Uses the Black-Scholes model to calculate the price of a "
+"European call option struck at @strike on an asset with price @price.  "
+"@volatility is the annualized volatility, in percent, of the asset for the "
+"period through to the exercise date.  @days_to_maturity the number of days "
+"to exercise, and @rate is the risk-free interest rate to the exercise date, "
+"in percent.\n"
+"The returned value will be expressed in the same units as @strike and "
+"@price.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=opt_bs_put, opt_bs_call_delta, opt_bs_put_delta opt_bs_call_rho, "
+"opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
+"opt_bs_gamma"
+msgstr ""
+
+#: plugins/derivatives/options.c:1
+msgid ""
+"@FUNCTION=opt_bs_put\n"
+"@SYNTAX=opt_bs_put(strike,price,volatility,days_to_maturity,rate)\n"
+"@DESCRIPTION=Uses the Black-Scholes model to calculate the price of a "
+"European put option struck at @strike on an asset with price @price.  "
+"@volatility is the annualized volatility, in percent, of the asset for the "
+"period through to the exercise date.  @days_to_maturity the number of days "
+"to exercise, and @rate is the risk-free interest rate to the exercise date, "
+"in percent.\n"
+"The returned value will be expressed in the same units as @strike and "
+"@price.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=opt_bs_call, opt_bs_call_delta, opt_bs_put_delta opt_bs_call_rho, "
+"opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
+"opt_bs_gamma"
+msgstr ""
+
+#: plugins/derivatives/options.c:1
+msgid ""
+"@FUNCTION=opt_bs_call_delta\n"
+"@SYNTAX=opt_bs_call_delta(strike,price,volatility,days_to_maturity,rate)\n"
+"@DESCRIPTION=Uses the Black-Scholes model to calculate the \"delta\" of a "
+"European call option struck at @strike on an asset with price @price.\n"
+"(The delta of an option is the rate of change of its price with respect to "
+"the price of the underlying asset.)\n"
+"@volatility is the annualized volatility, in percent, of the asset for the "
+"period through to the exercise date.  @days_to_maturity the number of days "
+"to exercise, and @rate is the risk-free interest rate to the exercise date, "
+"in percent.\n"
+"The returned value will be expressed as the rate of change of option value "
+"per unit change in @price.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_put_delta opt_bs_call_rho, "
+"opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
+"opt_bs_gamma"
+msgstr ""
+
+#: plugins/derivatives/options.c:1
+msgid ""
+"@FUNCTION=opt_bs_put_delta\n"
+"@SYNTAX=opt_bs_put_delta(strike,price,volatility,days_to_maturity,rate)\n"
+"@DESCRIPTION=Uses the Black-Scholes model to calculate the \"delta\" of a "
+"European put option struck at @strike on an asset with price @price.\n"
+"(The delta of an option is the rate of change of its price with respect to "
+"the price of the underlying asset.)\n"
+"@volatility is the annualized volatility, in percent, of the asset for the "
+"period through to the exercise date.  @days_to_maturity the number of days "
+"to exercise, and @rate is the risk-free interest rate to the exercise date, "
+"in percent.\n"
+"The returned value will be expressed as the rate of change of option value "
+"per unit change in @price.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta opt_bs_call_rho, "
+"opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
+"opt_bs_gamma"
+msgstr ""
+
+#: plugins/derivatives/options.c:1
+#, c-format
+msgid ""
+"@FUNCTION=opt_bs_call_rho\n"
+"@SYNTAX=opt_bs_call_rho(strike,price,volatility,days_to_maturity,rate)\n"
+"@DESCRIPTION=Uses the Black-Scholes model to calculate the \"rho\" of a "
+"European call option struck at @strike on an asset with price @price.\n"
+"(The rho of an option is the rate of change of its price with respect to the "
+"risk free interest rate.)\n"
+"@volatility is the annualized volatility, in percent, of the asset for the "
+"period through to the exercise date.  @days_to_maturity the number of days "
+"to exercise, and @rate is the risk-free interest rate to the exercise date, "
+"in percent.\n"
+"The returned value will be expressed as the rate of change of option value, "
+"per 100% change in @rate.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta, opt_bs_put_delta, "
+"opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
+"opt_bs_gamma"
+msgstr ""
+
+#: plugins/derivatives/options.c:1
+#, c-format
+msgid ""
+"@FUNCTION=opt_bs_put_rho\n"
+"@SYNTAX=opt_bs_put_rho(strike,price,volatility,days_to_maturity,rate)\n"
+"@DESCRIPTION=Uses the Black-Scholes model to calculate the \"rho\" of a "
+"European put option struck at @strike on an asset with price @price.\n"
+"(The rho of an option is the rate of change of its price with respect to the "
+"risk free interest rate.)\n"
+"@volatility is the annualized volatility, in percent, of the asset for the "
+"period through to the exercise date.  @days_to_maturity the number of days "
+"to exercise, and @rate is the risk-free interest rate to the exercise date, "
+"in percent.\n"
+"The returned value will be expressed as the rate of change of option value, "
+"per 100% change in @rate.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta opt_bs_put_delta, "
+"opt_bs_call_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
+"opt_bs_gamma"
+msgstr ""
+
+#: plugins/derivatives/options.c:1
+msgid ""
+"@FUNCTION=opt_bs_call_theta\n"
+"@SYNTAX=opt_bs_call_theta(strike,price,volatility,days_to_maturity,rate)\n"
+"@DESCRIPTION=Uses the Black-Scholes model to calculate the \"theta\" of a "
+"European call option struck at @strike on an asset with price @price.\n"
+"(The theta of an option is the rate of change of its price with respect to "
+"time to expiry.)\n"
+"@volatility is the annualized volatility, in percent, of the asset for the "
+"period through to the exercise date.  @days_to_maturity the number of days "
+"to exercise, and @rate is the risk-free interest rate to the exercise date, "
+"in percent.\n"
+"The returned value will be expressed as minus the rate of change of option "
+"value, per 365.25 days.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta, opt_bs_put_delta, "
+"opt_bs_call_rho, opt_bs_put_rho, opt_bs_put_theta, opt_bs_vega, opt_bs_gamma"
+msgstr ""
+
+#: plugins/derivatives/options.c:1
+msgid ""
+"@FUNCTION=opt_bs_put_theta\n"
+"@SYNTAX=opt_bs_put_theta(strike,price,volatility,days_to_maturity,rate)\n"
+"@DESCRIPTION=Uses the Black-Scholes model to calculate the \"theta\" of a "
+"European put option struck at @strike on an asset with price @price.\n"
+"(The theta of an option is the rate of change of its price with respect to "
+"time to expiry.)\n"
+"@volatility is the annualized volatility, in percent, of the asset for the "
+"period through to the exercise date.  @days_to_maturity the number of days "
+"to exercise, and @rate is the risk-free interest rate to the exercise date, "
+"in percent.\n"
+"The returned value will be expressed as minus the rate of change of option "
+"value, per 365.25 days.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta opt_bs_put_delta, "
+"opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_vega, opt_bs_gamma"
+msgstr ""
+
+#: plugins/derivatives/options.c:1
+msgid ""
+"@FUNCTION=opt_bs_gamma\n"
+"@SYNTAX=opt_bs_gamma(strike,price,volatility,days_to_maturity,rate)\n"
+"@DESCRIPTION=Uses the Black-Scholes model to calculate the \"gamma\" of a "
+"European option struck at @strike on an asset with price @price.\n"
+"(The gamma of an option is the second derivative of its price with respect "
+"to the price of the underlying asset, and is the same for calls and puts.)\n"
+"@volatility is the annualized volatility, in percent, of the asset for the "
+"period through to the exercise date.  @days_to_maturity the number of days "
+"to exercise, and @rate is the risk-free interest rate to the exercise date, "
+"in percent.\n"
+"The returned value will be expressed as the rate of change of delta per unit "
+"change in @price.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta opt_bs_put_delta, "
+"opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_rho, "
+"opt_bs_vega"
+msgstr ""
+
+#: plugins/derivatives/options.c:1
+msgid ""
+"@FUNCTION=opt_bs_vega\n"
+"@SYNTAX=opt_bs_bega(strike,price,volatility,days_to_maturity,rate)\n"
+"@DESCRIPTION=Uses the Black-Scholes model to calculate the \"vega\" of a "
+"European option struck at @strike on an asset with price @price.\n"
+"(The vega of an option is the rate of change of its price with respect to "
+"volatility, and is the same for calls and puts.)\n"
+"@volatility is the annualized volatility, in percent, of the asset for the "
+"period through to the exercise date.  @days_to_maturity the number of days "
+"to exercise, and @rate is the risk-free interest rate to the exercise date, "
+"in percent.\n"
+"The returned value will be expressed as the rate of change of option value, "
+"per 100% volatilty.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta opt_bs_put_delta, "
+"opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_rho, "
+"opt_bs_gamma"
+msgstr ""
 
 #: plugins/dif/dif.c:1 plugins/excel/ms-excel-read.c:1
 #: plugins/mps/mps.c:1 src/xml-io.c:1
@@ -1271,6 +1477,10 @@ msgid "Create a radio button"
 msgstr "Tworzy przycisk radiowy"
 
 #: src/GNOME_Gnumeric.xml.h:1
+msgid "Create a scrollbar"
+msgstr "Tworzy pasek przewijania"
+
+#: src/GNOME_Gnumeric.xml.h:1
 msgid "Create an arrow"
 msgstr "Tworzy strza³kê"
 
@@ -1840,6 +2050,10 @@ msgstr "Zapisuje bie¿±cy plik pod inn± nazw±"
 #: src/GNOME_Gnumeric.xml.h:1
 msgid "Save the current workbook"
 msgstr "Zapisuje bie¿±cy zeszyt"
+
+#: src/GNOME_Gnumeric.xml.h:1 src/workbook-object-toolbar.c:1
+msgid "Scrollbar"
+msgstr "Pasek przewijania"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
 msgid "Search and Replace..."
@@ -3861,10 +4075,6 @@ msgid "Sup_erscript"
 msgstr "I_ndeks dolny"
 
 #: src/dialogs/cell-format.glade.h:1
-msgid "TTitle :"
-msgstr "Tytu³ :"
-
-#: src/dialogs/cell-format.glade.h:1
 msgid "Te_xt"
 msgstr "Te_kst"
 
@@ -4242,8 +4452,8 @@ msgid ""
 "The top row contains labels, these will not be consolidated, but used as key "
 "for comparison"
 msgstr ""
-"Etykiety zawarte s± w górnym wierszu. Nie bêd± one ³±czone, ale u¿ywane jako "
-"klucz przy porównywaniu."
+"Górny wiersz zawiera etykiety. Nie bêd± one ³±czone, ale u¿ywane jako klucz "
+"przy porównywaniu."
 
 #: src/dialogs/consolidate.glade.h:1
 msgid "Values"
@@ -4928,10 +5138,12 @@ msgid "Source"
 msgstr "¬ród³o"
 
 #: src/dialogs/dialog-cell-format.c:1 src/dialogs/dialog-cell-format.c:1
+#: src/sheet-object-widget.c:1
 msgid "Min :"
 msgstr "Minimum :"
 
 #: src/dialogs/dialog-cell-format.c:1 src/dialogs/dialog-cell-format.c:1
+#: src/sheet-object-widget.c:1
 msgid "Max :"
 msgstr "Maksimum :"
 
@@ -5429,9 +5641,9 @@ msgid ""
 "placed around cells depends on the value chosen for quoting."
 msgstr ""
 "Okre¶l format eksportowanego tekstu. Zakoñczenie wiersza to sekwencja znaków "
-"wykorzystywana do zakoñczenia wiersza w pliku tekstowym. To, czy warto¶ci "
-"komórek otoczone bêd± znakami cytowania oraz jakie znaki zostan± do tego "
-"u¿yte, zale¿y od ustawieñ dotycz±cych cytowania."
+"wykorzystywana do oznaczenia koñca wiersza w pliku tekstowym. To, czy "
+"warto¶ci komórek otoczone bêd± znakami cytowania, zale¿y od ustawieñ "
+"dotycz±cych cytowania."
 
 #: src/dialogs/dialog-stf-export.glade.h:1
 msgid "Exporting structured text"
@@ -6678,7 +6890,8 @@ msgstr "Napis podany do wyszukiwania traktowany jest bezpo¶rednio"
 
 #: src/dialogs/search-replace.glade.h:1
 msgid "Turn unparsable entries into string values"
-msgstr "Zmenia ka¿d± warto¶æ w ³añcuch znakowy"
+msgstr ""
+"Zmenia elementy, których nie mo¿na roz³o¿yæ sk³adniowo, w ³añcuchy znakowe"
 
 #: src/dialogs/search-replace.glade.h:1 src/dialogs/search.glade.h:1
 msgid "When set, do not distinguish between upper and lower case letters"
@@ -13212,8 +13425,8 @@ msgstr ""
 "@SYNTAX=ATANH(x)\n"
 "@DESCRIPTION=Funkcja ATANH oblicza warto¶æ arcusa tangensa hiperbolicznego "
 "parametru @x; jest to warto¶æ, której tangens hiperboliczny wynosi @x. "
-"Je¿eli warto¶æ bezwzglêdna parametru @x jest wiêksza od 1,0, funkcja ATANH zwraca b³±d "
-"#LICZBA!.\n"
+"Je¿eli warto¶æ bezwzglêdna parametru @x jest wiêksza od 1,0, funkcja ATANH "
+"zwraca b³±d #LICZBA!.\n"
 "Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
 "ATANH(0,5) jest równe 0,549306.\n"
@@ -18770,6 +18983,22 @@ msgid "Transparent"
 msgstr "Przezroczysto¶æ"
 
 #: src/sheet-object-widget.c:1
+msgid "Scrollbar Configure"
+msgstr "Konfiguracja paska przewijania"
+
+#: src/sheet-object-widget.c:1 src/sheet-object-widget.c:1
+msgid "Link to :"
+msgstr "Przy³±czony do :"
+
+#: src/sheet-object-widget.c:1
+msgid "Increment :"
+msgstr "Zwiêkszenie :"
+
+#: src/sheet-object-widget.c:1
+msgid "Page :"
+msgstr "Strona :"
+
+#: src/sheet-object-widget.c:1
 #, c-format
 msgid "CheckBox %d"
 msgstr "Prze³±cznik %d"
@@ -18777,10 +19006,6 @@ msgstr "Prze³±cznik %d"
 #: src/sheet-object-widget.c:1
 msgid "Checkbox Configure"
 msgstr "Konfiguracja prze³±cznika"
-
-#: src/sheet-object-widget.c:1
-msgid "Cell :"
-msgstr "Komórka :"
 
 #: src/sheet-object-widget.c:1
 msgid "Label :"
@@ -19553,6 +19778,10 @@ msgstr "Tworzy ramkê"
 #: src/workbook-object-toolbar.c:1
 msgid "Creates a button"
 msgstr "Tworzy przycisk"
+
+#: src/workbook-object-toolbar.c:1
+msgid "Creates a scrollbar"
+msgstr "Tworzy pasek przewijania"
 
 #: src/workbook-object-toolbar.c:1
 msgid "Creates a checkbox"
