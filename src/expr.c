@@ -1184,7 +1184,7 @@ typedef enum {
 
 	/* Both ends of the range must be treated as if they are inside the range */
 	CELLREF_RELOCATE_FORCE_TO_IN,
-	CELLREF_RELOCATE_FORCE_FROM_IN,
+	CELLREF_RELOCATE_FORCE_FROM_IN
 } CellRefRelocate;
 
 /*
