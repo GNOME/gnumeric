@@ -1136,7 +1136,7 @@ insert_object_cmd (GtkWidget *widget, Workbook *wb)
 	Sheet *sheet = wb->current_sheet;
 	char  *obj_id;
 
-	obj_id = gnome_bonobo_select_oaf_id (
+	obj_id = bonobo_selector_select_id (
 		_("Select an object to add"), NULL);
 
 	if (obj_id != NULL)

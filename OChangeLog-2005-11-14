@@ -1,3 +1,15 @@
+2000-08-12  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c (insert_object_cmd) :
+	  s/gnome_bonobo_select_oaf_id/bonobo_selector_select_id.
+	* src/sheet-object.c (sheet_set_mode_type_full) : Ditto.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_drag_data_get) : Disable until
+	  Michael has a chance to update to new api.
+
+	* src/corba-workbook-factory.c (WorkbookFactory_create_object) :
+	  Update after the OAF factory renaming.
+
 2000-08-11  Jody Goldberg <jgoldberg@home.com>
 
 	* src/dialogs/Makefile.am : Add graph-guru for bonobo enabled builds.

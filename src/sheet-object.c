@@ -805,7 +805,7 @@ sheet_set_mode_type_full (Sheet *sheet, SheetModeType mode, void *mode_data)
 			required_interfaces [0] = "IDL:Bonobo/Embeddable:1.0";
 		required_interfaces [1] = NULL;
 
-		obj_id = gnome_bonobo_select_oaf_id (
+		obj_id = bonobo_selector_select_id (
 			_("Select an object to add"), required_interfaces);
 		if (obj_id == NULL) {
 			sheet_set_mode_type (sheet, SHEET_MODE_SHEET);
