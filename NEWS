@@ -21,6 +21,12 @@ Jukka:
 	* Implemented TRUE and FALSE logical functions
 	* Started the implementation of COUPDAYBS and COUPDAYS.
 
+Matthew D. Bissiri:
+	* Paste special arithmetic operations.
+
+Michael Levy:
+	* Improve the colour combo box.
+
 Morten:
 	* Cleanup analysis tool code.
 	* Eliminate many fixed limits in the code.  (Still some to go.)

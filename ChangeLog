@@ -1,3 +1,15 @@
+2000-07-12 Jody Goldberg <jgoldberg@home.com>
+	For : Matt Bissiri <bissiri@eecs.umich.edu>
+
+	* src/clipboard.c Implemented arithmetic operations for paste special.
+	(cell_has_expr_or_number_or_blank) : New function.
+	(cell_get_contents_as_expr_tree) : New function.
+	(paste_oper_to_expr_oper) : New function.
+	(apply_paste_oper_to_values) : New function.
+	(paste_cell_with_operation) : New function.
+	(paste_cell) : Call paste_cell_with_operation if paste_flags
+	indicates an arithmetic operation.
+	
 2000-07-12  Michael Meeks  <michael@helixcode.com>
 
 	* src/main.c (gnumeric_main): add bonobo_shutdown.

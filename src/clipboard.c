@@ -37,6 +37,156 @@
 /* The name of the TARGETS atom (don't change unless you know what you are doing!) */
 #define TARGETS_ATOM_NAME "TARGETS"
 
+static gboolean
+cell_has_expr_or_number_or_blank (Cell const * cell)
+{
+	return (cell_is_blank (cell) ||
+		(cell != NULL && cell_is_number (cell)) ||
+		(cell != NULL && cell_has_expr (cell)));
+}
+
+static ExprTree *
+cell_get_contents_as_expr_tree (Cell const * cell)
+{
+	ExprTree *expr = NULL;
+
+	g_return_val_if_fail (cell_has_expr_or_number_or_blank (cell), NULL);
+	
+	if (cell_is_blank (cell))
+		expr = expr_tree_new_constant (value_new_float (0.0));
+	else if (cell_has_expr (cell)) {
+		expr = cell->u.expression;
+		expr_tree_ref (expr);
+	} else if (cell_is_number (cell))
+		expr = expr_tree_new_constant (value_duplicate (cell->value));
+	else
+		g_assert_not_reached ();
+
+	return expr;
+}
+
+static Operation
+paste_oper_to_expr_oper (int paste_flags)
+{
+	g_return_val_if_fail (paste_flags & PASTE_OPER_MASK, 0);
+
+	if (paste_flags & PASTE_OPER_ADD)
+		return OPER_ADD;
+	else if (paste_flags & PASTE_OPER_SUB)
+		return OPER_SUB;
+	else if (paste_flags & PASTE_OPER_MULT)
+		return OPER_MULT;
+	else if (paste_flags & PASTE_OPER_DIV)
+		return OPER_DIV;
+	else
+		g_assert_not_reached ();
+
+	return 0;
+}
+
+static Value *
+apply_paste_oper_to_values (Cell const * old_cell, Cell const * copied_cell, int paste_flags)
+{
+	float_t old_float;
+	float_t copied_float;
+	
+	g_return_val_if_fail (paste_flags & PASTE_OPER_MASK, NULL);
+	
+	if (old_cell != NULL && cell_is_number (old_cell))
+		old_float = value_get_as_float (old_cell->value);
+	else
+		old_float = 0.0;
+	
+	if (copied_cell != NULL && cell_is_number (copied_cell))
+		copied_float = value_get_as_float (copied_cell->value);
+	else
+		copied_float = 0.0;
+	
+	if (paste_flags & PASTE_OPER_ADD)
+		return value_new_float (old_float + copied_float);
+	else if (paste_flags & PASTE_OPER_SUB)
+		return value_new_float (old_float - copied_float);
+	else if (paste_flags & PASTE_OPER_MULT)
+		return value_new_float (old_float * copied_float);
+	else if (paste_flags & PASTE_OPER_DIV)
+		return (copied_float == 0.0)
+			? value_new_error (NULL, /* FIXME: Why do value_new_error and value_new_error_str take the EvalPos argument?  The EvalPos is not currently used in those functions. */
+					   gnumeric_err_DIV0)
+			: value_new_float (old_float / copied_float);
+	else
+		g_assert_not_reached ();
+	
+	return NULL;
+}
+
+static void
+paste_cell_with_operation (Sheet *dest_sheet,
+			   int target_col, int target_row,
+			   ExprRewriteInfo *rwinfo,
+			   CellCopy *c_copy, int paste_flags)
+{
+	Cell *new_cell;
+	Cell *old_cell;
+
+	g_return_if_fail (paste_flags & PASTE_OPER_MASK);
+
+	if (!(paste_flags & (PASTE_FORMULAS | PASTE_VALUES)))
+		return;
+
+	if (!(c_copy->type == CELL_COPY_TYPE_CELL))
+		return;
+
+	old_cell = sheet_cell_get (dest_sheet, target_col, target_row);
+	
+	if ((!cell_has_expr_or_number_or_blank (old_cell)) ||
+	    (!cell_has_expr_or_number_or_blank (c_copy->u.cell)))
+		return;
+	
+	new_cell           = cell_copy (c_copy->u.cell);
+	new_cell->sheet    = dest_sheet;
+	new_cell->col_info = sheet_col_fetch (dest_sheet, target_col);
+	new_cell->row_info = sheet_row_fetch (dest_sheet, target_row);
+	
+	/* FIXME : This does not handle arrays, linked cells, ranges, etc. */
+	
+	if ((c_copy->u.cell != NULL && cell_has_expr (c_copy->u.cell)) ||
+	    (old_cell != NULL && cell_has_expr (old_cell))) {
+		ExprTree *new_expr;
+		ExprTree *old_expr;
+		ExprTree *copied_expr;
+		Operation oper;
+		
+		old_expr    = cell_get_contents_as_expr_tree (old_cell);
+		copied_expr = cell_get_contents_as_expr_tree (c_copy->u.cell);
+		oper        = paste_oper_to_expr_oper (paste_flags);
+		
+		new_expr = expr_tree_new_binary (old_expr, oper, copied_expr);
+		sheet_cell_set_expr (new_cell, new_expr);
+	} else {
+		Value *new_val = apply_paste_oper_to_values (old_cell, c_copy->u.cell, paste_flags);
+
+		sheet_cell_set_value (new_cell, new_val, NULL);
+	}
+	
+	/* The code below was copied from paste_cell */
+
+	if (cell_has_expr (new_cell)) {
+		if (paste_flags & PASTE_FORMULAS) {
+			cell_relocate (new_cell, rwinfo);
+
+			/* FIXME : do this at a range level too */
+			sheet_cell_changed (new_cell);
+		} else
+			cell_make_value (new_cell);
+	} else {
+		g_return_if_fail (new_cell->value != NULL);
+
+		cell_render_value (new_cell);
+	}
+
+	sheet_cell_insert (dest_sheet, new_cell, target_col, target_row);
+}
+
 /**
  * paste_cell: Pastes a cell in the spreadsheet
  *
@@ -52,6 +202,12 @@ paste_cell (Sheet *dest_sheet,
 	    ExprRewriteInfo *rwinfo,
 	    CellCopy *c_copy, int paste_flags)
 {
+	if (paste_flags & PASTE_OPER_MASK) {
+		paste_cell_with_operation (dest_sheet, target_col, target_row,
+					   rwinfo, c_copy, paste_flags);
+		return;
+	}
+	
 	if ((paste_flags & (PASTE_FORMULAS | PASTE_VALUES))){
 		if (c_copy->type == CELL_COPY_TYPE_CELL) {
 			Cell *new_cell = cell_copy (c_copy->u.cell);
@@ -156,6 +312,8 @@ clipboard_paste_region (CommandContext *context,
 		tmp = CLEAR_VALUES|CLEAR_COMMENTS;
 	if (pt->paste_flags & PASTE_FORMATS)
 		tmp |= CLEAR_FORMATS;
+	if (pt->paste_flags & PASTE_OPER_MASK)
+		tmp = 0;
 	if (tmp) {
 		int const dst_col = pt->range.start.col;
 		int const dst_row = pt->range.start.row;
@@ -631,7 +789,7 @@ x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data, guint 
 	g_return_if_fail (clipboard != NULL);
 
 	/*
-	 * Check weather the other application wants gnumeric XML format
+	 * Check whether the other application wants gnumeric XML format
 	 * in fact we only have to check the 'info' variable, however
 	 * to be absolutely sure I check if the atom checks out too
 	 */
