@@ -1,3 +1,12 @@
+2002-01-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* consolidate.glade : make gnome2 compatible
+	* dialog-consolidate.c (cb_dialog_destroy) : glade gui is 
+	  not gtk-object
+	(cb_dialog_clicked) : use non-modal warning messages
+	(setup_widgets) : dialog is not a gnome_dialog, initialize 
+	  state->warning_dialog
+	
 2002-01-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-analysis-tools.c (tools_destroy_warning) : move to gui_utils.c

@@ -38,9 +38,10 @@ typedef struct {
 	WorkbookControlGUI *wbcg;
 	Sheet              *sheet;
 	GladeXML           *glade_gui;
+	GtkWidget          *warning_dialog;
 
 	struct {	
-		GnomeDialog       *dialog;
+		GtkDialog       *dialog;
 
 		GtkOptionMenu     *function;
 		GtkOptionMenu     *put;
@@ -174,7 +175,7 @@ cb_dialog_destroy (GtkObject *object, ConsolidateState *state)
 {
 	wbcg_edit_detach_guru (state->wbcg);
 
-	gtk_object_unref (GTK_OBJECT (state->glade_gui));
+	g_object_unref (G_OBJECT (state->glade_gui));
 
 	if (state->construct_error) {
 		g_warning ("The construct error was not freed, this should not happen!");
@@ -206,7 +207,12 @@ static void
 cb_dialog_clicked (GtkWidget *widget, ConsolidateState *state)
 {
 	if (widget == GTK_WIDGET (state->gui.btn_ok)) {
-		Consolidate *cs = construct_consolidate (state);
+		Consolidate *cs;
+
+		if (state->warning_dialog != NULL)
+			gtk_widget_destroy (state->warning_dialog);
+
+		cs = construct_consolidate (state);
 
 		/*
 		 * If something went wrong consolidate_construct
@@ -214,7 +220,10 @@ cb_dialog_clicked (GtkWidget *widget, ConsolidateState *state)
 		 * a suitable error message
 		 */
 		if (cs == NULL) {
-			gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR, state->construct_error);
+			gnumeric_notice_nonmodal (GTK_WINDOW (state->gui.dialog), 
+						  &state->warning_dialog,
+						  GTK_MESSAGE_ERROR, 
+						  state->construct_error);
 			g_free (state->construct_error);
 			state->construct_error = NULL;
 
@@ -345,7 +354,7 @@ connect_signal_btn_clicked (ConsolidateState *state, GtkButton *button)
 static void
 setup_widgets (ConsolidateState *state, GladeXML *glade_gui)
 {
-	state->gui.dialog      = GNOME_DIALOG        (glade_xml_get_widget (glade_gui, "dialog"));
+	state->gui.dialog      = GTK_DIALOG        (glade_xml_get_widget (glade_gui, "dialog"));
 
 	state->gui.function    = GTK_OPTION_MENU     (glade_xml_get_widget (glade_gui, "function"));
 	state->gui.put         = GTK_OPTION_MENU     (glade_xml_get_widget (glade_gui, "put"));
@@ -443,6 +452,7 @@ dialog_consolidate (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg        = wbcg;
 	state->sheet       = sheet;
 	state->glade_gui   = glade_gui;
+	state->warning_dialog = NULL;
 	state->areas_index = -1;
 
 	setup_widgets (state, glade_gui);

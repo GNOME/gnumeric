@@ -11,6 +11,8 @@ Andreas:
 	* Port solver dialog to gnome2
 	* Make the solver information dialogs non-modal
 	* Make the goal-seek warnings non-modal
+	* Port consolidate dialog to gnome2
+	* Make the consolidate warning dialogs non-modal
 
 Jody:
 	* Initial port to gnome2.
