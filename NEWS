@@ -28,6 +28,7 @@ Andreas:
 	* Fix merged cell to merged cell copy (#65760 & #58691)
 	* Removed latex209 exporter
 	* Implement spans in LaTeX exporter
+	* Improved analysis tools documentation
 
 Jody:
 	* Tricky corner cases for style applications (Part 2).

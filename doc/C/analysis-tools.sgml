@@ -1,121 +1,202 @@
 <sect1 id="overview">
   <title>An Overview</title>
-  <para>The data analysis tools package contains various tools for
+  <para>The data analysis tools package contains tools for
   statistical data analysis, random number generation and data
-  sampling.  To use these tools select the ``Data Analysis...'' entry
-  in the ``Tools'' menu.  This gives you a list of tools to choose
+  sampling.  To use these tools select the `Data Analysis...' item
+  in the `Tools' menu.  This yields a list of tools to choose
   from.  Select one of the tools from the list and press the OK
-  button.  The tools are described below.</para>
-  <figure id="analysistools">
-    <title>The Data Analysis Tools</title>
-    <screenshot>
-       <graphic fileref="images/analysistools-tools" format="png"></graphic>
-    </screenshot>
-  </figure>
+  button or double-click on the tool.  The tools are described below.</para>
 
-  <para>All the tools have the same output options (see <xref linkend="outputoptions">).
+<figure id="analysistools">
+<title>
+Data Analysis Tools
+</title>
+<screenshot id="analysistools-shot">
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/analysistools-tools.png" format="PNG">
+</imageobject>
+<textobject>
+<phrase>Screenshot of the Data Analysis Tools dialog</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
+</figure>
+
+  <para>All tools have the same output options (see <xref linkend="outputoptions">).
   The results can
-  be printed out into a new sheet, into a new workbook, or into the
-  same sheet within a given output range.  To select the output method
-  just select one of the radio buttons inside the ``Output''
-  frame.</para>
+  be printed into a new sheet, into a new workbook, or into
+  a given output range on a sheet of the current workbook.  To select the output method
+  select one of the radio buttons inside the `Output'
+  frame. If you have chosen `Output Range' you must also enter a single 
+  range in the entry field.</para>
   <note><para>If the chosen output range is too
   small, some of the results will be lost.</para></note>
   <note><para>The
   old data in the output range is deleted and cannot be recovered.</para></note>
 
-  <figure id="outputoptions">
-    <title>The common output options of the data analysis tools.</title>
-    <screenshot>
-       <graphic fileref="images/analysistools-outputoptions" format="png"></graphic>
-    </screenshot>
-  </figure>
+<figure id="outputoptions">
+<title>
+Common output options of the data analysis tools
+</title>
+<screenshot id="outputoptions-shot">
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/analysistools-outputoptions.png" format="PNG">
+</imageobject>
+<textobject>
+<phrase>Common output options of the data analysis tools</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
+</figure>
 
-  <para>Whenever a dialog asks for a range, you can either type the 
-  range specification into the text field, or (preferably) click 
-  in the text field and then select the range in the active sheet (see 
+  <para>To enter a range into an entry field, you can either type the 
+  range specification into the text field, or click 
+  in the text field and then select the range on the sheet (see 
   <xref linkend="specifyingranges">).</para>
   <figure id="specifyingranges">
-    <title>Specifying Ranges.</title>
+    <title>Specifying Ranges</title>
     <screenshot>
-       <graphic fileref="images/analysistools-ranges" format="png"></graphic>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/analysistools-ranges.png" format="PNG">
+</imageobject>
+<textobject>
+<phrase>An example how to specify ranges</phrase>
+</textobject>
+</mediaobject>
     </screenshot>
   </figure>
+  <para>Some entry fields accept lists of ranges. To enter these lists,
+  select one range, type a comma, and then select the next range. At any 
+  time, you may switch to another sheet of the workbook.</para>
 
-  <note><para>The latter method is currently implemented only for 
-  some of the dialogs.</para></note>
 </sect1>
 <sect1 id="anova">
   <title>Analysis of Variance</title>
 
   <sect2 id="anova-single-factor-tool">
-     <title>Anova: Single Factor Tool</title>
+     <title>ANOVA: Single Factor Tool</title>
 
-     <para>Use this tool to make a single factor analysis of the
+     <para>Use this tool to perform a single factor analysis of the
      variances of given variables. The variables are specified by the
-     ``Input Range:'' entry.  The given range can be groupped either
-     by columns or by rows.  ``Alpha:'' entry specifies the level of
-     significance which is by default 95&percnt;.</para>
+     `Input Range:' entry.  The given range can be grouped into the variables either
+     by columns, by rows or by areas.  The `Alpha:' entry specifies the 
+     significance level which is by default 5&percent;.</para>
 
      <para>If you have labels, for example the names of the variables,
-     in the first row of the given range, you should check the
-     ``Labels'' button on.  This leaves the first row (or the first
-     column if the data is groupped by rows) of the input range out of
-     the analysis.  In addition, the names of the variables are
-     pasted nicely into the output table.</para>
+     in the first row or first column of the given range, or in the 
+     first field of each area, check the `Labels' button. The names of 
+     the variables will be included in the  output table.</para>
 
-     <para>The tool calculates the source of variation between groups,
-     within groups, and the total source of variation.  The values of
-     these are given in the ''SS'' column.  The degrees of freedom of
-     are given in the ''df'' column.  In ''MS'' column the sources of
-     variation are divided by the degrees of freedom.  The results of
-     these divisions are used in calculating the F value in the ''F''
-     column.  The F value is the division of MS in ''Between columns''
-     and ''MS'' in ''Within columns''.  You can compare this value
-     with the ''F critical'' value in the last column.  The F critical
+     <para>The results of this analysis of variance are presented in 
+     a standard ANOVA table. The `F critical'
      value is the largest value of F that is statistically significant
-     using the given significance level (''Alpha'').  Bellow the
-     ''P-value'' is the result of the F-test.</para>
+     using the given significance level (''Alpha'').</para>
 
-     <para>In addition, the tool calculates the count, sum, average,
-     and the variance of all the variables.</para>
+     <para>This tool also calculates the count, sum, average,
+     and the variance of each variable.</para>
 
   </sect2>
 
   <sect2 id="anova-two-factor-tool">
-     <title>Anova: Two-Factor Tool</title>
+     <title>ANOVA: Two-Factor Tool</title>
 
      <para>Gnumeric can perform two factor fixed effects ANOVAs with and 
-     without replication. In both cases the same dialog is used and the 
-     appropriate tool selected depending on whether the number of rows 
+     without replication. The same dialog is used and the 
+     appropriate tool is selected depending on whether the number of rows 
      per sample is 1 or larger than 1.</para> 
 
   <sect3 id="anova-two-factor-without-tool">
-     <title>Anova: Two-Factor Without Replication Tool</title>
+     <title>ANOVA: Two-Factor Without Replication Tool</title>
 
-     <para>If the number of rows per sample is given as 1, gnumeric 
+     <para>If the number of rows per sample is given as 1, Gnumeric 
      performs a two factor fixed effects ANOVA without replication. Each
      column of the input range is interpreted as a level of the first 
      factor while each row is interpreted as a level of the second factor.
      </para>
-     <note><para>Currently, the input range may <emphasis>not</emphasis> contain 
-     any labels. </para></note>
+     <para>The first row and column of the range may contain labels for 
+     these levels. In this case the `Labels' checkbox should be checked.
+     </para>
+     <para>See <xref linkend="anova-two-factor-without-tool-ex1"> for an example 
+     of a completed dialog and <xref linkend="anova-two-factor-without-tool-ex2">
+     for the corresponding output.
+     </para>
+  <figure id="anova-two-factor-without-tool-ex1">
+    <title>2-factor ANOVA Without Replication Dialog</title>
+    <screenshot>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/analysistools-ANOVA2wo-ex1.png" format="PNG">
+</imageobject>
+<textobject>
+<phrase>A completed 2-factor ANOVA without replication dialog</phrase>
+</textobject>
+</mediaobject>
+    </screenshot>
+  </figure>
+  <figure id="anova-two-factor-without-tool-ex2">
+    <title>Output From a2-factor ANOVA Without Replication</title>
+    <screenshot>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/analysistools-ANOVA2wo-ex2.png" format="PNG">
+</imageobject>
+<textobject>
+<phrase>The output from a 2-factor ANOVA without replication</phrase>
+</textobject>
+</mediaobject>
+    </screenshot>
+  </figure>
   </sect3>
 
   <sect3 id="anova-two-factor-with-tool">
-     <title>Anova: Two-Factor With Replication Tool</title>
-     <para>If the number of rows per sample is larger than 1, gnumeric 
+     <title>ANOVA: Two-Factor With Replication Tool</title>
+     <para>If the number of rows per sample is larger than 1, Gnumeric 
      performs a two factor fixed effects ANOVA with replication. Each
      column of the input range is interpreted as a level of the first 
      factor while groups of rows (the number of rows in each group given 
-     by the `number of rows per sample') are interpreted as a level of the 
-     second factor.
+     by the `number of rows per sample' value) are interpreted as levels 
+     of the second factor.
      </para>
-     <note><para>Currently, the first row and column  <emphasis>must</emphasis> contain 
-     appropriate labels. Specifically, there should be a label for each 
-     column (except the first) in the first row; and a label for each 
-     group of rows in the first cell of the first row of each such group.
-     </para></note>
+     <para>The first row and column of the range may contain labels for 
+     these levels. In this case the `Labels' checkbox should be checked.
+     </para>
+     <para>See <xref linkend="anova-two-factor-with-tool-ex1"> for an example 
+     of a completed dialog and <xref linkend="anova-two-factor-with-tool-ex2">
+     for the corresponding output.
+     </para>
+  <figure id="anova-two-factor-with-tool-ex1">
+    <title>2-factor ANOVA With Replication Dialog</title>
+    <screenshot>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/analysistools-ANOVA2w-ex1.png" format="PNG">
+</imageobject>
+<textobject>
+<phrase>A completed 2-factor ANOVA with replication dialog</phrase>
+</textobject>
+</mediaobject>
+    </screenshot>
+  </figure>
+  <figure id="anova-two-factor-with-tool-ex2">
+    <title>Output From a 2-factor ANOVA With Replication</title>
+    <screenshot>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/analysistools-ANOVA2w-ex2.png" format="PNG">
+</imageobject>
+<textobject>
+<phrase>The output from a 2-factor ANOVA with replication</phrase>
+</textobject>
+</mediaobject>
+    </screenshot>
+  </figure>
+     
+     <para>Gnumeric will estimate missing values for each level combination as 
+     the mean of the existing  values in that combination. The degrees of freedom 
+     are adjusted appropriately. 
   </sect3>
   </sect2>
 
@@ -127,7 +208,14 @@
   <figure id="correlation-tool-dialog">
     <title>The Correlation Tool Dialog.</title>
     <screenshot>
-       <graphic fileref="images/analysistools-correlation" format="png"></graphic>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/analysistools-correlation.png" format="PNG">
+</imageobject>
+<textobject>
+<phrase>Screenshot of the Correlation Tool dialog</phrase>
+</textobject>
+</mediaobject>
     </screenshot>
   </figure>
 
@@ -135,7 +223,7 @@
      coefficients of the
      given variables.  Use this tool to calculate any number of
      correlation coefficients at the same time.  The variables for
-     which the correlations are calulated are specified by the ``Input
+     which the correlations are calculated are specified by the ``Input
      Range:'' entry.  The given range can be grouped either by
      columns or by rows.</para>
 
@@ -147,11 +235,19 @@
      printed in the output table.</para>
 
   <figure id="correlation-example-1">
-    <title>The Data</title>
+    <title>Some Example Data</title>
     <screenshot>
-       <graphic fileref="images/analysistools-correlation-ex1" format="png"></graphic>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/analysistools-correlation-ex1.png" format="PNG">
+</imageobject>
+<textobject>
+<phrase>Some Example Data</phrase>
+</textobject>
+</mediaobject>
     </screenshot>
   </figure>
+
  <example id="usingcorrelationtool">
  <title>Using The Correlation Tool</title>
     <para>For example, you want to calculate the correlation between
@@ -181,32 +277,52 @@
   <figure id="correlation-example-2">
     <title>The Completed Dialog</title>
     <screenshot>
-       <graphic fileref="images/analysistools-correlation-ex2" format="png"></graphic>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/analysistools-correlation-ex2.png" format="PNG">
+</imageobject>
+<textobject>
+<phrase>Screenshot of the completed Correlation Dialog</phrase>
+</textobject>
+</mediaobject>
     </screenshot>
   </figure>
   <figure id="correlation-example-3">
     <title>The Result</title>
     <screenshot>
-       <graphic fileref="images/analysistools-correlation-ex3" format="png"></graphic>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/analysistools-correlation-ex3.png" format="PNG">
+</imageobject>
+<textobject>
+<phrase>Screenshot of the results output</phrase>
+</textobject>
+</mediaobject>
     </screenshot>
   </figure>
   </sect1>
-
 
   <sect1 id="covariance-tool">
      <title>Covariance Tool</title>
 
   <figure id="covariance-tool-dialog">
-    <title>The Descriptive Statistics Tool Dialog.</title>
+    <title>The Covariance Tool Dialog.</title>
     <screenshot>
-       <graphic fileref="images/analysistools-covariance" format="png"></graphic>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/analysistools-covariance.png" format="PNG">
+</imageobject>
+<textobject>
+<phrase>Screenshot of the Covariance Tools dialog</phrase>
+</textobject>
+</mediaobject>
     </screenshot>
   </figure>
 
      <para>The covariance tool calculates pairwise covariances of given
      variables.  Use this tool to calculate any number of covariances
      at the same time.  The variables for which the covariances are
-     calulated are specified by the ``Input Range:'' entry.  The given
+     calculated are specified by the ``Input Range:'' entry.  The given
      range can be grouped either by columns or by rows.</para>
 
      <para>For example, you want to calculate the covariance of two
@@ -241,7 +357,14 @@
   <figure id="descriptive-statistics-tool-dialog">
     <title>The Descriptive Statistics Tool Dialog.</title>
     <screenshot>
-       <graphic fileref="images/analysistools-descstats" format="png"></graphic>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/analysistools-descstats.png" format="PNG">
+</imageobject>
+<textobject>
+<phrase>Screenshot of the Descriptive Statistics Tools dialog</phrase>
+</textobject>
+</mediaobject>
     </screenshot>
   </figure>
 
@@ -297,10 +420,10 @@
      + (1 - dampingFactor) * (A(t) - F(t)), where A(t) is the t'th
      value in the original data set.</para>
 
-     <para>You can define the prior forecast adjustement in the
+     <para>You can define the prior forecast adjustment in the
      ``Damping factor'' entry.  A good value could be, for example,
      between 0.2 and 0.3 representing 20 to 30 percent error
-     adjustement in the prior forecast.</para>
+     adjustment in the prior forecast.</para>
 
   </sect1>
 
@@ -428,7 +551,7 @@
 	failure.  The probability of success is constant from one
 	trial to another.  The experiment continues until `r' failures
 	are observed, where `r' is fixed in advance.  The mean of a
-	random variable that has a Negative Binomial distirbution is
+	random variable that has a Negative Binomial distribution is
 	E(X) = r(1-p)/p, and the variance is var(X) =
 	r(1-p)/p^2.</para>
 
@@ -452,7 +575,14 @@
   <figure id="rank-and-percentile-tool-dialog">
     <title>The Rank and Percentile Tool Dialog.</title>
     <screenshot>
-       <graphic fileref="images/analysistools-rank" format="png"></graphic>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/analysistools-rank.png" format="PNG">
+</imageobject>
+<textobject>
+<phrase>Screenshot of the Rank and Percentile Tool dialog</phrase>
+</textobject>
+</mediaobject>
     </screenshot>
   </figure>
 
@@ -465,7 +595,7 @@
      output table. The first column gives the indices of the 
      ordered data from largest to smallest data value. The second column 
      gives the corresponding data values while the third column indicates
-     the persentile of each data value.</para>
+     the percentile of each data value.</para>
 
      <para>If you have labels, for example the names of the variables,
      in the first row (or column) of the given range, you should check the
@@ -531,7 +661,7 @@
      variances of both variables in the ``Variable 1 Variance
      (known):'' and ``Variable 2 Variance (known):'' entries.</para>
 
-     <para>If you want to test wheater the difference of the means is
+     <para>If you want to test whether the difference of the means is
      larger than a given value, specify also the ``Hypothesized Mean
      Difference:'' entry.  ``Alpha:'' entry specifies the level of
      significance which is by default 95&percnt;.</para>
