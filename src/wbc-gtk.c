@@ -1019,15 +1019,19 @@ cb_window_menu_activate (GObject *action, WorkbookControlGUI *wbcg)
 static unsigned
 regenerate_window_menu (WBCgtk *gtk, Workbook *wb, unsigned i)
 {
-	unsigned k, count = 0;
+	int k, count;
 
-	/* how many controls are there */
-	WORKBOOK_FOREACH_CONTROL (wb, wbv, wbc, if (IS_WORKBOOK_CONTROL_GUI (wbc)) count++;);
+	/* How many controls are there?  */
+	count = 0;
+	WORKBOOK_FOREACH_CONTROL (wb, wbv, wbc, {
+		if (IS_WORKBOOK_CONTROL_GUI (wbc))
+			count++;
+	});
 
 	k = 1;
 	WORKBOOK_FOREACH_CONTROL (wb, wbv, wbc, {
 		char *basename;
-		if (i >= 10)
+		if (i >= 20)
 			return i;
 		if (IS_WORKBOOK_CONTROL_GUI (wbc) &&
 			(basename = go_basename_from_uri (wb->uri)) != NULL) {
@@ -1036,19 +1040,17 @@ regenerate_window_menu (WBCgtk *gtk, Workbook *wb, unsigned i)
 			const char *s;
 			GtkActionEntry entry;
 
-			g_string_append_printf (label, "_%d ", i);
-			s = basename;
-			while (*s) {
+			if (i < 10) g_string_append_c (label, '_');
+			g_string_append_printf (label, "%d ", i);
+
+			for (s = basename; *s; s++) {
 				if (*s == '_')
 					g_string_append_c (label, '_');
 				g_string_append_c (label, *s);
-				s++;
 			}
+
 			if (count > 1)
-				g_string_append_printf (label, ":%d", k++);
-			else {
-				/* warning "What if basename ends in :number here?  Add a space?"  */
-			}
+				g_string_append_printf (label, " #%d", k++);
 
 			entry.name = name = g_strdup_printf ("WindowListEntry%d", i);
 			entry.stock_id = NULL;

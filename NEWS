@@ -67,6 +67,7 @@ Morten:
 	* Improve undo description for rich text style changes.  [#171637]
 	* Don't destroy target file when loading a saver plugin fails.
 	  [#168581].
+	* Make sure we update our window menu when we create a new view.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.0

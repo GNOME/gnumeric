@@ -23,6 +23,7 @@
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"
+#include "application.h"
 #include <glade/glade.h>
 #include <gui-util.h>
 #include <workbook-control-gui.h>
@@ -103,6 +104,7 @@ cb_view_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 		/* What else would it be?  */
 		WorkbookControlGUI *new_wbcg = WORKBOOK_CONTROL_GUI (new_wbc);
 		wbcg_copy_toolbar_visibility (new_wbcg, wbcg);
+		_gnm_app_flag_windows_changed ();
 	}
 }
 
