@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2001-07-15 13:08+0200\n"
-"PO-Revision-Date: 2001-07-15 14:28+0200\n"
+"POT-Creation-Date: 2001-07-17 00:44+0200\n"
+"PO-Revision-Date: 2001-07-17 00:48+0200\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -184,15 +184,12 @@ msgid "Error: could not open connection to %s"
 msgstr "B³±d: nie mo¿na nawi±zaæ po³±czenia z %s"
 
 #: plugins/guile/plugin.c:1 src/func.c:1 src/functions/fn-information.c:1
-#: src/functions/fn-information.c:1 src/functions/fn-information.c:1
-#: src/functions/fn-information.c:1 src/functions/fn-information.c:1
-#: src/functions/fn-information.c:1 src/functions/fn-information.c:1
 #: src/functions/fn-logical.c:1 src/functions/fn-string.c:1
 msgid "Invalid number of arguments"
 msgstr "Niew³a¶ciwa liczba argumentów"
 
 #. FIXME : This looks like a leak (JEG 4/4/00)
-#: plugins/guile/plugin.c:1 plugins/guile/plugin.c:1
+#: plugins/guile/plugin.c:1
 msgid "First argument to SCM must be a Guile expression"
 msgstr "Pierwszy argument dla CSM musi byæ wyra¿eniem Guile"
 
@@ -459,7 +456,7 @@ msgstr "wiersze"
 #. * Add Sheet
 #.
 #: plugins/plan-perfect/pln.c:1 plugins/sc/sc.c:1 plugins/sylk/sylk.c:1
-#: src/stf.c:1 src/stf.c:1
+#: src/stf.c:1
 #, c-format
 msgid "Imported %s"
 msgstr "Zaimportowano %s"
@@ -469,17 +466,14 @@ msgid "Unable to mmap the file"
 msgstr "Nie mo¿na odwzorowaæ pliku w pamiêci"
 
 #: plugins/python-loader/py-gnumeric.c:1
-#: plugins/python-loader/py-gnumeric.c:1
 msgid "Unknown error"
 msgstr "Nieznany b³±d"
 
-#: plugins/python-loader/py-gnumeric.c:1
 #: plugins/python-loader/py-gnumeric.c:1
 #, c-format
 msgid "Python exception (%s: %s)"
 msgstr "Wyj±tek Pythona (%s: %s)"
 
-#: plugins/python-loader/py-gnumeric.c:1
 #: plugins/python-loader/py-gnumeric.c:1
 #, c-format
 msgid "Python exception (%s)"
@@ -521,16 +515,11 @@ msgid "Some name"
 msgstr "Bez nazwy"
 
 #: plugins/python-loader/python-loader.c:1
-#: plugins/python-loader/python-loader.c:1
-#: plugins/python-loader/python-loader.c:1
 #, c-format
 msgid "Python file \"%s\" has invalid format."
 msgstr "Plik Pythona \"%s\" jest w niew³a¶ciwym formacie."
 
-#: plugins/python-loader/python-loader.c:1
-#: plugins/python-loader/python-loader.c:1
 #: plugins/python-loader/python-loader.c:1 src/plugin-loader-module.c:1
-#: src/plugin-loader-module.c:1 src/plugin-loader-module.c:1
 #, c-format
 msgid "File doesn't contain \"%s\" function."
 msgstr "Plik nie zawiera funkcji \"%s\"."
@@ -606,18 +595,12 @@ msgstr "Niepoprawna sk³adnia dokumentu XML!"
 msgid "Correlations"
 msgstr "Korelacje"
 
-#: src/analysis-tools.c:1 src/analysis-tools.c:1 src/analysis-tools.c:1
-#: src/analysis-tools.c:1 src/analysis-tools.c:1 src/analysis-tools.c:1
-#: src/analysis-tools.c:1 src/analysis-tools.c:1 src/analysis-tools.c:1
-#: src/analysis-tools.c:1 src/analysis-tools.c:1
-#: src/dialogs/dialog-stf-preview.h:1
+#: src/analysis-tools.c:1 src/dialogs/dialog-stf-preview.h:1
 #, c-format
 msgid "Column %d"
 msgstr "Kolumna %d"
 
-#: src/analysis-tools.c:1 src/analysis-tools.c:1 src/analysis-tools.c:1
-#: src/analysis-tools.c:1 src/analysis-tools.c:1
-#: src/analysis-tools.c:1 src/analysis-tools.c:1
+#: src/analysis-tools.c:1
 #, c-format
 msgid "Row %d"
 msgstr "Wiersz %d"
@@ -642,6 +625,8 @@ msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample "
 "Variance/Kurtosis/Skewness/Range/Minimum/Maximum/Sum/Count"
 msgstr ""
+"/¦rednia/B³±d standardowy/Mediana/Tryb/Odchylenie standardowe/Próbka "
+"Wariancja/Kurtoza/Zakrzywienie/Zakres/Minimum/Maksimum/Suma/Ilo¶æ"
 
 #: src/analysis-tools.c:1
 msgid "Confidence Level"
@@ -670,8 +655,7 @@ msgstr "K-ta najmniejsza"
 msgid "Smallest (%d)"
 msgstr "Najmniejsza (%d)"
 
-#: src/analysis-tools.c:1 src/analysis-tools.c:1
-#: src/dialogs/cell-format.glade.h:1
+#: src/analysis-tools.c:1 src/dialogs/cell-format.glade.h:1
 msgid "Sample"
 msgstr "Próbka"
 
@@ -679,14 +663,10 @@ msgstr "Próbka"
 msgid "z-Test"
 msgstr "Test z"
 
-#: src/analysis-tools.c:1 src/analysis-tools.c:1
-#: src/analysis-tools.c:1 src/analysis-tools.c:1
 #: src/analysis-tools.c:1
 msgid "Variable 1"
 msgstr "Zmienna 1"
 
-#: src/analysis-tools.c:1 src/analysis-tools.c:1
-#: src/analysis-tools.c:1 src/analysis-tools.c:1
 #: src/analysis-tools.c:1
 msgid "Variable 2"
 msgstr "Zmienna 2"
@@ -697,7 +677,6 @@ msgid ""
 "one-tail/z Critical one-tail/P (Z<=z) two-tail/z Critical two-tail"
 msgstr ""
 
-#: src/analysis-tools.c:1 src/analysis-tools.c:1
 #: src/analysis-tools.c:1
 msgid "t-Test"
 msgstr "Test t"
@@ -742,7 +721,6 @@ msgstr "Nie zaimplementowane.\n"
 #. value in the checkbox instead of this
 #. global, but I don't know GTK very well
 #: src/analysis-tools.c:1 src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
 msgid "Regression"
 msgstr "Regresja"
 
@@ -774,20 +752,19 @@ msgstr "¦rednia ruchoma"
 msgid "Ranks"
 msgstr "Korelacje rangowe"
 
-#: src/analysis-tools.c:1 src/analysis-tools.c:1
+#: src/analysis-tools.c:1
 msgid "Point"
 msgstr "Punkt"
 
-#: src/analysis-tools.c:1 src/analysis-tools.c:1
+#: src/analysis-tools.c:1
 msgid "Rank"
 msgstr "Korelacja rangowa"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/analysis-tools.c:1
-#: src/analysis-tools.c:1 src/workbook-format-toolbar.c:1
+#: src/workbook-format-toolbar.c:1
 msgid "Percent"
 msgstr "Procentowe"
 
-#: src/analysis-tools.c:1 src/analysis-tools.c:1
 #: src/analysis-tools.c:1
 msgid "Anova"
 msgstr "Analiza wariancji"
@@ -797,7 +774,7 @@ msgstr "Analiza wariancji"
 msgid "Anova: Single Factor"
 msgstr "Analiza wariancji: jeden czynnik"
 
-#: src/analysis-tools.c:1 src/analysis-tools.c:1
+#: src/analysis-tools.c:1
 msgid "SUMMARY"
 msgstr "PODSUMOWANIE"
 
@@ -809,7 +786,7 @@ msgstr "/Grupy/Liczba/Suma/¦rednia/Wariancja"
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr ""
 
-#: src/analysis-tools.c:1 src/analysis-tools.c:1
+#: src/analysis-tools.c:1
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr ""
 
@@ -831,9 +808,7 @@ msgstr "/Analiza wariancji/¬ród³o wariancji/Wiersze/Kolumny/B³±d/Ogó³em"
 msgid "Anova: Two-Factor With Replication"
 msgstr "Analiza wariancji: dwa czynniki z powtórzeniami"
 
-#: src/analysis-tools.c:1 src/analysis-tools.c:1
 #: src/analysis-tools.c:1 src/dialogs/dialog-autoformat.c:1
-#: src/dialogs/dialog-autoformat.c:1
 msgid "Total"
 msgstr "Ogó³em"
 
@@ -844,7 +819,7 @@ msgstr "Liczba"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/analysis-tools.c:1
 #: src/dialogs/consolidate.glade.h:1 src/workbook-control-gui.c:1
-#: src/workbook-control-gui.c:1 src/workbook-view.c:1
+#: src/workbook-view.c:1
 msgid "Sum"
 msgstr "Suma"
 
@@ -886,6 +861,7 @@ msgstr "SS"
 msgid "df"
 msgstr "df"
 
+#. Note: a * b * rows_per_sample, tot_count and df_gr+df_col+df_inter+df_within should all be the same
 #: src/analysis-tools.c:1
 msgid "MS"
 msgstr "MS"
@@ -900,7 +876,7 @@ msgstr "P-warto¶æ"
 
 #: src/analysis-tools.c:1
 msgid "F crit"
-msgstr ""
+msgstr "F kryt"
 
 #: src/analysis-tools.c:1 src/dialogs/analysis-tools.glade.h:1
 #: src/dialogs/dialog-analysis-tools.c:1
@@ -937,7 +913,6 @@ msgstr "Nie zawiera pliku z zeszytem"
 msgid "Gnumeric Bonobo file format"
 msgstr "Format pliku Gnumerica Bonobo"
 
-#: src/clipboard.c:1 src/clipboard.c:1 src/clipboard.c:1
 #: src/clipboard.c:1
 msgid "Unable to paste"
 msgstr "Nie mo¿na wkleiæ"
@@ -993,8 +968,7 @@ msgstr ""
 msgid "Unable to paste into selection"
 msgstr "Nie mo¿na wkleiæ do zaznaczenia"
 
-#: src/GNOME_Gnumeric.xml.h:1 src/cmd-edit.c:1
-#: src/workbook-control-gui.c:1
+#: src/GNOME_Gnumeric.xml.h:1 src/cmd-edit.c:1 src/workbook-control-gui.c:1
 msgid "Paste"
 msgstr "Wklej"
 
@@ -1018,7 +992,7 @@ msgstr "Przesuniêcie kolumn %s"
 msgid "Shift column %s"
 msgstr "Przesuniêcie kolumny %s"
 
-#: src/commands.c:1 src/commands.c:1
+#: src/commands.c:1
 msgid "Set Text"
 msgstr "Ustawienie tekstu"
 
@@ -1099,8 +1073,13 @@ msgstr "Wyczyszczenie %s w %s"
 
 #: src/commands.c:1
 #, c-format
+msgid "Changing format of %s"
+msgstr "Zmiana formatu %s"
+
+#: src/commands.c:1
+#, c-format
 msgid "Rename sheet '%s' '%s'"
-msgstr "Zmiana nazwy arkusza \"%s\" \"%s\""
+msgstr "Zmiana nazwy arkusza \"%s\" na \"%s\""
 
 #. FIXME : the '>' prefix is intended to give the translators
 #. * a chance to provide a locale specific date format.
@@ -1152,7 +1131,7 @@ msgstr "Ustawienie szeroko¶ci kolumny %s na %d pikseli"
 msgid "Setting height of row %s to %d pixels"
 msgstr "Ustawienie wysoko¶ci wiersza %s na %d pikseli"
 
-#: src/commands.c:1 src/commands.c:1
+#: src/commands.c:1
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Automatyczne dopasowanie kolumn %s"
@@ -1245,7 +1224,7 @@ msgstr "Rozgrupowanie wierszy %d:%d"
 msgid "Moving %s"
 msgstr "Przeniesienie %s"
 
-#: src/commands.c:1 src/commands.c:1
+#: src/commands.c:1
 msgid "is beyond sheet boundaries"
 msgstr "przekracza granice arkusza"
 
@@ -1527,13 +1506,11 @@ msgstr "Kowariancja"
 msgid "Data Analysis"
 msgstr "Analiza danych"
 
-#: src/dialogs/analysis-tools.glade.h:1
-#: src/dialogs/dialog-analysis-tools.c:1
+#: src/dialogs/analysis-tools.glade.h:1 src/dialogs/dialog-analysis-tools.c:1
 msgid "F-Test: Two-Sample for Variances"
 msgstr "Test F: dwie próbki dla wariancji"
 
-#: src/dialogs/analysis-tools.glade.h:1
-#: src/dialogs/dialog-analysis-tools.c:1
+#: src/dialogs/analysis-tools.glade.h:1 src/dialogs/dialog-analysis-tools.c:1
 msgid "Fourier Analysis"
 msgstr "Analiza Fouriera"
 
@@ -1553,8 +1530,7 @@ msgstr "O_kres:"
 msgid "Input"
 msgstr "Wej¶cie"
 
-#: src/dialogs/analysis-tools.glade.h:1
-#: src/dialogs/dialog-analysis-tools.c:1
+#: src/dialogs/analysis-tools.glade.h:1 src/dialogs/dialog-analysis-tools.c:1
 msgid "Moving Average"
 msgstr "¦rednia ruchoma"
 
@@ -1578,13 +1554,11 @@ msgstr "L_iczba próbek:"
 msgid "Output options"
 msgstr "Opcje wyj¶cia"
 
-#: src/dialogs/analysis-tools.glade.h:1
-#: src/dialogs/dialog-analysis-tools.c:1
+#: src/dialogs/analysis-tools.glade.h:1 src/dialogs/dialog-analysis-tools.c:1
 msgid "Random Number Generation"
 msgstr "Generacja liczb losowych"
 
-#: src/dialogs/analysis-tools.glade.h:1
-#: src/dialogs/dialog-analysis-tools.c:1
+#: src/dialogs/analysis-tools.glade.h:1 src/dialogs/dialog-analysis-tools.c:1
 msgid "Rank and Percentile"
 msgstr "Korelacja rangowa i percentyl"
 
@@ -1884,7 +1858,6 @@ msgstr "Wyrównanie"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/dialogs/cell-format.glade.h:1
 #: src/dialogs/dialog-cell-format.c:1 src/workbook-format-toolbar.c:1
-#: src/workbook-format-toolbar.c:1
 msgid "Background"
 msgstr "T³o"
 
@@ -1953,7 +1926,6 @@ msgid "Display the value exactly as it was entered"
 msgstr "Wy¶wietlanie warto¶ci dok³adnie we wpisanej postaci"
 
 #: src/dialogs/cell-format.glade.h:1 src/dialogs/dialog-cell-format.c:1
-#: src/dialogs/dialog-cell-format.c:1
 msgid "Double"
 msgstr "Podwójne"
 
@@ -2027,7 +1999,7 @@ msgid "Negat_ive number:"
 msgstr "L_iczba ujemna:"
 
 #: src/dialogs/cell-format.glade.h:1 src/dialogs/dialog-cell-format.c:1
-#: src/dialogs/dialog-cell-format.c:1 src/dialogs/dialog-paste-special.c:1
+#: src/dialogs/dialog-paste-special.c:1
 msgid "None"
 msgstr "Brak"
 
@@ -2078,7 +2050,6 @@ msgstr "_Dopasowanie do zaznaczenia"
 
 #. There must be a better way than this
 #: src/dialogs/cell-format.glade.h:1 src/dialogs/dialog-cell-format.c:1
-#: src/dialogs/dialog-cell-format.c:1
 msgid "Single"
 msgstr "Pojedyncze"
 
@@ -2312,7 +2283,7 @@ msgid "Top-Bottom"
 msgstr "Od góry do do³u"
 
 #: src/dialogs/cell-sort.glade.h:1 src/dialogs/plugin-manager.glade.h:1
-#: src/solver-lp.c:1 src/solver-lp.c:1
+#: src/solver-lp.c:1
 msgid "Value"
 msgstr "Warto¶æ"
 
@@ -2501,6 +2472,10 @@ msgid "Gergo Erdi, Gnumeric hacker."
 msgstr "Gergõ Érdi, Gnumeric hacker."
 
 #: src/dialogs/dialog-about.c:1
+msgid "Andreas J. Guelzow, statistics stuff."
+msgstr "Andreas J. Guelzow, funkcje statystyczne."
+
+#: src/dialogs/dialog-about.c:1
 msgid "Jon K. Hellan, Gnumeric hacker."
 msgstr "Jon K. Hellan, Gnumeric hacker."
 
@@ -2614,11 +2589,9 @@ msgstr ""
 "kryterium:\""
 
 #: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
 msgid "Descriptive Statistics"
 msgstr "Statystyka opisowa"
 
-#: src/dialogs/dialog-analysis-tools.c:1
 #: src/dialogs/dialog-analysis-tools.c:1
 msgid "Sampling"
 msgstr "Próbkowanie"
@@ -2636,7 +2609,6 @@ msgid "t-Test: Two-Sample Assuming Unequal Variances"
 msgstr "Test t: dwie próbki o ró¿nych wariancjach"
 
 #: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
 msgid "z-Test: Two Sample for Means"
 msgstr "Test z: dwie próbki dla ¶redniej"
 
@@ -2648,8 +2620,7 @@ msgstr "Dyskretny"
 msgid "_Value and probability input range:"
 msgstr "Zakres _wej¶ciowy warto¶ci i prawdopodobieñstwa:"
 
-#: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/search-replace.glade.h:1
+#: src/dialogs/dialog-analysis-tools.c:1 src/dialogs/search-replace.glade.h:1
 #: src/widgets/widget-font-selector.c:1
 msgid "Normal"
 msgstr "Zwyk³a"
@@ -2682,8 +2653,6 @@ msgstr "Warto¶æ _b:"
 msgid "Binomial"
 msgstr "Dwumianowy"
 
-#: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
 #: src/dialogs/dialog-analysis-tools.c:1
 msgid "_p value:"
 msgstr "Warto¶æ _p:"
@@ -2729,7 +2698,6 @@ msgid "Kth Largest:"
 msgstr "K-ta najwiêksza:"
 
 #: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
 msgid "1"
 msgstr "1"
 
@@ -2753,8 +2721,6 @@ msgstr "Wiersze"
 msgid "Periodic"
 msgstr "Okresowa"
 
-#: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
 #: src/dialogs/dialog-analysis-tools.c:1
 msgid "You should introduce a valid cell range in 'Input Range:'"
 msgstr "Nale¿y wprowadziæ poprawny zakres komórek w \"Zakres wej¶ciowy:\""
@@ -2781,42 +2747,17 @@ msgid "Grouped By:"
 msgstr "Sposób grupowania:"
 
 #: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
 msgid "You should introduce a valid cell range in 'Output Range:'"
 msgstr "Nale¿y wprowadziæ poprawny zakres komórek w \"Zakres wyj¶ciowy:\""
 
-#: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
 #: src/dialogs/dialog-analysis-tools.c:1
 msgid "You should introduce a valid cell range in 'Range:'"
 msgstr "Nale¿y wprowadziæ poprawn± nazwê komórki w \"Zakres:\""
 
 #: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
 msgid "Input:"
 msgstr "Wej¶cie:"
 
-#: src/dialogs/dialog-analysis-tools.c:1
 #: src/dialogs/dialog-analysis-tools.c:1
 msgid "Input Range:"
 msgstr "Zakres wej¶ciowy:"
@@ -2858,17 +2799,9 @@ msgid "Alpha:"
 msgstr "Alfa:"
 
 #: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
 msgid "You should introduce a valid cell range in 'Variable 1:'"
 msgstr "Nale¿y wprowadziæ poprawny zakres komórek w \"Zmienna 1:\""
 
-#: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
 #: src/dialogs/dialog-analysis-tools.c:1
 msgid "You should introduce a valid cell range in 'Variable 2:'"
 msgstr "Nale¿y wprowadziæ poprawny zakres komórek w \"Zmienna 2:\""
@@ -2894,7 +2827,6 @@ msgid "Confidence Level:"
 msgstr "Poziom istotno¶ci:"
 
 #: src/dialogs/dialog-analysis-tools.c:1
-#: src/dialogs/dialog-analysis-tools.c:1
 msgid "You should introduce a valid cell range in 'Input X Range'"
 msgstr "Nale¿y wprowadziæ poprawny zakres komórek w \"Zakres wej¶ciowy X\""
 
@@ -2903,6 +2835,8 @@ msgid ""
 "There are too few data points to conduct this regression.\n"
 "There must be at least as many data points as free variables."
 msgstr ""
+"Jest za ma³o punktów danych by przeprowadziæ regresjê.\n"
+"Musi byæ co najmniej tyle punktów danych, co ilo¶æ zmiennych."
 
 #: src/dialogs/dialog-analysis-tools.c:1
 msgid ""
@@ -2928,7 +2862,6 @@ msgstr "Niestety, analiza Fouriera nie zosta³a jeszcze zaimplementowana."
 msgid "You should introduce a valid cell range in 'Bin Range:'"
 msgstr "Nale¿y wprowadziæ poprawny zakres komórek w \"Zakres zbioru:\""
 
-#: src/dialogs/dialog-analysis-tools.c:1
 #: src/dialogs/dialog-analysis-tools.c:1
 msgid "Given input range contains non-numeric data."
 msgstr "Podany zakres wej¶ciowy zawiera dane nieliczbowe."
@@ -3063,8 +2996,7 @@ msgstr "Wyst±pi³ b³±d podczas odczytu listy kategorii"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:1 src/format.c:1 src/format.c:1
-#: src/format.c:1 src/format.c:1
+#: src/dialogs/dialog-autoformat.c:1 src/format.c:1
 msgid "General"
 msgstr "Ogólne"
 
@@ -3093,14 +3025,13 @@ msgid "Format Cells"
 msgstr "Format komórek"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/dialogs/dialog-cell-format.c:1 src/dialogs/dialog-cell-format.c:1
 #: src/dialogs/dialog-cell-format.c:1 src/functions/fn-information.c:1
 #: src/workbook-format-toolbar.c:1
 msgid "Automatic"
 msgstr "Automatyczny"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/dialogs/dialog-cell-format.c:1
-#: src/workbook-format-toolbar.c:1 src/workbook-format-toolbar.c:1
+#: src/workbook-format-toolbar.c:1
 msgid "Foreground"
 msgstr "U¿ywany kolor"
 
@@ -3108,7 +3039,7 @@ msgstr "U¿ywany kolor"
 msgid "Clear Background"
 msgstr "Wyczy¶æ t³o"
 
-#: src/dialogs/dialog-cell-sort.c:1 src/dialogs/dialog-cell-sort.c:1
+#: src/dialogs/dialog-cell-sort.c:1
 #, c-format
 msgid "Row %s"
 msgstr "Wiersz %s"
@@ -3147,13 +3078,12 @@ msgstr "Wymagana jest co najmniej jedna klauzula."
 
 #: src/dialogs/dialog-cell-sort.c:1
 msgid "Can't add more than the selection length."
-msgstr "Nie mo¿na dodaæ wiêcej, ni¿ d³ugo¶æ zaznaczenia."
+msgstr "Nie mo¿na dodaæ wiêcej kryteriów, ni¿ wynosi d³ugo¶æ zaznaczenia."
 
 #: src/dialogs/dialog-cell-sort.c:1
 msgid "Maximum number of clauses has been reached."
 msgstr "Osi±gniêto maksymaln± liczbê klauzul."
 
-#: src/dialogs/dialog-cell-sort.c:1 src/dialogs/dialog-cell-sort.c:1
 #: src/dialogs/dialog-cell-sort.c:1
 msgid "then by"
 msgstr "Nastêpnie wed³ug"
@@ -3181,7 +3111,6 @@ msgstr "Obszar ¼ród³owy pokrywa siê z obszarem docelowym"
 msgid "%s is not a valid source region"
 msgstr "%s nie jest poprawnym obszarem ¼ród³owym"
 
-#: src/dialogs/dialog-define-names.c:1 src/dialogs/dialog-define-names.c:1
 #: src/dialogs/dialog-define-names.c:1
 msgid "Workbook"
 msgstr "Zeszyt"
@@ -3207,8 +3136,7 @@ msgstr "£añcuchy znakowe"
 msgid "Boolean"
 msgstr "Boolowska"
 
-#: src/dialogs/dialog-function-wizard.c:1
-#: src/dialogs/search-replace.glade.h:1
+#: src/dialogs/dialog-function-wizard.c:1 src/dialogs/search-replace.glade.h:1
 msgid "Range"
 msgstr "Zakres"
 
@@ -3296,8 +3224,7 @@ msgstr "Komórka okre¶lona w \"Zmieniaj±c komórkê\" nie mo¿e zawieraæ formu³y"
 msgid "Goal seek did not find a solution!"
 msgstr "W wyniku poszukiwania celu nie znaleziono rozwi±zania!"
 
-#: src/dialogs/dialog-goto-cell.c:1 src/solver-lp.c:1 src/solver-lp.c:1
-#: src/solver-lp.c:1 src/solver-lp.c:1 src/solver-lp.c:1
+#: src/dialogs/dialog-goto-cell.c:1 src/solver-lp.c:1
 msgid "Cell"
 msgstr "Komórka"
 
@@ -3486,15 +3413,15 @@ msgstr "="
 
 #: src/dialogs/dialog-solver.c:1
 msgid "Int"
-msgstr ""
+msgstr "Ca³kowita"
 
-#: src/dialogs/dialog-solver.c:1 src/dialogs/dialog-solver.c:1
+#: src/dialogs/dialog-solver.c:1
 msgid ""
 "The constraints having cell ranges in LHS and RHS should have the same "
 "number of columns and rows in both sides."
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:1 src/dialogs/dialog-solver.c:1
+#: src/dialogs/dialog-solver.c:1
 msgid "The cell range in LHS or RHS should have only one column or row."
 msgstr ""
 
@@ -3572,7 +3499,6 @@ msgid "Comma (,)"
 msgstr "Przecinek (,)"
 
 #: src/dialogs/dialog-stf-export.glade.h:1
-#: src/dialogs/dialog-stf-format-page.c:1
 #: src/dialogs/dialog-stf-format-page.c:1 src/dialogs/validate.glade.h:1
 msgid "Custom"
 msgstr "Dowolne"
@@ -3971,11 +3897,11 @@ msgstr "Zbyt d³ugie wiersze!"
 msgid "Data (from %s)"
 msgstr "Dane (z pliku %s)"
 
-#: src/dialogs/dialog-validate.c:1 src/dialogs/dialog-validate.c:1
+#: src/dialogs/dialog-validate.c:1
 msgid "Minimum :"
 msgstr "Minimum :"
 
-#: src/dialogs/dialog-validate.c:1 src/dialogs/dialog-validate.c:1
+#: src/dialogs/dialog-validate.c:1
 msgid "Maximum :"
 msgstr "Maksimum :"
 
@@ -4006,7 +3932,6 @@ msgid "Sheets"
 msgstr "Arkusze"
 
 #: src/dialogs/dialog-zoom.glade.h:1 src/workbook-control-gui.c:1
-#: src/workbook-control-gui.c:1
 msgid "Zoom"
 msgstr "Powiêksz"
 
@@ -4192,8 +4117,7 @@ msgid "Install new plugin"
 msgstr "Zainstaluj now± wtyczkê"
 
 #: src/dialogs/plugin-manager.glade.h:1 src/format-template.c:1
-#: src/solver-lp.c:1 src/solver-lp.c:1 src/solver-lp.c:1
-#: src/solver-lp.c:1 src/solver-lp.c:1
+#: src/solver-lp.c:1
 msgid "Name"
 msgstr "Nazwa"
 
@@ -4300,8 +4224,8 @@ msgstr "_Nag³ówki kolumn i wierszy"
 msgid "Scale"
 msgstr "Skala"
 
-#: src/dialogs/print.glade.h:1 src/functions/fn-sheet.c:1
-#: src/workbook.c:1 src/xml-io.c:1
+#: src/dialogs/print.glade.h:1 src/functions/fn-sheet.c:1 src/workbook.c:1
+#: src/xml-io.c:1
 msgid "Sheet"
 msgstr "Arkusz"
 
@@ -4985,7 +4909,7 @@ msgstr "zapêtlone odwo³anie"
 msgid "Builtin"
 msgstr "Wbudowana"
 
-#: src/expr-name.c:1 src/expr-name.c:1
+#: src/expr-name.c:1
 msgid "Error: no sheet"
 msgstr "B³±d: brak zeszytu"
 
@@ -4993,6 +4917,30 @@ msgstr "B³±d: brak zeszytu"
 #, c-format
 msgid "Invalid template file: %s"
 msgstr "Niepoprawny plik szablonu: %s"
+
+#: src/file.c:1
+msgid "Cannot create temporary file."
+msgstr "Nie mo¿na stworzyæ pliku tymczasowego."
+
+#: src/file.c:1
+msgid "Error saving to temporary file."
+msgstr "Wyst±pi³ b³±d przy zapisie do pliku tymczasowego."
+
+#: src/file.c:1
+msgid "Cannot get temporary file size."
+msgstr "Nie mo¿na pobraæ rozmiaru pliku tymczasowego."
+
+#: src/file.c:1
+msgid "Saving file to stream."
+msgstr "Zapisywanie pliku do strumienia..."
+
+#: src/file.c:1
+msgid "Error reading temporary file."
+msgstr "Wyst±pi³ b³±d przy odczycie pliku tymczasowego."
+
+#: src/file.c:1
+msgid "Exception occured while saving to stream."
+msgstr "Wyst±pi³ b³±d przy zapisie do strumienia."
 
 #: src/format.c:1
 msgid "black"
@@ -5027,13 +4975,11 @@ msgid "yellow"
 msgstr "¿ó³ty"
 
 #. Is it a boolean?
-#: src/format.c:1 src/number-match.c:1 src/value-sheet.c:1
-#: src/value.c:1 src/value.c:1
+#: src/format.c:1 src/number-match.c:1 src/value-sheet.c:1 src/value.c:1
 msgid "TRUE"
 msgstr "PRAWDA"
 
-#: src/format.c:1 src/number-match.c:1 src/value-sheet.c:1
-#: src/value.c:1 src/value.c:1
+#: src/format.c:1 src/number-match.c:1 src/value-sheet.c:1 src/value.c:1
 msgid "FALSE"
 msgstr "FA£SZ"
 
@@ -5093,7 +5039,7 @@ msgstr "[$ANG]"
 
 #: src/formats.c:1
 msgid "Netherlands Antillian guilder"
-msgstr ""
+msgstr "Guilder Antyli Holenderskich"
 
 #: src/formats.c:1
 msgid "[$AON]"
@@ -5101,7 +5047,7 @@ msgstr "[$AON]"
 
 #: src/formats.c:1
 msgid "Angolan new kwanza"
-msgstr ""
+msgstr "Angolska nowa kwanza"
 
 #: src/formats.c:1
 msgid "[$ARA]"
@@ -5133,7 +5079,7 @@ msgstr "[$AWG]"
 
 #: src/formats.c:1
 msgid "Aruban guilder"
-msgstr ""
+msgstr "Guilder Wysp Aruba"
 
 #: src/formats.c:1
 msgid "[$BBD]"
@@ -5221,7 +5167,7 @@ msgstr "[$BSD]"
 
 #: src/formats.c:1
 msgid "Bahamian dollar"
-msgstr ""
+msgstr "Dolar Wysp Bahama"
 
 #: src/formats.c:1
 msgid "[$BTN]"
@@ -5229,7 +5175,7 @@ msgstr "[$BTN]"
 
 #: src/formats.c:1
 msgid "Bhutan ngultrum"
-msgstr ""
+msgstr "Ngultrum Bhutanu"
 
 #: src/formats.c:1
 msgid "[$BWP]"
@@ -5285,7 +5231,7 @@ msgstr "[$CNY]"
 
 #: src/formats.c:1
 msgid "Chinese yuan renminbi"
-msgstr ""
+msgstr "Chiñski yuan renminbi"
 
 #: src/formats.c:1
 msgid "[$COP]"
@@ -5301,7 +5247,7 @@ msgstr "[$CRC]"
 
 #: src/formats.c:1
 msgid "Costa Rican colon"
-msgstr ""
+msgstr "Kostarykañski colon"
 
 #: src/formats.c:1
 msgid "[$CSK]"
@@ -5325,7 +5271,7 @@ msgstr "[$CVE]"
 
 #: src/formats.c:1
 msgid "Cape Verde escudo"
-msgstr ""
+msgstr "Cape Verde escudo"
 
 #: src/formats.c:1
 msgid "[$CYP]"
@@ -5461,7 +5407,7 @@ msgstr "[$GHC]"
 
 #: src/formats.c:1
 msgid "Ghanaian cedi"
-msgstr ""
+msgstr "Ghañski cedi"
 
 #: src/formats.c:1
 msgid "[$GIP]"
@@ -5477,7 +5423,7 @@ msgstr "[$GMD]"
 
 #: src/formats.c:1
 msgid "Gambian dalasi"
-msgstr ""
+msgstr "Gambijski dalasi"
 
 #: src/formats.c:1
 msgid "[$GNF]"
@@ -5501,7 +5447,7 @@ msgstr "[$GTQ]"
 
 #: src/formats.c:1
 msgid "Guatemalan quetzal"
-msgstr ""
+msgstr "Gwatemalski quetzal"
 
 #: src/formats.c:1
 msgid "[$GWP]"
@@ -5509,7 +5455,7 @@ msgstr "[$GWP]"
 
 #: src/formats.c:1
 msgid "Guinea-Bissau peso"
-msgstr ""
+msgstr "Gwinea-Bissau peso"
 
 #: src/formats.c:1
 msgid "[$GYD]"
@@ -5525,7 +5471,7 @@ msgstr "[$HKD]"
 
 #: src/formats.c:1
 msgid "Hong Kong dollar"
-msgstr ""
+msgstr "Hongkongski dolar"
 
 #: src/formats.c:1
 msgid "[$HNL]"
@@ -5541,7 +5487,7 @@ msgstr "[$HRK]"
 
 #: src/formats.c:1
 msgid "Croatian kuna"
-msgstr ""
+msgstr "Chorwacka kuna"
 
 #: src/formats.c:1
 msgid "[$HTG]"
@@ -5549,7 +5495,7 @@ msgstr "[$HTG]"
 
 #: src/formats.c:1
 msgid "Haitian gourde"
-msgstr ""
+msgstr "Haitañski gourde"
 
 #: src/formats.c:1
 msgid "[$HUF]"
@@ -5669,7 +5615,7 @@ msgstr "[$KHR]"
 
 #: src/formats.c:1
 msgid "Kampuchean riel"
-msgstr ""
+msgstr "Kampuczañski riel"
 
 #: src/formats.c:1
 msgid "[$KMF]"
@@ -5685,7 +5631,7 @@ msgstr "[$KPW]"
 
 #: src/formats.c:1
 msgid "North Korean won"
-msgstr ""
+msgstr "Pó³nocnokoreañski won"
 
 #: src/formats.c:1
 msgid "[$KRW]"
@@ -5693,7 +5639,7 @@ msgstr "[$KRW]"
 
 #: src/formats.c:1
 msgid "Republic of Korea won"
-msgstr ""
+msgstr "Po³udniowokoreañski won"
 
 #: src/formats.c:1
 msgid "[$KWD]"
@@ -5717,7 +5663,7 @@ msgstr "[$LAK]"
 
 #: src/formats.c:1
 msgid "Lao kip"
-msgstr ""
+msgstr "Lao kip"
 
 #: src/formats.c:1
 msgid "[$LBP]"
@@ -5749,7 +5695,7 @@ msgstr "[$LSL]"
 
 #: src/formats.c:1
 msgid "Lesotho loti"
-msgstr ""
+msgstr "Lesotski loti"
 
 #: src/formats.c:1
 msgid "[$LUF]"
@@ -5773,7 +5719,7 @@ msgstr "[$MAD]"
 
 #: src/formats.c:1
 msgid "Moroccan dirham"
-msgstr ""
+msgstr "Marokañski dirham"
 
 #: src/formats.c:1
 msgid "[$MDL]"
@@ -5789,7 +5735,7 @@ msgstr "[$MGF]"
 
 #: src/formats.c:1
 msgid "Malagasy franc"
-msgstr ""
+msgstr "Malagaski frank"
 
 #: src/formats.c:1
 msgid "[$MLF]"
@@ -5821,7 +5767,7 @@ msgstr "[$MOP]"
 
 #: src/formats.c:1
 msgid "Macau pataca"
-msgstr ""
+msgstr "Makau pataca"
 
 #: src/formats.c:1
 msgid "[$MRO]"
@@ -5829,7 +5775,7 @@ msgstr "[$MRO]"
 
 #: src/formats.c:1
 msgid "Mauritanian ouguiya"
-msgstr ""
+msgstr "Mauritañskia ouguia"
 
 #: src/formats.c:1
 msgid "[$MTL]"
@@ -5845,7 +5791,7 @@ msgstr "[$MUR]"
 
 #: src/formats.c:1
 msgid "Mauritius rupee"
-msgstr ""
+msgstr "Mauritiañska rupia"
 
 #: src/formats.c:1
 msgid "[$MVR]"
@@ -5853,7 +5799,7 @@ msgstr "[$MVR]"
 
 #: src/formats.c:1
 msgid "Maldive rupee"
-msgstr ""
+msgstr "Malediwska rupia"
 
 #: src/formats.c:1
 msgid "[$MWK]"
@@ -5861,7 +5807,7 @@ msgstr "[$MWK]"
 
 #: src/formats.c:1
 msgid "Malawi kwacha"
-msgstr ""
+msgstr "Malawska kwacha"
 
 #: src/formats.c:1
 msgid "[$MXP]"
@@ -5877,7 +5823,7 @@ msgstr "[$MYR]"
 
 #: src/formats.c:1
 msgid "Malaysian ringgit"
-msgstr ""
+msgstr "Malajski ringgit"
 
 #: src/formats.c:1
 msgid "[$MZM]"
@@ -5885,7 +5831,7 @@ msgstr "[$MZM]"
 
 #: src/formats.c:1
 msgid "Mozambique metical"
-msgstr ""
+msgstr "Mozambicki metical"
 
 #: src/formats.c:1
 msgid "[$NGN]"
@@ -5893,7 +5839,7 @@ msgstr "[$NGN]"
 
 #: src/formats.c:1
 msgid "Nigerian naira"
-msgstr ""
+msgstr "Nigeryjska naira"
 
 #: src/formats.c:1
 msgid "[$NIO]"
@@ -5901,7 +5847,7 @@ msgstr "[$NIO]"
 
 #: src/formats.c:1
 msgid "Nicaraguan cordoba oro"
-msgstr ""
+msgstr "Nikaragujska cordoba oro"
 
 #: src/formats.c:1
 msgid "[$NLG]"
@@ -5941,7 +5887,7 @@ msgstr "[$OMR]"
 
 #: src/formats.c:1
 msgid "Rial Omani"
-msgstr ""
+msgstr "Omañski rial"
 
 #: src/formats.c:1
 msgid "[$PAB]"
@@ -5965,7 +5911,7 @@ msgstr "[$PGK]"
 
 #: src/formats.c:1
 msgid "Papua New Guinea kina"
-msgstr ""
+msgstr "Papuaska kina"
 
 #: src/formats.c:1
 msgid "[$PHP]"
@@ -6005,7 +5951,7 @@ msgstr "[$PYG]"
 
 #: src/formats.c:1
 msgid "Paraguay guarani"
-msgstr ""
+msgstr "Paragwajskie guarani"
 
 #: src/formats.c:1
 msgid "[$QAR]"
@@ -6141,7 +6087,7 @@ msgstr "[$SVC]"
 
 #: src/formats.c:1
 msgid "El Salvador colon"
-msgstr ""
+msgstr "Salwatorski colon"
 
 #: src/formats.c:1
 msgid "[$SYP]"
@@ -6165,7 +6111,7 @@ msgstr "[$THB]"
 
 #: src/formats.c:1
 msgid "Thai baht"
-msgstr ""
+msgstr "Tajski baht"
 
 #: src/formats.c:1
 msgid "[$TND]"
@@ -6181,7 +6127,7 @@ msgstr "[$TOP]"
 
 #: src/formats.c:1
 msgid "Tongan pa'anga"
-msgstr ""
+msgstr "Tongañska pa'anga"
 
 #: src/formats.c:1
 msgid "[$TPE]"
@@ -6189,7 +6135,7 @@ msgstr "[$TPE]"
 
 #: src/formats.c:1
 msgid "East Timor escudo"
-msgstr ""
+msgstr "Wschodniotimorskie escudo"
 
 #: src/formats.c:1
 msgid "[$TRL]"
@@ -6261,7 +6207,7 @@ msgstr "[$VEB]"
 
 #: src/formats.c:1
 msgid "Venezuelan bolivar"
-msgstr ""
+msgstr "Wenezuelski bolivar"
 
 #: src/formats.c:1
 msgid "[$VND]"
@@ -6285,7 +6231,7 @@ msgstr "[$WST]"
 
 #: src/formats.c:1
 msgid "Samoan tala"
-msgstr ""
+msgstr "Samoañska tala"
 
 #: src/formats.c:1
 msgid "[$XCD]"
@@ -6293,7 +6239,7 @@ msgstr "[$XCD]"
 
 #: src/formats.c:1
 msgid "East Caribbean dollar"
-msgstr ""
+msgstr "Wschodniokaraibski dolar"
 
 #: src/formats.c:1
 msgid "[$XEU]"
@@ -6317,7 +6263,7 @@ msgstr "[$YER]"
 
 #: src/formats.c:1
 msgid "Yemeni rial"
-msgstr ""
+msgstr "Jemeñski rial"
 
 #: src/formats.c:1
 msgid "[$YUN]"
@@ -6349,7 +6295,7 @@ msgstr "[$ZMK]"
 
 #: src/formats.c:1
 msgid "Zambian kwacha"
-msgstr ""
+msgstr "Zambijska kwacha"
 
 #: src/formats.c:1
 msgid "[$ZRZ]"
@@ -6357,7 +6303,7 @@ msgstr "[$ZRZ]"
 
 #: src/formats.c:1
 msgid "Zaire Zaire"
-msgstr ""
+msgstr "Zairski Zaire"
 
 #: src/formats.c:1
 msgid "[$ZWD]"
@@ -6417,7 +6363,7 @@ msgid ""
 "or database that match conditions specified. \n"
 msgstr ""
 "@FUNCTION=DAVERAGE\n"
-"@SYNTAX=DAVERAGE(baza_danych,pole,kryteria)\n"
+"@SYNTAX=DAVERAGE(baza_danych;pole;kryteria)\n"
 "@DESCRIPTION=Funkcja DAVERAGE zwraca ¶redni± z tych warto¶ci na li¶cie lub w "
 "bazie danych, które spe³niaj± okre¶lone kryteria. \n"
 
@@ -6826,6 +6772,23 @@ msgid ""
 "\n"
 "@SEEALSO=DATE"
 msgstr ""
+"@FUNCTION=DATEDIF\n"
+"@SYNTAX=DATEDIF(data1,data2,odstêp)\n"
+"@DESCRIPTION=Funkcja DATEDIF zwraca ró¿nicê pomiêdzy dwoma datami. @odstêp "
+"mo¿e przybieraæ jedn± z sze¶ciu warto¶ci:  \"y\", \"m\", \"d\", \"ym\", "
+"\"md\", oraz \"yd\".\n"
+"Z trzema pierwszymi opcjami funkcja zwróci odpowiednio liczbê pe³nych lat, "
+"miesiêcy lub dni pomiêdzy dwoma zadanymi datami.\n"
+"\"ym\" zwróci liczbê pe³nych miesiêcy miêdzy dwoma datami, bez uwzglêdnienia "
+"ró¿nicy w latach.\n"
+"\"md\" zwróci liczbê pe³nych dni miêdzy dwoma datami, bez uwzglêdnienia "
+"ró¿nicy w miesi±cach.\n"
+"\"yd\" zwróci liczbê pe³nych dni miêdzy dwoma datami, bez uwzglêdniania "
+"ró¿nicy w latach.\n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=DATE"
 
 #: src/functions/fn-date.c:1
 msgid ""
@@ -7171,7 +7134,7 @@ msgstr ""
 
 #. Path of the current directory or folder.
 #: src/functions/fn-date.c:1 src/functions/fn-eng.c:1
-#: src/functions/fn-information.c:1 src/functions/fn-information.c:1
+#: src/functions/fn-information.c:1
 msgid "Unimplemented"
 msgstr "Nie zaimplementowane"
 
@@ -8246,6 +8209,24 @@ msgid ""
 "deviations of the mean.\n"
 "@SEEALSO=ERFC"
 msgstr ""
+"@FUNCTION=ERF\n"
+"@SYNTAX=ERF([dolne_ograniczenie,]górne_ograniczenie)\n"
+"@DESCRIPTION=Funkcja ERF z pojedynczym argumentem zwraca b³±d funkcji, "
+"definiowany jako erf(x) = 2/sqrt(pi)* ca³ki od 0 do x z funkcji exp(-t*t) po "
+"dt. Je¶li podane zostan± dwa argumeny, bêd± dolnym i górnym ograniczeniem "
+"ca³ki (zakresem, w którym bêdzie ona liczona).\n"
+"Je¶li ani @dolne_ograniczenie ani @górne_ograniczenie nie jest liczb± "
+"zostanie zwrócony b³±d #WARTO¦Æ!. Funkcja ta jest zgodna z progrem Excel w "
+"zakresie liczb dodatnich. (Je¶li zostan± podane dwa argumeny, Excel nie "
+"pozwoli ¿adnemu z nich byæ ujemnym.) \n"
+"@EXAMPLES=\n"
+"ERF(0,4) równe jest 0,428392355.\n"
+"ERF(1,6448536269515/SQRT(2)) równe jest 0,90.\n"
+"\n"
+"rugi przyk³ad pokazuje, ¿e losowa warto¶æ z rozk³adu normalnego ma 90 "
+"procent szans na trafienie wewn±trz przedzia³u przybli¿onej warto¶ci 1.645 "
+"odchylenia standardowego ¶redniej.\n"
+"@SEEALSO=ERFC"
 
 #: src/functions/fn-eng.c:1
 msgid ""
@@ -8260,6 +8241,16 @@ msgid ""
 "\n"
 "@SEEALSO=ERF"
 msgstr ""
+"@FUNCTION=ERFC\n"
+"@SYNTAX=ERFC(x)\n"
+"@DESCRIPTION=Funkcja ERFC zwraca warto¶æ ³±cznej funkcji b³êdu, zdefiniowan± "
+"jako 1 - erf(x). Funkcja erfc(x) jest obliczana z wiêksz± dok³adno¶ci± ni¿ 1 "
+"- erf(x) dla argumentów wiêkszych ni¿ oko³o 0,5.\n"
+"Je¶li parametr @x nie jest liczb±, zwracany jest b³±d #WARTO¦Æ!.  \n"
+"@EXAMPLES=\n"
+"ERFC(6) równe jest 2,15197367e-17.\n"
+"\n"
+"@SEEALSO=ERF"
 
 #: src/functions/fn-eng.c:1
 msgid ""
@@ -8287,7 +8278,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXACT,GESTEP"
 
-#: src/functions/fn-eng.c:1 src/functions/fn-eng.c:1
+#: src/functions/fn-eng.c:1
 msgid "Impossible"
 msgstr "Niemo¿liwe"
 
@@ -9340,7 +9331,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:1 src/functions/fn-information.c:1
+#: src/functions/fn-information.c:1
 msgid "Unknown info_type"
 msgstr "Nieznany info_type"
 
@@ -9498,7 +9489,7 @@ msgstr ""
 "warto¶ci b³êdu. Numery b³êdów i ich warto¶ci przedstawiaj± siê nastêpuj±co: "
 "\n"
 "#DZIEL/0!     2\n"
-"#WARTO|Æ!     3\n"
+"#WARTO¦Æ!     3\n"
 "#ODW!         4\n"
 "#NAZWA!       5\n"
 "#LICZBA!           6\n"
@@ -9929,6 +9920,26 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=ADDRESS\n"
+"@SYNTAX=ADDRESS(num_wiersz,num_kolumna[,num_abs,a1,tekst])\n"
+"@DESCRIPTION=Funkcja ADDRESS zwraca adres komórki jako tekst dla wybraneych "
+"numerów wiersza lub kolumny. \n"
+"Je¶li parametr @num_abs wynosi 1 lub jest pominiêty, funkcja ADDRESS zwraca "
+"warto¶æ bezwzglêdn± odwo³ania. Je¶li @num_abs wynosi 2, ADDRESS zwraca "
+"bezwzglêdn± warto¶æ wiersza oraz wzglêdn± kolumny. Je¶li @num_abs wynosi 3, "
+"ADDRESS zwraca wzglêdn± warto¶æ wiersza oraz bezwzglêdny kolumny. Je¶li "
+"@num_abs wynosi 4, ADDRESS zwraca wzglêdn± warto¶æ odwo³ania. Je¶li @num_abs "
+"jest wiêkszy ni¿ 4, ADDRESS zwraca b³±d #LICZBA!. \n"
+"Parametr @a1 jest logiczn± warto¶ci± okre¶laj±c± styl odwo³ania. Je¶li @a1 "
+"równe jest warto¶ci PRAWDA lub jest pominiêty, ADDRESS zwraca styl A1 "
+"odwo³ania, np. $D$4. W innym przypadku ADDRESS zwraac styl R1C1 odwo³ania, "
+"np. R4C4.\n"
+"@tekst okre¶la nazwê arkusza, u¿ywanego jako zewnêtrzne odwo³anie.\n"
+"Je¶li parametr @num_wiersz lub @num_kolumna jest mniejszy ni¿ 1, ADDRESS "
+"zwraca b³±d #LICZBA!. \n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
 
 #: src/functions/fn-lookup.c:1
 msgid ""
@@ -10167,7 +10178,7 @@ msgstr ""
 "@SYNTAX=COLUMNS(wska¼nik)\n"
 "@DESCRIPTION=Funkcja COLUMNS zwraca liczbê kolumn w obszarze lub tablicy.\n"
 "Je¿eli parametr @wska¼nik nie jest tablic± ani wska¼nikiem, funkcja zwraca "
-"b³±d #WARTO|Æ!.\n"
+"b³±d #WARTO¦Æ!.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
@@ -10191,8 +10202,8 @@ msgstr ""
 "offsetu (@kolumna,@wiersz) z @zakres i ma wysoko æ @wysoko æ oraz szeroko æ "
 "@szeroko æ.\n"
 "Je¿eli zakres nie jest wska¼nikiem ani zakresem, funkcja zwraca b³±d "
-"#WARTO|Æ!. Je¿eli wysoko æ lub szeroko æ zostanie pominiêta, zostanie "
-"zastosowana wysoko æ lub szeroko æ wska¼nika.\n"
+"#WARTO¦Æ!. Je¿eli wysoko¶æ lub szeroko¶æ zostanie pominiêta, zostanie "
+"zastosowana wysoko¶æ lub szeroko¶æ wska¼nika.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
@@ -10236,7 +10247,7 @@ msgstr ""
 "@DESCRIPTION=Funkcja ROWS zwraca liczbê wierszy w obszarze tablicy "
 "wskazywanej przez wska¼nik.\n"
 "Je¿eli @wska¼nik nie jest tablic±, wska¼nikiem lub zakresem, funkcja zwraca "
-"b³±d #WARTO|Æ!.\n"
+"b³±d #WARTO¦Æ!.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
@@ -11056,6 +11067,15 @@ msgid ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
+"@FUNCTION=RandBinom\n"
+"@SYNTAX=RandBinom(p,próby)\n"
+"@DESCRIPTION=Funkcja RandBinom zwraca losow± warto¶æ rozk³adu dwumianowego.\n"
+"Je¶li @p < 0 lub @p > 1 RandBinom zwraca b³±d #LICZBA!. Je¶li @próby < 0, "
+"RandBinom zwraca b³±d #LICZBA!. \n"
+"@EXAMPLES=\n"
+"RandBinom(0,5;2).\n"
+"\n"
+"@SEEALSO=RAND,RANDBETWEEN"
 
 #: src/functions/fn-math.c:1
 msgid ""
@@ -11070,6 +11090,16 @@ msgid ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
+"@FUNCTION=RANDNEGBINOM\n"
+"@SYNTAX=RANDNEGBINOM(p,niepowodzenia)\n"
+"@DESCRIPTION=Funkcja RANDNEGBINOM zwraca losow± warto¶æ ujemnego rozk³adu "
+"dwumianowego. \n"
+"Je¶li @p < 0 lub @p > 1, funkcja RANDNEGBINOM zwraca b³±d #LICZBA!. Je¶li "
+"@niepowodzenia < 0 RANDNEGBINOM zwraca b³±d #LICZBA!. \n"
+"@EXAMPLES=\n"
+"RANDNEGBINOM(0,5;2).\n"
+"\n"
+"@SEEALSO=RAND,RANDBETWEEN"
 
 #: src/functions/fn-math.c:1
 msgid ""
@@ -11086,7 +11116,7 @@ msgstr ""
 "@SYNTAX=RandBernoulli(p)\n"
 "@DESCRIPTION=Funkcja RandBernoulli zwraca warto¶æ losow± przy rozk³adzie "
 "Bernoulliego. \n"
-"Je¶li @p < 0 lub @p > 1, funkcja zwraca b³±d #NUM!. \n"
+"Je¶li @p < 0 lub @p > 1, funkcja zwraca b³±d #LICZBA!. \n"
 "@EXAMPLES=\n"
 "RandBernoulli(0,5).\n"
 "\n"
@@ -11548,6 +11578,24 @@ msgid ""
 "\n"
 "@SEEALSO=ROUND,ROUNDUP"
 msgstr ""
+"@FUNCTION=ROUNDDOWN\n"
+"@SYNTAX=ROUNDDOWN(liczba[,miejsca])\n"
+"@DESCRIPTION=Funkcja ROUNDDOWN zaokr±gla podany argument @liczba w dó³, do "
+"zera. @liczba okre¶la liczbê, która bêdzie zaokr±glana a @miejsca s± liczb± "
+"miejsc po przecinku, zaokr±glanej liczby.\n"
+"Je¶li parametr @miejsca jest wiêkszy ni¿ 0, @liczba jest zaokr±glana w dó³ "
+"do liczby z podan± warto¶ci± miejsc po przecinku. Je¶li parametr @miejsca "
+"wynosi 0 lub jest pominiêty, @liczba jest zaokr±glana w dó³ do najbli¿eszej "
+"warto¶ci ca³kowitej. Je¶li parametr @miejsca jest mniejszy ni¿ 0, @liczba "
+"jest zaokr±glana w dó³ na lewo od punktu dziesiêtnego. Funkcja ta jest "
+"zgodna z programem Excel.\n"
+"@EXAMPLES=\n"
+"ROUNDDOWN(5,5) równe jest 5.\n"
+"ROUNDDOWN(-3,3) równe jest -4.\n"
+"ROUNDDOWN(1501,15;1) równe jest 1501,1.\n"
+"ROUNDDOWN(1501,15;-2) równe jest 1500,0.\n"
+"\n"
+"@SEEALSO=ROUND,ROUNDUP"
 
 #: src/functions/fn-math.c:1
 msgid ""
@@ -11568,6 +11616,24 @@ msgid ""
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 msgstr ""
+"@FUNCTION=ROUND\n"
+"@SYNTAX=ROUND(liczba[,miejsca])\n"
+"@DESCRIPTION=Funkcja ROUND zaokr±gla podan± liczbê. Parametr @liczba jest "
+"warto¶ci±, któr± chcesz zaokr±gliæ, za¶ parametr @miejsca jest liczb± miejsc "
+"po przecinku do których chcesz zaokr±glaæ zadan± liczbê.\n"
+"Je¶li parametr @miejsca jest wiêkszy ni¿ 0, @liczba jest zaokr±glana "
+"dozadanej liczby miejsc dziesiêtnych. Je¶li @miejsca wynosi zero lub jest "
+"pominiêty, @liczba jest zaokr±glana do najbli¿szej warto¶ci ca³kowitej. "
+"Je¶li parametr @miejsca jest mniejszy ni¿ zero, @liczba jest zaokr±glana "
+"@miejsca pozycji na lewo od punktu dziesiêtnego. Funkcja ta jest zgodna z "
+"programem Excel.\n"
+"@EXAMPLES=\n"
+"ROUND(5,5) równe jest 6.\n"
+"ROUND(-3,3) równe jest -3.\n"
+"ROUND(1501,15;1) równe jest 1501,2.\n"
+"ROUND(1501,15;-2) równe jest 1500,0.\n"
+"\n"
+"@SEEALSO=ROUNDDOWN,ROUNDUP"
 
 #: src/functions/fn-math.c:1
 msgid ""
@@ -11588,6 +11654,24 @@ msgid ""
 "\n"
 "@SEEALSO=ROUND,ROUNDDOWN"
 msgstr ""
+"@FUNCTION=ROUNDUP\n"
+"@SYNTAX=ROUNDUP(liczba[,miejsca])\n"
+"@DESCRIPTION=Funkcja ROUNDDOWN zaokr±gla podany argument @liczba w górê, od "
+"zera. @liczba okre¶la liczbê, która bêdzie zaokr±glana a @miejsca s± liczb± "
+"miejsc po przecinku zaokr±glanej liczby.\n"
+"Je¶li parametr @miejsca jest wiêkszy ni¿ 0, @liczba jest zaokr±glana w górê "
+"do liczby z podan± warto¶ci± miejsc po przecinku. Je¶li parametr @miejsca "
+"wynosi 0 lub jest pominiêty, @liczba jest zaokr±glana w górê do najbli¿eszej "
+"warto¶ci ca³kowitej. Je¶li parametr @miejsca jest mniejszy ni¿ 0, @liczba "
+"jest zaokr±glana w górê na lewo od punktu dziesiêtnego. Funkcja ta jest "
+"zgodna z programem Excel.\n"
+"@EXAMPLES=\n"
+"ROUNDDOWN(5,5) równe jest 6.\n"
+"ROUNDDOWN(-3,3) równe jest -3.\n"
+"ROUNDDOWN(1501,15;1) równe jest 1501,2.\n"
+"ROUNDDOWN(1501,15;-2) równe jest 1600,0.\n"
+"\n"
+"@SEEALSO=ROUND,ROUNDDOWN"
 
 #: src/functions/fn-math.c:1
 msgid ""
@@ -11626,6 +11710,25 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=ROMAN\n"
+"@SYNTAX=ROMAN(liczba[,rodzaj])\n"
+"@DESCRIPTION=Funkcja ROMAN zwraca warto¶æ liczby arabskiej w rzymskim "
+"sposobie zapisu, jako tekst. @liczba to warto¶æ, która bêdzie konwertowana "
+"@rodzaj okre¶la sposób numerowania rzymskiego skonwertowanej liczby. \n"
+"Je¶li @rodzaj wynosi 0 lub jest pominiêty, ROMAN zwraca klasyczne liczby "
+"rzymskie. Rodzaj 1 jest bardziej zwiêz³y od klasycznego sposobu zapisu, "
+"rodzaj 2 jest bardziej zwiêz³y od rodzaju 1, za¶ rodzaj 3 jest najkrótszy. "
+"Rodzaj 4 jest uproszczonym sposobem zapisu.\n"
+"Je¶li @liczba jest ujemna lub wiêksza od 3999, ROMAN zwraca b³±d #WARTO¦Æ!. "
+"Funkcja ta jest zgodna z programem Excel. \n"
+"@EXAMPLES=\n"
+"ROMAN(999) równe jest CMXCIX.\n"
+"ROMAN(999;1) równe jest LMVLIV.\n"
+"ROMAN(999;2) równe jest XMIX.\n"
+"ROMAN(999;3) równe jest VMIV.\n"
+"ROMAN(999;4) równe jest  IM.\n"
+"\n"
+"@SEEALSO="
 
 #: src/functions/fn-math.c:1
 msgid ""
@@ -11647,10 +11750,7 @@ msgid ""
 "@SEEALSO=SUMSQ,SUMX2PY2"
 msgstr ""
 
-#: src/functions/fn-math.c:1 src/functions/fn-math.c:1
-#: src/functions/fn-math.c:1 src/functions/fn-math.c:1
-#: src/functions/fn-math.c:1 src/functions/fn-math.c:1
-#: src/functions/fn-stat.c:1 src/functions/fn-stat.c:1
+#: src/functions/fn-math.c:1 src/functions/fn-stat.c:1
 msgid "Array version not implemented!"
 msgstr "Wersja tablicowa nie zosta³a zaimplementowana!"
 
@@ -11818,8 +11918,8 @@ msgstr ""
 "@SYNTAX=MINVERSE(macierz)\n"
 "@DESCRIPTION= Funkcja MINVERSE zwraca macierz odwrotn± do zadanej. \n"
 "Je¶li @macierz nie posiada macierzy odwrotnej, MINVERSE zwraca b³±d #NUM!. "
-"Je¶li @macierz nie ma równej liczby wierszy i kolumn, Funkcja MINVERSE "
-"zwraca b³±d #WARTOSCI!. Funkcja ta jest zgodna z programem Excel. \n"
+"Je¶li @macierz nie ma równej liczby wierszy i kolumn, funkcja MINVERSE "
+"zwraca b³±d #WARTO¦Æ!. Funkcja ta jest zgodna z programem Excel. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=MMULT, MDETERM"
@@ -12100,6 +12200,17 @@ msgid ""
 "\n"
 "@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE"
 msgstr ""
+"@FUNCTION=TRIMMEAN\n"
+"@SYNTAX=TRIMMEAN(odwo³anie,u³amek)\n"
+"@DESCRIPTION=Funkcja TRIMMEAN zwraca warto¶æ ¶redni± wnêtrza zbioru danych. "
+"Parametr @odwo³anie jest list± liczb, których warto¶æ ¶redni± chcemy "
+"obliczyæ, za¶ parametr @u³amek jest u³amkiem zbioru danych wy³±czonych z "
+"warto¶ci ¶redniej. Na przyk³ad, je¶li @u³amek= 0,2 oraz zbiór danych zawiera "
+"40 liczb, 8 liczb zostanie pominiêtych ze zbioru danych (40 x 0.2), 4 z "
+"pocz±tku zbioru, 4 z jego koñca. Funkcja ta jest zgodna z programem Excel. \n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE"
 
 #: src/functions/fn-stat.c:1
 msgid ""
@@ -12144,6 +12255,18 @@ msgid ""
 "\n"
 "@SEEALSO=COVAR,FISHER,FISHERINV"
 msgstr ""
+"@FUNCTION=CORREL\n"
+"@SYNTAX=CORREL(tablica1,tablica2)\n"
+"@DESCRIPTION=Funkcja CORREL zwraca wspó³czynnik korelacji dwóch zbiorów "
+"danych.\n"
+"Stringi oraz puste komórki s± ignorowane. Funkcja ta jest zgodna z "
+"programem  Excel.\n"
+"@EXAMPLES=\n"
+"Je¶li komórki A1, A2, ..., A5 zawieraj± liczby 11,4, 17,3, 21,3, 25,9, oraz "
+"40,1, a komórki B1, B2, ... B5 23,2, 25,8, 29,9, 33,5, oraz 42,7, wówczas\n"
+"CORREL(A1:A5;B1:B5) równe jest 0,996124788.\n"
+"\n"
+"@SEEALSO=COVAR,FISHER,FISHERINV"
 
 #: src/functions/fn-stat.c:1
 msgid ""
@@ -12160,6 +12283,19 @@ msgid ""
 "\n"
 "@SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT"
 msgstr ""
+"@FUNCTION=NEGBINOMDIST\n"
+"@SYNTAX=NEGBINOMDIST(f,t,p)\n"
+"@DESCRIPTION=Funkcja NEGBINOMDIST zwraca warto¶æ ujemnego rozk³adu "
+"dwumianowego. @f okre¶la liczbê niepowodzeñ, @t jest progiem liczbowym "
+"sukcesu, za¶ @p jest prawdopodobieñstwem sukcesu.\n"
+"Je¶li @f lub @t nie s± liczbami, s± pomijane. Je¶li (@f + @t -1) <= 0 "
+"funkcja NEGBINOMDIST zwraca b³±d #LICZBA!. Je¶li @p < 0 lub @p > 1 "
+"NEGBINOMDIST zwraca b³±d #LICZBA!. Funkcja ta jest zgodna z programem "
+"Excel.\n"
+"@EXAMPLES=\n"
+"NEGBINOMDIST(2;5;0,55) równe jest 0,152872629.\n"
+"\n"
+"@SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT"
 
 #: src/functions/fn-stat.c:1
 msgid ""
@@ -12173,6 +12309,15 @@ msgid ""
 "\n"
 "@SEEALSO=NORMDIST"
 msgstr ""
+"@FUNCTION=NORMSDIST\n"
+"@SYNTAX=NORMSDIST(x)\n"
+"@DESCRIPTION=Funkcja NORMSDIST zwraca warto¶æ standaryzowanego ³±cznego "
+"rozk³adu normalnego. @x jest warto¶ci±, dla której liczony jest rozk³ad. "
+"Funkcja ta jest zgodna z programem Excel.\n"
+"@EXAMPLES=\n"
+"NORMSDIST(2) równa siê 0,977249868.\n"
+"\n"
+"@SEEALSO=NORMDIST"
 
 #: src/functions/fn-stat.c:1
 msgid ""
@@ -12187,6 +12332,17 @@ msgid ""
 "\n"
 "@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST"
 msgstr ""
+"@FUNCTION=NORMSINV\n"
+"@SYNTAX=NORMSINV(p)\n"
+"@DESCRIPTION=Funkcja NORMSINV zwraca warto¶æ odwrotno¶ci standaryzowanego "
+"³±cznego rozk³adu normalnego. Parametr @p jest zadanym prawdopodobieñstwem "
+"okre¶laj±cym dany rozk³ad normalny. Funkcja ta jest zgodna z programem "
+"Excel.\n"
+"Je¶li @p < 0 lub @p > 1, funkcja NORMSINV zwraca b³±d #LICZBA!.\n"
+"@EXAMPLES=\n"
+"NORMSINV(0,2) równe jest -0,841621234.\n"
+"\n"
+"@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST"
 
 #: src/functions/fn-stat.c:1
 msgid ""
@@ -12237,7 +12393,7 @@ msgstr ""
 "@SYNTAX=FISHERINV(x)\n"
 "@DESCRIPTION=Funkcja FISHERINV zwraca odwrotno¶æ transformaty Fishera "
 "parametru @x. \n"
-"Je¶li parametr @x nie jest liczb±, funkcja FISHERINV zwraca b³±d #WARTOSCI!. "
+"Je¶li parametr @x nie jest liczb±, funkcja FISHERINV zwraca b³±d #WARTO¦Æ!. "
 "Funkcja ta jest zgodna z programem Excel.compatible. \n"
 "@EXAMPLES=\n"
 "FISHERINV(2) zwraca 0,96402758.\n"
@@ -12309,6 +12465,17 @@ msgid ""
 "\n"
 "@SEEALSO=AVERAGE,HARMEAN,MEDIAN,MODE,TRIMMEAN"
 msgstr ""
+"@FUNCTION=GEOMEAN\n"
+"@SYNTAX=GEOMEAN(b1, b2, ...)\n"
+"@DESCRIPTION=Funkcja GEOMEAN zwraca ¶redni± geometryczn± z podanych "
+"argumentów wej¶ciowych. Funkcja jest obliczana jako N-ty pierwiastek "
+"iloczynu wszystkich wyra¿eñ. Funkcja ta jest zgodna z programem Excel.\n"
+"@EXAMPLES=\n"
+"Je¶li komórki A1, A2, ..., A5 zawieraj± liczby 11,4, 17,3, 21,3, 25,9, oraz "
+"40,1, wówczas\n"
+"GEOMEAN(A1:A5) równe jest 21,279182482.\n"
+"\n"
+"@SEEALSO=AVERAGE,HARMEAN,MEDIAN,MODE,TRIMMEAN"
 
 #: src/functions/fn-stat.c:1
 msgid ""
@@ -12473,6 +12640,19 @@ msgid ""
 "\n"
 "@SEEALSO=AVERAGE,VARP,SKEW,KURTP"
 msgstr ""
+"@FUNCTION=SKEWP\n"
+"@SYNTAX=SKEWP(n1, n2, ...)\n"
+"@DESCRIPTION=Funkcja SKEWP zwraca warto¶æ zakrzywienia populacji zbioru "
+"danych.\n"
+"Stringi oraz puste komórki s± ignorowane.\n"
+"Je¶li zostan± podane mniej ni¿ 2 liczby, funkcja SKEWP zwraca b³±d "
+"#DZIEL/0!\n"
+"@EXAMPLES=\n"
+"Je¶li komórki A1, A2, ..., A5 zawieraj± liczby 11,4, 17,3, 21,3, 25,9 oraz "
+"40,1, wówczas\n"
+"SKEWP(A1:A5) równe jest 0,655256198.\n"
+"\n"
+"@SEEALSO=AVERAGE,VARP,SKEW,KURTP"
 
 #: src/functions/fn-stat.c:1
 msgid ""
@@ -12488,6 +12668,17 @@ msgid ""
 "\n"
 "@SEEALSO=POISSON"
 msgstr ""
+"@FUNCTION=EXPONDIST\n"
+"@SYNTAX=EXPONDIST(x,y,³±czno¶æ)\n"
+"@DESCRIPTION=Funkcja EXPONDIST zwraca warto¶æ rozk³adu wyk³adniczego. Je¶li "
+"parametr logiczny @³±czno¶æ jest fa³szywy, funkcja liczona jest jako: @y * "
+"exp (-@y*@x), w innym przypadku jako: 1 - exp (-@y*@x).\n"
+"Je¶li @x < 0 lub @y <= 0 zostanie zwrócony b³±d. Funkcja ta jest zgodna z "
+"programem Excel.\n"
+"@EXAMPLES=\n"
+"EXPONDIST(2;4;0) równe jest 0,001341851.\n"
+"\n"
+"@SEEALSO=POISSON"
 
 #: src/functions/fn-stat.c:1
 msgid ""
@@ -12506,9 +12697,9 @@ msgstr ""
 "@SYNTAX=GAMMALN(x)\n"
 "@DESCRIPTION=Funkcja GAMMALN zwraca warto¶æ logarytmu naturalnego z funkcji "
 "gamma dla zadanego argumentu.\n"
-"Je¶li @x nie jest liczb±, wówczas funkcja zwraca b³±d #WARTOSCI!. W "
-"przypadku gdy @x <= 0, funkcja GAMMALN zwraca b³±d #LICZBY!. Funkcja ta jest "
-"zgodna z programem Excel. \n"
+"Je¶li @x nie jest liczb±, wówczas funkcja zwraca b³±d #WARTO¦Æ!. W przypadku "
+"gdy @x <= 0, funkcja GAMMALN zwraca b³±d #LICZBA!. Funkcja ta jest zgodna z "
+"programem Excel. \n"
 "@EXAMPLES=\n"
 "GAMMALN(23) wynosi 48,471181352.\n"
 "\n"
@@ -12528,6 +12719,18 @@ msgid ""
 "\n"
 "@SEEALSO=GAMMAINV"
 msgstr ""
+"@FUNCTION=GAMMADIST\n"
+"@SYNTAX=GAMMADIST(x,alfa,beta,³±czno¶æ)\n"
+"@DESCRIPTION=Funkcja GAMMADIST zwraca warto¶æ rozk³adu gamma. Je¶li parametr "
+"@³±czno¶æ jest równy TRUE, funkcja GAMMADIST zwraca niekompletn± warto¶æ "
+"funkcji gamma, w innym przypadku okre¶la prawdopodobieñstwo funkcji masy.\n"
+"Je¶li @x < 0 GAMMADIST zwraca b³±d #LICZBA!. Je¶li @alfa <= 0 lub @beta <= "
+"0, GAMMADIST zwraca b³±d #LICZBA!. Funkcja ta jest zgodna z programem Excel. "
+"\n"
+"@EXAMPLES=\n"
+"GAMMADIST(1;2;3;0) równa siê 0,07961459.\n"
+"\n"
+"@SEEALSO=GAMMAINV"
 
 #: src/functions/fn-stat.c:1
 msgid ""
@@ -12542,6 +12745,17 @@ msgid ""
 "\n"
 "@SEEALSO=GAMMADIST"
 msgstr ""
+"@FUNCTION=GAMMAINV\n"
+"@SYNTAX=GAMMAINV(p,alfa,beta)\n"
+"@DESCRIPTION=Funkcja GAMMAINV zwraca warto¶æ odwrotno¶ci ³±cznego rozk³adu "
+"gamma.\n"
+"Je¶li @p < 0  lub @p > 1 funkcja GAMMAINV zwraca b³±d #LICZBA!. Je¶li @alfa "
+"<= 0 lub @beta <= 0 funkcja GAMMAINV zwraca b³±d #LICZBA!. Funkcja ta jest "
+"zgodna z programem Excel.\n"
+"@EXAMPLES=\n"
+"GAMMAINV(0,34;2;4) równa siê 4,829093908.\n"
+"\n"
+"@SEEALSO=GAMMADIST"
 
 #: src/functions/fn-stat.c:1
 msgid ""
@@ -12648,7 +12862,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=TINV\n"
 "@SYNTAX=TINV(p,dof)\n"
-"@DESCRIPTION=Funkcja TINV zwraca odwrotno¶æ dwóch reszt rozk³adu  "
+"@DESCRIPTION=Funkcja TINV zwraca odwrotno¶æ dwóch reszt rozk³adu "
 "t-Studenta.\n"
 "Je¿eli @p < 0 lub @p > 1 albo @dof < 1, funkcja TINV zwraca b³±d #LICZBA!. "
 "Funkcja ta jest zgodna z programem Excel. \n"
@@ -12872,8 +13086,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=STANDARDIZE\n"
 "@SYNTAX=STANDARDIZE(x,¶rednia,odch_std)\n"
-"@DESCRIPTION=Funkcja STANDARDIZE zwraca warto¶æ zestandaryzowan±. Parametr "
-"@x jest liczb± do normalizacji, @¶rednia jest ¶redni± warto¶ci± rozk³adu, "
+"@DESCRIPTION=Funkcja STANDARDIZE zwraca warto¶æ znormalizowan±. Parametr @x "
+"jest liczb± do normalizacji, @¶rednia jest ¶redni± warto¶ci± rozk³adu, "
 "@odch_std jest odchyleniem standardowym rozk³adu.\n"
 "Je¿eli @odch_std jest równe 0, funkcja STANDARDIZE zwróci b³±d #DZIEL/0!. "
 "Funkcja ta jest zgodna z programem Excel. \n"
@@ -12956,7 +13170,7 @@ msgstr ""
 "@SYNTAX=NORMINV(p,¶rednia,odch_std)\n"
 "@DESCRIPTION=Funkcja NORMINV zwraca odwrotno¶æ funkcji rozk³adu normalnego. "
 "Parametr @p oznacza dane prawdopodobieñstwo odpowiadaj±ce rozk³adowi "
-"normalnemu @ rednia jest arytmetyczn± ¶redni± z rozk³adu, @odch_std jest "
+"normalnemu @¶rednia jest arytmetyczn± ¶redni± z rozk³adu, @odch_std jest "
 "odchyleniem standardowym rozk³adu.\n"
 "Je¿eli @p < 0 lub @p > 1 albo @odch_std <= 0, funkcja NORMINV zwraca b³±d "
 "#LICZBA!. Funkcja ta jest zgodna z programem Excel. \n"
@@ -13097,7 +13311,7 @@ msgstr ""
 "@FUNCTION=FISHER\n"
 "@SYNTAX=FISHER(x)\n"
 "@DESCRIPTION=Funkcja FISHER zwraca transformacjê Fisher'a dla @x.\n"
-"Je¿eli parametr @x nie jest liczb±, funkcja FISHER zwraca b³±d #WARTO|Æ!. "
+"Je¿eli parametr @x nie jest liczb±, funkcja FISHER zwraca b³±d #WARTO¦Æ!. "
 "Je¿eli @x <= -1 lub @x >= 1, funkcja FISHER zwraca b³±d #LICZBA! Funkcja "
 "jest zgodna z programem Excel. \n"
 "@EXAMPLES=\n"
@@ -13594,6 +13808,20 @@ msgid ""
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"
 msgstr ""
+"@FUNCTION=PERCENTRANK\n"
+"@SYNTAX=PERCENTRANK(array,x[,significance])\n"
+"@DESCRIPTION=PERCENTRANK function returns the rank of a data point in a data "
+"set.  @array is the range of numeric values, @x is the data point which you "
+"want to rank, and the optional @significance indentifies the number of "
+"significant digits for the returned value.  If @significance is omitted, "
+"PERCENTRANK uses three digits.\n"
+"If @array contains not data points, PERCENTRANK returns #NUM! error. If "
+"@significance is less than one, PERCENTRANK returns #NUM! error. If @x does "
+"not match any of the values in @array or @x matches more than once, "
+"PERCENTRANK interpolates the returned value.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"
 
 #: src/functions/fn-stat.c:1
 msgid ""
@@ -13768,6 +13996,18 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=FREQUENCY\n"
+"@SYNTAX=FREQUENCY(tablica_danych,tablica_kontenerowa)\n"
+"@DESCRIPTION=Funkcja FREQUENCY oblicza jak czêsto dane warto¶ci pojawiaj± "
+"siê w danym zakresie. Rezultat dzia³ania funkcji jest tablic±. \n"
+"@tablica_danych jest tablic± danych, dla których bêd± liczone czêsto¶ci. "
+"@tablica_kontenerowa jest tablic± zawieraj±c± interwa³y, w których chcemy "
+"grupowaæ warto¶ci w tablicy danych. Je¶li @tablica_kontenerowa jest pusta, "
+"Funkcja FREQUENCY zwraca liczbê punktów danych w @tablicy_danych. Funkcja ta "
+"jest zgodna z programem Excel.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
 
 #: src/functions/fn-stat.c:1
 msgid ""
@@ -14559,15 +14799,15 @@ msgstr "Informacje o aplikacji"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
 msgid "Add an outline group"
-msgstr ""
+msgstr "Tworzy nowy konspekt grupy"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-format-toolbar.c:1
 msgid "Aligns the contents to the left and decreases the indent"
-msgstr "Wyrównuje zawarto¶æ do lewej i zmniejsza wciêcie"
+msgstr "Wyrównuje zawarto¶æ komórek do lewej i zmniejsza wciêcie"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-format-toolbar.c:1
 msgid "Aligns the contents to the left and increases the indent"
-msgstr "Wyrównuje zawarto¶æ do lewej i zwiêksza wciêcie"
+msgstr "Wyrównuje zawarto¶æ komórek do lewej i zwiêksza wciêcie"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-object-toolbar.c:1
 msgid "Arrow"
@@ -14591,7 +14831,6 @@ msgid "Bold"
 msgstr "Pogrubiona"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-format-toolbar.c:1
-#: src/workbook-format-toolbar.c:1
 msgid "Borders"
 msgstr "Krawêdzie"
 
@@ -14641,7 +14880,6 @@ msgid "Change the default row height"
 msgstr "Zmienia domy¶ln± wysoko¶æ wiersza"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
-#: src/workbook-control-gui.c:1
 msgid "Change the order the sheets are displayed"
 msgstr "Zmienia kolejno¶æ, w której wy¶wietlane s± arkusze"
 
@@ -14675,7 +14913,7 @@ msgstr "Zamyka bie¿±cy plik"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
 msgid "Collapse an outline group"
-msgstr ""
+msgstr "Zwija konspekt grupy"
 
 #: src/GNOME_Gnumeric.xml.h:1
 msgid "Combo Box"
@@ -14685,8 +14923,7 @@ msgstr "Wej¶cie z opcjami"
 msgid "Consolidate regions using a function"
 msgstr "Konsoliduje obszary przy u¿yciu funkcji"
 
-#: src/GNOME_Gnumeric.xml.h:1 src/selection.c:1
-#: src/workbook-control-gui.c:1
+#: src/GNOME_Gnumeric.xml.h:1 src/selection.c:1 src/workbook-control-gui.c:1
 msgid "Copy"
 msgstr "Skopiuj"
 
@@ -14764,8 +15001,7 @@ msgstr "Bie¿±cê _datê"
 msgid "Current _time"
 msgstr "Aktualny _czas"
 
-#: src/GNOME_Gnumeric.xml.h:1 src/selection.c:1 src/selection.c:1
-#: src/workbook-control-gui.c:1
+#: src/GNOME_Gnumeric.xml.h:1 src/selection.c:1 src/workbook-control-gui.c:1
 msgid "Cut"
 msgstr "Wytnij"
 
@@ -14774,9 +15010,8 @@ msgid "Cut the selection"
 msgstr "Wycina zaznaczenie"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-format-toolbar.c:1
-#: src/workbook-format-toolbar.c:1
 msgid "Decrease Indent"
-msgstr "Zmniejsza wciêcie"
+msgstr "Zmniejszenie wciêcia"
 
 #: src/GNOME_Gnumeric.xml.h:1
 msgid "Decrease Precision"
@@ -14816,7 +15051,7 @@ msgstr "Modyfikuje funkcjê w bie¿±cej komórce"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
 msgid "Edit sheet and workbook names"
-msgstr "Modyfikuje nazwy arkusza i zeszytu"
+msgstr "Modyfikuje nazwy zdefiniowane w arkuszu i zeszycie"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
 msgid "Edit the name of the current sheet"
@@ -14851,7 +15086,6 @@ msgid "Font Size"
 msgstr "Rozmiar czcionki"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-format-toolbar.c:1
-#: src/workbook-format-toolbar.c:1
 msgid "Font selector"
 msgstr "Wybór czcionki"
 
@@ -14917,9 +15151,8 @@ msgid "Includes a thousands separator in the selected cells"
 msgstr "Do³±cza separator tysiêcy w zaznaczonych komórkach"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-format-toolbar.c:1
-#: src/workbook-format-toolbar.c:1
 msgid "Increase Indent"
-msgstr "Zwiêksza wciêcie"
+msgstr "Zwiêkszenie wciêcia"
 
 #: src/GNOME_Gnumeric.xml.h:1
 msgid "Increase Precision"
@@ -15013,7 +15246,7 @@ msgstr "Wyrównuje zawarto¶æ ka¿dej z komórek do lewej"
 
 #: src/GNOME_Gnumeric.xml.h:1
 msgid "Lock or unlock the top left cols/rows"
-msgstr ""
+msgstr "Blokuje lub odblokowuje górne wiersze oraz skrajnie lewe kolumny"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
 msgid "Make a copy of the current sheet"
@@ -15122,7 +15355,6 @@ msgid "Print Pre_view"
 msgstr "Podgl±d _wydruku"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
-#: src/workbook-control-gui.c:1
 msgid "Print Preview"
 msgstr "Podgl±d wydruku"
 
@@ -15143,7 +15375,6 @@ msgid "Radio Button"
 msgstr "Przycisk radiowy"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
-#: src/workbook-control-gui.c:1
 msgid "Re-_Order Sheets..."
 msgstr "P_rzeszereguj arkusze..."
 
@@ -15173,7 +15404,7 @@ msgstr "Ponawia cofniêt± czynno¶æ"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
 msgid "Remove an outline group"
-msgstr ""
+msgstr "Usuwa konspekt grupy"
 
 #: src/GNOME_Gnumeric.xml.h:1
 msgid "Remove selected cells, shifting others into their place"
@@ -15349,7 +15580,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
 msgid "Uncollapse an outline group"
-msgstr ""
+msgstr "Rozwija konspekt grupy"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-format-toolbar.c:1
 msgid "Underline"
@@ -15384,7 +15615,6 @@ msgid "_Auto Save..."
 msgstr "Automatyczny _zapis..."
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
-#: src/workbook-control-gui.c:1
 msgid "_Auto fit selection"
 msgstr "_Dopasuj do zaznaczenia"
 
@@ -15413,8 +15643,7 @@ msgstr "S_konsoliduj..."
 msgid "_Content"
 msgstr "_Zawarto¶æ"
 
-#: src/GNOME_Gnumeric.xml.h:1 src/item-cursor.c:1
-#: src/sheet-control-gui.c:1
+#: src/GNOME_Gnumeric.xml.h:1 src/item-cursor.c:1 src/sheet-control-gui.c:1
 msgid "_Copy"
 msgstr "S_kopiuj"
 
@@ -15457,7 +15686,7 @@ msgstr "_Formaty"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
 msgid "_Freeze Panes"
-msgstr ""
+msgstr "Za_mró¼ nag³ówki"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
 msgid "_Goal Seek..."
@@ -15480,7 +15709,6 @@ msgid "_Help"
 msgstr "Pomo_c"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/sheet-control-gui.c:1
-#: src/sheet-control-gui.c:1 src/workbook-control-gui.c:1
 #: src/workbook-control-gui.c:1
 msgid "_Hide"
 msgstr "Uk_ryj"
@@ -15494,7 +15722,6 @@ msgid "_Import..."
 msgstr "Za_importuj..."
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
-#: src/workbook-control-gui.c:1
 msgid "_Insert"
 msgstr "W_staw"
 
@@ -15547,7 +15774,6 @@ msgid "_Select"
 msgstr "Zaz_naczenie"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
-#: src/workbook-control-gui.c:1
 msgid "_Sheet"
 msgstr "_Arkusz"
 
@@ -15584,7 +15810,6 @@ msgid "_Ungroup"
 msgstr "_Rozgrupuj"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/sheet-control-gui.c:1
-#: src/sheet-control-gui.c:1 src/workbook-control-gui.c:1
 #: src/workbook-control-gui.c:1
 msgid "_Unhide"
 msgstr "_Odkryj"
@@ -15758,7 +15983,7 @@ msgstr "Wybierz format pliku"
 #. * 'Print Preview' item in the
 #. * 'File' menu
 #.
-#: src/history.c:1 src/history.c:1
+#: src/history.c:1
 msgid "File/Print Preview"
 msgstr "Plik/Podgl±d wydruku"
 
@@ -15842,7 +16067,7 @@ msgstr "PLIK"
 msgid "Enables some debugging functions"
 msgstr "Uaktywnia funkcje ¶ledzenia b³êdów"
 
-#: src/main.c:1 src/main.c:1 src/main.c:1
+#: src/main.c:1
 msgid "LEVEL"
 msgstr "POZIOM"
 
@@ -15945,17 +16170,17 @@ msgstr "#PRZELICZ!"
 msgid "Expression '%s' does not exist on sheet '%s'"
 msgstr "Wyra¿enie \"%s\" nie istnieje w arkuszu \"%s\""
 
-#: src/parser.y:1 src/parser.y:1
+#: src/parser.y:1
 #, c-format
 msgid "Unknown sheet '%s'"
 msgstr "Nieznany arkusz \"%s\""
 
-#: src/parser.y:1 src/parser.y:1
+#: src/parser.y:1
 #, c-format
 msgid "The character %c can not be used to separate array elements"
 msgstr "Nie mo¿na u¿ywaæ znaku %c do rozdzielenia elementów tablicy"
 
-#: src/parser.y:1 src/parser.y:1 src/parser.y:1
+#: src/parser.y:1
 msgid "The number is out of range"
 msgstr "Liczba jest poza zakresem"
 
@@ -15991,7 +16216,7 @@ msgstr ""
 msgid "Couldn't read plugin info from file."
 msgstr "Nie mo¿na odczytaæ pliku z informacjami wtyczce."
 
-#: src/plugin.c:1 src/plugin.c:1
+#: src/plugin.c:1
 msgid "Unknown name"
 msgstr "Nieznana nazwa"
 
@@ -16065,7 +16290,7 @@ msgid "We depend on plugin with id=\"%s\" which couldn't be activated."
 msgstr ""
 "Wtyczka zale¿y od innej z id=\"%s\", lecz nie mo¿e ona zostaæ uaktywniona."
 
-#: src/plugin.c:1 src/plugin.c:1
+#: src/plugin.c:1
 #, c-format
 msgid "We depend on plugin with id=\"%s\" which is not available."
 msgstr "Wtyczka zale¿y od innej z id=\"%s\", lecz nie jest ona dostêpna."
@@ -16080,7 +16305,7 @@ msgstr "Podczas uaktywniania %d. us³ugi wtyczki wyst±pi³ b³±d."
 msgid "Error while deactivating plugin service #%d."
 msgstr "Podczas unieaktywniania %d. us³ugi wtyczki wyst±pi³ b³±d."
 
-#: src/plugin.c:1 src/plugin.c:1
+#: src/plugin.c:1
 msgid "Cannot load plugin loader."
 msgstr "Nie mo¿na za³adowaæ ³adowarki."
 
@@ -16120,7 +16345,7 @@ msgstr "B³êdy podczas inicjowania systemu wtyczek."
 msgid "Error while loading plugin dependencies."
 msgstr "Wyst±pi³y b³êdy podczas ³adowania zale¿no¶ci wtyczki."
 
-#: src/plugin-loader.c:1 src/plugin-loader.c:1
+#: src/plugin-loader.c:1
 msgid "Service not supported by loader."
 msgstr "Us³uga nie jest obs³ugiwana przez ³adowarkê."
 
@@ -16134,11 +16359,9 @@ msgstr "Nie podano nazwy pliku z modu³em."
 
 #: src/plugin-loader-module.c:1
 #, c-format
-msgid "Unable to open module file \"%s\"."
-msgstr "Nie mo¿na otworzyæ pliku z modu³em \"%s\"."
+msgid "Unable to open module file \"%s\": %s"
+msgstr "Nie mo¿na otworzyæ pliku z modu³em \"%s\": %s"
 
-#: src/plugin-loader-module.c:1 src/plugin-loader-module.c:1
-#: src/plugin-loader-module.c:1 src/plugin-loader-module.c:1
 #: src/plugin-loader-module.c:1
 #, c-format
 msgid "Module file \"%s\" has invalid format."
@@ -16163,8 +16386,8 @@ msgstr "System ten nie obs³uguje dynamicznego ³adowania modu³ów."
 
 #: src/plugin-loader-module.c:1
 #, c-format
-msgid "Unable to close module file \"%s\"."
-msgstr "Nie mo¿na zamkn±æ pliku z modu³em \"%s\"."
+msgid "Unable to close module file \"%s\": %s"
+msgstr "Nie mo¿na zamkn±æ pliku z modu³em \"%s\": %s"
 
 #: src/plugin-loader-module.c:1
 msgid "Module file name"
@@ -16207,12 +16430,12 @@ msgstr "B³±d podczas zamykania pliku, b³±d: %s"
 msgid "Unable to mmap the file, error : %s"
 msgstr "Nie mo¿na odwzorowaæ pliku w pamiêci, b³±d: %s"
 
-#: src/plugin-util.c:1 src/plugin-util.c:1
+#: src/plugin-util.c:1
 #, c-format
 msgid "Error while opening file \"%s\" for writing."
 msgstr "Wyst±pi³ b³±d podczas otwierania pliku \"%s\" do zapisu."
 
-#: src/plugin-util.c:1 src/plugin-util.c:1
+#: src/plugin-util.c:1
 #, c-format
 msgid "Error while opening file \"%s\" for reading."
 msgstr "Wyst±pi³ b³±d podczas otwierania pliku \"%s\" do odczytu."
@@ -16221,7 +16444,7 @@ msgstr "Wyst±pi³ b³±d podczas otwierania pliku \"%s\" do odczytu."
 msgid "Unable to mmap the file."
 msgstr "Nie mo¿na odwzorowaæ pliku w pamiêci."
 
-#: src/plugin-util.c:1 src/xml-io.c:1
+#: src/plugin-util.c:1
 msgid "Cannot get file size."
 msgstr "Nie mo¿na pobraæ rozmiaru pliku."
 
@@ -16229,7 +16452,6 @@ msgstr "Nie mo¿na pobraæ rozmiaru pliku."
 msgid "Initializing function inside plugin returned error."
 msgstr "Funkcja inicjuj±ca umieszczona we wtyczce zwróci³a b³±d."
 
-#: src/plugin-service.c:1 src/plugin-service.c:1
 #: src/plugin-service.c:1
 msgid "Error while loading plugin service."
 msgstr "Podczas ³adowania us³ugi wtyczki wyst±pi³ b³±d."
@@ -16268,26 +16490,9 @@ msgstr "Brak opisu eksportera plików z identyfikatorem \"%s\"."
 msgid "Missing function group id."
 msgstr "Brak identyfikatora grupy funkcji."
 
-#: src/plugin-service.c:1 src/plugin-service.c:1
+#: src/plugin-service.c:1
 msgid "Missing function category name."
 msgstr "Brak nazwy kategorii funkcji."
-
-#: src/plugin-service.c:1
-msgid "Error while exporting selection."
-msgstr ""
-
-#: src/plugin-service.c:1
-msgid "Selection exporter has no id"
-msgstr ""
-
-#: src/plugin-service.c:1
-msgid "No target specified for selection exporter"
-msgstr ""
-
-#: src/plugin-service.c:1
-#, c-format
-msgid "Selection exporter with id=\"%s\" has no description"
-msgstr ""
 
 #: src/plugin-service.c:1
 msgid "Missing loader id."
@@ -16323,21 +16528,19 @@ msgstr "A_rkusze"
 msgid "Printing failed"
 msgstr "Drukowanie nie powiod³o siê"
 
-#: src/print-info.c:1 src/print-info.c:1 src/print-info.c:1
 #: src/print-info.c:1
 msgid "Page &[PAGE]"
 msgstr "Strona &[PAGE]"
 
-#: src/print-info.c:1 src/print-info.c:1
+#: src/print-info.c:1
 msgid "Page &[PAGE] of &[PAGES]"
 msgstr "Strona &[PAGE] z &[PAGES]"
 
-#: src/print-info.c:1 src/print-info.c:1 src/print-info.c:1
-#: src/print-info.c:1 src/print-info.c:1
+#: src/print-info.c:1
 msgid "&[TAB]"
 msgstr "&[TAB]"
 
-#: src/print-info.c:1 src/print-info.c:1 src/print-info.c:1
+#: src/print-info.c:1
 msgid "&[DATE]"
 msgstr "&[DATE]"
 
@@ -16401,7 +16604,7 @@ msgstr "Zakres przeszukiwania jest  niepoprawny."
 msgid "Invalid search pattern."
 msgstr "Niepoprawny wzorzec wyszukiwania."
 
-#: src/search.c:1 src/search.c:1
+#: src/search.c:1
 msgid "Invalid $-specification in replacement."
 msgstr "Niepoprawne u¿ycie $ w napisie zastêpuj±cym."
 
@@ -16455,18 +16658,6 @@ msgstr "Wiersz: %s"
 #, c-format
 msgid "Column: %s"
 msgstr "Kolumna: %s"
-
-#: src/sheet-control-gui.c:1
-msgid "HTML 4.0"
-msgstr ""
-
-#: src/sheet-control-gui.c:1
-msgid "LaTeX"
-msgstr ""
-
-#: src/sheet-control-gui.c:1
-msgid "Copy as t_ext using..."
-msgstr ""
 
 #: src/sheet-control-gui.c:1
 msgid "Paste _Special"
@@ -16563,19 +16754,19 @@ msgstr "Komórka docelowa (maksimum)"
 msgid "Target Cell (Minimize)"
 msgstr "Komórka docelowa (minimum)"
 
-#: src/solver-lp.c:1 src/solver-lp.c:1
+#: src/solver-lp.c:1
 msgid "Original Value"
 msgstr "Warto¶æ pocz±tkowa"
 
-#: src/solver-lp.c:1 src/solver-lp.c:1
+#: src/solver-lp.c:1
 msgid "Final Value"
 msgstr "Warto¶æ koñcowa"
 
-#: src/solver-lp.c:1 src/solver-lp.c:1
+#: src/solver-lp.c:1
 msgid "Adjustable Cells"
-msgstr ""
+msgstr "Modyfikowalne komórki"
 
-#: src/solver-lp.c:1 src/solver-lp.c:1
+#: src/solver-lp.c:1
 msgid "Constraints"
 msgstr "Wiêzy"
 
@@ -16611,7 +16802,7 @@ msgstr ""
 msgid "Gnumeric Solver Sensitivity Report"
 msgstr ""
 
-#: src/solver-lp.c:1 src/solver-lp.c:1
+#: src/solver-lp.c:1
 msgid "Final"
 msgstr ""
 
@@ -16623,7 +16814,6 @@ msgstr ""
 msgid "Objective"
 msgstr ""
 
-#: src/solver-lp.c:1 src/solver-lp.c:1 src/solver-lp.c:1
 #: src/solver-lp.c:1
 msgid "Allowable"
 msgstr ""
@@ -16636,11 +16826,11 @@ msgstr "Koszt"
 msgid "Coefficient"
 msgstr "Wspó³czynnik"
 
-#: src/solver-lp.c:1 src/solver-lp.c:1
+#: src/solver-lp.c:1
 msgid "Increase"
 msgstr "Zwiêksz"
 
-#: src/solver-lp.c:1 src/solver-lp.c:1
+#: src/solver-lp.c:1
 msgid "Decrease"
 msgstr "Zmniejsz"
 
@@ -16679,7 +16869,7 @@ msgstr ""
 "Napotkano znak \"%c\" (o kodzie %d w zbiorze ASCII)\n"
 "Najprawdopodobniej nieprawid³owe s± bie¿±ce ustawienia narodowe."
 
-#: src/stf.c:1 src/stf.c:1
+#: src/stf.c:1
 msgid "Parse error while trying to parse data into sheet"
 msgstr "B³±d sk³adniowy w danych wklejanych do arkusza."
 
@@ -16709,7 +16899,7 @@ msgstr "Zbyt wiele wierszy z danymi: %d"
 msgid "Too many columns in data to parse: %d"
 msgstr "Zbyt wiele kolumn z danymi: %d"
 
-#: src/style.c:1 src/style.c:1
+#: src/style.c:1
 msgid "<Has not been set>"
 msgstr "<Nie zosta³ ustawiony>"
 
@@ -16850,33 +17040,31 @@ msgstr "Powiel arkusz"
 msgid "Re-order sheets"
 msgstr "Przeszereguj arkusze"
 
-#: src/workbook-control-gui.c:1 src/workbook-control-gui.c:1
+#: src/workbook-control-gui.c:1
 msgid "Nothing"
 msgstr "Nic"
 
 #: src/workbook-control-gui.c:1
 msgid "un_Freeze Panes"
-msgstr ""
+msgstr "Od_mró¼ nag³ówki"
 
-#: src/workbook-control-gui.c:1 src/workbook-control-gui.c:1
-#: src/workbook-control-gui.c:1 src/workbook-control-gui.c:1
+#: src/workbook-control-gui.c:1
 msgid "Undo"
 msgstr "Cofnij"
 
-#: src/workbook-control-gui.c:1 src/workbook-control-gui.c:1
-#: src/workbook-control-gui.c:1 src/workbook-control-gui.c:1
+#: src/workbook-control-gui.c:1
 msgid "Redo"
 msgstr "Ponów"
 
 #: src/workbook-control-gui.c:1
 #, c-format
 msgid "Would split array %s"
-msgstr ""
+msgstr "Operacja spowodowa³aby rozdzielenie tablicy %s"
 
 #: src/workbook-control-gui.c:1
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
-msgstr "Zeszyt %s zawiera niezapisane zmiany, zapisaæ?"
+msgstr "Zeszyt %s zawiera niezapisane zmiany. Zapisaæ?"
 
 #: src/workbook-control-gui.c:1
 msgid "Workbook has unsaved changes, save them?"
@@ -16918,12 +17106,12 @@ msgstr "Wstaw kolumny"
 
 #: src/workbook-control-gui.c:1
 msgid "Select an object to add"
-msgstr "Wybór typu obiektu do dodania"
+msgstr "Wybór typu dodawanego obiektu"
 
 #: src/workbook-control-gui.c:1
 #, c-format
 msgid "Unable to create object of type '%s'"
-msgstr "Nie mo¿na utworzyæ obiektu typu \"%s\""
+msgstr "Nie mo¿na stworzyæ obiektu typu \"%s\""
 
 #: src/workbook-control-gui.c:1
 msgid "Group"
@@ -17080,35 +17268,35 @@ msgstr "Wysy³a bie¿±cy plik w li¶cie do innej osoby"
 
 #: src/workbook-format-toolbar.c:1
 msgid "Set Horizontal Alignment"
-msgstr "Ustawia wyrównanie pionowe"
+msgstr "Ustawienie wyrównania poziomego"
 
 #: src/workbook-format-toolbar.c:1
 msgid "Set Font Style"
-msgstr "Ustawia styl czcionki:"
+msgstr "Ustawienie stylu czcionki"
 
 #: src/workbook-format-toolbar.c:1
 msgid "Set Font"
-msgstr "Ustawia czcionkê"
+msgstr "Ustawienie czcionki"
 
 #: src/workbook-format-toolbar.c:1
 msgid "Set Font Size"
-msgstr "Ustawia rozmiar czcionki"
+msgstr "Ustawienie rozmiaru czcionki"
 
 #: src/workbook-format-toolbar.c:1
 msgid "Format as Money"
-msgstr "Format walutowy"
+msgstr "Ustawienie formatu walutowego"
 
 #: src/workbook-format-toolbar.c:1
 msgid "Format with thousands seperator"
-msgstr "Format z separatorem tysiêcy"
+msgstr "Ustawienie formatu z separatorem tysiêcy"
 
 #: src/workbook-format-toolbar.c:1
 msgid "Increase precision"
-msgstr "Zwiêksza precyzjê"
+msgstr "Zwiêkszenie precyzji"
 
 #: src/workbook-format-toolbar.c:1
 msgid "Decrease precision"
-msgstr "Zmniejsza precyzjê"
+msgstr "Zmniejszenie precyzji"
 
 #: src/workbook-format-toolbar.c:1
 msgid "Select font"
@@ -17342,7 +17530,7 @@ msgstr "Niepoprawne dane xml w schowku. Drzewo jest puste?"
 
 #: src/xml-io.c:1
 msgid "Not enough memory to create zlib decompression state."
-msgstr "Brak pamiêci na stworzenie obiektu stanu dekompresji"
+msgstr "Brak pamiêci na stworzenie obiektu stanu dekompresji."
 
 #: src/xml-io.c:1
 msgid "Parsing XML file..."
