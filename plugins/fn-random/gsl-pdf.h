@@ -25,5 +25,6 @@ gnum_float random_rayleigh_tail_pdf     (gnum_float x, gnum_float a,
 gnum_float random_tdist_pdf             (gnum_float x, gnum_float nu);
 gnum_float random_weibull_pdf           (gnum_float x, gnum_float a,
 					 gnum_float b);
+gnum_float random_geometric_pdf         (int k, gnum_float p);
 
 #endif

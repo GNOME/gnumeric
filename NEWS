@@ -4,9 +4,10 @@ Jukka:
 	* New random distribution functions (mostly integrated from the 
 	  GNU Scientific Library with some minor modifications):
 	  PDFBERNOULLI(), PDFBETA(), PDFBINOM(), PDFCAUCHY(), PDFEXP(),
-	  PDFEXPPOW(), PDFGAMMA(), PDFLANDAU(), PDFLAPLACE(), PDFRAYLEIGH(),
-	  PDFNEGBINOM(), PDFPOISSON(), PDFWEIBULL(), RANDGAUSSIANTAIL(),
-	  and RANDLANDAU().
+	  PDFEXPPOW(), PDFFDIST(), PDFGAMMA(), PDFGEOM(), PDFLANDAU(),
+	  PDFLAPLACE(), PDFLOGISTIC(), PDFLOGNORM(), PDFRAYLEIGH(),
+	  PDFRAYLEIGHTAIL(), PDFNEGBINOM(), PDFPARETO(), PDFPOISSON(),
+	  PDFTDIST(), PDFWEIBULL(), RANDGAUSSIANTAIL(), and RANDLANDAU().
 	* New random distributions for the random number generation tool:
 	  Gaussian Tail, Landau, and Uniform integer.
 	* New financial functions (integrated from the OpenOffice with
