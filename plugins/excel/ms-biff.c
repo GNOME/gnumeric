@@ -304,7 +304,6 @@ ms_biff_query_next (BiffQuery *q)
 	}
 
 	if (q->is_encrypted) {
-		if (q->length != 0) {
 		q->non_decrypted_data_malloced = q->data_malloced;
 		q->non_decrypted_data = q->data;
 
