@@ -1,3 +1,8 @@
+2000-01-06  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/xml-io.c (xml_read_style): Actually read & use the font size; how
+	did this die ?
+
 2000-01-05  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/mstyle.c (mstyle_get_font_size): fix a brainless precondition

@@ -1235,7 +1235,8 @@ xml_read_style (parse_xml_context_t *ctxt, xmlNodePtr tree)
 			double units = 14;
 			int t;
 
-			xml_get_value_double (child, "Unit", &units);
+			if (xml_get_value_double (child, "Unit", &units))
+				mstyle_set_font_size (mstyle, units);
 
 			if (xml_get_value_int (child, "Bold", &t))
 				mstyle_set_font_bold (mstyle, t);
