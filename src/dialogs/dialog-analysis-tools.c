@@ -2650,8 +2650,8 @@ anova_single_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	w = glade_xml_get_widget (state->base.gui, "labels_button");
         data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
-
-	err = entry_to_float (GTK_ENTRY (state->alpha_entry), &data->alpha, FALSE);
+	data->alpha = gtk_spin_button_get_value 
+		(GTK_SPIN_BUTTON (state->alpha_entry));
 
 	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
 				dao, data, analysis_tool_anova_single_engine))
@@ -2673,7 +2673,6 @@ static void
 anova_single_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 					 AnovaSingleToolState *state)
 {
-	int err_alpha;
 	gnm_float alpha;
         GSList *input_range;
 
@@ -2689,12 +2688,11 @@ anova_single_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		range_list_destroy (input_range);
 
 	/* Checking Alpha*/
-	err_alpha = entry_to_float (GTK_ENTRY (state->alpha_entry), &alpha,
-				    FALSE);
-	if (!(err_alpha == 0 && alpha > 0 && alpha < 1)) {
+	alpha = gtk_spin_button_get_value 
+		(GTK_SPIN_BUTTON (state->alpha_entry));
+	if (!(alpha > 0 && alpha < 1)) {
 		gtk_label_set_text (GTK_LABEL (state->base.warning),
-				    _("The alpha value is invalid. "
-				      "It should "
+				    _("The alpha value should "
 				      "be a number between 0 and 1."));
 		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
 		return;
