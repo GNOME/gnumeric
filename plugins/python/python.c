@@ -26,8 +26,6 @@
 
 #include "Python.h"
 
-#define BROKEN_PY_INITIALIZE
-
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 /* Classes we define in Python code, and where we define them. */
@@ -592,6 +590,7 @@ value_from_python (PyObject *o, EvalPos const *pos)
 
 typedef struct {
 	FunctionDefinition *fndef;
+	FunctionCategory   *category;
 	PyObject *codeobj;
 } FuncData;
 
@@ -851,8 +850,9 @@ register_function (PyObject *m, PyObject *py_args)
 					    marshal_func_nodes);
 
 	fdata = g_new (FuncData, 1);
-	fdata->fndef   = fndef;
-	fdata->codeobj = codeobj;
+	fdata->fndef    = fndef;
+	fdata->category = cat;
+	fdata->codeobj  = codeobj;
 	Py_INCREF (codeobj);
 	funclist = g_list_append (funclist, fdata);
 
@@ -897,13 +897,36 @@ initgnumeric (void)
 gboolean
 plugin_can_deactivate_general (void)
 {
-	return FALSE;
+	FuncData *fdata;
+	GList *l;
+
+	for (l = funclist; l != NULL; l = l->next) {
+		fdata = (FuncData *) l->data;
+		if (func_get_ref_count (fdata->fndef) != 0)
+			return FALSE;
+	}
+	return TRUE;
 }
 
 void
 plugin_cleanup_general (ErrorInfo **ret_error)
 {
+	FuncData *fdata;
+
 	*ret_error = NULL;
+
+	while (funclist) {
+		fdata = (FuncData *) funclist->data;
+		if (fdata->fndef->help) {
+			g_free ((char *) (*fdata->fndef->help));
+			g_free (fdata->fndef->help);
+		}
+		fdata->fndef->help = NULL;
+		function_remove (fdata->category, fdata->fndef->name);
+		g_free (fdata);
+		funclist = g_list_delete_link (funclist, funclist);
+	}
+	Py_Finalize ();
 }
 
 #ifdef BROKEN_PY_INITIALIZE
@@ -918,9 +941,9 @@ plugin_init_general (ErrorInfo **ret_error)
 	int i;
 
 	/*
-	 * Python's convertenviron has gotten into its head that it can
-	 * write to the strings in the environment.  We have little choice
-	 * but to allocate a copy of everything.
+	 * Before Python 2.0, Python's convertenviron would write to the
+	 * strings in the environment.  We had little choice but to
+	 * allocate a copy of everything.
 	 */
 	for (i = 0; environ[i]; i++)
 		environ[i] = g_strdup (environ[i]);

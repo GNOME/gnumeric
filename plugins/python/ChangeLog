@@ -1,3 +1,13 @@
+2002-07-20  Jon K Hellan  <hellan@acm.org>
+
+	* python.c (BROKEN_PY_INITIALIZE): Test for this condition is now
+	autoconfiscated.
+	struct FuncData: Include category.
+	(register_function): Save category.
+	(plugin_can_deactivate_general): Able to deactivate unless a
+	function is in use.
+	(plugin_cleanup_general): Do cleanup.
+
 2002-05-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.4

@@ -1,3 +1,9 @@
+2002-07-20  Jon K Hellan  <hellan@acm.org>
+
+	* python-loader.c (BROKEN_PY_INITIALIZE): Test for this condition
+	is now autoconfiscated.
+
+
 2002-06-20  Jon K Hellan  <hellan@acm.org>
 
 	* python-loader.c: Include pygobject.h if Pygtk is installed.

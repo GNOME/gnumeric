@@ -445,6 +445,12 @@ if $try_python; then
 		  PY_EXEC_PREFIX=`$python_prog -c 'import sys ; print sys.exec_prefix'`
 		  changequote(<<, >>)dnl
 		  PY_VERSION=`$python_prog -c 'import sys ; print sys.version[0:3]'`
+		  broken_py_initialize=`$python_prog -c \
+'import sys
+if int(sys.version[0]) < 2:
+    print "yes"
+else:
+    print "no"'`
 		  changequote([, ])dnl
 		  if test -f $PY_PREFIX/include/python$PY_VERSION/Python.h; then
 			  PY_LIBS="python$PY_VERSION"
@@ -459,6 +465,9 @@ if $try_python; then
 			  AC_SUBST(PY_LIB_LOC)
 			  AC_SUBST(PY_CFLAGS)
 			  AC_SUBST(PY_EXTRA_LIBS)
+			  if test "x$broken_py_initialize" = "xyes"; then
+			  	AC_DEFINE(BROKEN_PY_INITIALIZE)
+			  fi
 		  else
 			  python_val=false
 		  fi

@@ -31,8 +31,6 @@
 #include "module-plugin-defs.h"
 #include "py-gnumeric.h"
 
-#define BROKEN_PY_INITIALIZE
-
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
@@ -90,11 +88,10 @@ initialize_python_if_needed (void)
 #ifdef BROKEN_PY_INITIALIZE
 		int i;
 
-		/* Python's convertenviron has gotten into its head that it can
-		   write to the strings in the environment.  We have little choice
-		but to allocate a copy of everything. */
+		/* Before Python 2.0, Python's convertenviron would write to
+		   the strings in the environment.  We had little choice but
+		   to allocate a copy of everything. */
 
-		/* Fixed in Python 2.0. JK */
 		for (i = 0; environ[i]; i++)
 			environ[i] = g_strdup (environ[i]);
 #endif

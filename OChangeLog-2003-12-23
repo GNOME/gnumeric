@@ -1,3 +1,11 @@
+2002-07-20  Jon K Hellan  <hellan@acm.org>
+
+	* configure.in: Test for BROKEN_PY_INITIALIZE feature (before
+	Python 2.0, Python would write to the environment, and we had to
+	work around it.)
+
+	* acconfig.h: Add BROKEN_PY_INITIALIZE
+
 2002-07-20  Jody Goldberg <jody@gnome.org>
 
 	* src/item-grid.c (item_grid_init) : init the cursor timer.
