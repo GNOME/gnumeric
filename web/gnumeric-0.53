@@ -1,19 +1,3 @@
-From jody Wed May 10 12:51:49 2000
-Date: Wed, 10 May 2000 12:51:49 -0400
-To: gnumeric-list@gnome.org
-Cc: gnome-announce-list@gnome.org, gnome-list@gnome.org
-Subject: Gnumeric 0.53 released
-Message-ID: <20000510125149.A9431@parallel.tymbri.org>
-Mail-Followup-To: jody, gnumeric-list@gnome.org,
-	gnome-announce-list@gnome.org, gnome-list@gnome.org
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.1.12i
-Status: RO
-Content-Length: 1937
-Lines: 66
-
 We've released Gnumeric 0.53.  This version has many new features and lots of
 bug fixes.  The major changes since the last release are:
 
