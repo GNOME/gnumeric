@@ -9,6 +9,9 @@ Jean Brefort:
 	* Box-plots.
 	* Fix crash in contour plots (#166051).
 	* Automatic bounds work with negative values in XY chart (#164593).
+	* Scrollbar and slider max values are now constant (#165173).
+	* Avoid recalculation of scrollbar and slider values when not
+	necessary (#166085).
 
 J.H.M. Dassen (Ray):
 	* Generate an error when no proper UTF-8 filename is produced when

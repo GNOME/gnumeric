@@ -1,3 +1,15 @@
+2005-02-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object-widget.c: (cb_adjustment_value_changed): avoid
+	recalculation on update, fixes #166085. 
+	(sheet_widget_adjustment_init_full),
+	(cb_adjustment_config_ok_clicked),
+	(sheet_widget_adjustment_write_xml_sax),
+	(sheet_widget_adjustment_write_xml_dom),
+	(sheet_widget_adjustment_read_xml_dom),
+	(sheet_widget_adjustment_set_details): make constant and consistent
+	scrollbar and slider max values, fixes #165173.
+
 2005-02-05  Morten Welinder  <terra@gnome.org>
 
 	* src/style.c (gnm_font_find_closest_from_weight_slant): Delete.
