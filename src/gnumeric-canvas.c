@@ -287,7 +287,7 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 		if (wbcg_is_editing (wbcg))
 			sheet = wbcg->wb_control.editing_sheet;
 
-		if (wbcg_edit_finish (wbcg, TRUE)) {
+		if (wbcg_edit_finish (wbcg, TRUE, NULL)) {
 			/* Figure out the direction */
 			gboolean const direction = (event->state & GDK_SHIFT_MASK) ? FALSE : TRUE;
 			gboolean const horizontal = (event->keyval == GDK_KP_Enter ||
@@ -298,7 +298,7 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 		break;
 
 	case GDK_Escape:
-		wbcg_edit_finish (wbcg, FALSE);
+		wbcg_edit_finish (wbcg, FALSE, NULL);
 		application_clipboard_unant ();
 		break;
 

@@ -223,7 +223,7 @@ tool_destroy (GtkObject *w, GenericToolState  *state)
 		state->gui = NULL;
 	}
 
-	wbcg_edit_finish (state->wbcg, FALSE);
+	wbcg_edit_finish (state->wbcg, FALSE, NULL);
 
 	state->dialog = NULL;
 

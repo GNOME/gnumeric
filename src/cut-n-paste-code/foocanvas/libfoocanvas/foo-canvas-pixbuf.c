@@ -711,6 +711,7 @@ foo_canvas_pixbuf_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	PixbufPrivate *priv;
 	GdkPixbuf *pixbuf;
 	int w, h;
+	GdkRectangle display_rect, draw_rect;
 
 	gcp = FOO_CANVAS_PIXBUF (item);
 	priv = gcp->priv;
@@ -732,9 +733,21 @@ foo_canvas_pixbuf_draw (FooCanvasItem *item, GdkDrawable *drawable,
 		pixbuf = g_object_ref (priv->pixbuf);
 	}
 
-	gdk_draw_pixbuf (drawable, NULL, pixbuf,
-			 0, 0, item->x1, item->y1, w, h,
-			 GDK_RGB_DITHER_MAX, 0, 0);
+	display_rect.x = item->x1;
+	display_rect.y = item->y1;
+	display_rect.width  = w;
+	display_rect.height = h;
+
+	if (gdk_rectangle_intersect (&display_rect, &expose->area, &draw_rect))
+		gdk_draw_pixbuf (drawable, NULL, pixbuf,
+			/* pixbuf 0, 0 is at pix_rect.x, pix_rect.y */
+			     draw_rect.x - display_rect.x,
+			     draw_rect.y - display_rect.y,
+			     draw_rect.x,
+			     draw_rect.y,
+			     draw_rect.width,
+			     draw_rect.height,
+			     GDK_RGB_DITHER_NORMAL, 0, 0);
 
 	g_object_unref (pixbuf);
 }

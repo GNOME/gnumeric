@@ -247,6 +247,9 @@ gog_renderer_pixbuf_update (GogRendererPixbuf *prend, int w, int h)
 		prend->base.scale_y = h / prend->base.logical_height_pts;
 		prend->base.scale = MIN (prend->base.scale_x, prend->base.scale_y);
 
+		/* make sure we dont try to queue an update while updating */
+		prend->base.needs_update = TRUE;
+
 		/* scale just changed need to recalculate sizes */
 		gog_renderer_invalidate_size_requests (&prend->base);
 		gog_view_size_allocate (view, &allocation);

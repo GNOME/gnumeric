@@ -1035,7 +1035,7 @@ wbcg_sheet_remove_all (WorkbookControl *wbc)
 		GtkWidget *tmp = GTK_WIDGET (wbcg->notebook);
 
 		/* Be sure we are no longer editing */
-		wbcg_edit_finish (wbcg, FALSE);
+		wbcg_edit_finish (wbcg, FALSE, NULL);
 
 		/* Clear notebook to disable updates as focus changes for pages
 		 * during destruction
@@ -1665,7 +1665,7 @@ wbcg_close_control (WorkbookControlGUI *wbcg)
 	/* If we were editing when the quit request came make sure we don't
 	 * lose any entered text
 	 */
-	if (!wbcg_edit_finish (wbcg, TRUE))
+	if (!wbcg_edit_finish (wbcg, TRUE, NULL))
 		return TRUE;
 
 	/* If something is still using the control
@@ -1878,7 +1878,7 @@ cb_file_quit (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	}
 
 	/* If we were editing when the quit request came in abort the edit. */
-	wbcg_edit_finish (wbcg, FALSE);
+	wbcg_edit_finish (wbcg, FALSE, NULL);
 
 	/* list is modified during workbook destruction */
 	workbooks = g_list_copy (application_workbook_list ());
@@ -2002,7 +2002,7 @@ static void
 cb_edit_undo (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	wbcg_edit_finish (wbcg, FALSE);
+	wbcg_edit_finish (wbcg, FALSE, NULL);
 	command_undo (wbc);
 }
 
@@ -2012,7 +2012,7 @@ cb_undo_combo (GtkWidget *widget, gint num, WorkbookControlGUI *wbcg)
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	int i;
 
-	wbcg_edit_finish (wbcg, FALSE);
+	wbcg_edit_finish (wbcg, FALSE, NULL);
 	for (i = 0; i < num; i++)
 		command_undo (wbc);
 }
@@ -2021,7 +2021,7 @@ static void
 cb_edit_redo (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	wbcg_edit_finish (wbcg, FALSE);
+	wbcg_edit_finish (wbcg, FALSE, NULL);
 	command_redo (wbc);
 }
 
@@ -2031,7 +2031,7 @@ cb_redo_combo (GtkWidget *widget, gint num, WorkbookControlGUI *wbcg)
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	int i;
 
-	wbcg_edit_finish (wbcg, FALSE);
+	wbcg_edit_finish (wbcg, FALSE, NULL);
 	for (i = 0; i < num; i++)
 		command_redo (wbc);
 }
@@ -2403,7 +2403,7 @@ cb_insert_rows (GtkWidget *unused, WorkbookControlGUI *wbcg)
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	Range const *sel;
 
-	wbcg_edit_finish (wbcg, FALSE);
+	wbcg_edit_finish (wbcg, FALSE, NULL);
 
 	/* TODO : No need to check simplicty.  XL applies for each non-discrete
 	 * selected region, (use selection_apply).  Arrays and Merged regions
@@ -2422,7 +2422,7 @@ cb_insert_cols (GtkWidget *unused, WorkbookControlGUI *wbcg)
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	Range const *sel;
 
-	wbcg_edit_finish (wbcg, FALSE);
+	wbcg_edit_finish (wbcg, FALSE, NULL);
 
 	/* TODO : No need to check simplicty.  XL applies for each non-discrete
 	 * selected region, (use selection_apply).  Arrays and Merged regions
@@ -3131,7 +3131,7 @@ cb_add_graph (GogGraph *graph, gpointer wbcg)
 }
 
 static void
-cb_launch_graph_guru (GtkWidget *widget, WorkbookControlGUI *wbcg)
+cb_launch_chart_guru (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	sheet_object_graph_guru (wbcg, NULL, cb_add_graph, wbcg);
 }
@@ -3294,13 +3294,13 @@ static GnomeUIInfo workbook_menu_edit_fill [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("Auto_fill"),
 		N_("Automatically fill the current selection"),
 		cb_edit_fill_autofill),
-	GNOMEUIINFO_ITEM_NONE (N_("Merge..."),
+	GNOMEUIINFO_ITEM_NONE (N_("_Merge..."),
 		N_("Merges columnar data into a sheet creating duplicate sheets for each row"),
 		cb_tools_merge),
 	GNOMEUIINFO_ITEM_NONE (N_("_Tabulate Dependency..."),
 		N_("Make a table of a cell's value as a function of other cells"),
 		cb_tools_tabulate),
-	GNOMEUIINFO_ITEM_NONE (N_("Series..."),
+	GNOMEUIINFO_ITEM_NONE (N_("_Series..."),
 		N_("Fill according to a linear or exponential series"),
 		cb_edit_fill_series),
 	GNOMEUIINFO_ITEM_NONE (N_("_Random Generator..."),
@@ -3451,9 +3451,9 @@ static GnomeUIInfo workbook_menu_insert [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_ITEM_STOCK (N_("_Graph..."),
-		N_("Launch the Graph Guru"),
-		cb_launch_graph_guru, "Gnumeric_GraphGuru"),
+	GNOMEUIINFO_ITEM_STOCK (N_("_Chart..."),
+		N_("Launch the Chart Guru"),
+		cb_launch_chart_guru, "Gnumeric_GraphGuru"),
 
 	GNOMEUIINFO_ITEM_STOCK (N_("_Image..."),
 		N_("Insert an image"),
@@ -3765,12 +3765,14 @@ static GnomeUIInfo workbook_menu_data_outline [] = {
 	GNOMEUIINFO_END
 };
 
+#if 0
 static GnomeUIInfo workbook_menu_data_external [] = {
 	GNOMEUIINFO_ITEM_STOCK (N_("Import _Text File..."),
 		N_("Import the text from a file"),
 		cb_data_import_text, "gtk-dnd"),
 	GNOMEUIINFO_END
 };
+#endif
 
 static GnomeUIInfo workbook_menu_data_filter [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("Add _Auto Filter"),
@@ -3908,9 +3910,9 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_ITEM_STOCK (N_("Graph Guru"),
-		N_("Launch the Graph Guru"),
-		cb_launch_graph_guru, "Gnumeric_GraphGuru"),
+	GNOMEUIINFO_ITEM_STOCK (N_("Chart Guru"),
+		N_("Launch the Chart Guru"),
+		cb_launch_chart_guru, "Gnumeric_GraphGuru"),
 
 
 	GNOMEUIINFO_END
@@ -4060,7 +4062,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("FunctionGuru", cb_formula_guru),
 	BONOBO_UI_UNSAFE_VERB ("SortAscending", cb_sort_ascending),
 	BONOBO_UI_UNSAFE_VERB ("SortDescending", cb_sort_descending),
-	BONOBO_UI_UNSAFE_VERB ("GraphGuru", cb_launch_graph_guru),
+	BONOBO_UI_UNSAFE_VERB ("ChartGuru", cb_launch_chart_guru),
 #ifdef GNOME2_CONVERSION_COMPLETE
 	BONOBO_UI_UNSAFE_VERB ("InsertComponent", cb_insert_component),
 	BONOBO_UI_UNSAFE_VERB ("InsertShapedComponent", cb_insert_shaped_component),
@@ -4144,13 +4146,13 @@ workbook_create_standard_toolbar (WorkbookControlGUI *wbcg)
 static void
 cb_cancel_input (GtkWidget *IGNORED, WorkbookControlGUI *wbcg)
 {
-	wbcg_edit_finish (wbcg, FALSE);
+	wbcg_edit_finish (wbcg, FALSE, NULL);
 }
 
 static void
 cb_accept_input (GtkWidget *IGNORED, WorkbookControlGUI *wbcg)
 {
-	wbcg_edit_finish (wbcg, TRUE);
+	wbcg_edit_finish (wbcg, TRUE, NULL);
 }
 
 static gboolean
@@ -4406,7 +4408,7 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 		if (prev == page_num)
 			return;
 
-		if (!wbcg_edit_finish (wbcg, TRUE))
+		if (!wbcg_edit_finish (wbcg, TRUE, NULL))
 			gtk_notebook_set_current_page (notebook, prev);
 		else
 			/* Looks silly, but is really neccesarry */

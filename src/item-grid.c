@@ -871,6 +871,7 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 	Sheet *sheet = sc->sheet;
 	CellPos	pos;
 	int x, y;
+	gboolean edit_showed_dialog;
 	gboolean already_selected;
 
 	gnm_canvas_slide_stop (gcanvas);
@@ -932,9 +933,8 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 		return TRUE;
 
 	/* This was a regular click on a cell on the spreadsheet.  Select it.
-	 * but only if the entered expression is valid
-	 */
-	if (!wbcg_edit_finish (scg->wbcg, TRUE))
+	 * but only if the entered expression is valid */
+	if (!wbcg_edit_finish (scg->wbcg, TRUE, &edit_showed_dialog))
 		return TRUE;
 
 	/* button 1 will always change the selection,  the other buttons will
@@ -953,6 +953,9 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 			sv_selection_extend_to (sc->view, pos.col, pos.row);
 		sheet_update (sheet);
 	}
+
+	if (edit_showed_dialog)
+		return TRUE;  /* we already ignored the button release */
 
       	switch (event->button) {
 	case 1: {

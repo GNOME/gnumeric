@@ -263,7 +263,7 @@
 		    _tip="Automatically fill the current selection"/>
 
 		<menuitem name="ToolsMerge" verb=""
-		    _label="Merge..."
+		    _label="_Merge..."
 		    _tip="Merges columnar data into a sheet creating duplicate sheets for each row"/>
 
 		<menuitem name="ToolsTabulate" verb=""
@@ -342,10 +342,10 @@
 
       	    <separator/>
 
-	    <menuitem name="InsertGraph" verb="GraphGuru"
+	    <menuitem name="InsertChart" verb="ChartGuru"
 		pixtype="stock" pixname="Gnumeric_GraphGuru"
-		_label="_Graph..."
-		_tip="Launch the Graph Guru"/>
+		_label="_Chart..."
+		_tip="Launch the Chart Guru"/>
 
             <!-- These don't work yet for Gnome 2 
 	    <menuitem name="InsertComponent" verb=""

@@ -118,13 +118,16 @@ validation_unref (Validation *v)
  **/
 ValidationStatus
 validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
-		 Sheet *sheet, CellPos const *pos)
+		 Sheet *sheet, CellPos const *pos, gboolean *showed_dialog)
 {
 	Validation *v;
 	Cell	   *cell;
 	char	   *msg = NULL;
 	gboolean    allocated_msg = FALSE;
 	ValidationStatus result;
+
+	if (showed_dialog != NULL)
+		*showed_dialog = FALSE;
 
 	v = mstyle_get_validation (mstyle);
 	if (v == NULL)
@@ -299,6 +302,8 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 				"Restrictions have been placed on this cell's contents.");
 	}
 
+	if (showed_dialog != NULL)
+		*showed_dialog = TRUE;
 	result = wb_control_validation_msg (wbc, v->type,
 		(v->title != NULL && v->title->str[0] != '\0')
 			? v->title->str

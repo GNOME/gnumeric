@@ -325,7 +325,7 @@ static void
 cb_graph_guru_done (WorkbookControlGUI *wbcg)
 {
 	wbcg_edit_detach_guru (wbcg);
-	wbcg_edit_finish (wbcg, FALSE);
+	wbcg_edit_finish (wbcg, FALSE, NULL);
 }
 
 GogGraph *

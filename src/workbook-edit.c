@@ -61,7 +61,8 @@ wbcg_auto_complete_destroy (WorkbookControlGUI *wbcg)
 }
 
 gboolean
-wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
+wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept,
+		  gboolean *showed_dialog)
 {
 	Sheet *sheet;
 	SheetView *sv;
@@ -74,6 +75,9 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 	wbv = wb_control_view (wbc);
 
 	wbcg_focus_cur_scg (wbcg);
+
+	if (showed_dialog != NULL)
+		*showed_dialog = FALSE;
 
 	/* Remove the range selection cursor if it exists */
 	if (NULL != wbcg->rangesel)
@@ -163,6 +167,8 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 
 				reedit = wb_control_validation_msg (WORKBOOK_CONTROL (wbcg),
 					VALIDATION_STYLE_PARSE_ERROR, NULL, perr.err->message);
+				if (showed_dialog != NULL)
+					*showed_dialog = TRUE;
 
 				parse_error_free (&perr);
 				if (reedit == VALIDATION_STATUS_INVALID_EDIT)
@@ -181,7 +187,8 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 		 * a validation condition depends on the new value.
 		 */
 		cmd_set_text (wbc, sheet, &sv->edit_pos, txt);
-		valid = validation_eval (wbc, mstyle, sheet, &sv->edit_pos);
+		valid = validation_eval (wbc, mstyle, sheet, &sv->edit_pos,
+					 showed_dialog);
 
 		if (free_txt != NULL)
 			g_free (free_txt);

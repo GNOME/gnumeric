@@ -1454,7 +1454,7 @@ cb_do_print (G_GNUC_UNUSED GtkWidget *w, PrinterSetupState *state)
 	Sheet *sheet;
 
 	wbcg_edit_detach_guru (state->wbcg);
-	wbcg_edit_finish (state->wbcg, TRUE);
+	wbcg_edit_finish (state->wbcg, TRUE, NULL);
 	fetch_settings (state);
 	wbcg = state->wbcg;
 	sheet = state->sheet;
@@ -1491,7 +1491,7 @@ cb_do_print_ok (G_GNUC_UNUSED GtkWidget *w,
 {
 	/* Detach BEFORE we finish editing */
 	wbcg_edit_detach_guru (state->wbcg);
-	wbcg_edit_finish (state->wbcg, TRUE);
+	wbcg_edit_finish (state->wbcg, TRUE, NULL);
 	fetch_settings (state);
 	print_info_save (state->pi);
 	cmd_print_setup (WORKBOOK_CONTROL (state->wbcg),
@@ -1504,7 +1504,7 @@ cb_do_print_destroy (G_GNUC_UNUSED GtkWidget *button,
 		     PrinterSetupState *state)
 {
 	wbcg_edit_detach_guru (state->wbcg);
-	wbcg_edit_finish (state->wbcg, FALSE);
+	wbcg_edit_finish (state->wbcg, FALSE, NULL);
 
 	g_signal_handler_disconnect (glade_xml_get_widget (state->gui, "print-setup-notebook"),
 				     state->notebook_signal_connection);

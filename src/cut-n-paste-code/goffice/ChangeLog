@@ -1,4 +1,13 @@
+2003-05-31  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-renderer-pixbuf.c (gog_renderer_pixbuf_update) : fix
+	  canvas warnings about tryingto queue an update from an update
+	  handler.
+
 2003-05-30  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-theme.c (gog_themes_init) : make default them fill legend
+	  with white.
 
 	* graph/plugins/plot_barcol/gog-barcol.c (barcol_draw_rect) : smooth
 	  the anti-aliasing fuzziness in the libart backend for hairline

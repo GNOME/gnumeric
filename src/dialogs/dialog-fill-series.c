@@ -107,10 +107,9 @@ cb_insert_cell_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	        (GTK_RADIO_BUTTON (radio)->group);
 
 
-	cols   = state->sel->end.col - state->sel->start.col + 1;
-	rows   = state->sel->end.row - state->sel->start.row + 1;
+	cols   = range_width (state->sel);
+	rows   = range_height (state->sel);
 	fs.sel = state->sel;
-
 
 	/* Read the `Step' value. */
 	entry = glade_xml_get_widget (state->gui, "step_entry");
@@ -169,6 +168,7 @@ dialog_fill_series (WorkbookControlGUI *wbcg)
 	SheetView       *sv = wb_control_cur_sheet_view (wbc);
 	GtkWidget       *radio;
 	GladeXML	*gui;
+	char const *button;
 
 	Range const *sel;
 
@@ -228,6 +228,14 @@ dialog_fill_series (WorkbookControlGUI *wbcg)
 	radio = glade_xml_get_widget (state->gui, "frame_date_unit");
 	g_return_if_fail (radio != NULL);
 	gtk_widget_set_sensitive (radio, FALSE);
+
+	button = (state->sel == NULL ||
+		  range_width (state->sel) >= range_height (state->sel))
+		? "series_in_rows"
+		: "series_in_cols";
+	radio = glade_xml_get_widget (state->gui, button);
+	g_return_if_fail (radio != NULL);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radio), TRUE);
 
 	gtk_widget_show (state->dialog);
 }

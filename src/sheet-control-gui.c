@@ -470,7 +470,7 @@ scg_select_all (SheetControlGUI *scg)
 			wbcg_get_entry_logical (scg->wbcg), TRUE);
 	} else if (!wbcg_edit_has_guru (scg->wbcg)) {
 		scg_mode_edit (SHEET_CONTROL (sc));
-		wbcg_edit_finish (scg->wbcg, FALSE);
+		wbcg_edit_finish (scg->wbcg, FALSE, NULL);
 		sv_selection_reset (sc->view);
 		sv_selection_add_range (sc->view, 0, 0, 0, 0,
 			SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
@@ -487,7 +487,7 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 	gboolean const rangesel = wbcg_rangesel_possible (scg->wbcg);
 
 	if (!rangesel)
-		if (!wbcg_edit_finish (scg->wbcg, TRUE))
+		if (!wbcg_edit_finish (scg->wbcg, TRUE, NULL))
 			return FALSE;
 
 	if (modifiers & GDK_SHIFT_MASK) {
@@ -1562,7 +1562,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 	GList *l;
 	gboolean has_link = FALSE;
 
-	wbcg_edit_finish (scg->wbcg, FALSE);
+	wbcg_edit_finish (scg->wbcg, FALSE, NULL);
 
 	/* Now see if there is some selection which selects a whole row or a
 	 * whole column and disable the insert/delete col/row menu items
@@ -1677,7 +1677,7 @@ scg_mode_edit (SheetControl *sc)
 		scg_cursor_visible (scg, TRUE);
 
 	if (wbcg_edit_has_guru (scg->wbcg))
-		wbcg_edit_finish (scg->wbcg, FALSE);
+		wbcg_edit_finish (scg->wbcg, FALSE, NULL);
 }
 
 /*
@@ -1699,7 +1699,7 @@ scg_mode_edit_object (SheetControlGUI *scg, SheetObject *so)
 	 * to edit a newly created object
 	 */
 	g_object_ref (G_OBJECT (so));
-	if (wbcg_edit_finish (scg->wbcg, TRUE) &&
+	if (wbcg_edit_finish (scg->wbcg, TRUE, NULL) &&
 	    scg_mode_clear (scg)) {
 		scg->current_object = so;
 		g_object_ref (G_OBJECT (so));
@@ -2359,7 +2359,7 @@ scg_cursor_move (SheetControlGUI *scg, int n,
 	SheetView *sv = sc_view ((SheetControl *) scg);
 	CellPos tmp = sv->edit_pos_real;
 
-	if (!wbcg_edit_finish (scg->wbcg, TRUE))
+	if (!wbcg_edit_finish (scg->wbcg, TRUE, NULL))
 		return;
 
 	if (horiz)

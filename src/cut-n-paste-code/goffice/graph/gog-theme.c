@@ -241,7 +241,9 @@ gog_themes_init	(void)
 	style = gog_style_new (); /* legend */
 		style->outline.width = 0; /* hairline */
 		style->outline.color = RGBA_BLACK;
-		style->fill.type = GOG_FILL_STYLE_NONE;
+		style->fill.type = GOG_FILL_STYLE_SOLID;
+		style->fill.u.solid.is_auto = FALSE;
+		style->fill.u.solid.color = RGBA_WHITE;
 		gog_theme_add_element (theme, style, "GogLegend");
 	style = gog_style_new (); /* series */
 		style->outline.width = 0.; /* hairline */

@@ -112,10 +112,10 @@ do_row_filling (Sheet *sheet, fill_series_t *fs)
 
 	col = fs->sel->start.col;
  
-	for (v = fs->v0; ; col++ ) {
-		if (fs->is_stop_set && v > fs->stop_value)
-			break;
-		if (col > fs->sel->end.col)
+	for (v = fs->v0; ; col++) {
+		if ((fs->is_stop_set && v > fs->stop_value) ||
+		    (!fs->is_stop_set && col > fs->sel->end.col) ||
+		    col >= SHEET_MAX_COLS-1)
 			break;
 
 		cell = sheet_cell_fetch (sheet, col, fs->sel->start.row);
@@ -138,9 +138,9 @@ do_column_filling (Sheet *sheet, fill_series_t *fs)
 	row = fs->sel->start.row;
  
 	for (v = fs->v0; ; row++ ) {
-		if (fs->is_stop_set && v > fs->stop_value)
-			break;
-		if (row > fs->sel->end.row)
+		if ((fs->is_stop_set && v > fs->stop_value) ||
+		    (!fs->is_stop_set && row > fs->sel->end.row) ||
+		    row >= SHEET_MAX_ROWS-1)
 			break;
 
 		cell = sheet_cell_fetch (sheet, fs->sel->start.col, row);

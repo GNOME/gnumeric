@@ -61,6 +61,7 @@ Validation *validation_new   (ValidationStyle style,
 void        validation_ref    (Validation *v);
 void        validation_unref  (Validation *v);
 ValidationStatus validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
-				  Sheet *sheet, CellPos const *pos);
+				  Sheet *sheet, CellPos const *pos,
+				  gboolean *showed_dialog);
 
 #endif /* GNUMERIC_VALIDATION_H */

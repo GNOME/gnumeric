@@ -1,3 +1,8 @@
+2003-05-31  Jody Goldberg <jody@gnome.org>
+
+	* dialog-fill-series.c (dialog_fill_series) : default the cols/rows
+	  depending on the current selection.
+
 2003-05-30  Jody Goldberg <jody@gnome.org>
 
 	* dialog-shuffle.c (dialog_shuffle) : init input from the selection.

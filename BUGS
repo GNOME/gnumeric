@@ -35,7 +35,7 @@ Pending Patches
     0.6)  Add mnemonic_activate for colour combos		(DONE)
     0.7)  Add mnemonic_activate for ExprEntry			(DONE)
     0.8)  Queue update for changed/deleted in ExprEntry ?
-    0.9)  menu mnemonics for Edit -> Fill -> merge & series
+    0.9)  menu mnemonics for Edit -> Fill -> merge & series	(DONE)
     0.10) Fix warning on destruction of torn off combo		(DONE)
     0.11) Use 'Chart' in the ui to be compatible
     0.12) giving focus to an expr entry with a single rangeref
@@ -68,6 +68,8 @@ Pending Patches
 	1.8.3) Handle 'use_one_style' for pies
 	1.8.4) override auto series indexing for xls
 	1.8.5) styles
+	1.8.6) Avoid leaking GODatas when faced with an unknown
+	       plot type.
     1.9) data sources
 	1.9.1) vector and scalar data sources from gnumeric	(DONE)
 	1.9.2) static vector and scalar data sources for utils
@@ -79,7 +81,7 @@ Pending Patches
 	1.10.3) stacked						(DONE)
 	1.10.4) percentage					(DONE)
 	1.10.5) Skip over bars/cols when too narrow
-	1.10.6) Work around bleed through with overlap 100
+	1.10.6) Work around bleed through with overlap 100	(DONE)
 	1.10.7) Check for short vectors				(DONE)
     1.11) Rethink GraphItem lifecyle to simplify removal	(DONE)
     1.12) Extend GogObjectRole to include more handlers		(DONE)
@@ -117,10 +119,14 @@ Pending Patches
 	1.21.2) load from xml
 	1.21.3) selector for graphs
 	1.21.4) How to change a graph's theme
-    1.22) enumerate legend elements				(DONE)
-    1.23) simple layout
+    1.22) Legend
+	1.22.1) Set up cardinality framework.			(DONE)
+	1.22.2) 
+    1.23) simple chart layout
 	1.23.1) In ChartView::size_allocate use the positions	(DONE)
-	1.23.1) For compass placement use the alignment flags
+	1.23.2) For compass placement use the alignment flags	(DONE)
+	1.23.3) support NW, NE, SW, SE				(DONE)
+	1.23.4) Add some notion of padding
     1.24) Sizing units
 	1.24.1) Have the legend use pts to size swatches	(DONE)
 	1.24.2) Test renderers mapping between pts & pixels	(DONE)

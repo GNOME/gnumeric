@@ -491,7 +491,7 @@ static void
 dialog_formula_guru_destroy (FormulaGuruState *state)
 {
 	wbcg_edit_detach_guru (state->wbcg);
-	wbcg_edit_finish (state->wbcg, FALSE);
+	wbcg_edit_finish (state->wbcg, FALSE, NULL);
 
 	g_free (state->prefix);
 	state->prefix = NULL;
@@ -520,7 +520,7 @@ static void
 cb_dialog_formula_guru_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
 				       FormulaGuruState *state)
 {
-	wbcg_edit_finish (state->wbcg, FALSE);
+	wbcg_edit_finish (state->wbcg, FALSE, NULL);
 }
 
 /**
@@ -652,8 +652,7 @@ cb_dialog_formula_guru_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 		gnumeric_cell_renderer_expr_entry_editing_done (
 			GTK_CELL_EDITABLE (state->cellrenderer->entry),
 			state->cellrenderer);
-	wbcg_edit_finish (state->wbcg, TRUE);
-	return;
+	wbcg_edit_finish (state->wbcg, TRUE, NULL);
 }
 
 static void
@@ -884,7 +883,7 @@ dialog_formula_guru_show (FormulaGuruState *state)
 
 	if ((!gtk_tree_model_get_iter_first   (GTK_TREE_MODEL (state->model), &iter)) ||
 	    gtk_tree_model_iter_n_children (GTK_TREE_MODEL(state->model), &iter) == 0)
-		wbcg_edit_finish (state->wbcg, TRUE);
+		wbcg_edit_finish (state->wbcg, TRUE, NULL);
 	else
 		gtk_widget_show_all (state->dialog);
 }
