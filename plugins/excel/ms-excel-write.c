@@ -687,6 +687,7 @@ excel_write_DV (ValInputPair const *vip, gpointer dummy, ExcelWriteSheet *esheet
 		};
 
 		switch (vip->v->op) {
+		case VALIDATION_OP_NONE:
 		case VALIDATION_OP_BETWEEN:	options |= (0 << 20); break;
 		case VALIDATION_OP_NOT_BETWEEN:	options |= (1 << 20); break;
 		case VALIDATION_OP_EQUAL:	options |= (2 << 20); break;
