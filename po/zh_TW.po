@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.7.7\n"
 "POT-Creation-Date: 2001-11-29 06:19-0500\n"
-"PO-Revision-Date: 2001-11-30 00:39+0800\n"
+"PO-Revision-Date: 2001-12-06 01:56+0800\n"
 "Last-Translator: Abel Cheung <maddog@linux.org.hk>\n"
 "Language-Team: Traditional Chinese <zh-l10n@linux.org.tw>\n"
 "MIME-Version: 1.0\n"
@@ -263,7 +263,7 @@ msgstr "資料庫"
 
 #: plugins/gda/plugin.xml.in.h:2
 msgid "Database functions for allowing the retrieval of data from a database"
-msgstr "資料庫函式，可以由資料庫擷取資料"
+msgstr "資料庫函數，可以由資料庫擷取資料"
 
 #: plugins/gnome-glossary/plugin.xml.in.h:1
 msgid "Gnome Glossary"
@@ -292,7 +292,7 @@ msgstr "給 SCM 的第一個引數必須為 Guile 表示式"
 
 #: plugins/guile/plugin.c:81
 msgid "Undefined scheme function"
-msgstr "未定義的 scheme 函式"
+msgstr "未定義的 scheme 函數"
 
 #: plugins/guile/plugin.c:100
 msgid "Could not evaluate argument"
@@ -473,8 +473,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=NT_PHI\n"
 "@SYNTAX=NT_PHI(n)\n"
-"@DESCRIPTION=NT_PHI 函式會計算不大於 @n 但和 @n 互質的正整數的個數。\n"
-"此函式只使用一個引數。\n"
+"@DESCRIPTION=NT_PHI 函數會計算不大於 @n 但和 @n 互質的正整數的個數。\n"
+"此函數只使用一個引數。\n"
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
@@ -494,7 +494,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=NT_MU 函式（Mobius μ 函式）的回傳值是：\n"
+"@DESCRIPTION=NT_MU 函數（Mobius μ 函數）的回傳值是：\n"
 "0 ，如果 @n 可被某質數的平方整除。\n"
 "否則回傳值是：\n"
 "-1，如果 @n 含有奇數個不同的質因數。\n"
@@ -515,8 +515,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=NT_D\n"
 "@SYNTAX=NT_D(n)\n"
-"@DESCRIPTION=NT_D 函式會計算 @n 的因數個數。\n"
-"此函式只使用一個引數。\n"
+"@DESCRIPTION=NT_D 函數會計算 @n 的因數個數。\n"
+"此函數只使用一個引數。\n"
 "@EXAMPLES=\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_SIGMA"
 
@@ -532,8 +532,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=NT_SIGMA\n"
 "@SYNTAX=NT_SIGMA(n)\n"
-"@DESCRIPTION=NT_SIGMA 函式會計算 @n 的因數的總和。\n"
-"此函式只使用一個引數。\n"
+"@DESCRIPTION=NT_SIGMA 函數會計算 @n 的因數的總和。\n"
+"此函數只使用一個引數。\n"
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 
@@ -548,8 +548,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=ITHPRIME\n"
 "@SYNTAX=ITHPRIME(i)\n"
-"@DESCRIPTION=ITHPRIME 函式會回傳第 @i 個質數。\n"
-"此函式只使用一個引數。\n"
+"@DESCRIPTION=ITHPRIME 函數會回傳第 @i 個質數。\n"
+"此函數只使用一個引數。\n"
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, NT_SIGMA"
 
@@ -564,8 +564,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISPRIME\n"
 "@SYNTAX=ISPRIME(i)\n"
-"@DESCRIPTION=如果 @i 是質數，ISPRIME 函式會回傳 TRUE，否則回傳 FALSE。\n"
-"此函式只使用一個引數。\n"
+"@DESCRIPTION=如果 @i 是質數，ISPRIME 函數會回傳 TRUE，否則回傳 FALSE。\n"
+"此函數只使用一個引數。\n"
 "@SEEALSO=ITHPRIME, NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:395
@@ -579,8 +579,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=NT_PI\n"
 "@SYNTAX=NT_PI(n)\n"
-"@DESCRIPTION=NT_PI 函式會回傳不大於 @n 的質數個數。\n"
-"此函式只使用一個引數。\n"
+"@DESCRIPTION=NT_PI 函數會回傳不大於 @n 的質數個數。\n"
+"此函數只使用一個引數。\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:422
@@ -665,7 +665,7 @@ msgstr "可匯入 GNU Oleo 文件"
 
 #: plugins/perl/plugin.xml.in.h:1
 msgid "Enables the creation of functions in Perl"
-msgstr "可使用 Perl 來編寫函式"
+msgstr "可使用 Perl 來編寫函數"
 
 #: plugins/perl/plugin.xml.in.h:2
 msgid "Perl"
@@ -713,7 +713,7 @@ msgstr "Plan Perfect"
 
 #: plugins/plan-perfect/plugin.xml.in.h:3
 msgid "Plan Perfect Format (PLN) import"
-msgstr ""
+msgstr "匯入 Plan Perfect 格式（PLN）"
 
 #: plugins/psiconv/psiconv-read.c:572
 msgid "Error while reading psiconv file."
@@ -741,11 +741,11 @@ msgstr "Python"
 
 #: plugins/py-func/plugin.xml.in.h:2
 msgid "Python functions"
-msgstr "Python 函式"
+msgstr "Python 函數"
 
 #: plugins/py-func/plugin.xml.in.h:3
 msgid "Sample Python plugin providing some (useless) functions."
-msgstr ""
+msgstr "Python 增效模組範例，提供一些（沒用的）函數。"
 
 #: plugins/python-loader/plugin.xml.in.h:1
 msgid "Python plugin loader"
@@ -820,7 +820,7 @@ msgstr "Python 檔案「%s」的格式不正確。"
 #: src/plugin-loader-module.c:445 src/plugin-loader-module.c:510
 #, c-format
 msgid "File doesn't contain \"%s\" function."
-msgstr "檔案內沒有「%s」函式。"
+msgstr "檔案內沒有「%s」函數。"
 
 #: plugins/python-loader/python-loader.c:682
 #, c-format
@@ -875,7 +875,7 @@ msgstr "SC/xspread"
 
 #: plugins/sc/sc.c:387
 msgid "Error parsing line"
-msgstr ""
+msgstr "分析檔案時發生錯誤"
 
 #: plugins/sc/sc.c:433
 msgid "Error reading sheet."
@@ -891,7 +891,7 @@ msgstr "MultiPlan（SYLK）"
 
 #: plugins/sylk/plugin.xml.in.h:3
 msgid "MultiPlan (SYLK) import"
-msgstr ""
+msgstr "MultiPlan（SYLK）匯入支援"
 
 #: plugins/sylk/sylk.c:418
 msgid "Not SYLK file"
@@ -899,7 +899,7 @@ msgstr "不是 SYLK 檔"
 
 #: plugins/sylk/sylk.c:425
 msgid "error parsing line\n"
-msgstr ""
+msgstr "分析檔案時發生錯誤\n"
 
 #: plugins/sylk/sylk.c:454
 msgid "Error while opening sylk file."
@@ -971,7 +971,7 @@ msgstr "箭頭"
 
 #: src/GNOME_Gnumeric.xml.h:7 src/workbook-control-gui.c:2829
 msgid "Auto _Correct..."
-msgstr "自動更正(_C)..."
+msgstr "自動修正(_C)..."
 
 #: src/GNOME_Gnumeric.xml.h:8 src/workbook-control-gui.c:2540
 msgid "Auto_fill"
@@ -979,7 +979,7 @@ msgstr "自動填充(_F)"
 
 #: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:2541
 msgid "Automatically fill the current selection"
-msgstr ""
+msgstr "自動填滿目前的選擇區域"
 
 #: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:2830
 msgid "Automatically perform simple spell checking"
@@ -1102,7 +1102,7 @@ msgstr "設定工具列"
 
 #: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:2910
 msgid "Consolidate regions using a function"
-msgstr ""
+msgstr "透過函數合併不同區域的資料"
 
 #: src/GNOME_Gnumeric.xml.h:39 src/selection.c:540
 #: src/workbook-control-gui.c:2964
@@ -1135,11 +1135,11 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:46
 msgid "Create a label"
-msgstr ""
+msgstr "繪畫標籤"
 
 #: src/GNOME_Gnumeric.xml.h:47
 msgid "Create a line"
-msgstr ""
+msgstr "繪畫直線"
 
 #: src/GNOME_Gnumeric.xml.h:48
 msgid "Create a list"
@@ -1167,7 +1167,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:54
 msgid "Create an arrow"
-msgstr ""
+msgstr "繪畫箭頭"
 
 #: src/GNOME_Gnumeric.xml.h:55 src/sheet-control-gui.c:1316
 #: src/workbook-control-gui.c:2585
@@ -1212,7 +1212,7 @@ msgstr "顯示算式(_F)"
 
 #: src/GNOME_Gnumeric.xml.h:64 src/workbook-control-gui.c:2871
 msgid "Display _Outlines"
-msgstr ""
+msgstr "顯示輪廓(_O)"
 
 #: src/GNOME_Gnumeric.xml.h:65 src/workbook-control-gui.c:2769
 msgid "Display the value of a formula or the formula itself"
@@ -1232,7 +1232,7 @@ msgstr "離開(_X)"
 
 #: src/GNOME_Gnumeric.xml.h:69
 msgid "Edit a formula in the current cell"
-msgstr ""
+msgstr "在目前的儲存格中編輯算式"
 
 #: src/GNOME_Gnumeric.xml.h:70 src/workbook-control-gui.c:2682
 msgid "Edit sheet and workbook names"
@@ -1264,7 +1264,7 @@ msgstr "格式(_O)"
 
 #: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:2893
 msgid "Filter data with given criteria"
-msgstr "以指定的規限過濾資料"
+msgstr "以指定的規條過濾資料"
 
 #: src/GNOME_Gnumeric.xml.h:78 src/dialogs/cell-format.glade.h:41
 #: src/workbook-format-toolbar.c:779
@@ -1278,7 +1278,7 @@ msgstr "字型大小"
 #: src/GNOME_Gnumeric.xml.h:80 src/workbook-format-toolbar.c:410
 #: src/workbook-format-toolbar.c:888
 msgid "Font selector"
-msgstr ""
+msgstr "選擇字型"
 
 #: src/GNOME_Gnumeric.xml.h:81 src/dialogs/dialog-cell-format.c:2668
 #: src/workbook-format-toolbar.c:865 src/workbook-format-toolbar.c:899
@@ -1361,7 +1361,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:100
 msgid "Insert Component"
-msgstr "插入元件"
+msgstr "加入元件"
 
 #: src/GNOME_Gnumeric.xml.h:101
 msgid "Insert Shaped Component"
@@ -1439,7 +1439,7 @@ msgstr "標籤"
 #: src/GNOME_Gnumeric.xml.h:119 src/dialogs/cell-format.glade.h:55
 #: src/workbook-format-toolbar.c:630
 msgid "Left"
-msgstr "靠左"
+msgstr "左"
 
 #: src/GNOME_Gnumeric.xml.h:120
 msgid "Left justifies the contents of each cell"
@@ -1448,7 +1448,7 @@ msgstr "向左靠齊每個儲存格的內容"
 #: src/GNOME_Gnumeric.xml.h:121 src/dialogs/cell-format.glade.h:56
 #: src/workbook-object-toolbar.c:168
 msgid "Line"
-msgstr ""
+msgstr "直線"
 
 #: src/GNOME_Gnumeric.xml.h:122 src/dialogs/cell-format.glade.h:57
 #: src/workbook-object-toolbar.c:162
@@ -1506,7 +1506,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:135
 msgid "Money"
-msgstr ""
+msgstr "貨幣"
 
 #: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:2940
 msgid "New"
@@ -1648,7 +1648,7 @@ msgstr ""
 #: src/GNOME_Gnumeric.xml.h:169 src/dialogs/cell-format.glade.h:70
 #: src/workbook-format-toolbar.c:632
 msgid "Right"
-msgstr "靠右"
+msgstr "右"
 
 #: src/GNOME_Gnumeric.xml.h:170
 msgid "Right justifies the contents of each cell"
@@ -1701,7 +1701,7 @@ msgstr "搜尋..."
 
 #: src/GNOME_Gnumeric.xml.h:182 src/workbook-control-gui.c:2527
 msgid "Select Arra_y"
-msgstr ""
+msgstr "選擇陣列(_Y)"
 
 #: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:2512
 msgid "Select _All"
@@ -1745,11 +1745,11 @@ msgstr "修改目前印表機的頁面設定"
 
 #: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:2994
 msgid "Sort Ascending"
-msgstr "遞增排列"
+msgstr "遞增排序"
 
 #: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:2997
 msgid "Sort Descending"
-msgstr "遞減排列"
+msgstr "遞減排序"
 
 #: src/GNOME_Gnumeric.xml.h:195
 msgid "Sort the selected cells"
@@ -1868,7 +1868,7 @@ msgstr "自動儲存(_A)..."
 #: src/GNOME_Gnumeric.xml.h:222 src/workbook-control-gui.c:2724
 #: src/workbook-control-gui.c:2743
 msgid "_Auto fit selection"
-msgstr ""
+msgstr "自動符合內容(_A)"
 
 #: src/GNOME_Gnumeric.xml.h:223 src/workbook-control-gui.c:2811
 msgid "_Autoformat..."
@@ -1899,7 +1899,7 @@ msgstr "列(_C)..."
 
 #: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:2909
 msgid "_Consolidate..."
-msgstr ""
+msgstr "合併(_C)..."
 
 #: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:2503
 msgid "_Content"
@@ -1994,7 +1994,7 @@ msgstr "匯入(_I)..."
 #: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:2553
 #: src/workbook-control-gui.c:2930
 msgid "_Insert"
-msgstr "插入(_I)"
+msgstr "加入(_I)"
 
 #: src/GNOME_Gnumeric.xml.h:251
 msgid "_Insert new"
@@ -2076,7 +2076,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:268
 msgid "_Sort..."
-msgstr "排列(_S)..."
+msgstr "排序(_S)..."
 
 #: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:2752
 msgid "_Standard Height"
@@ -2204,7 +2204,7 @@ msgstr ""
 #: src/analysis-tools.c:1333 src/analysis-tools.c:3335
 #: src/dialogs/cell-format.glade.h:72
 msgid "Sample"
-msgstr ""
+msgstr "示範"
 
 #: src/analysis-tools.c:1429 src/analysis-tools.c:1431
 #: src/analysis-tools.c:1547 src/analysis-tools.c:1549
@@ -2268,7 +2268,7 @@ msgstr ""
 
 #: src/analysis-tools.c:2274
 msgid "Not implemented yet.\n"
-msgstr ""
+msgstr "此功能尚未完成。\n"
 
 #: src/analysis-tools.c:2350
 msgid "Y Variable"
@@ -2350,12 +2350,12 @@ msgstr ""
 #: src/analysis-tools.c:3025 src/dialogs/dialog-stf-preview.h:19
 #, c-format
 msgid "Column %d"
-msgstr ""
+msgstr "第 %d 列"
 
 #: src/analysis-tools.c:3042
 #, c-format
 msgid "Row %d"
-msgstr ""
+msgstr "第 %d 行"
 
 #: src/analysis-tools.c:3109
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
@@ -2379,7 +2379,7 @@ msgstr ""
 #: src/analysis-tools.c:3292 src/dialogs/consolidate.glade.h:2
 #: src/workbook-control-gui.c:3612
 msgid "Average"
-msgstr ""
+msgstr "平均值"
 
 #: src/analysis-tools.c:3293
 msgid "Variance"
@@ -2475,7 +2475,7 @@ msgstr ""
 #: src/clipboard.c:297 src/clipboard.c:310 src/clipboard.c:322
 #: src/clipboard.c:330
 msgid "Unable to paste"
-msgstr ""
+msgstr "無法貼上"
 
 #: src/clipboard.c:298
 msgid "Content can only be pasted by value or by link."
@@ -2511,7 +2511,7 @@ msgstr ""
 
 #: src/cmd-edit.c:307
 msgid "Unable to paste into selection"
-msgstr ""
+msgstr "無法貼到選擇區域"
 
 #: src/cmd-edit.c:388
 #, c-format
@@ -2540,32 +2540,32 @@ msgstr ""
 #: src/commands.c:662
 #, c-format
 msgid "Typing \"%s%s\" in %s"
-msgstr ""
+msgstr "在 %3$s 輸入「%1$s%2$s」"
 
 #: src/commands.c:832
 #, c-format
 msgid "Typing \"%s%s\""
-msgstr ""
+msgstr "輸入「%s%s」"
 
 #: src/commands.c:1092
 #, c-format
 msgid "Inserting %d columns before %s"
-msgstr ""
+msgstr "在 %2$s 前加入 %1$d 列"
 
 #: src/commands.c:1093
 #, c-format
 msgid "Inserting %d column before %s"
-msgstr ""
+msgstr "在 %2$s 前加入 %1$d 列"
 
 #: src/commands.c:1104
 #, c-format
 msgid "Inserting %d rows before %s"
-msgstr ""
+msgstr "在 %2$s 前加入 %1$d 行"
 
 #: src/commands.c:1105
 #, c-format
 msgid "Inserting %d row before %s"
-msgstr ""
+msgstr "在 %2$s 前加入 %1$d 行"
 
 #: src/commands.c:1116
 #, c-format
@@ -2593,11 +2593,11 @@ msgstr ""
 
 #: src/commands.c:1282
 msgid "contents"
-msgstr ""
+msgstr "內容"
 
 #: src/commands.c:1284
 msgid "formats"
-msgstr ""
+msgstr "格式"
 
 #: src/commands.c:1286
 msgid "comments"
@@ -2605,17 +2605,17 @@ msgstr ""
 
 #: src/commands.c:1302
 msgid "all"
-msgstr ""
+msgstr "全部資料"
 
 #: src/commands.c:1309
 #, c-format
 msgid "Clearing %s in %s"
-msgstr ""
+msgstr "清除 %2$s 的%s"
 
 #: src/commands.c:1504
 #, c-format
 msgid "Changing format of %s"
-msgstr ""
+msgstr "改變 %s 的格式"
 
 #: src/commands.c:1580
 #, c-format
@@ -2624,57 +2624,57 @@ msgstr ""
 
 #: src/commands.c:1690
 msgid "Set Date/Time"
-msgstr ""
+msgstr "設定日期/時間"
 
 #: src/commands.c:1707
 #, c-format
 msgid "Setting current date in %s"
-msgstr ""
+msgstr "設定 %s 的內容為現在的日期"
 
 #: src/commands.c:1708
 #, c-format
 msgid "Setting current time in %s"
-msgstr ""
+msgstr "設定 %s 的內容為現在的時間"
 
 #: src/commands.c:1816
 #, c-format
 msgid "Autofitting column %s"
-msgstr ""
+msgstr "列 %s 自動改變寬度"
 
 #: src/commands.c:1817
 #, c-format
 msgid "Autofitting row %s"
-msgstr ""
+msgstr "行 %s 自動改變高度"
 
 #: src/commands.c:1820
 #, c-format
 msgid "Setting width of column %s to %d pixels"
-msgstr ""
+msgstr "設定 %s 的列寬為 %d 像素"
 
 #: src/commands.c:1822
 #, c-format
 msgid "Setting height of row %s to %d pixels"
-msgstr ""
+msgstr "設定 %s 的行高為 %d 像素"
 
 #: src/commands.c:1827 src/commands.c:1828
 #, c-format
 msgid "Autofitting columns %s"
-msgstr ""
+msgstr "列 %s 自動改變寬度"
 
 #: src/commands.c:1831
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
-msgstr ""
+msgstr "設定 %s 的列寬為 %d 像素"
 
 #: src/commands.c:1833
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
-msgstr ""
+msgstr "設定 %s 的行高為 %d 像素"
 
 #: src/commands.c:1917
 #, c-format
 msgid "Sorting %s"
-msgstr ""
+msgstr "將 %s 排序"
 
 #: src/commands.c:2045
 msgid "Unhide columns"
@@ -2747,7 +2747,7 @@ msgstr ""
 #: src/commands.c:2453
 #, c-format
 msgid "Moving %s"
-msgstr ""
+msgstr "移動 %s"
 
 #: src/commands.c:2462 src/commands.c:2646
 msgid "is beyond sheet boundaries"
@@ -2757,23 +2757,23 @@ msgstr ""
 #: src/commands.c:2617
 #, c-format
 msgid "Pasting into %s"
-msgstr ""
+msgstr "貼到 %s"
 
 #. Check arrays or merged regions
 #: src/commands.c:2800 src/workbook-control-gui.c:1830
 msgid "Autofill"
-msgstr ""
+msgstr "自動填充"
 
 #. Changed in initial redo.
 #: src/commands.c:2823
 #, c-format
 msgid "Autofilling %s"
-msgstr ""
+msgstr "自動填充 %s"
 
 #: src/commands.c:2976
 #, c-format
 msgid "Autoformatting %s"
-msgstr ""
+msgstr "自動格式化 %s"
 
 #: src/commands.c:3086
 #, c-format
@@ -2788,17 +2788,17 @@ msgstr ""
 #. Corrected below.
 #: src/commands.c:3602 src/dialogs/search-replace.glade.h:43
 msgid "Search and Replace"
-msgstr ""
+msgstr "搜尋及取代"
 
 #: src/commands.c:3698
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
-msgstr ""
+msgstr "設定預設每列寬度為 %.2f 點"
 
 #: src/commands.c:3699
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
-msgstr ""
+msgstr "設定預設每行高度為 %.2f 點"
 
 #. Changed in initial redo.
 #: src/commands.c:3784
@@ -2809,27 +2809,27 @@ msgstr ""
 #: src/commands.c:3899
 #, c-format
 msgid "Zoom %s to %.0f%%"
-msgstr ""
+msgstr "%s 的大小縮放至 %.0f%%"
 
 #: src/commands.c:3968
 msgid "Insert object"
-msgstr ""
+msgstr "加入物件"
 
 #: src/commands.c:4026
 msgid "Delete object"
-msgstr ""
+msgstr "刪除物件"
 
 #: src/commands.c:4107
 msgid "Resize object"
-msgstr ""
+msgstr "改變物件尺寸"
 
 #: src/commands.c:4107
 msgid "Move object"
-msgstr ""
+msgstr "移動物件"
 
 #: src/corba-args.c:30
 msgid "Oaf options"
-msgstr ""
+msgstr "Oaf 選項"
 
 #: src/dates.c:17
 msgid "*Sun"
@@ -2861,31 +2861,31 @@ msgstr ""
 
 #: src/dates.c:29
 msgid "Sunday"
-msgstr ""
+msgstr "星期日"
 
 #: src/dates.c:30
 msgid "Monday"
-msgstr ""
+msgstr "星期一"
 
 #: src/dates.c:31
 msgid "Tuesday"
-msgstr ""
+msgstr "星期二"
 
 #: src/dates.c:32
 msgid "Wednesday"
-msgstr ""
+msgstr "星期三"
 
 #: src/dates.c:33
 msgid "Thursday"
-msgstr ""
+msgstr "星期四"
 
 #: src/dates.c:34
 msgid "Friday"
-msgstr ""
+msgstr "星期五"
 
 #: src/dates.c:35
 msgid "Saturday"
-msgstr ""
+msgstr "星期六"
 
 #: src/dates.c:41
 msgid "*Jan"
@@ -2937,51 +2937,51 @@ msgstr ""
 
 #: src/dates.c:58
 msgid "January"
-msgstr ""
+msgstr "一月"
 
 #: src/dates.c:59
 msgid "February"
-msgstr ""
+msgstr "二月"
 
 #: src/dates.c:60
 msgid "March"
-msgstr ""
+msgstr "三月"
 
 #: src/dates.c:61
 msgid "April"
-msgstr ""
+msgstr "四月"
 
 #: src/dates.c:62
 msgid "May"
-msgstr ""
+msgstr "五月"
 
 #: src/dates.c:63
 msgid "June"
-msgstr ""
+msgstr "六月"
 
 #: src/dates.c:64
 msgid "July"
-msgstr ""
+msgstr "七月"
 
 #: src/dates.c:65
 msgid "August"
-msgstr ""
+msgstr "八月"
 
 #: src/dates.c:66
 msgid "September"
-msgstr ""
+msgstr "九月"
 
 #: src/dates.c:67
 msgid "October"
-msgstr ""
+msgstr "十月"
 
 #: src/dates.c:68
 msgid "November"
-msgstr ""
+msgstr "十一月"
 
 #: src/dates.c:69
 msgid "December"
-msgstr ""
+msgstr "十二月"
 
 #: src/dialogs/advanced-filter.glade.h:1
 msgid "Action"
@@ -2993,7 +2993,7 @@ msgstr ""
 
 #: src/dialogs/advanced-filter.glade.h:3
 msgid "C_opy to:        "
-msgstr ""
+msgstr "複製到(_O)："
 
 #: src/dialogs/advanced-filter.glade.h:4
 msgid "C_riteria range:"
@@ -3009,7 +3009,7 @@ msgstr ""
 
 #: src/dialogs/advanced-filter.glade.h:7
 msgid "_Copy to a new location"
-msgstr ""
+msgstr "複製到新的位置(_C)"
 
 #: src/dialogs/advanced-filter.glade.h:8
 msgid "_Filter in-place"
@@ -3025,12 +3025,12 @@ msgstr ""
 
 #: src/dialogs/analysis-tools.glade.h:1
 msgid "Data Analysis Tools"
-msgstr ""
+msgstr "資料分析工具"
 
 #: src/dialogs/anova-one.glade.h:1 src/dialogs/mean-tests.glade.h:2
 #: src/dialogs/variance-tests.glade.h:1
 msgid "0.05"
-msgstr ""
+msgstr "0.05"
 
 #: src/dialogs/anova-one.glade.h:2
 msgid "ANOVA - Single Factor"
@@ -3052,7 +3052,7 @@ msgstr ""
 #: src/dialogs/rank.glade.h:2 src/dialogs/regression.glade.h:5
 #: src/dialogs/sampling.glade.h:3 src/dialogs/variance-tests.glade.h:2
 msgid "Input"
-msgstr ""
+msgstr "輸入"
 
 #: src/dialogs/anova-one.glade.h:5 src/dialogs/anova-two.glade.h:6
 #: src/dialogs/correlation.glade.h:4 src/dialogs/covariance.glade.h:4
@@ -3074,7 +3074,7 @@ msgstr ""
 #: src/dialogs/regression.glade.h:7 src/dialogs/sampling.glade.h:7
 #: src/dialogs/variance-tests.glade.h:4
 msgid "Output"
-msgstr ""
+msgstr "輸出"
 
 #: src/dialogs/anova-one.glade.h:7
 msgid "_Alpha = "
@@ -3136,12 +3136,12 @@ msgstr ""
 
 #: src/dialogs/anova-two.glade.h:2 src/dialogs/regression.glade.h:1
 msgid "0.95"
-msgstr ""
+msgstr "0.95"
 
 #: src/dialogs/anova-two.glade.h:3 src/dialogs/descriptive-stats.glade.h:3
 #: src/dialogs/random-generation.glade.h:1 src/dialogs/sampling.glade.h:1
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #: src/dialogs/anova-two.glade.h:4
 msgid "ANOVA - Two-Factor"
@@ -3153,153 +3153,153 @@ msgstr ""
 
 #: src/dialogs/autocorrect.glade.h:1
 msgid "Auto Correct"
-msgstr ""
+msgstr "自動修正"
 
 #: src/dialogs/autocorrect.glade.h:2
 msgid "Capitalize _first letter of sentence"
-msgstr ""
+msgstr "每句英文的第一個字母必須為大寫(_F)"
 
 #: src/dialogs/autocorrect.glade.h:3
 msgid "Capitalize _names of days"
-msgstr ""
+msgstr "將英文日期改為大寫字母(_N)"
 
 #: src/dialogs/autocorrect.glade.h:4
 msgid "Correct _TWo INitial CApitals                           "
-msgstr ""
+msgstr "修正英文字出現兩個大寫字母的情況(_T)"
 
 #: src/dialogs/autocorrect.glade.h:5
 msgid "Correct accidental use of _cAPS LOCK key"
-msgstr ""
+msgstr "修正意外地按下了 Caps Lcok 鍵的情況(_C)"
 
 #: src/dialogs/autocorrect.glade.h:6
 msgid "Do _not correct:"
-msgstr ""
+msgstr "不要修正(_N)："
 
 #: src/dialogs/autocorrect.glade.h:7
 msgid "Re_place:"
-msgstr ""
+msgstr "置換(_P)："
 
 #: src/dialogs/autocorrect.glade.h:8 src/dialogs/consolidate.glade.h:26
 #: src/dialogs/dialog-stf.glade.h:61 src/dialogs/names.glade.h:6
 #: src/dialogs/solver.glade.h:16
 msgid "_Add"
-msgstr ""
+msgstr "增加(_A)"
 
 #: src/dialogs/autocorrect.glade.h:9
 msgid "_Do not capitalize after:"
-msgstr ""
+msgstr "以下文字後的英文不要變為大寫(_D)："
 
 #: src/dialogs/autocorrect.glade.h:10
 msgid "_First Letter"
-msgstr ""
+msgstr "第一個字母(_F)"
 
 #: src/dialogs/autocorrect.glade.h:11 src/dialogs/cell-format.glade.h:111
 msgid "_General"
-msgstr ""
+msgstr "一般(_G)"
 
 #: src/dialogs/autocorrect.glade.h:12
 msgid "_INitial CApitals"
-msgstr ""
+msgstr "多個大寫字母(_I)"
 
 #: src/dialogs/autocorrect.glade.h:14
 msgid "_Replace text when typed"
-msgstr ""
+msgstr "即時置換鍵入的文字(_R)"
 
 #: src/dialogs/autocorrect.glade.h:15
 msgid "_With:"
-msgstr ""
+msgstr "為(_W)："
 
 #: src/dialogs/autoformat.glade.h:1
 msgid "A short description of the template"
-msgstr ""
+msgstr "此格式範例的簡短描述"
 
 #: src/dialogs/autoformat.glade.h:2
 msgid "Apply _Alignment"
-msgstr ""
+msgstr "套用對齊方式(_A)"
 
 #: src/dialogs/autoformat.glade.h:3
 msgid "Apply _Borders"
-msgstr ""
+msgstr "套用邊框(_B)"
 
 #: src/dialogs/autoformat.glade.h:4
 msgid "Apply _Fonts"
-msgstr ""
+msgstr "套用字型(_F)"
 
 #: src/dialogs/autoformat.glade.h:5
 msgid "Apply _Number Formats"
-msgstr ""
+msgstr "套用數字格式(_N)"
 
 #: src/dialogs/autoformat.glade.h:6
 msgid "Apply _Patterns"
-msgstr ""
+msgstr "套用樣式(_P)"
 
 #: src/dialogs/autoformat.glade.h:7
 msgid "Author :"
-msgstr ""
+msgstr "作者："
 
 #: src/dialogs/autoformat.glade.h:8
 msgid "Autoformat"
-msgstr ""
+msgstr "自動格式化"
 
 #: src/dialogs/autoformat.glade.h:9
 msgid "Category :"
-msgstr ""
+msgstr "類別："
 
 #: src/dialogs/autoformat.glade.h:10
 msgid "Description :"
-msgstr ""
+msgstr "描述："
 
 #: src/dialogs/autoformat.glade.h:11
 msgid "Name :"
-msgstr ""
+msgstr "名稱："
 
 #: src/dialogs/autoformat.glade.h:12
 msgid "Name of template"
-msgstr ""
+msgstr "格式範例的名稱"
 
 #: src/dialogs/autoformat.glade.h:13
 msgid "The category this template belongs to"
-msgstr ""
+msgstr "此格式範例所屬的類別"
 
 #: src/dialogs/autoformat.glade.h:14
 msgid "The current category"
-msgstr ""
+msgstr "目前的類別"
 
 #: src/dialogs/autoformat.glade.h:15
 msgid "The group/individual that made the template"
-msgstr ""
+msgstr "製作此格式範例的人或群組"
 
 #: src/dialogs/autoformat.glade.h:16
 msgid "_Category"
-msgstr ""
+msgstr "類別(_C)"
 
 #: src/dialogs/autoformat.glade.h:17
 msgid "_Edit..."
-msgstr ""
+msgstr "編輯(_E)..."
 
 #: src/dialogs/autoformat.glade.h:18
 msgid "_New..."
-msgstr ""
+msgstr "新增(_N)"
 
 #: src/dialogs/autoformat.glade.h:19
 msgid "_Preview"
-msgstr ""
+msgstr "預覽(_P)"
 
 #: src/dialogs/autoformat.glade.h:20
 msgid "_Remove Current"
-msgstr ""
+msgstr "移除目前的範例(_R)"
 
 #: src/dialogs/autoformat.glade.h:21
 msgid "_Show Gridlines"
-msgstr ""
+msgstr "顯示格線(_S)"
 
 #: src/dialogs/autoformat.glade.h:22
 msgid "_Template Details"
-msgstr ""
+msgstr "格式範例細節(_T)"
 
 #: src/dialogs/autosave-prompt.glade.h:1 src/dialogs/autosave.glade.h:1
 msgid "Auto Save"
-msgstr ""
+msgstr "自動儲存"
 
 #: src/dialogs/autosave-prompt.glade.h:2
 msgid "Do you want to save the workbook?"
@@ -3307,134 +3307,134 @@ msgstr ""
 
 #: src/dialogs/autosave.glade.h:2
 msgid "_Automatic Save Every"
-msgstr ""
+msgstr "每次自動儲存的相距時間為(_A)："
 
 #: src/dialogs/autosave.glade.h:3
 msgid "_Prompt Before Saving"
-msgstr ""
+msgstr "儲存前先提示使用者(_P)"
 
 #: src/dialogs/autosave.glade.h:4
 msgid "_minutes"
-msgstr ""
+msgstr "分鐘(_M)"
 
 #: src/dialogs/cell-format.glade.h:1
 msgid "$"
-msgstr ""
+msgstr "$"
 
 #: src/dialogs/cell-format.glade.h:3
 #, no-c-format
 msgid "12.5% Grey"
-msgstr ""
+msgstr "12.5% 灰"
 
 #: src/dialogs/cell-format.glade.h:5
 #, no-c-format
 msgid "25% Grey"
-msgstr ""
+msgstr "25% 灰"
 
 #: src/dialogs/cell-format.glade.h:7
 #, no-c-format
 msgid "50% Grey"
-msgstr ""
+msgstr "50% 灰"
 
 #: src/dialogs/cell-format.glade.h:9
 #, no-c-format
 msgid "6.25% Grey"
-msgstr ""
+msgstr "6.25% 灰"
 
 #: src/dialogs/cell-format.glade.h:11
 #, no-c-format
 msgid "75% Grey"
-msgstr ""
+msgstr "75% 灰"
 
 #: src/dialogs/cell-format.glade.h:12
 msgid "Action :"
-msgstr ""
+msgstr "行動："
 
 #: src/dialogs/cell-format.glade.h:13
 msgid "Alignment"
-msgstr ""
+msgstr "對齊方式"
 
 #: src/dialogs/cell-format.glade.h:14
 msgid "Allow :"
-msgstr ""
+msgstr "允許："
 
 #: src/dialogs/cell-format.glade.h:15
 msgid "Any Value                     (no validation)"
-msgstr ""
+msgstr "任何的值（不會檢驗）"
 
 #: src/dialogs/cell-format.glade.h:17
 msgid "Background Color"
-msgstr ""
+msgstr "背景顏色"
 
 #: src/dialogs/cell-format.glade.h:18 src/dialogs/dialog-cell-format.c:2663
 msgid "Border"
-msgstr ""
+msgstr "邊框"
 
 #: src/dialogs/cell-format.glade.h:19 src/workbook-format-toolbar.c:638
 msgid "Bottom"
-msgstr ""
+msgstr "底"
 
 #: src/dialogs/cell-format.glade.h:20
 msgid "Bricks"
-msgstr ""
+msgstr "磚塊"
 
 #: src/dialogs/cell-format.glade.h:21
 msgid "C_enter"
-msgstr ""
+msgstr "置中(_E)"
 
 #: src/dialogs/cell-format.glade.h:22
 msgid "Center _across selection"
-msgstr ""
+msgstr "對應整個選擇範圍置中(_A)"
 
 #: src/dialogs/cell-format.glade.h:23 src/sheet-object-graphic.c:459
 msgid "Color"
-msgstr ""
+msgstr "顏色"
 
 #: src/dialogs/cell-format.glade.h:24
 msgid "Color :"
-msgstr ""
+msgstr "顏色："
 
 #: src/dialogs/cell-format.glade.h:25
 msgid "Condition :"
-msgstr ""
+msgstr "條件："
 
 #: src/dialogs/cell-format.glade.h:26
 msgid "Control"
-msgstr ""
+msgstr "控制"
 
 #: src/dialogs/cell-format.glade.h:27
 msgid "Criteria"
-msgstr ""
+msgstr "規條"
 
 #: src/dialogs/cell-format.glade.h:28
 msgid "Cust_om"
-msgstr ""
+msgstr "自訂(_O)"
 
 #: src/dialogs/cell-format.glade.h:29 src/dialogs/dialog-stf-export.glade.h:15
 #: src/dialogs/dialog-stf-format-page.c:167
 #: src/dialogs/dialog-stf-format-page.c:373
 msgid "Custom"
-msgstr ""
+msgstr "自訂"
 
 #: src/dialogs/cell-format.glade.h:30
 msgid "Date"
-msgstr ""
+msgstr "日期"
 
 #: src/dialogs/cell-format.glade.h:31
 msgid "De_lete format"
-msgstr ""
+msgstr "刪除格式(_L)"
 
 #: src/dialogs/cell-format.glade.h:32
 msgid "Deci_mal places:"
-msgstr ""
+msgstr "小數位(_M)："
 
 #: src/dialogs/cell-format.glade.h:33
 msgid "Decimal"
-msgstr ""
+msgstr "小數"
 
 #: src/dialogs/cell-format.glade.h:34
 msgid "Diagonal"
-msgstr ""
+msgstr "對角線"
 
 #: src/dialogs/cell-format.glade.h:35
 msgid "Diagonal Crosshatch"
@@ -3442,7 +3442,7 @@ msgstr ""
 
 #: src/dialogs/cell-format.glade.h:36
 msgid "Diagonal Stripe"
-msgstr ""
+msgstr "對角間條"
 
 #: src/dialogs/cell-format.glade.h:37
 msgid "Display the value exactly as it was entered"
@@ -3455,11 +3455,11 @@ msgstr ""
 
 #: src/dialogs/cell-format.glade.h:39
 msgid "Effects"
-msgstr ""
+msgstr "效果"
 
 #: src/dialogs/cell-format.glade.h:40
 msgid "Error Alert"
-msgstr ""
+msgstr "錯誤警告"
 
 #: src/dialogs/cell-format.glade.h:42
 msgid "Foreground Solid"
@@ -3473,11 +3473,11 @@ msgstr ""
 
 #: src/dialogs/cell-format.glade.h:44
 msgid "Horizontal"
-msgstr ""
+msgstr "水平"
 
 #: src/dialogs/cell-format.glade.h:45
 msgid "Horizontal Stripe"
-msgstr ""
+msgstr "水平間條"
 
 #: src/dialogs/cell-format.glade.h:46
 msgid "Ignore blank cells"
@@ -3489,7 +3489,7 @@ msgstr ""
 
 #: src/dialogs/cell-format.glade.h:48
 msgid "Information  (allows invalid input)"
-msgstr ""
+msgstr "提供資訊（仍允許不正確的輸入）"
 
 #: src/dialogs/cell-format.glade.h:49
 msgid "Input Message"
@@ -3497,15 +3497,15 @@ msgstr ""
 
 #: src/dialogs/cell-format.glade.h:50
 msgid "Inside"
-msgstr ""
+msgstr "內部"
 
 #: src/dialogs/cell-format.glade.h:51
 msgid "Inside Horizontal"
-msgstr ""
+msgstr "內部水平線"
 
 #: src/dialogs/cell-format.glade.h:52
 msgid "Inside Vertical"
-msgstr ""
+msgstr "內部垂直線"
 
 #: src/dialogs/cell-format.glade.h:53
 msgid "J_ustify"
@@ -3513,7 +3513,7 @@ msgstr ""
 
 #: src/dialogs/cell-format.glade.h:54
 msgid "Large Circles"
-msgstr ""
+msgstr "大圓"
 
 #: src/dialogs/cell-format.glade.h:58
 msgid "Locking cells or hiding formulas only affects protected worksheets."
@@ -3521,57 +3521,57 @@ msgstr ""
 
 #: src/dialogs/cell-format.glade.h:59
 msgid "Message :"
-msgstr ""
+msgstr "訊息："
 
 #: src/dialogs/cell-format.glade.h:60
 msgid "Negat_ive number:"
-msgstr ""
+msgstr "負數(_I)："
 
 #: src/dialogs/cell-format.glade.h:61 src/dialogs/dialog-cell-format.c:1282
 #: src/dialogs/dialog-cell-format.c:1338 src/dialogs/dialog-paste-special.c:34
 msgid "None"
-msgstr ""
+msgstr "無"
 
 #: src/dialogs/cell-format.glade.h:62
 msgid "None          (silently accept invalid input)"
-msgstr ""
+msgstr "不會（接納不正確的輸入且不會警告）"
 
 #: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-formula-guru.c:432
 #: src/dialogs/dialog-search.c:135
 msgid "Number"
-msgstr ""
+msgstr "數字"
 
 #: src/dialogs/cell-format.glade.h:64 src/dialogs/print.glade.h:13
 msgid "Orientation"
-msgstr ""
+msgstr "方向"
 
 #: src/dialogs/cell-format.glade.h:65
 msgid "Outline"
-msgstr ""
+msgstr "輪廓"
 
 #: src/dialogs/cell-format.glade.h:66 src/dialogs/dialog-cell-format.c:2678
 msgid "Pattern"
-msgstr ""
+msgstr "圖樣"
 
 #: src/dialogs/cell-format.glade.h:67
 msgid "Protection"
-msgstr ""
+msgstr "保護"
 
 #: src/dialogs/cell-format.glade.h:68
 msgid "Reverse Diagonal"
-msgstr ""
+msgstr "反向對角線"
 
 #: src/dialogs/cell-format.glade.h:69
 msgid "Reverse Diagonal Stripe"
-msgstr ""
+msgstr "反向對角間條"
 
 #: src/dialogs/cell-format.glade.h:71
 msgid "S_ymbol:"
-msgstr ""
+msgstr "符號(_Y)："
 
 #: src/dialogs/cell-format.glade.h:73
 msgid "Semi Circles"
-msgstr ""
+msgstr "半圓"
 
 #: src/dialogs/cell-format.glade.h:74
 msgid "Show input message when cell is selected"
@@ -3589,19 +3589,19 @@ msgstr ""
 
 #: src/dialogs/cell-format.glade.h:77
 msgid "Small Circles"
-msgstr ""
+msgstr "小圓"
 
 #: src/dialogs/cell-format.glade.h:78
 msgid "Solid"
-msgstr ""
+msgstr "實色"
 
 #: src/dialogs/cell-format.glade.h:79
 msgid "Sp_ecial"
-msgstr ""
+msgstr "特別(_E)"
 
 #: src/dialogs/cell-format.glade.h:80
 msgid "Stop           (never allow invalid input)"
-msgstr ""
+msgstr "停止（不允許不正確的輸入）"
 
 #: src/dialogs/cell-format.glade.h:81
 msgid "Stri_kethrough"
@@ -3617,11 +3617,11 @@ msgstr ""
 
 #: src/dialogs/cell-format.glade.h:84
 msgid "Te_xt"
-msgstr ""
+msgstr "文字(_X)"
 
 #: src/dialogs/cell-format.glade.h:85
 msgid "Text length"
-msgstr ""
+msgstr "文字長度"
 
 #: src/dialogs/cell-format.glade.h:86
 msgid "Thatch"
@@ -3637,7 +3637,7 @@ msgstr ""
 
 #: src/dialogs/cell-format.glade.h:89
 msgid "Thin Diagonal Stripe"
-msgstr ""
+msgstr "較幼的對角間條"
 
 #: src/dialogs/cell-format.glade.h:90
 msgid "Thin Horizontal Crosshatch"
@@ -3645,31 +3645,31 @@ msgstr ""
 
 #: src/dialogs/cell-format.glade.h:91
 msgid "Thin Horizontal Stripe"
-msgstr ""
+msgstr "較幼的水平間條"
 
 #: src/dialogs/cell-format.glade.h:92
 msgid "Thin Reverse Diagonal Stripe"
-msgstr ""
+msgstr "較幼的反向對角間條"
 
 #: src/dialogs/cell-format.glade.h:93
 msgid "Thin Vertical Stripe"
-msgstr ""
+msgstr "較幼的垂直間條"
 
 #: src/dialogs/cell-format.glade.h:94
 msgid "Time"
-msgstr ""
+msgstr "時間"
 
 #: src/dialogs/cell-format.glade.h:95
 msgid "Title :"
-msgstr ""
+msgstr "標題："
 
 #: src/dialogs/cell-format.glade.h:96
 msgid "Top"
-msgstr ""
+msgstr "頂"
 
 #: src/dialogs/cell-format.glade.h:97
 msgid "Unfinished"
-msgstr ""
+msgstr "未完成"
 
 #: src/dialogs/cell-format.glade.h:98
 msgid "Validation"
@@ -3677,15 +3677,15 @@ msgstr ""
 
 #: src/dialogs/cell-format.glade.h:99
 msgid "Vertical Alignment"
-msgstr ""
+msgstr "垂直對齊方式"
 
 #: src/dialogs/cell-format.glade.h:100
 msgid "Vertical Stripe"
-msgstr ""
+msgstr "垂直間條"
 
 #: src/dialogs/cell-format.glade.h:101
 msgid "Warning      (accept/discard invalid input)"
-msgstr ""
+msgstr "警告（接受/忽略不正確的輸入）"
 
 #: src/dialogs/cell-format.glade.h:102
 msgid "Whole numbers"
@@ -3697,35 +3697,35 @@ msgstr ""
 
 #: src/dialogs/cell-format.glade.h:104
 msgid "_Accounting"
-msgstr ""
+msgstr "會計(_A)"
 
 #: src/dialogs/cell-format.glade.h:105
 msgid "_Bottom"
-msgstr ""
+msgstr "底(_B)"
 
 #: src/dialogs/cell-format.glade.h:106
 msgid "_Center"
-msgstr ""
+msgstr "中央(_C)"
 
 #: src/dialogs/cell-format.glade.h:107
 msgid "_Currency"
-msgstr ""
+msgstr "貨幣(_C)"
 
 #: src/dialogs/cell-format.glade.h:108
 msgid "_Date"
-msgstr ""
+msgstr "日期(_D)"
 
 #: src/dialogs/cell-format.glade.h:110
 msgid "_Fraction"
-msgstr ""
+msgstr "分數(_F)"
 
 #: src/dialogs/cell-format.glade.h:112
 msgid "_Hidden"
-msgstr ""
+msgstr "隱藏內容(_H)"
 
 #: src/dialogs/cell-format.glade.h:113
 msgid "_Indent"
-msgstr ""
+msgstr "縮排(_I)"
 
 #: src/dialogs/cell-format.glade.h:114
 msgid "_Justify"
@@ -3733,39 +3733,39 @@ msgstr ""
 
 #: src/dialogs/cell-format.glade.h:115
 msgid "_Left"
-msgstr ""
+msgstr "左(_L)"
 
 #: src/dialogs/cell-format.glade.h:116
 msgid "_Locked"
-msgstr ""
+msgstr "鎖定(_L)"
 
 #: src/dialogs/cell-format.glade.h:117
 msgid "_Number"
-msgstr ""
+msgstr "數字(_N)"
 
 #: src/dialogs/cell-format.glade.h:118
 msgid "_Percentage"
-msgstr ""
+msgstr "百分比(_P)"
 
 #: src/dialogs/cell-format.glade.h:119
 msgid "_Right"
-msgstr ""
+msgstr "右(_R)"
 
 #: src/dialogs/cell-format.glade.h:120
 msgid "_Scientific"
-msgstr ""
+msgstr "科學記數法(_S)"
 
 #: src/dialogs/cell-format.glade.h:121
 msgid "_Style"
-msgstr ""
+msgstr "款式(_S)"
 
 #: src/dialogs/cell-format.glade.h:122
 msgid "_Time"
-msgstr ""
+msgstr "時間(_T)"
 
 #: src/dialogs/cell-format.glade.h:123
 msgid "_Top"
-msgstr ""
+msgstr "頂(_T)"
 
 #: src/dialogs/cell-format.glade.h:124
 msgid "_Type"
@@ -3773,47 +3773,47 @@ msgstr ""
 
 #: src/dialogs/cell-format.glade.h:125
 msgid "_Underline:"
-msgstr ""
+msgstr "底線(_U)："
 
 #: src/dialogs/cell-format.glade.h:126
 msgid "_Use Separator for 1000's"
-msgstr ""
+msgstr "每三個位加上分隔號(_U)"
 
 #: src/dialogs/cell-format.glade.h:127
 msgid "_Wrap text"
-msgstr ""
+msgstr "自動換行(_W)"
 
 #: src/dialogs/cell-format.glade.h:128
 msgid "min <= val <= max         (between)"
-msgstr ""
+msgstr "變數值在某範圍內　　(min <= x <= max)"
 
 #: src/dialogs/cell-format.glade.h:129
 msgid "val != bound                  (not equal to)"
-msgstr ""
+msgstr "變數值不等於指定值　(x != n)"
 
 #: src/dialogs/cell-format.glade.h:130
 msgid "val <  bound                  (less than)"
-msgstr ""
+msgstr "變數值小於指定值　　(x < n)"
 
 #: src/dialogs/cell-format.glade.h:131
 msgid "val <= min || max <= val (not between)"
-msgstr ""
+msgstr "變數值在某範圍外　　(x <= min 或 x >= max)"
 
 #: src/dialogs/cell-format.glade.h:132
 msgid "val <=bound                  (less than or equal to)"
-msgstr ""
+msgstr "變數值不大於指定值　(x <= n)"
 
 #: src/dialogs/cell-format.glade.h:133
 msgid "val == bound                 (equal to)"
-msgstr ""
+msgstr "變數值等於指定值　　(x == n)"
 
 #: src/dialogs/cell-format.glade.h:134
 msgid "val >  bound                  (greater than)"
-msgstr ""
+msgstr "變數值大於指定值　　(x > n)"
 
 #: src/dialogs/cell-format.glade.h:135
 msgid "val >=bound                  (greater than or equal to)"
-msgstr ""
+msgstr "變數值不小於指定值　(x >= n)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A header"
@@ -3821,27 +3821,27 @@ msgstr ""
 
 #: src/dialogs/cell-sort.glade.h:2 src/dialogs/graph-guru.glade.h:1
 msgid "Add"
-msgstr ""
+msgstr "增加"
 
 #: src/dialogs/cell-sort.glade.h:3
 msgid "Advanced Sort Options"
-msgstr ""
+msgstr "進階排序選項"
 
 #: src/dialogs/cell-sort.glade.h:4
 msgid "Case sensitive"
-msgstr ""
+msgstr "區分大小寫"
 
 #: src/dialogs/cell-sort.glade.h:5
 msgid "Entries are"
-msgstr ""
+msgstr "項目會"
 
 #: src/dialogs/cell-sort.glade.h:6 src/dialogs/graph-guru.glade.h:3
 msgid "Remove"
-msgstr ""
+msgstr "移除"
 
 #: src/dialogs/cell-sort.glade.h:7
 msgid "Right-Left"
-msgstr ""
+msgstr "右至左"
 
 #: src/dialogs/cell-sort.glade.h:8
 msgid "Selection has"
@@ -3850,7 +3850,7 @@ msgstr ""
 #: src/dialogs/cell-sort.glade.h:9 src/dialogs/dialog-cell-sort.c:503
 #: src/workbook-control-gui.c:2360
 msgid "Sort"
-msgstr ""
+msgstr "排序"
 
 #: src/dialogs/cell-sort.glade.h:10 src/dialogs/dialog-cell-sort.c:574
 msgid "Sort by"
@@ -3858,51 +3858,51 @@ msgstr ""
 
 #: src/dialogs/cell-sort.glade.h:11
 msgid "Sort..."
-msgstr ""
+msgstr "排序..."
 
 #: src/dialogs/cell-sort.glade.h:12
 msgid "Text"
-msgstr ""
+msgstr "文字"
 
 #: src/dialogs/cell-sort.glade.h:13
 msgid "Top-Bottom"
-msgstr ""
+msgstr "上至下"
 
 #: src/dialogs/col-width.glade.h:1
 msgid "Column width"
-msgstr ""
+msgstr "每列的寬度"
 
 #: src/dialogs/col-width.glade.h:2
 msgid "_Column width (pts):"
-msgstr ""
+msgstr "每列的寬度，以點數計(_C)："
 
 #: src/dialogs/consolidate.glade.h:1
 msgid "Add the entered area to the list of source areas"
-msgstr ""
+msgstr "將輸入的區域加入來源區域的列表"
 
 #: src/dialogs/consolidate.glade.h:3
 msgid "C_opy labels"
-msgstr ""
+msgstr "複製標籤(_O)"
 
 #: src/dialogs/consolidate.glade.h:4
 msgid "Clear the list of source areas"
-msgstr ""
+msgstr "清除來源區域的列表"
 
 #: src/dialogs/consolidate.glade.h:6
 msgid "D_elete"
-msgstr ""
+msgstr "刪除(_E)"
 
 #: src/dialogs/consolidate.glade.h:7
 msgid "Data consolidation"
-msgstr ""
+msgstr "資料合併"
 
 #: src/dialogs/consolidate.glade.h:8
 msgid "Delete the currently selected source area"
-msgstr ""
+msgstr "刪除目前選擇的來源區域"
 
 #: src/dialogs/consolidate.glade.h:9
 msgid "Formulas"
-msgstr ""
+msgstr "算式"
 
 #: src/dialogs/consolidate.glade.h:10
 msgid "In _left column"
@@ -3914,23 +3914,23 @@ msgstr ""
 
 #: src/dialogs/consolidate.glade.h:12
 msgid "Labels"
-msgstr ""
+msgstr "標籤"
 
 #: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3611
 msgid "Max"
-msgstr ""
+msgstr "最大值"
 
 #: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3610
 msgid "Min"
-msgstr ""
+msgstr "最小值"
 
 #: src/dialogs/consolidate.glade.h:15
 msgid "Product"
-msgstr ""
+msgstr "乘積"
 
 #: src/dialogs/consolidate.glade.h:16
 msgid "Source areas"
-msgstr ""
+msgstr "來源區域"
 
 #: src/dialogs/consolidate.glade.h:17
 msgid "Stdev (sample)"
@@ -3942,7 +3942,7 @@ msgstr ""
 
 #: src/dialogs/consolidate.glade.h:20
 msgid "The function to use when consolidating"
-msgstr ""
+msgstr "合併資料時所用的算式"
 
 #: src/dialogs/consolidate.glade.h:21
 msgid ""
@@ -3958,7 +3958,7 @@ msgstr ""
 
 #: src/dialogs/consolidate.glade.h:23
 msgid "Values"
-msgstr ""
+msgstr "變數值"
 
 #: src/dialogs/consolidate.glade.h:24
 msgid "Var (sample)"
@@ -3970,19 +3970,19 @@ msgstr ""
 
 #: src/dialogs/consolidate.glade.h:27 src/dialogs/dialog-stf.glade.h:63
 msgid "_Clear"
-msgstr ""
+msgstr "清除(_C)"
 
 #: src/dialogs/consolidate.glade.h:28
 msgid "_Destination :"
-msgstr ""
+msgstr "目的地(_D)："
 
 #: src/dialogs/consolidate.glade.h:29
 msgid "_Function :"
-msgstr ""
+msgstr "函數(_F)："
 
 #: src/dialogs/consolidate.glade.h:30
 msgid "_Put :"
-msgstr ""
+msgstr "寫入(_P)："
 
 #: src/dialogs/correlation.glade.h:1 src/dialogs/dialog-analysis-tools.c:4378
 msgid "Correlation"
@@ -3995,7 +3995,7 @@ msgstr ""
 #: src/dialogs/delete-cells.glade.h:1 src/dialogs/sheet-order.glade.h:2
 #: src/sheet-object.c:93
 msgid "Delete"
-msgstr ""
+msgstr "刪除"
 
 #: src/dialogs/delete-cells.glade.h:2
 msgid "Delete _column(s)"
@@ -4052,7 +4052,7 @@ msgstr "Jody Goldberg，維護者。"
 
 #: src/dialogs/dialog-about.c:32
 msgid "Sean Atkinson, functions and X-Base importing."
-msgstr "Sean Atkinson，函式及 X-Base 匯入支援。"
+msgstr "Sean Atkinson，函數及 X-Base 匯入支援。"
 
 #: src/dialogs/dialog-about.c:33
 msgid "Grandma Chema Celorio, Tester and sheet copy."
@@ -4099,11 +4099,11 @@ msgstr "Jon K. Hellan，Gnumeric hacker。"
 
 #: src/dialogs/dialog-about.c:46
 msgid "Ross Ihaka, special functions."
-msgstr "Ross Ihaka，特別函式。"
+msgstr "Ross Ihaka，特別函數。"
 
 #: src/dialogs/dialog-about.c:47
 msgid "Jukka-Pekka Iivonen, numerous functions and tools."
-msgstr "Jukka-Pekka Iivonen，不同的函式及工具。"
+msgstr "Jukka-Pekka Iivonen，不同的函數及工具。"
 
 #: src/dialogs/dialog-about.c:48
 msgid "Jakub Jelinek, Gnumeric hacker."
@@ -4167,7 +4167,7 @@ msgstr "Daniel Veillard，XML 支援。"
 
 #: src/dialogs/dialog-about.c:63
 msgid "Vladimir Vuksan, financial functions."
-msgstr "Vladimir Vuksan，財務函式。"
+msgstr "Vladimir Vuksan，有關財務的函數。"
 
 #: src/dialogs/dialog-about.c:64
 msgid "Morten Welinder, Gnumeric hacker."
@@ -4200,7 +4200,7 @@ msgstr ""
 
 #: src/dialogs/dialog-advanced-filter.c:289
 msgid "You should introduce a valid cell range in 'Copy To:'"
-msgstr ""
+msgstr "「複製到」中的欄位內容必須為有效的儲存格範圍"
 
 #: src/dialogs/dialog-advanced-filter.c:335
 msgid ""
@@ -4221,7 +4221,7 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:1121
 #: src/dialogs/dialog-analysis-tools.c:1236
 msgid "The selected input areas must have equal size!"
-msgstr ""
+msgstr "已選擇的輸入區域的大小必須相同！"
 
 #. non-numeric probability (DiscreteDistribution) POST-RELEASE-FIX
 #: src/dialogs/dialog-analysis-tools.c:1124
@@ -4327,7 +4327,7 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:2550
 msgid "_Mean:"
-msgstr ""
+msgstr "平均值(_M)："
 
 #: src/dialogs/dialog-analysis-tools.c:2550
 msgid "_Standard Deviation:"
@@ -4335,7 +4335,7 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:2552
 msgid "Poisson"
-msgstr ""
+msgstr "Poisson"
 
 #: src/dialogs/dialog-analysis-tools.c:2552
 msgid "_Lambda:"
@@ -4373,7 +4373,7 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:2561
 msgid "Bernoulli"
-msgstr ""
+msgstr "Bernoulli"
 
 #: src/dialogs/dialog-analysis-tools.c:2563
 msgid "Uniform"
@@ -4614,11 +4614,11 @@ msgstr "81"
 #: src/dialogs/dialog-autoformat.c:517
 #, c-format
 msgid "Are you sure you want to remove the template '%s' ?"
-msgstr ""
+msgstr "是否確定要移除格式範例「%s」？"
 
 #: src/dialogs/dialog-autoformat.c:531
 msgid "Could not remove template"
-msgstr ""
+msgstr "無法移除格式範例"
 
 #: src/dialogs/dialog-autoformat.c:809 src/dialogs/dialog-stf-export.c:383
 #: src/dialogs/dialog-stf.c:522
@@ -4628,7 +4628,7 @@ msgstr ""
 
 #: src/dialogs/dialog-autoformat.c:948
 msgid "An error occurred while reading the category list"
-msgstr ""
+msgstr "讀入類別的列表時發生錯誤"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
@@ -4639,11 +4639,11 @@ msgstr "一般"
 
 #: src/dialogs/dialog-autosave.c:122
 msgid "You should introduce a proper number of minutes in the entry."
-msgstr ""
+msgstr "欄位中必須填上正確的分鐘數目。"
 
 #: src/dialogs/dialog-cell-comment.c:34
 msgid "Cell comment"
-msgstr ""
+msgstr "儲存格註釋"
 
 #: src/dialogs/dialog-cell-format.c:426
 msgid ";[Red]"
@@ -4659,30 +4659,30 @@ msgstr ""
 
 #: src/dialogs/dialog-cell-format.c:2127 src/dialogs/dialog-cell-format.c:2136
 msgid "Minimum :"
-msgstr ""
+msgstr "最小值："
 
 #: src/dialogs/dialog-cell-format.c:2128 src/dialogs/dialog-cell-format.c:2140
 msgid "Maximum :"
-msgstr ""
+msgstr "最大值："
 
 #: src/dialogs/dialog-cell-format.c:2132
 msgid "Value :"
-msgstr ""
+msgstr "指定值："
 
 #: src/dialogs/dialog-cell-format.c:2597
 msgid "Format Cells"
-msgstr ""
+msgstr "格式化儲存格"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: src/dialogs/dialog-cell-format.c:2663 src/dialogs/dialog-cell-format.c:2668
 #: src/dialogs/dialog-cell-format.c:2678 src/functions/fn-information.c:427
 #: src/workbook-format-toolbar.c:858
 msgid "Automatic"
-msgstr ""
+msgstr "自動"
 
 #: src/dialogs/dialog-cell-format.c:2673 src/workbook-format-toolbar.c:833
 msgid "Clear Background"
-msgstr ""
+msgstr "清除背景"
 
 #: src/dialogs/dialog-cell-sort.c:86 src/dialogs/dialog-cell-sort.c:91
 #, c-format
@@ -4691,15 +4691,15 @@ msgstr ""
 
 #: src/dialogs/dialog-cell-sort.c:204
 msgid "Ascending"
-msgstr ""
+msgstr "遞增"
 
 #: src/dialogs/dialog-cell-sort.c:207
 msgid "Descending"
-msgstr ""
+msgstr "遞減"
 
 #: src/dialogs/dialog-cell-sort.c:221
 msgid "Advanced..."
-msgstr ""
+msgstr "進階..."
 
 #: src/dialogs/dialog-cell-sort.c:323
 msgid "Column must be within range"
@@ -4719,15 +4719,15 @@ msgstr ""
 
 #: src/dialogs/dialog-cell-sort.c:372
 msgid "At least one clause is required."
-msgstr ""
+msgstr "最少需要一個條件。"
 
 #: src/dialogs/dialog-cell-sort.c:381
 msgid "Can't add more than the selection length."
-msgstr ""
+msgstr "條件的數目不可大於選擇區域的長或寬。"
 
 #: src/dialogs/dialog-cell-sort.c:384
 msgid "Maximum number of clauses has been reached."
-msgstr ""
+msgstr "已達到可允許的最大條件數目。"
 
 #: src/dialogs/dialog-cell-sort.c:387 src/dialogs/dialog-cell-sort.c:390
 #: src/dialogs/dialog-cell-sort.c:573
@@ -4736,26 +4736,26 @@ msgstr ""
 
 #: src/dialogs/dialog-consolidate.c:125
 msgid "You must specify a destination region"
-msgstr ""
+msgstr "你必須指定目的地區域"
 
 #: src/dialogs/dialog-consolidate.c:137
 #, c-format
 msgid "%s is not a valid destination region"
-msgstr ""
+msgstr "%s 不是有效的目的地區域"
 
 #: src/dialogs/dialog-consolidate.c:145
 msgid "You must specify one or more source regions"
-msgstr ""
+msgstr "你必須指定一個或多個來源區域"
 
 #: src/dialogs/dialog-consolidate.c:157
 #, c-format
 msgid "Source region %s overlaps with the destination region"
-msgstr ""
+msgstr "來源區域 %s 和目的地區域重疊"
 
 #: src/dialogs/dialog-consolidate.c:163
 #, c-format
 msgid "%s is not a valid source region"
-msgstr ""
+msgstr "%s 不是有效的來源區域"
 
 #: src/dialogs/dialog-define-names.c:377
 msgid "You cannot redefine a builtin name."
@@ -4773,23 +4773,23 @@ msgstr ""
 #: src/dialogs/dialog-formula-guru.c:431 src/dialogs/dialog-search.c:131
 #: src/functions/fn-string.c:1251
 msgid "String"
-msgstr ""
+msgstr "字串"
 
 #: src/dialogs/dialog-formula-guru.c:433
 msgid "Boolean"
-msgstr ""
+msgstr "布林值"
 
 #: src/dialogs/dialog-formula-guru.c:434 src/dialogs/search-replace.glade.h:36
 msgid "Range"
-msgstr ""
+msgstr "範圍"
 
 #: src/dialogs/dialog-formula-guru.c:435
 msgid "Array"
-msgstr ""
+msgstr "陣列"
 
 #: src/dialogs/dialog-formula-guru.c:436
 msgid "Range/Array"
-msgstr ""
+msgstr "範圍/陣列"
 
 #: src/dialogs/dialog-formula-guru.c:437
 msgid "Scalar"
@@ -4840,7 +4840,7 @@ msgstr ""
 
 #: src/dialogs/dialog-goto-cell.c:51
 msgid "Go to..."
-msgstr ""
+msgstr "移至..."
 
 #: src/dialogs/dialog-graph-guru.c:743
 msgid "Step 1 of 3: Select graph type"
@@ -4876,59 +4876,59 @@ msgstr ""
 
 #: src/dialogs/dialog-paste-special.c:26
 msgid "All"
-msgstr ""
+msgstr "全部"
 
 #: src/dialogs/dialog-paste-special.c:27
 msgid "Content"
-msgstr ""
+msgstr "內容"
 
 #: src/dialogs/dialog-paste-special.c:28
 msgid "As Value"
-msgstr ""
+msgstr "成為變數值"
 
 #: src/dialogs/dialog-paste-special.c:29
 msgid "Formats"
-msgstr ""
+msgstr "格式"
 
 #: src/dialogs/dialog-paste-special.c:35
 msgid "Add "
-msgstr ""
+msgstr "相加"
 
 #: src/dialogs/dialog-paste-special.c:36
 msgid "Subtract"
-msgstr ""
+msgstr "相減"
 
 #: src/dialogs/dialog-paste-special.c:37
 msgid "Multiply"
-msgstr ""
+msgstr "相乘"
 
 #: src/dialogs/dialog-paste-special.c:38
 msgid "Divide"
-msgstr ""
+msgstr "相除"
 
 #: src/dialogs/dialog-paste-special.c:105
 msgid "Paste special"
-msgstr ""
+msgstr "特別方式貼上"
 
 #: src/dialogs/dialog-paste-special.c:105
 msgid "Paste Link"
-msgstr ""
+msgstr "聯繫原來的儲存格"
 
 #: src/dialogs/dialog-paste-special.c:113
 msgid "Paste type"
-msgstr ""
+msgstr "貼上的方式"
 
 #: src/dialogs/dialog-paste-special.c:117
 msgid "Operation"
-msgstr ""
+msgstr "操作"
 
 #: src/dialogs/dialog-paste-special.c:157
 msgid "Transpose"
-msgstr ""
+msgstr "轉置矩陣"
 
 #: src/dialogs/dialog-paste-special.c:166
 msgid "Skip Blanks"
-msgstr ""
+msgstr "略過空格"
 
 #: src/dialogs/dialog-plugin-manager.c:209
 #, c-format
@@ -4939,9 +4939,8 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/dialog-plugin-manager.c:219
-#, fuzzy
 msgid "Error while activating plugin loader"
-msgstr "啟用增效模組載入時發生錯誤"
+msgstr ""
 
 #: src/dialogs/dialog-plugin-manager.c:233
 #, c-format
@@ -5008,7 +5007,7 @@ msgstr ""
 #: src/dialogs/dialog-printer-setup.c:987
 #: src/dialogs/dialog-printer-setup.c:1123
 msgid "Customize footer"
-msgstr ""
+msgstr "自訂的注腳"
 
 #: src/dialogs/dialog-printer-setup.c:1116
 msgid "Custom header configuration"
@@ -5016,23 +5015,23 @@ msgstr ""
 
 #: src/dialogs/dialog-printer-setup.c:1122
 msgid "Custom footer configuration"
-msgstr ""
+msgstr "自訂注腳設定"
 
 #: src/dialogs/dialog-search.c:129
 msgid "Expression"
-msgstr ""
+msgstr "表示式"
 
 #: src/dialogs/dialog-search.c:133
 msgid "Integer"
-msgstr ""
+msgstr "整數"
 
 #: src/dialogs/dialog-search.c:137
 msgid "Other value"
-msgstr ""
+msgstr "其它值"
 
 #: src/dialogs/dialog-search.c:139
 msgid "Comment"
-msgstr ""
+msgstr "註釋"
 
 #: src/dialogs/dialog-search-replace.c:131 src/dialogs/dialog-search.c:368
 msgid "You must select some cell types to search."
@@ -5045,20 +5044,20 @@ msgstr ""
 
 #: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:1
 msgid "<="
-msgstr ""
+msgstr "<="
 
 #: src/dialogs/dialog-solver.c:68 src/dialogs/solver.glade.h:3
 msgid ">="
-msgstr ""
+msgstr ">="
 
 #: src/dialogs/dialog-solver.c:69 src/dialogs/solver.glade.h:2
 msgid "="
-msgstr ""
+msgstr "="
 
 #. xgettext: Int == Integer constraint for the linear program
 #: src/dialogs/dialog-solver.c:71 src/dialogs/solver.glade.h:9
 msgid "Int"
-msgstr ""
+msgstr "整數"
 
 #: src/dialogs/dialog-solver.c:829
 msgid ""
@@ -5090,39 +5089,39 @@ msgstr ""
 
 #: src/dialogs/dialog-stf-export.c:52 src/dialogs/dialog-stf.c:104
 msgid "Are you sure you want to cancel?"
-msgstr ""
+msgstr "是否確定要取消？"
 
 #: src/dialogs/dialog-stf-export.glade.h:1 src/dialogs/dialog-stf.glade.h:1
 msgid "\""
-msgstr ""
+msgstr "\""
 
 #: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
-msgstr ""
+msgstr "'"
 
 #: src/dialogs/dialog-stf-export.glade.h:3
 msgid "<- Remove"
-msgstr ""
+msgstr "← 移除"
 
 #: src/dialogs/dialog-stf-export.glade.h:4
 msgid "<- Remove all"
-msgstr ""
+msgstr "← 移除全部"
 
 #: src/dialogs/dialog-stf-export.glade.h:5
 msgid "Add ->"
-msgstr ""
+msgstr "加入 →"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
 msgid "Add all ->"
-msgstr ""
+msgstr "加入全部 →"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
 msgid "Always"
-msgstr ""
+msgstr "一定"
 
 #: src/dialogs/dialog-stf-export.glade.h:8
 msgid "Automatic (puts quotes where needed)"
-msgstr ""
+msgstr "自動（在有需要的地方加上引號）"
 
 #: src/dialogs/dialog-stf-export.glade.h:9
 msgid "Available sheets"
@@ -5130,11 +5129,11 @@ msgstr ""
 
 #: src/dialogs/dialog-stf-export.glade.h:10
 msgid "Bang (!)"
-msgstr ""
+msgstr "嘆號 (!)"
 
 #: src/dialogs/dialog-stf-export.glade.h:11
 msgid "Choose export formatting"
-msgstr ""
+msgstr "選擇匯出的格式"
 
 #: src/dialogs/dialog-stf-export.glade.h:12
 msgid "Choose sheets to export"
@@ -5142,11 +5141,11 @@ msgstr ""
 
 #: src/dialogs/dialog-stf-export.glade.h:13
 msgid "Colon (:)"
-msgstr ""
+msgstr "冒號(:)"
 
 #: src/dialogs/dialog-stf-export.glade.h:14
 msgid "Comma (,)"
-msgstr ""
+msgstr "逗號(,)"
 
 #: src/dialogs/dialog-stf-export.glade.h:16
 msgid ""
@@ -5157,11 +5156,11 @@ msgstr ""
 
 #: src/dialogs/dialog-stf-export.glade.h:17
 msgid "Exporting structured text"
-msgstr ""
+msgstr "匯出結構性文字"
 
 #: src/dialogs/dialog-stf-export.glade.h:18
 msgid "Hyphen (-)"
-msgstr ""
+msgstr "減號 (-)"
 
 #: src/dialogs/dialog-stf-export.glade.h:19
 msgid "Line termination :"
@@ -5169,11 +5168,11 @@ msgstr ""
 
 #: src/dialogs/dialog-stf-export.glade.h:20
 msgid "Macintosh (carriage return)"
-msgstr ""
+msgstr "Macintosh (CR)"
 
 #: src/dialogs/dialog-stf-export.glade.h:21 src/dialogs/dialog-stf.glade.h:36
 msgid "Never"
-msgstr ""
+msgstr "不會"
 
 #: src/dialogs/dialog-stf-export.glade.h:22
 msgid "Pipe (|)"
@@ -5187,7 +5186,7 @@ msgstr ""
 
 #: src/dialogs/dialog-stf-export.glade.h:24
 msgid "Quote character :"
-msgstr ""
+msgstr "引號字元："
 
 #: src/dialogs/dialog-stf-export.glade.h:25
 msgid "Quoting :"
@@ -5195,11 +5194,11 @@ msgstr ""
 
 #: src/dialogs/dialog-stf-export.glade.h:26
 msgid "Semicolon (;)"
-msgstr ""
+msgstr "分號(;)"
 
 #: src/dialogs/dialog-stf-export.glade.h:27
 msgid "Separator :"
-msgstr ""
+msgstr "分隔符號："
 
 #: src/dialogs/dialog-stf-export.glade.h:28
 msgid "Sheets to export"
@@ -5207,36 +5206,36 @@ msgstr ""
 
 #: src/dialogs/dialog-stf-export.glade.h:29
 msgid "Slash (/)"
-msgstr ""
+msgstr "斜線(/)"
 
 #: src/dialogs/dialog-stf-export.glade.h:30
 msgid "Space"
-msgstr ""
+msgstr "空格"
 
 #: src/dialogs/dialog-stf-export.glade.h:31
 msgid "Tab"
-msgstr ""
+msgstr "Tab"
 
 #: src/dialogs/dialog-stf-export.glade.h:32
 msgid "Unix (linefeed)"
-msgstr ""
+msgstr "Unix (LF)"
 
 #: src/dialogs/dialog-stf-export.glade.h:33
 msgid "Windows (carriage return + linefeed)"
-msgstr ""
+msgstr "Windows (CR+LF)"
 
 #: src/dialogs/dialog-stf-export.glade.h:34 src/dialogs/dialog-stf.glade.h:69
 msgid "`"
-msgstr ""
+msgstr "`"
 
 #: src/dialogs/dialog-stf-fixed-page.c:63
 msgid "Autodiscovery did not find any columns in the text. Try manually"
-msgstr ""
+msgstr "自動偵測程序無法找出文字裡的欄位。請自行嘗試。"
 
 #: src/dialogs/dialog-stf-main-page.c:85
 #, c-format
 msgid "%d lines to import"
-msgstr ""
+msgstr "將會匯入 %d 行"
 
 #: src/dialogs/dialog-stf-main-page.c:210
 msgid "LINES TOO LONG!"
@@ -5245,7 +5244,7 @@ msgstr ""
 #: src/dialogs/dialog-stf-main-page.c:234
 #, c-format
 msgid "Data (from %s)"
-msgstr ""
+msgstr "資料（來自 %s）"
 
 #. xgettext:
 #. * The name of the default font for this locale.
@@ -5259,125 +5258,125 @@ msgstr ""
 msgid ""
 "Actual processing will start at this line, any previous lines will be "
 "ignored."
-msgstr ""
+msgstr "實際操作會在這一行開始，之前的任何一行都會被忽略。"
 
 #: src/dialogs/dialog-stf.glade.h:4
 msgid "Add a new column"
-msgstr ""
+msgstr "新增欄位"
 
 #: src/dialogs/dialog-stf.glade.h:5
 msgid "Always (Both sides)"
-msgstr ""
+msgstr "一定（兩旁）"
 
 #: src/dialogs/dialog-stf.glade.h:6
 msgid "Attempt to recognize columns in the text automatically."
-msgstr ""
+msgstr "嘗試自動辦認文字裡的欄位。"
 
 #: src/dialogs/dialog-stf.glade.h:7
 msgid "Auto Column _Discovery"
-msgstr ""
+msgstr "自動偵測欄位(_D)"
 
 #: src/dialogs/dialog-stf.glade.h:8
 msgid "Ban_g (!)"
-msgstr ""
+msgstr "嘆號(!)[_G]"
 
 #: src/dialogs/dialog-stf.glade.h:9
 msgid "C_ustom"
-msgstr ""
+msgstr "自訂[_U]"
 
 #: src/dialogs/dialog-stf.glade.h:10
 msgid ""
 "Character interpreted as quote character. If the separation character is "
 "encountered within quotes it will be ignored."
-msgstr ""
+msgstr "作為引號的字元。如果在此引號字元裡出現分隔符號，分隔符號就會無效。"
 
 #: src/dialogs/dialog-stf.glade.h:11
 msgid "Clear list of columns"
-msgstr ""
+msgstr "清除欄位的列表"
 
 #: src/dialogs/dialog-stf.glade.h:12
 msgid "Click to select a column"
-msgstr ""
+msgstr "按下滑鼠左鍵可選擇欄位"
 
 #: src/dialogs/dialog-stf.glade.h:13
 msgid "Co_lumn end : "
-msgstr ""
+msgstr "欄位完結位置："
 
 #: src/dialogs/dialog-stf.glade.h:14
 msgid "Co_mma (,)"
-msgstr ""
+msgstr "逗號(,)[_M]"
 
 #: src/dialogs/dialog-stf.glade.h:15
 msgid "Column"
-msgstr ""
+msgstr "欄位"
 
 #: src/dialogs/dialog-stf.glade.h:16
 msgid "Column formatting"
-msgstr ""
+msgstr "欄位格式"
 
 #: src/dialogs/dialog-stf.glade.h:18
 msgid "Custom separator, this can be any character"
-msgstr ""
+msgstr "自訂分隔符號，可以是任何字元"
 
 #: src/dialogs/dialog-stf.glade.h:19
 msgid ""
 "Customize the columns using the buttons or the mouse (hover mouse above "
 "example for instructions)"
-msgstr ""
+msgstr "使用按鈕或滑鼠來設定欄位（將鼠標移至例子裡可得到指示訊息）"
 
 #: src/dialogs/dialog-stf.glade.h:20
 msgid "Data type and number of lines"
-msgstr ""
+msgstr "資料類型及行數"
 
 #: src/dialogs/dialog-stf.glade.h:21
 msgid "Define the width of each column manually."
-msgstr ""
+msgstr "自行設定每一欄的寬度。"
 
 #: src/dialogs/dialog-stf.glade.h:22
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
-msgstr ""
+msgstr "文字裡的每一欄都以一個「分隔符號」隔開，例如分號。"
 
 #: src/dialogs/dialog-stf.glade.h:23
 msgid "End"
-msgstr ""
+msgstr "完結字元"
 
 #: src/dialogs/dialog-stf.glade.h:24
 msgid "Example"
-msgstr ""
+msgstr "例子"
 
 #: src/dialogs/dialog-stf.glade.h:25
 msgid "Fixed wi_dth"
-msgstr ""
+msgstr "固定寬度(_D)"
 
 #: src/dialogs/dialog-stf.glade.h:26
 msgid "Fixed width customization"
-msgstr ""
+msgstr "固定寬度文字設定"
 
 #: src/dialogs/dialog-stf.glade.h:27
 msgid "Format"
-msgstr ""
+msgstr "格式"
 
 #: src/dialogs/dialog-stf.glade.h:28
 msgid "Formatting for the selected column"
-msgstr ""
+msgstr "已選上的欄位的格式"
 
 #: src/dialogs/dialog-stf.glade.h:29
 msgid "Formatting options"
-msgstr ""
+msgstr "格式選項"
 
 #: src/dialogs/dialog-stf.glade.h:30
 msgid "Fr_om line :"
-msgstr ""
+msgstr "從行數(_O)："
 
 #: src/dialogs/dialog-stf.glade.h:31
 msgid "H_yphen (-)"
-msgstr ""
+msgstr "減號(-)[_Y]"
 
 #: src/dialogs/dialog-stf.glade.h:32
 msgid "Importing structured text"
-msgstr ""
+msgstr "匯入結構性文字"
 
 #: src/dialogs/dialog-stf.glade.h:33
 msgid ""
@@ -5385,6 +5384,9 @@ msgid ""
 "an existing column or hold the left mouse button on a column border and drag "
 "to resize a column."
 msgstr ""
+"按滑鼠左鍵可建立新的欄位；\n"
+"在欄位邊緣上按右鍵會刪除該欄位；\n"
+"在欄位邊緣上按下左鍵不放則可改變欄位寬度。"
 
 #: src/dialogs/dialog-stf.glade.h:34
 msgid "Lines to import"
@@ -5392,23 +5394,23 @@ msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:35
 msgid "Misc"
-msgstr ""
+msgstr "雜項"
 
 #: src/dialogs/dialog-stf.glade.h:37
 msgid "Number of lines to import"
-msgstr ""
+msgstr "匯入的行數"
 
 #: src/dialogs/dialog-stf.glade.h:38
 msgid "On left side only"
-msgstr ""
+msgstr "左邊"
 
 #: src/dialogs/dialog-stf.glade.h:39
 msgid "On right side only"
-msgstr ""
+msgstr "右邊"
 
 #: src/dialogs/dialog-stf.glade.h:40
 msgid "Original data type :"
-msgstr ""
+msgstr "原來的資料類型："
 
 #: src/dialogs/dialog-stf.glade.h:41
 msgid "P_ipe (|)"
@@ -5416,15 +5418,15 @@ msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:42
 msgid "Per column formatting"
-msgstr ""
+msgstr "每一欄的個別格式"
 
 #: src/dialogs/dialog-stf.glade.h:43
 msgid "Processing ends at this line, any subsequent lines will be ignored."
-msgstr ""
+msgstr "操作到這一行為止，隨後任何一行都會被忽略。"
 
 #: src/dialogs/dialog-stf.glade.h:44
 msgid "Remove selected column"
-msgstr ""
+msgstr "移除所選的欄位"
 
 #: src/dialogs/dialog-stf.glade.h:45
 msgid "S_ee two separators as one"
@@ -5432,11 +5434,11 @@ msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:46
 msgid "S_pace"
-msgstr ""
+msgstr "空格[_P]"
 
 #: src/dialogs/dialog-stf.glade.h:47
 msgid "See two successive separators as one."
-msgstr ""
+msgstr "將兩個連續的分隔符號看成一個來處理。"
 
 #: src/dialogs/dialog-stf.glade.h:48
 msgid ""
@@ -5449,44 +5451,47 @@ msgid ""
 "left or in the example to select a column. You can then enter a custom "
 "format or select one from the list on the right."
 msgstr ""
+"選擇每一欄的格式。你可以按左邊的列表或例子來選擇欄位。然後你可以自行設定格式"
+"或在右邊的列表中選擇格式。"
 
 #: src/dialogs/dialog-stf.glade.h:50
 msgid ""
 "Select the separators that appear in the text (you can choose multiple "
 "separators if desired and also enter a custom one)"
 msgstr ""
+"選擇在文字裡出現的分隔符號（你可以選擇多個分隔符號，同時填上自訂的符號）"
 
 #: src/dialogs/dialog-stf.glade.h:51
 msgid "Select the structure of the text that most closely matches the data."
-msgstr ""
+msgstr "選擇最符合資料內容的文字結構。"
 
 #: src/dialogs/dialog-stf.glade.h:52
 msgid "Semicolo_n (;)"
-msgstr ""
+msgstr "分號(;)[_N]"
 
 #: src/dialogs/dialog-stf.glade.h:53
 msgid "Separation customization"
-msgstr ""
+msgstr "分隔符號設定"
 
 #: src/dialogs/dialog-stf.glade.h:54
 msgid "Separators"
-msgstr ""
+msgstr "分隔符號"
 
 #: src/dialogs/dialog-stf.glade.h:55
 msgid "Set the end of this column"
-msgstr ""
+msgstr "設定此欄的最後字元的位置"
 
 #: src/dialogs/dialog-stf.glade.h:56
 msgid "Slas_h (/)"
-msgstr ""
+msgstr "斜線(/)[_H]"
 
 #: src/dialogs/dialog-stf.glade.h:57
 msgid "Ta_b"
-msgstr ""
+msgstr "Tab[_B]"
 
 #: src/dialogs/dialog-stf.glade.h:58
 msgid "Te_xt indicator : "
-msgstr ""
+msgstr "文字指示符號(_X)："
 
 #: src/dialogs/dialog-stf.glade.h:59
 msgid "Trim :"
@@ -5496,7 +5501,7 @@ msgstr ""
 msgid ""
 "Trim leading and trailing spaces from each column, if you are unsure you "
 "should leave this at the default setting."
-msgstr ""
+msgstr "可刪除每個欄位前後的空格。如果不確定，應該使用它的預設值。"
 
 #: src/dialogs/dialog-stf.glade.h:62
 msgid "_Adjacent text indicators escaped"
@@ -5504,19 +5509,19 @@ msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:64
 msgid "_Colon (:)"
-msgstr ""
+msgstr "冒號(:)[_C]"
 
 #: src/dialogs/dialog-stf.glade.h:65
 msgid "_Format :"
-msgstr ""
+msgstr "格式(_F)："
 
 #: src/dialogs/dialog-stf.glade.h:67
 msgid "_Separated"
-msgstr ""
+msgstr "以符號分隔(_S)"
 
 #: src/dialogs/dialog-stf.glade.h:68
 msgid "_To line : "
-msgstr ""
+msgstr "至行數(_T)："
 
 #: src/dialogs/dialog-workbook-attr.c:166
 msgid "Workbook Attributes"
@@ -5525,16 +5530,16 @@ msgstr ""
 #: src/dialogs/dialog-zoom.glade.h:2
 #, no-c-format
 msgid "%"
-msgstr ""
+msgstr "%"
 
 #: src/dialogs/dialog-zoom.glade.h:4
 #, no-c-format
 msgid "20_0 %"
-msgstr ""
+msgstr "20_0 %"
 
 #: src/dialogs/dialog-zoom.glade.h:5
 msgid "Magnification"
-msgstr ""
+msgstr "縮放倍率"
 
 #: src/dialogs/dialog-zoom.glade.h:6
 msgid "Sheets"
@@ -5543,31 +5548,31 @@ msgstr ""
 #: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:3145
 #: src/workbook-control-gui.c:3201
 msgid "Zoom"
-msgstr ""
+msgstr "縮放"
 
 #: src/dialogs/dialog-zoom.glade.h:9
 #, no-c-format
 msgid "_100 %"
-msgstr ""
+msgstr "_100 %"
 
 #: src/dialogs/dialog-zoom.glade.h:11
 #, no-c-format
 msgid "_25 %"
-msgstr ""
+msgstr "_25 %"
 
 #: src/dialogs/dialog-zoom.glade.h:13
 #, no-c-format
 msgid "_50 %"
-msgstr ""
+msgstr "_50 %"
 
 #: src/dialogs/dialog-zoom.glade.h:15
 #, no-c-format
 msgid "_75 %"
-msgstr ""
+msgstr "_75 %"
 
 #: src/dialogs/dialog-zoom.glade.h:16
 msgid "_Custom"
-msgstr ""
+msgstr "自訂(_C)"
 
 #: src/dialogs/dialog-zoom.glade.h:18
 #, no-c-format
@@ -5576,19 +5581,19 @@ msgstr ""
 
 #: src/dialogs/font-sel.glade.h:1
 msgid "Font style:"
-msgstr ""
+msgstr "字款："
 
 #: src/dialogs/font-sel.glade.h:2
 msgid "Font:"
-msgstr ""
+msgstr "字型："
 
 #: src/dialogs/font-sel.glade.h:3
 msgid "Preview"
-msgstr ""
+msgstr "預覽"
 
 #: src/dialogs/font-sel.glade.h:4
 msgid "Size:"
-msgstr ""
+msgstr "大小："
 
 #: src/dialogs/formula-guru.glade.h:1
 msgid "Formula Guru"
@@ -5604,23 +5609,23 @@ msgstr ""
 
 #: src/dialogs/function-select.glade.h:1
 msgid "Function Selector"
-msgstr ""
+msgstr "選擇函數"
 
 #: src/dialogs/function-select.glade.h:2
 msgid "Function _Categories"
-msgstr ""
+msgstr "函數種類(_C)"
 
 #: src/dialogs/function-select.glade.h:3
 msgid "Function _Names"
-msgstr ""
+msgstr "函數名稱(_N)"
 
 #: src/dialogs/function-select.glade.h:4
 msgid "place holder no need to translate"
-msgstr ""
+msgstr " "
 
 #: src/dialogs/graph-guru.glade.h:4
 msgid "_Finish"
-msgstr ""
+msgstr "完成(_F)"
 
 #: src/dialogs/graph-guru.glade.h:5
 msgid "_Plot"
@@ -5640,7 +5645,7 @@ msgstr ""
 
 #: src/dialogs/goalseek.glade.h:3
 msgid "By Changing Cell:"
-msgstr ""
+msgstr "透過更改儲存格："
 
 #: src/dialogs/goalseek.glade.h:4
 msgid "Current Value:"
@@ -5648,7 +5653,7 @@ msgstr ""
 
 #: src/dialogs/goalseek.glade.h:5
 msgid "Goal:"
-msgstr ""
+msgstr "目標："
 
 #: src/dialogs/goalseek.glade.h:6
 msgid "GoalSeek"
@@ -5660,19 +5665,19 @@ msgstr ""
 
 #: src/dialogs/goalseek.glade.h:8
 msgid "Remaining Error:"
-msgstr ""
+msgstr "剩餘的錯誤："
 
 #: src/dialogs/goalseek.glade.h:9
 msgid "Set Cell:"
-msgstr ""
+msgstr "設定儲存格："
 
 #: src/dialogs/goalseek.glade.h:10
 msgid "Solution:"
-msgstr ""
+msgstr "解決方法："
 
 #: src/dialogs/goalseek.glade.h:11
 msgid "To Value:"
-msgstr ""
+msgstr "的值為："
 
 #: src/dialogs/hf-config.glade.h:1
 msgid "Enter the format strings for each section:"
