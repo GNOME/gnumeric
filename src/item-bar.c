@@ -507,7 +507,8 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 					 item_bar->resize_pos,
 					 item_bar->resize_width);
 			item_bar->resize_pos = -1;
-			gtk_object_unref (item_bar->resize_guide);
+			gtk_object_destroy (item_bar->resize_guide);
+			item_bar->resize_guide = NULL;
 		}
 		gnome_canvas_item_ungrab (item, e->button.time);
 		item_bar->start_selection = -1;

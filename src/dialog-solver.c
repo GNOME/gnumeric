@@ -183,7 +183,7 @@ dialog_solver_options (Workbook *wb, Sheet *sheet)
 	sheet->solver_parameters.options.automatic_scaling = 0;
 	sheet->solver_parameters.options.show_iteration_results = 0;
 
-	gtk_object_unref (GTK_OBJECT (dialog));
+	gtk_object_destroy (GTK_OBJECT (dialog));
 }
 
 
@@ -247,7 +247,7 @@ add_dialog:
 	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
 
 	if (selection == 1) {
-	        gtk_object_unref (GTK_OBJECT (dialog));
+	        gtk_object_destroy (GTK_OBJECT (dialog));
 		return;
 	}
 	
@@ -300,7 +300,7 @@ add_dialog:
 	if (selection == 2)
 	        goto add_dialog;
 
-	gtk_object_unref (GTK_OBJECT (dialog));
+	gtk_object_destroy (GTK_OBJECT (dialog));
 }
 
 

@@ -564,7 +564,7 @@ sheet_view_destroy (GtkObject *object)
 
 	/* Add shutdown code here */
 	if (sheet_view->tip)
-		gtk_object_unref (GTK_OBJECT (sheet_view->tip));
+		gtk_object_destroy (GTK_OBJECT (sheet_view->tip));
 	
 	if (GTK_OBJECT_CLASS (sheet_view_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (sheet_view_parent_class)->destroy)(object);

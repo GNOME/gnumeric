@@ -14,10 +14,19 @@
 #include "func.h"
 #include "eval.h"
 
+/*
+ * Error constants used to display error messages.
+ */
+char *gnumeric_err_NULL;
+char *gnumeric_err_DIV0;
+char *gnumeric_err_VALUE;
+char *gnumeric_err_REF;
+char *gnumeric_err_NAME;
+char *gnumeric_err_NUM;
+char *gnumeric_err_NA;
+
 /* The list of categories */
 static GPtrArray *categories = NULL;
-
-/* ------------------------------------------------------------------------- */
 
 typedef struct {
 	FunctionIterateCallback  callback;
@@ -163,9 +172,6 @@ function_iterate_argument_values (Sheet                   *sheet,
 	return result;
 }
 
-/* ------------------------------------------------------------------------- */
-
-
 GPtrArray *
 function_categories_get (void)
 {
@@ -288,17 +294,6 @@ functions_init (void)
 	install_symbols (database_functions, _("Database"));
 	install_symbols (information_functions, _("Information"));
 }
-
-/* Initialize temporarily with statics.  The real versions from the locale
- * will be setup in constants_init
- */
-char * gnumeric_err_NULL = "#NULL!";
-char * gnumeric_err_DIV0 = "#DIV/0!";
-char * gnumeric_err_VALUE = "#VALUE!";
-char * gnumeric_err_REF = "#REF!";
-char * gnumeric_err_NAME = "#NAME?";
-char * gnumeric_err_NUM = "#NUM!";
-char * gnumeric_err_NA = "#N/A";
 
 void
 constants_init (void)

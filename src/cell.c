@@ -202,7 +202,7 @@ cell_comment_destroy (Cell *cell)
 		gtk_timeout_remove (comment->timer_tag);
 
 	if (comment->window)
-		gtk_object_unref (GTK_OBJECT (comment->window));
+		gtk_object_destroy (GTK_OBJECT (comment->window));
 
 	for (l = comment->realized_list; l; l = l->next)
 		gtk_object_unref (l->data);
@@ -327,7 +327,7 @@ cell_comment_unrealize (Cell *cell)
 	for (l = cell->comment->realized_list; l; l = l->next){
 		GnomeCanvasItem *o = l->data;
 
-		gtk_object_unref (GTK_OBJECT (o));
+		gtk_object_destroy (GTK_OBJECT (o));
 	}
 	g_list_free (cell->comment->realized_list);
 	cell->comment->realized_list = NULL;

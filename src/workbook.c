@@ -509,8 +509,9 @@ paste_special_cmd (GtkWidget *widget, Workbook *wb)
 
 	sheet = workbook_get_current_sheet (wb);
 	flags = dialog_paste_special (wb);
-	sheet_selection_paste (sheet, sheet->cursor_col, sheet->cursor_row,
-			       flags, GDK_CURRENT_TIME);
+	if (flags != 0)
+		sheet_selection_paste (sheet, sheet->cursor_col, sheet->cursor_row,
+				       flags, GDK_CURRENT_TIME);
 
 }
 
@@ -1485,7 +1486,7 @@ workbook_setup_auto_calc (Workbook *wb)
 	gtk_signal_connect (GTK_OBJECT (canvas), "button_press_event",
 			    GTK_SIGNAL_FUNC (change_auto_expr_menu), wb);
 
-	gtk_object_unref (GTK_OBJECT (l));
+	gtk_object_destroy (GTK_OBJECT (l));
 	gtk_widget_show_all (frame);
 }
 

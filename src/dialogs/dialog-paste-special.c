@@ -45,14 +45,21 @@ enable_op_group (GtkWidget *widget, GtkWidget *group)
 	gtk_widget_set_sensitive (group, TRUE);
 }
 
+static void
+transpose_cb (GtkToggleButton *widget, gboolean *transpose_b)
+{
+	*transpose_b = widget->active;
+}
+
 int
 dialog_paste_special (Workbook *wb)
 {
 	GtkWidget *dialog, *hbox;
-	GtkWidget *f1, *f1v, *f2, *f2v;
+	GtkWidget *f1, *f1v, *f2, *f2v, *cb;
 	GSList *group_type, *group_ops;
 	int result, i;
 	int v;
+	gboolean do_transpose = FALSE;
 	
 	dialog = gnome_dialog_new (_("Paste special"),
 				   GNOME_STOCK_BUTTON_OK,
@@ -93,11 +100,16 @@ dialog_paste_special (Workbook *wb)
 		group_ops = GTK_RADIO_BUTTON (r)->group;
 		gtk_box_pack_start_defaults (GTK_BOX (f2v), r);
 	}
-	
+
+	cb = gtk_check_button_new_with_label (_("Transpose"));
+	gtk_signal_connect (
+		GTK_OBJECT (cb), "toggled",
+		GTK_SIGNAL_FUNC (transpose_cb), &do_transpose);
+
 	hbox = gtk_hbox_new (TRUE, 0);
 	gtk_box_pack_start_defaults (GTK_BOX (hbox), f1);
 	gtk_box_pack_start_defaults (GTK_BOX (hbox), f2);
-
+	gtk_box_pack_start_defaults (GTK_BOX (hbox), cb);
 
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), hbox, TRUE, TRUE, 0);
 	gtk_widget_show_all (hbox);
@@ -109,7 +121,8 @@ dialog_paste_special (Workbook *wb)
 	/* If closed with the window manager, cancel */
 	if (v == -1)
 		return 0;
-		
+
+	result = 0;
 	/* Fetch the results */
 	if (v == 0){
 		result = 0;
@@ -154,8 +167,10 @@ dialog_paste_special (Workbook *wb)
 				break;
 			}
 		}
+		if (do_transpose)
+			result |= PASTE_TRANSPOSE;
 	}
-	gtk_object_unref (GTK_OBJECT (dialog));
+	gtk_object_destroy (GTK_OBJECT (dialog));
 
 	return result;
 }

@@ -652,11 +652,11 @@ style_shutdown (void)
 
 	for (boldp = 0; boldp <= 1; boldp++) {
 		for (italicp = 0; italicp <= 1; italicp++) {
-			g_free (standard_font_names[boldp][italicp]);
-			standard_font_names[boldp][italicp] = NULL;
+			g_free (standard_font_names [boldp][italicp]);
+			standard_font_names [boldp][italicp] = NULL;
 
-			style_font_unref (standard_fonts[boldp][italicp]);
-			standard_fonts[boldp][italicp] = NULL;
+			style_font_unref (standard_fonts [boldp][italicp]);
+			standard_fonts [boldp][italicp] = NULL;
 		}
 	}
 

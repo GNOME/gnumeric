@@ -497,7 +497,7 @@ gnumeric_fixed (struct FunctionDefinition *i,
 		*error_string = _("Invalid thousands separator");
 		return NULL;
 		*/
-	} else if (dec <= 0) { /* no decimal point : just round and pad 0's */
+	} else if (dec <= 0) { /* no decimal point: just round and pad 0's */
 		dec *= -1;
 		num /= pow(10, dec);
 		if (num < 1 && num > -1) {

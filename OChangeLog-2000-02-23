@@ -1,3 +1,27 @@
+1999-06-21  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/func.c: Do not pre-initialize them.  If they need to be
+	pre-initialized something is wrong in some other place.  Fix that
+	instead. 
+
+	* src/clipboard.c (do_clipboard_paste_cell_region): Implement
+	transpose-on-paste command.  Change the increment steps for
+	transpose and compute a different target column as well.
+	
+	(sheet_paste_selection): Swap the paste dimesions here if we are
+	pasting/transpose. 
+
+1999-06-18  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/func.c: Remove static initialization of the error messages.
+
+1999-06-14  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/clipboard.h: Define PASTE_TRANSPOSE.
+
+	* src/dialog-paste-special.c (dialog_paste_special): Add new
+	checkbutton for transpose-on-paste operation.
+
 1999-06-21  Michael Meeks  <michael@edenproject.org>
 
 	* src/func.c (iterate_cellrange_callback): Add case
@@ -319,32 +343,6 @@
 
 	* src/dialog-paste-special.c (dialog_paste_special): Hanlde the
 	case in which the window manager closed the dialog box.
-
-	* src/cell.c (cell_comment_destroy): Changed invocation from
-	gtk_object_destroy to gtk_object_unref.
-	(cell_comment_unrealize): ditto.
-	(cell_comment_clicked): ditto.
-	* src/dialog-cell-sort.c (dialog_cell_sort): ditto.
-	* src/dialog-function-select.c (dialog_function_select): ditto
-	* src/dialog-function-wizard.c (dialog_function_wizard): ditto
-	* src/dialog-paste-special.c (dialog_paste_special): ditto
-	* src/dialog-solver.c (constr_add_click): ditto.
-	(constr_add_click): ditto
-	(dialog_solver_options): ditto
-	* src/gnumeric-sheet.c (gnumeric_sheet_stop_cell_selection): ditto
-	(destroy_item_editor): ditto.
-	(gnumeric_sheet_key_mode_object): ditto, and clear the pointer to
-	the current_object.
-	* src/sheet-object-container.c (sheet_object_container_destroy): ditto.
-	* src/item-cursor.c (item_cursor_drag_event): ditto.
-	(item_cursor_autofill_event): ditto
-	* src/item-bar.c (item_bar_event): ditto
-	* src/workbook.c (workbook_setup_auto_calc): ditto.
-	* src/widget-editable-label.c (el_stop_editing): ditto
-	* src/sheet-object.c (sheet_object_destroy): ditto
-	(sheet_view_object_unrealize): ditto
-	(sheet_object_destroy_control_points): ditto
-	* src/sheet-view.c (sheet_view_destroy): ditto
 
 1999-06-10  Miguel de Icaza  <miguel@gnu.org>
 

@@ -1302,7 +1302,7 @@ callback_function_sum (Sheet *sheet, Value *value,
 		break;
 
 	default:
-		g_warning ("Unimplemented value->type in callback_function_sum : %s (%d)",
+		g_warning ("Unimplemented value->type in callback_function_sum: %s (%d)",
 			   (value->type == VALUE_CELLRANGE) ? "CELLRANGE" :
 			   (value->type == VALUE_ARRAY) ? "ARRAY" :
 			   "UNKOWN!", value->type);

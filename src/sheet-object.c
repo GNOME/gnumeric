@@ -78,7 +78,7 @@ sheet_object_destroy (GtkObject *object)
 	for (l = so->realized_list; l; l = l->next){
 		GnomeCanvasItem *item = l->data;
 
-		gtk_object_unref (GTK_OBJECT (item));
+		gtk_object_destroy (GTK_OBJECT (item));
 	}
 	g_list_free (so->realized_list);
 	sheet->objects = g_list_remove (sheet->objects, so);
@@ -209,7 +209,7 @@ sheet_view_object_unrealize (SheetView *sheet_view, SheetObject *object)
 		if (gsheet->sheet_view != sheet_view)
 			continue;
 
-		gtk_object_unref (GTK_OBJECT (item));
+		gtk_object_destroy (GTK_OBJECT (item));
 		object->realized_list = g_list_remove (object->realized_list, l->data);
 		break;
 	}
@@ -542,7 +542,7 @@ sheet_object_destroy_control_points (Sheet *sheet)
 		int i;
 		
 		for (i = 0; i < 8; i++){
-			gtk_object_unref (GTK_OBJECT (sheet_view->control_points [i]));
+			gtk_object_destroy (GTK_OBJECT (sheet_view->control_points [i]));
 			sheet_view->control_points [i] = NULL;
 		}
 	}

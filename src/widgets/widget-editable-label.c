@@ -155,17 +155,17 @@ el_stop_editing (El *el)
 	if (el->entry){
 		GtkWidget *toplevel = gtk_widget_get_toplevel (el->entry);
 		
-		gtk_object_unref (GTK_OBJECT (toplevel));
+		gtk_object_destroy (GTK_OBJECT (toplevel));
 		el->entry = NULL;
 	}
 
 	if (el->cursor){
-		gtk_object_unref (GTK_OBJECT (el->cursor));
+		gtk_object_destroy (GTK_OBJECT (el->cursor));
 		el->cursor = NULL;
 	}
 
 	if (el->background){
-		gtk_object_unref (GTK_OBJECT (el->background));
+		gtk_object_destroy (GTK_OBJECT (el->background));
 		el->background = NULL;
 	}
 

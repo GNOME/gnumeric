@@ -13,13 +13,13 @@ typedef struct _CellRef CellRef;
 
 /* Some utility constants to make sure we all spell correctly */
 /* TODO : These should really be const, but can't until error_string changes */
-extern char * gnumeric_err_NULL;
-extern char * gnumeric_err_DIV0;
-extern char * gnumeric_err_VALUE;
-extern char * gnumeric_err_REF;
-extern char * gnumeric_err_NAME;
-extern char * gnumeric_err_NUM;
-extern char * gnumeric_err_NA;
+extern char *gnumeric_err_NULL;
+extern char *gnumeric_err_DIV0;
+extern char *gnumeric_err_VALUE;
+extern char *gnumeric_err_REF;
+extern char *gnumeric_err_NAME;
+extern char *gnumeric_err_NUM;
+extern char *gnumeric_err_NA;
 
 typedef enum {
 	OPER_EQUAL,		/* Compare value equal */
