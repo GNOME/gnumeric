@@ -24,14 +24,14 @@ no_unloading_for_me (PluginData *pd)
 	return 0;
 }
 
-int
+PluginInitResult
 init_plugin (CmdContext *context, PluginData *pd)
 {
 	char *argv[] = { "", NULL, NULL, NULL };
 	char *arg;
 
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
-		return -2;
+		return PLUGIN_QUIET_ERROR;
 
 	/* Initialize Gnumeric plugin information. */
 	pd->can_unload = no_unloading_for_me;
@@ -47,5 +47,5 @@ init_plugin (CmdContext *context, PluginData *pd)
 	perl_parse(gnumeric_perl_interp, xs_init, 3, argv, NULL);
 	perl_run(gnumeric_perl_interp);
 
-	return 0;
+	return PLUGIN_OK;
 }

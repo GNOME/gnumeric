@@ -83,13 +83,13 @@ oleo_cleanup_plugin (PluginData *pd)
 	g_free (pd->title);
 }
 
-int
+PluginInitResult
 init_plugin (CmdContext *context, PluginData *pd)
 {
 	char *descr  = _("GNU Oleo (*.oleo) file format");
 
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
-		return -2;
+		return PLUGIN_QUIET_ERROR;
 
 	file_format_register_open (100, descr, oleo_probe, oleo_load);
 
@@ -97,5 +97,5 @@ init_plugin (CmdContext *context, PluginData *pd)
 	pd->cleanup_plugin = oleo_cleanup_plugin;
 	pd->title = g_strdup (_("GNU Oleo import plugin"));
 
-	return 0;
+	return PLUGIN_OK;
 }

@@ -7,11 +7,18 @@ typedef struct _PluginData PluginData;
 #include "sheet.h"
 #include <gmodule.h>
 
+typedef enum {
+    PLUGIN_OK,
+    PLUGIN_ERROR,	/* Display an error */
+    PLUGIN_QUIET_ERROR /* Plugin has already displayed an error */
+} PluginInitResult;
+
 struct _PluginData
 {
 	gchar   *file_name;
 	GModule *handle;
-	int     (*init_plugin)    (CmdContext *, PluginData *);
+
+	PluginInitResult (*init_plugin)    (CmdContext *, PluginData *);
 	int     (*can_unload)     (PluginData *);
 	void    (*cleanup_plugin) (PluginData *);
 	gchar   *title;
@@ -23,7 +30,7 @@ struct _PluginData
 extern GList *plugin_list;
 
 /* Each plugin must have this one function */
-extern int init_plugin (CmdContext *cmd, PluginData *pd);
+extern PluginInitResult init_plugin (CmdContext *cmd, PluginData *pd);
 
 void           plugins_init          (void);
 PluginData    *plugin_load           (Workbook *wb, const gchar *filename);

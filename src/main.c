@@ -17,6 +17,7 @@
 #include "main.h"
 #include "func.h"
 #include "application.h"
+#include "print-info.h"
 #include "global-gnome-font.h"
 
 #include "../plugins/excel/boot.h"

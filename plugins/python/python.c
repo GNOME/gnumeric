@@ -175,11 +175,11 @@ no_unloading_for_me (PluginData *pd)
 	return 0;
 }
 
-int
+PluginInitResult
 init_plugin (CmdContext *context, PluginData * pd)
 {
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
-		return -2;
+		return PLUGIN_QUIET_ERROR;
 
 	pd->can_unload = no_unloading_for_me;
 	pd->title = g_strdup (_("Python Plugin"));
@@ -191,8 +191,12 @@ init_plugin (CmdContext *context, PluginData * pd)
 	/* setup standard functions */
 	initgnumeric ();
 	if (PyErr_Occurred ()) {
+		/* FIXME : If I knew how to get the string representation of the
+		 * error I'd use gnumeric_error_plugin_problem()
+		 * We need a maintainer for this code that knows python.
+		 */
 		PyErr_Print ();
-		return -1;
+		return PLUGIN_ERROR;
 	}
 
 	/* plugin stuff */
@@ -211,5 +215,5 @@ init_plugin (CmdContext *context, PluginData * pd)
 		g_free(name);
 	}
 
-	return 0;
+	return PLUGIN_OK;
 }

@@ -83,13 +83,13 @@ lotus_cleanup_plugin (PluginData *pd)
 	g_free (pd->title);
 }
 
-int
+PluginInitResult
 init_plugin (CmdContext *context, PluginData *pd)
 {
 	char *descr  = _("Lotus (*.wk1) file format");
 
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
-		return -2;
+		return PLUGIN_QUIET_ERROR;
 
 	file_format_register_open (50, descr, lotus_probe, lotus_load);
 
@@ -97,5 +97,5 @@ init_plugin (CmdContext *context, PluginData *pd)
 	pd->cleanup_plugin = lotus_cleanup_plugin;
 	pd->title = g_strdup (_("Lotus 123 file import/export plugin"));
 
-	return 0;
+	return PLUGIN_OK;
 }

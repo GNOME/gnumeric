@@ -476,14 +476,14 @@ no_unloading_for_me (PluginData *pd)
 	return 0;
 }
 
-int
+PluginInitResult
 init_plugin (CmdContext *context, PluginData *pd)
 {
 	FunctionCategory *cat;
 	char *init_file_name;
 
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
-		return -2;
+		return PLUGIN_QUIET_ERROR;
 
 	/* Initialize just in case. */
 	eval_pos = NULL;
@@ -509,5 +509,5 @@ init_plugin (CmdContext *context, PluginData *pd)
 		  scm_cons(scm_makfrom0str(init_file_name), SCM_EOL),
 		  SCM_EOL);
 
-	return 0;
+	return PLUGIN_OK;
 }

@@ -15,6 +15,8 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "plugin.h"
+#include "workbook-view.h"
+#include "command-context.h"
 
 GList *plugin_list = NULL;
 
@@ -51,7 +53,7 @@ plugin_load (Workbook *wb, const gchar *modfile)
 	CmdContext *context = command_context_gui (wb);
 
 	PluginData *data;
-	int res;
+	PluginInitResult res;
 
 	g_return_val_if_fail (modfile != NULL, NULL);
 	
@@ -80,9 +82,9 @@ plugin_load (Workbook *wb, const gchar *modfile)
 	}
 	
 	res = data->init_plugin (NULL, data);
-	if (res < 0) {
+	if (res != PLUGIN_OK) {
 		/* Avoid displaying 2 error boxes */
-		if (res == -1)
+		if (res == PLUGIN_ERROR)
 			gnumeric_error_plugin_problem (context, 
 						       _("init_plugin returned error"));
 		goto error;

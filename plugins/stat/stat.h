@@ -7,6 +7,6 @@
 #include "../../src/func.h"
 #include "../../src/plugin.h"
 
-int init_plugin (CmdContext *context, PluginData *pd);
+PluginInitResult init_plugin (CmdContext *context, PluginData *pd);
 
 #endif /* GNUMERIC_STAT_H */

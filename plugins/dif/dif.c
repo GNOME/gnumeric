@@ -442,13 +442,13 @@ dif_cleanup_plugin (PluginData *pd)
 }
 
 
-int
+PluginInitResult
 init_plugin (CmdContext *context, PluginData * pd)
 {
 	char *desc;
 
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
-		return -2;
+		return PLUGIN_QUIET_ERROR;
 
 	desc = _("Data Interchange Format (DIF) import");
 	file_format_register_open (1, desc, NULL, dif_read_workbook);
@@ -461,5 +461,5 @@ init_plugin (CmdContext *context, PluginData * pd)
 	pd->can_unload = dif_can_unload;
 	pd->cleanup_plugin = dif_cleanup_plugin;
 
-	return 0;
+	return PLUGIN_OK;
 }

@@ -262,17 +262,18 @@ cleanup_plugin (PluginData *pd)
 }
 
 
-int
+PluginInitResult
 init_plugin(CmdContext *context, PluginData* pd)
 {
 	g_print("plugin-gda: init_plugin called\n");
 
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
-		return -2;
+		return PLUGIN_QUIET_ERROR;
 
 	install_symbols(plugin_functionp, "GDA Plugin");
 	pd->can_unload = can_unload;
 	pd->cleanup_plugin = cleanup_plugin;
 	pd->title = g_strdup("Database Access");
-	return 0;
+
+	return PLUGIN_OK;
 }

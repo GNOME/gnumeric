@@ -13,6 +13,6 @@
 #include "sheet.h"
 #include "plugin.h"
 
-int       init_plugin (CmdContext *context, PluginData *pd);
+PluginInitResult       init_plugin (CmdContext *context, PluginData *pd);
 
 #endif /* GNUMERIC_PLN_H */

@@ -37,13 +37,13 @@ cleanup_plugin (PluginData *pd)
 		symbol_unref (sym);
 }
 
-int
+PluginInitResult
 init_plugin (CmdContext *context, PluginData *pd)
 {
 	FunctionCategory *cat;
 
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
-		return -2;
+		return PLUGIN_QUIET_ERROR;
 
 	cat = function_get_category (_("Sample Plugin"));
 	function_add_args (cat, "plusone", "f", "number", NULL, func_plusone);
@@ -52,6 +52,6 @@ init_plugin (CmdContext *context, PluginData *pd)
 	pd->cleanup_plugin = cleanup_plugin;
 	pd->title = g_strdup ("PlusOne Plugin");
 
-	return 0;
+	return PLUGIN_OK;
 }
 

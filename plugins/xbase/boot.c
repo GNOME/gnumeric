@@ -202,13 +202,13 @@ xbase_cleanup_plugin (PluginData *pd)
 	g_free (pd->title);
 }
 
-int
+PluginInitResult
 init_plugin (CmdContext *context, PluginData *pd)
 {
 	char *descr  = _("Xbase (*.dbf) file format");
 
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
-		return -2;
+		return PLUGIN_QUIET_ERROR;
 
 	/* We register XBase format with a precendence of 100 */
 	file_format_register_open (100, descr, xbase_probe, xbase_load);
@@ -217,5 +217,5 @@ init_plugin (CmdContext *context, PluginData *pd)
 	pd->cleanup_plugin = xbase_cleanup_plugin;
 	pd->title = g_strdup (_("XBase file import/export plugin"));
 
-	return 0;
+	return PLUGIN_OK;
 }

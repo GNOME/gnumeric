@@ -447,7 +447,7 @@ sc_cleanup_plugin (PluginData *pd)
 }
 
 
-int
+PluginInitResult
 init_plugin (CmdContext *context, PluginData * pd)
 {
 	const char *desc = _("SC/xspread file import");
@@ -455,7 +455,7 @@ init_plugin (CmdContext *context, PluginData * pd)
 	g_return_val_if_fail (pd, -1);
 
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
-		return -2;
+		return PLUGIN_QUIET_ERROR;
 
 	file_format_register_open (1, desc, NULL, sc_read_workbook);
 
@@ -463,6 +463,6 @@ init_plugin (CmdContext *context, PluginData * pd)
 	pd->cleanup_plugin = sc_cleanup_plugin;
 	pd->title = g_strdup (desc);
 
-	return 0;
+	return PLUGIN_OK;
 }
 

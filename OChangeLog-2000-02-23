@@ -1,5 +1,7 @@
 1999-12-29  Jody Goldberg <jgoldberg@home.com>
 
+	* src/main.c : Include print-info.h to suppess some warnings.
+
 	* src/workbook-view.c (command_context_gui,
 				gui_splits_array,
 				gui_plugin_problem,
@@ -17,6 +19,8 @@
 	* plugins/*/*.c (init_plugin): Take a CmdContext for error reporting.
 	  Call plugin_version_mismatch to do some minimal version matching for
 	  plugins and the running application.
+	  Return an enum to clearly differentiate between error reporting
+	    reqs.
 
 	* src/Gnumeric.idl : Add PluginProblem.
 

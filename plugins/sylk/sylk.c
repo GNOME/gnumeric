@@ -496,11 +496,11 @@ sylk_cleanup_plugin (PluginData *pd)
 }
 
 
-int
+PluginInitResult
 init_plugin (CmdContext *context, PluginData * pd)
 {
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
-		return -2;
+		return PLUGIN_QUIET_ERROR;
 
 	file_format_register_open (1, _("MultiPlan (SYLK) import"),
 				   sylk_probe, sylk_read_workbook);
@@ -508,5 +508,6 @@ init_plugin (CmdContext *context, PluginData * pd)
 	pd->can_unload     = sylk_can_unload;
 	pd->cleanup_plugin = sylk_cleanup_plugin;
 	pd->title = g_strdup (_("MultiPlan (SYLK) file import module"));
-	return 0;
+
+	return PLUGIN_OK;
 }

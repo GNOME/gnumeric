@@ -449,11 +449,11 @@ text_can_unload (PluginData *pd)
 	return TRUE;
 }
 
-int
+PluginInitResult
 init_plugin (CmdContext *context, PluginData *pd)
 {
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
-		return -2;
+		return PLUGIN_QUIET_ERROR;
 
 	text_init ();
 
@@ -461,5 +461,5 @@ init_plugin (CmdContext *context, PluginData *pd)
 	pd->cleanup_plugin = text_cleanup_plugin;
 	pd->title = g_strdup (_("TXT (simple text import/export plugin)"));
 
-	return 0;
+	return PLUGIN_OK;
 }
