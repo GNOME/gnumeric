@@ -1,5 +1,8 @@
 1998-11-23  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/dialog-goto-cell.c (dialog_goto_cell): Set the policy on the
+	scrolled window.
+
 	* src/sheet.h: formula_cell_list *ONLY* exists in the Workbook,
 	not on the Sheet.
 

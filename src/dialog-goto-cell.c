@@ -53,6 +53,8 @@ dialog_goto_cell (Workbook *wb)
 		swin = gtk_scrolled_window_new (NULL, NULL);
 		clist = gtk_clist_new_with_titles (1, titles);
 		gtk_container_add (GTK_CONTAINER (swin), clist);
+		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (swin),
+						GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
 		entry = gtk_entry_new ();
 		gtk_signal_connect (GTK_OBJECT (entry), "activate",

@@ -257,6 +257,8 @@ create_number_format_page (GtkWidget *prop_win, CellList *cells)
 
 	number_cat_list = my_clist_new ();
 	scrolled_list = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_list),
+					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_container_add (GTK_CONTAINER (scrolled_list), number_cat_list);
 	gtk_table_attach (t, scrolled_list, 0, 1, BOXES_LINE+1, BOXES_LINE+2,
 			  GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 4, 0);
