@@ -1,5 +1,10 @@
 2001-02-11  Karl Eichwalder  <ke@suse.de>
 
+	* en_GB.po: Translate 'behavior'.
+	* en_AU.po: New file (according to Jody's and Phillip's
+	reminder).
+	* en_CA.po: Ditto.
+
 	* de.po: Update (again).
 	* de.po: Update.
 
