@@ -65,7 +65,7 @@
 	    _label="_Redo"
 	    _tip="Redo the undone action"
 	    pixtype="stock" pixname="gtk-redo"
-	    accel="*Control*r"/>
+	    accel="*Shift**Control*z"/>
 
 	<cmd name="EditCut"
 	    _label="Cu_t"
