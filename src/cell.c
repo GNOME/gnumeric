@@ -1,8 +1,9 @@
+/* vim: set sw=8: */
 /*
  * cell.c: Cell management of the Gnumeric spreadsheet.
  *
  * Author:
- *    Jdy Goldberg 2000 (jgoldberg@home.com)
+ *    Jody Goldberg 2000, 2001 (jgoldberg@home.com)
  *    Miguel de Icaza 1998, 1999 (miguel@kernel.org)
  */
 #include "config.h"
@@ -149,64 +150,114 @@ cell_destroy (Cell *cell)
 gboolean
 cell_eval_content (Cell *cell)
 {
+	static Cell *iterating = NULL;
 	Value   *v;
 	EvalPos	 pos;
+
+	/* This _must_ start as a positive number */
 	int	 max_iterate = 100;
 
 	if (!cell_has_expr (cell))
 		return TRUE;
 
 #ifdef DEBUG_EVALUATION
-	if (dependency_debugging > 1) {
+	{
 		ParsePos pp;
-
-		char *exprtxt = expr_decode_tree
-			(cell->base.expression, parse_pos_init_cell (&pp, cell));
-		printf ("Evaluating %s: %s ->\n", cell_name (cell), exprtxt);
-		g_free (exprtxt);
+		char *str = expr_tree_as_string (cell->base.expression,
+			parse_pos_init_cell (&pp, cell));
+		printf ("{\nEvaluating(%d) %s: %s;\n", max_iterate, cell_name (cell), str);
+		g_free (str);
 	}
 #endif
 
+	/* This is the bottom of a cycle */
 	if (cell->base.flags & DEPENDENT_BEING_CALCULATED) {
-		/* Init to 0 */
-		if (cell->value->type == VALUE_ERROR) {
-			value_release (cell->value);
-			cell->value = value_new_int (0);
-		} else if (cell->value == NULL)
-			cell->value = value_new_int (0);
-		cell->base.flags &= ~DEPENDENT_BEING_CALCULATED;
-		puts ("bottom iterate");
-		return FALSE;
+		/* but not the first bottom */
+		if (cell->base.flags & CELL_BEING_ITERATED) {
+#ifdef DEBUG_EVALUATION
+			printf ("}; /* already-iterate (%d) */\n", iterating == NULL);
+#endif
+			return iterating == NULL;
+		}
+
+		/* if we are still marked as iterating then make this the last
+		 * time through.
+		 */
+		if (iterating == cell) {
+#ifdef DEBUG_EVALUATION
+			puts ("}; /* NO-iterate (1) */");
+#endif
+			return TRUE;
+		} else if (iterating == NULL) {
+			cell->base.flags |= CELL_BEING_ITERATED;
+			iterating = cell;
+#ifdef DEBUG_EVALUATION
+			puts ("}; /* START iterate = TRUE (0) */");
+#endif
+			return FALSE;
+		} else {
+#ifdef DEBUG_EVALUATION
+			puts ("}; /* other-iterate (0) */");
+#endif
+			return FALSE;
+		}
 	}
 
+	/* Prepare to calculate */
 	eval_pos_init_cell (&pos, cell);
-iterate :
 	cell->base.flags |= DEPENDENT_BEING_CALCULATED;
-	v = eval_expr (&pos, cell->base.expression, EVAL_STRICT);
 
-	if (cell->base.flags & DEPENDENT_BEING_CALCULATED)
-		cell->base.flags &= ~DEPENDENT_BEING_CALCULATED;
-	else if (max_iterate-- > 0) {
-		printf ("start iterate %d\n", max_iterate);
-		goto iterate;
-	}
+iterate :
+	v = eval_expr (&pos, cell->base.expression, EVAL_STRICT);
+	if (v == NULL)
+		v = value_new_error (&pos, "Internal error");
 
 #ifdef DEBUG_EVALUATION
-	if (dependency_debugging > 1) {
+	{
 		char *valtxt = v
 			? value_get_as_string (v)
 			: g_strdup ("NULL");
-		printf ("Evaluating %s: -> %s\n", cell_name (cell), valtxt);
+		printf ("Evaluation(%d) %s := %s\n", max_iterate, cell_name (cell), valtxt);
 		g_free (valtxt);
 	}
 #endif
 
-	if (v == NULL)
-		v = value_new_error (&pos, "Internal error");
+	/* The top of a cycle */
+	if (cell->base.flags & CELL_BEING_ITERATED) {
+		cell->base.flags &= ~CELL_BEING_ITERATED;
 
-	cell_assign_value (cell, v, NULL);
+		/* We just completed the last iteration, don't change things */
+		if (iterating && max_iterate-- > 0) {
+			/* If we are within bounds make this the last round */
+			if (value_diff (cell->value, v) < 0.001)
+				max_iterate = 0;
+			else {
+#ifdef DEBUG_EVALUATION
+				puts ("/* iterate == NULL */");
+#endif
+				iterating = NULL;
+			}
+			value_release (cell->value);
+			cell->value = v;
+#ifdef DEBUG_EVALUATION
+			puts ("/* LOOP */");
+#endif
+			goto iterate;
+		}
+		g_return_val_if_fail (iterating, TRUE);
+		iterating = NULL;
+	} else
+		cell_assign_value (cell, v, NULL);
+
+	if (iterating == cell)
+		iterating = NULL;
+
+#ifdef DEBUG_EVALUATION
+	printf ("} (%d)\n", iterating == NULL);
+#endif
+	cell->base.flags &= ~DEPENDENT_BEING_CALCULATED;
 	sheet_redraw_cell (cell);
-	return TRUE;
+	return iterating == NULL;
 }
 
 /*
@@ -437,7 +488,7 @@ cell_set_expr_internal (Cell *cell, ExprTree *expr, StyleFormat *opt_fmt)
 	cell->base.flags |= CELL_HAS_EXPRESSION;
 
 	/* Until the value is recomputed, we put in this value.  */
-	cell->value = value_new_error (NULL, gnumeric_err_RECALC);
+	cell->value = value_new_empty ();
 }
 
 /*
@@ -615,10 +666,10 @@ cell_is_partial_array (Cell const *cell)
  * @dynamic_width : Allow format to depend on column width.
  *
  * TODO :
- * There is no reason currently for this to allocate the rendered value as
- * seperate entity.  However, in the future I'm thinking of referencing them
- * akin to strings.  We need to do some profiling of how frequently things
- * are shared.
+ * The reason the rendered values are stored seperately from the Cell is
+ * that in the future only visible cells will be rendered.  The render
+ * will be SheetControl specific to allow for multiple zooms and different
+ * display resolutions.
  */
 void
 cell_render_value (Cell *cell, gboolean dynamic_width)

@@ -1,3 +1,14 @@
+2001-05-25  Jody Goldberg <jgoldberg@home.com>
+
+	* src/value.c (value_diff) : new routine.  This looks ugly.  We should
+	  be able to avoid replicating this code.
+
+	* src/cell.c (cell_eval_content) : support iteration.
+
+	* src/format.c (render_number) : make the buffer big enough.
+	  The assumtion that mantissa and exp are both maxed should leave
+	  enough room for thousand separators.
+
 2001-05-25  Jon K Hellan  <hellan@acm.org>
 
 	* src/workbook-control-gui.c (wbcg_sheet_add): Bugfix: Connect

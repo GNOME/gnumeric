@@ -14,6 +14,9 @@ typedef enum {
 
 	/* Is the top left corner of a merged region */
 	CELL_IS_MERGED	    = 0x040000,
+
+	/* Cell is in the midst of a cyclic calculation */
+	CELL_BEING_ITERATED = 0x080000,
 } CellFlags;
 
 /* Definition of a Gnumeric Cell */

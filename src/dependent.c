@@ -1141,7 +1141,6 @@ workbook_recalc (Workbook *wb)
 				(*klass->eval) (dep);
 
 				dep->flags &= ~DEPENDENT_NEEDS_RECALC;
-
 			} else {
 				gboolean finished = cell_eval_content (DEP_TO_CELL (dep));
 

@@ -678,8 +678,8 @@ render_number (GString *result,
 	double temp;
 	char thousands_sep;
 	int group = 0;
-	char num_buf [DBL_DIG*2 + 1];
-	char *num = num_buf + DBL_DIG*2;
+	char num_buf [(DBL_MANT_DIG + DBL_MAX_EXP)*2 + 1];
+	char *num = num_buf + sizeof(num_buf) - 1;
 	int digit_count = 0;
 
 	if (!beyond_precision)

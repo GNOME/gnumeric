@@ -99,6 +99,7 @@ Value 	    *value_new_from_string	(ValueType t, char const *str);
 void         value_release         (Value *v);
 void         value_dump            (Value const *v);
 Value       *value_duplicate       (Value const *v);
+double       value_diff		   (Value const *a, Value const *b);
 ValueCompare value_compare         (Value const *a, Value const *b,
 				    gboolean case_sensitive);
 

@@ -19,6 +19,7 @@
 
 #include <stdlib.h>
 #include <errno.h>
+#include <math.h>
 #include <gnome.h>
 
 Value *
@@ -734,17 +735,94 @@ compare_float_float (Value const *va, Value const *vb)
 }
 
 /**
+ * value_diff :
+ *
+ * @a : value a
+ * @b : value b
+ *
+ * Returns a positive difference between 2 values
+ */
+double
+value_diff (Value const *a, Value const *b)
+{
+	ValueType ta, tb;
+
+	/* Handle trivial and double NULL case */
+	if (a == b)
+		return 0.;
+
+	ta = VALUE_IS_EMPTY (a) ? VALUE_EMPTY : a->type;
+	tb = VALUE_IS_EMPTY (b) ? VALUE_EMPTY : b->type;
+
+	/* string > empty */
+	if (ta == VALUE_STRING) {
+		switch (tb) {
+		/* Strings are > (empty, or number) */
+		case VALUE_EMPTY :
+			if (*a->v_str.val->str == '\0')
+				return 0.;
+			return DBL_MAX;
+
+		/* If both are strings compare as string */
+		case VALUE_STRING :
+		{
+			gint t = strcoll (a->v_str.val->str, b->v_str.val->str);
+			if (t == 0)
+				return 0.;
+		}
+		case VALUE_INTEGER : case VALUE_FLOAT : case VALUE_BOOLEAN :
+		default :
+			return DBL_MAX;
+		}
+
+	} else if (tb == VALUE_STRING) {
+		switch (ta) {
+		/* (empty, or number) < String */
+		case VALUE_EMPTY :
+			if (*b->v_str.val->str == '\0')
+				return 0.;
+
+		case VALUE_INTEGER : case VALUE_FLOAT : case VALUE_BOOLEAN :
+		default :
+			return DBL_MAX;
+		}
+	}
+
+	/* Booleans > all numbers (Why did excel do this ??) */
+	if (ta == VALUE_BOOLEAN && (tb == VALUE_INTEGER || tb == VALUE_FLOAT))
+		return DBL_MAX;
+	if (tb == VALUE_BOOLEAN && (ta == VALUE_INTEGER || ta == VALUE_FLOAT))
+		return DBL_MAX;
+
+	switch ((ta > tb) ? ta : tb) {
+	case VALUE_EMPTY:	/* Empty Empty compare */
+		return 0.;
+
+	case VALUE_BOOLEAN:
+		return (compare_bool_bool (a, b) == IS_EQUAL) ? 0. : DBL_MAX;
+
+	case VALUE_INTEGER: {
+		int const ia = value_get_as_int (a);
+		int const ib = value_get_as_int (b);
+		return abs (ia-ib);
+	}
+
+	case VALUE_FLOAT: {
+		double const da = value_get_as_float (a);
+		double const db = value_get_as_float (b);
+		return fabs (da-db);
+	}
+	default:
+		return TYPE_MISMATCH;
+	}
+}
+
+/**
  * value_compare :
  *
  * @a : value a
  * @b : value b
  * @case_sensitive : are string comparisons case sensitive.
- *
- * Compares two (Value *) and returns one of ValueCompare
- *
- * if pos is non null it will perform implict intersection for
- * cellranges. if case_sensitive is true, be case sensitive on string
- * comparisons.
  */
 ValueCompare
 value_compare (Value const *a, Value const *b, gboolean case_sensitive)

@@ -8,20 +8,17 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-Long term breakage
-------------------
-
 - smarter support for unicode characters that do not convert to the
   current encoding during XL import.	(Vlad is looking at this)
   Apply Vlads patch for 0.66
+
+Long term breakage
+------------------
 
 - outline mode
     : finish implementing optionally putting markers above/left
     : implement group/ungroup menu items (with undo, Almer is working on this)
     : connect the hide/show menu items
-
-- defining file patterns in plugin spec overrides 'has_probe' flag silently.
-  (Zbigniew is working on it)
 
 - It is possible to navigate to hidden cols/rows at the start/end of the sheet.
 
@@ -110,10 +107,6 @@ Names :
         : nor are spans
 
 - SheetObjects
-    : Add data member to Class to indicate 'simple' object
-      types that can be rubber banded directly.
-    : Add data member to Class to indicate 'invertable' object
-      types that allow for top below bottom or left after right.
     : Add acetate_create virtual to handle shaped objects.
     : config dialog for arrows and graphic objects (set colour and arrow dir)
     : Other anchor types for sheet objects

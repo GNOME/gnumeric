@@ -2060,8 +2060,8 @@ gnumeric_fv (FunctionEvalInfo *ei, Value **argv)
 	rate = value_get_as_float (argv[0]);
 	nper = value_get_as_float (argv[1]);
 	pmt  = value_get_as_float (argv[2]);
-	pv   = value_get_as_float (argv[3]);
-	type = !!value_get_as_int (argv[4]);
+	pv   = (NULL != argv[3]) ? value_get_as_float (argv[3]) : 0.;
+	type = (NULL != argv[4] && 0 != value_get_as_int (argv[4])) ? 1 : 0;
 
 	pvif = calculate_pvif (rate, nper);
 	fvifa = calculate_fvifa (rate, nper);
@@ -3007,7 +3007,7 @@ finance_functions_init (void)
 	def = function_add_args	 (cat, "euro", "s", "currency",
 				  &help_euro,	  gnumeric_euro);
 
-	def = function_add_args	 (cat, "fv", "fffff", "rate,nper,pmt,pv,type",
+	def = function_add_args	 (cat, "fv", "fff|ff", "rate,nper,pmt,pv,type",
 				  &help_fv,	  gnumeric_fv);
 	auto_format_function_result (def, AF_MONETARY);
 
