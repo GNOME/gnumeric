@@ -529,7 +529,7 @@ workbook_view_new (Workbook *wb)
 }
 
 static void
-wbv_save_to_file (WorkbookView *wbv, GnumFileSaver const *fs,
+wbv_save_to_file (WorkbookView *wbv, GnmFileSaver const *fs,
 		  gchar const *file_name, IOContext *io_context)
 {
 	char *msg = NULL;
@@ -550,7 +550,7 @@ wbv_save_to_file (WorkbookView *wbv, GnumFileSaver const *fs,
 
 		puts (file_name);
 		if (output != NULL) {
-			gnum_file_saver_save (fs, io_context, wbv, output);
+			gnm_file_saver_save (fs, io_context, wbv, output);
 			g_object_unref (G_OBJECT (output));
 			return;
 		}
@@ -578,7 +578,7 @@ wbv_save_to_file (WorkbookView *wbv, GnumFileSaver const *fs,
 /**
  * wb_view_save_as:
  * @wbv         : Workbook View
- * @fs          : GnumFileSaver object
+ * @fs          : GnmFileSaver object
  * @file_name   : File name
  * @context     :
  *
@@ -589,7 +589,7 @@ wbv_save_to_file (WorkbookView *wbv, GnumFileSaver const *fs,
  * Return value: TRUE if file was successfully saved and FALSE otherwise.
  */
 gboolean
-wb_view_save_as (WorkbookView *wbv, GnumFileSaver *fs, gchar const *file_name,
+wb_view_save_as (WorkbookView *wbv, GnmFileSaver *fs, gchar const *file_name,
 		 CommandContext *context)
 {
 	IOContext *io_context;
@@ -597,7 +597,7 @@ wb_view_save_as (WorkbookView *wbv, GnumFileSaver *fs, gchar const *file_name,
 	gboolean has_error, has_warning;
 
 	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), FALSE);
-	g_return_val_if_fail (IS_GNUM_FILE_SAVER (fs), FALSE);
+	g_return_val_if_fail (IS_GNM_FILE_SAVER (fs), FALSE);
 	g_return_val_if_fail (file_name != NULL, FALSE);
 	g_return_val_if_fail (IS_COMMAND_CONTEXT (context), FALSE);
 
@@ -612,7 +612,7 @@ wb_view_save_as (WorkbookView *wbv, GnumFileSaver *fs, gchar const *file_name,
 	has_warning = gnumeric_io_warning_occurred (io_context);
 	if (!has_error) {
 		if (workbook_set_saveinfo (wb,
-			gnum_file_saver_get_format_level (fs), fs) &&
+			gnm_file_saver_get_format_level (fs), fs) &&
 		    workbook_set_filename (wb, file_name))
 			workbook_set_dirty (wb, FALSE);
 	}
@@ -639,7 +639,7 @@ wb_view_save (WorkbookView *wbv, CommandContext *context)
 {
 	IOContext	*io_context;
 	Workbook	*wb;
-	GnumFileSaver	*fs;
+	GnmFileSaver	*fs;
 	gboolean has_error, has_warning;
 
 	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), FALSE);
@@ -672,14 +672,14 @@ wb_view_save (WorkbookView *wbv, CommandContext *context)
 
 WorkbookView *
 wb_view_new_from_input  (GsfInput *input,
-			 GnumFileOpener const *optional_fmt,
+			 GnmFileOpener const *optional_fmt,
 			 IOContext *io_context)
 {
 	WorkbookView *new_wbv = NULL;
 
 	g_return_val_if_fail (GSF_IS_INPUT(input), NULL);
 	g_return_val_if_fail (optional_fmt == NULL ||
-			      IS_GNUM_FILE_OPENER (optional_fmt), NULL);
+			      IS_GNM_FILE_OPENER (optional_fmt), NULL);
 
 	/* NOTE : we could support gzipped anything here if we wanted to
 	 * by adding a wrapper, but there is no framework for remembering that
@@ -693,13 +693,13 @@ wb_view_new_from_input  (GsfInput *input,
 
 		for (pl = FILE_PROBE_FILE_NAME; pl < FILE_PROBE_LAST && optional_fmt == NULL; pl++) {
 			for (l = get_file_openers (); l != NULL; l = l->next) {
-				GnumFileOpener const *tmp_fo = GNUM_FILE_OPENER (l->data);
+				GnmFileOpener const *tmp_fo = GNM_FILE_OPENER (l->data);
 #if 0
 				printf ("Trying format %s at level %d...\n",
-					gnum_file_opener_get_id (tmp_fo),
+					gnm_file_opener_get_id (tmp_fo),
 					(int)pl);
 #endif
-				if (gnum_file_opener_probe (tmp_fo, input, pl)) {
+				if (gnm_file_opener_probe (tmp_fo, input, pl)) {
 					optional_fmt = tmp_fo;
 					break;
 				}
@@ -716,7 +716,7 @@ wb_view_new_from_input  (GsfInput *input,
 
 		/* disable recursive dirtying while loading */
 		old = workbook_enable_recursive_dirty (new_wb, FALSE);
-		gnum_file_opener_open (optional_fmt, io_context, new_wbv, input);
+		gnm_file_opener_open (optional_fmt, io_context, new_wbv, input);
 		workbook_enable_recursive_dirty (new_wb, old);
 
 		if (gnumeric_io_error_occurred (io_context)) {
@@ -736,7 +736,7 @@ wb_view_new_from_input  (GsfInput *input,
 /**
  * wb_view_new_from_file :
  * @file_name    : File name
- * @optional_fmt : Optional GnumFileOpener
+ * @optional_fmt : Optional GnmFileOpener
  * @io_context   : Optional context to display errors.
  *
  * Reads @file_name file using given file opener @optional_fmt, or probes for a valid
@@ -746,7 +746,7 @@ wb_view_new_from_input  (GsfInput *input,
  */
 WorkbookView *
 wb_view_new_from_file (char const *file_name,
-		       GnumFileOpener const *optional_fmt,
+		       GnmFileOpener const *optional_fmt,
 		       IOContext *io_context)
 {
 	char *msg = NULL;

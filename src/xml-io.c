@@ -72,7 +72,7 @@
 #define XML_INPUT_BUFFER_SIZE      4096
 #define N_ELEMENTS_BETWEEN_UPDATES 20
 
-static GnumFileSaver *xml_saver = NULL;
+static GnmFileSaver *xml_saver = NULL;
 
 #define CC2XML(s) ((const xmlChar *)(s))
 #define C2XML(s) ((xmlChar *)(s))
@@ -3309,7 +3309,7 @@ xml_workbook_read (IOContext *context,
  * passes, then we return TRUE
  */
 static gboolean
-xml_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
+xml_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
 	int ret;
 	xmlDocPtr res = NULL;
@@ -3369,7 +3369,7 @@ xml_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
  * the actual in-memory structure.
  */
 static void
-gnumeric_xml_read_workbook (GnumFileOpener const *fo,
+gnumeric_xml_read_workbook (GnmFileOpener const *fo,
                             IOContext *context,
                             WorkbookView *wb_view,
                             GsfInput *input)
@@ -3452,7 +3452,7 @@ gnumeric_xml_read_workbook (GnumFileOpener const *fo,
  * One build an in-memory XML tree and save it to a file.
  */
 static void
-gnumeric_xml_write_workbook (GnumFileSaver const *fs,
+gnumeric_xml_write_workbook (GnmFileSaver const *fs,
                              IOContext *context,
                              WorkbookView const *wb_view,
                              GsfOutput *output)
@@ -3500,13 +3500,13 @@ gnumeric_xml_write_workbook (GnumFileSaver const *fs,
 void
 xml_init (void)
 {
-	GnumFileOpener *opener;
+	GnmFileOpener *opener;
 	char const *desc = _("Gnumeric XML file format");
 
-	opener = gnum_file_opener_new (
+	opener = gnm_file_opener_new (
 	             "Gnumeric_XmlIO:gnum_xml", desc,
 	             xml_probe, gnumeric_xml_read_workbook);
-	xml_saver = gnum_file_saver_new (
+	xml_saver = gnm_file_saver_new (
 	            "Gnumeric_XmlIO:gnum_xml", "gnumeric", desc,
 	            FILE_FL_AUTO, gnumeric_xml_write_workbook);
 	register_file_opener (opener, 50);

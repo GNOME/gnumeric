@@ -60,14 +60,14 @@ gint ms_excel_object_debug = 0;
 
 MsExcelReadGbFn ms_excel_read_gb = NULL;
 
-gboolean excel_file_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl);
-void excel_file_open (GnumFileOpener const *fo, IOContext *context, WorkbookView *wbv, GsfInput *input);
-void excel_biff7_file_save (GnumFileSaver const *fs, IOContext *context, WorkbookView const *wbv, GsfOutput *output);
-void excel_biff8_file_save (GnumFileSaver const *fs, IOContext *context, WorkbookView const *wbv, GsfOutput *output);
+gboolean excel_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl);
+void excel_file_open (GnmFileOpener const *fo, IOContext *context, WorkbookView *wbv, GsfInput *input);
+void excel_biff7_file_save (GnmFileSaver const *fs, IOContext *context, WorkbookView const *wbv, GsfOutput *output);
+void excel_biff8_file_save (GnmFileSaver const *fs, IOContext *context, WorkbookView const *wbv, GsfOutput *output);
 void plugin_cleanup (void);
 
 gboolean
-excel_file_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
+excel_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
 	GsfInfile *ole;
 	GsfInput *stream;
@@ -120,7 +120,7 @@ excel_read_metadata (GsfInfile *ole, char const *name, CommandContext *context)
  * Load en excel workbook.
  */
 void
-excel_file_open (GnumFileOpener const *fo, IOContext *context,
+excel_file_open (GnmFileOpener const *fo, IOContext *context,
                  WorkbookView *wbv, GsfInput *input)
 {
 	static char const * const content[] = {
@@ -246,20 +246,20 @@ excel_save (IOContext *context, WorkbookView const *wbv, GsfOutput *output,
 }
 
 void
-excel_dsf_file_save (GnumFileSaver const *fs, IOContext *context,
+excel_dsf_file_save (GnmFileSaver const *fs, IOContext *context,
 		       WorkbookView const *wbv, GsfOutput *output)
 {
 	excel_save (context, wbv, output, TRUE, TRUE);
 }
 void
-excel_biff8_file_save (GnumFileSaver const *fs, IOContext *context,
+excel_biff8_file_save (GnmFileSaver const *fs, IOContext *context,
 		       WorkbookView const *wbv, GsfOutput *output)
 {
 	excel_save (context, wbv, output, FALSE, TRUE);
 }
 
 void
-excel_biff7_file_save (GnumFileSaver const *fs, IOContext *context,
+excel_biff7_file_save (GnmFileSaver const *fs, IOContext *context,
 		       WorkbookView const *wbv, GsfOutput *output)
 {
 	excel_save (context, wbv, output, TRUE, FALSE);

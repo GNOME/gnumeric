@@ -49,10 +49,10 @@ typedef struct _PluginServiceFileOpener PluginServiceFileOpener;
 typedef struct {
 	/* plugin_func_file_probe may be NULL */
 	gboolean (*plugin_func_file_probe) (
-	         GnumFileOpener const *fo, PluginService *service,
+	         GnmFileOpener const *fo, PluginService *service,
 	         GsfInput *input, FileProbeLevel pl);
 	void     (*plugin_func_file_open) (
-	         GnumFileOpener const *fo, PluginService *service,
+	         GnmFileOpener const *fo, PluginService *service,
 	         IOContext *io_context, WorkbookView *wbv, GsfInput *input);
 } PluginServiceFileOpenerCallbacks;
 
@@ -65,7 +65,7 @@ GType plugin_service_file_saver_get_type (void);
 typedef struct _PluginServiceFileSaver PluginServiceFileSaver;
 typedef struct {
 	void  (*plugin_func_file_save) (
-	      GnumFileSaver const *fs, PluginService *service,
+	      GnmFileSaver const *fs, PluginService *service,
 	      IOContext *io_context, WorkbookView const *wbv,
 	      GsfOutput *output);
 } PluginServiceFileSaverCallbacks;

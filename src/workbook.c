@@ -107,9 +107,9 @@ workbook_history_update (GList *wl, gchar *filename)
 }
 
 static void
-cb_saver_finalize (Workbook *wb, GnumFileSaver *saver)
+cb_saver_finalize (Workbook *wb, GnmFileSaver *saver)
 {
-	g_return_if_fail (IS_GNUM_FILE_SAVER (saver));
+	g_return_if_fail (IS_GNM_FILE_SAVER (saver));
 	g_return_if_fail (IS_WORKBOOK (wb));
 	g_return_if_fail (wb->file_saver == saver);
 	wb->file_saver = NULL;
@@ -433,11 +433,11 @@ workbook_new (void)
 	static int count = 0;
 	gboolean is_unique;
 	Workbook  *wb;
-	GnumFileSaver *def_save = get_default_file_saver ();
+	GnmFileSaver *def_save = get_default_file_saver ();
 	char const *extension = NULL;
 
 	if (def_save != NULL)
-		extension = gnum_file_saver_get_extension (def_save);
+		extension = gnm_file_saver_get_extension (def_save);
 	if (extension == NULL)
 		extension = "gnumeric";
 
@@ -580,7 +580,7 @@ workbook_metadata (Workbook *wb)
  * FIXME : Add a check to ensure the name is unique.
  */
 gboolean
-workbook_set_saveinfo (Workbook *wb, FileFormatLevel level, GnumFileSaver *fs)
+workbook_set_saveinfo (Workbook *wb, FileFormatLevel level, GnmFileSaver *fs)
 {
 	g_return_val_if_fail (wb != NULL, FALSE);
 	g_return_val_if_fail (level > FILE_FL_NONE && level <= FILE_FL_AUTO,
@@ -602,7 +602,7 @@ workbook_set_saveinfo (Workbook *wb, FileFormatLevel level, GnumFileSaver *fs)
 	return TRUE;
 }
 
-GnumFileSaver *
+GnmFileSaver *
 workbook_get_file_saver (Workbook *wb)
 {
 	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);

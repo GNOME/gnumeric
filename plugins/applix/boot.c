@@ -37,15 +37,15 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-gboolean applix_file_probe (GnumFileOpener const *fo, GsfInput *input,
+gboolean applix_file_probe (GnmFileOpener const *fo, GsfInput *input,
                             FileProbeLevel pl);
-void     applix_file_open (GnumFileOpener const *fo, IOContext *io_context,
+void     applix_file_open (GnmFileOpener const *fo, IOContext *io_context,
                            WorkbookView *wb_view, GsfInput *input);
-void     applix_file_save (GnumFileSaver const *fs, IOContext *io_context,
+void     applix_file_save (GnmFileSaver const *fs, IOContext *io_context,
 			   WorkbookView const *wb_view, GsfOutput *output);
 
 gboolean
-applix_file_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
+applix_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
 	static guint8 const signature[] = "*BEGIN SPREADSHEETS VERSION";
 	guint8 const *header;
@@ -56,14 +56,14 @@ applix_file_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 }
 
 void
-applix_file_open (GnumFileOpener const *fo, IOContext *io_context,
+applix_file_open (GnmFileOpener const *fo, IOContext *io_context,
                   WorkbookView *wb_view, GsfInput *input)
 {
 	applix_read (io_context, wb_view, input);
 }
 
 void
-applix_file_save (GnumFileSaver const *fs, IOContext *io_context,
+applix_file_save (GnmFileSaver const *fs, IOContext *io_context,
 		  WorkbookView const *wb_view, GsfOutput *output)
 {
 	applix_write (io_context, wb_view, output);

@@ -108,7 +108,7 @@ typedef struct _ErrorInfo		ErrorInfo;
 typedef struct _PrintInformation        PrintInformation;
 typedef struct _String	 	        String;
 
-typedef struct _GnumFileOpener		GnumFileOpener;	/* TODO rename to GnmFileFormatReader */
+typedef struct _GnmFileOpener		GnmFileOpener;	/* TODO rename to GnmFileFormatReader */
 
 typedef struct _StyleFormat	        StyleFormat;
 typedef struct _StyleFont	        StyleFont;

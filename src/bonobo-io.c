@@ -44,7 +44,7 @@ gnumeric_bonobo_read_from_stream (BonoboPersistStream       *ps,
 	Workbook        *wb;
 	IOContext       *ioc;
 	GsfInput       *input = NULL;
-	GnumFileOpener const *fo    = NULL;
+	GnmFileOpener const *fo    = NULL;
 	FileProbeLevel pl;
 	GList *l;
 	gboolean         old;
@@ -105,7 +105,7 @@ workbook_persist_file_save (BonoboPersistFile *ps, const CORBA_char *filename,
 			    CORBA_Environment *ev, void *closure)
 {
 	WorkbookView *wbv = closure;
-	GnumFileSaver *fs;
+	GnmFileSaver *fs;
 
 	fs = get_file_saver_by_id ("Gnumeric_XmlIO:gnum_xml");
 	return wb_view_save_as (wbv, fs, filename, NULL /* FIXME */) ? 0 : -1;

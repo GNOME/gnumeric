@@ -47,9 +47,9 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-gboolean qpro_file_probe (GnumFileOpener const *fo, GsfInput *input,
+gboolean qpro_file_probe (GnmFileOpener const *fo, GsfInput *input,
 			  FileProbeLevel pl);
-void     qpro_file_open (GnumFileOpener const *fo, IOContext *context,
+void     qpro_file_open (GnmFileOpener const *fo, IOContext *context,
 			 WorkbookView *new_wb_view, GsfInput *input);
 
 static gboolean
@@ -71,7 +71,7 @@ qpro_check_signature (GsfInput *input)
 }
 
 gboolean
-qpro_file_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
+qpro_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
 	GsfInfile *ole;
 	GsfInput *stream;
@@ -822,7 +822,7 @@ qpro_read_workbook (QProReadState *state, GsfInput *input)
 }
 
 void
-qpro_file_open (GnumFileOpener const *fo, IOContext *context,
+qpro_file_open (GnmFileOpener const *fo, IOContext *context,
 		WorkbookView *new_wb_view, GsfInput *input)
 {
 	QProReadState state;

@@ -299,7 +299,7 @@ sheet_object_bonobo_write_xml (SheetObject const *so,
 
 		CORBA_exception_free (&ev);
 	} else if (sob->has_persist_file) {
-		/* Copy approach from gnum_file_saver_save_to_stream_real. */
+		/* Copy approach from gnm_file_saver_save_to_stream_real. */
 	}
 	if (res) {
 		/* store this somewhere, somehow */

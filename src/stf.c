@@ -195,7 +195,7 @@ stf_store_results (DialogStfResult_t *dialogresult,
  * Main routine, handles importing a file including all dialog mumbo-jumbo
  **/
 static void
-stf_read_workbook (GnumFileOpener const *fo, IOContext *context, WorkbookView *wbv, GsfInput *input)
+stf_read_workbook (GnmFileOpener const *fo, IOContext *context, WorkbookView *wbv, GsfInput *input)
 {
 	DialogStfResult_t *dialogresult = NULL;
 	char *name;
@@ -332,7 +332,7 @@ stf_text_to_columns (WorkbookControl *wbc, CommandContext *cc)
  * Attempt to auto-detect CSV or tab-delimited file
  **/
 static void
-stf_read_workbook_auto_csvtab (GnumFileOpener const *fo, IOContext *context,
+stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, IOContext *context,
 			       WorkbookView *wbv, GsfInput *input)
 {
 	Sheet *sheet;
@@ -396,7 +396,7 @@ stf_read_workbook_auto_csvtab (GnumFileOpener const *fo, IOContext *context,
 }
 
 static gboolean
-stf_read_default_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
+stf_read_default_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
 	guint8 const *data;
 	gsf_off_t remain;
@@ -431,7 +431,7 @@ stf_write_func (const char *string, GsfOutput *output)
  * Main routine, handles exporting a file including all dialog mumbo-jumbo
  **/
 static void
-stf_write_workbook (GnumFileSaver const *fs, IOContext *context,
+stf_write_workbook (GnmFileSaver const *fs, IOContext *context,
 		    WorkbookView const *wbv, GsfOutput *output)
 {
 	StfE_Result_t *result = NULL;
@@ -462,15 +462,15 @@ stf_write_workbook (GnumFileSaver const *fs, IOContext *context,
 void
 stf_init (void)
 {
-	register_file_opener (gnum_file_opener_new (
+	register_file_opener (gnm_file_opener_new (
 		"Gnumeric_stf:stf_csvtab",
 		_("Comma or tab separated files (CSV/TSV))"),
 		stf_read_default_probe, stf_read_workbook_auto_csvtab), 0);
-	register_file_opener (gnum_file_opener_new (
+	register_file_opener (gnm_file_opener_new (
 		"Gnumeric_stf:stf_druid",
 		_("Text import (configurable)"),
 		NULL, stf_read_workbook), 0);
-	register_file_saver (gnum_file_saver_new (
+	register_file_saver (gnm_file_saver_new (
 		"Gnumeric_stf:stf", "csv",
 		_("Text export (configurable)"),
 		FILE_FL_WRITE_ONLY, stf_write_workbook));

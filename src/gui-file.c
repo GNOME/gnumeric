@@ -32,19 +32,19 @@
 static gint
 file_opener_description_cmp (gconstpointer a, gconstpointer b)
 {
-	GnumFileOpener const *fo_a = a, *fo_b = b;
+	GnmFileOpener const *fo_a = a, *fo_b = b;
 
-	return g_utf8_collate (gnum_file_opener_get_description (fo_a),
-			       gnum_file_opener_get_description (fo_b));
+	return g_utf8_collate (gnm_file_opener_get_description (fo_a),
+			       gnm_file_opener_get_description (fo_b));
 }
 
 static gint
 file_saver_description_cmp (gconstpointer a, gconstpointer b)
 {
-	GnumFileSaver const *fs_a = a, *fs_b = b;
+	GnmFileSaver const *fs_a = a, *fs_b = b;
 
-	return g_utf8_collate (gnum_file_saver_get_description (fs_a),
-			       gnum_file_saver_get_description (fs_b));
+	return g_utf8_collate (gnm_file_saver_get_description (fs_a),
+			       gnm_file_saver_get_description (fs_b));
 }
 
 static GtkWidget *
@@ -63,12 +63,12 @@ make_format_chooser (GList *list, GtkOptionMenu *omenu)
 
 		if (!l->data)
 			descr = _("Automatically detected");
-		else if (IS_GNUM_FILE_OPENER (l->data))
-			descr = gnum_file_opener_get_description (
-						GNUM_FILE_OPENER (l->data));
+		else if (IS_GNM_FILE_OPENER (l->data))
+			descr = gnm_file_opener_get_description (
+						GNM_FILE_OPENER (l->data));
 		else
-			descr = gnum_file_saver_get_description (
-						GNUM_FILE_SAVER (l->data));
+			descr = gnm_file_saver_get_description (
+						GNM_FILE_SAVER (l->data));
 		item = gtk_menu_item_new_with_label (descr);
 		gtk_widget_show (item);
 		gtk_menu_append (menu, item);
@@ -83,7 +83,7 @@ make_format_chooser (GList *list, GtkOptionMenu *omenu)
 
 gboolean
 gui_file_read (WorkbookControlGUI *wbcg, char const *file_name,
-	       GnumFileOpener const *optional_format)
+	       GnmFileOpener const *optional_format)
 {
 	IOContext *io_context;
 	WorkbookView *wbv;
@@ -125,7 +125,7 @@ gui_file_open (WorkbookControlGUI *wbcg)
 	GtkFileSelection *fsel;
 	GtkOptionMenu *omenu;
 	GtkWidget *format_chooser;
-	GnumFileOpener *fo = NULL;
+	GnmFileOpener *fo = NULL;
 	gchar const *file_name;
 
 	openers = get_file_openers ();
@@ -207,13 +207,13 @@ can_try_save_to (WorkbookControlGUI *wbcg, char const *name)
 }
 
 static gboolean
-check_multiple_sheet_support_if_needed (GnumFileSaver *fs,
+check_multiple_sheet_support_if_needed (GnmFileSaver *fs,
 					WorkbookControlGUI *wbcg,
 					WorkbookView *wb_view)
 {
 	gboolean ret_val = TRUE;
 
-	if (gnum_file_saver_get_save_scope (fs) == FILE_SAVE_SHEET &&
+	if (gnm_file_saver_get_save_scope (fs) == FILE_SAVE_SHEET &&
 	    gnm_app_prefs->file_ask_single_sheet_save) {
 		GList *sheets;
 		gchar *msg = _("Selected file format doesn't support "
@@ -233,7 +233,7 @@ check_multiple_sheet_support_if_needed (GnumFileSaver *fs,
 
 static gboolean
 do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view,
-            GnumFileSaver *fs, char const *name)
+            GnmFileSaver *fs, char const *name)
 {
 	char *filename = NULL;
 	gboolean success = FALSE;
@@ -244,7 +244,7 @@ do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view,
 		return FALSE;
 	}
 
-	if (!gnum_file_saver_fix_file_name (fs, name, &filename) &&
+	if (!gnm_file_saver_fix_file_name (fs, name, &filename) &&
 		!gnumeric_dialog_question_yes_no (wbcg,
                       _("The given file extension does not match the"
 			" chosen file type. Do you want to use this name"
@@ -279,7 +279,7 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	GtkFileSelection *fsel;
 	GtkOptionMenu *omenu;
 	GtkWidget *format_chooser;
-	GnumFileSaver *fs;
+	GnmFileSaver *fs;
 	gboolean success  = FALSE;
 	gchar const *wb_file_name;
 
@@ -358,14 +358,14 @@ gui_file_save (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 
 #ifdef WITH_BONOBO
 #ifdef GNOME2_CONVERSION_COMPLETE
-static GnumFileSaver *
+static GnmFileSaver *
 ask_for_file_saver (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 {
 	GtkWidget *dialog;
 	GtkWidget *format_chooser;
 	GtkOptionMenu *omenu;
 	GList *savers;
-	GnumFileSaver *fs;
+	GnmFileSaver *fs;
 
 	dialog = gtk_message_dialog_new (wbcg_toplevel (wbcg),
 					 GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -385,7 +385,7 @@ ask_for_file_saver (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 
 	fs = wbcg->current_saver;
 	if (fs == NULL) {
-		fs = (GnumFileSaver *) workbook_get_file_saver (
+		fs = (GnmFileSaver *) workbook_get_file_saver (
 						wb_view_workbook (wb_view));
 	}
 	if (fs == NULL || g_list_find (savers, fs) == NULL) {
@@ -413,7 +413,7 @@ gui_file_save_to_stream (BonoboStream *stream, WorkbookControlGUI *wbcg,
 			 WorkbookView *wb_view, gchar const *mime_type,
 			 CORBA_Environment *ev)
 {
-	GnumFileSaver *fs = NULL;
+	GnmFileSaver *fs = NULL;
 	IOContext *io_context;
 
 	/* If no mime type is given, we need to ask. */
@@ -441,7 +441,7 @@ gui_file_save_to_stream (BonoboStream *stream, WorkbookControlGUI *wbcg,
 	}
 
 	io_context = gnumeric_io_context_new (COMMAND_CONTEXT (wbcg));
-	gnum_file_saver_save_to_stream (fs, io_context, wb_view, stream, ev);
+	gnm_file_saver_save_to_stream (fs, io_context, wb_view, stream, ev);
 	gtk_object_destroy (GTK_OBJECT (io_context));
 }
 #endif

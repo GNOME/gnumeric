@@ -39,20 +39,20 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-gboolean psiconv_file_probe (GnumFileOpener const *fo, GsfInput *input,
+gboolean psiconv_file_probe (GnmFileOpener const *fo, GsfInput *input,
                             FileProbeLevel pl);
-void     psiconv_file_open (GnumFileOpener const *fo, IOContext *io_context,
+void     psiconv_file_open (GnmFileOpener const *fo, IOContext *io_context,
 			    WorkbookView *wb_view, GsfInput *input);
 
 
 gboolean
-psiconv_file_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
+psiconv_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
 	return psiconv_read_header (input);
 }
 
 void
-psiconv_file_open (GnumFileOpener const *fo, IOContext *io_context,
+psiconv_file_open (GnmFileOpener const *fo, IOContext *io_context,
                   WorkbookView *wb_view, GsfInput *input)
 {
 	psiconv_read (io_context, wb_view_workbook(wb_view), input);

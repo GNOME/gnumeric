@@ -24,14 +24,14 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-gboolean lotus_file_probe (GnumFileOpener const *fo, GsfInput *input,
+gboolean lotus_file_probe (GnmFileOpener const *fo, GsfInput *input,
                            FileProbeLevel pl);
-void     lotus_file_open (GnumFileOpener const *fo, IOContext *io_context,
+void     lotus_file_open (GnmFileOpener const *fo, IOContext *io_context,
                           WorkbookView *wb_view, GsfInput *input);
 
 
 gboolean
-lotus_file_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
+lotus_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
 	char const *header = NULL;
 	if (!gsf_input_seek (input, 0, G_SEEK_SET))
@@ -44,7 +44,7 @@ lotus_file_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 }
 
 void
-lotus_file_open (GnumFileOpener const *fo, IOContext *io_context,
+lotus_file_open (GnmFileOpener const *fo, IOContext *io_context,
                  WorkbookView *wb_view, GsfInput *input)
 {
 	LotusWk1Read state;

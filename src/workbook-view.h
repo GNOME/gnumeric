@@ -78,15 +78,15 @@ void		 wb_view_auto_expr	  (WorkbookView *wbv,
 					   char const *func_name);
 
 /* I/O routines */
-gboolean wb_view_save_as     (WorkbookView *wbv, GnumFileSaver *fs,
+gboolean wb_view_save_as     (WorkbookView *wbv, GnmFileSaver *fs,
 			      char const *file_name, CommandContext *context);
 gboolean wb_view_save        (WorkbookView *wbv, CommandContext *context);
 
 WorkbookView *wb_view_new_from_input  (GsfInput *input,
-				       GnumFileOpener const *optional_format,
+				       GnmFileOpener const *optional_format,
 				       IOContext *io_context);
 WorkbookView *wb_view_new_from_file  (char const *file_name,
-				      GnumFileOpener const *optional_format,
+				      GnmFileOpener const *optional_format,
 				      IOContext *io_context);
 
 #define WORKBOOK_VIEW_FOREACH_CONTROL(wbv, control, code)			\

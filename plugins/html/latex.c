@@ -867,7 +867,7 @@ latex2e_print_hhline (GsfOutput *output, StyleBorderType *clines, int n, StyleBo
  * to render the format and contents of the cell.
  */
 void
-latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
+latex_file_save (GnmFileSaver const *fs, IOContext *io_context,
 		 WorkbookView const *wb_view, GsfOutput *output)
 {
 	Cell *cell;

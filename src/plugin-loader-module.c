@@ -289,14 +289,14 @@ gnumeric_plugin_loader_module_load_service_general (GnumericPluginLoader *loader
  */
 
 typedef struct {
-	gboolean (*module_func_file_probe) (GnumFileOpener const *fo, GsfInput *input,
+	gboolean (*module_func_file_probe) (GnmFileOpener const *fo, GsfInput *input,
 	                                    FileProbeLevel pl);
-	void (*module_func_file_open) (GnumFileOpener const *fo, IOContext *io_context,
+	void (*module_func_file_open) (GnmFileOpener const *fo, IOContext *io_context,
 	                               WorkbookView *wbv, GsfInput *input);
 } ServiceLoaderDataFileOpener;
 
 static gboolean
-gnumeric_plugin_loader_module_func_file_probe (GnumFileOpener const *fo, PluginService *service,
+gnumeric_plugin_loader_module_func_file_probe (GnmFileOpener const *fo, PluginService *service,
                                                GsfInput *input, FileProbeLevel pl)
 {
 	ServiceLoaderDataFileOpener *loader_data;
@@ -309,7 +309,7 @@ gnumeric_plugin_loader_module_func_file_probe (GnumFileOpener const *fo, PluginS
 }
 
 static void
-gnumeric_plugin_loader_module_func_file_open (GnumFileOpener const *fo, PluginService *service,
+gnumeric_plugin_loader_module_func_file_open (GnmFileOpener const *fo, PluginService *service,
                                               IOContext *io_context, WorkbookView *wbv,
                                               GsfInput *input)
 {
@@ -369,12 +369,12 @@ gnumeric_plugin_loader_module_load_service_file_opener (GnumericPluginLoader *lo
  */
 
 typedef struct {
-	void (*module_func_file_save) (GnumFileSaver const *fs, IOContext *io_context,
+	void (*module_func_file_save) (GnmFileSaver const *fs, IOContext *io_context,
 	                               WorkbookView const *wbv, GsfOutput *output);
 } ServiceLoaderDataFileSaver;
 
 static void
-gnumeric_plugin_loader_module_func_file_save (GnumFileSaver const *fs, PluginService *service,
+gnumeric_plugin_loader_module_func_file_save (GnmFileSaver const *fs, PluginService *service,
                                               IOContext *io_context, WorkbookView const *wbv,
 					      GsfOutput *output)
 {

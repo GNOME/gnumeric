@@ -47,8 +47,8 @@ gboolean    workbook_sheet_reorganize    (Workbook *wb,
 gboolean       workbook_set_filename	(Workbook *wb, char const *);
 char const    *workbook_get_filename	(Workbook *wb);
 gboolean       workbook_set_saveinfo	(Workbook *wb,
-					 FileFormatLevel, GnumFileSaver *);
-GnumFileSaver *workbook_get_file_saver	(Workbook *wb);
+					 FileFormatLevel, GnmFileSaver *);
+GnmFileSaver *workbook_get_file_saver	(Workbook *wb);
 
 gboolean    workbook_is_pristine	(Workbook const *wb);
 void        workbook_set_dirty		(Workbook *wb, gboolean is_dirty);

@@ -10,7 +10,7 @@ gboolean gui_file_save_as   (WorkbookControlGUI *wbcg, WorkbookView *);
 gboolean gui_file_save      (WorkbookControlGUI *wbcg, WorkbookView *);
 void     gui_file_open      (WorkbookControlGUI *wbcg);
 gboolean gui_file_read	    (WorkbookControlGUI *wbcg, char const *file_name,
-			     GnumFileOpener const *optional_format);
+			     GnmFileOpener const *optional_format);
 
 #ifdef WITH_BONOBO
 void gui_file_save_to_stream (BonoboStream *stream, WorkbookControlGUI *wbcg,

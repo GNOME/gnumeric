@@ -30,9 +30,9 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 #define N_INPUT_LINES_BETWEEN_UPDATES   50
 
-void dif_file_open (GnumFileOpener const *fo, IOContext *io_context,
+void dif_file_open (GnmFileOpener const *fo, IOContext *io_context,
                     WorkbookView *wbv, GsfInput *input);
-void dif_file_save (GnumFileSaver const *fs, IOContext *io_context,
+void dif_file_save (GnmFileSaver const *fs, IOContext *io_context,
                     WorkbookView const *wbv, GsfOutput *output);
 
 typedef struct {
@@ -251,7 +251,7 @@ dif_parse_sheet (DifInputContext *ctxt)
 }
 
 void
-dif_file_open (GnumFileOpener const *fo, IOContext *io_context,
+dif_file_open (GnmFileOpener const *fo, IOContext *io_context,
                WorkbookView *wbv, GsfInput *input)
 {
 	Workbook *wb = wb_view_workbook (wbv);
@@ -273,7 +273,7 @@ dif_file_open (GnumFileOpener const *fo, IOContext *io_context,
  * Write _current_ sheet of the workbook to a DIF format file
  */
 void
-dif_file_save (GnumFileSaver const *fs, IOContext *io_context,
+dif_file_save (GnmFileSaver const *fs, IOContext *io_context,
                WorkbookView const *wbv, GsfOutput *output)
 {
 	Sheet *sheet;

@@ -228,7 +228,7 @@ typedef struct {
 
 static gboolean
 gnumeric_plugin_loader_python_func_file_probe (
-	GnumFileOpener const *fo, PluginService *service,
+	GnmFileOpener const *fo, PluginService *service,
 	GsfInput *input, FileProbeLevel pl)
 {
 #ifndef WITH_PYGTK
@@ -270,7 +270,7 @@ gnumeric_plugin_loader_python_func_file_probe (
 }
 
 static void
-gnumeric_plugin_loader_python_func_file_open (GnumFileOpener const *fo, 
+gnumeric_plugin_loader_python_func_file_open (GnmFileOpener const *fo, 
 					      PluginService *service,
                                               IOContext *io_context, 
 					      WorkbookView *wb_view,
@@ -369,7 +369,7 @@ typedef struct {
 } ServiceLoaderDataFileSaver;
 
 static void
-gnumeric_plugin_loader_python_func_file_save (GnumFileSaver const *fs, PluginService *service,
+gnumeric_plugin_loader_python_func_file_save (GnmFileSaver const *fs, PluginService *service,
                                               IOContext *io_context, WorkbookView const *wb_view,
                                               GsfOutput *output)
 {

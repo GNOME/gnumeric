@@ -17,11 +17,11 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-void oleo_file_open (GnumFileOpener const *fo, IOContext *io_context,
+void oleo_file_open (GnmFileOpener const *fo, IOContext *io_context,
                      WorkbookView *wb_view, GsfInput *input);
 
 void
-oleo_file_open (GnumFileOpener const *fo, IOContext *io_context,
+oleo_file_open (GnmFileOpener const *fo, IOContext *io_context,
                 WorkbookView *wb_view, GsfInput *input)
 {
 	Workbook *wb = wb_view_workbook (wb_view);

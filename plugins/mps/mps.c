@@ -640,7 +640,7 @@ mps_input_context_destroy (MpsInputContext *ctxt)
  */
 
 void
-mps_file_open (GnumFileOpener const *fo, IOContext *io_context,
+mps_file_open (GnmFileOpener const *fo, IOContext *io_context,
                WorkbookView *wbv, GsfInput *input)
 {
         MpsInputContext *ctxt;

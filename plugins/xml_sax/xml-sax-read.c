@@ -60,9 +60,9 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-gboolean xml_sax_file_probe (GnumFileOpener const *fo, GsfInput *input,
+gboolean xml_sax_file_probe (GnmFileOpener const *fo, GsfInput *input,
                              FileProbeLevel pl);
-void     xml_sax_file_open (GnumFileOpener const *fo, IOContext *io_context,
+void     xml_sax_file_open (GnmFileOpener const *fo, IOContext *io_context,
 			    WorkbookView *wb_view, GsfInput *input);
 
 /*****************************************************************************/
@@ -1434,7 +1434,7 @@ GSF_XML_SAX_NODE (START, WB, "gmr:Workbook", FALSE, &xml_sax_wb, NULL, 0),
 };
 
 void
-xml_sax_file_open (GnumFileOpener const *fo, IOContext *io_context,
+xml_sax_file_open (GnmFileOpener const *fo, IOContext *io_context,
 		   WorkbookView *wb_view, GsfInput *input)
 {
 	XMLSaxParseState state;

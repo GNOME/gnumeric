@@ -33,9 +33,9 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-gboolean pln_file_probe (GnumFileOpener const *fo, GsfInput *input,
+gboolean pln_file_probe (GnmFileOpener const *fo, GsfInput *input,
 			 FileProbeLevel pl);
-void     pln_file_open (GnumFileOpener const *fo, IOContext *io_context,
+void     pln_file_open (GnmFileOpener const *fo, IOContext *io_context,
 			WorkbookView *wb_view, GsfInput *input);
 
 static char const *formula1[] = {
@@ -173,7 +173,7 @@ pln_get_func_table2 (unsigned i)
 }
 
 gboolean
-pln_file_probe (GnumFileOpener const *fo, GsfInput *input,
+pln_file_probe (GnmFileOpener const *fo, GsfInput *input,
 		FileProbeLevel pl)
 {
 	/*
@@ -653,7 +653,7 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 }
 
 void
-pln_file_open (GnumFileOpener const *fo, IOContext *io_context,
+pln_file_open (GnmFileOpener const *fo, IOContext *io_context,
                WorkbookView *wb_view, GsfInput *input)
 {
 	Workbook *wb;

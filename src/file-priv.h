@@ -2,61 +2,61 @@
 #define GNUMERIC_FILE_PRIV_H
 
 /*
- * GnumFileOpener
+ * GnmFileOpener
  */
 
-#define GNUM_FILE_OPENER_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_GNUM_FILE_OPENER, GnumFileOpenerClass))
-#define IS_GNUM_FILE_OPENER_CLASS(klass)  (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_GNUM_FILE_OPENER))
+#define GNM_FILE_OPENER_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_GNM_FILE_OPENER, GnmFileOpenerClass))
+#define IS_GNM_FILE_OPENER_CLASS(klass)  (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_GNM_FILE_OPENER))
 
-#define GNUM_FILE_OPENER_METHOD(obj,name) \
-        ((GNUM_FILE_OPENER_CLASS (G_OBJECT_GET_CLASS (obj)))->name)
+#define GNM_FILE_OPENER_METHOD(obj,name) \
+        ((GNM_FILE_OPENER_CLASS (G_OBJECT_GET_CLASS (obj)))->name)
 
-struct _GnumFileOpenerClass {
+struct _GnmFileOpenerClass {
 	GObjectClass parent_class;
 
-	gboolean  (*probe) (GnumFileOpener const *fo,
+	gboolean  (*probe) (GnmFileOpener const *fo,
 	                    GsfInput *input,
 	                    FileProbeLevel pl);
-	void      (*open)  (GnumFileOpener const *fo,
+	void      (*open)  (GnmFileOpener const *fo,
 	                    IOContext *io_context,
 	                    WorkbookView *wbv,
 	                    GsfInput *input);
 };
 
-struct _GnumFileOpener {
+struct _GnmFileOpener {
 	GObject parent;
 
 	gchar                  *id;
 	gchar                  *description;
-	GnumFileOpenerProbeFunc probe_func;
-	GnumFileOpenerOpenFunc  open_func;
+	GnmFileOpenerProbeFunc probe_func;
+	GnmFileOpenerOpenFunc  open_func;
 };
 
-void gnum_file_opener_setup (GnumFileOpener *fo, const gchar *id,
+void gnm_file_opener_setup (GnmFileOpener *fo, const gchar *id,
                              const gchar *description,
-                             GnumFileOpenerProbeFunc probe_func,
-                             GnumFileOpenerOpenFunc open_func);
+                             GnmFileOpenerProbeFunc probe_func,
+                             GnmFileOpenerOpenFunc open_func);
 
 /*
- * GnumFileSaver
+ * GnmFileSaver
  */
 
-#define GNUM_FILE_SAVER_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_GNUM_FILE_SAVER, GnumFileSaverClass))
-#define IS_GNUM_FILE_SAVER_CLASS(klass)  (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_GNUM_FILE_SAVER))
+#define GNM_FILE_SAVER_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_GNM_FILE_SAVER, GnmFileSaverClass))
+#define IS_GNM_FILE_SAVER_CLASS(klass)  (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_GNM_FILE_SAVER))
 
-#define GNUM_FILE_SAVER_METHOD(obj,name) \
-        ((GNUM_FILE_SAVER_CLASS (G_OBJECT_GET_CLASS (obj)))->name)
+#define GNM_FILE_SAVER_METHOD(obj,name) \
+        ((GNM_FILE_SAVER_CLASS (G_OBJECT_GET_CLASS (obj)))->name)
 
-struct _GnumFileSaverClass {
+struct _GnmFileSaverClass {
 	GObjectClass parent_class;
 
-	void (*save) (GnumFileSaver const *fs,
+	void (*save) (GnmFileSaver const *fs,
 	              IOContext *io_context,
 	              WorkbookView const *wbv,
 	              GsfOutput *output);
 };
 
-struct _GnumFileSaver {
+struct _GnmFileSaver {
 	GObject parent;
 
 	gchar                *id;
@@ -66,14 +66,14 @@ struct _GnumFileSaver {
 	gboolean              overwrite_files;
 	FileFormatLevel               format_level;
 	FileSaveScope                 save_scope;
-	GnumFileSaverSaveFunc         save_func;
+	GnmFileSaverSaveFunc         save_func;
 };
 
-void gnum_file_saver_setup (GnumFileSaver *fs,
+void gnm_file_saver_setup (GnmFileSaver *fs,
                             const gchar *id,
                             const gchar *extension,
                             const gchar *description,
                             FileFormatLevel level,
-                            GnumFileSaverSaveFunc save_func);
+                            GnmFileSaverSaveFunc save_func);
 
 #endif /* GNUMERIC_FILE_PRIV_H */

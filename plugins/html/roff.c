@@ -85,7 +85,7 @@ roff_fprintf (GsfOutput *output, const Cell *cell)
  * FIXME: Should roff quote sheet name (and everything else)
  */
 void
-roff_file_save (GnumFileSaver const *fs, IOContext *io_context,
+roff_file_save (GnmFileSaver const *fs, IOContext *io_context,
                 WorkbookView const *wb_view, GsfOutput *output)
 {
 	GList *sheets, *ptr;

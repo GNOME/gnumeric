@@ -835,10 +835,10 @@ oo_conventions (void)
 
 
 void
-openoffice_file_open (GnumFileOpener const *fo, IOContext *io_context,
+openoffice_file_open (GnmFileOpener const *fo, IOContext *io_context,
 		      WorkbookView *wb_view, GsfInput *input);
 void
-openoffice_file_open (GnumFileOpener const *fo, IOContext *io_context,
+openoffice_file_open (GnmFileOpener const *fo, IOContext *io_context,
 		      WorkbookView *wb_view, GsfInput *input)
 {
 	OOParseState state;
