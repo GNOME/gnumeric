@@ -210,21 +210,21 @@ dist distdir: update-po $(DISTFILES)
 update-po: Makefile
 	$(MAKE) $(PACKAGE).pot
 	PATH=`pwd`/../src:$$PATH; \
-        cd $(srcdir); \
-        $(GENPOT); \
-        catalogs='$(CATALOGS)'; \
-        for cat in $$catalogs; do \
-          cat=`basename $$cat`; \
-          lang=`echo $$cat | sed 's/\$(CATOBJEXT)$$//'`; \
-          cp $$lang.po $$lang.old.po; \
-          echo "$$lang:"; \
-          if $(MSGMERGE) $$lang; then \
-          rm -f $$lang.old.po; \
-          else \
-            echo "msgmerge for $$cat failed!"; \
-            mv $$lang.old.po $$lang.po; \
-          fi; \
-        done
+	cd $(srcdir); \
+	$(GENPOT); \
+	catalogs='$(CATALOGS)'; \
+	for cat in $$catalogs; do \
+	  cat=`basename $$cat`; \
+	  lang=`echo $$cat | sed 's/\$(CATOBJEXT)$$//'`; \
+	  cp $$lang.po $$lang.old.po; \
+	  echo "$$lang:"; \
+	  if $(MSGMERGE) $$lang; then \
+	  rm -f $$lang.old.po; \
+	  else \
+	    echo "msgmerge for $$cat failed!"; \
+	    mv $$lang.old.po $$lang.po; \
+	  fi; \
+	done
 
 POTFILES: POTFILES.in
 	( if test 'x$(srcdir)' != 'x.'; then \
