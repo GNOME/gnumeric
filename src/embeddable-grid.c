@@ -111,7 +111,7 @@ embeddable_grid_init (GtkObject *object)
 {
 	EmbeddableGrid *eg = EMBEDDABLE_GRID (object);
 
-	eg->workbook = workbook_core_new ();
+	eg->workbook = gtk_type_new (WORKBOOK_TYPE);
 	eg->sheet = sheet_new (eg->workbook, _("Embedded Sheet"));
 	workbook_attach_sheet (eg->workbook, eg->sheet);
 

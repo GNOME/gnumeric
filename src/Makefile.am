@@ -174,6 +174,7 @@ GNUMERIC_BASE_SOURCES =				\
 	widget-font-selector.c			\
 	widget-font-selector.h			\
 	workbook.c				\
+	workbook.h				\
 	xml-io.c				\
 	xml-io.h
 

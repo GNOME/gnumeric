@@ -179,13 +179,22 @@ Workbook_corba_class_init ()
 	gnome_gnumeric_workbook_epv.parse = Workbook_parse;
 }
 
+/**
+ * Initializes the CORBA side of a Workbook structure.
+ *
+ * Creates the POA servant to handle requests for this Workbook and makes
+ * the Workbook a GNOME object server.
+ */
 void
 workbook_corba_setup (Workbook *workbook)
 {
 	WorkbookServant *ws;
 	CORBA_Environment ev;
         PortableServer_ObjectId *objid;
-	
+
+	/*
+	 * 1. The CORBA servant for the Workbook
+	 */
 	Workbook_corba_class_init ();
 
 	ws = g_new0 (WorkbookServant, 1);

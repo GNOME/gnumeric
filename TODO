@@ -2,6 +2,12 @@
 
 Gnumeric Spread Sheet task list
 
+* Workbook
+   
+   Have a new "manager" file that will take over the details of open
+   workbooks and active servers, instead of the current approach we
+   use to have this management in the workbook.c file
+
 * Component
 
    Make sheet_selection_changed_hook execute a list of hooks 

@@ -498,13 +498,21 @@ Sheet_cell_set_font (PortableServer_Servant servant,
 		     CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
+	StyleFont *style_font;
 	Cell *cell;
 
 	verify_col (col);
 	verify_row (row);
 	
 	cell = sheet_cell_fetch (sheet, col, row);
-	cell_set_font (cell, font, points);
+
+	style_font = style_font_new (
+		font, points, sheet->last_zoom_factor_used,
+		cell->style->font->is_bold,
+		cell->style->font->is_italic);
+
+	if (style_font)
+		cell_set_font_from_style (cell, style_font);
 }
 
 static CORBA_char *

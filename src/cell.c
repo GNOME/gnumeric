@@ -201,30 +201,6 @@ cell_set_font_from_style (Cell *cell, StyleFont *style_font)
 	cell_queue_redraw (cell);
 }
 
-#if 0
-/* Ready for deletion?  */
-static void
-cell_set_font (Cell *cell, const char *font_name, double points)
-{
-	StyleFont *style_font;
-	Sheet *sheet;
-	
-	g_return_if_fail (cell != NULL);
-	g_return_if_fail (font_name != NULL);
-
-	sheet = cell->sheet;
-	style_font = style_font_new (
-		font_name,
-		points,
-		sheet->last_zoom_factor_used,
-		cell->style->font->is_bold,
-		cell->style->font->is_italic);
-
-	if (style_font)
-		cell_set_font_from_style (cell, style_font);
-}
-#endif
-
 void
 cell_set_style (Cell *cell, Style *reference_style)
 {

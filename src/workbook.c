@@ -37,6 +37,8 @@ static int workbook_count;
 
 static GList *workbook_list = NULL;
 
+static WORKBOOK_PARENT_CLASS *workbook_parent_class;
+
 static void
 new_cmd (void)
 {
@@ -258,8 +260,14 @@ dump_dep (gpointer key, gpointer value, gpointer closure)
 static void
 workbook_do_destroy (Workbook *wb)
 {
-	/* First do all deletions that leave the workbook in a working
-	   order.  */
+
+	if (!GTK_OBJECT_DESTROYED (wb->toplevel))
+		gtk_object_destroy (GTK_OBJECT (wb->toplevel));
+	
+	/*
+	 * Do all deletions that leave the workbook in a working
+	 * order.
+	 */
 
 	summary_info_free (wb->sin);
 	wb->sin = NULL;
@@ -354,16 +362,19 @@ workbook_do_destroy (Workbook *wb)
 		gtk_main_quit ();
 }
 
-void
-workbook_destroy (Workbook *wb)
+static void
+workbook_destroy (GtkObject *wb_object) 
 {
-	gtk_widget_destroy (wb->toplevel);
+	Workbook *wb = WORKBOOK (wb_object);
+
+	workbook_do_destroy (wb);
+	GTK_OBJECT_CLASS (workbook_parent_class)->destroy (wb_object);
 }
 
 static void
 workbook_widget_destroy (GtkWidget *widget, Workbook *wb)
 {
-	workbook_do_destroy (wb);
+	gtk_object_unref (GTK_OBJECT (wb));
 }
 
 static void
@@ -475,14 +486,14 @@ static void
 close_cmd (GtkWidget *widget, Workbook *wb)
 {
 	if (workbook_can_close (wb))
-		workbook_destroy (wb);
+		gtk_object_destroy (GTK_OBJECT (wb));
 }
 
 static int
 workbook_delete_event (GtkWidget *widget, GdkEvent *event, Workbook *wb)
 {
 	if (workbook_can_close (wb)){
-		workbook_destroy (wb);
+		gtk_object_destroy (GTK_OBJECT (wb));
 		return FALSE;
 	} else
 		return TRUE;
@@ -505,7 +516,7 @@ quit_cmd (void)
 		Workbook *wb = l->data;
 
 		if (workbook_can_close (wb))
-			workbook_destroy (wb);
+			gtk_object_destroy (GTK_OBJECT (wb));
 	}
 
 	g_list_free (n);
@@ -1667,12 +1678,10 @@ workbook_configure_minimized_pixmap (Workbook *wb)
 	/* FIXME: Use the new function provided by Raster */
 }
 
-Workbook *
-workbook_core_new (void)
+static void
+workbook_init (GtkObject *object)
 {
-	Workbook *wb;
-
-	wb = g_new0 (Workbook, 1);
+	Workbook *wb = WORKBOOK (object);
 
 	wb->sheets       = g_hash_table_new (gnumeric_strcase_hash, gnumeric_strcase_equal);
 	wb->names        = NULL;
@@ -1701,6 +1710,41 @@ workbook_core_new (void)
 	return wb;
 }
 
+static void
+workbook_class_init (GtkObjectClass *object_class)
+{
+	workbook_parent_class = gtk_type_class (WORKBOOK_PARENT_CLASS_TYPE);
+
+	object_class->destroy = workbook_destroy;
+}
+
+GtkType
+workbook_get_type (void)
+{
+	static GtkType type = 0;
+
+	if (!type){
+		GtkTypeInfo info = {
+			"Workbook",
+			sizeof (Workbook),
+			sizeof (WorkbookClass),
+			(GtkClassInitFunc) workbook_class_init,
+			(GtkObjectInitFunc) workbook_init,
+			NULL, /* reserved 1 */
+			NULL, /* reserved 2 */
+			(GtkClassInitFunc) NULL
+		};
+
+#ifdef ENABLE_BONOBO
+		type = gtk_type_unique (gnome_object_get_type (), &info);
+#else
+		type = gtk_type_unique (gtk_object_get_type (), &info);
+#endif
+	}
+
+	return type;
+}
+
 /**
  * workbook_new:
  *
@@ -1719,7 +1763,7 @@ workbook_new (void)
 	};
 	static gint n_drag_types = sizeof (drag_types) / sizeof (drag_types [0]);
 
-	wb = workbook_core_new ();
+	wb = gtk_type_new (workbook_get_type ());
 	wb->toplevel  = gnome_app_new ("Gnumeric", "Gnumeric");
 	wb->table     = gtk_table_new (0, 0, 0);
 
