@@ -1346,16 +1346,20 @@ static int
 count_character (GPtrArray *lines, gunichar c, double quantile)
 {
 	int *counts, res;
-	unsigned int ui;
+	unsigned int lno, cno;
 
 	if (lines->len == 0)
 		return 0;
 
 	counts = g_new (int, lines->len);
-	for (ui = 0; ui < lines->len; ui++) {
+	for (lno = cno = 0; lno < lines->len; lno++) {
 		int count = 0;
-		GPtrArray *boxline = g_ptr_array_index (lines, ui);
+		GPtrArray *boxline = g_ptr_array_index (lines, lno);
 		const char *line = g_ptr_array_index (boxline, 0);
+
+		/* Ignore empty lines.  */
+		if (*line == 0)
+			continue;
 
 		while (*line) {
 			if (g_utf8_get_char (line) == c)
@@ -1363,14 +1367,18 @@ count_character (GPtrArray *lines, gunichar c, double quantile)
 			line = g_utf8_next_char (line);
 		}
 
-		counts[ui] = count;
+		counts[cno++] = count;
 	}
 
-	qsort (counts, lines->len, sizeof (counts[0]), int_sort);
-	ui = (unsigned int)ceil (quantile * lines->len);
-	if (ui == lines->len)
-		ui--;
-	res = counts[ui];
+	if (cno == 0)
+		res = 0;
+	else {
+		unsigned int qi = (unsigned int)ceil (quantile * cno);
+		qsort (counts, cno, sizeof (counts[0]), int_sort);
+		if (qi == cno)
+			qi--;
+		res = counts[qi];
+	}
 
 	g_free (counts);
 
