@@ -1,3 +1,8 @@
+1999-11-21  Jeff Garzik  <jgarzik@mandrakesoft.com>
+
+	* dif.c (dif_cleanup_plugin): free pd->title
+	(MAP_FAILED) defined MAP_FAILED where missing.  (from csv-io.c)
+
 1999-11-19  Kevin Handy  <kth@srv.net>
 
 	* dif.h, dif.c: Initial version.

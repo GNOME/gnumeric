@@ -232,6 +232,10 @@ g_warning("DIF SUCCESS");
 	return TRUE;
 }
 
+#ifndef MAP_FAILED
+#   define MAP_FAILED -1
+#endif
+
 static gboolean
 dif_read_workbook (Workbook *book, char const *filename)
 {
@@ -434,6 +438,7 @@ dif_cleanup_plugin (PluginData *pd)
 {
 	file_format_unregister_open (NULL, dif_read_workbook);
 	file_format_unregister_save (dif_write_workbook);
+	g_free (pd->title);
 }
 
 
