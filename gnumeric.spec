@@ -1,5 +1,5 @@
-%define  ver     0.2
-%define  rel     2
+%define  ver     0.3
+%define  rel     1
 %define  prefix  /usr
 
 Summary: the GNOME spreadsheet
