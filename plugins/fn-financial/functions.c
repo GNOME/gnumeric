@@ -315,6 +315,31 @@ coupncd (GDate *settlement, GDate *maturity, int freq,  basis_t basis,
 
 }
 
+static gnum_float
+price (GDate *settlement, GDate *maturity, gnum_float rate, gnum_float yield,
+       gnum_float redemption, int freq, basis_t basis)
+{
+	gnum_float a, d, e, sum, den, base, exponent, first_term, last_term;
+	gint       k, n;
+
+	a = coupdaybs (settlement, maturity, freq, basis, TRUE);
+	d = coupdaysnc (settlement, maturity, freq, basis, TRUE);
+	e = coupdays (settlement, maturity, freq, basis, TRUE);
+	n = coupnum (settlement, maturity, freq, basis, TRUE);
+
+	sum = 0.0;
+	den = 100.0 * rate / freq;
+	base = 1.0 + yield / freq;
+	exponent = d / e;
+	for (k = 0; k < n; k++)
+	        sum += den / powgnum (base, exponent + k);
+
+	first_term = redemption / powgnum (base, (n - 1.0 + d / e));
+	last_term = a / e * den;
+
+	return (first_term + sum - last_term);
+}
+
 /************************************************************************
  *
  * Reading and verifying the arguments for the various COUP____
@@ -2412,23 +2437,8 @@ gnumeric_price (FunctionEvalInfo *ei, Value **argv)
 		goto out;
 	}
 
-	a = coupdaybs (settlement, maturity, freq, basis, TRUE);
-	d = coupdaysnc (settlement, maturity, freq, basis, TRUE);
-	e = coupdays (settlement, maturity, freq, basis, TRUE);
-	n = coupnum (settlement, maturity, freq, basis, TRUE);
-
-	sum = 0.0;
-	den = 100.0 * rate / freq;
-	base = 1.0 + yield / freq;
-	exponent = d / e;
-	for (k = 0; k < n; k++)
-	        sum += den / powgnum (base, exponent + k);
-
-	first_term = redemption / powgnum (base, (n - 1.0 + d / e));
-	last_term = a / e * den;
-
-	result = value_new_float (first_term + sum - last_term);
-
+	result = value_new_float ( price (settlement, maturity, rate, yield,
+					  redemption, freq, basis) );
  out:
 	datetime_g_free (settlement);
 	datetime_g_free (maturity);
@@ -2473,7 +2483,7 @@ gnumeric_yield (FunctionEvalInfo *ei, Value **argv)
         gnum_float a, d, e, n;
 	gnum_float coeff, num, den;
 	gnum_float rate, par, redemption;
-	gint       freq, basis;
+	gint       i, freq, basis;
 	Value      *result;
 
         settlement = datetime_value_to_g (argv[0]);
@@ -2514,9 +2524,54 @@ gnumeric_yield (FunctionEvalInfo *ei, Value **argv)
 
 		result = value_new_float (num / den * coeff);
 	} else {
-	        /* We should goal-seek using price */
+		gnum_float price0 = 0, price1, price2;
+		gnum_float yield0, yield1 = 0, yield2 = 1;
+		
+		price1 = price (settlement, maturity, rate, yield1, redemption,
+				freq, basis);
+		price2 = price (settlement, maturity, rate, yield2, redemption,
+				freq, basis);
 
-	        result = value_new_error (ei->pos, "#UNIMPLEMENTED!");
+		for (i = 0; (i < 1000) && (par != price0); i++) {
+			price0 = price (settlement, maturity, rate, yield0,
+					redemption, freq, basis);
+			if (par == price0) {
+				result = value_new_float ( yield0 );
+				goto out;
+			} else if (par == price1) {
+				result = value_new_float ( yield1 );
+				goto out;
+			} else if (par == price2) {
+				result = value_new_float ( yield2 );
+				goto out;
+			} else if (par >= price2) {
+				if (par >= price0) {
+					yield2 = yield0;
+					price2 = price0;
+				} else {
+					yield1 = yield0;
+					price1 = price0;
+				}
+				yield0 = (yield2 - yield1) *
+					((par - price2) / (price1 - price2));
+				yield0 = yield2 - yield0;
+			} else {
+				yield2 *= 2;
+				price2 = price (settlement, maturity, rate,
+						yield2, redemption, freq, 
+						basis);
+				yield0 = 0.5 * (yield2 - yield1);
+			}
+		}
+
+		/* Check how close we did get; return NUM! if we are not close
+		 * enough. */
+		if (fabs (par - price0) > par / 1000) {
+			result = value_new_error (ei->pos, gnumeric_err_NUM);
+			goto out;
+		}
+
+		result = value_new_float (yield0);
 	}
 
  out:

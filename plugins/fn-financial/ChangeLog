@@ -1,3 +1,7 @@
+2002-07-07  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c (gnumeric_yield): Fixed.
+
 2002-07-07  Jon K Hellan  <hellan@acm.org>
 
 	* functions.c (annual_year_basis, days_monthly_basis, coupnum):
