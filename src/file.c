@@ -256,6 +256,13 @@ insure_saver (FileSaver *current)
 	return NULL;
 }
 
+static guint
+file_dialog_delete_event (GtkWidget *widget, GdkEventAny *event)
+{
+	gtk_main_quit ();
+	return TRUE;
+}
+
 void
 workbook_save_as (Workbook *wb)
 {
@@ -284,7 +291,14 @@ workbook_save_as (Workbook *wb)
 			    GTK_SIGNAL_FUNC (gtk_main_quit), NULL);
 	gtk_window_set_position (GTK_WINDOW (fsel), GTK_WIN_POS_MOUSE);
 
+	/*
+	 * Make sure that we quit the main loop if the window is destroyed 
+	 */
+	gtk_signal_connect (GTK_OBJECT (fsel), "delete_event",
+			    GTK_SIGNAL_FUNC (file_dialog_delete_event), NULL);
+									   
 	/* Run the dialog */
+
 	gtk_widget_show (GTK_WIDGET (fsel));
 	gtk_grab_add (GTK_WIDGET (fsel));
 	gtk_main ();
@@ -346,6 +360,12 @@ dialog_query_load_file (Workbook *wb)
 	gtk_signal_connect (GTK_OBJECT (fsel->cancel_button), "clicked",
 			    GTK_SIGNAL_FUNC (gtk_main_quit), NULL);
 	gtk_window_set_position (GTK_WINDOW (fsel), GTK_WIN_POS_MOUSE);
+
+	/*
+	 * Make sure that we quit the main loop if the window is destroyed 
+	 */
+	gtk_signal_connect (GTK_OBJECT (fsel), "delete_event",
+			    GTK_SIGNAL_FUNC (file_dialog_delete_event), NULL);
 
 	/* Run the dialog */
 	gtk_widget_show (GTK_WIDGET (fsel));
