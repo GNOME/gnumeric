@@ -39,118 +39,12 @@
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <widgets/gnumeric-expr-entry.h>
+#include "filter.h"
 
-#define OK               0
-#define N_COLUMNS_ERROR  1
-#define ERR_INVALID_FIELD  2
-#define NO_RECORDS_FOUND  3
 
 #define ADVANCED_FILTER_KEY         "advanced-filter-dialog"
 
 typedef GenericToolState AdvancedFilterState;
-
-static void
-free_rows (GSList *row_list)
-{
-	GSList *list;
-
-	for (list = row_list; list != NULL; list = list->next)
-	        g_free (list->data);
-	g_slist_free (row_list);
-}
-
-
-static void
-filter (data_analysis_output_t *dao, Sheet *sheet, GSList *rows,
-	gint input_col_b, gint input_col_e, gint input_row_b, gint input_row_e)
-{
-        Cell *cell;
-	int  i, r=0;
-
-	if (dao->type == InPlaceOutput) {
-		colrow_set_visibility (sheet, FALSE,
-						    FALSE, input_row_b+1, input_row_e);
-		while (rows != NULL) {
-			gint *row = (gint *) rows->data;
-			colrow_set_visibility (sheet, FALSE,
-						    TRUE, *row, *row);
-			rows = rows->next;
-		}
-		sheet_redraw_all (sheet, TRUE);
-/* FIXME: what happens if we just have hidden the selection? */
-
-	} else {
-		for (i=input_col_b; i<=input_col_e; i++) {
-			cell = sheet_cell_get (sheet, i, input_row_b);
-			if (cell == NULL)
-				dao_set_cell (dao, i - input_col_b, r, NULL);
-			else {
-				Value *value = value_duplicate (cell->value);
-				dao_set_cell_value (dao, i - input_col_b, r, value);
-			}
-		}
-		++r;
-
-		while (rows != NULL) {
-			gint *row = (gint *) rows->data;
-			for (i=input_col_b; i<=input_col_e; i++) {
-				cell = sheet_cell_get (sheet, i, *row);
-				if (cell == NULL)
-					dao_set_cell (dao, i - input_col_b, r, NULL);
-				else {
-					Value *value = value_duplicate (cell->value);
-					dao_set_cell_value (dao, i - input_col_b, r, value);
-				}
-			}
-			++r;
-			rows = rows->next;
-		}
-	}
-}
-
-/* Filter tool.
- */
-static gint
-advanced_filter (WorkbookControl *wbc,
-		 data_analysis_output_t   *dao,
-		 Value *database, Value *criteria,
-		 gboolean unique_only_flag)
-{
-        GSList *crit, *rows;
-	EvalPos ep;
-
-	crit = parse_database_criteria (
-		eval_pos_init_sheet (&ep, wb_control_cur_sheet (wbc)),
-		database, criteria);
-
-	if (crit == NULL)
-		return ERR_INVALID_FIELD;
-
-	rows = find_rows_that_match (database->v_range.cell.a.sheet,
-				     database->v_range.cell.a.col,
-				     database->v_range.cell.a.row + 1,
-				     database->v_range.cell.b.col,
-				     database->v_range.cell.b.row,
-				     crit, unique_only_flag);
-
-	free_criterias (crit);
-
-	if (rows == NULL)
-		return NO_RECORDS_FOUND;
-
-
-	dao_prepare_output (wbc, dao, "Filtered");
-
-	filter (dao, database->v_range.cell.a.sheet, rows, database->v_range.cell.a.col,
-		database->v_range.cell.b.col, database->v_range.cell.a.row,
-		database->v_range.cell.b.row);
-
-	free_rows (rows);
-
-	dao_autofit_columns (dao);
-
-	return OK;
-}
 
 /**
  * advanced_filter_update_sensitivity_cb:
@@ -160,10 +54,11 @@ advanced_filter (WorkbookControl *wbc,
  * Update the dialog widgets sensitivity
  **/
 static void
-advanced_filter_update_sensitivity_cb (GtkWidget *dummy, AdvancedFilterState *state)
+advanced_filter_update_sensitivity_cb (GtkWidget *dummy,
+				       AdvancedFilterState *state)
 {
-        Value *output_range = NULL;
-        Value *input_range = NULL;
+        Value *output_range   = NULL;
+        Value *input_range    = NULL;
         Value *criteria_range = NULL;
 
 	int i;
@@ -171,7 +66,8 @@ advanced_filter_update_sensitivity_cb (GtkWidget *dummy, AdvancedFilterState *st
         input_range = gnm_expr_entry_parse_as_value (
 		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
 	if (input_range == NULL) {
-		gtk_label_set_text (GTK_LABEL (state->warning), _("The list range is invalid."));
+		gtk_label_set_text (GTK_LABEL (state->warning),
+				    _("The list range is invalid."));
 		gtk_widget_set_sensitive (state->ok_button, FALSE);
 		return;
 	} else
@@ -190,7 +86,8 @@ advanced_filter_update_sensitivity_cb (GtkWidget *dummy, AdvancedFilterState *st
 	i = gnumeric_glade_group_value (state->gui, output_group);
 	if (i == 2) {
 		output_range = gnm_expr_entry_parse_as_value
-			(GNUMERIC_EXPR_ENTRY (state->output_entry), state->sheet);
+			(GNUMERIC_EXPR_ENTRY (state->output_entry),
+			 state->sheet);
 		if (output_range == NULL) {
 			gtk_label_set_text (GTK_LABEL (state->warning),
 					    _("The output range is invalid."));
@@ -218,12 +115,12 @@ static void
 advanced_filter_ok_clicked_cb (GtkWidget *button, AdvancedFilterState *state)
 {
 	data_analysis_output_t  dao;
-	Value  *input;
-	Value  *criteria;
-	char   *text;
-	GtkWidget *w;
-	int err = 0;
-	gboolean unique;
+	Value                   *input;
+	Value                   *criteria;
+	char                    *text;
+	GtkWidget               *w;
+	int                     err = 0;
+	gboolean                unique;
 
 	input = gnm_expr_entry_parse_as_value (
 		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
@@ -247,7 +144,8 @@ advanced_filter_ok_clicked_cb (GtkWidget *button, AdvancedFilterState *state)
 		gtk_widget_destroy (state->dialog);
 		break;
 	case ERR_INVALID_FIELD:
-		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry_2),
+		error_in_entry ((GenericToolState *) state,
+				GTK_WIDGET (state->input_entry_2),
 				_("The given criteria are invalid."));
 		break;
 	case NO_RECORDS_FOUND:
@@ -257,8 +155,10 @@ advanced_filter_ok_clicked_cb (GtkWidget *button, AdvancedFilterState *state)
 					  _("No matching records were found."));
 		break;
 	default:
-		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry), text);
+		text = g_strdup_printf (_("An unexpected error has occurred: "
+					  "%d."), err);
+		error_in_entry ((GenericToolState *) state,
+				GTK_WIDGET (state->input_entry), text);
 		g_free (text);
 		break;
 	}

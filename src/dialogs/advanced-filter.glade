@@ -191,9 +191,10 @@
                   <widget class="GtkRadioButton" id="newsheet-button">
                     <property name="can_focus">yes</property>
                     <property name="label" translatable="yes">_New Sheet</property>
-                    <property name="active">yes</property>
+                    <property name="active">no</property>
                     <property name="draw_indicator">yes</property>
                     <property name="visible">yes</property>
+                    <property name="group">inplace-button</property>
                     <property name="use_underline">yes</property>
                   </widget>
                   <packing>
@@ -215,7 +216,7 @@
                     <property name="active">no</property>
                     <property name="draw_indicator">yes</property>
                     <property name="visible">yes</property>
-                    <property name="group">newsheet-button</property>
+                    <property name="group">inplace-button</property>
                     <property name="use_underline">yes</property>
                   </widget>
                   <packing>
@@ -237,7 +238,7 @@
                     <property name="active">no</property>
                     <property name="draw_indicator">yes</property>
                     <property name="visible">yes</property>
-                    <property name="group">newsheet-button</property>
+                    <property name="group">inplace-button</property>
                     <property name="use_underline">yes</property>
                   </widget>
                   <packing>
@@ -256,10 +257,9 @@
                   <widget class="GtkRadioButton" id="inplace-button">
                     <property name="can_focus">yes</property>
                     <property name="label" translatable="yes">_Filter In-Place</property>
-                    <property name="active">no</property>
+                    <property name="active">yes</property>
                     <property name="draw_indicator">yes</property>
                     <property name="visible">yes</property>
-                    <property name="group">newsheet-button</property>
                     <property name="use_underline">yes</property>
                   </widget>
                   <packing>
