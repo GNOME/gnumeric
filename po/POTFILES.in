@@ -68,6 +68,7 @@ src/number-match.c
 src/plugin-manager.c
 src/plugin.c
 src/print-info.c
+src/print-preview.c
 src/sheet-autofill.c
 src/sheet-object-container.c
 src/sheet-view.c

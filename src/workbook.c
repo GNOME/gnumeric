@@ -859,7 +859,13 @@ print_setup_cmd (GtkWidget *widget, Workbook *wb)
 static void
 file_print_cmd (GtkWidget *widget, Workbook *wb)
 {
-	workbook_print (wb);
+	workbook_print (wb, FALSE);
+}
+
+static void
+file_print_preview_cmd (GtkWidget *widget, Workbook *wb)
+{
+	workbook_print (wb, TRUE);
 }
 
 static void
@@ -930,7 +936,9 @@ static GnomeUIInfo workbook_menu_file [] = {
 
 	GNOMEUIINFO_MENU_PRINT_SETUP_ITEM(print_setup_cmd, NULL),
 	GNOMEUIINFO_MENU_PRINT_ITEM(file_print_cmd, NULL),
-
+	{ GNOME_APP_UI_ITEM, N_("Print pre_view"), N_("Print preview"),
+	  file_print_preview_cmd },
+	
 	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_MENU_CLOSE_ITEM(close_cmd, NULL),

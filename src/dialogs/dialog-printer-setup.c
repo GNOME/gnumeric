@@ -653,7 +653,14 @@ static void
 do_print_cb (GtkWidget *w, dialog_print_info_t *dpi)
 {
 	fetch_settings (dpi);
-	workbook_print (dpi->workbook);
+	workbook_print (dpi->workbook, FALSE);
+}
+
+static void
+do_print_preview_cb (GtkWidget *w, dialog_print_info_t *dpi)
+{
+	fetch_settings (dpi);
+	workbook_print (dpi->workbook, TRUE);
 }
 
 static void
@@ -683,12 +690,16 @@ do_setup_main_dialog (dialog_print_info_t *dpi)
 
 	for (i = 1; i < 5; i++){
 		GtkWidget *w;
-		char *s = g_strdup_printf ("print-%d", i);
+		char *print = g_strdup_printf ("print-%d", i);
+		char *preview = g_strdup_printf ("preview-%d", i);
 
-		w = glade_xml_get_widget (dpi->gui, s);
+		w = glade_xml_get_widget (dpi->gui, print);
 		gtk_signal_connect (GTK_OBJECT (w), "clicked",
 				    GTK_SIGNAL_FUNC (do_print_cb), dpi);
-		g_free (s);
+		w = glade_xml_get_widget (dpi->gui, preview);
+		gtk_signal_connect (GTK_OBJECT (w), "clicked",
+				    GTK_SIGNAL_FUNC (do_print_preview_cb), dpi);
+		g_free (print);
 	}
 
 	/*
@@ -696,16 +707,12 @@ do_setup_main_dialog (dialog_print_info_t *dpi)
 	 */
 
 	for (i = 1; i < 5; i++){
-		char *preview = g_strdup_printf ("preview-%d", i);
 		char *options = g_strdup_printf ("options-%d", i);
 		GtkWidget *w;
 
-		w = glade_xml_get_widget (dpi->gui, preview);
-		gtk_widget_hide (w);
 		w = glade_xml_get_widget (dpi->gui, options);
 		gtk_widget_hide (w);
 
-		g_free (preview);
 		g_free (options);
 	}
 }

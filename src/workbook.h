@@ -127,7 +127,7 @@ Workbook   *workbook_read                (const char *filename);
 
 void        workbook_save_as             (Workbook *);
 void        workbook_save                (Workbook *);
-void        workbook_print               (Workbook *);
+void        workbook_print               (Workbook *, gboolean);
 void        workbook_attach_sheet        (Workbook *, Sheet *);
 gboolean    workbook_detach_sheet        (Workbook *, Sheet *, gboolean);
 Sheet      *workbook_focus_current_sheet (Workbook *wb);

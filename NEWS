@@ -5,6 +5,9 @@ Jukka:
 	  ISPMT, RECEIVED, PRICEDISC, PRICEMAT, TBILLEQ, TBILLPRICE,
 	  and TBILLYIELD functions
 
+Miguel:
+	* Implemented Print Preview
+
 --------------------------------------------------------------------------
 
 Gnumeric 0.32

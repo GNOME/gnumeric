@@ -23,6 +23,7 @@
 #include "print-info.h"
 #include "print.h"
 #include "print-cell.h"
+#include "print-preview.h"
 
 #define MARGIN_X 1
 #define MARGIN_Y 1
@@ -62,6 +63,11 @@ typedef struct {
 	PrintInformation *pi;
 	GnomePrintContext *print_context;
 
+	/*
+	 * Part 4: Print Preview
+	 */
+	PrintPreview *preview;
+	
 	/*
 	 * For headers and footers
 	 */
@@ -173,6 +179,11 @@ print_hf (PrintJobInfo *pj, const char *format, HFSide side, double y)
 	
 	text = hf_format_render (format, pj->render_info, HF_RENDER_PRINT);
 
+	if (text [0] == 0){
+		g_free (text);
+		return;
+	}
+	
 	len = gnome_font_get_width_string (pj->decoration_font, text);
 	
 	switch (side){
@@ -193,7 +204,6 @@ print_hf (PrintJobInfo *pj, const char *format, HFSide side, double y)
 	}	
 	gnome_print_moveto (pj->print_context, x, y);
 	gnome_print_show (pj->print_context, text);
-	gnome_print_stroke (pj->print_context);
 	g_free (text);
 }
 
@@ -543,9 +553,9 @@ setup_rotation (PrintJobInfo *pj)
 }
 
 void
-workbook_print (Workbook *wb)
+workbook_print (Workbook *wb, gboolean preview)
 {
-	GnomePrinter *printer;
+	GnomePrinter *printer = NULL;
 	PrintJobInfo *pj;
 	Sheet *sheet;
 	int loop, i;
@@ -554,10 +564,12 @@ workbook_print (Workbook *wb)
 	
 	sheet = workbook_get_current_sheet (wb);
 
-	printer = gnome_printer_dialog_new_modal ();
-	if (!printer)
-		return;
-
+	if (!preview){
+		printer = gnome_printer_dialog_new_modal ();
+		if (!printer)
+			return;
+	}
+		
 	pj = print_job_info_get (wb);
 
 	if (pj->sorted_print){
@@ -566,8 +578,15 @@ workbook_print (Workbook *wb)
 	} else {
 		loop = 1;
 	}
-	
-	pj->print_context = gnome_print_context_new (printer);
+
+	if (preview){
+		pj->n_copies = 1;
+		loop = 1;
+		pj->preview = print_preview_new (wb);
+		pj->print_context = print_preview_get_print_context (pj->preview);
+	} else 
+		pj->print_context = gnome_print_context_new_with_paper_size (
+			printer, gnome_paper_name (pj->pi->paper));
 	
 	if (pj->pi->orientation == PRINT_ORIENT_HORIZONTAL){
 		setup_rotation (pj);
@@ -588,11 +607,14 @@ workbook_print (Workbook *wb)
 		}
 	}
 
-	gnome_print_context_close_file (pj->print_context);
-
-	gtk_object_unref (GTK_OBJECT (pj->print_context));
-
+	if (preview)
+		print_preview_print_done (pj->preview);
+	else {
+		gnome_print_context_close_file (pj->print_context);
+		gtk_object_unref (GTK_OBJECT (pj->print_context));
+		gtk_object_unref (GTK_OBJECT (printer));
+	}
+	
 	print_job_info_destroy (pj);
-	gtk_object_unref (GTK_OBJECT (printer));
 }
 

@@ -181,11 +181,12 @@ days_monthly_basis(Value *issue_date, Value *maturity_date, int basis)
 	switch (basis) {
 	case 0:
 	        if (issue_month == 2 && maturity_month != 2 &&
-		    issue_year == maturity_year)
-		  if (leap_year)
-		    return months * 30 + days - 1;
-		  else
-		    return months * 30 + days - 2;
+		    issue_year == maturity_year){
+			if (leap_year)
+				return months * 30 + days - 1;
+			else
+				return months * 30 + days - 2;
+		}
 	        return months * 30 + days;
 	case 1:
 	case 2:

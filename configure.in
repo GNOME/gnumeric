@@ -164,6 +164,14 @@ dnl ******************************
 AC_MSG_CHECKING(For GnomePrint libraries)
 if gnome-config --libs print > /dev/null 2>&1; then 
     AC_MSG_RESULT(found)
+    . `gnome-config --libdir`/printConf.sh
+    AC_MSG_CHECKING(For GnomePrint >= 0.6)
+    case x$MODULE_VERSION in
+	gnome-print-0.[012345])
+		AC_MSG_ERROR(You need at least GNOME print 0.6 for this version of Gnumeric)
+		;;
+    esac
+    AC_MSG_RESULT(found)
 else
     AC_MSG_ERROR(Did not find GnomePrint installed)
 fi
