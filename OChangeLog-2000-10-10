@@ -1,3 +1,8 @@
+2000-04-29  Michael Meeks  <michael@helixcode.com>
+
+	* src/sheet-style.c (sheet_mstyle_compute_from_list): kill inline.
+	(border_check): make outer style calcs mostly conditional on do_outer.
+
 2000-04-29  Almer. S. Tigelaar.  <almer1@dds.nl>
 
 	* src/stf-export.[ch] : New, 

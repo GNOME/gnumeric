@@ -526,7 +526,7 @@ sheet_style_attach (Sheet  *sheet, Range range,
 		sheet_style_cache_flush (sd, STYLE_CACHE_FLUSH_ALL);
 }
 
-static inline MStyle *
+static MStyle *
 sheet_mstyle_compute_from_list (GList *list, int col, int row)
 {
 	GList  *l;
@@ -1479,33 +1479,38 @@ border_check (UniqueClosure *cl, GList *edge_list,
 							      inner.col,
 							      inner.row);
 
-		outer_style = sheet_mstyle_compute_from_list (edge_list,
-							      outer.col,
-							      outer.row);
+		if (do_outer)
+			outer_style = sheet_mstyle_compute_from_list (edge_list,
+								      outer.col,
+								      outer.row);
 
 		/* Build up the border maps + do internal borders */
 		switch (location) {
 		case STYLE_BORDER_TOP:
 			inner_border = mstyle_get_border (inner_style, MSTYLE_BORDER_TOP);
-			outer_border = mstyle_get_border (outer_style, MSTYLE_BORDER_BOTTOM);
+			if (do_outer)
+				outer_border = mstyle_get_border (outer_style, MSTYLE_BORDER_BOTTOM);
 			border_mask (cl, STYLE_BORDER_HORIZ,
 				     mstyle_get_border (inner_style, MSTYLE_BORDER_BOTTOM));
 			break;
 		case STYLE_BORDER_BOTTOM:
 			inner_border = mstyle_get_border (inner_style, MSTYLE_BORDER_BOTTOM);
-			outer_border = mstyle_get_border (outer_style, MSTYLE_BORDER_TOP);
+			if (do_outer)
+				outer_border = mstyle_get_border (outer_style, MSTYLE_BORDER_TOP);
 			border_mask (cl, STYLE_BORDER_HORIZ,
 				     mstyle_get_border (inner_style, MSTYLE_BORDER_TOP));
 			break;
 		case STYLE_BORDER_LEFT:
 			inner_border = mstyle_get_border (inner_style, MSTYLE_BORDER_LEFT);
-			outer_border = mstyle_get_border (outer_style, MSTYLE_BORDER_RIGHT);
+			if (do_outer)
+				outer_border = mstyle_get_border (outer_style, MSTYLE_BORDER_RIGHT);
 			border_mask (cl, STYLE_BORDER_VERT,
 				     mstyle_get_border (inner_style, MSTYLE_BORDER_RIGHT));
 			break;
 		case STYLE_BORDER_RIGHT:
 			inner_border = mstyle_get_border (inner_style, MSTYLE_BORDER_RIGHT);
-			outer_border = mstyle_get_border (outer_style, MSTYLE_BORDER_LEFT);
+			if (do_outer)
+				outer_border = mstyle_get_border (outer_style, MSTYLE_BORDER_LEFT);
 			border_mask (cl, STYLE_BORDER_VERT,
 				     mstyle_get_border (inner_style, MSTYLE_BORDER_LEFT));
 			break;
@@ -1528,7 +1533,8 @@ border_check (UniqueClosure *cl, GList *edge_list,
 		/* Normal compare for styles */
 		mstyle_compare (cl->mstyle, inner_style);
 		mstyle_unref (inner_style);
-		mstyle_unref (outer_style);
+		if (do_outer)
+			mstyle_unref (outer_style);
 	}
 	range_fragment_free (frags);
 }
