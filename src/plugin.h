@@ -56,7 +56,8 @@ void         plugin_db_shutdown (ErrorInfo **ret_error);
 void         plugin_db_activate_saved_active_plugins (ErrorInfo **ret_error);
 void         plugin_db_activate_plugin_list (GList *plugins, ErrorInfo **ret_error);
 void         plugin_db_deactivate_plugin_list (GList *plugins, ErrorInfo **ret_error);
-
+void         plugin_db_mark_plugin_for_deactivation (PluginInfo *pinfo, gboolean mark);
+gboolean     plugin_db_is_plugin_marked_for_deactivation (PluginInfo *pinfo);
 /*
  * For all plugin_info_get_* functions below you should free returned data after use
  */

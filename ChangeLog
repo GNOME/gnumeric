@@ -1,3 +1,34 @@
+2001-03-05  Zbigniew Chyla  <cyba@gnome.pl>
+
+	Fixes #51316 (actually, it fixes the _real_ problem).
+
+	* src/dialogs/dialog-plugin-manager.c
+	(cb_pm_button_activate_plugin_clicked): If the plugin is already
+	active, remove it from "marked for deactivation" list.
+	(cb_pm_button_deactivate_plugin_clicked): If the plugin cannot be
+	deactivated, optionally add it to "marked for deactivation" list
+	(if the user wants to).
+	(cb_pm_clist_row_selected):
+	Make "Activate plugin" button sensitive for some active plugins (for
+	those on "marked for deactivation" list).
+	(cb_pm_clist_row_unselected):
+	Bugfix: don't free pm_gui->current_plugin_id string.
+	(update_plugin_manager_view):
+	Display the plugin state after its name ("in memory", "marked for
+	deactivation").
+	(dialog_plugin_manager): Plug leak.
+
+	* src/plugin.c
+	(plugin_info_force_mark_inactive,
+	plugin_db_mark_plugin_for_deactivation,
+	plugin_db_is_plugin_marked_for_deactivation): New functions.
+	(plugins_shutdown): Set all plugins on "marked for deactivation"
+	list as inactive before saving active plugins in configuration.
+
+	* src/plugin.h:
+	(plugin_db_mark_plugin_for_deactivation,
+	plugin_db_is_plugin_marked_for_deactivation): New functions.
+
 2001-03-05  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/sheet-control-gui.c
@@ -1695,7 +1726,7 @@
 2001-01-24  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* src/clipboard.c (clipboard_paste_region):
-	Update row heights after pasting a region. Fixes #38176.
+	Update row heights after pasting a region. 
 
 2001-01-23  Morten Welinder  <terra@diku.dk>
 

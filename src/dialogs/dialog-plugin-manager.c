@@ -201,6 +201,11 @@ cb_pm_button_activate_plugin_clicked (GtkButton *button, PluginManagerGUI *pm_gu
 	g_return_if_fail (pm_gui->current_plugin_id != NULL);
 
 	pinfo = plugin_db_get_plugin_info_by_plugin_id (pm_gui->current_plugin_id);
+	if (plugin_info_is_active (pinfo)) {
+		plugin_db_mark_plugin_for_deactivation (pinfo, FALSE);
+		update_plugin_manager_view (pm_gui);
+		return;
+	}
 	loader_type_str = plugin_info_peek_loader_type_str (pinfo);
 	if (plugin_loader_is_available_by_id (loader_type_str)) {
 		loader_available = TRUE;
@@ -299,7 +304,21 @@ cb_pm_button_deactivate_plugin_clicked (GtkButton *button, PluginManagerGUI *pm_
 			update_plugin_manager_view (pm_gui);
 		}
 	} else {
-		gnumeric_error_plugin (COMMAND_CONTEXT (pm_gui->wbcg), _("Plugin is still in use."));
+		if (plugin_db_is_plugin_marked_for_deactivation (pinfo)) {
+			gnumeric_error_plugin (COMMAND_CONTEXT (pm_gui->wbcg), _("Plugin is still in use."));
+		} else {
+			gboolean mark_for_deactivation;
+
+			mark_for_deactivation = gnumeric_dialog_question_yes_no (
+			                        pm_gui->wbcg,
+			                        _("Plugin cannot be deactivated because it's still in use.\n"
+			                        "Do you want to mark it for deactivation such that it will be inactive after restarting Gnumeric?"),
+			                        FALSE);
+			if (mark_for_deactivation) {
+				plugin_db_mark_plugin_for_deactivation (pinfo, TRUE);
+				update_plugin_manager_view (pm_gui);
+			}
+		}
 	}
 }
 
@@ -362,15 +381,27 @@ cb_pm_checkbutton_install_new_toggled (GtkCheckButton *checkbutton, PluginManage
 static void
 cb_pm_clist_row_selected (GtkCList *clist, gint row_no, gint col_no, gpointer unused, PluginManagerGUI *pm_gui)
 {
-	if (clist == pm_gui->clist_active) {
-		gtk_clist_unselect_all (pm_gui->clist_inactive);
-	} else {
-		gtk_clist_unselect_all (pm_gui->clist_active);
-	}
-	gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_activate_plugin), clist == pm_gui->clist_inactive);
-	gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_deactivate_plugin), clist == pm_gui->clist_active);
+	PluginInfo *pinfo;
+
+	g_return_if_fail (pm_gui != NULL);
+
 	g_free (pm_gui->current_plugin_id);
 	pm_gui->current_plugin_id = g_strdup (gtk_clist_get_row_data (clist, row_no));
+	pinfo = plugin_db_get_plugin_info_by_plugin_id (pm_gui->current_plugin_id);
+	g_return_if_fail (pinfo != NULL);
+	if (clist == pm_gui->clist_active) {
+		gtk_clist_unselect_all (pm_gui->clist_inactive);
+		if (plugin_db_is_plugin_marked_for_deactivation (pinfo)) {
+			gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_activate_plugin), TRUE);
+		} else {
+			gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_activate_plugin), FALSE);
+		}
+		gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_deactivate_plugin), TRUE);
+	} else {
+		gtk_clist_unselect_all (pm_gui->clist_active);
+		gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_activate_plugin), TRUE);
+		gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_deactivate_plugin), FALSE);
+	}
 	update_plugin_details_view (pm_gui);
 }
 
@@ -379,8 +410,6 @@ cb_pm_clist_row_unselected (GtkCList *clist, gint row_no, gint col_no, gpointer 
 {
 	gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_activate_plugin), FALSE);
 	gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_deactivate_plugin), FALSE);
-	g_free (pm_gui->current_plugin_id);
-	pm_gui->current_plugin_id = NULL;
 	update_plugin_details_view (pm_gui);
 }
 
@@ -453,13 +482,29 @@ update_plugin_manager_view (PluginManagerGUI *pm_gui)
 
 		pinfo = (PluginInfo *) l->data;
 		if (plugin_info_is_active (pinfo)) {
+			gboolean is_in_mem, is_marked;
+
 			clist = pm_gui->clist_active;
 			n_active_plugins++;
+			is_in_mem = plugin_info_is_loaded (pinfo);
+			is_marked = plugin_db_is_plugin_marked_for_deactivation (pinfo);
+			if (is_in_mem && is_marked) {
+				cols[0] = g_strdup_printf (_("%s [in memory, marked for deactivation]"),
+				          plugin_info_peek_name (pinfo));
+			} else if (is_in_mem) {
+				cols[0] = g_strdup_printf (_("%s [in memory]"),
+				          plugin_info_peek_name (pinfo));
+			} else if (is_marked) {
+				cols[0] = g_strdup_printf (_("%s [marked for deactivation]"),
+				          plugin_info_peek_name (pinfo));
+			} else {
+				cols[0] = plugin_info_get_name (pinfo);
+			}
 		} else {
 			clist = pm_gui->clist_inactive;
 			n_inactive_plugins++;
+			cols[0] = plugin_info_get_name (pinfo);
 		}
-		cols[0] = plugin_info_get_name (pinfo);
 		row_no = gtk_clist_append (clist, cols);
 		plugin_id = plugin_info_get_id (pinfo);
 		gtk_clist_set_row_data_full (clist, row_no, plugin_id, &free_plugin_id);
@@ -607,6 +652,7 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	gnome_config_sync ();
 
 	g_free (pm_gui->current_plugin_id);
+	g_free (pm_gui);
 
 	gtk_object_unref (GTK_OBJECT (gui));
 }

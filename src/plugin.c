@@ -70,6 +70,8 @@ struct _PluginLoaderTypeInfo {
 	gpointer get_type_callback_data;
 };
 
+static GList *plugins_marked_for_deactivation = NULL;
+
 static GList *known_plugin_id_list = NULL;
 static gboolean known_plugin_id_list_is_ready = FALSE;
 
@@ -681,6 +683,14 @@ plugin_can_deactivate (PluginInfo *pinfo)
 	return TRUE;
 }
 
+static void
+plugin_info_force_mark_inactive (PluginInfo *pinfo)
+{
+	g_return_if_fail (pinfo != NULL);
+	
+	pinfo->is_active = FALSE;
+}
+
 void
 plugin_load_service (PluginInfo *pinfo, PluginService *service, ErrorInfo **ret_error)
 {
@@ -1211,6 +1221,21 @@ plugin_db_is_saved_active_plugin (const gchar *plugin_id)
 	return FALSE;
 }
 
+void
+plugin_db_mark_plugin_for_deactivation (PluginInfo *pinfo, gboolean mark)
+{
+	plugins_marked_for_deactivation = g_list_remove (plugins_marked_for_deactivation, pinfo);   
+	if (mark) {
+		plugins_marked_for_deactivation = g_list_prepend (plugins_marked_for_deactivation, pinfo);
+	}
+}
+
+gboolean
+plugin_db_is_plugin_marked_for_deactivation (PluginInfo *pinfo)
+{
+	return g_list_find (plugins_marked_for_deactivation, pinfo) != NULL;
+}
+
 /* 
  * May return errors for some plugins.
  */
@@ -1327,8 +1352,12 @@ plugins_init (CommandContext *context)
 void
 plugins_shutdown (void)
 {
+	GList *l;
 	ErrorInfo *ignored_error;
 
+	for (l = plugins_marked_for_deactivation; l != NULL; l = l->next) {
+		plugin_info_force_mark_inactive ((PluginInfo *) l->data);
+	}
 	plugin_db_update_saved_active_plugin_id_list ();
 	plugin_db_shutdown (&ignored_error);
 	error_info_free (ignored_error);
