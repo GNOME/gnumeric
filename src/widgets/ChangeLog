@@ -1,3 +1,12 @@
+2000-06-11  Jon K Hellan  <hellan@acm.org>
+
+	* gnumeric-dashed-canvas-line.c (hypothenuse): New static helper
+	function. 
+	(double_line_draw): New function. Draw a double line. Even explain
+	in nice ASCII art how we do it.
+	(gnumeric_dashed_canvas_line_draw): Special case double lines by
+	punting to double line draw.
+
 2000-06-08  Jon K Hellan  <hellan@acm.org>
 
 	* gtk-combo-text.c (gtk_combo_text_set_text): Silence run-time

@@ -1441,6 +1441,15 @@ draw_pattern_selected (FormatState *state)
 
 /*****************************************************************************/
 
+/*
+ * This is self-evident.
+ * I stared at it for 15 minutes before realizing that it's self-evident,
+ * but it is. - jon_kare
+ *
+ * @points:   x, y coordinates for the endpoints of the line segment.
+ * @states:   A bitmap of states the coordinates are valid for.
+ * @location: Location.
+ */
 #define L 10.	/* Left */
 #define R 140.	/* Right */
 #define T 10.	/* Top */
@@ -1660,9 +1669,9 @@ static void
 draw_border_preview (FormatState *state)
 {
 	static double const corners[12][6] = {
-	    { T-5., T, L, T, L, T-5. },
+	    { L-5., T, L, T, L, T-5. },
 	    { R+5., T, R, T, R, T-5 },
-	    { T-5., B, L, B, L, B+5. },
+	    { L-5., B, L, B, L, B+5. },
 	    { R+5., B, R, B, R, B+5. },
 
 	    { V-5., T-1., V, T-1., V, T-5. },
