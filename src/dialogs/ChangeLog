@@ -3,7 +3,12 @@
 	* dialog-cell-format.c: Annotated unused parameters.
 	* dao-gui-utils.c, dialog-advanced-filter.c, dialog-analysis-tools.c,
 	  dialog-autocorrect.c, dialog-autoformat.c, dialog-autosave.c,
-	  dialog-cell-comment.c, dialog-cell-sort.c: ditto.
+	  dialog-cell-comment.c, dialog-cell-sort.c, dialog-col-width.c,
+	  dialog-col-row.c, dialog-consolidate.c, dialog-function-select.c,
+	  dialog-formula-guru.c, dialog-goal-seek.c, dialog-goto-cell.c,
+	  dialog-graph-guru.c, dialog-hyperlink.c, dialog-insert-cells.c,
+	  dialog-define-names.c, dialog-delete-cells.c, dialog-merge.c,
+	  dialog-paste-special.c, dialog-plugin-manager.c: ditto.
 
 2002-11-03  Jody Goldberg <jody@gnome.org>
 
