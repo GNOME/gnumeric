@@ -842,7 +842,7 @@ filter_field_apply (GnmFilterField *field)
 			data.find_max = (field->cond->op[0] & 0x1) ? FALSE : TRUE;
 			data.initialized = FALSE;
 			sheet_foreach_cell_in_range (filter->dep.sheet,
-				CELL_ITER_IGNORE_HIDDEN,
+				CELL_ITER_IGNORE_HIDDEN | CELL_ITER_IGNORE_BLANK,
 				col, start_row, col, end_row,
 				(CellIterFunc) cb_filter_find_percentage, &data);
 			offset = (data.high - data.low) * field->cond->count / 100.;
