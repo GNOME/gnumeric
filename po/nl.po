@@ -11,8 +11,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
-"POT-Creation-Date: 2002-04-13 18:34-0400\n"
-"PO-Revision-Date: 2002-02-25 16:58+0100\n"
+"POT-Creation-Date: 2002-05-29 22:44+0200\n"
+"PO-Revision-Date: 2002-05-30 01:55+02:00\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: nl <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -26,11 +26,11 @@ msgstr "Gnumeric"
 
 #: gnumeric.desktop.in.h:2
 msgid "The GNOME Spreadsheet"
-msgstr "De Spreadsheet van GNOME"
+msgstr "Het Spreadsheetprogramma van GNOME"
 
 #: plugins/applix/applix-read.c:79
 msgid "Parse error while reading Applix file."
-msgstr "Fout bij lezen Applix bestand."
+msgstr "Fout bij lezen Applix-bestand."
 
 #: plugins/applix/plugin.xml.in.h:1
 msgid "Applix"
@@ -43,18 +43,6 @@ msgstr "Applix (*.as)"
 #: plugins/applix/plugin.xml.in.h:3
 msgid "Imports version 4.[234] spreadsheets"
 msgstr "Importeert versie 4.[234] spreadsheets"
-
-#: plugins/derivatives/plugin.xml.in.h:1 src/functions/fn-financial.c:3123
-msgid "Financial"
-msgstr "Financieel"
-
-#: plugins/derivatives/plugin.xml.in.h:2
-msgid "Financial Derivatives"
-msgstr "Financieel Afgeleiden"
-
-#: plugins/derivatives/plugin.xml.in.h:3
-msgid "Functions related to financial derivatives"
-msgstr "Functies gerelateerd aan financieel afgeleiden"
 
 #: plugins/derivatives/options.c:289
 msgid ""
@@ -452,7 +440,19 @@ msgstr ""
 "opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_rho, "
 "opt_bs_gamma"
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4531
+#: plugins/derivatives/plugin.xml.in.h:1 src/functions/fn-financial.c:3123
+msgid "Financial"
+msgstr "Financieel"
+
+#: plugins/derivatives/plugin.xml.in.h:2
+msgid "Financial Derivatives"
+msgstr "Financieel Afgeleiden"
+
+#: plugins/derivatives/plugin.xml.in.h:3
+msgid "Functions related to financial derivatives"
+msgstr "Functies gerelateerd aan financieel afgeleiden"
+
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4536
 #: plugins/mps/mps.c:579 src/xml-io.c:3386
 msgid "Reading file..."
 msgstr "Bezig bestand te lezen..."
@@ -518,12 +518,12 @@ msgstr "Data Interchange Formaat (*.dif)"
 
 #: plugins/dif/plugin.xml.in.h:2
 msgid "Data Interchange Format (DIF) module"
-msgstr "Data Interchange Formaa (DIF) module"
+msgstr "Data Interchange Format (DIF) module"
 
 #: plugins/dif/plugin.xml.in.h:3
 msgid ""
 "Reads and writes information stored in the Data Interchange Format (*.dif)"
-msgstr "Leest en schrijft informatie in het  Data Interchange Formaat (*.dif)"
+msgstr "Leest en schrijft informatie in het Data Interchange Formaat (*.dif)"
 
 #: plugins/excel/boot.c:104
 msgid ""
@@ -575,25 +575,25 @@ msgstr "Kaart%d"
 msgid "Module%d"
 msgstr "Module%d"
 
-#: plugins/excel/ms-excel-read.c:4526
+#: plugins/excel/ms-excel-read.c:4531
 msgid "No book or workbook streams found."
 msgstr "Geen map of werkmap stromen gevonden."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4690
+#: plugins/excel/ms-excel-read.c:4695
 msgid "Password protected workbooks are not supported yet."
-msgstr "Wachtwoord beveiligde werkmappen worden nog niet ondersteund."
+msgstr "Wachtwoord-beveiligde werkmappen worden nog niet ondersteund."
 
-#: plugins/excel/ms-excel-read.c:4803
+#: plugins/excel/ms-excel-read.c:4808
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Niet in staat om een geldig MS Excel werkmap te vinden"
 
-#: plugins/excel/ms-excel-write.c:3573
+#: plugins/excel/ms-excel-write.c:3579
 #, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr "Te veel rijen voor dit formaat (%d > %d)"
 
-#: plugins/excel/ms-excel-write.c:3799
+#: plugins/excel/ms-excel-write.c:3805
 msgid "Can't open stream for writing\n"
 msgstr "Kan de stroom niet openen voor schrijven\n"
 
@@ -603,7 +603,7 @@ msgstr "Kapotte functie"
 
 #: plugins/excel/ms-formula-read.c:1467
 msgid " Unknown formula"
-msgstr "Onbekende formule"
+msgstr " Onbekende formule"
 
 #: plugins/excel/plugin.xml.in.h:1
 msgid "Imports/Exports MS Excel (tm) files"
@@ -647,7 +647,7 @@ msgstr "Levert Gnome Basic ondersteuning"
 msgid "Gnome Basic"
 msgstr "Gnome Basic"
 
-#: plugins/gda/plugin-gda.c:109
+#: plugins/gda/plugin-gda.c:111
 msgid ""
 "@FUNCTION=EXECSQL\n"
 "@SYNTAX=EXECSQL(i)\n"
@@ -667,15 +667,15 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO="
 
-#: plugins/gda/plugin-gda.c:138
+#: plugins/gda/plugin-gda.c:140
 msgid "Format: execSQL(dsn,user,password,sql)"
 msgstr "Formaat: execSQL(dsn;gebruiker;wachtwoord;sql)"
 
-#: plugins/gda/plugin-gda.c:144
+#: plugins/gda/plugin-gda.c:146
 msgid "Error: could not initialize connection pool"
 msgstr "Fout bij initialiseren verbindings verzameling"
 
-#: plugins/gda/plugin-gda.c:149
+#: plugins/gda/plugin-gda.c:151
 #, c-format
 msgid "Error: could not open connection to %s"
 msgstr "Fout: kon geen verbinding maken met %s"
@@ -703,9 +703,8 @@ msgstr ""
 "bestanden."
 
 #: plugins/guile/plugin.c:106
-#, fuzzy
 msgid "Guile error"
-msgstr "Meerdere fouten"
+msgstr "Guile fout"
 
 #: plugins/guile/plugin.xml.in.h:1
 msgid "Guile Plugin"
@@ -714,6 +713,22 @@ msgstr "Guile Plugin"
 #: plugins/guile/plugin.xml.in.h:2
 msgid "This plugin enables Guile(scheme) support in Gnumeric"
 msgstr "Deze plugin levert Guile(scheme) ondersteuning in Gnumeric"
+
+#: plugins/guile/smob-value.c:102
+msgid "Unable to convert value from Guile"
+msgstr "Niet in staat om waarde vanuit Guile te converteren"
+
+#: plugins/guile/smob-value.c:163
+msgid "Not a Guile boolean"
+msgstr "Geen booleaan uit Guile"
+
+#: plugins/guile/smob-value.c:181
+msgid "Not a Guile number"
+msgstr "Geen Guile gatal"
+
+#: plugins/guile/smob-value.c:199
+msgid "Not a Guile string"
+msgstr "Geen Guile tekenreeks"
 
 #: plugins/html/plugin.xml.in.h:1
 msgid "DVI TeX (via groff)"
@@ -807,7 +822,7 @@ msgstr "Voorwaarden:"
 
 #. Print constraint titles.
 #: plugins/mps/mps.c:335 src/dialogs/plugin-manager.glade.h:10
-#: src/format-template.c:510 src/solver-lp.c:898 src/solver-lp.c:922
+#: src/format-template.c:511 src/solver-lp.c:898 src/solver-lp.c:922
 #: src/solver-lp.c:955 src/solver-lp.c:1049 src/solver-lp.c:1096
 #: src/workbook-control.c:234
 msgid "Name"
@@ -1665,7 +1680,7 @@ msgstr "Maak een schuifbalk"
 msgid "Create an arrow"
 msgstr "Maak een pijl object"
 
-#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1393
+#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1394
 #: src/workbook-control-gui.c:2734
 msgid "Cu_t"
 msgstr "K_nippen"
@@ -1827,7 +1842,7 @@ msgstr "Hoogt_e..."
 
 #: src/GNOME_Gnumeric.xml.h:100
 msgid "Hide _Column Headers"
-msgstr "Verberg _Kolom Koppen"
+msgstr "Verberg _Kolomkoppen"
 
 #: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:2929
 msgid "Hide _Gridlines"
@@ -1835,7 +1850,7 @@ msgstr "Verberg _Rasterlijnen"
 
 #: src/GNOME_Gnumeric.xml.h:102
 msgid "Hide _Row Headers"
-msgstr "Verberg _Rij Koppen"
+msgstr "Verberg _Rijkoppen"
 
 #: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:2923
 msgid "Hide _Zeros"
@@ -1933,11 +1948,11 @@ msgstr "Cursief maken"
 
 #: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:3079
 msgid "Iteratively recalculate to find a target value"
-msgstr "Herhalend berekenen om een doelwaarde te vinden"
+msgstr "Iteratief berekenen om een doelwaarde te vinden"
 
 #: src/GNOME_Gnumeric.xml.h:127 src/workbook-control-gui.c:3083
 msgid "Iteratively recalculate with constraints to approach a target value"
-msgstr "Herhalend berekenen met beperkingen om een doelwaarde te bereiken"
+msgstr "Iteratief berekenen met beperkingen om een doelwaarde te bereiken"
 
 #: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:2779
 msgid "Jump to a specified cell"
@@ -1976,7 +1991,7 @@ msgstr "Maak een kopie van het huidige werkblad"
 
 #: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:2688
 msgid "Make a table of a cell's value as a function of other cells"
-msgstr "Maak een tebel van de waarde van een cel als functie van andere cellen"
+msgstr "Maak een tabel van de waarde van een cel als functie van andere cellen"
 
 #: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:2880
 msgid "Make any hidden columns in the selection visible"
@@ -2354,11 +2369,11 @@ msgstr "_Statistische Analyses"
 #: src/workbook-control-gui.c:3226 src/workbook-control-gui.c:3844
 #: src/workbook-view.c:521
 msgid "Sum"
-msgstr "Som"
+msgstr "Optellen"
 
 #: src/GNOME_Gnumeric.xml.h:226
 msgid "Sum into the current cell"
-msgstr "Sommeer in huidige cel"
+msgstr "Optellen in huidige cel"
 
 #: src/GNOME_Gnumeric.xml.h:227 src/workbook-format-toolbar.c:466
 msgid "Thousand separator"
@@ -2476,11 +2491,11 @@ msgstr "_Cellen..."
 
 #: src/GNOME_Gnumeric.xml.h:255
 msgid "_Change Name..."
-msgstr "Verander naam..."
+msgstr "Verander _Naam..."
 
 #: src/GNOME_Gnumeric.xml.h:256
 msgid "_Close"
-msgstr "Sluiten"
+msgstr "_Sluiten"
 
 #: src/GNOME_Gnumeric.xml.h:257 src/dialogs/anova-one.glade.h:10
 #: src/dialogs/correlation.glade.h:8 src/dialogs/covariance.glade.h:8
@@ -2500,8 +2515,8 @@ msgstr "_Consolideren..."
 msgid "_Content"
 msgstr "_Inhoud"
 
-#: src/GNOME_Gnumeric.xml.h:260 src/item-cursor.c:1030
-#: src/sheet-control-gui.c:1395 src/workbook-control-gui.c:2738
+#: src/GNOME_Gnumeric.xml.h:260 src/item-cursor.c:1011
+#: src/sheet-control-gui.c:1396 src/workbook-control-gui.c:2738
 msgid "_Copy"
 msgstr "Kopiëren"
 
@@ -2515,9 +2530,9 @@ msgstr "_Gegevens"
 
 #: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:2830
 msgid "_Define..."
-msgstr "_Definieer..."
+msgstr "_Definiëren..."
 
-#: src/GNOME_Gnumeric.xml.h:264 src/sheet-control-gui.c:1413
+#: src/GNOME_Gnumeric.xml.h:264 src/sheet-control-gui.c:1414
 #: src/workbook-control-gui.c:2755
 msgid "_Delete..."
 msgstr "_Verwijderen..."
@@ -2528,7 +2543,7 @@ msgstr "_Beschrijvende Statistieken"
 
 #: src/GNOME_Gnumeric.xml.h:266 src/workbook-control-gui.c:2698
 msgid "_Duplicate"
-msgstr "_Dupliceer"
+msgstr "_Dupliceren"
 
 #: src/GNOME_Gnumeric.xml.h:267
 msgid "_Edit"
@@ -2586,17 +2601,17 @@ msgstr "_Groeperen en Outlines"
 
 #: src/GNOME_Gnumeric.xml.h:280
 msgid "_Help"
-msgstr "_Help"
+msgstr "_Hulp"
 
-#: src/GNOME_Gnumeric.xml.h:281 src/sheet-control-gui.c:1436
-#: src/sheet-control-gui.c:1444 src/workbook-control-gui.c:2876
+#: src/GNOME_Gnumeric.xml.h:281 src/sheet-control-gui.c:1437
+#: src/sheet-control-gui.c:1445 src/workbook-control-gui.c:2876
 #: src/workbook-control-gui.c:2895
 msgid "_Hide"
 msgstr "_Verbergen"
 
 #: src/GNOME_Gnumeric.xml.h:282 src/workbook-control-gui.c:3094
 msgid "_Hide Detail"
-msgstr "Details verbergen"
+msgstr "_Details verbergen"
 
 #: src/GNOME_Gnumeric.xml.h:283 src/workbook-control-gui.c:3040
 msgid "_Histogram"
@@ -2604,7 +2619,7 @@ msgstr "_Histogram"
 
 #: src/GNOME_Gnumeric.xml.h:284 src/workbook-control-gui.c:2605
 msgid "_Import..."
-msgstr "_Importeer..."
+msgstr "_Importeren..."
 
 #: src/GNOME_Gnumeric.xml.h:285 src/workbook-control-gui.c:2702
 #: src/workbook-control-gui.c:3169
@@ -2647,7 +2662,7 @@ msgstr "_Openen..."
 msgid "_Paired Samples: T-Test"
 msgstr "_Gekoppelde Steekproeven: T-Test"
 
-#: src/GNOME_Gnumeric.xml.h:295 src/sheet-control-gui.c:1397
+#: src/GNOME_Gnumeric.xml.h:295 src/sheet-control-gui.c:1398
 #: src/workbook-control-gui.c:2742
 msgid "_Paste"
 msgstr "_Plakken"
@@ -2762,8 +2777,8 @@ msgstr "_Herstel"
 msgid "_Ungroup"
 msgstr "Groepering opheffen"
 
-#: src/GNOME_Gnumeric.xml.h:321 src/sheet-control-gui.c:1438
-#: src/sheet-control-gui.c:1446 src/workbook-control-gui.c:2879
+#: src/GNOME_Gnumeric.xml.h:321 src/sheet-control-gui.c:1439
+#: src/sheet-control-gui.c:1447 src/workbook-control-gui.c:2879
 #: src/workbook-control-gui.c:2898
 msgid "_Unhide"
 msgstr "_Zichtbaar maken"
@@ -3196,6 +3211,15 @@ msgstr "Verschuif kolommen %s"
 msgid "Shift column %s"
 msgstr "Verschuif kolom %s"
 
+#: src/command-context-stderr.c:99 src/workbook-control-gui.c:1188
+#, c-format
+msgid "Would split array %s"
+msgstr "Zou array %s splitsen"
+
+#: src/command-context-stderr.c:102 src/workbook-control-gui.c:1190
+msgid "Would split an array"
+msgstr "Zou een array splitsen"
+
 #: src/commands.c:640 src/commands.c:748
 msgid "Set Text"
 msgstr "Zet Tekst"
@@ -3210,285 +3234,285 @@ msgstr "Typen \"%s%s\" in %s"
 msgid "Typing \"%s%s\""
 msgstr "Typen \"%s%s\""
 
-#: src/commands.c:1103
+#: src/commands.c:1102
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Invoegen %d kolommen voor %s"
 
-#: src/commands.c:1104
+#: src/commands.c:1103
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Invoegen %d kolom voor %s"
 
-#: src/commands.c:1119
+#: src/commands.c:1118
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "Invoegen %d rijen voor %s"
 
-#: src/commands.c:1120
+#: src/commands.c:1119
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "Invoegen %d rij voor %s"
 
-#: src/commands.c:1131
+#: src/commands.c:1130
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Verwijderen kolommen %s"
 
-#: src/commands.c:1132
+#: src/commands.c:1131
 #, c-format
 msgid "Deleting column %s"
 msgstr "Verwijderen kolom %s"
 
-#: src/commands.c:1142
+#: src/commands.c:1141
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Verwijderen rijen %s"
 
-#: src/commands.c:1143
+#: src/commands.c:1142
 #, c-format
 msgid "Deleting row %s"
 msgstr "Verwijderen rij %s"
 
-#: src/commands.c:1218
+#: src/commands.c:1217
 msgid "Undo Clear"
 msgstr "Leegmaken ongedaan maken"
 
-#: src/commands.c:1297
+#: src/commands.c:1296
 msgid "contents"
 msgstr "inhoud"
 
-#: src/commands.c:1299
+#: src/commands.c:1298
 msgid "formats"
 msgstr "opmaak"
 
-#: src/commands.c:1301
+#: src/commands.c:1300
 msgid "comments"
 msgstr "opmerkingen"
 
-#: src/commands.c:1317
+#: src/commands.c:1316
 msgid "all"
 msgstr "Alles"
 
-#: src/commands.c:1324
+#: src/commands.c:1323
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Leeg maken van %s in %s"
 
-#: src/commands.c:1519
+#: src/commands.c:1518
 #, c-format
 msgid "Changing format of %s"
 msgstr "Veranderen formaat van %s"
 
-#: src/commands.c:1595
+#: src/commands.c:1594
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr "Naam wijzigen blad '%s' '%s'"
 
-#: src/commands.c:1705
+#: src/commands.c:1704
 msgid "Set Date/Time"
 msgstr "Instellen Datum/Tijd"
 
-#: src/commands.c:1722
+#: src/commands.c:1721
 #, c-format
 msgid "Setting current date in %s"
 msgstr "Huidige datum ingesteld in %s"
 
-#: src/commands.c:1723
+#: src/commands.c:1722
 #, c-format
 msgid "Setting current time in %s"
 msgstr "Huidige tijd ingesteld in %s"
 
-#: src/commands.c:1830
+#: src/commands.c:1829
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Automatisch passend maken kolom %s"
 
-#: src/commands.c:1831
+#: src/commands.c:1830
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Automatisch passend maken rij %s"
 
-#: src/commands.c:1834
+#: src/commands.c:1833
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Instellen breedte van kolom %s op %d pixels"
 
-#: src/commands.c:1836
+#: src/commands.c:1835
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Instellen hoogte van rij %s op %d pixels"
 
-#: src/commands.c:1841 src/commands.c:1842
+#: src/commands.c:1840 src/commands.c:1841
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Automatisch passend maken kolommen %s"
 
-#: src/commands.c:1845
+#: src/commands.c:1844
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Instellen breedte van kolommen %s op %d pixels"
 
-#: src/commands.c:1847
+#: src/commands.c:1846
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Instellen hoogte van rijen %s op %d pixels"
 
-#: src/commands.c:1931
+#: src/commands.c:1930
 #, c-format
 msgid "Sorting %s"
 msgstr "Sorteren %s"
 
-#: src/commands.c:2059
+#: src/commands.c:2058
 msgid "Unhide columns"
 msgstr "Kolommen zichtbaar maken"
 
-#: src/commands.c:2059
+#: src/commands.c:2058
 msgid "Hide columns"
 msgstr "Kolommen verbergen"
 
-#: src/commands.c:2060
+#: src/commands.c:2059
 msgid "Unhide rows"
 msgstr "Rijen zichtbaar maken"
 
-#: src/commands.c:2060
+#: src/commands.c:2059
 msgid "Hide rows"
 msgstr "Rijen verbergen"
 
-#: src/commands.c:2141
+#: src/commands.c:2140
 msgid "Expand columns"
 msgstr "Kolommen uitklappen"
 
-#: src/commands.c:2141
+#: src/commands.c:2140
 msgid "Collapse columns"
 msgstr "Kolommen inklappen"
 
-#: src/commands.c:2142
+#: src/commands.c:2141
 msgid "Expand rows"
 msgstr "Rijen uitklappen"
 
-#: src/commands.c:2142
+#: src/commands.c:2141
 msgid "Collapse rows"
 msgstr "Rijen inklappen"
 
-#: src/commands.c:2211
+#: src/commands.c:2210
 msgid "Those columns are already grouped"
 msgstr "Deze kolommen zijn reeds gegroepeerd."
 
-#: src/commands.c:2212
+#: src/commands.c:2211
 msgid "Those rows are already grouped"
 msgstr "Deze rijen zijn reeds gegroepeerd."
 
-#: src/commands.c:2215
+#: src/commands.c:2214
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr ""
 "Deze kolommen zijn niet gegroepeerd, je kunt de groepering dus niet opheffen."
 
-#: src/commands.c:2216
+#: src/commands.c:2215
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr ""
 "Deze rijen zijn niet gegroepeerd, je kunt de groepering dus niet opheffen."
 
-#: src/commands.c:2227
+#: src/commands.c:2226
 #, c-format
 msgid "Group columns %s"
 msgstr "Groepeer kolommen %s"
 
-#: src/commands.c:2227
+#: src/commands.c:2226
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Groepering opheffen kolommen %s"
 
-#: src/commands.c:2229
+#: src/commands.c:2228
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Groepeer rijen %d:%d"
 
-#: src/commands.c:2229
+#: src/commands.c:2228
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Groepering opheffen rijen %d:%d"
 
-#: src/commands.c:2436
+#: src/commands.c:2435
 #, c-format
 msgid "Moving %s"
 msgstr "Verplaatsen cellen %s"
 
-#: src/commands.c:2445 src/commands.c:2653
+#: src/commands.c:2444 src/commands.c:2652
 msgid "is beyond sheet boundaries"
 msgstr "is voorbij de werkblad grenzen"
 
 #. FIXME?
-#: src/commands.c:2597
+#: src/commands.c:2596
 #, c-format
 msgid "Pasting into %s"
 msgstr "Plakken in %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:2826 src/commands.c:2827 src/workbook-control-gui.c:1841
+#: src/commands.c:2825 src/commands.c:2826 src/workbook-control-gui.c:1841
 msgid "Autofill"
 msgstr "Autovul"
 
 #. Changed in initial redo.
-#: src/commands.c:2850
+#: src/commands.c:2849
 #, c-format
 msgid "Autofilling %s"
 msgstr "Autovul cellen %s"
 
-#: src/commands.c:3003
+#: src/commands.c:3002
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Automatisch cellen %s opmaken"
 
-#: src/commands.c:3113
+#: src/commands.c:3112
 #, c-format
 msgid "Unmerging %s"
 msgstr "Cellen Splitsen %s"
 
-#: src/commands.c:3251
+#: src/commands.c:3250
 #, c-format
 msgid "Merging %s"
 msgstr "Samenvoegen cellen %s"
 
 #. Corrected below.
-#: src/commands.c:3631 src/dialogs/search-replace.glade.h:23
+#: src/commands.c:3630 src/dialogs/search-replace.glade.h:23
 msgid "Search and Replace"
 msgstr "Zoek en Vervang"
 
-#: src/commands.c:3727
+#: src/commands.c:3726
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Instellen breedte van kolommen op %.2fpts"
 
-#: src/commands.c:3728
+#: src/commands.c:3727
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Instellen hoogte van rijen op %.2fpts"
 
 #. Changed in initial redo.
-#: src/commands.c:3813
+#: src/commands.c:3812
 #, c-format
 msgid "Consolidating to %s!%s"
 msgstr "Consolideren naar %s!%s"
 
-#: src/commands.c:3928
+#: src/commands.c:3927
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zoom %s tot %.0f%%"
 
-#: src/commands.c:3997
+#: src/commands.c:3996
 msgid "Insert object"
 msgstr "Nieuw object invoegen"
 
-#: src/commands.c:4055
+#: src/commands.c:4054
 msgid "Delete object"
 msgstr "Object verwijderen"
 
-#: src/commands.c:4136
+#: src/commands.c:4135
 msgid "Resize object"
 msgstr "Grootte van object veranderen"
 
-#: src/commands.c:4136
+#: src/commands.c:4135
 msgid "Move object"
 msgstr "Object verplaatsen"
 
@@ -3871,7 +3895,7 @@ msgstr "Ve_rvang tekst tijdens typen"
 
 #: src/dialogs/autocorrect.glade.h:14
 msgid "_With:"
-msgstr "Door:"
+msgstr "_Door:"
 
 #: src/dialogs/autoformat.glade.h:1
 msgid "A short description of the template"
@@ -4271,7 +4295,7 @@ msgstr "Tekst"
 
 #: src/dialogs/cell-format.glade.h:80
 msgid "Text length"
-msgstr "Tekst lengte"
+msgstr "Tekstlengte"
 
 #: src/dialogs/cell-format.glade.h:81
 msgid "Thatch"
@@ -4371,7 +4395,7 @@ msgstr "_Voorwaarde :"
 
 #: src/dialogs/cell-format.glade.h:105
 msgid "_Currency"
-msgstr "Valuta"
+msgstr "_Valuta"
 
 #: src/dialogs/cell-format.glade.h:106
 msgid "_Date"
@@ -4379,11 +4403,11 @@ msgstr "_Datum"
 
 #: src/dialogs/cell-format.glade.h:108
 msgid "_Fraction"
-msgstr "Breuk"
+msgstr "_Breuk"
 
 #: src/dialogs/cell-format.glade.h:110
 msgid "_Hidden"
-msgstr "Verborgen"
+msgstr "Ver_borgen"
 
 #: src/dialogs/cell-format.glade.h:111
 msgid "_Ignore blank cells"
@@ -4411,7 +4435,7 @@ msgstr "_Bericht :"
 
 #: src/dialogs/cell-format.glade.h:117
 msgid "_Number"
-msgstr "Getal"
+msgstr "_Getal"
 
 #: src/dialogs/cell-format.glade.h:118
 msgid "_Percentage"
@@ -4423,7 +4447,7 @@ msgstr "_Rechts"
 
 #: src/dialogs/cell-format.glade.h:120
 msgid "_Scientific"
-msgstr "Weten_schappelijk"
+msgstr "_Wetenschappelijk"
 
 #: src/dialogs/cell-format.glade.h:121
 msgid "_Show input message when cell is selected"
@@ -4439,7 +4463,7 @@ msgstr "_Tijd"
 
 #: src/dialogs/cell-format.glade.h:124
 msgid "_Top"
-msgstr "Boven"
+msgstr "_Boven"
 
 #: src/dialogs/cell-format.glade.h:125
 msgid "_Type"
@@ -4447,7 +4471,7 @@ msgstr "_Type"
 
 #: src/dialogs/cell-format.glade.h:126
 msgid "_Underline:"
-msgstr "Onderstrepen:"
+msgstr "_Onderstrepen:"
 
 #: src/dialogs/cell-format.glade.h:127
 msgid "_Use Separator for 1000's"
@@ -4455,45 +4479,39 @@ msgstr "Gebr_uik Scheidingstekens voor duizendtallen"
 
 #: src/dialogs/cell-format.glade.h:128
 msgid "_Wrap text"
-msgstr "Terugloop"
+msgstr "Tekstdoorloop"
 
 #: src/dialogs/cell-format.glade.h:129
-#, fuzzy
-msgid "min &lt;= val &lt;= max         (between)"
-msgstr "min <= waarde <=max        (tussen)"
+msgid "min <= val <= max         (between)"
+msgstr "min <= waarde <=max       (tussen)"
 
 #: src/dialogs/cell-format.glade.h:130
 msgid "val != bound                  (not equal to)"
 msgstr "waarde != gebonden        (niet gelijk aan)"
 
 #: src/dialogs/cell-format.glade.h:131
-#, fuzzy
-msgid "val &gt;  bound                  (greater than)"
-msgstr "waarde >  gebonden             (groter dan)"
-
-#: src/dialogs/cell-format.glade.h:132
-#, fuzzy
-msgid "val &gt;=bound                  (greater than or equal to)"
-msgstr "waarde >=gebonden            (groter of gelijk aan)"
-
-#: src/dialogs/cell-format.glade.h:133
-#, fuzzy
-msgid "val &lt;  bound                  (less than)"
+msgid "val <  bound                  (less than)"
 msgstr "waarde <  gebonden         (kleiner dan)"
 
-#: src/dialogs/cell-format.glade.h:134
-#, fuzzy
-msgid "val &lt;= min || max &lt;= val (not between)"
+#: src/dialogs/cell-format.glade.h:132
+msgid "val <= min || max <= val (not between)"
 msgstr "waarde <= min || max <= waarde (niet tussen)"
 
-#: src/dialogs/cell-format.glade.h:135
-#, fuzzy
-msgid "val &lt;=bound                  (less than or equal to)"
+#: src/dialogs/cell-format.glade.h:133
+msgid "val <=bound                  (less than or equal to)"
 msgstr "waarde <=gebonden           (kleiner of gelijk aan)"
 
-#: src/dialogs/cell-format.glade.h:136
+#: src/dialogs/cell-format.glade.h:134
 msgid "val == bound                 (equal to)"
 msgstr "waarde == gebonden        (gelijk aan)"
+
+#: src/dialogs/cell-format.glade.h:135
+msgid "val >  bound                  (greater than)"
+msgstr "waarde >  gebonden             (groter dan)"
+
+#: src/dialogs/cell-format.glade.h:136
+msgid "val >=bound                  (greater than or equal to)"
+msgstr "waarde >=gebonden            (groter of gelijk aan)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A _header"
@@ -5470,7 +5488,7 @@ msgid "Value%d"
 msgstr "Waarde%d"
 
 #: src/dialogs/dialog-formula-guru.c:439 src/dialogs/dialog-search.c:122
-#: src/functions/fn-string.c:1217
+#: src/functions/fn-string.c:1232
 msgid "String"
 msgstr "String"
 
@@ -5746,15 +5764,15 @@ msgstr "Opmerking"
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Weet U zeker dat u blad '%s' wilt verwijderen ?"
 
-#: src/dialogs/dialog-solver.c:65
+#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:1
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:66
+#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
 msgid "="
 msgstr "="
 
@@ -5801,29 +5819,25 @@ msgstr "Weet U zeker dat u wilt afbreken?"
 msgid "\""
 msgstr "\""
 
-#: src/dialogs/dialog-stf-export.glade.h:2
-#, fuzzy
-msgid "&lt;- Remove"
-msgstr "<- Verwijderen"
-
-#: src/dialogs/dialog-stf-export.glade.h:3
-#, fuzzy
-msgid "&lt;- Remove all"
-msgstr "<- Alles verwijderen"
-
-#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
+#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
 msgstr "'"
 
+#: src/dialogs/dialog-stf-export.glade.h:3
+msgid "<- Remove"
+msgstr "<- Verwijderen"
+
+#: src/dialogs/dialog-stf-export.glade.h:4
+msgid "<- Remove all"
+msgstr "<- Alles verwijderen"
+
 #: src/dialogs/dialog-stf-export.glade.h:5
-#, fuzzy
-msgid "Add -&gt;"
-msgstr "Toevoegen ->"
+msgid "Add ->"
+msgstr "Optellen ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
-#, fuzzy
-msgid "Add all -&gt;"
-msgstr "Alles toevoegen ->"
+msgid "Add all ->"
+msgstr "Alles optellen ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
 msgid "Always"
@@ -6477,7 +6491,7 @@ msgstr "_Linker sectie:"
 
 #: src/dialogs/hf-config.glade.h:4
 msgid "_Middle section:"
-msgstr "_Midden sectie:"
+msgstr "_Middensectie:"
 
 #: src/dialogs/hf-config.glade.h:5
 msgid "_Right section:"
@@ -6521,7 +6535,7 @@ msgstr "_Pareto (gesorteerd)"
 
 #: src/dialogs/histogram.glade.h:15
 msgid "Per_centages"
-msgstr "_Percentages"
+msgstr "Per_centages"
 
 #: src/dialogs/histogram.glade.h:16
 msgid "Pre_determined Bins"
@@ -6751,7 +6765,7 @@ msgstr "Ee_rste pagina nummer:"
 
 #: src/dialogs/print.glade.h:6
 msgid "He_ader:"
-msgstr "Kop: _a"
+msgstr "Kop:"
 
 #: src/dialogs/print.glade.h:7
 msgid "Headers and footers"
@@ -6775,11 +6789,11 @@ msgstr "Pagina"
 
 #: src/dialogs/print.glade.h:13
 msgid "Page order"
-msgstr "Pagina volgorde"
+msgstr "Paginavolgorde"
 
 #: src/dialogs/print.glade.h:14
 msgid "Paper _size:"
-msgstr "Papier grootte:"
+msgstr "Papierformaat:"
 
 #: src/dialogs/print.glade.h:15
 msgid "Por_trait"
@@ -6787,19 +6801,19 @@ msgstr "Staand"
 
 #: src/dialogs/print.glade.h:17
 msgid "Print _area:"
-msgstr "_Afdruk gebied:"
+msgstr "_Afdrukgebied:"
 
 #: src/dialogs/print.glade.h:19
 msgid "Print setup"
-msgstr "Afdruk instellingen"
+msgstr "Afdrukinstellingen"
 
 #: src/dialogs/print.glade.h:20
 msgid "R_ight, then down"
-msgstr "Naar rechts, dan naar beneden _i"
+msgstr "Naar rechts en dan naar beneden"
 
 #: src/dialogs/print.glade.h:21
 msgid "Row and co_lumn headings"
-msgstr "Rij en ko_lom koppen"
+msgstr "Rij en ko_lomkoppen"
 
 #: src/dialogs/print.glade.h:22
 msgid "Scale"
@@ -6816,7 +6830,7 @@ msgstr "Stijl zonder inhoud"
 
 #: src/dialogs/print.glade.h:25
 msgid "Titles to print"
-msgstr "Titels om te printen"
+msgstr "Titels"
 
 #: src/dialogs/print.glade.h:26
 msgid "_Adjust to:"
@@ -6824,19 +6838,19 @@ msgstr "_Aanpassen aan:"
 
 #: src/dialogs/print.glade.h:27
 msgid "_Black and white"
-msgstr "Zwart en wit"
+msgstr "_Zwart-Wit"
 
 #: src/dialogs/print.glade.h:28
 msgid "_Bottom:"
-msgstr "_Beneden:"
+msgstr "_Onder:"
 
 #: src/dialogs/print.glade.h:29
 msgid "_Columns to repeat on the left side:"
-msgstr "Kolommen om te herhalen aan de linkerzijde:"
+msgstr "_Kolommen die worden herhaald aan de linkerzijde:"
 
 #: src/dialogs/print.glade.h:30
 msgid "_Down, then right"
-msgstr "Naar bene_den en dan rechts"
+msgstr "Naar bene_den en dan naar rechts"
 
 #: src/dialogs/print.glade.h:31
 msgid "_Fit to:"
@@ -6848,7 +6862,7 @@ msgstr "Voet:"
 
 #: src/dialogs/print.glade.h:33
 msgid "_Grid lines"
-msgstr "Raster lijnen"
+msgstr "_Rasterlijnen"
 
 #: src/dialogs/print.glade.h:34
 msgid "_Header:"
@@ -6872,15 +6886,15 @@ msgstr "_Rechts:"
 
 #: src/dialogs/print.glade.h:39
 msgid "_Rows to repeat on the upper region:"
-msgstr "_Rijen om te herhalen in het bovenste bereik:"
+msgstr "_Rijen die worden herhaald aan de bovenkant:"
 
 #: src/dialogs/print.glade.h:40
 msgid "_Top:"
-msgstr "Boven:"
+msgstr "_Boven:"
 
 #: src/dialogs/print.glade.h:41
 msgid "_Units:"
-msgstr "Eenheden:"
+msgstr "_Eenheden:"
 
 #: src/dialogs/print.glade.h:42
 msgid "_Vertically"
@@ -7323,14 +7337,6 @@ msgstr "Voer nieuwe _blad naam in:"
 msgid "Rename sheet"
 msgstr "Naam wijzigen van blad"
 
-#: src/dialogs/solver.glade.h:1
-msgid "&gt;="
-msgstr ""
-
-#: src/dialogs/solver.glade.h:2
-msgid "&lt;="
-msgstr ""
-
 #: src/dialogs/solver.glade.h:4
 msgid "Assume _Linear Model"
 msgstr "Neem _Linear Model Aan"
@@ -7547,15 +7553,15 @@ msgstr "Ingebouwd"
 msgid "Error: no sheet"
 msgstr "Fout: geen blad"
 
-#: src/expr.c:557
+#: src/expr.c:558
 msgid "Internal type error"
 msgstr "Interne type fout"
 
-#: src/expr.c:736
+#: src/expr.c:737
 msgid "Unknown operator"
 msgstr "Onbekende operator"
 
-#: src/expr.c:965
+#: src/expr.c:966
 msgid "Unknown evaluation error"
 msgstr "Onbekende evaluatie fout"
 
@@ -7600,19 +7606,19 @@ msgstr ""
 "U kunt deze beveiliging uitzetten door het betreffende plugin.xml bestand te "
 "bewerken."
 
-#: src/format-template.c:874
+#: src/format-template.c:875
 #, c-format
 msgid ""
 "The target region is too small.  It should be at least %d rows by %d columns"
 msgstr ""
 "Het doelbereik is te klein, het moet tenminste %d rijen bij %d kolommen zijn."
 
-#: src/format-template.c:877
+#: src/format-template.c:878
 #, c-format
 msgid "The target region is too small.  It should be at least %d columns wide"
 msgstr "Het doelbereik is te klein, het moet tenminste %d kolommen breed zijn."
 
-#: src/format-template.c:880
+#: src/format-template.c:881
 #, c-format
 msgid "The target region is too small.  It should be at least %d rows high"
 msgstr "Het doelbereik is te klein, het moet tenminste %d rijen hoog zijn."
@@ -9019,7 +9025,7 @@ msgstr "Onbekende functie"
 #: src/functions/fn-information.c:768 src/functions/fn-information.c:796
 #: src/functions/fn-information.c:823 src/functions/fn-information.c:874
 #: src/functions/fn-information.c:904 src/functions/fn-information.c:971
-#: src/functions/fn-logical.c:196 src/functions/fn-string.c:325
+#: src/functions/fn-logical.c:196 src/functions/fn-string.c:337
 msgid "Invalid number of arguments"
 msgstr "Ongeldig aantal argumenten"
 
@@ -14012,7 +14018,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AND, OR"
 
-#: src/functions/fn-logical.c:103 src/functions/fn-string.c:506
+#: src/functions/fn-logical.c:103 src/functions/fn-string.c:518
 msgid "Type Mismatch"
 msgstr "Typen komen niet overeen"
 
@@ -19034,7 +19040,12 @@ msgstr ""
 "\n"
 "@SEEALSO=MID, RIGHT"
 
-#: src/functions/fn-string.c:161
+#: src/functions/fn-string.c:149 src/functions/fn-string.c:221
+#: src/functions/fn-string.c:269
+msgid "Invalid arguments"
+msgstr "Ongeldige argumenten"
+
+#: src/functions/fn-string.c:165
 msgid ""
 "@FUNCTION=LOWER\n"
 "@SYNTAX=LOWER(text)\n"
@@ -19054,7 +19065,7 @@ msgstr ""
 "\n"
 "@SEEALSO=UPPER"
 
-#: src/functions/fn-string.c:191
+#: src/functions/fn-string.c:195
 msgid ""
 "@FUNCTION=MID\n"
 "@SYNTAX=MID(string, position, length)\n"
@@ -19077,11 +19088,11 @@ msgstr ""
 "\n"
 "@SEEALSO=LEFT, RIGHT"
 
-#: src/functions/fn-string.c:217
-msgid "Invalid arguments"
-msgstr "Ongeldige argumenten"
+#: src/functions/fn-string.c:227 src/functions/fn-string.c:632
+msgid "Arguments out of range"
+msgstr "Argumenten vallen buiten het bereik"
 
-#: src/functions/fn-string.c:236
+#: src/functions/fn-string.c:244
 msgid ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,num_chars])\n"
@@ -19106,7 +19117,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MID, LEFT"
 
-#: src/functions/fn-string.c:275
+#: src/functions/fn-string.c:287
 msgid ""
 "@FUNCTION=UPPER\n"
 "@SYNTAX=UPPER(text)\n"
@@ -19126,7 +19137,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOWER"
 
-#: src/functions/fn-string.c:305
+#: src/functions/fn-string.c:317
 msgid ""
 "@FUNCTION=CONCATENATE\n"
 "@SYNTAX=CONCATENATE(string1[,string2...])\n"
@@ -19146,7 +19157,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LEFT, MID, RIGHT"
 
-#: src/functions/fn-string.c:347
+#: src/functions/fn-string.c:359
 msgid ""
 "@FUNCTION=REPT\n"
 "@SYNTAX=REPT(string,num)\n"
@@ -19168,11 +19179,11 @@ msgstr ""
 
 #. FIXME: this and above case should probably have the
 #. same error message.
-#: src/functions/fn-string.c:386
+#: src/functions/fn-string.c:398
 msgid "Out of memory"
 msgstr "Te weinig geheugen"
 
-#: src/functions/fn-string.c:402
+#: src/functions/fn-string.c:414
 msgid ""
 "@FUNCTION=CLEAN\n"
 "@SYNTAX=CLEAN(string)\n"
@@ -19192,7 +19203,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-string.c:434
+#: src/functions/fn-string.c:446
 msgid ""
 "@FUNCTION=FIND\n"
 "@SYNTAX=FIND(string1,string2[,start])\n"
@@ -19215,7 +19226,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXACT, LEN, MID, SEARCH"
 
-#: src/functions/fn-string.c:476
+#: src/functions/fn-string.c:488
 msgid ""
 "@FUNCTION=FIXED\n"
 "@SYNTAX=FIXED(num,[decimals, no_commas])\n"
@@ -19238,7 +19249,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-string.c:544
+#: src/functions/fn-string.c:556
 msgid ""
 "@FUNCTION=PROPER\n"
 "@SYNTAX=PROPER(string)\n"
@@ -19259,7 +19270,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOWER, UPPER"
 
-#: src/functions/fn-string.c:590
+#: src/functions/fn-string.c:602
 msgid ""
 "@FUNCTION=REPLACE\n"
 "@SYNTAX=REPLACE(old,start,num,new)\n"
@@ -19281,7 +19292,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
 
-#: src/functions/fn-string.c:640
+#: src/functions/fn-string.c:655
 msgid ""
 "@FUNCTION=T\n"
 "@SYNTAX=T(value)\n"
@@ -19305,7 +19316,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CELL, N, VALUE"
 
-#: src/functions/fn-string.c:666
+#: src/functions/fn-string.c:681
 msgid ""
 "@FUNCTION=TEXT\n"
 "@SYNTAX=TEXT(value,format_text)\n"
@@ -19327,11 +19338,11 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLAR"
 
-#: src/functions/fn-string.c:702
+#: src/functions/fn-string.c:717
 msgid "Type mismatch"
 msgstr "Typen komen niet overeen"
 
-#: src/functions/fn-string.c:714
+#: src/functions/fn-string.c:729
 msgid ""
 "@FUNCTION=TRIM\n"
 "@SYNTAX=TRIM(text)\n"
@@ -19352,7 +19363,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 
-#: src/functions/fn-string.c:760
+#: src/functions/fn-string.c:775
 msgid ""
 "@FUNCTION=VALUE\n"
 "@SYNTAX=VALUE(text)\n"
@@ -19372,7 +19383,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLAR, FIXED, TEXT"
 
-#: src/functions/fn-string.c:803
+#: src/functions/fn-string.c:818
 msgid ""
 "@FUNCTION=SUBSTITUTE\n"
 "@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
@@ -19396,7 +19407,7 @@ msgstr ""
 "\n"
 "@SEEALSO=REPLACE, TRIM"
 
-#: src/functions/fn-string.c:919
+#: src/functions/fn-string.c:934
 msgid ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(num[,decimals])\n"
@@ -19416,7 +19427,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FIXED, TEXT, VALUE"
 
-#: src/functions/fn-string.c:988
+#: src/functions/fn-string.c:1003
 msgid ""
 "@FUNCTION=SEARCH\n"
 "@SYNTAX=SEARCH(text,within[,start_num])\n"
@@ -19635,7 +19646,7 @@ msgstr "Breedte: %.2f pts (%d pixels)"
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Hoogte %.2f pts(%d pixels)"
 
-#: src/item-cursor.c:917
+#: src/item-cursor.c:898
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
@@ -19645,35 +19656,35 @@ msgstr ""
 "cellen in dit bereik overschrijven. Wilt U de inhoud in\n"
 "dit bereik overschrijven?"
 
-#: src/item-cursor.c:1027
+#: src/item-cursor.c:1008
 msgid "_Move"
 msgstr "Verplaatsen"
 
-#: src/item-cursor.c:1033
+#: src/item-cursor.c:1014
 msgid "Copy _Formats"
 msgstr "Kopiëer Opmaak"
 
-#: src/item-cursor.c:1035
+#: src/item-cursor.c:1016
 msgid "Copy _Values"
 msgstr "Kopiëer Waarden"
 
-#: src/item-cursor.c:1040
+#: src/item-cursor.c:1021
 msgid "Shift _Down and Copy"
 msgstr "Schuif cellen naar beneden en kopiëer"
 
-#: src/item-cursor.c:1042
+#: src/item-cursor.c:1023
 msgid "Shift _Right and Copy"
 msgstr "Schuif cellen naar rechts en kopiëer"
 
-#: src/item-cursor.c:1044
+#: src/item-cursor.c:1025
 msgid "Shift Dow_n and Move"
 msgstr "Schuif cellen naar beneden en verplaats"
 
-#: src/item-cursor.c:1046
+#: src/item-cursor.c:1027
 msgid "Shift Righ_t and Move"
 msgstr "Schuif cellen naar rechts en verplaats"
 
-#: src/item-cursor.c:1051
+#: src/item-cursor.c:1032
 msgid "C_ancel"
 msgstr "_Afbreken"
 
@@ -20258,17 +20269,17 @@ msgstr "Ongeldige backslash aan het einde van de vervangende tekst."
 msgid "cannot be performed with multiple ranges selected"
 msgstr "kan niet uitgevoerd worden met meerdere selecties"
 
-#: src/sheet-control-gui.c:556
+#: src/sheet-control-gui.c:557
 #, c-format
 msgid "Row: %s"
 msgstr "Rij: %s"
 
-#: src/sheet-control-gui.c:571
+#: src/sheet-control-gui.c:572
 #, c-format
 msgid "Column: %s"
 msgstr "Kolom: %s"
 
-#: src/sheet-control-gui.c:1399
+#: src/sheet-control-gui.c:1400
 msgid "Paste _Special"
 msgstr "Plakken _Speciaal"
 
@@ -20279,41 +20290,41 @@ msgstr "Plakken _Speciaal"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1411
+#: src/sheet-control-gui.c:1412
 msgid "_Insert..."
 msgstr "_Invoegen..."
 
-#: src/sheet-control-gui.c:1415
+#: src/sheet-control-gui.c:1416
 msgid "_Insert Column(s)"
 msgstr "Kolom(men) _Invoegen"
 
-#: src/sheet-control-gui.c:1417
+#: src/sheet-control-gui.c:1418
 msgid "_Delete Column(s)"
 msgstr "Kolom(men) Verwij_deren"
 
-#: src/sheet-control-gui.c:1419
+#: src/sheet-control-gui.c:1420
 msgid "_Insert Row(s)"
 msgstr "Rij(en) _Invoegen"
 
-#: src/sheet-control-gui.c:1421
+#: src/sheet-control-gui.c:1422
 msgid "_Delete Row(s)"
 msgstr "Rij(en) Verwij_deren"
 
-#: src/sheet-control-gui.c:1424
+#: src/sheet-control-gui.c:1425
 msgid "Clear Co_ntents"
 msgstr "I_nhoud Leegmaken"
 
-#: src/sheet-control-gui.c:1430
+#: src/sheet-control-gui.c:1431
 msgid "_Format Cells..."
 msgstr "_Celeigenschappen..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1434
+#: src/sheet-control-gui.c:1435
 msgid "Column _Width..."
 msgstr "Kolom _Breedte..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1442
+#: src/sheet-control-gui.c:1443
 msgid "_Row Height..."
 msgstr "_Rij Hoogte..."
 
@@ -20435,23 +20446,23 @@ msgstr "kan niet toepassen op samengevoegde cellen"
 msgid "cannot operate on array formulae"
 msgstr "kan niet worden toegepast op array formules"
 
-#: src/sheet.c:3053
+#: src/sheet.c:3066
 msgid "Clear"
 msgstr "Leegmaken"
 
-#: src/sheet.c:3459
+#: src/sheet.c:3472
 msgid "Insert Columns"
 msgstr "Kolommen Invoegen"
 
-#: src/sheet.c:3516
+#: src/sheet.c:3529
 msgid "Delete Columns"
 msgstr "Kolommen Verwijderen"
 
-#: src/sheet.c:3570
+#: src/sheet.c:3583
 msgid "Insert Rows"
 msgstr "Rijen Invoegen"
 
-#: src/sheet.c:3627
+#: src/sheet.c:3640
 msgid "Delete Rows"
 msgstr "Rijen Verwijderen"
 
@@ -20669,42 +20680,42 @@ msgstr "Uw fontmap2 bestand heeft geen geldige versie van Helvetica"
 msgid "Your fontmap2 file could not be found in the expected location."
 msgstr "Uw fontmap2 bestand kon niet gevonden worden in de verwachte locatie"
 
-#: src/validation.c:138
+#: src/validation.c:140
 #, c-format
 msgid "Cell %s is not permitted to be blank"
 msgstr "Cell %s mag niet leeg zijn"
 
-#: src/validation.c:155
+#: src/validation.c:157
 #, c-format
 msgid "'%s' is an error"
 msgstr "'%s' is een fout"
 
-#: src/validation.c:165
+#: src/validation.c:167
 #, c-format
 msgid "'%s' is not a valid date"
 msgstr "%s is geen geldige datum"
 
-#: src/validation.c:167
+#: src/validation.c:169
 #, c-format
 msgid "'%s' is not a valid time"
 msgstr "'%s' is geen geldige tijd"
 
-#: src/validation.c:169
+#: src/validation.c:171
 #, c-format
 msgid "'%s' is not a number"
 msgstr "'%s' is geen getal"
 
-#: src/validation.c:182
-#, fuzzy, c-format
+#: src/validation.c:184
+#, c-format
 msgid "'%s' is not an integer"
-msgstr "'%f' is geen geheel getal"
+msgstr "'%s' is geen geheel getal"
 
-#: src/validation.c:275
+#: src/validation.c:277
 #, c-format
 msgid "%s is not true."
 msgstr "%s is niet waar."
 
-#: src/validation.c:288
+#: src/validation.c:290
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's content."
@@ -20712,7 +20723,7 @@ msgstr ""
 "Die waarde is ongeldig.\n"
 "Op de inhoud van de cel zijn beperkingen opgelegd."
 
-#: src/validation.c:295
+#: src/validation.c:297
 msgid "Gnumeric : Validation"
 msgstr "Gnumeric : Invoercontrole"
 
@@ -20793,15 +20804,6 @@ msgstr "Ongedaan maken"
 #: src/workbook-control-gui.c:3417 src/workbook-control-gui.c:3436
 msgid "Redo"
 msgstr "Herhalen"
-
-#: src/workbook-control-gui.c:1188
-#, c-format
-msgid "Would split array %s"
-msgstr "Zou array %s splitsen"
-
-#: src/workbook-control-gui.c:1190
-msgid "Would split an array"
-msgstr "Zou een array splitsen"
 
 #: src/workbook-control-gui.c:1251
 #, c-format
@@ -21327,37 +21329,3 @@ msgstr "Is geen Gnumeric Werkmap bestand"
 #: src/xml-io.c:3475
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML bestandsformaat"
-
-#~ msgid "First argument to SCM must be a Guile expression"
-#~ msgstr "Eerste argument voor SCM moet een Guile uitdrukking zijn"
-
-#~ msgid "Undefined scheme function"
-#~ msgstr "Ongedefinieerde scheme functie"
-
-#~ msgid "Could not evaluate argument"
-#~ msgstr "Kon argument niet evalueren"
-
-#~ msgid ""
-#~ "Thank you for using Gnumeric!\n"
-#~ "\n"
-#~ "The version of Gnumeric you are using is quite old\n"
-#~ "by now.  It is likely that many bugs have been fixed\n"
-#~ "and that new features have been added in the meantime.\n"
-#~ "\n"
-#~ "Please consider upgrading before reporting any bugs.\n"
-#~ "Consult http://www.gnumeric.org/ for details.\n"
-#~ "\n"
-#~ "-- The Gnumeric Team."
-#~ msgstr ""
-#~ "Bedankt voor het gebruiken van Gnumeric!\n"
-#~ "\n"
-#~ "De versie van Gnumeric die je gebruikt is inmiddels\n"
-#~ "behoorlijk verouderd. Waarschijnlijk zijn er in de \n"
-#~ "tussentijd vele fouten verbeterd en nieuwe functies\n"
-#~ "toegevoegd.\n"
-#~ "\n"
-#~ "Overweeg alsjeblieft een nieuwe versie te gebruiken\n"
-#~ "voordat je fouten rapporteert.\n"
-#~ "Kijk op http://www.gnumeric.org/ voor details.\n"
-#~ "\n"
-#~ "-- Het Gnumeric Team."
