@@ -410,6 +410,12 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 				}
 				case 'G' : /* general */
 					mstyle_set_format_text (style, "General");
+
+					/* What is 'Gf' ? */
+					if (sep[1] == 'f')
+						sep += 2;
+					else while (isdigit (*(unsigned char *)(++sep)))
+						;
 					break;
 
 				case 'C' : /* currency or comma */
@@ -864,9 +870,16 @@ loop :
 
 		g_return_val_if_fail (name[len-1] == '\n', -1);
 		g_return_val_if_fail (name[len-2] == '~', -1);
-		g_return_val_if_fail (name[len-3] == ':', -1);
 
-		name[len-3] = '\0';
+		/* I wish there were some docs on this, names sometimes appear to be
+		 * SHEET_LETTER:name~\n and sometimes
+		 * SHEET_LETTER:name:~\n and sometimes
+		 */
+		if (name[len-3] == ':')
+			name[len-3] = '\0';
+		else
+			name[len-2] = '\0';
+
 		applix_read_view (state, name);
 		goto loop;
 	}
@@ -1327,5 +1340,6 @@ applix_read (IOContext *io_context, WorkbookView *wb_view, FILE *file)
 		g_free (g_ptr_array_index(state.font_names, i));
 	g_ptr_array_free (state.font_names, TRUE);
 
-	gnumeric_io_error_info_set (io_context, state.parse_error);
+	if (state.parse_error != NULL)
+		gnumeric_io_error_info_set (io_context, state.parse_error);
 }
