@@ -1,3 +1,12 @@
+2003-09-14  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-axis.c (gog_axis_update) : yet another layer of heuristic
+	  to handle -1 .. 1 better.
+	(gog_axis_get_marker) : force to 0.
+
+	* graph/plugins/plot_barcol/gog-barcol.c (gog_barcol_view_render) :
+	  Get the bounds from the value axis. (fixes bar plots)
+
 2003-09-13  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-axis.c (cb_enable_dim) : get smarter and handle

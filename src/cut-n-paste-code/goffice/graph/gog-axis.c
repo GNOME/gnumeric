@@ -331,7 +331,9 @@ gog_axis_update (GogObject *obj)
 			range = fabs (maxima - minima);
 		}
 		step  = pow (10, gnumeric_fake_trunc (log10 (range)));
-		if (range/step < 3)
+		if (range/step < 1.5)
+			step /= 5.;	/* .2 .4 .6 */
+		else if (range/step < 3)
 			step /= 2.;	/* 0 5 10 */
 		else if (range/step > 8)
 			step *= 2.;	/* 2 4 6 */
@@ -351,6 +353,13 @@ gog_axis_update (GogObject *obj)
 		if (axis->auto_bound [AXIS_ELEM_MAX] < 0 &&
 		    (axis->auto_bound [AXIS_ELEM_MAX] + 10. * step) < 0)
 			axis->auto_bound [AXIS_ELEM_MAX] = 0;
+
+		if (finite (axis->logical_min_val) &&
+		    axis->auto_bound [AXIS_ELEM_MIN] < axis->logical_min_val)
+			axis->auto_bound [AXIS_ELEM_MIN] = axis->logical_min_val;
+		if (finite (axis->logical_max_val) &&
+		    axis->auto_bound [AXIS_ELEM_MAX] > axis->logical_max_val)
+			axis->auto_bound [AXIS_ELEM_MAX] = axis->logical_max_val;
 	} else
 		axis->auto_bound [AXIS_ELEM_MIN] =
 		axis->auto_bound [AXIS_ELEM_MAX] =
@@ -747,9 +756,14 @@ gog_axis_num_markers (GogAxis *axis)
 static char *
 gog_axis_get_marker (GogAxis *axis, unsigned i)
 {
-	return g_strdup_printf ("%g",
-				axis->auto_bound [AXIS_ELEM_MIN] +
-				((double)i) * axis->auto_bound [AXIS_ELEM_MAJOR_TICK]);
+	double val =axis->auto_bound [AXIS_ELEM_MIN] +
+		((double)i) * axis->auto_bound [AXIS_ELEM_MAJOR_TICK];
+
+	/* force display to 0 if it is within less than a  step */
+	if (fabs (val) < fabs (axis->auto_bound [AXIS_ELEM_MAJOR_TICK] / 10.0))
+		val = 0.;
+
+	return g_strdup_printf ("%g", val);
 }
 
 /****************************************************************************/

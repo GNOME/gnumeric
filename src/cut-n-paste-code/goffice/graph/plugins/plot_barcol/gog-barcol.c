@@ -271,7 +271,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	if (num_elements <= 0 || num_series <= 0)
 		return;
 
-	if (!gog_axis_get_bounds (GOG_PLOT (model)->axis[1], &val_min, &val_max) ||
+	if (!gog_axis_get_bounds (GOG_PLOT (model)->axis [is_vertical?1:0], &val_min, &val_max) ||
 	    val_min >= val_max)
 		return;
 
