@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * mps.c: MPS file importer.
  *
@@ -243,7 +244,7 @@ mps_prepare (WorkbookView *wbv, MpsInputContext *ctxt)
 
 /* Creates the spreadsheet model. */
 static void
-mps_create_sheet (WorkbookView *wbv, MpsInputContext *ctxt)
+mps_create_sheet (MpsInputContext *ctxt,  WorkbookView *wbv)
 {
         MStyle *mstyle;
         Sheet  *sh = wbv->current_sheet;
@@ -259,6 +260,7 @@ mps_create_sheet (WorkbookView *wbv, MpsInputContext *ctxt)
 
 	mps_prepare (wbv, ctxt);
 
+
 	/* Initialize var_range to contain the range name of the 
 	 * objective function variables. */
 	range_init (&range, VARIABLE_COL, VARIABLE_ROW, ctxt->n_cols,
@@ -272,7 +274,8 @@ mps_create_sheet (WorkbookView *wbv, MpsInputContext *ctxt)
 	/* Print 'Program Name'. */
 	mps_set_cell (sh, MAIN_INFO_COL, MAIN_INFO_ROW - 1,
 		      _("Program Name"));
-	mps_set_cell (sh, MAIN_INFO_COL, MAIN_INFO_ROW, ctxt->name);
+	if (ctxt->name != NULL)
+		mps_set_cell (sh, MAIN_INFO_COL, MAIN_INFO_ROW, ctxt->name);
 
 	/* Print 'Objective value'. */
 	mps_set_cell (sh, MAIN_INFO_COL + 1, MAIN_INFO_ROW - 1,
@@ -535,7 +538,8 @@ mps_create_sheet (WorkbookView *wbv, MpsInputContext *ctxt)
 
 /* Make the initializations. */
 static MpsInputContext *
-mps_input_context_new (IOContext *io_context, Workbook *wb, char const *file_name){
+mps_input_context_new (IOContext *io_context, Workbook *wb, char const *file_name)
+{
         MpsInputContext *ctxt = NULL;
 	gint size;
 	char *data;
@@ -563,6 +567,10 @@ mps_input_context_new (IOContext *io_context, Workbook *wb, char const *file_nam
 	ctxt->cols           = NULL;
 	ctxt->rhs            = NULL;
 	ctxt->bounds         = NULL;
+        ctxt->row_hash	     = g_hash_table_new (g_str_hash, g_str_equal);
+        ctxt->col_hash	     = g_hash_table_new (g_str_hash, g_str_equal);
+        ctxt->col_name_tbl   = NULL;
+        ctxt->matrix	     = NULL;
 
 	ctxt->n_rows = ctxt->n_cols = ctxt->n_bounds = 0;
 
@@ -639,8 +647,15 @@ mps_input_context_destroy (MpsInputContext *ctxt)
 	g_hash_table_destroy (ctxt->row_hash);
 	g_hash_table_destroy (ctxt->col_hash);
 	
-	g_free (ctxt->col_name_tbl);
-	g_free (ctxt->matrix);
+	if (ctxt->col_name_tbl) {
+		g_free (ctxt->col_name_tbl);
+		ctxt->col_name_tbl = NULL;
+	}
+
+	if (ctxt->matrix) {
+		g_free (ctxt->matrix);
+		ctxt->matrix = NULL;
+	}
 	g_free (ctxt->line);
 	g_free (ctxt->name);
 	g_free (ctxt);
@@ -985,7 +1000,6 @@ mps_parse_rows (MpsInputContext *ctxt)
 	}
 
  ok_out:
-	ctxt->row_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	for (tmp = ctxt->rows; tmp != NULL; tmp = tmp->next) {
 	        MpsRow *row = (MpsRow *) tmp->data;
 		g_hash_table_insert(ctxt->row_hash, row->name, (gpointer) row);
@@ -1003,7 +1017,6 @@ mps_parse_columns (MpsInputContext *ctxt)
 {
 	gchar type[3], n1[10], n2[10], n3[10], v1[20], v2[20];
 
-	ctxt->col_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	while (1) {
 	        if (strncmp (ctxt->line, "COLUMNS", 7) == 0)
 		        break;
@@ -1140,12 +1153,9 @@ mps_file_open (GnumFileOpener const *fo, IOContext *io_context,
 		if (gnumeric_io_error_occurred (io_context)) {
 		        gnumeric_io_error_push (io_context, error_info_new_str
 						(_("Error while reading MPS file.")));
-		}
-		mps_create_sheet (wbv, ctxt);
+		} else
+			mps_create_sheet (ctxt, wbv);
 		mps_input_context_destroy (ctxt);
-	} else {
-	        if (!gnumeric_io_error_occurred) {
-		        gnumeric_io_error_unknown (io_context);
-		}
-	}
+	} else if (!gnumeric_io_error_occurred)
+		gnumeric_io_error_unknown (io_context);
 }
