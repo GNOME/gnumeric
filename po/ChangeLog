@@ -1,3 +1,8 @@
+2001-09-17  Carlos Perelló Marín <carlos@gnome-db.org>
+
+        * POTFILES.in: Fixed a rename, please remember
+        to update your changes here.
+
 2001-09-16  Carlos Perelló Marín <carlos@gnome-db.org>
 
 	* es.po: Header fix.
