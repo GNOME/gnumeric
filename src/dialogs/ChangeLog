@@ -1,3 +1,15 @@
+2002-07-27  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/dialogs/dialog-plugin-manager.c
+	(model_get_plugin_iter, pm_dialog_cleanup):
+	Use "for" loop to iterate over rows.
+	(set_plugin_model_row):
+	New helper function for setting plugins' model row.
+	(cb_pm_button_rescan_directories_clicked):
+	Insert rows in the right places to keep the list sorted.
+	(pm_dialog_init): Use set_plugin_model_row.
+	(cb_active_toggled): avoid crashing if the user chooses "No".
+
 2002-07-22  Zbigniew Chyla  <cyba@gnome.pl>
 
 	Adjusted to plugin.c changes,

@@ -83,20 +83,28 @@ enum {
 };
 
 
+static int
+plugin_compare_name (gconstpointer a, gconstpointer b)
+{
+	GnmPlugin *plugin_a = (GnmPlugin *) a, *plugin_b = (GnmPlugin *) b;
+
+	return strcoll (gnm_plugin_get_name (plugin_a),
+	                gnm_plugin_get_name (plugin_b));
+}
+
 static gboolean
 model_get_plugin_iter (GtkTreeModel *model, gpointer plugin, GtkTreeIter *ret_iter)
 {
-	gboolean valid;
+	gboolean has_iter;
       
-	valid = gtk_tree_model_get_iter_first (model, ret_iter);
-	while (valid) {
-		gpointer found;
+	for (has_iter = gtk_tree_model_get_iter_first (model, ret_iter);
+	     has_iter; has_iter = gtk_tree_model_iter_next (model, ret_iter)) {
+		gpointer current;
 	
-		gtk_tree_model_get (model, ret_iter, PLUGIN_POINTER, &found, -1);
-		if (found == plugin) {
+		gtk_tree_model_get (model, ret_iter, PLUGIN_POINTER, &current, -1);
+		if (current == plugin) {
 			return TRUE;
 		}
-		valid = gtk_tree_model_iter_next (model, ret_iter);
 	}
 
 	return FALSE;
@@ -127,36 +135,59 @@ cb_plugin_destroyed (PluginManagerGUI *pm_gui, GObject *ex_plugin)
 }
 
 static void
+set_plugin_model_row (PluginManagerGUI *pm_gui, GtkTreeIter *iter, GnmPlugin *plugin)
+{
+	gtk_list_store_set (
+		pm_gui->model_plugins, iter,
+		PLUGIN_NAME,  gnm_plugin_get_name (plugin),
+		PLUGIN_ACTIVE, gnm_plugin_is_active (plugin),
+		PLUGIN_SWITCHABLE, !gnm_plugin_is_active (plugin) || gnm_plugin_can_deactivate (plugin),
+		PLUGIN_POINTER, plugin,
+		-1);
+	g_signal_connect (
+		G_OBJECT (plugin), "state_changed",
+		G_CALLBACK (cb_plugin_changed), pm_gui);
+	g_signal_connect (
+		G_OBJECT (plugin), "can_deactivate_changed",
+		G_CALLBACK (cb_plugin_changed), pm_gui);
+	g_object_weak_ref (
+		G_OBJECT (plugin), (GWeakNotify) cb_plugin_destroyed, pm_gui);
+}
+
+static void
 cb_pm_button_rescan_directories_clicked (GtkButton *button, PluginManagerGUI *pm_gui)
 {
 	ErrorInfo *error;
-	GSList *new_plugins;
+	GSList *new_plugins, *l;
+	GtkTreeModel *model = GTK_TREE_MODEL (pm_gui->model_plugins);
+	GtkTreeIter iter, new_iter;
+	gboolean has_iter;
 
 	plugins_rescan (&error, &new_plugins);
 	if (error != NULL) {
 		gnumeric_error_error_info (COMMAND_CONTEXT (pm_gui->wbcg), error);
 		error_info_free (error);
 	}
-	GNM_SLIST_FOREACH (new_plugins, GnmPlugin, plugin,
-		GtkTreeIter iter;
-
-		gtk_list_store_append (pm_gui->model_plugins, &iter);
-		gtk_list_store_set (
-			pm_gui->model_plugins, &iter,
-			PLUGIN_NAME,  gnm_plugin_get_name (plugin),
-			PLUGIN_ACTIVE, gnm_plugin_is_active (plugin),
-			PLUGIN_SWITCHABLE, !gnm_plugin_is_active (plugin) || gnm_plugin_can_deactivate (plugin),
-			PLUGIN_POINTER, plugin,
-			-1);
-		g_signal_connect (
-			G_OBJECT (plugin), "state_changed",
-			G_CALLBACK (cb_plugin_changed), pm_gui);
-		g_signal_connect (
-			G_OBJECT (plugin), "can_deactivate_changed",
-			G_CALLBACK (cb_plugin_changed), pm_gui);
-		g_object_weak_ref (
-			G_OBJECT (plugin), (GWeakNotify) cb_plugin_destroyed, pm_gui);
-	);
+	GNM_SLIST_SORT (new_plugins, plugin_compare_name);
+	for (has_iter = gtk_tree_model_get_iter_first (model, &iter), l = new_plugins;
+	     has_iter && l != NULL;
+	     has_iter = gtk_tree_model_iter_next (model, &iter)) {
+		GnmPlugin *old_plugin, *new_plugin;
+	
+		gtk_tree_model_get (model, &iter, PLUGIN_POINTER, &old_plugin, -1);
+		while (new_plugin = l->data, plugin_compare_name (old_plugin, new_plugin) > 0) {
+			gtk_list_store_insert_before (pm_gui->model_plugins, &new_iter, &iter);
+			set_plugin_model_row (pm_gui, &new_iter, new_plugin);
+			l = l->next;
+			if (l == NULL)
+				break;
+		}
+	}
+	while (l != NULL) {
+		gtk_list_store_append (pm_gui->model_plugins, &new_iter);
+		set_plugin_model_row (pm_gui, &new_iter, GNM_PLUGIN (l->data));
+		l = l->next;
+	}
 	g_slist_free (new_plugins);
 }
 
@@ -193,7 +224,7 @@ pm_add_dir (char *dir_name)
 		g_free (dir_name);
 	else {
 		GNM_SLIST_PREPEND (plugin_dirs, dir_name);
-		plugin_dirs = g_slist_sort (plugin_dirs, g_str_compare);
+		GNM_SLIST_SORT (plugin_dirs, g_str_compare);
 		gnm_gconf_set_plugin_extra_dirs (plugin_dirs);
 		e_free_string_slist (plugin_dirs);
 	}
@@ -283,12 +314,12 @@ cb_pm_selection_changed (GtkTreeSelection *selection, PluginManagerGUI *pm_gui)
 static void
 pm_dialog_cleanup (GObject *dialog, PluginManagerGUI *pm_gui)
 {
-	GtkTreeIter iter;
 	GtkTreeModel *model = GTK_TREE_MODEL (pm_gui->model_plugins);
-	gboolean valid;
+	GtkTreeIter iter;
+	gboolean has_iter;
       
-	valid = gtk_tree_model_get_iter_first (model, &iter);
-	while (valid) {
+	for (has_iter = gtk_tree_model_get_iter_first (model, &iter);
+	     has_iter; has_iter = gtk_tree_model_iter_next (model, &iter)) {
 		gpointer plugin;
 	
 		gtk_tree_model_get (model, &iter, PLUGIN_POINTER, &plugin, -1);
@@ -298,17 +329,7 @@ pm_dialog_cleanup (GObject *dialog, PluginManagerGUI *pm_gui)
 			G_OBJECT (plugin), G_CALLBACK (cb_plugin_changed), pm_gui);
 		g_object_weak_unref (
 			G_OBJECT (plugin), (GWeakNotify) cb_plugin_destroyed, pm_gui);
-		valid = gtk_tree_model_iter_next (model, &iter);
 	}
-}
-
-static int
-plugin_compare_name (gconstpointer a, gconstpointer b)
-{
-	GnmPlugin *plugin_a = (GnmPlugin *) a, *plugin_b = (GnmPlugin *) b;
-
-	return strcoll (gnm_plugin_get_name (plugin_a),
-	                gnm_plugin_get_name (plugin_b));
 }
 
 static void
@@ -343,21 +364,7 @@ pm_dialog_init (PluginManagerGUI *pm_gui)
 		&plugin_compare_name);
 	GNM_SLIST_FOREACH (sorted_plugin_list, GnmPlugin, plugin,
 		gtk_list_store_append (pm_gui->model_plugins, &iter);
-		gtk_list_store_set (
-			pm_gui->model_plugins, &iter,
-			PLUGIN_NAME,  gnm_plugin_get_name (plugin),
-			PLUGIN_ACTIVE, gnm_plugin_is_active (plugin),
-			PLUGIN_SWITCHABLE, !gnm_plugin_is_active (plugin) || gnm_plugin_can_deactivate (plugin),
-			PLUGIN_POINTER, plugin,
-			-1);
-		g_signal_connect (
-			G_OBJECT (plugin), "state_changed",
-			G_CALLBACK (cb_plugin_changed), pm_gui);
-		g_signal_connect (
-			G_OBJECT (plugin), "can_deactivate_changed",
-			G_CALLBACK (cb_plugin_changed), pm_gui);
-		g_object_weak_ref (
-			G_OBJECT (plugin), (GWeakNotify) cb_plugin_destroyed, pm_gui);
+		set_plugin_model_row (pm_gui, &iter, plugin);
 	);
 	g_slist_free (sorted_plugin_list);
 
@@ -484,6 +491,8 @@ cb_active_toggled (GtkCellRendererToggle *celltoggle, char *path,
 
 		if (want_activate) {
 			gnm_plugin_activate (plugin, &error);
+		} else {
+			error = NULL;
 		}
 	}
 	if (error != NULL) {
