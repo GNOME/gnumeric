@@ -1,9 +1,8 @@
 /*
  * Support for dynamically-loaded Gnumeric plugin components.
  *
- * Author:
+ * Authors:
  *    Tom Dyas (tdyas@romulus.rutgers.edu)
- * Additional Functions and Cleanups:
  *    Dom Lachowicz (dominicl@seas.upenn.edu)
  */
 

@@ -1,3 +1,14 @@
+2000-03-01  Dom Lachowicz <dominicl@seas.upenn.edu>
+
+	* src/dialogs/dialog-plugin-manager.c (add_to_clist, populate_clist),
+	(add_cb, remove_cb, row_cb, remove_cb, dialog_plugin_manager),
+	(dialog_plugin_manager_impl): Re-implemented dialog.
+	(refresh_right_frame): New function
+
+	* src/dialogs/plugin-manager.glade: updated.
+	
+	* src/dialogs/plugin-manager.glade.h: updated
+
 2000-03-03  Morten Welinder  <terra@diku.dk>
 
 	* src/workbook.c: Fix 6760.
