@@ -62,7 +62,7 @@
         <applyto>/apps/gnumeric/core/defaultfont/size</applyto>
         <owner>Gnumeric</owner>
         <type>float</type>
-	<default>9</default>
+	<default>10</default>
         <locale name="C">
         <short>Default Font Size</short>
         <long>The default font size for new workbooks.</long>
@@ -74,7 +74,7 @@
         <owner>Gnumeric</owner>
         <type>string</type>
         <locale name="C">
-	<default>Helvetica</default>
+	<default>Sans</default>
         <short>Default font name</short>
         <long>The default font name for new workbooks.</long>
         </locale>
