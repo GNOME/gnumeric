@@ -1917,6 +1917,7 @@ ms_excel_chart (BiffQuery *q, ExcelWorkbook *wb, BIFF_BOF_DATA *bof)
 	state.depth = 0;
 	state.prev_opcode = 0xdead; /* Invalid */
 	state.wb = wb;
+	state.chart = gnumeric_chart_new();
 
 	if (ms_excel_chart_debug > 0)
 		puts ("{ CHART");

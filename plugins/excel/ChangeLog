@@ -1,5 +1,10 @@
 1999-09-18  Jody Goldberg <jgoldberg@home.com>
 
+	* gnumeric-chart.c (gnumeric_chart_destroy) : implement.
+	(gnumeric_chart_new) : Create.
+
+	* ms-chart.c (ms_excel_chart) : Init the chart.
+
 	* ms-escher.c : More radical changes to support just in time
 	  merging.  This seems to solve the last of the problems of which
 	  records to merge and which not.  Everything seems to add up.
