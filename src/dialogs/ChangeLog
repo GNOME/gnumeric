@@ -1,3 +1,7 @@
+2002-01-06  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.1
+
 2002-01-05  Jody Goldberg <jody@gnome.org>
 
 	* dialog-graph-guru.c (vector_state_fill) : set the expr entry flags
@@ -19,6 +23,18 @@
 	* dialog-workbook-attr.c (attr_dialog_impl) : fix
 	  help button reference
 
+2002-01-01  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+        * dialog-graph-guru.c (graph_guru_get_plot) : Use explicit casts to 
+          prevent non-problematic warnings when char is unsigned by default.
+        * dialog-graph-guru.c (graph_guru_get_series) : ditto
+        * dialog-graph-guru.c (graph_guru_get_spec) : ditto
+        * dialog-graph-guru.c (vector_state_series_set_dimension) : ditto
+        * dialog-graph-guru.c (vector_state_fill) : ditto
+        * dialog-graph-guru.c (vector_state_init) : ditto
+        * dialog-graph-guru.c (graph_guru_series_name) : ditto
+        * dialog-graph-guru.c (graph_guru_select_series) : ditto
+        * dialog-graph-guru.c (graph_guru_select_plot) : ditto
 
 2001-12-31  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 

@@ -103,7 +103,7 @@ ms_escher_blip_new (guint8 const *data, guint32 len, char const *repoid)
 	MSEscherBlip *blip = g_new (MSEscherBlip, 1);
 
 #ifdef ENABLE_BONOBO
-	blip->stream   = bonobo_stream_mem_create (data, len, TRUE, FALSE);
+	blip->stream   = bonobo_stream_mem_create ((char *)data, len, TRUE, FALSE);
 #else
 	guint8 *mem = g_malloc (len);
 	memcpy (mem, data, len);

@@ -6,7 +6,7 @@
 #include <error-info.h>
 
 typedef struct { /* field format */
-	guint8 name[11]; /* name, including terminating '\0' */
+	gchar name[11]; /* name, including terminating '\0' */
 	guint8 type; /* type (single ASCII char) */
 	guint8 len; /* byte length */
 	guint  pos; /* position in record */
@@ -31,7 +31,7 @@ typedef struct { /* record in a db */
 XBrecord *record_new  (XBfile *file);
 gboolean  record_seek (XBrecord *record, int whence, glong row);
 void      record_free (XBrecord *record);
-guint8   *record_get_field (const XBrecord *record, guint num);
+gchar	*record_get_field (const XBrecord *record, guint num);
 
 XBfile *xbase_open (const char *filename, ErrorInfo **ret_error);
 void    xbase_close (XBfile *file);

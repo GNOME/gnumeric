@@ -123,14 +123,14 @@ static xmlNode *
 graph_guru_get_plot (GraphGuruState *s, int indx)
 {
 	xmlDoc *xml_doc = s->xml_doc;
-	xmlNode *plot = e_xml_get_child_by_name (xml_doc->xmlRootNode, "Plots");
+	xmlNode *plot = e_xml_get_child_by_name (xml_doc->xmlRootNode, (xmlChar *)"Plots");
 
 	g_return_val_if_fail (plot != NULL, NULL);
 
 	for (plot = plot->xmlChildrenNode; plot; plot = plot->next) {
 		if (strcmp (plot->name, "Plot"))
 			continue;
-		if (indx == e_xml_get_integer_prop_by_name_with_default (plot, "index", -1))
+		if (indx == e_xml_get_integer_prop_by_name_with_default (plot, (xmlChar *)"index", -1))
 			return plot;
 	}
 	return NULL;
@@ -140,14 +140,14 @@ static xmlNode *
 graph_guru_get_series (GraphGuruState *s, int indx)
 {
 	xmlNode *plot = graph_guru_get_plot (s, s->current_plot);
-	xmlNode *series = e_xml_get_child_by_name (plot, "Data");
+	xmlNode *series = e_xml_get_child_by_name (plot, (xmlChar *)"Data");
 
 	g_return_val_if_fail (series != NULL, NULL);
 
 	for (series = series->xmlChildrenNode; series; series = series->next) {
 		if (strcmp (series->name, "Series"))
 			continue;
-		if (indx == e_xml_get_integer_prop_by_name_with_default (series, "index", -1))
+		if (indx == e_xml_get_integer_prop_by_name_with_default (series, (xmlChar *)"index", -1))
 			return series;
 	}
 	return NULL;
@@ -156,9 +156,9 @@ graph_guru_get_series (GraphGuruState *s, int indx)
 static char *
 graph_guru_plot_name (GraphGuruState *s, xmlNode *plot)
 {
-	char const *t = "Plot";
-	int i = e_xml_get_integer_prop_by_name_with_default (plot, "index", -1);
-	xmlNode *type = e_xml_get_child_by_name (plot, "Type");
+	xmlChar const *t = (xmlChar *)"Plot";
+	int i = e_xml_get_integer_prop_by_name_with_default (plot, (xmlChar *)"index", -1);
+	xmlNode *type = e_xml_get_child_by_name (plot, (xmlChar *)"Type");
 
 	g_return_val_if_fail (i >= 0, g_strdup ("ERROR Missing Index"));
 
@@ -189,7 +189,7 @@ graph_guru_get_spec (GraphGuruState *s)
 		/* A limit in libxml */
 		if (spec->_length >= 4) {
 			pctxt = xmlCreatePushParserCtxt (NULL, NULL,
-				spec->_buffer, spec->_length, NULL);
+				(char *)(spec->_buffer), spec->_length, NULL);
 			xmlParseChunk (pctxt, "", 0, TRUE);
 			xml_doc = pctxt->myDoc;
 			xmlFreeParserCtxt (pctxt);
@@ -213,7 +213,7 @@ graph_guru_get_spec (GraphGuruState *s)
 	s->updating = FALSE;
 
 	/* Init lists of plots */
-	plot = e_xml_get_child_by_name (xml_doc->xmlRootNode, "Plots");
+	plot = e_xml_get_child_by_name (xml_doc->xmlRootNode, (xmlChar *)"Plots");
 
 	g_return_if_fail (plot != NULL);
 
@@ -225,7 +225,7 @@ graph_guru_get_spec (GraphGuruState *s)
 			GNM_COMBO_TEXT (s->plot_selector), name);
 		g_free (name);
 
-		indx = e_xml_get_integer_prop_by_name_with_default (plot, "index", -1);
+		indx = e_xml_get_integer_prop_by_name_with_default (plot, (xmlChar *)"index", -1);
 		g_return_if_fail (indx >= 0);
 		gtk_object_set_data (GTK_OBJECT (item), "index", 
 			GINT_TO_POINTER (indx));
@@ -275,7 +275,7 @@ vector_state_series_set_dimension (VectorState *vs, ExprTree *expr)
 	 */
 	CORBA_exception_init (&ev);
 	DATA_GURU1 (seriesSetDimension) (vs->state->data_guru,
-		vs->series_index, vs->dim_name, vector_id, &ev);
+		vs->series_index, (CORBA_char *)vs->dim_name, vector_id, &ev);
 	if (ev._major == CORBA_NO_EXCEPTION)
 		graph_guru_get_spec (vs->state);
 	else {
@@ -304,11 +304,11 @@ vector_state_fill (VectorState *vs, xmlNode *series)
 		return;
 
 	vs->series_index =
-		e_xml_get_integer_prop_by_name_with_default (series, "index", -1);
+		e_xml_get_integer_prop_by_name_with_default (series, (xmlChar *)"index", -1);
 	vs->vector = NULL;
 	dim = gnm_graph_series_get_dimension (series, vs->dim_name);
 	if (dim != NULL) {
-		id = e_xml_get_integer_prop_by_name_with_default (dim, "ID", -1);
+		id = e_xml_get_integer_prop_by_name_with_default (dim, (xmlChar *)"ID", -1);
 		if (id >= 0) {
 			vs->vector = gnm_graph_get_vector (vs->state->graph, id);
 			gnumeric_expr_entry_set_rangesel_from_dep (
@@ -363,13 +363,13 @@ vector_state_init (VectorState *vs, xmlNode *descriptor)
 
 	if (vs->dim_name != NULL)
 		xmlFree (vs->dim_name);
-	vs->dim_name = xmlGetProp (descriptor, "dim_name");
+	vs->dim_name = xmlGetProp (descriptor, (xmlChar *)"dim_name");
 
 	required = e_xml_get_bool_prop_by_name_with_default (descriptor,
-		"required", FALSE);
+		(xmlChar *)"required", FALSE);
 
 	tmp = xmlNodeGetContent (descriptor);
-	name = required ? g_strdup (tmp) : g_strdup_printf ("(%s)", tmp);
+	name = required ? g_strdup ((char *)tmp) : g_strdup_printf ("(%s)", tmp);
 	gtk_label_set_text (GTK_LABEL (vs->name_label), name);
 	xmlFree (tmp);
 	g_free (name);
@@ -533,14 +533,14 @@ static char *
 graph_guru_series_name (GraphGuruState *s, xmlNode *series)
 {
 	int i;
-	xmlChar *name = xmlGetProp (series, "name");
+	xmlChar *name = xmlGetProp (series, (xmlChar *)"name");
 
 	if (name != NULL) {
-		char *res = g_strdup (name);
+		char *res = g_strdup ((char *)name);
 		xmlFree (name);
 		return res;
 	}
-	i = e_xml_get_integer_prop_by_name_with_default (series, "index", -1);
+	i = e_xml_get_integer_prop_by_name_with_default (series, (xmlChar *)"index", -1);
 
 	g_return_val_if_fail (i >= 0, g_strdup ("ERROR Missing Index"));
 
@@ -571,7 +571,7 @@ graph_guru_select_series (GraphGuruState *s, xmlNode *series)
 		vector_state_fill (g_ptr_array_index (s->shared, i), series);
 
 	s->current_series =
-		e_xml_get_integer_prop_by_name_with_default (series, "index", -1);
+		e_xml_get_integer_prop_by_name_with_default (series, (xmlChar *)"index", -1);
 }
 
 static void
@@ -597,10 +597,10 @@ graph_guru_select_plot (GraphGuruState *s, xmlNode *plot)
 		return;
 
 	s->current_plot =
-		e_xml_get_integer_prop_by_name_with_default (plot, "index", -1);
+		e_xml_get_integer_prop_by_name_with_default (plot, (xmlChar *)"index", -1);
 
 	/* Init the expr entries */
-	layout = e_xml_get_child_by_name (plot, "DataLayout");
+	layout = e_xml_get_child_by_name (plot, (xmlChar *)"DataLayout");
 
 	g_return_if_fail (layout != NULL);
 
@@ -614,7 +614,7 @@ graph_guru_select_plot (GraphGuruState *s, xmlNode *plot)
 			continue;
 
 		is_shared = e_xml_get_bool_prop_by_name_with_default (layout,
-			"shared", FALSE);
+			(xmlChar *)"shared", FALSE);
 		if (is_shared) {
 			container = s->shared;
 			indx = shared++;
@@ -638,7 +638,7 @@ graph_guru_select_plot (GraphGuruState *s, xmlNode *plot)
 		gtk_widget_hide (s->shared_separator);
 
 	/* Init lists of series */
-	series = e_xml_get_child_by_name (plot, "Data");
+	series = e_xml_get_child_by_name (plot, (xmlChar *)"Data");
 
 	g_return_if_fail (series != NULL);
 
@@ -649,7 +649,7 @@ graph_guru_select_plot (GraphGuruState *s, xmlNode *plot)
 		item = gnm_combo_text_add_item (
 			GNM_COMBO_TEXT (s->series_selector), name);
 		g_free (name);
-		indx = e_xml_get_integer_prop_by_name_with_default (series, "index", -1);
+		indx = e_xml_get_integer_prop_by_name_with_default (series, (xmlChar *)"index", -1);
 
 		g_return_if_fail (indx >= 0);
 		gtk_object_set_data (GTK_OBJECT (item), "index", 

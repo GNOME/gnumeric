@@ -320,7 +320,7 @@ append_hour (GString *string, int n, struct tm const *time_split,
 static void
 append_hour_elapsed (GString *string, struct tm const *time_split, int number)
 {
-	unsigned char buf[(DBL_MANT_DIG + DBL_MAX_EXP) * 2 + 1];
+	char buf[(DBL_MANT_DIG + DBL_MAX_EXP) * 2 + 1];
 	double hours = number * 24. + time_split->tm_hour;
 	snprintf (buf, sizeof (buf), "%.0f", hours);
 	g_string_append (string, buf);
@@ -343,7 +343,7 @@ append_minute (GString *string, int n, struct tm const *time_split)
 static void
 append_minute_elapsed (GString *string, struct tm const *time_split, int number)
 {
-	unsigned char buf[(DBL_MANT_DIG + DBL_MAX_EXP) * 2 + 1];
+	char buf[(DBL_MANT_DIG + DBL_MAX_EXP) * 2 + 1];
 	double minutes = ((number * 24.) + time_split->tm_hour) * 60. + time_split->tm_min;
 	snprintf (buf, sizeof (buf), "%.0f", minutes);
 	g_string_append (string, buf);
@@ -366,7 +366,7 @@ append_second (GString *string, int n, struct tm const *time_split)
 static void
 append_second_elapsed (GString *string, int n, struct tm const *time_split, int number)
 {
-	unsigned char buf[(DBL_MANT_DIG + DBL_MAX_EXP) * 2 + 1];
+	char buf[(DBL_MANT_DIG + DBL_MAX_EXP) * 2 + 1];
 	double seconds = (((number * 24. + time_split->tm_hour) * 60. + time_split->tm_min) * 60.) + time_split->tm_sec;
 	snprintf (buf, sizeof (buf), "%.0f", seconds);
 	g_string_append (string, buf);
@@ -405,8 +405,8 @@ format_entry_dtor (gpointer data, gpointer user_data)
 
 static void
 format_entry_set_fmt (StyleFormatEntry *entry,
-		      unsigned char const *begin,
-		      unsigned char const *end)
+		      gchar const *begin,
+		      gchar const *end)
 {
 	/* empty formats are General if there is a color, or a condition */
 	entry->format = (begin != NULL && end != begin)
@@ -427,7 +427,7 @@ static StyleColor * lookup_color (const char *str, const char *end);
 static void
 format_compile (StyleFormat *format)
 {
-	unsigned char const *fmt, *real_start = NULL;
+	gchar const *fmt, *real_start = NULL;
 	StyleFormatEntry *entry = format_entry_ctor ();
 	int num_entries = 1, counter = 0;
 	GSList *ptr;
@@ -439,8 +439,8 @@ format_compile (StyleFormat *format)
 
 		switch (*fmt) {
 		case '[': {
-			unsigned char const *begin = fmt + 1;
-			unsigned char const *end = begin;
+			gchar const *begin = fmt + 1;
+			gchar const *end = begin;
 
 			/* find end checking for escapes but not quotes ?? */
 			for (; end[0] != ']' && end[1] != '\0' ; ++end)
@@ -613,14 +613,14 @@ format_color_shutdown (void)
 }
 
 static struct FormatColor const *
-lookup_color_by_name (unsigned char const *str, unsigned char const *end,
+lookup_color_by_name (gchar const *str, gchar const *end,
 		      gboolean const translate)
 {
 	int i, len;
 
 	len = end - str;
 	for (i = 0; format_colors[i].name; i++) {
-		char const *name = format_colors[i].name;
+		gchar const *name = format_colors[i].name;
 		if (translate)
 			name = _(name);
 
@@ -631,7 +631,7 @@ lookup_color_by_name (unsigned char const *str, unsigned char const *end,
 }
 
 static StyleColor *
-lookup_color (const char *str, const char *end)
+lookup_color (const gchar *str, const gchar *end)
 {
 	struct FormatColor const *color = lookup_color_by_name (str, end, FALSE);
 
@@ -649,8 +649,8 @@ render_number (GString *result,
 	       format_info_t const *info)
 {
 	char thousands_sep = format_get_thousand ();
-	unsigned char num_buf[(DBL_MANT_DIG + DBL_MAX_EXP) * 2 + 1];
-	unsigned char *num = num_buf + sizeof (num_buf) - 1;
+	char num_buf[(DBL_MANT_DIG + DBL_MAX_EXP) * 2 + 1];
+	gchar *num = num_buf + sizeof (num_buf) - 1;
 	double frac_part, int_part;
 	int group, zero_count, digit_count = 0;
 	int left_req = info->left_req;
@@ -977,7 +977,7 @@ static gchar *
 format_number (gdouble number, int col_width, StyleFormatEntry const *entry)
 {
 	GString *result = g_string_new ("");
-	char const *format = entry->format;
+	guchar const *format = (guchar *)(entry->format);
 	format_info_t info;
 	gboolean can_render_number = FALSE;
 	int hour_seen = 0;
@@ -1130,9 +1130,9 @@ format_number (gdouble number, int col_width, StyleFormatEntry const *entry)
 					char *end;
 
 					errno = 0;
-					denominator = strtol (format + 1, &end, 10);
-					if (format + 1 != end && errno != ERANGE) {
-						format = end;
+					denominator = strtol ((char *)format + 1, &end, 10);
+					if ((char *)format + 1 != end && errno != ERANGE) {
+						format = (guchar *)end;
 						numerator = (int)((number - (int)number) * denominator + 0.5);
 					}
 				} else {

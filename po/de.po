@@ -47,7 +47,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0.x\n"
-"POT-Creation-Date: 2002-01-06 18:22+0100\n"
+"POT-Creation-Date: 2002-01-06 14:06-0500\n"
 "PO-Revision-Date: 2002-01-01 17:19+0100\n"
 "Last-Translator: Mihael Vrbanec <miqster@gmx.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
@@ -84,7 +84,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Funktionen aus dem Finanzbereich"
 
 #: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4465
-#: plugins/mps/mps.c:579 src/xml-io.c:3447
+#: plugins/mps/mps.c:579 src/xml-io.c:3449
 msgid "Reading file..."
 msgstr "Die Datei wird gelesen..."
 
@@ -2597,7 +2597,7 @@ msgstr "Kumulative %"
 msgid "Error '%s' opening workbook stream"
 msgstr "Fehler »%s« beim Öffnen des workbook-Streams"
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3470
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3472
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ungültige XML-Datei. Ist der Baum leer?"
 
@@ -3948,28 +3948,28 @@ msgid "val != bound                  (not equal to)"
 msgstr "Eingabe != Wert               (ungleich)"
 
 #: src/dialogs/cell-format.glade.h:130
-msgid "val >  bound                  (greater than)"
-msgstr "Eingabe > Wert                (größer als)"
-
-#: src/dialogs/cell-format.glade.h:131
-msgid "val >=bound                  (greater than or equal to)"
-msgstr "Eingabe >= Wert              (wenigstens)"
-
-#: src/dialogs/cell-format.glade.h:132
 msgid "val <  bound                  (less than)"
 msgstr "Eingabe < Wert                (kleiner als)"
 
-#: src/dialogs/cell-format.glade.h:133
+#: src/dialogs/cell-format.glade.h:131
 msgid "val <= min || max <= val (not between)"
 msgstr "Eingabe <= Min  oder  Max <= Eingabe  (nicht dazwischen)"
 
-#: src/dialogs/cell-format.glade.h:134
+#: src/dialogs/cell-format.glade.h:132
 msgid "val <=bound                  (less than or equal to)"
 msgstr "Eingabe <= Wert              (höchstens)"
 
-#: src/dialogs/cell-format.glade.h:135
+#: src/dialogs/cell-format.glade.h:133
 msgid "val == bound                 (equal to)"
 msgstr "Eingabe == Wert              (gleich)"
+
+#: src/dialogs/cell-format.glade.h:134
+msgid "val >  bound                  (greater than)"
+msgstr "Eingabe > Wert                (größer als)"
+
+#: src/dialogs/cell-format.glade.h:135
+msgid "val >=bound                  (greater than or equal to)"
+msgstr "Eingabe >= Wert              (wenigstens)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A header"
@@ -5275,15 +5275,15 @@ msgstr "Für die Suche müssen Sie einige Zelltypen auswählen."
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Sind Sie sicher, dass Sie das Blatt »%s« entfernen wollen?"
 
-#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:2
+#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:1
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:1
+#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
 msgid "="
 msgstr "="
 
@@ -5328,21 +5328,21 @@ msgstr "Sie müssen wenigstens ein zu exportierendes Blatt auswählen."
 msgid "Are you sure you want to cancel?"
 msgstr "Sind Sie sicher, dass Sie abbrechen wollen?"
 
-#: src/dialogs/dialog-stf-export.glade.h:1
-msgid "<- Remove"
-msgstr "<- Entfernen"
-
-#: src/dialogs/dialog-stf-export.glade.h:2
-msgid "<- Remove all"
-msgstr "<- Alle entfernen"
-
-#: src/dialogs/dialog-stf-export.glade.h:3 src/dialogs/dialog-stf.glade.h:1
+#: src/dialogs/dialog-stf-export.glade.h:1 src/dialogs/dialog-stf.glade.h:1
 msgid "\""
 msgstr "\""
 
-#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
+#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
 msgstr "'"
+
+#: src/dialogs/dialog-stf-export.glade.h:3
+msgid "<- Remove"
+msgstr "<- Entfernen"
+
+#: src/dialogs/dialog-stf-export.glade.h:4
+msgid "<- Remove all"
+msgstr "<- Alle entfernen"
 
 #: src/dialogs/dialog-stf-export.glade.h:5
 msgid "Add ->"
@@ -6265,7 +6265,7 @@ msgid "Scale"
 msgstr "Skalierung"
 
 #: src/dialogs/print.glade.h:25 src/functions/fn-sheet.c:141
-#: src/workbook.c:1065 src/xml-io.c:3155
+#: src/workbook.c:1065 src/xml-io.c:3157
 msgid "Sheet"
 msgstr "Blatt"
 
@@ -16192,7 +16192,7 @@ msgid "Unable to mmap the file."
 msgstr ""
 "Es ist nicht möglich, die Datei in einen Speicherbereich zu legen (mmap)."
 
-#: src/plugin-util.c:313 src/xml-io.c:3436
+#: src/plugin-util.c:313 src/xml-io.c:3438
 msgid "Cannot get file size."
 msgstr "Es ist nicht möglich, die Größe der Datei festzustellen."
 
@@ -17447,30 +17447,30 @@ msgid "Error while trying to build tree from autoformat template file"
 msgstr ""
 "Fehler beim Versuch, einen Baum von einer Autoformat-Vorlage zu bilden."
 
-#: src/xml-io.c:2870
+#: src/xml-io.c:2872
 msgid "Unparsable xml in clipboard"
 msgstr "Nicht parsebares XML in der Zwischenablage"
 
-#: src/xml-io.c:2877
+#: src/xml-io.c:2879
 msgid "Clipboard is in unknown format"
 msgstr "Zwischenablage hat ein unbekanntes Format"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3281
+#: src/xml-io.c:3283
 msgid "Processing file..."
 msgstr "Datei wird eingelesen..."
 
-#: src/xml-io.c:3444
+#: src/xml-io.c:3446
 msgid "Not enough memory to create zlib decompression state."
 msgstr "Ungenügend Speicher verfügbar, um zlib-Kompression zu erlauben. "
 
-#: src/xml-io.c:3479
+#: src/xml-io.c:3481
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Ist keine gnumeric-Arbeitsbuch-Datei"
 
-#: src/xml-io.c:3536
+#: src/xml-io.c:3538
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric-XML-Dateiformat"
 

@@ -109,7 +109,7 @@ typedef struct {
         guchar *data, *cur;
 
         gint   line_no;
-        guchar *line;
+        gchar *line;
         gint   line_len, alloc_line_len;
   
         Sheet  *sheet;
@@ -930,13 +930,13 @@ static gboolean
 mps_parse_name (MpsInputContext *ctxt)
 {
         while (1) {
-	        guchar *line;
+	        gchar *line;
 
 		if (!mps_get_line (ctxt))
 		        return FALSE;
 
 		if (strncmp (ctxt->line, "NAME", 4) == 0
-		    && isspace ((unsigned char) ctxt->line[4])) {
+		    && isspace (ctxt->line[4])) {
 		        line = ctxt->line + 5;
 			while (isspace ((unsigned char) *line))
 			        line++;

@@ -1,3 +1,25 @@
+2002-01-06  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.1
+
+2001-12-30  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* xml-sax-read.c (xml_sax_attr_double) : cast to deal with char 
+	  (un)signedness
+	* xml-sax-read.c (xml_sax_double) : ditto
+	* xml-sax-read.c (xml_sax_attr_bool) : ditto
+	* xml-sax-read.c (xml_sax_attr_int) : ditto
+	* xml-sax-read.c (xml_sax_int) : ditto
+	* xml-sax-read.c (xml_sax_attr_cellpos) : ditto
+	* xml-sax-read.c (xml_sax_color) : ditto
+	* xml-sax-read.c (XMLSaxParseState) : ditto
+	* xml-sax-read.c (xml_sax_sheet_zoom) : ditto
+	* xml-sax-read.c (xml_sax_styleregion_start) : ditto
+	* xml-sax-read.c (xml_sax_validation) : ditto
+	* xml-sax-read.c (xml_sax_style_condition_expr) : ditto
+	* xml-sax-read.c (xml_sax_cell) : ditto
+	* xml-sax-read.c (xml_sax_cell_content) : ditto
+
 2002-01-03  Jody Goldberg <jody@gnome.org>
 
 	* xml-sax-read.c (xml_sax_style_condition_expr) : no need to unref expr.

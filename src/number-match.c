@@ -117,7 +117,7 @@ char_to_re (char dst[3], char c)
 #define append_type(t) do { guint8 x = t; match_types = g_byte_array_append (match_types, &x, 1); } while (0)
 
 static char *
-format_create_regexp (unsigned char const *format, GByteArray **dest)
+format_create_regexp (char const *format, GByteArray **dest)
 {
 	GString *regexp;
 	GByteArray *match_types;
@@ -381,7 +381,7 @@ format_create_regexp (unsigned char const *format, GByteArray **dest)
 
 			/* Matches a string */
 		case '"': {
-			const unsigned char *p, *q;
+			const char *p, *q;
 
 			for (p = format + 1; *p && *p != '"'; p++)
 				; /* Nothing */
@@ -757,7 +757,7 @@ compute_value (char const *s, const regmatch_t *mp,
 {
 	int const len = array->len;
 	gnum_float number = 0.0;
-	gchar *data = array->data;
+	guchar *data = array->data;
 	gboolean percentify = FALSE;
 	gboolean is_number  = FALSE;
 	gboolean is_pm      = FALSE;

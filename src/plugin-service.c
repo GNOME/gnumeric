@@ -365,8 +365,8 @@ input_file_save_info_read (xmlNode *tree)
 	g_return_val_if_fail (tree != NULL, NULL);
 	g_return_val_if_fail (strcmp (tree->name, "save_info") == 0, NULL);
 
-	saver_id_str = e_xml_get_string_prop_by_name (tree, "saver_id");
-	format_level_str = e_xml_get_string_prop_by_name (tree, "format_level");
+	saver_id_str = e_xml_get_string_prop_by_name (tree, (xmlChar *)"saver_id");
+	format_level_str = e_xml_get_string_prop_by_name (tree, (xmlChar *)"format_level");
 
 	save_info = g_new (InputFileSaveInfo, 1);
 	save_info->saver_id_str = saver_id_str != NULL ? saver_id_str : g_strdup ("");
@@ -391,13 +391,13 @@ plugin_service_file_opener_read (xmlNode *tree, ErrorInfo **ret_error)
 	g_return_val_if_fail (ret_error != NULL, NULL);
 
 	*ret_error = NULL;
-	id_str = e_xml_get_string_prop_by_name (tree, "id");
-	priority = e_xml_get_uint_prop_by_name_with_default (tree, "priority", 50);
+	id_str = e_xml_get_string_prop_by_name (tree, (xmlChar *)"id");
+	priority = e_xml_get_uint_prop_by_name_with_default (tree, (xmlChar *)"priority", 50);
 	priority = MIN (priority, (guint)100);
-	has_probe = e_xml_get_bool_prop_by_name_with_default (tree, "probe", TRUE);
-	can_open = e_xml_get_bool_prop_by_name_with_default (tree, "open", TRUE);
-	can_import = e_xml_get_bool_prop_by_name_with_default (tree, "import", FALSE);
-	information_node = e_xml_get_child_by_name (tree, "information");
+	has_probe = e_xml_get_bool_prop_by_name_with_default (tree, (xmlChar *)"probe", TRUE);
+	can_open = e_xml_get_bool_prop_by_name_with_default (tree, (xmlChar *)"open", TRUE);
+	can_import = e_xml_get_bool_prop_by_name_with_default (tree, (xmlChar *)"import", FALSE);
+	information_node = e_xml_get_child_by_name (tree, (xmlChar *)"information");
 	if (information_node != NULL) {
 		xmlNode *node;
 		xmlChar *val;
@@ -406,7 +406,7 @@ plugin_service_file_opener_read (xmlNode *tree, ErrorInfo **ret_error)
 		       information_node, "description", NULL);
 		if (node != NULL) {
 			val = xmlNodeGetContent (node);
-			description = g_strdup (val);
+			description = g_strdup ((gchar *)val);
 			xmlFree (val);
 		} else {
 			description = NULL;
@@ -420,17 +420,17 @@ plugin_service_file_opener_read (xmlNode *tree, ErrorInfo **ret_error)
 		PluginServiceFileOpener *service_file_opener;
 		InputFileSaveInfo *save_info;
 
-		file_patterns_node = e_xml_get_child_by_name (tree, "file_patterns");
+		file_patterns_node = e_xml_get_child_by_name (tree, (xmlChar *)"file_patterns");
 		if (file_patterns_node != NULL) {
 			for (node = file_patterns_node->xmlChildrenNode; node != NULL; node = node->next) {
 				InputFilePattern *file_pattern;
 				gchar *value, *type_str;
 
 				if (strcmp (node->name, "file_pattern") != 0 ||
-				    (value = e_xml_get_string_prop_by_name (node, "value")) == NULL) {
+				    (value = e_xml_get_string_prop_by_name (node, (xmlChar *)"value")) == NULL) {
 					continue;
 				}
-				type_str = e_xml_get_string_prop_by_name (node, "type");
+				type_str = e_xml_get_string_prop_by_name (node, (xmlChar *)"type");
 				file_pattern = g_new (InputFilePattern, 1);
 				file_pattern->value = value;
 				if (type_str == NULL) {
@@ -438,7 +438,7 @@ plugin_service_file_opener_read (xmlNode *tree, ErrorInfo **ret_error)
 				} else if (g_strcasecmp (type_str, "shell_pattern") == 0) {
 					file_pattern->pattern_type = FILE_PATTERN_SHELL;
 					file_pattern->case_sensitive = e_xml_get_bool_prop_by_name_with_default (
-					                               node, "case_sensitive", FALSE);
+					                               node, (xmlChar *)"case_sensitive", FALSE);
 				} else if (g_strcasecmp (type_str, "regexp") == 0) {
 					file_pattern->pattern_type = FILE_PATTERN_REGEXP;
 				} else {
@@ -450,7 +450,7 @@ plugin_service_file_opener_read (xmlNode *tree, ErrorInfo **ret_error)
 		}
 		file_patterns = g_list_reverse (file_patterns);
 
-		save_info_node = e_xml_get_child_by_name (tree, "save_info");
+		save_info_node = e_xml_get_child_by_name (tree, (xmlChar *)"save_info");
 		if (save_info_node != NULL) {
 			save_info = input_file_save_info_read (save_info_node);
 		} else {
@@ -467,7 +467,7 @@ plugin_service_file_opener_read (xmlNode *tree, ErrorInfo **ret_error)
 		service_file_opener->can_import = can_import;
 		if (can_import) {
 			service_file_opener->default_importer_priority =
-			e_xml_get_integer_prop_by_name_with_default (tree, "default_importer_priority", -1);
+			e_xml_get_integer_prop_by_name_with_default (tree, (xmlChar *)"default_importer_priority", -1);
 		}
 		service_file_opener->description = description;
 		service_file_opener->file_patterns = file_patterns;
@@ -667,11 +667,11 @@ plugin_service_file_saver_read (xmlNode *tree, ErrorInfo **ret_error)
 	g_return_val_if_fail (ret_error != NULL, NULL);
 
 	*ret_error = NULL;
-	id_str = e_xml_get_string_prop_by_name (tree, "id");
-	file_extension = e_xml_get_string_prop_by_name (tree, "file_extension");
-	format_level_str = e_xml_get_string_prop_by_name (tree, "format_level");
-	save_scope_str = e_xml_get_string_prop_by_name (tree, "save_scope");
-	information_node = e_xml_get_child_by_name (tree, "information");
+	id_str = e_xml_get_string_prop_by_name (tree, (xmlChar *)"id");
+	file_extension = e_xml_get_string_prop_by_name (tree, (xmlChar *)"file_extension");
+	format_level_str = e_xml_get_string_prop_by_name (tree, (xmlChar *)"format_level");
+	save_scope_str = e_xml_get_string_prop_by_name (tree, (xmlChar *)"save_scope");
+	information_node = e_xml_get_child_by_name (tree, (xmlChar *)"information");
 	if (information_node != NULL) {
 		xmlNode *node;
 		xmlChar *val;
@@ -680,7 +680,7 @@ plugin_service_file_saver_read (xmlNode *tree, ErrorInfo **ret_error)
 		       information_node, "description", NULL);
 		if (node != NULL) {
 			val = xmlNodeGetContent (node);
-			description = g_strdup (val);
+			description = g_strdup ((gchar *)val);
 			xmlFree (val);
 		} else {
 			description = NULL;
@@ -700,12 +700,12 @@ plugin_service_file_saver_read (xmlNode *tree, ErrorInfo **ret_error)
 		service_file_saver->format_level = parse_format_level_str (format_level_str,
 		                                                           FILE_FL_WRITE_ONLY);
 		service_file_saver->default_saver_priority = e_xml_get_integer_prop_by_name_with_default (
-		                                             tree, "default_saver_priority", -1);
+		                                             tree, (xmlChar *)"default_saver_priority", -1);
 		service_file_saver->save_scope = (save_scope_str != NULL &&
 		                                 g_strcasecmp (save_scope_str, "sheet") == 0) ?
 		                                 FILE_SAVE_SHEET : FILE_SAVE_WORKBOOK;
 		service_file_saver->overwrite_files = e_xml_get_bool_prop_by_name_with_default (
-		                                      tree, "overwrite_files", TRUE);
+		                                      tree, (xmlChar *)"overwrite_files", TRUE);
 		service_file_saver->plugin_func_file_save = NULL;
 	} else {
 		if (id_str == NULL) {
@@ -804,13 +804,13 @@ plugin_service_function_group_read (xmlNode *tree, ErrorInfo **ret_error)
 	g_return_val_if_fail (ret_error != NULL, NULL);
 
 	*ret_error = NULL;
-	group_id = e_xml_get_string_prop_by_name (tree, "id");
+	group_id = e_xml_get_string_prop_by_name (tree, (xmlChar *)"id");
 	category_node = e_xml_get_child_by_name_no_lang (tree, "category");
 	if (category_node != NULL) {
 		xmlChar *val;
 
 		val = xmlNodeGetContent (category_node);
-		category_name = g_strdup (val);
+		category_name = g_strdup ((gchar *)val);
 		xmlFree (val);
 	} else {
 		category_name = NULL;
@@ -819,12 +819,12 @@ plugin_service_function_group_read (xmlNode *tree, ErrorInfo **ret_error)
 	if (translated_category_node != NULL) {
 		gchar *lang;
 
-		lang = e_xml_get_string_prop_by_name (translated_category_node, "xml:lang");
+		lang = e_xml_get_string_prop_by_name (translated_category_node, (xmlChar *)"xml:lang");
 		if (lang != NULL) {
 			xmlChar *val;
 
 			val = xmlNodeGetContent (translated_category_node);
-			translated_category_name = g_strdup (val);
+			translated_category_name = g_strdup ((gchar *)val);
 			xmlFree (val);
 			g_free (lang);
 		} else {
@@ -833,7 +833,7 @@ plugin_service_function_group_read (xmlNode *tree, ErrorInfo **ret_error)
 	} else {
 		translated_category_name = NULL;
 	}
-	functions_node = e_xml_get_child_by_name (tree, "functions");
+	functions_node = e_xml_get_child_by_name (tree, (xmlChar *)"functions");
 	if (functions_node != NULL) {
 		xmlNode *node;
 
@@ -841,7 +841,7 @@ plugin_service_function_group_read (xmlNode *tree, ErrorInfo **ret_error)
 			gchar *func_name;
 
 			if (strcmp (node->name, "function") != 0 ||
-			    (func_name = e_xml_get_string_prop_by_name (node, "name")) == NULL) {
+			    (func_name = e_xml_get_string_prop_by_name (node, (xmlChar *)"name")) == NULL) {
 				continue;
 			}
 			function_name_list = g_list_prepend (function_name_list, func_name);
@@ -1023,7 +1023,7 @@ plugin_service_plugin_loader_read (xmlNode *tree, ErrorInfo **ret_error)
 	g_return_val_if_fail (ret_error != NULL, NULL);
 
 	*ret_error = NULL;
-	loader_id = e_xml_get_string_prop_by_name (tree, "id");
+	loader_id = e_xml_get_string_prop_by_name (tree, (xmlChar *)"id");
 	if (loader_id != NULL) {
 		PluginServicePluginLoader *service_plugin_loader;
 
@@ -1178,7 +1178,7 @@ plugin_service_read (xmlNode *tree, ErrorInfo **ret_error)
 	g_return_val_if_fail (ret_error != NULL, NULL);
 
 	*ret_error = NULL;
-	type_str = e_xml_get_string_prop_by_name (tree, "type");
+	type_str = e_xml_get_string_prop_by_name (tree, (xmlChar *)"type");
 	if (g_strcasecmp (type_str, "general") == 0) {
 		service = plugin_service_general_read (tree, &service_error);
 	} else if (g_strcasecmp (type_str, "file_opener") == 0) {

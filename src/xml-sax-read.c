@@ -79,7 +79,7 @@ xml_sax_attr_double (xmlChar const * const *attrs, char const *name, double * re
 	if (strcmp (attrs[0], name))
 		return FALSE;
 
-	tmp = g_strtod (attrs[1], &end);
+	tmp = g_strtod ((gchar *)attrs[1], &end);
 	if (*end) {
 		g_warning ("Invalid attribute '%s', expected double, received '%s'",
 			   name, attrs[1]);
@@ -92,7 +92,7 @@ static gboolean
 xml_sax_double (xmlChar const *chars, double *res)
 {
 	char *end;
-	*res = g_strtod (chars, &end);
+	*res = g_strtod ((gchar *)chars, &end);
 	return *end == '\0';
 }
 
@@ -106,7 +106,7 @@ xml_sax_attr_bool (xmlChar const * const *attrs, char const *name, int *res)
 	if (strcmp (attrs[0], name))
 		return FALSE;
 
-	*res = g_strcasecmp (attrs[1], "false") && strcmp (attrs[1], "0");
+	*res = g_strcasecmp ((gchar *)attrs[1], "false") && strcmp (attrs[1], "0");
 
 	return TRUE;
 }
@@ -124,7 +124,7 @@ xml_sax_attr_int (xmlChar const * const *attrs, char const *name, int *res)
 	if (strcmp (attrs[0], name))
 		return FALSE;
 
-	tmp = strtol (attrs[1], &end, 10);
+	tmp = strtol ((gchar *)attrs[1], &end, 10);
 	if (*end) {
 		g_warning ("Invalid attribute '%s', expected integer, received '%s'",
 			   name, attrs[1]);
@@ -138,7 +138,7 @@ static gboolean
 xml_sax_int (xmlChar const *chars, int *res)
 {
 	char *end;
-	*res = strtol (chars, &end, 10);
+	*res = strtol ((gchar *)chars, &end, 10);
 	return *end == '\0';
 }
 
@@ -154,7 +154,7 @@ xml_sax_attr_cellpos (xmlChar const * const *attrs, char const *name, CellPos *v
 	if (strcmp (attrs[0], name))
 		return FALSE;
 
-	if (!parse_cell_name (attrs[1], &tmp.col, &tmp.row, TRUE, NULL)) {
+	if (!parse_cell_name ((gchar *)attrs[1], &tmp.col, &tmp.row, TRUE, NULL)) {
 		g_warning ("Invalid attribute '%s', expected cellpos, received '%s'",
 			   name, attrs[1]);
 		return FALSE;
@@ -175,7 +175,7 @@ xml_sax_color (xmlChar const * const *attrs, char const *name, StyleColor **res)
 	if (strcmp (attrs[0], name))
 		return FALSE;
 
-	if (sscanf (attrs[1], "%X:%X:%X", &red, &green, &blue) != 3){
+	if (sscanf ((gchar *)attrs[1], "%X:%X:%X", &red, &green, &blue) != 3){
 		g_warning ("Invalid attribute '%s', expected colour, received '%s'",
 			   name, attrs[1]);
 		return FALSE;
@@ -477,7 +477,7 @@ typedef struct _XMLSaxParseState
 	CellPos cell;
 	int expr_id, array_rows, array_cols;
 	int value_type;
-	char const *value_fmt;
+	unsigned char const *value_fmt;
 
 	GString *content;
 
@@ -694,7 +694,7 @@ xml_sax_attr_elem (XMLSaxParseState *state)
 	case STATE_WB_ATTRIBUTES_ELEM_TYPE :
 	{
 		int type;
-		if (xml_sax_int (content, &type))
+		if (xml_sax_int ((xmlChar *)content, &type))
 			state->attribute.type = type;
 		break;
 	}
@@ -794,7 +794,7 @@ xml_sax_sheet_zoom (XMLSaxParseState *state)
 
 	g_return_if_fail (state->sheet != NULL);
 
-	if (xml_sax_double (content, &zoom))
+	if (xml_sax_double ((xmlChar *)content, &zoom))
 		state->sheet_zoom = zoom;
 }
 
@@ -1077,7 +1077,7 @@ xml_sax_styleregion_start (XMLSaxParseState *state, xmlChar const **attrs)
 		else if (xml_sax_color (attrs, "PatternColor", &colour))
 			mstyle_set_color (state->style, MSTYLE_COLOR_PATTERN, colour);
 		else if (!strcmp (attrs[0], "Format"))
-			mstyle_set_format_text (state->style, attrs[1]);
+			mstyle_set_format_text (state->style, (char *)attrs[1]);
 		else if (xml_sax_attr_int (attrs, "Hidden", &val))
 			mstyle_set_content_hidden (state->style, val);
 		else if (xml_sax_attr_int (attrs, "Locked", &val))
@@ -1177,9 +1177,9 @@ xml_sax_validation (XMLSaxParseState *state, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (xml_sax_attr_int (attrs, "Style", (int *) &state->validation.vs)) {
 		} else if (!strcmp (attrs[0], "Title")) {
-			state->validation.title = g_strdup (attrs[1]);
+			state->validation.title = g_strdup ((gchar *)attrs[1]);
 		} else if (!strcmp (attrs[0], "Message")) {
-			state->validation.msg = g_strdup (attrs[1]);			
+			state->validation.msg = g_strdup ((gchar *)attrs[1]);			
 		} else
 			xml_sax_unknown_attr (state, attrs, "StyleCondition");
 	}
@@ -1239,7 +1239,7 @@ xml_sax_style_condition_expr (XMLSaxParseState *state, xmlChar const **attrs)
 {
 	StyleConditionOperator op = -1;
 	StyleCondition *sc;
-	char const *cexpr = NULL;
+	unsigned char const *cexpr = NULL;
 	ExprTree *expr = NULL;
 	
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
@@ -1254,7 +1254,7 @@ xml_sax_style_condition_expr (XMLSaxParseState *state, xmlChar const **attrs)
 		ParsePos pos, *pp;
 		
 		pp = parse_pos_init (&pos, state->wb, state->sheet, 0, 0);
-		if ((expr = expr_parse_str_simple (cexpr, pp)) == NULL)
+		if ((expr = expr_parse_str_simple ((char *)cexpr, pp)) == NULL)
 			g_warning ("XML-IO: empty/missing expression in StyleCondition");
 	} else
 		g_warning ("StyleConditionExpression without Expression!");
@@ -1327,7 +1327,7 @@ xml_sax_cell (XMLSaxParseState *state, xmlChar const **attrs)
 	int row = -1, col = -1;
 	int rows = -1, cols = -1;
 	int value_type = -1;
-	char const *value_fmt = NULL;
+	unsigned char const *value_fmt = NULL;
 	int expr_id = -1;
 
 	g_return_if_fail (state->cell.row == -1);
@@ -1453,7 +1453,7 @@ xml_sax_cell_content (XMLSaxParseState *state)
 	int const array_rows = state->array_rows;
 	int const expr_id = state->expr_id;
 	int const value_type = state->value_type;
-	char const *value_fmt =state->value_fmt;
+	unsigned char const *value_fmt =state->value_fmt;
 	gpointer const id = GINT_TO_POINTER (expr_id);
 	gpointer expr = NULL;
 
@@ -1492,7 +1492,7 @@ xml_sax_cell_content (XMLSaxParseState *state)
 			if (value_type > 0) {
 				Value *v = value_new_from_string (value_type, content);
 				StyleFormat *sf = (value_fmt != NULL)
-					? style_format_new_XL (value_fmt, FALSE)
+					? style_format_new_XL ((char *)value_fmt, FALSE)
 					: NULL;
 				cell_set_value (cell, v, sf);
 			} else

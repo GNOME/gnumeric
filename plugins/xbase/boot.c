@@ -73,9 +73,9 @@ xb_setdouble (guint8 *p, double d)
 #endif
 
 static Value *
-xbase_field_as_value (guint8 *content, XBfield *field)
+xbase_field_as_value (gchar *content, XBfield *field)
 {
-	guint8 *s = g_strndup (content, field->len);
+	gchar *s = g_strndup (content, field->len);
 	Value *val;
 
 	switch (field->type) {

@@ -1,3 +1,7 @@
+2002-01-06  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.1
+
 2002-01-05  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control.c (wb_control_parse_and_jump) : rename from
@@ -20,6 +24,118 @@
 2002-01-03  Morten Welinder  <terra@diku.dk>
 
 	* src/datetime.c (datetime_serial_to_timet): New function.
+
+2002-01-03  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* src/auto-correct.c (autocorrect_tool) : casts to deal with character 
+	  (un)signedness.
+	* src/format.c (format_entry_dtor) : switch to gchar to deal with
+	  character (un)signeness.
+	* src/format.c (lookup_color) : ditto
+	* src/format.c (lookup_color_by_name) : ditto
+	* src/format.c (render_number) : ditto
+	* src/format.c (format_number) : switch to guchar; some casts
+	* src/format.c (append_hour_elapsed) : plain char
+	* src/format.c (append_minute_elapsed) : ditto
+	* src/format.c (append_second_elapsed) : ditto
+	* src/gui-clipboard.c (x_selection_to_cell_region) : type changes
+	  and casts.
+	* src/gui-clipboard.c (x_selection_handler) : casts.
+	* src/number-match.c (format_create_regexp) : type changes
+	* src/number-match.c (compute_value) : type changes
+	* src/plugin-service.c (input_file_save_info_read) : casts
+	* src/plugin-service.c (plugin_service_file_opener_read): ditto
+	* src/plugin-service.c (plugin_service_file_saver_read): ditto
+	* src/plugin-service.c (plugin_service_function_group_read): ditto
+	* src/plugin-service.c (plugin_service_read): ditto
+	* src/plugin.c (plugin_info_read_dependency_list) : casts
+	* src/plugin.c (plugin_info_read_loader_static_info) : casts
+	* src/plugin.c (plugin_info_read) : casts
+	* src/sheet.c (sheet_name_quote) : type change
+	* src/sheet-object.c (sheet_object_read_xml) : casts
+	* src/sheet-object.c (sheet_object_write_xml) : casts
+	* src/sheet-object-cell-comment.c (cell_comment_read_xml) : type 
+          changes; casts
+	* src/sheet-object-widget.c (sheet_widget_label_read_xml) : type 
+	  changes; casts
+	* src/sheet-object-widget.c (sheet_widget_frame_read_xml) : ditto
+	* src/sheet-object-widget.c (sheet_widget_button_read_xml) : ditto
+	* src/sheet-object-widget.c (sheet_widget_checkbox_read_xml) : ditto
+	* src/stf-parse.c (stf_parse_options_valid) : use plain char
+	* src/stf-parse.c (stf_parse_convert_to_unix) : ditto
+	* src/style-border.c : use gint8 rather than unsigned char in patterns.
+	* src/workbook.c (workbook_signals): guint rather than gint.
+	* src/xml-io.c (xml_arg_get) : signedness fixes
+	* src/xml-io.c (xml_node_get_int) : ditto
+	* src/xml-io.c (xml_node_get_double) : ditto
+	* src/xml-io.c (xml_node_get_color) : ditto
+	* src/xml-io.c (xml_node_get_cellpos) : ditto
+	* src/xml-io.c (xml_node_set_print_unit) : ditto
+	* src/xml-io.c (xml_read_selection_info) : ditto
+	* src/xml-io.c (xml_write_selection_info) : ditto
+	* src/xml-io.c (xml_write_style_border) : ditto
+	* src/xml-io.c (xml_read_style_border) : ditto
+	* src/xml-io.c (xml_write_style_condition_chain) : ditto
+	* src/xml-io.c (xml_read_style_condition_chain) : ditto
+	* src/xml-io.c (xml_write_style) : ditto
+	* src/xml-io.c (xml_read_names) : ditto
+	* src/xml-io.c (xml_write_summary) : ditto
+	* src/xml-io.c (xml_read_summary) : ditto
+	* src/xml-io.c (xml_node_set_print_hf) : ditto
+	* src/xml-io.c (xml_node_get_print_hf) : ditto
+	* src/xml-io.c (xml_write_attribute) : ditto
+	* src/xml-io.c (xml_write_attributes) : ditto
+	* src/xml-io.c (xml_read_attribute) : ditto
+	* src/xml-io.c (xml_read_attributes) : ditto
+	* src/xml-io.c (xml_write_print_repeat_range) : ditto
+	* src/xml-io.c (xml_write_print_info) : ditto
+	* src/xml-io.c (xml_read_print_margins) : ditto
+	* src/xml-io.c (xml_read_print_repeat_range) : ditto
+	* src/xml-io.c (xml_read_print_info) : ditto
+	* src/xml-io.c (xml_read_style) : ditto
+	* src/xml-io.c (xml_write_style_region) : ditto
+	* src/xml-io.c (xml_write_colrow_info) : ditto
+	* src/xml-io.c (xml_write_cell_and_position) : ditto
+	* src/xml-io.c (xml_read_cell) : ditto
+	* src/xml-io.c (xml_write_merged_regions) : ditto
+	* src/xml-io.c (xml_read_sheet_layout) : ditto
+	* src/xml-io.c (xml_write_styles) : ditto
+	* src/xml-io.c (xml_read_solver) : ditto
+	* src/xml-io.c (xml_write_solver) : ditto
+	* src/xml-io.c (xml_sheet_write) : ditto
+	* src/xml-io.c (xml_read_merged_regions) : ditto
+	* src/xml-io.c (xml_read_styles) : ditto
+	* src/xml-io.c (xml_read_cols_info) : ditto
+	* src/xml-io.c (xml_read_rows_info) : ditto
+	* src/xml-io.c (xml_read_cell_styles) : ditto
+	* src/xml-io.c (xml_sheet_read) : ditto
+	* src/xml-io.c (xml_read_cell_copy) : ditto
+	* src/xml-io.c (xml_cellregion_read) : ditto
+	* src/xml-io.c (xml_cellregion_write) : ditto
+	* src/xml-io.c (xml_check_version) : ditto
+	* src/xml-io.c (xml_workbook_write) : ditto
+	* src/xml-io.c (xml_sheet_create) : ditto
+	* src/xml-io.c (xml_read_sheet_n_elements) : ditto
+	* src/xml-io.c (xml_workbook_read) : ditto
+	* src/xml-io.c (gnumeric_xml_write_workbook) : ditto
+	* src/xml-io-autoft.c (xml_write_format_col_row_info) : casts
+	* src/xml-io-autoft.c (xml_write_format_template_member) : casts
+	* src/xml-io-autoft.c (xml_write_format_template_members) : casts
+	* src/xml-io-autoft.c (gnumeric_xml_write_format_template) : casts
+	* src/xml-io-autoft.c (xml_read_format_col_row_info) : casts
+	* src/xml-io-autoft.c (xml_read_format_template_member) : casts
+	* src/xml-io-autoft.c (xml_read_format_template_members) : casts
+	* src/xml-io-autoft.c (gnumeric_xml_read_format_template) : casts
+	* src/xml-io-autoft.c (gnumeric_xml_read_format_template_category) : casts
+	* src/bonobo-io.c (write_stream_to_storage) : cast / type change.
+	* src/bonobo-io.c (gnumeric_bonobo_obj_write) : ditto
+	* src/bonobo-io.c (gnumeric_bonobo_obj_read) : ditto
+	* src/bonobo-io.c (gnumeric_bonobo_write_workbook) : ditto
+	* src/bonobo-io.c (hack_xmlSAXParseFile) : ditto
+	* src/gnumeric-graph.c (gnm_graph_get_spec) : casts
+	* src/gnumeric-graph.c (gnm_graph_read_xml) : ditto
+	* src/gnumeric-graph.c (gnm_graph_series_get_dimension) : ditto
+	* src/gnumeric-graph.c (gnm_graph_write_xml) : ditto
 
 2002-01-03  Jody Goldberg <jody@gnome.org>
 

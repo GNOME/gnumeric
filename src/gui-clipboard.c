@@ -37,14 +37,14 @@
 #define TARGETS_ATOM_NAME "TARGETS"
 
 static CellRegion *
-x_selection_to_cell_region (WorkbookControlGUI *wbcg, const char *src, int len)
+x_selection_to_cell_region (WorkbookControlGUI *wbcg, const guchar *src, int len)
 {
 	DialogStfResult_t *dialogresult;
 	CellRegion *cr = NULL;
-	unsigned char *data;
-	unsigned char const *c;
+	char *data;
+	char const *c;
 
-	data = g_new (unsigned char, len + 1);
+	data = g_new (char, len + 1);
 	memcpy (data, src, len);
 	data[len] = 0;
 
@@ -288,14 +288,14 @@ x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data,
 		int buffer_size;
 		xmlChar *buffer = xml_cellregion_write (wbc, clipboard, &buffer_size);
 		gtk_selection_data_set (selection_data, GDK_SELECTION_TYPE_STRING, 8,
-					(char *) buffer, buffer_size);
+					(guchar *) buffer, buffer_size);
 		xmlFree (buffer);
 		to_gnumeric = TRUE;
 	} else {
 		char *rendered_selection = cellregion_to_string (clipboard);
 
 		gtk_selection_data_set (selection_data, GDK_SELECTION_TYPE_STRING, 8,
-					rendered_selection, strlen (rendered_selection));
+					(guchar *) rendered_selection, strlen (rendered_selection));
 
 		g_free (rendered_selection);
 	}

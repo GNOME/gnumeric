@@ -1806,6 +1806,36 @@
 
 
 
+  <refentry id="gnumeric-DATE2UNIX">
+    <refmeta>
+      <refentrytitle>DATE2UNIX</refentrytitle>
+    </refmeta>
+    <refnamediv>
+      <refname>DATE2UNIX</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>DATE2UNIX(serial)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>DATE2UNIX converts a spreadsheet date and time serial number into a unix time.</para>
+        <para></para>        <para>A unix time is the number of seconds since midnight January 1, 1970.</para>        <para></para>
+    </refsect1>      <refsect1>
+        <title>Examples</title>
+        <para></para>
+        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-NOW">NOW</link>,
+        <link linkend="gnumeric-DATE">DATE</link>,
+        <link linkend="gnumeric-UNIX2DATE">UNIX2DATE</link>.
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
   <refentry id="gnumeric-DATEDIF">
     <refmeta>
       <refentrytitle>DATEDIF</refentrytitle>
@@ -3672,6 +3702,33 @@
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-DELTA">DELTA</link>.
       </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry id="gnumeric-GETENV">
+    <refmeta>
+      <refentrytitle>GETENV</refentrytitle>
+    </refmeta>
+    <refnamediv>
+      <refname>GETENV</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>GETENV(string)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>GETENV retrieves a value from the execution environment.</para>
+        <para></para>        <para>If the variable specified by @STRING does not exist, #N/A! will be returned.  Note, that variable names are case sensitive.</para>
+    </refsect1>      <refsect1>
+        <title>Examples</title>
+        <para></para>
+        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>      </para>
     </refsect1>
   </refentry>
 
@@ -6837,8 +6894,8 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>PERCENTRANK function returns the rank of a data point in a data set.  @array is the range of numeric values, @x is the data point which you want to rank, and the optional @significance indentifies the number of significant digits for the returned value.  If @significance is omitted, PERCENTRANK uses three digits.</para>
-        <para>If @array contains no data points, PERCENTRANK returns #NUM! error. If @significance is less than one, PERCENTRANK returns #NUM! error. If @x does not match any of the values in @array or @x matches more than once, PERCENTRANK interpolates the returned value.</para>
+        <para>PERCENTRANK function returns the rank of a data point in a data set.  @array is the range of numeric values, @x is the data point which you want to rank, and the optional @significance indentifies the number of significant digits for the returned value, truncating the remainder.  If @significance is omitted, PERCENTRANK uses three digits.</para>
+        <para>If @array contains no data points, PERCENTRANK returns #NUM! error.</para>        <para>If @significance is less than one, PERCENTRANK returns #NUM! error.</para>        <para>If @x exceeds the largest value or is less than the smallest value in @array, PERCENTRANK returns #NUM! error.</para>        <para>If @x does not match any of the values in @array or @x matches more than once, PERCENTRANK interpolates the returned value.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -6899,8 +6956,8 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>PI functions returns the value of Pi.</para>
-        <para>This function is called with no arguments.</para>        <para>This function is Excel compatible.</para>
+        <para>PI functions returns the value of pi.</para>
+        <para>This function is called with no arguments.</para>        <para>This function is Excel compatible, except that it returns pi with a better precision.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -9403,6 +9460,36 @@
 
 
 
+  <refentry id="gnumeric-UNIX2DATE">
+    <refmeta>
+      <refentrytitle>UNIX2DATE</refentrytitle>
+    </refmeta>
+    <refnamediv>
+      <refname>UNIX2DATE</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>UNIX2DATE(unixtime)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>UNIX2DATE converts a unix time into a spreadsheet date and time.</para>
+        <para></para>        <para>A unix time is the number of seconds since midnight January 1, 1970.</para>        <para></para>
+    </refsect1>      <refsect1>
+        <title>Examples</title>
+        <para></para>
+        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-NOW">NOW</link>,
+        <link linkend="gnumeric-DATE">DATE</link>,
+        <link linkend="gnumeric-DATE2UNIX">DATE2UNIX</link>.
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
   <refentry id="gnumeric-UPPER">
     <refmeta>
       <refentrytitle>UPPER</refentrytitle>
@@ -9645,12 +9732,12 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>WEEKDAY (serial_number)</synopsis>
+      <synopsis>WEEKDAY (serial_number[, method])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
         <para>WEEKDAY converts a serial number to a weekday.</para>
-        <para></para>        <para>This function returns an integer in the range 0-6, where Saturday is 0, Sunday is 1, etc.</para>        <para></para>        <para>Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string.</para>        <para>This function is Excel compatible.</para>
+        <para></para>        <para>This function returns an integer indicating the day of week.</para>        <para>@METHOD indicates the numbering system.  It defaults to 1.</para>        <para></para>        <para>For @METHOD=1: Sunday is 1, Monday is 2, etc.</para>        <para>For @METHOD=2: Monday is 1, Tuesday is 2, etc.</para>        <para>For @METHOD=3: Monday is 0, Tuesday is 1, etc.</para>        <para></para>        <para>Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string.</para>        <para>This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>

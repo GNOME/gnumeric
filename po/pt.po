@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2002-01-06 12:56+0000\n"
+"POT-Creation-Date: 2002-01-06 14:06-0500\n"
 "PO-Revision-Date: 2002-01-06 13:12+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <none@none.org>\n"
@@ -42,7 +42,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Funções relacionadas com derivadas financeiras"
 
 #: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4465
-#: plugins/mps/mps.c:579 src/xml-io.c:3447
+#: plugins/mps/mps.c:579 src/xml-io.c:3449
 msgid "Reading file..."
 msgstr "A ler ficheiro..."
 
@@ -2506,7 +2506,7 @@ msgstr "% Cumulativa"
 msgid "Error '%s' opening workbook stream"
 msgstr "Erro '%s' ao abrir fluxo de livro de trabalho"
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3470
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3472
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ficheiro xml inválido. Árvore está vazia ?"
 
@@ -6118,7 +6118,7 @@ msgid "Scale"
 msgstr "Escala"
 
 #: src/dialogs/print.glade.h:25 src/functions/fn-sheet.c:141
-#: src/workbook.c:1065 src/xml-io.c:3155
+#: src/workbook.c:1065 src/xml-io.c:3157
 msgid "Sheet"
 msgstr "Folha"
 
@@ -12857,8 +12857,8 @@ msgstr ""
 "@SYNTAX=GETENV(expressão)\n"
 "@DESCRIPTION=GETENV obtém um valor do ambiente de execução.\n"
 "\n"
-"Se a variável especificada por @EXPRESSÃO não existir, será devolvido "
-"#N/A!.  Note que os nomes de variáveis são sensíveis à capitalização.\n"
+"Se a variável especificada por @EXPRESSÃO não existir, será devolvido #N/"
+"A!.  Note que os nomes de variáveis são sensíveis à capitalização.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -17276,12 +17276,13 @@ msgstr ""
 "@DESCRIPTION=A função PERCENTRANK devolve a posição de um ponto de dados num "
 "conjunto de dados.  @matriz é o intrevalo de valores numéricos, @x é o ponto "
 "de dados de que deseja saber a posição, e a @significância opcional "
-"indentifica o número de dígitos significantes para o valor devolvido, truncando "
-"o remanescente. Se @significância for omitida, PERCENTRANK utiliza três dígitos.\n"
+"indentifica o número de dígitos significantes para o valor devolvido, "
+"truncando o remanescente. Se @significância for omitida, PERCENTRANK utiliza "
+"três dígitos.\n"
 "Se @matriz não contiver pontos de dados, PERCENTRANK devolve o erro #NUM!.\n"
 "Se @significância for menor do que um, PERCENTRANK devolve o erro #NUM!.\n"
-"Se @x não equivaler a nenhum dos valores na @matriz ou @x equivaler a mais do "
-"que um, PERCENTRANK interpola o valor devolvido.\n"
+"Se @x não equivaler a nenhum dos valores na @matriz ou @x equivaler a mais "
+"do que um, PERCENTRANK interpola o valor devolvido.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"
@@ -18947,7 +18948,7 @@ msgstr "Erro ao abrir o ficheiro \"%s\" para leitura."
 msgid "Unable to mmap the file."
 msgstr "Incapaz de fazer mmap do ficheiro."
 
-#: src/plugin-util.c:313 src/xml-io.c:3436
+#: src/plugin-util.c:313 src/xml-io.c:3438
 msgid "Cannot get file size."
 msgstr "Incapaz de obter tamanho de ficheiro."
 
@@ -20163,30 +20164,30 @@ msgstr ""
 "Erro ao tentar construir árvore a partir do ficheiro de modelo de auto-"
 "formatação"
 
-#: src/xml-io.c:2870
+#: src/xml-io.c:2872
 msgid "Unparsable xml in clipboard"
 msgstr "XML inparseável na área de transferência"
 
-#: src/xml-io.c:2877
+#: src/xml-io.c:2879
 msgid "Clipboard is in unknown format"
 msgstr "Área de transferência tem formato desconhecido"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3281
+#: src/xml-io.c:3283
 msgid "Processing file..."
 msgstr "A processar ficheiro..."
 
-#: src/xml-io.c:3444
+#: src/xml-io.c:3446
 msgid "Not enough memory to create zlib decompression state."
 msgstr "Memória insuficiente para criar o estado de descompressão zlib."
 
-#: src/xml-io.c:3479
+#: src/xml-io.c:3481
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Não é um ficheiro Livro de Trabalho Gnumeric"
 
-#: src/xml-io.c:3536
+#: src/xml-io.c:3538
 msgid "Gnumeric XML file format"
 msgstr "Formato de ficheiro XML Gnumeric"
 

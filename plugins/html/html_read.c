@@ -118,7 +118,7 @@ html_print_encoded (FILE *fp, char *str)
  *
  */
 static void
-html_get_text_color (Cell *cell, MStyle *mstyle, int *r, int *g, int *b)
+html_get_text_color (Cell *cell, MStyle *mstyle, guint *r, guint *g, guint *b)
 {
 	StyleColor *textColor;
 
@@ -278,8 +278,9 @@ write_row (FILE *fp, Sheet *sheet, gint row, Range *range, html_version_t versio
 	for (col = range->start.col; col <= range->end.col; col++) {
 		CellSpanInfo const *the_span;
 		Range const *merge_range;
-		CellPos pos = {col, row};
-
+		CellPos pos;
+		pos.col = col;
+		pos.row = row;
 
 		/* Is this a span */
 		the_span = row_span_get (ri, col);

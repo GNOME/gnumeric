@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.76\n"
-"POT-Creation-Date: 2002-01-05 13:32+0300\n"
+"POT-Creation-Date: 2002-01-06 14:06-0500\n"
 "PO-Revision-Date: 2002-01-05 15:30+0300\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -40,7 +40,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Функции относящиеся к финансовым производным"
 
 #: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4465
-#: plugins/mps/mps.c:579 src/xml-io.c:3447
+#: plugins/mps/mps.c:579 src/xml-io.c:3449
 msgid "Reading file..."
 msgstr "Чтение файла..."
 
@@ -110,7 +110,9 @@ msgstr "Модуль Data Interchange Format (DIF)"
 #: plugins/dif/plugin.xml.in.h:3
 msgid ""
 "Reads and writes information stored in the Data Interchange Format (*.dif)"
-msgstr "Читает и записывает информацию сохранённую в формате Data Interchange Format (*.dif)"
+msgstr ""
+"Читает и записывает информацию сохранённую в формате Data Interchange Format "
+"(*.dif)"
 
 #: plugins/excel/boot.c:104
 msgid ""
@@ -805,7 +807,8 @@ msgstr "Загрузчик дополнения Python"
 
 #: plugins/python-loader/plugin.xml.in.h:2
 msgid "This plugin provides support for Python plugins"
-msgstr "Это дополнение предоставляет поддержку для дополнений написанных на Python"
+msgstr ""
+"Это дополнение предоставляет поддержку для дополнений написанных на Python"
 
 #: plugins/python-loader/py-gnumeric.c:273
 #: plugins/python-loader/py-gnumeric.c:313
@@ -1851,7 +1854,7 @@ msgid "Statistical methods"
 msgstr "Статистические методы"
 
 #: src/GNOME_Gnumeric.xml.h:204 src/dialogs/consolidate.glade.h:19
-#: src/workbook-control-gui.c:3000 src/workbook-control-gui.c:3601
+#: src/workbook-control-gui.c:3000 src/workbook-control-gui.c:3599
 #: src/workbook-view.c:518
 msgid "Sum"
 msgstr "Сумма"
@@ -2503,7 +2506,7 @@ msgstr "Кумулятивный %"
 msgid "Error '%s' opening workbook stream"
 msgstr "Ошибка \"%s\" при открытии потока рабочей книги"
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3470
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3472
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Испорченный XML-файл. Дерево пусто?"
 
@@ -3835,28 +3838,28 @@ msgid "val != bound                  (not equal to)"
 msgstr "значение != bound  (не равно)                         "
 
 #: src/dialogs/cell-format.glade.h:130
-msgid "val >  bound                  (greater than)"
-msgstr "значение > bound  (больше чем)"
-
-#: src/dialogs/cell-format.glade.h:131
-msgid "val >=bound                  (greater than or equal to)"
-msgstr "значение >= bound  (больше чем или равно)"
-
-#: src/dialogs/cell-format.glade.h:132
 msgid "val <  bound                  (less than)"
 msgstr "значение < bound  (меньше чем)                         "
 
-#: src/dialogs/cell-format.glade.h:133
+#: src/dialogs/cell-format.glade.h:131
 msgid "val <= min || max <= val (not between)"
 msgstr "значение <= мин. || макс. <= значение (не между)"
 
-#: src/dialogs/cell-format.glade.h:134
+#: src/dialogs/cell-format.glade.h:132
 msgid "val <=bound                  (less than or equal to)"
 msgstr "значение <= bound  (меньше чем или равно)"
 
-#: src/dialogs/cell-format.glade.h:135
+#: src/dialogs/cell-format.glade.h:133
 msgid "val == bound                 (equal to)"
 msgstr "значение == bound  (равно)                         "
+
+#: src/dialogs/cell-format.glade.h:134
+msgid "val >  bound                  (greater than)"
+msgstr "значение > bound  (больше чем)"
+
+#: src/dialogs/cell-format.glade.h:135
+msgid "val >=bound                  (greater than or equal to)"
+msgstr "значение >= bound  (больше чем или равно)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A header"
@@ -3923,7 +3926,7 @@ msgstr "Ширина столбца (пт):"
 msgid "Add the entered area to the list of source areas"
 msgstr "Добавить введенную область к списку областей источников"
 
-#: src/dialogs/consolidate.glade.h:2 src/workbook-control-gui.c:3604
+#: src/dialogs/consolidate.glade.h:2 src/workbook-control-gui.c:3602
 msgid "Average"
 msgstr "Среднее"
 
@@ -3935,7 +3938,7 @@ msgstr "Скопировать метки"
 msgid "Clear the list of source areas"
 msgstr "Очистить список областей источников"
 
-#: src/dialogs/consolidate.glade.h:5 src/workbook-control-gui.c:3605
+#: src/dialogs/consolidate.glade.h:5 src/workbook-control-gui.c:3603
 msgid "Count"
 msgstr "Количество"
 
@@ -3967,11 +3970,11 @@ msgstr "В верхнюю строку"
 msgid "Labels"
 msgstr "Метки"
 
-#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3603
+#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3601
 msgid "Max"
 msgstr "Макс"
 
-#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3602
+#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3600
 msgid "Min"
 msgstr "Мин"
 
@@ -4937,31 +4940,31 @@ msgstr "Ячейка"
 msgid "Go to..."
 msgstr "Перейти к..."
 
-#: src/dialogs/dialog-graph-guru.c:747
+#: src/dialogs/dialog-graph-guru.c:749
 msgid "Step 1 of 3: Select graph type"
 msgstr "Шаг 1 из 3: Выбор типа графика"
 
-#: src/dialogs/dialog-graph-guru.c:753
+#: src/dialogs/dialog-graph-guru.c:755
 msgid "Step 2 of 3: Select data ranges"
 msgstr "Шаг 2 из 3: Выбор диапазона данных"
 
-#: src/dialogs/dialog-graph-guru.c:755
+#: src/dialogs/dialog-graph-guru.c:757
 msgid "Graph Data"
 msgstr "Данные графика"
 
-#: src/dialogs/dialog-graph-guru.c:760
+#: src/dialogs/dialog-graph-guru.c:762
 msgid "Step 3 of 3: Customize graph"
 msgstr "Шаг 3 из 3: Настройка графика"
 
-#: src/dialogs/dialog-graph-guru.c:762
+#: src/dialogs/dialog-graph-guru.c:764
 msgid "Format Graph"
 msgstr "Форматирование графика"
 
-#: src/dialogs/dialog-graph-guru.c:937
+#: src/dialogs/dialog-graph-guru.c:939
 msgid "Plot name"
 msgstr "Название графика"
 
-#: src/dialogs/dialog-graph-guru.c:940
+#: src/dialogs/dialog-graph-guru.c:942
 msgid "Series name"
 msgstr "Название серий"
 
@@ -5141,15 +5144,15 @@ msgstr "Вы должны выбрать некоторые типы ячеек для поиска."
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Вы действительно хотите удалить таблицу `%s' ?"
 
-#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:2
+#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:1
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:1
+#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
 msgid "="
 msgstr "="
 
@@ -5192,21 +5195,21 @@ msgstr "Вы должны выбрать хотя бы одну таблицу для экспорта"
 msgid "Are you sure you want to cancel?"
 msgstr "Вы действительно хотите отменить действие?"
 
-#: src/dialogs/dialog-stf-export.glade.h:1
-msgid "<- Remove"
-msgstr "<- Удалить"
-
-#: src/dialogs/dialog-stf-export.glade.h:2
-msgid "<- Remove all"
-msgstr "<- Удалить все"
-
-#: src/dialogs/dialog-stf-export.glade.h:3 src/dialogs/dialog-stf.glade.h:1
+#: src/dialogs/dialog-stf-export.glade.h:1 src/dialogs/dialog-stf.glade.h:1
 msgid "\""
 msgstr "\""
 
-#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
+#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
 msgstr "'"
+
+#: src/dialogs/dialog-stf-export.glade.h:3
+msgid "<- Remove"
+msgstr "<- Удалить"
+
+#: src/dialogs/dialog-stf-export.glade.h:4
+msgid "<- Remove all"
+msgstr "<- Удалить все"
 
 #: src/dialogs/dialog-stf-export.glade.h:5
 msgid "Add ->"
@@ -6109,7 +6112,7 @@ msgid "Scale"
 msgstr "Масштаб"
 
 #: src/dialogs/print.glade.h:25 src/functions/fn-sheet.c:141
-#: src/workbook.c:1065 src/xml-io.c:3155
+#: src/workbook.c:1065 src/xml-io.c:3157
 msgid "Sheet"
 msgstr "Таблица"
 
@@ -8704,9 +8707,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=UNIX2DATE\n"
 "@SYNTAX=UNIX2DATE(unixtime)\n"
-"@DESCRIPTION=UNIX2DATE преобразует время в формате unix в дату и время в таблице.\n"
+"@DESCRIPTION=UNIX2DATE преобразует время в формате unix в дату и время в "
+"таблице.\n"
 "\n"
-"Время в формате unix -- это число секунд прошедшее с полуночи 1 января 1970 года.\n"
+"Время в формате unix -- это число секунд прошедшее с полуночи 1 января 1970 "
+"года.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -8727,9 +8732,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=DATE2UNIX\n"
 "@SYNTAX=DATE2UNIX(serial)\n"
-"@DESCRIPTION=DATE2UNIX преобразует последовательный номер даты и времени из таблицы во время в формате unix.\n"
+"@DESCRIPTION=DATE2UNIX преобразует последовательный номер даты и времени из "
+"таблицы во время в формате unix.\n"
 "\n"
-"Время в формате unix -- это число секунд прошедшее с полуночи 1 января 1970 года.\n"
+"Время в формате unix -- это число секунд прошедшее с полуночи 1 января 1970 "
+"года.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -8748,7 +8755,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=DATEVALUE\n"
 "@SYNTAX=DATEVALUE(date_str)\n"
-"@DESCRIPTION=DATEVALUE возвращает последовательный номер даты. @date_str - строка, которая содержит дату.\n"
+"@DESCRIPTION=DATEVALUE возвращает последовательный номер даты. @date_str - "
+"строка, которая содержит дату.\n"
 "Эта функция Excel совместима.\n"
 "@EXAMPLES=\n"
 "DATEVALUE(\"1/1/1999\") равняется 36161.\n"
@@ -9101,7 +9109,8 @@ msgstr ""
 "Для @метода=2: понедельник = 1, вторник = 2 и т.д.\n"
 "Для @метода=3: понедельник = 0, вторник = 1 и т.д.\n"
 "\n"
-"Учтите, что Gnumeric будет выполнять за Вас преобразование обычной строки в серийный номер, так что Вы можете вводить дату в виде строки.\n"
+"Учтите, что Gnumeric будет выполнять за Вас преобразование обычной строки в "
+"серийный номер, так что Вы можете вводить дату в виде строки.\n"
 "Эта функция Excel совместима.\n"
 "@EXAMPLES=\n"
 "WEEKDAY(\\\"10/24/1968\\\") равняется 5 (Четверг).\n"
@@ -10596,7 +10605,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=EFFECT\n"
 "@SYNTAX=EFFECT(r,nper)\n"
-"@DESCRIPTION=Функция EFFECT вычисляет действительную процентную ставку для заданной номинальной процентной ставки.\n"
+"@DESCRIPTION=Функция EFFECT вычисляет действительную процентную ставку для "
+"заданной номинальной процентной ставки.\n"
 "Действительная процентная ставка вычисляется по формуле:\n"
 "\n"
 "         ( 1 + @r / @nper) ^ @nper - 1\n"
@@ -13874,8 +13884,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
-"@DESCRIPTION=Функция PI возвращает значение числа Пи. Эта функция вызывается без аргументов.\n"
-"Эта функция Excel совместима, за исключением того, что возвращает значение Пи с большей точностью.\n"
+"@DESCRIPTION=Функция PI возвращает значение числа Пи. Эта функция вызывается "
+"без аргументов.\n"
+"Эта функция Excel совместима, за исключением того, что возвращает значение "
+"Пи с большей точностью.\n"
 "@EXAMPLES=\n"
 "PI() равняется 3.141593.\n"
 "\n"
@@ -18193,7 +18205,7 @@ msgstr "Ошибка при открытии файла \"%s\" для чтения."
 msgid "Unable to mmap the file."
 msgstr "Невозможно выполнить mmap для файла."
 
-#: src/plugin-util.c:313 src/xml-io.c:3436
+#: src/plugin-util.c:313 src/xml-io.c:3438
 msgid "Cannot get file size."
 msgstr "Невозможно получить размер файла."
 
@@ -18865,12 +18877,16 @@ msgstr "Удалить обрамления"
 #: src/workbook-cmd-format.c:132
 #, c-format
 msgid "You entered an invalid column width value.  It must be bigger than %d"
-msgstr "Вы ввели неправильное значение для ширины столбца. Оно должно быть больше чем %d."
+msgstr ""
+"Вы ввели неправильное значение для ширины столбца. Оно должно быть больше "
+"чем %d."
 
 #: src/workbook-cmd-format.c:195
 #, c-format
 msgid "You entered an invalid row height value.  It must be bigger than %d"
-msgstr "Вы ввели неправильное значение для высоты строки. Оно должно быть больше чем %d."
+msgstr ""
+"Вы ввели неправильное значение для высоты строки. Оно должно быть больше чем "
+"%d."
 
 #: src/workbook-cmd-format.c:246
 #, c-format
@@ -19135,11 +19151,11 @@ msgstr ""
 "Отсортировать выделенный диапазон в убывающем порядке значений первого "
 "столбца выделения."
 
-#: src/workbook-control-gui.c:3931
+#: src/workbook-control-gui.c:3929
 msgid "Send"
 msgstr "Отправить"
 
-#: src/workbook-control-gui.c:3931
+#: src/workbook-control-gui.c:3929
 msgid "Send the current file in email"
 msgstr "Отправить текущий файл по эл.почте"
 
@@ -19409,30 +19425,30 @@ msgstr "Не является файлом шаблона автоформата"
 msgid "Error while trying to build tree from autoformat template file"
 msgstr "Ошибка при попытке построить файл шаблона автоформатирования"
 
-#: src/xml-io.c:2870
+#: src/xml-io.c:2872
 msgid "Unparsable xml in clipboard"
 msgstr "Невозможно разобрать XML из буфера обмена"
 
-#: src/xml-io.c:2877
+#: src/xml-io.c:2879
 msgid "Clipboard is in unknown format"
 msgstr "Неизвестный формат в буфере обмена"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3281
+#: src/xml-io.c:3283
 msgid "Processing file..."
 msgstr "Обработка файла..."
 
-#: src/xml-io.c:3444
+#: src/xml-io.c:3446
 msgid "Not enough memory to create zlib decompression state."
 msgstr ""
 
-#: src/xml-io.c:3479
+#: src/xml-io.c:3481
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Это не файл рабочей книги Gnumeric"
 
-#: src/xml-io.c:3536
+#: src/xml-io.c:3538
 msgid "Gnumeric XML file format"
 msgstr "Формат файла Gnumeric XML"
 

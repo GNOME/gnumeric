@@ -66,7 +66,7 @@ write_stream_to_storage (xmlNodePtr           cur,
 		return;
 	}
 
-	xmlSetProp (cur, "Stream", name);
+	xmlSetProp (cur, (xmlChar *)"Stream", (xmlChar *)name);
 	g_free (name);
 
 	/*
@@ -128,7 +128,7 @@ gnumeric_bonobo_obj_write (xmlNodePtr   cur,
 	 */
 
 	if (ret)
-		xmlSetProp (cur, "OAFIID", sheet_object_bonobo_get_object_iid (sob));
+		xmlSetProp (cur, (xmlChar *)"OAFIID", (xmlChar *)sheet_object_bonobo_get_object_iid (sob));
 
 	return ret;
 }
@@ -181,7 +181,7 @@ gnumeric_bonobo_obj_read (xmlNodePtr   tree,
 	CORBA_Environment    ev;
 	SheetObjectBonobo   *sob;
 	Bonobo_Storage       storage;
-	char                *object_id, *sname;
+	xmlChar             *object_id, *sname;
 
 	g_return_val_if_fail (tree != NULL, TRUE);
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
@@ -190,7 +190,7 @@ gnumeric_bonobo_obj_read (xmlNodePtr   tree,
 	sob = SHEET_OBJECT_BONOBO (so);
 	g_return_val_if_fail (sob != NULL, TRUE);
 
-	object_id = xmlGetProp (tree, "OAFIID");
+	object_id = xmlGetProp (tree, (xmlChar *)"OAFIID");
 	if (!object_id) {
 		g_warning ("Malformed object, error in save; no id");
 		return TRUE;
@@ -201,11 +201,11 @@ gnumeric_bonobo_obj_read (xmlNodePtr   tree,
 
 	CORBA_exception_init (&ev);
 
-	sname = xmlGetProp (tree, "Stream");
+	sname = xmlGetProp (tree, (xmlChar *)"Stream");
 	if (sname)
 		read_stream_from_storage (
 			BONOBO_OBJREF (sob->object_server),
-			storage, sname, &ev);
+			storage, (char *)sname, &ev);
 	else
 		g_warning ("No stream");
 
@@ -258,7 +258,7 @@ gnumeric_bonobo_write_workbook (GnumFileSaver const *fs,
 	/*
 	 * Create the tree
 	 */
-	xml = xmlNewDoc ("1.0");
+	xml = xmlNewDoc ((xmlChar *)"1.0");
 	if (!xml) {
 		gnumeric_io_error_save (context, "");
 		bonobo_object_unref (BONOBO_OBJECT (storage));
@@ -391,7 +391,7 @@ hack_xmlSAXParseFile (Bonobo_Stream stream)
 			return NULL;
 		} else {
 			len = buf->_length;
-			if (xmlParseChunk (ctxt, buf->_buffer, len, (len == 0))) {
+			if (xmlParseChunk (ctxt, (char*)buf->_buffer, len, (len == 0))) {
 				g_warning ("Leak bits of tree everywhere");
 				return NULL;
 			}

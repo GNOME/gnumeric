@@ -39,7 +39,7 @@ typedef struct {
 	IOContext *io_context;
 
 	gint   data_size;
-	gchar *data, *cur;
+	guchar *data, *cur;
 
 	gint   line_no;
 	gchar *line;
@@ -54,7 +54,7 @@ dif_input_context_new (IOContext *io_context, Workbook *wb, char const *file_nam
 {
 	DifInputContext *ctxt = NULL;
 	gint size;
-	char *data;
+	guchar *data;
 	ErrorInfo *mmap_error;
 
 	data = gnumeric_mmap_error_info (file_name, &size, &mmap_error);
@@ -92,7 +92,7 @@ dif_input_context_destroy (DifInputContext *ctxt)
 static gboolean
 dif_get_line (DifInputContext *ctxt)
 {
-	gchar *p, *p_limit;
+	guchar *p, *p_limit;
 
 	p_limit = ctxt->data + ctxt->data_size;
 	if (ctxt->cur >= p_limit) {
@@ -132,7 +132,7 @@ dif_get_line (DifInputContext *ctxt)
 static gboolean
 dif_eat_line (DifInputContext *ctxt)
 {
-	gchar *p, *p_limit;
+	guchar *p, *p_limit;
 
 	p_limit = ctxt->data + ctxt->data_size;
 	if (ctxt->cur >= p_limit) {

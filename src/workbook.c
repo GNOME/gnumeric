@@ -52,7 +52,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static gint workbook_signals [LAST_SIGNAL] = {
+static guint workbook_signals [LAST_SIGNAL] = {
 	0, /* CELL_CHANGED */
 };
 

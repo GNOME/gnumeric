@@ -771,6 +771,16 @@ DATE(2001, 3, 30) returns 'Mar 30, 2001'.
  
 @SEEALSO=TODAY, NOW
 
+@FUNCTION=DATE2UNIX
+@SYNTAX=DATE2UNIX(serial)
+@DESCRIPTION=DATE2UNIX converts a spreadsheet date and time serial number into a unix time.
+
+A unix time is the number of seconds since midnight January 1, 1970.
+
+@EXAMPLES=
+
+@SEEALSO=NOW, DATE, UNIX2DATE
+
 @FUNCTION=DATEDIF
 @SYNTAX=DATEDIF(date1,date2,interval)
 @DESCRIPTION=DATEDIF returns the difference between two dates.  @interval is one of six possible values:  "y", "m", "d", "ym", "md", and "yd".
@@ -1625,6 +1635,15 @@ This function is Excel compatible.
 GESTEP(5,4) equals 1.
 
 @SEEALSO=DELTA
+
+@FUNCTION=GETENV
+@SYNTAX=GETENV(string)
+@DESCRIPTION=GETENV retrieves a value from the execution environment.
+
+If the variable specified by @STRING does not exist, #N/A! will be returned.  Note, that variable names are case sensitive.
+@EXAMPLES=
+
+@SEEALSO=
 
 @FUNCTION=GETPIVOTDATA
 @SYNTAX=GETPIVOTDATA(pivot_table,field_name)
@@ -2713,8 +2732,11 @@ PERCENTILE(A1:A5,0.42) equals 20.02.
 
 @FUNCTION=PERCENTRANK
 @SYNTAX=PERCENTRANK(array,x[,significance])
-@DESCRIPTION=PERCENTRANK function returns the rank of a data point in a data set.  @array is the range of numeric values, @x is the data point which you want to rank, and the optional @significance indentifies the number of significant digits for the returned value.  If @significance is omitted, PERCENTRANK uses three digits.
-If @array contains no data points, PERCENTRANK returns #NUM! error. If @significance is less than one, PERCENTRANK returns #NUM! error. If @x does not match any of the values in @array or @x matches more than once, PERCENTRANK interpolates the returned value.
+@DESCRIPTION=PERCENTRANK function returns the rank of a data point in a data set.  @array is the range of numeric values, @x is the data point which you want to rank, and the optional @significance indentifies the number of significant digits for the returned value, truncating the remainder.  If @significance is omitted, PERCENTRANK uses three digits.
+If @array contains no data points, PERCENTRANK returns #NUM! error.
+If @significance is less than one, PERCENTRANK returns #NUM! error.
+If @x exceeds the largest value or is less than the smallest value in @array, PERCENTRANK returns #NUM! error.
+If @x does not match any of the values in @array or @x matches more than once, PERCENTRANK interpolates the returned value.
 @EXAMPLES=
 
 @SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL
@@ -2731,9 +2753,9 @@ PERMUT(7,3) equals 210.
 
 @FUNCTION=PI
 @SYNTAX=PI()
-@DESCRIPTION=PI functions returns the value of Pi. 
+@DESCRIPTION=PI functions returns the value of pi. 
 This function is called with no arguments.
-This function is Excel compatible. 
+This function is Excel compatible, except that it returns pi with a better precision. 
 @EXAMPLES=
 PI() equals 3.141593.
 
@@ -3630,6 +3652,16 @@ TYPE("text") equals 2.
 
 @SEEALSO=
 
+@FUNCTION=UNIX2DATE
+@SYNTAX=UNIX2DATE(unixtime)
+@DESCRIPTION=UNIX2DATE converts a unix time into a spreadsheet date and time.
+
+A unix time is the number of seconds since midnight January 1, 1970.
+
+@EXAMPLES=
+
+@SEEALSO=NOW, DATE, DATE2UNIX
+
 @FUNCTION=UPPER
 @SYNTAX=UPPER(text)
 @DESCRIPTION=UPPER returns a upper-case version of the string in @text.
@@ -3705,10 +3737,15 @@ Returns #NUM! if @column < 0. Returns #REF! if @column falls outside @range.
 @SEEALSO=HLOOKUP
 
 @FUNCTION=WEEKDAY
-@SYNTAX=WEEKDAY (serial_number)
+@SYNTAX=WEEKDAY (serial_number[, method])
 @DESCRIPTION=WEEKDAY converts a serial number to a weekday.
 
-This function returns an integer in the range 0-6, where Saturday is 0, Sunday is 1, etc.
+This function returns an integer indicating the day of week.
+@METHOD indicates the numbering system.  It defaults to 1.
+
+For @METHOD=1: Sunday is 1, Monday is 2, etc.
+For @METHOD=2: Monday is 1, Tuesday is 2, etc.
+For @METHOD=3: Monday is 0, Tuesday is 1, etc.
 
 Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string.
 This function is Excel compatible. 

@@ -119,7 +119,7 @@ autocorrect_tool (char const *command)
 	unsigned char *ucommand = (unsigned char *)g_strdup (command);
 	gint i, len;
 
-	len = strlen (ucommand);
+	len = strlen ((char *)ucommand);
 
         if (autocorrect.init_caps) {
 		for (s = ucommand; *s; s++) {
@@ -164,7 +164,7 @@ autocorrect_tool (char const *command)
 
 				for ( ; cur != NULL; cur = cur->next) {
 					guchar *t, *c = (guchar *)cur->data;
-					gint  l = strlen (c);
+					gint  l = strlen ((char *)c);
 					gint  spaces = 0;
 
 					for (t = s - 1; t >= ucommand; t--)
@@ -188,7 +188,7 @@ autocorrect_tool (char const *command)
 			char const *day = _(day_long [i]) + 1;
 			s = ucommand;
 loop :
-			s = strstr (s, day);
+			s = (unsigned char *)strstr ((char *)s, day);
 			if (s != NULL) {
 				if (s > ucommand)
 					s[-1] = toupper (s[-1]);
@@ -197,5 +197,5 @@ loop :
 			}
 		}
 
-	return ucommand;
+	return (char *)ucommand;
 }

@@ -6,17 +6,20 @@ Andreas:
 	* Fix 67289 (PERCENTRANK)
 
 Jody:
+	* Fix CRASH!! due to last minute translation fix.
 	* Some missing '...' in menu names
 	* Rename 'Summary' menu -> 'Properties'
 	* Support graphs with no data.
-	* Fix CRASH!! due to last minute translation fix.
-	* Some warning suppression for s390.
+	* A bit of warning suppression for s390.
 	* Bump the GAL requirement to 0.16
 
 Morten:
 	* Added DATE2UNIX and UNIX2DATE.
 	* Added GETENV.
 	* Fix WEEKDAY.
+
+J.H.M. Dassen (Ray):
+	* Lots of bit warning suppression for s390.
 
 --------------------------------------------------------------------------
 Gnumeric 1.0.0

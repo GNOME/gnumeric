@@ -448,7 +448,7 @@ sheet_object_read_xml (XmlParseContext const *ctxt, xmlNodePtr tree)
 	} else if (!strcmp (tree->name, "Line")){
 		so = sheet_object_line_new (FALSE);
 	} else {
-		obj = gtk_object_new (gtk_type_from_name (tree->name), NULL);
+		obj = gtk_object_new (gtk_type_from_name ((gchar *)tree->name), NULL);
 		if (!obj)
 			return (NULL);
 	
@@ -461,7 +461,7 @@ sheet_object_read_xml (XmlParseContext const *ctxt, xmlNodePtr tree)
 		return NULL;
 	}
 
-	tmp = xmlGetProp (tree, "ObjectBound");
+	tmp = (char *) xmlGetProp (tree, (xmlChar *)"ObjectBound");
 	if (tmp != NULL) {
 		Range r;
 		if (parse_range (tmp, &r))
@@ -469,7 +469,7 @@ sheet_object_read_xml (XmlParseContext const *ctxt, xmlNodePtr tree)
 		xmlFree (tmp);
 	}
 
-	tmp = xmlGetProp (tree, "ObjectOffset");
+	tmp =  (char *) xmlGetProp (tree, (xmlChar *)"ObjectOffset");
 	if (tmp != NULL) {
 		sscanf (tmp, "%g %g %g %g",
 			so->anchor.offset +0, so->anchor.offset +1,
@@ -477,7 +477,7 @@ sheet_object_read_xml (XmlParseContext const *ctxt, xmlNodePtr tree)
 		xmlFree (tmp);
 	}
 
-	tmp = xmlGetProp (tree, "ObjectAnchorType");
+	tmp = (char *) xmlGetProp (tree, (xmlChar *)"ObjectAnchorType");
 	if (tmp != NULL) {
 		int i[4], count;
 		sscanf (tmp, "%d %d %d %d", i+0, i+1, i+2, i+3);
@@ -510,7 +510,7 @@ sheet_object_write_xml (SheetObject const *so, XmlParseContext const *ctxt)
 		return NULL;
 
 	tree = xmlNewDocNode (ctxt->doc, ctxt->ns,
-			      gtk_type_name (GTK_OBJECT_TYPE (obj)), NULL);
+			      (xmlChar *)gtk_type_name (GTK_OBJECT_TYPE (obj)), NULL);
 
 	if (tree == NULL)
 		return NULL;

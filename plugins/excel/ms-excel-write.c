@@ -526,7 +526,7 @@ write_bits (BiffPut *bp, ExcelWorkbook *wb, MsBiffVersion ver)
 {
 	guint8 *data;
 	const char *fsf = "The Free Software Foundation";
-	char pad [WRITEACCESS_LEN];
+	guint8 pad [WRITEACCESS_LEN];
 
 	/* See: S59E1A.HTM */
 	g_assert (strlen (fsf) < WRITEACCESS_LEN);
@@ -2516,7 +2516,7 @@ write_value (BiffPut *bp, Value *v, MsBiffVersion ver,
 		break;
 	}
 	case VALUE_STRING: {
-		char data[16];
+		guint8 data[16];
 		g_return_if_fail (v->v_str.val->str);
 
 		if (ver >= MS_BIFF_V8); /* Use SST stuff in fulness of time */

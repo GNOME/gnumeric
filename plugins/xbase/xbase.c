@@ -33,7 +33,7 @@ record_new (XBfile *file)
 	ans->file = file;
 	ans->row = 1;
 	/* ans->data = g_new (guint8, file->fieldlen); */
-	ans->data = g_strnfill (file->fieldlen, '?'); /* FIXME : just for testing */
+	ans->data = (guint8 *) g_strnfill (file->fieldlen, '?'); /* FIXME : just for testing */
 	record_seek (ans, SEEK_SET, 1);
 	return ans;
 }
@@ -83,12 +83,12 @@ record_free (XBrecord *record)
 /**
  * Points to binary data for num'th field in record's data.
  */
-guint8 *
+gchar *
 record_get_field (XBrecord const *record, guint num)
 {
 	if (num >= record->file->fields)
 		return NULL;
-	return record->data + record->file->format [num]->pos;
+	return (gchar *)record->data + record->file->format [num]->pos;
 }
 
 static gboolean

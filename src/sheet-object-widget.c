@@ -268,7 +268,7 @@ sheet_widget_label_read_xml (SheetObject *so,
 			     xmlNodePtr tree)
 {
 	SheetWidgetLabel *swl = SHEET_WIDGET_LABEL (so);
-	char *label = xmlGetProp (tree, "Label");
+	gchar *label = (gchar *)xmlGetProp (tree, (xmlChar *)"Label");
 
 	if (!label) {
 		g_warning ("Could not read a SheetWidgetLabel beacause it lacks a label property\n");
@@ -366,7 +366,7 @@ sheet_widget_frame_read_xml (SheetObject *so,
 			     xmlNodePtr tree)
 {
 	SheetWidgetFrame *swf = SHEET_WIDGET_FRAME (so);
-	char *label = xmlGetProp (tree, "Label");
+	gchar *label = (gchar *)xmlGetProp (tree, (xmlChar *)"Label");
 
 	if (!label) {
 		g_warning ("Could not read a SheetWidgetFrame beacause it lacks a label property\n");
@@ -463,7 +463,7 @@ sheet_widget_button_read_xml (SheetObject *so,
 			      xmlNodePtr tree)
 {
 	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (so);
-	char *label = xmlGetProp (tree, "Label");
+	gchar *label = (gchar *)xmlGetProp (tree, (xmlChar *)"Label");
 
 	if (!label) {
 		g_warning ("Could not read a SheetWidgetButton beacause it lacks a label property\n");
@@ -887,8 +887,8 @@ sheet_widget_checkbox_read_xml (SheetObject *so,
 				xmlNodePtr tree)
 {
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
-	char *label = xmlGetProp (tree, "Label");
-	char *input_txt = xmlGetProp (tree, "Input");
+	gchar *label = (gchar *)xmlGetProp (tree, (xmlChar *)"Label");
+	gchar *input_txt = (gchar *)xmlGetProp (tree, (xmlChar *)"Input");
 
 	if (!label) {
 		g_warning ("Could not read a CheckBoxWidget object because it lacks a label property");

@@ -316,12 +316,12 @@ stf_parse_options_valid (StfParseOptions_t *parseoptions)
 static inline void
 trim_spaces_inplace (char *field, StfParseOptions_t const *parseoptions)
 {
-	unsigned char *s = (unsigned char *)field;
+	char *s = field;
 
 	if (!s) return;
 
 	if (isspace (*s) && parseoptions->trim_spaces & TRIM_TYPE_LEFT) {
-		unsigned char *tmp = s;
+		char *tmp = s;
 		while (isspace (*tmp)) tmp++;
 		strcpy (s, tmp);
 	}
@@ -861,7 +861,7 @@ stf_parse_convert_to_unix (char *data)
 char const *
 stf_parse_is_valid_data (char const *data)
 {
-	unsigned char const *s;
+	char const *s;
 	wchar_t wstr;
 	int len;
 

@@ -283,7 +283,7 @@ biff_get_text (guint8 const *pos, guint32 length, guint32 *byte_length)
 		g_warning ("Warning unterminated string floating");
 	} else {
 		(*byte_length) += (high_byte ? 2 : 1)*length;
-		ans = get_chars (ptr, length, high_byte);
+		ans = get_chars ((char *) ptr, length, high_byte);
 	}
 	return ans;
 }
@@ -367,7 +367,7 @@ get_string (char **output, BiffQuery *q, guint32 offset, MsBiffVersion ver)
 		g_assert (get_len >= 0);
 
 		/* FIXME: split this simple bit out of here, it makes more sense damnit */
-		str = get_chars (q->data + new_offset + pre_len, get_len, high_byte);
+		str = get_chars ((char *)(q->data + new_offset + pre_len), get_len, high_byte);
 		new_offset += pre_len + get_len * (high_byte ? 2 : 1);
 
 		if (!(*output))

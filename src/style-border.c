@@ -31,51 +31,51 @@
 
 struct LineDotPattern {
 	gint const		elements;
-	unsigned char * const	pattern;
+	gint8 * const	pattern;
 	double * const		pattern_d;
 };
 
-static unsigned char dashed_pattern[] = { 3, 1 };
+static gint8 dashed_pattern[] = { 3, 1 };
 static double dashed_pattern_d[] = { 3., 1. };
 static struct LineDotPattern dashed_line =
 { sizeof (dashed_pattern), dashed_pattern, dashed_pattern_d };
 
-static unsigned char med_dashed_pattern[] = { 9, 3 };
+static gint8 med_dashed_pattern[] = { 9, 3 };
 static double med_dashed_pattern_d[] = { 9., 3. };
 static struct LineDotPattern med_dashed_line =
 { sizeof (med_dashed_pattern), med_dashed_pattern, med_dashed_pattern_d };
 
-static unsigned char dotted_pattern[] = { 2, 2 };
+static gint8 dotted_pattern[] = { 2, 2 };
 static double dotted_pattern_d[] = { 2., 2. };
 static struct LineDotPattern dotted_line =
 { sizeof (dotted_pattern), dotted_pattern, dotted_pattern_d };
 
-static unsigned char hair_pattern[] = { 1, 1 };
+static gint8 hair_pattern[] = { 1, 1 };
 static double hair_pattern_d[] = { 1., 1. };
 static struct LineDotPattern hair_line =
 { sizeof (hair_pattern), hair_pattern, hair_pattern_d };
 
-static unsigned char dash_dot_pattern[] = { 8, 3, 3, 3 };
+static gint8 dash_dot_pattern[] = { 8, 3, 3, 3 };
 static double dash_dot_pattern_d[] = { 8., 3., 3., 3. };
 static struct LineDotPattern dash_dot_line =
 { sizeof (dash_dot_pattern), dash_dot_pattern, dash_dot_pattern_d };
 
-static unsigned char med_dash_dot_pattern[] = { 9, 3, 3, 3 };
+static gint8 med_dash_dot_pattern[] = { 9, 3, 3, 3 };
 static double med_dash_dot_pattern_d[] = { 9., 3., 3., 3. };
 static struct LineDotPattern med_dash_dot_line =
 { sizeof (med_dash_dot_pattern), med_dash_dot_pattern, med_dash_dot_pattern_d };
 
-static unsigned char dash_dot_dot_pattern[] = { 3, 3, 9, 3, 3, 3 };
+static gint8 dash_dot_dot_pattern[] = { 3, 3, 9, 3, 3, 3 };
 static double dash_dot_dot_pattern_d[] = { 3., 3., 9., 3., 3., 3. };
 static struct LineDotPattern dash_dot_dot_line =
 { sizeof (dash_dot_dot_pattern), dash_dot_dot_pattern, dash_dot_dot_pattern_d };
 
-static unsigned char med_dash_dot_dot_pattern[] = { 3, 3, 3, 3, 9, 3 };
+static gint8 med_dash_dot_dot_pattern[] = { 3, 3, 3, 3, 9, 3 };
 static double med_dash_dot_dot_pattern_d[] = { 3., 3., 3., 3., 9., 3. };
 static struct LineDotPattern med_dash_dot_dot_line =
 { sizeof (med_dash_dot_dot_pattern), med_dash_dot_dot_pattern, med_dash_dot_dot_pattern_d };
 
-static unsigned char slant_pattern[] = { 11, 1, 5, 1 };
+static gint8 slant_pattern[] = { 11, 1, 5, 1 };
 static double slant_pattern_d[] = { 11., 1., 5., 1. };
 static struct LineDotPattern slant_line =
 { sizeof (slant_pattern), slant_pattern, slant_pattern_d };

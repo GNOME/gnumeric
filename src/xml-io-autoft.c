@@ -53,7 +53,7 @@ xml_write_format_col_row_info (XmlParseContext *ctxt, FormatColRowInfo info, xml
 	/*
 	 * Write placement
 	 */
-	child = xmlNewDocNode (ctxt->doc, ctxt->ns, "Placement", NULL);
+	child = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar *)"Placement", NULL);
 	xml_node_set_int (child, "offset", info.offset);
 	xml_node_set_int (child, "offset_gravity", info.offset_gravity);
 	xmlAddChild (node, child);
@@ -61,7 +61,7 @@ xml_write_format_col_row_info (XmlParseContext *ctxt, FormatColRowInfo info, xml
 	/*
 	 * Write dimensions
 	 */
-	child = xmlNewDocNode (ctxt->doc, ctxt->ns, "Dimensions", NULL);
+	child = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar *)"Dimensions", NULL);
 	xml_node_set_int (child, "size", info.size);
 	xmlAddChild (node, child);
 }
@@ -78,25 +78,25 @@ xml_write_format_template_member (XmlParseContext *ctxt, TemplateMember *member)
 	/*
 	 * General information about member
 	 */
-	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Member", NULL);
+	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar *)"Member", NULL);
 	if (cur == NULL)
 		return NULL;
 
 	/*
 	 * Write row and col info
 	 */
-	child = xmlNewDocNode (ctxt->doc, ctxt->ns, "Row", NULL);
+	child = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar *)"Row", NULL);
 	xml_write_format_col_row_info (ctxt, format_template_member_get_row_info (member), child);
 	xmlAddChild (cur, child);
 
-	child = xmlNewDocNode (ctxt->doc, ctxt->ns, "Col", NULL);
+	child = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar *)"Col", NULL);
 	xml_write_format_col_row_info (ctxt, format_template_member_get_col_info (member), child);
 	xmlAddChild (cur, child);
 
 	/*
 	 * Write frequency information
 	 */
-	child = xmlNewDocNode (ctxt->doc, ctxt->ns, "Frequency", NULL);
+	child = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar *)"Frequency", NULL);
 	xml_node_set_int (child, "direction", format_template_member_get_direction (member));
 	xml_node_set_int (child, "repeat", format_template_member_get_repeat (member));
 	xml_node_set_int (child, "skip", format_template_member_get_skip (member));
@@ -128,15 +128,15 @@ xml_write_format_template_members (XmlParseContext *ctxt, FormatTemplate *ft)
 	 * General information about the Template
 	 */
 
-	root = xmlNewDocNode (ctxt->doc, NULL, "FormatTemplate", NULL);
+	root = xmlNewDocNode (ctxt->doc, NULL, (xmlChar *)"FormatTemplate", NULL);
 	if (root == NULL)
 		return NULL;
 
-	gmr = xmlNewNs (root, "http://www.gnome.org/gnumeric/format-template/v1", "gmr");
+	gmr = xmlNewNs (root, (xmlChar *)"http://www.gnome.org/gnumeric/format-template/v1", (xmlChar *)"gmr");
 	xmlSetNs(root, gmr);
 	ctxt->ns = gmr;
 
-	child = xmlNewChild (root, gmr, "Information", NULL);
+	child = xmlNewChild (root, gmr, (xmlChar *)"Information", NULL);
 
 	author_c      = format_template_get_author (ft);
 	name_c        = format_template_get_name (ft);
@@ -153,7 +153,7 @@ xml_write_format_template_members (XmlParseContext *ctxt, FormatTemplate *ft)
 	/*
 	 * Write members
 	 */
-	child = xmlNewChild (root, gmr, "Members", NULL);
+	child = xmlNewChild (root, gmr, (xmlChar *)"Members", NULL);
 
 	members = format_template_get_members (ft);
 
@@ -192,7 +192,7 @@ gnumeric_xml_write_format_template (WorkbookControl *wbc, FormatTemplate *ft,
 	/*
 	 * Create the tree
 	 */
-	xml = xmlNewDoc ("1.0");
+	xml = xmlNewDoc ((xmlChar *)"1.0");
 	if (xml == NULL) {
 		gnumeric_error_save (COMMAND_CONTEXT (wbc), "");
 		return -1;
@@ -231,7 +231,7 @@ xml_read_format_col_row_info (XmlParseContext *ctxt, FormatTemplate *ft, xmlNode
 	/*
 	 * Read placement
 	 */
-	child = e_xml_get_child_by_name (tree, "Placement");
+	child = e_xml_get_child_by_name (tree, (xmlChar *)"Placement");
 	if (child) {
 		xml_node_get_int  (child, "offset", &info.offset);
 		xml_node_get_int  (child, "offset_gravity", &info.offset_gravity);
@@ -242,7 +242,7 @@ xml_read_format_col_row_info (XmlParseContext *ctxt, FormatTemplate *ft, xmlNode
 	/*
 	 * Read dimensions
 	 */
-	child = e_xml_get_child_by_name (tree, "Dimensions");
+	child = e_xml_get_child_by_name (tree, (xmlChar *)"Dimensions");
 	if (child){
 		xml_node_get_int (child, "size", &info.size);
 	} else {
@@ -275,7 +275,7 @@ xml_read_format_template_member (XmlParseContext *ctxt, FormatTemplate *ft, xmlN
 	/*
 	 * Read row and column information
 	 */
-	child = e_xml_get_child_by_name (tree, "Row");
+	child = e_xml_get_child_by_name (tree, (xmlChar *)"Row");
 	if (child){
 		row = xml_read_format_col_row_info (ctxt, ft, child);
 	} else {
@@ -283,7 +283,7 @@ xml_read_format_template_member (XmlParseContext *ctxt, FormatTemplate *ft, xmlN
 		return FALSE;
 	}
 
-	child = e_xml_get_child_by_name (tree, "Col");
+	child = e_xml_get_child_by_name (tree, (xmlChar *)"Col");
 	if (child){
 		col = xml_read_format_col_row_info (ctxt, ft, child);
 	} else {
@@ -291,7 +291,7 @@ xml_read_format_template_member (XmlParseContext *ctxt, FormatTemplate *ft, xmlN
 		return FALSE;
 	}
 
-	child = e_xml_get_child_by_name (tree, "Frequency");
+	child = e_xml_get_child_by_name (tree, (xmlChar *)"Frequency");
 	if (child){
 		xml_node_get_int (child, "direction", (int *) &direction);
 		xml_node_get_int (child, "repeat", &repeat);
@@ -305,7 +305,7 @@ xml_read_format_template_member (XmlParseContext *ctxt, FormatTemplate *ft, xmlN
 	/*
 	 * Read style information
 	 */
-	child = e_xml_get_child_by_name (tree, "Style");
+	child = e_xml_get_child_by_name (tree, (xmlChar *)"Style");
 	if (child) {
 		mstyle = xml_read_style (ctxt, child);
 	} else {
@@ -360,9 +360,9 @@ xml_read_format_template_members (XmlParseContext *ctxt, FormatTemplate *ft, xml
 		name        = xml_node_get_cstr (child, "name");
 		description = xml_node_get_cstr (child, "description");
 
-		format_template_set_author (ft, author);
-		format_template_set_name (ft, name);
-		format_template_set_description (ft, description);
+		format_template_set_author (ft, (char *)author);
+		format_template_set_name (ft,  (char *)name);
+		format_template_set_description (ft,  (char *)description);
 
 		xmlFree (author);
 		xmlFree (name);
@@ -374,7 +374,7 @@ xml_read_format_template_members (XmlParseContext *ctxt, FormatTemplate *ft, xml
 	/*
 	 * Read Members
 	 */
-	child = e_xml_get_child_by_name (tree, "Members");
+	child = e_xml_get_child_by_name (tree, (xmlChar *)"Members");
 	if (child == NULL)
 		return FALSE;
 
@@ -429,7 +429,7 @@ gnumeric_xml_read_format_template (WorkbookControl *context, FormatTemplate *ft,
 	/*
 	 * Do a bit of checking, get the namespaces, and check the top elem.
 	 */
-	gmr = xmlSearchNsByHref (res, res->xmlRootNode, "http://www.gnome.org/gnumeric/format-template/v1");
+	gmr = xmlSearchNsByHref (res, res->xmlRootNode, (xmlChar *)"http://www.gnome.org/gnumeric/format-template/v1");
 	if (strcmp (res->xmlRootNode->name, "FormatTemplate") || (gmr == NULL)) {
 		xmlFreeDoc (res);
 		gnumeric_error_read (COMMAND_CONTEXT (context),
@@ -470,7 +470,7 @@ gnumeric_xml_read_format_template_category (const char *dir_name)
 	file_name = g_concat_dir_and_file (dir_name, CATEGORY_FILE_NAME);
 	doc = xmlParseFile (file_name);
 	if (doc != NULL && doc->xmlRootNode != NULL
-	    && xmlSearchNsByHref (doc, doc->xmlRootNode, "http://www.gnome.org/gnumeric/format-template-category/v1") != NULL
+	    && xmlSearchNsByHref (doc, doc->xmlRootNode, (xmlChar *)"http://www.gnome.org/gnumeric/format-template-category/v1") != NULL
 	    && strcmp (doc->xmlRootNode->name, "FormatTemplateCategory") == 0
 	    && (translated_info_node = e_xml_get_child_by_name_by_lang_list (doc->xmlRootNode, "Information", NULL)) != NULL) {
 		xmlChar *orig_name, *name, *description, *lang;
@@ -480,17 +480,17 @@ gnumeric_xml_read_format_template_category (const char *dir_name)
 			orig_info_node = translated_info_node;
 		}
 
-		orig_name = xmlGetProp (orig_info_node, "name");
-		name = xmlGetProp (translated_info_node, "name");
-		description = xmlGetProp (translated_info_node, "description");
-		lang = xmlGetProp (translated_info_node, "xml:lang");
+		orig_name = xmlGetProp (orig_info_node, (xmlChar *)"name");
+		name = xmlGetProp (translated_info_node, (xmlChar *)"name");
+		description = xmlGetProp (translated_info_node, (xmlChar *)"description");
+		lang = xmlGetProp (translated_info_node, (xmlChar *)"xml:lang");
 		if (orig_name != NULL) {
 			category = g_new (FormatTemplateCategory, 1);
 			category->directory = g_strdup (dir_name);
-			category->orig_name = g_strdup (orig_name);
-			category->name = g_strdup (name);
-			category->description = g_strdup (description);
-			category->lang_score = g_lang_score_in_lang_list (lang, NULL);
+			category->orig_name = g_strdup ((gchar *)orig_name);
+			category->name = g_strdup ((gchar *)name);
+			category->description = g_strdup ((gchar *)description);
+			category->lang_score = g_lang_score_in_lang_list ((gchar *)lang, NULL);
 			category->is_writable = (access (dir_name, W_OK) == 0);
 		}
 		xmlFree (orig_name);

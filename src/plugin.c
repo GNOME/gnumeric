@@ -575,7 +575,7 @@ plugin_info_read_dependency_list (xmlNode *tree)
 		if (strcmp (node->name, "dep_plugin") == 0) {
 			gchar *plugin_id;
 
-			plugin_id = e_xml_get_string_prop_by_name (node, "id");
+			plugin_id = e_xml_get_string_prop_by_name (node, (xmlChar *)"id");
 			if (plugin_id != NULL) {
 				PluginDependency *dep;
 
@@ -583,10 +583,10 @@ plugin_info_read_dependency_list (xmlNode *tree)
 				dep->plugin_id = plugin_id;
 				dep->pinfo = NULL;
 				dep->dep_type = 0;
-				if (e_xml_get_bool_prop_by_name_with_default (node, "activate", TRUE)) {
+				if (e_xml_get_bool_prop_by_name_with_default (node, (xmlChar *)"activate", TRUE)) {
 					dep->dep_type |= (2 ^ DEPENDENCY_ACTIVATE);
 				}
-				if (e_xml_get_bool_prop_by_name_with_default (node, "load", TRUE)) {
+				if (e_xml_get_bool_prop_by_name_with_default (node, (xmlChar *)"load", TRUE)) {
 					dep->dep_type |= (2 ^ DEPENDENCY_LOAD);
 				}
 				dependency_list = g_list_prepend (dependency_list, dep);
@@ -653,7 +653,7 @@ plugin_info_read_loader_static_info (xmlNode *tree, ErrorInfo **ret_error)
 	g_return_val_if_fail (ret_error != NULL, NULL);
 
 	*ret_error = NULL;
-	loader_type_str = e_xml_get_string_prop_by_name (tree, "type");
+	loader_type_str = e_xml_get_string_prop_by_name (tree, (xmlChar *)"type");
 	if (loader_type_str != NULL) {
 		loader_info = g_new (PluginLoaderStaticInfo, 1);
 		loader_info->loader_type_str = loader_type_str;
@@ -663,11 +663,11 @@ plugin_info_read_loader_static_info (xmlNode *tree, ErrorInfo **ret_error)
 			if (strcmp (node->name, "attribute") == 0) {
 				gchar *name;
 
-				name = e_xml_get_string_prop_by_name (node, "name");
+				name = e_xml_get_string_prop_by_name (node, (xmlChar *)"name");
 				if (name != NULL) {
 					gchar *value;
 
-					value = e_xml_get_string_prop_by_name (node, "value");
+					value = e_xml_get_string_prop_by_name (node, (xmlChar *)"value");
 					loader_info->attr_names = g_list_prepend (loader_info->attr_names, name);
 					loader_info->attr_values = g_list_prepend (loader_info->attr_values, value);
 				}
@@ -737,8 +737,8 @@ plugin_info_read (PluginInfo *pinfo, const gchar *dir_name, ErrorInfo **ret_erro
 		return;
 	}
 	tree = doc->xmlRootNode;
-	id = e_xml_get_string_prop_by_name (tree, "id");
-	information_node = e_xml_get_child_by_name (tree, "information");
+	id = e_xml_get_string_prop_by_name (tree, (xmlChar *)"id");
+	information_node = e_xml_get_child_by_name (tree, (xmlChar *)"information");
 	if (information_node != NULL) {
 		xmlNode *node;
 		xmlChar *val;
@@ -747,7 +747,7 @@ plugin_info_read (PluginInfo *pinfo, const gchar *dir_name, ErrorInfo **ret_erro
 		       information_node, "name", NULL);
 		if (node != NULL) {
 			val = xmlNodeGetContent (node);
-			name = g_strdup (val);
+			name = g_strdup ((gchar *)val);
 			xmlFree (val);
 		} else {
 			name = NULL;
@@ -756,7 +756,7 @@ plugin_info_read (PluginInfo *pinfo, const gchar *dir_name, ErrorInfo **ret_erro
 		       information_node, "description", NULL);
 		if (node != NULL) {
 			val = xmlNodeGetContent (node);
-			description = g_strdup (val);
+			description = g_strdup ((gchar *)val);
 			xmlFree (val);
 		} else {
 			description = NULL;
@@ -765,20 +765,20 @@ plugin_info_read (PluginInfo *pinfo, const gchar *dir_name, ErrorInfo **ret_erro
 		name = NULL;
 		description = NULL;
 	}
-	dependencies_node = e_xml_get_child_by_name (tree, "dependencies");
+	dependencies_node = e_xml_get_child_by_name (tree, (xmlChar *)"dependencies");
 	if (dependencies_node != NULL) {
 		dependency_list = plugin_info_read_dependency_list (dependencies_node);
 	} else {
 		dependency_list = NULL;
 	}
-	loader_node = e_xml_get_child_by_name (tree, "loader");
+	loader_node = e_xml_get_child_by_name (tree, (xmlChar *)"loader");
 	if (loader_node != NULL) {
 		loader_static_info = plugin_info_read_loader_static_info (loader_node, &loader_error);
 	} else {
 		loader_static_info = NULL;
 		loader_error = NULL;
 	}
-	services_node = e_xml_get_child_by_name (tree, "services");
+	services_node = e_xml_get_child_by_name (tree, (xmlChar *)"services");
 	if (services_node != NULL) {
 		service_list = plugin_info_read_service_list (services_node, &services_error);
 	} else {

@@ -3220,7 +3220,7 @@ sheet_cursor_set (Sheet *sheet,
 char *
 sheet_name_quote (char const *name_unquoted)
 {
-	unsigned char const *ptr = name_unquoted;
+	char const *ptr = name_unquoted;
 	int      quotes_embedded = 0;
 	gboolean needs_quotes;
 

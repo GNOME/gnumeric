@@ -160,7 +160,7 @@ excel_chart_series_write_xml (ExcelChartSeries *series,
 			xmlNode *v = gnm_graph_series_add_dimension (series->xml,
 				ms_vector_purpose_type_name [i]);
 			if (v != NULL)
-				e_xml_set_integer_prop_by_name (v, "ID",
+				e_xml_set_integer_prop_by_name (v, (xmlChar *)"ID",
 					series->vector [i].remote_ID);
 #endif
 		}
@@ -174,33 +174,33 @@ BC_R(top_state) (ExcelChartReadState *s)
 }
 
 static void
-BC_R(color) (guint8 const *data, char *type, xmlNode *node, gboolean transparent)
+BC_R(color) (guint8 const *data, xmlChar *type, xmlNode *node, gboolean transparent)
 {
-	static char buf[20];
+	static xmlChar buf[20];
 	guint32 const rgb = MS_OLE_GET_GUINT32 (data);
 	guint16 const r = (rgb >>  0) & 0xff;
 	guint16 const g = (rgb >>  8) & 0xff;
 	guint16 const b = (rgb >> 16) & 0xff;
 
-	sprintf (buf, "%02x:%02x:%02x", r, g, b);
+	sprintf ((char *)buf, "%02x:%02x:%02x", r, g, b);
 	xmlSetProp (node, type, buf);
 
 	d (0, printf("%s %02x:%02x:%02x;\n", type, r, g, b););
 }
 
 static xmlNode *
-BC_R(store_chartgroup_type)(ExcelChartReadState *s, char const *t)
+BC_R(store_chartgroup_type)(ExcelChartReadState *s, xmlChar const *t)
 {
 	xmlNode *fmt;
 
 	g_return_val_if_fail (s->xml.currentChartGroup != NULL, NULL);
 
-	fmt = e_xml_get_child_by_name (s->xml.currentChartGroup, "Type");
+	fmt = e_xml_get_child_by_name (s->xml.currentChartGroup, (xmlChar *)"Type");
 
 	g_return_val_if_fail (fmt == NULL, NULL);
 
-	fmt = xmlNewChild (s->xml.currentChartGroup, s->xml.ns, "Type", NULL);
-	xmlSetProp (fmt, "name", t);
+	fmt = xmlNewChild (s->xml.currentChartGroup, s->xml.ns, (xmlChar *)"Type", NULL);
+	xmlSetProp (fmt, (xmlChar *)"name", t);
 	return fmt;
 }
 
@@ -461,14 +461,14 @@ BC_R(areaformat)(ExcelChartHandler const *handle,
 
 	/* These apply to frames also */
 	if (s->xml.dataFormat != NULL) {
-		area = e_xml_get_child_by_name (s->xml.dataFormat, "Area");
+		area = e_xml_get_child_by_name (s->xml.dataFormat, (xmlChar *)"Area");
 		if (area == NULL)
 			area = xmlNewChild (s->xml.dataFormat, s->xml.ns,
-					    "Area", NULL);
+					    (xmlChar *)"Area", NULL);
 	}
 	if (area != NULL && !auto_format) {
-		BC_R(color) (q->data, "ForegroundColour", area, FALSE);
-		BC_R(color) (q->data+4, "BackgroundColour", area, FALSE);
+		BC_R(color) (q->data, (xmlChar *)"ForegroundColour", area, FALSE);
+		BC_R(color) (q->data+4, (xmlChar *)"BackgroundColour", area, FALSE);
 	}
 #if 0
 	/* Ignore the colour indicies.  Use the colours themselves
@@ -670,25 +670,25 @@ BC_R(bar)(ExcelChartHandler const *handle,
 {
 	guint16 const flags = MS_OLE_GET_GUINT16 (q->data+4);
 
-	xmlNode *tmp, *fmt = BC_R(store_chartgroup_type)(s, "Bar");
+	xmlNode *tmp, *fmt = BC_R(store_chartgroup_type)(s, (xmlChar *)"Bar");
 
 	g_return_val_if_fail (fmt != NULL, TRUE);
 
 	/* Always set this it makes things clearer */
-	xmlNewChild (fmt, fmt->ns, "horizontal",
-		(flags & 0x01) ? "true" : "false");
+	xmlNewChild (fmt, fmt->ns, (xmlChar *)"horizontal",
+		(xmlChar *)((flags & 0x01) ? "true" : "false"));
 
 	if (flags & 0x04)
-		xmlNewChild (fmt, fmt->ns, "as_percentage", NULL);
+		xmlNewChild (fmt, fmt->ns, (xmlChar *)"as_percentage", NULL);
 	else if (flags & 0x02)
-		xmlNewChild (fmt, fmt->ns, "stacked", NULL);
+		xmlNewChild (fmt, fmt->ns, (xmlChar *)"stacked", NULL);
 
 	if (s->container.ver >= MS_BIFF_V8 && (flags & 0x08))
-		xmlNewChild (fmt, fmt->ns, "in_3d", NULL);
+		xmlNewChild (fmt, fmt->ns, (xmlChar *)"in_3d", NULL);
 
-	tmp = xmlNewChild (fmt, fmt->ns, "percentage_space_between_items", NULL);
+	tmp = xmlNewChild (fmt, fmt->ns, (xmlChar *)"percentage_space_between_items", NULL);
 	xml_node_set_int (tmp, NULL, MS_OLE_GET_GUINT16 (q->data));
-	tmp = xmlNewChild (fmt, fmt->ns, "percentage_space_between_groups", NULL);
+	tmp = xmlNewChild (fmt, fmt->ns, (xmlChar *)"percentage_space_between_groups", NULL);
 	xml_node_set_int (tmp, NULL, MS_OLE_GET_GUINT16 (q->data+2));
 
 	return FALSE;
@@ -829,13 +829,13 @@ BC_R(chartformat)(ExcelChartHandler const *handle,
 	g_return_val_if_fail (s->xml.currentChartGroup == NULL, TRUE);
 
 	s->xml.currentChartGroup =
-		xmlNewChild (s->xml.plots, s->xml.ns, "Plot", NULL);
+		xmlNewChild (s->xml.plots, s->xml.ns, (xmlChar *)"Plot", NULL);
 	xml_node_set_int (s->xml.currentChartGroup, "index", s->plot_counter);
 	xml_node_set_int (s->xml.currentChartGroup, "stacking_position", z_order);
 
 	if (vary_color)
 		e_xml_set_bool_prop_by_name (s->xml.currentChartGroup,
-					     "color_individual_points", TRUE);
+					     (xmlChar *)"color_individual_points", TRUE);
 
 	d (0, {
 		printf ("Z value = %uh\n", z_order);
@@ -957,13 +957,13 @@ BC_R(dataformat)(ExcelChartHandler const *handle,
 
 	if (pt_num == 0xffff) {
 		s->xml.dataFormat = xmlNewChild (series->xml, s->xml.ns,
-						 "Format", NULL);
+						 (xmlChar *)"Format", NULL);
 		d (0, printf ("All points"););
 	} else {
 		s->xml.dataFormat = xmlNewChild (series->xml, s->xml.ns,
-						 "FormatPoint", NULL);
+						 (xmlChar *)"FormatPoint", NULL);
 		e_xml_set_integer_prop_by_name (s->xml.dataFormat,
-			"index", pt_num);
+			(xmlChar *)"index", pt_num);
 		d (0, printf ("Point-%hd", pt_num););
 	}
 
@@ -1175,13 +1175,13 @@ BC_R(legend)(ExcelChartHandler const *handle,
 			   position);
 	};
 
-	legend = e_xml_get_child_by_name (s->xml.doc->xmlRootNode, "Legend");
+	legend = e_xml_get_child_by_name (s->xml.doc->xmlRootNode, (xmlChar *)"Legend");
 
 	g_return_val_if_fail (legend == NULL, TRUE);
 
 	legend = xmlNewChild (s->xml.doc->xmlRootNode, s->xml.ns,
-			      "Legend", NULL);
-	legend = xmlNewChild (legend, s->xml.ns, "Position", position_txt);
+			      (xmlChar *)"Legend", NULL);
+	legend = xmlNewChild (legend, s->xml.ns, (xmlChar *)"Position", (xmlChar *)position_txt);
 
 #if 0
 	printf ("Legend @ %f,%f, X=%f, Y=%f\n",
@@ -1224,17 +1224,17 @@ BC_R(line)(ExcelChartHandler const *handle,
 {
 	guint16 const flags = MS_OLE_GET_GUINT16 (q->data);
 
-	xmlNode *fmt = BC_R(store_chartgroup_type)(s, "Line");
+	xmlNode *fmt = BC_R(store_chartgroup_type)(s, (xmlChar *)"Line");
 
 	g_return_val_if_fail (fmt != NULL, TRUE);
 
 	if (flags & 0x02)
-		xmlNewChild (fmt, fmt->ns, "as_percentage", NULL);
+		xmlNewChild (fmt, fmt->ns, (xmlChar *)"as_percentage", NULL);
 	else if (flags & 0x01)
-		xmlNewChild (fmt, fmt->ns, "stacked", NULL);
+		xmlNewChild (fmt, fmt->ns, (xmlChar *)"stacked", NULL);
 
 	if (s->container.ver >= MS_BIFF_V8 && (flags & 0x04))
-		xmlNewChild (fmt, fmt->ns, "in_3d", NULL);
+		xmlNewChild (fmt, fmt->ns, (xmlChar *)"in_3d", NULL);
 
 	return FALSE;
 }
@@ -1307,14 +1307,14 @@ BC_R(lineformat)(ExcelChartHandler const *handle,
 
 	/* Applies to frames too */
 	if (s->xml.dataFormat != NULL) {
-		line = e_xml_get_child_by_name (s->xml.dataFormat, "Line");
+		line = e_xml_get_child_by_name (s->xml.dataFormat, (xmlChar *)"Line");
 		if (line == NULL)
 			line = xmlNewChild (s->xml.dataFormat, s->xml.ns,
-					    "Line", NULL);
+					    (xmlChar *)"Line", NULL);
 	}
 
 	if (line != NULL && !auto_format)
-		BC_R(color) (q->data, "Colour", line, FALSE);
+		BC_R(color) (q->data, (xmlChar *)"Colour", line, FALSE);
 
 #if 0
 	/* Ignore the colour indicies.  Use the colours themselves
@@ -1357,20 +1357,20 @@ BC_R(markerformat)(ExcelChartHandler const *handle,
 
 	g_return_val_if_fail (s->xml.dataFormat, TRUE);
 
-	marker = e_xml_get_child_by_name (s->xml.dataFormat, "Marker");
+	marker = e_xml_get_child_by_name (s->xml.dataFormat, (xmlChar *)"Marker");
 	if (marker == NULL)
 		marker = xmlNewChild (s->xml.dataFormat, s->xml.ns,
-				      "Marker", NULL);
+				      (xmlChar *)"Marker", NULL);
 
 	g_return_val_if_fail (tmp < 10, TRUE);
 
 	d (0, printf ("Marker = %s\n", ms_chart_marker [tmp]););
 	if (tmp > 0)
-		xmlSetProp (marker, "shape", ms_chart_marker [tmp]);
+		xmlSetProp (marker, (xmlChar *)"shape", (xmlChar *)ms_chart_marker [tmp]);
 
 	if (!auto_color) {
-		BC_R(color) (q->data, "BorderColour", marker, no_fore);
-		BC_R(color) (q->data+4, "InteriorColour", marker, no_back);
+		BC_R(color) (q->data, (xmlChar *)"BorderColour", marker, no_fore);
+		BC_R(color) (q->data+4, (xmlChar *)"InteriorColour", marker, no_back);
 	}
 
 	if (s->container.ver >= MS_BIFF_V8) {
@@ -1455,26 +1455,26 @@ BC_R(pie)(ExcelChartHandler const *handle,
 	  ExcelChartReadState *s, BiffQuery *q)
 {
 	double radians;
-	xmlNode *tmp, *fmt = BC_R(store_chartgroup_type)(s, "Pie");
+	xmlNode *tmp, *fmt = BC_R(store_chartgroup_type)(s, (xmlChar *)"Pie");
 	guint16 const percent_diam = MS_OLE_GET_GUINT16 (q->data+2); /* 0-100 */
 
 	/* This is for the whole pie */
 	if (percent_diam > 0) {
 		xmlNode *tmp = xmlNewChild (fmt, fmt->ns,
-			"separation_percent_of_radius", NULL);
+			(xmlChar *)"separation_percent_of_radius", NULL);
 		xml_node_set_int (tmp, NULL, percent_diam);
 	}
 
 	radians = MS_OLE_GET_GUINT16 (q->data);
 	radians = (radians * 2. * M_PI / 360.);
-	tmp = xmlNewChild (fmt, fmt->ns, "radians_of_first_pie", NULL);
+	tmp = xmlNewChild (fmt, fmt->ns, (xmlChar *)"radians_of_first_pie", NULL);
 	xml_node_set_double (fmt, NULL, radians, -1); 
 
 	if (s->container.ver >= MS_BIFF_V8) {
 		guint16 const flags = MS_OLE_GET_GUINT16 (q->data+4);
 
 		if (flags & 0x1)
-			xmlNewChild (fmt, fmt->ns, "in_3d", NULL);
+			xmlNewChild (fmt, fmt->ns, (xmlChar *)"in_3d", NULL);
 #if 0
 		if (flags & 0x2)
 			e_xml_set_bool_prop_by_name (fmt, "leader_lines", TRUE);
@@ -1503,14 +1503,14 @@ BC_R(pieformat)(ExcelChartHandler const *handle,
 	g_return_val_if_fail (percent_diam <= 100, TRUE);
 	g_return_val_if_fail (s->xml.dataFormat, TRUE);
 
-	pie = e_xml_get_child_by_name (s->xml.dataFormat, "Pie");
+	pie = e_xml_get_child_by_name (s->xml.dataFormat, (xmlChar *)"Pie");
 	if (pie == NULL)
-		pie = xmlNewChild (s->xml.dataFormat, s->xml.ns, "Pie", NULL);
+		pie = xmlNewChild (s->xml.dataFormat, s->xml.ns, (xmlChar *)"Pie", NULL);
 
 	/* This is for individual slices */
 	if (percent_diam > 0) {
 		xmlNode *tmp = xmlNewChild (pie, pie->ns,
-			"separation_percent_of_radius", NULL);
+			(xmlChar *)"separation_percent_of_radius", NULL);
 		xml_node_set_int (tmp, NULL, percent_diam);
 	}
 
@@ -1645,7 +1645,7 @@ static gboolean
 BC_R(scatter)(ExcelChartHandler const *handle,
 	      ExcelChartReadState *s, BiffQuery *q)
 {
-	xmlNode *fmt = BC_R(store_chartgroup_type)(s, "Scatter");
+	xmlNode *fmt = BC_R(store_chartgroup_type)(s, (xmlChar *)"Scatter");
 
 	g_return_val_if_fail (fmt != NULL, TRUE);
 
@@ -1655,11 +1655,11 @@ BC_R(scatter)(ExcelChartHandler const *handle,
 		/* Has bubbles */
 		if (flags & 0x01) {
 			guint16 const size_type = MS_OLE_GET_GUINT16 (q->data+2);
-			e_xml_set_bool_prop_by_name (fmt, "has_bubbles", TRUE);
+			e_xml_set_bool_prop_by_name (fmt, (xmlChar *)"has_bubbles", TRUE);
 			if (!(flags & 0x02))
-				xmlNewChild (fmt, fmt->ns, "hide_negatives", NULL);
+				xmlNewChild (fmt, fmt->ns, (xmlChar *)"hide_negatives", NULL);
 			if (flags & 0x04)
-				xmlNewChild (fmt, fmt->ns, "in_3d", NULL);
+				xmlNewChild (fmt, fmt->ns, (xmlChar *)"in_3d", NULL);
 
 #if 0
 			/* huh ? */
@@ -1667,9 +1667,9 @@ BC_R(scatter)(ExcelChartHandler const *handle,
 					  MS_OLE_GET_GUINT16 (q->data));
 #endif
 			xmlNewChild (fmt, fmt->ns,
-				     (size_type == 2)
-				     ? "bubble_sized_as_width"
-				     : "bubble_sized_as_area",
+				     (xmlChar *)((size_type == 2)
+					     ? "bubble_sized_as_width"
+					     : "bubble_sized_as_area"),
 				     NULL);
 		}
 	}
@@ -1767,8 +1767,8 @@ BC_R(series)(ExcelChartHandler const *handle,
 	d (2, printf ("SERIES = %d\n", s->series->len););
 
 	series = excel_chart_series_new ();
-	series->xml = xmlNewDocNode (s->xml.doc, s->xml.ns, "Series", NULL);
-	e_xml_set_integer_prop_by_name (series->xml, "index", s->series->len);
+	series->xml = xmlNewDocNode (s->xml.doc, s->xml.ns, (xmlChar *)"Series", NULL);
+	e_xml_set_integer_prop_by_name (series->xml, (xmlChar *)"index", s->series->len);
 
 	/* WARNING : The offsets in the documentation are WRONG.
 	 *           Use the sizes instead.
@@ -2191,7 +2191,7 @@ BC_R(end)(ExcelChartHandler const *handle,
 
 		g_return_val_if_fail (s->xml.currentChartGroup != NULL, TRUE);
 
-		data = xmlNewChild (s->xml.currentChartGroup, s->xml.ns, "Data", NULL);
+		data = xmlNewChild (s->xml.currentChartGroup, s->xml.ns, (xmlChar *)"Data", NULL);
 		for (i = 0 ; i < s->series->len; i++ ) {
 			series = g_ptr_array_index (s->series, i);
 
@@ -2407,13 +2407,14 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver, GtkObje
 	state.currentSeries = NULL;
 	state.series	    = g_ptr_array_new ();
 	state.plot_counter  = -1;
-	state.xml.doc       = xmlNewDoc ("1.0");
+	state.xml.doc       = xmlNewDoc ((xmlChar *)"1.0");
 	state.xml.doc->xmlRootNode =
-		xmlNewDocNode (state.xml.doc, NULL, "Graph", NULL);
+		xmlNewDocNode (state.xml.doc, NULL, (xmlChar *)"Graph", NULL);
 	state.xml.ns        = xmlNewNs (state.xml.doc->xmlRootNode,
-		"http://www.gnumeric.org/graph_v1", "graph");
+		(xmlChar *)"http://www.gnumeric.org/graph_v1",
+		(xmlChar *)"graph");
 	state.xml.plots = xmlNewChild (state.xml.doc->xmlRootNode,
-				       state.xml.ns, "Plots", NULL);
+				       state.xml.ns, (xmlChar *)"Plots", NULL);
 	state.xml.currentChartGroup = NULL;
 	state.xml.dataFormat = NULL;
 

@@ -896,7 +896,7 @@ gnm_graph_get_spec (GnmGraph *graph, gboolean force_update)
 		g_return_val_if_fail (spec->_length >= 4, NULL);
 
 		pctxt = xmlCreatePushParserCtxt (NULL, NULL,
-			spec->_buffer, spec->_length, NULL);
+			(char* *)spec->_buffer, spec->_length, NULL);
 		xmlParseChunk (pctxt, "", 0, TRUE);
 
 		gnm_graph_clear_xml (graph);
@@ -1050,7 +1050,7 @@ gnm_graph_read_xml (SheetObject *so,
 	if (gnm_graph_setup (graph, ctxt->wb))
 		return TRUE;
 
-	tmp = e_xml_get_child_by_name (tree, "Vectors");
+	tmp = e_xml_get_child_by_name (tree, (xmlChar *)"Vectors");
 	for (tmp = tmp->xmlChildrenNode; tmp; tmp = tmp->next) {
 		int id, new_id, type;
 		ParsePos pos;
@@ -1061,7 +1061,7 @@ gnm_graph_read_xml (SheetObject *so,
 			continue;
 
 		content = xmlNodeGetContent (tmp);
-		expr = expr_parse_str_simple (content,
+		expr = expr_parse_str_simple ((gchar *)content,
 			parse_pos_init (&pos, NULL, ctxt->sheet, 0, 0));
 		xmlFree (content);
 
@@ -1075,9 +1075,9 @@ gnm_graph_read_xml (SheetObject *so,
 		g_return_val_if_fail (id == new_id, TRUE);
 	}
 
-	doc = xmlNewDoc ("1.0");
+	doc = xmlNewDoc ((xmlChar *)"1.0");
 	doc->xmlRootNode = xmlCopyNode (
-		e_xml_get_child_by_name (tree, "Graph"), TRUE);
+		e_xml_get_child_by_name (tree, (xmlChar *)"Graph"), TRUE);
 	gnm_graph_import_specification (graph, doc);
 	xmlFreeDoc (doc);
 
@@ -1093,7 +1093,7 @@ gnm_graph_write_xml (SheetObject const *so,
 	ParsePos pp;
 	unsigned i;
 
-	vectors = xmlNewChild (tree, ctxt->ns, "Vectors", NULL);
+	vectors = xmlNewChild (tree, ctxt->ns, (xmlChar *)"Vectors", NULL);
 	for (i = 0 ; i < graph->vectors->len; i++) {
 		GnmGraphVector *vector = g_ptr_array_index (graph->vectors, i);
 		xmlNode *node;
@@ -1105,9 +1105,9 @@ gnm_graph_write_xml (SheetObject const *so,
 		expr_str = expr_tree_as_string (vector->dep.expression,
 			parse_pos_init_dep (&pp, &vector->dep));
 		encoded_expr_str = xmlEncodeEntitiesReentrant (ctxt->doc,
-			expr_str);
-		node = xmlNewChild (vectors, ctxt->ns, "Vector",
-			encoded_expr_str);
+			(xmlChar *)expr_str);
+		node = xmlNewChild (vectors, ctxt->ns, (xmlChar *)"Vector",
+			(xmlChar *)encoded_expr_str);
 		g_free (expr_str);
 		xmlFree (encoded_expr_str);
 
@@ -1160,7 +1160,7 @@ gnm_graph_series_get_dimension (xmlNode *series, xmlChar const *target)
 	for (dim = series->xmlChildrenNode; dim; dim = dim->next) {
 		if (strcmp (dim->name, "Dimension"))
 			continue;
-		dim_name = xmlGetProp (dim, "dim_name");
+		dim_name = xmlGetProp (dim, (xmlChar *)"dim_name");
 		if (dim_name == NULL) {
 			g_warning ("Missing dim_name in series dimension");
 			continue;
@@ -1187,8 +1187,8 @@ gnm_graph_series_add_dimension (xmlNode *series, char const *dim_name)
 
 	g_return_val_if_fail (series != NULL, NULL);
 
-	res = xmlNewChild (series, series->ns, "Dimension", NULL);
-	xmlSetProp (res, "dim_name", dim_name);
+	res = xmlNewChild (series, series->ns, (xmlChar *)"Dimension", NULL);
+	xmlSetProp (res, (xmlChar *)"dim_name", dim_name);
 	return res;
 }
 

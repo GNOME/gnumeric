@@ -194,15 +194,15 @@ cell_comment_read_xml (SheetObject *so,
 		       XmlParseContext const *ctxt, xmlNodePtr	tree)
 {
 	CellComment *cc = CELL_COMMENT (so);
-	char *author = xmlGetProp (tree, "Author");
-	char *text = xmlGetProp (tree, "Text");
+	xmlChar *author = xmlGetProp (tree, (xmlChar *)"Author");
+	xmlChar *text = xmlGetProp (tree, (xmlChar *)"Text");
 
 	if (author != NULL) {
-		cell_comment_author_set (cc, author);
+		cell_comment_author_set (cc, (char *)author);
 		xmlFree (author);
 	}
 	if (text != NULL) {
-		cell_comment_text_set (cc, text);
+		cell_comment_text_set (cc, (char *)text);
 		xmlFree (text);
 	}
 

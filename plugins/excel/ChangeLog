@@ -1,7 +1,23 @@
+2002-01-06  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.1
+
 2002-01-04  Jody Goldberg <jody@gnome.org>
 
 	* ms-chart.c (excel_chart_series_write_xml) : more protection for
 	  missing series.
+
+2002-01-03  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* ms-escher.c (ms_escher_blip_new) : cast to fix signedness warning.
+	* ms-excel-read.c (biff_get_text) : likewise
+	* ms-excel-read.c (get_string) : likewise
+	* ms-excel-write.c (write_bits) : char -> guint8.
+	* ms-excel-write.c (write_value) : ditto
+	* ms-chart.c (excel_chart_series_write_xml) : cast / type change
+	* ms-chart.c (BC_R) : ditto
+	* ms-chart.c (BC_R(*)) : ditto
+	* ms-chart.c (ms_excel_chart) : ditto
 
 2001-12-31  Jody Goldberg <jody@gnome.org>
 
