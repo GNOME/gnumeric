@@ -6,7 +6,7 @@
 #include <glib-object.h>
 
 struct _WorkbookView {
-	GObject  gtk_object;
+	GObject  base;
 
 	Workbook *wb;
 	GPtrArray *wb_controls;

@@ -135,7 +135,7 @@ wbcg_toplevel (WorkbookControlGUI *wbcg)
 }
 
 /**
- * wbcg_focus_cur_sheet :
+ * wbcg_focus_cur_scg :
  * @wbcg : The workbook control to operate on.
  *
  * A utility routine to safely ensure that the keyboard focus
@@ -144,12 +144,13 @@ wbcg_toplevel (WorkbookControlGUI *wbcg)
  *
  * It is called for zoom, font name/size, and accept/cancel for the editline.
  */
-void
-wbcg_focus_cur_sheet (WorkbookControlGUI *wbcg)
+Sheet *
+wbcg_focus_cur_scg (WorkbookControlGUI *wbcg)
 {
 	GtkWidget *table;
 	GtkObject *obj;
 	SheetControlGUI *scg;
+	Sheet *sheet;
 
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 
@@ -161,6 +162,7 @@ wbcg_focus_cur_sheet (WorkbookControlGUI *wbcg)
 	g_return_if_fail (scg != NULL);
 
 	scg_take_focus (scg);
+	return sc_sheet (SHEET_CONTROL (scg));
 }
 
 SheetControlGUI *
@@ -372,14 +374,14 @@ cb_sheet_label_changed (EditableLabel *el,
 {
 	gboolean ans = !cmd_rename_sheet (WORKBOOK_CONTROL (wbcg),
 		editable_label_get_text (el), new_name);
-	wbcg_focus_cur_sheet (wbcg);
+	wbcg_focus_cur_scg (wbcg);
 	return ans;
 }
 
 static void
 cb_sheet_label_edit_stopped (EditableLabel *el, WorkbookControlGUI *wbcg)
 {
-	wbcg_focus_cur_sheet (wbcg);
+	wbcg_focus_cur_scg (wbcg);
 }
 
 static void
@@ -388,7 +390,7 @@ sheet_action_add_sheet (GtkWidget *widget, SheetControlGUI *scg)
 	SheetControl *sc = (SheetControl *) scg;
 
 	workbook_sheet_add (wb_control_workbook (sc->wbc), sc->sheet, TRUE);
-	wbcg_focus_cur_sheet (scg->wbcg);
+	wbcg_focus_cur_scg (scg->wbcg);
 }
 
 static void
@@ -442,7 +444,7 @@ sheet_action_clone_sheet (GtkWidget *widget, SheetControlGUI *scg)
 
 	workbook_sheet_attach (sc->sheet->workbook, new_sheet, sc->sheet);
 	sheet_set_dirty (new_sheet, TRUE);
-	wbcg_focus_cur_sheet (scg->wbcg);
+	wbcg_focus_cur_scg (scg->wbcg);
 }
 
 static void
@@ -714,7 +716,7 @@ cb_change_zoom (GtkWidget *caller, char *new_zoom, WorkbookControlGUI *wbcg)
 	else
 		zoom_changed (wbcg, sheet);
 
-	wbcg_focus_cur_sheet (wbcg);
+	wbcg_focus_cur_scg (wbcg);
 
 	/* because we are updating it there is no need to apply it now */
 	return FALSE;
@@ -2860,8 +2862,8 @@ static GnomeUIInfo workbook_menu_format_row [] = {
 };
 
 static GnomeUIInfo workbook_menu_format_sheet [] = {
-	GNOMEUIINFO_ITEM_NONE (N_("_Change name"),
-		N_("Edit the name of the current sheet"),
+	GNOMEUIINFO_ITEM_NONE (N_("Re_name..."),
+		N_("Rename the current sheet"),
 		cb_sheet_name),
 	GNOMEUIINFO_ITEM_NONE (N_("Re-_Order Sheets..."),
 		N_("Change the order the sheets are displayed"),
@@ -3359,12 +3361,14 @@ workbook_create_standard_toolbar (WorkbookControlGUI *wbcg)
 
 	/* Undo dropdown list */
 	undo = wbcg->undo_combo = gtk_combo_stack_new (GTK_STOCK_UNDO, TRUE);
+	gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (undo), GTK_RELIEF_NONE);
 	gtk_combo_box_set_title (GTK_COMBO_BOX (undo), _("Undo"));
 	gtk_signal_connect (GTK_OBJECT (undo), "pop",
 			    (GtkSignalFunc) cb_undo_combo, wbcg);
 
 	/* Redo dropdown list */
 	redo = wbcg->redo_combo = gtk_combo_stack_new (GTK_STOCK_REDO, TRUE);
+	gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (redo), GTK_RELIEF_NONE);
 	gtk_combo_box_set_title (GTK_COMBO_BOX (redo), _("Redo"));
 	gtk_signal_connect (GTK_OBJECT (redo), "pop",
 			    (GtkSignalFunc) cb_redo_combo, wbcg);
@@ -3419,7 +3423,7 @@ static void
 wb_jump_to_cell (GtkEntry *entry, WorkbookControlGUI *wbcg)
 {
 	wb_control_parse_and_jump (WORKBOOK_CONTROL (wbcg), gtk_entry_get_text (entry));
-	wbcg_focus_cur_sheet (wbcg);
+	wbcg_focus_cur_scg (wbcg);
 }
 
 static void
@@ -3556,7 +3560,7 @@ static void
 wbcg_set_focus (GtkWindow *window, GtkWidget *focus, WorkbookControlGUI *wbcg)
 {
 	if (focus && !window->focus_widget)
-		wbcg_focus_cur_sheet (wbcg);
+		wbcg_focus_cur_scg (wbcg);
 }
 
 static void
@@ -3614,9 +3618,8 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 			     GINT_TO_POINTER (gtk_notebook_get_current_page (notebook)));
 
 	/* if we are not selecting a range for an expression update */
-	wbcg_focus_cur_sheet (wbcg);
-	sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
-	if (sheet != NULL) {
+	sheet = wbcg_focus_cur_scg (wbcg);
+	if (sheet != wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg))) {
 		sheet_flag_status_update_range (sheet, NULL);
 		sheet_update (sheet);
 		wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);

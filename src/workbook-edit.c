@@ -134,7 +134,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 	wbc = WORKBOOK_CONTROL (wbcg);
 	wbv = wb_control_view (wbc);
 
-	wbcg_focus_cur_sheet (wbcg);
+	wbcg_focus_cur_scg (wbcg);
 
 	/* Remove the range selection cursor if it exists */
 	if (NULL != wbcg->rangesel)

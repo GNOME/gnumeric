@@ -250,7 +250,7 @@ change_font_in_selection_cmd (GtkWidget *caller, WorkbookControlGUI *wbcg)
 			    _("Set Font"));
 
 		/* Restore the focus to the sheet */
-		wbcg_focus_cur_sheet	(wbcg);
+		wbcg_focus_cur_scg (wbcg);
 	}
 }
 
@@ -283,7 +283,7 @@ change_font_size_in_selection_cmd (GtkEntry *entry, WorkbookControlGUI *wbcg)
 		    _("Set Font Size"));
 
 	/* Restore the focus to the sheet */
-	wbcg_focus_cur_sheet (wbcg);
+	wbcg_focus_cur_scg (wbcg);
 }
 
 static void
@@ -748,6 +748,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 
 	/* font name selector */
 	fontsel = wbcg->font_name_selector = gtk_combo_text_new (TRUE);
+	gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (fontsel), GTK_RELIEF_NONE);
 	entry = GTK_COMBO_TEXT (fontsel)->entry;
 	gtk_signal_connect (GTK_OBJECT (entry), "activate",
 			    GTK_SIGNAL_FUNC (change_font_in_selection_cmd), wbcg);
@@ -769,6 +770,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 
 	/* font size selector */
 	fontsize = wbcg->font_size_selector = gtk_combo_text_new (TRUE);
+	gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (fontsize), GTK_RELIEF_NONE);
 	entry = GTK_COMBO_TEXT (fontsize)->entry;
 	gtk_signal_connect (GTK_OBJECT (entry), "activate",
 			    GTK_SIGNAL_FUNC (change_font_size_in_selection_cmd), wbcg);

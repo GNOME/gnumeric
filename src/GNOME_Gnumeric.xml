@@ -215,7 +215,7 @@
 		    _tip="Rename the current sheet"/>
 
 		<menuitem name="SheetReorder" verb=""
-		    _label="Re-_Order..."
+		    _label="Re-_Order Sheets..."
 		    _tip="Change the order the sheets are displayed" />
 
 		<menuitem name="SheetRemove" verb=""
@@ -436,8 +436,8 @@
 
 	    <submenu _label="_Sheet">
 		<menuitem name="SheetChangeName" verb=""
-		    _label="_Change Name..."
-		    _tip="Edit the name of the current sheet" />
+		    _label="Re_name..."
+		    _tip="Rename the current sheet"/>
 
 		<menuitem name="SheetReorder" verb=""
 		    _label="Re-_Order Sheets..."

@@ -2165,7 +2165,7 @@ static GtkObject *
 ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 {
 	SheetObject *so = NULL;
-	Sheet  *sheet;
+	Workbook *wb;
 	ExcelSheet const *esheet;
 
 	if (obj == NULL)
@@ -2174,7 +2174,7 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 	g_return_val_if_fail (container != NULL, NULL);
 
 	esheet = (ExcelSheet const *)container;
-	sheet = esheet->gnum_sheet;
+	wb = esheet->wb->gnum_wb;
 
 	switch (obj->excel_type) {
 	case 0x01: { /* Line */
@@ -2196,7 +2196,7 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 
 	case 0x05: { /* Chart */
 #ifdef ENABLE_BONOBO
-		so = SHEET_OBJECT (gnm_graph_new (sheet->workbook));
+		so = SHEET_OBJECT (gnm_graph_new (wb));
 #else
 		so = sheet_object_box_new (FALSE);  /* placeholder */
 		if (esheet->wb->warn_unsupported_graphs) {
@@ -2207,8 +2207,13 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 #endif
 		break;
 	}
-	case 0x06: so = sheet_widget_label_new (sheet);    break; /* TextBox */
-	case 0x07: so = sheet_widget_button_new (sheet);   break; /* Button */
+
+	/* TextBox */
+	case 0x06: so = g_object_new (sheet_widget_label_get_type (), NULL);
+		   break;
+	/* Button */
+	case 0x07: so = g_object_new (sheet_widget_button_get_type (), NULL);
+		   break;
 	case 0x08: { /* Picture */
 #ifdef ENABLE_BONOBO
 		MSObjAttr *blip_id = ms_object_attr_bag_lookup (obj->attrs,
@@ -2221,7 +2226,7 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 			if (blip != NULL) {
 				SheetObjectBonobo *sob;
 
-				so = sheet_object_container_new (sheet->workbook);
+				so = sheet_object_container_new (wb);
 				sob = SHEET_OBJECT_BONOBO (so);
 
 				if (sheet_object_bonobo_set_object_iid (sob, blip->obj_id)) {
@@ -2258,13 +2263,19 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 			so = sheet_object_box_new (FALSE);  /* placeholder */
 		break;
 	}
-	case 0x0B: so = sheet_widget_checkbox_new (sheet); break;
-	case 0x0C: so = sheet_widget_radio_button_new (sheet); break;
-	case 0x0E: so = sheet_widget_label_new (sheet);    break;
+	case 0x0B: so = g_object_new (sheet_widget_checkbox_get_type (), NULL);
+		   break;
+	case 0x0C: so = g_object_new (sheet_widget_radio_button_get_type (), NULL);
+		   break;
+	case 0x0E: so = g_object_new (sheet_widget_label_get_type (), NULL);
+		   break;
 	case 0x10: so = sheet_object_box_new (FALSE);  break; /* Spinner */
-	case 0x11: so = sheet_widget_scrollbar_new (sheet); break;
-	case 0x12: so = sheet_widget_list_new (sheet);     break;
-	case 0x14: so = sheet_widget_combo_new (sheet);    break;
+	case 0x11: so = g_object_new (sheet_widget_scrollbar_get_type (), NULL);
+		   break;
+	case 0x12: so = g_object_new (sheet_widget_list_get_type (), NULL);
+		   break;
+	case 0x14: so = g_object_new (sheet_widget_combo_get_type (), NULL);
+		   break;
 
 	case 0x19: /* Comment */
 		/* TODO: we'll need a special widget for this */

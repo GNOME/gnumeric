@@ -1,3 +1,8 @@
+2002-01-29  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (ms_sheet_create_obj) : move to new sheet widget
+	  layout.
+
 2002-01-23  Jody Goldberg <jody@gnome.org>
 
 	* ms-summary.c (EXCEL_TO_GNUM_MAPPING_COUNT) : use G_N_ELEMENTS.

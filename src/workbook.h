@@ -14,7 +14,7 @@
 
 typedef struct _WorkbookPrivate WorkbookPrivate;
 struct _Workbook {
-	GObject  gtk_object;
+	GObject  base;
 
 	GPtrArray *wb_views;
 

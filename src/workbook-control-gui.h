@@ -18,7 +18,7 @@ void		 workbook_control_gui_init      (WorkbookControlGUI *wbcg,
 
 GtkWindow	*wbcg_toplevel	  (WorkbookControlGUI *wbcg);
 SheetControlGUI *wbcg_cur_scg	  (WorkbookControlGUI *wbcg);
-void	   wbcg_focus_cur_sheet   (WorkbookControlGUI *wbcg);
+Sheet		*wbcg_focus_cur_scg (WorkbookControlGUI *wbcg);
 
 gboolean   wbcg_ui_update_begin	  (WorkbookControlGUI *wbcg);
 void	   wbcg_ui_update_end	  (WorkbookControlGUI *wbcg);

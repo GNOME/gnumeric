@@ -1,3 +1,15 @@
+2002-01-29  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (cb_notebook_switch_page) : fix changing
+	  sheets.
+
+2002-01-29  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-format-toolbar.c (workbook_create_format_toolbar) :
+	  hard code relief.
+	* src/workbook-control-gui.c (workbook_create_standard_toolbar) :
+	  ditto.
+
 2002-01-29  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/workbook-control-gui.c (sheet_action_rename_sheet) : move most 

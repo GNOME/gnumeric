@@ -5,10 +5,39 @@
 #include <gtk/gtkobject.h>
 
 struct _SheetView {
-	GtkObject  gtk_object;
+	GtkObject  base;
 
-	Sheet *s;
-	GPtrArray *s_controls;
+	Sheet	  *s;
+	GPtrArray *controls;
+
+	CellPos	 edit_pos;	/* Cell that would be edited */
+	CellPos	 edit_pos_real;	/* Even in the middle of a merged cell */
+
+	struct {
+		/* Static corner to rubber band the selection range around */
+		CellPos	 base_corner;
+		/* Corner that is moved when the selection range is extended */
+		CellPos	 move_corner;
+	} cursor;
+
+	GList  *selections; /* The set of selected ranges in LIFO order */
+	GList  *ants; /* set of animated cursors */
+
+	CellPos initial_top_left;
+	CellPos frozen_top_left;
+	CellPos unfrozen_top_left;
+
+	/* preferences */
+	gboolean    display_formulas;
+	gboolean    hide_zero;
+	gboolean    hide_grid;
+	gboolean    hide_col_header;
+	gboolean    hide_row_header;
+
+	gboolean    display_outlines;
+	gboolean    outline_symbols_below;
+	gboolean    outline_symbols_right;
+
 };
 
 typedef struct {
