@@ -38,6 +38,7 @@ Long term breakage
     - Add/duplicate sheet.
     - Remove sheet.
     - Reorder sheets.
+    - Delete Comment.
 
 - Misc.
     - Add an idle handler at start up to check for availablity of
