@@ -7,6 +7,19 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+These look very, very wrong.
+
+    io-context.c: In function `file_io_progress_update':
+    io-context.c:304: warning: suggest parentheses around assignment used as truth value
+    io-context.c: In function `memory_io_progress_update':
+    io-context.c:332: warning: suggest parentheses around assignment used as truth value
+    io-context.c: In function `value_io_progress_update':
+    io-context.c:357: warning: suggest parentheses around assignment used as truth value
+    io-context.c: In function `count_io_progress_update':
+    io-context.c:387: warning: suggest parentheses around assignment used as truth value
+    io-context.c: In function `workbook_io_progress_update':
+    io-context.c:434: warning: suggest parentheses around assignment used as truth value
+
 Pending Patches
 ---------------
 
