@@ -1,3 +1,7 @@
+2004-09-27  Morten Welinder  <terra@gnome.org>
+
+	* libpresent/ppt-parsing-helper.h: Add header guard.
+
 2004-09-27  Jon K Hellan  <hellan@acm.org>
 
 	* graph/gog-renderer-gnome-print.c
