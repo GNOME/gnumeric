@@ -515,29 +515,34 @@ mstyle_do_merge (const GList *list, MStyleElementType max)
 	return ans;
 }
 
-MStyle *
-mstyle_merge (const MStyle *sta, const MStyle *stb)
+/**
+ * mstyle_merge:
+ * @master: the master style
+ * @slave:  the slave style
+ * 
+ *   This function removes any style elements from the slave
+ * that are masked by the master style. Thus eventualy the
+ * slave style becomes redundant and can be removed.
+ * 
+ **/
+void
+mstyle_merge (MStyle *master, MStyle *slave)
 {
 	PrivateStyle *pstm, *psts; /* Master, slave */
-	PrivateStyle *ans;
 	int i;
 
-	g_return_val_if_fail (sta != NULL, NULL);
-	g_return_val_if_fail (stb != NULL, NULL);
+	g_return_if_fail (slave != NULL);
+	g_return_if_fail (master != NULL);
 
-	pstm = (PrivateStyle *)sta;
-	psts = (PrivateStyle *)stb;
-
-	ans = (PrivateStyle *)mstyle_new ();
+	psts = (PrivateStyle *)slave;
+	pstm = (PrivateStyle *)master;
 
 	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++) {
-		if (pstm->elements[i].type)
-			ans->elements[i] = mstyle_element_ref (pstm->elements[i]);
-		else if (psts->elements[i].type)
-			ans->elements[i] = mstyle_element_ref (psts->elements[i]);
+		if (pstm->elements[i].type && psts->elements[i].type) {
+			mstyle_element_unref (psts->elements[i]);
+			psts->elements[i].type = MSTYLE_ELEMENT_UNSET;
+		}
 	}
-
-	return (MStyle *)ans;
 }
 
 char *
@@ -615,6 +620,20 @@ mstyle_equal (const MStyle *a, const MStyle *b)
 		g_warning ("Named style equal unimplemented");
 
 	return mstyle_elements_equal (pa->elements, pb->elements);
+}
+
+gboolean
+mstyle_empty (const MStyle *st)
+{
+	PrivateStyle *pst = (PrivateStyle *)st;
+	int i;
+
+	g_return_val_if_fail (st != NULL, FALSE);
+
+	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++)
+		if (pst->elements[i].type)
+			return FALSE;
+	return TRUE;
 }
 
 gboolean

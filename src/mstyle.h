@@ -64,6 +64,7 @@ void        mstyle_destroy       (MStyle *st);
 gboolean    mstyle_equal         (const MStyle *a, const MStyle *b);
 gboolean    mstyle_verify        (const MStyle *st);
 guint       mstyle_hash          (gconstpointer st);
+gboolean    mstyle_empty         (const MStyle *st);
 
 /*
  * Wafer thin element access functions.
@@ -101,8 +102,7 @@ StyleOrientation    mstyle_get_orientation (const MStyle *st);
 void                mstyle_set_fit_in_cell (MStyle *st, gboolean f);
 gboolean            mstyle_get_fit_in_cell (const MStyle *st);
 
-/* commutative */
-MStyle     *mstyle_merge       (const MStyle *sta, const MStyle *stb);
+void        mstyle_merge       (MStyle *master, MStyle *slave);
 char       *mstyle_to_string   (const MStyle *st); /* Debug only ! leaks like a sieve */
 void        mstyle_dump        (const MStyle *st);
 

@@ -1,5 +1,13 @@
 1999-11-01  Michael Meeks  <mmeeks@gnu.org>
 
+	* src/mstyle.c (mstyle_merge): Radicaly alter semantics and
+	function + document. (mstyle_empty): add.
+
+	* src/sheet-style.c (sheet_style_optimize): Only remove lower
+	stamp items if all there elements are safely masked.
+
+1999-11-01  Michael Meeks  <mmeeks@gnu.org>
+
 	* src/sheet-style.c (list_check_sorted): create + add checks.
 	(sheet_style_optimize): Use stamps correctly.
 	(sheet_styles_dump): dump stamp.

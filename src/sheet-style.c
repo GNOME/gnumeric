@@ -282,14 +282,13 @@ sheet_style_optimize (Sheet *sheet, Range range)
 					slave  = sra;
 					a->data = NULL;
 				}
-				tmp = mstyle_merge (master->style, slave->style);
-				g_return_if_fail (tmp != NULL);
-				STYLE_LIST (sheet) = g_list_remove (STYLE_LIST (sheet), slave);
-				mstyle_unref (master->style);
-				master->style = tmp;
-				mstyle_unref (slave->style);
-				slave->style = NULL;
-				g_free (slave);
+				mstyle_merge (master->style, slave->style);
+				if (mstyle_empty (slave->style)) {
+					STYLE_LIST (sheet) = g_list_remove (STYLE_LIST (sheet), slave);
+					mstyle_unref (slave->style);
+					slave->style = NULL;
+					g_free (slave);
+				}
 			}
 		}
 	}

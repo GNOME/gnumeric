@@ -293,6 +293,10 @@ void           sheet_style_attach               (Sheet  *sheet, Range   range,
 void           sheet_style_attach_single        (Sheet  *sheet, int col, int row,
 						 MStyle *mstyle);
 void           sheet_style_optimize             (Sheet *sheet, Range range);
+void           sheet_style_insert_colrow        (Sheet *sheet, int pos, int count,
+						 gboolean is_col);
+void           sheet_style_delete_colrow        (Sheet *sheet, int pos, int count,
+						 gboolean is_col);
 void           sheet_selection_apply_style      (Sheet *sheet, MStyle *style);
 MStyle        *sheet_selection_get_unique_style (Sheet *sheet);
 void           sheet_selection_height_update    (Sheet *sheet, double height);
