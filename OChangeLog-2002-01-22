@@ -1,5 +1,8 @@
 2000-05-07  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet-style.c (sheet_style_attach) : disable cache trash avoidance code.
+	  None of the sample xls were loading.
+
 	* src/sheet.c (sheet_cell_calc_span) : Size the content if
 	  it has not yet been sized.
 

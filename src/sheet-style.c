@@ -518,11 +518,13 @@ sheet_style_attach (Sheet  *sheet, Range range,
 		printf ("\n");
 	}
 	
+#if 0
 	/* Try to handle set/get, set/get, set/get pattern without cache trashing */
 	if (range_overlap (&range, &sd->cached_range)) {
 		sd->cached_list = g_list_prepend (sd->cached_list, sr);
 		sheet_style_cache_flush (sd, STYLE_CACHE_FLUSH_HASH);
 	} else
+#endif
 		sheet_style_cache_flush (sd, STYLE_CACHE_FLUSH_ALL);
 }
 
