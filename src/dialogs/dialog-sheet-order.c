@@ -536,21 +536,34 @@ sheet_order_gdk_color_equal (GdkColor *color_a, GdkColor *color_b)
 static void
 cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 {
-	GSList *new_order = NULL;
-	GSList *changed_names = NULL;
-	GSList *new_names = NULL;
-	GSList *deleted_sheets = NULL;
-	GSList *color_changed = NULL;
-	GSList *new_colors_back = NULL;
-	GSList *new_colors_fore  = NULL;
-	GSList *protection_changed  = NULL;
-	GSList *new_locks  = NULL;
-	GSList * old_order;
+	GSList *new_order = NULL;        /* list of indices in the new order */
+	                                 /* 1,0,2,-1  means switch the first */
+	                                 /* two sheets and append a new one  */
+
+	GSList *changed_names = NULL;    /* list of indices of the sheets to */
+                                         /* change names */
+	GSList *new_names = NULL;        /* list of new names (NULL for      */
+                                         /* automatic names)                 */
+
+	GSList *deleted_sheets = NULL;   /* list of indices of sheets to be  */
+                                         /* deleted                          */
+
+	GSList *color_changed = NULL;    /* list of indices of sheets with   */
+                                         /* modified back of foreground      */
+	GSList *new_colors_back = NULL;  /* list of new back colours         */
+	GSList *new_colors_fore  = NULL; /* list of new fore colours         */
+
+	GSList *protection_changed  = NULL;/* list of indices of sheets to be*/
+                                         /* with chnaged lock status         */
+	GSList *new_locks  = NULL;       /* that lock status                 */
+
 	Sheet *this_sheet;
+	int this_sheet_idx;
 	char *old_name, *new_name;
 	GtkTreeIter this_iter;
 	gint n = 0;
-	GSList *this_new, *this_old, *list;
+	gint i = 0;
+	GSList *this_new, *list;
 	gboolean order_has_changed = FALSE;
 	gboolean is_deleted, is_locked;
 	GdkColor *back, *fore;
@@ -568,14 +581,22 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 				    BACKGROUND_COLOUR_POINTER, &back,
 				    FOREGROUND_COLOUR_POINTER, &fore,
 				    -1);
+		this_sheet_idx = (this_sheet == NULL ? -1 
+				  : this_sheet->index_in_wb); 
 		if (!is_deleted) {
-			new_order = g_slist_prepend (new_order, this_sheet);
-
+			new_order = g_slist_prepend 
+				(new_order, 
+				 GINT_TO_POINTER (this_sheet_idx));
 			if (this_sheet == NULL ||
-			    (strlen (new_name) > 0 && strcmp (old_name, new_name))) {
-				changed_names = g_slist_prepend (changed_names, this_sheet);
-				new_names = g_slist_prepend (new_names,
-							     strlen(new_name) > 0 ? new_name : NULL);
+			    (strlen (new_name) > 0 && 
+			     strcmp (old_name, new_name))) {
+				changed_names = g_slist_prepend 
+					(changed_names, 
+					 GINT_TO_POINTER (this_sheet_idx));
+				new_names = g_slist_prepend 
+					(new_names,
+					 strlen(new_name) > 0 ? new_name 
+					 : NULL);
 			} else {
 				g_free (new_name);
 			}
@@ -590,9 +611,13 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 					      this_sheet->tab_text_color ?
 					      &this_sheet->tab_text_color->color : NULL);
 			if (fore_changed || back_changed) {
-				color_changed = g_slist_prepend (color_changed, this_sheet);
-				new_colors_back = g_slist_prepend (new_colors_back, back);
-				new_colors_fore = g_slist_prepend (new_colors_fore, fore);
+				color_changed = g_slist_prepend 
+					(color_changed, 
+					 GINT_TO_POINTER (this_sheet_idx));
+				new_colors_back = g_slist_prepend 
+					(new_colors_back, back);
+				new_colors_fore = g_slist_prepend 
+					(new_colors_fore, fore);
 			} else {
 				if (back)
 					gdk_color_free (back);
@@ -603,13 +628,24 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 			lock_changed = (this_sheet == NULL) ||
 				(is_locked != this_sheet->is_protected);
 			if (lock_changed) {
-				protection_changed = g_slist_prepend (protection_changed,
-								      this_sheet);
-				new_locks = g_slist_prepend (new_locks,
-							     GINT_TO_POINTER (is_locked));
+				protection_changed = g_slist_prepend 
+					(protection_changed,
+					 GINT_TO_POINTER (this_sheet));
+				new_locks = g_slist_prepend 
+					(new_locks,
+					 GINT_TO_POINTER (is_locked));
 			}
-		} else
-			deleted_sheets = g_slist_prepend (deleted_sheets, this_sheet);
+		} else {
+			deleted_sheets = g_slist_prepend 
+				(deleted_sheets, 
+				 GINT_TO_POINTER (this_sheet_idx));
+			g_free (new_name);
+			g_free (old_name);
+			if (back)
+				gdk_color_free (back);
+			if (fore)
+				gdk_color_free (fore);
+		}
 		n++;
 	}
 
@@ -623,16 +659,10 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 	new_order = g_slist_reverse (new_order);
 	new_names = g_slist_reverse (new_names);
 	changed_names = g_slist_reverse (changed_names);
-	old_order = g_slist_copy (state->old_order);
 
-	if ((new_order == NULL) || (deleted_sheets &&
-	    !gnumeric_dialog_question_yes_no (state->wbcg,
-					      _("Deletion of sheets is not undoable. "
-						"Do you want to proceed?"), FALSE))) {
-		if (new_order == NULL)
-			gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
-					 _("You may not delete all sheets in a workbook!"));
-
+	if (new_order == NULL) {
+		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
+				 _("You may not delete all sheets in a workbook!"));
 		/* clean-up */
 		g_slist_free (deleted_sheets);
 		deleted_sheets = NULL;
@@ -640,8 +670,6 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 		new_order = NULL;
 		g_slist_free (changed_names);
 		changed_names = NULL;
-		g_slist_free (old_order);
-		old_order = NULL;
 		g_slist_foreach (new_names, (GFunc)g_free, NULL);
 		g_slist_free (new_names);
 		new_names = NULL;
@@ -667,45 +695,39 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 	}
 
 	this_new = new_order;
-	this_old = old_order;
-	while (this_new != NULL && this_old != NULL) {
-		if (this_new->data != this_old->data) {
+	i = 0;
+	while (this_new != NULL) {
+		if (GPOINTER_TO_INT (this_new->data) != i++) {
 			order_has_changed = TRUE;
 			break;
 		}
 		this_new = this_new->next;
-		this_old = this_old->next;
 	}
 
 	if (!order_has_changed) {
 		g_slist_free (new_order);
 		new_order = NULL;
-		g_slist_free (old_order);
-		old_order = NULL;
 	}
 
 	/* Stop listening to changes in the sheet order. */
 	g_signal_handler_block (G_OBJECT (wb),
 				state->sheet_order_changed_listener);
+	wbcg_edit_detach_guru (state->wbcg);
 
 	if ((new_order == NULL && changed_names == NULL && color_changed == NULL
-	     && protection_changed == NULL)
+	     && protection_changed == NULL && deleted_sheets == NULL)
 	    || !cmd_reorganize_sheets (WORKBOOK_CONTROL (state->wbcg),
-				       old_order, new_order,
-				       changed_names, new_names, NULL,
-				       color_changed, new_colors_back, new_colors_fore,
+				       new_order,
+				       changed_names, new_names, 
+				       deleted_sheets,
+				       color_changed, new_colors_back, 
+				       new_colors_fore,
 				       protection_changed, new_locks)) {
 		gtk_widget_destroy (GTK_WIDGET (state->dialog));
 	} else {
-		/* Restart listening to changes in the sheet order. */
+		wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
 		g_signal_handler_unblock (G_OBJECT (wb),
 					  state->sheet_order_changed_listener);
-	}
-
-	if (deleted_sheets) {
-		g_slist_foreach (deleted_sheets, cb_delete_sheets, NULL);
-		g_slist_free (deleted_sheets);
-		deleted_sheets = NULL;
 	}
 }
 

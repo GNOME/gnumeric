@@ -1,3 +1,9 @@
+2003-07-31  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* dialog-sheet-order.c (cb_ok_clicked): use sheet indices
+	  rather than sheet pointers, adjust arguments to 
+	  cmd_reorganize_sheets
+
 2003-07-30  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* solver.glade: align various widgets (and split them over additional

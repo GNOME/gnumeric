@@ -1,3 +1,47 @@
+2003-07-31  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/commands.c: switch from sheet pointer to sheet indices 
+	  throughout
+	(cmd_reorganize_sheets_delete_sheets): deleted
+	(cmd_reorganize_sheets_delete_get_this_sheet_info): new
+	(cmd_reorganize_sheets_delete_shift_list): new
+	(cmd_reorganize_sheets_delete_cmp_f): new
+	(cmd_reorganize_sheets_delete_get_all_sheets_info): new
+	(cmd_reorganize_sheets_delete_recreate_sheet): new
+	(cmd_reorganize_sheets_delete_free): new
+	(cmd_reorganize_sheets_fix_list): new
+	(cmd_reorganize_sheets_undo): do most of the work here rather than
+	  in workbook_sheet_reorganize
+	(cmd_reorganize_sheets_redo): ditto
+	(cmd_reorganize_sheets): handle deletion
+	(cmd_reorganize_sheets_finalize): handle deletion
+	* src/commands.h: change arguments to cmd_reorganize_sheets
+	* src/workbook-control-gui.c (insert_sheet_at): new
+	(cb_insert_sheet): use insert_sheet_at
+	(cb_append_sheet): change call to cmd_reorganize_sheets
+	(delete_sheet_if_possible): use cmd_reorganize_sheets
+	(sheet_action_clone_sheet): temporarily append clone sheet (rather
+	  than insert) to protect the undo-chain
+	(cb_edit_duplicate_sheet): ditto
+	(cb_sheet_label_drag_data_received): change arguments to 
+	  cmd_reorganize_sheets
+	* src/workbook.c (workbook_sheet_by_index): handle index -1 
+	  separately
+	(workbook_sheet_reorder): drop last argument
+	(workbook_sheet_reorder_by_idx): new
+	(workbook_sheet_recolor): new
+	(workbook_sheet_rename): new
+	(workbook_sheet_rename_check): new
+	(workbook_sheet_change_protection): new
+	(workbook_sheet_reorganize): delete 
+	* src/workbook.h (workbook_sheet_reorder): drop last argument
+	(workbook_sheet_reorder_by_idx): new
+	(workbook_sheet_recolor): new
+	(workbook_sheet_rename): new
+	(workbook_sheet_rename_check): new
+	(workbook_sheet_change_protection): new
+	(workbook_sheet_reorganize): delete
+
 2003-07-31  Jody Goldberg <jody@gnome.org>
 
 	* src/xml-io.c (maybe_convert) : seek back to the start if we don't

@@ -88,7 +88,7 @@ gboolean cmd_object_move	(WorkbookControl *wbc, SheetObject *so,
 				 SheetObjectAnchor const *old_anchor,
 				 gboolean resize);
 
-gboolean cmd_reorganize_sheets	(WorkbookControl *wbc, GSList *old_order, GSList *new_order,
+gboolean cmd_reorganize_sheets	(WorkbookControl *wbc, GSList *new_order,
 				 GSList *changed_names, GSList *new_names, GSList *deleted_sheets,
 				 GSList *color_changed, GSList *new_colors_back,
 				 GSList *new_colors_fore,

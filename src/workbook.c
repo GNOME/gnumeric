@@ -878,6 +878,11 @@ workbook_sheet_by_index (Workbook const *wb, int i)
 	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
 	g_return_val_if_fail ((int)wb->sheets->len > i, NULL);
 
+	/* i = -1 is special, return NULL */
+
+	if (i == -1)
+		return NULL;
+
 	return g_ptr_array_index (wb->sheets, i);
 }
 
@@ -1196,17 +1201,249 @@ workbook_sheet_get_free_name (Workbook *wb,
 }
 
 /**
+ * workbook_sheet_rename_check:
+ * @wb:          workbook to look for
+ * @sheet_indices:   list of sheet indices (ignore -1)
+ * @new_names:   list of new names
+ *
+ * Check whether changing of the names of the sheets as indicated
+ * would be possible.
+ *
+ * Returns TRUE when it is possible.
+ **/
+gboolean    workbook_sheet_rename_check  (Workbook *wb,
+					  GSList *sheet_indices,
+					  GSList *new_names,
+					  CommandContext *cc)
+{
+	GSList *sheet_index = sheet_indices;
+	GSList *new_name = new_names;
+	gint max_sheet = workbook_sheet_count (wb);
+
+	/* First we check whether the sheet_indices are valid */
+	while (sheet_index) {
+		gint n = GPOINTER_TO_INT (sheet_index->data);
+		if (n < -1 || n >= max_sheet) {
+			g_warning ("Invalid sheet index %i", n);
+			return FALSE;
+		}
+		sheet_index = sheet_index->next;
+	}
+
+
+	/* Then we just check whether the names are valid.*/
+	sheet_index = sheet_indices;
+	while (new_name && sheet_index) {
+		if (new_name != NULL) {
+			char *the_new_name = new_name->data;
+			Sheet *tmp;
+
+			if (the_new_name == NULL && 
+			    GPOINTER_TO_INT (sheet_index->data) != -1) {
+				gnumeric_error_invalid 
+					(cc, 
+					 _("Sheet name is NULL"),
+					 the_new_name);
+				return FALSE;
+			}
+
+			if (the_new_name != NULL) {
+				
+				/* Is the sheet name valid utf-8 ?*/
+				if (!g_utf8_validate (the_new_name, -1, NULL)) {
+					gnumeric_error_invalid 
+						(cc, 
+						 _("Sheet name is not valid utf-8"),
+						 the_new_name);
+					return FALSE;
+				}
+				
+				/* Is the sheet name to short ?*/
+				if (1 > g_utf8_strlen (the_new_name, -1)) {
+					gnumeric_error_invalid 
+						(cc,
+						 _("Sheet name must have at "
+						   "least 1 letter"),
+						 the_new_name);
+					return FALSE;
+				}
+				
+				/* Is the sheet name already in use ?*/
+				tmp = workbook_sheet_by_name (wb, the_new_name);
+				
+				if (tmp != NULL) {
+					/* Perhaps it is a sheet also to be renamed */
+					GSList *tmp_sheets = g_slist_find 
+						(sheet_indices, 
+						 GINT_TO_POINTER(tmp->index_in_wb));
+					
+					if (NULL == tmp_sheets) {
+						gnumeric_error_invalid 
+							(cc,
+							 _("There is already a "
+							   "sheet named"),
+							 the_new_name);
+						return FALSE;
+					}
+				}
+				
+				/* Will we try to use the same name a second time ?*/
+				if (new_name->next != NULL &&
+				    g_slist_find_custom (new_name->next, 
+							 the_new_name, 
+							 g_str_compare) != NULL) {
+					gnumeric_error_invalid 
+						(cc,
+						 _("You may not use this name twice"),
+						 the_new_name);
+					return FALSE;
+				}
+			}
+		}
+		new_name = new_name->next;
+		sheet_index = sheet_index->next;
+	}
+	
+	return TRUE;
+}
+
+/**
+ * workbook_sheet_rename:
+ * @wb:          workbook to look for
+ * @sheet_indices:   list of sheet indices (ignore -1)
+ * @new_names:   list of new names
+ *
+ * Adjusts the names of the sheets. We assume that everything is
+ * valid. If in doubt call workbook_sheet_reorder_check first.
+ *
+ * Returns FALSE when it was successful
+ **/
+gboolean    workbook_sheet_rename        (Workbook *wb,
+					  GSList *sheet_indices,
+					  GSList *new_names,
+					  CommandContext *cc)
+{
+	GSList *sheet_index = sheet_indices;
+	GSList *new_name = new_names;
+
+	while (new_name && sheet_index) {
+		if (-1 != GPOINTER_TO_INT (sheet_index->data)) {
+			g_hash_table_remove (wb->sheet_hash_private, 
+					     new_name->data);
+		}
+		sheet_index = sheet_index->next;
+		new_name = new_name->next;
+	}
+
+	sheet_index = sheet_indices;
+	new_name = new_names;
+	while (new_name && sheet_index) {
+		if (-1 != GPOINTER_TO_INT (sheet_index->data)) {
+			Sheet *sheet = workbook_sheet_by_index 
+				(wb, GPOINTER_TO_INT (sheet_index->data));
+			sheet_rename (sheet, new_name->data);
+			g_hash_table_insert (wb->sheet_hash_private,
+					     sheet->name_case_insensitive, 
+					     sheet);
+			sheet_set_dirty (sheet, TRUE);
+
+			WORKBOOK_FOREACH_CONTROL (wb, view, control,
+						  wb_control_sheet_rename (control, sheet););
+		}
+		sheet_index = sheet_index->next;
+		new_name = new_name->next;
+	}
+
+	return FALSE;
+}
+
+/**
+ * workbook_sheet_:
+ * @wb:          workbook to look for
+ * @sheets   :   list of sheet indices (ignore -1)
+ * @locks    :   list of new locks
+ *
+ * Adjusts the locks
+ *
+ * Returns FALSE when it was successful
+ **/
+gboolean    
+workbook_sheet_change_protection  (Workbook *wb,
+				   GSList *sheets,
+				   GSList *locks)
+{
+	g_return_val_if_fail (g_slist_length (sheets) 
+			      == g_slist_length (locks), 
+			      TRUE);
+
+	while (sheets) {
+		Sheet *sheet = workbook_sheet_by_index 
+			(wb, GPOINTER_TO_INT (sheets->data));
+		if (sheet != NULL)
+			sheet->is_protected = GPOINTER_TO_INT (locks->data);
+		sheets = sheets->next;
+		locks = locks->next;
+	}
+	return FALSE;
+	
+}
+
+/**
+ * workbook_sheet_recolor:
+ * @wb:          workbook to look for
+ * @sheets   :   list of sheet indices (ignore -1)
+ * @fore     :   list of new text colors
+ * @back     :   list of new background colors
+ *
+ * Adjusts the foreground colors
+ *
+ * Returns FALSE when it was successful
+ **/
+gboolean    
+workbook_sheet_recolor  (Workbook *wb,
+			 GSList *sheets,
+			 GSList *fore, 
+			 GSList *back)
+{
+	g_return_val_if_fail (g_slist_length (sheets) 
+			      == g_slist_length (fore), 
+			      TRUE);
+	g_return_val_if_fail (g_slist_length (sheets) 
+			      == g_slist_length (back), 
+			      TRUE);
+
+	while (sheets) {
+		Sheet *sheet = workbook_sheet_by_index 
+			(wb, GPOINTER_TO_INT (sheets->data));
+		if (sheet != NULL) {
+			GdkColor *fc = (GdkColor *) fore->data;
+			GdkColor *bc = (GdkColor *) back->data;
+			StyleColor *fore_color = fc ?
+				style_color_new (fc->red, fc->green,
+						 fc->blue) : NULL;
+			StyleColor *back_color = bc ?
+				style_color_new (bc->red, bc->green,
+						 bc->blue) : NULL;
+			sheet_set_tab_color (sheet, back_color, fore_color);
+		}
+		sheets = sheets->next;
+		fore = fore->next;
+		back = back->next;
+	}
+	return FALSE;
+}
+
+/**
  * workbook_sheet_reorder:
  * @wb:          workbook to look for
- * @new_order:   list of sheets in order (new sheets are marked NULL)
- * @new_sheets:  list of new sheets
+ * @new_order:   list of sheets
  *
  * Adjusts the order of the sheets.
  *
  * Returns FALSE when it was successful
  **/
 gboolean
-workbook_sheet_reorder (Workbook *wb, GSList *new_order, GSList *new_sheets)
+workbook_sheet_reorder (Workbook *wb, GSList *new_order)
 {
 	GSList *this_sheet;
 	gint old_pos, new_pos = 0;
@@ -1217,16 +1454,10 @@ workbook_sheet_reorder (Workbook *wb, GSList *new_order, GSList *new_sheets)
 		return TRUE;
 
 	pre_sheet_index_change (wb);
+
 	this_sheet = new_order;
 	while (this_sheet) {
-		gboolean an_old_sheet = TRUE;
 		Sheet *sheet = this_sheet->data;
-
-		if (new_sheets && sheet == NULL) {
-			sheet = new_sheets->data;
-			new_sheets = new_sheets->next;
-			an_old_sheet = FALSE;
-		}
 
 		if (sheet != NULL) {
 			old_pos = sheet->index_in_wb;
@@ -1243,184 +1474,52 @@ workbook_sheet_reorder (Workbook *wb, GSList *new_order, GSList *new_sheets)
 				WORKBOOK_FOREACH_CONTROL (wb, view, control,
 							  wb_control_sheet_move (control,
 										 sheet, new_pos););
-				if (an_old_sheet)
-					sheet_set_dirty (sheet, TRUE);
 			}
 			new_pos++;
 		}
 		this_sheet = this_sheet->next;
 	}
+
 	post_sheet_index_change (wb);
+
 	return FALSE;
 }
 
+
+/**
+ * workbook_sheet_reorder_by_idx:
+ * @wb:          workbook to look for
+ * @new_order:   list of sheet indices in order
+ *
+ * Adjusts the order of the sheets.
+ *
+ * Returns FALSE when it was successful
+ **/
 gboolean
-workbook_sheet_reorganize (Workbook *wb,
-			   GSList *changed_names, GSList *new_order,
-			   GSList *new_names,  GSList *old_names,
-			   GSList **new_sheets, GSList *color_changed,
-			   GSList *colors_fore, GSList *colors_back,
-			   GSList *protection_changed, GSList *new_locks,
-			   CommandContext *cc)
+workbook_sheet_reorder_by_idx (Workbook *wb, GSList *new_order)
 {
-	GSList *new_sheet = NULL;
-	GSList *the_names;
-	GSList *the_sheets;
-	GSList *the_fore;
-	GSList *the_back;
-	GSList *the_lock;
+	GSList *sheets = NULL;
+	gboolean result;
 
-/* We need to verify validity of the new names */
-	the_names = new_names;
-	the_sheets = changed_names;
-	while (the_names) {
-		Sheet *tmp;
-		Sheet *sheet;
-		char *new_name = the_names->data;
+	g_return_val_if_fail (IS_WORKBOOK (wb), FALSE);
 
-		g_return_val_if_fail (the_sheets != NULL, TRUE);
+	if (new_order == NULL)
+		return TRUE;
 
-		if (new_name != NULL ) {
-			sheet = the_sheets->data;
-
-			/* Is the sheet name to short ?*/
-			if (1 > strlen (new_name)) {
-				gnumeric_error_invalid (cc,
-					_("Sheet name must have at least 1 letter"),
-					new_name);
-				return TRUE;
-			}
-
-			/* Is the sheet name already in use ?*/
-			tmp = workbook_sheet_by_name (wb, new_name);
-
-			if (tmp != NULL) {
-				/* Perhaps it is a sheet also to be renamed */
-				GSList *tmp_sheets = g_slist_find (changed_names, tmp);
-				if (NULL == tmp_sheets) {
-					gnumeric_error_invalid (cc,
-						_("There is already a sheet named"),
-						new_name);
-					return TRUE;
-				}
-			}
-
-			/* Will we try to use the same name a second time ?*/
-			if (the_names->next != NULL &&
-			    g_slist_find_custom (the_names->next, new_name, g_str_compare) != NULL) {
-				gnumeric_error_invalid (cc,
-					_("You may not use this name twice"),
-					new_name);
-				return TRUE;
-			}
-		}
-		the_names = the_names->next;
-		the_sheets = the_sheets->next;
+	while (new_order) {
+		sheets = g_slist_prepend (sheets, 
+					  workbook_sheet_by_index 
+					  (wb,
+					   GPOINTER_TO_INT (new_order->data)));
+		new_order = new_order->next;
 	}
-/* Names are indeed valid */
-/* Changing Names (except for new sheets)*/
-	the_names = old_names;
-	the_sheets = changed_names;
-	while (the_names) {
-		if (the_sheets->data != NULL)
-			g_hash_table_remove (wb->sheet_hash_private, the_names->data);
-		the_names = the_names->next;
-		the_sheets = the_sheets->next;
-	}
+	sheets = g_slist_reverse (sheets);
 
-	the_names = new_names;
-	the_sheets = changed_names;
-	while (the_names) {
-		Sheet *sheet = the_sheets->data;
+	result = workbook_sheet_reorder (wb, sheets);
 
-		if (sheet != NULL) {
-			sheet_rename (sheet, the_names->data);
-			g_hash_table_insert (wb->sheet_hash_private,
-					     sheet->name_case_insensitive, sheet);
+	g_slist_free (sheets);
 
-			sheet_set_dirty (sheet, TRUE);
-
-			WORKBOOK_FOREACH_CONTROL (wb, view, control,
-						  wb_control_sheet_rename (control, sheet););
-		}
-		the_names = the_names->next;
-		the_sheets = the_sheets->next;
-	}
-
-/* Names have been changed */
-/* Create new sheets */
-
-	if (new_sheets) {
-		the_names = new_names;
-		the_sheets = changed_names;
-		while (the_names) {
-			Sheet *sheet = the_sheets->data;
-			if (sheet == NULL) {
-				char *name = the_names->data;
-				Sheet *a_new_sheet ;
-				gboolean free_name = (name == NULL);
-
-				if (free_name)
-					name = workbook_sheet_get_free_name
-						(wb, _("Sheet"), TRUE, FALSE);
-				a_new_sheet = sheet_new (wb, name);
-				if (free_name)
-					g_free (name);
-				workbook_sheet_attach (wb, a_new_sheet, NULL);
-				*new_sheets = g_slist_prepend (*new_sheets, a_new_sheet);
-			}
-			the_names = the_names->next;
-			the_sheets = the_sheets->next;
-		}
-		new_sheet = *new_sheets = g_slist_reverse (*new_sheets);
-	}
-
-/* Changing Colors */
-	the_fore = colors_fore;
-	the_back = colors_back;
-	the_sheets = color_changed;
-	while (the_sheets) {
-		Sheet *sheet = the_sheets->data;
-		if (new_sheet && sheet == NULL) {
-			sheet = new_sheet->data;
-			new_sheet = new_sheet->next;
-		}
-
-		if (sheet != NULL) {
-			GdkColor *back = (GdkColor *) the_back->data;
-			GdkColor *fore = (GdkColor *) the_fore->data;
-			StyleColor *tab_color = back ?
-				style_color_new (back->red, back->green,
-						 back->blue) : NULL;
-			StyleColor *text_color = fore ?
-				style_color_new (fore->red, fore->green,
-						 fore->blue) : NULL;
-			sheet_set_tab_color (sheet, tab_color, text_color);
-		}
-		the_fore = the_fore->next;
-		the_back = the_back->next;
-		the_sheets = the_sheets->next;
-	}
-
-/* Changing Protection */
-	the_lock = new_locks;
-	the_sheets = protection_changed;
-	while (the_sheets) {
-		Sheet *sheet = the_sheets->data;
-		if (new_sheet && sheet == NULL) {
-			sheet = new_sheet->data;
-			new_sheet = new_sheet->next;
-		}
-		if (sheet != NULL)
-			sheet->is_protected = GPOINTER_TO_INT (the_lock->data);;
-		the_lock = the_lock->next;
-		the_sheets = the_sheets->next;
-	}
-
-/* reordering */
-	workbook_sheet_reorder (wb, new_order, new_sheets ? *new_sheets : NULL);
-
-	return FALSE;
+	return result;
 }
 
 /**

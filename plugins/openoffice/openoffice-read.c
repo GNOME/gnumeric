@@ -961,7 +961,7 @@ openoffice_file_open (GnmFileOpener const *fo, IOContext *io_context,
 		/* get the sheet in the right order (in case something was
 		 * created out of order implictly */
 		state.sheet_order = g_slist_reverse (state.sheet_order);
-		workbook_sheet_reorder (state.pos.wb, state.sheet_order, NULL);
+		workbook_sheet_reorder (state.pos.wb, state.sheet_order);
 		g_slist_free (state.sheet_order);
 
 		/* look for the view settings */

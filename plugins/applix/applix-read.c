@@ -1541,18 +1541,18 @@ applix_read (IOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 		g_free (state.buffer);
 
 	state.sheet_order = g_slist_reverse (state.sheet_order);
-	workbook_sheet_reorder (state.wb, state.sheet_order,  NULL);
+	workbook_sheet_reorder (state.wb, state.sheet_order);
 	g_slist_free (state.sheet_order);
 
 	renamed_sheets = NULL;
 	for (ptr = state.std_names; ptr != NULL ; ptr = ptr->next)
 		renamed_sheets = g_slist_prepend (renamed_sheets,
-			workbook_sheet_by_name (state.wb, ptr->data));
+			GINT_TO_POINTER (workbook_sheet_by_name 
+					 (state.wb, ptr->data)->index_in_wb));
 	renamed_sheets = g_slist_reverse (renamed_sheets);
-	workbook_sheet_reorganize (state.wb, renamed_sheets, NULL,
-		state.real_names, state.std_names,
-		NULL, NULL, NULL, NULL, NULL, NULL,
-		COMMAND_CONTEXT (io_context));
+	workbook_sheet_rename (state.wb, renamed_sheets,
+			       state.real_names, 
+			       COMMAND_CONTEXT (io_context));
 	g_slist_free (renamed_sheets);
 	g_slist_foreach (state.std_names, (GFunc)g_free, NULL);
 	g_slist_free (state.std_names);

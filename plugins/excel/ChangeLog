@@ -1,3 +1,8 @@
+2003-07-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* ms-excel-read.c (excel_workbook_destroy): remove last argument
+	  in workbook_sheet_reorder
+
 2003-08-01  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-util.c (init_xl_font_widths) : add a bunch of arial

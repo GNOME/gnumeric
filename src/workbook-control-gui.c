@@ -531,33 +531,43 @@ cb_sheet_label_edit_finished (EditableLabel *el, char const *new_name,
 }
 
 static void
+insert_sheet_at (WorkbookControlGUI *wbcg, gint before)
+{
+	GSList *new_order = NULL;
+	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	gint sheet_count = workbook_sheet_count (wb);
+	gint n;
+
+	for (n = 0; n < sheet_count; n++)
+		new_order = g_slist_prepend (new_order, GINT_TO_POINTER (n));
+	new_order = g_slist_reverse (new_order);
+
+	new_order = g_slist_insert (new_order, GINT_TO_POINTER (-1), before);
+	
+	cmd_reorganize_sheets (WORKBOOK_CONTROL (wbcg), new_order,
+			       g_slist_prepend (NULL, GINT_TO_POINTER (-1)),
+			       g_slist_prepend (NULL, NULL),
+			       NULL, NULL, NULL, NULL, NULL, NULL);
+}
+
+
+static void
 cb_insert_sheet (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
 	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	GList *workbooks = workbook_sheets (wb);
-	GList *this = NULL;
 	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
-	GList *current = g_list_find (workbooks, sheet);
-	GSList *new_order = NULL;
 
-	workbooks = g_list_insert_before (workbooks, current->next, NULL);
+	insert_sheet_at (wbcg, g_list_index (workbooks, sheet));
 
-	for (this = workbooks; this != NULL; this = this->next) 
-		new_order = g_slist_prepend (new_order, this->data);
-	new_order = g_slist_reverse (new_order);
 	g_list_free (workbooks);
-
-	cmd_reorganize_sheets (WORKBOOK_CONTROL (wbcg), NULL, new_order,
-			       g_slist_prepend (NULL, NULL),
-			       g_slist_prepend (NULL, NULL),
-			       NULL, NULL, NULL, NULL, NULL, NULL);
 }
 
 static void
 cb_append_sheet (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
-	cmd_reorganize_sheets (WORKBOOK_CONTROL (wbcg), NULL, NULL,
-			       g_slist_prepend (NULL, NULL),
+	cmd_reorganize_sheets (WORKBOOK_CONTROL (wbcg), NULL,
+			       g_slist_prepend (NULL, GINT_TO_POINTER (-1)),
 			       g_slist_prepend (NULL, NULL),
 			       NULL, NULL, NULL, NULL, NULL, NULL);
 }
@@ -585,19 +595,18 @@ delete_sheet_if_possible (GtkWidget *ignored, SheetControlGUI *scg)
 	if (workbook_sheet_count (wb) == 1)
 		return;
 
-	/* Don't prompt for things that are pristine */
-	if (sc->sheet->pristine) {
-		workbook_sheet_delete (sc->sheet);
-		return;
-	}
-
 	message = g_strdup_printf (
 		_("Are you sure you want to remove the sheet called `%s'?"),
 		sc->sheet->name_unquoted);
 
-	if (gnumeric_dialog_question_yes_no (scg->wbcg, message, GTK_RESPONSE_YES)) {
-		workbook_sheet_delete (sc->sheet);
-		workbook_recalc_all (wb);
+	if (sc->sheet->pristine ||
+	    gnumeric_dialog_question_yes_no (scg->wbcg, message, 
+					     GTK_RESPONSE_YES)) {
+		cmd_reorganize_sheets 
+			(WORKBOOK_CONTROL (scg->wbcg), NULL, NULL, NULL, 
+			 g_slist_prepend 
+			 (NULL, GINT_TO_POINTER (sc->sheet->index_in_wb)),
+			 NULL, NULL, NULL, NULL, NULL);
 	}
 	g_free (message);
 }
@@ -614,7 +623,10 @@ sheet_action_clone_sheet (GtkWidget *widget, SheetControlGUI *scg)
 	SheetControl *sc = (SheetControl *) scg;
      	Sheet *new_sheet = sheet_dup (sc->sheet);
 
-	workbook_sheet_attach (sc->sheet->workbook, new_sheet, sc->sheet);
+	/* FIXME: Until this is undoable we have to add the duplicated */
+        /*        sheet at the end not to mess up the undo chain       */
+	workbook_sheet_attach (sc->sheet->workbook, new_sheet, NULL);
+/* 	workbook_sheet_attach (sc->sheet->workbook, new_sheet, sc->sheet); */
 	sheet_set_dirty (new_sheet, TRUE);
 	wbcg_focus_cur_scg (scg->wbcg);
 }
@@ -760,8 +772,7 @@ cb_sheet_label_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 {
 	GtkWidget *w_source;
 	gint n_source, n_dest;
-	Sheet *sheet;
-	GSList *old_order= NULL, *new_order;
+	GSList *new_order = NULL;
 	Workbook *wb;
 	guint n, i;
 
@@ -780,21 +791,19 @@ cb_sheet_label_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 		/* Make a list of the current order. */
 		wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 		n = workbook_sheet_count (wb);
-		for (i = 0; i < n; i++) {
-			sheet = workbook_sheet_by_index (wb, i);
-			old_order = g_slist_append (old_order, sheet);
-		}
-
-		/* Make a list of the new order. */
-		new_order = g_slist_copy (old_order);
-		sheet = g_slist_nth_data (new_order, n_source);
-		new_order = g_slist_remove (new_order, sheet);
+		for (i = 0; i < n; i++)
+			new_order = g_slist_append (new_order, 
+						    GINT_TO_POINTER (i));
+		new_order = g_slist_remove (new_order, 
+					    GINT_TO_POINTER (n_source));
 		n_dest = gtk_notebook_page_num_by_label (wbcg->notebook,
 							 widget);
-		new_order = g_slist_insert (new_order, sheet, n_dest);
+		new_order = g_slist_insert (new_order, 
+					    GINT_TO_POINTER (n_source), 
+					    n_dest);
 
 		/* Reorder the sheets! */
-		cmd_reorganize_sheets (WORKBOOK_CONTROL (wbcg), old_order,
+		cmd_reorganize_sheets (WORKBOOK_CONTROL (wbcg),
 			new_order, NULL, NULL, NULL, NULL, NULL, NULL,
 			NULL, NULL);
 	} else {
@@ -2188,9 +2197,15 @@ cb_edit_duplicate_sheet (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	Sheet *old_sheet = wb_control_cur_sheet (wbc);
      	Sheet *new_sheet = sheet_dup (old_sheet);
 
+	/* FIXME: Until this is undoable we have to add the duplicated */
+        /*        sheet at the end not to mess up the undo chain       */
+
 	workbook_sheet_attach (wb_control_workbook (wbc),
 			       new_sheet,
-			       old_sheet);
+			       NULL);
+/* 	workbook_sheet_attach (wb_control_workbook (wbc), */
+/* 			       new_sheet, */
+/* 			       old_sheet); */
 	sheet_set_dirty (new_sheet, TRUE);
 }
 

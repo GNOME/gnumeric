@@ -33,15 +33,25 @@ char       *workbook_sheet_get_free_name (Workbook *wb,
 					  gboolean always_suffix,
 					  gboolean handle_counter);
 gboolean    workbook_sheet_reorder       (Workbook *wb,
-					  GSList *new_order,
-					  GSList *new_sheets);
-gboolean    workbook_sheet_reorganize    (Workbook *wb,
-					  GSList *changed_names, GSList *new_order,
-					  GSList *new_names,  GSList *old_names,
-					  GSList **new_sheets, GSList *color_changed,
-					  GSList *colors_fore, GSList *colors_back,
-					  GSList *protection_changed, GSList *new_locks,
+					  GSList *new_order);
+gboolean    workbook_sheet_reorder_by_idx(Workbook *wb,
+					  GSList *new_order);
+gboolean    workbook_sheet_recolor       (Workbook *wb,
+					  GSList *sheets,
+					  GSList *fore,
+					  GSList *back);
+gboolean    workbook_sheet_rename        (Workbook *wb,
+					  GSList *sheet_indices,
+					  GSList *new_names,
 					  CommandContext *cc);
+gboolean    workbook_sheet_rename_check  (Workbook *wb,
+					  GSList *sheet_indices,
+					  GSList *new_names,
+					  CommandContext *cc);
+gboolean    workbook_sheet_change_protection  (Workbook *wb,
+					  GSList *sheets,
+					  GSList *locks);
+
 
 /* IO Routines */
 gboolean       workbook_set_filename	(Workbook *wb, char const *); /* Filesys name, not UTF-8.  */

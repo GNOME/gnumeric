@@ -2550,7 +2550,7 @@ excel_workbook_destroy (ExcelWorkbook *ewb)
 	}
 
 	if (real_order != NULL) {
-		workbook_sheet_reorder (ewb->gnum_wb, real_order,  NULL);
+		workbook_sheet_reorder (ewb->gnum_wb, real_order);
 		g_slist_free (real_order);
 	}
 
