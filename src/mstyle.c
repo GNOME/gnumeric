@@ -65,6 +65,7 @@ typedef struct {
 		gboolean         content_hidden;
 
 		Validation      *validation;
+		GnmHLink        *hlink;
 
 		/* Convenience members */
 		gpointer         any_pointer;
@@ -95,7 +96,8 @@ struct _MStyle {
 
 #define MSTYLE_ANY_POINTER           MSTYLE_FONT_NAME: \
 				case MSTYLE_FORMAT: \
-				case MSTYLE_VALIDATION
+				case MSTYLE_VALIDATION: \
+				case MSTYLE_HLINK
 
 #define MSTYLE_ANY_BOOLEAN           MSTYLE_FONT_BOLD: \
 				case MSTYLE_FONT_ITALIC: \
@@ -292,6 +294,10 @@ mstyle_element_dump (const MStyleElement *e)
 		g_string_sprintf (ans, "validation ref_count '%d'", e->u.validation->ref_count);
 		break;
 
+	case MSTYLE_HLINK :
+		g_string_sprintf (ans, "hlink %p", e->u.hlink);
+		break;
+
 	default:
 		g_string_sprintf (ans, "%s", mstyle_names[e->type]);
 		break;
@@ -315,76 +321,43 @@ mstyle_element_equal (MStyleElement const *a,
 
 	switch (a->type) {
 	case MSTYLE_ANY_COLOR:
-		if (a->u.color.fore == b->u.color.fore)
-			return TRUE;
-		break;
+		return (a->u.color.fore == b->u.color.fore);
 	case MSTYLE_ANY_BORDER:
-		if (a->u.border.any == b->u.border.any)
-			return TRUE;
-		break;
+		return (a->u.border.any == b->u.border.any);
 	case MSTYLE_PATTERN:
-		if (a->u.pattern == b->u.pattern)
-			return TRUE;
-		break;
+		return (a->u.pattern == b->u.pattern);
 	case MSTYLE_FONT_NAME:
-		if (a->u.font.name == b->u.font.name)
-			return TRUE;
-		break;
+		return (a->u.font.name == b->u.font.name);
 	case MSTYLE_FONT_BOLD:
-		if (a->u.font.bold == b->u.font.bold)
-			return TRUE;
-		break;
+		return (a->u.font.bold == b->u.font.bold);
 	case MSTYLE_FONT_ITALIC:
-		if (a->u.font.italic == b->u.font.italic)
-			return TRUE;
-		break;
+		return (a->u.font.italic == b->u.font.italic);
 	case MSTYLE_FONT_UNDERLINE:
-		if (a->u.font.underline == b->u.font.underline)
-			return TRUE;
-		break;
+		return (a->u.font.underline == b->u.font.underline);
 	case MSTYLE_FONT_STRIKETHROUGH:
-		if (a->u.font.strikethrough == b->u.font.strikethrough)
-			return TRUE;
+		return (a->u.font.strikethrough == b->u.font.strikethrough);
 	case MSTYLE_FONT_SIZE:
-		if (a->u.font.size == b->u.font.size)
-			return TRUE;
-		break;
+		return (a->u.font.size == b->u.font.size);
 	case MSTYLE_FORMAT:
-		if (a->u.format == b->u.format)
-			return TRUE;
-		break;
+		return (a->u.format == b->u.format);
 	case MSTYLE_ALIGN_V:
-		if (a->u.align.v == b->u.align.v)
-			return TRUE;
-		break;
+		return (a->u.align.v == b->u.align.v);
 	case MSTYLE_ALIGN_H:
-		if (a->u.align.h == b->u.align.h)
-			return TRUE;
-		break;
+		return (a->u.align.h == b->u.align.h);
 	case MSTYLE_INDENT:
-		if (a->u.indent == b->u.indent)
-			return TRUE;
-		break;
+		return (a->u.indent == b->u.indent);
 	case MSTYLE_ORIENTATION:
-		if (a->u.orientation == b->u.orientation)
-			return TRUE;
-		break;
+		return (a->u.orientation == b->u.orientation);
 	case MSTYLE_WRAP_TEXT:
-		if (a->u.wrap_text == b->u.wrap_text)
-			return TRUE;
-		break;
+		return (a->u.wrap_text == b->u.wrap_text);
 	case MSTYLE_CONTENT_LOCKED:
-		if (a->u.content_locked == b->u.content_locked)
-			return TRUE;
-		break;
+		return (a->u.content_locked == b->u.content_locked);
 	case MSTYLE_CONTENT_HIDDEN:
-		if (a->u.content_hidden == b->u.content_hidden)
-			return TRUE;
-		break;
+		return (a->u.content_hidden == b->u.content_hidden);
 	case MSTYLE_VALIDATION:
-		if (a->u.validation == b->u.validation)
-			return TRUE;
-		break;
+		return (a->u.validation == b->u.validation);
+	case MSTYLE_HLINK:
+		return (a->u.hlink == b->u.hlink);
 	default:
 		return TRUE;
 	}
@@ -447,6 +420,10 @@ mstyle_element_ref (const MStyleElement *e)
 		if (e->u.validation)
 			validation_ref (e->u.validation);
 		break;
+	case MSTYLE_HLINK:
+		if (e->u.hlink)
+			g_object_ref (G_OBJECT (e->u.hlink));
+		break;
 	default:
 		break;
 	}
@@ -472,6 +449,10 @@ mstyle_element_unref (MStyleElement e)
 	case MSTYLE_VALIDATION:
 		if (e.u.validation)
 			validation_unref (e.u.validation);
+		break;
+	case MSTYLE_HLINK:
+		if (e.u.hlink)
+			g_object_unref (G_OBJECT (e.u.hlink));
 		break;
 	default:
 		break;
@@ -1393,6 +1374,26 @@ mstyle_get_validation (const MStyle *style)
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_VALIDATION), NULL);
 
 	return style->elements[MSTYLE_VALIDATION].u.validation;
+}
+
+void
+mstyle_set_hlink (MStyle *style, GnmHLink *link)
+{
+	g_return_if_fail (style != NULL);
+	g_return_if_fail (link != NULL);
+
+	mstyle_element_unref (style->elements[MSTYLE_HLINK]);
+	style->elements[MSTYLE_HLINK].type = MSTYLE_HLINK;
+	style->elements[MSTYLE_HLINK].u.hlink = link;
+
+}
+
+GnmHLink *
+mstyle_get_hlink (const MStyle *style)
+{
+	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_HLINK), NULL);
+
+	return style->elements[MSTYLE_HLINK].u.hlink;
 }
 
 gboolean

@@ -1294,6 +1294,7 @@ wbcg_error_error_info (CommandContext *context,
 
 static char const * const preset_zoom [] = {
 	"200%",
+	"150%",
 	"100%",
 	"75%",
 	"50%",
@@ -2063,6 +2064,12 @@ cb_edit_goto (GtkWidget *unused, WorkbookControlGUI *wbcg)
 static void
 cb_edit_recalc (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
+	/* TODO :
+	 * f9  -  do any necessary calculations across all sheets
+	 * shift-f9  -  do any necessary calcs on current sheet only
+	 * ctrl-alt-f9 -  force a full recalc across all sheets
+	 * ctrl-alt-shift-f9  -  a full-monty super recalc
+	 */
 	workbook_recalc_all (wb_control_workbook (WORKBOOK_CONTROL (wbcg)));
 }
 

@@ -49,6 +49,7 @@ typedef enum _MStyleElementType {
 	        MSTYLE_CONTENT_HIDDEN,
 
 	        MSTYLE_VALIDATION,
+	        MSTYLE_HLINK,
 	/* Delimiter */
 	MSTYLE_ELEMENT_MAX
 } MStyleElementType;
@@ -122,6 +123,9 @@ gboolean            mstyle_get_content_hidden (const MStyle *st);
 
 void                mstyle_set_validation       (MStyle *st, Validation *v);
 Validation         *mstyle_get_validation       (const MStyle *st);
+
+void                mstyle_set_hlink		(MStyle *st, GnmHLink *link);
+GnmHLink	   *mstyle_get_hlink		(const MStyle *st);
 
 gboolean            mstyle_visible_in_blank(const MStyle *st);
 

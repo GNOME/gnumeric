@@ -10,6 +10,7 @@ typedef enum {
 } ColRowSelectionType;
 
 /* Selection information */
+CellPos const *sv_is_singleton_selected (SheetView const *sv);
 gboolean sv_is_pos_selected         (SheetView const *sv, int col, int row);
 gboolean sv_is_range_selected       (SheetView const *sv, Range const *r);
 gboolean sv_is_full_range_selected  (SheetView const *sv, Range const *r);

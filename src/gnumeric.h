@@ -135,6 +135,13 @@ typedef enum _SpanCalcFlags {
 	SPANCALC_NO_DRAW	= 0x8	/* Do not queue a redraw */
 } SpanCalcFlags;
 
+typedef enum
+{
+	GNM_EXPR_EVAL_STRICT		= 0x0,
+	GNM_EXPR_EVAL_PERMIT_NON_SCALAR	= 0x1,
+	GNM_EXPR_EVAL_PERMIT_EMPTY	= 0x2
+} GnmExprEvalFlags;
+
 typedef struct _SearchReplace           SearchReplace;
 
 typedef struct _gnm_mem_chunk		gnm_mem_chunk;

@@ -28,6 +28,10 @@ Jody:
 	* Move libgsf for XL export
 	* Remove dependence on libole2 !
 	* Add a Quattro Pro importer
+	* Fix Lotus import of relative references, and formulas with strings
+	* Support url, and in workbook hyper-links, no UI or persistence yet.
+	* Import url, and in workbook hyper-links from xls
+	* Take steps towards support implicit iteration for function args.
 
 Jukka:
 	* More solver enhancements:

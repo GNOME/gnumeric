@@ -1,3 +1,25 @@
+2002-07-18  Jody Goldberg <jody@gnome.org>
+
+	* src/expr.c (gnm_expr_extract_ref) : take some eval flags to see if
+	  we can support implicit iteration.
+	* src/func.c (function_call_with_list) : ditto.
+
+2002-07-18  Jody Goldberg <jody@gnome.org>
+
+	* src/hlink.c : write url and internal link support.
+
+2002-07-16  Jody Goldberg <jody@gnome.org>
+
+	* src/cellspan.c (cell_calc_span) : center across selection can force
+	  a span for something that would wrap.
+
+	* src/workbook-control-gui.c (wbcg_error_error_info) : add 150% as a
+	  std zoom level.
+
+2002-07-15  Jody Goldberg <jody@gnome.org>
+
+	* src/func.h : add status info to the func def for easy update
+
 2002-07-18  Morten Welinder  <terra@diku.dk>
 
 	* src/search.c (calculate_replacement): Make utf-8 safe at last.

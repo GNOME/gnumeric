@@ -97,6 +97,21 @@ typedef gboolean (*FunctionGetFullInfoCallback) (FunctionDefinition *fn_def,
 						 FuncLinkHandle	  *link,
 						 FuncUnlinkHandle *unlink);
 
+typedef enum {
+    FUNC_IMPL_STATUS_UNIMPLEMENTED,
+    FUNC_IMPL_STATUS_SUBSET,
+    FUNC_IMPL_STATUS_COMPLETE,
+    FUNC_IMPL_STATUS_SUPERSET,
+    FUNC_IMPL_STATUS_SUBSET_WITH_EXTENSIONS,
+    FUNC_IMPL_STATUS_CLAIMED
+} FunctionImplStatus;
+typedef enum {
+    FUNC_TEST_STATUS_UNTESTED,
+    FUNC_TEST_STATUS_BASIC,
+    FUNC_TEST_STATUS_EXHAUSTIVE,
+    FUNC_TEST_STATUS_CLAIMED
+} FunctionTestStatus;
+
 struct _FunctionDefinition {
 	FunctionGetFullInfoCallback get_full_info_callback;
 	FunctionFlags flags;
@@ -117,6 +132,8 @@ struct _FunctionDefinition {
 	FuncUnlinkHandle unlink;
 	gpointer     user_data;
 	gint         ref_count;
+	FunctionImplStatus	impl_status;
+	FunctionTestStatus	test_status;
 };
 void func_ref	 (FunctionDefinition *fn_def);
 void func_unref  (FunctionDefinition *fn_def);
@@ -164,7 +181,8 @@ void function_set_link_handlers (FunctionDefinition *fn_def,
 				 FuncLinkHandle   link,
 				 FuncUnlinkHandle unlink);
 
-Value *function_call_with_list	     (FunctionEvalInfo *ei, GnmExprList *args);
+Value *function_call_with_list	     (FunctionEvalInfo *ei, GnmExprList *args,
+				      GnmExprEvalFlags flags);
 Value *function_call_with_values     (EvalPos const *ep, gchar const *name,
                                       gint argc, Value *values []);
 Value *function_def_call_with_values (EvalPos const *ep, FunctionDefinition const *fn,

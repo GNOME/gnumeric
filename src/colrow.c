@@ -49,8 +49,8 @@ colrow_compute_pts_from_pixels (ColRowInfo *cri,
 				Sheet const *sheet, gboolean horizontal)
 {
 	double const scale =
-	    sheet->last_zoom_factor_used *
-	    application_display_dpi_get (horizontal) / 72.;
+		sheet->last_zoom_factor_used *
+		application_display_dpi_get (horizontal) / 72.;
 
 	cri->size_pts = cri->size_pixels / scale;
 #if 0

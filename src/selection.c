@@ -30,6 +30,23 @@
 #include <libgnome/gnome-i18n.h>
 
 /**
+ * sv_is_singleton_selected:
+ * @sv :
+ *
+ * See if the 1st selected region is a singleton.
+ *
+ * Returns A CellPos pointer if the selection is a singleton, and NULL if not.
+ **/
+CellPos const *
+sv_is_singleton_selected (SheetView const *sv)
+{
+	if (sv->cursor.move_corner.col == sv->cursor.base_corner.col &&
+	    sv->cursor.move_corner.row == sv->cursor.base_corner.row)
+		return &sv->cursor.move_corner;
+	return NULL;
+}
+
+/**
  * sv_is_pos_selected :
  * @sv :
  * @col :

@@ -38,7 +38,6 @@
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <gtk/gtkdnd.h>
 #include <gsf/gsf-impl-utils.h>
-#include <gal/widgets/e-cursors.h>
 #include <math.h>
 #define GNUMERIC_ITEM "GRID"
 #include "item-debug.h"
@@ -958,30 +957,18 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		return TRUE;
 
 	case GDK_BUTTON_RELEASE: {
-		gboolean send_finished_signal = FALSE;
+		ItemGridSelectionType selecting = ig->selecting;
+
 		if (event->button.button != 1)
 			return FALSE;
 
 		gnm_canvas_slide_stop (gcanvas);
 
-		switch (ig->selecting) {
-		case ITEM_GRID_NO_SELECTION: {
-			/* check for hyper links */
-			GnmHLink *link;
-			CellPos	pos;
-
-			gnome_canvas_w2c (canvas, event->button.x, event->button.y,
-					  &x, &y);
-			pos.col = gnm_canvas_find_col (gcanvas, x, NULL);
-			pos.row = gnm_canvas_find_row (gcanvas, y, NULL);
-			link = sheet_hlink_find (sheet, &pos);
-			if (link != NULL)
-				gnm_hlink_activate (link);
-		}
-		return TRUE;
+		switch (selecting) {
+		case ITEM_GRID_NO_SELECTION:
+			return TRUE;
 
 		case ITEM_GRID_SELECTING_FORMULA_RANGE :
-			send_finished_signal = TRUE;
 /*  Removal of this code (2 lines)                                                */
 /*  should fix http://bugzilla.gnome.org/show_bug.cgi?id=63485                    */
 /* 			sheet_make_cell_visible (sheet,                           */
@@ -1002,8 +989,19 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		ig->selecting = ITEM_GRID_NO_SELECTION;
 		gnm_simple_canvas_ungrab (item, event->button.time);
 
-		if (send_finished_signal)
+		if (selecting == ITEM_GRID_SELECTING_FORMULA_RANGE)
 			gnm_expr_entry_end_of_drag (wbcg_get_entry_logical (scg->wbcg));
+
+		if (selecting == ITEM_GRID_SELECTING_CELL_RANGE) {
+			CellPos const *pos = sv_is_singleton_selected (sc_view (sc));
+			if (pos != NULL) {
+				GnmHLink *link;
+				/* check for hyper links */
+				link = sheet_hlink_find (sheet, pos);
+				if (link != NULL)
+					gnm_hlink_activate (link, sc->wbc);
+			}
+		}
 		return TRUE;
 	}
 

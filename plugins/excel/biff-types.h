@@ -231,6 +231,7 @@
 #define BIFF_DV				0x1be	/* ONLY 1 */
 #define BIFF_XL9FILE			0x1c0	/* ONLY 1 */
 #define BIFF_RECALCID			0x1c1	/* ONLY 1 */
+#define BIFF_LINK_TIP			0x800	/* ONLY 1, follows an hlink */
 #define BIFF_UNKNOWN_1			0x810	/* what this is */
 
 /* Chart Specific */

@@ -531,7 +531,8 @@ expr_array_corner (GnmExpr const *expr,
 }
 
 static gboolean
-gnm_expr_extract_ref (CellRef *res, GnmExpr const *expr, EvalPos const *pos)
+gnm_expr_extract_ref (CellRef *res, GnmExpr const *expr,
+		      EvalPos const *pos, GnmExprEvalFlags flags)
 {
 	switch (expr->any.oper) {
 	case GNM_EXPR_OP_FUNCALL : {
@@ -541,7 +542,7 @@ gnm_expr_extract_ref (CellRef *res, GnmExpr const *expr, EvalPos const *pos)
 		ei.pos = pos;
 		ei.func_call = (GnmExprFunction const *)expr;
 
-		v = function_call_with_list (&ei, expr->func.arg_list);
+		v = function_call_with_list (&ei, expr->func.arg_list, flags);
 		if (v != NULL) {
 			if (v->type == VALUE_CELLRANGE &&
 			    cellref_equal (&v->v_range.cell.a, &v->v_range.cell.b)) {
@@ -570,7 +571,7 @@ gnm_expr_extract_ref (CellRef *res, GnmExpr const *expr, EvalPos const *pos)
 	case GNM_EXPR_OP_NAME:
 		if (!expr->name.name->active || expr->name.name->builtin)
 			return TRUE;
-		return gnm_expr_extract_ref (res, expr->name.name->t.expr_tree, pos);
+		return gnm_expr_extract_ref (res, expr->name.name->t.expr_tree, pos, flags);
 	default :
 		break;
 	}
@@ -935,9 +936,7 @@ expr_eval_real (GnmExpr const *expr, EvalPos const *pos,
 		FunctionEvalInfo ei;
 		ei.pos = pos;
 		ei.func_call = (GnmExprFunction const *)expr;
-
-		/*if (flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR)*/
-		return function_call_with_list (&ei, expr->func.arg_list);
+		return function_call_with_list (&ei, expr->func.arg_list, flags);
 	}
 
 	case GNM_EXPR_OP_NAME:
@@ -1090,8 +1089,8 @@ expr_eval_real (GnmExpr const *expr, EvalPos const *pos,
 
 	case GNM_EXPR_OP_RANGE_CTOR: {
 			CellRef a, b;
-			if (gnm_expr_extract_ref (&a, expr->binary.value_a, pos) ||
-			    gnm_expr_extract_ref (&b, expr->binary.value_b, pos))
+			if (gnm_expr_extract_ref (&a, expr->binary.value_a, pos, flags) ||
+			    gnm_expr_extract_ref (&b, expr->binary.value_b, pos, flags))
 				return value_new_error (pos, gnumeric_err_REF);
 			return value_new_cellrange (&a, &b, pos->eval.col, pos->eval.row);
 		}

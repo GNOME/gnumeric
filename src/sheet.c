@@ -54,6 +54,7 @@
 #include "sheet-object-impl.h"
 #include "sheet-object-cell-comment.h"
 #include "solver.h"
+#include "hlink.h"
 
 #include <libgnome/gnome-i18n.h>
 #include <stdlib.h>
@@ -2586,14 +2587,8 @@ sheet_destroy_contents (Sheet *sheet)
 	g_hash_table_destroy (sheet->hash_merged);
 	sheet->hash_merged = NULL;
 
-	if (sheet->list_merged) {
-		GSList *l;
-
-		for (l = sheet->list_merged; l; l = l->next) {
-			Range *r;
-			r = l->data;
-			g_free (r);
-		}
+	if (sheet->list_merged != NULL) {
+		g_slist_foreach (sheet->list_merged, (GFunc)g_free, NULL);
 		g_slist_free (sheet->list_merged);
 		sheet->list_merged = NULL;
 	}
@@ -3868,9 +3863,10 @@ sheet_clone_styles (Sheet const *src, Sheet *dst)
 }
 
 static void
-sheet_clone_merged_regions (Sheet const *src, Sheet *dst)
+sheet_clone_regions (Sheet const *src, Sheet *dst)
 {
 	GSList *ptr;
+
 	for (ptr = src->list_merged ; ptr != NULL ; ptr = ptr->next)
 		sheet_merge_add (NULL, dst, ptr->data, FALSE);
 }
@@ -3990,7 +3986,7 @@ sheet_dup (Sheet const *src)
 		dst, sheet_style_get_auto_pattern_color (src));
 
 	sheet_clone_styles         (src, dst);
-	sheet_clone_merged_regions (src, dst);
+	sheet_clone_regions	   (src, dst);
 	sheet_clone_colrow_info    (src, dst);
 	sheet_clone_names          (src, dst);
 	sheet_clone_cells          (src, dst);

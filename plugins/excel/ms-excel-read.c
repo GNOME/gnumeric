@@ -38,6 +38,7 @@
 #include <expr.h>
 #include <expr-name.h>
 #include <value.h>
+#include <hlink.h>
 #include <gutils.h>
 #include <application.h>
 #include <io-context.h>
@@ -3783,8 +3784,12 @@ ms_excel_read_hlink (BiffQuery *q, ExcelSheet *esheet)
 	};
 	Range	r;
 	guint32 options, len, i;
+	guint16 next_opcode;
 	guint8 const *data = q->data;
-	guint8 *txt;
+	guchar *description = NULL;
+	guchar *target = NULL;
+	guchar *tip = NULL;
+	GnmHLink *link = NULL;
 
 	g_return_if_fail (q->length > 32);
 
@@ -3810,8 +3815,7 @@ ms_excel_read_hlink (BiffQuery *q, ExcelSheet *esheet)
 		for (i = 0 ; i < len ; i++)
 			uni_text [i] = GSF_LE_GET_GUINT16 (data + i*2);
 
-		txt = g_utf16_to_utf8 (uni_text, len, NULL, NULL, NULL);
-		printf ("desc %d = '%s'\n", len, txt);
+		description = g_utf16_to_utf8 (uni_text, len, NULL, NULL, NULL);
 		g_free (uni_text);
 		data += len*2;
 	}
@@ -3829,24 +3833,55 @@ ms_excel_read_hlink (BiffQuery *q, ExcelSheet *esheet)
 		for (i = 0 ; i < len ; i++)
 			uni_text [i] = GSF_LE_GET_GUINT16 (data + i*2);
 
-		txt = g_utf16_to_utf8 (uni_text, -1, NULL, NULL, NULL);
-		printf ("frame %d = '%s'\n", len, txt);
+		target = g_utf16_to_utf8 (uni_text, -1, NULL, NULL, NULL);
 		g_free (uni_text);
 		data += len*2;
 	}
 
 	/* file with UNC */
 	if ((options & 0x1e3) == 0x003 && !memcmp (data, url_guid, sizeof (url_guid))) {
-		range_dump (&r, " <-- url\n");
+		gunichar2 *uni_text;
+		guchar *url;
+
+		len = GSF_LE_GET_GUINT32 (data + sizeof (url_guid));
+		data += 4 + sizeof (url_guid);
+		g_return_if_fail (data+len-q->data <= (int)q->length);
+
+		/* be wary about endianness */
+		uni_text = g_new (gunichar2, len);
+		for (i = 0 ; i < len ; i++)
+			uni_text [i] = GSF_LE_GET_GUINT16 (data + i*2);
+
+		url = g_utf16_to_utf8 (uni_text, -1, NULL, NULL, NULL);
+		link = g_object_new (gnm_hlink_url_get_type (), NULL);
+		gnm_hlink_url_set_target (link, url);
+		g_free (uni_text);
+		g_free (url);
 	} else if ((options & 0x1e1) == 0x001 && !memcmp (data, file_guid, sizeof (file_guid))) {
 		range_dump (&r, " <-- local file\n");
 	} else if ((options & 0x1e3) == 0x103) {
 		range_dump (&r, " <-- unc file\n");
 	} else if ((options & 0x1eb) == 0x008) {
-		range_dump (&r, " <-- current workbook\n");
+		link = g_object_new (gnm_hlink_cur_wb_get_type (), NULL);
+		gnm_hlink_cur_wb_set_target (link, target);
 	} else {
 		g_warning ("Unknown hlink type");
 	}
+	if (ms_biff_query_peek_next (q, &next_opcode) &&
+	    next_opcode == BIFF_LINK_TIP) {
+		ms_biff_query_next (q);
+		/* TODO */
+	}
+
+	if (link != NULL) {
+		MStyle *style = mstyle_new ();
+		mstyle_set_hlink (style, link);
+		sheet_style_apply_range	(esheet->gnum_sheet, &r, style);
+	}
+
+	g_free (description);
+	g_free (target);
+	g_free (tip);
 }
 
 static void

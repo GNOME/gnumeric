@@ -857,13 +857,15 @@ free_values (Value **values, int top)
  * function_call_with_list:
  * @ei: EvalInfo containing valid fn_def!
  * @args: GnmExprList of GnmExpr args.
+ * @flags :
  *
  * Do the guts of calling a function.
  *
- * Return value:
+ * Returns the result.
  **/
 Value *
-function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l)
+function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
+			 GnmExprEvalFlags flags)
 {
 	FunctionDefinition const *fn_def;
 	int argc, arg;

@@ -92,13 +92,6 @@ struct _GnmExprRewriteInfo {
 GnmExpr const *gnm_expr_rewrite (GnmExpr            const *expr,
 				 GnmExprRewriteInfo const *rwinfo);
 
-typedef enum
-{
-	GNM_EXPR_EVAL_STRICT		= 0x0,
-	GNM_EXPR_EVAL_PERMIT_NON_SCALAR	= 0x1,
-	GNM_EXPR_EVAL_PERMIT_EMPTY	= 0x2
-} GnmExprEvalFlags;
-
 Value *gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 		      GnmExprEvalFlags flags);
 
