@@ -654,6 +654,25 @@ gnumeric_utf8_strcapital (const char *p, ssize_t len)
 
 /* ------------------------------------------------------------------------- */
 
+gboolean
+gnumeric_valid_filename (const char *filename)
+{
+	GError *err = NULL;
+	char *utf8name;
+	gboolean res;
+
+	g_return_val_if_fail (filename != NULL, FALSE);
+
+	utf8name = g_filename_to_utf8 (filename, -1, NULL, NULL, &err);
+	res = utf8name && !err;
+	g_free (utf8name);
+	g_clear_error (&err);
+
+	return res;
+}
+
+/* ------------------------------------------------------------------------- */
+
 #undef DEBUG_CHUNK_ALLOCATOR
 
 typedef struct _gnm_mem_chunk_freeblock gnm_mem_chunk_freeblock;

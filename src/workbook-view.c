@@ -43,10 +43,12 @@
 #include "mstyle.h"
 #include "position.h"
 #include "cell.h"
+#include "gutils.h"
 #include "io-context.h"
 
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-input-stdio.h>
+#include <gsf/gsf-utils.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <locale.h>
@@ -684,32 +686,43 @@ wb_view_new_from_file (char const *file_name,
 		       GnumFileOpener const *optional_fmt,
 		       IOContext *io_context)
 {
-	GError *err = NULL;
 	char *msg = NULL;
-	GsfInput *input;
 
-	/* Only report error if stdio fails too */
-	input = gsf_input_mmap_new (file_name, NULL);
-	if (input == NULL)
-		input = gsf_input_stdio_new (file_name, &err);
+	if (gnumeric_valid_filename (file_name)) {
+		GError *err = NULL;
+		GsfInput *input;
 
-	puts (file_name);
-	if (input != NULL) {
-		WorkbookView *res = wb_view_new_from_input  (input,
-			optional_fmt, io_context);
-		g_object_unref (G_OBJECT (input));
-		return res;
+		/* Only report error if stdio fails too */
+		input = gsf_input_mmap_new (file_name, NULL);
+		if (input == NULL)
+			input = gsf_input_stdio_new (file_name, &err);
+
+		puts (file_name);
+		if (input != NULL) {
+			WorkbookView *res = wb_view_new_from_input (input,
+								    optional_fmt, io_context);
+			g_object_unref (G_OBJECT (input));
+			return res;
+		}
+
+		if (err != NULL) {
+			if (err->message != NULL)
+				msg = g_strdup (err->message);
+			g_error_free (err);
+		}
+
+		if (msg == NULL)
+			msg = g_strdup_printf (_("An unexplained error happened while opening %s"),
+					       file_name);
+	} else {
+		/*
+		 * This should be quite rare.  To provoke, use
+		 * gnumeric `echo -e '\377\376'`
+		 */
+		msg = g_strdup (_("The filename given is not valid."));
 	}
-
-	if (err != NULL) {
-		if (err->message != NULL)
-			msg = g_strdup (err->message);
-		g_error_free (err);
-	}
-	if (msg == NULL)
-		msg = g_strdup_printf (_("An unexplained error happened while opening '%s'"),
-				       file_name);
 	gnumeric_error_read (COMMAND_CONTEXT (io_context), msg);
+	g_free (msg);
 
 	return NULL;
 }

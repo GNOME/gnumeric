@@ -1,3 +1,10 @@
+2002-10-08  Morten Welinder  <terra@diku.dk>
+
+	* src/workbook-view.c (wb_view_new_from_file): Catch invalid file
+	names.
+
+	* src/gutils.c (gnumeric_valid_filename): New function.
+
 2002-10-08  Jody Goldberg <jody@gnome.org>
 
 	* src/parser.y (parser_lookup_name) : default the placeholder to be at
