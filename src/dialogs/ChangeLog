@@ -1,3 +1,9 @@
+2001-10-28  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-define-names.c (name_guru_display_scope) : set active on
+	  sheet or workbook, don't set TRUE/FALSE on sheet.
+	(name_guru_init) : get the wb_scope button.
+
 2001-10-27  Almer S. Tigelaar  <almer@gnome.org>
 
 	* dialog-cell-format.c (validation_style_condition_chain_rebuild): Rename

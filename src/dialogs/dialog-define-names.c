@@ -35,6 +35,7 @@ typedef struct {
 	GtkEntry  *name;
 	GnumericExprEntry *expr_text;
 	GtkToggleButton *sheet_scope;
+	GtkToggleButton *wb_scope;
 	GList     *expr_names;
 	NamedExpression *cur_name;
 
@@ -88,8 +89,10 @@ name_guru_display_scope (NameGuruState *state)
 	NamedExpression const *nexpr = state->cur_name;
 
 	state->updating = TRUE;
-	gtk_toggle_button_set_active (state->sheet_scope,
-		(nexpr != NULL && nexpr->pos.sheet != NULL));
+	if (nexpr == NULL || nexpr->pos.sheet == NULL)
+		gtk_toggle_button_set_active (state->wb_scope, TRUE);
+	else
+		gtk_toggle_button_set_active (state->sheet_scope, TRUE);
 	state->updating = FALSE;
 }
 
@@ -516,12 +519,12 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 			  0, 0);
 	gtk_widget_show (GTK_WIDGET (state->expr_text));
 	state->sheet_scope = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "sheet_scope"));
+	state->wb_scope = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "workbook_scope"));
 	state->list  = GTK_LIST (glade_xml_get_widget (state->gui, "name_list"));
 	state->expr_names = NULL;
 	state->cur_name   = NULL;
 	state->updating   = FALSE;
 
-	/* Init the scope combo box */
 	gtk_label_set_text (GTK_LABEL (GTK_BIN (state->sheet_scope)->child),
 		state->sheet->name_unquoted);
 	name_guru_display_scope (state);
