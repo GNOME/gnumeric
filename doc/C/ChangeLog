@@ -2,6 +2,7 @@
 
 	* welcome.xml: Removed "trademark" tag as it is not allowed inside
 	guilabel.
+	* graphics-plots.xml: "procedure"s don't go in "para"s.
 
 2004-10-01  Adrian Custer <acuster@gnome.org>
 

@@ -671,12 +671,13 @@
     <sect3 id="sect-graphics-plots-graphguru-navigating">
       <title>Navigating the graph guru</title>
 
-    <para>
-      Graphs in <application>Gnumeric</application> are created using
-      the <interface>Graph Guru</interface>. The process involved in
-      using this 'guru' essentially follows the alphabetical labels
-      presented in <xref linkend="fig-graphguru-panels" />.
-     <procedure>
+      <para>
+        Graphs in <application>Gnumeric</application> are created using
+        the <interface>Graph Guru</interface>. The process involved in
+        using this 'guru' essentially follows the alphabetical labels
+        presented in <xref linkend="fig-graphguru-panels" />.
+      </para>
+      <procedure>
         <title>The Graph Creation Process</title>
 
         <step>
@@ -694,13 +695,13 @@
         </step>
 
         <step>
-	  <title>Launching the Graph Guru</title>
+          <title>Launching the Graph Guru</title>
           <para>
             The <interface>Graph guru</interface> can be started in
             two ways. One way to start the <interface>Graph
             Guru</interface> is to click, with the primary mouse
             button, on the toolbar graph button,
-	    <inlinemediaobject>
+            <inlinemediaobject>
               <imageobject>
                 <imagedata fileref="figures/button-graph.png" />
               </imageobject>
@@ -708,93 +709,92 @@
                 <phrase>
                   The icon on the toolbar button which starts the
                   graph guru.
-		</phrase>  
+      	        </phrase>  
               </textobject>
              </inlinemediaobject>. Another way is to select, from the
-          <guimenu>Insert</guimenu> menu, the
-          <guimenuitem>Chart...</guimenuitem> menu item. Both
-          approaches will launch the <interface>Graph Guru</interface>.
+             <guimenu>Insert</guimenu> menu, the
+             <guimenuitem>Chart...</guimenuitem> menu item. Both
+             approaches will launch the <interface>Graph Guru</interface>.
           </para>
         </step>
 
         <step>
-	  <title>Selecting the plot type, sub-type, and style.</title>
+          <title>Selecting the plot type, sub-type, and style.</title>
 
           <para>
-	    The <interface>Graph guru</interface> opens to the first
-	    of two panels. The areas of this panel are shown in the
-	    left hand side of <xref linkend="fig-graphguru-panels"
-	    />. This panel enables the user to select the type of the
-	    first plot in the chart, and its sub-type and style. To
-	    make a graph with multiple plots, a user should start by
-	    selecting the first plot; subsequent plots can be added
-	    later. 
-	    
-	    <procedure>
-	      <step>
-	        <title>Picking the plot type</title>
-		<para>
-		  The first area, area <guimenu>A</guimenu>, provides
-	          a list of the plot types. The user can pick one of
-	          the types by placing the mouse pointer on top of
-	          that appropriate entry in the list and clicking the
-	          primary mouse button. The blue highlight indicates
-	          which plot type has been chosen. The characteristics
-		  of the different plot types are explained extensively
-		  in <xref
-		  linkend="sect-graphics-plots-overview-types" />. 
-		</para>
-	      </step>
-	      <step>
-	        <title>Picking the plot sub-type and style</title>
-		<para>
-		  The second area of the first panel of the
-		  <interface>Graph Guru</interface>, labeled
-		  <guimenu>B</guimenu> in <xref
-		  linkend="fig-graphguru-panels" />, presents one or
-		  more icons. The icons presented in this area will
-		  change depending on what plot type is highlighted in
-		  area <guimenu>A</guimenu>. The icons provide a way
-		  to select a sub-type of plot, for example, the icons
-		  for the column plot type provide the choice between
-		  plotting columns of each data series side-by-side or
-		  plotting these columns stacked upon each other.
-		  These icons may also provide a way to quickly select
-		  different styles for the plot type, for example the
-		  icons for the line type provide a choice between
-		  plotting a simple line or placing markers at the
-		  points along the line. The sub-type cannot be
-		  changed in the next panel of the <interface>Graph
-		  Guru</interface> without deleting the plot and
-		  creating a new one. However, the style choices can
-		  be altered in the next panel. The meaning of each of
-		  these icons is explained in <xref
-		  linkend="sect-graphics-plots-overview-types" />
-		  below grouped by plot type. If data has been
-		  pre-selected, clicking on the <guibutton>Show
-		  Sample</guibutton> will present a preview of the plot
-		  type in area <guimenu>B</guimenu>.
-		</para>
-	       </step>
-	       <step>
-	         <title>Moving to the next panel</title>
-		 <para>
-		   Once a plot type has been chosen in area
-		   <guimenu>A</guimenu> and an icon selected in area
-		   <guimenu>B</guimenu>, the first panel has been
-		   completed. Clicking on the
-		   <guibutton>Forward</guibutton> button will dismiss
-		   the first panel of the <interface>Graph
-		   Guru</interface> and bring up the second panel.
-		 </para>
-	       </step>
-	     </procedure>
-
+            The <interface>Graph guru</interface> opens to the first
+            of two panels. The areas of this panel are shown in the
+            left hand side of <xref linkend="fig-graphguru-panels"
+            />. This panel enables the user to select the type of the
+            first plot in the chart, and its sub-type and style. To
+            make a graph with multiple plots, a user should start by
+            selecting the first plot; subsequent plots can be added
+            later. 
           </para>
+          
+          <procedure>
+            <step>
+              <title>Picking the plot type</title>
+              <para>
+                The first area, area <guimenu>A</guimenu>, provides
+                a list of the plot types. The user can pick one of
+                the types by placing the mouse pointer on top of
+                that appropriate entry in the list and clicking the
+                primary mouse button. The blue highlight indicates
+                which plot type has been chosen. The characteristics
+                of the different plot types are explained extensively
+                in <xref
+                linkend="sect-graphics-plots-overview-types" />. 
+              </para>
+            </step>
+            <step>
+              <title>Picking the plot sub-type and style</title>
+              <para>
+                The second area of the first panel of the
+                <interface>Graph Guru</interface>, labeled
+                <guimenu>B</guimenu> in <xref
+                linkend="fig-graphguru-panels" />, presents one or
+                more icons. The icons presented in this area will
+                change depending on what plot type is highlighted in
+                area <guimenu>A</guimenu>. The icons provide a way
+                to select a sub-type of plot, for example, the icons
+                for the column plot type provide the choice between
+                plotting columns of each data series side-by-side or
+                plotting these columns stacked upon each other.
+                These icons may also provide a way to quickly select
+                different styles for the plot type, for example the
+                icons for the line type provide a choice between
+                plotting a simple line or placing markers at the
+                points along the line. The sub-type cannot be
+                changed in the next panel of the <interface>Graph
+                Guru</interface> without deleting the plot and
+                creating a new one. However, the style choices can
+                be altered in the next panel. The meaning of each of
+                these icons is explained in <xref
+                linkend="sect-graphics-plots-overview-types" />
+                below grouped by plot type. If data has been
+                pre-selected, clicking on the <guibutton>Show
+                Sample</guibutton> will present a preview of the plot
+                type in area <guimenu>B</guimenu>.
+              </para>
+            </step>
+            <step>
+              <title>Moving to the next panel</title>
+              <para>
+                Once a plot type has been chosen in area
+                <guimenu>A</guimenu> and an icon selected in area
+                <guimenu>B</guimenu>, the first panel has been
+                completed. Clicking on the
+                <guibutton>Forward</guibutton> button will dismiss
+                the first panel of the <interface>Graph
+                Guru</interface> and bring up the second panel.
+              </para>
+            </step>
+          </procedure>
         </step>
 
         <step>
-	  <title>Configuring the plot</title>
+          <title>Configuring the plot</title>
           <para>
             The second panel of the <interface>Graph Guru</interface>
             enables users to configure the plot. This includes
@@ -802,10 +802,9 @@
             adding titles to various components, labels to the data
             series, names to data categories, and changing the
             appearance of the different components.
-	  </para>
+          </para>
 
-	  <para>
-
+          <para>
             The simplest way both to learn the hierarchy of components
             in <application>Gnumeric</application> graphs and to
             understand the properties which can be changed for each
@@ -828,127 +827,118 @@
             <guimenu>J</guimenu>. Tree nodes, indicated by arrowheads
             in front of the name of a component, can be expanded or
             collapsed with alternative mouse clicks.
-	  </para>
+          </para>
 
-	  <para>
+          <para>
+            The second panel of the <interface>Graph Guru</interface>
+            only allows two types of actions to be performed: the
+            hierarchy of component elements can be modified or the
+            properties of an element can be altered.
+          
+            <variablelist>
+              <title></title>
 
-	    The second panel of the <interface>Graph Guru</interface>
-	    only allows two types of actions to be performed: the
-	    hierarchy of component elements can be modified or the
-	    properties of an element can be altered.
-	    
-	    <variablelist>
-	      <title></title>
 
-
-	      <varlistentry>
-	        <term><guimenu>Changing the component elements</guimenu>
-		</term>
-	        <listitem>
-	          <para>
-		    The component elements of the graph can be changed
-		    using the buttons in area
-		    <guimenu>G</guimenu>. Elements can be added,
-		    deleted or re-ordered.
-		  </para>
+              <varlistentry>
+                <term><guimenu>Changing the component elements</guimenu></term>
+                <listitem>
+                  <para>
+      	            The component elements of the graph can be changed
+      	            using the buttons in area
+      	            <guimenu>G</guimenu>. Elements can be added,
+      	            deleted or re-ordered.
+      	          </para>
 
                   <variablelist>
-	            <title></title>
+                    <title></title>
 
-	            <varlistentry>
-	              <term>Adding component elements 
-		      </term>
-	              <listitem>
-	                <para>
-		           An element can be added by selecting the
-		           parent element in the hierarchy presented
-		           in area <guimenu>F</guimenu> and then
-		           clicking and holding the
-		           <guibutton>Add</guibutton> button. This action
-		           will reveal a drop down list including all
-		           the possible elements that can be added. By
-		           moving the mouse pointer onto the drop down
-		           list and releasing the mouse button while
-		           the pointer is over an element, that
-		           element will be added. To add a plot to a
-		           chart, it is necessary to navigate into the
-		           sub-menu to select the plot type and then
-		           into that sub-menu to select a plot
-		           sub-type or style in a process that mimics
-		           the process of selecting a plot discussed above.
-		        </para>
-	              </listitem>
-	            </varlistentry>
+                    <varlistentry>
+                      <term>Adding component elements</term>
+                      <listitem>
+                        <para>
+      	                  An element can be added by selecting the
+      	                  parent element in the hierarchy presented
+      	                  in area <guimenu>F</guimenu> and then
+      	                  clicking and holding the
+      	                  <guibutton>Add</guibutton> button. This action
+      	                  will reveal a drop down list including all
+      	                  the possible elements that can be added. By
+      	                  moving the mouse pointer onto the drop down
+      	                  list and releasing the mouse button while
+      	                  the pointer is over an element, that
+      	                  element will be added. To add a plot to a
+      	                  chart, it is necessary to navigate into the
+      	                  sub-menu to select the plot type and then
+      	                  into that sub-menu to select a plot
+      	                  sub-type or style in a process that mimics
+      	                  the process of selecting a plot discussed above.
+      	                </para>
+                      </listitem>
+                    </varlistentry>
 
-	            <varlistentry>
-	              <term>Deleting component elements 
-		      </term>
-	              <listitem>
-	                <para>
-		           An element can be deleted by selecting the
-		           element in the hierarchy presented in area
-		           <guimenu>F</guimenu>, and then clicking the
-		           <guibutton>Delete</guibutton> button below
-		           the hierarchy.
-		        </para>
-	              </listitem>
-	            </varlistentry>
+                    <varlistentry>
+                      <term>Deleting component elements</term>
+                      <listitem>
+                        <para>
+      	                  An element can be deleted by selecting the
+      	                  element in the hierarchy presented in area
+      	                  <guimenu>F</guimenu>, and then clicking the
+      	                  <guibutton>Delete</guibutton> button below
+      	                  the hierarchy.
+      	                </para>
+                      </listitem>
+                    </varlistentry>
 
-	            <varlistentry>
-	              <term>Re-ordering component elements 
-		      </term>
-	              <listitem>
-	                <para>
-			  The order of some of the elements can be
-		          interchanged using the
-		          <guibutton>Order</guibutton> button below
-		          the element hierarchy. For example, if an
-		          element has two titles, the order of the
-		          titles could be swapped. Similarly the
-		          vertical order of charts can be
-		          interchanged. The effect on plots and series
-		          is different. For those elements, the order
-		          button changes the stacking order in the
-		          front to back dimension. For example, if a
-		          chart has a bar plot and a line plot, the
-		          order button will change which of the two
-		          plots is visible in front of the other.
-		        </para>
-	              </listitem>
-	            </varlistentry>
+                    <varlistentry>
+                      <term>Re-ordering component elements</term>
+                      <listitem>
+                        <para>
+      		          The order of some of the elements can be
+      	                  interchanged using the
+      	                  <guibutton>Order</guibutton> button below
+      	                  the element hierarchy. For example, if an
+      	                  element has two titles, the order of the
+      	                  titles could be swapped. Similarly the
+      	                  vertical order of charts can be
+      	                  interchanged. The effect on plots and series
+      	                  is different. For those elements, the order
+      	                  button changes the stacking order in the
+      	                  front to back dimension. For example, if a
+      	                  chart has a bar plot and a line plot, the
+      	                  order button will change which of the two
+      	                  plots is visible in front of the other.
+      	                </para>
+                      </listitem>
+                    </varlistentry>
 
-	           </variablelist>
+                  </variablelist>
 
-		 </listitem>
-	       </varlistentry>
+      	        </listitem>
+              </varlistentry>
 
 
-	      <varlistentry>
-	        <term><guimenu>Configuring the properties of the
-		      Element</guimenu> 
-		</term>
-	        <listitem>
-	          <para>
-		    The bottom area of the second panel, area
-		    <guimenu>J</guimenu> in <xref
-		    linkend="fig-graphguru-panels"/>, allows the user
-		    to configure the properties of each element in the
-		    hierarchy. When there are many properties, they
-		    will be grouped into similar sets and placed on
-		    different tabs. The detailed explanation of how to
-		    configure each property of each element will be
-		    explained in <xref
-		    linkend="sect-graphics-plots-elementProperties" /> below.
-		  </para>
-
-
-	        </listitem>
-	      </varlistentry>
-
-
-	    </variablelist>
-	     
-	    Once the plot is sufficiently configured, it can be placed
+              <varlistentry>
+                <term>
+                  <guimenu>Configuring the properties of the Element</guimenu>
+                </term>
+                <listitem>
+                  <para>
+      	            The bottom area of the second panel, area
+      	            <guimenu>J</guimenu> in <xref
+      	            linkend="fig-graphguru-panels"/>, allows the user
+      	            to configure the properties of each element in the
+      	            hierarchy. When there are many properties, they
+      	            will be grouped into similar sets and placed on
+      	            different tabs. The detailed explanation of how to
+      	            configure each property of each element will be
+      	            explained in <xref
+      	            linkend="sect-graphics-plots-elementProperties" /> below.
+      	          </para>
+                </listitem>
+              </varlistentry>
+            </variablelist>
+           
+            Once the plot is sufficiently configured, it can be placed
             on the worksheet to assess its appearance. The user can
             return to this panel of the <interface>Graph
             Guru</interface> using the context menu on the graph. The
@@ -959,7 +949,7 @@
         </step>
 
         <step>
-	  <title>Place the graph</title>
+          <title>Place the graph</title>
           <para>
             After exiting the <interface>Graph Guru</interface>, the
             user must place the graph on a worksheet. Immediately
@@ -977,7 +967,7 @@
         </step>
 
         <step>
-	  <title>Modifying an existing graph</title>
+          <title>Modifying an existing graph</title>
           <para>
             A graph which has already been created can be modified by
             clicking on the graph with one of the secondary mouse
@@ -992,7 +982,7 @@
         </step>
 
         <step>
-	  <title>Deleting a graph</title>
+          <title>Deleting a graph</title>
           <para>
             A graph which has been made can be deleted by invoking the
             context menu and selecting the
@@ -1002,7 +992,6 @@
 
       </procedure>
 
-    </para>
 
 
     </sect3>
@@ -1019,7 +1008,7 @@
 
 
   <sect2 id="sect-graphics-plots-overview-types">
-    d<title>Plot Types</title>
+    <title>Plot Types</title>
 
     <para>
       <application>Gnumeric</application> graphs can include any of
