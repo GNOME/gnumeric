@@ -17,7 +17,7 @@ my @files =
      "dpois.c",
      "dgamma.c",
      "pgamma.c",
-     "qgamma.c",
+     # "qgamma.c", # Not good enough.
      "chebyshev.c",
      "lgammacor.c",
      "lbeta.c",

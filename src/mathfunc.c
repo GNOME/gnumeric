@@ -1462,200 +1462,6 @@ gnum_float pgamma(gnum_float x, gnum_float alph, gnum_float scale, gboolean lowe
 }
 
 /* ------------------------------------------------------------------------ */
-/* Imported src/nmath/qgamma.c from R.  */
-/*
- *  Mathlib : A C Library of Special Functions
- *  Copyright (C) 1998 Ross Ihaka
- *  Copyright (C) 2000 The R Development Core Team
- *  based on AS91 (C) 1979 Royal Statistical Society
- *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful, but
- *  WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- *  General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- *  USA.
- *
- *  DESCRIPTION
- *
- *	Compute the quantile function of the gamma distribution.
- *
- *  NOTES
- *
- *	This function is based on the Applied Statistics
- *	Algorithm AS 91 ("ppchi2") and via pgamma(.) AS 239.
- *
- *  REFERENCES
- *
- *	Best, D. J. and D. E. Roberts (1975).
- *	Percentage Points of the Chi-Squared Distribution.
- *      Applied Statistics 24, page 385.  */
-
-
-gnum_float qgamma(gnum_float p, gnum_float alpha, gnum_float scale, gboolean lower_tail, gboolean log_p)
-/*			shape = alpha */
-{
-#define C7	4.67
-#define C8	6.66
-#define C9	6.73
-#define C10	13.32
-
-#define EPS1 1e-2
-#define EPS2 5e-7/* final precision */
-#define MAXIT 1000/* was 20 */
-
-#define pMIN 1e-100    /* was 0.000002 = 2e-6 */
-#define pMAX (1-1e-12)/* was 0.999998 = 1 - 2e-6 */
-
-    const gnum_float
-	i420  = GNUM_const(1.)/ 420.,
-	i2520 = GNUM_const(1.)/ 2520.,
-	i5040 = GNUM_const(1.)/ 5040;
-
-    gnum_float p_, a, b, c, ch, g, p1, v;
-    gnum_float p2, q, s1, s2, s3, s4, s5, s6, t, x;
-    int i;
-
-    /* test arguments and initialise */
-
-#ifdef IEEE_754
-    if (isnangnum(p) || isnangnum(alpha) || isnangnum(scale))
-	return p + alpha + scale;
-#endif
-    R_Q_P01_check(p);
-    if (alpha <= 0) ML_ERR_return_NAN;
-
-    /* FIXME: This (cutoff to {0, +Inf}) is far from optimal when log_p: */
-    p_ = R_DT_qIv(p);/* lower_tail prob (in any case) */
-    if (/* 0 <= */ p_ < pMIN) return 0;
-    if (/* 1 >= */ p_ > pMAX) return ML_POSINF;
-
-    v = 2*alpha;
-
-    c = alpha-1;
-    g = lgammagnum(alpha);/* loggnum Gamma(v/2) */
-
-
-/*----- Phase I : Starting Approximation */
-
-#ifdef DEBUG_qgamma
-    REprintf("qgamma(p=%7" GNUM_FORMAT_g ", alpha=%7" GNUM_FORMAT_g ", scale=%7" GNUM_FORMAT_g ", l.t.=%2d, log_p=%2d): ",
-	     p,alpha,scale, lower_tail, log_p);
-#endif
-
-    if(v < (-1.24)*R_DT_log(p)) {	/* for small chi-squared */
-
-#ifdef DEBUG_qgamma
-	REprintf(" small chi-sq.\n");
-#endif
-	/* FIXME: Improve this "if (log_p)" :
-	 *	  (A*expgnum(b)) ^ 1/al */
-	ch = powgnum(p_* alpha*expgnum(g+alpha*M_LN2gnum), 1/alpha);
-	if(ch < EPS2) {/* Corrected according to AS 91; MM, May 25, 1999 */
-	    goto END;
-	}
-
-    } else if(v > 0.32) {	/*  using Wilson and Hilferty estimate */
-
-	x = qnorm(p, 0, 1, lower_tail, log_p);
-	p1 = 0.222222/v;
-	ch = v*powgnum(x*sqrtgnum(p1)+1-p1, 3);
-
-#ifdef DEBUG_qgamma
-	REprintf(" v > .32: Wilson-Hilferty; x = %7" GNUM_FORMAT_g "\n", x);
-#endif
-	/* starting approximation for p tending to 1 */
-
-	if( ch > 2.2*v + 6 )
-	    ch = -2*(R_DT_Clog(p) - c*loggnum(0.5*ch) + g);
-
-    } else { /* for v <= 0.32 */
-
-	ch = 0.4;
-	a = R_DT_Clog(p) + g + c*M_LN2gnum;
-#ifdef DEBUG_qgamma
-	REprintf(" v <= .32: a = %7" GNUM_FORMAT_g "\n", a);
-#endif
-	do {
-	    q = ch;
-	    p1 = 1. / (1+ch*(C7+ch));
-	    p2 = ch*(C9+ch*(C8+ch));
-	    t = -0.5 +(C7+2*ch)*p1 - (C9+ch*(C10+3*ch))/p2;
-	    ch -= (1- expgnum(a+0.5*ch)*p2*p1)/t;
-	} while(gnumabs(q - ch) > EPS1*gnumabs(ch));
-    }
-
-#ifdef DEBUG_qgamma
-    REprintf("\t==> ch = %10" GNUM_FORMAT_g ":", ch);
-#endif
-
-/*----- Phase II: Iteration
- *	Call pgamma() [AS 239]	and calculate seven term taylor series
- */
-    for( i=1 ; i <= MAXIT ; i++ ) {
-	q = ch;
-	p1 = 0.5*ch;
-	p2 = p_ - pgamma(p1, alpha, 1, /*lower_tail*/TRUE, /*log_p*/FALSE);
-#ifdef IEEE_754
-	if(!finitegnum(p2))
-#else
-	if(errno != 0)
-#endif
-		return ML_NAN;
-
-	t = p2*expgnum(alpha*M_LN2gnum+g+p1-c*loggnum(ch));
-	b = t/ch;
-	a = 0.5*t - b*c;
-	s1 = (210+a*(140+a*(105+a*(84+a*(70+60*a))))) * i420;
-	s2 = (420+a*(735+a*(966+a*(1141+1278*a)))) * i2520;
-	s3 = (210+a*(462+a*(707+932*a))) * i2520;
-	s4 = (252+a*(672+1182*a)+c*(294+a*(889+1740*a))) * i5040;
-	s5 = (84+2264*a+c*(1175+606*a)) * i2520;
-	s6 = (120+c*(346+127*c)) * i5040;
-	ch += t*(1+0.5*t*s1-b*c*(s1-b*(s2-b*(s3-b*(s4-b*(s5-b*s6))))));
-	if(gnumabs(q - ch) < EPS2*ch)
-	    goto END;
-    }
-    ML_ERROR(ME_PRECISION);/* no convergence in MAXIT iterations */
- END:
-    /* Special Gnumeric patch to improve precision.  */
-    {
-	gnum_float x0 = 0.5*scale*ch;
-	gnum_float e0 = pgamma (x0, alpha, scale, lower_tail, log_p) - p;
-
-	if (e0 != 0 && lower_tail && !log_p) {
-	    gnum_float d0 = dgamma (x0, alpha, scale, log_p);
-	    if (d0) {
-		gnum_float x1 = x0 - e0 / d0;
-		gnum_float e1 = pgamma (x1, alpha, scale, lower_tail, log_p) - p;
-		if (gnumabs (e1) < gnumabs (e0))
-		    x0 = x1;
-	    }
-	}
-
-	return x0;
-    }
-}
-/* Cleaning up done by tools/import-R:  */
-#undef C7
-#undef C8
-#undef C9
-#undef C10
-#undef EPS1
-#undef EPS2
-#undef MAXIT
-#undef pMIN
-#undef pMAX
-
-/* ------------------------------------------------------------------------ */
 /* Imported src/nmath/chebyshev.c from R.  */
 /*
  *  Mathlib : A C Library of Special Functions
@@ -4621,6 +4427,142 @@ L420:
 
 /* ------------------------------------------------------------------------ */
 /* --- END MAGIC R SOURCE MARKER --- */
+
+gnum_float
+qgamma (gnum_float p, gnum_float alpha, gnum_float scale, gboolean lower_tail, gboolean log_p)
+{
+	gnum_float xlow = 0;
+	gnum_float exlow;
+	gnum_float xhigh = -1;
+	gnum_float exhigh = -1;
+	gnum_float have_xhigh = FALSE;
+	int i;
+	gnum_float x = 0, e = 0;
+
+#ifdef IEEE_754
+	if (isnangnum(p) || isnangnum(alpha) || isnangnum(scale))
+		return p + alpha + scale;
+#endif
+	R_Q_P01_check(p);
+	if (alpha <= 0) ML_ERR_return_NAN;
+
+	if (p == R_DT_0) return 0;
+	if (p == R_DT_1) return ML_POSINF;
+
+	exlow = R_DT_0 - p;
+	if (!lower_tail) exlow = -exlow;
+
+#ifdef DEBUG_qgamma
+	printf ("p=%.15g\n", p);
+#endif
+	for (i = 0; i < 100; i++) {
+		if (i == 0) {
+			gnum_float v = 2 * alpha;
+			if (v < -1.24 * R_DT_log (p))
+				x = powgnum (R_DT_qIv (p) * alpha * expgnum (lgammagnum (alpha) + alpha * M_LN2gnum),
+					     1 / alpha)
+					* scale / 2;
+			else {
+				gnum_float x1 = qnorm (p, 0, 1, lower_tail, log_p);
+				gnum_float p1 = 0.222222 / v;
+				x = v * powgnum (x1 * sqrtgnum (p1) + 1 - p1, 3)
+					* scale / 2;
+			}
+			if (x <= 0) x = 1e-10;
+		} else if (i == 1) {
+			x = have_xhigh ? x / 1.1 : x * 1.1;
+		} else if (xlow == 0 && xhigh < 0.1) {
+			x = xhigh * xhigh;
+			if (x < GNUM_MIN)
+				x = sqrtgnum (xhigh) * sqrtgnum (GNUM_MIN);
+		} else if (have_xhigh) {
+			switch (i % 4) {
+			case 0:
+				x = xhigh - (xhigh - xlow) * (exhigh / (exhigh - exlow));
+				break;
+			case 2:
+				if (i > 30 && xhigh < 1)
+					x = sqrtgnum (xhigh) * sqrtgnum (xlow);
+				else
+					x = (xhigh + 1000 * xlow) / 1001;
+				break;
+			default:
+				x = (xhigh + xlow) / 2;
+			}
+		} else
+			x = xlow ? xlow * 2 : 1;
+
+	newton_retry:
+		if (x <= xlow || (have_xhigh && x >= xhigh))
+			continue;
+
+		e = pgamma (x, alpha, scale, lower_tail, log_p) - p;
+		if (!lower_tail) e = -e;
+#ifdef DEBUG_qgamma
+		printf ("  x=%.15g  e=%.15g  l=%.15g  h=%.15g\n",
+			x, e, xlow, xhigh);
+#endif
+
+		if (e == 0)
+			return x;
+		else if (e > 0) {
+			xhigh = x;
+			exhigh = e;
+			have_xhigh = TRUE;
+		} else {
+			xlow = x;
+			exlow = e;
+		}
+
+		if (have_xhigh) {
+			gnum_float xmid = (xhigh + xlow) / 2;
+			gnum_float prec = (xhigh - xlow) / xmid;
+			if (prec < GNUM_EPSILON * 4) {
+				x = xmid;
+				e = pgamma (x, alpha, scale, lower_tail, log_p) - p;
+				goto done;
+			}
+
+			if (i % 3 < 2 &&
+			    prec < 0.05) {
+				gnum_float d =
+					log_p
+					? 0 /* FIXME? */
+					: dgamma (x, alpha, scale, log_p);
+				if (d) {
+					/*
+					 * Deliberately overshoot a bit to help
+					 * with getting good points on both sides
+					 * of the root.
+					 */
+					x = x - e / d * 1.000001;
+					if (x > xlow && x < xhigh) {
+#ifdef DEBUG_qgamma
+						printf ("Newton ok\n");
+#endif
+						i++;
+						goto newton_retry;
+					}
+				}
+			}
+		}
+	}
+
+	ML_ERROR(ME_PRECISION);
+ done:
+	/* Make sure to keep a lucky near-hit.  */
+
+	if (have_xhigh && gnumabs (e) > exhigh)
+		e = exhigh, x = xhigh;
+	if (gnumabs (e) > -exlow)
+		e = exlow, x = xlow;
+
+#ifdef DEBUG_qgamma
+	printf ("--> %.15g\n\n", x);
+#endif
+	return x;
+}
+
 
 /* FIXME: we need something that catches partials and EAGAIN.  */
 #define fullread read

@@ -12,6 +12,7 @@ Morten:
 	* Clean up SERIESSUM.
 	* Fix crash during xml save.
 	* Fix elusive dependency leak.
+	* Implemented a new and better qgamma function.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.10
