@@ -1,3 +1,12 @@
+2002-07-22  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.xml.in: Set loader type to "Gnumeric_Builtin:module".
+
+	* perl.c (plugin_can_deactivate_general): Removed
+	(plugin_init_general): Use gnm_plugin_use_ref to prevent plugin from
+	being deactivated.
+	(plugin_cleanup_general): Fixed typo.
+
 2002-07-21  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.6

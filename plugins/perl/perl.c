@@ -23,16 +23,10 @@ extern void xs_init(void);
 
 static PerlInterpreter *gnumeric_perl_interp;
 
-gboolean
-plugin_can_deactivate_general (void)
-{
-	return FALSE;
-}
-
 void
 plugin_cleanup_general (ErrorInfo **ret_error)
 {
-	ret_error = NULL;
+	*ret_error = NULL;
 }
 
 void
@@ -51,4 +45,6 @@ plugin_init_general (ErrorInfo **ret_error)
 	perl_construct(gnumeric_perl_interp);
 	perl_parse(gnumeric_perl_interp, xs_init, 3, argv, NULL);
 	perl_run(gnumeric_perl_interp);
+	/* Don't try to deactivate the plugin */
+	gnm_plugin_use_ref (plugins_get_plugin_by_id ("Gnumeric_perl"));
 }
