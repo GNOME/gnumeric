@@ -297,226 +297,6 @@ double_pref_create_widget (char const *key, GtkWidget *table, gint row,
 	set_tip (key, item);
 }
 
-/*******************************************************************************************/
-/*                     Tree View of selected configuration variables                       */
-/*******************************************************************************************/
-
-enum {
-	PREF_KEY,
-	PREF_VALUE,
-	PREF_SHORT_DESC,
-	IS_EDITABLE,
-	NUM_COLMNS
-};
-
-typedef struct {
-	char const *key;
-	char const *parent;
-	GtkTreeView *treeview;
-} pref_tree_data_t;
-
-typedef struct {
-	char const *key;
-	GtkTreeIter iter;
-	gboolean iter_valid;
-} search_cb_t;
-
-static pref_tree_data_t pref_tree_data[] = {
-	{ FUNCTION_SELECT_GCONF_NUM_OF_RECENT, NULL, NULL },
-	{ GNM_CONF_GUI_ED_AUTOCOMPLETE, NULL, NULL },
-	{ DIALOGS_GCONF_UNFOCUSED_RS, NULL, NULL },
-	{ GNM_CONF_CUTANDPASTE_PREFER_CLIPBOARD, NULL, NULL },
-	{ NULL, NULL, NULL}
-};
-
-/* static pref_tree_data_t pref_tree_data_danger[] = { */
-/* 	{ GNM_CONF_GUI_ED_RECALC_LAG, NULL, NULL }, */
-/* 	{ NULL, NULL, NULL } */
-/* }; */
-
-#define OBJECT_DATA_PATH_MODEL "treeview %i"
-
-static void
-cb_pref_tree_selection_changed (GtkTreeSelection *selection,
-				PrefState *state)
-{
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-
-	g_return_if_fail (selection != NULL);
-
-	if (gtk_tree_selection_get_selected (selection,  &model, &iter)) {
-		char *key;
-		gtk_tree_model_get (model, &iter,
-				    PREF_KEY, &key,
-				    -1);
-		if (key != NULL) {
-			dialog_pref_load_description_from_key (state, key);
-			g_free (key);
-			return;
-		}
-	}
-	dialog_pref_page_open (state);
-	return;
-}
-
-static void
-pref_tree_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
-		     GtkNotebook *notebook, gint page_num)
-{
-	char *object_data_path = g_strdup_printf (OBJECT_DATA_PATH_MODEL, page_num);
-	GtkTreeView *view =  g_object_get_data (G_OBJECT (notebook), object_data_path);
-	g_free (object_data_path);
-	cb_pref_tree_selection_changed (gtk_tree_view_get_selection (view), state);
-}
-
-static gboolean
-pref_tree_find_iter (GtkTreeModel *model,
-		     G_GNUC_UNUSED GtkTreePath *tree_path,
-		     GtkTreeIter *iter, search_cb_t *data)
-{
-	char *key;
-
-	gtk_tree_model_get (model, iter,
-			    PREF_KEY, &key,
-			    -1);
-
-	if (strcmp (key, data->key) == 0) {
-		data->iter = *iter;
-		data->iter_valid = TRUE;
-	}
-
-	g_free (key);
-	return data->iter_valid;
-}
-
-static void
-pref_tree_set_model (GtkTreeModel *model, GtkTreeIter *iter)
-{
-	char *key, *value_string, *desc;
-
-	gtk_tree_model_get (model, iter, PREF_KEY, &key, -1);
-	value_string = go_conf_get_value_as_str (key);
-	desc = go_conf_get_short_desc (key);
-	gtk_tree_store_set (GTK_TREE_STORE (model), iter,
-			    PREF_SHORT_DESC,	desc,
-			    PREF_VALUE,		value_string,
-			    -1);
-	g_free (desc);
-	g_free (value_string);
-	g_free (key);
-}
-
-static void
-cb_pref_tree_changed_notification (char const *key, GtkTreeModel *model)
-{
-	search_cb_t search_cb;
-	search_cb.key = key;
-	search_cb.iter_valid = FALSE;
-
-	gtk_tree_model_foreach (model, (GtkTreeModelForeachFunc) pref_tree_find_iter,
-				&search_cb);
-	if (search_cb.iter_valid)
-		pref_tree_set_model (model, &search_cb.iter);
-	else
-		g_warning ("Unexpected gconf notification!");
-}
-
-static void
-cb_value_edited (GtkCellRendererText *cell,
-		 gchar		*path_string,
-		 gchar		*new_text,
-		 PrefState	*state)
-{
-	GtkTreeIter iter;
-	char        *key;
-	GtkTreeModel *model = g_object_get_data (G_OBJECT (cell), "model");
-	GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
-	gtk_tree_model_get_iter (model, &iter, path);
-	gtk_tree_model_get (model, &iter, PREF_KEY, &key, -1);
-	go_conf_set_value_from_str (key, new_text);
-	gtk_tree_path_free (path);
-	g_free (key);
-}
-
-static GtkWidget *
-pref_tree_initializer (PrefState *state, gpointer data,
-		       G_GNUC_UNUSED GtkNotebook *notebook,
-		       gint page_num)
-{
-	pref_tree_data_t  *this_pref_tree_data = data;
-	GtkTreeViewColumn *column;
-	GtkTreeSelection  *selection;
-	GtkTreeStore      *model;
-	GtkTreeView       *view;
-	GtkWidget         *page = gtk_scrolled_window_new (NULL, NULL);
-	gint               i;
-	GtkCellRenderer   *renderer;
-	gchar             *object_data_path;
-
-	gtk_widget_set_size_request (page, 350, 250);
-	gtk_scrolled_window_set_policy  (GTK_SCROLLED_WINDOW (page),
-					 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	model = gtk_tree_store_new (NUM_COLMNS,
-				    G_TYPE_STRING,
-				    G_TYPE_STRING,
-				    G_TYPE_STRING,
-				    G_TYPE_BOOLEAN);
-	view = GTK_TREE_VIEW (gtk_tree_view_new_with_model
-			      (GTK_TREE_MODEL (model)));
-	selection = gtk_tree_view_get_selection (view);
-	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
-	column = gtk_tree_view_column_new_with_attributes (_("Description"),
-							   gtk_cell_renderer_text_new (),
-							   "text", PREF_SHORT_DESC,
-							   NULL);
-	gtk_tree_view_column_set_sort_column_id (column, PREF_SHORT_DESC);
-	gtk_tree_view_append_column (view, column);
-
-	renderer = gnumeric_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes (_("Value"),
-							   renderer,
-							   "text", PREF_VALUE,
-							   "editable", IS_EDITABLE,
-							   NULL);
-	gtk_tree_view_column_set_sort_column_id (column, PREF_VALUE);
-	gtk_tree_view_append_column (view, column);
-	g_signal_connect (G_OBJECT (renderer),
-		"edited",
-		G_CALLBACK (cb_value_edited), state);
-	g_object_set_data (G_OBJECT (renderer), "model", model);
-
-	gtk_tree_view_set_headers_visible (view, TRUE);
-	gtk_container_add (GTK_CONTAINER (page), GTK_WIDGET (view));
-
-	g_signal_connect (G_OBJECT (gtk_tree_view_get_selection (view)),
-		"changed",
-		G_CALLBACK (cb_pref_tree_selection_changed), state);
-
-	for (i = 0; this_pref_tree_data[i].key; i++) {
-		pref_tree_data_t *this_pref = &this_pref_tree_data[i];
-		GtkTreeIter      iter;
-
-		gtk_tree_store_append (model, &iter, NULL);
-
-		gtk_tree_store_set (model, &iter,
-				    PREF_KEY, this_pref->key,
-				    IS_EDITABLE, TRUE,
-				    -1);
-		pref_tree_set_model (GTK_TREE_MODEL (model), &iter);
-		connect_notification (this_pref_tree_data[i].key,
-			(GOConfMonitorFunc) cb_pref_tree_changed_notification,
-			model, page);
-	}
-
-	object_data_path = g_strdup_printf (OBJECT_DATA_PATH_MODEL, page_num);
-	g_object_set_data_full (G_OBJECT (state->notebook), object_data_path, view, NULL);
-	g_free (object_data_path);
-
-	gtk_widget_show_all (page);
-
-	return page;
-}
 
 /*******************************************************************************************/
 /*                     Default Font Selector                                               */
@@ -671,14 +451,14 @@ pref_undo_page_initializer (PrefState *state,
 	GtkWidget *page = gtk_table_new (4, 2, FALSE);
 	gint row = 0;
 
-	bool_pref_create_widget (GNM_CONF_UNDO_SHOW_SHEET_NAME,
-		page, row++, gnm_gconf_set_show_sheet_name);
 	int_pref_create_widget (GNM_CONF_UNDO_MAX_DESCRIPTOR_WIDTH,
 		page, row++, 5, 5, 200, 1, gnm_gconf_set_max_descriptor_width);
 	int_pref_create_widget (GNM_CONF_UNDO_SIZE,
 		page, row++, 1000, 0, 30000, 100, gnm_gconf_set_undo_size);
 	int_pref_create_widget (GNM_CONF_UNDO_MAXNUM,
 		page, row++, 20, 1, 200, 1, gnm_gconf_set_undo_max_number);
+	bool_pref_create_widget (GNM_CONF_UNDO_SHOW_SHEET_NAME,
+		page, row++, gnm_gconf_set_show_sheet_name);
 
 	gtk_widget_show_all (page);
 	return page;
@@ -708,14 +488,14 @@ pref_sort_page_initializer (PrefState *state,
 	GtkWidget *page = gtk_table_new (3, 2, FALSE);
 	gint row = 0;
 
+	int_pref_create_widget (GNM_CONF_SORT_DIALOG_MAX_INITIAL,
+		page, row++, 10, 0, 50, 1, gnm_gconf_set_sort_dialog_max_initial);
 	bool_pref_create_widget (GNM_CONF_SORT_DEFAULT_RETAIN_FORM,
 		page, row++, gnm_gconf_set_sort_retain_form);
 	bool_pref_create_widget (GNM_CONF_SORT_DEFAULT_BY_CASE,
 		page, row++, gnm_gconf_set_sort_by_case);
 	bool_pref_create_widget (GNM_CONF_SORT_DEFAULT_ASCENDING,
 		page, row++, gnm_gconf_set_sort_ascending);
-	int_pref_create_widget (GNM_CONF_SORT_DIALOG_MAX_INITIAL,
-		page, row++, 10, 0, 50, 1, gnm_gconf_set_sort_dialog_max_initial);
 
 	gtk_widget_show_all (page);
 	return page;
@@ -745,10 +525,6 @@ pref_window_page_initializer (PrefState *state,
 	GtkWidget *page = gtk_table_new (4, 2, FALSE);
 	gint row = 0;
 
-	bool_pref_create_widget (GNM_CONF_GUI_ED_TRANSITION_KEYS,
-		page, row++, gnm_gconf_set_gui_transition_keys);
-	bool_pref_create_widget (GNM_CONF_GUI_ED_LIVESCROLLING,
-		page, row++, gnm_gconf_set_gui_livescrolling);
 	double_pref_create_widget (GNM_CONF_GUI_WINDOW_Y,
 		page, row++, 0.75, 0.25, 1, 0.05, 2, gnm_gconf_set_gui_window_y);
 	double_pref_create_widget (GNM_CONF_GUI_WINDOW_X,
@@ -757,6 +533,10 @@ pref_window_page_initializer (PrefState *state,
 		page, row++, 1.00, 0.10, 5.00, 0.05, 2, gnm_gconf_set_gui_zoom);
 	int_pref_create_widget (GNM_CONF_WORKBOOK_NSHEETS,
 		page, row++, 1, 1, 64, 1, gnm_gconf_set_workbook_nsheets);
+	bool_pref_create_widget (GNM_CONF_GUI_ED_TRANSITION_KEYS,
+		page, row++, gnm_gconf_set_gui_transition_keys);
+	bool_pref_create_widget (GNM_CONF_GUI_ED_LIVESCROLLING,
+		page, row++, gnm_gconf_set_gui_livescrolling);
 
 	gtk_widget_show_all (page);
 	return page;
@@ -833,6 +613,72 @@ pref_screen_page_initializer (PrefState *state,
 }
 
 /*******************************************************************************************/
+/*                     Tool Preferences Page                                               */
+/*******************************************************************************************/
+
+static void
+pref_tool_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
+		     G_GNUC_UNUSED GtkNotebook *notebook,
+		     G_GNUC_UNUSED gint page_num)
+{
+	dialog_pref_load_description (state,
+				      _("The items on this page and its subpages are "
+                                        "related to "
+					"various gnumeric tools."));
+}
+
+static GtkWidget *
+pref_tool_page_initializer (PrefState *state,
+			    G_GNUC_UNUSED gpointer data,
+			    G_GNUC_UNUSED GtkNotebook *notebook,
+			    G_GNUC_UNUSED gint page_num)
+{
+	GtkWidget *page = gtk_table_new (2, 2, FALSE);
+	gint row = 0;
+
+	int_pref_create_widget (FUNCTION_SELECT_GCONF_NUM_OF_RECENT,
+		page, row++, 10, 0, 40, 1, gnm_gconf_set_num_recent_functions);
+	bool_pref_create_widget (GNM_CONF_GUI_ED_AUTOCOMPLETE,
+		page, row++, gnm_gconf_set_autocomplete);
+	bool_pref_create_widget (DIALOGS_GCONF_UNFOCUSED_RS,
+		page, row++, gnm_gconf_set_unfocused_rs);
+	
+	gtk_widget_show_all (page);
+	return page;
+}
+
+/*******************************************************************************************/
+/*                     Copy/Paste Preferences Page                                               */
+/*******************************************************************************************/
+
+static void
+pref_copypaste_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
+		     G_GNUC_UNUSED GtkNotebook *notebook,
+		     G_GNUC_UNUSED gint page_num)
+{
+	dialog_pref_load_description (state,
+				      _("The items on this page are"
+                                        "related to "
+					"copy. cut and paste."));
+}
+
+static GtkWidget *
+pref_copypaste_page_initializer (PrefState *state,
+			    G_GNUC_UNUSED gpointer data,
+			    G_GNUC_UNUSED GtkNotebook *notebook,
+			    G_GNUC_UNUSED gint page_num)
+{
+	GtkWidget *page = gtk_table_new (2, 2, FALSE);
+	gint row = 0;
+
+	bool_pref_create_widget (GNM_CONF_CUTANDPASTE_PREFER_CLIPBOARD,
+		page, row++, gnm_gconf_set_prefer_clipboard);
+	
+	gtk_widget_show_all (page);
+	return page;
+}
+
+/*******************************************************************************************/
 /*               General Preference Dialog Routines                                        */
 /*******************************************************************************************/
 
@@ -849,14 +695,14 @@ typedef struct {
 
 static page_info_t page_info[] = {
 	{N_("Font"),          GTK_STOCK_ITALIC,	         NULL, &pref_font_initializer,		&pref_font_page_open,	NULL},
+	{N_("Copy and Paste"),GTK_STOCK_PASTE,		 NULL, &pref_copypaste_page_initializer,&pref_copypaste_page_open,	NULL},
 	{N_("Files"),         GTK_STOCK_FLOPPY,	         NULL, &pref_file_page_initializer,	&pref_file_page_open,	NULL},
-	{N_("Screen"),        GTK_STOCK_EXECUTE,         NULL, &pref_screen_page_initializer,	&pref_screen_page_open,	NULL},
-	{N_("Sorting"),       GTK_STOCK_SORT_ASCENDING,  NULL, &pref_sort_page_initializer,	&pref_sort_page_open,	NULL},
+	{N_("Tools"),       GTK_STOCK_EXECUTE,           NULL, &pref_tool_page_initializer,	&pref_tool_page_open,	NULL},
 	{N_("Undo"),          GTK_STOCK_UNDO,		 NULL, &pref_undo_page_initializer,	&pref_undo_page_open,	NULL},
-	{N_("Various"),       GTK_STOCK_PREFERENCES,     NULL, &pref_tree_initializer,		&pref_tree_page_open,	pref_tree_data},
 	{N_("Windows"),       "Gnumeric_ObjectCombo",	 NULL, &pref_window_page_initializer,	&pref_window_page_open,	NULL},
-/* 	{N_("Internal"),      GTK_STOCK_DIALOG_ERROR,    "5",  &pref_tree_initializer,		&pref_tree_page_open,	pref_tree_data_danger}, */
 	{N_("Header/Footer"), GTK_STOCK_ITALIC,	         "0",  &pref_font_hf_initializer,	&pref_font_hf_page_open, NULL},
+	{N_("Sorting"),       GTK_STOCK_SORT_ASCENDING,  "3", &pref_sort_page_initializer,	&pref_sort_page_open,	NULL},
+	{N_("Screen"),        GTK_STOCK_PREFERENCES,     "5", &pref_screen_page_initializer,	&pref_screen_page_open,	NULL},
 	{NULL, NULL, NULL, NULL, NULL, NULL},
 };
 

@@ -751,6 +751,15 @@ gnm_gconf_set_recent_funcs (GSList *list)
 }
 
 void
+gnm_gconf_set_num_recent_functions (gint val)
+{
+	if (val < 0)
+		val = 0;
+	prefs.num_of_recent_funcs = val;
+	go_conf_set_int ( FUNCTION_SELECT_GCONF_NUM_OF_RECENT, val);
+}
+
+void
 gnm_gconf_set_file_history_files (GSList *list)
 {
 	g_return_if_fail (prefs.file_history_files != list);
@@ -1128,3 +1137,28 @@ gnm_gconf_set_gui_resolution_v (gnm_float val)
 	prefs.vertical_dpi = val;
 	go_conf_set_double (GNM_CONF_GUI_RES_V, val);
 }
+
+void     
+gnm_gconf_set_unfocused_rs (gboolean val)
+{
+	prefs.unfocused_range_selection = val;
+	go_conf_set_bool( DIALOGS_GCONF_UNFOCUSED_RS, 
+			  val != FALSE);
+}
+
+void     
+gnm_gconf_set_autocomplete (gboolean val)
+{
+	prefs.auto_complete = val;
+	go_conf_set_bool( GNM_CONF_GUI_ED_AUTOCOMPLETE, 
+			  val != FALSE);
+}
+
+void     
+gnm_gconf_set_prefer_clipboard  (gboolean val)
+{
+	prefs.prefer_clipboard_selection = val;
+	go_conf_set_bool( GNM_CONF_CUTANDPASTE_PREFER_CLIPBOARD, 
+			  val != FALSE);
+}
+

@@ -92,6 +92,9 @@ void     gnm_gconf_set_autocorrect_first_letter (gboolean val);
 void     gnm_gconf_set_autocorrect_names_of_days (gboolean val);
 void     gnm_gconf_set_autocorrect_replace (gboolean val);
 
+/* autocomplete */
+void     gnm_gconf_set_autocomplete (gboolean val);
+
 /* autoformat */
 void     gnm_gconf_set_autoformat_sys_dirs (char const * string);
 void     gnm_gconf_set_autoformat_usr_dirs (char const * string);
@@ -164,9 +167,16 @@ void     gnm_gconf_set_sort_ascending (gboolean value);
 
 /* workbook */
 void     gnm_gconf_set_workbook_nsheets (gint value);
+void     gnm_gconf_set_unfocused_rs (gboolean value);
+
+/* function selector and formula guru */
+void     gnm_gconf_set_num_recent_functions (gint value);
 
 /* standard plugins */
 void     gnm_gconf_set_latex_use_utf8 (gboolean value);
+
+/* application interface */
+void     gnm_gconf_set_prefer_clipboard  (gboolean value);
 
 /**************************************************************/
 

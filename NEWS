@@ -8,6 +8,8 @@ Andreas:
 	  gnumeric instance
 	* Add screen page to preference dialog and fine-tune its general 
 	  layout
+	* Replace text entry boxes in preference dialog with
+	  checkboxes and spinbuttons.
 
 Jody:
 	* Fix perl and python tests in configure

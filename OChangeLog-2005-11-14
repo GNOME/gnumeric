@@ -1,3 +1,14 @@
+2004-11-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/gnumeric-gconf.h (gnm_gconf_set_autocomplete): new
+	(gnm_gconf_set_unfocused_rs): new
+	(gnm_gconf_set_num_recent_functions): new
+	(gnm_gconf_set_prefer_clipboard): new
+	* src/gnumeric-gconf.c (gnm_gconf_set_autocomplete): new
+	(gnm_gconf_set_unfocused_rs): new
+	(gnm_gconf_set_num_recent_functions): new
+	(gnm_gconf_set_prefer_clipboard): new
+	
 2004-11-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/gnumeric-gconf.h (gnm_gconf_set_gui_resolution_h): new
