@@ -37,11 +37,12 @@ my ($PCRE_MAJOR,$PCRE_MINOR,$PCRE_DATE);
 }
 
 my @SRC_C = ('maketables.c', 'get.c', 'study.c', 'pcre.c', 'pcreposix.c');
+my @EXTRA_C = ('printint.c');
 my @SRC_H = ('internal.h', 'pcreposix.h', 'pcre.h');
 
 my %namehack = ('pcre.h' => 'pcre.in');
 
-for my $filename (@SRC_C, @SRC_H) {
+for my $filename (@SRC_C, @EXTRA_C, @SRC_H) {
     my $srcfilename = "$srcdir/" . ($namehack{$filename} || $filename);
     my $dstfilename = "$dst/$filename";
     my $tmpfilename = "$dstfilename.new";
@@ -105,6 +106,8 @@ for my $filename (@SRC_C, @SRC_H) {
 	    s/gnumeric_regex_t/const gnumeric_regex_t/ if /gnumeric_regexec/;
 	    s/(preg)(->re_erroffset\s*=\s*\(size_t\))/((gnumeric_regex_t *)$1)$2/;
 	}
+
+	s{(md->utf8)}{1 /* $1 */};
 
 	print DST;
     }
