@@ -1,26 +1,27 @@
 <sect1>
-  <title>Working with files</title>
-
+  <title>ファイルの操作</title>
+  
   <sect2>
-    <title>Saving files</title>
+    <title>ファイルの操作</title>
+    
+    <para>現在開いているファイルを保存する方法はいくつかあります。名前の付いた既存のファイルなら（新規に作成したワークシートでないなら）Save機能を使って既存の名前で保存することができます。</para>
+    
+    <para>Save プロシージャを呼び出す方法はいくつかあります。メニューバー(
+	<xref linkend="menu-bar">
+参照）を使う場合は、メニュー項目の
+	<guimenu><accel>F</accel>ile</guimenu>/
+	<guimenuitem><accel>S</accel>ave</guimenuitem> から呼び出します。また、ボタンバーの
+	<guibutton>Save</guibutton>
+( <xref linkend="buttonbar-buttons">
+参照)を使うこともできます。これらのどの方法を使っても同じことです。
+    </para>
 
-    <para>There are several ways to save a file that is currently open. If the file
-      has been named and already exists (ie, its not a new worksheet) the Save function
-      will save the file to the existing name. </para>
-
-    <para>The Save procedure can be invoked several ways. It is available in the 
-      Menubar (see <xref linkend="menu-bar">) from <guimenu><accel>F</accel>ile</guimenu>/
-	<guimenuitem><accel>S</accel>ave</guimenuitem> menuitem. There is also
-	a buttonbar <guibutton>Save</guibutton> (see <xref linkend="buttonbar-buttons">).
-	  All these methods are equivalent    .</para>
-
-
-    <!-- FIXME is this proper? --> 
+    <!-- FIXME これは適当な方法か？ --> 
     <important>
       <variablelist>
-	<title>Invoking a file Save</title>
+	<title>ファイル保存機能の読み出し</title>
       <varlistentry>
-	  <term>Menubar</term>
+	  <term>メニューバー</term>
 	  <listitem>
 	    <para> 
 	      <guimenu><accel>F</accel>ile</guimenu>/
@@ -30,47 +31,45 @@
 	</varlistentry>
 	<varlistentry>
 	  <term>
-	    Buttonbar
+	    ボタンバー
 	  </term>
 	  <listitem>
 	    <para>
-	    <guiicon>
+	      <guiicon>
 		<inlinegraphic fileref="images/stock_save.gif"></inlinegraphic>
 		Save
 	      </guiicon>
 	    </para>
 	  </listitem>
-      </varlistentry>
-	<!-- FIXME this is broken, the keycombo actions seem t ge ignored -->
-	<!-- We need to maek it clear its alt and F _then_ a, and the generated html doesnt do that -->
+	</varlistentry>
+	<!-- FIXME この部分は上手くいかない。keycombo アクションが無視されているようだ。 -->
+	<!-- alt + F そして s ということを明確にする必要がある。生成された html はそのようになっていない。 -->
+
+	<!-- よって、日本語版ではkeycomboアクションを削除 -->
+
 	<varlistentry>
 	  <term>
-	    Keyboard Shortcut
+	    キーボード・ショートカット
 	  </term>
-	<listitem>
+	  <listitem>
 	    <para>
-	      <keycombo action=seq>
-		<keycombo action=simul>
-		  <keycap>Alt</keycap><keycap>f</keycap>
-		</keycombo>
+		<keycap>Alt</keycap>+<keycap>f</keycap> それから 
 		<keycap>s</keycap>
-	      </keycombo>
 	    </para>
 	  </listitem>
-      </varlistentry>
+	</varlistentry>
       </variablelist>
       
     </important>
-      
-    <para>To save new files, or to rename a file, the <guimenuitem>Save As...</guimenuitem>
-      is used. This will prompt the user for a new filename and path for the file to be
-      saved as. </para>
+    
+    <para>新しいファイルを保存するときやファイル名を変更するときは、<guimenuitem>Save As...</guimenuitem> を使います。この機能を使うと、保存したいファイルの名前とパスを入力することができます。
+    </para>
     
     <important>
-	<variablelist>
-	<title>Invoking a file Save as..</title>
+      <variablelist>
+	<title>ファイルSave as..機能の呼び出し</title>
 	<varlistentry>
-	  <term>Menubar</term>
+	  <term>メニューバー</term>
 	  <listitem>
 	    <para> 
 	      <guimenu><accel>F</accel>ile</guimenu>/
@@ -80,7 +79,7 @@
 	</varlistentry>
 	<varlistentry>
 	  <term>
-	    Buttonbar
+	    ボタンバー
 	  </term>
 	  <listitem>
 	    <para>
@@ -88,43 +87,40 @@
 		<inlinegraphic fileref="images/stock_save.gif"></inlinegraphic>
 		Save
 	      </guiicon>
-		  This calls <guimenuitem>Save as...</guimenuitem> for new unnamed files. To rename a file, the menu
-		  or keyboard shortcut needs to be used.
+	      このボタンバーを使うと、名前の付いていない新しいファイルに対して <guimenuitem>Save as...</guimenuitem> を呼び出すことができます。ファイル名を変更する場合は、メニューかキーボード・ショートカットを使う必要があります。
 	    </para>
 	  </listitem>
 	</varlistentry>
-	<!-- FIXME this is broken, the keycombo actions seem t ge ignored -->
-	<!-- We need to maek it clear its alt and F _then_ a, and the generated html doesnt do that -->
+	<!-- FIXME この部分は上手くいかない。keycombo アクションが無視されているようだ。 -->
+	<!-- alt + F そして a ということを明確にする必要がある。生成された html はそのようになっていない。 -->
+
+	<!-- よって、日本語版ではkeycomboアクションを削除 -->
+
 	<varlistentry>
-	<term>
-	    Keyboard Shortcut
+	  <term>
+	    キーボードショートカット
 	  </term>
 	  <listitem>
 	    <para>
-	      <keycombo action=seq>
-		<keycombo action=simul>
-		  <keycap>Alt</keycap><keycap>f</keycap>
-		</keycombo>
+		<keycap>Alt</keycap>+<keycap>f</keycap> それから 
 		<keycap>a</keycap>
-	      </keycombo>
-	  </para>
+	    </para>
 	  </listitem>
 	</varlistentry>
       </variablelist>
       
     </important>
-
-    </sect2>
-
-    <sect2>
-      <title>File format</title>
-      
-      <para>The default file format an Gnumeric's native format is a xml based file. 
-	The file format is a ascii text based xml format. It is however, typically written
-	and read in a gzip compressed form. </para>
-      
-    <para>The uncompressed format is human readable and designed to be easily parsed. It
-      is very extensible.</para>
+    
+  </sect2>
+  
+  <sect2>
+    <title>ファイルのフォーマット</title>
+    
+    <para>デフォルトのファイル・フォーマット、すなわち Gnumeric のネイティブのフォーマットは xml をベースにしています。これは、ascii ベースの xml フォーマットです。ただし、書き込みと読み出しは一般的には、gzip 圧縮形式で行われます。
+    </para>
+    
+    <para>圧縮しない形式は、読みやすく、分析しやすいフォーマットとなります。このフォーマットはきわめて高い拡張性を備えています。
+    </para>
       
   </sect2>
 

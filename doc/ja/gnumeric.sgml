@@ -8,10 +8,13 @@
 <!entity worksheet SYSTEM "worksheet.sgml">
 <!entity files SYSTEM "files.sgml">
 <!entity functions SYSTEM "functions.sgml">
+<!entity printing SYSTEM "printing.sgml">
+<!entity analysis-tools SYSTEM "analysis-tools.sgml">
 ]>
+
 <book id="gnumeric">
   <bookinfo>
-    <title>Gnumeric's user manual</title>
+    <title>Gnumeric ユーザーマニュアル</title>
     <authorgroup>
       <author>
 	<firstname>Miguel</firstname> <surname>de Icaza
@@ -34,66 +37,74 @@
     <copyright>
       <year>1998, 1999</year> <holder>Miguel de Icaza (n.)</holder>
     </copyright>
+
     <legalnotice>
-      <para>This documentation is free software; you can redistribute
-	it and/or modify it under the terms of the GNU General Public
-	License as published by the Free Software Foundation; either
-	version 2 of the License, or (at your option) any later
-	version.</para>
+      <para>
+この文書はフリー・ソフトウェアです。したがって、Free Software Foundationの発行するGNU General Public License、バージョン2、あるいはそれ以降のバージョンの条項に則って再配布・変更を行うことができます。 
+</para>
+
+<para>
+このプログラムは広く役立てられることを願って配布しているものですが、保証はいっさい与えられていません。市販性あるいは特定の目的に対する適合性について、保証を暗にほのめかす、といったことさえ行われてはいません。詳細については GNU General Public License を参照してください。 
+</para>
       
-      <para>This program is distributed in the hope that it will be
-	useful, but WITHOUT ANY WARRANTY; without even the implied
-	warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-	See the GNU General Public License for more details.</para>
+<para>
+GNU General Public Licenseは本プログラムに付属しているはずですが、見当たらない場合は、 Free Software Foundation, Inc.（59 Temple Place, Suite 330, Boston, MA 02111-1307 USA）までご連絡ください。 
+</para>
       
-      <para>You should have received a copy of the GNU General Public
-	License along with this program; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston,
-	MA 02111-1307 USA</para>
-      
-      <para>For more details see the file COPYING in the source
-	distribution of GNOME.</para>
+      <para>
+詳細については、GNOMEのソース・ディストリビューションにあるCOPYINGを参照してください。 
+</para>
     </legalnotice>
   </bookinfo>
 
   <toc></toc>
 
   <chapter id="editing">
-    <title>Entering data.</title>
+    <title>データ入力</title>
     &editing;
   </chapter>
  
    <chapter id="style">
-      <title>Style.</title> <para> FOO </para>
+      <title>スタイル</title> <para> FOO </para>
    </chapter>
 
    <chapter id="formatting">
-     <title>Cell Formatting</title>
+     <title>セルのフォーマット</title>
       &numberformat;
    </chapter>
 
    <chapter id="worksheet">
-     <title>Worksheet overview.</title> 
+     <title>ワークシートの概要</title> 
       &worksheet;
    </chapter>
 
   <chapter id="files">
-    <title>Working with files.</title>
+    <title>ファイルの操作</title>
     &files;
   </chapter>
 
+  <chapter id="printing">
+    <title>印刷</title>
+    &printing;
+  </chapter>
+
+  <chapter id="analysis-tools">
+    <title>分析ツール</title>
+    &analysis-tools;
+  </chapter>
+
   <chapter id="tutorials">
-    <title>Tutorials</title>
-    <para>Nothing yet, will be some walkthroughs eventually.</para>
+    <title>チュートリアル</title>
+    <para>まだ着手されていません。いずれ何らかの解説を用意する予定。 </para>
   </chapter>
 
   <chapter id="cell-elements">
-    <title>Drawing on a worksheet</title>
-    <para>boxes, labels, etc eventually.</para>
+    <title>ワークシート上の作図</title>
+    <para>ボックス，ラベルなど</para>
   </chapter>
 
   <chapter id="function-reference">
-    <title>Gnumeric Function Reference</title>
+    <title>Gnumeric 関数リファレンス</title>
     &functions;
   </chapter>
 </book>

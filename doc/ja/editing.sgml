@@ -1,114 +1,106 @@
 <sect1>
-  <title>Strings and numbers</title>
+  <title>文字列と数字</title>
   
-  <para>The basic forms of data that can be entered into a cell include
-    strings, numbers, formulas, and cell references. </para>
+  <para>セルに入力できる基本的な形式のデータとしては、文字列、数字、式、セル参照があります。
+</para>
   
-  <para>The simplest of these types are strings and numbers. They are
-    just constant values that are stored in a cell. There is  no special
-    syntax for this kind of data. The only limitation is that strings and
-    numbers can not contain newlines or begin with a '='. The '=' is
-    used to denote cells that contain formulas or cell references.</para>
+  <para>
+その中でも最も単純な種類のデータは文字列と数字です。それらは、セルに保管される定数値に過ぎません。この種のデータについては特に決められたシンタックスはありません。ただ一つの制限事項は、文字列や数字には新しい行を入れたり、冒頭に「=」を使うことができないことです。「=」は式あるいは参照を含むセルを表すのに使われます。
+</para>
   
-  <para>See <xref linkend="stringnumber"> for an example of entering
-      a string.</para>
+  <para>文字列入力の例として、
+	<xref linkend="stringnumber"> 
+を参照してください。</para>
   
   <figure id="stringnumber">
-    <title>Entering strings and numbers.</title>
+    <title>文字列と数字の入力</title>
     <screenshot>
       <graphic fileref="images/editing-1.jpg"></graphic>
     </screenshot>
   </figure>
 
 <sect2 id="entering-dates-and-numbers">
-  <title>Dates and Numbers</title>
+  <title>日付と数字</title>
 
-  <para>Dates and numbers are a special case of strings that are automatically
-    converted to numerical types. If a string entered matches one of the formats
-    for dates or times, the string is converted into a serial number (representative
-    of the time in the string) and the cell format is set to that of the
-    original string.</para>
+  <para>文字列の中でも日付及び数字は特殊なケースで、数字の型に自動的に変換されます。入力した文字列が日付や時刻のフォーマットに一致した場合は、その文字列はシリアル値（その文字列の時刻を代表する）に変換され、セル・フォーマットは元の文字列のフォーマットに設定されます。</para>
 
-  <para>To make use of this feature, the user just needs to enter in a number in
-    a recognizable format. Gnumeric will automatically convert it into an appropriate serial
-    number. Because of this, it is possible to enter a date or time in a human readable 
-    format, and have it stored in a numerical format inside of Gnumeric.</para>
+  <para>この機能は、認識可能なフォーマットで数字を入力するだけで使うことができます。この数字は Gnumeric によって自動的に適切なシリアル値に変換されます。この機能があるため、普通に読取りができるフォーマットで日付を入力しておいて、Gnumeric の内部ではそれを数値フォーマットで保管することができます。
+</para>
 
-  <para>The interesting part of this is that a user entered string, can be autofilled (see 
-    <xref linkend="autofill">) properly. </para>
+  <para>ここで興味深いのは、ユーザが入力した文字列をオートフィル機能で正しく入力できることです（
+	<xref linkend="autofill">
+参照）</para>
 
-  <para>See <xref linkend="number-format-date-time-examples"> for some examples of 
-      the many date and time formats that are accepted by Gnumeric.</para>
+  <para>Gnumeric が認識するいろいろな日付や時刻のフォーマットの例については、
+	<xref linkend="number-format-date-time-examples">
+を参照してください。</para>
 
   </SECT2>
 
   <sect2>
-    <title>Editing of cells.</title>
+    <title>セルの編集</title>
     
     <procedure>
-      <title>Entering data in a cell</title>
+      <title>セルにデータを入力する方法</title>
       <step>
-	<para>Activate the cell by clicking on it with the white-cross cursor.
-	  This will make the cell become the active cell (see <xref linkend="activecell">).
+	<para>
+ホワイトクロス・カーソルでセルをクリックします。こうするとセルはアクティブとなります(
+	<xref linkend="activecell">
+ 参照)。
 	    </para></step>
       <step>
-	<para>Type in the data or formula.</para></step>
+	<para>日付または数式を入力します。</para></step>
     </procedure>
 
-    <para>See <xref linkend="formulas"> for more detail on entering formulas into cells.</para>
+    <para>数式入力の詳細については、
+	<xref linkend="formulas">
+を参照してください。</para>
 
   </sect2>
 
   <sect2>
-    <title>Editing commands</title>
+    <title>コマンドの編集</title>
     
-    <para>After selecting the cell and initially entering the data, the user is in
-      a limited editing mode, designed to aid in entering data which may contain
-      cell references. The main keys for editing mistakes in this mode is the backspace
-      key.</para>
+    <para>セルを選択してデータを入力すると、限定編集モードとなります。これは、参照を含むデータの入力に便利なモードとして用意されたものです。このモードでは、編集ミスを修正するのに使う主なキーはバックスペース・キーです。</para>
     
     <sect3>
-      <title>Advanced Editing mode</title>
+      <title>上級編集モード</title>
       
-      <para>For a more complete set of editing options, especially for
-	longer entries, there is an advanced editing mode. </para>
+      <para>さらにいろいろな機能が揃ったオプションの編集モードもあります。特に長いデータの入力向けに、上級編集モードが用意されています。</para>
       
-      <para>This mode is accessed by pressing <keycap>F2</keycap>. This shifts the
-	focus from the current cell to the editing region in the worksheet. This
-	allows more complete control over the text and data in the cell. This includes
-	the use of the cursor keys to position the cursor within the data in the cell.
-        See <xref linkend="worksheet-data-entry"> For more info on the data entry area.</para>
+      <para>このモードは <keycap>F2</keycap> を押してアクセスすることができます。すると、ワークシート上のフォーカスが、カレント・セルから編集領域にシフトします。すると、セル内のテキストやデータをさらに細かく制御できます。カーソル・キーを使ってセルのデータ内でカーソルを移動することもできるようになります。データ入力領域の詳細については
+	<xref linkend="worksheet-data-entry">
+を参照してください。</para>
       
       <variablelist>
 	<varlistentry>
-	  <term><Keycap>Backspace</keycap></term>
-	  <listitem><para>Delete the character to the left of the cursor.</para></listitem>
+	  <term><Keycap>バックスペース</keycap></term>
+	  <listitem><para>カーソルの左側の文字を削除します。</para></listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><keycap>Cursor keys</keycap></term>
-	  <listitem><para>Move the cursor appropriately.</para></listitem>
+	  <term><keycap>カーソルキー</keycap></term>
+	  <listitem><para>必要に応じてカーソルを移動します。</para></listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><keycap>Ctrl+K</keycap></term>
-	  <listitem><para>Delete to the end of the line</para></listitem>
+	  <term><keycap>Ctrl + K</keycap></term>
+	  <listitem><para>行の末尾を削除します。</para></listitem>
 	</varlistentry>
       </variablelist>
       
       <tip>
-	<para>All the normal key bindings for Gnome application entry boxes
-	  also apply here.</para>
-	<!-- FIXME need a reference of the defualt keybindings -->
+	<para>Gnome アプリケーションの入力ボックスでの通常のキー規則がすべて有効です。
+</para>
+	<!-- FIXME デフォルトのキー規則のリファレンスが必要 -->
       </tip>
       
     </sect3>
     
     <sect3>
-      <title>Error Messages</title>
+      <title>エラー・メッセージ</title>
 
-      <para>If the user enters a formula or set of data that is not acceptable,
-	Gnumeric will display an error message in the cell.</para>
+      <para>ユーザが許可されていない数式やデータを入力すると、そのセルにはエラー・メッセージが表示されます。</para>
       
-      <!-- FIXME  A listing of cell error messages  -->
+      <!-- セルのエラーメッセージの一覧が必要  -->
       
       
     </sect3>
@@ -120,205 +112,167 @@
 
 
 
-<!--  include the files for formulas and for cell referencing -->
+<!--  数式とセル参照に関するファイルを取り込む -->
 
 &formulas;
 
 &cellrefer;
 
 <sect1>
-  <title>Selecting Cells While Entering Formulas.</title>
+  <title>数式入力中のセルの選択</title>
 
-  <para>When entering a formula into a cell, it is possible to use the
-    mouse and the keyboard cursor keys to quickly enter data.</para>
+  <para>数式をセルに入力する際、キーボードのカーソルキーとマウスを使うと、データをすばやく入力することができます。</para>
 
-  <para>There are several ways to enter a cell range into a formula. Cell
-    ranges and references can be entered into a formula simply by typing in
-    the proper syntax (see <xref linkend="cell-referencing"> for more details).
-    But manually entering in cell ranges is slow and cumbersome. </para>
+  <para>数式にセル範囲を入力するにはいくつかの方法があります。セル範囲やセル参照は、適切な構文を入力するだけで数式に入力することができます。（詳細は
+	<xref linkend="cell-referencing">
+を参照してください）しかし、手作業でセル範囲を入力するのは時間もかかり面倒です。</para>
 
-  <para>When entering data into a cell, and the cursor is at a point
-    where a cell reference is appropriate, it is possible to define a cell
-    reference by selecting a cell via the mouse or keyboard. This selection
-    is a little different from the ordinary selection. It is highlighted
-    by a "marching ants" border. </para>
+  <para>セルにセル参照を入力するとします。カーソルを入力位置におきます。マウスかキーボードを使ってセルを選択すれば、セル参照を定義することができます。この方法と使うと、選択部分の表示は普通とは少々異なります。境界線が点線の「蟻の行列」のように強調表示されます。
+</para>
 
   <figure id="editing-cell-selection">
-    <title>The highlighted selection</title>
+    <title>強調表示された選択部分</title>
     <screenshot>
       <graphic fileref="images/editing-cell-selection-1.jpg"></graphic>
     </screenshot>
   </figure>
   
   <sect2>
-    <title>Entering data into a formula with the mouse</title>
+    <title>マウスを使って数式にデータを入力する方法</title>
 
-    <para>When entering a formula, if the cursor is at a point
-      where a cell reference may be appropriate, the user just needs
-      to click on a cell to automatically enter its cell reference 
-      into the formula. Then finish the formula as normal.</para>
+    <para>セルに数式を入力するとします。カーソルを入力位置におきます。セルをクリックするだけで、セル参照が自動的に数式に代入されます。後は普通に数式を仕上げます。
+</para>
 
     <procedure>
-      <title>Using the mouse to enter a cell reference into a formula</title>
+      <title>マウスを使って数式に参照セルを入力する方法</title>
       <step>
 	<para>
-	  Select a cell to enter a formula into. For example A1.
+	  数式を入力したいセルを選択します。例として A1 を選択しましょう。
 	</para>
       </step>
       <step>
-	<para>Enter a formula, but stop the cursor at a point
-	  where a cell reference is appropriate. For this example,
-	  =exp( 
+	<para>数式を入力しますが、カーソルは、セル参照を入力する位置に置いたままにします。ここでは例として =exp( と入力しましょう。
 	</para>
 	</step>
       <step>
 	<para>
-	  Now use the mouse to click on another cell to reference. For example,
-	  just click on the Cell B1. Its reference will be entered into the formula
-	  in cell A1.
+	  ここで、マウスをクリックして参照したいセルをクリックします。たとえば、セル B1 をクリックしてみてください。すると、その参照がセル A1 に入力されている数式に入力されます。
 	</para>
       </step>
       <step>
 	<para>
-	  To finish the formula, just type in the closing parenthesis. This will
-	  also "unselect" the region.
+	  数式を仕上げるには、閉じ括弧を入力します。このとき選択状態が解除されます。
 	</para>
       </step>
     </procedure>
     
-    <para>This can be used to select a range of cells just like regular selections. </para>
+    <para>この方法は、通常のセルの選択と同様に、あるセル範囲を選択するのにも使うことができます。</para>
     
   </sect2>
 
   <sect2>
-    <title>Entering data into a formula with the keyboard.</title>
+    <title>キーボードを使って数式にデータを入力する方法</title>
 
-    <para>If entering lots of formulas or even just entering a few formulas, it is
-      often quickest to use the keyboard to select cells and ranges of cells for use
-      in formulas. Just as reaching a input point allows the user to select cells 
-      with the mouse, it is possible to use the keyboard to select cells. Just use 
-      the cursor keys and selection modifiers to create a selection.</para>
+    <para>2、3個やもっと多くの数式にセルやセル範囲を入力するのに、キーボードを使って選択するのが、最もすばやく作業できることもしばしばあります。マウスでセルを選択することができますが、同様に、キーボードを使ってセルを選択することもできます。カーソルキーとセレクション・モディファイヤを使ってセレクションを作成します。
+</para>
 
     <procedure>
-      <title>Using the keyboard to enter data into a formula.</title>
+      <title>キーボードを使って数式にデータを入力する方法</title>
 
       <step>
 	<para>
-	  Select a cell to enter a formula into. For example A1.
+	  数式を入力するセルを選択します。例として A1 を選択しましょう。
+
 	</para>
       </step>
       <step>
-	<para>Enter a formula, but stop the cursor at a point
-	  where a cell reference is appropriate. For this example,
-	  =SUM( 
+	<para>数式を入力します。セル参照の入力位置にカーソルを置いたままにします。ここでは、例として =SUM( と入力しましょう。	</para>
+      </step>
+      <step>
+	<para>
+	  カーソルキーを使ってセレクションカーソルを移動します。セレクションカーソルを B1 に移動してセレクションを開始します。</para>
+      </step>
+      <step>
+	<para>
+<keycap>Shift</keycap> キーを押さえたままセレクションを横に1つ、下に１つ移動します。セル B1、B2、C1、C2 が選択され、数式は =sum(B1:C2 と表示されます。
 	</para>
       </step>
       <step>
 	<para>
-	  Move the selection around with the cursor keys. Move the selection
-	  cursor to cell B1 to start the selection.
-	</para>
-      </step>
-      <step>
-	<para>
-	  Hold down <keycap>Shift</keycap> and move the selection one cell
-	over and one cell down. Cells B1,B2,C1,C2 should now be selected and
-	the formula should show =sum(B1:C2 
-	</para>
-      </step>
-      <step>
-	<para>
-	  To finish the function, close the parenthesis. The cell should
-	  now show =sum(B1:C2). Press enter and the formula is entered.
+	  数式を仕上げるには、括弧を閉じます。これで数式の入ったセルは =sum(B1:C2) となりました。<keycap>Enter</keycap> キーを押すと、この数式が入力されます。
 	</para>
       </step>
     </procedure>
 
-    <para>To select a range of cell, hold <keycap>Shift</keycap> and  move over the desired area.</para>
+    <para>セル範囲を選択するには、<keycap>Shift</keycap> キーを押したまま、希望する領域を移動させます。</para>
 
-    <para>To stop entering a selection or to start over, press <keycombo><keycap>Shift</keycap>
-	<keycap>Backspace</keycap></keycombo></para>
+    <para>セレクションの入力を中止したり、始めからやり直したりするときは、<keycap>Shift</keycap>+<keycap>Backspace</keycap> を押します。
+</para>
 
     </sect2>
 </sect1>	  
 
 
 <sect1>
-  <title>Copying and moving cells</title>
+  <title>セルの移動とコピー</title>
   
-  <para>There are two ways of moving and copying cells in Gnumeric:</para>
+  <para>Gnumeric でセルをコピーしたり移動する方法は次の２つです。</para>
   
   <itemizedlist>
-    <listitem><para>Using copy/cut/paste operations</para></listitem>
-    <listitem><para>Using the mouse to drag the selection</para></listitem>
+    <listitem><para>マウスを使って選択範囲をドラッグする方法 </para></listitem>
+    <listitem><para>コピー／切り取り／貼り付け操作を使う方法 </para></listitem>
   </itemizedlist>
   
   <sect2>
-      <title>Using the mouse to drag the selection</title>
-    
-    <para>Gnumeric allows the user to move and copy cells
-      and their contents by simply dragging and dropping the
-      cell to its new location. </para>
+      <title>マウスを使って選択範囲をドラッグする方法 </title>
 
-    
-    <para>The basic procedure to quickly drag and drop a cell to
-      a new location is to click on the border, and drag the cell
-      to its new location and release. The contents of the cell
-      will be moved to the new cell.</para>
+<para>
+Gnumeric では、ドラッグ・アンド・ドロップの方法で、セルとそのコンテンツを新しい位置に移動したりコピーすることができます。
+</para>
+
+
+    <para>ドラッグ・アンド・ドロップで、すばやく新しい位置にセルを移動する基本的手順としては、セル境界をクリックして、そのセルを新しい位置までドラッグしてからリリースします。そのセルの内容が新しいセルに移動します。</para>
     
       <procedure>
 	<step>
-	  <para>Click <mousebutton>(MB1)</mousebutton> on the border (anywhere, except the autofill square in
-	    the bottom right corner).<keycap>Ctrl</keycap>+<mousebutton>MB1</mousebutton> 
-	    copies the cell, why a plain
-	    click just moves the cell.
-	  </para>
+	  <para><mousebutton>(MB1)</mousebutton> をセル境界で（右下のコーナーにあるオートフィル起動用の四角いマーク以外の任意の場所で）クリックします。セルは、<keycap>Ctrl</keycap>+<mousebutton>MB1</mousebutton> を使うとコピーされ、ただクリックしただけだと移動します。</para>
 	</step>
 	
 	<step>
-	  <para>Drag the cell to the new cell location.</para>
+	  <para>セルを新しい位置にドラッグします。</para>
 	</step>
       
 	<step>
-	  <para>Release the selection.</para>
+	  <para>マウスボタンをリリースします。</para>
 	</step>
       </procedure>
     
-    <para>This is the simplest method and most common use the drag and drop
-      cell moving and copying. The key bindings give you a good set of options
-      for quick moving and copying.</para>
+    <para>ドラッグ・アンド・ドロップによるセルの移動とコピーの方法としては、この方法が最も簡単で広く使われています。キーを使っても、移動・コピーをすばやく行うことができます。 </para>
 
     </sect2>
   
   
     <sect2>
-      <title>Right Click Options</title>
+      <title>右クリック・オプション</title>
     
-      <para>The other more extensive option to moving and copying cells is the 
-	right click options. This presents a menu of options that is more extensive
-	that can be easily done with the normal key bindings</para>
+      <para>セルの移動・コピーを行うためのもう一方の方法は、さらに充実した機能を備えた右クリック・オプションです。これを使うと、キー操作だけで簡単に実行できるオプションの充実したメニューが表示されます。 </para>
     
       <procedure>
 	<step>
-	  <para>Right Click <mousebutton>(MB3)</mousebutton> on the border (anywhere, except the autofill square in
-	    the bottom right corner).
-	  </para>
+	  <para><mousebutton>(MB3)</mousebutton> をセル境界で（右下のコーナーにあるオートフィル起動用の四角いマーク以外の任意の場所で）クリックします。</para>
 	</step>
       
 	<step>
-	  <para>Drag the cell to the new cell location.
+	  <para>セルを新しい位置にドラッグします。 
 	  </para>
 	</step>
 	
 	<step>
-	  <para>Release the selection. An options menu should pop-up.
-	  </para>
+	  <para>マウスボタンをリリースします。するとオプション・メニューがポップアップします。</para>
 	</step>
       
 	<step>
-	  <para>Select the appropriate option from the menu and click again. The new
-	    cell should have the new info.
-	  </para>
+	  <para>メニューから適切なオプションを選択してもう一度クリックします。これで、新しいセルに新しい情報が入ります。</para>
 	</step>
 	
       </procedure>
@@ -327,46 +281,46 @@
     </sect2>
   
   <sect2>
-    <title>Move and copy right click menu options</title>
+    <title>移動・コピーのための右クリックによるメニュー・オプション </title>
     
     <itemizedlist>
       <listitem>
-	<para>
-	  Copy: Same effect as the normal Copy operations. It
-	  copies the value, the format, and the formula. Equivalent  to Ctrl+MB1.
-	</para>
+<para>
+Copy：通常の Copy 操作と同じ効果。値、フォーマット、数式をコピーします。<keycap>Ctrl</keycap>+<mousebutton>MB1</mousebutton> を使うのと同じことです。
+</para>
       </listitem>
       
       <listitem>
 	<para>
-	  Move: Same effect as the normal Move operations. It
-	  moves the value, the format, and the formula. Equivalent  to MB1.
-	</para>
+Move : 通常の Move 操作と同じ効果。値、フォーマット、数式を移動します。<mousebutton>MB1</mousebutton> を使うのと同じことです。 </para>
       </listitem>
 	
 	<listitem>
 	  <para>
-	    Copy Formats: Copies the formatting info of the source cell. This
-	    includes number format, color, font, fill type, etc.
-	  </para>
+Copy Formats：ソース・セルのフォーマット情報をコピーします。数字のフォーマット、色、フォント、フィルの種類などが含まれます。</para>
 	</listitem>
 	
 	<listitem>
 	  <para>
-	    Copy Values: Copies the value in the source cell to the destination
-	    cell.
-	  </para>
+Copy Values：ソース・セルにある値をコピー先のセルにコピーします。 </para>
 	</listitem>
 	
-	<listitem><para>Shift Cells Down and Copy: not implemented yet</para></listitem>
-	<listitem><para>Shift Cells Right and Copy: not implemented yet</para></listitem>
-	<listitem><para>Shift Cells Down and Move: not implemented yet</para></listitem>
-	<listitem><para>Shift Cells Right and Move: not implemented yet</para></listitem>
+	<listitem>
+<para>Shift Cells Down and Copy：まだ実装されていません。</para></listitem>
+
+	<listitem>
+<para>Shift Cells Right and Copy : まだ実装されていません。</para></listitem>
+
+	<listitem>
+<para>Shift Cells Down and Move : まだ実装されていません。</para></listitem>
+
+	<listitem>
+<para>Shift Cells Right and Move : まだ実装されていません。</para></listitem>
 	
     </itemizedlist>
   
     <figure id="rightclickmove">
-      <title>The option menu for  dragging a cell with right click <mousebutton>(MB3)</mousebutton>.</title>
+      <title>右クリックでセルをドラッグするためのオプション・メニュー( <mousebutton>MB3</mousebutton> )</title>
       <screenshot>
 	<graphic fileref="images/dndselection-1.jpg"></graphic>
       </screenshot>
@@ -376,12 +330,12 @@
 </sect1>
   
   
-  <!-- include the files for handling selections -->
+  <!-- ファイル操作についてのファイルを取り込む -->
   
   &selections;
   
   
-  <!--  include the files for autofill docs here  -->
+  <!--  オートフィルについてのファイルを取り込む  -->
   
   &autofill;
   
