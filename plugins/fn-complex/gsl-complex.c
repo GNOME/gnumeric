@@ -76,12 +76,20 @@ gsl_complex_mul_imag (const complex_t *a, gnum_float y, complex_t *res)
         complex_init (res, -y * GSL_IMAG (a), y * GSL_REAL (a));
 }
 
-static inline void
+void
 gsl_complex_inverse (const complex_t *a, complex_t *res)
 {                               /* z=1/a */
         gnum_float s = 1.0 / complex_mod (a);
 
 	complex_init (res, (GSL_REAL (a) * s) * s, -(GSL_IMAG (a) * s) * s);
+}
+
+void
+gsl_complex_negative (const complex_t *a, complex_t *res)
+{                               /* z=1/a */
+        gnum_float s = 1.0 / complex_mod (a);
+
+	complex_init (res, -GSL_REAL (a), -GSL_IMAG (a));
 }
 
 /**********************************************************************

@@ -242,6 +242,62 @@ gnumeric_imconjugate (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+static const char *help_iminv = {
+	N_("@FUNCTION=IMINV\n"
+	   "@SYNTAX=IMINV(inumber)\n"
+	   "@DESCRIPTION="
+	   "IMINV returns the the inverse, or reciprocal, of the complex "
+	   "number z, 1/z = (x - i y)/(x^2 + y^2). " 
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "IMINV(\"1-j\") equals 0.5+0.5j.\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_iminv (FunctionEvalInfo *ei, Value **argv)
+{
+	complex_t c, res;
+	char      imunit;
+
+	if (value_get_as_complex (argv[0], &c, &imunit))
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
+
+	gsl_complex_inverse (&c, &res);
+	return value_new_complex (&res, imunit);
+}
+
+/***************************************************************************/
+
+static const char *help_imneg = {
+	N_("@FUNCTION=IMNEG\n"
+	   "@SYNTAX=IMNEG(inumber)\n"
+	   "@DESCRIPTION="
+	   "IMNEG returns the negative of the complex number z, "
+	   "-z = (-x) + i(-y)."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "IMNEG(\"1-j\") equals -1+j.\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_imneg (FunctionEvalInfo *ei, Value **argv)
+{
+	complex_t c, res;
+	char      imunit;
+
+	if (value_get_as_complex (argv[0], &c, &imunit))
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
+
+	gsl_complex_negative (&c, &res);
+	return value_new_complex (&res, imunit);
+}
+
+/***************************************************************************/
+
 static const char *help_imcos = {
 	N_("@FUNCTION=IMCOS\n"
 	   "@SYNTAX=IMCOS(inumber)\n"
@@ -278,6 +334,7 @@ static const char *help_imtan = {
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "IMTAN(\"2-j\") equals -0.2434582-1.1667363j.\n"
 	   "\n"
 	   "@SEEALSO=IMSIN,IMCOS")
 };
@@ -292,6 +349,93 @@ gnumeric_imtan (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	complex_tan (&res, &c);
+	return value_new_complex (&res, imunit);
+}
+
+/***************************************************************************/
+
+static const char *help_imsec = {
+	N_("@FUNCTION=IMSEC\n"
+	   "@SYNTAX=IMSEC(inumber)\n"
+	   "@DESCRIPTION="
+	   "IMSEC returns the complex secant of the complex number z, "
+	   "sec(z) = 1/cos(z). "
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "IMSEC(\"2-j\") equals -0.413149-0.687527j.\n"
+	   "\n"
+	   "@SEEALSO=IMCSC,IMCOT")
+};
+
+static Value *
+gnumeric_imsec (FunctionEvalInfo *ei, Value **argv)
+{
+	complex_t c, res;
+	char imunit;
+
+	if (value_get_as_complex (argv[0], &c, &imunit))
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
+
+	complex_cos (&res, &c);
+	gsl_complex_inverse (&res, &res);	
+	return value_new_complex (&res, imunit);
+}
+
+/***************************************************************************/
+
+static const char *help_imcsc = {
+	N_("@FUNCTION=IMCSC\n"
+	   "@SYNTAX=IMCSC(inumber)\n"
+	   "@DESCRIPTION="
+	   "IMCSC returns the complex cosecant of the complex number z, "
+	   "csc(z) = 1/sin(z). "
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "IMCSC(\"2-j\") equals 0.635494-0.221501j.\n"
+	   "\n"
+	   "@SEEALSO=IMSEC,IMCOT")
+};
+
+static Value *
+gnumeric_imcsc (FunctionEvalInfo *ei, Value **argv)
+{
+	complex_t c, res;
+	char imunit;
+
+	if (value_get_as_complex (argv[0], &c, &imunit))
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
+
+	complex_sin (&res, &c);
+	gsl_complex_inverse (&res, &res);	
+	return value_new_complex (&res, imunit);
+}
+
+/***************************************************************************/
+
+static const char *help_imcot = {
+	N_("@FUNCTION=IMCOT\n"
+	   "@SYNTAX=IMCOT(inumber)\n"
+	   "@DESCRIPTION="
+	   "IMCOT returns the complex cotangent of the complex number z, "
+	   "cot(z) = 1/tan(z). "
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "IMCOT(\"2-j\") equals -0.171384+0.821330j.\n"
+	   "\n"
+	   "@SEEALSO=IMSEC,IMCSC")
+};
+
+static Value *
+gnumeric_imcot (FunctionEvalInfo *ei, Value **argv)
+{
+	complex_t c, res;
+	char imunit;
+
+	if (value_get_as_complex (argv[0], &c, &imunit))
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
+
+	complex_tan (&res, &c);
+	gsl_complex_inverse (&res, &res);	
 	return value_new_complex (&res, imunit);
 }
 
@@ -1222,6 +1366,10 @@ const ModulePluginFunctionInfo complex_functions[] = {
 	  gnumeric_imargument, NULL, NULL, NULL },
         { "imconjugate", "?",    "inumber", &help_imconjugate,
 	  gnumeric_imconjugate, NULL, NULL, NULL },
+        { "iminv",   "?",    "inumber", &help_iminv,
+	  gnumeric_iminv, NULL, NULL, NULL },
+        { "imneg",   "?",    "inumber", &help_imneg,
+	  gnumeric_imneg, NULL, NULL, NULL },
         { "imcos",       "?",    "inumber", &help_imcos,
 	  gnumeric_imcos, NULL, NULL, NULL },
         { "imtan",       "?",    "inumber", &help_imtan,
@@ -1244,6 +1392,12 @@ const ModulePluginFunctionInfo complex_functions[] = {
 	  gnumeric_imreal, NULL, NULL, NULL },
         { "imsin",       "?",    "inumber", &help_imsin,
 	  gnumeric_imsin, NULL, NULL, NULL },
+        { "imsec",       "?",    "inumber", &help_imsec,
+	  gnumeric_imsec, NULL, NULL, NULL },
+        { "imcsc",       "?",    "inumber", &help_imcsc,
+	  gnumeric_imcsc, NULL, NULL, NULL },
+        { "imcot",       "?",    "inumber", &help_imcot,
+	  gnumeric_imcot, NULL, NULL, NULL },
         { "imsqrt",      "?",    "inumber", &help_imsqrt,
 	  gnumeric_imsqrt, NULL, NULL, NULL },
         { "imsub",       "??",   "inumber,inumber", &help_imsub,

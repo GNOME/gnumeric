@@ -50,10 +50,10 @@ Jukka:
 	  separate plug-in for complex numbers.
 	* New complex number functions (integrated from the GNU Scientific 
 	  Library with some minor modifications):
-	  IMARCSIN(), IMARCCOS(), IMARCTAN(), IMARCSEC(), IMARCCSC(),
-	  IMARCCOT(), IMSINH(), IMCOSH(), IMTANH(), IMSECH(), IMCSCH(),
-	  IMCOTH(), IMARCSINH(), IMARCCOSH(), IMARCTANH(), IMARCSECH(),
-	  IMARCCSCH(), and IMARCCOTH().
+	  IMINV(), IMNEG(), IMARCSIN(), IMARCCOS(), IMARCTAN(), IMARCSEC(),
+	  IMARCCSC(), IMARCCOT(), IMSEC(), IMCSC(), IMCOT(), IMSINH(),
+	  IMCOSH(), IMTANH(), IMSECH(), IMCSCH(), IMCOTH(), IMARCSINH(),
+	  IMARCCOSH(), IMARCTANH(), IMARCSECH(), IMARCCSCH(), and IMARCCOTH().
 	* Moved all random number generation functions from fn-math to a
 	  seperate plug-in (fn-random).
 	* New random distribution functions (mostly integrated from the 

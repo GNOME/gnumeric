@@ -16,8 +16,13 @@
                                 <function name="imaginary"/>
                                 <function name="imargument"/>
                                 <function name="imconjugate"/>
+                                <function name="iminv"/>
+                                <function name="imneg"/>
                                 <function name="imcos"/>
 	                        <function name="imtan"/>
+	                        <function name="imsec"/>
+	                        <function name="imcsc"/>
+	                        <function name="imcot"/>
                                 <function name="imarcsin"/>
                                 <function name="imarccos"/>
                                 <function name="imarctan"/>
