@@ -408,7 +408,7 @@ scg_select_all (SheetControlGUI *scg)
 	} else {
 		if (!scg->rangesel.active)
 			scg_rangesel_start (scg, 0, 0);
-		scg_rangesel_cursor_bounds (
+		scg_rangesel_bound (
 			scg, 0, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
 		sheet_update (sheet);
 	}
@@ -446,7 +446,7 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 
 		if (is_cols) {
 			if (rangesel)
-				scg_rangesel_cursor_bounds (scg,
+				scg_rangesel_bound (scg,
 					index, 0, index, SHEET_MAX_ROWS-1);
 			else
 				sheet_selection_add_range (sheet,
@@ -455,7 +455,7 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 					index, SHEET_MAX_ROWS-1);
 		} else {
 			if (rangesel)
-				scg_rangesel_cursor_bounds (scg,
+				scg_rangesel_bound (scg,
 					0, index, SHEET_MAX_COLS-1, index);
 			else
 				sheet_selection_add_range (sheet,
@@ -622,7 +622,8 @@ scg_construct (SheetControlGUI *scg)
 	scg_ant (scg);
 }
 
-GtkWidget *
+/* FIXME : Should be SheetControl */
+GtkObject *
 sheet_control_gui_new (Sheet *sheet)
 {
 	SheetControlGUI *scg;
@@ -635,7 +636,7 @@ sheet_control_gui_new (Sheet *sheet)
 
 	scg_construct (scg);
 
-	return GTK_WIDGET (scg);
+	return GTK_OBJECT (scg);
 }
 
 static void
@@ -1989,26 +1990,9 @@ scg_colrow_distance_get (SheetControlGUI const *scg, gboolean is_cols,
 /*************************************************************************/
 
 void
-scg_cursor_bound (SheetControlGUI *scg,
-		  CellPos const *base, CellPos const *move)
+scg_cursor_bound (SheetControlGUI *scg, Range const *r)
 {
-	Range r;
-
-	if (base->col < move->col) {
-		r.start.col =  base->col;
-		r.end.col =  move->col;
-	} else {
-		r.end.col =  base->col;
-		r.start.col =  move->col;
-	}
-	if (base->row < move->row) {
-		r.start.row =  base->row;
-		r.end.row =  move->row;
-	} else {
-		r.end.row =  base->row;
-		r.start.row =  move->row;
-	}
-	gnumeric_sheet_cursor_bound (GNUMERIC_SHEET (scg->canvas), &r);
+	gnumeric_sheet_cursor_bound (GNUMERIC_SHEET (scg->canvas), r);
 }
 
 void
@@ -2216,9 +2200,9 @@ scg_rangesel_extend_to (SheetControlGUI *scg, int col, int row)
 }
 
 void
-scg_rangesel_cursor_bounds (SheetControlGUI *scg,
-			    int base_col, int base_row,
-			    int move_col, int move_row)
+scg_rangesel_bound (SheetControlGUI *scg,
+		    int base_col, int base_row,
+		    int move_col, int move_row)
 {
 	g_return_if_fail (scg->rangesel.active);
 	scg_rangesel_changed (scg, base_col, base_row, move_col, move_row);

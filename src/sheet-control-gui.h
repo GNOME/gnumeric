@@ -70,8 +70,8 @@ typedef struct {
 	GtkTableClass parent_class;
 } SheetControlGUIClass;
 
-GtkType     sheet_control_gui_get_type       (void);
-GtkWidget * sheet_control_gui_new            (Sheet *sheet);
+GtkType    sheet_control_gui_get_type (void);
+GtkObject *sheet_control_gui_new      (Sheet *sheet);
 
 void	 scg_stop_sliding	      (SheetControlGUI *scg);
 gboolean scg_start_sliding	      (SheetControlGUI *scg,
@@ -130,7 +130,7 @@ gboolean scg_rangesel_possible	    (SheetControlGUI const *scg);
 void	 scg_rangesel_start	    (SheetControlGUI *scg, int col, int row);
 void	 scg_rangesel_stop	    (SheetControlGUI *scg, gboolean clear_str);
 void	 scg_rangesel_extend_to	    (SheetControlGUI *scg, int col, int row);
-void	 scg_rangesel_cursor_bounds (SheetControlGUI *scg,
+void	 scg_rangesel_bound	    (SheetControlGUI *scg,
 				     int base_col, int base_row,
 				     int move_col, int move_row);
 void	 scg_rangesel_move	    (SheetControlGUI *scg, int dir,
@@ -138,8 +138,7 @@ void	 scg_rangesel_move	    (SheetControlGUI *scg, int dir,
 void	 scg_rangesel_extend	    (SheetControlGUI *scg, int n,
 				     gboolean jump_to_bound, gboolean horiz);
 
-void scg_cursor_bound	(SheetControlGUI *scg,
-			 CellPos const *base, CellPos const *move);
+void scg_cursor_bound	(SheetControlGUI *scg, Range const *r);
 void scg_cursor_move_to (SheetControlGUI *Scg, int col, int row,
 			 gboolean clear_selection);
 void scg_cursor_move    (SheetControlGUI *scg, int dir,

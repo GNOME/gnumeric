@@ -127,15 +127,15 @@ sheet_rename (Sheet *sheet, char const *new_name)
 SheetControlGUI *
 sheet_new_scg (Sheet *sheet)
 {
-	GtkWidget *scg;
+	GtkObject *scg;
+	Range const *r;
 
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	r = selection_first_range (sheet, NULL, NULL);
+	g_return_val_if_fail (r != NULL, NULL);
 
 	scg = sheet_control_gui_new (sheet);
-
-	scg_cursor_bound (SHEET_CONTROL_GUI (scg),
-			  &sheet->cursor.base_corner,
-			  &sheet->cursor.move_corner);
+	/* Set the visible bound, not the logical bound */
+	scg_cursor_bound (SHEET_CONTROL_GUI (scg), r);
 	sheet->s_controls = g_list_prepend (sheet->s_controls, scg);
 
 	return SHEET_CONTROL_GUI (scg);
@@ -2908,13 +2908,26 @@ sheet_set_edit_pos (Sheet *sheet, int col, int row)
 }
 
 
+/**
+ * sheet_cursor_set :
+ * @sheet : The sheet
+ * @edit_col :
+ * @edit_row :
+ * @base_col :
+ * @base_row :
+ * @move_col :
+ * @move_row :
+ * @bound    : An optionally NULL range that should contain all the supplied points
+ */
 void
 sheet_cursor_set (Sheet *sheet,
 		  int edit_col, int edit_row,
 		  int base_col, int base_row,
 		  int move_col, int move_row,
-		  Range const *cursor_bound)
+		  Range const *bound)
 {
+	Range r;
+
 	g_return_if_fail (IS_SHEET (sheet));
 
 	/* Change the edit position */
@@ -2925,17 +2938,27 @@ sheet_cursor_set (Sheet *sheet,
 	sheet->cursor.move_corner.col = move_col;
 	sheet->cursor.move_corner.row = move_row;
 
-	if (cursor_bound != NULL) {
-		SHEET_FOREACH_CONTROL(sheet, scg,
-			scg_cursor_bound (scg,
-					  &cursor_bound->start,
-					  &cursor_bound->end););
-	} else {
-		SHEET_FOREACH_CONTROL(sheet, scg,
-			scg_cursor_bound (scg,
-					  &sheet->cursor.base_corner,
-					  &sheet->cursor.move_corner););
+	if (bound == NULL) {
+		if (base_col < move_col) {
+			r.start.col =  base_col;
+			r.end.col =  move_col;
+		} else {
+			r.end.col =  base_col;
+			r.start.col =  move_col;
+		}
+		if (base_row < move_row) {
+			r.start.row =  base_row;
+			r.end.row =  move_row;
+		} else {
+			r.end.row =  base_row;
+			r.start.row =  move_row;
+		}
+		bound = &r;
 	}
+
+	g_return_if_fail (range_is_sane	(bound));
+
+	SHEET_FOREACH_CONTROL(sheet, scg, scg_cursor_bound (scg, bound););
 }
 
 void
@@ -4042,8 +4065,8 @@ sheet_clone_selection (Sheet const *src, Sheet *dst)
 	}
 	g_list_free (selections);
 	sheet_selection_add_range (dst,
-				   src->edit_pos.col,
-				   src->edit_pos.row,
+				   src->edit_pos_real.col,
+				   src->edit_pos_real.row,
 				   src->cursor.base_corner.col,
 				   src->cursor.base_corner.row,
 				   src->cursor.move_corner.col,

@@ -524,8 +524,8 @@ xml_read_selection_info (XmlParseContext *ctxt, Sheet *sheet, xmlNodePtr tree)
 						   r.start.col, r.start.row,
 						   r.end.col, r.end.row);
 
-	if (xml_get_value_int (tree, "CursorCol", &col) &&
-	    xml_get_value_int (tree, "CursorRow", &row))
+	if (xml_get_value_int (selections, "CursorCol", &col) &&
+	    xml_get_value_int (selections, "CursorRow", &row))
 		sheet_set_edit_pos (sheet, col, row);
 }
 
@@ -545,8 +545,8 @@ xml_write_selection_info (XmlParseContext *ctxt, Sheet const *sheet, xmlNodePtr 
 	}
 	g_list_free (copy);
 
-	xml_set_value_int (tree, "CursorCol", sheet->edit_pos.col);
-	xml_set_value_int (tree, "CursorRow", sheet->edit_pos.row);
+	xml_set_value_int (tree, "CursorCol", sheet->edit_pos_real.col);
+	xml_set_value_int (tree, "CursorRow", sheet->edit_pos_real.row);
 }
 
 /*

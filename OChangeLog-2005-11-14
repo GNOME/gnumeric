@@ -1,5 +1,15 @@
 2001-05-09  Jody Goldberg <jgoldberg@home.com>
 
+	* src/xml-io.c (xml_read_selection_info) : typo.  Use the child not
+	  the parent node.
+	(xml_write_selection_info) : Save the real position.
+
+	* src/sheet.c (sheet_new_scg) : set cursor bound, not the details.
+	(sheet_cursor_set) : add some sanity checks.
+	(sheet_clone_selection) : use the real edit_pos.
+
+2001-05-09  Jody Goldberg <jgoldberg@home.com>
+
 	* src/item-cursor.c (cb_move_cursor) : typo.
 
 	* src/cmd-edit.c (cmd_shift_cols) : correct bound if shifting right.

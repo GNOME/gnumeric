@@ -754,7 +754,7 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 		if (event->state & GDK_SHIFT_MASK)
 			scg_rangesel_extend_to (scg, col, row);
 		else
-			scg_rangesel_cursor_bounds (scg, col, row, col, row);
+			scg_rangesel_bound (scg, col, row, col, row);
 		gnome_canvas_item_grab (item,
 					GDK_POINTER_MOTION_MASK |
 					GDK_BUTTON_RELEASE_MASK,
