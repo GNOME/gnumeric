@@ -1,0 +1,332 @@
+
+<!-- Config Stuff and Banner -->
+
+<HTML>
+<HEAD><TITLE>GNOME Project - News</TITLE></HEAD>
+
+<BODY BACKGROUND="/pics/bg.jpg" TEXT="#330000" LINK="#770000" VLINK="#600000">
+
+<CENTER>
+
+<FONT FACE="lucida, helvetica">
+
+<table border=0 cellspacing=1 cellpadding=0>
+   <tr>
+      <td>
+           <a href="/"><IMG SRC="/pics/foot-transparent.gif" ALT="[ GNOME Logo by Tigert ]" border=0></a><BR>
+      </td>
+      <td>
+<TABLE BORDER=0 CELLSPACING=10 CELLPADDING=0>
+<TR>
+
+<TD VALIGN=TOP>
+<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0>
+
+<tr><td>
+<img src="/pics/gbullet.gif" alt="* " ALIGN=top>
+</td><td><b>
+User Info
+</b></td></tr>
+
+<tr><td>
+</td><td>
+<b><a href="/news/index.shtml">News</a>
+</b></td></tr>
+
+<tr><td>
+</td><td>
+<b><a href="/news/press.shtml">GNOME in the Press</a></b>
+</td></tr>
+
+<tr><td>
+</td><td>
+<b><a href="/gnome-1.0/">Getting GNOME</a>
+</b></td></tr>
+
+<tr><td>
+</td><td>
+<b><a href="/users-guide/project.shtml">User's Guide</a>
+</b></td></tr>
+
+<tr><td>
+</td><td><b>
+<a href="/mailing-lists/index.shtml">Mailing Lists</a>
+</b></td></tr>
+
+<tr><td>
+</td><td><b>
+<a href="http://www.gnome.org/applist">Software Map</a>
+</b></td></tr>
+
+<!-- <tr><td>
+</td><td><b>
+<a href="http://www.mindspring.com/~tlewis/gnome/faq/FAQ.html">GNOME FAQ</a>
+</b></td></tr>
+-->
+
+<tr><td>
+</td><td><b>
+<a href="/gnomefaq">GNOME FAQ</a><img src="/new.gif" alt="(new!)" height="12" width="23"  >
+</b></td></tr>
+
+<!--
+<tr><td>
+</td><td><b>
+<a href=" http://www.cinternet.net/~soren/gnome/">Compiling GNOME</a>
+</b></td></tr>
+-->
+
+<tr><td>
+</td><td><b>
+<a href=/translations.shtml>Translated Docs</a>
+</b></td></tr>
+
+</TABLE>
+</TD>
+
+<!--                       -->
+
+<TD VALIGN=TOP>
+<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0>
+
+<tr><td>
+<img src="/pics/gbullet.gif" alt="* " ALIGN=top>
+</td><td><b>
+Developer Info
+</b></td></tr>
+
+<tr><td>
+</td><td><b>
+<a href="/devel/whatiscvs.shtml">What is CVS?</a>
+</b></td></tr>
+
+<tr><td>
+</td><td><b>
+<a href="/devel/index.shtml">GNOME Development Info</a>
+</b></td></tr>
+
+<tr><td>
+</td><td><b>
+<a href="/devel/writing.shtml">Writing GNOME Apps</a>
+</b></td></tr>
+
+<tr><td>
+</td><td><b>
+<a href="/devel/docs/doc-project.shtml">Documentation Project</a>
+</b></td></tr>
+
+<tr><td>
+</td><td><b>
+<a href="/devel/docs/index.shtml">Current documentation</a>
+<img src="/new.gif" alt="(new!)" width="23" height="12">
+</b></td></tr>
+
+<tr><td>
+</td><td><b>
+<a href="/devel/arch">Architecture</a>
+</b></td></tr>
+
+
+<!--
+<tr><td>
+</td><td><b>
+<a href="/devel/apis.shtml">APIs</a>
+</b></td></tr>
+-->
+
+<!-- <tr><td>
+</td><td><b>
+<a href="/devel/todo.shtml">TODO</a>
+</b></td></tr> -->
+
+<!-- <tr><td>
+</td><td><b>
+<a href="/devel/status.shtml">Project Status</a>
+</b></td></tr> -->
+
+<tr><td>
+</td><td><b>
+<!--a href="http://www.gnome.org/cgi-bin/bugs"-->
+<a href="http://bugs.gnome.org">GNOME Bug Tracker</a>
+</b></td></tr>
+
+<!--   This list is old and confusing, so I removed the link.
+       Wed Mar  3 17:32:13 EST 1999, Nat 
+
+<tr><td>
+</td><td><b>
+<a href="/devel/gnome-libs-task-list.shtml">Gnome-libs-1.0 task list</a>
+</b></td></tr> 
+
+  -->
+
+</TABLE>
+</TD>
+
+<!--                 -->
+
+<TD VALIGN=TOP>
+<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0>
+
+<tr><td>
+<img src="/pics/gbullet.gif" alt="* " ALIGN=top>
+</td><td><b>
+Miscellaneous
+</b></td></tr>
+
+<tr><td>
+</td><td><b>
+<a href="/webmirrors.shtml">Gnome Web</a>
+</b></td></tr>
+
+<tr><td>
+</td><td><b>
+<a href="/ftpmirrors.shtml">Gnome FTP</a>
+</b></td></tr>
+
+
+<tr><td>
+</td><td><b>
+<a href="/hostedsites.shtml">Hosted Web Sites</a>
+</b></td></tr>
+
+
+<tr><td>
+</td><td><b>
+<a href="/screenshots/index.shtml">Screenshots!</a>
+</b></td></tr>
+
+<tr><td>
+</td><td><b>
+<a href="/links.shtml">References and Links</a>
+</b></td></tr>
+
+<tr><td>
+</td><td><b>
+<a href="/thanks.shtml">Thanks</a>
+</b></td></tr>
+
+</TABLE>
+</TD>
+
+</TR>
+</TABLE>
+
+      </td>
+
+   </tr>
+</table>
+<BR>
+<BR>
+
+ 
+<!-- Standard Page Table Heading -->
+
+
+<TABLE WIDTH=95% CELLSPACING=1 CELLPADDING=4 BORDER=1>
+<TR><TD BGCOLOR="#ccccc0" ALIGN=center>
+    <A NAME="Gnumeric 0.25 has been released">
+    <BIG><B>
+    Gnumeric 0.25 has been released
+    </B></BIG>
+    </A>
+</TD></TR>
+<TR><TD BGCOLOR="#eeeee0">
+
+
+<center>
+<table border=0 cellpadding=4 width="95%">
+<tr bgcolor="#ccccc0">
+    <th align=left><small>02 May 1999</small></th>
+</tr></table>
+<table border=0 cellpadding=5 width="95%">
+
+
+<tr>
+  <td>
+     <b>Gnumeric 0.25 has been released</b><br>
+
+<pre>
+Hello guys,
+
+Gnumeric 0.25 has been released.  Lots of new things are happening
+in this new version, here is a list:
+
+* User visible
+
+* New functions: BETADIST(), FDIST(), TDIST(), CHIDIST(),
+CHIINV(), GAMMAINV(), GAMMADIST() from Jukka-Pekka.
+
+* New functions: SUMSQ(), MULTINOMIAL(), PRODUCT(), SQRTPI().
+I believe these are from Jukka Pekka, but I do not see a
+ChangeLog entry.
+
+* Enhanced Excel importing code even more (Michael Meeks).
+
+* Goal seek dialog box from Jukka-Pekka works.
+
+* Round up bug fixed by Morten Welinder.
+
+* Recomputation bugs for cell ranges fixed (some taxpayers
+noticed that their loaded sheets were not recalculating at
+startup, thanks for their input).
+
+* User visible, not ready
+
+* More Bonobo work.  Start of graphics wizard for use with
+Guppi, the GNOME plotting engine.
+
+
+* Foundation work
+
+* Integration of libglade into Gnumeric.  Now we can design
+our dialog boxes with Glade and use libglade to load the
+GUIs.  Thanks to Damon Chaplin for Glade and James
+Henstridge for libglade and his support with libglade.
+
+* Made the code use 'const' a lot more (Morten Welinder), this
+helps making the code more robust.
+
+* Not very visible
+
+* Assorted batch of bug fixes.
+
+* A number of memory leaks have been fixed (Morten Welinder).
+
+* Excel loader can even restore your selection :-) (Michael
+Meeks).
+
+* A number of sanity checks from Morten Welinder.
+
+Miguel.
+</pre>
+  </td>
+</tr>
+
+</table>
+</center>
+
+<!-- End of a Table -->
+
+</TD></TR>
+</TABLE>
+
+<!-- Footer -->
+
+<CENTER>
+<A HREF="http://www.gimp.org">
+<IMG SRC="/pics/gfx_by_gimp.gif" ALIGN=center BORDER=0 WIDTH=90 HEIGHT=36 alt="Graphics by GIMP" ></A>
+<!-- <A HREF="http://contest.gimp.org"> -->
+<!-- <IMG SRC="/pics/contest-button.gif" ALIGN=center BORDER=0 WIDTH=90 HEIGHT=36></A> -->
+<BR>
+<H6>Graphics Design by <A HREF="mailto:!spam-tigert@gimp.org">Tigert</A></H6>
+<H6>Comments to <A HREF="mailto:webmaster@gnome.org">webmaster@gnome.org</A></H6>
+</CENTER>
+
+</FONT>
+
+<!-- The End -->
+
+</BODY>
+</HTML>
+
