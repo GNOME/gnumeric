@@ -1,3 +1,7 @@
+2001-06-19  Yukihiro Nakai <nakai@gnome.gr.jp>
+
+	* configure.in: Re-add ja to ALL_LINGUAS.
+
 2001-06-18  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-cursor.c (ActionType) : all actions must be > 0.
