@@ -12,6 +12,8 @@ Jody:
 	* Recalc new expressions even when manual recalc is set
 	http://bugzilla.gnome.org/show_bug.cgi?id=130835
 	* ISNUMBER() should return false for blank references
+	http://bugzilla.gnome.org/show_bug.cgi?id=130791
+	* Fix xls export for plugin functions
 
 --------------------------------------------------------------------------
 Gnumeric 1.2.4
