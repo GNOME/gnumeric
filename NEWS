@@ -43,7 +43,7 @@ Jon Kåre:
 	  from Excel and native Gnumeric format
 	* Add 'Save As' menu entry for image objects.
 	* Add format chooser to 'Save As' dialog for images and graphs.
-	* Rescue the Psion Sheet importer.
+	* Resurrect the Psion Sheet importer.
 
 Morten:
 	* Add Ctrl-5 for strike-through.
