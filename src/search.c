@@ -18,110 +18,34 @@
 #include "cell.h"
 #include "value.h"
 #include "sheet-object-cell-comment.h"
-#include <goffice/utils/regutf8.h>
+#include <gsf/gsf-impl-utils.h>
 
 #include <string.h>
 #include <stdlib.h>
 
-/* ------------------------------------------------------------------------- */
+static GObjectClass *parent_class;
 
-GnmSearchReplace *
-search_replace_new (void)
-{
-	return g_new0 (GnmSearchReplace, 1);
-}
+typedef struct {
+	GoSearchReplaceClass base_class;
+} GnmSearchReplaceClass;
 
-/* ------------------------------------------------------------------------- */
-
-void
-search_replace_free (GnmSearchReplace *sr)
-{
-	g_free (sr->search_text);
-	g_free (sr->replace_text);
-	g_free (sr->range_text);
-	if (sr->comp_search) {
-		go_regfree (sr->comp_search);
-		g_free (sr->comp_search);
-	}
-	g_free (sr);
-}
-
-/* ------------------------------------------------------------------------- */
-
-static int
-search_replace_compile (GnmSearchReplace *sr, gboolean repl)
-{
-	const char *pattern;
-	char *tmp;
-	int flags = 0;
-	int res;
-
-	if (sr->comp_search) {
-		go_regfree (sr->comp_search);
-		g_free (sr->comp_search);
-	}
-
-	if (sr->is_regexp) {
-		pattern = sr->search_text;
-		tmp = NULL;
-		sr->plain_replace =
-			repl && (g_utf8_strchr (sr->replace_text, -1, '$') == 0 &&
-				 g_utf8_strchr (sr->replace_text, -1, '\\') == 0);
-	} else {
-		/*
-		 * Create a regular expression equivalent to the search
-		 * string.  (Thus hoping the regular expression search
-		 * routines are pretty good.)
-		 */
-		GString *regexp = g_string_new (NULL);
-		go_regexp_quote (regexp, sr->search_text);
-		pattern = tmp = g_string_free (regexp, FALSE);
-
-		sr->plain_replace = TRUE;
-	}
-
-	if (sr->ignore_case) flags |= REG_ICASE;
-
-	sr->comp_search = g_new0 (go_regex_t, 1);
-	res = go_regcomp (sr->comp_search, pattern, flags);
-
-	g_free (tmp);
-
-	return res;
-}
-
-/* ------------------------------------------------------------------------- */
-
-GnmSearchReplace *
-search_replace_copy (const GnmSearchReplace *sr)
-{
-	GnmSearchReplace *dst = search_replace_new ();
-	gboolean repl = (sr->replace_text != NULL);
-
-	*dst = *sr;
-	if (sr->search_text) dst->search_text = g_strdup (sr->search_text);
-	if (sr->replace_text) dst->replace_text = g_strdup (sr->replace_text);
-	if (sr->range_text) dst->range_text = g_strdup (sr->range_text);
-	if (sr->comp_search) {
-		dst->comp_search = NULL;
-		search_replace_compile (dst, repl);
-	}
-	return dst;
-}
+enum {
+	PROP_0
+};
 
 /* ------------------------------------------------------------------------- */
 
 char *
-search_replace_verify (GnmSearchReplace *sr, gboolean repl)
+gnm_search_replace_verify (GnmSearchReplace *sr, gboolean repl)
 {
-	int err;
+	GError *error = NULL;
 	g_return_val_if_fail (sr != NULL, NULL);
 
-	if (!sr->search_text || sr->search_text[0] == 0)
-		return g_strdup (_("Search string must not be empty."));
-
-	if (repl && !sr->replace_text)
-		return g_strdup (_("Replacement string must be set."));
+	if (!go_search_replace_verify (GO_SEARCH_REPLACE (sr), repl, &error)) {
+		char *msg = g_strdup (error->message);
+		g_error_free (error);
+		return msg;
+	}
 
 	if (sr->scope == SRS_range) {
 		GSList *range_list;
@@ -135,319 +59,7 @@ search_replace_verify (GnmSearchReplace *sr, gboolean repl)
 		range_list_destroy (range_list);
 	}
 
-	err = search_replace_compile (sr, repl);
-	if (err)
-		return g_strdup (_("Invalid search pattern."));
-
-	if (repl && !sr->plain_replace) {
-		const char *s;
-
-		for (s = sr->replace_text; *s; s = g_utf8_next_char (s)) {
-			switch (*s) {
-			case '$':
-				s++;
-				switch (*s) {
-				case '1': case '2': case '3': case '4': case '5':
-				case '6': case '7': case '8': case '9':
-				{
-					int n = *s - '0';
-					if (n > (int)sr->comp_search->re_nsub)
-						return g_strdup (_("Invalid $-specification in replacement."));
-					break;
-				}
-				default:
-					return g_strdup (_("Invalid $-specification in replacement."));
-				}
-				break;
-			case '\\':
-				if (s[1] == 0)
-					return g_strdup (_("Invalid trailing backslash in replacement."));
-				s++;
-				break;
-			}
-		}
-	}
-
 	return NULL;
-}
-
-/* ------------------------------------------------------------------------- */
-
-static gboolean
-match_is_word (GnmSearchReplace *sr, const char *src,
-	       const regmatch_t *pm, gboolean bolp)
-{
-	/* The empty string is not a word.  */
-	if (pm->rm_so == pm->rm_eo)
-		return FALSE;
-
-	if (pm->rm_so > 0 || !bolp) {
-		/* We get here when something actually preceded the match.  */
-		gunichar c_pre = g_utf8_get_char (g_utf8_prev_char (src + pm->rm_so));
-		if (g_unichar_isalnum (c_pre))
-			return FALSE;
-	}
-
-	{
-		gunichar c_post = g_utf8_get_char (src + pm->rm_eo);
-		if (c_post != 0 && g_unichar_isalnum (c_post))
-			return FALSE;
-	}
-
-	return TRUE;
-}
-
-/* ------------------------------------------------------------------------- */
-
-typedef enum {
-	SC_Upper,    /* At least one letter.  No lower case.  */
-	SC_Capital,  /* Something Like: This */
-	SC_Other
-} SearchCase;
-
-static SearchCase
-inspect_case (const char *p, const char *pend)
-{
-	gboolean is_upper = TRUE;
-	gboolean is_capital = TRUE;
-	gboolean has_letter = FALSE;
-	gboolean expect_upper = TRUE;
-
-	for (; p < pend; p = g_utf8_next_char (p)) {
-		gunichar c = g_utf8_get_char (p);
-		if (g_unichar_isalpha (c)) {
-			has_letter = TRUE;
-			if (!g_unichar_isupper (c)) {
-				is_upper = FALSE;
-			}
-
-			if (expect_upper ? !g_unichar_isupper (c) : !g_unichar_islower (c)) {
-				is_capital = FALSE;
-			}
-			expect_upper = FALSE;
-		} else
-			expect_upper = TRUE;
-	}
-
-	if (has_letter) {
-		if (is_upper)
-			return SC_Upper;
-		if (is_capital)
-			return SC_Capital;
-	}
-
-	return SC_Other;
-}
-
-
-static char *
-calculate_replacement (GnmSearchReplace *sr, const char *src, const regmatch_t *pm)
-{
-	char *res;
-
-	if (sr->plain_replace) {
-		res = g_strdup (sr->replace_text);
-	} else {
-		const char *s;
-		GString *gres = g_string_sized_new (strlen (sr->replace_text));
-
-		for (s = sr->replace_text; *s; s = g_utf8_next_char (s)) {
-			switch (*s) {
-			case '$':
-			{
-				int n = s[1] - '0';
-				s++;
-
-				g_assert (n > 0 && n <= (int)sr->comp_search->re_nsub);
-				g_string_append_len (gres,
-						     src + pm[n].rm_so,
-						     pm[n].rm_eo - pm[n].rm_so);
-				break;
-			}
-			case '\\':
-				s++;
-				g_assert (*s != 0);
-				g_string_append_unichar (gres, g_utf8_get_char (s));
-				break;
-			default:
-				g_string_append_unichar (gres, g_utf8_get_char (s));
-				break;
-			}
-		}
-
-		res = gres->str;
-		g_string_free (gres, FALSE);
-	}
-
-	/*
-	 * Try to preserve the case during replacement, i.e., do the
-	 * following substitutions:
-	 *
-	 * search -> replace
-	 * Search -> Replace
-	 * SEARCH -> REPLACE
-	 * TheSearch -> TheReplace
-	 */
-	if (sr->preserve_case) {
-		SearchCase sc =
-			inspect_case (src + pm->rm_so, src + pm->rm_eo);
-
-		switch (sc) {
-		case SC_Upper:
-		{
-			char *newres = g_utf8_strup (res, -1);
-			g_free (res);
-			res = newres;
-			break;
-		}
-
-		case SC_Capital:
-		{
-			char *newres = go_utf8_strcapital (res, -1);
-			g_free (res);
-			res = newres;
-			break;
-		}
-
-		case SC_Other:
-			break;
-
-#ifndef DEBUG_SWITCH_ENUM
-		default:
-			g_assert_not_reached ();
-#endif
-		}
-	}
-
-	return res;
-}
-
-/* ------------------------------------------------------------------------- */
-
-gboolean
-search_match_string (GnmSearchReplace *sr, const char *src)
-{
-	int flags = 0;
-
-	g_return_val_if_fail (sr && sr->comp_search, FALSE);
-
-	while (1) {
-		regmatch_t match;
-		int ret = go_regexec (sr->comp_search, src, 1, &match, flags);
-
-		switch (ret) {
-		case 0:
-			if (!sr->match_words)
-				return TRUE;
-
-			if (match_is_word (sr, src, &match, (flags & REG_NOTBOL) != 0))
-				return TRUE;
-
-			/*
-			 * We had a match, but it's not a word.  Pretend we saw
-			 * a one-character match and continue after that.
-			 */
-			flags |= REG_NOTBOL;
-			src = g_utf8_next_char (src + match.rm_so);
-			break;
-
-		case REG_NOMATCH:
-			return FALSE;
-
-		default:
-			g_error ("Unexpected error code from regexec: %d.", ret);
-			return FALSE;
-		}
-	}
-}
-
-/* ------------------------------------------------------------------------- */
-
-/*
- * Returns NULL if nothing changed, or a g_malloc string otherwise.
- */
-char *
-search_replace_string (GnmSearchReplace *sr, const char *src)
-{
-	int nmatch;
-	regmatch_t *pmatch;
-	GString *res = NULL;
-	int ret;
-	int flags = 0;
-
-	g_return_val_if_fail (sr && sr->comp_search, NULL);
-
-	nmatch = 1 + sr->comp_search->re_nsub;
-	pmatch = g_new (regmatch_t, nmatch);
-
-	while ((ret = go_regexec (sr->comp_search, src, nmatch, pmatch, flags)) == 0) {
-		if (!res) {
-			/* The size here is a bit arbitrary.  */
-			int size = strlen (src) +
-				10 * strlen (sr->replace_text);
-			res = g_string_sized_new (size);
-		}
-
-		if (pmatch[0].rm_so > 0) {
-			g_string_append_len (res, src, pmatch[0].rm_so);
-		}
-
-		if (sr->match_words && !match_is_word (sr, src, pmatch,
-						       (flags & REG_NOTBOL) != 0)) {
-			/*  We saw a fake match.  */
-			if (pmatch[0].rm_so < pmatch[0].rm_eo) {
-				const char *p = src + pmatch[0].rm_so;
-				gunichar c = g_utf8_get_char (p);
-
-				g_string_append_unichar (res, c);
-
-				/* Pretend we saw a one-character match.  */
-				pmatch[0].rm_eo = pmatch[0].rm_so +
-					(g_utf8_next_char (p) - p);
-			}
-		} else {
-			char *replacement =
-				calculate_replacement (sr, src, pmatch);
-			g_string_append (res, replacement);
-			g_free (replacement);
-
-			if (src[pmatch[0].rm_eo] == 0) {
-				/*
-				 * We matched and replaced the last character
-				 * of the string.  Do not continue as we might
-				 * then match the empty string at the end and
-				 * re-add the replacement.  This would happen,
-				 * for example, if you searched for ".*".
-				 */
-				src = "";
-				break;
-			}
-		}
-
-		if (pmatch[0].rm_eo > 0) {
-			src += pmatch[0].rm_eo;
-			flags |= REG_NOTBOL;
-		}
-
-		if (pmatch[0].rm_so == pmatch[0].rm_eo) {
-			/*
-			 * We have matched a null string at the current point.
-			 * This might happen searching for just an anchor, for
-			 * example.  Don't loop forever...
-			 */
-			break;
-		}
-	}
-
-	g_free (pmatch);
-
-	if (res) {
-		if (*src)
-			g_string_append (res, src);
-		return g_string_free (res, FALSE);
-	} else {
-		return NULL;
-	}
 }
 
 /* ------------------------------------------------------------------------- */
@@ -582,7 +194,7 @@ search_filter_matching (GnmSearchReplace *sr, const GPtrArray *cells)
 		gboolean found;
 		const GnmEvalPos *ep = g_ptr_array_index (cells, i);
 
-		found = search_replace_cell (sr, ep, FALSE, &cell_res);
+		found = gnm_search_replace_cell (sr, ep, FALSE, &cell_res);
 		g_free (cell_res.old_text);
 		if (found) {
 			SearchFilterResult *item = g_new (SearchFilterResult, 1);
@@ -591,14 +203,14 @@ search_filter_matching (GnmSearchReplace *sr, const GPtrArray *cells)
 			g_ptr_array_add (result, item);
 		}
 
-		if (search_replace_value (sr, ep, &value_res)) {
+		if (gnm_search_replace_value (sr, ep, &value_res)) {
 			SearchFilterResult *item = g_new (SearchFilterResult, 1);
 			item->ep = *ep;
 			item->locus = SRL_value;
 			g_ptr_array_add (result, item);
 		}
 
-		if (search_replace_comment (sr, ep, FALSE, &comment_res)) {
+		if (gnm_search_replace_comment (sr, ep, FALSE, &comment_res)) {
 			SearchFilterResult *item = g_new (SearchFilterResult, 1);
 			item->ep = *ep;
 			item->locus = SRL_commment;
@@ -621,10 +233,10 @@ search_filter_matching_free (GPtrArray *matches)
 /* ------------------------------------------------------------------------- */
 
 gboolean
-search_replace_comment (GnmSearchReplace *sr,
-			const GnmEvalPos *ep,
-			gboolean repl,
-			SearchReplaceCommentResult *res)
+gnm_search_replace_comment (GnmSearchReplace *sr,
+			    const GnmEvalPos *ep,
+			    gboolean repl,
+			    SearchReplaceCommentResult *res)
 {
 	g_return_val_if_fail (res, FALSE);
 
@@ -632,7 +244,7 @@ search_replace_comment (GnmSearchReplace *sr,
 	res->old_text = NULL;
 	res->new_text = NULL;
 
-	g_return_val_if_fail (sr && sr->comp_search, FALSE);
+	g_return_val_if_fail (sr, FALSE);
 
 	if (!sr->search_comments) return FALSE;
 
@@ -642,19 +254,21 @@ search_replace_comment (GnmSearchReplace *sr,
 	res->old_text = cell_comment_text_get (res->comment);
 
 	if (repl) {
-		res->new_text = search_replace_string (sr, res->old_text);
+		res->new_text = go_search_replace_string (GO_SEARCH_REPLACE (sr),
+							  res->old_text);
 		return (res->new_text != NULL);
 	} else
-		return search_match_string (sr, res->old_text);
+		return go_search_match_string (GO_SEARCH_REPLACE (sr),
+					       res->old_text);
 }
 
 /* ------------------------------------------------------------------------- */
 
 gboolean
-search_replace_cell (GnmSearchReplace *sr,
-		     const GnmEvalPos *ep,
-		     gboolean repl,
-		     SearchReplaceCellResult *res)
+gnm_search_replace_cell (GnmSearchReplace *sr,
+			 const GnmEvalPos *ep,
+			 gboolean repl,
+			 SearchReplaceCellResult *res)
 {
 	GnmCell *cell;
 	GnmValue *v;
@@ -666,7 +280,7 @@ search_replace_cell (GnmSearchReplace *sr,
 	res->old_text = NULL;
 	res->new_text = NULL;
 
-	g_return_val_if_fail (sr && sr->comp_search, FALSE);
+	g_return_val_if_fail (sr, FALSE);
 
 	cell = res->cell = sheet_cell_get (ep->sheet, ep->eval.col, ep->eval.row);
 	if (!cell) return FALSE;
@@ -690,7 +304,8 @@ search_replace_cell (GnmSearchReplace *sr,
 		actual_src = res->old_text + (initial_quote ? 1 : 0);
 
 		if (repl) {
-			res->new_text = search_replace_string (sr, actual_src);
+			res->new_text = go_search_replace_string (GO_SEARCH_REPLACE (sr),
+								  actual_src);
 			if (res->new_text) {
 				if (initial_quote) {
 					/*
@@ -706,7 +321,7 @@ search_replace_cell (GnmSearchReplace *sr,
 				return TRUE;
 			}
 		} else
-			return search_match_string (sr, actual_src);
+			return go_search_match_string (GO_SEARCH_REPLACE (sr), actual_src);
 	}
 
 	return FALSE;
@@ -715,9 +330,9 @@ search_replace_cell (GnmSearchReplace *sr,
 /* ------------------------------------------------------------------------- */
 
 gboolean
-search_replace_value (GnmSearchReplace *sr,
-		      const GnmEvalPos *ep,
-		      SearchReplaceValueResult *res)
+gnm_search_replace_value (GnmSearchReplace *sr,
+			  const GnmEvalPos *ep,
+			  SearchReplaceValueResult *res)
 {
 	GnmCell *cell;
 
@@ -725,7 +340,7 @@ search_replace_value (GnmSearchReplace *sr,
 
 	res->cell = NULL;
 
-	g_return_val_if_fail (sr && sr->comp_search, FALSE);
+	g_return_val_if_fail (sr, FALSE);
 
 	if (!sr->search_expression_results)
 		return FALSE;
@@ -735,10 +350,42 @@ search_replace_value (GnmSearchReplace *sr,
 		return FALSE;
 	else {
 		char *val = value_get_as_string (cell->value);
-		gboolean res = search_match_string (sr, val);
+		gboolean res = go_search_match_string (GO_SEARCH_REPLACE (sr), val);
 		g_free (val);
 		return res;
 	}
 }
 
 /* ------------------------------------------------------------------------- */
+
+static void
+gnm_search_replace_init (GObject *obj)
+{
+}
+
+/* ------------------------------------------------------------------------- */
+
+static void
+gnm_search_replace_finalize (GObject *obj)
+{
+	GnmSearchReplace *sr = (GnmSearchReplace *)obj;
+
+	g_free (sr->range_text);	
+
+	G_OBJECT_CLASS (parent_class)->finalize (obj);
+}
+
+/* ------------------------------------------------------------------------- */
+
+static void
+gnm_search_replace_class_init (GObjectClass *gobject_class)
+{
+	parent_class = g_type_class_peek_parent (gobject_class);
+
+	gobject_class->finalize = gnm_search_replace_finalize;
+}
+
+/* ------------------------------------------------------------------------- */
+
+GSF_CLASS (GnmSearchReplace, gnm_search_replace,
+	   gnm_search_replace_class_init, gnm_search_replace_init, GO_SEARCH_REPLACE_TYPE)

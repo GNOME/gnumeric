@@ -310,13 +310,12 @@ search_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 	char *err;
 	int i;
 
-	sr = search_replace_new ();
-
-	sr->search_text = g_strdup (gtk_entry_get_text (dd->gentry));
-	sr->replace_text = NULL;
-
-	i = gnumeric_glade_group_value (gui, search_type_group);
-	sr->is_regexp = (i == 1);
+	sr = g_object_new (GNM_SEARCH_REPLACE_TYPE,
+			   "search-text", gtk_entry_get_text (dd->gentry),
+			   "is-regexp", gnumeric_glade_group_value (gui, search_type_group) == 1,
+			   "ignore-case", is_checked (gui, "ignore_case"),
+			   "match-words", is_checked (gui, "match_words"),
+			   NULL);
 
 	i = gnumeric_glade_group_value (gui, scope_group);
 	sr->scope = (i == -1) ? SRS_sheet : (SearchReplaceScope)i;
@@ -325,37 +324,21 @@ search_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 	sr->range_text = g_strdup (gnm_expr_entry_get_text (dd->rangetext));
 	sr->curr_sheet = wb_control_cur_sheet (wbc);
 
-#if 0
-	if (dd->repl) {
-		sr->query = is_checked (gui, "query");
-		sr->preserve_case = is_checked (gui, "preserve_case");
-	}
-#endif
-	sr->ignore_case = is_checked (gui, "ignore_case");
-	sr->match_words = is_checked (gui, "match_words");
-
 	sr->search_strings = is_checked (gui, "search_string");
 	sr->search_other_values = is_checked (gui, "search_other");
 	sr->search_expressions = is_checked (gui, "search_expr");
 	sr->search_expression_results = is_checked (gui, "search_expr_results");
 	sr->search_comments = is_checked (gui, "search_comments");
 
-#if 0
-	if (dd->repl) {
-		i = gnumeric_glade_group_value (gui, error_group);
-		sr->error_behaviour = (i == -1) ? SRE_fail : (SearchReplaceError)i;
-	}
-#endif
-
 	i = gnumeric_glade_group_value (gui, direction_group);
 	sr->by_row = (i == 0);
 
-	err = search_replace_verify (sr, FALSE);
+	err = gnm_search_replace_verify (sr, FALSE);
 	if (err) {
 		go_gtk_notice_dialog (GTK_WINDOW (dd->dialog),
 				      GTK_MESSAGE_ERROR, err);
 		g_free (err);
-		search_replace_free (sr);
+		g_object_unref (sr);
 		return;
 	} else if (!sr->search_strings &&
 		   !sr->search_other_values &&
@@ -364,7 +347,7 @@ search_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 		   !sr->search_comments) {
 		go_gtk_notice_dialog (GTK_WINDOW (dd->dialog), GTK_MESSAGE_ERROR,
 				      _("You must select some cell types to search."));
-		search_replace_free (sr);
+		g_object_unref (sr);
 		return;
 	}
 
@@ -396,7 +379,7 @@ search_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 	gnome_entry_append_history (dd->gentry, TRUE, sr->search_text);
 #endif
 
-	search_replace_free (sr);
+	g_object_unref (sr);
 }
 
 static void

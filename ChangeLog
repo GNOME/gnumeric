@@ -1,3 +1,8 @@
+2005-03-30  Morten Welinder  <terra@gnome.org>
+
+	* src/search.c: Adapt to goffice changes.  (Aka make it an object
+	and cut most of it.)
+
 2005-03-29  Jody Goldberg <jody@gnome.org>
 
 	* src/func.c (tokenized_help_new) : warning suppression.

@@ -3943,7 +3943,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 	SearchReplaceCellResult cell_res;
 	SearchReplaceCommentResult comment_res;
 
-	if (search_replace_cell (sr, ep, TRUE, &cell_res)) {
+	if (gnm_search_replace_cell (sr, ep, TRUE, &cell_res)) {
 		GnmExpr const *expr;
 		GnmValue *val;
 		gboolean err;
@@ -4037,7 +4037,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 		g_free (cell_res.old_text);
 	}
 
-	if (!test_run && search_replace_comment (sr, ep, TRUE, &comment_res)) {
+	if (!test_run && gnm_search_replace_comment (sr, ep, TRUE, &comment_res)) {
 		gboolean doit = TRUE;
 
 		if (sr->query && sr->query_func) {
@@ -4146,7 +4146,7 @@ cmd_search_replace_finalize (GObject *cmd)
 		g_free (sri);
 	}
 	g_list_free (me->cells);
-	search_replace_free (me->sr);
+	g_object_unref (me->sr);
 
 	gnm_command_finalize (cmd);
 }
@@ -4164,7 +4164,7 @@ cmd_search_replace (WorkbookControl *wbc, Sheet *sheet, GnmSearchReplace *sr)
 	me = CMD_SEARCH_REPLACE (obj);
 
 	me->cells = NULL;
-	me->sr = search_replace_copy (sr);
+	me->sr = g_object_ref (sr);
 
 	me->cmd.sheet = NULL;
 	me->cmd.size = 1;  /* Corrected below. */
