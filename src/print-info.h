@@ -20,13 +20,11 @@ typedef struct {
 		SIZE_FIT
 	} type;
 
-	union {
-		double percentage;
-		struct {
-			int cols;
-			int rows;
-		} dim;
-	} u;
+	double percentage;
+	struct {
+		int cols;
+		int rows;
+	} dim;
 } PrintScaling;
 
 /*
