@@ -1,3 +1,8 @@
+2002-01-04  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* dialog-analysis-tools.c (anova_two_factor_tool_ok_clicked_cb) :
+	  correct error message (numerbers ??)
+
 2002-01-03  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
         http://bugzilla.gnome.org/show_bug.cgi?id=67878
