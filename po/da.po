@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.40\n"
 "POT-Creation-Date: 2000-12-17 20:35-0500\n"
-"PO-Revision-Date: 2000-12-26 12:30+01:00\n"
+"PO-Revision-Date: 2000-12-26 16:30+01:00\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -739,453 +739,322 @@ msgstr "Gnumeric hjemmeside"
 msgid "Gnumeric Support page"
 msgstr "Gnumeric supportside"
 
-#: src/analysis-tools.c:409
+#: src/analysis-tools.c:460
 msgid "Correlations"
 msgstr "Korrelationer"
 
-#: src/analysis-tools.c:430 src/analysis-tools.c:431 src/analysis-tools.c:581
-#: src/analysis-tools.c:582 src/analysis-tools.c:737 src/analysis-tools.c:847
-#: src/analysis-tools.c:865 src/analysis-tools.c:887 src/analysis-tools.c:2210
-#: src/analysis-tools.c:2349 src/analysis-tools.c:2511
+#: src/analysis-tools.c:481 src/analysis-tools.c:482 src/analysis-tools.c:632
+#: src/analysis-tools.c:633 src/analysis-tools.c:788 src/analysis-tools.c:905
+#: src/analysis-tools.c:923 src/analysis-tools.c:945 src/analysis-tools.c:2269
+#: src/analysis-tools.c:2408 src/analysis-tools.c:2571
 #, c-format
 msgid "Column %d"
 msgstr "Kolonne: %d"
 
-#: src/analysis-tools.c:456 src/analysis-tools.c:457 src/analysis-tools.c:607
-#: src/analysis-tools.c:608 src/analysis-tools.c:2236
-#: src/analysis-tools.c:2371 src/analysis-tools.c:2528
+#: src/analysis-tools.c:507 src/analysis-tools.c:508 src/analysis-tools.c:658
+#: src/analysis-tools.c:659 src/analysis-tools.c:2295
+#: src/analysis-tools.c:2430 src/analysis-tools.c:2588
 #: src/dialogs/dialog-cell-sort.c:83 src/dialogs/dialog-cell-sort.c:88
 #, c-format
 msgid "Row %d"
 msgstr "Række: %d"
 
-#: src/analysis-tools.c:557
+#: src/analysis-tools.c:608
 msgid "Covariances"
 msgstr "Kovarianser"
 
-#: src/analysis-tools.c:733 src/dialogs/dialog-analysis-tools.c:321
+#: src/analysis-tools.c:784 src/dialogs/dialog-analysis-tools.c:321
 msgid "Summary Statistics"
 msgstr "Sammendragsstatistikker"
 
-#: src/analysis-tools.c:739 src/analysis-tools.c:1109
-#: src/analysis-tools.c:1220 src/analysis-tools.c:1358
-#: src/analysis-tools.c:1475 src/analysis-tools.c:1594
-msgid "Mean"
-msgstr "Gennemsnit"
+#.
+#. * Note to translators: in the following string and others like it,
+#. * the "/" is a separator character that can be changed to anything
+#. * if the translation needs the slash; just use, say, "|" instead.
+#. *
+#. * The items are bundled like this to increase translation context.
+#.
+#: src/analysis-tools.c:797
+msgid ""
+"/Mean/Standard Error/Median/Mode/Standard Deviation/Sample "
+"Variance/Kurtosis/Skewness/Range/Minimum/Maximum/Sum/Count"
+msgstr ""
+"/Gennemsnit/Standardfejl/Median/Modus/Standardafvigelse/Stikprøvevarians/"
+"Kurtosis/Skævhed/Område/Minimum/Maksimum/Sum/Antal"
 
-#: src/analysis-tools.c:740 src/analysis-tools.c:1912
-#: src/analysis-tools.c:1932
-msgid "Standard Error"
-msgstr "Standardfejl"
-
-#: src/analysis-tools.c:741
-msgid "Median"
-msgstr "Median"
-
-#: src/analysis-tools.c:742
-msgid "Mode"
-msgstr "Tilstand"
-
-#: src/analysis-tools.c:743
-msgid "Standard Deviation"
-msgstr "Standardafvigelse"
-
-#: src/analysis-tools.c:744
-msgid "Sample Variance"
-msgstr "Stikprøvevarians"
-
-#: src/analysis-tools.c:745
-msgid "Kurtosis"
-msgstr "Kurtosis"
-
-#: src/analysis-tools.c:746
-msgid "Skewness"
-msgstr "Skævhed"
-
-#: src/analysis-tools.c:747 src/dialogs/dialog-function-wizard.c:408
-msgid "Range"
-msgstr "Omfang"
-
-#: src/analysis-tools.c:748
-msgid "Minimum"
-msgstr "Minimum"
-
-#: src/analysis-tools.c:749
-msgid "Maximum"
-msgstr "Maksimum"
-
-#: po/tmp/gnumeric.xml.h:180 src/analysis-tools.c:750
-#: src/analysis-tools.c:2335 src/analysis-tools.c:2501
-#: src/analysis-tools.c:2748 src/workbook-control-gui.c:2092
-#: src/workbook-control-gui.c:2811 src/workbook-view.c:487
-msgid "Sum"
-msgstr "Sum"
-
-#: src/analysis-tools.c:751 src/analysis-tools.c:2334
-#: src/analysis-tools.c:2500 src/analysis-tools.c:2747
-#: src/workbook-control-gui.c:2815
-msgid "Count"
-msgstr "Optæl"
-
-#: src/analysis-tools.c:840
+#: src/analysis-tools.c:898
 msgid "Confidence Level"
 msgstr "Konfidensniveau"
 
-#: src/analysis-tools.c:852
+#: src/analysis-tools.c:910
 msgid "Confidence Level (%g%%)"
 msgstr "Konfidensniveau (%g%%)"
 
-#: src/analysis-tools.c:862
+#: src/analysis-tools.c:920
 msgid "Kth Largest"
 msgstr "K-te største"
 
-#: src/analysis-tools.c:874
+#: src/analysis-tools.c:932
 #, c-format
 msgid "Largest (%d)"
 msgstr "Største (%d)"
 
-#: src/analysis-tools.c:884
+#: src/analysis-tools.c:942
 msgid "Kth Smallest"
 msgstr "K'te mindste"
 
-#: src/analysis-tools.c:896
+#: src/analysis-tools.c:954
 #, c-format
 msgid "Smallest (%d)"
 msgstr "Mindste (%d)"
 
-#: po/tmp/cell-format.glade.h:61 src/analysis-tools.c:978
-#: src/analysis-tools.c:2763
+#: po/tmp/cell-format.glade.h:61 src/analysis-tools.c:1036
+#: src/analysis-tools.c:2824
 msgid "Sample"
 msgstr "Stikprøve"
 
-#: src/analysis-tools.c:1082
+#: src/analysis-tools.c:1140
 msgid "z-Test"
 msgstr "z-test"
 
-#: src/analysis-tools.c:1105 src/analysis-tools.c:1216
-#: src/analysis-tools.c:1354 src/analysis-tools.c:1471
-#: src/analysis-tools.c:1587
+#: src/analysis-tools.c:1163 src/analysis-tools.c:1274
+#: src/analysis-tools.c:1412 src/analysis-tools.c:1529
+#: src/analysis-tools.c:1645
 msgid "Variable 1"
 msgstr "Variabel 1"
 
-#: src/analysis-tools.c:1106 src/analysis-tools.c:1217
-#: src/analysis-tools.c:1355 src/analysis-tools.c:1472
-#: src/analysis-tools.c:1588
+#: src/analysis-tools.c:1164 src/analysis-tools.c:1275
+#: src/analysis-tools.c:1413 src/analysis-tools.c:1530
+#: src/analysis-tools.c:1646
 msgid "Variable 2"
 msgstr "Variabel 2"
 
-#: src/analysis-tools.c:1110
-msgid "Known Variance"
-msgstr "Kendt varians"
+#: src/analysis-tools.c:1167
+msgid ""
+"/Mean/Known Variance/Observations/Hypothesized Mean Difference/z/P (Z<=z) "
+"one-tail/z Critical one-tail/P (Z<=z) two-tail/z Critical two-tail"
+msgstr ""
+"/Gennemsnit/Kendt varians/Observationer/Hypotetisk gennemsnitsforskel/z/P (Z<=z) "
+"ensidigt/z kritisk værdi ensidigt/P (Z<=z) tosidigt/z kritisk værdi tosidet"
 
-#: src/analysis-tools.c:1111 src/analysis-tools.c:1222
-#: src/analysis-tools.c:1360 src/analysis-tools.c:1477
-#: src/analysis-tools.c:1596 src/analysis-tools.c:1913
-msgid "Observations"
-msgstr "Observationer"
-
-#: src/analysis-tools.c:1112 src/analysis-tools.c:1224
-#: src/analysis-tools.c:1362 src/analysis-tools.c:1478
-msgid "Hypothesized Mean Difference"
-msgstr "Hypotetisk difference mellem middelværdi"
-
-#: src/analysis-tools.c:1113
-msgid "z"
-msgstr "z"
-
-#: src/analysis-tools.c:1114
-msgid "P (Z<=z) one-tail"
-msgstr "P (Z<=z) én-sidet"
-
-#: src/analysis-tools.c:1115
-msgid "z Critical one-tail"
-msgstr "z kritisk værdi værdi én-sidet"
-
-#: src/analysis-tools.c:1116
-msgid "P (Z<=z) two-tail"
-msgstr "P (Z<=z) to-sidet"
-
-#: src/analysis-tools.c:1117
-msgid "z Critical two-tail"
-msgstr "z kritisk værdi værdi to-sidet"
-
-#: src/analysis-tools.c:1196 src/analysis-tools.c:1331
-#: src/analysis-tools.c:1448
+#: src/analysis-tools.c:1254 src/analysis-tools.c:1389
+#: src/analysis-tools.c:1506
 msgid "t-Test"
 msgstr "t-test"
 
-#: src/analysis-tools.c:1221 src/analysis-tools.c:1359
-#: src/analysis-tools.c:1476 src/analysis-tools.c:1595
-#: src/analysis-tools.c:2337 src/analysis-tools.c:2503
-#: src/analysis-tools.c:2750
-msgid "Variance"
-msgstr "Varians"
+#: src/analysis-tools.c:1278
+msgid ""
+"/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean "
+"Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) "
+"two-tail/t Critical two-tail"
+msgstr ""
 
-#: src/analysis-tools.c:1223
-msgid "Pearson Correlation"
-msgstr "Pearson korrelation"
+#: src/analysis-tools.c:1416
+msgid ""
+"/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean "
+"Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) "
+"two-tail/t Critical two-tail"
+msgstr ""
 
-# degrees freedom, frihedsgrader
-#: src/analysis-tools.c:1225 src/analysis-tools.c:1363
-#: src/analysis-tools.c:1479 src/analysis-tools.c:1597
-#: src/analysis-tools.c:1925 src/analysis-tools.c:2407
-#: src/analysis-tools.c:2598 src/analysis-tools.c:2770
-msgid "df"
-msgstr "fg"
+#: src/analysis-tools.c:1533
+msgid ""
+"/Mean/Variance/Observations/Hypothesized Mean Difference/df/t Stat/P (T<=t) "
+"one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
+msgstr ""
 
-#: src/analysis-tools.c:1226 src/analysis-tools.c:1364
-#: src/analysis-tools.c:1480 src/analysis-tools.c:1933
-msgid "t Stat"
-msgstr "t stat"
-
-#: src/analysis-tools.c:1227 src/analysis-tools.c:1365
-#: src/analysis-tools.c:1481
-msgid "P (T<=t) one-tail"
-msgstr "P (T<=t) én-sidet"
-
-#: src/analysis-tools.c:1228 src/analysis-tools.c:1366
-#: src/analysis-tools.c:1482
-msgid "t Critical one-tail"
-msgstr "t kritisk værdi én-sidet"
-
-#: src/analysis-tools.c:1229 src/analysis-tools.c:1367
-#: src/analysis-tools.c:1483
-msgid "P (T<=t) two-tail"
-msgstr "P (T<=t) to-sidet"
-
-#: src/analysis-tools.c:1230 src/analysis-tools.c:1368
-#: src/analysis-tools.c:1484
-msgid "t Critical two-tail"
-msgstr "t kritisk værdi to-sidet"
-
-#: src/analysis-tools.c:1361
-msgid "Pooled Variance"
-msgstr "Samlet varians"
-
-#: src/analysis-tools.c:1567
+#: src/analysis-tools.c:1625
 msgid "F-Test"
 msgstr "F-test"
 
-#: src/analysis-tools.c:1598 src/analysis-tools.c:1928
-#: src/analysis-tools.c:2409 src/analysis-tools.c:2600
-#: src/analysis-tools.c:2772
-msgid "F"
-msgstr "F"
+#: src/analysis-tools.c:1652
+msgid "/Mean/Variance/Observations/df/F/P (F<=f) one-tail/F Critical one-tail"
+msgstr ""
 
-#: src/analysis-tools.c:1599
-msgid "P (F<=f) one-tail"
-msgstr "P (F<=f) én-sidet"
-
-#: src/analysis-tools.c:1600
-msgid "F Critical one-tail"
-msgstr "F kritisk værdi én-sidet"
-
-#: src/analysis-tools.c:1674 src/dialogs/dialog-analysis-tools.c:411
+#: src/analysis-tools.c:1732 src/dialogs/dialog-analysis-tools.c:411
 msgid "Random"
 msgstr "Tilfældig"
 
-#: src/analysis-tools.c:1811
+#: src/analysis-tools.c:1869
 msgid "Not implemented yet.\n"
 msgstr "Ikke implementeret endnu.\n"
 
 #. TODO This would be better using the
 #. value in the checkbox instead of this
 #. global, but I don't know GTK very well
-#: src/analysis-tools.c:1904 src/analysis-tools.c:1916
-#: src/dialogs/dialog-analysis-tools.c:107
+#: src/analysis-tools.c:1962 src/dialogs/dialog-analysis-tools.c:107
 #: src/dialogs/dialog-analysis-tools.c:2001
 msgid "Regression"
 msgstr "Regression"
 
-#: src/analysis-tools.c:1906
-msgid "SUMMARY OUTPUT"
-msgstr "OVERSIGTS UDDATA"
+#: src/analysis-tools.c:1964
+msgid ""
+"/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R "
+"Square/Standard "
+"Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
+msgstr ""
 
-#: src/analysis-tools.c:1908
-msgid "Regression Statistics"
-msgstr "Regressions statistikker"
-
-#: src/analysis-tools.c:1909
-msgid "Multiple R"
-msgstr "Flerdimensionalt R"
-
-#: src/analysis-tools.c:1910
-msgid "R Square"
-msgstr "R kvadreret"
-
-#: src/analysis-tools.c:1911
-msgid "Adjusted R Square"
-msgstr "Tilpasset R kvadreret"
-
-#: src/analysis-tools.c:1915 src/analysis-tools.c:2404
-#: src/analysis-tools.c:2595 src/analysis-tools.c:2761
-msgid "ANOVA"
-msgstr "ANOVA"
-
-#: src/analysis-tools.c:1917
-msgid "Residual"
-msgstr "Residual"
-
-#: src/analysis-tools.c:1918 src/analysis-tools.c:2414
-#: src/analysis-tools.c:2606 src/analysis-tools.c:2690
-#: src/analysis-tools.c:2745 src/analysis-tools.c:2767
-#: src/dialogs/dialog-autoformat.c:70 src/dialogs/dialog-autoformat.c:74
-msgid "Total"
-msgstr "Total"
-
-#: src/analysis-tools.c:1920
-msgid "Intercept"
-msgstr "Skæring"
-
-#: src/analysis-tools.c:1923
+#: src/analysis-tools.c:1983
 #, c-format
 msgid "X Variable %d"
 msgstr "X variabel %d"
 
-#: src/analysis-tools.c:1926 src/analysis-tools.c:2406
-#: src/analysis-tools.c:2597 src/analysis-tools.c:2769
-msgid "SS"
-msgstr "SS"
+#: src/analysis-tools.c:1985
+msgid "/df/SS/MS/F/Significance F"
+msgstr "/fg/SS/MS/F/Signifikans F"
 
-#: src/analysis-tools.c:1927 src/analysis-tools.c:2408
-#: src/analysis-tools.c:2599 src/analysis-tools.c:2771
-msgid "MS"
-msgstr "MS"
+#: src/analysis-tools.c:1991
+msgid "/Coefficients/Standard Error/t Stat/P-value/Lower 95%/Upper 95%"
+msgstr "/Koefficienter/Standardfejl/t-værdi/P-værdi/ndere 95%/Øvre 95%"
 
-#: src/analysis-tools.c:1929
-msgid "Significance F"
-msgstr "Signifikans F"
-
-#: src/analysis-tools.c:1931
-msgid "Coefficients"
-msgstr "Koefficienter"
-
-#: src/analysis-tools.c:1934 src/analysis-tools.c:2410
-#: src/analysis-tools.c:2601 src/analysis-tools.c:2773
-msgid "P-value"
-msgstr "P-værdi"
-
-#: src/analysis-tools.c:1936
-#, c-format
-msgid "Lower 95%"
-msgstr "Nedre 95%"
-
-#: src/analysis-tools.c:1937
-#, c-format
-msgid "Upper 95%"
-msgstr "Øvre 95%"
-
-#: src/analysis-tools.c:2125
+#: src/analysis-tools.c:2184
 msgid "Moving Averages"
 msgstr "Flytter gennemsnit"
 
-#: src/analysis-tools.c:2194
+#: src/analysis-tools.c:2253
 msgid "Ranks"
 msgstr "Omfang"
 
-#: src/analysis-tools.c:2202 src/analysis-tools.c:2227
+#: src/analysis-tools.c:2261 src/analysis-tools.c:2286
 msgid "Point"
 msgstr "Point"
 
-#: src/analysis-tools.c:2212 src/analysis-tools.c:2238
+#: src/analysis-tools.c:2271 src/analysis-tools.c:2297
 msgid "Rank"
 msgstr "Omfang"
 
-#: po/tmp/gnumeric.xml.h:140 src/analysis-tools.c:2213
-#: src/analysis-tools.c:2239 src/workbook-format-toolbar.c:435
+#: po/tmp/gnumeric.xml.h:140 src/analysis-tools.c:2272
+#: src/analysis-tools.c:2298 src/workbook-format-toolbar.c:435
 msgid "Percent"
 msgstr "Procent"
 
-#: src/analysis-tools.c:2326 src/analysis-tools.c:2493
-#: src/analysis-tools.c:2671
+#: src/analysis-tools.c:2385 src/analysis-tools.c:2553
+#: src/analysis-tools.c:2732
 msgid "Anova"
 msgstr "Anova"
 
-#: po/tmp/analysis-tools.glade.h:8 src/analysis-tools.c:2331
+#: po/tmp/analysis-tools.glade.h:8 src/analysis-tools.c:2390
 #: src/dialogs/dialog-analysis-tools.c:83
 msgid "Anova: Single Factor"
 msgstr "Anova: Enkelfaktor"
 
-#: src/analysis-tools.c:2332 src/analysis-tools.c:2499
-#: src/analysis-tools.c:2674
+#: src/analysis-tools.c:2391 src/analysis-tools.c:2735
 msgid "SUMMARY"
 msgstr "OVERSIGT"
 
-#: src/analysis-tools.c:2333
-msgid "Groups"
-msgstr "Grupper"
+#: src/analysis-tools.c:2392
+msgid "/Groups/Count/Sum/Average/Variance"
+msgstr "/Grupper/Antal/Sum/gennemsnit/Varians"
 
-#: src/analysis-tools.c:2336 src/analysis-tools.c:2502
-#: src/analysis-tools.c:2749 src/workbook-control-gui.c:2814
-msgid "Average"
-msgstr "Gennemsnit"
+#: src/analysis-tools.c:2463
+msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
+msgstr "/ANOVA/Kilde til variation/Mellem grupper/Indenfor grupper/Total"
 
-#: src/analysis-tools.c:2405 src/analysis-tools.c:2596
-#: src/analysis-tools.c:2762
-msgid "Source of Variation"
-msgstr "Kilde til variation"
+#: src/analysis-tools.c:2468 src/analysis-tools.c:2661
+msgid "/SS/df/MS/F/P-value/F critical"
+msgstr ""
 
-#: src/analysis-tools.c:2411 src/analysis-tools.c:2602
-msgid "F critical"
-msgstr "F kritisk værdi"
-
-#: src/analysis-tools.c:2412
-msgid "Between Groups"
-msgstr "Mellem grupper"
-
-#: src/analysis-tools.c:2413
-msgid "Within Groups"
-msgstr "Inden for grupper"
-
-#: po/tmp/analysis-tools.glade.h:10 src/analysis-tools.c:2498
+#: po/tmp/analysis-tools.glade.h:10 src/analysis-tools.c:2558
 #: src/dialogs/dialog-analysis-tools.c:87
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Anova: Tofaktor uden replikering"
 
-#: src/analysis-tools.c:2603 src/dialogs/dialog-analysis-tools.c:405
-msgid "Rows"
-msgstr "Rækker"
+#: src/analysis-tools.c:2559
+msgid "/SUMMARY/Count/Sum/Average/Variance"
+msgstr ""
 
-#: po/tmp/dialog-stf.glade.h:22 src/analysis-tools.c:2604
-#: src/analysis-tools.c:2764 src/dialogs/dialog-analysis-tools.c:404
-msgid "Columns"
-msgstr "Kolonner"
+#: src/analysis-tools.c:2655
+msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
+msgstr "/ANOVA/Kilde til variation/Rækker/kolonner/Fejl/Total"
 
-#: src/analysis-tools.c:2605
-msgid "Error"
-msgstr "Fejl"
-
-#: po/tmp/analysis-tools.glade.h:9 src/analysis-tools.c:2673
+#: po/tmp/analysis-tools.glade.h:9 src/analysis-tools.c:2734
 #: src/dialogs/dialog-analysis-tools.c:85
 msgid "Anova: Two-Factor With Replication"
 msgstr "Anova: Tofaktor med replikering"
 
-#: src/analysis-tools.c:2765
+#: src/analysis-tools.c:2751 src/analysis-tools.c:2806
+#: src/analysis-tools.c:2828 src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:74
+msgid "Total"
+msgstr "Total"
+
+#: src/analysis-tools.c:2808 src/workbook-control-gui.c:2815
+msgid "Count"
+msgstr "Optæl"
+
+#: po/tmp/gnumeric.xml.h:180 src/analysis-tools.c:2809
+#: src/workbook-control-gui.c:2092 src/workbook-control-gui.c:2811
+#: src/workbook-view.c:487
+msgid "Sum"
+msgstr "Sum"
+
+#: src/analysis-tools.c:2810 src/workbook-control-gui.c:2814
+msgid "Average"
+msgstr "Gennemsnit"
+
+#: src/analysis-tools.c:2811
+msgid "Variance"
+msgstr "Varians"
+
+#: src/analysis-tools.c:2822
+msgid "ANOVA"
+msgstr "ANOVA"
+
+#: src/analysis-tools.c:2823
+msgid "Source of Variation"
+msgstr "Kilde til variation"
+
+#: po/tmp/dialog-stf.glade.h:22 src/analysis-tools.c:2825
+#: src/dialogs/dialog-analysis-tools.c:404
+msgid "Columns"
+msgstr "Kolonner"
+
+#: src/analysis-tools.c:2826
 msgid "Interaction"
 msgstr "Interaktion"
 
-#: src/analysis-tools.c:2766
+#: src/analysis-tools.c:2827
 msgid "Within"
 msgstr "Indeni"
 
-#: src/analysis-tools.c:2774
+#: src/analysis-tools.c:2830
+msgid "SS"
+msgstr "SS"
+
+# degrees freedom, frihedsgrader
+#: src/analysis-tools.c:2831
+msgid "df"
+msgstr "fg"
+
+#: src/analysis-tools.c:2832
+msgid "MS"
+msgstr "MS"
+
+#: src/analysis-tools.c:2833
+msgid "F"
+msgstr "F"
+
+#: src/analysis-tools.c:2834
+msgid "P-value"
+msgstr "P-værdi"
+
+#: src/analysis-tools.c:2835
 msgid "F crit"
 msgstr "F krit"
 
-#: po/tmp/analysis-tools.glade.h:18 src/analysis-tools.c:2818
+#: po/tmp/analysis-tools.glade.h:18 src/analysis-tools.c:2879
 #: src/dialogs/dialog-analysis-tools.c:99
 msgid "Histogram"
 msgstr "Histogram"
 
-#: src/analysis-tools.c:2821
+#: src/analysis-tools.c:2882
 msgid "Bin"
 msgstr "Bin"
 
-#: src/analysis-tools.c:2822
+#: src/analysis-tools.c:2883
 msgid "Frequency"
 msgstr "Frekvens"
 
-#: src/analysis-tools.c:2824
+#: src/analysis-tools.c:2885
 #, c-format
 msgid "Cumulative %"
 msgstr "Akkumuleret %"
@@ -2680,6 +2549,10 @@ msgstr "Mærkater i første række"
 msgid "Force Intercept to Be Zero"
 msgstr "Tving skæring til nul"
 
+#: src/dialogs/dialog-analysis-tools.c:405
+msgid "Rows"
+msgstr "Rækker"
+
 #: src/dialogs/dialog-analysis-tools.c:410
 msgid "Periodic"
 msgstr "Periodisk"
@@ -3091,6 +2964,10 @@ msgstr "Streng"
 #: src/dialogs/dialog-function-wizard.c:407
 msgid "Boolean"
 msgstr "Boolsk"
+
+#: src/dialogs/dialog-function-wizard.c:408
+msgid "Range"
+msgstr "Omfang"
 
 #: src/dialogs/dialog-function-wizard.c:409
 msgid "Array"
@@ -4007,7 +3884,6 @@ msgstr "_Fil-detaljer"
 #. * DO NOT compile this file as part of your application.
 #.
 #: po/tmp/print.glade.h:6
-#, c-format
 msgid "% of normal size"
 msgstr "% af normal størrelse"
 
@@ -16792,6 +16668,132 @@ msgstr "_Fortryd"
 #: po/tmp/gnumeric.xml.h:236
 msgid "_View"
 msgstr "_Vis"
+
+#~ msgid "Mean"
+#~ msgstr "Gennemsnit"
+
+#~ msgid "Standard Error"
+#~ msgstr "Standardfejl"
+
+#~ msgid "Median"
+#~ msgstr "Median"
+
+#~ msgid "Mode"
+#~ msgstr "Tilstand"
+
+#~ msgid "Standard Deviation"
+#~ msgstr "Standardafvigelse"
+
+#~ msgid "Sample Variance"
+#~ msgstr "Stikprøvevarians"
+
+#~ msgid "Kurtosis"
+#~ msgstr "Kurtosis"
+
+#~ msgid "Skewness"
+#~ msgstr "Skævhed"
+
+#~ msgid "Minimum"
+#~ msgstr "Minimum"
+
+#~ msgid "Maximum"
+#~ msgstr "Maksimum"
+
+#~ msgid "Known Variance"
+#~ msgstr "Kendt varians"
+
+#~ msgid "Observations"
+#~ msgstr "Observationer"
+
+#~ msgid "Hypothesized Mean Difference"
+#~ msgstr "Hypotetisk difference mellem middelværdi"
+
+#~ msgid "z"
+#~ msgstr "z"
+
+#~ msgid "P (Z<=z) one-tail"
+#~ msgstr "P (Z<=z) én-sidet"
+
+#~ msgid "z Critical one-tail"
+#~ msgstr "z kritisk værdi værdi én-sidet"
+
+#~ msgid "P (Z<=z) two-tail"
+#~ msgstr "P (Z<=z) to-sidet"
+
+#~ msgid "z Critical two-tail"
+#~ msgstr "z kritisk værdi værdi to-sidet"
+
+#~ msgid "Pearson Correlation"
+#~ msgstr "Pearson korrelation"
+
+#~ msgid "t Stat"
+#~ msgstr "t stat"
+
+#~ msgid "P (T<=t) one-tail"
+#~ msgstr "P (T<=t) én-sidet"
+
+#~ msgid "t Critical one-tail"
+#~ msgstr "t kritisk værdi én-sidet"
+
+#~ msgid "P (T<=t) two-tail"
+#~ msgstr "P (T<=t) to-sidet"
+
+#~ msgid "t Critical two-tail"
+#~ msgstr "t kritisk værdi to-sidet"
+
+#~ msgid "Pooled Variance"
+#~ msgstr "Samlet varians"
+
+#~ msgid "P (F<=f) one-tail"
+#~ msgstr "P (F<=f) én-sidet"
+
+#~ msgid "F Critical one-tail"
+#~ msgstr "F kritisk værdi én-sidet"
+
+#~ msgid "SUMMARY OUTPUT"
+#~ msgstr "OVERSIGTS UDDATA"
+
+#~ msgid "Regression Statistics"
+#~ msgstr "Regressions statistikker"
+
+#~ msgid "Multiple R"
+#~ msgstr "Flerdimensionalt R"
+
+#~ msgid "R Square"
+#~ msgstr "R kvadreret"
+
+#~ msgid "Adjusted R Square"
+#~ msgstr "Tilpasset R kvadreret"
+
+#~ msgid "Residual"
+#~ msgstr "Residual"
+
+#~ msgid "Intercept"
+#~ msgstr "Skæring"
+
+#~ msgid "Coefficients"
+#~ msgstr "Koefficienter"
+
+#~ msgid "Lower 95%"
+#~ msgstr "Nedre 95%"
+
+#~ msgid "Upper 95%"
+#~ msgstr "Øvre 95%"
+
+#~ msgid "Groups"
+#~ msgstr "Grupper"
+
+#~ msgid "F critical"
+#~ msgstr "F kritisk værdi"
+
+#~ msgid "Between Groups"
+#~ msgstr "Mellem grupper"
+
+#~ msgid "Within Groups"
+#~ msgstr "Inden for grupper"
+
+#~ msgid "Error"
+#~ msgstr "Fejl"
 
 #~ msgid "sort"
 #~ msgstr "sortér"
