@@ -50,8 +50,6 @@ GtkType    gnumeric_sheet_get_type               (void);
 GtkWidget *gnumeric_sheet_new            	 (SheetControlGUI *sheet, ItemBar *colbar, ItemBar *rowbar);
 void       gnumeric_sheet_set_top_row            (GnumericSheet *gsheet, int new_first_row);
 void       gnumeric_sheet_set_left_col           (GnumericSheet *gsheet, int new_first_col);
-void       gnumeric_sheet_move_cursor            (GnumericSheet *gsheet,
-						  int col, int row);
 gboolean   gnumeric_sheet_can_select_expr_range  (GnumericSheet *gsheet);
 void       gnumeric_sheet_set_cursor_bounds      (GnumericSheet *gsheet,
 						  int start_col, int start_row,

@@ -1,5 +1,12 @@
 2000-12-05  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet.c (sheet_region_adjacent_merge) : new function.
+
+	* src/cellspan.c (cell_calc_span) : Use it here to pre bound the
+	  potential span region.
+
+2000-12-05  Jody Goldberg <jgoldberg@home.com>
+
 	* src/item-grid.c (item_grid_draw_merged_range) : Draw borders too.
 	  This can easily be optimized.
 

@@ -102,14 +102,6 @@ move_cursor (GnumericSheet *gsheet, int col, int row, gboolean clear_selection)
 }
 
 void
-gnumeric_sheet_move_cursor (GnumericSheet *gsheet, int col, int row)
-{
-	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
-
-	move_cursor (gsheet, col, row, TRUE);
-}
-
-void
 gnumeric_sheet_set_cursor_bounds (GnumericSheet *gsheet,
 				  int start_col, int start_row,
 				  int end_col,   int end_row)
@@ -318,8 +310,9 @@ static void
 start_cell_selection (GnumericSheet *gsheet)
 {
 	Sheet *sheet = gsheet->scg->sheet;
-
-	start_cell_selection_at (gsheet, sheet->cursor.edit_pos.col, sheet->cursor.edit_pos.row);
+	start_cell_selection_at (gsheet,
+				 sheet->cursor.edit_pos.col,
+				 sheet->cursor.edit_pos.row);
 }
 
 void

@@ -41,16 +41,25 @@ sheet_object_bonobo_destroy (GtkObject *object)
 {
 	SheetObjectBonobo *sob = SHEET_OBJECT_BONOBO (object);
 
+	if (sob->client_site != NULL) {
+		bonobo_object_unref (BONOBO_OBJECT (sob->client_site));
+		sob->client_site = NULL;
+	}
+
+#if 0
+	if (sob->object_server != NULL) {
+		bonobo_object_unref (BONOBO_OBJECT (sob->object_server));
+		sob->object_server = NULL;
+	}
+#endif
+
+	if (sob->object_id != NULL) {
+		g_free (sob->object_id);
+		sob->object_id = NULL;
+	}
+
 	/* Call parent's destroy method */
 	GTK_OBJECT_CLASS (sheet_object_bonobo_parent_class)->destroy (object);
-
-	if (sob->client_site)
-		bonobo_object_unref (BONOBO_OBJECT (sob->client_site));
-
-	g_free (sob->object_id);
-
-	sob->object_server = NULL;
-	sob->client_site   = NULL;
 }
 
 static char *

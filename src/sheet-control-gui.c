@@ -31,6 +31,9 @@
 #include "clipboard.h"
 #include "dialogs.h"
 
+#ifdef ENABLE_BONOBO
+#include <bonobo/bonobo-view-frame.h>
+#endif
 #include <gdk/gdkkeysyms.h>
 #include <gdk/gdkx.h>
 #include <string.h>

@@ -154,6 +154,11 @@ cell_contents_fit_inside_column (const Cell *cell)
  *    - no merged regions
  *    - no content
  *
+ * No need to check for merged cells here.  We have already bounded the search region
+ * using adjacent merged cells.
+ *
+ * We could probably have done the same thing with the span regions too, but
+ * the current representation is not well suited to that type of search
  * returns TRUE if the cell is empty.
  */
 static inline gboolean
@@ -162,14 +167,11 @@ cell_is_empty (Cell const * cell, int col, ColRowInfo const *ri)
 	CellSpanInfo const *span = row_span_get (ri, col);
 
 	if (span != NULL && span->cell != cell)
-	    return FALSE;
+		return FALSE;
 
 	if (!cell_is_blank (sheet_cell_get (cell->base.sheet, col, ri->pos)))
-	    return FALSE;
+		return FALSE;
 
-	/* FIXME : ensure that there are no merged cells checking for the upper
-	 * left is inexpensive,  checking for impinging on other areas is not.
-	 */
 	return TRUE;
 }
 
@@ -185,11 +187,13 @@ void
 cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 {
 	Sheet *sheet;
-	int align, left;
+	int align, left, max_col, min_col;
 	int row, pos, margin;
 	int cell_width_pixel;
 	MStyle *mstyle;
 	ColRowInfo const *ri;
+	Range const *merge_left;
+	Range const *merge_right;
 
 	g_return_if_fail (cell != NULL);
 
@@ -231,6 +235,11 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 
 	cell_width_pixel = cell_rendered_width (cell);
 
+	sheet_region_adjacent_merge (sheet, &cell->pos,
+				     &merge_left, &merge_right);
+	min_col = (merge_left != NULL) ? merge_left->end.col : 0;
+	max_col = (merge_right != NULL) ? merge_right->start.col : SHEET_MAX_COLS;
+
 	switch (align) {
 	case HALIGN_LEFT:
 		*col1 = *col2 = cell->pos.col;
@@ -238,7 +247,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 		left = cell_width_pixel - COL_INTERNAL_WIDTH (cell->col_info);
 		margin = cell->col_info->margin_b;
 
-		for (; left > 0 && pos < SHEET_MAX_COLS-1; pos++){
+		for (; left > 0 && pos < max_col; pos++){
 			ColRowInfo *ci = sheet_col_get_info (sheet, pos);
 
 			if (ci->visible) {
@@ -263,7 +272,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 		left = cell_width_pixel - COL_INTERNAL_WIDTH (cell->col_info);
 		margin = cell->col_info->margin_a;
 
-		for (; left > 0 && pos >= 0; pos--){
+		for (; left > 0 && pos >= min_col; pos--){
 			ColRowInfo *ci = sheet_col_get_info (sheet, pos);
 
 			if (ci->visible) {
@@ -297,7 +306,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 		for (; remain_left > 0 || remain_right > 0;){
 			ColRowInfo *ci;
 
-			if (*col1 - 1 >= 0){
+			if (*col1 - 1 >= min_col){
 				ci = sheet_col_get_info (sheet, *col1 - 1);
 
 				if (ci->visible) {
@@ -315,7 +324,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 			} else
 				remain_left = 0;
 
-			if (*col2 + 1 < SHEET_MAX_COLS-1){
+			if (*col2 + 1 < max_col){
 				ci = sheet_col_get_info (sheet, *col2 + 1);
 
 				if (ci->visible) {
@@ -347,7 +356,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 		left_loop :
 			tmp = left - 1;
 			/* When scanning left make sure not to overrun other spans */
-			if (tmp >= 0) {
+			if (tmp >= min_col) {
 				ci = sheet_col_get_info (sheet, tmp);
 				if (ci->visible) {
 					if (cell_is_empty (cell, tmp, ri)) {
@@ -369,7 +378,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 			}
 		right_loop :
 			tmp = right + 1;
-			if (tmp < SHEET_MAX_COLS) {
+			if (tmp < max_col) {
 				ci = sheet_col_get_info (sheet, tmp);
 				if (ci->visible) {
 					if (cell_is_empty (cell, tmp, ri)) {

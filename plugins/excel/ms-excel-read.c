@@ -3463,13 +3463,7 @@ ms_excel_read_mergecells (BiffQuery *q, ExcelSheet *sheet)
 		r.end.row = MS_OLE_GET_GUINT16(ptr+2);
 		r.start.col = MS_OLE_GET_GUINT16(ptr+4);
 		r.end.col = MS_OLE_GET_GUINT16(ptr+6);
-#if 0
-		/* FIXME : enable when the core support is better
-		 * - draws borders
-		 * - handles attempts to span from neighbouring cells.
-		 */
 		sheet_region_merge (NULL, sheet->gnum_sheet, &r);
-#endif
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_read_debug > 1) {
 			range_dump (&r);

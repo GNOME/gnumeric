@@ -3942,6 +3942,43 @@ sheet_region_get_merged (Sheet *sheet, Range const *range)
 }
 
 /**
+ * sheet_region_adjacent_merge
+ * @sheet : The sheet to look in.
+ * @pos : the cell to test for adjacent regions.
+ * @left : the return for a region on the left
+ * @right : the return for a region on the right
+ *
+ * Returns the nearest regions to either side of @pos.
+ */
+void
+sheet_region_adjacent_merge (Sheet const *sheet, CellPos const *pos,
+			     Range const **left, Range const **right)
+{
+	GSList *ptr;
+
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (pos != NULL);
+
+	*left = *right = NULL;
+	for (ptr = sheet->list_merged ; ptr != NULL ; ptr = ptr->next) {
+		Range const * const test = ptr->data;
+		if (test->start.row <= pos->row && pos->row <= test->end.row) {
+			int const diff = test->end.col - pos->col;
+
+			g_return_if_fail (diff != 0);
+
+			if (diff < 0) {
+				if (*left == NULL || (*left)->end.col < test->end.col)
+					*left = test;
+			} else {
+				if (*right == NULL || (*right)->start.col > test->start.col)
+					*right = test;
+			}
+		}
+	}
+}
+
+/**
  * sheet_region_is_merge_cell :
  *
  * @sheet :
