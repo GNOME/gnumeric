@@ -49,7 +49,7 @@
 	* src/dialogs/dialog-printer-setup.c (dialog_printer_setup): Add
 	call to gnome_dialog_set_parent here.
 
-	* src/tools.h: New file, moved here all the tools declarations.
+	* src/dialogs/tools.h: New file, moved here all the tools declarations.
 	Please, try to keep indentation for public functions as the rest
 	of the Gnumeric ones.
 
