@@ -1422,10 +1422,15 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
 	SheetView const *sv  = wb_control_cur_sheet_view (wbc);
 	Sheet const *sheet = wb_control_cur_sheet (wbc);
-	gboolean has_filtered_rows = sheet->has_filtered_rows;
+	gboolean has_filtered_rows;
 	gboolean edit_object = scg != NULL &&
 		(scg->current_object != NULL || scg->new_object != NULL);
 
+	/* we are being finalized ignore this */
+	if (G_OBJECT (wbc)->ref_count == 0)
+		return;
+
+	has_filtered_rows = sheet->has_filtered_rows;
 	if (!has_filtered_rows) {
 		GSList *ptr = sheet->filters;
 		for (;ptr != NULL ; ptr = ptr->next)

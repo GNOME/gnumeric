@@ -1,3 +1,10 @@
+2004-04-27  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (wbcg_menu_state_update) :  
+	cb_table_destroy -> scg_mode_edit -> wbcg_menu_state_update
+	  Simplistic fix to ensure that we don't attempt to change
+	  menus/toolbars during destruction.
+
 2004-04-22  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-autofill.c (autofill_cell) : Assign the value format in
