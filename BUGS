@@ -8,12 +8,9 @@ Release Critical
 ----------------
 
     - http://bugzilla.gnome.org/show_bug.cgi?id=81104
-    - Keelyn's thousands sep toolbar
-    - solver crash
-    - how to add constraints to the solver (gui problem?)
-    - apply the sensitivity patch
-    - jon kare's sorting  http://bugzilla.gnome.org/show_bug.cgi?id=82931
     - http://bugs.debian.org/148394
+
+    - jon kare's sorting  http://bugzilla.gnome.org/show_bug.cgi?id=82931
 
 Pending Patches
 ---------------
