@@ -57,9 +57,8 @@ dialog_about (WorkbookControlGUI *wbcg)
 		 * with 'Eacute' (U00C9) */
 		N_("Gergo Erdi, Gnumeric hacker."),
 		N_("John Gotts, rpm packaging."),
-		/* if your charset allows it, replace the 'ue' of 'Guelzow'
-		 * with 'uumlaut' */
-		N_("Andreas J. Guelzow, Gnumeric hacker."),
+		/* The funny character between "G" and "l" here is a \"u.  */
+		N_("Andreas J. G\xc3\xbclzow, Gnumeric hacker."),
 		N_("Jon K. Hellan, Gnumeric hacker."),
 		N_("Ross Ihaka, special functions."),
 		N_("Jukka-Pekka Iivonen, numerous functions and tools."),
