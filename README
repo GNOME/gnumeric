@@ -28,7 +28,7 @@ Requirements
 You need:
 
 	gnome-libs-1.0
-	gnome-print-0.6
+	gnome-print-0.9
 	libxml-1.0
 	libglade-0.5
 

@@ -1633,6 +1633,8 @@ biff_xf_data_destroy (BiffXFData *xf)
 {
 	if (xf->style_format)
 		style_format_unref (xf->style_format);
+	if (xf->mstyle)
+		mstyle_unref (xf->mstyle);
 	g_free (xf);
 	return 1;
 }
@@ -2399,7 +2401,7 @@ lookup_base_char_width (ExcelSheet *sheet)
 		"can be used if scaled appropriately. Experiments "
 		"showed that a 2 line sample was very slightly more";
 
-	MStyle const *ms;
+	MStyle       *ms;
 	double        res;
 	gboolean      def;
 
@@ -2410,13 +2412,12 @@ lookup_base_char_width (ExcelSheet *sheet)
 	def = !sheet->wb->XF_cell_records ||
 		sheet->wb->XF_cell_records->len == 0;
 	
-	if (!def) {
-		ms = ms_excel_get_style_from_xf (sheet, 0);
-		if (!ms)
-			def = TRUE;
-	}
-	
 	if (def)
+		ms = NULL;
+	else
+		ms = ms_excel_get_style_from_xf (sheet, 0);
+
+	if (!ms)
 		res = EXCEL_DEFAULT_CHAR_WIDTH;
 	else {
 		StyleFont *sf;
@@ -2435,6 +2436,8 @@ lookup_base_char_width (ExcelSheet *sheet)
 				strlen (sample), average, res);
 		}
 #endif
+		style_font_unref (sf);
+		mstyle_unref (ms);
 	}
 
 	return res;
