@@ -233,7 +233,7 @@ Office 2000 and 'explorer' compatibility.
 
 * Internals
 
-  * Hack R[-1]C[3] type references into the parser.
+  * Hack R[-1]C[3] type references fully into the parser.
 
 * Internals
 
@@ -249,6 +249,7 @@ Office 2000 and 'explorer' compatibility.
    struct _Cell should be optimized with a typed union; merge
    text, entered_text. Think about width, height, render_color
    merge flags + generation + move comments to a parallel hash.
+   Use Memchunks for allocation of many things.
 
 * Rendering
 
@@ -257,6 +258,7 @@ Office 2000 and 'explorer' compatibility.
     * have a 'user-set' feature for 'merge cells'
 
 * Calculation
+
   * Rework 'Name' dependencies so we can re-express names.
 
   * Dependancies for - CELL, INDIRECT functions.
@@ -291,7 +293,6 @@ Office 2000 and 'explorer' compatibility.
   * Commands to do
       - paste_cut
       - paste_copy
-      - format
       - autofill
       - insert array.
   * Commands to link in
@@ -302,8 +303,6 @@ Office 2000 and 'explorer' compatibility.
         before entering a non-singleton region is a kludge around to problem
 	of why the top left cells value is changed in the first place.
 
-  * Test Bonobo version.
-
 * Make checks for inserting rows/cols more intelligent in the face of multiple
   selections.  Currently it just checks the first selected range for
   infiniteness we need to check all selected ranges.
@@ -312,6 +311,7 @@ Office 2000 and 'explorer' compatibility.
   * Localise sheet/workbook Name import,
   * Import names even if they arn't referenced.
   * Figure out the scaling and remove the hack to zoom.
+  * The big SST re-write.
 
 * Html export
   * Export style information for blank cells.

@@ -261,6 +261,9 @@ workbook_do_destroy (Workbook *wb)
 
 	workbook_autosave_cancel (wb);
 
+	if (!wb->needs_name)
+		workbook_view_history_update (workbook_list, wb->filename);
+
 	/*
 	 * Do all deletions that leave the workbook in a working
 	 * order.
@@ -359,8 +362,10 @@ workbook_do_destroy (Workbook *wb)
 	if (!GTK_OBJECT_DESTROYED (wb->toplevel))
 		gtk_object_destroy (GTK_OBJECT (wb->toplevel));
 	
-	if (workbook_count == 0)
+	if (workbook_count == 0) {
+		application_history_write_config ();
 		gtk_main_quit ();
+	}
 }
 
 static void
@@ -2336,6 +2341,8 @@ workbook_new (void)
 		bonobo_ui_handler_menu_free_list (list);
 	}
 #endif
+	/* Create dynamic history menu items. */
+	workbook_view_history_setup (wb);
 
 	/* There is nothing to undo/redo yet */
 	workbook_view_set_undo_redo_state (wb, NULL, NULL);

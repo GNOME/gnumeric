@@ -16,12 +16,15 @@
 typedef struct
 {
 	/* Clipboard */
-	Sheet		* clipboard_sheet;
-	CellRegion	* clipboard_copied_contents;
-	Range		  clipboard_cut_range;
+	Sheet		*clipboard_sheet;
+	CellRegion	*clipboard_copied_contents;
+	Range		 clipboard_cut_range;
 
 	/* Display resolution */
 	float horizontal_dpi, vertical_dpi;
+
+	/* History for file menu */
+	GList           *history_list;
 } GnumericApplication;
 
 static GnumericApplication app;
@@ -276,5 +279,147 @@ application_display_dpi_set (gboolean const horizontal, float const val)
 	    app.horizontal_dpi  = val;
     else
 	    app.vertical_dpi = val;
+}
+
+/**
+ * application_history_get_list:
+ * 
+ *  This function returns a pointer to the history list,
+ * creating it if neccessary.
+ * 
+ * Return value: the list./
+ **/
+GList*
+application_history_get_list (void)
+{
+        gchar *filename, *key;
+        gint max_entries, i;
+	gboolean do_set = FALSE;
+
+	/* If the list is already populated, return it. */
+	if (app.history_list)
+		return app.history_list;
+
+        gnome_config_push_prefix ("/Gnumeric/History/");
+
+        /* Get maximum number of history entries.  Write default value to 
+	 * config file if no entry exists. */
+        max_entries = gnome_config_get_int_with_default ("MaxFiles=4", &do_set);
+	if (do_set)
+		gnome_config_set_int ("MaxFiles", 4);
+
+	/* Read the history filenames from the config file */
+        for (i = 0; i < max_entries; i++) {
+		key = g_strdup_printf ("File%d", i);
+ 	        filename = gnome_config_get_string (key);
+ 	        if (filename == NULL) {
+                       /* Ran out of filenames. */
+                       g_free (key);
+                       break;
+		}
+		app.history_list = g_list_append (app.history_list, filename);
+               	g_free (key);
+       	}
+       	gnome_config_pop_prefix ();
+
+	return app.history_list;
+}
+
+/**
+ * application_history_update_list:
+ * @filename: 
+ * 
+ * This function updates the history list.  The return value is a 
+ * pointer to the filename that was removed, if the list was already full
+ * or NULL if no items were removed.
+ * 
+ * Return value: 
+ **/
+gchar *
+application_history_update_list (gchar *filename)
+{
+	gchar *name, *old_name = NULL;
+	GList *l = NULL;
+	GList *new_list = NULL;
+	gint max_entries, count = 0;
+	gboolean do_set = FALSE;
+	gboolean found = FALSE;
+
+	g_return_val_if_fail (filename != NULL, NULL);
+
+	/* Get maximum list length from config */
+	gnome_config_push_prefix ("Gnumeric/History/");
+	max_entries = gnome_config_get_int_with_default ("MaxFiles=4", &do_set);
+	if (do_set)
+		gnome_config_set_int ("MaxFiles", max_entries);
+	gnome_config_pop_prefix ();
+
+	/* Check if this filename already exists in the list */
+	for (l = app.history_list; l && (count < max_entries); l = l->next) {
+
+		if (!found && (!strcmp ((gchar *)l->data, filename) || 
+			       (count == max_entries - 1))) {
+			/* This is either the last item in the list, or a
+			 * duplicate of the requested entry. */
+			old_name = (gchar *)l->data;
+			found = TRUE;
+		} else  /* Add this item to the new list */
+			new_list = g_list_append (new_list, l->data);
+
+		count++;
+	}
+
+	/* Insert the new filename to the new list and free up the old list */
+	name = g_strdup (filename);
+	new_list = g_list_prepend (new_list, name);
+	g_list_free (app.history_list);
+	app.history_list = new_list;
+
+	return old_name;
+}
+
+/* Remove the last item from the history list and return it. */
+gchar *
+application_history_list_shrink (void)
+{
+	gchar *name;
+	GList *l;
+
+	if (app.history_list == NULL)
+		return NULL;
+
+	l = g_list_last (app.history_list);
+	name = (gchar *)l->data;
+	app.history_list = g_list_remove (app.history_list, name);
+
+	return name;
+}
+
+/* Write contents of the history list to the configuration file. */
+void
+application_history_write_config (void)
+{
+	gchar *key; 
+	GList *l;
+	gint max_entries, i = 0;
+
+	if (app.history_list == NULL) return;
+
+	max_entries = gnome_config_get_int ("Gnumeric/History/MaxFiles=4");
+	gnome_config_clean_section ("Gnumeric/History");
+	gnome_config_push_prefix("Gnumeric/History/");
+	gnome_config_set_int ("MaxFiles", max_entries);
+
+	for (l = app.history_list; l; l = l->next) {
+		key = g_strdup_printf ("File%d", i++);
+		gnome_config_set_string (key, (gchar *)l->data);
+		g_free (l->data);
+		g_free (key);
+	}
+
+	gnome_config_sync ();
+	gnome_config_pop_prefix ();
+	g_list_free (app.history_list);
+	app.history_list = NULL;
 }
 

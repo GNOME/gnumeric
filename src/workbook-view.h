@@ -26,4 +26,14 @@ void workbook_view_set_title (Workbook const * const wb,
 
 void workbook_view_pref_visibility (Workbook const * const wb);
 
+void workbook_view_history_setup  (Workbook *wb);
+
+void workbook_view_history_update (GList *wl, gchar *filename);
+
+void workbook_view_history_shrink (GList *wl, gint new_max);
+
 #endif /* GNUMERIC_WORKBOOK_VIEW_H */
+
+
+
+

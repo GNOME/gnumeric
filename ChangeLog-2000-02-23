@@ -1,3 +1,24 @@
+2000-02-18  Michael Meeks  <michael@helixcode.com>
+
+	* src/workbook.c (workbook_new): setup view history.
+	(workbook_do_destroy): add workbook to view history and write config.
+
+	* src/history.c (history_item_label): substantialy alter.
+	(history_remove_menu_item): kill translation on non bonobo case.
+
+2000-02-18  Mike Kestner  <mkestner@ameritech.net>
+
+	* src/application.c (application_history_get_list): add
+	(application_history_update_list, application_history_list_shrink),
+	(application_history_write_config): ditto.
+
+	* src/workbook-view.c (workbook_view_history_setup): create.
+	(workbook_view_history_update, workbook_view_history_shrink): ditto.
+
+	* src/Makefile.am: add history.[ch].
+
+	* src/history.[ch]: Added.
+
 2000-02-18  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/dialogs/analysis-tools.glade,

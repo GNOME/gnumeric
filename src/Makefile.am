@@ -110,6 +110,8 @@ GNUMERIC_BASE_SOURCES =				\
 	gnumeric-util.h				\
 	gnumeric-type-util.h			\
 	gnumeric.h				\
+	history.c				\
+	history.h				\
 	item-bar.c				\
 	item-bar.h				\
 	item-cursor.c				\

@@ -18,6 +18,10 @@ gboolean     application_clipboard_is_empty	(void);
 Sheet *      application_clipboard_sheet_get	(void);
 CellRegion * application_clipboard_contents_get	(void);
 Range const* application_clipboard_area_get	(void);
+GList *	     application_history_get_list	(void);
+gchar *	     application_history_update_list	(gchar *);
+gchar *	     application_history_list_shrink	(void);
+void 	     application_history_write_config 	(void);
 
 
 float	     application_display_dpi_get (gboolean const horizontal);

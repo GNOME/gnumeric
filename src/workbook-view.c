@@ -14,6 +14,7 @@
 #include "workbook.h"
 #include "workbook-private.h"
 #include "gnumeric-util.h"
+#include "application.h"
 
 void
 workbook_view_set_paste_special_state (Workbook *wb, gboolean enable)
@@ -130,4 +131,65 @@ workbook_view_pref_visibility (Workbook const * const wb)
 	g_hash_table_foreach (wb->sheets, &cb_update_sheet_view_prefs, NULL);
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (wb->notebook),
 				    wb->show_notebook_tabs);
+}
+
+void
+workbook_view_history_setup (Workbook *wb)
+{
+	GList *hl;
+
+	hl = application_history_get_list ();
+
+	if (hl)
+		history_menu_setup (wb, hl);
+}
+
+void
+workbook_view_history_update (GList *wl, gchar *filename)
+{
+	gchar   *del_name;
+	gboolean add_sep;
+	GList   *hl;
+
+	/* Get the history list */
+	hl = application_history_get_list ();
+
+	/* If List is empty, a separator will be needed too. */
+	add_sep = (hl == NULL);
+
+	/* Update the history list */
+	del_name = application_history_update_list (filename);
+
+	/* Remove the old menu item, if necessary. */
+	if (del_name) {
+		history_remove_menu_item (wl, del_name);
+		g_free (del_name);
+	}
+
+	/* Update the menus */
+	history_insert_menu_item (wl, filename, add_sep);
+}
+
+/* This function will be used by the options dialog when the list size is reduced
+ * by the user. */
+void
+workbook_view_history_shrink (GList *wl, gint new_max)
+{
+	GList *hl;
+	gint   length;
+	gchar *del_name;
+
+	/* Check if the list needs to be shrunk. */
+	hl = application_history_get_list ();
+	length = g_list_length (hl);
+
+	if (length <= new_max)
+		return;
+
+	/* Remove the required number of items from the list and menus */
+	for (; length > new_max; length--) {
+		del_name = application_history_list_shrink ();
+		history_remove_menu_item (wl, del_name);
+		g_free (del_name);
+	}
 }
