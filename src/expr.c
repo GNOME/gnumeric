@@ -167,11 +167,13 @@ expr_tree_new_constant (Value *v)
 	ExprTree *ans;
 
 	ans = g_new (ExprTree, 1);
-	if (ans) {
-		ans->ref_count = 1;
-		ans->oper = OPER_CONSTANT;
-		ans->u.constant = v;
-	}
+	if (!ans)
+		return NULL;
+	
+	ans->ref_count = 1;
+	ans->oper = OPER_CONSTANT;
+	ans->u.constant = v;
+
 	return ans;
 }
 
@@ -181,11 +183,13 @@ expr_tree_new_unary  (Operation op, ExprTree *e)
 	ExprTree *ans;
 
 	ans = g_new (ExprTree, 1);
-	if (ans) {
-		ans->ref_count = 1;
-		ans->oper = op;
-		ans->u.value = e;
-	}
+	if (!ans)
+		return NULL;
+
+	ans->ref_count = 1;
+	ans->oper = op;
+	ans->u.value = e;
+
 	return ans;
 }
 
@@ -196,12 +200,14 @@ expr_tree_new_binary (ExprTree *l, Operation op, ExprTree *r)
 	ExprTree *ans;
 
 	ans = g_new (ExprTree, 1);
-	if (ans) {
-		ans->ref_count = 1;
-		ans->oper = op;
-		ans->u.binary.value_a = l;
-		ans->u.binary.value_b = r;
-	}
+	if (!ans)
+		return NULL;
+	
+	ans->ref_count = 1;
+	ans->oper = op;
+	ans->u.binary.value_a = l;
+	ans->u.binary.value_b = r;
+
 	return ans;
 }
 
@@ -212,12 +218,14 @@ expr_tree_new_funcall (Symbol *sym, GList *args)
 	g_return_val_if_fail (sym, NULL);
 
 	ans = g_new (ExprTree, 1);
-	if (ans) {
-		ans->ref_count = 1;
-		ans->oper = OPER_FUNCALL;
-		ans->u.function.symbol = sym;;
-		ans->u.function.arg_list = args;
-	}
+	if (!ans)
+		return NULL;
+	
+	ans->ref_count = 1;
+	ans->oper = OPER_FUNCALL;
+	ans->u.function.symbol = sym;;
+	ans->u.function.arg_list = args;
+
 	return ans;
 }
        
@@ -291,11 +299,13 @@ expr_tree_new_var (const CellRef *cr)
 	ExprTree *ans;
 
 	ans = g_new (ExprTree, 1);
-	if (ans) {
-		ans->ref_count = 1;
-		ans->oper = OPER_VAR;
-		ans->u.ref = *cr;
-	}
+	if (!ans)
+		return NULL;
+	
+	ans->ref_count = 1;
+	ans->oper = OPER_VAR;
+	ans->u.ref = *cr;
+
 	return ans;
 }
 
@@ -561,8 +571,10 @@ value_new_int (int i)
 Value *
 value_new_bool (gboolean b)
 {
-	/* Currently our booleans are really just ints.  This will have to
-	   change if we want Excel's ISLOGICAL.  */
+	/*
+	 * Currently our booleans are really just ints.  This will have to
+	 * change if we want Excel's ISLOGICAL.
+	 */
 	return value_new_int (b ? 1 : 0);
 }
 
@@ -914,7 +926,7 @@ eval_funcall (FunctionEvalInfo *s, ExprTree *tree)
 	const Symbol *sym;
 	FunctionDefinition *fd;
 	GList *l;
-	int argc, arg, i;
+	int argc, arg;
 	Value *v = NULL;
 	Sheet *sheet;
 	int eval_col;

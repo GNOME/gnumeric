@@ -131,7 +131,8 @@ static char *help_error_type = {
 static Value *
 gnumeric_error_type (FunctionEvalInfo *ei, GList *expr_node_list)
 {
-	int res, retval = 0;
+	int retval = 0;
+	
 	if (gnumeric_check_for_err (ei, expr_node_list)) {
 		if (!strcmp (gnumeric_err_NULL, error_message_txt (ei->error)))
 			retval = 1;

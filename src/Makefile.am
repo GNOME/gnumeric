@@ -17,6 +17,15 @@
 # exclusive.
 # 
 
+idldir   = $(datadir)/idl
+idl_DATA = Gnumeric.idl
+
+gladedir   = $(datadir)/gnumeric/glade
+glade_DATA = print.glade
+
+EXTRA_DIST = $(idl_DATA)
+
+
 if BONOBO
 bin_PROGRAMS = gnumeric-bonobo
 else
@@ -28,8 +37,10 @@ endif
 INCLUDES = 						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
 	-DGNUMERIC_VERSION=\""$(VERSION)"\"		\
+        -DGNUMERIC_GLADEDIR=\""$(gladedir)"\"           \
 	-I$(includedir)				 	\
 	-I$(top_srcdir)/libglade			\
+	$(GNOME_PRINT_CFLAGS)				\
 	$(GNOME_INCLUDEDIR)				\
 	$(GUILE_INCS)
 
@@ -37,6 +48,7 @@ GNUMERIC_BASE_SOURCES =				\
 	about.c					\
 	cell.h					\
 	cell.c					\
+	cell-draw.c				\
 	cellspan.c				\
 	clipboard.c				\
 	clipboard.h				\
@@ -62,6 +74,7 @@ GNUMERIC_BASE_SOURCES =				\
 	dialog-define-names.c			\
 	dialog-delete-cells.c			\
 	dialog-paste-special.c			\
+	dialog-printer-setup.c			\
 	dialog-solver.c				\
 	dialog-zoom.c				\
 	dialogs.h				\
@@ -121,6 +134,12 @@ GNUMERIC_BASE_SOURCES =				\
 	plugin.c				\
 	plugin.h				\
 	plugin-manager.c			\
+	print.c					\
+	print.h					\
+	print-cell.c				\
+	print-cell.h				\
+	print-info.c				\
+	print-info.h				\
 	ranges.c				\
 	ranges.h				\
 	render-ascii.c				\
@@ -186,6 +205,7 @@ gnumeric_bonobo_SOURCES =			\
 gnumeric_LDFLAGS = -export-dynamic
 
 gnumeric_LDADD = 				\
+	$(GNOME_PRINT_LIBS)			\
 	../plugins/excel/libexcel.a		\
 	../plugins/excel/libole2/libole2.a 	\
 	../plugins/xbase/libxbase.a		\
@@ -202,6 +222,7 @@ gnumeric_bonobo_LDADD =				\
 	../plugins/xbase/libxbase.a		\
 	../libglade/glade/libglade.a		\
 	$(BONOBO_LIBS)				\
+	$(GNOME_PRINT_LIBS)			\
 	$(GNOME_XML_LIB) 			\
 	$(GUILE_LIBS)				\
 	$(INTLLIBS)
@@ -217,11 +238,6 @@ dist-hook:
 	mkdir $(distdir)/pixmaps
 	cp $(srcdir)/pixmaps/*.xpm $(distdir)/pixmaps
 	touch $(distdir)/Gnumeric.idl
-
-idldir   = $(datadir)/idl
-idl_DATA = Gnumeric.idl
-
-EXTRA_DIST = $(idl_DATA)
 
 
 #number_match_SOURCES = number-match.c  formats.c dates.c number-match-test.c

@@ -1,3 +1,10 @@
+Change between versions 0.27 and 0.28
+
+Miguel:
+	Print support (imported from the GNUMERIC_PRINT branch).
+	Pattern selector works again.
+
+----------------------------------------------------------------------
 Changes between version 0.26 and 0.27
 
 Jukka:

@@ -83,7 +83,6 @@ function_iterate_do_value (const EvalPosition      *fp,
 			   ErrorMessage            *error,
 			   gboolean                strict)
 {
-	Sheet *sheet = fp->sheet;
 	int eval_col = fp->eval_col;
 	int eval_row = fp->eval_row;
 	int ret = TRUE;

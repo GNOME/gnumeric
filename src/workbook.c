@@ -4,6 +4,7 @@
  * Author:
  *    Miguel de Icaza (miguel@gnu.org).
  *
+ * (C) 1998, 1999 Miguel de Icaza
  */
 #include <config.h>
 #include <gnome.h>
@@ -22,6 +23,7 @@
 #include "clipboard.h"
 #include "utils.h"
 #include "widget-editable-label.h"
+#include "print-info.h"
 
 /* The locations within the main table in the workbook */
 #define WB_EA_LINE   0
@@ -110,15 +112,12 @@ center_cmd (GtkWidget *widget, Workbook *wb)
 /*
  * change_selection_font
  * @wb:  The workbook to operate on
- * @idx: the index in the X Logical font description to try to replace with
- * @new: list of possible values we want to substitute with.
+ * @bold: -1 to leave unchanged, 0 to clear, 1 to set
+ * @italic: -1 to leave unchanged, 0 to clear, 1 to set
  *
- * Changes the font for the selection for the range: it does this by replacing
- * the idxth component (counting from zero) of the X logical font description
- * with the values listed (in order of preference) in the new array.
  */
 static void
-change_selection_font (Workbook *wb, int idx, char *new[])
+change_selection_font (Workbook *wb, int bold, int italic)
 {
 	Sheet *sheet;
 	GList *cells, *l;
@@ -127,22 +126,21 @@ change_selection_font (Workbook *wb, int idx, char *new[])
 	cells = sheet_selection_to_list (sheet);
 
 	for (l = cells; l; l = l->next){
+		StyleFont *cell_font;
 		Cell *cell = l->data;
-		char *old_name, *new_name;
-		int i;
 		StyleFont *f;
 
-		for (i = 0; new [i]; i++){
-			old_name = cell->style->font->font_name;
-			new_name = font_change_component (old_name, idx, new [i]);
-			f = style_font_new_simple (new_name, cell->style->font->units);
-			g_free (new_name);
+		cell_font = cell->style->font;
+		
+		f = style_font_new (
+			cell_font->font_name,
+			cell_font->size,
+			cell_font->scale,
+			bold == -1 ? cell_font->is_bold : bold,
+			italic == -1 ? cell_font->is_italic : italic);
 
-			if (f){
-				cell_set_font_from_style (cell, f);
-				break;
-			}
-		}
+		if (f)
+			cell_set_font_from_style (cell, f);
 	}
 
 	g_list_free (cells);
@@ -152,26 +150,16 @@ static void
 bold_cmd (GtkWidget *widget, Workbook *wb)
 {
 	GtkToggleButton *t = GTK_TOGGLE_BUTTON (widget);
-	char *bold_names   [] = { "bold", NULL };
-	char *normal_names [] = { "regular", "medium", "light", NULL };
 
-	if (!t->active)
-		change_selection_font (wb, 2, normal_names);
-	else
-		change_selection_font (wb, 2, bold_names);
+	change_selection_font (wb, t->active, -1);
 }
 
 static void
 italic_cmd (GtkWidget *widget, Workbook *wb)
 {
 	GtkToggleButton *t = GTK_TOGGLE_BUTTON (widget);
-	char *italic_names   [] = { "i", "o", NULL };
-	char *normal_names [] = { "r", NULL };
 
-	if (!t->active)
-		change_selection_font (wb, 3, normal_names);
-	else
-		change_selection_font (wb, 3, italic_names);
+	change_selection_font (wb, -1, t->active);
 }
 
 /*
@@ -245,8 +233,10 @@ workbook_do_destroy (Workbook *wb)
 	/* First do all deletions that leave the workbook in a working
 	   order.  */
 
-	/* Erase all cells.  In particular this removes all links between
-	   sheets.  */
+	/*
+	 * Erase all cells.  In particular this removes all links between
+	 * sheets.
+	 */
 	g_hash_table_foreach (wb->sheets, cb_sheet_do_erase, NULL);
 
 	if (wb->auto_expr_tree) {
@@ -362,7 +352,7 @@ cb_sheet_check_dirty (gpointer key, gpointer value, gpointer user_data)
 	int *allow_close = user_data;
 	int button;
 	char *s;
-
+	
 	if (!sheet->modified)
 		return;
 
@@ -410,7 +400,7 @@ cb_sheet_check_dirty (gpointer key, gpointer value, gpointer user_data)
 		*allow_close = CLOSE_DENY;
 		break;
 
-	}
+	} 
 }
 
 static int
@@ -740,6 +730,18 @@ solver_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
+print_setup_cmd (GtkWidget *widget, Workbook *wb)
+{
+	dialog_printer_setup (wb);
+}
+
+static void
+print_cmd (GtkWidget *widget, Workbook *wb)
+{
+	workbook_print (wb);
+}
+
+static void
 about_cmd (GtkWidget *widget, Workbook *wb)
 {
 	dialog_about (wb);
@@ -799,8 +801,15 @@ static GnomeUIInfo workbook_menu_file [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_MENU_CLOSE_ITEM(close_cmd, NULL),
+	GNOMEUIINFO_MENU_PRINT_SETUP_ITEM(print_setup_cmd, NULL),
+	GNOMEUIINFO_MENU_PRINT_ITEM(print_cmd, NULL),
+	
+	GNOMEUIINFO_SEPARATOR,
+	
+	GNOMEUIINFO_MENU_CLOSE_ITEM(close_cmd, NULL), 
 
+	GNOMEUIINFO_SEPARATOR,
+	
 	GNOMEUIINFO_MENU_EXIT_ITEM(quit_cmd, NULL),
 	GNOMEUIINFO_END
 };
@@ -1322,7 +1331,6 @@ workbook_setup_edit_area (Workbook *wb)
 	gtk_signal_connect (GTK_OBJECT (cancel_button), "clicked",
 			    GTK_SIGNAL_FUNC(cancel_input), wb);
 
-
 	gtk_box_pack_start (GTK_BOX (box2), wb->ea_status, 0, 0, 0);
 	gtk_box_pack_start (GTK_BOX (box), ok_button, 0, 0, 0);
 	gtk_box_pack_start (GTK_BOX (box), cancel_button, 0, 0, 0);
@@ -1577,7 +1585,9 @@ workbook_new (void)
 	wb->toplevel  = gnome_app_new ("Gnumeric", "Gnumeric");
 	wb->sheets    = g_hash_table_new (gnumeric_strcase_hash, gnumeric_strcase_equal);
 	wb->table     = gtk_table_new (0, 0, 0);
-
+	
+	wb->print_info = print_info_new ();
+	
 	wb->symbol_names = symbol_table_new ();
 
 	gtk_window_set_policy(GTK_WINDOW(wb->toplevel), 1, 1, 0);
@@ -1654,7 +1664,7 @@ workbook_new (void)
 #endif
 
 	workbook_corba_setup (wb);
-
+	
 	return wb;
 }
 
@@ -1681,24 +1691,41 @@ zoom_out (GtkButton *b, Sheet *sheet)
 }
 
 static void
+zoom_change (GtkAdjustment *adj, Sheet *sheet)
+{
+	sheet_set_zoom_factor (sheet, adj->value);
+}
+
+static void
 buttons (Sheet *sheet, GtkTable *table)
 {
 	GtkWidget *b;
 
-	b = gtk_button_new_with_label (_("Zoom out"));
-	GTK_WIDGET_UNSET_FLAGS (b, GTK_CAN_FOCUS);
-	gtk_table_attach (table, b,
-			  0, 1, 1, 2, 0, 0, 0, 0);
-	gtk_signal_connect (GTK_OBJECT (b), "clicked",
-			    GTK_SIGNAL_FUNC (zoom_out), sheet);
-
-	b = gtk_button_new_with_label (_("Zoom in"));
-	GTK_WIDGET_UNSET_FLAGS (b, GTK_CAN_FOCUS);
-	gtk_table_attach (table, b,
-			  1, 2, 1, 2, 0, 0, 0, 0);
-	gtk_signal_connect (GTK_OBJECT (b), "clicked",
-			    GTK_SIGNAL_FUNC (zoom_in), sheet);
-
+	if (0){
+		b = gtk_button_new_with_label (_("Zoom out"));
+		GTK_WIDGET_UNSET_FLAGS (b, GTK_CAN_FOCUS);	
+		gtk_table_attach (table, b,
+				  0, 1, 1, 2, 0, 0, 0, 0);
+		gtk_signal_connect (GTK_OBJECT (b), "clicked",
+				    GTK_SIGNAL_FUNC (zoom_out), sheet);
+		
+		b = gtk_button_new_with_label (_("Zoom in"));
+		GTK_WIDGET_UNSET_FLAGS (b, GTK_CAN_FOCUS);	
+		gtk_table_attach (table, b,
+				  1, 2, 1, 2, 0, 0, 0, 0);
+		gtk_signal_connect (GTK_OBJECT (b), "clicked",
+				    GTK_SIGNAL_FUNC (zoom_in), sheet);
+	} else {
+		static GtkAdjustment *adj;
+		GtkWidget *sc;
+		
+		adj = GTK_ADJUSTMENT (gtk_adjustment_new (1.0, 0.5, 10.0, 0.1, 0.5, 0.5));
+		sc = gtk_hscrollbar_new (adj);
+		gtk_widget_show (sc);
+		gtk_table_attach (table, sc,
+				  0, 2, 1, 2, GTK_FILL|GTK_EXPAND, 0, 0, 0);
+		gtk_signal_connect (GTK_OBJECT (adj), "value_changed", zoom_change, sheet);
+	}
 }
 
 /**
@@ -1875,10 +1902,10 @@ sheet_label_button_press (GtkWidget *widget, GdkEventButton *event, GtkWidget *c
 	sheet = gtk_object_get_data (GTK_OBJECT (child), "sheet");
 	g_return_val_if_fail (sheet != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
-
+	
 	notebook = child->parent;
 	page_number = gtk_notebook_page_num (GTK_NOTEBOOK (notebook), child);
-
+	
 	if (event->button == 1){
 		gtk_notebook_set_page (GTK_NOTEBOOK (notebook), page_number);
 		return TRUE;
@@ -2344,10 +2371,10 @@ workbook_sheets (Workbook *wb)
 		w = gtk_notebook_get_nth_page (notebook, i);
 		this_sheet = gtk_object_get_data (GTK_OBJECT (w), "sheet");
 
-		list = g_list_append (list, this_sheet);
+		list = g_list_prepend (list, this_sheet);
 	}
 
-	return list;
+	return g_list_reverse (list);
 }
 
 typedef struct {

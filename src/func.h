@@ -111,9 +111,9 @@ typedef struct {
         gboolean afun_flag;
 } stat_closure_t;
 
-TokenizedHelp *tokenized_help_new     (FunctionDefinition *fd) ;
-const char    *tokenized_help_find    (TokenizedHelp *tok, const char *token) ;
-void           tokenized_help_destroy (TokenizedHelp *tok) ;
+TokenizedHelp *tokenized_help_new     (FunctionDefinition *fd);
+const char    *tokenized_help_find    (TokenizedHelp *tok, const char *token);
+void           tokenized_help_destroy (TokenizedHelp *tok);
 
 float_t combin (int n, int k);
 float_t fact   (int n);

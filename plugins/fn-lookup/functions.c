@@ -36,6 +36,7 @@ static char *help_address = {
 	   "\n"
 	   "If @row_num or @col_num is less than one, ADDRESS returns #NUM! "
 	   "error. "
+	   "\n"
 	   "@SEEALSO=")
 };
 
@@ -70,7 +71,7 @@ gnumeric_address (FunctionEvalInfo *ei, Value **args)
 	        text[0] = '\0';
 	} else {
 	        gchar *p = args[4]->v.str->str;
-		int   n=0, space=0;
+		int   space = 0;
 
 		text = g_new(gchar, strlen(p) + 3);
 		while (*p)

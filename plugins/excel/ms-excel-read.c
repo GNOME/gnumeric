@@ -349,7 +349,6 @@ ms_biff_bof_data_destroy (BIFF_BOF_DATA * data)
 static void
 biff_boundsheet_data_new (MS_EXCEL_WORKBOOK *wb, BIFF_QUERY * q, eBiff_version ver)
 {
-	MS_EXCEL_SHEET *sheet ;
 	BIFF_BOUNDSHEET_DATA *ans = g_new (BIFF_BOUNDSHEET_DATA, 1) ;
 
 	if (ver != eBiffV5 &&	/*
@@ -425,6 +424,7 @@ biff_boundsheet_data_destroy (gpointer key, BIFF_BOUNDSHEET_DATA *d, gpointer us
 	return 1 ;
 }
 
+#if 0
 /**
  * Ug! FIXME
  **/
@@ -448,6 +448,7 @@ biff_nasty_font_check_function (char *name1, char *name2, int ptsize)
 		return name2 ;
 	}
 }
+#endif
 
 static StyleFont*
 biff_font_data_get_style_font (BIFF_FONT_DATA *fd)
@@ -463,9 +464,11 @@ biff_font_data_get_style_font (BIFF_FONT_DATA *fd)
 #if EXCEL_DEBUG > 0
 		printf ("Curious no font name on %d\n", fd->index);
 #endif
-		return style_font_new (gnumeric_default_font->font_name, ptsize);
+		style_font_ref (gnumeric_default_font);
+		return gnumeric_default_font;
 	}
-	
+
+#if 0
 	/*
 	 * FIXME: instead of just copying the windows font into the cell, we 
 	 * should implement a font name mapping mechanism.
@@ -498,16 +501,16 @@ biff_font_data_get_style_font (BIFF_FONT_DATA *fd)
 		fname2 = g_strdup (fname1) ;
 	fname1 = biff_nasty_font_check_function (fname2, fname1, ptsize) ;
 	/* What about underlining? */
-	
-	ans = style_font_new (fname1, ptsize) ;
+#else
+	g_error ("Review the font loading code here, I have changed it, so\n"
+		 "you should update those X hacks to not use X11 font names, but\n"
+		 "gnome-print font-names.");
+#endif
+        g_warning ("Review this font size, I used a pretty much rough guess");
+	ans = style_font_new (fname1, fd->height / 2, 1.0, fd->boldness >= 0x2bc, fd->italic);
+
 	g_free (fname1) ;
 	
-	if (fd->italic)
-		ans->hint_is_italic = 1 ;
-
-	if (fd->boldness >= 0x2bc)
-		ans->hint_is_bold = 1 ;
-
 	return ans ;
 }
 
@@ -1009,7 +1012,6 @@ static StyleColor *
 ms_excel_set_cell_font (MS_EXCEL_SHEET * sheet, Cell * cell, BIFF_XF_DATA * xf)
 {
 	BIFF_FONT_DATA *fd = g_hash_table_lookup (sheet->wb->font_data, &xf->font_idx);
-	StyleColor *col;
 
 	if (!fd) {
 		printf ("Unknown font idx %d\n", xf->font_idx);

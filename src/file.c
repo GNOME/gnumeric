@@ -364,7 +364,7 @@ workbook_save (Workbook *wb)
 
 	/* Files are expected to be in standard C format.  */
 	oldlocale = g_strdup (setlocale (LC_NUMERIC, "C"));
-	gnumericWriteXmlWorkbook (wb, wb->filename);
+	gnumeric_xml_write_workbook (wb, wb->filename);
 
 	setlocale (LC_NUMERIC, oldlocale);
 	g_free (oldlocale);

@@ -130,6 +130,14 @@ AM_PATH_BONOBO(0.1.0, [
 ])
 AM_CONDITIONAL(BONOBO, $have_bonobo)
 
+dnl ******************************
+dnl GnomePrint checking
+dnl ******************************
+GNOME_PRINT_LIBS=`gnome-config --libs print`
+GNOME_PRINT_CFLAGS=`gnome-config --libs cflags`
+AC_SUBST(GNOME_PRINT_LIBS)
+AC_SUBST(GNOME_PRINT_CFLAGS)
+
 dnl ******************************************
 dnl LibGlade tests:
 dnl    These duplicate the things 
@@ -152,6 +160,7 @@ AC_SUBST(XML_CFLAGS)
 AC_OUTPUT([
 gnumeric.spec
 Makefile
+icons/Makefile
 src/Makefile
 wizards/Makefile
 wizards/graphics/Makefile

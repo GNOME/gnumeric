@@ -2,7 +2,7 @@
  * cell.c: Cell management of the Gnumeric spreadsheet.
  *
  * Author:
- *    Miguel de Icaza 1998 (miguel@kernel.org)
+ *    Miguel de Icaza 1998, 1999 (miguel@kernel.org)
  */
 #include <config.h>
 #include <gnome.h>
@@ -154,11 +154,18 @@ void
 cell_set_font (Cell *cell, const char *font_name)
 {
 	StyleFont *style_font;
-
+	Sheet *sheet;
+	
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (font_name != NULL);
 
-	style_font = style_font_new (font_name, 1);
+	sheet = cell->sheet;
+	style_font = style_font_new (
+		font_name,
+		cell->style->font->size,
+		sheet->last_zoom_factor_used,
+		cell->style->font->is_bold,
+		cell->style->font->is_italic);
 
 	if (style_font)
 		cell_set_font_from_style (cell, style_font);
@@ -204,7 +211,7 @@ cell_comment_destroy (Cell *cell)
 		gtk_object_unref (GTK_OBJECT (comment->window));
 
 	for (l = comment->realized_list; l; l = l->next)
-		gtk_object_unref (l->data);
+		gtk_object_destroy (l->data);
 	g_list_free (comment->realized_list);
 
 	g_free (comment);
@@ -1055,7 +1062,7 @@ cell_get_horizontal_align (const Cell *cell)
 		return cell->style->halign;
 }
 
-static inline int
+int
 cell_is_number (const Cell *cell)
 {
 	if (cell->value)
@@ -1242,12 +1249,13 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 void
 calc_text_dimensions (int is_number, Style *style, const char *text, int cell_w, int cell_h, int *h, int *w)
 {
-	GdkFont *font = style->font->font;
+	StyleFont *style_font = style->font;
+	GnomeFont *gnome_font = style_font->dfont->gnome_font;
 	int text_width, font_height;
-
-	text_width = gdk_string_width (font, text);
-	font_height = font->ascent + font->descent;
-
+	
+	text_width = gnome_font_get_width_string (gnome_font, text);
+	font_height = style_font_get_height (style_font);
+	
 	if (text_width < cell_w || is_number){
 		*w = text_width;
 		*h = font_height;
@@ -1271,15 +1279,18 @@ calc_text_dimensions (int is_number, Style *style, const char *text, int cell_w,
 
 			if (last_was_cut_point && *p != ' ')
 				ideal_cut_spot = p;
-
-			len = gdk_text_width (font, p, 1);
+			
+			len = gnome_font_get_width (gnome_font, *p);
 
 			/* If we have overflowed the cell, wrap */
 			if (used + len > cell_w){
 				if (ideal_cut_spot){
 					int n = p - ideal_cut_spot;
+					char *copy = alloca (n + 1);
 
-					used = gdk_text_width (font, ideal_cut_spot, n);
+					strncpy (copy, ideal_cut_spot, n);
+					copy [n] = 0;
+					used = gnome_font_get_width_string (gnome_font, copy);
 				} else {
 					used = len;
 				}
@@ -1339,312 +1350,6 @@ cell_calc_dimensions (Cell *cell)
 	cell_get_span (cell, &left, &right);
 	if (left != right)
 		cell_register_span (cell, left, right);
-}
-
-static void
-draw_overflow (GdkDrawable *drawable, GdkGC *gc, GdkFont *font, int x1, int y1, int text_base, int width, int height)
-{
-	GdkRectangle rect;
-	int len = gdk_string_width (font, "#");
-	int total, offset;
-
-	rect.x = x1;
-	rect.y = y1;
-	rect.width = width;
-	rect.height = height;
-	gdk_gc_set_clip_rectangle (gc, &rect);
-
-	offset = x1 + width - len;
-	for (total = len;  offset > len; total += len){
-		gdk_draw_text (drawable, font, gc, x1 + offset, text_base, "#", 1);
-		offset -= len;
-	}
-}
-
-static GList *
-cell_split_text (GdkFont *font, const char *text, int width)
-{
-	GList *list;
-	const char *p, *line_begin, *ideal_cut_spot = NULL;
-	int  line_len, used, last_was_cut_point;
-
-	list = NULL;
-	used = 0;
-	last_was_cut_point = FALSE;
-	for (line_begin = p = text; *p; p++){
-		int len;
-
-		if (last_was_cut_point && *p != ' ')
-			ideal_cut_spot = p;
-
-		len = gdk_text_width (font, p, 1);
-
-		/* If we have overflowed, do the wrap */
-		if (used + len > width){
-			const char *begin = line_begin;
-			char *line;
-
-			if (ideal_cut_spot){
-				int n = p - ideal_cut_spot + 1;
-
-				line_len = ideal_cut_spot - line_begin;
-				used = gdk_text_width (font, ideal_cut_spot, n);
-				line_begin = ideal_cut_spot;
-			} else {
-				used = len;
-				line_len = p - line_begin;
-				line_begin = p;
-			}
-
-			line = g_malloc (line_len + 1);
-			memcpy (line, begin, line_len);
-			line [line_len] = 0;
-			list = g_list_append (list, line);
-
-			ideal_cut_spot = NULL;
-		} else
-			used += len;
-
-		if (*p == ' ')
-			last_was_cut_point = TRUE;
-		else
-			last_was_cut_point = FALSE;
-	}
-	if (*line_begin){
-		char *line;
-		line_len = p - line_begin;
-		line = g_malloc (line_len+1);
-		memcpy (line, line_begin, line_len);
-		line [line_len] = 0;
-		list = g_list_append (list, line);
-	}
-
-	return list;
-}
-
-/*
- * str_trim_spaces:
- * s: the string to modify
- *
- * This routine trims the leading and trailing spaces of the
- * string.  The string is possibly modified and the returned
- * value lies inside the original string.
- *
- * No duplication takes place
- */
-static char *
-str_trim_spaces (char *s)
-{
-	char *p;
-
-	while (*s && *s == ' ')
-		s++;
-
-	p = s + strlen (s);
-	while (p >= s){
-		if (*p == ' ')
-			*p = 0;
-		else
-			break;
-		p--;
-	}
-	return s;
-}
-
-/*
- * Returns the number of columns used for the draw
- */
-int
-cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, int x1, int y1)
-{
-	Style        *style = cell->style;
-	GdkFont      *font = style->font->font;
-	/* GdkGC        *white_gc = GTK_WIDGET (sheet_view->sheet_view)->style->white_gc; */
-	GdkRectangle rect;
-
-	int start_col, end_col;
-	int width, height;
-	int text_base = y1 + cell->row->pixels - cell->row->margin_b - font->descent;
-	int font_height;
-	int halign;
-	int do_multi_line;
-	char *text;
-
-	cell_get_span (cell, &start_col, &end_col);
-
-	width  = COL_INTERNAL_WIDTH (cell->col);
-	height = ROW_INTERNAL_HEIGHT (cell->row);
-
-	font_height = font->ascent + font->descent;
-
-	halign = cell_get_horizontal_align (cell);
-
-	/* if a number overflows, do special drawing */
-	if (width < cell->width && cell_is_number (cell)){
-		draw_overflow (drawable, gc, font, x1 + cell->col->margin_a, y1, text_base,
-			       width, height);
-		return 1;
-	}
-
-	if (halign == HALIGN_JUSTIFY || style->valign == VALIGN_JUSTIFY || style->fit_in_cell)
-		do_multi_line = TRUE;
-	else
-		do_multi_line = FALSE;
-
-	text = cell->text->str;
-
-	if (do_multi_line){
-		GList *lines, *l;
-		int cell_pixel_height = ROW_INTERNAL_HEIGHT (cell->row);
-		int line_count, x_offset, y_offset, inter_space;
-
-		lines = cell_split_text (font, text, width);
-		line_count = g_list_length (lines);
-
-		rect.x = x1;
-		rect.y = y1;
-		rect.height = cell->row->pixels + 1;
-		rect.width = cell->col->pixels  + 1;
-		gdk_gc_set_clip_rectangle (gc, &rect);
-
-		switch (style->valign){
-		case VALIGN_TOP:
-			y_offset = 0;
-			inter_space = font_height;
-			break;
-
-		case VALIGN_CENTER:
-			y_offset = (cell_pixel_height - (line_count * font_height))/2;
-			inter_space = font_height;
-			break;
-
-		case VALIGN_JUSTIFY:
-			if (line_count > 1){
-				y_offset = 0;
-				inter_space = font_height +
-					(cell_pixel_height - (line_count * font_height))
-					/ (line_count-1);
-				break;
-			}
-			/* Else, we become a VALIGN_BOTTOM line */
-
-		case VALIGN_BOTTOM:
-			y_offset = cell_pixel_height - (line_count * font_height);
-			inter_space = font_height;
-			break;
-
-		default:
-			g_warning ("Unhandled cell vertical alignment\n");
-			y_offset = 0;
-			inter_space = font_height;
-		}
-
-		y_offset += font_height - 1;
-		for (l = lines; l; l = l->next){
-			char *str = l->data;
-
-			str = str_trim_spaces (str);
-
-			switch (halign){
-			case HALIGN_LEFT:
-			case HALIGN_JUSTIFY:
-				x_offset = cell->col->margin_a;
-				break;
-
-			case HALIGN_RIGHT:
-				x_offset = cell->col->pixels - cell->col->margin_b -
-					gdk_string_width (font, str);
-				break;
-
-			case HALIGN_CENTER:
-				x_offset = (cell->col->pixels - gdk_string_width (font, str)) / 2;
-				break;
-			default:
-				g_warning ("Multi-line justification style not supported\n");
-				x_offset = cell->col->margin_a;
-			}
-			/* Advance one pixel for the border */
-			x_offset++;
-			gc = GTK_WIDGET (sheet_view->sheet_view)->style->black_gc;
-			gdk_draw_text (drawable, font, gc, x1 + x_offset, y1 + y_offset, str, strlen (str));
-			y_offset += inter_space;
-
-			g_free (l->data);
-		}
-		g_list_free (lines);
-
-	} else {
-		int x, diff, total, len;
-
-		/*
-		 * x1, y1 are relative to this cell origin, but the cell might be using
-		 * columns to the left (if it is set to right justify or center justify)
-		 * compute the pixel difference
-		 */
-		if (start_col != cell->col->pos)
-			diff = -sheet_col_get_distance (cell->sheet, start_col, cell->col->pos);
-		else
-			diff = 0;
-
-		/* This rectangle has the whole area used by this cell */
-		rect.x = x1 + 1 + diff;
-		rect.y = y1 + 1;
-		rect.width  = sheet_col_get_distance (cell->sheet, start_col, end_col+1) - 1;
-		rect.height = cell->row->pixels - 1;
-
-		/* Set the clip rectangle */
-		gdk_gc_set_clip_rectangle (gc, &rect);
-
-		/*
-		 * In order to draw the background of the cell, we need to change the
-		 * gc's drawing color before calling the gdk_draw_rectangle function
-		 */
-		gdk_gc_set_foreground (gc, &(style->back_color->color));
-		gdk_draw_rectangle (drawable, gc, TRUE,
-				    rect.x, rect.y, rect.width, rect.height);
-
-		/*
-		 * And now reset the previous foreground color
-		 */
-		if (cell->render_color)
-			gdk_gc_set_foreground (gc, &cell->render_color->color);
-		else
-			gdk_gc_set_foreground (gc, &(style->fore_color->color));
-
-		len = 0;
-		switch (halign){
-		case HALIGN_FILL:
-			printf ("FILL!\n");
-			len = gdk_string_width (font, text);
-			/* fall down */
-
-		case HALIGN_LEFT:
-			x = cell->col->margin_a;
-			break;
-
-		case HALIGN_RIGHT:
-			x = cell->col->pixels - cell->col->margin_b - cell->width;
-			break;
-
-		case HALIGN_CENTER:
-			x = (cell->col->pixels - cell->width)/2;
-			break;
-
-		default:
-			g_warning ("Single-line justification style not supported\n");
-			x = cell->col->margin_a;
-			break;
-		}
-
-		total = 0;
-		do {
-			gdk_draw_text (drawable, font, gc, 1 + x1 + x, text_base, text, strlen (text));
-			x1 += len;
-			total += len;
-		} while (halign == HALIGN_FILL && total < rect.width);
-	}
-
-	return end_col - start_col + 1;
 }
 
 /**

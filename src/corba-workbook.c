@@ -39,7 +39,6 @@ corba_sheet (Sheet *sheet, CORBA_Environment *ev)
 static GNOME_Gnumeric_Sheet
 Workbook_sheet_new (PortableServer_Servant servant, const CORBA_char * name, CORBA_Environment * ev)
 {
-	GNOME_Gnumeric_Sheet ggs;
         Workbook *workbook = workbook_from_servant (servant);
 	Sheet *sheet;
 
@@ -81,7 +80,7 @@ Workbook_save_to (PortableServer_Servant servant, const CORBA_char * filename, C
 {
         Workbook *workbook = workbook_from_servant (servant);
 
-	gnumericWriteXmlWorkbook (workbook, filename);
+	gnumeric_xml_write_workbook (workbook, filename);
 }
 
 static GNOME_Gnumeric_Sheet

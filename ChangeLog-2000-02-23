@@ -1,3 +1,218 @@
+1999-06-26  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/pixmaps.h: Removed unused pixmaps.
+
+	* src/corba-sheet.c (Sheet_corba_class_init): Fill in some missing
+	values fomr the GNOME::Gnumeric::Sheet epv interface.
+
+	* src/expr.c (eval_funcall): Removed unused variable.
+
+	* src/workbook.c (workbook_sheets): prepend and reverse instead of
+	appending all the time.  It is more efficient.
+
+	* src/style.c (x11_font_compute_hints): Renamed as well.  Might be
+	useful in the future.
+
+	* src/gnumeric-util.c (x11_font_get_italic_name,
+	x11_font_get_bold_name, x11_font_change_component): Renamed these
+	functions to reflect their actual usage.
+
+	* src/expr.c (expr_tree_new_constant): Change style to use early
+	return to keep indentation of the rest of the code at tab-1.  This
+	is a trick to keep indentation nice with 8-tab spaces.  Liberal
+	use of early returns, early continues, early breaks.
+
+	* src/cell.h (CELL_TEXT_GET): Kill unused macro.
+
+1999-06-25  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/xml-io.c (xml_read_cell): Merge the style we just read with
+	the existing information from the cell (which are the defaults).
+	This is only for compatibility with the old format
+
+1999-06-24  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/xml-io.c (style_font_new_from_x11): Implemented 
+
+	* src/style.c (style_font_new): Improved matching of the font.
+
+	* src/xml-io.c 	(xml_write_style): Save Bold and Italic
+	properties.  Save Units as double.
+	(xml_read_style): Add conversion hook from old format.
+	(xml_read_style): Load properly italic and bold properties.
+
+	(xml_read_cell): Add new style reading code.  It is
+	compatible with the old Style reading code.
+	(xml_read_rows_info, xml_read_cols_info, xml_read_styles): Moved
+	Cols, Rows and Styles loading code here, for code clarity.
+	
+	* src/style.c (style_font_new_simple): Include the scale in the
+	key lookup variable.
+
+	* src/xml-io.c: The FontDefs and the HREFs to the fonts were never
+	being used.  The new code for styles simplifies this.  Kill all
+	the references to the FontDefs urls and the font indeces.
+
+	* src/xml-io.c 
+
+1999-06-23  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/xml-io.c: Major updates.  
+	(xml_read_colrow_info): Use floating point for loading the
+	units, margin_a and margin_b.
+	(xml_write_colrow_info): Save units, margin_a and margin_b using
+	floating point.
+	(xml_set_value_double): Activate this function.
+	(xml_write_cell): Do not save the style here.  Lookup the style
+	id, and write a record with the style id link.
+	(xml_sheet_write): Add call to xml_cell_styles_init and
+	xml_cell_styles_shutdown to init and shutdown the cell styles in a
+	per-sheet basis.
+
+	Renamed functions to suit the gnumeric coding
+	sytle.  Fixed indentation.
+
+	File format now saves a different version.  We store all cell
+	styles first, and then we reference them.
+	
+	(parse_xml_context_t): renamed from
+	parseXmlContext.  Add style_table hash table for storing all the
+	styles used by the cells on a workbook.  Used to dump Styles first
+	and then have the cells reference it.
+
+	* src/style.c (style_hash, style_compare): New routines to
+	put Styles on hash tables.
+
+	* src/workbook.c (workbook_sheets): Use g_list_prepend instead of
+	g_list_append and reverse the result.
+
+1999-06-14  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/cell.h: Killed ColType and RowType definitions.  They do not
+	save any noticeable amount of memory; we are not using them but
+	on the most useless places and finally they are the current limit
+	to our spreadsheet size.
+
+	* src/gnumeric-sheet.h: Use int instead of ColType, RowType
+	* src/item-cursor.h: Use int instead of ColType, RowType
+	* src/item-grid.h: Use int instead of ColType, RowType
+
+	* src/print-cell.c (CELL_DIM): Use _pt variants of the margins here.
+	(print_cell_text): and here.
+	(print_cell): and here.
+	(print_cell_range): and here.
+	(print_cell_grid): and here.
+
+1999-06-13  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/sheet.c (sheet_compute_col_row_new_size): Update margin_a
+	and margin_b from the points.
+	(col_row_info_init): New function to initialize a sample
+	ColRowInfo.  Inits the _pt fields.
+	(col_row_unit_distance): Use the new fields in computation.
+	(sheet_col_get_unit_distance): Use new fields in computation.
+
+	* src/dialog-printer-setup.c (do_setup_margin): Set scroll region.
+	(preview_page_create): Implement routine that draws the page for
+	the margin setup. 
+
+	* src/sheet.h (ColRowInfo): Units are now doubles; margin_a_pt and
+	margin_b_pt are doubles that represent the a and b margins in
+	points.
+	
+	* src/sheet.c (sheet_compute_col_row_new_size): Use the 
+
+1999-06-11  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/cell-draw.c (cell_draw): Move the foreground setting routine
+	here and handle single-line and multiline coloring properly.
+
+	* src/print-info.c (unit_name_to_unit): New routine, returns the
+	UniName from the string name.
+
+	* src/dialog-printer-setup.c (dialog_printer_setup): Use
+	print_info_save and kill the do_save_settings routine for the
+	cleaner print_info routine.
+
+	* src/print-info.c (print_info_new): Now loads the default
+	settings from the saved configuration.
+	(print_info_save): Saves the print information to the gnome_config.
+
+1999-06-08  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/utils.c (str_trim_spaces): Moved str_trim_spaces ere. 
+
+	* src/dialog-printer-setup.c (do_setup_main_dialog): Connect print
+	buttons. 
+
+	* src/print-cell.c (print_cell_grid): Simplify routine.
+
+	* src/sheet.c (sheet_row_get_unit_distance,
+	sheet_col_get_unit_distance): Include  margins in computation.
+	This is broken, as the margins are now pixels, and they should be
+	made points. 
+
+	* src/dialog-printer-setup.c (do_fetch_page_info): Fetch other values.
+	(do_save_settings): Saves the configuration.
+
+	* src/print-cell.c (print_border): Implement border drawing.
+	(print_cell_grid): Make this work as it should.
+
+	* src/print.c (compute_groups): Handle the case where the contents
+	fit entirely in one page. 
+
+1999-06-07  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/print.c: New file.  Implements high-level printing.
+
+	* src/dialog-printer-setup.c: New file.  Implements the "Print
+	Setup" dialog box.
+
+1999-04-30  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/cell-draw.c: New file.  All of the cell screen drawing code
+	has been moved here now. 
+
+	* src/print-cell.c: Enhanced code.
+
+	* src/workbook.c: hardcoded page size for testing purposes.
+
+1999-03-10  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	I do not like the current approach.  I do think that StyleFonts
+	should be static with regard to Zoom.  
+
+	And we would keep a cache of X fonts that are used for a
+	particular size. 
+	
+	* src/style.c (style_font_new_from): New routine that creates a
+	new font.
+
+	* src/sheet.c (sheet_set_zoom_factor): Scale fonts used in the
+	Sheet.
+
+1999-02-15  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/dialog-printer-setup.c: New file.  Implements the workbook
+	page configuration dialog box.
+
+	* src/print-info.c, src/print-info.h: Manages the per-worbook
+	print options. 
+
+1999-02-07  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/style.c (font_equal): Adapt function to the new StyleFont. 
+	(style_font_new, style_font_new_simple): Adapt for the upcoming
+	gnome-print support. 
+	(font_init): Adapt.
+
+	* src/xml-io.c: Use Gnome Print font scheme.
+	* src/workbook.c: ditto.
+	* src/cell.c: ditto.
+	* src/item-bar.c, src/item-edit.c: ditto
+	
+	* src/dialog-cell-format.c: Disable font selector for now.
+	
 1999-06-26  Morten Welinder  <terra@diku.dk>
 
 	* src/fn-financial.c (gnumeric_rate): New function.
@@ -1479,6 +1694,4432 @@
 	* src/dialog-zoom.c (dialog_zoom): Handle window manager close
 	here (it comes in the form of return value being NULL).
 
+	* src/dialog-insert-cells.c (dialog_insert_cells): ditto.
+
+	* src/dialog-delete-cells.c (dialog_delete_cells): ditto.
+
+1999-05-24  Morten Welinder  <terra@diku.dk>
+
+	* src/workbook.c (workbook_fixup_references): Set formula
+ 	directly, not via text strings.  (This actually fixes a bug with
+ 	insertion of columns/rows where we modify the cells before we
+ 	restructure the sheet.)  It's much faster and cleaner too.
+	(workbook_invalidate_references): Ditto.
+
+1999-05-23  Morten Welinder  <terra@diku.dk>
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_cursor_set): Make the
+ 	scroll bar reflect the top-left corner's position.  This feels
+ 	more natural.
+	(gnumeric_sheet_set_top_col): Compute visible ranges; do nothing
+ 	until things change.
+	(gnumeric_sheet_set_top_row): Ditto.
+
+	* src/dialog-goal-seek.c (gnumeric_goal_seek): Use
+ 	goal_seek_initialise.
+	(gnumeric_goal_seek): Trawl heavier and earlier in the middle.
+	(dialog_goal_seek): downcase a stray uppercase letter.
+
+	* src/goal-seek.c (goal_seek_initialise): New function.
+
+1999-05-23  Morten Welinder  <terra@diku.dk>
+
+	* src/dialog-goal-seek.c: redesign non-gui part.
+	(dialog_goal_seek): Added entries for xmin and xmax.
+
+	* src/goal-seek.h: New file.
+
+	* src/goal-seek.c: New file.
+
+	* src/Makefile.am (GNUMERIC_BASE_SOURCES): Add goal-seek.c and
+ 	goal-seek.h.
+
+1999-05-22  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-financial.c (gnumeric_pv): Revert last chance.  (Bogosity
+ 	is in me.)
+
+1999-05-22  Morten Welinder  <terra@diku.dk>
+
+	* src/sheet.c (sheet_selection_to_string): Delete unused variable
+ 	"assembler".
+
+	* src/sheet-view.c (horizontal_scroll_event): Delete unused
+ 	variable "distance".
+	(vertical_scroll_event): Delete unused variable "distance".
+
+	* src/sheet-object.c (control_point_handle_event): Delete unused
+ 	variables "ll" and "object_item".
+
+	* src/widget-editable-label.c (editable_label_set_text): Delete
+ 	unused variable "item_text".
+
+	* src/fn-string.c (gnumeric_replace): Delete unused variable "p".
+
+	* src/fn-eng.c (get_real_and_imaginary): Delete unused variables
+ 	"i" and "buf".
+
+	* src/sheet-object-graphic.c (sheet_object_filled_update): Delete
+ 	unused variables "x1", "x2", "y1", and "y2".
+
+	* src/fn-stat.c (gnumeric_harmean): Delete unused variable "ans".
+	(gnumeric_geomean): Delete unused variable "ans".
+	(gnumeric_avedev): Delete unused variable "ans".
+	(gnumeric_large): Delete unused variable "count".
+	(gnumeric_small): Delete unused variable "count".
+
+	* src/parser.y (make_string_return): Delete unused variable "type".
+
+	* src/workbook.c (cb_sheet_check_dirty): Delete unused variable
+ 	"f".
+	(workbook_focus_sheet): Delete unused variable "sheet_view".
+	(workbook_selection_to_string): Delete unused variable "str".
+
+	* src/fn-date.c (gnumeric_datevalue): Delete unused variables
+ 	"year", "month", and "day".
+	(gnumeric_edate): Delete unused variables "year", "month", and
+ 	"day".
+
+	* src/dialog-cell-format.c (apply_coloring_format): Delete unused
+ 	variable "cl".
+
+	* src/dialog-solver.c: Delete unused variable "paste_types".
+
+	* src/xml-io.c (xmlGetFloatValue): Delete unused variable "child".
+	(xmlGetDoubleValue): Delete unused variable "child".
+	(xmlGetCoordinate): Delete unused variable "child".
+	(xmlGetGnomeCanvasPoints): Delete unused variable "child".
+	(xmlGetColorValue): Delete unused variable "child".
+	(xmlGetCoordinates): Delete unused variable "child".
+ 	(xmlGetCoordinates): Delete unused variables "X1", "Y1", "X2", and
+ 	"Y2".
+
+	* src/sheet-object-graphic.c (sheet_object_graphic_update): Delete
+ 	unused variable "sog".
+
+	* src/cell.c (cell_set_value_simple): Delete unused variable "lconv".
+	(cell_set_text_simple): Delete unused variable "lconv".
+	(cell_draw): Delete unused variable "white_gc".
+	(cell_get_text): Delete unused variable "sheet".
+
+	* src/ranges.c (range_list_parse): Delete unused variable "range".
+	(range_set_style): Delete unused variables "col" and "row".
+
+	* src/dialog-solver.c (dialog_solver_options): Delete unused
+ 	variable "button".
+
+	* src/eval.c (search_cell_deps): Delete unused variables "inters"
+ 	and "nointers".
+
+	* src/dialog-cell-sort.c (dialog_cell_sort): Delete unused
+ 	variable "txt".
+
+	* src/fn-database.c (find_cells_that_match): Delete unused
+ 	variable "new_item".
+
+	* src/func.c (function_iterate_do_value): Delete unused variable
+ 	"list".
+
+	* src/fn-lookup.c (gnumeric_lookup): Delete unused variables "v1"
+ 	and "ans".
+	(lookup_functions): Use correct help variable
+ 	for "columns".
+
+	* src/dialog-function-select.c (function_select_create): Delete
+ 	unused variable "hadj".
+
+	* src/main.c (gnumeric_main): Delete unused variable.
+
+	* src/dialog-function-wizard.c (function_type_input): Remove
+ 	unused variable.
+	(get_text_value): Ditto.
+	(arg_data_list_destroy): Comment out -- not used.
+
+	* src/fn-financial.c (gnumeric_pv): Fix sign error.  Something is
+ 	entirely bogus in this file.
+
+	* src/ranges.h: Fix includes.
+
+	* src/pattern-selector.h (PATTERN_SELECTOR_CLASS): Bogosity fixed;
+ 	macro not used, though.
+
+	* src/workbook.c (sheet_action_delete_sheet): Grammar fix.
+
+	* src/sheet.c (sheet_verify_selection_simple): Grammar fix.
+
+	* src/file.c (file_priority_sort): Constify.
+	(file_format_register_open): Make description parameter const.
+	(file_format_register_save): Ditto.
+	(file_format_unregister_open): Plug leak.
+	(file_format_unregister_save): Ditto.
+	(workbook_save_as): Grammar fix.
+
+	* src/about.c (dialog_about): Fix URL.
+
+1999-05-22  Morten Welinder  <terra@diku.dk>
+
+	* src/sheet.c (sheet_set_text): Use General format for all numbers
+ 	in standard format.  (In particular, don't create a sticky "0" format
+	whenever an integer is entered.)
+
+	* src/format.c (format_number): Constify.
+	(append_minute): Ditto.
+	(append_day): Ditto.
+	(append_hour): Ditto.
+	(append_month): Ditto.
+	(append_year): Ditto.
+	(append_second): Ditto.
+	(check_valid): Ditto.
+	(append_half): Ditto.
+	(lookup_color): Ditto.
+	(render_number): Ditto.
+	(format_value): Ditto.
+
+	* src/expr.c (do_expr_decode_tree): Handle negative numbers, just
+ 	in case.
+
+1999-05-21  Morten Welinder  <terra@diku.dk>
+
+	* src/sheet-autofill.c (autofill_cell): Add FIXME.
+
+	* src/sheet.h (IS_SHEET): Remove cast.
+
+	* src/expr.h: Delete expr_tree_relocate.
+
+	* src/expr.c (fixup_calc_new_cellref): New function.
+	(do_expr_tree_fixup_references): Simplify using
+ 	fixup_calc_new_cellref.
+	(do_expr_tree_relocate): Delete.
+	(expr_tree_relocate): Delete.
+
+	* src/sheet.c (sheet_cell_formula_link): Add debug code.
+	(sheet_insert_col, sheet_delete_col, sheet_insert_row,
+ 	sheet_delete_row): Do fixups early.
+
+	* src/cell.c (cell_relocate): Don't relocate cell -- fixup handles
+ 	all that is needed.
+
+	* src/color.c (gs_white, gs_black, gs_light_gray, gs_dark_gray,
+ 	gs_red): Moved from src/gnumeric-sheet.c.
+	(gnumeric_color_context): make static.
+
+1999-05-21  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-stat.c: PERCENTRANK() added.
+
+	* src/func.[ch]: function_iterate_do_value made public.
+
+1999-05-21  Morten Welinder  <terra@diku.dk>
+
+	* configure.in: use AC_CHECK_HEADERS, not AC_CHECK_HEADER for the
+ 	benefit of autoheader.
+
+1999-05-19  Michael Meeks  <michael@imaginator.com>
+
+	* src/fn-stat.c: Added 'static' to new non-global functions.
+
+	* src/cell.c (cell_set_formula_tree_simple): Added
+	missing sheet_cell_formula_unlink.
+
+1999-05-19  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-math.c: SERIESSUM(), SUBTOTAL() and SUMA() added.
+
+	* src/fn-stat.c: SLOPE(), AVERAGEA(), MAXA(), MINA(), STDEVA(),
+ 	STDEVPA(), VARA(), and VARPA() added.
+
+	* src/fn-stat.c (gnumeric_counta, gnumeric_min, gnumeric_max,
+ 	gnumeric_stdev, gnumeric_stdevp, gnumeric_var, gnumeric_varp):
+ 	made public (used also in src/fn-math.c for now on).
+
+1999-05-19  Michael Meeks  <michael@imaginator.com>
+
+	* CHANGES: copied to web and blanked.
+
+1999-05-18  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/corba-args.c (gnumeric_arg_parse): Initialize as a server.
+	Thanks to Elliot for fixing this one.
+
+1999-05-17  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/utils.c (parse_cell_name): Return false if the cell name is
+	outside the boundaries of the spreadsheet.
+
+	* src/corba-sheet.c (Sheet_range_set_text): Implement.
+	(Sheet_range_set_formula): Implement.
+	(Sheet_range_set_format): Implement.
+
+	* src/ranges.c (range_parse, range_list_parse, range_list_destroy,
+	range_list_foreach_full, range_list_foreach_all,
+	range_list_foreach, range_set_style): New functions.  Used by the
+	corba-sheet code.
+
+	* src/corba-sheet.c (Sheet_range_get_values): Implement
+	vector-based result return.
+
+	* src/xml-io.c (xmlSetGnomeCanvasPoints): use g_malloc instead of alloc.
+
+	* src/dialog-solver.c (constr_add_click): Use g_malloc instead of
+	alloc.  Use g_new instead of malloc.
+
+	* src/utils.c (parse_cell_name_list): Add parameter checking.  Use Migueestyle.
+
+1999-05-16  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/corba-workbook.c (Workbook_corba_class_init): Make it work
+	with the new bonobo.
+
+1999-05-16  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* src/Gnumeric.idl: Revert the following checkin:
+	1999-05-13  Kjartan Maraas  <kmaraas@online.no>.
+	`gnome-object.idl' is part of `bonobo'.
+
+1999-05-16  Morten Welinder  <terra@diku.dk>
+
+	* src/expr.c (do_expr_tree_relocate): Change to use lazy copying
+ 	scheme -- this should improve sharing.  (Until someone saves and
+	reloads, of course.  More about that at a later time.)
+	(expr_tree_invalidate_references): Quiet.
+	(expr_tree_fixup_references): Quiet.
+
+	* src/cell.c (cell_relocate): Only update if changed.
+
+	* src/expr.c (evaluate_level): Deleted.
+	(bigger_prec): Deleted.
+	(do_expr_decode_tree): Handle left/right associativity.
+
+	* src/cell.c (cell_set_text_simple): Simplify value parsing.
+
+	* src/dialog-goal-seek.c (test_cell_with_value): Cast to double,
+ 	not float.
+
+1999-05-16  Michael Meeks  <michael@imaginator.com>
+
+	* src/workbook.c (cb_assemble_selection): Add 'char *sel'
+	and change "," -> ','
+	(workbook_selection_to_string): Add 'char *result'
+	Fix incorrect pointer dereference.
+
+	* src/sheet.c (reference_append): Fix appended strings to
+	characters.
+	(sheet_selection_to_string): Add missing GList pointer
+	'selections'. Changes ":" -> ':', rename res to 'info->result'
+
+1999-05-15  Heath Martin <martinh@pegasus.cc.ucf.edu>
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_compute_visible_ranges):
+	Small cut and paste fix.  Use row here instead of col.
+
+1999-05-13  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* configure.in (ALL_LINGUAS): Added slovak language.
+
+1999-05-09  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet.c (sheet_selection_to_string): New routine.  Returns a
+	string representation of the current selection.
+
+	* src/workbook.c (workbook_selection_to_string): New routine.
+	Retunrs a string representation of the current selection.
+
+1999-05-08  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/corba-workbook.c (corba_sheet): Fix.
+
+1999-05-16  Michael Meeks  <michael@imaginator.com>
+
+	* CHANGES: Added to ease burdern of creating accurate descriptions
+	between versions.
+
+1999-05-15  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* samples/statfuns.xls: Added a new file.  It can be used for
+ 	regression testing.  It is in Excel format so it tests the Excel
+ 	plugin's functionality in the same time too.
+
+1999-05-15  Michael Meeks  <michael@imaginator.com>
+
+	* src/file.c (file_format_register_save): Changed to append
+	new types; works round bug in selection.
+
+	* src/expr.c (eval_cell_value): Fix sillyness of top left
+	corner stuff.
+
+	* src/expr.h: Added const to value_dump
+
+	* src/parser.y (value_dump): Fixed array problem.
+	Added const to parameter.
+
+1999-05-15  Michael Meeks  <michael@imaginator.com>
+
+	* src/parser.c (value_dump): Updated Arrays, to use Value *
+
+	* src/func.c (function_iterate_do_value): same.
+
+	* src/fn-sheet.c (gnumeric_selection): same.
+
+	* src/eval.c (add_value_deps): same.
+
+	* src/expr.c (value_get_as_string): Major re-work of ARRAY
+	conversion.
+	(value_array_set): Fix rather embarassing bug in assertions.
+	(eval_cell_value): Return top left corner of array, seems to be
+	what excel does.
+	(value_release, value_array_set, value_array_new),
+	(value_array_copy_to, value_array_resize):
+	Updated value->v.array to Value *'s saves much hassle !
+
+1999-05-14  Michael Meeks  <michael@imaginator.com>
+
+	* src/expr.c (value_area_get_width, value_area_get_height):
+	Clip to sheet bounds if CELLRANGE: Massive speedup on some
+	lookups.
+
+	* src/expr.h: Added value_zero
+
+	* src/func.c (constants_init): Added a 'value_zero' constant
+	to kill leak in out-of-range / NULL cell cases in value_get_at_x_y
+
+1999-05-14  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-math.c: Added LCM().
+
+1999-05-13  Kjartan Maraas  <kmaraas@online.no>
+
+	* src/Gnumeric.idl: s/#include <gnome-object.idl>/
+	  #include <GnomeObject.idl>, to make it compile.
+
+1999-05-13  Michael Meeks  <michael@imaginator.com>
+
+	* src/Gnumeric-impl.c: Fixes killing this file by
+	mistake.
+
+1999-05-13  Michael Meeks  <michael@imaginator.com>
+
+	* src/expr.h: Updated all prototypes.
+
+	* *.c:
+	s/\<value_float *(/value_new_float (/g
+	s/\<value_int *(/value_new_int (/g
+	s/\<value_str *(/value_new_string (/g
+	s/\<value_string *(/value_get_as_string (/g
+	s/\<value_cellrange *(/value_new_cellrange (/g
+	s/\<value_get_as_double *(/value_get_as_float (/g
+	s/\<value_get_bool *(/value_get_as_bool (/g
+
+	* src/expr.c: Moved all pertainant Value functions to the
+	same place to aid possible splitting.
+
+1999-05-13  Michael Meeks  <michael@imaginator.com>
+
+	* src/expr.c (value_area_get_at_x_y): Added warning
+	in safety case.
+
+	* src/fn-lookup.c (gnumeric_lookup): Implemented.
+
+	* src/func.h: Updated critera_test_fun_t: returns int,
+	should really be gboolean ?
+
+	* src/expr.h: Added prototype & indentation beautified.
+
+	* src/expr.c (value_array_set): Helper function added.
+
+1999-05-13  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-math.c: Added GCD().
+
+1999-05-12  Michael Meeks  <michael@imaginator.com>
+
+	* src/workbook.c (workbook_setup_edit_area): Added dependancy
+	debugging button for --debug=10 and fixed memory leak.
+	(deps_output): Dumps dependency data to stdout.
+
+	* src/gnumeric-util.c (range_contains): Re-order compares
+	to catch single cell ranges more quickly.
+
+	* src/eval.c (intersects): Change order of sheet / range check
+	for speed.
+	(search_cell_deps): Added comment.
+
+	* src/eval.h: Cosmetic typo. fix shet -> sheet
+
+1999-05-12  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-database.c: Database functions accept now string
+ 	criterias too.  In addition, the parsing of criterias and the test
+ 	functions are now public (src/fn-math.c uses these for now on).
+
+	* src/func.h: Added type definitions and function prototypes for
+ 	internal functions that parse and test criterias.
+
+	* src/fn-math.c: Added LN().  Changed LOG() to take an optional
+ 	second parameter.  LOG() returns the logarithm in base 10 if the
+ 	optional argument is not given, otherwise it returns the logarithm
+ 	in the given base.
+
+	* src/fn-math.c: Added COUNTIF() and SUMIF().
+
+	* src/fn-eng.c: Added IMLOG10() and IMLOG2().
+
+	* src/fn-eng.c (complex_ln): Fixed a bug.  Imaginary coefficient
+	was calculated incorrectly.
+
+1999-05-11  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-eng.c: Added CONVERT().  All translations should work.
+  	Also get_real_and_imaginary() fixed (complex numbers should now
+ 	work completely).
+
+1999-05-10  Michael Meeks  <michael@imaginator.com>
+
+	* src/sheet.h: Added workbook_focus_sheet.
+
+	* src/workbook.c (workbook_focus_sheet): Added.
+
+1999-05-10  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-eng.c: Added IMARGUMENT(), IMCONJUGATE(), IMCOS(),
+ 	IMDIV(), IMEXP(), IMLN(), IMPOWER(), IMPRODUCT(), IMSIN(),
+ 	IMSQRT(), IMSUB(), and IMSUM().
+
+1999-05-08  Michael Meeks  <michael@imaginator.com>
+
+	* web/index.html: Fix sillyness in references.
+
+	* web/gnumeric-0.25: Remove HTML tags...
+
+1999-05-08  Michael Meeks  <michael@imaginator.com>
+
+	* src/Makefile.am (gnumeric_LDADD): Added libole2 library.
+
+	* configure.in (XML_CFLAGS): Updated to add excel/libole2
+
+	* src/sheet.h: Commented sheet_cell_get vs. _fetch.
+
+	* src/expr.c (do_expr_tree_unref, value_string, value_release),
+	(eval_cell_value, do_expr_tree_invalidate_references):
+	Clean: Added 'default' cases with warnings.
+	(value_get_as_double, value_get_as_int, value_get_bool): Changed
+	to safer / faster switch statement from if.
+
+1999-05-07  Michael Meeks  <michael@imaginator.com>
+
+	* src/corba-workbook.c (corba_sheet): Add CORBA_Environment
+	parameter, needed for Object_dupicate...
+	(Workbook_sheet_new, Workbook_sheet_lookup),
+	(Workbook_sheet_current): Updated corba_sheet's args.
+
+	* src/fn-lookup.c: Fixed choose help.
+
+1999-05-06  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/corba-workbook.c (corba_sheet): Duplicate the object before
+	returning to ORBit.
+
+1999-05-07  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-eng.c: Added COMPLEX(), IMABS(), IMAGINARY(), IMREAL().
+  	Also added an internal function get_real_and_imaginary() which
+ 	still needs to be improved.
+
+	* src/fn-math.c: Added MROUND() and ROMAN().  ROMAN() currently
+ 	supports only type 0 (classic).
+
+1999-05-07  Heath Martin  <martinh@pegasus.cc.ucf.edu>
+
+	* src/expr.c (expr_tree_invalidate_references): Add extra argument
+ 	for the sheet we are changing.  All callers changed.
+	(expr_tree_fixup_references): Ditto.
+
+1999-05-06  Morten Welinder  <terra@diku.dk>
+
+	* src/eval.c (cell_queue_recalc): Don't re-queue cell.
+	(cell_queue_recalc_list): Don't re-queue cells.  (Because it is
+ 	wasteful and because unqueue then won't work right.)
+
+	* src/fn-lookup.c (gnumeric_column): Fix leak.
+	(gnumeric_row): Fix leak.
+	(gnumeric_choose): Fix leak.
+	(lookup_similar): Fix leaks.
+
+	* src/xml-io.c (xml_probe): Fix leak.
+	(xmlGetValue): Fix *HUGE* leak.
+	(readXmlStyle): Fix leaks.
+	(readXmlSheet): Fix leaks.
+	(createXmlSheet): Fix leak.
+	(readXmlCell): Move the freeze, just in case.
+
+	* src/fn-lookup.c (gnumeric_choose): Remove (incorrect) arg check.
+
+	* src/cell.c (cell_copy): Properly handle render_color member.
+  	Clear the CELL_QUEUED_FOR_RECALC flag.
+	(cell_destroy): Add code to make it painfully clear when members
+ 	of freed cells are accessed.
+
+1999-05-06  Michael Meeks  <michael@imaginator.com>
+
+	* src/cell.h: Added deep freeze prototypes.
+
+	* src/cell.c (cell_deep_freeze_redraws): Added
+	(cell_deep_thaw_redraws): Added,
+	(cell_queue_redraw): Updated to use deep_freeze
+	effectively ignore redraw requests.
+
+	* src/xml-io.c (readXmlCell): Added deep freeze/thaw
+	redraws for clean and easy speedup.
+
+1999-05-06  Michael Meeks  <michael@imaginator.com>
+
+	* src/workbook.c: Moved 'Sort' to the tools menu.
+
+	* HACKING: Pedantic clean.
+
+1999-05-06  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-date.c: Added EDATE().
+
+1999-05-06  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-date.c: Added DATEVALUE().
+
+1999-05-05  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-database.c (parse_criteria): If a condition contains
+	just a number, it is an equality condition.
+
+1999-05-05  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* configure.in: Laptop does not have resources.  Make guile
+	optional until at least.
+
+	* src: Now we only support two modes: Gnumeric and
+	Gnumeric-Bonobo.  The later includes all of the CORBA support,
+	there is no longer a non-Bonobo CORBA version.
+
+	* src/corba-workbook.c, src/corba-sheet.c, src/workbook-factory.c:
+	New files that support the Gnumeric CORBA interfaces.
+
+1999-05-02  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/corba-workbook.c (WorkbookFactory_init): Add workbook
+	factory servant initialization.
+
+1999-05-04  Morten Welinder  <terra@diku.dk>
+
+	* src/eval.c (dependency_remove_cell): Remove unused assignment.
+	(cell_queue_recalc_list): Mark queued cells as being so.
+
+	* src/fn-math.c (gnumeric_combin): Clean up.
+	(combin): Handle large numbers carefully.
+
+	* src/utils.c (january_1900): Fix argument list.
+
+	* src/fn-stat.c (gnumeric_var): Remove unused variable.
+	(gnumeric_varp): Ditto.
+
+1999-05-04  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-math: Added ROUND().
+
+	* src/fn-information: Added new file for information functions.
+	New function COUNTBLANK() implemented.
+
+	* src/Makefile.am, src/func.[ch]: Added `fn-information.c'.
+
+1999-05-04  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-database.c: Added DCOUNTA().
+
+	* src/fn-stat.c: Added argument count checks for VAR() and VARP().
+	Added STEYX().
+
+1999-05-03  Morten Welinder  <terra@diku.dk>
+
+	* src/format.c (split_time): Fix leak.
+
+	* src/parser.y (forget): Fix leak.
+
+	* src/expr.c (do_expr_tree_ref): Delete.
+	(expr_tree_ref): Just increase the ref-count.
+	(do_expr_tree_unref): Properly decrease all the way.
+	(expr_tree_new): Fix prototype.
+	(value_release): Add "break".
+	(value_cellrange): Make args const.  Don't use memcpy call.
+
+	* src/parser.y (v_new): Fix type.
+	(alloc_register): Ditto.
+	(dump_tree): Fix reference to variable cell.
+
+	* src/file.c (file_format_unregister_save): Fix leak.
+	(file_format_unregister_open): Fix leak.
+
+	* src/parser.y (forget): Fix leak.
+
+	* src/eval.c (add_tree_deps): Use OPER_ANY_BINARY.
+	(add_value_deps): Delete unused variable.
+	(dependency_remove_cell): Fix leak.
+
+	* src/sheet.c (sheet_destroy_styles): Leak fix.  Late night
+ 	coding?  :-)
+	(sheet_shift_row): Ditto.
+
+	* src/parser.y (alloc_clean): Ditto.
+	(alloc_list_free): Ditto.
+
+	* src/main.c (gnumeric_main): Get rid of memory leak debug code
+ 	(handled by other means now).
+
+	* src/cell.c (cell_set_value): Remove "const".
+	(cell_set_value_simple): Ditto.
+
+1999-05-03  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-database.c: New file added for database
+ 	functions. Implemented DAVERAGE(), DCOUNT(), DGET(), DMAX(),
+ 	DMIN(), DPRODUCT(), DSTDEV(), DSTDEVP(), DSUM(), DVAR(), and
+ 	DVARP().
+
+	* src/func.c: Added registeration of database functions.
+
+	* src/fn-stat.c, src/func.h: callback_function_stat made public.
+
+1999-05-02  Michael Meeks  <michael@imaginator.com>
+
+	* src/expr.h: Spelling fix 'substract' :-)
+
+	* src/expr.c (expr_tree_new): Added for convenience.
+
+1999-05-02  Michael Meeks  <michael@imaginator.com>
+
+	* src/cell.c (cell_set_value): Created.
+	(cell_set_value_simple): Created.
+
+	* src/cell.h: Added headers
+
+1999-05-01  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/corba-workbook.c, src/corba-sheet.c: New files implementing
+	most of the new Gnumeric.idl interface.
+
+	* src/Gnumeric.idl: Make it useful.
+
+1999-04-30  Morten Welinder  <terra@diku.dk>
+
+	* src/*.h: Properly forward-declare structures.  Include
+ 	dependencies.  Change the occasional "void *" to its right
+	type.
+
+	* src/*.[cy]: Include more dependencies.
+
+	* src/sheet.c (sheet_delete_row): Remove from workbook hash also.
+
+1999-04-29  Morten Welinder  <terra@diku.dk>
+
+	* src/expr.c (expr_tree_fixup_references): Implement.
+
+	* src/sheet.c (sheet_delete_row, sheet_delete_col): Fixup
+ 	references.
+
+	* src/expr.c (do_expr_tree_relocate): Remove strange and incorrect
+ 	refcount fiddling.
+
+	* src/workbook.c (workbook_fixup_references,
+ 	workbook_invalidate_references): Fix cell walking.
+
+	* src/expr.c (do_expr_decode_tree): rename binary_operation_names
+	to operation_names and fill in the rest.
+
+	* src/fn-misc.c (gnumeric_error): New function.
+
+	* src/expr.c (value_str): Constify.
+	(expr_tree_invalidate_references): Mostly implement.
+
+	* src/fn-math.c (gnumeric_multinomial, gnumeric_product,
+ 	gnumeric_sumsq): Fix type.
+
+	* src/expr.h (OPER_ANY_BINARY, OPER_ANY_UNARY): new convenience
+ 	macros.
+	(struct _Sheet): declare forward reference so we can use the right
+ 	types.
+	(CellRef, FunctionDefinition, expr_parse_string, expr_decode_tree,
+ 	eval_expr): use "struct _Sheet *".
+
+	* src/workbook.c (workbook_do_destroy): Carefully clean workbook
+ 	before deleting sheets.  Do things in the standard way.  Get rid
+ 	of clipboard leak.
+	(insert_cols_cmd): Fix name string.
+	(workbook_detach_sheet): New parameter "force".  All callers
+ 	changed.
+	(workbook_fixup_references, workbook_invalidate_references,
+ 	workbook_sheets): New functions.
+
+	* src/sheet.c (sheet_verify_selection_simple): Mark strings for
+ 	translation.
+	(sheet_insert_col): Fixup references to moved cells.
+	(sheet_delete_col, sheet_delete_row): Invalidate references to
+ 	deleted cells.
+
+	* src/sheet-autofill.c (fill_item_new): Fix copying of cell with
+	error.
+
+	* src/parser.y (yylex): "const" fixes.
+	(gnumeric_expr_parser): New function (to fix memory corruption and
+ 	leaks).
+
+	* src/fn-stat.c (i1mach): Make static.
+	(gnumeric_var, gnumeric_varp, gnumeric_stdev, gnumeric_stdevp,
+ 	gnumeric_rank, gnumeric_trimmean, gnumeric_covar, gnumeric_correl,
+ 	gnumeric_mode, gnumeric_harmean, gnumeric_geomean, gnumeric_count,
+ 	gnumeric_counta, gnumeric_average, gnumeric_min, gnumeric_max,
+ 	gnumeric_skew, gnumeric_kurt, gnumeric_avedev, gnumeric_devsq,
+ 	gnumeric_pearson, gnumeric_rsq, gnumeric_median, gnumeric_large,
+ 	gnumeric_small, gnumeric_ztest): Fix type.
+
+	* src/fn-math.c (gnumeric_fact, gnumeric_combin): Mark strings for
+ 	translation.
+	(gnumeric_sum, gnumeric_trunc): Fix type.
+
+	* src/fn-lookup.c (gnumeric_choose, gnumeric_column,
+ 	gnumeric_row): Fix type.
+
+	* src/fn-misc.c (gnumeric_iserror): Fix type.
+
+	* src/fn-sheet.c (gnumeric_selection): Fix type.
+
+	* src/fn-string.c (gnumeric_concatenate): Fix type.
+
+	* src/fn-logical.c (gnumeric_and, gnumeric_not, gnumeric_or,
+ 	gnumeric_if): Fix type.
+
+	* src/fn-financial.c (gnumeric_npv): Fix type.
+
+	* src/expr.c (expr_parse_string): Move in part to parser.y.
+  	Delete global variables to communicate.
+	(do_expr_tree_ref, do_expr_tree_unref, do_expr_decode_tree,
+ 	do_expr_tree_relocate): use OPER_ANY_BINARY and OPER_ANY_UNARY.
+	(function_call_with_values): Mark strings for translation.
+	(eval_expr, do_expr_decode_tree, expr_decode_tree): Fix type to
+ 	use "Sheet *" instead of "void *".
+	(do_expr_decode_tree): Free sum.
+	(expr_tree_invalidate_references, expr_tree_fixup_references): New
+ 	functions.  Not implemented yet.
+
+	* src/cell.c (cell_set_formula): "const" fix.
+	(cell_copy): Ref entered_string also if it exists.
+	(cell_relocate): Unlink cell from workbook list of cells.
+
+	* src/about.c (dialog_about): Add myself.  Update copyright.
+
+1999-04-29  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-{math,sheet,logical}.c, src/func.[ch]: Moved logical
+ 	functions into a new file.
+
+	* src/fn-math.c: Added ROUNDDOWN(), ROUNDUP(), SUMX2MY2(),
+ 	SUMX2PY2(), and SUMXMY2().
+
+	* src/fn-stat.c: Added PROB(). CONFIDENCE() should now work fully.
+
+1999-04-28  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-stat.c: Added COUNTA(), FINV(), and TINV().
+
+	* src/fn-stat.c, src/fn-math.c: AVERAGE(), COUNT(), MAX(), and
+	MIN() moved from fn-math.c to fn-stat.c.  They are in the
+	statistical function group in Excel.
+
+1999-04-27  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-stat.c: Added BETADIST(), FDIST(), and TDIST().
+
+1999-04-26  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/eval.c (intersects): Typo fix.  Sheet was being assigned
+	instead of being tested for equality.  This got Michael to crash
+	Gnumeric (as there was no test for can_remove)
+
+1999-04-26  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-stat.c: Added CHIDIST(), CHIINV(), and GAMMAINV().
+
+Sat Apr 24 14:39:32 1999  Morten Welinder  <terra@diku.dk>
+
+	* src/sheet.c (sheet_selection_reset_only): Remove useless
+ 	initialisation.  Don't free individual selections here.
+
+	(sheet_selections_free): Walk the list of selections and free each
+ 	one.
+
+	(sheet_get_selection_name): Calculate buffer size based on the
+ 	size of an int.
+
+	* src/fn-eng.c: Remove sqrtpi function -- it's already in fn-math.c
+
+	* src/fn-math.c (gnumeric_sqrtpi): Add range check.
+
+	* src/symbol.c (symbol_install): Add sanity check.
+
+Fri Apr 23 17:52:44 1999  Morten Welinder  <terra@diku.dk>
+
+	* src/sheet.c (sheet_destroy): Don't check that workbook is
+	NULL because it cb_sheet_do_destroy will call it non-NULL.
+
+	* src/workbook.c (cb_sheet_do_destroy): Don't NULL workbook
+	member as it will be used.
+
+	* src/format.c (render_number): Fix rounding up.
+
+	* src/*.[chy]: add tons on "const"s.
+
+1999-04-23  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-stat.c: Added GAMMADIST() function.  It uses pgamma()
+ 	function written by Ross Ihaka.  Thanks to Morten for pointing
+ 	this piece of code.
+
+1999-04-21  Morten Welinder  <terra@diku.dk>
+
+	* src/workbook.c (workbook_do_destroy): Release the sheets and the
+	hash table that held the references to the sheets.
+
+	* src/func.c: warning fix.
+
+1999-04-21  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/widget-editable-label.c (el_button_press_event): Add type
+	cast to kill warning.
+
+	* src/format.c: Include ieeefp.h if required.
+
+1999-04-19  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/fn-string.c: Close parentheses in help_stubstitute function
+	descritpion.   Thanks to Aldy Hernandez for pointing this out.
+
+1999-04-19  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/dialog-goal-seek.c: Goal seek tool implemented.  Goal seek
+ 	should now find a solution for all linear problems (if there is
+ 	one).  A simple non-linear search algorithm also implemented.
+
+	* src/workbook.c: Made 'Goal seek' menu entry visible.
+
+	* src/fn-math.c: Added MULTINOMIAL(), PRODUCT(), SIGN(), SUMSQ(),
+ 	and SQRTPI().
+
+1999-04-19  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/func.c (iterate_cellrange_callback): Eval the cell here if
+	it has not yet been evaluated.
+
+Sun Apr 18 17:59:09 EDT 1999 Gregory McLean <gregm@comstar.net>
+
+	* gnumeric.spec.in: Updated and enhanced spec file. Tastes even
+	better and is less filling to boot!
+
+1999-04-17  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet-object-container.c (make_container_item): New
+	routine.
+	(sheet_object_container_land): Used to convert from the temporary
+	widgets to the view provided by Bonobo.
+
+1999-04-16  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/expr.c (value_array_resize): Fix typo bug I introduced.
+
+	* src/eval.c (cell_queue_recalc): When queuing for recalc, tag the
+	cell, so that if we remove the cell from the recalc list we can
+	quickly find out if we have to look for it on the list of pending
+	recomputations.
+	(pick_next_cell_from_queue): Clear the cell's
+	CELL_QUEUED_FOR_RECALC bit.
+	(cell_unqueue_from_recalc): New routine to remove a cell queued
+	for recomputation.
+
+	* src/clipboard.c (new_node): Trim leading spaces.
+
+1999-04-16  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-math.c: Added EVEN, FACTDOUBLE, ODD, QUOTIENT, and
+	RANDBETWEEN.
+
+	* src/fn-stat.c: Added LOGINV, NORMINV, NORMSINV, RSQ, and ZTEST
+ 	functions.
+
+1999-04-15  Michael Meeks  <michael@edenproject.org>
+
+	* src/parser.y (value_dump): Added CellRange support
+
+	* src/fn-lookup.c (gnumeric_offset): Implemented OFFSET.
+
+	* src/expr.c (value_cellrange): Created.
+	(eval_funcall): Major hack to allow auto-conversion
+	of cell references to cell ranges on the fly.
+
+	* src/expr.h: Added value_cellrange.
+
+1999-04-15  Michael Meeks  <michael@edenproject.org>
+
+	(gnumeric_choose): CHOOSE function implemented.
+
+1999-04-14  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet.c (sheet_destroy): No longer destroys the Bonobo
+	objects here.
+
+	* src/sheet.h (Sheet): No longer keeps track of the ClientSites
+	here.
+
+	* src/sheet-object.c (sheet_finish_object_creation): Invoke new
+	class method to signal finalization of object creation.
+
+	* src/sheet-object-container.c, src/sheet-object-container.h: New
+	files that implement the Bonobo ClientSites
+	(SheetObjectContainers).
+
+	* src/Makefile.am (gnumeric_bonobo_SOURCES): Sources for Bonobo
+	compilation.
+
+	* src/sheet-object.c (sheet_object_construct): Create the bounding
+	box points here.
+	(sheet_set_mode_type): Fix from my previous reorganization:  Only
+	stop editing mode if the mode is SHEET_MODE_SHEET.
+	(sheet_button_press): Strategy change: now we accept
+	sheet->current_object and we stop editing here the object.
+
+	* src/sheet-object.h: points has been renamed to bbox_points.
+
+	* src/sheet-object-graphic.c (sheet_object_filled_realize):
+	Simplified this routine.  Also, we now update the bounding box
+	here.
+
+1999-04-15  Michael Meeks  <michael@mejm2.dow.cam.ac.uk>
+
+	* src/fn-lookup.c: Silly bug in types fixed.
+
+	* src/expr.c (eval_funcall): Made cellrefs absolute.
+
+	* src/cell.c (cell_set_text_simple): Fix for 1.234E-07
+
+1999-04-13  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet-object.c: Converted SheetObject to a Gtk+ object.
+	Splitted the functionality of the SheetObject into classes:
+	SheetObject abstract class;  SheetObjectGraphic for simple drawings;
+	SheetObjectFilled for objects that have a fill attribute.
+
+	* src/sheet-object-graphic.c: Implement the SheetObjectGraphic and
+	SheetObjectFilled objects.
+
+1999-04-13  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/xml-io.c (xml_probe): Do not crash if the file is a broken
+	XML file.
+
+1999-04-13  Zbigniew Chyla <cyba@t19.ds.pwr.wroc.pl>
+
+	* src/workbook.c: using 'gnome_dialog_run_and_close' instead of
+	'gnome_dialog_run' (which _may_ destroy dialog widget - we don't have to
+	check for this case).
+
+1999-04-12  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/corba-args.c (gnumeric_arg_parse): Intiialize Bonobo.
+
+	* configure.in: add test for Bonobo.
+
+	* src/clipboard.c (x_selection_to_cell_region): Fixed the
+	computation of columns in the paste code.
+
+1999-04-11  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/workbook.c (insert_object_cmd): Add sample bonobo support.
+	Still lacking an object server selector.
+
+	* src/sheet.c (sheet_insert_object): Add Bonobo support.
+
+	* src/sheet-view.c (sheet_view_insert_object): Add basic Bonobo
+	support.  I need to reuse the SheetObject stuff to add control
+	points to the objects and to handle repositioning.
+
+1999-04-12 Michael Meeks  <michael@imaginator.com>
+
+	* TODO: Removed basic functions section, most are done.
+
+1999-04-11 Michael Meeks  <michael@imaginator.com>
+
+	* src/dialog-function-select.c (function_select_row):
+	Check event is valid before using it, remove redundant
+	total redraw.
+	(category_select_row): Fix.
+	(function_select_create): Removed redundant call to
+	duplicated (create_description): Removed.
+
+	* src/fn-lookup.c: Actualy change the lookup function
+	tokens to the correct values.
+
+1998-04-09 Zbigniew Chyla <cyba@t19.ds.pwr.wroc.pl>
+
+	* src/workbook.c: Creating auto_expr menu every time it is popped
+        up instead of using one object all the time (and referencing to
+        invalid workbook from "activate" signal handler).
+
+        * src/item-grid.c: (item_grid_popup_menu): Fixed memory leak
+        (gnumeric_popup_menu used instead of gtk_menu_popup).
+
+1999-04-11 Michael Meeks  <michael@imaginator.com>
+
+	* src/expr.c (eval_funccall): New array / 'area' tokens added,
+	error strings simplified ( int type_mismatch added )
+	(value_area_get_width, value_area_get_height): Implemented,
+	(value_area_get_at_x_y): Implemented.
+	(value_array_new, value_array_resize): Implemented.
+	(value_release): Updated.
+	(value_copy_to, value_array_copy_to): Updated, created.
+	Added const to a scad of helper 'value_get' style functions.
+
+	* src/expr.h: Value: Changed 'array' from GList to a
+	structure.
+	Added struct _Value for self reference.
+	Added const to a scad of helper 'value_get' style functions.
+
+	* src/func.c (function_iterate_do_value): Updated Array code.
+
+	* src/eval.c (add_value_deps): Updated Array stuff.
+	(add_value_deps): const added to Value *
+
+	* src/dialog-function-wizard.c (function_type_input):
+	Updated text for new tokens.
+
+	* src/fn-sheet.c (gnumeric_selection): Update to new array code.
+
+	* src/fn-lookup.c (columns, rows): Updated to clean new API.
+	(vlookup, hlookup): Large clean.
+
+	* src/parser.y (value_dump): Updated Array section.
+
+	* docs/C/writing-functions.smgl: Added section explaining tokens,
+	and new API.
+
+1999-04-09 Michael Meeks  <michael@imaginator.com>
+
+	* src/sheet.c (sheet_destroy): Move destruction of cell_hash to
+	after destroy_styles.columns_and_rows that use it.
+	NULL various pointers.
+	(sheet_col_destroy): Added g_return_if_fail (ci)
+	(sheet_duplicate_colrow): Merged into (sheet_row_new, sheet_col_new)
+	and removed: nasty function.
+	(sheet_destroy_columns_and_rows): Fix nasty bug using freed 'l'
+	pointer ( freed by sheet_col_destroy / sheet_row_destroy ).
+	NULL the pointers for safety.
+	(sheet_col_destroy): NULL various pointers.
+
+	* src/sheet.h (sheet_duplicate_colrow): Removed.
+
+1999-04-08  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/dialog-solver.c, src/dialog-goal-seek.c, src/solver.h:
+	Wrote dialogs for these tools. The tools are not implemented yet.
+
+	* src/solver-lp.c:
+	New file for linear programming methods created.
+
+	* src/sheet.h:
+	Added parameters for the Solver tool.
+
+	* src/fn-stat.c (gnumeric_correl):
+	Bug fixed.  If the covariance is zero the correlation coefficient
+	should also be zero. Thanks for Vladimir for pointing this one out.
+
+1999-04-07  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/xml-io.c (xmlGetCoordinates): Include fix from Richard Hult:
+	Seemed to be a cut and paste error.
+
+	* src/cell.c (cell_destroy): From Morten Welinder: destroy the
+	cell->value only if it does exist.
+
+	* src/file.c (dialog_query_load_file): Set the accepted value to
+	false initially.  Thanks for Morten for pointing this one out.
+
+1999-04-06  Zbigniew Chyla <cyba@piast.t19.ds.pwr.wroc.pl>
+
+	* src/workbook.c (workbook_new): Use the translated version of the
+	function to display
+
+1999-04-06  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/workbook.c: Enable the function wizard only if the --debug
+	flag was passed.
+
+	* src/dialog-function-wizard.c, src/dialog-function-select.c:
+	Adapt to the rest of Gnumeric coding style.
+
+	Use a different way of creating the GUI and controlling the
+	interactions.
+
+	* src/func.c, src/func.h (function_iterate_do_value): Use my
+	indentation and coding style here.
+
+	* src/dialog-cell-format.c (render_formated_version): Handle the
+	case where the value might be NULL.
+
+	* src/xml-io.c (createXmlSheet): New function.  Used in an initial
+	pass over the XML file to load all of the Sheets defined there.
+	(readXmlWorkbook): Now this does two passes at loading the sheet:
+	the first pass creates the sheets, the second pass actually loads
+	the contents.
+
+1999-04-06 Michael Meeks  <michael@imaginator.com>
+
+	* src/workbook.c (workbook_new): More sensible default
+	size.
+
+	* src/sheet.c (sheet_row_set_height): use sheet_row_new()
+	instead of sheet_duplicate_colrow(), as we get duff span
+	data otherwise ( not calling row_init_span )
+	(sheet_col_set_width): Re-order, presumably fixing bug,
+	and as for set_height.
+
+1999-04-06  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/xml-io.c (createXmlSheet): New function.  Used in an initial
+	pass over the XML file to load all of the Sheets defined there.
+	(readXmlWorkbook): Now this does two passes at loading the sheet:
+	the first pass creates the sheets, the second pass actually loads
+	the contents.
+
+1999-04-06 Michael Meeks  <michael@imaginator.com>
+
+	* src/func.c (tokenised_help_new): Improved algorithem.
+	(functions_init): Made descriptions more verbose.
+
+	* src/workbook.c (wizard_input): Cleaned to use local
+	entry instead of specific wb->ea_input.
+
+	* src/dialog-function-wizard.c (function_type_input):
+	Update types, add recursive function button.
+	(function_input): Created.
+	(arg_data_list_new): Added wb to ARG_DATA, needed for
+	function_input.
+	Added default code for multi-arg functions.
+	Deals with no-argument functions properly,
+	Fix silly args=NULL g_free(args) bug.
+	(dialog_function_wizard): Special 'no-arguments' quick
+	case.
+
+	* src/fn-math.c (gnumeric_rand): Added RAND function.
+
+1999-04-05  Morten Welinder <terra@diku.dk>
+
+	* src/cell.c (cell_set_rendered_text): Fix for circular
+	references.
+
+1999-04-05  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/about.c (dialog_about): Do not make the about box modal.
+
+1999-04-05 Michael Meeks  <michael@imaginator.com>
+
+	* src/func.c (tokenised_help_new, tokenised_help_destroy),
+	(tokenised_help_find_token): Implemented to assist searching
+	for tokens.
+
+	* src/func.h: Inserted TOKENISED_HELP struct, and prototypes.
+
+1999-04-04 Michael Meeks  <michael@imaginator.com>
+
+	* src/dialog_function_wizard.c: Created
+
+	* src/workbook.c (workbook_setup_edit_area): Add Wizard
+	button.
+
+	* src/dialogs.h: Add dialog_function_wizard
+
+	* src/func.c (functions_init): Added descriptions.
+	Init categories array.
+	(get_function_categories): Returns array of categories.
+	(install_symbols): Add description argument.
+
+	* src/func.h: Updated prototypes altered,
+	add get_function_categories and struct FUNCTION_CATEGORY.
+
+	* plugins/guile/plugin.c (init_plugin): Update install_symbols.
+
+	* plugins/sample/plugin-sample.c (init_plugin): Ditto.
+
+1999-04-03 Michael Meeks  <michael@imaginator.com>
+
+	* src/sheet.c (sheet_cell_remove_from_hash): Now checks
+	return value of g_hash_table_lookup_extended, before
+	freeing a random pointer if its not there.
+
+	* src/cellspan.c (cell_unregister_span): Check another
+	pointer.
+
+	* src/cell.c (cell_set_formula): Default error_msg !
+
+1999-04-03 Michael Meeks  <michael@imaginator.com>
+
+	* src/sheet.c (sheet_cell_remove_from_hash): Now checks
+	return value of g_hash_table_lookup_extended, before
+	freeing a random pointer if its not there.
+
+	* src/cellspan.c (cell_unregister_span): Check another
+	pointer.
+
+	* src/cell.c (cell_set_formula): Default error_msg !
+
+1999-04-02 Michael Meeks  <michael@imaginator.com>
+
+	* src/fn-sheet.c (gnumeric_if): Fix to allow variable
+	arguments, updated help & struct to comply, removed
+	possible memory leak. ( Luke 17:3,4 )
+
+1999-04-01 Michael Meeks  <michael@imaginator.com>
+
+	* src/workbook.c (sheet_action_delete_sheet): Fix docs.
+
+1999-03-31  Morten Welinder <terra@diku.dk>
+
+	* src/fn-stat.c (phi): new internal function.
+	(gnumeric_normdist): Implemented using phi instead of the built-in
+	table.
+
+1999-03-31  Michael Meeks  <michael@imaginator.com>
+
+	* src/dialog-cell-sort.c (dialog_cell_sort): Added multiple
+	clause support, and cleaned UI.
+	(add_clause, del_clause): Added.
+
+1999-03-30  Michael Meeks  <michael@imaginator.com>
+
+	* src/dialog-cell-sort.c (dialog_cell_sort): Fix possible
+	problem with entire column selection. Need some function
+	to determine largest used cell range.
+
+1999-03-31  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/about.c (dialog_about): Fixed.  Patch from Takashi Matsuda
+
+1999-03-30  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/fn-financial.c (gnumeric_dollarfr): Use floor, not floorf,
+	as I can not find documentation on this on my system.
+
+	* src/fn-math.c (gnumeric_ceiling): Use ceil, not ceilf.  I can
+	not find documentation on this on my system
+
+1998-11-12  Morten Welinder <terra@diku.dk>
+
+	* src/fn-stat.c (gnumeric_variance): More precise method of
+	computing the variance.
+
+1999-03-30  Michael Meeks  <michael@imaginator.com>
+
+	* src/sheet.c (sheet_selection_first_range): This returns
+	the co-ordinates of the first range, and a flag as to whether
+	the selection is simply one range. This keeps things simple
+	for sort.
+
+	* src/utils.c (col_from_name): Created.
+
+	* src/utils.h: Added prototype.
+
+	* src/dialog-cell-sort.c: Created
+
+	* src/workbook.c (workbook_menu_format): Added 'Sort'.
+	(sort_cells_cmd): Created.
+
+	* src/dialogs.h: Added dialog_cell_sort.
+
+1999-03-30  Michael Meeks  <michael@imaginator.com>
+
+	* src/fn-lookup.c (gnumeric_vlookup, gnumeric_hlookup):
+	Removed check for same sheets in each cell reference, in
+	intersheet references only a->sheet points to the other sheet.
+
+	* src/func.c (function_iterate_do_value): Change CELLRANGE's
+	sheet reference to cell_range.cell_a.sheet, since could be an
+	inter-sheet reference. This fixes: Sum(Sheet1!A1:B3)
+
+	* src/fn-eng.c: Cleaned function documentation.
+
+	* docs/C/writing-functions.smgl: Updated for option function
+	arguments.
+
+	* src/fn-math.c (gnumeric_mod): Implemented.
+
+1999-03-30  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/expr.c (eval_expr): Fix from Ian Campbell for fixing the
+	subtraction problem.
+
+1999-03-28  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-stat.c: Added large, median, pearson, and small.
+
+1999-03-28  Michael Meeks  <michael@imaginator.com>
+
+	* src/parser.y (yylex): Added digits count to stop
+	overflow of integers above 9 digits.
+
+1999-03-27  Michael Meeks  <michael@imaginator.com>
+
+        * src/sheet.c (fail_if_found): Renamed to
+        (fail_if_not_selected): Added check for selection
+        (sheet_is_region_empty): Renamed to
+        (sheet_is_region_empty_or_selected): Better
+        described new function.
+
+        * src/item-cursor.c (item_cursor_target_region_ok):
+        Uses sheet_is_region_empty_or_selected.
+
+1999-03-27  Michael Meeks  <michael@imaginator.com>
+
+        * src/expr.c (eval_funcall): Add vital 'break'
+        statement :-)
+
+1999-03-27  Michael Meeks  <michael@imaginator.com>
+
+        * src/eval.c (cell_eval): Set default value of
+        error_msg so cell doesn't get null text on
+        g_return_val_if_fail (condition, NULL) ;
+
+        * src/sheet.c (sheet_update_auto_expr):
+        Internationalized ERROR string.
+
+        * src/fn-lookup.c (gnumeric_column, gnumeric_columns)
+        (gnumeric_row, gnumeric_rows): Hacked; best can do for
+        now.
+
+1999-03-26  Michael Meeks  <michael@imaginator.com>
+
+	* src/fn-eng.c (gnumeric_delta): Fix memory leak
+	(gnumeric_gestep): Cleaned to better arg. model
+	(bin/oct/dec/hex2...): Cleaned similarly
+
+	* src/fn-stat.c (gnumeric_poisson): Cleaned
+
+	* src/fn-string.c (string_and_optional_int): Removed.
+	(gnumeric_left, gnumeric_right, gnumeric_find),
+	(gnumeric_fixed, gnumeric_dollar, gnumeric_substitute):
+	Updated to optional argument types.
+	(gnumeric_clean): Moved from fn-misc.c
+
+	* src/fn-misc.c (gnumeric_clean): Moved to fn-string.c
+
+	* src/expr.c (cell_ref_make_absolute): Makes a CellRef
+	absolute.
+	(eval_funcall): Added range token 'r' for lookup
+	functions, makes reference absolute so can be used
+	downstream without trouble.
+
+	* src/expr.h: Added range comments
+
+	* src/fn-lookup.c: Created
+	(lookup_simliar, gnumeric_vlookup):
+	Implements VLOOKUP.
+	(gnumeric_hlookup): Implements HLOOKUP.
+
+1999-03-25  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-financial.c: dollarde, dollarfr, and npv added.
+
+	* src/fn-stat.c: correl, covar, mode, negbinomdist, rank, and
+ 	trimmean added.
+
+1999-03-25  Michael Meeks  <michael@imaginator.com>
+
+	* src/expr.c (eval_funcall): Updated to add new optional argument
+	token.
+
+	* src/expr.h: Comments to explain above.
+
+	* src/fn-eng.c (gnumeric_erf, gnumeric_delta): Drastic clean to use
+	new optional token.
+
+1999-03-23  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-math.c: ceiling added.
+
+	* src/fn-stat.c: fisherinv, normsdist, and lognormdist added.
+
+	* AUTHORS, src/about.c: added me.
+
+Tue Mar 23 14:00:37 CET 1999 Daniel Veillard <Daniel.Veillard@w3.org>
+
+	* src/xml-io.c : solved the problem of saving cells with < or &
+
+1999-03-21  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-stat.c: avedev, confidence, critbinom, devsq, fisher,
+ 	kurt, normdist, permut, skew, standardize, and weibull added.
+
+	* src/fn-math.c, src/func.h: gnumeric_average and fact made public
+ 	(used in src/fn-stat.c).
+
+1999-03-17  Vladimir Vuksan <vuksan@veus.hr>
+
+ 	* src/fn-financial.c: Added new functions gnumeric_ipmt,
+	gnumeric_ppmt, gnumeric_duration.
+
+1999-03-18  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+ 	* src/fn-math.c: combin added.
+
+ 	* src/fn-stat.c: binomdist, harmean, and hypgeomdist added.
+
+1999-03-18  Michael Meeks  <michael@imaginator.com>
+
+	* src/fn-eng.c (val_to_base): Minor fixes
+
+1999-03-18  Sean Atkinson  <sca20@cam.ac.uk>
+
+	* notes: typos
+
+	* src/expr.c (value_string): cleaned to use g_strdup_printf
+
+	* src/expr.h: typo
+
+	* src/fn-string.c (gnumeric_mid): fixed
+	internationalized various strings, typos
+	(subs_string_new, subs_string_append_n, subs_string_free): added to
+	speed gnumeric_substitute
+	(gnumeric_concatenate, gnumeric_rept, gnumeric_find, gnumeric_fixed)
+	(gnumeric_proper, gnumeric_replace, gnumeric_t, gnumeric_value)
+	(gnumeric_substitute, gnumeric_dollar): implemented.
+
+1999-03-16  Vladimir Vuksan <vuksan@veus.hr>
+
+	* src/fn-financial.c: More financial functions: gnumeric_nominal,
+	gnumeric_pv, gnumeric_fv, gnumeric_pmt.
+
+1999-03-16  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/workbook.c: Change from active voice to passive voice in the
+	help messages for "New".  Thanks to Morten for pointing this out. 2
+
+1999-03-14  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/fn-math.c (callback_function_sum): Detects integer
+	over/under flow.
+
+	* src/expr.c (eval_expr): Add integer overflow code for addition
+	and substraction.
+
+	* src/cell.c (cell_set_format): Call cell_render_value and
+	cell_queue_redraw calls here.
+
+	* src/expr.c (bigger_prec): When decoding left-to-right apply
+	parentheses if the two priorities are equal.
+
+1999-03-13  Richard Hult <rhult@hem2.passagen.se>
+
+	* src/xml-io.c (xmlGetGnomeCanvasPoints): test against the value
+	returned by xmlGetValue, not the GnomeCanvasPoints value.
+
+1999-03-13  Michael Meeks <michael@imaginator.com>
+
+	* src/fn-eng.c (val_to_base, val_to_base_place),
+	(bin/oct/dec/hex 2 bin/oct/dec/hex):
+	Implemented - pending fixes to number storage.
+
+1999-03-13  Michael Meeks <michael@imaginator.com>
+
+	* src/fn-eng.c (gnumeric_delta, gnumeric_sqrtpi),
+	(gnumeric_gestep): Implemented
+
+	* src/fn-math.c (sqrt): Implemented.
+
+1999-03-13  Michael Meeks <michael@imaginator.com>
+
+	* src/fn-eng.c: Created
+	(gnumeric_erf, gnumeric_erfc, gnumeric_bessely)
+	(gnumeric_besselj): Implemented
+	(gnumeric_bin2dec): Moved from fn-math.c
+
+	* src/fn-math.c (gnumeric_bin2dec): Moved to fn-eng
+
+	* src/func.c (functions_init): Added eng_functions.
+
+	* src/fn-stat.c: Cleaned functions help.
+
+	* src/Makefile.am: Added fn-eng.c
+
+1999-03-11  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/clipboard.c (sheet_paste_selection): New routine.  Abstracts
+	the paste operation.
+	(clipboard_paste_region): Now it uses a clipboard with the active
+	X selection instead of defaulting to "request clipboard from X"
+	(this is only for inter-workbook copy-paste).
+
+	* src/sheet.c (find_workbook_with_clipboard): Tries to find a
+	workbook with clipboard information.  Probably the clipboard
+	should be global to all Gnumeric.
+
+	* src/render-ascii.c (cell_region_render_ascii): Free the
+	information after we have used it, not before.
+
+	* src/expr.c (eval_expr): Handle new-born recursive references.
+
+1999-03-11  Michael Meeks <michael@imaginator.com>
+
+	* src/fn-math.c (gnumeric_power): Implemented.
+
+	* src/fn-stat.c (gnumeric_poisson, gnumeric_gammaln):
+	Implemented.
+
+1999-03-11  Michael Meeks <michael@imaginator.com>
+
+	* src/fn-stat.c (gnumeric_expondist, gnumeric_geomean):
+	Implemented.
+
+1999-03-10  Vladimir Vuksan <vuksan@veus.hr>
+
+	* src/fn-financial.c: New file.
+
+	(gnumeric_effect, gnumeric_sln, gnumeric_syd): New functions.
+
+	* src/func.c (functions_init): Added financial functions.
+
+	* src/func.h: Added extern.
+
+1999-03-10  Michael Meeks <michael@imaginator.com>
+
+	* src/fn-stat.c: Created.
+	(gnumeric_stdev, gnumeric_stdevp, gnumeric_var, gnumeric_varp): Created
+
+	* src/func.c (functions_init): added stat_functions
+
+	* src/func.h: Added extern stat_functions.
+
+1999-03-08  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/fn-misc.c (gnumeric_clean): Add check here: only loop until
+	the end of the string.
+
+	* src/sheet.c (sheet_cell_foreach_range): Revert the arguments if
+	they are in a different order.
+
+1999-03-08  Takashi Matsuda <matsu@arch.comp.kyutech.ac.jp>
+
+	* plugins: new text plugin.
+
+	Add new plugin TXT for simple text inport/export
+	tab separated text. multiple sheet in a workbook is separated by
+	'\f' character.
+	If first line of each sheet is not include tab, then that line is
+	interpreted as sheet name.
+
+	* src/gnumeric-sheet.c: Add new mean for hard-coded keyboard short
+	cut CTRL-Return.  Because ItemEdit does not support XIM, I must
+	click the entry whenever I want to input janapese character.  If
+	user does not edit the cell, this key combination switchs a
+	keyboard focus to entry .
+
+	* Replace gdk_font_load() with gdk_fontset_load()
+	src/style.c gdk_font_load() makes impossible to show international
+	string.
+
+	* src/clipboard.h 'copy by value' was not possible because of
+	miss-definition of PASTE_* enume.
+
+	* src/file.c: gnumeric_notice was called with wrong arguments.
+
+1999-03-07  Michael Meeks  <michael@imaginator.com>
+
+	* src/cell.c (cell_set_format_from_style): Removed sluggish
+	re-drawing code: unneccessary.
+
+1999-03-05  Michael Meeks  <michael@imaginator.com>
+
+	* src/cell.c (cell_set_color_from_style): Implemented.
+
+1999-03-03  Michael Meeks  <michael@imaginator.com>
+
+	* plugins/excel/ms-formula.c (parse_data_new): Trap null pointers
+	on entry, ( coming from biff_get_text ).
+	(ms_excel_parse_formula): Removed nasty static buffers.
+
+1999-02-23  Bruno Unna  <bruno@iac.com.mx>
+
+	* src/dialog-cell-format.c (create_background_radio): Activated
+	the patterned background control (although in my machine the
+	boxes are all black) and added a radio button to let the
+	user do nothing with backgrounds (analogous to the one in
+	foreground section).
+
+	* src/dialog-cell-format.c (apply_coloring_format): Now this
+	functions takes into account the changes in create_background_radio,
+	that is, if the user decides not to change the background,
+	the background will not be changed. Also, assigned default
+	values to some variables, just to avoid an annoying warning.
+
+	* src/dialog-cell-format.c (create_coloring_page): If there
+	are different backgrounds in the range, select by default
+	the "no change" radio button for the background.
+
+1999-02-23  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/cell.c (cell_draw): If the cell has a render_color (provided
+	by the format specification), use that for the foreground.
+
+1999-02-22  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/file.c (workbook_save_as): Append the extension of the
+	default format if no colon is specified
+
+1999-02-22  Tim Mooney  <mooney@dogbert.cc.ndsu.nodak.edu>
+
+	* plugins/guile/plugin.c (func_scm_apply): Initialization of
+	structure is done in the function body, rather thatn when it is
+	declared.  This is necessary because struct initializer must be
+	determinable at compile time, and those aren't.
+
+	* src/expr.c (eval_expr): Add at least one statement to the
+	default: handler in the case.
+
+	* src/fn-math.c: provide a break for default handlers.
+	* src/item-edit.c (entry_event): ditto
+	* src/sheet-autofill.c (fill_item_destroy): ditto.
+
+	* src/dialog-cell-format.c (create_number_format_page): Initialize
+	in the body, like above.
+
+1999-02-22  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* plugins/guile/plugin.c (func_scm_apply): Initialize the
+	cell_ref.sheet to NULL.
+
+1999-02-22  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet.c (sheet_cell_remove_internal): Queue recalcs for
+	cells that depend on cells that are being destroyed.
+	(clear_cell_content): Added a call to workbook_recalc
+	(sheet_clear_region_content): same.
+
+1999-02-21  Michael Meeks <michael@imaginator.com>
+
+	* plugins/excel/ms-formula.c FORMULA_PTG_EXP: Fixed several bugs.
+
+	* plugins/excel/ms-excel.c (ms_excel_set_cell_font, biff_font_data_get_style_font):
+	Body of the former moved to the latter, loop invariant code removed for
+	big speedup.
+	(ms_excel_set_cell_xf): Burdern of border color stuff moved to
+	(ms_excel_palette_get): New routine to cache and create
+	StyleColor records as needed.
+	(ms_excel_sheet_insert): Fixed so no NULL pointers can escape
+	into cell_set_text.
+	(ms_excelReadWorkbook): Removed BIFF Usage chart, its slow.
+	(biff_nasty_font_check_function): Sorts out font sillyness.
+	(biff_xf_data_new): Added cached style_format pointer
+	(biff_xf_data_destroy): unref style_format if allocated.
+
+	* src/cell.c (cell_set_format_from_style): Implemented.
+
+1999-02-19  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* doc/C/Makefile.am (install-data-local): Use $(mkinstalldirs) not
+	$(topsrcdir)/mkinstalldirs.
+
+	* src/Makefile.am: Use $(GNOME_CONFIG) instead of `gnome-config'
+	to run the gnome-config script.
+	(BUILT_SOURCES): Swap with GNUMERIC_CORBA_GENERATED to be
+	conceptually clean.
+
+1999-02-19  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/fn-misc.c (gnumeric_min): Implement ISERROR.
+
+	* src/clipboard.c (paste_cell): Do not render the value if the
+	result is an error.
+
+	* src/cell.c (cell_copy): Do not copy the value of a cell when the
+	value is NULL (due to the cell having an error).
+
+	* src/expr.c (eval_expr): Evaluate binary operations in parts to
+	keep the correct error message on an operation if possible.
+	(eval_expr): Propagate errors.
+
+	* src/item-edit.c (item_edit_draw): Sync the before-cursor and
+	after-cursor Y-display text cordinate.
+
+	* src/expr.c (eval_funcall): Add type checking for the simple
+	functions.
+
+	* doc/C/Makefile.am (install-data-local): use topsrcdir here (fix
+	from Ian Campbell <ijc25@cam.ac.uk>
+
+	* src/fn-math.c (gnumeric_not): Implement NOT.
+
+	* src/number-match.c (format_create_regexp): Allow upper case
+	format codes.
+
+	* src/format.c: ditto.
+
+1999-02-18  Michael Meeks <michael@imaginator.com>
+
+	* plugins/excel/ms-formula.c (ms_excel_parse_formula):
+	case FORMULA_PTG_ATTR: Added 'Optimised SUM' functionality,
+	Generaly made output less verbose.
+
+	* plugins/excel/ms-excel.c: BIFF_DBCELL, ignore it, its
+	not interesting.
+	(ms_excel_set_cell_xf, biff_format_data_lookup,
+	biff_format_data_destroy, ms_excel_workbook_new,
+	ms_excel_workbook_destroy): Implemented formatting.
+
+1999-02-17  Michael Meeks <michael@imaginator.com>
+
+	* plugins/excel/ms-excel.c (biff_get_rk): moved RK number
+	extraction into function.
+	Added MULRK support: the lost numbers arrive !
+
+1999-02-17  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/fn-math.c (gnumeric_trunc): Implement TRUNC.
+
+	* src/func.c (function_iterate_argument_values): Do not evaluate a
+	subexpression if the previous expression failed due to an error.
+	Basically: add a check to the eval return value.
+
+	I took this oportunity to check all the source and this was the
+	only buggy spot.
+
+1999-02-16  Michael Meeks  <sca20@cam.ac.uk>
+
+	* plugins/excel/ms-excel.c: Fixed many bugs in my
+	understanding of hash table functions.
+	Added rudimentary NAME stuff.
+	made error lookup global.
+	Fixed up Header / Footer functionality.
+	(ms_excel_sheet_new, ms_excel_sheet_insert,
+	ms_excel_read_sheet): Added 'blank' field to excel_sheets,
+
+	* plugins/excel/ms-formula.c: Added puzzling
+	PTG_NAME stuff, this is really wierd.
+	PTG_ERR added.
+
+1999-02-16  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/workbook.c (change_auto_expr_menu): OOps I got too excited
+	here using my helper routine: Now we do not destroy this helpful
+	menu.
+
+	* src/widget-editable-label.c (editable_label_set_text): Bug fix:
+	sometimes this code is invoked with its argument being el->text.
+
+1999-02-15  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/workbook.c (workbook_new): Make a local copy of the toolbar,
+	as we use this to update the radio buttons.
+	(workbook_do_destroy): Free the toolbar.
+	(workbook_feedback_set): Use the per-workbook toolbar here.
+
+1999-02-14  Michael Meeks  <sca20@cam.ac.uk>
+
+	* plugins/excel/ms-formula.c: Inserted a whole scad
+	of math functions into translation table.
+	(parse_list_to_equation): g_strdupped return values.
+	FORMULA_PTG_STR: Updated old and broken code.
+	* src/about.c (dialog_about): Added Sean.
+
+1999-02-13  Bruno Unna  <bruno@iac.com.mx>
+
+	* src/dialog-cell-format.c (create_foreground_radio): Added a
+	radio button to let the users 'no change' the text colour, useful
+	when there is a range selected with differently colored cells
+	and it is desired to change the background of them without
+	touching the foreground.
+
+	* src/dialog-cell-format.c (create_coloring_page): When there
+	are different foreground colours in the selected cells, the
+	default selection is 'no change'.
+
+	* src/dialog-cell-format.c (apply_coloring_format): If there
+	is no need to make changes to the foreground color of the
+	cells, avoid doing them.
+
+1999-02-12  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/item-cursor.c (item_cursor_target_region_ok): Warn the user
+	if he overwrites something accidentally by dropping cells in the
+	target location.
+
+	* src/sheet.c (sheet_is_region_empty): New function.
+
+1999-02-12  Michael Meeks  <sca20@cam.ac.uk>
+
+	* plugins/excel/ms-excel.c (biff_get_global_string):
+	Drasticly simplified, accelerated and in-lined out.
+	(biff_get_text): Fixed using unicode spec, various
+	updates to calls to it, fixing offsets.
+	Removed lots of debug output to speedup
+
+1999-02-10  Sean Atkinson  <sca20@cam.ac.uk>
+
+	* src/fn-math.c (callback_function_sum): enhanced warning for
+	unknown value->type.
+
+1999-02-12  Frederic Devernay  <devernay@istar.fr>
+
+	* plugins/perl/perl.c: Handle the #define dirty in perl-thread.
+
+1999-02-12  Bruno Unna  <bruno@iac.com.mx>
+
+	* src/cell.c (cell_draw): Now the function draws the cell
+	using the cell background color setting. Although it does
+	the job, I guess there must be a better way to do it. Thanks
+	to Michael for the hint.
+
+	* src/item-grid.c (item_grid_draw_cell): Commented out the lines
+	involved with patterns display in the cell, for that code is
+	not ready yet.
+
+	* src/dialog-cell-format.c (create_coloring_page): Reactivated
+	the background selection panel of the coloring page.
+
+	* src/dialog-cell-format.c (create_background_radio): Commented out
+	the addition of the pattern selection for a cell.
+
+1999-02-10  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/workbook.c (workbook_detach_sheet): Be less forgiving as to
+	removing sheets with pending references.
+
+	(sheet_action_delete_sheet): Add a test for
+	dependencies when removing a sheet
+	(workbook_can_detach_sheet): New function.
+
+	* src/cell.c (cell_relocate): When relocating a cell with a
+	formula, always mark it as changed.  We were doing that before
+	only for the case where the location had changed, but we use
+	cell_relocate in other cases as well.
+
+	* src/fn-string.c (gnumeric_lower, gnumeric_upper): These
+	functions were wrong.  They were never incrementing the pointer
+	and they were releasing the wrong pointer.
+
+	* src/clipboard.c (paste_cell): When pasting a cell, mark the
+	contents as modified.
+
+	* src/file.c (file_saver_is_default_format): Make sure the saver
+	is always set.
+
+1999-02-10  Michael Meeks  <michael@imaginator.com>
+
+	* plugins/excel/ms-excel.c (ms_excel_read_cell): BOOLERR booleans
+	hard-translated to 1, 0: not a good solution to problems with TRUE.
+	* src/fn-string.c (gnumeric_upper, gnumeric_lower): Add increment
+
+1999-02-09  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/parser.y: Apparently string concatenation operator in Excel
+	has the lower priority.
+
+	* src/workbook.c (workbook_detach_sheet): New function used to
+	detach a sheet from a workbook.
+	(sheet_menu_label_run): New routine.  Invoked on button-3 on the
+	sheet label.
+
+	* src/gnumeric-util.c (gnumeric_auto_kill_popup_menu_on_hide): New
+	routine to deallocate menus when they go to unshown state
+
+1999-02-09  Michael Meeks  <michael@imaginator.com>
+
+	* plugins/excel/ms-excel.c (ms_excel_sheet_new,
+	ms_excel_workbook_attach, biff_boundsheet_data_new):
+	Major sheet allocation re-organisation, hash boundsheet data.
+	(ms_excel_sheet_set_version, ms_excel_sheet_set_index,
+	ms_excel_workbook_get_sheet): re-hashed API
+	* plugins/excel/ms-formula.c: PTG_MISSARG implemented
+
+1999-02-08  Sean Atkinson  <sca20@cam.ac.uk>
+
+	* plugins/excel/ms-excel-biff.h, ms-excel.c:
+	added BIFF_EXTERNCOUNT
+	* plugins/excel/ms-excel.c (ms_excel_read_sheet):
+	stubbed BIFF_EXTERNSHEET, stubbed SUPBOOK
+	(biff_get_externsheet_name): implemented inter-sheet references
+	* plugins/excel/ms-formula.ch: added FORMULA_PTG_CONCAT
+	(ms_excel_parse_formula): implemented FORMULA_PTG_REF_3D
+
+1999-02-07  Michael Meeks  <michael@imaginator.com>
+
+	* plugins/excel/ms-formula.c (ms_excel_parse_formula):
+	FORMULA_PTG_ATTR stubs: can ignore most of AttrSpace.
+
+1999-06-02  Michael Meeks  <michael@edenproject.org>
+
+	* src/expr.c (do_expr_decode_tree): Added ARRAY support.
+
+1999-06-01  Morten Welinder  <terra@diku.dk>
+
+	* src/format.c (format_value): Mark format for translation.
+	(format_number): Locale improvements.
+
+	* src/parser.y (yylex): Translate locale's decimal point into a
+ 	dot.
+	(gnumeric_expr_parser): Extract locale's decimal point.
+
+1999-06-01 Akira Higuchi <a-higuti@math.sci.hokudai.ac.jp>
+
+	* src/gnumeric-util.c (font_change_component): Extend the size of
+	the array components[] so that it can handle very long fontset
+	names.
+	
+	* src/style.c: Change the default font names.
+	
+	* src/workbook.c: Add gtk_widget_ensure_style() call, which is
+	necessary to knowing if a fontset is supplied for the label
+	widget.
+
+1999-06-01  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-stat.c (callback_function_trimmean): Cleanup.
+	(gnumeric_large): Fix conditional.  Thanks to Nick Lamb.
+	(gnumeric_small): Ditto.
+
+1999-06-01  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-stat.c (gnumeric_skew): Fix crashes and leaks.
+	(gnumeric_covar): Ditto.
+	(gnumeric_rsq): Ditto.
+	(gnumeric_pearson): Ditto.
+	(gnumeric_correl): Ditto.
+	(gnumeric_avedev): Ditto.
+
+	(gnumeric_stdev): Don't make assumptions of the type of VAR.
+	(gnumeric_stdevp): Ditto.
+	(gnumeric_stdeva): Ditto.
+	(gnumeric_stdevpa): Ditto.
+
+	(callback_function_covar): Simplify greatly.
+	(callback_function_correl): Ditto.
+	(callback_function_stat_avedev_sum): Ditto.
+	(callback_function_skew_sum): Ditto.  Also improve precision.
+	(callback_function_rank): Ditto.
+	(callback_function_trimmean): Ditto.
+	(callback_function_mode): Ditto.
+	(callback_function_stat_prod): Ditto.
+	(callback_function_count): Ditto.
+	(callback_function_kurt_sum): Ditto.
+	(callback_function_ztest): Ditto.
+	(callback_function_list): Ditto.
+	(callback_function_percentrank): Ditto.
+	(gnumeric_skew): Handle zero stddev.
+
+	* src/expr.c (eval_cell_value): Delete.  Use value_duplicate
+ 	instead.
+	(eval_funcall): Fix memory corruption on error.  Fix serious leak.
+	(free_values): Only free non-NULLs.
+
+1999-06-01  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/file.c (dialog_query_load_file): 
+	(workbook_save_as): Prettify these.  Thanks to Andrew for pointing
+	this out.
+
+1999-06-01  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-stat.c (gnumeric_kurt): Fix crashes and leaks.
+
+1999-06-01  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-string.c: Added SEARCH().  Quite a complex beast but
+ 	should work completely.
+
+1999-06-01  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-stat.c (gnumeric_confidence): Fix sign.
+	(gnumeric_devsq): Simplify and correct.
+
+	* src/file.c: undo last change.  (The operation succeeded, but the
+ 	patient died.)
+
+1999-05-31  Matt Loper  <matt@gnome-support.com>
+
+	* src/sheet-view.c: Because GNOME::Component was renamed to
+	GNOME::BonoboObject, some bonobo function call names needed to be
+	changed here (ex. gnome_component_new_view to
+	gnome_bonobo_object_new_view).
+
+	* src/sheet-object-container.c (sheet_object_container_land):
+	likewise.
+	(sheet_object_container_realize): likewise.
+
+1999-05-31  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-lookup.c: Added ADDRESS().  Cleaned up too long lines.
+
+1999-05-28  Morten Welinder  <terra@diku.dk>
+
+	* src/file.c (workbook_read): Temporarily switch to "C" locale
+ 	when loading and saving.  I am not sure this is the right thing to
+ 	do, but until someone finds a better way, it will work fine.
+	(workbook_save_as): Ditto.
+	(workbook_save): Ditto.
+
+	* src/fn-math.c (gnumeric_power): Fix domain.
+
+1999-05-27  Morten Welinder  <terra@diku.dk>
+
+	* src/expr.c (value_get_as_string): Improve precision -- this
+ 	impacts the results of saves.
+
+1999-05-27  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-stat.c (callback_function_mode): Ignore strings as
+ 	advertised.
+	(callback_function_stat_inv_sum): Ditto.
+	(callback_function_rank): Ditto.
+	(callback_function_trimmean): Ditto.
+	(callback_function_covar): Ditto.
+	(callback_function_correl): Ditto.
+	(callback_function_stat_prod): Ditto.
+	(callback_function_skew_sum): Ditto.
+	(callback_function_kurt_sum): Ditto.
+	(callback_function_stat_avedev_sum): Ditto.
+	(callback_function_devsq_sum): Ditto.
+	(callback_function_median): Ditto.
+	(gnumeric_tinv): Fix meaning.
+	(callback_function_count): Cleanup.
+	(callback_function_stat_inv_sum): Ditto.  Also fix error case.
+	(gnumeric_normdist): Simplify using dnorm.
+	(gnumeric_gammadist): Use dgamma.
+
+	* src/mathfunc.c (dgamma): New function from R.
+
+1999-05-27  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-stat.c: Added BETAINV() and CHITEST().  Added optional
+ 	parameters A and B to BETADIST().  Implemented non-cumulative case
+ 	of NORMDIST().  Implemented cumulative case of POISSON().  Fixed
+ 	CHIDIST(), CHIINV(), FDIST(), FINV(), and TDIST() to return the
+ 	complement of the probablity.  It looks like TINV() is still
+ 	broken after file restructurations.
+
+1999-05-26  Morten Welinder  <terra@diku.dk>
+
+	* src/sheet-view.h: Include fix.
+
+	* src/style.h: Include fix.
+
+	* src/symbol.c (symbol_table_new): Use gnumeric_strcase_equal and
+ 	gnumeric_strcase_hash.
+	(g_strcase_equal): Delete.
+	(g_strcase_hash): Delete.
+
+	* src/eval.c (dependency_equal): Constify.
+
+	* src/sheet.c (cell_hash): Constify.
+	(cell_compare): Ditto.
+	(CRsort): Ditto.
+
+1999-05-26  Michael Meeks  <michael@imaginator.com>
+
+	* src/file.c (file_saver_is_default_format): Fixed bug causing
+	incorrect format to be displayed.
+	(fill_save_menu): Wait until we have populated the option menu
+	before setting the current item.
+	(make_format_chooser): Move some code into file_save_menu.
+
+	* src/xml-io.c (writeXmlSheetTo): Removed,
+	(writeXmlWorkbook): Use the order workbook_sheets list.
+
+	* src/workbook.c (cb_workbook_sheets): Commented out
+	(workbook_sheets): Get sheets in order from notebook tabs.
+
+1999-05-25  Morten Welinder  <terra@diku.dk>
+
+	* src/mathfunc.c, src/mathfunc.h: New files, mostly taken from the
+ 	R package.  (It's a GPL'ed gold mine.)
+
+	* src/*.c: Use <math.h>, not "math.h".
+
+	* src/utils.c (random_normal): Use qnorm, not inv_phi.
+
+	* src/fn-stat.c: Move all R code to mathfunc.c
+	Change all uses to phi to pnorm.
+	(gnumeric_normsinv): Use qnorm.
+	(gnumeric_confidence): Use qnorm.
+	(normsinv): Superseded by qnorm.
+	(help_lognormdist): Fix.
+	(gnumeric_lognormdist): Fix domain.
+	(gnumeric_lognormdist): Use plnorm.
+	(gnumeric_loginv): Use qlnorm.
+	(gnumeric_norminv): Use qnorm.
+	(gnumeric_tinv): Use qt.
+	(gnumeric_fdist): Use qf.
+	(gnumeric_gammainv): Use qgamma.
+	(gnumeric_chiinv): Use qchisq.
+
+	* src/Makefile.am (GNUMERIC_BASE_SOURCES): Add mathfunc.c and
+ 	mathfunc.h.
+
+1999-05-25  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-string.c (gnumeric_code): Handle compilers for which the
+ 	"char" type is signed.
+
+	* src/utils.c (parse_cell_name): Don't use isalpha which is
+ 	subject to locale.  (So is toupper, but the effects are ok.)
+	Move bounds check to handle overflow also.
+	(col_from_name): Don't use isalpha.
+
+	* src/fn-stat.c: Eliminate fmin2 and fmax2.
+
+	* src/fn-math.c (gnumeric_randbetween): Use random_01.
+	(gnumeric_rand): Ditto.
+
+	* src/utils.c (random_01): Function moved from goal-seek.c and
+ 	improved.
+	(random_normal): Function moved from goal-seek.c.
+
+	* configure.in: Check for a few ways of getting random numbers.
+
+1999-05-23  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/file.c (workbook_save_as): Handle the window closing by the
+	window manager here.
+	(dialog_query_load_file): And here.
+
+	* src/dialog-zoom.c (dialog_zoom): Handle window manager close
+	here (it comes in the form of return value being NULL).
+	
+	* src/dialog-insert-cells.c (dialog_insert_cells): ditto.
+
+	* src/dialog-delete-cells.c (dialog_delete_cells): ditto.
+
+1999-05-24  Morten Welinder  <terra@diku.dk>
+
+	* src/workbook.c (workbook_fixup_references): Set formula
+ 	directly, not via text strings.  (This actually fixes a bug with
+ 	insertion of columns/rows where we modify the cells before we
+ 	restructure the sheet.)  It's much faster and cleaner too.
+	(workbook_invalidate_references): Ditto.
+
+1999-05-23  Morten Welinder  <terra@diku.dk>
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_cursor_set): Make the
+ 	scroll bar reflect the top-left corner's position.  This feels
+ 	more natural.
+	(gnumeric_sheet_set_top_col): Compute visible ranges; do nothing
+ 	until things change.
+	(gnumeric_sheet_set_top_row): Ditto.
+
+	* src/dialog-goal-seek.c (gnumeric_goal_seek): Use
+ 	goal_seek_initialise.
+	(gnumeric_goal_seek): Trawl heavier and earlier in the middle.
+	(dialog_goal_seek): downcase a stray uppercase letter.
+
+	* src/goal-seek.c (goal_seek_initialise): New function.
+
+1999-05-23  Morten Welinder  <terra@diku.dk>
+
+	* src/dialog-goal-seek.c: redesign non-gui part.
+	(dialog_goal_seek): Added entries for xmin and xmax.
+
+	* src/goal-seek.h: New file.
+
+	* src/goal-seek.c: New file.
+
+	* src/Makefile.am (GNUMERIC_BASE_SOURCES): Add goal-seek.c and
+ 	goal-seek.h.
+
+1999-05-22  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-financial.c (gnumeric_pv): Revert last chance.  (Bogosity
+ 	is in me.)
+
+1999-05-22  Morten Welinder  <terra@diku.dk>
+
+	* src/sheet.c (sheet_selection_to_string): Delete unused variable
+ 	"assembler".
+
+	* src/sheet-view.c (horizontal_scroll_event): Delete unused
+ 	variable "distance".
+	(vertical_scroll_event): Delete unused variable "distance".
+
+	* src/sheet-object.c (control_point_handle_event): Delete unused
+ 	variables "ll" and "object_item".
+
+	* src/widget-editable-label.c (editable_label_set_text): Delete
+ 	unused variable "item_text".
+
+	* src/fn-string.c (gnumeric_replace): Delete unused variable "p".
+
+	* src/fn-eng.c (get_real_and_imaginary): Delete unused variables
+ 	"i" and "buf".
+
+	* src/sheet-object-graphic.c (sheet_object_filled_update): Delete
+ 	unused variables "x1", "x2", "y1", and "y2".
+
+	* src/fn-stat.c (gnumeric_harmean): Delete unused variable "ans".
+	(gnumeric_geomean): Delete unused variable "ans".
+	(gnumeric_avedev): Delete unused variable "ans".
+	(gnumeric_large): Delete unused variable "count".
+	(gnumeric_small): Delete unused variable "count".
+
+	* src/parser.y (make_string_return): Delete unused variable "type".
+
+	* src/workbook.c (cb_sheet_check_dirty): Delete unused variable
+ 	"f".
+	(workbook_focus_sheet): Delete unused variable "sheet_view".
+	(workbook_selection_to_string): Delete unused variable "str".
+
+	* src/fn-date.c (gnumeric_datevalue): Delete unused variables
+ 	"year", "month", and "day".
+	(gnumeric_edate): Delete unused variables "year", "month", and
+ 	"day".
+
+	* src/dialog-cell-format.c (apply_coloring_format): Delete unused
+ 	variable "cl".
+
+	* src/dialog-solver.c: Delete unused variable "paste_types".
+
+	* src/xml-io.c (xmlGetFloatValue): Delete unused variable "child".
+	(xmlGetDoubleValue): Delete unused variable "child".
+	(xmlGetCoordinate): Delete unused variable "child".
+	(xmlGetGnomeCanvasPoints): Delete unused variable "child".
+	(xmlGetColorValue): Delete unused variable "child".
+	(xmlGetCoordinates): Delete unused variable "child".
+ 	(xmlGetCoordinates): Delete unused variables "X1", "Y1", "X2", and
+ 	"Y2".
+
+	* src/sheet-object-graphic.c (sheet_object_graphic_update): Delete
+ 	unused variable "sog".
+
+	* src/cell.c (cell_set_value_simple): Delete unused variable "lconv".
+	(cell_set_text_simple): Delete unused variable "lconv".
+	(cell_draw): Delete unused variable "white_gc".
+	(cell_get_text): Delete unused variable "sheet".
+
+	* src/ranges.c (range_list_parse): Delete unused variable "range".
+	(range_set_style): Delete unused variables "col" and "row".
+
+	* src/dialog-solver.c (dialog_solver_options): Delete unused
+ 	variable "button".
+
+	* src/eval.c (search_cell_deps): Delete unused variables "inters"
+ 	and "nointers".
+
+	* src/dialog-cell-sort.c (dialog_cell_sort): Delete unused
+ 	variable "txt".
+
+	* src/fn-database.c (find_cells_that_match): Delete unused
+ 	variable "new_item".
+
+	* src/func.c (function_iterate_do_value): Delete unused variable
+ 	"list".
+
+	* src/fn-lookup.c (gnumeric_lookup): Delete unused variables "v1"
+ 	and "ans".
+	(lookup_functions): Use correct help variable
+ 	for "columns".
+
+	* src/dialog-function-select.c (function_select_create): Delete
+ 	unused variable "hadj".
+
+	* src/main.c (gnumeric_main): Delete unused variable.
+
+	* src/dialog-function-wizard.c (function_type_input): Remove
+ 	unused variable.
+	(get_text_value): Ditto.
+	(arg_data_list_destroy): Comment out -- not used.
+
+	* src/fn-financial.c (gnumeric_pv): Fix sign error.  Something is
+ 	entirely bogus in this file.
+
+	* src/ranges.h: Fix includes.
+
+	* src/pattern-selector.h (PATTERN_SELECTOR_CLASS): Bogosity fixed;
+ 	macro not used, though.
+
+	* src/workbook.c (sheet_action_delete_sheet): Grammar fix.
+
+	* src/sheet.c (sheet_verify_selection_simple): Grammar fix.
+
+	* src/file.c (file_priority_sort): Constify.
+	(file_format_register_open): Make description parameter const.
+	(file_format_register_save): Ditto.
+	(file_format_unregister_open): Plug leak.
+	(file_format_unregister_save): Ditto.
+	(workbook_save_as): Grammar fix.
+
+	* src/about.c (dialog_about): Fix URL.
+
+1999-05-22  Morten Welinder  <terra@diku.dk>
+
+	* src/sheet.c (sheet_set_text): Use General format for all numbers
+ 	in standard format.  (In particular, don't create a sticky "0" format
+	whenever an integer is entered.)
+
+	* src/format.c (format_number): Constify.
+	(append_minute): Ditto.
+	(append_day): Ditto.
+	(append_hour): Ditto.
+	(append_month): Ditto.
+	(append_year): Ditto.
+	(append_second): Ditto.
+	(check_valid): Ditto.
+	(append_half): Ditto.
+	(lookup_color): Ditto.
+	(render_number): Ditto.
+	(format_value): Ditto.
+
+	* src/expr.c (do_expr_decode_tree): Handle negative numbers, just
+ 	in case.
+
+1999-05-21  Morten Welinder  <terra@diku.dk>
+
+	* src/sheet-autofill.c (autofill_cell): Add FIXME.
+
+	* src/sheet.h (IS_SHEET): Remove cast.
+
+	* src/expr.h: Delete expr_tree_relocate.
+
+	* src/expr.c (fixup_calc_new_cellref): New function.
+	(do_expr_tree_fixup_references): Simplify using
+ 	fixup_calc_new_cellref.
+	(do_expr_tree_relocate): Delete.
+	(expr_tree_relocate): Delete.
+
+	* src/sheet.c (sheet_cell_formula_link): Add debug code.
+	(sheet_insert_col, sheet_delete_col, sheet_insert_row,
+ 	sheet_delete_row): Do fixups early.
+
+	* src/cell.c (cell_relocate): Don't relocate cell -- fixup handles
+ 	all that is needed.
+
+	* src/color.c (gs_white, gs_black, gs_light_gray, gs_dark_gray,
+ 	gs_red): Moved from src/gnumeric-sheet.c.
+	(gnumeric_color_context): make static.
+
+1999-05-21  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-stat.c: PERCENTRANK() added.
+
+	* src/func.[ch]: function_iterate_do_value made public.
+
+1999-05-21  Morten Welinder  <terra@diku.dk>
+
+	* configure.in: use AC_CHECK_HEADERS, not AC_CHECK_HEADER for the
+ 	benefit of autoheader.
+
+1999-05-19  Michael Meeks  <michael@imaginator.com>
+
+	* src/fn-stat.c: Added 'static' to new non-global functions.
+
+	* src/cell.c (cell_set_formula_tree_simple): Added
+	missing sheet_cell_formula_unlink.
+
+1999-05-19  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-math.c: SERIESSUM(), SUBTOTAL() and SUMA() added.
+
+	* src/fn-stat.c: SLOPE(), AVERAGEA(), MAXA(), MINA(), STDEVA(),
+ 	STDEVPA(), VARA(), and VARPA() added.
+
+	* src/fn-stat.c (gnumeric_counta, gnumeric_min, gnumeric_max,
+ 	gnumeric_stdev, gnumeric_stdevp, gnumeric_var, gnumeric_varp):
+ 	made public (used also in src/fn-math.c for now on).
+
+1999-05-19  Michael Meeks  <michael@imaginator.com>
+
+	* CHANGES: copied to web and blanked.
+
+1999-05-18  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/corba-args.c (gnumeric_arg_parse): Initialize as a server.
+	Thanks to Elliot for fixing this one.
+
+1999-05-17  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/utils.c (parse_cell_name): Return false if the cell name is
+	outside the boundaries of the spreadsheet.
+
+	* src/corba-sheet.c (Sheet_range_set_text): Implement.
+	(Sheet_range_set_formula): Implement.
+	(Sheet_range_set_format): Implement.
+
+	* src/ranges.c (range_parse, range_list_parse, range_list_destroy,
+	range_list_foreach_full, range_list_foreach_all,
+	range_list_foreach, range_set_style): New functions.  Used by the
+	corba-sheet code.
+
+	* src/corba-sheet.c (Sheet_range_get_values): Implement
+	vector-based result return.
+
+	* src/xml-io.c (xmlSetGnomeCanvasPoints): use g_malloc instead of alloc.
+
+	* src/dialog-solver.c (constr_add_click): Use g_malloc instead of
+	alloc.  Use g_new instead of malloc.
+
+	* src/utils.c (parse_cell_name_list): Add parameter checking.  Use Migueestyle.
+
+1999-05-16  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/corba-workbook.c (Workbook_corba_class_init): Make it work
+	with the new bonobo.
+
+1999-05-16  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* src/Gnumeric.idl: Revert the following checkin:
+	1999-05-13  Kjartan Maraas  <kmaraas@online.no>.
+	`gnome-object.idl' is part of `bonobo'.
+
+1999-05-16  Morten Welinder  <terra@diku.dk>
+
+	* src/expr.c (do_expr_tree_relocate): Change to use lazy copying
+ 	scheme -- this should improve sharing.  (Until someone saves and
+	reloads, of course.  More about that at a later time.)
+	(expr_tree_invalidate_references): Quiet.
+	(expr_tree_fixup_references): Quiet.
+
+	* src/cell.c (cell_relocate): Only update if changed.
+
+	* src/expr.c (evaluate_level): Deleted.
+	(bigger_prec): Deleted.
+	(do_expr_decode_tree): Handle left/right associativity.
+
+	* src/cell.c (cell_set_text_simple): Simplify value parsing.
+
+	* src/dialog-goal-seek.c (test_cell_with_value): Cast to double,
+ 	not float.
+
+1999-05-16  Michael Meeks  <michael@imaginator.com>
+
+	* src/workbook.c (cb_assemble_selection): Add 'char *sel'
+	and change "," -> ','
+	(workbook_selection_to_string): Add 'char *result'
+	Fix incorrect pointer dereference.
+
+	* src/sheet.c (reference_append): Fix appended strings to
+	characters.
+	(sheet_selection_to_string): Add missing GList pointer
+	'selections'. Changes ":" -> ':', rename res to 'info->result'
+
+1999-05-15  Heath Martin <martinh@pegasus.cc.ucf.edu>
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_compute_visible_ranges):
+	Small cut and paste fix.  Use row here instead of col.
+
+1999-05-13  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* configure.in (ALL_LINGUAS): Added slovak language.
+
+1999-05-09  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet.c (sheet_selection_to_string): New routine.  Returns a
+	string representation of the current selection.
+
+	* src/workbook.c (workbook_selection_to_string): New routine.
+	Retunrs a string representation of the current selection.
+
+1999-05-08  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/corba-workbook.c (corba_sheet): Fix.
+
+1999-05-16  Michael Meeks  <michael@imaginator.com>
+
+	* CHANGES: Added to ease burdern of creating accurate descriptions
+	between versions.
+
+1999-05-15  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* samples/statfuns.xls: Added a new file.  It can be used for
+ 	regression testing.  It is in Excel format so it tests the Excel
+ 	plugin's functionality in the same time too.
+
+1999-05-15  Michael Meeks  <michael@imaginator.com>
+
+	* src/file.c (file_format_register_save): Changed to append
+	new types; works round bug in selection.
+
+	* src/expr.c (eval_cell_value): Fix sillyness of top left
+	corner stuff.
+
+	* src/expr.h: Added const to value_dump
+
+	* src/parser.y (value_dump): Fixed array problem.
+	Added const to parameter.
+
+1999-05-15  Michael Meeks  <michael@imaginator.com>
+
+	* src/parser.c (value_dump): Updated Arrays, to use Value *
+
+	* src/func.c (function_iterate_do_value): same.
+
+	* src/fn-sheet.c (gnumeric_selection): same.
+
+	* src/eval.c (add_value_deps): same.
+
+	* src/expr.c (value_get_as_string): Major re-work of ARRAY
+	conversion.
+	(value_array_set): Fix rather embarassing bug in assertions.
+	(eval_cell_value): Return top left corner of array, seems to be
+	what excel does.
+	(value_release, value_array_set, value_array_new),
+	(value_array_copy_to, value_array_resize):
+	Updated value->v.array to Value *'s saves much hassle !
+
+1999-05-14  Michael Meeks  <michael@imaginator.com>
+
+	* src/expr.c (value_area_get_width, value_area_get_height):
+	Clip to sheet bounds if CELLRANGE: Massive speedup on some
+	lookups.
+
+	* src/expr.h: Added value_zero
+
+	* src/func.c (constants_init): Added a 'value_zero' constant
+	to kill leak in out-of-range / NULL cell cases in value_get_at_x_y
+
+1999-05-14  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-math.c: Added LCM().
+
+1999-05-13  Kjartan Maraas  <kmaraas@online.no>
+
+	* src/Gnumeric.idl: s/#include <gnome-object.idl>/
+	  #include <GnomeObject.idl>, to make it compile.
+
+1999-05-13  Michael Meeks  <michael@imaginator.com>
+
+	* src/Gnumeric-impl.c: Fixes killing this file by
+	mistake.
+
+1999-05-13  Michael Meeks  <michael@imaginator.com>
+
+	* src/expr.h: Updated all prototypes.
+
+	* *.c:
+	s/\<value_float *(/value_new_float (/g
+	s/\<value_int *(/value_new_int (/g
+	s/\<value_str *(/value_new_string (/g
+	s/\<value_string *(/value_get_as_string (/g
+	s/\<value_cellrange *(/value_new_cellrange (/g
+	s/\<value_get_as_double *(/value_get_as_float (/g
+	s/\<value_get_bool *(/value_get_as_bool (/g
+
+	* src/expr.c: Moved all pertainant Value functions to the
+	same place to aid possible splitting.
+
+1999-05-13  Michael Meeks  <michael@imaginator.com>
+
+	* src/expr.c (value_area_get_at_x_y): Added warning
+	in safety case.
+
+	* src/fn-lookup.c (gnumeric_lookup): Implemented.
+
+	* src/func.h: Updated critera_test_fun_t: returns int,
+	should really be gboolean ?
+
+	* src/expr.h: Added prototype & indentation beautified.
+
+	* src/expr.c (value_array_set): Helper function added.
+
+1999-05-13  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-math.c: Added GCD().
+
+1999-05-12  Michael Meeks  <michael@imaginator.com>
+
+	* src/workbook.c (workbook_setup_edit_area): Added dependancy
+	debugging button for --debug=10 and fixed memory leak.
+	(deps_output): Dumps dependency data to stdout.
+
+	* src/gnumeric-util.c (range_contains): Re-order compares
+	to catch single cell ranges more quickly.
+
+	* src/eval.c (intersects): Change order of sheet / range check
+	for speed.
+	(search_cell_deps): Added comment.
+
+	* src/eval.h: Cosmetic typo. fix shet -> sheet
+
+1999-05-12  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-database.c: Database functions accept now string
+ 	criterias too.  In addition, the parsing of criterias and the test
+ 	functions are now public (src/fn-math.c uses these for now on).
+
+	* src/func.h: Added type definitions and function prototypes for
+ 	internal functions that parse and test criterias.
+
+	* src/fn-math.c: Added LN().  Changed LOG() to take an optional
+ 	second parameter.  LOG() returns the logarithm in base 10 if the
+ 	optional argument is not given, otherwise it returns the logarithm
+ 	in the given base.
+
+	* src/fn-math.c: Added COUNTIF() and SUMIF().
+
+	* src/fn-eng.c: Added IMLOG10() and IMLOG2().
+
+	* src/fn-eng.c (complex_ln): Fixed a bug.  Imaginary coefficient
+	was calculated incorrectly.
+
+1999-05-11  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-eng.c: Added CONVERT().  All translations should work.
+  	Also get_real_and_imaginary() fixed (complex numbers should now
+ 	work completely).
+
+1999-05-10  Michael Meeks  <michael@imaginator.com>
+
+	* src/sheet.h: Added workbook_focus_sheet.
+
+	* src/workbook.c (workbook_focus_sheet): Added.
+
+1999-05-10  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-eng.c: Added IMARGUMENT(), IMCONJUGATE(), IMCOS(),
+ 	IMDIV(), IMEXP(), IMLN(), IMPOWER(), IMPRODUCT(), IMSIN(),
+ 	IMSQRT(), IMSUB(), and IMSUM().
+
+1999-05-08  Michael Meeks  <michael@imaginator.com>
+
+	* web/index.html: Fix sillyness in references.
+
+	* web/gnumeric-0.25: Remove HTML tags...
+
+1999-05-08  Michael Meeks  <michael@imaginator.com>
+
+	* src/Makefile.am (gnumeric_LDADD): Added libole2 library.
+
+	* configure.in (XML_CFLAGS): Updated to add excel/libole2
+
+	* src/sheet.h: Commented sheet_cell_get vs. _fetch.
+
+	* src/expr.c (do_expr_tree_unref, value_string, value_release),
+	(eval_cell_value, do_expr_tree_invalidate_references):
+	Clean: Added 'default' cases with warnings.
+	(value_get_as_double, value_get_as_int, value_get_bool): Changed
+	to safer / faster switch statement from if.
+
+1999-05-07  Michael Meeks  <michael@imaginator.com>
+
+	* src/corba-workbook.c (corba_sheet): Add CORBA_Environment
+	parameter, needed for Object_dupicate...
+	(Workbook_sheet_new, Workbook_sheet_lookup),
+	(Workbook_sheet_current): Updated corba_sheet's args.
+
+	* src/fn-lookup.c: Fixed choose help.
+
+1999-05-06  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/corba-workbook.c (corba_sheet): Duplicate the object before
+	returning to ORBit.
+
+1999-05-07  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-eng.c: Added COMPLEX(), IMABS(), IMAGINARY(), IMREAL().
+  	Also added an internal function get_real_and_imaginary() which
+ 	still needs to be improved.
+
+	* src/fn-math.c: Added MROUND() and ROMAN().  ROMAN() currently
+ 	supports only type 0 (classic).
+
+1999-05-07  Heath Martin  <martinh@pegasus.cc.ucf.edu>
+
+	* src/expr.c (expr_tree_invalidate_references): Add extra argument
+ 	for the sheet we are changing.  All callers changed.
+	(expr_tree_fixup_references): Ditto.
+
+1999-05-06  Morten Welinder  <terra@diku.dk>
+
+	* src/eval.c (cell_queue_recalc): Don't re-queue cell.
+	(cell_queue_recalc_list): Don't re-queue cells.  (Because it is
+ 	wasteful and because unqueue then won't work right.)
+
+	* src/fn-lookup.c (gnumeric_column): Fix leak.
+	(gnumeric_row): Fix leak.
+	(gnumeric_choose): Fix leak.
+	(lookup_similar): Fix leaks.
+
+	* src/xml-io.c (xml_probe): Fix leak.
+	(xmlGetValue): Fix *HUGE* leak.
+	(readXmlStyle): Fix leaks.
+	(readXmlSheet): Fix leaks.
+	(createXmlSheet): Fix leak.
+	(readXmlCell): Move the freeze, just in case.
+
+	* src/fn-lookup.c (gnumeric_choose): Remove (incorrect) arg check.
+
+	* src/cell.c (cell_copy): Properly handle render_color member.
+  	Clear the CELL_QUEUED_FOR_RECALC flag.
+	(cell_destroy): Add code to make it painfully clear when members
+ 	of freed cells are accessed.
+
+1999-05-06  Michael Meeks  <michael@imaginator.com>
+
+	* src/cell.h: Added deep freeze prototypes.
+
+	* src/cell.c (cell_deep_freeze_redraws): Added
+	(cell_deep_thaw_redraws): Added,
+	(cell_queue_redraw): Updated to use deep_freeze
+	effectively ignore redraw requests.
+
+	* src/xml-io.c (readXmlCell): Added deep freeze/thaw
+	redraws for clean and easy speedup.
+
+1999-05-06  Michael Meeks  <michael@imaginator.com>
+
+	* src/workbook.c: Moved 'Sort' to the tools menu.
+
+	* HACKING: Pedantic clean.
+
+1999-05-06  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-date.c: Added EDATE().
+
+1999-05-06  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-date.c: Added DATEVALUE().
+
+1999-05-05  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-database.c (parse_criteria): If a condition contains
+	just a number, it is an equality condition.
+
+1999-05-05  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* configure.in: Laptop does not have resources.  Make guile
+	optional until at least.
+
+	* src: Now we only support two modes: Gnumeric and
+	Gnumeric-Bonobo.  The later includes all of the CORBA support,
+	there is no longer a non-Bonobo CORBA version.
+
+	* src/corba-workbook.c, src/corba-sheet.c, src/workbook-factory.c:
+	New files that support the Gnumeric CORBA interfaces.
+
+1999-05-02  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/corba-workbook.c (WorkbookFactory_init): Add workbook
+	factory servant initialization.
+
+1999-05-04  Morten Welinder  <terra@diku.dk>
+
+	* src/eval.c (dependency_remove_cell): Remove unused assignment.
+	(cell_queue_recalc_list): Mark queued cells as being so.
+
+	* src/fn-math.c (gnumeric_combin): Clean up.
+	(combin): Handle large numbers carefully.
+
+	* src/utils.c (january_1900): Fix argument list.
+
+	* src/fn-stat.c (gnumeric_var): Remove unused variable.
+	(gnumeric_varp): Ditto.
+
+1999-05-04  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-math: Added ROUND().
+
+	* src/fn-information: Added new file for information functions.
+	New function COUNTBLANK() implemented.
+
+	* src/Makefile.am, src/func.[ch]: Added `fn-information.c'.
+
+1999-05-04  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-database.c: Added DCOUNTA().
+
+	* src/fn-stat.c: Added argument count checks for VAR() and VARP().
+	Added STEYX().
+
+1999-05-03  Morten Welinder  <terra@diku.dk>
+
+	* src/format.c (split_time): Fix leak.
+
+	* src/parser.y (forget): Fix leak.
+
+	* src/expr.c (do_expr_tree_ref): Delete.
+	(expr_tree_ref): Just increase the ref-count.
+	(do_expr_tree_unref): Properly decrease all the way.
+	(expr_tree_new): Fix prototype.
+	(value_release): Add "break".
+	(value_cellrange): Make args const.  Don't use memcpy call.
+
+	* src/parser.y (v_new): Fix type.
+	(alloc_register): Ditto.
+	(dump_tree): Fix reference to variable cell.
+
+	* src/file.c (file_format_unregister_save): Fix leak.
+	(file_format_unregister_open): Fix leak.
+
+	* src/parser.y (forget): Fix leak.
+
+	* src/eval.c (add_tree_deps): Use OPER_ANY_BINARY.
+	(add_value_deps): Delete unused variable.
+	(dependency_remove_cell): Fix leak.
+
+	* src/sheet.c (sheet_destroy_styles): Leak fix.  Late night
+ 	coding?  :-)
+	(sheet_shift_row): Ditto.
+
+	* src/parser.y (alloc_clean): Ditto.
+	(alloc_list_free): Ditto.
+
+	* src/main.c (gnumeric_main): Get rid of memory leak debug code
+ 	(handled by other means now).
+
+	* src/cell.c (cell_set_value): Remove "const".
+	(cell_set_value_simple): Ditto.
+
+1999-05-03  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-database.c: New file added for database
+ 	functions. Implemented DAVERAGE(), DCOUNT(), DGET(), DMAX(),
+ 	DMIN(), DPRODUCT(), DSTDEV(), DSTDEVP(), DSUM(), DVAR(), and
+ 	DVARP().
+
+	* src/func.c: Added registeration of database functions.
+
+	* src/fn-stat.c, src/func.h: callback_function_stat made public.
+
+1999-05-02  Michael Meeks  <michael@imaginator.com>
+
+	* src/expr.h: Spelling fix 'substract' :-)
+
+	* src/expr.c (expr_tree_new): Added for convenience.
+
+1999-05-02  Michael Meeks  <michael@imaginator.com>
+
+	* src/cell.c (cell_set_value): Created.
+	(cell_set_value_simple): Created.
+
+	* src/cell.h: Added headers
+
+1999-05-01  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/corba-workbook.c, src/corba-sheet.c: New files implementing
+	most of the new Gnumeric.idl interface.
+
+	* src/Gnumeric.idl: Make it useful.
+
+1999-04-30  Morten Welinder  <terra@diku.dk>
+
+	* src/*.h: Properly forward-declare structures.  Include
+ 	dependencies.  Change the occasional "void *" to its right
+	type.
+
+	* src/*.[cy]: Include more dependencies.
+
+	* src/sheet.c (sheet_delete_row): Remove from workbook hash also.
+
+1999-04-29  Morten Welinder  <terra@diku.dk>
+
+	* src/expr.c (expr_tree_fixup_references): Implement.
+
+	* src/sheet.c (sheet_delete_row, sheet_delete_col): Fixup
+ 	references.
+
+	* src/expr.c (do_expr_tree_relocate): Remove strange and incorrect
+ 	refcount fiddling.
+
+	* src/workbook.c (workbook_fixup_references,
+ 	workbook_invalidate_references): Fix cell walking.
+
+	* src/expr.c (do_expr_decode_tree): rename binary_operation_names
+	to operation_names and fill in the rest.
+
+	* src/fn-misc.c (gnumeric_error): New function.
+
+	* src/expr.c (value_str): Constify.
+	(expr_tree_invalidate_references): Mostly implement.
+
+	* src/fn-math.c (gnumeric_multinomial, gnumeric_product,
+ 	gnumeric_sumsq): Fix type.
+
+	* src/expr.h (OPER_ANY_BINARY, OPER_ANY_UNARY): new convenience
+ 	macros.
+	(struct _Sheet): declare forward reference so we can use the right
+ 	types.
+	(CellRef, FunctionDefinition, expr_parse_string, expr_decode_tree,
+ 	eval_expr): use "struct _Sheet *".
+
+	* src/workbook.c (workbook_do_destroy): Carefully clean workbook
+ 	before deleting sheets.  Do things in the standard way.  Get rid
+ 	of clipboard leak.
+	(insert_cols_cmd): Fix name string.
+	(workbook_detach_sheet): New parameter "force".  All callers
+ 	changed.
+	(workbook_fixup_references, workbook_invalidate_references,
+ 	workbook_sheets): New functions.
+
+	* src/sheet.c (sheet_verify_selection_simple): Mark strings for
+ 	translation.
+	(sheet_insert_col): Fixup references to moved cells.
+	(sheet_delete_col, sheet_delete_row): Invalidate references to
+ 	deleted cells.
+
+	* src/sheet-autofill.c (fill_item_new): Fix copying of cell with
+	error.
+
+	* src/parser.y (yylex): "const" fixes.
+	(gnumeric_expr_parser): New function (to fix memory corruption and
+ 	leaks).
+
+	* src/fn-stat.c (i1mach): Make static.
+	(gnumeric_var, gnumeric_varp, gnumeric_stdev, gnumeric_stdevp,
+ 	gnumeric_rank, gnumeric_trimmean, gnumeric_covar, gnumeric_correl,
+ 	gnumeric_mode, gnumeric_harmean, gnumeric_geomean, gnumeric_count,
+ 	gnumeric_counta, gnumeric_average, gnumeric_min, gnumeric_max,
+ 	gnumeric_skew, gnumeric_kurt, gnumeric_avedev, gnumeric_devsq,
+ 	gnumeric_pearson, gnumeric_rsq, gnumeric_median, gnumeric_large,
+ 	gnumeric_small, gnumeric_ztest): Fix type.
+
+	* src/fn-math.c (gnumeric_fact, gnumeric_combin): Mark strings for
+ 	translation.
+	(gnumeric_sum, gnumeric_trunc): Fix type.
+
+	* src/fn-lookup.c (gnumeric_choose, gnumeric_column,
+ 	gnumeric_row): Fix type.
+
+	* src/fn-misc.c (gnumeric_iserror): Fix type.
+
+	* src/fn-sheet.c (gnumeric_selection): Fix type.
+
+	* src/fn-string.c (gnumeric_concatenate): Fix type.
+
+	* src/fn-logical.c (gnumeric_and, gnumeric_not, gnumeric_or,
+ 	gnumeric_if): Fix type.
+
+	* src/fn-financial.c (gnumeric_npv): Fix type.
+
+	* src/expr.c (expr_parse_string): Move in part to parser.y.
+  	Delete global variables to communicate.
+	(do_expr_tree_ref, do_expr_tree_unref, do_expr_decode_tree,
+ 	do_expr_tree_relocate): use OPER_ANY_BINARY and OPER_ANY_UNARY.
+	(function_call_with_values): Mark strings for translation.
+	(eval_expr, do_expr_decode_tree, expr_decode_tree): Fix type to
+ 	use "Sheet *" instead of "void *".
+	(do_expr_decode_tree): Free sum.
+	(expr_tree_invalidate_references, expr_tree_fixup_references): New
+ 	functions.  Not implemented yet.
+
+	* src/cell.c (cell_set_formula): "const" fix.
+	(cell_copy): Ref entered_string also if it exists.
+	(cell_relocate): Unlink cell from workbook list of cells.
+
+	* src/about.c (dialog_about): Add myself.  Update copyright.
+
+1999-04-29  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-{math,sheet,logical}.c, src/func.[ch]: Moved logical
+ 	functions into a new file.
+
+	* src/fn-math.c: Added ROUNDDOWN(), ROUNDUP(), SUMX2MY2(),
+ 	SUMX2PY2(), and SUMXMY2().
+
+	* src/fn-stat.c: Added PROB(). CONFIDENCE() should now work fully.
+
+1999-04-28  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-stat.c: Added COUNTA(), FINV(), and TINV().
+
+	* src/fn-stat.c, src/fn-math.c: AVERAGE(), COUNT(), MAX(), and
+	MIN() moved from fn-math.c to fn-stat.c.  They are in the
+	statistical function group in Excel.
+
+1999-04-27  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-stat.c: Added BETADIST(), FDIST(), and TDIST().
+
+1999-04-26  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/eval.c (intersects): Typo fix.  Sheet was being assigned
+	instead of being tested for equality.  This got Michael to crash
+	Gnumeric (as there was no test for can_remove)
+
+1999-04-26  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-stat.c: Added CHIDIST(), CHIINV(), and GAMMAINV().
+
+Sat Apr 24 14:39:32 1999  Morten Welinder  <terra@diku.dk>
+
+	* src/sheet.c (sheet_selection_reset_only): Remove useless
+ 	initialisation.  Don't free individual selections here.
+
+	(sheet_selections_free): Walk the list of selections and free each
+ 	one.
+
+	(sheet_get_selection_name): Calculate buffer size based on the
+ 	size of an int.
+
+	* src/fn-eng.c: Remove sqrtpi function -- it's already in fn-math.c
+
+	* src/fn-math.c (gnumeric_sqrtpi): Add range check.
+
+	* src/symbol.c (symbol_install): Add sanity check.
+
+Fri Apr 23 17:52:44 1999  Morten Welinder  <terra@diku.dk>
+
+	* src/sheet.c (sheet_destroy): Don't check that workbook is
+	NULL because it cb_sheet_do_destroy will call it non-NULL.
+
+	* src/workbook.c (cb_sheet_do_destroy): Don't NULL workbook
+	member as it will be used.
+
+	* src/format.c (render_number): Fix rounding up.
+
+	* src/*.[chy]: add tons on "const"s.
+
+1999-04-23  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-stat.c: Added GAMMADIST() function.  It uses pgamma()
+ 	function written by Ross Ihaka.  Thanks to Morten for pointing
+ 	this piece of code.
+
+1999-04-21  Morten Welinder  <terra@diku.dk>
+
+	* src/workbook.c (workbook_do_destroy): Release the sheets and the
+	hash table that held the references to the sheets.
+
+	* src/func.c: warning fix.
+
+1999-04-21  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/widget-editable-label.c (el_button_press_event): Add type
+	cast to kill warning.
+
+	* src/format.c: Include ieeefp.h if required.
+
+1999-04-19  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/fn-string.c: Close parentheses in help_stubstitute function
+	descritpion.   Thanks to Aldy Hernandez for pointing this out.
+
+1999-04-19  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/dialog-goal-seek.c: Goal seek tool implemented.  Goal seek
+ 	should now find a solution for all linear problems (if there is
+ 	one).  A simple non-linear search algorithm also implemented.
+
+	* src/workbook.c: Made 'Goal seek' menu entry visible.
+
+	* src/fn-math.c: Added MULTINOMIAL(), PRODUCT(), SIGN(), SUMSQ(),
+ 	and SQRTPI().
+
+1999-04-19  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/func.c (iterate_cellrange_callback): Eval the cell here if
+	it has not yet been evaluated.
+
+Sun Apr 18 17:59:09 EDT 1999 Gregory McLean <gregm@comstar.net>
+
+	* gnumeric.spec.in: Updated and enhanced spec file. Tastes even
+	better and is less filling to boot!
+
+1999-04-17  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet-object-container.c (make_container_item): New
+	routine.
+	(sheet_object_container_land): Used to convert from the temporary
+	widgets to the view provided by Bonobo.
+
+1999-04-16  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/expr.c (value_array_resize): Fix typo bug I introduced.
+
+	* src/eval.c (cell_queue_recalc): When queuing for recalc, tag the
+	cell, so that if we remove the cell from the recalc list we can
+	quickly find out if we have to look for it on the list of pending
+	recomputations.
+	(pick_next_cell_from_queue): Clear the cell's
+	CELL_QUEUED_FOR_RECALC bit.
+	(cell_unqueue_from_recalc): New routine to remove a cell queued
+	for recomputation.
+
+	* src/clipboard.c (new_node): Trim leading spaces.
+
+1999-04-16  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-math.c: Added EVEN, FACTDOUBLE, ODD, QUOTIENT, and
+	RANDBETWEEN.
+
+	* src/fn-stat.c: Added LOGINV, NORMINV, NORMSINV, RSQ, and ZTEST
+ 	functions.
+
+1999-04-15  Michael Meeks  <michael@edenproject.org>
+
+	* src/parser.y (value_dump): Added CellRange support
+
+	* src/fn-lookup.c (gnumeric_offset): Implemented OFFSET.
+
+	* src/expr.c (value_cellrange): Created.
+	(eval_funcall): Major hack to allow auto-conversion
+	of cell references to cell ranges on the fly.
+
+	* src/expr.h: Added value_cellrange.
+
+1999-04-15  Michael Meeks  <michael@edenproject.org>
+
+	(gnumeric_choose): CHOOSE function implemented.
+
+1999-04-14  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet.c (sheet_destroy): No longer destroys the Bonobo
+	objects here.
+
+	* src/sheet.h (Sheet): No longer keeps track of the ClientSites
+	here.
+
+	* src/sheet-object.c (sheet_finish_object_creation): Invoke new
+	class method to signal finalization of object creation.
+
+	* src/sheet-object-container.c, src/sheet-object-container.h: New
+	files that implement the Bonobo ClientSites
+	(SheetObjectContainers).
+
+	* src/Makefile.am (gnumeric_bonobo_SOURCES): Sources for Bonobo
+	compilation.
+
+	* src/sheet-object.c (sheet_object_construct): Create the bounding
+	box points here.
+	(sheet_set_mode_type): Fix from my previous reorganization:  Only
+	stop editing mode if the mode is SHEET_MODE_SHEET.
+	(sheet_button_press): Strategy change: now we accept
+	sheet->current_object and we stop editing here the object.
+
+	* src/sheet-object.h: points has been renamed to bbox_points.
+
+	* src/sheet-object-graphic.c (sheet_object_filled_realize):
+	Simplified this routine.  Also, we now update the bounding box
+	here.
+
+1999-04-15  Michael Meeks  <michael@mejm2.dow.cam.ac.uk>
+
+	* src/fn-lookup.c: Silly bug in types fixed.
+
+	* src/expr.c (eval_funcall): Made cellrefs absolute.
+
+	* src/cell.c (cell_set_text_simple): Fix for 1.234E-07
+
+1999-04-13  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet-object.c: Converted SheetObject to a Gtk+ object.
+	Splitted the functionality of the SheetObject into classes:
+	SheetObject abstract class;  SheetObjectGraphic for simple drawings;
+	SheetObjectFilled for objects that have a fill attribute.
+
+	* src/sheet-object-graphic.c: Implement the SheetObjectGraphic and
+	SheetObjectFilled objects.
+
+1999-04-13  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/xml-io.c (xml_probe): Do not crash if the file is a broken
+	XML file.
+
+1999-04-13  Zbigniew Chyla <cyba@t19.ds.pwr.wroc.pl>
+
+	* src/workbook.c: using 'gnome_dialog_run_and_close' instead of
+	'gnome_dialog_run' (which _may_ destroy dialog widget - we don't have to
+	check for this case).
+
+1999-04-12  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/corba-args.c (gnumeric_arg_parse): Intiialize Bonobo.
+
+	* configure.in: add test for Bonobo.
+
+	* src/clipboard.c (x_selection_to_cell_region): Fixed the
+	computation of columns in the paste code.
+
+1999-04-11  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/workbook.c (insert_object_cmd): Add sample bonobo support.
+	Still lacking an object server selector.
+
+	* src/sheet.c (sheet_insert_object): Add Bonobo support.
+
+	* src/sheet-view.c (sheet_view_insert_object): Add basic Bonobo
+	support.  I need to reuse the SheetObject stuff to add control
+	points to the objects and to handle repositioning.
+
+1999-04-12 Michael Meeks  <michael@imaginator.com>
+
+	* TODO: Removed basic functions section, most are done.
+
+1999-04-11 Michael Meeks  <michael@imaginator.com>
+
+	* src/dialog-function-select.c (function_select_row):
+	Check event is valid before using it, remove redundant
+	total redraw.
+	(category_select_row): Fix.
+	(function_select_create): Removed redundant call to
+	duplicated (create_description): Removed.
+
+	* src/fn-lookup.c: Actualy change the lookup function
+	tokens to the correct values.
+
+1998-04-09 Zbigniew Chyla <cyba@t19.ds.pwr.wroc.pl>
+
+	* src/workbook.c: Creating auto_expr menu every time it is popped
+        up instead of using one object all the time (and referencing to
+        invalid workbook from "activate" signal handler).
+
+        * src/item-grid.c: (item_grid_popup_menu): Fixed memory leak
+        (gnumeric_popup_menu used instead of gtk_menu_popup).
+
+1999-04-11 Michael Meeks  <michael@imaginator.com>
+
+	* src/expr.c (eval_funccall): New array / 'area' tokens added,
+	error strings simplified ( int type_mismatch added )
+	(value_area_get_width, value_area_get_height): Implemented,
+	(value_area_get_at_x_y): Implemented.
+	(value_array_new, value_array_resize): Implemented.
+	(value_release): Updated.
+	(value_copy_to, value_array_copy_to): Updated, created.
+	Added const to a scad of helper 'value_get' style functions.
+
+	* src/expr.h: Value: Changed 'array' from GList to a
+	structure.
+	Added struct _Value for self reference.
+	Added const to a scad of helper 'value_get' style functions.
+
+	* src/func.c (function_iterate_do_value): Updated Array code.
+
+	* src/eval.c (add_value_deps): Updated Array stuff.
+	(add_value_deps): const added to Value *
+
+	* src/dialog-function-wizard.c (function_type_input):
+	Updated text for new tokens.
+
+	* src/fn-sheet.c (gnumeric_selection): Update to new array code.
+
+	* src/fn-lookup.c (columns, rows): Updated to clean new API.
+	(vlookup, hlookup): Large clean.
+
+	* src/parser.y (value_dump): Updated Array section.
+
+	* docs/C/writing-functions.smgl: Added section explaining tokens,
+	and new API.
+
+1999-04-09 Michael Meeks  <michael@imaginator.com>
+
+	* src/sheet.c (sheet_destroy): Move destruction of cell_hash to
+	after destroy_styles.columns_and_rows that use it.
+	NULL various pointers.
+	(sheet_col_destroy): Added g_return_if_fail (ci)
+	(sheet_duplicate_colrow): Merged into (sheet_row_new, sheet_col_new)
+	and removed: nasty function.
+	(sheet_destroy_columns_and_rows): Fix nasty bug using freed 'l'
+	pointer ( freed by sheet_col_destroy / sheet_row_destroy ).
+	NULL the pointers for safety.
+	(sheet_col_destroy): NULL various pointers.
+
+	* src/sheet.h (sheet_duplicate_colrow): Removed.
+
+1999-04-08  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/dialog-solver.c, src/dialog-goal-seek.c, src/solver.h:
+	Wrote dialogs for these tools. The tools are not implemented yet.
+
+	* src/solver-lp.c:
+	New file for linear programming methods created.
+
+	* src/sheet.h:
+	Added parameters for the Solver tool.
+
+	* src/fn-stat.c (gnumeric_correl):
+	Bug fixed.  If the covariance is zero the correlation coefficient
+	should also be zero. Thanks for Vladimir for pointing this one out.
+
+1999-04-07  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/xml-io.c (xmlGetCoordinates): Include fix from Richard Hult:
+	Seemed to be a cut and paste error.
+
+	* src/cell.c (cell_destroy): From Morten Welinder: destroy the
+	cell->value only if it does exist.
+
+	* src/file.c (dialog_query_load_file): Set the accepted value to
+	false initially.  Thanks for Morten for pointing this one out.
+
+1999-04-06  Zbigniew Chyla <cyba@piast.t19.ds.pwr.wroc.pl>
+
+	* src/workbook.c (workbook_new): Use the translated version of the
+	function to display
+
+1999-04-06  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/workbook.c: Enable the function wizard only if the --debug
+	flag was passed.
+
+	* src/dialog-function-wizard.c, src/dialog-function-select.c:
+	Adapt to the rest of Gnumeric coding style.
+
+	Use a different way of creating the GUI and controlling the
+	interactions.
+
+	* src/func.c, src/func.h (function_iterate_do_value): Use my
+	indentation and coding style here.
+
+	* src/dialog-cell-format.c (render_formated_version): Handle the
+	case where the value might be NULL.
+
+	* src/xml-io.c (createXmlSheet): New function.  Used in an initial
+	pass over the XML file to load all of the Sheets defined there.
+	(readXmlWorkbook): Now this does two passes at loading the sheet:
+	the first pass creates the sheets, the second pass actually loads
+	the contents.
+
+1999-04-06 Michael Meeks  <michael@imaginator.com>
+
+	* src/workbook.c (workbook_new): More sensible default
+	size.
+
+	* src/sheet.c (sheet_row_set_height): use sheet_row_new()
+	instead of sheet_duplicate_colrow(), as we get duff span
+	data otherwise ( not calling row_init_span )
+	(sheet_col_set_width): Re-order, presumably fixing bug,
+	and as for set_height.
+
+1999-04-06  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/xml-io.c (createXmlSheet): New function.  Used in an initial
+	pass over the XML file to load all of the Sheets defined there.
+	(readXmlWorkbook): Now this does two passes at loading the sheet:
+	the first pass creates the sheets, the second pass actually loads
+	the contents.
+
+1999-04-06 Michael Meeks  <michael@imaginator.com>
+
+	* src/func.c (tokenised_help_new): Improved algorithem.
+	(functions_init): Made descriptions more verbose.
+
+	* src/workbook.c (wizard_input): Cleaned to use local
+	entry instead of specific wb->ea_input.
+
+	* src/dialog-function-wizard.c (function_type_input):
+	Update types, add recursive function button.
+	(function_input): Created.
+	(arg_data_list_new): Added wb to ARG_DATA, needed for
+	function_input.
+	Added default code for multi-arg functions.
+	Deals with no-argument functions properly,
+	Fix silly args=NULL g_free(args) bug.
+	(dialog_function_wizard): Special 'no-arguments' quick
+	case.
+
+	* src/fn-math.c (gnumeric_rand): Added RAND function.
+
+1999-04-05  Morten Welinder <terra@diku.dk>
+
+	* src/cell.c (cell_set_rendered_text): Fix for circular
+	references.
+
+1999-04-05  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/about.c (dialog_about): Do not make the about box modal.
+
+1999-04-05 Michael Meeks  <michael@imaginator.com>
+
+	* src/func.c (tokenised_help_new, tokenised_help_destroy),
+	(tokenised_help_find_token): Implemented to assist searching
+	for tokens.
+
+	* src/func.h: Inserted TOKENISED_HELP struct, and prototypes.
+
+1999-04-04 Michael Meeks  <michael@imaginator.com>
+
+	* src/dialog_function_wizard.c: Created
+
+	* src/workbook.c (workbook_setup_edit_area): Add Wizard
+	button.
+
+	* src/dialogs.h: Add dialog_function_wizard
+
+	* src/func.c (functions_init): Added descriptions.
+	Init categories array.
+	(get_function_categories): Returns array of categories.
+	(install_symbols): Add description argument.
+
+	* src/func.h: Updated prototypes altered,
+	add get_function_categories and struct FUNCTION_CATEGORY.
+
+	* plugins/guile/plugin.c (init_plugin): Update install_symbols.
+
+	* plugins/sample/plugin-sample.c (init_plugin): Ditto.
+
+1999-04-03 Michael Meeks  <michael@imaginator.com>
+
+	* src/sheet.c (sheet_cell_remove_from_hash): Now checks
+	return value of g_hash_table_lookup_extended, before
+	freeing a random pointer if its not there.
+
+	* src/cellspan.c (cell_unregister_span): Check another
+	pointer.
+
+	* src/cell.c (cell_set_formula): Default error_msg !
+
+1999-04-03 Michael Meeks  <michael@imaginator.com>
+
+	* src/sheet.c (sheet_cell_remove_from_hash): Now checks
+	return value of g_hash_table_lookup_extended, before
+	freeing a random pointer if its not there.
+
+	* src/cellspan.c (cell_unregister_span): Check another
+	pointer.
+
+	* src/cell.c (cell_set_formula): Default error_msg !
+
+1999-04-02 Michael Meeks  <michael@imaginator.com>
+
+	* src/fn-sheet.c (gnumeric_if): Fix to allow variable
+	arguments, updated help & struct to comply, removed
+	possible memory leak. ( Luke 17:3,4 )
+
+1999-04-01 Michael Meeks  <michael@imaginator.com>
+
+	* src/workbook.c (sheet_action_delete_sheet): Fix docs.
+
+1999-03-31  Morten Welinder <terra@diku.dk>
+
+	* src/fn-stat.c (phi): new internal function.
+	(gnumeric_normdist): Implemented using phi instead of the built-in
+	table.
+
+1999-03-31  Michael Meeks  <michael@imaginator.com>
+
+	* src/dialog-cell-sort.c (dialog_cell_sort): Added multiple
+	clause support, and cleaned UI.
+	(add_clause, del_clause): Added.
+
+1999-03-30  Michael Meeks  <michael@imaginator.com>
+
+	* src/dialog-cell-sort.c (dialog_cell_sort): Fix possible
+	problem with entire column selection. Need some function
+	to determine largest used cell range.
+
+1999-03-31  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/about.c (dialog_about): Fixed.  Patch from Takashi Matsuda
+
+1999-03-30  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/fn-financial.c (gnumeric_dollarfr): Use floor, not floorf,
+	as I can not find documentation on this on my system.
+
+	* src/fn-math.c (gnumeric_ceiling): Use ceil, not ceilf.  I can
+	not find documentation on this on my system
+
+1998-11-12  Morten Welinder <terra@diku.dk>
+
+	* src/fn-stat.c (gnumeric_variance): More precise method of
+	computing the variance.
+
+1999-03-30  Michael Meeks  <michael@imaginator.com>
+
+	* src/sheet.c (sheet_selection_first_range): This returns
+	the co-ordinates of the first range, and a flag as to whether
+	the selection is simply one range. This keeps things simple
+	for sort.
+
+	* src/utils.c (col_from_name): Created.
+
+	* src/utils.h: Added prototype.
+
+	* src/dialog-cell-sort.c: Created
+
+	* src/workbook.c (workbook_menu_format): Added 'Sort'.
+	(sort_cells_cmd): Created.
+
+	* src/dialogs.h: Added dialog_cell_sort.
+
+1999-03-30  Michael Meeks  <michael@imaginator.com>
+
+	* src/fn-lookup.c (gnumeric_vlookup, gnumeric_hlookup):
+	Removed check for same sheets in each cell reference, in
+	intersheet references only a->sheet points to the other sheet.
+
+	* src/func.c (function_iterate_do_value): Change CELLRANGE's
+	sheet reference to cell_range.cell_a.sheet, since could be an
+	inter-sheet reference. This fixes: Sum(Sheet1!A1:B3)
+
+	* src/fn-eng.c: Cleaned function documentation.
+
+	* docs/C/writing-functions.smgl: Updated for option function
+	arguments.
+
+	* src/fn-math.c (gnumeric_mod): Implemented.
+
+1999-03-30  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/expr.c (eval_expr): Fix from Ian Campbell for fixing the
+	subtraction problem.
+
+1999-03-28  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-stat.c: Added large, median, pearson, and small.
+
+1999-03-28  Michael Meeks  <michael@imaginator.com>
+
+	* src/parser.y (yylex): Added digits count to stop
+	overflow of integers above 9 digits.
+
+1999-03-27  Michael Meeks  <michael@imaginator.com>
+
+        * src/sheet.c (fail_if_found): Renamed to
+        (fail_if_not_selected): Added check for selection
+        (sheet_is_region_empty): Renamed to
+        (sheet_is_region_empty_or_selected): Better
+        described new function.
+
+        * src/item-cursor.c (item_cursor_target_region_ok):
+        Uses sheet_is_region_empty_or_selected.
+
+1999-03-27  Michael Meeks  <michael@imaginator.com>
+
+        * src/expr.c (eval_funcall): Add vital 'break'
+        statement :-)
+
+1999-03-27  Michael Meeks  <michael@imaginator.com>
+
+        * src/eval.c (cell_eval): Set default value of
+        error_msg so cell doesn't get null text on
+        g_return_val_if_fail (condition, NULL) ;
+
+        * src/sheet.c (sheet_update_auto_expr):
+        Internationalized ERROR string.
+
+        * src/fn-lookup.c (gnumeric_column, gnumeric_columns)
+        (gnumeric_row, gnumeric_rows): Hacked; best can do for
+        now.
+
+1999-03-26  Michael Meeks  <michael@imaginator.com>
+
+	* src/fn-eng.c (gnumeric_delta): Fix memory leak
+	(gnumeric_gestep): Cleaned to better arg. model
+	(bin/oct/dec/hex2...): Cleaned similarly
+
+	* src/fn-stat.c (gnumeric_poisson): Cleaned
+
+	* src/fn-string.c (string_and_optional_int): Removed.
+	(gnumeric_left, gnumeric_right, gnumeric_find),
+	(gnumeric_fixed, gnumeric_dollar, gnumeric_substitute):
+	Updated to optional argument types.
+	(gnumeric_clean): Moved from fn-misc.c
+
+	* src/fn-misc.c (gnumeric_clean): Moved to fn-string.c
+
+	* src/expr.c (cell_ref_make_absolute): Makes a CellRef
+	absolute.
+	(eval_funcall): Added range token 'r' for lookup
+	functions, makes reference absolute so can be used
+	downstream without trouble.
+
+	* src/expr.h: Added range comments
+
+	* src/fn-lookup.c: Created
+	(lookup_simliar, gnumeric_vlookup):
+	Implements VLOOKUP.
+	(gnumeric_hlookup): Implements HLOOKUP.
+
+1999-03-25  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-financial.c: dollarde, dollarfr, and npv added.
+
+	* src/fn-stat.c: correl, covar, mode, negbinomdist, rank, and
+ 	trimmean added.
+
+1999-03-25  Michael Meeks  <michael@imaginator.com>
+
+	* src/expr.c (eval_funcall): Updated to add new optional argument
+	token.
+
+	* src/expr.h: Comments to explain above.
+
+	* src/fn-eng.c (gnumeric_erf, gnumeric_delta): Drastic clean to use
+	new optional token.
+
+1999-03-23  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-math.c: ceiling added.
+
+	* src/fn-stat.c: fisherinv, normsdist, and lognormdist added.
+
+	* AUTHORS, src/about.c: added me.
+
+Tue Mar 23 14:00:37 CET 1999 Daniel Veillard <Daniel.Veillard@w3.org>
+
+	* src/xml-io.c : solved the problem of saving cells with < or &
+
+1999-03-21  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-stat.c: avedev, confidence, critbinom, devsq, fisher,
+ 	kurt, normdist, permut, skew, standardize, and weibull added.
+
+	* src/fn-math.c, src/func.h: gnumeric_average and fact made public
+ 	(used in src/fn-stat.c).
+
+1999-03-17  Vladimir Vuksan <vuksan@veus.hr>
+
+ 	* src/fn-financial.c: Added new functions gnumeric_ipmt,
+	gnumeric_ppmt, gnumeric_duration.
+
+1999-03-18  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+ 	* src/fn-math.c: combin added.
+
+ 	* src/fn-stat.c: binomdist, harmean, and hypgeomdist added.
+
+1999-03-18  Michael Meeks  <michael@imaginator.com>
+
+	* src/fn-eng.c (val_to_base): Minor fixes
+
+1999-03-18  Sean Atkinson  <sca20@cam.ac.uk>
+
+	* notes: typos
+
+	* src/expr.c (value_string): cleaned to use g_strdup_printf
+
+	* src/expr.h: typo
+
+	* src/fn-string.c (gnumeric_mid): fixed
+	internationalized various strings, typos
+	(subs_string_new, subs_string_append_n, subs_string_free): added to
+	speed gnumeric_substitute
+	(gnumeric_concatenate, gnumeric_rept, gnumeric_find, gnumeric_fixed)
+	(gnumeric_proper, gnumeric_replace, gnumeric_t, gnumeric_value)
+	(gnumeric_substitute, gnumeric_dollar): implemented.
+
+1999-03-16  Vladimir Vuksan <vuksan@veus.hr>
+
+	* src/fn-financial.c: More financial functions: gnumeric_nominal,
+	gnumeric_pv, gnumeric_fv, gnumeric_pmt.
+
+1999-03-16  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/workbook.c: Change from active voice to passive voice in the
+	help messages for "New".  Thanks to Morten for pointing this out. 2
+
+1999-03-14  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/fn-math.c (callback_function_sum): Detects integer
+	over/under flow.
+
+	* src/expr.c (eval_expr): Add integer overflow code for addition
+	and substraction.
+
+	* src/cell.c (cell_set_format): Call cell_render_value and
+	cell_queue_redraw calls here.
+
+	* src/expr.c (bigger_prec): When decoding left-to-right apply
+	parentheses if the two priorities are equal.
+
+1999-03-13  Richard Hult <rhult@hem2.passagen.se>
+
+	* src/xml-io.c (xmlGetGnomeCanvasPoints): test against the value
+	returned by xmlGetValue, not the GnomeCanvasPoints value.
+
+1999-03-13  Michael Meeks <michael@imaginator.com>
+
+	* src/fn-eng.c (val_to_base, val_to_base_place),
+	(bin/oct/dec/hex 2 bin/oct/dec/hex):
+	Implemented - pending fixes to number storage.
+
+1999-03-13  Michael Meeks <michael@imaginator.com>
+
+	* src/fn-eng.c (gnumeric_delta, gnumeric_sqrtpi),
+	(gnumeric_gestep): Implemented
+
+	* src/fn-math.c (sqrt): Implemented.
+
+1999-03-13  Michael Meeks <michael@imaginator.com>
+
+	* src/fn-eng.c: Created
+	(gnumeric_erf, gnumeric_erfc, gnumeric_bessely)
+	(gnumeric_besselj): Implemented
+	(gnumeric_bin2dec): Moved from fn-math.c
+
+	* src/fn-math.c (gnumeric_bin2dec): Moved to fn-eng
+
+	* src/func.c (functions_init): Added eng_functions.
+
+	* src/fn-stat.c: Cleaned functions help.
+
+	* src/Makefile.am: Added fn-eng.c
+
+1999-03-11  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/clipboard.c (sheet_paste_selection): New routine.  Abstracts
+	the paste operation.
+	(clipboard_paste_region): Now it uses a clipboard with the active
+	X selection instead of defaulting to "request clipboard from X"
+	(this is only for inter-workbook copy-paste).
+
+	* src/sheet.c (find_workbook_with_clipboard): Tries to find a
+	workbook with clipboard information.  Probably the clipboard
+	should be global to all Gnumeric.
+
+	* src/render-ascii.c (cell_region_render_ascii): Free the
+	information after we have used it, not before.
+
+	* src/expr.c (eval_expr): Handle new-born recursive references.
+
+1999-03-11  Michael Meeks <michael@imaginator.com>
+
+	* src/fn-math.c (gnumeric_power): Implemented.
+
+	* src/fn-stat.c (gnumeric_poisson, gnumeric_gammaln):
+	Implemented.
+
+1999-03-11  Michael Meeks <michael@imaginator.com>
+
+	* src/fn-stat.c (gnumeric_expondist, gnumeric_geomean):
+	Implemented.
+
+1999-03-10  Vladimir Vuksan <vuksan@veus.hr>
+
+	* src/fn-financial.c: New file.
+
+	(gnumeric_effect, gnumeric_sln, gnumeric_syd): New functions.
+
+	* src/func.c (functions_init): Added financial functions.
+
+	* src/func.h: Added extern.
+
+1999-03-10  Michael Meeks <michael@imaginator.com>
+
+	* src/fn-stat.c: Created.
+	(gnumeric_stdev, gnumeric_stdevp, gnumeric_var, gnumeric_varp): Created
+
+	* src/func.c (functions_init): added stat_functions
+
+	* src/func.h: Added extern stat_functions.
+
+1999-03-08  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/fn-misc.c (gnumeric_clean): Add check here: only loop until
+	the end of the string.
+
+	* src/sheet.c (sheet_cell_foreach_range): Revert the arguments if
+	they are in a different order.
+
+1999-03-08  Takashi Matsuda <matsu@arch.comp.kyutech.ac.jp>
+
+	* plugins: new text plugin.
+
+	Add new plugin TXT for simple text inport/export
+	tab separated text. multiple sheet in a workbook is separated by
+	'\f' character.
+	If first line of each sheet is not include tab, then that line is
+	interpreted as sheet name.
+
+	* src/gnumeric-sheet.c: Add new mean for hard-coded keyboard short
+	cut CTRL-Return.  Because ItemEdit does not support XIM, I must
+	click the entry whenever I want to input janapese character.  If
+	user does not edit the cell, this key combination switchs a
+	keyboard focus to entry .
+
+	* Replace gdk_font_load() with gdk_fontset_load()
+	src/style.c gdk_font_load() makes impossible to show international
+	string.
+
+	* src/clipboard.h 'copy by value' was not possible because of
+	miss-definition of PASTE_* enume.
+
+	* src/file.c: gnumeric_notice was called with wrong arguments.
+
+1999-03-07  Michael Meeks  <michael@imaginator.com>
+
+	* src/cell.c (cell_set_format_from_style): Removed sluggish
+	re-drawing code: unneccessary.
+
+1999-03-05  Michael Meeks  <michael@imaginator.com>
+
+	* src/cell.c (cell_set_color_from_style): Implemented.
+
+1999-03-03  Michael Meeks  <michael@imaginator.com>
+
+	* plugins/excel/ms-formula.c (parse_data_new): Trap null pointers
+	on entry, ( coming from biff_get_text ).
+	(ms_excel_parse_formula): Removed nasty static buffers.
+
+1999-02-23  Bruno Unna  <bruno@iac.com.mx>
+
+	* src/dialog-cell-format.c (create_background_radio): Activated
+	the patterned background control (although in my machine the
+	boxes are all black) and added a radio button to let the
+	user do nothing with backgrounds (analogous to the one in
+	foreground section).
+
+	* src/dialog-cell-format.c (apply_coloring_format): Now this
+	functions takes into account the changes in create_background_radio,
+	that is, if the user decides not to change the background,
+	the background will not be changed. Also, assigned default
+	values to some variables, just to avoid an annoying warning.
+
+	* src/dialog-cell-format.c (create_coloring_page): If there
+	are different backgrounds in the range, select by default
+	the "no change" radio button for the background.
+
+1999-02-23  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/cell.c (cell_draw): If the cell has a render_color (provided
+	by the format specification), use that for the foreground.
+
+1999-02-22  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/file.c (workbook_save_as): Append the extension of the
+	default format if no colon is specified
+
+1999-02-22  Tim Mooney  <mooney@dogbert.cc.ndsu.nodak.edu>
+
+	* plugins/guile/plugin.c (func_scm_apply): Initialization of
+	structure is done in the function body, rather thatn when it is
+	declared.  This is necessary because struct initializer must be
+	determinable at compile time, and those aren't.
+
+	* src/expr.c (eval_expr): Add at least one statement to the
+	default: handler in the case.
+
+	* src/fn-math.c: provide a break for default handlers.
+	* src/item-edit.c (entry_event): ditto
+	* src/sheet-autofill.c (fill_item_destroy): ditto.
+
+	* src/dialog-cell-format.c (create_number_format_page): Initialize
+	in the body, like above.
+
+1999-02-22  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* plugins/guile/plugin.c (func_scm_apply): Initialize the
+	cell_ref.sheet to NULL.
+
+1999-02-22  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet.c (sheet_cell_remove_internal): Queue recalcs for
+	cells that depend on cells that are being destroyed.
+	(clear_cell_content): Added a call to workbook_recalc
+	(sheet_clear_region_content): same.
+
+1999-02-21  Michael Meeks <michael@imaginator.com>
+
+	* plugins/excel/ms-formula.c FORMULA_PTG_EXP: Fixed several bugs.
+
+	* plugins/excel/ms-excel.c (ms_excel_set_cell_font, biff_font_data_get_style_font):
+	Body of the former moved to the latter, loop invariant code removed for
+	big speedup.
+	(ms_excel_set_cell_xf): Burdern of border color stuff moved to
+	(ms_excel_palette_get): New routine to cache and create
+	StyleColor records as needed.
+	(ms_excel_sheet_insert): Fixed so no NULL pointers can escape
+	into cell_set_text.
+	(ms_excelReadWorkbook): Removed BIFF Usage chart, its slow.
+	(biff_nasty_font_check_function): Sorts out font sillyness.
+	(biff_xf_data_new): Added cached style_format pointer
+	(biff_xf_data_destroy): unref style_format if allocated.
+
+	* src/cell.c (cell_set_format_from_style): Implemented.
+
+1999-02-19  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* doc/C/Makefile.am (install-data-local): Use $(mkinstalldirs) not
+	$(topsrcdir)/mkinstalldirs.
+
+	* src/Makefile.am: Use $(GNOME_CONFIG) instead of `gnome-config'
+	to run the gnome-config script.
+	(BUILT_SOURCES): Swap with GNUMERIC_CORBA_GENERATED to be
+	conceptually clean.
+
+1999-02-19  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/fn-misc.c (gnumeric_min): Implement ISERROR.
+
+	* src/clipboard.c (paste_cell): Do not render the value if the
+	result is an error.
+
+	* src/cell.c (cell_copy): Do not copy the value of a cell when the
+	value is NULL (due to the cell having an error).
+
+	* src/expr.c (eval_expr): Evaluate binary operations in parts to
+	keep the correct error message on an operation if possible.
+	(eval_expr): Propagate errors.
+
+	* src/item-edit.c (item_edit_draw): Sync the before-cursor and
+	after-cursor Y-display text cordinate.
+
+	* src/expr.c (eval_funcall): Add type checking for the simple
+	functions.
+
+	* doc/C/Makefile.am (install-data-local): use topsrcdir here (fix
+	from Ian Campbell <ijc25@cam.ac.uk>
+
+	* src/fn-math.c (gnumeric_not): Implement NOT.
+
+	* src/number-match.c (format_create_regexp): Allow upper case
+	format codes.
+
+	* src/format.c: ditto.
+
+1999-02-18  Michael Meeks <michael@imaginator.com>
+
+	* plugins/excel/ms-formula.c (ms_excel_parse_formula):
+	case FORMULA_PTG_ATTR: Added 'Optimised SUM' functionality,
+	Generaly made output less verbose.
+
+	* plugins/excel/ms-excel.c: BIFF_DBCELL, ignore it, its
+	not interesting.
+	(ms_excel_set_cell_xf, biff_format_data_lookup,
+	biff_format_data_destroy, ms_excel_workbook_new,
+	ms_excel_workbook_destroy): Implemented formatting.
+
+1999-02-17  Michael Meeks <michael@imaginator.com>
+
+	* plugins/excel/ms-excel.c (biff_get_rk): moved RK number
+	extraction into function.
+	Added MULRK support: the lost numbers arrive !
+
+1999-02-17  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/fn-math.c (gnumeric_trunc): Implement TRUNC.
+
+	* src/func.c (function_iterate_argument_values): Do not evaluate a
+	subexpression if the previous expression failed due to an error.
+	Basically: add a check to the eval return value.
+
+	I took this oportunity to check all the source and this was the
+	only buggy spot.
+
+1999-02-16  Michael Meeks  <sca20@cam.ac.uk>
+
+	* plugins/excel/ms-excel.c: Fixed many bugs in my
+	understanding of hash table functions.
+	Added rudimentary NAME stuff.
+	made error lookup global.
+	Fixed up Header / Footer functionality.
+	(ms_excel_sheet_new, ms_excel_sheet_insert,
+	ms_excel_read_sheet): Added 'blank' field to excel_sheets,
+
+	* plugins/excel/ms-formula.c: Added puzzling
+	PTG_NAME stuff, this is really wierd.
+	PTG_ERR added.
+
+1999-02-16  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/workbook.c (change_auto_expr_menu): OOps I got too excited
+	here using my helper routine: Now we do not destroy this helpful
+	menu.
+
+	* src/widget-editable-label.c (editable_label_set_text): Bug fix:
+	sometimes this code is invoked with its argument being el->text.
+
+1999-02-15  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/workbook.c (workbook_new): Make a local copy of the toolbar,
+	as we use this to update the radio buttons.
+	(workbook_do_destroy): Free the toolbar.
+	(workbook_feedback_set): Use the per-workbook toolbar here.
+
+1999-02-14  Michael Meeks  <sca20@cam.ac.uk>
+
+	* plugins/excel/ms-formula.c: Inserted a whole scad
+	of math functions into translation table.
+	(parse_list_to_equation): g_strdupped return values.
+	FORMULA_PTG_STR: Updated old and broken code.
+	* src/about.c (dialog_about): Added Sean.
+
+1999-02-13  Bruno Unna  <bruno@iac.com.mx>
+
+	* src/dialog-cell-format.c (create_foreground_radio): Added a
+	radio button to let the users 'no change' the text colour, useful
+	when there is a range selected with differently colored cells
+	and it is desired to change the background of them without
+	touching the foreground.
+
+	* src/dialog-cell-format.c (create_coloring_page): When there
+	are different foreground colours in the selected cells, the
+	default selection is 'no change'.
+
+	* src/dialog-cell-format.c (apply_coloring_format): If there
+	is no need to make changes to the foreground color of the
+	cells, avoid doing them.
+
+1999-02-12  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/item-cursor.c (item_cursor_target_region_ok): Warn the user
+	if he overwrites something accidentally by dropping cells in the
+	target location.
+
+	* src/sheet.c (sheet_is_region_empty): New function.
+
+1999-02-12  Michael Meeks  <sca20@cam.ac.uk>
+
+	* plugins/excel/ms-excel.c (biff_get_global_string):
+	Drasticly simplified, accelerated and in-lined out.
+	(biff_get_text): Fixed using unicode spec, various
+	updates to calls to it, fixing offsets.
+	Removed lots of debug output to speedup
+
+1999-02-10  Sean Atkinson  <sca20@cam.ac.uk>
+
+	* src/fn-math.c (callback_function_sum): enhanced warning for
+	unknown value->type.
+
+1999-02-12  Frederic Devernay  <devernay@istar.fr>
+
+	* plugins/perl/perl.c: Handle the #define dirty in perl-thread.
+
+1999-02-12  Bruno Unna  <bruno@iac.com.mx>
+
+	* src/cell.c (cell_draw): Now the function draws the cell
+	using the cell background color setting. Although it does
+	the job, I guess there must be a better way to do it. Thanks
+	to Michael for the hint.
+
+	* src/item-grid.c (item_grid_draw_cell): Commented out the lines
+	involved with patterns display in the cell, for that code is
+	not ready yet.
+
+	* src/dialog-cell-format.c (create_coloring_page): Reactivated
+	the background selection panel of the coloring page.
+
+	* src/dialog-cell-format.c (create_background_radio): Commented out
+	the addition of the pattern selection for a cell.
+
+1999-02-10  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/workbook.c (workbook_detach_sheet): Be less forgiving as to
+	removing sheets with pending references.
+
+	(sheet_action_delete_sheet): Add a test for
+	dependencies when removing a sheet
+	(workbook_can_detach_sheet): New function.
+
+	* src/cell.c (cell_relocate): When relocating a cell with a
+	formula, always mark it as changed.  We were doing that before
+	only for the case where the location had changed, but we use
+	cell_relocate in other cases as well.
+
+	* src/fn-string.c (gnumeric_lower, gnumeric_upper): These
+	functions were wrong.  They were never incrementing the pointer
+	and they were releasing the wrong pointer.
+
+	* src/clipboard.c (paste_cell): When pasting a cell, mark the
+	contents as modified.
+
+	* src/file.c (file_saver_is_default_format): Make sure the saver
+	is always set.
+
+1999-02-10  Michael Meeks  <michael@imaginator.com>
+
+	* plugins/excel/ms-excel.c (ms_excel_read_cell): BOOLERR booleans
+	hard-translated to 1, 0: not a good solution to problems with TRUE.
+	* src/fn-string.c (gnumeric_upper, gnumeric_lower): Add increment
+
+1999-02-09  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/parser.y: Apparently string concatenation operator in Excel
+	has the lower priority.
+
+	* src/workbook.c (workbook_detach_sheet): New function used to
+	detach a sheet from a workbook.
+	(sheet_menu_label_run): New routine.  Invoked on button-3 on the
+	sheet label.
+
+	* src/gnumeric-util.c (gnumeric_auto_kill_popup_menu_on_hide): New
+	routine to deallocate menus when they go to unshown state
+
+1999-02-09  Michael Meeks  <michael@imaginator.com>
+
+	* plugins/excel/ms-excel.c (ms_excel_sheet_new,
+	ms_excel_workbook_attach, biff_boundsheet_data_new):
+	Major sheet allocation re-organisation, hash boundsheet data.
+	(ms_excel_sheet_set_version, ms_excel_sheet_set_index,
+	ms_excel_workbook_get_sheet): re-hashed API
+	* plugins/excel/ms-formula.c: PTG_MISSARG implemented
+
+1999-02-08  Sean Atkinson  <sca20@cam.ac.uk>
+
+	* plugins/excel/ms-excel-biff.h, ms-excel.c:
+	added BIFF_EXTERNCOUNT
+	* plugins/excel/ms-excel.c (ms_excel_read_sheet):
+	stubbed BIFF_EXTERNSHEET, stubbed SUPBOOK
+	(biff_get_externsheet_name): implemented inter-sheet references
+	* plugins/excel/ms-formula.ch: added FORMULA_PTG_CONCAT
+	(ms_excel_parse_formula): implemented FORMULA_PTG_REF_3D
+
+1999-02-07  Michael Meeks  <michael@imaginator.com>
+
+	* plugins/excel/ms-formula.c (ms_excel_parse_formula):
+	FORMULA_PTG_ATTR stubs: can ignore most of AttrSpace.
+
+1999-06-02  Morten Welinder  <terra@diku.dk>
+
+	* samples/datefuns.xls: New file from Nick Lamb.
+
+	* src/eval.c (workbook_recalc): If a cell has already been
+ 	computed, do not redo it.  This should speed up things.
+	(cell_queue_recalc): Delete useless cast.
+	(cell_unqueue_from_recalc): Ditto.
+	(cell_queue_recalc_list): Ditto.
+	(cell_queue_recalc_list): Extra parameter freelist controls
+ 	whether list is freed.  All callers changed.
+	(workbook_recalc_all): Use cell_queue_recalc_list.
+
+	* src/dialog-goal-seek.c (goal_seek_eval): Properly reevaluate.
+
+	* src/expr.c (eval_expr): Only evaluate references cells when they
+ 	are queued for recalculation.
+
+	* src/func.c (iterate_cellrange_callback): Ditto.
+
+	* src/fn-math.c (gnumeric_lcm): Remove useless (Sheet *) cast.
+
+	* src/fn-information.c (gnumeric_countblank): Ditto.
+
+	* src/fn-database.c (find_column_of_field): Ditto.
+	(parse_database_criteria): Ditto.
+	(find_cells_that_match): Ditto.
+
+	* src/cell.c (cell_comment_realize): Ditto.
+
+1999-06-02  Michael Meeks  <michael@edenproject.org>
+
+	* src/expr.c (do_expr_decode_tree): Added ARRAY support.
+
+1999-06-01  Morten Welinder  <terra@diku.dk>
+
+	* src/format.c (format_value): Mark format for translation.
+	(format_number): Locale improvements.
+
+	* src/parser.y (yylex): Translate locale's decimal point into a
+ 	dot.
+	(gnumeric_expr_parser): Extract locale's decimal point.
+
+1999-06-01 Akira Higuchi <a-higuti@math.sci.hokudai.ac.jp>
+
+	* src/gnumeric-util.c (font_change_component): Extend the size of
+	the array components[] so that it can handle very long fontset
+	names.
+	
+	* src/style.c: Change the default font names.
+	
+	* src/workbook.c: Add gtk_widget_ensure_style() call, which is
+	necessary to knowing if a fontset is supplied for the label
+	widget.
+
+1999-06-01  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-stat.c (callback_function_trimmean): Cleanup.
+	(gnumeric_large): Fix conditional.  Thanks to Nick Lamb.
+	(gnumeric_small): Ditto.
+
+1999-06-01  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-stat.c (gnumeric_skew): Fix crashes and leaks.
+	(gnumeric_covar): Ditto.
+	(gnumeric_rsq): Ditto.
+	(gnumeric_pearson): Ditto.
+	(gnumeric_correl): Ditto.
+	(gnumeric_avedev): Ditto.
+
+	(gnumeric_stdev): Don't make assumptions of the type of VAR.
+	(gnumeric_stdevp): Ditto.
+	(gnumeric_stdeva): Ditto.
+	(gnumeric_stdevpa): Ditto.
+
+	(callback_function_covar): Simplify greatly.
+	(callback_function_correl): Ditto.
+	(callback_function_stat_avedev_sum): Ditto.
+	(callback_function_skew_sum): Ditto.  Also improve precision.
+	(callback_function_rank): Ditto.
+	(callback_function_trimmean): Ditto.
+	(callback_function_mode): Ditto.
+	(callback_function_stat_prod): Ditto.
+	(callback_function_count): Ditto.
+	(callback_function_kurt_sum): Ditto.
+	(callback_function_ztest): Ditto.
+	(callback_function_list): Ditto.
+	(callback_function_percentrank): Ditto.
+	(gnumeric_skew): Handle zero stddev.
+
+	* src/expr.c (eval_cell_value): Delete.  Use value_duplicate
+ 	instead.
+	(eval_funcall): Fix memory corruption on error.  Fix serious leak.
+	(free_values): Only free non-NULLs.
+
+1999-06-01  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/file.c (dialog_query_load_file): 
+	(workbook_save_as): Prettify these.  Thanks to Andrew for pointing
+	this out.
+
+1999-06-01  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-stat.c (gnumeric_kurt): Fix crashes and leaks.
+
+1999-06-01  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-string.c: Added SEARCH().  Quite a complex beast but
+ 	should work completely.
+
+1999-06-01  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-stat.c (gnumeric_confidence): Fix sign.
+	(gnumeric_devsq): Simplify and correct.
+
+	* src/file.c: undo last change.  (The operation succeeded, but the
+ 	patient died.)
+
+1999-05-31  Matt Loper  <matt@gnome-support.com>
+
+	* src/sheet-view.c: Because GNOME::Component was renamed to
+	GNOME::BonoboObject, some bonobo function call names needed to be
+	changed here (ex. gnome_component_new_view to
+	gnome_bonobo_object_new_view).
+
+	* src/sheet-object-container.c (sheet_object_container_land):
+	likewise.
+	(sheet_object_container_realize): likewise.
+
+1999-05-31  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-lookup.c: Added ADDRESS().  Cleaned up too long lines.
+
+1999-05-28  Morten Welinder  <terra@diku.dk>
+
+	* src/file.c (workbook_read): Temporarily switch to "C" locale
+ 	when loading and saving.  I am not sure this is the right thing to
+ 	do, but until someone finds a better way, it will work fine.
+	(workbook_save_as): Ditto.
+	(workbook_save): Ditto.
+
+	* src/fn-math.c (gnumeric_power): Fix domain.
+
+1999-05-27  Morten Welinder  <terra@diku.dk>
+
+	* src/expr.c (value_get_as_string): Improve precision -- this
+ 	impacts the results of saves.
+
+1999-05-27  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-stat.c (callback_function_mode): Ignore strings as
+ 	advertised.
+	(callback_function_stat_inv_sum): Ditto.
+	(callback_function_rank): Ditto.
+	(callback_function_trimmean): Ditto.
+	(callback_function_covar): Ditto.
+	(callback_function_correl): Ditto.
+	(callback_function_stat_prod): Ditto.
+	(callback_function_skew_sum): Ditto.
+	(callback_function_kurt_sum): Ditto.
+	(callback_function_stat_avedev_sum): Ditto.
+	(callback_function_devsq_sum): Ditto.
+	(callback_function_median): Ditto.
+	(gnumeric_tinv): Fix meaning.
+	(callback_function_count): Cleanup.
+	(callback_function_stat_inv_sum): Ditto.  Also fix error case.
+	(gnumeric_normdist): Simplify using dnorm.
+	(gnumeric_gammadist): Use dgamma.
+
+	* src/mathfunc.c (dgamma): New function from R.
+
+1999-05-27  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-stat.c: Added BETAINV() and CHITEST().  Added optional
+ 	parameters A and B to BETADIST().  Implemented non-cumulative case
+ 	of NORMDIST().  Implemented cumulative case of POISSON().  Fixed
+ 	CHIDIST(), CHIINV(), FDIST(), FINV(), and TDIST() to return the
+ 	complement of the probablity.  It looks like TINV() is still
+ 	broken after file restructurations.
+
+1999-05-26  Morten Welinder  <terra@diku.dk>
+
+	* src/sheet-view.h: Include fix.
+
+	* src/style.h: Include fix.
+
+	* src/symbol.c (symbol_table_new): Use gnumeric_strcase_equal and
+ 	gnumeric_strcase_hash.
+	(g_strcase_equal): Delete.
+	(g_strcase_hash): Delete.
+
+	* src/eval.c (dependency_equal): Constify.
+
+	* src/sheet.c (cell_hash): Constify.
+	(cell_compare): Ditto.
+	(CRsort): Ditto.
+
+1999-05-26  Michael Meeks  <michael@imaginator.com>
+
+	* src/file.c (file_saver_is_default_format): Fixed bug causing
+	incorrect format to be displayed.
+	(fill_save_menu): Wait until we have populated the option menu
+	before setting the current item.
+	(make_format_chooser): Move some code into file_save_menu.
+
+	* src/xml-io.c (writeXmlSheetTo): Removed,
+	(writeXmlWorkbook): Use the order workbook_sheets list.
+
+	* src/workbook.c (cb_workbook_sheets): Commented out
+	(workbook_sheets): Get sheets in order from notebook tabs.
+
+1999-05-25  Morten Welinder  <terra@diku.dk>
+
+	* src/mathfunc.c, src/mathfunc.h: New files, mostly taken from the
+ 	R package.  (It's a GPL'ed gold mine.)
+
+	* src/*.c: Use <math.h>, not "math.h".
+
+	* src/utils.c (random_normal): Use qnorm, not inv_phi.
+
+	* src/fn-stat.c: Move all R code to mathfunc.c
+	Change all uses to phi to pnorm.
+	(gnumeric_normsinv): Use qnorm.
+	(gnumeric_confidence): Use qnorm.
+	(normsinv): Superseded by qnorm.
+	(help_lognormdist): Fix.
+	(gnumeric_lognormdist): Fix domain.
+	(gnumeric_lognormdist): Use plnorm.
+	(gnumeric_loginv): Use qlnorm.
+	(gnumeric_norminv): Use qnorm.
+	(gnumeric_tinv): Use qt.
+	(gnumeric_fdist): Use qf.
+	(gnumeric_gammainv): Use qgamma.
+	(gnumeric_chiinv): Use qchisq.
+
+	* src/Makefile.am (GNUMERIC_BASE_SOURCES): Add mathfunc.c and
+ 	mathfunc.h.
+
+1999-05-25  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-string.c (gnumeric_code): Handle compilers for which the
+ 	"char" type is signed.
+
+	* src/utils.c (parse_cell_name): Don't use isalpha which is
+ 	subject to locale.  (So is toupper, but the effects are ok.)
+	Move bounds check to handle overflow also.
+	(col_from_name): Don't use isalpha.
+
+	* src/fn-stat.c: Eliminate fmin2 and fmax2.
+
+	* src/fn-math.c (gnumeric_randbetween): Use random_01.
+	(gnumeric_rand): Ditto.
+
+	* src/utils.c (random_01): Function moved from goal-seek.c and
+ 	improved.
+	(random_normal): Function moved from goal-seek.c.
+
+	* configure.in: Check for a few ways of getting random numbers.
+
+1999-05-23  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/file.c (workbook_save_as): Handle the window closing by the
+	window manager here.
+	(dialog_query_load_file): And here.
+
+	* src/dialog-zoom.c (dialog_zoom): Handle window manager close
+	here (it comes in the form of return value being NULL).
+	
 	* src/dialog-insert-cells.c (dialog_insert_cells): ditto.
 
 	* src/dialog-delete-cells.c (dialog_delete_cells): ditto.

@@ -21,12 +21,13 @@ cell_eval (Cell *cell)
 {
 	Value *v;
 	FunctionEvalInfo s;
-	EvalPosition fp;
 
 	g_return_if_fail (cell != NULL);
 
 #ifdef DEBUG_EVALUATION
 	{
+		EvalPosition fp;
+		
 		char *exprtxt = expr_decode_tree
 			(cell->parsed_node, eval_pos_cell (&fp, cell));
 		printf ("Evaluating %s: %s ->\n",

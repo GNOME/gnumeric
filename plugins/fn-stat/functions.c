@@ -1602,8 +1602,7 @@ static Value *
 gnumeric_critbinom (FunctionEvalInfo *ei, Value **argv)
 {
         int trials;
-        float_t p, alpha, sum;
-        int x;
+        float_t p, alpha;
 
         trials = value_get_as_int (argv [0]);
         p = value_get_as_float (argv[1]);

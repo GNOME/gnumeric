@@ -2,6 +2,7 @@
 #define GNUMERIC_STYLE_H
 
 #include <gdk/gdk.h>
+#include <libgnomeprint/gnome-font.h>
 
 typedef struct {
         char     *format;
@@ -17,17 +18,15 @@ typedef struct {
 } StyleFormat;
 
 typedef struct {
-	int      ref_count;
-	char     *font_name;
-	int      units;
-	GdkFont  *font;
+	int                ref_count;
+	char              *font_name;
+	double             size;
+	double             scale;
+	GnomeDisplayFont  *dfont;
+	GnomeFont         *font;
 
-	/*
-	 * These are runtime optimizations, there is no need to save these
-	 * they get computed at StyleFont creation time.
-	 */
-	unsigned int hint_is_bold:1;
-	unsigned int hint_is_italic:1;
+	unsigned int is_bold:1;
+	unsigned int is_italic:1;
 } StyleFont;
 
 typedef struct {
@@ -41,7 +40,7 @@ typedef struct {
  * is assumed in xml-io
  **/
 typedef enum {
- 	BORDER_NONE=0,
+ 	BORDER_NONE,
  	BORDER_THIN,
  	BORDER_MEDIUM,
  	BORDER_DASHED,
@@ -54,10 +53,10 @@ typedef enum {
 #define NUM_STYLE_BORDER 8
 
 typedef enum {
-	STYLE_TOP=0,
- 	STYLE_BOTTOM=1,
- 	STYLE_LEFT=2,
- 	STYLE_RIGHT=3
+	STYLE_TOP,
+ 	STYLE_BOTTOM,
+ 	STYLE_LEFT,
+ 	STYLE_RIGHT
 } StyleSide;
 
 typedef struct {
@@ -139,8 +138,16 @@ StyleFormat   *style_format_new       (const char *name);
 void           style_format_ref       (StyleFormat *sf);
 void           style_format_unref     (StyleFormat *sf);
 				      
-StyleFont     *style_font_new         (const char *font_name, int units);
-StyleFont     *style_font_new_simple  (const char *font_name, int units);
+StyleFont     *style_font_new         (const char *font_name,
+				       double size, double scale,
+				       int bold, int italic);
+StyleFont     *style_font_new_from    (StyleFont *sf, double scale);
+StyleFont     *style_font_new_simple  (const char *font_name,
+				       double size, double scale,
+				       int bold, int italic);
+GdkFont       *style_font_gdk_font    (StyleFont *sf);
+GnomeFont     *style_font_gnome_font  (StyleFont *sf);
+int            style_font_get_height  (StyleFont *sf);
 void           style_font_ref         (StyleFont *sf);
 void           style_font_unref       (StyleFont *sf);
 
@@ -154,8 +161,15 @@ void           style_border_unref     (StyleBorder *sb);
 StyleBorder   *style_border_new       (StyleBorderType border_type[4],
  				       StyleColor *border_color[4]);
 
+/*
+ * For hashing Styles
+ */
+guint          style_hash    (gconstpointer a);
+gint           style_compare (gconstpointer a, gconstpointer b);
+
 extern StyleFont *gnumeric_default_font;
 extern StyleFont *gnumeric_default_bold_font;
 extern StyleFont *gnumeric_default_italic_font;
 
 #endif /* GNUMERIC_STYLE_H */
+

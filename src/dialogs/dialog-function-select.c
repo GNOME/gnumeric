@@ -34,21 +34,21 @@ function_categories_fill (SelectorState *selector_state)
 {
 	GtkCList *cl = selector_state->cl_cats;
 	GList *p = selector_state->cats;
-	int lp = 0;
+	int i = 0;
 
 	while (p) {
 		FunctionCategory *fc;
 		gchar *cols [1];
 		
-		fc = g_list_nth_data (selector_state->cats, lp);
+		fc = g_list_nth_data (selector_state->cats, i);
 		cols[0] = fc->name;
 		gtk_clist_append (cl, cols);
 
-		if (lp == selector_state->selected_cat)
-			gtk_clist_select_row (cl, lp, 0);
+		if (i == selector_state->selected_cat)
+			gtk_clist_select_row (cl, i, 0);
 
 		p = g_list_next (p);
-		lp++;
+		i++;
 	}
 }
 
@@ -59,8 +59,9 @@ function_definition_update (SelectorState *selector_state)
 	GList *p;
 	GtkCList *cl;
 	FunctionDefinition *fd = NULL;
-	int lp, max;
+	int i, max;
 
+	i = 0;
 	cl = selector_state->cl_funcs;
 	gtk_clist_freeze (cl);
 	gtk_clist_clear (cl);
@@ -73,15 +74,15 @@ function_definition_update (SelectorState *selector_state)
 		gchar *cols [1];
 		FunctionDefinition *fn = p->data;
 		
-		cols [0] = fn [lp].name;
+		cols [0] = fn [i].name;
 		gtk_clist_append (cl, cols);
 		
-		if (lp == selector_state->selected_func){
-			fd = &fn [lp];
-			gtk_clist_select_row (cl, lp, 0);
+		if (i == selector_state->selected_func){
+			fd = &fn [i];
+			gtk_clist_select_row (cl, i, 0);
 		}
 		max++;
-		lp++;
+		i++;
 		p = g_list_next (p);
 	}
 	gtk_clist_thaw (cl);

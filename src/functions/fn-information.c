@@ -28,7 +28,6 @@ enum Value_Class {
 static enum Value_Class
 get_value_class (FunctionEvalInfo *ei, ExprTree *expr)
 {
-	char *error_string;
 	Value *value;
 	enum Value_Class res;
 

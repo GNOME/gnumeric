@@ -208,29 +208,29 @@ struct _FunctionDefinition {
 	void    *fn;
 };
 
-void        cell_get_abs_col_row (const CellRef *cell_ref,
-				  int eval_col, int eval_row,
-				  int *col, int *row);
+void        cell_get_abs_col_row   (const CellRef *cell_ref,
+				    int eval_col, int eval_row,
+				    int *col, int *row);
 
-ExprTree   *expr_parse_string    (const char *expr, const EvalPosition *fp,
-				  const char **desired_format, char **error_msg);
+ExprTree   *expr_parse_string      (const char *expr, const EvalPosition *fp,
+				    const char **desired_format, char **error_msg);
 /* In parser.y  */
-ParseErr    gnumeric_expr_parser (const char *expr, const EvalPosition *ep,
-				  const char **desired_format,
-				  ExprTree **result);
+ParseErr    gnumeric_expr_parser   (const char *expr, const EvalPosition *ep,
+				    const char **desired_format,
+				    ExprTree **result);
 
-ExprTree   *expr_tree_duplicate  (ExprTree *expr);
-char       *expr_decode_tree     (ExprTree *tree, const EvalPosition *fp);
+ExprTree   *expr_tree_duplicate    (ExprTree *expr);
+char       *expr_decode_tree       (ExprTree *tree, const EvalPosition *fp);
 
-ExprTree   *expr_tree_new_constant(Value *v);
-ExprTree   *expr_tree_new_unary  (Operation op, ExprTree *e);
-ExprTree   *expr_tree_new_binary (ExprTree *l, Operation op, ExprTree *r);
-ExprTree   *expr_tree_new_funcall(Symbol *sym, GList *args);
-ExprTree   *expr_tree_new_var    (const CellRef *cr);
-ExprTree   *expr_tree_new_error  (const char *txt);
+ExprTree   *expr_tree_new_constant (Value *v);
+ExprTree   *expr_tree_new_unary    (Operation op, ExprTree *e);
+ExprTree   *expr_tree_new_binary   (ExprTree *l, Operation op, ExprTree *r);
+ExprTree   *expr_tree_new_funcall  (Symbol *sym, GList *args);
+ExprTree   *expr_tree_new_var      (const CellRef *cr);
+ExprTree   *expr_tree_new_error    (const char *txt);
 
-void        expr_tree_ref        (ExprTree *tree);
-void        expr_tree_unref      (ExprTree *tree);
+void        expr_tree_ref          (ExprTree *tree);
+void        expr_tree_unref        (ExprTree *tree);
 
 ExprTree   *expr_tree_invalidate_references (ExprTree *src, EvalPosition *src_fp,
 					     const EvalPosition *fp,

@@ -67,23 +67,24 @@ sheet_redraw_rows (Sheet *sheet)
 }
 
 static void
+col_row_info_init (ColRowInfo *cri, double points)
+{
+	cri->pos = -1;
+	cri->units = points;
+	cri->margin_a_pt = 1.0;
+	cri->margin_b_pt = 1.0;
+
+	cri->pixels = 0;
+	cri->margin_a = 0;
+	cri->margin_b = 0;
+	cri->data = NULL;
+}
+
+static void
 sheet_init_default_styles (Sheet *sheet)
 {
-	/* The default column style */
-	sheet->default_col_style.pos        = -1;
-	sheet->default_col_style.units      = 80;
-	sheet->default_col_style.pixels     = 0;
-	sheet->default_col_style.margin_a   = 1;
-	sheet->default_col_style.margin_b   = 1;
-	sheet->default_col_style.data       = NULL;
-
-	/* The default row style */
-	sheet->default_row_style.pos      = -1;
-	sheet->default_row_style.units    = 18;
-	sheet->default_row_style.pixels   = 0;
-	sheet->default_row_style.margin_a = 1;
-	sheet->default_row_style.margin_b = 1;
-	sheet->default_row_style.data     = NULL;
+	col_row_info_init (&sheet->default_col_style, 80.0);
+	col_row_info_init (&sheet->default_row_style, 18.0);
 }
 
 /* Initialize some of the columns and rows, to test the display engine */
@@ -229,8 +230,34 @@ sheet_compute_col_row_new_size (Sheet *sheet, ColRowInfo *ci, void *data)
 {
 	double pix_per_unit = sheet->last_zoom_factor_used;
 
-	ci->pixels = (ci->units * pix_per_unit) +
-		ci->margin_a + ci->margin_b + 1;
+	{
+		static int warn_shown = 0;
+		if (!warn_shown){
+			warn_shown = 1;
+			g_warning ("Here we used to add one pixel, perhaps\n"
+				   "this is the source of the miss-alignment?");
+		}
+	}
+	ci->pixels = (ci->units + ci->margin_a_pt + ci->margin_b_pt) * pix_per_unit;
+	ci->margin_a = ci->margin_a_pt * pix_per_unit;
+	ci->margin_b = ci->margin_b_pt * pix_per_unit;
+}
+
+static int
+zoom_cell_style (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
+{
+	StyleFont *sf;
+
+	/*
+	 * If the size is already set, skip
+	 */
+	if (cell->style->font->scale == sheet->last_zoom_factor_used)
+		return TRUE;
+	
+	sf = style_font_new_from (cell->style->font, sheet->last_zoom_factor_used);
+	cell_set_font_from_style (cell, sf);
+	
+	return TRUE;
 }
 
 void
@@ -260,6 +287,42 @@ sheet_set_zoom_factor (Sheet *sheet, double factor)
 
 		cell_comment_reposition (cell);
 	}
+
+	/*
+	 * Scale the fonts for every cell
+	 */
+	sheet_cell_foreach_range (
+		sheet, TRUE, 0, 0, SHEET_MAX_COLS, SHEET_MAX_ROWS,
+		zoom_cell_style, sheet);
+
+	/*
+	 * Scale the internal font styles
+	 */
+	for (l = sheet->style_list; l; l = l->next){
+		StyleRegion *sr = l->data;
+		Style *style = sr->style;
+		StyleFont *scaled;
+		
+		if (!(style->valid_flags & STYLE_FONT))
+			continue;
+
+		scaled = style_font_new_from (style->font, factor);
+		style_font_unref (style->font);
+		style->font = scaled;
+	}
+}
+
+/*
+ * Duplicates a column or row
+ */
+ColRowInfo *
+sheet_duplicate_colrow (ColRowInfo *original)
+{
+	ColRowInfo *info = g_new (ColRowInfo, 1);
+
+	*info = *original;
+	
+	return info;
 }
 
 ColRowInfo *
@@ -626,6 +689,69 @@ sheet_col_get_distance (Sheet *sheet, int from_col, int to_col)
 	return col_row_distance (sheet->cols_info, from_col, to_col, sheet->default_col_style.pixels);
 }
 
+static inline double
+col_row_unit_distance (GList *list, int from, int to, double default_units, double default_margins)
+{
+	ColRowInfo *cri;
+	double units = 0;
+	int n = 0;
+	GList *l;
+	
+	if (to == from)
+		return 0;
+
+	n = to - from;
+	
+	for (l = list; l; l = l->next){
+		cri = l->data;
+		
+		if (cri->pos >= to)
+			break;
+		
+		if (cri->pos >= from){
+			n--;
+			units += cri->units + cri->margin_a_pt + cri->margin_b_pt;
+		}
+	}
+	units += n * default_units + n * default_margins;
+	
+	return units;
+}
+
+/**
+ * sheet_col_get_unit_distance:
+ *
+ * Return the number of points between from_col to to_col
+ */
+double
+sheet_col_get_unit_distance (Sheet *sheet, int from_col, int to_col)
+{
+	g_assert (from_col <= to_col);
+	g_assert (sheet != NULL);
+
+	return col_row_unit_distance (sheet->cols_info, from_col, to_col,
+				      sheet->default_col_style.units,
+				      sheet->default_col_style.margin_a_pt +
+				      sheet->default_col_style.margin_b_pt);
+}
+
+/**
+ * sheet_row_get_unit_distance:
+ *
+ * Return the number of points between from_row to to_row
+ */
+double
+sheet_row_get_unit_distance (Sheet *sheet, int from_row, int to_row)
+{
+	g_assert (from_row <= to_row);
+	g_assert (sheet != NULL);
+
+	return col_row_unit_distance (sheet->rows_info, from_row, to_row,
+				      sheet->default_row_style.units,
+				      sheet->default_row_style.margin_a +
+				      sheet->default_row_style.margin_b);
+}
+
 /**
  * sheet_row_get_distance:
  *
@@ -741,11 +867,13 @@ sheet_set_text (Sheet *sheet, int col, int row, const char *str)
 		char *end, *format;
 		float_t v;
 
-		(void) strtod (text, &end);
+		strtod (text, &end);
 		if (end != text && *end == 0) {
-			/* It is a number -- remain in General format.  Note
-			   that we would other wise actually set a "0" format
-			   for integers and that it would stick.  */
+			/*
+			 * It is a number -- remain in General format.  Note
+			 * that we would other wise actually set a "0" format
+			 * for integers and that it would stick.
+			 */
 		} else if (format_match (text, &v, &format)) {
 			if (!CELL_IS_FORMAT_SET (cell))
 				cell_set_format_simple (cell, format);
@@ -910,9 +1038,9 @@ sheet_update_controls (Sheet *sheet)
 	if (cells){
 		Cell *cell = cells->data;
 
-		bold_first = cell->style->font->hint_is_bold;
-		italic_first = cell->style->font->hint_is_italic;
-
+		bold_first = cell->style->font->is_bold;
+		italic_first = cell->style->font->is_italic;
+		
 		l = cells->next;
 	}
 	else
@@ -925,8 +1053,8 @@ sheet_update_controls (Sheet *sheet)
 		Style *style;
 
 		style = sheet_style_compute (sheet, ss->start_col, ss->start_row, NULL);
-		bold_first = style->font->hint_is_bold;
-		italic_first = style->font->hint_is_italic;
+		bold_first = style->font->is_bold;
+		italic_first = style->font->is_italic;
 		style_destroy (style);
 
 		/* Initialize the pointer that is going to be used next */
@@ -939,10 +1067,10 @@ sheet_update_controls (Sheet *sheet)
 	for (; l; l = l->next){
 		Cell *cell = l->data;
 
-		if (italic_first != cell->style->font->hint_is_italic)
+		if (italic_first != cell->style->font->is_italic)
 			italic_common = FALSE;
 
-		if (bold_first != cell->style->font->hint_is_bold)
+		if (bold_first != cell->style->font->is_bold)
 			bold_common = FALSE;
 
 		if (bold_common == FALSE && italic_common == FALSE)

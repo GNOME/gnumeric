@@ -532,6 +532,8 @@ create_font_page (GtkWidget *prop_win, CellList *cells)
 	return font_widget;
 }
 
+#if 0
+#warning FIXME: Need to code the apply_font_format code 
 static void
 apply_font_format (Style *style, Sheet *sheet, CellList *cells)
 {
@@ -579,6 +581,7 @@ apply_font_format (Style *style, Sheet *sheet, CellList *cells)
 	style->valid_flags |= STYLE_FONT;
 	style->font = style_font_new (font_name, 10); 
 }
+#endif
 
 static void
 color_pick_change_notify (GnomeColorPicker *cp, guint r, guint g, guint b, guint a, GnomePropertyBox *pbox)
@@ -913,7 +916,8 @@ static struct {
 } cell_format_pages [] = {
 	{ N_("Number"),    create_number_format_page,  apply_number_formats  },
 	{ N_("Alignment"), create_align_page,          apply_align_format    },
-	{ N_("Font"),      create_font_page,           apply_font_format     },
+#warning Activate Fonts here too.
+/*	{ N_("Font"),      create_font_page,           apply_font_format     }, */
 	{ N_("Coloring"),  create_coloring_page,       apply_coloring_format },
 	{ NULL, NULL, NULL }
 };

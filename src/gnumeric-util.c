@@ -153,7 +153,7 @@ font_change_component_1 (const char *fontname, int idx,
 }
 
 char *
-font_change_component (const char *fontname, int idx, const char *newvalue)
+x11_font_change_component (const char *fontname, int idx, const char *newvalue)
 {
 	char *res = 0;
 	int reslen = 0;
@@ -183,10 +183,8 @@ font_change_component (const char *fontname, int idx, const char *newvalue)
 		return g_strdup ("");
 }
 
-
-
 char *
-font_get_bold_name (const char *fontname, int units)
+x11_font_get_bold_name (const char *fontname, int units)
 {
 	char *f;
 	
@@ -194,25 +192,17 @@ font_get_bold_name (const char *fontname, int units)
 	 * FIXME: this scheme is poor: in some cases, the fount strength is called 'bold', 
 	 * whereas in some others it is 'black', in others... Look font_get_italic_name
 	 */
-	f = font_change_component (fontname, 2, "bold");
+	f = x11_font_change_component (fontname, 2, "bold");
 
 	return f;
 }
 
 char *
-font_get_italic_name (const char *fontname, int units)
+x11_font_get_italic_name (const char *fontname, int units)
 {
 	char *f;
-	StyleFont *sf;
 
-	f = font_change_component (fontname, 3, "o");
-	sf = style_font_new_simple (f, units);
-	if (sf == NULL) {
-		g_free (f);
-		f = font_change_component (fontname, 3, "i");
-	} else
-		style_font_unref (sf);
-
+	f = x11_font_change_component (fontname, 3, "o");
 	return f;
 }
 
