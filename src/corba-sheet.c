@@ -329,7 +329,7 @@ Sheet_cell_set_value (PortableServer_Servant servant,
 		break;
 
 	default:
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Gnumeric_Sheet_InvalidValue, NULL);
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Gnumeric_Sheet_InvalidCmd, NULL);
 		return;
 	}
 

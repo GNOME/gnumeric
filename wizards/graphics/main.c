@@ -152,7 +152,7 @@ boot_wizard (Workbook *wb)
 #endif
 
 void
-graphics_wizard (Workbook *wb)
+graph_druid (Workbook *wb)
 {
 	GladeXML *gui;
 	WizardGraphicContext *gc;
