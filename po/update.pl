@@ -5,17 +5,17 @@
 #
 #  Author(s): Kenneth Christiansen
 #
-#  GNOME PO Update Utility requires the XML to POT Generator, ui-extract.pl
+#  GNOME PO Update Utility can use the XML to POT Generator, ui-extract.pl
 #  Please distribute it along with this scrips, aswell as desk.po and
 #  README.tools.
 #
 #  Also remember to change $PACKAGE to reflect the package the script is
 #  used within.
 
-$VERSION = "1.4";
 
-$LANG     = $ARGV[0];
-$PACKAGE  = "gnumeric";
+$VERSION = "1.3.3";
+$LANG    = $ARGV[0];
+$PACKAGE = "gnumeric";
 $| = 1;
 
 
@@ -35,6 +35,7 @@ if ($LANG=~/^-(.)*/){
     }
     elsif ($LANG eq "--dist" || "$LANG" eq "-D"){
         &Merging;
+#       &Status;
     }
     elsif ($LANG eq "--pot" || "$LANG" eq "-P"){
    	&GeneratePot;
@@ -91,8 +92,8 @@ sub Maintain{
     
     open(BUF1, "$a|");
 
-    @buf2 = <BUF2>;
-    @buf1 = <BUF1>;
+    @buf1_2 = <BUF2>;
+    @buf1_1 = <BUF1>;
 
     if (-s "POTFILES.ignore"){
         open FILE, "POTFILES.ignore";
@@ -102,29 +103,29 @@ sub Maintain{
             }
         }
         print "POTFILES.ignore found! Ignoring files...\n";
-        @buf2 = (@bup, @buf2);
+        @buf1_2 = (@bup, @buf1_2);
     }
 
-    foreach my $file (@buf1){
+    foreach my $file (@buf1_1){
         open FILE, "<$file";
         while (<FILE>) {
             if ($_=~/_\(\"/o){
                 $file = unpack("x3 A*",$file) . "\n";
-                push @buff1, $file;
+                push @buf2_1, $file;
                 last;
             }
         }
     }
 
-    @bufff1 = sort (@buff1);
-    @bufff2 = sort (@buf2);
+    @buf3_1 = sort (@buf2_1);
+    @buf3_2 = sort (@buf1_2);
 
     my %in2;
-    foreach (@bufff2) {
+    foreach (@buf3_2) {
        $in2{$_} = 1;
     }
 
-    foreach (@bufff1){
+    foreach (@buf3_1){
        if (!exists($in2{$_})){
            push @result, $_ }
        }
@@ -157,18 +158,20 @@ sub GeneratePot{
     $c1="test \! -f $PACKAGE\.po \|\| \( rm -f \.\/$PACKAGE\.pot "
        ."&& mv $PACKAGE\.po \.\/$PACKAGE\.pot \)";
 
-    open FILE, "<POTFILES.in";	
-    while (<FILE>) {
-       if ($_=~ /(.*)(\.xml\.h)/o){
-          $filename = "$1\.xml";
-          $xmlfiles="\.\/ui-extract.pl --update ../$filename";
-          system($xmlfiles);
-          }
+    if (-s "ui-extract.pl"){
+       open FILE, "<POTFILES.in";	
+       while (<FILE>) {
+          if ($_=~ /(.*)(\.xml\.h)/o){
+             $filename = "$1\.xml";
+             $xmlfiles="\.\/ui-extract.pl --update ../$filename";
+             system($xmlfiles);
+             }
 
-       elsif ($_=~ /(.*)(\.glade\.h)/o){
-          $filename = "$1\.glade";
-          $xmlfiles="\.\/ui-extract.pl --update ../$filename";
-          system($xmlfiles);
+          elsif ($_=~ /(.*)(\.glade\.h)/o){
+             $filename = "$1\.glade";
+             $xmlfiles="\.\/ui-extract.pl --update ../$filename";
+             system($xmlfiles);
+          }
        }
     }
 
