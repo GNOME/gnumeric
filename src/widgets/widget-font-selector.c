@@ -82,9 +82,9 @@ fs_modify_style (FontSelector *fs, MStyle *modification)
 	MStyle *original = fs->mstyle;
 	g_return_if_fail (modification != NULL);
 
+	fs->mstyle = mstyle_copy_merge (original, modification);
 	gtk_signal_emit (GTK_OBJECT (fs),
 		fs_signals[FONT_CHANGED], modification);
-	fs->mstyle = mstyle_copy_merge (original, modification);
 	foo_canvas_item_set (fs->font_preview_grid,
 		"default-style",  fs->mstyle,
 		NULL);

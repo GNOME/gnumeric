@@ -1,3 +1,8 @@
+2003-09-06  Jon K Hellan  <hellan@acm.org>
+
+	* widget-font-selector.c (fs_modify_style): Merge before emitting
+	font_changed signal.
+
 2003-08-29  Jody Goldberg <jody@gnome.org>
 
 	* widget-font-selector.c (font_selector_set_from_pango) : unpango-scale
