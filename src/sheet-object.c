@@ -11,8 +11,6 @@
 #define GNUMERIC_SHEET_VIEW(p) GNUMERIC_SHEET (SHEET_VIEW(p)->sheet_view);
 
 static void sheet_finish_object_creation (Sheet *sheet, SheetObject *object);
-static void sheet_object_unrealize       (Sheet *sheet, SheetObject *object);
-static void sheet_object_realize         (Sheet *sheet, SheetObject *object);
 static void sheet_object_start_editing   (SheetObject *object);
 static int  object_event                 (GnomeCanvasItem *item,
 					  GdkEvent *event,
@@ -122,7 +120,7 @@ sheet_object_create_line (Sheet *sheet, int is_arrow, double x1, double y1, doub
 	so->color = string_get (color);
 	so->width = w;
 	
-	sheet->objects = g_list_prepend (sheet->objects, sfo);
+	sheet->objects = g_list_prepend (sheet->objects, so);
 
 	return so;
 }
@@ -131,10 +129,13 @@ void
 sheet_object_destroy (SheetObject *object)
 {
 	SheetFilledObject *sfo = (SheetFilledObject *) object;
+	Sheet *sheet;
 	GList *l;
 	
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (IS_SHEET_OBJECT (object));
+
+	sheet = object->sheet;
 	
 	switch (object->type){
 
@@ -163,7 +164,7 @@ sheet_object_destroy (SheetObject *object)
 	g_free (object);
 }
 
-GnomeCanvasItem *
+static GnomeCanvasItem *
 sheet_view_object_realize (SheetView *sheet_view, SheetObject *object)
 {
 	SheetFilledObject *filled_object = (SheetFilledObject *) object;
@@ -242,7 +243,7 @@ sheet_view_object_realize (SheetView *sheet_view, SheetObject *object)
 	return item;
 }
 
-void
+static void
 sheet_view_object_unrealize (SheetView *sheet_view, SheetObject *object)
 {
 	GList *l;

@@ -46,10 +46,10 @@ void             sheet_object_destroy        (SheetObject *object);
 /*
  * This routine creates the SheetObject in the SheetViews's Canvases.
  */
-void             sheet_object_realize        (SheetView *sheet_view,
+void             sheet_object_realize        (Sheet *sheet,
 					      SheetObject *object);
 
-void             sheet_object_unrealize      (SheetView *sheet_view,
+void             sheet_object_unrealize      (Sheet *sheet,
 					      SheetObject *object);
 
 void             sheet_object_make_current   (Sheet *sheet,

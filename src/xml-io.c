@@ -1397,7 +1397,6 @@ static Workbook *readXmlWorkbook(parseXmlContextPtr ctxt, xmlNodePtr tree) {
     child = xmlSearchChild(tree, "Geometry");
     if (child) {
 	int width, height;
-	int true = 1;
 
 	xmlGetIntValue(child, "Width", &width);
 	xmlGetIntValue(child, "Height", &height);
