@@ -1,4 +1,8 @@
 2000-12-30  Jody Goldberg <jgoldberg@home.com>
+
+	* src/mstyle.c (mstyle_new_default) : use style_color_{black,white}
+
+2000-12-30  Jody Goldberg <jgoldberg@home.com>
 	
 	* rename border.[ch] -> style-border.[ch]
 	* rename color.[ch] -> style-color.[ch]

@@ -575,11 +575,11 @@ mstyle_new_default (void)
 	mstyle_set_font_size   (mstyle, DEFAULT_SIZE);
 
 	mstyle_set_color       (mstyle, MSTYLE_COLOR_FORE,
-				style_color_new (0, 0, 0));
+				style_color_black ());
 	mstyle_set_color       (mstyle, MSTYLE_COLOR_BACK,
-				style_color_new (0xffff, 0xffff, 0xffff));
+				style_color_white ());
 	mstyle_set_color       (mstyle, MSTYLE_COLOR_PATTERN,
-				style_color_new (0, 0, 0));
+				style_color_black ());
 
 	/* To negate borders */
 	mstyle_set_border      (mstyle, MSTYLE_BORDER_TOP,
