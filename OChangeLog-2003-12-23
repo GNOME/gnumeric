@@ -1,5 +1,10 @@
 2002-04-12  Jon K Hellan  <hellan@acm.org>
 
+	* plugins/Makefile.am (SUBDIRS_FILE_FORMATS): Plan Perfect plugin
+	  got installed, but not built. Don't do either.
+
+2002-04-12  Jon K Hellan  <hellan@acm.org>
+
 	* configure.in (bonobo_msg): (re)introduce ENABLE_BONOBO variable
 	and bonobo_suffix.
 
