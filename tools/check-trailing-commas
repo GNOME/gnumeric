@@ -52,20 +52,20 @@ my %exceptions =
 
 	local (*FIL);
 	if (open (*FIL, "< $filename")) {
-	    my $guard = undef;
 	    my $lineno = 0;
 	    my $state = 0;
 	  LINE:
 	    while (<FIL>) {
 		$lineno++;
 
+		if ($state == 1 && /^\s*\}/) {
+		    my $linenom1 = $lineno - 1;
+		    print STDERR "$filename:$linenom1: Suspicious comma.\n";
+		}
+
 		if (/,\s*\}/) {
 		    print STDERR "$filename:$lineno: Suspicious comma.\n";
 		    $exitcode = 1;
-		    next LINE;
-		} elsif ($state == 1 && /^\s*\}/) {
-		    my $linenom1 = $lineno - 1;
-		    print STDERR "$filename:$linenom1: Suspicious comma.\n";
 		}
 
 		if (/,\s*$/) {
