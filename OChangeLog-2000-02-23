@@ -1,3 +1,8 @@
+1999-08-03  Michael Meeks  <michael@imaginator.com>
+
+	* src/workbook.c (workbook_setup_edit_area): Removed function
+	wizard.
+
 1999-08-03  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/corba-sheet.c (fill_corba_value): Corrected the argument here.

@@ -26,6 +26,10 @@ Jay:
 
 	* Implemented BESSELI, BESSELK completing the engineering functions.
 
+Miguel:
+
+	* Removed function wizard.
+
 --------------------------------------------------------------------------
 
 Gnumeric 0.31

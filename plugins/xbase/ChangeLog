@@ -1,3 +1,7 @@
+1999-08-02  Elliot Lee <sopwith@redhat.com>
+
+	* Makefile.am: boot.h not needed.
+	
 1999-07-31  Morten Welinder  <terra@diku.dk>
 
 	* xbase.c (field_types): Move from xbase.h.
