@@ -3,6 +3,7 @@ Change between versions 0.27 and 0.28
 Miguel:
 	Print support (imported from the GNUMERIC_PRINT branch).
 	Pattern selector works again.
+	Imported Alan's libCSV and rewrwite ff-csv so that it actually works.
 
 Jukka:
 	* Started the implementation of Data Analysis tools

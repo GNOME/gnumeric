@@ -13,9 +13,6 @@ Number formatting code:
 Excel file loading code:
 	Michael Meeks (michael@imaginator.com)
 
-CSV file loading code:
-	Vincent Renardias <vincent@ldsol.com>
-
 Financial functions code:
 	Vladimir Vuksan	<vuksan@veus.hr>
 
@@ -24,3 +21,12 @@ TXT plugin for simple text import/export:
 
 Numerous functions and tools:
 	Jukka-Pekka Iivonen <iivonen@iki.fi>
+
+LibCSV:
+	Alan Cox (alan@redhat.com).
+
+New LibCSV:
+	Miguel
+
+Original CSV code:
+	Vincent Renardias <vincent@ldsol.com>

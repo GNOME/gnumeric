@@ -1,222 +1,62 @@
 /*
  * csv-io.c: save/read Sheets using a CSV encoding.
- * (some code taken from xml-io.c by Daniel Veillard <Daniel.Veillard@w3.org>)
  *
- * Vincent Renardias <vincent@ldsol.com>
+ * Miguel de Icaza <miguel@gnu.org>
  *
- * $Id$
- */
-
-/*
- * TODO:
- * handle quoted CSV
  */
 
 #include <config.h>
 #include <stdio.h>
 #include <gnome.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/mman.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <ctype.h>
-#include <fcntl.h>
-#include <errno.h>
-#include "csv-io.h"
+#include "plugin.h"
+#include "gnumeric.h"
 #include "file.h"
-#include "gnumeric-util.h"
+#include "libcsv.h"
 
+static struct csv_table load_and_probe_table;
 
 static void
-insert_csv_cell (Sheet* sheet, const char *string, int start, int end, int col, int row)
+load_table_into_sheet (struct csv_table *table, Sheet *sheet)
 {
-	char *p;
-	Cell *cell;
-	int len;
+	int row;
 
-	if(sheet == NULL)
-		return;
+	for (row = 0; row < table->height; row++){
+		Cell *cell;
+		int col;
 
-	len = end - start + 1;
-	if (len < 0)
-		return;
-	p = g_new (char, len + 1);
-	memcpy (p, string + start, len);
-	p[len] = 0;
-
-#if 0
-	fprintf(stderr,"'%s' at col:%d, row:%d.\n", p, col, row);
-#endif
-
-	if ((cell = sheet_cell_get (sheet, row, col)) == NULL){
-		if ((cell = sheet_cell_new (sheet, row, col)) == 0){
-			g_free (p);
-			return;
+		for (col = 0; col < CSV_WIDTH (table, row); col++){
+			cell = sheet_cell_new (sheet, col, row);
+			cell_set_text_simple (cell, CSV_ITEM (table, row, col));
 		}
+			
 	}
-	cell_set_text_simple (cell, p);
-	g_free (p);
 }
-
-static int
-csv_parse_file (const char *filename,Sheet *sheet)
-{
-	int		fd;
-	struct stat	buf;
-	int		flen;	/* file length */
-	char		*file;	/* data pointer */
-	int		idx, lindex;
-	int		crow=0,ccol=0,mcol=0; /* current/max col/row */
-	gboolean        file_mmaped, data;
-
-	struct {
-		int non_printables;
-		int lines;
-		int commas;
-	} statistics;
-
-	if ((fd = open (filename, O_RDONLY)) < 0){
-		char *msg;
-		int  err = errno;
-
-		msg = g_strdup_printf (_("While opening %s\n%s"),
-					 filename, g_strerror (err));
-		gnumeric_notice (NULL, GNOME_MESSAGE_BOX_ERROR, msg);
-		g_free (msg);
-
-		return 0;
-	}
-
-	if (fstat (fd, &buf) == -1){
-		gnumeric_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-				 "Cannot stat the file");
-		close(fd);
-		return 0;
-	}
-
-	/* FIXME: ARBITRARY VALUE */
-	if (buf.st_size < 1 || buf.st_size > 1000000){
-		close(fd);
-		return 0;
-	} else {
-		flen = buf.st_size;
-	}
-
-	file = mmap (NULL, flen, PROT_READ, MAP_PRIVATE, fd, 0);
-	if (file == (char*)-1) {
-		/* mmap failed.  */
-		file_mmaped = FALSE;
-
-		file = g_new (char, flen);
-		if (file) {
-			if (read (fd, file, flen) != flen) {
-				g_free (file);
-				file = 0;
-			}
-		}
-	} else {
-		file_mmaped = TRUE;
-	}
-	close (fd);
-
-	if (!file) {
-		gnumeric_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-				 _("Failed to read csv file"));
-		return 0;
-	}
-
-	statistics.non_printables = 0;
-	statistics.lines = 0;
-	statistics.commas = 0;
-
-	idx = 0;
-	lindex = 0;
-	data = FALSE;
-
-	while (idx < flen) {
-	switch (file [idx]) {
-		case '\r':
-			if (idx + 1 == flen || file [idx+1] != '\n')
-				statistics.non_printables++;
-			idx++;
-			break;
-		case '\n':
-			if (data){  /* Non empty line */
-				insert_csv_cell (sheet, file, lindex, idx-1, crow, ccol);
-			}
-			data = FALSE;
-			lindex = idx+1;
-			if (ccol > mcol){
-				mcol=ccol;
-			}
-			ccol = 0;
-			crow++;
-			idx++;
-			statistics.lines++;
-			break;
-		case ',':
-			if(data){  /* Non empty cell */
-				insert_csv_cell (sheet, file, lindex, idx-1, crow, ccol);
-			}
-			data = FALSE;
-			lindex = idx+1;
-			ccol++;
-			idx++;
-			statistics.commas++;
-			break;
-
-		default:
-			if (!isspace ((unsigned char)file[idx]) &&
-			    !isprint ((unsigned char)file[idx]))
-				statistics.non_printables++;
-			idx++;
-			data = TRUE;
-			break;
-		}
-	}
-
-	if (sheet) {
-		sheet->max_col_used=mcol;
-		sheet->max_row_used=crow;
-	}
-
-	if (file_mmaped)
-		munmap (file, flen);
-	else
-		g_free (file);
-
-	/* Heuristics ahead!  */
-	if (statistics.non_printables > flen / 200 ||
-	    statistics.commas < statistics.lines / 2) {
-		return 0;
-	}
-
-	return 1;
-}
-
 
 static Workbook *
 csv_read_workbook (const char* filename)
 {
-	Workbook	*book;
-	Sheet		*sheet;
+	Workbook *book;
+	Sheet *sheet;
+	char *name;
 
 	book = workbook_new ();
-	if (!book) return NULL;
+	if (!book)
+		return NULL;
 
-	sheet = sheet_new (book, _("NoName"));
+	name = g_strdup_printf (_("Imported %s"), g_basename (filename));
+	sheet = sheet_new (book, name);
+	g_free (name);
+	
 	workbook_attach_sheet (book, sheet);
 
-	/*if (sheet != NULL){
-		book->sheet = sheet;
-	}*/
-
-	if ((csv_parse_file (filename, sheet)) == 0) {
-		workbook_destroy (book);
-		return NULL;
-	}
-
+	load_table_into_sheet (&load_and_probe_table, sheet);
+	
+	/*
+	 * Destroy and tag as invalid
+	 */
+	csv_destroy_table (&load_and_probe_table);
+	load_and_probe_table.row = NULL;
+	
 	return book;
 }
 
@@ -224,43 +64,46 @@ csv_read_workbook (const char* filename)
 static gboolean
 csv_probe (const char *filename)
 {
-	if(csv_parse_file (filename, NULL) == 1){
-		return TRUE;
-	} else {
+	FILE *f;
+
+	f = fopen (filename, "r");
+	if (f == NULL)
+		return FALSE;
+	
+	if (csv_load_table (f, &load_and_probe_table) == -1){
+		load_and_probe_table.row = NULL;
 		return FALSE;
 	}
+	fclose (f);
+	
+	/*
+	 * Careful:
+	 *
+	 * We assume that the load routine is going to be invoked inmediately
+	 */
+	return TRUE;
 }
 
-static void
-csv_init (void)
+static int
+csv_can_unload (PluginData *pd)
 {
-	const char *desc = _("CSV (comma separated values)");
-
-	file_format_register_open (1, desc, csv_probe, csv_read_workbook);
-	/* file_format_register_save (".csv", desc, gnumericWriteCSVWorkbook);*/
+	/* We can always unload */
+	return TRUE;
 }
 
 static void
 csv_cleanup_plugin (PluginData *pd)
 {
 	file_format_unregister_open (csv_probe, csv_read_workbook);
-	/* file_format_unregister_save (csv_read_workbook); */
-}
-
-static int
-csv_can_unload (PluginData *pd)
-{
-	return TRUE;
 }
 
 int
-init_plugin (PluginData *pd)
+init_plugin (PluginData * pd)
 {
-	csv_init ();
-
+	file_format_register_open (1, _("Comma Separated Value (CSV) import"), csv_probe, csv_read_workbook);
 	pd->can_unload = csv_can_unload;
 	pd->cleanup_plugin = csv_cleanup_plugin;
-	pd->title = g_strdup (_("CSV (comma separated value file import/export plugin)"));
-
+	pd->title = g_strdup (_("Comma Separated Value (CSV) module"));
+	
 	return 0;
 }

@@ -16,7 +16,7 @@ CFLAGS += -g -Wall 	\
 
 plugin_LTLIBRARIES = libcsv.la
 
-libcsv_la_SOURCES = csv-io.h csv-io.c
+libcsv_la_SOURCES = csv-io.h csv-io.c libcsv.c libcsv.h
 
 INCLUDES = 						\
 	-I$(GNUMERIC_SRC_DIR)				\
