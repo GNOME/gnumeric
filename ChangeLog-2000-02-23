@@ -1,3 +1,20 @@
+1999-10-09  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/sheet.c (sheet_cell_add): Kill complexity: sorted.
+
+	* src/cell.c (cell_get_span): Fixup.
+
+	* src/xml-io.c (xml_write_style_region): use mstyle_get_elements.
+	(xml_write_style_border, xml_write_style): constify.
+
+	* src/mstyle.c (mstyle_new): update + init array.
+	(mstyle_new_array, mstyle_add_array): kill.
+	(mstyle_merge): implement. (mstyle_add): add preconditions + implement.
+	(mstyle_set): update. (mstyle_to_string): update.
+	(mstyle_new_elems, mstyle_get_elements): implement.
+
+	* src/sheet.h (MStyle): kill GArray + move all into mstyle:PrivateStyle.
+
 1999-10-09  Jody Goldberg <jgoldberg@home.com>
 
 	* src/border.[ch] : Add a reasonable approximation of the XL border styles.

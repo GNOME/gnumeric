@@ -64,7 +64,6 @@ sheet_style_attach (Sheet *sheet, Range range,
 		if (range_equal (&sr->range, &range)) {
 			MStyle *tmp;
 
-			g_warning ("Merging overlapping regions");
 			tmp = sr->style;
 			sr->style = mstyle_merge (tmp, style);
 			mstyle_unref (tmp);

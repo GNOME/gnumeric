@@ -599,7 +599,8 @@ static char *StyleSideNames[4] =
 };
 
 static xmlNodePtr
-xml_write_style_border (parse_xml_context_t *ctxt, MStyleElement *style)
+xml_write_style_border (parse_xml_context_t *ctxt,
+			const MStyleElement *style)
 {
 	xmlNodePtr cur;
 	xmlNodePtr side;
@@ -658,7 +659,8 @@ xml_read_style_border (parse_xml_context_t *ctxt, xmlNodePtr tree, MStyleElement
  * Create an XML subtree of doc equivalent to the given Style.
  */
 static xmlNodePtr
-xml_write_style (parse_xml_context_t *ctxt, MStyleElement *style)
+xml_write_style (parse_xml_context_t *ctxt,
+		 const MStyleElement *style)
 {
 	xmlNodePtr cur, child;
 
@@ -1073,8 +1075,8 @@ xml_read_style (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	MStyle     *ans;
 	MStyleElement style[MSTYLE_ELEMENT_MAX];
 
-	for (i = MSTYLE_ELEMENT_ZERO; i < MSTYLE_ELEMENT_MAX; i++)
-		style[i].type = MSTYLE_ELEMENT_ZERO;
+	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++)
+		style[i].type = MSTYLE_ELEMENT_UNSET;
 
 	if (strcmp (tree->name, "Style")){
 		fprintf (stderr,
@@ -1151,7 +1153,7 @@ xml_read_style (parse_xml_context_t *ctxt, xmlNodePtr tree)
 
 	/* Dead slow for now: should pass array */
 	ans = mstyle_new (NULL);
-	for (i = MSTYLE_ELEMENT_ZERO; i < MSTYLE_ELEMENT_MAX; i++)
+	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++)
 		mstyle_add (ans, style[i]);
 
 	return ans;
@@ -1172,8 +1174,8 @@ xml_write_style_region (parse_xml_context_t *ctxt, StyleRegion *region)
 	xml_set_value_int (cur, "endRow",   region->range.end.row);
 
 	if (region->style != NULL) {
-		child = xml_write_style (ctxt, (MStyleElement *)
-					 region->style->elements->data);
+		child = xml_write_style (ctxt,
+					 mstyle_get_elements (region->style));
 		if (child)
 			xmlAddChild (cur, child);
 	}

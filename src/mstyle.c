@@ -6,7 +6,12 @@
 #include "mstyle.h"
 #include "border.h"
 
-typedef MStyle PrivateStyle; /* For future */
+typedef struct {
+	guint32        ref_count;
+	gchar         *name;
+	guint32        stamp;
+	MStyleElement *elements;
+} PrivateStyle;
 
 static guint32 stamp = 0;
 
@@ -45,7 +50,7 @@ mstyle_element_dump (const MStyleElement *e)
 
 	
 	switch (e->type) {
-	case MSTYLE_ELEMENT_ZERO:
+	case MSTYLE_ELEMENT_UNSET:
 		g_string_sprintf (ans, "Unset");
 		break;
 	case MSTYLE_COLOR_FORE:
@@ -90,23 +95,38 @@ MStyle *
 mstyle_new (const gchar *name)
 {
 	PrivateStyle *pst = g_new (PrivateStyle, 1);
-	pst->stamp = stamp++;
+	int i;
+
+	pst->ref_count = 1;
 	if (name) {
 		g_warning ("names not yet supported");
 		pst->name = g_strdup (name);
 	} else
 		pst->name = NULL;
-	pst->elements  = g_array_new (FALSE, FALSE, sizeof (MStyleElement));
-	pst->ref_count = 1;
+	pst->stamp = stamp++;
+	pst->elements  = g_new (MStyleElement, MSTYLE_ELEMENT_MAX);
+
+	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++)
+		pst->elements[i].type = MSTYLE_ELEMENT_UNSET;
 
 	return (MStyle *)pst;
+}
+
+MStyle *
+mstyle_new_elems (const gchar *name, const MStyleElement *e)
+{
+	PrivateStyle *pst = (PrivateStyle *)mstyle_new (name);
+
+	memcpy (pst->elements, e, sizeof (MStyleElement) * MSTYLE_ELEMENT_MAX);
+
+	return pst;
 }
 
 void
 mstyle_ref (MStyle *st)
 {
 	PrivateStyle *pst = (PrivateStyle *)st;
-	g_return_if_fail (st->ref_count > 0);
+	g_return_if_fail (pst->ref_count > 0);
 	pst->ref_count++;
 }
 
@@ -115,7 +135,7 @@ mstyle_unref (MStyle *st)
 {
 	PrivateStyle *pst = (PrivateStyle *)st;
 
-	g_return_if_fail (st->ref_count > 0);
+	g_return_if_fail (pst->ref_count > 0);
 
 	pst->ref_count--;
 
@@ -133,60 +153,55 @@ mstyle_new_elem (const gchar *name, MStyleElement e)
 	return (MStyle *)pst;
 }
 
-MStyle *
-mstyle_new_array (const gchar *name, const GArray *elements)
-{
-	PrivateStyle *pst = (PrivateStyle *)mstyle_new (name);
-
-	mstyle_add_array ((MStyle *)pst, elements);
-
-	return (MStyle *)pst;
-}
-
 void
 mstyle_add (MStyle *st, MStyleElement e)
 {
-	PrivateStyle *pst = st;
-	g_return_if_fail (pst != NULL);
+	PrivateStyle *pst = (PrivateStyle *)st;
 
-	g_array_append_val (pst->elements, e);
+	g_return_if_fail (pst != NULL);
+	g_return_if_fail (e.type >= MSTYLE_ELEMENT_UNSET);
+	g_return_if_fail (e.type <  MSTYLE_ELEMENT_MAX);
+	g_return_if_fail (pst->elements[e.type].type == MSTYLE_ELEMENT_UNSET);
+
+	pst->elements[e.type] = e;
 }
 
 void
 mstyle_set (MStyle *st, MStyleElement e)
 {
-	PrivateStyle *pst = st;
-	int i;
-	g_return_if_fail (pst != NULL);
+	PrivateStyle *pst = (PrivateStyle *)st;
 
-	for (i = 0; i < pst->elements->len; i++)
-		if (g_array_index (pst->elements, MStyleElement,i).type
-		    == e.type) {
-			g_array_index (pst->elements, MStyleElement,i) = e;
-			return;
-		}
-	g_array_append_val (pst->elements, e);
+	g_return_if_fail (pst != NULL);
+	g_return_if_fail (e.type >= MSTYLE_ELEMENT_UNSET);
+	g_return_if_fail (e.type <  MSTYLE_ELEMENT_MAX);
+	g_return_if_fail (pst->elements[e.type].type == MSTYLE_ELEMENT_UNSET);
+
+	if (pst->elements[e.type].type)
+		mstyle_element_destroy (pst->elements[e.type]);
+
+	pst->elements[e.type] = e;
 }
 
-void
-mstyle_add_array (MStyle *st, const GArray *elements)
+const MStyleElement *
+mstyle_get_elements (MStyle *st)
 {
-	PrivateStyle *pst = st;
-	g_return_if_fail (pst != NULL);
-
-	g_array_append_vals (st->elements, elements->data,
-			     elements->len);
+	g_return_val_if_fail (st != NULL, NULL);
+	return ((PrivateStyle *)st)->elements;
 }
+
 
 MStyle *
 mstyle_merge (const MStyle *sta, const MStyle *stb)
 {
 	PrivateStyle *pstm, *psts; /* Master, slave */
+	PrivateStyle *ans;
+	int i;
+
 	g_return_val_if_fail (sta != NULL, NULL);
 	g_return_val_if_fail (stb != NULL, NULL);
-	g_return_val_if_fail (sta->stamp != stb->stamp, NULL);
 
-	if (sta->stamp > stb->stamp) {
+	if (((PrivateStyle *)sta)->stamp >
+	    ((PrivateStyle *)stb)->stamp) {
 		pstm = (PrivateStyle *)sta;
 		psts = (PrivateStyle *)stb;
 	} else {
@@ -194,9 +209,19 @@ mstyle_merge (const MStyle *sta, const MStyle *stb)
 		psts = (PrivateStyle *)sta;
 	}
 
-	g_warning ("Merge unimplemented - this needs to use the new"
-		   "mstyle_element_copy / destroy API");
-	return NULL;
+	if (pstm->stamp == psts->stamp)
+		g_warning ("Odd merging regions with same stamp");
+
+	ans = (PrivateStyle *)mstyle_new (NULL);
+
+	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++) {
+		if (pstm->elements[i].type)
+			ans->elements[i] = mstyle_element_copy (pstm->elements[i]);
+		else if (psts->elements[i].type)
+			ans->elements[i] = mstyle_element_copy (psts->elements[i]);
+	}
+
+	return (MStyle *)ans;
 }
 
 char *
@@ -210,11 +235,13 @@ mstyle_to_string (const MStyle *st)
 	g_return_val_if_fail (pst, "(null)");
 	
 	ans = g_string_new ("Elements : ");
-	for (i = 0; i < pst->elements->len; i++) {
-		char *txt = mstyle_element_dump (&g_array_index (pst->elements,
-								 MStyleElement, i));
-		g_string_sprintfa (ans, "%s ", txt);
-		g_free (txt);
+	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++) {
+		char *txt;
+		if (pst->elements[i].type) {
+			txt = mstyle_element_dump (&pst->elements[i]);
+			g_string_sprintfa (ans, "%s ", txt);
+			g_free (txt);
+		}
 	}
 	txt_ans = ans->str;
 	g_string_free (ans, FALSE);
@@ -226,7 +253,7 @@ void
 mstyle_dump (const MStyle *st)
 {
 	char *txt;
-	const PrivateStyle *pst = st;
+	const PrivateStyle *pst = (PrivateStyle *)st;
 
 	printf ("Style '%s', stamp %d\n", pst->name?pst->name:"unnamed",
 		pst->stamp);
@@ -238,14 +265,14 @@ mstyle_dump (const MStyle *st)
 void
 mstyle_destroy (MStyle *st)
 {
-	PrivateStyle *pst = st;
+	PrivateStyle *pst = (PrivateStyle *)st;
 	g_return_if_fail (pst != NULL);
 
 	if (pst->name)
 		g_free (pst->name);
 	pst->name = NULL;
 
-	g_array_free (pst->elements, TRUE);
+	g_free (pst->elements);
 	pst->elements = NULL;
 
 	g_free (pst);
@@ -275,20 +302,17 @@ mstyle_do_merge (const GList *list, MStyleElementType max,
 	g_return_if_fail (mash != NULL);
 
 	for (i = 0; i < max; i++)
-		mash[i].type = MSTYLE_ELEMENT_ZERO;
+		mash[i].type = MSTYLE_ELEMENT_UNSET;
 	
 	while (l) {
 		guint j;
 		PrivateStyle *pst = l->data;
-		for (j = 0; j < pst->elements->len; j++) {
-			MStyleElement e = g_array_index (pst->elements,
-							 MStyleElement, j);
-			if (e.type < max) {
-				if (mash[e.type].type == MSTYLE_ELEMENT_ZERO)
-					mash[e.type] = e;
-				else if (blank_uniq)
-					mash[e.type].type = MSTYLE_ELEMENT_CONFLICT;
-			}
+		for (j = 0; j < max; j++) {
+			MStyleElement e = pst->elements[j];
+			if (mash[e.type].type == MSTYLE_ELEMENT_UNSET)
+				mash[e.type] = e;
+			else if (blank_uniq)
+				mash[e.type].type = MSTYLE_ELEMENT_CONFLICT;
 		}
 		l = g_list_next (l);
 	}

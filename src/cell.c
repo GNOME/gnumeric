@@ -1112,14 +1112,18 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 	 * alignment modes are set to "justify", then we report only one
 	 * column is used.
 	 */
-	if (cell_is_number (cell))
-/*	if (cell_is_number (cell) ||
+/*
+ * FIXME: work needed here.
+ *
+  if (cell_is_number (cell) ||
 	    cell->style->fit_in_cell ||
 	    cell->style->valign == VALIGN_JUSTIFY ||
 	    cell->style->halign == HALIGN_JUSTIFY ||
 	    cell->style->halign == HALIGN_FILL    ||
-	    cell_contents_fit_inside_column (cell))*/{
-		    g_warning ("style");
+	    cell_contents_fit_inside_column (cell))
+*/
+	if (cell_is_number (cell) ||
+	    cell_contents_fit_inside_column (cell)) {
 		*col1 = *col2 = cell->col->pos;
 		return;
 	}

@@ -11,8 +11,8 @@ typedef enum   _MStyleElementType MStyleElementType;
 #include "sheet.h"
 
 enum _MStyleElementType {
-	/* Delimiter */
-	MSTYLE_ELEMENT_ZERO = 0,
+	/* Delimiter */ 
+	MSTYLE_ELEMENT_UNSET = 0,
 	/* When there is a conflict in a merge */
 	MSTYLE_ELEMENT_CONFLICT,
 	/* Types that are visible in blank cells */
@@ -96,21 +96,21 @@ struct _MStyleElement {
 	} u;
 };
 
-MStyleElement mstyle_element_copy    (MStyleElement e);
-void          mstyle_element_destroy (MStyleElement e);
+MStyleElement  mstyle_element_copy    (MStyleElement e);
+void           mstyle_element_destroy (MStyleElement e);
 
 MStyle     *mstyle_new         (const gchar *name);
 MStyle     *mstyle_new_elem    (const gchar *name, MStyleElement e);
-MStyle     *mstyle_new_array   (const gchar *name, const GArray *elements);
+MStyle     *mstyle_new_elems   (const gchar *name, const MStyleElement *e);
 void        mstyle_ref         (MStyle *st);
 void        mstyle_unref       (MStyle *st);
 void        mstyle_destroy     (MStyle *st);
 
 /* No pre-existance checking */
 void        mstyle_add         (MStyle *st, MStyleElement e);
-void        mstyle_add_array   (MStyle *st, const GArray *elements);
-/* Checks to see if it is already in use */
+/* Checks to see if it is alreqady in use */
 void        mstyle_set         (MStyle *st, MStyleElement e);
+const MStyleElement *mstyle_get_elements (MStyle *st);
 
 /* commutative */
 MStyle     *mstyle_merge       (const MStyle *sta, const MStyle *stb);

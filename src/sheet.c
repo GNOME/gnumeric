@@ -2069,16 +2069,6 @@ sheet_cell_add (Sheet *sheet, Cell *cell, int col, int row)
 	cell->row   = sheet_row_fetch (sheet, row);
 
 	cell_realize (cell);
-
-/*	if (!cell->style){
-		int flags;
-
-		cell->style = sheet_style_compute (sheet, col, row, &flags);*/
-
-		g_warning ("FIXME: sort out cell FORMAT_SET flag");
-/*		if (flags & STYLE_FORMAT)
-		cell->flags |= CELL_FORMAT_SET;
-		}*/
 	cell_calc_dimensions (cell);
 
 	sheet_cell_add_to_hash (sheet, cell);
