@@ -848,7 +848,8 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 				 GTK_MESSAGE_WARNING, errmsg);
 			break;
 		}
-		solver_results_free (res);
+		if (res != NULL)
+			solver_results_free (res);
 	} else {
 		printf ("NLP not implemented yet!\n");
 	}
