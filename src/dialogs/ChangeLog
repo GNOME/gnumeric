@@ -1,3 +1,22 @@
+2001-07-19  Almer S. Tigelaar  <almer@gnome.org>
+
+	* cell-format.glade: Set border around background
+	preview canvas.
+
+	* dialog-cell-format.c (cb_pattern_preview_get_cell_style): New,
+	callback to retrieve preview-grid's cell style.
+	(draw_pattern_preview): Kill code to create background and pattern,
+	just merge with the resulting mstyle if in edit mode and force
+	a redraw.
+	(cb_back_preview_color): Change color on preview mstyle.
+	(cb_pattern_preview_color): Idem.
+	(draw_pattern_selected): Idem, but pattern.
+	(fmt_dialog_init_background_page): New, initialize the background
+	page of the cell format dialog.
+	(cb_fmt_dialog_dialog_destroy): Unref preview mstyle and initialize
+	canvas and grid to null.
+	(fmt_dialog_impl): Call init_background_page.
+
 2001-07-17  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.68

@@ -3147,6 +3147,7 @@ Double
 	  <widget>
 	    <class>GtkScrolledWindow</class>
 	    <name>scrolledwindow13</name>
+	    <border_width>5</border_width>
 	    <hscrollbar_policy>GTK_POLICY_NEVER</hscrollbar_policy>
 	    <vscrollbar_policy>GTK_POLICY_NEVER</vscrollbar_policy>
 	    <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>

@@ -134,8 +134,8 @@ typedef struct _FormatState
 	} border;
 	struct {
 		GnomeCanvas	*canvas;
-		GnomeCanvasItem	*back;
-		GnomeCanvasItem	*pattern_item;
+		PreviewGrid     *grid;
+		MStyle          *style;
 
 		gboolean         back_color_is_default;
 		ColorPicker	 back_color;
@@ -1306,153 +1306,106 @@ fmt_dialog_init_font_page (FormatState *state)
 
 /*****************************************************************************/
 
+static MStyle *
+cb_pattern_preview_get_cell_style (PreviewGrid *pg, int row, int col, MStyle *style)
+{
+	mstyle_ref (style);
+	return style;
+}
+
 static void
 draw_pattern_preview (FormatState *state)
 {
-	/* The first time through lets initialize */
-	if (state->back.canvas == NULL) {
-		state->back.canvas =
-		    GNOME_CANVAS (glade_xml_get_widget (state->gui, "back_sample"));
-	}
-
+	g_return_if_fail (state->back.style != NULL);
+	
 	fmt_dialog_changed (state);
 
-	/* If background is auto (none) : then remove any patterns or backgrounds */
-	if (state->back.back_color_is_default) {
-		if (state->back.back != NULL) {
-			gtk_object_destroy (GTK_OBJECT (state->back.back));
-			state->back.back = NULL;
-		}
-		if (state->back.pattern_item != NULL) {
-			gtk_object_destroy (GTK_OBJECT (state->back.pattern_item));
-			state->back.pattern_item = NULL;
-
-			/* This will recursively call draw_pattern_preview */
-			gtk_toggle_button_set_active (state->back.pattern.default_button,
-						      TRUE);
-
-			color_combo_set_color (COLOR_COMBO (state->back.pattern_color.combo), &gs_black);
-			return;
-		}
-
-		if (state->enable_edit) {
-			/* We can clear the background by specifying a pattern of 0 */
-			mstyle_set_pattern (state->result, 0);
-
-			/* Clear the colours just in case (The actual colours are irrelevant */
-			mstyle_set_color (state->result, MSTYLE_COLOR_BACK,
-					  style_color_new (0xffff, 0xffff, 0xffff));
-
-			mstyle_set_color (state->result, MSTYLE_COLOR_PATTERN,
-					  style_color_new (0x0, 0x0, 0x0));
-		}
-
-	/* BE careful just in case the initialization failed */
-	} else if (state->back.canvas != NULL) {
-		GnomeCanvasGroup *group =
-			GNOME_CANVAS_GROUP (gnome_canvas_root (state->back.canvas));
-
-		/* Create the background if necessary */
-		if (state->back.back == NULL) {
-			state->back.back = GNOME_CANVAS_ITEM (
-				gnome_canvas_item_new (
-					group,
-					gnome_canvas_rect_get_type (),
-					"x1", 0.,	"y1", 0.,
-					"x2", 90.,	"y2", 50.,
-					"width_pixels", (int) 5,
-				       "fill_color_rgba",
-				       state->back.back_color.rgba,
-					NULL));
-		} else
-			gnome_canvas_item_set (
-				GNOME_CANVAS_ITEM (state->back.back),
-				"fill_color_rgba", state->back.back_color.rgba,
-				NULL);
-
-		if (state->enable_edit) {
-			mstyle_set_pattern (state->result, state->back.pattern.cur_index);
-			mstyle_set_color (state->result, MSTYLE_COLOR_BACK,
-					  picker_style_color (&state->back.back_color));
-
-			if (state->back.pattern.cur_index > 1)
-				mstyle_set_color (state->result, MSTYLE_COLOR_PATTERN,
-						  picker_style_color (&state->back.pattern_color));
-		}
-
-		/* If there is no pattern don't draw the overlay */
-		if (state->back.pattern.cur_index == 0) {
-			if (state->back.pattern_item != NULL) {
-				gtk_object_destroy (GTK_OBJECT (state->back.pattern_item));
-				state->back.pattern_item = NULL;
-			}
-			return;
-		}
-
-		/* Create the pattern if necessary */
-		if (state->back.pattern_item == NULL) {
-			state->back.pattern_item = GNOME_CANVAS_ITEM (
-				gnome_canvas_item_new (
-					group,
-					gnome_canvas_rect_get_type (),
-					"x1", 0.,	"y1", 0.,
-					"x2", 90.,	"y2", 50.,
-					"width_pixels", (int) 5,
-					"fill_color_rgba",
-					state->back.pattern_color.rgba,
-					NULL));
-		} else
-			gnome_canvas_item_set (
-				GNOME_CANVAS_ITEM (state->back.pattern_item),
-				"fill_color_rgba", state->back.pattern_color.rgba,
-				NULL);
-
-		gnome_canvas_item_set (
-			GNOME_CANVAS_ITEM (state->back.pattern_item),
-			"fill_stipple",
-			gnumeric_pattern_get_stipple (state->back.pattern.cur_index),
-			NULL);
+	if (state->enable_edit) {
+		mstyle_replace_element (state->back.style, state->result, MSTYLE_PATTERN);
+		mstyle_replace_element (state->back.style, state->result, MSTYLE_COLOR_BACK);
+		mstyle_replace_element (state->back.style, state->result, MSTYLE_COLOR_PATTERN);
 	}
+
+	gnome_canvas_request_redraw (state->back.canvas, INT_MIN, INT_MIN,
+				     INT_MAX/2, INT_MAX/2);
 }
 
 static void
 cb_back_preview_color (ColorCombo *combo, GdkColor *c, gboolean by_user, FormatState *state)
 {
-	/* NULL means the Default color */
-	if (c != NULL) {
-		state->back.back_color.r = c->red;
-		state->back.back_color.g = c->green;
-		state->back.back_color.b = c->blue;
-		state->back.back_color.rgba =
-			GNOME_CANVAS_COLOR_A (c->red>>8, c->green>>8, c->blue>>8, 0x00);
-	}
-
 	state->back.back_color_is_default = (c == NULL);
+	
+	if (c != NULL) {
+		mstyle_set_border (state->back.style, MSTYLE_BORDER_DIAGONAL,
+				   style_border_ref (style_border_none ()));
+		mstyle_set_border (state->back.style, MSTYLE_BORDER_REV_DIAGONAL,
+				   style_border_ref (style_border_none ()));
+		
+		mstyle_set_color (state->back.style, MSTYLE_COLOR_BACK,
+				  style_color_new (c->red, c->green, c->blue));
+		mstyle_set_pattern (state->back.style, state->back.pattern.cur_index);		
+	} else {
+		StyleBorder *border = style_border_fetch (STYLE_BORDER_THIN, style_color_black (), STYLE_BORDER_DIAGONAL);
+		
+		mstyle_set_border (state->back.style, MSTYLE_BORDER_DIAGONAL, style_border_ref (border));
+		mstyle_set_border (state->back.style, MSTYLE_BORDER_REV_DIAGONAL, style_border_ref (border));
+		style_border_unref (border);
+		
+		gtk_toggle_button_set_active (state->back.pattern.default_button, TRUE);
+		color_combo_set_color (COLOR_COMBO (state->back.pattern_color.combo), &gs_black);
+
+		mstyle_set_color (state->back.style, MSTYLE_COLOR_BACK,
+				  style_color_new (0xffff, 0xffff, 0xffff));
+		mstyle_set_pattern (state->back.style, 0);
+	}
+	
 	draw_pattern_preview (state);
 }
 
 static void
 cb_pattern_preview_color (ColorCombo *combo, GdkColor *c, gboolean by_user, FormatState *state)
 {
-	state->back.pattern_color.r = c->red;
-	state->back.pattern_color.g = c->green;
-	state->back.pattern_color.b = c->blue;
-	state->back.pattern_color.rgba =
-		GNOME_CANVAS_COLOR_A (c->red>>8, c->green>>8, c->blue>>8, 0x00);
+	mstyle_set_color (state->back.style, MSTYLE_COLOR_PATTERN,
+			  style_color_new (c->red, c->green, c->blue));
 	draw_pattern_preview (state);
 }
 
 static void
 draw_pattern_selected (FormatState *state)
 {
-        /* If a pattern was selected switch to custom color.
-	 * The color can't be the default (none). So we switch it
-	 * to white if it has the default color set.
-      	 */
-      	if (state->back.pattern.cur_index > 0 && state->back.back_color_is_default)
+	mstyle_set_pattern (state->back.style, state->back.pattern.cur_index);
+      	if (state->back.pattern.cur_index > 1 && state->back.back_color_is_default)
 		color_combo_set_color (COLOR_COMBO (state->back.back_color.combo), &gs_white);
-
 	draw_pattern_preview (state);
+}
+
+static void
+fmt_dialog_init_background_page (FormatState *state)
+{
+	int w = 0;
+	int h = 0;
+		
+	state->back.canvas =
+		GNOME_CANVAS (glade_xml_get_widget (state->gui, "back_sample"));
+
+	/*
+	 * Set the scrolling region to the width&height of the canvas, the
+	 * -1 is to hide the 1 pixel (invisible, but drawn white) gridline.
+	 */
+	gtk_object_get (GTK_OBJECT (state->back.canvas), "width", &w,
+			"height", &h, NULL);
+	gnome_canvas_set_scroll_region (state->back.canvas, -1, -1, w, h);
+	
+	state->back.grid = PREVIEW_GRID (gnome_canvas_item_new (
+		gnome_canvas_root (state->back.canvas),
+		preview_grid_get_type (),
+		"RenderGridlines", FALSE,
+		"DefaultColWidth", w,
+		"DefaultRowHeight", h,
+		NULL));
+	gtk_signal_connect (
+		GTK_OBJECT (state->back.grid), "get_cell_style",
+		GTK_SIGNAL_FUNC (cb_pattern_preview_get_cell_style), state->back.style);
 }
 
 /*****************************************************************************/
@@ -1946,6 +1899,7 @@ static gboolean
 cb_fmt_dialog_dialog_destroy (GtkObject *unused, FormatState *state)
 {
 	g_free ((char *)state->format.spec);
+	mstyle_unref (state->back.style);
 	mstyle_unref (state->style);
 	mstyle_unref (state->result);
 	gtk_object_unref (GTK_OBJECT (state->gui));
@@ -2088,9 +2042,9 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	state->border.pattern.cur_index	= 0;
 
 	state->back.canvas	= NULL;
-	state->back.back		= NULL;
-	state->back.pattern_item	= NULL;
-	state->back.pattern.cur_index	= 0;
+	state->back.grid        = NULL;
+	state->back.style             = mstyle_new_default ();
+	state->back.pattern.cur_index = 0;
 
 	/* Use same page as last invocation used unless pageno >= 0 and
 	 * sensible */
@@ -2113,6 +2067,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	fmt_dialog_init_format_page (state);
 	fmt_dialog_init_align_page (state);
 	fmt_dialog_init_font_page (state);
+	fmt_dialog_init_background_page (state);
 
 	/* Setup border line pattern buttons & select the 1st button */
 	state->border.pattern.draw_preview = NULL;
