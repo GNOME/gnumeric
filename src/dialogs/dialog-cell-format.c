@@ -1973,30 +1973,37 @@ fmt_dialog_init_protection_page (FormatState *state)
 /*****************************************************************************/
 
 static void
-cb_validation_constraint_type_deactivate (GtkMenuShell *shell, FormatState *state)
+cb_validation_error_action_deactivate (GtkMenuShell *shell, FormatState *state)
 {
-	gboolean flag = (gnumeric_option_menu_get_selected_index (state->validation.constraint_type) != 0);
-	
-	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.operator), flag);
-	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.bound1.entry), flag);
-	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.bound2.entry), flag);
-	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.ignore_blank), flag);
-	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.in_dropdown), flag);
+	int      index = gnumeric_option_menu_get_selected_index (state->validation.error.action);
+	gboolean flag  = (index != 3) && (gnumeric_option_menu_get_selected_index (state->validation.constraint_type) != 0);
 
-	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.operator_label), flag);
-	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.bound1.name), flag);
-	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.bound2.name), flag);
-
-	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.action_label), flag);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.title_label), flag);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.msg_label), flag);
-	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.action), flag);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.title), flag);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.msg), flag);
-
-	if (flag)
+	
+	if (flag) {
+		char *s = NULL;
+		
+		switch (index) {
+		case 0 :
+			s = gnome_pixmap_file ("gnome-error.png");
+			break;
+		case 1 :
+			s = gnome_pixmap_file ("gnome-warning.png");
+			break;
+		case 2 :
+			s = gnome_pixmap_file ("gnome-info.png");
+			break;
+		}
+		
+	     	if (s != NULL) {
+			gnome_pixmap_load_file (state->validation.error.image, s);
+			g_free (s);
+		}
 		gtk_widget_show (GTK_WIDGET (state->validation.error.image));
-	else
+	} else
 		gtk_widget_hide (GTK_WIDGET (state->validation.error.image));
 }
 
@@ -2037,27 +2044,24 @@ cb_validation_operator_deactivate (GtkMenuShell *shell, FormatState *state)
 }
 
 static void
-cb_validation_error_action_deactivate (GtkMenuShell *shell, FormatState *state)
+cb_validation_constraint_type_deactivate (GtkMenuShell *shell, FormatState *state)
 {
-	int   index = gnumeric_option_menu_get_selected_index (state->validation.error.action);
-	char *s     = NULL;
-
-	switch (index) {
-	case 0 :
-		s = gnome_pixmap_file ("gnome-error.png");
-		break;
-	case 1 :
-		s = gnome_pixmap_file ("gnome-warning.png");
-		break;
-	case 2 :
-		s = gnome_pixmap_file ("gnome-info.png");
-		break;
-	}
+	gboolean flag = (gnumeric_option_menu_get_selected_index (state->validation.constraint_type) != 0);
 	
-	if (s != NULL) {
-		gnome_pixmap_load_file (state->validation.error.image, s);
-		g_free (s);
-	}
+	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.operator), flag);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.bound1.entry), flag);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.bound2.entry), flag);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.ignore_blank), flag);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.in_dropdown), flag);
+
+	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.operator_label), flag);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.bound1.name), flag);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.bound2.name), flag);
+
+	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.action_label), flag);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.action), flag);
+	
+	cb_validation_error_action_deactivate (GTK_MENU_SHELL (gtk_option_menu_get_menu (state->validation.error.action)), state);	
 }
 
 static void
@@ -2110,7 +2114,6 @@ fmt_dialog_init_validation_page (FormatState *state)
 	/* Initialize */
 	cb_validation_constraint_type_deactivate (GTK_MENU_SHELL (gtk_option_menu_get_menu (state->validation.constraint_type)), state);
 	cb_validation_operator_deactivate (GTK_MENU_SHELL (gtk_option_menu_get_menu (state->validation.operator)), state);
-	cb_validation_error_action_deactivate (GTK_MENU_SHELL (gtk_option_menu_get_menu (state->validation.error.action)), state);
 }
 
 /*****************************************************************************/

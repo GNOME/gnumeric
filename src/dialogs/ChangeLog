@@ -1,3 +1,16 @@
+2001-10-14  Almer S. Tigelaar  <almer@gnome.org>
+
+	* cell-format.glade: Tidy and add new option to validation
+	error action selection menu.
+	
+	* dialog-cell-format.c (cb_validation_error_action_deactivate):
+	Cope for the addition of the added menu item.
+	(cb_validation_constraint_type_deactivate): Call
+	cb_validation_error_action_deactivate to make sure the
+	widgets get re-enabled/disabled properly.
+	(fmt_dialog_init_validation_page): No need to call
+	cb_validation_error_action_deactivate anymore.
+
 2001-10-12  Morten Welinder  <terra@diku.dk>
 
 	* dialog-search.c (value_at): protect cell names in cache also.
