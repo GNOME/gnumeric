@@ -737,10 +737,13 @@ wb_view_open_custom (WorkbookView *wbv, WorkbookControl *wbc,
 			    workbook_sheet_count (new_wb) == 0)
 				gnumeric_io_error_read (io_context, _("No sheets in workbook."));
 
-			if (!gnumeric_io_error_occurred (io_context))
+			if (!gnumeric_io_error_occurred (io_context)) {
 				workbook_set_dirty (new_wb, FALSE);
-			else
+			} else {
 				gtk_object_destroy (GTK_OBJECT (new_wb));
+				new_wb = NULL;
+				new_wbv = NULL;
+			}
 		} else
 			gnumeric_io_error_read (io_context, _("Unsupported file format."));
 

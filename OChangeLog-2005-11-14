@@ -1,3 +1,8 @@
+2001-05-31  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* workbook-view (wb_view_open_custom): Handle opener errors without
+	crashing.
+
 2001-05-30  Jody Goldberg <jgoldberg@home.com>
 
 	* src/value.c (value_new_error_err) : change name from
