@@ -1544,14 +1544,16 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		break ;
 	case BIFF_NUMBER:
 		{
-			char buf[65];
+			char buf[MS_EXCEL_DOUBLE_FORMAT_LEN];
 			double num = BIFF_GETDOUBLE (q->data + 6);	/*
 									 * FIXME GETDOUBLE is not endian independant 
 									 */
 /*			dump (q->data, q->length);
 			snprintf (buf, 64, "NUM %f", num); */
-			snprintf (buf, 64, "%f", num);
-			ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), buf);
+			snprintf (buf, MS_EXCEL_DOUBLE_FORMAT_LEN-1,
+				  MS_EXCEL_DOUBLE_FORMAT, num);
+			ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q),
+					       EX_GETROW (q), buf);
 			break;
 		}
 	case BIFF_COLINFO: /* FIXME: See: S59D67.HTM */
@@ -1584,19 +1586,20 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 	}
 	case BIFF_RK: /* See: S59DDA.HTM */
 	{
-		char buf[65];
+		char buf[MS_EXCEL_DOUBLE_FORMAT_LEN];
 		
 /*		printf ("RK number : 0x%x, length 0x%x\n", q->opcode, q->length);
 		dump (q->data, q->length);*/
-		snprintf (buf, 64, "%f", biff_get_rk(q->data+6));
+		snprintf (buf, MS_EXCEL_DOUBLE_FORMAT_LEN-1,
+			  MS_EXCEL_DOUBLE_FORMAT, biff_get_rk(q->data+6));
 		ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), buf);
 		break;
 	}
 	case BIFF_MULRK: /* S59DA8.HTM */
 	{
-		guint32 col, row, lastcol ;
-		char buf[65] ;
-		guint8 *ptr = q->data ;
+		guint32 col, row, lastcol;
+		char buf[MS_EXCEL_DOUBLE_FORMAT_LEN];
+		guint8 *ptr = q->data;
 
 /*		printf ("MULRK\n") ;
 		dump (q->data, q->length) ; */
@@ -1609,7 +1612,8 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		g_assert (lastcol>=col) ;
 		while (col<=lastcol)
 		{ /* 2byte XF, 4 byte RK */
-			snprintf (buf, 64, "%f", biff_get_rk(ptr+2)) ;
+			snprintf (buf, MS_EXCEL_DOUBLE_FORMAT_LEN,
+				  MS_EXCEL_DOUBLE_FORMAT, biff_get_rk(ptr+2)) ;
 			ms_excel_sheet_insert(sheet, BIFF_GETWORD(ptr), col, row, buf) ;
 			col++ ;
 			ptr+= 6 ;

@@ -1,3 +1,17 @@
+1999-04-15  Michael Meeks  <michael@mejm2.dow.cam.ac.uk>
+
+	* ms-formula.c (ms_excel_parse_formula): PTG_AREAN added,
+	and PTG_AREA updated to include 'shared' flag.
+	(ms_excel_parse_formula): Added PTG_ARRAY code.
+
+	* ms-formula.h (FORMULA_PTG_ARRAY): Added PTG_ARRAY
+
+	* ms-excel.c (ms_excel_read_cell): Added more sensible
+	floating point printing throught.
+
+	* ms-excel.h (MS_EXCEL_DOUBLE_FORMAT): Created to
+	standardise number transfer.
+
 1999-04-14  Michael Meeks  <michael@mejm2.dow.cam.ac.uk>
 
 	* ms-formula.h: Updated ms_excel_parse_formula prototype.

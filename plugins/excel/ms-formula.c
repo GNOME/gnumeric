@@ -886,9 +886,6 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 		}
 		break ;
 		case FORMULA_PTG_AREAN:
-			printf ("REFN\n") ;
-			error = 1 ;
-			break ;
 		case FORMULA_PTG_AREA:
 		{
 			CellRef *first, *last ;
@@ -896,15 +893,15 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 			if (sheet->ver == eBiffV8)
 			{
 				first = getRefV8(sheet, BIFF_GETBYTE(cur+0), BIFF_GETWORD(cur+4),
-						 fn_col, fn_row, 0) ;
+						 fn_col, fn_row, shared) ;
 				last  = getRefV8(sheet, BIFF_GETBYTE(cur+2), BIFF_GETWORD(cur+6),
-						 fn_col, fn_row, 0) ;
+						 fn_col, fn_row, shared) ;
 				ptg_length = 8 ;
 			}
 			else
 			{
-				first = getRefV7(sheet, BIFF_GETBYTE(cur+4), BIFF_GETWORD(cur+0), fn_col, fn_row, 0) ;
-				last  = getRefV7(sheet, BIFF_GETBYTE(cur+5), BIFF_GETWORD(cur+2), fn_col, fn_row, 0) ;
+				first = getRefV7(sheet, BIFF_GETBYTE(cur+4), BIFF_GETWORD(cur+0), fn_col, fn_row, shared) ;
+				last  = getRefV7(sheet, BIFF_GETBYTE(cur+5), BIFF_GETWORD(cur+2), fn_col, fn_row, shared) ;
 				ptg_length = 6 ;
 			}
 			fstr = cellref_name (first, sheet->gnum_sheet, fn_col, fn_row) ;
@@ -920,8 +917,43 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 			g_free (lstr) ;
 			g_free (first) ;
 			g_free (last) ;
+			break ;
 		}
-		break ;
+		case FORMULA_PTG_ARRAY:
+		{
+			guint16 cols=BIFF_GETBYTE(cur+0);
+			guint16 rows=BIFF_GETWORD(cur+1);
+			guint16 lpx,lpy;
+			guint8 *data=cur+3;
+			GString *ans = g_string_new ("{");
+			ptg_length = 3;
+			if (cols==0) cols=256;
+			for (lpy=0;lpy<rows;lpy++) {
+				for (lpx=0;lpx<cols;lpx++) {
+					guint8 opts=BIFF_GETBYTE(data);
+					if (opts == 1) {
+						g_string_sprintfa (ans, MS_EXCEL_DOUBLE_FORMAT,
+								   BIFF_GETDOUBLE(data+1));
+						data+=9;
+						ptg_length+=9;
+					} else if (opts == 2) {
+						guint32 len;
+						g_string_append (ans, biff_get_text (data+2, BIFF_GETBYTE(data+1), &len));
+						g_string_append (ans, ",");
+						data+=len+2;
+						ptg_length+=2+len;
+					} else {
+						printf ("Duff type\n");
+						break;
+					}
+					g_string_append (ans, ";");
+				}
+			}
+			g_string_append (ans, "}");
+			parse_list_push_raw (stack, ans->str, NO_PRECEDENCE);
+			g_string_free (ans, FALSE);
+			break;
+		}
 		case FORMULA_PTG_FUNC:
 		{
 			if (!make_function (stack, BIFF_GETWORD(cur), -1)) error = 1 ;

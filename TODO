@@ -102,6 +102,8 @@ GNOME Spread Sheet task list
    Add collation of BIFF continuation records to the
    previous record, to save many checks in the code.
 
+   Get correct RK values for _tiny_ floats coming through.
+
    * Formulae
    
       Sort out PtgRefN family, convert to correct posn.
@@ -116,7 +118,6 @@ GNOME Spread Sheet task list
 * Sheets
 
 When adding a sheet or renaming a sheet, should we reparse everything?
-<<<<<<< TODO
 
 * Clipboard
 
@@ -124,12 +125,3 @@ Perhaps make a global clipboard and remove all the hacks in the
 current clipboard code to find the clipboard.=======
 
 
-
-
-
-
-
-
-
-
->>>>>>> 1.45

@@ -106,6 +106,9 @@ typedef struct _MS_EXCEL_WORKBOOK
 	Workbook *gnum_wb ;
 } MS_EXCEL_WORKBOOK ;
 
+#define MS_EXCEL_DOUBLE_FORMAT           "%.16G"
+#define MS_EXCEL_DOUBLE_FORMAT_LEN       65
+
 extern char* biff_get_externsheet_name (MS_EXCEL_WORKBOOK *wb, guint16 idx, gboolean get_first) ;
 extern char* biff_get_text (BYTE *ptr, guint32 length, guint32 *byte_length) ;
 extern const char* biff_get_error_text (const guint8 err) ;

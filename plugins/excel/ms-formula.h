@@ -31,7 +31,7 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 #define FORMULA_PTG_BOOL               0x1d
 #define FORMULA_PTG_INT                0x1e
 #define FORMULA_PTG_NUM                0x1f /* 8 byte IEEE floating point number */
-
+#define FORMULA_PTG_ARRAY              0x20
 #define FORMULA_PTG_FUNC               0x21
 #define FORMULA_PTG_FUNC_VAR           0x22
 #define FORMULA_PTG_NAME               0x23

@@ -601,8 +601,10 @@ cell_set_text_simple (Cell *cell, char *text)
 				/* falldown */
 				
 			case 'E': case 'e': case '+': case ':': case '.': case ',':
-				if (*p == 'e' || *p == 'E')
+				if (*p == 'e' || *p == 'E') {
 					seen_exp = TRUE;
+					if (*(p+1)=='-') p++; /* Lookahead */
+				}
 				
 				if (*p == ',' || *p == '.')
 					if (*lconv->decimal_point != *p){
