@@ -1,5 +1,12 @@
 1999-02-06  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/file.c (fill_save_menu): Creates an option menu with the
+	file format to save on.
+	(workbook_save_as): Use the saver selected by the user.
+	(saver_activate): Keep track of the current file save format, set
+	as default.
+	gnumeric_file_savers, gnumeric_file_openers: made static. 
+
 	* src/sheet.c (sheet_destroy_styles): Release the proper style, I
 	was releasing a different structure.
 

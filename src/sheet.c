@@ -3047,7 +3047,6 @@ sheet_style_compute (Sheet *sheet, int col, int row, int *non_default)
 {
 	GList *l;
 	Style *style;
-	
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL); 
 

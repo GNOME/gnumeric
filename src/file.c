@@ -11,8 +11,9 @@
 #include "xml-io.h"
 #include "file.h"
 
-GList *gnumeric_file_savers = NULL;
-GList *gnumeric_file_openers = NULL;
+static GList *gnumeric_file_savers = NULL;
+static GList *gnumeric_file_openers = NULL;
+static FileSaver *current_saver = NULL;
 
 static gint
 file_priority_sort (gconstpointer a, gconstpointer b)
@@ -109,6 +110,9 @@ file_format_unregister_save (FileFormatSave save)
 		FileSaver *fs = l->data;
 
 		if (fs->save == save){
+			if (fs == current_saver)
+				current_saver = NULL;
+			
 			gnumeric_file_savers = g_list_remove_link (gnumeric_file_savers, l);
 			return;
 		}
@@ -143,18 +147,104 @@ set_ok (GtkWidget *widget, gboolean *dialog_result)
 	gtk_main_quit ();
 }
 
+/**
+ * saver_activate:
+ *
+ * Callback routine to choose the current file saver
+ */
+static void
+saver_activate (GtkMenuItem *item, FileSaver *saver)
+{
+	GList *l;
+
+	for (l = gnumeric_file_savers; l; l = l->next){
+		FileSaver *fs = l->data;
+		
+		if (fs == saver)
+			current_saver = saver;
+	}
+}
+
+/**
+ * file_saver_is_default_format:
+ *
+ * Returns TRUE if @saver is the default file save format
+ */
+static gboolean
+file_saver_is_default_format (FileSaver *saver)
+{
+	if (current_saver == saver)
+		return TRUE;
+
+	if (strcmp (saver->extension, ".gnumeric") == 0)
+		return TRUE;
+	return FALSE;
+}
+
+static void
+fill_save_menu (GtkOptionMenu *omenu, GtkMenu *menu)
+{
+	GList *l;
+	int i;
+	
+	for (i = 0, l = gnumeric_file_savers; l; l = l->next, i++){
+		GtkWidget *menu_item;
+		FileSaver *fs = l->data;
+
+		menu_item = gtk_menu_item_new_with_label (fs->format_description);
+		gtk_widget_show (menu_item);
+		
+		gtk_menu_append (menu, menu_item);
+
+		if (file_saver_is_default_format (fs))
+			gtk_option_menu_set_history (omenu, i);
+
+		gtk_signal_connect (GTK_OBJECT (menu_item), "activate",
+				    GTK_SIGNAL_FUNC(saver_activate), fs);
+	}
+}
+
+static GtkWidget *
+make_format_chooser (void)
+{
+	GtkWidget *box, *label;
+	GtkWidget *omenu, *menu;
+
+	box = gtk_hbox_new (0, GNOME_PAD);
+	label = gtk_label_new (_("File format:"));
+	omenu = gtk_option_menu_new ();
+	menu = gtk_menu_new ();
+
+	fill_save_menu (GTK_OPTION_MENU (omenu), GTK_MENU (menu));
+	
+	gtk_box_pack_start (GTK_BOX (box), label, FALSE, FALSE, GNOME_PAD);
+	gtk_box_pack_start (GTK_BOX (box), omenu, FALSE, TRUE, GNOME_PAD);
+	gtk_widget_show_all (box);
+
+	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
+	
+	return box;
+}
+
 void
 workbook_save_as (Workbook *wb)
 {
 	GtkFileSelection *fsel;
 	gboolean accepted = FALSE;
+	GtkWidget *format_selector;
 	
 	g_return_if_fail (wb != NULL);
 
 	fsel = (GtkFileSelection *)gtk_file_selection_new (_("Save workbook as"));
+	
 	gtk_window_set_modal (GTK_WINDOW (fsel), TRUE);
 	if (wb->filename)
 		gtk_file_selection_set_filename (fsel, wb->filename);
+
+	/* Choose the format */
+	format_selector = make_format_chooser ();
+	gtk_box_pack_start (GTK_BOX (fsel->action_area), format_selector,
+			    FALSE, TRUE, 0);
 	
 	/* Connect the signals for Ok and Cancel */
 	gtk_signal_connect (GTK_OBJECT (fsel->ok_button), "clicked",
@@ -173,8 +263,8 @@ workbook_save_as (Workbook *wb)
 
 		if (name [strlen (name)-1] != '/'){
 			workbook_set_filename (wb, name);
-				
-			gnumericWriteXmlWorkbook (wb, wb->filename);
+
+			current_saver->save (wb, wb->filename);
 		}
 	}
 	gtk_widget_destroy (GTK_WIDGET (fsel));
