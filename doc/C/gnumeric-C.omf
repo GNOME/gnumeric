@@ -1,67 +1,58 @@
 <?xml version="1.0" standalone="no"?>
 <omf>
   <resource>
-    <title>
-     Gnumeric's user manual
-    </title>
     <creator>
-    <person>	
-      <firstName>Jody</firstName>
-      <lastName>Goldberg</lastName>
-      <email>jody@gnome.org</email>
-     </person>
-
-
-     <person>
-      <firstName>Adrian</firstName>
-      <lastName>Custer</lastName>
-      <email>acuster@nature.berkeley.edu</email>
-     </person>
-
-     <person>
-      <firstName>Kevin</firstName>
-      <lastName>Breit</lastName>
-      <email>mrproper@ximian.com</email>
-     </person>
-
-     <person>
-      <firstName>Andreas</firstName>
-      <lastName>Guelzow</lastName>
-      <email>aguelzow@taliesin.ca</email>
-     </person>
-
-
-     <person>
-      <firstName>Aaron</firstName>
-      <lastName>Weber</lastName>
-      <email>aaron@ximian.com</email>
-     </person>
-
-     <person>
-      <firstName>Thomas</firstName>
-      <lastName>Canty</lastName>
-      <email>tommydal@ihug.com.au</email>
-     </person>
-
-     <person>
-      <firstName>Adrian</firstName>
-      <lastName>Likins</lastName>
-      <email></email>
-     </person>
+      miguel@gnome.org (Miguel de Icaza)
     </creator>
+    <maintainer>
+      jody@gnome.org (Jody Goldberg)
+    </maintainer>
+    <contributor>
+      acuster@nature.berkeley.edu (Adrian Custer)
+    </contributor>
+    <contributor>
+      mrproper@ximian.com (Kevin Breit)
+    </contributor>
+    <contributor>
+      aguelzow@taliesin.ca (Andreas Guelzow)
+    </contributor>
+    <contributor>
+      aaron@ximian.com (Aaron Weber)
+    </contributor>
+    <contributor>
+      tommydal@ihug.com.au (Thomas Canty)
+    </contributor>
+    <contributor>
+      kirillov@math.sunysb.edu (Alexander Kirillov)
+    </contributor>
+    <contributor>
+      k_wayne@linuxpower.org (Wayne Schuller)
+    </contributor>
+    <contributor>
+      jiivonen@hutcs.cs.hut.fi (Jukka-Pekka Iivonen)
+    </contributor>
+    <contributor>
+      adrian@gimp.or (Adrian Likins)
+    </contributor>
 
-
-    <subject>
-      <category>Applications|Office</category>
-    </subject>
+    <title>
+      The Gnumeric Manual
+    </title>
+    <date>
+      2002-05-11
+    </date>
+    <version identifier="1.1.5" date="2002-05-11" description="Updated for 1.1.5"/>
+    <subject category="ApplicationsOffice"/>
     <description>
-      This is the user's manual for Gnumeric spreadsheet program.
+      This is the user's manual for Gnumeric, the GNOME spreadsheet.
     </description>
     <type>
-     manual
+      user's guide
     </type>
-    <format mime="text/sgml"/>
+    <format dtd="-//GNOME//DTD DocBook PNG Variant V1.0//EN" mime="text/sgml"/>
     <identifier url="gnumeric.sgml"/>
     <language code="C"/>
+    <relation seriesid="c5e3db84-64c3-11d6-85a3-a3e50590e6d1"/>
+    <rights type="GNU FDL" license.version="1.1" license="http://www.gnu.org/licenses/fdl.html" holder="Miguel de Icaza, Jody Goldberg, Thomas Canty, Jukka-Pekka Iivonen, Andreas J. Guelzow, Wayne Schuller, Adrian Custer, Kevin Breit, Aaron Weber, Alexander Kirillov"/>
   </resource>
 </omf>
