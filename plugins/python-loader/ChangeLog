@@ -1,3 +1,24 @@
+2003-06-15  Jon K Hellan  <hellan@acm.org>
+
+	* gnm-py-interpreter.c (run_print_string): New. Run a python
+	string, and print result.
+	(gnm_py_interpreter_run_string): Use it.
+
+	* py-console.c (struct app): Add text_view and text_end.
+	(app_text_print): Always keep end of text visible.
+	(show_python_console): Create marker at end of text. Set focus to
+	command line.
+
+	* python-loader.c (gnumeric_plugin_loader_python_func_file_probe)
+	(gnumeric_plugin_loader_python_func_file_open)
+	(gnumeric_plugin_loader_python_func_file_save): Unref - wrapping
+	the gsf stream as a Python object added a reference.
+
+	* gnm-python.c (gnm_init_pygobject): Remove.
+	(gnm_python_object_get): Don't call gnm_init_pygobject. pygtk.gobject
+	based plugins do this for us, and if we aren't using any of those,
+	it isn't necessary.
+
 2003-06-07  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.19

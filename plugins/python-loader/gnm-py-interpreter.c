@@ -146,6 +146,25 @@ read_file (FILE *f)
 	return buf;
 }
 
+static void 
+run_print_string (const char *cmd, FILE *stdout_f)
+{
+	PyObject *m, *d, *v;
+	m = PyImport_AddModule((char *) "__main__");
+	if (m == NULL)
+		return;
+	d = PyModule_GetDict(m);
+	v = PyRun_String ((char *) cmd, Py_single_input, d, d);
+	if (!v)
+		PyErr_Print();
+	if (Py_FlushLine())
+		PyErr_Clear();
+	if (v && v != Py_None && stdout_f)
+		PyObject_Print (v, stdout_f, Py_PRINT_RAW);
+	if (v)
+		Py_DECREF(v);
+}
+
 void
 gnm_py_interpreter_run_string (GnmPyInterpreter *interpreter, const char *cmd,
                                char **opt_stdout, char **opt_stderr)
@@ -179,7 +198,7 @@ gnm_py_interpreter_run_string (GnmPyInterpreter *interpreter, const char *cmd,
 		Py_INCREF (saved_stderr_obj);
 		PyDict_SetItemString (sys_module_dict, (char *) "stderr", stderr_obj);
 	}
-	PyRun_SimpleString ((char *) cmd);
+	run_print_string (cmd, stdout_f);
 	if (opt_stdout != NULL) {
 		PyDict_SetItemString (sys_module_dict, (char *) "stdout", saved_stdout_obj);
 		Py_DECREF (saved_stdout_obj);

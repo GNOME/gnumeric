@@ -6,9 +6,6 @@
 
 #include <gnumeric-config.h>
 #include <Python.h>
-#ifdef WITH_PYGTK
-#include "pygobject.h"
-#endif
 #include <glib.h>
 #include <gutils.h>
 #include <plugin.h>
@@ -118,26 +115,6 @@ extern char **environ;
 #endif
 
 
-#ifdef WITH_PYGTK
-static void
-gnm_init_pygobject (void)
-{
-	PyObject *gobject;
-
-	_PyGObject_API = NULL;
-	gobject = PyImport_ImportModule("gobject");
-	if (gobject != NULL) {
-		PyObject *mdict = PyModule_GetDict(gobject);
-		PyObject *cobject = PyDict_GetItemString(mdict,
-							 "_PyGObject_API");
-		if (PyCObject_Check(cobject))
-			_PyGObject_API = (struct _PyGObject_Functions *)PyCObject_AsVoidPtr(cobject);
-	}
-	if (! _PyGObject_API)
-		g_warning ("could not import gobject");
-}
-#endif
-
 GnmPython *
 gnm_python_object_get (void)
 {
@@ -158,9 +135,6 @@ gnm_python_object_get (void)
 		Py_Initialize ();
 #ifdef WITH_THREAD
 		PyEval_InitThreads ();
-#endif
-#ifdef WITH_PYGTK
-		gnm_init_pygobject ();
 #endif
 	}
 

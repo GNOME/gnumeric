@@ -253,6 +253,8 @@ gnumeric_plugin_loader_python_func_file_probe (
 		gnm_python_clear_error_if_needed (SERVICE_GET_LOADER (service)->py_object);
 	}
 	if (input_wrapper != NULL) {
+		; /* wrapping adds a reference */
+		g_object_unref (G_OBJECT (input));
 		probe_result = PyObject_CallFunction
 			(loader_data->python_func_file_probe, 
 			 (char *) "O", input_wrapper);
@@ -297,6 +299,8 @@ gnumeric_plugin_loader_python_func_file_open (GnmFileOpener const *fo,
 	sheet = sheet_new (wb_view_workbook (wb_view), _("Some name"));
 	input_wrapper = pygobject_new (G_OBJECT (input));
 	if (input_wrapper != NULL) {
+		 /* wrapping adds a reference */
+		g_object_unref (G_OBJECT (input));
 		open_result = PyObject_CallFunction
 			(loader_data->python_func_file_open,
 			 (char *) "NO", 
@@ -395,6 +399,8 @@ gnumeric_plugin_loader_python_func_file_save (GnmFileSaver const *fs, PluginServ
 	py_workbook = py_new_Workbook_object (wb_view_workbook (wb_view));
 	output_wrapper = pygobject_new (G_OBJECT (output));
 	if (output_wrapper != NULL) {
+		/* wrapping adds a reference */
+		g_object_unref (G_OBJECT (output));
 		save_result = PyObject_CallFunction
 			(saver_data->python_func_file_save,
 			 (char *) "NO", py_workbook, output_wrapper);
