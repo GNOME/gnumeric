@@ -1,3 +1,18 @@
+2002-11-13  Jon K Hellan  <hellan@acm.org>
+
+	* src/GNOME_Gnumeric.xml: Remove FileImport.
+
+	* src/gui-file.h (gui_file_import): Remove.
+
+	* src/gui-file.c (make_format_chooser): Include an "Automatically
+	detected" menu item for NULL in file opener/saver list.
+	(gui_file_open, gui_file_import): Merge into one function, named
+	gui_file_open. Default to automatically detecting format.
+
+	* src/workbook-control-gui.c (cb_file_import): Remove.
+	(workbook_menu_file[]): Remove cb_file_import.
+	(verbs[]): Remove FileImport.
+
 2002-11-12  Jody Goldberg <jody@gnome.org>
 
 	* src/mstyle.c (mstyle_element_dump) : polish up a bit.

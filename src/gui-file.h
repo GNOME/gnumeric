@@ -8,7 +8,6 @@
 
 gboolean gui_file_save_as   (WorkbookControlGUI *wbcg, WorkbookView *);
 gboolean gui_file_save      (WorkbookControlGUI *wbcg, WorkbookView *);
-void     gui_file_import    (WorkbookControlGUI *wbcg);
 void     gui_file_open      (WorkbookControlGUI *wbcg);
 gboolean gui_file_read	    (WorkbookControlGUI *wbcg, char const *file_name,
 			     GnumFileOpener const *optional_format);

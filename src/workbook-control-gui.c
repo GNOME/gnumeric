@@ -1698,12 +1698,6 @@ cb_file_open (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 static void
-cb_file_import (GtkWidget *widget, WorkbookControlGUI *wbcg)
-{
-	gui_file_import (wbcg);
-}
-
-static void
 cb_file_save (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	gui_file_save (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)));
@@ -3108,8 +3102,6 @@ static GnomeUIInfo workbook_menu_file [] = {
 				  cb_file_new, NULL),
 
 	GNOMEUIINFO_MENU_OPEN_ITEM (cb_file_open, NULL),
-	GNOMEUIINFO_ITEM_STOCK (N_("_Import..."), N_("Imports a file"),
-				cb_file_import, GTK_STOCK_OPEN),
 	GNOMEUIINFO_MENU_SAVE_ITEM (cb_file_save, NULL),
 	GNOMEUIINFO_MENU_SAVE_AS_ITEM (cb_file_save_as, NULL),
 
@@ -3792,7 +3784,6 @@ static BonoboUIVerb verbs [] = {
 
 	BONOBO_UI_UNSAFE_VERB ("FileNew", cb_file_new),
 	BONOBO_UI_UNSAFE_VERB ("FileOpen", cb_file_open),
-	BONOBO_UI_UNSAFE_VERB ("FileImport", cb_file_import),
 	BONOBO_UI_UNSAFE_VERB ("FileSave", cb_file_save),
 	BONOBO_UI_UNSAFE_VERB ("FileSaveAs", cb_file_save_as),
 #ifdef ENABLE_EVOLUTION

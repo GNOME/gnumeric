@@ -56,6 +56,9 @@ Olaf Till:
 	* Two new logarithmic regression functions, one of them
 	  with nonlinear fitting of a horizontal curve shift.
 
+Jon Kåre:
+        * Merged File/Open and File/Import
+
 --------------------------------------------------------------------------
 Gnumeric 1.1.11
 

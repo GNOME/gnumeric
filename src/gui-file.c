@@ -61,7 +61,9 @@ make_format_chooser (GList *list, GtkOptionMenu *omenu)
 		GtkWidget *item;
 		gchar const *descr;
 
-		if (IS_GNUM_FILE_OPENER (l->data))
+		if (!l->data)
+			descr = _("Automatically detected");
+		else if (IS_GNUM_FILE_OPENER (l->data))
 			descr = gnum_file_opener_get_description (
 						GNUM_FILE_OPENER (l->data));
 		else
@@ -117,11 +119,11 @@ gui_file_read (WorkbookControlGUI *wbcg, char const *file_name,
 }
 
 /*
- * Lets the user choose an import filter for selected file, and
- * uses that to load the file.
+ * Suggests automatic file type recognition, but lets the user choose an
+ * import filter for selected file.
  */
 void
-gui_file_import (WorkbookControlGUI *wbcg)
+gui_file_open (WorkbookControlGUI *wbcg)
 {
 	GList *importers;
 	GtkFileSelection *fsel;
@@ -130,27 +132,25 @@ gui_file_import (WorkbookControlGUI *wbcg)
 	GnumFileOpener *fo = NULL;
 	gchar const *file_name;
 
-	if (gnm_app_prefs->import_uses_all_openers)
-		importers = get_file_openers ();
-	else
-		importers = get_file_importers ();
+	/* FIXME: Make this (openers U importers) */
+	importers = get_file_importers ();
 
 	importers = g_list_copy (importers);
 	importers = g_list_sort (importers, file_opener_description_cmp);
+	/* NULL represents automatic file type recognition */
+	importers = g_list_prepend (importers, NULL); 
 
 	/* Make format chooser */
 	omenu = GTK_OPTION_MENU (gtk_option_menu_new ());
 	format_chooser = make_format_chooser (importers, omenu);
 
 	/* Pack it into file selector */
-	fsel = GTK_FILE_SELECTION (gtk_file_selection_new (_("Import file")));
+	fsel = GTK_FILE_SELECTION (gtk_file_selection_new (_("Load file")));
 	gtk_file_selection_hide_fileop_buttons (fsel);
 	gtk_box_pack_start (GTK_BOX (fsel->action_area), format_chooser,
 	                    FALSE, TRUE, 0);
 
-	/* Set default importer */
-	fo = get_default_file_importer ();
-	gtk_option_menu_set_history (omenu, g_list_index (importers, fo));
+	gtk_option_menu_set_history (omenu, 0);
 
 	/* Show file selector */
 	if (!gnumeric_dialog_file_selection (wbcg, fsel)) {
@@ -159,10 +159,11 @@ gui_file_import (WorkbookControlGUI *wbcg)
 		return;
 	}
 
-	fo = g_list_nth_data (importers, gnumeric_option_menu_get_selected_index (omenu));
+	fo = g_list_nth_data (importers,
+			      gnumeric_option_menu_get_selected_index (omenu));
+	
 	file_name = gtk_file_selection_get_filename (fsel);
-	if (fo != NULL)
-		gui_file_read (wbcg, file_name, fo);
+	gui_file_read (wbcg, file_name, fo);
 
 	gtk_object_destroy (GTK_OBJECT (fsel));
 	g_list_free (importers);
@@ -343,20 +344,6 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	g_list_free (savers);
 
 	return success;
-}
-
-void
-gui_file_open (WorkbookControlGUI *wbcg)
-{
-	GtkFileSelection *fsel;
-
-	fsel = GTK_FILE_SELECTION (gtk_file_selection_new (_("Load file")));
-	gtk_file_selection_hide_fileop_buttons (fsel);
-
-	if (gnumeric_dialog_file_selection (wbcg, fsel))
-		gui_file_read (wbcg, gtk_file_selection_get_filename (fsel), NULL);
-
-	gtk_widget_destroy (GTK_WIDGET (fsel));
 }
 
 gboolean

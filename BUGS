@@ -68,7 +68,7 @@ Pending Patches
 
 13) Reinstate auto-format
     13.1) Add characterization (units) to StyleFormat
-14) merge open and import dialogs
+14) merge open and import dialogs                               (DONE)
 15) Notice mismatch between suffix and saver			(DONE)
 16) Decide whether to turn on the poor man's UTF-8 regexps.
 17) Outline mode

@@ -9,10 +9,6 @@
 	    _tip="Open a spreadsheet"
 	    pixtype="stock" pixname="gtk-open"
 	    accel="F3"/>
-	<cmd name="FileImport"
-	    _label="_Import..."
-	    _tip="Imports a file"
-	    pixtype="stock" pixname="gtk-open"/>
 	<cmd name="FileSave"
 	    _label="_Save"
 	    _tip="Save the current file"
@@ -156,7 +152,6 @@
 	    <placeholder name="FileOperations">
 	        <menuitem name="FileNew" verb=""/>
 	        <menuitem name="FileOpen" verb=""/>
-	        <menuitem name="FileImport" verb=""/>
 	        <menuitem name="FileSave" verb=""/>
 	        <menuitem name="FileSaveAs" verb=""/>
 	    </placeholder>
