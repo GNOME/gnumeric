@@ -839,7 +839,7 @@ static char const *help_index = {
 	"The cell is pointed out by @row and @col, which count the rows and "
 	"columns in the array.\n"
 	"\n"
-	"* If @row and @col are omited the are assumed to be 1.\n"
+	"* If @row and @col are omitted the are assumed to be 1.\n"
 	"* If the reference falls outside the range of the @array, INDEX "
 	"returns a #REF! error.\n"
 	"\n"

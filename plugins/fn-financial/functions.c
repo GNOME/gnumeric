@@ -687,7 +687,7 @@ static char const *help_disc = {
 	   "@settlement is the settlement date of the security.\n\n"
 	   "@maturity is the maturity date of the security.  @par is the "
 	   "price per $100 face value of the security.  @redemption is the "
-	   "redeption value per $100 face value of the security.\n\n"
+	   "redemption value per $100 face value of the security.\n\n"
 	   "@basis is the type of day counting system you want to use:\n"
 	   "\n"
 	   "  0  US 30/360\n"
