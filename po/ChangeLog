@@ -1,3 +1,8 @@
+2001-12-30  Abel Cheung  <maddog@linux.org.hk>
+
+	* zh_TW.po: Updated traditional Chinese translation a bit, and
+	revert back to native encoding instead of UTF-8.
+
 2001-12-30  Tõivo Leedjärv  <leedjarv@interest.ee>
 
 	* et.po: Updated Estonian translation
