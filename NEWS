@@ -1,3 +1,10 @@
+Gnumeric 1.4.3
+
+J.H.M. Dassen (Ray):
+	* Generate an error when no proper UTF-8 filename is produced when
+	  saving [Debian #291265]
+
+--------------------------------------------------------------------------
 Gnumeric 1.4.2
 
 Caolan McNamara:

@@ -512,8 +512,15 @@ gnm_file_saver_save (GnmFileSaver const *fs, IOContext *io_context,
 
 	if (GSF_IS_OUTPUT_STDIO (output)) {
 		file_name = (char *) gsf_output_name (output);
-		g_return_if_fail (file_name != NULL);
-		
+		if (file_name == NULL) {
+			ErrorInfo *save_error;
+
+			save_error = error_info_new_str(
+				_("Not a valid UTF-8 filename."));
+			gnumeric_io_error_info_set (io_context, save_error);
+			return;
+		}
+
 		if (!fs->overwrite_files &&
 		    g_file_test ((file_name), G_FILE_TEST_EXISTS)) {
 			ErrorInfo *save_error;

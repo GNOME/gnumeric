@@ -1,3 +1,9 @@
+2005-01-22  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	http://bugs.debian.org/291265
+	* src/file.c (gnm_file_saver_save) : Produce an error when no proper
+	UTF-8 filename was produced.
+
 2005-01-20  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post BRANCHING bump
