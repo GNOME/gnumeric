@@ -1,3 +1,26 @@
+2005-02-08  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_SETUP) : drop debug spew
+
+2005-02-08  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (txomarkup_new): Work around Pango bug #166700.
+	Don't compare freed pointer against NULL.  Fixes #166532.
+
+2005-02-07  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_write_SETUP) : store the fit to pages width
+	  and height.
+	(excel_write_WSBOOL) : set the fit to page flag.
+
+	* ms-excel-read.c (excel_read_WSBOOL) : read the fit to page flag.
+	(excel_read_SETUP) : read the fit to pages width and height.
+
+2005-02-07  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (excel_font_overlay_pango): Plug leak.
+	[#166561]
+
 2005-01-17  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.4.2

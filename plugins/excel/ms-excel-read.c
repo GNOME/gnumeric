@@ -3899,16 +3899,24 @@ excel_read_SETUP (BiffQuery *q, ExcelReadSheet *esheet)
 		? PRINT_ORDER_RIGHT_THEN_DOWN
 		: PRINT_ORDER_DOWN_THEN_RIGHT;
 
-	/* If the extra info is valid use it */
+	/* If the extra info is invalid ignore it */
 	if ((grbit & 0x4) != 0x4) {
-		print_info_set_n_copies (pi, 
-					 GSF_LE_GET_GUINT16 (q->data + 32));
+		guint16 n_across = GSF_LE_GET_GUINT16 (q->data + 6);
+		guint16 n_tall   = GSF_LE_GET_GUINT16 (q->data + 8);
+
+		if (n_across > 0 && n_tall > 0) {
+			pi->scaling.dim.cols = n_across;
+			pi->scaling.dim.rows = n_tall;
+		}
+
+		print_info_set_n_copies (pi, GSF_LE_GET_GUINT16 (q->data + 32));
+
 		/* 0x40 == orientation is set */
-		if ((grbit & 0x40) != 0x40) {
+		if ((grbit & 0x40) != 0x40)
 			print_info_set_orientation (pi, (grbit & 0x2)
 						    ? PRINT_ORIENT_VERTICAL
 						    : PRINT_ORIENT_HORIZONTAL);
-		}
+
 		pi->scaling.percentage.x = pi->scaling.percentage.y = GSF_LE_GET_GUINT16 (q->data + 2);
 		if (pi->scaling.percentage.x < 1. || pi->scaling.percentage.x > 1000.) {
 			g_warning ("setting invalid print scaling (%f) to 100%%",
@@ -3946,21 +3954,6 @@ excel_read_SETUP (BiffQuery *q, ExcelReadSheet *esheet)
 	if ((grbit & 0x80) == 0x80)
 		fprintf (stderr,"Starting page number %d\n",
 			GSF_LE_GET_GUINT16 (q->data +  4));
-#endif
-
-	/* We do not support SIZE_FIT yet */
-	pi->scaling.type = PERCENTAGE;
-#if 0
-	{
-		guint16  fw, fh;
-		fw = GSF_LE_GET_GUINT16 (q->data + 6);
-		fh = GSF_LE_GET_GUINT16 (q->data + 8);
-		if (fw > 0 && fh > 0) {
-			pi->scaling.type = SIZE_FIT;
-			pi->scaling.dim.cols = fw;
-			pi->scaling.dim.rows = fh;
-		}
-	}
 #endif
 
 	print_info_set_margin_header 
@@ -4138,7 +4131,10 @@ excel_read_WSBOOL (BiffQuery *q, ExcelReadSheet *esheet)
 	/* 0x0020 automatic styles are not applied to an outline */
 	esheet->sheet->outline_symbols_below = 0 != (options & 0x040);
 	esheet->sheet->outline_symbols_right = 0 != (options & 0x080);
-	/* 0x0100  0 == scale printout as percent, 1 == fit printout to num page */
+	if (NULL != esheet->sheet->print_info)
+		esheet->sheet->print_info->scaling.type =
+			(options & 0x100) ? SIZE_FIT : PERCENTAGE;
+
 	/* 0x0200 biff 3-4 0 == save external linked values, 1 == do not save */
 	/* XL docs wrong 0xc00 no 0x600, OOo docs wrong no distinct row vs col */
 	esheet->sheet->display_outlines      = 0 != (options & 0xc00);

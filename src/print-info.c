@@ -38,37 +38,37 @@ print_hf_new (char const *left_side_format,
 	      char const *middle_format,
 	      char const *right_side_format)
 {
-	PrintHF *format;
-
-	format = g_new0 (PrintHF, 1);
-
-	if (left_side_format)
-		format->left_format = g_strdup (left_side_format);
-
-	if (middle_format)
-		format->middle_format = g_strdup (middle_format);
-
-	if (right_side_format)
-		format->right_format = g_strdup (right_side_format);
-
-	return format;
+	PrintHF *hf = g_new0 (PrintHF, 1);
+	hf->left_format   = g_strdup (left_side_format);
+	hf->middle_format = g_strdup (middle_format);
+	hf->right_format  = g_strdup (right_side_format);
+	return hf;
 }
 
 gboolean
 print_hf_same (PrintHF const *a, PrintHF const *b)
 {
-	if (strcmp (b->left_format, a->left_format))
-		return FALSE;
-
-	if (strcmp (b->middle_format, a->middle_format))
-		return FALSE;
-
-	if (strcmp (b->right_format, a->right_format))
-		return FALSE;
+	if (a->left_format != b->left_format) {
+		if (a->left_format == NULL ||
+		    b->left_format == NULL ||
+		    strcmp (b->left_format, a->left_format))
+			return FALSE;
+	}
+	if (a->middle_format != b->middle_format) {
+		if (a->middle_format == NULL ||
+		    b->middle_format == NULL ||
+		    strcmp (b->middle_format, a->middle_format))
+			return FALSE;
+	}
+	if (a->right_format != b->right_format) {
+		if (a->right_format == NULL ||
+		    b->right_format == NULL ||
+		    strcmp (b->right_format, a->right_format))
+			return FALSE;
+	}
 
 	return TRUE;
 }
-
 PrintHF *
 print_hf_register (PrintHF *hf)
 {

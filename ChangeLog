@@ -1,3 +1,8 @@
+2005-02-09  Jody Goldberg <jody@gnome.org>
+
+	* src/print-info.c (print_hf_same) : be more careful to avoid crash on
+	  workbooks imported from xls.
+
 2005-02-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-object-widget.c: (cb_adjustment_value_changed): avoid

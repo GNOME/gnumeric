@@ -373,9 +373,9 @@ xml_write_gnmstyle (GnmOutputXML *state, GnmStyle const *style)
 	if (mstyle_is_element_set (style, MSTYLE_ALIGN_V))
 		gsf_xml_out_add_int (state->output, "VAlign", mstyle_get_align_v (style));
 	if (mstyle_is_element_set (style, MSTYLE_WRAP_TEXT))
-		gsf_xml_out_add_int (state->output, "WrapText", mstyle_get_wrap_text (style));
+		gsf_xml_out_add_bool (state->output, "WrapText", mstyle_get_wrap_text (style));
 	if (mstyle_is_element_set (style, MSTYLE_SHRINK_TO_FIT))
-		gsf_xml_out_add_int (state->output, "ShrinkToFit", mstyle_get_shrink_to_fit (style));
+		gsf_xml_out_add_bool (state->output, "ShrinkToFit", mstyle_get_shrink_to_fit (style));
 	if (mstyle_is_element_set (style, MSTYLE_ROTATION))
 		gsf_xml_out_add_int (state->output, "Rotation", mstyle_get_rotation (style));
 	if (mstyle_is_element_set (style, MSTYLE_PATTERN))
@@ -383,9 +383,9 @@ xml_write_gnmstyle (GnmOutputXML *state, GnmStyle const *style)
 	if (mstyle_is_element_set (style, MSTYLE_INDENT))
 		gsf_xml_out_add_int (state->output, "Indent", mstyle_get_indent (style));
 	if (mstyle_is_element_set (style, MSTYLE_CONTENT_LOCKED))
-		gsf_xml_out_add_int (state->output, "Locked", mstyle_get_content_locked (style));
+		gsf_xml_out_add_bool (state->output, "Locked", mstyle_get_content_locked (style));
 	if (mstyle_is_element_set (style, MSTYLE_CONTENT_HIDDEN))
-		gsf_xml_out_add_int (state->output, "Hidden", mstyle_get_content_hidden (style));
+		gsf_xml_out_add_bool (state->output, "Hidden", mstyle_get_content_hidden (style));
 	if (mstyle_is_element_set (style, MSTYLE_COLOR_FORE))
 		gnm_xml_out_add_color (state->output, "Fore", mstyle_get_color (style, MSTYLE_COLOR_FORE));
 	if (mstyle_is_element_set (style, MSTYLE_COLOR_BACK))

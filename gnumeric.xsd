@@ -16,18 +16,26 @@
     
     <xsd:element name="Workbook" type="gmr:Workbook"/>
 
-    <!-- I've never seen these in use and so am a little shaky as to what they
-         look like; they're meant to hold user-defined names, either at the
-         Workbook level or at the Sheet level
-    -->
-    <xsd:element name="Names" type="xsd:string"/>
+    <xsd:complexType name="Name">
+	<xsd:sequence>
+	    <xsd:element name="name"	 type="xsd:string"/>
+	    <xsd:element name="value"	 type="xsd:string"/>
+	    <xsd:element name="position" type="xsd:string"/>
+	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="Names">
+        <xsd:sequence>
+            <xsd:element name="Name" type="gmr:Name" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
 
     <xsd:complexType name="Workbook">
         <xsd:sequence>
-            <xsd:element name="Attributes"     type="gmr:Attributes"/>
-            <xsd:element name="Summary"        type="gmr:Summary"/>
-            <xsd:element name="SheetNameIndex" type="gmr:SheetNameIndex"/>
-            <xsd:element ref="gmr:Names" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="Attributes"	type="gmr:Attributes"/>
+            <xsd:element name="Summary"		type="gmr:Summary"/>
+            <xsd:element name="SheetNameIndex"	type="gmr:SheetNameIndex"/>
+            <xsd:element name="Names"		type="gmr:Names" minOccurs="0" maxOccurs="1"/>
             <!-- preferred height and width -->
             <xsd:element name="Geometry">
                 <xsd:complexType>
@@ -72,8 +80,8 @@
                              WorkbookView::show_vertical_scrollbar
                              WorkbookView::show_notebook_tabs
                         -->
-                        <xsd:element name="name"  type="xsd:string"/>
                         <xsd:element name="type"  type="gmr:GTKType"/>
+                        <xsd:element name="name"  type="xsd:string"/>
                         <xsd:element name="value" type="xsd:string"/>
                     </xsd:sequence>
                 </xsd:complexType>
@@ -152,7 +160,7 @@
                         <xsd:element name="MaxRow"           type="xsd:positiveInteger" minOccurs="0" maxOccurs="1"/>
                         <!-- most recently used zoom factor -->
                         <xsd:element name="Zoom"             type="xsd:double"/>
-                        <xsd:element ref="gmr:Names" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="Names"	     type="gmr:Names" minOccurs="0" maxOccurs="1"/>
                         <xsd:element name="PrintInformation" type="gmr:PrintInformation"/>
                         <xsd:element name="Styles"           type="gmr:Styles"/>
                         <xsd:element name="Cols">
@@ -174,9 +182,9 @@
                         <xsd:element name="Selections"      type="gmr:Selections"/>
                         <xsd:element name="Objects"         type="gmr:Objects" minOccurs="0" maxOccurs="1"/>
                         <xsd:element name="Cells"           type="gmr:Cells"/>
-                        <xsd:element name="MergedRegions"   type="gmr:MergedRegions"/>
-                        <xsd:element name="Solver"          type="gmr:Solver"/>
+                        <xsd:element name="MergedRegions"   type="gmr:MergedRegions" minOccurs="0" maxOccurs="1"/>
                         <xsd:element name="SheetLayout"     type="gmr:SheetLayout"/>
+                        <xsd:element name="Solver"          type="gmr:Solver"/>
                     </xsd:sequence>
                         <!-- note: xsd:boolean values can be true, false, 1, 0;
                              gnumeric, in this element, always generates 'true' or
@@ -300,9 +308,11 @@
     
     <xsd:simpleType name="print_units">
         <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="mm"/>
             <xsd:enumeration value="cm"/>
             <xsd:enumeration value="in"/>
-            <xsd:enumeration value="mm"/>
+            <xsd:enumeration value="Pt"/>
+            <xsd:enumeration value="Px"/>
             <xsd:enumeration value="points"/>
         </xsd:restriction>
     </xsd:simpleType>
@@ -341,20 +351,20 @@
 
     <xsd:complexType name="Style">
         <xsd:sequence>
-            <xsd:element name="Font">
+            <xsd:element name="Font" minOccurs="0" maxOccurs="1">
                 <xsd:complexType>
                     <xsd:simpleContent>
                         <xsd:extension base="xsd:string">
-                            <xsd:attribute name="Unit"          type="xsd:double"  use="required"/>
-                            <xsd:attribute name="Bold"          type="xsd:boolean" use="required"/>
-                            <xsd:attribute name="Italic"        type="xsd:boolean" use="required"/>
-                            <xsd:attribute name="Underline"     type="gmr:underline"   use="required"/>
-                            <xsd:attribute name="StrikeThrough" type="xsd:boolean" use="required"/>
+                            <xsd:attribute name="Unit"          type="xsd:double"	use="required"/>
+                            <xsd:attribute name="Bold"          type="xsd:boolean"	use="required"/>
+                            <xsd:attribute name="Italic"        type="xsd:boolean"	use="required"/>
+                            <xsd:attribute name="Underline"     type="gmr:underline"	use="required"/>
+                            <xsd:attribute name="StrikeThrough" type="xsd:boolean"	use="required"/>
                         </xsd:extension>
                     </xsd:simpleContent>
                 </xsd:complexType>
             </xsd:element>
-            <xsd:element name="StyleBorder">
+            <xsd:element name="StyleBorder" minOccurs="0" maxOccurs="1">
                 <xsd:complexType>
                     <xsd:sequence>
                         <xsd:element name="Top"          type="gmr:StyleBorderElement"/>
@@ -366,18 +376,48 @@
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
+            <xsd:element name="Hyperlink" minOccurs="0" maxOccurs="1">
+                <xsd:complexType>
+                    <xsd:simpleContent>
+                        <xsd:extension base="xsd:string">
+                            <xsd:attribute name="type"          type="xsd:string"  use="required"/>
+                            <xsd:attribute name="target"        type="xsd:string"  use="optional"/>
+                            <xsd:attribute name="tip"		type="xsd:string"  use="optional"/>
+                        </xsd:extension>
+                    </xsd:simpleContent>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="Validation" minOccurs="0" maxOccurs="1">
+                <xsd:complexType>
+                    <xsd:simpleContent>
+                        <xsd:extension base="xsd:string">
+                            <xsd:attribute name="Style"		type="xsd:integer"  use="required"/>
+                            <xsd:attribute name="Type"		type="xsd:integer"  use="required"/>
+                            <xsd:attribute name="Operator"	type="xsd:integer"  use="optional"/>
+                            <xsd:attribute name="AllowBlank"	type="xsd:boolean"  use="optional"/>
+                            <xsd:attribute name="UseDropdown"	type="xsd:boolean"  use="optional"/>
+                            <xsd:attribute name="Title"		type="xsd:string"   use="optional"/>
+                            <xsd:attribute name="Message"	type="xsd:string"   use="optional"/>
+                            <xsd:attribute name="Expression0"	type="xsd:string"   use="optional"/>
+                            <xsd:attribute name="Expression1"	type="xsd:string"   use="optional"/>
+                        </xsd:extension>
+                    </xsd:simpleContent>
+                </xsd:complexType>
+            </xsd:element>
         </xsd:sequence>
         <xsd:attribute name="HAlign"       type="gmr:horizontal_alignment"/>
         <xsd:attribute name="VAlign"       type="gmr:vertical_alignment"  />
         <xsd:attribute name="WrapText"     type="xsd:boolean"          	  />
-        <xsd:attribute name="Orient"       type="gmr:style_orientation"   />
+        <xsd:attribute name="ShrinkToFit"  type="xsd:boolean"          	  />
+        <xsd:attribute name="Rotation"	   type="xsd:integer"		  use="optional"/>
+        <xsd:attribute name="Orient"	   type="xsd:integer"		  use="optional"/>
         <xsd:attribute name="Shade"        type="gmr:style_shading"       />
         <xsd:attribute name="Indent"       type="xsd:integer"             />
+        <xsd:attribute name="Locked"	   type="xsd:boolean"          	  />
+        <xsd:attribute name="Hidden"	   type="xsd:boolean"          	  />
         <xsd:attribute name="Fore"         type="gmr:color"               />
         <xsd:attribute name="Back"         type="gmr:color"               />
         <xsd:attribute name="PatternColor" type="gmr:color"               />
-        <xsd:attribute name="Locked"	   type="xsd:boolean"          	  />
-        <xsd:attribute name="Hidden"	   type="xsd:boolean"          	  />
         <!-- the most common value of the Format attribute, by far, is
              General. Here are some other values: 
              #,##0.00
@@ -453,19 +493,6 @@
                  2 = BOTTOM
                  4 = CENTER
                  8 = JUSTIFY
-            -->
-            <xsd:minInclusive value="0"/>
-            <xsd:maxInclusive value="15"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-
-    <xsd:simpleType name="style_orientation">
-        <xsd:restriction base="xsd:integer">
-            <!-- this is a bit map as follows:
-                 1 = HORIZ
-                 2 = VERT_HORIZ_TEXT
-                 4 = VERT_VERT_TEXT
-                 8 = VERT_VERT_TEXT2
             -->
             <xsd:minInclusive value="0"/>
             <xsd:maxInclusive value="15"/>
@@ -685,16 +712,15 @@
     <xsd:complexType name="Cells">
        <xsd:sequence>
            <xsd:element name="Cell" minOccurs="0" maxOccurs="unbounded">
-               <xsd:complexType>
-                       <!-- expressions are stored as entered, with a leading '='.
-			    Once a shared expression has been defined, subsequent
-			    Cell elements using that same shared expression simply
-			    use the "ExprID" attribute to indicate which shared
-			    expression is used, and no Content element is included
-                       -->
-                   <xsd:sequence>
-                       <xsd:element name="Content" type="xsd:string" minOccurs="0" maxOccurs="1"/>
-                   </xsd:sequence>
+	       <!-- expressions are stored as entered, with a leading '='.
+		    Once a shared expression has been defined, subsequent
+		    Cell elements using that same shared expression simply
+		    use the "ExprID" attribute to indicate which shared
+		    expression is used, and no Content element is included
+	       -->
+               <xsd:complexType mixed="true">
+		   <!-- Compatibility for ancient 0.x format -->
+		   <xsd:element name="Content"	     type="xsd:string" minOccurs="0" maxOccurs="1"/>
 
                    <!-- Col and Row are sufficient for a cell that is an element of
                         an array of cells as long as it's not the top left cell
@@ -712,6 +738,7 @@
                    <!-- Cols and Rows are used to define an array of cells -->
                    <xsd:attribute name="Cols"        type="xsd:positiveInteger" use="optional"/>
                    <xsd:attribute name="Rows"        type="xsd:positiveInteger" use="optional"/>
+
                </xsd:complexType>
            </xsd:element>
        </xsd:sequence>

@@ -367,8 +367,8 @@ excel_write_SETUP (BiffPut *bp, ExcelWriteSheet *esheet)
 	GSF_LE_SET_GUINT16 (data +  0, 0);	/* _invalid_ paper size */
 	GSF_LE_SET_GUINT16 (data +  2, 100);	/* scaling factor */
 	GSF_LE_SET_GUINT16 (data +  4, 0);	/* start at page 0 */
-	GSF_LE_SET_GUINT16 (data +  6, 1);	/* fit 1 page wide */
-	GSF_LE_SET_GUINT16 (data +  8, 1);	/* fit 1 page high */
+	GSF_LE_SET_GUINT16 (data +  6, pi ? pi->scaling.dim.cols : 1);
+	GSF_LE_SET_GUINT16 (data +  8, pi ? pi->scaling.dim.rows : 1);
 	GSF_LE_SET_GUINT32 (data + 10, options);
 	GSF_LE_SET_GUINT32 (data + 12, 0);	/* _invalid_ x resolution */
 	GSF_LE_SET_GUINT32 (data + 14, 0);	/* _invalid_ y resolution */
@@ -1321,12 +1321,12 @@ excel_font_new (GnmStyle const *base_style)
 static void
 excel_font_overlay_pango (ExcelFont *efont, GSList *pango)
 {
-	PangoColor const *c;
-	PangoAttribute *attr;
 	GSList *ptr;
 
 	for (ptr = pango ; ptr != NULL ; ptr = ptr->next) {
-		attr = (PangoAttribute *)(ptr->data);
+		PangoAttribute *attr = ptr->data;
+		PangoColor const *c;
+
 		switch (attr->klass->type) {
 		case PANGO_ATTR_FAMILY :
 			g_free (efont->font_name_copy);
@@ -1367,6 +1367,8 @@ excel_font_overlay_pango (ExcelFont *efont, GSList *pango)
 		default :
 			break; /* ignored */
 		}
+
+		pango_attribute_destroy (attr);
 	}
 	g_slist_free (pango);
 }
@@ -1716,26 +1718,38 @@ xf_get_mstyle (ExcelWriteState *ewb, gint idx)
 static GArray *
 txomarkup_new (ExcelWriteState *ewb, PangoAttrList *markup, GnmStyle *style)
 {
-	ExcelFont *efont;
-	gint tmp[2];
 	PangoAttrIterator *iter = pango_attr_list_get_iterator (markup);
 	GArray *txo = g_array_sized_new (FALSE, FALSE, sizeof (int), 8);
-	GSList *attrs;
+	gboolean noattrs = TRUE;
 
 	do {
-		/* trim start */
+		gint start, end;
+		GSList *attrs;
+
+		pango_attr_iterator_range (iter, &start, &end);
+		if (start >= end) {
+			/* Pango bug #166700.  */
+			/* Carry previous noattrs over.  */
+			break;
+		}
+
 		attrs = pango_attr_iterator_get_attrs (iter);
-		if (txo->len == 0 && attrs == NULL)
-			continue;
+		noattrs = (attrs == NULL);
+
+		if (txo->len == 0 && noattrs) {
+			/* trim start */
+		} else {
+			ExcelFont *efont = excel_font_new (style);
+			gint tmp[2];
 		
-		efont = excel_font_new (style);
 		excel_font_overlay_pango (efont, attrs);
-		pango_attr_iterator_range (iter, tmp, NULL);
+			tmp[0] = start;
 		tmp[1] = put_efont (efont, ewb);
 		g_array_append_vals (txo, (gpointer)tmp, 2);
+		}
 	} while (pango_attr_iterator_next (iter));
 	/* trim end */
-	if (txo->len > 2 && attrs == NULL)
+	if (txo->len > 2 && noattrs)
 		g_array_set_size (txo, txo->len - 2);
 	pango_attr_iterator_destroy (iter);
 
@@ -3614,7 +3628,9 @@ excel_write_WSBOOL (BiffPut *bp, ExcelWriteSheet *esheet)
 	/* 0x0020 automatic styles are not applied to an outline */
 	if (esheet->gnum_sheet->outline_symbols_below)	flags |= 0x040;
 	if (esheet->gnum_sheet->outline_symbols_right)	flags |= 0x080;
-	/* 0x0100 the Fit option is on (Page Setup dialog box, Page tab) */
+	if (esheet->gnum_sheet->print_info &&
+	    esheet->gnum_sheet->print_info->scaling.type == SIZE_FIT)
+		flags |= 0x100;
 	if (esheet->gnum_sheet->display_outlines)	flags |= 0x400;
 
 	ms_biff_put_2byte (bp, BIFF_WSBOOL, flags);

@@ -91,7 +91,7 @@ xbase_field_as_value (gchar *content, XBfield *field, XBfile *file)
 		return val;
 	}
 	case 'N':
-		val = value_new_int (atoi (s));
+		val = value_new_float (strtognum (s, NULL));
 		g_free (s);
 		return val;
 	case 'L':
