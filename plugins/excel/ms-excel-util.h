@@ -55,14 +55,4 @@ double lookup_font_base_char_width (char const *name, double size_pts,
 				    gboolean const is_default);
 void destroy_xl_font_widths (void);
 
-/*
- * this returns code of the codepage that should be used when exporting
- * .xls files (it's guessed by looking at language name). Fallback is 1252.
- */
-guint excel_iconv_win_codepage (void);
-
-/*these two will figure out which charset names to use*/
-GIConv excel_iconv_open_for_import (guint codepage);
-GIConv excel_iconv_open_for_export (void);
-
 #endif

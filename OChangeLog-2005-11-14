@@ -1,5 +1,10 @@
 2002-09-24  Jody Goldberg <jody@gnome.org>
 
+	* src/parser.y (build_range_ctor) : finish error message so that
+	  things compile again.
+
+2002-09-24  Jody Goldberg <jody@gnome.org>
+
 	* src/parser.y : remove the rest of the CELLREF based productions.
 
 	* src/parse-util.h : do a bit of tidying

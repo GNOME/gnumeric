@@ -330,8 +330,10 @@ build_range_ctor (GnmExpr *l, GnmExpr *r, GnmExpr *validate)
 	if (validate != NULL) {
 		if (validate->any.oper != GNM_EXPR_OP_CELLREF ||
 		    validate->cellref.ref.sheet != NULL) {
-				return gnumeric_parse_error (state,
-							     ParseErrorID id, char *message, int end, int relative_begin)
+			gnumeric_parse_error (state, PERR_UNEXPECTED_TOKEN,
+				_("Constructed ranges use simple references"),
+				state->expr_text - state->expr_backup, 0);
+			return NULL;
 		    }
 	}
 	return build_binop (l, GNM_EXPR_OP_RANGE_CTOR, r);
@@ -437,7 +439,7 @@ int yyparse (void);
 %type  <expr>	exp array_exp function string_opt_quote cellref
 %token <expr>	STRING QUOTED_STRING CONSTANT RANGEREF GTE LTE NE AND OR NOT
 %token		SEPARATOR INVALID_TOKEN
-%type  <sheet>	sheetref opt_sheetref
+%type  <sheet>	sheetref
 
 %left '&'
 %left '<' '>' '=' GTE LTE NE
@@ -649,14 +651,12 @@ sheetref: string_opt_quote SHEET_SEP {
         }
 	;
 
-opt_sheetref: sheetref
-	    | { $$.first = $$.last = NULL; }
-	    ;
-
 cellref:  RANGEREF { $$ = $1; }
-	| RANGEREF RANGE_SEP function  { $$ = build_range_ctor ($1, $3, $1); }
-	| function RANGE_SEP function  { $$ = build_range_ctor ($1, $3, NULL); }
-	| function RANGE_SEP RANGEREF  { $$ = build_range_ctor ($1, $3, $3); }
+	| function RANGE_SEP function { $$ = build_range_ctor ($1, $3, NULL); }
+	| RANGEREF RANGE_SEP function
+		{ $$ = build_range_ctor ($1, $3, $1); if ($$ == NULL) return ERROR; }
+	| function RANGE_SEP RANGEREF
+		{ $$ = build_range_ctor ($1, $3, $3); if ($$ == NULL) return ERROR; }
 	;
 
 arg_list: exp {
