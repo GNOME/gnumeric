@@ -16,9 +16,13 @@ typedef enum { SRE_fail = 0,
 	       SRE_error,
 	       SRE_string } SearchReplaceError;
 
-typedef enum { SRS_workbook = 0,
-	       SRS_sheet,
-	       SRS_range } SearchReplaceScope;
+typedef enum {
+	GNM_SRS_WORKBOOK = 0,
+	GNM_SRS_SHEET,
+	GNM_SRS_RANGE
+} GnmSearchReplaceScope;
+GType gnm_search_replace_scope_get_type (void);
+#define GNM_SEARCH_REPLACE_SCOPE_TYPE (gnm_search_replace_scope_get_type ())
 
 typedef enum { SRQ_fail,
 	       SRQ_query,
@@ -33,7 +37,7 @@ typedef  int (*SearchReplaceQueryFunc) (SearchReplaceQuery q, GnmSearchReplace *
 struct _GnmSearchReplace {
 	GoSearchReplace base;
 
-	SearchReplaceScope scope;
+	GnmSearchReplaceScope scope;
 	char *range_text;
 
 	/*

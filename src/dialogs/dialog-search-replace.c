@@ -102,9 +102,14 @@ ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 	GnmSearchReplace *sr;
 	char *err;
 	int i;
+	GnmSearchReplaceScope scope;
+
+	i = gnumeric_glade_group_value (gui, scope_group);
+	scope = (i == -1) ? GNM_SRS_SHEET : (GnmSearchReplaceScope)i;
 
 	sr = g_object_new (GNM_SEARCH_REPLACE_TYPE,
 			   "sheet", wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)),
+			   "scope", scope,
 			   "range-text", gnm_expr_entry_get_text (dd->rangetext),
 			   "search-text", gtk_entry_get_text (dd->search_text),
 			   "replace-text", gtk_entry_get_text (dd->replace_text),
@@ -120,9 +125,6 @@ ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 			   "search-comments", is_checked (gui, "search_comments"),
 			   "by-row", gnumeric_glade_group_value (gui, direction_group) == 0,
 			   NULL);
-
-	i = gnumeric_glade_group_value (gui, scope_group);
-	sr->scope = (i == -1) ? SRS_sheet : (SearchReplaceScope)i;
 
 	i = gnumeric_glade_group_value (gui, error_group);
 	sr->error_behaviour = (i == -1) ? SRE_fail : (SearchReplaceError)i;
@@ -336,6 +338,8 @@ dialog_search_replace_query (WorkbookControlGUI *wbcg,
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 
 /*FIXME: rather than recoding the result value we should change the tests down stream */
+	/* Acutally, no.  This needs to be handled as signal on the GnmSearchReplace
+	   object -- MW  */
 
 	if (res == GTK_RESPONSE_YES)
 		return 0;

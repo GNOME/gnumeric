@@ -309,9 +309,14 @@ search_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 	GnmSearchReplace *sr;
 	char *err;
 	int i;
+	GnmSearchReplaceScope scope;
+
+	i = gnumeric_glade_group_value (gui, scope_group);
+	scope = (i == -1) ? GNM_SRS_SHEET : (GnmSearchReplaceScope)i;
 
 	sr = g_object_new (GNM_SEARCH_REPLACE_TYPE,
 			   "sheet", wb_control_cur_sheet (wbc),
+			   "scope", scope,
 			   "range-text", gnm_expr_entry_get_text (dd->rangetext),
 			   "search-text", gtk_entry_get_text (dd->gentry),
 			   "is-regexp", gnumeric_glade_group_value (gui, search_type_group) == 1,
@@ -324,9 +329,6 @@ search_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 			   "search-comments", is_checked (gui, "search_comments"),
 			   "by-row", gnumeric_glade_group_value (gui, direction_group) == 0,
 			   NULL);
-
-	i = gnumeric_glade_group_value (gui, scope_group);
-	sr->scope = (i == -1) ? SRS_sheet : (SearchReplaceScope)i;
 
 	err = gnm_search_replace_verify (sr, FALSE);
 	if (err) {

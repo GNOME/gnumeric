@@ -1,5 +1,8 @@
 2005-03-31  Morten Welinder  <terra@gnome.org>
 
+	* src/search.c (gnm_search_replace_class_init): Make scope a
+	property too.
+
 	* src/commands.c (cmd_set_text): Improve undo description.  Fixes
 	#171637.
 

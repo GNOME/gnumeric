@@ -39,6 +39,7 @@ enum {
 	PROP_BY_ROW,
 	PROP_QUERY,
 	PROP_SHEET,
+	PROP_SCOPE,
 	PROP_RANGE_TEXT
 };
 
@@ -56,7 +57,7 @@ gnm_search_replace_verify (GnmSearchReplace *sr, gboolean repl)
 		return msg;
 	}
 
-	if (sr->scope == SRS_range) {
+	if (sr->scope == GNM_SRS_RANGE) {
 		GSList *range_list;
 
 		if (!sr->range_text || sr->range_text[0] == 0)
@@ -134,18 +135,18 @@ search_collect_cells (GnmSearchReplace *sr)
 	GPtrArray *cells;
 
 	switch (sr->scope) {
-	case SRS_workbook:
+	case GNM_SRS_WORKBOOK:
 		g_return_val_if_fail (sr->sheet != NULL, NULL);
 		cells = workbook_cells (sr->sheet->workbook, TRUE);
 		break;
 
-	case SRS_sheet:
+	case GNM_SRS_SHEET:
 		cells = sheet_cells (sr->sheet,
 				     0, 0, SHEET_MAX_COLS, SHEET_MAX_ROWS,
 				     TRUE);
 		break;
 
-	case SRS_range:
+	case GNM_SRS_RANGE:
 	{
 		GSList *range_list;
 		GnmEvalPos ep;
@@ -368,6 +369,24 @@ gnm_search_replace_value (GnmSearchReplace *sr,
 
 /* ------------------------------------------------------------------------- */
 
+GType
+gnm_search_replace_scope_get_type (void)
+{
+  static GType etype = 0;
+  if (etype == 0) {
+    static const GFlagsValue values[] = {
+      { GNM_SRS_WORKBOOK, (char *)"GNM_SRS_WORKBOOK", (char *)"workbook" },
+      { GNM_SRS_SHEET,    (char *)"GNM_SRS_SHEET",    (char *)"sheet" },
+      { GNM_SRS_RANGE,    (char *)"GNM_SRS_RANGE",    (char *)"range" },
+      { 0, NULL, NULL }
+    };
+    etype = g_flags_register_static ("GnmSearchReplaceScope", values);
+  }
+  return etype;
+}
+
+/* ------------------------------------------------------------------------- */
+
 static void
 gnm_search_replace_init (GObject *obj)
 {
@@ -407,6 +426,9 @@ gnm_search_replace_get_property (GObject     *object,
 		break;
 	case PROP_SHEET:
 		g_value_set_object (value, sr->sheet);
+		break;
+	case PROP_SCOPE:
+		g_value_set_enum (value, sr->scope);
 		break;
 	case PROP_RANGE_TEXT:
 		g_value_set_string (value, sr->range_text);
@@ -469,6 +491,9 @@ gnm_search_replace_set_property (GObject      *object,
 		break;
 	case PROP_SHEET:
 		gnm_search_replace_set_sheet (sr, g_value_get_object (value));
+		break;
+	case PROP_SCOPE:
+		sr->scope = g_value_get_enum (value);
 		break;
 	case PROP_RANGE_TEXT:
 		gnm_search_replace_set_range_text (sr, g_value_get_string (value));
@@ -576,10 +601,20 @@ gnm_search_replace_class_init (GObjectClass *gobject_class)
 				      G_PARAM_READWRITE));
 	g_object_class_install_property
 		(gobject_class,
+		 PROP_SCOPE,
+		 g_param_spec_enum ("scope",
+				    _("Scope"),
+				    _("Where to search."),
+				    GNM_SEARCH_REPLACE_SCOPE_TYPE,
+				    GNM_SRS_SHEET,
+				    GSF_PARAM_STATIC |
+				    G_PARAM_READWRITE));
+	g_object_class_install_property
+		(gobject_class,
 		 PROP_RANGE_TEXT,
 		 g_param_spec_string ("range-text",
 				      _("Range as Text"),
-				      _("The range in which to search"),
+				      _("The range in which to search."),
 				      NULL,
 				      GSF_PARAM_STATIC |
 				      G_PARAM_READWRITE));
