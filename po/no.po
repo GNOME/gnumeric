@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.31\n"
-"POT-Creation-Date: 1999-09-06 18:02-0500\n"
-"PO-Revision-Date: 1999-08-29 12:59+02:00\n"
+"POT-Creation-Date: 1999-09-07 02:28+0200\n"
+"PO-Revision-Date: 1999-09-07 02:43+02:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -232,7 +232,7 @@ msgstr "Jody Goldberg, Excel hacker."
 
 #: src/about.c:28
 msgid "Ross Ihaka, special functions."
-msgstr ""
+msgstr "Ross Ihaka, spesielle funksjoner."
 
 #: src/about.c:29
 msgid "Jukka-Pekka Iivonen, numerous functions and tools."
@@ -950,7 +950,6 @@ msgid "Add "
 msgstr "Legg til"
 
 #: src/dialogs/dialog-paste-special.c:30
-#, fuzzy
 msgid "Subtract"
 msgstr "Trekk fra"
 
@@ -1186,118 +1185,100 @@ msgid "Orientation"
 msgstr "Orientering"
 
 #: src/dialogs/print.glade.h:9
-#, fuzzy
 msgid "Por_trait"
-msgstr "Portrett"
+msgstr "Por_trett"
 
 #: src/dialogs/print.glade.h:10
-#, fuzzy
 msgid "_Landscape"
-msgstr "Landskap"
+msgstr "_Landskap"
 
 #: src/dialogs/print.glade.h:11
 msgid "Scale"
 msgstr "Skaler"
 
 #: src/dialogs/print.glade.h:12
-#, fuzzy
 msgid "_Adjust to:"
-msgstr "Juster til"
+msgstr "_Juster til"
 
 #: src/dialogs/print.glade.h:13
 msgid "_Fit to:"
-msgstr ""
+msgstr "_Tilpass til:"
 
 #: src/dialogs/print.glade.h:14
-#, fuzzy, c-format
+#, c-format
 msgid "% of normal size"
-msgstr "% av original størrelse"
+msgstr "% av normal størrelse"
 
 #: src/dialogs/print.glade.h:15
-#, fuzzy
 msgid "page(s) wide by"
-msgstr "sider bredere med "
+msgstr "side(r) bredere med "
 
 #: src/dialogs/print.glade.h:16
-#, fuzzy
 msgid "tall"
-msgstr "Kursiv"
+msgstr "høy"
 
 #: src/dialogs/print.glade.h:17
-#, fuzzy
 msgid "Fi_rst page number:"
-msgstr "Første sidenummer:"
+msgstr "F_ørste sidenummer:"
 
 #: src/dialogs/print.glade.h:18 src/dialogs/print.glade.h:32
 #: src/dialogs/print.glade.h:42 src/dialogs/print.glade.h:58
-#, fuzzy
 msgid "_Print"
-msgstr "Skriv ut"
+msgstr "_Skriv ut"
 
 #: src/dialogs/print.glade.h:19 src/dialogs/print.glade.h:33
 #: src/dialogs/print.glade.h:43 src/dialogs/print.glade.h:59
-#, fuzzy
 msgid "Print previe_w"
-msgstr "Forhåndsvisning"
+msgstr "Forh_åndsvisning"
 
 #: src/dialogs/print.glade.h:20 src/dialogs/print.glade.h:34
 #: src/dialogs/print.glade.h:44 src/dialogs/print.glade.h:60
-#, fuzzy
 msgid "_Options"
-msgstr "Alternativer"
+msgstr "_Alternativer"
 
 #: src/dialogs/print.glade.h:21 src/dialogs/print.glade.h:61
 msgid "Page"
 msgstr "Side"
 
 #: src/dialogs/print.glade.h:22
-#, fuzzy
 msgid "_Top:"
-msgstr "Øverst"
+msgstr "Ø_verst:"
 
 #: src/dialogs/print.glade.h:23
-#, fuzzy
 msgid "He_ader:"
-msgstr "Topptekst:"
+msgstr "To_pptekst:"
 
 #: src/dialogs/print.glade.h:24
-#, fuzzy
 msgid "_Bottom:"
-msgstr "Nederst"
+msgstr "_Nederst:"
 
 #: src/dialogs/print.glade.h:25
-#, fuzzy
 msgid "_Footer"
-msgstr "Bunntekst"
+msgstr "_Bunntekst"
 
 #: src/dialogs/print.glade.h:26
 msgid "Center on page"
 msgstr "Senter på siden"
 
 #: src/dialogs/print.glade.h:27
-#, fuzzy
 msgid "_Horizontally"
-msgstr "Horisontalt"
+msgstr "_Horisontalt"
 
 #: src/dialogs/print.glade.h:28
-#, fuzzy
 msgid "_Vertically"
-msgstr "Vertikalt"
+msgstr "_Vertikalt"
 
 #: src/dialogs/print.glade.h:29
-#, fuzzy
 msgid "_Left:"
-msgstr "Venstre:"
+msgstr "_Venstre:"
 
 #: src/dialogs/print.glade.h:30
-#, fuzzy
 msgid "_Right"
-msgstr "Høyre"
+msgstr "_Høyre"
 
 #: src/dialogs/print.glade.h:31
-#, fuzzy
 msgid "Paper _size:"
-msgstr "Papirstørrelse:"
+msgstr "Papir_størrelse:"
 
 #: src/dialogs/print.glade.h:35
 msgid "Margins"
@@ -1312,14 +1293,12 @@ msgid "Header"
 msgstr "Topptekst"
 
 #: src/dialogs/print.glade.h:38
-#, fuzzy
 msgid "Customize _header"
-msgstr "Rediger topptekst"
+msgstr "Rediger _topptekst"
 
 #: src/dialogs/print.glade.h:39
-#, fuzzy
 msgid "Customize _footer"
-msgstr "Rediger bunntekst"
+msgstr "Rediger _bunntekst"
 
 #: src/dialogs/print.glade.h:40
 msgid "Footer:"
@@ -1330,23 +1309,20 @@ msgid "Headers and footers"
 msgstr "Topp- og bunntekst"
 
 #: src/dialogs/print.glade.h:46
-#, fuzzy
 msgid "Print _area:"
-msgstr "Utskriftsområde:"
+msgstr "Utskrifts_område:"
 
 #: src/dialogs/print.glade.h:47
 msgid "Titles to print"
 msgstr "Titler som skal skrives ut"
 
 #: src/dialogs/print.glade.h:48
-#, fuzzy
 msgid "_Columns to repeat on the left side:"
-msgstr "Kolonner som skal repeteres på venstre side:"
+msgstr "_Kolonner som skal repeteres på venstre side:"
 
 #: src/dialogs/print.glade.h:49
-#, fuzzy
 msgid "_Rows to repeat on the upper region:"
-msgstr "Rader som skal repeteres i øvre region:"
+msgstr "_Rader som skal repeteres i øvre region:"
 
 #: src/dialogs/print.glade.h:50 src/workbook.c:1121
 msgid "Print"
@@ -1354,35 +1330,31 @@ msgstr "Skriv ut"
 
 #: src/dialogs/print.glade.h:51
 msgid "Row and co_lumn headings"
-msgstr ""
+msgstr "Rad og kolonnetitler"
 
 #: src/dialogs/print.glade.h:52
-#, fuzzy
 msgid "Co_mments"
-msgstr "Kommentarer"
+msgstr "Ko_mmentarer"
 
 #: src/dialogs/print.glade.h:53
 msgid "_Grid lines"
-msgstr ""
+msgstr "_Linjer for rutenett"
 
 #: src/dialogs/print.glade.h:54
-#, fuzzy
 msgid "_Black and white"
-msgstr "Sort / Hvitt"
+msgstr "_Sort / Hvitt"
 
 #: src/dialogs/print.glade.h:55
 msgid "Page order"
 msgstr "Siderekkefølge"
 
 #: src/dialogs/print.glade.h:56
-#, fuzzy
 msgid "_Down, then right"
-msgstr "Ned, så til høyre"
+msgstr "Ne_d, så til høyre"
 
 #: src/dialogs/print.glade.h:57
-#, fuzzy
 msgid "R_ight, then down"
-msgstr "Høyre, så ned"
+msgstr "Hø_yre, så ned"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -2826,7 +2798,7 @@ msgstr ""
 
 #: src/functions/fn-eng.c:1612
 msgid "Engineering"
-msgstr ""
+msgstr "Teknisk"
 
 #: src/functions/fn-financial.c:206
 msgid ""
@@ -5324,7 +5296,6 @@ msgstr ""
 "@SEEALSO=SUM, COUNT"
 
 #: src/functions/fn-stat.c:793
-#, fuzzy
 msgid ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
@@ -5334,15 +5305,15 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=MAX,ABS"
 msgstr ""
-"@FUNCTION=ABS\n"
-"@SYNTAX=ABS(b1)\n"
-"@DESCRIPTION=Implementerer absolutt-verdi funksjonen: resultatet er å fjerne "
-"negativ-tegnet (hvis funnet).  Dette kan gjøres for heltall og flyttall. \n"
+"@FUNCTION=MIN\n"
+"@SYNTAX=MIN(b1,b2, ...)\n"
+"@DESCRIPTION=MIN returnerer verdien til til argumentet med den minste "
+"verdien. \n"
+"Med negative tall regnet som mindre enn positive tall. \n"
 "Bruk av denne funksjonen på en streng eller en tom celle gjør ingenting.\n"
-"@SEEALSO=CEIL, FLOOR"
+"@SEEALSO=MAX,ABS"
 
 #: src/functions/fn-stat.c:819
-#, fuzzy
 msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -5352,12 +5323,12 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=MIN,ABS"
 msgstr ""
-"@FUNCTION=ABS\n"
-"@SYNTAX=ABS(b1)\n"
-"@DESCRIPTION=Implementerer absolutt-verdi funksjonen: resultatet er å fjerne "
-"negativ-tegnet (hvis funnet).  Dette kan gjøres for heltall og flyttall. \n"
+"@FUNCTION=MAX\n"
+"@SYNTAX=MAX(b1,b2, ...)\n"
+"@DESCRIPTION=MAX returnerer verdien til argumentet med den minste verdien. \n"
+"Negative tall regnes som mindre enn positive. \n"
 "Bruk av denne funksjonen på en streng eller en tom celle gjør ingenting.\n"
-"@SEEALSO=CEIL, FLOOR"
+"@SEEALSO=MIN,ABS"
 
 #: src/functions/fn-stat.c:845
 msgid ""
@@ -5396,7 +5367,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-stat.c:938
-#, fuzzy
 msgid ""
 "@FUNCTION=GAMMALN\n"
 "@SYNTAX=GAMMALN(x)\n"
@@ -5406,14 +5376,13 @@ msgid ""
 "GAMMALN returns #NUM! error.\n"
 "@SEEALSO=POISSON"
 msgstr ""
-"@FUNCTION=CEILING\n"
-"@SYNTAX=CEILING(x,signifikans)\n"
-"@DESCRIPTION=CEILING-funksjonen runder @x opp til nærmeste multippel av "
-"signifikans. \n"
-"Hvis @x eller @signifikans er ikke-numerisk, returnerer CEILING #VALUE! "
-"feil. Hvis @x eller @signifikans har forskjellige fortegn, returnerer "
-"CEILING #NUM! feil. \n"
-"@SEEALSO=CEIL"
+"@FUNCTION=GAMMALN\n"
+"@SYNTAX=GAMMALN(x)\n"
+"@DESCRIPTION=GAMMALN-funksjonen returnerer den naturlige logaritmen til "
+"gammafunksjonen.\n"
+"Hvis @x  er ikke-numerisk, returnerer GAMMALN en #VALUE! feil. Hvis @x <= 0 "
+"returnerer GAMMALN en #NUM! feil.\n"
+"@SEEALSO=POISSON"
 
 #: src/functions/fn-stat.c:969
 msgid ""
@@ -5428,7 +5397,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-stat.c:1004
-#, fuzzy
 msgid ""
 "@FUNCTION=GAMMAINV\n"
 "@SYNTAX=GAMMAINV(p,alpha,beta)\n"
@@ -5438,17 +5406,15 @@ msgid ""
 "0 GAMMAINV returns #NUM! error. \n"
 "@SEEALSO=GAMMADIST"
 msgstr ""
-"@FUNCTION=MINVERSE\n"
-"@SYNTAX=MINVERSE(matrise)\n"
-"@DESCRIPTION=MINVERSE-funksjonen returnerer den inverse matrisen av en gitt "
-"matrise. \n"
-"Hvis matrisen ikke kan inverteres, returnerer MINVERSE #NUM! error. Hvis "
-"matrisen ikke inneholder likt antall kolonner og rader, returnerer MINVERSE "
-"en #VALUE! feil.\n"
-"@SEEALSO=MMULT, MDETERM"
+"@FUNCTION=GAMMAINV\n"
+"@SYNTAX=GAMMAINV(p,alpha,beta)\n"
+"@DESCRIPTION=GAMMAINV-funksjonen returnerer den inverse av den kumulative "
+"gammadistribusjonen.\n"
+"Hvis @p < 0 eller @p > 1 returnerer GAMMAINV en #NUM!-feil. Hvis @alpha <= "
+"0 eller @beta <= 0, returnerer GAMMAINV en #NUM!-feil .\n"
+"@SEEALSO=GAMMADIST"
 
 #: src/functions/fn-stat.c:1034
-#, fuzzy
 msgid ""
 "@FUNCTION=CHIDIST\n"
 "@SYNTAX=CHIDIST(x,dof)\n"
@@ -5458,13 +5424,13 @@ msgid ""
 "error.\n"
 "@SEEALSO=CHIINV,CHITEST"
 msgstr ""
-"@FUNCTION=FACTDOUBLE\n"
-"@SYNTAX=FACTDOUBLE(tall)\n"
-"@DESCRIPTION=FACTDOUBLE-funksjonen returnerer den doble faktoren av et "
-"@tall. \n"
-"Hvis @tall ikke er et heltall, blir det avkortet. Hvis @tall er negativt "
-"returnerer FACTDOUBLE en #NUM! feil. \n"
-"@SEEALSO=FACT"
+"@FUNCTION=CHIDIST\n"
+"@SYNTAX=CHIDIST(x,dof)\n"
+"@DESCRIPTION=CHIDIST-funksjonen returnerer den enhalede sannsynligheten til "
+"den chi-opphøyede distribusjonen. @dof er antall grader av frihet.\n"
+"Hvis @dof ikke er et heltall, blir det avkortet. Hvis @dof < 1 returnerer \n"
+"CHIDIST en #NUM!-feil.\n"
+"@SEEALSO=CHIINV,CHITEST"
 
 #: src/functions/fn-stat.c:1064
 msgid ""
@@ -5475,6 +5441,12 @@ msgid ""
 "If @p < 0 or @p > 1 or @dof < 1 CHIINV returns #NUM! error. \n"
 "@SEEALSO=CHIDIST,CHITEST"
 msgstr ""
+"@FUNCTION=CHIINV\n"
+"@SYNTAX=CHIINV(p,dof)\n"
+"@DESCRIPTION=CHIINV-funksjonen returnerer den inverse av den enhalede "
+"sannsynligheten til den chi-opphøyede distribusjonen.\n"
+"Hvis @p < 0 eller @p > 1 eller @dof < 1, returnerer CHIINV en #NUM!-feil. \n"
+"@SEEALSO=CHIDIST,CHITEST"
 
 #: src/functions/fn-stat.c:1092
 msgid ""
@@ -5487,6 +5459,14 @@ msgid ""
 "points. \n"
 "@SEEALSO=CHIDIST,CHIINV"
 msgstr ""
+"@FUNCTION=CHITEST\n"
+"@SYNTAX=CHITEST(faktisk_område,teoretisk_område)\n"
+"@DESCRIPTION=CHITEST-funksjonen returnerer uavhengighetstesten til den "
+"chi-opphøyede distribusjonen.\n"
+"@faktisk_område er et område som inneholder de observerte datapunktene. "
+"@teoretisk_område er et område som inneholder de forventede verdiene "
+"til datapunktene. \n"
+"@SEEALSO=CHIDIST,CHIINV"
 
 #: src/functions/fn-stat.c:1231
 msgid ""
@@ -5500,6 +5480,17 @@ msgid ""
 "error.\n"
 "@SEEALSO=BETAINV"
 msgstr ""
+"@FUNCTION=BETADIST\n"
+"@SYNTAX=BETADIST(x,alpha,beta[,a,b])\n"
+"@DESCRIPTION=BETADIST-funksjonen returnerer den kumulative "
+"betadistribusjonen. \n"
+"@a er den valgfrie nedre grensen til @x og @b er den valgfrie øvre grensen "
+"for @x. Hvis @a ikke er gitt bruker BETADIST 0. Hvis @b ikke er gitt bruker "
+"BETADIST 1.\n"
+"Hvis @x < @a eller @x > @b, returnerer BETADIST en #NUM!-feil. Hvis @alpha "
+"<= 0\n eller @beta <= 0, returnerer BETADIST en #NUM!-feil. Hvis @a >= @b "
+"returnerer BETADIST en #NUM!-feil.\n"
+"@SEEALSO=BETAINV"
 
 #: src/functions/fn-stat.c:1271
 msgid ""
@@ -5513,6 +5504,16 @@ msgid ""
 "0, BETAINV returns #NUM! error. If @a >= @b BETAINV returns #NUM! error.\n"
 "@SEEALSO=BETADIST"
 msgstr ""
+"@FUNCTION=BETAINV\n"
+"@SYNTAX=BETAINV(p,alpha,beta[,a,b])\n"
+"@DESCRIPTION=BETAINV-funksjonen returnerer den inverse kumulative beta "
+"distribusjonen. @a er den valgfrie nedre grensen for @x og @b er den "
+"valgfrie øvre grensen for @x. Hvis @a ikke er gitt bruker BETAINV 0. Hvis "
+"@b ikke er gitt bruker BETAINV 1.\n"
+"Hvis @p < 0 eller @p > 1 returnerer BETAINV en #NUM!-feil. Hvis alpha <= 0 "
+"eller @beta <= 0 returnerer BETAINV en #NUM!-feil. Hvis @a >= @b returnerer "
+"BETAINV en #NUM!-feil.\n"
+"@SEEALSO=BETADIST"
 
 #: src/functions/fn-stat.c:1311
 msgid ""
@@ -5525,6 +5526,16 @@ msgid ""
 "returns #NUM! error.\n"
 "@SEEALSO=TINV,TTEST"
 msgstr ""
+"@FUNCTION=TDIST\n"
+"@SYNTAX=TDIST(x,dof,haler)\n"
+"@DESCRIPTION=TDIST-funksjonen returnerer Student-t distribusjonen. @dof er \n"
+"graden av frihet og @haler er 1 eller 2 avhengig av om du ønsker en "
+"en-halet\n"
+"eller to-halet distribusjon.\n"
+"Hvis @dof < 1 returnerer TDIST en #NUM!-feil. Hvis @haler er hverken 1 "
+"eller\n"
+"2 returnerer TDIST en #NUM!-feil.\n"
+"@SEEALSO=TINV,TTEST"
 
 #: src/functions/fn-stat.c:1345
 msgid ""
@@ -5535,6 +5546,12 @@ msgid ""
 "If @p < 0 or @p > 1 or @dof < 1 TINV returns #NUM! error. \n"
 "@SEEALSO=TDIST,TTEST"
 msgstr ""
+"@FUNCTION=TINV\n"
+"@SYNTAX=TINV(p,dof)\n"
+"@DESCRIPTION=TINV-funksjonen returnerer den inverse av den to-halede \n"
+"Student-t distribusjonen.\n"
+"Hvis @p < 0 eller @p > en eller @dof < 1 returnerer TINV en #NUM!-feil. \n"
+"@SEEALSO=TDIST,TTEST"
 
 #: src/functions/fn-stat.c:1373
 msgid ""
@@ -5547,9 +5564,15 @@ msgid ""
 "returns #NUM! error.\n"
 "@SEEALSO=FINV"
 msgstr ""
+"@FUNCTION=FDIST\n"
+"@SYNTAX=FDIST(x,dof1,dof2)\n"
+"@DESCRIPTION=FDIST-funksjonen returnerer F-sannsynlighetsdistribusjonen. \n"
+"@dof1 er tellers grader av frihet og @dof2 er nevners grader av frihet.\n"
+"Hvis @x < 0 returnerer FDIST en #NUM!-feil. Hvis @dof1 < 1 eller dof2\n"
+"< 1, returnerer FDIST en #NUM!-feil.\n"
+"SEEALSO=FINV"
 
 #: src/functions/fn-stat.c:1404
-#, fuzzy
 msgid ""
 "@FUNCTION=FINV\n"
 "@SYNTAX=TINV(p,dof)\n"
@@ -5559,14 +5582,13 @@ msgid ""
 "returns #NUM! error.\n"
 "@SEEALSO=FDIST"
 msgstr ""
-"@FUNCTION=MINVERSE\n"
-"@SYNTAX=MINVERSE(matrise)\n"
-"@DESCRIPTION=MINVERSE-funksjonen returnerer den inverse matrisen av en gitt "
-"matrise. \n"
-"Hvis matrisen ikke kan inverteres, returnerer MINVERSE #NUM! error. Hvis "
-"matrisen ikke inneholder likt antall kolonner og rader, returnerer MINVERSE "
-"en #VALUE! feil.\n"
-"@SEEALSO=MMULT, MDETERM"
+"@FUNCTION=FINV\n"
+"@SYNTAX=FINV(p,dof)\n"
+"@DESCRIPTION=FINV-funksjonen returnerer den inverse av F-sannsynlighets "
+"distribusjonen.\n"
+"Hvis @p < 0 eller @p > 1 returnerer FINV en #NUM!-feil. Hvis @dof < 1 eller "
+"@dof2 < 1 returnerer FINV en #NUM!-feil.\n"
+"@SEEALSO=FDIST"
 
 #: src/functions/fn-stat.c:1434
 msgid ""
@@ -5582,6 +5604,18 @@ msgid ""
 "If @p < 0 or @p > 1 BINOMDIST returns #NUM! error.\n"
 "@SEEALSO=POISSON"
 msgstr ""
+"@FUNCTION=BINOMDIST\n"
+"@SYNTAX=BINOMDIST(n,forsøk,p,kumulativ)\n"
+"@DESCRIPTION=BINOMDIST-funksjonen returnerer den binominale distribusjonen. "
+"@n er antall suksesser, @forsøk er totalt antall uavhengige forsøk, @p er "
+"sannsynligheten for suksess i et forsøk, og @kumulativ beskriver om summen "
+"av binominalfunksjonen skal returneres fra 0 til @n.\n"
+"Bruk av denne funksjonen på en streng eller en tom celle returnerer en feil.\n"
+"Hvis @n eller @forsøk ikke er heltall, blir de avkortet. Hvis @n < 0 eller\n"
+"@forsøk < 0 returnerer BINOMDIST en #NUM!-feil. Hvis @n > @forsøk "
+"returnerer BINOMDIST en NUM!-feil. Hvis @p < 0 eller @p > 1 returnerer "
+"BINOMDIST en #NUM!-feil.\n"
+"@SEEALSO=POISSON"
 
 #: src/functions/fn-stat.c:1476
 msgid ""
@@ -5712,7 +5746,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-stat.c:1807
-#, fuzzy
 msgid ""
 "@FUNCTION=AVEDEV\n"
 "@SYNTAX=AVEDEV(n1, n2, ...)\n"
@@ -5721,14 +5754,15 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=STDEV"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(x)\n"
-"@DESCRIPTION=Beregner antallet radianer som tilsvarer @x grader. \n"
+"@FUNCTION=AVEDEV\n"
+"@SYNTAX=AVEDEV(n1, n2, ...)\n"
+"@DESCRIPTION=AVEDEV returnerer gjennomsnittet av absolutt avvik fra "
+"middelverdi\n"
+"i et datasett.\n"
 "Bruk av denne funksjonen på en streng eller en tom celle gjør ingenting. \n"
-"@SEEALSO=PI,DEGREES"
+"@SEEALSO=STDEV"
 
 #: src/functions/fn-stat.c:1832
-#, fuzzy
 msgid ""
 "@FUNCTION=DEVSQ\n"
 "@SYNTAX=DEVSQ(n1, n2, ...)\n"
@@ -5737,14 +5771,15 @@ msgid ""
 "Strings and empty cells are simply ignored.\n"
 "@SEEALSO=STDEV"
 msgstr ""
-"@FUNCTION=SUMSQ\n"
-"@SYNTAX=SUMSQ(verdi1, verdi2, ...)\n"
-"@DESCRIPTION=SUMSQ returnerer summen av kvadratene til alle verdier og "
-"celler som refereres i argumentlisten. \n"
-"@SEEALSO=SUM, COUNT"
+"@FUNCTION=DEVSQ\n"
+"@SYNTAX=DEVSQ(n1, n2, ...)\n"
+"@DESCRIPTION=DEVSQ returnerer summen av kvadratene av avviket fra den "
+"oppgitte\n"
+"middelverdien i et datasett.\n"
+"Strenger og tomme celler ignoreres.\n"
+"@SEEALSO=STDEV"
 
 #: src/functions/fn-stat.c:1856
-#, fuzzy
 msgid ""
 "@FUNCTION=FISHER\n"
 "@SYNTAX=FISHER(x)\n"
@@ -5753,12 +5788,12 @@ msgid ""
 "FISHER returns #NUM! error\n"
 "@SEEALSO=SKEW"
 msgstr ""
-"@FUNCTION=SQRT\n"
-"@SYNTAKS=SQRT(x)\n"
-"@DESCRIPTION=SQRT-funksjonen returnerer kvadratroten av @x. \n"
-"Hvis @x er negativ returnerer den #NUM!. Denne funksjonen tar bare ett "
-"argument.\n"
-"@SEEALSO=POW"
+"@FUNCTION=FISHER\n"
+"@SYNTAKS=FISHER(x)\n"
+"@DESCRIPTION=FISHER-funksjonen returnerer Fisher-transformasjonen av @x.\n"
+"Hvis @x ikke er et tall returnerer FISHER en #VALUE!-feil. Hvis @x <= -1\n"
+"eller @x >= 1 returnerer FISHER en #NUM!-feil\n"
+"@SEEALSO=SKEW"
 
 #: src/functions/fn-stat.c:1885
 msgid ""
@@ -5858,7 +5893,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-stat.c:2465
-#, fuzzy
 msgid ""
 "@FUNCTION=AVERAGEA\n"
 "@SYNTAX=AVERAGEA(number1,number2,...)\n"
@@ -5869,17 +5903,16 @@ msgid ""
 "Note that empty cells are not counted.\n"
 "@SEEALSO=AVERAGE"
 msgstr ""
-"@FUNCTION=SUMA\n"
-"@SYNTAX=SUMA(verdi1, verdi2, ...)\n"
-"@DESCRIPTION=Beregner summen av alle verdier og celler som er referert i "
-"argumentlisten. Tall, tekst og logiske verdier inkluderes i beregningen "
-"også.  Hvis cellen inneholder tekst eller argumentet evalueres til USANN, "
-"telles verdien som null (0). Hvis argumentet evalueres til SANN, telles det "
-"som en (1). Merk at tomme celler ikke tas med.\n"
-"@SEEALSO=AVERAGE, SUM, COUNT"
+"@FUNCTION=AVERAGEA\n"
+"@SYNTAX=AVERAGEA(verdi1, verdi2, ...)\n"
+"@DESCRIPTION=AVERAGEA returnerer gjennomsnittet av de gitte argumentene. "
+"Tall tekst og logiske verdier tas med i beregningen også. Hvis cellen "
+"inneholder tekst eller argumentene evalueres til FALSK, regnes de som "
+"verdien null (0). Hvis argumentet evalueres til SANN regnes det som en (1). "
+"Merk at tomme celler ikke telles med.\n"
+"@SEEALSO=AVERAGE"
 
 #: src/functions/fn-stat.c:2491
-#, fuzzy
 msgid ""
 "@FUNCTION=MAXA\n"
 "@SYNTAX=MAXA(number1,number2,...)\n"
@@ -5890,17 +5923,16 @@ msgid ""
 "(1).  Note that empty cells are not counted.\n"
 "@SEEALSO=MAX,MINA"
 msgstr ""
-"@FUNCTION=SUMA\n"
-"@SYNTAX=SUMA(verdi1, verdi2, ...)\n"
-"@DESCRIPTION=Beregner summen av alle verdier og celler som er referert i "
-"argumentlisten. Tall, tekst og logiske verdier inkluderes i beregningen "
-"også.  Hvis cellen inneholder tekst eller argumentet evalueres til USANN, "
-"telles verdien som null (0). Hvis argumentet evalueres til SANN, telles det "
-"som en (1). Merk at tomme celler ikke tas med.\n"
-"@SEEALSO=AVERAGE, SUM, COUNT"
+"@FUNCTION=MAXA\n"
+"@SYNTAX=MAXA(tall1, tall2, ...)\n"
+"@DESCRIPTION=MAXA returnerer den største verdien av de gitte argumentene.  "
+"Tall, tekst og logiske verdier inkluderes i beregningen også. Hvis cellen "
+"inneholder tekst eller argumentet evalueres til USANN, telles verdien som "
+"null (0). Hvis argumentet evalueres til SANN, telles det som en (1). Merk "
+"at tomme celler ikke tas med.\n"
+"@SEEALSO=MAX,MINA"
 
 #: src/functions/fn-stat.c:2517
-#, fuzzy
 msgid ""
 "@FUNCTION=MINA\n"
 "@SYNTAX=MINA(number1,number2,...)\n"
@@ -5911,17 +5943,16 @@ msgid ""
 "(1).  Note that empty cells are not counted.\n"
 "@SEEALSO=MIN,MAXA"
 msgstr ""
-"@FUNCTION=SUMA\n"
-"@SYNTAX=SUMA(verdi1, verdi2, ...)\n"
-"@DESCRIPTION=Beregner summen av alle verdier og celler som er referert i "
-"argumentlisten. Tall, tekst og logiske verdier inkluderes i beregningen "
-"også.  Hvis cellen inneholder tekst eller argumentet evalueres til USANN, "
-"telles verdien som null (0). Hvis argumentet evalueres til SANN, telles det "
-"som en (1). Merk at tomme celler ikke tas med.\n"
-"@SEEALSO=AVERAGE, SUM, COUNT"
+"@FUNCTION=MINA\n"
+"@SYNTAX=MINA(verdi1, verdi2, ...)\n"
+"@DESCRIPTION=MINA returnerer den minste verdien av de gitte argumentene.  "
+"Tall, tekst og logiske verdier inkluderes i beregningen også. Hvis cellen "
+"inneholder tekst eller argumentet evalueres til USANN, telles verdien som "
+"null (0). Hvis argumentet evalueres til SANN, telles det som en (1). Merk "
+"at tomme celler ikke tas med.\n"
+"@SEEALSO=MIN,MAXA"
 
 #: src/functions/fn-stat.c:2543
-#, fuzzy
 msgid ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(number1,number2,...)\n"
@@ -5932,17 +5963,16 @@ msgid ""
 "empty cells are not counted.\n"
 "@SEEALSO=VAR,VARPA"
 msgstr ""
-"@FUNCTION=SUMA\n"
-"@SYNTAX=SUMA(verdi1, verdi2, ...)\n"
-"@DESCRIPTION=Beregner summen av alle verdier og celler som er referert i "
-"argumentlisten. Tall, tekst og logiske verdier inkluderes i beregningen "
-"også.  Hvis cellen inneholder tekst eller argumentet evalueres til USANN, "
-"telles verdien som null (0). Hvis argumentet evalueres til SANN, telles det "
-"som en (1). Merk at tomme celler ikke tas med.\n"
-"@SEEALSO=AVERAGE, SUM, COUNT"
+"@FUNCTION=VARA\n"
+"@SYNTAX=VARA(verdi1, verdi2, ...)\n"
+"@DESCRIPTION=VARA returnerer variansen basert på en prøve. Tall, tekst og "
+"logiske verdier inkluderes i beregningen også.  Hvis cellen inneholder tekst "
+"eller argumentet evalueres til USANN, telles verdien som null (0). Hvis "
+"argumentet evalueres til SANN, telles det som en (1). Merk at tomme celler "
+"ikke tas med.\n"
+"@SEEALSO=VAR,VARPA"
 
 #: src/functions/fn-stat.c:2569
-#, fuzzy
 msgid ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(number1,number2,...)\n"
@@ -5953,17 +5983,16 @@ msgid ""
 "(1).  Note that empty cells are not counted.\n"
 "@SEEALSO=VARP,VARP"
 msgstr ""
-"@FUNCTION=SUMA\n"
-"@SYNTAX=SUMA(verdi1, verdi2, ...)\n"
-"@DESCRIPTION=Beregner summen av alle verdier og celler som er referert i "
-"argumentlisten. Tall, tekst og logiske verdier inkluderes i beregningen "
-"også.  Hvis cellen inneholder tekst eller argumentet evalueres til USANN, "
-"telles verdien som null (0). Hvis argumentet evalueres til SANN, telles det "
-"som en (1). Merk at tomme celler ikke tas med.\n"
-"@SEEALSO=AVERAGE, SUM, COUNT"
+"@FUNCTION=VARPA\n"
+"@SYNTAX=VARPA(verdi1, verdi2, ...)\n"
+"@DESCRIPTION=VARPA returnerer variansen basert på hele populasjonen. "
+"Tall, tekst og logiske verdier inkluderes i beregningen også.  Hvis cellen "
+"inneholder tekst eller argumentet evalueres til USANN, telles verdien som "
+"null (0). Hvis argumentet evalueres til SANN, telles det som en (1). Merk "
+"at tomme celler ikke tas med.\n"
+"@SEEALSO=VARP,VARP"
 
 #: src/functions/fn-stat.c:2595
-#, fuzzy
 msgid ""
 "@FUNCTION=STDEVA\n"
 "@SYNTAX=STDEVA(number1,number2,...)\n"
@@ -5974,17 +6003,16 @@ msgid ""
 "(1).  Note that empty cells are not counted.\n"
 "@SEEALSO=STDEV,STDEVPA"
 msgstr ""
-"@FUNCTION=SUMA\n"
-"@SYNTAX=SUMA(verdi1, verdi2, ...)\n"
-"@DESCRIPTION=Beregner summen av alle verdier og celler som er referert i "
-"argumentlisten. Tall, tekst og logiske verdier inkluderes i beregningen "
-"også.  Hvis cellen inneholder tekst eller argumentet evalueres til USANN, "
-"telles verdien som null (0). Hvis argumentet evalueres til SANN, telles det "
-"som en (1). Merk at tomme celler ikke tas med.\n"
-"@SEEALSO=AVERAGE, SUM, COUNT"
+"@FUNCTION=STDEVA\n"
+"@SYNTAX=STDEVA(verdi1, verdi2, ...)\n"
+"@DESCRIPTION=STDEVA returnerer standardavviket basert på en prøve. "
+"Tall, tekst og logiske verdier inkluderes i beregningen også.  Hvis cellen "
+"inneholder tekst eller argumentet evalueres til USANN, telles verdien som "
+"null (0). Hvis argumentet evalueres til SANN, telles det som en (1). Merk "
+"at tomme celler ikke tas med.\n"
+"@SEEALSO=STDEV,STDEVPA"
 
 #: src/functions/fn-stat.c:2621
-#, fuzzy
 msgid ""
 "@FUNCTION=STDEVPA\n"
 "@SYNTAX=STDEVPA(number1,number2,...)\n"
@@ -5995,14 +6023,14 @@ msgid ""
 "it is counted as one (1).  Note that empty cells are not counted.\n"
 "@SEEALSO=STDEVA,STDEVP"
 msgstr ""
-"@FUNCTION=SUMA\n"
-"@SYNTAX=SUMA(verdi1, verdi2, ...)\n"
-"@DESCRIPTION=Beregner summen av alle verdier og celler som er referert i "
-"argumentlisten. Tall, tekst og logiske verdier inkluderes i beregningen "
-"også.  Hvis cellen inneholder tekst eller argumentet evalueres til USANN, "
-"telles verdien som null (0). Hvis argumentet evalueres til SANN, telles det "
-"som en (1). Merk at tomme celler ikke tas med.\n"
-"@SEEALSO=AVERAGE, SUM, COUNT"
+"@FUNCTION=STDEVPA\n"
+"@SYNTAX=STDEVPA(verdi1, verdi2, ...)\n"
+"@DESCRIPTION=STDEVPA returnerer standardavviket basert på hele populasjonen. "
+"Tall, tekst og logiske verdier inkluderes i beregningen også.  Hvis cellen "
+"inneholder tekst eller argumentet evalueres til USANN, telles verdien som "
+"null (0). Hvis argumentet evalueres til SANN, telles det som en (1). Merk at "
+"tomme celler ikke tas med.\n"
+"@SEEALSO=STDEVA,STDEVP"
 
 #: src/functions/fn-stat.c:2647
 msgid ""
@@ -6136,17 +6164,16 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-stat.c:3499
-#, fuzzy
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
 "@DESCRIPTION=SLOPE returns the slope of the linear regression line.\n"
 "@SEEALSO=STDEV,STDEVPA"
 msgstr ""
-"@FUNCTION=LEN\n"
-"@SYNTAX=LEN(streng)\n"
-"@DESCRIPTION=Returnerer lengden i tegn av strengen @streng.\n"
-"@SEEALSO=CHAR, CODE"
+"@FUNCTION=SLOPE\n"
+"@SYNTAX=SLOPE(kjente_y,kjente_x)\n"
+"@DESCRIPTION=SLOPE returnerer stigningen i den lineære regresjonslinjen.\n"
+"@SEEALSO=STDEV,STDEVPA"
 
 #: src/functions/fn-stat.c:3534
 msgid "Statistics"
@@ -6199,7 +6226,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=LEN\n"
 "@SYNTAX=LEN(streng)\n"
-"@DESCRIPTION=Returnerer lengden i tegn av strengen @streng.\n"
+"@DESCRIPTION=Returnerer lengden av strengen @streng i antall tegn.\n"
 "@SEEALSO=CHAR, CODE"
 
 #: src/functions/fn-string.c:106
@@ -7066,116 +7093,101 @@ msgid "time"
 msgstr "tid"
 
 #: src/print-preview.c:289
-#, fuzzy
 msgid "Page: "
-msgstr "Side"
+msgstr "Side: "
 
 #: src/print-preview.c:412
-#, fuzzy
 msgid "_First page"
-msgstr "Første sidenummer:"
+msgstr "_Første side"
 
 #: src/print-preview.c:412 src/print-preview.c:440
 msgid "Shows the first page"
-msgstr ""
+msgstr "Viser første side"
 
 #: src/print-preview.c:415
 msgid "_Previous page"
-msgstr ""
+msgstr "_Forrige side"
 
 #: src/print-preview.c:415 src/print-preview.c:443
 msgid "Shows the previous page"
-msgstr ""
+msgstr "Viser forrige side"
 
 #: src/print-preview.c:418
 msgid "_Next page"
-msgstr ""
+msgstr "_Neste side"
 
 #: src/print-preview.c:418 src/print-preview.c:446
 msgid "Shows the next page"
-msgstr ""
+msgstr "Viser neste side"
 
 #: src/print-preview.c:421
-#, fuzzy
 msgid "_Last page"
-msgstr "Lim inn type"
+msgstr "_Siste side"
 
 #: src/print-preview.c:421 src/print-preview.c:449
 msgid "Shows the last page"
-msgstr ""
+msgstr "Viser siste side"
 
 #: src/print-preview.c:426
-#, fuzzy
 msgid "Zoom _in"
-msgstr "Zoom inn"
+msgstr "Zoom _inn"
 
 #: src/print-preview.c:426
-#, fuzzy
 msgid "Zooms in"
-msgstr "Zoom inn"
+msgstr "Zoomer inn"
 
 #: src/print-preview.c:427
-#, fuzzy
 msgid "Zoom _out"
-msgstr "Zoom ut"
+msgstr "Zoom _ut"
 
 #: src/print-preview.c:427
-#, fuzzy
 msgid "Zooms out"
-msgstr "Zoom ut"
+msgstr "Zoomer ut"
 
 #: src/print-preview.c:434
-#, fuzzy
 msgid "_View"
-msgstr "_Ny"
+msgstr "_Vis"
 
 #: src/print-preview.c:440
-#, fuzzy
 msgid "First"
-msgstr "Første sidenummer:"
+msgstr "Først"
 
 #: src/print-preview.c:443
-#, fuzzy
 msgid "Back"
-msgstr "sort"
+msgstr "Tilbake"
 
 #: src/print-preview.c:446
-#, fuzzy
 msgid "Next"
-msgstr "Tekst"
+msgstr "Neste"
 
 #: src/print-preview.c:449
-#, fuzzy
 msgid "Last"
-msgstr "Lim inn"
+msgstr "Forrige"
 
 #: src/print-preview.c:453 src/workbook.c:2121
 msgid "Zoom in"
 msgstr "Zoom inn"
 
 #: src/print-preview.c:453
-#, fuzzy
 msgid "Zooms the page in"
-msgstr "Zoom inn"
+msgstr "Zoomer inn på siden"
 
 #: src/print-preview.c:454 src/workbook.c:2114
 msgid "Zoom out"
 msgstr "Zoom ut"
 
 #: src/print-preview.c:454
-#, fuzzy
 msgid "Zooms the page out"
-msgstr "Zoom ut"
+msgstr "Zoomer ut på siden"
 
 #: src/print-preview.c:466
-#, fuzzy, c-format
+#, c-format
 msgid "Preview for %s"
-msgstr "Forhåndsvisning:"
+msgstr "Forhåndsvisning for %s"
 
 #: src/print-preview.c:469
-#, fuzzy
 msgid "the workbook"
-msgstr "Lagrer arbeidsboken"
+msgstr "arbeidsboken"
 
 #: src/print-preview.c:546
 msgid ""
@@ -7186,6 +7198,12 @@ msgid ""
 "\n"
 "We apologize for the inconvenience"
 msgstr ""
+"Forhåndsvisningsfunksjonen er under utvikling.\n"
+"Resultatene av forhåndsvisningen er ikke korrekt nå,\n"
+"det kan inkludere feil ved rendering (slik som sorte\n"
+"blokker eller feil plassering av tekst).\n"
+"\n"
+"Vi beklager eventuelle problemer"
 
 #: src/sheet-object-container.c:187 src/workbook.c:904
 msgid "Select an object"
@@ -7340,9 +7358,8 @@ msgid "Gnumeric plugins"
 msgstr "Gnumeric tillegg"
 
 #: src/workbook.c:935
-#, fuzzy
 msgid "Print pre_view"
-msgstr "Forhåndsvisning"
+msgstr "Fo_rhåndsvisning"
 
 #: src/workbook.c:935
 msgid "Print preview"
@@ -7729,21 +7746,3 @@ msgstr "Gnumeric: "
 #: src/xml-io.c:2033
 msgid "Old Gnumeric XML file format"
 msgstr "Gammelt Gnumeric XML filformat"
-
-#~ msgid "pages of height"
-#~ msgstr "sider med høyde"
-
-#~ msgid "Superior:"
-#~ msgstr "Overordnet:"
-
-#~ msgid "Lower:"
-#~ msgstr "Senk:"
-
-#~ msgid "Right:"
-#~ msgstr "Høyre:"
-
-#~ msgid "Division lines"
-#~ msgstr "Delingslinjer"
-
-#~ msgid "Titles of rows and columns."
-#~ msgstr "Tittel på rader og kolonner"
