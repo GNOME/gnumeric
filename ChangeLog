@@ -1,5 +1,25 @@
 2000-03-12  JP Rosevear  <jpr@arcavia.com>
 
+	* src/dialogs/dialog-cell-sort.c : Remove old 
+	clip_range_to_finite function and replace with 
+	range_clip_to_finite.
+	(dialog_cell_sort): Reflect new function call.
+
+	* src/ranges.c (range_clip_to_finite): New function, if range
+	is infinite, cut it down to to a finite range using 
+	sheet_get_extent.
+
+	* src/ranges.h: New prototype "range_clip_to_finite".
+
+	* src/workbook-format-toolbar.c : Add sort ascend/descend buttons.
+	(sort_ascend_cmd): New toolbar callback function to sort 
+	selection in ascending order. 
+	(sort_descend_cmd): New toolbar callback function to sort
+	selection in descending order.
+	
+
+2000-03-12  JP Rosevear  <jpr@arcavia.com>
+
 	* src/Makefile.am: Reflect new location of idl.
 
 2000-03-12  Jody Goldberg <jgoldberg@home.com>
