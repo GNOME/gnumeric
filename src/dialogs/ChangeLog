@@ -1,5 +1,16 @@
 2003-07-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-stf-format-page.c (cb_col_check_clicked): reformatted
+	(check_columns_for_import): new
+	(uncheck_columns_for_import): new
+	(cb_popup_menu_uncheck_right): implemented
+	(cb_popup_menu_check_right): implemented
+	(cb_popup_menu_uncheck_left): new
+	(cb_popup_menu_check_left): new
+	(cb_col_event): eanble and add context menu items
+
+2003-07-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-stf-format-page.c (cb_col_event) : don't confuse 
 	  pagedata->format.renderdata->colcount with
 	  pagedata->format.col_import_count

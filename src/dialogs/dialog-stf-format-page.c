@@ -103,7 +103,6 @@ activate_column (StfDialogData *pagedata, int i)
 	
 }
 
-
 static void cb_col_check_clicked (GtkToggleButton *togglebutton,
                                             gpointer _i)
 {
@@ -113,36 +112,105 @@ static void cb_col_check_clicked (GtkToggleButton *togglebutton,
 	gboolean active = gtk_toggle_button_get_active (togglebutton);
 	
 	if (pagedata->format.col_import_array[i] == active)
-	     return;
+		return;
 	if (!active) {
-	     pagedata->format.col_import_array[i] = FALSE;
-	     pagedata->format.col_import_count--;
+		pagedata->format.col_import_array[i] = FALSE;
+		pagedata->format.col_import_count--;		
 	} else {
-	     if (pagedata->format.col_import_count < SHEET_MAX_COLS) {
-		  pagedata->format.col_import_array[i] = TRUE;
-		  pagedata->format.col_import_count++;
-	     } else {
-		  char *msg = g_strdup_printf 
-		       (_("A maximum of %d columns can be imported."), 
-			SHEET_MAX_COLS);
-		  gtk_toggle_button_set_active (togglebutton, FALSE);
-		  gnumeric_notice (pagedata->wbcg, GTK_MESSAGE_WARNING, msg);
-		  g_free (msg);
-	     }
+		if (pagedata->format.col_import_count < SHEET_MAX_COLS) {
+			pagedata->format.col_import_array[i] = TRUE;
+			pagedata->format.col_import_count++;
+		} else {
+			char *msg = g_strdup_printf 
+				(_("A maximum of %d columns can be imported."), 
+				 SHEET_MAX_COLS);
+			gtk_toggle_button_set_active (togglebutton, FALSE);
+			gnumeric_notice (pagedata->wbcg, GTK_MESSAGE_WARNING, msg);
+			g_free (msg);
+		}
 	}
 	return;
+}
+
+static void 
+check_columns_for_import (StfDialogData *pagedata, int from, int to)
+{
+	int i;
+
+	g_return_if_fail (pagedata != NULL);
+	g_return_if_fail (!(from < 0));
+	g_return_if_fail (to < pagedata->format.renderdata->colcount);
+
+	for (i = from; i <= to; i++) {
+		if (!pagedata->format.col_import_array[i]) {
+			GtkTreeViewColumn* column = stf_preview_get_column (pagedata->format.renderdata, i);
+			GtkWidget *w = g_object_get_data (G_OBJECT (column), "checkbox");
+			if (!(pagedata->format.col_import_count < SHEET_MAX_COLS))
+				return;
+			gtk_widget_hide (w);
+			gtk_toggle_button_set_active    (GTK_TOGGLE_BUTTON (w), TRUE);
+			/* Note this caused a signal to be send that sets the */
+			/* pagedata fields */
+			gtk_widget_show (w);
+		}
+	}
+}
+
+static void 
+uncheck_columns_for_import (StfDialogData *pagedata, int from, int to)
+{
+	int i;
+	
+	g_return_if_fail (pagedata != NULL);
+	g_return_if_fail (!(from < 0));
+	g_return_if_fail (to < pagedata->format.renderdata->colcount);
+	
+	for (i = from; i <= to; i++) {
+		if (pagedata->format.col_import_array[i]) {
+			GtkTreeViewColumn* column = stf_preview_get_column (pagedata->format.renderdata, i);
+			GtkWidget *w = g_object_get_data (G_OBJECT (column), "checkbox");
+			
+			gtk_widget_hide (w);
+			gtk_toggle_button_set_active    (GTK_TOGGLE_BUTTON (w), FALSE);
+			/* Note this caused a signal to be send that sets the */
+			/* pagedata fields */
+			gtk_widget_show (w);
+		}
+	}
 }
 
 static void
 cb_popup_menu_uncheck_right (GtkWidget *widget, gpointer data)
 {
-	g_warning("Not implemented");
+	StfDialogData *pagedata = data;
+	
+	uncheck_columns_for_import (pagedata, pagedata->format.index + 1,
+				    pagedata->format.renderdata->colcount - 1);
 }
 
 static void
 cb_popup_menu_check_right (GtkWidget *widget, gpointer data)
 {
-	g_warning("Not implemented");
+	StfDialogData *pagedata = data;
+	
+	check_columns_for_import (pagedata, pagedata->format.index + 1,
+				    pagedata->format.renderdata->colcount - 1);
+}
+
+static void
+cb_popup_menu_uncheck_left (GtkWidget *widget, gpointer data)
+{
+	StfDialogData *pagedata = data;
+	
+	uncheck_columns_for_import (pagedata, 0, pagedata->format.index - 1);
+}
+
+static void
+cb_popup_menu_check_left (GtkWidget *widget, gpointer data)
+{
+	StfDialogData *pagedata = data;
+	
+	check_columns_for_import (pagedata, 0, pagedata->format.index - 1);
 }
 
 static void
@@ -180,8 +248,10 @@ cb_col_event (GtkWidget *widget, GdkEvent *event, gpointer _col)
 		void (*function) (GtkWidget *widget, gpointer data);
 		int  flags;
 	} column_context_actions [] = {
-		{ N_("Ignore all columns on right"), &cb_popup_menu_uncheck_right, COLUMN_POPUP_ITEM_IGNORE},
-		{ N_("Import all columns on right"), &cb_popup_menu_check_right, COLUMN_POPUP_ITEM_IGNORE},
+		{ N_("Ignore all columns on right"), &cb_popup_menu_uncheck_right, COLUMN_POPUP_ITEM_NOT_LAST},
+		{ N_("Ignore all columns on left"), &cb_popup_menu_uncheck_left, COLUMN_POPUP_ITEM_NOT_FIRST},
+		{ N_("Import all columns on right"), &cb_popup_menu_check_right, COLUMN_POPUP_ITEM_NOT_LAST},
+		{ N_("Import all columns on left"), &cb_popup_menu_check_left, COLUMN_POPUP_ITEM_NOT_FIRST},
 		{ N_("Copy format to right"), &cb_popup_menu_extend_format, COLUMN_POPUP_ITEM_NOT_LAST},
 		{ NULL, NULL }
 	};
@@ -301,6 +371,7 @@ format_page_update_preview (StfDialogData *pagedata)
 		
 		gtk_tree_view_column_set_widget (column, box);
 		g_object_set_data (G_OBJECT (column), "pagedata", pagedata);
+		g_object_set_data (G_OBJECT (column), "checkbox", check);
 		g_object_set_data (G_OBJECT (column->button), 
 				   "pagedata", pagedata);
 		g_object_set (G_OBJECT (column), "clickable", TRUE, NULL);
