@@ -123,8 +123,8 @@ documentation for these:
 		- Array formulas
 
 	- Filters
-		- MS Excel (tm) Import/Export
-		- Applix 	Import
+		- MS Excel (tm) Read/Write
+		- Applix 	Read
 
 	- To edit the contents of a cell that already has a value,
 	  press F2 key.

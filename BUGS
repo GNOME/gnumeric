@@ -8,22 +8,33 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    - Panes : positioning of frozen segments when top-left != A1
-    	    : Autoscroll
-	    : Sheet objects
-	    : item-cursor handling of drag handle.  We should only move it to the top if the
+    - Sheet objects
+		: panes
+		: ctrl points
+    - Panes : item-cursor handling of drag handle.  We should only move it to the top if the
 	      bottom is not visible in any pane.
 	    : xml persistence
 
+    - Span : C3 : "spanning text"  C4 : '=A2' span not broken
+	probable cause,  we don't calculate the span of the expression,
+	hence we don't break the old span.
+
+    - content in A1 and B1, cursor on B1, double click on cursor drag box, fill column
+	: should not fill
+	: clearing 64k expressions from a column is dog slow
+
+    - 57372
+
 Pending Patches
 ---------------
+	- almer : csv import with defaults
+	        : auto paren close
 
 Long term breakage
 ------------------
 
 - Panes 
     : Make ctrl-arrow smarter in the presence of panes.
-    : item-grid paint black line at max
     : change semantics of freeze operation to clarify where to freeze
       (is edit bottom-right of freeze or top left of unfrozen)
     : GUI handling of freezing center if the current pos it at the top left.
