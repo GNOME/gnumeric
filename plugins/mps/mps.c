@@ -60,10 +60,6 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-
-/* Error margin in the equiality comparison */
-static const gchar *BINDING_LIMIT    = "0.00000001";
-
 
 /*************************************************************************
  *
