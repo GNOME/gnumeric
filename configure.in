@@ -376,7 +376,7 @@ dnl
 dnl try_pspell=true
 dnl have_pspell=false
 dnl pspell_msg=no
-dnl PSPELL_LIBS=""
+PSPELL_LIBS=""
 dnl 
 dnl AC_ARG_WITH(pspell,
 dnl 	[--{with,without}-pspell    Compile with Pspell support or without it],
@@ -405,7 +405,7 @@ dnl 			pspell_msg=yes
 dnl 		fi
 dnl 	fi
 dnl fi
-dnl AC_SUBST(PSPELL_LIBS)
+AC_SUBST(PSPELL_LIBS)
 dnl AM_CONDITIONAL(HAVE_PSPELL, $have_pspell)
 
 dnl ******************************
