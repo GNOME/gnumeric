@@ -54,7 +54,8 @@ glade_DATA = 				\
 	summary.glade			\
 	dialog-zoom.glade		\
 	insert-cells.glade		\
-	delete-cells.glade
+	delete-cells.glade		\
+	cell-format.glade
 
 glade_msgs = 				\
 	col-width.glade.h		\
@@ -66,7 +67,8 @@ glade_msgs = 				\
 	row-height.glade.h		\
 	sheet-rename.glade.h		\
 	summary.glade.h			\
-	dialog-zoom.glade.h
+	dialog-zoom.glade.h		\
+	cell-format.glade.h
 
 EXTRA_DIST = $(glade_DATA) $(glade_msgs)
 
