@@ -445,11 +445,12 @@ cellref_r1c1_get (CellRef *out, char const *in, CellPos const *pos)
  * @out: destination CellRef
  * @in: reference description text, no leading
  *      whitespace allowed.
+ * @pos:
  *
  * Converts the char * representation of a Cell reference into
  * an internal representation.
  *
- * Return value: TRUE if no format errors found.
+ * Return value: a pointer to the character following the cellref.
  **/
 char const *
 cellref_parse (CellRef *out, char const *in, CellPos const *pos)
@@ -502,10 +503,11 @@ cell_name (Cell const *cell)
  * @cell_name:   a string representation of a cell name.
  * @pos:         result
  * @strict:      if this is TRUE, then parsing stops at possible errors,
- *               otherwise an attempt is made to return cell names with trailing garbage.
+ *               otherwise an attempt is made to return cell names with
+ *               trailing garbage.
  *
  * Return value: pointer to following char on success, NULL on failure.
- * (In the strict case, that would be a pointer to the \0 or NUL.)
+ * (In the strict case, that would be a pointer to the \0 or NULL.)
  */
 char const *
 cellpos_parse (char const *cell_str, CellPos *res, gboolean strict)
