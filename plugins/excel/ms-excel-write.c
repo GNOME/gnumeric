@@ -3345,8 +3345,6 @@ write_workbook (BiffPut *bp, ExcelWorkbook *wb, MsBiffVersion ver)
 					    s->streamPos);
 	}
 	/* End Finalised workbook */
-
-	free_workbook (wb);
 }
 
 /*
@@ -3423,8 +3421,10 @@ ms_excel_check_write (CommandContext *context, void **state, Workbook *gwb,
 	ret = pre_pass (context, wb);
 
 cleanup:
-	if (ret != 0)
+	if (ret != 0) {
 		free_workbook (wb);
+		*state = NULL;
+	}
 	g_list_free (sheets);
 
 	return ret;
@@ -3450,6 +3450,7 @@ ms_excel_write_workbook (CommandContext *context, MsOle *file, void *state,
 	result = ms_ole_stream_open (&str, file, "/", strname, 'w');
 
 	if (result != MS_OLE_ERR_OK) {
+		free_workbook (wb);
 		gnumeric_error_save
 			(context, _("Can't open stream for writing\n"));
 		return -1;
@@ -3458,6 +3459,7 @@ ms_excel_write_workbook (CommandContext *context, MsOle *file, void *state,
 	bp = ms_biff_put_new (str);
 
 	write_workbook (bp, wb, ver);
+	free_workbook (wb);
 
 	/* Kludge to make sure the file is a Big Block file */
 	while (bp->pos->size < 0x1000) {
@@ -3476,4 +3478,11 @@ ms_excel_write_workbook (CommandContext *context, MsOle *file, void *state,
 #endif
 
 	return 0;
+}
+
+
+void
+ms_excel_write_free_state (void *state)
+{
+	if (state) free_workbook (state);
 }

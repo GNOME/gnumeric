@@ -102,9 +102,9 @@ excel_load (CommandContext *context, Workbook *wb, const char *filename)
 /*
  * Here's why the state which is carried from excel_check_write to
  * ms_excel_write_workbook is void *: The state is actually an
- * ExcelWorksheet * as defined in ms-excel-write.h. But we can't
+ * ExcelWorkbook * as defined in ms-excel-write.h. But we can't
  * import that definition here: There's a different definition of
- * ExcelWorksheet in ms-excel-read.h.
+ * ExcelWorkbook in ms-excel-read.h.
  */
 static int
 excel_save (CommandContext *context, Workbook *wb, const char *filename,
@@ -135,6 +135,7 @@ excel_save (CommandContext *context, Workbook *wb, const char *filename,
 		gnumeric_error_save (context, str);
 
 		ms_ole_destroy (&f);
+		ms_excel_write_free_state (state);
 		g_free (str);
 		return -1;
 	}

@@ -16,6 +16,7 @@
 #include <gnome.h>
 
 #include "gnumeric.h"
+#include "gutils.h"
 #include "func.h"
 #include "value.h"
 
@@ -62,7 +63,8 @@ struct _FormulaCacheEntry {
 void
 ms_formula_cache_init (ExcelSheet *sheet)
 {
-	sheet->formula_cache = g_hash_table_new (g_str_hash, g_str_equal);
+	sheet->formula_cache = g_hash_table_new (gnumeric_strcase_hash,
+						 gnumeric_strcase_equal);
 }
 
 static gboolean
@@ -812,6 +814,8 @@ ms_excel_write_formula (BiffPut *bp, ExcelSheet *sheet, ExprTree *expr,
 		while (pd->arrays)
 			write_arrays (pd);
 	}
+
+	g_free (pd);
 
 	return len;
 }
