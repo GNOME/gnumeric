@@ -1,5 +1,12 @@
 2003-08-04  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* src/commands.c (cmd_ins_del_colrow*): use sheet info in 
+	  me->cmd,sheet
+	(cmd_resize_colrow): ditto
+	(cmd_colrow_std_size): ditto
+
+2003-08-04  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* src/workbook-view.c (wb_view_selection_desc): don't include
 	  the number of rows (or columns) for full columns (or rows)
 

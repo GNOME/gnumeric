@@ -1110,7 +1110,6 @@ typedef struct
 {
 	GnumericCommand cmd;
 
-	Sheet		*sheet;
 	gboolean	 is_insert;
 	gboolean	 is_cols;
 	gboolean         is_cut;
@@ -1135,26 +1134,30 @@ cmd_ins_del_colrow_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	gboolean trouble;
 	Range r;
 	PasteTarget pt;
+	Sheet *sheet;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->saved_states != NULL, TRUE);
 	g_return_val_if_fail (me->contents != NULL, TRUE);
 
+	sheet = workbook_sheet_by_index (wb_control_workbook (wbc), 
+					 me->cmd.sheet);
+
 	if (!me->is_insert) {
 		index = me->index;
 		if (me->is_cols)
-			trouble = sheet_insert_cols (me->sheet, me->index, me->count,
+			trouble = sheet_insert_cols (sheet, me->index, me->count,
 						     me->saved_states, &tmp, COMMAND_CONTEXT (wbc));
 		else
-			trouble = sheet_insert_rows (me->sheet, me->index, me->count,
+			trouble = sheet_insert_rows (sheet, me->index, me->count,
 						     me->saved_states, &tmp, COMMAND_CONTEXT (wbc));
 	} else {
 		index = colrow_max (me->is_cols) - me->count;
 		if (me->is_cols)
-			trouble = sheet_delete_cols (me->sheet, me->index, me->count,
+			trouble = sheet_delete_cols (sheet, me->index, me->count,
 						     me->saved_states, &tmp, COMMAND_CONTEXT (wbc));
 		else
-			trouble = sheet_delete_rows (me->sheet, me->index, me->count,
+			trouble = sheet_delete_rows (sheet, me->index, me->count,
 						     me->saved_states, &tmp, COMMAND_CONTEXT (wbc));
 	}
 	me->saved_states = NULL;
@@ -1169,7 +1172,7 @@ cmd_ins_del_colrow_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 		range_init (&r, 0, index, SHEET_MAX_COLS-1, index+me->count-1);
 
 	clipboard_paste_region (me->contents,
-				paste_target_init (&pt, me->sheet, &r, PASTE_ALL_TYPES),
+				paste_target_init (&pt, sheet, &r, PASTE_ALL_TYPES),
 				COMMAND_CONTEXT (wbc));
 	cellregion_free (me->contents);
 	me->contents = NULL;
@@ -1198,11 +1201,14 @@ cmd_ins_del_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	Range r;
 	gboolean trouble;
 	int first, last;
+	Sheet *sheet;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->saved_states == NULL, TRUE);
 	g_return_val_if_fail (me->contents == NULL, TRUE);
 
+	sheet = workbook_sheet_by_index (wb_control_workbook (wbc), 
+					 me->cmd.sheet);
 	first = (me->is_insert)
 		? colrow_max (me->is_cols) - me->count
 		: me->index;
@@ -1214,17 +1220,17 @@ cmd_ins_del_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	/* Check for array subdivision */
 	if (!me->is_insert && sheet_range_splits_region
-	    (me->sheet, &r, NULL, COMMAND_CONTEXT (wbc),
+	    (sheet, &r, NULL, COMMAND_CONTEXT (wbc),
 	     (me->is_cols) ? _("Delete Columns") :  _("Delete Rows")))
 		return TRUE;
 
 	/* Check for locks */
 	if (!me->is_insert && cmd_cell_range_is_locked_effective
-	    (me->sheet, &r, wbc, (me->is_cols) ? _("Delete Columns") :  _("Delete Rows")))
+	    (sheet, &r, wbc, (me->is_cols) ? _("Delete Columns") :  _("Delete Rows")))
 		return TRUE;
 
-	me->saved_states = colrow_get_states (me->sheet, me->is_cols, first, last);
-	me->contents = clipboard_copy_range (me->sheet, &r);
+	me->saved_states = colrow_get_states (sheet, me->is_cols, first, last);
+	me->contents = clipboard_copy_range (sheet, &r);
 
 	if (me->is_insert) {
 		ColRowStateList *state = NULL;
@@ -1235,38 +1241,38 @@ cmd_ins_del_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 			 * default.
 			 */
 			int tmp = colrow_find_adjacent_visible (
-				me->sheet, me->is_cols, me->index - 1, FALSE);
+				sheet, me->is_cols, me->index - 1, FALSE);
 			ColRowInfo const *prev_vis = (tmp >= 0)
-				? sheet_colrow_get_info (me->sheet, tmp, me->is_cols)
-				: sheet_colrow_get_default (me->sheet, me->is_cols);
+				? sheet_colrow_get_info (sheet, tmp, me->is_cols)
+				: sheet_colrow_get_default (sheet, me->is_cols);
 
 			/* Use the outline level of the preceding col/row
 			 * (visible or not), and leave the new ones visible.
 			 */
 			ColRowInfo const *prev = sheet_colrow_get_info (
-				me->sheet, me->index-1, me->is_cols);
+				sheet, me->index-1, me->is_cols);
 
 			if (prev->outline_level > 0 || !colrow_is_default (prev_vis))
-				state = colrow_make_state (me->sheet, me->count,
+				state = colrow_make_state (sheet, me->count,
 					prev_vis->size_pts, prev_vis->hard_size,
 					prev->outline_level);
 		}
 
 		if (me->is_cols)
-			trouble = sheet_insert_cols (me->sheet, me->index, me->count, state,
+			trouble = sheet_insert_cols (sheet, me->index, me->count, state,
 						     &me->reloc_storage, COMMAND_CONTEXT (wbc));
 		else
-			trouble = sheet_insert_rows (me->sheet, me->index, me->count,
+			trouble = sheet_insert_rows (sheet, me->index, me->count,
 						     state, &me->reloc_storage, COMMAND_CONTEXT (wbc));
 
 		if (trouble)
 			colrow_state_list_destroy (state);
 	} else {
 		if (me->is_cols)
-			trouble = sheet_delete_cols (me->sheet, me->index, me->count,
+			trouble = sheet_delete_cols (sheet, me->index, me->count,
 						     NULL, &me->reloc_storage, COMMAND_CONTEXT (wbc));
 		else
-			trouble = sheet_delete_rows (me->sheet, me->index, me->count,
+			trouble = sheet_delete_rows (sheet, me->index, me->count,
 						     NULL, &me->reloc_storage, COMMAND_CONTEXT (wbc));
 	}
 
@@ -1335,7 +1341,6 @@ cmd_ins_del_colrow (WorkbookControl *wbc,
 	me = CMD_INS_DEL_COLROW (obj);
 
 	/* Store the specs for the object */
-	me->sheet = sheet;
 	me->is_cols = is_cols;
 	me->is_insert = is_insert;
 	me->index = index;
@@ -1818,7 +1823,6 @@ typedef struct
 {
 	GnumericCommand cmd;
 
-	Sheet		*sheet;
 	gboolean	 is_cols;
 	ColRowIndexList *selection;
 	ColRowStateGroup*saved_sizes;
@@ -1829,15 +1833,18 @@ GNUMERIC_MAKE_COMMAND (CmdResizeColRow, cmd_resize_colrow);
 
 static gboolean
 cmd_resize_colrow_undo (GnumericCommand *cmd,
-			G_GNUC_UNUSED WorkbookControl *wbc)
+			WorkbookControl *wbc)
 {
 	CmdResizeColRow *me = CMD_RESIZE_COLROW (cmd);
+	Sheet *sheet;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->selection != NULL, TRUE);
 	g_return_val_if_fail (me->saved_sizes != NULL, TRUE);
 
-	colrow_restore_state_group (me->sheet, me->is_cols,
+	sheet = workbook_sheet_by_index (wb_control_workbook (wbc), 
+					 me->cmd.sheet);	
+	colrow_restore_state_group (sheet, me->is_cols,
 				    me->selection, me->saved_sizes);
 	me->saved_sizes = NULL;
 
@@ -1849,12 +1856,15 @@ cmd_resize_colrow_redo (GnumericCommand *cmd,
 			G_GNUC_UNUSED WorkbookControl *wbc)
 {
 	CmdResizeColRow *me = CMD_RESIZE_COLROW (cmd);
+	Sheet *sheet;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->selection != NULL, TRUE);
 	g_return_val_if_fail (me->saved_sizes == NULL, TRUE);
 
-	me->saved_sizes = colrow_set_sizes (me->sheet, me->is_cols,
+	sheet = workbook_sheet_by_index (wb_control_workbook (wbc), 
+					 me->cmd.sheet);	
+	me->saved_sizes = colrow_set_sizes (sheet, me->is_cols,
 					    me->selection, me->new_size);
 	if (me->cmd.size == 1)
 		me->cmd.size += (g_slist_length (me->saved_sizes) +
@@ -1893,7 +1903,6 @@ cmd_resize_colrow (WorkbookControl *wbc, Sheet *sheet,
 	me = CMD_RESIZE_COLROW (obj);
 
 	/* Store the specs for the object */
-	me->sheet = sheet;
 	me->is_cols = is_cols;
 	me->selection = selection;
 	me->saved_sizes = NULL;
@@ -3196,7 +3205,6 @@ cmd_selection_autoformat (WorkbookControl *wbc, FormatTemplate *ft)
 typedef struct {
 	GnumericCommand cmd;
 
-	Sheet	*sheet;
 	GArray	*unmerged_regions;
 	GArray	*ranges;
 } CmdUnmergeCells;
@@ -3849,7 +3857,6 @@ typedef struct
 {
 	GnumericCommand cmd;
 
-	Sheet		*sheet;
 	gboolean	 is_cols;
 	double		 new_default;
 	double           old_default;
@@ -3862,14 +3869,17 @@ cmd_colrow_std_size_undo (GnumericCommand *cmd,
 			  G_GNUC_UNUSED WorkbookControl *wbc)
 {
 	CmdColRowStdSize *me = CMD_COLROW_STD_SIZE (cmd);
+	Sheet *sheet;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->old_default != 0, TRUE);
 
+	sheet = workbook_sheet_by_index (wb_control_workbook (wbc), 
+					 me->cmd.sheet);	
 	if (me->is_cols)
-		sheet_col_set_default_size_pts (me->sheet, me->old_default);
+		sheet_col_set_default_size_pts (sheet, me->old_default);
 	else
-		sheet_row_set_default_size_pts (me->sheet, me->old_default);
+		sheet_row_set_default_size_pts (sheet, me->old_default);
 
 	me->old_default = 0;
 
@@ -3881,16 +3891,19 @@ cmd_colrow_std_size_redo (GnumericCommand *cmd,
 			  G_GNUC_UNUSED WorkbookControl *wbc)
 {
 	CmdColRowStdSize *me = CMD_COLROW_STD_SIZE (cmd);
+	Sheet *sheet;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->old_default == 0, TRUE);
 
+	sheet = workbook_sheet_by_index (wb_control_workbook (wbc), 
+					 me->cmd.sheet);	
 	if (me->is_cols) {
-		me->old_default = sheet_col_get_default_size_pts (me->sheet);
-		sheet_col_set_default_size_pts (me->sheet, me->new_default);
+		me->old_default = sheet_col_get_default_size_pts (sheet);
+		sheet_col_set_default_size_pts (sheet, me->new_default);
 	} else {
-		me->old_default = sheet_row_get_default_size_pts (me->sheet);
-		sheet_row_set_default_size_pts (me->sheet, me->new_default);
+		me->old_default = sheet_row_get_default_size_pts (sheet);
+		sheet_row_set_default_size_pts (sheet, me->new_default);
 	}
 
 	return FALSE;
@@ -3914,7 +3927,6 @@ cmd_colrow_std_size (WorkbookControl *wbc, Sheet *sheet,
 	me = CMD_COLROW_STD_SIZE (obj);
 
 	/* Store the specs for the object */
-	me->sheet = sheet;
 	me->is_cols = is_cols;
 	me->new_default = new_default;
 	me->old_default = 0;
@@ -3958,7 +3970,8 @@ cmd_zoom_undo (GnumericCommand *cmd,
 	g_return_val_if_fail (me->old_factors != NULL, TRUE);
 
 	for (i = 0, l = me->sheets; l != NULL; l = l->next, i++) {
-		Sheet *sheet = l->data;
+		Sheet *sheet = workbook_sheet_by_index 
+			(wb_control_workbook (wbc), GPOINTER_TO_INT (l->data));
 
 		sheet_set_zoom_factor (sheet, me->old_factors[i], FALSE, TRUE);
 	}
@@ -3977,7 +3990,8 @@ cmd_zoom_redo (GnumericCommand *cmd,
 	g_return_val_if_fail (me->sheets != NULL, TRUE);
 
 	for (l = me->sheets; l != NULL; l = l->next) {
-		Sheet *sheet = l->data;
+		Sheet *sheet = workbook_sheet_by_index 
+			(wb_control_workbook (wbc), GPOINTER_TO_INT (l->data));
 
 		sheet_set_zoom_factor (sheet, me->new_factor, FALSE, TRUE);
 	}
@@ -4015,13 +4029,12 @@ cmd_zoom (WorkbookControl *wbc, GSList *sheets, double factor)
 	me = CMD_ZOOM (obj);
 
 	/* Store the specs for the object */
-	me->sheets = sheets;
 	me->old_factors = g_new0 (double, g_slist_length (sheets));
 	me->new_factor  = factor;
 
 	/* Make a list of all sheets to zoom and save zoom factor for each */
 	namelist = g_string_new (NULL);
-	for (i = 0, l = me->sheets; l != NULL; l = l->next, i++) {
+	for (i = 0, l = sheets; l != NULL; l = l->next, i++) {
 		Sheet *sheet = l->data;
 
 		g_string_append (namelist, sheet->name_unquoted);
@@ -4030,6 +4043,12 @@ cmd_zoom (WorkbookControl *wbc, GSList *sheets, double factor)
 		if (l->next)
 			g_string_append (namelist, ", ");
 	}
+
+	for (l = sheets; l != NULL; l = l->next) {
+		Sheet *sheet = l->data;
+		l->data = GINT_TO_POINTER (sheet->index_in_wb);
+	}
+	me->sheets = sheets;
 
 	/* Make sure the string doesn't get overly wide */
 	max_width = max_descriptor_width ();
