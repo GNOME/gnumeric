@@ -8,6 +8,8 @@ Gnumeric Spread Sheet task list
    workbooks and active servers, instead of the current approach we
    use to have this management in the workbook.c file
 
+   JEG : Maybe move this to application.[ch] ??
+
    The bold and italic buttons need to be updated after a load to
    reflect the cell with the cursor.
 
@@ -149,11 +151,6 @@ Gnumeric Spread Sheet task list
 
    Object properties.
 
-** Cut, Copy, Paste
-
-    - References to cut cells (even references within the cells
-      need to be relocated to point to the paste location.
-
 ** Paste special 
 
   needs some little changes:
@@ -173,10 +170,6 @@ Gnumeric Spread Sheet task list
 
   Protection:
     Bloqued/Hidden
-
-** Keyboard shortcuts
-    * When pasting a cut expression the references should be treated as
-      absolute.
 
 * File Load/Save
 
@@ -206,11 +199,6 @@ Gnumeric Spread Sheet task list
 * Sheets
 
 When adding a sheet or renaming a sheet, should we reparse everything?
-
-* Clipboard
-
-Perhaps make a global clipboard and remove all the hacks in the
-current clipboard code to find the clipboard.
 
 * Sheet Objects
 
@@ -249,3 +237,8 @@ Office 2000 and 'explorer' compatibility.
     * have a 'user-set' feature for 'merge cells'
     * Store merges as ( ranges a la. styles ) or GPtrArray's
       linked from the leftmost existing cell.
+
+* Calculation
+  * Rework dependencies to only supply one level of indirection.
+  * Think about allowing a formula to specify that it does not depend on the
+    contents of a reference, only the adress (ie the AREAS function)
