@@ -1,6 +1,9 @@
 #ifndef GNUMERIC_FILE_PRIV_H
 #define GNUMERIC_FILE_PRIV_H
 
+#ifdef WITH_BONOBO
+#include <bonobo/bonobo-storage.h>
+#endif
 /*
  * GnumFileOpener
  */
