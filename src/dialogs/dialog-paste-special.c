@@ -22,7 +22,7 @@
 static struct {
 	char *name;
 	int  disables_second_group;
-} paste_types [] = {
+} paste_types[] = {
 	{ N_("All"),      0 },
 	{ N_("Content"),  0 },
 	{ N_("As Value"), 0 },
@@ -30,7 +30,7 @@ static struct {
 	{ NULL, 0 }
 };
 
-static char *paste_ops [] = {
+static char *paste_ops[] = {
 	N_("None"),
 	N_("Add "),
 	N_("Subtract"),
@@ -119,16 +119,16 @@ dialog_paste_special (WorkbookControlGUI *wbcg)
 	gtk_container_add (GTK_CONTAINER (f2), f2v);
 
 	state->group_type = NULL;
-	for (i = 0; paste_types [i].name; i++){
+	for (i = 0; paste_types[i].name; i++){
 		GtkSignalFunc func;
 		GtkWidget *r;
 
-		if (paste_types [i].disables_second_group)
+		if (paste_types[i].disables_second_group)
 			func = GTK_SIGNAL_FUNC (disable_op_group);
 		else
 			func = GTK_SIGNAL_FUNC (enable_op_group);
 
-		r = gtk_radio_button_new_with_label (state->group_type, _(paste_types [i].name));
+		r = gtk_radio_button_new_with_label (state->group_type, _(paste_types[i].name));
 		state->group_type = GTK_RADIO_BUTTON (r)->group;
 
 		gtk_signal_connect (GTK_OBJECT (r), "toggled", func, f2);
@@ -141,10 +141,10 @@ dialog_paste_special (WorkbookControlGUI *wbcg)
 	}
 
 	state->group_ops = NULL;
-	for (i = 0; paste_ops [i]; i++){
+	for (i = 0; paste_ops[i]; i++){
 		GtkWidget *r;
 
-		r = gtk_radio_button_new_with_label (state->group_ops, _(paste_ops [i]));
+		r = gtk_radio_button_new_with_label (state->group_ops, _(paste_ops[i]));
 		gtk_signal_connect (GTK_OBJECT (r), "toggled",
 				    GTK_SIGNAL_FUNC (paste_link_set_sensitive),
 				    state);

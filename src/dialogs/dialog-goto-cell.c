@@ -43,10 +43,10 @@ dialog_goto_cell (WorkbookControlGUI *wbcg)
 
 	if (!dialog){
 		GtkWidget *box;
-		gchar *titles [2];
+		gchar *titles[2];
 
-		titles [0] = _("Cell");
-		titles [1] = NULL;
+		titles[0] = _("Cell");
+		titles[1] = NULL;
 
 		dialog = gnome_dialog_new (_("Go to..."),
 					   GNOME_STOCK_BUTTON_OK,
@@ -55,7 +55,7 @@ dialog_goto_cell (WorkbookControlGUI *wbcg)
 					   /* GNOME_STOCK_BUTTON_HELP, */
 					   NULL);
 		gnome_dialog_close_hides (GNOME_DIALOG (dialog), TRUE);
-		gnome_dialog_set_default(GNOME_DIALOG(dialog), GNOME_OK);
+		gnome_dialog_set_default (GNOME_DIALOG (dialog), GNOME_OK);
 
 		swin = gtk_scrolled_window_new (NULL, NULL);
 		clist = gtk_clist_new_with_titles (1, titles);
@@ -109,8 +109,8 @@ dialog_goto_cell (WorkbookControlGUI *wbcg)
 				}
 
 				if (!existed) {
-					gchar *texts [1];
-					texts [0] = text;
+					gchar *texts[1];
+					texts[0] = text;
 					gtk_clist_prepend (GTK_CLIST (clist), texts);
 				}
 			}

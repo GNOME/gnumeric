@@ -78,7 +78,7 @@ dialog_get_number (WorkbookControlGUI *wbcg,
 
 	entry = glade_xml_get_widget (gui, "entry1");
 	if (*init_and_return != 0.0){
-		char buffer [80];
+		char buffer[80];
 
 		sprintf (buffer, "%g", *init_and_return);
 
@@ -126,7 +126,7 @@ dialog_get_sheet_name (WorkbookControlGUI *wbcg, const char *current)
 
 	entry = glade_xml_get_widget (gui, "entry");
 	gtk_entry_set_text (GTK_ENTRY (entry), current);
-	gtk_editable_select_region(GTK_EDITABLE (entry), 0, -1);
+	gtk_editable_select_region (GTK_EDITABLE (entry), 0, -1);
 
 	gnome_dialog_editable_enters (dialog, GTK_EDITABLE (entry));
 

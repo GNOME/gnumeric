@@ -1,5 +1,5 @@
 /*
- * dialog-stf.c : Controls the widgets on the format page of the dialog
+ * dialog-stf-format-page.c : Controls the widgets on the format page of the dialog
  *
  * Copyright (C) Almer S. Tigelaar <almer@gnome.org>
  *

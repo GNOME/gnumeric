@@ -1,6 +1,6 @@
 /*
- * dialog-stf-sheet-page.c : controls the widgets on the sheet page
- *                            of the export druid
+ * dialog-stf-export-sheet-page.c : controls the widgets on the sheet page
+ *                                  of the export druid
  *
  * Almer. S. Tigelaar <almer1@dds.nl>
  *

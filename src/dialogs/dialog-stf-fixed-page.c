@@ -1,5 +1,5 @@
 /*
- * dialog-stf.c : Controls the widgets on the fixed page of the dialog (fixed-width page that is)
+ * dialog-stf-fixed-page.c : Controls the widgets on the fixed page of the dialog (fixed-width page that is)
  *
  * Copyright (C) Almer S. Tigelaar <almer@gnome.org>
  *
@@ -357,7 +357,7 @@ fixed_page_collist_select_row (GtkCList *clist, int row, int column, GdkEventBut
 	info->fixed_run_index = row;
 
 	gtk_clist_get_text (clist, row, 1, t);
-	gtk_spin_button_set_value (info->fixed_colend, atoi(t[0]));
+	gtk_spin_button_set_value (info->fixed_colend, atoi (t[0]));
 
 	gtk_widget_set_sensitive (GTK_WIDGET (info->fixed_colend), !(row == clist->rows - 1));
 }

@@ -200,15 +200,15 @@ attr_dialog_impl (AttrState *state)
 			    state);
 
 	/* Handle destroy */
-	gtk_signal_connect(GTK_OBJECT(dialog), "destroy",
-			   GTK_SIGNAL_FUNC(cb_attr_dialog_dialog_destroy),
-			   state);
+	gtk_signal_connect (GTK_OBJECT (dialog), "destroy",
+			    GTK_SIGNAL_FUNC (cb_attr_dialog_dialog_destroy),
+			    state);
 
 	/* Ok, edit events from now on are real */
 	state->enable_edit = TRUE;
 
 	/* Make it modal */
-	gtk_window_set_modal (GTK_WINDOW(dialog), TRUE);
+	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 
 	/* Bring up the dialog */
 	gnumeric_dialog_show (state->wbcg, GNOME_DIALOG (dialog), FALSE, TRUE);

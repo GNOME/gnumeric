@@ -39,10 +39,10 @@ typedef struct {
 static void
 add_to_sheet_clist (Sheet *sheet, GtkWidget *clist)
 {
-	gchar *data [1];
+	gchar *data[1];
 	gint   row;
 
-	data [0] = sheet->name_unquoted;
+	data[0] = sheet->name_unquoted;
 	row = gtk_clist_append (GTK_CLIST (clist), data);
 	gtk_clist_set_row_data (GTK_CLIST (clist), row, sheet);
 }

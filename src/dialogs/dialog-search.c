@@ -186,7 +186,7 @@ value_is_empty (ETableModel *etc, int col, const void *value, void *data)
 static char *
 value_to_string (ETableModel *etc, int col, const void *value, void *data)
 {
-	return g_strdup(value);
+	return g_strdup (value);
 }
 
 /* ------------------------------------------------------------------------- */

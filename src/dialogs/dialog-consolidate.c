@@ -381,7 +381,7 @@ setup_widgets (ConsolidateState *state, GladeXML *glade_gui)
 	gnumeric_expr_entry_set_scg (state->gui.source, wb_control_gui_cur_sheet (state->wbcg));
 
 	gnumeric_editable_enters (GTK_WINDOW (state->gui.dialog),
-				  GTK_EDITABLE(state->gui.destination));
+				  GTK_EDITABLE (state->gui.destination));
  	gnumeric_editable_enters (GTK_WINDOW (state->gui.dialog),
 				  GTK_EDITABLE (state->gui.source));
 

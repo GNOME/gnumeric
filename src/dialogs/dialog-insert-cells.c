@@ -42,7 +42,7 @@ dialog_insert_cells_impl (WorkbookControlGUI *wbcg, GladeXML *gui,
 	res = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
 	if (res == GNOME_OK) {
 		i = gtk_radio_group_get_selected
-			(GTK_RADIO_BUTTON(radio_0)->group);
+			(GTK_RADIO_BUTTON (radio_0)->group);
 
 		cols = sel->end.col - sel->start.col + 1;
 		rows = sel->end.row - sel->start.row + 1;

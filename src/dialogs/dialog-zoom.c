@@ -138,18 +138,18 @@ dialog_zoom_impl (WorkbookControlGUI *wbcg, Sheet *cur_sheet, GladeXML  *gui)
 	}
 
 	/* Hitting enter in the spin box should Press 'Ok' */
-	gnome_dialog_editable_enters (GNOME_DIALOG(dialog),
-				      GTK_EDITABLE(zoom));
+	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
+				      GTK_EDITABLE (zoom));
 
 	gtk_widget_grab_focus (focus_target);
 	/* Bring up the dialog */
 	res = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
 	if (res == 0) {
-		float const new_zoom = gtk_spin_button_get_value_as_int(zoom) / 100.;
+		float const new_zoom = gtk_spin_button_get_value_as_int (zoom) / 100.;
 		GSList *sheets = NULL;
 		
 		for (l = list->selection; l != NULL ; l = l->next) {
-			Sheet * s = gtk_clist_get_row_data (list, GPOINTER_TO_INT(l->data));
+			Sheet * s = gtk_clist_get_row_data (list, GPOINTER_TO_INT (l->data));
 			
 			sheets = g_slist_prepend (sheets, s);
 		}

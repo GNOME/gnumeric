@@ -70,7 +70,7 @@ dialog_about (WorkbookControlGUI *wbcg)
  	    int i;
 
 	    for (i = 0; authors[i] != NULL; i++){
-		    authors [i] = _(authors [i]);
+		    authors[i] = _(authors[i]);
 	    }
 	}
 #endif

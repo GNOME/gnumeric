@@ -24,7 +24,7 @@ gnumeric_dialog_entry_new (GnomeDialog *dialog)
 
 	entry = gtk_entry_new ();
 	if (dialog)
-		gnome_dialog_editable_enters(dialog, GTK_EDITABLE (entry));
+		gnome_dialog_editable_enters (dialog, GTK_EDITABLE (entry));
 	return entry;
 }
 
@@ -44,13 +44,13 @@ gnumeric_dialog_entry_new_with_max_length (GnomeDialog *dialog, guint16 max)
 
 	entry = gtk_entry_new_with_max_length (max);
 	if (dialog)
-		gnome_dialog_editable_enters(dialog, GTK_EDITABLE (entry));
+		gnome_dialog_editable_enters (dialog, GTK_EDITABLE (entry));
 	return entry;
 }
 
 GtkWidget *
-hbox_pack_label_and_entry(GtkWidget *dialog, GtkWidget *vbox, char *str,
-			  char *default_str, int entry_len)
+hbox_pack_label_and_entry (GtkWidget *dialog, GtkWidget *vbox, char *str,
+			   char *default_str, int entry_len)
 {
         GtkWidget *box, *label, *entry;
 

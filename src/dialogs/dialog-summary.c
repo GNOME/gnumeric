@@ -24,7 +24,7 @@ summary_get (GladeXML *gui, SummaryInfo *sin)
 
 	for (lp = 0; lp < SUMMARY_I_MAX; lp++) {
 		SummaryItem *sit;
-		gchar *name = g_strconcat("glade_", summary_item_name[lp], NULL);
+		gchar *name = g_strconcat ("glade_", summary_item_name[lp], NULL);
 		GtkWidget *w = glade_xml_get_widget (gui, name);
 
 		if (!w)
@@ -66,7 +66,7 @@ summary_put (GladeXML *gui, SummaryInfo *sin)
 			if (w) {
 				gchar *txt = sit->v.txt;
 
-				if (g_strcasecmp (sit->name, summary_item_name [SUMMARY_I_COMMENTS]) == 0) {
+				if (g_strcasecmp (sit->name, summary_item_name[SUMMARY_I_COMMENTS]) == 0) {
 					gint p = 0;
 					gtk_editable_insert_text (GTK_EDITABLE (w), txt, strlen (txt), &p);
 				} else
@@ -106,11 +106,11 @@ dialog_summary_update (WorkbookControlGUI *wbcg, SummaryInfo *sin)
 		return;
 	}
 
-	for (i = 0; i < (int) (sizeof(names)/sizeof(char *)); i++) {
+	for (i = 0; i < (int) (sizeof (names)/sizeof (char *)); i++) {
 		GtkWidget *entry;
 		entry = glade_xml_get_widget (gui, names[i]);
-		gnome_dialog_editable_enters(GNOME_DIALOG(dia),
-					     GTK_EDITABLE(entry));
+		gnome_dialog_editable_enters (GNOME_DIALOG (dia),
+					      GTK_EDITABLE (entry));
 	}
 	comments = glade_xml_get_widget (gui, "glade_comments");
 	gtk_text_set_word_wrap (GTK_TEXT (comments), TRUE);

@@ -358,10 +358,10 @@ move_line (GnomeCanvasItem *item,
 	GnomeCanvasPoints *points;
 
 	points = gnome_canvas_points_new (2);
-	points->coords [0] = x1;
-	points->coords [1] = y1;
-	points->coords [2] = x2;
-	points->coords [3] = y2;
+	points->coords[0] = x1;
+	points->coords[1] = y1;
+	points->coords[2] = x2;
+	points->coords[3] = y2;
 
 	gnome_canvas_item_set (item,
 			       "points", points,
@@ -376,10 +376,10 @@ make_line (GnomeCanvasGroup *g, double x1, double y1, double x2, double y2)
 	GnomeCanvasItem *item;
 
 	points = gnome_canvas_points_new (2);
-	points->coords [0] = x1;
-	points->coords [1] = y1;
-	points->coords [2] = x2;
-	points->coords [3] = y2;
+	points->coords[0] = x1;
+	points->coords[1] = y1;
+	points->coords[2] = x2;
+	points->coords[3] = y2;
 
 	item = gnome_canvas_item_new (
 		GNOME_CANVAS_GROUP (g), gnome_canvas_line_get_type (),
@@ -865,7 +865,7 @@ display_hf_preview (PrinterSetupState *state, gboolean header)
 	HFRenderInfo *hfi;
 	HFPreviewInfo *pi;
 
-	g_return_if_fail(state != NULL);
+	g_return_if_fail (state != NULL);
 
 	hfi = hf_render_info_new ();
 
@@ -882,16 +882,16 @@ display_hf_preview (PrinterSetupState *state, gboolean header)
 	}
 
 	text = hf_format_render (sample->left_format, hfi, HF_RENDER_PRINT);
-	gnome_canvas_item_set(pi->left, "text", (const gchar *) text, NULL);
-	g_free(text);
+	gnome_canvas_item_set (pi->left, "text", (const gchar *) text, NULL);
+	g_free (text);
 
 	text = hf_format_render (sample->middle_format, hfi, HF_RENDER_PRINT);
-	gnome_canvas_item_set(pi->middle, "text", text, NULL);
-	g_free(text);
+	gnome_canvas_item_set (pi->middle, "text", text, NULL);
+	g_free (text);
 
 	text  = hf_format_render (sample->right_format, hfi, HF_RENDER_PRINT);
-	gnome_canvas_item_set(pi->right, "text", text, NULL);
-	g_free(text);
+	gnome_canvas_item_set (pi->right, "text", text, NULL);
+	g_free (text);
 
 	hf_render_info_destroy (hfi);
 }
@@ -982,9 +982,9 @@ fill_hf (PrinterSetupState *state, GtkOptionMenu *om, GtkSignalFunc callback, gb
 
 	/* Add menu option to customize the header/footer. */
 	if (header) 
-		res = g_strdup_printf(_("Customize header"));
+		res = g_strdup_printf (_("Customize header"));
 	else
-		res = g_strdup_printf(_("Customize footer"));
+		res = g_strdup_printf (_("Customize footer"));
 	li = gtk_menu_item_new_with_label (res);
 	gtk_widget_show (li);
 	gtk_container_add (GTK_CONTAINER (menu), li);
@@ -1003,7 +1003,7 @@ do_setup_hf_menus (PrinterSetupState *state)
 	GtkOptionMenu *header;
 	GtkOptionMenu *footer;
 
-	g_return_if_fail(state != NULL);
+	g_return_if_fail (state != NULL);
 
 	header = GTK_OPTION_MENU (glade_xml_get_widget (state->gui, "option-menu-header"));
 	footer = GTK_OPTION_MENU (glade_xml_get_widget (state->gui, "option-menu-footer"));
@@ -1029,7 +1029,7 @@ hf_customize_apply (GnomePropertyBox *dialog, gint page_num, PrinterSetupState *
 	PrintHF **config = NULL;
 	gboolean header;
 
-	g_return_if_fail(state != NULL);
+	g_return_if_fail (state != NULL);
 
 	gui = glade_get_widget_tree (GTK_WIDGET (dialog));
 
@@ -1158,7 +1158,7 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 			GTK_OBJECT (dialog));
 
 	/* Let them begin typing into the first entry widget. */
-	gtk_widget_grab_focus (GTK_WIDGET(left));
+	gtk_widget_grab_focus (GTK_WIDGET (left));
 
 	gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (state->dialog));
 
@@ -1171,7 +1171,7 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
  * They can also do this from the option menu.
  */
 static gboolean
-header_preview_event(GnomeCanvas *canvas, GdkEvent *event, PrinterSetupState *state)
+header_preview_event (GnomeCanvas *canvas, GdkEvent *event, PrinterSetupState *state)
 {
 	if (event == NULL ||
 	    event->button.button != 1 ||
@@ -1182,7 +1182,7 @@ header_preview_event(GnomeCanvas *canvas, GdkEvent *event, PrinterSetupState *st
 }
 
 static gboolean
-footer_preview_event(GnomeCanvas *canvas, GdkEvent *event, PrinterSetupState *state)
+footer_preview_event (GnomeCanvas *canvas, GdkEvent *event, PrinterSetupState *state)
 {
 	if (event == NULL ||
 	    event->button.button != 1 ||
@@ -1197,7 +1197,7 @@ footer_preview_event(GnomeCanvas *canvas, GdkEvent *event, PrinterSetupState *st
  *
  */
 static void
-create_hf_preview_canvas(PrinterSetupState *state, gboolean header)
+create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 {
 	GtkWidget *wid;
 	HFPreviewInfo *pi;
@@ -1209,20 +1209,20 @@ create_hf_preview_canvas(PrinterSetupState *state, gboolean header)
 	gdouble margin = HF_PREVIEW_MARGIN;
 	gdouble bottom_margin = height - margin;
 
-	pi = g_new(HFPreviewInfo, 1);
+	pi = g_new (HFPreviewInfo, 1);
 
 	if (header)
 		state->pi_header = pi;
 	else
 		state->pi_footer = pi;
 
-	pi->canvas = gnome_canvas_new();
+	pi->canvas = gnome_canvas_new ();
 
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (pi->canvas), 0.0, 0.0, width, width);
 
         gnome_canvas_item_new (
 		gnome_canvas_root (GNOME_CANVAS (pi->canvas)),
-		gnome_canvas_rect_get_type(),
+		gnome_canvas_rect_get_type (),
 		"x1",		shadow,
 		"y1",		(header ? shadow : 0),
 		"x2",		width + shadow,
@@ -1232,7 +1232,7 @@ create_hf_preview_canvas(PrinterSetupState *state, gboolean header)
 
         gnome_canvas_item_new (
 		gnome_canvas_root (GNOME_CANVAS (pi->canvas)),
-		gnome_canvas_rect_get_type(),
+		gnome_canvas_rect_get_type (),
 		"x1",		0.0,
 		"y1",		0.0,
 		"x2",		width,
@@ -1241,10 +1241,10 @@ create_hf_preview_canvas(PrinterSetupState *state, gboolean header)
 		NULL);
 
 	/* Use the Gnumeric default font. */
-	style_font = style_font_new(DEFAULT_FONT, 14, 1, FALSE, FALSE);
+	style_font = style_font_new (DEFAULT_FONT, 14, 1, FALSE, FALSE);
 	pi->left = gnome_canvas_item_new (
 		gnome_canvas_root (GNOME_CANVAS (pi->canvas)),
-		gnome_canvas_text_get_type(),
+		gnome_canvas_text_get_type (),
 		"x",		padding,
 		"y",		header ? margin : bottom_margin,
 		"anchor",	GTK_ANCHOR_WEST,
@@ -1255,7 +1255,7 @@ create_hf_preview_canvas(PrinterSetupState *state, gboolean header)
 
 	pi->middle = gnome_canvas_item_new (
 		gnome_canvas_root (GNOME_CANVAS (pi->canvas)),
-		gnome_canvas_text_get_type(),
+		gnome_canvas_text_get_type (),
 		"x",		width / 2,
 		"y",		header ? margin : bottom_margin,
 		"anchor",	GTK_ANCHOR_CENTER,
@@ -1266,7 +1266,7 @@ create_hf_preview_canvas(PrinterSetupState *state, gboolean header)
 
 	pi->right = gnome_canvas_item_new (
 		gnome_canvas_root (GNOME_CANVAS (pi->canvas)),
-		gnome_canvas_text_get_type(),
+		gnome_canvas_text_get_type (),
 		"x",		width - padding,
 		"y",		header ? margin : bottom_margin,
 		"anchor",	GTK_ANCHOR_EAST,
@@ -1276,16 +1276,16 @@ create_hf_preview_canvas(PrinterSetupState *state, gboolean header)
 		NULL);
 
 
-	gtk_widget_show_all(pi->canvas);
+	gtk_widget_show_all (pi->canvas);
 
 	if (header) {
 		gtk_signal_connect (GTK_OBJECT (pi->canvas), "event",
 			GTK_SIGNAL_FUNC (header_preview_event), state);
-		wid = glade_xml_get_widget(state->gui, "container-header-sample");
+		wid = glade_xml_get_widget (state->gui, "container-header-sample");
 	} else {
 		gtk_signal_connect (GTK_OBJECT (pi->canvas), "event",
 			GTK_SIGNAL_FUNC (footer_preview_event), state);
-		wid = glade_xml_get_widget(state->gui, "container-footer-sample");
+		wid = glade_xml_get_widget (state->gui, "container-footer-sample");
 	}
 	gtk_box_pack_start (GTK_BOX (wid), GTK_WIDGET (pi->canvas), TRUE, TRUE, 0);
 }
@@ -1299,7 +1299,7 @@ create_hf_preview_canvas(PrinterSetupState *state, gboolean header)
 static void
 do_setup_hf (PrinterSetupState *state)
 {
-	g_return_if_fail(state != NULL);
+	g_return_if_fail (state != NULL);
 
 	state->header = print_hf_copy (state->pi->header ? state->pi->header :
 				     hf_formats->data);
@@ -1308,8 +1308,8 @@ do_setup_hf (PrinterSetupState *state)
 
 	do_setup_hf_menus (state);
 
-	create_hf_preview_canvas(state, TRUE);
-	create_hf_preview_canvas(state, FALSE);
+	create_hf_preview_canvas (state, TRUE);
+	create_hf_preview_canvas (state, FALSE);
 
 	display_hf_preview (state, TRUE);
 	display_hf_preview (state, FALSE);
@@ -1698,8 +1698,8 @@ printer_setup_state_free (PrinterSetupState *state)
 
 	print_hf_free (state->header);
 	print_hf_free (state->footer);
-	g_free(state->pi_header);
-	g_free(state->pi_footer);
+	g_free (state->pi_header);
+	g_free (state->pi_footer);
 	g_list_free (state->conversion_listeners);
 	state->conversion_listeners = NULL;
 	g_free (state);

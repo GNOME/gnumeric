@@ -46,7 +46,7 @@ gint       fl_row, in_row;
 
 /* Add the name of the days on your language if they are always capitalized.
  */
-static char *autocorrect_day [] = {
+static char *autocorrect_day[] = {
         /* English */
         "monday", "tuesday", "wednesday", "thursday",
 	"friday", "saturday", "sunday", NULL

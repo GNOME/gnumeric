@@ -27,7 +27,7 @@
 static gboolean unique_only_flag;
 
 static void
-unique_only_toggled(GtkWidget *widget, gpointer ignored)
+unique_only_toggled (GtkWidget *widget, gpointer ignored)
 {
         unique_only_flag = GTK_TOGGLE_BUTTON (widget)->active;
 }
@@ -112,7 +112,7 @@ typedef struct {
 } filter_t;
 
 static void
-in_place_toggled(GtkWidget *widget, filter_t *filter)
+in_place_toggled (GtkWidget *widget, filter_t *filter)
 {
         if (GTK_TOGGLE_BUTTON (widget)->active) {
 	        filter->type = InPlace;
@@ -121,7 +121,7 @@ in_place_toggled(GtkWidget *widget, filter_t *filter)
 }
 
 static void
-copy_to_toggled(GtkWidget *widget, filter_t *filter)
+copy_to_toggled (GtkWidget *widget, filter_t *filter)
 {
         if (GTK_TOGGLE_BUTTON (widget)->active) {
 	        filter->type = CopyTo;
@@ -130,7 +130,7 @@ copy_to_toggled(GtkWidget *widget, filter_t *filter)
 }
 
 static void
-new_sheet_toggled(GtkWidget *widget, filter_t *filter)
+new_sheet_toggled (GtkWidget *widget, filter_t *filter)
 {
         if (GTK_TOGGLE_BUTTON (widget)->active) {
 	        filter->type = NewSheet;
@@ -139,7 +139,7 @@ new_sheet_toggled(GtkWidget *widget, filter_t *filter)
 }
 
 static void
-new_workbook_toggled(GtkWidget *widget, filter_t *filter)
+new_workbook_toggled (GtkWidget *widget, filter_t *filter)
 {
         if (GTK_TOGGLE_BUTTON (widget)->active) {
 	        filter->type = NewWorkbook;
@@ -148,7 +148,7 @@ new_workbook_toggled(GtkWidget *widget, filter_t *filter)
 }
 
 static void
-dialog_help_cb(GtkWidget *button, gchar *helpfile)
+dialog_help_cb (GtkWidget *button, gchar *helpfile)
 {
         if (helpfile != NULL) {
 	        GnomeHelpMenuEntry help_ref;
@@ -213,7 +213,7 @@ dialog_advanced_filter (WorkbookControlGUI *wbcg)
 	gtk_signal_connect (GTK_OBJECT (radiobutton),   "toggled",
 			    GTK_SIGNAL_FUNC (new_workbook_toggled),
 			    &f);
-	helpbutton = glade_xml_get_widget(gui, "helpbutton");
+	helpbutton = glade_xml_get_widget (gui, "helpbutton");
 	gtk_signal_connect (GTK_OBJECT (helpbutton), "clicked",
 			    GTK_SIGNAL_FUNC (dialog_help_cb), helpfile);
 
@@ -256,9 +256,9 @@ loop:
 				 _("You should introduce a valid cell names "
 				   "in 'List Range:'"));
 		gtk_widget_grab_focus (list_range);
-		gtk_entry_set_position(GTK_ENTRY (list_range), 0);
-		gtk_entry_select_region(GTK_ENTRY (list_range), 0,
-					GTK_ENTRY(list_range)->text_length);
+		gtk_entry_set_position (GTK_ENTRY (list_range), 0);
+		gtk_entry_select_region (GTK_ENTRY (list_range), 0,
+					 GTK_ENTRY (list_range)->text_length);
 		goto loop;
 	}
 
@@ -270,9 +270,9 @@ loop:
 				 _("You should introduce a valid cell names "
 				   "in 'Criteria Range:'"));
 		gtk_widget_grab_focus (criteria_range);
-		gtk_entry_set_position(GTK_ENTRY (criteria_range), 0);
-		gtk_entry_select_region(GTK_ENTRY (criteria_range), 0,
-				       GTK_ENTRY(criteria_range)->text_length);
+		gtk_entry_set_position (GTK_ENTRY (criteria_range), 0);
+		gtk_entry_select_region (GTK_ENTRY (criteria_range), 0,
+					 GTK_ENTRY (criteria_range)->text_length);
 		goto loop;
 	}
 
@@ -289,9 +289,9 @@ loop:
 					 _("You should introduce a valid "
 					   "cell range in 'Copy To:'"));
 			gtk_widget_grab_focus (copy_to);
-			gtk_entry_set_position(GTK_ENTRY (copy_to), 0);
-			gtk_entry_select_region(GTK_ENTRY (copy_to), 0,
-					      GTK_ENTRY(copy_to)->text_length);
+			gtk_entry_set_position (GTK_ENTRY (copy_to), 0);
+			gtk_entry_select_region (GTK_ENTRY (copy_to), 0,
+						 GTK_ENTRY (copy_to)->text_length);
 			goto loop;
 		}
 	}
@@ -336,9 +336,9 @@ loop:
 				   "columns in the `List Range' and in "
 				   "`Criteria Range:'"));
 		gtk_widget_grab_focus (list_range);
-		gtk_entry_set_position(GTK_ENTRY (list_range), 0);
-		gtk_entry_select_region(GTK_ENTRY (list_range), 0,
-				       GTK_ENTRY(list_range)->text_length);
+		gtk_entry_set_position (GTK_ENTRY (list_range), 0);
+		gtk_entry_select_region (GTK_ENTRY (list_range), 0,
+					 GTK_ENTRY (list_range)->text_length);
 		goto loop;
 	}
 }

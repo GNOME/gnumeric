@@ -227,7 +227,7 @@ order_box_new (GtkWidget * parent, const gchar *frame_text,
 		GTK_SIGNAL_FUNC (dialog_cell_sort_adv),  orderbox);
 
 	gtk_container_add  (GTK_CONTAINER (orderbox->main_frame), hbox);
-	gtk_box_pack_start (GTK_BOX (parent), GTK_WIDGET(orderbox->main_frame),
+	gtk_box_pack_start (GTK_BOX (parent), GTK_WIDGET (orderbox->main_frame),
 			    FALSE, TRUE, 0);
 
 	return orderbox;
@@ -373,7 +373,7 @@ dialog_cell_sort_del_clause (SortFlow *sf)
 }
 
 static void
-dialog_cell_sort_add_clause(SortFlow *sf, WorkbookControlGUI *wbcg)
+dialog_cell_sort_add_clause (SortFlow *sf, WorkbookControlGUI *wbcg)
 {
 	if ((sf->num_clause >= sf->max_col_clause && sf->top)
 	    || (sf->num_clause >= sf->max_row_clause && !(sf->top)))
@@ -396,7 +396,7 @@ dialog_cell_sort_add_clause(SortFlow *sf, WorkbookControlGUI *wbcg)
 }
 
 static void
-dialog_cell_sort_set_clauses(SortFlow *sf, int clauses) {
+dialog_cell_sort_set_clauses (SortFlow *sf, int clauses) {
 	int i;
 
 	if (sf->num_clause <= clauses) return;
@@ -439,14 +439,14 @@ dialog_cell_sort_header_toggled (GtkWidget *widget, SortFlow *sf)
 
 
 static void
-dialog_cell_sort_rows_toggled(GtkWidget *widget, SortFlow *sf)
+dialog_cell_sort_rows_toggled (GtkWidget *widget, SortFlow *sf)
 {
 	int i;
 
 	sf->top = !(GTK_TOGGLE_BUTTON (widget)->active);
 	if (!(sf->top)) {
 		if (sf->num_clause > sf->max_row_clause)
-			dialog_cell_sort_set_clauses(sf, sf->max_row_clause);
+			dialog_cell_sort_set_clauses (sf, sf->max_row_clause);
 		for (i=0; i<sf->num_clause; i++) {
 			if (sf->header)
 				gtk_combo_set_popdown_strings
@@ -561,7 +561,7 @@ dialog_cell_sort (WorkbookControlGUI *wbcg, Sheet *sheet)
 		sort_flow.clauses[lp] = NULL;
 
 	/* Build the rest of the dialog */
-	gnome_dialog_close_hides(GNOME_DIALOG (sort_flow.dialog), TRUE);
+	gnome_dialog_close_hides (GNOME_DIALOG (sort_flow.dialog), TRUE);
 
 	sort_flow.clause_box = gtk_vbox_new (FALSE, FALSE);
 	gtk_table_attach_defaults (GTK_TABLE (table),

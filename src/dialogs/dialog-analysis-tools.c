@@ -3769,7 +3769,7 @@ dialog_data_analysis (WorkbookControlGUI *wbcg, Sheet *sheet)
 			    GTK_SIGNAL_FUNC (selection_made), NULL);
 
 	for (i=0; tools[i].fun; i++) {
-		char *tmp [2];
+		char *tmp[2];
 		tmp[0] = _(tools[i].name);
 		tmp[1] = NULL;
 	        gtk_clist_append (GTK_CLIST (tool_list), tmp);

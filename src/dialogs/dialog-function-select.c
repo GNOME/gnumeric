@@ -42,7 +42,7 @@ category_list_fill (FunctionSelectState *state)
 	gtk_clist_clear (list);
 
 	for (i = cur_row = 0 ;; ++i) {
-		gchar *cols [1];
+		gchar *cols[1];
 		FunctionCategory const * const cat =
 		    function_category_get_nth (i);
 		if (cat == NULL)
@@ -71,7 +71,7 @@ function_list_fill (FunctionSelectState *state)
 	gtk_clist_clear (list);
 
 	for (p = cat->functions; p ; p = g_list_next (p)) {
-		gchar *cols [1];
+		gchar *cols[1];
 		FunctionDefinition const * const func = p->data;
 
 		cols[0] = (gchar *)function_def_get_name (func); /* Const cast */

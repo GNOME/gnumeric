@@ -473,13 +473,13 @@ update_plugin_manager_view (PluginManagerGUI *pm_gui)
 			is_in_mem = plugin_info_is_loaded (pinfo);
 			is_marked = plugin_db_is_plugin_marked_for_deactivation (pinfo);
 			if (is_in_mem && is_marked) {
-				cols[0] = g_strdup_printf (_("%s [in memory, marked for deactivation]"),
+				cols[0] = g_strdup_printf (_("%s[in memory, marked for deactivation]"),
 				          plugin_info_peek_name (pinfo));
 			} else if (is_in_mem) {
-				cols[0] = g_strdup_printf (_("%s [in memory]"),
+				cols[0] = g_strdup_printf (_("%s[in memory]"),
 				          plugin_info_peek_name (pinfo));
 			} else if (is_marked) {
-				cols[0] = g_strdup_printf (_("%s [marked for deactivation]"),
+				cols[0] = g_strdup_printf (_("%s[marked for deactivation]"),
 				          plugin_info_peek_name (pinfo));
 			} else {
 				cols[0] = plugin_info_get_name (pinfo);

@@ -104,7 +104,7 @@ typedef struct _FormatState
 	Value		*value;
 	StyleFormat	*parse_format;
 	MStyle		*style, *result;
-	StyleBorder *borders [STYLE_BORDER_EDGE_MAX];
+	StyleBorder *borders[STYLE_BORDER_EDGE_MAX];
 
 	int	 	 selection_mask;
 	gboolean	 enable_edit;
@@ -245,7 +245,7 @@ cb_toggle_changed (GtkToggleButton *button, PatternPicker *picker)
 {
 	if (gtk_toggle_button_get_active (button) &&
 	    picker->current_pattern != button) {
-		gtk_toggle_button_set_active(picker->current_pattern, FALSE);
+		gtk_toggle_button_set_active (picker->current_pattern, FALSE);
 		picker->current_pattern = button;
 		picker->cur_index =
 				GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (button), "index"));
@@ -270,9 +270,9 @@ setup_pattern_button (GladeXML  *gui,
 	if (tmp != NULL) {
 		GtkButton *button = GTK_BUTTON (tmp);
 		if (flag) {
-			GtkWidget * image = gnumeric_load_image(name);
+			GtkWidget * image = gnumeric_load_image (name);
 			if (image != NULL)
-				gtk_container_add(GTK_CONTAINER (tmp), image);
+				gtk_container_add (GTK_CONTAINER (tmp), image);
 		}
 
 		if (picker->current_pattern == NULL) {
@@ -369,7 +369,7 @@ init_button_image (GladeXML *gui, char const * const name)
 {
 	GtkWidget *tmp = glade_xml_get_widget (gui, name);
 	if (tmp != NULL) {
-		GtkWidget * image = gnumeric_load_image(name);
+		GtkWidget * image = gnumeric_load_image (name);
 		if (image != NULL)
 			gtk_container_add (GTK_CONTAINER (tmp), image);
 	}
@@ -525,7 +525,7 @@ draw_format_preview (FormatState *state)
 		preview = format_value (sf, state->value, NULL, -1);
 
 		if (strlen (preview) > FORMAT_PREVIEW_MAX)
-			strcpy (&preview [FORMAT_PREVIEW_MAX - 5], " ...");
+			strcpy (&preview[FORMAT_PREVIEW_MAX - 5], " ...");
 
 		gtk_label_set_text (state->format.preview, preview);
 		g_free (preview);
@@ -620,7 +620,7 @@ fmt_dialog_init_fmt_list (GtkCList *cl, char const * const *formats,
 	for (j = 0; formats[j]; ++j) {
 		gchar *t[1];
 
-		t [0] = style_format_str_as_XL (formats[j], TRUE);
+		t[0] = style_format_str_as_XL (formats[j], TRUE);
 		gtk_clist_append (cl, t);
 		g_free (t[0]);
 
@@ -718,7 +718,7 @@ fmt_dialog_enable_widgets (FormatState *state, int page)
 
 			for (; start <= end ; ++start)
 				select = fmt_dialog_init_fmt_list (cl,
-						cell_formats [start],
+						cell_formats[start],
 						state->format.spec,
 						select, &count);
 			gtk_clist_thaw (cl);
@@ -798,7 +798,7 @@ cb_format_currency_select (GtkEditable *w, FormatState *state)
 	/* There must be a better way than this */
 	int i;
 	for (i = 0; currency_symbols[i].symbol != NULL ; ++i)
-		if (!strcmp (_(currency_symbols [i].description), tmp)) {
+		if (!strcmp (_(currency_symbols[i].description), tmp)) {
 			state->format.currency_index = i;
 			break;
 		}
@@ -876,7 +876,7 @@ fmt_dialog_init_format_page (FormatState *state)
 		StyleFormat const *fmt = mstyle_get_format (state->style);
 		format = style_format_as_XL (fmt, FALSE);
 	} else
-		format = g_strdup (cell_formats [0][0]);
+		format = g_strdup (cell_formats[0][0]);
 
 	if (!strcmp (format, "General") && state->parse_format != NULL) {
 		g_free (format);
@@ -989,14 +989,14 @@ fmt_dialog_init_format_page (FormatState *state)
 		gtk_entry_set_editable (GTK_ENTRY (combo->entry), FALSE);
 
 		for (i = 0; currency_symbols[i].symbol != NULL ; ++i) {
-			gchar *descr = _(currency_symbols [i].description);
+			gchar *descr = _(currency_symbols[i].description);
 			l = g_list_append (l, descr);
 		}
 
 		gtk_combo_set_popdown_strings (combo, l);
 		g_list_free (l);
 		gtk_entry_set_text (GTK_ENTRY (combo->entry),
-				    _(currency_symbols [state->format.currency_index].description));
+				    _(currency_symbols[state->format.currency_index].description));
 
 		gtk_signal_connect (GTK_OBJECT (combo->entry),
 				    "changed", GTK_SIGNAL_FUNC (cb_format_currency_select),
@@ -1005,7 +1005,7 @@ fmt_dialog_init_format_page (FormatState *state)
 
 	/* Setup special handler for Custom */
 	gtk_signal_connect (GTK_OBJECT (state->format.widget[F_ENTRY]),
-			    "changed", GTK_SIGNAL_FUNC(cb_format_entry),
+			    "changed", GTK_SIGNAL_FUNC (cb_format_entry),
 			    state);
 	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog),
 				      GTK_EDITABLE (state->format.widget[F_ENTRY]));
@@ -1209,7 +1209,7 @@ fmt_dialog_init_align_page (FormatState *state)
 static void
 cb_font_changed (GtkWidget *widget, MStyle *mstyle, FormatState *state)
 {
-	static MStyleElementType const font_types [] = {
+	static MStyleElementType const font_types[] = {
 		MSTYLE_FONT_NAME,
 		MSTYLE_FONT_SIZE,
 		MSTYLE_FONT_BOLD,
@@ -1229,7 +1229,7 @@ cb_font_changed (GtkWidget *widget, MStyle *mstyle, FormatState *state)
 		return;
 
 	for (i = 0 ; i < num_font_types; i++) { 
-		MStyleElementType const t = font_types [i];
+		MStyleElementType const t = font_types[i];
 		if (mstyle_is_element_set (mstyle, t)) {
 			mstyle_replace_element (mstyle, state->result, t);
 			changed = TRUE;
@@ -1757,7 +1757,7 @@ draw_border_preview (FormatState *state)
 			}
 
 			for (j = 6 ; --j >= 0 ;)
-				points->coords [j] = corners[i][j];
+				points->coords[j] = corners[i][j];
 
 			gnome_canvas_item_new (group,
 					       gnome_canvas_line_get_type (),
@@ -1771,7 +1771,7 @@ draw_border_preview (FormatState *state)
 		points = gnome_canvas_points_new (2);
 		for (i = 0; line_info[i].states != 0 ; ++i ) {
 			for (j = 4; --j >= 0 ; )
-				points->coords [j] = line_info[i].points[j];
+				points->coords[j] = line_info[i].points[j];
 
 			if (line_info[i].states & state->selection_mask) {
 				BorderPicker const * p =
@@ -2416,7 +2416,7 @@ cb_fmt_dialog_dialog_apply (GtkObject *w, int page, FormatState *state)
 	mstyle_ref (state->result);
 
 	for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++)
-		borders [i] = border_get_mstyle (state, i);
+		borders[i] = border_get_mstyle (state, i);
 
 	cmd_format (WORKBOOK_CONTROL (state->wbcg),
 		    state->sheet, state->result, borders, NULL);
@@ -2676,8 +2676,8 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 		GtkWidget * tmp = init_button_image (state->gui, name);
 		if (tmp != NULL) {
 			init_border_button (state, i, tmp,
-					    state->borders [i]);
-			style_border_unref (state->borders [i]);
+					    state->borders[i]);
+			style_border_unref (state->borders[i]);
 		}
 	}
 
@@ -2732,11 +2732,11 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 			    GTK_SIGNAL_FUNC (gnome_help_pbox_goto), &help_ref);
 	gtk_signal_connect (GTK_OBJECT (dialog), "apply",
 			    GTK_SIGNAL_FUNC (cb_fmt_dialog_dialog_apply), state);
-	gtk_signal_connect (GTK_OBJECT(dialog), "destroy",
+	gtk_signal_connect (GTK_OBJECT (dialog), "destroy",
 			    GTK_SIGNAL_FUNC (cb_fmt_dialog_dialog_destroy),
 			    state);
-	gtk_signal_connect (GTK_OBJECT(dialog), "set-focus",
-			    GTK_SIGNAL_FUNC(cb_fmt_dialog_set_focus),
+	gtk_signal_connect (GTK_OBJECT (dialog), "set-focus",
+			    GTK_SIGNAL_FUNC (cb_fmt_dialog_set_focus),
 			    state);
 
 	set_initial_focus (state);

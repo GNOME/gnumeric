@@ -1,6 +1,6 @@
 /*
- * dialog-stf-format-page.c : controls the widgets on the format page
- *                            of the export druid
+ * dialog-stf-export-format-page.c : controls the widgets on the format page
+ *                                   of the export druid
  *
  * Almer. S. Tigelaar <almer1@dds.nl>
  *

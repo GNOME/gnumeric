@@ -209,7 +209,7 @@ stf_preview_draw_grid (RenderData_t *renderdata, int rowcount, int colcount)
 		gtk_object_destroy (GTK_OBJECT (renderdata->gridgroup));
 
 	renderdata->gridgroup = GNOME_CANVAS_GROUP (gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (renderdata->canvas)),
-									   gnome_canvas_group_get_type(),
+									   gnome_canvas_group_get_type (),
 									   "x", 0.0,
 									   "y", 0.0,
 									   NULL));
@@ -497,7 +497,7 @@ stf_preview_render (RenderData_t *renderdata, GList *list, int rowcount, int col
 		colcount = SHEET_MAX_COLS;
 
 	renderdata->group = GNOME_CANVAS_GROUP (gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (renderdata->canvas)),
-							   gnome_canvas_group_get_type(),
+							   gnome_canvas_group_get_type (),
 							   "x", 0.0,
 							   "y", 0.0,
 							   NULL));

@@ -247,7 +247,7 @@ static void
 cb_name_guru_select_name (GtkWidget *list, NameGuruState *state)
 {
 	NamedExpression *expr_name;
-	GList *sel = GTK_LIST(list)->selection;
+	GList *sel = GTK_LIST (list)->selection;
 
 	if (sel == NULL || state->updating)
 		return;
@@ -549,7 +549,7 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 				  GTK_SIGNAL_FUNC (cb_name_guru_update_sensitivity), state);
 
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-				  GTK_EDITABLE(state->name));
+				  GTK_EDITABLE (state->name));
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_EDITABLE (state->expr_text));
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
