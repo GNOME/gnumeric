@@ -83,7 +83,7 @@ typedef struct {
 		GtkComboBoxEntry      	*quotechar;
 		GtkWidget	*charset;
 		GtkComboBox 	*transliterate;
-		GtkWidget	*preserve;
+		GtkWidget	*format;
 	} format;
 
 	TextExportPage	cur_page;
@@ -119,6 +119,8 @@ stf_export_dialog_format_page_init (TextExportState *state)
 	gtk_combo_box_set_active (state->format.quote, 0);
 	state->format.quotechar   = GTK_COMBO_BOX_ENTRY      (glade_xml_get_widget (state->gui, "format_quotechar"));
 	gtk_combo_box_set_active (GTK_COMBO_BOX (state->format.quotechar), 0);
+	state->format.format     = glade_xml_get_widget (state->gui, "format");
+	gtk_combo_box_set_active (GTK_COMBO_BOX (state->format.format), 0);
 	state->format.charset	  = go_charmap_sel_new (GO_CHARMAP_SEL_FROM_UTF8);
 	state->format.transliterate = GTK_COMBO_BOX (glade_xml_get_widget (state->gui, "format_transliterate"));
 	gnumeric_editable_enters (state->window, state->format.custom);
@@ -137,8 +139,6 @@ stf_export_dialog_format_page_init (TextExportState *state)
 		(inactivate only the transliterate item) */
 		gtk_widget_set_sensitive (GTK_WIDGET (state->format.transliterate), FALSE);
 	}
-
-	state->format.preserve = glade_xml_get_widget (state->gui, "format_preserve");
 
 	table = glade_xml_get_widget (state->gui, "format_table");
 	gtk_table_attach_defaults (GTK_TABLE (table), state->format.charset, 1, 2, 5, 6);
@@ -170,10 +170,10 @@ stf_export_dialog_finish (TextExportState *state)
 {
 	GsfOutputCsvQuotingMode	quotingmode;
 	GnmStfTransliterateMode transliteratemode;
+	GnmStfFormatMode format;
 	const char *eol;
 	GString *triggers = g_string_new (" \t");
 	char *separator, *quote;
-	gboolean preserve;
 	const char *charset;
 
 	/* What options */
@@ -197,8 +197,12 @@ stf_export_dialog_finish (TextExportState *state)
 	case 1 :  transliteratemode = GNM_STF_TRANSLITERATE_MODE_ESCAPE; break;
 	}
 
-	preserve = gtk_toggle_button_get_active
-		(GTK_TOGGLE_BUTTON (state->format.preserve));
+	switch (gtk_combo_box_get_active (state->format.quote)) {
+	default:
+	case 0: format = GNM_STF_FORMAT_AUTO; break;
+	case 1: format = GNM_STF_FORMAT_RAW; break;
+	case 2: format = GNM_STF_FORMAT_PRESERVE; break;
+	}
 
 	quote = gtk_editable_get_chars (GTK_EDITABLE (gtk_bin_get_child (GTK_BIN (state->format.quotechar))), 0, -1);
 
@@ -233,7 +237,7 @@ stf_export_dialog_finish (TextExportState *state)
 		 "quoting-triggers", triggers->str,
 		 "separator", separator,
 		 "transliterate-mode", transliteratemode,
-		 "preserve-format", preserve,
+		 "format", format,
 		 "charset", charset,
 		 NULL);
 

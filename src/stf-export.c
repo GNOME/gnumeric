@@ -31,8 +31,10 @@
 #include "stf-export.h"
 
 #include "sheet.h"
+#include "workbook.h"
 #include "cell.h"
 #include "value.h"
+#include "gnm-format.h"
 #include <gsf/gsf-output-iconv.h>
 #include <gsf/gsf-impl-utils.h>
 
@@ -46,7 +48,7 @@ struct _GnmStfExport {
 	GSList *sheet_list;
 	char *charset;
 	GnmStfTransliterateMode transliterate_mode;
-	gboolean preserve_format;
+	GnmStfFormatMode format;
 };
 
 static GObjectClass *parent_class;
@@ -59,7 +61,7 @@ enum {
 	PROP_0,
 	PROP_CHARSET,
 	PROP_TRANSLITERATE_MODE,
-	PROP_PRESERVE_FORMAT
+	PROP_FORMAT
 };
 
 /* ------------------------------------------------------------------------- */
@@ -100,6 +102,47 @@ stf_export_options_sheet_list_add (GnmStfExport *stfe, Sheet *sheet)
 
 /* ------------------------------------------------------------------------- */
 
+static char *
+try_auto_date (GnmValue *value, const GOFormat *format,
+	       const GODateConventions *date_conv)
+{
+	gnm_float v, vr, vs;
+	GOFormat *actual;
+	char *res;
+	gboolean needs_date, needs_time, needs_frac_sec;
+	GString *xlfmt;
+
+	if (!VALUE_IS_NUMBER (value))
+		return NULL;
+	v = value_get_as_float (value);
+	if (v >= 2958466)
+		return NULL;  /* Year 10000 or beyond.  */
+	if (v < -693594)
+		return NULL;  /* Before year 1 (whatever that is!)  */
+	vr = gnm_fake_round (v);
+	vs = (24 * 60 * 60) * gnm_abs (v - vr);
+
+	needs_date = (format->family == FMT_DATE) || gnm_abs (v) >= 1;
+	needs_time = (format->family == FMT_TIME) || gnm_abs (v - vr) > 1e-9;
+	needs_frac_sec = needs_time && gnm_abs (vs - gnm_fake_trunc (vs)) > 1e-6;
+
+	xlfmt = g_string_new (NULL);
+	if (needs_date) g_string_append (xlfmt, "yyyy/mm/dd");
+	if (needs_time) {
+		if (needs_date)
+			g_string_append_c (xlfmt, ' ');
+		g_string_append (xlfmt, "hh:mm:ss");
+		if (needs_frac_sec)
+			g_string_append (xlfmt, ".000000");
+	}
+	actual = style_format_new_XL (xlfmt->str, FALSE);
+	g_string_free (xlfmt, TRUE);
+	res = format_value (actual, value, NULL, -1, date_conv);
+	style_format_unref (actual);
+
+	return res;
+}
+
 /**
  * stf_export_cell:
  * @stfe: an export options struct
@@ -110,21 +153,40 @@ stf_export_options_sheet_list_add (GnmStfExport *stfe, Sheet *sheet)
 static gboolean
 stf_export_cell (GnmStfExport *stfe, GnmCell *cell)
 {
-	char *text = NULL;
+	const char *text = NULL;
+	char *tmp = NULL;
 	gboolean ok;
 	g_return_val_if_fail (stfe != NULL, FALSE);
 
 	if (cell) {
-		if (stfe->preserve_format) 
-			text = cell_get_rendered_text (cell);
-		else if (cell->value)
-			text = value_get_as_string (cell->value);
+		switch (stfe->format) {
+		case GNM_STF_FORMAT_PRESERVE:
+			text = tmp = cell_get_rendered_text (cell);
+			break;
+		default:
+		case GNM_STF_FORMAT_AUTO:
+			if (cell->value) {
+				const GODateConventions *date_conv =
+					workbook_date_conv (cell->base.sheet->workbook);
+				GOFormat *format = cell_get_format (cell);
+				if (format->family == FMT_DATE ||
+				    format->family == FMT_TIME)
+					text = tmp = try_auto_date (cell->value, format, date_conv);
+				if (!text)
+					text = value_peek_string (cell->value);
+			}
+			break;
+		case GNM_STF_FORMAT_RAW:
+			if (cell->value)
+				text = value_peek_string (cell->value);
+			break;
+		}
 	}
-		
+
 	ok = gsf_output_csv_write_field (GSF_OUTPUT_CSV (stfe),
 					 text ? text : "",
 					 -1);
-	g_free (text);
+	g_free (tmp);
 
 	return ok;
 }
@@ -183,7 +245,7 @@ stf_export (GnmStfExport *stfe)
 
 	if (stfe->charset &&
 	    strcmp (stfe->charset, "UTF-8") != 0) {
-		char *charset;			
+		char *charset;
 		GsfOutput *converter;
 
 		switch (stfe->transliterate_mode) {
@@ -269,6 +331,24 @@ gnm_stf_transliterate_mode_get_type (void)
 
 /* ------------------------------------------------------------------------- */
 
+GType
+gnm_stf_format_mode_get_type (void)
+{
+  static GType etype = 0;
+  if (etype == 0) {
+	  static const GEnumValue values[] = {
+		  { GNM_STF_FORMAT_AUTO,     (char*)"GNM_STF_FORMAT_AUTO",     (char*)"automatic" },
+		  { GNM_STF_FORMAT_RAW,      (char*)"GNM_STF_FORMAT_RAW",      (char*)"raw" },
+		  { GNM_STF_FORMAT_PRESERVE, (char*)"GNM_STF_FORMAT_PRESERVE", (char*)"preserve" },
+		  { 0, NULL, NULL }
+	  };
+	  etype = g_enum_register_static ("GnmStfFormatMode", values);
+  }
+  return etype;
+}
+
+/* ------------------------------------------------------------------------- */
+
 static void
 gnm_stf_export_init (GObject *obj)
 {
@@ -304,8 +384,8 @@ gnm_stf_export_get_property (GObject     *object,
 	case PROP_TRANSLITERATE_MODE:
 		g_value_set_enum (value, stfe->transliterate_mode);
 		break;
-	case PROP_PRESERVE_FORMAT:
-		g_value_set_boolean (value, stfe->preserve_format);
+	case PROP_FORMAT:
+		g_value_set_enum (value, stfe->format);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -333,8 +413,8 @@ gnm_stf_export_set_property (GObject      *object,
 	case PROP_TRANSLITERATE_MODE:
 		stfe->transliterate_mode = g_value_get_enum (value);
 		break;
-	case PROP_PRESERVE_FORMAT:
-		stfe->preserve_format = g_value_get_boolean (value);
+	case PROP_FORMAT:
+		stfe->format = g_value_get_enum (value);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -374,13 +454,14 @@ gnm_stf_export_class_init (GObjectClass *gobject_class)
 				    G_PARAM_READWRITE));
 	g_object_class_install_property
 		(gobject_class,
-		 PROP_PRESERVE_FORMAT,
-		 g_param_spec_boolean ("preserve-format",
-				       _("Preserve Format"),
-				       _("Should cells' format be preserved"),
-				       FALSE,
-				       GSF_PARAM_STATIC |
-				       G_PARAM_READWRITE));
+		 PROP_FORMAT,
+		 g_param_spec_enum ("format",
+				    _("Format"),
+				    _("How should cells be formatted?"),
+				    GNM_STF_FORMAT_MODE_TYPE,
+				    GNM_STF_FORMAT_AUTO,
+				    GSF_PARAM_STATIC |
+				    G_PARAM_READWRITE));
 }
 
 /* ------------------------------------------------------------------------- */
