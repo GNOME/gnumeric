@@ -1,3 +1,12 @@
+2003-10-20  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=123325
+	* src/value.c (criteria_test_greater_or_equal) : NULL args are valid.
+	(criteria_test_less_or_equal) : ditto.
+	(criteria_test_greater) : ditto.
+	(criteria_test_less) : ditto.
+	(criteria_test_equal) : ditto.
+
 2003-10-16  Jody Goldberg <jody@gnome.org>
 
 	* src/gnumeric-gconf.c : rework to catch missing schemas and delay non

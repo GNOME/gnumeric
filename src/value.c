@@ -1350,8 +1350,8 @@ value_set_fmt (GnmValue *v, StyleFormat const *fmt)
 static gboolean
 criteria_test_equal (GnmValue const *x, GnmValue const *y)
 {
-	g_return_val_if_fail (x != NULL, FALSE);
-	g_return_val_if_fail (y != NULL, FALSE);
+	if (x == NULL || y == NULL)
+		return FALSE;
         if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
 	        return (value_get_as_float (x) == value_get_as_float (y));
 	else
@@ -1379,8 +1379,8 @@ criteria_test_unequal (GnmValue const *x, GnmValue const *y)
 static gboolean
 criteria_test_less (GnmValue const *x, GnmValue const *y)
 {
-	g_return_val_if_fail (x != NULL, FALSE);
-	g_return_val_if_fail (y != NULL, FALSE);
+	if (x == NULL || y == NULL)
+		return FALSE;
         if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
 	        return (value_get_as_float (x) < value_get_as_float (y));
 	else
@@ -1390,8 +1390,8 @@ criteria_test_less (GnmValue const *x, GnmValue const *y)
 static gboolean
 criteria_test_greater (GnmValue const *x, GnmValue const *y)
 {
-	g_return_val_if_fail (x != NULL, FALSE);
-	g_return_val_if_fail (y != NULL, FALSE);
+	if (x == NULL || y == NULL)
+		return FALSE;
         if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
 	        return (value_get_as_float (x) > value_get_as_float (y));
 	else
@@ -1401,8 +1401,8 @@ criteria_test_greater (GnmValue const *x, GnmValue const *y)
 static gboolean
 criteria_test_less_or_equal (GnmValue const *x, GnmValue const *y)
 {
-	g_return_val_if_fail (x != NULL, FALSE);
-	g_return_val_if_fail (y != NULL, FALSE);
+	if (x == NULL || y == NULL)
+		return FALSE;
         if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
 	        return (value_get_as_float (x) <= value_get_as_float (y));
 	else
@@ -1412,8 +1412,8 @@ criteria_test_less_or_equal (GnmValue const *x, GnmValue const *y)
 static gboolean
 criteria_test_greater_or_equal (GnmValue const *x, GnmValue const *y)
 {
-	g_return_val_if_fail (x != NULL, FALSE);
-	g_return_val_if_fail (y != NULL, FALSE);
+	if (x == NULL || y == NULL)
+		return FALSE;
         if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
 	        return (value_get_as_float (x) >= value_get_as_float (y));
 	else
