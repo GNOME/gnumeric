@@ -17,6 +17,7 @@
 	  sample_image_file="chart_bar_1_2.png">
 	<property name="horizontal">True</property>
 	<property name="type">stacked</property>
+	<property name="overlap_percentage">100</property>
     </Type>
 
     <Type _name="Percentage Bars" row="1" col="3"
@@ -25,6 +26,7 @@
 	  sample_image_file="chart_bar_1_3.png">
 	<property name="horizontal">True</property>
 	<property name="type">as_percentage</property>
+	<property name="overlap_percentage">100</property>
     </Type>
 
     <!-- No 3d yet
@@ -43,6 +45,7 @@
 	  sample_image_file="chart_bar_2_2.png">
 	<property name="horizontal">True</property>
 	<property name="type">stacked</property>
+	<property name="overlap_percentage">100</property>
 	<property name="in_3d"/>
     </Type>
 
@@ -52,6 +55,7 @@
 	  sample_image_file="chart_bar_2_3.png">
 	<property name="horizontal">True</property>
 	<property name="type">as_percentage</property>
+	<property name="overlap_percentage">100</property>
 	<property name="in_3d"/>
     </Type>
     -->
@@ -70,6 +74,7 @@
 	  sample_image_file="chart_column_1_2.png">
 	<property name="horizontal">False</property>
 	<property name="type">stacked</property>
+	<property name="overlap_percentage">100</property>
     </Type>
 
     <Type _name="Percentage Columns" row="1" col="3"
@@ -78,6 +83,7 @@
 	  sample_image_file="chart_column_1_3.png">
 	<property name="horizontal">False</property>
 	<property name="type">as_percentage</property>
+	<property name="overlap_percentage">100</property>
     </Type>
 
     <!-- No 3d yet
@@ -96,6 +102,7 @@
 	  sample_image_file="chart_column_2_2.png">
 	<property name="horizontal">False</property>
 	<property name="type">stacked</property>
+	<property name="overlap_percentage">100</property>
 	<property name="in_3d"/>
     </Type>
 
@@ -105,6 +112,7 @@
 	  sample_image_file="chart_column_2_3.png">
 	<property name="horizontal">False</property>
 	<property name="type">as_percentage</property>
+	<property name="overlap_percentage">100</property>
 	<property name="in_3d"/>
     </Type>
     -->

@@ -1,3 +1,8 @@
+2003-07-19  Jody Goldberg <jody@gnome.org>
+
+	* graph/plugins/plot_barcol/plot-types.xml.in : for stacked and
+	  percentage set the overlap to 100.
+
 2003-07-17  Jody Goldberg <jody@gnome.org>
 
 	* graph/plugins/plot_barcol/gog-barcol.c : Request XY axis set.

@@ -138,30 +138,32 @@ static gboolean z_axis_can_add (GogObject const *parent) { return axis_can_add (
 static void z_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_Z); }
 static void z_axis_pre_remove  (GogObject *parent, GogObject *child)  { axis_pre_remove (child, GOG_AXIS_Z); }
 
+static GogObjectRole const roles[] = {
+	{ N_("Plot"), "GogPlot",
+	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, FALSE,
+	  NULL, NULL, NULL, role_plot_post_add, role_plot_pre_remove, NULL, { -1 } },
+	{ N_("Legend"), "GogLegend",
+	  GOG_POSITION_COMPASS, GOG_POSITION_E|GOG_POSITION_ALIGN_CENTER, TRUE,
+	  NULL, NULL, NULL, NULL, NULL, NULL, { -1 } },
+	{ N_("Title"), "GogLabel",
+	  GOG_POSITION_COMPASS, GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER, FALSE,
+	  NULL, NULL, NULL, NULL, NULL, NULL, { -1 } },
+	{ N_("X-Axis"), "GogAxis",
+	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, FALSE,
+	  x_axis_can_add, NULL, NULL, x_axis_post_add, x_axis_pre_remove, NULL,
+	  { GOG_AXIS_X } },
+	{ N_("Y-Axis"), "GogAxis",
+	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, FALSE,
+	  y_axis_can_add, NULL, NULL, y_axis_post_add, y_axis_pre_remove, NULL,
+	  { GOG_AXIS_Y } },
+	{ N_("Z-Axis"), "GogAxis",
+	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, FALSE,
+	  z_axis_can_add, NULL, NULL, z_axis_post_add, z_axis_pre_remove, NULL,
+	  { GOG_AXIS_Z } }
+};
 static void
 gog_chart_class_init (GogObjectClass *gog_klass)
 {
-	static GogObjectRole const roles[] = {
-		{ N_("Plot"), "GogPlot",
-		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, FALSE,
-		  NULL, NULL, NULL,
-		  role_plot_post_add, role_plot_pre_remove, NULL },
-		{ N_("Legend"), "GogLegend",
-		  GOG_POSITION_COMPASS, GOG_POSITION_E|GOG_POSITION_ALIGN_CENTER, TRUE,
-		  NULL, NULL, NULL, NULL, NULL, NULL },
-		{ N_("Title"), "GogLabel",
-		  GOG_POSITION_COMPASS, GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER, FALSE,
-		  NULL, NULL, NULL, NULL, NULL, NULL },
-		{ N_("X-Axis"), "GogAxis",
-		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, FALSE,
-		  x_axis_can_add, NULL, NULL, x_axis_post_add, x_axis_pre_remove, NULL },
-		{ N_("Y-Axis"), "GogAxis",
-		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, FALSE,
-		  y_axis_can_add, NULL, NULL, y_axis_post_add, y_axis_pre_remove, NULL },
-		{ N_("Z-Axis"), "GogAxis",
-		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, FALSE,
-		  z_axis_can_add, NULL, NULL, z_axis_post_add, z_axis_pre_remove, NULL },
-	};
 	GObjectClass *gobject_klass = (GObjectClass *)gog_klass;
 
 	chart_parent_klass = g_type_class_peek_parent (gog_klass);
@@ -303,11 +305,24 @@ gog_chart_axis_set_is_valid (GogChart const *chart, GogAxisSet type)
 	return TRUE;
 }
 
+static void
+gog_chart_add_axis (GogChart *chart, GogAxisType type)
+{
+	unsigned i = G_N_ELEMENTS (roles);
+	while (i-- > 0)
+		if (roles[i].user.i == (int)type) {
+			gog_object_add_by_role (GOG_OBJECT (chart), roles + i, NULL);
+			return;
+		}
+	g_warning ("unknown axis type %d", type);
+}
+
 gboolean
 gog_chart_axis_set_assign (GogChart *chart, GogAxisSet axis_set)
 {
 	gboolean has_axis[GOG_AXIS_TYPES];
-	GSList *ptr;
+	GogAxis *axis;
+	GSList  *ptr;
 	int type;
 
 	g_return_val_if_fail (GOG_CHART (chart) != NULL, FALSE);
@@ -317,26 +332,33 @@ gog_chart_axis_set_assign (GogChart *chart, GogAxisSet axis_set)
 			return FALSE;
 	chart->axis_set = axis_set;
 
+	for (type = 0 ; type < GOG_AXIS_TYPES ; type++)
+		has_axis[type] = FALSE;
+
 	/* remove any existing axis that do not fit this scheme */
-	memset (has_axis, 0, sizeof (gboolean) * sizeof (has_axis));
-	for (ptr = GOG_OBJECT (chart)->children ; ptr != NULL ; ptr = ptr->next)
-		if (IS_GOG_AXIS (ptr->data)) {
+	for (ptr = GOG_OBJECT (chart)->children ; ptr != NULL ; ) {
+		axis = ptr->data;
+		ptr = ptr->next; /* list may change under us */
+		if (IS_GOG_AXIS (axis)) {
 			type = -1;
-			g_object_get (G_OBJECT (ptr->data), "type", &type, NULL);
+			g_object_get (G_OBJECT (axis), "type", &type, NULL);
 			if (type < 0 || type >= GOG_AXIS_TYPES) {
 				g_warning ("Invalid axis");
 				continue;
 			}
 
 			if (0 == (axis_set & (1 << type))) {
+				gog_object_clear_parent (GOG_OBJECT (axis));
+				g_object_unref (axis);
 			} else
 				has_axis [type] = TRUE;
 		}
+	}
 
 	/* Add at least 1 instance of any required axis */
-	for (type = 0 ; type < (int)GOG_AXIS_TYPE ; type++)
-		if ((axis_set & (1 << type)) && ! has_axis [type]) {
-		}
+	for (type = 0 ; type < GOG_AXIS_TYPES ; type++)
+		if ((axis_set & (1 << type)) && ! has_axis [type])
+			gog_chart_add_axis (chart, type);
 
 	return TRUE;
 }

@@ -43,6 +43,12 @@ struct _GogObjectRole {
 	void	   (*post_add)    (GogObject *parent, GogObject *child);
 	void       (*pre_remove)  (GogObject *parent, GogObject *child);
 	void       (*post_remove) (GogObject *parent, GogObject *child);
+
+	union {
+		int		i;
+		float		f;
+		gpointer	p;
+	} user;
 };
 
 struct _GogObject {
