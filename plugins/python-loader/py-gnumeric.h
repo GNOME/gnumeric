@@ -10,7 +10,7 @@ typedef struct {
 	EvalPos *eval_pos;
 } InterpreterInfo;
 
-InterpreterInfo *create_python_interpreter (PluginInfo *pinfo);
+InterpreterInfo *create_python_interpreter (GnmPlugin *pinfo);
 void             destroy_python_interpreter (InterpreterInfo *py_interpreter_info);
 void             switch_python_interpreter_if_needed (InterpreterInfo *interpreter_info);
 void             clear_python_error_if_needed (void);
@@ -68,9 +68,9 @@ typedef struct _py_Workbook_object py_Workbook_object;
 PyObject      *py_new_Workbook_object (Workbook *wb);
 Workbook      *py_Workbook_as_Workbook (py_Workbook_object *self);
 
-PyTypeObject py_PluginInfo_object_type;
-typedef struct _py_PluginInfo_object py_PluginInfo_object;
-PyObject      *py_new_PluginInfo_object (PluginInfo *pinfo);
-PluginInfo    *py_PluginInfo_as_PluginInfo (py_PluginInfo_object *self);
+PyTypeObject py_GnmPlugin_object_type;
+typedef struct _py_GnmPlugin_object py_GnmPlugin_object;
+PyObject      *py_new_GnmPlugin_object (GnmPlugin *pinfo);
+GnmPlugin    *py_GnmPlugin_as_GnmPlugin (py_GnmPlugin_object *self);
 
 #endif /* PLUGIN_PY_GNUMERIC_H */

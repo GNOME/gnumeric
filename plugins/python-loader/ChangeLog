@@ -1,3 +1,18 @@
+2002-07-22  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.xml.in: Set loader type to "Gnumeric_Builtin:module".
+
+	* py-gnumeric.[ch]:
+	s/PluginInfo/GnmPlugin/
+	Adjusted to plugin.c
+
+	* python-loader.c:
+	(gnumeric_plugin_loader_python_set_attributes):
+	Adjusted to plugin-loader.c (read attributes from GHashTable).
+	s/..._load/..._load_base/
+	s/..._unload/..._unload_base/
+	Adjusted to plugin.c
+
 2002-07-21  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.6

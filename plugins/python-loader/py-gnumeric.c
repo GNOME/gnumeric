@@ -90,7 +90,7 @@ GnumericFunc:
 GnumericFuncDict:
 	subscript
 
-PluginInfo:
+GnmPlugin:
 	Methods:
 	- get_dir_name
 	- get_id
@@ -102,7 +102,7 @@ Module Gnumeric:
 	- TRUE/FALSE    (values of type Boolean)
 	- GnumericError (exception), GnumericError* (std exception values)
 	- functions     (dictionary containing all Gnumeric functions)
-	- plugin_info   (value of type PluginInfo)
+	- plugin_info   (value of type GnmPlugin)
 	Methods:
 	- MStyle   (creates MStyle object with default style, uses mstyle_new_default())
 	- CellPos  (creates CellPos object)
@@ -112,13 +112,13 @@ Module Gnumeric:
 
 static InterpreterInfo *current_interpreter_info;
 
-static PyObject *py_initgnumeric (PluginInfo *pinfo);
+static PyObject *py_initgnumeric (GnmPlugin *pinfo);
 
 static const gchar *plugin_argv[] = {"gnumeric", NULL};
 
 
 InterpreterInfo *
-create_python_interpreter (PluginInfo *pinfo)
+create_python_interpreter (GnmPlugin *pinfo)
 {
 	InterpreterInfo *interpreter_info;
 	PyThreadState *py_thread_state;
@@ -1843,99 +1843,99 @@ PyTypeObject py_GnumericFuncDict_object_type = {
 };
 
 /*
- * PluginInfo
+ * GnmPlugin
  */
 
-struct _py_PluginInfo_object {
+struct _py_GnmPlugin_object {
 	PyObject_HEAD
-	PluginInfo *pinfo;
+	GnmPlugin *pinfo;
 };
 
 static PyObject *
-py_PluginInfo_get_dir_name_method (py_PluginInfo_object *self, PyObject *args);
+py_GnmPlugin_get_dir_name_method (py_GnmPlugin_object *self, PyObject *args);
 static PyObject *
-py_PluginInfo_get_id_method (py_PluginInfo_object *self, PyObject *args);
+py_GnmPlugin_get_id_method (py_GnmPlugin_object *self, PyObject *args);
 static PyObject *
-py_PluginInfo_get_name_method (py_PluginInfo_object *self, PyObject *args);
+py_GnmPlugin_get_name_method (py_GnmPlugin_object *self, PyObject *args);
 static PyObject *
-py_PluginInfo_get_description_method (py_PluginInfo_object *self, PyObject *args);
+py_GnmPlugin_get_description_method (py_GnmPlugin_object *self, PyObject *args);
 
-static struct PyMethodDef py_PluginInfo_object_methods[] = {
+static struct PyMethodDef py_GnmPlugin_object_methods[] = {
 	{(char *) "get_dir_name",
-	 (PyCFunction) py_PluginInfo_get_dir_name_method,    METH_VARARGS},
+	 (PyCFunction) py_GnmPlugin_get_dir_name_method,    METH_VARARGS},
 	{(char *) "get_id",
-	 (PyCFunction) py_PluginInfo_get_id_method,          METH_VARARGS},
+	 (PyCFunction) py_GnmPlugin_get_id_method,          METH_VARARGS},
 	{(char *) "get_name",
-	 (PyCFunction) py_PluginInfo_get_name_method,        METH_VARARGS},
+	 (PyCFunction) py_GnmPlugin_get_name_method,        METH_VARARGS},
 	{(char *) "get_description",
-	 (PyCFunction) py_PluginInfo_get_description_method, METH_VARARGS},
+	 (PyCFunction) py_GnmPlugin_get_description_method, METH_VARARGS},
 	{NULL, NULL}
 };
 
 static PyObject *
-py_PluginInfo_get_dir_name_method (py_PluginInfo_object *self, PyObject *args)
+py_GnmPlugin_get_dir_name_method (py_GnmPlugin_object *self, PyObject *args)
 {
 	if (!PyArg_ParseTuple (args, (char *) ":get_dir_name")) {
 		return NULL;
 	}
 
-	return PyString_FromString (plugin_info_peek_dir_name (self->pinfo));
+	return PyString_FromString (gnm_plugin_get_dir_name (self->pinfo));
 }
 
 static PyObject *
-py_PluginInfo_get_id_method (py_PluginInfo_object *self, PyObject *args)
+py_GnmPlugin_get_id_method (py_GnmPlugin_object *self, PyObject *args)
 {
 	if (!PyArg_ParseTuple (args, (char *) ":get_id")) {
 		return NULL;
 	}
 
-	return PyString_FromString (plugin_info_peek_id (self->pinfo));
+	return PyString_FromString (gnm_plugin_get_id (self->pinfo));
 }
 
 static PyObject *
-py_PluginInfo_get_name_method (py_PluginInfo_object *self, PyObject *args)
+py_GnmPlugin_get_name_method (py_GnmPlugin_object *self, PyObject *args)
 {
 	if (!PyArg_ParseTuple (args, (char *) ":get_name")) {
 		return NULL;
 	}
 
-	return PyString_FromString (plugin_info_peek_name (self->pinfo));
+	return PyString_FromString (gnm_plugin_get_name (self->pinfo));
 }
 
 static PyObject *
-py_PluginInfo_get_description_method (py_PluginInfo_object *self, PyObject *args)
+py_GnmPlugin_get_description_method (py_GnmPlugin_object *self, PyObject *args)
 {
 	if (!PyArg_ParseTuple (args, (char *) ":get_description")) {
 		return NULL;
 	}
 
-	return PyString_FromString (plugin_info_peek_description (self->pinfo));
+	return PyString_FromString (gnm_plugin_get_description (self->pinfo));
 }
 
-PluginInfo *
-py_PluginInfo_as_PluginInfo (py_PluginInfo_object *self)
+GnmPlugin *
+py_GnmPlugin_as_GnmPlugin (py_GnmPlugin_object *self)
 {
 	return self->pinfo;
 }
 
 static PyObject *
-py_PluginInfo_object_getattr (py_PluginInfo_object *self, gchar *name)
+py_GnmPlugin_object_getattr (py_GnmPlugin_object *self, gchar *name)
 {
-	return Py_FindMethod (py_PluginInfo_object_methods, (PyObject *) self, name);
+	return Py_FindMethod (py_GnmPlugin_object_methods, (PyObject *) self, name);
 }
 
 static void
-py_PluginInfo_object_dealloc (py_PluginInfo_object *self)
+py_GnmPlugin_object_dealloc (py_GnmPlugin_object *self)
 {
 	free (self);
 }
 
 PyObject *
-py_new_PluginInfo_object (PluginInfo *pinfo)
+py_new_GnmPlugin_object (GnmPlugin *pinfo)
 {
-	py_PluginInfo_object *self;
+	py_GnmPlugin_object *self;
 
-	self = PyObject_NEW (py_PluginInfo_object, &py_PluginInfo_object_type);
+	self = PyObject_NEW (py_GnmPlugin_object, &py_GnmPlugin_object_type);
 	if (self == NULL) {
 		return NULL;
 	}
@@ -1944,15 +1944,15 @@ py_new_PluginInfo_object (PluginInfo *pinfo)
 	return (PyObject *) self;
 }
 
-PyTypeObject py_PluginInfo_object_type = {
+PyTypeObject py_GnmPlugin_object_type = {
 	PyObject_HEAD_INIT(0)
 	0, /* ob_size */
-	(char *) "PluginInfo",                                /* tp_name */
-	sizeof (py_PluginInfo_object),               /* tp_size */
+	(char *) "GnmPlugin",                                /* tp_name */
+	sizeof (py_GnmPlugin_object),               /* tp_size */
 	0, /* tp_itemsize */
-	(destructor) &py_PluginInfo_object_dealloc,  /* tp_dealloc */
+	(destructor) &py_GnmPlugin_object_dealloc,  /* tp_dealloc */
 	0, /* tp_print */
-	(getattrfunc) &py_PluginInfo_object_getattr, /* tp_getattr */
+	(getattrfunc) &py_GnmPlugin_object_getattr, /* tp_getattr */
 	0, /* tp_setattr */
 	0, /* tp_compare */
 	0, /* tp_repr */
@@ -2053,7 +2053,7 @@ static PyMethodDef GnumericMethods[] = {
 
 
 static PyObject *
-py_initgnumeric (PluginInfo *pinfo)
+py_initgnumeric (GnmPlugin *pinfo)
 {
 	PyObject *module, *module_dict;
 
@@ -2102,7 +2102,7 @@ py_initgnumeric (PluginInfo *pinfo)
 
 	(void) PyDict_SetItemString
 		(module_dict, (char *) "plugin_info",
-		 py_new_PluginInfo_object (pinfo));
+		 py_new_GnmPlugin_object (pinfo));
 
 	return module;
 }
