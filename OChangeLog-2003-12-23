@@ -1,3 +1,16 @@
+2001-10-12  Jody Goldberg <jgoldberg@home.com>
+
+	* idl/GNOME_Gnumeric_Graph.idl :  simplify my life
+	  make the manager inherit from Embeddable directly.
+
+2001-10-11  Jody Goldberg <jgoldberg@home.com>
+
+	* src/mathfunc.c (minverse) : fix.
+
+2001-10-11  Jody Goldberg <jgoldberg@home.com>
+
+	* src/eval.c (dependent_set_sheet) : new utility.
+
 2001-10-12  Morten Welinder  <terra@diku.dk>
 
 	* configure.in (gal): Require 0.14 because the new search code

@@ -58,6 +58,7 @@ void dependent_types_init	 (void);
 void dependent_types_shutdown	 (void);
 
 void	 dependent_set_expr	   (Dependent *dependent, ExprTree *new_expr);
+void	 dependent_set_sheet	   (Dependent *dependent, Sheet *sheet);
 void	 dependent_link		   (Dependent *dep, CellPos const *pos);
 void	 dependent_unlink	   (Dependent *dep, CellPos const *pos);
 void	 dependent_unlink_sheet	   (Sheet *sheet);

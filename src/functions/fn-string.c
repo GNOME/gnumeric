@@ -64,7 +64,7 @@ static char *help_code = {
 static Value *
 gnumeric_code (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_int (*value_peek_string (argv[0]));
+	return value_new_int (*(unsigned char *)value_peek_string (argv[0]));
 }
 
 /***************************************************************************/

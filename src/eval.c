@@ -148,6 +148,23 @@ dependent_set_expr (Dependent *dep, ExprTree *new_expr)
 	}
 }
 
+/**
+ * dependent_set_sheet
+ * @dep :
+ * @sheet :
+ */
+void
+dependent_set_sheet (Dependent *dep, Sheet *sheet)
+{
+	g_return_if_fail (dep != NULL);
+	g_return_if_fail (dep->sheet == NULL);
+	g_return_if_fail (!dependent_is_linked (dep));
+
+	dep->sheet = sheet;
+	if (dep->expression != NULL)
+		dependent_changed (dep, TRUE);
+}
+
 /*
  * dependent_queue_recalc:
  * @dep: the dependent that contains the expression needing recomputation.

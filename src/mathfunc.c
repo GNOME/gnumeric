@@ -3865,7 +3865,7 @@ minverse (gnum_float *A, int dim, gnum_float *res)
 			        return 1;
 			}
 		if (i != r)
-		        for (n = 0; i < cols; n++) {
+		        for (n = 0; n < cols; n++) {
 			        gnum_float tmp = ARRAY (n, r);
 				ARRAY (n, r) = ARRAY (n, i);
 				ARRAY (n, i) = tmp;

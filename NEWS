@@ -15,6 +15,11 @@ Jody:
 	* Off by 1 error when undoing unhiding cols/rows
 	* Improve handling of Cancel during File -> Quit
 	* Autoscroll support during object creation
+	* Fix MINVERSE
+	* CODE assumes unsigned char
+
+John Gotts:
+	* Make bonobo optional in the sample rpm specfile.
 
 Jukka:
 	* Improved COUPDAYS().
