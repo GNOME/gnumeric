@@ -14,7 +14,7 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-GtkType python_get_loader_type (ErrorInfo **ret_error);
+GType python_get_loader_type (ErrorInfo **ret_error);
 
 
 GType

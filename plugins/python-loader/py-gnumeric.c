@@ -2072,6 +2072,19 @@ py_initgnumeric (GnmPyInterpreter *interpreter)
 {
 	PyObject *module, *module_dict;
 
+	py_Boolean_object_type.ob_type          =
+	py_CellPos_object_type.ob_type          =
+	py_Range_object_type.ob_type            =
+	py_CellRef_object_type.ob_type          =
+	py_RangeRef_object_type.ob_type         =
+	py_MStyle_object_type.ob_type           =
+	py_Cell_object_type.ob_type             =
+	py_Sheet_object_type.ob_type            =
+	py_Workbook_object_type.ob_type         =
+	py_GnumericFunc_object_type.ob_type     =
+	py_GnumericFuncDict_object_type.ob_type =
+	py_GnmPlugin_object_type.ob_type        = &PyType_Type;
+
 	PyImport_AddModule ((char *) "Gnumeric");
 	module = Py_InitModule ((char *) "Gnumeric", GnumericMethods);
 	module_dict = PyModule_GetDict (module);
