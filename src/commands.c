@@ -205,12 +205,13 @@ undo_global_range_name (Sheet *sheet, Range const * const range)
  */
 
 static gboolean 
-cmd_cell_range_is_locked_effective (WorkbookControlGUI *wbcg, Sheet *sheet, 
+cmd_cell_range_is_locked_effective (Sheet *sheet, 
 				    int start_col, int cols, 
-				    int start_row, int rows)
+				    int start_row, int rows,
+				    WorkbookControl *wbc, char const *cmd_name)
 {
 	int i, j;
-	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
+	WorkbookView *wbv = wb_control_view (wbc);
 
 	if (wbv->is_protected || sheet->is_protected)
 		for (i = start_row + rows; i-- > start_row;)
@@ -226,8 +227,8 @@ cmd_cell_range_is_locked_effective (WorkbookControlGUI *wbcg, Sheet *sheet,
 				 _("%s is locked. Unprotect the sheet to enable editing."), 
 								undo_global_range_name (
 									sheet, &range));
-					gnumeric_notice (wbcg, GTK_MESSAGE_ERROR, text);
-					/*show warning*/
+					gnumeric_error_invalid (COMMAND_CONTEXT (wbc), cmd_name,
+								text);
 					g_free (text);
 					return TRUE;
 				}
@@ -246,16 +247,17 @@ cmd_cell_range_is_locked_effective (WorkbookControlGUI *wbcg, Sheet *sheet,
  */
 
 static gboolean 
-cmd_selection_is_locked_effective (WorkbookControlGUI *wbcg, Sheet *sheet, 
-				   GSList *selection)
+cmd_selection_is_locked_effective (Sheet *sheet, GSList *selection,
+				   WorkbookControl *wbc, char const *cmd_name)
 {
 	for (; selection; selection = selection->next) {
 		Range *range = (Range *)selection->data;
-		if (cmd_cell_range_is_locked_effective (wbcg, sheet, 
+		if (cmd_cell_range_is_locked_effective (sheet, 
 							range->start.col, 
 							range->end.col - range->start.col + 1, 
 							range->start.row, 
-							range->end.row - range->start.row + 1))
+							range->end.row - range->start.row + 1,
+							wbc, cmd_name))
 			return TRUE;
 	}
 	return FALSE;
@@ -917,8 +919,8 @@ cmd_area_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 		return TRUE;
 
 	/* Check for locked cells */
-	if (cmd_selection_is_locked_effective (WORKBOOK_CONTROL_GUI (wbc), me->pos.sheet, 
-					       me->selection))
+	if (cmd_selection_is_locked_effective (me->pos.sheet, me->selection, 
+					       wbc, _("Set Text")))
 		return TRUE;
 
 	/*
@@ -1146,8 +1148,9 @@ cmd_ins_del_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	/* Check for locks */
 	if (!me->is_insert && cmd_cell_range_is_locked_effective
-	    (WORKBOOK_CONTROL_GUI (wbc), me->sheet, r.start.col, r.end.col - r.start.col + 1,
-	     r.start.row, r.end.row - r.start.row + 1))
+	    (me->sheet, r.start.col, r.end.col - r.start.col + 1,
+	     r.start.row, r.end.row - r.start.row + 1, 
+	     wbc, (me->is_cols) ? _("Delete Columns") :  _("Delete Rows")))
 		return TRUE;
 	
 	me->saved_states = colrow_get_states (me->sheet, me->is_cols, first, last);
@@ -1402,7 +1405,11 @@ cmd_clear_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	/* Check for array subdivision */
 	if (sheet_ranges_split_region (me->sheet, me->selection,
-				       wbc, _("Undo Clear")))
+				       wbc, _("Clear")))
+		return TRUE;
+
+	/* Check for locked cells */
+	if (cmd_selection_is_locked_effective (me->sheet, me->selection, wbc, _("Clear")))
 		return TRUE;
 
 	for (l = me->selection ; l != NULL ; l = l->next) {
@@ -1573,6 +1580,11 @@ cmd_format_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	GSList    *l;
 
 	g_return_val_if_fail (me != NULL, TRUE);
+
+	/* Check for locked cells */
+	if (cmd_selection_is_locked_effective (me->sheet, me->selection, 
+					       wbc, _("Changing Format")))
+		return TRUE;
 
 	for (l = me->selection; l; l = l->next) {
 		if (me->borders) {
@@ -4619,13 +4631,13 @@ cmd_analysis_tool_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	me->row_info = dao_get_colrow_state_list (me->dao, FALSE);
 
 	if (me->engine (me->dao, me->specs, TOOL_ENGINE_PREPARE_OUTPUT_RANGE, NULL)
-	    || (me->dao->type != NewWorkbookOutput &&
-		cmd_cell_range_is_locked_effective (WORKBOOK_CONTROL_GUI (wbc), 
-						    me->dao->sheet, 
-						    me->dao->start_col, me->dao->cols, 
-						    me->dao->start_row, me->dao->rows))
 	    || me->engine (me->dao, me->specs, TOOL_ENGINE_UPDATE_DESCRIPTOR, 
 			   &me->parent.cmd_descriptor)
+	    || (me->dao->type != NewWorkbookOutput &&
+		cmd_cell_range_is_locked_effective (me->dao->sheet, 
+						    me->dao->start_col, me->dao->cols, 
+						    me->dao->start_row, me->dao->rows,
+						    wbc, me->parent.cmd_descriptor))
 	    || me->engine (me->dao, me->specs, TOOL_ENGINE_LAST_VALIDITY_CHECK, &continuity))
 		return TRUE;
 

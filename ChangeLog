@@ -1,5 +1,15 @@
 2002-06-17  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/commands.c (cmd_cell_range_is_locked_effective) : use 
+	  gnumeric_error_invalid rather than gnumeric_notice,
+	  change arguments to cmd_cell_range_is_locked_effective 
+	  throughout.
+	(cmd_selection_is_locked_effective) : change arguments
+	(cmd_clear_redo) : check for locked cells
+	(cmd_format_redo) : check for locked cells
+
+2002-06-17  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/commands.c (cmd_selection_is_locked_effective) : new
 	(cmd_area_set_text_redo) : check for locked cells
 	(cmd_ins_del_colrow_redo) : check for locked cells and split arrays
