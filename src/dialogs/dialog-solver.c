@@ -229,11 +229,12 @@ constraint_select_click (G_GNUC_UNUSED GtkWidget      *clist,
 	range_init_value (&range, constr->lhs_value);
 	gnm_expr_entry_load_from_range (state->lhs_entry, state->sheet,&range);
 
-	if (constr->type != SolverINT || constr->type != SolverBOOL) {
+	if (constr->type != SolverINT && constr->type != SolverBOOL) {
 		range_init_value (&range, constr->rhs_value);
 		gnm_expr_entry_load_from_range (state->rhs_entry,
 						state->sheet, &range);
-	}
+	} else
+		gnm_expr_entry_load_from_text (state->rhs_entry, "");
 
 	gtk_option_menu_set_history (state->type_combo, constr->type);
 }
