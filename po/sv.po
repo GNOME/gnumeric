@@ -31,8 +31,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-13 18:03+0900\n"
-"PO-Revision-Date: 2004-09-13 18:05+0900\n"
+"POT-Creation-Date: 2004-09-26 20:29+0900\n"
+"PO-Revision-Date: 2004-09-26 20:44+0900\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1467,45 +1467,50 @@ msgstr ""
 "fjäril; avista; slag1; slag2; tid1; tid2; ränta; cost_of_carry; volatilitet"
 
 #: plugins/derivatives/options.c:2279
-#, fuzzy
 msgid ""
 "type_flag, spot1, spot2, strike1, strike2, time, cost_of_carry1, "
 "cost_of_carry2, rate, volatility1, volatility2, rho"
 msgstr ""
-"fjäril; avista; slag1; slag2; tid1; tid2; ränta; cost_of_carry; volatilitet"
+"fjäril; avista1; avista2; slag1; slag2; tid; cost_of_carry1; "
+"cost_of_carry2; ränta; volatilitet1; volatilitet2; rho"
 
 #: plugins/derivatives/options.c:2284 plugins/derivatives/options.c:2289
-#, fuzzy
 msgid ""
 "spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,"
 "volatility2,rho"
-msgstr "avista; slag; tid1; tid2; ränta; cost_of_carry; volatilitet"
+msgstr ""
+"avista1; avista2; kvant1; kvant2; tid; ränta; cost_of_carry1; "
+"cost_of_carry2; volatilitet1; volatilitet2; rho"
 
 #: plugins/derivatives/options.c:2294
-#, fuzzy
 msgid ""
 "call_put_flag,fut_price1,fut_price2,strike,time, rate,volatility1,"
 "volatility2,rho"
-msgstr "fjäril; avista; slag; tid; ränta; cost_of_carry; volatilitet"
+msgstr ""
+"fjäril; frampris1; frampris2; slag; tid; ränta; volatilitet1"
+"volatilitet2; rho"
 
 #: plugins/derivatives/options.c:2299
-#, fuzzy
 msgid "call_put_flag,spot,spot_min,spot_max,time,rate,cost_of_carry,volatility"
-msgstr "fjäril; avista; slag; tid; ränta; cost_of_carry; volatilitet"
+msgstr ""
+"fjäril; avista; avista_min; avista_max; tid; ränta; "
+"cost_of_carry; volatilitet"
 
 #: plugins/derivatives/options.c:2304
-#, fuzzy
 msgid ""
 "call_put_flag,spot,spot_min,spot_max,strike,time,rate,cost_of_carry,"
 "volatility"
-msgstr "fjäril; avista; slag; tid; ränta; cost_of_carry; volatilitet"
+msgstr ""
+"fjäril; avista; avista_min; avista_max; slag; tid; ränta; "
+"cost_of_carry; volatilitet"
 
 #: plugins/derivatives/options.c:2310
-#, fuzzy
 msgid ""
 "amer_euro_flag,call_put_flag,num_time_steps, spot, strike, time, rate, "
 "volatility, cost_of_carry"
-msgstr "fjäril; avista; slag; tid; ränta; volatilitet; cost_of_carry"
+msgstr ""
+"amer_euro_flag; fjäril; tidssteg; avista; slag; tid; ränta; "
+"volatilitet; cost_of_carry"
 
 #: plugins/derivatives/plugin.xml.in.h:1
 #: plugins/fn-financial/plugin.xml.in.h:1
@@ -1521,7 +1526,7 @@ msgstr "Finansiella derivat"
 msgid "Functions related to financial derivatives"
 msgstr "Funktioner relaterade till finansiella derivat"
 
-#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5669
+#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5713
 #: plugins/mps/mps.c:547 src/xml-io.c:4134
 msgid "Reading file..."
 msgstr "Läser fil..."
@@ -1614,44 +1619,44 @@ msgstr "Oväntat attribut %s::%s == \"%s\"."
 
 #: plugins/excel/excel-xml-read.c:198
 #: plugins/openoffice/openoffice-read.c:1165
-#: plugins/xml_sax/xml-sax-read.c:1621
+#: plugins/xml_sax/xml-sax-read.c:1651
 msgid "XML document not well formed!"
 msgstr "XML-dokumentet är inte korrekt utformat!"
 
-#: plugins/excel/ms-excel-read.c:1090 src/value.c:60
+#: plugins/excel/ms-excel-read.c:1091 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#OKÄND!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1179 plugins/excel/ms-excel-read.c:1191
+#: plugins/excel/ms-excel-read.c:1173 plugins/excel/ms-excel-read.c:1185
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:510
 #: src/dialogs/dialog-sheet-order.c:494 src/dialogs/dialog-sheet-order.c:498
 #, c-format
 msgid "Sheet%d"
 msgstr "Blad%d"
 
-#: plugins/excel/ms-excel-read.c:1195
+#: plugins/excel/ms-excel-read.c:1189
 #, c-format
 msgid "Macro%d"
 msgstr "Makro%d"
 
-#: plugins/excel/ms-excel-read.c:1199
+#: plugins/excel/ms-excel-read.c:1193
 #, c-format
 msgid "Chart%d"
 msgstr "Diagram%d"
 
-#: plugins/excel/ms-excel-read.c:1202
+#: plugins/excel/ms-excel-read.c:1196
 #, c-format
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:2988
+#: plugins/excel/ms-excel-read.c:2984
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Fel vid tolkning av namn \"%s\""
 
-#: plugins/excel/ms-excel-read.c:3081
+#: plugins/excel/ms-excel-read.c:3080
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -1660,7 +1665,7 @@ msgstr ""
 "DDE-länkar stöds inte.\n"
 "Namn \"%s\" kommer förloras.\n"
 
-#: plugins/excel/ms-excel-read.c:3087
+#: plugins/excel/ms-excel-read.c:3086
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -1669,19 +1674,19 @@ msgstr ""
 "OLE-länkar stöds inte.\n"
 "Namn \"%s\" kommer förloras.\n"
 
-#: plugins/excel/ms-excel-read.c:5025
+#: plugins/excel/ms-excel-read.c:5063
 msgid "external references"
 msgstr "externa referenser"
 
-#: plugins/excel/ms-excel-read.c:5048
+#: plugins/excel/ms-excel-read.c:5086
 msgid "No password supplied"
 msgstr "Inget lösenord givet"
 
-#: plugins/excel/ms-excel-read.c:5898
+#: plugins/excel/ms-excel-read.c:5938
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kunde inte hitta en giltig MS Excel-arbetsbok"
 
-#: plugins/excel/ms-excel-write.c:208
+#: plugins/excel/ms-excel-write.c:209
 msgid ""
 "This is somewhat corrupt.\n"
 "We already wrote a length for a string that is being truncated due to "
@@ -1709,11 +1714,11 @@ msgstr ""
 "Visst innehåll kommer förloras vid sparande som MS Excel (tm). Den stöder "
 "endast %d rader och den här arbetsboken har %d"
 
-#: plugins/excel/ms-excel-write.c:4938
+#: plugins/excel/ms-excel-write.c:4931
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Kunde inte öppna ström \"Bok\" för skrivning\n"
 
-#: plugins/excel/ms-excel-write.c:4958
+#: plugins/excel/ms-excel-write.c:4951
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Kunde inte öppna ström \"Arbetsbok\" för skrivning\n"
 
@@ -1721,7 +1726,7 @@ msgstr "Kunde inte öppna ström \"Arbetsbok\" för skrivning\n"
 msgid "Broken function"
 msgstr "Trasig funktion"
 
-#: plugins/excel/ms-formula-write.c:536
+#: plugins/excel/ms-formula-write.c:537
 #, c-format
 msgid ""
 "Too many arguments for function '%s', MS Excel expects exactly %d and we "
@@ -1730,7 +1735,7 @@ msgstr ""
 "Alltför många argument till funktionen \"%s\", MS Excel väntar sig exakt %d "
 "och vi har %d"
 
-#: plugins/excel/ms-formula-write.c:537
+#: plugins/excel/ms-formula-write.c:538
 #, c-format
 msgid ""
 "Too many arguments for function '%s', MS Excel can only handle %d not %d"
@@ -5993,6 +5998,21 @@ msgid ""
 "\n"
 "@SEEALSO=HARMEAN"
 msgstr ""
+"@FUNCTION=INVSUMINV\n"
+"@SYNTAX=INVSUMINV(x1;x2;...)\n"
+"@DESCRIPTION=INVSUMINV beräknar inversen av summan av inverser.\n"
+"\n"
+"Det normala användningsområdet är att beräkna den ekvivalenta resistansen "
+"av parallella resistorer eller den ekvivalenta kapacitansen av parallella "
+"kondensatorer.\n"
+"\n"
+"* Alla argument måste vara icke-negativa annars returneras värdet #VÄRDE!.\n"
+"* Om något argument är noll, är resultatet noll.\n" 
+"\n"
+"@EXAMPLES=\n"
+"INVSUMINV(2000,2000) är lika med 1000.\n"
+"\n"
+"@SEEALSO=HARMEAN"
 
 #: plugins/fn-eng/plugin.xml.in.h:1
 msgid "Engineering"
@@ -8642,7 +8662,6 @@ msgid "Interest rate calculations"
 msgstr "Räntesatsberäkningar"
 
 #: plugins/fn-info/functions.c:67
-#, fuzzy
 msgid ""
 "@FUNCTION=CELL\n"
 "@SYNTAX=CELL(type,ref)\n"
@@ -8688,7 +8707,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "CELL(\"format\";A1) returnerar koden för formatet på cellen A1.\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=INDIRECT"
 
 #: plugins/fn-info/functions.c:1166
 msgid ""
@@ -8795,8 +8814,10 @@ msgid "%s version %s"
 msgstr "%s version %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
+#. Color
 #: plugins/fn-info/functions.c:1324
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1429
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1445
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:224
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:117
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:819
 #: src/dialogs/dialog-cell-format.c:2364 src/dialogs/dialog-cell-format.c:2369
@@ -18063,6 +18084,24 @@ msgstr ""
 msgid "No stream named content.xml found."
 msgstr "Ingen ström med namn content.xml kan hittas."
 
+#: plugins/openoffice/openoffice-write.c:122
+#, fuzzy, c-format
+msgid ""
+"Some content will be lost when saving as OpenOffice .sxc. It only supports %"
+"d rows, and sheet '%s' has %d"
+msgstr ""
+"Visst innehåll kommer förloras vid sparande som MS Excel (tm). Den stöder "
+"endast %d rader och den här arbetsboken har %d"
+
+#: plugins/openoffice/openoffice-write.c:129
+#, fuzzy, c-format
+msgid ""
+"Some content will be lost when saving as OpenOffice .sxc. It only supports %"
+"d columns, and sheet '%s' has %d"
+msgstr ""
+"Visst innehåll kommer förloras vid sparande som MS Excel (tm). Den stöder "
+"endast %d rader och den här arbetsboken har %d"
+
 #: plugins/openoffice/plugin.xml.in.h:1
 msgid "Open/Star Calc (*.sxc)"
 msgstr "Open/Star Calc (*.sxc)"
@@ -18079,16 +18118,16 @@ msgstr "OpenCalc/StarCalc"
 msgid "OpenOffice OASIS _UNFINISHED_"
 msgstr "OpenOffice OASIS _UNFINISHED_"
 
-#: plugins/paradox/paradox.c:72 plugins/paradox/paradox.c:106
+#: plugins/paradox/paradox.c:73 plugins/paradox/paradox.c:122
 msgid "Error while opening paradox file."
 msgstr "Fel vid öppnande av paradox-fil."
 
-#: plugins/paradox/paradox.c:104
+#: plugins/paradox/paradox.c:120
 #, fuzzy
 msgid "Could not allocate memory for record."
 msgstr "Kunde inte skapa uttrycksgurun."
 
-#: plugins/paradox/paradox.c:180
+#: plugins/paradox/paradox.c:196
 #, c-format
 msgid "Field type %d is not unsupported."
 msgstr "Fälttyp %d stöds inte."
@@ -18471,11 +18510,6 @@ msgid ""
 "this file."
 msgstr ""
 
-#: plugins/xbase/xbase.c:142
-#, fuzzy
-msgid "Failed to read DBF header."
-msgstr "DIF: Misslyckades att ladda blad"
-
 #: plugins/xbase/plugin.xml.in.h:1
 msgid "Imports XBase files"
 msgstr "Importerar XBase-filer"
@@ -18487,6 +18521,11 @@ msgstr "XBase"
 #: plugins/xbase/plugin.xml.in.h:3
 msgid "Xbase (*.dbf) file format"
 msgstr "Xbase-filformat (*.dbf)"
+
+#: plugins/xbase/xbase.c:142
+#, fuzzy
+msgid "Failed to read DBF header."
+msgstr "DIF: Misslyckades att ladda blad"
 
 #: plugins/xml_sax/plugin.xml.in.h:1
 msgid "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
@@ -19416,11 +19455,11 @@ msgstr "Inmatning av \"%s%s\""
 msgid "Ins/Del Column/Row"
 msgstr "Infoga kolumner"
 
-#: src/commands.c:1292 src/commands.c:1297 src/sheet.c:3238
+#: src/commands.c:1292 src/commands.c:1297 src/sheet.c:3239
 msgid "Delete Columns"
 msgstr "Ta bort kolumner"
 
-#: src/commands.c:1292 src/commands.c:1297 src/sheet.c:3356
+#: src/commands.c:1292 src/commands.c:1297 src/sheet.c:3357
 msgid "Delete Rows"
 msgstr "Ta bort rader"
 
@@ -19465,7 +19504,7 @@ msgid "Deleting row %s"
 msgstr "Borttagning av rad %s"
 
 #. Check for locked cells
-#: src/commands.c:1569 src/commands.c:1573 src/sheet.c:2852
+#: src/commands.c:1569 src/commands.c:1573 src/sheet.c:2853
 msgid "Clear"
 msgstr "Töm"
 
@@ -19918,7 +19957,7 @@ msgid "O_utside"
 msgstr "U_tanför"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:7
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1451
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1467
 msgid "_Cross"
 msgstr "_Kors"
 
@@ -19953,73 +19992,73 @@ msgstr "_Visa etiketter"
 msgid "_Type:"
 msgstr "T_yp:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:631
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:605
 #: src/dialogs/dialog-random-generator.c:118
 #: src/tools/solver/reports-write.c:712
 msgid "Discrete"
 msgstr "Diskret"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:631
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:605
 #, fuzzy
 msgid "Discrete mapping"
 msgstr "Diskret"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:640
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:614
 #, fuzzy
 msgid "Linear"
 msgstr "_Linjär"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:640
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:614
 msgid "Linear mapping"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:646
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:620
 #, fuzzy
 msgid "Log"
 msgstr "Logik"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:646
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:620
 #, fuzzy
 msgid "Logarithm mapping"
 msgstr "Logaritmisk"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1392
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1403
 msgid "Details"
 msgstr "Detaljer"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1436
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1452
 msgid "Categories between _ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1437
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1453
 msgid "Categories between _labels"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1438
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1454
 #, fuzzy
 msgid "_Cross at category #"
 msgstr "_Kategori"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1444
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1458
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1460
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1474
 msgid "Bounds"
 msgstr "Gränser"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1447
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1463
 #: src/dialogs/solver.glade.h:7
 msgid "M_in"
 msgstr "M_in"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1448
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1464
 msgid "M_ax"
 msgstr "M_ax"
 
 # ZZZ
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1449
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1465
 msgid "Ma_jor Ticks"
 msgstr "S_tora skalstreck"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1450
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1466
 msgid "Mi_nor Ticks"
 msgstr "S_må skalstreck"
 
@@ -20027,53 +20066,63 @@ msgstr "S_må skalstreck"
 #. * We need a way to toggle auto vs user formats
 #. * but the selector is too tall already
 #. * disable for now
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1473
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1480
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1489
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1496
 #: src/dialogs/dialog-stf.glade.h:25
 msgid "Format"
 msgstr "Format"
 
 #. Object Toolbar
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1509
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1525
 #: src/sheet-object-graphic.c:1443 src/wbcg-actions.c:1881
 msgid "Label"
 msgstr "Rubrik"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:194
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1528
+#, fuzzy
+msgid "MinorGrid"
+msgstr "Rutnät"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1531
+#, fuzzy
+msgid "MajorGrid"
+msgstr "Rutnät"
+
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:195
 msgid "Legend"
 msgstr "Förklaring"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:197
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:198
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:157
 #: src/cut-n-paste-code/goffice/graph/gog-legend.c:179
 msgid "Title"
 msgstr "Titel"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:200
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:201
 msgid "Grid"
 msgstr "Rutnät"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:203
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:204
 msgid "X-Axis"
 msgstr "X-axel"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:207
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:208
 msgid "Y-Axis"
 msgstr "Y-axel"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:211
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:212
 msgid "Z-Axis"
 msgstr "Z-Axel"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:215
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:216
 msgid "Circular-Axis"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:219
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:220
 msgid "Radial-Axis"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:223
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:224
 msgid "Plot"
 msgstr "Graf"
 
@@ -20092,6 +20141,76 @@ msgstr "B"
 #: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:251
 msgid "Width"
 msgstr "Bredd"
+
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:1
+msgid "(+)"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:2
+msgid "(-)"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:3
+#, fuzzy
+msgid "<b>Error category</b>"
+msgstr "<b>Felvarning</b>"
+
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:4
+#: src/dialogs/cell-format.glade.h:21
+msgid "<b>Style</b>"
+msgstr "<b>Stil</b>"
+
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:5
+#, fuzzy
+msgid "<b>Values</b>"
+msgstr "<b>Skala</b>"
+
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:6
+#, fuzzy
+msgid "Colo_r:"
+msgstr "Färg:"
+
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:7
+#, fuzzy
+msgid "Dis_play:"
+msgstr "D_ag"
+
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:8
+msgid ""
+"None\n"
+"Absolute\n"
+"Relative\n"
+"Percent"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:12
+#, fuzzy
+msgid "_Line width:"
+msgstr "Linjebredd:"
+
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:13
+#, fuzzy
+msgid "_Width:"
+msgstr "_Med:"
+
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:242
+msgid "No error bar displayed"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:248
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:264
+msgid "Positive error bar displayed"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:253
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:269
+msgid "Negative error bar displayed"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:258
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:274
+msgid "Full error bar displayed"
+msgstr ""
 
 #. default
 #. Cheat and assign a name here, graphs will not have parents until we
@@ -20350,18 +20469,20 @@ msgid "Default"
 msgstr "Standard"
 
 #. Guppi
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:514
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:524
 msgid "Guppi"
 msgstr "Guppi"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:326
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:231
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar.c:235
 #: src/dialogs/consolidate.glade.h:7
 msgid "Labels"
 msgstr "Rubriker"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:328
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:233
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar.c:237
 msgid "Values"
 msgstr "Värden"
 
@@ -20372,8 +20493,8 @@ msgstr "Fel vid tolkning av rad"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:2
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:2
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:2
 #: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:5330
 #, no-c-format
 msgid "%"
@@ -20671,14 +20792,30 @@ msgstr "_Segmentavstånd:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:7
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:8
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar-prefs.glade.h:3
 msgid "_Vary colors by slice"
 msgstr "Ändra _färg per segment"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:8
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:9
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar-prefs.glade.h:4
 #: src/dialogs/cell-format.glade.h:103
 msgid "degrees"
 msgstr "grader"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:3
+#, fuzzy
+msgid ""
+"The amount this slice is separated from the center measured as a percentage "
+"of the radius of the pie"
+msgstr ""
+"Standardavståndet som varje segment är flyttat från centrum mätt i procent "
+"av diagrammets radie"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:4
+#, fuzzy
+msgid "_Separation:"
+msgstr "Avskiljare:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:180
 msgid "PlotPie"
@@ -20698,20 +20835,6 @@ msgstr ""
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:3
 msgid "Cen_ter size:"
 msgstr "Mittenstorlek:"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:3
-#, fuzzy
-msgid ""
-"The amount this slice is separated from the center measured as a percentage "
-"of the radius of the pie"
-msgstr ""
-"Standardavståndet som varje segment är flyttat från centrum mätt i procent "
-"av diagrammets radie"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:4
-#, fuzzy
-msgid "_Separation:"
-msgstr "Avskiljare:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:1
 msgid "3D Pie"
@@ -20808,6 +20931,87 @@ msgstr "Cirkeldiagramsritmotor"
 msgid "Ring plotting engine"
 msgstr "Cirkeldiagramsritmotor"
 
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar-prefs.glade.h:1
+#, fuzzy
+msgid "Axes start _at:"
+msgstr "Segment _börjar vid:"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar-prefs.glade.h:2
+#, fuzzy
+msgid "Axes start at:"
+msgstr "Segment _börjar vid:"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar-prefs.glade.h:5
+msgid "rotation_spinner"
+msgstr ""
+
+#. xgettext : the base for how to name radar plot objects
+#. * eg The 2nd radar plot in a chart will be called
+#. * 	PlotRadar2
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar.c:113
+#, fuzzy
+msgid "PlotRadar"
+msgstr "PlotStapKol"
+
+#. xgettext : the base for how to name bar/col plot objects
+#. * eg The 2nd line plot in a chart will be called
+#. * 	PlotRadarArea2
+#.
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar.c:286
+#, fuzzy
+msgid "PlotRadarArea"
+msgstr "GrafArea"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in.h:1
+msgid "Area Radar"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in.h:2
+#, fuzzy
+msgid "Area radar plot."
+msgstr "Areagraf."
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in.h:3
+msgid "Dotted Radar"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in.h:4
+#, fuzzy
+msgid "Radar"
+msgstr "Standard"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in.h:5
+msgid "Radar plot with dots."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in.h:6
+#, fuzzy
+msgid "Radar plot."
+msgstr "Staplad areagraf."
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plugin.xml.in.h:1
+msgid "Charting : Radial plots"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plugin.xml.in.h:2
+#, fuzzy
+msgid "Default radar plot types"
+msgstr "Standard 1.5d-graftyper"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plugin.xml.in.h:3
+#, fuzzy
+msgid "Radar Area plotting engine"
+msgstr "Cirkeldiagramsritmotor"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plugin.xml.in.h:4
+#, fuzzy
+msgid "Radar plotting engine"
+msgstr "Cirkeldiagramsritmotor"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plugin.xml.in.h:5
+msgid "Radial/Radar plots"
+msgstr ""
+
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:2
 #, no-c-format
 msgid "% of default size"
@@ -20850,12 +21054,12 @@ msgid "PlotXY"
 msgstr "PlotXY"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:337
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:490
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:489
 msgid "X"
 msgstr "X"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:339
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:492
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:491
 msgid "Y"
 msgstr "Y"
 
@@ -20863,17 +21067,17 @@ msgstr "Y"
 msgid "PlotBubble"
 msgstr "PlotBubbla"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:494
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:493
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:1
 msgid "Bubble"
 msgstr "Bubbel"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1020
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1019
 #, fuzzy
 msgid "Y Error bars"
 msgstr "Fel vid tolkning av rad"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1022
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1021
 #, fuzzy
 msgid "X Error bars"
 msgstr "Fel vid tolkning av rad"
@@ -21902,10 +22106,6 @@ msgstr "<b>Mönster</b>"
 #: src/dialogs/cell-format.glade.h:20
 msgid "<b>Sample</b>"
 msgstr "<b>Exempel</b>"
-
-#: src/dialogs/cell-format.glade.h:21
-msgid "<b>Style</b>"
-msgstr "<b>Stil</b>"
 
 #: src/dialogs/cell-format.glade.h:22
 msgid "<b>Vertical alignment</b>"
@@ -22949,12 +23149,12 @@ msgstr "81"
 msgid "An error occurred while reading the category list"
 msgstr "Ett fel uppstod vid läsning av kategorilistan"
 
-#: src/dialogs/dialog-autosave.c:79
+#: src/dialogs/dialog-autosave.c:78
 #, c-format
 msgid "Do you want to save the workbook %s ?"
 msgstr "Vill du spara arbetsboken %s?"
 
-#: src/dialogs/dialog-autosave.c:184
+#: src/dialogs/dialog-autosave.c:183
 msgid "Could not create the autosave dialog."
 msgstr "Kunde inte skapa autosparningsdialogen."
 
@@ -23267,7 +23467,7 @@ msgstr "Ta bort hyperlänk"
 msgid "Could not create the hyperlink dialog."
 msgstr "Kunde inte skapa länkdialogen."
 
-#: src/dialogs/dialog-insert-cells.c:136 src/workbook-control-gui.c:529
+#: src/dialogs/dialog-insert-cells.c:136 src/workbook-control-gui.c:530
 msgid "Insert"
 msgstr "Infoga"
 
@@ -23897,17 +24097,17 @@ msgstr "Kör på"
 msgid "Variable"
 msgstr "Variabel"
 
-#: src/dialogs/dialog-simulation.c:237 src/tools/simulation.c:254
-#: src/workbook-control-gui.c:1826
+#: src/dialogs/dialog-simulation.c:237 src/tools/simulation.c:247
+#: src/workbook-control-gui.c:1828
 msgid "Min"
 msgstr "Min"
 
-#: src/dialogs/dialog-simulation.c:237 src/workbook-control-gui.c:1828
+#: src/dialogs/dialog-simulation.c:237 src/workbook-control-gui.c:1830
 msgid "Average"
 msgstr "Medelvärde"
 
-#: src/dialogs/dialog-simulation.c:237 src/tools/simulation.c:256
-#: src/workbook-control-gui.c:1827
+#: src/dialogs/dialog-simulation.c:237 src/tools/simulation.c:249
+#: src/workbook-control-gui.c:1829
 msgid "Max"
 msgstr "Max"
 
@@ -24647,8 +24847,8 @@ msgstr "D_ag"
 msgid "Date unit:"
 msgstr "Datumenhet:"
 
-#: src/dialogs/fill-series.glade.h:4 src/tools/fill-series.c:413
-#: src/tools/fill-series.c:416
+#: src/dialogs/fill-series.glade.h:4 src/tools/fill-series.c:406
+#: src/tools/fill-series.c:409
 msgid "Fill Series"
 msgstr "Fyll serie"
 
@@ -25503,7 +25703,7 @@ msgstr "<span weight=\"bold\">Scenarier</span>"
 msgid "Create _Report"
 msgstr "Skapa _Sammanfattning"
 
-#: src/dialogs/scenario-manager.glade.h:10 src/tools/scenarios.c:628
+#: src/dialogs/scenario-manager.glade.h:10 src/tools/scenarios.c:623
 msgid "Result Cells:"
 msgstr "Resultatceller:"
 
@@ -25904,7 +26104,7 @@ msgid "Prev. Sim."
 msgstr "Föreg. sim."
 
 #. Fill in the header titles.
-#: src/dialogs/simulation.glade.h:18 src/tools/simulation.c:349
+#: src/dialogs/simulation.glade.h:18 src/tools/simulation.c:342
 msgid "Risk Simulation"
 msgstr "Risksimulation"
 
@@ -26188,7 +26388,7 @@ msgstr "Maximum"
 msgid "Minimum"
 msgstr "Minimum"
 
-#: src/dialogs/tabulate.glade.h:7 src/tools/simulation.c:258
+#: src/dialogs/tabulate.glade.h:7 src/tools/simulation.c:251
 msgid "Mode"
 msgstr "Läge"
 
@@ -26332,7 +26532,7 @@ msgstr "Okänd operator"
 msgid "Internal type error"
 msgstr "Internt typfel"
 
-#: src/expr.c:1369
+#: src/expr.c:1368
 msgid "Unknown evaluation error"
 msgstr "Okänt evalueringsfel"
 
@@ -27341,11 +27541,11 @@ msgstr ""
 "ett annat filformat.\n"
 "Vill du spara endast det aktuella bladet?"
 
-#: src/gui-util.c:211
+#: src/gui-util.c:212
 msgid "Multiple errors\n"
 msgstr "Flera fel\n"
 
-#: src/gui-util.c:623
+#: src/gui-util.c:637
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Kan inte öppna filen \"%s\""
@@ -28064,31 +28264,31 @@ msgid "path"
 msgstr "sökväg"
 
 #. Note: we cannot have spaces in page numbers.
-#: src/print.c:577
+#: src/print.c:605
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:1122
+#: src/print.c:1150
 msgid "Print Region"
 msgstr "Utskriftsområde"
 
-#: src/print.c:1255
+#: src/print.c:1283
 msgid "Print Sheets"
 msgstr "Skriv ut blad"
 
-#: src/print.c:1263
+#: src/print.c:1291
 msgid "Act_ive sheet"
 msgstr "Akt_ivt blad"
 
-#: src/print.c:1263
+#: src/print.c:1291
 msgid "S_heets"
 msgstr "_Blad"
 
-#: src/print.c:1351 src/wbcg-actions.c:1489
+#: src/print.c:1379 src/wbcg-actions.c:1489
 msgid "Print preview"
 msgstr "Förhandsgranskning"
 
-#: src/print.c:1364
+#: src/print.c:1392
 msgid "Printing failed"
 msgstr "Utskrift misslyckades"
 
@@ -28285,19 +28485,19 @@ msgstr "kan inte skapa object för \"%s\""
 msgid "Could not load file: %s"
 msgstr "Kunde inte läsa in fil: %s"
 
-#: src/sheet-object-graph.c:195
+#: src/sheet-object-graph.c:195 src/sheet-object-image.c:334
 msgid "SVG (vector graphics)"
 msgstr ""
 
-#: src/sheet-object-graph.c:196
+#: src/sheet-object-graph.c:196 src/sheet-object-image.c:330
 msgid "PNG (raster graphics)"
 msgstr ""
 
-#: src/sheet-object-graph.c:197
+#: src/sheet-object-graph.c:197 src/sheet-object-image.c:332
 msgid "JPEG (photograph)"
 msgstr ""
 
-#: src/sheet-object-graph.c:240
+#: src/sheet-object-graph.c:240 src/sheet-object-image.c:465
 #, fuzzy
 msgid "Unknown failure while saving image"
 msgstr "Okänt fel vid generering av SVG för diagram"
@@ -28309,6 +28509,19 @@ msgstr "_Spara som bild"
 #: src/sheet-object-graphic.c:963 src/sheet-object-graphic.c:978
 msgid "Transparent"
 msgstr "Genomskinlig"
+
+#: src/sheet-object-image.c:336
+msgid "EMF (extended metafile)"
+msgstr ""
+
+#: src/sheet-object-image.c:338
+msgid "WMF (windows metafile)"
+msgstr ""
+
+#: src/sheet-object-image.c:483
+#, fuzzy
+msgid "_Save as"
+msgstr "Spara alla"
 
 #: src/sheet-object-widget.c:235 src/wbcg-actions.c:1884
 msgid "Frame"
@@ -28348,23 +28561,23 @@ msgstr "Kopiera"
 msgid "Cut"
 msgstr "Klipp ut"
 
-#: src/sheet.c:2007
+#: src/sheet.c:2008
 msgid "Target region contains merged cells"
 msgstr "Målregionen innehåller sammanslagna celler"
 
-#: src/sheet.c:2068
+#: src/sheet.c:2069
 msgid "cannot operate on merged cells"
 msgstr "kan inte operera på sammanslagna celler"
 
-#: src/sheet.c:2078
+#: src/sheet.c:2079
 msgid "cannot operate on array formulae"
 msgstr "kan inte operera på vektorformler"
 
-#: src/sheet.c:3179
+#: src/sheet.c:3180
 msgid "Insert Columns"
 msgstr "Infoga kolumner"
 
-#: src/sheet.c:3297
+#: src/sheet.c:3298
 msgid "Insert Rows"
 msgstr "Infoga rader"
 
@@ -28790,7 +29003,7 @@ msgid "Anova: Single Factor"
 msgstr "Anova: en faktor"
 
 #: src/tools/analysis-tools.c:4029 src/tools/analysis-tools.c:4710
-#: src/tools/simulation.c:343
+#: src/tools/simulation.c:336
 msgid "SUMMARY"
 msgstr "SAMMANFATTNING"
 
@@ -28944,7 +29157,7 @@ msgstr "Blad:"
 msgid "Report Created: "
 msgstr "Rapport skapad: "
 
-#: src/tools/fill-series.c:403
+#: src/tools/fill-series.c:396
 #, c-format
 msgid "Fill Series (%s)"
 msgstr "Fyll serie (%s)"
@@ -28978,20 +29191,20 @@ msgstr "Sannolikheterna får inte alla vara 0!"
 msgid "Random Numbers (%s)"
 msgstr "Slumptal (%s)"
 
-#: src/tools/scenarios.c:695 src/tools/scenarios.c:731
+#: src/tools/scenarios.c:690 src/tools/scenarios.c:726
 msgid "Scenario Summary"
 msgstr "Scenariesummering"
 
 #. Titles.
-#: src/tools/scenarios.c:698
+#: src/tools/scenarios.c:693
 msgid "Current Values"
 msgstr "Aktuella värden"
 
-#: src/tools/scenarios.c:699
+#: src/tools/scenarios.c:694
 msgid "Changing Cells:"
 msgstr "Ändrande celler:"
 
-#: src/tools/simulation.c:101
+#: src/tools/simulation.c:94
 msgid ""
 "Input variable did not yield to a numeric value. Check the model (maybe your "
 "last round # is too high)."
@@ -28999,7 +29212,7 @@ msgstr ""
 "Indatavariabeln ger inget numeriskt värde. Kontrollera modellen (kanske du "
 "har för många rundor)."
 
-#: src/tools/simulation.c:126
+#: src/tools/simulation.c:119
 msgid ""
 "Output variable did not yield to a numeric value. Check the output variables "
 "in your model (maybe your last round # is too high)."
@@ -29007,67 +29220,67 @@ msgstr ""
 "Utdatavariabeln ger inget numeriskt värde. Kontrollera utdatavariablerna i "
 "dim modell (kanske du har för många rundor)."
 
-#: src/tools/simulation.c:242
+#: src/tools/simulation.c:235
 msgid "Simulation Report"
 msgstr "Simulationsrapport"
 
-#: src/tools/simulation.c:255
+#: src/tools/simulation.c:248
 msgid "Mean"
 msgstr "Medelvärde"
 
-#: src/tools/simulation.c:257
+#: src/tools/simulation.c:250
 msgid "Median"
 msgstr "Median"
 
-#: src/tools/simulation.c:259
+#: src/tools/simulation.c:252
 msgid "Std. Dev."
 msgstr "Std.Av."
 
-#: src/tools/simulation.c:260
+#: src/tools/simulation.c:253
 msgid "Variance"
 msgstr "Varians"
 
-#: src/tools/simulation.c:261
+#: src/tools/simulation.c:254
 msgid "Skewness"
 msgstr "Skevhet"
 
-#: src/tools/simulation.c:262
+#: src/tools/simulation.c:255
 msgid "Kurtosis"
 msgstr "Kurtosis"
 
-#: src/tools/simulation.c:263
+#: src/tools/simulation.c:256
 msgid "Range"
 msgstr "Område"
 
-#: src/tools/simulation.c:264 src/workbook-control-gui.c:1829
+#: src/tools/simulation.c:257 src/workbook-control-gui.c:1831
 msgid "Count"
 msgstr "Antal"
 
-#: src/tools/simulation.c:265
+#: src/tools/simulation.c:258
 msgid "Confidence (95 %)"
 msgstr "Konfidensnivå (95%)"
 
-#: src/tools/simulation.c:266
+#: src/tools/simulation.c:259
 msgid "Lower Limit (95 %)"
 msgstr "Undre gräns (95%)"
 
-#: src/tools/simulation.c:267
+#: src/tools/simulation.c:260
 msgid "Upper Limit (95 %)"
 msgstr "Övre gräns (95%)"
 
-#: src/tools/simulation.c:335
+#: src/tools/simulation.c:328
 msgid "SUMMARY OF SIMULATION ROUND #"
 msgstr "SAMMANFATTNING AV SIMULATIONSRUNDA "
 
-#: src/tools/simulation.c:349
+#: src/tools/simulation.c:342
 msgid "Report"
 msgstr "Rapport"
 
-#: src/tools/simulation.c:396
+#: src/tools/simulation.c:389
 msgid "(Input) "
 msgstr "(Indata) "
 
-#: src/tools/simulation.c:411
+#: src/tools/simulation.c:404
 msgid "Maximum time exceeded. Simulation was not completed. "
 msgstr "Maximal tid överskriden. Simulering kördes inte klart. "
 
@@ -30302,11 +30515,11 @@ msgstr "_Ny vy..."
 msgid "Create a new view of the workbook"
 msgstr "Skapa en ny vy av arbetsboken"
 
-#: src/wbcg-actions.c:1621 src/workbook-control-gui.c:1023
+#: src/wbcg-actions.c:1621 src/workbook-control-gui.c:1024
 msgid "_Freeze Panes"
 msgstr "_Frys paneler"
 
-#: src/wbcg-actions.c:1622 src/workbook-control-gui.c:1026
+#: src/wbcg-actions.c:1622 src/workbook-control-gui.c:1027
 msgid "Freeze the top left of the sheet"
 msgstr "Frys övre vänstra delen bladet"
 
@@ -30803,7 +31016,7 @@ msgid "Remove an outline group"
 msgstr "Ta bort en konturgrupp"
 
 #. Data -> Filter
-#: src/wbcg-actions.c:1851 src/workbook-control-gui.c:1034
+#: src/wbcg-actions.c:1851 src/workbook-control-gui.c:1035
 msgid "Add _Auto Filter"
 msgstr "Lägg till _autofilter"
 
@@ -30837,7 +31050,7 @@ msgid "Import the text from a file"
 msgstr "Importera texten från en fil"
 
 #. Standard Toolbar
-#: src/wbcg-actions.c:1866 src/workbook-control-gui.c:1825
+#: src/wbcg-actions.c:1866 src/workbook-control-gui.c:1827
 #: src/workbook-view.c:541
 msgid "Sum"
 msgstr "Summa"
@@ -32328,101 +32541,101 @@ msgstr "Taiwan (zh_TW)"
 msgid "Current Locale: "
 msgstr "Aktuell lokal:"
 
-#: src/workbook-control-gui.c:337
+#: src/workbook-control-gui.c:338
 msgid " : Gnumeric"
 msgstr " : Gnumeric"
 
-#: src/workbook-control-gui.c:527
+#: src/workbook-control-gui.c:528
 msgid "Manage sheets..."
 msgstr "Hantera blad..."
 
-#: src/workbook-control-gui.c:530
+#: src/workbook-control-gui.c:531
 msgid "Append"
 msgstr "Lägg till"
 
-#: src/workbook-control-gui.c:531
+#: src/workbook-control-gui.c:532
 msgid "Duplicate"
 msgstr "Duplicera"
 
-#: src/workbook-control-gui.c:532
+#: src/workbook-control-gui.c:533
 msgid "Remove"
 msgstr "Ta bort"
 
-#: src/workbook-control-gui.c:533
+#: src/workbook-control-gui.c:534
 msgid "Rename"
 msgstr "Byt namn"
 
-#: src/workbook-control-gui.c:1022
+#: src/workbook-control-gui.c:1023
 msgid "Un_freeze Panes"
 msgstr "Av_frys paneler"
 
-#: src/workbook-control-gui.c:1025
+#: src/workbook-control-gui.c:1026
 msgid "Unfreeze the top left of the sheet"
 msgstr "Avfrys övre vänstra på bladet"
 
-#: src/workbook-control-gui.c:1033
+#: src/workbook-control-gui.c:1034
 msgid "Remove _Auto Filter"
 msgstr "Ta bort _autofilter"
 
-#: src/workbook-control-gui.c:1036
+#: src/workbook-control-gui.c:1037
 msgid "Remove a filter"
 msgstr "Ta bort ett filter"
 
-#: src/workbook-control-gui.c:1037
+#: src/workbook-control-gui.c:1038
 msgid "Add a filter"
 msgstr "Lägg till ett filter"
 
-#: src/workbook-control-gui.c:1048
+#: src/workbook-control-gui.c:1049
 msgid "_Undo"
 msgstr "_Ångra"
 
-#: src/workbook-control-gui.c:1049
+#: src/workbook-control-gui.c:1050
 msgid "_Redo"
 msgstr "_Gör om"
 
-#: src/workbook-control-gui.c:1177
+#: src/workbook-control-gui.c:1178
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
 msgstr "Spara ändringar i arbetsbok \"%s\" innan stängning?"
 
-#: src/workbook-control-gui.c:1181
+#: src/workbook-control-gui.c:1182
 msgid "Save changes to workbook before closing?"
 msgstr "Spara ändringar i arbetsbok innan stängning?"
 
-#: src/workbook-control-gui.c:1187
+#: src/workbook-control-gui.c:1188
 msgid "If you close without saving, changes will be discarded."
 msgstr "Om du stänger utan att spara kommer alla ändringar att försvinna."
 
-#: src/workbook-control-gui.c:1194
+#: src/workbook-control-gui.c:1195
 msgid "Discard all"
 msgstr "Förkasta alla"
 
-#: src/workbook-control-gui.c:1196 src/workbook-control-gui.c:1205
-#: src/workbook-control-gui.c:1213
+#: src/workbook-control-gui.c:1197 src/workbook-control-gui.c:1206
+#: src/workbook-control-gui.c:1214
 msgid "Discard"
 msgstr "Förkasta"
 
-#: src/workbook-control-gui.c:1198
+#: src/workbook-control-gui.c:1199
 msgid "Save all"
 msgstr "Spara alla"
 
-#: src/workbook-control-gui.c:1200 src/workbook-control-gui.c:1207
+#: src/workbook-control-gui.c:1201 src/workbook-control-gui.c:1208
 msgid "Don't quit"
 msgstr "Avsluta inte"
 
-#: src/workbook-control-gui.c:1215
+#: src/workbook-control-gui.c:1216
 msgid "Don't close"
 msgstr "Stäng inte"
 
-#: src/workbook-control-gui.c:2222 src/workbook-control-gui.c:2237
+#: src/workbook-control-gui.c:2217 src/workbook-control-gui.c:2232
 msgid "_Re-Edit"
 msgstr "Redigera _om"
 
-#: src/workbook-control-gui.c:2223 src/workbook-control-gui.c:2228
+#: src/workbook-control-gui.c:2218 src/workbook-control-gui.c:2223
 msgid "_Discard"
 msgstr "_Förkasta"
 
-#: src/workbook-control-gui.c:2227 src/workbook-control-gui.c:2238
+#: src/workbook-control-gui.c:2222 src/workbook-control-gui.c:2233
 msgid "_Accept"
 msgstr "_Acceptera"
 
@@ -32893,9 +33106,6 @@ msgstr "Gnumeric-filformat (*.gnumeric), XML-baserat"
 #~ msgstr ""
 #~ "Denna version av Gnumeric har kompilerats med otillräcklig precision i "
 #~ "frexpgnum."
-
-#~ msgid "Standard"
-#~ msgstr "Standard"
 
 #~ msgid "Formatting"
 #~ msgstr "Formatering"
