@@ -27,7 +27,6 @@
 #include "application.h"
 #include "print-info.h"
 #include "global-gnome-font.h"
-#include "auto-format.h"
 #include "style.h"
 #include "style-color.h"
 #include "str.h"
@@ -120,7 +119,6 @@ gnm_common_init (void)
 	format_color_init ();
 	format_match_init ();
 	e_cursors_init ();
-	auto_format_init ();
 	functions_init ();
 	print_init ();
 	autofill_init ();
@@ -161,7 +159,6 @@ gnm_shutdown (void)
 	plugins_shutdown ();
 	print_shutdown ();
 	functions_shutdown ();
-	auto_format_shutdown ();
 	e_cursors_shutdown ();
 	format_match_finish ();
 	format_color_shutdown ();

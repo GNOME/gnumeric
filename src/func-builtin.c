@@ -24,7 +24,6 @@
 #include <func.h>
 #include <func-builtin.h>
 #include <rangefunc.h>
-#include <auto-format.h>
 #include <collect.h>
 #include <value.h>
 #include <selection.h>
@@ -134,7 +133,7 @@ func_builtin_init (void)
 	static GnmFuncDescriptor const builtins [] = {
 		{	"sum",		NULL,	N_("number,number,"),
 			&help_sum,	NULL,	gnumeric_sum,
-			NULL, NULL, NULL, GNM_FUNC_SIMPLE,
+			NULL, NULL, NULL, GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 			GNM_FUNC_IMPL_STATUS_COMPLETE,
 			GNM_FUNC_TEST_STATUS_BASIC
 		},
@@ -158,7 +157,6 @@ func_builtin_init (void)
 	GnmFuncGroup *gnumericcat = gnm_func_group_fetch (gnumericcatname);
 
 	func = gnm_func_add (mathcat, builtins + 0);
-	auto_format_function_result (func, AF_FIRST_ARG_FORMAT);
 	mathfuncs = g_slist_prepend (mathfuncs, func);
 
 	func = gnm_func_add (mathcat, builtins + 1);
@@ -177,7 +175,6 @@ shutdown_cat (const char *catname, GSList **funcs)
 	for (tmp = *funcs; tmp; tmp = tmp->next) {
 		GnmFunc *def = tmp->data;
 		char const *name = gnm_func_get_name (def);
-		auto_format_function_result_remove (name);
 		function_remove (cat, name);
 	}
 	g_slist_free (*funcs);

@@ -1,3 +1,15 @@
+2002-11-03  Morten Welinder  <terra@diku.dk>
+
+	* src/func.h: Add type flags here.
+	* src/auto-format.h: Delete from here.
+
+	* src/func-builtin.c (func_builtin_init): Switch to using function
+ 	flags for SUM's type.
+
+	* src/libgnumeric.c (gnm_common_init): No longer need to init
+ 	auto-format.
+	(gnm_shutdown): No longer need to shut it down either.
+
 2002-11-03  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c (workbook_setup_edit_area) : simplify.

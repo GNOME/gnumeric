@@ -57,60 +57,14 @@
  */
 /* ------------------------------------------------------------------------- */
 
-static GHashTable *auto_format_function_hash;
+static const GnmFuncFlags AF_UNKNOWN = 0;
+#define AF_EXPLICIT ((GnmFuncFlags)(GNM_FUNC_AUTO_MASK + 1))
 
-void
-auto_format_init (void)
-{
-	auto_format_function_hash =
-		g_hash_table_new_full (g_str_hash, g_str_equal,
-				       g_free,
-				       NULL);
-}
+static GnmFuncFlags do_af_suggest_list (GnmExprList *list,
+					EvalPos const *epos,
+					StyleFormat **explicit);
 
-void
-auto_format_shutdown (void)
-{
-	g_hash_table_destroy (auto_format_function_hash);
-	auto_format_function_hash = NULL;
-}
-
-/* ------------------------------------------------------------------------- */
-
-void
-auto_format_function_result_by_name (const char *func, AutoFormatTypes res)
-{
-	g_return_if_fail (func != NULL);
-	g_return_if_fail (res != AF_UNKNOWN);
-	g_return_if_fail (res != AF_EXPLICIT);
-
-	g_hash_table_insert (auto_format_function_hash,
-			     g_strdup (func), GINT_TO_POINTER (res));
-}
-
-void
-auto_format_function_result (GnmFunc *fd, AutoFormatTypes res)
-{
-	g_return_if_fail (fd != NULL);
-
-	auto_format_function_result_by_name (gnm_func_get_name (fd), res);
-}
-
-void
-auto_format_function_result_remove (const char *func)
-{
-	g_return_if_fail (func != NULL);
-
-	g_hash_table_remove (auto_format_function_hash, func);
-}
-
-/* ------------------------------------------------------------------------- */
-
-static AutoFormatTypes do_af_suggest_list (GnmExprList *list,
-					   EvalPos const *epos,
-					   StyleFormat **explicit);
-
-struct cb_af_suggest { AutoFormatTypes typ; StyleFormat **explicit; };
+struct cb_af_suggest { GnmFuncFlags typ; StyleFormat **explicit; };
 
 static Value *
 cb_af_suggest (Sheet *sheet, int col, int row, Cell *cell, void *_data)
@@ -125,7 +79,7 @@ cb_af_suggest (Sheet *sheet, int col, int row, Cell *cell, void *_data)
 	return NULL;
 }
 
-static AutoFormatTypes
+static GnmFuncFlags
 do_af_suggest (GnmExpr const *expr, const EvalPos *epos, StyleFormat **explicit)
 {
 	switch (expr->any.oper) {
@@ -135,31 +89,31 @@ do_af_suggest (GnmExpr const *expr, const EvalPos *epos, StyleFormat **explicit)
 	case GNM_EXPR_OP_GTE:
 	case GNM_EXPR_OP_LTE:
 	case GNM_EXPR_OP_NOT_EQUAL:
-		return AF_UNITLESS;  /* Close enough.  */
+		return GNM_FUNC_AUTO_UNITLESS;  /* Close enough.  */
 
 	case GNM_EXPR_OP_MULT:
 		/* Fall through.  This isn't quite right, but good enough.  */
 	case GNM_EXPR_OP_ADD: {
 		/* Return the first interesting type we see.  */
-		AutoFormatTypes typ;
+		GnmFuncFlags typ;
 
 		typ = do_af_suggest (expr->binary.value_a, epos, explicit);
-		if (typ != AF_UNKNOWN && typ != AF_UNITLESS)
+		if (typ != AF_UNKNOWN && typ != GNM_FUNC_AUTO_UNITLESS)
 			return typ;
 
 		return do_af_suggest (expr->binary.value_b, epos, explicit);
 	}
 
 	case GNM_EXPR_OP_SUB: {
-		AutoFormatTypes typ1, typ2;
+		GnmFuncFlags typ1, typ2;
 		StyleFormat *explicit1 = NULL, *explicit2 = NULL;
 
 		typ1 = do_af_suggest (expr->binary.value_a, epos, &explicit1);
 		typ2 = do_af_suggest (expr->binary.value_b, epos, &explicit2);
 
-		if (typ1 == AF_DATE && typ2 == AF_DATE)
-			return AF_UNITLESS;
-		else if (typ1 != AF_UNKNOWN && typ1 != AF_UNITLESS) {
+		if (typ1 == GNM_FUNC_AUTO_DATE && typ2 == GNM_FUNC_AUTO_DATE)
+			return GNM_FUNC_AUTO_UNITLESS;
+		else if (typ1 != AF_UNKNOWN && typ1 != GNM_FUNC_AUTO_UNITLESS) {
 			*explicit = explicit1;
 			return typ1;
 		} else {
@@ -173,20 +127,15 @@ do_af_suggest (GnmExpr const *expr, const EvalPos *epos, StyleFormat **explicit)
 		return do_af_suggest (expr->binary.value_a, epos, explicit);
 
 	case GNM_EXPR_OP_FUNCALL: {
-		AutoFormatTypes typ;
-		const char *name;
-
-		name = gnm_func_get_name (expr->func.func);
-		typ = (AutoFormatTypes)
-			GPOINTER_TO_INT
-			(g_hash_table_lookup (auto_format_function_hash, name));
+		GnmFuncFlags typ =
+			(expr->func.func->flags & GNM_FUNC_AUTO_MASK);
 
 		switch (typ) {
-		case AF_FIRST_ARG_FORMAT:
+		case GNM_FUNC_AUTO_FIRST:
 			return do_af_suggest_list (expr->func.arg_list,
 						   epos, explicit);
 
-		case AF_FIRST_ARG_FORMAT2: {
+		case GNM_FUNC_AUTO_SECOND: {
 			GnmExprList *l;
 			l = expr->func.arg_list;
 			if (l) l = l->next;
@@ -223,7 +172,7 @@ do_af_suggest (GnmExpr const *expr, const EvalPos *epos, StyleFormat **explicit)
 		}
 
 		default:
-			return AF_UNITLESS;
+			return GNM_FUNC_AUTO_UNITLESS;
 		}
 	}
 
@@ -253,7 +202,7 @@ do_af_suggest (GnmExpr const *expr, const EvalPos *epos, StyleFormat **explicit)
 		return do_af_suggest (expr->unary.value, epos, explicit);
 
 	case GNM_EXPR_OP_PERCENTAGE:
-		return AF_PERCENT;
+		return GNM_FUNC_AUTO_PERCENT;
 
 	case GNM_EXPR_OP_EXP:
 	case GNM_EXPR_OP_CAT:
@@ -264,11 +213,11 @@ do_af_suggest (GnmExpr const *expr, const EvalPos *epos, StyleFormat **explicit)
 	}
 }
 
-static AutoFormatTypes
+static GnmFuncFlags
 do_af_suggest_list (GnmExprList *list, const EvalPos *epos, StyleFormat **explicit)
 {
-	AutoFormatTypes typ = AF_UNKNOWN;
-	while (list && (typ == AF_UNKNOWN || typ == AF_UNITLESS)) {
+	GnmFuncFlags typ = AF_UNKNOWN;
+	while (list && (typ == AF_UNKNOWN || typ == GNM_FUNC_AUTO_UNITLESS)) {
 		typ = do_af_suggest (list->data, epos, explicit);
 		list = list->next;
 	}
@@ -289,23 +238,24 @@ auto_style_format_suggest (GnmExpr const *expr, EvalPos const *epos)
 	case AF_EXPLICIT:
 		break;
 
-	case AF_DATE: /* FIXME: any better idea?  */
+	case GNM_FUNC_AUTO_DATE: /* FIXME: any better idea?  */
 		explicit = style_format_default_date ();
 		break;
 
-	case AF_TIME: /* FIXME: any better idea?  */
+	case GNM_FUNC_AUTO_TIME: /* FIXME: any better idea?  */
 		explicit = style_format_default_time ();
 		break;
 
-	case AF_PERCENT: /* FIXME: any better idea?  */
+	case GNM_FUNC_AUTO_PERCENT: /* FIXME: any better idea?  */
 		explicit = style_format_default_percentage ();
 		break;
 
-	case AF_MONETARY: /* FIXME: any better idea?  */
+	case GNM_FUNC_AUTO_MONETARY: /* FIXME: any better idea?  */
 		explicit = style_format_default_money ();
 		break;
 
-	case AF_FIRST_ARG_FORMAT:
+	case GNM_FUNC_AUTO_FIRST:
+	case GNM_FUNC_AUTO_SECOND:
 		g_assert_not_reached ();
 
 	default:
