@@ -1,3 +1,8 @@
+1999-11-28  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c : Add some menu items and experiment with disabling
+	  paste/paste-special when there is nothing appropriate to paste.
+
 1999-11-27  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/sheet.c (cb_set_cell_value): Fix silly format setting bug.

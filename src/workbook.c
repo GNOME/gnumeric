@@ -519,6 +519,24 @@ quit_cmd (void)
 }
 
 static void
+undo_cmd (GtkWidget *widget, Workbook *wb)
+{
+#if 0
+	/* Disable until they are read for prime time */
+	workbook_undo (wb);
+#endif
+}
+
+static void
+redo_cmd (GtkWidget *widget, Workbook *wb)
+{
+#if 0
+	/* Disable until they are read for prime time */
+	workbook_redo (wb);
+#endif
+}
+
+static void
 copy_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet;
@@ -920,6 +938,11 @@ static GnomeUIInfo workbook_menu_edit_clear [] = {
 };
 
 static GnomeUIInfo workbook_menu_edit [] = {
+	GNOMEUIINFO_MENU_UNDO_ITEM(undo_cmd, NULL),
+	GNOMEUIINFO_MENU_REDO_ITEM(redo_cmd, NULL),
+
+	GNOMEUIINFO_SEPARATOR,
+
         GNOMEUIINFO_MENU_CUT_ITEM(cut_cmd, NULL),
 	GNOMEUIINFO_MENU_COPY_ITEM(copy_cmd, NULL),
 	GNOMEUIINFO_MENU_PASTE_ITEM(paste_cmd, NULL),
@@ -2021,6 +2044,17 @@ workbook_new (void)
 #ifndef ENABLE_BONOBO
 	gnome_app_create_menus_with_data (GNOME_APP (wb->toplevel), workbook_menu, wb);
 	gnome_app_install_menu_hints (GNOME_APP (wb->toplevel), workbook_menu);
+
+	/* Disable undo/reo for now */
+	gtk_widget_set_sensitive (workbook_menu_edit[0].widget, FALSE);
+	gtk_widget_set_sensitive (workbook_menu_edit[1].widget, FALSE);
+
+	/* FIXME We need to make this local to a workbook somehow. */
+#if 0
+	gtk_widget_set_sensitive (workbook_menu_edit[5].widget, FALSE);
+	gtk_widget_set_sensitive (workbook_menu_edit[6].widget, FALSE);
+#endif
+
 #else
 	{
 		GnomeUIHandlerMenuItem *list;
