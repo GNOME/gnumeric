@@ -36,11 +36,12 @@ cell_region_render_ascii (CellRegion *cr)
 		char *v;
 		
 		if (c_copy->type == CELL_COPY_TYPE_CELL)
-			v = CELL_TEXT_GET (c_copy->u.cell);
+			v = cell_get_text (c_copy->u.cell);
 		else
-			v = c_copy->u.text;
+			v = g_strdup (c_copy->u.text);
 		
 		data [c_copy->row_offset][c_copy->col_offset] = v;
+		g_free (v);
 	}
 
 	all = g_string_new (NULL);

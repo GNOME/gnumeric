@@ -206,7 +206,7 @@ sheet_compute_col_row_new_size (Sheet *sheet, ColRowInfo *ci, void *data)
 void
 sheet_set_zoom_factor (Sheet *sheet, double factor)
 {
-	GList *l;
+	GList *l, *cl;
 		
 	sheet->last_zoom_factor_used = factor;
 
@@ -222,6 +222,13 @@ sheet_set_zoom_factor (Sheet *sheet, double factor)
 		SheetView *sheet_view = l->data;
 
 		sheet_view_set_zoom_factor (sheet_view, factor);
+
+	}
+
+	for (cl = sheet->comment_list; cl; cl = cl->next){
+		Cell *cell = cl->data;
+
+		cell_comment_reposition (cell);
 	}
 }
 
@@ -370,6 +377,20 @@ colrow_set_units (Sheet *sheet, ColRowInfo *info)
 			(info->margin_a + info->margin_b + 1)) / pix;
 }
 
+static void
+sheet_reposition_comments (Sheet *sheet, int row)
+{
+	GList *l;
+	
+	/* Move any cell comments */
+	for (l = sheet->comment_list; l; l = l->next){
+		Cell *cell = l->data;
+
+		if (cell->row->pos >= row)
+			cell_comment_reposition (cell);
+	}
+}
+
 void
 sheet_row_info_set_height (Sheet *sheet, ColRowInfo *ri, int height, gboolean height_set_by_user)
 {
@@ -384,6 +405,8 @@ sheet_row_info_set_height (Sheet *sheet, ColRowInfo *ri, int height, gboolean he
 	colrow_set_units (sheet, ri);
 	
 	sheet_compute_visible_ranges (sheet);
+
+	sheet_reposition_comments (sheet, ri->pos);
 	sheet_redraw_all (sheet);
 }
 
@@ -447,6 +470,7 @@ sheet_row_set_internal_height (Sheet *sheet, ColRowInfo *ri, int height)
 	ri->pixels = (ri->units * pix) + (ri->margin_a + ri->margin_b - 1);
 
 	sheet_compute_visible_ranges (sheet);
+	sheet_reposition_comments (sheet, ri->pos);
 	sheet_redraw_all (sheet);
 }
 
@@ -513,6 +537,7 @@ void
 sheet_col_set_width (Sheet *sheet, int col, int width)
 {
 	ColRowInfo *ci;
+	GList *l;
 	int add = 0;
 
 	g_return_if_fail (sheet != NULL);
@@ -532,6 +557,14 @@ sheet_col_set_width (Sheet *sheet, int col, int width)
 
 	/* Compute the spans */
 	sheet_recompute_spans_for_col (sheet, col);
+
+	/* Move any cell comments */
+	for (l = sheet->comment_list; l; l = l->next){
+		Cell *cell = l->data;
+
+		if (cell->col->pos >= col)
+			cell_comment_reposition (cell);
+	}
 }
 
 static inline int
@@ -782,20 +815,23 @@ sheet_cancel_pending_input (Sheet *sheet)
 void
 sheet_load_cell_val (Sheet *sheet)
 {
-	char *text;
+	GtkEntry *entry;
 	Cell *cell;
 	
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
+	entry = GTK_ENTRY (sheet->workbook->ea_input);
 	cell = sheet_cell_get (sheet, sheet->cursor_col, sheet->cursor_row);
 
-	if (cell && cell->entered_text)
-		text = cell->entered_text->str;
-	else
-		text = "";
-
-	gtk_entry_set_text (GTK_ENTRY (sheet->workbook->ea_input), text);
+	if (cell){
+		char *text;
+		
+		text = cell_get_text (cell);
+		gtk_entry_set_text (entry, text);
+		g_free (text);
+	} else
+		gtk_entry_set_text (entry, ""); 
 }
 
 void
@@ -818,9 +854,13 @@ sheet_start_editing_at_cursor (Sheet *sheet)
 	sheet->editing = TRUE;
 	cell = sheet_cell_get (sheet, sheet->cursor_col, sheet->cursor_row);
 	if (cell){
-		sheet->editing_saved_text = cell->entered_text;
+		char *text;
+
+		text = cell_get_text (cell);
+		sheet->editing_saved_text = string_get (text);
+		g_free (text);
+		
 		sheet->editing_cell = cell;
-		string_ref (sheet->editing_saved_text);
 		cell_set_text (cell, "");
 	}
 }
@@ -1835,6 +1875,8 @@ sheet_cell_add (Sheet *sheet, Cell *cell, int col, int row)
 	cell->col   = sheet_col_get (sheet, col);
 	cell->row   = sheet_row_get (sheet, row);
 
+	cell_realize (cell);
+	
 	if (!cell->style){
 		int flags;
 		
@@ -1885,7 +1927,8 @@ sheet_cell_remove_internal (Sheet *sheet, Cell *cell)
 		sheet_cell_formula_unlink (cell);
 
 	sheet_cell_remove_from_hash (sheet, cell);
-	
+
+	cell_unrealize (cell);
 }
 
 /*
@@ -1919,10 +1962,36 @@ sheet_cell_remove (Sheet *sheet, Cell *cell)
 				  
 	sheet_cell_remove_internal (sheet, cell);
 	cell->col->data = g_list_remove (cell->col->data, cell);
-	
+
 	sheet_redraw_cell_region (sheet,
 				  cell->col->pos, cell->row->pos,
 				  cell->col->pos, cell->row->pos);
+}
+
+void
+sheet_cell_comment_link (Cell *cell)
+{
+	Sheet *sheet;
+	
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (cell->sheet != NULL);
+
+	sheet = cell->sheet;
+	
+	sheet->comment_list = g_list_prepend (sheet->comment_list, cell);
+}
+
+void
+sheet_cell_comment_unlink (Cell *cell)
+{
+	Sheet *sheet;
+	
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (cell->sheet != NULL);
+	g_return_if_fail (cell->comment != NULL);
+	
+	sheet = cell->sheet;
+	sheet->comment_list = g_list_remove (sheet->comment_list, cell);
 }
 
 void
@@ -2023,7 +2092,8 @@ sheet_destroy (Sheet *sheet)
 		gtk_object_destroy (GTK_OBJECT (sheet_view));
 	}
 	g_list_free (sheet->sheet_views);
-		
+	g_list_free (sheet->comment_list);
+	
 	g_hash_table_foreach (sheet->cell_hash, cell_hash_free_key, NULL);
 	g_hash_table_destroy (sheet->cell_hash);
 

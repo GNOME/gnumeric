@@ -618,21 +618,14 @@ sheet_view_show_cursor (SheetView *sheet_view)
 	item_cursor_set_visibility (gsheet->item_cursor, TRUE);
 }
 
-
 #define TRIANGLE_WIDTH 6
 
-GnomeCanvasItem *
-sheet_view_create_comment_marker (SheetView *sheet_view, int col, int row)
+static GnomeCanvasPoints *
+sheet_view_comment_get_points (SheetView *sheet_view, int col, int row)
 {
 	GnomeCanvasPoints *points;
-	GnomeCanvasGroup *group;
-	GnomeCanvasItem *i;
-	int x, y;
-	
-	g_return_val_if_fail (sheet_view != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET_VIEW (sheet_view), NULL);
+	int x, y, i;
 
-	group = GNOME_CANVAS_GROUP (GNOME_CANVAS (sheet_view->sheet_view)->root);
 	points = gnome_canvas_points_new (3);
 
 	x = sheet_col_get_distance (sheet_view->sheet, 0, col+1);
@@ -645,6 +638,29 @@ sheet_view_create_comment_marker (SheetView *sheet_view, int col, int row)
 	points->coords [4] = x;
 	points->coords [5] = y + TRIANGLE_WIDTH;
 
+	for (i = 0; i < 3; i++){
+		gnome_canvas_c2w (GNOME_CANVAS (sheet_view->sheet_view),
+				  points->coords [i*2],
+				  points->coords [i*2+1],
+				  &(points->coords [i*2]),
+				  &(points->coords [i*2+1]));
+	}
+	return points;
+}
+
+GnomeCanvasItem *
+sheet_view_comment_create_marker (SheetView *sheet_view, int col, int row)
+{
+	GnomeCanvasPoints *points;
+	GnomeCanvasGroup *group;
+	GnomeCanvasItem *i;
+	
+	g_return_val_if_fail (sheet_view != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET_VIEW (sheet_view), NULL);
+
+	group = GNOME_CANVAS_GROUP (GNOME_CANVAS (sheet_view->sheet_view)->root);
+	points = sheet_view_comment_get_points (sheet_view, col, row);
+
 	i = gnome_canvas_item_new (
 		group, gnome_canvas_polygon_get_type (),
 		"points",     points,
@@ -653,3 +669,20 @@ sheet_view_create_comment_marker (SheetView *sheet_view, int col, int row)
 
 	return i;
 }
+
+void
+sheet_view_comment_relocate (SheetView *sheet_view, int col, int row, GnomeCanvasItem *o)
+{
+	GnomeCanvasPoints *points;
+
+	g_return_if_fail (sheet_view != NULL);
+	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
+	g_return_if_fail (o != NULL);
+	g_return_if_fail (GNOME_IS_CANVAS_ITEM (o));
+
+	points = sheet_view_comment_get_points (sheet_view, col, row);
+
+	gnome_canvas_item_set (o, "points", points, NULL);
+}
+
+

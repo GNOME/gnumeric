@@ -76,7 +76,7 @@ xmlGetValue (xmlNodePtr node, const char *name)
  * Get a String value for a node either carried as an attibute or as
  * the content of a child.
  */
-String *
+static String *
 xmlGetStringValue (xmlNodePtr node, const char *name)
 {
 	char *val;
@@ -116,7 +116,7 @@ xmlGetIntValue (xmlNodePtr node, const char *name, int *val)
  * Get a float value for a node either carried as an attibute or as
  * the content of a child.
  */
-int
+static int
 xmlGetFloatValue (xmlNodePtr node, const char *name, float *val)
 {
 	int res;
@@ -164,7 +164,7 @@ xmlGetDoubleValue (xmlNodePtr node, const char *name, double *val)
  * Get a set of coodinates for a node, carried as the content of a child.
  */
 
-int
+static int
 xmlGetCoordinate (xmlNodePtr node, const char *name,
 		  double *x, double *y)
 {
@@ -218,7 +218,7 @@ xmlGetCoordinates (xmlNodePtr node, const char *name,
  * Get a GnomeCanvasPoints for a node, carried as the content of a child.
  */
 
-GnomeCanvasPoints *
+static GnomeCanvasPoints *
 xmlGetGnomeCanvasPoints (xmlNodePtr node, const char *name)
 {
 	char *val;
@@ -374,7 +374,8 @@ xmlSetIntValue (xmlNodePtr node, const char *name, int val)
  * Set a float value for a node either carried as an attibute or as
  * the content of a child.
  */
-void xmlSetFloatValue (xmlNodePtr node, const char *name, float val)
+static void
+xmlSetFloatValue (xmlNodePtr node, const char *name, float val)
 {
 	const char *ret;
 	xmlNodePtr child;
@@ -401,7 +402,8 @@ void xmlSetFloatValue (xmlNodePtr node, const char *name, float val)
  * Set a double value for a node either carried as an attibute or as
  * the content of a child.
  */
-void xmlSetDoubleValue (xmlNodePtr node, const char *name, double val)
+static void
+xmlSetDoubleValue (xmlNodePtr node, const char *name, double val)
 {
 	const char *ret;
 	xmlNodePtr child;
@@ -992,8 +994,7 @@ readXmlStyle (parseXmlContextPtr ctxt, xmlNodePtr tree, Style * ret)
 /*
  * Create an XML subtree of doc equivalent to the given StyleRegion.
  */
-/* static !!! */
-xmlNodePtr
+static xmlNodePtr
 writeXmlStyleRegion (parseXmlContextPtr ctxt, StyleRegion *region)
 {
 	xmlNodePtr cur, child;
@@ -1203,7 +1204,8 @@ static xmlNodePtr
 writeXmlCell (parseXmlContextPtr ctxt, Cell *cell)
 {
 	xmlNodePtr cur, child;
-
+	char *text;
+	
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Cell", NULL);
 	xmlSetIntValue (cur, "Col", cell->col->pos);
 	xmlSetIntValue (cur, "Row", cell->row->pos);
@@ -1211,8 +1213,9 @@ writeXmlCell (parseXmlContextPtr ctxt, Cell *cell)
 
 	if (child)
 		xmlAddChild (cur, child);
-	xmlNewChild(cur, ctxt->ns, "Content", 
-	            xmlEncodeEntities(ctxt->doc, cell->entered_text->str));
+	text = cell_get_text (cell);
+	xmlNewChild(cur, ctxt->ns, "Content", text);
+	g_free (text);
 
 	return cur;
 }

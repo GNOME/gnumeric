@@ -109,6 +109,9 @@ typedef struct {
 	/* The list of formulas */
 	GList       *formula_cell_list;
 
+	/* The list of cells that have a comment */
+	GList       *comment_list;
+	
 	double      last_zoom_factor_used;
 
 	/* Objects */
@@ -210,6 +213,9 @@ int         sheet_cell_foreach_range      (Sheet *sheet, int only_existing,
 				           void *closure);
 Cell       *sheet_cell_get                (Sheet *sheet, int col, int row);
 Cell       *sheet_cell_fetch              (Sheet *sheet, int col, int row);
+void        sheet_cell_comment_link       (Cell *cell);
+void        sheet_cell_comment_unlink     (Cell *cell);
+
 void        sheet_cell_formula_link       (Cell *cell);
 void        sheet_cell_formula_unlink     (Cell *cell);
 

@@ -54,8 +54,11 @@ void             sheet_view_redraw_columns        (SheetView *sheet_view);
 void             sheet_view_hide_cursor           (SheetView *sheet_view);
 void             sheet_view_show_cursor           (SheetView *sheet_view);
 
-GnomeCanvasItem *sheet_view_create_comment_marker (SheetView *sheet_view,
+GnomeCanvasItem *sheet_view_comment_create_marker (SheetView *sheet_view,
 						   int col, int row);
+void             sheet_view_comment_relocate      (SheetView *sheet_view,
+						   int col, int row,
+						   GnomeCanvasItem *o);
 
 typedef struct {
 	GtkTableClass parent_class;

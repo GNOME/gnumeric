@@ -217,7 +217,7 @@ fill_item_new (Cell *cell)
 	value = cell->value;
 	value_type = value->type;
 	
-	if (CELL_IS_FORMULA (cell)){
+	if (cell->parsed_node){
 		fi->type = FILL_FORMULA;
 		fi->v.formula = cell->parsed_node;
 		

@@ -1,3 +1,29 @@
+1998-11-10  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet-view.c (sheet_view_comment_get_points): Scale properly
+	the points to be in window cordinates.
+
+	* src/sheet.c (sheet_col_set_width): Move comments on column
+	change. 
+
+	* src/cell.c (cell_copy): Duplicated cells get col, row and sheet
+	values set to NULL.
+
+1998-11-05  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/fn-misc.c: Add ctype.h
+
+	* src/sheet-view.c (sheet_view_comment_get_points): New utility
+	routine used.
+	(sheet_view_comment_relocate): New function used to relocate a
+	comment canvas item in a cell to its new location.
+
+	* src/cell.c (cell_relocate): Move the comments with the cell.
+	(cell_realize, cell_unrealize, cell_comment_realize,
+	cell_comment_unrealize): New functions used to create and destroy
+	view-specific cell components (the comments are canvas objects
+	that need to be created on a per-view basis).
+	
 1998-11-10  Michael Meeks    <michael@imaginator.com>
 
 	* plugins/excel/ms-ole.h: Added unsigned to WORD, LONG

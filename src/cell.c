@@ -263,10 +263,69 @@ cell_comment_clicked (GnomeCanvasItem *item, GdkEvent *event, Cell *cell)
 	return TRUE;
 }
 
+static void
+cell_comment_realize (Cell *cell)
+{
+	GList *l;
+
+	g_return_if_fail (cell->comment != NULL);
+
+	sheet_cell_comment_link (cell);
+	for (l = ((Sheet *)cell->sheet)->sheet_views; l; l = l->next){
+		SheetView *sheet_view = SHEET_VIEW (l->data);
+		GnomeCanvasItem *o;
+		
+		o = sheet_view_comment_create_marker (
+			sheet_view, 
+			cell->col->pos, cell->row->pos);
+
+		cell->comment->realized_list = g_list_prepend (
+			cell->comment->realized_list, o);
+
+		gtk_signal_connect (GTK_OBJECT (o), "event",
+				    GTK_SIGNAL_FUNC (cell_comment_clicked), cell);
+	}
+}
+
+static void
+cell_comment_unrealize (Cell *cell)
+{
+	GList *l;
+
+	g_return_if_fail (cell->comment != NULL);
+
+	sheet_cell_comment_unlink (cell);
+	for (l = cell->comment->realized_list; l; l = l->next){
+		GnomeCanvasItem *o = l->data;
+
+		printf ("Destruyendo: %p\n", o);
+		gtk_object_destroy (GTK_OBJECT (o));
+	}
+	g_list_free (cell->comment->realized_list);
+	cell->comment->realized_list = NULL;
+}
+
+void
+cell_realize (Cell *cell)
+{
+	g_return_if_fail (cell != NULL);
+
+	if (cell->comment)
+		cell_comment_realize (cell);
+}
+
+void
+cell_unrealize (Cell *cell)
+{
+	g_return_if_fail (cell != NULL);
+
+	if (cell->comment)
+		cell_comment_unrealize (cell);
+}
+
 void
 cell_set_comment (Cell *cell, char *str)
 {
-	GList *l;
 	int had_comments = FALSE;
 	
 	g_return_if_fail (cell != NULL);
@@ -286,20 +345,8 @@ cell_set_comment (Cell *cell, char *str)
 	if (had_comments)
 		cell_queue_redraw (cell);
 
-	for (l = ((Sheet *)cell->sheet)->sheet_views; l; l = l->next){
-		SheetView *sheet_view = SHEET_VIEW (l->data);
-		GnomeCanvasItem *o;
-		
-		o = sheet_view_create_comment_marker (
-			sheet_view, 
-			cell->col->pos, cell->row->pos);
-
-		cell->comment->realized_list = g_list_prepend (
-			cell->comment->realized_list, o);
-
-		gtk_signal_connect (GTK_OBJECT (o), "event",
-				    GTK_SIGNAL_FUNC (cell_comment_clicked), cell);
-	}
+	if (cell->sheet)
+		cell_comment_realize (cell);
 }
 
 void
@@ -421,15 +468,10 @@ cell_set_text_simple (Cell *cell, char *text)
 
 	cell_modified (cell);
 
-	/* The value entered */
-	if (cell->entered_text)
-		string_unref (cell->entered_text);
-
 	if (cell->value){
 		value_release (cell->value);
 		cell->value = NULL;
 	}
-	cell->entered_text = string_get (text);
 	
 	if (cell->parsed_node){
 		sheet_cell_formula_unlink (cell);
@@ -443,11 +485,13 @@ cell_set_text_simple (Cell *cell, char *text)
 	} else {
 		Value *v = g_new (Value, 1);
 		int is_text, is_float, maybe_float, has_digits;
+		int seen_exp;
 		char *p;
 
 		lconv = localeconv ();
 		
 		is_text = is_float = maybe_float = has_digits = FALSE;
+		seen_exp = FALSE;
 		for (p = text; *p && !is_text; p++){
 			switch (*p){
 			case '0': case '1': case '2': case '3': case '4':
@@ -458,9 +502,14 @@ cell_set_text_simple (Cell *cell, char *text)
 			case '-':
 				if (p == text)
 					break;
+				if (seen_exp)
+					is_text = TRUE;
 				/* falldown */
 				
 			case 'E': case 'e': case '+': case ':': case '.': case ',':
+				if (*p == 'e' || *p == 'E')
+					seen_exp = TRUE;
+				
 				if (*p == ',' || *p == '.')
 					if (*lconv->decimal_point != *p){
 						is_text = TRUE;
@@ -533,14 +582,63 @@ cell_set_text (Cell *cell, char *text)
 	cell_queue_redraw (cell);
 
 	cell_set_text_simple (cell, text);
-
 	cell_content_changed (cell);
 
 	cell_queue_redraw (cell);
 }
 
-/*
- * Makes a copy of a Cell
+/**
+ * cell_set_formula_tree_simple:
+ * @cell:    the cell to set the formula to
+ * @formula: an expression tree with the formula
+ *
+ * This is an internal function.  It should be only called by routines that
+ * know what they are doing.  These are the important differences from
+ * cell_set_formula:
+ *
+ *   - It does not queue redraws (so you have to queue the redraw yourself
+ *     or queue a full redraw).
+ *
+ *   - It does not queue any recomputations.  YOu have to queue the
+ *     recompute yourself. 
+ */
+void
+cell_set_formula_tree_simple (Cell *cell, ExprTree *formula)
+{
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (formula != NULL);
+
+	cell_modified (cell);
+
+	if (cell->parsed_node)
+		expr_tree_unref (cell->parsed_node);
+
+	cell->parsed_node = formula;
+	expr_tree_ref (formula);
+	cell_formula_changed (cell);
+}
+
+void
+cell_set_formula_tree (Cell *cell, ExprTree *formula)
+{
+	g_return_if_fail (cell != NULL);
+
+	cell_queue_redraw (cell);
+
+	cell_set_formula_tree_simple (cell, formula);
+	cell_content_changed (cell);
+
+	cell_queue_redraw (cell);
+}
+
+/**
+ * cell_copy:
+ * @cell: existing cell to duplicate
+ *
+ * Makes a copy of a Cell.  
+ *
+ * Returns a copy of the cell.  Note that the col, row and sheet
+ * fields are set to NULL.
  */
 Cell *
 cell_copy (Cell *cell)
@@ -554,8 +652,11 @@ cell_copy (Cell *cell)
 	/* bitmap copy first */
 	*new_cell = *cell;
 
+	new_cell->col   = NULL;
+	new_cell->row   = NULL;
+	new_cell->sheet = NULL;
+	
 	/* now copy propertly the rest */
-	string_ref      (new_cell->entered_text);
 	if (new_cell->parsed_node)
 		expr_tree_ref   (new_cell->parsed_node);
 	string_ref      (new_cell->text);
@@ -564,7 +665,8 @@ cell_copy (Cell *cell)
 	new_cell->value = value_duplicate (new_cell->value);
 
 	new_cell->comment = NULL;
-	cell_set_comment (new_cell, cell->comment->comment->str);
+	if (cell->comment)
+		cell_set_comment (new_cell, cell->comment->comment->str);
 
 	return new_cell;
 }
@@ -585,10 +687,11 @@ cell_destroy (Cell *cell)
 
 	cell_comment_destroy (cell);
 	
-	string_unref  (cell->entered_text);
 	string_unref  (cell->text);
 	style_destroy (cell->style);
 	value_release (cell->value);
+
+	g_free (cell);
 }
 
 void
@@ -696,6 +799,22 @@ cell_set_format (Cell *cell, char *format)
 	cell_queue_redraw (cell);
 }
 
+void
+cell_comment_reposition (Cell *cell)
+{
+	GList *l;
+	
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (cell->comment != NULL);
+	
+	for (l = cell->comment->realized_list; l; l = l->next){
+		GnomeCanvasItem *o = l->data;
+		SheetView *sheet_view = GNUMERIC_SHEET (o->canvas)->sheet_view;
+
+		sheet_view_comment_relocate (sheet_view, cell->col->pos, cell->row->pos, o);
+	}
+}
+
 /*
  * cell_relocate:
  * @cell:       The cell that is changing position
@@ -704,17 +823,12 @@ cell_set_format (Cell *cell, char *format)
  *
  * This routine is used to move a cell to a different location:
  *
- * The parsed tree is decoded as if it were evaluated at the new position
- * and then it is reparsed (important only for keeping the ->entered_text
- * information syncronized).
- *
  * Auxiliary items canvas items attached to the cell are moved.
  */
 void
 cell_relocate (Cell *cell, int target_col, int target_row)
 {
 	g_return_if_fail (cell != NULL);
-	g_return_if_fail (cell->entered_text);
 	g_return_if_fail (cell->parsed_node);
 
 	/* 1. Tag the cell as modified */
@@ -723,23 +837,13 @@ cell_relocate (Cell *cell, int target_col, int target_row)
 	/* 2. If the cell contains a formula, relocate the formula */
 	if (cell->parsed_node){
 		char *text, *formula;
-	
-		string_unref (cell->entered_text);
-	
-		text = expr_decode_tree (cell->parsed_node, target_col, target_row);
-	
-		formula = g_copy_strings ("=", text, NULL);
-		cell->entered_text = string_get (formula);
 
-		cell_set_formula (cell, formula);
-	
-		g_free (formula);
-		g_free (text);
-		
+		expr_tree_ref (cell->parsed_node);
 		cell_formula_changed (cell);
 	}
 
 	/* 3. Move any auxiliary canvas items */
+	cell_comment_reposition (cell);
 }
 
 /*
@@ -752,11 +856,6 @@ cell_make_value (Cell *cell)
 	g_return_if_fail (cell->parsed_node != NULL);
 
 	cell_modified (cell);
-
-	expr_tree_unref (cell->parsed_node);
-	cell->parsed_node = NULL;
-	string_unref (cell->entered_text);
-	cell->entered_text = string_ref (cell->text);
 }
 
 int
@@ -1031,8 +1130,8 @@ calc_text_dimensions (int is_number, Style *style, char *text, int cell_w, int c
 void
 cell_calc_dimensions (Cell *cell)
 {
-	char    *rendered_text;
-	int     left, right;
+	char *rendered_text;
+	int  left, right;
 
 	g_return_if_fail (cell != NULL);
 
@@ -1042,14 +1141,13 @@ cell_calc_dimensions (Cell *cell)
 		Style *style = cell->style;
 		int h, w;
 		
-		rendered_text = CELL_TEXT_GET (cell);
-
+		rendered_text = cell->text->str;
 		calc_text_dimensions (cell_is_number (cell),
 				      style, rendered_text,
 				      COL_INTERNAL_WIDTH (cell->col),
 				      ROW_INTERNAL_HEIGHT (cell->row),
 				      &h, &w);
-
+		
 		cell->width = cell->col->margin_a + cell->col->margin_b + w;
 		cell->height = cell->row->margin_a + cell->row->margin_b + h;
 
@@ -1200,7 +1298,6 @@ cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y
 	font_height = font->ascent + font->descent;
 	
 	halign = cell_get_horizontal_align (cell);
-	text = CELL_TEXT_GET (cell);
 
 	/* if a number overflows, do special drawing */
 	if (width < cell->width && cell_is_number (cell)){
@@ -1214,6 +1311,7 @@ cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y
 	else
 		do_multi_line = FALSE;
 
+	text = cell->text->str;
 	if (do_multi_line){
 		GList *lines, *l;
 		int cell_pixel_height = ROW_INTERNAL_HEIGHT (cell->row);
@@ -1354,4 +1452,21 @@ cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y
 	return end_col - start_col + 1;
 }
 
+char *
+cell_get_text (Cell *cell)
+{
+	g_return_val_if_fail (cell != NULL, NULL);
+
+	if (cell->parsed_node){
+		char *func, *ret;
+		
+		func = expr_decode_tree (cell->parsed_node, cell->col->pos, cell->row->pos);
+		ret = g_copy_strings ("=", func, NULL);
+		g_free (func);
+
+		return ret;
+	}
+
+	return value_string (cell->value);
+}
 

@@ -54,11 +54,6 @@ paste_cell (Sheet *dest_sheet, Cell *new_cell, int target_col, int target_row, i
 
 	cell_render_value (new_cell);
 	
-	if (!(paste_flags & PASTE_FORMULAS)){
-		string_unref (new_cell->entered_text);
-		new_cell->entered_text = string_ref (new_cell->text);
-	}
-
 	sheet_redraw_cell_region (dest_sheet,
 				  target_col, target_row,
 				  target_col, target_row);
@@ -329,7 +324,7 @@ x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data, gpoint
 		rendered_selection, strlen (rendered_selection));
 }
 
-/*
+/**
  * x_selection_clear:
  *
  * Callback for the "we lost the X selection" signal
@@ -342,8 +337,8 @@ x_selection_clear (GtkWidget *widget, GdkEventSelection *event, Workbook *wb)
 	return TRUE;
 }
 
-/*
- * x_clipboard_bind_workbook
+/**
+ * x_clipboard_bind_workbook:
  *
  * Binds the signals related to the X selection to the Workbook
  */
@@ -376,7 +371,7 @@ x_clipboard_bind_workbook (Workbook *wb)
 #endif
 }
 
-/*
+/**
  * clipboard_export_cell_region:
  *
  * This routine exports a CellRegion to the X selection
@@ -409,17 +404,12 @@ clipboard_append_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_da
 	copy->col_offset  = col - c->base_col;
 	copy->row_offset  = row - c->base_row;
 	
-	/* Now clear the traces and dependencies on the copied Cell */
-	copy->u.cell->col   = NULL;
-	copy->u.cell->row   = NULL;
-	copy->u.cell->sheet = NULL;
-	
 	c->r->list = g_list_prepend (c->r->list, copy);
 
 	return TRUE;
 }
 
-/*
+/**
  * clipboard_copy_cell_range:
  *
  * Entry point to the clipboard copy code
@@ -450,7 +440,15 @@ clipboard_copy_cell_range (Sheet *sheet, int start_col, int start_row, int end_c
 	return c.r;
 }
 
-/*
+/**
+ * clipboard_paste_region:
+ * @region:      A cell region
+ * @dest_sheet:  Destination sheet
+ * @dest_col:    Column where we should paste the region in dest_sheet
+ * @dest_row:    Row where we should paste the region in dest_sheet
+ * @paste_flags: Paste flags
+ * @time:        Time at which the event happened.
+ *
  * Main entry point for the paste code
  */
 void

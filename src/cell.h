@@ -50,7 +50,7 @@ typedef struct {
 	ColRowInfo  *row;
 
 	/* Text as entered by the user */
-	String      *entered_text;
+/*	String      *entered_text; */
 	
 	/* Type of the content and the actual parsed content */
 	ExprTree    *parsed_node;	/* Parse tree with the expression */
@@ -71,8 +71,7 @@ typedef struct {
 
 typedef GList CellList;
 
-#define CELL_TEXT_GET(cell)      ((cell)->text ? cell->text->str : cell->entered_text->str)
-#define CELL_IS_FORMULA(cell)    ((cell)->entered_text->str [0] == '=')
+/* #define CELL_TEXT_GET(cell)      ((cell)->text ? cell->text->str : cell->entered_text->str) */
 #define CELL_IS_FORMAT_SET(cell) ((cell)->flags & CELL_FORMAT_SET)
 
 typedef enum {
@@ -108,6 +107,7 @@ void        cell_set_font             (Cell *cell, char *font_name);
 void        cell_set_style            (Cell *cell, Style *reference_style);
 void        cell_set_comment          (Cell *cell, char *str);
 void        cell_comment_destroy      (Cell *cell);
+void        cell_comment_reposition   (Cell *cell);
 void        cell_set_font_from_style  (Cell *cell, StyleFont *style_font);
 void        cell_set_foreground       (Cell *cell, gushort red, gushort green, gushort blue);
 void        cell_set_background       (Cell *cell, gushort red, gushort green, gushort blue);
@@ -117,6 +117,7 @@ void        cell_set_halign           (Cell *cell, StyleHAlignFlags halign);
 void        cell_set_rendered_text    (Cell *cell, char *rendered_text);
 void        cell_relocate             (Cell *cell, int target_col, int target_row);
 void        cell_get_span             (Cell *cell, int *col1, int *col2);
+char       *cell_get_text             (Cell *cell);
 void        cell_make_value           (Cell *cell);
 void        cell_render_value         (Cell *cell);
 void        cell_calc_dimensions      (Cell *cell);
@@ -132,6 +133,9 @@ int         cell_draw                 (Cell *cell, void *sheet_view,
 
 void        calc_text_dimensions      (int is_number, Style *style, char *text,
 				       int cell_w, int cell_h, int *h, int *w);
+
+void        cell_realize              (Cell *cell);
+void        cell_unrealize            (Cell *cell);
 
 /*
  * Optimizations to stop cell_queue_redraw to be invoked

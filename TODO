@@ -6,8 +6,6 @@ GNOME Spread Sheet task list
 
    Comments location needs to be reset on col/row dimenssion changes.
 
-   cell_relocate should also relocate the comment.
-
 * Cell range naming
 
    Finish implementing.

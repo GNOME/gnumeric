@@ -711,7 +711,8 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		if ((event->state & GDK_CONTROL_MASK) != 0){
 			if (gsheet->item_editor){
 				Cell *cell;
-
+				char *text;
+				
 				sheet_accept_pending_input (sheet);
 				cell = sheet_cell_get (sheet,
 						       sheet->cursor_col,
@@ -724,9 +725,9 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 				 * part of the code
 				 */
 				g_return_val_if_fail (cell != NULL, 1);
-				g_return_val_if_fail (cell->entered_text != NULL, 1);
-				sheet_fill_selection_with (
-					sheet, cell->entered_text->str);
+				text = cell_get_text (cell);
+				sheet_fill_selection_with (sheet, text);
+				g_free (text);
 			}
 			return 1;
 		}
