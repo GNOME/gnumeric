@@ -1,3 +1,116 @@
+2001-05-30  Jon K Hellan  <hellan@acm.org>
+
+	* src/sheet-control-gui-priv.h: New file. Implementation details
+	for SheetControlGUI and methods directly accessible from the GUI
+	layer.
+
+	* src/Makefile.am: Add sheet-control-gui-priv.h
+
+	* src/sheet-control-gui.h: Move struct _SheetControlGUI to
+	sheet-control-gui-priv.h. Remove declarations of methods which
+	have been made virtual.
+
+	* src/sheet-control-gui.c: Include sheet-control-gui-priv.h instead
+	of sheet-control-gui.h. 
+	Casts and temp variables because:
+	- virtual scg methods now take a SheetControl parameter.
+        - sheet member now lives in SheetControl.
+	Make following methods static - externally available only as
+	virtual SheetControl method: scg_redraw_all,
+	scg_redraw_cell_region, scg_redraw_headers, scg_update_cursor_pos,
+	scg_resize, scg_unant, scg_ant, scg_cursor_bound,
+	scg_compute_visible_region, scg_make_cell_visible. Initialize
+	class object with these as virtual methods together with
+	scg_set_zoom_factor, scg_adjust_preferences, scg_scrollbar_config
+	and scg_mode_edit.  Rename context_menu_hander (sic!) to
+	context_menu_handler.
+
+	*src/sheet-control.c (SC_VIRTUAL_FULL): Fix typo.
+	(sc_destroy): Comment out unused variable.
+	(sheet_control_init_state): Rename to sc_init_state.
+	(sc_sheet): New accessor - returns sheet attribute.
+	(sc_invalidate_sheet): New function - sets sheet attribute to
+	NULL.
+	(resize, set_zoom_factor, redraw_all, redraw_cell_region,
+	redraw_headers, ant, unant, adjust_preferences, update_cursor_pos,
+	scrollbar_config, mode_edit, compute_visible_region,
+	make_cell_visible, cursor_bound): New virtual methods.
+
+	* src/sheet-control.h: Declare new methods in sheet-control.c
+
+	* src/selection.c: Use sc_redraw_cell_region, sc_redraw_headers
+	instead of scg methods.
+	
+	* src/sheet.c (sheet_unant): Use sc_unant instead o scg_unant.
+	(sheet_ant): Use sc_ant instead of scg_ant.
+	(sheet_redraw_all): Use sc_redraw_all instead of scg_redraw_all.
+	(sheet_redraw_all): Use sc_redraw_headers instead of
+	scg_redraw_headers.
+	(sheet_new_scg): Use sc_cursor_bound instead of scg_cursor_bound.
+	(sheet_detach_scg): Rename to sheet_detach_control. Change
+	parameter from SheetControlGUI to SheetControl. Use sc_sheet and
+	sc_invalidate_sheet instead of direct attribute access.
+	(sheet_set_zoom_factor): Use sc_set_zoom_factor instead of
+	scg_set_zoom_factor.
+	(sheet_update_only_grid): Use sc_compute_visible_region instead of
+	scg_compute_visible_region.
+	(sheet_col_row_gutter): Use sc_resize instead of scg_resize.
+	(sheet_redraw_cell_region, sheet_redraw_partial_row,
+	sheet_redraw_cell): Use sc_redraw_cell_region instead of
+	scg_redraw_cell_region.
+	(sheet_make_cell_visible): Use sc_make_cell_visible instead of
+	scg_make_cell_visible.
+	(sheet_cursor_set): Use sc_cursor_bound instead of
+	scg_cursor_bound.
+	(sheet_update_cursor_pos): Use sc_update_cursor_pos instead of
+	scg_update_cursor_pos.
+	(sheet_scrollbar_config): Use sc_scrollbar_config instead of
+	scg_scrollbar_config.
+	(sheet_adjust_preferences): Use sc_adjust_preferences, sc_resize
+	and sc_redraw_all instead of scg_adjust_preferences, scg_resize
+	and scg_redraw_all.
+
+	* src/sheet.h (SHEET_FOREACH_CONTROL): Take list of SheetControls
+	instead of SheetControlGUIs.
+
+	* src/workbook.c (workbook_sheet_detach): Use sc_mode_edit instead
+	of scg_mode_edit.
+	
+	* src/embeddable-grid.h: Include sheet-control-gui-priv.h instead
+	of sheet-control-gui.h.
+
+	* src/sheet-object-graphic.c: Ditto.
+
+	* src/gnumeric-sheet.c: Include sheet-control-gui-priv.h instead
+	of sheet-control-gui.h. 
+	Casts and temp variables because:
+	- virtual scg methods now take a SheetControl parameter.
+        - sheet now lives in SheetControl.
+
+	* src/item-bar.c: Ditto.
+	
+	* src/item-cursor.c: Ditto.
+	
+	* src/item-edit.c: Ditto.
+	
+	* src/item-grid.c: Ditto.
+
+	* src/sheet-object-cell-comment.c: Ditto.
+
+	* src/sheet-object-cell-container.c: Ditto.
+
+	* src/sheet-object-item.c: Ditto.
+
+	* src/sheet-object-widget.c: Ditto.
+
+	* src/workbook-control-gui.c: Ditto.
+
+	* src/workbook-object-toolbar.c: Ditto, but don't include
+	sheet-control-gui-priv.h 
+
+	* src/sheet-object.c (sheet_object_realize): Cast control to
+	SheetControlGUI.
+
 2001-05-30  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/stf.c (stf_init): Register as importer.
