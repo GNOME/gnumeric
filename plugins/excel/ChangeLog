@@ -5,7 +5,8 @@
 	  get confused.
 	(ms_excel_formula_shared): Back out change to set value on error.
 	(ms_excel_get_xf) : 0 and 15 may be defaults but we now have their
-	  records so no need to treat them specially.
+	  records so no need to treat them specially.  Seems to be no need
+	  to check for StyleXF vs CellXF...
 	(ms_excel_set_cell_xf) : It may be the default but we have the XF data
 	  for it now so USE IT.
 

@@ -933,7 +933,8 @@ ms_excel_get_xf (ExcelSheet *sheet, int const xfidx)
 	xf = g_ptr_array_index (p, xfidx);
 
 	g_return_val_if_fail (xf, NULL);
-	g_return_val_if_fail (xf->xftype == eBiffXCell, NULL);
+	/* FIXME : What is the difference between cell & style formats ?? */
+	/* g_return_val_if_fail (xf->xftype == eBiffXCell, NULL); */
 	return xf;
 }
 
