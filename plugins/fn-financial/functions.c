@@ -197,6 +197,10 @@ days_monthly_basis (Value *issue_date, Value *maturity_date, int basis)
 static float_t
 coupdays(GDate *settlement, GDate *maturity, int freq, int basis)
 {
+        GDateYear  sy, my;
+	GDateMonth sm, mm;
+	GDateDay   sd, md;
+
         switch (basis) {
         case 0:
         case 2:
@@ -211,9 +215,147 @@ coupdays(GDate *settlement, GDate *maturity, int freq, int basis)
         case 3:
                 return 365.0 / freq;
         case 1:
+		sy = g_date_year (settlement);
+		my = g_date_year (maturity);
+		sm = g_date_month (settlement);
+		mm = g_date_month (maturity);
+		sd = g_date_day (settlement);
+		md = g_date_day (maturity);
+
+	        if (freq == 1) {
+		        if (g_date_is_leap_year (sy)) {
+			        if (sm == 1 || sm == 2)
+				        if (sm < mm || (sm == mm && sd < md))
+					        return 365.0;
+					else
+					        return 366.0;
+				if (mm == 1 || mm == 2)
+				        return 366.0;
+				if (sm < mm || (sm == mm && sd < md))
+				        return 366.0;
+				else
+				        return 365.0;
+			} else if (g_date_is_leap_year (sy-1)) {
+			        if (sm == 1 || sm == 2)
+				        if (mm == 1 || mm == 2)
+					        if (sm < mm || 
+						    (sm == mm && sd < md))
+						        return 366.0;
+						else
+						        return 365.0;
+					else
+					        return 365.0;
+				else
+				        return 365.0;
+			} else if (g_date_is_leap_year (sy+1)) {
+			        if (sm == 1 || sm == 2)
+				        return 365.0;
+				if (mm == 1 || mm == 2)
+				        return 365.0;
+				if (sm < mm || (sm == mm && sd < md))
+				        return 365.0;
+				else
+				        return 366.0;
+			} else
+			        return 365.0;
+		}
         default:
                 return -1.0;
         }
+}
+
+/* Returns the number of days from the beginning of the coupon period to 
+ * the settlement date.  Currently, returns negative numbers if the branch
+ * is not implemented.
+ */
+static int
+coupdaybs(GDate *settlement, GDate *maturity, int freq, int basis)
+{
+        int        d, months, days;
+	GDateYear  sy, my;
+	GDateMonth sm, mm;
+	GDateDay   sd, md;
+
+	sy = g_date_year (settlement);
+	my = g_date_year (maturity);
+	sm = g_date_month (settlement);
+	mm = g_date_month (maturity);
+	sd = g_date_day (settlement);
+	md = g_date_day (maturity);
+
+	months = mm - sm;
+
+        switch (basis) {
+	case 0: /* US 30/360 */
+	        days = md - sd;
+
+	        if (! g_date_is_leap_year (sy) && g_date_is_leap_year(my)
+		    && mm == 2 && md == 29)
+		        --days;
+		else if (g_date_is_leap_year (sy) && ! g_date_is_leap_year(my)
+		    && mm == 2 && md == 28)
+		        if (sd == 29 && sm == 2)
+			        return 0;
+			else
+			        days += 2;
+
+		d = 360 - months*30 - days;
+
+	        if (freq == 1) {
+			if (d >= 360)
+			        if (days == 0 && months == 0)
+				        d = 0;
+			        else if (d % 360 == 0)
+				        d = 360;
+				else
+				        d %= 360;
+		} else if (freq == 2)
+			if ((d % 180) == 0 && days)
+			        d = 180;
+			else
+			        d %= 180;
+		else
+			if ((d % 90) == 0 && days)
+			        d = 90;
+			else
+			        d %= 90;
+
+		return d;
+	case 1:
+	case 2:
+	case 3:
+	case 4: /* European 30/360 */
+	        if (! g_date_is_leap_year (sy) && g_date_is_leap_year(my)
+		    && mm == 2 && md == 29)
+		        return 0;
+
+	        if (sd == 31)
+		        sd = 30;
+		if (md == 31)
+		        md = 30;
+
+		days = md - sd;
+		d = 360 - months*30 - days;
+
+	        if (freq == 1) {
+		        if ((d % 360) == 0 && days)
+			        d = 360;
+			else
+			        d %= 360;
+		} else if (freq == 2) {
+		        if ((d % 180) == 0 && days)
+			        d = 180;
+			else
+			        d %= 180;
+		} else
+		        if ((d % 90) == 0 && days)
+			        d = 90;
+			else
+			        d %= 90;
+		return d;
+	default:
+	        return -1;
+	}
 }
 
 static int
@@ -2254,8 +2396,9 @@ gnumeric_amorlinc (FunctionEvalInfo *ei, Value **argv)
 static char *help_coupdaybs = {
 	N_("@FUNCTION=COUPDAYBS\n"
 	   "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])\n"
-	   "@DESCRIPTION=Returns the number of days from the beginning "
-	   "of the coupon period to the settlement date."
+	   "@DESCRIPTION="
+	   "Returns the number of days from the beginning of the coupon "
+	   "period to the settlement date."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -2265,7 +2408,32 @@ static char *help_coupdaybs = {
 static Value *
 gnumeric_coupdaybs (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+        GDate   *settlement;
+        GDate   *maturity;
+        int     freq, basis;
+        int     days;
+
+        settlement = datetime_value_to_g(argv[0]);
+        maturity = datetime_value_to_g(argv[1]);
+        freq = value_get_as_int (argv[2]);
+	if (argv[3] != NULL)
+	        basis = value_get_as_int (argv[3]);
+	else
+	        basis = 0;
+
+        if (settlement == NULL || maturity == NULL)
+                return value_new_error (ei->pos, gnumeric_err_VALUE);
+
+        if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
+	    || g_date_compare(settlement, maturity) > 0)
+                return value_new_error (ei->pos, gnumeric_err_NUM);
+
+        days = coupdaybs(settlement, maturity, freq, basis);
+
+        if (days < 0)
+	        return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+
+        return value_new_int (days);
 }
 
 /***************************************************************************/

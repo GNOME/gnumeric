@@ -29,12 +29,12 @@ Gnumeric Spread Sheet task list
 * Implement Even More Functions
 
     * AREAS and GETPIVOTDATA
-    * AMORDEGRC, AMORLINC, COUPDAYBS, COUPDAYSNC, COUPNCD, COUPPCD,
-      CUMIPMT, CUMPRINC, MDURATION, ODDFPRICE, ODDFYIELD, ODDLPRICE,
-      ODDLYIELD, PRICE, VDB, YIELD, YIELDDISC, and YIELDMAT.
+    * AMORDEGRC, AMORLINC, COUPDAYSNC, COUPNCD, COUPPCD, CUMIPMT, CUMPRINC,
+      MDURATION, ODDFPRICE, ODDFYIELD, ODDLPRICE, ODDLYIELD, PRICE, VDB,
+      YIELD, YIELDDISC, and YIELDMAT.
 
-* Fix the Following Functions
-    * CELL, COUPDAYS, and DURATION
+* Fix or finish the implementation of the Following Functions
+    * CELL, COUPDAYBS, COUPDAYS, and DURATION
 
 * Data Analysis Tools
     * Finish `Anova: Two-Factor With Replication' and `Histogram' tools

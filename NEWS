@@ -5,10 +5,11 @@ Jody:
 	* Deadkey support.
 
 Jukka:
-	* Started the implementation of `Anova: Two-Factor With Replication'
-	  and `Histogram' data analysis tools
-	* Implemented COUPNUM and started COUPDAYS.
-	* Implemented TRUE and FALSE logical functions.
+	* Implementation of `Anova: Two-Factor With Replication'
+	  and `Histogram' data analysis tools mostly
+	* Implemented COUPNUM
+	* Implemented TRUE and FALSE logical functions
+	* Started the implementation of COUPDAYBS and COUPDAYS.
 
 Morten:
 	* Cleanup analysis tool code.

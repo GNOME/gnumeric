@@ -1,3 +1,10 @@
+2000-07-04  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/functions/fn-financial.c: Implemented basis 0 for COUPDAYBS.
+
+	* src/functions/fn-financial.c (coupdays): Implemented frequency 1
+ 	for basis 1 (frequences 2 and 4 are still not done).
+
 2000-07-04  Almer. S. Tigelaar.  <almer1@dds.nl>
 
 	* src/dialogs/dialog-stf.c, src/dialogs/dialog-stf-fixed-page.c :
