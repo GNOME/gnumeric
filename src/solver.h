@@ -125,7 +125,7 @@ struct _SolverConstraint {
 struct _SolverParameters {
         SolverProblemType  problem_type;
         Cell               *target_cell;
-        CellList           *input_cells;
+        GSList		   *input_cells;
         GSList             *constraints;
         char               *input_entry_str;
         int                n_constraints;

@@ -1,5 +1,10 @@
 2002-03-22  Jody Goldberg <jody@gnome.org>
 
+	* solver.c (solver_param_new) : init input_cells, and constraints to
+	NULL.  It is not strictly necessary but makes me feel good.
+
+2002-03-22  Jody Goldberg <jody@gnome.org>
+
 	* reports-write.c (solver_program_report) : suppress warning.
 	(solver_performance_report) : fix typo.
 

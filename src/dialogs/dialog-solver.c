@@ -436,7 +436,7 @@ dialog_destroy (GtkObject *w, SolverState  *state)
  *
  **/
 static void
-restore_original_values (CellList *input_cells, GSList *ov)
+restore_original_values (GSList *input_cells, GSList *ov)
 {
         while (ov != NULL) {
 	        const char *str = ov->data;
@@ -463,8 +463,8 @@ cb_dialog_cancel_clicked (GtkWidget *button, SolverState *state)
 		GSList *cells = state->ov_cell_stack;
 		GSList *ov = state->ov_stack;
 		while (cells != NULL && ov != NULL) {
-			restore_original_values ((CellList *)cells->data,
-						 (GSList *)ov->data);
+			restore_original_values (cells->data,
+						 ov->data);
 			cells = cells->next;
 			ov = ov ->next;
 		}
@@ -637,7 +637,7 @@ revert_constraint_format (constraint_conversion_t * conv)
  *
  **/
 static GSList *
-save_original_values (CellList *input_cells)
+save_original_values (GSList *input_cells)
 {
         GSList *ov = NULL;
 
@@ -783,7 +783,7 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 	SolverResults           *res;
 	Value                   *target_range;
 	Value                   *input_range;
-        CellList                *input_cells = NULL;
+        GSList			*input_cells = NULL;
 	Value                   *result;
 	EvalPos                 pos;
 	gint                    i;

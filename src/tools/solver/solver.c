@@ -22,8 +22,7 @@
 */
 
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "numbers.h"
+#include "reports.h"
 
 #include "parse-util.h"
 #include "solver.h"
@@ -64,6 +63,8 @@ solver_param_new (void)
 	res->problem_type                = SolverMaximize;
 	res->constraints                 = NULL;
 	res->target_cell                 = NULL;
+	res->input_cells		 = NULL;
+	res->constraints		 = NULL;
 
 	return res;
 }
@@ -144,7 +145,7 @@ solver_results_free (SolverResults *res)
 
 /* ------------------------------------------------------------------------- */
 
-Cell*
+Cell *
 solver_get_target_cell (Sheet *sheet)
 {
         return sheet_cell_get (sheet,
@@ -152,7 +153,7 @@ solver_get_target_cell (Sheet *sheet)
 			       sheet->solver_parameters->target_cell->pos.row);
 }
 
-Cell*
+Cell *
 solver_get_input_var (SolverResults *res, int n)
 {
         return res->input_cells_array[n];
@@ -264,7 +265,7 @@ save_original_values (SolverResults          *res,
 		      Sheet                  *sheet)
 {
   
-	CellList *inputs = param->input_cells;
+	GSList   *inputs = param->input_cells;
 	Cell     *cell;
 	int      i = 0;
 
@@ -461,7 +462,7 @@ check_program_definition_failures (Sheet            *sheet,
 				   SolverResults    **res,
 				   gchar            **errmsg)
 {
-	CellList         *inputs;
+	GSList           *inputs;
 	GSList           *c;
 	Cell             *cell;
 	int              i, n;
@@ -562,9 +563,6 @@ solver_run (WorkbookControl *wbc, Sheet *sheet,
 	SolverParameters  *param = sheet->solver_parameters;
 	SolverProgram     program;
 	SolverResults     *res;
-	Cell              *cell;
-	int               i;
-	gnum_float        lhs, rhs;
 	GTimeVal          start, end;
 	struct tms        buf;
 
@@ -608,7 +606,7 @@ solver_run (WorkbookControl *wbc, Sheet *sheet,
 SolverResults *
 solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 {
-	SolverLPAlgorithm *alg;
+	SolverLPAlgorithm *alg = NULL;
 	SolverParameters  *param = sheet->solver_parameters;
 
         switch (sheet->solver_parameters->options.model_type) {
@@ -620,6 +618,9 @@ solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 		break;
 	case SolverNLPModel:
 	        return NULL;
+
+	default :
+		g_assert_not_reached ();
 	}
 
 	return solver_run (wbc, sheet, alg, errmsg);
@@ -631,7 +632,7 @@ solver_lp_copy (const SolverParameters *src_param, Sheet *new_sheet)
 {
 	SolverParameters *dst_param = solver_param_new ();
 	GSList   *constraints;
-	CellList *inputs;
+	GSList   *inputs;
 
 	if (src_param->target_cell != NULL)
 	        dst_param->target_cell = solver_get_target_cell (new_sheet);
@@ -653,9 +654,9 @@ solver_lp_copy (const SolverParameters *src_param, Sheet *new_sheet)
 		*new = *old;
 		new->str = g_strdup (old->str);
 
-		/* FIXME: O(n^2).  */
-		dst_param->constraints = g_slist_append (dst_param->constraints, new);
+		dst_param->constraints = g_slist_prepend (dst_param->constraints, new);
 	}
+	dst_param->constraints = g_slist_reverse (dst_param->constraints);
 
 	/* Copy the input cell list */
 	for (inputs = src_param->input_cells; inputs ; inputs = inputs->next) {
@@ -664,10 +665,10 @@ solver_lp_copy (const SolverParameters *src_param, Sheet *new_sheet)
 
 		new_cell = cell_copy (cell);
 		new_cell->base.sheet = new_sheet;
-		dst_param->input_cells = (CellList *)
-			g_slist_append ((GSList *)dst_param->input_cells,
-					(gpointer) new_cell);
+		dst_param->input_cells = g_slist_prepend (dst_param->input_cells,
+			(gpointer) new_cell);
 	}
+	dst_param->input_cells = g_slist_reverse (dst_param->input_cells);
 
 	return dst_param;
 }

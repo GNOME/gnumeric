@@ -22,8 +22,7 @@
 */
 
 #include <gnumeric-config.h>
-#include "gnumeric.h"
-#include "numbers.h"
+#include "reports.h"
 
 #include "format.h"
 #include "parse-util.h"

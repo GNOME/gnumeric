@@ -1,3 +1,7 @@
+2002-03-22  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric.h (CellList) : delete.
+
 2002-03-22  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/format-template.h: Extend FormatTemplate struct with

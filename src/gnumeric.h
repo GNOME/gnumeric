@@ -54,7 +54,6 @@ typedef struct _GnmNamedExpr		GnmNamedExpr;
 
 typedef struct _PasteTarget		PasteTarget;
 typedef struct _CellRegion		CellRegion;
-typedef		GList			CellList;
 
 typedef struct _ColRowInfo	 	ColRowInfo;
 typedef struct _ColRowCollection	ColRowCollection;
