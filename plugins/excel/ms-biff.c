@@ -1,19 +1,14 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /**
  * ms-biff.c: MS Excel Biff support...
  *
  * Author:
  *    Michael Meeks (michael@ximian.com)
+ *    Jody Goldberg (jody@gnome.org)
  *
- * (C) 1998, 1999, 2000 Michael Meeks
+ * (C) 1998-2002 Michael Meeks
+ *          2002 Jody Goldberg
  **/
-
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/mman.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <fcntl.h>
-#include <ctype.h>
 
 #include <gnumeric-config.h>
 #include <gnumeric.h>
@@ -23,13 +18,14 @@
 #include "ms-biff.h"
 #include "biff-types.h"
 
+#include <stdio.h>
+
 #define BIFF_DEBUG 0
 
 /**
  * The only complicated bits in this code are:
  *  a) Speed optimisation of passing a raw pointer to the mapped stream back
- *  b) Merging continues, if a record is too large for a single BIFF record
- *     ie. 0xffff bytes ( or more usu. 0x2000 ) it is split into continues.
+ *  b) Handling decryption
  **/
 
 /*******************************************************************************/
@@ -37,48 +33,229 @@
 /*******************************************************************************/
 
 void
-dump_biff (BiffQuery *bq)
+dump_biff (BiffQuery *q)
 {
-	printf ("Opcode 0x%x length %d malloced? %d\nData:\n", bq->opcode, bq->length, bq->data_malloced);
-	if (bq->length>0)
-		ms_ole_dump (bq->data, bq->length);
-/*	dump_stream (bq->pos); */
+	printf ("Opcode 0x%x length %d malloced? %d\nData:\n", q->opcode, q->length, q->data_malloced);
+	if (q->length > 0)
+		ms_ole_dump (q->data, q->length);
+/*	dump_stream (q->pos); */
 }
 
 /*******************************************************************************/
 /*                                 Read Side                                   */
 /*******************************************************************************/
 
+
+/* 
+this is just cut out of wvMD5Final to get the byte order correct
+under MSB systems, the previous code was woefully tied to intel
+x86
+
+C.
+*/
+static void
+wvMD5StoreDigest (MD5_CTX *mdContext)
+{
+	unsigned int i, ii;
+	/* store buffer in digest */
+	for (i = 0, ii = 0; i < 4; i++, ii += 4) {
+		mdContext->digest[ii] = (unsigned char) (mdContext->buf[i] & 0xFF);
+		mdContext->digest[ii + 1] =
+			(unsigned char) ((mdContext->buf[i] >> 8) & 0xFF);
+		mdContext->digest[ii + 2] =
+			(unsigned char) ((mdContext->buf[i] >> 16) & 0xFF);
+		mdContext->digest[ii + 3] =
+			(unsigned char) ((mdContext->buf[i] >> 24) & 0xFF);
+	}
+}
+
+static void
+makekey (guint32 block, RC4_KEY *key, MD5_CTX *valContext)
+{
+	MD5_CTX mdContext;
+	guint8 pwarray[64];
+
+	memset (pwarray, 0, 64);
+
+	/* 40 bit of hashed password, set by verifypwd () */
+	memcpy (pwarray, valContext->digest, 5);
+
+	/* put block number in byte 6...9 */
+	pwarray[5] = (guint8) (block & 0xFF);
+	pwarray[6] = (guint8) ((block >> 8) & 0xFF);
+	pwarray[7] = (guint8) ((block >> 16) & 0xFF);
+	pwarray[8] = (guint8) ((block >> 24) & 0xFF);
+
+	pwarray[9] = 0x80;
+	pwarray[56] = 0x48;
+
+	wvMD5Init (&mdContext);
+	wvMD5Update (&mdContext, pwarray, 64);
+	wvMD5StoreDigest (&mdContext);
+	prepare_key (mdContext.digest, 16, key);
+}
+
+/**
+ * verify_password :
+ *
+ * convert a native encoded password into the arbitrary byte arrangement
+ * required for decryption.
+ */
+static gboolean
+verify_password (char const *password, guint8 const *docid,
+		 guint8 const *salt_data, guint8 const *hashedsalt_data,
+		 MD5_CTX *valContext)
+{
+	guint8 pwarray [64], salt [64], hashedsalt [16];
+	MD5_CTX mdContext1, mdContext2;
+	RC4_KEY key;
+	int offset, keyoffset, i;
+	unsigned int tocopy;
+
+	memset (pwarray, 0, sizeof (pwarray));
+	for (i = 0 ; password[i] ; i++) {
+		pwarray[(2 * i) + 0] = password [i];
+		pwarray[(2 * i) + 1] = 0;
+	}
+
+	pwarray[2 * i] = 0x80;
+	pwarray[56] = (i << 4);
+
+	wvMD5Init (&mdContext1);
+	wvMD5Update (&mdContext1, pwarray, 64);
+	wvMD5StoreDigest (&mdContext1);
+
+	offset = 0;
+	keyoffset = 0;
+	tocopy = 5;
+
+	wvMD5Init (valContext);
+	while (offset != 16) {
+		if ((64 - offset) < 5)
+			tocopy = 64 - offset;
+
+		memcpy (pwarray + offset, mdContext1.digest + keyoffset, tocopy);
+		offset += tocopy;
+
+		if (offset == 64) {
+			wvMD5Update (valContext, pwarray, 64);
+			keyoffset = tocopy;
+			tocopy = 5 - tocopy;
+			offset = 0;
+			continue;
+		}
+
+		keyoffset = 0;
+		tocopy = 5;
+		memcpy (pwarray + offset, docid, 16);
+		offset += 16;
+	}
+
+	/* Fix (zero) all but first 16 bytes */
+	pwarray[16] = 0x80;
+	memset (pwarray + 17, 0, 47);
+	pwarray[56] = 0x80;
+	pwarray[57] = 0x0A;
+
+	wvMD5Update (valContext, pwarray, 64);
+	wvMD5StoreDigest (valContext);
+
+	/* Generate 40-bit RC4 key from 128-bit hashed password */
+	makekey (0, &key, valContext);
+
+	memcpy (salt, salt_data, 16);
+	rc4 (salt, 16, &key);
+	memcpy (hashedsalt, hashedsalt_data, 16);
+	rc4 (hashedsalt, 16, &key);
+
+	salt[16] = 0x80;
+	memset (salt + 17, 0, 47);
+	salt[56] = 0x80;
+
+	wvMD5Init (&mdContext2);
+	wvMD5Update (&mdContext2, salt, 64);
+	wvMD5StoreDigest (&mdContext2);
+
+	return 0 == memcmp (mdContext2.digest, hashedsalt, 16);
+}
+
+#define REKEY_BLOCK 0x400
+static void
+skip_bytes (BiffQuery *q, int start, int count)
+{
+	char scratch [REKEY_BLOCK];
+	int block;
+
+	block = (start + count) / REKEY_BLOCK;
+
+	if (block != q->block) {
+		makekey (q->block = block, &q->rc4_key, &q->md5_ctxt);
+		count = (start + count) % REKEY_BLOCK;
+	}
+	rc4 (scratch, count, &q->rc4_key);
+}
+
+#define sizeof_BIFF_FILEPASS	(6 + 3*16)
+gboolean
+ms_biff_query_set_decrypt (BiffQuery *q)
+{
+	char const *password = "PASSWORD";
+
+	g_return_val_if_fail (q->opcode == BIFF_FILEPASS, FALSE);
+	g_return_val_if_fail (q->length == sizeof_BIFF_FILEPASS, FALSE);
+
+	if (!verify_password (password, q->data + 6,
+			      q->data + 22, q->data + 38, &q->md5_ctxt))
+		return FALSE;
+
+	q->is_encrypted = TRUE;
+	q->block = -1;
+
+	/* For some reaons the 1st record after FILEPASS seems to be unencrypted */
+	q->dont_decrypt_next_record = TRUE;
+
+	/* pretend to decrypt the entire stream up till this point, it was not
+	 * encrypted, but do it anyway to keep the rc4 state in sync
+	 */
+	skip_bytes (q, 0, q->pos->position);
+
+	return TRUE;
+}
+
 BiffQuery *
 ms_biff_query_new (MsOleStream *ptr)
 {
-	BiffQuery *bq   ;
-	if (!ptr)
-		return 0;
-	bq = g_new0 (BiffQuery, 1);
-	bq->opcode        = 0;
-	bq->length        = 0;
-	bq->data_malloced = 0;
-	bq->pos           = ptr;
+	BiffQuery *q;
+
+	g_return_val_if_fail (ptr != NULL, NULL);
+
+	q = g_new0 (BiffQuery, 1);
+	q->opcode        = 0;
+	q->length        = 0;
+	q->data_malloced = q->non_decrypted_data_malloced = FALSE;
+	q->data 	 = q->non_decrypted_data = NULL;
+	q->pos           = ptr;
+	q->is_encrypted  = FALSE;
+
 #if BIFF_DEBUG > 0
-	dump_biff(bq);
+	dump_biff (q);
 #endif
-	return bq;
+	return q;
 }
 
 gboolean
-ms_biff_query_peek_next (BiffQuery *bq, guint16 *opcode)
+ms_biff_query_peek_next (BiffQuery *q, guint16 *opcode)
 {
 	guint8 data[4];
 	g_return_val_if_fail (opcode != NULL, 0);
 
-	if (!bq || (bq->pos->position + 4 > bq->pos->size))
+	if (!q || (q->pos->position + 4 > q->pos->size))
 		return FALSE;
 
-	if (!bq->pos->read_copy (bq->pos, data, 4))
+	if (!q->pos->read_copy (q->pos, data, 4))
 		return FALSE;
 
-	bq->pos->lseek (bq->pos, -4, MsOleSeekCur); /* back back off */
+	q->pos->lseek (q->pos, -4, MsOleSeekCur); /* back back off */
 
 	*opcode = MS_OLE_GET_GUINT16 (data);
 	return TRUE;
@@ -88,62 +265,106 @@ ms_biff_query_peek_next (BiffQuery *bq, guint16 *opcode)
  * Returns 0 if has hit end
  **/
 int
-ms_biff_query_next (BiffQuery *bq)
+ms_biff_query_next (BiffQuery *q)
 {
 	guint8  tmp[4];
-	int ans=1;
+	int ans = 1;
 
-	if (!bq || bq->pos->position >= bq->pos->size)
+	if (!q || q->pos->position >= q->pos->size)
 		return 0;
 
-	if (bq->data_malloced) {
-		g_free (bq->data);
-		bq->data = 0;
-		bq->data_malloced = 0;
+	if (q->data_malloced) {
+		g_free (q->data);
+		q->data = 0;
+		q->data_malloced = FALSE;
+	}
+	if (q->non_decrypted_data_malloced) {
+		g_free (q->non_decrypted_data);
+		q->non_decrypted_data = 0;
+		q->non_decrypted_data_malloced = FALSE;
 	}
 
-	bq->streamPos = bq->pos->position;
-	if (!bq->pos->read_copy (bq->pos, tmp, 4))
+	q->streamPos = q->pos->position;
+	if (!q->pos->read_copy (q->pos, tmp, 4))
 		return 0;
-	bq->opcode = MS_OLE_GET_GUINT16 (tmp);
-	bq->length = MS_OLE_GET_GUINT16 (tmp+2);
-	bq->ms_op  = (bq->opcode>>8);
-	bq->ls_op  = (bq->opcode&0xff);
+	q->opcode = MS_OLE_GET_GUINT16 (tmp);
+	q->length = MS_OLE_GET_GUINT16 (tmp+2);
+	q->ms_op  = (q->opcode>>8);
+	q->ls_op  = (q->opcode&0xff);
 
-	if (bq->length > 0 &&
-	    !(bq->data = bq->pos->read_ptr(bq->pos, bq->length))) {
-		bq->data = g_new0 (guint8, bq->length);
-		if (!bq->pos->read_copy(bq->pos, bq->data, bq->length)) {
+	if (q->length > 0 && !(q->data = q->pos->read_ptr(q->pos, q->length))) {
+		q->data = g_new (guint8, q->length);
+		if (!q->pos->read_copy (q->pos, q->data, q->length)) {
 			ans = 0;
-			g_free(bq->data);
-			bq->data = 0;
-			bq->length = 0;
+			g_free (q->data);
+			q->data = 0;
+			q->length = 0;
 		} else
-			bq->data_malloced = 1;
+			q->data_malloced = TRUE;
 	}
 
+	if (q->is_encrypted) {
+		if (q->length != 0) {
+		q->non_decrypted_data_malloced = q->data_malloced;
+		q->non_decrypted_data = q->data;
+
+		q->data_malloced = TRUE;
+		q->data = g_new (guint8, q->length);
+		memcpy (q->data, q->non_decrypted_data, q->length);
+
+		if (q->dont_decrypt_next_record) {
+			skip_bytes (q, q->streamPos, 4 + q->length);
+			q->dont_decrypt_next_record = FALSE;
+		} else {
+			int pos = q->streamPos;
+			char *data = q->data;
+			int len = q->length;
+
+			/* pretend to decrypt header */
+			skip_bytes (q, pos, 4);
+			pos += 4;
+
+			while (q->block != (pos + len) / REKEY_BLOCK) {
+				int step = REKEY_BLOCK - (pos % REKEY_BLOCK);
+				rc4 (data, step, &q->rc4_key);
+				data += step;
+				pos += step;
+				len -= step;
+				makekey (++q->block, &q->rc4_key, &q->md5_ctxt);
+			}
+
+			rc4 (data, len, &q->rc4_key);
+		}
+	} else
+		q->non_decrypted_data = q->data;
+
+	printf ("Biff read code 0x%x, length %d\n", q->opcode, q->length);
+	dump_biff (q);
 #if BIFF_DEBUG > 2
-	printf ("Biff read code 0x%x, length %d\n", bq->opcode, bq->length);
-	dump_biff (bq);
 #endif
-	if (!bq->length) {
-		bq->data = 0;
+	if (!q->length) {
+		q->data = 0;
 		return 1;
 	}
 
-	return (ans);
+	return ans;
 }
 
 void
-ms_biff_query_destroy (BiffQuery *bq)
+ms_biff_query_destroy (BiffQuery *q)
 {
-	if (bq) {
-		if (bq->data_malloced) {
-			g_free (bq->data);
-			bq->data = 0;
-			bq->data_malloced = 0;
+	if (q) {
+		if (q->data_malloced) {
+			g_free (q->data);
+			q->data = 0;
+			q->data_malloced = FALSE;
 		}
-		g_free (bq);
+		if (q->non_decrypted_data_malloced) {
+			g_free (q->non_decrypted_data);
+			q->non_decrypted_data = 0;
+			q->non_decrypted_data_malloced = FALSE;
+		}
+		g_free (q);
 	}
 }
 
@@ -166,7 +387,7 @@ ms_biff_put_new (MsOleStream *s)
 	bp->length        = 0;
 	bp->length        = 0;
 	bp->streamPos     = s->tell (s);
-	bp->data_malloced = 0;
+	bp->data_malloced = FALSE;
 	bp->data          = 0;
 	bp->len_fixed     = 0;
 	bp->pos           = s;
@@ -202,7 +423,7 @@ ms_biff_put_len_next (BiffPut *bp, guint16 opcode, guint32 len)
 	bp->streamPos  = bp->pos->tell (bp->pos);
 	if (len > 0) {
 		bp->data = g_new (guint8, len);
-		bp->data_malloced = 1;
+		bp->data_malloced = TRUE;
 	}
 
 	return bp->data;
@@ -307,7 +528,7 @@ ms_biff_put_len_commit (BiffPut *bp)
 
 	g_free (bp->data);
 	bp->data      = 0 ;
-	bp->data_malloced = 0;
+	bp->data_malloced = FALSE;
 	bp->streamPos = bp->pos->tell (bp->pos);
 	bp->curpos    = 0;
 }

@@ -921,11 +921,11 @@ ms_biff_bof_data_new (BiffQuery *q)
 		{
 			d (2, {
 				printf ("Complicated BIFF version 0x%x\n",
-					MS_OLE_GET_GUINT16 (q->data));
-				ms_ole_dump (q->data, q->length);
+					MS_OLE_GET_GUINT16 (q->non_decrypted_data));
+				ms_ole_dump (q->non_decrypted_data, q->length);
 			});
 
-			switch (MS_OLE_GET_GUINT16 (q->data)) {
+			switch (MS_OLE_GET_GUINT16 (q->non_decrypted_data)) {
 			case 0x0600: ans->version = MS_BIFF_V8;
 				     break;
 			case 0x500: /* * OR ebiff7: FIXME ? !  */
@@ -943,7 +943,7 @@ ms_biff_bof_data_new (BiffQuery *q)
 			ans->version = MS_BIFF_V_UNKNOWN;
 			printf ("Biff version %d\n", ans->version);
 		}
-		switch (MS_OLE_GET_GUINT16 (q->data + 2)) {
+		switch (MS_OLE_GET_GUINT16 (q->non_decrypted_data + 2)) {
 		case 0x0005: ans->type = MS_BIFF_TYPE_Workbook; break;
 		case 0x0006: ans->type = MS_BIFF_TYPE_VBModule; break;
 		case 0x0010: ans->type = MS_BIFF_TYPE_Worksheet; break;
@@ -952,7 +952,7 @@ ms_biff_bof_data_new (BiffQuery *q)
 		case 0x0100: ans->type = MS_BIFF_TYPE_Workspace; break;
 		default:
 			ans->type = MS_BIFF_TYPE_Unknown;
-			printf ("Unknown BIFF type in BOF %x\n", MS_OLE_GET_GUINT16 (q->data + 2));
+			printf ("Unknown BIFF type in BOF %x\n", MS_OLE_GET_GUINT16 (q->non_decrypted_data + 2));
 			break;
 		}
 		/* Now store in the directory array: */
@@ -1020,9 +1020,9 @@ biff_boundsheet_data_new (BiffQuery *q, ExcelWorkbook *wb, MsBiffVersion ver)
 	}
 
 	ans = g_new (BiffBoundsheetData, 1);
-	ans->streamStartPos = MS_OLE_GET_GUINT32 (q->data);
+	ans->streamStartPos = MS_OLE_GET_GUINT32 (q->non_decrypted_data);
 
-	g_return_if_fail (ans->streamStartPos == MS_OLE_GET_GUINT32 (q->data));
+	g_return_if_fail (ans->streamStartPos == MS_OLE_GET_GUINT32 (q->non_decrypted_data));
 
 	switch (MS_OLE_GET_GUINT8 (q->data + 4)) {
 	case 0: ans->type = MS_BIFF_TYPE_Worksheet;
@@ -3887,6 +3887,7 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 			return TRUE;
 
 		case BIFF_INDEX:
+			/* NOTE : bytes 12 & 16 appear to require the non decrypted data */
 			break;
 
 		case BIFF_CALCCOUNT:
@@ -4679,7 +4680,8 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 
 		case BIFF_FILEPASS:
 			/* All records after this are encrypted */
-			problem_loading = g_strdup (_("Password protected workbooks are not supported yet."));
+			if (!ms_biff_query_set_decrypt (q))
+				problem_loading = g_strdup (_("Invalid password"));
 			break;
 
 		case BIFF_STYLE:

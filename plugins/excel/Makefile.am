@@ -38,7 +38,11 @@ excel_la_SOURCES =		\
 	ms-chart.h		\
 	ms-chart.c		\
 	ms-summary.c		\
-	ms-summary.h
+	ms-summary.h		\
+	rc4.c			\
+	rc4.h			\
+	md5.c			\
+	md5.h
 
 xml_in_files = plugin.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)

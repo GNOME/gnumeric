@@ -1,3 +1,19 @@
+2002-03-26  Jody Goldberg <jody@gnome.org>
+
+	* ms-biff.c (wvMD5StoreDigest) : new from libwv-7.1
+	(makekey) : ditto.
+	(verify_password) : tweaked from libwv.
+	(skip_bytes) : new.
+	(ms_biff_query_set_decrypt) : new.
+	(ms_biff_query_new) : support encryption.
+	(ms_biff_query_next) : ditto.
+	(ms_biff_query_destroy) : ditto.
+
+	* ms-excel-read.c (ms_biff_bof_data_new) : Use the un-decoded data.
+	(ms_excel_read_sheet) : comment that it seems like bytes 12 & 16 are
+	  not encrypted.
+	(biff_boundsheet_data_new) : stream start pos seems un encrypted.
+
 2002-03-22  Jon K Hellan  <hellan@acm.org>
 
 	* ms-excel-read.c (ms_excel_get_style_from_xf): Be prepared for

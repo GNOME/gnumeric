@@ -10,6 +10,8 @@
 #define GNUMERIC_BIFF_H
 
 #include <libole2/ms-ole.h>
+#include "rc4.h"
+#include "md5.h"
 
 /*******************************************************************************/
 /*                                 Read Side                                   */
@@ -20,25 +22,33 @@
  * 'data *' should _not_ be kept.
  **/
 typedef struct {
-	guint8  ms_op;
-	guint8  ls_op;
-	guint16 opcode;
+	guint8	  ms_op;
+	guint8	  ls_op;
+	guint16	  opcode;
 
-	guint8  *data;
-	int     data_malloced;
-	guint32 length;
+	guint32	  length;
+	gboolean  data_malloced, non_decrypted_data_malloced;
+	guint8	 *data, *non_decrypted_data;
 
 	guint32 streamPos;
 	MsOleStream *pos;
+
+	gboolean is_encrypted;
+	RC4_KEY	 rc4_key;
+	MD5_CTX  md5_ctxt;
+	int	 block;
+	gboolean dont_decrypt_next_record;
 } BiffQuery;
 
 /* Sets up a query on a stream */
-BiffQuery  *ms_biff_query_new        (MsOleStream *);
+BiffQuery  *ms_biff_query_new         (MsOleStream *);
+gboolean    ms_biff_query_set_decrypt (BiffQuery *q);
+
 /* Updates the BiffQuery structure with the next BIFF record
  * returns: 1 for succes, and 0 for EOS(tream) */
-int         ms_biff_query_next       (BiffQuery *);
-gboolean    ms_biff_query_peek_next  (BiffQuery *, guint16 *opcode);
-void        ms_biff_query_destroy    (BiffQuery *);
+int         ms_biff_query_next        (BiffQuery *);
+gboolean    ms_biff_query_peek_next   (BiffQuery *, guint16 *opcode);
+void        ms_biff_query_destroy     (BiffQuery *);
 
 /*******************************************************************************/
 /*                                 Write Side                                  */
