@@ -1,3 +1,8 @@
+2004-04-16  Morten Welinder  <terra@gnome.org>
+
+	* src/rangefunc.c (range_mode): Use g_hash_table_new_full.
+	(cb_range_mode): Delete.
+
 2004-04-15  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (phyper): New implementation.

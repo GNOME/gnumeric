@@ -549,13 +549,6 @@ range_rsq_est (const gnm_float *xs, const gnm_float *ys, int n, gnm_float *res)
 	return 0;
 }
 
-
-static void
-cb_range_mode (gpointer key, gpointer value, gpointer user_data)
-{
-	g_free (value);
-}
-
 static guint
 float_hash (const gnm_float *d)
 {
@@ -586,8 +579,10 @@ range_mode (const gnm_float *xs, int n, gnm_float *res)
 
 	if (n <= 1) return 1;
 
-	h = g_hash_table_new ((GHashFunc)float_hash,
-			      (GCompareFunc)float_equal);
+	h = g_hash_table_new_full ((GHashFunc)float_hash,
+				   (GCompareFunc)float_equal,
+				   NULL,
+				   (GDestroyNotify)g_free);
 	for (i = 0; i < n; i++) {
 		int *pdups = g_hash_table_lookup (h, &xs[i]);
 
@@ -604,7 +599,6 @@ range_mode (const gnm_float *xs, int n, gnm_float *res)
 			mode = xs[i];
 		}
 	}
-	g_hash_table_foreach (h, cb_range_mode, NULL);
 	g_hash_table_destroy (h);
 
 	if (dups <= 1)
