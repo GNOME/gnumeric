@@ -1,3 +1,8 @@
+1999-08-20  Michael Meeks  <michael@imaginator.com>
+
+	* src/cell.c (cell_set_text_simple): Add checks for over/under
+	flow on integer reading... fall back to double values.
+
 1999-08-16  Michael Meeks  <michael@imaginator.com>
 
 	* src/fn-lookup.c (gnumeric_indirect): Fix leak

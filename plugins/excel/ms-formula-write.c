@@ -86,6 +86,9 @@ get_formula_index (const gchar *name)
 				return fce;
 			}
 		}
+		/* Note: many functions are provided by addins: we need a table
+		   of these, and to pre-scan and create the dummy names that go with
+		   them, then reference them here. */
 		g_warning ("Serious error, unknown function");
 		return NULL;
 	}

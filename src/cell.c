@@ -649,7 +649,8 @@ cell_set_text_simple (Cell *cell, const char *text)
 		int  set=0;
 
 		l = strtol (text, &end, 10);
-		if (text != end && (l == (int)l)) {
+		if (l != LONG_MAX && l != LONG_MIN &&
+		    text != end && (l == (int)l)) {
 			/* Allow and ignore spaces at the end of integers.  */
 			while (*end == ' ')
 				end++;
@@ -662,7 +663,7 @@ cell_set_text_simple (Cell *cell, const char *text)
 		if (!set) {
 			double d;
 			d = strtod (text, &end);
-			if (text != end && *end == 0){
+			if (text != end && *end == 0) {
 				/* It is a floating point number.  */
 				cell->value = value_new_float ((float_t)d);
 			} else {
