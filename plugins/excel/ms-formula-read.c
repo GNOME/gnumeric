@@ -13,6 +13,7 @@
 
 #include <config.h>
 #include <gnome.h>
+#include "boot.h"
 #include "gnumeric.h"
 #include "func.h"
 #include "value.h"
@@ -26,8 +27,6 @@
 #include "formula-types.h"
 
 /* #define NO_DEBUG_EXCEL */
-
-extern int ms_excel_formula_debug;
 
 /**
  * Various bits of data for operators

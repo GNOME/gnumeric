@@ -19,22 +19,43 @@
 #include "workbook-view.h"
 #include "workbook.h"
 #include "plugin-util.h"
+#include "module-plugin-defs.h"
 
 #include "excel.h"
 #include "ms-summary.h"
 #include "boot.h"
 
-extern int ms_excel_read_debug;
+GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+
+/* Used to toggle debug messages on & off */
+/*
+ * As a convention
+ * 0 = quiet, no experimental features.
+ * 1 = enable experimental features
+ * >1 increasing levels of detail.
+ */
+/* Enables debugging mesgs while reading excel workbooks */
+gint ms_excel_read_debug = 0;
+/* Enables debugging mesgs while reading excel functions */
+gint ms_excel_formula_debug = 0;
+/* Enables debugging mesgs while reading excel colors & patterns */
+gint ms_excel_color_debug = 0;
+/* Enables debugging mesgs while reading excel charts */
+gint ms_excel_chart_debug = 0;
+/* Enables debugging mesgs while writing excel workbooks */
+gint ms_excel_write_debug = 0;
+/* Enables debugging mesgs while reading excel objects */
+gint ms_excel_object_debug = 0;
+
 MsExcelReadGbFn ms_excel_read_gb = NULL;
 
-static FileOpener *excel_opener;
-static FileSaver *excel95_saver, *excel98_saver;
+gboolean excel_file_probe (FileOpener const *fo, const char *filename);
+void excel_file_open (FileOpener const *fo, IOContext *context, WorkbookView *new_wb_view, const char *filename);
+void excel98_file_save (FileSaver const *fs, IOContext *context, WorkbookView *wb_view, const char *filename);
+void excel95_file_save (FileSaver const *fs, IOContext *context, WorkbookView *wb_view, const char *filename);
 
-static gboolean
-excel_save_95 (FileSaver const *fs, IOContext *context, WorkbookView *wb_view, const char *filename);
-
-static gboolean
-excel_probe (FileOpener const *fo, const char *filename)
+gboolean
+excel_file_probe (FileOpener const *fo, const char *filename)
 {
 	MsOle    *file;
 
@@ -59,22 +80,20 @@ excel_probe (FileOpener const *fo, const char *filename)
 }
 
 /*
- * excel_load
+ * excel_file_open
  * @context:   	Command context
  * @wb:    	    Workbook
  * @filename:  	File name
  * @user_data:  ignored
  *
  * Load en excel workbook.
- * Returns TRUE on success, FALSE on failure.
  */
-static gboolean
-excel_load (FileOpener const *fo, IOContext *context,
-            WorkbookView *new_wb_view, const char *filename)
+void
+excel_file_open (FileOpener const *fo, IOContext *context,
+                 WorkbookView *new_wb_view, const char *filename)
 {
 	MsOleErr  ole_error;
 	MsOle	 *f;
-	gboolean  success;
 
 	ole_error = ms_ole_open (&f, filename);
 	if (ole_error != MS_OLE_ERR_OK) {
@@ -82,12 +101,12 @@ excel_load (FileOpener const *fo, IOContext *context,
 		/* FIXME : We need a more detailed message from
 		 * ole_open */
 		gnumeric_io_error_read (context, "");
-		return FALSE;
+		return;
 	}
 
 	puts (filename);
-	success = ms_excel_read_workbook (context, new_wb_view, f) == 0 ? TRUE : FALSE;
-	if (success) {
+	ms_excel_read_workbook (context, new_wb_view, f);
+	if (!gnumeric_io_error_occurred (context)) {
 		Workbook *wb = wb_view_workbook (new_wb_view);
 		ms_summary_read (f, wb->summary_info);
 
@@ -98,13 +117,9 @@ excel_load (FileOpener const *fo, IOContext *context,
 			if (!ms_excel_read_gb (context, wb, f))
 				g_warning ("Failed to read Basic scripts");
 		}
-
-		workbook_set_saveinfo (wb, filename, FILE_FL_MANUAL, excel95_saver);
 	}
 
 	ms_ole_destroy (&f);
-
-	return success;
 }
 
 /*
@@ -114,25 +129,25 @@ excel_load (FileOpener const *fo, IOContext *context,
  * import that definition here: There's a different definition of
  * ExcelWorkbook in ms-excel-read.h.
  */
-static gboolean
+static void
 excel_save (IOContext *context, WorkbookView *wb_view, const char *filename,
-	    MsBiffVersion ver)
+            MsBiffVersion ver)
 {
 	Workbook *wb = wb_view_workbook (wb_view);
 	MsOle *f;
-	gboolean ans;
-	struct stat s;
 	MsOleErr result;
 	void *state = NULL;
 
-	if ((stat (filename, &s) != -1)) {
+	if (g_file_exists (filename)) {
 		gnumeric_io_error_save (context,
 			 _("Saving over old files disabled for safety"));
-		return FALSE;
+		return;
 	}
 
-	if (ms_excel_check_write (context, &state, wb_view, ver) != 0)
-		return FALSE;
+	if (ms_excel_check_write (context, &state, wb_view, ver) != 0) {
+		gnumeric_io_error_unknown (context);
+		return;
+	}
 
 	result = ms_ole_create (&f, filename);
 
@@ -145,55 +160,26 @@ excel_save (IOContext *context, WorkbookView *wb_view, const char *filename,
 		ms_ole_destroy (&f);
 		ms_excel_write_free_state (state);
 		g_free (str);
-		return FALSE;
+		return;
 	}
 
-	ans = ms_excel_write_workbook (context, f, state, ver) == 0 ? TRUE : FALSE;
+	ms_excel_write_workbook (context, f, state, ver);
 
-        ms_summary_write (f, wb->summary_info);
+	ms_summary_write (f, wb->summary_info);
 
 	ms_ole_destroy (&f);
-
-	if (ans)
-		printf ("Written successfully\n");
-	else
-		printf ("Error whilst writing\n");
-
-	return ans;
-}
-
-static gboolean
-excel_save_98 (FileSaver const *fs, IOContext *context,
-               WorkbookView *wb_view, const char *filename)
-{
-	return excel_save (context, wb_view, filename, MS_BIFF_V8);
-}
-
-static gboolean
-excel_save_95 (FileSaver const *fs, IOContext *context,
-               WorkbookView *wb_view, const char *filename)
-{
-	return excel_save (context, wb_view, filename, MS_BIFF_V7);
 }
 
 void
-excel_init (void)
+excel98_file_save (FileSaver const *fs, IOContext *context,
+                   WorkbookView *wb_view, const char *filename)
 {
-	/* We register Excel format with a precendence of 100 */
-	excel_opener = file_format_register_open (
-	               100, _("Microsoft(R) Excel file format"),
-	               &excel_probe, &excel_load);
-	if (gnumeric_debugging > 0) {
-		excel98_saver = file_format_register_save (
-		                "xls", _("Excel(R) 97 file format"),
-		                FILE_FL_MANUAL_REMEMBER, &excel_save_98);
-	}
-	excel95_saver = file_format_register_save (
-	                "xls", _("Excel(R) 95 file format"),
-	                FILE_FL_MANUAL_REMEMBER, &excel_save_95);
+	excel_save (context, wb_view, filename, MS_BIFF_V8);
 }
 
 void
-excel_shutdown (void)
+excel95_file_save (FileSaver const *fs, IOContext *context,
+                   WorkbookView *wb_view, const char *filename)
 {
+	excel_save (context, wb_view, filename, MS_BIFF_V7);
 }

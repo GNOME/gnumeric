@@ -10,6 +10,7 @@
 
 #include <config.h>
 
+#include "boot.h"
 #include "ms-formula-read.h"
 #include "ms-excel-read.h"
 #include "ms-obj.h"
@@ -40,21 +41,6 @@
 #include "sheet-object-graphic.h"
 
 /* #define NO_DEBUG_EXCEL */
-
-/* Used in src/main.c to toggle debug messages on & off */
-/*
- * As a convention
- * 0 = quiet, no experimental features.
- * 1 = enable experimental features
- * >1 increasing levels of detail.
- */
-int ms_excel_read_debug    = 0;
-int ms_excel_write_debug   = 0;
-int ms_excel_formula_debug = 0;
-int ms_excel_color_debug   = 0;
-int ms_excel_chart_debug   = 0;
-extern int ms_excel_object_debug;
-extern int gnumeric_debugging;
 
 /* Forward references */
 static ExcelSheet *ms_excel_sheet_new       (ExcelWorkbook *wb,
@@ -3891,9 +3877,9 @@ ms_excel_read_window1 (BiffQuery *q, WorkbookView *wb_view)
 	}
 }
 
-int
+void
 ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
-			MsOle *file)
+                        MsOle *file)
 {
 	ExcelWorkbook *wb = NULL;
 	MsOleStream *stream;
@@ -3915,7 +3901,7 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			ms_ole_stream_close (&stream);
 			gnumeric_io_error_read (context,
 				 _("No book or workbook streams found."));
-			return -1;
+			return;
 		}
 	}
 
@@ -4324,11 +4310,9 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 		/* If we were forced to stop then the load failed */
 		if (problem_loading != NULL) {
 			gnumeric_io_error_read (context, problem_loading);
-			return -1;
 		}
-		return 0;
+		return;
 	}
 
 	gnumeric_io_error_read (context, _("Unable to locate valid MS Excel workbook"));
-	return -1;
 }

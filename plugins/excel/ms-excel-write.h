@@ -124,5 +124,4 @@ extern int ms_excel_write_get_externsheet_idx (ExcelWorkbook *wb,
 extern int
 ms_excel_write_map_errcode (Value const * const v);
 
-extern int ms_excel_write_debug;
 #endif

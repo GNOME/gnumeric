@@ -1,3 +1,24 @@
+2001-03-20  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* Makefile.am:
+	Building excel plugin as shared library, added plugin.xml.
+
+	* boot.[ch]:
+	xxx_debug variables from src/main.c moved here.
+	Converted to real plugin with file_opener and file_saver services.
+
+	* plugin.xml: New file.
+
+	* gnumeric/plugins/excel/excel.h, plugins/excel/ms-chart.c,
+	plugins/excel/ms-escher.c, plugins/excel/ms-excel-read.c,
+	plugins/excel/ms-excel-read.h, plugins/excel/ms-excel-util.c,
+	plugins/excel/ms-excel-write.c, plugins/excel/ms-excel-write.h,
+	plugins/excel/ms-formula-read.c, plugins/excel/ms-formula-write.c,
+	plugins/excel/ms-obj.c:
+	Adjusted function signatures, don't return TRUE/FALSE if using
+	IOContext (we don't need boolean value as IOContext now sets
+	"error_occurred" flag).
+
 2001-03-15  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_read_row) : Handle outline mode.

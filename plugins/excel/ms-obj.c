@@ -10,14 +10,13 @@
 
 #include <config.h>
 
+#include "boot.h"
 #include "ms-obj.h"
 #include "ms-chart.h"
 #include "ms-escher.h"
 #include "parse-util.h"
 #include "sheet-object-widget.h"
 #include "sheet-object-graphic.h"
-
-int ms_excel_object_debug;
 
 #define GR_END                0x00
 #define GR_MACRO              0x04

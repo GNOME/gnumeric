@@ -10,6 +10,7 @@
 #include <stdio.h>
 
 #include <config.h>
+#include "boot.h"
 #include "excel.h"
 #include "ms-chart.h"
 #include "ms-formula-read.h"
@@ -23,7 +24,6 @@
 #include "gnumeric-chart.h"
 
 /* #define NO_DEBUG_EXCEL */
-extern int ms_excel_chart_debug;
 
 typedef struct
 {

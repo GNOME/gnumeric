@@ -13,6 +13,7 @@
 #include <stdio.h>
 
 #include <config.h>
+#include "boot.h"
 #include "ms-escher.h"
 #include "escher-types.h"
 #include "biff-types.h"

@@ -24,8 +24,8 @@ typedef enum { MS_BIFF_V2 = 2,
 	       MS_BIFF_V8 = 8, /* Excel 97 */
 	       MS_BIFF_V_UNKNOWN = 0} MsBiffVersion ;
 
-extern int   ms_excel_read_workbook  (IOContext *context,
-				      WorkbookView *new_wb, MsOle *file);
+extern void   ms_excel_read_workbook  (IOContext *context,
+                                       WorkbookView *new_wb, MsOle *file);
 /*
  * Here's why the state which is carried from excel_check_write to
  * ms_excel_write_workbook is void *: The state is actually an
@@ -34,9 +34,9 @@ extern int   ms_excel_read_workbook  (IOContext *context,
  * ExcelWorkbook in ms-excel-read.h.
  */
 extern int      ms_excel_check_write (IOContext *context, void **state,
-				      WorkbookView *wb, MsBiffVersion ver);
-extern int      ms_excel_write_workbook (IOContext *context, MsOle *file,
-					 void *state, MsBiffVersion ver);
+                                      WorkbookView *wb, MsBiffVersion ver);
+extern void     ms_excel_write_workbook (IOContext *context, MsOle *file,
+                                         void *state, MsBiffVersion ver);
 void ms_excel_write_free_state (void *state);
 
 

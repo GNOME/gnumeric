@@ -127,9 +127,4 @@ extern void          ms_excel_unexpected_biff (BiffQuery *q,
 					       char const *state,
 					       int debug_level);
 
-extern int ms_excel_read_debug;
-extern int ms_excel_formula_debug;
-extern int ms_excel_color_debug;
-extern int ms_excel_chart_debug;
-
 #endif

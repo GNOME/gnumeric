@@ -10,12 +10,11 @@
 #include "config.h"
 #include <glib.h>
 
+#include "boot.h"
 #include "style.h"
 #include "ms-excel-util.h"
 
 #include <stdio.h>
-
-extern int ms_excel_read_debug;
 
 /*
  * TwoWayTable

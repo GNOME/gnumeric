@@ -15,6 +15,7 @@
 #include <config.h>
 #include <gnome.h>
 
+#include "boot.h"
 #include "gnumeric.h"
 #include "gutils.h"
 #include "func.h"
@@ -28,7 +29,6 @@
 #include "formula-types.h"
 
 #define FORMULA_DEBUG 0
-extern int ms_excel_formula_debug;
 /*#define DO_IT (ms_excel_formula_debug > 0)*/
 #define DO_IT (1)
 

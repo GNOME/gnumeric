@@ -29,6 +29,7 @@
 
 #include <gnome.h>
 
+#include "boot.h"
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "format.h"
@@ -3560,9 +3561,9 @@ cleanup:
 	return ret;
 }
 
-int
+void
 ms_excel_write_workbook (IOContext *context, MsOle *file, void *state,
-			 MsBiffVersion ver)
+                         MsBiffVersion ver)
 {
 	MsOleErr     result;
 	char        *strname;
@@ -3570,7 +3571,7 @@ ms_excel_write_workbook (IOContext *context, MsOle *file, void *state,
 	BiffPut     *bp;
 	ExcelWorkbook *wb = state;
 
-	g_return_val_if_fail (file != NULL, -1);
+	g_return_if_fail (file != NULL);
 
 	if (ver >= MS_BIFF_V8)
 		strname = "Workbook";
@@ -3583,7 +3584,7 @@ ms_excel_write_workbook (IOContext *context, MsOle *file, void *state,
 		free_workbook (wb);
 		gnumeric_io_error_save (context,
 			_("Can't open stream for writing\n"));
-		return -1;
+		return;
 	}
 
 	bp = ms_biff_put_new (str);
@@ -3606,8 +3607,6 @@ ms_excel_write_workbook (IOContext *context, MsOle *file, void *state,
 		fflush (stdout);
 	}
 #endif
-
-	return 0;
 }
 
 

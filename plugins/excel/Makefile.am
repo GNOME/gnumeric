@@ -1,12 +1,10 @@
-INCLUDES = 						\
-	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
-	-I$(includedir)				 	\
-	-I$(top_srcdir)/src				\
-	$(GNOME_INCLUDEDIR)
+INCLUDES = -I$(includedir) -I$(top_srcdir)/src $(GNOME_INCLUDEDIR)
 
-noinst_LIBRARIES = libexcel.a
-
-libexcel_a_SOURCES =		\
+gnumeric_plugin_exceldir = $(gnumeric_plugindir)/excel
+gnumeric_plugin_excel_DATA = plugin.xml
+gnumeric_plugin_excel_LTLIBRARIES = excel.la
+excel_la_LDFLAGS = -module -avoid-version
+excel_la_SOURCES =		\
 	boot.c			\
 	boot.h			\
 	excel.h			\
@@ -39,3 +37,5 @@ libexcel_a_SOURCES =		\
 	ms-chart.c		\
 	ms-summary.c		\
 	ms-summary.h
+
+EXTRA_DIST = $(gnumeric_plugin_excel_DATA)
