@@ -1,3 +1,11 @@
+2001-02-19  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric.xml : Move the toggle specs into commands.
+
+	* src/workbook-control-gui.c (toggle_util) : new func.
+	(TOGGLE_HANDLER) : util macro to simplfy gnome/bonobo transition.
+	(workbook_control_gui_init) : use TOGGLE_REGISTER for the bonobo case.
+
 2001-02-19  Jon K Hellan  <hellan@acm.org>
 
 	* src/workbook-control-gui.c (show_gui): Call

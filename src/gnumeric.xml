@@ -95,6 +95,26 @@
 	    _label="_Content"
 	    _tip="Clear the selected cells' contents"/>
 
+	<cmd name="SheetDisplayFormulas"	type="toggle" state="0"
+	    _label="Display _Formulas"
+	    _tip="Display the value of a formula or the formula itself" />
+
+	<cmd name="SheetHideZeros"		type="toggle" state="0"
+	    _label="Hide _Zeros"
+	    _tip="Toggle whether or not to display zeros as blanks" />
+
+	<cmd name="SheetHideGridlines"		type="toggle" state="0"
+	    _label="Hide _Gridlines"
+	    _tip="Toggle whether or not to display gridlines" />
+
+	<cmd name="SheetHideColHeader"		type="toggle" state="0"
+	    _label="Hide _Column Headers"
+	    _tip="Toggle whether or not to display column headers" />
+
+	<cmd name="SheetHideRowHeader"		type="toggle" state="0"
+	    _label="Hide _Row Headers"
+	    _tip="Toggle whether or not to display row headers" />
+
 	<cmd name="HelpAbout"
 	    _label="_About..."
 	    _tip="About this application"
@@ -354,25 +374,11 @@
 		    _label="Re-_Order Sheets..."
 		    _tip="Change the order the sheets are displayed" />
 
-		<menuitem name="SheetDisplayFormulas" verb="" type="toggle"
-		    _label="Display _Formulas"
-		    _tip="Display the value of a formula or the formula itself" />
-
-		<menuitem name="SheetHideZeros" verb="" type="toggle"
-		    _label="Hide _Zeros"
-		    _tip="Toggle whether or not to display zeros as blanks" />
-
-		<menuitem name="SheetHideGridlines" verb="" type="toggle"
-		    _label="Hide _Gridlines"
-		    _tip="Toggle whether or not to display gridlines" />
-
-		<menuitem name="SheetHideColHeader" verb="" type="toggle"
-		    _label="Hide _Column Headers"
-		    _tip="Toggle whether or not to display column headers" />
-
-		<menuitem name="SheetHideRowHeader" verb="" type="toggle"
-		    _label="Hide _Row Headers"
-		    _tip="Toggle whether or not to display row headers" />
+		<menuitem name="SheetDisplayFormulas"	verb="" />
+		<menuitem name="SheetHideZeros"		verb="" />
+		<menuitem name="SheetHideGridlines"	verb="" />
+		<menuitem name="SheetHideColHeader"	verb="" />
+		<menuitem name="SheetHideRowHeader"	verb="" />
 	    </submenu>
 
 	    <menuitem name="FormatAuto" verb=""

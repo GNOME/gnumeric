@@ -1561,54 +1561,74 @@ cb_cell_rerender (gpointer element, gpointer userdata)
 		sheet_cell_calc_span (DEP_TO_CELL (dep), SPANCALC_RE_RENDER);
 }
 
-static void
-cb_sheet_pref_display_formulas (GtkWidget *widget, WorkbookControlGUI *wbcg)
+#ifdef ENABLE_BONOBO
+static gboolean
+toggle_util (Bonobo_UIComponent_EventType type,
+	     char const *state, gboolean *flag)
 {
-	if (!wbcg->updating_ui) {
-		Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-		Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	if (type == Bonobo_UIComponent_STATE_CHANGED) {
+		gboolean new_state = atoi (state);
 
-		sheet->display_formulas = !sheet->display_formulas;
-		g_list_foreach (wb->dependents, &cb_cell_rerender, NULL);
-		sheet_adjust_preferences (sheet, TRUE);
+		if (!(*flag) != !new_state) {
+			*flag = !(*flag);
+			return TRUE;
+		}
 	}
+	return FALSE;
 }
-static void
-cb_sheet_pref_hide_zeros (GtkWidget *widget, WorkbookControlGUI *wbcg)
-{
-	if (!wbcg->updating_ui) {
-		Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
-		sheet->hide_zero = ! sheet->hide_zero;
-		sheet_adjust_preferences (sheet, TRUE);
-	}
+
+#define TOGGLE_HANDLER(flag, code)					\
+static void								\
+cb_sheet_pref_ ## flag (BonoboUIComponent           *component,		\
+			const char                  *path,		\
+			Bonobo_UIComponent_EventType type,		\
+			const char                  *state,		\
+			gpointer                     user_data)		\
+{									\
+	WorkbookControlGUI *wbcg;					\
+									\
+	wbcg = WORKBOOK_CONTROL_GUI (user_data);			\
+	g_return_if_fail (wbcg != NULL);				\
+									\
+	if (!wbcg->updating_ui) {					\
+		Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)); \
+		g_return_if_fail (IS_SHEET (sheet));			\
+									\
+		if (toggle_util (type, state, &sheet->flag)) 		\
+			code						\
+	}								\
 }
-static void
-cb_sheet_pref_hide_grid_lines (GtkWidget *widget, WorkbookControlGUI *wbcg)
-{
-	if (!wbcg->updating_ui) {
-		Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
-		sheet->hide_grid = !sheet->hide_grid;
-		sheet_adjust_preferences (sheet, TRUE);
-	}
+#define	TOGGLE_REGISTER(flag, name) 					\
+	bonobo_ui_component_set_prop (wbcg->uic, "/commands/" #name,	\
+				      "state", "1", NULL);		\
+	bonobo_ui_component_add_listener (wbcg->uic, #name,		\
+					  cb_sheet_pref_ ## flag, wbcg)
+#else
+#define TOGGLE_HANDLER(flag, code)					\
+static void								\
+cb_sheet_pref_ ## flag (GtkWidget *ignored, WorkbookControlGUI *wbcg)	\
+{									\
+	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));		\
+									\
+	if (!wbcg->updating_ui) {					\
+		Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));	\
+		g_return_if_fail (IS_SHEET (sheet));			\
+									\
+		sheet->flag = !sheet->flag;				\
+		code							\
+	}								\
 }
-static void
-cb_sheet_pref_hide_col_header (GtkWidget *widget, WorkbookControlGUI *wbcg)
-{
-	if (!wbcg->updating_ui) {
-		Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
-		sheet->hide_col_header = ! sheet->hide_col_header;
-		sheet_adjust_preferences (sheet, FALSE);
-	}
-}
-static void
-cb_sheet_pref_hide_row_header (GtkWidget *widget, WorkbookControlGUI *wbcg)
-{
-	if (!wbcg->updating_ui) {
-		Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
-		sheet->hide_row_header = ! sheet->hide_row_header;
-		sheet_adjust_preferences (sheet, FALSE);
-	}
-}
+#endif
+
+TOGGLE_HANDLER (display_formulas,{
+	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	g_list_foreach (wb->dependents, &cb_cell_rerender, NULL);
+	sheet_adjust_preferences (sheet, TRUE);
+})
+TOGGLE_HANDLER (hide_zero, sheet_adjust_preferences (sheet, TRUE);)
+TOGGLE_HANDLER (hide_grid, sheet_adjust_preferences (sheet, TRUE);)
+TOGGLE_HANDLER (hide_col_header, sheet_adjust_preferences (sheet, FALSE);)
+TOGGLE_HANDLER (hide_row_header, sheet_adjust_preferences (sheet, FALSE);)
 
 /****************************************************************************/
 
@@ -2109,13 +2129,13 @@ static GnomeUIInfo workbook_menu_format_sheet [] = {
 	{ GNOME_APP_UI_TOGGLEITEM,
 		N_("Hide _Zeros"),
 		N_("Toggle whether or not to display zeros as blanks"),
-		cb_sheet_pref_hide_zeros, NULL, NULL,
+		cb_sheet_pref_hide_zero, NULL, NULL,
 		GNOME_APP_PIXMAP_NONE, NULL, 0, (GdkModifierType) 0, NULL
 	},
 	{ GNOME_APP_UI_TOGGLEITEM,
 		N_("Hide _Gridlines"),
 		N_("Toggle whether or not to display gridlines"),
-		cb_sheet_pref_hide_grid_lines, NULL, NULL,
+		cb_sheet_pref_hide_grid, NULL, NULL,
 		GNOME_APP_PIXMAP_NONE, NULL, 0, (GdkModifierType) 0, NULL
 	},
 	{ GNOME_APP_UI_TOGGLEITEM,
@@ -2357,20 +2377,8 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("RowDefaultSize",
 		workbook_cmd_format_row_std_height),
 
-	BONOBO_UI_UNSAFE_VERB ("SheetChangeName",
-		cb_sheet_change_name),
-	BONOBO_UI_UNSAFE_VERB ("SheetReorder",
-		cb_sheet_order),
-	BONOBO_UI_UNSAFE_VERB ("SheetDisplayFormulas",
-		cb_sheet_pref_display_formulas),
-	BONOBO_UI_UNSAFE_VERB ("SheetHideZeros",
-		cb_sheet_pref_hide_zeros),
-	BONOBO_UI_UNSAFE_VERB ("SheetHideGridlines",
-		cb_sheet_pref_hide_grid_lines),
-	BONOBO_UI_UNSAFE_VERB ("SheetHideColHeader",
-		cb_sheet_pref_hide_col_header),
-	BONOBO_UI_UNSAFE_VERB ("SheetHideRowHeader",
-		cb_sheet_pref_hide_row_header),
+	BONOBO_UI_UNSAFE_VERB ("SheetChangeName", cb_sheet_change_name),
+	BONOBO_UI_UNSAFE_VERB ("SheetReorder", cb_sheet_order),
 
 	BONOBO_UI_UNSAFE_VERB ("FormatCells", cb_format_cells),
 	BONOBO_UI_UNSAFE_VERB ("FormatAuto", cb_autoformat),
@@ -3222,12 +3230,17 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 
 	ui_container = bonobo_ui_container_new ();
 	bonobo_ui_container_set_win (ui_container, BONOBO_WINDOW (wbcg->toplevel));
-	bonobo_ui_component_set_container (
-		wbcg->uic, bonobo_object_corba_objref (BONOBO_OBJECT (ui_container)));
+	bonobo_ui_component_set_container (wbcg->uic, BONOBO_OBJREF (ui_container));
 
 	bonobo_ui_component_add_verb_list_with_data (wbcg->uic, verbs, wbcg);
 
 	bonobo_ui_util_set_ui (wbcg->uic, GNOME_DATADIR, "gnumeric.xml", "gnumeric");
+
+	TOGGLE_REGISTER (display_formulas, SheetDisplayFormulas);
+	TOGGLE_REGISTER (hide_zero, SheetHideZeros);
+	TOGGLE_REGISTER (hide_grid, SheetHideGridlines);
+	TOGGLE_REGISTER (hide_col_header, SheetHideColHeader);
+	TOGGLE_REGISTER (hide_row_header, SheetHideRowHeader);
 
 	/* Do after setting up UI bits in the bonobo case */
 	workbook_setup_status_area (wbcg);
