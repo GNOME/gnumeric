@@ -9,7 +9,6 @@
 #include <config.h>
 #include <gnome.h>
 #include "gnumeric.h"
-#include "gnumeric-sheet.h"
 #include "utils.h"
 #include "ranges.h"
 #include "eval.h"

@@ -53,8 +53,10 @@ gnumeric_sheet_create (SheetView *sheet_view, GtkWidget *entry)
 	canvas = GNOME_CANVAS (gsheet);
 
 	gsheet->sheet_view = sheet_view;
-	gsheet->left_col = 0;
-	gsheet->top_row = 0;
+	gsheet->row.first = gsheet->row.last_full = gsheet->row.last_visible = 0;
+	gsheet->col.first = gsheet->col.last_full = gsheet->col.last_visible = 0;
+	gsheet->row_offset.first = gsheet->row_offset.last_full = gsheet->row_offset.last_visible = 0;
+	gsheet->col_offset.first = gsheet->col_offset.last_full = gsheet->col_offset.last_visible = 0;
 	gsheet->entry   = entry;
 
 	return gsheet;
@@ -70,8 +72,8 @@ gnumeric_sheet_get_cell_bounds (GnumericSheet *gsheet, int col, int row, int *x,
 
 	sheet = gsheet->sheet_view->sheet;
 
-	*x = sheet_col_get_distance (sheet, gsheet->left_col, col);
-	*y = sheet_row_get_distance (sheet, gsheet->top_row, row);
+	*x = sheet_col_get_distance (sheet, gsheet->col.first, col);
+	*y = sheet_row_get_distance (sheet, gsheet->row.first, row);
 
 	*w = sheet_col_get_distance (sheet, col, col + 1);
 	*h = sheet_row_get_distance (sheet, row, row + 1);
@@ -99,13 +101,13 @@ gnumeric_sheet_cursor_set (GnumericSheet *gsheet, int col, int row)
 	if (sheet_view->ha){
 		ha = GTK_ADJUSTMENT (sheet_view->ha);
 		va = GTK_ADJUSTMENT (sheet_view->va);
-		ha->value = gsheet->left_col;
-		va->value = gsheet->top_row;
+		ha->value = gsheet->col.first;
+		va->value = gsheet->row.first;
 
 #ifdef DEBUG_POSITIONS
 		{
-			char *top_str = g_strdup (cell_name (gsheet->left_col, gsheet->top_row));
-			char *lv_str = g_strdup (cell_name (gsheet->last_visible_col, gsheet->last_visible_row));
+			char *top_str = g_strdup (cell_name (gsheet->col.first, gsheet->row.first));
+			char *lv_str = g_strdup (cell_name (gsheet->col.last_visible, gsheet->row.last_visible));
 			printf ("top=%s lv=%s\n", top_str, lv_str);
 			g_free (top_str);
 			g_free (lv_str);
@@ -763,9 +765,9 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		if ((event->state & GDK_CONTROL_MASK) != 0)
 			gtk_notebook_prev_page (GTK_NOTEBOOK (wb->notebook));
 		else if ((event->state & GDK_MOD1_MASK) == 0)
-			(*movefn_vertical)(gsheet, -(gsheet->last_visible_row-gsheet->top_row), FALSE);
+			(*movefn_vertical)(gsheet, -(gsheet->row.last_visible-gsheet->row.first), FALSE);
 		else
-			(*movefn_horizontal)(gsheet, -(gsheet->last_visible_col-gsheet->left_col), FALSE);
+			(*movefn_horizontal)(gsheet, -(gsheet->col.last_visible-gsheet->col.first), FALSE);
 		break;
 
 	case GDK_KP_Page_Down:
@@ -773,9 +775,9 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		if ((event->state & GDK_CONTROL_MASK) != 0)
 			gtk_notebook_next_page (GTK_NOTEBOOK (wb->notebook));
 		else if ((event->state & GDK_MOD1_MASK) == 0)
-			(*movefn_vertical)(gsheet, gsheet->last_visible_row-gsheet->top_row, FALSE);
+			(*movefn_vertical)(gsheet, gsheet->row.last_visible-gsheet->row.first, FALSE);
 		else
-			(*movefn_horizontal)(gsheet, gsheet->last_visible_col-gsheet->left_col, FALSE);
+			(*movefn_horizontal)(gsheet, gsheet->col.last_visible-gsheet->col.first, FALSE);
 		break;
 
 	case GDK_KP_Home:
@@ -972,10 +974,14 @@ gnumeric_sheet_filenames_dropped (GtkWidget        *widget,
 	while (tmp_list) {
 		Workbook *new_wb;
 
-		if ((new_wb = workbook_try_read (tmp_list->data, NULL)))
+		if ((new_wb = workbook_try_read (tmp_list->data, NULL)) == NULL) {
+			gdouble world_x, world_y;
+			gnome_canvas_window_to_world (GNOME_CANVAS (gsheet), x, y,
+						      &world_x, &world_y);
+		        sheet_object_drop_file (gsheet->sheet_view->sheet, world_x, world_y,
+						tmp_list->data);
+		} else
 			gtk_widget_show (new_wb->toplevel);
-		else
-		        sheet_object_drop_file (gsheet, x, y, tmp_list->data);
 
 		tmp_list = tmp_list->next;
 	}
@@ -1079,7 +1085,7 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet)
 
 	/* Find out the last visible col and the last full visible column */
 	pixels = 0;
-	col = gsheet->left_col;
+	col = gsheet->col.first;
 	width = GTK_WIDGET (canvas)->allocation.width;
 
 	do {
@@ -1089,15 +1095,15 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet)
 			int const cb = pixels + ci->pixels;
 
 			if (cb == width){
-				gsheet->last_visible_col = col;
-				gsheet->last_full_col = col;
+				gsheet->col.last_visible = col;
+				gsheet->col.last_full = col;
 				break;
 			} if (cb > width){
-				gsheet->last_visible_col = col;
-				if (col == gsheet->left_col)
-					gsheet->last_full_col = gsheet->left_col;
+				gsheet->col.last_visible = col;
+				if (col == gsheet->col.first)
+					gsheet->col.last_full = gsheet->col.first;
 				else
-					gsheet->last_full_col = col - 1;
+					gsheet->col.last_full = col - 1;
 				break;
 			}
 			pixels = cb;
@@ -1106,13 +1112,13 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet)
 	} while (pixels < width && col < SHEET_MAX_COLS);
 
 	if (col >= SHEET_MAX_COLS) {
-		gsheet->last_visible_col = SHEET_MAX_COLS-1;
-		gsheet->last_full_col = SHEET_MAX_COLS-1;
+		gsheet->col.last_visible = SHEET_MAX_COLS-1;
+		gsheet->col.last_full = SHEET_MAX_COLS-1;
 	}
 
 	/* Find out the last visible row and the last fully visible row */
 	pixels = 0;
-	row = gsheet->top_row;
+	row = gsheet->row.first;
 	height = GTK_WIDGET (canvas)->allocation.height;
 	do {
 		ColRowInfo const * const ri = sheet_row_get_info (gsheet->sheet_view->sheet, row);
@@ -1121,15 +1127,15 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet)
 			int const cb = pixels + ri->pixels;
 
 			if (cb == height){
-				gsheet->last_visible_row = row;
-				gsheet->last_full_row = row;
+				gsheet->row.last_visible = row;
+				gsheet->row.last_full = row;
 				break;
 			} if (cb > height){
-				gsheet->last_visible_row = row;
-				if (row == gsheet->top_row)
-					gsheet->last_full_row = gsheet->top_row;
+				gsheet->row.last_visible = row;
+				if (row == gsheet->row.first)
+					gsheet->row.last_full = gsheet->row.first;
 				else
-					gsheet->last_full_row = row - 1;
+					gsheet->row.last_full = row - 1;
 				break;
 			}
 			pixels = cb;
@@ -1138,8 +1144,8 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet)
 	} while (pixels < height && row < SHEET_MAX_ROWS);
 
 	if (row >= SHEET_MAX_ROWS) {
-		gsheet->last_visible_row = SHEET_MAX_ROWS-1;
-		gsheet->last_full_row = SHEET_MAX_ROWS-1;
+		gsheet->row.last_visible = SHEET_MAX_ROWS-1;
+		gsheet->row.last_full = SHEET_MAX_ROWS-1;
 	}
 
 	/* Update the scrollbar sizes */
@@ -1147,7 +1153,7 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet)
 }
 
 static int
-gnumeric_sheet_bar_set_top_row (GnumericSheet *gsheet, int new_top_row)
+gnumeric_sheet_bar_set_top_row (GnumericSheet *gsheet, int new_first_row)
 {
 	GnomeCanvas *rowc;
 	Sheet *sheet;
@@ -1156,14 +1162,13 @@ gnumeric_sheet_bar_set_top_row (GnumericSheet *gsheet, int new_top_row)
 
 	g_return_val_if_fail (gsheet != NULL, 0);
 	g_return_val_if_fail (gsheet->item_grid != NULL, 0);
-	g_return_val_if_fail (0 <= new_top_row && new_top_row < SHEET_MAX_ROWS, 0);
+	g_return_val_if_fail (0 <= new_first_row && new_first_row < SHEET_MAX_ROWS, 0);
 
 	rowc = GNOME_CANVAS_ITEM (gsheet->rowbar)->canvas;
 	sheet = gsheet->sheet_view->sheet;
-	row_distance = gsheet->item_grid->top_offset +=
-	    sheet_row_get_distance (sheet, gsheet->top_row, new_top_row);
-	gsheet->top_row = gsheet->item_grid->top_row =
-	    new_top_row;
+	row_distance = gsheet->row_offset.first +=
+	    sheet_row_get_distance (sheet, gsheet->row.first, new_first_row);
+	gsheet->row.first = new_first_row;
 
 	gnome_canvas_get_scroll_offsets (rowc, &x, NULL);
 	gnome_canvas_scroll_to (rowc, x, row_distance);
@@ -1172,15 +1177,15 @@ gnumeric_sheet_bar_set_top_row (GnumericSheet *gsheet, int new_top_row)
 }
 
 void
-gnumeric_sheet_set_top_row (GnumericSheet *gsheet, int new_top_row)
+gnumeric_sheet_set_top_row (GnumericSheet *gsheet, int new_first_row)
 {
 	int distance, x;
 
 	g_return_if_fail (gsheet != NULL);
-	g_return_if_fail (0 <= new_top_row && new_top_row < SHEET_MAX_ROWS);
+	g_return_if_fail (0 <= new_first_row && new_first_row < SHEET_MAX_ROWS);
 
-	if (gsheet->top_row != new_top_row) {
-		distance = gnumeric_sheet_bar_set_top_row (gsheet, new_top_row);
+	if (gsheet->row.first != new_first_row) {
+		distance = gnumeric_sheet_bar_set_top_row (gsheet, new_first_row);
 		gnome_canvas_get_scroll_offsets (GNOME_CANVAS (gsheet), &x, NULL);
 		gnumeric_sheet_compute_visible_ranges (gsheet);
 		gnome_canvas_scroll_to (GNOME_CANVAS (gsheet), x, distance);
@@ -1188,7 +1193,7 @@ gnumeric_sheet_set_top_row (GnumericSheet *gsheet, int new_top_row)
 }
 
 static int
-gnumeric_sheet_bar_set_left_col (GnumericSheet *gsheet, int new_left_col)
+gnumeric_sheet_bar_set_left_col (GnumericSheet *gsheet, int new_first_col)
 {
 	GnomeCanvas *colc;
 	Sheet *sheet;
@@ -1197,15 +1202,14 @@ gnumeric_sheet_bar_set_left_col (GnumericSheet *gsheet, int new_left_col)
 
 	g_return_val_if_fail (gsheet != NULL, 0);
 	g_return_val_if_fail (gsheet->item_grid != NULL, 0);
-	g_return_val_if_fail (0 <= new_left_col && new_left_col < SHEET_MAX_COLS, 0);
+	g_return_val_if_fail (0 <= new_first_col && new_first_col < SHEET_MAX_COLS, 0);
 
 	colc = GNOME_CANVAS_ITEM (gsheet->colbar)->canvas;
 	sheet = gsheet->sheet_view->sheet;
 
-	col_distance = gsheet->item_grid->left_offset +=
-	    sheet_col_get_distance (sheet, gsheet->left_col, new_left_col);
-	gsheet->left_col = gsheet->item_grid->left_col =
-	    new_left_col;
+	col_distance = gsheet->col_offset.first +=
+	    sheet_col_get_distance (sheet, gsheet->col.first, new_first_col);
+	gsheet->col.first = new_first_col;
 
 	gnome_canvas_get_scroll_offsets (colc, NULL, &y);
 	gnome_canvas_scroll_to (colc, col_distance, y);
@@ -1214,15 +1218,15 @@ gnumeric_sheet_bar_set_left_col (GnumericSheet *gsheet, int new_left_col)
 }
 
 void
-gnumeric_sheet_set_top_col (GnumericSheet *gsheet, int new_left_col)
+gnumeric_sheet_set_left_col (GnumericSheet *gsheet, int new_first_col)
 {
 	int distance, y;
 
 	g_return_if_fail (gsheet != NULL);
-	g_return_if_fail (0 <= new_left_col && new_left_col < SHEET_MAX_COLS);
+	g_return_if_fail (0 <= new_first_col && new_first_col < SHEET_MAX_COLS);
 
-	if (gsheet->left_col != new_left_col) {
-		distance = gnumeric_sheet_bar_set_left_col (gsheet, new_left_col);
+	if (gsheet->col.first != new_first_col) {
+		distance = gnumeric_sheet_bar_set_left_col (gsheet, new_first_col);
 		gnome_canvas_get_scroll_offsets (GNOME_CANVAS (gsheet), NULL, &y);
 		gnumeric_sheet_compute_visible_ranges (gsheet);
 		gnome_canvas_scroll_to (GNOME_CANVAS (gsheet), distance, y);
@@ -1230,12 +1234,13 @@ gnumeric_sheet_set_top_col (GnumericSheet *gsheet, int new_left_col)
 }
 
 void
-gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row)
+gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row,
+				  gboolean const force_scroll)
 {
 	GnomeCanvas *canvas;
 	Sheet *sheet;
 	int   did_change = 0;
-	int   new_left_col, new_top_row;
+	int   new_first_col, new_first_row;
 	int   col_distance, row_distance;
 
 	g_return_if_fail (gsheet != NULL);
@@ -1248,10 +1253,10 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row)
 	sheet = gsheet->sheet_view->sheet;
 	canvas = GNOME_CANVAS (gsheet);
 
-	/* Find the new gsheet->left_col */
-	if (col < gsheet->left_col){
-		new_left_col = col;
-	} else if (col > gsheet->last_full_col){
+	/* Find the new gsheet->col.first */
+	if (col < gsheet->col.first){
+		new_first_col = col;
+	} else if (col > gsheet->col.last_full){
 		int width = GTK_WIDGET (canvas)->allocation.width;
 		int allocated = 0;
 		int first_col;
@@ -1265,14 +1270,14 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row)
 				allocated += ci->pixels;
 			}
 		}
-		new_left_col = first_col+1;
+		new_first_col = first_col+1;
 	} else
-		new_left_col = gsheet->left_col;
+		new_first_col = gsheet->col.first;
 
-	/* Find the new gsheet->top_row */
-	if (row < gsheet->top_row){
-		new_top_row = row;
-	} else if (row > gsheet->last_full_row){
+	/* Find the new gsheet->row.first */
+	if (row < gsheet->row.first){
+		new_first_row = row;
+	} else if (row > gsheet->row.last_full){
 		int height = GTK_WIDGET (canvas)->allocation.height;
 		int allocated = 0;
 		int first_row;
@@ -1286,25 +1291,25 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row)
 				allocated += ri->pixels;
 			}
 		}
-		new_top_row = first_row+1;
+		new_first_row = first_row+1;
 	} else
-		new_top_row = gsheet->top_row;
+		new_first_row = gsheet->row.first;
 
 	/* Determine if scrolling is required */
 
 	gnome_canvas_get_scroll_offsets (GNOME_CANVAS (gsheet), &col_distance, &row_distance);
 
-	if (gsheet->left_col != new_left_col){
-		col_distance = gnumeric_sheet_bar_set_left_col (gsheet, new_left_col);
+	if (gsheet->col.first != new_first_col || force_scroll) {
+		col_distance = gnumeric_sheet_bar_set_left_col (gsheet, new_first_col);
 		did_change = 1;
 	}
 
-	if (gsheet->top_row != new_top_row){
-		row_distance = gnumeric_sheet_bar_set_top_row (gsheet, new_top_row);
+	if (gsheet->row.first != new_first_row || force_scroll) {
+		row_distance = gnumeric_sheet_bar_set_top_row (gsheet, new_first_row);
 		did_change = 1;
 	}
 
-	if (!did_change)
+	if (!did_change && !force_scroll)
 		return;
 
 	gnumeric_sheet_compute_visible_ranges (gsheet);

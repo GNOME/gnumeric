@@ -17,7 +17,6 @@
 #include <config.h>
 #include <gnome.h>
 #include "gnumeric.h"
-#include "gnumeric-sheet.h"
 #include "eval.h"
 #include "format.h"
 

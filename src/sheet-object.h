@@ -4,7 +4,6 @@
 #include "sheet.h"
 #include "sheet-view.h"
 #include "sheet-object.h"
-#include "gnumeric-sheet.h"
 
 /*
  * SheetObject
@@ -44,7 +43,7 @@ typedef struct {
 
 GtkType sheet_object_get_type      (void);
 void    sheet_object_construct     (SheetObject *sheet_object, Sheet *sheet);
-void    sheet_object_drop_file     (GnumericSheet *gsheet, gint x, gint y,
+void    sheet_object_drop_file     (Sheet *sheet, gdouble x, gdouble y,
 				    const char *fname);
 int     sheet_object_canvas_event  (GnomeCanvasItem *item, GdkEvent *event,
 				    SheetObject *so);

@@ -11,7 +11,6 @@
 #include <glade/glade.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
-#include "gnumeric-sheet.h"
 #include "dialogs.h"
 
 gboolean

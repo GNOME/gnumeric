@@ -13,7 +13,6 @@
 #include "application.h"
 #include "eval.h"
 #include "gnumeric-util.h"
-#include "gnumeric-sheet.h"
 #include "sheet-object.h"
 #include "dialogs.h"
 #include "main.h"

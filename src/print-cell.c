@@ -8,7 +8,6 @@
 #include <gnome.h>
 #include <locale.h>
 #include "gnumeric.h"
-#include "gnumeric-sheet.h"
 #include "eval.h"
 #include "format.h"
 #include "color.h"

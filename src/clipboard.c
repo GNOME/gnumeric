@@ -624,8 +624,10 @@ clipboard_release (CellRegion *region)
 			g_free (this_cell->u.text);
 		g_free (this_cell);
 	}
-	sheet_style_list_destroy (region->styles);
-	region->styles = NULL;
+	if (region->styles != NULL) {
+		sheet_style_list_destroy (region->styles);
+		region->styles = NULL;
+	}
 
 	g_list_free (region->list);
 	region->list = NULL;

@@ -10,7 +10,6 @@
 #include <gnome.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
-#include "gnumeric-sheet.h"
 #include "dialogs.h"
 #include "selection.h"
 #include "workbook-format-toolbar.h"

@@ -13,7 +13,6 @@
 #include <ctype.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
-#include "gnumeric-sheet.h"
 #include "dialogs.h"
 #include "commands.h"
 

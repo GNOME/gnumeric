@@ -142,18 +142,31 @@ item_grid_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int 
 int
 item_grid_find_col (ItemGrid *item_grid, int x, int *col_origin)
 {
-	int col   = item_grid->left_col;
-	int pixel = item_grid->left_offset;
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_grid);
+	GnumericSheet *gsheet = GNUMERIC_SHEET (item->canvas);
+	Sheet *sheet = gsheet->sheet_view->sheet;
+	int col   = gsheet->col.first;
+	int pixel = gsheet->col_offset.first;
 
-	/*
-	 * FIXME:  This should probably take negative numbers
-	 * as well to provide sliding when moving backwards (look
-	 * in item-cursor.c
-	 */
-	g_return_val_if_fail (x >= 0, 0);
+	if (x < pixel) {
+		do {
+			ColRowInfo *ci = sheet_col_get_info (sheet, col);
+			int const tmp = ci->pixels;
+
+			if (tmp > 0) {
+				if (x >= pixel && x <= pixel + tmp) {
+					if (col_origin)
+						*col_origin = pixel;
+					return col;
+				}
+				pixel -= tmp;
+			}
+		} while (col-- >= 0);
+		return 0;
+	}
 
 	do {
-		ColRowInfo *ci = sheet_col_get_info (item_grid->sheet, col);
+		ColRowInfo *ci = sheet_col_get_info (sheet, col);
 		int const tmp = ci->pixels;
 
 		if (tmp > 0) {
@@ -164,9 +177,7 @@ item_grid_find_col (ItemGrid *item_grid, int x, int *col_origin)
 			}
 			pixel += tmp;
 		}
-
-		col++;
-	} while (col < SHEET_MAX_COLS);
+	} while (++col < SHEET_MAX_COLS);
 
 	return SHEET_MAX_COLS-1;
 }
@@ -177,18 +188,31 @@ item_grid_find_col (ItemGrid *item_grid, int x, int *col_origin)
 int
 item_grid_find_row (ItemGrid *item_grid, int y, int *row_origin)
 {
-	int row   = item_grid->top_row;
-	int pixel = item_grid->top_offset;
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_grid);
+	GnumericSheet *gsheet = GNUMERIC_SHEET (item->canvas);
+	Sheet *sheet = gsheet->sheet_view->sheet;
+	int row   = gsheet->row.first;
+	int pixel = gsheet->row_offset.first;
 
-	/*
-	 * FIXME:  This should probably take negative numbers
-	 * as well to provide sliding when moving backwards (look
-	 * in item-cursor.c
-	 */
-	g_return_val_if_fail (y >= 0, 0);
+	if (y < pixel) {
+		do {
+			ColRowInfo *ri = sheet_row_get_info (sheet, row);
+			int const tmp = ri->pixels;
+
+			if (tmp > 0) {
+				if (y >= pixel && y <= pixel + tmp) {
+					if (row_origin)
+						*row_origin = pixel;
+					return row;
+				}
+				pixel -= tmp;
+			}
+		} while (row-- >= 0);
+		return 0;
+	}
 
 	do {
-		ColRowInfo *ri = sheet_row_get_info (item_grid->sheet, row);
+		ColRowInfo *ri = sheet_row_get_info (sheet, row);
 		int const tmp = ri->pixels;
 
 		if (tmp > 0) {
@@ -199,8 +223,7 @@ item_grid_find_row (ItemGrid *item_grid, int y, int *row_origin)
 			}
 			pixel += tmp;
 		}
-		row++;
-	} while (row < SHEET_MAX_ROWS);
+	} while (++row < SHEET_MAX_ROWS);
 	return SHEET_MAX_ROWS-1;
 }
 
@@ -291,7 +314,7 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 	if (w <= 0 || h <= 0)
 		return 0;
 
-	mstyle = sheet_style_compute (item_grid->sheet, cell->col->pos,
+	mstyle = sheet_style_compute (cell->sheet, cell->col->pos,
 				      cell->row->pos);
 
 	/* setup foreground */
@@ -335,7 +358,7 @@ item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 	if (w <= 0 || h <= 0)
 		return;
 
-	mstyle = sheet_style_compute (item_grid->sheet, col, row);
+	mstyle = sheet_style_compute (item_grid->sheet_view->sheet, col, row);
 
 	if (gnumeric_background_set_gc (mstyle, gc, item_grid->canvas_item.canvas))
 		/* Ignore margins. Fill the entire cell (including the right
@@ -353,8 +376,10 @@ item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 static void
 item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width, int height)
 {
+	GnomeCanvas *canvas = item->canvas;
+	GnumericSheet *gsheet = GNUMERIC_SHEET (canvas);
+	Sheet *sheet = gsheet->sheet_view->sheet;
 	ItemGrid *item_grid = ITEM_GRID (item);
-	Sheet *sheet   = item_grid->sheet;
 	GdkGC *grid_gc = item_grid->grid_gc;
 	int col, row, real_x;
 	int span_count = 0;
@@ -907,7 +932,7 @@ item_grid_sliding_callback (gpointer data)
 	row = item_grid->sliding_row;
 
 	if (item_grid->sliding_x < 0){
-		if (gsheet->left_col){
+		if (gsheet->col.first){
 			change = 1;
 			if (item_grid->sliding_x >= -8)
 				col = 1;
@@ -915,7 +940,7 @@ item_grid_sliding_callback (gpointer data)
 				col = 10;
 			else
 				col = 50;
-			col = gsheet->left_col - col;
+			col = gsheet->col.first - col;
 			if (col < 0)
 				col = 0;
 		} else
@@ -923,7 +948,7 @@ item_grid_sliding_callback (gpointer data)
 	}
 
 	if (item_grid->sliding_x > 0){
-		if (gsheet->last_full_col < SHEET_MAX_COLS-1){
+		if (gsheet->col.last_full < SHEET_MAX_COLS-1){
 			change = 1;
 			if (item_grid->sliding_x <= 7)
 				col = 1;
@@ -931,7 +956,7 @@ item_grid_sliding_callback (gpointer data)
 				col = 10;
 			else
 				col = 50;
-			col = gsheet->last_visible_col + col;
+			col = gsheet->col.last_visible + col;
 			if (col >= SHEET_MAX_COLS)
 				col = SHEET_MAX_COLS-1;
 		} else
@@ -939,7 +964,7 @@ item_grid_sliding_callback (gpointer data)
 	}
 
 	if (item_grid->sliding_y < 0){
-		if (gsheet->top_row){
+		if (gsheet->row.first){
 			change = 1;
 			if (item_grid->sliding_y >= -8)
 				row = 1;
@@ -949,14 +974,14 @@ item_grid_sliding_callback (gpointer data)
 				row = 250;
 			else
 				row = 1000;
-			row = gsheet->top_row - row;
+			row = gsheet->row.first - row;
 			if (row < 0)
 				row = 0;
 		} else
 			row = 0;
 	}
 	if (item_grid->sliding_y > 0){
-		if (gsheet->last_full_row < SHEET_MAX_ROWS-1){
+		if (gsheet->row.last_full < SHEET_MAX_ROWS-1){
 			change = 1;
 			if (item_grid->sliding_y <= 8)
 				row = 1;
@@ -966,7 +991,7 @@ item_grid_sliding_callback (gpointer data)
 				row = 250;
 			else
 				row = 1000;
-			row = gsheet->last_visible_row + row;
+			row = gsheet->row.last_visible + row;
 			if (row >= SHEET_MAX_ROWS)
 				row = SHEET_MAX_ROWS-1;
 		} else
@@ -979,11 +1004,11 @@ item_grid_sliding_callback (gpointer data)
 	}
 
 	if (item_grid->selecting == ITEM_GRID_SELECTING_CELL_RANGE)
-		sheet_selection_extend_to (item_grid->sheet, col, row);
+		sheet_selection_extend_to (item_grid->sheet_view->sheet, col, row);
 	else if (item_grid->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE)
 		gnumeric_sheet_selection_extend (gsheet, col, row);
 
-	gnumeric_sheet_make_cell_visible (gsheet, col, row);
+	gnumeric_sheet_make_cell_visible (gsheet, col, row, FALSE);
 
 	return TRUE;
 }
@@ -1026,7 +1051,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 	GnomeCanvas *canvas = item->canvas;
 	ItemGrid *item_grid = ITEM_GRID (item);
 	GnumericSheet *gsheet = GNUMERIC_SHEET (canvas);
-	Sheet *sheet = item_grid->sheet;
+	Sheet *sheet = item_grid->sheet_view->sheet;
 	int col, row, x, y;
 	int width, height;
 
@@ -1079,10 +1104,10 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			else if (y >= row + height)
 				dy = y - height - row;
 
-			if ((!dx || (dx < 0 && !gsheet->left_col) ||
-			     (dx >= 0 && gsheet->last_full_col == SHEET_MAX_COLS-1)) &&
-			    (!dy || (dy < 0 && !gsheet->top_row) ||
-			     (dy >= 0 && gsheet->last_full_row == SHEET_MAX_ROWS-1))){
+			if ((!dx || (dx < 0 && !gsheet->col.first) ||
+			     (dx >= 0 && gsheet->col.last_full == SHEET_MAX_COLS-1)) &&
+			    (!dy || (dy < 0 && !gsheet->row.first) ||
+			     (dy >= 0 && gsheet->row.last_full == SHEET_MAX_ROWS-1))){
 				item_grid_stop_sliding (item_grid);
 				return 1;
 			}
@@ -1155,7 +1180,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			return 1;
 
 		case 3:
-			item_grid_popup_menu (item_grid->sheet,
+			item_grid_popup_menu (sheet,
 					      event, col, row,
 					      FALSE, FALSE);
 			return 1;
@@ -1181,10 +1206,6 @@ item_grid_init (ItemGrid *item_grid)
 	item->x2 = 0;
 	item->y2 = 0;
 
-	item_grid->left_col = 0;
-	item_grid->top_row  = 0;
-	item_grid->top_offset = 0;
-	item_grid->left_offset = 0;
 	item_grid->selecting = ITEM_GRID_NO_SELECTION;
 	item_grid->sliding = -1;
 }
@@ -1201,7 +1222,6 @@ item_grid_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	switch (arg_id){
 	case ARG_SHEET_VIEW:
 		item_grid->sheet_view = GTK_VALUE_POINTER (*arg);
-		item_grid->sheet = item_grid->sheet_view->sheet;
 		break;
 	}
 }

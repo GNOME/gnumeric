@@ -9,8 +9,8 @@
 #include <gnome.h>
 #include <gdk/gdkkeysyms.h>
 #include "gnumeric.h"
-#include "gnumeric-util.h"
 #include "gnumeric-sheet.h"
+#include "gnumeric-util.h"
 #include "dialogs.h"
 #include "sheet-object.h"
 #include "cursors.h"
@@ -142,16 +142,14 @@ sheet_object_construct (SheetObject *so, Sheet *sheet)
 }
 
 void
-sheet_object_drop_file (GnumericSheet *gsheet, gint x, gint y, const char *fname)
+sheet_object_drop_file (Sheet *sheet, gdouble x, gdouble y, const char *fname)
 {
 #if ENABLE_BONOBO
 	const char *mime_type;
 	const char *mime_goad_id;
 	char *msg = NULL;
 	
-	g_return_if_fail (gsheet != NULL);
-	g_return_if_fail (gsheet->sheet_view != NULL);
-	g_return_if_fail (gsheet->sheet_view->sheet != NULL);
+	g_return_if_fail (sheet != NULL);
 
 	if (!(mime_type = gnome_mime_type (fname))) {
 		msg = g_strdup_printf ("unknown mime type for '%s'", (char *)fname);
@@ -162,8 +160,6 @@ sheet_object_drop_file (GnumericSheet *gsheet, gint x, gint y, const char *fname
 	} else {
 		SheetObject   *so;
 		ObjectCoords   pos;
-
-		gnome_canvas_window_to_world (GNOME_CANVAS (gsheet), x, y, &pos.x, &pos.y);
 
 		so = sheet_object_container_new (gsheet->sheet_view->sheet, pos.x, pos.y,
 						 pos.x + 100.0, pos.y + 100.0,

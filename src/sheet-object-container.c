@@ -13,7 +13,6 @@
 #include <math.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
-#include "gnumeric-sheet.h"
 #include "sheet-object-container.h"
 #include <bonobo/gnome-container.h>
 #include <bonobo/gnome-view-frame.h>

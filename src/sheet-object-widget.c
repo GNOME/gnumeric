@@ -12,7 +12,6 @@
 #include <math.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
-#include "gnumeric-sheet.h"
 #include "cursors.h"
 #include "sheet-object-widget.h"
 

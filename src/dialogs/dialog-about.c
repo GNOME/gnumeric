@@ -24,7 +24,7 @@ dialog_about (Workbook *wb)
 		N_("Miguel de Icaza, main programmer."),
 		N_("Sean Atkinson, Functions and X-Base importing."),
 		N_("Tom Dyas, Plugin support."),
-		N_("Jody Goldberg, Excel hacker."),
+		N_("Jody Goldberg, Gnumeric hacker."),
 		N_("Ross Ihaka, special functions."),
 		N_("Jukka-Pekka Iivonen, numerous functions and tools."),
 		N_("Jakub Jelinek, Gnumeric hacker."),
@@ -56,7 +56,7 @@ dialog_about (Workbook *wb)
 #endif
 
         about = gnome_about_new (_("Gnumeric"), VERSION,
-				 _("(C) 1998-1999 Miguel de Icaza"),
+				 _("(C) 1998-2000 Miguel de Icaza"),
 				 authors,
 				 NULL,
 				 NULL);

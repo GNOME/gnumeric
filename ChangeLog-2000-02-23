@@ -1,3 +1,24 @@
+2000-01-26  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-view.c (sheet_view_set_zoom_factor) : Keep the cursor in
+	  the same place and recompute the alignments for everything.
+
+	* src/item-cursor.c (item_cursor_set_bounds) : New function.
+
+	* src/gnumeric-sheet.h : Add more orthogonal structure for caching
+	  common row/col bounds and their canvas offsets.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_create) : Init the new members.
+	(gnumeric_sheet_filenames_dropped) : Keep the canvas private.
+	(gnumeric_sheet_make_cell_visible) : Add 'force_scroll' argument.
+
+	* src/clipboard.c (clipboard_release) : It is possible to have no
+	  styles associated with a region.
+
+	* src/item-grid.c : Remove overlapping cache of bounding rows/cols and
+	  offsets.  Use the superset in GnumericSheet.
+	 (item_grid_find_{row, col}) : Support sliding backwards.
+
 2000-01-26  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/solver-lp.c: Implemented the `>=' and `=' constraints.

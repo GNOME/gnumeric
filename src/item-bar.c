@@ -220,8 +220,8 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 
 	if (item_bar->orientation == GTK_ORIENTATION_VERTICAL) {
 		int const real_width = GTK_WIDGET (item->canvas)->allocation.width;
-		int element = gsheet->top_row;
-		int total = gsheet->item_grid->top_offset - y;
+		int element = gsheet->row.first;
+		int total = gsheet->row_offset.first - y;
 
 		do {
 			if (element >= SHEET_MAX_ROWS)
@@ -248,8 +248,8 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 		} while (total < height);
 	} else {
 		int const real_height = GTK_WIDGET (item->canvas)->allocation.height;
-		int element = gsheet->left_col;
-		int total = gsheet->item_grid->left_offset - x;
+		int element = gsheet->col.first;
+		int total = gsheet->col_offset.first - x;
 
 		do {
 			if (element >= SHEET_MAX_COLS)
@@ -373,20 +373,20 @@ item_bar_start_resize (ItemBar *bar)
 		double const y =
 		    sheet_row_get_distance (sheet, 0, bar->resize_pos) / zoom;
 		points->coords [0] =
-		    sheet_col_get_distance (sheet, 0, gsheet->left_col) / zoom;
+		    sheet_col_get_distance (sheet, 0, gsheet->col.first) / zoom;
 		points->coords [1] = y;
 		points->coords [2] =
-		    sheet_col_get_distance (sheet, 0, gsheet->last_visible_col+1) / zoom;
+		    sheet_col_get_distance (sheet, 0, gsheet->col.last_visible+1) / zoom;
 		points->coords [3] = y;
 	} else {
 		double const x =
 		    sheet_col_get_distance (sheet, 0, bar->resize_pos) / zoom;
 		points->coords [0] = x;
 		points->coords [1] =
-		    sheet_row_get_distance (sheet, 0, gsheet->top_row) / zoom;
+		    sheet_row_get_distance (sheet, 0, gsheet->row.first) / zoom;
 		points->coords [2] = x;
 		points->coords [3] =
-		    sheet_row_get_distance (sheet, 0, gsheet->last_visible_row+1) / zoom;
+		    sheet_row_get_distance (sheet, 0, gsheet->row.last_visible+1) / zoom;
 	}
 
 	item = gnome_canvas_item_new ( group,

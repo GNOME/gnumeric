@@ -18,18 +18,9 @@ typedef struct {
 	GnomeCanvasItem canvas_item;
 
 	SheetView *sheet_view;
-	Sheet     *sheet;
-
-	/* The first displayed column and row */
-	int        left_col;
-	int        top_row;
 
 	ItemGridSelectionType selecting;
 	
-	/* Offset from spreadsheet origin in units */
-	long       top_offset;
-	long       left_offset;
-
 	GdkGC      *grid_gc;	/* Draw grid gc */
 	GdkGC      *fill_gc;	/* Default background fill gc */
 	GdkGC      *gc;		/* Color used for the cell */

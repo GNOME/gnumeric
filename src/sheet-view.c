@@ -61,17 +61,17 @@ sheet_view_redraw_cell_region (SheetView *sheet_view, int start_col, int start_r
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 	canvas = GNOME_CANVAS (gsheet);
 
-	if ((end_col < gsheet->left_col) ||
-	    (end_row < gsheet->top_row) ||
-	    (start_col > gsheet->last_visible_col) ||
-	    (start_row > gsheet->last_visible_row))
+	if ((end_col < gsheet->col.first) ||
+	    (end_row < gsheet->row.first) ||
+	    (start_col > gsheet->col.last_visible) ||
+	    (start_row > gsheet->row.last_visible))
 		return;
 	
 	/* The region on which we care to redraw */
-	first_col = MAX (gsheet->left_col, start_col);
-	first_row = MAX (gsheet->top_row, start_row);
-	last_col =  MIN (gsheet->last_visible_col, end_col);
-	last_row =  MIN (gsheet->last_visible_row, end_row);
+	first_col = MAX (gsheet->col.first, start_col);
+	first_row = MAX (gsheet->row.first, start_row);
+	last_col =  MIN (gsheet->col.last_visible, end_col);
+	last_row =  MIN (gsheet->row.last_visible, end_row);
 
 	/* Initial values for min/max column computation */
 	min_col = first_col;
@@ -95,11 +95,11 @@ sheet_view_redraw_cell_region (SheetView *sheet_view, int start_col, int start_r
 		}
 
 	/* Only draw those regions that are visible */
-	min_col = MAX (MIN (first_col, min_col), gsheet->left_col);
-	max_col = MIN (MAX (last_col, max_col), gsheet->last_visible_col);
+	min_col = MAX (MIN (first_col, min_col), gsheet->col.first);
+	max_col = MIN (MAX (last_col, max_col), gsheet->col.last_visible);
 
-	x = sheet_col_get_distance (sheet, gsheet->left_col, min_col);
-	y = sheet_row_get_distance (sheet, gsheet->top_row, first_row);
+	x = sheet_col_get_distance (sheet, gsheet->col.first, min_col);
+	y = sheet_row_get_distance (sheet, gsheet->row.first, first_row);
 	w = sheet_col_get_distance (sheet, min_col, max_col+1);
 	h = sheet_row_get_distance (sheet, first_row, last_row+1);
 
@@ -130,9 +130,9 @@ sheet_view_redraw_headers (SheetView *sheet_view,
  * redraw size is crossed */
 #define COL_HEURISTIC	20
 			if (-COL_HEURISTIC < size && size < COL_HEURISTIC) {
-				left = gsheet->item_grid->left_offset +
+				left = gsheet->col_offset.first +
 				    sheet_col_get_distance (sheet_view->sheet,
-							    gsheet->left_col, r->start.col);
+							    gsheet->col.first, r->start.col);
 				right = left +
 				    sheet_col_get_distance (sheet_view->sheet,
 							    r->start.col, r->end.col+1);
@@ -152,9 +152,9 @@ sheet_view_redraw_headers (SheetView *sheet_view,
  * redraw size is crossed */
 #define ROW_HEURISTIC	50
 			if (-ROW_HEURISTIC < size && size < ROW_HEURISTIC) {
-				top = gsheet->item_grid->top_offset +
+				top = gsheet->row_offset.first +
 				    sheet_row_get_distance (sheet_view->sheet,
-							    gsheet->top_row, r->start.row);
+							    gsheet->row.first, r->start.row);
 				bottom = top +
 				    sheet_row_get_distance (sheet_view->sheet,
 							    r->start.row, r->end.row+1);
@@ -169,11 +169,16 @@ sheet_view_redraw_headers (SheetView *sheet_view,
 void
 sheet_view_set_zoom_factor (SheetView *sheet_view, double factor)
 {
+	GList *l;
+	GnumericSheet *gsheet;
+
 	g_return_if_fail (sheet_view != NULL);
 	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
 	
+	gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
+
 	/* Set pixels_per_unit before the font.  The item bars look here for the number */
-	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (sheet_view->sheet_view), factor);
+	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (gsheet), factor);
 	
 	/* resize the header fonts */
 	item_bar_fonts_init (ITEM_BAR (sheet_view->col_item));
@@ -189,9 +194,23 @@ sheet_view_set_zoom_factor (SheetView *sheet_view, double factor)
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (sheet_view->row_canvas), 0, 0,
 					ROW_HEADER_WIDTH*factor, 1200000*factor);
 
-	gnome_canvas_scroll_to (GNOME_CANVAS (sheet_view->sheet_view), 0, 0);
-	gnome_canvas_scroll_to (GNOME_CANVAS (sheet_view->col_canvas), 0, 0);
-	gnome_canvas_scroll_to (GNOME_CANVAS (sheet_view->row_canvas), 0, 0);
+	/* Recalibrate the starting offsets */
+	gsheet->col_offset.first =
+	    sheet_col_get_distance (sheet_view->sheet, 0, gsheet->col.first);
+	gsheet->row_offset.first =
+	    sheet_row_get_distance (sheet_view->sheet, 0, gsheet->row.first);
+
+	/* Ensure that the current cell remains visible when we zoom */
+	gnumeric_sheet_make_cell_visible (gsheet,
+					  sheet_view->sheet->cursor_col,
+					  sheet_view->sheet->cursor_row, TRUE);
+
+	/* Repsition the cursor */
+	item_cursor_reposition (gsheet->item_cursor);
+
+	/* Adjust the animated cursors */
+	for (l = sheet_view->anted_cursors; l; l = l->next)
+		item_cursor_reposition (ITEM_CURSOR (l->data));
 }
 
 static void
@@ -247,20 +266,20 @@ sheet_view_scrollbar_config (SheetView const *sheet_view)
 	GtkAdjustment *ha = GTK_ADJUSTMENT (sheet_view->ha);
 	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
 	Sheet         *sheet = sheet_view->sheet;
-	int const last_col = gsheet->last_full_col;
-	int const last_row = gsheet->last_full_row;
+	int const last_col = gsheet->col.last_full;
+	int const last_row = gsheet->row.last_full;
 
 	va->upper = MAX (MAX (last_row,
 			      sheet_view->sheet->rows.max_used),
 			 sheet->cursor_row);
-	va->page_size = last_row - gsheet->top_row;
+	va->page_size = last_row - gsheet->row.first;
 	va->step_increment = va->page_increment =
 	    va->page_size / 2;
 	
 	ha->upper = MAX (MAX (last_col,
 			      sheet_view->sheet->cols.max_used),
 			 sheet->cursor_col);
-	ha->page_size = last_col - gsheet->left_col;
+	ha->page_size = last_col - gsheet->col.first;
 	ha->step_increment = ha->page_increment =
 	    ha->page_size / 2;
 
@@ -437,7 +456,7 @@ horizontal_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet
 
 		col = GTK_ADJUSTMENT (sheet_view->ha)->value;
 
-		gnumeric_sheet_set_top_col (gsheet, col);
+		gnumeric_sheet_set_left_col (gsheet, col);
 		/* NOTE : Excel does not move the cursor, just scrolls the sheet. */
 	}
 	

@@ -8,18 +8,14 @@
 
 #include <gnome.h>
 #include "gnumeric.h"
-#include "item-grid.h"
 #include "item-cursor.h"
-#include "item-debug.h"
 #include "gnumeric-sheet.h"
-#include "gnumeric-util.h"
 #include "color.h"
-#include "cursors.h"
-#include "sheet-autofill.h"
 #include "clipboard.h"
+#include "cursors.h"
 #include "selection.h"
-#include "utils.h"
-#include "workbook-view.h"
+#include "gnumeric-util.h"
+#include "sheet-autofill.h"
 
 static GnomeCanvasItem *item_cursor_parent_class;
 
@@ -138,13 +134,14 @@ item_cursor_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, in
 static void
 item_cursor_get_pixel_coords (ItemCursor *item_cursor, int *x, int *y, int *w, int *h)
 {
-	ItemGrid *item_grid = item_cursor->item_grid;
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_cursor);
+	GnumericSheet   *gsheet = GNUMERIC_SHEET (item->canvas);
 	Sheet *sheet = item_cursor->sheet;
 
-	*x = item_grid->left_offset +
-	    sheet_col_get_distance (sheet, item_grid->left_col, item_cursor->pos.start.col);
-	*y = item_grid->top_offset +
-	    sheet_row_get_distance (sheet, item_grid->top_row, item_cursor->pos.start.row);
+	*x = gsheet->col_offset.first +
+	    sheet_col_get_distance (sheet, gsheet->col.first, item_cursor->pos.start.col);
+	*y = gsheet->row_offset.first +
+	    sheet_row_get_distance (sheet, gsheet->row.first, item_cursor->pos.start.row);
 
 	*w = sheet_col_get_distance (sheet, item_cursor->pos.start.col, item_cursor->pos.end.col+1);
 	*h = sheet_row_get_distance (sheet, item_cursor->pos.start.row, item_cursor->pos.end.row+1);
@@ -231,7 +228,7 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 		{
 			GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_cursor);
 			GnumericSheet   *gsheet = GNUMERIC_SHEET (item->canvas);
-			if (item_cursor->pos.end.row <= gsheet->last_full_row)
+			if (item_cursor->pos.end.row <= gsheet->row.last_full)
 				draw_handle = 1;
 			else if (item_cursor->pos.start.row != 0)
 				draw_handle = 2;
@@ -397,7 +394,6 @@ item_cursor_set_bounds (ItemCursor *item_cursor, int start_col, int start_row, i
 
 	g_return_if_fail (start_col <= end_col);
 	g_return_if_fail (start_row <= end_row);
-	g_return_if_fail (item_cursor != NULL);
 	g_return_if_fail (start_col >= 0);
 	g_return_if_fail (end_col >= 0);
 	g_return_if_fail (end_col < SHEET_MAX_COLS);
@@ -414,6 +410,23 @@ item_cursor_set_bounds (ItemCursor *item_cursor, int start_col, int start_row, i
 
 	item_cursor_request_redraw (item_cursor);
 
+	item_cursor_configure_bounds (item_cursor);
+}
+
+/**
+ * item_cursor_reposition : Re-compute the pixel position of the cursor.
+ *
+ * When a sheet is zoomed.  The pixel coords shift slightly.  The item cursor
+ * must regenerate to stay in sync.
+ */
+void
+item_cursor_reposition (ItemCursor *item_cursor)
+{
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_cursor);
+
+	g_return_if_fail (item != NULL);
+
+	item_cursor_request_redraw (item_cursor);
 	item_cursor_configure_bounds (item_cursor);
 }
 
@@ -709,7 +722,7 @@ item_cursor_set_bounds_visibly (ItemCursor *item_cursor,
 
 	item_cursor_set_bounds (item_cursor, start_col, start_row, end_col, end_row);
 
-	gnumeric_sheet_make_cell_visible (gsheet, base_col, base_row);
+	gnumeric_sheet_make_cell_visible (gsheet, base_col, base_row, FALSE);
 	gnumeric_sheet_cursor_set (gsheet, base_col, base_row);
 	gnome_canvas_update_now (GNOME_CANVAS (gsheet));
 }

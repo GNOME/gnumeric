@@ -28,7 +28,6 @@
 
 #include "gnumeric.h"
 #include "gnumeric-util.h"
-#include "gnumeric-sheet.h"
 #include "format.h"
 #include "color.h"
 #include "sheet-object.h"

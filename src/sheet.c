@@ -2706,7 +2706,7 @@ sheet_make_cell_visible (Sheet *sheet, int col, int row)
 	for (l = sheet->sheet_views; l; l = l->next){
 		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
 
-		gnumeric_sheet_make_cell_visible (gsheet, col, row);
+		gnumeric_sheet_make_cell_visible (gsheet, col, row, FALSE);
 	}
 }
 

@@ -12,7 +12,6 @@
 #include "gnumeric.h"
 #include "workbook-view.h"
 #include "gnumeric-util.h"
-#include "gnumeric-sheet.h"
 #include "dialogs.h"
 #include "cell.h"
 #include "expr.h"

@@ -73,5 +73,6 @@ void item_cursor_set_spin_base  (ItemCursor *item_cursor,
 
 void item_cursor_set_visibility (ItemCursor *item_cursor,
 				 int visible);
+void item_cursor_reposition      (ItemCursor *item_cursor);
 
 #endif /* GNUMERIC_ITEM_CURSOR_H */

@@ -7,6 +7,9 @@ Jukka:
 	* Minor improvements for the AutoSave tool.
 	* GUI improvements for the Data Analysis tool.
 
+Jody:
+	* Row/Col header redraw improvements.
+
 --------------------------------------------------------------------------
 
 Gnumeric 0.48
@@ -20,7 +23,6 @@ Jody:
 	* Row/Col hiding.
 	* Keep cursor visible, Add Alt-Pg{Up,down}
 	* Clipboard, Selection, & border fixes.
-	* Row/Col header redraw improvements.
 
 Morten:
 	* Revamp the memory handling of the parser.

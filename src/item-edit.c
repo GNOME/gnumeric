@@ -10,9 +10,8 @@
 
 #include <gnome.h>
 #include "gnumeric.h"
-#include "item-grid.h"
+#include "gnumeric-sheet.h"
 #include "item-edit.h"
-#include "item-debug.h"
 
 #define CURSOR_LEN 4
 static GnomeCanvasItem *item_edit_parent_class;
@@ -33,13 +32,14 @@ enum {
 static void
 item_edit_get_pixel_coords (ItemEdit *item_edit, int *x, int *y, int *w, int *h)
 {
-	ItemGrid *item_grid = item_edit->item_grid;
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_edit);
+	GnumericSheet   *gsheet = GNUMERIC_SHEET (item->canvas);
 	Sheet *sheet = item_edit->sheet;
 
-	*x = item_grid->left_offset +
-	    sheet_col_get_distance (sheet, item_grid->left_col, item_edit->col);
-	*y = item_grid->top_offset +
-	    sheet_row_get_distance (sheet, item_grid->top_row, item_edit->row);
+	*x = gsheet->col_offset.first +
+	    sheet_col_get_distance (sheet, gsheet->col.first, item_edit->col);
+	*y = gsheet->row_offset.first +
+	    sheet_row_get_distance (sheet, gsheet->row.first, item_edit->row);
 
 	*w = sheet_col_get_distance (sheet, item_edit->col,
 				     item_edit->col + item_edit->col_span);

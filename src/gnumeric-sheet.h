@@ -18,8 +18,9 @@ typedef struct {
 	GtkWidget     *entry;
 	SheetView     *sheet_view;
 	
-	int           left_col, last_visible_col, last_full_col;
-	int           top_row, last_visible_row, last_full_row;
+	struct {
+		int first, last_full, last_visible;
+	} row, col, row_offset, col_offset;
 
 	ItemGrid      *item_grid;
 	ItemCursor    *item_cursor;
@@ -48,8 +49,8 @@ GtkType    gnumeric_sheet_get_type               (void);
 
 GtkWidget *gnumeric_sheet_new            	 (SheetView *sheet, ItemBar *colbar, ItemBar *rowbar);
 void       gnumeric_sheet_set_selection  	 (GnumericSheet *gsheet, SheetSelection const *ss);
-void       gnumeric_sheet_set_top_row            (GnumericSheet *gsheet, int new_top_row);
-void       gnumeric_sheet_set_top_col            (GnumericSheet *gsheet, int new_top_col);
+void       gnumeric_sheet_set_top_row            (GnumericSheet *gsheet, int new_first_row);
+void       gnumeric_sheet_set_left_col           (GnumericSheet *gsheet, int new_first_col);
 void       gnumeric_sheet_cursor_set     	 (GnumericSheet *gsheet,
 					 	  int col, int row);
 void       gnumeric_sheet_move_cursor            (GnumericSheet *gsheet,
@@ -60,7 +61,8 @@ void       gnumeric_sheet_set_cursor_bounds      (GnumericSheet *gsheet,
 						  int end_col,   int end_row);
 void       gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet);
 void       gnumeric_sheet_make_cell_visible      (GnumericSheet *gsheet,
-						  int col, int row);
+						  int col, int row,
+						  gboolean const force_scroll);
 void       gnumeric_sheet_get_cell_bounds        (GnumericSheet *gsheet,
 						  int col, int row,
 						  int *x, int *y, int *w, int *h);

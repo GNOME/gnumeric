@@ -9,7 +9,6 @@
  */
 #include <config.h>
 #include "selection.h"
-#include "gnumeric-sheet.h"
 #include "utils.h"
 #include "clipboard.h"
 #include "ranges.h"

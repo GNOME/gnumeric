@@ -9,8 +9,8 @@
 #include <locale.h>
 #include <ctype.h>
 #include "gnumeric.h"
-#include "gnumeric-sheet.h"
 #include "gnumeric-util.h"
+#include "gnumeric-sheet.h"
 #include "eval.h"
 #include "format.h"
 #include "color.h"
@@ -876,6 +876,7 @@ cell_comment_reposition (Cell *cell)
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell->comment != NULL);
 
+	/* FIXME : This should use the sheet_view list */
 	for (l = cell->comment->realized_list; l; l = l->next){
 		GnomeCanvasItem *o = l->data;
 		SheetView *sheet_view = GNUMERIC_SHEET (o->canvas)->sheet_view;

@@ -10,7 +10,6 @@
 #include <stdlib.h>
 #include "numbers.h"
 #include "gnumeric.h"
-#include "gnumeric-sheet.h"
 #include "utils.h"
 #include "solver.h"
 #include "func.h"
