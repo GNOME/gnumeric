@@ -1097,7 +1097,7 @@ confidence_level (WorkbookControl *wbc, GPtrArray *data, gnum_float c_level,
 		if ((c_level < 1) && (c_level >= 0)) {
 			info = g_array_index (basic_stats, desc_stats_t, col);
 			if (info.error_mean == 0 && info.error_var == 0) {
-				x = -qt ((1 - c_level) / 2, info.len - 1) *
+				x = -qt ((1 - c_level) / 2, info.len - 1, TRUE, FALSE) *
 					sqrtgnum (info.var / info.len);
 				set_cell_float (dao, col + 1, 1, info.mean - x);
 				set_cell_float (dao, col + 1, 2, info.mean + x);
@@ -1391,7 +1391,7 @@ ztest_tool (WorkbookControl *wbc, Sheet *sheet,
 		z = (mean_1 - mean_2 - mean_diff) /
 			sqrtgnum (known_var_1 / variable_1->data->len  + known_var_2 /
 				  variable_2->data->len);
-		p = 1 - pnorm (fabs (z), 0, 1);
+		p = pnorm (fabs (z), 0, 1, FALSE, FALSE);
 	}
 
 	/* Labels */
@@ -1423,13 +1423,13 @@ ztest_tool (WorkbookControl *wbc, Sheet *sheet,
 	set_cell_float_na (dao, 1, 7, p, no_error);
 
 	/* z Critical one-tail */
-	set_cell_float (dao, 1, 8, qnorm (1.0 - alpha, 0, 1));
+	set_cell_float (dao, 1, 8, qnorm (1.0 - alpha, 0, 1, FALSE, FALSE));
 
 	/* P (Z<=z) two-tail */
 	set_cell_float_na (dao, 1, 9, 2 * p, no_error);
 
 	/* z Critical two-tail */
-	set_cell_float (dao, 1, 10, qnorm (1.0 - alpha / 2, 0, 1));
+	set_cell_float (dao, 1, 10, qnorm (1.0 - alpha / 2, 0, 1, FALSE, FALSE));
 
 	set_italic (dao, 0, 0, 0, 10);
 	set_italic (dao, 0, 0, 2, 0);
@@ -1550,7 +1550,7 @@ ttest_paired_tool (WorkbookControl *wbc, Sheet *sheet,
 
 	if (var_diff_error == 0) {
 		t = (mean_diff - mean_diff_hypo) / sqrtgnum (var_diff / difference->len);
-		p = 1.0 - pt (fabs (t), df);
+		p = pt (fabs (t), df, FALSE, FALSE);
 	}
 
 
@@ -1591,13 +1591,13 @@ ttest_paired_tool (WorkbookControl *wbc, Sheet *sheet,
 	set_cell_float_na (dao, 1, 8, p, var_diff_error == 0);
 
 	/* t Critical one-tail */
-	set_cell_float (dao, 1, 9, qt (1 - alpha, df));
+	set_cell_float (dao, 1, 9, qt (1 - alpha, df, TRUE, FALSE));
 
 	/* P (T<=t) two-tail */
 	set_cell_float_na (dao, 1, 10, 2 * p, var_diff_error == 0);
 
 	/* t Critical two-tail */
-	set_cell_float (dao, 1, 11, qt (1.0 - alpha / 2, df));
+	set_cell_float (dao, 1, 11, qt (1.0 - alpha / 2, df, TRUE, FALSE));
 
 	set_italic (dao, 0, 0, 0, 11);
 	set_italic (dao, 0, 0, 2, 0);
@@ -1686,7 +1686,7 @@ ttest_eq_var_tool (WorkbookControl *wbc, Sheet *sheet,
 		if (var != 0) {
 			t = (mean_1 - mean_2 - mean_diff) /
 				sqrtgnum (var / variable_1->data->len + var / variable_2->data->len);
-			p = 1.0 - pt (fabs (t), df);
+			p = pt (fabs (t), df, FALSE, FALSE);
 		}
 	}
 
@@ -1726,13 +1726,13 @@ ttest_eq_var_tool (WorkbookControl *wbc, Sheet *sheet,
 	set_cell_float_na (dao, 1, 9, p, no_error && (var != 0));
 
 	/* t Critical one-tail */
-	set_cell_float (dao, 1, 10, qt (1.0 - alpha, df));
+	set_cell_float (dao, 1, 10, qt (1.0 - alpha, df, TRUE, FALSE));
 
 	/* P (T<=t) two-tail */
 	set_cell_float_na (dao, 1, 11, 2 * p, no_error && (var != 0));
 
 	/* t Critical two-tail */
-	set_cell_float (dao, 1, 12, qt (1.0 - alpha / 2, df));
+	set_cell_float (dao, 1, 12, qt (1.0 - alpha / 2, df, TRUE, FALSE));
 
 	set_italic (dao, 0, 0, 0, 12);
 	set_italic (dao, 0, 0, 2, 0);
@@ -1814,7 +1814,7 @@ ttest_neq_var_tool (WorkbookControl *wbc, Sheet *sheet,
 
 		t =  (mean_1 - mean_2 - mean_diff) /
 			sqrtgnum (var_1 / variable_1->data->len + var_2 / variable_2->data->len);
-		p = 1.0 - pt (fabs (t), df);
+		p = pt (fabs (t), df, FALSE, FALSE);
 	}
 
 	/* Labels */
@@ -1850,13 +1850,13 @@ ttest_neq_var_tool (WorkbookControl *wbc, Sheet *sheet,
 	set_cell_float_na (dao, 1, 8, p, no_error);
 
 	/* t Critical one-tail */
-	set_cell_float (dao, 1, 9, qt (1.0 - alpha, df));
+	set_cell_float (dao, 1, 9, qt (1.0 - alpha, df, TRUE, FALSE));
 
 	/* P (T<=t) two-tail */
 	set_cell_float_na (dao, 1, 10, 2 * p, no_error);
 
 	/* t Critical two-tail */
-	set_cell_float (dao, 1, 11, qt (1.0 - alpha / 2, df));
+	set_cell_float (dao, 1, 11, qt (1.0 - alpha / 2, df, TRUE, FALSE));
 
 	set_italic (dao, 0, 0, 0, 11);
 	set_italic (dao, 0, 0, 2, 0);
@@ -1956,17 +1956,17 @@ ftest_tool (WorkbookControl *wbc, Sheet *sheet,
 
 		if (!calc_error) {
 			f = var_1/var_2;
-			p_right_tail = 1.0 - pf (f, df_1, df_2);
-			q_right_tail = qf (1.0 - alpha, df_1, df_2);
-			p_left_tail =  pf (f, df_1, df_2);
-			q_left_tail =  qf ( alpha, df_1, df_2);
+			p_right_tail = pf (f, df_1, df_2, FALSE, FALSE);
+			q_right_tail = qf (1.0 - alpha, df_1, df_2, TRUE, FALSE);
+			p_left_tail =  pf (f, df_1, df_2, TRUE, FALSE);
+			q_left_tail =  qf ( alpha, df_1, df_2, TRUE, FALSE);
 			if (p_right_tail < 0.5)
 				p_2_tail =  2 * p_right_tail;
 			else
 				p_2_tail =  2 * p_left_tail;
 
-			q_2_tail_left =  qf (alpha/2.0, df_1, df_2);
-			q_2_tail_right  =  qf (1.0 - alpha/2.0, df_1, df_2);
+			q_2_tail_left =  qf (alpha / 2.0, df_1, df_2, TRUE, FALSE);
+			q_2_tail_right  =  qf (1.0 - alpha / 2.0, df_1, df_2, TRUE, FALSE);
 		}
 
 		/* Mean */
@@ -2443,7 +2443,7 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 
 	/* Significance of F */
 	set_cell_float (dao, 5, 11, 1 - pf (regression_stat->F, regression_stat->df_reg,
-					    regression_stat->df_resid));
+					    regression_stat->df_resid, TRUE, FALSE));
 
 	/* Intercept / Coefficient */
 	set_cell_float (dao, 1, 16, res[0]);
@@ -2454,7 +2454,7 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 	else {
 		gnum_float t;
 
-		t = qt (1 - alpha/2, y_data->data->len - xdim - 1);
+		t = qt (1 - alpha / 2, y_data->data->len - xdim - 1, TRUE, FALSE);
 
 		/* Intercept / Standard Error */
 		set_cell_float (dao, 2, 16, regression_stat->se[0]);
@@ -2463,8 +2463,8 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 		set_cell_float (dao, 3, 16, regression_stat->t[0]);
 
 		/* Intercept / p values */
-		set_cell_float (dao, 4, 16, 2.0 * (1.0 - pt (regression_stat->t[0],
-							     y_data->data->len - xdim - 1)));
+		set_cell_float (dao, 4, 16, 2.0 * (pt (regression_stat->t[0],
+						       y_data->data->len - xdim - 1, FALSE, FALSE)));
 
 		/* Intercept / Lower 95% */
 		set_cell_float (dao, 5, 16, res[0] - t * regression_stat->se[0]);
@@ -2490,10 +2490,10 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 
 		/* Slopes / p values */
 		set_cell_float (dao, 4, 17 + i,
-				2.0 * (1.0 - pt (regression_stat->t[intercept + i],
-						 y_data->data->len - xdim - intercept)));
+				2.0 * (pt (regression_stat->t[intercept + i],
+					   y_data->data->len - xdim - intercept, FALSE, FALSE)));
 
-		t = qt (1 - alpha/2, y_data->data->len - xdim - intercept);
+		t = qt (1 - alpha / 2, y_data->data->len - xdim - intercept, TRUE, FALSE);
 
 		/* Slope / Lower 95% */
 		set_cell_float (dao, 5, 17 + i,
@@ -2777,7 +2777,7 @@ ranking_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input,
 			/* Rank */
 			set_cell_float (dao, n_data * 4 + 2, i + 1,
 					rank[i].rank +
-					(av_ties_flag ? rank[i].same_rank_count/2. : 0));
+					(av_ties_flag ? rank[i].same_rank_count / 2. : 0));
 
 			/* Percent */
 			set_cell_float_na (dao, n_data * 4 + 3, i + 1,
@@ -2934,8 +2934,8 @@ anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet,
 	ms_b = ss_b / df_b;
 	ms_w = ss_w / df_w;
 	f    = ms_b / ms_w;
-	p    = 1.0 - pf (f, df_b, df_w);
-	f_c  = qf (1 - alpha, df_b, df_w);
+	p    = pf (f, df_b, df_w, FALSE, FALSE);
+	f_c  = qf (1 - alpha, df_b, df_w, TRUE, FALSE);
 
 	set_cell_float (dao, 1, 2, ss_b);
 	set_cell_float (dao, 1, 3, ss_w);
@@ -3095,10 +3095,10 @@ anova_two_factor_without_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *inpu
 	ms_e = ss_e / df_e;
 	f1   = ms_r / ms_e;
 	f2   = ms_c / ms_e;
-	p1   = 1.0 - pf (f1, df_r, df_e);
-	p2   = 1.0 - pf (f2, df_c, df_e);
-	f1_c = qf (1 - alpha, df_r, df_e);
-	f2_c = qf (1 - alpha, df_c, df_e);
+	p1   = pf (f1, df_r, df_e, FALSE, FALSE);
+	p2   = pf (f2, df_c, df_e, FALSE, FALSE);
+	f1_c = qf (1 - alpha, df_r, df_e, TRUE, FALSE);
+	f2_c = qf (1 - alpha, df_c, df_e, TRUE, FALSE);
 
 	set_cell_text_col (dao, 0, 6 + rows + cols, _("/ANOVA"
 						      "/Source of Variation"
@@ -3539,19 +3539,19 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
 	set_cell_float_na (dao, 4, n_r * 6 + 13, f_c, ms_e != 0 && df_c > 0);
 	set_cell_float_na (dao, 4, n_r * 6 + 14, f_rc, ms_e != 0 && df_rc > 0);
 
-	p_r = 1.0 - pf (f_r, df_r, df_e);
-	p_c = 1.0 - pf (f_c, df_c, df_e);
-	p_rc = 1.0 - pf (f_rc, df_rc, df_e);
+	p_r = pf (f_r, df_r, df_e, FALSE, FALSE);
+	p_c = pf (f_c, df_c, df_e, FALSE, FALSE);
+	p_rc = pf (f_rc, df_rc, df_e, FALSE, FALSE);
 
 	set_cell_float_na (dao, 5, n_r * 6 + 12, p_r, ms_e != 0 && df_r > 0 && df_e > 0);
 	set_cell_float_na (dao, 5, n_r * 6 + 13, p_c, ms_e != 0 && df_c > 0 && df_e > 0);
 	set_cell_float_na (dao, 5, n_r * 6 + 14, p_rc, ms_e != 0 && df_rc > 0 && df_e > 0);
 
-	set_cell_float_na (dao, 6, n_r * 6 + 12, qf (1 - alpha, df_r, df_e),
+	set_cell_float_na (dao, 6, n_r * 6 + 12, qf (1 - alpha, df_r, df_e, TRUE, FALSE),
 			   df_r > 0 && df_e > 0);
-	set_cell_float_na (dao, 6, n_r * 6 + 13, qf (1 - alpha, df_c, df_e),
+	set_cell_float_na (dao, 6, n_r * 6 + 13, qf (1 - alpha, df_c, df_e, TRUE, FALSE),
 			   df_c > 0 && df_e > 0);
-	set_cell_float_na (dao, 6, n_r * 6 + 14, qf (1 - alpha, df_rc, df_e),
+	set_cell_float_na (dao, 6, n_r * 6 + 14, qf (1 - alpha, df_rc, df_e, TRUE, FALSE),
 			   df_rc > 0 && df_e > 0);
 
 	set_italic (dao, 0, n_r * 6 + 11, 6, n_r * 6 + 11);
@@ -3996,17 +3996,17 @@ fourier_fft (fourier_t *in, fourier_t *fourier)
 
 		fourier->real[i] = (fourier_1.real[i] +
 			fourier_2.real[i] * cosgnum (arg) +
-			fourier_2.imaginary[i] * singnum (arg))/2;
+			fourier_2.imaginary[i] * singnum (arg)) / 2;
 		fourier->imaginary[i] = (fourier_1.imaginary[i] +
 			fourier_2.imaginary[i] * cosgnum (arg) -
-			fourier_2.real[i] * singnum (arg))/2;
+			fourier_2.real[i] * singnum (arg)) / 2;
 
 		fourier->real[i + fourier_1.n] = (fourier_1.real[i] -
 			fourier_2.real[i] * cosgnum (arg) -
-			fourier_2.imaginary[i] * singnum (arg))/2;
+			fourier_2.imaginary[i] * singnum (arg)) / 2;
 		fourier->imaginary[i + fourier_1.n] = (fourier_1.imaginary[i] -
 			fourier_2.imaginary[i] * cosgnum (arg) +
-			fourier_2.real[i] * singnum (arg))/2;
+			fourier_2.real[i] * singnum (arg)) / 2;
 	}
 
 
@@ -4058,17 +4058,17 @@ fourier_fft_inv (fourier_t *in, fourier_t *fourier)
 
 		fourier->real[i] = (fourier_1.real[i] +
 			fourier_2.real[i] * cosgnum (arg) -
-			fourier_2.imaginary[i] * singnum (arg))/2;
+			fourier_2.imaginary[i] * singnum (arg))  /2;
 		fourier->imaginary[i] = (fourier_1.imaginary[i] +
 			fourier_2.imaginary[i] * cosgnum (arg) +
-			fourier_2.real[i] * singnum (arg))/2;
+			fourier_2.real[i] * singnum (arg)) / 2;
 
 		fourier->real[i + fourier_1.n] = (fourier_1.real[i] -
 			fourier_2.real[i] * cosgnum (arg) +
-			fourier_2.imaginary[i] * singnum (arg))/2;
+			fourier_2.imaginary[i] * singnum (arg)) / 2;
 		fourier->imaginary[i + fourier_1.n] = (fourier_1.imaginary[i] -
 			fourier_2.imaginary[i] * cosgnum (arg) -
-			fourier_2.real[i] * singnum (arg))/2;
+			fourier_2.real[i] * singnum (arg)) / 2;
 	}
 
 

@@ -1,0 +1,158 @@
+#!/usr/local/bin/perl -w
+# -----------------------------------------------------------------------------
+
+use strict;
+
+my @files =
+    ("dpq.h",
+     "dnorm.c",
+     "pnorm.c",
+     "qnorm.c",
+     "plnorm.c",
+     "qlnorm.c",
+     "ppois.c",
+     "stirlerr.c",
+     "bd0.c",
+     "dpois.c",
+     "dgamma.c",
+     "pgamma.c",
+     "qgamma.c",
+     "chebyshev.c",
+     "lgammacor.c",
+     # "logrelerr.c",
+     "lbeta.c",
+     "pbeta.c",
+     "qbeta.c",
+     "pt.c",
+     "qt.c",
+     "pf.c",
+     "qf.c",
+     "pchisq.c",
+     "qchisq.c",
+     "dweibull.c",
+     "pbinom.c",
+     "dbinom.c",
+     "qbinom.c",
+     "bessel.h",
+     "bessel_i.c",
+     "bessel_k.c",
+     );
+
+my $mathfunc = $ARGV[0];
+my $dir = $ARGV[1];
+my $subdir = "src/nmath";
+
+my ($prefix,$postfix) = &read_mathfunc ($mathfunc);
+
+print $prefix;
+print "\n";
+print "/* The following source code was imported from the R project.  */\n";
+print "/* It was automatically transformed by $0.  */\n";
+print "\n";
+
+foreach my $file (@files) {
+    my $cleandefs = ($file =~ /\.c$/);
+    print "/* Imported $subdir/$file from R.  */\n";
+    &import_file ("$dir/$subdir/$file", $cleandefs);
+}
+print $postfix;
+
+# -----------------------------------------------------------------------------
+
+sub import_file {
+    my ($filename,$cleandefs) = @_;
+
+    my @defines = ();
+    my $incomment = 0; # Stupid.
+
+    local (*FIL);
+    open (*FIL, "<$filename") or
+	die "$0: Cannot read $filename: $!\n";
+  LINE:
+    while (<FIL>) {
+	if (/^\s*\#\s*define\s+([a-zA-Z0-9_]+)/) {
+	    push @defines, $1;
+	} elsif (/^\s*\#\s*include\s+/) {
+	    # Ignore for now.
+	    next LINE;
+	}
+
+	s/\s+$//;
+	if ($incomment) {
+	    $incomment = 0 if m|\*/|;
+	} else {
+	    s/\bdouble\b/gnum_float/g;
+	    s/\bRboolean\b/gboolean/g;
+
+	    s/\bISNAN\b/isnangnum/g;
+	    s/\bR_FINITE\b/finitegnum/g;
+	    s/\b(sqrt|exp|log|pow|log1p|floor|sin|sinh)\b/$1gnum/g;
+	    s/\bfabs\b/gnumabs/g;
+	    s/\bDBL_(EPSILON|MIN|MAX)/GNUM_$1/g;
+
+	    # Given a good compiler, this is better.
+	    s/\bM_LN2/loggnum(2)/g;
+
+	    s/dnorm4/dnorm/g;
+	    s/pnorm5/pnorm/g;
+	    s/qnorm5/qnorm/g;
+
+	    s/([-+]?\d*\.(\d{10,})([eE][-+]?\d+)?)/GNUM_const\($1\)/g;
+
+	    # Somewhat risky.
+	    s/\%([-0-9.]*)([efgEFG])/\%$1\" GNUM_FORMAT_$2 \"/g;
+
+	    s/int give_log/gboolean give_log/g;
+	    s/int log_p/gboolean log_p/g;
+	    s/int lower_tail/gboolean lower_tail/g;
+
+	    $incomment = 1 if m|/\*$|;
+	}
+
+	print "$_\n";
+    }
+    close (*FIL);
+
+    if ($cleandefs && @defines) {
+	print "/* Cleaning up done by $0:  */\n";
+	foreach my $def (@defines) {
+	    print "#undef $def\n";
+	}
+    }
+
+    print "\n";
+    print "/* ", ('-' x 72), " */\n";
+}
+
+# -----------------------------------------------------------------------------
+
+sub read_mathfunc {
+    my ($filename) = @_;
+
+    my $prefix = '';
+    my $postfix = '';
+
+    local (*FIL);
+    open (*FIL, "<$filename") or
+	die "$0: Cannot read $filename: $!\n";
+    my $state = 'pre';
+    while (<FIL>) {
+	if ($state eq 'pre') {
+	    $prefix .= $_;
+	    $state = 'mid' if m"--- BEGIN MAGIC R SOURCE MARKER ---";
+	}
+	if ($state eq 'mid') {
+	    $state = 'post' if m"--- END MAGIC R SOURCE MARKER ---";
+	}
+	if ($state eq 'post') {
+	    $postfix .= $_;
+	}
+    }
+    close (*FIL);
+
+    die "$0: wrong set of magic markers in $filename.\n" if $state ne 'post';
+
+    return ($prefix,$postfix);
+}
+
+# -----------------------------------------------------------------------------

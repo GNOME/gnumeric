@@ -25,13 +25,13 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 static gnum_float
 calc_Np (gnum_float x)
 {
-	return dnorm (x, 0, 1);
+	return dnorm (x, 0, 1, FALSE);
 }
 
 static gnum_float
 calc_N (gnum_float x)
 {
-	return pnorm (x, 0, 1);
+	return pnorm (x, 0, 1, TRUE, FALSE);
 }
 
 /*

@@ -32,8 +32,6 @@ Long term breakage
   the left-most, right-most, or upper edge too.  Template should, I think,
   be marked as to the sanity of these truncations.
 
-- Upgrade mathfunc.c to use newer R sources.  (Or switch to GSL or some such.)
-
 - Most arg-type functions need to be somehow marked as strict.  Checking for
   errors by hand everywhere is silly.  (This is at least partially done.)
 

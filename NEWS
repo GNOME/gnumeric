@@ -61,6 +61,7 @@ Morten:
 	* Fix Oleo plugin's isdigit usage.
 	* Support for --with-long-double
 	* Constify C strings.
+	* Switch to newer R sources.
 
 Scott Ananian:
 	* Update the debian control files.

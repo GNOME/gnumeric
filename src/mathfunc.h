@@ -32,6 +32,9 @@
 #ifndef M_LN10
 #define M_LN10 2.3025850929940456840179914546843642
 #endif
+#ifndef M_2PI
+#define M_2PI (2 * M_PI)
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -44,59 +47,59 @@ gnum_float gnumeric_fake_trunc (gnum_float x);
 
 /* ------------------------------------------------------------------------- */
 
-double bessel_i (double x, double alpha, double expo);
-double bessel_k (double x, double alpha, double expo);
+gnum_float bessel_i (gnum_float x, gnum_float alpha, gnum_float expo);
+gnum_float bessel_k (gnum_float x, gnum_float alpha, gnum_float expo);
 
 /* "d": density.  */
 /* "p": distribution function.  */
 /* "q": inverse distribution function.  */
 
 /* The normal distribution.  */
-double dnorm (double x, double mu, double sigma);
-double pnorm (double x, double mu, double sigma);
-double qnorm (double p, double mu, double sigma);
+gnum_float dnorm (gnum_float x, gnum_float mu, gnum_float sigma, gboolean give_log);
+gnum_float pnorm (gnum_float x, gnum_float mu, gnum_float sigma, gboolean lower_tail, gboolean log_p);
+gnum_float qnorm (gnum_float p, gnum_float mu, gnum_float sigma, gboolean lower_tail, gboolean log_p);
 
 /* The log-normal distribution.  */
-double plnorm (double x, double logmean, double logsd);
-double qlnorm (double x, double logmean, double logsd);
+gnum_float plnorm (gnum_float x, gnum_float logmean, gnum_float logsd, gboolean lower_tail, gboolean log_p);
+gnum_float qlnorm (gnum_float x, gnum_float logmean, gnum_float logsd, gboolean lower_tail, gboolean log_p);
 
 /* The gamma distribution.  */
-double dgamma (double x, double shape, double scale);
-double pgamma (double x, double p, double scale);
-double qgamma (double p, double alpha, double scale);
+gnum_float dgamma (gnum_float x, gnum_float shape, gnum_float scale, gboolean give_log);
+gnum_float pgamma (gnum_float x, gnum_float p, gnum_float scale, gboolean lower_tail, gboolean log_p);
+gnum_float qgamma (gnum_float p, gnum_float alpha, gnum_float scale, gboolean lower_tail, gboolean log_p);
 
 /* The beta distribution.  */
-double pbeta (double x, double pin, double qin);
-double qbeta (double alpha, double p, double q);
+gnum_float pbeta (gnum_float x, gnum_float pin, gnum_float qin, gboolean lower_tail, gboolean log_p);
+gnum_float qbeta (gnum_float alpha, gnum_float p, gnum_float q, gboolean lower_tail, gboolean log_p);
 
 /* The t distribution.  */
-double pt (double x, double n);
-double qt (double p, double ndf);
+gnum_float pt (gnum_float x, gnum_float n, gboolean lower_tail, gboolean log_p);
+gnum_float qt (gnum_float p, gnum_float ndf, gboolean lower_tail, gboolean log_p);
 
 /* The F distribution.  */
-double pf (double x, double n1, double n2);
-double qf (double x, double n1, double n2);
+gnum_float pf (gnum_float x, gnum_float n1, gnum_float n2, gboolean lower_tail, gboolean log_p);
+gnum_float qf (gnum_float x, gnum_float n1, gnum_float n2, gboolean lower_tail, gboolean log_p);
 
 /* The chi-squared distribution.  */
-double pchisq (double x, double df);
-double qchisq (double p, double df);
+gnum_float pchisq (gnum_float x, gnum_float df, gboolean lower_tail, gboolean log_p);
+gnum_float qchisq (gnum_float p, gnum_float df, gboolean lower_tail, gboolean log_p);
 
 /* The Weibull distribution.  */
-double dweibull (double x, double shape, double scale);
-double pweibull (double x, double shape, double scale);
+gnum_float dweibull (gnum_float x, gnum_float shape, gnum_float scale, gboolean give_log);
+gnum_float pweibull (gnum_float x, gnum_float shape, gnum_float scale);
 
 /* The Poisson distribution.  */
-double dpois (double x, double lambda);
-double ppois (double x, double lambda);
+gnum_float dpois (gnum_float x, gnum_float lambda, gboolean give_log);
+gnum_float ppois (gnum_float x, gnum_float lambda, gboolean lower_tail, gboolean log_p);
 
 /* The exponential distribution.  */
-double dexp (double x, double scale);
-double pexp (double x, double scale);
+gnum_float dexp (gnum_float x, gnum_float scale);
+gnum_float pexp (gnum_float x, gnum_float scale);
 
 /* Binomial distribution.  */
-double dbinom (double x, double n, double p);
-double pbinom (double x, double n, double p);
-double qbinom (double x, double n, double p);
+gnum_float dbinom (gnum_float x, gnum_float n, gnum_float p, gboolean give_log);
+gnum_float pbinom (gnum_float x, gnum_float n, gnum_float p, gboolean lower_tail, gboolean log_p);
+gnum_float qbinom (gnum_float x, gnum_float n, gnum_float p, gboolean lower_tail, gboolean log_p);
 
 /* Random number generation. */
 gnum_float random_01          (void);

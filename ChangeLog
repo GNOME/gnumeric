@@ -1,5 +1,10 @@
 2002-02-25  Morten Welinder  <terra@diku.dk>
 
+	* src/mathfunc.c: Switch to R-1.4.0 sources.  Deal with signature
+	changes everywhere.
+
+2002-02-25  Morten Welinder  <terra@diku.dk>
+
 	* configure.in: Test if we must prototype strtold.  Test for
 	log1pl.
 

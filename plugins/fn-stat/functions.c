@@ -560,7 +560,7 @@ gnumeric_normsdist (FunctionEvalInfo *ei, Value **argv)
 
         x = value_get_as_float (argv[0]);
 
-	return value_new_float (pnorm (x, 0, 1));
+	return value_new_float (pnorm (x, 0, 1, TRUE, FALSE));
 }
 
 /***************************************************************************/
@@ -593,7 +593,7 @@ gnumeric_normsinv (FunctionEvalInfo *ei, Value **argv)
 	if (p < 0 || p > 1)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (qnorm (p, 0, 1));
+	return value_new_float (qnorm (p, 0, 1, TRUE, FALSE));
 }
 
 /***************************************************************************/
@@ -633,7 +633,7 @@ gnumeric_lognormdist (FunctionEvalInfo *ei, Value **argv)
         if (x <= 0 || mean < 0 || stdev < 0)
                 return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (plnorm (x, mean, stdev));
+	return value_new_float (plnorm (x, mean, stdev, TRUE, FALSE));
 }
 
 /***************************************************************************/
@@ -670,7 +670,7 @@ gnumeric_loginv (FunctionEvalInfo *ei, Value **argv)
 	if (p < 0 || p > 1 || stdev <= 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (qlnorm (p, mean, stdev));
+	return value_new_float (qlnorm (p, mean, stdev, TRUE, FALSE));
 }
 
 /***************************************************************************/
@@ -1187,9 +1187,9 @@ gnumeric_gammadist (FunctionEvalInfo *ei, Value **argv)
 
 	cum = value_get_as_int (argv[3]);
 	if (cum)
-	        return value_new_float (pgamma (x, alpha, beta));
+	        return value_new_float (pgamma (x, alpha, beta, TRUE, FALSE));
 	else
-	        return value_new_float (dgamma (x, alpha, beta));
+	        return value_new_float (dgamma (x, alpha, beta, FALSE));
 }
 
 /***************************************************************************/
@@ -1225,7 +1225,7 @@ gnumeric_gammainv (FunctionEvalInfo *ei, Value **argv)
 	if (p < 0 || p > 1 || alpha <= 0 || beta <= 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (qgamma (p, alpha, beta));
+	return value_new_float (qgamma (p, alpha, beta, TRUE, FALSE));
 }
 
 /***************************************************************************/
@@ -1261,7 +1261,7 @@ gnumeric_chidist (FunctionEvalInfo *ei, Value **argv)
 	if (dof < 1)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (1.0 - pchisq (x, dof));
+	return value_new_float (pchisq (x, dof, FALSE, FALSE));
 }
 
 /***************************************************************************/
@@ -1295,7 +1295,7 @@ gnumeric_chiinv (FunctionEvalInfo *ei, Value **argv)
 	if (p < 0 || p > 1 || dof < 1)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (qchisq (1.0 - p, dof));
+	return value_new_float (qchisq (1.0 - p, dof, TRUE, FALSE));
 }
 
 /***************************************************************************/
@@ -1433,7 +1433,7 @@ gnumeric_chitest (FunctionEvalInfo *ei, Value **argv)
 	/* FIXME : XL docs claim df = (r-1)(c-1) not (r-1),
 	 * However, that makes no sense.
 	 */
-	return value_new_float (1. - pchisq (p2.sum, (p1.rows - 1)));
+	return value_new_float (pchisq (p2.sum, (p1.rows - 1), FALSE, FALSE));
 }
 
 /***************************************************************************/
@@ -1473,7 +1473,7 @@ gnumeric_betadist (FunctionEvalInfo *ei, Value **argv)
 	if (x < a || x > b || a >= b || alpha <= 0 || beta <= 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (pbeta ((x - a) / (b - a), alpha, beta));
+	return value_new_float (pbeta ((x - a) / (b - a), alpha, beta, TRUE, FALSE));
 }
 
 /***************************************************************************/
@@ -1513,7 +1513,7 @@ gnumeric_betainv (FunctionEvalInfo *ei, Value **argv)
 	if (p < 0 || p > 1 || a >= b || alpha <= 0 || beta <= 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float ((b - a) * qbeta (p, alpha, beta) + a);
+	return value_new_float ((b - a) * qbeta (p, alpha, beta, TRUE, FALSE) + a);
 }
 
 /***************************************************************************/
@@ -1550,10 +1550,7 @@ gnumeric_tdist (FunctionEvalInfo *ei, Value **argv)
 	if (dof < 1 || (tails != 1 && tails != 2))
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	if (tails == 1)
-	        return value_new_float (1.0 - pt (x, dof));
-	else
-	        return value_new_float ((1.0 - pt (x, dof)) * 2);
+	return value_new_float (tails * pt (x, dof, FALSE, FALSE));
 }
 
 /***************************************************************************/
@@ -1587,7 +1584,7 @@ gnumeric_tinv (FunctionEvalInfo *ei, Value **argv)
 	if (p < 0 || p > 1 || dof < 1)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (qt (1 - p / 2, dof));
+	return value_new_float (qt (1 - p / 2, dof, TRUE, FALSE));
 }
 
 /***************************************************************************/
@@ -1624,7 +1621,7 @@ gnumeric_fdist (FunctionEvalInfo *ei, Value **argv)
 	if (x < 0 || dof1 < 1 || dof2 < 1)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (1.0 - pf (x, dof1, dof2));
+	return value_new_float (pf (x, dof1, dof2, FALSE, FALSE));
 }
 
 /***************************************************************************/
@@ -1660,7 +1657,7 @@ gnumeric_finv (FunctionEvalInfo *ei, Value **argv)
 	if (p < 0 || p > 1 || dof1 < 1 || dof2 < 1)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (qf (1.0 - p, dof1, dof2));
+	return value_new_float (qf (1.0 - p, dof1, dof2, TRUE, FALSE));
 }
 
 /***************************************************************************/
@@ -1704,9 +1701,9 @@ gnumeric_binomdist (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	if (cuml)
-		return value_new_float (pbinom (n, trials, p));
+		return value_new_float (pbinom (n, trials, p, TRUE, FALSE));
 	else
-		return value_new_float (dbinom (n, trials, p));
+		return value_new_float (dbinom (n, trials, p, FALSE));
 }
 
 /***************************************************************************/
@@ -1746,7 +1743,7 @@ gnumeric_critbinom (FunctionEvalInfo *ei, Value **argv)
         if (trials < 0 || p < 0 || p > 1 || alpha < 0 || alpha > 1)
 	        return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (qbinom (alpha, trials, p));
+	return value_new_float (qbinom (alpha, trials, p, TRUE, FALSE));
 }
 
 /***************************************************************************/
@@ -1862,7 +1859,7 @@ gnumeric_confidence (FunctionEvalInfo *ei, Value **argv)
 	if (size < 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (-qnorm (x / 2, 0, 1) * (stddev / sqrtgnum (size)));
+	return value_new_float (-qnorm (x / 2, 0, 1, TRUE, FALSE) * (stddev / sqrtgnum (size)));
 }
 
 /***************************************************************************/
@@ -1946,7 +1943,7 @@ gnumeric_weibull (FunctionEvalInfo *ei, Value **argv)
         if (cuml)
                 return value_new_float (pweibull (x, alpha, beta));
         else
-		return value_new_float (dweibull (x, alpha, beta));
+		return value_new_float (dweibull (x, alpha, beta, FALSE));
 }
 
 /***************************************************************************/
@@ -1989,9 +1986,9 @@ gnumeric_normdist (FunctionEvalInfo *ei, Value **argv)
                 return value_new_error (ei->pos, gnumeric_err_VALUE);
 
         if (cuml)
-		return value_new_float (pnorm (x, mean, stdev));
+		return value_new_float (pnorm (x, mean, stdev, TRUE, FALSE));
         else
-		return value_new_float (dnorm (x, mean, stdev));
+		return value_new_float (dnorm (x, mean, stdev, FALSE));
 }
 
 /***************************************************************************/
@@ -2028,7 +2025,7 @@ gnumeric_norminv (FunctionEvalInfo *ei, Value **argv)
 	if (p < 0 || p > 1 || stdev <= 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (qnorm (p, mean, stdev));
+	return value_new_float (qnorm (p, mean, stdev, TRUE, FALSE));
 }
 
 
@@ -2243,9 +2240,9 @@ gnumeric_poisson (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	if (cuml)
-		return value_new_float (ppois (x, mean));
+		return value_new_float (ppois (x, mean, TRUE, FALSE));
 	else
-		return value_new_float (dpois (x, mean));
+		return value_new_float (dpois (x, mean, FALSE));
 }
 
 /***************************************************************************/
@@ -2780,9 +2777,9 @@ gnumeric_ztest (FunctionEvalInfo *ei, ExprList *expr_node_list)
 	if (stdev == 0)
 	        return value_new_error (ei->pos, gnumeric_err_DIV0);
 
-	return value_new_float (1 - pnorm ((p.sum / p.num - p.x) /
-					   (stdev / sqrtgnum (p.num)),
-					   0, 1));
+	return value_new_float (pnorm ((p.sum / p.num - p.x) /
+				       (stdev / sqrtgnum (p.num)),
+				       0, 1, FALSE, FALSE));
 }
 
 /***************************************************************************/
@@ -3287,7 +3284,7 @@ gnumeric_ftest (FunctionEvalInfo *ei, Value *argv[])
 	if (var2 == 0)
 	        return value_new_error (ei->pos, gnumeric_err_VALUE);
 
-	p = (1.0 - pf (var1 / var2, dof1, dof2)) * 2;
+	p = pf (var1 / var2, dof1, dof2, FALSE, FALSE) * 2;
 
 	if (p > 1)
 	        p = 2 - p;
@@ -3372,7 +3369,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 	ExprTree      *tree;
 	ExprList      *expr_node_list;
         int            tails, type;
-	gnum_float     mean1, mean2, x, p;
+	gnum_float     mean1, mean2, x;
 	gnum_float     s, var1, var2, dof;
 	int            n1, n2;
 	Value         *err;
@@ -3462,11 +3459,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 		x = (mean1 - mean2) / sqrtgnum (var1 / n1 + var2 / n2);
 	}
 
-	if (tails == 1)
-		p = 1.0 - pt (gnumabs (x), dof);
-	else
-		p = (1.0 - pt (gnumabs (x), dof)) * 2;
-	return value_new_float (p);
+	return value_new_float (tails * pt (gnumabs (x), dof, FALSE, FALSE));
 }
 
 /***************************************************************************/

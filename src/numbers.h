@@ -53,6 +53,7 @@ gnum_float frexpgnum (gnum_float x, int *exp);
 #define powgnum powl
 #define hypotgnum hypotl
 #define expgnum expl
+#define expm1gnum expm1l
 #define loggnum logl
 #define log10gnum log10l
 #define log1pgnum log1pl
@@ -82,6 +83,7 @@ gnum_float frexpgnum (gnum_float x, int *exp);
 #define GNUM_DIG LDBL_DIG
 #define GNUM_MANT_DIG LDBL_MANT_DIG
 #define GNUM_MAX_EXP LDBL_MAX_EXP
+#define GNUM_MIN LDBL_MIN
 #define GNUM_MAX LDBL_MAX
 #define GNUM_EPSILON LDBL_EPSILON
 #define GNUM_const(_c) _c ## L
@@ -100,6 +102,7 @@ typedef double gnum_float;
 #define powgnum pow
 #define hypotgnum hypot
 #define expgnum exp
+#define expm1gnum expm1
 #define loggnum log
 #define log10gnum log10
 #define log1pgnum log1p
@@ -129,6 +132,7 @@ typedef double gnum_float;
 #define GNUM_DIG DBL_DIG
 #define GNUM_MANT_DIG DBL_MANT_DIG
 #define GNUM_MAX_EXP DBL_MAX_EXP
+#define GNUM_MIN DBL_MIN
 #define GNUM_MAX DBL_MAX
 #define GNUM_EPSILON DBL_EPSILON
 #define GNUM_const(_c) _c
