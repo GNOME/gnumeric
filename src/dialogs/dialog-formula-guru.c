@@ -148,7 +148,7 @@ dialog_formula_guru_update_this_parent (GtkTreeIter *parent, FormulaGuruState *s
 	g_return_if_fail (fd != NULL);
 
 	text = g_string_append (text, function_def_get_name (fd));
-	text = g_string_append (text, " (");
+	text = g_string_append (text, "(");
 
 	if (gtk_tree_model_iter_children (GTK_TREE_MODEL(state->model), &iter, parent)) {
 		do {
@@ -948,7 +948,7 @@ dialog_formula_guru (WorkbookControlGUI *wbcg, FunctionDefinition const *fd)
 
 	if (expr == NULL) {
 		wbcg_edit_start (wbcg, TRUE, TRUE);
-		state->prefix = g_strdup ("= ");
+		state->prefix = g_strdup ("=");
 		state->suffix = NULL;
 	} else {
 		char const *sub_str;
