@@ -30,7 +30,7 @@
 	
 	=(5*5)+11       returns 36.
 	
-	=(5*)+(49/7)    returns 32.
+	=(5*5)+(49/7)    returns 32.
       </programlisting>
     </example>
   </sect2>
