@@ -33,15 +33,25 @@ libGnumericIDL_a_SOURCES =		\
 	$(GNUMERIC_GRAPHS_GENERATED)	\
 	$(EVOLUTION_GENERATED)
 
-$(GNUMERIC_GENERATED): $(srcdir)/Gnumeric.idl 
-	orbit-idl -I$(srcdir) $(IDL_FLAGS) $(srcdir)/Gnumeric.idl 
+stamp_gnumeric : $(srcdir)/Gnumeric.idl 
+	$(ORBIT_IDL) -I$(srcdir) $(IDL_FLAGS) $<
+	touch $@
 
-$(GNUMERIC_GRAPHS_GENERATED): $(srcdir)/gnumeric-graphs.idl
-	orbit-idl -I$(srcdir) $(IDL_FLAGS) $(srcdir)/gnumeric-graphs.idl 
+$(GNUMERIC_GENERATED): stamp_gnumeric
+
+stamp_gnumeric_graphs : $(srcdir)/gnumeric-graphs.idl
+	$(ORBIT_IDL) -I$(srcdir) $(IDL_FLAGS) $<
+	touch $@
+
+$(GNUMERIC_GRAPHS_GENERATED): stamp_gnumeric_graphs
 
 if ENABLE_EVOLUTION
-$(EVOLUTION_GENERATED):
-	$(ORBIT_IDL) `$(GNOME_CONFIG) --datadir`/idl/Evolution-Composer.idl
+stamp_evolution :
+	$(ORBIT_IDL) $(IDL_FLAGS) `$(GNOME_CONFIG) --datadir`/idl/Evolution-Composer.idl
+	touch $@
+
+$(EVOLUTION_GENERATED) : stamp_evolution
+
 endif
 
 idldir   = $(gnumeric_datadir)/idl
@@ -50,9 +60,10 @@ idl_DATA = gnumeric-graphs.idl Gnumeric.idl
 EXTRA_DIST = $(idl_DATA)
 # Do not use built sources BUILT_SOURCES
 # it attempts to build the source even if it is not used.
-CLEANFILES  += $(GNUMERIC_GENERATED) \
-	       $(GNUMERIC_GRAPHS_GENERATED) \
-	       $(EVOLUTION_GENERATED)
+CLEANFILES  += $(GNUMERIC_GENERATED)		\
+	       $(GNUMERIC_GRAPHS_GENERATED)	\
+	       $(EVOLUTION_GENERATED)		\
+		stamp_gnumeric stamp_gnumeric_graphs stamp_evolution
 
 dist-hook :
 	cd $(distdir) && rm -f $(CLEANFILES)

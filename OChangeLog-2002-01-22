@@ -1,3 +1,7 @@
+2001-08-14  Jody Goldberg <jgoldberg@home.com>
+
+	* idl/Makefile.am : Use stamp files to make parallel compiles work.
+
 2001-08-14  Lutz Müller <urc8@rz.uni-karlsruhe.de>
 
 	* src/sheet-object-graphic.c: Let the user configure arrow shapes only
