@@ -1,0 +1,25 @@
+<sect2 id="numtheory-pi">
+  <title>pi</title>
+  <sect3 id="numtheory-pi-syntax">
+    <title>Syntax</title>
+    <para>
+      =NT_PI(i)
+    </para>
+  </sect3>
+  <sect3 id="numtheory-pi-description">
+    <title>Description</title>
+    <para>
+      The PI function returns TRUE if i is prime and FALSE
+      otherwise.  This function only takes one argument.
+    </para>
+  </sect3>
+  <sect3 id="numtheory-pi-seealso">
+    <title>See Also</title>
+    <para>
+      <xref linkend="numtheory-ithprime" /> 
+	<xref linkend="numtheory-phi" />
+	  <xref linkend="numtheory-d" />
+	    <xref linkend="numtheory-sigma" />
+    </para>
+  </sect3>
+</sect2>

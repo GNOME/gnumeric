@@ -1,3 +1,11 @@
+2002-02-17  Kevin Breit  <mrproper@ximian.com>
+
+	* C/number_theory/pi*.xml: Created this file.
+
+	* C/number_theory/isprime.xml: Created this file.
+
+	* C/number_theory/isprime_title.xml: Created this file.
+
 2002-02-16  Kevin Breit  <mrproper@ximian.com>
 
 	* C/funct-ref.xml: I added the ithprime function to the documentation.

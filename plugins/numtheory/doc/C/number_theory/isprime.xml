@@ -1,0 +1,24 @@
+<sect2 id="numtheory-isprime">
+  <title>isprime</title>
+  <sect3 id="numtheory-isprime-syntax">
+    <title>Syntax</title>
+    <para>
+      =ISPRIME(i)
+    </para>
+  </sect3>
+  <sect3 id="numtheory-isprime-description">
+    <title>Description</title>
+    <para>
+      The ISPRIME function returns TRUE if i is prime and FALSE
+      otherwise.  This function only takes one argument.
+    </para>
+  </sect3>
+  <sect3 id="numtheory-isprime-seealso">
+    <title>See Also</title>
+    <para>
+      <xref linkend="numtheory-ithprime" /> 
+	<xref linkend="numtheory-d" />
+	  <xref linkend="numtheory-sigma" />
+    </para>
+  </sect3>
+</sect2>
