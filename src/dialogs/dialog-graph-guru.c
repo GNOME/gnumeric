@@ -1395,6 +1395,8 @@ graph_guru_type_selector_new (void)
 	GtkTreeSelection  *selection;
 	GraphGuruTypeSelector *typesel;
 	GtkWidget *tmp, *vbox, *hbox;
+	guint32 select_color;
+	GdkColor *color;
 
 	typesel = g_new0 (GraphGuruTypeSelector, 1);
 	typesel->current_major_item = NULL;
@@ -1479,11 +1481,23 @@ graph_guru_type_selector_new (void)
 		if (!strcmp (major->name, "Major"))
 			major_list_init (typesel, major);
 
+#if 1
+	/* hard code for now until I figure out where to get a decent colour */
+	select_color = 0xe090f840;
+#else
+	color = typesel->canvas->style->base + GTK_STATE_SELECTED;
+
+	select_color |= ((color->red >> 8) & 0xff)   << 24;
+	select_color |= ((color->green >> 8) & 0xff) << 16;
+	select_color |= ((color->blue >> 8) & 0xff)  << 8;
+	select_color = 0x40; /* alpha of 25% */
+#endif
+
 	/* The alpha blended selection box */
 	typesel->selector = gnome_canvas_item_new (
 		gnome_canvas_root (GNOME_CANVAS (typesel->canvas)),
 		gnome_canvas_rect_get_type (),
-		"fill_color_rgba",	0xe090f840,
+		"fill_color_rgba",	select_color,
 		"outline_color_rgba",	0x000000ff,	/* black */
 		"width_pixels", 1,
 		NULL);

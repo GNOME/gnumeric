@@ -18,10 +18,3 @@ noinst_HEADERS = \
   eggtoolbar.h \
   eggtoolbutton.h \
   eggtoolitem.h	
-
-
-  test-toolbar.c \
-  prop-editor.c \
-  prop-editor.h
-
-  $(top_builddir)/libegg/toolbar/libegg-toolbar.a
