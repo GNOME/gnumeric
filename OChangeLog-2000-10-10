@@ -3297,7 +3297,7 @@
 	  reported by <matasmi@iki.fi> Bug 12428.
 
 	* src/sheet.c (sheet_move_range) : invalidate destination before
-	  adjsuting src to point to dst.
+	  adjusting src to point to dst.
 	(cmd_paste_cut_*) : keep a list of displaced content, not just the
 	  lost bits of the destination range, but also the portions of the src
 	  that are out of range.
@@ -3403,7 +3403,7 @@
 2000-05-28  Jody Goldberg <jgoldberg@home.com>
 
 	* src/commands.c (cmd_paste_copy_undo) : The first time through we
-	  transpose.  After that we are jsut replace the old content.  no
+	  transpose.  After that we are just replace the old content.  no
 	  transpose needed.
 
 2000-05-28  Jody Goldberg <jgoldberg@home.com>

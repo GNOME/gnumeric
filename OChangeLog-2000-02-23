@@ -477,7 +477,7 @@
 	(sheet_set_selection) : Delete.
 
 	* src/sheet.h : (SheetSlection) : Remove base member.
-	(Sheet) : adjsut notion of cursor to differentiate between,
+	(Sheet) : adjust notion of cursor to differentiate between,
 	edit, base, and movement.  (see comments).
 	* src/sheet-view.c (sheet_view_set_zoom_factor) : Use edit_pos.
 	(sheet_view_scrollbar_config) : Switch to new scheme.
@@ -493,7 +493,7 @@
 	  scheme.  Directly call sheet_cursor_set rather than the confusingly
 	  named sheet_set_selection.
 	(sheet_selection_add) : Renamed from sheet_selection_append.
-	(sheet_selection_change) : Adjsut parm name from 'new' -> 'new_sel' to
+	(sheet_selection_change) : Adjust parm name from 'new' -> 'new_sel' to
 	  enable test compiles from C++.
 	(sheet_selection_extend_to) : Switch to new edit, base, move scheme.
 	(sheet_selection_extend) : Just call sheet_selection_extend_to for the

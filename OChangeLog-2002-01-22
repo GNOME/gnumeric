@@ -2647,7 +2647,7 @@
 	  assigned text at the current list item.
 	(cb_change_zoom) : adjust to new signal from the gnm_combo_text.
 	  Make more error resistant.  Don't reset the content twice.
-	(workbook_create_standard_toolbar) : adjsut to new signals from the
+	(workbook_create_standard_toolbar) : adjust to new signals from the
 	  gnm_combo_text and use the simplified interface.
 
 	* src/clipboard.c (paste_link) : adjust this to link a region not just
@@ -5018,7 +5018,7 @@
 	(scg_set_top_row) : ditto.
 	(gnumeric_sheet_set_top_left) : new function split from.
 	(gnumeric_sheet_make_cell_visible) : here.
-	(scg_make_cell_visible) : adjsut to panes and do the real work here.
+	(scg_make_cell_visible) : adjust to panes and do the real work here.
 	(scg_make_cell_visible_virt : wrapper for use as virtual.
 	(gnumeric_pane_new) : new function.
 	(gnumeric_pane_delete) : ditto.
