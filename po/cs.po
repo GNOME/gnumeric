@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-06-23 00:40-0400\n"
-"PO-Revision-Date: 2004-04-21 13:58+0200\n"
+"POT-Creation-Date: 2004-06-23 21:22+0200\n"
+"PO-Revision-Date: 2004-06-24 14:35+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1245,7 +1245,8 @@ msgid "MS Excel (tm) 97/2000/XP"
 msgstr "MS Excel (tm) 97/2000/XP"
 
 #: plugins/excel/plugin.xml.in.h:6
-msgid "MS Excel (tm) 97/2000/XP & 5.0/95"
+#, fuzzy
+msgid "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
 msgstr "MS Excel (tm) 97/2000/XP & 5.0/95"
 
 #: plugins/excel/plugin.xml.in.h:7
@@ -16944,7 +16945,8 @@ msgid "HTML"
 msgstr "HTML"
 
 #: plugins/html/plugin.xml.in.h:2
-msgid "HTML & TeX"
+#, fuzzy
+msgid "HTML &amp; TeX"
 msgstr "HTML & TeX"
 
 #: plugins/html/plugin.xml.in.h:3
@@ -17742,7 +17744,7 @@ msgstr "List"
 
 #: plugins/xbase/xbase.c:142
 msgid "Failed to read DBF header."
-msgstr ""
+msgstr "Nemohu číst hlavičku DBF."
 
 #: plugins/xbase/plugin.xml.in.h:1
 msgid "Imports XBase files"
