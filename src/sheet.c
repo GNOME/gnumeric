@@ -185,16 +185,6 @@ sheet_new (Workbook *wb, const char *name)
 	sheet->hash_merged = g_hash_table_new ((GHashFunc)&cellpos_hash,
 					       (GCompareFunc)&cellpos_cmp);
 
-	if (getenv ("GNUMERIC_DEBUG_MERGE")) {
-		/* some quick tests for merged cell support */
-		Range r1 = { { 3,3 }, { 5,5 } };
-		Range r2 = { { 7,4 }, { 9,6 } };
-		Range r3 = { { 11,3 }, { 13,5 } };
-		sheet_region_merge (NULL, sheet, &r1);
-		sheet_region_merge (NULL, sheet, &r2);
-		sheet_region_merge (NULL, sheet, &r3);
-	}
-
 	sheet->deps	 = dependency_data_new ();
 	sheet->cell_hash = g_hash_table_new ((GHashFunc)&cellpos_hash,
 					     (GCompareFunc)&cellpos_cmp);
@@ -3924,7 +3914,7 @@ sheet_region_unmerge (CommandContext *cc, Sheet *sheet, Range const *range)
  * Caller is responsible for freeing the list, but not the content.
  */
 GSList *
-sheet_region_get_merged (Sheet *sheet, Range const *range)
+sheet_region_get_merged (Sheet const *sheet, Range const *range)
 {
 	GSList *ptr, *res = NULL;
 

@@ -1,4 +1,7 @@
-2000-12-19  Jody Goldberg <jgoldberg@home.com>
+2000-12-20  Jody Goldberg <jgoldberg@home.com>
+
+	* src/selection.c (selection_is_simple) : Handle merged cells and
+	  arrays.
 
 	* src/sheet.c (sheet_relocate_merged) : new function.
 

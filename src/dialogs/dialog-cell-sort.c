@@ -495,17 +495,16 @@ dialog_cell_sort (WorkbookControlGUI *wbcg, Sheet *sheet)
 	int lp, btn;
 
 	g_return_if_fail (wbcg != NULL);
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
+
+	/* We can't sort complex ranges */
+	if (!selection_is_simple (WORKBOOK_CONTROL (wbcg), sheet, _("Sort"), FALSE, FALSE))
+		return;
 
 	/* Initialize some important stuff */
 	sort_flow.sel = range_copy (selection_first_range (sheet, TRUE));
 	sort_flow.sheet = sheet;
 	sort_flow.wbcg = wbcg;
-
-	/* We can't sort complex ranges */
-	if (!selection_is_simple (WORKBOOK_CONTROL (wbcg), sheet, _("sort")))
-		return;
 
 	/* Correct selection if necessary */
 	range_clip_to_finite (sort_flow.sel, sort_flow.sheet);

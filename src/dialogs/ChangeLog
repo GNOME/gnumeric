@@ -1,3 +1,12 @@
+2000-12-20  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-delete-cells.c (dialog_delete_cells) : move test for
+	  simplicity later.
+	* dialog-insert-cells.c (dialog_insert_cells) : move test for
+	  simplicity later.
+
+	* dialog-cell-sort.c (dialog_cell_sort) : fix leak.
+
 2000-12-19  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-cell-format.c (fmt_dialog_changed) : optionally virtualize.

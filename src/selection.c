@@ -17,6 +17,7 @@
 #include "workbook-view.h"
 #include "workbook.h"
 #include "commands.h"
+#include "value.h"
 #include "sheet-control-gui.h"
 #include "gnumeric-util.h"
 
@@ -71,6 +72,13 @@ selection_first_range (Sheet const *sheet, gboolean const permit_complex)
 	return ss;
 }
 
+static Value *
+cb_cell_is_array (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
+{
+	return cell_is_array (cell) ? value_terminate () : NULL;
+
+}
+
 /*
  * selection_is_simple
  * @wbc          : The calling context to report errors to (GUI or corba)
@@ -78,21 +86,48 @@ selection_first_range (Sheet const *sheet, gboolean const permit_complex)
  * @command_name : A string naming the operation requiring a single range.
  *
  * This function tests to see if multiple ranges are selected.  If so it
- * produces a warning.
+ * produces a warning.  It also ensures that the range does not contain any
+ * arrays or merged cells.
  */
 gboolean
 selection_is_simple (WorkbookControl *wbc, Sheet const *sheet,
-		     char const *command_name)
+		     char const *command_name,
+		     gboolean allow_merged, gboolean allow_arrays)
 {
+	Range const *r;
+	GSList *merged;
+
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
-	if (g_list_length (sheet->selections) == 1)
-		return TRUE;
+	if (g_list_length (sheet->selections) != 1) {
+		gnumeric_error_invalid (COMMAND_CONTEXT (wbc), command_name,
+			_("cannot be performed with multiple selections"));
+		return FALSE;
+	}
 
-	gnumeric_error_invalid (COMMAND_CONTEXT (wbc), command_name,
-			      _("cannot be performed with multiple selections"));
+	if (!allow_merged) {
+		r = sheet->selections->data;
+		merged = sheet_region_get_merged (sheet, r);
+		if (merged != NULL) {
+			gnumeric_error_invalid (COMMAND_CONTEXT (wbc), command_name,
+				_("can not operate on merged cells"));
+			g_slist_free (merged);
+			return FALSE;
+		}
+	}
 
-	return FALSE;
+	if (!allow_arrays) {
+		if (sheet_cell_foreach_range ((Sheet *)sheet, TRUE,
+					      r->start.col, r->start.row,
+					      r->end.col, r->end.row,
+					      cb_cell_is_array, NULL)) {
+			gnumeric_error_invalid (COMMAND_CONTEXT (wbc), command_name,
+				_("can not operate on array formulae"));
+			return FALSE;
+		}
+	}
+
+	return TRUE;
 }
 
 /**
@@ -598,7 +633,7 @@ sheet_selection_copy (WorkbookControl *wbc, Sheet *sheet)
 
 	/* FIXME FIXME : disable copying part of an array */
 
-	if (!selection_is_simple (wbc, sheet, _("copy")))
+	if (!selection_is_simple (wbc, sheet, _("Copy"), TRUE, TRUE))
 		return FALSE;
 
 	ss = sheet->selections->data;
@@ -624,11 +659,9 @@ sheet_selection_cut (WorkbookControl *wbc, Sheet *sheet)
 	 * NOTE : This command DOES NOT MOVE ANYTHING !
 	 *        We only store the src, paste does the move.
 	 */
-
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
-	g_return_val_if_fail (sheet->selections, FALSE);
 
-	if (!selection_is_simple (wbc, sheet, _("cut")))
+	if (!selection_is_simple (wbc, sheet, _("Cut"), TRUE, TRUE))
 		return FALSE;
 
 	ss = sheet->selections->data;

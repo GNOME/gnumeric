@@ -77,11 +77,7 @@ dialog_delete_cells (WorkbookControlGUI *wbcg, Sheet *sheet)
 	int  cols, rows;
 
 	g_return_if_fail (wbcg != NULL);
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
-
-	if (!selection_is_simple (wbc, sheet, _("delete cells")))
-		return;
 
 	ss = sheet->selections->data;
 	cols = ss->end.col - ss->start.col + 1;
@@ -98,6 +94,9 @@ dialog_delete_cells (WorkbookControlGUI *wbcg, Sheet *sheet)
 				 ss->start.row, rows);
 		return;
 	}
+
+	if (!selection_is_simple (wbc, sheet, _("Delete cells"), FALSE, FALSE))
+		return;
 
 	gui = gnumeric_glade_xml_new (wbcg, GLADE_FILE);
         if (gui == NULL)

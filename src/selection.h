@@ -56,7 +56,8 @@ char       *selection_to_string    (Sheet *sheet,
 
 /* Information about the selection */
 gboolean      selection_is_simple   (WorkbookControl *context, Sheet const *sheet,
-				     char const *command_name);
+				     char const *command_name,
+				     gboolean allow_merged, gboolean allow_arrays);
 Range const * selection_first_range (Sheet const *sheet, gboolean const permit_complex);
 gboolean    selection_foreach_range (Sheet *sheet, gboolean from_start,
 				     gboolean (*range_cb) (Sheet *sheet,

@@ -8,9 +8,6 @@ Release Critical
 Long term breakage
 ------------------
 
-- Sorting ranges containing array formulae (partially or completely) does
-  not work very well.  We should probably just refuse to do so.
-
 - Fix Borders
 - Entering "=1e11111" yields "Syntax Error", not "overflow".
   In general parsing needs better error messages.
@@ -100,10 +97,10 @@ STF - pasting a single line should not invoke the importer
 
 - Merged Cells
     - autofill
-    - sheet copy
-    - cut/copy/paste
-    - undo/redo
-    - ins/del row/col
+    - sorting
+    - undo/redo (even for row/col ins/del)
+    - width of cell for general format
+    - selection after row/col ins/del
 
 Dialogs
 -------

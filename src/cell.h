@@ -11,7 +11,10 @@ typedef enum {
     CELL_HAS_EXPRESSION	   = 0x10000,
 
     /* Cell is linked into the sheet */
-    CELL_IN_SHEET_LIST	   = 0x20000
+    CELL_IN_SHEET_LIST	   = 0x20000,
+
+    /* Is the top left corner of a merged region */
+    CELL_IS_MERGED	   = 0x40000
 } CellFlags;
 
 /* Definition of a Gnumeric Cell */
@@ -52,6 +55,7 @@ void        cell_content_changed         (Cell *cell);
 #define	    cell_expr_is_linked(cell)	((cell)->base.flags & DEPENDENT_IN_EXPR_LIST)
 #define	    cell_has_expr(cell)		((cell)->base.flags & CELL_HAS_EXPRESSION)
 #define	    cell_is_linked(cell)	((cell)->base.flags & CELL_IN_SHEET_LIST)
+#define	    cell_is_merged(cell)	((cell)->base.flags & CELL_IS_MERGED)
 CellComment*	 cell_has_comment	(Cell const *cell);
 gboolean	 cell_is_blank		(Cell const *cell);
 Value *		 cell_is_error		(Cell const *cell);

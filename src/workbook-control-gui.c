@@ -1302,8 +1302,10 @@ cb_insert_rows (GtkWidget *unused, WorkbookControlGUI *wbcg)
 	int rows;
 
 	/* TODO : No need to check simplicty.  XL applies for each
-	 * non-discrete selected region, (use selection_apply) */
-	if (!selection_is_simple (wbc, sheet, _("Insert rows")))
+	 * non-discrete selected region, (use selection_apply)
+	 * we do need to check for arrays and merged cells 
+	 */
+	if (!selection_is_simple (wbc, sheet, _("Insert rows"), TRUE, TRUE))
 		return;
 
 	ss = sheet->selections->data;
@@ -1326,8 +1328,10 @@ cb_insert_cols (GtkWidget *unused, WorkbookControlGUI *wbcg)
 	int cols;
 
 	/* TODO : No need to check simplicty.  XL applies for each
-	 * non-discrete selected region, (use selection_apply) */
-	if (!selection_is_simple (wbc, sheet, _("Insert cols")))
+	 * non-discrete selected region, (use selection_apply)
+	 * we do need to check for arrays and merged cells 
+	 */
+	if (!selection_is_simple (wbc, sheet, _("Insert cols"), TRUE, TRUE))
 		return;
 
 	ss = sheet->selections->data;
@@ -1570,12 +1574,12 @@ sort_cmd (WorkbookControlGUI *wbcg, int asc)
 	sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 	g_return_if_fail (IS_SHEET (sheet));
 
-	sel = range_copy (selection_first_range (sheet, TRUE));
-
-	/* We can't sort complex ranges */
-	if (!selection_is_simple (WORKBOOK_CONTROL (wbcg), sheet, _("sort")))
+	/* We can't sort multiple ranges, or a range with arrays or merged cells */
+	if (!selection_is_simple (WORKBOOK_CONTROL (wbcg), sheet,
+				  _("Sort"), FALSE, FALSE))
 		return;
 
+	sel = range_copy (selection_first_range (sheet, TRUE));
 	range_clip_to_finite (sel, sheet);
 
 	numclause = sel->end.col - sel->start.col + 1;
