@@ -1,3 +1,13 @@
+2002-03-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-sheet-order.c (cb_selection_changed) : handle delete button
+	(cb_toggle_deleted) : new
+	(populate_sheet_list) : handle `is_deleted' column
+	(move_cb) : ditto
+	(cb_add_clicked) : ditto
+	(cb_delete_clicked) : implement
+	(cb_ok_clicked) : ignore deleted
+
 2002-03-06  Jody Goldberg <jody@gnome.org>
 
 	* dialog-advanced-filter.c (advanced_filter) : Use eval_pos_init_sheet.
