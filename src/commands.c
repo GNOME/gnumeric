@@ -3994,7 +3994,8 @@ typedef struct
 GNUMERIC_MAKE_COMMAND (CmdObjectInsert, cmd_object_insert);
 
 static gboolean
-cmd_object_insert_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_object_insert_redo (GnumericCommand *cmd,
+			__attribute((unused)) WorkbookControl *wbc)
 {
 	CmdObjectInsert *me = CMD_OBJECT_INSERT (cmd);
 
