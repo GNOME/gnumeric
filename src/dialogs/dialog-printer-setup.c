@@ -1215,7 +1215,7 @@ do_setup_page (PrinterSetupState *state)
 
 	scale_percent_spin = glade_xml_get_widget (gui, "scale-percent-spin");
 	gtk_spin_button_set_value (
-		GTK_SPIN_BUTTON (scale_percent_spin), pi->scaling.percentage*100 +.5);
+		GTK_SPIN_BUTTON (scale_percent_spin), pi->scaling.percentage);
 	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog),
 				      GTK_EDITABLE (scale_percent_spin));
 
@@ -1408,7 +1408,7 @@ do_fetch_page (PrinterSetupState *state)
 		state->pi->scaling.type = SIZE_FIT;
 
 	w = glade_xml_get_widget (gui, "scale-percent-spin");
-	state->pi->scaling.percentage = GTK_SPIN_BUTTON (w)->adjustment->value / 100.;
+	state->pi->scaling.percentage = GTK_SPIN_BUTTON (w)->adjustment->value;
 
 	w = glade_xml_get_widget (gui, "scale-width-spin");
 	state->pi->scaling.dim.cols = GTK_SPIN_BUTTON (w)->adjustment->value;

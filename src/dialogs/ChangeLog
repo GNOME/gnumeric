@@ -1,3 +1,9 @@
+2001-06-20  Almer S. Tigelaar  <almer@gnome.org>
+
+	* dialog-printer-setup.c (do_setup_page): No need to
+	mutate scaling to a percentage it is already a percentage.
+	(do_fetch_page): Idem.
+
 2001-06-18  Karl Eichwalder  <ke@suse.de>
 
 	* dialog-stf-main-page.c (stf_dialog_main_page_init): Typo.

@@ -131,7 +131,7 @@ print_page_cells (PrintJobInfo const *pj, Sheet const *sheet,
 		  int start_col, int start_row, int end_col, int end_row,
 		  double base_x, double base_y)
 {
-	base_y = (pj->height/ pj->pi->scaling.percentage) - base_y;
+	base_y = (pj->height/ (pj->pi->scaling.percentage / 100.)) - base_y;
 	print_cell_range (pj->print_context, sheet,
 		start_col, start_row,
 		end_col, end_row,
@@ -414,7 +414,7 @@ static void
 setup_scale (PrintJobInfo const *pj)
 {
 	double affine [6];
-	double scale = pj->pi->scaling.percentage;
+	double scale = pj->pi->scaling.percentage / 100.;
 
 	art_affine_scale (affine, scale, scale);
 	gnome_print_concat (pj->print_context, affine);
@@ -597,8 +597,8 @@ print_page (PrintJobInfo const *pj, Sheet const *sheet,
 	gnome_print_newpath (pj->print_context);
 
 	setup_scale (pj);
-	x /= pj->pi->scaling.percentage;
-	y /= pj->pi->scaling.percentage;
+	x /= pj->pi->scaling.percentage / 100.;
+	y /= pj->pi->scaling.percentage / 100.;
 
 	if (pj->pi->repeat_top.use && repeat_rows_used_y > 0.) {
 		/* Intersection of repeated rows and columns */
@@ -647,7 +647,7 @@ compute_group (PrintJobInfo const *pj, Sheet const *sheet,
 	float size_pts = 1.; /* The initial grid line */
 	int idx, count = 0;
 
-	usable /= pj->pi->scaling.percentage;
+	usable /= pj->pi->scaling.percentage / 100.;
 
 	for (idx = start; idx <= end; idx++, count++) {
 		ColRowInfo const *info = (*get_info) (sheet, idx);

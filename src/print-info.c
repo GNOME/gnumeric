@@ -257,7 +257,7 @@ print_info_new (void)
 		pi->scaling.type = PERCENTAGE;
 	else
 		pi->scaling.type = SIZE_FIT;
-	pi->scaling.percentage = gnome_config_get_float ("scale_percent=1");
+	pi->scaling.percentage = gnome_config_get_float ("scale_percent=100");
 	pi->scaling.dim.cols = gnome_config_get_int ("scale_width=1");
 	pi->scaling.dim.rows = gnome_config_get_int ("scale_height=1");
 

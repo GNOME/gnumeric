@@ -4,9 +4,12 @@
 	Use wbcg->toplevel, not wbcg->table. This fixes
 	copying from Gnumeric to another application.
 
-	* src/print-info.c (print_info_new): Default to scale
-	factor 1 not 100.
-
+	* src/print.c (print_page_cells): Convert scaling percentage
+	to factor.
+	(setup_scale): Idem.
+	(print_page): Idem.
+	(compute_group): Idem.
+	
 2001-06-20  Jody Goldberg <jgoldberg@home.com>
 
 	* src/number-match.c (compute_value) : parse 12:xx am correctly.
