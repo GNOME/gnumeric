@@ -218,6 +218,15 @@ create_ellipse_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
+cb_sheet_do_destroy (gpointer key, gpointer value, gpointer user_data)
+{
+	Sheet *sheet = value;
+
+	sheet->workbook = NULL;
+	sheet_destroy (sheet);
+}
+
+static void
 workbook_do_destroy (Workbook *wb)
 {
 	if (wb->filename)
@@ -235,7 +244,12 @@ workbook_do_destroy (Workbook *wb)
 	workbook_count--;
 
 	symbol_table_destroy (wb->symbol_names);
-	
+
+	g_hash_table_foreach (wb->sheets, cb_sheet_do_destroy, NULL);
+	g_hash_table_destroy (wb->sheets);
+
+	g_free (wb);
+
 	if (workbook_count == 0)
 		gtk_main_quit ();
 }

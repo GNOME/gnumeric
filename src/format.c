@@ -28,6 +28,9 @@
 #include <math.h>
 #include <locale.h>
 #include <ctype.h>
+#ifdef HAVE_IEEEFP_H
+#    include <ieeefp.h>
+#endif
 #include "gnumeric.h"
 #include "format.h"
 #include "dates.h"

@@ -252,7 +252,7 @@ el_button_press_event (GtkWidget *widget, GdkEventButton *button)
 		return FALSE;
 	}
 
-	gtk_widget_event (GTK_WIDGET (el)->parent, button);
+	gtk_widget_event (GTK_WIDGET (el)->parent, (GdkEvent *) button);
 	return FALSE;
 }
 

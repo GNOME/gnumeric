@@ -114,7 +114,7 @@ ms_obj_read_obj (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q)
 			guint16 obj_type=BIFF_GETWORD(data+4);
 			guint16 obj_id  =BIFF_GETWORD(data+6);
 			guint16 options =BIFF_GETWORD(data+8);
-			char *type;
+			char *type = NULL;
 			enum { Locked=0x1, Printable=0x2,
 			       AutoFill=0x4, AutoLine=0x8 } flags;
 			printf ("Common object data len 0x%x "

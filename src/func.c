@@ -12,6 +12,7 @@
 #include "gnumeric-sheet.h"
 #include "utils.h"
 #include "func.h"
+#include "eval.h"
 
 /* The list of categories */
 static GPtrArray *categories = NULL;
