@@ -21,6 +21,11 @@
 #include "command-context.h"
 #include "io-context.h"
 
+#ifndef MAP_PRIVATE
+/* For the benefit of HPUX  */
+#define MAP_PRIVATE ((void *)-1)
+#endif
+
 /**
  * gnumeric_fopen:
  * @context: a gnumeric command context

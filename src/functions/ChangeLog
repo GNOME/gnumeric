@@ -1,3 +1,7 @@
+2001-04-12  Morten Welinder  <terra@diku.dk>
+
+	* fn-database.c (find_rows_that_match): Portability fixes.
+
 2001-03-17  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.64

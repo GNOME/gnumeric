@@ -432,12 +432,14 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 				       }
 				       goto filter_row;
 			       row_ok:
+				       ;
 			       }
 		       }
 		       p = g_new (gint, 1);
 		       *p = row;
 		       rows = g_slist_append(rows, (gpointer) p);
 	       filter_row:
+		       ;
 	       }
 	}
 

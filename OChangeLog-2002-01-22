@@ -1,3 +1,7 @@
+2001-04-12  Morten Welinder  <terra@diku.dk>
+
+	* src/plugin-util.c: Portability fix.
+
 2001-04-12  Jody Goldberg <jgoldberg@home.com>
 
 	* src/commands.c (cmd_paste_copy_undo) : Make the corner of the
