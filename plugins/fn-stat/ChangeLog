@@ -1,3 +1,7 @@
+2002-12-02  Morten Welinder  <terra@diku.dk>
+
+	* functions.c: Doc fix, see 100048.
+
 2002-11-30  Jody Goldberg <jody@gnome.org>
 
 	* functions.c (gnumeric_subtotal) : Use the new hooks to implement the
