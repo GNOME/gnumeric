@@ -300,7 +300,7 @@
 	      <name>scale-percent-radio</name>
 	      <can_focus>True</can_focus>
 	      <label>_Adjust to:</label>
-	      <active>False</active>
+	      <active>True</active>
 	      <draw_indicator>True</draw_indicator>
 	      <group>scale-group</group>
 	      <child>
@@ -411,7 +411,7 @@
 
 	    <widget>
 	      <class>GtkLabel</class>
-	      <name>label10</name>
+	      <name>scale-percent-label</name>
 	      <label>% of normal size</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
 	      <wrap>False</wrap>
@@ -437,7 +437,7 @@
 
 	    <widget>
 	      <class>GtkLabel</class>
-	      <name>label11</name>
+	      <name>scale-wide-label</name>
 	      <sensitive>False</sensitive>
 	      <label>page(s) wide by</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
@@ -497,7 +497,7 @@
 
 	    <widget>
 	      <class>GtkLabel</class>
-	      <name>label12</name>
+	      <name>scale-tall-label</name>
 	      <sensitive>False</sensitive>
 	      <label>tall</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
@@ -1309,13 +1309,14 @@ In
 	    <widget>
 	      <class>GtkLabel</class>
 	      <name>label44</name>
-	      <label>Header:</label>
+	      <label>_Header:</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
 	      <wrap>False</wrap>
 	      <xalign>0.5</xalign>
 	      <yalign>0.5</yalign>
 	      <xpad>0</xpad>
 	      <ypad>0</ypad>
+	      <default_focus_target>option-menu-header</default_focus_target>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
@@ -1378,13 +1379,14 @@ In
 	    <widget>
 	      <class>GtkLabel</class>
 	      <name>label45</name>
-	      <label>Footer:</label>
+	      <label>_Footer:</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
 	      <wrap>False</wrap>
 	      <xalign>0.5</xalign>
 	      <yalign>0.5</yalign>
 	      <xpad>0</xpad>
 	      <ypad>0</ypad>
+	      <default_focus_target>option-menu-footer</default_focus_target>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
@@ -1929,5 +1931,3 @@ In
 </widget>
 
 </GTK-Interface>
-
-

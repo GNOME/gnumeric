@@ -115,7 +115,7 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>var1-label</name>
-	  <label>Input Range: </label>
+	  <label>_Input Range: </label>
 	  <justify>GTK_JUSTIFY_RIGHT</justify>
 	  <wrap>False</wrap>
 	  <xalign>0</xalign>
@@ -346,7 +346,7 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>period-label</name>
-	<label>Period:</label>
+	<label>Per_iod:</label>
 	<justify>GTK_JUSTIFY_RIGHT</justify>
 	<wrap>False</wrap>
 	<xalign>0</xalign>

@@ -96,7 +96,7 @@
 	    <class>GtkLabel</class>
 	    <child_name>CList:title</child_name>
 	    <name>label1</name>
-	    <label>Sheet Name</label>
+	    <label>_Sheet Name</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0.5</xalign>
@@ -151,7 +151,7 @@
 	  <name>delete_btn</name>
 	  <tooltip>Delete the currently selected sheet</tooltip>
 	  <can_focus>True</can_focus>
-	  <label>Delete</label>
+	  <label>_Delete</label>
 	  <relief>GTK_RELIEF_NORMAL</relief>
 	  <child>
 	    <padding>0</padding>

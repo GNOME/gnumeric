@@ -2297,7 +2297,7 @@ Double
 	      <widget>
 		<class>GtkLabel</class>
 		<name>label53</name>
-		<label>Color :</label>
+		<label>_Color :</label>
 		<justify>GTK_JUSTIFY_CENTER</justify>
 		<wrap>False</wrap>
 		<xalign>0.5</xalign>
@@ -2359,7 +2359,7 @@ Double
 		<widget>
 		  <class>GtkLabel</class>
 		  <name>label52</name>
-		  <label>Color :</label>
+		  <label>Co_lor :</label>
 		  <justify>GTK_JUSTIFY_CENTER</justify>
 		  <wrap>False</wrap>
 		  <xalign>0.5</xalign>
@@ -3292,14 +3292,15 @@ Double
 
 	  <widget>
 	    <class>GtkLabel</class>
-	    <name>validation_style_lable</name>
-	    <label>Allow :</label>
+	    <name>label60</name>
+	    <label>_Allow :</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0</xalign>
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
+	    <default_focus_target>validation_constraint_type</default_focus_target>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -3319,13 +3320,14 @@ Double
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>validation_operator_label</name>
-	    <label>Condition :</label>
+	    <label>_Condition :</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0</xalign>
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
+	    <default_focus_target>validation_operator</default_focus_target>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -3398,7 +3400,7 @@ Double
 	    <class>GtkCheckButton</class>
 	    <name>validation_ignore_blank</name>
 	    <can_focus>True</can_focus>
-	    <label>Ignore blank cells</label>
+	    <label>_Ignore blank cells</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -3482,7 +3484,7 @@ val &lt;=bound                  (less than or equal to)
 	    <name>validation_in_dropdown</name>
 	    <visible>False</visible>
 	    <can_focus>True</can_focus>
-	    <label>In-cell dropdown</label>
+	    <label>In-_cell dropdown</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -3581,13 +3583,14 @@ val &lt;=bound                  (less than or equal to)
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>validation_error_action_label</name>
-	    <label>Action :</label>
+	    <label>A_ction :</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0</xalign>
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
+	    <default_focus_target>validation_error_action</default_focus_target>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -3733,7 +3736,7 @@ Information  (allows invalid input)
 	<class>GtkCheckButton</class>
 	<name>input_msg_flag</name>
 	<can_focus>True</can_focus>
-	<label>Show input message when cell is selected</label>
+	<label>_Show input message when cell is selected</label>
 	<active>False</active>
 	<draw_indicator>True</draw_indicator>
 	<child>
@@ -3760,13 +3763,14 @@ Information  (allows invalid input)
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>input_msg_title_label</name>
-	  <label>Title :</label>
+	  <label>TTitle :</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
 	  <xalign>0</xalign>
 	  <yalign>0.5</yalign>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
+	  <focus_target>input_msg_title</focus_target>
 	  <child>
 	    <left_attach>0</left_attach>
 	    <right_attach>1</right_attach>
@@ -3841,13 +3845,14 @@ Information  (allows invalid input)
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>input_msg_msg_label</name>
-	  <label>Message :</label>
+	  <label>_Message :</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
 	  <xalign>0</xalign>
 	  <yalign>0</yalign>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
+	  <focus_target>input_msg_msg</focus_target>
 	  <child>
 	    <left_attach>0</left_attach>
 	    <right_attach>1</right_attach>

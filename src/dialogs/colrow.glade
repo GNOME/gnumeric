@@ -98,7 +98,7 @@
 	  <class>GtkRadioButton</class>
 	  <name>rows</name>
 	  <can_focus>True</can_focus>
-	  <label>Rows</label>
+	  <label>_Rows</label>
 	  <active>True</active>
 	  <draw_indicator>True</draw_indicator>
 	  <group>colrow</group>
@@ -113,7 +113,7 @@
 	  <class>GtkRadioButton</class>
 	  <name>radiobutton2</name>
 	  <can_focus>True</can_focus>
-	  <label>Columns</label>
+	  <label>_Columns</label>
 	  <active>False</active>
 	  <draw_indicator>True</draw_indicator>
 	  <group>colrow</group>

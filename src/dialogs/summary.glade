@@ -95,13 +95,14 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>label1</name>
-	<label>Title</label>
+	<label>_Title</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0.5</xalign>
 	<yalign>0.5</yalign>
 	<xpad>0</xpad>
 	<ypad>0</ypad>
+	<default_focus_target>glade_title</default_focus_target>
 	<child>
 	  <left_attach>0</left_attach>
 	  <right_attach>1</right_attach>
@@ -121,13 +122,14 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>label2</name>
-	<label>Author</label>
+	<label>_Author</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0.5</xalign>
 	<yalign>0.5</yalign>
 	<xpad>0</xpad>
 	<ypad>0</ypad>
+	<default_focus_target>glade_author</default_focus_target>
 	<child>
 	  <left_attach>0</left_attach>
 	  <right_attach>1</right_attach>
@@ -147,13 +149,14 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>label3</name>
-	<label>Category</label>
+	<label>_Category</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0.5</xalign>
 	<yalign>0.5</yalign>
 	<xpad>0</xpad>
 	<ypad>0</ypad>
+	<default_focus_target>glade_category</default_focus_target>
 	<child>
 	  <left_attach>0</left_attach>
 	  <right_attach>1</right_attach>
@@ -173,13 +176,14 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>label4</name>
-	<label>Keywords</label>
+	<label>_Keywords</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0.5</xalign>
 	<yalign>0.5</yalign>
 	<xpad>0</xpad>
 	<ypad>0</ypad>
+	<default_focus_target>glade_keywords</default_focus_target>
 	<child>
 	  <left_attach>0</left_attach>
 	  <right_attach>1</right_attach>
@@ -199,13 +203,14 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>label5</name>
-	<label>Manager</label>
+	<label>_Manager</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0.5</xalign>
 	<yalign>0.5</yalign>
 	<xpad>0</xpad>
 	<ypad>0</ypad>
+	<default_focus_target>glade_manager</default_focus_target>
 	<child>
 	  <left_attach>0</left_attach>
 	  <right_attach>1</right_attach>
@@ -394,13 +399,14 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>label6</name>
-	<label>Comments</label>
+	<label>C_omments</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0.5</xalign>
 	<yalign>0.5</yalign>
 	<xpad>0</xpad>
 	<ypad>0</ypad>
+	<default_focus_target>glade_comments</default_focus_target>
 	<child>
 	  <left_attach>0</left_attach>
 	  <right_attach>1</right_attach>
@@ -420,13 +426,14 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>label7</name>
-	<label>Company</label>
+	<label>Com_pany</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0.5</xalign>
 	<yalign>0.5</yalign>
 	<xpad>0</xpad>
 	<ypad>0</ypad>
+	<default_focus_target>glade_company</default_focus_target>
 	<child>
 	  <left_attach>0</left_attach>
 	  <right_attach>1</right_attach>

@@ -107,7 +107,7 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>var1-label</name>
-	  <label>X Variables:</label>
+	  <label>_X Variables:</label>
 	  <justify>GTK_JUSTIFY_RIGHT</justify>
 	  <wrap>False</wrap>
 	  <xalign>0</xalign>
@@ -133,7 +133,7 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>var2-label</name>
-	  <label>Y Variable:</label>
+	  <label>_Y Variable:</label>
 	  <justify>GTK_JUSTIFY_RIGHT</justify>
 	  <wrap>False</wrap>
 	  <xalign>0</xalign>
@@ -322,7 +322,7 @@
       <name>intercept-button</name>
       <border_width>3</border_width>
       <can_focus>True</can_focus>
-      <label>Force Intercept To Be Zero</label>
+      <label>_Force Intercept To Be Zero</label>
       <active>False</active>
       <draw_indicator>True</draw_indicator>
       <child>

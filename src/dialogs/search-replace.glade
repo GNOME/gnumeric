@@ -133,13 +133,14 @@
 	      <widget>
 		<class>GtkLabel</class>
 		<name>label2</name>
-		<label>Replace by</label>
+		<label>_Replace by</label>
 		<justify>GTK_JUSTIFY_CENTER</justify>
 		<wrap>False</wrap>
 		<xalign>0</xalign>
 		<yalign>0.5</yalign>
 		<xpad>4</xpad>
 		<ypad>0</ypad>
+		<focus_target>replacetext</focus_target>
 		<child>
 		  <left_attach>0</left_attach>
 		  <right_attach>1</right_attach>
@@ -159,13 +160,14 @@
 	      <widget>
 		<class>GtkLabel</class>
 		<name>label1</name>
-		<label>Search for</label>
+		<label>_Search for</label>
 		<justify>GTK_JUSTIFY_CENTER</justify>
 		<wrap>False</wrap>
 		<xalign>0</xalign>
 		<yalign>0.5</yalign>
 		<xpad>4</xpad>
 		<ypad>0</ypad>
+		<focus_target>searchtext</focus_target>
 		<child>
 		  <left_attach>0</left_attach>
 		  <right_attach>1</right_attach>
@@ -260,7 +262,7 @@
 	      <name>ignore_case</name>
 	      <tooltip>When set, do not distinguish between upper and lower case letters</tooltip>
 	      <can_focus>True</can_focus>
-	      <label>Ignore case</label>
+	      <label>_Ignore case</label>
 	      <active>True</active>
 	      <draw_indicator>True</draw_indicator>
 	      <child>
@@ -275,7 +277,7 @@
 	      <name>query</name>
 	      <tooltip>Ask before each change</tooltip>
 	      <can_focus>True</can_focus>
-	      <label>Query</label>
+	      <label>_Query</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
 	      <child>
@@ -301,7 +303,7 @@
 		<name>search_type_text</name>
 		<tooltip>The search text is taken literal</tooltip>
 		<can_focus>True</can_focus>
-		<label>Plain text</label>
+		<label>_Plain text</label>
 		<active>True</active>
 		<draw_indicator>True</draw_indicator>
 		<group>searchtype</group>
@@ -317,7 +319,7 @@
 		<name>search_type_regexp</name>
 		<tooltip>The search text is a regular expression</tooltip>
 		<can_focus>True</can_focus>
-		<label>Regular expression</label>
+		<label>Re_gular expression</label>
 		<active>False</active>
 		<draw_indicator>True</draw_indicator>
 		<group>searchtype</group>
@@ -355,7 +357,7 @@
 	      <name>scope_workbook</name>
 	      <tooltip>Search and replace in all cells in the workbook</tooltip>
 	      <can_focus>True</can_focus>
-	      <label>Entire workbook</label>
+	      <label>_Entire workbook</label>
 	      <active>True</active>
 	      <draw_indicator>True</draw_indicator>
 	      <group>where</group>
@@ -371,7 +373,7 @@
 	      <name>scope_sheet</name>
 	      <tooltip>Search and replace in current sheet only</tooltip>
 	      <can_focus>True</can_focus>
-	      <label>Current sheet</label>
+	      <label>_Current sheet</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
 	      <group>where</group>
@@ -398,7 +400,7 @@
 		<name>scope_range</name>
 		<tooltip>Search and replace in specified range only</tooltip>
 		<can_focus>True</can_focus>
-		<label>Range</label>
+		<label>Ra_nge</label>
 		<active>False</active>
 		<draw_indicator>True</draw_indicator>
 		<group>where</group>
@@ -421,7 +423,7 @@
 	<class>GtkLabel</class>
 	<child_name>Notebook:tab</child_name>
 	<name>label3</name>
-	<label>Normal</label>
+	<label>_Normal</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0.5</xalign>
@@ -475,7 +477,7 @@
 		<name>search_other</name>
 		<tooltip>Perform changes within non-string values</tooltip>
 		<can_focus>True</can_focus>
-		<label>Other values</label>
+		<label>_Other values</label>
 		<active>True</active>
 		<draw_indicator>True</draw_indicator>
 		<child>
@@ -499,7 +501,7 @@
 		<name>search_comments</name>
 		<tooltip>Perform changes within cell comments</tooltip>
 		<can_focus>True</can_focus>
-		<label>Comments</label>
+		<label>_Comments</label>
 		<active>False</active>
 		<draw_indicator>True</draw_indicator>
 		<child>
@@ -523,7 +525,7 @@
 		<name>search_expr</name>
 		<tooltip>Perform changes within expressions</tooltip>
 		<can_focus>True</can_focus>
-		<label>Expressions</label>
+		<label>_Expressions</label>
 		<active>True</active>
 		<draw_indicator>True</draw_indicator>
 		<child>
@@ -547,7 +549,7 @@
 		<name>search_string</name>
 		<tooltip>Perform changes within string values</tooltip>
 		<can_focus>True</can_focus>
-		<label>Strings</label>
+		<label>_Strings</label>
 		<active>True</active>
 		<draw_indicator>True</draw_indicator>
 		<child>
@@ -593,7 +595,7 @@
 	      <name>error_fail</name>
 	      <tooltip>Fail without any changes actually being done to any cell</tooltip>
 	      <can_focus>True</can_focus>
-	      <label>Fail</label>
+	      <label>_Fail</label>
 	      <active>True</active>
 	      <draw_indicator>True</draw_indicator>
 	      <group>error</group>
@@ -609,7 +611,7 @@
 	      <name>error_skip</name>
 	      <tooltip>Skip cells that that would result in errors</tooltip>
 	      <can_focus>True</can_focus>
-	      <label>Don't change</label>
+	      <label>_Don't change</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
 	      <group>error</group>
@@ -625,7 +627,7 @@
 	      <name>error_query</name>
 	      <tooltip>Query for replacement</tooltip>
 	      <can_focus>True</can_focus>
-	      <label>Query</label>
+	      <label>_Query</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
 	      <group>error</group>
@@ -641,7 +643,7 @@
 	      <name>error_error</name>
 	      <tooltip>Create =ERROR(&quot;...&quot;)</tooltip>
 	      <can_focus>True</can_focus>
-	      <label>Make error expression</label>
+	      <label>_Make error expression</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
 	      <group>error</group>
@@ -657,7 +659,7 @@
 	      <name>error_string</name>
 	      <tooltip>Turn unparseable entries into string values</tooltip>
 	      <can_focus>True</can_focus>
-	      <label>Make string value</label>
+	      <label>Ma_ke string value</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
 	      <group>error</group>
@@ -694,7 +696,7 @@
 	      <name>match_words</name>
 	      <tooltip>Do not consider matches in the middle of words</tooltip>
 	      <can_focus>True</can_focus>
-	      <label>Match whole words only</label>
+	      <label>Ma_tch whole words only</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
 	      <child>
@@ -709,7 +711,7 @@
 	      <name>preserve_case</name>
 	      <tooltip>Attempt to preserve case of text when replacing</tooltip>
 	      <can_focus>True</can_focus>
-	      <label>Preserve case</label>
+	      <label>_Preserve case</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
 	      <child>
@@ -734,7 +736,7 @@
 		<class>GtkRadioButton</class>
 		<name>row_major</name>
 		<tooltip>Search line by line</tooltip>
-		<label>Row major</label>
+		<label>_Row major</label>
 		<active>True</active>
 		<draw_indicator>True</draw_indicator>
 		<group>search_direction</group>
@@ -749,7 +751,7 @@
 		<class>GtkRadioButton</class>
 		<name>column_major</name>
 		<tooltip>Search column by column</tooltip>
-		<label>Column major</label>
+		<label>_Column major</label>
 		<active>False</active>
 		<draw_indicator>True</draw_indicator>
 		<group>search_direction</group>
@@ -768,7 +770,7 @@
 	<class>GtkLabel</class>
 	<child_name>Notebook:tab</child_name>
 	<name>label4</name>
-	<label>Advanced</label>
+	<label>_Advanced</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0.5</xalign>
@@ -885,13 +887,14 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>label5</name>
-	<label>Location</label>
+	<label>_Location</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0</xalign>
 	<yalign>0.5</yalign>
 	<xpad>0</xpad>
 	<ypad>0</ypad>
+	<focus_target>qd_location</focus_target>
 	<child>
 	  <left_attach>0</left_attach>
 	  <right_attach>1</right_attach>
@@ -911,13 +914,14 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>label6</name>
-	<label>Replacing</label>
+	<label>_Replacing</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0</xalign>
 	<yalign>0.5</yalign>
 	<xpad>0</xpad>
 	<ypad>0</ypad>
+	<focus_target>qd_old_text</focus_target>
 	<child>
 	  <left_attach>0</left_attach>
 	  <right_attach>1</right_attach>
@@ -937,13 +941,14 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>label7</name>
-	<label>By</label>
+	<label>_By</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0</xalign>
 	<yalign>0.5</yalign>
 	<xpad>0</xpad>
 	<ypad>0</ypad>
+	<focus_target>qd_new_text</focus_target>
 	<child>
 	  <left_attach>0</left_attach>
 	  <right_attach>1</right_attach>
@@ -1038,7 +1043,7 @@
       <name>qd_query</name>
       <tooltip>Ask before each change</tooltip>
       <can_focus>True</can_focus>
-      <label>Query</label>
+      <label>_Query</label>
       <active>False</active>
       <draw_indicator>True</draw_indicator>
       <child>

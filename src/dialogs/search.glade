@@ -210,7 +210,7 @@
 	      <can_default>True</can_default>
 	      <has_default>True</has_default>
 	      <can_focus>True</can_focus>
-	      <label>Search</label>
+	      <label>Searc_h</label>
 	      <relief>GTK_RELIEF_NORMAL</relief>
 	    </widget>
 	  </widget>

@@ -202,13 +202,14 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>label4</name>
-	  <label>Name : </label>
+	  <label>_Name : </label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
 	  <xalign>0</xalign>
 	  <yalign>0.5</yalign>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
+	  <focus_target>name</focus_target>
 	  <child>
 	    <left_attach>0</left_attach>
 	    <right_attach>1</right_attach>
@@ -228,7 +229,7 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>label6</name>
-	  <label>Expression : </label>
+	  <label>_Expression : </label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
 	  <xalign>0</xalign>
@@ -339,13 +340,14 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>label7</name>
-	  <label>Scope :</label>
+	  <label>_Scope :</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
 	  <xalign>0</xalign>
 	  <yalign>0.5</yalign>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
+	  <default_focus_target>workbook_scope</default_focus_target>
 	  <child>
 	    <left_attach>0</left_attach>
 	    <right_attach>1</right_attach>

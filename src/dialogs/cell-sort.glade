@@ -146,7 +146,7 @@
 	    <name>cell_sort_header_check</name>
 	    <border_width>4</border_width>
 	    <can_focus>True</can_focus>
-	    <label>A header</label>
+	    <label>A _header</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	  </widget>
@@ -175,7 +175,7 @@
 	      <class>GtkRadioButton</class>
 	      <name>cell_sort_row_rb</name>
 	      <can_focus>True</can_focus>
-	      <label>Right-Left</label>
+	      <label>_Right-Left</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
 	      <group>row_col</group>
@@ -190,7 +190,7 @@
 	      <class>GtkRadioButton</class>
 	      <name>cell_sort_col_rb</name>
 	      <can_focus>True</can_focus>
-	      <label>Top-Bottom</label>
+	      <label>_Top-Bottom</label>
 	      <active>True</active>
 	      <draw_indicator>True</draw_indicator>
 	      <group>row_col</group>
@@ -313,7 +313,7 @@
 	    <class>GtkRadioButton</class>
 	    <name>cell_sort_adv_value</name>
 	    <can_focus>True</can_focus>
-	    <label>Value</label>
+	    <label>_Value</label>
 	    <active>True</active>
 	    <draw_indicator>True</draw_indicator>
 	    <group>value_text</group>
@@ -328,7 +328,7 @@
 	    <class>GtkRadioButton</class>
 	    <name>cell_sort_adv_text</name>
 	    <can_focus>True</can_focus>
-	    <label>Text</label>
+	    <label>_Text</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <group>value_text</group>
@@ -368,7 +368,7 @@
 	  <border_width>4</border_width>
 	  <can_focus>True</can_focus>
 	  <has_focus>True</has_focus>
-	  <label>Case sensitive</label>
+	  <label>_Case sensitive</label>
 	  <active>False</active>
 	  <draw_indicator>True</draw_indicator>
 	</widget>

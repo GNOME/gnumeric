@@ -208,7 +208,7 @@
 	  <border_width>4</border_width>
 	  <sensitive>False</sensitive>
 	  <can_focus>True</can_focus>
-	  <label>Activate plugin</label>
+	  <label>A_ctivate plugin</label>
 	  <relief>GTK_RELIEF_NORMAL</relief>
 	  <child>
 	    <padding>0</padding>
@@ -223,7 +223,7 @@
 	  <border_width>4</border_width>
 	  <sensitive>False</sensitive>
 	  <can_focus>True</can_focus>
-	  <label>Deactivate plugin</label>
+	  <label>Deac_tivate plugin</label>
 	  <relief>GTK_RELIEF_NORMAL</relief>
 	  <child>
 	    <padding>0</padding>
@@ -238,7 +238,7 @@
 	  <border_width>4</border_width>
 	  <sensitive>False</sensitive>
 	  <can_focus>True</can_focus>
-	  <label>Activate all plugins</label>
+	  <label>_Activate all plugins</label>
 	  <relief>GTK_RELIEF_NORMAL</relief>
 	  <child>
 	    <padding>0</padding>
@@ -253,7 +253,7 @@
 	  <border_width>4</border_width>
 	  <sensitive>False</sensitive>
 	  <can_focus>True</can_focus>
-	  <label>Deactivate all plugins</label>
+	  <label>_Deactivate all plugins</label>
 	  <relief>GTK_RELIEF_NORMAL</relief>
 	  <child>
 	    <padding>0</padding>
@@ -268,7 +268,7 @@
 	  <border_width>4</border_width>
 	  <sensitive>False</sensitive>
 	  <can_focus>True</can_focus>
-	  <label>Install new plugin</label>
+	  <label>_Install new plugin</label>
 	  <relief>GTK_RELIEF_NORMAL</relief>
 	  <child>
 	    <padding>0</padding>
@@ -283,7 +283,7 @@
       <class>GtkCheckButton</class>
       <name>checkbutton_install_new</name>
       <can_focus>True</can_focus>
-      <label>Activate new plugins by default</label>
+      <label>Activate _new plugins by default</label>
       <active>False</active>
       <draw_indicator>True</draw_indicator>
       <child>

@@ -1,3 +1,25 @@
+2002-01-13  Wayne Schuller  <k_wayne@linuxpower.org>
+
+	* cell-format.glade: Add missing accelerator keys and hints.
+	* cell-sort.glade:
+	* colrow.glade:
+	* goalseek.glade:
+	* hf-config.glade:
+	* names.glade:
+	* plugin-manager.glade:
+	* print.glade:
+	* regression.glade:
+	* sampling.glade:
+	* search-replace.glade:
+	* search.glade:
+	* sheet-order.glade:
+	* summary.glade:
+	* variance-tests.glade:
+
+2002-01-15  Jody Goldberg <jody@gnome.org>
+
+	* dialog-tabulate.c (dialog_tabulate) : take the sheet as an argument.
+
 2002-01-15  Morten Welinder  <terra@diku.dk>
 
 	* dialog-tabulate.c: New file.

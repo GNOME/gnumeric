@@ -52,13 +52,14 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>label1</name>
-	<label>Left section:</label>
+	<label>_Left section:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0</xalign>
 	<yalign>0.5</yalign>
 	<xpad>0</xpad>
 	<ypad>0</ypad>
+	<focus_target>left-format</focus_target>
 	<child>
 	  <left_attach>0</left_attach>
 	  <right_attach>1</right_attach>
@@ -78,13 +79,14 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>label2</name>
-	<label>Middle section:</label>
+	<label>_Middle section:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0</xalign>
 	<yalign>0.5</yalign>
 	<xpad>0</xpad>
 	<ypad>0</ypad>
+	<focus_target>middle-format</focus_target>
 	<child>
 	  <left_attach>1</left_attach>
 	  <right_attach>2</right_attach>
@@ -104,13 +106,14 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>label3</name>
-	<label>Right section:</label>
+	<label>_Right section:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0</xalign>
 	<yalign>0.5</yalign>
 	<xpad>0</xpad>
 	<ypad>0</ypad>
+	<focus_target>right-format</focus_target>
 	<child>
 	  <left_attach>2</left_attach>
 	  <right_attach>3</right_attach>
@@ -242,5 +245,3 @@
 </widget>
 
 </GTK-Interface>
-
-

@@ -126,7 +126,7 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>set_cell-label</name>
-	  <label>Set Cell:</label>
+	  <label>_Set Cell:</label>
 	  <justify>GTK_JUSTIFY_RIGHT</justify>
 	  <wrap>False</wrap>
 	  <xalign>0</xalign>
@@ -152,7 +152,7 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>to_value-label</name>
-	  <label>To Value:</label>
+	  <label>_To Value:</label>
 	  <justify>GTK_JUSTIFY_RIGHT</justify>
 	  <wrap>False</wrap>
 	  <xalign>0</xalign>
@@ -179,7 +179,7 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>by_changing-label</name>
-	  <label>By Changing Cell:</label>
+	  <label>_By Changing Cell:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
 	  <xalign>0</xalign>
@@ -205,7 +205,7 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>at_least-label</name>
-	  <label>(Minimum):</label>
+	  <label>(_Minimum):</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
 	  <xalign>0</xalign>
@@ -232,7 +232,7 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>at_most-label</name>
-	  <label>(Maximum):</label>
+	  <label>(Ma_ximum):</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
 	  <xalign>0</xalign>

@@ -107,7 +107,7 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>var1-label</name>
-	  <label>Variable 1 Range:</label>
+	  <label>Variable _1 Range:</label>
 	  <justify>GTK_JUSTIFY_RIGHT</justify>
 	  <wrap>False</wrap>
 	  <xalign>0</xalign>
@@ -133,7 +133,7 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>var2-label</name>
-	  <label>Variable 2 Range:</label>
+	  <label>Variable _2 Range:</label>
 	  <justify>GTK_JUSTIFY_RIGHT</justify>
 	  <wrap>False</wrap>
 	  <xalign>0</xalign>
