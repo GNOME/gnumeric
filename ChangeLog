@@ -1,3 +1,7 @@
+2005-03-17  Jon K Hellan  <hellan@acm.org>
+
+	* src/gui-clipboard.c (x_claim_clipboard): Check for content == NULL.
+
 2005-03-17  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-io.c (maybe_convert): Use go_guess_encoding.

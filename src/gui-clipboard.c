@@ -679,7 +679,8 @@ x_claim_clipboard (WorkbookControlGUI *wbcg)
 		{ (char *)"image/bmp", 0, 0 },
 	};
 
-	if ((content->cols <= 0 || content->rows <= 0) &&
+	if (content &&
+	    (content->cols <= 0 || content->rows <= 0) &&
 	    content->objects != NULL &&
 	    IS_SHEET_OBJECT_IMAGEABLE (content->objects->data))
 		imageable = TRUE;
