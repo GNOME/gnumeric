@@ -19,7 +19,7 @@
   <class>GnomeDialog</class>
   <name>dialog</name>
   <visible>False</visible>
-  <title>Gnumeric: Input Validation</title>
+  <title>Input Validation</title>
   <type>GTK_WINDOW_DIALOG</type>
   <position>GTK_WIN_POS_NONE</position>
   <modal>True</modal>

@@ -10,14 +10,13 @@
   <language>C</language>
   <gnome_support>True</gnome_support>
   <gettext_support>True</gettext_support>
-  <output_translatable_strings>False</output_translatable_strings>
 </project>
 
 <widget>
   <class>GnomeDialog</class>
   <name>dialog</name>
   <visible>False</visible>
-  <title>Gnumeric: Autoformat</title>
+  <title>Autoformat</title>
   <type>GTK_WINDOW_DIALOG</type>
   <position>GTK_WIN_POS_MOUSE</position>
   <modal>True</modal>
@@ -138,7 +137,7 @@
 		  </signal>
 		  <label>Apply _Number Formats</label>
 		  <active>True</active>
-		  <always_show_toggle>False</always_show_toggle>
+		  <always_show_toggle>True</always_show_toggle>
 		</widget>
 
 		<widget>
@@ -151,7 +150,7 @@
 		  </signal>
 		  <label>Apply _Borders</label>
 		  <active>True</active>
-		  <always_show_toggle>False</always_show_toggle>
+		  <always_show_toggle>True</always_show_toggle>
 		</widget>
 
 		<widget>
@@ -164,7 +163,7 @@
 		  </signal>
 		  <label>Apply _Fonts</label>
 		  <active>True</active>
-		  <always_show_toggle>False</always_show_toggle>
+		  <always_show_toggle>True</always_show_toggle>
 		</widget>
 
 		<widget>
@@ -177,7 +176,7 @@
 		  </signal>
 		  <label>Apply _Patterns</label>
 		  <active>True</active>
-		  <always_show_toggle>False</always_show_toggle>
+		  <always_show_toggle>True</always_show_toggle>
 		</widget>
 
 		<widget>
@@ -190,7 +189,7 @@
 		  </signal>
 		  <label>Apply _Alignment</label>
 		  <active>True</active>
-		  <always_show_toggle>False</always_show_toggle>
+		  <always_show_toggle>True</always_show_toggle>
 		</widget>
 
 		<widget>
@@ -209,7 +208,7 @@
 		  </signal>
 		  <label>_Show Gridlines</label>
 		  <active>False</active>
-		  <always_show_toggle>False</always_show_toggle>
+		  <always_show_toggle>True</always_show_toggle>
 		</widget>
 	      </widget>
 	    </widget>

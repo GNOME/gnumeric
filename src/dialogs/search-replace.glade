@@ -16,6 +16,7 @@
   <class>GnomeDialog</class>
   <name>search_replace_dialog</name>
   <visible>False</visible>
+  <title>Search and Replace</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
   <modal>False</modal>
@@ -756,6 +757,7 @@
   <class>GnomeDialog</class>
   <name>query_dialog</name>
   <visible>False</visible>
+  <title>Search and Replace Query</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
   <modal>False</modal>

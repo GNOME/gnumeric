@@ -16,7 +16,7 @@
 <widget>
   <class>GtkWindow</class>
   <name>window</name>
-  <title>Gnumeric : Exporting structured text</title>
+  <title>Exporting structured text</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
   <modal>True</modal>

@@ -17,7 +17,7 @@
   <class>GnomeDialog</class>
   <name>dialog_plugin_manager</name>
   <visible>False</visible>
-  <title>Gnumeric Plugin Manager</title>
+  <title>Plugin Manager</title>
   <type>GTK_WINDOW_DIALOG</type>
   <position>GTK_WIN_POS_CENTER</position>
   <modal>False</modal>

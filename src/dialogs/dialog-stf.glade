@@ -18,7 +18,7 @@
   <class>GtkWindow</class>
   <name>window</name>
   <visible>False</visible>
-  <title>Gnumeric : Importing structured text</title>
+  <title>Importing structured text</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
   <modal>True</modal>

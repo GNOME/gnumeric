@@ -165,8 +165,6 @@ attr_dialog_impl (AttrState *state)
 	GtkWidget *dialog = glade_xml_get_widget (state->gui, "WorkbookAttr");
 	g_return_if_fail (dialog != NULL);
 
-	gtk_window_set_title (GTK_WINDOW (dialog), _("Workbook Attributes"));
-
 	/* Initialize */
 	state->dialog			= GNOME_PROPERTY_BOX (dialog);
 

@@ -1,5 +1,19 @@
 2001-05-04  Almer S. Tigelaar  <almer@gnome.org>
 
+	* hf-config.glade: Set window title.
+	* search-replace.glade: Idem.
+	* workbook-attr.glade: Idem.
+	
+	* autoformat.glade: Correct window title.
+	* dialog-stf-export.glade: Idem.
+	* validate.glade: Idem.
+	* solver.glade: Idem and some minor polishing.
+	
+	* dialog-workbook-attr.c: Don't set the window title
+	with gtk_window_set_title, it's in the glade file anyway.
+
+2001-05-04  Almer S. Tigelaar  <almer@gnome.org>
+
 	* names.glade: Set window title.
 
 2001-05-03  Jon K Hellan  <hellan@acm.org>
