@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2003-06-07 01:49-0400\n"
-"PO-Revision-Date: 2003-06-06 12:30+0200\n"
+"POT-Creation-Date: 2003-06-07 11:27+0200\n"
+"PO-Revision-Date: 2003-06-07 11:31+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -17468,9 +17468,8 @@ msgid "The next generation sax based xml I/O subsystem"
 msgstr "Nästa generationens xml-system, baserat på sax"
 
 #: plugins/xml_sax/plugin.xml.in.h:4
-#, fuzzy
 msgid "UNFINISHED Gnumeric XML (*.gnumeric)"
-msgstr "EXPERIMENTELL Gnumeric XML (*.gnumeric)"
+msgstr "EJ KLAR Gnumeric XML (*.gnumeric)"
 
 #: plugins/xml_sax/xml-sax-read.c:299
 #, c-format
@@ -23568,7 +23567,7 @@ msgstr ""
 #: src/dialogs/dialog-stf-fixed-page.c:112
 #, c-format
 msgid "You cannot have more than %d columns in this version of Gnumeric."
-msgstr ""
+msgstr "Du kan inte ha fler än %d kolumner i den här versionen av Gnumeric."
 
 #: src/dialogs/dialog-stf-main-page.c:133
 #, c-format
