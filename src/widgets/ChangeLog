@@ -1,5 +1,9 @@
 2003-06-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* color-palette.c: `grey'->`gray' (to be consistent)
+
+2003-06-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* widget-format-selector.c: remove warning 
 
 2003-06-24  Andreas J. Guelzow <aguelzow@taliesin.ca>

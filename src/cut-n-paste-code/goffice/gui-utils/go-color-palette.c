@@ -572,7 +572,7 @@ static ColorNamePair default_color_set [] = {
 	{"#008080", N_("dull blue")},
 	{"#0000FF", N_("blue")},
 	{"#666699", N_("dull purple")},
-	{"#808080", N_("dark grey")},
+	{"#808080", N_("dark gray")},
 
 
 	{"#FF0000", N_("red")},
@@ -592,7 +592,7 @@ static ColorNamePair default_color_set [] = {
 	{"#00FFFF", N_("cyan")},
 	{"#00CCFF", N_("bright blue")},
 	{"#993366", N_("red purple")},
-	{"#C0C0C0", N_("light grey")},
+	{"#C0C0C0", N_("light gray")},
 
 
 	{"#FF99CC", N_("pink")},
