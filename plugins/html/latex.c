@@ -135,14 +135,14 @@ static latex_border_connectors_t const conn_styles[LATEX_MAX_BORDER]
 /**
  * latex_fputs :
  *
- * @p : a pointer to a char, start of the string to be processed.
- * @fp : a file pointer where the processed characters are written.
+ * @p :      a pointer to a char, start of the string to be processed.
+ * @output : output stream where the processed characters are written.
  *
  * This escapes any special LaTeX characters from the LaTeX engine. Re-ordered
  * from Rasca's code to have most common first.
  */
 static void
-latex_fputs (char const *p, FILE *fp)
+latex_fputs (char const *p, GsfOutput *output)
 {
 	for (; *p; p++) {
 		switch (*p) {
@@ -150,22 +150,22 @@ latex_fputs (char const *p, FILE *fp)
 			/* These are the classic TeX symbols $ & % # _ { } (see Lamport, p.15) */
 			case '$': case '&': case '%': case '#':
 			case '_': case '{': case '}':
-				fprintf (fp, "\\%c", *p);
+				gsf_output_printf (output, "\\%c", *p);
 				break;
 			/* These are the other special characters ~ ^ \ (see Lamport, p.15) */
 			case '^': case '~':
-				fprintf (fp, "\\%c{ }", *p);
+				gsf_output_printf (output, "\\%c{ }", *p);
 				break;
 			case '\\':
-				fputs ("$\\backslash$", fp);
+				gsf_output_puts (output, "$\\backslash$");
 				break;
 			/* Are these available only in LaTeX through mathmode? */
 			case '>': case '<':
-				fprintf (fp, "$%c$", *p);
+				gsf_output_printf (output, "$%c$", *p);
 				break;
 
 			default:
-				fputc (*p, fp);
+				gsf_output_write (output, 1, p);
 				break;
 		}
 	}
@@ -174,33 +174,33 @@ latex_fputs (char const *p, FILE *fp)
 /**
  * latex_math_fputs :
  *
- * @p : a pointer to a char, start of the string to be processed.
- * @fp : a file pointer where the processed characters are written.
+ * @p :     a pointer to a char, start of the string to be processed.
+ * @output: output stream where the processed characters are written.
  *
  * This escapes any special LaTeX characters from the LaTeX engine.
  * 
  * We assume that htis will be set in Mathematics mode.
  */
 static void
-latex_math_fputs (char const *p, FILE *fp)
+latex_math_fputs (char const *p, GsfOutput *output)
 {
 	for (; *p; p++) {
 		switch (*p) {
 
 			/* These are the classic TeX symbols $ & % # (see Lamport, p.15) */
 			case '$': case '&': case '%': case '#':
-				fprintf (fp, "\\%c", *p);
+				gsf_output_printf (output, "\\%c", *p);
 				break;
 			/* These are the other special characters ~ (see Lamport, p.15) */
 			case '~':
-				fprintf (fp, "\\%c{ }", *p);
+				gsf_output_printf (output, "\\%c{ }", *p);
 				break;
 			case '\\':
-				fputs ("\\backslash", fp);
+				gsf_output_puts (output, "\\backslash");
 				break;
 
 			default:
-				fputc (*p, fp);
+				gsf_output_write (output, 1, p);
 				break;
 		}
 	}
@@ -210,15 +210,15 @@ latex_math_fputs (char const *p, FILE *fp)
 /**
  * latex2e_write_file_header:
  *
- * @fp : a file pointer where the cell contents will be written.
+ * @output: Output stream where the cell contents will be written.
  *
  * This ouputs the LaTeX header. Kept separate for esthetics.
  */
 
 static void
-latex2e_write_file_header(FILE *fp)
+latex2e_write_file_header(GsfOutput *output)
 {
-		fputs(
+	gsf_output_puts (output,
 "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
 "%%                                                                  %%\n"
 "%%  This is the header of a LaTeX2e file exported from Gnumeric.    %%\n"
@@ -341,25 +341,25 @@ latex2e_write_file_header(FILE *fp)
 "%%  pages. Simply comment out next line for varying column widths.  %%\n"
 "\\setlongtables\n"
 "\n"
-,fp);
+);
 }
 
 
 /**
  * latex2e_write_table_header:
  *
- * @fp : a file pointer where the cell contents will be written.
+ * @output:   Output stream where the cell contents will be written.
  * @num_cols: The number of columns in the table
  *
  * A convenience function that also helps make nicer code.
  */
 static void
-latex2e_write_table_header(FILE *fp, int num_cols)
+latex2e_write_table_header(GsfOutput *output, int num_cols)
 {
 	int col;
 
 
-	fputs (
+	gsf_output_puts (output, 
 "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
 "%%  The longtable options. (Caption, headers... see Goosens, p.124) %%\n"
 "%\t\\caption{The Table Caption.}             \\\\	%\n"
@@ -368,34 +368,34 @@ latex2e_write_table_header(FILE *fp, int num_cols)
 "%%  the first, last or every page. Use \\multicolumn if you want.    %%\n"
 "\n"
 "%%  Header for the first page.                                      %%\n"
-,fp);
+);
 
-	fprintf (fp, "%%\t\\multicolumn{%d}{c}{The First Header} \\\\ \\hline \n", num_cols);
-	fprintf (fp, "%%\t\\multicolumn{1}{c}{colTag}\t%%Column 1\n");
+	gsf_output_printf (output, "%%\t\\multicolumn{%d}{c}{The First Header} \\\\ \\hline \n", num_cols);
+	gsf_output_printf (output, "%%\t\\multicolumn{1}{c}{colTag}\t%%Column 1\n");
 	for (col = 1 ; col < num_cols; col++)
-		fprintf (fp, "%%\t&\\multicolumn{1}{c}{colTag}\t%%Column %d\n",col);
-	fprintf (fp, "%%\t&\\multicolumn{1}{c}{colTag}\t\\\\ \\hline %%Last column\n");
-	fprintf (fp, "%%\t\\endfirsthead\n\n");
+		gsf_output_printf (output, "%%\t&\\multicolumn{1}{c}{colTag}\t%%Column %d\n",col);
+	gsf_output_printf (output, "%%\t&\\multicolumn{1}{c}{colTag}\t\\\\ \\hline %%Last column\n");
+	gsf_output_printf (output, "%%\t\\endfirsthead\n\n");
 
-	fprintf (fp, "%%%%  The running header definition.                                  %%%%\n");
-	fprintf (fp, "%%\t\\hline\n");
-	fprintf (fp, "%%\t\\multicolumn{%d}{l}{\\ldots\\small\\slshape continued} \\\\ \\hline\n", num_cols);
-	fprintf (fp, "%%\t\\multicolumn{1}{c}{colTag}\t%%Column 1\n");
+	gsf_output_printf (output, "%%%%  The running header definition.                                  %%%%\n");
+	gsf_output_printf (output, "%%\t\\hline\n");
+	gsf_output_printf (output, "%%\t\\multicolumn{%d}{l}{\\ldots\\small\\slshape continued} \\\\ \\hline\n", num_cols);
+	gsf_output_printf (output, "%%\t\\multicolumn{1}{c}{colTag}\t%%Column 1\n");
 	for (col = 1 ; col < num_cols; col++)
-				fprintf (fp, "%%\t&\\multicolumn{1}{c}{colTag}\t%%Column %d\n",col);
-	fprintf (fp, "%%\t&\\multicolumn{1}{c}{colTag}\t\\\\ \\hline %%Last column\n");
-	fprintf (fp, "%%\t\\endhead\n\n");
+				gsf_output_printf (output, "%%\t&\\multicolumn{1}{c}{colTag}\t%%Column %d\n",col);
+	gsf_output_printf (output, "%%\t&\\multicolumn{1}{c}{colTag}\t\\\\ \\hline %%Last column\n");
+	gsf_output_printf (output, "%%\t\\endhead\n\n");
 
-	fprintf (fp, "%%%%  The running footer definition.                                  %%%%\n");
-	fprintf (fp, "%%\t\\hline\n");
-	fprintf (fp, "%%\t\\multicolumn{%d}{r}{\\small\\slshape continued\\ldots}", num_cols);
-	fprintf (fp, " \\\\\n");
-	fprintf (fp, "%%\t\\endfoot\n\n");
+	gsf_output_printf (output, "%%%%  The running footer definition.                                  %%%%\n");
+	gsf_output_printf (output, "%%\t\\hline\n");
+	gsf_output_printf (output, "%%\t\\multicolumn{%d}{r}{\\small\\slshape continued\\ldots}", num_cols);
+	gsf_output_printf (output, " \\\\\n");
+	gsf_output_printf (output, "%%\t\\endfoot\n\n");
 
-	fprintf (fp, "%%%%  The ending footer definition.                                   %%%%\n");
-	fprintf (fp, "%%\t\\multicolumn{%d}{c}{That's all folks} \\\\ \\hline \n", num_cols);
-	fprintf (fp, "%%\t\\endlastfoot\n");
-	fputs ("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n",fp);
+	gsf_output_printf (output, "%%%%  The ending footer definition.                                   %%%%\n");
+	gsf_output_printf (output, "%%\t\\multicolumn{%d}{c}{That's all folks} \\\\ \\hline \n", num_cols);
+	gsf_output_printf (output, "%%\t\\endlastfoot\n");
+	gsf_output_puts (output, "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n");
 
 }
 
@@ -446,24 +446,24 @@ latex2e_find_vline (int col, int row, Sheet *sheet, MStyleElementType which_bord
 /**
  * latex2e_print_vert_border:
  *
- * @fp : a file pointer where the cell contents will be written.
- * @clines: StyleBorderType indicating the type of border
+ * @output : Output stream where the cell contents will be written.
+ * @clines:  StyleBorderType indicating the type of border
  *
  */
 static void
-latex2e_print_vert_border (FILE *fp, StyleBorderType style)
+latex2e_print_vert_border (GsfOutput *output, StyleBorderType style)
 {
-	fprintf (fp, border_styles[style].vertical);
+	gsf_output_printf (output, "%s", border_styles[style].vertical);
 }
 
 /**
  * latex2e_write_blank_cell:
  *
- * @fp : a file pointer where the cell contents will be written.
+ * @output : output stream where the cell contents will be written.
  * @col :
  * @row :
  * @first_column :
- * @sheet : the current sheet.
+ * @sheet :  the current sheet.
  *
  * This function creates all the LaTeX code for the cell of a table (i.e. all
  * the code that might fall between two ampersands (&)), assuming that
@@ -472,7 +472,7 @@ latex2e_print_vert_border (FILE *fp, StyleBorderType style)
  *
  */
 static void
-latex2e_write_blank_cell (FILE *fp, gint col, gint row, gint index,
+latex2e_write_blank_cell (GsfOutput *output, gint col, gint row, gint index,
 			  StyleBorderType *borders, Sheet *sheet)
 {
 	CellPos pos;
@@ -488,22 +488,22 @@ latex2e_write_blank_cell (FILE *fp, gint col, gint row, gint index,
 	right_border = borders[index + 1];
 
 	if (left_border == STYLE_BORDER_NONE &&  right_border == STYLE_BORDER_NONE)
-		fprintf (fp, "\n");
+		gsf_output_printf (output, "\n");
 	else {
 		/* Open the multicolumn statement. */
-		fprintf (fp, "\\multicolumn{1}{");
+		gsf_output_printf (output, "\\multicolumn{1}{");
 
 		if (left_border != STYLE_BORDER_NONE)
-			latex2e_print_vert_border (fp, left_border);
+			latex2e_print_vert_border (output, left_border);
 
 		/* Drop in the left hand format delimiter. */
-		fprintf (fp, "c");
+		gsf_output_printf (output, "c");
 
 		if (right_border != STYLE_BORDER_NONE)
-			latex2e_print_vert_border (fp, right_border);
+			latex2e_print_vert_border (output, right_border);
 
 		/*Close the right delimiter, as above. Also add the empty text delimiters.*/
-		fprintf (fp,"}{}%%\n");
+		gsf_output_printf (output,"}{}%%\n");
 	}
 }
 
@@ -511,11 +511,11 @@ latex2e_write_blank_cell (FILE *fp, gint col, gint row, gint index,
 /**
  * latex2e_write_multicolumn_cell:
  *
- * @fp : a file pointer where the cell contents will be written.
- * @cell : the cell whose contents are to be written.
+ * @output : output stream where the cell contents will be written.
+ * @cell :   the cell whose contents are to be written.
  * @num_merged_cols : an integer value of the number of columns to merge.
  * @num_merged_rows : an integer value of the number of rows to merge.
- * @sheet : the current sheet.
+ * @sheet :  the current sheet.
  *
  * This function creates all the LaTeX code for the cell of a table (i.e. all
  * the code that might fall between two ampersands (&)).
@@ -524,7 +524,7 @@ latex2e_write_blank_cell (FILE *fp, gint col, gint row, gint index,
  * makes it much more difficult to change column widths later on.
  */
 static void
-latex2e_write_multicolumn_cell (FILE *fp, Cell const *cell, int num_merged_cols,
+latex2e_write_multicolumn_cell (GsfOutput *output, Cell const *cell, int num_merged_cols,
 				int num_merged_rows,  gint index,
 				StyleBorderType *borders, Sheet *sheet)
 {
@@ -564,43 +564,43 @@ latex2e_write_multicolumn_cell (FILE *fp, Cell const *cell, int num_merged_cols,
 		int i;
 
 		/* Open the multicolumn statement. */
-		fprintf (fp, "\\multicolumn{%d}{", num_merged_cols);
+		gsf_output_printf (output, "\\multicolumn{%d}{", num_merged_cols);
 
 		if (left_border != STYLE_BORDER_NONE)
-			latex2e_print_vert_border (fp, left_border);
+			latex2e_print_vert_border (output, left_border);
 
 		if (num_merged_rows > 1) {
-			fprintf (fp, "c");
+			gsf_output_printf (output, "c");
 		} else {
-			fprintf (fp, "p{");
+			gsf_output_printf (output, "p{");
 			for (i = 0; i < num_merged_cols; i++) {
-				fprintf (fp, "\t\\gnumericCol%s+%%\n",
+				gsf_output_printf (output, "\t\\gnumericCol%s+%%\n",
 					 col_name (cell->pos.col + i));
 			}
-			fprintf (fp, "\t\\tabcolsep*2*%i}", num_merged_cols - 1);
+			gsf_output_printf (output, "\t\\tabcolsep*2*%i}", num_merged_cols - 1);
 		}
 
 		if (right_border != STYLE_BORDER_NONE)
-			latex2e_print_vert_border (fp, right_border);
+			latex2e_print_vert_border (output, right_border);
 
 		/*Close the right delimiter, as above. Also open the text delimiter.*/
-		fprintf (fp,"}%%\n\t{");
+		gsf_output_printf (output,"}%%\n\t{");
 	} else if (left_border != STYLE_BORDER_NONE || right_border != STYLE_BORDER_NONE) {
 
 		/* Open the multicolumn statement. */
-		fprintf (fp, "\\multicolumn{1}{");
+		gsf_output_printf (output, "\\multicolumn{1}{");
 
 		if (left_border != STYLE_BORDER_NONE)
-			latex2e_print_vert_border (fp, left_border);
+			latex2e_print_vert_border (output, left_border);
 
 		/* Drop in the left hand format delimiter. */
-		fprintf (fp, "p{\\gnumericCol%s}", col_name(cell->pos.col));
+		gsf_output_printf (output, "p{\\gnumericCol%s}", col_name(cell->pos.col));
 
 		if (right_border != STYLE_BORDER_NONE)
-			latex2e_print_vert_border (fp, right_border);
+			latex2e_print_vert_border (output, right_border);
 
 		/*Close the right delimiter, as above. Also open the text delimiter.*/
-		fprintf (fp,"}%%\n\t{");
+		gsf_output_printf (output,"}%%\n\t{");
 
 	}
 
@@ -609,15 +609,15 @@ latex2e_write_multicolumn_cell (FILE *fp, Cell const *cell, int num_merged_cols,
 	if (num_merged_rows > 1) {
 		int i;
 		/* Open the multirow statement. */
-		fprintf (fp, "\\multirow{%d}[%i]*{\\begin{tabular}{p{",
+		gsf_output_printf (output, "\\multirow{%d}[%i]*{\\begin{tabular}{p{",
 			 num_merged_rows, num_merged_rows/2);
 		for (i = 0; i < num_merged_cols; i++) {
-			fprintf (fp, "\t\\gnumericCol%s+%%\n", col_name (cell->pos.col + i));
+			gsf_output_printf (output, "\t\\gnumericCol%s+%%\n", col_name (cell->pos.col + i));
 		}
 		if (num_merged_cols > 2)
-			fprintf (fp, "\t\\tabcolsep*2*%i}}", num_merged_cols - 2);
+			gsf_output_printf (output, "\t\\tabcolsep*2*%i}}", num_merged_cols - 2);
 		else
-			fprintf (fp, "\t0pt}}");
+			gsf_output_printf (output, "\t0pt}}");
 	}
 
 
@@ -625,14 +625,14 @@ latex2e_write_multicolumn_cell (FILE *fp, Cell const *cell, int num_merged_cols,
 	 * HALIGN_GENERAL and then deal with the three cases. */
 	switch ( style_default_halign(mstyle, cell) ) {
 	case HALIGN_RIGHT:
-		fprintf (fp, "\\gnumericPB{\\raggedleft}");
+		gsf_output_printf (output, "\\gnumericPB{\\raggedleft}");
 		break;
 	case HALIGN_CENTER:
 	case HALIGN_CENTER_ACROSS_SELECTION:
-		fprintf (fp, "\\gnumericPB{\\centering}");
+		gsf_output_printf (output, "\\gnumericPB{\\centering}");
 		break;
 	case HALIGN_LEFT:
-		fprintf (fp, "\\gnumericPB{\\raggedright}");
+		gsf_output_printf (output, "\\gnumericPB{\\raggedright}");
 		break;
 	case HALIGN_JUSTIFY:
 		break;
@@ -648,20 +648,20 @@ latex2e_write_multicolumn_cell (FILE *fp, Cell const *cell, int num_merged_cols,
 	if (!wrap)
 		switch ( style_default_halign(mstyle, cell) ) {
 		case HALIGN_RIGHT:
-			fprintf (fp, "\\gnumbox[r]{");
+			gsf_output_printf (output, "\\gnumbox[r]{");
 			break;
 		case HALIGN_CENTER:
 		case HALIGN_CENTER_ACROSS_SELECTION:
-			fprintf (fp, "\\gnumbox{");
+			gsf_output_printf (output, "\\gnumbox{");
 			break;
 		case HALIGN_LEFT:
-			fprintf (fp, "\\gnumbox[l]{");
+			gsf_output_printf (output, "\\gnumbox[l]{");
 			break;
 		case HALIGN_JUSTIFY:
-			fprintf (fp, "\\gnumbox[s]{");
+			gsf_output_printf (output, "\\gnumbox[s]{");
 			break;
 		default:
-			fprintf (fp, "\\makebox{");
+			gsf_output_printf (output, "\\makebox{");
 			break;
 		}
 
@@ -680,7 +680,7 @@ latex2e_write_multicolumn_cell (FILE *fp, Cell const *cell, int num_merged_cols,
 		if (r != 0 || g != 0 || b != 0) {
 			char *locale;
 			locale = setlocale (LC_NUMERIC, "C");
-			fprintf (fp, "{\\color[rgb]{%.2f,%.2f,%.2f} ",
+			gsf_output_printf (output, "{\\color[rgb]{%.2f,%.2f,%.2f} ",
 				 (double)r/65535, (double)g/65535, (double)b/65535);
 			locale = setlocale (LC_NUMERIC, locale);
 		}
@@ -690,16 +690,16 @@ latex2e_write_multicolumn_cell (FILE *fp, Cell const *cell, int num_merged_cols,
       		 */
 
 		if (hidden)
-		  fprintf (fp, "\\phantom{");
+		  gsf_output_printf (output, "\\phantom{");
 
 		if (font_is_monospaced (mstyle))
-			fprintf (fp, "\\texttt{");
+			gsf_output_printf (output, "\\texttt{");
 		else if (font_is_sansserif (mstyle))
-			fprintf (fp, "\\textsf{");
+			gsf_output_printf (output, "\\textsf{");
 		if (mstyle_get_font_bold (mstyle))
-			fprintf (fp, "\\textbf{");
+			gsf_output_printf (output, "\\textbf{");
 		if (mstyle_get_font_italic (mstyle))
-			fprintf (fp, "\\textit{");
+			gsf_output_printf (output, "\\textit{");
 
 
 		cell_format_family = cell_format_classify (cell_get_format (cell),
@@ -707,55 +707,55 @@ latex2e_write_multicolumn_cell (FILE *fp, Cell const *cell, int num_merged_cols,
 		if (cell_format_family == FMT_NUMBER || cell_format_family == FMT_CURRENCY ||
 		    cell_format_family == FMT_PERCENT || cell_format_family == FMT_FRACTION ||
 		    cell_format_family == FMT_SCIENCE){
-			fprintf (fp, "$");
+			gsf_output_printf (output, "$");
 		        if (mstyle_get_font_italic(mstyle))
-			    fprintf (fp, "\\gnumericmathit{");
+			    gsf_output_printf (output, "\\gnumericmathit{");
 
 			/* Print the cell contents. */
 			rendered_string = cell_get_rendered_text (cell);
-			latex_math_fputs (rendered_string, fp);
+			latex_math_fputs (rendered_string, output);
 			g_free (rendered_string);
 
 		        if (mstyle_get_font_italic(mstyle))
-			    fprintf (fp, "}");
-			fprintf (fp, "$");
+			    gsf_output_printf (output, "}");
+			gsf_output_printf (output, "$");
 		} else {
 			/* Print the cell contents. */
 			rendered_string = cell_get_rendered_text (cell);
-			latex_fputs (rendered_string, fp);
+			latex_fputs (rendered_string, output);
 			g_free (rendered_string);
 		}
 		
 		/* Close the styles for the cell. */
 		if (mstyle_get_font_italic (mstyle))
-			fprintf (fp, "}");
+			gsf_output_printf (output, "}");
 		if (mstyle_get_font_bold (mstyle))
-			fprintf (fp, "}");
+			gsf_output_printf (output, "}");
 		if (font_is_monospaced (mstyle))
-			fprintf (fp, "}");
+			gsf_output_printf (output, "}");
 		else if (font_is_sansserif (mstyle))
-			fprintf (fp, "}");
+			gsf_output_printf (output, "}");
 		if (hidden)
-		  fprintf (fp, "}");
+		  gsf_output_printf (output, "}");
 		if (r != 0 || g != 0 || b != 0)
-			fprintf (fp, "}");
+			gsf_output_printf (output, "}");
 	}
 
 	/* if we don't wrap close the mbox */
 	if (!wrap)
-		fprintf (fp, "}");
+		gsf_output_printf (output, "}");
 
 	/* Close the multirowtext. */
 	if (num_merged_rows > 1)
-		fprintf(fp, "\\end{tabular}}");
+		gsf_output_printf (output, "\\end{tabular}}");
 
 	/* Close the multicolumn text bracket. */
 	if (num_merged_cols > 1 || left_border != STYLE_BORDER_NONE
 	    || right_border != STYLE_BORDER_NONE)
-		fprintf(fp, "}");
+		gsf_output_printf (output, "}");
 
 	/* And we are done. */
-	fprintf (fp, "\n");
+	gsf_output_printf (output, "\n");
 
 }
 
@@ -803,8 +803,8 @@ latex2e_find_hhlines (StyleBorderType *clines, int length, int col, int row,
 /**
  * latex2e_print_hhline :
  *
- * @fp : a file pointer where the cell contents will be written.
- * @clines: an array of StyleBorderType* indicating the type of border
+ * @output : output stream where the cell contents will be written.
+ * @clines:  an array of StyleBorderType* indicating the type of border
  * @n : the number of elements in clines
  *
  * This procedure prints an hhline command according to the content
@@ -812,47 +812,47 @@ latex2e_find_hhlines (StyleBorderType *clines, int length, int col, int row,
  *
  */
 static void
-latex2e_print_hhline (FILE *fp, StyleBorderType *clines, int n, StyleBorderType *prev_vert,
+latex2e_print_hhline (GsfOutput *output, StyleBorderType *clines, int n, StyleBorderType *prev_vert,
 		      StyleBorderType *next_vert)
 {
 	int col;
-	fprintf (fp, "\\hhline{");
-	fprintf (fp, conn_styles[LATEX_NO_BORDER]
+	gsf_output_printf (output, "\\hhline{");
+	gsf_output_printf (output, "%s", conn_styles[LATEX_NO_BORDER]
 		 [prev_vert ? border_styles[prev_vert[0]].latex : LATEX_NO_BORDER]
 		 [border_styles[clines[0]].latex]
 		 [next_vert ? border_styles[next_vert[0]].latex : LATEX_NO_BORDER].p_1);
-	fprintf (fp, conn_styles[LATEX_NO_BORDER]
+	gsf_output_printf (output, "%s", conn_styles[LATEX_NO_BORDER]
 		 [prev_vert ? border_styles[prev_vert[0]].latex : LATEX_NO_BORDER]
 		 [border_styles[clines[0]].latex]
 		 [next_vert ? border_styles[next_vert[0]].latex : LATEX_NO_BORDER].p_2);
 	for (col = 0; col < n - 1; col++) {
-		fprintf (fp, border_styles[clines[col]].horizontal);
-		fprintf (fp, conn_styles[border_styles[clines[col]].latex]
+		gsf_output_printf (output, "%s", border_styles[clines[col]].horizontal);
+		gsf_output_printf (output, "%s", conn_styles[border_styles[clines[col]].latex]
 			 [prev_vert ? border_styles[prev_vert[col + 1]].latex :
 			  LATEX_NO_BORDER]
 			 [border_styles[clines[col+1]].latex]
 			 [next_vert ? border_styles[next_vert[col + 1]].latex :
 			  LATEX_NO_BORDER].p_1);
-		fprintf (fp, conn_styles[border_styles[clines[col]].latex]
+		gsf_output_printf (output, "%s", conn_styles[border_styles[clines[col]].latex]
 			 [prev_vert ? border_styles[prev_vert[col + 1]].latex :
 			  LATEX_NO_BORDER]
 			 [border_styles[clines[col+1]].latex]
 			 [next_vert ? border_styles[next_vert[col + 1]].latex :
 			  LATEX_NO_BORDER].p_2);
 	}
-	fprintf (fp, border_styles[clines[n - 1]].horizontal);
-	fprintf (fp, conn_styles[border_styles[clines[n - 1]].latex]
+	gsf_output_printf (output, "%s", border_styles[clines[n - 1]].horizontal);
+	gsf_output_printf (output, "%s", conn_styles[border_styles[clines[n - 1]].latex]
 		 [prev_vert ? border_styles[prev_vert[n]].latex : LATEX_NO_BORDER]
 		 [LATEX_NO_BORDER]
 		 [next_vert ? border_styles[next_vert[n]].latex :
 		  LATEX_NO_BORDER].p_1);
-	fprintf (fp, conn_styles[border_styles[clines[n - 1]].latex]
+	gsf_output_printf (output, "%s", conn_styles[border_styles[clines[n - 1]].latex]
 		 [prev_vert ? border_styles[prev_vert[n]].latex : LATEX_NO_BORDER]
 		 [LATEX_NO_BORDER]
 		 [next_vert ? border_styles[next_vert[n]].latex :
 		  LATEX_NO_BORDER].p_2);
 
-	fprintf (fp, "}\n");
+	gsf_output_printf (output, "}\n");
 }
 
 /**
@@ -869,9 +869,8 @@ latex2e_print_hhline (FILE *fp, StyleBorderType *clines, int n, StyleBorderType 
  */
 void
 latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
-                   WorkbookView *wb_view, gchar const *file_name)
+		 WorkbookView *wb_view, GsfOutput *output)
 {
-	FILE *fp;
 	Cell *cell;
 	Sheet *current_sheet;
 	Range total_range;
@@ -887,18 +886,10 @@ latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
 
 	/* Sanity check */
 	g_return_if_fail (wb != NULL);
-	g_return_if_fail (file_name != NULL);
-
-	/* Get a file pointer from the os. */
-	fp = gnumeric_fopen_error_info (file_name, "w", &open_error);
-	if (fp == NULL) {
-		gnumeric_io_error_info_set (io_context, open_error);
-		return;
-	}
-
+	g_return_if_fail (output != NULL);
 
 	/* This is the preamble of the LaTeX2e file. */
-	latex2e_write_file_header(fp);
+	latex2e_write_file_header(output);
 
 	/* Get the topmost sheet and its range from the plugin function argument. */
 	current_sheet = wb_view_cur_sheet(wb_view);
@@ -906,15 +897,15 @@ latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
 
 	num_cols = total_range.end.col - total_range.start.col + 1;
 
-	fprintf (fp, "\\setlength\\gnumericTableWidth{%%\n");
+	gsf_output_printf (output, "\\setlength\\gnumericTableWidth{%%\n");
 	for (col = total_range.start.col; col <=  total_range.end.col; col++) {
 		ColRowInfo const * ci;
 		ci = sheet_col_get_info (current_sheet, col);
-		fprintf (fp, "\t%ipt+%%\n", ci->size_pixels * 10 / 12);
+		gsf_output_printf (output, "\t%ipt+%%\n", ci->size_pixels * 10 / 12);
 	}
-	fprintf (fp, "0pt}\n\\def\\gumericNumCols{%i}\n", num_cols);
+	gsf_output_printf (output, "0pt}\n\\def\\gumericNumCols{%i}\n", num_cols);
 
-	fputs (""
+	gsf_output_puts (output, ""
 "\\setlength\\gnumericTableWidthComplete{\\gnumericTableWidth+%\n"
 "         \\tabcolsep*\\gumericNumCols*2+\\arrayrulewidth*\\gumericNumCols}\n"
 "\\ifthenelse{\\lengthtest{\\gnumericTableWidthComplete > \\textwidth}}%\n"
@@ -932,24 +923,24 @@ latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
 "%%                                                                  %%\n"
 "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
 "\n"
-, fp);
+);
 
 	for (col = total_range.start.col; col <=  total_range.end.col; col++) {
 		ColRowInfo const * ci;
 		ci = sheet_col_get_info (current_sheet, col);
-		fprintf (fp, "\\def\\gnumericCol%s{%ipt*\\gnumericScale}\n", col_name (col),
+		gsf_output_printf (output, "\\def\\gnumericCol%s{%ipt*\\gnumericScale}\n", col_name (col),
 			 ci->size_pixels * 10 / 12);
 	}
 
 	/* Start outputting the table. */
-	fprintf (fp, "\n\\begin{longtable}[c]{%%\n");
+	gsf_output_printf (output, "\n\\begin{longtable}[c]{%%\n");
 	for (col = total_range.start.col; col <=  total_range.end.col; col++) {
-		fprintf (fp, "\tb{\\gnumericCol%s}%%\n", col_name (col));
+		gsf_output_printf (output, "\tb{\\gnumericCol%s}%%\n", col_name (col));
 	}
-	fprintf (fp, "\t}\n\n");
+	gsf_output_printf (output, "\t}\n\n");
 
 	/* Output the table header. */
-	latex2e_write_table_header (fp, num_cols);
+	latex2e_write_table_header (output, num_cols);
 
 
 	/* Step through the sheet, writing cells as appropriate. */
@@ -1000,7 +991,7 @@ latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
 		}
 
 		if (needs_hline)
-			latex2e_print_hhline (fp, clines, num_cols, prev_vert, next_vert);
+			latex2e_print_hhline (output, clines, num_cols, prev_vert, next_vert);
 		g_free (clines);
 
 		for (col = total_range.start.col; col <= total_range.end.col; col++) {
@@ -1011,15 +1002,15 @@ latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
 
 			/* Check if we are not the first cell in the row.*/
 			if (col != total_range.start.col)
-				fprintf (fp, "\t&");
+				gsf_output_printf (output, "\t&");
 			else
-				fprintf (fp, "\t ");
+				gsf_output_printf (output, "\t ");
 
 			/* Even an empty cell (especially an empty cell!) can be */
 			/* covered by a span!                                    */
 			the_span = row_span_get (ri, col);
 			if (the_span != NULL) {
-				latex2e_write_multicolumn_cell(fp, the_span->cell,
+				latex2e_write_multicolumn_cell(output, the_span->cell,
 							       the_span->right -
 							       col + 1, 1,
 							       col - total_range.start.col,
@@ -1031,7 +1022,7 @@ latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
 
 			/* A blank cell has only a few options*/
 			if (cell_is_blank(cell)) {
-				latex2e_write_blank_cell(fp, col, row,
+				latex2e_write_blank_cell(output, col, row,
 							col - total_range.start.col,
 							next_vert, current_sheet);
 				continue;
@@ -1040,7 +1031,7 @@ latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
 			/* Check a merge. */
 			merge_range = sheet_merge_is_corner (current_sheet, &cell->pos);
 			if (merge_range == NULL) {
-				latex2e_write_multicolumn_cell(fp, cell, 1, 1,
+				latex2e_write_multicolumn_cell(output, cell, 1, 1,
 							       col - total_range.start.col,
 							       next_vert, current_sheet);
 				continue;
@@ -1050,14 +1041,14 @@ latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
 			num_merged_cols = merge_range->end.col - merge_range->start.col + 1;
 			num_merged_rows = merge_range->end.row - merge_range->start.row + 1;
 
-			latex2e_write_multicolumn_cell(fp, cell, num_merged_cols,
+			latex2e_write_multicolumn_cell(output, cell, num_merged_cols,
 						       num_merged_rows,
 						       col - total_range.start.col,
 						       next_vert, current_sheet);
 			col += (num_merged_cols - 1);
 			continue;
 		}
-		fprintf (fp, "\\\\\n");
+		gsf_output_printf (output, "\\\\\n");
 		if (prev_vert != NULL)
 			g_free (prev_vert);
 	}
@@ -1085,12 +1076,11 @@ latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
 		length--;
 	}
 	if (needs_hline)
-		latex2e_print_hhline (fp, clines, num_cols, next_vert, NULL);
+		latex2e_print_hhline (output, clines, num_cols, next_vert, NULL);
 	g_free (clines);
 
 	g_free (next_vert);
 
-	fprintf (fp, "\\end{longtable}\n\n");
-	fprintf (fp, "\\gnumericTableEnd\n");
-	fclose (fp);
+	gsf_output_printf (output, "\\end{longtable}\n\n");
+	gsf_output_printf (output, "\\gnumericTableEnd\n");
 }

@@ -21,6 +21,7 @@
 #include <module-plugin-defs.h>
 
 #include <gsf/gsf-input-textline.h>
+#include <gsf/gsf-output.h>
 #include <gsf/gsf-utils.h>
 #include <string.h>
 #include <stdlib.h>
@@ -32,7 +33,7 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 void dif_file_open (GnumFileOpener const *fo, IOContext *io_context,
                     WorkbookView *wbv, GsfInput *input);
 void dif_file_save (GnumFileSaver const *fs, IOContext *io_context,
-                    WorkbookView *wbv, const gchar *file_name);
+                    WorkbookView *wbv, GsfOutput *output);
 
 typedef struct {
 	IOContext *io_context;
@@ -273,19 +274,13 @@ dif_file_open (GnumFileOpener const *fo, IOContext *io_context,
  */
 void
 dif_file_save (GnumFileSaver const *fs, IOContext *io_context,
-               WorkbookView *wbv, const gchar *file_name)
+               WorkbookView *wbv, GsfOutput *output)
 {
-	FILE *f;
 	ErrorInfo *open_error;
 	Sheet *sheet;
 	Range r;
 	gint row, col;
-
-	f = gnumeric_fopen_error_info (file_name, "w", &open_error);
-	if (f == NULL) {
-		gnumeric_io_error_info_set (io_context, open_error);
-		return;
-	}
+	gboolean res;
 
 	sheet = wb_view_cur_sheet (wbv);
 	if (sheet == NULL) {
@@ -296,33 +291,37 @@ dif_file_save (GnumFileSaver const *fs, IOContext *io_context,
 	r = sheet_get_extent (sheet, FALSE);
 
 	/* Write out the standard headers */
-	fputs ("TABLE\n" "0,1\n" "\"GNUMERIC\"\n", f);
-	fprintf (f, "VECTORS\n" "0,%d\n" "\"\"\n", r.end.row);
-	fprintf (f, "TUPLES\n" "0,%d\n" "\"\"\n", r.end.col);
-	fputs ("DATA\n0,0\n" "\"\"\n", f);
+	res  = gsf_output_puts (output, "TABLE\n" "0,1\n" "\"GNUMERIC\"\n");
+	if (res) res = gsf_output_printf (output,
+					  "VECTORS\n" "0,%d\n" "\"\"\n",
+					  r.end.row);
+	if (res) res = gsf_output_printf (output,
+					  "TUPLES\n" "0,%d\n" "\"\"\n",
+					  r.end.col);
+	if (res) res= gsf_output_puts (output, "DATA\n0,0\n" "\"\"\n");
 
 	/* Process all cells */
-	for (row = r.start.row; row <= r.end.row; row++) {
-		fputs ("-1,0\n" "BOT\n", f);
+	for (row = r.start.row; res && row <= r.end.row; row++) {
+		gsf_output_puts (output, "-1,0\n" "BOT\n");
 		for (col = r.start.col; col <= r.end.col; col++) {
 			Cell *cell;
 
 			cell = sheet_cell_get (sheet, col, row);
 			if (cell_is_blank (cell)) {
-				fputs("1,0\n" "\"\"\n", f);
+				gsf_output_puts(output, "1,0\n" "\"\"\n");
 			} else {
 				gchar *str;
 
 				str = cell_get_rendered_text (cell);
-				fprintf (f, "1.0\n" "\"%s\"\n", str);
+				res = gsf_output_printf (output,
+							 "1.0\n" "\"%s\"\n",
+							 str);
 				g_free (str);
 			}
 		}
 	}
-	fputs ("-1,0\n" "EOD\n", f);
+	gsf_output_puts (output, "-1,0\n" "EOD\n");
 
-	if (ferror (f))
+	if (!res)
 		gnumeric_io_error_string (io_context, _("Error while saving DIF file."));
-
-	fclose (f);
 }

@@ -27,13 +27,13 @@
 #include "error-info.h"
 
 void html32_file_save (GnumFileSaver const *fs, IOContext *io_context, 
-		       WorkbookView *wb_view, const char *filename);
+		       WorkbookView *wb_view, GsfOutput *output);
 void html40_file_save (GnumFileSaver const *fs, IOContext *io_context, 
-		       WorkbookView *wb_view, const char *filename);
+		       WorkbookView *wb_view, GsfOutput *output);
 void html40frag_file_save (GnumFileSaver const *fs, IOContext *io_context, 
-			   WorkbookView *wb_view, const char *filename);
+			   WorkbookView *wb_view, GsfOutput *output);
 void xhtml_file_save (GnumFileSaver const *fs, IOContext *io_context,
-                      WorkbookView *wb_view, const gchar *file_name);
+                      WorkbookView *wb_view, GsfOutput *output);
 
 void html_file_open (GnumFileOpener const *fo, IOContext *io_context, 
 		       WorkbookView *wb_view, GsfInput *input);

@@ -1,3 +1,7 @@
+2002-11-28  Jon K Hellan  <hellan@acm.org>
+
+	* gnome_glossary.py (save_sheet_as_po): Port to gsf output.
+
 2002-11-15  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.12

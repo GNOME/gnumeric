@@ -26,6 +26,7 @@
 
 #include <fnmatch.h>
 #include <gsf/gsf-input.h>
+#include <gsf/gsf-output.h>
 #include <libxml/tree.h>
 #include <libxml/globals.h>
 #include <gsf/gsf-impl-utils.h>
@@ -861,18 +862,18 @@ gnum_plugin_file_saver_init (GnumPluginFileSaver *fs)
 
 static void
 gnum_plugin_file_saver_save (GnumFileSaver const *fs, IOContext *io_context,
-                             WorkbookView *wbv, const gchar *file_name)
+                             WorkbookView *wbv, const GsfOutput *output)
 {
 	GnumPluginFileSaver *pfs = GNUM_PLUGIN_FILE_SAVER (fs);
 	PluginServiceFileSaver *service_file_saver = GNM_PLUGIN_SERVICE_FILE_SAVER (pfs->service);
 	ErrorInfo *error = NULL;
 
-	g_return_if_fail (file_name != NULL);
+	g_return_if_fail (GSF_IS_OUTPUT (output));
 
 	plugin_service_load (pfs->service, &error);
 	if (error == NULL) {
 		g_return_if_fail (service_file_saver->cbs.plugin_func_file_save != NULL);
-		service_file_saver->cbs.plugin_func_file_save (fs, pfs->service, io_context, wbv, file_name);
+		service_file_saver->cbs.plugin_func_file_save (fs, pfs->service, io_context, wbv, output);
 	} else {
 		gnumeric_io_error_info_set (io_context, error);
 		gnumeric_io_error_push (io_context, error_info_new_str (

@@ -42,7 +42,7 @@ gboolean applix_file_probe (GnumFileOpener const *fo, GsfInput *input,
 void     applix_file_open (GnumFileOpener const *fo, IOContext *io_context,
                            WorkbookView *wb_view, GsfInput *input);
 void     applix_file_save (GnumFileSaver const *fs, IOContext *io_context,
-			   WorkbookView *wb_view, char const *filename);
+			   WorkbookView *wb_view, GsfOutput *output);
 
 gboolean
 applix_file_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
@@ -64,13 +64,7 @@ applix_file_open (GnumFileOpener const *fo, IOContext *io_context,
 
 void
 applix_file_save (GnumFileSaver const *fs, IOContext *io_context,
-		  WorkbookView *wb_view, char const *filename)
+		  WorkbookView *wb_view, GsfOutput *output)
 {
-	ErrorInfo *error;
-	FILE *file = gnumeric_fopen_error_info (filename, "w", &error);
-	if (file != NULL) {
-		applix_write (io_context, wb_view, file);
-		fclose (file);
-	} else
-		gnumeric_io_error_info_set (io_context, error);
+	applix_write (io_context, wb_view, output);
 }

@@ -266,7 +266,6 @@ stf_text_to_columns (WorkbookControl *wbc, CommandContext *cc)
 	Range		 target;
 	GsfOutput	*buf;
 	guint8		*data;
-	gsf_off_t	 len;
 	
 	sv    = wb_control_cur_sheet_view (wbc);
 	src_sheet = sv_sheet (sv);
@@ -298,7 +297,7 @@ stf_text_to_columns (WorkbookControl *wbc, CommandContext *cc)
 
 	gsf_output_write (buf, 1, "\0");
 	gsf_output_close (buf);
-	gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (buf), &data, &len);
+	data = gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (buf));
 	dialogresult = stf_dialog (WORKBOOK_CONTROL_GUI (wbc),
 		_("Text to Columns"), data);
 
@@ -412,29 +411,12 @@ stf_read_default_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLeve
 	return (data != NULL) && (stf_parse_is_valid_data (data, len) == NULL);
 }
 
-#ifndef PAGE_SIZE
-#define PAGE_SIZE (BUFSIZ*8)
-#endif
-
 /***********************************************************************************/
 
-static FILE *
-stf_open_for_write (IOContext *context, const char *filename)
-{
-	FILE *f = gnumeric_fopen (context, filename, "w");
-
-	if (!f)
-		return NULL;
-
-	setvbuf (f, NULL, _IOFBF, PAGE_SIZE);
-
-	return f;
-}
-
 static gboolean
-stf_write_func (const char *string, FILE *f)
+stf_write_func (const char *string, GsfOutput *output)
 {
-	return (fputs (string, f) >= 0);
+	return (gsf_output_puts (output, string) >= 0);
 }
 
 /**
@@ -447,28 +429,21 @@ stf_write_func (const char *string, FILE *f)
  * Main routine, handles exporting a file including all dialog mumbo-jumbo
  **/
 static void
-stf_write_workbook (GnumFileSaver const *fs, IOContext *context, WorkbookView *wbv, const char *filename)
+stf_write_workbook (GnumFileSaver const *fs, IOContext *context, WorkbookView *wbv, GsfOutput *output)
 {
 	StfE_Result_t *result = NULL;
 
 	g_return_if_fail (context != NULL);
 	g_return_if_fail (wbv != NULL);
-	g_return_if_fail (filename != NULL);
+	g_return_if_fail (output != NULL);
 
 	if (IS_WORKBOOK_CONTROL_GUI (context->impl))
 		result = stf_export_dialog (WORKBOOK_CONTROL_GUI (context->impl),
 		         wb_view_workbook (wbv));
 
 	if (result != NULL) {
-		FILE *f = stf_open_for_write (context, filename);
-
-		if (f == NULL) {
-			gnumeric_io_error_unknown (context);
-			return;
-		}
-
 		stf_export_options_set_write_callback (result->export_options,
-						       (StfEWriteFunc) stf_write_func, (gpointer) f);
+						       (StfEWriteFunc) stf_write_func, (gpointer) output);
 		if (stf_export (result->export_options) == FALSE) {
 			gnumeric_error_read (COMMAND_CONTEXT (context),
 				_("Error while trying to write csv file"));
@@ -476,7 +451,6 @@ stf_write_workbook (GnumFileSaver const *fs, IOContext *context, WorkbookView *w
 			return;
 		}
 
-		fclose (f);
 		stf_export_dialog_result_free (result);
 	} else
 		gnumeric_io_error_unknown (context);

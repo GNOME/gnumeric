@@ -1,3 +1,11 @@
+2002-11-28  Jon K Hellan  <hellan@acm.org>
+
+	* applix.h (applix_write): Port to gsf output.
+
+	* boot.c (applix_file_save): Ditto.
+
+	* applix-write.c (applix_write): Ditto.
+
 2002-11-26  Morten Welinder  <terra@diku.dk>
 
 	* applix-read.c (ApplixReadState): Add expression conventions.

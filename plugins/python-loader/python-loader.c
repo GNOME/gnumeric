@@ -371,27 +371,39 @@ typedef struct {
 static void
 gnumeric_plugin_loader_python_func_file_save (GnumFileSaver const *fs, PluginService *service,
                                               IOContext *io_context, WorkbookView *wb_view,
-                                              const gchar *file_name)
+                                              GsfOutput *output)
 {
+#ifndef WITH_PYGTK
+	gnumeric_io_error_string
+		(io_context,
+		 "File saving from python plugins requires gnome-python "
+		 "and Python bindings for libgsf");
+#else	
 	ServiceLoaderDataFileSaver *saver_data;
 	PyObject *py_workbook;
-	PyObject *save_result;
+	PyObject *save_result = NULL;
+	PyObject *output_wrapper;
 
 	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FILE_SAVER (service));
-	g_return_if_fail (file_name != NULL);
+	g_return_if_fail (output != NULL);
 
 	saver_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	SWITCH_TO_PLUGIN (plugin_service_get_plugin (service));
 	py_workbook = py_new_Workbook_object (wb_view_workbook (wb_view));
-	save_result = PyObject_CallFunction
-		(saver_data->python_func_file_save,
-		 (char *) "Ns", py_workbook, file_name);
+	output_wrapper = pygobject_new (G_OBJECT (output));
+	if (output_wrapper != NULL) {
+		save_result = PyObject_CallFunction
+			(saver_data->python_func_file_save,
+			 (char *) "NO", py_workbook, output_wrapper);
+		Py_DECREF (output_wrapper);
+	}
 	if (save_result != NULL) {
 		Py_DECREF (save_result);
 	} else {
 		gnumeric_io_error_string (io_context, convert_python_exception_to_string ());
 		gnm_python_clear_error_if_needed (SERVICE_GET_LOADER (service)->py_object);
 	}
+#endif
 }
 
 static void

@@ -49,6 +49,7 @@
 
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-input-stdio.h>
+#include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-utils.h>
 
 #include <gsf/gsf-impl-utils.h>
@@ -527,6 +528,55 @@ workbook_view_new (Workbook *wb)
 	return wbv;
 }
 
+static void
+wbv_save_to_file (WorkbookView *wbv, GnumFileSaver const *fs,
+		  gchar const *file_name, IOContext *io_context)
+{
+	char *msg = NULL;
+
+	GsfOutput *output;
+	
+	if (gnumeric_valid_filename (file_name)) {
+		GError *err = NULL;
+		GsfOutput *output;
+		
+		output = gsf_output_stdio_new (file_name, &err);
+		if (output == NULL) {
+			char *str = g_strdup_printf (_("Can't open '%s' : %s"),
+						     file_name, err->message);
+			gnumeric_error_save (COMMAND_CONTEXT (io_context), str);
+			g_error_free (err);
+			g_free (str);
+			return;
+		}
+
+		puts (file_name);
+		if (output != NULL) {
+			gnum_file_saver_save (fs, io_context, wbv, output);
+			g_object_unref (G_OBJECT (output));
+			return;
+		}
+
+		if (err != NULL) {
+			if (err->message != NULL)
+				msg = g_strdup (err->message);
+			g_error_free (err);
+		}
+
+		if (msg == NULL)
+			msg = g_strdup_printf (_("An unexplained error happened while saving %s"),
+					       file_name);
+	} else {
+		/*
+		 * This should be quite rare.  To provoke, use
+		 * gnumeric `echo -e '\377\376'`
+		 */
+		msg = g_strdup (_("The filename given is not valid."));
+	}
+	gnumeric_error_save (COMMAND_CONTEXT (io_context), msg);
+	g_free (msg);
+}
+
 /**
  * wb_view_save_as:
  * @wbv         : Workbook View
@@ -557,7 +607,7 @@ wb_view_save_as (WorkbookView *wbv, GnumFileSaver *fs, gchar const *file_name,
 	io_context = gnumeric_io_context_new (context);
 
 	cmd_context_set_sensitive (context, FALSE);
-	gnum_file_saver_save (fs, io_context, wbv, file_name);
+	wbv_save_to_file (wbv, fs, file_name, io_context);
 	cmd_context_set_sensitive (context, TRUE);
 
 	has_error   = gnumeric_io_error_occurred (io_context);
@@ -607,7 +657,8 @@ wb_view_save (WorkbookView *wbv, CommandContext *context)
 		gnumeric_error_save (COMMAND_CONTEXT (io_context),
 			_("Default file saver is not available."));
 	else
-		gnum_file_saver_save (fs, io_context, wbv, workbook_get_filename (wb));
+		wbv_save_to_file (wbv, fs, workbook_get_filename (wb),
+				  io_context);
 
 	has_error   = gnumeric_io_error_occurred (io_context);
 	has_warning = gnumeric_io_warning_occurred (io_context);

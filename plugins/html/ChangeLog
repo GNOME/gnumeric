@@ -1,3 +1,25 @@
+2002-11-28  Jon K Hellan  <hellan@acm.org>
+
+	* html.[ch] (html40_file_save, html32_file_save) 
+	(html40frag_file_save, xhtml_file_save): Port to gsf output.
+
+	* html.c (html_print_encoded, html_write_cell_content) 
+	(html_write_one_border_style_40, html_write_border_style_40) 
+	(write_cell, write_row, write_sheet, html_file_save): Ditto.
+
+	* latex.[ch] (latex_file_save): Ditto.
+
+	* latex.c (latex_fputs, latex_math_fputs)
+	(latex2e_write_file_header, latex2e_write_table_header)
+	(latex2e_print_vert_border, latex2e_write_blank_cell)
+	(latex2e_write_multicolumn_cell, latex2e_print_hhline): Ditto.
+
+	* roff.[ch] (roff_fprintf, write_wb_roff, roff_file_save): Ditto.
+
+	* roff.c (roff_dvi_file_save): Remove.
+
+	* plugin.xml.in: Remove dvi via roff.
+
 2002-11-15  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.12

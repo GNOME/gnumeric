@@ -23,6 +23,7 @@
 #include "error-info.h"
 
 #include <gsf/gsf-input.h>
+#include <gsf/gsf-output.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 
@@ -232,14 +233,14 @@ gnum_file_saver_finalize (GObject *obj)
 
 static void
 gnum_file_saver_save_real (GnumFileSaver const *fs, IOContext *io_context,
-                           WorkbookView *wbv, gchar const *file_name)
+                           WorkbookView *wbv, GsfOutput const *output)
 {
 	if (fs->save_func == NULL) {
 		gnumeric_io_error_unknown (io_context);
 		return;
 	}
 
-	fs->save_func (fs, io_context, wbv, file_name);
+	fs->save_func (fs, io_context, wbv, output);
 }
 
 #if defined(GNOME2_CONVERSION_COMPLETE) && defined(WITH_BONOBO)
@@ -469,9 +470,9 @@ gnum_file_saver_get_format_level (GnumFileSaver const *fs)
  * @fs          : GnumFileSaver object
  * @io_context  : Context for i/o operation
  * @wbv         : Workbook View
- * @file_name   : File name
+ * @output      : Output stream
  *
- * Saves @wbv and the workbook it is attached to into @file_name file.
+ * Saves @wbv and the workbook it is attached to into @output stream.
  * Results are reported using @io_context object, use
  * gnumeric_io_error_occurred to find out if operation was successful.
  * It's possible that @file_name is created and contain some data if
@@ -479,9 +480,14 @@ gnum_file_saver_get_format_level (GnumFileSaver const *fs)
  */
 void
 gnum_file_saver_save (GnumFileSaver const *fs, IOContext *io_context,
-                      WorkbookView *wbv, gchar const *file_name)
+                      WorkbookView *wbv, GsfOutput const *output)
 {
+	char *file_name;
+	
 	g_return_if_fail (IS_GNUM_FILE_SAVER (fs));
+	g_return_if_fail (GSF_IS_OUTPUT (output));
+
+	file_name = (char *) gsf_output_name (output);
 	g_return_if_fail (file_name != NULL);
 
 	if (!fs->overwrite_files && g_file_test ((file_name), G_FILE_TEST_EXISTS)) {
@@ -495,7 +501,7 @@ gnum_file_saver_save (GnumFileSaver const *fs, IOContext *io_context,
 		return;
 	}
 
-	GNUM_FILE_SAVER_METHOD (fs, save) (fs, io_context, wbv, file_name);
+	GNUM_FILE_SAVER_METHOD (fs, save) (fs, io_context, wbv, output);
 }
 
 /**

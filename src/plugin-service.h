@@ -66,7 +66,8 @@ typedef struct _PluginServiceFileSaver PluginServiceFileSaver;
 typedef struct {
 	void  (*plugin_func_file_save) (
 	      GnumFileSaver const *fs, PluginService *service,
-	      IOContext *io_context, WorkbookView *wbv, const gchar *file_name);
+	      IOContext *io_context, WorkbookView *wbv,
+	      const GsfOutput *output);
 } PluginServiceFileSaverCallbacks;
 
 

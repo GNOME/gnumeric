@@ -1,3 +1,36 @@
+2002-11-28  Jon K Hellan  <hellan@acm.org>
+
+	* src/file-priv.h (struct _GnumFileSaverClass::save): Replace
+	file_name with GsfOutput *output.
+
+	* src/file.h (GnumFileSaverSaveFunc, gnum_file_saver_save): Ditto.
+
+	* src/file.c:
+	(gnum_file_saver_save_real, gnum_file_saver_save): Ditto.
+
+	* src/plugin-service.h
+	(PluginServiceFileSaverCallbacks::plugin_func_file_save): Ditto
+
+	* src/plugin-service.c:
+	(gnum_plugin_file_saver_save): Ditto
+
+	* src/workbook-view.c: Include gsf/gsf-output-stdio.h.
+	(wbv_save_to_file): New function. Creates a gsf output stream from
+	file.
+	(wb_view_save_as, wb_view_save): Call wbv_save_to_file rather than
+	gnum_file_saver_save.
+
+	* src/stf.c (stf_text_to_columns): Call
+	gsf_output_memory_get_bytes with new signature.
+	(stf_open_for_write): Remove.
+	(stf_write_func): Use gsf_output_puts.
+	(stf_write_workbook): Replace file_name with GsfOutput *output.
+	Don't open and close file. Higher layer does that.
+	
+	* src/xml-io.c (gnumeric_xml_write_workbook): Replace file_name
+	with GsfOutput *output.  Don't open and close file. Higher layer
+	does that.
+
 2002-11-27  Jon K Hellan  <hellan@acm.org>
 
 	* src/workbook-control-gui.c (wbcg_progress_set): Deprecation

@@ -42,11 +42,6 @@
 				<_description>LaTeX 2e (*.tex)</_description>
 			</information>
 		</service>
-		<service type="file_saver" id="roff_dvi" file_extension="dvi" format_level="write_only">
-			<information>
-				<_description>DVI TeX (via groff)</_description>
-			</information>
-		</service>
 		<service type="file_saver" id="roff" file_extension="me" format_level="write_only">
 			<information>
 				<_description>TROFF (*.me)</_description>

@@ -56,7 +56,7 @@ struct _GnumFileSaverClass {
 	void (*save) (GnumFileSaver const *fs,
 	              IOContext *io_context,
 	              WorkbookView *wbv,
-	              const gchar *file_name);
+	              const GsfOutput *output);
 #ifdef WITH_BONOBO
 	void (*save_to_stream) (GnumFileSaver const *fs,
 	                        IOContext *io_context,

@@ -49,7 +49,7 @@
 #include <stdlib.h>
 
 typedef struct {
-	FILE          *file;
+	GsfOutput     *sink;
 	ErrorInfo     *parse_error;
 	WorkbookView  *wb_view;
 	Workbook      *wb;
@@ -66,10 +66,15 @@ static int debug_applix_write = 0;
 static void
 applix_write_header (ApplixWriteState const *state)
 {
-	fprintf (state->file, "*BEGIN SPREADSHEETS VERSION=442/430 ENCODING=7BIT\n");
-	fprintf (state->file, "Num ExtLinks: 0\n");
-	fprintf (state->file, "Spreadsheet Dump Rev 4.42 Line Length 80\n");
-	fprintf (state->file, "Current Doc Real Name: %s", workbook_get_filename (state->wb));
+	gsf_output_printf (state->sink,
+			   "*BEGIN SPREADSHEETS VERSION=442/430 "
+			   "ENCODING=7BIT\n");
+	gsf_output_printf (state->sink, "Num ExtLinks: 0\n");
+	gsf_output_printf (state->sink,
+			   "Spreadsheet Dump Rev 4.42 Line Length 80\n");
+	gsf_output_printf (state->sink,
+			   "Current Doc Real Name: %s",
+			   workbook_get_filename (state->wb));
 }
 
 static void
@@ -78,12 +83,12 @@ applix_write_colormap (ApplixWriteState *state)
 }
 
 void
-applix_write (IOContext *io_context, WorkbookView *wb_view, FILE *file)
+applix_write (IOContext *io_context, WorkbookView *wb_view, GsfOutput *sink)
 {
 	ApplixWriteState	state;
 
 	/* Init the state variable */
-	state.file        = file;
+	state.sink        = sink;
 	state.parse_error = NULL;
 	state.wb_view     = wb_view;
 	state.wb          = wb_view_workbook (wb_view);

@@ -1,3 +1,9 @@
+2002-11-28  Jon K Hellan  <hellan@acm.org>
+
+	* boot.c (excel_save, excel_dsf_file_save, excel_biff8_file_save)
+	(excel_biff7_file_save): Receive gsf output stream from higher
+	layer rather than creating and closing it here.
+
 2002-11-25  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (excel_set_xf) : remove bogus optimization.

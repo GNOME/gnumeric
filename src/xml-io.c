@@ -51,6 +51,7 @@
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-input-gzip.h>
+#include <gsf/gsf-output.h>
 #include <gsf/gsf-utils.h>
 
 #include <libxml/parser.h>
@@ -3437,15 +3438,17 @@ static void
 gnumeric_xml_write_workbook (GnumFileSaver const *fs,
                              IOContext *context,
                              WorkbookView *wb_view,
-                             const gchar *filename)
+                             const GsfOutput *output)
 {
 	xmlDocPtr xml;
 	XmlParseContext *ctxt;
+	xmlOutputBufferPtr buf;
 	char const *extension;
-	int compression;
+	GsfOutput *gzout = NULL;
+	char *filename;
 
 	g_return_if_fail (wb_view != NULL);
-	g_return_if_fail (filename != NULL);
+	g_return_if_fail (GSF_IS_OUTPUT (output));
 
 	xml = xmlNewDoc ((xmlChar const *)"1.0");
 	if (xml == NULL) {
@@ -3459,18 +3462,20 @@ gnumeric_xml_write_workbook (GnumFileSaver const *fs,
 	xml_parse_ctx_destroy (ctxt);
 
 	/* If the suffix is .xml disable compression */
+	filename = (char *) gsf_output_name (output);
 	extension = gsf_extension_pointer (filename);
-	compression =
-		(extension != NULL && g_ascii_strcasecmp (extension, "xml") == 0)
-		? 0 : -1;
-
-	gnumeric_xml_set_compression (xml, compression);
+	if (extension == NULL || g_ascii_strcasecmp (extension, "xml") != 0) {
+		gzout  = GSF_OUTPUT (gsf_output_gzip_new (output, NULL));
+		g_object_unref (output);
+		output = gzout;
+	}
 	xmlIndentTreeOutput = TRUE;
-	if (xmlSaveFormatFileEnc (filename, xml, "UTF-8", TRUE) < 0)
+	if (gsf_xmlDocFormatDump (output, xml, "UTF-8", TRUE) < 0)
 		gnumeric_error_save (COMMAND_CONTEXT (context),
-			g_strerror (errno));
-#warning this seems wrong in the context of libgsf
-
+				     "Error saving XML");
+	if (gzout)
+		gsf_output_close (gzout);
+	
 	xmlFreeDoc (xml);
 }
 

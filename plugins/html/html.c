@@ -64,14 +64,14 @@ typedef enum {
 /*
  * html_print_encoded:
  *
- * @fp: the file
+ * @output: the stream
  * @str: the string
  *
- * print the string to fp encoded all special chars
+ * print the string to output encoded all special chars
  *
  */
 static void
-html_print_encoded (FILE *fp, char *str)
+html_print_encoded (GsfOutput *output, char *str)
 {
 	const char *p;
 	guint i;
@@ -82,24 +82,24 @@ html_print_encoded (FILE *fp, char *str)
 	while (*p != '\0') {
 		switch (*p) {
 			case '<':
-				fputs ("&lt;", fp);
+				gsf_output_puts (output, "&lt;");
 				break;
 			case '>':
-				fputs ("&gt;", fp);
+				gsf_output_puts (output, "&gt;");
 				break;
 			case '&':
-				fputs ("&amp;", fp);
+				gsf_output_puts (output, "&amp;");
 				break;
 			case '\"':
-				fputs ("&quot;", fp);
+				gsf_output_puts (output, "&quot;");
 				break;
 			default:
 				i = (unsigned char) *p;
 				if ((( i >= 0x20) && (i < 0x80)) ||
 				    (*p == '\n') || (*p == '\r') || (*p == '\t'))
-					fputc (*p, fp);
+					gsf_output_write (output, 1, p);
 				else {
-					fprintf (fp, "&#%03u;", i);
+					gsf_output_printf (output, "&#%03u;", i);
 				}
 				break;
 		}
@@ -148,7 +148,7 @@ html_get_color (MStyle *mstyle, MStyleElementType t, guint *r, guint *g, guint *
 }
 
 static void
-html_write_cell_content (FILE *fp, Cell *cell, MStyle *mstyle, html_version_t version)
+html_write_cell_content (GsfOutput *output, Cell *cell, MStyle *mstyle, html_version_t version)
 {
 	guint r = 0;
 	guint g = 0;
@@ -158,7 +158,7 @@ html_write_cell_content (FILE *fp, Cell *cell, MStyle *mstyle, html_version_t ve
 	
 
 	if (version ==HTML32 && hidden)
-	  fputs ("<!-- 'HIDDEN DATA' -->",fp);
+	  gsf_output_puts (output, "<!-- 'HIDDEN DATA' -->",output);
 	else
 	  {
 
@@ -166,34 +166,34 @@ html_write_cell_content (FILE *fp, Cell *cell, MStyle *mstyle, html_version_t ve
 	        
 	       
 	        if (mstyle_get_font_italic (mstyle))
-			fputs ("<i>", fp);
+			gsf_output_puts (output, "<i>");
 		if (mstyle_get_font_bold (mstyle))
-			fputs ("<b>", fp);
+			gsf_output_puts (output, "<b>");
 		if (font_is_monospaced (mstyle))
-			fputs ("<tt>", fp);
+			gsf_output_puts (output, "<tt>");
 	}
 
 	if (cell != NULL) {
 		if (mstyle != NULL && version != HTML40) {
 			html_get_text_color (cell, mstyle, &r, &g, &b);
 			if (r > 0 || g > 0 || b > 0)
-				fprintf (fp, "<font color=\"#%02X%02X%02X\">", r, g, b);
+				gsf_output_printf (output, "<font color=\"#%02X%02X%02X\">", r, g, b);
 		}
 		
 		rendered_string = cell_get_rendered_text (cell);
-		html_print_encoded (fp, rendered_string);
+		html_print_encoded (output, rendered_string);
 		g_free (rendered_string);
 	}
 
 	if (r > 0 || g > 0 || b > 0)
-		fputs ("</font>", fp);
+		gsf_output_puts (output, "</font>");
 	if (mstyle != NULL) {
 		if (font_is_monospaced (mstyle))
-			fputs ("</tt>", fp);
+			gsf_output_puts (output, "</tt>");
 		if (mstyle_get_font_bold (mstyle))
-			fputs ("</b>", fp);
+			gsf_output_puts (output, "</b>");
 		if (mstyle_get_font_italic (mstyle))
-			fputs ("</i>", fp);
+			gsf_output_puts (output, "</i>");
 	}}
 }
 
@@ -271,7 +271,7 @@ html_get_border_style (StyleBorder *border)
 /*
  * html_write_border_style_40 :
  *
- * @fp: file
+ * @output: the stream
  * @border: a non-blank border
  * @border_name:
  *
@@ -279,47 +279,47 @@ html_get_border_style (StyleBorder *border)
  */
 
 static void
-html_write_one_border_style_40 (FILE *fp, StyleBorder *border, char const *border_name)
+html_write_one_border_style_40 (GsfOutput *output, StyleBorder *border, char const *border_name)
 {
 	char *text;
 	text = html_get_border_style (border);
 	if (text == NULL || strlen (text) == 0)
 		return;
-	fprintf (fp, " %s:%s;", border_name, text);
+	gsf_output_printf (output, " %s:%s;", border_name, text);
 	g_free (text);
 }
 /*
  * html_write_border_style_40 :
  *
- * @fp: file
+ * @output: the stream
  * @mstyle: style
  *
  *
  */
 
 static void
-html_write_border_style_40 (FILE *fp, MStyle *mstyle)
+html_write_border_style_40 (GsfOutput *output, MStyle *mstyle)
 {
 	StyleBorder *border;
 
 	border = mstyle_get_border (mstyle, MSTYLE_BORDER_TOP);
 	if (!style_border_is_blank (border))
-		html_write_one_border_style_40 (fp, border, "border-top");
+		html_write_one_border_style_40 (output, border, "border-top");
 	border = mstyle_get_border (mstyle, MSTYLE_BORDER_BOTTOM);
 	if (!style_border_is_blank (border))
-		html_write_one_border_style_40 (fp, border, "border-bottom");
+		html_write_one_border_style_40 (output, border, "border-bottom");
 	border = mstyle_get_border (mstyle, MSTYLE_BORDER_LEFT);
 	if (!style_border_is_blank (border))
-		html_write_one_border_style_40 (fp, border, "border-left");
+		html_write_one_border_style_40 (output, border, "border-left");
 	border = mstyle_get_border (mstyle, MSTYLE_BORDER_RIGHT);
 	if (!style_border_is_blank (border))
-		html_write_one_border_style_40 (fp, border, "border-right");
+		html_write_one_border_style_40 (output, border, "border-right");
 }
 
 /*
  * write_cell:
  *
- * @fp: file
+ * @output: the stream
  * @sheet: the gnumeric sheet
  * @row: the row number
  * @col: the col number
@@ -329,7 +329,7 @@ html_write_border_style_40 (FILE *fp, MStyle *mstyle)
  */
 
 static void
-write_cell (FILE *fp, Sheet *sheet, gint row, gint col, html_version_t version)
+write_cell (GsfOutput *output, Sheet *sheet, gint row, gint col, html_version_t version)
 {
 	Cell *cell;
 	MStyle *mstyle;
@@ -340,7 +340,7 @@ write_cell (FILE *fp, Sheet *sheet, gint row, gint col, html_version_t version)
 	    mstyle_get_pattern (mstyle) != 0 &&
 	    mstyle_is_element_set (mstyle, MSTYLE_COLOR_BACK)) {
 		html_get_color (mstyle, MSTYLE_COLOR_BACK, &r, &g, &b);
-		fprintf (fp, " bgcolor=\"#%02X%02X%02X\"", r, g, b);
+		gsf_output_printf (output, " bgcolor=\"#%02X%02X%02X\"", r, g, b);
 	}
 
 	cell = sheet_cell_get (sheet, col, row);
@@ -348,33 +348,33 @@ write_cell (FILE *fp, Sheet *sheet, gint row, gint col, html_version_t version)
 
 		switch (mstyle_get_align_v (mstyle)) {
 		case VALIGN_TOP:
-			fputs (" valign=\"top\" ", fp);
+			gsf_output_puts (output, " valign=\"top\" ");
 			break;
 		case VALIGN_BOTTOM:
-			fputs(" valign=\"bottom\" ", fp);
+			gsf_output_puts (output, " valign=\"bottom\" ");
 			break;
 		case VALIGN_CENTER:
-			fputs(" valign=\"center\" ", fp);
+			gsf_output_puts (output, " valign=\"center\" ");
 			break;
 		case VALIGN_JUSTIFY:
-			fputs(" valign=\"baseline\" ", fp);
+			gsf_output_puts (output, " valign=\"baseline\" ");
 			break;
 		default:
 			break;
 		}
 		switch (style_default_halign(mstyle, cell)) {
 		case HALIGN_RIGHT:
-			fputs (" align=\"right\" ", fp);
+			gsf_output_puts (output, " align=\"right\" ");
 			break;
 		case HALIGN_CENTER:
 		case HALIGN_CENTER_ACROSS_SELECTION:
-			fputs (" align=\"center\" ", fp);
+			gsf_output_puts (output, " align=\"center\" ");
 			break;
 		case HALIGN_LEFT:
-			fputs (" align=\"left\" ", fp);
+			gsf_output_puts (output, " align=\"left\" ");
 			break;
 		case HALIGN_JUSTIFY:
-			fputs (" align=\"justify\" ", fp);
+			gsf_output_puts (output, " align=\"justify\" ");
 			break;
 		default:
 			break;
@@ -383,36 +383,36 @@ write_cell (FILE *fp, Sheet *sheet, gint row, gint col, html_version_t version)
 	}
 	if (version == HTML40 || version == HTML40F) {
 		if (mstyle != NULL) {
-			fprintf (fp, " style=\"");
+			gsf_output_printf (output, " style=\"");
 			if (mstyle_get_pattern (mstyle) != 0 &&
 			    mstyle_is_element_set (mstyle, MSTYLE_COLOR_BACK)) {
 				html_get_color (mstyle, MSTYLE_COLOR_BACK, &r, &g, &b);
-				fprintf (fp, "background:#%02X%02X%02X;", r, g, b);
+				gsf_output_printf (output, "background:#%02X%02X%02X;", r, g, b);
 			}
 			if (cell != NULL) {
 				gint size = (int) (mstyle_get_font_size (mstyle) + 0.5);
-				fprintf (fp, " font-size:%ipt;", size);
+				gsf_output_printf (output, " font-size:%ipt;", size);
 				html_get_text_color (cell, mstyle, &r, &g, &b);
 				if (r > 0 || g > 0 || b > 0)
-					fprintf (fp, " color:#%02X%02X%02X;", r, g, b);
+					gsf_output_printf (output, " color:#%02X%02X%02X;", r, g, b);
 				if(mstyle_get_content_hidden(mstyle))
-				  fputs(" visibility:hidden;",fp);
+				  gsf_output_puts (output, " visibility:hidden;",output);
 			}
 			
-			html_write_border_style_40 (fp, mstyle);
-			fprintf (fp, "\"");
+			html_write_border_style_40 (output, mstyle);
+			gsf_output_printf (output, "\"");
 		}
 	}
-	fprintf (fp, ">");
-	html_write_cell_content (fp, cell, mstyle, version);
-	fputs ("</td>\n", fp);
+	gsf_output_printf (output, ">");
+	html_write_cell_content (output, cell, mstyle, version);
+	gsf_output_puts (output, "</td>\n");
 }
 
 
 /*
  * write_row:
  *
- * @fp: file
+ * @output: the stream
  * @sheet: the gnumeric sheet
  * @row: the row number
  *
@@ -423,7 +423,7 @@ write_cell (FILE *fp, Sheet *sheet, gint row, gint col, html_version_t version)
  */
 
 static void
-write_row (FILE *fp, Sheet *sheet, gint row, Range *range, html_version_t version)
+write_row (GsfOutput *output, Sheet *sheet, gint row, Range *range, html_version_t version)
 {
 	gint col;
 	ColRowInfo const * ri;
@@ -442,8 +442,8 @@ write_row (FILE *fp, Sheet *sheet, gint row, Range *range, html_version_t versio
 		/* Is this a span */
 		the_span = row_span_get (ri, col);
 		if (the_span != NULL) {
-			fprintf (fp, "<td colspan=\"%i\" ", the_span->right - col + 1);
-			write_cell (fp, sheet, row, the_span->cell->pos.col, version);
+			gsf_output_printf (output, "<td colspan=\"%i\" ", the_span->right - col + 1);
+			write_cell (output, sheet, row, the_span->cell->pos.col, version);
 			col = the_span->right;
 			continue;
 		}
@@ -454,22 +454,22 @@ write_row (FILE *fp, Sheet *sheet, gint row, Range *range, html_version_t versio
 			if (merge_range->start.col != col ||
 			    merge_range->start.row != row)
 				continue;
-			fprintf (fp, "<td colspan=\"%i\" rowspan=\"%i\" ",
+			gsf_output_printf (output, "<td colspan=\"%i\" rowspan=\"%i\" ",
 				 merge_range->end.col - merge_range->start.col + 1,
 				 merge_range->end.row - merge_range->start.row + 1);
-			write_cell (fp, sheet, row, col, version);
+			write_cell (output, sheet, row, col, version);
 			col = merge_range->end.col;
 			continue;
 		}
-		fputs ("<td ", fp);
-		write_cell (fp, sheet, row, col, version);
+		gsf_output_puts (output, "<td ");
+		write_cell (output, sheet, row, col, version);
 	}
 }
 
 /*
  * write_sheet:
  *
- * @fp: file
+ * @output: the stream
  * @sheet: the gnumeric sheet
  *
  * set up a table and call write_row for each row
@@ -477,35 +477,35 @@ write_row (FILE *fp, Sheet *sheet, gint row, Range *range, html_version_t versio
  */
 
 static void
-write_sheet (FILE *fp, Sheet *sheet, html_version_t version)
+write_sheet (GsfOutput *output, Sheet *sheet, html_version_t version)
 {
 	Range total_range;
 	gint row;
 
 	switch (version) {
 	case HTML40:
-		fputs ("<p><table cellspacing=\"0\" cellpadding=\"3\">\n", fp);
+		gsf_output_puts (output, "<p><table cellspacing=\"0\" cellpadding=\"3\">\n");
 		break;
 	case XHTML:
-		fputs ("<p /><table cellspacing=\"0\" cellpadding=\"3\">\n", fp);
+		gsf_output_puts (output, "<p /><table cellspacing=\"0\" cellpadding=\"3\">\n");
 		break;
 	default:
-		fputs ("<p><table border=\"1\">\n", fp);
+		gsf_output_puts (output, "<p><table border=\"1\">\n");
 		break;
 	}
 	
-	fputs ("<caption>", fp);
-	html_print_encoded (fp, sheet->name_unquoted);
-	fputs ("</caption>\n", fp);
+	gsf_output_puts (output, "<caption>");
+	html_print_encoded (output, sheet->name_unquoted);
+	gsf_output_puts (output, "</caption>\n");
 
 	total_range = sheet_get_extent (sheet, TRUE);
 	for (row = total_range.start.row; row <=  total_range.end.row; row++) {
-		fputs ("<tr>\n", fp);
-		write_row (fp, sheet, row, &total_range, 
+		gsf_output_puts (output, "<tr>\n");
+		write_row (output, sheet, row, &total_range, 
 			   (version == XHTML) ? HTML40 : version);
-		fputs ("</tr>\n", fp);
+		gsf_output_puts (output, "</tr>\n");
 	}
-	fputs ("</table>\n", fp);
+	gsf_output_puts (output, "</table>\n");
 }
 
 /*
@@ -515,25 +515,18 @@ write_sheet (FILE *fp, Sheet *sheet, html_version_t version)
  */
 static void
 html_file_save (GnumFileSaver const *fs, IOContext *io_context,
-                  WorkbookView *wb_view, const gchar *file_name, html_version_t version)
+                  WorkbookView *wb_view, GsfOutput *output, html_version_t version)
 {
-	FILE *fp;
 	GList *sheets, *ptr;
 	Workbook *wb = wb_view_workbook (wb_view);
 	ErrorInfo *open_error;
 
 	g_return_if_fail (wb != NULL);
-	g_return_if_fail (file_name != NULL);
-
-	fp = gnumeric_fopen_error_info (file_name, "w", &open_error);
-	if (fp == NULL) {
-		gnumeric_io_error_info_set (io_context, open_error);
-		return;
-	}
+	g_return_if_fail (output != NULL);
 
 	switch (version) {
 	case HTML32:
-	fputs (
+	gsf_output_puts (output, 
 "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2//EN\">\n"
 "<html>\n"
 "<head>\n\t<title>Tables</title>\n"
@@ -552,10 +545,10 @@ html_file_save (GnumFileSaver const *fs, IOContext *io_context,
 "\ttext-align: left;\n"
 "}\n"
 "--></style>\n"
-"</head>\n<body>\n", fp);
+"</head>\n<body>\n");
 		break;
 	case HTML40:
-		fputs (
+		gsf_output_puts (output, 
 "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\"\n"
 "\t\t\"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html>\n"
@@ -575,10 +568,10 @@ html_file_save (GnumFileSaver const *fs, IOContext *io_context,
 "\ttext-align: left;\n"
 "}\n"
 "</style>\n"
-"</head>\n<body>\n", fp);
+"</head>\n<body>\n");
 		break;
 	case XHTML  :
-		fputs (
+		gsf_output_puts (output, 
 "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n"
 "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"\n"
 "\t\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n"
@@ -599,7 +592,7 @@ html_file_save (GnumFileSaver const *fs, IOContext *io_context,
 "\ttext-align: left;\n"
 "}\n"
 "</style>\n"
-"</head>\n<body>\n", fp);
+"</head>\n<body>\n");
 		break;
 	default:
 		break;
@@ -607,12 +600,11 @@ html_file_save (GnumFileSaver const *fs, IOContext *io_context,
 
 	sheets = workbook_sheets (wb);
 	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
-		write_sheet (fp, (Sheet *) ptr->data, version);
+		write_sheet (output, (Sheet *) ptr->data, version);
 	}
 	g_list_free (sheets);
 	if (version == HTML32 || version == HTML40 || version == XHTML)  
-		fputs ("</body>\n</html>\n", fp);
-	fclose (fp);
+		gsf_output_puts (output, "</body>\n</html>\n");
 }
 
 
@@ -622,9 +614,9 @@ html_file_save (GnumFileSaver const *fs, IOContext *io_context,
  */
 void
 html40_file_save (GnumFileSaver const *fs, IOContext *io_context,
-                  WorkbookView *wb_view, const gchar *file_name)
+                  WorkbookView *wb_view, GsfOutput *output)
 {
-	html_file_save (fs, io_context, wb_view, file_name, HTML40);
+	html_file_save (fs, io_context, wb_view, output, HTML40);
 }
 
 /*
@@ -633,9 +625,9 @@ html40_file_save (GnumFileSaver const *fs, IOContext *io_context,
  */
 void
 html32_file_save (GnumFileSaver const *fs, IOContext *io_context,
-                  WorkbookView *wb_view, const gchar *file_name)
+                  WorkbookView *wb_view, GsfOutput *output)
 {
-	html_file_save (fs, io_context, wb_view, file_name, HTML32);
+	html_file_save (fs, io_context, wb_view, output, HTML32);
 }
 
 /*
@@ -644,9 +636,9 @@ html32_file_save (GnumFileSaver const *fs, IOContext *io_context,
  */
 void
 html40frag_file_save (GnumFileSaver const *fs, IOContext *io_context,
-                  WorkbookView *wb_view, const gchar *file_name)
+                  WorkbookView *wb_view, GsfOutput *output)
 {
-	html_file_save (fs, io_context, wb_view, file_name, HTML40F);
+	html_file_save (fs, io_context, wb_view, output, HTML40F);
 }
 /*
  * write every sheet of the workbook to an xhtml 1.0 table
@@ -655,8 +647,8 @@ html40frag_file_save (GnumFileSaver const *fs, IOContext *io_context,
 
 void
 xhtml_file_save (GnumFileSaver const *fs, IOContext *io_context,
-                  WorkbookView *wb_view, const gchar *file_name)
+                  WorkbookView *wb_view, GsfOutput *output)
 {
-	html_file_save (fs, io_context, wb_view, file_name, XHTML);
+	html_file_save (fs, io_context, wb_view, output, XHTML);
 }
 

@@ -41,7 +41,7 @@
  * escape special characters .. needs work
  */
 static int
-roff_fprintf (FILE *fp, const Cell *cell)
+roff_fprintf (GsfOutput *output, const Cell *cell)
 {
 	int len, i;
 	const char *p;
@@ -61,13 +61,13 @@ roff_fprintf (FILE *fp, const Cell *cell)
 	for (i = 0; i < len; i++) {
 		switch (*p) {
 			case '.':
-				fprintf (fp, "\\.");
+				gsf_output_printf (output, "\\.");
 				break;
 			case '\\':
-				fprintf (fp, "\\\\");
+				gsf_output_printf (output, "\\\\");
 				break;
 			default:
-				fprintf (fp, "%c", *p);
+				gsf_output_printf (output, "%c", *p);
 				break;
 		}
 		p++;
@@ -85,7 +85,7 @@ roff_fprintf (FILE *fp, const Cell *cell)
  * FIXME: Should roff quote sheet name (and everything else)
  */
 static void
-write_wb_roff (IOContext *io_context, WorkbookView *wb_view, FILE *fp)
+write_wb_roff (IOContext *io_context, WorkbookView *wb_view, GsfOutput *output)
 {
 	GList *sheets, *ptr;
 	Cell *cell;
@@ -94,16 +94,16 @@ write_wb_roff (IOContext *io_context, WorkbookView *wb_view, FILE *fp)
 
 	g_return_if_fail (wb != NULL);
 
-	fprintf (fp, ".\\\" TROFF file\n");
-	fprintf (fp, ".fo ''%%''\n");
+	gsf_output_printf (output, ".\\\" TROFF file\n");
+	gsf_output_printf (output, ".fo ''%%''\n");
 	sheets = workbook_sheets (wb);
 	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
 		Sheet *sheet = ptr->data;
 		Range r = sheet_get_extent (sheet, FALSE);
 
-		fprintf (fp, "%s\n\n", sheet->name_unquoted);
-		fprintf (fp, ".TS H\n");
-		fprintf (fp, "allbox;\n");
+		gsf_output_printf (output, "%s\n\n", sheet->name_unquoted);
+		gsf_output_printf (output, ".TS H\n");
+		gsf_output_printf (output, "allbox;\n");
 
 		for (row = r.start.row; row <= r.end.row; row++) {
 			ColRowInfo const * ri;
@@ -112,110 +112,84 @@ write_wb_roff (IOContext *io_context, WorkbookView *wb_view, FILE *fp)
 				row_calc_spans ((ColRowInfo *) ri, sheet);
 
 			if (row > r.start.row)
-				fprintf (fp, ".T&\n");
+				gsf_output_printf (output, ".T&\n");
 			/* define alignments, bold etc. per cell */
 			v_size = DEFSIZE;
 			for (col = r.start.col; col <= r.end.col; col++) {
 				cell = sheet_cell_get (sheet, col, row);
 				if (col > r.start.col)
-					fprintf (fp, " ");
+					gsf_output_printf (output, " ");
 				if (!cell) {
-					fprintf (fp, "l");
+					gsf_output_printf (output, "l");
 				} else {
 					MStyle *mstyle = cell_get_mstyle (cell);
 					if (!mstyle)
 						break;
 					if (mstyle_get_align_h (mstyle) & HALIGN_RIGHT)
-						fprintf (fp, "r");
+						gsf_output_printf (output, "r");
 					else if (mstyle_get_align_h (mstyle) == HALIGN_CENTER ||
 						 /* FIXME : center across selection is different */
 						 mstyle_get_align_h (mstyle) == HALIGN_CENTER_ACROSS_SELECTION)
-						fprintf (fp, "c");
+						gsf_output_printf (output, "c");
 					else
-						fprintf (fp, "l");
+						gsf_output_printf (output, "l");
 					if (font_is_monospaced (mstyle)) {
 						if (mstyle_get_font_bold (mstyle) &&
 						    mstyle_get_font_italic (mstyle))
-							fprintf (fp, "fCBI");
+							gsf_output_printf (output, "fCBI");
 						else if (mstyle_get_font_bold (mstyle))
-							fprintf (fp, "fCB");
+							gsf_output_printf (output, "fCB");
 						else if (mstyle_get_font_italic (mstyle))
-							fprintf (fp, "fCI");
+							gsf_output_printf (output, "fCI");
 						else
-							fprintf (fp, "fCR");
+							gsf_output_printf (output, "fCR");
 					} else if (font_is_helvetica (mstyle)) {
 						if (mstyle_get_font_bold (mstyle) &&
 						    mstyle_get_font_italic (mstyle))
-							fprintf (fp, "fHBI");
+							gsf_output_printf (output, "fHBI");
 						else if (mstyle_get_font_bold (mstyle))
-							fprintf (fp, "fHB");
+							gsf_output_printf (output, "fHB");
 						else if (mstyle_get_font_italic (mstyle))
-							fprintf (fp, "fHI");
+							gsf_output_printf (output, "fHI");
 						else
-							fprintf (fp, "fHR");
+							gsf_output_printf (output, "fHR");
 					} else {
 						/* default is times */
 						if (mstyle_get_font_bold (mstyle) &&
 						    mstyle_get_font_italic (mstyle))
-							fprintf (fp, "fTBI");
+							gsf_output_printf (output, "fTBI");
 						else if (mstyle_get_font_bold (mstyle))
-							fprintf (fp, "fTB");
+							gsf_output_printf (output, "fTB");
 						else if (mstyle_get_font_italic (mstyle))
-							fprintf (fp, "fTI");
+							gsf_output_printf (output, "fTI");
 					}
 					fontsize = mstyle_get_font_size (mstyle);
 					if (fontsize) {
-						fprintf (fp, "p%d", fontsize);
+						gsf_output_printf (output, "p%d", fontsize);
 						v_size = v_size > fontsize ? v_size :
 							fontsize;
 					}
 				}
 			}
-			fprintf (fp, ".\n");
-			fprintf (fp, ".vs %.2fp\n", 2.5 + (float)v_size);
+			gsf_output_printf (output, ".\n");
+			gsf_output_printf (output, ".vs %.2fp\n", 2.5 + (float)v_size);
 			for (col = r.start.col; col <= r.end.col;  col++) {
 				if (col > r.start.col)
-					fprintf (fp, "\t");
+					gsf_output_printf (output, "\t");
 				cell = sheet_cell_get (sheet, col, row);
 				if (!cell) {	/* empty cell */
-					fprintf (fp, " ");
+					gsf_output_printf (output, " ");
 				} else {
-					roff_fprintf (fp, cell);
+					roff_fprintf (output, cell);
 				}
 			}
-			fprintf (fp, "\n");
+			gsf_output_printf (output, "\n");
 			if (row == r.start.row)
-				fprintf (fp, ".TH\n");
+				gsf_output_printf (output, ".TH\n");
 		}
-		fprintf (fp, ".TE\n\n");
+		gsf_output_printf (output, ".TE\n\n");
 	}
 	g_list_free (sheets);
-}
-
-/*
- * write sheets to a DVI file using groff as filter
- */
-void
-roff_dvi_file_save (GnumFileSaver const *fs, IOContext *io_context,
-                    WorkbookView *wb_view, const gchar *file_name)
-{
-	FILE *fp;
-	char *cmd;
-
-	g_return_if_fail (wb_view != NULL);
-	g_return_if_fail (file_name != NULL);
-
-	cmd = g_strdup_printf ("groff -me -t -Tdvi - > %s", file_name);
-	fp = popen (cmd, "w");
-	g_free (cmd);
-	if (fp == NULL) {
-		gnumeric_io_error_info_set (io_context, error_info_new_str_with_details (
-		                            _("Error executing groff."),
-		                            error_info_new_from_errno ()));
-		return;
-	}
-	write_wb_roff (io_context, wb_view, fp);
-	pclose (fp);
 }
 
 /*
@@ -223,19 +197,12 @@ roff_dvi_file_save (GnumFileSaver const *fs, IOContext *io_context,
  */
 void
 roff_file_save (GnumFileSaver const *fs, IOContext *io_context,
-                WorkbookView *wb_view, const gchar *file_name)
+                WorkbookView *wb_view, GsfOutput *output)
 {
-	FILE *fp;
 	ErrorInfo *error;
 
 	g_return_if_fail (wb_view != NULL);
-	g_return_if_fail (file_name != NULL);
+	g_return_if_fail (output != NULL);
 
-	fp = gnumeric_fopen_error_info (file_name, "w", &error);
-	if (fp == NULL) {
-		gnumeric_io_error_info_set (io_context, error);
-		return;
-	}
-	write_wb_roff (io_context, wb_view, fp);
-	fclose (fp);
+	write_wb_roff (io_context, wb_view, output);
 }
