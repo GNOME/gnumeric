@@ -1,3 +1,8 @@
+1999-12-29  Ariel Rios  <jarios@usa.net>
+
+	* gnumeric_startup.scm (home-gnumericrc): We change the location of the home
+	  gnumericrc to $HOME/.gnumerc/guile.scm
+
 1999-12-18  Ariel Rios <jarios@usa.net>
 
 	* functions.scm: THe formula redefinitions for sign, lcm and gcd were commented.

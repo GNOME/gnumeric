@@ -1,3 +1,7 @@
+1999-12-29  Ariel Rios  <jarios@usa.net>
+
+	* doc/guile-gnumeric.txt: Documentation for the guile plugin was added.
+
 1999-12-29  Jody Goldberg <jgoldberg@home.com>
 
 	* src/main.c : Include print-info.h to suppess some warnings.
