@@ -4550,25 +4550,33 @@ pbeta1 (gnm_float x, const gnm_float shape[],
 
 
 gnm_float
-qbeta (gnm_float alpha, gnm_float p, gnm_float q, gboolean lower_tail, gboolean log_p)
+qbeta (gnm_float p, gnm_float pin, gnm_float qin, gboolean lower_tail, gboolean log_p)
 {
 	gnm_float x0, shape[2];
 
 #ifdef IEEE_754
-	if (isnangnum(p) || isnangnum(q) || isnangnum(alpha))
-		return p + q + alpha;
+	if (isnangnum (pin) || isnangnum (qin) || isnangnum (p))
+		return pin + qin + p;
 #endif
-	R_Q_P01_check(alpha);
+	R_Q_P01_check (p);
 
-	if(p < 0. || q < 0.) ML_ERR_return_NAN;
+	if (pin < 0. || qin < 0.) ML_ERR_return_NAN;
 
-	shape[0] = p;
-	shape[1] = q;
-	x0 = powgnum (alpha, 1 / (p + 1)) *
-		powgnum (p, (p + 2) / (p + 1)) /
-		q;
+	/*
+	 * For small pin, p seems to have exponent 1, for large pin, it
+	 * seems more like 0.
+	 *
+	 * For small pin, pin itself seems to have exponent 2, for large pin,
+	 * it is more like 1.
+	 */
+	x0 = powgnum (R_DT_qIv (p), 1 / (pin + 1)) *
+		powgnum (pin, (pin + 2) / (pin + 1)) /
+		qin;
 	x0 /= (1 + x0);
-	return pfuncinverter (alpha, shape, lower_tail, log_p, 0, 1, x0,
+
+	shape[0] = pin;
+	shape[1] = qin;
+	return pfuncinverter (p, shape, lower_tail, log_p, 0, 1, x0,
 			      pbeta1, dbeta1);
 }
 
