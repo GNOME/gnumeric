@@ -1,3 +1,12 @@
+2001-07-15  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/workbook-control-gui.c:
+	(send_menu_item): Defined static string instead of SEND_MENU_ITEM macro
+	to avoid backslashes, added _tip property.
+	(send_menu_item_i18n): Array of strings from send_menu_item intended for
+	localization (i18n tools can't extract strings from XML inside .c file).
+	(workbook_control_gui_init): Adjusted.
+
 2001-07-15  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_freeze_panes) : Avoid double calling set_panes.

@@ -3606,11 +3606,17 @@ show_gui (WorkbookControlGUI *wbcg)
 	return FALSE;
 }
 
-#define SEND_MENU_ITEM 							\
-"<placeholder name=\"FileOperations\">"					\
-"  <menuitem name=\"FileSend\" _label=\"Send\""				\
-"            pixtype=\"stock\" pixname=\"New Mail\" verb=\"\"/>"	\
-"</placeholder>"
+#ifdef ENABLE_EVOLUTION
+static gchar send_menu_item[] =
+"<placeholder name=\"FileOperations\">"
+"  <menuitem name=\"FileSend\" _label=\"Send\""
+"            _tip=\"Send the current file in email\""
+"            pixtype=\"stock\" pixname=\"New Mail\" verb=\"\"/>"
+"</placeholder>";
+#ifdef TRANSLATORS_ONLY
+static gchar *send_menu_item_i18n[] = {N_("Send"), N_("Send the current file in email")};
+#endif
+#endif
 
 void
 workbook_control_gui_init (WorkbookControlGUI *wbcg,
@@ -3719,7 +3725,7 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	}
 #ifdef ENABLE_EVOLUTION
 	bonobo_ui_component_set_translate (wbcg->uic, "/menu/File",
-					   SEND_MENU_ITEM, NULL);
+	                                   send_menu_item, NULL);
 #endif
 
 	TOGGLE_REGISTER (display_formulas, SheetDisplayFormulas);
