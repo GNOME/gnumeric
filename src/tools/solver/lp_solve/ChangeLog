@@ -1,3 +1,17 @@
+2002-03-09  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* lpkit.c (str_set_obj_fn): removed.
+	(str_add_constraint): removed.
+	(del_constraint): removed.
+	(str_add_column): removed.
+	(del_column): removed.
+	(write_LP): removed.
+	(print_duals): removed.
+	(str_add_lag_con): removed.
+	(add_column): removed.
+	(get_column): removed.
+	(print_scales): removed.
+
 2002-03-07  Morten Welinder  <terra@diku.dk>
 
 	* lpkit.h (_lprec): Change must_be_int, ch_sign, lower, and basis

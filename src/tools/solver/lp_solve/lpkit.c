@@ -177,7 +177,7 @@ lp_solve_delete_lp (lprec *lp)
 	g_free (lp);
 }  
 
-void
+static void
 inc_mat_space (lprec *lp, int maxextra)
 {
         if (lp->non_zeros + maxextra >= lp->mat_alloc) {
@@ -194,7 +194,7 @@ inc_mat_space (lprec *lp, int maxextra)
 	}
 }
  
-void
+static void
 inc_row_space (lprec *lp)
 {
         if (lp->rows > lp->rows_alloc) {
@@ -235,7 +235,7 @@ inc_row_space (lprec *lp)
 	}
 }
 
-void
+static void
 inc_col_space (lprec *lp)
 {
         if (lp->columns >= lp->columns_alloc) {
@@ -364,27 +364,6 @@ set_mat (lprec *lp, int Row, int Column, gnum_float Value)
 	}
 }
 
-#if 0
-void
-str_set_obj_fn (lprec *lp, char *row)
-{
-        int  i;
-	gnum_float *arow;
-	char *p, *newp;
-	arow = g_new (gnum_float, lp->columns + 1);
-	p = row;
-	for (i = 1; i <= lp->columns; i++) {
-	        arow[i] = strtognum (p, &newp);
-		if (p == newp)
-		        g_print ("Bad string in str_set_obj_fn");
-		else
-		        p = newp; 
-	}
-	lp_solve_set_obj_fn (lp, arow);
-	g_free (arow);
-}
-#endif
-
 void
 lp_solve_add_constraint (lprec *lp, gnum_float *row,
 			 SolverConstraintType constr_type,
@@ -495,91 +474,7 @@ lp_solve_add_constraint (lprec *lp, gnum_float *row,
 	lp->eta_valid = FALSE;
 }
 
-#if 0
-void
-str_add_constraint (lprec *lp,
-		    char *row_string,
-		    SolverConstraintType constr_type,
-		    gnum_float rh)
-{
-        int        i;
-	gnum_float *aRow;
-	char       *p, *newp;
-
-	aRow = g_new (gnum_float, lp->columns + 1);
-	p    = row_string;
- 
-	for (i = 1; i <= lp->columns; i++) {
-	        aRow[i] = strtognum (p, &newp);
-		if (p == newp)
-		        g_print ("Bad string in str_add_constr");
-		else
-		        p = newp; 
-	}
-	lp_solve_add_constraint (lp, aRow, constr_type, rh);
-	g_free (aRow);
-}
-
-void
-del_constraint (lprec *lp, int del_row)
-{
-        int      i, j;
-	unsigned elmnr;
-	int      startcol;
-
-	if (del_row < 1 || del_row > lp->rows) {
-	        fprintf (stderr, "There is no constraint nr. %d\n", del_row);
-		exit (EXIT_FAILURE);
-	}
-
-	elmnr    = 0;
-	startcol = 0;
-
-	for (i = 1; i <= lp->columns; i++) {
-	        for (j = startcol; j < lp->col_end[i]; j++) {
-		        if (lp->mat[j].row_nr != del_row) {
-			        lp->mat[elmnr] = lp->mat[j];
-				if (lp->mat[elmnr].row_nr > del_row)
-				        lp->mat[elmnr].row_nr--;
-				elmnr++;
-			}
-			else
-			        lp->non_zeros--;
-		}
-		startcol = lp->col_end[i];
-		lp->col_end[i] = elmnr;
-	}
-	for (i = del_row; i < lp->rows; i++) {
-	        lp->orig_rh[i] = lp->orig_rh[i + 1];
-		lp->ch_sign[i] = lp->ch_sign[i + 1];
-		lp->bas[i] = lp->bas[i + 1];
-		if (lp->names_used)
-		        strcpy (lp->row_name[i], lp->row_name[i + 1]);
-	}
-	for (i = 1; i < lp->rows; i++)
-	        if (lp->bas[i] >  del_row)
-		        lp->bas[i]--;
-
-	for (i = del_row; i < lp->sum; i++) {
-	        lp->lower[i] = lp->lower[i + 1];
-		lp->basis[i] = lp->basis[i + 1];
-		lp->orig_upbo[i] = lp->orig_upbo[i + 1];
-		lp->orig_lowbo[i] = lp->orig_lowbo[i + 1];
-		lp->must_be_int[i] = lp->must_be_int[i + 1];
-		if (lp->scaling_used)
-		        lp->scale[i] = lp->scale[i + 1];
-	}
-
-	lp->rows--;
-	lp->sum--;
-
-	lp->row_end_valid = FALSE;
-	lp->eta_valid     = FALSE;
-	lp->basis_valid   = FALSE; 
-}
-#endif
-
-void
+static void
 add_lag_con (lprec *lp, gnum_float *row, SolverConstraintType con_type,
 	     gnum_float rhs)
 {
@@ -623,140 +518,6 @@ add_lag_con (lprec *lp, gnum_float *row, SolverConstraintType con_type,
 	lp->lambda[lp->nr_lagrange-1] = 0;
 	lp->lag_con_type[lp->nr_lagrange-1]=(con_type == SolverEQ);
 }
-
-void
-str_add_lag_con (lprec *lp, char *row, SolverConstraintType con_type,
-		 gnum_float rhs)
-{
-        int        i;
-	gnum_float *a_row;
-	char       *p, *new_p;
-
-	a_row = g_new (gnum_float, lp->columns + 1);
-	p     = row;
- 
-	for (i = 1; i <= lp->columns; i++) {
-	        a_row[i] = strtognum (p, &new_p);
-		if (p == new_p)
-		        g_print ("Bad string in str_add_lag_con");
-		else
-		        p = new_p; 
-	}
-	add_lag_con (lp, a_row, con_type, rhs);
-	g_free (a_row);
-}
-
-void
-add_column (lprec *lp, gnum_float *column)
-{
-        int i, elmnr;
-
-	/* if the column has only one entry, this should be handled as
-	 * a bound, but this currently is not the case */
-
-	lp->columns++;
-	lp->sum++;
-	inc_col_space (lp);
-	inc_mat_space (lp, lp->rows + 1);
-
-	if (lp->scaling_used) {
-	        for (i = 0; i <= lp->rows; i++)
-		        column[i] *= lp->scale[i];
-		lp->scale[lp->sum] = 1;
-	}
-
-	elmnr = lp->col_end[lp->columns - 1];
-	for (i = 0 ; i <= lp->rows ; i++)
-	        if (column[i] != 0) {
-		        lp->mat[elmnr].row_nr = i;
-			if (lp->ch_sign[i])
-			        lp->mat[elmnr].value = -column[i];
-			else
-			        lp->mat[elmnr].value = column[i];
-			lp->non_zeros++;
-			elmnr++;
-		}
-	lp->col_end[lp->columns] = elmnr;
-	lp->orig_lowbo[lp->sum] = 0;
-	lp->orig_upbo[lp->sum] = lp->infinite;
-	lp->lower[lp->sum] = TRUE;
-	lp->basis[lp->sum] = FALSE;
-	lp->must_be_int[lp->sum] = FALSE;
-	if (lp->names_used)
-	        sprintf (lp->col_name[lp->columns], "var_%d", lp->columns);
- 
-	lp->row_end_valid = FALSE;
-}
-
-#if 0
-void
-str_add_column (lprec *lp, char *col_string)
-{
-        int        i;
-	gnum_float *aCol;
-	char       *p, *newp;
-
-	aCol = g_new (gnum_float, lp->rows + 1);
-	p    = col_string;
- 
-	for (i = 0; i <= lp->rows; i++) {
-	        aCol[i] = strtognum (p, &newp);
-		if (p == newp)
-		        g_print ("Bad string in str_add_column");
-		else
-		        p = newp; 
-	}
-	add_column (lp, aCol);
-	g_free (aCol);
-}
-
-void
-del_column (lprec *lp, int column)
-{
-        int i, j, from_elm, to_elm, elm_in_col;
-
-	if (column > lp->columns || column < 1)
-	        g_print ("Column out of range in del_column");
-	for (i = 1; i <= lp->rows; i++) {
-	        if (lp->bas[i] == lp->rows + column)
-		        lp->basis_valid = FALSE;
-		else if (lp->bas[i] > lp->rows + column)
-		        lp->bas[i]--;
-	}
-	for (i = lp->rows + column; i < lp->sum; i++) {
-	        if (lp->names_used)
-		        strcpy (lp->col_name[i - lp->rows],
-				lp->col_name[i - lp->rows + 1]);
-		lp->must_be_int[i] = lp->must_be_int[i + 1];
-		lp->orig_upbo[i] = lp->orig_upbo[i + 1];
-		lp->orig_lowbo[i] = lp->orig_lowbo[i + 1];
-		lp->upbo[i] = lp->upbo[i + 1];
-		lp->lowbo[i] = lp->lowbo[i + 1];
-		lp->basis[i] = lp->basis[i + 1];
-		lp->lower[i] = lp->lower[i + 1];
-		if (lp->scaling_used)
-		        lp->scale[i] = lp->scale[i + 1];
-	}
-	for (i = 0; i < lp->nr_lagrange; i++)
-	        for (j = column; j <= lp->columns; j++)
-		        lp->lag_row[i][j] = lp->lag_row[i][j+1];
-	to_elm = lp->col_end[column-1];
-	from_elm = lp->col_end[column];
-	elm_in_col = from_elm-to_elm;
-	for (i = from_elm; i < lp->non_zeros; i++) {
-	        lp->mat[to_elm] = lp->mat[i];
-		to_elm++;
-	}
-	for (i = column; i < lp->columns; i++)
-	        lp->col_end[i] = lp->col_end[i + 1] - elm_in_col;
-	lp->non_zeros -= elm_in_col;
-	lp->row_end_valid = FALSE;
-	lp->eta_valid = FALSE;
-
-	lp->sum--;
-	lp->columns--;
-}
-#endif
 
 void
 set_upbo (lprec *lp, int column, gnum_float value)
@@ -963,7 +724,6 @@ mat_elm (lprec *lp, int row, int column)
 	return (value);
 }
 
-
 void
 get_row (lprec *lp, int row_nr, gnum_float *row)
 {
@@ -983,27 +743,6 @@ get_row (lprec *lp, int row_nr, gnum_float *row)
 	        for (i = 0; i <= lp->columns; i++)
 		        if (row[i] != 0)
 			        row[i] = -row[i];
-}
-
-void
-get_column (lprec *lp, int col_nr, gnum_float *column)
-{
-        int i;
-
-	if (col_nr < 1 || col_nr > lp->columns)
-	        g_print ("Col. nr. out of range in get_column");
-	for (i = 0; i <= lp->rows; i++)
-	        column[i] = 0;
-	for (i = lp->col_end[col_nr - 1]; i < lp->col_end[col_nr]; i++)
-	        column[lp->mat[i].row_nr] = lp->mat[i].value;
-	for (i = 0; i <= lp->rows; i++)
-	        if (column[i] != 0) {
-		        if (lp->ch_sign[i])
-			        column[i] *= -1;
-			if (lp->scaling_used)
-			        column[i] /= (lp->scale[i] *
-					      lp->scale[lp->rows + col_nr]);
-		}
 }
 
 void
@@ -1488,108 +1227,9 @@ print_solution (lprec *lp)
 }
 
 #if 0
-void
-write_LP (lprec *lp, FILE *output)
-{
-        int        i, j;
-	gnum_float *row;
-	
-	row = g_new (gnum_float, lp->columns+1);
-	if (lp->maximise)
-	        fprintf (output, "max:");
-	else
-	        fprintf (output, "min:");
-
-	get_row (lp, 0, row);
-	for (i = 1; i <= lp->columns; i++)
-	        if (row[i] != 0) {
-		        if (row[i] == -1)
-			        fprintf (output, " -");
-			else if (row[i] == 1)
-			        fprintf (output, " +");
-			else 
-			        fprintf (output, " %+g ", (double)row[i]);
-			if (lp->names_used)
-			        fprintf (output, "%s", lp->col_name[i]);
-			else
-			        fprintf (output, "x%d", i);
-		}
-	fprintf (output, ";\n");
-
-	for (j = 1; j <= lp->rows; j++) {
-	        if (lp->names_used)
-		        fprintf (output, "%s:", lp->row_name[j]);
-		get_row (lp, j, row);
-		for (i = 1; i <= lp->columns; i++)
-		        if (row[i] != 0) {
-			        if (row[i] == -1)
-				        fprintf (output, " -");
-				else if (row[i] == 1)
-				        fprintf (output, " +");
-				else 
-			  	        fprintf (output, " %+g ",
-						 (double)row[i]);
-				if (lp->names_used)
-				        fprintf (output, "%s",
-						 lp->col_name[i]);
-				else
-				        fprintf (output, "x%d", i);
-			}
-		if (lp->orig_upbo[j] == 0)
-		        fprintf (output, " =");
-		else if (lp->ch_sign[j])
-		        fprintf (output, " >");
-		else
-		        fprintf (output, " <");
-		if (lp->ch_sign[j])
-		        fprintf (output, " %16g;\n", (double)-lp->orig_rh[j]);
-		else
-		        fprintf (output, " %16g;\n", (double)lp->orig_rh[j]);
-	}
-	for (i = lp->rows + 1; i <= lp->sum; i++) {
-	        if (lp->orig_lowbo[i] != 0) {
-		        if (lp->names_used)
-			        fprintf (output, "%s > %16g;\n",
-					 lp->col_name[i - lp->rows],
-					 (double)lp->orig_lowbo[i]);
-			else
-			        fprintf (output, "x%d > %16g;\n", i - lp->rows,
-					 (double)lp->orig_lowbo[i]);
-		}
-		if (lp->orig_upbo[i] != lp->infinite) {
-		        if (lp->names_used)
-			        fprintf (output, "%s < %16g;\n",
-					 lp->col_name[i - lp->rows],
-					 (double)lp->orig_upbo[i]);
-			else
-			        fprintf (output, "x%d < %16g;\n", i - lp->rows,
-					 (double)lp->orig_upbo[i]);
-		}
-	}
-
-	i = 1;
-	while (!lp->must_be_int[lp->rows + i]  && i <= lp->columns)
-	        i++;
-	if (i <= lp->columns) {
-	        if (lp->names_used)  
-		        fprintf (output, "\nint %s", lp->col_name[i]);
-		else
-		        fprintf (output, "\nint x%d", i);
-		i++;
-		for (; i <= lp->columns; i++)
-		        if (lp->must_be_int[lp->rows + i]) {
-			        if (lp->names_used)  
-				        fprintf (output, ",%s",
-						 lp->col_name[i]);
-				else
-				        fprintf (output, ", x%d", i);
-			}
-		fprintf (output, ";\n");
-	}
-	g_free (row);
-}
-
-
+/* We may reuse some of the code in the MPS plugin if we implement also the
+ * exporting.
+ */
 void
 write_MPS (lprec *lp, FILE *output)
 {
@@ -1817,32 +1457,5 @@ write_MPS (lprec *lp, FILE *output)
 			}
 	fprintf (output, "ENDATA\n");
 	g_free (column);
-}
-
-void
-print_duals (lprec *lp)
-{
-        int i;
-	for (i = 1; i <= lp->rows; i++)
-	        if (lp->names_used)
-		        fprintf (stdout, "%s [%d] %g\n", lp->row_name[i], i,
-				 (double)lp->duals[i]);
-		else
-		        fprintf (stdout,
-				 "Dual [%d] %g\n", i, (double)lp->duals[i]);
-}
-
-void
-print_scales (lprec *lp)
-{
-        int i;
-	if (lp->scaling_used) {
-	        for (i = 0; i <= lp->rows; i++)
-		        fprintf (stdout, "Row[%d]    scaled at %g\n", i,
-				 (double) lp->scale[i]);
-		for (i = 1; i <= lp->columns; i++)
-		        fprintf (stdout, "Column[%d] scaled at %g\n", i,
-				 (double)lp->scale[lp->rows + i]);
-	}
 }
 #endif

@@ -937,10 +937,10 @@ solvelp (lprec *lp)
 	Pcol = g_new0 (gnum_float, lp->rows + 1);
 
 	lp->iter = 0;
-	minit = FALSE;
-	Status = SOLVER_LP_RUNNING;
+	minit    = FALSE;
+	Status   = SOLVER_LP_RUNNING;
 	DoInvert = FALSE;
-	Doiter = FALSE;
+	Doiter   = FALSE;
 
 	for (i = 1, primal = TRUE; (i <= lp->rows) && primal; i++)
 	        primal = (lp->rhs[i] >= 0)
@@ -1302,8 +1302,8 @@ milpsolve (lprec      *lp,
 	   int        *sbas,
 	   gboolean   recursive)
 {
-        int i, j, failure, is_worse;
-	int notint = -1;
+        int        i, j, failure, is_worse;
+	int        notint = -1;
 	gnum_float theta, tmpreal;
 
 	if (Break_bb)
@@ -1756,8 +1756,9 @@ lp_solve_solve (lprec *lp)
 	}
 
 	/* if we get here, isvalid(lp) failed. I suggest we return
-	 * SOLVER_LP_FAILURE */
-	fprintf (stderr, "Error, the current LP seems to be invalid\n");
+	 * SOLVER_LP_FAILURE
+	 * fprintf (stderr, "Error, the current LP seems to be invalid\n");
+	 */
 	return (SOLVER_LP_FAILURE);
 } /* solve */
 

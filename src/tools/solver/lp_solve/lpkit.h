@@ -321,9 +321,6 @@ void       str_add_constraint (lprec *lp, char *row_string,
 			       gnum_float rh);
 /* The same, but with string input */
 
-void       del_constraint (lprec *lp,int del_row);
-/* Remove constrain nr del_row from the problem */
-
 void       add_lag_con (lprec *lp, gnum_float *row,
 			SolverConstraintType con_type, gnum_float rhs);
 /* add a Lagrangian constraint of form Row' x contype Rhs */
