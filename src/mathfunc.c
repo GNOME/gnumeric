@@ -4448,3 +4448,36 @@ mmult (gnum_float *A, gnum_float *B, int cols_a, int rows_a, int cols_b,
 		}
 	}
 }
+
+void
+stern_brocot (float val, int max_denom, int *res_num, int *res_denom)
+{
+        int an = 0, ad = 1;
+	int bn = 1, bd = 1;
+	int n, d;
+	float sp, delta;
+
+	while ((d = ad + bd) <= max_denom) {
+	        sp = 1e-5 * d;/* Quick and dirty,  do adaptive later */
+		n = an + bn;
+		delta = val * d - n;
+		if (delta > sp) {
+		        an = n;
+			ad = d;
+		} else if (delta < -sp) {
+		        bn = n;
+			bd = d;
+		} else {
+		        *res_num = n;
+			*res_denom = d;
+			return;
+		}
+	}
+	if (bd > max_denom || fabs (val * ad - an) < fabs (val * bd - bn)) {
+	        *res_num = an;
+		*res_denom = ad;
+	} else {
+	        *res_num = bn;
+		*res_denom = bd;
+	}
+}
