@@ -1,3 +1,10 @@
+2001-07-14  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_handle_motion) : support
+	  reverse scroll for things that started the drag adjacent.  That is
+	  about as clear as mud, see the deleted BUG entry.
+	(gsheet_sliding_callback) : ditto.
+
 2001-07-14  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/error-info.[ch]

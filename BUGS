@@ -13,7 +13,7 @@ Release Critical
 	    : XL
     - Sheet objects
 	    : display a view per Pane not per scg
-	    : fix autoscroll to not limit motion to col/row bounds
+	    : Fix exit order to delete the views before the scg
 
 Pending Patches
 ---------------
@@ -35,12 +35,6 @@ Long term breakage
       (is edit bottom-right of freeze or top left of unfrozen)
     : GUI handling of freezing center if the current pos it at the top left.
     : cursor dragging only affects src pane.
-    : autoscroll 
-	* needs work when going from pane 2 past right of pane 3 to scroll then
-	  coming back to pane 2.  That should scroll pane 3 to the left to feel
-	  more natural.
-	* When going left/up from pane0 in big leaps and landing in the frozen
-	  area we should scroll pane0 back to top.
 
 - support negative durations with [h]
 

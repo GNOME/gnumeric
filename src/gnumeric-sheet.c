@@ -1203,7 +1203,7 @@ gsheet_sliding_callback (gpointer data)
 		}
 	} else if (gsheet->sliding_dx < 0) {
 		slide_x = TRUE;
-		col = gsheet->col.first - col_scroll_step (-gsheet->sliding_dx);
+		col = gsheet0->col.first - col_scroll_step (-gsheet->sliding_dx);
 
 		if (gsheet2 != NULL) {
 			if (pane_index == 0 || pane_index == 3) {
@@ -1256,7 +1256,7 @@ gsheet_sliding_callback (gpointer data)
 		}
 	} else if (gsheet->sliding_dy < 0) {
 		slide_y = TRUE;
-		row = gsheet->row.first - row_scroll_step (-gsheet->sliding_dy);
+		row = gsheet0->row.first - row_scroll_step (-gsheet->sliding_dy);
 
 		if (gsheet2 != NULL) {
 			if (pane_index == 0 || pane_index == 1) {
@@ -1376,7 +1376,12 @@ gnumeric_sheet_handle_motion (GnumericSheet *gsheet,
 					dx -= GTK_WIDGET (gsheet0)->allocation.width;
 					if (dx < 0)
 						dx = 0;
-				}
+				} else if (dx == 0) {
+					/* initiate a reverse scroll of panes 0,3 */
+					if ((gsheet2->col.last_visible+1) != gsheet0->col.first)
+						dx = x - (left + width);
+				} else
+					dx = 0;
 			}
 		}
 
@@ -1394,7 +1399,12 @@ gnumeric_sheet_handle_motion (GnumericSheet *gsheet,
 					dy -= GTK_WIDGET (gsheet0)->allocation.height;
 					if (dy < 0)
 						dy = 0;
-				}
+				} else if (dy == 0) {
+					/* initiate a reverse scroll of panes 0,1 */
+					if ((gsheet2->row.last_visible+1) != gsheet0->row.first)
+						dy = y - (top + height);
+				} else
+					dy = 0;
 			}
 		}
 	}
