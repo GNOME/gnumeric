@@ -6,6 +6,9 @@
 
 #include <gnumeric-config.h>
 #include <Python.h>
+#ifdef WITH_PYGTK
+#include "pygobject.h"
+#endif
 #include <glib.h>
 #include <gutils.h>
 #include <plugin.h>

@@ -1,5 +1,10 @@
 2002-08-21  Zbigniew Chyla  <cyba@gnome.pl>
 
+	* gnm-python.c
+	Conditionally include "pygobject.h" (patch from Jon K)
+
+2002-08-21  Zbigniew Chyla  <cyba@gnome.pl>
+
 	* Makefile.am (gnumeric_plugin_python_loader_DATA):
 	Removed py-console-ui.xml
 
