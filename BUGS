@@ -38,9 +38,6 @@ Release Critical
     : crash 	: fixed
     : we mis-import multiple axis sets
 
-    http://bugzilla.gnome.org/show_bug.cgi?id=152511
-    : crash when adding a xy plot over a pie plot
-
     gnumeric http://jk.ufisa.uninett.no/gnumeric/colwidth.xls
     --> "Unable to reaed MS property stream header"
 

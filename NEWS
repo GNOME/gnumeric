@@ -28,6 +28,10 @@ Jody:
 	* Fix object positioning when zoomed
 	* Make the status area shorter with GtkStatusbar and fewer frames
 
+Morten:
+	http://bugzilla.gnome.org/show_bug.cgi?id=152511
+	* Fix crash when adding a xy plot over a pie plot
+
 Uwe Steinmann:
 	* Validate the field names for paradox databases
 
