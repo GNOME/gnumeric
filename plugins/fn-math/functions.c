@@ -2615,107 +2615,40 @@ static const char *help_seriessum = {
 	   "@SEEALSO=COUNT,SUM")
 };
 
-typedef struct {
-        gnum_float sum;
-        gnum_float x;
-        gnum_float n;
-        gnum_float m;
-} math_seriessum_t;
-
-static Value *
-callback_function_seriessum (const EvalPos *ep, Value *value,
-			     void *closure)
+static int
+range_seriessum (const gnum_float *xs, int n, gnum_float *res)
 {
-	math_seriessum_t *mm = closure;
-	gnum_float coefficient;
+	if (n >= 3) {
+		gnum_float x = xs[0];
+		gnum_float N = xs[1];
+		gnum_float m = xs[2];
+		gnum_float sum = 0;
 
-	if (!VALUE_IS_NUMBER (value))
-		return VALUE_TERMINATE;
+		gnum_float x_m = powgnum (x, m);
+		gnum_float xpow = powgnum (x, N);
+		int i;
 
-	coefficient = value_get_as_float (value);
+		for (i = 3; i < n; i++) {
+			sum += xs[i] * xpow;
+			xpow *= x_m;
+		}
 
-	mm->sum += coefficient * powgnum (mm->x, mm->n);
-	mm->n += mm->m;
-
-	return NULL;
+		*res = sum;
+		return 0;
+	} else
+		return 1;
 }
+
 
 static Value *
 gnumeric_seriessum (FunctionEvalInfo *ei, GnmExprList *nodes)
 {
-        math_seriessum_t p;
-        GnmExpr         *tree;
-	Value            *val;
-	gnum_float       x, n, m;
-
-	if (nodes == NULL)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	/* Get x */
-	tree = (GnmExpr *) nodes->data;
-	if (tree == NULL)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	val = gnm_expr_eval (tree, ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
-	if (!val) return NULL;
-	/* FIXME: What if val is an error?  */
-	if (!VALUE_IS_NUMBER (val)) {
-		value_release (val);
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
-	}
-
-	x = value_get_as_float (val);
-	value_release (val);
-	nodes = nodes->next;
-
-	/* Get n */
-	tree = (GnmExpr *) nodes->data;
-	if (tree == NULL)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	val = gnm_expr_eval (tree, ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
-	if (!val) return NULL;
-	/* FIXME: what if val is an error.  */
-	/* DOUBLE FIXME: what if val is an error and "x" was a string?  */
-	if (! VALUE_IS_NUMBER (val)) {
-		value_release (val);
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
-	}
-
-	n = value_get_as_int (val);
-	value_release (val);
-
-	nodes = nodes->next;
-	if (nodes == NULL)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	/* Get m */
-	tree = (GnmExpr *) nodes->data;
-	if (tree == NULL)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	val = gnm_expr_eval (tree, ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
-	if (!val) return NULL;
-	if (! VALUE_IS_NUMBER (val)) {
-		value_release (val);
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
-	}
-
-	m = value_get_as_float (val);
-	value_release (val);
-	nodes = nodes->next;
-
-	p.n = n;
-	p.m = m;
-	p.x = x;
-	p.sum = 0;
-
-	if (function_iterate_argument_values (ei->pos,
-		callback_function_seriessum,
-		&p, nodes, TRUE, CELL_ITER_IGNORE_BLANK) != NULL)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
-
-	return value_new_float (p.sum);
+	return float_range_function (nodes, ei,
+				     range_seriessum,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
+				     gnumeric_err_NUM);
 }
 
 /***************************************************************************/
