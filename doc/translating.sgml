@@ -5,12 +5,6 @@
   <title>Translating Gnumeric</title>
     
     <para>
-      WARNING -- Do not translate the function descriptions yet. It
-      is still undecided if the descriptions will stay in the .po
-      files or if they should be moved into doc/.
-    </para>
-    
-    <para>
       There are a couple of things that should be kept in mind when
       translating Gnumeric.  Gnumeric, unlike regular applications
       includes strings used to render numbers in various ways: as

@@ -1,3 +1,8 @@
+2002-02-26  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (workbook_control_gui_init) : handle the
+	  reording of ins col/row in the insert menu.
+
 2002-02-25  Morten Welinder  <terra@diku.dk>
 
 	Back-port from HEAD:

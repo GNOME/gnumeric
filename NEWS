@@ -12,6 +12,10 @@ Jody:
 	* Make names created in the goto box absolute.
 	* Fix multi-line text entry.
 	* Package the help menu translations.
+	* enable/disable transposition of ins col/row menu for non-bonobo.
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=72459
+	* Fix the swaped export of unary plus and minus.
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=71172
 	* Keep the validated value around, and fix date/time validation.
