@@ -120,6 +120,61 @@
         <long>The file menu shows a list of recently used functions. This is that list.</long>
         </locale>
       </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/core/gui/screen/horizontaldpi</key>
+        <applyto>/apps/gnumeric/core/gui/screen/horizontaldpi</applyto>
+        <owner>Gnumeric</owner>
+        <type>float</type>
+	<default>96</default>
+        <locale name="C">
+        <short>Horizontal DPI</short>
+        <long>Screen resolution in the horizontal direction.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/core/gui/screen/verticaldpi</key>
+        <applyto>/apps/gnumeric/core/gui/screen/verticaldpi</applyto>
+        <owner>Gnumeric</owner>
+        <type>float</type>
+	<default>96</default>
+        <locale name="C">
+        <short>Vertical DPI</short>
+        <long>Screen resolution in the vertical direction.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/core/gui/editing/autocomplete</key>
+        <applyto>/apps/gnumeric/core/gui/editing/autocomplete</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>TRUE</default>
+        <locale name="C">
+        <short>Autocomplete</short>
+        <long>This variable determines whether autocompletion is set on.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/core/gui/editing/livescrolling</key>
+        <applyto>/apps/gnumeric/core/gui/editing/livescrolling</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>TRUE</default>
+        <locale name="C">
+        <short>Live Scrolling</short>
+        <long>This variable determines whether live (versus delayed) scrolling is performed.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/core/gui/editing/recalclag</key>
+        <applyto>/apps/gnumeric/core/gui/editing/recalclag</applyto>
+        <owner>Gnumeric</owner>
+        <type>int</type>
+	<default>200</default>
+        <locale name="C">
+        <short>Auto Expression Recalculation Lag</short>
+        <long>If this value is positive, auto expressions are recalculated within that many millesecond after a change. If it is negative they are recalculated with the magnitude many  milleseconds after the last change where 'last' is defined as the end of a  period of that size after a change with no changes.</long>
+        </locale>
+      </schema>
     </schemalist>
 </gconfschemafile>
   

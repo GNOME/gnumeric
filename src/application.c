@@ -21,7 +21,6 @@
 #include "pixmaps/gnumeric-stock-pixbufs.h"
 
 #include <gtk/gtk.h>
-#include <libgnome/gnome-config.h>
 #include <gnumeric-gconf.h>
 #include <gal/util/e-util.h>
 
@@ -149,6 +148,7 @@ application_init (void)
 	};
 	unsigned i = 0;
 	GtkIconFactory *factory = gtk_icon_factory_new ();
+	GError *err = NULL;
 
 	for (i = 0; i < G_N_ELEMENTS (entry) ; i++)
 		add_icon (factory, entry[i].scalable_data,
@@ -176,23 +176,28 @@ application_init (void)
 	 * I'll leave it as is for now, and revisit the solution when we shake
 	 * out the flaws in the display code.
 	 */
-	gnome_config_push_prefix ("Gnumeric/Screen_Resolution/");
-	app.horizontal_dpi = gnome_config_get_float ("Horizontal_dpi=96");
-	app.vertical_dpi = gnome_config_get_float ("Vertical_dpi=96");
-	gnome_config_pop_prefix ();
 
-	gnome_config_push_prefix ("Gnumeric/Editing/");
-	app.edit_auto_complete	= gnome_config_get_bool ("AutoComplete=true");
-	app.live_scrolling	= gnome_config_get_bool ("LiveScrolling=true");
-
-	/* If positive auto expressions are recalculated within <lag>
-	 * millesecond after a change.
-	 * if negative they are recalculated with <lag> milleseconds after the
-	 * last change where 'last' is defined as a periond > <lag> after a
-	 * change with no changes.
-	 */
-	app.auto_expr_recalc_lag = gnome_config_get_int ("AutoExprRecalcLag=200");
-	gnome_config_pop_prefix ();
+	app.horizontal_dpi = gconf_client_get_float (app.gconf_client,
+						     GNUMERIC_GCONF_GUI_RES_H, &err);
+	if (err || app.horizontal_dpi == 0.0)
+		app.horizontal_dpi = 96.;
+	err = NULL;
+	app.vertical_dpi = gconf_client_get_float (app.gconf_client,
+						   GNUMERIC_GCONF_GUI_RES_V, &err);
+	if (err || app.vertical_dpi == 0.0)
+		app.vertical_dpi = 96.;
+	err = NULL;
+	app.edit_auto_complete = gconf_client_get_bool (app.gconf_client,
+							GNUMERIC_GCONF_GUI_ED_AUTOCOMPLETE, &err);
+	err = NULL;
+	app.live_scrolling = gconf_client_get_bool (app.gconf_client,
+						    GNUMERIC_GCONF_GUI_ED_LIVESCROLLING, &err);
+	err = NULL;
+	app.auto_expr_recalc_lag = gconf_client_get_int (app.gconf_client,
+							 GNUMERIC_GCONF_GUI_ED_RECALC_LAG, 
+							 &err);
+	if (err || app.auto_expr_recalc_lag == 0)
+		app.auto_expr_recalc_lag = 200;
 
 	autocorrect_init ();
 }

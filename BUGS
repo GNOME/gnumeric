@@ -28,8 +28,7 @@ Pending Patches
 Long term breakage
 ------------------
 
-- Remove duplication of code between analysis-tools.c and collect.c (which will be 
-  possible when  float_range_function2 obeys its "flags" argument.)
+- Remove duplication of code between analysis-tools.c and collect.c
 
 - Make deletion work for multiple ranges.
 
@@ -165,6 +164,8 @@ Dialogs
     : Fix keyboard interface
     : Fix the problem that calling the function selector does not finish 
       editing (--> GTK+ Bug #76066)
+    : We should not be allowed to enter ranges directly into the edit line 
+      on the sheet while the formula guru is open.
 - Import Dialog
     : Rewrite main page preview (see Bug #66393)
 

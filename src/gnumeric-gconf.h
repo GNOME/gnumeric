@@ -8,6 +8,12 @@
 #define GNUMERIC_GCONF_FILE_HISTORY_N "/apps/gnumeric/core/file/history/n"
 #define GNUMERIC_GCONF_FILE_HISTORY_FILES "/apps/gnumeric/core/file/history/files"
 #define GNUMERIC_GCONF_WORKBOOK_NSHEETS "/apps/gnumeric/core/workbook/n-sheet"
+#define GNUMERIC_GCONF_GUI_RES_H "/apps/gnumeric/core/gui/screen/horizontaldpi"
+#define GNUMERIC_GCONF_GUI_RES_V "/apps/gnumeric/core/gui/screen/verticaldpi"
+#define GNUMERIC_GCONF_GUI_ED_AUTOCOMPLETE "/apps/gnumeric/core/gui/editing/autocomplete"
+#define GNUMERIC_GCONF_GUI_ED_LIVESCROLLING "/apps/gnumeric/core/gui/editing/livescrolling"
+#define GNUMERIC_GCONF_GUI_ED_RECALC_LAG "/apps/gnumeric/core/gui/editing/recalclag"
+
 
 #define FUNCTION_SELECT_GCONF_RECENT "/apps/gnumeric/functionselector/recentfunctions"
 #define FUNCTION_SELECT_GCONF_NUM_OF_RECENT "/apps/gnumeric/functionselector/num-of-recent"

@@ -138,6 +138,20 @@ static pref_tree_data_t pref_tree_data[] = {
 	                      "/schemas" GNUMERIC_GCONF_FILE_HISTORY_N},
 	{GNUMERIC_GCONF_WORKBOOK_NSHEETS, NULL, 
 	                      "/schemas" GNUMERIC_GCONF_WORKBOOK_NSHEETS},
+	{GNUMERIC_GCONF_GUI_ED_AUTOCOMPLETE, NULL, 
+	                      "/schemas" GNUMERIC_GCONF_GUI_ED_AUTOCOMPLETE},
+	{GNUMERIC_GCONF_GUI_ED_LIVESCROLLING, NULL, 
+	                      "/schemas" GNUMERIC_GCONF_GUI_ED_LIVESCROLLING},
+	{NULL, NULL, NULL}
+};
+
+static pref_tree_data_t pref_tree_data_danger[] = { 
+	{GNUMERIC_GCONF_GUI_RES_H, NULL, 
+	                      "/schemas" GNUMERIC_GCONF_GUI_RES_H},
+	{GNUMERIC_GCONF_GUI_RES_V, NULL, 
+	                      "/schemas" GNUMERIC_GCONF_GUI_RES_V},
+	{GNUMERIC_GCONF_GUI_ED_RECALC_LAG, NULL, 
+	                      "/schemas" GNUMERIC_GCONF_GUI_ED_RECALC_LAG},
 	{NULL, NULL, NULL}
 };
 
@@ -223,6 +237,15 @@ pref_tree_set_model (GConfClient *gconf, GtkTreeModel *model, GtkTreeIter *iter)
 		value_string = g_strdup_printf ("%i", gconf_client_get_int (gconf, key, 
 									    NULL));
 		break;
+	case GCONF_VALUE_FLOAT:
+		value_string = g_strdup_printf ("%f", gconf_client_get_float (gconf, key, 
+									    NULL));
+		break;
+	case GCONF_VALUE_BOOL:
+		value_string = gconf_client_get_bool (gconf, key, NULL) ? 
+			g_strdup (_("TRUE")) :
+			g_strdup (_("FALSE"));
+		break;
 	default:
 		value_string = g_strdup ("ERROR FIXME");
 	}
@@ -263,9 +286,12 @@ cb_value_edited (GtkCellRendererText *cell,
 	char        *key;
 	char        *schema;
 	gint        the_int;
+	gnum_float  the_float;
+	gboolean    the_bool;
 	Value       *value;
 	GConfClient *client = application_get_gconf_client ();
 	GConfSchema *the_schema;
+	gboolean    err;
 
 	path = gtk_tree_path_new_from_string (path_string);
 	
@@ -280,12 +306,33 @@ cb_value_edited (GtkCellRendererText *cell,
 	case GCONF_VALUE_STRING:
 		gconf_client_set_string (client, key, new_text, NULL);
 		break;
+	case GCONF_VALUE_FLOAT:
+		value = format_match_number (new_text, NULL);
+		if (value != NULL) {
+			the_float =  value_get_as_float (value);
+			gconf_client_set_float (application_get_gconf_client (),
+					      key, the_float, NULL);
+		}
+		if (value)
+			value_release (value);
+		break;
 	case GCONF_VALUE_INT:
 		value = format_match_number (new_text, NULL);
-		if ((value != NULL) && (value->type == VALUE_INTEGER)) {
+		if (value != NULL) {
 			the_int =  value_get_as_int (value);
 			gconf_client_set_int (application_get_gconf_client (),
 					      key, the_int, NULL);
+		}
+		if (value)
+			value_release (value);
+		break;
+	case GCONF_VALUE_BOOL:
+		value = format_match_number (new_text, NULL);
+		if (value != NULL) {
+			err = FALSE;
+			the_bool =  value_get_as_bool (value, &err);
+			gconf_client_set_bool (application_get_gconf_client (),
+					       key, the_bool, NULL);
 		}
 		if (value)
 			value_release (value);
@@ -709,6 +756,7 @@ static page_info_t page_info[] = {
 	{NULL, GTK_STOCK_ITALIC, pref_font_initializer, pref_font_page_open, NULL},
 	{NULL, GTK_STOCK_UNDO, pref_undo_page_initializer, pref_undo_page_open, NULL},
 	{NULL, GTK_STOCK_PREFERENCES, pref_tree_initializer, pref_tree_page_open, pref_tree_data},
+	{NULL, GTK_STOCK_DIALOG_ERROR, pref_tree_initializer, pref_tree_page_open, pref_tree_data_danger},
 	{NULL, NULL, NULL, NULL, NULL},
 };
 

@@ -17,7 +17,7 @@
         <type>int</type>
 	<default>12</default>
         <locale name="C">
-        <short>Maximum length of recently used functions list</short>
+        <short>Maximum Length of Recently Used Functions List</short>
         <long>The function selector keeps a list of recently used functions. This is the maximum length of that list.</long>
         </locale>
       </schema>

@@ -1,3 +1,10 @@
+2002-04-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* schemas/gnumeric-general.schemas : add various new preferences
+	* schemas/gnumeric-dialogs.schemas : fix capitalization
+	* src/application.c : switch gnome_config to gconf
+	* src/gnumeric-gconf.h : new preferences
+
 2002-04-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/rangefunc-strings.c : fix warning
