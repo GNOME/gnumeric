@@ -1,4 +1,9 @@
 2000-11-10  Jody Goldberg <jgoldberg@home.com>
+      Patch from Juan Pablo Mendoza <pablo_juan@yahoo.com>
+
+      * sheet-view.c (sheet_view_comment_create_marke): Memory leak.
+
+2000-11-10  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-format-toolbar.c (workbook_format_toolbutton_update) :
 	  Minor optimization to decrease flicker.

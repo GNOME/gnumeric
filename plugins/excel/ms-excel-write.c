@@ -35,6 +35,7 @@
 #include "position.h"
 #include "color.h"
 #include "cell.h"
+#include "cell-comment.h"
 #include "sheet-object.h"
 #include "style.h"
 #include "format.h"
@@ -2436,6 +2437,57 @@ write_formula (BiffPut *bp, ExcelSheet *sheet, const Cell *cell, gint16 xf)
 	}
 }
 
+#define MAX_BIFF_NOTE_CHUNK	2048
+
+/* biff7 an earlier */
+static void
+write_biff7_comments (BiffPut *bp, ExcelSheet *sheet)
+{
+	guint8 data[6];
+	GList *l;
+	Sheet *gnum_sheet = sheet->gnum_sheet;
+	MsBiffVersion ver = sheet->wb->ver;
+
+	 for (l = gnum_sheet->comment_list; l; l = l->next) {
+		Cell *cell = l->data;
+		char *comment = cell_get_comment (cell);
+		guint16 row = cell->pos.row;
+		guint16 col = cell->pos.col;
+		guint16 len = strlen (comment);
+
+		ms_biff_put_var_next (bp, BIFF_NOTE);
+		MS_OLE_SET_GUINT16 (data + 0, row);
+		MS_OLE_SET_GUINT16 (data + 2, col);
+		MS_OLE_SET_GUINT16 (data + 4, len);
+		ms_biff_put_var_write (bp, data, 6);
+
+repeat:
+		if (len > MAX_BIFF_NOTE_CHUNK) {
+			char const tmp = comment [MAX_BIFF_NOTE_CHUNK];
+
+			comment [MAX_BIFF_NOTE_CHUNK] = '\0';
+			biff_put_text (bp, comment, ver, FALSE, AS_PER_VER);
+			comment [MAX_BIFF_NOTE_CHUNK] = tmp;
+
+			ms_biff_put_commit (bp);
+
+			comment += MAX_BIFF_NOTE_CHUNK;
+			len -= MAX_BIFF_NOTE_CHUNK;
+			
+	        	ms_biff_put_var_next (bp, BIFF_NOTE);
+		        MS_OLE_SET_GUINT16 (data + 0, 0xffff);
+	        	MS_OLE_SET_GUINT16 (data + 2, 0);
+		        MS_OLE_SET_GUINT16 (data + 4, MIN (MAX_BIFF_NOTE_CHUNK, len));
+		        ms_biff_put_var_write (bp, data, 6);
+
+			goto repeat;
+		} else {
+			biff_put_text (bp, comment, ver, FALSE, AS_PER_VER);
+			ms_biff_put_commit (bp);
+		}
+	}
+}
+
 /**
  * write_cell
  * @bp    biff buffer
@@ -3235,6 +3287,7 @@ write_sheet (IOContext *context, BiffPut *bp, ExcelSheet *sheet)
 	for (y = 0; y < sheet->maxy; y = block_end + 1)
 		block_end = write_block (bp, sheet, y, rows_in_block);
 
+	write_biff7_comments (bp, sheet);
 	write_index (bp->pos, sheet, index_off);
 	write_sheet_tail (context, bp, sheet);
 

@@ -821,6 +821,7 @@ sheet_view_comment_create_marker (SheetView *sheet_view, int col, int row)
 		"points",     points,
 		"fill_color", "red",
 		NULL);
+	gnome_canvas_points_free (points);
 
 	return i;
 }

@@ -1,3 +1,9 @@
+2000-11-10  Jody Goldberg <jgoldberg@home.com>
+	Patch from Juan Pablo Mendoza <pablo_juan@yahoo.com>
+
+         * ms-excel-write.c (write_biff7_comments): New function.
+	 (write_sheet): Use it.
+
 2000-11-07  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (biff_name_data_get_name) : Cleanup a bit.
