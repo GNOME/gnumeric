@@ -1,0 +1,106 @@
+<sect1 id="graphs">
+  <title>Graphing in Gnumeric</title>
+  <para>
+    <application>Gnumeric</application> has the ability to create
+    graphs based on your data in the spreadsheet.  To do this, you
+    need the <application>Guppi</application> installed that has
+    <application>Gnumeric</application> support built in.
+  </para>
+  <para>
+    With <application>Guppi</application> support, you should see a
+    new icon that looks like a graph, next to the <guibutton>Sort
+    Down</guibutton> button in the toolbar.  That is the
+    <guibutton>Graph</guibutton> button.
+  </para>
+  <para>
+    <application>Gnumeric</application> can make the following graph
+    types:
+    <itemizedlist>
+      <listitem>
+	<para>
+	  Bar
+	</para>
+      </listitem>
+      <listitem>
+	<para>
+	  Column
+	</para>
+      </listitem>
+      <listitem>
+	<para>
+	  Line
+	</para>
+      </listitem>
+      <listitem>
+	<para>
+	  Pie
+	</para>
+      </listitem>
+      <listitem>
+	<para>
+	  Scatter
+	</para>
+      </listitem>
+      <listitem>
+	<para>
+	  Bubble
+	</para>
+      </listitem>
+    </itemizedlist>
+  </para>
+  <sect2 id="graphs-basic">
+    <title>Creating a Basic Graph</title>
+    <para>
+      Creating a basic graph is a relativly straight forward process.
+      <orderedlist numeration="arabic">
+	<listitem>
+	  <para>
+	    Enter data into your spreadsheet.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    Select the data you wish to include in the graph.  This
+	    includes labels for rows and columns.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    Click the <guibutton>Graph</guibutton> button.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    Select the type of graph you wish to use.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    Click <guibutton>Finish</guibutton> to use the default
+	    settings.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    Press and hold on the spreadsheet to start to draw your
+	    graph.  A box will form.  Drag the box to the size you
+	    wish the graph to be and let go.  The graph will be drawn. 
+	  </para>
+	</listitem>
+      </itemizedlist>
+    </para>
+  </sect2>
+</sect1>
+
+
+
+
+
+
+
+
+
+
+
+
+
