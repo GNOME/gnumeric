@@ -37,8 +37,8 @@ static const char *help_sum = {
 
 	   "@DESCRIPTION="
 	   "SUM computes the sum of all the values and cells referenced "
-	   "in the argument list.\n"
-	   "This function is Excel compatible."
+	   "in the argument list.\n\n"
+	   "* This function is Excel compatible."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
@@ -67,9 +67,9 @@ static const char *help_product = {
 
 	   "@DESCRIPTION="
 	   "PRODUCT returns the product of all the values and cells "
-	   "referenced in the argument list.\n"
-	   "This function is Excel compatible.  In particular, this means "
-	   "that if all cells are empty, the result will be 0."
+	   "referenced in the argument list.\n\n"
+	   "* This function is Excel compatible.  In particular, this means "
+	   "that if all cells are empty, the result will be 0.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "PRODUCT(2,5,9) equals 90.\n"

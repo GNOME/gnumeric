@@ -1124,7 +1124,7 @@ static const char *help_log2 = {
 
 	   "@DESCRIPTION="
 	   "LOG2 computes the base-2 logarithm of @x.\n\n"
-	   "If @x <= 0, LOG2 returns #NUM! error.\n"
+	   "* If @x <= 0, LOG2 returns #NUM! error.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "LOG2(1024) equals 10.\n"

@@ -293,6 +293,40 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *the_selection
 					gtk_text_buffer_apply_tag
 						(state->description, tag,
 						 &start, &end);
+				} else if (*cursor == '\n' && cursor[1] == '*'
+					   && cursor[2] == ' ') {
+					tag = gtk_text_buffer_create_tag
+						(state->description, NULL,
+						 "weight", PANGO_WEIGHT_BOLD,
+						 NULL);
+					gtk_text_buffer_get_iter_at_offset
+						(state->description, &start,
+						 cursor - f_desc + 1);
+					gtk_text_buffer_get_iter_at_offset
+						(state->description, &end,
+						 cursor - f_desc + 2);
+					gtk_text_buffer_apply_tag
+						(state->description, tag,
+						 &start, &end);
+
+					/* Make notes to look cooler. */
+					for (i = 2; cursor[i] 
+						     && cursor[i] != '\n'; i++)
+						;
+
+					tag = gtk_text_buffer_create_tag
+						(state->description, NULL,
+						 "scale", 0.85, NULL);
+					
+					gtk_text_buffer_get_iter_at_offset
+						(state->description,
+						 &start, cursor - f_desc + 1);
+					gtk_text_buffer_get_iter_at_offset
+						(state->description, &end, 
+						 cursor - f_desc + i);
+					gtk_text_buffer_apply_tag
+						(state->description, tag,
+						 &start, &end);
 				}
 			}
 
