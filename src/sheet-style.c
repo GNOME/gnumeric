@@ -298,7 +298,7 @@ sheet_style_region_link (SheetStyleData *sd, StyleRegion *region)
 		g_warning ("order broken before insert");
 
 	sd->style_list = g_list_insert_sorted (sd->style_list, region,
-						   sheet_style_stamp_compare);
+					       sheet_style_stamp_compare);
 	if (!list_check_sorted (sd->style_list, TRUE))
 		g_warning ("list_insert_sorted screwed order");
 }
@@ -1049,6 +1049,7 @@ sheet_style_relocate (const ExprRelocateInfo *rinfo)
 	GList *stored_regions = NULL;
 	GList *l, *next;
 	SheetStyleData *sd;
+	Range           dest;
 
 	g_return_if_fail (rinfo != NULL);
 	g_return_if_fail (rinfo->origin_sheet != NULL);
@@ -1074,6 +1075,11 @@ sheet_style_relocate (const ExprRelocateInfo *rinfo)
 		sheet_style_region_unlink (rinfo->origin_sheet->style_data, sr);
 	}
 
+/* Make sure this doesn't screw up the ranges under our feet later */
+	dest = rinfo->origin;
+	range_translate (&dest, rinfo->col_offset, rinfo->row_offset);
+	sheet_style_attach (rinfo->target_sheet, dest, mstyle_new_default ());
+
 /* 2 Either fold back or queue Regions */
 	for (l = stored_regions; l; l = l->next) {
 		StyleRegion *sr = (StyleRegion *)l->data;
@@ -1087,14 +1093,7 @@ sheet_style_relocate (const ExprRelocateInfo *rinfo)
 			sheet_style_region_link (sd, sr);
 		} else {
 /* 2.2 Translate queued regions + re-stamp */
-			sr->range.start.col   = MIN (sr->range.start.col + rinfo->col_offset,
-						     SHEET_MAX_COLS - 1);
-			sr->range.end.col     = MIN (sr->range.end.col   + rinfo->col_offset,
-						     SHEET_MAX_COLS - 1);
-			sr->range.start.row   = MIN (sr->range.start.row + rinfo->row_offset,
-						     SHEET_MAX_ROWS - 1);
-			sr->range.end.row     = MIN (sr->range.end.row   + rinfo->row_offset,
-						     SHEET_MAX_ROWS - 1);
+			range_translate (&sr->range, rinfo->col_offset, rinfo->row_offset);
 			sr->stamp = stamp++;
 			sheet_style_region_link (rinfo->target_sheet->style_data, sr);
 		}

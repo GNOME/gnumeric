@@ -1,3 +1,9 @@
+2000-04-06  Michael Meeks  <michael@helixcode.com>
+
+	* src/sheet-style.c (sheet_style_relocate): use range_translate to
+	shrink code size + set a blank style under the moved styles to get
+	correct behavior: this routine needs optimizing sometime.
+
 2000-04-09  Morten Welinder  <terra@diku.dk>
 
 	* src/sheet.h (ParsePositions): Add sheet.

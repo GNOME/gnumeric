@@ -546,7 +546,7 @@ workbook_create_format_toolbar (Workbook *wb)
 	gtk_container_set_border_width (GTK_CONTAINER (fontsel), 0);
 
 	/* An empty item for the case of no font that applies */
-	gtk_combo_text_add_item(GTK_COMBO_TEXT (fontsel), "", "");
+	gtk_combo_text_add_item (GTK_COMBO_TEXT (fontsel), "", "");
 	
 	len = 0;
 	for (l = gnumeric_font_family_list; l; l = l->next){
