@@ -1,5 +1,21 @@
 1999-12-06  Michael Meeks  <mmeeks@gnu.org>
 
+	* src/file.c (workbook_save): return success flag.
+	(workbook_save_as): ditto.
+
+	* src/xml-io.c (xml_workbook_write): Save current page +
+	edit text. (xml_workbook_read): Read edit text + current page.
+
+	* src/workbook.c (workbook_is_dirty): split.
+	(cb_sheet_check_dirty): update. (workbook_can_close): redo.
+	(workbook_is_pristine, cb_sheet_check_pristine): implement.
+	(file_import_cmd, file_open_cmd): check for pristine-ness.
+
+	* src/sheet.c (sheet_get_extent): constify.
+	(sheet_is_pristine): implement.
+
+1999-12-06  Michael Meeks  <mmeeks@gnu.org>
+
 	* src/sheet.c (sheet_get_extent): implement.
 
 	* src/corba-sheet.c (Sheet_max_cols_used, Sheet_max_rows_used):

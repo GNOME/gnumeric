@@ -1,3 +1,39 @@
+Gnumeric 0.46
+
+Michael:
+	* Fixed problems closing workbooks
+	* Add pristine workbook discard
+
+--------------------------------------------------------------------------
+
+Gnumeric 0.45
+
+JP:
+	* Improved sort dialog
+
+Nat:
+	* Updated bonobo infastructure
+
+Kevin:
+	* Plan Perfect plugin
+	* DIF export / import
+
+Jody:
+	* Improved clipboard ops.
+	* import Excel auto-ranges
+	* better range instersection
+	* Guile plugin fixed
+	* Auto fill display fixes.
+
+Jon:
+	* Style hashing
+
+Michael:
+	* Misc cleans
+	* Fix #2110
+
+--------------------------------------------------------------------------
+
 Gnumeric 0.44
 
 Jon:
@@ -8,10 +44,6 @@ JP:
 	* Expanded sort dialog to allow sorting of rows as well as columns
 	* Added advanced button to sort dialog to allow sorting but case
 	sensitivty and text (rather value)
-
-Kevin Handy:
-
-	* Plan Perfect plugin
 
 --------------------------------------------------------------------------
 

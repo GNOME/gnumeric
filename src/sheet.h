@@ -309,7 +309,7 @@ void           sheet_styles_dump                (Sheet *sheet);
 void           sheet_cells_update               (Sheet *sheet, Range r,
 						 gboolean render_text);
 Range          sheet_get_full_range             (void);
-Range          sheet_get_extent                 (Sheet *sheet);
+Range          sheet_get_extent                 (Sheet const *sheet);
 
 /* Redraw */
 void        sheet_compute_visible_ranges  (Sheet const *sheet);
@@ -334,6 +334,8 @@ void        sheet_resume_auto_expr        (Workbook *wb,
 
 void        sheet_mark_clean              (Sheet *sheet);
 void        sheet_set_dirty               (Sheet *sheet, gboolean is_dirty);
+gboolean    sheet_is_pristine             (Sheet *sheet);
+
 /* Sheet information manipulation */
 void        sheet_move_range              (struct expr_relocate_info const * rinfo);
 void        sheet_insert_col              (Sheet *sheet,  int col, int count);

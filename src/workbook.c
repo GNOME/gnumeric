@@ -74,6 +74,14 @@ file_open_cmd (GtkWidget *widget, Workbook *wb)
 	if (fname && (new_wb = workbook_read (fname)))
 		gtk_widget_show (new_wb->toplevel);
 	g_free (fname);
+
+	if (workbook_is_pristine (wb)) {
+#ifdef ENABLE_BONOBO
+		gnome_object_unref (GNOME_OBJECT (wb));
+#else
+		gtk_object_unref (GTK_OBJECT (wb));
+#endif
+	}
 }
 
 static void
@@ -81,13 +89,21 @@ file_import_cmd (GtkWidget *widget, Workbook *wb)
 {
 	char *fname = dialog_query_load_file (wb);
 	Workbook *new_wb;
-
+	
 	if (!fname)
 		return;
-
-       new_wb = workbook_import (wb, fname);
-       if (new_wb)
-	       gtk_widget_show (new_wb->toplevel);
+	
+	new_wb = workbook_import (wb, fname);
+	if (new_wb)
+		gtk_widget_show (new_wb->toplevel);
+	
+	if (workbook_is_pristine (wb)) {
+#ifdef ENABLE_BONOBO
+		gnome_object_unref (GNOME_OBJECT (wb));
+#else
+		gtk_object_unref (GTK_OBJECT (wb));
+#endif
+	}
 }
 
 static void
@@ -390,25 +406,18 @@ workbook_mark_clean (Workbook *wb)
 	g_hash_table_foreach (wb->sheets, cb_sheet_mark_dirty, GINT_TO_POINTER (0));
 }
 
-typedef enum {
-	CLOSE_DENY,
-	CLOSE_ALLOW,
-	CLOSE_RECHECK
-} CloseAction;
-
 static void
 cb_sheet_check_dirty (gpointer key, gpointer value, gpointer user_data)
 {
-	Sheet *sheet = value;
-	GtkWidget *d, *l;
-	int *allow_close = user_data;
-	int button;
-	char *s;
+	Sheet    *sheet = value;
+	gboolean *dirty = user_data;
 
-	if (*allow_close != CLOSE_ALLOW)
+	if (*dirty)
 		return;
 
-	if (!sheet->modified) {
+	if (!sheet->modified)
+		return;
+/*	{
 		GtkEntry   *entry;
 		const char *txt;
 		Cell       *cell;
@@ -430,73 +439,134 @@ cb_sheet_check_dirty (gpointer key, gpointer value, gpointer user_data)
 			if (same)
 				return;
 		}
-	}
+		return;
+		}*/
 
-	d = gnome_dialog_new (
-		_("Warning"),
-		GNOME_STOCK_BUTTON_YES,
-		GNOME_STOCK_BUTTON_NO,
-		GNOME_STOCK_BUTTON_CANCEL,
-		NULL);
-	gnome_dialog_set_parent (GNOME_DIALOG (d), GTK_WINDOW (sheet->workbook->toplevel));
+	*dirty = TRUE;
+}
 
-	if (sheet->workbook->filename)
-		s = g_strdup_printf (
-			_("Workbook %s has unsaved changes, save them?"),
-			g_basename (sheet->workbook->filename));
-	else
-		s = g_strdup (_("Workbook has unsaved changes, save them?"));
+static inline gboolean
+workbook_is_dirty (Workbook *wb)
+{
+	gboolean dirty;
+	
+	g_return_val_if_fail (wb != NULL, FALSE);
 
-	l = gtk_label_new (s);
-	gtk_widget_show (l);
-	g_free (s);
+	g_hash_table_foreach (wb->sheets, cb_sheet_check_dirty,
+			      &dirty);
 
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG(d)->vbox), l, TRUE, TRUE, 0);
+	return dirty;
+}
 
-	gtk_window_set_position (GTK_WINDOW (d), GTK_WIN_POS_MOUSE);
-	button = gnome_dialog_run_and_close (GNOME_DIALOG (d));
+static void
+cb_sheet_check_pristine (gpointer key, gpointer value, gpointer user_data)
+{
+	Sheet    *sheet = value;
+	gboolean *pristine = user_data;
 
-	switch (button){
-		/* YES */
-	case 0:
-		workbook_save (sheet->workbook);
-		*allow_close = CLOSE_RECHECK;
-		break;
+	if (!sheet_is_pristine (sheet))
+		*pristine = FALSE;
+}
 
-		/* NO */
-	case 1:
-		workbook_mark_clean (sheet->workbook);
-		break;
+/**
+ * workbook_is_pristine:
+ * @wb: 
+ * 
+ *   This checks to see if the workbook has ever been
+ * used ( approximately )
+ * 
+ * Return value: TRUE if we can discard this workbook.
+ **/
+gboolean
+workbook_is_pristine (Workbook *wb)
+{
+	gboolean pristine = TRUE;
 
-		/* CANCEL */
-	case -1:
-	case 2:
-		*allow_close = CLOSE_DENY;
-		break;
+	g_return_val_if_fail (wb != NULL, FALSE);
 
-	}
+	if (workbook_is_dirty (wb))
+		return FALSE;
+
+	if (wb->names || wb->formula_cell_list ||
+	    wb->eval_queue || !wb->needs_name)
+		return FALSE;
+
+	/* Check if we seem to contain anything */
+	g_hash_table_foreach (wb->sheets, cb_sheet_check_pristine,
+			      &pristine);
+
+	return pristine;
 }
 
 static int
 workbook_can_close (Workbook *wb)
 {
-	CloseAction allow_close;
+	gboolean   can_close = TRUE;
+	gboolean   done      = FALSE;
+	int        iteration = 0;
 	static int in_can_close;
 
 	if (in_can_close)
 		return FALSE;
 	
 	in_can_close = TRUE;
-	do {
-		allow_close = CLOSE_ALLOW;
-		g_hash_table_foreach (
-			wb->sheets, cb_sheet_check_dirty, &allow_close);
-	} while (allow_close == CLOSE_RECHECK);
+	while (workbook_is_dirty (wb) &&
+	       !done) {
+		GtkWidget *d, *l;
+		int button;
+		char *s;
 
+		iteration++;
+		
+		d = gnome_dialog_new (
+			_("Warning"),
+			GNOME_STOCK_BUTTON_YES,
+			GNOME_STOCK_BUTTON_NO,
+			GNOME_STOCK_BUTTON_CANCEL,
+			NULL);
+		gnome_dialog_set_parent (GNOME_DIALOG (d), GTK_WINDOW (wb->toplevel));
+		
+		if (wb->filename)
+			s = g_strdup_printf (
+				_("Workbook %s has unsaved changes, save them?"),
+				g_basename (wb->filename));
+		else
+			s = g_strdup (_("Workbook has unsaved changes, save them?"));
+		
+		l = gtk_label_new (s);
+		gtk_widget_show (l);
+		g_free (s);
+		
+		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (d)->vbox), l, TRUE, TRUE, 0);
+		
+		gtk_window_set_position (GTK_WINDOW (d), GTK_WIN_POS_MOUSE);
+		button = gnome_dialog_run_and_close (GNOME_DIALOG (d));
+		
+		switch (button) {
+			/* YES */
+		case 0:
+			done = workbook_save (wb);
+			break;
+			
+			/* NO */
+		case 1:
+			can_close = TRUE;
+			done      = TRUE;
+			workbook_mark_clean (wb);
+			break;
+			
+			/* CANCEL */
+		case -1:
+		case 2:
+			can_close = FALSE;
+			done      = TRUE;
+			break;
+		}
+	}
+	
 	in_can_close = FALSE;
 	
-	g_assert (allow_close == CLOSE_ALLOW || allow_close == CLOSE_DENY);
-	return allow_close == CLOSE_ALLOW;
+	return can_close;
 }
 
 static void

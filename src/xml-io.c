@@ -2019,6 +2019,16 @@ xml_workbook_write (parse_xml_context_t *ctxt, Workbook *wb)
 	}
 	g_list_free (sheets);
 
+	child = xmlNewDocNode (ctxt->doc, ctxt->ns, "UIData", NULL);
+	if (wb->ea_input && 
+	    gtk_entry_get_text (GTK_ENTRY (wb->ea_input)))
+		xml_set_value     (child, "EditText",
+				   gtk_entry_get_text (GTK_ENTRY (wb->ea_input)));
+	xml_set_value_int (child, "SelectedTab",
+			   gtk_notebook_get_current_page
+			   (GTK_NOTEBOOK (wb->notebook)));
+	xmlAddChild (cur, child);
+
 	setlocale (LC_NUMERIC, oldlocale);
 	g_free (oldlocale);
 
@@ -2118,6 +2128,21 @@ xml_workbook_read (Workbook *wb, parse_xml_context_t *ctxt, xmlNodePtr tree)
 	while (c != NULL) {
 		sheet = xml_sheet_read (ctxt, c);
 		c = c->next;
+	}
+
+	child = xml_search_child (tree, "UIData");
+	if (child) {
+		int   tab;
+		char *txt;
+
+		tab = 0;
+		xml_get_value_int (child, "SelectedTab", &tab);
+		gtk_notebook_set_page (GTK_NOTEBOOK (wb->notebook), tab);
+
+		txt = xml_value_get (child, "EditText");
+		if (txt)
+			gtk_entry_set_text (GTK_ENTRY (wb->ea_input), txt);
+		g_free (txt);
 	}
 
 	setlocale (LC_NUMERIC, oldlocale);

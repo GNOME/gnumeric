@@ -132,8 +132,8 @@ void        workbook_set_title           (Workbook *, const char *);
 Workbook   *workbook_try_read            (const char *filename);
 Workbook   *workbook_read                (const char *filename);
 
-void        workbook_save_as             (Workbook *);
-void        workbook_save                (Workbook *);
+gboolean    workbook_save_as             (Workbook *);
+gboolean    workbook_save                (Workbook *);
 void        workbook_print               (Workbook *, gboolean);
 void        workbook_attach_sheet        (Workbook *, Sheet *);
 gboolean    workbook_detach_sheet        (Workbook *, Sheet *, gboolean);
@@ -148,6 +148,7 @@ int         workbook_parse_and_jump      (Workbook *wb, const char *text);
 Sheet      *workbook_sheet_lookup        (Workbook *wb, const char *sheet_name);
 void        workbook_mark_clean          (Workbook *wb);
 void        workbook_set_dirty           (Workbook *wb, gboolean is_dirty);
+gboolean    workbook_is_pristine         (Workbook *wb);
 gboolean    workbook_rename_sheet        (Workbook *wb,
 					  const char *old_name,
 					  const char *new_name);

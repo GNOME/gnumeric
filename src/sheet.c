@@ -465,7 +465,7 @@ sheet_row_get_info (Sheet const *sheet, int const row)
  * Return value: the range.
  **/
 Range
-sheet_get_extent (Sheet *sheet)
+sheet_get_extent (Sheet const *sheet)
 {
 	Range r;
 
@@ -2978,6 +2978,37 @@ sheet_set_dirty (Sheet *sheet, gboolean is_dirty)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	sheet->modified = is_dirty;
+}
+
+/**
+ * sheet_is_pristine:
+ * @sheet: 
+ * 
+ * Sees if the sheet has ever been touched.
+ * 
+ * Return value: TRUE if it is perfectly clean.
+ **/
+gboolean
+sheet_is_pristine (Sheet *sheet)
+{
+	g_return_val_if_fail (sheet != NULL, FALSE);
+	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
+
+	if (sheet->cell_hash && g_hash_table_size (sheet->cell_hash) > 0)
+		return FALSE;
+
+	if (g_list_length (sheet->selections) > 1)
+		return FALSE;
+
+	if (g_list_length (sheet->comment_list) > 0)
+		return FALSE;
+
+	if (sheet->dependency_hash &&
+	    g_hash_table_size (sheet->dependency_hash) > 0)
+		return FALSE;
+
+	/* Fairly safe approximation */
+	return TRUE;
 }
 
 /**

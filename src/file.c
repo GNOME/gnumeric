@@ -446,14 +446,15 @@ fs_key_event (GtkFileSelection *fsel, GdkEventKey *event)
 		return 0;
 }
 
-void
+gboolean
 workbook_save_as (Workbook *wb)
 {
 	GtkFileSelection *fsel;
 	gboolean accepted = FALSE;
 	GtkWidget *format_selector;
+	gboolean success  = FALSE;
 
-	g_return_if_fail (wb != NULL);
+	g_return_val_if_fail (wb != NULL, FALSE);
 
 	fsel = GTK_FILE_SELECTION (gtk_file_selection_new (_("Save workbook as")));
 
@@ -490,10 +491,10 @@ workbook_save_as (Workbook *wb)
 	gtk_grab_add (GTK_WIDGET (fsel));
 	gtk_main ();
 
-	if (accepted){
+	if (accepted) {
 		char *name = gtk_file_selection_get_filename (fsel);
 
-		if (name [strlen (name)-1] != '/'){
+		if (name [strlen (name)-1] != '/') {
 			char *base = g_basename (name);
 
 			current_saver = insure_saver (current_saver);
@@ -510,6 +511,7 @@ workbook_save_as (Workbook *wb)
 				if (current_saver->save (wb, name) == 0) {
 					workbook_set_filename (wb, name);
 					workbook_mark_clean (wb);
+					success = TRUE;
 				} else {
 					file_error_message 
 						(N_("Could not save to file %s"), 
@@ -521,23 +523,26 @@ workbook_save_as (Workbook *wb)
 		}
 	}
 	gtk_widget_destroy (GTK_WIDGET (fsel));
+
+	return success;
 }
 
-void
+gboolean
 workbook_save (Workbook *wb)
 {
-	g_return_if_fail (wb != NULL);
+	g_return_val_if_fail (wb != NULL, FALSE);
 
-	if (wb->needs_name) {
-		workbook_save_as (wb);
-		return;
-	}
+	if (wb->needs_name)
+		return workbook_save_as (wb);
 
-	if (gnumeric_xml_write_workbook (wb, wb->filename) == 0)
+	if (gnumeric_xml_write_workbook (wb, wb->filename) == 0) {
 		workbook_mark_clean (wb);
-	else
+		return TRUE;
+	} else {
 		file_error_message (N_("Could not save to file %s"), 
 				    wb->filename);
+		return FALSE;
+	}
 }
 
 char *
