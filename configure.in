@@ -50,7 +50,7 @@ gmodule-2.0		>= 2.4.0
 libgsf-1		>= 1.9.1
 gtk+-2.0		>= 2.4.0
 libxml-2.0		>= 2.4.12
-libglade-2.0		>= 2.0.0
+libglade-2.0		>= 2.3.6
 libgnomecanvas-2.0	>= 2.0.0
 libgnomeprint-2.2	>= 2.5.2
 libgnomeprintui-2.2	>= 2.5.2
@@ -543,6 +543,31 @@ dnl Disable perl until we have an active maintainer
 AM_CONDITIONAL(WITH_PERL, false)
 
 dnl **************************************************
+dnl * Check for mono
+dnl **************************************************
+try_mono=false
+with_mono=false
+mono_msg="disabled, still experimental"
+AC_ARG_WITH(mono,
+	[--{with,without}-mono   Compile the mono scripting engine],
+	if test "x$withval" = xno; then
+		mono_msg="Disabled by request"
+		try_mono=false
+	else
+		try_mono=true
+	fi
+)
+
+if $try_mono; then
+    PKG_CHECK_MODULES(MONO, mono, [with_mono=yes ; mono_msg="yes"], [with_mono=no])
+fi
+AC_DEFINE(WITH_MONO, test "x$with_mono" = "xyes",
+	[Define if mono .NET engine is available])
+AM_CONDITIONAL(WITH_MONO, test "x$with_mono" = "xyes")
+AC_SUBST(MONO_CFLAGS)
+AC_SUBST(MONO_LIBS)
+
+dnl **************************************************
 dnl * Check for Python
 dnl **************************************************
 try_python=true
@@ -825,5 +850,6 @@ Configuration:
 	GNOME Support:		${gnome_msg}
 	GDA support:		${gda_msg}
 	GNOME-DB support:	${gnomedb_msg}
+	Mono support:		${mono_msg}
 "
 	#Evolution Support:      ${evolution}

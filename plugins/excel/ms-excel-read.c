@@ -3973,8 +3973,19 @@ excel_read_WSBOOL (BiffQuery *q, ExcelReadSheet *esheet)
 	/* 0x0020 automatic styles are not applied to an outline */
 	esheet->sheet->outline_symbols_below = 0 != (options & 0x040);
 	esheet->sheet->outline_symbols_right = 0 != (options & 0x080);
-	/* 0x0100 the Fit option is on (Page Setup dialog box, Page tab) */
-	esheet->sheet->display_outlines      = 0 != (options & 0x600);
+	/* 0x0100  0 == scale printout as percent, 1 == fit printout to num page */
+	/* 0x0200 biff 3-4 0 == save external linked values, 1 == do not save */
+	/* XL docs wrong 0xc00 no 0x600, OOo docs wrong no distinct row vs col */
+	esheet->sheet->display_outlines      = 0 != (options & 0xc00);
+
+	/* Biff4 0x3000 window arrangement 
+	 *     0b == tiled
+	 *     1b == arrange horiz
+	 *    10b == arrange vert
+	 *    11b == cascade */
+
+	/* biff 4-8 0x4000, 0 == std expr eval, 1 == alt expr eval ? */
+	/* biff 4-8 0x8000, 0 == std fmla entry, 1 == alt fmla entry ? */
 }
 
 static void

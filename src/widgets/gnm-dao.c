@@ -178,13 +178,13 @@ const char *dao_group[] = {
 static void
 cb_emit_readiness_changed (G_GNUC_UNUSED GtkWidget *dummy, GnmDao *gdao)
 {
-	gtk_signal_emit_by_name (GTK_OBJECT (gdao), "readiness-changed");
+	g_signal_emit_by_name (G_OBJECT (gdao), "readiness-changed");
 }
 
 static void
 cb_emit_activate (G_GNUC_UNUSED GtkWidget *dummy, GnmDao *gdao)
 {
-	gtk_signal_emit_by_name (GTK_OBJECT (gdao), "activate");
+	g_signal_emit_by_name (G_OBJECT (gdao), "activate");
 }
 
 static void

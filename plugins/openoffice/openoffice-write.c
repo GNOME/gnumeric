@@ -26,6 +26,7 @@
 #include <gnumeric.h>
 #include <workbook-view.h>
 #include <file.h>
+#include <io-context.h>
 #include <format.h>
 #include <workbook.h>
 #include <workbook-priv.h> /* Workbook::names */
@@ -57,6 +58,7 @@
 #include <gsf/gsf-outfile.h>
 #include <gsf/gsf-outfile-zip.h>
 #include <gsf/gsf-utils.h>
+#include <glib/gi18n.h>
 #include <locale.h>
 
 #define MANIFEST "manifest:"
@@ -64,16 +66,26 @@
 #define STYLE	 "style:"
 #define TABLE	 "table:"
 
+typedef struct {
+	GsfXMLOut *xml;
+	IOContext *ioc;
+	WorkbookView const *wbv;
+	Workbook const	   *wb;
+} GnmOOExport;
+
 void	openoffice_file_save (GnmFileSaver const *fs, IOContext *ioc,
 			      WorkbookView const *wbv, GsfOutput *output);
 
 static void
-oo_write_mimetype (WorkbookView const *wbv, IOContext *ioc, GsfOutput *child)
+oo_write_mimetype (GnmOOExport *state, GsfOutput *child)
 {
 	gsf_output_puts (child, "application/vnd.sun.xml.calc");
 }
 
 /*****************************************************************************/
+
+static unsigned oo_max_cols () { return 256; }
+static unsigned oo_max_rows () { return 32000; }
 
 static void
 oo_start_style (GsfXMLOut *xml, char const *name, char const *family)
@@ -83,20 +95,65 @@ oo_start_style (GsfXMLOut *xml, char const *name, char const *family)
 	gsf_xml_out_add_cstr_unchecked (xml, STYLE "family", family);
 }
 static void
-oo_write_table_styles (GsfXMLOut *xml, Workbook const *wb)
+oo_write_table_styles (GnmOOExport *state)
 {
-	oo_start_style (xml, "ta1", "table");
-	gsf_xml_out_add_cstr_unchecked (xml, STYLE "master-page-name", "Default");
+	oo_start_style (state->xml, "ta1", "table");
+	gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "master-page-name", "Default");
 
-	gsf_xml_out_start_element (xml, STYLE "properties");
-	gsf_xml_out_add_bool (xml, TABLE "display", TRUE);
-	gsf_xml_out_end_element (xml); /* </style:properties> */
+	gsf_xml_out_start_element (state->xml, STYLE "properties");
+	gsf_xml_out_add_bool (state->xml, TABLE "display", TRUE);
+	gsf_xml_out_end_element (state->xml); /* </style:properties> */
 
-	gsf_xml_out_end_element (xml); /* </style:style> */
+	gsf_xml_out_end_element (state->xml); /* </style:style> */
 }
 
 static void
-oo_write_content (WorkbookView const *wbv, IOContext *ioc, GsfOutput *child)
+oo_write_sheet (GnmOOExport *state, Sheet const *sheet)
+{
+	GnmStyle *col_styles [SHEET_MAX_COLS];
+	GnmRange  extent;
+	int max_cols = oo_max_cols ();
+	int max_rows = oo_max_rows ();
+	int i;
+
+	extent = sheet_get_extent (sheet, FALSE);
+	if (extent.end.row >= max_rows) {
+		gnm_io_warning (state->ioc,
+			_("Some content will be lost when saving as OpenOffice .sxc. "
+			  "It only supports %d rows, and sheet '%s' has %d"),
+			max_rows, sheet->name_unquoted, extent.end.row);
+		extent.end.row = max_rows;
+	}
+	if (extent.end.col >= max_cols) {
+		gnm_io_warning (state->ioc,
+			_("Some content will be lost when saving as OpenOffice .sxc. "
+			  "It only supports %d columns, and sheet '%s' has %d"),
+			max_cols, sheet->name_unquoted, extent.end.col);
+		extent.end.col = max_cols;
+	}
+
+	sheet_style_get_extent (sheet, &extent, col_styles);
+
+	/* include collapsed or hidden cols and rows */
+	for (i = max_rows ; i-- > extent.end.row ; )
+		if (!colrow_is_empty (sheet_row_get (sheet, i))) {
+			extent.end.row = i;
+			break;
+		}
+	for (i = max_cols ; i-- > extent.end.col ; )
+		if (!colrow_is_empty (sheet_col_get (sheet, i))) {
+			extent.end.col = i;
+			break;
+		}
+	/* It is ok to have formatting out of range, we can disregard that. */
+	if (extent.end.col > max_cols)
+		extent.end.col = max_cols;
+	if (extent.end.row > max_rows)
+		extent.end.row = max_rows;
+}
+
+static void
+oo_write_content (GnmOOExport *state, GsfOutput *child)
 {
 	static struct {
 		char const *key;
@@ -117,64 +174,64 @@ oo_write_content (WorkbookView const *wbv, IOContext *ioc, GsfOutput *child)
 		{ "xmlns:form",		"http://openoffice.org/2000/form" },
 		{ "xmlns:script",	"http://openoffice.org/2000/script" },
 	};
-	GsfXMLOut *xml = gsf_xml_out_new (child);
-	Workbook const *wb = wb_view_workbook (wbv);
 	int i;
 
-	gsf_xml_out_set_doc_type (xml, 
+	state->xml = gsf_xml_out_new (child);
+	gsf_xml_out_set_doc_type (state->xml, 
 		"<!DOCTYPE "
 		   "office:document-content "
 		   "PUBLIC "
 		   "\"-//OpenOffice.org//DTD "
 		   "OfficeDocument "
 		   "1.0//EN\" \"office.dtd\">");
-	gsf_xml_out_start_element (xml, OFFICE "document-content");
+	gsf_xml_out_start_element (state->xml, OFFICE "document-content");
 
 	for (i = 0 ; i < (int)G_N_ELEMENTS (ns) ; i++)
-		gsf_xml_out_add_cstr_unchecked (xml, ns[i].key, ns[i].url);
-	gsf_xml_out_add_cstr_unchecked (xml, OFFICE "class", "spreadsheet");
-	gsf_xml_out_add_cstr_unchecked (xml, OFFICE "version", "1.0");
+		gsf_xml_out_add_cstr_unchecked (state->xml, ns[i].key, ns[i].url);
+	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "class", "spreadsheet");
+	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version", "1.0");
 
-	gsf_xml_out_simple_element (xml, OFFICE "script", NULL);
+	gsf_xml_out_simple_element (state->xml, OFFICE "script", NULL);
 
-	gsf_xml_out_start_element (xml, OFFICE "font-decls");
-	gsf_xml_out_end_element (xml); /* </office:font-decls> */
+	gsf_xml_out_start_element (state->xml, OFFICE "font-decls");
+	gsf_xml_out_end_element (state->xml); /* </office:font-decls> */
 
-	gsf_xml_out_start_element (xml, OFFICE "automatic-styles");
-	oo_write_table_styles (xml, wb);
-	gsf_xml_out_end_element (xml); /* </office:automatic-styles> */
+	gsf_xml_out_start_element (state->xml, OFFICE "automatic-styles");
+	oo_write_table_styles (state);
+	gsf_xml_out_end_element (state->xml); /* </office:automatic-styles> */
 
-	gsf_xml_out_start_element (xml, OFFICE "body");
-	for (i = 0; i < workbook_sheet_count (wb); i++) {
-		Sheet *sheet = workbook_sheet_by_index (wb, i);
+	gsf_xml_out_start_element (state->xml, OFFICE "body");
+	for (i = 0; i < workbook_sheet_count (state->wb); i++) {
+		Sheet *sheet = workbook_sheet_by_index (state->wb, i);
 #warning validate sheet name against OOo conventions
-		gsf_xml_out_start_element (xml, TABLE "table");
-		gsf_xml_out_add_cstr (xml, TABLE "name", sheet->name_unquoted);
-		gsf_xml_out_end_element (xml); /* </table:table> */
+		gsf_xml_out_start_element (state->xml, TABLE "table");
+		gsf_xml_out_add_cstr (state->xml, TABLE "name", sheet->name_unquoted);
+		oo_write_sheet (state, sheet);
+		gsf_xml_out_end_element (state->xml); /* </table:table> */
 	}
-	gsf_xml_out_end_element (xml); /* </office:automatic-styles> */
+	gsf_xml_out_end_element (state->xml); /* </office:automatic-styles> */
 
-	gsf_xml_out_end_element (xml); /* </office:document-content> */
+	gsf_xml_out_end_element (state->xml); /* </office:document-content> */
 }
 
 /*****************************************************************************/
 
 static void
-oo_write_styles (WorkbookView const *wbv, IOContext *ioc, GsfOutput *child)
+oo_write_styles (GnmOOExport *state, GsfOutput *child)
 {
 }
 
 /*****************************************************************************/
 
 static void
-oo_write_meta (WorkbookView const *wbv, IOContext *ioc, GsfOutput *child)
+oo_write_meta (GnmOOExport *state, GsfOutput *child)
 {
 }
 
 /*****************************************************************************/
 
 static void
-oo_write_settings (WorkbookView const *wbv, IOContext *ioc, GsfOutput *child)
+oo_write_settings (GnmOOExport *state, GsfOutput *child)
 {
 }
 
@@ -190,7 +247,7 @@ oo_file_entry (GsfXMLOut *out, char const *type, char const *name)
 }
 
 static void
-oo_write_manifest (WorkbookView const *wbv, IOContext *ioc, GsfOutput *child)
+oo_write_manifest (GnmOOExport *state, GsfOutput *child)
 {
 	GsfXMLOut *xml = gsf_xml_out_new (child);
 	gsf_xml_out_set_doc_type (xml, 
@@ -219,7 +276,7 @@ openoffice_file_save (GnmFileSaver const *fs, IOContext *ioc,
 		      WorkbookView const *wbv, GsfOutput *output)
 {
 	static struct {
-		void (*func) (WorkbookView const *wbv, IOContext *ioc, GsfOutput *child);
+		void (*func) (GnmOOExport *state, GsfOutput *child);
 		char const *name;
 	} const streams[] = {
 		{ oo_write_mimetype,	"mimetype" },
@@ -230,6 +287,7 @@ openoffice_file_save (GnmFileSaver const *fs, IOContext *ioc,
 		{ oo_write_manifest,	"META-INF/manifest.xml" }
 	};
 
+	GnmOOExport state;
 	char *old_num_locale, *old_monetary_locale;
 	GsfOutfile *outfile = NULL;
 	GsfOutput  *child;
@@ -244,9 +302,12 @@ openoffice_file_save (GnmFileSaver const *fs, IOContext *ioc,
 
 	outfile = GSF_OUTFILE (gsf_outfile_zip_new (output, &err));
 
+	state.ioc = ioc;
+	state.wbv = wbv;
+	state.wb  = wb_view_workbook (wbv);
 	for (i = 0 ; i < G_N_ELEMENTS (streams); i++) {
 		child = gsf_outfile_new_child  (outfile, streams[i].name, FALSE);
-		streams[i].func (wbv, ioc, child);
+		streams[i].func (&state, child);
 		gsf_output_close (child);
 		g_object_unref (G_OBJECT (child));
 	}

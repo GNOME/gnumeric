@@ -633,17 +633,95 @@ value_intersection (GnmValue *v, GnmEvalPos const *pos)
 
 	return value_new_error_VALUE (pos);
 }
-#if 0
-static GnmValue *
-cb_range_eval (Sheet *sheet, int col, int row, GnmCell *cell, void *ignore)
-{
-	cell_eval (cell);
-	return NULL;
-}
-#endif
 
 static GnmValue *
-bin_cmp (GnmExprOp op, GnmValDiff comp, GnmEvalPos const *pos)
+bin_arith (GnmExpr const *expr, GnmEvalPos const *ep,
+	   GnmValue const *a, GnmValue const *b)
+{
+	if (a->type != VALUE_FLOAT && b->type != VALUE_FLOAT){
+		int ia = value_get_as_int (a);
+		int ib = value_get_as_int (b);
+		gnm_float dres;
+		int ires;
+
+		/* FIXME: we could use simple (cheap) heuristics to
+		   catch most cases where overflow will not happen.  */
+		switch (expr->any.oper){
+		case GNM_EXPR_OP_ADD:
+			dres = (gnm_float)ia + (gnm_float)ib;
+			break;
+
+		case GNM_EXPR_OP_SUB:
+			dres = (gnm_float)ia - (gnm_float)ib;
+			break;
+
+		case GNM_EXPR_OP_MULT:
+			dres = (gnm_float)ia * (gnm_float)ib;
+			break;
+
+		case GNM_EXPR_OP_DIV:
+			if (ib == 0)
+				return value_new_error_DIV0 (ep);
+			dres = (gnm_float)ia / (gnm_float)ib;
+			break;
+
+		case GNM_EXPR_OP_EXP:
+			if (ia == 0 && ib <= 0)
+				return value_new_error_NUM (ep);
+			dres = powgnum ((gnm_float)ia, (gnm_float)ib);
+			if (!finitegnum (dres))
+				return value_new_error_NUM (ep);
+			break;
+
+		default:
+			abort ();
+		}
+
+		ires = (int)dres;
+		if (dres == ires)
+			return value_new_int (ires);
+		else
+			return value_new_float (dres);
+	} else {
+		gnm_float const va = value_get_as_float (a);
+		gnm_float const vb = value_get_as_float (b);
+
+		switch (expr->any.oper){
+		case GNM_EXPR_OP_ADD:
+			return value_new_float (va + vb);
+
+		case GNM_EXPR_OP_SUB:
+			return value_new_float (va - vb);
+
+		case GNM_EXPR_OP_MULT:
+			return value_new_float (va * vb);
+
+		case GNM_EXPR_OP_DIV:
+			return (vb == 0.0)
+				? value_new_error_DIV0 (ep)
+				: value_new_float (va / vb);
+
+		case GNM_EXPR_OP_EXP: {
+			gnm_float res;
+			if ((va == 0 && vb <= 0) ||
+			    (va < 0 && vb != (int)vb))
+				return value_new_error_NUM (ep);
+
+			res = powgnum (va, vb);
+			return finitegnum (res)
+				? value_new_float (res)
+				: value_new_error_NUM (ep);
+		}
+
+		default:
+			break;
+		}
+	}
+	return value_new_error (ep, _("Unknown operator"));
+}
+
+static GnmValue *
+bin_cmp (GnmExprOp op, GnmValDiff comp, GnmEvalPos const *ep)
 {
 	if (comp == TYPE_MISMATCH) {
 		/* TODO TODO TODO : Make error more informative
@@ -655,7 +733,7 @@ bin_cmp (GnmExprOp op, GnmValDiff comp, GnmEvalPos const *pos)
 		if (op == GNM_EXPR_OP_NOT_EQUAL)
 			return value_new_bool (TRUE);
 
-		return value_new_error_VALUE (pos);
+		return value_new_error_VALUE (ep);
 	}
 
 	switch (op) {
@@ -671,22 +749,225 @@ bin_cmp (GnmExprOp op, GnmValDiff comp, GnmEvalPos const *pos)
 		g_assert_not_reached ();
 #endif
 	}
-	return value_new_error (pos, _("Internal type error"));
+	return value_new_error (ep, _("Internal type error"));
 }
 
-#ifdef NOT_READY_YET
-/* args will be 'EE' */
 static GnmValue *
-func_bin_cmp (FunctionEvalInfo *ei, GnmValue *argv [])
+cb_bin_cmp (GnmEvalPos const *ep, GnmValue const *a, GnmValue const *b,
+	    GnmExpr const *expr)
 {
-	if (argv[0]->type == VALUE_ERROR)
-		return argv[0];
-	if (argv[0]->type == VALUE_ERROR)
-		return argv[1];
-	return bin_cmp (expr->any.oper, 
-		value_compare (argv[0], argv[1], FALSE), ei->pos);
+	if (a != NULL && a->type == VALUE_ERROR)
+		return value_dup (a);
+	if (b != NULL && b->type == VALUE_ERROR)
+		return value_dup (b);
+	return bin_cmp (expr->any.oper, value_compare (a, b, FALSE), ep);
 }
-#endif
+
+static GnmValue *
+cb_bin_arith (GnmEvalPos const *ep, GnmValue const *a, GnmValue const *b,
+	      GnmExpr const *expr)
+{
+	GnmValue *res, *va, *vb;
+
+	if (a != NULL && a->type == VALUE_ERROR)
+		return value_dup (a);
+	if (b != NULL && b->type == VALUE_ERROR)
+		return value_dup (b);
+	if (a == NULL)
+		va = value_new_int (0);
+	else if (a->type == VALUE_STRING) {
+		va = format_match_number (a->v_str.val->str, NULL,
+			workbook_date_conv (ep->sheet->workbook));
+		if (va == NULL)
+			return value_new_error_VALUE (ep);
+	} else if (!VALUE_IS_NUMBER (a))
+		return value_new_error_VALUE (ep);
+	else
+		va = (GnmValue *)a;
+	if (b == NULL)
+		vb = value_new_int (0);
+	else if (b->type == VALUE_STRING) {
+		vb = format_match_number (b->v_str.val->str, NULL,
+			workbook_date_conv (ep->sheet->workbook));
+		if (vb == NULL) {
+			if (va != a)
+				value_release (va);
+			return value_new_error_VALUE (ep);
+		}
+	} else if (!VALUE_IS_NUMBER (b)) {
+		if (va != a)
+			value_release (va);
+		return value_new_error_VALUE (ep);
+	} else
+		vb = (GnmValue *)b;
+
+	res = bin_arith (expr, ep, va, vb);
+	if (va != a)
+		value_release (va);
+	if (vb != b)
+		value_release (vb);
+	return res;
+}
+
+static GnmValue *
+cb_bin_cat (GnmEvalPos const *ep, GnmValue const *a, GnmValue const *b,
+	    GnmExpr const *expr)
+{
+	if (a != NULL && a->type == VALUE_ERROR)
+		return value_dup (a);
+	if (b != NULL && b->type == VALUE_ERROR)
+		return value_dup (b);
+	if (a == NULL) {
+		if (b != NULL)
+			return value_new_string (value_peek_string (b));
+		else
+			return value_new_string ("");
+	} else if (b == NULL)
+		return value_new_string (value_peek_string (a));
+	else {
+		char *tmp = g_strconcat (value_peek_string (a),
+					 value_peek_string (b), NULL);
+		return value_new_string_nocopy (tmp);
+	}
+}
+
+typedef GnmValue *(*BinOpImplicitIteratorFunc) (GnmEvalPos const *ep,
+						GnmValue const *a,
+						GnmValue const *b,
+						gpointer user_data);
+typedef struct {
+	GnmValue *res;
+	GnmValue const *a, *b;
+	BinOpImplicitIteratorFunc	func;
+	gpointer	user_data;
+} BinOpImplicitIteratorState;
+
+static GnmValue *
+cb_implicit_iter_a_to_b (GnmValue const *v, GnmEvalPos const *ep,
+			 int x, int y, BinOpImplicitIteratorState const *state)
+{
+	state->res->v_array.vals [x][y] = (*state->func) (ep,
+		v, value_area_get_x_y (state->b, x, y, ep), state->user_data);
+	return NULL;
+}
+static GnmValue *
+cb_implicit_iter_a_to_scalar_b (GnmValue const *v, GnmEvalPos const *ep,
+				int x, int y, BinOpImplicitIteratorState const *state)
+{
+	state->res->v_array.vals [x][y] = (*state->func) (ep,
+		v, state->b, state->user_data);
+	return NULL;
+}
+static GnmValue *
+cb_implicit_iter_b_to_scalar_a (GnmValue const *v, GnmEvalPos const *ep,
+				int x, int y, BinOpImplicitIteratorState const *state)
+{
+	state->res->v_array.vals [x][y] = (*state->func) (ep,
+		state->a, v, state->user_data);
+	return NULL;
+}
+
+static GnmValue *
+bin_array_op (GnmEvalPos const *ep, GnmValue *sizer, GnmValue *a, GnmValue *b,
+	      BinOpImplicitIteratorFunc func, gpointer user_data)
+{
+	BinOpImplicitIteratorState iter_info;
+	
+	if (sizer != a || b == NULL || b->type != VALUE_ERROR) {
+		iter_info.func = func;
+		iter_info.user_data = user_data;
+		iter_info.a = a;
+		iter_info.b = b;
+		iter_info.res = value_new_array_empty (
+			value_area_get_width  (sizer, ep),
+			value_area_get_height (sizer, ep));
+		if (sizer == b)
+			value_area_foreach (b, ep, CELL_ITER_ALL,
+				(ValueAreaFunc) cb_implicit_iter_b_to_scalar_a, &iter_info);
+		else if (b != NULL &&
+			   (b->type == VALUE_CELLRANGE || b->type == VALUE_ARRAY))
+			value_area_foreach (a, ep, CELL_ITER_ALL,
+				(ValueAreaFunc) cb_implicit_iter_a_to_b, &iter_info);
+		else
+			value_area_foreach (a, ep, CELL_ITER_ALL,
+				(ValueAreaFunc) cb_implicit_iter_a_to_scalar_b, &iter_info);
+	} else
+		/* you have to love the aymetry of MS XL */
+		iter_info.res = value_new_error_VALUE (ep);
+	if (a != NULL)
+		value_release (a);
+	if (b != NULL)
+		value_release (b);
+	return iter_info.res;
+}
+
+static GnmValue *
+cb_iter_unary_neg (GnmValue const *v, GnmEvalPos const *ep,
+		   int x, int y, GnmValue *res)
+{
+	GnmValue *tmp, *conv = NULL;
+	GnmFormat *fmt = NULL; 
+
+	if (VALUE_IS_EMPTY (v))
+		tmp = value_new_int (0);
+	else if (v->type == VALUE_ERROR)
+		tmp = value_dup (v);
+	else if (v->type == VALUE_STRING) {
+		conv = format_match_number (a->v_str.val->str, NULL,
+			workbook_date_conv (pos->sheet->workbook));
+		if (conv != NULL)
+			v = conv;
+	}
+	if (v->type == VALUE_INTEGER) {
+		tmp = value_new_int (-v->v_int.val);
+		fmt = VALUE_FMT (v);
+	} else if (v->type == VALUE_FLOAT) {
+		tmp = value_new_float (-v->v_float.val);
+		fmt = VALUE_FMT (v);
+	} else if (v->type == VALUE_BOOLEAN) {
+		tmp = value_new_int (v->v_bool.val ? -1 : 0);
+		fmt = VALUE_FMT (v);
+	} else
+		tmp = value_new_error_VALUE (ep);
+
+	if (fmt != NULL) {
+		VALUE_FMT (tmp) = fmt;
+		style_format_ref (fmt);
+	}
+	if (conv != NULL)
+		value_release (conv);
+	res->v_array.vals [x][y] = tmp;
+	return NULL;
+}
+
+static GnmValue *
+cb_iter_percentage (GnmValue const *v, GnmEvalPos const *ep,
+		    int x, int y, GnmValue *res)
+{
+	GnmValue *tmp, *conv = NULL;
+
+	if (VALUE_IS_EMPTY (v))
+		tmp = value_new_int (0);
+	else if (v->type == VALUE_ERROR)
+		tmp = value_dup (v);
+	else if (v->type == VALUE_STRING) {
+		conv = format_match_number (a->v_str.val->str, NULL,
+			workbook_date_conv (pos->sheet->workbook));
+		if (conv != NULL)
+			v = conv;
+	}
+
+	if (VALUE_IS_NUMBER (v)){
+		tmp = value_new_float (value_get_as_float (v) / 100);
+		VALUE_FMT (tmp) = style_format_default_percentage ();
+		style_format_ref (VALUE_FMT (tmp));
+	} else
+		tmp = value_new_error_VALUE (ep);
+	if (conv != NULL)
+		value_release (conv);
+	res->v_array.vals [x][y] = tmp;
+	return NULL;
+}
 
 /**
  * gnm_expr_eval :
@@ -696,7 +977,7 @@ func_bin_cmp (FunctionEvalInfo *ei, GnmValue *argv [])
  *
  * if GNM_EXPR_EVAL_PERMIT_EMPTY is not set then return int(0) if the
  * expression returns empty, or the  value of an unused cell.
- */
+ **/
 GnmValue *
 gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 	       GnmExprEvalFlags flags)
@@ -712,30 +993,39 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 	case GNM_EXPR_OP_GT:
 	case GNM_EXPR_OP_GTE:
 	case GNM_EXPR_OP_LT:
-	case GNM_EXPR_OP_LTE: {
-		GnmValDiff comp;
-		flags = (flags | GNM_EXPR_EVAL_PERMIT_EMPTY) & ~GNM_EXPR_EVAL_PERMIT_NON_SCALAR;
+	case GNM_EXPR_OP_LTE:
+		flags = (flags | GNM_EXPR_EVAL_PERMIT_EMPTY);
 
 		a = gnm_expr_eval (expr->binary.value_a, pos, flags);
-		if (a != NULL && a->type == VALUE_ERROR)
-			return a;
-
-		b = gnm_expr_eval (expr->binary.value_b, pos, flags);
-		if (b != NULL && b->type == VALUE_ERROR) {
-			if (a != NULL)
-				value_release (a);
-			return b;
+		if (a != NULL) {
+			if (a->type == VALUE_ERROR)
+				return a;
+			if (a->type == VALUE_CELLRANGE || a->type == VALUE_ARRAY)
+				return bin_array_op (pos, a, a,
+					gnm_expr_eval (expr->binary.value_b, pos, flags),
+					(BinOpImplicitIteratorFunc) cb_bin_cmp,
+					(gpointer) expr);
 		}
 
-		comp = value_compare (a, b, FALSE);
+		b = gnm_expr_eval (expr->binary.value_b, pos, flags);
+		if (b != NULL) {
+			if (b->type == VALUE_ERROR) {
+				if (a != NULL)
+					value_release (a);
+				return b;
+			}
+			if (b->type == VALUE_CELLRANGE || b->type == VALUE_ARRAY)
+				return bin_array_op (pos, b, a, b,
+					(BinOpImplicitIteratorFunc) cb_bin_cmp,
+					(gpointer) expr);
+		}
 
+		res = bin_cmp (expr->any.oper, value_compare (a, b, FALSE), pos);
 		if (a != NULL)
 			value_release (a);
 		if (b != NULL)
 			value_release (b);
-
-		return bin_cmp (expr->any.oper, comp, pos);
-	}
+		return res;
 
 	case GNM_EXPR_OP_ADD:
 	case GNM_EXPR_OP_SUB:
@@ -752,7 +1042,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		 */
 
 	        /* Guarantees value != NULL */
-		flags &= ~(GNM_EXPR_EVAL_PERMIT_EMPTY | GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
+		flags &= ~GNM_EXPR_EVAL_PERMIT_EMPTY;
 
 		/* 1) Error from A */
 		a = gnm_expr_eval (expr->binary.value_a, pos, flags);
@@ -768,6 +1058,17 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 			if (tmp == NULL)
 				return value_new_error_VALUE (pos);
 			a = tmp;
+		} else if (a->type == VALUE_CELLRANGE || a->type == VALUE_ARRAY) {
+			b = gnm_expr_eval (expr->binary.value_b, pos, flags);
+			if (b->type == VALUE_STRING) {
+				res = format_match_number (b->v_str.val->str, NULL,
+					workbook_date_conv (pos->sheet->workbook));
+				value_release (b);
+				b = (res == NULL) ? value_new_error_VALUE (pos) : res;
+			}
+			return bin_array_op (pos, a, a, b,
+				(BinOpImplicitIteratorFunc) cb_bin_arith,
+				(gpointer) expr);
 		} else if (!VALUE_IS_NUMBER (a)) {
 			value_release (a);
 			return value_new_error_VALUE (pos);
@@ -791,122 +1092,59 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 				return value_new_error_VALUE (pos);
 			}
 			b = tmp;
-		} else if (!VALUE_IS_NUMBER (b)) {
-			value_release (a);
-			value_release (b);
-			return value_new_error_VALUE (pos);
-		}
-
-		if (a->type != VALUE_FLOAT && b->type != VALUE_FLOAT){
-			int ia = value_get_as_int (a);
-			int ib = value_get_as_int (b);
-			gnm_float dres;
-			int ires;
-
-			value_release (a);
-			value_release (b);
-
-			/* FIXME: we could use simple (cheap) heuristics to
-			   catch most cases where overflow will not happen.  */
-			switch (expr->any.oper){
-			case GNM_EXPR_OP_ADD:
-				dres = (gnm_float)ia + (gnm_float)ib;
-				break;
-
-			case GNM_EXPR_OP_SUB:
-				dres = (gnm_float)ia - (gnm_float)ib;
-				break;
-
-			case GNM_EXPR_OP_MULT:
-				dres = (gnm_float)ia * (gnm_float)ib;
-				break;
-
-			case GNM_EXPR_OP_DIV:
-				if (ib == 0)
-					return value_new_error_DIV0 (pos);
-				dres = (gnm_float)ia / (gnm_float)ib;
-				break;
-
-			case GNM_EXPR_OP_EXP:
-				if (ia == 0 && ib <= 0)
-					return value_new_error_NUM (pos);
-				dres = powgnum ((gnm_float)ia, (gnm_float)ib);
-				if (!finitegnum (dres))
-					return value_new_error_NUM (pos);
-				break;
-
-			default:
-				abort ();
-			}
-
-			ires = (int)dres;
-			if (dres == ires)
-				return value_new_int (ires);
-			else
-				return value_new_float (dres);
-		} else {
-			gnm_float const va = value_get_as_float (a);
-			gnm_float const vb = value_get_as_float (b);
-			value_release (a);
-			value_release (b);
-
-			switch (expr->any.oper){
-			case GNM_EXPR_OP_ADD:
-				return value_new_float (va + vb);
-
-			case GNM_EXPR_OP_SUB:
-				return value_new_float (va - vb);
-
-			case GNM_EXPR_OP_MULT:
-				return value_new_float (va * vb);
-
-			case GNM_EXPR_OP_DIV:
-				return (vb == 0.0)
-					? value_new_error_DIV0 (pos)
-					: value_new_float (va / vb);
-
-			case GNM_EXPR_OP_EXP: {
-				gnm_float res;
-				if ((va == 0 && vb <= 0) ||
-				    (va < 0 && vb != (int)vb))
-					return value_new_error_NUM (pos);
-
-				res = powgnum (va, vb);
-				return finitegnum (res)
-					? value_new_float (res)
-					: value_new_error_NUM (pos);
-			}
-
-			default:
-				break;
-			}
-		}
-		return value_new_error (pos, _("Unknown operator"));
+		} else if (b->type == VALUE_CELLRANGE || b->type == VALUE_ARRAY)
+			return bin_array_op (pos, b, a, b,
+				(BinOpImplicitIteratorFunc) cb_bin_arith,
+				(gpointer) expr);
+		else if (!VALUE_IS_NUMBER (b))
+			res = value_new_error_VALUE (pos);
+		else
+			res = bin_arith (expr, pos, a, b);
+		value_release (a);
+		value_release (b);
+		return res;
 
 	case GNM_EXPR_OP_PERCENTAGE:
 	case GNM_EXPR_OP_UNARY_NEG:
 	case GNM_EXPR_OP_UNARY_PLUS:
 	        /* Guarantees value != NULL */
-		flags &= ~(GNM_EXPR_EVAL_PERMIT_EMPTY | GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
+		flags &= ~(GNM_EXPR_EVAL_PERMIT_EMPTY);
 
 		a = gnm_expr_eval (expr->unary.value, pos, flags);
 		if (a->type == VALUE_ERROR)
 			return a;
-
 		if (expr->any.oper == GNM_EXPR_OP_UNARY_PLUS)
 			return a;
 
-		if (!VALUE_IS_NUMBER (a)){
+		/* 2) #!VALUE error if A is not a number */
+		if (a->type == VALUE_STRING) {
+			GnmValue *tmp = format_match_number (a->v_str.val->str, NULL,
+				workbook_date_conv (pos->sheet->workbook));
+
 			value_release (a);
-			return value_new_error_VALUE (pos);
+			if (tmp == NULL)
+				return value_new_error_VALUE (pos);
+			a = tmp;
+		} else if (a->type == VALUE_CELLRANGE || a->type == VALUE_ARRAY) {
+			res = value_new_array_empty (
+				value_area_get_width  (a, pos),
+				value_area_get_height (a, pos));
+			value_area_foreach (a, pos, CELL_ITER_ALL,
+				(ValueAreaFunc) ((expr->any.oper == GNM_EXPR_OP_UNARY_NEG) 
+					? cb_iter_unary_neg : cb_iter_percentage),
+				res);
+			value_release (a);
+			return res;
 		}
-		if (expr->any.oper == GNM_EXPR_OP_UNARY_NEG) {
+		if (!VALUE_IS_NUMBER (a))
+			res = value_new_error_VALUE (pos);
+		else if (expr->any.oper == GNM_EXPR_OP_UNARY_NEG) {
 			if (a->type == VALUE_INTEGER)
 				res = value_new_int (-a->v_int.val);
 			else if (a->type == VALUE_FLOAT)
 				res = value_new_float (-a->v_float.val);
-			else
-				res = value_new_bool (!a->v_float.val);
+			else /* silly */
+				res = value_new_int (a->v_bool.val ? -1 : 0);
 			if (VALUE_FMT (a) != NULL) {
 				VALUE_FMT (res) = VALUE_FMT (a);
 				style_format_ref (VALUE_FMT (res));
@@ -920,15 +1158,28 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		return res;
 
 	case GNM_EXPR_OP_CAT:
-		flags = (flags | GNM_EXPR_EVAL_PERMIT_EMPTY) & ~GNM_EXPR_EVAL_PERMIT_NON_SCALAR;
+		flags |= GNM_EXPR_EVAL_PERMIT_EMPTY;
 		a = gnm_expr_eval (expr->binary.value_a, pos, flags);
-		if (a != NULL && a->type == VALUE_ERROR)
-			return a;
+		if (a != NULL) {
+			if (a->type == VALUE_ERROR)
+				return a;
+			if (a->type == VALUE_CELLRANGE || a->type == VALUE_ARRAY)
+				return bin_array_op (pos, a, a,
+					gnm_expr_eval (expr->binary.value_b, pos, flags),
+					(BinOpImplicitIteratorFunc) cb_bin_cat,
+					(gpointer) expr);
+		}
 		b = gnm_expr_eval (expr->binary.value_b, pos, flags);
-		if (b != NULL && b->type == VALUE_ERROR) {
-			if (a != NULL)
-				value_release (a);
-			return b;
+		if (b != NULL) {
+			if (b->type == VALUE_ERROR) {
+				if (a != NULL)
+					value_release (a);
+				return b;
+			}
+			if (b->type == VALUE_CELLRANGE || b->type == VALUE_ARRAY)
+				return bin_array_op (pos, b, a, b,
+					(BinOpImplicitIteratorFunc) cb_bin_cat,
+					(gpointer) expr);
 		}
 
 		if (a == NULL) {
@@ -947,7 +1198,6 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 			value_release (a);
 			value_release (b);
 		}
-
 		return res;
 
 	case GNM_EXPR_OP_FUNCALL: {

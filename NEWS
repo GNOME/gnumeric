@@ -37,7 +37,14 @@ Jody:
 	* MS XL import for chart gradient backgrounds
 	* Support series without legend entries, including xls import
 	* Started on an OOo exporter
-	* Tweak XL export for named expressions and addins
+	http://bugzilla.gnome.org/show_bug.cgi?id=103054
+	* Tweak XL import and export for named expressions / addins
+	http://bugzilla.gnome.org/show_bug.cgi?id=142474
+	* Use first rather than last conditional value fmt as catch-all
+	* Implicit iteration for operators
+	* Make the unary operators XL compatible
+	* start work on xls export for charts
+	* start work on OOo export
 
 Morten:
 	* Fix crash related to database functions (#138600).  [backported]

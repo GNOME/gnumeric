@@ -110,6 +110,10 @@ void     ms_biff_put_var_seekto (BiffPut *bp, int pos);
 /* Must commit after each record */
 void     ms_biff_put_commit     (BiffPut *bp);
 
+/* convenience routines for simple records */
+void     ms_biff_put_empty   (BiffPut *bp, guint16 opcode);
+void     ms_biff_put_2byte   (BiffPut *bp, guint16 opcode, guint16 data);
+
 unsigned ms_biff_max_record_len (BiffPut const *bp);
 
 #endif /* GNUMERIC_BIFF_H */

@@ -15,6 +15,7 @@
 #include "ms-chart.h"
 #include "ms-formula-read.h"
 #include "ms-excel-read.h"
+#include "ms-excel-write.h"
 #include "ms-escher.h"
 
 #include <parse-util.h>
@@ -2325,7 +2326,168 @@ ms_excel_read_chart_BOF (BiffQuery *q, MSContainer *container, SheetObject *sog)
 
 /***************************************************************************/
 
-void
-ms_excel_read_write_chart (ExcelWriteState *ewb, SheetObject *so)
+typedef struct {
+	BiffPut		*bp;
+	SheetObject	*so;
+	GogGraph	*gog;
+
+	unsigned	 nest_level;
+} ExcelWriteChart;
+
+static void
+chart_write_BEGIN (ExcelWriteChart *state)
 {
+	ms_biff_put_empty (state->bp, BIFF_CHART_begin);
+	state->nest_level++;
+}
+
+static void
+chart_write_END (ExcelWriteChart *state)
+{
+	g_return_if_fail (state->nest_level > 0);
+	state->nest_level--;
+	ms_biff_put_empty (state->bp, BIFF_CHART_end);
+}
+
+static void
+chart_write_FBI (ExcelWriteChart *state, guint16 n)
+{
+	/* seems to vary from machine to machine */
+	static guint8 const fbi[] = { 0xe4, 0x1b, 0xd0, 0x11, 0xc8, 0, 0, 0 };
+	guint8 *data = ms_biff_put_len_next (state->bp, BIFF_CHART_fbi, 10);
+	memcpy (data, fbi, sizeof fbi);
+	GSF_LE_SET_GUINT16 (data + sizeof fbi, n);
+	ms_biff_put_commit (state->bp);
+}
+
+static void
+chart_write_series (BiffPut *bp)
+{
+#if 0
+	BIFF_CHART_series
+	chart_write_BEGIN (state);
+		BIFF_CHART_ai (labels, values, catagory, bubbles)
+		BIFF_CHART_dataformat
+		chart_write_BEGIN (state);
+			BIFF_CHART_3dbarshape (always box)
+		chart_write_END (state);
+		BIFF_CHART_sertocrt
+	chart_write_END (state);
+#endif
+}
+
+static void
+chart_write_axis_sets (ExcelWriteChart *state)
+{
+#if 0
+	BIFF_CHART_axesused (num_axis)
+	{
+	BIFF_CHART_axisparent
+		BIFF_CHART_pos
+		{
+		BIFF_CHART_axis
+			if (is_discrete)
+				( BIFF_CHART_catserrange, BIFF_CHART_axcext, BIFF_CHART_tick | BIFF_CHART_axislineformat )
+			else
+				( BIFF_CHART_valuerange, BIFF_CHART_tick, BIFF_CHART_axislineformat )
+		BIFF_CHART_end } x { X, Y }
+
+		{
+		BIFF_CHART_plotarea
+		BIFF_CHART_frame
+			BIFF_CHART_lineformat
+			BIFF_CHART_areaformat
+		BIFF_CHART_end
+		} only for first axis parent
+		BIFF_CHART_chartformat
+			BIFF_CHART_bar
+			BIFF_CHART_chartformatlink
+			(
+			BIFF_CHART_legend
+				BIFF_CHART_pos
+				BIFF_CHART_text
+					BIFF_CHART_pos
+					BIFF_CHART_fontx
+					BIFF_CHART_ai
+				BIFF_CHART_end
+			BIFF_CHART_end
+			) only for first axis parent
+		BIFF_CHART_end
+
+	BIFF_CHART_end } x num_axis
+#endif
+}
+
+static void
+chart_write_chart (ExcelWriteChart *state, SheetObject *so)
+{
+	double pos[4];
+	guint8 *data = ms_biff_put_len_next (state->bp, BIFF_CHART_chart, 4*4);
+	guint32 tmp;
+
+	sheet_object_position_pts_get (so, pos);
+	GSF_LE_SET_GUINT32 (data + 0, 0);
+	GSF_LE_SET_GUINT32 (data + 4, 0);
+	tmp = (unsigned)(fabs (pos[2] - pos[0]) * (65535 * 72) + .5);
+	GSF_LE_SET_GUINT32 (data + 8, tmp);
+	tmp = (unsigned)(fabs (pos[3] - pos[1]) * (65535 * 72) + .5);
+	GSF_LE_SET_GUINT32 (data + 12, tmp);
+
+	chart_write_BEGIN (state);
+	excel_write_SCL	(state->bp, 1.0);
+
+#if 0
+		BIFF_CHART_plotgrowth
+		BIFF_CHART_frame
+			BIFF_CHART_lineformat
+			BIFF_CHART_areaformat
+		BIFF_CHART_end
+
+		chart_write_series (state) x num_series;
+
+		{
+		BIFF_CHART_defaulttext
+		BIFF_CHART_text
+			BIFF_CHART_pos
+			BIFF_CHART_fontx
+			BIFF_CHART_ai
+		BIFF_CHART_end
+		} x (applicability 2 & 3)
+
+#endif
+	chart_write_axis_sets (state);
+	chart_write_END (state);
+
+#if 0 /* they seem optional */
+	BIFF_DIMENSIONS
+	BIFF_CHART_siindex x num_series ?
+#endif
+}
+
+void
+ms_excel_write_chart (ExcelWriteState *ewb, SheetObject *so)
+{
+	ExcelWriteChart state;
+	state.bp  = ewb->bp;
+	state.so  = so;
+	state.gog = sheet_object_graph_get_gog (so);
+	state.nest_level = 0;
+
+	g_return_if_fail (state.gog != NULL);
+
+	ms_biff_put_empty (ewb->bp, BIFF_HEADER);
+	ms_biff_put_empty (ewb->bp, BIFF_FOOTER);
+	ms_biff_put_2byte (ewb->bp, BIFF_HCENTER, 0);
+	ms_biff_put_2byte (ewb->bp, BIFF_VCENTER, 0);
+	/* TODO : maintain this info on import */
+	excel_write_SETUP (ewb->bp, NULL);
+	/* undocumented always seems to be 3 */
+	ms_biff_put_2byte (ewb->bp, BIFF_PRINTSIZE, 3);
+	chart_write_FBI (&state, 0x500);
+	chart_write_FBI (&state, 0x600);
+
+	ms_biff_put_2byte (ewb->bp, BIFF_PROTECT, 0);
+	ms_biff_put_2byte (ewb->bp, BIFF_CHART_units, 0);
+
+	chart_write_chart (&state, so);
 }

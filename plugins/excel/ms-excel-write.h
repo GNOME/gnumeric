@@ -123,6 +123,8 @@ typedef enum {
 
 unsigned excel_write_string_len (guint8 const *txt, unsigned *bytes);
 unsigned excel_write_string	(BiffPut *bp, WriteStringFlags flags, guint8 const *txt);
+void	 excel_write_SETUP	(BiffPut *bp, ExcelWriteSheet *esheet);
+void	 excel_write_SCL	(BiffPut *bp, double zoom);
 
 int excel_write_get_externsheet_idx (ExcelWriteState *wb,
 				     Sheet *gnum_sheeta,

@@ -721,3 +721,17 @@ ms_biff_put_commit (BiffPut *bp)
 		ms_biff_put_var_commit (bp);
 }
 
+void
+ms_biff_put_empty (BiffPut *bp, guint16 opcode)
+{
+	ms_biff_put_len_next (bp, opcode, 0);
+	ms_biff_put_commit (bp);
+}
+
+void
+ms_biff_put_2byte (BiffPut *bp, guint16 opcode, guint16 content)
+{
+	guint8 *data = ms_biff_put_len_next (bp, opcode, 0);
+	GSF_LE_SET_GUINT16 (data, content);
+	ms_biff_put_commit (bp);
+}

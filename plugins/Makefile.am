@@ -10,6 +10,12 @@ PYFUNC_DIR =
 GNOME_GLOSSARY_DIR = 
 endif
 
+if WITH_MONO
+MONO_DIR=mono
+else
+MONO_DIR=
+endif
+
 if WITH_CORBA
 CORBA_DIR = corba
 else

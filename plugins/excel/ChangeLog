@@ -1,3 +1,18 @@
+2004-05-21  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_WSBOOL) : add more comments.
+
+	* ms-chart.c (ms_excel_write_chart) : start filling in some of the
+	  blanks.  No where near functional, but at least we can operate in
+	  'paint by numbers' mode for a while.
+
+	* ms-biff.c (ms_biff_put_empty) : new util
+	(ms_biff_put_2byte) : ditto.
+
+	* ms-excel-write.c : Use the new utilities to clarify the code.
+	(excel_write_SETUP) : make public for use in chart export
+	(excel_write_SCL) : make public for use in chart export
+
 2004-05-20  Morten Welinder  <terra@gnome.org>
 
 	* ms-escher.c (ms_escher_read_Blip): We were reading 8 bytes too

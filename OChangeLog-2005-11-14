@@ -1,3 +1,13 @@
+2004-05-21  Jody Goldberg <jody@gnome.org>
+
+	* src/expr.c : support implicit iteration for operators.  We now
+	  support all major evaluation mechanisms in ms excel.
+
+2004-05-19  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : bump libglade req to 2.3.6 to get the new combos
+	  Merge in an as yet unused test for mono while we're in here.
+
 2004-05-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=142836
@@ -13,6 +23,14 @@
 
 	* src/ssconvert.c: exports -> exporters in user visible
 	strings. Added translation tags.
+
+2004-05-15  Jody Goldberg <jody@gnome.org>
+
+	* src/format.c (format_value_gstring) : if nothing matches for numbers
+	  use the first fmt, other types == general.
+	(style_format_condition) : errors do not match strings, but bools do
+	(format_compile) : assign std conditions to any element without one,
+	  even the last.
 
 2004-05-16  Jean Brefort  <jean.brefort@ac-dijon.fr>
 
