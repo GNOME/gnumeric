@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
-"POT-Creation-Date: 1999-11-18 07:46-0600\n"
+"POT-Creation-Date: 1999-11-18 21:30+0000\n"
 "PO-Revision-Date: 1998-10-03 17:59+01:00\n"
 "Last-Translator: Nuno Ferreira <nmrf@rnl.ist.utl.pt>\n"
 "Language-Team: Portuguese <pt@li.org>\n"

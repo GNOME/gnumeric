@@ -1,5 +1,10 @@
-1999-11-18  Michael Meeks  <mmeeks@gnu.org>
+1999-11-18  Jon K Hellan  <hellan@acm.org>
 
+	* src/sheet.c (sheet_row_set_height_units): Use rows->default_style
+	not cols->default_style.
+
+1999-11-18  Michael Meeks  <mmeeks@gnu.org>
+	
 	* src/dialogs/Makefile.am (glade_msgs): Add cell-sort.glade.h
 
 1999-11-18  Miguel de Icaza  <miguel@gnu.org>

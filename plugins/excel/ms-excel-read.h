@@ -20,6 +20,7 @@ typedef struct _ExcelSheet
 	GHashTable *shared_formulae;
 	GList *obj_queue;
 	Range  style_optimize;
+	double base_char_width;
 } ExcelSheet;
 
 typedef struct _BiffBoundsheetData
@@ -107,6 +108,8 @@ typedef struct _ExcelWorkbook
    	 **/
 	Workbook            *gnum_wb;
 } ExcelWorkbook;
+
+#define EXCEL_DEFAULT_CHAR_WIDTH 12
 
 extern ExcelSheet * ms_excel_workbook_get_sheet (ExcelWorkbook *wb, guint idx);
 extern Sheet* biff_get_externsheet_name (ExcelWorkbook *wb, guint16 idx, gboolean get_first);

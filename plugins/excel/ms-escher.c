@@ -45,8 +45,8 @@ typedef struct _MSEscherHeader
 	struct _MSEscherHeader * container;
 
 	/* TODO : decide were to put these cause they dont belong here */
-	gboolean anchor_set;
-	int anchor[4];
+	gboolean     anchor_set;
+	anchor_point anchor[4];
 	int blip_id;
 } MSEscherHeader;
 #define common_header_len 8

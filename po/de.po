@@ -21,7 +21,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.35\n"
-"POT-Creation-Date: 1999-11-18 07:46-0600\n"
+"POT-Creation-Date: 1999-11-18 21:30+0000\n"
 "PO-Revision-Date: 1999-09-18 09:27+02:00\n"
 "Last-Translator: Karl Eichwalder <ke@suse.de>\n"
 "Language-Team: German <de@li.org>\n"

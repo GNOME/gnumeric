@@ -1,3 +1,17 @@
+Gnumeric 0.44
+
+Jon:
+	* Vastly improved col / row sizing in excel import
+	* ditto for Excel object placement.
+
+--------------------------------------------------------------------------
+
+Gnumeric 0.43
+
+	* Minor build fix.
+
+--------------------------------------------------------------------------
+
 Gnumeric 0.42
 
 Michael:

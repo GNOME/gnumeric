@@ -992,6 +992,30 @@ ms_excel_get_xf (ExcelSheet *sheet, int const xfidx)
 	return xf;
 }
 
+static gchar *
+get_substitute_font (gchar *fontname)
+{
+	/* Try find a gnome font which matches the Excel font */
+	
+	char (*(*p)[2]);
+	gchar *res = NULL;
+
+	/* Strictly for testing. (Wanna bet how long it stays in?) */
+	static char *temporary[][2] = {
+		{ "Times New Roman", "Times"},
+		{ "Arial",           "Helvetica"},
+		{ "Courier New",     "Courier"},
+		{ NULL }
+	};
+	for (p = temporary; (*p)[0]; p++)
+		if (strcasecmp ((*p)[0], fontname) == 0) {
+			res = (*p)[1];
+			break;
+		}
+
+	return res;
+}
+
 static void
 style_optimize (ExcelSheet *sheet, int col, int row)
 {
@@ -1036,6 +1060,7 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 	int		 pattern_index,  back_index,  font_index;
 	MStyle *mstyle;
 	int i;
+	char *subs_fontname;
 
 	g_return_val_if_fail (xf != NULL, NULL);
 
@@ -1060,7 +1085,11 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 	/* Font */
 	fd = ms_excel_get_font (sheet, xf->font_idx);
 	if (fd != NULL) {
-		mstyle_set_font_name   (mstyle, fd->fontname);
+		subs_fontname = get_substitute_font (fd->fontname);
+		if (subs_fontname)
+			mstyle_set_font_name   (mstyle, subs_fontname);
+		else
+			mstyle_set_font_name   (mstyle, fd->fontname);
 		mstyle_set_font_size   (mstyle, fd->height / 20.0);
 		mstyle_set_font_bold   (mstyle, fd->boldness >= 0x2bc);
 		mstyle_set_font_italic (mstyle, fd->italic);
@@ -1890,6 +1919,7 @@ ms_excel_sheet_new (ExcelWorkbook *wb, const char *name)
 	ans->style_optimize.start.row = 0;
 	ans->style_optimize.end.col   = 0;
 	ans->style_optimize.end.row   = 0;
+	ans->base_char_width          = 0;
 
 	return ans;
 }
@@ -2269,6 +2299,132 @@ ms_excel_externname (BiffQuery *q, ExcelSheet *sheet)
 	biff_name_data_new (sheet->wb, name, 0, defn, defnlen, TRUE, FALSE);
 }
 
+#ifndef NO_DEBUG_EXCEL
+static void
+print_font_mapping_debug_info (ExcelSheet *sheet, MStyle const *ms)
+{
+	BiffXFData const *xf = NULL;
+	BiffFontData const *fd = NULL;
+			
+	if ((xf = ms_excel_get_xf (sheet, 0)) != NULL &&
+	    (fd = ms_excel_get_font (sheet, xf->font_idx))) {
+				
+		printf ("Font: %s %g", 
+			fd->fontname, fd->height/20.0);
+		if (ms) {
+			const char *msfn 
+				= mstyle_get_font_name (ms);
+			printf (" mapped to %s %.6g", 
+				msfn,
+				mstyle_get_font_size 
+				(ms));
+		}
+		printf ("\n");
+	}
+}
+#endif
+
+static double
+lookup_base_char_width (ExcelSheet *sheet)
+{
+	/*
+	 * There is no such thing as a typical width, but we have to
+	 * do something.
+	 *
+	 * Looks like the width of 'n' is very close to Excel's concept of
+	 * width. For Times in 3 sizes, the average is .45% too low, for
+	 * Helvetica in 3 sizes it is .02% too low.
+	 *
+	 * Widths based on text samples come out lower, but can be used if
+	 * scaled appropriately. Using the sample below, we reduce the 
+	 * difference in precision between Times and Helvetica to 0.13%.  
+	 */
+
+	MStyle const *ms;
+	double        res;
+	gboolean      def;
+
+	/*
+	 * The char width is based on the font in the "Normal" style.
+	 * I'm only guessing that 0 is the right index, but I've been
+	 * right so far. 
+	 */
+	def = !sheet->wb->XF_cell_records ||
+		sheet->wb->XF_cell_records->len == 0;
+	
+	if (!def) {
+		ms = ms_excel_get_style_from_xf (sheet, 0);
+		if (!ms)
+			def = TRUE;
+	}
+	
+	if (def)
+		res = EXCEL_DEFAULT_CHAR_WIDTH;
+	else {
+		StyleFont *sf;
+		double samplewidth, average;
+		double scaling = 1.2304;
+		static char *sample;
+
+		sf = mstyle_get_font (ms, 1.0);
+		sample = 
+			"Widths based on text samples come out too low, but "
+			"can be used if scaled appropriately. Experiments "
+			"showed that a 2 line sample was very slightly more";
+		samplewidth = gnome_font_get_width_string
+			(style_font_gnome_font (sf), sample);
+		average = samplewidth / strlen (sample);
+		res = average * scaling;
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_read_debug > 2) {
+			print_font_mapping_debug_info (sheet, ms);
+			printf ("Character width based on %d character sample:"
+				" %g - adjusted to %g\n",
+				strlen (sample), average, res);
+		}
+#endif
+	}
+
+	return res;
+}
+			
+static double
+get_base_char_width (ExcelSheet *sheet)
+{
+	/* 
+	 * The char width is based on the font in the "Normal" style.
+	 * This style is actually common to all sheets in the
+	 * workbook, but I find it more robust to treat it as a sheet
+	 * attribute.  
+	 */
+	if (sheet->base_char_width <= 0)
+		sheet->base_char_width = lookup_base_char_width (sheet);
+	return sheet->base_char_width;
+}
+			
+static double
+get_row_height_units (guint16 height)
+{
+	/* 
+	 * the height is specified in 1/20 of a point.  But we can not
+	 * assume that 1pt = 1pixel.  However, what we now print out
+	 * is just 0.5% shorter than theoretical height. The height
+	 * of what Excel prints out varies in mysterious
+	 * ways. Sometimes it is close to theoretical, sometimes it is
+	 * a few % shorter. I don't see any point in correcting for
+	 * the 0.5% until we know the whole story.  */
+	return 1. / 20. * height;
+}
+
+static double
+get_units_net_of_margins (double units, const ColRowInfo * cri)
+{
+	units -= (cri->margin_a_pt + cri->margin_b_pt);
+	if (units < 0)
+		units = 0;
+	return units;
+}
+
 /**
  * Parse the cell BIFF tag, and act on it as neccessary
  * NB. Microsoft Docs give offsets from start of biff record, subtract 4 their docs.
@@ -2398,14 +2554,15 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		if (ms_excel_read_debug > 1)
 			printf ("Row %d height 0x%x;\n", row+1, height);
 #endif
-		/* FIXME : the height is specified in 1/20 of a point.
-		 * but we can not assume that 1pt = 1pixel.
-		 * MS seems to assume that it is closer to 1point = .75 pixels
-		 * verticaly.
-		 */
-		if ((height&0x8000) == 0)
-			sheet_row_set_height (sheet->gnum_sheet, row,
-					      height/(20 * .75), TRUE);
+		if ((height&0x8000) == 0) {
+			double hu = get_row_height_units (height);
+			/* Subtract margins */
+			hu = get_units_net_of_margins 
+				(hu, 
+				 sheet_row_get_info (sheet->gnum_sheet, row));
+			sheet_row_set_height_units (sheet->gnum_sheet, 
+						    row, hu, TRUE);
+		}
 
 		if (flags & 0x80) {
 #ifndef NO_DEBUG_EXCEL
@@ -2423,13 +2580,11 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 	case BIFF_COLINFO:
 	{
 		int lp;
-		int char_width = 1;
-		BiffXFData const *xf = NULL;
-		BiffFontData const *fd = NULL;
+		double char_width = EXCEL_DEFAULT_CHAR_WIDTH;
+		double col_width;
 		guint16 const firstcol = MS_OLE_GET_GUINT16(q->data);
 		guint16       lastcol  = MS_OLE_GET_GUINT16(q->data+2);
 		guint16       width    = MS_OLE_GET_GUINT16(q->data+4);
-		guint16 const cols_xf  = MS_OLE_GET_GUINT16(q->data+6);
 		guint16 const options  = MS_OLE_GET_GUINT16(q->data+8);
 		gboolean const hidden = (options & 0x0001) ? TRUE : FALSE;
 #if 0
@@ -2446,18 +2601,7 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 				firstcol, lastcol, width/256.0);
 		}
 #endif
-		/*
-		 * FIXME FIXME FIXME
-		 * 1) As a default 12 seems seems to match the sheet I
-		 *    calibrated against.
-		 * 2) the docs say charwidth not height. Assume that
-		 *    width = 1.2 * height ?
-		 */
-		if ((xf = ms_excel_get_xf (sheet, cols_xf)) != NULL &&
-		    (fd = ms_excel_get_font (sheet, xf->font_idx)))
-			char_width = 1.2 *fd->height / 20.;
-		else
-			char_width = 12.;
+		char_width = get_base_char_width (sheet);
 
 		if (width>>8 == 0) {
 			if (hidden)
@@ -2466,24 +2610,21 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 				printf ("FIXME: 0 sized column ???\n");
 
 			/* FIXME : Make the magic default col width a define or function somewhere */
-			width = 62;
+			col_width = 62;
 		} else
-			/* NOTE : Do NOT use *= we need to do the width*char_width before the division */
-			width = (width * char_width) / 256.;
-
-		/* FIXME : the width is specified in points (1/72 of an inch)
-		 * but we can not assume that 1pt = 1pixel.
-		 * MS seems to assume that it is closer to 1 point = .7 pixels
-		 * horizontally. (NOTE : this is different from vertically)
-		 */
-		width *= .70;
+			col_width = (width * char_width) / 256.;
+		/* Subtract margins */
+		col_width = get_units_net_of_margins 
+			(col_width, 
+			 sheet_col_get_info (sheet->gnum_sheet, firstcol));
 
 		/* NOTE : seems like this is inclusive firstcol, inclusive lastcol */
 		if (lastcol >= SHEET_MAX_COLS)
 			lastcol = SHEET_MAX_COLS-1;
 		for (lp = firstcol; lp <= lastcol; ++lp)
-			sheet_col_set_width (sheet->gnum_sheet, lp,
-					     width);
+			sheet_col_set_width_units 
+				(sheet->gnum_sheet, lp, col_width);
+
 		break;
 	}
 
@@ -2851,10 +2992,61 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 		case BIFF_DELTA:
 		case BIFF_SAVERECALC:
 		case BIFF_PRINTHEADERS:
-		case BIFF_DEFAULTROWHEIGHT:
 		case BIFF_COUNTRY:
 		case BIFF_WSBOOL:
 			break;
+
+		case BIFF_DEFAULTROWHEIGHT:
+		{
+			guint16 const flags = MS_OLE_GET_GUINT16(q->data);
+			guint16 const height = MS_OLE_GET_GUINT16(q->data+2);
+			double height_units;
+			ColRowInfo *cri;
+#ifndef NO_DEBUG_EXCEL
+			if (ms_excel_read_debug > 1) {
+				printf ("Default row height 0x%x;\n", height);
+				if (flags & 0x04)
+					printf (" + extra space above;\n");
+				if (flags & 0x08)
+					printf (" + extra space below;\n");
+			}
+#endif
+			height_units = get_row_height_units (height);
+			cri = &sheet->gnum_sheet->rows.default_style;
+			/* Subtract margins */
+			height_units = get_units_net_of_margins 
+				(height_units, 
+				 &sheet->gnum_sheet->rows.default_style);
+			/* Don't know why, but it's too late now to
+                           just change the default */
+			sheet_row_set_internal_height
+				(sheet->gnum_sheet, cri, height_units);
+			break;
+		}
+
+		case BIFF_DEFCOLWIDTH:
+		{
+			guint16 const width = MS_OLE_GET_GUINT16(q->data);
+			double char_width = EXCEL_DEFAULT_CHAR_WIDTH;
+			double col_width;
+			ColRowInfo *cri;
+#ifndef NO_DEBUG_EXCEL
+			if (ms_excel_read_debug > 1) {
+				printf ("Default column width %d "
+					"characters\n", width);
+			}
+#endif
+			char_width = get_base_char_width (sheet);
+			col_width = width * char_width;
+			cri = &sheet->gnum_sheet->cols.default_style;
+			/* Subtract margins */
+			col_width = get_units_net_of_margins (col_width, cri);
+			/* Don't know why, but it's too late now to
+                           just change the default */
+			sheet_col_set_internal_width
+				(sheet->gnum_sheet, cri, col_width);
+			break;
+		}
 
 		case BIFF_GUTS:
 			ms_excel_read_guts (q, sheet);
@@ -2995,9 +3187,6 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 				margin_read (&pi->margins.footer, BIFF_GETDOUBLE (q->data + 24));
 			} else
 				g_warning ("Duff BIFF_SETUP");
-			break;
-
-		case BIFF_DEFCOLWIDTH:
 			break;
 
 		case BIFF_SCL:

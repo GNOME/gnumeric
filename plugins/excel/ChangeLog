@@ -1,5 +1,63 @@
 1999-11-18  Michael Meeks  <mmeeks@gnu.org>
 
+	* ms-excel-read.c (lookup_base_char_width): kill double init of
+	sample & add check.
+
+1999-11-18  Jon K Hellan  <hellan@acm.org>
+
+	* ms-obj.c (ms_parse_object_anchor): Just extract anchor data,
+	don't try to convert to pixels. Extracted anchor data has type
+	anchor_point[4], i.e. 4 pairs of col/row number and fractions of
+	col/row.
+	(ms_obj_realize): Now receives uninterpreted anchor data. Thus,
+	conversion to position is delayed until the entire sheet has been
+	read. Use object_anchor_to_position to interpret. 'anchor'
+	variable renamed to 'position'.
+	(object_anchor_to_position): New function: Convert an anchor to
+	position in points. Based on data interpretation in previous
+	version of ms_parse_object_anchor.  Interpret as 256th's rather
+	than 1024th's vertically. Base computation on actual cell
+	width/height.
+
+	* ms-obj.h (type anchor_point): define it.
+	(type MSObj): Change type of anchor from int[4] to
+	anchor_point[4]. 
+	Update signature of ms_parse_object_anchor.
+
+	* ms-excel-read.h (_ExcelSheet): Add base_char_width member.
+	(EXCEL_DEFAULT_CHAR_WIDTH): Define it.
+	* ms-excel-read.c (get_substitute_font):
+	New function: Try to find a gnome font which matches the Excel font.
+	(ms_excel_get_style_from_xf): Use get_substitute_font.
+	(ms_excel_sheet_new): Initialize base_char_width to 0, i.e. unknown.
+	(print_font_mapping_debug_info): Debug print in separate routine.
+	(get_base_char_width): New function: Return base char width for
+	column sizing. If not yet known, call lookup_base_char_width to
+	find it.
+	(lookup_base_char_width): New function. See get_base_char_width.
+	(get_row_height_units): New function. We could adjust excel
+	heights here, but there seems to be no need.
+	(get_units_net_of_margins): New function. Subtract margins from a
+	point size.
+	(ms_excel_read_cell): 
+	case BIFF_ROW: Specify height in points, not pixels.  Use
+	get_row_height_units and get_units_net_of_margins. Call
+	sheet_row_set_height_units rather than sheet_row_set_height.
+	case BIFF_COLINFO: Specify width in points, not pixels.  Scale
+	column based on actual font. Use get_base_char_width and
+	get_units_net_of_margins. Call sheet_col_set_width_units rather
+	than sheet_col_set_width.
+	(ms_excel_read_sheet): 
+	case BIFF_DEFAULTROWHEIGHT: Handle it. Like BIFF_ROW, but use
+	sheet_row_set_internal_height on default style. 
+	case BIFF_DEFCOLWIDTH: Handle it. Like BIFF_COLINFO, but use
+	sheet_col_set_internal_height on default style. 
+
+	* ms-escher.c (_MSEscherHeader): 
+	Change type of anchor to anchor_point[4]
+
+1999-11-18  Michael Meeks  <mmeeks@gnu.org>
+
 	* ms-excel-read.c (ms_excel_read_guts): rename.
 
 1999-11-17  Jody Goldberg <jgoldberg@home.com>

@@ -36,40 +36,79 @@ extern int ms_excel_read_debug;
 #define GR_CHECKBOX_FORMULA   0x14
 #define GR_COMMON_OBJ_DATA    0x15
 
+static void
+object_anchor_to_position (double points[4], MSObj*obj, Sheet const * sheet)
+{
+	/*
+	 * NOTE: According to docs, distance is expressed as 1/1024 of
+	 * cell dimension. However, this can't be true vertically, at
+	 * least not for Excel 97. We use 256, which seems correct. A
+	 * version issue?
+	 */
+
+	int	i;
+
+	for (i = 0; i < 4; i++) {
+		int pos   = obj->anchor[i].pos;
+		int nths  = obj->anchor[i].nths;
+
+		if (i & 1) { /* odds are rows */
+			points[i] = sheet_row_get_unit_distance (sheet, pos,
+								 pos + 1);
+			points[i] *= nths / 256.;
+			points[i] += sheet_row_get_unit_distance (sheet, 0, 
+								 pos);
+		} else {
+			points[i] = sheet_col_get_unit_distance (sheet, pos,
+								 pos + 1);
+			points[i] *= nths / 1024.;
+			points[i] += sheet_col_get_unit_distance (sheet, 0, 
+								 pos);
+		}
+	}
+
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_read_debug > 0)
+		printf ("Anchor position in points" 
+			" left = %g, top = %g, right = %g, bottom = %g;\n",
+			points[0], points[1], points[2], points[3]);
+#endif
+}
+
 /*
  * Attempt to install an object in supplied work book.
  */
 gboolean
 ms_obj_realize (MSObj *obj, ExcelWorkbook *wb, ExcelSheet *sheet)
 {
-	int   *anchor = NULL;
+	double   position[4];
 
 	g_return_val_if_fail (sheet != NULL, TRUE);
 
 	if (obj == NULL)
 		return TRUE;
 
-	anchor = obj->anchor;
+	object_anchor_to_position (position, obj, sheet->gnum_sheet);
 
 	switch (obj->gnumeric_type) {
 	case SHEET_OBJECT_BUTTON :
 		sheet_object_create_button (sheet->gnum_sheet,
-					    anchor[0], anchor[1],
-					    anchor[2], anchor[3]);
+					    position[0], position[1],
+					    position[2], position[3]);
 		break;
 
 	case SHEET_OBJECT_CHECKBOX :
 		sheet_object_create_checkbox (sheet->gnum_sheet,
-					      anchor[0], anchor[1],
-					      anchor[2], anchor[3]);
+					      position[0], position[1],
+					      position[2], position[3]);
 		break;
 
 	case SHEET_OBJECT_BOX :
 		sheet_object_realize (
 		sheet_object_create_filled (sheet->gnum_sheet,
 					    SHEET_OBJECT_BOX,
-					    anchor[0], anchor[1],
-					    anchor[2], anchor[3],
+					    position[0], position[1],
+					    position[2], position[3],
 					    "white", "black", 1));
 		break;
 
@@ -95,8 +134,8 @@ ms_obj_realize (MSObj *obj, ExcelWorkbook *wb, ExcelSheet *sheet)
 		g_return_val_if_fail (blip->stream != NULL, FALSE);
 		g_return_val_if_fail (blip->reproid != NULL, FALSE);
 		so = sheet_object_container_new (sheet->gnum_sheet,
-						 anchor[0], anchor[1],
-						 anchor[2], anchor[3],
+						 position[0], position[1],
+						 position[2], position[3],
 						 blip->reproid);
 		if (!sheet_object_bonobo_load (SHEET_OBJECT_BONOBO (so), blip->stream))
 			g_warning ("Failed to load '%s' from stream",
@@ -153,58 +192,32 @@ ms_excel_sheet_destroy_objs (ExcelSheet *sheet)
 }
 
 gboolean
-ms_parse_object_anchor (int anchor[4],
+ms_parse_object_anchor (anchor_point anchor[4],
 			Sheet const * sheet, guint8 const * data)
 {
 	/* Words 0, 4, 8, 12 : The row/col of the corners */
-	/* Words 2, 6, 10, 14 : distance from cell edge measured in 1/1024 of an inch */
-	int	i;
-	float   const zoom = sheet->last_zoom_factor_used;
+	/* Words 2, 6, 10, 14 : distance from cell edge */
 
-	/* FIXME : How to handle objects not in sheets ?? */
-	g_return_val_if_fail (sheet != NULL, TRUE);
+	int	i;
 
 	for (i = 0; i < 4; ++i) {
-		guint16 const pos = MS_OLE_GET_GUINT16 (data + 4 * i);
-		/* FIXME : we are slightly off.  Tweak the pixels/inch ratio
-		 * to make this come out on my screen for pic.xls.
-		 * See BIFF_COLINFO or BIFF_ROW for more info
-		 *
-		 * This constant should be made into a std routine somewhere.
-		 */
-		float margin = (MS_OLE_GET_GUINT16 (data + 4 * i + 2) / (1024. / 72.));
-		int tmp;
+		anchor[i].pos = MS_OLE_GET_GUINT16 (data + 4 * i);
+		anchor[i].nths = MS_OLE_GET_GUINT16 (data + 4 * i + 2);
 
-		if (i&1) { /* odds are rows */
-		    tmp = sheet_row_get_unit_distance (sheet, 0, pos);
-		    margin /= .75;
-		} else {
-		    tmp = sheet_col_get_unit_distance (sheet, 0, pos);
-		    margin *= .75;
-		}
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_read_debug > 1) {
-			printf ("%f units (%d pixels) from ",
-				margin, (int)(margin));
+			int pos  = anchor[i].pos;
+			printf ("%d/%d cell %s from ",
+				anchor[i].nths, (i & 1) ? 256 : 1024, 
+				(i & 1) ? "heights" : "widths");
 			if (i & 1)
 				printf ("row %d;\n", pos + 1);
 			else
 				printf ("col %s (%d);\n", col_name(pos), pos);
 		}
 #endif
-
-		margin *= zoom;
-		margin += tmp;
-
-		anchor[i] = (int)margin;
 	}
-
-#ifndef NO_DEBUG_EXCEL
-	if (ms_excel_read_debug > 0)
-		printf ("In pixels left = %d, top = %d, right = %d, bottom =d %d;\n",
-			anchor[0], anchor[1], anchor[2], anchor[3]);
-#endif
-
+	
 	return FALSE;
 }
 

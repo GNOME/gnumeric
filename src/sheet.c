@@ -628,7 +628,7 @@ sheet_row_set_height_units (Sheet *sheet, int row, double height, gboolean heigh
 	g_return_if_fail (height > 0.0);
 
 	ri = sheet_row_get_info (sheet, row);
-	if (ri == &sheet->cols.default_style){
+	if (ri == &sheet->rows.default_style){
 		ri = sheet_row_new (sheet);
 		ri->pos = row;
 		sheet_row_add (sheet, ri);

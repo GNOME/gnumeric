@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
-"POT-Creation-Date: 1999-11-18 07:46-0600\n"
+"POT-Creation-Date: 1999-11-18 21:30+0000\n"
 "PO-Revision-Date: 1999-09-06 18:02-0500\n"
 "Last-Translator: M.Meij <M.Meij@wbmt.tudelft.nl>\n"
 "Language-Team: nl <nl@li.org>\n"

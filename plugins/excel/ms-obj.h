@@ -22,10 +22,16 @@
 
 #include "ms-excel-read.h"
 
+typedef struct
+{
+	int pos;		/* Cell or row number */
+	int nths;		/* No of 1/1024th, 1/256th */
+} anchor_point;
+
 typedef struct 
 {
 	/* In pixels */
-	int anchor[4];
+	anchor_point anchor[4];
 	gboolean anchor_set;
 
 	int id;
@@ -40,7 +46,7 @@ typedef struct
 	} v;
 } MSObj;
 
-gboolean ms_parse_object_anchor (int pos[4],
+gboolean ms_parse_object_anchor (anchor_point pos[4],
 				 Sheet  const * sheet,
 				 guint8 const * data);
 
