@@ -34,6 +34,7 @@ Morten:
 	* Improve remote-DISPLAY start-up time by getting rid of calls to
 	  deprecated gtk_style_get_font function.
 	* Start getting rid of use of deprecated features.
+	* Start making colour handling multi-head safe.
 
 --------------------------------------------------------------------------
 

@@ -6,16 +6,13 @@
 
 struct _StyleColor {
 	GdkColor color, selected_color;
-	gushort  red;
-	gushort  green;
-	gushort  blue;
 	char     *name;
 	int      ref_count;
 	gboolean is_auto;
 };
 
 /* Colors used by any GnumericSheet item */
-extern GdkColor gs_white, gs_light_gray, gs_dark_gray, gs_black, gs_red, gs_lavender, gs_yellow;
+extern GdkColor gs_white, gs_light_gray, gs_dark_gray, gs_black, gs_lavender, gs_yellow;
 
 StyleColor *style_color_new_name (char const *name);
 StyleColor *style_color_new      (gushort red, gushort green, gushort blue);

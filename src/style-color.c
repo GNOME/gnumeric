@@ -14,8 +14,11 @@
 
 static gboolean color_inited = FALSE;
 
+/* _Unallocated_ colours, i.e., no valid .pixel.  */
+GdkColor gs_yellow = { 0, 0xffff, 0xffff, 0xe0e0 };  /* "LightYellow" */
+
 /* Public colors: shared by all of our items in Gnumeric */
-GdkColor gs_white, gs_black, gs_light_gray, gs_dark_gray, gs_red, gs_lavender, gs_yellow;
+GdkColor gs_white, gs_black, gs_light_gray, gs_dark_gray, gs_lavender;
 static GHashTable *style_color_hash;
 
 StyleColor *
@@ -226,9 +229,7 @@ gnumeric_color_init (void)
 	gs_black = e_black;
 	e_color_alloc_name (NULL, "gray78",	 &gs_light_gray);
 	e_color_alloc_name (NULL, "gray20",	 &gs_dark_gray);
-	e_color_alloc_name (NULL, "red",	 &gs_red);
 	e_color_alloc_name (NULL, "lavender",	 &gs_lavender);
-	e_color_alloc_name (NULL, "LightYellow", &gs_yellow);
 
 	style_color_hash  = g_hash_table_new (color_hash,
 					      (GEqualFunc) style_color_equal);

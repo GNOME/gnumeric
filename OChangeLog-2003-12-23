@@ -1,5 +1,11 @@
 2003-05-20  Morten Welinder  <terra@gnome.org>
 
+	* src/style-color.c (gnumeric_color_init): Make gs_yellow an
+	unallocated colour.  Eliminate unused gs_red.
+
+	* src/item-bar.c (item_bar_realize): Use gdk_gc_set_rgb_fg_color,
+	not gdk_gc_set_foreground for multi-head support.
+
 	* src/style-color.h (struct _StyleColor): Remove redundant red,
 	green, and blue members.  All users changed to use color member.
 
