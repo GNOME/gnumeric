@@ -1221,7 +1221,7 @@ format_template_recalc_hash (FormatTemplate *ft)
 	/* If the range check fails then the template it simply too *huge*
 	 * so we don't display an error dialog.
 	 */
-	if (!format_template_range_check (ft, &r, FALSE)) {
+	if (!format_template_range_check (ft, &r, NULL)) {
 		g_warning ("Template %s is too large, hash can't be calculated", ft->name);
 		return;
 	}

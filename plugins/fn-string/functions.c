@@ -55,7 +55,7 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 static GIConv CHAR_iconv;
 
-static const char *help_char = {
+static char const *help_char = {
 	N_("@FUNCTION=CHAR\n"
 	   "@SYNTAX=CHAR(x)\n"
 
@@ -97,7 +97,7 @@ gnumeric_char (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_unichar = {
+static char const *help_unichar = {
 	N_("@FUNCTION=UNICHAR\n"
 	   "@SYNTAX=UNICHAR(x)\n"
 
@@ -129,7 +129,7 @@ gnumeric_unichar (FunctionEvalInfo *ei, Value **argv)
 
 static GIConv CODE_iconv;
 
-static const char *help_code = {
+static char const *help_code = {
 	N_("@FUNCTION=CODE\n"
 	   "@SYNTAX=CODE(char)\n"
 
@@ -146,7 +146,7 @@ static const char *help_code = {
 static Value *
 gnumeric_code (FunctionEvalInfo *ei, Value **argv)
 {
-	const char *s = value_peek_string (argv[0]);
+	char const *s = value_peek_string (argv[0]);
 	const unsigned char *us = (const unsigned char *)s;
 	gsize written, clen;
 	char *str;
@@ -174,7 +174,7 @@ gnumeric_code (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_unicode = {
+static char const *help_unicode = {
 	N_("@FUNCTION=UNICODE\n"
 	   "@SYNTAX=UNICODE(char)\n"
 
@@ -190,7 +190,7 @@ static const char *help_unicode = {
 static Value *
 gnumeric_unicode (FunctionEvalInfo *ei, Value **argv)
 {
-	const char *s = value_peek_string (argv[0]);
+	char const *s = value_peek_string (argv[0]);
 
 	if (*s == 0)
 		value_new_error_VALUE (ei->pos);
@@ -200,7 +200,7 @@ gnumeric_unicode (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_exact = {
+static char const *help_exact = {
 	N_("@FUNCTION=EXACT\n"
 	   "@SYNTAX=EXACT(string1, string2)\n"
 
@@ -225,7 +225,7 @@ gnumeric_exact (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_len = {
+static char const *help_len = {
 	N_("@FUNCTION=LEN\n"
 	   "@SYNTAX=LEN(string)\n"
 
@@ -247,7 +247,7 @@ gnumeric_len (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_left = {
+static char const *help_left = {
 	N_("@FUNCTION=LEFT\n"
 	   "@SYNTAX=LEFT(text[,num_chars])\n"
 
@@ -283,7 +283,7 @@ gnumeric_left (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_lower = {
+static char const *help_lower = {
 	N_("@FUNCTION=LOWER\n"
 	   "@SYNTAX=LOWER(text)\n"
 
@@ -305,7 +305,7 @@ gnumeric_lower (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_mid = {
+static char const *help_mid = {
 	N_("@FUNCTION=MID\n"
 	   "@SYNTAX=MID(string, position, length)\n"
 
@@ -350,7 +350,7 @@ gnumeric_mid (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_right = {
+static char const *help_right = {
 	N_("@FUNCTION=RIGHT\n"
 	   "@SYNTAX=RIGHT(text[,num_chars])\n"
 
@@ -394,7 +394,7 @@ gnumeric_right (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_upper = {
+static char const *help_upper = {
 	N_("@FUNCTION=UPPER\n"
 	   "@SYNTAX=UPPER(text)\n"
 
@@ -416,7 +416,7 @@ gnumeric_upper (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_concatenate = {
+static char const *help_concatenate = {
 	N_("@FUNCTION=CONCATENATE\n"
 	   "@SYNTAX=CONCATENATE(string1[,string2...])\n"
 	   "@DESCRIPTION="
@@ -440,7 +440,7 @@ gnumeric_concatenate (FunctionEvalInfo *ei, GnmExprList *nodes)
 
 /***************************************************************************/
 
-static const char *help_rept = {
+static char const *help_rept = {
 	N_("@FUNCTION=REPT\n"
 	   "@SYNTAX=REPT(string,num)\n"
 	   "@DESCRIPTION="
@@ -457,7 +457,7 @@ static Value *
 gnumeric_rept (FunctionEvalInfo *ei, Value **argv)
 {
 	GString    *res;
-	const char *source;
+	char const *source;
 	int         num;
 	int         len;
 	int         i;
@@ -486,7 +486,7 @@ gnumeric_rept (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_clean = {
+static char const *help_clean = {
 	N_("@FUNCTION=CLEAN\n"
 	   "@SYNTAX=CLEAN(string)\n"
 	   "@DESCRIPTION="
@@ -502,7 +502,7 @@ static const char *help_clean = {
 static Value *
 gnumeric_clean (FunctionEvalInfo *ei, Value **argv)
 {
-	const char *s = value_peek_string (argv[0]);
+	char const *s = value_peek_string (argv[0]);
 	GString *res = g_string_sized_new (strlen (s));
 
 	while (*s) {
@@ -519,7 +519,7 @@ gnumeric_clean (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_find = {
+static char const *help_find = {
 	N_("@FUNCTION=FIND\n"
 	   "@SYNTAX=FIND(string1,string2[,start])\n"
 	   "@DESCRIPTION="
@@ -538,7 +538,7 @@ static Value *
 gnumeric_find (FunctionEvalInfo *ei, Value **argv)
 {
 	int count, haystacksize;
-	const char *haystack, *needle;
+	char const *haystack, *needle;
 
 	/*
 	 * FIXME: My gut feeling is that we should return arguments
@@ -560,9 +560,9 @@ gnumeric_find (FunctionEvalInfo *ei, Value **argv)
 	if (count <= 0 || count > haystacksize) {
 		return value_new_error_VALUE (ei->pos);
 	} else {
-		const char *haystart = g_utf8_offset_to_pointer (haystack,
+		char const *haystart = g_utf8_offset_to_pointer (haystack,
 								 count - 1);
-		const char *p        = g_strstr_len (haystart,
+		char const *p        = g_strstr_len (haystart,
 						     strlen (haystart), needle);
 
 		if (p)
@@ -577,7 +577,7 @@ gnumeric_find (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_fixed = {
+static char const *help_fixed = {
 	N_("@FUNCTION=FIXED\n"
 	   "@SYNTAX=FIXED(num,[decimals, no_commas])\n"
 	   "@DESCRIPTION="
@@ -642,7 +642,7 @@ gnumeric_fixed (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_proper = {
+static char const *help_proper = {
 	N_("@FUNCTION=PROPER\n"
 	   "@SYNTAX=PROPER(string)\n"
 
@@ -694,7 +694,7 @@ gnumeric_proper (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_replace = {
+static char const *help_replace = {
 	N_("@FUNCTION=REPLACE\n"
 	   "@SYNTAX=REPLACE(old,start,num,new)\n"
 	   "@DESCRIPTION="
@@ -743,7 +743,7 @@ gnumeric_replace (FunctionEvalInfo *ei, Value **argv)
 /***************************************************************************/
 /* Note: help_t is a reserved symbol.  */
 
-static const char *help_t_ = {
+static char const *help_t_ = {
 	N_("@FUNCTION=T\n"
 	   "@SYNTAX=T(value)\n"
 	   "@DESCRIPTION="
@@ -771,7 +771,7 @@ gnumeric_t_ (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_text = {
+static char const *help_text = {
 	N_("@FUNCTION=TEXT\n"
 	   "@SYNTAX=TEXT(value,format_text)\n"
 	   "@DESCRIPTION="
@@ -819,7 +819,7 @@ gnumeric_text (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
-static const char *help_trim = {
+static char const *help_trim = {
 	N_("@FUNCTION=TRIM\n"
 	   "@SYNTAX=TRIM(text)\n"
 	   "@DESCRIPTION="
@@ -835,7 +835,7 @@ static const char *help_trim = {
 static Value *
 gnumeric_trim (FunctionEvalInfo *ei, Value **argv)
 {
-	const char *s;
+	char const *s;
 	GString  *res   = g_string_new ("");
 	gboolean  space = TRUE;
 	int       len;
@@ -871,7 +871,7 @@ gnumeric_trim (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_value = {
+static char const *help_value = {
 	N_("@FUNCTION=VALUE\n"
 	   "@SYNTAX=VALUE(text)\n"
 	   "@DESCRIPTION="
@@ -896,7 +896,7 @@ gnumeric_value (FunctionEvalInfo *ei, Value **argv)
 
 	default: {
 		Value *v;
-		const char *p, *arg = value_peek_string (argv[0]);
+		char const *p, *arg = value_peek_string (argv[0]);
 
 		/* Skip leading spaces */
 		for (p = arg; *p && g_unichar_isspace (g_utf8_get_char (p));
@@ -913,7 +913,7 @@ gnumeric_value (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_substitute = {
+static char const *help_substitute = {
 	N_("@FUNCTION=SUBSTITUTE\n"
 	   "@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
 	   "@DESCRIPTION="
@@ -931,13 +931,13 @@ static const char *help_substitute = {
 static Value *
 gnumeric_substitute (FunctionEvalInfo *ei, Value **argv)
 {
-	const char *p;
+	char const *p;
 	int oldlen, newlen, len, inst;
 	GString *s;
 
-	const char *text = value_peek_string (argv[0]);
-	const char *old  = value_peek_string (argv[1]);
-	const char *new  = value_peek_string (argv[2]);
+	char const *text = value_peek_string (argv[0]);
+	char const *old  = value_peek_string (argv[1]);
+	char const *new  = value_peek_string (argv[2]);
 	int num = argv[3] ? value_get_as_int (argv[3]) : 0;
 
 	oldlen = strlen (old);
@@ -948,7 +948,7 @@ gnumeric_substitute (FunctionEvalInfo *ei, Value **argv)
 	p = text;
 	inst = 0;
 	while (p - text < len) {
-		const char *f = strstr (p, old);
+		char const *f = strstr (p, old);
 		if (!f)
 			break;
 
@@ -970,7 +970,7 @@ gnumeric_substitute (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_dollar = {
+static char const *help_dollar = {
 	N_("@FUNCTION=DOLLAR\n"
 	   "@SYNTAX=DOLLAR(num[,decimals])\n"
 	   "@DESCRIPTION="
@@ -990,7 +990,7 @@ gnumeric_dollar (FunctionEvalInfo *ei, Value **argv)
 	char const *curr = format_get_currency (&precedes, &space_sep);
 	char *format, *s;
 	StyleFormat *sf;
-	const char *base_format =
+	char const *base_format =
 		"%s#,##0%s%s;(%s#,##0%s)%s;_(%s\"-\"??%s_);_(@_)";
         gnm_float number = value_get_as_float (argv[0]);
         int decimals = argv[1] ? value_get_as_int (argv[1]) : 2;
@@ -1048,7 +1048,7 @@ gnumeric_dollar (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_search = {
+static char const *help_search = {
 	N_("@FUNCTION=SEARCH\n"
 	   "@SYNTAX=SEARCH(text,within[,start_num])\n"
 	   "@DESCRIPTION="
@@ -1080,10 +1080,10 @@ static const char *help_search = {
 static Value *
 gnumeric_search (FunctionEvalInfo *ei, Value **argv)
 {
-	const char *needle = value_peek_string (argv[0]);
-	const char *haystack = value_peek_string (argv[1]);
+	char const *needle = value_peek_string (argv[0]);
+	char const *haystack = value_peek_string (argv[1]);
 	int start = argv[2] ? value_get_as_int (argv[2]) : 1;
-	const char *hay2;
+	char const *hay2;
 	gnumeric_regex_t r;
 	regmatch_t rm;
 	Value *res = NULL;

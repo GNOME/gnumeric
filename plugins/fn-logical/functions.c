@@ -40,7 +40,7 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 /***************************************************************************/
 
-static const char *help_and = {
+static char const *help_and = {
 	N_("@FUNCTION=AND\n"
 	   "@SYNTAX=AND(b1, b2, ...)\n"
 
@@ -102,7 +102,7 @@ gnumeric_and (FunctionEvalInfo *ei, GnmExprList *nodes)
 
 /***************************************************************************/
 
-static const char *help_not = {
+static char const *help_not = {
 	N_("@FUNCTION=NOT\n"
 	   "@SYNTAX=NOT(number)\n"
 
@@ -130,7 +130,7 @@ gnumeric_not (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_or = {
+static char const *help_or = {
 	N_("@FUNCTION=OR\n"
 	   "@SYNTAX=OR(b1, b2, ...)\n"
 
@@ -189,7 +189,7 @@ gnumeric_or (FunctionEvalInfo *ei, GnmExprList *nodes)
 
 /***************************************************************************/
 
-static const char *help_xor = {
+static char const *help_xor = {
 	N_("@FUNCTION=XOR\n"
 	   "@SYNTAX=XOR(b1, b2, ...)\n"
 
@@ -246,7 +246,7 @@ gnumeric_xor (FunctionEvalInfo *ei, GnmExprList *nodes)
 
 /***************************************************************************/
 
-static const char *help_if = {
+static char const *help_if = {
 	N_("@FUNCTION=IF\n"
 	   "@SYNTAX=IF(condition[,if-true,if-false])\n"
 
@@ -276,7 +276,7 @@ gnumeric_if (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
-static const char *help_true = {
+static char const *help_true = {
 	N_("@FUNCTION=TRUE\n"
 	   "@SYNTAX=TRUE()\n"
 
@@ -298,7 +298,7 @@ gnumeric_true (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
-static const char *help_false = {
+static char const *help_false = {
 	N_("@FUNCTION=FALSE\n"
 	   "@SYNTAX=FALSE()\n"
 

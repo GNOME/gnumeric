@@ -42,7 +42,7 @@ date_init (void)
 /* ------------------------------------------------------------------------- */
 
 int
-datetime_g_to_serial (GDate *date)
+datetime_g_to_serial (GDate const *date)
 {
 	int day;
 
@@ -55,29 +55,19 @@ datetime_g_to_serial (GDate *date)
 
 /* ------------------------------------------------------------------------- */
 
-GDate*
-datetime_serial_to_g (int serial)
+void
+datetime_serial_to_g (GDate *res, int serial)
 {
 	if (!date_origin)
 		date_init ();
 
-	if (serial <= date_serial_19000228)
-		return g_date_new_julian (serial + date_origin);
-	else if (serial == date_serial_19000228 + 1)
-		g_warning ("Request for date 19000229.");
-	return g_date_new_julian (serial + date_origin - 1);
-}
-
-/* ------------------------------------------------------------------------- */
-
-/**
- * Free GDate. Can be called with NULL without complaining.
- */
-void
-datetime_g_free (GDate *d)
-{
-	if (d != NULL)
-		g_date_free (d);
+	g_date_clear (res, 1);
+	if (serial > date_serial_19000228) {
+		if (serial == date_serial_19000228 + 1)
+			g_warning ("Request for date 19000229.");
+		g_date_set_julian (res, serial + date_origin - 1);
+	} else
+		g_date_set_julian (res, serial + date_origin);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -149,25 +139,25 @@ datetime_timet_to_serial (time_t t)
 time_t
 datetime_serial_to_timet (int serial)
 {
-	GDate* gd = datetime_serial_to_g (serial);
+	GDate gd;
 	struct tm tm;
 
-	if (!gd)
-		return (time_t)-1;
-
-	g_date_to_struct_tm (gd, &tm);
-	g_date_free (gd);
+	datetime_serial_to_g (&gd, serial);
+	g_date_to_struct_tm (&gd, &tm);
 
 	return mktime (&tm);
 }
 
 /* ------------------------------------------------------------------------- */
 
-GDate *
-datetime_value_to_g (Value const *v)
+gboolean
+datetime_value_to_g (GDate *res, Value const *v)
 {
 	int serial = datetime_value_to_serial (v);
-	return serial ? datetime_serial_to_g (serial) : NULL;
+	if (serial == 0)
+		return FALSE;
+	datetime_serial_to_g (res, serial);
+	return TRUE;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -200,7 +190,7 @@ datetime_timet_to_seconds (time_t t)
 /* ------------------------------------------------------------------------- */
 
 int
-datetime_g_days_between (GDate* date1, GDate *date2)
+datetime_g_days_between (GDate const* date1, GDate const *date2)
 {
 	g_assert (g_date_valid (date1));
 	g_assert (g_date_valid (date2));
@@ -211,7 +201,7 @@ datetime_g_days_between (GDate* date1, GDate *date2)
 /* ------------------------------------------------------------------------- */
 
 int
-datetime_g_months_between (GDate *date1, GDate *date2)
+datetime_g_months_between (GDate const *date1, GDate const *date2)
 {
 	g_assert (g_date_valid (date1));
 	g_assert (g_date_valid (date2));
@@ -226,7 +216,7 @@ datetime_g_months_between (GDate *date1, GDate *date2)
 /* ------------------------------------------------------------------------- */
 
 int
-datetime_g_years_between (GDate *date1, GDate *date2)
+datetime_g_years_between (GDate const *date1, GDate const *date2)
 {
 	int months;
 
@@ -246,7 +236,7 @@ datetime_g_years_between (GDate *date1, GDate *date2)
  * Returns the ISO 8601 week number.
  */
 static int
-datetime_isoweeknum (GDate *date)
+datetime_isoweeknum (GDate const *date)
 {
 	int year;
 	int week;
@@ -296,7 +286,7 @@ datetime_isoweeknum (GDate *date)
  * 150: ISO 8601 week number. See datetime_isoweeknum.
  */
 int
-datetime_weeknum (GDate *date, int method)
+datetime_weeknum (GDate const *date, int method)
 {
 	int res;
 
@@ -321,7 +311,7 @@ datetime_weeknum (GDate *date, int method)
 /* ------------------------------------------------------------------------- */
 
 static gint32
-days_between_BASIS_MSRB_30_360 (GDate *from, GDate *to)
+days_between_BASIS_MSRB_30_360 (GDate const *from, GDate const *to)
 {
 	int y1, m1, d1, y2, m2, d2;
 
@@ -342,7 +332,7 @@ days_between_BASIS_MSRB_30_360 (GDate *from, GDate *to)
 }
 
 static gint32
-days_between_BASIS_30E_360 (GDate *from, GDate *to)
+days_between_BASIS_30E_360 (GDate const *from, GDate const *to)
 {
 	int y1, m1, d1, y2, m2, d2;
 
@@ -362,7 +352,7 @@ days_between_BASIS_30E_360 (GDate *from, GDate *to)
 }
 
 static gint32
-days_between_BASIS_30Ep_360 (GDate *from, GDate *to)
+days_between_BASIS_30Ep_360 (GDate const *from, GDate const *to)
 {
 	int y1, m1, d1, y2, m2, d2;
 
@@ -399,7 +389,7 @@ days_between_BASIS_30Ep_360 (GDate *from, GDate *to)
  */
 
 gint32
-days_between_basis (GDate *from, GDate *to, int basis)
+days_between_basis (GDate const *from, GDate const *to, int basis)
 {
 	switch (g_date_compare (from, to)) {
 	case 1:
@@ -432,6 +422,7 @@ days_between_basis (GDate *from, GDate *to, int basis)
 /*
  * coup_cd
  *
+ * @res	      :
  * @settlement: GDate *
  * @maturity  : GDate *  must follow settlement strictly
  * @freq      : int      divides 12 evenly
@@ -443,22 +434,21 @@ days_between_basis (GDate *from, GDate *to, int basis)
  *
  * this function does not depend on the basis of counting!
  */
-
-GDate *
-coup_cd (GDate *settlement, GDate *maturity, int freq, gboolean eom, gboolean next)
+void
+coup_cd (GDate *result,
+	 GDate const *settlement, GDate const *maturity, int freq, gboolean eom, gboolean next)
 {
         int        months, periods;
-	GDate      *result;
 	gboolean   is_eom_special;
 
 	is_eom_special = eom && g_date_is_last_of_month (maturity);
+
+	g_date_clear (result, 1);
 
 	months = 12 / freq;
 	periods = (g_date_get_year(maturity) - g_date_get_year (settlement));
 	if (periods > 0)
 		periods = (periods - 1) * freq;
-
-	result = g_date_new();
 
 	do {
 		g_date_set_julian (result, g_date_get_julian (maturity));
@@ -483,8 +473,6 @@ coup_cd (GDate *settlement, GDate *maturity, int freq, gboolean eom, gboolean ne
 			g_date_set_day (result, ndays);
 		}
 	}
-
-	return result;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -495,11 +483,10 @@ coup_cd (GDate *settlement, GDate *maturity, int freq, gboolean eom, gboolean ne
  * Currently, returns negative numbers if the branch is not implemented.
  */
 gnm_float
-coupdays (GDate *settlement, GDate *maturity, int freq, basis_t basis, gboolean eom)
+coupdays (GDate const *settlement, GDate const *maturity,
+	  int freq, basis_t basis, gboolean eom)
 {
-	GDate *prev;
-	GDate *next;
-	gint32   days;
+	GDate prev, next;
 
         switch (basis) {
 	case BASIS_MSRB_30_360:
@@ -511,12 +498,9 @@ coupdays (GDate *settlement, GDate *maturity, int freq, basis_t basis, gboolean 
 		return 365.0 / freq;
 	case BASIS_ACT_ACT:
 	default:
-		next = coup_cd (settlement, maturity, freq, eom, TRUE);
-		prev = coup_cd (settlement, maturity, freq, eom, FALSE);
-		days = days_between_basis (prev, next, BASIS_ACT_ACT);
-		datetime_g_free (prev);
-		datetime_g_free (next);
-		return days;
+		coup_cd (&next, settlement, maturity, freq, eom, TRUE);
+		coup_cd (&prev, settlement, maturity, freq, eom, FALSE);
+		return days_between_basis (&prev, &next, BASIS_ACT_ACT);
         }
 }
 
@@ -528,35 +512,29 @@ coupdays (GDate *settlement, GDate *maturity, int freq, basis_t basis, gboolean 
  * the settlement date.
  */
 gnm_float
-coupdaybs (GDate *settlement, GDate *maturity, int freq, basis_t basis, gboolean eom)
+coupdaybs (GDate const *settlement, GDate const *maturity,
+	   int freq, basis_t basis, gboolean eom)
 {
-	GDate      *prev_coupon;
-	gint32        days;
-
-	prev_coupon = coup_cd (settlement, maturity, freq, eom, FALSE);
-	days = days_between_basis (prev_coupon, settlement, basis);
-	datetime_g_free (prev_coupon);
-	return days;
+	GDate prev_coupon;
+	coup_cd (&prev_coupon, settlement, maturity, freq, eom, FALSE);
+	return days_between_basis (&prev_coupon, settlement, basis);
 }
 
-/* ------------------------------------------------------------------------- */
-
-
-/*
+/**
+ * coupdaysnc :
+ * @settlement :
+ * @maturity :
+ * @freq :
+ * @basis :
+ * @eom :
+ *
  * Returns the number of days from the settlement date to the next
  * coupon date.
- */
-
+ **/
 gnm_float
-coupdaysnc (GDate *settlement, GDate *maturity, int freq, basis_t basis, gboolean eom)
+coupdaysnc (GDate const *settlement, GDate const *maturity, int freq, basis_t basis, gboolean eom)
 {
-	GDate      *next_coupon;
-	int        days;
-
-	next_coupon = coup_cd (settlement, maturity, freq, eom, TRUE);
-	days = days_between_basis (settlement, next_coupon, basis);
-	datetime_g_free (next_coupon);
-	return days;
+	GDate next_coupon;
+	coup_cd (&next_coupon, settlement, maturity, freq, eom, TRUE);
+	return days_between_basis (settlement, &next_coupon, basis);
 }
-
-/* ------------------------------------------------------------------------- */

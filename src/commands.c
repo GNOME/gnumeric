@@ -180,7 +180,7 @@ static GSF_CLASS (type, func,						\
 
 
 static char *
-make_undo_text (const char *src, int max_len, gboolean *truncated)
+make_undo_text (char const *src, int max_len, gboolean *truncated)
 {
 	char *dst = g_strdup (src);
 	char *p;
@@ -216,7 +216,7 @@ make_undo_text (const char *src, int max_len, gboolean *truncated)
  * Returns :
  */
 static char *
-undo_global_range_name (Sheet *sheet, Range const * const range)
+undo_global_range_name (Sheet *sheet, Range const *range)
 {
 	gboolean show_sheet_name = gnm_app_prefs->show_sheet_name;
 	return global_range_name (show_sheet_name ? sheet : NULL, range);
@@ -402,7 +402,7 @@ cmd_range_list_to_string_utility (Sheet *sheet, GSList const *ranges)
 
 	names = g_string_new ("");
 	for (l = ranges; l != NULL; l = l->next) {
-		Range const * const r = l->data;
+		Range const *r = l->data;
 
                 name = undo_global_range_name (sheet , r);
                 g_string_append (names, name);
@@ -831,7 +831,7 @@ cmd_set_text_finalize (GObject *cmd)
 gboolean
 cmd_set_text (WorkbookControl *wbc,
 	      Sheet *sheet, CellPos const *pos,
-	      const char *new_text)
+	      char const *new_text)
 {
 	GObject *obj;
 	CmdSetText *me;
@@ -909,7 +909,7 @@ cmd_area_set_text_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me->old_content != NULL, TRUE);
 
 	for (ranges = me->selection; ranges != NULL ; ranges = ranges->next) {
-		Range const * const r = ranges->data;
+		Range const *r = ranges->data;
 		CellRegion * c;
 		PasteTarget pt;
 
@@ -935,6 +935,7 @@ cmd_area_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	GSList *l;
 	StyleFormat *sf;
 	MStyle *new_style = NULL;
+	char const *expr_txt;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
@@ -948,15 +949,16 @@ cmd_area_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 					       wbc, _("Set Text")))
 		return TRUE;
 
+	expr_txt = gnm_expr_char_start_p (me->text);
 	if (me->as_array) {
-		expr = gnm_expr_parse_str_simple (
-			gnm_expr_char_start_p (me->text), &me->pp);
+		if (expr_txt != NULL)
+			expr = gnm_expr_parse_str_simple (expr_txt, &me->pp);
 		if (expr == NULL)
 			return TRUE;
 	} else {
-		const GnmExpr *tmpexpr = gnm_expr_parse_str_simple (
-			gnm_expr_char_start_p (me->text), &me->pp);
-		if (tmpexpr) {
+		GnmExpr const *tmpexpr = gnm_expr_parse_str_simple (
+			expr_txt, &me->pp);
+		if (tmpexpr != NULL) {
 			EvalPos ep;
 
 			ep.eval = me->pp.eval;
@@ -972,7 +974,7 @@ cmd_area_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	/* Everything is ok. Store previous contents and perform the operation */
 	for (l = me->selection ; l != NULL ; l = l->next) {
-		Range const * const r = l->data;
+		Range const *r = l->data;
 		me->old_content = g_slist_prepend (me->old_content,
 			clipboard_copy_range (me->cmd.sheet, r));
 
@@ -1299,7 +1301,7 @@ static gboolean
 cmd_ins_del_colrow (WorkbookControl *wbc,
 		    Sheet *sheet,
 		    gboolean is_cols, gboolean is_insert,
-		    char const * descriptor, int index, int count)
+		    char const *descriptor, int index, int count)
 {
 	GObject *obj;
 	CmdInsDelColRow *me;
@@ -1425,7 +1427,7 @@ cmd_clear_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	sv_selection_reset (sv);
 
 	for (ranges = me->selection; ranges != NULL ; ranges = ranges->next) {
-		Range const * const r = ranges->data;
+		Range const *r = ranges->data;
 		CellRegion  *c;
 		PasteTarget pt;
 
@@ -1470,7 +1472,7 @@ cmd_clear_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 		return TRUE;
 
 	for (l = me->selection ; l != NULL ; l = l->next) {
-		Range const * const r = l->data;
+		Range const *r = l->data;
 		me->old_content =
 			g_slist_prepend (me->old_content,
 				clipboard_copy_range (me->cmd.sheet, r));
@@ -3280,12 +3282,12 @@ cmd_merge_cells_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me != NULL, TRUE);
 
 	for (i = 0 ; i < me->ranges->len ; ++i) {
-		Range const * r = &(g_array_index (me->ranges, Range, i));
+		Range const *r = &(g_array_index (me->ranges, Range, i));
 		sheet_merge_remove (me->cmd.sheet, r, COMMAND_CONTEXT (wbc));
 	}
 
 	for (i = 0 ; i < me->ranges->len ; ++i) {
-		Range const * r = &(g_array_index (me->ranges, Range, i));
+		Range const *r = &(g_array_index (me->ranges, Range, i));
 		PasteTarget pt;
 		CellRegion * c;
 
@@ -4529,12 +4531,12 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *old_order, GSList *new_orde
 			else
 				me->cmd.cmd_descriptor
 					= g_strdup_printf (_("Adding sheet '%s'"),
-							   (const char *)new_names->data);
+							   (char const *)new_names->data);
 		} else
 			me->cmd.cmd_descriptor
 				= g_strdup_printf (_("Rename sheet '%s' '%s'"),
 						   ((Sheet *)changed_names->data)->name_unquoted,
-						   (const char *)new_names->data);
+						   (char const *)new_names->data);
 		break;
 	case (1 << 3):
 		me->cmd.cmd_descriptor = g_strdup (_("Changing Tab Colors"));
@@ -4650,7 +4652,7 @@ cmd_set_comment_finalize (GObject *cmd)
 gboolean
 cmd_set_comment (WorkbookControl *wbc,
 	      Sheet *sheet, CellPos const *pos,
-	      const char *new_text)
+	      char const *new_text)
 {
 	GObject       *obj;
 	CmdSetComment *me;
@@ -5544,7 +5546,7 @@ cmd_freeze_panes_finalize (GObject *cmd)
  **/
 gboolean
 cmd_freeze_panes (WorkbookControl *wbc, SheetView *sv,
-		 CellPos const *frozen, CellPos const *unfrozen)
+		  CellPos const *frozen, CellPos const *unfrozen)
 {
 	GObject		*obj;
 	CmdFreezePanes	*me;
@@ -5558,20 +5560,6 @@ cmd_freeze_panes (WorkbookControl *wbc, SheetView *sv,
 	me->sv = sv;
 	me->frozen   = f;
 	me->unfrozen = expr;
-	me->nexpr = nexpr;
-	me->create_name = nexpr == NULL;
-	if (nexpr != NULL)
-		expr_name_ref (me->nexpr);
-
-	me->cmd.sheet = wb_control_cur_sheet (wbc);
-	me->cmd.size = 1;
-	if (me->create_name)
-		me->cmd.cmd_descriptor =
-			g_strdup_printf (_("Define Name %s"), name);
-	else
-		me->cmd.cmd_descriptor =
-			g_strdup_printf (_("Update Name %s"), name);
-
 	return command_push_undo (wbc, obj);
 }
 

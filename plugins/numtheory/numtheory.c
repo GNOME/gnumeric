@@ -208,7 +208,7 @@ isprime (int n)
 
 /* ------------------------------------------------------------------------- */
 
-static const char *help_phi = {
+static char const *help_phi = {
 	N_("@FUNCTION=NT_PHI\n"
 	   "@SYNTAX=NT_PHI(n)\n"
 	   "@DESCRIPTION="
@@ -242,7 +242,7 @@ gnumeric_phi (FunctionEvalInfo *ei, Value **args)
 
 /* ------------------------------------------------------------------------- */
 
-static const char *help_nt_mu = {
+static char const *help_nt_mu = {
 	N_("@FUNCTION=NT_MU\n"
 	   "@SYNTAX=NT_MU(n)\n"
 	   "@DESCRIPTION="
@@ -281,7 +281,7 @@ gnumeric_nt_mu (FunctionEvalInfo *ei, Value **args)
 
 /* ------------------------------------------------------------------------- */
 
-static const char *help_d = {
+static char const *help_d = {
 	N_("@FUNCTION=NT_D\n"
 	   "@SYNTAX=NT_D(n)\n"
 	   "@DESCRIPTION="
@@ -314,7 +314,7 @@ gnumeric_d (FunctionEvalInfo *ei, Value **args)
 
 /* ------------------------------------------------------------------------- */
 
-static const char *help_sigma = {
+static char const *help_sigma = {
 	N_("@FUNCTION=NT_SIGMA\n"
 	   "@SYNTAX=NT_SIGMA(n)\n"
 	   "@DESCRIPTION="
@@ -348,7 +348,7 @@ gnumeric_sigma (FunctionEvalInfo *ei, Value **args)
 
 /* ------------------------------------------------------------------------- */
 
-static const char *help_ithprime = {
+static char const *help_ithprime = {
 	N_("@FUNCTION=ITHPRIME\n"
 	   "@SYNTAX=ITHPRIME(i)\n"
 	   "@DESCRIPTION="
@@ -375,7 +375,7 @@ gnumeric_ithprime (FunctionEvalInfo *ei, Value **args)
 
 /* ------------------------------------------------------------------------- */
 
-static const char *help_isprime = {
+static char const *help_isprime = {
 	N_("@FUNCTION=ISPRIME\n"
 	   "@SYNTAX=ISPRIME(i)\n"
 	   "@DESCRIPTION="
@@ -399,7 +399,7 @@ gnumeric_isprime (FunctionEvalInfo *ei, Value **args)
 
 /* ------------------------------------------------------------------------- */
 
-static const char *help_nt_pi = {
+static char const *help_nt_pi = {
 	N_("@FUNCTION=NT_PI\n"
 	   "@SYNTAX=NT_PI(n)\n"
 	   "@DESCRIPTION="
@@ -425,7 +425,7 @@ gnumeric_nt_pi (FunctionEvalInfo *ei, Value **args)
 
 /* ------------------------------------------------------------------------- */
 
-static const char *help_bitor = {
+static char const *help_bitor = {
 	N_("@FUNCTION=BITOR\n"
 	   "@SYNTAX=BITOR(a,b)\n"
 	   "@DESCRIPTION="
@@ -444,7 +444,7 @@ func_bitor (FunctionEvalInfo *ei, Value *argv [])
 
 /* ------------------------------------------------------------------------- */
 
-static const char *help_bitxor = {
+static char const *help_bitxor = {
 	N_("@FUNCTION=BITXOR\n"
 	   "@SYNTAX=BITXOR(a,b)\n"
 	   "@DESCRIPTION="
@@ -464,7 +464,7 @@ func_bitxor (FunctionEvalInfo *ei, Value *argv [])
 
 /* ------------------------------------------------------------------------- */
 
-static const char *help_bitand = {
+static char const *help_bitand = {
 	N_("@FUNCTION=BITAND\n"
 	   "@SYNTAX=BITAND(a,b)\n"
 	   "@DESCRIPTION="
@@ -484,7 +484,7 @@ func_bitand (FunctionEvalInfo *ei, Value *argv [])
 
 /* ------------------------------------------------------------------------- */
 
-static const char *help_bitlshift = {
+static char const *help_bitlshift = {
 	N_("@FUNCTION=BITLSHIFT\n"
 	   "@SYNTAX=BITLSHIFT(x,n)\n"
 	   "@DESCRIPTION="
@@ -511,7 +511,7 @@ func_bitlshift (FunctionEvalInfo *ei, Value *argv [])
 
 /* ------------------------------------------------------------------------- */
 
-static const char *help_bitrshift = {
+static char const *help_bitrshift = {
 	N_("@FUNCTION=BITRSHIFT\n"
 	   "@SYNTAX=BITRSHIFT(x,n)\n"
 	   "@DESCRIPTION="

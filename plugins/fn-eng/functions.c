@@ -54,7 +54,7 @@ val_to_base (FunctionEvalInfo *ei, Value **argv, int num_argv,
 	Value *value;
 	int max, places;
 	char *err, buffer[40];
-	const char *str;
+	char const *str;
 	gnm_float v, b10;
 	int digit;
 
@@ -111,7 +111,7 @@ val_to_base (FunctionEvalInfo *ei, Value **argv, int num_argv,
 
 /***************************************************************************/
 
-static const char *help_bin2dec = {
+static char const *help_bin2dec = {
 	N_("@FUNCTION=BIN2DEC\n"
 	   "@SYNTAX=BIN2DEC(x)\n"
 
@@ -134,7 +134,7 @@ gnumeric_bin2dec (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_bin2oct = {
+static char const *help_bin2oct = {
 	N_("@FUNCTION=BIN2OCT\n"
 	   "@SYNTAX=BIN2OCT(number[,places])\n"
 
@@ -160,7 +160,7 @@ gnumeric_bin2oct (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_bin2hex = {
+static char const *help_bin2hex = {
 	N_("@FUNCTION=BIN2HEX\n"
 	   "@SYNTAX=BIN2HEX(number[,places])\n"
 
@@ -186,7 +186,7 @@ gnumeric_bin2hex (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_dec2bin = {
+static char const *help_dec2bin = {
 	N_("@FUNCTION=DEC2BIN\n"
 	   "@SYNTAX=DEC2BIN(number[,places])\n"
 
@@ -212,7 +212,7 @@ gnumeric_dec2bin (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_dec2oct = {
+static char const *help_dec2oct = {
 	N_("@FUNCTION=DEC2OCT\n"
 	   "@SYNTAX=DEC2OCT(number[,places])\n"
 
@@ -238,7 +238,7 @@ gnumeric_dec2oct (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_dec2hex = {
+static char const *help_dec2hex = {
 	N_("@FUNCTION=DEC2HEX\n"
 	   "@SYNTAX=DEC2HEX(number[,places])\n"
 
@@ -264,7 +264,7 @@ gnumeric_dec2hex (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_oct2dec = {
+static char const *help_oct2dec = {
 	N_("@FUNCTION=OCT2DEC\n"
 	   "@SYNTAX=OCT2DEC(x)\n"
 
@@ -287,7 +287,7 @@ gnumeric_oct2dec (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_oct2bin = {
+static char const *help_oct2bin = {
 	N_("@FUNCTION=OCT2BIN\n"
 	   "@SYNTAX=OCT2BIN(number[,places])\n"
 
@@ -313,7 +313,7 @@ gnumeric_oct2bin (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_oct2hex = {
+static char const *help_oct2hex = {
 	N_("@FUNCTION=OCT2HEX\n"
 	   "@SYNTAX=OCT2HEX(number[,places])\n"
 
@@ -339,7 +339,7 @@ gnumeric_oct2hex (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_hex2bin = {
+static char const *help_hex2bin = {
 	N_("@FUNCTION=HEX2BIN\n"
 	   "@SYNTAX=HEX2BIN(number[,places])\n"
 
@@ -365,7 +365,7 @@ gnumeric_hex2bin (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_hex2oct = {
+static char const *help_hex2oct = {
 	N_("@FUNCTION=HEX2OCT\n"
 	   "@SYNTAX=HEX2OCT(number[,places])\n"
 
@@ -391,7 +391,7 @@ gnumeric_hex2oct (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_hex2dec = {
+static char const *help_hex2dec = {
 	N_("@FUNCTION=HEX2DEC\n"
 	   "@SYNTAX=HEX2DEC(x)\n"
 
@@ -414,7 +414,7 @@ gnumeric_hex2dec (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_besseli = {
+static char const *help_besseli = {
 	N_("@FUNCTION=BESSELI\n"
 	   "@SYNTAX=BESSELI(x,y)\n"
 
@@ -452,7 +452,7 @@ gnumeric_besseli (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_besselk = {
+static char const *help_besselk = {
 	N_("@FUNCTION=BESSELK\n"
 	   "@SYNTAX=BESSELK(x,y)\n"
 
@@ -489,7 +489,7 @@ gnumeric_besselk (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_besselj = {
+static char const *help_besselj = {
 	N_("@FUNCTION=BESSELJ\n"
 	   "@SYNTAX=BESSELJ(x,y)\n"
 
@@ -525,7 +525,7 @@ gnumeric_besselj (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_bessely = {
+static char const *help_bessely = {
 	N_("@FUNCTION=BESSELY\n"
 	   "@SYNTAX=BESSELY(x,y)\n"
 
@@ -564,7 +564,7 @@ gnumeric_bessely (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_convert = {
+static char const *help_convert = {
 	N_("@FUNCTION=CONVERT\n"
 	   "@SYNTAX=CONVERT(number,from_unit,to_unit)\n"
 	   "@DESCRIPTION="
@@ -668,7 +668,7 @@ static const char *help_convert = {
 };
 
 typedef struct {
-        const char *str;
+        char const *str;
 	gnm_float c;
 } eng_convert_unit_t;
 
@@ -676,7 +676,7 @@ typedef struct {
 static gnm_float
 get_constant_of_unit(const eng_convert_unit_t units[],
 		     const eng_convert_unit_t prefixes[],
-		     const char *unit_name,
+		     char const *unit_name,
 		     gnm_float *c, gnm_float *prefix)
 {
         int i;
@@ -710,7 +710,7 @@ get_constant_of_unit(const eng_convert_unit_t units[],
 static Value *
 convert (const eng_convert_unit_t units[],
 	 const eng_convert_unit_t prefixes[],
-	 const char *from_unit, const char *to_unit,
+	 char const *from_unit, char const *to_unit,
 	 gnm_float n, Value **v, const EvalPos *ep)
 {
         gnm_float from_c, from_prefix, to_c, to_prefix;
@@ -921,7 +921,7 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 	};
 
 	gnm_float n;
-	const char *from_unit, *to_unit;
+	char const *from_unit, *to_unit;
 	Value *v;
 
 	n = value_get_as_float (argv[0]);
@@ -979,7 +979,7 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_erf = {
+static char const *help_erf = {
 	N_("@FUNCTION=ERF\n"
 	   "@SYNTAX=ERF([lower limit,]upper_limit)\n"
 
@@ -1026,7 +1026,7 @@ gnumeric_erf (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_erfc = {
+static char const *help_erfc = {
 	N_("@FUNCTION=ERFC\n"
 	   "@SYNTAX=ERFC(x)\n"
 
@@ -1056,7 +1056,7 @@ gnumeric_erfc (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_delta = {
+static char const *help_delta = {
 	N_("@FUNCTION=DELTA\n"
 	   "@SYNTAX=DELTA(x[,y])\n"
 
@@ -1111,7 +1111,7 @@ gnumeric_delta (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_gestep = {
+static char const *help_gestep = {
 	N_("@FUNCTION=GESTEP\n"
 	   "@SYNTAX=GESTEP(x[,y])\n"
 	   "@DESCRIPTION="

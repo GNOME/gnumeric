@@ -145,21 +145,16 @@ calculate_pmt (gnm_float rate, gnm_float nper, gnm_float pv, gnm_float fv,
 static int
 annual_year_basis (Value *value_date, int basis)
 {
-        GDate    *date;
-        gboolean leap_year;
+        GDate    date;
 
 	switch (basis) {
 	case 0:
 	        return 360;
 	case 1:
-	        date = datetime_value_to_g (value_date);
-		if (date != NULL) {
-		        leap_year =
-				g_date_is_leap_year (g_date_get_year (date));
-			g_date_free (date);
-		} else
+		if (!datetime_value_to_g (&date, value_date))
 		        return -1;
-	        return leap_year ? 366 : 365;
+		return g_date_is_leap_year (g_date_get_year (&date))
+			? 366 : 365;
 	case 2:
 	        return 360;
 	case 3:
@@ -185,37 +180,30 @@ annual_year_basis (Value *value_date, int basis)
 static int
 days_monthly_basis (Value *issue_date, Value *maturity_date, int basis)
 {
-        GDate    *date_i, *date_m;
+        GDate    date_i, date_m;
 	int      issue_day, issue_month, issue_year;
 	int      maturity_day, maturity_month, maturity_year;
         int      months, days, years;
 	gboolean leap_year;
 	int      maturity, issue;
 
-	date_i = datetime_value_to_g (issue_date);
-	date_m = datetime_value_to_g (maturity_date);
-	if (date_i != NULL && date_m != NULL) {
-	        issue_year = g_date_get_year (date_i);
-	        issue_month = g_date_get_month (date_i);
-	        issue_day = g_date_get_day (date_i);
-	        maturity_year = g_date_get_year (date_m);
-	        maturity_month = g_date_get_month (date_m);
-	        maturity_day = g_date_get_day (date_m);
-
-	        years = maturity_year - issue_year;
-	        months = maturity_month - issue_month;
-	        days = maturity_day - issue_day;
-
-		months = years * 12 + months;
-		leap_year = g_date_is_leap_year (issue_year);
-
-		datetime_g_free (date_i);
-		datetime_g_free (date_m);
-	} else {
-	        datetime_g_free (date_i);
-	        datetime_g_free (date_m);
+	if (!datetime_value_to_g (&date_i, issue_date) ||
+	    !datetime_value_to_g (&date_m, maturity_date))
 	        return -1;
-	}
+
+	issue_year = g_date_get_year (&date_i);
+	issue_month = g_date_get_month (&date_i);
+	issue_day = g_date_get_day (&date_i);
+	maturity_year = g_date_get_year (&date_m);
+	maturity_month = g_date_get_month (&date_m);
+	maturity_day = g_date_get_day (&date_m);
+
+	years = maturity_year - issue_year;
+	months = maturity_month - issue_month;
+	days = maturity_day - issue_day;
+
+	months = years * 12 + months;
+	leap_year = g_date_is_leap_year (issue_year);
 
 	switch (basis) {
 	case 0:
@@ -246,8 +234,8 @@ days_monthly_basis (Value *issue_date, Value *maturity_date, int basis)
  * and maturity dates.
  */
 static gnm_float
-coupnum (GDate *settlement, GDate *maturity, int freq, basis_t basis,
-	 gboolean eom)
+coupnum (GDate const *settlement, GDate const *maturity,
+	 int freq, basis_t basis, gboolean eom)
 {
         int        months;
 	GDate      this_coupondate;
@@ -272,32 +260,21 @@ coupnum (GDate *settlement, GDate *maturity, int freq, basis_t basis,
 }
 
 static gnm_float
-couppcd (GDate *settlement, GDate *maturity, int freq,  basis_t basis,
-	 gboolean eom)
+couppcd (GDate const *settlement, GDate const *maturity,
+	 int freq,  basis_t basis, gboolean eom)
 {
-	GDate *date;
-	int   serial_date;
-
-	date = coup_cd (settlement, maturity, freq, eom, FALSE);
-	serial_date = datetime_g_to_serial (date);
-	g_date_free (date);
-
-	return serial_date;
+	GDate date;
+	coup_cd (&date, settlement, maturity, freq, eom, FALSE);
+	return datetime_g_to_serial (&date);
 }
 
 static gnm_float
-coupncd (GDate *settlement, GDate *maturity, int freq,  basis_t basis,
-	 gboolean eom)
+coupncd (GDate const *settlement, GDate const *maturity,
+	 int freq,  basis_t basis, gboolean eom)
 {
-	GDate *date;
-	int   serial_date;
-
-	date = coup_cd (settlement, maturity, freq, eom, TRUE);
-	serial_date = datetime_g_to_serial (date);
-	g_date_free (date);
-
-	return serial_date;
-
+	GDate date;
+	coup_cd (&date, settlement, maturity, freq, eom, TRUE);
+	return datetime_g_to_serial (&date);
 }
 
 static gnm_float
@@ -334,43 +311,29 @@ price (GDate *settlement, GDate *maturity, gnm_float rate, gnm_float yield,
 
 static Value *
 func_coup (FunctionEvalInfo *ei, Value **argv,
-	   gnm_float (coup_fn)(GDate *settlement, GDate *maturity,
-				int freq, basis_t basis, gboolean eom))
+	   gnm_float (coup_fn)(GDate const *settlement, GDate const *maturity,
+			       int freq, basis_t basis, gboolean eom))
 {
-        GDate   *settlement;
-        GDate   *maturity;
+        GDate   settlement, maturity;
         int     freq;
 	basis_t basis;
 	gboolean eom, err = FALSE;
-	Value   *result;
 
-        settlement = datetime_value_to_g (argv[0]);
-        maturity   = datetime_value_to_g (argv[1]);
         freq       = value_get_as_int (argv[2]);
 	basis      = argv[3] ? value_get_as_int (argv[3]) : BASIS_MSRB_30_360;
 	eom        = argv[4] ? value_get_as_bool (argv[4], &err) : TRUE;
 
-	if (!maturity || !settlement || err) {
-		result = value_new_error_VALUE (ei->pos);
-		goto out;
-	}
+        if (!datetime_value_to_g (&settlement, argv[0]) ||
+	    !datetime_value_to_g (&maturity, argv[1]) || err)
+		return value_new_error_VALUE (ei->pos);
 
 	if (basis < 0 || basis > BASIS_LAST || (freq == 0) || (12 % freq != 0)
-	    || g_date_compare (settlement, maturity) >= 0) {
-		result = value_new_error_NUM (ei->pos);
-		goto out;
-	}
+	    || g_date_compare (&settlement, &maturity) >= 0)
+		return value_new_error_NUM (ei->pos);
 
-	result = value_new_float (coup_fn (settlement, maturity, freq, basis,
-					   eom));
-
- out:
-	datetime_g_free (settlement);
-	datetime_g_free (maturity);
-
-	return result;
+	return value_new_float (
+		coup_fn (&settlement, &maturity, freq, basis, eom));
 }
-
 
 /***************************************************************************
  *
@@ -378,7 +341,7 @@ func_coup (FunctionEvalInfo *ei, Value **argv,
  *
  */
 
-static const char *help_accrint = {
+static char const *help_accrint = {
 	N_("@FUNCTION=ACCRINT\n"
 	   "@SYNTAX=ACCRINT(issue,first_interest,settlement,rate,par,"
 	   "frequency[,basis])\n"
@@ -422,58 +385,40 @@ static const char *help_accrint = {
 static Value *
 gnumeric_accrint (FunctionEvalInfo *ei, Value **argv)
 {
-        GDate      *settlement;
-        GDate      *first_interest;
-        GDate      *maturity;
+        GDate      settlement, first_interest, maturity;
 	gnm_float rate, a, d, par, freq, coefficient, x;
 	int        basis;
-	Value      *result;
 
-        maturity       = datetime_value_to_g (argv[0]);
-	first_interest = datetime_value_to_g (argv[1]);
-        settlement     = datetime_value_to_g (argv[2]);
 	rate           = value_get_as_float (argv[3]);
 	par            = value_get_as_float (argv[4]);
 	freq           = value_get_as_float (argv[5]);
 	basis          = argv[6] ? value_get_as_int (argv[6]) : 0;
 
-	if (!maturity || !first_interest || !settlement) {
-		result = value_new_error_VALUE (ei->pos);
-		goto out;
-	}
+        if (!datetime_value_to_g (&maturity, argv[0])
+	    || !datetime_value_to_g (&first_interest, argv[1])
+	    || !datetime_value_to_g (&settlement, argv[2]))
+		return value_new_error_VALUE (ei->pos);
 
         if (!is_valid_basis (basis)
 	    || !is_valid_freq (freq)
-	    || g_date_compare (settlement, first_interest) > 0
-	    || g_date_compare (first_interest, maturity) < 0) {
-		result = value_new_error_NUM (ei->pos);
-		goto out;
-	}
+	    || g_date_compare (&settlement, &first_interest) > 0
+	    || g_date_compare (&first_interest, &maturity) < 0)
+		return value_new_error_NUM (ei->pos);
 
 	a = days_monthly_basis (argv[0], argv[2], basis);
 	d = annual_year_basis (argv[0], basis);
-
-	if (a < 0 || d <= 0 || par <= 0 || rate <= 0) {
-		result = value_new_error_NUM (ei->pos);
-		goto out;
-	}
+	if (a < 0 || d <= 0 || par <= 0 || rate <= 0)
+		return value_new_error_NUM (ei->pos);
 
 	coefficient = par * rate / freq;
 	x = a / d;
 
-	result = value_new_float (coefficient * freq * x);
-
- out:
-	datetime_g_free (settlement);
-	datetime_g_free (first_interest);
-	datetime_g_free (maturity);
-
-	return result;
+	return value_new_float (coefficient * freq * x);
 }
 
 /***************************************************************************/
 
-static const char *help_accrintm = {
+static char const *help_accrintm = {
 	N_("@FUNCTION=ACCRINTM\n"
 	   "@SYNTAX=ACCRINTM(issue,maturity,rate[,par,basis])\n"
 	   "@DESCRIPTION="
@@ -526,7 +471,7 @@ gnumeric_accrintm (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_intrate = {
+static char const *help_intrate = {
 	N_("@FUNCTION=INTRATE\n"
 	   "@SYNTAX=INTRATE(settlement,maturity,investment,redemption"
 	   "[,basis])\n"
@@ -587,7 +532,7 @@ gnumeric_intrate (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_received = {
+static char const *help_received = {
 	N_("@FUNCTION=RECEIVED\n"
 	   "@SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis])\n"
 	   "@DESCRIPTION="
@@ -644,7 +589,7 @@ gnumeric_received (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_pricedisc = {
+static char const *help_pricedisc = {
 	N_("@FUNCTION=PRICEDISC\n"
 	   "@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption"
 	   "[,basis])\n"
@@ -697,7 +642,7 @@ gnumeric_pricedisc (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_pricemat = {
+static char const *help_pricemat = {
 	N_("@FUNCTION=PRICEMAT\n"
 	   "@SYNTAX=PRICEMAT(settlement,maturity,issue,rate,yield[,basis])\n"
 	   "@DESCRIPTION="
@@ -756,7 +701,7 @@ gnumeric_pricemat (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_disc = {
+static char const *help_disc = {
 	N_("@FUNCTION=DISC\n"
 	   "@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
 	   "@DESCRIPTION="
@@ -807,7 +752,7 @@ gnumeric_disc (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_effect = {
+static char const *help_effect = {
 	N_("@FUNCTION=EFFECT\n"
 	   "@SYNTAX=EFFECT(r,nper)\n"
 	   "@DESCRIPTION="
@@ -854,7 +799,7 @@ gnumeric_effect (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_nominal = {
+static char const *help_nominal = {
 	N_("@FUNCTION=NOMINAL\n"
 	   "@SYNTAX=NOMINAL(r,nper)\n"
 	   "@DESCRIPTION="
@@ -892,7 +837,7 @@ gnumeric_nominal (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_ispmt = {
+static char const *help_ispmt = {
 	N_("@FUNCTION=ISPMT\n"
 	   "@SYNTAX=ISPMT(rate,per,nper,pv)\n"
 	   "@DESCRIPTION="
@@ -929,7 +874,7 @@ gnumeric_ispmt (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_db = {
+static char const *help_db = {
 	N_("@FUNCTION=DB\n"
 	   "@SYNTAX=DB(cost,salvage,life,period[,month])\n"
 	   "@DESCRIPTION="
@@ -990,7 +935,7 @@ gnumeric_db (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_ddb = {
+static char const *help_ddb = {
 	N_("@FUNCTION=DDB\n"
 	   "@SYNTAX=DDB(cost,salvage,life,period[,factor])\n"
 	   "@DESCRIPTION="
@@ -1043,7 +988,7 @@ gnumeric_ddb (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_sln = {
+static char const *help_sln = {
 	N_("@FUNCTION=SLN\n"
 	   "@SYNTAX=SLN(cost,salvage_value,life)\n"
 	   "@DESCRIPTION="
@@ -1099,7 +1044,7 @@ gnumeric_sln (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_syd = {
+static char const *help_syd = {
 	N_("@FUNCTION=SYD\n"
 	   "@SYNTAX=SYD(cost,salvage_value,life,period)\n"
 	   "@DESCRIPTION="
@@ -1157,7 +1102,7 @@ gnumeric_syd (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_dollarde = {
+static char const *help_dollarde = {
 	N_("@FUNCTION=DOLLARDE\n"
 	   "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
 	   "@DESCRIPTION="
@@ -1201,7 +1146,7 @@ gnumeric_dollarde (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_dollarfr = {
+static char const *help_dollarfr = {
 	N_("@FUNCTION=DOLLARFR\n"
 	   "@SYNTAX=DOLLARFR(decimal_dollar,fraction)\n"
 	   "@DESCRIPTION="
@@ -1242,7 +1187,7 @@ gnumeric_dollarfr (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_mirr = {
+static char const *help_mirr = {
 	N_("@FUNCTION=MIRR\n"
 	   "@SYNTAX=MIRR(values,finance_rate,reinvest_rate)\n"
 	   "@DESCRIPTION="
@@ -1302,7 +1247,7 @@ out:
 
 /***************************************************************************/
 
-static const char *help_tbilleq = {
+static char const *help_tbilleq = {
 	N_("@FUNCTION=TBILLEQ\n"
 	   "@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
 	   "@DESCRIPTION="
@@ -1348,7 +1293,7 @@ gnumeric_tbilleq (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_tbillprice = {
+static char const *help_tbillprice = {
 	N_("@FUNCTION=TBILLPRICE\n"
 	   "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
 	   "@DESCRIPTION="
@@ -1389,7 +1334,7 @@ gnumeric_tbillprice (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_tbillyield = {
+static char const *help_tbillyield = {
 	N_("@FUNCTION=TBILLYIELD\n"
 	   "@SYNTAX=TBILLYIELD(settlement,maturity,pr)\n"
 	   "@DESCRIPTION="
@@ -1430,7 +1375,7 @@ gnumeric_tbillyield (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_rate = {
+static char const *help_rate = {
 	N_("@FUNCTION=RATE\n"
 	   "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
 	   "@DESCRIPTION="
@@ -1541,7 +1486,7 @@ gnumeric_rate (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_irr = {
+static char const *help_irr = {
 	N_("@FUNCTION=IRR\n"
 	   "@SYNTAX=IRR(values[,guess])\n"
 	   "@DESCRIPTION="
@@ -1664,7 +1609,7 @@ gnumeric_irr (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_pv = {
+static char const *help_pv = {
 	N_("@FUNCTION=PV\n"
 	   "@SYNTAX=PV(rate,nper,pmt[,fv,type])\n"
 	   "@DESCRIPTION="
@@ -1705,7 +1650,7 @@ gnumeric_pv (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_npv = {
+static char const *help_npv = {
 	N_("@FUNCTION=NPV\n"
 	   "@SYNTAX=NPV(rate,v1,v2,...)\n"
 	   "@DESCRIPTION="
@@ -1759,7 +1704,7 @@ gnumeric_npv (FunctionEvalInfo *ei, GnmExprList *nodes)
 
 /***************************************************************************/
 
-static const char *help_xnpv = {
+static char const *help_xnpv = {
 	N_("@FUNCTION=XNPV\n"
 	   "@SYNTAX=XNPV(rate,values,dates)\n"
 	   "@DESCRIPTION="
@@ -1819,7 +1764,7 @@ gnumeric_xnpv (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_xirr = {
+static char const *help_xirr = {
 	N_("@FUNCTION=XIRR\n"
 	   "@SYNTAX=XIRR(values,dates[,guess])\n"
 	   "@DESCRIPTION="
@@ -1926,7 +1871,7 @@ gnumeric_xirr (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_fv = {
+static char const *help_fv = {
 	N_("@FUNCTION=FV\n"
 	   "@SYNTAX=FV(rate,nper,pmt[,pv,type])\n"
 	   "@DESCRIPTION="
@@ -1963,7 +1908,7 @@ gnumeric_fv (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_pmt = {
+static char const *help_pmt = {
 	N_("@FUNCTION=PMT\n"
 	   "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
 	   "@DESCRIPTION="
@@ -2000,7 +1945,7 @@ gnumeric_pmt (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_ipmt = {
+static char const *help_ipmt = {
 	N_("@FUNCTION=IPMT\n"
 	   "@SYNTAX=IPMT(rate,per,nper,pv[,fv,type])\n"
 	   "@DESCRIPTION="
@@ -2050,7 +1995,7 @@ gnumeric_ipmt (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_ppmt = {
+static char const *help_ppmt = {
 	N_("@FUNCTION=PPMT\n"
 	   "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
 	   "@DESCRIPTION="
@@ -2099,7 +2044,7 @@ gnumeric_ppmt (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_nper = {
+static char const *help_nper = {
 	N_("@FUNCTION=NPER\n"
 	   "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
 	   "@DESCRIPTION="
@@ -2153,7 +2098,7 @@ gnumeric_nper (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_duration = {
+static char const *help_duration = {
 	N_("@FUNCTION=DURATION\n"
 	   "@SYNTAX=DURATION(settlement,maturity,coup,yield,freq[,basis])\n"
 	   "@DESCRIPTION="
@@ -2185,39 +2130,29 @@ static const char *help_duration = {
 static Value *
 gnumeric_duration (FunctionEvalInfo *ei, Value **argv)
 {
-        GDate      *nSettle, *nMat;
+        GDate     nSettle, nMat;
 	gnm_float fCoup, fYield;
-	gint       nFreq, nBase;
+	gint      nFreq, nBase;
         gnm_float fNumOfCoups;
-	Value      *result;
 
-        nSettle    = datetime_value_to_g (argv[0]);
-        nMat       = datetime_value_to_g (argv[1]);
 	fCoup      = value_get_as_float (argv[2]);
 	fYield     = value_get_as_float (argv[3]);
 	nFreq      = value_get_as_float (argv[4]);
         nBase      = argv[5] ? value_get_as_int (argv[5]) : 0;
 
-        if ( nBase < 0 || nBase > 4 || nSettle == NULL || nMat == NULL
-	     || (nFreq != 1 && nFreq != 2 && nFreq != 4) ) {
-		result = value_new_error_NUM (ei->pos);
-		goto out;
-	}
+        if (!datetime_value_to_g (&nSettle, argv[0]) ||
+	    !datetime_value_to_g (&nMat, argv[1]) ||
+	    nBase < 0 || nBase > 4 || (nFreq != 1 && nFreq != 2 && nFreq != 4) )
+		return value_new_error_NUM (ei->pos);
 
-	fNumOfCoups = coupnum (nSettle, nMat, nFreq, nBase, FALSE);
-	result      = get_duration (nSettle, nMat, fCoup, fYield, nFreq, nBase,
-				    fNumOfCoups);
-
- out:
-	datetime_g_free (nSettle);
-	datetime_g_free (nMat);
-
-	return result;
+	fNumOfCoups = coupnum (&nSettle, &nMat, nFreq, nBase, FALSE);
+	return get_duration (&nSettle, &nMat, fCoup, fYield, nFreq,
+			     nBase, fNumOfCoups);
 }
 
 /***************************************************************************/
 
-static const char *help_g_duration = {
+static char const *help_g_duration = {
 	N_("@FUNCTION=G_DURATION\n"
 	   "@SYNTAX=G_DURATION(rate,pv,fv)\n"
 	   "@DESCRIPTION="
@@ -2258,7 +2193,7 @@ gnumeric_g_duration (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_fvschedule = {
+static char const *help_fvschedule = {
 	N_("@FUNCTION=FVSCHEDULE\n"
 	   "@SYNTAX=FVSCHEDULE(principal,schedule)\n"
 	   "@DESCRIPTION="
@@ -2302,7 +2237,7 @@ out:
 
 /***************************************************************************/
 
-static const char *help_euro = {
+static char const *help_euro = {
 	N_("@FUNCTION=EURO\n"
 	   "@SYNTAX=EURO(currency)\n"
 	   "@DESCRIPTION="
@@ -2339,7 +2274,7 @@ static const char *help_euro = {
  * value is returned.
  */
 static gnm_float
-one_euro (const char *str)
+one_euro (char const *str)
 {
 	switch (*str) {
 	case 'A':
@@ -2398,7 +2333,7 @@ one_euro (const char *str)
 static Value *
 gnumeric_euro (FunctionEvalInfo *ei, Value **argv)
 {
-        const char *str = value_peek_string (argv[0]);
+        char const *str = value_peek_string (argv[0]);
 	gnm_float v    = one_euro (str);
 
 	if (v >= 0)
@@ -2409,7 +2344,7 @@ gnumeric_euro (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_euroconvert = {
+static char const *help_euroconvert = {
 	N_("@FUNCTION=EUROCONVERT\n"
 	   "@SYNTAX=EUROCONVERT(n,source,target)\n"
 	   "@DESCRIPTION="
@@ -2445,8 +2380,8 @@ static Value *
 gnumeric_euroconvert (FunctionEvalInfo *ei, Value **argv)
 {
 	gnm_float n     = value_get_as_float (argv[0]);
-        const char *str1 = value_peek_string (argv[1]);
-        const char *str2 = value_peek_string (argv[2]);
+        char const *str1 = value_peek_string (argv[1]);
+        char const *str2 = value_peek_string (argv[2]);
 	gnm_float c1    = one_euro (str1);
 	gnm_float c2    = one_euro (str2);
 
@@ -2458,7 +2393,7 @@ gnumeric_euroconvert (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_price = {
+static char const *help_price = {
 	N_("@FUNCTION=PRICE\n"
 	   "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency"
 	   "[,basis])\n"
@@ -2490,51 +2425,37 @@ static const char *help_price = {
 static Value *
 gnumeric_price (FunctionEvalInfo *ei, Value **argv)
 {
-        GDate      *settlement;
-        GDate      *maturity;
+        GDate      settlement, maturity;
         /* gnm_float a, d, e, n; */
 	/* gnm_float first_term, last_term, den, base, exponent, sum; */
 	gnm_float rate, yield, redemption;
 	gint       freq, basis;
-	Value      *result;
 
-        settlement = datetime_value_to_g (argv[0]);
-        maturity   = datetime_value_to_g (argv[1]);
 	rate       = value_get_as_float (argv[2]);
 	yield      = value_get_as_float (argv[3]);
 	redemption = value_get_as_float (argv[4]);
         freq       = value_get_as_int (argv[5]);
         basis      = argv[6] ? value_get_as_int (argv[6]) : 0;
 
-	if (!maturity || !settlement) {
-		result = value_new_error_VALUE (ei->pos);
-		goto out;
-	}
+	if (!datetime_value_to_g (&settlement, argv[0]) ||
+	    !datetime_value_to_g (&maturity, argv[1]))
+		return value_new_error_VALUE (ei->pos);
 
         if (!is_valid_basis (basis)
 	    || !is_valid_freq (freq)
-            || g_date_compare (settlement, maturity) > 0) {
-		result = value_new_error_NUM (ei->pos);
-		goto out;
-	}
+            || g_date_compare (&settlement, &maturity) > 0)
+		return value_new_error_NUM (ei->pos);
 
-        if (rate < 0.0 || yield < 0.0 || redemption <= 0.0) {
-                result = value_new_error_NUM (ei->pos);
-		goto out;
-	}
+        if (rate < 0.0 || yield < 0.0 || redemption <= 0.0)
+                return value_new_error_NUM (ei->pos);
 
-	result = value_new_float ( price (settlement, maturity, rate, yield,
-					  redemption, freq, basis) );
- out:
-	datetime_g_free (settlement);
-	datetime_g_free (maturity);
-
-	return result;
+	return value_new_float ( price (&settlement, &maturity, rate, yield,
+					redemption, freq, basis) );
 }
 
 /***************************************************************************/
 
-static const char *help_yield = {
+static char const *help_yield = {
 	N_("@FUNCTION=YIELD\n"
 	   "@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency"
 	   "[,basis])\n"
@@ -2563,7 +2484,7 @@ static const char *help_yield = {
 };
 
 typedef struct {
-        GDate *settlement, *maturity;
+        GDate settlement, maturity;
 	gnm_float rate, redemption, par;
 	int freq, basis;
 } gnumeric_yield_t;
@@ -2573,7 +2494,7 @@ gnumeric_yield_f (gnm_float yield, gnm_float *y, void *user_data)
 {
 	gnumeric_yield_t *data = user_data;
 
-	*y = price (data->settlement, data->maturity, data->rate, yield,
+	*y = price (&data->settlement, &data->maturity, data->rate, yield,
 		    data->redemption, data->freq, data->basis)
 		- data->par;
 	return GOAL_SEEK_OK;
@@ -2584,43 +2505,35 @@ static Value *
 gnumeric_yield (FunctionEvalInfo *ei, Value **argv)
 {
         gnm_float n;
-	Value      *result;
 	gnumeric_yield_t udata;
 
-        udata.settlement = datetime_value_to_g (argv[0]);
-        udata.maturity   = datetime_value_to_g (argv[1]);
 	udata.rate       = value_get_as_float (argv[2]);
 	udata.par        = value_get_as_float (argv[3]);
 	udata.redemption = value_get_as_float (argv[4]);
         udata.freq       = value_get_as_int (argv[5]);
         udata.basis      = argv[6] ? value_get_as_int (argv[6]) : 0;
 
-	if (!udata.maturity || !udata.settlement) {
-		result = value_new_error_VALUE (ei->pos);
-		goto out;
-	}
+	if (!datetime_value_to_g (&udata.settlement, argv[0]) ||
+	    !datetime_value_to_g (&udata.maturity, argv[1]))
+		return value_new_error_VALUE (ei->pos);
 
         if (!is_valid_basis (udata.basis)
 	    || !is_valid_freq (udata.freq)
-            || g_date_compare (udata.settlement, udata.maturity) > 0) {
-		result = value_new_error_NUM (ei->pos);
-		goto out;
-	}
+            || g_date_compare (&udata.settlement, &udata.maturity) > 0)
+		return value_new_error_NUM (ei->pos);
 
-        if (udata.rate < 0.0 || udata.par < 0.0 || udata.redemption <= 0.0) {
-		result = value_new_error_NUM (ei->pos);
-		goto out;
-	}
+        if (udata.rate < 0.0 || udata.par < 0.0 || udata.redemption <= 0.0)
+		return value_new_error_NUM (ei->pos);
 
-	n = coupnum (udata.settlement, udata.maturity, udata.freq, udata.basis,
-		     TRUE);
+	n = coupnum (&udata.settlement, &udata.maturity,
+		     udata.freq, udata.basis, TRUE);
 	if (n <= 1.0) {
-		gnm_float a = coupdaybs (udata.settlement, udata.maturity,
-					  udata.freq, udata.basis, TRUE);
-		gnm_float d = coupdaysnc (udata.settlement, udata.maturity,
-					   udata.freq, udata.basis, TRUE);
-		gnm_float e = coupdays (udata.settlement, udata.maturity,
+		gnm_float a = coupdaybs (&udata.settlement, &udata.maturity,
 					 udata.freq, udata.basis, TRUE);
+		gnm_float d = coupdaysnc (&udata.settlement, &udata.maturity,
+					  udata.freq, udata.basis, TRUE);
+		gnm_float e = coupdays (&udata.settlement, &udata.maturity,
+					udata.freq, udata.basis, TRUE);
 
 	        gnm_float coeff = udata.freq * e / d;
 		gnm_float num = (udata.redemption / 100.0  + 
@@ -2630,7 +2543,7 @@ gnumeric_yield (FunctionEvalInfo *ei, Value **argv)
 		gnm_float den = udata.par / 100.0  +  (a / e  *  udata.rate /
 							udata.freq);
 
-		result = value_new_float (num / den * coeff);
+		return value_new_float (num / den * coeff);
 	} else {
 		GoalSeekData     data;
 		GoalSeekStatus   status;
@@ -2654,22 +2567,15 @@ gnumeric_yield (FunctionEvalInfo *ei, Value **argv)
 						      &udata);
 		}
 
-		if (status == GOAL_SEEK_OK)
-			result = value_new_float (data.root);
-		else
-			result = value_new_error_NUM (ei->pos);
+		if (status != GOAL_SEEK_OK)
+			return value_new_error_NUM (ei->pos);
+		return value_new_float (data.root);
 	}
-
- out:
-	datetime_g_free (udata.settlement);
-	datetime_g_free (udata.maturity);
-
-	return result;
 }
 
 /***************************************************************************/
 
-static const char *help_yielddisc = {
+static char const *help_yielddisc = {
 	N_("@FUNCTION=YIELDDISC\n"
 	   "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption[,basis])\n"
 	   "@DESCRIPTION="
@@ -2701,34 +2607,25 @@ static const char *help_yielddisc = {
 static Value *
 gnumeric_yielddisc (FunctionEvalInfo *ei, Value **argv)
 {
-        GDate      *nSettle, *nMat;
+        GDate     nSettle, nMat;
 	gnm_float fPrice, fRedemp;
-	gint       nBase;
-	Value      *result;
+	gint      nBase;
 
-        nSettle    = datetime_value_to_g (argv[0]);
-        nMat       = datetime_value_to_g (argv[1]);
 	fPrice     = value_get_as_float (argv[2]);
 	fRedemp    = value_get_as_float (argv[3]);
         nBase      = argv[4] ? value_get_as_int (argv[4]) : 0;
 
-        if (nBase < 0 || nBase > 4 || nSettle == NULL || nMat == NULL) {
-		result = value_new_error_NUM (ei->pos);
-		goto out;
-	}
+        if (nBase < 0 || nBase > 4 || 
+	    !datetime_value_to_g (&nSettle, argv[0]) ||
+	    !datetime_value_to_g (&nMat, argv[1]))
+		return value_new_error_NUM (ei->pos);
 
-	result = get_yielddisc (nSettle, nMat, fPrice, fRedemp, nBase);
-
- out:
-	datetime_g_free (nSettle);
-	datetime_g_free (nMat);
-
-	return result;
+	return get_yielddisc (&nSettle, &nMat, fPrice, fRedemp, nBase);
 }
 
 /***************************************************************************/
 
-static const char *help_yieldmat = {
+static char const *help_yieldmat = {
 	N_("@FUNCTION=YIELDMAT\n"
 	   "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr[,basis])\n"
 	   "@DESCRIPTION="
@@ -2761,37 +2658,26 @@ static const char *help_yieldmat = {
 static Value *
 gnumeric_yieldmat (FunctionEvalInfo *ei, Value **argv)
 {
-        GDate      *nSettle, *nMat, *nIssue;
+        GDate     nSettle, nMat, nIssue;
 	gnm_float fRate, fPrice;
-	gint       nBase;
-	Value      *result;
+	gint      nBase;
 
-        nSettle    = datetime_value_to_g (argv[0]);
-        nMat       = datetime_value_to_g (argv[1]);
-        nIssue     = datetime_value_to_g (argv[2]);
 	fRate      = value_get_as_float (argv[3]);
 	fPrice     = value_get_as_float (argv[4]);
         nBase      = argv[5] ? value_get_as_int (argv[5]) : 0;
 
-        if (nBase < 0 || nBase > 4 || fRate < 0 || nSettle == NULL ||
-	    nMat == NULL || nIssue == NULL) {
-		result = value_new_error_NUM (ei->pos);
-		goto out;
-	}
+        if (nBase < 0 || nBase > 4 || fRate < 0 ||
+	    !datetime_value_to_g (&nSettle, argv[0]) ||
+	    !datetime_value_to_g (&nMat, argv[1]) ||
+	    !datetime_value_to_g (&nIssue, argv[2]))
+		return value_new_error_NUM (ei->pos);
 
-	result = get_yieldmat (nSettle, nMat, nIssue, fRate, fPrice, nBase);
-
- out:
-	datetime_g_free (nSettle);
-	datetime_g_free (nMat);
-	datetime_g_free (nIssue);
-
-	return result;
+	return get_yieldmat (&nSettle, &nMat, &nIssue, fRate, fPrice, nBase);
 }
 
 /***************************************************************************/
 
-static const char *help_oddfprice = {
+static char const *help_oddfprice = {
 	N_("@FUNCTION=ODDFPRICE\n"
 	   "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,"
 	   "yld,redemption,frequency[,basis])\n"
@@ -2825,50 +2711,39 @@ static const char *help_oddfprice = {
 static Value *
 gnumeric_oddfprice (FunctionEvalInfo *ei, Value **argv)
 {
-        GDate      *settlement;
-        GDate      *maturity;
-        GDate      *issue;
-	GDate      *first_coupon;
+        GDate     settlement, maturity, issue, first_coupon;
         gnm_float a, ds, df, e, n;
 	gnm_float term1, term2, last_term, sum;
 	gnm_float rate, yield, redemption;
-	gint       freq, basis, k;
-	Value      *result;
+	gint      freq, basis, k;
 
-        settlement   = datetime_value_to_g (argv[0]);
-        maturity     = datetime_value_to_g (argv[1]);
-        issue        = datetime_value_to_g (argv[2]);
-        first_coupon = datetime_value_to_g (argv[3]);
 	rate         = value_get_as_float (argv[4]);
 	yield        = value_get_as_float (argv[5]);
 	redemption   = value_get_as_float (argv[6]);
         freq         = value_get_as_int (argv[7]);
         basis        = argv[8] ? value_get_as_int (argv[8]) : 0;
 
-	if (!maturity || !first_coupon || !settlement || !issue) {
-		result = value_new_error_VALUE (ei->pos);
-		goto out;
-	}
+	if (!datetime_value_to_g (&settlement, argv[0]) ||
+	    !datetime_value_to_g (&maturity, argv[1]) ||
+	    !datetime_value_to_g (&issue, argv[2]) ||
+	    !datetime_value_to_g (&first_coupon, argv[3]))
+		return value_new_error_VALUE (ei->pos);
 
         if (!is_valid_basis (basis)
 	    || !is_valid_freq (freq)
-            || g_date_compare (issue, settlement) > 0
-	    || g_date_compare (settlement, first_coupon) > 0
-	    || g_date_compare (first_coupon, maturity) > 0) {
-		result = value_new_error_NUM (ei->pos);
-		goto out;
-	}
+            || g_date_compare (&issue, &settlement) > 0
+	    || g_date_compare (&settlement, &first_coupon) > 0
+	    || g_date_compare (&first_coupon, &maturity) > 0)
+		return value_new_error_NUM (ei->pos);
 
-        if (rate < 0.0 || yield < 0.0 || redemption <= 0.0) {
-                result = value_new_error_NUM (ei->pos);
-		goto out;
-	}
+        if (rate < 0.0 || yield < 0.0 || redemption <= 0.0)
+                return value_new_error_NUM (ei->pos);
 
-	a = coupdaybs (settlement, maturity, freq, basis, TRUE);
+	a = coupdaybs (&settlement, &maturity, freq, basis, TRUE);
 	ds = -1; /* FIXME */
 	df = -1; /* FIXME */
-	e = coupdays (settlement, maturity, freq, basis, TRUE);
-	n = coupnum (settlement, maturity, freq, basis, TRUE);
+	e = coupdays (&settlement, &maturity, freq, basis, TRUE);
+	n = coupnum (&settlement, &maturity, freq, basis, TRUE);
 
 	/*
 	 * FIXME: Check if odd long first coupon and implement the branch
@@ -2884,20 +2759,12 @@ gnumeric_oddfprice (FunctionEvalInfo *ei, Value **argv)
 	        sum += (100.0 * rate / freq) / powgnum (1 + yield / freq,
 							k + ds / e);
 
-	result = value_new_float (term1 + term2 + sum - last_term);
-
- out:
-	datetime_g_free (settlement);
-	datetime_g_free (maturity);
-	datetime_g_free (issue);
-	datetime_g_free (first_coupon);
-
-	return result;
+	return value_new_float (term1 + term2 + sum - last_term);
 }
 
 /***************************************************************************/
 
-static const char *help_oddfyield = {
+static char const *help_oddfyield = {
 	N_("@FUNCTION=ODDFYIELD\n"
 	   "@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,"
 	   "pr,redemption,frequency[,basis])\n"
@@ -2935,7 +2802,7 @@ gnumeric_oddfyield (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_oddlprice = {
+static char const *help_oddlprice = {
 	N_("@FUNCTION=ODDLPRICE\n"
 	   "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,"
 	   "redemption,frequency[,basis])\n"
@@ -2968,41 +2835,30 @@ static const char *help_oddlprice = {
 static Value *
 gnumeric_oddlprice (FunctionEvalInfo *ei, Value **argv)
 {
-        GDate      *nSettle, *nMat, *nLastCoup;
+        GDate     nSettle, nMat, nLastCoup;
 	gnm_float fRate, fYield, fRedemp;
-	gint       nFreq, nBase;
-	Value      *result;
+	gint      nFreq, nBase;
 
-        nSettle    = datetime_value_to_g (argv[0]);
-        nMat       = datetime_value_to_g (argv[1]);
-        nLastCoup  = datetime_value_to_g (argv[2]);
 	fRate      = value_get_as_float (argv[3]);
 	fYield     = value_get_as_float (argv[4]);
 	fRedemp    = value_get_as_float (argv[5]);
 	nFreq      = value_get_as_int (argv[6]);
         nBase      = argv[7] ? value_get_as_int (argv[7]) : 0;
 
-        if (nBase < 0 || nBase > 4 || fRate < 0 || nSettle == NULL ||
-	    nMat == NULL || nLastCoup == NULL ||
-	    (nFreq != 1 && nFreq != 2 && nFreq != 4) ) {
-		result = value_new_error_NUM (ei->pos);
-		goto out;
-	}
+        if (nBase < 0 || nBase > 4 || fRate < 0 ||
+	    (nFreq != 1 && nFreq != 2 && nFreq != 4) ||
+	    !datetime_value_to_g (&nSettle, argv[0]) ||
+	    !datetime_value_to_g (&nMat, argv[1]) ||
+	    !datetime_value_to_g (&nLastCoup, argv[2]))
+		return value_new_error_NUM (ei->pos);
 
-	result = get_oddlprice (nSettle, nMat, nLastCoup, fRate, fYield,
-				fRedemp, nFreq, nBase);
-
- out:
-	datetime_g_free (nSettle);
-	datetime_g_free (nMat);
-	datetime_g_free (nLastCoup);
-
-	return result;
+	return get_oddlprice (&nSettle, &nMat, &nLastCoup, fRate, fYield,
+			      fRedemp, nFreq, nBase);
 }
 
 /***************************************************************************/
 
-static const char *help_oddlyield = {
+static char const *help_oddlyield = {
 	N_("@FUNCTION=ODDLYIELD\n"
 	   "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,"
 	   "redemption,frequency[,basis])\n"
@@ -3035,41 +2891,30 @@ static const char *help_oddlyield = {
 static Value *
 gnumeric_oddlyield (FunctionEvalInfo *ei, Value **argv)
 {
-        GDate      *nSettle, *nMat, *nLastCoup;
+        GDate     nSettle, nMat, nLastCoup;
 	gnm_float fRate, fPrice, fRedemp;
-	gint       nFreq, nBase;
-	Value      *result;
+	gint      nFreq, nBase;
 
-        nSettle    = datetime_value_to_g (argv[0]);
-        nMat       = datetime_value_to_g (argv[1]);
-        nLastCoup  = datetime_value_to_g (argv[2]);
 	fRate      = value_get_as_float (argv[3]);
 	fPrice     = value_get_as_float (argv[4]);
 	fRedemp    = value_get_as_float (argv[5]);
 	nFreq      = value_get_as_int (argv[6]);
         nBase      = argv[7] ? value_get_as_int (argv[7]) : 0;
 
-        if (nBase < 0 || nBase > 4 || fRate < 0 || nSettle == NULL ||
-	    nMat == NULL || nLastCoup == NULL ||
-	    (nFreq != 1 && nFreq != 2 && nFreq != 4) ) {
-		result = value_new_error_NUM (ei->pos);
-		goto out;
-	}
+        if (nBase < 0 || nBase > 4 || fRate < 0 ||
+	    (nFreq != 1 && nFreq != 2 && nFreq != 4) ||
+	    !datetime_value_to_g (&nSettle, argv[0]) ||
+	    !datetime_value_to_g (&nMat, argv[1]) ||
+	    !datetime_value_to_g (&nLastCoup, argv[2]))
+		return value_new_error_NUM (ei->pos);
 
-	result = get_oddlyield (nSettle, nMat, nLastCoup, fRate, fPrice,
-				fRedemp, nFreq, nBase);
-
- out:
-	datetime_g_free (nSettle);
-	datetime_g_free (nMat);
-	datetime_g_free (nLastCoup);
-
-	return result;
+	return get_oddlyield (&nSettle, &nMat, &nLastCoup, fRate, fPrice,
+			      fRedemp, nFreq, nBase);
 }
 
 /***************************************************************************/
 
-static const char *help_amordegrc = {
+static char const *help_amordegrc = {
 	N_("@FUNCTION=AMORDEGRC\n"
 	   "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,"
 	   "rate[,basis])\n"
@@ -3100,38 +2945,28 @@ static const char *help_amordegrc = {
 static Value *
 gnumeric_amordegrc (FunctionEvalInfo *ei, Value **argv)
 {
-        GDate      *nDate, *nFirstPer;
+        GDate     nDate, nFirstPer;
 	gnm_float fRestVal, fRate, fCost;
-	gint       nBase, nPer;
-	Value      *result;
+	gint      nBase, nPer;
 
 	fCost      = value_get_as_float (argv[0]);
-        nDate      = datetime_value_to_g (argv[1]);
-        nFirstPer  = datetime_value_to_g (argv[2]);
 	fRestVal   = value_get_as_float (argv[3]);
         nPer       = value_get_as_int (argv[4]);
 	fRate      = value_get_as_float (argv[5]);
         nBase      = argv[6] ? value_get_as_int (argv[6]) : 0;
 
-        if (nBase < 0 || nBase > 4 || fRate < 0 || nDate == NULL ||
-	    nFirstPer == NULL) {
-		result = value_new_error_NUM (ei->pos);
-		goto out;
-	}
+        if (nBase < 0 || nBase > 4 || fRate < 0 ||
+	    !datetime_value_to_g (&nDate, argv[1]) ||
+	    !datetime_value_to_g (&nFirstPer, argv[2]))
+		return value_new_error_NUM (ei->pos);
 
-	result = get_amordegrc (fCost, nDate, nFirstPer, fRestVal, nPer, fRate,
-				nBase);
-
- out:
-	datetime_g_free (nDate);
-	datetime_g_free (nFirstPer);
-
-        return result;
+	return get_amordegrc (fCost, &nDate, &nFirstPer,
+			      fRestVal, nPer, fRate, nBase);
 }
 
 /***************************************************************************/
 
-static const char *help_amorlinc = {
+static char const *help_amorlinc = {
 	N_("@FUNCTION=AMORLINC\n"
 	   "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,"
 	   "rate[,basis])\n"
@@ -3161,38 +2996,28 @@ static const char *help_amorlinc = {
 static Value *
 gnumeric_amorlinc (FunctionEvalInfo *ei, Value **argv)
 {
-        GDate      *nDate, *nFirstPer;
+        GDate     nDate, nFirstPer;
 	gnm_float fCost, fRestVal, fRate;
-	gint       nPer, nBase;
-	Value      *result;
+	gint      nPer, nBase;
 
 	fCost      = value_get_as_float (argv[0]);
-        nDate      = datetime_value_to_g (argv[1]);
-        nFirstPer  = datetime_value_to_g (argv[2]);
 	fRestVal   = value_get_as_float (argv[3]);
         nPer       = value_get_as_int (argv[4]);
 	fRate      = value_get_as_float (argv[5]);
         nBase      = argv[6] ? value_get_as_int (argv[6]) : 0;
 
-        if (nBase < 0 || nBase > 4 || fRate < 0 || nDate == NULL ||
-	    nFirstPer == NULL) {
-		result = value_new_error_NUM (ei->pos);
-		goto out;
-	}
+        if (nBase < 0 || nBase > 4 || fRate < 0 ||
+	    !datetime_value_to_g (&nDate, argv[1]) ||
+	    !datetime_value_to_g (&nFirstPer, argv[2]))
+		return value_new_error_NUM (ei->pos);
 
-	result = get_amorlinc (fCost, nDate, nFirstPer, fRestVal, nPer, fRate,
-			       nBase);
-
- out:
-	datetime_g_free (nDate);
-	datetime_g_free (nFirstPer);
-
-	return result;
+	return get_amorlinc (fCost, &nDate, &nFirstPer,
+			     fRestVal, nPer, fRate, nBase);
 }
 
 /***************************************************************************/
 
-static const char *help_coupdaybs = {
+static char const *help_coupdaybs = {
 	N_("@FUNCTION=COUPDAYBS\n"
 	   "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])\n"
 	   "@DESCRIPTION="
@@ -3237,7 +3062,7 @@ gnumeric_coupdaybs (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_coupdays = {
+static char const *help_coupdays = {
 	N_("@FUNCTION=COUPDAYS\n"
 	   "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis,eom])\n"
 	   "@DESCRIPTION="
@@ -3283,7 +3108,7 @@ gnumeric_coupdays (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_coupdaysnc = {
+static char const *help_coupdaysnc = {
 	N_("@FUNCTION=COUPDAYSNC\n"
 	   "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis,eom])\n"
 	   "@DESCRIPTION="
@@ -3328,7 +3153,7 @@ gnumeric_coupdaysnc (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_coupncd = {
+static char const *help_coupncd = {
 	N_("@FUNCTION=COUPNCD\n"
 	   "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis,eom])\n"
 	   "@DESCRIPTION="
@@ -3374,7 +3199,7 @@ gnumeric_coupncd (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_couppcd = {
+static char const *help_couppcd = {
 	N_("@FUNCTION=COUPPCD\n"
 	   "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis,eom])\n"
 	   "@DESCRIPTION="
@@ -3421,7 +3246,7 @@ gnumeric_couppcd (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_coupnum = {
+static char const *help_coupnum = {
 	N_("@FUNCTION=COUPNUM\n"
 	   "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis,eom])\n"
 	   "@DESCRIPTION="
@@ -3462,7 +3287,7 @@ gnumeric_coupnum (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_cumipmt = {
+static char const *help_cumipmt = {
 	N_("@FUNCTION=CUMIPMT\n"
 	   "@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)\n"
 	   "@DESCRIPTION="
@@ -3512,7 +3337,7 @@ gnumeric_cumipmt (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_cumprinc = {
+static char const *help_cumprinc = {
 	N_("@FUNCTION=CUMPRINC\n"
 	   "@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
 	   "@DESCRIPTION="
@@ -3562,7 +3387,7 @@ gnumeric_cumprinc (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_mduration = {
+static char const *help_mduration = {
 	N_("@FUNCTION=MDURATION\n"
 	   "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency"
 	   "[,basis])\n"
@@ -3594,39 +3419,29 @@ static const char *help_mduration = {
 static Value *
 gnumeric_mduration (FunctionEvalInfo *ei, Value **argv)
 {
-        GDate      *nSettle, *nMat;
+        GDate     nSettle, nMat;
 	gnm_float fCoup, fYield;
-	gint       nFreq, nBase;
+	gint      nFreq, nBase;
         gnm_float fNumOfCoups;
-	Value      *result;
 
-        nSettle    = datetime_value_to_g (argv[0]);
-        nMat       = datetime_value_to_g (argv[1]);
 	fCoup      = value_get_as_float (argv[2]);
 	fYield     = value_get_as_float (argv[3]);
 	nFreq      = value_get_as_float (argv[4]);
         nBase      = argv[5] ? value_get_as_int (argv[5]) : 0;
 
-        if ( nBase < 0 || nBase > 4 || nSettle == NULL || nMat == NULL
-	     || (nFreq != 1 && nFreq != 2 && nFreq != 4) ) {
-		result = value_new_error_NUM (ei->pos);
-		goto out;
-	}
+        if (nBase < 0 || nBase > 4 || (nFreq != 1 && nFreq != 2 && nFreq != 4)
+	    || !datetime_value_to_g (&nSettle, argv[0])
+	    || !datetime_value_to_g (&nMat, argv[1]))
+		return value_new_error_NUM (ei->pos);
 
-	fNumOfCoups = coupnum (nSettle, nMat, nFreq, nBase, FALSE);
-	result      = get_mduration (nSettle, nMat, fCoup, fYield, nFreq,
-				     nBase, fNumOfCoups);
-
- out:
-	datetime_g_free (nSettle);
-	datetime_g_free (nMat);
-
-	return result;
+	fNumOfCoups = coupnum (&nSettle, &nMat, nFreq, nBase, FALSE);
+	return get_mduration (&nSettle, &nMat, fCoup, fYield, nFreq,
+			      nBase, fNumOfCoups);
 }
 
 /***************************************************************************/
 
-static const char *help_vdb = {
+static char const *help_vdb = {
 	N_("@FUNCTION=VDB\n"
 	   "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor"
 	   ",switch])\n"

@@ -144,7 +144,7 @@ cum_biv_norm_dist(FunctionEvalInfo *ei, Value *argv[])
 		return value_new_float (result);
 }
 
-static const char *help_cum_biv_norm_dist = {
+static char const *help_cum_biv_norm_dist = {
 	/* xgettext:no-c-format */
 	N_("@FUNCTION=CUM_BIV_NORM_DIST\n"
 
@@ -198,7 +198,7 @@ opt_bs (FunctionEvalInfo *ei, Value *argv[])
 	return value_new_float (gfresult);
 }
 
-static const char *help_opt_bs = {
+static char const *help_opt_bs = {
 	N_("@FUNCTION=OPT_BS\n"
 	   "@SYNTAX=OPT_BS(call_put_flag,spot,strike,time,rate,volatility,"
 	   "cost_of_carry)\n"
@@ -809,7 +809,7 @@ opt_jump_diff(FunctionEvalInfo *ei, Value *argv[])
 	return value_new_float (gfresult);
 }
 
-static const char *help_opt_jump_diff = {
+static char const *help_opt_jump_diff = {
 	/* xgettext:no-c-format */
 	N_("@FUNCTION=OPT_JUMP_DIFF\n"
 

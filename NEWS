@@ -9,6 +9,7 @@ Jody:
 	* Ins/Del Col/Row now handles frozen panes.
 	* Lower right of merge extends sheet bounds.
 	* Fix parser's handling of unknown function.
+	* Remove unnecessary new/free of dates.
 
 Jon Kåre:
 	* Open DB connections read only.

@@ -323,7 +323,7 @@ find_index_bisection (FunctionEvalInfo *ei, Value *find, Value *data,
 
 /***************************************************************************/
 
-static const char *help_address = {
+static char const *help_address = {
 	N_("@FUNCTION=ADDRESS\n"
 	   "@SYNTAX=ADDRESS(row_num,col_num[,abs_num,a1,text])\n"
 
@@ -501,7 +501,7 @@ restart :
 
 /***************************************************************************/
 
-static const char *help_choose = {
+static char const *help_choose = {
 	N_("@FUNCTION=CHOOSE\n"
 	   "@SYNTAX=CHOOSE(index[,value1][,value2]...)\n"
 
@@ -553,7 +553,7 @@ gnumeric_choose (FunctionEvalInfo *ei, GnmExprList *l)
 
 /***************************************************************************/
 
-static const char *help_vlookup = {
+static char const *help_vlookup = {
 	N_("@FUNCTION=VLOOKUP\n"
 	   "@SYNTAX=VLOOKUP(value,range,column[,approximate,as_index])\n"
 
@@ -611,7 +611,7 @@ gnumeric_vlookup (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
-static const char *help_hlookup = {
+static char const *help_hlookup = {
 	N_("@FUNCTION=HLOOKUP\n"
 	   "@SYNTAX=HLOOKUP(value,range,row[,approximate,as_index])\n"
 
@@ -669,7 +669,7 @@ gnumeric_hlookup (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
-static const char *help_lookup = {
+static char const *help_lookup = {
 	N_("@FUNCTION=LOOKUP\n"
 	   "@SYNTAX=LOOKUP(value,vector1,vector2)\n"
 
@@ -731,7 +731,7 @@ gnumeric_lookup (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
-static const char *help_match = {
+static char const *help_match = {
 	N_("@FUNCTION=MATCH\n"
 	   "@SYNTAX=MATCH(seek,vector[,type])\n"
 
@@ -790,7 +790,7 @@ gnumeric_match (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
-static const char *help_indirect = {
+static char const *help_indirect = {
 	N_("@FUNCTION=INDIRECT\n"
 	   "@SYNTAX=INDIRECT(ref_text,[format])\n"
 
@@ -899,7 +899,7 @@ gnumeric_index (FunctionEvalInfo *ei, GnmExprList *l)
 
 /***************************************************************************/
 
-static const char *help_column = {
+static char const *help_column = {
 	N_("@FUNCTION=COLUMN\n"
 	   "@SYNTAX=COLUMN([reference])\n"
 
@@ -952,7 +952,7 @@ gnumeric_column (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
-static const char *help_columns = {
+static char const *help_columns = {
 	N_("@FUNCTION=COLUMNS\n"
 	   "@SYNTAX=COLUMNS(reference)\n"
 
@@ -977,7 +977,7 @@ gnumeric_columns (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
-static const char *help_offset = {
+static char const *help_offset = {
 	N_("@FUNCTION=OFFSET\n"
 	   "@SYNTAX=OFFSET(range,row,col,height,width)\n"
 
@@ -1034,7 +1034,7 @@ gnumeric_offset (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
-static const char *help_row = {
+static char const *help_row = {
 	N_("@FUNCTION=ROW\n"
 	   "@SYNTAX=ROW([reference])\n"
 
@@ -1087,7 +1087,7 @@ gnumeric_row (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
-static const char *help_rows = {
+static char const *help_rows = {
 	N_("@FUNCTION=ROWS\n"
 	   "@SYNTAX=ROWS(reference)\n"
 
@@ -1112,7 +1112,7 @@ gnumeric_rows (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
-static const char *help_hyperlink = {
+static char const *help_hyperlink = {
 	N_("@FUNCTION=HYPERLINK\n"
 	   "@SYNTAX=HYPERLINK(link_location, optional_label)\n"
 
@@ -1137,7 +1137,7 @@ gnumeric_hyperlink (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
-static const char *help_transpose = {
+static char const *help_transpose = {
 	N_("@FUNCTION=TRANSPOSE\n"
 	   "@SYNTAX=TRANSPOSE(matrix)\n"
 

@@ -62,7 +62,7 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 /***************************************************************************/
 
-static const char *help_cell = {
+static char const *help_cell = {
 	N_("@FUNCTION=CELL\n"
 	   "@SYNTAX=CELL(type,ref)\n"
 
@@ -89,8 +89,8 @@ static const char *help_cell = {
 };
 
 typedef struct {
-	const char *format;
-	const char *output;
+	char const *format;
+	char const *output;
 } translate_t;
 static const translate_t translate_table[] = {
 	{ "General", "G" },
@@ -167,7 +167,7 @@ retrieve_format_info (Sheet *sheet, int col, int row)
 static Value *
 gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 {
-	const char *info_type = value_peek_string (argv[0]);
+	char const *info_type = value_peek_string (argv[0]);
 	CellRef const *ref = &argv [1]->v_range.cell.a;
 
 	/* from CELL - limited usefulness! */
@@ -1158,7 +1158,7 @@ End Function
 
 /***************************************************************************/
 
-static const char *help_expression = {
+static char const *help_expression = {
 	N_("@FUNCTION=EXPRESSION\n"
 	   "@SYNTAX=EXPRESSION(cell)\n"
 	   "@DESCRIPTION="
@@ -1201,7 +1201,7 @@ gnumeric_expression (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
-static const char *help_countblank = {
+static char const *help_countblank = {
         N_("@FUNCTION=COUNTBLANK\n"
            "@SYNTAX=COUNTBLANK(range)\n"
 
@@ -1245,7 +1245,7 @@ gnumeric_countblank (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
-static const char *help_info = {
+static char const *help_info = {
 	N_("@FUNCTION=INFO\n"
 	   "@SYNTAX=INFO(type)\n"
 
@@ -1334,7 +1334,7 @@ gnumeric_info (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_iserror = {
+static char const *help_iserror = {
 	N_("@FUNCTION=ISERROR\n"
 	   "@SYNTAX=ISERROR(value)\n"
 
@@ -1356,7 +1356,7 @@ gnumeric_iserror (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_isna = {
+static char const *help_isna = {
 	N_("@FUNCTION=ISNA\n"
 	   "@SYNTAX=ISNA(value)\n"
 
@@ -1382,7 +1382,7 @@ gnumeric_isna (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_iserr = {
+static char const *help_iserr = {
 	N_("@FUNCTION=ISERR\n"
 	   "@SYNTAX=ISERR(value)\n"
 
@@ -1405,7 +1405,7 @@ gnumeric_iserr (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_error_type = {
+static char const *help_error_type = {
 	N_("@FUNCTION=ERROR.TYPE\n"
 	   "@SYNTAX=ERROR(value)\n"
 
@@ -1444,7 +1444,7 @@ gnumeric_error_type (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_na = {
+static char const *help_na = {
 	N_("@FUNCTION=NA\n"
 	   "@SYNTAX=NA()\n"
 
@@ -1466,7 +1466,7 @@ gnumeric_na (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_error = {
+static char const *help_error = {
 	N_("@FUNCTION=ERROR\n"
 	   "@SYNTAX=ERROR(text)\n"
 
@@ -1487,7 +1487,7 @@ gnumeric_error (FunctionEvalInfo *ei, Value *argv[])
 
 /***************************************************************************/
 
-static const char *help_isblank = {
+static char const *help_isblank = {
 	N_("@FUNCTION=ISBLANK\n"
 	   "@SYNTAX=ISBLANK(value)\n"
 
@@ -1537,7 +1537,7 @@ gnumeric_isblank (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static const char *help_iseven = {
+static char const *help_iseven = {
 	N_("@FUNCTION=ISEVEN\n"
 	   "@SYNTAX=ISEVEN(value)\n"
 
@@ -1559,7 +1559,7 @@ gnumeric_iseven (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_islogical = {
+static char const *help_islogical = {
 	N_("@FUNCTION=ISLOGICAL\n"
 	   "@SYNTAX=ISLOGICAL(value)\n"
 
@@ -1581,7 +1581,7 @@ gnumeric_islogical (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_isnontext = {
+static char const *help_isnontext = {
 	N_("@FUNCTION=ISNONTEXT\n"
 	   "@SYNTAX=ISNONTEXT(value)\n"
 
@@ -1603,7 +1603,7 @@ gnumeric_isnontext (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_isnumber = {
+static char const *help_isnumber = {
 	N_("@FUNCTION=ISNUMBER\n"
 	   "@SYNTAX=ISNUMBER(value)\n"
 
@@ -1626,7 +1626,7 @@ gnumeric_isnumber (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_isodd = {
+static char const *help_isodd = {
 	N_("@FUNCTION=ISODD\n"
 	   "@SYNTAX=ISODD(value)\n"
 
@@ -1648,7 +1648,7 @@ gnumeric_isodd (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_isref = {
+static char const *help_isref = {
 	N_("@FUNCTION=ISREF\n"
 	   "@SYNTAX=ISREF(value)\n"
 
@@ -1680,7 +1680,7 @@ gnumeric_isref (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-static const char *help_istext = {
+static char const *help_istext = {
 	N_("@FUNCTION=ISTEXT\n"
 	   "@SYNTAX=ISTEXT(value)\n"
 
@@ -1702,7 +1702,7 @@ gnumeric_istext (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_n = {
+static char const *help_n = {
 	N_("@FUNCTION=N\n"
 	   "@SYNTAX=N(value)\n"
 
@@ -1720,7 +1720,7 @@ static const char *help_n = {
 static Value *
 gnumeric_n (FunctionEvalInfo *ei, Value **argv)
 {
-	const char *str;
+	char const *str;
 	Value *v;
 
 	if (argv[0]->type == VALUE_BOOLEAN)
@@ -1741,7 +1741,7 @@ gnumeric_n (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_type = {
+static char const *help_type = {
 	N_("@FUNCTION=TYPE\n"
 	   "@SYNTAX=TYPE(value)\n"
 
@@ -1790,7 +1790,7 @@ gnumeric_type (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_getenv = {
+static char const *help_getenv = {
 	N_("@FUNCTION=GETENV\n"
 	   "@SYNTAX=GETENV(string)\n"
 
@@ -1807,8 +1807,8 @@ static const char *help_getenv = {
 static Value *
 gnumeric_getenv (FunctionEvalInfo *ei, Value **argv)
 {
-	const char *var = value_peek_string (argv[0]);
-	const char *val = getenv (var);
+	char const *var = value_peek_string (argv[0]);
+	char const *val = getenv (var);
 
 	if (val)
 		return value_new_string (val);

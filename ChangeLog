@@ -1,3 +1,8 @@
+2002-12-31  Jody Goldberg <jody@gnome.org>
+
+	* src/commands.c (cmd_area_set_text_redo) : fix.  It is an error to
+	  pass NULL as the parse text.
+
 2002-12-30  Morten Welinder  <terra@diku.dk>
 
 	* src/format-template.c: Import CC2XML and CXML2C macros from

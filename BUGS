@@ -7,8 +7,6 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    - format-template.c, line 1221: FALSE used where pointer expected.
-
 Pending Patches
 ---------------
     - ?? more work on D&D based sheet reorg ?
@@ -130,11 +128,8 @@ Functions
     ODDFPRICE	(test fails)
     ODDFYEILD	(unimplementeD)
     YIELDDISC	(test fails by alot)
-    openoffice/scaddins/source/analysis/analysishelper.cxx
-    has copies of these.  Although the code looks simplistic
-    Need to read the docs
-	ODDLPRICE	(test fails, so does OO)
-	ODDLYEILD	(test fails, so does OO)
+    Convert the code from sc to use our more accurate date routines
+    WORKDAY	Add holiday support
 
 UTF-8:
     - Window titles.

@@ -374,37 +374,35 @@ autofill_compute_delta (GList *list_last, gboolean singleton_increment)
 	case FILL_DAYS:
 	case FILL_MONTHS:
 	case FILL_YEARS: {
-		GDate *prev, *cur;
+		GDate prev, cur;
 
 		if (list_last->prev == NULL)
 			return;
 
 		lfi = list_last->prev->data;
 
-		prev = datetime_value_to_g (lfi->v.value);
-		cur  = datetime_value_to_g (fi->v.value);
-		if (g_date_valid (prev) && g_date_valid (cur)) {
-			int a = g_date_get_year (prev);
-			int b = g_date_get_year (cur);
+		datetime_value_to_g (&prev, lfi->v.value);
+		datetime_value_to_g (&cur, fi->v.value);
+		if (g_date_valid (&prev) && g_date_valid (&cur)) {
+			int a = g_date_get_year (&prev);
+			int b = g_date_get_year (&cur);
 
 			/* look for patterns in the dates */
 			if (fi->type == FILL_DAYS)
-				fi->type = (g_date_get_day (prev) !=
-					    g_date_get_day (cur))
+				fi->type = (g_date_get_day (&prev) !=
+					    g_date_get_day (&cur))
 					? FILL_NUMBER
-					: ((g_date_get_month (prev) !=
-					    g_date_get_month (cur))
+					: ((g_date_get_month (&prev) !=
+					    g_date_get_month (&cur))
 					?  FILL_MONTHS : FILL_YEARS);
 
 			if (fi->type == FILL_MONTHS) {
-				a = 12*a + g_date_get_month (prev);
-				b = 12*b + g_date_get_month (cur);
+				a = 12*a + g_date_get_month (&prev);
+				b = 12*b + g_date_get_month (&cur);
 			}
 
 			fi->delta.d_int = b - a;
 		}
-		datetime_g_free (prev);
-		datetime_g_free (cur);
 		if (fi->type == FILL_DAYS)
 			fi->type = FILL_NUMBER;
 		else if (fi->type != FILL_NUMBER)
@@ -631,22 +629,22 @@ autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
 		Value *v;
 		FillItem *delta = fi->group_last;
 		int d = idx * delta->delta.d_int;
-		GDate *date = datetime_value_to_g (delta->v.value);
+		GDate date;
 		gnm_float res = datetime_value_to_serial_raw (delta->v.value);
 
+		datetime_value_to_g (&date, delta->v.value);
 		if (fi->type == FILL_MONTHS) {
 			if (d > 0)
-				g_date_add_months (date, d);
+				g_date_add_months (&date, d);
 			else
-				g_date_subtract_months (date, -d);
+				g_date_subtract_months (&date, -d);
 		} else {
 			if (d > 0)
-				g_date_add_years (date, d);
+				g_date_add_years (&date, d);
 			else
-				g_date_subtract_years (date, -d);
+				g_date_subtract_years (&date, -d);
 		}
-		d = datetime_g_to_serial (date);
-		datetime_g_free (date);
+		d = datetime_g_to_serial (&date);
 
 		res -= gnumeric_fake_floor (res);
 		v = (res < 1e-6) ? value_new_int (d)

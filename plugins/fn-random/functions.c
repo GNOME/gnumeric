@@ -45,7 +45,7 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 /***************************************************************************/
 
-static const char *help_rand = {
+static char const *help_rand = {
 	N_("@FUNCTION=RAND\n"
 	   "@SYNTAX=RAND()\n"
 
@@ -68,7 +68,7 @@ gnumeric_rand (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_randuniform = {
+static char const *help_randuniform = {
 	N_("@FUNCTION=RANDUNIFORM\n"
 	   "@SYNTAX=RANDUNIFORM(a,b)\n"
 
@@ -100,7 +100,7 @@ gnumeric_randuniform (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_randdiscrete = {
+static char const *help_randdiscrete = {
 	N_("@FUNCTION=RANDDISCRETE\n"
 	   "@SYNTAX=RANDDISCRETE(val_range[,prob_range])\n"
 
@@ -230,7 +230,7 @@ gnumeric_randdiscrete (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_randexp = {
+static char const *help_randexp = {
         N_("@FUNCTION=RANDEXP\n"
            "@SYNTAX=RANDEXP(b)\n"
 
@@ -253,7 +253,7 @@ gnumeric_randexp (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_randpoisson = {
+static char const *help_randpoisson = {
         N_("@FUNCTION=RANDPOISSON\n"
            "@SYNTAX=RANDPOISSON(lambda)\n"
 
@@ -281,7 +281,7 @@ gnumeric_randpoisson (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_randbinom = {
+static char const *help_randbinom = {
         N_("@FUNCTION=RANDBINOM\n"
            "@SYNTAX=RANDBINOM(p,trials)\n"
 
@@ -311,7 +311,7 @@ gnumeric_randbinom (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_randbetween = {
+static char const *help_randbetween = {
 	N_("@FUNCTION=RANDBETWEEN\n"
 	   "@SYNTAX=RANDBETWEEN(bottom,top)\n"
 
@@ -346,7 +346,7 @@ gnumeric_randbetween (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_randnegbinom = {
+static char const *help_randnegbinom = {
         N_("@FUNCTION=RANDNEGBINOM\n"
            "@SYNTAX=RANDNEGBINOM(p,failures)\n"
 
@@ -377,7 +377,7 @@ gnumeric_randnegbinom (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_randbernoulli = {
+static char const *help_randbernoulli = {
         N_("@FUNCTION=RANDBERNOULLI\n"
            "@SYNTAX=RANDBERNOULLI(p)\n"
 
@@ -405,7 +405,7 @@ gnumeric_randbernoulli (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_randgaussian = {
+static char const *help_randgaussian = {
         N_("@FUNCTION=RANDGAUSSIAN\n"
            "@SYNTAX=RANDGAUSSIAN(mean,stdev)\n"
 
@@ -434,7 +434,7 @@ gnumeric_randgaussian (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_randcauchy = {
+static char const *help_randcauchy = {
         N_("@FUNCTION=RANDCAUCHY\n"
            "@SYNTAX=RANDCAUCHY(a)\n"
 
@@ -464,7 +464,7 @@ gnumeric_randcauchy (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_randlognorm = {
+static char const *help_randlognorm = {
         N_("@FUNCTION=RANDLOGNORM\n"
            "@SYNTAX=RANDLOGNORM(zeta,sigma)\n"
 
@@ -488,7 +488,7 @@ gnumeric_randlognorm (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_randweibull = {
+static char const *help_randweibull = {
         N_("@FUNCTION=RANDWEIBULL\n"
            "@SYNTAX=RANDWEIBULL(a,b)\n"
 
@@ -512,7 +512,7 @@ gnumeric_randweibull (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_randlaplace = {
+static char const *help_randlaplace = {
         N_("@FUNCTION=RANDLAPLACE\n"
            "@SYNTAX=RANDLAPLACE(a)\n"
 
@@ -537,7 +537,7 @@ gnumeric_randlaplace (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_randrayleigh = {
+static char const *help_randrayleigh = {
         N_("@FUNCTION=RANDRAYLEIGH\n"
            "@SYNTAX=RANDRAYLEIGH(sigma)\n"
 
@@ -560,7 +560,7 @@ gnumeric_randrayleigh (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_randrayleightail = {
+static char const *help_randrayleightail = {
         N_("@FUNCTION=RANDRAYLEIGHTAIL\n"
            "@SYNTAX=RANDRAYLEIGHTAIL(a,sigma)\n"
 
@@ -588,7 +588,7 @@ gnumeric_randrayleightail (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_randgamma = {
+static char const *help_randgamma = {
         N_("@FUNCTION=RANDGAMMA\n"
            "@SYNTAX=RANDGAMMA(a,b)\n"
 
@@ -617,7 +617,7 @@ gnumeric_randgamma (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_randpareto = {
+static char const *help_randpareto = {
         N_("@FUNCTION=RANDPARETO\n"
            "@SYNTAX=RANDPARETO(a,b)\n"
 
@@ -641,7 +641,7 @@ gnumeric_randpareto (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_randfdist = {
+static char const *help_randfdist = {
         N_("@FUNCTION=RANDFDIST\n"
            "@SYNTAX=RANDFDIST(nu1,nu2)\n"
 
@@ -665,7 +665,7 @@ gnumeric_randfdist (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_randbeta = {
+static char const *help_randbeta = {
         N_("@FUNCTION=RANDBETA\n"
            "@SYNTAX=RANDBETA(a,b)\n"
 
@@ -689,7 +689,7 @@ gnumeric_randbeta (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_randlogistic = {
+static char const *help_randlogistic = {
         N_("@FUNCTION=RANDLOGISTIC\n"
            "@SYNTAX=RANDLOGISTIC(a)\n"
 
@@ -715,7 +715,7 @@ gnumeric_randlogistic (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_randgeom = {
+static char const *help_randgeom = {
         N_("@FUNCTION=RANDGEOM\n"
            "@SYNTAX=RANDGEOM(p)\n"
 
@@ -746,7 +746,7 @@ gnumeric_randgeom (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_randhyperg = {
+static char const *help_randhyperg = {
         N_("@FUNCTION=RANDHYPERG\n"
            "@SYNTAX=RANDHYPERG(n1,n2,t)\n"
 
@@ -776,7 +776,7 @@ gnumeric_randhyperg (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_randlog = {
+static char const *help_randlog = {
         N_("@FUNCTION=RANDLOG\n"
            "@SYNTAX=RANDLOG(p)\n"
 
@@ -804,7 +804,7 @@ gnumeric_randlog (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_randchisq = {
+static char const *help_randchisq = {
         N_("@FUNCTION=RANDCHISQ\n"
            "@SYNTAX=RANDCHISQ(nu)\n"
 
@@ -827,7 +827,7 @@ gnumeric_randchisq (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_randtdist = {
+static char const *help_randtdist = {
         N_("@FUNCTION=RANDTDIST\n"
            "@SYNTAX=RANDTDIST(nu)\n"
 
@@ -850,7 +850,7 @@ gnumeric_randtdist (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_randgumbel = {
+static char const *help_randgumbel = {
         N_("@FUNCTION=RANDGUMBEL\n"
            "@SYNTAX=RANDGUMBEL(a,b[,type])\n"
 
@@ -886,7 +886,7 @@ gnumeric_randgumbel (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_randlevy = {
+static char const *help_randlevy = {
         N_("@FUNCTION=RANDLEVY\n"
            "@SYNTAX=RANDLEVY(c,alpha[,beta])\n"
 
@@ -921,7 +921,7 @@ gnumeric_randlevy (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_randexppow = {
+static char const *help_randexppow = {
         N_("@FUNCTION=RANDEXPPOW\n"
            "@SYNTAX=RANDEXPPOW(a,b)\n"
 
@@ -952,7 +952,7 @@ gnumeric_randexppow (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_randlandau = {
+static char const *help_randlandau = {
         N_("@FUNCTION=RANDLANDAU\n"
            "@SYNTAX=RANDLANDAU()\n"
 
@@ -980,7 +980,7 @@ gnumeric_randlandau (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_randgaussiantail = {
+static char const *help_randgaussiantail = {
         N_("@FUNCTION=RANDGAUSSIANTAIL\n"
            "@SYNTAX=RANDGAUSSIANTAIL(a,sigma)\n"
 
@@ -1016,7 +1016,7 @@ gnumeric_randgaussiantail (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_simtable = {
+static char const *help_simtable = {
         N_("@FUNCTION=SIMTABLE\n"
            "@SYNTAX=SIMTABLE(d1, d2, ..., dN)\n"
 

@@ -810,11 +810,10 @@ split_time (gnm_float number)
 {
 	static struct tm tm;
 	guint secs;
-	GDate* date;
+	GDate date;
 
-	date = datetime_serial_to_g (datetime_serial_raw_to_serial (number));
-	g_date_to_struct_tm (date, &tm);
-	g_date_free (date);
+	datetime_serial_to_g (&date, datetime_serial_raw_to_serial (number));
+	g_date_to_struct_tm (&date, &tm);
 
 	secs = datetime_serial_raw_to_seconds (number);
 	tm.tm_hour = secs / 3600;
