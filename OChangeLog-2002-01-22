@@ -1,5 +1,12 @@
 2001-09-18  Jody Goldberg <jgoldberg@home.com>
 
+	* src/cell-draw.c (cell_draw) : implemenent a bit of just in time
+	  rendering.
+	* src/print-cell.c (print_cell) : ditto.
+	* src/cell.c (cell_eval_content) : ditto.
+
+2001-09-18  Jody Goldberg <jgoldberg@home.com>
+
 	* src/sheet-control-gui.c (scg_scrollbar_config) : Fix old off by 1
 	  error.  Number of visible = last - first PLUS 1.
 

@@ -419,7 +419,9 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 	    (!sheet->display_formulas || !cell_has_expr (cell)))
 		return;
 
-	g_return_if_fail (cell->rendered_value);
+	if (cell->rendered_value == NULL)
+		cell_render_value ((Cell *)cell, TRUE);
+
 	g_return_if_fail (cell->rendered_value->rendered_text);
 
 	if (cell->rendered_value->rendered_text->str == NULL) {

@@ -254,12 +254,14 @@ iterate :
 			value_release (cell->value);
 		cell->value = v;
 
-		/* Optimization : only render if it had already been rendered.
-		 * If it had not been rendered yet, then we're probably not
-		 * looking at this sheet.
+		/* Optimization : Since we don't span calculated cells
+		 * it is ok, to wipe rendered values.  The drawing routine
+		 * will handle it.
 		 */
-		if (cell->rendered_value != NULL)
-			cell_render_value (cell, TRUE);
+		if (cell->rendered_value != NULL) {
+			rendered_value_destroy (cell->rendered_value);
+			cell->rendered_value = NULL;
+		}
 	}
 
 	if (iterating == cell)
