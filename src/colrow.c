@@ -380,13 +380,25 @@ colrow_restore_sizes_group (Sheet *sheet, gboolean const is_cols,
 	g_slist_free (saved_sizes);
 }
 
-static gboolean
-cb_autofit_height (ColRowInfo *info, void *sheet)
+struct autofit_closure
 {
+	Sheet    *sheet;
+	gboolean  allow_shrink;
+};
+
+static gboolean
+cb_autofit_height (ColRowInfo *info, void *userdata)
+{
+	struct autofit_closure *closure = userdata;
+	Sheet *sheet = closure->sheet;
+	
 	/* If the size was not set by the user then auto resize */
 	if (!info->hard_size) {
 		int const new_size = sheet_row_size_fit_pixels (sheet, info->pos);
-		if (new_size > 0)
+		gboolean do_resize = closure->allow_shrink ?
+			TRUE : (new_size > info->size_pixels);
+
+		if (do_resize && new_size > 0)
 			sheet_row_set_size_pixels (sheet, info->pos, new_size, FALSE);
 	}
 	return FALSE;
@@ -396,18 +408,25 @@ cb_autofit_height (ColRowInfo *info, void *sheet)
  * rows_height_update
  * @sheet:  The sheet,
  * @range:  The range whose rows should be resized.
+ * @allow_shrink: If set, don't make row heights smaller. Only resize
+ *                them when their contents are higher than the row height.
  *
  * Use this function having changed the font size to auto
  * resize the row heights to make the text fit nicely.
  **/
 void
-rows_height_update (Sheet *sheet, Range const * range)
+rows_height_update (Sheet *sheet, Range const * range, gboolean allow_shrink)
 {
+	struct autofit_closure closure;
+
+	closure.sheet        = sheet;
+	closure.allow_shrink = allow_shrink;
+	
 	/* FIXME : this needs to check font sizes and contents rather than
 	 * just contents.  Empty cells will cause resize also
 	 */
 	colrow_foreach (&sheet->rows, range->start.row, range->end.row,
-			&cb_autofit_height, sheet);
+			&cb_autofit_height, &closure);
 }
 /*****************************************************************************/
 

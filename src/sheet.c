@@ -385,7 +385,7 @@ sheet_apply_style (Sheet       *sheet,
 	sheet_range_calc_spans (sheet, *range, spanflags);
 
 	if (spanflags != SPANCALC_SIMPLE)
-		rows_height_update (sheet, range);
+		rows_height_update (sheet, range, TRUE);
 
 	sheet_redraw_range (sheet, range);
 }
@@ -2555,7 +2555,7 @@ sheet_clear_region (WorkbookControl *wbc, Sheet *sheet,
 	if (clear_flags & CLEAR_FORMATS) {
 		sheet_style_set_range (sheet, &r, sheet_style_default (sheet));
 		sheet_range_calc_spans (sheet, r, SPANCALC_RE_RENDER|SPANCALC_RESIZE);
-		rows_height_update (sheet, &r);
+		rows_height_update (sheet, &r, TRUE);
 	}
 
 	if (clear_flags & CLEAR_COMMENTS) {
