@@ -1,3 +1,8 @@
+2000-05-29  Jody Goldberg <jgoldberg@home.com>
+
+	* gtk-combo-stack.c (gtk_combo_stack_construct) : The button can not
+	  have focus.
+
 2000-05-28  Jody Goldberg <jgoldberg@home.com>
 
 	* gtk-combo-stack.c (gtk_combo_stack_construct) : The button relief

@@ -154,6 +154,7 @@ gtk_combo_stack_construct (GtkComboStack *combo,
 	button = combo->button = gtk_button_new ();
 	if (!gnome_preferences_get_toolbar_relief_btn ())
 		gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
+	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
 
 	list = combo->list = gtk_list_new ();
 
