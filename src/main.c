@@ -49,7 +49,6 @@ main (int argc, char *argv [])
 	symbol_init ();
 	constants_init ();
 	functions_init ();
-	autofill_init  ();
 	plugins_init ();
 
 	if (startup_file)

@@ -24,8 +24,7 @@ typedef enum {
 } Operation;
 
 typedef enum {
-	VALUE_UNKNOWN = -1,
-	VALUE_STRING = 0,
+	VALUE_STRING,
 	VALUE_INTEGER,
 	VALUE_FLOAT,
 	VALUE_CELLRANGE,

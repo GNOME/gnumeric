@@ -560,11 +560,17 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 	int scroll_x, scroll_y;
 
 	switch (event->type){
-	case GDK_ENTER_NOTIFY:
-		gdk_window_set_cursor (
-			GTK_WIDGET (canvas)->window,
-			gnumeric_cursors [GNUMERIC_CURSOR_FAT_CROSS].cursor);
+	case GDK_ENTER_NOTIFY: {
+		int cursor;
+	       
+		if (sheet->mode == SHEET_MODE_SHEET)
+			cursor = GNUMERIC_CURSOR_FAT_CROSS;
+		else
+			cursor = GNUMERIC_CURSOR_ARROW;
+
+		cursor_set_widget (canvas, cursor);
 		return TRUE;
+	}
 		
 	case GDK_BUTTON_RELEASE:
 		if (event->button.button == 1){

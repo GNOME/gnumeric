@@ -815,7 +815,7 @@ gnumeric_sheet_realize (GtkWidget *widget)
 		gsheet->patterns [i] = gdk_bitmap_create_from_data (
 			window, gnumeric_sheet_patterns [i].pattern, 8, 8);
 
-	gdk_window_set_cursor (window, gnumeric_cursors [GNUMERIC_CURSOR_FAT_CROSS].cursor);
+	cursor_set (window, GNUMERIC_CURSOR_FAT_CROSS);
 }
 
 void

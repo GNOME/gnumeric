@@ -739,7 +739,7 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 
 		cell = sheet_cell_get (sheet, col, row);
 
-		if (cell && cell->value){
+		if (cell){
 			if (cell->parsed_node && cell->generation != sheet->workbook->generation){
 				cell->generation = sheet->workbook->generation;
 				cell_eval (cell);

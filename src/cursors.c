@@ -86,3 +86,4 @@ cursors_shutdown (void)
 	for (i = 0; gnumeric_cursors [i].hot_x; i++)
 		gdk_cursor_destroy (gnumeric_cursors [0].cursor);
 }
+

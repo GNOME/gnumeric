@@ -1,3 +1,22 @@
+1998-09-16  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet-autofill.c (fill_item_new): We now have a working
+	implementation of the Autofill feature.
+
+1998-09-15  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet-autofill.c (fill_range_new): New routine, used to
+	create a fill_item
+
+	* src/item-grid.c (item_grid_event): Use the proper cursor
+	depending on the sheet mode.
+
+	* src/sheet-object.c (object_event): Set the cursor to the arrow.
+	(object_handle_event): Same.
+
+	* src/cursors.h (cursor_set_widget, cursor_set): New macros to
+	access easily the gnumeric cursors.
+
 1998-09-14  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/cursors.c: Define the Gnumeric cursors here.

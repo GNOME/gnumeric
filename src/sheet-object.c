@@ -6,6 +6,7 @@
 #include "gnumeric-sheet.h"
 #include "dialogs.h"
 #include "sheet-object.h"
+#include "cursors.h"
 
 #define GNUMERIC_SHEET_VIEW(p) GNUMERIC_SHEET (SHEET_VIEW(p)->sheet_view);
 
@@ -504,6 +505,10 @@ object_handle_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject *object
 	double dx, dy;
 	
 	switch (event->type){
+	case GDK_ENTER_NOTIFY:
+		cursor_set_widget (item->canvas, GNUMERIC_CURSOR_ARROW);
+		break;
+		
 	case GDK_BUTTON_RELEASE:
 		if (!object->dragging)
 			return FALSE;
@@ -643,6 +648,10 @@ object_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject *object)
 	int dx, dy;
 	
 	switch (event->type){
+	case GDK_ENTER_NOTIFY:
+		cursor_set_widget (item->canvas, GNUMERIC_CURSOR_ARROW);
+		break;
+		
 	case GDK_BUTTON_PRESS:
 		if (object->sheet->current_object)
 			sheet_object_stop_editing (object->sheet->current_object);

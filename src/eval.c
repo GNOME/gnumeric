@@ -436,7 +436,7 @@ workbook_recalc (Workbook *wb)
 
 	workbook_next_generation (wb);
 	generation = wb->generation;
-	
+
 	while ((cell = pick_next_cell_from_queue (wb))){
 		cell->generation = generation;
 		cell_eval (cell);

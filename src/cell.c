@@ -97,8 +97,6 @@ cell_set_halign (Cell *cell, StyleHAlignFlags halign)
 void
 cell_set_font_from_style (Cell *cell, StyleFont *style_font)
 {
-	GdkFont *font;
-	
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (style_font != NULL);
 
@@ -109,8 +107,6 @@ cell_set_font_from_style (Cell *cell, StyleFont *style_font)
 	
 	cell->style->font = style_font;
 
-	font = style_font->font;
-	
 	cell_calc_dimensions (cell);
 	
 	cell_queue_redraw (cell);
@@ -874,6 +870,7 @@ cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y
 		rect.height = cell->height;
 		rect.width = cell->width;
 		gdk_gc_set_clip_rectangle (gc, &rect);
+		printf ("Cliping to: %d %d %d %d\n", x1, y1, cell->height, cell->width);
 		
 		switch (style->valign){
 		case VALIGN_TOP:

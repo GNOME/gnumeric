@@ -17,6 +17,7 @@
 #include "gnumeric-util.h"
 #include "color.h"
 #include "cursors.h"
+#include "sheet-autofill.h"
 
 static GnomeCanvasItem *item_cursor_parent_class;
 
@@ -382,7 +383,7 @@ item_cursor_setup_auto_fill (ItemCursor *item_cursor, ItemCursor *parent, int x,
 }
 
 static void
-item_cursor_set_cursor (GdkWindow *window, GnomeCanvasItem *item, int x, int y)
+item_cursor_set_cursor (GnomeCanvas *canvas, GnomeCanvasItem *item, int x, int y)
 {
 	int cursor;
 	
@@ -390,8 +391,8 @@ item_cursor_set_cursor (GdkWindow *window, GnomeCanvasItem *item, int x, int y)
 		cursor = GNUMERIC_CURSOR_THIN_CROSS;
 	else
 		cursor = GNUMERIC_CURSOR_ARROW;
-	
-	gdk_window_set_cursor (window, gnumeric_cursors [cursor].cursor);
+
+	cursor_set_widget (canvas, cursor);
 }
 
 static gint
@@ -407,14 +408,14 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		gnome_canvas_w2c (
 			canvas, event->crossing.x, event->crossing.y, &x, &y);
 
-		item_cursor_set_cursor (GTK_WIDGET (canvas)->window, item, x, y);
+		item_cursor_set_cursor (canvas, item, x, y);
 		return TRUE;
 		
 	case GDK_MOTION_NOTIFY:
 		gnome_canvas_w2c (
 			canvas, event->motion.x, event->motion.y, &x, &y);
 
-		item_cursor_set_cursor (GTK_WIDGET (canvas)->window, item, x, y);
+		item_cursor_set_cursor (canvas, item, x, y);
 		return TRUE;
 		
 	case GDK_BUTTON_PRESS: {
@@ -646,15 +647,28 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 	switch (event->type){
 	case GDK_BUTTON_RELEASE: {
 		Sheet *sheet = item_cursor->sheet;
-		
+
 		gnome_canvas_item_ungrab (item, event->button.time);
+
+		g_warning ("Temporary flush after ungrap here\n");
+
+		gnome_canvas_update_now (canvas);
+		gdk_flush ();
+		
 		if (!((item_cursor->end_col == item_cursor->base_col + item_cursor->base_cols) &&
 		      (item_cursor->end_row == item_cursor->base_row + item_cursor->base_rows)))
 			sheet_autofill (sheet, 
 					item_cursor->base_col,    item_cursor->base_row,
 					item_cursor->base_cols+1, item_cursor->base_rows+1,
 					item_cursor->end_col,     item_cursor->end_row);
-				
+
+		sheet_cursor_set (sheet,
+				  item_cursor->base_col, item_cursor->base_row,
+				  item_cursor->end_col,  item_cursor->end_row);
+		sheet_selection_reset_only (sheet);
+		sheet_selection_append (sheet, item_cursor->base_col, item_cursor->base_row);
+		sheet_selection_extend_to (sheet, item_cursor->end_col, item_cursor->end_row);
+		
 		gtk_object_destroy (GTK_OBJECT (item));
 		
 		return TRUE;
