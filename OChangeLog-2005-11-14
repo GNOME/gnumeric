@@ -1,3 +1,11 @@
+2001-07-09  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+
+	* acconfig.h: #undef ENABLE_EVOLUTION
+	* configure.in: Checks for Evolution-Composer.idl. Can be overwritten
+	with --without-evolution.
+	* idl/Makefile.am: Let orbit process the Evolution-Composer.idl.
+	* idl/.cvsignore: Ignore the generated Evolution* files.
+
 2001-07-09  Almer S. Tigelaar  <almer@gnome.org>
 
 	* stf-parse.c (stf_parse_convert_to_unix): Make this work as it
@@ -38,6 +46,7 @@
 	(scg_colrow_resize_start) : ditto.
 	(scg_colrow_resize_move) : ditto.
 
+>>>>>>> 1.1333
 2001-07-08  Lutz Müller <urc8@rz.uni-karlsruhe.de>
 
 	* src/GNOME_Gnumeric.xml: Wrap file related menus into a placeholder
