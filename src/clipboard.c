@@ -376,7 +376,7 @@ x_selection_to_cell_region (CommandContext *context, char const * data,
 	crerr         = g_new (CellRegion, 1);
 	crerr->list   = NULL;
 	crerr->cols   = -1;
-	crerr->rows   = 0;
+	crerr->rows   = -1;
 	crerr->styles = NULL;
 
 	if (!stf_parse_convert_to_unix (data)) {
@@ -532,7 +532,12 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time, gpoi
 	}
 
 	if (region_pastable) {
-		cmd_paste_copy (context, pt, content);
+		/*
+		 * if the conversion from the X selection -> a cellregion
+		 * was canceled this may have content sized -1,-1
+		 */
+		if (content->cols > 0 && content->rows > 0)
+			cmd_paste_copy (context, pt, content);
 
 		/* Release the resources we used */
 		if (sel->length >= 0)
