@@ -12,10 +12,10 @@
  *
  * Returns: True if both ranges are equal.
  **/
-#define range_equal(a,b)   (((Range *)(a))->start.row == ((Range *)(b))->start.row && \
-			    ((Range *)(a))->end.row   == ((Range *)(b))->end.row && \
-			    ((Range *)(a))->start.col == ((Range *)(b))->start.col && \
-			    ((Range *)(a))->end.col   == ((Range *)(b))->end.col)
+#define range_equal(a,b)   ((a)->start.row == (b)->start.row && \
+			    (a)->end.row   == (b)->end.row && \
+			    (a)->start.col == (b)->start.col && \
+			    (a)->end.col   == (b)->end.col)
 
 /**
  * range_overlap:
@@ -26,10 +26,10 @@
  *
  * Returns: True if the ranges overlap at all.
  **/
-#define range_overlap(a,b) ((((Range *)(a))->end.row >= ((Range *)(b))->start.row) && \
-			    (((Range *)(b))->end.row >= ((Range *)(a))->start.row) && \
-			    (((Range *)(a))->end.col >= ((Range *)(b))->start.col) && \
-			    (((Range *)(b))->end.col >= ((Range *)(a))->start.col))
+#define range_overlap(a,b) (((a)->end.row >= (b)->start.row) && \
+			    ((b)->end.row >= (a)->start.row) && \
+			    ((a)->end.col >= (b)->start.col) && \
+			    ((b)->end.col >= (a)->start.col))
 
 /**
  * range_contains:
@@ -41,16 +41,16 @@
  *
  * Return value: TRUE if co-ordinate contained.
  **/
-#define range_contains(r,x,y)	(((y) <= ((Range *)(r))->end.row) && \
-				 ((y) >= ((Range *)(r))->start.row) && \
-				 ((x) >= ((Range *)(r))->start.col) && \
-				 ((x) <= ((Range *)(r))->end.col))
+#define range_contains(r,x,y)	(((y) <= ((r))->end.row) && \
+				 ((y) >= ((r))->start.row) && \
+				 ((x) >= ((r))->start.col) && \
+				 ((x) <= ((r))->end.col))
 
 /*
  * Quickly Test if a range is valid
  */
-#define range_valid(r)          (((Range *)(r))->start.col <= ((Range *)(r))->end.col && \
-				 ((Range *)(r))->start.row <= ((Range *)(r))->end.row)
+#define range_valid(r)          (((r))->start.col <= ((r))->end.col && \
+				 ((r))->start.row <= ((r))->end.row)
 
 Range	   *range_init_full_sheet   (Range *r);
 Range      *range_init              (Range *r, int start_col, int start_row,

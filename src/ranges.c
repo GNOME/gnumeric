@@ -814,19 +814,21 @@ range_fragment_list_clip (const GList *ra, const Range *clip)
 	for (a = ranges; a; a = nexta) {
 		GList   *b, *nextb;
 		gboolean done_split = FALSE;
+		Range *ra = a->data;
 
 		for (b = a->next; b && !done_split; b = nextb) {
+			Range *rb = b->data;
 			nextb = b->next;
 
-			if (range_equal (a->data, b->data)) {
-				g_free (b->data);
-				if (g_list_remove (ranges, b->data) != ranges)
+			if (range_equal (ra, rb)) {
+				g_free (rb);
+				if (g_list_remove (ranges, rb) != ranges)
 					g_error ("Impossible overwrite");
 
-			} else if (range_overlap (a->data, b->data)) {
+			} else if (range_overlap (ra, rb)) {
 				GList *split;
 
-				split = range_fragment (a->data, b->data);
+				split = range_fragment (ra, rb);
 
 				g_assert (split);
 				if (g_list_concat (ranges, split) != ranges)
@@ -839,8 +841,8 @@ range_fragment_list_clip (const GList *ra, const Range *clip)
 
 		nexta = a->next;
 		if (done_split) {
-			g_free (a->data);
-			ranges = g_list_remove (ranges, a->data);
+			g_free (ra);
+			ranges = g_list_remove (ranges, ra);
 
 			if (b == nexta)
 				nexta = b->next;
@@ -1173,7 +1175,7 @@ range_transpose (Range *range, const CellPos *origin)
 	}
 		range->end.row = t;
 
-	g_assert (range_valid (&range));
+	g_assert (range_valid (range));
 
 	return clipped;
 }
