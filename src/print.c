@@ -612,6 +612,12 @@ sheet_print (Sheet *sheet, gboolean preview,
 			printer, gnome_paper_name (pj->pi->paper));
 	}
 
+	if (pj->print_context == NULL) {
+		gnumeric_notice (sheet->workbook, GNOME_MESSAGE_BOX_ERROR,
+				 _("Printing failed -- bad filename?"));
+		loop = 0;
+	}
+
 	for (i = 0; i < loop; i++) {
 		switch (pj->range) {
 
@@ -636,8 +642,10 @@ sheet_print (Sheet *sheet, gboolean preview,
 	if (preview)
 		print_preview_print_done (pj->preview);
 	else {
-		gnome_print_context_close_file (pj->print_context);
-		gtk_object_unref (GTK_OBJECT (pj->print_context));
+		if (pj->print_context) {
+			gnome_print_context_close_file (pj->print_context);
+			gtk_object_unref (GTK_OBJECT (pj->print_context));
+		}
 		gtk_object_unref (GTK_OBJECT (printer));
 	}
 	

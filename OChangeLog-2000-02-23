@@ -1,3 +1,7 @@
+1999-10-09  Morten Welinder  <terra@diku.dk>
+
+	* src/print.c (sheet_print): Handle failures from gnome-print.
+
 1999-10-09  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-bar.c (item_bar_event) : Ensure that we ungrab whenever
