@@ -25,7 +25,7 @@
 #include "expr-impl.h"
 #include "commands.h"
 #include "value.h"
-#include "dialog-stf.h"
+#include <gtk/gtkmain.h>
 #include "stf-parse.h"
 #include "sheet-object-cell-comment.h"
 
