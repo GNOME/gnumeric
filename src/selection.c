@@ -648,7 +648,7 @@ sheet_selection_cut (CommandContext *context, Sheet *sheet)
 }
 
 static void
-sheet_selection_move (struct expr_relocate_info *rinfo)
+sheet_selection_move (ExprRelocateInfo *rinfo)
 {
 	Sheet * const sheet = rinfo->target_sheet;
 	Range r = rinfo->origin;
@@ -686,7 +686,7 @@ sheet_selection_paste (CommandContext *context, Sheet *sheet,
 
 	/* If contents are null this was a cut */
 	if (content == NULL && area != NULL) {
-		struct expr_relocate_info rinfo;
+		ExprRelocateInfo rinfo;
 		Sheet * src_sheet = application_clipboard_sheet_get ();
 		Range const *sel = selection_first_range (sheet, FALSE);
 

@@ -97,7 +97,7 @@ workbook_cmd_format_column_width (GtkWidget *widget, Workbook *wb)
 		int col;
 		
 		for (col = ss->user.start.col; col <= ss->user.end.col; col++)
-			sheet_col_set_width_units (sheet, col, value);
+			sheet_col_set_width_units (sheet, col, value, TRUE);
 	}
 	sheet_set_dirty (sheet, TRUE);
 }

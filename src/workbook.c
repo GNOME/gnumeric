@@ -2424,7 +2424,7 @@ sheet_action_delete_sheet (GtkWidget *widget, Sheet *current_sheet)
 	 * to infinity (and beyond)
 	 */
 	{
-		struct expr_relocate_info rinfo;
+		ExprRelocateInfo rinfo;
 		rinfo.origin.start.col = 0;
 		rinfo.origin.start.row = 0;
 		rinfo.origin.end.col = SHEET_MAX_COLS-1;
@@ -2851,7 +2851,7 @@ workbook_foreach (WorkbookCallback cback, gpointer data)
  */
 
 void
-workbook_expr_relocate (Workbook *wb, struct expr_relocate_info const *info)
+workbook_expr_relocate (Workbook *wb, ExprRelocateInfo const *info)
 {
 	GList *cells, *l;
 	EvalPosition pos;

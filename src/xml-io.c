@@ -1837,7 +1837,7 @@ xml_read_cols_info (parse_xml_context_t *ctxt, Sheet *sheet, xmlNodePtr tree)
 		if (!info)
 			continue;
 		sheet_col_add (sheet, info);
-		sheet_col_set_width_units (ctxt->sheet, info->pos, units);
+		sheet_col_set_width_units (ctxt->sheet, info->pos, units, info->hard_size);
 	}
 }
 

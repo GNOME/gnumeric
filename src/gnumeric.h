@@ -10,9 +10,10 @@ typedef struct _Workbook	Workbook;
 typedef struct _Sheet		Sheet;
 typedef struct _Cell		Cell;
 
-typedef struct _ExprTree	ExprTree;
-typedef struct _ArrayRef	ArrayRef;
-typedef struct _ExprName	ExprName;
+typedef struct _ExprTree	 ExprTree;
+typedef struct _ArrayRef	 ArrayRef;
+typedef struct _ExprName	 ExprName;
+typedef struct _ExprRelocateInfo ExprRelocateInfo;
 
 typedef struct _CellRegion	CellRegion;
 typedef		GList		CellList;

@@ -172,7 +172,7 @@ ExprTree   *expr_tree_array_formula (int const x, int const y, int const rows,
 void        expr_tree_ref          (ExprTree *tree);
 void        expr_tree_unref        (ExprTree *tree);
 
-struct expr_relocate_info {
+struct _ExprRelocateInfo {
 	Range origin;		/* References to cells in origin_sheet!range */
 	Sheet *origin_sheet;	/* should to adjusted */
 
@@ -182,7 +182,7 @@ struct expr_relocate_info {
 
 ExprTree       *expr_relocate (const ExprTree *expr,
 			       const EvalPosition *pos,
-			       const struct expr_relocate_info *info);
+			       const ExprRelocateInfo *info);
 
 int             expr_tree_get_const_int (ExprTree const *const expr);
 char const *	expr_tree_get_const_str (ExprTree const *const expr);

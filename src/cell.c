@@ -922,8 +922,8 @@ cell_relocate (Cell *cell, gboolean const check_bounds)
 		 * location.  All the move is doing is a bounds check.
 		 */
 		if (check_bounds) {
-			struct expr_relocate_info	rinfo;
-			EvalPosition     		pos;
+			ExprRelocateInfo	rinfo;
+			EvalPosition 		pos;
 			ExprTree    	*expr = cell->parsed_node;
 
 			rinfo.origin.start.col =

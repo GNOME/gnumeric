@@ -207,6 +207,12 @@ int	    sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int row,
 int	    sheet_find_boundary_vertical   (Sheet *sheet, int col, int start_row,
 					    int count, gboolean jump_to_boundaries);
 
+/* Save and restore the sizes of a set of rows or columns */
+double *    sheet_save_row_col_sizes	   (Sheet *sheet, gboolean const is_cols,
+					    int index, int count);
+void 	    sheet_restore_row_col_sizes	   (Sheet *sheet, gboolean const is_cols,
+					    int index, int count, double *);
+
 /* Duplicates the information of a col/row */
 ColRowInfo *sheet_duplicate_colrow        (ColRowInfo *original);
 
@@ -243,7 +249,8 @@ void        sheet_col_set_width           (Sheet *sheet,
 				           int col, int width);
 void        sheet_col_info_set_width      (Sheet *sheet,
 				           ColRowInfo *ci, int width);
-void        sheet_col_set_width_units     (Sheet *sheet, int col, double width);
+void        sheet_col_set_width_units     (Sheet *sheet, int col, double width,
+					   gboolean set_by_user);
 void        sheet_col_set_internal_width  (Sheet *sheet, ColRowInfo *ci,
 					   double width);
 
@@ -254,7 +261,7 @@ void        sheet_row_set_height_units    (Sheet *sheet, int row, double height,
 					   gboolean height_set_by_user);
 void        sheet_row_info_set_height     (Sheet *sheet,
 				           ColRowInfo *ri, int height,
-				           gboolean height_set_by_user);
+				           gboolean set_by_user);
 void        sheet_row_set_internal_height (Sheet *sheet, ColRowInfo *ri, double height);
 
 int         sheet_col_size_fit            (Sheet *sheet, int col);
@@ -267,7 +274,6 @@ void        sheet_row_set_selection       (Sheet *sheet,
 void        sheet_set_selection           (Sheet *sheet, SheetSelection const *ss);
 				       
 /* sheet-style.c */
-struct expr_relocate_info;
 MStyle        *sheet_style_compute              (Sheet const *sheet,
 						 int col, int row);
 void           sheet_style_attach               (Sheet  *sheet, Range   range,
@@ -279,7 +285,7 @@ void           sheet_style_insert_colrow        (Sheet *sheet, int pos, int coun
 						 gboolean is_col);
 void           sheet_style_delete_colrow        (Sheet *sheet, int pos, int count,
 						 gboolean is_col);
-void           sheet_style_relocate             (const struct expr_relocate_info *rinfo);
+void           sheet_style_relocate             (const ExprRelocateInfo *rinfo);
 void           sheet_selection_apply_style      (Sheet *sheet, MStyle *style);
 MStyle        *sheet_selection_get_unique_style (Sheet *sheet,
 						 MStyleBorder **borders);
@@ -326,7 +332,7 @@ gboolean    sheet_is_pristine             (Sheet *sheet);
 
 /* Sheet information manipulation */
 void        sheet_move_range              (CommandContext *context,
-					   struct expr_relocate_info const * rinfo);
+					   ExprRelocateInfo const * rinfo);
 
 Sheet      *sheet_lookup_by_name          (Workbook *wb, const char *name);
 

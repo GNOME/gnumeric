@@ -523,7 +523,7 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 	{
 		ExprTree * func;
 		EvalPosition pos;
-		struct expr_relocate_info rinfo;
+		ExprRelocateInfo rinfo;
 
 		/* FIXME : Find out how to handle this */
 		rinfo.target_sheet = rinfo.origin_sheet = 0;

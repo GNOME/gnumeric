@@ -21,6 +21,7 @@
  *
  * Feel free to lend a hand.  There are several distinct stages to
  * wrapping each command.
+ *
  * 1) Find the appropriate place(s) in the catch all calls to activations
  * of this logical function.  Be careful.  This should only be called by
  * user initiated actions, not internal commands.
@@ -38,6 +39,12 @@
  * elements corresponding to those being overridden.
  *
  * That way undo redo just become applications of the old or the new styles.
+ *
+ * FIXME : fine tune the use of these commands so that they actually
+ *         execute the operation.  Redo must be capable of applying the
+ *         command, so lets avoid duplicating logic.  SetText is a good
+ *         example of the WRONG way to do it.  I use that as an after thought
+ *         and hence treat formating differenting.
  *
  * TODO : Add user preference for undo buffer size limit (# of commands ?)
  * TODO : Possibly clear lists on save.
@@ -248,19 +255,32 @@ command_list_release (GSList *cmd_list)
  *
  * @wb : The workbook the command operated on.
  * @cmd : The new command to add.
+ * @trouble : A flag indicating whether there was a problem with the
+ *            command.
+ *
+ * returns : @trouble.
  */
-static void
-command_push_undo (Workbook *wb, GtkObject *cmd)
+static gboolean
+command_push_undo (Workbook *wb, GtkObject *cmd, gboolean const trouble)
 {
-	g_return_if_fail (wb != NULL);
-	g_return_if_fail (cmd != NULL);
+	/* TODO : trouble should be a variable not an argument.
+	 * We should call redo on the command object and use
+	 * the result as the value for trouble.
+	 */
+	if  (!trouble) {
+		g_return_val_if_fail (wb != NULL, TRUE);
+		g_return_val_if_fail (cmd != NULL, TRUE);
 
-	command_list_release (wb->redo_commands);
-	wb->redo_commands = NULL;
+		command_list_release (wb->redo_commands);
+		wb->redo_commands = NULL;
 
-	wb->undo_commands = g_slist_prepend (wb->undo_commands, cmd);
+		wb->undo_commands = g_slist_prepend (wb->undo_commands, cmd);
 
-	undo_redo_menu_labels (wb);
+		undo_redo_menu_labels (wb);
+	} else
+		gtk_object_unref (cmd);
+
+	return trouble;
 }
 
 /******************************************************************/
@@ -370,9 +390,7 @@ cmd_set_text (CommandContext *context,
 	if (*pad) g_free (text);
 
 	/* Register the command object */
-	command_push_undo (sheet->workbook, obj);
-
-	return FALSE;
+	return command_push_undo (sheet->workbook, obj, FALSE);
 }
 
 /******************************************************************/
@@ -387,8 +405,10 @@ typedef struct
 	Sheet		*sheet;
 	gboolean	 is_insert;
 	gboolean	 is_cols;
-	int		index;
-	int		count;
+	int		 index;
+	int		 count;
+
+	double		*sizes;
 } CmdInsDelRowCol;
 
 GNUMERIC_MAKE_COMMAND (CmdInsDelRowCol, cmd_ins_del_row_col);
@@ -397,23 +417,28 @@ static gboolean
 cmd_ins_del_row_col_undo (GnumericCommand *cmd, CommandContext *context)
 {
 	CmdInsDelRowCol *me = CMD_INS_DEL_ROW_COL(cmd);
+	int index;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
 	/* TODO : 1) Restore the values of the deleted cells */
 	/* TODO : 2) Restore the styles in the cleared range */
-	/* TODO : 3) Restore the sizes of the deleted rows/cols */
 	if (!me->is_insert) {
+		index = me->index;
 		if (me->is_cols)
 			sheet_insert_cols (context, me->sheet, me->index, me->count);
 		else
 			sheet_insert_rows (context, me->sheet, me->index, me->count);
 	} else {
+		index = (me->is_cols) ? SHEET_MAX_COLS : SHEET_MAX_ROWS - me->count;
 		if (me->is_cols)
 			sheet_delete_cols (context, me->sheet, me->index, me->count);
 		else
 			sheet_delete_rows (context, me->sheet, me->index, me->count);
 	}
+	sheet_restore_row_col_sizes (me->sheet, me->is_cols, index, me->count,
+				     me->sizes);
+	me->sizes = NULL;
 
 	return FALSE;
 }
@@ -424,16 +449,22 @@ cmd_ins_del_row_col_redo (GnumericCommand *cmd, CommandContext *context)
 	CmdInsDelRowCol *me = CMD_INS_DEL_ROW_COL(cmd);
 
 	g_return_val_if_fail (me != NULL, TRUE);
+	g_return_val_if_fail (me->sizes == NULL, TRUE);
 
 	/* TODO : 1) Save the values of the deleted cells */
 	/* TODO : 2) Save the styles in the cleared range */
-	/* TODO : 3) Save the sizes of the deleted rows/cols */
 	if (me->is_insert) {
+		int const index = (me->is_cols) ? SHEET_MAX_COLS : SHEET_MAX_ROWS -
+			me->count;
+		me->sizes = sheet_save_row_col_sizes (me->sheet, me->is_cols,
+						      index, me->count);
 		if (me->is_cols)
 			sheet_insert_cols (context, me->sheet, me->index, me->count);
 		else
 			sheet_insert_rows (context, me->sheet, me->index, me->count);
 	} else {
+		me->sizes = sheet_save_row_col_sizes (me->sheet, me->is_cols,
+						      me->index, me->count);
 		if (me->is_cols)
 			sheet_delete_cols (context, me->sheet, me->index, me->count);
 		else
@@ -445,10 +476,10 @@ cmd_ins_del_row_col_redo (GnumericCommand *cmd, CommandContext *context)
 static void
 cmd_ins_del_row_col_destroy (GtkObject *cmd)
 {
-#if 0
 	CmdInsDelRowCol *me = CMD_INS_DEL_ROW_COL(cmd);
-#endif
-	/* FIXME : Fill in */
+
+	if (me->sizes)
+		g_free (me->sizes);
 	gnumeric_command_destroy (cmd);
 }
 
@@ -460,6 +491,7 @@ cmd_ins_del_row_col (CommandContext *context,
 {
 	GtkObject *obj;
 	CmdInsDelRowCol *me;
+	gboolean trouble;
 
 	g_return_val_if_fail (sheet != NULL, TRUE);
 
@@ -472,13 +504,14 @@ cmd_ins_del_row_col (CommandContext *context,
 	me->is_insert = is_insert;
 	me->index = index;
 	me->count = count;
+	me->sizes = NULL;
 
 	me->parent.cmd_descriptor = descriptor;
 
-	/* Register the command object */
-	command_push_undo (sheet->workbook, obj);
+	trouble = cmd_ins_del_row_col_redo (GNUMERIC_COMMAND(me), context);
 
-	return cmd_ins_del_row_col_redo (GNUMERIC_COMMAND(me), context);
+	/* Register the command object */
+	return command_push_undo (sheet->workbook, obj, trouble);
 }
 
 gboolean
@@ -675,13 +708,34 @@ cmd_paste_cut_destroy (GtkObject *cmd)
 	gnumeric_command_destroy (cmd);
 }
 
-#if 0
 gboolean
-cmd_paste_cut (CommandContext *context,
+cmd_paste_cut (CommandContext *context, ExprRelocateInfo const * const info)
 {
-	return FALSE;
+	GtkObject *obj;
+	CmdPasteCut *me;
+	gboolean trouble;
+
+	/* FIXME : improve on this */
+	char *descriptor = g_strdup_printf (_("Moving cells") );
+
+	g_return_val_if_fail (info != NULL, TRUE);
+
+	obj = gtk_type_new (CMD_PASTE_CUT_TYPE);
+	me = CMD_PASTE_CUT (obj);
+
+	/* Store the specs for the object */
+
+	me->parent.cmd_descriptor = descriptor;
+
+	trouble = cmd_paste_cut_redo (GNUMERIC_COMMAND(me), context);
+
+	/* Register the command object */
+	/* NOTE : if the destination workbook is different from the source workbook
+	 * should we have undo elements in both menus ??  It seems poor form to
+	 * hit undo in 1 window and effect another ...
+	 */
+	return command_push_undo (info->target_sheet->workbook, obj, trouble);
 }
-#endif
 
 /******************************************************************/
 

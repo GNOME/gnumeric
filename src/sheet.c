@@ -87,6 +87,7 @@ col_row_info_init (ColRowInfo *cri, double points)
 	cri->margin_a = 0;
 	cri->margin_b = 0;
 
+	cri->hard_size = FALSE;
 	cri->spans = NULL;
 }
 
@@ -749,7 +750,8 @@ sheet_col_set_internal_width (Sheet *sheet, ColRowInfo *ci, double width)
 }
 
 void
-sheet_row_set_height_units (Sheet *sheet, int row, double height, gboolean height_set_by_user)
+sheet_row_set_height_units (Sheet *sheet, int row, double height,
+			    gboolean set_by_user)
 {
 	ColRowInfo *ri;
 	
@@ -764,14 +766,15 @@ sheet_row_set_height_units (Sheet *sheet, int row, double height, gboolean heigh
 		sheet_row_add (sheet, ri);
 	}
 
-	if (height_set_by_user)
+	if (set_by_user)
 		ri->hard_size = TRUE;
 	
 	sheet_row_set_internal_height (sheet, ri, height);
 }
 
 void
-sheet_col_set_width_units (Sheet *sheet, int col, double width)
+sheet_col_set_width_units (Sheet *sheet, int col, double width,
+			   gboolean set_by_user)
 {
 	ColRowInfo *ci;
 	
@@ -786,6 +789,8 @@ sheet_col_set_width_units (Sheet *sheet, int col, double width)
 		sheet_col_add (sheet, ci);
 	}
 
+	if (set_by_user)
+		ci->hard_size = TRUE;
 	sheet_col_set_internal_width (sheet, ci, width);
 }
 
@@ -3311,7 +3316,7 @@ void
 sheet_insert_cols (CommandContext *context, Sheet *sheet,
 		   int col, int count)
 {
-	struct expr_relocate_info reloc_info;
+	ExprRelocateInfo reloc_info;
 	GList *deps;
 	int   i;
 
@@ -3380,7 +3385,7 @@ void
 sheet_delete_cols (CommandContext *context, Sheet *sheet,
 		   int col, int count)
 {
-	struct expr_relocate_info reloc_info;
+	ExprRelocateInfo reloc_info;
 	GList *deps;
 	int i;
 
@@ -3450,7 +3455,7 @@ void
 sheet_insert_rows (CommandContext *context, Sheet *sheet,
 		   int row, int count)
 {
-	struct expr_relocate_info reloc_info;
+	ExprRelocateInfo reloc_info;
 	GList *deps;
 	int   i;
 
@@ -3520,7 +3525,7 @@ void
 sheet_delete_rows (CommandContext *context, Sheet *sheet,
 		   int row, int count)
 {
-	struct expr_relocate_info reloc_info;
+	ExprRelocateInfo reloc_info;
 	GList *deps;
 	int i;
 
@@ -3586,7 +3591,7 @@ sheet_delete_rows (CommandContext *context, Sheet *sheet,
  */
 void
 sheet_move_range (CommandContext *context,
-		  struct expr_relocate_info const * rinfo)
+		  ExprRelocateInfo const * rinfo)
 {
 	GList *deps, *cells = NULL;
 	Cell  *cell;
@@ -3690,7 +3695,7 @@ void
 sheet_shift_rows (CommandContext *context, Sheet *sheet,
 		  int col, int start_row, int end_row, int count)
 {
-	struct expr_relocate_info rinfo;
+	ExprRelocateInfo rinfo;
 	rinfo.origin.start.col = col;
 	rinfo.origin.start.row = start_row;
 	rinfo.origin.end.col = SHEET_MAX_COLS-1;
@@ -3719,7 +3724,7 @@ void
 sheet_shift_cols (CommandContext *context, Sheet *sheet,
 		  int start_col, int end_col, int row, int count)
 {
-	struct expr_relocate_info rinfo;
+	ExprRelocateInfo rinfo;
 	rinfo.origin.start.col = start_col;
 	rinfo.origin.start.row = row;
 	rinfo.origin.end.col = end_col;
@@ -3729,4 +3734,50 @@ sheet_shift_cols (CommandContext *context, Sheet *sheet,
 	rinfo.row_offset = count;
 
 	sheet_move_range (context, &rinfo);
+}
+
+double *
+sheet_save_row_col_sizes (Sheet *sheet, gboolean const is_cols,
+			  int index, int count)
+{
+	int i;
+	double *res = NULL;
+
+	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (count > 0, NULL);
+
+	res = g_new (double, count);
+
+	for (i = 0 ; i < count ; ++i) {
+		ColRowInfo *info = sheet_col_get_info (sheet, index + i);
+		res[i] = info->units;
+		if (info->hard_size)
+			res[i] *= -1.;
+	}
+	return res;
+}
+
+void
+sheet_restore_row_col_sizes (Sheet *sheet, gboolean const is_cols,
+			     int index, int count, double *sizes)
+{
+	int i;
+
+	g_return_if_fail (sizes != NULL);
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (count > 0);
+
+	for (i = 0 ; i < count ; ++i) {
+		gboolean hard_size = FALSE;
+		if (sizes[i] < 0.) {
+			hard_size = TRUE;
+			sizes[i] *= -1.;
+		}
+		if (is_cols)
+			sheet_col_set_width_units  (sheet, index+i, sizes[i], hard_size);
+		else
+			sheet_row_set_height_units (sheet, index+i, sizes[i], hard_size);
+	}
+
+	g_free (sizes);
 }

@@ -1,3 +1,15 @@
+2000-01-06  Jody Goldberg <jgoldberg@home.com>
+
+	* *.[ch] : rename struct expr_relocate_info -> ExprRelocateInfo.
+
+	* src/sheet.c (sheet_save_row_col_sizes) : New routine to support undo.
+	(sheet_save_row_col_sizes) : Ditto.
+	(col_row_info_init) : Init hard_size.
+
+	* src/commands.c (cmd_ins_del_row_col_undo) : Restore the row/col size
+	  info.
+	(cmd_ins_del_row_col_redo) : Save the info.
+
 2000-01-05  Morten Welinder  <terra@diku.dk>
 
 	* src/commands.c (cmd_set_text_undo) : Free the old string.

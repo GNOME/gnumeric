@@ -1,6 +1,7 @@
 #ifndef GNUMERIC_COMMAND_H
 #define GNUMERIC_COMMAND_H
 
+#include "gnumeric.h"
 #include "command-context.h"
 
 void command_undo (CommandContext *context, Workbook *wb);
@@ -22,5 +23,8 @@ gboolean cmd_delete_cols (CommandContext *context,
 			  Sheet *sheet, int start_col, int count);
 gboolean cmd_delete_rows (CommandContext *context,
 			  Sheet *sheet, int start_row, int count);
+
+gboolean cmd_paste_cut (CommandContext *context,
+			ExprRelocateInfo const * const info);
 
 #endif /* GNUMERIC_COMMAND_CONTEXT_H */

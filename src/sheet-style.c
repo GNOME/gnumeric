@@ -839,7 +839,7 @@ sheet_style_insert_colrow (Sheet *sheet, int pos, int count,
 }
 
 void
-sheet_style_relocate (const struct expr_relocate_info *rinfo)
+sheet_style_relocate (const ExprRelocateInfo *rinfo)
 {
 	GList *stored_regions = NULL;
 	GList *l, *next;

@@ -162,9 +162,8 @@ gboolean    workbook_can_detach_sheet    (Workbook *wb, Sheet *sheet);
 GList      *workbook_sheets              (Workbook *wb);
 char       *workbook_selection_to_string (Workbook *wb, Sheet *base_sheet);
 
-struct expr_relocate_info;
 void        workbook_expr_relocate       (Workbook *wb,
-					  struct expr_relocate_info const *info);
+					  ExprRelocateInfo const *info);
 /*
  * Does any pending recalculations
  */
