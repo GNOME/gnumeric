@@ -701,28 +701,6 @@ sheet_selection_clear_formats (Sheet *sheet)
 
 /****************************************************************************/
 
-/* Quick utility routine to test intersect of line segments.
- * Returns : 4 --sA--sb--eb--eA--	a contains b
- *           3 --sA--sb--eA--eb--	overlap left
- *           2 --sb--sA--eA--eb--	b contains a
- *           1 --sb--sA--eb--eA--	overlap right
- *           0 if there is no intersection.
- */
-static int
-segments_intersect (int const s_a, int const e_a,
-		    int const s_b, int const e_b)
-{
-	/* Assume s_a <= e_a and s_b <= e_b */
-	if (e_a < s_b || e_b < s_a)
-		return 0;
-
-	if (s_a < s_b)
-		return (e_a >= e_b) ? 4 : 3;
-
-	/* We already know that s_a <= e_b */
-	return (e_a <= e_b) ? 2 : 1;
-}
-
 /**
  * selection_apply:
  * @sheet: the sheet.
@@ -1016,31 +994,6 @@ selection_to_string (Sheet *sheet, gboolean include_sheet_name_prefix)
 }
 
 /*****************************************************************************/
-
-/*
- * assemble_cell_list: A callback for sheet_cell_foreach_range
- * intented to assemble a list of cells in a region.
- *
- * The closure parameter should be a pointer to a GList.
- */
-static Value *
-assemble_cell_list (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
-{
-	CellList **l = (CellList **) user_data;
-	*l = g_list_prepend (*l, cell);
-	return NULL;
-}
-
-static void
-assemble_selection_list (Sheet *sheet, 
-			 int start_col, int start_row,
-			 int end_col,   int end_row,
-			 void *closure)
-{
-	sheet_cell_foreach_range (sheet, TRUE,
-				  start_col, start_row, end_col, end_row,
-				  &assemble_cell_list, closure);
-}
 
 /*
  * sheet_selection_to_list :
