@@ -162,7 +162,7 @@ cb_save_as (GtkWidget *widget, GObject *obj_view)
 	fsel = GTK_FILE_SELECTION (gtk_file_selection_new 
 				   (_("Save graph as image")));
 	/* Show file selector */
-	if (gnumeric_dialog_file_selection (wbcg, fsel)) {
+	if (gnumeric_dialog_file_selection (wbcg, GTK_WIDGET (fsel))) {
 		char const *fname = gtk_file_selection_get_filename (fsel);
 		char const *base = g_path_get_basename (fname);
 		char const *extension = gsf_extension_pointer (base);

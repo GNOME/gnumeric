@@ -604,7 +604,7 @@ cb_image_file_select (GtkWidget *cc, StylePrefState *state)
 	/* 
 	 * should not be modal
 	 **/
-	if (gnumeric_dialog_file_selection (NULL, fs)) {
+	if (gnumeric_dialog_file_selection (NULL, GTK_WIDGET (fs))) {
 
 		if (style->fill.u.image.image != NULL)
 			g_object_unref (style->fill.u.image.image);

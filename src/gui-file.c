@@ -10,6 +10,8 @@
 #undef GTK_DISABLE_DEPRECATED
 #warning "This file uses GTK_DISABLE_DEPRECATED for GtkOptionMenu and GtkCombo"
 
+#define USE_FILECHOOSER
+
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include "gnumeric.h"
@@ -32,6 +34,10 @@
 #include <gtk/gtklabel.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtkcombo.h>
+#ifdef USE_FILECHOOSER
+#include <gtk/gtkstock.h>
+#include <gtk/gtkfilechooserdialog.h>
+#endif
 #include <glade/glade.h>
 #include <unistd.h>
 #include <errno.h>
@@ -169,13 +175,18 @@ void
 gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 {
 	GList *openers;
+#ifdef USE_FILECHOOSER
+	GtkFileChooser *fsel;
+	gchar *file_name;
+#else
 	GtkFileSelection *fsel;
+	gchar const *file_name;
+#endif
 	GtkOptionMenu *omenu;
 	GtkWidget *format_chooser;
 	GtkWidget *charmap_selector;
 	GtkWidget *box, *label;
 	GnmFileOpener *fo = NULL;
-	gchar const *file_name;
 	gchar const *encoding;
 	file_format_changed_cb_data data;
 	gint opener_default;
@@ -199,12 +210,50 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 	/* Make charmap chooser */
 	charmap_selector = charmap_selector_new (CHARMAP_SELECTOR_TO_UTF8);
 	data.charmap_selector = CHARMAP_SELECTOR(charmap_selector);
-	data.charmap_label = gtk_label_new_with_mnemonic (_("Character _encoding:")),
-	
+	data.charmap_label = gtk_label_new_with_mnemonic (_("Character _encoding:"));
+
+#ifdef USE_FILECHOOSER
+	fsel = GTK_FILE_CHOOSER
+		(g_object_new (GTK_TYPE_FILE_CHOOSER_DIALOG,
+			       "action", GTK_FILE_CHOOSER_ACTION_OPEN,
+			       "title", "Select a file",
+			       NULL));
+	gtk_dialog_add_buttons (GTK_DIALOG (fsel),
+				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				GTK_STOCK_OPEN, GTK_RESPONSE_OK,
+				NULL);
+	gtk_dialog_set_default_response (GTK_DIALOG (fsel), GTK_RESPONSE_OK);
+
+	/* Filters */
+	{	
+		GtkFileFilter *filter;
+		GList *l;
+
+		filter = gtk_file_filter_new ();
+		gtk_file_filter_set_name (filter, "All Files");
+		gtk_file_filter_add_pattern (filter, "*");
+		gtk_file_chooser_add_filter (fsel, filter);
+
+		filter = gtk_file_filter_new ();
+		gtk_file_filter_set_name (filter, "Spreadsheets");
+		for (l = openers->next; l; l = l->next) {
+			GnmFileOpener *o = l->data;
+			/* FIXME: add all known extensions.  */
+		}
+#warning "FIXME: make extension discovery above work and delete these"
+		gtk_file_filter_add_pattern (filter, "*.gnumeric");
+		gtk_file_filter_add_pattern (filter, "*.xls");
+
+		gtk_file_chooser_add_filter (fsel, filter);
+		/* Make this filter the default */
+		gtk_file_chooser_set_filter (fsel, filter);
+	}
+#else
 	/* Pack it into file selector */
 	fsel = GTK_FILE_SELECTION (gtk_file_selection_new (title));
 	gtk_file_selection_hide_fileop_buttons (fsel);
-	
+#endif
+
 	box = gtk_table_new (2, 2, FALSE);
 	gtk_table_attach (GTK_TABLE (box),
 			  format_chooser,
@@ -219,9 +268,14 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 			  1, 2, 1, 2, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 5, 2);
 	gtk_table_attach (GTK_TABLE (box), data.charmap_label,
 			  0, 1, 1, 2, GTK_SHRINK | GTK_FILL, GTK_SHRINK, 5, 2);
-	gtk_box_pack_start (GTK_BOX (fsel->action_area), box, FALSE, TRUE, 0);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (data.charmap_label),
 				       charmap_selector);
+
+#ifdef USE_FILECHOOSER
+	gtk_file_chooser_set_extra_widget (fsel, box);
+#else
+	gtk_box_pack_start (GTK_BOX (fsel->action_area), box, FALSE, TRUE, 0);
+#endif
 
 	data.openers = openers;
 	g_signal_connect (G_OBJECT (omenu), "changed",
@@ -232,18 +286,27 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 	file_format_changed_cb (omenu, &data);
 
 	/* Show file selector */
-	if (!gnumeric_dialog_file_selection (wbcg, fsel)) {
+	if (!gnumeric_dialog_file_selection (wbcg, GTK_WIDGET (fsel))) {
 		g_list_free (openers);
+#if 0
 		gtk_object_destroy (GTK_OBJECT (fsel));
+#endif
 		return;
 	}
 
 	fo = g_list_nth_data (openers,
 			      gtk_option_menu_get_history (omenu));
 
+#ifdef USE_FILECHOOSER
+	file_name = gtk_file_chooser_get_filename (fsel);
+#else
 	file_name = gtk_file_selection_get_filename (fsel);
-	encoding = charmap_selector_get_encoding (CHARMAP_SELECTOR(charmap_selector));
+#endif
+	encoding = charmap_selector_get_encoding (CHARMAP_SELECTOR (charmap_selector));
 	gui_file_read (wbcg, file_name, fo, encoding);
+#ifdef USE_FILECHOOSER
+	g_free (file_name);
+#endif
 
 	gtk_object_destroy (GTK_OBJECT (fsel));
 	g_list_free (openers);
@@ -422,7 +485,7 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	}
 
 	/* Show file selector */
-	if (gnumeric_dialog_file_selection (wbcg, fsel)) {
+	if (gnumeric_dialog_file_selection (wbcg, GTK_WIDGET (fsel))) {
 		fs = g_list_nth_data (savers, gtk_option_menu_get_history (omenu));
 		if (fs != NULL) {
 			success = do_save_as (wbcg, wb_view, fs,

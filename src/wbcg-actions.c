@@ -1048,7 +1048,7 @@ static GNM_ACTION_DEF (cb_insert_image)
 		preview_file_selection_new (_("Select an image"), TRUE));
 	gtk_file_selection_hide_fileop_buttons (fsel);
 
-	if (gnumeric_dialog_file_selection (wbcg, fsel)) {
+	if (gnumeric_dialog_file_selection (wbcg, GTK_WIDGET (fsel))) {
 		int fd, file_size;
 		IOContext *ioc = gnumeric_io_context_new (GNM_CMD_CONTEXT (wbcg));
 		unsigned char const *data = gnumeric_mmap_open (ioc,

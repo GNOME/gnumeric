@@ -31,6 +31,7 @@
 #include <widgets/preview-file-selection.h>
 #include <glade/glade.h>
 #include <gtk/gtklabel.h>
+#include <gtk/gtkfilechooser.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkscrolledwindow.h>
 #include <gtk/gtkeventbox.h>
@@ -175,30 +176,55 @@ fsel_key_event (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 	return FALSE;
 }
 
+static void
+fsel_response_cb (GtkFileChooser *dialog,
+		  gint response_id,
+		  gboolean *result)
+{
+  if (response_id == GTK_RESPONSE_OK) {
+	  char *uri = gtk_file_chooser_get_uri (dialog);
+
+	  if (uri) {
+		  g_free (uri);
+		  *result = TRUE;
+	  }
+  }
+
+  gtk_main_quit ();
+}
+
+
 gboolean
-gnumeric_dialog_file_selection (WorkbookControlGUI *wbcg, GtkFileSelection *fsel)
+gnumeric_dialog_file_selection (WorkbookControlGUI *wbcg, GtkWidget *w)
 {
 	/* Note: wbcg will be NULL if called (indirectly) from gog-style.c  */
 	gboolean result = FALSE;
 
-	gtk_window_set_modal (GTK_WINDOW (fsel), TRUE);
+	gtk_window_set_modal (GTK_WINDOW (w), TRUE);
 	if (wbcg)
 		gnumeric_set_transient (wbcg_toplevel (wbcg), 
-					GTK_WINDOW (fsel));
-	g_signal_connect (G_OBJECT (fsel->ok_button),
-		"clicked",
-		G_CALLBACK (fsel_handle_ok), &result);
-	g_signal_connect (G_OBJECT (fsel->cancel_button),
-		"clicked",
-		G_CALLBACK (fsel_handle_cancel), NULL);
-	g_signal_connect (G_OBJECT (fsel),
-		"key_press_event",
-		G_CALLBACK (fsel_key_event), NULL);
-	g_signal_connect (G_OBJECT (fsel),
-		"delete_event",
-		G_CALLBACK (fsel_delete_event), NULL);
-	gtk_widget_show_all (GTK_WIDGET (fsel));
-	gtk_grab_add (GTK_WIDGET (fsel));
+					GTK_WINDOW (w));
+	if (GTK_IS_FILE_SELECTION (w)) {
+		GtkFileSelection *fsel = GTK_FILE_SELECTION (w);
+		g_signal_connect (G_OBJECT (fsel->ok_button),
+				  "clicked",
+				  G_CALLBACK (fsel_handle_ok), &result);
+		g_signal_connect (G_OBJECT (fsel->cancel_button),
+				  "clicked",
+				  G_CALLBACK (fsel_handle_cancel), NULL);
+		g_signal_connect (G_OBJECT (fsel),
+				  "key_press_event",
+				  G_CALLBACK (fsel_key_event), NULL);
+		g_signal_connect (G_OBJECT (fsel),
+				  "delete_event",
+				  G_CALLBACK (fsel_delete_event), NULL);
+	} else if (GTK_IS_FILE_CHOOSER (w)) {
+		g_signal_connect (w, "response",
+				  G_CALLBACK (fsel_response_cb), &result);
+	}
+
+	gtk_widget_show_all (w);
+	gtk_grab_add (w);
 	gtk_main ();
 
 	return result;
