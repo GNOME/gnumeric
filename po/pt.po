@@ -5,10 +5,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2002-04-13 18:34-0400\n"
-"PO-Revision-Date: 2002-02-28 01:35+0000\n"
+"POT-Creation-Date: 2002-04-25 03:26+0100\n"
+"PO-Revision-Date: 2002-04-25 03:35+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
-"Language-Team: Portuguese <none@none.org>\n"
+"Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -617,7 +617,7 @@ msgstr "Activa suporte Gnome Basic"
 msgid "Gnome Basic"
 msgstr "Gnome Basic"
 
-#: plugins/gda/plugin-gda.c:109
+#: plugins/gda/plugin-gda.c:111
 msgid ""
 "@FUNCTION=EXECSQL\n"
 "@SYNTAX=EXECSQL(i)\n"
@@ -637,15 +637,15 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO="
 
-#: plugins/gda/plugin-gda.c:138
+#: plugins/gda/plugin-gda.c:140
 msgid "Format: execSQL(dsn,user,password,sql)"
 msgstr "Formato: execSQL(dns, utilizador, senha, sql)"
 
-#: plugins/gda/plugin-gda.c:144
+#: plugins/gda/plugin-gda.c:146
 msgid "Error: could not initialize connection pool"
 msgstr "Erro: incapaz de inicializar conjunto de ligações"
 
-#: plugins/gda/plugin-gda.c:149
+#: plugins/gda/plugin-gda.c:151
 #, c-format
 msgid "Error: could not open connection to %s"
 msgstr "Erro: incapaz de iniciar ligação a %s"
@@ -673,9 +673,8 @@ msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr "Disponibiliza suporte para gravar o Glossário Gnome em ficheiros .po"
 
 #: plugins/guile/plugin.c:106
-#, fuzzy
 msgid "Guile error"
-msgstr "Múltiplos erros"
+msgstr "Erro Guile"
 
 #: plugins/guile/plugin.xml.in.h:1
 msgid "Guile Plugin"
@@ -4421,38 +4420,32 @@ msgid "_Wrap text"
 msgstr "Envolver te_xto"
 
 #: src/dialogs/cell-format.glade.h:129
-#, fuzzy
 msgid "min &lt;= val &lt;= max         (between)"
-msgstr "mín <= val <= máx           (entre)"
+msgstr "mín &lt;= val &lt;= máx           (entre)"
 
 #: src/dialogs/cell-format.glade.h:130
 msgid "val != bound                  (not equal to)"
 msgstr "val != limite                 (diferente de)"
 
 #: src/dialogs/cell-format.glade.h:131
-#, fuzzy
 msgid "val &gt;  bound                  (greater than)"
-msgstr "val >  limite                 (maior do que)"
+msgstr "val &gt;  limite                 (maior do que)"
 
 #: src/dialogs/cell-format.glade.h:132
-#, fuzzy
 msgid "val &gt;=bound                  (greater than or equal to)"
-msgstr "val >=limite                         (maior ou igual a)"
+msgstr "val &gt;=limite                         (maior ou igual a)"
 
 #: src/dialogs/cell-format.glade.h:133
-#, fuzzy
 msgid "val &lt;  bound                  (less than)"
-msgstr "val <  limite              (menor do que)"
+msgstr "val &lt;  limite              (menor do que)"
 
 #: src/dialogs/cell-format.glade.h:134
-#, fuzzy
 msgid "val &lt;= min || max &lt;= val (not between)"
-msgstr "val <= mín || máx <= val   (não entre)"
+msgstr "val &lt;= mín || máx &lt;= val   (não entre)"
 
 #: src/dialogs/cell-format.glade.h:135
-#, fuzzy
 msgid "val &lt;=bound                  (less than or equal to)"
-msgstr "val <=limite                      (menor ou igual a)"
+msgstr "val &lt;=limite                      (menor ou igual a)"
 
 #: src/dialogs/cell-format.glade.h:136
 msgid "val == bound                 (equal to)"
@@ -5767,28 +5760,24 @@ msgid "\""
 msgstr "\""
 
 #: src/dialogs/dialog-stf-export.glade.h:2
-#, fuzzy
 msgid "&lt;- Remove"
-msgstr "<- Remover"
+msgstr "&lt;- Remover"
 
 #: src/dialogs/dialog-stf-export.glade.h:3
-#, fuzzy
 msgid "&lt;- Remove all"
-msgstr "<- Remover todos"
+msgstr "&lt;- Remover todos"
 
 #: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
 msgstr "'"
 
 #: src/dialogs/dialog-stf-export.glade.h:5
-#, fuzzy
 msgid "Add -&gt;"
-msgstr "Adicionar ->"
+msgstr "Adicionar -&gt;"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
-#, fuzzy
 msgid "Add all -&gt;"
-msgstr "Adicionar todos ->"
+msgstr "Adicionar todos -&gt;"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
 msgid "Always"
@@ -7283,11 +7272,11 @@ msgstr "Renomear folha"
 
 #: src/dialogs/solver.glade.h:1
 msgid "&gt;="
-msgstr ""
+msgstr "&gt;="
 
 #: src/dialogs/solver.glade.h:2
 msgid "&lt;="
-msgstr ""
+msgstr "&lt;="
 
 #: src/dialogs/solver.glade.h:4
 msgid "Assume _Linear Model"
@@ -20378,9 +20367,9 @@ msgid "'%s' is not a number"
 msgstr "'%s' não é um número"
 
 #: src/validation.c:182
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' is not an integer"
-msgstr "'%f' não é um inteiro"
+msgstr "'%s' não é um inteiro"
 
 #: src/validation.c:275
 #, c-format
