@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-28 22:56-0500\n"
-"PO-Revision-Date: 2004-11-09 15:12+0100\n"
+"POT-Creation-Date: 2004-12-07 11:16+0100\n"
+"PO-Revision-Date: 2004-12-07 18:11+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -9244,7 +9244,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1662 src/func.c:789
+#: plugins/fn-info/functions.c:1662 src/func.c:859
 msgid "Invalid number of arguments"
 msgstr "Neplatný počet parametrů"
 
@@ -17539,7 +17539,7 @@ msgid "Functions for manipulating strings"
 msgstr "Funkce pro práci s řetězci"
 
 #: plugins/fn-string/plugin.xml.in.h:2 src/dialogs/dialog-search.c:144
-#: src/func.c:673
+#: src/func.c:743
 msgid "String"
 msgstr "Řetězec"
 
@@ -20705,7 +20705,7 @@ msgstr ""
 "Sousedící svislé sloupce seskupené podle hlavních a vedlejších kategorií."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:13
-#: src/func.c:679
+#: src/func.c:749
 msgid "Area"
 msgstr "Plocha"
 
@@ -23521,7 +23521,7 @@ msgid "Double"
 msgstr "Dvojité"
 
 #: src/dialogs/dialog-cell-format.c:470 src/dialogs/dialog-search.c:148
-#: src/func.c:671 src/wbcg-actions.c:1962
+#: src/func.c:741 src/wbcg-actions.c:1962
 #: src/widgets/widget-format-selector.c:76
 msgid "Number"
 msgstr "Číslo"
@@ -24053,9 +24053,8 @@ msgid ""
 msgstr "Položky na této stránce se týkají různých geometrických nástrojů."
 
 #: src/dialogs/dialog-preferences.c:724
-#, fuzzy
 msgid "The items on this page are related to copy. cut and paste."
-msgstr "Položky na této stránce se týkají kopírování, vyjímání a vložení."
+msgstr "Položky na této stránce se týkají kopírování, vyjímání a vkládání."
 
 #: src/dialogs/dialog-preferences.c:764
 msgid "Copy and Paste"
@@ -26881,7 +26880,7 @@ msgstr "'%s' je již v listě definováno"
 msgid "'%s' is already defined in workbook"
 msgstr "'%s' je již v sešitě definováno"
 
-#: src/file-autoft.c:91
+#: src/file-autoft.c:89
 #, c-format
 msgid "Invalid template file: %s"
 msgstr "Neplatný soubor šablony: %s"
@@ -27752,39 +27751,39 @@ msgstr "Gnumeric"
 msgid "Cannot create file %s\n"
 msgstr "Nelze vytvořit soubor %s\n"
 
-#: src/func.c:277
+#: src/func.c:347
 msgid "Function implementation not available."
 msgstr "Implementace funkce není k dispozici."
 
-#: src/func.c:490
+#: src/func.c:560
 msgid "Unknown Function"
 msgstr "Neznámá funkce"
 
-#: src/func.c:675
+#: src/func.c:745
 msgid "Boolean"
 msgstr "Logická hodnota"
 
-#: src/func.c:677
+#: src/func.c:747
 msgid "Cell Range"
 msgstr "Oblast buněk"
 
-#: src/func.c:681
+#: src/func.c:751
 msgid "Scalar or Blank"
 msgstr "Skalár nebo nic"
 
-#: src/func.c:683
+#: src/func.c:753
 msgid "Scalar or Error"
 msgstr "Skalár nebo chyba"
 
-#: src/func.c:685
+#: src/func.c:755
 msgid "Scalar"
 msgstr "Skalár"
 
-#: src/func.c:687
+#: src/func.c:757
 msgid "Any"
 msgstr "Cokoli"
 
-#: src/func.c:1006
+#: src/func.c:1076
 msgid "Function does not exist"
 msgstr "Funkce neexistuje"
 
@@ -27792,7 +27791,7 @@ msgstr "Funkce neexistuje"
 msgid "Filled Object Properties"
 msgstr "Vlastnosti vyplněného objektu"
 
-#: src/gnm-so-line.c:148
+#: src/gnm-so-line.c:150
 msgid "Line/Arrow Properties"
 msgstr "Vlastnosti čáry/šipky"
 
@@ -28234,122 +28233,122 @@ msgstr "Neplatný výraz"
 msgid "Unexpected token %c"
 msgstr "Neočekávaný prvek %c"
 
-#: src/plugin.c:352
+#: src/plugin.c:353
 #, c-format
 msgid "File contains plugin info with invalid id (%s), expected %s."
 msgstr ""
 "Soubor obsahuje informace o zásuvném modulu s neplatným id (%s), očekáváno %"
 "s."
 
-#: src/plugin.c:356
+#: src/plugin.c:357
 msgid "Couldn't read plugin info from file."
 msgstr "Nelze přečíst informaci o zásuvném modulu ze souboru."
 
-#: src/plugin.c:465
+#: src/plugin.c:466
 msgid "Unknown name"
 msgstr "Neznámý název"
 
-#: src/plugin.c:562
+#: src/plugin.c:563
 #, c-format
 msgid "Unsupported loader type \"%s\"."
 msgstr "Nepodporovaný typ načítače \"%s\"."
 
-#: src/plugin.c:570
+#: src/plugin.c:571
 #, c-format
 msgid "Error while preparing loader \"%s\"."
 msgstr "Chyba při přípravě načítače \"%s\"."
 
-#: src/plugin.c:647
+#: src/plugin.c:648
 #, c-format
 msgid "Error while reading service #%d info."
 msgstr "Chyba při čtení informací o službě #%d."
 
-#: src/plugin.c:726
+#: src/plugin.c:727
 #, c-format
 msgid "Can't read plugin info file (\"%s\")."
 msgstr "Není možné přečíst soubor s informací o zásuvném modulu (\"%s\")."
 
-#: src/plugin.c:730
+#: src/plugin.c:731
 #, c-format
 msgid "File \"%s\" is not valid plugin info file."
 msgstr "Soubor \"%s\" není platný soubor s informací o zásuvném modulu."
 
-#: src/plugin.c:816
+#: src/plugin.c:817
 #, c-format
 msgid "Errors while reading services for plugin with id=\"%s\"."
 msgstr "Chyby při čtení služeb pro zásuvný modul s id=\"%s\"."
 
-#: src/plugin.c:821
+#: src/plugin.c:822
 #, c-format
 msgid "No services defined for plugin with id=\"%s\"."
 msgstr "Pro modul s id=\"%s\" nejsou definovány služby."
 
-#: src/plugin.c:831
+#: src/plugin.c:832
 #, c-format
 msgid "Plugin id contains invalid characters (%s)."
 msgstr "Id zásuvného modulu obsahuje neplatné znaky (%s)."
 
-#: src/plugin.c:835
+#: src/plugin.c:836
 msgid "Unknown plugin name."
 msgstr "Neznámý název zásuvného modulu."
 
-#: src/plugin.c:839
+#: src/plugin.c:840
 #, c-format
 msgid "No loader defined or loader id invalid for plugin with id=\"%s\"."
 msgstr ""
 "Pro zásuvný modul s id=\"%s\" není definovaný načítač nebo má neplatné id."
 
-#: src/plugin.c:845
+#: src/plugin.c:846
 msgid "Plugin has no id."
 msgstr "Zásuvný modul nemá id."
 
-#: src/plugin.c:888
+#: src/plugin.c:889
 #, c-format
 msgid "Error initializing plugin loader (\"%s\")."
 msgstr "Chyba při inicializaci načítače modulu (\"%s\")."
 
-#: src/plugin.c:919 src/plugin.c:1076
+#: src/plugin.c:920 src/plugin.c:1077
 msgid "Detected cyclic plugin dependencies."
 msgstr "Zjištěna cyklická závislost mezi zásuvnými moduly."
 
-#: src/plugin.c:943
+#: src/plugin.c:944
 #, c-format
 msgid "Couldn't activate plugin with id=\"%s\"."
 msgstr "Nelze aktivovat zásuvný modul s id=\"%s\"."
 
-#: src/plugin.c:949 src/plugin.c:1122
+#: src/plugin.c:950 src/plugin.c:1123
 #, c-format
 msgid "Couldn't find plugin with id=\"%s\"."
 msgstr "Nelze nalézt zásuvný modul s id=\"%s\"."
 
-#: src/plugin.c:956
+#: src/plugin.c:957
 msgid "Error while activating plugin dependencies."
 msgstr "Chyba při aktivaci závislostí zásuvného modulu."
 
-#: src/plugin.c:970
+#: src/plugin.c:971
 #, c-format
 msgid "Error while activating plugin service #%d."
 msgstr "Chyba při aktivaci služby zásuvného modulu #%d."
 
-#: src/plugin.c:1023
+#: src/plugin.c:1024
 #, c-format
 msgid "Error while deactivating plugin service #%d."
 msgstr "Chyba při deaktivaci služby zásuvného modulu #%d."
 
-#: src/plugin.c:1088 src/plugin.c:1109
+#: src/plugin.c:1089 src/plugin.c:1110
 msgid "Cannot load plugin loader."
 msgstr "Nelze načíst načítač zásuvného modulu."
 
-#: src/plugin.c:1116
+#: src/plugin.c:1117
 #, c-format
 msgid "Couldn't load plugin with id=\"%s\"."
 msgstr "Nelze načíst zásuvný modul s id=\"%s\"."
 
-#: src/plugin.c:1129
+#: src/plugin.c:1130
 msgid "Error while loading plugin dependencies."
 msgstr "Chyba při načítání závislostí zásuvného modulu."
 
-#: src/plugin.c:1305
+#: src/plugin.c:1306
 #, c-format
 msgid "Errors occurred while reading plugin informations from file \"%s\"."
 msgstr ""
@@ -29042,13 +29041,13 @@ msgstr ""
 "libdir := '%s'\n"
 
 #: src/ssindex.c:195
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "ssindex version '%s'\n"
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""
-"ssconvert verze '%s'\n"
+"ssindex verze '%s'\n"
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 
