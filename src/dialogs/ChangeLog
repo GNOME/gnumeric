@@ -1,7 +1,13 @@
 2003-07-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-stf-format-page.c (cb_col_event) : don't confuse 
+	  pagedata->format.renderdata->colcount with
+	  pagedata->format.col_import_count
+
+2003-07-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-stf-format-page.c (cb_col_clicked) : deleted
-	(cb_column_popup) : renamed to col_event and simplified
+	(cb_column_popup) : renamed to cb_col_event and simplified
 	(format_page_update_preview): don't use an eventbox but the column
 	  header button
 

@@ -216,7 +216,7 @@ cb_col_event (GtkWidget *widget, GdkEvent *event, gpointer _col)
 					break;
 				case COLUMN_POPUP_ITEM_NOT_LAST:
 					gtk_widget_set_sensitive 
-						(item, index < pagedata->format.col_import_count - 1);
+						(item, index < pagedata->format.renderdata->colcount - 1);
 					break;
 				case COLUMN_POPUP_ITEM_ANY:
 				default:
