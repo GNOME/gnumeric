@@ -32,6 +32,7 @@
 #include "datetime.h"
 #include "mathfunc.h"
 #include "str.h"
+#include "gutils.h"
 #include "number-match.h"
 
 #include <locale.h>
@@ -54,13 +55,16 @@ static GnmFormat *default_time_fmt;
 static GnmFormat *default_general_fmt;
 
 
-/* Points to the locale information for number display */
+/*
+ * Points to the locale information for number display.  All strings are
+ * in UTF-8 encoding.
+ */
 static gboolean locale_info_cached = FALSE;
-static char *lc_decimal = NULL;
-static char *lc_thousand = NULL;
+static GString *lc_decimal = NULL;
+static GString *lc_thousand = NULL;
 static gboolean lc_precedes;
 static gboolean lc_space_sep;
-static char *lc_currency = NULL; /* in UTF-8 */
+static GString *lc_currency = NULL;
 
 static gboolean date_order_cached = FALSE;
 
@@ -77,20 +81,25 @@ gnm_setlocale (int category, char const *val)
 	return setlocale (category, val);
 }
 
-static char *
-convert1 (const char *lstr, const char *name, const char *def)
+static void
+convert1 (GString *res, const char *lstr, const char *name, const char *def)
 {
-	char *res;
+	char *tmp;
 
-	if (lstr == NULL || lstr[0] == 0)
-		return g_strdup (def);
+	if (lstr == NULL || lstr[0] == 0) {
+		g_string_assign (res, def);
+		return;
+	}
 
-	res = g_locale_to_utf8 (lstr, -1, NULL, NULL, NULL);
-	if (res)
-		return res;
+	tmp = g_locale_to_utf8 (lstr, -1, NULL, NULL, NULL);
+	if (tmp) {
+		g_string_assign (res, tmp);
+		g_free (tmp);
+		return;
+	}
 
 	g_warning ("Failed to convert locale's %s \"%s\" to UTF-8.", name, lstr);
-	return g_strdup (def);
+	g_string_assign (res, def);
 }
 
 static void
@@ -103,21 +112,20 @@ update_lc (void)
 	 * valid after next localeconv call which could be anywhere.
 	 */
 
-	g_free (lc_decimal);
-	lc_decimal = convert1 (lc->decimal_point, "decimal separator", ".");
-	if (g_utf8_strlen (lc_decimal, -1) != 1)
+	convert1 (lc_decimal, lc->decimal_point, "decimal separator", ".");
+	if (g_utf8_strlen (lc_decimal->str, -1) != 1)
 		g_warning ("Decimal separator is not a single character.");
 
-	g_free (lc_thousand);
-	lc_thousand = convert1 (lc->mon_thousands_sep, "monetary thousands separator",
-				(lc_decimal[0] == ',' ? "." : ","));
-	if (g_utf8_strlen (lc_thousand, -1) != 1)
+	convert1 (lc_thousand, lc->mon_thousands_sep, "monetary thousands separator",
+		  (lc_decimal->str[0] == ',' ? "." : ","));
+	if (g_utf8_strlen (lc_thousand->str, -1) != 1)
 		g_warning ("Monetary thousands separator is not a single character.");
 
-	if (!strcmp (lc_thousand, lc_decimal)) {
-		*lc_thousand = (*lc_decimal == ',') ? '.' : ',';
-		g_warning ("Monetary thousands separator is the same as the decimal seperator ??, converting '%s' to '%s'",
-			   lc_decimal, lc_thousand);
+	if (g_string_equal (lc_thousand, lc_decimal)) {
+		g_string_assign (lc_thousand,
+				 (lc_decimal->str[0] == ',') ? "." : ",");
+		g_warning ("Monetary thousands separator is the same as the decimal seperator; converting '%s' to '%s'",
+			   lc_decimal->str, lc_thousand->str);
 	}
 
 	/* Use != 0 rather than == 1 so that CHAR_MAX (undefined) is true */
@@ -126,13 +134,12 @@ update_lc (void)
 	/* Use == 1 rather than != 0 so that CHAR_MAX (undefined) is false */
 	lc_space_sep = (lc->p_sep_by_space == 1);
 
-	g_free (lc_currency);
-	lc_currency = convert1 (lc->currency_symbol, "currency symbol",	"$");
+	convert1 (lc_currency, lc->currency_symbol, "currency symbol",	"$");
 
 	locale_info_cached = TRUE;
 }
 
-char const *
+GString const *
 format_get_decimal (void)
 {
 	if (!locale_info_cached)
@@ -141,7 +148,7 @@ format_get_decimal (void)
 	return lc_decimal;
 }
 
-char const *
+GString const *
 format_get_thousand (void)
 {
 	if (!locale_info_cached)
@@ -160,7 +167,7 @@ format_get_thousand (void)
  * Play with the default logic so that things come out nicely for the default
  * case.
  */
-char const *
+GString const *
 format_get_currency (gboolean *precedes, gboolean *space_sep)
 {
 	if (!locale_info_cached)
@@ -220,7 +227,7 @@ format_month_before_day (void)
 char
 format_get_arg_sep (void)
 {
-	if (*format_get_decimal () == ',')
+	if (format_get_decimal ()->str[0] == ',')
 		return ';';
 	return ',';
 }
@@ -228,7 +235,7 @@ format_get_arg_sep (void)
 char
 format_get_col_sep (void)
 {
-	if (*format_get_decimal () == ',')
+	if (format_get_decimal ()->str[0] == ',')
 		return '\\';
 	return ',';
 }
@@ -735,7 +742,7 @@ render_number (GString *result,
 	       gnm_float number,
 	       format_info_t const *info)
 {
-	const char *thousands_sep = format_get_thousand ();
+	const GString *thousands_sep = format_get_thousand ();
 	char num_buf[(GNUM_MANT_DIG + GNUM_MAX_EXP) * 2 + 1];
 	gchar *num = num_buf + sizeof (num_buf) - 1;
 	gnm_float frac_part, int_part;
@@ -761,8 +768,8 @@ render_number (GString *result,
 		if (group-- == 0) {
 			int i;
 			group = 2;
-			for (i = strlen (thousands_sep) - 1; i >= 0; i--)
-				*(--num) = thousands_sep[i];
+			for (i = thousands_sep->len - 1; i >= 0; i--)
+				*(--num) = thousands_sep->str[i];
 		}
 		*(--num) = '0';
 		sigdig++;
@@ -775,8 +782,8 @@ render_number (GString *result,
 		if (group-- == 0) {
 			int i;
 			group = 2;
-			for (i = strlen (thousands_sep) - 1; i >= 0; i--)
-				*(--num) = thousands_sep[i];
+			for (i = thousands_sep->len - 1; i >= 0; i--)
+				*(--num) = thousands_sep->str[i];
 		}
 		*(--num) = digit + '0';
 		sigdig++;
@@ -800,7 +807,7 @@ render_number (GString *result,
 	     number < 1.0 &&
 	     info->right_allowed == 0 &&
 	     info->right_optional > 0))
-		g_string_append (result, format_get_decimal ());
+		gnm_string_append_gstring (result, format_get_decimal ());
 
 	/* TODO : clip this a DBL_DIG */
 	/* TODO : What if is a fraction ? */
@@ -1519,7 +1526,7 @@ format_number (GString *result,
 				format = tmp;
 				continue;
 			} else
-				g_string_append (result, format_get_thousand ());
+				gnm_string_append_gstring (result, format_get_thousand ());
 			break;
 
 		/* FIXME: this is a gross hack */
@@ -2100,6 +2107,10 @@ number_format_init (void)
 {
 	style_format_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	beyond_precision = gpow10 (GNUM_DIG + 1);
+
+	lc_decimal = g_string_new (NULL);
+	lc_thousand = g_string_new (NULL);
+	lc_currency = g_string_new (NULL);
 }
 
 static void
@@ -2114,6 +2125,15 @@ cb_format_leak (gpointer key, gpointer value, gpointer user_data)
 void
 number_format_shutdown (void)
 {
+	g_string_free (lc_decimal, TRUE);
+	lc_decimal = NULL;
+
+	g_string_free (lc_thousand, TRUE);
+	lc_thousand = NULL;
+
+	g_string_free (lc_currency, TRUE);
+	lc_currency = NULL;
+
 	if (default_percentage_fmt) {
 		style_format_unref (default_percentage_fmt);
 		default_percentage_fmt = NULL;
@@ -2185,17 +2205,17 @@ style_format_delocalize (char const *descriptor_string)
 		return g_strdup ("");
 
 	if (strcmp (descriptor_string, _("General"))) {
-		char const *thousands_sep = format_get_thousand ();
-		char const *decimal = format_get_decimal ();
+		GString const *thousands_sep = format_get_thousand ();
+		GString const *decimal = format_get_decimal ();
 		char const *ptr = descriptor_string;
 		GString *res = g_string_sized_new (strlen (ptr));
 
 		for ( ; *ptr ; ++ptr) {
-			if (strncmp (ptr, decimal, strlen (decimal)) == 0) {
-				ptr += strlen (decimal) - 1;
+			if (strncmp (ptr, decimal->str, decimal->len) == 0) {
+				ptr += decimal->len - 1;
 				g_string_append_c (res, '.');
-			} else if (strncmp (ptr, thousands_sep, strlen (thousands_sep)) == 0) {
-				ptr += strlen (thousands_sep) - 1;
+			} else if (strncmp (ptr, thousands_sep->str, thousands_sep->len) == 0) {
+				ptr += thousands_sep->len - 1;
 				g_string_append_c (res, ',');
 			} else if (*ptr == '\"') {
 				do {
@@ -2211,8 +2231,8 @@ style_format_delocalize (char const *descriptor_string)
 				if (*ptr == '\\' && ptr[1] != '\0') {
 					ptr++;
 					/* Ignore '\' if we probably added it */
-					if (strncmp (ptr, decimal, strlen (decimal)) != 0 &&
-					    strncmp (ptr, thousands_sep, strlen (thousands_sep)) != 0)
+					if (strncmp (ptr, decimal->str, decimal->len) != 0 &&
+					    strncmp (ptr, thousands_sep->str, thousands_sep->len) != 0)
 						g_string_append_c (res, '\\');
 				}
 				g_string_append_c (res, *ptr);
@@ -2312,8 +2332,7 @@ style_format_build (FormatFamily family, const FormatCharacteristics *info)
 char *
 style_format_str_as_XL (char const *ptr, gboolean localized)
 {
-	char const *thousands_sep, *decimal;
-	size_t thousands_sep_len, decimal_len;
+	GString const *thousands_sep, *decimal;
 	GString *res;
 
 	g_return_val_if_fail (ptr != NULL,
@@ -2326,10 +2345,7 @@ style_format_str_as_XL (char const *ptr, gboolean localized)
 		return g_strdup (_("General"));
 
 	thousands_sep = format_get_thousand ();
-	thousands_sep_len = strlen (thousands_sep);
-
 	decimal = format_get_decimal ();
-	decimal_len = strlen (decimal);
 
 	res = g_string_sized_new (strlen (ptr));
 
@@ -2349,10 +2365,10 @@ style_format_str_as_XL (char const *ptr, gboolean localized)
 	for ( ; *ptr ; ++ptr)
 		switch (*ptr) {
 		case '.':
-			g_string_append_len (res, decimal, decimal_len);
+			gnm_string_append_gstring (res, decimal);
 			break;
 		case ',':
-			g_string_append_len (res, thousands_sep, thousands_sep_len);
+			gnm_string_append_gstring (res, thousands_sep);
 			break;
 
 		case '\"':
@@ -2379,8 +2395,8 @@ style_format_str_as_XL (char const *ptr, gboolean localized)
 		}
 
 		default:
-			if (strncmp (ptr, decimal, decimal_len) == 0 ||
-			    strncmp (ptr, thousands_sep, thousands_sep_len) == 0)
+			if (strncmp (ptr, decimal->str, decimal->len) == 0 ||
+			    strncmp (ptr, thousands_sep->str, thousands_sep->len) == 0)
 				g_string_append_c (res, '\\');
 			g_string_append_c (res, *ptr);
 		}

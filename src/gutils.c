@@ -373,6 +373,12 @@ gnm_strunescape (GString *target, const char *string)
 	return NULL;
 }
 
+void
+gnm_string_append_gstring (GString *target, const GString *source)
+{
+	g_string_append_len (target, source->str, source->len);
+}
+
 /* ------------------------------------------------------------------------- */
 
 #ifdef NEED_FAKE_MODFGNUM

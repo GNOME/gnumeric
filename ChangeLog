@@ -1,3 +1,12 @@
+2004-03-17  Morten Welinder  <terra@gnome.org>
+
+	* src/gutils.c (gnm_string_append_gstring): New function.
+
+	* src/format.c (format_get_decimal, format_get_thousand,
+	format_get_currency): Return a GString*.  All callers changed and
+	happy since they don't need to call strlen.
+	(convert1): Operate of GString.
+
 2004-03-17  Christopher James Lahey  <clahey@ximian.com>
 
 	* configure.in: Added

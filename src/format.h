@@ -100,15 +100,15 @@ typedef struct {
 void render_number (GString *result, gnm_float number, format_info_t const *info);
 
 /* Locale support routines */
-void	    gnm_set_untranslated_bools (void);
-char const *gnm_setlocale           (int category, char const *val);
-char const *format_get_currency     (gboolean *precedes, gboolean *space_sep);
-gboolean    format_month_before_day (void);
-char        format_get_arg_sep      (void);
-char        format_get_col_sep      (void);
-char const *format_get_thousand     (void);
-char const *format_get_decimal      (void);
-char const *format_boolean          (gboolean b);
+void	       gnm_set_untranslated_bools (void);
+char const *   gnm_setlocale           (int category, char const *val);
+GString const *format_get_currency     (gboolean *precedes, gboolean *space_sep);
+gboolean       format_month_before_day (void);
+char           format_get_arg_sep      (void);
+char           format_get_col_sep      (void);
+GString const *format_get_thousand     (void);
+GString const *format_get_decimal      (void);
+char const *   format_boolean          (gboolean b);
 
 void number_format_init (void);
 void number_format_shutdown (void);

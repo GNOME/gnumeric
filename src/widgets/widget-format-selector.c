@@ -270,11 +270,11 @@ fillin_negative_samples (NumberFormatSelector *nfs)
 	START_LOCALE_SWITCH;
 		
 	if (nfs->format.use_separator)
-		thousand_sep = format_get_thousand ();
+		thousand_sep = format_get_thousand ()->str;
 	else
 		thousand_sep = "";
 	if (nfs->format.num_decimals > 0)
-		decimal = format_get_decimal ();
+		decimal = format_get_decimal ()->str;
 	else
 		decimal = "";
 

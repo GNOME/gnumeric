@@ -189,7 +189,7 @@ void
 currency_date_format_init (void)
 {
 	gboolean precedes, space_sep;
-	char const *curr = format_get_currency (&precedes, &space_sep);
+	char const *curr = format_get_currency (&precedes, &space_sep)->str;
 	char *pre, *post, *pre_rep, *post_rep;
 	int err;
 

@@ -1260,7 +1260,7 @@ gnm_expr_parse_str (char const *expr_text, GnmParsePos const *pos,
 
 	pstate.decimal_point = convs->decimal_sep_dot
 		? '.'
-		: g_utf8_get_char (format_get_decimal ()); /* FIXME: one char handled.  */
+		: g_utf8_get_char (format_get_decimal ()->str); /* FIXME: one char handled.  */
 	pstate.separator = convs->argument_sep_semicolon
 		? ';'
 		: format_get_arg_sep ();

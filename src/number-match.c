@@ -212,7 +212,7 @@ format_create_regexp (unsigned char const *format, GByteArray **dest)
 				 * as a result $1000 would not be recognized.
 				 */
 				g_string_append (regexp, "([-+]?[0-9]+(");
-				gnumeric_regexp_quote (regexp, format_get_thousand ());
+				gnumeric_regexp_quote (regexp, format_get_thousand ()->str);
 				g_string_append (regexp, "[0-9]{3})*)");
 				append_type (MATCH_SKIP);
 			} else {
@@ -221,7 +221,7 @@ format_create_regexp (unsigned char const *format, GByteArray **dest)
 
 			if (include_decimal) {
 				g_string_append (regexp, "?(");
-				gnumeric_regexp_quote (regexp, format_get_decimal ());
+				gnumeric_regexp_quote (regexp, format_get_decimal ()->str);
 				g_string_append (regexp, "[0-9]+([Ee][-+]?[0-9]+)?)");
 				append_type (MATCH_NUMBER_DECIMALS);
 			}
@@ -759,8 +759,8 @@ compute_value (char const *s, const regmatch_t *mp,
 	gnm_float seconds;
 	int numerator = 0, denominator = 1;
 
-	char const *thousands_sep = format_get_thousand ();
-	char const *decimal = format_get_decimal ();
+	GString const *thousands_sep = format_get_thousand ();
+	GString const *decimal = format_get_decimal ();
 
 	month = day = year = year_short = -1;
 	hours = minutes = -1;
@@ -860,10 +860,10 @@ compute_value (char const *s, const regmatch_t *mp,
 
 					number += thisnumber;
 
-					if (strncmp (ptr, thousands_sep, strlen (thousands_sep)) != 0)
+					if (strncmp (ptr, thousands_sep->str, thousands_sep->len) != 0)
 						break;
 
-					ptr += strlen (thousands_sep);
+					ptr += thousands_sep->len;
 				}
 				is_number = TRUE;
 				if (is_neg) number = -number;
@@ -872,7 +872,7 @@ compute_value (char const *s, const regmatch_t *mp,
 
 		case MATCH_NUMBER_DECIMALS: {
 			char *exppart = NULL;
-			if (strncmp (str, decimal, strlen (decimal)) == 0) {
+			if (strncmp (str, decimal->str, decimal->len) == 0) {
 				char *end;
 				errno = 0; /* strtognum sets errno, but does not clear it.  */
 				if (seconds < 0) {
