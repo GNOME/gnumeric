@@ -65,6 +65,7 @@ Morten:
 	* Make fn-eng a plugin.
 	* Make fn-financial a plugin.
 	* Make fn-logical a plugin.
+	* Make fn-math a plugin.
 	* Make fn-string a plugin.
 	* Partially untangle remaining fn-files. 
 

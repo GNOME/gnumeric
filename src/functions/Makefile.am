@@ -11,6 +11,5 @@ libfunctions_a_SOURCES =			\
 	fn-database.c				\
 	fn-information.c			\
 	fn-lookup.c				\
-	fn-math.c				\
 	fn-sheet.c				\
 	fn-stat.c

@@ -647,6 +647,7 @@ plugins/fn-date/Makefile
 plugins/fn-eng/Makefile
 plugins/fn-financial/Makefile
 plugins/fn-logical/Makefile
+plugins/fn-math/Makefile
 plugins/fn-string/Makefile
 plugins/derivatives/Makefile
 plugins/sc/Makefile

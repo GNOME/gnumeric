@@ -21,6 +21,8 @@ plugins/fn-financial/functions.c
 plugins/fn-financial/plugin.xml.in
 plugins/fn-logical/functions.c
 plugins/fn-logical/plugin.xml.in
+plugins/fn-math/functions.c
+plugins/fn-math/plugin.xml.in
 plugins/fn-string/functions.c
 plugins/fn-string/plugin.xml.in
 plugins/gb/plugin.c
@@ -181,7 +183,6 @@ src/func-builtin.c
 src/functions/fn-database.c
 src/functions/fn-information.c
 src/functions/fn-lookup.c
-src/functions/fn-math.c
 src/functions/fn-sheet.c
 src/functions/fn-stat.c
 src/gnumeric-canvas.c
