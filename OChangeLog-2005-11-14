@@ -1,3 +1,8 @@
+2002-01-29  Duarte Loreto <happyguy_pt@hotmail.com>
+   
+        * src/workbook-control-gui.c : Fixed misspell of variance (was "varince")
+        * src/GNOME_Gnumeric.xml: Same as previous
+
 2002-01-28  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c : List Column actions before Row actions.

@@ -1,12 +1,12 @@
 # Gnumeric's Portuguese Translation
-# Copyright (C) 2001 Free Software Foundation, Inc.
-# Duarte Loreto <happyguy_pt@hotmail.com>, 2001
+# Copyright (C) 2002 Free Software Foundation, Inc.
+# Duarte Loreto <happyguy_pt@hotmail.com>, 2001, 2002
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2002-01-21 23:04-0500\n"
-"PO-Revision-Date: 2002-01-08 23:09+0000\n"
+"POT-Creation-Date: 2002-01-29 01:31+0000\n"
+"PO-Revision-Date: 2002-01-29 01:35+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <none@none.org>\n"
 "MIME-Version: 1.0\n"
@@ -714,7 +714,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=The NT_MU function (Möbius mu function) returns \n"
+"@DESCRIPTION=The NT_MU function (Mobius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "-1 if @n has an odd  number of different prime factors .\n"
@@ -726,7 +726,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=A função NT_MU (função Möbius mu) devolve \n"
+"@DESCRIPTION=A função NT_MU (função Mobius mu) devolve \n"
 "0  se @n for divisível pelo quadrado de um primo .\n"
 "Caso contrário devolve: \n"
 "-1 se @n tiver um número ímpar de factores primos diferentes .\n"
@@ -1208,11 +1208,11 @@ msgstr "XML baseado em SAX EXPERIMENTAL"
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "O subsistema I/O xml baseado em sax de próxima geração"
 
-#: plugins/xml_sax/xml-sax-read.c:2173
+#: plugins/xml_sax/xml-sax-read.c:2179
 msgid "xmlCreateFileParserCtxt () failed."
 msgstr "xmlCreateFileParserCtxt () falhou."
 
-#: plugins/xml_sax/xml-sax-read.c:2182
+#: plugins/xml_sax/xml-sax-read.c:2188
 msgid "XML document not well formed!"
 msgstr "Documento XML não está bem formado!"
 
@@ -1276,7 +1276,7 @@ msgstr "Negrito"
 msgid "Borders"
 msgstr "Margens"
 
-#: src/GNOME_Gnumeric.xml.h:15 src/sheet-object-widget.c:427
+#: src/GNOME_Gnumeric.xml.h:15 src/sheet-object-widget.c:430
 #: src/workbook-object-toolbar.c:163
 msgid "Button"
 msgstr "Botão"
@@ -1360,9 +1360,8 @@ msgid "Co_mments"
 msgstr "Co_mentários"
 
 #: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:3028
-#, fuzzy
 msgid "Co_variance"
-msgstr "Covariância"
+msgstr "Co_variância"
 
 #: src/GNOME_Gnumeric.xml.h:36 src/workbook-control-gui.c:3095
 msgid "Collapse an outline group"
@@ -1374,28 +1373,33 @@ msgstr "Caixa em Lista"
 
 #: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:3000
 msgid "Comparing two population means for two paired samples.: t-test"
-msgstr ""
+msgstr "Comparar a média de duas populações para duas amostras emparelhadas.: t-test"
 
 #: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:3004
 msgid ""
 "Comparing two population means for two unpaired samples from pop. with equal "
 "var.: t-test"
 msgstr ""
+"Comparar a média de duas populações para duas amostras não emparelhadas de "
+"populações com variância igual.: t-test"
 
 #: src/GNOME_Gnumeric.xml.h:40 src/workbook-control-gui.c:3009
 msgid ""
 "Comparing two population means for two unpaired samples from pop. with "
 "unequal var.: t-test"
 msgstr ""
+"Comparar a média de duas populações para duas amostras não emparelhadas de "
+"populações com variâncias diferentes.: t-test"
 
 #: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3014
 msgid ""
 "Comparing two population means from pop. with known varinces or using a "
 "large sample: z- test"
 msgstr ""
+"Comparar a média de duas populações de duas populações com variâncias "
+"conhecidas ou utilizando uma amostra grande: z-test"
 
 #: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3056
-#, fuzzy
 msgid "Comparing two population variances"
 msgstr "Variância da População é:"
 
@@ -1623,7 +1627,7 @@ msgstr "Formatar uma região de células de acordo com um modelo pré-definido"
 msgid "Fourier Analysis"
 msgstr "Análise Fourier"
 
-#: src/GNOME_Gnumeric.xml.h:95 src/sheet-object-widget.c:330
+#: src/GNOME_Gnumeric.xml.h:95 src/sheet-object-widget.c:333
 #: src/workbook-object-toolbar.c:158
 msgid "Frame"
 msgstr "Moldura"
@@ -1714,11 +1718,11 @@ msgstr "Inserir um objecto na folha de cálculo"
 msgid "Insert new cells"
 msgstr "Inserir células novas"
 
-#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2850
+#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2847
 msgid "Insert new columns"
 msgstr "Inserir colunas novas"
 
-#: src/GNOME_Gnumeric.xml.h:118 src/workbook-control-gui.c:2847
+#: src/GNOME_Gnumeric.xml.h:118 src/workbook-control-gui.c:2850
 msgid "Insert new rows"
 msgstr "Inserir linhas novas"
 
@@ -1763,7 +1767,7 @@ msgstr ""
 msgid "Jump to a specified cell"
 msgstr "Ir para uma célula específica"
 
-#: src/GNOME_Gnumeric.xml.h:129 src/sheet-object-widget.c:233
+#: src/GNOME_Gnumeric.xml.h:129 src/sheet-object-widget.c:236
 #: src/workbook-object-toolbar.c:155
 msgid "Label"
 msgstr "Etiqueta"
@@ -2084,7 +2088,7 @@ msgstr "Seleccionar Matri_z"
 msgid "Select _All"
 msgstr "Seleccionar _Tudo"
 
-#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2666
+#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2661
 msgid "Select _Column"
 msgstr "Seleccionar _Coluna"
 
@@ -2092,7 +2096,7 @@ msgstr "Seleccionar _Coluna"
 msgid "Select _Depends"
 msgstr "Seleccionar _Dependentes"
 
-#: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2661
+#: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2666
 msgid "Select _Row"
 msgstr "Seleccionar _Linha"
 
@@ -2108,11 +2112,11 @@ msgstr "Seleccionar todas as células que dependem da célula actual em edição"
 msgid "Select an array of cells"
 msgstr "Seleccionar uma matriz de células"
 
-#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2667
+#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2662
 msgid "Select an entire column"
 msgstr "Seleccionar uma coluna inteira"
 
-#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:2662
+#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:2667
 msgid "Select an entire row"
 msgstr "Seleccionar uma linha inteira"
 
@@ -2316,7 +2320,7 @@ msgstr "Fe_char"
 #: src/dialogs/fourier-analysis.glade.h:8 src/dialogs/histogram.glade.h:21
 #: src/dialogs/moving-averages.glade.h:9 src/dialogs/rank.glade.h:10
 #: src/dialogs/regression.glade.h:10 src/dialogs/sampling.glade.h:13
-#: src/workbook-control-gui.c:2849
+#: src/workbook-control-gui.c:2846
 msgid "_Columns"
 msgstr "_Colunas"
 
@@ -2525,7 +2529,7 @@ msgstr "_Linha"
 #: src/dialogs/fourier-analysis.glade.h:13
 #: src/dialogs/moving-averages.glade.h:14 src/dialogs/rank.glade.h:15
 #: src/dialogs/regression.glade.h:15 src/dialogs/sampling.glade.h:20
-#: src/workbook-control-gui.c:2846
+#: src/workbook-control-gui.c:2849
 msgid "_Rows"
 msgstr "_Linhas"
 
@@ -4037,7 +4041,7 @@ msgstr "Nenhum"
 msgid "None          (silently accept invalid input)"
 msgstr "Nenhum (aceita entrada inválida silenciosamente)"
 
-#: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-formula-guru.c:432
+#: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-formula-guru.c:440
 #: src/dialogs/dialog-search.c:126
 msgid "Number"
 msgstr "Número"
@@ -5202,13 +5206,13 @@ msgid "Source"
 msgstr "Áreas fonte"
 
 #: src/dialogs/dialog-cell-format.c:2118 src/dialogs/dialog-cell-format.c:2125
-#: src/sheet-object-widget.c:801
+#: src/sheet-object-widget.c:809
 #, fuzzy
 msgid "Min :"
 msgstr "Mín"
 
 #: src/dialogs/dialog-cell-format.c:2119 src/dialogs/dialog-cell-format.c:2128
-#: src/sheet-object-widget.c:805
+#: src/sheet-object-widget.c:813
 #, fuzzy
 msgid "Max :"
 msgstr "Máx"
@@ -5313,37 +5317,37 @@ msgstr "Não pode redefinir um nome interno."
 msgid "Could not create the Name Guru."
 msgstr "Incapaz de criar o Guro de Nomes."
 
-#: src/dialogs/dialog-formula-guru.c:424
+#: src/dialogs/dialog-formula-guru.c:432
 #, c-format
 msgid "Value%d"
 msgstr "Valor%d"
 
-#: src/dialogs/dialog-formula-guru.c:431 src/dialogs/dialog-search.c:122
+#: src/dialogs/dialog-formula-guru.c:439 src/dialogs/dialog-search.c:122
 #: src/functions/fn-string.c:1217
 msgid "String"
 msgstr "Expressão"
 
-#: src/dialogs/dialog-formula-guru.c:433
+#: src/dialogs/dialog-formula-guru.c:441
 msgid "Boolean"
 msgstr "Boleana"
 
-#: src/dialogs/dialog-formula-guru.c:434
+#: src/dialogs/dialog-formula-guru.c:442
 msgid "Range"
 msgstr "Área"
 
-#: src/dialogs/dialog-formula-guru.c:435
+#: src/dialogs/dialog-formula-guru.c:443
 msgid "Array"
 msgstr "Matriz"
 
-#: src/dialogs/dialog-formula-guru.c:436
+#: src/dialogs/dialog-formula-guru.c:444
 msgid "Range/Array"
 msgstr "Área/Matriz"
 
-#: src/dialogs/dialog-formula-guru.c:437
+#: src/dialogs/dialog-formula-guru.c:445
 msgid "Scalar"
 msgstr "Escalar"
 
-#: src/dialogs/dialog-formula-guru.c:439
+#: src/dialogs/dialog-formula-guru.c:447
 msgid "Any"
 msgstr "Qualquer"
 
@@ -19998,36 +20002,36 @@ msgstr "Comprimento margem"
 msgid "Transparent"
 msgstr "Transparente"
 
-#: src/sheet-object-widget.c:779
+#: src/sheet-object-widget.c:787
 #, fuzzy
 msgid "Scrollbar Configure"
 msgstr "Configuração Caixa Visto"
 
-#: src/sheet-object-widget.c:795 src/sheet-object-widget.c:1260
+#: src/sheet-object-widget.c:803 src/sheet-object-widget.c:1269
 #, fuzzy
 msgid "Link to :"
 msgstr "Encol_her para caber"
 
-#: src/sheet-object-widget.c:809
+#: src/sheet-object-widget.c:817
 #, fuzzy
 msgid "Increment :"
 msgstr "Aumentar"
 
-#: src/sheet-object-widget.c:813
+#: src/sheet-object-widget.c:821
 #, fuzzy
 msgid "Page :"
 msgstr "Página"
 
-#: src/sheet-object-widget.c:1023
+#: src/sheet-object-widget.c:1027
 #, c-format
 msgid "CheckBox %d"
 msgstr "Caixa Selecção %d"
 
-#: src/sheet-object-widget.c:1249
+#: src/sheet-object-widget.c:1253
 msgid "Checkbox Configure"
 msgstr "Configuração Caixa Visto"
 
-#: src/sheet-object-widget.c:1264
+#: src/sheet-object-widget.c:1273
 msgid "Label :"
 msgstr "Etiqueta :"
 
