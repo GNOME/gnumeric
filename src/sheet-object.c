@@ -161,7 +161,7 @@ sheet_object_drop_file (Sheet *sheet, gdouble x, gdouble y, const char *fname)
 		SheetObject   *so;
 		ObjectCoords   pos;
 
-		so = sheet_object_container_new (gsheet->sheet_view->sheet, pos.x, pos.y,
+		so = sheet_object_container_new (sheet, pos.x, pos.y,
 						 pos.x + 100.0, pos.y + 100.0,
 						 mime_goad_id);
 		if (!so) {
