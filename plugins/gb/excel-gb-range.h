@@ -2,7 +2,7 @@
  * Gnome Basic Excel Range object.
  *
  * Author:
- *   Michael Meeks (michael@helixcode.com)
+ *   Michael Meeks (michael@ximian.com)
  */
 
 #ifndef EXCEL_GB_RANGE_H

@@ -2,7 +2,7 @@
  * Gnome Basic Excel Worksheet functions.
  *
  * Author:
- *   Michael Meeks (michael@helixcode.com)
+ *   Michael Meeks (michael@ximian.com)
  */
 
 #ifndef EXCEL_GB_WORKSHEET_FUNCTION_H

@@ -4,7 +4,7 @@
  * Gnome Basic Interpreter Form functions.
  *
  * Author:
- *      Michael Meeks  <michael@helixcode.com>
+ *      Michael Meeks  <michael@ximian.com>
  */
 
 #include <gnumeric-config.h>

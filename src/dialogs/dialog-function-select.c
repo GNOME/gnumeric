@@ -3,7 +3,7 @@
  * dialog-function-select.c:  Implements the function selector
  *
  * Authors:
- *  Michael Meeks <michael@imaginator.com>
+ *  Michael Meeks <michael@ximian.com>
  *  Andreas J. Guelzow <aguelzow@taliesin.ca>
  *
  * Copyright (C) Andreas J. Guelzow <aguelzow@taliesin.ca>

@@ -3,7 +3,7 @@
  * fn-eng.c:  Built in engineering functions and functions registration
  *
  * Authors:
- *   Michael Meeks <michael@imaginator.com>
+ *   Michael Meeks <michael@ximian.com>
  *   Jukka-Pekka Iivonen <iivonen@iki.fi>
  *   Morten Welinder <terra@diku.dk>
  *

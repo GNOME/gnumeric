@@ -2,7 +2,7 @@
  * Gnome Basic Excel Selection object.
  *
  * Author:
- *   Michael Meeks (michael@helixcode.com)
+ *   Michael Meeks (michael@ximian.com)
  */
 
 #ifndef EXCEL_GB_SELECTION_H

@@ -2,7 +2,7 @@
  * Gnome Basic Excel Application object.
  *
  * Author:
- *   Michael Meeks (michael@helixcode.com)
+ *   Michael Meeks (michael@ximian.com)
  */
 
 #ifndef EXCEL_GB_APPLICATION_H

@@ -5,7 +5,7 @@
  *
  * Author:
  *	Jody Goldberg <jody@gnome.org>
- *	Michael Meeks <michael@imaginator.com>
+ *	Michael Meeks <michael@ximian.com>
  *	Chema Celorio <chema@celorio.com>
  *
  * This program is free software; you can redistribute it and/or modify

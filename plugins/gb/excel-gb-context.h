@@ -2,7 +2,7 @@
  * GNOME Expression evaluation
  *
  * Author:
- *    Michael Meeks <michael@imaginator.com>
+ *    Michael Meeks <michael@ximian.com>
  *
  * Copyright 2000, Helix Code, Inc.
  */

@@ -2,7 +2,7 @@
  * Gnome Basic Excel Worksheets object.
  *
  * Author:
- *   Michael Meeks (michael@helixcode.com)
+ *   Michael Meeks (michael@ximian.com)
  */
 
 #ifndef EXCEL_GB_WORKSHEETS_H

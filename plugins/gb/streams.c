@@ -3,7 +3,7 @@
  * streams.c: Gnome Basic streaming support for Gnumeric
  *
  * Author:
- *    Michael Meeks (michael@imaginator.com)
+ *    Michael Meeks (michael@ximian.com)
  *
  * (C) 2000 HelixCode, Inc
  **/

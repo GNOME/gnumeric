@@ -2,7 +2,7 @@
  * dialog-summary.c:  Implements the summary info stuff
  *
  * Author:
- *        Michael Meeks <michael@imaginator.com>
+ *        Michael Meeks <michael@ximian.com>
  *        Andreas J. Guelzow <aguelzow@taliesin.ca>
  *
  * This program is free software; you can redistribute it and/or modify

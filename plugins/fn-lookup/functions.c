@@ -3,7 +3,7 @@
  * Range lookup functions
  *
  * Authors:
- *   Michael Meeks <michael@imaginator.com>
+ *   Michael Meeks <michael@ximian.com>
  *   Jukka-Pekka Iivonen <iivonen@iki.fi>
  *   JP Rosevear <jpr@arcavia.com>
  *   Morten Welinder (terra@diku.dk)
