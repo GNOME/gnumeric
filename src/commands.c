@@ -4129,7 +4129,12 @@ cmd_move_object (WorkbookControl *wbc, Sheet *sheet, SheetObject *so,
 
 	me->parent.sheet = sheet;
 	me->parent.size = 1;
-	me->parent.cmd_descriptor = g_strdup (_("Move object"));
+	if (new_coords[2] - new_coords[0] != old_coords[2] - old_coords[0] ||
+	    new_coords[3] - new_coords[1] != old_coords[3] - old_coords[1]) {
+		me->parent.cmd_descriptor = g_strdup (_("Resize object"));
+	} else {
+		me->parent.cmd_descriptor = g_strdup (_("Move object"));
+	}
 
 	return command_push_undo (wbc, object);
 }

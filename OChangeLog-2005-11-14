@@ -1,3 +1,9 @@
+2001-08-08  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/commands.c (cmd_move_object):
+	Use "Resize object" instead of "Move object" as command's description
+	if the size of the object has changed.
+
 2001-08-07  Zbigniew Chyla  <cyba@gnome.pl>
 
 	Fixes #58648
