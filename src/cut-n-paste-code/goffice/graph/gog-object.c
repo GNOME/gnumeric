@@ -203,7 +203,6 @@ gog_object_dup (GogObject const *src, GogObject *new_parent)
 	if (new_parent)
 		dst = gog_object_add_by_role (new_parent, src->role, dst);
 
-	g_warning (G_OBJECT_TYPE_NAME (dst));
 	/* properties */
 	props = g_object_class_list_properties (G_OBJECT_GET_CLASS (src), &n);
 	while (n-- > 0)
