@@ -4577,7 +4577,7 @@ excel_read_DV (BiffQuery *q, ExcelReadSheet *esheet)
 	case 6 : type = VALIDATION_TYPE_TEXT_LENGTH;	break;
 	case 7 : type = VALIDATION_TYPE_CUSTOM;		break;
 	default :
-		g_warning ("EXCEL : Unknown contraint type %d", options & 0x0f);
+		g_warning ("EXCEL : Unknown constraint type %d", options & 0x0f);
 		return;
 	}
 
@@ -4606,7 +4606,7 @@ excel_read_DV (BiffQuery *q, ExcelReadSheet *esheet)
 		case 6:	op = VALIDATION_OP_GTE;		break;
 		case 7:	op = VALIDATION_OP_LTE;		break;
 		default :
-			g_warning ("EXCEL : Unknown contraint operator %d",
+			g_warning ("EXCEL : Unknown constraint operator %d",
 				   (options >> 20) & 0x0f);
 			return;
 		}

@@ -15,9 +15,6 @@ change_logs = ChangeLog \
 	OChangeLog-2000-02-23 OChangeLog-2000-10-10  \
 	OChangeLog-2001-06-26
 
-# Gnome autogen.sh uses ACLOCAL_FLAGS; inherit it here.
-ACLOCAL_AMFLAGS = @ACLOCAL_FLAGS@
-
 @INTLTOOL_DESKTOP_RULE@
 
 Applicationsdir = $(datadir)/applications/

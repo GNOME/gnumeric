@@ -27,6 +27,10 @@ Jon Kåre:
 	* Receive drag/drop images.
 	* Paste images from clipboard.
 
+Kasal:
+	* Modified the way generated files are handled by Automake.
+	* Some configure hacks to support po-functions.
+
 Morten:
 	* Work around Pango bug causing XL save crash.  [#166532]
 	* Fix Save-As GUI problem causing CRITICALs.
@@ -240,7 +244,7 @@ Jody:
 	* Fix perl and python tests in configure
 	* Fix creation of slow sheet objects when there are frozen panes
 	* Fix the solver and several related reports
-	* Make the solver dialog's contraint page more usable
+	* Make the solver dialog's constraint page more usable
 
 Kasal:
 	* More cleanup in configure

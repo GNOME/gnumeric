@@ -232,7 +232,7 @@
 	* dialog-solver.c (solver_reporting) : handle the report generation
 	  potentially deleting the dialog and state.
 	(cb_dialog_solve_clicked) : ditto
-	(dialog_init) : have the contraint entries activation add the
+	(dialog_init) : have the constraint entries activation add the
 	  constraint rather than running solve.
 	(cb_dialog_set_rhs_sensitivity) : re-enable this code and handle the
 	  label too.

@@ -1,4 +1,4 @@
-IMAGES = @STRIP_BEGIN@ 						\
+IMAGES = 							\
 	column_add_16.xpm		column_add_24.xpm	\
 	column_delete_16.xpm		column_delete_24.xpm	\
 	column_size_16.xpm		column_size_24.xpm	\
@@ -145,11 +145,9 @@ IMAGES = @STRIP_BEGIN@ 						\
 	link_url_16.png			link_url_24.png 	\
 	\
 	autofilter_16.png		autofilter_24.png	\
-	autofilter_delete_16.png	autofilter_delete_24.png\
-	\
-	@STRIP_END@
+	autofilter_delete_16.png	autofilter_delete_24.png
 
-VARIABLES = @STRIP_BEGIN@ 									\
+VARIABLES = 		 									\
 	gnm_column_add_16			$(srcdir)/column_add_16.xpm			\
 	gnm_column_add_24			$(srcdir)/column_add_24.xpm			\
 	gnm_column_delete_16			$(srcdir)/column_delete_16.xpm			\
@@ -325,14 +323,14 @@ VARIABLES = @STRIP_BEGIN@ 									\
 	gnm_autofilter_24			$(srcdir)/autofilter_24.png			\
 	gnm_autofilter_16			$(srcdir)/autofilter_16.png			\
 	gnm_autofilter_delete_24		$(srcdir)/autofilter_delete_24.png		\
-	gnm_autofilter_delete_16		$(srcdir)/autofilter_delete_16.png		\
-	@STRIP_END@
+	gnm_autofilter_delete_16		$(srcdir)/autofilter_delete_16.png
 
 pixbuf_file = $(top_builddir)/src/pixmaps/gnumeric-stock-pixbufs.h
 noinst_DATA = $(pixbuf_file)
 CLEANFILES = $(noinst_DATA)
 
-$(pixbuf_file) : $(IMAGES)
-	   $(GDK_PIXBUF_CSOURCE) --raw --build-list $(VARIABLES) > $@
+$(pixbuf_file): $(IMAGES)
+	@echo $(GDK_PIXBUF_CSOURCE) --raw --build-list $(VARIABLES)
+	@     $(GDK_PIXBUF_CSOURCE) --raw --build-list $(VARIABLES) >$@
 
 EXTRA_DIST = $(IMAGES)

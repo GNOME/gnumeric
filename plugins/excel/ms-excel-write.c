@@ -719,7 +719,7 @@ excel_write_DV (ValInputPair const *vip, gpointer dummy, ExcelWriteSheet *esheet
 		case VALIDATION_TYPE_AS_TIME:		options = 5; break;
 		case VALIDATION_TYPE_TEXT_LENGTH:	options = 6; break;
 		case VALIDATION_TYPE_CUSTOM:		options = 7; break;
-		default : g_warning ("EXCEL : Unknown contraint type %d",
+		default : g_warning ("EXCEL : Unknown constraint type %d",
 				     vip->v->type);
 		};
 
@@ -742,7 +742,7 @@ excel_write_DV (ValInputPair const *vip, gpointer dummy, ExcelWriteSheet *esheet
 		case VALIDATION_OP_LT:		options |= (5 << 20); break;
 		case VALIDATION_OP_GTE:		options |= (6 << 20); break;
 		case VALIDATION_OP_LTE:		options |= (7 << 20); break;
-		default : g_warning ("EXCEL : Unknown contraint operator %d",
+		default : g_warning ("EXCEL : Unknown constraint operator %d",
 				     vip->v->op);
 		};
 		if (vip->v->allow_blank)

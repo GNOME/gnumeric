@@ -1,3 +1,8 @@
+2005-03-16  Stepan Kasal  <kasal@ucw.cz>
+
+	* Makefile.in.in, POTFILES.in, POTFILES.skip: Remove; all of these
+	  are now created by autogen.sh.
+
 2005-02-24  Raphael Higino  <raphaelh@cvs.gnome.org>
 
 	* pt_BR.po: Updated Brazilian Portuguese translation.

@@ -1,3 +1,19 @@
+2005-03-16  Stepan Kasal  <kasal@ucw.cz>
+
+	* autogen.sh: require intltool >= 0.29; fix IFS handling;
+	  create po*/Makefile.in.in and po-functions/POTFILES.*.
+	* acinclude.m4: Nuked, it shouldn't be needed.
+	* Makefile.am (ACLOCAL_AMFLAGS): Remove.
+	* configure.in: Do AC_SUBST(ACLOCAL_AMFLAGS, $ACLOCAL_FLAGS);
+	  don't show --with-guile in the help.
+	* src/pixmaps/Makefile.am (STRIP_BEGIN, STRIP_END, STRIP_DUMMY):
+	  Remove these, I see no need for them; the cosmetic advantage
+	  can be achieved with one echo.
+	* configure.in (STRIP_BEGIN, STRIP_END, STRIP_DUMMY): Don't detect.
+	* plugins/Makefile.am (SUBDIRS): Simplify the conditional assignments.
+
+	In many files, fix the typo contraint --> constraint.
+
 2005-03-15  Jon K Hellan  <hellan@acm.org>
 
 	* src/gui-clipboard.c (image_write): New. Write an object as image

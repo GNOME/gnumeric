@@ -367,7 +367,10 @@ uninstall-hook:
 EXTRA_DIST = GNOME_Gnumeric-gtk.xml.in				\
 	    main-component.c					\
 	    $(GNUMERIC_GNOME) README.gnm_float			\
-	    gnumeric-paths.sh.in gnumeric.rc
+	    gnumeric-paths.sh.in gnumeric.rc gnm-i18n.h $(UNUSED)
+
+# silence intltool
+UNUSED = test-pango.c
 
 DISTCLEANFILES = GNOME_Gnumeric-gtk.xml
 

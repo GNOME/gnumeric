@@ -1,3 +1,10 @@
+2005-03-16  Stepan Kasal  <kasal@ucw.cz>
+
+	* Makefile.in.in.own: New file; our own copy, which autogen.sh uses
+	  to overwrite whatever the *-ize tools deliver.  Comes from intltool
+	  CVS, plus some patches.
+	* POTFILES.in, POTFILES.skip: Updated.
+
 2005-03-16  Frank Arnold  <farnold@cvs.gnome.org>
 
 	* de.po: Updated German translation.

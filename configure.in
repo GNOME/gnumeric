@@ -6,7 +6,7 @@ m4_define([gnumeric_version_major], [5])
 m4_define([gnumeric_version_minor], [1])
 m4_define([gnumeric_version_extra], [])
 m4_define([gnumeric_full_version],
-    [gnumeric_version_epoch.gnumeric_version_major.gnumeric_version_minor()gnumeric_version_extra])
+    [gnumeric_version_epoch.gnumeric_version_major.gnumeric_version_minor[]gnumeric_version_extra])
 
 dnl Emphasize some of the checks.
 m4_define([BIG_CHECKING], [AC_MSG_CHECKING([
@@ -24,8 +24,8 @@ AM_MAINTAINER_MODE
 # Make --disable-static the default
 AC_DISABLE_STATIC
 
-# We need intltool >= 0.27.2 to extract the UTF-8 chars from source code
-AC_PROG_INTLTOOL([0.27.2])
+# We use the XGETTEXT_KEYWORDS variable, thus we need intltool >= 0.29:
+AC_PROG_INTLTOOL([0.29])
 
 AC_ISC_POSIX
 AC_PROG_CC
@@ -35,7 +35,8 @@ AC_PROG_LN_S
 AM_PROG_LIBTOOL
 AC_STDC_HEADERS
 
-AC_SUBST(ACLOCAL_FLAGS)
+dnl Propagate Gnome-specific variable ACLOCAL_FLAGS to Makefile.
+AC_SUBST(ACLOCAL_AMFLAGS, $ACLOCAL_FLAGS)
 
 if test "$GCC" = "yes"; then
   gcc_check=`$CC -v 2>&1 | grep '^gcc version 2\.96'`
@@ -405,31 +406,32 @@ fi
 AC_SUBST(GUILE_LIBS)
 AC_SUBST(GUILE_INCS)
 
-#check for guile 1.5
+dnl check for guile 1.5
 try_guile=false
 guile_msg="disabled pending some guile developer interest"
 enable_guile=false
+dnl Comment out this block:
+ifelse([
 AC_ARG_WITH(guile,
 	[--{with,without}-guile    Compile with Guile support or without it],
 	if test "x$withval" = xyes; then
 		try_guile=true
 	fi
 )
-
-dnl if $try_guile; then
-dnl 	AC_MSG_CHECKING(for guile >= 1.5)
-dnl 	if test "`guile -c '(display (string>=? (version) "1.4.1"))'`" != "#t"; then
-dnl   		AC_MSG_RESULT([Your Guile is too old.  You need Guile 1.5 or later.])
-dnl 	else
-dnl 	        AC_MSG_RESULT(found)
-dnl 		guile_msg="yes"
-dnl 		enable_guile=true
-dnl 	fi
-dnl
-dnl fi
-dnl if $enable_guile; then
-dnl 	GNOME_CHECK_GUILE
-dnl fi
+if $try_guile; then
+	AC_MSG_CHECKING(for guile >= 1.5)
+	if test "`guile -c '(display (string>=? (version) "1.4.1"))'`" != "#t"; then
+  		AC_MSG_RESULT([Your Guile is too old.  You need Guile 1.5 or later.])
+	else
+	        AC_MSG_RESULT(found)
+		guile_msg="yes"
+		enable_guile=true
+	fi
+fi
+if $enable_guile; then
+	GNOME_CHECK_GUILE
+fi
+])
 AM_CONDITIONAL(WITH_GUILE, $enable_guile)
 
 dnl **************************************************
@@ -505,28 +507,12 @@ AC_ARG_ENABLE(plugins,
 AM_CONDITIONAL(PLUGIN_LIST_GIVEN, $plugin_list_given)
 AC_SUBST(PLUGIN_LIST)
 
-dnl **************************************************
-dnl stolen from gtk+
-AC_MSG_CHECKING(whether make is GNU Make)
-STRIP_BEGIN=
-STRIP_END=
-if $ac_make --version 2>/dev/null | grep '^GNU Make ' >/dev/null ; then
-	STRIP_BEGIN='$(strip $(STRIP_DUMMY)'
-	STRIP_END=')'
-	AC_MSG_RESULT(yes)
-else
-	AC_MSG_RESULT(no)
-fi
-STRIP_DUMMY=
-AC_SUBST(STRIP_DUMMY)
-AC_SUBST(STRIP_BEGIN)
-AC_SUBST(STRIP_END)
 
 # i18n stuff
 ifelse([
 
   TRANSLATORS:
-  Please note that gtk+ has both po/ and po-functions/ directories.
+  Please note that gnumeric has both po/ and po-functions/ directories.
   If you add a new language to ALL_LINGUAS, please make sure that both
   po/ and po-functions/ have .po files that correspond to your language.
   If you only add one to po/, the build will break in po-functions/.
@@ -540,30 +526,50 @@ AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",
 	[The package name, for gettext]
 )
 AM_GLIB_GNU_GETTEXT
-
-#   Create po-functions/POTFILES.
 dnl
-dnl Note that po/POTFILES is also created by configure, not by config.status.
-dnl In fact, it is created in two iterations: first step was done just above
-dnl by AM_GLIB_GNU_GETTEXT, while the second step, which comes from
-dnl intltool.m4, is executed just before the creation of config.status.
-dnl (But po-functions/POTFILES is created in one step, here.)
-[
-  test -d po-functions || mkdir po-functions
-  rm -f po-functions/POTFILES
-  case "$srcdir" in
+dnl Code to handle po-functions/Makefile* and po-functions/POTFILES*
+dnl
+dnl First, let me document how the po/ directory is dealt with.
+dnl Dark mysteries here, so skip the next paragraph if you don't have enough
+dnl holy water at your hand.  You have been warned.
+dnl
+dnl AM_GLIB_GNU_GETTEXT creates an incorrect incarnation of po/POTFILES, as
+dnl glib-gettext.m4 doesn't know about intltool tags.  Later on, just before
+dnl config.status is created, a code originating from intltool.m4 creates
+dnl POTFILES again, this time correctly removing the intltool tags.
+dnl config.status then creates po/Makefile, again in two steps.  First,
+dnl po/Makefile.in is created from po/Makefile.in.in the usual way, and then
+dnl a code registered via the obsolete macro AC_OUTPUT_COMMANDS insterts the
+dnl contents of file POTFILES to po/Makefile.
+dnl
+dnl But both glib-gettext and intltool have the dirname "po/" hardwired, so
+dnl we are on our own with po-functions.
+dnl
+dnl We use a more straightforward approach for po-functions:
+dnl 1) We create POTFILES immediately here.
+dnl 2) We let config.status to create Makefile.in.
+dnl 3) We use AC_CONFIG_COMMANDS to create Makefile.
+dnl 
+[# Create po-functions/POTFILES:
+if test -d po-functions; then
+	rm -f po-functions/POTFILES
+else
+	mkdir po-functions
+fi
+case "$srcdir" in
 	.)  top_srcdir=.. ;;
 	[\\/]* | ?:[\\/]* )  # Absolute name.
 		top_srcdir="$srcdir" ;;
 	*)  top_srcdir="../$srcdir" ;;
-  esac
-  sed <"$srcdir/po-functions/POTFILES.in" -e '/^#/d' -e 's/^[[].*[]] *//' \
+esac
+sed <$srcdir/po-functions/POTFILES.in -e '/^#/d' -e 's/^[[].*[]] *//' \
 	 -e '/^[   ]*$/d' -e "s,^,       $top_srcdir/," | \
         sed -e '$!s/$/ \\/' >po-functions/POTFILES
 ]
-AC_OUTPUT_COMMANDS([case "$CONFIG_FILES" in *po-functions/Makefile.in*)
-        sed -e "/POTFILES =/r po-functions/POTFILES" po-functions/Makefile.in > po-functions/Makefile
-      esac])
+dnl Finally, register for creation of po-functions/Makefile:
+AC_CONFIG_COMMANDS(po-functions/Makefile,
+  [sed -e "/POTFILES =/r po-functions/POTFILES" \
+	po-functions/Makefile.in > po-functions/Makefile])
 
 SAVE_LIBS="$LIBS"
 LIBS="$LIBS $GNUMERIC_LIBS"
@@ -804,14 +810,14 @@ AC_SUBST(PY_LIB_LOC)
 AC_SUBST(PY_CFLAGS)
 AC_SUBST(PY_EXTRA_LIBS)
 
+dnl A tricky way to comment out in m4:
+ifelse([
 dnl **************************************************
 dnl * Check for mono
 dnl **************************************************
 with_mono=no
 mono_msg="disabled, still experimental"
 
-dnl A tricky way to comment out in m4:
-ifelse([
 AC_ARG_WITH(mono, [--{with,without}-mono     Compile the mono scripting engine])
 case $with_mono in
 no)	mono_msg="Disabled by request";;
@@ -823,11 +829,13 @@ no)	mono_msg="Disabled by request";;
     mono_msg=$with_mono
     ;;
 esac
-])
-
 AM_CONDITIONAL(WITH_MONO, test "x$with_mono" = "xyes")
 AC_SUBST(MONO_CFLAGS)
 AC_SUBST(MONO_LIBS)
+])
+
+dnl A hack to silence intltools:
+AM_CONDITIONAL(NEVER, false)
 
 dnl **************************************************
 dnl * Config defaults (Must be after bonobo)
@@ -940,6 +948,7 @@ plugins/mps/Makefile
 plugins/sample_datasource/Makefile
 plugins/paradox/Makefile
 plugins/uihello/Makefile
+plugins/gb/Makefile
 po/Makefile.in
 po-functions/Makefile.in
 schemas/Makefile

@@ -844,7 +844,7 @@
                     <xsd:attribute name="Rrow" type="xsd:nonNegativeInteger" use="required"/>
                     <xsd:attribute name="Cols" type="xsd:positiveInteger"    use="required"/>
                     <xsd:attribute name="Rows" type="xsd:positiveInteger"    use="required"/>
-                    <xsd:attribute name="Type" type="gmr:solver_contraint_t"    use="required"/>
+                    <xsd:attribute name="Type" type="gmr:solver_constraint_t"    use="required"/>
                 </xsd:complexType>
             </xsd:element>
         </xsd:sequence>
@@ -865,7 +865,7 @@
         <xsd:attribute name="ProgramR"	  type="xsd:boolean"		use="required"/>
     </xsd:complexType>
 
-    <xsd:simpleType name="solver_contraint_t">
+    <xsd:simpleType name="solver_constraint_t">
         <xsd:restriction base="xsd:integer">
             <xsd:enumeration value="0" /> <!-- none -->
             <xsd:enumeration value="1" /> <!-- &lt;= -->

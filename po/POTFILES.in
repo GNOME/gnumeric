@@ -1,9 +1,6 @@
 # List of source files containing translatable strings.
 # Please keep this file sorted alphabetically.
 #
-# Keep gnumeric/po/POTFILES.{in,skip} and
-#      gnumeric/po-functions/POTFILES.{in,skip}
-# in sync
 [encoding: UTF-8]
 GNOME_Gnumeric.server.in.in
 gnumeric.desktop.in
@@ -282,7 +279,6 @@ src/item-grid.c
 src/libgnumeric.c
 src/main-application.c
 src/mathfunc.c
-src/number-match.c
 src/parser.y
 src/parse-util.c
 src/pivottable.c
@@ -310,6 +306,7 @@ src/stf.c
 src/stf-export.c
 src/stf-parse.c
 src/style.c
+src/test-pango.c
 src/validation.c
 src/value.c
 src/value-sheet.c

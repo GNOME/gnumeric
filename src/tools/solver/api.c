@@ -136,15 +136,16 @@ w_lp_solve_set_constr (SolverProgram program, int row,
 		       SolverConstraintType type, gnm_float rhs)
 {
 	lp_solve_t *lp = (lp_solve_t *) program;
-	int lp_contraint_type;
+	int lp_constraint_type;
 	switch (type) {
-	case SolverLE:	lp_contraint_type = LE;	break;
-	case SolverGE:	lp_contraint_type = GE; break;
-	case SolverEQ:	lp_contraint_type = EQ; break;
+	case SolverLE:	lp_constraint_type = LE; break;
+	case SolverGE:	lp_constraint_type = GE; break;
+	case SolverEQ:	lp_constraint_type = EQ; break;
 	default:
-		g_warning ("unexpected contraint type %d", type);
+		g_warning ("unexpected constraint type %d", type);
+		lp_constraint_type = 0; /* silence the compiler */
 	}
-        lp_solve_set_constr_type (lp->p, row + 1, lp_contraint_type);
+        lp_solve_set_constr_type (lp->p, row + 1, lp_constraint_type);
         lp_solve_set_rh (lp->p, row + 1, rhs);
 }
 

@@ -1,11 +1,3 @@
-# List of source files containing translatable strings.
-# Please keep this file sorted alphabetically.
-#
-# Keep gnumeric/po/POTFILES.{in,skip} and
-#      gnumeric/po-functions/POTFILES.{in,skip}
-# in sync
-src/cut-n-paste-code/foocanvas/libfoocanvas/foo-canvas-text.c
-src/cut-n-paste-code/foocanvas/libfoocanvas/foo-canvas.c
-src/test-pango.c
-src/cut-n-paste-code/goffice/app/go-object.c
-src/cut-n-paste-code/goffice/graph/gog-guru-type-selector.glade
+# List of source files to be ignored:
+src/parser.c
+GNOME_Gnumeric.server.in

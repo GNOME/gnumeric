@@ -1,3 +1,8 @@
+2005-03-16  Stepan Kasal  <kasal@ucw.cz>
+
+	* api.c (w_lp_solve_set_constr): Always assign a value to
+	  lp_constraint_type, to silence the compiler.
+
 2005-02-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.5.0
