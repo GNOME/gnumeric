@@ -1411,9 +1411,9 @@ sheet_range_bounding_box (Sheet const *sheet, Range *bound)
 			    row_span_get (ri, r.start.col);
 
 			if (span0 != NULL) {
-				if (bound->start.col < span0->left)
+				if (bound->start.col > span0->left)
 					bound->start.col = span0->left;
-				if (bound->end.col > span0->right)
+				if (bound->end.col < span0->right)
 					bound->end.col = span0->right;
 			}
 			if (r.start.col != r.end.col) {
@@ -1421,9 +1421,9 @@ sheet_range_bounding_box (Sheet const *sheet, Range *bound)
 					row_span_get (ri, r.end.col);
 
 				if (span1 != NULL) {
-					if (bound->start.col < span1->left)
+					if (bound->start.col > span1->left)
 						bound->start.col = span1->left;
-					if (bound->end.col > span1->right)
+					if (bound->end.col < span1->right)
 						bound->end.col = span1->right;
 				}
 			}

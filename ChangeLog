@@ -1,5 +1,7 @@
 2002-09-02  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet.c (sheet_range_bounding_box) : doh!
+
 	* src/mstyle.c (mstyle_new_default) : init the hyperlink to NULL.
 	(mstyle_set_hlink) : relax restrictions.
 
