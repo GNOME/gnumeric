@@ -2658,6 +2658,7 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GnmExprList *nodes)
 
 	val = gnm_expr_eval (tree, ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 	if (!val) return NULL;
+	/* FIXME: What if val is an error?  */
 	if (!VALUE_IS_NUMBER (val)) {
 		value_release (val);
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
@@ -2674,6 +2675,8 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GnmExprList *nodes)
 
 	val = gnm_expr_eval (tree, ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 	if (!val) return NULL;
+	/* FIXME: what if val is an error.  */
+	/* DOUBLE FIXME: what if val is an error and "x" was a string?  */
 	if (! VALUE_IS_NUMBER (val)) {
 		value_release (val);
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
