@@ -492,9 +492,6 @@ tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		gtk_label_set_text (GTK_LABEL (state->warning),
 				    _("The input range is invalid."));
 		gtk_widget_set_sensitive (state->ok_button, FALSE);
-		if (state->apply_button != NULL)
-			gtk_widget_set_sensitive (state->apply_button,
-						  FALSE);
 		return;
 	} else
 		range_list_destroy (input_range);
@@ -505,9 +502,6 @@ tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 				    _("The output specification "
 				      "is invalid."));
 		gtk_widget_set_sensitive (state->ok_button, FALSE);
-		if (state->apply_button != NULL)
-			gtk_widget_set_sensitive (state->apply_button,
-						  FALSE);
 		return;
 	}
 	
@@ -2620,29 +2614,45 @@ static void
 anova_single_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 					 AnovaSingleToolState *state)
 {
-	gboolean input_1_ready  = FALSE;
-	gboolean output_ready  = FALSE;
-	gboolean ready  = FALSE;
-	int err;
+	int err_alpha;
 	gnm_float alpha;
         GSList *input_range;
 
         input_range = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->base.input_entry),
 		state->base.sheet);
+	if (input_range == NULL) {
+		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    _("The input range is invalid."));
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;
+	} else
+		range_list_destroy (input_range);
 
-	err = entry_to_float (GTK_ENTRY (state->alpha_entry), &alpha, FALSE);
+	/* Checking Alpha*/
+	err_alpha = entry_to_float (GTK_ENTRY (state->alpha_entry), &alpha,
+				    FALSE);
+	if (!(err_alpha == 0 && alpha > 0 && alpha < 1)) {
+		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    _("The alpha value is invalid. "
+				      "It should "
+				      "be a number between 0 and 1."));
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;
+	}
 
-	input_1_ready = (input_range != NULL);
-	output_ready =  gnm_dao_is_ready (GNM_DAO (state->base.gdao));
+	/* Checking Output Page */
+	if (!gnm_dao_is_ready (GNM_DAO (state->base.gdao))) {
+		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    _("The output specification "
+				      "is invalid."));
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;
+	}
 
-	ready = (input_1_ready &&
-                 (err == 0) && (alpha > 0) && (alpha < 1) &&
-                 (output_ready));
+	gtk_label_set_text (GTK_LABEL (state->base.warning), "");
+	gtk_widget_set_sensitive (state->base.ok_button, TRUE);
 
-        if (input_range != NULL) range_list_destroy (input_range);
-
-	gtk_widget_set_sensitive (state->base.ok_button, ready);
 }
 
 
@@ -2818,27 +2828,58 @@ static void
 anova_two_factor_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 					     AnovaTwoFactorToolState *state)
 {
-	gboolean ready  = FALSE;
 	int replication, err_alpha, err_replication;
 	gnm_float alpha;
         GnmValue *input_range;
 
+	/* Checking Input Range */
         input_range = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->base.input_entry),
 		 state->base.sheet);
+	if (input_range == NULL) {
+		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    _("The input range is invalid."));
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;
+	} else
+		value_release (input_range);
+
+	/* Checking Alpha*/
 	err_alpha = entry_to_float (GTK_ENTRY (state->alpha_entry), &alpha,
 				    FALSE);
+	if (!(err_alpha == 0 && alpha > 0 && alpha < 1)) {
+		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    _("The alpha value is invalid. It should "
+				      "be a number between 0 and 1."));
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;
+	}
+
+
+	/* Checking Replication*/
 	err_replication = entry_to_int (GTK_ENTRY (state->replication_entry),
 					&replication, FALSE);
+	if (!(err_replication == 0 && replication > 0)) {
+		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    _("The number of rows per sample "
+				      "should be a positive integer."));
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;
+	}
 
-	ready = ((input_range != NULL) &&
-                 (err_alpha == 0 && alpha > 0 && alpha < 1) &&
-		 (err_replication == 0 && replication > 0) &&
-                 gnm_dao_is_ready (GNM_DAO (state->base.gdao)));
+	/* Checking Output Page */
+	if (!gnm_dao_is_ready (GNM_DAO (state->base.gdao))) {
+		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    _("The output specification "
+				      "is invalid."));
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;
+	}
 
-        if (input_range != NULL) value_release (input_range);
+	gtk_label_set_text (GTK_LABEL (state->base.warning), "");
+	gtk_widget_set_sensitive (state->base.ok_button, TRUE);
 
-	gtk_widget_set_sensitive (state->base.ok_button, ready);
+	return;
 }
 
 /**

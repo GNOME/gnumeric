@@ -1,3 +1,13 @@
+2003-12-30  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-analysis-tools.c (anova_single_tool_update_sensitivity_cb):
+	  store warning messages in warning label
+	(anova_two_factor_tool_update_sensitivity_cb): ditto
+	(tool_update_sensitivity_cb): remove unused code
+	* anova-one.glade: some small HIGification and addition of warnings
+	  label
+	* anova-two.glade: ditto
+
 2003-12-29  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-analysis-tools.c (tool_update_sensitivity_cb): remove
