@@ -2314,16 +2314,55 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GList *nodes)
 }
 
 
+static char *help_transpose = {
+	N_("@FUNCTION=TRANSPOSE\n"
+	   "@SYNTAX=TRANSPOSE(matrix)\n"
+
+	   "@DESCRIPTION="
+	   "TRANSPOSE function Returns the transpose of the input"
+	   "matrix.\n"
+	   "@SEEALSO=MMULT")
+};
+
+
+static Value *
+gnumeric_transpose (FunctionEvalInfo *ei, Value **argv)
+{
+	EvalPosition const * const ep = &ei->pos;
+        Value const * const matrix = argv[0];
+	int	r, c;
+        Value *res;
+
+	int const cols = value_area_get_width (ep, matrix);
+	int const rows = value_area_get_height (ep, matrix);
+
+	res = g_new (Value, 1);
+	res->type = VALUE_ARRAY;
+	res->v.array.x = rows;
+	res->v.array.y = cols;
+	res->v.array.vals = g_new (Value **, rows);
+
+	for (r = 0; r < rows; ++r){
+		res->v.array.vals [r] = g_new (Value *, cols);
+		for (c = 0; c < cols; ++c)
+			res->v.array.vals[r][c] = 
+			    value_duplicate(value_area_get_x_y (ep, matrix, c, r));
+	}
+
+	return res;
+}
+
+
 static char *help_mmult = {
 	N_("@FUNCTION=MMULT\n"
 	   "@SYNTAX=MMULT(array1,array2)\n"
 
 	   "@DESCRIPTION="
-	   "SERIESSUM function Returns the matrix product of two arrays. The "
+	   "MMULT function Returns the matrix product of two arrays. The "
 	   "result is an array with the same number of rows as array1 and the "
 	   "same number of columns as array2."
 	   "\n"
-	   "@SEEALSO=SUMPRODUCT")
+	   "@SEEALSO=TRANSPOSE,MINVERSE")
 };
 
 
@@ -2401,7 +2440,6 @@ gnumeric_mmult (FunctionEvalInfo *ei, Value **argv)
 	if (cols_a != rows_b || !rows_a || !rows_b || !cols_a || !cols_b)
 		return function_error (ei, gnumeric_err_VALUE);
 
-	res = value_array_new (cols_b, rows_a);
 	res = g_new (Value, 1);
 	res->type = VALUE_ARRAY;
 	res->v.array.x = cols_b;
@@ -2617,4 +2655,5 @@ void math_functions_init()
 	function_add_args  (cat, "trunc",   "f|f",  "number,digits",    &help_trunc,   gnumeric_trunc);
 	function_add_args  (cat, "pi",      "",     "",          &help_pi,      gnumeric_pi);
 	function_add_args  (cat, "mmult",   "AA",   "array1,array2", &help_mmult, gnumeric_mmult);
+	function_add_args  (cat, "transpose","A",   "array1", &help_transpose, gnumeric_transpose);
 }

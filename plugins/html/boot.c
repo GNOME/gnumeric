@@ -26,6 +26,7 @@
 #include "latex.h"
 #include "roff.h"
 #include "file.h"
+#include "epsf.h"
 
 /*
  * Q: what's that for?
@@ -50,6 +51,7 @@ html_cleanup_plugin (PluginData *pd)
 	file_format_unregister_save (html_write_wb_roff_dvi);
 	file_format_unregister_save (html_write_wb_roff_pdf);
 	file_format_unregister_save (html_write_wb_roff);
+	file_format_unregister_save (epsf_write_wb);
 	file_format_unregister_open (NULL,html_read);
 }
 
@@ -81,6 +83,9 @@ html_init (void)
 	file_format_register_save (".me", desc, html_write_wb_roff);
 	desc = _("PDF file format (via groff/gs)");
 	file_format_register_save (".pdf", desc, html_write_wb_roff_pdf);
+
+	desc = _("EPS file format (*.eps)");
+	file_format_register_save (".eps", desc, epsf_write_wb);
 }
 
 /*

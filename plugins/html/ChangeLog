@@ -1,12 +1,14 @@
+11/07/99 (rasca)
+
+	* epsf.c, ps.c: right alignment for text
+
 10/07/99 (rasca)
 
-	* merged in miguels changes from gnumeric 0.28
+	* added experimental EPSF support
 
-1999-07-07  Miguel de Icaza  <miguel@gnu.org>
+	* added PDF support by using groff and ghostscript
 
-	* html.c: Split the code in manageable chunks.
-
-	* html.c: Removed useless pieces of code.
+	* merged in parts of miguels changes from gnumeric 0.28
 
 09/07/99 (rasca)
 	- export latex2e: added font colors
@@ -23,6 +25,12 @@
 	- exporting html: fixed a bug which ignored empty cells
 	- exporting html: added caption to every table
 	- exporting latex: fixed a bug which ignoerd empty cells
+
+1999-07-07  Miguel de Icaza  <miguel@gnu.org>
+
+	* html.c: Split the code in manageable chunks.
+
+	* html.c: Removed useless pieces of code.
 
 07/07/99 (rasca)
 	- added first latex export code

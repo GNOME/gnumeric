@@ -29,7 +29,7 @@ int html_write_wb_html32 (Workbook *wb, const char *filename);
 int html_write_wb_html40 (Workbook *wb, const char *filename);
 Workbook *html_read (const char *filename);
 
-#define G_PLUGIN_FOR_HTML "GPFH/0.4"
+#define G_PLUGIN_FOR_HTML "GPFH/0.5"
 
 #endif
 

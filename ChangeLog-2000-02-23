@@ -1,3 +1,17 @@
+1999-07-12  Jody Goldberg  <jgoldberg@home.com>
+
+	* src/Gnumeric.idl : Add SplitsArray array exception for array-formula
+	  support.
+
+	* src/cell.[ch] (cell_set_border) : Const.
+
+	* src/expr.[ch] (value_area_get_width, value_area_get_height) : Const.
+
+	* src/fn-math.c : Added TRANSPOSE.
+
+	* wizards/graphics/*.c : Minor text tweaks so that things come closer
+	  to compiling.
+
 1999-07-12  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* doc/C/analysis-tools.sgml: Small fixes and additions.

@@ -926,7 +926,7 @@ value_array_copy_to (Value *v, const Value *src)
 }
 
 guint
-value_area_get_width (const EvalPosition *ep, Value *v)
+value_area_get_width (const EvalPosition *ep, Value const *v)
 {
 	g_return_val_if_fail (v, 0);
 	g_return_val_if_fail (v->type == VALUE_ARRAY ||
@@ -946,7 +946,7 @@ value_area_get_width (const EvalPosition *ep, Value *v)
 }
 
 guint
-value_area_get_height (const EvalPosition *ep, Value *v)
+value_area_get_height (const EvalPosition *ep, Value const *v)
 {
 	g_return_val_if_fail (v, 0);
 	g_return_val_if_fail (v->type == VALUE_ARRAY ||

@@ -33,13 +33,14 @@ static struct {
 };
 
 static void
-graphic_type_selected (GtkCList *clist, gint row, gint column, GdkEvent *event, GraphicContext *gc)
+graphic_type_selected (GtkCList *clist, gint row, gint column, GdkEvent *event,
+		       WizardGraphicContext *gc)
 {
 	printf ("Row selected: %d\n", row);
 }
 
 void
-fill_graphic_types (GladeXML *gui, GraphicContext *gc)
+fill_graphic_types (GladeXML *gui, WizardGraphicContext *gc)
 {
 	GtkCList *clist = GTK_CLIST (glade_xml_get_widget (gui, "graphic-type-clist"));
 	int i;

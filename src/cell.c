@@ -503,7 +503,7 @@ cell_set_pattern (Cell *cell, int pattern)
  */
 void
 cell_set_border (Cell *cell,
-		 StyleBorderType  border_type[4],
+		 StyleBorderType  const border_type[4],
 		 StyleColor      *border_color[4])
 {
 	g_return_if_fail (cell != NULL);

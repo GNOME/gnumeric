@@ -46,11 +46,14 @@ typedef struct {
 #define GC_SIGNATURE ((('G' << 8) | ('C' << 8)) | 'o')
 #define IS_GRAPHIC_CONTEXT(gc) (gc->signature == GC_SIGNATURE)
 
-GraphicContext *graphic_context_new     (Workbook *wb, GladeXML *gui);
-void            graphic_context_destroy (GraphicContext *gc);
+WizardGraphicContext *
+graphic_context_new     (Workbook *wb, GladeXML *gui);
+void            graphic_context_destroy (WizardGraphicContext *gc);
 
-void            graphic_context_data_range_remove (GraphicContext *gc, const char *range_name);
-void            graphic_context_data_range_add    (GraphicContext *gc, DataRange *data_range);
+void            graphic_context_data_range_remove (WizardGraphicContext *gc,
+						   const char *range_name);
+void            graphic_context_data_range_add    (WizardGraphicContext *gc,
+						   DataRange *data_range);
 
 #endif /* GNUMERIC_WIZARD_GRAPHICS_CONTEXT_H */
 

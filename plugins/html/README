@@ -1,7 +1,8 @@
 This is a small and simple plugin to export and import HTML files.
 It is published under the GNU GPL..
+Note: All export functions don't support graphics on the sheet!
 
-Features of the export/import functions:
+Features of the export/import HTML functions:
 
 	- exporting tables
 
@@ -24,13 +25,26 @@ Features of the export/import functions:
 		  created by this plugin!
 		* while reading the html file the following attributes
 		  are imported:
-			- bold font setting (does not work since 0.28)
-			- italic font setting (does not work since 0.28)
+			- bold font setting
+			- italic font setting
 			- horizontal center and right aligment
 		* the 7bit presentation of "<" and ">" are decoded
 
-There is also an experimental LaTeX mode for exporting tables.
-It does not support colors and can not align to the center .. :-(
+Features of the export LaTeX functions:
+	- left and right alignment
+	- bold, italic and sansserif (only in LaTeX2e)
+
+Features of the export Roff/PS/PDF function:
+	- PS: you need gnu groff installed
+	- PDF: you need ghostscript installed
+	- bold, italic
+	- left, right and center alignment
+
+Features of the export EPS funtion:
+	- very experimental
+	- bold, italic
+	- left, center and right alignment
+	- foreground and background colors
 
 Author: rasca (thron@gmx.de)
 -

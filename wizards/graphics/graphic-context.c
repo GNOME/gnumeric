@@ -25,10 +25,10 @@ launch_guppi (void)
 	return object_server;
 }
 
-GraphicContext *
+WizardGraphicContext *
 graphic_context_new (Workbook *wb, GladeXML *gui)
 {
-	GraphicContext *gc;
+	WizardGraphicContext *gc;
 	GnomeClientSite *client_site;
 	GnomeContainer *container;
 	GnomeObjectClient *object_server;
@@ -63,7 +63,7 @@ graphic_context_new (Workbook *wb, GladeXML *gui)
 	/*
 	 * Create the graphic context
 	 */
-	gc = g_new0 (GraphicContext, 1);
+	gc = g_new0 (WizardGraphicContext, 1);
 	gc->workbook = wb;
 	gc->signature = GC_SIGNATURE;
 	gc->current_page = 0;
@@ -78,7 +78,7 @@ graphic_context_new (Workbook *wb, GladeXML *gui)
 }
 
 void
-graphic_context_destroy (GraphicContext *gc)
+graphic_context_destroy (WizardGraphicContext *gc)
 {
 	GList *l;
 	
@@ -110,7 +110,7 @@ graphic_context_destroy (GraphicContext *gc)
 }
 
 void
-graphic_context_data_range_add (GraphicContext *gc, DataRange *data_range)
+graphic_context_data_range_add (WizardGraphicContext *gc, DataRange *data_range)
 {
 	g_return_if_fail (gc != NULL);
 	g_return_if_fail (IS_GRAPHIC_CONTEXT (gc));
@@ -120,7 +120,7 @@ graphic_context_data_range_add (GraphicContext *gc, DataRange *data_range)
 }
 
 void
-graphic_context_data_range_remove (GraphicContext *gc, const char *range_name)
+graphic_context_data_range_remove (WizardGraphicContext *gc, const char *range_name)
 {
 	GList *l;
 	
@@ -139,7 +139,7 @@ graphic_context_data_range_remove (GraphicContext *gc, const char *range_name)
 }
 
 void
-graphics_context_data_range_clear (GraphicContext *gc)
+graphics_context_data_range_clear (WizardGraphicContext *gc)
 {
 	GList *l;
 	
@@ -164,9 +164,12 @@ graphics_context_data_range_clear (GraphicContext *gc)
  * it guesses the series values using @vertical
  */
 void
-graphic_context_set_data_range (GraphicContext *gc, const char *data_range_spec, gboolean vertical)
+graphic_context_set_data_range (WizardGraphicContext *gc,
+				const char *data_range_spec,
+				gboolean vertical)
 {
-	ExprTree *tree;
+	ExprTree *tree, *args;
+	gchar * expr;
 	char *p;
 	char *error;
 	
@@ -180,13 +183,13 @@ graphic_context_set_data_range (GraphicContext *gc, const char *data_range_spec,
 	 * parsed arguments.
 	 */
 	expr = g_strconcat ("=SELECTION(", data_range_spec, ")", NULL);
-	tree = expr_parse_string (expr, NULL, 0, 0, 0, &error);
+	tree = expr_parse_string (expr, NULL, NULL, &error);
 	g_free (expr);
 	
 	if (tree == NULL)
 		return;
 
-	assert (tree->oper == OPER_FUNCALL);
+	g_assert (tree->oper == OPER_FUNCALL);
 
 	args = tree->u.function.arg_list;
 

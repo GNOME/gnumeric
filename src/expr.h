@@ -326,8 +326,8 @@ void         value_dump            (const Value *value);
 /* Area functions ( works on VALUE_RANGE or VALUE_ARRAY */
 /* The EvalPosition provides a Sheet context; this allows
    calculation of relative references. 'x','y' give the position */
-guint        value_area_get_width  (const EvalPosition *ep, Value *v);
-guint        value_area_get_height (const EvalPosition *ep, Value *v);
+guint        value_area_get_width  (const EvalPosition *ep, Value const *v);
+guint        value_area_get_height (const EvalPosition *ep, Value const *v);
 
 /* Return Value(int 0) if non-existant */
 const Value *value_area_fetch_x_y  (const EvalPosition *ep, Value const * v,

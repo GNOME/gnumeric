@@ -33,7 +33,7 @@ dialog_about (Workbook *wb)
 		N_("Michael Meeks, Excel and OLE2 importing."),
 		N_("Morten Welinder, Gnumeric hacker."),
 		N_("Jakub Jelinek, Gnumeric hacker."),
-		N_("Rasca Gmelch, html, troff exporters."),
+		N_("Rasca, HTML, troff, LaTeX exporters."),
 		N_("Sean Atkinson, Functions and X-Base importing."),
 		N_("Takashi Matsuda, simple text plugin."),
 		N_("Tom Dyas, Plugin support."),

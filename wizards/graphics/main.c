@@ -36,7 +36,7 @@ remove_placeholders (GtkContainer *container)
 }
 
 static void
-customize (GladeXML *gui, GraphicContext *gc)
+customize (GladeXML *gui, WizardGraphicContext *gc)
 {
 	GtkNotebook *n;
 	int i;
@@ -71,7 +71,7 @@ customize (GladeXML *gui, GraphicContext *gc)
 }
 
 static void
-set_page (GraphicContext *gc, int page)
+set_page (WizardGraphicContext *gc, int page)
 {
 	char *name;
 	
@@ -104,7 +104,7 @@ set_page (GraphicContext *gc, int page)
 }
 
 static void
-button_back (GtkWidget *widget, GraphicContext *gc)
+button_back (GtkWidget *widget, WizardGraphicContext *gc)
 {
 	if (gc->current_page == 0)
 		return;
@@ -112,7 +112,7 @@ button_back (GtkWidget *widget, GraphicContext *gc)
 }
 
 static void
-button_next (GtkWidget *widget, GraphicContext *gc)
+button_next (GtkWidget *widget, WizardGraphicContext *gc)
 {
 	if (gc->current_page == LAST_PAGE)
 		return;
@@ -120,13 +120,13 @@ button_next (GtkWidget *widget, GraphicContext *gc)
 }
 
 static void
-button_cancel (GtkWidget *widget, GraphicContext *gc)
+button_cancel (GtkWidget *widget, WizardGraphicContext *gc)
 {
 	graphic_context_destroy (gc);
 }
 
 static void
-button_finish (GtkWidget *widget, GraphicContext *gc)
+button_finish (GtkWidget *widget, WizardGraphicContext *gc)
 {
 }
 
@@ -148,7 +148,7 @@ my_wizard (Workbook *wb)
 {
 	GladeXML *gui;
 	GtkWidget *n;
-	GraphicContext *gc;
+	WizardGraphicContext *gc;
 
 	bonobo_init (gnome_CORBA_ORB (), NULL, NULL);
 	
