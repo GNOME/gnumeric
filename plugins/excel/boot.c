@@ -25,13 +25,25 @@ extern int ms_excel_read_debug;
 static gboolean
 excel_probe (const char *filename)
 {
-	MsOle    *f;
+	MsOle    *file;
 	
-	if (ms_ole_open (&f, filename) == MS_OLE_ERR_OK) {
-		ms_ole_destroy (&f);
-		return TRUE;
-	}
+	if (ms_ole_open (&file, filename) == MS_OLE_ERR_OK) {
+		MsOleErr     result;
+		MsOleStream *stream;
 
+		result = ms_ole_stream_open (&stream, file, "/", "workbook", 'r');
+		ms_ole_stream_close (&stream);
+		if (result == MS_OLE_ERR_OK) {
+			ms_ole_destroy (&file);
+			return TRUE;
+		}
+
+		result = ms_ole_stream_open (&stream, file, "/", "book", 'r');
+		ms_ole_stream_close (&stream);
+		ms_ole_destroy (&file);
+		if (result == MS_OLE_ERR_OK)
+			return TRUE;
+	}
 	return FALSE;
 }
 

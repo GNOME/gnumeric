@@ -1,3 +1,8 @@
+1999-11-19  Michael Meeks  <mmeeks@gnu.org>
+
+	* boot.c (excel_probe): Check for the right streams, not just an
+	ole file.
+
 1999-11-18  Michael Meeks  <mmeeks@gnu.org>
 
 	* ms-excel-read.c (lookup_base_char_width): kill double init of
