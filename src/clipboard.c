@@ -250,9 +250,9 @@ paste_cell (Sheet *dest_sheet,
 
 /**
  * clipboard_paste_region:
- * @wbc : The context for error handling.
- * @pt : Where to paste the values.
  * @content : The CellRegion to paste.
+ * @pt : Where to paste the values.
+ * @cc : The context for error handling.
  *
  * Pastes the supplied CellRegion (@content) into the supplied
  * PasteTarget (@pt).  This operation is not undoable.  It does not auto grow
@@ -262,9 +262,9 @@ paste_cell (Sheet *dest_sheet,
  * returns : TRUE if there was a problem.
  */
 gboolean
-clipboard_paste_region (WorkbookControl *wbc,
+clipboard_paste_region (CellRegion const *content,
 			PasteTarget const *pt,
-			CellRegion const *content)
+			CommandContext *cc)
 {
 	int repeat_horizontal, repeat_vertical, clearFlags;
 	int dst_cols, dst_rows, src_cols, src_rows, min_col, max_col, tmp;
@@ -301,7 +301,7 @@ clipboard_paste_region (WorkbookControl *wbc,
 	}
 
 	if (content->not_as_content && (pt->paste_flags & PASTE_CONTENT)) {
-		gnumeric_error_invalid (COMMAND_CONTEXT (wbc),
+		gnumeric_error_invalid (cc,
 					_("Unable to paste"),
 					_("Content can only be pasted by value or by link."));
 		return TRUE;
@@ -314,8 +314,7 @@ clipboard_paste_region (WorkbookControl *wbc,
 			_("destination does not have an even multiple of source columns (%d vs %d)\n\n"
 			  "Try selecting a single cell or an area of the same shape and size."),
 			dst_cols, src_cols);
-		gnumeric_error_invalid (COMMAND_CONTEXT (wbc),
-					_("Unable to paste"), msg);
+		gnumeric_error_invalid (cc, _("Unable to paste"), msg);
 		g_free (msg);
 		return TRUE;
 	}
@@ -326,15 +325,14 @@ clipboard_paste_region (WorkbookControl *wbc,
 			_("destination does not have an even multiple of source rows (%d vs %d)\n\n"
 			  "Try selecting a single cell or an area of the same shape and size."),
 			dst_rows, src_rows);
-		gnumeric_error_invalid (COMMAND_CONTEXT (wbc),
-					_("Unable to paste"), msg);
+		gnumeric_error_invalid (cc, _("Unable to paste"), msg);
 		g_free (msg);
 		return TRUE;
 	}
 
 	if ((pt->range.start.col + dst_cols) > SHEET_MAX_COLS ||
 	    (pt->range.start.row + dst_rows) > SHEET_MAX_ROWS) {
-		gnumeric_error_invalid (COMMAND_CONTEXT (wbc),
+		gnumeric_error_invalid (cc,
 					_("Unable to paste"),
 					_("result passes the sheet boundary"));
 		return TRUE;
@@ -362,11 +360,11 @@ clipboard_paste_region (WorkbookControl *wbc,
 	if (clearFlags != 0) {
 		int const dst_col = pt->range.start.col;
 		int const dst_row = pt->range.start.row;
-		sheet_clear_region (wbc, pt->sheet,
+		sheet_clear_region (pt->sheet,
 				    dst_col, dst_row,
 				    dst_col + dst_cols - 1,
 				    dst_row + dst_rows - 1,
-				    clearFlags);
+				    clearFlags, cc);
 	}
 
 	for (tmp = repeat_vertical; repeat_horizontal-- > 0 ; repeat_vertical = tmp)
@@ -413,7 +411,7 @@ clipboard_paste_region (WorkbookControl *wbc,
 						x = tmp.end.col; tmp.end.col = tmp.end.row;  tmp.end.row = x;
 					}
 					if (!range_translate (&tmp, left, top))
-						sheet_merge_add (wbc, pt->sheet, &tmp, TRUE);
+						sheet_merge_add (pt->sheet, &tmp, TRUE, cc);
 				}
 			}
 

@@ -22,7 +22,7 @@ to features that already work.
 * Functions
 
    + Implement more functions :
-     - AREAS, GETPIVOTDATA, and ODDFYIELD.
+     - GETPIVOTDATA, and ODDFYIELD.
 
    + Fix or finish the following functions :
      - ODDFPRICE, XIRR, XNPV, and YIELDDISC.
@@ -89,7 +89,7 @@ to features that already work.
 
 * File Load/Save
    + Support for popular formats.  
-     I have the specs for the XS3 format.  SC should be
+     Miguel has specs for the XS3 format.  SC should be
      trivial to support as well (from the guile sources)
    + Improve handling of unknown fonts and functions when importing.
 
@@ -112,7 +112,7 @@ to features that already work.
    + fully support R[-1]C[3] type references.
 
 * Calculation
-   + Dependancies for - CELL, INDIRECT functions.
+   + Dependancies for - CELL functions.
 
 * Excel Import
    + Localise sheet/workbook Name import.

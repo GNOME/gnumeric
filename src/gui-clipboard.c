@@ -300,10 +300,11 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 
 		/* If the other app was a gnumeric, emulate a cut */
 		if (to_gnumeric) {
-			sheet_clear_region (wbc, sheet,
+			sheet_clear_region (sheet,
 				a->start.col, a->start.row,
 				a->end.col,   a->end.row,
-				CLEAR_VALUES|CLEAR_COMMENTS|CLEAR_RECALC_DEPS);
+				CLEAR_VALUES|CLEAR_COMMENTS|CLEAR_RECALC_DEPS,
+				COMMAND_CONTEXT (wbc));
 			application_clipboard_clear (TRUE);
 		}
 

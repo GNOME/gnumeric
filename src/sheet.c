@@ -1857,8 +1857,8 @@ cb_check_array_vertical (ColRowInfo *row, void *user)
  * @sheet : The sheet.
  * @r     : The range to chaeck
  * @ignore: an optionally NULL range in which it is ok to have an array.
- * @wbc   : an optional place to report an error.
- * @cmd   : an optional cmd name used with @wbc.
+ * @cc   : an optional place to report an error.
+ * @cmd   : an optional cmd name used with @cc.
  *
  * Check the outer edges of range @sheet!@r to ensure that if an array is
  * within it then the entire array is within the range.  @ignore is useful when
@@ -1869,7 +1869,7 @@ cb_check_array_vertical (ColRowInfo *row, void *user)
 gboolean
 sheet_range_splits_array (Sheet const *sheet,
 			  Range const *r, Range const *ignore,
-			  WorkbookControl *wbc, char const *cmd)
+			  CommandContext *cc, char const *cmd)
 {
 	ArrayCheckData closure;
 
@@ -1895,9 +1895,9 @@ sheet_range_splits_array (Sheet const *sheet,
 	if (closure.flags &&
 	    colrow_foreach (&sheet->cols, r->start.col, r->end.col,
 			    &cb_check_array_horizontal, &closure)) {
-		if (wbc)
-			gnumeric_error_splits_array (COMMAND_CONTEXT (wbc),
-						     cmd, &closure.error);
+		if (cc)
+			gnumeric_error_splits_array (cc,
+				cmd, &closure.error);
 		return TRUE;
 	}
 
@@ -1917,9 +1917,9 @@ sheet_range_splits_array (Sheet const *sheet,
 	if (closure.flags &&
 	    colrow_foreach (&sheet->rows, r->start.row, r->end.row,
 			    &cb_check_array_vertical, &closure)) {
-		if (wbc)
-			gnumeric_error_splits_array (COMMAND_CONTEXT (wbc),
-						     cmd, &closure.error);
+		if (cc)
+			gnumeric_error_splits_array (cc,
+				cmd, &closure.error);
 		return TRUE;
 	}
 	return FALSE;
@@ -1930,7 +1930,7 @@ sheet_range_splits_array (Sheet const *sheet,
  * @sheet: the sheet.
  * @r : The range whose boundaries are checked
  * @ignore : An optional range in which it is ok to have arrays and merges
- * @wbc : The context that issued the command
+ * @cc : The context that issued the command
  * @cmd : The translated command name.
  *
  * A utility to see whether moving the range @r will split any arrays
@@ -1939,14 +1939,14 @@ sheet_range_splits_array (Sheet const *sheet,
 gboolean
 sheet_range_splits_region (Sheet const *sheet,
 			   Range const *r, Range const *ignore,
-			   WorkbookControl *wbc, char const *cmd_name)
+			   CommandContext *cc, char const *cmd_name)
 {
 	GSList *merged;
 
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
 	/* Check for array subdivision */
-	if (sheet_range_splits_array (sheet, r, ignore, wbc, cmd_name))
+	if (sheet_range_splits_array (sheet, r, ignore, cc, cmd_name))
 		return TRUE;
 
 	merged = sheet_merge_get_overlap (sheet, r);
@@ -1962,8 +1962,8 @@ sheet_range_splits_region (Sheet const *sheet,
 		}
 		g_slist_free (merged);
 
-		if (wbc != NULL && ptr != NULL) {
-			gnumeric_error_invalid (COMMAND_CONTEXT (wbc), cmd_name,
+		if (cc != NULL && ptr != NULL) {
+			gnumeric_error_invalid (cc, cmd_name,
 						_("Target region contains merged cells"));
 			return TRUE;
 		}
@@ -1975,7 +1975,7 @@ sheet_range_splits_region (Sheet const *sheet,
  * sheet_ranges_split_region:
  * @sheet: the sheet.
  * @ranges : A list of ranges to check.
- * @wbc : The context that issued the command
+ * @cc : The context that issued the command
  * @cmd : The translated command name.
  *
  * A utility to see whether moving the any of the ranges @ranges will split any
@@ -1983,14 +1983,14 @@ sheet_range_splits_region (Sheet const *sheet,
  */
 gboolean
 sheet_ranges_split_region (Sheet const * sheet, GSList const *ranges,
-			   WorkbookControl *wbc, char const *cmd)
+			   CommandContext *cc, char const *cmd)
 {
 	GSList const *l;
 
 	/* Check for array subdivision */
 	for (l = ranges; l != NULL; l = l->next) {
 		Range const *r = l->data;
-		if (sheet_range_splits_region (sheet, r, NULL, wbc, cmd))
+		if (sheet_range_splits_region (sheet, r, NULL, cc, cmd))
 			return TRUE;
 	}
 	return FALSE;
@@ -2008,15 +2008,15 @@ cb_cell_is_array (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
  *
  * @sheet : The sheet
  * @r     : the range to check.
- * @wbc   : an optional place to report errors.
+ * @cc   : an optional place to report errors.
  * @cmd   :
  *
  * Check to see if the target region @sheet!@r contains any merged regions or
- * arrays.  Report an error to the @wbc if it is supplied.
+ * arrays.  Report an error to the @cc if it is supplied.
  */
 gboolean
 sheet_range_contains_region (Sheet const *sheet, Range const *r,
-			     WorkbookControl *wbc, char const *cmd)
+			     CommandContext *cc, char const *cmd)
 {
 	GSList *merged;
 
@@ -2024,8 +2024,8 @@ sheet_range_contains_region (Sheet const *sheet, Range const *r,
 
 	merged = sheet_merge_get_overlap (sheet, r);
 	if (merged != NULL) {
-		if (wbc != NULL)
-			gnumeric_error_invalid (COMMAND_CONTEXT (wbc), cmd,
+		if (cc != NULL)
+			gnumeric_error_invalid (cc, cmd,
 				_("cannot operate on merged cells"));
 		g_slist_free (merged);
 		return TRUE;
@@ -2034,8 +2034,8 @@ sheet_range_contains_region (Sheet const *sheet, Range const *r,
 	if (sheet_foreach_cell_in_range ((Sheet *)sheet, CELL_ITER_IGNORE_BLANK,
 		r->start.col, r->start.row, r->end.col, r->end.row,
 		cb_cell_is_array, NULL)) {
-		if (wbc != NULL)
-			gnumeric_error_invalid (COMMAND_CONTEXT (wbc), cmd,
+		if (cc != NULL)
+			gnumeric_error_invalid (cc, cmd,
 				_("cannot operate on array formulae"));
 		return TRUE;
 	}
@@ -2842,10 +2842,11 @@ sheet_regen_adjacent_spans (Sheet *sheet,
  * to the structure being manipulated by the sheet_foreach_cell_in_range routine
  */
 void
-sheet_clear_region (WorkbookControl *wbc, Sheet *sheet,
+sheet_clear_region (Sheet *sheet,
 		    int start_col, int start_row,
 		    int end_col, int end_row,
-		    int clear_flags)
+		    int clear_flags,
+		    CommandContext *cc)
 {
 	Range r;
 	int min_col, max_col;
@@ -2860,7 +2861,7 @@ sheet_clear_region (WorkbookControl *wbc, Sheet *sheet,
 	r.end.row = end_row;
 
 	if (clear_flags & CLEAR_VALUES && !(clear_flags & CLEAR_NOCHECKARRAY) &&
-	    sheet_range_splits_array (sheet, &r, NULL, wbc, _("Clear")))
+	    sheet_range_splits_array (sheet, &r, NULL, cc, _("Clear")))
 		return;
 
 	/* Queue a redraw for cells being modified */
@@ -2905,7 +2906,7 @@ sheet_clear_region (WorkbookControl *wbc, Sheet *sheet,
 		GSList *merged, *ptr;
 		merged = sheet_merge_get_overlap (sheet, &r);
 		for (ptr = merged ; ptr != NULL ; ptr = ptr->next)
-			sheet_merge_remove (wbc, sheet, ptr->data);
+			sheet_merge_remove (sheet, ptr->data, cc);
 		g_slist_free (merged);
 	}
 
@@ -3141,9 +3142,9 @@ sheet_colrow_delete_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
  * @count   The number of columns to be inserted
  */
 gboolean
-sheet_insert_cols (WorkbookControl *wbc, Sheet *sheet,
+sheet_insert_cols (Sheet *sheet,
 		   int col, int count, ColRowStateList *states,
-		   GSList **reloc_storage)
+		   GSList **reloc_storage, CommandContext *cc)
 {
 	GnmExprRelocateInfo reloc_info;
 	Range region;
@@ -3159,7 +3160,7 @@ sheet_insert_cols (WorkbookControl *wbc, Sheet *sheet,
 	/* 0. Check displaced region and ensure arrays aren't divided. */
 	range_init (&region, col, 0, SHEET_MAX_COLS-1-count, SHEET_MAX_ROWS-1);
 	if (sheet_range_splits_array (sheet, &region, NULL,
-				      wbc, _("Insert Columns")))
+				      cc, _("Insert Columns")))
 		return TRUE;
 
 	/* 1. Delete all columns (and their cells) that will fall off the end */
@@ -3193,9 +3194,9 @@ sheet_insert_cols (WorkbookControl *wbc, Sheet *sheet,
  * @count   The number of columns to be deleted
  */
 gboolean
-sheet_delete_cols (WorkbookControl *wbc, Sheet *sheet,
+sheet_delete_cols (Sheet *sheet,
 		   int col, int count, ColRowStateList *states,
-		   GSList **reloc_storage)
+		   GSList **reloc_storage, CommandContext *cc)
 {
 	GnmExprRelocateInfo reloc_info;
 	int i;
@@ -3217,7 +3218,7 @@ sheet_delete_cols (WorkbookControl *wbc, Sheet *sheet,
 
 	/* 0. Walk cells in deleted cols and ensure arrays aren't divided. */
 	if (sheet_range_splits_array (sheet, &reloc_info.origin, NULL,
-				      wbc, _("Delete Columns")))
+				      cc, _("Delete Columns")))
 		return TRUE;
 
 	/* 1. Delete the columns (and their cells) */
@@ -3253,9 +3254,9 @@ sheet_delete_cols (WorkbookControl *wbc, Sheet *sheet,
  * @count   The number of rows to be inserted
  */
 gboolean
-sheet_insert_rows (WorkbookControl *wbc, Sheet *sheet,
+sheet_insert_rows (Sheet *sheet,
 		   int row, int count, ColRowStateList *states,
-		   GSList **reloc_storage)
+		   GSList **reloc_storage, CommandContext *cc)
 {
 	GnmExprRelocateInfo reloc_info;
 	Range region;
@@ -3271,7 +3272,7 @@ sheet_insert_rows (WorkbookControl *wbc, Sheet *sheet,
 	/* 0. Check displaced region and ensure arrays aren't divided. */
 	range_init (&region, 0, row, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1-count);
 	if (sheet_range_splits_array (sheet, &region, NULL,
-				      wbc, _("Insert Rows")))
+				      cc, _("Insert Rows")))
 		return TRUE;
 
 	/* 1. Delete all rows (and their cells) that will fall off the end */
@@ -3305,9 +3306,9 @@ sheet_insert_rows (WorkbookControl *wbc, Sheet *sheet,
  * @count   The number of rows to be deleted
  */
 gboolean
-sheet_delete_rows (WorkbookControl *wbc, Sheet *sheet,
+sheet_delete_rows (Sheet *sheet,
 		   int row, int count, ColRowStateList *states,
-		   GSList **reloc_storage)
+		   GSList **reloc_storage, CommandContext *cc)
 {
 	GnmExprRelocateInfo reloc_info;
 	int i;
@@ -3329,7 +3330,7 @@ sheet_delete_rows (WorkbookControl *wbc, Sheet *sheet,
 
 	/* 0. Walk cells in deleted rows and ensure arrays aren't divided. */
 	if (sheet_range_splits_array (sheet, &reloc_info.origin, NULL,
-				      wbc, _("Delete Rows")))
+				      cc, _("Delete Rows")))
 		return TRUE;
 
 	/* 1. Delete the rows (and their content) */
@@ -3360,19 +3361,18 @@ sheet_delete_rows (WorkbookControl *wbc, Sheet *sheet,
 
 /**
  * sheet_move_range :
- * @wbc :
+ * @cc :
  * @rinfo :
  * @reloc_storage : optionally NULL.
  *
- * Move a range as specified in @rinfo report warnings to @wbc.
+ * Move a range as specified in @rinfo report warnings to @cc.
  * if @reloc_storage is non NULL, invalidate references to the
  * target region that are being cleared, and store the undo information
  * in @reloc_storage.  If it is NULL do NOT INVALIDATE.
  **/
 void
-sheet_move_range (WorkbookControl *wbc,
-		  GnmExprRelocateInfo const *rinfo,
-		  GSList **reloc_storage)
+sheet_move_range (GnmExprRelocateInfo const *rinfo,
+		  GSList **reloc_storage, CommandContext *cc)
 {
 	GList *cells = NULL;
 	Cell  *cell;
@@ -3459,10 +3459,10 @@ sheet_move_range (WorkbookControl *wbc,
 		 * region without worrying if it overlaps with the source,
 		 * because we have already extracted the content.
 		 */
-		sheet_clear_region (wbc, rinfo->target_sheet,
+		sheet_clear_region (rinfo->target_sheet,
 				    dst.start.col, dst.start.row,
 				    dst.end.col, dst.end.row,
-				    CLEAR_VALUES); /* Do not to clear styles, or objects */
+				    CLEAR_VALUES, cc); /* Do not to clear styles, or objects */
 
 	/* 5. Slide styles BEFORE the cells so that spans get computed properly */
 	sheet_style_relocate (rinfo);
@@ -3900,7 +3900,7 @@ sheet_clone_regions (Sheet const *src, Sheet *dst)
 	GSList *ptr;
 
 	for (ptr = src->list_merged ; ptr != NULL ; ptr = ptr->next)
-		sheet_merge_add (NULL, dst, ptr->data, FALSE);
+		sheet_merge_add (dst, ptr->data, FALSE, NULL);
 }
 
 static void

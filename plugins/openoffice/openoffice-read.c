@@ -425,9 +425,17 @@ oo_cell_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 		style = state->col_default_styles[state->pos.eval.col];
 	if (style != NULL) {
 		mstyle_ref (style);
-		sheet_style_set_pos (state->pos.sheet,
-		     state->pos.eval.col, state->pos.eval.row,
-		     style);
+		if (state->col_inc > 1) {
+			Range tmp;
+			range_init (&tmp,
+				state->pos.eval.col, state->pos.eval.row,
+				state->pos.eval.col + state->col_inc - 1,
+				state->pos.eval.row);
+			sheet_style_set_range (state->pos.sheet, &tmp, style);
+		} else
+			sheet_style_set_pos (state->pos.sheet,
+				state->pos.eval.col, state->pos.eval.row,
+				style);
 	}
 	state->simple_content = FALSE;
 	if (expr != NULL) {
@@ -475,12 +483,61 @@ oo_cell_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 			state->pos.eval.col, state->pos.eval.row,
 			state->pos.eval.col + merge_cols - 1,
 			state->pos.eval.row + merge_rows - 1);
-		sheet_merge_add (NULL, state->pos.sheet, &r, FALSE);
+		sheet_merge_add (state->pos.sheet, &r, FALSE,
+				 NULL);
+
 	}
 }
 
 static void
 oo_cell_end (GsfXmlSAXState *gsf_state)
+{
+	OOParseState *state = (OOParseState *)gsf_state;
+
+	if (state->col_inc > 1) {
+		Cell *cell = sheet_cell_get (state->pos.sheet, state->pos.eval.col, state->pos.eval.row);
+
+		if (!cell_is_blank (cell)) {
+			int i = 1;
+			Cell *next;
+			for (; i < state->col_inc ; i++) {
+				next = sheet_cell_fetch (state->pos.sheet,
+					state->pos.eval.col + i, state->pos.eval.row);
+				cell_set_value (next, value_duplicate (cell->value));
+			}
+		}
+	}
+
+	state->pos.eval.col += state->col_inc;
+}
+
+static void
+oo_covered_cell_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)gsf_state;
+
+	state->col_inc = 1;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (oo_attr_int (state, attrs, "table:number-columns-repeated", &state->col_inc))
+			;
+#if 0
+		/* why bother it is covered ? */
+		else if (!strcmp (attrs[0], "table:style-name"))
+			style = g_hash_table_lookup (state->styles, attrs[1]);
+
+	if (style == NULL)
+		style = state->col_default_styles[state->pos.eval.col];
+	if (style != NULL) {
+		mstyle_ref (style);
+		sheet_style_set_pos (state->pos.sheet,
+		     state->pos.eval.col, state->pos.eval.row,
+		     style);
+	}
+#endif
+}
+
+static void
+oo_covered_cell_end (GsfXmlSAXState *gsf_state)
 {
 	OOParseState *state = (OOParseState *)gsf_state;
 	state->pos.eval.col += state->col_inc;
@@ -716,7 +773,7 @@ GSF_XML_SAX_NODE (START, OFFICE, "office:document-content", FALSE, NULL, NULL, 0
       GSF_XML_SAX_NODE (TABLE, TABLE_COL, "table:table-column", FALSE, &oo_col_start, NULL, 0),
       GSF_XML_SAX_NODE (TABLE, TABLE_ROW, "table:table-row", FALSE, &oo_row_start, NULL, 0),
 	GSF_XML_SAX_NODE (TABLE_ROW, TABLE_CELL, "table:table-cell", FALSE, &oo_cell_start, &oo_cell_end, 0),
-	GSF_XML_SAX_NODE (TABLE_ROW, TABLE_COVERED_CELL, "table:covered-table-cell", FALSE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (TABLE_ROW, TABLE_COVERED_CELL, "table:covered-table-cell", FALSE, &oo_covered_cell_start, &oo_covered_cell_end, 0),
 	  GSF_XML_SAX_NODE (TABLE_CELL, CELL_TEXT, "text:p", TRUE, NULL, &oo_cell_content_end, 0),
 	    GSF_XML_SAX_NODE (CELL_TEXT, CELL_TEXT_S, "text:s", FALSE, NULL, NULL, 0),
       GSF_XML_SAX_NODE (TABLE, TABLE_COL_GROUP, "table:table-column-group", FALSE, NULL, NULL, 0),

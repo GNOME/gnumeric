@@ -186,15 +186,14 @@ void     sheet_colrow_gutter 	     (Sheet *sheet,
 
 gboolean sheet_range_splits_array    (Sheet const *sheet,
 				      Range const *r, Range const *ignore,
-				      WorkbookControl *wbc, char const *cmd);
+				      CommandContext *cc, char const *cmd);
 gboolean sheet_range_splits_region   (Sheet const *sheet,
 				      Range const *r, Range const *ignore,
-				      WorkbookControl *wbc, char const *cmd);
-gboolean sheet_ranges_split_region   (Sheet const *sheet,
-				      GSList const *ranges,
-				      WorkbookControl *wbc, char const *cmd);
+				      CommandContext *cc, char const *cmd);
+gboolean sheet_ranges_split_region   (Sheet const *sheet, GSList const *ranges,
+				      CommandContext *cc, char const *cmd);
 gboolean sheet_range_contains_region (Sheet const *sheet, Range const *r,
-				      WorkbookControl *wbc, char const *cmd);
+				      CommandContext *cc, char const *cmd);
 void	 sheet_range_bounding_box    (Sheet const *sheet, Range *r);
 
 /* Redraw */
@@ -225,9 +224,9 @@ Range       sheet_get_extent		  (Sheet const *sheet,
 					   gboolean spans_and_merges_extend);
 
 /* Sheet information manipulation */
-void        sheet_move_range              (WorkbookControl *context,
-					   GnmExprRelocateInfo const * rinfo,
-					   GSList **reloc_storage);
+void        sheet_move_range              (GnmExprRelocateInfo const * rinfo,
+					   GSList **reloc_storage,
+					   CommandContext *cc);
 
 char       *sheet_name_quote              (char const *unquoted_name);
 
@@ -253,18 +252,18 @@ void  sheet_regen_adjacent_spans (Sheet *sheet,
 void sheet_adjust_outline_dir (Sheet *sheet, gboolean is_cols);
 
 /* Implementation for commands, no undo */
-gboolean  sheet_insert_cols (WorkbookControl *context, Sheet *sheet,
+gboolean  sheet_insert_cols (Sheet *sheet,
 			     int col, int count, ColRowStateList *states,
-			     GSList **reloc_storage);
-gboolean  sheet_delete_cols (WorkbookControl *context, Sheet *sheet,
+			     GSList **reloc_storage, CommandContext *cc);
+gboolean  sheet_delete_cols (Sheet *sheet,
 			     int col, int count, ColRowStateList *states,
-			     GSList **reloc_storage);
-gboolean  sheet_insert_rows (WorkbookControl *context, Sheet *sheet,
+			     GSList **reloc_storage, CommandContext *cc);
+gboolean  sheet_insert_rows (Sheet *sheet,
 			     int row, int count, ColRowStateList *states,
-			     GSList **reloc_storage);
-gboolean  sheet_delete_rows (WorkbookControl *context, Sheet *sheet,
+			     GSList **reloc_storage, CommandContext *cc);
+gboolean  sheet_delete_rows (Sheet *sheet,
 			     int row, int count, ColRowStateList *states,
-			     GSList **reloc_storage);
+			     GSList **reloc_storage, CommandContext *cc);
 
 typedef enum
 {
@@ -277,11 +276,10 @@ typedef enum
 	CLEAR_RECALC_DEPS  = 0x20
 } SheetClearFlags;
 
-void  sheet_clear_region (WorkbookControl *context,
-			  Sheet *sheet,
+void  sheet_clear_region (Sheet *sheet,
 			  int start_col, int start_row,
 			  int end_col, int end_row,
-			  int clear_flags);
+			  int clear_flags, CommandContext *cc);
 
 void	sheet_attach_view (Sheet *sheet, SheetView *sv);
 void    sheet_detach_view (SheetView *sv);

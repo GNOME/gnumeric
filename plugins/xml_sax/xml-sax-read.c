@@ -1244,7 +1244,8 @@ xml_sax_merge (GsfXmlSAXState *gsf_state)
 	g_return_if_fail (state->base.content->len > 0);
 
 	if (parse_range (state->base.content->str, &r))
-		sheet_merge_add (NULL, state->sheet, &r, FALSE);
+		sheet_merge_add (state->sheet, &r, FALSE,
+			COMMAND_CONTEXT (state->context));
 }
 
 static void

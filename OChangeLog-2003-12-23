@@ -10,6 +10,12 @@
 
 2002-10-23  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet-merge.c (sheet_merge_add) : improve warning.
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=96617
+	* src/gnumeric-pane.c (cb_sheet_object_canvas_event) : Fully init
+	  object drag here too.
+
 	* src/workbook.c (workbook_foreach_cell_in_range) : fix.
 
 	* src/position.c (rangeref_normalize) : fix.

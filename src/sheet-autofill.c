@@ -829,7 +829,7 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton_increment,
 			range_init (&tmp, col, row,
 				    col + fi->merged_size.col - 1,
 				    row + fi->merged_size.row - 1);
-			sheet_merge_add	(NULL, sheet, &tmp, TRUE);
+			sheet_merge_add	(sheet, &tmp, TRUE, NULL);
 		}
 
 		if (col_inc != 0) {

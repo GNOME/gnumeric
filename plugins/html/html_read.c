@@ -181,7 +181,7 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, Sheet *sheet, int row)
 				Range *r = &range;
 
 				range_init (r, col + 1, row, col + colspan, row + rowspan - 1);
-				sheet_merge_add (NULL, sheet, r, FALSE);
+				sheet_merge_add (sheet, r, FALSE, NULL);
 			}
 
 			col += colspan;

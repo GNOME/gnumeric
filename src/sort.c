@@ -172,7 +172,8 @@ sort_permute_invert (const int *perm, int length)
 #undef DEBUG_SORT
 
 static void
-sort_permute (WorkbookControl *context, SortData *data, const int *perm, int length)
+sort_permute (SortData *data, const int *perm, int length,
+	      CommandContext *cc)
 {
 	int i, *rperm;
 	PasteTarget pt;
@@ -226,7 +227,7 @@ sort_permute (WorkbookControl *context, SortData *data, const int *perm, int len
 			}
 
 			pt.range = range2;
-			clipboard_paste_region (context, &pt, rcopy1);
+			clipboard_paste_region (rcopy1, &pt, cc);
 			cellregion_free (rcopy1);
 
 			/* This is one step behind.  */
@@ -245,16 +246,16 @@ sort_permute (WorkbookControl *context, SortData *data, const int *perm, int len
 }
 
 void
-sort_position (WorkbookControl *context, SortData *data, int *perm)
+sort_position (SortData *data, int *perm, CommandContext *cc)
 {
 	int length;
 
 	length = sort_data_length (data);
-	sort_permute (context, data, perm, length);
+	sort_permute (data, perm, length, cc);
 }
 
 int *
-sort_contents (WorkbookControl *context, SortData *data)
+sort_contents (SortData *data, CommandContext *cc)
 {
 	ColRowInfo const *cra;
 	SortDataPerm *perm;
@@ -304,7 +305,7 @@ sort_contents (WorkbookControl *context, SortData *data)
 	g_free (perm);
 	g_free (real);
 
-	sort_permute (context, data, iperm, length);
+	sort_permute (data, iperm, length, cc);
 
 	return iperm;
 }

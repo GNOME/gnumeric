@@ -48,18 +48,18 @@ range_row_cmp (Range const *a, Range const *b)
 /**
  * sheet_merge_add :
  *
- * @wbc : workbook control
  * @sheet : the sheet which will contain the region
  * @src : The region to merge
  * @clear : should the non-corner content of the region be cleared and the
  *          style from the corner applied.
+ * @cc : the calling context
  *
  * Add a range to the list of merge targets.  Checks for array spliting returns
  * TRUE if there was an error.  Does not regen spans, redraw or render.
  */
 gboolean
-sheet_merge_add (WorkbookControl *wbc,
-		 Sheet *sheet, Range const *r, gboolean clear)
+sheet_merge_add (Sheet *sheet, Range const *r, gboolean clear,
+		 CommandContext *cc)
 {
 	GSList *test;
 	Range  *r_copy;
@@ -71,14 +71,15 @@ sheet_merge_add (WorkbookControl *wbc,
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (range_is_sane (r), TRUE);
 
-	if (sheet_range_splits_array (sheet, r, NULL, wbc, _("Merge")))
+	if (sheet_range_splits_array (sheet, r, NULL, cc, _("Merge")))
 		return TRUE;
 
 	test = sheet_merge_get_overlap (sheet, r);
 	if (test != NULL) {
-		gnumeric_error_invalid (COMMAND_CONTEXT (wbc),
-			_("There is already a merged region that intersects"),
-			range_name (r));
+		if (cc != NULL)
+			cmd_context_error (cc, g_error_new (gnm_error_invalid(), 0, 
+				_("There is already a merged region that intersects\n%s!%s"),
+				sheet->name_unquoted, range_name (r)));
 		g_slist_free (test);
 		return TRUE;
 	}
@@ -90,17 +91,17 @@ sheet_merge_add (WorkbookControl *wbc,
 
 		/* Clear the non-corner content */
 		if (r->start.col != r->end.col)
-			sheet_clear_region (wbc, sheet,
+			sheet_clear_region (sheet,
 					    r->start.col+1, r->start.row,
 					    r->end.col, r->end.row,
-					    CLEAR_VALUES | CLEAR_COMMENTS |
-					    CLEAR_NOCHECKARRAY | CLEAR_NORESPAN);
+					    CLEAR_VALUES | CLEAR_COMMENTS | CLEAR_NOCHECKARRAY | CLEAR_NORESPAN,
+					    cc);
 		if (r->start.row != r->end.row)
-			sheet_clear_region (wbc, sheet,
+			sheet_clear_region (sheet,
 					    r->start.col, r->start.row+1,
 	    /* yes I mean start.col */	    r->start.col, r->end.row,
-					    CLEAR_VALUES | CLEAR_COMMENTS |
-					    CLEAR_NOCHECKARRAY | CLEAR_NORESPAN);
+					    CLEAR_VALUES | CLEAR_COMMENTS | CLEAR_NOCHECKARRAY | CLEAR_NORESPAN,
+					    cc);
 
 		/* Apply the corner style to the entire region */
 		style = mstyle_copy (sheet_style_get (sheet, r->start.col,
@@ -146,15 +147,15 @@ sheet_merge_add (WorkbookControl *wbc,
 /**
  * sheet_merge_remove :
  *
- * @wbc   : workbook control
  * @sheet : the sheet which will contain the region
  * @range : The region
+ * @cc    : the calling context
  *
  * Remove a merged range.
  * returns TRUE if there was an error.
  */
 gboolean
-sheet_merge_remove (WorkbookControl *wbc, Sheet *sheet, Range const *r)
+sheet_merge_remove (Sheet *sheet, Range const *r, CommandContext *cc)
 {
 	Range *r_copy;
 	Cell *cell;
@@ -315,7 +316,7 @@ sheet_merge_relocate (GnmExprRelocateInfo const *ri)
 		for (ptr = copy; ptr != NULL ; ptr = ptr->next) {
 			Range const *r = ptr->data;
 			if (range_contains (&dest, r->start.col, r->start.row))
-				sheet_merge_remove (NULL, ri->target_sheet, r);
+				sheet_merge_remove (ri->target_sheet, r, NULL);
 		}
 		g_slist_free (copy);
 	}
@@ -327,19 +328,19 @@ sheet_merge_relocate (GnmExprRelocateInfo const *ri)
 			Range tmp = *r;
 
 			/* Toss any objects that would be clipped. */
-			sheet_merge_remove (NULL, ri->origin_sheet, r);
+			sheet_merge_remove (ri->origin_sheet, r, NULL);
 			if (!range_translate (&tmp, ri->col_offset, ri->row_offset))
 				to_move = g_slist_prepend (to_move, range_dup (&tmp));
 		} else if (!change_sheets &&
 			   range_contains (&dest, r->start.col, r->start.row))
-			sheet_merge_remove (NULL, ri->origin_sheet, r);
+			sheet_merge_remove (ri->origin_sheet, r, NULL);
 	}
 	g_slist_free (copy);
 
 	/* move the ranges after removing the previous content in case of overlap */
 	for (ptr = to_move ; ptr != NULL ; ptr = ptr->next) {
 		Range *dest = ptr->data;
-		sheet_merge_add (NULL, ri->target_sheet, dest, TRUE);
+		sheet_merge_add (ri->target_sheet, dest, TRUE, NULL);
 		g_free (dest);
 	}
 	g_slist_free (to_move);

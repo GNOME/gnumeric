@@ -3,11 +3,10 @@
 
 #include "gnumeric.h"
 
-gboolean     sheet_merge_add		(WorkbookControl *cc,
-					 Sheet *sheet, Range const *r,
-					 gboolean clear);
-gboolean     sheet_merge_remove		(WorkbookControl *cc,
-					 Sheet *sheet, Range const *r);
+gboolean     sheet_merge_add		(Sheet *sheet, Range const *r,
+					 gboolean clear, CommandContext *cc);
+gboolean     sheet_merge_remove		(Sheet *sheet, Range const *r,
+					 CommandContext *cc);
 GSList      *sheet_merge_get_overlap	(Sheet const *sheet, Range const *r);
 Range const *sheet_merge_contains_pos	(Sheet const *sheet, CellPos const *pos);
 Range const *sheet_merge_is_corner	(Sheet const *sheet, CellPos const *pos);

@@ -37,6 +37,7 @@
 #include "sheet-style.h"
 #include "workbook.h"
 #include "workbook-control.h"
+#include "command-context.h"
 #include "format.h"
 #include "sheet-object-cell-comment.h"
 #include "commands.h"
@@ -226,7 +227,7 @@ dao_format_output (data_analysis_output_t *dao, char const *cmd)
 	
 	if (dao->type == RangeOutput
 	    && sheet_range_splits_region (dao->sheet, &range, NULL,
-					  dao->wbc, cmd))
+					  COMMAND_CONTEXT (dao->wbc), cmd))
 		return TRUE;
 
 	if (dao->clear_outputrange)
@@ -236,11 +237,11 @@ dao_format_output (data_analysis_output_t *dao, char const *cmd)
 	if (!dao->retain_comments)
 		clear_flags |= CLEAR_COMMENTS;
 
-	sheet_clear_region (dao->wbc, dao->sheet,
+	sheet_clear_region (dao->sheet,
 			    range.start.col, range.start.row,
 			    range.end.col, range.end.row,
-			    clear_flags |
-			    CLEAR_NOCHECKARRAY | CLEAR_MERGES);
+			    clear_flags | CLEAR_NOCHECKARRAY | CLEAR_MERGES,
+			    COMMAND_CONTEXT (dao->wbc));
 	return FALSE;
 }
 

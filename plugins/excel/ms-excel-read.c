@@ -1682,7 +1682,7 @@ excel_map_pattern_index_from_excel (int const i)
  * Parse the BIFF XF Data structure into a nice form, see S59E1E.HTM
  **/
 static void
-excel_read_XF (BiffQuery *q, ExcelWorkbook *wb, MsBiffVersion ver)
+excel_read_XF (BiffQuery *q, ExcelWorkbook *ewb, MsBiffVersion ver)
 {
 	BiffXFData *xf = g_new (BiffXFData, 1);
 	guint32 data, subdata;
@@ -1690,7 +1690,7 @@ excel_read_XF (BiffQuery *q, ExcelWorkbook *wb, MsBiffVersion ver)
 	xf->font_idx = GSF_LE_GET_GUINT16 (q->data);
 	xf->format_idx = GSF_LE_GET_GUINT16 (q->data + 2);
 	xf->style_format = (xf->format_idx > 0)
-		? excel_wb_get_fmt (wb, xf->format_idx) : NULL;
+		? excel_wb_get_fmt (ewb, xf->format_idx) : NULL;
 
 	data = GSF_LE_GET_GUINT16 (q->data + 4);
 	xf->locked = (data & 0x0001) != 0;
@@ -1918,9 +1918,9 @@ excel_read_XF (BiffQuery *q, ExcelWorkbook *wb, MsBiffVersion ver)
 	/* Init the cache */
 	xf->mstyle = NULL;
 
-	g_ptr_array_add (wb->XF_cell_records, xf);
+	g_ptr_array_add (ewb->XF_cell_records, xf);
 	d (2, fprintf (stderr,"XF(%d): Font %d, Format %d, Fore %d, Back %d, Pattern = %d\n",
-		      wb->XF_cell_records->len - 1,
+		      ewb->XF_cell_records->len - 1,
 		      xf->font_idx,
 		      xf->format_idx,
 		      xf->pat_foregnd_col,
@@ -2405,10 +2405,10 @@ excel_workbook_new (MsBiffVersion ver, IOContext *context, WorkbookView *wbv)
 }
 
 static ExcelSheet *
-excel_workbook_get_sheet (ExcelWorkbook const *wb, guint idx)
+excel_workbook_get_sheet (ExcelWorkbook const *ewb, guint idx)
 {
-	if (idx < wb->excel_sheets->len)
-		return g_ptr_array_index (wb->excel_sheets, idx);
+	if (idx < ewb->excel_sheets->len)
+		return g_ptr_array_index (ewb->excel_sheets, idx);
 	return NULL;
 }
 
@@ -3365,12 +3365,13 @@ excel_read_MERGECELLS (BiffQuery *q, ExcelSheet *esheet)
 
 	while (num_merged-- > 0) {
 		data = excel_read_range (&r, data);
-		sheet_merge_add (NULL, esheet->sheet, &r, FALSE);
+		sheet_merge_add (esheet->sheet, &r, FALSE,
+			COMMAND_CONTEXT (esheet->ewb->context));
 	}
 }
 
 static void
-excel_read_DIMENSIONS (BiffQuery *q, ExcelWorkbook *wb)
+excel_read_DIMENSIONS (BiffQuery *q, ExcelWorkbook *ewb)
 {
 	Range r;
 
@@ -3378,8 +3379,7 @@ excel_read_DIMENSIONS (BiffQuery *q, ExcelWorkbook *wb)
 	if (q->opcode != 0x200)
 		return;
 
-	if (wb->container.ver >= MS_BIFF_V8)
-	{
+	if (ewb->container.ver >= MS_BIFF_V8) {
 		r.start.row = GSF_LE_GET_GUINT32 (q->data);
 		r.end.row   = GSF_LE_GET_GUINT32 (q->data + 4);
 		r.start.col = GSF_LE_GET_GUINT16 (q->data + 8);
@@ -4269,14 +4269,13 @@ excel_read_EXTERNSHEET_v7 (BiffQuery const *q, ExcelWorkbook *ewb, ExcelSheet *e
 }
 
 static gboolean
-excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
-		  WorkbookView *wb_view, ExcelSheet *esheet,
-		  IOContext *io_context)
+excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
+		  WorkbookView *wb_view, ExcelSheet *esheet)
 {
 	MStyle *mstyle;
 	PrintInformation *pi;
 
-	g_return_val_if_fail (wb != NULL, FALSE);
+	g_return_val_if_fail (ewb != NULL, FALSE);
 	g_return_val_if_fail (esheet != NULL, FALSE);
 	g_return_val_if_fail (esheet->sheet != NULL, FALSE);
 	g_return_val_if_fail (esheet->sheet->print_info != NULL, FALSE);
@@ -4295,7 +4294,7 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 	}
 
 	for (; ms_biff_query_next (q) ;
-	     value_io_progress_update (io_context, q->streamPos)) {
+	     value_io_progress_update (ewb->context, q->streamPos)) {
 
 		d (5, fprintf (stderr,"Opcode: 0x%x\n", q->opcode););
 
@@ -4339,7 +4338,7 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 
 		switch (q->ls_op) {
 		case BIFF_DIMENSIONS:	/* 2, NOT 1,10 */
-			excel_read_DIMENSIONS (q, wb);
+			excel_read_DIMENSIONS (q, ewb);
 			break;
 
 		case BIFF_BLANK: {
@@ -4398,8 +4397,8 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 		/* NOTE : bytes 12 & 16 appear to require the non decrypted data */
 		case BIFF_INDEX:	break;
 
-		case BIFF_CALCCOUNT:	excel_read_CALCCOUNT (q, wb);	break;
-		case BIFF_CALCMODE:	excel_read_CALCMODE (q,wb);	break;
+		case BIFF_CALCCOUNT:	excel_read_CALCCOUNT (q, ewb);	break;
+		case BIFF_CALCMODE:	excel_read_CALCMODE (q,ewb);	break;
 
 		case BIFF_PRECISION : {
 #if 0
@@ -4412,8 +4411,8 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 		}
 
 		case BIFF_REFMODE:	break;
-		case BIFF_DELTA:	excel_read_DELTA (q, wb);	break;
-		case BIFF_ITERATION:	excel_read_ITERATION (q, wb);	break;
+		case BIFF_DELTA:	excel_read_DELTA (q, ewb);	break;
+		case BIFF_ITERATION:	excel_read_ITERATION (q, ewb);	break;
 		case BIFF_PROTECT:	excel_read_PROTECT (q, "Sheet"); break;
 
 		case BIFF_PASSWORD:
@@ -4445,7 +4444,7 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 
 		case BIFF_EXTERNCOUNT: /* ignore */ break;
 		case BIFF_EXTERNSHEET: /* These can not be biff8 */
-			excel_read_EXTERNSHEET_v7 (q, wb, esheet);
+			excel_read_EXTERNSHEET_v7 (q, ewb, esheet);
 			break;
 
 		case BIFF_NOTE:		excel_read_NOTE (q, esheet);	  	break;
@@ -4754,7 +4753,7 @@ excel_read_BOF (BiffQuery	 *q,
 		if (bsh) {
 			ExcelSheet *esheet = excel_workbook_get_sheet (ewb, *current_sheet);
 			esheet->container.ver = ver->version;
-			excel_read_sheet (q, ewb, wb_view, esheet, context);
+			excel_read_sheet (q, ewb, wb_view, esheet);
 			ms_container_realize_objs (sheet_container (esheet));
 
 			(*current_sheet)++;
@@ -4956,7 +4955,7 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			if (ms_biff_query_set_decrypt (q, "VelvetSweatshop"))
 				break;
 			do {
-				char *passwd = cmd_context_get_password (COMMAND_CONTEXT (context),
+				char *passwd = cmd_context_get_password (COMMAND_CONTEXT (ewb->context),
 					_("This file is encrypted"));
 				if (passwd == NULL) {
 					problem_loading = _("No password supplied");

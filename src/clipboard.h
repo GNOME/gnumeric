@@ -74,11 +74,9 @@ struct _PasteTarget {
 };
 
 CellRegion *clipboard_copy_range   (Sheet *sheet, Range const *r);
-gboolean    clipboard_paste_region (WorkbookControl *wbc,
+gboolean    clipboard_paste_region (CellRegion const *content,
 				    PasteTarget const *pt,
-				    CellRegion const *content);
-void 	    clipboard_paste	   (WorkbookControl *wbc,
-				    PasteTarget const *pt, guint32 time);
+				    CommandContext *cc);
 PasteTarget*paste_target_init      (PasteTarget *pt,
 				    Sheet *sheet, Range const *r, int flags);
 

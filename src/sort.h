@@ -22,11 +22,11 @@ typedef struct {
 void        sort_clause_destroy (SortClause *clause);
 void        sort_data_destroy (SortData *data);
 
-void        sort_position (WorkbookControl *wbc, SortData *data, int *perm);
+void        sort_position (SortData *data, int *perm, CommandContext *cc);
 
-int         *sort_contents (WorkbookControl *wbc, SortData *data);
+int         *sort_contents (SortData *data, CommandContext *cc);
 
-int         sort_data_length (const SortData *data);
-int         *sort_permute_invert (const int *perm, int length);
+int         sort_data_length	 (SortData const *data);
+int         *sort_permute_invert (int const *perm, int length);
 
 #endif /* GNUMERIC_SORT_H */

@@ -1197,7 +1197,7 @@ scg_finalize (GObject *object)
 
 	/* remove the object view before we disappear */
 	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next )
-		sc_object_destroy_view	(sc, SHEET_OBJECT (ptr->data));
+		sc_object_destroy_view (sc, SHEET_OBJECT (ptr->data));
 
 	g_ptr_array_free (scg->col_group.buttons, TRUE);
 	g_ptr_array_free (scg->row_group.buttons, TRUE);

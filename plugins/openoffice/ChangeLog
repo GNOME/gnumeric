@@ -1,3 +1,12 @@
+2002-10-23  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=96595
+	* openoffice-read.c (oo_covered_cell_start) : new.
+	(oo_covered_cell_end) : new.  covered cells, and repeated convered
+	  cells take up space.
+	(oo_cell_end) : a repeated cell with content replicates the content.
+	(oo_cell_start) : a repeated cell with a style replicates the style.
+
 2002-10-09  Morten Welinder  <terra@diku.dk>
 
 	* openoffice-read.c (OOParseState): Avoid "gboolean ... : 1".

@@ -332,7 +332,7 @@ sv_selection_cut (SheetView *sv, WorkbookControl *wbc)
 	if (!(sel = selection_first_range (sv, COMMAND_CONTEXT (wbc), _("Cut"))))
 		return FALSE;
 
-	if (sheet_range_splits_region (sv_sheet (sv), sel, NULL, wbc, _("Cut")))
+	if (sheet_range_splits_region (sv_sheet (sv), sel, NULL, COMMAND_CONTEXT (wbc), _("Cut")))
 		return FALSE;
 
 	application_clipboard_cut_copy (wbc, TRUE, sv, sel, TRUE);
