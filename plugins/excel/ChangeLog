@@ -1,3 +1,7 @@
+2003-10-25  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_write_SELECTION) : doh!
+
 2003-10-18  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=124244	[unable to open group]

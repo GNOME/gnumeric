@@ -3428,7 +3428,7 @@ excel_write_SELECTION (BiffPut *bp, ExcelWriteSheet *esheet)
 	GList *ptr;
 	guint8 *data;
 
-	data = ms_biff_put_len_next (bp, BIFF_SELECTION, 15);
+	data = ms_biff_put_len_next (bp, BIFF_SELECTION, 9 + 6*n);
 	GSF_LE_SET_GUINT8  (data +  0, 3); /* no split == pane 3 ? */
 	GSF_LE_SET_GUINT16 (data +  1, sv->edit_pos.row);
 	GSF_LE_SET_GUINT16 (data +  3, sv->edit_pos.col);
