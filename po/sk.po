@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0\n"
-"POT-Creation-Date: 2002-02-08 13:06+0100\n"
-"PO-Revision-Date: 08.02.2002 13:35\n"
+"POT-Creation-Date: 2002-02-26 17:59+0100\n"
+"PO-Revision-Date: 2002-02-26 18:03+0100\n"
 "Last-Translator: Stanislav Višňovský <visnovsky@nenya.ms.mff.cuni.cz>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 "<bobo@bobo.bspc.sk>\n"
 "Date: 1999-04-30 12:12:02+0000\n"
 "From: Bobo Rajec,BSP Consulting,+42 7 5330 017,, <bobo@bobo.bspc.sk>\n"
-"X-Generator: KBabel 0.9.5\n"
+"X-Generator: KBabel 0.9.6\n"
 
 #: gnumeric.desktop.in.h:1 src/dialogs/dialog-about.c:81
 #: src/functions/fn-sheet.c:143
@@ -74,10 +74,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=opt_bs_call\n"
 "@SYNTAX=opt_bs_call(zaciatok,cena,životnosť,dní_do_splatnosti,úrok)\n"
-"@DESCRIPTION=Používa Black-Scholesov model pre výpočet "
-"ceny európskej call opcie @zaciatok na majetok s cenou @cena.  "
-"@životnosť je ročná v percentách z cena za dané obdobie. @dní_do_splatnosti "
-"je počet dní do splatnosti  @úrok je úrok do dňa splatnosti v percentách.\n"
+"@DESCRIPTION=Používa Black-Scholesov model pre výpočet ceny európskej call "
+"opcie @zaciatok na majetok s cenou @cena.  @životnosť je ročná v percentách "
+"z cena za dané obdobie. @dní_do_splatnosti je počet dní do splatnosti  @úrok "
+"je úrok do dňa splatnosti v percentách.\n"
 "Vrátená hodnota bude v rovnakých jednotkách ako @zaciatok a @cena.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -105,10 +105,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=opt_bs_put\n"
 "@SYNTAX=opt_bs_put(zaciatok,cena,životnosť,dní_do_splatnosti,úrok)\n"
-"@DESCRIPTION=Používa Black-Scholesov model pre výpočet "
-"ceny európskej put opcie @zaciatok na majetok s cenou @cena.  "
-"@životnosť je ročná v percentách z cena za dané obdobie. @dní_do_splatnosti "
-"je počet dní do splatnosti  @úrok je úrok do dňa splatnosti v percentách.\n"
+"@DESCRIPTION=Používa Black-Scholesov model pre výpočet ceny európskej put "
+"opcie @zaciatok na majetok s cenou @cena.  @životnosť je ročná v percentách "
+"z cena za dané obdobie. @dní_do_splatnosti je počet dní do splatnosti  @úrok "
+"je úrok do dňa splatnosti v percentách.\n"
 "Vrátená hodnota bude v rovnakých jednotkách ako @zaciatok a @cena.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -138,9 +138,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=opt_bs_call_delta\n"
 "@SYNTAX=opt_bs_call_delta(zaciatok,cena,životnosť,dní_do_splatnosti,úrok)\n"
-"@DESCRIPTION=Používa Black-Scholesov model pre výpočet "
-"ceny európskej call opcie @zaciatok na majetok s cenou @cena. "
-"(Delta opcie je rýchlosť zmeny ceny s ohľadom na cenu majetku.)\n"
+"@DESCRIPTION=Používa Black-Scholesov model pre výpočet ceny európskej call "
+"opcie @zaciatok na majetok s cenou @cena. (Delta opcie je rýchlosť zmeny "
+"ceny s ohľadom na cenu majetku.)\n"
 "@životnosť je ročná v percentách z cena za dané obdobie. @dní_do_splatnosti "
 "je počet dní do splatnosti  @úrok je úrok do dňa splatnosti v percentách.\n"
 "Vrátená hodnota bude v rýchlosť zmeny hodnoty za zmenu jednotky v @cena.\n"
@@ -172,9 +172,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=opt_bs_put_delta\n"
 "@SYNTAX=opt_bs_put_delta(zaciatok,cena,životnosť,dní_do_splatnosti,úrok)\n"
-"@DESCRIPTION=Používa Black-Scholesov model pre výpočet "
-"ceny európskej put opcie @zaciatok na majetok s cenou @cena. "
-"(Delta opcie je rýchlosť zmeny ceny s ohľadom na cenu majetku.)\n"
+"@DESCRIPTION=Používa Black-Scholesov model pre výpočet ceny európskej put "
+"opcie @zaciatok na majetok s cenou @cena. (Delta opcie je rýchlosť zmeny "
+"ceny s ohľadom na cenu majetku.)\n"
 "@životnosť je ročná v percentách z cena za dané obdobie. @dní_do_splatnosti "
 "je počet dní do splatnosti  @úrok je úrok do dňa splatnosti v percentách.\n"
 "Vrátená hodnota bude v rýchlosť zmeny hodnoty za zmenu jednotky v @cena.\n"
@@ -207,9 +207,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=opt_bs_call_rho\n"
 "@SYNTAX=opt_bs_call_rho(zaciatok,cena,životnosť,dní_do_splatnosti,úrok)\n"
-"@DESCRIPTION=Používa Black-Scholesov model pre výpočet \"rho\" "
-"európskej call opcie @zaciatok na majetok s cenou @cena. "
-"(Rho opcie je rýchlosť zmeny ceny s ohľadom na úrokovú mieru.)\n"
+"@DESCRIPTION=Používa Black-Scholesov model pre výpočet \"rho\" európskej "
+"call opcie @zaciatok na majetok s cenou @cena. (Rho opcie je rýchlosť zmeny "
+"ceny s ohľadom na úrokovú mieru.)\n"
 "@životnosť je ročná v percentách z cena za dané obdobie. @dní_do_splatnosti "
 "je počet dní do splatnosti  @úrok je úrok do dňa splatnosti v percentách.\n"
 "Vrátená hodnota bude zmena hodnoty opcie na 100% zmeny v @úrok.\n"
@@ -242,9 +242,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=opt_bs_put_rho\n"
 "@SYNTAX=opt_bs_put_rho(zaciatok,cena,životnosť,dní_do_splatnosti,úrok)\n"
-"@DESCRIPTION=Používa Black-Scholesov model pre výpočet \"rho\" "
-"európskej put opcie @zaciatok na majetok s cenou @cena. "
-"(Rho opcie je rýchlosť zmeny ceny s ohľadom na úrokovú mieru.)\n"
+"@DESCRIPTION=Používa Black-Scholesov model pre výpočet \"rho\" európskej put "
+"opcie @zaciatok na majetok s cenou @cena. (Rho opcie je rýchlosť zmeny ceny "
+"s ohľadom na úrokovú mieru.)\n"
 "@životnosť je ročná v percentách z cena za dané obdobie. @dní_do_splatnosti "
 "je počet dní do splatnosti  @úrok je úrok do dňa splatnosti v percentách.\n"
 "Vrátená hodnota bude zmena hodnoty opcie na 100% zmeny v @úrok.\n"
@@ -275,18 +275,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=opt_bs_call_theta\n"
 "@SYNTAX=opt_bs_call_theta(zaciatok,cena,životnosť,dní_do_splatnosti,úrok)\n"
-"@DESCRIPTION=Používa Black-Scholesov model pre výpočet \"theta\" "
-"európskej call opcie @zaciatok na majetok s cenou @cena. "
-"(Theta opcie je rýchlosť zmeny ceny s ohľadom na dátum splatnosti.)\n"
+"@DESCRIPTION=Používa Black-Scholesov model pre výpočet \"theta\" európskej "
+"call opcie @zaciatok na majetok s cenou @cena. (Theta opcie je rýchlosť "
+"zmeny ceny s ohľadom na dátum splatnosti.)\n"
 "@životnosť je ročná v percentách z cena za dané obdobie. @dní_do_splatnosti "
 "je počet dní do splatnosti  @úrok je úrok do dňa splatnosti v percentách.\n"
-"Vrátená hodnota bude ako mínusová percentuálna zmena hodnoty "
-"za jeden rok (365.25 dní).\n"
+"Vrátená hodnota bude ako mínusová percentuálna zmena hodnoty za jeden rok "
+"(365.25 dní).\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta, opt_bs_put_delta, "
-"opt_bs_call_rho, opt_bs_put_rho, opt_bs_put_theta, opt_bs_vega, "
-"opt_bs_gamma"
+"opt_bs_call_rho, opt_bs_put_rho, opt_bs_put_theta, opt_bs_vega, opt_bs_gamma"
 
 #: plugins/derivatives/options.c:446
 msgid ""
@@ -309,18 +308,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=opt_bs_put_theta\n"
 "@SYNTAX=opt_bs_call_put(zaciatok,cena,životnosť,dní_do_splatnosti,úrok)\n"
-"@DESCRIPTION=Používa Black-Scholesov model pre výpočet \"theta\" "
-"európskej put opcie @zaciatok na majetok s cenou @cena. "
-"(Theta opcie je rýchlosť zmeny ceny s ohľadom na dátum splatnosti.)\n"
+"@DESCRIPTION=Používa Black-Scholesov model pre výpočet \"theta\" európskej "
+"put opcie @zaciatok na majetok s cenou @cena. (Theta opcie je rýchlosť zmeny "
+"ceny s ohľadom na dátum splatnosti.)\n"
 "@životnosť je ročná v percentách z cena za dané obdobie. @dní_do_splatnosti "
 "je počet dní do splatnosti  @úrok je úrok do dňa splatnosti v percentách.\n"
-"Vrátená hodnota bude ako mínusová percentuálna zmena hodnoty "
-"za jeden rok (365.25 dní).\n"
+"Vrátená hodnota bude ako mínusová percentuálna zmena hodnoty za jeden rok "
+"(365.25 dní).\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta, opt_bs_put_delta, "
-"opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_vega, "
-"opt_bs_gamma"
+"opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_vega, opt_bs_gamma"
 
 #: plugins/derivatives/options.c:469
 msgid ""
@@ -344,17 +342,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=opt_bs_gamma\n"
 "@SYNTAX=opt_bs_gamma(zaciatok,cena,životnosť,dní_do_splatnosti,úrok)\n"
-"@DESCRIPTION=Používa Black-Scholesov model pre výpočet \"gamma\" "
-"európskej opcie @zaciatok na majetok s cenou @cena. "
-"(Gamma opcie je druhá derivácia jej ceny s ohľadom cenu majetku a "
-"je rovnaká pre call aj put.)\n"
+"@DESCRIPTION=Používa Black-Scholesov model pre výpočet \"gamma\" európskej "
+"opcie @zaciatok na majetok s cenou @cena. (Gamma opcie je druhá derivácia "
+"jej ceny s ohľadom cenu majetku a je rovnaká pre call aj put.)\n"
 "@životnosť je ročná v percentách z cena za dané obdobie. @dní_do_splatnosti "
 "je počet dní do splatnosti  @úrok je úrok do dňa splatnosti v percentách.\n"
 "Vrátená hodnota bude v rýchlosť zmeny hodnoty za zmenu delta v @cena.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta, opt_bs_put_delta, "
-"opt_bs_call_rho, opt_bs_put_rho, opt_bs_put_theta, opt_bs_call_theta, opt_bs_vega"
+"opt_bs_call_rho, opt_bs_put_rho, opt_bs_put_theta, opt_bs_call_theta, "
+"opt_bs_vega"
 
 #: plugins/derivatives/options.c:493
 #, no-c-format
@@ -379,20 +377,20 @@ msgid ""
 msgstr ""
 "@FUNCTION=opt_bs_vega\n"
 "@SYNTAX=opt_bs_vega(zaciatok,cena,životnosť,dní_do_splatnosti,úrok)\n"
-"@DESCRIPTION=Používa Black-Scholesov model pre výpočet \"vega\" "
-"európskej opcie @zaciatok na majetok s cenou @cena. "
-"(Vega opcie je rýchlosť zmeny ceny s ohľadom na živostnosť a "
-"je rovnaká pre call aj put.)\n"
+"@DESCRIPTION=Používa Black-Scholesov model pre výpočet \"vega\" európskej "
+"opcie @zaciatok na majetok s cenou @cena. (Vega opcie je rýchlosť zmeny ceny "
+"s ohľadom na živostnosť a je rovnaká pre call aj put.)\n"
 "@životnosť je ročná v percentách z cena za dané obdobie. @dní_do_splatnosti "
 "je počet dní do splatnosti  @úrok je úrok do dňa splatnosti v percentách.\n"
 "Vrátená hodnota bude v rýchlosť zmeny hodnoty za 100% živostnosti.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta, opt_bs_put_delta, "
-"opt_bs_call_rho, opt_bs_put_rho, opt_bs_put_theta, opt_bs_call_theta, opt_bs_gamma"
+"opt_bs_call_rho, opt_bs_put_rho, opt_bs_put_theta, opt_bs_call_theta, "
+"opt_bs_gamma"
 
 #: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4524
-#: plugins/mps/mps.c:579 src/xml-io.c:3378
+#: plugins/mps/mps.c:579 src/xml-io.c:3379
 msgid "Reading file..."
 msgstr "Čítam súbor..."
 
@@ -447,7 +445,7 @@ msgstr "Chyba pri zápise súboru DIF."
 msgid "Cannot get default sheet."
 msgstr "Nemôžem získať štandardný list."
 
-#: plugins/dif/dif.c:398
+#: plugins/dif/dif.c:399
 msgid "Error while saving DIF file."
 msgstr "Chyba pri zápise súboru DIF."
 
@@ -3049,7 +3047,7 @@ msgstr "Imaginárna"
 msgid "Error '%s' opening workbook stream"
 msgstr "Chyba '%s' pri otváraní kanálu zošitu"
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3401
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3402
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Neplatný XML súbor. Strom je prázdny?"
 
@@ -6704,7 +6702,7 @@ msgid "Scale"
 msgstr "Veľkosť"
 
 #: src/dialogs/print.glade.h:23 src/functions/fn-sheet.c:141
-#: src/workbook.c:1065 src/xml-io.c:3086
+#: src/workbook.c:1065 src/xml-io.c:3087
 msgid "Sheet"
 msgstr "List"
 
@@ -7426,23 +7424,23 @@ msgstr "už globálne definované"
 msgid "'%s' has a circular reference"
 msgstr "'%s' obsahuje kruhový odkaz"
 
-#: src/expr-name.c:415
+#: src/expr-name.c:418
 msgid "Builtin"
 msgstr "Zabudovaný"
 
-#: src/expr-name.c:515 src/expr-name.c:527
+#: src/expr-name.c:518 src/expr-name.c:530
 msgid "Error: no sheet"
 msgstr "Chyba: žiadny list"
 
-#: src/expr.c:551
+#: src/expr.c:557
 msgid "Internal type error"
 msgstr "Interná chyba typu"
 
-#: src/expr.c:730
+#: src/expr.c:736
 msgid "Unknown operator"
 msgstr "Neznámy operátor"
 
-#: src/expr.c:959
+#: src/expr.c:965
 msgid "Unknown evaluation error"
 msgstr "Neznáma chyba pri vyhodnocovaní"
 
@@ -14909,61 +14907,62 @@ msgstr ""
 
 #: src/functions/fn-math.c:1235
 msgid ""
-"@FUNCTION=RandExp\n"
-"@SYNTAX=RandExp(b)\n"
-"@DESCRIPTION=RandExp returns a exponentially distributed random number. \n"
+"@FUNCTION=RANDEXP\n"
+"@SYNTAX=RANDEXP(b)\n"
+"@DESCRIPTION=RANDEXP returns a exponentially-distributed random number. \n"
 "@EXAMPLES=\n"
-"RandExp(0.5).\n"
+"RANDEXP(0.5).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
-"@FUNCTION=RandExp\n"
-"@SYNTAX=RandExp(b)\n"
-"@DESCRIPTION=RandExp vracia náhodné číslo podľa exponenciálneho "
+"@FUNCTION=RANDEXP\n"
+"@SYNTAX=RANDEXP(b)\n"
+"@DESCRIPTION=RANDEXP vracia náhodné číslo podľa exponenciálneho "
 "rozdelenia. \n"
 "@EXAMPLES=\n"
-"RandExp(0.5).\n"
+"RANDEXP(0.5).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
 #: src/functions/fn-math.c:1258
 msgid ""
-"@FUNCTION=RandPoisson\n"
-"@SYNTAX=RandPoisson(lambda)\n"
-"@DESCRIPTION=RandPoisson returns a poisson distributed random number. \n"
+"@FUNCTION=RANDPOISSON\n"
+"@SYNTAX=RANDPOISSON(lambda)\n"
+"@DESCRIPTION=RANDPOISSON returns a poisson-distributed random number. \n"
 "@EXAMPLES=\n"
-"RandPoisson(3).\n"
+"RANDPOISSON(3).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
-"@FUNCTION=RandPoisson\n"
-"@SYNTAX=RandPoisson(lambda)\n"
-"@DESCRIPTION=RandPoisson vracia náhodné číslo podľa Poissonovho "
+"@FUNCTION=RANDPOISSON\n"
+"@SYNTAX=RANDPOISSON(lambda)\n"
+"@DESCRIPTION=RANDPOISSON vracia náhodné číslo podľa Poissonovho "
 "rozdelenia. \n"
 "@EXAMPLES=\n"
-"RandPoisson(3).\n"
+"RANDPOISSON(3).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
 #: src/functions/fn-math.c:1284
 msgid ""
-"@FUNCTION=RandBinom\n"
-"@SYNTAX=RandBinom(p,trials)\n"
-"@DESCRIPTION=RandBinom returns a binomialy distributed random number. \n"
-"If @p < 0 or @p > 1 RandBinom returns #NUM! error. If @trials < 0 RandBinom "
+"@FUNCTION=RANDBINOM\n"
+"@SYNTAX=RANDBINOM(p,trials)\n"
+"@DESCRIPTION=RANDBINOM returns a binomially-distributed random number. \n"
+"If @p < 0 or @p > 1 RANDBINOM returns #NUM! error. If @trials < 0 RANDBINOM "
 "returns #NUM! error. \n"
 "@EXAMPLES=\n"
-"RandBinom(0.5,2).\n"
+"RANDBINOM(0.5,2).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
-"@FUNCTION=RandBinom\n"
-"@SYNTAX=RandBinom(p,pokusy)\n"
-"@DESCRIPTION=RandBinom vracia náhodné číslo podľa binomického rozdelenia. \n"
-"Ak je @p < 0 alebo @p > 1 RandBinom vracia chybu #NUM!. Ak je @pokusy < 0 "
-"RandBinom vracia chybu #NUM!. \n"
+"@FUNCTION=RANDBINOM\n"
+"@SYNTAX=RANDBINOM(p,pokusy)\n"
+"@DESCRIPTION=RANDBINOM vracia náhodné číslo podľa binomického "
+"rozdelenia. \n"
+"Ak je @p < 0 alebo @p > 1, RANDBINOM vracia chybu #NUM!. Ak je @pokusy "
+"RANDBINOM vracia chybu #NUM!. \n"
 "@EXAMPLES=\n"
-"RandBinom(0.5,2).\n"
+"RANDBINOM(0.5,2).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
@@ -14971,7 +14970,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,failures)\n"
-"@DESCRIPTION=RANDNEGBINOM returns a negitive binomialy distributed random "
+"@DESCRIPTION=RANDNEGBINOM returns a negative binomially-distributed random "
 "number. \n"
 "If @p < 0 or @p > 1, RANDNEGBINOM returns #NUM! error. If @failures "
 "RANDNEGBINOM returns #NUM! error. \n"
@@ -14993,22 +14992,22 @@ msgstr ""
 
 #: src/functions/fn-math.c:1345
 msgid ""
-"@FUNCTION=RandBernoulli\n"
-"@SYNTAX=RandBernoulli(p)\n"
-"@DESCRIPTION=RandBernoulli returns a Bernoulli distributed random number. \n"
-"If @p < 0 or @p > 1 RandBernoulli returns #NUM! error. \n"
+"@FUNCTION=RANDBERNOULLI\n"
+"@SYNTAX=RANDBERNOULLI(p)\n"
+"@DESCRIPTION=RANDBERNOULLI returns a Bernoulli-distributed random number. \n"
+"If @p < 0 or @p > 1 RANDBERNOULLI returns #NUM! error. \n"
 "@EXAMPLES=\n"
-"RandBernoulli(0.5).\n"
+"RANDBERNOULLI(0.5).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
-"@FUNCTION=RandBernoulli\n"
-"@SYNTAX=RandBernoulli(p)\n"
-"@DESCRIPTION=RandBernoulli  vracia náhodné číslo podľa Bernoulliho "
+"@FUNCTION=RANDBERNOULLI\n"
+"@SYNTAX=RANDBERNOULLI(p)\n"
+"@DESCRIPTION=RANDBERNOULLI  vracia náhodné číslo podľa Bernoulliho "
 "rozdelenia. \n"
-"Ak je @p < 0 alebo @p > 1 RandBernoulli vracia chybu #NUM!. \n"
+"Ak je @p < 0 alebo @p > 1 RANDBERNOULLI vracia chybu #NUM!. \n"
 "@EXAMPLES=\n"
-"RandBernoulli(0.5).\n"
+"RANDBERNOULLI(0.5).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
@@ -19459,7 +19458,7 @@ msgstr "Chyba pri otváraní súboru \"%s\" pre čítanie."
 msgid "Unable to mmap the file."
 msgstr "Nepodarilo sa namapovať súbor."
 
-#: src/plugin-util.c:318 src/xml-io.c:3367
+#: src/plugin-util.c:318 src/xml-io.c:3368
 msgid "Cannot get file size."
 msgstr "Nemôžem získať veľkosť súboru."
 
@@ -20041,17 +20040,17 @@ msgstr "Chyba pri načítavaní dát do listu"
 msgid "Error while trying to write csv file"
 msgstr "Chyba pri zápise csv súboru"
 
-#: src/stf.c:438
-msgid "Text File import (customizable)"
-msgstr "Import textového súboru (upraviteľné)"
-
-#: src/stf.c:441
-msgid "Text File import (default csv)"
+#: src/stf.c:439
+msgid "Text import (defaults to csv)"
 msgstr "Import textového súboru (štandardne csv)"
 
-#: src/stf.c:446
-msgid "Text File Export (*.csv)"
-msgstr "Export textového súboru (*.csv)"
+#: src/stf.c:443
+msgid "Text import (configurable)"
+msgstr "Import textového súboru (nastaviteľné)"
+
+#: src/stf.c:447
+msgid "Text export (configurable)"
+msgstr "Export textového súboru (nastaviteľné)"
 
 #: src/style.c:265 src/style.c:267
 msgid "<Has not been set>"
@@ -20112,32 +20111,42 @@ msgstr "Vaša mapa písiem fontmap2 neobsahuje platné informácie o Helvetica."
 msgid "Your fontmap2 file could not be found in the expected location."
 msgstr "Vaša mapa písiem fontmap2 nebola nájdená na očakávanom mieste."
 
-#: src/validation.c:138
+#: src/validation.c:137
 #, c-format
 msgid "Cell %s is not permitted to be blank"
 msgstr "Bunka %s nesmie byť prázdna"
 
-#: src/validation.c:158
+#: src/validation.c:151
 #, c-format
 msgid "'%f' is not an integer"
 msgstr "'%f' nie je celé číslo"
 
-#: src/validation.c:168
+#: src/validation.c:161
 #, c-format
-msgid "'%f' is not a number"
-msgstr "'%f' nie je číslo"
+msgid "'%s' is an error"
+msgstr "'%s' je chyba"
 
-#: src/validation.c:175
+#: src/validation.c:169
+#, c-format
+msgid "'%s' is not a valid date"
+msgstr "%s nie je platný dátum"
+
+#: src/validation.c:171
+#, c-format
+msgid "'%s' is not a valid time"
+msgstr "'%s' nie je paltný čas"
+
+#: src/validation.c:173
 #, c-format
 msgid "'%s' is not a number"
 msgstr "'%s' nie je číslo"
 
-#: src/validation.c:259
+#: src/validation.c:265
 #, c-format
 msgid "%s is not true."
 msgstr "%s neplatí."
 
-#: src/validation.c:272
+#: src/validation.c:278
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's content."
@@ -20145,7 +20154,7 @@ msgstr ""
 "Hodnota nie je platná.\n"
 "Na obsah tejto bunky sú kladené obmedzenia."
 
-#: src/validation.c:279
+#: src/validation.c:285
 msgid "Gnumeric : Validation"
 msgstr "Gnumeric: Overenie"
 
@@ -20728,30 +20737,58 @@ msgstr "Nie je šablóna autoformátu"
 msgid "Error while trying to build tree from autoformat template file"
 msgstr "Chyba pri vytváraní stromu z šablóny autoformátu"
 
-#: src/xml-io.c:2799
+#: src/xml-io.c:2800
 msgid "Unparsable xml in clipboard"
 msgstr "XML obsah schránky nie je možné spracovať"
 
-#: src/xml-io.c:2806
+#: src/xml-io.c:2807
 msgid "Clipboard is in unknown format"
 msgstr "Obsah schránky má neznámy formát."
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3212
+#: src/xml-io.c:3213
 msgid "Processing file..."
 msgstr "Spracovávam súbor..."
 
-#: src/xml-io.c:3375
+#: src/xml-io.c:3376
 msgid "Not enough memory to create zlib decompression state."
 msgstr "Nedostatok pamäti pre vytvorenie zlib rozbaleného stavu."
 
-#: src/xml-io.c:3410
+#: src/xml-io.c:3411
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Nie je súbor so zošitom Gnumeric"
 
-#: src/xml-io.c:3467
+#: src/xml-io.c:3468
 msgid "Gnumeric XML file format"
 msgstr "Súborový formát Gnumeric XML"
+
+#~ msgid ""
+#~ "@FUNCTION=RandBinom\n"
+#~ "@SYNTAX=RandBinom(p,trials)\n"
+#~ "@DESCRIPTION=RandBinom returns a binomialy distributed random number. \n"
+#~ "If @p < 0 or @p > 1 RandBinom returns #NUM! error. If @trials < 0 "
+#~ "RandBinom returns #NUM! error. \n"
+#~ "@EXAMPLES=\n"
+#~ "RandBinom(0.5,2).\n"
+#~ "\n"
+#~ "@SEEALSO=RAND,RANDBETWEEN"
+#~ msgstr ""
+#~ "@FUNCTION=RandBinom\n"
+#~ "@SYNTAX=RandBinom(p,pokusy)\n"
+#~ "@DESCRIPTION=RandBinom vracia náhodné číslo podľa binomického "
+#~ "rozdelenia. \n"
+#~ "Ak je @p < 0 alebo @p > 1 RandBinom vracia chybu #NUM!. Ak je @pokusy < 0 "
+#~ "RandBinom vracia chybu #NUM!. \n"
+#~ "@EXAMPLES=\n"
+#~ "RandBinom(0.5,2).\n"
+#~ "\n"
+#~ "@SEEALSO=RAND,RANDBETWEEN"
+
+#~ msgid "Text File Export (*.csv)"
+#~ msgstr "Export textového súboru (*.csv)"
+
+#~ msgid "'%f' is not a number"
+#~ msgstr "'%f' nie je číslo"
 
