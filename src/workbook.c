@@ -721,8 +721,16 @@ workbook_attach_view (Workbook *wb, WorkbookView *wbv)
 void
 workbook_detach_view (WorkbookView *wbv)
 {
+	SheetView *sv;
+
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
 	g_return_if_fail (IS_WORKBOOK (wbv->wb));
+
+	WORKBOOK_FOREACH_SHEET (wbv->wb, sheet, {
+		sv = sheet_get_view (sheet, wbv);
+		sheet_detach_view (sv);
+		g_object_unref (G_OBJECT (sv));
+	});
 
 	g_ptr_array_remove (wbv->wb->wb_views, wbv);
 	if (wbv->wb->wb_views->len == 0) {

@@ -1,5 +1,15 @@
 2002-09-13  Jody Goldberg <jody@gnome.org>
 
+	* src/workbook-view.c (wb_view_finalize) : detach the controls first.
+	  before we start destruction.
+
+	* src/sheet-control-gui.c (sheet_control_gui_new) : use connect_object
+	  so that we only handle the destruction of the table while the
+	  control exists.
+
+	* src/workbook.c (workbook_detach_view) : remove the sheetviews
+	  associated with this workbookview.
+
 	* src/sheet-object.c (cb_sheet_object_remove) : don't unref,
 	  cmd_object_delete handles that.
 

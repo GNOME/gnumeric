@@ -1153,9 +1153,9 @@ sheet_control_gui_new (SheetView *sv)
 	g_signal_connect_after (G_OBJECT (scg->table),
 		"size_allocate",
 		G_CALLBACK (cb_table_size_allocate), scg);
-	g_signal_connect (G_OBJECT (scg->table),
+	g_signal_connect_object (G_OBJECT (scg->table),
 		"destroy",
-		G_CALLBACK (cb_table_destroy), scg);
+		G_CALLBACK (cb_table_destroy), G_OBJECT (scg), 0);
 
 	sv_attach_control (sv, SHEET_CONTROL (scg));
 

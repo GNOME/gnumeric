@@ -430,6 +430,19 @@ wb_view_finalize (GObject *object)
 {
 	WorkbookView *wbv = WORKBOOK_VIEW (object);
 
+	if (wbv->wb_controls != NULL) {
+		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control, {
+			wb_control_sheet_remove_all (control);
+			wb_view_detach_control (control);
+			g_object_unref (G_OBJECT (control));
+		});
+		if (wbv->wb_controls != NULL)
+			g_warning ("Unexpected left over controls");
+	}
+
+	if (wbv->wb != NULL)
+		workbook_detach_view (wbv);
+
 	if (wbv->auto_expr) {
 		gnm_expr_unref (wbv->auto_expr);
 		wbv->auto_expr = NULL;
@@ -445,18 +458,6 @@ wb_view_finalize (GObject *object)
 	if (wbv->current_format != NULL) {
 		mstyle_unref (wbv->current_format);
 		wbv->current_format = NULL;
-	}
-
-	if (wbv->wb != NULL)
-		workbook_detach_view (wbv);
-
-	if (wbv->wb_controls != NULL) {
-		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control, {
-			wb_view_detach_control (control);
-			g_object_unref (G_OBJECT (control));
-		});
-		if (wbv->wb_controls != NULL)
-			g_warning ("Unexpected left over controls");
 	}
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
