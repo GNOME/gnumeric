@@ -1,5 +1,10 @@
 2000-09-15  Jody Goldberg <jgoldberg@home.com>
 
+	* src/dialogs/dialog-graph-guru.c (dialog_graph_guru) : Profilacticly
+	  NULL the gui pointer.
+
+2000-09-15  Jody Goldberg <jgoldberg@home.com>
+
 	* src/gnumeric.xml : Use placeholder for file history.
 	  How to have multiple place holders ?
 

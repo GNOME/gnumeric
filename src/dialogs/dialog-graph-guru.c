@@ -386,6 +386,7 @@ dialog_graph_guru (Workbook *wb)
 	state->wb	= wb;
 	state->valid	= FALSE;
 	state->series   = NULL;
+	state->gui	= NULL;
 	if (graph_guru_init_manager (state) || graph_guru_init (state) ||
 	    graph_guru_guess_series (state)) {
 		graph_guru_state_destroy (state);
