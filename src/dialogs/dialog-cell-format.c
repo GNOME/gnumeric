@@ -181,6 +181,7 @@ typedef struct _FormatState
 			GtkText       *msg;
 			GnomePixmap   *image;
 		} error;
+		gboolean changed;
 	} validation;
 	struct {
 		GtkToggleButton *flag;
@@ -1996,6 +1997,7 @@ validation_rebuild_validation (FormatState *state)
 	if (!state->enable_edit)
 		return;
 	
+	state->validation.changed = FALSE;
 	if (constraint != 0) {
 		StyleCondition *scl = NULL;
 		int operator        = gnumeric_option_menu_get_selected_index (state->validation.operator);
@@ -2168,7 +2170,7 @@ cb_validation_constraint_type_deactivate (GtkMenuShell *shell, FormatState *stat
 static void
 cb_validation_bounds_changed (GtkEntry *entry, FormatState *state)
 {
-	validation_rebuild_validation (state);
+	state->validation.changed = TRUE;
 }
 
 static void
@@ -2277,6 +2279,7 @@ fmt_dialog_init_validation_page (FormatState *state)
 	g_return_if_fail (state != NULL);
 
 	/* Setup widgets */
+	state->validation.changed	  = FALSE;
 	state->validation.criteria_table  = GTK_TABLE           (glade_xml_get_widget (state->gui, "validation_criteria_table"));
 	state->validation.constraint_type = GTK_OPTION_MENU     (glade_xml_get_widget (state->gui, "validation_constraint_type"));
 	state->validation.operator_label  = GTK_LABEL           (glade_xml_get_widget (state->gui, "validation_operator_label"));
@@ -2412,6 +2415,9 @@ cb_fmt_dialog_dialog_apply (GtkObject *w, int page, FormatState *state)
 	if (page != -1)
 		return;
 
+	if (state->validation.changed)
+		validation_rebuild_validation (state);
+
 	mstyle_ref (state->result);
 
 	for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++)
@@ -2450,6 +2456,9 @@ static void
 cb_fmt_dialog_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 			 FormatState *state)
 {
+	if (state->validation.changed)
+		validation_rebuild_validation (state);
+
 	if (IS_GNUMERIC_EXPR_ENTRY (focus_widget)) {
 		GnumericExprEntryFlags flags;
 		

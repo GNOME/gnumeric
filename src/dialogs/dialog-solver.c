@@ -563,9 +563,10 @@ cb_dialog_close_clicked (GtkWidget *button, SolverState *state)
 static Value *
 grab_cells (Sheet *sheet, int col, int row, Cell *cell, void *user_data) 
 {
-	GList ** the_list;
-	the_list = user_data;
+	GList **the_list = user_data;
 
+	if (cell == NULL)
+		cell = sheet_cell_fetch (sheet, col, row);
 	*the_list = g_list_prepend (*the_list, cell);
 	return NULL;
 }
@@ -772,8 +773,7 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 					target_range->v_range.cell.a.col, 
 					target_range->v_range.cell.a.row );
 	result = workbook_foreach_cell_in_range (pos, input_range,
-					    FALSE, grab_cells,
-					    &input_cells);
+		FALSE, grab_cells, &input_cells);
 	
 	state->sheet->solver_parameters.input_cells = input_cells;
 

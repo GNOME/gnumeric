@@ -230,8 +230,8 @@ gnumeric_expr_entry_rangesel_start (GnumericExprEntry *ee)
 	/* This is the first cell */
 	if (*end == ':') {
 		char const *end2 = cellref_get (&ref2, end+1, &pos);
-		singleton = (end2 != NULL);
-		rs->text_end = (singleton ? end2 : end) - text;
+		singleton = (end2 == NULL);
+		rs->text_end = (singleton ? end : end2) - text;
 		rs->text_start = start;
 	} else if (start >= 3 && text [start-1] == ':' && anal_safety) {
 		anal_safety = FALSE;
@@ -778,8 +778,16 @@ gnumeric_expr_entry_parse (GnumericExprEntry *ee, ParsePos const *pp)
 
 	/* Reset the entry in case something changed */
 	str = expr_tree_as_string (expr, pp);
-	if (strcmp (str, text))
-		gtk_entry_set_text (GTK_ENTRY (ee), str);
+	if (strcmp (str, text)) {
+		SheetControlGUI *scg = wb_control_gui_cur_sheet (ee->wbcg);
+		if (sc_sheet (SHEET_CONTROL (scg)) == ee->rangesel.sheet) {
+			Range const *r = &ee->rangesel.range;
+			scg_rangesel_bound (scg,
+				r->start.col, r->start.row,
+				r->end.col, r->end.row);
+		} else
+			gtk_entry_set_text (GTK_ENTRY (ee), str);
+	}
 	g_free (str);
 
 	return expr;

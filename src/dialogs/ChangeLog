@@ -1,3 +1,19 @@
+
+2001-11-18  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-cell-format.c (cb_fmt_dialog_dialog_apply) : rebuild
+	  validation if something changed.
+	(validation_rebuild_validation) : clear the change flag.
+	(cb_validation_bounds_changed) : just flag a change.
+	(fmt_dialog_init_validation_page) : init change flag.
+	(cb_fmt_dialog_dialog_apply) : rebuild validation if there are pending
+	  changes.
+	(cb_fmt_dialog_set_focus) : ditto.
+
+2001-11-17  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-solver.c (grab_cells) : handle blank input cells.
+
 2001-11-16  Jody Goldberg <jgoldberg@home.com>
 
 	* formula-guru.glade : Make resizable.
