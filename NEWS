@@ -1,5 +1,10 @@
 Gnumeric 1.0.13
 
+Jody
+	* lotus-123 : fix incorrect import of logarithmic functions
+	    log -> log instead of log10
+	    ln -> ln   instead of log
+
 Morten
 	* Use even blunter instrument on xml importer.
 
