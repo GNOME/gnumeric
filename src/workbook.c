@@ -1441,8 +1441,8 @@ sheet_action_add_sheet (GtkWidget *widget, Sheet *current_sheet)
 }
 
 /**
- * sheet_action_add_sheet:
- * Invoked when the user selects the option to add a sheet
+ * sheet_action_delete_sheet:
+ * Invoked when the user selects the option to remove a sheet
  */
 static void
 sheet_action_delete_sheet (GtkWidget *widget, Sheet *current_sheet)

@@ -1,3 +1,15 @@
+1999-04-01  Michael Meeks  <michael@imaginator.com>
+
+	* ms-excel.c (ms_excelReadWorkbook): Major string table fix
+	should now work internationally.
+	(biff_get_text): Major arguments change, now returns the rather
+	grim byte length field if needed through a guint32 *
+	Changed all references to biff_get_text throughout.
+
+	* ms-excel.h: Updated biff_get_text prototype.
+
+	* ms-formula.c: Changed all references to biff_get_text throughout.
+
 1999-03-31  Michael Meeks  <michael@imaginator.com>
 
 	* ms-excel.c (ms_excel_read_sheet): Added SELECTION support.

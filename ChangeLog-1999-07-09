@@ -1,3 +1,7 @@
+1999-04-01 Michael Meeks  <michael@imaginator.com>
+
+	* src/workbook.c (sheet_action_delete_sheet): Fix docs.
+
 1999-03-31  Morten Wellinder <terra@diku.dk>
 
 	* src/fn-stat.c (phi): new internal function.

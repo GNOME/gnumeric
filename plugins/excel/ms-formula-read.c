@@ -58,7 +58,7 @@ FORMULA_OP_DATA formula_op_data[] = {
 FORMULA_FUNC_DATA formula_func_data[] =
 {
 	{ "COUNT", 2 },
-	{ "0x1", 8 },
+	{ "IF", 8 },
 	{ "ISNA", 1 },
 	{ "ISERROR", 1 },
 	{ "SUM", -1 },
@@ -901,9 +901,17 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 			parse_list_push_raw (stack, g_strdup("Unknown name"), NO_PRECEDENCE) ;
 		}
 		case FORMULA_PTG_EXP: /* FIXME: the formula is the same as another record ... we need a cell_get_funtion call ! */
-			printf ("FIXME: Array formula\n") ;
-			error = 1 ;
+		{
+			int top_left_col = BIFF_GETWORD(cur+2) ;
+			int top_left_row = BIFF_GETWORD(cur+0) ;
+			printf ("FIXME: I'm found in an ARRAY record ... %d %d\n",
+				top_left_col, top_left_row) ;
+			/* Just push a null string onto the stack, just to get the
+			   XF info sorted safely */
+			parse_list_push_raw (stack, g_strdup(""), NO_PRECEDENCE) ;
+			ptg_length = 4 ;
 			break ;
+		}
 		case FORMULA_PTG_PAREN:
 /*	  printf ("Ignoring redundant parenthesis ptg\n") ; */
 			ptg_length = 0 ;
@@ -971,17 +979,17 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 		case FORMULA_PTG_STR:
 		{
 			char *str ;
+			guint32 len ;
 /*			dump (mem, length) ;*/
 			if (sheet->ver == eBiffV8)
 			{
-				str = biff_get_text (cur+2, BIFF_GETWORD(cur)) ;
-				ptg_length = 2 + BIFF_GETWORD(cur) ;
+				str = biff_get_text (cur+2, BIFF_GETWORD(cur), &len) ;
+				ptg_length = 2 + len ;
 /*				printf ("v8+ PTG_STR '%s'\n", str) ; */
 			}
 			else
 			{
-				int len = BIFF_GETBYTE(cur) ;
-				str = biff_get_text (cur+1, len) ;
+				str = biff_get_text (cur+1, BIFF_GETBYTE(cur), &len) ;
 				ptg_length = 1 + len ;
 /*				printf ("<v7 PTG_STR '%s' len %d ptglen %d\n", str, len, ptg_length) ; */
 			}

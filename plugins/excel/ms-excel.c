@@ -61,41 +61,74 @@ biff_guint32_equal (const guint32 *a, const guint32 *b)
 }
 
 /**
- *  This function takes a length argument as Biff V7 has a byte length
- * ( seemingly ).
- *  FIXME: see S59D47.HTM for full description
+ * This returns whether there is a header byte
+ * and sets various flags from it
  **/
-char *
-biff_get_text (BYTE * ptr, int length)
+static gboolean
+biff_string_get_flags (BYTE *ptr,
+		       gboolean *word_chars,
+		       gboolean *extended,
+		       gboolean *rich)
 {
-	int lp ;
-	char *ans;
 	BYTE header ;
-	gboolean high_byte ;
-	gboolean ext_str ;
-	gboolean rich_str ;
-
-	if (!length)
-		return 0 ;
-
-	ans = (char *) g_malloc (sizeof (char) * length + 2);
 
 	header = BIFF_GETBYTE(ptr) ;
 	/* I assume that this header is backwards compatible with raw ASCII */
 	if (((header & 0xf0) == 0) &&
 	    ((header & 0x02) == 0)) /* Its a proper Unicode header grbit byte */
 	{
-		high_byte = (header & 0x1) != 0 ;
-		ext_str   = (header & 0x4) != 0 ;
-		rich_str  = (header & 0x8) != 0 ;
-		ptr++ ;
+		*word_chars = (header & 0x1) != 0 ;
+		*extended   = (header & 0x4) != 0 ;
+		*rich       = (header & 0x8) != 0 ;
+		return TRUE ;
 	}
 	else /* Some assumptions: FIXME ? */
 	{
-		high_byte = 0 ;
-		ext_str   = 0 ;
-		rich_str  = 0 ;
+		*word_chars = 0 ;
+		*extended   = 0 ;
+		*rich       = 0 ;
+		return FALSE ;
 	}
+}
+
+/**
+ *  This function takes a length argument as Biff V7 has a byte length
+ * ( seemingly ).
+ * it returns the length in bytes of the string in byte_length
+ * or nothing if this is NULL.
+ *  FIXME: see S59D47.HTM for full description
+ **/
+char *
+biff_get_text (BYTE *pos, int length, guint32* byte_length)
+{
+	int lp ;
+	char *ans;
+	BYTE *ptr ;
+	guint32 byte_len ;
+	gboolean header ;
+	gboolean high_byte ;
+	gboolean ext_str ;
+	gboolean rich_str ;
+
+	if (!byte_length)
+		byte_length = &byte_len ;
+	*byte_length = 0 ;
+
+	if (!length)
+		return 0 ;
+
+	ans = (char *) g_malloc (sizeof (char) * length + 2);
+
+	header = biff_string_get_flags (pos,
+					&high_byte,
+					&ext_str,
+					&rich_str) ;
+	if (header) {
+		ptr = pos + 1 ;
+		(*byte_length)++ ;
+	}
+	else
+		ptr = pos ;
 
 	/* A few friendly warnings */
 	if (high_byte)
@@ -103,14 +136,23 @@ biff_get_text (BYTE * ptr, int length)
 	if (rich_str) /* The data for this appears after the string */
 	{
 		guint16 formatting_runs = BIFF_GETWORD(ptr) ;
-		ptr+= 2 ;
+		(*byte_length) += 2 ;
 		printf ("FIXME: rich string support unimplemented: discarding %d runs\n", formatting_runs) ;
+		(*byte_length) += formatting_runs*4 ; /* 4 bytes per */
+		ptr+= 2 ;
 	}
 	if (ext_str) /* NB this data always comes after the rich_str data */
 	{
-		guint32 len_ext_rst = BIFF_GETLONG(ptr) ;
-		printf ("FIXME: extended string support unimplemented: ignoring %d bytes\n", len_ext_rst) ;
+		guint32 len_ext_rst = BIFF_GETLONG(ptr) ; /* A byte length */
+		(*byte_length) += 4 + len_ext_rst ;
 		ptr+= 4 ;
+		printf ("FIXME: extended string support unimplemented: ignoring %d bytes\n", len_ext_rst) ;
+	}
+	(*byte_length) += length * (high_byte ? 2 : 1) ;
+	if (EXCEL_DEBUG>4) {
+		printf ("String len %d, byte length %d: %d %d %d:\n",
+			length, (*byte_length), high_byte, rich_str, ext_str) ;
+		dump (pos, *byte_length) ;
 	}
 
 	for (lp = 0; lp < length; lp++)
@@ -303,11 +345,11 @@ biff_boundsheet_data_new (MS_EXCEL_WORKBOOK *wb, BIFF_QUERY * q, eBiff_version v
 	}
 	if (ver == eBiffV8) {
 		int strlen = BIFF_GETWORD (q->data + 6);
-		ans->name = biff_get_text (q->data + 8, strlen);
+		ans->name = biff_get_text (q->data + 8, strlen, NULL);
 	} else {
 		int strlen = BIFF_GETBYTE (q->data + 6);
 
-		ans->name = biff_get_text (q->data + 7, strlen);
+		ans->name = biff_get_text (q->data + 7, strlen, NULL);
 	}
 
 	/*
@@ -458,7 +500,7 @@ biff_font_data_new (MS_EXCEL_WORKBOOK *wb, BIFF_QUERY *q)
 		fd->underline = eBiffFUDoubleAcc;
 		break;
 	}
-	fd->fontname = biff_get_text (q->data + 15, BIFF_GETBYTE (q->data + 14));
+	fd->fontname = biff_get_text (q->data + 15, BIFF_GETBYTE (q->data + 14), NULL);
 
 	if (EXCEL_DEBUG>0)
 		printf ("Insert font '%s' size %d pts\n",
@@ -633,7 +675,7 @@ ms_excel_palette_new (BIFF_QUERY * q)
 		pal->blue[lp] = (num & 0x000000ff) >> 0;
 		if (EXCEL_DEBUG>0)
 			printf ("Colour %d : (%d,%d,%d)\n", lp, pal->red[lp], pal->green[lp], pal->blue[lp]);
-		pal->gnum_cols[lp] = 0 ;
+		pal->gnum_cols[lp] = NULL ;
 	}
 	return pal;
 }
@@ -643,9 +685,14 @@ ms_excel_palette_get (MS_EXCEL_PALETTE *pal, guint idx)
 {
 	if (idx < pal->length)
 	{
-		if (!pal->gnum_cols[idx])
+		if (pal->gnum_cols[idx] == NULL) {
+			if (EXCEL_DEBUG>4)
+				printf ("New color in slot %d : RGB= %d,%d,%d\n",
+					idx, pal->red[idx], pal->green[idx], pal->blue[idx]) ;
 			pal->gnum_cols[idx] = style_color_new (pal->red[idx], pal->green[idx],
 							       pal->blue[idx]) ;
+			g_return_val_if_fail (pal->gnum_cols[idx], NULL) ;
+		}
 		return pal->gnum_cols[idx] ;
 	}
 	else
@@ -703,11 +750,15 @@ ms_excel_set_cell_colors (MS_EXCEL_SHEET * sheet, Cell * cell, BIFF_XF_DATA * xf
 	StyleColor *fore, *back ;
 	int col;
 
-	if (!p || !xf)
+	if (!p || !xf) {
+		printf ("Internal Error: No palette !\n") ;
 		return;
+	}
 
 	fore = ms_excel_palette_get (sheet->wb->palette, xf->foregnd_col) ;
 	back = ms_excel_palette_get (sheet->wb->palette, xf->backgnd_col) ;
+	g_return_if_fail (fore) ;
+	g_return_if_fail (back) ;
 	cell_set_color_from_style (cell, fore, back) ;
 }
 
@@ -1326,7 +1377,7 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		{
 			if (EXCEL_DEBUG>0) {
 				printf ("Header '%s'\n", (str=biff_get_text (q->data+1,
-									     BIFF_GETBYTE(q->data)))) ;
+									     BIFF_GETBYTE(q->data), NULL))) ;
 				g_free(str) ;
 			}
 		}
@@ -1339,7 +1390,7 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		{
 			if (EXCEL_DEBUG>0) {
 				printf ("Footer '%s'\n", (str=biff_get_text (q->data+1,
-								     BIFF_GETBYTE(q->data)))) ;
+								     BIFF_GETBYTE(q->data), NULL))) ;
 				g_free(str) ;
 			}
 		}
@@ -1354,7 +1405,7 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		  printf ("Rstring\n") ;
 		*/
 		ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q),
-				       (txt = biff_get_text (q->data + 8, EX_GETSTRLEN (q))));
+				       (txt = biff_get_text (q->data + 8, EX_GETSTRLEN (q), NULL)));
 		g_free (txt) ;
 		break;
 	}
@@ -1438,7 +1489,7 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 	{
 		char *label ;
 		ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q),
-				       (label = biff_get_text (q->data + 8, EX_GETSTRLEN (q))));
+				       (label = biff_get_text (q->data + 8, EX_GETSTRLEN (q), NULL)));
 		g_free (label) ;
 		break;
 	}
@@ -1464,7 +1515,8 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		array_col_first = BIFF_GETBYTE(q->data + 4) ;
 		array_col_last  = BIFF_GETBYTE(q->data + 5) ;
 
-		printf ("Array Formula\n") ;
+		printf ("Array Formula of extent %d %d %d %d\n",
+			array_col_first, array_row_first, array_col_last, array_row_last) ;
 		for (xlp=array_col_first;xlp<=array_col_last;xlp++)
 			for (ylp=array_row_first;ylp<=array_row_last;ylp++)
 			{
@@ -1509,7 +1561,7 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 			guint16 defnlen  = BIFF_GETWORD(q->data + 7 + namelen) ;
 			char *definition = 0 ;
 			
-			externname = biff_get_text (q->data+7, namelen) ;
+			externname = biff_get_text (q->data+7, namelen, NULL) ;
 			if ((options & 0xffe0) != 0) {
 				printf ("Duff externname\n") ; break ;
 			}
@@ -1521,7 +1573,7 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 			guint8 data[] = { 0x1c, 0x17 } ;
 			printf ("Externname Data:\n") ;
 			dump (q->data, q->length) ;
-			externname = biff_get_text (q->data+1, BIFF_GETBYTE(q->data)) ;
+			externname = biff_get_text (q->data+1, BIFF_GETBYTE(q->data), NULL) ;
 			biff_name_data_new (sheet, externname, data, 2) ;
 		}
 		if (EXCEL_DEBUG>1)
@@ -1553,15 +1605,15 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 
 			g_assert (ixals==sheet_idx) ;
 			ptr = q->data + 14 ;
-			name = biff_get_text (ptr, name_len) ;
+			name = biff_get_text (ptr, name_len, NULL) ;
 			ptr+= name_len + name_def_len ;
-			menu_txt = biff_get_text (ptr, menu_txt_len) ;
+			menu_txt = biff_get_text (ptr, menu_txt_len, NULL) ;
 			ptr+= menu_txt_len ;
-			descr_txt = biff_get_text (ptr, descr_txt_len) ;
+			descr_txt = biff_get_text (ptr, descr_txt_len, NULL) ;
 			ptr+= descr_txt_len ;
-			help_txt = biff_get_text (ptr, help_txt_len) ;
+			help_txt = biff_get_text (ptr, help_txt_len, NULL) ;
 			ptr+= help_txt_len ;
-			status_txt = biff_get_text (ptr, status_txt_len) ;
+			status_txt = biff_get_text (ptr, status_txt_len, NULL) ;
 
 			printf ("Name record : '%s', '%s', '%s', '%s', '%s'\n", name, menu_txt, descr_txt,
 				help_txt, status_txt) ;
@@ -1591,7 +1643,8 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 			char *txt ;
 			if (EXCEL_DEBUG>0)
 			{
-				printf ("This cell evaluated to '%s': so what ? data:\n", (txt = biff_get_text (q->data + 2, BIFF_GETWORD(q->data)))) ;
+				printf ("This cell evaluated to '%s': so what ? data:\n",
+					(txt = biff_get_text (q->data + 2, BIFF_GETWORD(q->data), NULL))) ;
 				if (txt) g_free (txt) ;
 			}
 			break ;
@@ -1867,18 +1920,24 @@ ms_excelReadWorkbook (MS_OLE * file)
 			case BIFF_SST: /* see S59DE7.HTM */
 			{
 				int length, k ;
-				char *temp ;
+				char *tmp ;
+
+				if (EXCEL_DEBUG>4) {
+					printf ("SST\n") ;
+					dump (q->data, q->length) ;
+				}
 				wb->global_string_max = BIFF_GETLONG(q->data+4);
 				wb->global_strings = g_new (char *, wb->global_string_max) ;
 
-				temp = q->data + 8 ;
+				tmp = q->data + 8 ;
 				for (k = 0; k < wb->global_string_max; k++)
 				{
-					length = BIFF_GETWORD (temp) ;
-					wb->global_strings[k] = biff_get_text (temp+2, length) ;
+					guint32 byte_len ;
+					length = BIFF_GETWORD (tmp) ;
+					wb->global_strings[k] = biff_get_text (tmp+2, length, &byte_len) ;
 					if (!wb->global_strings[k])
 						printf ("Blank string in table at : %d\n", k) ;
-					temp+= length + 3 ;
+					tmp += byte_len + 2 ;
 				}
 				break;
 			}
@@ -1917,16 +1976,16 @@ ms_excelReadWorkbook (MS_OLE * file)
 				if (ver->version == eBiffV7) /* Totaly guessed */
 				{
 					d->idx = BIFF_GETWORD(q->data) ;
-					d->name = biff_get_text(q->data+3, BIFF_GETBYTE(q->data+2)) ;
+					d->name = biff_get_text(q->data+3, BIFF_GETBYTE(q->data+2), NULL) ;
 				}
 				else if (ver->version == eBiffV8)
 				{
 					d->idx = BIFF_GETWORD(q->data) ;
-					d->name = biff_get_text(q->data+4, BIFF_GETWORD(q->data+2)) ;
+					d->name = biff_get_text(q->data+4, BIFF_GETWORD(q->data+2), NULL) ;
 				}
 				else /* FIXME: mythical old papyrus spec. */
 				{
-					d->name = biff_get_text(q->data+1, BIFF_GETBYTE(q->data)) ;
+					d->name = biff_get_text(q->data+1, BIFF_GETBYTE(q->data), NULL) ;
 					d->idx = g_hash_table_size (wb->format_data) + 0x32 ;
 				}
 /*				printf ("Format data : %d == '%s'\n", d->idx, d->name) ; */
