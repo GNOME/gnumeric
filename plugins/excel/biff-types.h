@@ -150,6 +150,7 @@
 #define BIFF_INTERFACEEND               0xe2	/* 0 */
 #define BIFF_SXVX                       0xe3	/* 0 */
 #define BIFF_MERGECELLS                 0xe5	/* Undocumented */
+#define BIFF_BG_PIC                 	0xe9	/* Undocumented */
 #define BIFF_TABIDCONF                  0xea	/* 0 */
 #define BIFF_MS_O_DRAWING_GROUP         0xeb	/* 0 */
 #define BIFF_MS_O_DRAWING               0xec	/* 0 */

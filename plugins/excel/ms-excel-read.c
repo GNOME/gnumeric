@@ -544,28 +544,35 @@ ms_excel_workbook_detach (ExcelWorkbook *wb, ExcelSheet *ans)
 static void
 biff_boundsheet_data_new (BiffQuery *q, ExcelWorkbook *wb, MsBiffVersion ver)
 {
-	BiffBoundsheetData *ans = g_new (BiffBoundsheetData, 1);
+	BiffBoundsheetData *ans;
+	char *default_name;
 
-	if (ver != MS_BIFF_V5 &&/*
-				 * Testing seems to indicate that Biff5 is compatibile with Biff7 here.
-				 */
-	    ver != MS_BIFF_V7 &&
-	    ver != MS_BIFF_V8) {
+	/* Testing seems to indicate that Biff5 is compatibile with Biff7 here. */
+	if (ver != MS_BIFF_V5 && ver != MS_BIFF_V7 && ver != MS_BIFF_V8) {
 		printf ("Unknown BIFF Boundsheet spec. Assuming same as Biff7 FIXME\n");
 		ver = MS_BIFF_V7;
 	}
+
+	ans = g_new (BiffBoundsheetData, 1);
 	ans->streamStartPos = MS_OLE_GET_GUINT32 (q->data);
+
+	g_return_if_fail (ans->streamStartPos == MS_OLE_GET_GUINT32 (q->data));
+
 	switch (MS_OLE_GET_GUINT8 (q->data + 4)) {
 	case 0: ans->type = MS_BIFF_TYPE_Worksheet;
+		default_name = _("Sheet%d");
 		break;
 	case 1: ans->type = MS_BIFF_TYPE_Macrosheet;
+		default_name = _("Macro%d");
 		break;
 	case 2: ans->type = MS_BIFF_TYPE_Chart;
+		default_name = _("Chart%d");
 		break;
 	case 6: ans->type = MS_BIFF_TYPE_VBModule;
+		default_name = _("Module%d");
 		break;
 	default:
-		printf ("Unknown sheet type: %d\n", MS_OLE_GET_GUINT8 (q->data + 4));
+		printf ("Unknown boundsheet type: %d\n", MS_OLE_GET_GUINT8 (q->data + 4));
 		ans->type = MS_BIFF_TYPE_Unknown;
 	}
 	switch ((MS_OLE_GET_GUINT8 (q->data + 5)) & 0x3) {
@@ -587,28 +594,31 @@ biff_boundsheet_data_new (BiffQuery *q, ExcelWorkbook *wb, MsBiffVersion ver)
 	 * and the second as the unicode flag header.
 	 */
 	ans->name = biff_get_text (q->data + 7,
-				   MS_OLE_GET_GUINT8 (q->data + 6), NULL);
+		MS_OLE_GET_GUINT8 (q->data + 6), NULL);
 
 	/* TODO: find some documentation on this.
 	 * It appears that if the name is null it defaults to Sheet%d?
 	 * However, we have only one test case and no docs.
 	 */
-	if (ans->name == NULL) {
-		ans->name = g_strdup_printf (_("Sheet%d"),
+	if (ans->name == NULL)
+		ans->name = g_strdup_printf (default_name,
 			g_hash_table_size (wb->boundsheet_data_by_index));
-	}
 
-#if 0
-	printf ("Blocksheet: '%s', %d:%d offset %lx\n", ans->name, ans->type,
-		ans->hidden, ans->streamStartPos);
-#endif
+	d (-1, printf ("Blocksheet: '%s', %d:%d\n", ans->name, ans->type,
+		       ans->hidden););
+
 	ans->index = (guint16)g_hash_table_size (wb->boundsheet_data_by_index);
 	g_hash_table_insert (wb->boundsheet_data_by_index,  &ans->index, ans);
 	g_hash_table_insert (wb->boundsheet_data_by_stream, &ans->streamStartPos, ans);
 
-	g_assert (ans->streamStartPos == MS_OLE_GET_GUINT32 (q->data));
-	ans->sheet = ms_excel_sheet_new (wb, ans->name);
-	ms_excel_workbook_attach (wb, ans->sheet);
+	/* AARRRGGGG : This is useless XL calls chart tabs 'worksheet' too */
+	/* if (ans->type == MS_BIFF_TYPE_Worksheet) */
+
+	/* FIXME : Use this kruft instead */
+	if (ans->hidden == MS_BIFF_H_VISIBLE) {
+		ans->sheet = ms_excel_sheet_new (wb, ans->name);
+		ms_excel_workbook_attach (wb, ans->sheet);
+	}
 }
 
 static gboolean
@@ -3709,6 +3719,12 @@ ms_excel_read_dval (BiffQuery *q, ExcelSheet *esheet)
 	}
 }
 
+static void
+ms_excel_read_bg_pic (BiffQuery *q, ExcelSheet *esheet)
+{
+	/* Looks like a bmp.  OpenCalc has a basic parser for 24 bit files */
+}
+
 static gboolean
 ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
                      WorkbookView *wb_view, ExcelSheet *esheet,
@@ -4128,6 +4144,10 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 
 		case BIFF_DBCELL: /* S59D6D.HTM,  Can be ignored on read side */
 			break;
+
+		case BIFF_BG_PIC:
+		      ms_excel_read_bg_pic (q, esheet);
+		      break;
 
 		case BIFF_MERGECELLS:
 			ms_excel_read_mergecells (q, esheet);
