@@ -2337,19 +2337,9 @@ cb_view_freeze_panes (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 static void
-cb_view_new_shared (GtkWidget *widget, WorkbookControlGUI *wbcg)
+cb_view_new (G_GNUC_UNUSED GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	wb_control_wrapper_new (wbc, wb_control_view (wbc),
-				wb_control_workbook (wbc));
-}
-
-static void
-cb_view_new_unshared (GtkWidget *widget, WorkbookControlGUI *wbcg)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	wb_control_wrapper_new (wbc, NULL,
-				wb_control_workbook (wbc));
+	dialog_new_view (wbcg);
 }
 
 /****************************************************************************/
@@ -3400,15 +3390,9 @@ static GnomeUIInfo workbook_menu_edit [] = {
 /* View menu */
 
 static GnomeUIInfo workbook_menu_view [] = {
-	GNOMEUIINFO_ITEM_NONE (N_("New _Shared"),
-		N_("Create a new shared view of the workbook"),
-		cb_view_new_shared),
-	GNOMEUIINFO_ITEM_NONE (N_("New _Unshared"),
-		N_("Create a new unshared view of the workbook"),
-		cb_view_new_unshared),
-
-	GNOMEUIINFO_SEPARATOR,
-
+	GNOMEUIINFO_ITEM_NONE (N_("_New View..."),
+		N_("Create a new view of the workbook"),
+		cb_view_new),
 	GNOMEUIINFO_ITEM_NONE (N_("_Zoom..."),
 		N_("Zoom the spreadsheet in or out"),
 		cb_view_zoom),
@@ -3970,8 +3954,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("EditGoto", cb_edit_goto),
 	BONOBO_UI_UNSAFE_VERB ("EditRecalc", cb_edit_recalc),
 
-	BONOBO_UI_UNSAFE_VERB ("ViewNewShared", cb_view_new_shared),
-	BONOBO_UI_UNSAFE_VERB ("ViewNewUnshared", cb_view_new_unshared),
+	BONOBO_UI_UNSAFE_VERB ("ViewNew", cb_view_new),
 	BONOBO_UI_UNSAFE_VERB ("ViewZoom", cb_view_zoom),
 	BONOBO_UI_UNSAFE_VERB ("ViewFreezeThawPanes", cb_view_freeze_panes),
 
@@ -5096,7 +5079,7 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	wbcg->menu_item_consolidate =
 		workbook_menu_data [4].widget;
 	wbcg->menu_item_freeze_panes =
-		workbook_menu_view [4].widget;
+		workbook_menu_view [2].widget;
 
 	wbcg->menu_item_sheet_display_formulas =
 		workbook_menu_format_sheet [2].widget;

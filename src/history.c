@@ -248,12 +248,12 @@ history_menu_remove_items (WorkbookControlGUI *wbcg, GSList *name_list)
 	CORBA_exception_init (&ev);
 	bonobo_ui_component_freeze (wbcg->uic, &ev);
 	for (l = name_list; l; l = l->next) {
+#warning "FIXME: this doesn't even look at ->data"
 		char *path;
 
 		path = g_strdup_printf ("/menu/File/FileHistory/FileHistory%d",
 					accel_number++);
-		bonobo_ui_component_rm (wbcg->uic,
-					path, &ev);
+		bonobo_ui_component_rm (wbcg->uic, path, &ev);
 		g_free (path);
 	}
 	bonobo_ui_component_thaw (wbcg->uic, &ev);

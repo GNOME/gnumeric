@@ -178,6 +178,7 @@ src/dialogs/dialog-stf-preview.h
 src/dialogs/dialog-stf.c
 src/dialogs/dialog-stf.glade
 src/dialogs/dialog-tabulate.c
+src/dialogs/dialog-view.c
 src/dialogs/dialog-workbook-attr.c
 src/dialogs/dialog-zoom.c
 src/dialogs/dialog-zoom.glade
@@ -222,6 +223,7 @@ src/dialogs/solver.glade
 src/dialogs/summary.glade
 src/dialogs/tabulate.glade
 src/dialogs/variance-tests.glade
+src/dialogs/view.glade
 src/dialogs/workbook-attr.glade
 src/expr-name.c
 src/expr.c

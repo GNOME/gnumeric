@@ -107,5 +107,6 @@ char *dialog_get_password (GtkWindow *parent, const char *filename);
 void	 dialog_summary_update  (WorkbookControlGUI *wbcg, gboolean open_dialogs);
 void     dialog_preferences (WorkbookControlGUI *wbcg, gint page);
 
+void     dialog_new_view (WorkbookControlGUI *wbcg);
 
 #endif /* GNUMERIC_DIALOGS_H */

@@ -1,3 +1,11 @@
+2003-05-22  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-control-gui.c (workbook_menu_view): Combine the two
+	New-View entries into one.
+	(workbook_control_gui_init): Fix reference to freeze-panes menu
+	entry.
+	(cb_view_new): New function just calling the dialog.
+
 2003-05-21  Jody Goldberg <jody@gnome.org>
 
 	* src/item-edit.c : General de-cruftification.

@@ -71,6 +71,7 @@ base_files =					\
 	dialog-stf-export-format-page.c		\
 	dialog-tabulate.c			\
 	dialog-summary.c			\
+	dialog-view.c				\
 	dialog-workbook-attr.c			\
 	dialog-zoom.c				\
 	dialogs.h				\
@@ -140,6 +141,7 @@ glade_DATA = 				\
 	summary.glade			\
 	tabulate.glade			\
 	variance-tests.glade		\
+	view.glade			\
 	workbook-attr.glade
 
 EXTRA_DIST = $(glade_DATA)
