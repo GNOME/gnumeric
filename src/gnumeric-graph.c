@@ -896,7 +896,7 @@ gnm_graph_get_spec (GnmGraph *graph, gboolean force_update)
 		g_return_val_if_fail (spec->_length >= 4, NULL);
 
 		pctxt = xmlCreatePushParserCtxt (NULL, NULL,
-			(char* *)spec->_buffer, spec->_length, NULL);
+			(char const *)spec->_buffer, spec->_length, NULL);
 		xmlParseChunk (pctxt, "", 0, TRUE);
 
 		gnm_graph_clear_xml (graph);

@@ -366,26 +366,6 @@ expr_tree_equal (ExprTree const *a, ExprTree const *b)
 	return FALSE;
 }
 
-static Value *
-eval_funcall (EvalPos const *pos, ExprTree const *expr,
-	      ExprEvalFlags flags)
-{
-	FunctionEvalInfo ei;
-	FunctionDefinition *fd;
-	ExprList *args;
-
-	g_return_val_if_fail (pos != NULL, NULL);
-	g_return_val_if_fail (expr != NULL, NULL);
-
-	fd = expr->func.func;
-	ei.func_def = fd;
-	ei.pos = pos;
-	args = expr->func.arg_list;
-
-	/*if (flags & EVAL_PERMIT_NON_SCALAR)*/
-	return function_call_with_list (&ei, args);
-}
-
 /**
  * expr_implicit_intersection :
  * @ei: EvalInfo containing valid fd!
@@ -817,8 +797,14 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 
 		return res;
 
-	case OPER_FUNCALL:
-		return eval_funcall (pos, expr, flags);
+	case OPER_FUNCALL: {
+		FunctionEvalInfo ei;
+		ei.func_def = expr->func.func;
+		ei.pos = pos;
+
+		/*if (flags & EVAL_PERMIT_NON_SCALAR)*/
+		return function_call_with_list (&ei, expr->func.arg_list);
+	}
 
 	case OPER_NAME:
 		if (expr->name.name->active)
