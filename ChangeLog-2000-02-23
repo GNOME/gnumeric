@@ -1,4 +1,9 @@
-1999-11-13  Jody Goldberg <jgoldberg@home.com>
+1999-11-14  Jody Goldberg <jgoldberg@home.com>
+
+	* src/xml-io.c (xml_write_style) : Save PatternColor.
+	(xml_read_style) : Read PatternColor.
+	(xml_write_style_border) : Save the line style.
+	(xml_read_style_border) : Read the line style.
 
 	* src/dialogs/dialog-cell-format.c (border_event) : Switch to
 	  selection_mask to handle singleton, vertical, horizontal, rectangle.

@@ -582,23 +582,6 @@ style_is_default_back (StyleColor *color)
 /*
  * Create an XML subtree of doc equivalent to the given StyleBorder.
  */
-static char *BorderTypes[] =
-{
-	"none",
- 	"thin",
- 	"medium",
- 	"dashed",
- 	"dotted",
- 	"thick",
- 	"double",
-	"hair",
-	"medium_dash",
-	"dash_dot",
-	"medium_dash_dot",
-	"dash_dot_dot",
-	"medium_dash_dot_dot",
-	"slanted_dash_dot"
-};
 
 static char *StyleSideNames[6] =
 {
@@ -618,11 +601,15 @@ xml_write_style_border (parse_xml_context_t *ctxt,
 	xmlNodePtr side;
 	int        i;
        
-	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_RIGHT; i++) {
-		if (mstyle_is_element_set (style, i))
+	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_REV_DIAGONAL; i++) {
+		MStyleBorder const *border;
+		if (mstyle_is_element_set (style, i) &&
+		    NULL != (border = mstyle_get_border (style, i)) &&
+		    border->line_type != STYLE_BORDER_NONE) {
 			break;
+		}
 	}
-	if (i > MSTYLE_BORDER_RIGHT)
+	if (i > MSTYLE_BORDER_REV_DIAGONAL)
 		return NULL;
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "StyleBorder", NULL);
@@ -630,13 +617,15 @@ xml_write_style_border (parse_xml_context_t *ctxt,
 	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_REV_DIAGONAL; i++) {
 		MStyleBorder const *border;
 		if (mstyle_is_element_set (style, i) &&
-		    NULL != (border = mstyle_get_border (style, i))) {
+		    NULL != (border = mstyle_get_border (style, i)) &&
+		    border->line_type != STYLE_BORDER_NONE) {
 			StyleBorderType t = border->line_type;
 			StyleColor *col   = border->color;
  			side = xmlNewChild (cur, ctxt->ns,
 					    StyleSideNames [i - MSTYLE_BORDER_TOP],
- 					    BorderTypes [t]);
+ 					    NULL);
  			xml_set_color_value (side, "Color", col);
+			xml_set_value_int (side, "Style", t);
  		}
 	}
 	return cur;
@@ -660,10 +649,12 @@ xml_read_style_border (parse_xml_context_t *ctxt, xmlNodePtr tree, MStyle *mstyl
 	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_REV_DIAGONAL; i++) {
  		if ((side = xml_search_child (tree,
 					      StyleSideNames [i - MSTYLE_BORDER_TOP])) != NULL) {
-			StyleColor   *color = NULL;
-			MStyleBorder *border;
- 			xml_get_color_value (side, "Color", &color);
-			border = style_border_fetch (STYLE_BORDER_NONE, color, 
+			int		 t;
+			StyleColor      *color = NULL;
+			MStyleBorder    *border;
+			xml_get_value_int (side, "Style", &t);
+			xml_get_color_value (side, "Color", &color);
+			border = style_border_fetch ((StyleBorderType)t, color, 
 						     style_border_get_orientation (i));
 			if (border)
 				mstyle_set_border (mstyle, i, border);
@@ -700,6 +691,10 @@ xml_write_style (parse_xml_context_t *ctxt,
 	if (mstyle_is_element_set (style, MSTYLE_COLOR_BACK)) {
 		if (!style_is_default_back (mstyle_get_color (style, MSTYLE_COLOR_BACK)))
 			xml_set_color_value (cur, "Back", mstyle_get_color (style, MSTYLE_COLOR_BACK));
+	}
+	if (mstyle_is_element_set (style, MSTYLE_COLOR_PATTERN)) {
+		if (!style_is_default_back (mstyle_get_color (style, MSTYLE_COLOR_PATTERN)))
+			xml_set_color_value (cur, "PatternColor", mstyle_get_color (style, MSTYLE_COLOR_PATTERN));
 	}
 	if (mstyle_is_element_set (style, MSTYLE_FORMAT))
 		xml_set_value (cur, "Format", mstyle_get_format (style)->format);
@@ -1183,6 +1178,9 @@ xml_read_style (parse_xml_context_t *ctxt, xmlNodePtr tree)
 
 	if (xml_get_color_value (tree, "Back", &c))
 		mstyle_set_color (mstyle, MSTYLE_COLOR_BACK, c);
+
+	if (xml_get_color_value (tree, "PatternColor", &c))
+		mstyle_set_color (mstyle, MSTYLE_COLOR_PATTERN, c);
 
 	prop = xml_value_get (tree, "Format");
 	if (prop != NULL) {
