@@ -4748,12 +4748,17 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 	MsBiffBofData *ver = NULL;
 	int current_sheet = 0;
 	char *problem_loading = NULL;
+	gboolean stop_loading = FALSE;
+	gboolean prev_was_eof;
 
 	io_progress_message (context, _("Reading file..."));
 	value_io_progress_set (context, gsf_input_size (input), N_BYTES_BETWEEN_PROGRESS_UPDATES);
 	q = ms_biff_query_new (input);
 
-	while (problem_loading == NULL && ms_biff_query_next (q)) {
+	while (!stop_loading &&		  /* we have not hit the end */
+	       problem_loading == NULL && /* there were no problems so far */
+	       ms_biff_query_next (q)) {  /* we can load the record */
+
 		d (5, printf ("Opcode: 0x%x\n", q->opcode););
 
 		/* Catch Oddballs
@@ -4796,16 +4801,14 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			default:
 				ms_excel_unexpected_biff (q, "Workbook", ms_excel_read_debug);
 			}
-			continue;
-		}
-
-		switch (q->ls_op) {
+		} else switch (q->ls_op) {
 		case BIFF_BOF:
 			wb = ms_excel_read_BOF (q, wb, wb_view, context, &ver, &current_sheet);
 			break;
 
 		case BIFF_EOF: /* FIXME: Perhaps we should finish here ? */
 			ms_excel_handle_delayed_NAMEs (wb);
+			prev_was_eof = TRUE;
 			d (0, printf ("End of worksheet spec.\n"););
 			break;
 
@@ -4967,7 +4970,11 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			break;
 
 		case BIFF_DIMENSIONS:	/* 2, NOT 1,10 */
-			ms_excel_biff_dimensions (q, wb);
+			/* Check for padding */
+			if (q->ms_op == 0 && prev_was_eof)
+				stop_loading = TRUE;
+			else
+				ms_excel_biff_dimensions (q, wb);
 			break;
 
 		case BIFF_OBJ: /* See: ms-obj.c and S59DAD.HTM */
@@ -5001,9 +5008,7 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			ms_excel_unexpected_biff (q, "Workbook", ms_excel_read_debug);
 			break;
 		}
-		/* NO Code here unless you modify the handling
-		 * of Odd Balls Above the switch
-		 */
+		prev_was_eof = (q->ls_op == BIFF_EOF);
 	}
 	ms_biff_query_destroy (q);
 	if (ver)

@@ -418,11 +418,15 @@ expr_name_remove (GnmNamedExpr *nexpr)
 void
 expr_name_list_destroy (GList *names)
 {
-	GList *ptr = names;
-
-	while (ptr != NULL) {
+	GList *ptr;
+	
+	/* copy the list because it changes under us */
+	names = g_list_copy (names);
+	for (ptr = names ; ptr != NULL ; ) {
 		GnmNamedExpr *nexpr = ptr->data;
 		ptr = ptr->next;
+
+		/* force the removal of the name in case it stays in use */
 		expr_name_remove (nexpr);
 	}
 	g_list_free (names);
