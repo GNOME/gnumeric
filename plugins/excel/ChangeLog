@@ -1,3 +1,8 @@
+2002-04-13  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (ms_excel_read_AUTOFILTER) : start work on filters.
+	(ms_excel_read_sheet) : support the filter records.
+
 2002-04-13  Jon K Hellan  <hellan@acm.org>
 
 	* ms-chart.c: s/ENABLE_BONOBO/WITH_BONOBO/
