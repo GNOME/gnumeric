@@ -1,3 +1,8 @@
+2004-08-25  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-axis.c (gog_axis_view_render) : don't leak an axis map for
+	  discrete axes
+
 2004-08-24  Morten Welinder  <terra@gnome.org>
 
 	* utils/go-file.c (go_file_split_uris): New function for

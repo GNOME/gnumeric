@@ -2169,6 +2169,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 					}
 				}
 			}
+			gog_axis_map_free (map);
 		}
 
 		if (line_width > 0) {
