@@ -80,6 +80,9 @@ gnumeric_date (FunctionEvalInfo *ei, Value **argv)
 	if (!g_date_valid (&date))
 		goto error;
 
+	if (g_date_year (&date) < 1900 || g_date_year (&date) >= 11900)
+		goto error;
+
 	return value_new_int (datetime_g_to_serial (&date));
 
  error:
