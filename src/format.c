@@ -687,7 +687,7 @@ format_destroy (GnmFormat *format)
 	g_slist_free (format->entries);
 	format->entries = NULL;
 	if (format->markup != NULL) {
-		pango_attr_list_ref (format->markup);
+		pango_attr_list_unref (format->markup);
 		format->markup = NULL;
 	}
 	format_match_release (format);

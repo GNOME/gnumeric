@@ -1,5 +1,7 @@
 2004-04-21  Morten Welinder  <terra@gnome.org>
 
+	* src/format.c (format_destroy): Let's try unref in here.
+
 	* src/stf-export.c (stf_export): Fix compilation.
 
 2004-04-20  Jody Goldberg <jody@gnome.org>
