@@ -492,6 +492,7 @@ static void
 sylk_cleanup_plugin (PluginData *pd)
 {
 	file_format_unregister_open (sylk_probe, sylk_read_workbook);
+	g_free (pd->title);
 }
 
 

@@ -440,6 +440,7 @@ text_cleanup_plugin (PluginData *pd)
 {
 	file_format_unregister_open (NULL, text_read_workbook);
 	file_format_unregister_save (text_write_workbook);
+	g_free (pd->title);
 }
 
 static int

@@ -80,6 +80,7 @@ static void
 oleo_cleanup_plugin (PluginData *pd)
 {
 	file_format_unregister_open (oleo_probe, oleo_load);
+	g_free (pd->title);
 }
 
 int

@@ -1,0 +1,5 @@
+1999-11-21  Jeff Garzik  <jgarzik@mandrakesoft.com>
+ 
+	 * ChangeLog: new file
+         * text-io.c (text_cleanup_plugin): free pd->title
+

@@ -199,6 +199,7 @@ static void
 xbase_cleanup_plugin (PluginData *pd)
 {
 	file_format_unregister_open (xbase_probe, xbase_load);
+	g_free (pd->title);
 }
 
 int

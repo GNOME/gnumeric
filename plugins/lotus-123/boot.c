@@ -80,6 +80,7 @@ static void
 lotus_cleanup_plugin (PluginData *pd)
 {
 	file_format_unregister_open (lotus_probe, lotus_load);
+	g_free (pd->title);
 }
 
 int

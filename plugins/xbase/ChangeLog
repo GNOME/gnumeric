@@ -1,3 +1,7 @@
+1999-11-21  Jeff Garzik  <jgarzik@mandrakesoft.com>
+ 
+        * boot.c (xbase_cleanup_plugin): free pd->title
+
 1999-08-11  Michael Meeks  <michael@imaginator.com>
 
 	* boot.c (xbase_load): Add missing ';' Miguel's been doing too

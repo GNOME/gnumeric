@@ -53,6 +53,8 @@ html_cleanup_plugin (PluginData *pd)
 	file_format_unregister_save (html_write_wb_roff);
 	file_format_unregister_save (epsf_write_wb);
 	file_format_unregister_open (NULL,html_read);
+
+	g_free (pd->title);
 }
 
 /*

@@ -259,6 +259,7 @@ csv_cleanup_plugin (PluginData *pd)
 {
 	file_format_unregister_open (NULL, csv_read_workbook);
 	file_format_unregister_save (csv_write_workbook);
+	g_free (pd->title);
 }
 
 

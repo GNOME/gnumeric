@@ -1,3 +1,7 @@
+1999-11-21  Jeff Garzik  <jgarzik@mandrakesoft.com>
+ 
+        * boot.c (lotus_cleanup_plugin): free pd->title
+
 1999-10-13  Michael Meeks  <mmeeks@gnu.org>
 
 	* lotus.c (read_workbook): Pre-initialize the only sheet we
