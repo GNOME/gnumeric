@@ -1,3 +1,11 @@
+2000-11-23  Ariel Rios  <ariel@arcavia.com>
+
+	* guile-support.h (gnumeric_list2scm): Removed unused prototypes.
+	(gnumeric_scm2list): Ditto
+	 (expr_to_scm): Ditto
+	* guile-support.c (gnumeric_list2scm): Removed unused function.
+	(gnumeric_scm2list): Ditto
+
 2000-11-18  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.59
