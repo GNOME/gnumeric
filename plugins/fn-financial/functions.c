@@ -43,6 +43,7 @@
 #include "plugin.h"
 #include "plugin-util.h"
 #include "module-plugin-defs.h"
+#include "sc-fin.h"
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
@@ -259,7 +260,8 @@ days_monthly_basis (Value *issue_date, Value *maturity_date, int basis)
  * and maturity dates.
  */
 static gnum_float
-coupnum (GDate *settlement, GDate *maturity, int freq, basis_t basis, gboolean eom)
+coupnum (GDate *settlement, GDate *maturity, int freq, basis_t basis,
+	 gboolean eom)
 {
         int        months;
 	GDate      this_coupondate;
@@ -283,7 +285,8 @@ coupnum (GDate *settlement, GDate *maturity, int freq, basis_t basis, gboolean e
 }
 
 static gnum_float
-couppcd (GDate *settlement, GDate *maturity, int freq,  basis_t basis, gboolean eom)
+couppcd (GDate *settlement, GDate *maturity, int freq,  basis_t basis,
+	 gboolean eom)
 {
 	GDate *date;
 	int   serial_date;
@@ -296,7 +299,8 @@ couppcd (GDate *settlement, GDate *maturity, int freq,  basis_t basis, gboolean 
 }
 
 static gnum_float
-coupncd (GDate *settlement, GDate *maturity, int freq,  basis_t basis, gboolean eom)
+coupncd (GDate *settlement, GDate *maturity, int freq,  basis_t basis,
+	 gboolean eom)
 {
 	GDate *date;
 	int   serial_date;
@@ -319,7 +323,7 @@ coupncd (GDate *settlement, GDate *maturity, int freq,  basis_t basis, gboolean 
 static Value *
 func_coup (FunctionEvalInfo *ei, Value **argv,
 	   gnum_float (coup_fn)(GDate *settlement, GDate *maturity,
-				  int freq, basis_t basis, gboolean eom))
+				int freq, basis_t basis, gboolean eom))
 {
         GDate   *settlement;
         GDate   *maturity;
@@ -345,7 +349,8 @@ func_coup (FunctionEvalInfo *ei, Value **argv,
 		goto out;
 	}
 
-	result = value_new_float (coup_fn (settlement, maturity, freq, basis, eom));
+	result = value_new_float (coup_fn (settlement, maturity, freq, basis,
+					   eom));
 
  out:
 	datetime_g_free (settlement);
@@ -2489,7 +2494,29 @@ static const char *help_yielddisc = {
 static Value *
 gnumeric_yielddisc (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+        GDate      *nSettle, *nMat;
+	gnum_float fPrice, fRedemp;
+	gint       nBase;
+	Value      *result;
+
+        nSettle    = datetime_value_to_g (argv[0]);
+        nMat       = datetime_value_to_g (argv[1]);
+	fPrice     = value_get_as_float (argv[2]);
+	fRedemp    = value_get_as_float (argv[3]);
+        nBase      = argv[4] ? value_get_as_int (argv[4]) : 0;
+
+        if (nBase < 0 || nBase > 4 || nSettle == NULL || nMat == NULL) {
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
+
+	result = get_yielddisc (nSettle, nMat, fPrice, fRedemp, nBase);
+
+ out:
+	datetime_g_free (nSettle);
+	datetime_g_free (nMat);
+
+	return result;
 }
 
 /***************************************************************************/
@@ -2526,7 +2553,32 @@ static const char *help_yieldmat = {
 static Value *
 gnumeric_yieldmat (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+        GDate      *nSettle, *nMat, *nIssue;
+	gnum_float fRate, fPrice;
+	gint       nBase;
+	Value      *result;
+
+        nSettle    = datetime_value_to_g (argv[0]);
+        nMat       = datetime_value_to_g (argv[1]);
+        nIssue     = datetime_value_to_g (argv[2]);
+	fRate      = value_get_as_float (argv[3]);
+	fPrice     = value_get_as_float (argv[4]);
+        nBase      = argv[5] ? value_get_as_int (argv[5]) : 0;
+
+        if (nBase < 0 || nBase > 4 || fRate < 0 || nSettle == NULL ||
+	    nMat == NULL || nIssue == NULL) {
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
+
+	result = get_yieldmat (nSettle, nMat, nIssue, fRate, fPrice, nBase);
+
+ out:
+	datetime_g_free (nSettle);
+	datetime_g_free (nMat);
+	datetime_g_free (nIssue);
+
+	return result;
 }
 
 /***************************************************************************/
@@ -2615,11 +2667,13 @@ gnumeric_oddfprice (FunctionEvalInfo *ei, Value **argv)
 
 	/* Odd short first coupon */
 	term1 = redemption / powgnum (1.0 + yield / freq, n - 1.0 + ds / e);
-	term2 = (100.0 * rate / freq * df / e) / powgnum (1.0 + yield / freq, ds / e);;
+	term2 = (100.0 * rate / freq * df / e) / powgnum (1.0 + yield / freq,
+							  ds / e);;
 	last_term = 100.0 * rate / freq * a / e;
 	sum = 0;
 	for (k = 1; k < n; k++)
-	        sum += (100.0 * rate / freq) / powgnum (1 + yield / freq, k + ds / e);
+	        sum += (100.0 * rate / freq) / powgnum (1 + yield / freq,
+							k + ds / e);
 
 	result = value_new_float (term1 + term2 + sum - last_term);
 
@@ -2703,7 +2757,36 @@ static const char *help_oddlprice = {
 static Value *
 gnumeric_oddlprice (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+        GDate      *nSettle, *nMat, *nLastCoup;
+	gnum_float fRate, fYield, fRedemp;
+	gint       nFreq, nBase;
+	Value      *result;
+
+        nSettle    = datetime_value_to_g (argv[0]);
+        nMat       = datetime_value_to_g (argv[1]);
+        nLastCoup  = datetime_value_to_g (argv[2]);
+	fRate      = value_get_as_float (argv[3]);
+	fYield     = value_get_as_float (argv[4]);
+	fRedemp    = value_get_as_float (argv[5]);
+	nFreq      = value_get_as_int (argv[6]);
+        nBase      = argv[7] ? value_get_as_int (argv[7]) : 0;
+
+        if (nBase < 0 || nBase > 4 || fRate < 0 || nSettle == NULL ||
+	    nMat == NULL || nLastCoup == NULL ||
+	    (nFreq != 1 && nFreq != 2 && nFreq != 4) ) {
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
+
+	result = get_oddlprice (nSettle, nMat, nLastCoup, fRate, fYield,
+				fRedemp, nFreq, nBase);
+
+ out:
+	datetime_g_free (nSettle);
+	datetime_g_free (nMat);
+	datetime_g_free (nLastCoup);
+
+	return result;
 }
 
 /***************************************************************************/
@@ -2740,7 +2823,36 @@ static const char *help_oddlyield = {
 static Value *
 gnumeric_oddlyield (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+        GDate      *nSettle, *nMat, *nLastCoup;
+	gnum_float fRate, fPrice, fRedemp;
+	gint       nFreq, nBase;
+	Value      *result;
+
+        nSettle    = datetime_value_to_g (argv[0]);
+        nMat       = datetime_value_to_g (argv[1]);
+        nLastCoup  = datetime_value_to_g (argv[2]);
+	fRate      = value_get_as_float (argv[3]);
+	fPrice     = value_get_as_float (argv[4]);
+	fRedemp    = value_get_as_float (argv[5]);
+	nFreq      = value_get_as_int (argv[6]);
+        nBase      = argv[7] ? value_get_as_int (argv[7]) : 0;
+
+        if (nBase < 0 || nBase > 4 || fRate < 0 || nSettle == NULL ||
+	    nMat == NULL || nLastCoup == NULL ||
+	    (nFreq != 1 && nFreq != 2 && nFreq != 4) ) {
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
+
+	result = get_oddlyield (nSettle, nMat, nLastCoup, fRate, fPrice,
+				fRedemp, nFreq, nBase);
+
+ out:
+	datetime_g_free (nSettle);
+	datetime_g_free (nMat);
+	datetime_g_free (nLastCoup);
+
+	return result;
 }
 
 /***************************************************************************/
@@ -2771,10 +2883,37 @@ static const char *help_amordegrc = {
 	   "@SEEALSO=")
 };
 
+
 static Value *
 gnumeric_amordegrc (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+        GDate      *nDate, *nFirstPer;
+	gnum_float fRestVal, fRate, fCost;
+	gint       n, nBase, nPer;
+	Value      *result;
+
+	fCost      = value_get_as_float (argv[0]);
+        nDate      = datetime_value_to_g (argv[1]);
+        nFirstPer  = datetime_value_to_g (argv[2]);
+	fRestVal   = value_get_as_float (argv[3]);
+        nPer       = value_get_as_int (argv[4]);
+	fRate      = value_get_as_float (argv[5]);
+        nBase      = argv[6] ? value_get_as_int (argv[6]) : 0;
+
+        if (nBase < 0 || nBase > 4 || fRate < 0 || nDate == NULL ||
+	    nFirstPer == NULL) {
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
+
+	result = get_amordegrc (fCost, nDate, nFirstPer, fRestVal, nPer, fRate,
+				nBase);
+
+ out:
+	datetime_g_free (nDate);
+	datetime_g_free (nFirstPer);
+
+        return result;
 }
 
 /***************************************************************************/
@@ -2808,7 +2947,33 @@ static const char *help_amorlinc = {
 static Value *
 gnumeric_amorlinc (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+        GDate      *nDate, *nFirstPer;
+	gnum_float fCost, fRestVal, fRate;
+	gint       nPer, nBase;
+	Value      *result;
+
+	fCost      = value_get_as_float (argv[0]);
+        nDate      = datetime_value_to_g (argv[1]);
+        nFirstPer  = datetime_value_to_g (argv[2]);
+	fRestVal   = value_get_as_float (argv[3]);
+        nPer       = value_get_as_int (argv[4]);
+	fRate      = value_get_as_float (argv[5]);
+        nBase      = argv[6] ? value_get_as_int (argv[6]) : 0;
+
+        if (nBase < 0 || nBase > 4 || fRate < 0 || nDate == NULL ||
+	    nFirstPer == NULL) {
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
+
+	result = get_amorlinc (fCost, nDate, nFirstPer, fRestVal, nPer, fRate,
+			       nBase);
+
+ out:
+	datetime_g_free (nDate);
+	datetime_g_free (nFirstPer);
+
+	return result;
 }
 
 /***************************************************************************/
@@ -3145,13 +3310,16 @@ gnumeric_vdb (FunctionEvalInfo *ei, Value **argv)
 /***************************************************************************/
 
 const ModulePluginFunctionInfo financial_functions[] = {
-	{ "accrint", "???fff|f", "issue,first_interest,settlement,rate,par,frequency[,basis]",
+	{ "accrint", "???fff|f",
+	  "issue,first_interest,settlement,rate,par,frequency[,basis]",
 	  &help_accrint, gnumeric_accrint, NULL, NULL, NULL },
 	{ "accrintm", "??f|ff", "issue,maturity,rate[,par,basis]",
 	  &help_accrintm, gnumeric_accrintm, NULL, NULL, NULL },
-	{ "amordegrc", "fffffff", "cost,purchase_date,first_period,salvage,period,rate,basis",
+	{ "amordegrc", "fffffff",
+	  "cost,purchase_date,first_period,salvage,period,rate,basis",
 	  &help_amordegrc, gnumeric_amordegrc, NULL, NULL, NULL },
-	{ "amorlinc", "fffffff", "cost,purchase_date,first_period,salvage,period,rate,basis",
+	{ "amorlinc", "fffffff",
+	  "cost,purchase_date,first_period,salvage,period,rate,basis",
 	  &help_amorlinc, gnumeric_amorlinc, NULL, NULL, NULL },
 	{ "coupdaybs", "fff|fb", "settlement,maturity,frequency[,basis,eom]",
 	  &help_coupdaybs, gnumeric_coupdaybs, NULL, NULL, NULL },
@@ -3189,7 +3357,8 @@ const ModulePluginFunctionInfo financial_functions[] = {
 	  &help_fv,	  gnumeric_fv, NULL, NULL, NULL },
 	{ "fvschedule", "fA", "pv,schedule",
 	  &help_fvschedule, gnumeric_fvschedule, NULL, NULL },
-	{ "intrate", "??ff|f", "settlement,maturity,investment,redemption[,basis]",
+	{ "intrate", "??ff|f",
+	  "settlement,maturity,investment,redemption[,basis]",
 	  &help_intrate,  gnumeric_intrate, NULL, NULL, NULL },
 	{ "ipmt", "ffff|ff", "rate,per,nper,pv,fv,type",
 	  &help_ipmt,	  gnumeric_ipmt, NULL, NULL, NULL },
@@ -3197,7 +3366,8 @@ const ModulePluginFunctionInfo financial_functions[] = {
 	  &help_irr,	  gnumeric_irr, NULL, NULL, NULL },
 	{ "ispmt", "ffff", "rate,per,nper,pv",
 	  &help_ispmt,	gnumeric_ispmt, NULL, NULL, NULL },
-	{ "mduration", "fffff|f", "settlement,maturify,coupon,yield,frequency[,basis]",
+	{ "mduration", "fffff|f",
+	  "settlement,maturify,coupon,yield,frequency[,basis]",
 	  &help_mduration, gnumeric_mduration, NULL, NULL, NULL },
 	{ "mirr", "Aff", "values,finance_rate,reinvest_rate",
 	  &help_mirr,	  gnumeric_mirr, NULL, NULL, NULL },
@@ -3207,29 +3377,41 @@ const ModulePluginFunctionInfo financial_functions[] = {
 	  &help_nper,	  gnumeric_nper, NULL, NULL, NULL },
 	{ "npv",	  0, "",
 	  &help_npv,	  NULL, gnumeric_npv, NULL, NULL },
-	{ "oddfprice", "????fffff", "settlement,maturity,issue,first_coupon,rate,yld,redemption,frequency,basis",
+	{ "oddfprice", "????fffff",
+	  "settlement,maturity,issue,first_coupon,rate,yld,redemption,"
+	  "frequency,basis",
 	  &help_oddfprice,  gnumeric_oddfprice, NULL, NULL, NULL },
-	{ "oddfyield", "????fffff", "settlement,maturity,issue,first_coupon,rate,pr,redemption,frequency,basis",
+	{ "oddfyield", "????fffff",
+	  "settlement,maturity,issue,first_coupon,rate,pr,redemption,"
+	  "frequency,basis",
 	  &help_oddfyield,  gnumeric_oddfyield, NULL, NULL, NULL },
-	{ "oddlprice", "???fffff", "settlement,maturity,last_interest,rate,yld,redemption,frequency,basis",
+	{ "oddlprice", "???fffff",
+	  "settlement,maturity,last_interest,rate,yld,redemption,"
+	  "frequency,basis",
 	  &help_oddlprice,  gnumeric_oddlprice, NULL, NULL, NULL },
-	{ "oddlyield", "???fffff", "settlement,maturity,last_interest,rate,pr,redemption,frequency,basis",
+	{ "oddlyield", "???fffff",
+	  "settlement,maturity,last_interest,rate,pr,redemption,"
+	  "frequency,basis",
 	  &help_oddlyield,  gnumeric_oddlyield, NULL, NULL, NULL },
 	{ "pmt", "fff|ff", "rate,nper,pv[,fv,type]",
 	  &help_pmt,	  gnumeric_pmt, NULL, NULL, NULL },
 	{ "ppmt", "ffff|ff", "rate,per,nper,pv[,fv,type]",
 	  &help_ppmt,	  gnumeric_ppmt, NULL, NULL, NULL },
-	{ "price", "??fff|ff", "settle,mat,rate,yield,redemption_price,frequency,basis",
+	{ "price", "??fff|ff",
+	  "settle,mat,rate,yield,redemption_price,frequency,basis",
 	  &help_price, gnumeric_price, NULL, NULL, NULL },
-	{ "pricedisc", "??ff|f", "settlement,maturity,discount,redemption[,basis]",
+	{ "pricedisc", "??ff|f",
+	  "settlement,maturity,discount,redemption[,basis]",
 	  &help_pricedisc,  gnumeric_pricedisc, NULL, NULL, NULL },
-	{ "pricemat", "???ff|f", "settlement,maturity,issue,rate,yield[,basis]",
+	{ "pricemat", "???ff|f",
+	  "settlement,maturity,issue,rate,yield[,basis]",
 	  &help_pricemat,  gnumeric_pricemat, NULL, NULL, NULL },
 	{ "pv", "fff|ff", "rate,nper,pmt[,fv,type]",
 	  &help_pv,	  gnumeric_pv, NULL, NULL, NULL },
 	{ "rate", "fff|fff", "rate,nper,pmt,fv,type,guess",
 	  &help_rate,	  gnumeric_rate, NULL, NULL, NULL },
-	{ "received", "??ff|f", "settlement,maturity,investment,discount[,basis]",
+	{ "received", "??ff|f",
+	  "settlement,maturity,investment,discount[,basis]",
 	  &help_received,  gnumeric_received, NULL, NULL, NULL },
 	{ "sln", "fff", "cost,salvagevalue,life",
 	  &help_sln,	  gnumeric_sln, NULL, NULL, NULL },
@@ -3241,13 +3423,15 @@ const ModulePluginFunctionInfo financial_functions[] = {
 	  &help_tbillprice, gnumeric_tbillprice, NULL, NULL, NULL },
 	{ "tbillyield", "??f", "settlement,maturity,pr",
 	  &help_tbillyield, gnumeric_tbillyield, NULL, NULL, NULL },
-	{ "vdb", "fffff|ff", "cost,salvage,life,start_period,end_period[,factor,switch]",
+	{ "vdb", "fffff|ff",
+	  "cost,salvage,life,start_period,end_period[,factor,switch]",
 	  &help_vdb, gnumeric_vdb, NULL, NULL, NULL },
 	{ "xirr", "AA|f", "values,dates[,guess]",
 	  &help_xirr,	  gnumeric_xirr, NULL, NULL, NULL },
 	{ "xnpv", "fAA", "rate,values,dates",
 	  &help_xnpv,	  gnumeric_xnpv, NULL, NULL, NULL },
-	{ "yield", "??fff|ff", "settle,mat,rate,price,redemption_price,frequency,basis",
+	{ "yield", "??fff|ff",
+	  "settle,mat,rate,price,redemption_price,frequency,basis",
 	  &help_yield, gnumeric_yield, NULL, NULL, NULL },
 	{ "yielddisc", "??fff", "settlement,maturity,pr,redemption,basis",
 	  &help_yielddisc,  gnumeric_yielddisc, NULL, NULL, NULL },

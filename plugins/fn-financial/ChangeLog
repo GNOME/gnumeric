@@ -1,3 +1,12 @@
+2002-07-06  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c (gnumeric_amordegrc, gnumeric_amorlinc,
+	gnumeric_oddlprice, gnumeric_oddlyield, gnumeric_yieldmat,
+	gnumeric_yielddisc): Implemented. Thanks for OO, read the comment
+	in sc-fin.c.
+
+	* sc-fin.[ch], Makefile.am: Added new file.
+	
 2002-06-14  Jody Goldberg <jody@gnome.org>
 
 	* functions.c (gnumeric_euro) : add drachma.

@@ -7,7 +7,7 @@ gnumeric_plugin_fnfinancialdir = $(gnumeric_plugindir)/fn-financial
 xmldir = $(gnumeric_plugin_fnfinancialdir)
 gnumeric_plugin_fnfinancial_LTLIBRARIES = plugin.la
 plugin_la_LDFLAGS = -module -avoid-version
-plugin_la_SOURCES = functions.c
+plugin_la_SOURCES = functions.c sc-fin.c sc-fin.h
 
 xml_in_files = plugin.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)
