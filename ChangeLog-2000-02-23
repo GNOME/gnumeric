@@ -1,3 +1,14 @@
+2000-01-19  Jody Goldberg <jgoldberg@home.com>
+
+	* src/print-cell.c (print_cell_grid) : Don't print grid lines for
+	  hidden cols/rows.
+
+	* src/print.c (compute_groups) : Hidden cols/rows exist.  They just
+	  don't take up any space.
+
+	* src/parser.y : array_cols remove null production.  We can have
+	  empty array_rows OR we can have empty array_cols.  Not both.
+
 2000-01-18  Jody Goldberg <jgoldberg@home.com>
 
 	* src/expr.c (eval_expr_real) : Add OPER_UNARY_PLUS.

@@ -440,7 +440,6 @@ array_cols: array_row {
 		$$ = g_list_prepend ($3, $1);
 		register_expr_list_list_allocation ($$);
 	}
-        | { $$ = NULL; }
 	;
 %%
 

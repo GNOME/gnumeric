@@ -533,7 +533,7 @@ print_cell_grid (GnomePrintContext *context,
 	for (col = start_col; col <= end_col; col++) {
 		ColRowInfo *ci = sheet_col_get_info (sheet, col);
 
-		if (ci) {
+		if (ci && ci->pixels >= 0) {
 			vline (context, x, base_y, base_y - height);
 			x += ci->units + ci->margin_a_pt + ci->margin_b_pt;
 		}
@@ -543,12 +543,9 @@ print_cell_grid (GnomePrintContext *context,
 	for (row = start_row; row <= end_row; row++){
 		ColRowInfo *ri = sheet_row_get_info (sheet, row);
 
-		if (ri) {
+		if (ri && ri->pixels >= 0) {
 			hline (context, base_x, base_x + width, y);
 			y -= ri->units + ri->margin_a_pt + ri->margin_b_pt;
 		}
 	}
 }
-
-
-

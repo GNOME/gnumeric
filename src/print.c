@@ -357,20 +357,23 @@ compute_groups (Sheet *sheet, int start, int end, int usable,
 		
 		info = (*get_info) (sheet, idx);
 
-		units += info->units + info->margin_a_pt + info->margin_b_pt;
-		
-		if (units > usable){
-			if (count == 0){
-				result = g_list_prepend (result, GINT_TO_POINTER (1));
-				units = 0;
-				count = 0;
-			} else {
-				result = g_list_prepend (result, GINT_TO_POINTER (count));
-				count = 0;
-				units = 0;
-				continue;
-			}
-		} 
+		/* Hidden ColRows are ignored */
+		if (info->pixels >= 0) {
+			units += info->units + info->margin_a_pt + info->margin_b_pt;
+
+			if (units > usable){
+				if (count == 0){
+					result = g_list_prepend (result, GINT_TO_POINTER (1));
+					units = 0;
+					count = 0;
+				} else {
+					result = g_list_prepend (result, GINT_TO_POINTER (count));
+					count = 0;
+					units = 0;
+					continue;
+				}
+			} 
+		}
 		idx++;
 		count++;
 	}
