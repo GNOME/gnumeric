@@ -30,6 +30,10 @@ G_BEGIN_DECLS
 #define GO_PLUGIN(o)	    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_PLUGIN_TYPE, GOPlugin))
 #define IS_GO_PLUGIN(o)	    (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_PLUGIN_TYPE))
 
+/**
+ * NOTE NOTE NOTE
+ * Inherits from GTypeModule
+ **/
 GType go_plugin_get_type (void);
 
 /* Methods */

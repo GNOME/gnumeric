@@ -110,11 +110,6 @@ go_object_new_valist (char const *type, char const *first_prop, va_list args)
 		}
 
 		g_return_val_if_fail (type != 0, NULL);
-
-		/* The plugin defined a gtype so it must not be unloaded. */
-		refd_plugins = g_slist_prepend (refd_plugins, plugin);
-		g_object_ref (plugin);
-		gnm_plugin_use_ref (plugin);
 	}
 	return g_object_new_valist (t, first_prop, args);
 }
