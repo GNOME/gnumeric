@@ -13,9 +13,9 @@
 #define MS_OLE_SUMMARY_H
 
 typedef struct {
-	gboolean     little_endian;
-	guint8       windows_GUID[16];
-	guint32      sections;
+	guint8       class_id[16];
+	GArray       *sections;
+	GArray       *items;
 	MsOleStream *s;
 } MsOleSummary;
 
@@ -91,19 +91,19 @@ typedef struct {
 	guint32 len;
 	guint8 *data;
 } MsOleSummaryPreview;
-void                ms_ole_summary_preview_destroy (MsOleSummaryPreview *d);
+void                ms_ole_summary_preview_destroy (MsOleSummaryPreview d);
 
 /* Ensure that you destroy / free returned values after use */
 char                *ms_ole_summary_get_string  (MsOleSummary *si, MsOleSummaryPID id,
-						 gboolean *not_available);
+						 gboolean *available);
 
 guint32              ms_ole_summary_get_long    (MsOleSummary *si, MsOleSummaryPID id,
-						 gboolean *not_available);
+						 gboolean *available);
 
-MsOleSummaryTime    *ms_ole_summary_get_time    (MsOleSummary *si, MsOleSummaryPID id,
-						 gboolean *not_available);
+MsOleSummaryTime     ms_ole_summary_get_time    (MsOleSummary *si, MsOleSummaryPID id,
+						 gboolean *available);
 
-MsOleSummaryPreview *ms_ole_summary_get_preview (MsOleSummary *si, MsOleSummaryPID id,
-						 gboolean *not_available);
+MsOleSummaryPreview  ms_ole_summary_get_preview (MsOleSummary *si, MsOleSummaryPID id,
+						 gboolean *available);
 
 #endif

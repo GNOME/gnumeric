@@ -13,6 +13,54 @@
 #include "ms-ole.h"
 #include "ms-ole-summary.h"
 
+#define SUMMARY_ID(x) ((x) & 0xff)
+
+typedef struct {
+	/* Could store the FID, but why bother ? */
+	guint32 offset;
+	guint32 props;
+	guint32 bytes;
+} section_t;
+
+typedef struct {
+	guint32 offset;
+	guint32 id;
+} item_t;
+
+static gboolean
+read_items (MsOleSummary *si)
+{
+	gint sect;
+	
+	for (sect = 0; sect < si->sections->len; sect++) {
+		section_t st = g_array_index (si->sections, section_t, sect);
+		guint8 data[8];
+		gint i;
+		
+		si->s->lseek (si->s, st.offset, MsOleSeekSet);
+		if (!si->s->read_copy (si->s, data, 8))
+			return FALSE;
+		
+		st.bytes = MS_OLE_GET_GUINT32 (data);
+		st.props = MS_OLE_GET_GUINT32 (data + 4);
+
+		if (st.props == 0)
+			continue;
+		
+		for (i = 0; i < st.props; i++) {
+			item_t item;
+			if (!si->s->read_copy (si->s, data, 8))
+				return FALSE;
+
+			item.id     = MS_OLE_GET_GUINT32 (data);
+			item.offset = MS_OLE_GET_GUINT32 (data + 4);
+			item.offset = item.offset + st.offset;
+			g_array_append_val (si->items, item);
+		}
+	}
+	return TRUE;
+}
+
 MsOleSummary *
 ms_ole_summary_open_stream (MsOleStream *s)
 {
@@ -21,7 +69,7 @@ ms_ole_summary_open_stream (MsOleStream *s)
 	gboolean      panic = FALSE;
 	guint32       os_version;
 	MsOleSummary *si;
-	gint          i;
+	gint          i, sections;
 
 	g_return_val_if_fail (s != NULL, NULL);
 
@@ -31,21 +79,54 @@ ms_ole_summary_open_stream (MsOleStream *s)
 	si                = g_new (MsOleSummary, 1);
 
 	si->s             = s;
+	si->items         = NULL;
+	si->sections      = NULL;
+
 	byte_order        = MS_OLE_GET_GUINT16(data);
-	si->little_endian = TRUE; /* FIXME */
+	if (byte_order != 0xfffe)
+		panic     = TRUE;
+
 	if (MS_OLE_GET_GUINT16 (data + 2) != 0) /* Format */
 		panic     = TRUE;
+
 	os_version        = MS_OLE_GET_GUINT32 (data + 4);
 
 	for (i=0;i<16;i++)
-		si->windows_GUID[i] = data[8 + i];
+		si->class_id[i] = data[8 + i];
 
-	si->sections      = MS_OLE_GET_GUINT32 (data + 24);
+	sections          = MS_OLE_GET_GUINT32 (data + 24);
 
 	if (panic) {
-		g_free (si);
+		ms_ole_summary_destroy (si);
 		return NULL;
 	}
+
+	si->sections = g_array_new (FALSE, FALSE, sizeof (section_t));
+
+	for (i = 0; i < sections; i++) {
+		section_t sect;
+		if (!s->read_copy (s, data, 16+4)) {
+			ms_ole_summary_destroy (si);
+			return NULL;
+		}
+		if (MS_OLE_GET_GUINT32 (data +  0) != 0XF29F85E0 ||
+		    MS_OLE_GET_GUINT32 (data +  4) != 0X10684FF9 ||
+		    MS_OLE_GET_GUINT32 (data +  8) != 0X000891AB ||
+		    MS_OLE_GET_GUINT32 (data + 12) != 0XD9B3272B) {
+			ms_ole_summary_destroy (si);
+			return NULL;
+		}
+		sect.offset = MS_OLE_GET_GUINT32 (data + 16);
+		g_array_append_val (si->sections, sect);
+		/* We want to read the offsets of the items here into si->items */
+	}
+
+	if (!read_items (si)) {
+		g_warning ("Serious error reading items");
+		ms_ole_summary_destroy (si);
+		return NULL;
+	}
+
 	return si;
 }
 
@@ -68,50 +149,217 @@ void ms_ole_summary_destroy (MsOleSummary *si)
 	g_return_if_fail (si != NULL);
 	g_return_if_fail (si->s != NULL);
 
-	ms_ole_stream_close (si->s); 
+	if (si->sections)
+		g_array_free (si->sections, TRUE);
+	si->sections = NULL;
+
+	if (si->items)
+		g_array_free (si->items, TRUE);
+	si->items = NULL;
+
+	if (si->s)
+		ms_ole_stream_close (si->s);
 	si->s = NULL;
+
 	g_free (si);
+}
+
+
+/*
+ *                        Record handling code
+ */
+
+/* Seeks to the correct place, and returns a handle or NULL on failure */
+static item_t *
+seek_to_record (MsOleSummary *si, MsOleSummaryPID id)
+{
+	gint i;
+	g_return_val_if_fail (si->items, FALSE);
+
+	/* These should / could be sorted for speed */
+	for (i = 0; i < si->items->len; i++) {
+		item_t item = g_array_index (si->items, item_t, i);
+		if (item.id == SUMMARY_ID(id)) {
+			si->s->lseek (si->s, item.offset, MsOleSeekSet);
+			return &g_array_index (si->items, item_t, i);
+		}
+	}
+	return NULL;
 }
 
 /* Ensure that you free these pointers after use */
 char *
 ms_ole_summary_get_string (MsOleSummary *si, MsOleSummaryPID id,
-			   gboolean *not_available)
+			   gboolean *available)
 {
+	guint8   data[8];
+	guint32  type, len;
+	gchar   *ans;
+	item_t *item;
+
+	g_return_val_if_fail (available != NULL, 0);
+	*available = FALSE;
 	g_return_val_if_fail (si != NULL, NULL);
-	g_return_val_if_fail (not_available != NULL, NULL);
-	return NULL;
+	g_return_val_if_fail (MS_OLE_SUMMARY_TYPE (id) ==
+			      MS_OLE_SUMMARY_TYPE_STRING, NULL);
+
+	if (!(item = seek_to_record (si, id)))
+		return NULL;
+
+	if (!si->s->read_copy (si->s, data, 8))
+		return NULL;
+
+	type = MS_OLE_GET_GUINT32 (data);
+	len  = MS_OLE_GET_GUINT32 (data + 4);
+
+	if (type != 0x1e) { /* Very odd */
+		g_warning ("Summary string type mismatch");
+		return NULL;
+	}
+
+	ans = g_new (gchar, len + 1);
+	
+	if (!si->s->read_copy (si->s, ans, len)) {
+		g_free (ans);
+		return NULL;
+	}
+
+	ans[len] = '\0';
+
+	*available = TRUE;
+	return ans;
 }
 
 guint32 
 ms_ole_summary_get_long (MsOleSummary *si, MsOleSummaryPID id,
-			 gboolean *not_available)
+			 gboolean *available)
 {
+	guint8  data[8];
+	guint32 type, value;
+	item_t *item;
+
+	g_return_val_if_fail (available != NULL, 0);
+	*available = FALSE;
 	g_return_val_if_fail (si != NULL, 0);
-	g_return_val_if_fail (not_available != NULL, 0);
-	return 0;
+	g_return_val_if_fail (MS_OLE_SUMMARY_TYPE (id) ==
+			      MS_OLE_SUMMARY_TYPE_LONG, 0);
+
+	if (!(item = seek_to_record (si, id)))
+		return 0;
+
+	if (!si->s->read_copy (si->s, data, 8))
+		return 0;
+
+	type  = MS_OLE_GET_GUINT32 (data);
+	value = MS_OLE_GET_GUINT32 (data + 4);
+
+	if (type != 0x03) { /* Very odd */
+		g_warning ("Summary long type mismatch");
+		return 0;
+	}
+
+	*available = TRUE;
+	return value;
 }
 
-MsOleSummaryTime *
-ms_ole_summary_get_time (MsOleSummary *si, MsOleSummaryPID id,
-			 gboolean *not_available)
+static void
+demangle_datetime (guint32 low, guint32 high, MsOleSummaryTime *time)
 {
-	g_return_val_if_fail (si != NULL, NULL);
-	g_return_val_if_fail (not_available != NULL, NULL);
-	return NULL;
+	/* See 'wv' for details */
+	g_warning ("FIXME: a vile mess...");
+}
+
+MsOleSummaryTime
+ms_ole_summary_get_time (MsOleSummary *si, MsOleSummaryPID id,
+			 gboolean *available)
+{
+	guint8  data[12];
+	guint32 type, lowdate, highdate;
+	item_t *item;
+	MsOleSummaryTime time;
+
+	time.time.tv_sec  = 0;   /* Magic numbers */
+	time.time.tv_usec = 0;
+	g_date_set_dmy (&time.date, 18, 6, 1977);
+
+	g_return_val_if_fail (available != NULL, time);
+	*available = FALSE;
+	g_return_val_if_fail (si != NULL, time);
+	g_return_val_if_fail (MS_OLE_SUMMARY_TYPE (id) ==
+			      MS_OLE_SUMMARY_TYPE_TIME, time);
+
+	if (!(item = seek_to_record (si, id)))
+		return time;
+
+	if (!si->s->read_copy (si->s, data, 8))
+		return time;
+
+	type = MS_OLE_GET_GUINT32 (data);
+	lowdate  = MS_OLE_GET_GUINT32 (data + 4);
+	highdate = MS_OLE_GET_GUINT32 (data + 8);
+
+	if (type != 0x1e) { /* Very odd */
+		g_warning ("Summary string type mismatch");
+		return time;
+	}
+	if (!seek_to_record (si, id))
+		return time;
+
+	demangle_datetime (highdate, lowdate, &time);
+
+	*available = TRUE;
+	return time;
 }
 
 void
-ms_ole_summary_preview_destroy (MsOleSummaryPreview *d)
+ms_ole_summary_preview_destroy (MsOleSummaryPreview d)
 {
-	g_return_if_fail (d != NULL);
+	if (d.data)
+		g_free (d.data);
+	d.data = NULL;
 }
 
-MsOleSummaryPreview *
+MsOleSummaryPreview
 ms_ole_summary_get_preview (MsOleSummary *si, MsOleSummaryPID id,
-			    gboolean *not_available)
+			    gboolean *available)
 {
-	g_return_val_if_fail (si != NULL, NULL);
-	g_return_val_if_fail (not_available != NULL, NULL);
-	return NULL;
+	guint8  data[8];
+	guint32 type;
+	MsOleSummaryPreview ans;
+	item_t *item;
+
+	ans.len  = 0;
+	ans.data = NULL;
+
+	g_return_val_if_fail (available != NULL, ans);
+	*available = FALSE;
+	g_return_val_if_fail (si != NULL, ans);
+	g_return_val_if_fail (MS_OLE_SUMMARY_TYPE (id) ==
+			      MS_OLE_SUMMARY_TYPE_OTHER, ans);
+
+	if (!(item = seek_to_record (si, id)))
+		return ans;
+
+	if (!si->s->read_copy (si->s, data, 8))
+		return ans;
+
+	type     = MS_OLE_GET_GUINT32 (data);
+	ans.len  = MS_OLE_GET_GUINT32 (data + 4);
+
+	if (type != 0x47) { /* Very odd */
+		g_warning ("Summary wmf type mismatch");
+		return ans;
+	}
+	if (!seek_to_record (si, id))
+		return ans;
+
+	ans.data = g_new (guint8, ans.len + 1);
+	
+	if (!si->s->read_copy (si->s, ans.data, ans.len)) {
+		g_free (ans.data);
+		return ans;
+	}
+
+	*available = TRUE;
+	return ans;
 }

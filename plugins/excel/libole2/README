@@ -16,6 +16,6 @@ final time.
 
 	for his port of the Somar Software freeware DLL functions to get 
 summary info from OLE 2.0 document files, named CPPSUM available from
-the Somar Software WWW site at http://www.somar.com. until further notice
-ms-summary.h is under the LGPL.
+the Somar Software WWW site at http://www.somar.com.
 	
+
