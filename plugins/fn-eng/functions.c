@@ -46,30 +46,28 @@ val_to_base (FunctionEvalInfo *ei, Value **argv, int num_argv,
 	     int src_base, int dest_base)
 {
 	Value *value, *val_places;
-	int lp, max, bit, neg, places;
-	char *p, *ans;
-	char *err="\0", buffer[40], *str;
-	double v;
-	
+	int max, places;
+	char *err, buffer[40];
+	const char *str;
+	double v, b10;
+	int digit;
+
+	if (src_base <= 1 || dest_base <= 1 || dest_base > 36)
+		return function_error (ei, _("Base error"));
+
 	value = argv[0];
 	if (num_argv > 1)
 		val_places = argv[1];
 	else
 		val_places = NULL;
 
-	if (src_base<=1 || dest_base<=1)
-		return function_error (ei, _("Base error"));
-
 	if (val_places) {
-		if (val_places->type != VALUE_INTEGER &&
-		    val_places->type != VALUE_FLOAT)
+		if (!VALUE_IS_NUMBER (val_places))
 			return function_error (ei, gnumeric_err_VALUE);
-
 		places = value_get_as_int (val_places);
 	} else
 		places = 0;
 
-/*	printf ("Type: %d\n", value->type); */
 	switch (value->type){
 	case VALUE_STRING:
 		str = value->v.str->str;
@@ -90,55 +88,36 @@ val_to_base (FunctionEvalInfo *ei, Value **argv, int num_argv,
 	if (*err)
 		return function_error (ei, gnumeric_err_NUM);
 
-	if (v >= (pow (src_base, 10)/2.0)) /* N's complement */
-		v = -v;
+	b10 = pow (src_base, 10);
+	if (v >= b10 / 2) /* N's complement */
+		v = v - b10;
 
 	if (dest_base == 10)
 		return value_new_int (v);
 
-	if (v<0){
-		neg = 1;
-		v = -v;
-	}
-	else
-		neg = 0;
-	
-	if (neg) /* Pad the number */
+	if (v < 0) {
 		max = 10;
-	else {
-		if (v==0)
+		v += pow (dest_base, max);
+	} else {
+		if (v == 0)
 			max = 1;
 		else
-			max = (int)(log(v)/log(dest_base)) + 1;
+			max = (int)(log (v + 0.5) / log (dest_base)) + 1;
 	}
 
 	if (places>max)
 		max = places;
-	if (max > 15)
+	if (max >= sizeof (buffer))
 		return function_error (ei, _("Unimplemented"));
 
-	ans = buffer;
-	p = &ans[max-1];
-	for (lp = 0; lp < max; lp++){
-		bit = ((int)v) % dest_base;
-		v   = fabs (v / (double)dest_base);
-		if (neg)
-			bit = dest_base-bit-1;
-		if (bit>=0 && bit <= 9)
-			*p-- = '0'+bit;
-		else
-			*p-- = 'A'+bit-10;
-
-		if (places>0 && lp>=places){
-			if (v == 0)
-				break;
-			else
-				return function_error (ei, gnumeric_err_NUM);
-		}
+	for (digit = max - 1; digit >= 0; digit--) {
+		int thisdigit;
+		thisdigit = fmod (v + 0.5, dest_base);
+		v = floor ((v + 0.5) / dest_base);
+		buffer[digit] = thisdigit["0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
 	}
-	ans[max] = '\0';
-
-	return value_new_string (ans);
+	buffer[max] = 0;
+	return value_new_string (buffer);
 }
 
 static char *help_bin2dec = {

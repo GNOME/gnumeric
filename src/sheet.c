@@ -2312,7 +2312,9 @@ sheet_destroy (Sheet *sheet)
 	g_assert (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	g_warning ("Reminder: need to destroy SheetObjects");
+	if (sheet->objects) {
+		g_warning ("Reminder: need to destroy SheetObjects");
+	}
 	sheet_selections_free (sheet);
 	g_free (sheet->name);
 

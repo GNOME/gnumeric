@@ -1,3 +1,11 @@
+1999-06-26  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-financial.c (gnumeric_rate): New function.
+
+	* src/sheet.c (sheet_destroy): Sssshhhh!
+
+	* src/fn-eng.c (val_to_base): Neat and tidy.
+
 1999-06-25  Morten Welinder  <terra@diku.dk>
 
 	* src/fn-eng.c (eng_functions_init): Extend impower to handle two

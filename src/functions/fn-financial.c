@@ -12,14 +12,7 @@
 #include "gnumeric.h"
 #include "utils.h"
 #include "func.h"
-
-/* Some forward declarations */
-static float_t calculate_pvif (float_t rate, float_t nper);
-static float_t calculate_pvifa (float_t rate, float_t nper);
-static float_t calculate_fvif (float_t rate, float_t nper);
-static float_t calculate_fvifa (float_t rate, float_t nper);
-static float_t calculate_principal (float_t starting_principal, float_t payment, float_t rate, float_t period);
-static float_t calculate_pmt (float_t rate, float_t nper, float_t pv, float_t fv, int type);
+#include "goal-seek.h"
 
 /*
 
@@ -28,9 +21,7 @@ financial analysis.
 
 Present value interest factor
 
-	              1
-	 PVIF = ( ---------- ) ^ n
-	            1 + k
+	 PVIF = (1 + k) ^ n
 
 Future value interest factor
 
@@ -337,6 +328,86 @@ gnumeric_dollarfr (FunctionEvalInfo *ei, Value **argv)
 }
 
 
+static char *help_rate = {
+	N_("@FUNCTION=RATE\n"
+	   "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
+	   "@DESCRIPTION=Calculates rate of an investment."
+	   "@SEEALSO=PV,FV")
+};
+
+typedef struct {
+	int nper, type;
+	float_t pv, fv, pmt;
+} gnumeric_rate_t;
+
+static GoalSeekStatus
+gnumeric_rate_f (float_t rate, float_t *y, void *user_data)
+{
+	if (rate > -1.0) {
+		gnumeric_rate_t *data = user_data;
+
+		*y = data->pv * calculate_pvif (rate, data->nper) +
+			data->pmt * (1 + rate * data->type) * calculate_fvifa (rate, data->nper) +
+			data->fv;
+		return GOAL_SEEK_OK;
+	} else
+		return GOAL_SEEK_ERROR;
+}
+
+
+static Value *
+gnumeric_rate (FunctionEvalInfo *ei, Value **argv)
+{
+	GoalSeekData data;
+	GoalSeekStatus status;
+	gnumeric_rate_t udata;
+	float_t rate0;
+
+	udata.nper = value_get_as_int (argv [0]);
+	udata.pmt  = value_get_as_float (argv [1]);
+	udata.pv   = value_get_as_float (argv [2]);
+	udata.fv   = argv[3] ? value_get_as_float (argv [3]) : 0.0;
+	udata.type = argv[4] ? value_get_as_int (argv [4]) : 0;
+	/* Ignore the guess in argv[5].  */
+
+	if (udata.nper <= 0)
+		return function_error (ei, gnumeric_err_NUM);
+
+	if (udata.type != 0 && udata.type != 1)
+		return function_error (ei, gnumeric_err_VALUE);
+
+	if (udata.pmt == 0) {
+		if (udata.pv == 0 || udata.pv * udata.fv > 0)
+			return function_error (ei, gnumeric_err_NUM);
+		else {
+			/* Exact case.  */
+			return value_new_float (pow (-udata.fv / udata.pv, -1.0 / udata.nper) - 1);
+		}
+	}
+
+	if (udata.pv == 0)
+		rate0 = 0.1;  /* Whatever.  */
+	else {
+		/* Root finding case.  The following was derived by setting
+		   type==0 and estimating (1+r)^n ~= 1+rn.  */
+		rate0 = -((udata.pmt * udata.nper + udata.fv) / udata.pv + 1) / udata.nper;
+	}
+
+#if 0
+	printf ("Guess = %.15g\n", rate0);
+#endif
+	goal_seek_initialise (&data);
+	status = goal_seek_newton (&gnumeric_rate_f, NULL,
+				   &data, &udata, rate0);
+	if (status == GOAL_SEEK_OK) {
+#if 0
+		printf ("Root = %.15g\n\n", data.root);
+#endif
+		return value_new_float (data.root);
+	} else
+		return function_error (ei, gnumeric_err_NUM);
+}
+
 static char *help_pv = {
 	N_("@FUNCTION=PV\n"
 	   "@SYNTAX=PV(rate,nper,pmt,fv,type)\n"
@@ -366,7 +437,6 @@ gnumeric_pv (FunctionEvalInfo *ei, Value **argv)
 	fvifa = calculate_fvifa (rate, nper);
 
         return value_new_float ( ( (-1.0) * fv - pmt * ( 1.0 + rate * type ) * fvifa ) / pvif );
-
 }
 
 static char *help_npv = {
@@ -602,7 +672,7 @@ gnumeric_duration (FunctionEvalInfo *ei, Value **argv)
 
 	if (rate <= 0)
 		return function_error (ei, gnumeric_err_DIV0);
-	else if (fv == 0 || pv == 0) 
+	else if (fv == 0 || pv == 0)
 		return function_error (ei, gnumeric_err_DIV0);
 	else if (fv / pv < 0)
 		return function_error (ei, gnumeric_err_VALUE);
@@ -617,16 +687,17 @@ void finance_functions_init()
 
 	function_add_args  (cat, "dollarde", "ff", "fractional_dollar,fraction", &help_dollarde, gnumeric_dollarde);
 	function_add_args  (cat, "dollarfr", "ff", "decimal_dollar,fraction", &help_dollarfr, gnumeric_dollarfr);
+	function_add_args  (cat, "duration", "fff", "rate,pv,fv", &help_duration,    gnumeric_duration);
 	function_add_args  (cat, "effect", "ff",    "rate,nper",    &help_effect,   gnumeric_effect);
+	function_add_args  (cat, "fv", "fffff", "rate,nper,pmt,pv,type", &help_fv,  gnumeric_fv);
+	function_add_args  (cat, "ipmt", "ffffff", "rate,per,nper,pv,fv,type", &help_ipmt, gnumeric_ipmt);
 	function_add_args  (cat, "nominal", "ff",    "rate,nper",    &help_nominal, gnumeric_nominal);
+	function_add_args  (cat, "nper", "fffff", "rate,pmt,pv,fv,type", &help_nper, gnumeric_nper);
         function_add_nodes (cat, "npv",      0,      "",             &help_npv,     gnumeric_npv);
+	function_add_args  (cat, "pmt", "fffff", "rate,nper,pv,fv,type", &help_pmt, gnumeric_pmt);
+	function_add_args  (cat, "ppmt", "ffffff", "rate,per,nper,pv,fv,type", &help_ppmt, gnumeric_ppmt);
+	function_add_args  (cat, "pv", "fffff", "rate,nper,pmt,fv,type", &help_pv,  gnumeric_pv);
+	function_add_args  (cat, "rate", "fff|fff", "rate,nper,pmt,fv,type,guess", &help_rate,  gnumeric_rate);
 	function_add_args  (cat, "sln", "fff", "cost,salvagevalue,life", &help_sln, gnumeric_sln);
 	function_add_args  (cat, "syd", "ffff", "cost,salvagevalue,life,period", &help_syd, gnumeric_syd);
-	function_add_args  (cat, "pv", "fffff", "rate,nper,pmt,fv,type", &help_pv,  gnumeric_pv);	
-	function_add_args  (cat, "fv", "fffff", "rate,nper,pmt,pv,type", &help_fv,  gnumeric_fv);	
-	function_add_args  (cat, "pmt", "fffff", "rate,nper,pv,fv,type", &help_pmt, gnumeric_pmt);
-	function_add_args  (cat, "ipmt", "ffffff", "rate,per,nper,pv,fv,type", &help_ipmt, gnumeric_ipmt);
-	function_add_args  (cat, "ppmt", "ffffff", "rate,per,nper,pv,fv,type", &help_ppmt, gnumeric_ppmt);
-	function_add_args  (cat, "nper", "fffff", "rate,pmt,pv,fv,type", &help_nper, gnumeric_nper);
-	function_add_args  (cat, "duration", "fff", "rate,pv,fv", &help_duration,    gnumeric_duration);
 }
