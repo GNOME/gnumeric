@@ -21,7 +21,12 @@
  * Boston, MA 02111-1307, USA.
  **/
 
+#ifndef GOFFICE_PRESENT_LOAD_PPT_H
+#define GOFFICE_PRESENT_LOAD_PPT_H
+
 #include "present.h"
 
 PresentPresentation *
 load_ppt (char *input_file);
+
+#endif

@@ -21,6 +21,8 @@
  * Boston, MA 02111-1307, USA.
  **/
 
+#ifndef GOFFICE_PRESENT_PPT_TYPES_H
+#define GOFFICE_PRESENT_PPT_TYPES_H
 
 typedef enum {
 	Unknown = 0,
@@ -173,3 +175,5 @@ typedef enum {
 	EscherOleObject			= 0xf11f,
 	EscherUserDefined		= 0xf122,
 } PPTypecode;
+
+#endif

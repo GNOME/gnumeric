@@ -21,6 +21,9 @@
  * Boston, MA 02111-1307, USA.
  **/
 
+#ifndef GOFFICE_PRESENT_PRESENT_H
+#define GOFFICE_PRESENT_PRESENT_H
+
 #include <glib.h>
 
 typedef struct {
@@ -36,3 +39,5 @@ typedef struct {
 	int type;
 	int id;
 } PresentText;
+
+#endif
