@@ -747,7 +747,8 @@ excel_write_DV (ValInputPair const *vip, gpointer dummy, ExcelWriteSheet *esheet
 		};
 		if (vip->v->allow_blank)
 			options |= 0x100;
-		if (vip->v->use_dropdown)
+		/* XL suppesses the dropdown rather than vice versa */
+		if (!vip->v->use_dropdown)
 			options |= 0x200;
 		if (vip->v->style != VALIDATION_STYLE_NONE)
 			options |= 0x80000;
