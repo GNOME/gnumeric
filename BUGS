@@ -8,8 +8,8 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    - Reenable compression
     - get a libole2 release and attempt to deal with the ameritrade issues
+    - http://bugzilla.gnome.org/show_bug.cgi?id=62520
 
 Pending Patches
 ---------------
