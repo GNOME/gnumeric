@@ -51,7 +51,7 @@ gcd (int a, int b)
 }
 
 static float_t
-pow10 (int n)
+gpow10 (int n)
 {
 	float_t res = 1.0;
 	float_t p;
@@ -1630,7 +1630,7 @@ gnumeric_trunc (struct FunctionDefinition *i,
 	else
 	        digits = value_get_as_int (argv[1]);
 
-	p10 = pow10 (digits);
+	p10 = gpow10 (digits);
 	if (number < 0)
 		return value_new_float (-floor (-number * p10) / p10);
 	else
@@ -1871,7 +1871,7 @@ gnumeric_rounddown (struct FunctionDefinition *i,
 	else
 	        digits = value_get_as_int (argv[1]);
 
-	p10 = pow10 (digits);
+	p10 = gpow10 (digits);
 	if (number < 0)
 		return value_new_float (-ceil (-number * p10) / p10);
 	else
@@ -1910,7 +1910,7 @@ gnumeric_round (struct FunctionDefinition *i,
 	else
 	        digits = value_get_as_int (argv[1]);
 
-	p10 = pow10 (digits);
+	p10 = gpow10 (digits);
 	return value_new_float (rint (number * p10) / p10);
 }
 
@@ -1946,7 +1946,7 @@ gnumeric_roundup (struct FunctionDefinition *i,
 	else
 	        digits = value_get_as_int (argv[1]);
 
-	p10 = pow10 (digits);
+	p10 = gpow10 (digits);
 	if (number < 0)
 		return value_new_float (-floor (-number * p10) / p10);
 	else

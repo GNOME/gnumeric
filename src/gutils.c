@@ -165,7 +165,7 @@ parse_cell_name (const char *cell_str, int *col, int *row)
 
 	/* Parse row number: a sequence of digits.  */
 	for (*row = 0; *cell_str; cell_str++) {
-		if (!isdigit ((unsigned char)*cell_str))
+		if (*cell_str < '0' || *cell_str > '9')
 			return FALSE;
 		*row = *row * 10 + (*cell_str - '0');
 		if (*row > SHEET_MAX_ROWS) /* Note: ">" is deliberate.  */

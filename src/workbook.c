@@ -1153,8 +1153,6 @@ workbook_parse_and_jump (Workbook *wb, const char *text)
 {
 	int col, row;
 
-	col = row = 0;
-
 	if (!parse_cell_name (text, &col, &row)){
 		gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
 				 _("You should introduce a valid cell name"));
@@ -1162,6 +1160,8 @@ workbook_parse_and_jump (Workbook *wb, const char *text)
 	} else {
 		Sheet *sheet = workbook_get_current_sheet (wb);
 
+#if 0
+		/* This cannot happen anymore, see parse_cell_name.  */
 		if (col > SHEET_MAX_COLS-1){
 			gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
 					 _("Column out of range"));
@@ -1173,6 +1173,7 @@ workbook_parse_and_jump (Workbook *wb, const char *text)
 					 _("Row number out of range"));
 			return FALSE;
 		}
+#endif
 
 		sheet_make_cell_visible (sheet, col, row);
 		sheet_cursor_move (sheet, col, row);

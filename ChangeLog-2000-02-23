@@ -1,3 +1,13 @@
+1999-06-21  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-math.c (gpow10): Rename from pow10 which colided with
+ 	something in Linux with libc5.  (Thanks to Alexander Jolk.)
+
+	* src/utils.c (parse_cell_name): Don't use isdigit since we intend
+ 	to subtract '0' from the character.
+
+	* src/workbook.c (workbook_parse_and_jump): Cleanup.
+
 1999-06-21  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
         * samples/infofuns.xls: Added a new file for testing information
