@@ -595,6 +595,10 @@ cell_format_classify (char const * const fmt, FormatCharacteristics *info)
 	info->negative_fmt = 0;
 	info->currency_symbol_index = 1; /* '$' */
 
+	/* Can we parse it ? */
+	if ((res = cell_format_is_number (fmt, info)) != FMT_UNKNOWN)
+		return res;
+
 	/* Is it in the lists */
 	for (i = 0; cell_formats[i] != NULL ; ++i) {
 		int j = 0;
@@ -605,10 +609,5 @@ cell_format_classify (char const * const fmt, FormatCharacteristics *info)
 				return i;
 			}
 	}
-
-	/* Can we parse it ? */
-	if ((res = cell_format_is_number (fmt, info)) != FMT_UNKNOWN)
-		return res;
-
 	return FMT_UNKNOWN;
 }

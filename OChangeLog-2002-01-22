@@ -1,3 +1,7 @@
+2001-09-25  Jody Goldberg <jgoldberg@home.com>
+
+	* src/expr.c (eval_expr_real) : shrink the stack a bit.
+
 2001-09-25  Jon K Hellan  <hellan@acm.org>
 
 	* idl/.cvsignore: Adapt to present reality.

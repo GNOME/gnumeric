@@ -829,16 +829,14 @@ eval_expr_real (EvalPos const *pos, ExprTree const *expr,
 		return eval_expr_name (pos, expr->name.name, flags);
 
 	case OPER_VAR: {
-		Sheet *cell_sheet;
-		CellRef const *ref;
+		CellRef const * const ref = &expr->var.ref;
 		Cell *cell;
 		CellPos dest;
 
-		ref = &expr->var.ref;
 		cellref_get_abs_pos (ref, &pos->eval, &dest);
 
-		cell_sheet = eval_sheet (ref->sheet, pos->sheet);
-		cell = sheet_cell_get (cell_sheet, dest.col, dest.row);
+		cell = sheet_cell_get (eval_sheet (ref->sheet, pos->sheet),
+			dest.col, dest.row);
 		if (cell == NULL)
 			return NULL;
 
