@@ -1,3 +1,7 @@
+2002-04-09  Morten Welinder  <terra@diku.dk>
+
+	* gnumeric-expr-entry.c (cb_entry_changed): Quiet.
+
 2002-04-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* gnumeric-cell-renderer-toggle.[ch] : new, essentially

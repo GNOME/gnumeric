@@ -714,7 +714,9 @@ gee_get_property (GObject      *object,
 static void
 cb_entry_changed (GtkEntry *ignored, GnumericExprEntry *gee)
 {
-	if (!gee->is_cell_renderer && !gnm_expr_entry_can_rangesel (gee))
+	if (!gee->is_cell_renderer &&
+	    !gnm_expr_entry_can_rangesel (gee) &&
+	    gee->scg != NULL)
 		scg_rangesel_stop (gee->scg, FALSE);
 
 	g_signal_emit (G_OBJECT (gee), signals [CHANGED], 0);

@@ -1545,7 +1545,7 @@ milpsolve (lprec      *lp,
 			gnum_float   new_bound;
 			char         *new_lower, *new_basis;
 			int          *new_bas;
-			SolverStatus resone, restwo;
+			SolverStatus resone, restwo = SolverMilpFailure;
 
 			/* allocate room for them */
 			new_upbo  = g_new (gnum_float,  lp->sum + 1);

@@ -234,7 +234,7 @@ calculate_limits (Sheet *sheet, SolverParameters *param, SolverResults *res)
  */
 static void
 set_optimal_values_to_sheet (SolverProgram *program, Sheet *sheet,
-			     SolverResults *res, SolverLPAlgorithm *alg,
+			     SolverResults *res, const SolverLPAlgorithm *alg,
 			     gnum_float *store)
 {
         int  i;
@@ -252,8 +252,8 @@ void
 solver_prepare_reports (SolverProgram *program, SolverResults *res,
 			Sheet *sheet)
 {
-	SolverParameters  *param = res->param;
-	SolverLPAlgorithm *alg;
+	SolverParameters *param = res->param;
+	const SolverLPAlgorithm *alg;
 
 	if (res->param->options.model_type == SolverLPModel)
 	        alg = &lp_algorithm[param->options.algorithm];
@@ -275,7 +275,7 @@ solver_prepare_reports_success (SolverProgram *program, SolverResults *res,
 	SolverParameters  *param = res->param;
         Cell              *cell;
 	int               i;
-	SolverLPAlgorithm *alg;
+	const SolverLPAlgorithm *alg;
 
 	if (res->param->options.model_type == SolverLPModel)
 	        alg = &lp_algorithm[param->options.algorithm];

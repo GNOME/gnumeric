@@ -359,7 +359,7 @@ clear_input_vars (int n_variables, SolverResults *res)
  */
 static SolverProgram
 lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
-		   SolverResults *res, SolverLPAlgorithm *alg,
+		   SolverResults *res, const SolverLPAlgorithm *alg,
 		   gnum_float start_time, gchar **errmsg)
 {
         SolverProgram     program;
@@ -602,7 +602,7 @@ check_program_definition_failures (Sheet            *sheet,
 
 SolverResults *
 solver_run (WorkbookControl *wbc, Sheet *sheet,
-	    SolverLPAlgorithm *alg, gchar **errmsg)
+	    const SolverLPAlgorithm *alg, gchar **errmsg)
 {
 	SolverParameters  *param = sheet->solver_parameters;
 	SolverProgram     program;
@@ -651,7 +651,7 @@ solver_run (WorkbookControl *wbc, Sheet *sheet,
 SolverResults *
 solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 {
-	SolverLPAlgorithm *alg = NULL;
+	const SolverLPAlgorithm *alg = NULL;
 	SolverParameters  *param = sheet->solver_parameters;
 
         switch (sheet->solver_parameters->options.model_type) {

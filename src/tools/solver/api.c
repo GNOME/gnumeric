@@ -147,7 +147,6 @@ typedef struct {
 SolverProgram
 w_lp_solve_init (const SolverParameters *param)
 {
-        int        i;
 	lp_solve_t *lp;
 
 	lp                      = g_new (lp_solve_t, 1);
@@ -457,7 +456,7 @@ w_glpk_set_constr (SolverProgram program, int row, SolverConstraintType type,
         glpk_simplex2_t *lp        = (glpk_simplex2_t *) program;
 
 	if (typemap [type] == -1)
-	        printf("Error\n");
+	        printf ("Error\n");
 	else
 	        glp_set_row_bnds (lp->p, row + 1, typemap [type], value, value);
 }
@@ -559,10 +558,10 @@ w_glpk_set_option (SolverProgram program, SolverOptionType option,
 	        lp->param->scale = *b_value;
 	        return FALSE;
 	case SolverOptMaxIter:
-printf("FIXME: Max iter=%d\n", *i_value);
+printf ("FIXME: Max iter=%d\n", *i_value);
 	        return FALSE;
 	case SolverOptMaxTimeSec:
-printf("FIXME: Max time (sec.)=%d\n", *i_value);
+printf ("FIXME: Max time (sec.)=%d\n", *i_value);
 	        return FALSE;
 	default:
 	        return TRUE;
@@ -593,81 +592,85 @@ w_glpk_print_lp (SolverProgram program)
 SolverProgram
 w_qp_dummy_init (const SolverParameters *param)
 {
-        printf("w_qp_dummy_init\n");
+        printf ("w_qp_dummy_init\n");
+	return NULL;
 }
 
 void
 w_qp_dummy_delete (SolverProgram program)
 {
-        printf("w_qp_dummy_delete\n");
+        printf ("w_qp_dummy_delete\n");
 }
 
 void
 w_qp_dummy_set_maxim (SolverProgram program)
 {
-        printf("w_qp_set_maxim\n");
+        printf ("w_qp_set_maxim\n");
 }
 
 void
 w_qp_dummy_set_minim (SolverProgram program)
 {
-        printf("w_qp_set_minim\n");
+        printf ("w_qp_set_minim\n");
 }
 
 void
 w_qp_dummy_set_obj_fn (SolverProgram program, int col, gnum_float value)
 {
-        printf("w_qp_dummy_set_obj_fn %d, %g\n", col, value);
+        printf ("w_qp_dummy_set_obj_fn %d, %g\n", col, value);
 }
 
 void
 w_qp_dummy_set_constr_mat (SolverProgram program, int col, int row, gnum_float value)
 {
-        printf("w_qp_dummy_set_constr_mat %d, %d, %g\n", col, row, value);
+        printf ("w_qp_dummy_set_constr_mat %d, %d, %g\n", col, row, value);
 }
 
 void
 w_qp_dummy_set_constr (SolverProgram program, int row, SolverConstraintType type,
 		   gnum_float value)
 {
-        printf("w_qp_dummy_set_constr %d, %d, %g\n", row, type, value);
+        printf ("w_qp_dummy_set_constr %d, %d, %g\n", row, type, value);
 }
 
 void
 w_qp_dummy_set_int (SolverProgram program, int col)
 {
-        printf("w_qp_dummy_set_int %d\n", col);
+        printf ("w_qp_dummy_set_int %d\n", col);
 }
 
 void
 w_qp_dummy_set_bool (SolverProgram program, int col)
 {
-        printf("w_qp_dummy_set_bool %d\n", col);
+        printf ("w_qp_dummy_set_bool %d\n", col);
 }
 
 SolverStatus
 w_qp_dummy_solve (SolverProgram program)
 {
-        printf("w_qp_dummy_solve\n");
+        printf ("w_qp_dummy_solve\n");
 	return SolverInfeasible;
 }
 
 gnum_float
 w_qp_dummy_get_solution (SolverProgram program, int col)
 {
-        printf("w_qp_dummy_get_solution %d\n", col);
+        printf ("w_qp_dummy_get_solution %d\n", col);
+	return 0;;
 }
 
 gnum_float
 w_qp_dummy_get_value_of_obj_fn (SolverProgram program)
 {
-        printf("w_qp_dummy_get_value_of_obj_fn\n");
+        printf ("w_qp_dummy_get_value_of_obj_fn\n");
+	return 0;
 }
 
 gnum_float
 w_qp_dummy_get_dual (SolverProgram program, int row)
 {
-        printf("w_qp_dummy_get_dual %d\n", row);
+        printf ("w_qp_dummy_get_dual %d\n", row);
+	return 0;
 }
 
 gboolean
@@ -675,14 +678,14 @@ w_qp_dummy_set_option (SolverProgram program, SolverOptionType option,
 		   const gboolean *b_value,
 		   const gnum_float *f_value, const int *i_value)
 {
-        printf("w_qp_dummy_set_option %d\n", option);
+        printf ("w_qp_dummy_set_option %d\n", option);
         return FALSE;
 }
 
 void
 w_qp_dummy_print (SolverProgram program)
 {
-        printf("w_qp_dummy_print\n");
+        printf ("w_qp_dummy_print\n");
 }
 
 /* ------------------------------------------------------------------------- */
@@ -693,7 +696,7 @@ w_qp_dummy_print (SolverProgram program)
  * SolverLPAlgorithm data structure.  The algorithms should be able to
  * do MILP as well.  Feel free to add new algorithms.
  */
-SolverLPAlgorithm lp_algorithm [] = {
+const SolverLPAlgorithm lp_algorithm [] = {
         {
 	        NULL,
 		(solver_init_fn*)                w_lp_solve_init,
@@ -737,7 +740,7 @@ SolverLPAlgorithm lp_algorithm [] = {
 	{ NULL }
 };
 
-SolverLPAlgorithm qp_algorithm [] = {
+const SolverLPAlgorithm qp_algorithm [] = {
         {
 	        NULL,
 		(solver_init_fn*)                w_qp_dummy_init,

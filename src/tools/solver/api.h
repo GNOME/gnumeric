@@ -28,8 +28,8 @@
 #include "numbers.h"
 #include "solver.h"
 
-extern SolverLPAlgorithm lp_algorithm [];
-extern SolverLPAlgorithm qp_algorithm [];
+extern const SolverLPAlgorithm lp_algorithm [];
+extern const SolverLPAlgorithm qp_algorithm [];
 
 #define __HAVE_GLPK__ 0
 
