@@ -113,6 +113,10 @@ gnumeric_main (void *closure, int argc, char *argv [])
 		gtk_widget_show (current_workbook->toplevel);
 	}
 
+#ifdef ENABLE_BONOBO
+	bonobo_activate ();
+#endif
+	
 	gtk_main ();
 
 	excel_shutdown ();

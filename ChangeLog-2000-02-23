@@ -1,3 +1,8 @@
+1999-08-22  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/main.c (gnumeric_main): New Bonobos need to issue the
+	bonobo_activate() call.
+
 1999-08-21  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/workbook.c (workbook_new_with_sheets): Fixed hardcoded

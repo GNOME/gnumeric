@@ -1143,6 +1143,7 @@ static char *help_convert = {
 	   "\n"
 	   "If @from_unit and @to_unit are different types, CONVERT returns "
 	   "#NUM! error. "
+	   "\n"
 	   "@SEEALSO=")
 };
 

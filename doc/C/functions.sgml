@@ -17,7 +17,9 @@
 <listitem><para><link linkend="gnumeric-AVEDEV">AVEDEV</link></para></listitem>
 <listitem><para><link linkend="gnumeric-AVERAGE">AVERAGE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-AVERAGEA">AVERAGEA</link></para></listitem>
+<listitem><para><link linkend="gnumeric-BESSELI">BESSELI</link></para></listitem>
 <listitem><para><link linkend="gnumeric-BESSELJ">BESSELJ</link></para></listitem>
+<listitem><para><link linkend="gnumeric-BESSELK">BESSELK</link></para></listitem>
 <listitem><para><link linkend="gnumeric-BESSELY">BESSELY</link></para></listitem>
 <listitem><para><link linkend="gnumeric-BETADIST">BETADIST</link></para></listitem>
 <listitem><para><link linkend="gnumeric-BETAINV">BETAINV</link></para></listitem>
@@ -55,9 +57,11 @@
 <listitem><para><link linkend="gnumeric-DATEVALUE">DATEVALUE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DAVERAGE">DAVERAGE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DAY">DAY</link></para></listitem>
-<listitem><para><link linkend="gnumeric-DAY">DAY</link></para></listitem>
+<listitem><para><link linkend="gnumeric-DAYS360 ">DAYS360 </link></para></listitem>
+<listitem><para><link linkend="gnumeric-DB">DB</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DCOUNT">DCOUNT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DCOUNTA">DCOUNTA</link></para></listitem>
+<listitem><para><link linkend="gnumeric-DDB">DDB</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DEC2BIN">DEC2BIN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DEC2HEX">DEC2HEX</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DEC2OCT">DEC2OCT</link></para></listitem>
@@ -79,6 +83,7 @@
 <listitem><para><link linkend="gnumeric-DVARP">DVARP</link></para></listitem>
 <listitem><para><link linkend="gnumeric-EDATE">EDATE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-EFFECT">EFFECT</link></para></listitem>
+<listitem><para><link linkend="gnumeric-EOMONTH">EOMONTH</link></para></listitem>
 <listitem><para><link linkend="gnumeric-ERF">ERF</link></para></listitem>
 <listitem><para><link linkend="gnumeric-ERFC">ERFC</link></para></listitem>
 <listitem><para><link linkend="gnumeric-ERROR">ERROR</link></para></listitem>
@@ -97,6 +102,7 @@
 <listitem><para><link linkend="gnumeric-FIXED">FIXED</link></para></listitem>
 <listitem><para><link linkend="gnumeric-FLOOR">FLOOR</link></para></listitem>
 <listitem><para><link linkend="gnumeric-FORECAST">FORECAST</link></para></listitem>
+<listitem><para><link linkend="gnumeric-FREQUENCY">FREQUENCY</link></para></listitem>
 <listitem><para><link linkend="gnumeric-FTEST">FTEST</link></para></listitem>
 <listitem><para><link linkend="gnumeric-FV">FV</link></para></listitem>
 <listitem><para><link linkend="gnumeric-GAMMADIST">GAMMADIST</link></para></listitem>
@@ -111,6 +117,7 @@
 <listitem><para><link linkend="gnumeric-HEX2OCT">HEX2OCT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-HLOOKUP">HLOOKUP</link></para></listitem>
 <listitem><para><link linkend="gnumeric-HOUR">HOUR</link></para></listitem>
+<listitem><para><link linkend="gnumeric-HYPERLINK">HYPERLINK</link></para></listitem>
 <listitem><para><link linkend="gnumeric-HYPGEOMDIST">HYPGEOMDIST</link></para></listitem>
 <listitem><para><link linkend="gnumeric-IF">IF</link></para></listitem>
 <listitem><para><link linkend="gnumeric-IMABS">IMABS</link></para></listitem>
@@ -131,6 +138,7 @@
 <listitem><para><link linkend="gnumeric-IMSUB">IMSUB</link></para></listitem>
 <listitem><para><link linkend="gnumeric-IMSUM">IMSUM</link></para></listitem>
 <listitem><para><link linkend="gnumeric-IMTAN">IMTAN</link></para></listitem>
+<listitem><para><link linkend="gnumeric-INDIRECT">INDIRECT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-INFO">INFO</link></para></listitem>
 <listitem><para><link linkend="gnumeric-INT">INT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-INTERCEPT">INTERCEPT</link></para></listitem>
@@ -152,6 +160,7 @@
 <listitem><para><link linkend="gnumeric-LCM">LCM</link></para></listitem>
 <listitem><para><link linkend="gnumeric-LEFT">LEFT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-LEN">LEN</link></para></listitem>
+<listitem><para><link linkend="gnumeric-LINEST">LINEST</link></para></listitem>
 <listitem><para><link linkend="gnumeric-LN">LN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-LOG">LOG</link></para></listitem>
 <listitem><para><link linkend="gnumeric-LOG10">LOG10</link></para></listitem>
@@ -162,11 +171,13 @@
 <listitem><para><link linkend="gnumeric-LOWER">LOWER</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MAX">MAX</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MAXA">MAXA</link></para></listitem>
+<listitem><para><link linkend="gnumeric-MDETERM">MDETERM</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MEDIAN">MEDIAN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MID">MID</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MIN">MIN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MINA">MINA</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MINUTE">MINUTE</link></para></listitem>
+<listitem><para><link linkend="gnumeric-MINVERSE">MINVERSE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MMULT">MMULT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MOD">MOD</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MODE">MODE</link></para></listitem>
@@ -176,6 +187,7 @@
 <listitem><para><link linkend="gnumeric-N">N</link></para></listitem>
 <listitem><para><link linkend="gnumeric-NA">NA</link></para></listitem>
 <listitem><para><link linkend="gnumeric-NEGBINOMDIST">NEGBINOMDIST</link></para></listitem>
+<listitem><para><link linkend="gnumeric-NETWORKDAYS">NETWORKDAYS</link></para></listitem>
 <listitem><para><link linkend="gnumeric-NOMINAL">NOMINAL</link></para></listitem>
 <listitem><para><link linkend="gnumeric-NORMDIST">NORMDIST</link></para></listitem>
 <listitem><para><link linkend="gnumeric-NORMINV">NORMINV</link></para></listitem>
@@ -203,6 +215,7 @@
 <listitem><para><link linkend="gnumeric-PRODUCT">PRODUCT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-PROPER">PROPER</link></para></listitem>
 <listitem><para><link linkend="gnumeric-PV">PV</link></para></listitem>
+<listitem><para><link linkend="gnumeric-QUARTILE">QUARTILE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-QUOTIENT">QUOTIENT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-RADIANS">RADIANS</link></para></listitem>
 <listitem><para><link linkend="gnumeric-RAND">RAND</link></para></listitem>
@@ -254,10 +267,13 @@
 <listitem><para><link linkend="gnumeric-TAN">TAN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-TANH">TANH</link></para></listitem>
 <listitem><para><link linkend="gnumeric-TDIST">TDIST</link></para></listitem>
+<listitem><para><link linkend="gnumeric-TEXT">TEXT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-TIME">TIME</link></para></listitem>
 <listitem><para><link linkend="gnumeric-TIMEVALUE">TIMEVALUE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-TINV">TINV</link></para></listitem>
 <listitem><para><link linkend="gnumeric-TODAY">TODAY</link></para></listitem>
+<listitem><para><link linkend="gnumeric-TRANSPOSE">TRANSPOSE</link></para></listitem>
+<listitem><para><link linkend="gnumeric-TREND">TREND</link></para></listitem>
 <listitem><para><link linkend="gnumeric-TRIM">TRIM</link></para></listitem>
 <listitem><para><link linkend="gnumeric-TRIMMEAN">TRIMMEAN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-TRUNC">TRUNC</link></para></listitem>
@@ -272,6 +288,8 @@
 <listitem><para><link linkend="gnumeric-VLOOKUP">VLOOKUP</link></para></listitem>
 <listitem><para><link linkend="gnumeric-WEEKDAY">WEEKDAY</link></para></listitem>
 <listitem><para><link linkend="gnumeric-WEIBULL">WEIBULL</link></para></listitem>
+<listitem><para><link linkend="gnumeric-WORKDAY">WORKDAY</link></para></listitem>
+<listitem><para><link linkend="gnumeric-XNPV">XNPV</link></para></listitem>
 <listitem><para><link linkend="gnumeric-YEAR">YEAR</link></para></listitem>
 <listitem><para><link linkend="gnumeric-ZTEST">ZTEST</link></para></listitem>
 </itemizedlist>
@@ -361,7 +379,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The COSH  function  returns the hyperbolic cosine of x,  which is defined mathematically as (exp(x) + exp(-x)) / 2.    x is in radians. </para>
+        <para>The COSH  function  returns the hyperbolic cosine of @x,  which is defined mathematically as (exp(@x) + exp(-@x)) / 2.    @x is in radians. </para>
         <para>Performing this function on a string or empty cell simply does nothing. This function only takes one argument.</para>
     </refsect1>
     <refsect1><title>See also</title>
@@ -416,7 +434,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Computes the number of degrees equivalent to  x radians.</para>
+        <para>Computes the number of degrees equivalent to @x radians.</para>
         <para>Performing this function on a string or empty cell simply does nothing. </para>
     </refsect1>
     <refsect1><title>See also</title>
@@ -437,12 +455,12 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>NOMINAL(b1,b2)</synopsis>
+      <synopsis>NOMINAL(r,nper)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
         <para>Calculates the nominal interest rate from a given effective rate.</para>
-        <para>Nominal interest rate is given by a formula:</para>        <para></para>        <para>nper * (( 1 + r ) ^ (1 / nper) - 1 )</para>        <para>where:</para>        <para></para>        <para>r = effective interest ratenper = number of periods used for compounding</para>
+        <para>Nominal interest rate is given by a formula:</para>        <para></para>        <para>nper * (( 1 + r ) ^ (1 / nper) - 1 )</para>        <para>where:</para>        <para></para>        <para>r = effective interest rate</para>        <para>nper = number of periods used for compounding</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-EFFECT">EFFECT</link>
@@ -465,11 +483,12 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>ISODD Returns TRUE if the number is odd. </para>
+        <para>ISODD returns TRUE if the number is odd. </para>
 
     </refsect1>
     <refsect1><title>See also</title>
-      <para>      </para>
+      <para>        <link linkend="gnumeric-ISEVEN">ISEVEN</link>
+      </para>
     </refsect1>
   </refentry>
 
@@ -521,7 +540,7 @@
       <refsect1>
         <title>Description</title>
         <para>The COLUMN function returns an array of the column numbers taking a default argument of the containing cell position.</para>
-        <para>If reference is neither an array nor a reference nor a range returns #VALUE!.</para>
+        <para>If @reference is neither an array nor a reference nor a range returns #VALUE!.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-COLUMNS">COLUMNS</link>
@@ -546,10 +565,15 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Calculates rate of an investment.@SEEALSO=PV,FV</para>
-        <para></para>
-      </refsect1>
-    </refentry>
+        <para>Calculates rate of an investment.</para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-PV">PV</link>
+,         <link linkend="gnumeric-FV">FV</link>
+      </para>
+    </refsect1>
+  </refentry>
 
 
 
@@ -567,7 +591,7 @@
       <refsect1>
         <title>Description</title>
         <para>DPRODUCT function returns the product of numbers in a column that match conditions specified. </para>
-        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a @criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-DSUM">DSUM</link>
@@ -591,7 +615,7 @@
       <refsect1>
         <title>Description</title>
         <para>FDIST function returns the F probability distribution. @dof1 is the numerator degrees of freedom and @dof2 is the denominator degrees of freedom.</para>
-        <para>If @x < 0 FDIST returns #NUM! error. If @dof1 < 1 or @dof2 < 1, GAMMADIST returns #NUM! error.</para>
+        <para>If @x < 0 FDIST returns #NUM! error. If @dof1 < 1 or @dof2 < 1, FDIST returns #NUM! error.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-FINV">FINV</link>
@@ -614,11 +638,12 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>ISEVEN Returns TRUE if the number is even. </para>
+        <para>ISEVEN returns TRUE if the number is even. </para>
 
     </refsect1>
     <refsect1><title>See also</title>
-      <para>      </para>
+      <para>        <link linkend="gnumeric-ISODD">ISODD</link>
+      </para>
     </refsect1>
   </refentry>
 
@@ -638,7 +663,7 @@
       <refsect1>
         <title>Description</title>
         <para>ZTEST returns the two-tailed probability of a z-test.</para>
-        <para>@ref is the data set and @x is the value to be tested.</para>        <para>If ref contains less than two data items ZTEST returns #DIV/0! error.</para>
+        <para>@ref is the data set and @x is the value to be tested.</para>        <para>If @ref contains less than two data items ZTEST returns #DIV/0! error.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-CONFIDENCE">CONFIDENCE</link>
@@ -667,10 +692,34 @@
       <refsect1>
         <title>Description</title>
         <para>DMIN function returns the smallest number in a column that match conditions specified. </para>
-        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a @criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-DMAX">DMAX</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-TEXT">TEXT</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>TEXT</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>TEXT(value,format_text)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns @value as a string with the specified format.</para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-DOLLAR">DOLLAR</link>
       </para>
     </refsect1>
   </refentry>
@@ -771,6 +820,7 @@
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-IMCOS">IMCOS</link>
+,         <link linkend="gnumeric-IMTAN">IMTAN</link>
       </para>
     </refsect1>
   </refentry>
@@ -790,7 +840,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The  COS  function  returns  the cosine of x, where x is given in radians.  </para>
+        <para>The  COS  function  returns  the cosine of @x, where @x is given in radians.  </para>
         <para>Performing this function on a string or empty cell simply does nothing. This function only takes one argument.</para>
     </refsect1>
     <refsect1><title>See also</title>
@@ -820,7 +870,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Computes the value of e(the base of natural logarithmns) raised to the power of x. </para>
+        <para>Computes the value of e (the base of natural logarithmns) raised to the power of @x. </para>
         <para>Performing this function on a string or empty cell returns an error.</para>
     </refsect1>
     <refsect1><title>See also</title>
@@ -846,7 +896,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The ASIN function calculates the arc sine of x; that is the value whose sine is x. If x falls outside  the  range -1 to 1, ASIN fails and returns the error 'asin - domain error'   </para>
+        <para>The ASIN function calculates the arc sine of @x; that is the value whose sine is @x. If @x falls outside  the  range -1 to 1, ASIN fails and returns the error 'asin - domain error'. </para>
         <para>Performing this function on a string or empty cell simply does nothing. This function only takes one argument.</para>
     </refsect1>
     <refsect1><title>See also</title>
@@ -874,7 +924,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>TRIMMEAN returns the mean of the interior of a data set. @ref is the list of numbers whose mean you want to calculate and @percent is the percentage of number excluded from the mean. For example, if percent=0.2 and the data set contans 40 numbers, 8 numbers are trimmed from the data set (40 x 0.2), 4 from the top and 4 from the bottom of the set.</para>
+        <para>TRIMMEAN returns the mean of the interior of a data set. @ref is the list of numbers whose mean you want to calculate and @percent is the percentage of number excluded from the mean. For example, if @percent=0.2 and the data set contains 40 numbers, 8 numbers are trimmed from the data set (40 x 0.2), 4 from the top and 4 from the bottom of the set.</para>
 
     </refsect1>
     <refsect1><title>See also</title>
@@ -902,7 +952,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The FLOOR function rounds x down to the next nearest multiple of @significance.  @significance defaults to 1.</para>
+        <para>The FLOOR function rounds @x down to the next nearest multiple of @significance.  @significance defaults to 1.</para>
         <para>Performing this function on a string or empty cell simply does nothing.</para>
     </refsect1>
     <refsect1><title>See also</title>
@@ -952,8 +1002,8 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>CHOOSE returns the value of index @index.index is rounded to an integer if it is not.</para>
-        <para>if index < 1 or index > number of values: returns #VAL!.</para>
+        <para>CHOOSE returns the value of index @index. @index is rounded to an integer if it is not.</para>
+        <para>If @index < 1 or @index > number of values: returns #VAL!.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-IF">IF</link>
@@ -976,11 +1026,12 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The POISSON function returns the Poisson distribution @x is the number of events, @mean is the expected numeric value @cumulative describes whether to return the sum of the poisson function from 0 to x.</para>
-        <para>if x is a non-integer it is truncated. if x <= 0 POISSON returns #NUM! error. if mean <= 0 POISSON returns the #NUM! error.</para>
+        <para>The POISSON function returns the Poisson distribution @x is the number of events, @mean is the expected numeric value @cumulative describes whether to return the sum of the poisson function from 0 to @x.</para>
+        <para>If @x is a non-integer it is truncated. If @x <= 0 POISSON returns #NUM! error. If @mean <= 0 POISSON returns the #NUM! error.</para>
     </refsect1>
     <refsect1><title>See also</title>
-      <para>        <link linkend="gnumeric-POISSON">POISSON</link>
+      <para>        <link linkend="gnumeric-NORMDIST">NORMDIST</link>
+,         <link linkend="gnumeric-WEIBULL">WEIBULL</link>
       </para>
     </refsect1>
   </refentry>
@@ -996,14 +1047,18 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>SYD(cost,salvage value,life,period)</synopsis>
+      <synopsis>SYD(cost,salvage_value,life,period)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Calculates the sum-of-years digits depriciation for anasset based on its cost, salvage value, anticipated life and aparticular period.</para>
-        <para>Formula for sum-of-years digits depriciation is:</para>        <para>Depriciation expense = ( cost - salvage value ) * (life-period+1) * 2 / life * (life + 1)</para>        <para>	cost = cost of an asset when acquired (market value)	salvage_value = amount you get when asset sold at the end of life	life = anticipated life of an asset	period = period for which we need the expense@SEEALSO=SLN</para>        <para></para>
-      </refsect1>
-    </refentry>
+        <para>Calculates the sum-of-years digits depriciation for an asset based on its cost, salvage value, anticipated life and a particular period.</para>
+        <para>Formula for sum-of-years digits depriciation is:</para>        <para>Depriciation expense = ( cost - salvage_value ) * (life - period + 1) * 2 / life * (life + 1).</para>        <para>	@cost = cost of an asset when acquired (market value)	@salvage_value = amount you get when asset sold at the end of life	@life = anticipated life of an asset	@period = period for which we need the expense</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-SLN">SLN</link>
+      </para>
+    </refsect1>
+  </refentry>
 
 
 
@@ -1045,11 +1100,12 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The ASINH  function  calculates  the inverse hyperbolic  sine of x; that is the value whose hyperbolic sine is x. </para>
+        <para>The ASINH  function  calculates  the inverse hyperbolic  sine of @x; that is the value whose hyperbolic sine is @x. </para>
         <para>Performing this function on a string or empty cell simply does nothing. This function only takes one argument.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-ASIN">ASIN</link>
+,         <link linkend="gnumeric-ACOSH">ACOSH</link>
 ,         <link linkend="gnumeric-SIN">SIN</link>
 ,         <link linkend="gnumeric-COS">COS</link>
 ,         <link linkend="gnumeric-DEGREES">DEGREES</link>
@@ -1073,8 +1129,8 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The EXPONDIST function returns the exponential distribution. If the cumulative boolean is false it will return: y * exp (-y*x), otherwise it will return 1 - exp (-y*x).</para>
-        <para>If x<0 or y<=0 this will return an error.  Performing this function on a string or empty cell simply does nothing.</para>
+        <para>The EXPONDIST function returns the exponential distribution. If the @cumulative boolean is false it will return: @y * exp (-@y*@x), otherwise it will return 1 - exp (-@y*@x).</para>
+        <para>If @x < 0 or @y <= 0 this will return an error.  Performing this function on a string or empty cell simply does nothing.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-POISSON">POISSON</link>
@@ -1097,7 +1153,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Returns a upper-case version of the string in @text</para>
+        <para>Returns a upper-case version of the string in @text.</para>
 
     </refsect1>
     <refsect1><title>See also</title>
@@ -1148,10 +1204,13 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>CONVERT returns a conversion from one measurement system to another.  For example, you can convert a weight in pounds to a weight in grams.  @number is the value you want to convert, @from_unit specifies the unit of the number, and @to_unit is the unit for the result.</para>
-        <para>@from_unit and @to_unit can be any of the following:</para>        <para></para>        <para>Weight and mass:</para>        <para>'g'    Gram</para>        <para>'sg'   Slug</para>        <para>'lbm'  Pound</para>        <para>'u'    U (atomic mass)</para>        <para>'ozm'  Ounce</para>        <para></para>        <para>Distance:</para>        <para>'m'    Meter</para>        <para>'mi'   Statute mile</para>        <para>'Nmi'  Nautical mile</para>        <para>'in'   Inch</para>        <para>'ft'   Foot</para>        <para>'yd'   Yard</para>        <para>'ang'  Angstrom</para>        <para>'Pica' Pica</para>        <para></para>        <para>Time:</para>        <para>'yr'   Year</para>        <para>'day'  Day</para>        <para>'hr'   Hour</para>        <para>'mn'   Minute</para>        <para>'sec'  Second</para>        <para></para>        <para>Pressure:</para>        <para>'Pa'   Pascal</para>        <para>'atm'  Atmosphere</para>        <para>'mmHg' mm of Mercury</para>        <para></para>        <para>Force:</para>        <para>'N'    Newton</para>        <para>'dyn'  Dyne</para>        <para>'lbf'  Pound force</para>        <para></para>        <para>Energy:</para>        <para>'J'    Joule</para>        <para>'e'    Erg</para>        <para>'c'    Thermodynamic calorie</para>        <para>'cal'  IT calorie</para>        <para>'eV'   Electron volt</para>        <para>'HPh'  Horsepower-hour</para>        <para>'Wh'   Watt-hour</para>        <para>'flb'  Foot-pound</para>        <para>'BTU'  BTU</para>        <para></para>        <para>Power:</para>        <para>'HP'   Horsepower</para>        <para>'W'    Watt</para>        <para>Magnetism:</para>        <para>'T'    Tesla</para>        <para>'ga'   Gauss</para>        <para></para>        <para>Temperature:</para>        <para>'C'    Degree Celsius</para>        <para>'F'    Degree Fahrenheit</para>        <para>'K'    Degree Kelvin</para>        <para></para>        <para>Liquid measure:</para>        <para>'tsp'  Teaspoon</para>        <para>'tbs'  Tablespoon</para>        <para>'oz'   Fluid ounce</para>        <para>'cup'  Cup</para>        <para>'pt'   Pint</para>        <para>'qt'   Quart</para>        <para>'gal'  Gallon</para>        <para>'l'    Liter</para>        <para></para>        <para>For metric units any of the following prefixes can be used:</para>        <para>'E'  exa    1E+18</para>        <para>'P'  peta   1E+15</para>        <para>'T'  tera   1E+12</para>        <para>'G'  giga   1E+09</para>        <para>'M'  mega   1E+06</para>        <para>'k'  kilo   1E+03</para>        <para>'h'  hecto  1E+02</para>        <para>'e'  dekao  1E+01</para>        <para>'d'  deci   1E-01</para>        <para>'c'  centi  1E-02</para>        <para>'m'  milli  1E-03</para>        <para>'u'  micro  1E-06</para>        <para>'n'  nano   1E-09</para>        <para>'p'  pico   1E-12</para>        <para>'f'  femto  1E-15</para>        <para>'a'  atto   1E-18</para>        <para></para>        <para>If @from_unit and @to_unit are different types, CONVERT returns #NUM! error. @SEEALSO=</para>        <para></para>
-      </refsect1>
-    </refentry>
+        <para>CONVERT returns a conversion from one measurement system to another.  For example, you can convert a weight in pounds to a weight in grams.  @number is the value you want to convert, @from_unit specifies the unit of the @number, and @to_unit is the unit for the result.</para>
+        <para>@from_unit and @to_unit can be any of the following:</para>        <para></para>        <para>Weight and mass:</para>        <para>'g'    Gram</para>        <para>'sg'   Slug</para>        <para>'lbm'  Pound</para>        <para>'u'    U (atomic mass)</para>        <para>'ozm'  Ounce</para>        <para></para>        <para>Distance:</para>        <para>'m'    Meter</para>        <para>'mi'   Statute mile</para>        <para>'Nmi'  Nautical mile</para>        <para>'in'   Inch</para>        <para>'ft'   Foot</para>        <para>'yd'   Yard</para>        <para>'ang'  Angstrom</para>        <para>'Pica' Pica</para>        <para></para>        <para>Time:</para>        <para>'yr'   Year</para>        <para>'day'  Day</para>        <para>'hr'   Hour</para>        <para>'mn'   Minute</para>        <para>'sec'  Second</para>        <para></para>        <para>Pressure:</para>        <para>'Pa'   Pascal</para>        <para>'atm'  Atmosphere</para>        <para>'mmHg' mm of Mercury</para>        <para></para>        <para>Force:</para>        <para>'N'    Newton</para>        <para>'dyn'  Dyne</para>        <para>'lbf'  Pound force</para>        <para></para>        <para>Energy:</para>        <para>'J'    Joule</para>        <para>'e'    Erg</para>        <para>'c'    Thermodynamic calorie</para>        <para>'cal'  IT calorie</para>        <para>'eV'   Electron volt</para>        <para>'HPh'  Horsepower-hour</para>        <para>'Wh'   Watt-hour</para>        <para>'flb'  Foot-pound</para>        <para>'BTU'  BTU</para>        <para></para>        <para>Power:</para>        <para>'HP'   Horsepower</para>        <para>'W'    Watt</para>        <para>Magnetism:</para>        <para>'T'    Tesla</para>        <para>'ga'   Gauss</para>        <para></para>        <para>Temperature:</para>        <para>'C'    Degree Celsius</para>        <para>'F'    Degree Fahrenheit</para>        <para>'K'    Degree Kelvin</para>        <para></para>        <para>Liquid measure:</para>        <para>'tsp'  Teaspoon</para>        <para>'tbs'  Tablespoon</para>        <para>'oz'   Fluid ounce</para>        <para>'cup'  Cup</para>        <para>'pt'   Pint</para>        <para>'qt'   Quart</para>        <para>'gal'  Gallon</para>        <para>'l'    Liter</para>        <para></para>        <para>For metric units any of the following prefixes can be used:</para>        <para>'E'  exa    1E+18</para>        <para>'P'  peta   1E+15</para>        <para>'T'  tera   1E+12</para>        <para>'G'  giga   1E+09</para>        <para>'M'  mega   1E+06</para>        <para>'k'  kilo   1E+03</para>        <para>'h'  hecto  1E+02</para>        <para>'e'  dekao  1E+01</para>        <para>'d'  deci   1E-01</para>        <para>'c'  centi  1E-02</para>        <para>'m'  milli  1E-03</para>        <para>'u'  micro  1E-06</para>        <para>'n'  nano   1E-09</para>        <para>'p'  pico   1E-12</para>        <para>'f'  femto  1E-15</para>        <para>'a'  atto   1E-18</para>        <para></para>        <para>If @from_unit and @to_unit are different types, CONVERT returns #NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>      </para>
+    </refsect1>
+  </refentry>
 
 
 
@@ -1168,7 +1227,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Computes the logarithm of x in the given base.  If no base is given LOG returns the logarithm in base 10. </para>
+        <para>Computes the logarithm of @x in the given base @base.  If no @base is given LOG returns the logarithm in base 10. </para>
 
     </refsect1>
     <refsect1><title>See also</title>
@@ -1195,7 +1254,7 @@
       <refsect1>
         <title>Description</title>
         <para>The HYPGEOMDIST function returns the hypergeometric distribution @x is the number of successes in the sample, @n is the number of trials, @M is the number of successes overall, and @N is thepopulation size.</para>
-        <para>if x,n,M or N is a non-integer it is truncated. if x,n,M or N < 0 HYPGEOMDIST returns #NUM! error. if x > M or n > N HYPGEOMDIST returns #NUM! error.</para>
+        <para>If @x,@n,@M or @N is a non-integer it is truncated. If @x,@n,@M or @N < 0 HYPGEOMDIST returns #NUM! error. If @x > @M or @n > @N HYPGEOMDIST returns #NUM! error.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-BINOMDIST">BINOMDIST</link>
@@ -1233,6 +1292,37 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-SINH">SINH</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>SINH</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>SINH(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The SINH function returns the hyperbolic sine of @x, which is defined mathematically as (exp(@x) - exp(-@x)) / 2.</para>
+        <para>Performing this function on a string or empty cell simply does nothing. This function only takes one argument.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-SIN">SIN</link>
+,         <link linkend="gnumeric-COS">COS</link>
+,         <link linkend="gnumeric-COSH">COSH</link>
+,         <link linkend="gnumeric-TAN">TAN</link>
+,         <link linkend="gnumeric-TANH">TANH</link>
+,         <link linkend="gnumeric-DEGREES">DEGREES</link>
+,         <link linkend="gnumeric-RADIANS">RADIANS</link>
+,         <link linkend="gnumeric-EXP">EXP</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-AVEDEV">AVEDEV</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -1257,37 +1347,6 @@
 
   <refentry>
     <refmeta>
-      <refentrytitle><anchor id="gnumeric-SINH">SINH</refentrytitle><refmiscinfo></refmiscinfo>
-    </refmeta>
-    <refnamediv>
-      <refname>SINH</refname>
-      <refpurpose></refpurpose>
-    </refnamediv>
-    <refsynopsisdiv>
-      <synopsis>SINH(x)</synopsis>
-    </refsynopsisdiv>
-      <refsect1>
-        <title>Description</title>
-        <para>The SINH function returns the hyperbolic sine of @x, which is defined mathematically as (exp(x) - exp(-x)) / 2.</para>
-        <para>Performing this function on a string or empty cell simply does nothing. This function only takes one argument.</para>
-    </refsect1>
-    <refsect1><title>See also</title>
-      <para>        <link linkend="gnumeric-SIN">SIN</link>
-,         <link linkend="gnumeric-COS">COS</link>
-,         <link linkend="gnumeric-COSH">COSH</link>
-,         <link linkend="gnumeric-TAN">TAN</link>
-,         <link linkend="gnumeric-TANH">TANH</link>
-,         <link linkend="gnumeric-DEGREES">DEGREES</link>
-,         <link linkend="gnumeric-RADIANS">RADIANS</link>
-,         <link linkend="gnumeric-EXP">EXP</link>
-      </para>
-    </refsect1>
-  </refentry>
-
-
-
-  <refentry>
-    <refmeta>
       <refentrytitle><anchor id="gnumeric-NORMDIST">NORMDIST</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -1300,7 +1359,7 @@
       <refsect1>
         <title>Description</title>
         <para>The NORMDIST function returns the normal cumulative distribution. @x is the value for which you want the distribution, @mean is the mean of the distribution, @stdev is the standard deviation. </para>
-        <para>If stdev is 0 NORMDIST returns #DIV/0! error. </para>
+        <para>If @stdev is 0 NORMDIST returns #DIV/0! error. </para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-POISSON">POISSON</link>
@@ -1323,7 +1382,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>GEOMEAN returns the geometric mean of the given arguments. This is equal to the Nth root of the product of the terms</para>
+        <para>GEOMEAN returns the geometric mean of the given arguments. This is equal to the Nth root of the product of the terms.</para>
         <para>Performing this function on a string or empty cell simply does nothing.</para>
     </refsect1>
     <refsect1><title>See also</title>
@@ -1400,7 +1459,7 @@
       <refsect1>
         <title>Description</title>
         <para>MEDIAN returns the median of the given data set.</para>
-        <para>Strings and empty cells are simply ignored.If even numbers are given MEDIAN returns the average of the two numbers in the middle.</para>
+        <para>Strings and empty cells are simply ignored. If even numbers are given MEDIAN returns the average of the two numbers in the middle.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-AVERAGE">AVERAGE</link>
@@ -1410,6 +1469,29 @@
 ,         <link linkend="gnumeric-MODE">MODE</link>
 ,         <link linkend="gnumeric-SUM">SUM</link>
       </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-FREQUENCY">FREQUENCY</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>FREQUENCY</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>FREQUENCY(data_array,bins_array)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>FREQUENCY function counts how often given values occur within a range of values.  The results are given as an array. </para>
+        <para>@data_array is a data array for which you want to count the frequencies.  @bin_array is an array containing the intervals into which you want to group the values in data_array.  If the @bin_array is empty, FREQUENCY returns the number of data points in @data_array. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>      </para>
     </refsect1>
   </refentry>
 
@@ -1476,11 +1558,12 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>ISTEXT Returns TRUE if the value is text. </para>
+        <para>ISTEXT returns TRUE if the value is text. </para>
 
     </refsect1>
     <refsect1><title>See also</title>
-      <para>      </para>
+      <para>        <link linkend="gnumeric-ISNONTEXT">ISNONTEXT</link>
+      </para>
     </refsect1>
   </refentry>
 
@@ -1500,7 +1583,7 @@
       <refsect1>
         <title>Description</title>
         <para>The SQRT function returns the square root of @x.</para>
-        <para>If x is negative returns #NUM!.This function only takes one argument.</para>
+        <para>If @x is negative returns #NUM!. This function only takes one argument.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-POW">POW</link>
@@ -1524,7 +1607,7 @@
       <refsect1>
         <title>Description</title>
         <para>INTERCEPT function calculates the point where the linear regression line intersects the y-axis.  </para>
-        <para>If known_x or known_y contains no data entries or different number of data entries, INTERCEPT returns #N/A! error. If the variance of the known_x is zero, INTERCEPT returns #DIV/0 error. </para>
+        <para>If @known_x or @known_y contains no data entries or different number of data entries, INTERCEPT returns #N/A! error. If the variance of the @known_x is zero, INTERCEPT returns #DIV/0 error. </para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-FORECAST">FORECAST</link>
@@ -1573,7 +1656,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Returns the rightmost num_chars characters or the right character if num_chars is not specified</para>
+        <para>Returns the rightmost @num_chars characters or the right character if @num_chars is not specified.</para>
 
     </refsect1>
     <refsect1><title>See also</title>
@@ -1599,7 +1682,7 @@
       <refsect1>
         <title>Description</title>
         <para>The PERMUT function returns the number of permutations. @n is the number of objects, @k is the number of objects in each permutation.</para>
-        <para>if n = 0 PERMUT returns #NUM! error. if n < k PERMUT returns #NUM! error.</para>
+        <para>If @n = 0 PERMUT returns #NUM! error. If @n < @k PERMUT returns #NUM! error.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-COMBIN">COMBIN</link>
@@ -1677,7 +1760,7 @@
       <refsect1>
         <title>Description</title>
         <para>Computes the number of days since the 1st of january of 1900(the date serial number) for the given year, month and day.</para>
-        <para>The day might be negative (to count backwards) and it is relative to the previous month.  The years should be at least 1900.</para>
+        <para>The @day might be negative (to count backwards) and it is relative to the previous @month.  The @years should be at least 1900.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-TODAY">TODAY</link>
@@ -1727,11 +1810,13 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The OCT2BIN function converts a binary number to a hexadecimal number.  @places is an optional field, specifying to zero pad to that number of spaces.</para>
-        <para>if places is too small or negative #NUM! error is returned.</para>
+        <para>The OCT2BIN function converts an octal number to a binary number.  @places is an optional field, specifying to zero pad to that number of spaces.</para>
+        <para>If @places is too small or negative #NUM! error is returned.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-BIN2OCT">BIN2OCT</link>
+,         <link linkend="gnumeric-OCT2DEC">OCT2DEC</link>
+,         <link linkend="gnumeric-OCT2HEX">OCT2HEX</link>
       </para>
     </refsect1>
   </refentry>
@@ -1776,12 +1861,37 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>SUMIF function sums the values in the given range that meet the given criteria.  If @actual_range is given, SUMIF sums the values in the @actual_range whose corresponding components in @range meet the given criteria. </para>
+        <para>SUMIF function sums the values in the given @range that meet the given @criteria.  If @actual_range is given, SUMIF sums the values in the @actual_range whose corresponding components in @range meet the given @criteria. </para>
 
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-COUNTIF">COUNTIF</link>
 ,         <link linkend="gnumeric-SUM">SUM</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-LINEST">LINEST</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>LINEST</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>LINEST(known_y's[,known_x's])</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>LINEST function calculates the ``least squares'' line that best fit to your data in @known_y's.  @known_x's contains the corresponding x's where y=mx+b. </para>
+        <para>If @known_x's is omitted, an array {1, 2, 3, ...} is used. LINEST returns an array having two columns and one row.  The slope (m) of the regression line y=mx+b is given in the first column and the y-intercept (b) in the second. </para>        <para>If @known_y's and @known_x's have unequal number of data points, LINEST returns #NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-LOGEST">LOGEST</link>
+,         <link linkend="gnumeric-TREND">TREND</link>
       </para>
     </refsect1>
   </refentry>
@@ -1874,7 +1984,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Returns the leftmost num_chars characters or the left character if num_chars is not specified</para>
+        <para>Returns the leftmost @num_chars characters or the left character if @num_chars is not specified.</para>
 
     </refsect1>
     <refsect1><title>See also</title>
@@ -1945,11 +2055,13 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The DEC2HEX function converts a binary number to an octal number.places is an optional field, specifying to zero pad to that number of spaces.</para>
-        <para>if places is too small or negative #NUM! error is returned.</para>
+        <para>The DEC2HEX function converts a decimal number to a hexadecimal number. @places is an optional field, specifying to zero pad to that number of spaces.</para>
+        <para>If @places is too small or negative #NUM! error is returned.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-HEX2DEC">HEX2DEC</link>
+,         <link linkend="gnumeric-DEC2BIN">DEC2BIN</link>
+,         <link linkend="gnumeric-DEC2OCT">DEC2OCT</link>
       </para>
     </refsect1>
   </refentry>
@@ -1970,7 +2082,7 @@
       <refsect1>
         <title>Description</title>
         <para>The COLUMNS function returns the number of columns in area or array reference.</para>
-        <para>If reference is neither an array nor a reference nor a range returns #VALUE!.</para>
+        <para>If @reference is neither an array nor a reference nor a range returns #VALUE!.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-COLUMN">COLUMN</link>
@@ -1995,7 +2107,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>LN returns the natural logarithm of x. </para>
+        <para>LN returns the natural logarithm of @x. </para>
 
     </refsect1>
     <refsect1><title>See also</title>
@@ -2022,7 +2134,7 @@
       <refsect1>
         <title>Description</title>
         <para>DGET function returns a single value from a column that match conditions specified. </para>
-        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>        <para>If none of the items match the conditions, DGET returns #VALUE! error. If more than one items match the conditions, DGET returns #NUM! error. </para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a @criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>        <para>If none of the items match the conditions, DGET returns #VALUE! error. If more than one items match the conditions, DGET returns #NUM! error. </para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-DCOUNT">DCOUNT</link>
@@ -2069,7 +2181,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>COUNTBLANK returns the number of blank cells in a range. </para>
+        <para>COUNTBLANK returns the number of blank cells in a @range. </para>
 
     </refsect1>
     <refsect1><title>See also</title>
@@ -2193,7 +2305,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Returns the ascii character represented by the number x.</para>
+        <para>Returns the ASCII character represented by the number @x.</para>
 
     </refsect1>
     <refsect1><title>See also</title>
@@ -2213,14 +2325,20 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>PMT(rate,nper,pv,fv,type)</synopsis>
+      <synopsis>PMT(rate,nper,pv[,fv,type])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Calculates the present value of an investment.@SEEALSO=PPMT,PV,FV</para>
-        <para></para>
-      </refsect1>
-    </refentry>
+        <para>Calculates the present value of an investment.</para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-PPMT">PPMT</link>
+,         <link linkend="gnumeric-PV">PV</link>
+,         <link linkend="gnumeric-FV">FV</link>
+      </para>
+    </refsect1>
+  </refentry>
 
 
 
@@ -2264,7 +2382,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>SQRTPI function returns the square root of a number multiplied by pi. </para>
+        <para>SQRTPI function returns the square root of a @number multiplied by pi. </para>
 
     </refsect1>
     <refsect1><title>See also</title>
@@ -2288,8 +2406,8 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The FISHER function returns the Fisher transformation at x.</para>
-        <para>If x is not-number FISHER returns #VALUE! error.If x<=-1 or x>=1 FISHER returns #NUM! error</para>
+        <para>The FISHER function returns the Fisher transformation at @x.</para>
+        <para>If @x is not-number FISHER returns #VALUE! error.If @x <= -1 or @x >= 1 FISHER returns #NUM! error</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-SKEW">SKEW</link>
@@ -2312,7 +2430,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>VARA returns the variance based on a sample.  Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluatesto FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that empty cells are not counted.</para>
+        <para>VARA returns the variance based on a sample.  Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that empty cells are not counted.</para>
 
     </refsect1>
     <refsect1><title>See also</title>
@@ -2338,7 +2456,7 @@
       <refsect1>
         <title>Description</title>
         <para>DMAX function returns the largest number in a column that match conditions specified. </para>
-        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a @criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-DMIN">DMIN</link>
@@ -2361,7 +2479,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>ISLOGICAL Returns TRUE if the value is a logical value. </para>
+        <para>ISLOGICAL returns TRUE if the value is a logical value. </para>
 
     </refsect1>
     <refsect1><title>See also</title>
@@ -2384,7 +2502,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The ATAN2 function calculates the arc tangent of the two variables b1 and b2.  It is similar to calculating  the  arc tangent  of b2 / b1, except that the signs of both arguments are used to determine the quadrant of the result. The result is in Radians.</para>
+        <para>The ATAN2 function calculates the arc tangent of the two variables @b1 and @b2.  It is similar to calculating  the  arc tangent  of @b2 / @b1, except that the signs of both arguments are used to determine the quadrant of the result. The result is in radians.</para>
         <para>Performing this function on a string or empty cell simply does nothing. </para>
     </refsect1>
     <refsect1><title>See also</title>
@@ -2438,8 +2556,8 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The LOOKUP function finds the row index of 'value' in vector1 and returns the contents of value2 at that row index. If the area is longer than it is wide then the sense of the search is rotated. Alternatively a single array can be used.</para>
-        <para>If LOOKUP can't find value it uses the next largest value less than value. The data must be sorted. </para>        <para>If value is smaller than the first value it returns #N/A</para>
+        <para>The LOOKUP function finds the row index of 'value' in @vector1 and returns the contents of value2 at that row index. If the area is longer than it is wide then the sense of the search is rotated. Alternatively a single array can be used.</para>
+        <para>If LOOKUP can't find @value it uses the next largest value less than value. The data must be sorted. </para>        <para>If @value is smaller than the first value it returns #N/A</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-VLOOKUP">VLOOKUP</link>
@@ -2463,13 +2581,38 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The CEIL function rounds x up to the next nearest integer.</para>
+        <para>The CEIL function rounds @x up to the next nearest integer.</para>
         <para>Performing this function on a string or empty cell simply does nothing.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-ABS">ABS</link>
 ,         <link linkend="gnumeric-FLOOR">FLOOR</link>
 ,         <link linkend="gnumeric-INT">INT</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-MDETERM">MDETERM</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>MDETERM</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>MDETERM(array)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>MDETERM function returns the determinant of a given matrix. </para>
+        <para>If the matrix does not contain equal number of columns and rows, MDETERM returns #VALUE! error.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-MMULT">MMULT</link>
+,         <link linkend="gnumeric-MINVERSE">MINVERSE</link>
       </para>
     </refsect1>
   </refentry>
@@ -2489,11 +2632,13 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The HEX2DEC function converts a binary number in string or number to its decimal equivalent.</para>
+        <para>The HEX2DEC function converts a hexadecimal number to its decimal equivalent.</para>
         <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-DEC2HEX">DEC2HEX</link>
+,         <link linkend="gnumeric-HEX2BIN">HEX2BIN</link>
+,         <link linkend="gnumeric-HEX2OCT">HEX2OCT</link>
       </para>
     </refsect1>
   </refentry>
@@ -2513,7 +2658,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Converts a serial number to a minute.  The minute is returned as an integer in the range 0 to 59</para>
+        <para>Converts a serial number to a minute.  The minute is returned as an integer in the range 0 to 59.</para>
         <para>Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string.</para>
     </refsect1>
     <refsect1><title>See also</title>
@@ -2565,7 +2710,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Implements the logical NOT function: the result is TRUE if the number is zero;  othewise the result is FALSE.</para>
+        <para>Implements the logical NOT function: the result is TRUE if the @number is zero;  otherwise the result is FALSE.</para>
         <para></para>
     </refsect1>
     <refsect1><title>See also</title>
@@ -2670,7 +2815,7 @@
       <refsect1>
         <title>Description</title>
         <para>Returns the serial number for the date and time at the time it is evaluated.</para>
-        <para>Serial Numbers in Gnumeric are represented as follows:The integral part is the number of days since the 1st of January of 1900.  The decimal part represent the fraction of the day and is mapped into hour, minutes and seconds</para>        <para>For example: .0 represents the beginning of the day, and 0.5 represents noon</para>
+        <para>Serial Numbers in Gnumeric are represented as follows:The integral part is the number of days since the 1st of January of 1900.  The decimal part represent the fraction of the day and is mapped into hour, minutes and seconds.</para>        <para>For example: .0 represents the beginning of the day, and 0.5 represents noon.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-TODAY">TODAY</link>
@@ -2694,7 +2839,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>NA Returns the error value #N/A. </para>
+        <para>NA returns the error value #N/A. </para>
 
     </refsect1>
     <refsect1><title>See also</title>
@@ -2718,7 +2863,7 @@
       <refsect1>
         <title>Description</title>
         <para>BETAINV function returns the inverse of cumulative beta distribution.  @a is the optional lower bound of @x and @b is the optinal upper bound of @x.  If @a is not given, BETAINV uses 0.  If @b is not given, BETAINV uses 1.</para>
-        <para>If @p < 0 or @p > 1 BETAINV returns #NUM! error. If @alpha <= 0 or beta <= 0, BETAINV returns #NUM! error. If @a >= @b BETAINV returns #NUM! error.</para>
+        <para>If @p < 0 or @p > 1 BETAINV returns #NUM! error. If @alpha <= 0 or @beta <= 0, BETAINV returns #NUM! error. If @a >= @b BETAINV returns #NUM! error.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-BETADIST">BETADIST</link>
@@ -2742,7 +2887,7 @@
       <refsect1>
         <title>Description</title>
         <para>The ROWS function returns the number of rows in area or array reference.</para>
-        <para>If reference is neither an array nor a reference nor a range returns #VALUE!.</para>
+        <para>If @reference is neither an array nor a reference nor a range returns #VALUE!.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-COLUMN">COLUMN</link>
@@ -2768,7 +2913,7 @@
       <refsect1>
         <title>Description</title>
         <para>DSTDEVP function returns the standard deviation of a population based on the entire populations. The populations consists of numbers that match conditions specified. </para>
-        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a @criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-DSTDEV">DSTDEV</link>
@@ -2817,7 +2962,7 @@
       <refsect1>
         <title>Description</title>
         <para>The CRITBINOM function returns the smallest value for which thecumulative is creater than or equal to a given value. @n is the number of trials, @p is the probability of success in trials, and @alpha is the criterion value. </para>
-        <para>if trials is a non-integer it is truncated. if trials < 0 CRITBINOM returns #NUM! error. if p < 0 or p > 1 CRITBINOM returns #NUM! error. if alpha < 0 or alpha > 1 CRITBINOM returns #NUM! error. </para>
+        <para>If @trials is a non-integer it is truncated. If @trials < 0 CRITBINOM returns #NUM! error. If @p < 0 or @p > 1 CRITBINOM returns #NUM! error. If @alpha < 0 or @alpha > 1 CRITBINOM returns #NUM! error. </para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-BINOMDIST">BINOMDIST</link>
@@ -2865,7 +3010,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The INT function round b1 now to the nearest int. Where 'nearest' implies being closer to zero. Equivalent to FLOOR(b1) for b1 >= 0, amd CEIL(b1) for b1 < 0. </para>
+        <para>The INT function round @b1 now to the nearest int. Where 'nearest' implies being closer to zero. Equivalent to FLOOR(b1) for @b1 >= 0, and CEIL(b1) for @b1 < 0. </para>
         <para>Performing this function on a string or empty cell simply does nothing.</para>
     </refsect1>
     <refsect1><title>See also</title>
@@ -2892,10 +3037,37 @@
       <refsect1>
         <title>Description</title>
         <para>The BINOMDIST function returns the binomial distribution. @n is the number of successes, @trials is the total number of independent trials, @p is the probability of success in trials, and @cumulative describes whether to return the sum of thebinomial function from 0 to @n.</para>
-        <para>Performing this function on a string or empty cell returns an error.if @n or @trials are non-integer they are truncated. if @n < 0 or @trials < 0 BINOMDIST returns #NUM! error. if @n > trials BINOMDIST returns #NUM! error. if @p < 0 or @p > 1 BINOMDIST returns #NUM! error.</para>
+        <para>Performing this function on a string or empty cell returns an error.If @n or @trials are non-integer they are truncated. If @n < 0 or @trials < 0 BINOMDIST returns #NUM! error. If @n > trials BINOMDIST returns #NUM! error. If @p < 0 or @p > 1 BINOMDIST returns #NUM! error.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-POISSON">POISSON</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-DB">DB</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>DB</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>DB(cost,salvage,life,period[,month])</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>DB returns the depreciation of an asset for a given period using the fixed-declining balance method.  @cost is the initial value of the asset.  @salvage after the depreciation. @life is the number of periods overall.  @period is the period for which you want the depreciation to be calculated.  @month is the number of months in the first year of depreciation. If @month is omitted, it is assumed to be 12. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-DDB">DDB</link>
+,         <link linkend="gnumeric-SLN">SLN</link>
+,         <link linkend="gnumeric-SYD">SYD</link>
+,         <link linkend="gnumeric-VDB">VDB</link>
       </para>
     </refsect1>
   </refentry>
@@ -2966,7 +3138,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Returns true if string1 is exactly equal to string2 (this routine is case sensitive).</para>
+        <para>Returns true if @string1 is exactly equal to @string2 (this routine is case sensitive).</para>
 
     </refsect1>
     <refsect1><title>See also</title>
@@ -2986,7 +3158,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>EDATE(serial_number,months)</synopsis>
+      <synopsis>EDATE(date,months)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -3015,7 +3187,7 @@
       <refsect1>
         <title>Description</title>
         <para>DVAR function returns the estimate of variance of a population based on a sample. The populations consists of numbers that match conditions specified. </para>
-        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a @criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-DVARP">DVARP</link>
@@ -3113,11 +3285,13 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The DEC2OCT function converts a binary number to an octal number.places is an optional field, specifying to zero pad to that number of spaces.</para>
-        <para>if places is too small or negative #NUM! error is returned.</para>
+        <para>The DEC2OCT function converts a decimal number to an octal number. @places is an optional field, specifying to zero pad to that number of spaces.</para>
+        <para>If @places is too small or negative #NUM! error is returned.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-OCT2DEC">OCT2DEC</link>
+,         <link linkend="gnumeric-DEC2BIN">DEC2BIN</link>
+,         <link linkend="gnumeric-DEC2HEX">DEC2HEX</link>
       </para>
     </refsect1>
   </refentry>
@@ -3192,6 +3366,8 @@
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-DEC2BIN">DEC2BIN</link>
+,         <link linkend="gnumeric-BIN2OCT">BIN2OCT</link>
+,         <link linkend="gnumeric-BIN2HEX">BIN2HEX</link>
       </para>
     </refsect1>
   </refentry>
@@ -3211,8 +3387,8 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The ERF function returns the integral of the error function between the limits.  If the upper limit ommitted ERF returns the integral between zero and the lower limit.</para>
-        <para>If either lower or upper are not numeric a #VALUE! error is returned.  If either lower or upper are < 0 a #NUM! error is returned.</para>
+        <para>The ERF function returns the integral of the error function between the limits.  If the @upper_limit ommitted ERF returns the integral between zero and the @lower_limit.</para>
+        <para>If either @lower_limit or @upper_limit are not numeric a #VALUE! error is returned.  If either @lower_limit or @upper_limit are < 0 a #NUM! error is returned.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-ERFC">ERFC</link>
@@ -3261,7 +3437,7 @@
       <refsect1>
         <title>Description</title>
         <para>The NEGBINOMDIST function returns the negative binomial distribution. @f is the number of failures, @t is the threshold number of successes, and @p is the probability of a success.</para>
-        <para>if f or t is a non-integer it is truncated. if (f + t -1) <= 0 NEGBINOMDIST returns #NUM! error. if p < 0 or p > 1 NEGBINOMDIST returns #NUM! error.</para>
+        <para>If @f or @t is a non-integer it is truncated. If (@f + @t -1) <= 0 NEGBINOMDIST returns #NUM! error. If @p < 0 or @p > 1 NEGBINOMDIST returns #NUM! error.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-BINOMDIST">BINOMDIST</link>
@@ -3289,9 +3465,37 @@
       <refsect1>
         <title>Description</title>
         <para>DOLLARDE converts a dollar price expressed as a fraction into a dollar price expressed as a decimal number. </para>
-        <para>If fraction is non-integer it is truncated. If fraction<=0 DOLLARDE returns #NUM! error. @SEEALSO=DOLLARFR</para>        <para></para>
-      </refsect1>
-    </refentry>
+        <para>If @fraction is non-integer it is truncated. If @fraction<=0 DOLLARDE returns #NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-DOLLARFR">DOLLARFR</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-EOMONTH">EOMONTH</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>EOMONTH</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>EOMONTH (start_date,months)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns the last day of the month which is @months from the @start_date.</para>
+        <para>Returns #NUM! if start_date or months are invalid.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-MONTH">MONTH</link>
+      </para>
+    </refsect1>
+  </refentry>
 
 
 
@@ -3308,8 +3512,8 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>MROUND function rounds a given number to the desired multiple. @number is the number you want rounded and @multiple is the the multiple to which you wnat to round the number. For example, MROUND(1.7, 0.2) equals 1.8. </para>
-        <para>If the number and the multiple have different sign, MROUND returns #NUM! error. </para>
+        <para>MROUND function rounds a given number to the desired multiple. @number is the number you want rounded and @multiple is the the multiple to which you want to round the number. For example, MROUND(1.7, 0.2) equals 1.8. </para>
+        <para>If @number and @multiple have different sign, MROUND returns #NUM! error. </para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-ROUNDDOWN">ROUNDDOWN</link>
@@ -3358,7 +3562,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The SELECTION function returns a list with the values in the current mouse cursor. This is usually used to implement on-the-flight computation of values</para>
+        <para>The SELECTION function returns a list with the values in the current mouse cursor. This is usually used to implement on-the-flight computation of values.</para>
 
     </refsect1>
     <refsect1><title>See also</title>
@@ -3382,37 +3586,11 @@
       <refsect1>
         <title>Description</title>
         <para>ROUND function rounds a given number. @number is the number you want rounded and @digits is the number of digits to which you want to round that number. </para>
-        <para>If digits is greater than zero, number is rounded to the given number of digits. If digits is zero or omitted, number is rounded to the nearest integer. If digits is less than zero, number is rounded to the left of the decimal point. </para>
+        <para>If @digits is greater than zero, @number is rounded to the given number of digits. If @digits is zero or omitted, @number is rounded to the nearest integer. If @digits is less than zero, @number is rounded to the left of the decimal point. </para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-ROUNDDOWN">ROUNDDOWN</link>
 ,         <link linkend="gnumeric-ROUNDUP">ROUNDUP</link>
-      </para>
-    </refsect1>
-  </refentry>
-
-
-
-  <refentry>
-    <refmeta>
-      <refentrytitle><anchor id="gnumeric-VALUE">VALUE</refentrytitle><refmiscinfo></refmiscinfo>
-    </refmeta>
-    <refnamediv>
-      <refname>VALUE</refname>
-      <refpurpose></refpurpose>
-    </refnamediv>
-    <refsynopsisdiv>
-      <synopsis>VALUE(text)</synopsis>
-    </refsynopsisdiv>
-      <refsect1>
-        <title>Description</title>
-        <para>Returns numeric value of @text.</para>
-
-    </refsect1>
-    <refsect1><title>See also</title>
-      <para>        <link linkend="gnumeric-DOLLAR">DOLLAR</link>
-,         <link linkend="gnumeric-FIXED">FIXED</link>
-,         <link linkend="gnumeric-TEXT">TEXT</link>
       </para>
     </refsect1>
   </refentry>
@@ -3448,6 +3626,32 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-VALUE">VALUE</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>VALUE</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>VALUE(text)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns numeric value of @text.</para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-DOLLAR">DOLLAR</link>
+,         <link linkend="gnumeric-FIXED">FIXED</link>
+,         <link linkend="gnumeric-TEXT">TEXT</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-WEIBULL">WEIBULL</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -3459,8 +3663,8 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The WEIBULL function returns the Weibull distribution. If the cumulative boolean is true it will return: 1 - exp (-(x/beta)^alpha), otherwise it will return (alpha/beta^alpha) * x^(alpha-1) * exp(-(x/beta^alpha)). </para>
-        <para>if x < 0 WEIBULL returns #NUM! error. if alpha <= 0 or beta <= 0 WEIBULL returns #NUM! error. </para>
+        <para>The WEIBULL function returns the Weibull distribution. If the @cumulative boolean is true it will return: 1 - exp (-(@x/@beta)^@alpha), otherwise it will return (@alpha/@beta^@alpha) * @x^(@alpha-1) * exp(-(@x/@beta^@alpha)). </para>
+        <para>If @x < 0 WEIBULL returns #NUM! error. If @alpha <= 0 or @beta <= 0 WEIBULL returns #NUM! error. </para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-POISSON">POISSON</link>
@@ -3484,10 +3688,38 @@
       <refsect1>
         <title>Description</title>
         <para>The BIN2HEX function converts a binary number to a hexadecimal number.  @places is an optional field, specifying to zero pad to that number of spaces.</para>
-        <para>if places is too small or negative #NUM! error is returned.</para>
+        <para>If @places is too small or negative #NUM! error is returned.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-HEX2BIN">HEX2BIN</link>
+,         <link linkend="gnumeric-BIN2OCT">BIN2OCT</link>
+,         <link linkend="gnumeric-BIN2DEC">BIN2DEC</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-DDB">DDB</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>DDB</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>DDB(cost,salvage,life,period[,factor])</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>DDB returns the depreciation of an asset for a given period using the double-declining balance method or some other similar method you specify.  @cost is the initial value of the asset, @salvage is the value after the last period, @life is the number of periods, @period is the period for which you want the depreciation to be calculated, and @factor is the factor at which the balance declines.  If @factor is omitted, it is assumed to be two (double-declining balance method). </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-SLN">SLN</link>
+,         <link linkend="gnumeric-SYD">SYD</link>
+,         <link linkend="gnumeric-VDB">VDB</link>
       </para>
     </refsect1>
   </refentry>
@@ -3507,10 +3739,15 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Calculates the net present value of an investment.@SEEALSO=PV</para>
-        <para></para>
-      </refsect1>
-    </refentry>
+        <para>NPV calculates the net present value of an investment generating peridic payments.  @rate is the periodic interest rate and @v1, @v2, ... are the periodic payments. If the schedule of the cash flows are not periodic use the XNPV function. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-PV">PV</link>
+,         <link linkend="gnumeric-XNPV">XNPV</link>
+      </para>
+    </refsect1>
+  </refentry>
 
 
 
@@ -3527,8 +3764,8 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The VLOOKUP function finds the row in range that has a first column similar to value.  If approximate is not true it finds the row with an exact equivilance.  If approximate is true, then the values must be sorted in order of ascending value for correct function; in this case it finds the row with value less than value.  it returns the value in the row found at a 1 based offset in column columns into the range.</para>
-        <para>Returns #NUM! if column < 0.Returns #REF! if column falls outside range.</para>
+        <para>The VLOOKUP function finds the row in range that has a first column similar to value.  If @approximate is not true it finds the row with an exact equivilance.  If @approximate is true, then the values must be sorted in order of ascending value for correct function; in this case it finds the row with value less than @value.  It returns the value in the row found at a 1 based offset in @column columns into the @range.</para>
+        <para>Returns #NUM! if @column < 0.Returns #REF! if @column falls outside @range.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-HLOOKUP">HLOOKUP</link>
@@ -3552,10 +3789,35 @@
       <refsect1>
         <title>Description</title>
         <para>DAVERAGE function returns the average of the values in a list or database that match conditions specified. </para>
-        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a @criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-DCOUNT">DCOUNT</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-MINVERSE">MINVERSE</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>MINVERSE</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>MINVERSE(array)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>MINVERSE function returns the inverse matrix of a given matrix. </para>
+        <para>If the matrix cannot be inverted, MINVERSE returns #NUM! error. If the matrix does not contain equal number of columns and rows, MINVERSE returns #VALUE! error.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-MMULT">MMULT</link>
+,         <link linkend="gnumeric-MDETERM">MDETERM</link>
       </para>
     </refsect1>
   </refentry>
@@ -3576,7 +3838,7 @@
       <refsect1>
         <title>Description</title>
         <para>The LOGNORMDIST function returns the lognormal distribution. @x is the value for which you want the distribution, @mean is the mean of the distribution, and @stdev is the standard deviation of the distribution. </para>
-        <para>Performing this function on a string or empty cell simply does nothing. if @stdev = 0 LOGNORMDIST returns #DIV/0! error. if @x<=0, @mean<0 or @stdev<0 LOGNORMDIST returns #NUM! error. </para>
+        <para>Performing this function on a string or empty cell simply does nothing. If @stdev = 0 LOGNORMDIST returns #DIV/0! error. If @x <= 0, @mean < 0 or @stdev < 0 LOGNORMDIST returns #NUM! error. </para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-NORMDIST">NORMDIST</link>
@@ -3612,6 +3874,32 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-BESSELI">BESSELI</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>BESSELI</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>BESSELI(x,y)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The BESSELI function returns the Neumann, Weber or Bessel function. @x is where the function is evaluated. @y is the order of the bessel function, if non-integer it is truncated.</para>
+        <para>If @x or @y are not numeric a #VALUE! error is returned. If @y < 0 a #NUM! error is returned.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-BESSELJ">BESSELJ</link>
+,         <link linkend="gnumeric-BESSELK">BESSELK</link>
+,         <link linkend="gnumeric-BESSELY">BESSELY</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-BESSELJ">BESSELJ</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -3638,6 +3926,32 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-BESSELK">BESSELK</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>BESSELK</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>BESSELK(x,y)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The BESSELK function returns the Neumann, Weber or Bessel function. @x is where the function is evaluated. @y is the order of the bessel function, if non-integer it is truncated.</para>
+        <para>if x or n are not numeric a #VALUE! error is returned.if y < 0 a #NUM! error is returned.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-BESSELI">BESSELI</link>
+,         <link linkend="gnumeric-BESSELJ">BESSELJ</link>
+,         <link linkend="gnumeric-BESSELY">BESSELY</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-ADDRESS">ADDRESS</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -3650,7 +3964,30 @@
       <refsect1>
         <title>Description</title>
         <para>ADDRESS returns a cell address as text for specified row and column numbers. </para>
-        <para>If abs_num is 1 or omitted, ADDRESS returns absolute reference. If abs_num is 2 ADDRESS returns absolute row and relative column. If abs_num is 3 ADDRESS returns relative row and absolute column. If abs_num is 4 ADDRESS returns relative reference. If abs_num is greater than 4 ADDRESS returns #NUM! error. </para>        <para>@a1 is a logical value that specifies the reference style.  If @a1 is TRUE or omitted, ADDRESS returns an A1-style reference, i.e. $D$4.  Otherwise ADDRESS returns an R1C1-style reference, i.e. R4C4. </para>        <para>@text specifies the name of the worksheet to be used as the external reference.  </para>        <para>If @row_num or @col_num is less than one, ADDRESS returns #NUM! error. </para>
+        <para>If @abs_num is 1 or omitted, ADDRESS returns absolute reference. If @abs_num is 2 ADDRESS returns absolute row and relative column. If @abs_num is 3 ADDRESS returns relative row and absolute column. If @abs_num is 4 ADDRESS returns relative reference. If @abs_num is greater than 4 ADDRESS returns #NUM! error. </para>        <para>@a1 is a logical value that specifies the reference style.  If @a1 is TRUE or omitted, ADDRESS returns an A1-style reference, i.e. $D$4.  Otherwise ADDRESS returns an R1C1-style reference, i.e. R4C4. </para>        <para>@text specifies the name of the worksheet to be used as the external reference.  </para>        <para>If @row_num or @col_num is less than one, ADDRESS returns #NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-INDIRECT">INDIRECT</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>INDIRECT</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>INDIRECT(ref_text, [format])</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The INDIRECT function returns the contents of the cell pointed to by the ref_text string. The string specifices a single cell reference the format of which is either A1 or R1C1 style. The style is set by the format boolean, which defaults to the former.</para>
+        <para>If ref_text is not a valid reference returns #REF! </para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>      </para>
@@ -3668,11 +4005,11 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>SIGN(num)</synopsis>
+      <synopsis>SIGN(number)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>SIGN function returns 1 if the number is positive, zero if the number is 0, and -1 if the number is negative. </para>
+        <para>SIGN function returns 1 if the @number is positive, zero if the @number is 0, and -1 if the @number is negative. </para>
 
     </refsect1>
     <refsect1><title>See also</title>
@@ -3723,7 +4060,7 @@
       <refsect1>
         <title>Description</title>
         <para>GAMMADIST function returns the gamma distribution. If @cum is TRUE GAMMADIST returns the incomplete gamma function, otherwise it returns the probability mass function.</para>
-        <para>If @x < 0 GAMMADIST returns #NUM! error. If @alpha <= 0 or beta <= 0, GAMMADIST returns #NUM! error.</para>
+        <para>If @x < 0 GAMMADIST returns #NUM! error. If @alpha <= 0 or @beta <= 0, GAMMADIST returns #NUM! error.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-GAMMAINV">GAMMAINV</link>
@@ -3798,7 +4135,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Returns the ASCII number for the character char.</para>
+        <para>Returns the ASCII number for the character @char.</para>
 
     </refsect1>
     <refsect1><title>See also</title>
@@ -3874,7 +4211,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>ISNA Returns TRUE if the value is the #N/A error value. </para>
+        <para>ISNA returns TRUE if the value is the #N/A error value. </para>
 
     </refsect1>
     <refsect1><title>See also</title>
@@ -3897,8 +4234,8 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>ROUNDDOWN function rounds a given number down, towards zero. @number is the number you want rounded down and @digits is the number of digits to which you want to round that number. </para>
-        <para>If digits is greater than zero, number is rounded down to the given number of digits. If digits is zero or omitted, number is rounded down to the nearest integer. If digits is less than zero, number is rounded down to the left of the decimal point. </para>
+        <para>ROUNDDOWN function rounds a given @number down, towards zero. @number is the number you want rounded down and @digits is the number of digits to which you want to round that number. </para>
+        <para>If @digits is greater than zero, @number is rounded down to the given number of digits. If @digits is zero or omitted, @number is rounded down to the nearest integer. If @digits is less than zero, @number is rounded down to the left of the decimal point. </para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-ROUNDUP">ROUNDUP</link>
@@ -3970,11 +4307,13 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The HEX2OCT function converts a binary number to a hexadecimal number.  @places is an optional field, specifying to zero pad to that number of spaces.</para>
-        <para>if places is too small or negative #NUM! error is returned.</para>
+        <para>The HEX2OCT function converts a hexadecimal number to an octal number.  @places is an optional field, specifying to zero pad to that number of spaces.</para>
+        <para>If @places is too small or negative #NUM! error is returned.</para>
     </refsect1>
     <refsect1><title>See also</title>
-      <para>        <link linkend="gnumeric-BIN2HEX">BIN2HEX</link>
+      <para>        <link linkend="gnumeric-OCT2HEX">OCT2HEX</link>
+,         <link linkend="gnumeric-HEX2BIN">HEX2BIN</link>
+,         <link linkend="gnumeric-HEX2DEC">HEX2DEC</link>
       </para>
     </refsect1>
   </refentry>
@@ -4008,10 +4347,10 @@
 
   <refentry>
     <refmeta>
-      <refentrytitle><anchor id="gnumeric-DAY">DAY</refentrytitle><refmiscinfo></refmiscinfo>
+      <refentrytitle><anchor id="gnumeric-DAYS360 ">DAYS360 </refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
-      <refname>DAY</refname>
+      <refname>DAYS360 </refname>
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
@@ -4020,7 +4359,7 @@
       <refsect1>
         <title>Description</title>
         <para>Returns the number of days from @date1 to @date2 following a 360-day calendar in which all months are assumed to have 30 days.</para>
-        <para>If method is true, the European method will be used.  In this case, if the day of the month is 31 it will be considered as 30.</para>        <para>If method is false or omitted, the US method will be used.  This is a somewhat complicated industry standard method.</para>        <para>Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string.</para>
+        <para>If @method is true, the European method will be used.  In this case, if the day of the month is 31 it will be considered as 30.</para>        <para>If @method is false or omitted, the US method will be used.  This is a somewhat complicated industry standard method.</para>        <para>Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-MONTH">MONTH</link>
@@ -4047,7 +4386,7 @@
       <refsect1>
         <title>Description</title>
         <para>DVARP function returns the variance of a population based on the entire populations. The populations consists of numbers that match conditions specified. </para>
-        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a @criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-DVAR">DVAR</link>
@@ -4099,6 +4438,7 @@
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-IMSIN">IMSIN</link>
+,         <link linkend="gnumeric-IMTAN">IMTAN</link>
       </para>
     </refsect1>
   </refentry>
@@ -4142,7 +4482,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>ISBLANK Returns TRUE if the value is blank. </para>
+        <para>ISBLANK returns TRUE if the value is blank. </para>
 
     </refsect1>
     <refsect1><title>See also</title>
@@ -4165,7 +4505,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Converts a serial number to a second.  The second is returned as an integer in the range 0 to 59</para>
+        <para>Converts a serial number to a second.  The second is returned as an integer in the range 0 to 59.</para>
         <para>Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string.</para>
     </refsect1>
     <refsect1><title>See also</title>
@@ -4216,7 +4556,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The ACOS function calculates the arc cosine of x; that  is the value whose cosine is x.  If x  falls  outside  the  range -1 to 1, ACOS fails and returns the error 'acos - domain error'.  The value it returns is in radians. </para>
+        <para>The ACOS function calculates the arc cosine of @x; that  is the value whose cosine is @x.  If @x  falls  outside  the  range -1 to 1, ACOS fails and returns the error 'acos - domain error'.  The value it returns is in radians. </para>
         <para>Performing this function on a string or empty cell simply does nothing. This function only takes one argument.</para>
     </refsect1>
     <refsect1><title>See also</title>
@@ -4293,7 +4633,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The SIN function returns the sine of x, where x is given  in radians.</para>
+        <para>The SIN function returns the sine of @x, where @x is given in radians.</para>
         <para>Performing this function on a string or empty cell simply does nothing. This function only takes one argument.</para>
     </refsect1>
     <refsect1><title>See also</title>
@@ -4319,12 +4659,12 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>EFFECT(b1,b2)</synopsis>
+      <synopsis>EFFECT(r,nper)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
         <para>Calculates the effective interest rate from a given nominal rate.</para>
-        <para>Effective interest rate is calculated using this formulae:</para>        <para></para>        <para>         r( 1 + ------ ) ^ nper - 1       nper</para>        <para>where:</para>        <para></para>        <para>r = nominal interest rate (stated in yearly terms)nper = number of periods used for compounding</para>        <para>For example credit cards will list an APR (annual percentage rate) which is a nominal interest rate.</para>        <para>For example if you wanted to find out how much you are actually paying interest on your credit card that states an APR of 19% that is compounded monthly you would type in:</para>        <para>=EFFECT(.19,12) and you would get .2075 or 20.75%. That is the effective percentage you will pay on your loan.</para>
+        <para>Effective interest rate is calculated using this formulae:</para>        <para></para>        <para>         r( 1 + ------ ) ^ nper - 1       nper</para>        <para>where:</para>        <para></para>        <para>@r = nominal interest rate (stated in yearly terms)</para>        <para>@nper = number of periods used for compounding</para>        <para>For example credit cards will list an APR (annual percentage rate) which is a nominal interest rate.</para>        <para>For example if you wanted to find out how much you are actually paying interest on your credit card that states an APR of 19% that is compounded monthly you would type in:</para>        <para>=EFFECT(.19,12) and you would get .2075 or 20.75%. That is the effective percentage you will pay on your loan.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-NOMINAL">NOMINAL</link>
@@ -4347,8 +4687,8 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The OFFSET function returns a cell range.The cell range starts at offset (col,row) from range, and is of height @height and width @width.</para>
-        <para>If range is neither a reference nor a range returns #VALUE!.</para>
+        <para>The OFFSET function returns a cell range. The cell range starts at offset (@col,@row) from @range, and is of height @height and width @width.</para>
+        <para>If range is neither a reference nor a range returns #VALUE!.  If either height or width is omitted the height or width of the reference is used.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-COLUMN">COLUMN</link>
@@ -4374,7 +4714,7 @@
       <refsect1>
         <title>Description</title>
         <para>Implements the logical OR function: the result is TRUE if any of the values evaluated to TRUE.</para>
-        <para>b1, trough bN are expressions that should evaluate to TRUE or FALSE. If an integer or floating point value is provided zero is considered FALSE and anything else is TRUE.</para>        <para>If the values contain strings or empty cells those values are ignored.  If no logical values are provided, then the error '#VALUE!'is returned.</para>
+        <para>@b1, trough @bN are expressions that should evaluate to TRUE or FALSE. If an integer or floating point value is provided zero is considered FALSE and anything else is TRUE.</para>        <para>If the values contain strings or empty cells those values are ignored.  If no logical values are provided, then the error '#VALUE!'is returned.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-AND">AND</link>
@@ -4398,11 +4738,40 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>TYPE Returns a number indicating the data type of a value. </para>
+        <para>TYPE returns a number indicating the data type of a value. </para>
 
     </refsect1>
     <refsect1><title>See also</title>
       <para>      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-QUARTILE">QUARTILE</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>QUARTILE</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>QUARTILE(array,quart)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>QUARTILE function returns the quartile of the given data points.  </para>
+        <para>If quart is equal to:  QUARTILE returns:</para>        <para>0                      the smallest value of @array.</para>        <para>1                      the first quartile</para>        <para>2                      the second quartile</para>        <para>3                      the third quartile</para>        <para>4                      the largest value of @array.</para>        <para></para>        <para>If @array is empty, QUARTILE returns #NUM! error. If @quart < 0 or @quart > 4, QUARTILE returns #NUM! error. If @quart is not an integer, it is truncated. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-LARGE">LARGE</link>
+,         <link linkend="gnumeric-MAX">MAX</link>
+,         <link linkend="gnumeric-MEDIAN">MEDIAN</link>
+,         <link linkend="gnumeric-MIN">MIN</link>
+,         <link linkend="gnumeric-PERCENTILE">PERCENTILE</link>
+,         <link linkend="gnumeric-SMALL">SMALL</link>
+      </para>
     </refsect1>
   </refentry>
 
@@ -4446,7 +4815,7 @@
       <refsect1>
         <title>Description</title>
         <para>FORECAST function estimates a future value according to existing values using simple linear regression.  The estimated future value is a y-value for a given x-value (@x). </para>
-        <para>If known_x or known_y contains no data entries or different number of data entries, FORECAST returns #N/A! error. If the variance of the known_x is zero, FORECAST returns #DIV/0 error. </para>
+        <para>If @known_x or @known_y contains no data entries or different number of data entries, FORECAST returns #N/A! error. If the variance of the @known_x is zero, FORECAST returns #DIV/0 error. </para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-INTERCEPT">INTERCEPT</link>
@@ -4470,11 +4839,13 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The BIN2OCT function converts a binary number to an octal number.places is an optional field, specifying to zero pad to that number of spaces.</para>
-        <para>if places is too small or negative #NUM! error is returned.</para>
+        <para>The BIN2OCT function converts a binary number to an octal number. @places is an optional field, specifying to zero pad to that number of spaces.</para>
+        <para>If @places is too small or negative #NUM! error is returned.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-OCT2BIN">OCT2BIN</link>
+,         <link linkend="gnumeric-BIN2DEC">BIN2DEC</link>
+,         <link linkend="gnumeric-BIN2HEX">BIN2HEX</link>
       </para>
     </refsect1>
   </refentry>
@@ -4520,7 +4891,7 @@
       <refsect1>
         <title>Description</title>
         <para>The CONFIDENCE function returns the confidence interval for a mean. @x is the significance level, @stddev is the standard deviation, and @size is the size of the sample.</para>
-        <para>if size is non-integer it is truncated. if size < 0 CONFIDENCE returns #NUM! error. if size is 0 CONFIDENCE returns #DIV/0! error.</para>
+        <para>If @size is non-integer it is truncated. If @size < 0 CONFIDENCE returns #NUM! error. If @size is 0 CONFIDENCE returns #DIV/0! error.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-AVERAGE">AVERAGE</link>
@@ -4594,8 +4965,7 @@
 
     </refsect1>
     <refsect1><title>See also</title>
-      <para>        <link linkend="gnumeric-IMEXP">IMEXP</link>
-,         <link linkend="gnumeric-IMLN">IMLN</link>
+      <para>        <link linkend="gnumeric-IMSQRT">IMSQRT</link>
       </para>
     </refsect1>
   </refentry>
@@ -4667,7 +5037,7 @@
       <refsect1>
         <title>Description</title>
         <para>DSUM function returns the sum of numbers in a column that match conditions specified. </para>
-        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a @criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-DPRODUCT">DPRODUCT</link>
@@ -4690,7 +5060,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Computes the base-2 logarithm  of x. </para>
+        <para>Computes the base-2 logarithm  of @x. </para>
         <para>Performing this function on a string or empty cell returns an error. </para>
     </refsect1>
     <refsect1><title>See also</title>
@@ -4794,7 +5164,7 @@
       <refsect1>
         <title>Description</title>
         <para>The ROW function returns an array of the row numbers taking a default argument of the containing cell position.</para>
-        <para>If reference is neither an array nor a reference nor a range returns #VALUE!.</para>
+        <para>If @reference is neither an array nor a reference nor a range returns #VALUE!.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-COLUMN">COLUMN</link>
@@ -4819,7 +5189,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The  ATANH  function  calculates  the inverse hyperbolic tangent of x; that is the value whose  hyperbolic  tangent is  x.   If  the  absolute value of x is greater than 1.0,  ATANH returns an error of 'atanh: domain error'      </para>
+        <para>The  ATANH  function  calculates  the inverse hyperbolic tangent of @x; that is the value whose  hyperbolic  tangent is  @x.   If  the  absolute value of @x is greater than 1.0,  ATANH returns an error of 'atanh: domain error'      </para>
         <para>Performing this function on a string or empty cell simply does nothing. This function only takes one argument.</para>
     </refsect1>
     <refsect1><title>See also</title>
@@ -4848,8 +5218,8 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The ERFC function returns the integral of the complimentary error function between the limits 0 and x.</para>
-        <para>If x is not numeric a #VALUE! error is returned.  If x < 0 a #NUM! error is returned.</para>
+        <para>The ERFC function returns the integral of the complimentary error function between the limits 0 and @x.</para>
+        <para>If @x is not numeric a #VALUE! error is returned.  If @x < 0 a #NUM! error is returned.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-ERF">ERF</link>
@@ -4872,11 +5242,35 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>N Returns a value converted to a number.  Strings containing text are converted to the zero value. </para>
+        <para>N returns a value converted to a number.  Strings containing text are converted to the zero value. </para>
 
     </refsect1>
     <refsect1><title>See also</title>
       <para>      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-WORKDAY">WORKDAY</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>WORKDAY</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>WORKDAY (start_date,days,holidays)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns the day which is @days working days from the @start_date.  Weekends and holidays optionaly supplied in @holidays are respected.</para>
+        <para>Returns #NUM! if @start_date or @days are invalid.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-NETWORKDAYS">NETWORKDAYS</link>
+      </para>
     </refsect1>
   </refentry>
 
@@ -4896,7 +5290,7 @@
       <refsect1>
         <title>Description</title>
         <para>ROMAN function returns an arabic number in the roman numeral style, as text. @number is the number you want to convert and @type is the type of roman numeral you want. </para>
-        <para>If @type is 0 or it is omitted, ROMAN returns classic roman numbers. Types 1,2,3, and 4 are not implemented yet. If @number is negative or greater than 3999, ROMAN returns #VALUE! error. </para>
+        <para>If @type is 0 or it is omitted, ROMAN returns classic roman numbers. Type 1 is more concise than classic type, type 2 is more concise than type 1, and type 3 is more concise than type 2.  Type 4 is simplified type. </para>        <para>If @number is negative or greater than 3999, ROMAN returns #VALUE! error. </para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>      </para>
@@ -4918,7 +5312,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Returns the value of x raised to the power y.</para>
+        <para>Returns the value of @x raised to the power @y.</para>
         <para>Performing this function on a string or empty cell returns an error.</para>
     </refsect1>
     <refsect1><title>See also</title>
@@ -4992,7 +5386,7 @@
       <refsect1>
         <title>Description</title>
         <para>TTEST function returns the probability of a Student's t-Test. </para>
-        <para>@array1 is the first data set and @array2 is the second data set.  If @tails is one, TTEST uses the one-tailed distribution and if @tails is two, TTEST uses the two-tailed distribution.  @type determines the kind of the test:</para>        <para>1  Paired test</para>        <para>2  Two-sample equal variance</para>        <para>3  Two-sample unequal variance</para>        <para></para>        <para>If the data sets contain a different number of data points and the test is paired (type one), TTEST returns the #N/A error. @tails and @type are truncated to integers. If tails is not one or two, TTEST returns #NUM! error. If type is any other than one, two, or three, TTEST returns #NUM! error. </para>
+        <para>@array1 is the first data set and @array2 is the second data set.  If @tails is one, TTEST uses the one-tailed distribution and if @tails is two, TTEST uses the two-tailed distribution.  @type determines the kind of the test:</para>        <para>1  Paired test</para>        <para>2  Two-sample equal variance</para>        <para>3  Two-sample unequal variance</para>        <para></para>        <para>If the data sets contain a different number of data points and the test is paired (@type one), TTEST returns the #N/A error. @tails and @type are truncated to integers. If @tails is not one or two, TTEST returns #NUM! error. If @type is any other than one, two, or three, TTEST returns #NUM! error. </para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-FDIST">FDIST</link>
@@ -5016,10 +5410,40 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Calculates number of periods of an investment.@SEEALSO=PPMT,PV,FV</para>
-        <para></para>
-      </refsect1>
-    </refentry>
+        <para>Calculates number of periods of an investment.</para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-PPMT">PPMT</link>
+,         <link linkend="gnumeric-PV">PV</link>
+,         <link linkend="gnumeric-FV">FV</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-NETWORKDAYS">NETWORKDAYS</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>NETWORKDAYS</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>NETWORKDAYS (start_date,end_date,holidays)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns the number of non-weekend non-holidays between @start_date and @end_date.  Holidays optionaly supplied in @holidays.</para>
+        <para>Returns #NUM if start_date or end_date are invalid</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-WORKDAY">WORKDAY</link>
+      </para>
+    </refsect1>
+  </refentry>
 
 
 
@@ -5061,10 +5485,16 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Implements modulo arithmetic.Returns the remainder when @divisor is divided into @number.</para>
-        <para>Returns #DIV/0! if divisor is zero.@SEEALSO=INT,FLOOR,CEIL</para>        <para></para>
-      </refsect1>
-    </refentry>
+        <para>Implements modulo arithmetic. Returns the remainder when @divisor is divided into @number.</para>
+        <para>Returns #DIV/0! if divisor is zero.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-INT">INT</link>
+,         <link linkend="gnumeric-FLOOR">FLOOR</link>
+,         <link linkend="gnumeric-CEIL">CEIL</link>
+      </para>
+    </refsect1>
+  </refentry>
 
 
 
@@ -5081,7 +5511,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>FACTDOUBLE function returns the double factorial of a number. </para>
+        <para>FACTDOUBLE function returns the double factorial of a @number. </para>
         <para>If @number is not an integer, it is truncated. If @number is negative FACTDOUBLE returns #NUM! error. </para>
     </refsect1>
     <refsect1><title>See also</title>
@@ -5130,7 +5560,7 @@
       <refsect1>
         <title>Description</title>
         <para>SMALL returns the k-th smallest value in a data set.</para>
-        <para>If data set is empty SMALL returns #NUM! error. If k<=0 or k is greater than the number of data items given SMALL returns #NUM! error.</para>
+        <para>If data set is empty SMALL returns #NUM! error. If @k <= 0 or @k is greater than the number of data items given SMALL returns #NUM! error.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-PERCENTILE">PERCENTILE</link>
@@ -5161,6 +5591,8 @@
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-DEC2OCT">DEC2OCT</link>
+,         <link linkend="gnumeric-OCT2BIN">OCT2BIN</link>
+,         <link linkend="gnumeric-OCT2HEX">OCT2HEX</link>
       </para>
     </refsect1>
   </refentry>
@@ -5234,10 +5666,14 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Calculates the present value of an investment.@SEEALSO=FV</para>
-        <para></para>
-      </refsect1>
-    </refentry>
+        <para>Calculates the present value of an investment.</para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-FV">FV</link>
+      </para>
+    </refsect1>
+  </refentry>
 
 
 
@@ -5280,7 +5716,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para> The TANH function returns the hyperbolic tangent of x,  which is defined mathematically as sinh(x) / cosh(x). </para>
+        <para> The TANH function returns the hyperbolic tangent of @x,  which is defined mathematically as sinh(@x) / cosh(@x). </para>
         <para>Performing this function on a string or empty cell simply does nothing. This function only takes one argument.</para>
     </refsect1>
     <refsect1><title>See also</title>
@@ -5335,7 +5771,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Returns the serial number for today (the number of days elapsed since the 1st of January of 1900)</para>
+        <para>Returns the serial number for today (the number of days elapsed since the 1st of January of 1900).</para>
 
     </refsect1>
     <refsect1><title>See also</title>
@@ -5360,10 +5796,16 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Calculates the future value of an investment.@SEEALSO=PV,PMT,PPMT</para>
-        <para></para>
-      </refsect1>
-    </refentry>
+        <para>Calculates the future value of an investment.</para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-PV">PV</link>
+,         <link linkend="gnumeric-PMT">PMT</link>
+,         <link linkend="gnumeric-PPMT">PPMT</link>
+      </para>
+    </refsect1>
+  </refentry>
 
 
 
@@ -5376,12 +5818,12 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>PPMT(rate,per,nper,pv,fv,type)</synopsis>
+      <synopsis>PPMT(rate,per,nper,pv[,fv,type])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
         <para>Calculates the amount of a payment of an annuity going towards principal.</para>
-        <para>Formula for it is:</para>        <para>PPMT(per) = PMT - IPMT(per)</para>        <para>where:</para>        <para>PMT = Payment received on annuityIPMT(per) = amount of interest for period per</para>
+        <para>Formula for it is:</para>        <para>PPMT(per) = PMT - IPMT(per)</para>        <para>where:</para>        <para>PMT = Payment received on annuity</para>        <para>IPMT(per) = amount of interest for period per</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-IPMT">IPMT</link>
@@ -5431,7 +5873,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The DELTA function test for numerical eqivilance of two arguments returning 1 in equality y is optional, and defaults to 0.</para>
+        <para>The DELTA function test for numerical equivilance of two arguments returning 1 in equality @y is optional, and defaults to 0.</para>
         <para>If either argument is non-numeric returns a #VALUE! error.</para>
     </refsect1>
     <refsect1><title>See also</title>
@@ -5456,8 +5898,8 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The CEILING function rounds x up to the nearest multiple of significance. </para>
-        <para>If x or significance is non-numeric CEILING returns #VALUE! error. If n and significance have different signs CEILING returns #NUM! error. </para>
+        <para>The CEILING function rounds @x up to the nearest multiple of significance. </para>
+        <para>If @x or @significance is non-numeric CEILING returns #VALUE! error. If @x and @significance have different signs CEILING returns #NUM! error. </para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-CEIL">CEIL</link>
@@ -5533,7 +5975,7 @@
       <refsect1>
         <title>Description</title>
         <para>Implements the logical AND function: the result is TRUE if all of the expression evaluates to TRUE, otherwise it returns FALSE.</para>
-        <para>b1, trough bN are expressions that should evaluate to TRUE or FALSE. If an integer or floating point value is provided zero is considered FALSE and anything else is TRUE.</para>        <para>If the values contain strings or empty cells those values are ignored.  If no logical values are provided, then the error '#VALUE!' is returned. </para>
+        <para>@b1, trough @bN are expressions that should evaluate to TRUE or FALSE. If an integer or floating point value is provided zero is considered FALSE and anything else is TRUE.</para>        <para>If the values contain strings or empty cells those values are ignored.  If no logical values are provided, then the error '#VALUE!' is returned. </para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-OR">OR</link>
@@ -5557,7 +5999,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>ODD function returns the number rounded up to the nearest odd integer. </para>
+        <para>ODD function returns the @number rounded up to the nearest odd integer. </para>
 
     </refsect1>
     <refsect1><title>See also</title>
@@ -5610,7 +6052,8 @@
 
     </refsect1>
     <refsect1><title>See also</title>
-      <para>      </para>
+      <para>        <link linkend="gnumeric-ISTEXT">ISTEXT</link>
+      </para>
     </refsect1>
   </refentry>
 
@@ -5681,7 +6124,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>ISERR Returns TRUE if the value is any error value except #N/A. </para>
+        <para>ISERR returns TRUE if the value is any error value except #N/A. </para>
 
     </refsect1>
     <refsect1><title>See also</title>
@@ -5705,7 +6148,7 @@
       <refsect1>
         <title>Description</title>
         <para>BETADIST function returns the cumulative beta distribution. @a is the optional lower bound of @x and @b is the optional upper bound of @x.  If @a is not given, BETADIST uses 0.  If @b is not given, BETADIST uses 1.</para>
-        <para>If @x < @a or @x > @b BETADIST returns #NUM! error. If @alpha <= 0 or beta <= 0, BETADIST returns #NUM! error. If @a >= @b BETADIST returns #NUM! error.</para>
+        <para>If @x < @a or @x > @b BETADIST returns #NUM! error. If @alpha <= 0 or @beta <= 0, BETADIST returns #NUM! error. If @a >= @b BETADIST returns #NUM! error.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-BETAINV">BETAINV</link>
@@ -5777,11 +6220,13 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The DEC2BIN function converts a binary number to an octal number.places is an optional field, specifying to zero pad to that number of spaces.</para>
-        <para>if places is too small or negative #NUM! error is returned.</para>
+        <para>The DEC2BIN function converts a decimal number to a binary number. @places is an optional field, specifying to zero pad to that number of spaces.</para>
+        <para>If @places is too small or negative #NUM! error is returned.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-BIN2DEC">BIN2DEC</link>
+,         <link linkend="gnumeric-DEC2OCT">DEC2OCT</link>
+,         <link linkend="gnumeric-DEC2HEX">DEC2HEX</link>
       </para>
     </refsect1>
   </refentry>
@@ -5801,8 +6246,8 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The HLOOKUP function finds the col in range that has a first row cell similar to value.  If approximate is not true it finds the col with an exact equivilance.  If approximate is true, then the values must be sorted in order of ascending value for correct function; in this case it finds the col with value less than value it returns the value in the col found at a 1 based offset in row rows into the range.</para>
-        <para>Returns #NUM! if row < 0.Returns #REF! if row falls outside range.</para>
+        <para>The HLOOKUP function finds the col in range that has a first row cell similar to value.  If @approximate is not true it finds the col with an exact equivilance.  If @approximate is true, then the values must be sorted in order of ascending value for correct function; in this case it finds the col with value less than @value it returns the value in the col found at a 1 based offset in @row rows into the @range.</para>
+        <para>Returns #NUM! if @row < 0.Returns #REF! if @row falls outside @range.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-VLOOKUP">VLOOKUP</link>
@@ -5825,11 +6270,12 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>SERIESSUM function Returns the matrix product of two arrays. The result is an array with the same number of rows as array1 and the same number of columns as array2.</para>
+        <para>MMULT function returns the matrix product of two arrays. The result is an array with the same number of rows as @array1 and the same number of columns as @array2.</para>
 
     </refsect1>
     <refsect1><title>See also</title>
-      <para>        <link linkend="gnumeric-SUMPRODUCT">SUMPRODUCT</link>
+      <para>        <link linkend="gnumeric-TRANSPOSE">TRANSPOSE</link>
+,         <link linkend="gnumeric-MINVERSE">MINVERSE</link>
       </para>
     </refsect1>
   </refentry>
@@ -5849,7 +6295,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Computes the base-10 logarithm  of x. </para>
+        <para>Computes the base-10 logarithm  of @x. </para>
         <para>Performing this function on a string or empty cell returns an error. </para>
     </refsect1>
     <refsect1><title>See also</title>
@@ -5857,6 +6303,29 @@
 ,         <link linkend="gnumeric-LOG2">LOG2</link>
 ,         <link linkend="gnumeric-LOG">LOG</link>
       </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-HYPERLINK">HYPERLINK</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>HYPERLINK</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>HYPERLINK(reference)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The HYPERLINK function currently returns its 2nd argument, or if that is omitted the 1st argument.</para>
+        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>      </para>
     </refsect1>
   </refentry>
 
@@ -5876,7 +6345,7 @@
       <refsect1>
         <title>Description</title>
         <para>DCOUNT function counts the cells that contain numbers in a database that match conditions specified. </para>
-        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a @criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-DAVERAGE">DAVERAGE</link>
@@ -6002,7 +6471,7 @@
       <refsect1>
         <title>Description</title>
         <para>DCOUNTA function counts the cells that contain data in a database that match conditions specified. </para>
-        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a @criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-DCOUNT">DCOUNT</link>
@@ -6101,7 +6570,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>ISNUMBER Returns TRUE if the value is a number. </para>
+        <para>ISNUMBER returns TRUE if the value is a number. </para>
 
     </refsect1>
     <refsect1><title>See also</title>
@@ -6124,12 +6593,36 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Computes the number of radians equivalent to  x degrees. </para>
+        <para>Computes the number of radians equivalent to  @x degrees. </para>
         <para>Performing this function on a string or empty cell simply does nothing. </para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-PI">PI</link>
 ,         <link linkend="gnumeric-DEGREES">DEGREES</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-TREND">TREND</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>TREND</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>TREND(known_y's[,known_x's],new_x's])</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>TREND function estimates future values of a given data set using the ``least squares'' line that best fit to your data. @known_y's is the y-values where y=mx+b and @known_x's contains the corresponding x-values.  @new_x's contains the x-values for which you want to estimate the y-values. </para>
+        <para>If @known_x's is omitted, an array {1, 2, 3, ...} is used. If @known_y's and @known_x's have unequal number of data points, TREND returns #NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-LINEST">LINEST</link>
       </para>
     </refsect1>
   </refentry>
@@ -6150,7 +6643,7 @@
       <refsect1>
         <title>Description</title>
         <para>Calculates the amount of a payment of an annuity going towards interest.</para>
-        <para>Formula for IPMT is:</para>        <para></para>        <para>IPMT(PER) = PMT - PRINCIPAL(PER-1) * INTEREST_RATE</para>        <para>where:</para>        <para>PMT = Payment received on annuityPRINCIPA(per-1) = amount of the remaining principal from last period</para>
+        <para>Formula for IPMT is:</para>        <para></para>        <para>IPMT(PER) = PMT - PRINCIPAL(PER-1) * INTEREST_RATE</para>        <para>where:</para>        <para>PMT = Payment received on annuity</para>        <para>PRINCIPA(per-1) = amount of the remaining principal from last period</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-PPMT">PPMT</link>
@@ -6175,7 +6668,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>ISREF Returns TRUE if the value is a reference. </para>
+        <para>ISREF returns TRUE if the value is a reference. </para>
 
     </refsect1>
     <refsect1><title>See also</title>
@@ -6199,7 +6692,7 @@
       <refsect1>
         <title>Description</title>
         <para>ROUNDUP function rounds a given number up, away from zero. @number is the number you want rounded up and @digits is the number of digits to which you want to round that number. </para>
-        <para>If digits is greater than zero, number is rounded up to the given number of digits. If digits is zero or omitted, number is rounded up to the nearest integer. If digits is less than zero, number is rounded up to the left of the decimal point. </para>
+        <para>If @digits is greater than zero, @number is rounded up to the given number of digits. If @digits is zero or omitted, @number is rounded up to the nearest integer. If @digits is less than zero, @number is rounded up to the left of the decimal point. </para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-ROUNDDOWN">ROUNDDOWN</link>
@@ -6223,7 +6716,7 @@
       <refsect1>
         <title>Description</title>
         <para>DSTDEV function returns the estimate of the standard deviation of a population based on a sample. The populations consists of numbers that match conditions specified. </para>
-        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a @criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-DSTDEVP">DSTDEVP</link>
@@ -6272,11 +6765,12 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>IMCOS returns the tangent of a complex number.</para>
+        <para>IMTAN returns the tangent of a complex number.</para>
 
     </refsect1>
     <refsect1><title>See also</title>
-      <para>        <link linkend="gnumeric-IMTAN">IMTAN</link>
+      <para>        <link linkend="gnumeric-IMSIN">IMSIN</link>
+,         <link linkend="gnumeric-IMCOS">IMCOS</link>
       </para>
     </refsect1>
   </refentry>
@@ -6292,12 +6786,12 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>FISHERINV(y)</synopsis>
+      <synopsis>FISHERINV(x)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The FISHERINV function returns the inverse of the Fisher transformation at x. </para>
-        <para>If x is non-number FISHER returns #VALUE! error.</para>
+        <para>The FISHERINV function returns the inverse of the Fisher transformation at @x. </para>
+        <para>If @x is non-number FISHERINV returns #VALUE! error.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-FISHER">FISHER</link>
@@ -6320,7 +6814,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The ATAN function calculates the arc tangent of x; that  is the value whose tangent is x.Return value is in radians.</para>
+        <para>The ATAN function calculates the arc tangent of @x; that  is the value whose tangent is @x.Return value is in radians.</para>
         <para>Performing this function on a string or empty cell simply does nothing. This function only takes one argument.</para>
     </refsect1>
     <refsect1><title>See also</title>
@@ -6344,14 +6838,18 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>SLN(cost,salvage value,life)</synopsis>
+      <synopsis>SLN(cost,salvage_value,life)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Calculates the straight line depriciation for anasset based on its cost, salvage value and anticipated life.</para>
-        <para>Formula for straight line depriciation is:</para>        <para>Depriciation expense = ( cost - salvage value ) / life</para>        <para>	cost = cost of an asset when acquired (market value)	salvage_value = amount you get when asset sold at the end of life	life = anticipated life of an asset@SEEALSO=SYD</para>        <para></para>
-      </refsect1>
-    </refentry>
+        <para>Calculates the straight line depriciation for an asset based on its cost, salvage value and anticipated life.</para>
+        <para>Formula for straight line depriciation is:</para>        <para>Depriciation expense = ( cost - salvage_value ) / life</para>        <para>	@cost = cost of an asset when acquired (market value)	@salvage_value = amount you get when asset sold at the end of life	@life = anticipated life of an asset</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-SYD">SYD</link>
+      </para>
+    </refsect1>
+  </refentry>
 
 
 
@@ -6369,7 +6867,7 @@
       <refsect1>
         <title>Description</title>
         <para>LARGE returns the k-th largest value in a data set.</para>
-        <para>If data set is empty LARGE returns #NUM! error. If k<=0 or k is greater than the number of data items given LARGE returns #NUM! error.</para>
+        <para>If data set is empty LARGE returns #NUM! error. If @k <= 0 or @k is greater than the number of data items given LARGE returns #NUM! error.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-PERCENTILE">PERCENTILE</link>
@@ -6395,11 +6893,13 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The HEX2BIN function converts a binary number to a hexadecimal number.  @places is an optional field, specifying to zero pad to that number of spaces.</para>
-        <para>if places is too small or negative #NUM! error is returned.</para>
+        <para>The HEX2BIN function converts a hexadecimal number to a binary number.  @places is an optional field, specifying to zero pad to that number of spaces.</para>
+        <para>If @places is too small or negative #NUM! error is returned.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-BIN2HEX">BIN2HEX</link>
+,         <link linkend="gnumeric-HEX2OCT">HEX2OCT</link>
+,         <link linkend="gnumeric-HEX2DEC">HEX2DEC</link>
       </para>
     </refsect1>
   </refentry>
@@ -6419,7 +6919,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The GESTEP function test for if x is >= y, returning 1 if it is so, and 0 otherwise y is optional, and defaults to 0.</para>
+        <para>The GESTEP function test for if @x is >= @y, returning 1 if it is so, and 0 otherwise @y is optional, and defaults to 0.</para>
         <para>If either argument is non-numeric returns a #VALUE! error.</para>
     </refsect1>
     <refsect1><title>See also</title>
@@ -6468,7 +6968,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Converts a serial number to an hour.  The hour is returned as an integer in the range 0 (12:00 A.M.) to 23 (11:00 P.M.)</para>
+        <para>Converts a serial number to an hour.  The hour is returned as an integer in the range 0 (12:00 A.M.) to 23 (11:00 P.M.).</para>
         <para>Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string.</para>
     </refsect1>
     <refsect1><title>See also</title>
@@ -6495,8 +6995,8 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Computes the factorial of x. ie, x!</para>
-        <para>Performing this function on a string or empty cell returns an error</para>        <para></para>
+        <para>Computes the factorial of @x. ie, @x!</para>
+        <para>Performing this function on a string or empty cell returns an error.</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>      </para>
@@ -6570,9 +7070,13 @@
       <refsect1>
         <title>Description</title>
         <para>DOLLARFR converts a decimal dollar price into a dollar price expressed as a fraction. </para>
-        <para>If fraction is non-integer it is truncated. If fraction<=0 DOLLARDE returns #NUM! error. @SEEALSO=DOLLARDE</para>        <para></para>
-      </refsect1>
-    </refentry>
+        <para>If @fraction is non-integer it is truncated. If @fraction <= 0 DOLLARDE returns #NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-DOLLARDE">DOLLARDE</link>
+      </para>
+    </refsect1>
+  </refentry>
 
 
 
@@ -6589,11 +7093,13 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The OCT2HEX function converts a binary number to a hexadecimal number.  @places is an optional field, specifying to zero pad to that number of spaces.</para>
-        <para>if places is too small or negative #NUM! error is returned.</para>
+        <para>The OCT2HEX function converts an octal number to a hexadecimal number.  @places is an optional field, specifying to zero pad to that number of spaces.</para>
+        <para>If @places is too small or negative #NUM! error is returned.</para>
     </refsect1>
     <refsect1><title>See also</title>
-      <para>        <link linkend="gnumeric-OCT2HEX">OCT2HEX</link>
+      <para>        <link linkend="gnumeric-HEX2OCT">HEX2OCT</link>
+,         <link linkend="gnumeric-OCT2BIN">OCT2BIN</link>
+,         <link linkend="gnumeric-OCT2DEC">OCT2DEC</link>
       </para>
     </refsect1>
   </refentry>
@@ -6614,7 +7120,7 @@
       <refsect1>
         <title>Description</title>
         <para>Computes the number of combinations.</para>
-        <para>Performing this function on a non-integer or a negative number returns an error. Also if n is less than k returns an error.</para>        <para></para>
+        <para>Performing this function on a non-integer or a negative number returns an error. Also if @n is less than @k returns an error.</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>      </para>
@@ -6660,11 +7166,36 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Use the IF statement to evaluate conditionally other expressions IF evaluates @condition.  If @condition returns a non-zero value the result of the IF expression is the @if-true expression, otherwise IF evaluates to the value of @if-false.If ommitted if-true defaults to TRUE and if-false to FALSE.</para>
+        <para>Use the IF statement to evaluate conditionally other expressions IF evaluates @condition.  If @condition returns a non-zero value the result of the IF expression is the @if-true expression, otherwise IF evaluates to the value of @if-false. If ommitted @if-true defaults to TRUE and @if-false to FALSE.</para>
 
     </refsect1>
     <refsect1><title>See also</title>
       <para>      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-XNPV">XNPV</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>XNPV</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>XNPV(rate,values,dates)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>XNPV calculates the net present value of an investment.  The schedule of the cash flows is given in @dates array.  The first date indicates the beginning of the payment schedule.  @rate is the interest rate and @values are the payments. </para>
+        <para>If @values and @dates contain unequal number of values, XNPV returns the #NUM error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-NPV">NPV</link>
+,         <link linkend="gnumeric-PV">PV</link>
+      </para>
     </refsect1>
   </refentry>
 
@@ -6687,7 +7218,7 @@
 
     </refsect1>
     <refsect1><title>See also</title>
-      <para>        <link linkend="gnumeric-IMEXP">IMEXP</link>
+      <para>        <link linkend="gnumeric-IMPOWER">IMPOWER</link>
       </para>
     </refsect1>
   </refentry>
@@ -6707,7 +7238,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>COUNTIF function counts the number of cells in the given range that meet the given criteria. </para>
+        <para>COUNTIF function counts the number of cells in the given @range that meet the given @criteria. </para>
 
     </refsect1>
     <refsect1><title>See also</title>
@@ -6732,14 +7263,38 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The ACOSH  function  calculates  the inverse hyperbolic cosine of x; that is the value whose hyperbolic cosine is x. If x is less than 1.0, acosh() returns the error  'acosh - domain error'</para>
+        <para>The ACOSH  function  calculates  the inverse hyperbolic cosine of @x; that is the value whose hyperbolic cosine is @x. If @x is less than 1.0, acosh() returns the error  'acosh - domain error'</para>
         <para>Performing this function on a string or empty cell simply does nothing. This function only takes one argument.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-ACOS">ACOS</link>
+,         <link linkend="gnumeric-ASINH">ASINH</link>
 ,         <link linkend="gnumeric-DEGREES">DEGREES</link>
 ,         <link linkend="gnumeric-RADIANS">RADIANS</link>
       </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-TRUNC">TRUNC</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>TRUNC</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>TRUNC(number[,digits])</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The TRUNC function returns the value of @number truncated to the number of digits specified.  If @digits is omitted then @digits defaults to zero.</para>
+        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>      </para>
     </refsect1>
   </refentry>
 
@@ -6774,22 +7329,23 @@
 
   <refentry>
     <refmeta>
-      <refentrytitle><anchor id="gnumeric-TRUNC">TRUNC</refentrytitle><refmiscinfo></refmiscinfo>
+      <refentrytitle><anchor id="gnumeric-TRANSPOSE">TRANSPOSE</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
-      <refname>TRUNC</refname>
+      <refname>TRANSPOSE</refname>
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>TRUNC(number[,digits])</synopsis>
+      <synopsis>TRANSPOSE(matrix)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The TRUNC function returns the value of @number truncated to the number of digits specified.  If @digits is omitted then @digits defaults to zero.</para>
-        <para></para>
+        <para>TRANSPOSE function returns the transpose of the input @matrix.</para>
+
     </refsect1>
     <refsect1><title>See also</title>
-      <para>      </para>
+      <para>        <link linkend="gnumeric-MMULT">MMULT</link>
+      </para>
     </refsect1>
   </refentry>
 
@@ -6907,7 +7463,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>INFO Returns information about the current operating environment. </para>
+        <para>INFO returns information about the current operating environment. </para>
 
     </refsect1>
     <refsect1><title>See also</title>
@@ -6959,6 +7515,8 @@
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-IMEXP">IMEXP</link>
+,         <link linkend="gnumeric-IMLOG2">IMLOG2</link>
+,         <link linkend="gnumeric-IMLOG10">IMLOG10</link>
       </para>
     </refsect1>
   </refentry>

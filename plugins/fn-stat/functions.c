@@ -3330,6 +3330,7 @@ static char *help_trend = {
 	   "If @known_x's is omitted, an array {1, 2, 3, ...} is used. "
 	   "If @known_y's and @known_x's have unequal number of data points, "
 	   "TREND returns #NUM! error. "
+	   "\n"
 	   "@SEEALSO=LINEST")
 };
 
