@@ -1380,7 +1380,7 @@ workbook_sheet_rename (Workbook *wb,
 }
 
 /**
- * workbook_sheet_:
+ * workbook_sheet_change_protection:
  * @wb:          workbook to look for
  * @sheets   :   list of sheet indices (ignore -1)
  * @locks    :   list of new locks
@@ -1405,6 +1405,38 @@ workbook_sheet_change_protection  (Workbook *wb,
 			sheet->is_protected = GPOINTER_TO_INT (locks->data);
 		sheets = sheets->next;
 		locks = locks->next;
+	}
+	return FALSE;
+	
+}
+
+/**
+ * workbook_sheet_change_visibility:
+ * @wb:          workbook to look for
+ * @sheets   :   list of sheet indices (ignore -1)
+ * @visibility:  list of new visibility
+ *
+ * Adjusts the visibility
+ *
+ * Returns FALSE when it was successful
+ **/
+gboolean    
+workbook_sheet_change_visibility  (Workbook *wb,
+				   GSList *sheets,
+				   GSList *visibility)
+{
+	g_return_val_if_fail (g_slist_length (sheets) 
+			      == g_slist_length (visibility), 
+			      TRUE);
+
+	while (sheets) {
+		Sheet *sheet = workbook_sheet_by_index 
+			(wb, GPOINTER_TO_INT (sheets->data));
+		if (sheet != NULL)
+			sheet_set_visibility (sheet, 
+					      GPOINTER_TO_INT (visibility->data));
+		sheets = sheets->next;
+		visibility = visibility->next;
 	}
 	return FALSE;
 	

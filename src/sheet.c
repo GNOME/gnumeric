@@ -217,6 +217,7 @@ sheet_new (Workbook *wb, char const *name)
 	sheet->hide_col_header = FALSE;
 	sheet->hide_row_header = FALSE;
 	sheet->is_protected = FALSE;
+	sheet->is_visible = TRUE;
 	sheet->display_outlines = TRUE;
 	sheet->outline_symbols_below = TRUE;
 	sheet->outline_symbols_right = TRUE;
@@ -4150,3 +4151,17 @@ sheet_toggle_show_formula (Sheet *sheet)
 	sheet_adjust_preferences (sheet, TRUE, FALSE);
 }
 
+void	  
+sheet_set_visibility	 (Sheet *sheet, gboolean visible)
+{
+	g_return_if_fail (sheet != NULL);
+
+	if (sheet->is_visible == visible)
+		return;
+
+	sheet->is_visible = visible;
+	sheet_set_dirty (sheet, TRUE);
+
+	/* FIXME: just setting this is clearly not enough, we need */
+	/*        to cause the sheet to be hidden too! */
+}

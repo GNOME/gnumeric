@@ -1,3 +1,21 @@
+2004-05-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/application.c: add "Gnumeric_Visible" icon
+	* src/pixmaps/visible.png: new
+	* src/pixmaps/Makefile.am: include src/pixmaps/visible.png
+	* src/commands.h (cmd_reorganize_sheets): add arguments
+	* src/commands.c: add NULL arguments to all calls to
+	  cmd_reorganize_sheets throughout.
+	(cmd_reorganize_sheets_*): handle visibility changes 
+	* src/sheet.h (sheet_set_visibility): new
+	(sheet): add is_visible field
+	* src/sheet.c (sheet_set_visibility): new
+	(sheet_new): initalize is_visible field
+	* src/workbook-control-gui.c: add NULL arguments to all calls to 
+	  cmd_reorganize_sheets
+	* src/workbook.h (workbook_sheet_change_visibility): new
+	* src/workbook.c (workbook_sheet_change_visibility): new
+
 2004-05-24  Morten Welinder  <terra@gnome.org>
 
 	* src/expr.c (negate_value): New function, extracted from

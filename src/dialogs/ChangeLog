@@ -1,5 +1,11 @@
 2004-05-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-sheet-order.c: add handling of "visible" column 
+	  throughout
+	(cb_toggled_visible) : new
+	
+2004-05-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* sheet-order.glade: increase default width
 
 2004-05-24  Andreas J. Guelzow <aguelzow@taliesin.ca>

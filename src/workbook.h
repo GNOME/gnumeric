@@ -52,6 +52,9 @@ gboolean    workbook_sheet_rename_check  (Workbook *wb,
 gboolean    workbook_sheet_change_protection  (Workbook *wb,
 					       GSList *sheets,
 					       GSList *locks);
+gboolean    workbook_sheet_change_visibility  (Workbook *wb,
+					       GSList *sheets,
+					       GSList *visibility);
 
 unsigned    workbook_find_command	(Workbook *wb,
 					 gboolean is_undo, gpointer cmd);

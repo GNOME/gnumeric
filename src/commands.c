@@ -4268,6 +4268,9 @@ typedef struct {
 	GSList      *protection_changed;
 	GSList      *new_locks;
 	GSList      *old_locks;
+	GSList      *visibility_changed;
+	GSList      *new_visibility;
+	GSList      *old_visibility;
 	guint         new_sheet_start;
 	guint         new_sheet_count;
 } CmdReorganizeSheets;
@@ -4489,6 +4492,12 @@ cmd_reorganize_sheets_undo (GnmCommand *cmd, WorkbookControl *wbc)
 		    (me->wb, me->protection_changed, me->old_locks)) 
 			return TRUE;
 	}
+	/* undo changing visibility */
+	if (me->visibility_changed) {
+		if (workbook_sheet_change_visibility  
+		    (me->wb, me->visibility_changed, me->old_visibility)) 
+			return TRUE;
+	}
 
 	/* undo changing colors */
 	if (me->color_changed) {
@@ -4580,6 +4589,12 @@ cmd_reorganize_sheets_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		    (me->wb, me->protection_changed, me->new_locks)) 
 			return TRUE;
 	}
+	/* changing visibility */
+	if (me->visibility_changed) {
+		if (workbook_sheet_change_visibility  
+		    (me->wb, me->visibility_changed, me->new_visibility)) 
+			return TRUE;
+	}
 
         /* reordering */
 	if (me->new_order) {
@@ -4634,6 +4649,15 @@ cmd_reorganize_sheets_finalize (GObject *cmd)
 
 	g_slist_free (me->old_locks);
 	me->old_locks = NULL;
+
+	g_slist_free (me->visibility_changed);
+	me->visibility_changed = NULL;
+
+	g_slist_free (me->new_visibility);
+	me->new_visibility = NULL;
+
+	g_slist_free (me->old_visibility);
+	me->old_visibility = NULL;
 
 	g_slist_free (me->deleted_sheets);
 	me->deleted_sheets = NULL;
@@ -4694,7 +4718,8 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *new_order,
 		       GSList *changed_names, GSList *new_names, GSList *deleted_sheets,
 		       GSList *color_changed, GSList *new_colors_back,
 		       GSList *new_colors_fore,
-		       GSList *protection_changed, GSList *new_locks)
+		       GSList *protection_changed, GSList *new_locks,
+		       GSList *visibility_changed, GSList *new_visibility)
 {
 	GObject *obj;
 	CmdReorganizeSheets *me;
@@ -4720,6 +4745,9 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *new_order,
 	me->protection_changed = protection_changed;
 	me->new_locks = new_locks;
 	me->old_locks = NULL;
+	me->visibility_changed = visibility_changed;
+	me->new_visibility = new_visibility;
+	me->old_visibility = NULL;
 	me->deleted_sheets = deleted_sheets;
 	me->deleted_sheets_data = NULL;
 	me->new_sheet_start = workbook_sheet_count (wb);
@@ -4769,6 +4797,15 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *new_order,
 	}
 	me->old_locks = g_slist_reverse (me->old_locks);
 
+	the_sheets = visibility_changed;
+	while (the_sheets) {
+		Sheet *sheet = workbook_sheet_by_index (wb, GPOINTER_TO_INT (the_sheets->data));
+		me->old_visibility = g_slist_prepend (me->old_visibility, GINT_TO_POINTER (
+							 (sheet == NULL) || sheet->is_visible));
+		the_sheets = the_sheets->next;
+	}
+	me->old_visibility = g_slist_reverse (me->old_visibility);
+
 	me->cmd.sheet = NULL;
 	me->cmd.size = 1 + g_slist_length (color_changed) + g_slist_length (changed_names) + 1000 * g_slist_length (deleted_sheets);
 
@@ -4793,6 +4830,8 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *new_order,
 		if (deleted_sheets->next == NULL)
 			selector += (1 << 6);
 	}
+	if (visibility_changed != NULL)
+		selector += (1 << 7);
 
 
 	switch (selector) {
@@ -4820,6 +4859,9 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *new_order,
 		break;
 	case ((1 << 5) + (1 << 6)):
 		me->cmd.cmd_descriptor = g_strdup (_("Delete a sheet"));
+		break;
+	case (1 << 7):
+		me->cmd.cmd_descriptor = g_strdup (_("Changing Sheet Visibility"));
 		break;
 	default:
 		me->cmd.cmd_descriptor = g_strdup (_("Reorganizing Sheets"));
@@ -4874,7 +4916,8 @@ cmd_rename_sheet (WorkbookControl *wbc, Sheet *sheet,
 	new_names = g_slist_prepend (new_names, g_strdup (new_name));
 
 	return cmd_reorganize_sheets (wbc, NULL, changed_names, new_names,
-				      NULL, NULL, NULL, NULL, NULL, NULL);
+				      NULL, NULL, NULL, NULL, NULL, NULL, 
+				      NULL, NULL);
 }
 
 /******************************************************************/

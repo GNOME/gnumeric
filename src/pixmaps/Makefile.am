@@ -128,6 +128,7 @@ IMAGES = @STRIP_BEGIN@ 						\
 	protection_no_24.png 		\
 	protection_yes_24.png 		\
 	protection_yes_48.png 		\
+	visible.png			\
 	\
 	cursor_cross.xpm		\
 	sheet-move-marker.xpm		\
@@ -298,6 +299,7 @@ VARIABLES = @STRIP_BEGIN@ 									\
 	gnm_protection_no			$(srcdir)/protection_no_24.png 			\
 	gnm_protection_yes			$(srcdir)/protection_yes_24.png 		\
 	gnm_protection_yes_48 		        $(srcdir)/protection_yes_48.png 		\
+	gnm_visible				$(srcdir)/visible.png \
 	\
 	gnm_cursor_cross			$(srcdir)/cursor_cross.xpm			\
 	sheet_move_marker			$(srcdir)/sheet-move-marker.xpm			\

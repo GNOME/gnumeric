@@ -433,7 +433,7 @@ insert_sheet_at (WorkbookControlGUI *wbcg, gint before)
 	cmd_reorganize_sheets (WORKBOOK_CONTROL (wbcg), new_order,
 			       g_slist_prepend (NULL, GINT_TO_POINTER (-1)),
 			       g_slist_prepend (NULL, NULL),
-			       NULL, NULL, NULL, NULL, NULL, NULL);
+			       NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 }
 
 
@@ -450,7 +450,7 @@ wbcg_append_sheet (GtkWidget *unused, WorkbookControlGUI *wbcg)
 	cmd_reorganize_sheets (WORKBOOK_CONTROL (wbcg), NULL,
 			       g_slist_prepend (NULL, GINT_TO_POINTER (-1)),
 			       g_slist_prepend (NULL, NULL),
-			       NULL, NULL, NULL, NULL, NULL, NULL);
+			       NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 }
 
 static void
@@ -477,7 +477,7 @@ scg_delete_sheet_if_possible (GtkWidget *ignored, SheetControlGUI *scg)
 			(WORKBOOK_CONTROL (scg->wbcg), NULL, NULL, NULL, 
 			 g_slist_prepend 
 			 (NULL, GINT_TO_POINTER (sc->sheet->index_in_wb)),
-			 NULL, NULL, NULL, NULL, NULL);
+			 NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 }
 
 static void
@@ -668,7 +668,7 @@ cb_sheet_label_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 		/* Reorder the sheets! */
 		cmd_reorganize_sheets (WORKBOOK_CONTROL (wbcg),
 			new_order, NULL, NULL, NULL, NULL, NULL, NULL,
-			NULL, NULL);
+			NULL, NULL, NULL, NULL);
 	} else {
 
 		g_return_if_fail (IS_SHEET_CONTROL_GUI (data->data));

@@ -7,6 +7,7 @@ Andreas:
 	* Save current sheet as csv (rather than first sheet)
 	http://bugzilla.gnome.org/show_bug.cgi?id=140820
 	* Fix default colour handling in manage sheet dialog
+	* Add interface to allow the visibility of sheets to be toggled
 
 Christian Neumair:
 	* Put delete actions from edit main menu into their own submenu.

@@ -73,6 +73,8 @@ typedef struct {
 	GdkPixbuf *image_padlock;
 	GdkPixbuf *image_padlock_no;
 
+	GdkPixbuf *image_visible;
+
 	gboolean initial_colors_set;
 	GSList *old_order;
 
@@ -82,6 +84,8 @@ typedef struct {
 enum {
 	SHEET_LOCKED,
 	SHEET_LOCK_IMAGE,
+	SHEET_VISIBLE,
+	SHEET_VISIBLE_IMAGE,
 	SHEET_NAME,
 	SHEET_NEW_NAME,
 	SHEET_POINTER,
@@ -256,6 +260,30 @@ cb_toggled_lock (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 	gtk_tree_path_free (path);
 }
 
+static void
+cb_toggled_visible (G_GNUC_UNUSED GtkCellRendererToggle *cell,
+		 gchar                 *path_string,
+		 gpointer               data)
+{
+	SheetManager *state = data;
+	GtkTreeModel *model = GTK_TREE_MODEL (state->model);
+	GtkTreeIter iter;
+	GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
+	gboolean value;
+
+	gtk_tree_model_get_iter (model, &iter, path);
+	gtk_tree_model_get (model, &iter, SHEET_VISIBLE, &value, -1);
+
+	if (value) {
+		gtk_list_store_set (GTK_LIST_STORE (model), &iter, SHEET_VISIBLE, FALSE,
+				   SHEET_VISIBLE_IMAGE, NULL, -1);
+	} else {
+		gtk_list_store_set (GTK_LIST_STORE (model), &iter, SHEET_VISIBLE, TRUE,
+				   SHEET_VISIBLE_IMAGE, state->image_visible, -1);
+	}
+	gtk_tree_path_free (path);
+}
+
 /* Add all of the sheets to the sheet_list */
 static void
 populate_sheet_list (SheetManager *state)
@@ -269,6 +297,8 @@ populate_sheet_list (SheetManager *state)
 	GtkCellRenderer *renderer;
 
 	state->model = gtk_list_store_new (NUM_COLMNS,
+					   G_TYPE_BOOLEAN,
+					   GDK_TYPE_PIXBUF,
 					   G_TYPE_BOOLEAN,
 					   GDK_TYPE_PIXBUF,
 					   G_TYPE_STRING,
@@ -298,6 +328,9 @@ populate_sheet_list (SheetManager *state)
 				    SHEET_LOCKED, sheet->is_protected,
 				    SHEET_LOCK_IMAGE, sheet->is_protected ?
 				    state->image_padlock : state->image_padlock_no,
+				    SHEET_VISIBLE, sheet->is_visible,
+				    SHEET_VISIBLE_IMAGE, sheet->is_visible ? 
+				    state->image_visible : NULL,
 				    SHEET_NAME, sheet->name_unquoted,
 				    SHEET_NEW_NAME, "",
 				    SHEET_POINTER, sheet,
@@ -321,6 +354,17 @@ populate_sheet_list (SheetManager *state)
 							   renderer,
 							   "active", SHEET_LOCKED,
 							   "pixbuf", SHEET_LOCK_IMAGE,
+							   NULL);
+	gtk_tree_view_append_column (state->sheet_list, column);
+
+	renderer = gnumeric_cell_renderer_toggle_new ();
+	g_signal_connect (G_OBJECT (renderer),
+		"toggled",
+		G_CALLBACK (cb_toggled_visible), state);
+	column = gtk_tree_view_column_new_with_attributes ("",
+							   renderer,
+							   "active", SHEET_VISIBLE,
+							   "pixbuf", SHEET_VISIBLE_IMAGE,
 							   NULL);
 	gtk_tree_view_append_column (state->sheet_list, column);
 
@@ -367,6 +411,7 @@ cb_item_move (SheetManager *state, gint direction)
 	gboolean is_deleted;
 	gboolean is_editable;
 	gboolean is_locked;
+	gboolean is_visible;
 	GdkColor *back, *fore;
 	GtkTreeSelection *selection = gtk_tree_view_get_selection (state->sheet_list);
 
@@ -375,6 +420,7 @@ cb_item_move (SheetManager *state, gint direction)
 
 	gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
 			    SHEET_LOCKED, &is_locked,
+			    SHEET_VISIBLE, &is_visible,
 			    SHEET_NAME, &name,
 			    SHEET_NEW_NAME, &new_name,
 			    IS_EDITABLE_COLUMN, &is_editable,
@@ -392,6 +438,9 @@ cb_item_move (SheetManager *state, gint direction)
 			    SHEET_LOCKED, is_locked,
 			    SHEET_LOCK_IMAGE, is_locked ?
 			    state->image_padlock : state->image_padlock_no,
+			    SHEET_VISIBLE, is_visible,
+			    SHEET_VISIBLE_IMAGE, is_visible ? 
+			    state->image_visible : NULL,
 			    SHEET_NAME, name,
 			    SHEET_NEW_NAME, new_name,
 			    IS_EDITABLE_COLUMN, is_editable,
@@ -465,6 +514,8 @@ cb_add_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 	gtk_list_store_set (state->model, &iter,
 			    SHEET_LOCKED, FALSE,
 			    SHEET_LOCK_IMAGE, state->image_padlock_no,
+			    SHEET_VISIBLE, TRUE,
+			    SHEET_VISIBLE_IMAGE, state->image_visible,
 			    SHEET_NAME, "",
 			    SHEET_NEW_NAME, name,
 			    SHEET_POINTER, NULL,
@@ -555,8 +606,11 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 	GSList *new_colors_fore  = NULL; /* list of new fore colours         */
 
 	GSList *protection_changed  = NULL;/* list of indices of sheets to be*/
-                                         /* with chnaged lock status         */
+                                         /* with changed lock status         */
 	GSList *new_locks  = NULL;       /* that lock status                 */
+	GSList *visibility_changed  = NULL;/* list of indices of sheets to be*/
+                                         /* with changed visibility status   */
+	GSList *new_visibility  = NULL;  /* that visibility status           */
 
 	Sheet *this_sheet;
 	int this_sheet_idx;
@@ -566,15 +620,16 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 	gint i = 0;
 	GSList *this_new, *list;
 	gboolean order_has_changed = FALSE;
-	gboolean is_deleted, is_locked;
+	gboolean is_deleted, is_locked, is_visible;
 	GdkColor *back, *fore;
-	gboolean fore_changed, back_changed, lock_changed;
+	gboolean fore_changed, back_changed, lock_changed, vis_changed, one_is_visible = FALSE;
 	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (state->wbcg));
 
 	while (gtk_tree_model_iter_nth_child  (GTK_TREE_MODEL (state->model),
 					       &this_iter, NULL, n)) {
 		gtk_tree_model_get (GTK_TREE_MODEL (state->model), &this_iter,
 				    SHEET_LOCKED, &is_locked,
+				    SHEET_VISIBLE, &is_visible,
 				    SHEET_POINTER, &this_sheet,
 				    SHEET_NAME, &old_name,
 				    SHEET_NEW_NAME, &new_name,
@@ -635,6 +690,17 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 					(new_locks,
 					 GINT_TO_POINTER (is_locked));
 			}
+			one_is_visible = one_is_visible || is_visible;
+			vis_changed = (this_sheet == NULL) ||
+				(is_visible != this_sheet->is_visible);
+			if (vis_changed) {
+				visibility_changed = g_slist_prepend 
+					(visibility_changed,
+					 GINT_TO_POINTER (this_sheet_idx));
+				new_visibility = g_slist_prepend 
+					(new_visibility,
+					 GINT_TO_POINTER (is_visible));
+			}
 		} else {
 			deleted_sheets = g_slist_prepend (deleted_sheets, 
 				 GINT_TO_POINTER (this_sheet_idx));
@@ -654,11 +720,18 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 
 	protection_changed = g_slist_reverse (protection_changed);
 	new_locks = g_slist_reverse (new_locks);
+	visibility_changed = g_slist_reverse (visibility_changed);
+	new_visibility = g_slist_reverse (new_visibility);
 
 	new_order = g_slist_reverse (new_order);
 	new_names = g_slist_reverse (new_names);
 	changed_names = g_slist_reverse (changed_names);
 
+	if (!one_is_visible) {
+		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
+				 _("At least one sheet must remain visible!"));
+		goto cleanup;
+	}
 	if (new_order == NULL) {
 		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
 				 _("You may not delete all sheets in a workbook!"));
@@ -693,14 +766,16 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 	wbcg_edit_detach_guru (state->wbcg);
 
 	if ((new_order == NULL && changed_names == NULL && color_changed == NULL
-	     && protection_changed == NULL && deleted_sheets == NULL)
+	     && protection_changed == NULL && visibility_changed == NULL 
+	     && deleted_sheets == NULL)
 	    || !cmd_reorganize_sheets (WORKBOOK_CONTROL (state->wbcg),
 				       new_order,
 				       changed_names, new_names, 
 				       deleted_sheets,
 				       color_changed, new_colors_back, 
 				       new_colors_fore,
-				       protection_changed, new_locks)) {
+				       protection_changed, new_locks,
+				       visibility_changed, new_visibility)) {
 		gtk_widget_destroy (GTK_WIDGET (state->dialog));
 	} else {
 		wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
@@ -738,6 +813,10 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 	protection_changed = NULL;
 	g_slist_free (new_locks);
 	new_locks = NULL;
+	g_slist_free (visibility_changed);
+	visibility_changed = NULL;
+	g_slist_free (new_visibility);
+	new_visibility = NULL;
 	return;
 }
 
@@ -757,6 +836,8 @@ cb_sheet_order_destroy (SheetManager *state)
 	state->image_padlock = NULL;
 	g_object_unref (state->image_padlock_no);
 	state->image_padlock_no = NULL;
+	g_object_unref (state->image_visible);
+	state->image_visible = NULL;
 
 	if (state->old_order != NULL) {
 		g_slist_free (state->old_order);
@@ -772,6 +853,7 @@ dialog_sheet_order_update_sheet_order (SheetManager *state)
 	gboolean is_deleted;
 	gboolean is_editable;
 	gboolean is_locked;
+	gboolean is_visible;
 	GdkColor *back, *fore;
 	GtkTreeIter iter;
 	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (state->wbcg));
@@ -804,6 +886,7 @@ dialog_sheet_order_update_sheet_order (SheetManager *state)
 		selected = gtk_tree_selection_iter_is_selected (sel, &iter);
 		gtk_tree_model_get (model, &iter,
 			SHEET_LOCKED, &is_locked,
+			SHEET_VISIBLE, &is_visible,
 			SHEET_NAME, &name,
 			SHEET_NEW_NAME, &new_name,
 			IS_EDITABLE_COLUMN, &is_editable,
@@ -815,17 +898,20 @@ dialog_sheet_order_update_sheet_order (SheetManager *state)
 		gtk_list_store_remove (state->model, &iter);
 		gtk_list_store_insert (state->model, &iter, i);
 		gtk_list_store_set (state->model, &iter,
-			SHEET_LOCKED, is_locked,
-			SHEET_LOCK_IMAGE, is_locked ?
-			state->image_padlock : state->image_padlock_no,
-			SHEET_NAME, name,
-			SHEET_NEW_NAME, new_name,
-			IS_EDITABLE_COLUMN, is_editable,
-			SHEET_POINTER, sheet_model,
-			IS_DELETED, is_deleted,
-			BACKGROUND_COLOUR, back,
-			FOREGROUND_COLOUR, fore,
-			-1);
+				    SHEET_LOCKED, is_locked,
+				    SHEET_LOCK_IMAGE, is_locked ?
+				    state->image_padlock : state->image_padlock_no,
+				    SHEET_VISIBLE, is_visible,
+				    SHEET_VISIBLE_IMAGE, is_visible ? 
+				    state->image_visible : NULL,
+				    SHEET_NAME, name,
+				    SHEET_NEW_NAME, new_name,
+				    IS_EDITABLE_COLUMN, is_editable,
+				    SHEET_POINTER, sheet_model,
+				    IS_DELETED, is_deleted,
+				    BACKGROUND_COLOUR, back,
+				    FOREGROUND_COLOUR, fore,
+				    -1);
 		if (back)
 			gdk_color_free (back);
 		if (fore)
@@ -941,7 +1027,10 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
                                              "Gnumeric_Protection_No",
                                              GTK_ICON_SIZE_LARGE_TOOLBAR,
                                              "Gnumeric-Sheet-Manger");
-
+	state->image_visible = gtk_widget_render_icon (state->dialog,
+                                             "Gnumeric_Visible",
+                                             GTK_ICON_SIZE_LARGE_TOOLBAR,
+                                             "Gnumeric-Sheet-Manger");
 	/* Listen for changes in the sheet order. */
 	wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet_order_changed_listener = g_signal_connect (G_OBJECT (wb),

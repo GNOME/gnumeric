@@ -45,6 +45,7 @@ struct _Sheet {
 	gboolean    hide_col_header;
 	gboolean    hide_row_header;
 	gboolean    is_protected;
+	gboolean    is_visible;
 
 	gboolean    display_outlines;
 	gboolean    outline_symbols_below;
@@ -85,6 +86,8 @@ void	  sheet_set_tab_color	 (Sheet *sheet, GnmColor *tab_color,
 
 void      sheet_set_zoom_factor	 (Sheet *sheet, double factor,
 				  gboolean force, gboolean respan);
+
+void	  sheet_set_visibility	 (Sheet *sheet, gboolean visible);
 
 /* GnmCell management */
 GnmCell  *sheet_cell_get	 (Sheet const *sheet, int col, int row);
