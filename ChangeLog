@@ -1,3 +1,22 @@
+2002-08-04  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/func.[ch]
+	(struct _FunctionDefinition): Added ref_notify
+	(fn_def_new): Get extra (optional) argument and copy it to ref_notify
+	(function_add_args, function_add_nodes, function_add_name_only):
+	Get extra arg and pass it to fn_def_new.
+	(func_ref): Call ->ref_notify on every change of refcount from 0 to 1
+	(func_unref): ... and from 1 to 0
+
+	* src/plugin-service.c:
+	(plugin_service_function_group_func_ref_notify): New,
+	call gnm_plugin_use_(un)ref when provided function is (de)referenced.
+	(plugin_service_function_group_activate): Removed FIXME, pass
+	extra argument to function_add_name_only.
+
+	* func-builtin.c
+	(func_builtin_init): Adjusted to function_add_* signature changes.
+
 2002-08-05  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* configure.in (AC_OUTPUT): added plugins/uihello/Makefile

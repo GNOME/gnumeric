@@ -306,6 +306,9 @@ func_ref (FunctionDefinition *fn_def)
 	g_return_if_fail (fn_def != NULL);
 
 	fn_def->ref_count++;
+	if (fn_def->ref_count == 1 && fn_def->ref_notify != NULL) {
+		fn_def->ref_notify (fn_def, 1);
+	}
 }
 
 void
@@ -315,6 +318,9 @@ func_unref (FunctionDefinition *fn_def)
 	g_return_if_fail (fn_def->ref_count > 0);
 
 	fn_def->ref_count--;
+	if (fn_def->ref_count == 0 && fn_def->ref_notify != NULL) {
+		fn_def->ref_notify (fn_def, 0);
+	}
 }
 
 gint
@@ -367,7 +373,8 @@ static FunctionDefinition *
 fn_def_new (FunctionCategory *category,
 	    char const *name,
 	    char const *arg_names,
-	    char const **help)
+	    char const **help,
+	    FuncRefNotify opt_ref_notify)
 {
 	FunctionDefinition *fn_def;
 
@@ -381,6 +388,7 @@ fn_def_new (FunctionCategory *category,
 	fn_def->unlink	= NULL;
 	fn_def->user_data = NULL;
 	fn_def->ref_count = 0;
+	fn_def->ref_notify = opt_ref_notify;
 
 	if (category != NULL)
 		function_category_add_func (category, fn_def);
@@ -395,7 +403,8 @@ function_add_args (FunctionCategory *category,
 		   char const *args,
 		   char const *arg_names,
 		   char const **help,
-		   FunctionArgs fn)
+		   FunctionArgs fn,
+		   FuncRefNotify opt_ref_notify)
 {
 	static char const valid_tokens[] = "fsbraAS?|";
 	FunctionDefinition *fn_def;
@@ -409,7 +418,7 @@ function_add_args (FunctionCategory *category,
 		g_return_val_if_fail (strchr (valid_tokens, *ptr), NULL);
 	}
 
-	fn_def = fn_def_new (category, name, arg_names, help);
+	fn_def = fn_def_new (category, name, arg_names, help, opt_ref_notify);
 	if (fn_def != NULL) {
 		fn_def->fn_type = FUNCTION_ARGS;
 		fn_def->fn.args.func = fn;
@@ -425,7 +434,8 @@ function_add_nodes (FunctionCategory *category,
 		    char const *args,
 		    char const *arg_names,
 		    char const **help,
-		    FunctionNodes fn)
+		    FunctionNodes fn,
+		    FuncRefNotify opt_ref_notify)
 {
 	FunctionDefinition *fn_def;
 
@@ -434,7 +444,7 @@ function_add_nodes (FunctionCategory *category,
 		g_warning ("Arg spec for node function -- why?");
 	}
 
-	fn_def = fn_def_new (category, name, arg_names, help);
+	fn_def = fn_def_new (category, name, arg_names, help, opt_ref_notify);
 	if (fn_def != NULL) {
 		fn_def->fn_type     = FUNCTION_NODES;
 		fn_def->fn.fn_nodes = fn;
@@ -445,11 +455,12 @@ function_add_nodes (FunctionCategory *category,
 FunctionDefinition *
 function_add_name_only (FunctionCategory *category,
                         gchar const *name,
-                        FunctionGetFullInfoCallback callback)
+                        FunctionGetFullInfoCallback callback,
+                        FuncRefNotify opt_ref_notify)
 {
 	FunctionDefinition *fn_def;
 
-	fn_def = fn_def_new (category, name, NULL, NULL);
+	fn_def = fn_def_new (category, name, NULL, NULL, opt_ref_notify);
 	if (fn_def != NULL) {
 		fn_def->fn_type = FUNCTION_NAMEONLY;
 		fn_def->get_full_info_callback = callback;
@@ -492,7 +503,7 @@ function_add_placeholder (char const *name, char const *type)
 	 */
 	func = function_add_nodes (unknown_cat, g_strdup (name),
 				   0, "...", NULL,
-				   &unknownFunctionHandler);
+				   &unknownFunctionHandler, NULL);
 	unknown_functions = g_slist_prepend (unknown_functions, func);
 
 	/* WISHLIST : it would be nice to have a log if these. */

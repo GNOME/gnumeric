@@ -1069,6 +1069,20 @@ plugin_service_function_group_get_full_info_callback (
 }
 
 static void
+plugin_service_function_group_func_ref_notify  (FunctionDefinition *fn_def, int refcount)
+{
+	PluginService *service;
+
+	service = function_def_get_user_data (fn_def);
+	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (service));
+	if (refcount == 0) {
+		gnm_plugin_use_unref (service->plugin);
+	} else {
+		gnm_plugin_use_ref (service->plugin);
+	}
+}
+
+static void
 plugin_service_function_group_activate (PluginService *service, ErrorInfo **ret_error)
 {
 	PluginServiceFunctionGroup *service_function_group = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
@@ -1082,11 +1096,10 @@ plugin_service_function_group_activate (PluginService *service, ErrorInfo **ret_
 
 		fn_def = function_add_name_only (
 			service_function_group->category, fname,
-			&plugin_service_function_group_get_full_info_callback);
+			plugin_service_function_group_get_full_info_callback,
+			plugin_service_function_group_func_ref_notify);
 		function_def_set_user_data (fn_def, service);
 	);
-	/* FIXME - lock plugin for now (we need notifications from functions) */
-	gnm_plugin_use_ref (service->plugin);
 	service->is_active = TRUE;
 }
 

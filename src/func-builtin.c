@@ -137,17 +137,17 @@ func_builtin_init (void)
 
 	def = function_add_nodes (mathcat, "sum",     0,
 				  N_("number,number,"),
-				  &help_sum, gnumeric_sum);
+				  &help_sum, gnumeric_sum, NULL);
 	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
 	mathfuncs = g_slist_prepend (mathfuncs, def);
 
 	def = function_add_nodes (mathcat, "product", 0,
 				  N_("number,number,"),    
-				  &help_product, gnumeric_product);
+				  &help_product, gnumeric_product, NULL);
 	mathfuncs = g_slist_prepend (mathfuncs, def);
 
 	def = function_add_args (gnumericcat, "gnumeric_version", "",  "",
-				 &help_gnumeric_version, gnumeric_version);
+				 &help_gnumeric_version, gnumeric_version, NULL);
 	gnumericfuncs = g_slist_prepend (gnumericfuncs, def);
 }
 

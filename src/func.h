@@ -86,6 +86,8 @@ struct _FunctionEvalInfo {
 	GnmExprFunction const *func_call;
 };
 
+typedef void            (*FuncRefNotify)        (FunctionDefinition *fd,
+                                                 int refcount);
 typedef DependentFlags	(*FuncLinkHandle) 	(FunctionEvalInfo *ei);
 typedef void		(*FuncUnlinkHandle) 	(FunctionEvalInfo *ei);
 typedef gboolean (*FunctionGetFullInfoCallback) (FunctionDefinition *fn_def,
@@ -134,6 +136,7 @@ struct _FunctionDefinition {
 	gint         ref_count;
 	FunctionImplStatus	impl_status;
 	FunctionTestStatus	test_status;
+	FuncRefNotify ref_notify;
 };
 void func_ref	 (FunctionDefinition *fn_def);
 void func_unref  (FunctionDefinition *fn_def);
@@ -150,16 +153,19 @@ FunctionDefinition *function_add_args	(FunctionCategory *category,
                                          gchar const *args,
                                          gchar const *arg_names,
                                          gchar const **help,
-                                         FunctionArgs fn);
+                                         FunctionArgs fn,
+                                         FuncRefNotify opt_ref_notify);
 FunctionDefinition *function_add_nodes	(FunctionCategory *category,
                                          gchar const *name,
                                          gchar const *args,
                                          gchar const *arg_names,
                                          gchar const **help,
-                                         FunctionNodes fn);
+                                         FunctionNodes fn,
+                                         FuncRefNotify opt_ref_notify);
 FunctionDefinition *function_add_name_only (FunctionCategory *category,
                                             gchar const *name,
-                                            FunctionGetFullInfoCallback callback);
+                                            FunctionGetFullInfoCallback callback,
+                                            FuncRefNotify opt_ref_notify);
 FunctionDefinition *function_add_placeholder (gchar const *name,
                                               gchar const *type);
 
