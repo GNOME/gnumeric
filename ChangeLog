@@ -1,5 +1,9 @@
 2002-06-01  Jody Goldberg <jody@gnome.org>
 
+ 	http://bugzilla.gnome.org/show_bug.cgi?id=81897
+	* src/stf-parse.c (stf_parse_is_valid_data) : actually disable
+	  wide character checking if it is not available.
+
  	http://bugzilla.gnome.org/show_bug.cgi?id=83823
 	* gnumeric.desktop.in : Patch in preparation for gnome2
 

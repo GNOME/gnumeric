@@ -13,7 +13,6 @@ Release Critical
     - solver crash
     - how to add constraints to the solver (gui problem?)
     - apply the sensitivity patch
-    - wide char ifdef in stf http://bugzilla.gnome.org/show_bug.cgi?id=81897
     - jon kare's sorting  http://bugzilla.gnome.org/show_bug.cgi?id=82931
     - http://bugs.debian.org/148394
 

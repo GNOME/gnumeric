@@ -7,6 +7,9 @@ Almer:
 	* Fix validation entry sensitivity.
 
 Jody:
+ 	http://bugzilla.gnome.org/show_bug.cgi?id=81897
+	* Actually disable wide character checking if it is not available.
+
  	http://bugzilla.gnome.org/show_bug.cgi?id=79925
 	* Fix grab when selecting a col/row with validation failure.
 
