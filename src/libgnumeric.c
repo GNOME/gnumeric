@@ -66,7 +66,6 @@ int dependency_debugging = 0;
 int immediate_exit_flag = 0;
 int print_debugging = 0;
 gboolean initial_workbook_open_complete = FALSE;
-extern gboolean libole2_debug;
 
 static char *dump_file_name = NULL;
 static const char **startup_files = NULL;
@@ -94,11 +93,6 @@ gnumeric_popt_options[] = {
 	  N_("Enables some dependency related debugging functions"), N_("LEVEL") },
 	{ "debug_print", '\0', POPT_ARG_INT, &print_debugging, 0,
 	  N_("Enables some print debugging behavior"), N_("LEVEL") },
-
-	{ "debug_ole", '\0', POPT_ARG_NONE,
-	    &libole2_debug, 0,
-	  N_("Enables extra consistency checking while reading ole files"),
-	  NULL  },
 
 	{ "geometry", 'g', POPT_ARG_STRING, &x_geometry, 0,
 	  N_("Specify the size and location of the initial window"), N_("WIDTHxHEIGHT+XOFF+YOFF")  

@@ -45,6 +45,7 @@
 #include <gal/util/e-xml-utils.h>
 
 #define PLUGIN_INFO_FILE_NAME          "plugin.xml"
+#define PLUGIN_DEBUG 10
 
 typedef struct _PluginLoaderStaticInfo PluginLoaderStaticInfo;
 struct _PluginLoaderStaticInfo {

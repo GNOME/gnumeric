@@ -763,15 +763,18 @@ gnm_graph_setup (GnmGraph *graph, Workbook *wb)
 }
 
 /* FIXME : Should we take a CommandContext to report errors to ? */
-GnmGraph *
+/* FIXME : should take a DependentContainer when we create one
+ * so that we can handle standalone graphs.
+ */
+GObject *
 gnm_graph_new (Workbook *wb)
 {
-	GnmGraph *graph = gtk_type_new (GNUMERIC_GRAPH_TYPE);
+	GObject *graph = g_object_new (GNUMERIC_GRAPH_TYPE, NULL);
 
 	d(printf ("gnumeric : graph new %p\n", graph));
 
-	if (gnm_graph_setup (graph, wb)) {
-		gtk_object_destroy (GTK_OBJECT (graph));
+	if (gnm_graph_setup (GNM_GRAPH (graph), wb)) {
+		g_object_unref (graph);
 		return NULL;
 	}
 	return graph;

@@ -1,12 +1,13 @@
 INCLUDES = \
     -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
     -I$(top_srcdir)/src	-I$(top_builddir)/src	\
+    $(LIBOLE2_CFLAGS)				\
     $(GNUMERIC_CFLAGS)
 
 gnumeric_plugin_exceldir = $(gnumeric_plugindir)/excel
 xmldir = $(gnumeric_plugin_exceldir)
 gnumeric_plugin_excel_LTLIBRARIES = excel.la
-excel_la_LDFLAGS = -module -avoid-version
+excel_la_LDFLAGS = -module -avoid-version $(LIBOLE2_LIBS)
 excel_la_SOURCES =		\
 	boot.c			\
 	boot.h			\

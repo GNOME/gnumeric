@@ -499,7 +499,7 @@ graph_guru_state_destroy (GraphGuruState *state)
 	wbcg_edit_detach_guru (state->wbcg);
 
 	if (state->graph != NULL) {
-		gtk_object_unref (GTK_OBJECT (state->graph));
+		g_object_unref (G_OBJECT (state->graph));
 		state->graph = NULL;
 	}
 
@@ -835,7 +835,7 @@ cb_graph_guru_clicked (GtkWidget *button, GraphGuruState *state)
 		/* apply the changes in the guru back to the main graph */
 		graph_guru_apply_changes (state);
 		if (state->initial_page == 0) {
-			gtk_object_ref (GTK_OBJECT (state->graph));
+			g_object_ref (G_OBJECT (state->graph));
 			scg_mode_create_object (state->scg, SHEET_OBJECT (state->graph));
 		}
 	}
@@ -844,7 +844,7 @@ cb_graph_guru_clicked (GtkWidget *button, GraphGuruState *state)
 }
 
 static GtkWidget *
-graph_guru_init_button  (GraphGuruState *state, const char *widget_name)
+graph_guru_init_button  (GraphGuruState *state, char const *widget_name)
 {
 	GtkWidget *tmp = glade_xml_get_widget (state->gui, widget_name);
 	gtk_signal_connect (GTK_OBJECT (tmp),
@@ -1081,9 +1081,9 @@ dialog_graph_guru (WorkbookControlGUI *wbcg, GnmGraph *graph, int page)
 		g_return_if_fail (IS_GNUMERIC_GRAPH (graph));
 
 		state->graph = graph;
-		gtk_object_ref (GTK_OBJECT (state->graph));
+		g_object_ref (G_OBJECT (state->graph));
 	} else
-		state->graph = gnm_graph_new (state->wb);
+		state->graph = GNM_GRAPH (gnm_graph_new (state->wb));
 
 	if (state->graph != NULL && page == 0) {
 		GList *ptr = g_list_last (state->sheet->selections);

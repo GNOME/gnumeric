@@ -32,7 +32,6 @@ libgnomeprint-2.0 >= 1.106.0
 libgnomeprintui-2.0 >= 1.106.0
 libglade-2.0 >= 1.99.4
 libxml-2.0 >= 2.4.12
-libole2-2.0 >= 2.2.7
 ])
 AC_SUBST(GNUMERIC_LIBS)
 AC_SUBST(GNUMERIC_CFLAGS)
@@ -61,10 +60,73 @@ if test "$GCC" = "yes" -a "$set_more_warnings" != "no"; then
 	unset option
 fi
 
-dnl
-dnl Check whether we need to pass defines to get compliance with a standard
-dnl we expect.
-dnl
+dnl ****************************
+dnl MS Excel (tm) Plugin
+dnl ****************************
+try_ole=true
+excel_msg=yes
+AC_ARG_WITH(excel,
+	[--{with,without}-excel		Compile the Excel plugin],
+	if test "x$withval" = xno; then
+		try_ole=false
+		excel_msg="Disabled by request"
+	fi
+)
+if test "$try_ole" = "true"; then
+	PKG_CHECK_MODULES(LIBOLE2, [libole2-2.0 >= 2.2.7],
+		[excel_msg="yes"],
+		[excel_msg="NO.  libole2 problem"])
+fi
+AM_CONDITIONAL(WITH_EXCEL, test x"$excel_msg" = "xyes")
+AC_SUBST(LIBOLE2_CFLAGS)
+AC_SUBST(LIBOLE2_LIBS)
+
+dnl ****************************
+dnl GDA Plugin
+dnl ****************************
+try_gda=true
+gda_msg=yes
+AC_ARG_WITH(gda,
+	[--{with,without}-gda      Compile the Gnome Database Access plugin],
+	if test "x$withval" = xyes; then
+		try_gda=true
+		gda_msg="Disabled by request"
+	fi
+)
+if test "$try_gda" = "true"; then
+	PKG_CHECK_MODULES(GDA, [libgda >= 0.8.102 ],
+		[gda_msg=yes],
+		[gda_msg="NO.  libdga problem"])
+fi
+AM_CONDITIONAL(WITH_GDA, test x"$gda_msg" = "xyes")
+AC_SUBST(GDA_CFLAGS)
+AC_SUBST(GDA_LIBS)
+
+dnl ****************************
+dnl GB Plugin
+dnl ****************************
+#try_gda=true
+#gb_msg=yes
+try_gda=no
+gb_msg="Temporarily disabled during gnome2 porting"
+AC_ARG_WITH(gb,
+	[--{with,without}-gda      Compile the Gnome Database Access plugin],
+	if test "x$withval" = xyes; then
+		#try_gda=true
+		gb_msg="We are not joking, it is temporarily disabled during gnome2 porting"
+		#gb_msg="Disabled by request"
+	fi
+)
+if test "$try_gb" = "true"; then
+	PKG_CHECK_MODULES(GB, [libgb == 1.17 ],
+		[gb_msg=yes],
+		[gb_msg="NO.  gb problem"])
+fi
+AM_CONDITIONAL(WITH_GB, test x"$gb_msg" = "xyes")
+AC_SUBST(GB_CFLAGS)
+AC_SUBST(GB_LIBS)
+
+dnl ****************************
 
 dnl src/functions/fn-math.c uses M_PI
 dnl src/plugin-util.c uses caddr_t
@@ -91,7 +153,7 @@ guile_msg="temporarily disabled in gnome2 branch"
 enable_guile=false
 AC_ARG_WITH(guile,
 	[--{with,without}-guile   Compile with Guile support or without it],
-	if test x$withval = xyes; then
+	if test "x$withval" = xyes; then
 		try_guile=true
 	fi
 )
@@ -349,11 +411,6 @@ AC_SUBST(gnumeric_gladedir)
 AC_SUBST(gnumeric_autoformatdir)
 AC_SUBST(gnumeric_bonobo_enabled)
 
-have_gb=false
-AM_CONDITIONAL(WITH_GB, $have_gb)
-AC_SUBST(GB_CFLAGS)
-AC_SUBST(GB_LIBS)
-
 dnl ******************************
 dnl Check for Evolution
 dnl ******************************
@@ -361,7 +418,7 @@ try_evolution=false
 evolution=no
 AC_ARG_WITH(evolution,
 	[--{with,without}-evolution Use evolution to send spreadsheets (bonobo needed).],
-	if test x$withval = xyes; then
+	if test "x$withval" = xyes; then
 		try_evolution=true
 	fi
 )
@@ -383,7 +440,7 @@ dnl applix_shelf_msg=no
 dnl have_applix_shelf=false
 dnl AC_ARG_WITH(applix_shelf,
 dnl	[--{with,without}-shelf   Compile with Applix SHELF support or without it],
-dnl	if test x$withval = xyes; then
+dnl	if test "x$withval" = xyes; then
 dnl		try_applix_shelf=true
 dnl	fi
 dnl)
@@ -394,30 +451,9 @@ BONOBO_ACTIVATION_IDL_DIR="`$PKG_CONFIG --variable=idldir bonobo-activation-2.0`
 ORBIT_IDL="${ORBIT} -I${BONOBO_IDL_DIR} -I${BONOBO_ACTIVATION_IDL_DIR}"
 AC_SUBST(ORBIT_IDL)
 
-dnl ****************************
-dnl Check for libgda
-dnl ****************************
-try_gda=true
-gda_modules="libgda >= 0.8.102"
-
-AC_ARG_WITH(gda,
-	[--{with,without}-gda      Compile the Gnome Database Access plugin],
-	if test x$withval = xyes; then
-		try_gda=true
-	fi
-)
-
-have_gda=no
-if test "$try_gda" = "true"; then
-    PKG_CHECK_MODULES(GDA, [$gda_modules], [
-      have_gda=yes
-    ], have_gda=no)
-fi
-
-AM_CONDITIONAL(WITH_GDA, test x"$have_gda" = "xyes")
-AC_SUBST(GDA_CFLAGS)
-AC_SUBST(GDA_LIBS)
-
+dnl ====================================
+dnl = Plan Perfect Plugin
+dnl ====================================
 AM_CONDITIONAL(WITH_PLAN_PERFECT, false)
 
 dnl ====================================
@@ -501,8 +537,11 @@ Configuration:
 	Source code location:	${srcdir}
 	Compiler:		${CC} 
 
+	MS Excel Support :	${excel_msg}
+	GDA support:		${gda_msg}
+	GB support:		${gb_msg}
+
 	Bonobo Support:		${bonobo_msg}
 	Guile Support:		${guile_msg}
 	Evolution Support:      ${evolution}
-	GDA support:		${have_gda}
 "

@@ -3836,7 +3836,7 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 			 * at the NEXT record.
 			 */
 			if (q->opcode == BIFF_CHART_units) {
-				GnmGraph *graph =
+				GObject *graph =
 #ifdef ENABLE_BONOBO
 					gnm_graph_new (esheet->wb->gnum_wb);
 #else
@@ -3844,7 +3844,7 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 #endif
 				ms_excel_chart (q, sheet_container (esheet),
 						esheet->container.ver,
-						G_OBJECT (graph));
+						graph);
 			} else
 				puts ("EXCEL: How are we seeing chart records in a sheet ?");
 			continue;
@@ -4476,7 +4476,7 @@ ms_excel_read_bof (BiffQuery *q,
 		} else
 			printf ("Sheet offset in stream of %x not found in list\n", q->streamPos);
 	} else if (ver->type == MS_BIFF_TYPE_Chart) {
-				GnmGraph *graph =
+				GObject *graph =
 #if 0
 					/* enable when we support workbooklevel objects */
 					gnm_graph_new (wb->gnum_wb);
@@ -4484,7 +4484,7 @@ ms_excel_read_bof (BiffQuery *q,
 					NULL;
 #endif
 		ms_excel_chart (q, &wb->container, ver->version,
-				G_OBJECT (graph));
+				graph);
 	} else if (ver->type == MS_BIFF_TYPE_VBModule ||
 		 ver->type == MS_BIFF_TYPE_Macrosheet) {
 		/* Skip contents of Module, or MacroSheet */
