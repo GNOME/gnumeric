@@ -13725,7 +13725,7 @@ msgstr "/Fil/"
 
 #: src/history.c:149 src/history.c:171
 msgid "File/Print preview"
-msgstr "Forhåndsvisning av fil/utskrift"
+msgstr "Fil/Forhåndsvisning"
 
 #: src/history.c:225
 msgid "File/"

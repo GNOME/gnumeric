@@ -1,3 +1,9 @@
+2000-09-04  Jody Goldberg <jgoldberg@home.com>
+
+	* no.po : Adjust the translation of 'File/Print Preview'
+	  it MUST correspond exactly to 'File/' and 'Print Preview'
+	  in the menu bar.
+
 2000-09-04  Valek Filippov  <frob@df.ru>
 
 	* ru.po: Updated russian translation.
