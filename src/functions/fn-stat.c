@@ -61,17 +61,8 @@ float_compare_d (const float_t *a, const float_t *b)
 	        return 1;
 }
 
-static inline float_t
-fmin2 (float_t x, float_t y)
-{
-        return (x < y) ? x : y;
-}
-
-static inline float_t
-fmax2 (float_t x, float_t y)
-{
-        return (x > y) ? x : y;
-}
+#define fmin2(a,b) MIN(a,b)
+#define fmax2(a,b) MAX(a,b)
 
 /* This function is originally taken from R package
  * (src/nmath/pgamma.c) written and copyrighted (1998) by Ross Ihaka.
@@ -87,28 +78,28 @@ pgamma(double x, double p, double scale)
 	const float_t elimit = -88.0e0;
         float_t       pn1, pn2, pn3, pn4, pn5, pn6, arg, c, rn, a, b, an;
 	float_t       sum;
- 
+
 	x = x / scale;
 	if (x <= 0)
 	        return 0.0;
- 
+
 	/* use a normal approximation if p > plimit */
- 
+
 	if (p > plimit) {
 	        pn1 = sqrt(p) * 3.0 * (pow(x/p, third) + 1.0 /
 					 (p * 9.0) - 1.0);
 		return phi(pn1);
 	}
- 
+
 	/* if x is extremely large compared to p then return 1 */
- 
+
 	if (x > xbig)
 	        return 1.0;
- 
+
 	if (x <= 1.0 || x < p) {
- 
+
 	        /* use pearson's series expansion. */
- 
+
 	        arg = p * log(x) - x - lgamma(p + 1.0);
 		c = 1.0;
 		sum = 1.0;
@@ -123,9 +114,9 @@ pgamma(double x, double p, double scale)
 		if (arg >= elimit)
 		        sum = exp(arg);
 	} else {
- 
+
 	        /* use a continued fraction expansion */
- 
+
 	        arg = p * log(x) - x - lgamma(p);
 		a = 1.0 - p;
 		b = a + x + 1.0;
@@ -144,7 +135,7 @@ pgamma(double x, double p, double scale)
 			pn6 = b * pn4 - an * pn2;
 			if (fabs(pn6) > 0) {
 			        rn = pn5 / pn6;
-				if (fabs(sum - rn) <= 
+				if (fabs(sum - rn) <=
 				    fmin2(DBL_EPSILON, DBL_EPSILON * rn))
 				        break;
 				sum = rn;
@@ -154,10 +145,10 @@ pgamma(double x, double p, double scale)
 			pn3 = pn5;
 			pn4 = pn6;
 			if (fabs(pn5) >= oflo) {
- 
+
 			        /* re-scale the terms in continued fraction */
 			        /* if they are large */
- 
+
 			        pn1 = pn1 / oflo;
 				pn2 = pn2 / oflo;
 				pn3 = pn3 / oflo;
@@ -410,8 +401,8 @@ pbeta_raw(float_t x, float_t pin, float_t qin)
 		        ans = 1 - ans;
 	}
 	else {
-	        /*___ FIXME ___:  This takes forever (or ends wrongly) 
-		 * when (one or) both p & q  are huge 
+	        /*___ FIXME ___:  This takes forever (or ends wrongly)
+		 * when (one or) both p & q  are huge
 		 */
 
 	        /* evaluate the infinite sum first.  term will equal */
@@ -483,11 +474,11 @@ pbeta(float_t x, float_t pin, float_t qin)
  * and Ross Ihaka.
  * Modified for Gnumeric by Jukka-Pekka Iivonen
  */
-static float_t 
+static float_t
 pt(float_t x, float_t n)
 {
-        /* return  P[ T <= x ]  where  
-	 * T ~ t_{n}  (t distrib. with n degrees of freedom).   
+        /* return  P[ T <= x ]  where
+	 * T ~ t_{n}  (t distrib. with n degrees of freedom).
 	 *      --> ./pnt.c for NON-central
 	 */
         float_t val;
@@ -779,7 +770,7 @@ callback_function_stat_inv_sum (Sheet *sheet, Value *value,
 				char **error_string, void *closure)
 {
 	stat_inv_sum_t *mm = closure;
-	
+
 	switch (value->type){
 	case VALUE_INTEGER:
 		mm->num++;
@@ -796,7 +787,7 @@ callback_function_stat_inv_sum (Sheet *sheet, Value *value,
 		else
 			mm->sum = mm->sum + 1.0 / value->v.v_float;
 		break;
-		
+
 	default:
 		/* ignore strings */
 		break;
@@ -1668,17 +1659,17 @@ callback_function_stat_prod (Sheet *sheet, Value *value,
 			     char **error_string, void *closure)
 {
 	stat_prod_t *mm = closure;
-	
+
 	switch (value->type){
 	case VALUE_INTEGER:
 		mm->num++;
-		mm->product = mm->first ? 
+		mm->product = mm->first ?
 		  value->v.v_int:mm->product*value->v.v_int;
 		break;
 
 	case VALUE_FLOAT:
 		mm->num++;
-		mm->product = mm->first ? 
+		mm->product = mm->first ?
 		  value->v.v_float:mm->product*value->v.v_float;
 		break;
 	default:
@@ -1732,14 +1723,14 @@ callback_function_count (Sheet *sheet, Value *value,
 	case VALUE_INTEGER:
 		result->v.v_int++;
 		break;
-		
+
 	case VALUE_FLOAT:
 		result->v.v_int++;
 		break;
-		
+
 	default:
 		break;
-	}		
+	}
 	return TRUE;
 }
 
@@ -1752,7 +1743,7 @@ gnumeric_count (Sheet *sheet, GList *expr_node_list,
 	result = g_new (Value, 1);
 	result->type = VALUE_INTEGER;
 	result->v.v_int = 0;
-	
+
 	function_iterate_argument_values (sheet, callback_function_count,
 					  result, expr_node_list,
 					  eval_col, eval_row, error_string);
@@ -1827,12 +1818,12 @@ gnumeric_average (Sheet *sheet, GList *expr_node_list,
 	Value *result;
 	Value *sum, *count;
 	double c;
-	
+
 	sum = gnumeric_sum (sheet, expr_node_list,
 			    eval_col, eval_row, error_string);
 	if (!sum)
 		return NULL;
-	
+
 	count = gnumeric_count (sheet, expr_node_list,
 				eval_col, eval_row, error_string);
 	if (!count){
@@ -1841,18 +1832,18 @@ gnumeric_average (Sheet *sheet, GList *expr_node_list,
 	}
 
 	c = value_get_as_float (count);
-	
+
 	if (c == 0.0){
 		*error_string = _("#DIV/0!");
 		value_release (sum);
 		return NULL;
 	}
-	
+
 	result = value_new_float (value_get_as_float (sum) / c);
 
 	value_release (count);
 	value_release (sum);
-	
+
 	return result;
 }
 
@@ -1902,7 +1893,7 @@ callback_function_min_max (Sheet *sheet, Value *value,
 			   char **error_string, void *closure)
 {
 	min_max_closure_t *mm = closure;
-	
+
 	switch (value->type){
 	case VALUE_INTEGER:
 		if (mm->found){
@@ -1940,7 +1931,7 @@ callback_function_min_max (Sheet *sheet, Value *value,
 		/* ignore strings */
 		break;
 	}
-	
+
 	return TRUE;
 }
 
@@ -2093,7 +2084,7 @@ gnumeric_expondist (struct FunctionDefinition *i,
 		*error_string = _("#VALUE!");
 		return NULL;
 	}
-	
+
 	if (cuml){
 		return value_new_float (-expm1(-y*x));
 	} else {
@@ -2116,7 +2107,7 @@ static char *help_gammaln = {
 };
 
 static Value *
-gnumeric_gammaln (struct FunctionDefinition *i, 
+gnumeric_gammaln (struct FunctionDefinition *i,
 		  Value *argv [], char **error_string)
 {
 	float_t x;
@@ -2837,7 +2828,7 @@ gnumeric_weibull (struct FunctionDefinition *i,
         if (cuml)
                 return value_new_float (1.0 - exp(-pow(x/beta, alpha)));
         else
-                return value_new_float ((alpha/pow(beta, alpha))* 
+                return value_new_float ((alpha/pow(beta, alpha))*
                                    pow(x, alpha-1)*exp(-pow(x/beta, alpha)));
 }
 
@@ -3120,7 +3111,7 @@ typedef struct {
 } stat_devsq_sum_t;
 
 static int
-callback_function_devsq_sum (Sheet *sheet, Value *value, 
+callback_function_devsq_sum (Sheet *sheet, Value *value,
 			     char **error_string, void *closure)
 {
         stat_devsq_sum_t *mm = closure;
@@ -3240,7 +3231,7 @@ gnumeric_poisson (struct FunctionDefinition *i,
 		*error_string = _("Unimplemented");
 		return NULL;
 	} else
-		return value_new_float (exp(-mean)*pow(mean,x) / 
+		return value_new_float (exp(-mean)*pow(mean,x) /
 				    exp (lgamma (x + 1)));
 }
 
@@ -3546,7 +3537,7 @@ static char *help_small = {
 };
 
 static Value *
-gnumeric_small (Sheet *sheet, GList *expr_node_list, 
+gnumeric_small (Sheet *sheet, GList *expr_node_list,
 		int eval_col, int eval_row, char **error_string)
 {
 	stat_trimmean_t p;
@@ -3672,7 +3663,7 @@ gnumeric_prob (struct FunctionDefinition *i,
         if (range_x->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
 		  range_x->v.cell_range.cell_a.sheet, TRUE,
-		  range_x->v.cell_range.cell_a.col, 
+		  range_x->v.cell_range.cell_a.col,
 		  range_x->v.cell_range.cell_a.row,
 		  range_x->v.cell_range.cell_b.col,
 		  range_x->v.cell_range.cell_b.row,
@@ -3700,11 +3691,11 @@ gnumeric_prob (struct FunctionDefinition *i,
 		*error_string = _("Array version not implemented!");
 		return NULL;
 	}
-	
+
         if (prob_range->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
 		  prob_range->v.cell_range.cell_a.sheet, TRUE,
-		  prob_range->v.cell_range.cell_a.col, 
+		  prob_range->v.cell_range.cell_a.col,
 		  prob_range->v.cell_range.cell_a.row,
 		  prob_range->v.cell_range.cell_b.col,
 		  prob_range->v.cell_range.cell_b.row,
@@ -3768,7 +3759,7 @@ gnumeric_prob (struct FunctionDefinition *i,
 		x = *((float_t *) list1->data);
 		prob = *((float_t *) list2->data);
 
-		if (prob <= 0 || prob > 1) 
+		if (prob <= 0 || prob > 1)
 		        prob = 2; /* Force error in total sum check */
 
 		total_sum += prob;
@@ -3827,7 +3818,7 @@ gnumeric_steyx (struct FunctionDefinition *i,
         if (known_x->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
 		  known_x->v.cell_range.cell_a.sheet, TRUE,
-		  known_x->v.cell_range.cell_a.col, 
+		  known_x->v.cell_range.cell_a.col,
 		  known_x->v.cell_range.cell_a.row,
 		  known_x->v.cell_range.cell_b.col,
 		  known_x->v.cell_range.cell_b.row,
@@ -3855,11 +3846,11 @@ gnumeric_steyx (struct FunctionDefinition *i,
 		*error_string = _("Array version not implemented!");
 		return NULL;
 	}
-	
+
         if (known_y->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
 		  known_y->v.cell_range.cell_a.sheet, TRUE,
-		  known_y->v.cell_range.cell_a.col, 
+		  known_y->v.cell_range.cell_a.col,
 		  known_y->v.cell_range.cell_a.row,
 		  known_y->v.cell_range.cell_b.col,
 		  known_y->v.cell_range.cell_b.row,
@@ -4058,12 +4049,12 @@ gnumeric_averagea (Sheet *sheet, GList *expr_node_list,
 	Value *result;
 	Value *sum, *count;
 	double c;
-	
+
 	sum = gnumeric_suma (sheet, expr_node_list,
 			     eval_col, eval_row, error_string);
 	if (!sum)
 		return NULL;
-	
+
 	count = gnumeric_counta (sheet, expr_node_list,
 				 eval_col, eval_row, error_string);
 	if (!count){
@@ -4072,18 +4063,18 @@ gnumeric_averagea (Sheet *sheet, GList *expr_node_list,
 	}
 
 	c = value_get_as_float (count);
-	
+
 	if (c == 0.0){
 		*error_string = _("#DIV/0!");
 		value_release (sum);
 		return NULL;
 	}
-	
+
 	result = value_new_float (value_get_as_float (sum) / c);
 
 	value_release (count);
 	value_release (sum);
-	
+
 	return result;
 }
 
@@ -4107,7 +4098,7 @@ callback_function_mina_maxa (Sheet *sheet, Value *value,
 			     char **error_string, void *closure)
 {
 	min_max_closure_t *mm = closure;
-	
+
 	switch (value->type){
 	case VALUE_INTEGER:
 		if (mm->found){
@@ -4156,7 +4147,7 @@ callback_function_mina_maxa (Sheet *sheet, Value *value,
 		}
 		break;
 	}
-	
+
 	return TRUE;
 }
 
@@ -4368,7 +4359,7 @@ gnumeric_slope (struct FunctionDefinition *i,
         if (known_x->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
 		  known_x->v.cell_range.cell_a.sheet, TRUE,
-		  known_x->v.cell_range.cell_a.col, 
+		  known_x->v.cell_range.cell_a.col,
 		  known_x->v.cell_range.cell_a.row,
 		  known_x->v.cell_range.cell_b.col,
 		  known_x->v.cell_range.cell_b.row,
@@ -4396,11 +4387,11 @@ gnumeric_slope (struct FunctionDefinition *i,
 		*error_string = _("Array version not implemented!");
 		return NULL;
 	}
-	
+
         if (known_y->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
 		  known_y->v.cell_range.cell_a.sheet, TRUE,
-		  known_y->v.cell_range.cell_a.col, 
+		  known_y->v.cell_range.cell_a.col,
 		  known_y->v.cell_range.cell_a.row,
 		  known_y->v.cell_range.cell_b.col,
 		  known_y->v.cell_range.cell_b.row,
@@ -4517,7 +4508,7 @@ typedef struct {
 } stat_percentrank_t;
 
 static int
-callback_function_percentrank (Sheet *sheet, Value *value, 
+callback_function_percentrank (Sheet *sheet, Value *value,
 			       char **error_string, void *user_data)
 {
         stat_percentrank_t *p = user_data;

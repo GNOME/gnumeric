@@ -7,7 +7,7 @@
  */
 #include <config.h>
 #include <gnome.h>
-#include "math.h"
+#include <math.h>
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
 #include "utils.h"
@@ -26,7 +26,7 @@ static char *help_ = {
 	   ""
 	   ""
 	   "\n"
-	   
+
 	   ""
 	   ""
 	   ""
@@ -40,29 +40,29 @@ static int
 gcd(int a, int b)
 {
         int ri, ri_1, ri_2, qi;
- 
+
 	if (b == 0)
 	        return a;
- 
+
 	qi = a/b;
 	ri_2 = a - qi*b;
- 
+
 	if (ri_2 == 0)
 	        return 1;
- 
+
 	qi = b/ri_2;
 	ri = ri_1 = b - qi*ri_2;
- 
+
 	while (ri > 0) {
 	        qi = ri_2/ri_1;
 		ri = ri_2 - qi*ri_1;
 		ri_2 = ri_1;
 		ri_1 = ri;
 	}
- 
+
 	return ri_2;
 }
- 
+
 
 typedef struct {
         GSList *list;
@@ -168,7 +168,7 @@ gnumeric_gcd (struct FunctionDefinition *i,
 		*error_string = _("#NUM!");
 		return NULL;
 	}
-	        
+
 	return value_new_int (gcd(a, b));
 }
 
@@ -203,7 +203,7 @@ callback_function_lcm (Sheet *sheet, Value *value,
 	default:
 	        return FALSE;
 	}
-	
+
 	return TRUE;
 }
 
@@ -220,7 +220,7 @@ gnumeric_lcm (Sheet *tsheet, GList *expr_node_list,
 
 	if (function_iterate_argument_values (sheet, callback_function_lcm,
 					      result, expr_node_list,
-					      eval_col, eval_row, 
+					      eval_col, eval_row,
 					      error_string) == FALSE) {
 		*error_string = _("#NUM!");
 		return NULL;
@@ -449,7 +449,7 @@ static char *help_ceil = {
 
 	   "Performing this function on a string or empty cell simply does nothing."
 	   "\n"
-	   
+
 	   "@SEEALSO=ABS, FLOOR, INT")
 };
 
@@ -469,7 +469,7 @@ static char *help_countif = {
 	   "that meet the given criteria. "
 
 	   "\n"
-	   
+
 	   "@SEEALSO=COUNT,SUMIF")
 };
 
@@ -500,7 +500,7 @@ gnumeric_countif (struct FunctionDefinition *i,
 
 	ret = sheet_cell_foreach_range (
 	  range->v.cell_range.cell_a.sheet, TRUE,
-	  range->v.cell_range.cell_a.col, 
+	  range->v.cell_range.cell_a.col,
 	  range->v.cell_range.cell_a.row,
 	  range->v.cell_range.cell_b.col,
 	  range->v.cell_range.cell_b.row,
@@ -531,7 +531,7 @@ static char *help_sumif = {
 	   "the given criteria. "
 
 	   "\n"
-	   
+
 	   "@SEEALSO=COUNTIF,SUM")
 };
 
@@ -563,7 +563,7 @@ gnumeric_sumif (struct FunctionDefinition *i,
 
 	ret = sheet_cell_foreach_range (
 	  range->v.cell_range.cell_a.sheet, TRUE,
-	  range->v.cell_range.cell_a.col, 
+	  range->v.cell_range.cell_a.col,
 	  range->v.cell_range.cell_a.row,
 	  range->v.cell_range.cell_b.col,
 	  range->v.cell_range.cell_b.row,
@@ -601,7 +601,7 @@ static char *help_ceiling = {
 	   "If x or significance is non-numeric CEILING returns #VALUE! error. "
 	   "If n and significance have different signs CEILING returns #NUM! error. "
 	   "\n"
-	   
+
 	   "@SEEALSO=CEIL")
 };
 
@@ -621,7 +621,7 @@ gnumeric_ceiling (struct FunctionDefinition *i,
 	}
 	x = value_get_as_float (argv[0]);
 	significance = value_get_as_float (argv[1]);
-	if ((x < 0.0 && significance > 0.0) || 
+	if ((x < 0.0 && significance > 0.0) ||
 	    (x > 0.0 && significance < 0.0)) {
                 *error_string = _("#NUM!") ;
                 return NULL;
@@ -701,7 +701,7 @@ static char *help_degrees = {
 
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "\n"
-	   
+
 	   "@SEEALSO=RADIANS, PI")
 };
 
@@ -776,7 +776,7 @@ gnumeric_fact (struct FunctionDefinition *id,
 		*error_string = _("#NUM!");
 		return NULL;
 	}
-	
+
 	res = g_new (Value, 1);
 	if (i > 12){
 		res->type = VALUE_FLOAT;
@@ -862,7 +862,7 @@ static char *help_int = {
 	   "The INT function round b1 now to the nearest int. "
 	   "Where 'nearest' implies being closer to zero. "
 	   "Equivalent to FLOOR(b1) for b1 >0, amd CEIL(b1) "
-	   "for b1 < 0. " 
+	   "for b1 < 0. "
 	   "\n"
 	   "Performing this function on a string or empty cell simply does nothing."
 	   ""
@@ -877,7 +877,7 @@ gnumeric_int (struct FunctionDefinition *i,
 	float_t t;
 
 	t = value_get_as_float (argv [0]);
-	
+
 	return value_new_float (t > 0.0 ? floor (t) : ceil (t));
 }
 
@@ -1050,7 +1050,7 @@ gnumeric_mod (struct FunctionDefinition *i,
 		*error_string = _("#DIV/0!") ;
 		return NULL ;
 	}
-	
+
 	return value_new_int (a%b) ;
 }
 
@@ -1065,7 +1065,7 @@ static char *help_radians = {
 
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "\n"
-	   
+
 	   "@SEEALSO=PI,DEGREES")
 };
 
@@ -1084,7 +1084,7 @@ static char *help_rand = {
 	   "Returns a random number greater than or equal to 0 and less than 1."
 	   "\n"
 	   "\n"
-	   
+
 	   "@SEEALSO=")
 };
 
@@ -1092,7 +1092,7 @@ static Value *
 gnumeric_rand (struct FunctionDefinition *i,
 	       Value *argv [], char **error_string)
 {
-	return value_new_float (rand()/(RAND_MAX + 1.0)) ;
+	return value_new_float (random_01 ());
 }
 
 static char *help_sin = {
@@ -1169,7 +1169,7 @@ static char *help_sum = {
 
 	   "@DESCRIPTION="
 	   "Computes the sum of all the values and cells referenced in the "
-	   "argument list. " 
+	   "argument list. "
 	   "\n"
 
 	   "@SEEALSO=AVERAGE, COUNT")
@@ -1189,7 +1189,7 @@ callback_function_sum (Sheet *sheet, Value *value,
 
 				if (sum < result->v.v_int){
 					double n = result->v.v_int + value->v.v_int;
-					
+
 					result->type = VALUE_FLOAT;
 					result->v.v_float = n;
 				} else
@@ -1199,7 +1199,7 @@ callback_function_sum (Sheet *sheet, Value *value,
 
 				if (sum > result->v.v_int){
 					double n = result->v.v_int + value->v.v_int;
-					
+
 					result->type = VALUE_FLOAT;
 					result->v.v_float = n;
 				} else {
@@ -1211,7 +1211,7 @@ callback_function_sum (Sheet *sheet, Value *value,
 		} else
 			result->v.v_float += value->v.v_int;
 		break;
-		
+
 	case VALUE_FLOAT:
 		if (result->type == VALUE_FLOAT)
 			result->v.v_float += value->v.v_float;
@@ -1219,7 +1219,7 @@ callback_function_sum (Sheet *sheet, Value *value,
 			double v = result->v.v_int;
 
 			/* cast to float */
-			
+
 			result->type = VALUE_FLOAT;
 			result->v.v_float = v + value->v.v_float;
 		}
@@ -1227,14 +1227,14 @@ callback_function_sum (Sheet *sheet, Value *value,
 
 	case VALUE_STRING:
 		break;
-		
+
 	default:
 		g_warning ("Unimplemented value->type in callback_function_sum : %s (%d)",
 			   (value->type == VALUE_CELLRANGE) ? "CELLRANGE" :
 			   (value->type == VALUE_ARRAY) ? "ARRAY" :
 			   "UNKOWN!", value->type);
 		break;
-	}		
+	}
 	return TRUE;
 }
 
@@ -1247,7 +1247,7 @@ gnumeric_sum (Sheet *sheet, GList *expr_node_list,
 	result = g_new (Value, 1);
 	result->type = VALUE_INTEGER;
 	result->v.v_int = 0;
-	
+
 	function_iterate_argument_values (sheet, callback_function_sum, result, expr_node_list,
 					  eval_col, eval_row, error_string);
 
@@ -1264,7 +1264,7 @@ static char *help_suma = {
 	   "in the calculation too.  If the cell contains text or the "
 	   "argument evaluates to FALSE, it is counted as value zero (0). "
 	   "If the argument evaluates to TRUE, it is counted as one (1). "
-	   "Note that empty cells are not counted." 
+	   "Note that empty cells are not counted."
 	   "\n"
 
 	   "@SEEALSO=AVERAGE, SUM, COUNT")
@@ -1279,8 +1279,8 @@ gnumeric_suma (Sheet *sheet, GList *expr_node_list,
 	result = g_new (Value, 1);
 	result->type = VALUE_INTEGER;
 	result->v.v_int = 0;
-	
-	function_iterate_argument_values (sheet, callback_function_sum, 
+
+	function_iterate_argument_values (sheet, callback_function_sum,
 					  result, expr_node_list,
 					  eval_col, eval_row, error_string);
 
@@ -1293,7 +1293,7 @@ static char *help_sumsq = {
 
 	   "@DESCRIPTION="
 	   "SUMSQ returns the sum of the squares of all the values and "
-	   "cells referenced in the argument list. " 
+	   "cells referenced in the argument list. "
 	   "\n"
 
 	   "@SEEALSO=SUM, COUNT")
@@ -1309,7 +1309,7 @@ callback_function_sumsq (Sheet *sheet, Value *value,
 			 char **error_string, void *closure)
 {
 	math_sumsq_t *mm = closure;
-	
+
 	switch (value->type){
 	case VALUE_INTEGER:
 		mm->num++;
@@ -1365,7 +1365,7 @@ callback_function_multinomial (Sheet *sheet, Value *value,
 			       char **error_string, void *closure)
 {
 	math_multinomial_t *mm = closure;
-	
+
 	switch (value->type){
 	case VALUE_INTEGER:
 	        mm->product *= fact(value->v.v_int);
@@ -1406,7 +1406,7 @@ static char *help_product = {
 
 	   "@DESCRIPTION="
 	   "PRODUCT returns the product of all the values and cells "
-	   "referenced in the argument list. " 
+	   "referenced in the argument list. "
 	   "\n"
 
 	   "@SEEALSO=SUM, COUNT")
@@ -1422,7 +1422,7 @@ callback_function_product (Sheet *sheet, Value *value,
 			   char **error_string, void *closure)
 {
 	math_product_t *mm = closure;
-	
+
 	switch (value->type){
 	case VALUE_INTEGER:
 		mm->num++;
@@ -1530,14 +1530,14 @@ static char *help_trunc = {
 	   "@SEEALSO=")
 };
 static Value *
-gnumeric_trunc (Sheet *sheet, GList *expr_node_list, 
+gnumeric_trunc (Sheet *sheet, GList *expr_node_list,
 		int eval_col, int eval_row, char **error_string)
 {
 	Value *number;
 	int args = g_list_length (expr_node_list);
 	int decimals = 0;
 	double v, integral, fraction;
-	
+
 	if (args < 1 || args > 2){
 		*error_string = _("Invalid number of arguments");
 		return NULL;
@@ -1550,17 +1550,17 @@ gnumeric_trunc (Sheet *sheet, GList *expr_node_list,
 
 	v = number->v.v_float;
 	value_release (number);
-	
+
 	if (args == 2){
 		Value *value;
 
-		value = eval_expr (sheet, 
+		value = eval_expr (sheet,
 				   (ExprTree *) expr_node_list->next->data,
 				   eval_col, eval_row, error_string);
 		if (!value){
 			return NULL;
 		}
-		
+
 		decimals = value_get_as_int (value);
 		value_release (value);
 	}
@@ -1568,7 +1568,7 @@ gnumeric_trunc (Sheet *sheet, GList *expr_node_list,
 	fraction = modf (v, &integral);
 	if (decimals){
 		double pot = pow (10, decimals);
-		
+
 		return value_new_float (integral + floor (fraction * pot) / pot);
 	} else
 		return value_new_float (integral);
@@ -1747,11 +1747,9 @@ static char *help_randbetween = {
 	   "@SYNTAX=RANDBETWEEN(bottom,top)\n"
 
 	   "@DESCRIPTION=RANDBETWEEN function returns a random integer number "
-	   "between @bottom and @top. "
-	   "\n"
-	   "If @bottom or @top is non-integer it is truncated. "
-	   "If @bottom > @top RANDBETWEEN returns #NUM! error. "
-	   "\n"
+	   "between @bottom and @top.\n"
+	   "If @bottom or @top is non-integer, they are truncated. "
+	   "If @bottom > @top, RANDBETWEEN returns #NUM! error.\n"
 	   "@SEEALSO=RAND")
 };
 
@@ -1760,7 +1758,7 @@ gnumeric_randbetween (struct FunctionDefinition *i,
 		      Value *argv [], char **error_string)
 {
         int bottom, top;
-	int r = rand();
+	double range, r;
 
 	bottom = value_get_as_int (argv[0]);
 	top = value_get_as_int (argv[1]);
@@ -1768,12 +1766,12 @@ gnumeric_randbetween (struct FunctionDefinition *i,
 		*error_string = _("#NUM!") ;
 		return NULL ;
 	}
-	if (top - bottom > RAND_MAX) {
-		*error_string = _("#N/A!") ;
-		return NULL ;
-	}
 
-	return value_new_int (r % (top-bottom+1) + bottom);
+	r = bottom + floor ((top + 1.0 - bottom) * random_01 ());
+	if (fabs (r) < INT_MAX)
+		return value_new_int ((int)r);
+	else
+		return value_new_float (r);
 }
 
 static char *help_rounddown = {
@@ -1949,7 +1947,7 @@ gnumeric_mround (struct FunctionDefinition *i,
 	number = value_get_as_float (argv[0]);
 	multiple = value_get_as_float (argv[1]);
 
-	if ((number > 0 && multiple < 0) 
+	if ((number > 0 && multiple < 0)
 	    || (number < 0 && multiple > 0)) {
 		*error_string = _("#NUM!");
 		return NULL;
@@ -2087,7 +2085,7 @@ gnumeric_sumx2my2 (struct FunctionDefinition *i,
         if (values_x->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
 		  values_x->v.cell_range.cell_a.sheet, TRUE,
-		  values_x->v.cell_range.cell_a.col, 
+		  values_x->v.cell_range.cell_a.col,
 		  values_x->v.cell_range.cell_a.row,
 		  values_x->v.cell_range.cell_b.col,
 		  values_x->v.cell_range.cell_b.row,
@@ -2101,11 +2099,11 @@ gnumeric_sumx2my2 (struct FunctionDefinition *i,
 		*error_string = _("Array version not implemented!");
 		return NULL;
 	}
-	
+
         if (values_y->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
 		  values_y->v.cell_range.cell_a.sheet, TRUE,
-		  values_y->v.cell_range.cell_a.col, 
+		  values_y->v.cell_range.cell_a.col,
 		  values_y->v.cell_range.cell_a.row,
 		  values_y->v.cell_range.cell_b.col,
 		  values_y->v.cell_range.cell_b.row,
@@ -2142,7 +2140,7 @@ gnumeric_sumx2my2 (struct FunctionDefinition *i,
 
 	g_slist_free(items_x.list);
 	g_slist_free(items_y.list);
-	
+
 	return value_new_float (sum);
 }
 
@@ -2184,7 +2182,7 @@ gnumeric_sumx2py2 (struct FunctionDefinition *i,
         if (values_x->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
 		  values_x->v.cell_range.cell_a.sheet, TRUE,
-		  values_x->v.cell_range.cell_a.col, 
+		  values_x->v.cell_range.cell_a.col,
 		  values_x->v.cell_range.cell_a.row,
 		  values_x->v.cell_range.cell_b.col,
 		  values_x->v.cell_range.cell_b.row,
@@ -2198,11 +2196,11 @@ gnumeric_sumx2py2 (struct FunctionDefinition *i,
 		*error_string = _("Array version not implemented!");
 		return NULL;
 	}
-	
+
         if (values_y->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
 		  values_y->v.cell_range.cell_a.sheet, TRUE,
-		  values_y->v.cell_range.cell_a.col, 
+		  values_y->v.cell_range.cell_a.col,
 		  values_y->v.cell_range.cell_a.row,
 		  values_y->v.cell_range.cell_b.col,
 		  values_y->v.cell_range.cell_b.row,
@@ -2239,7 +2237,7 @@ gnumeric_sumx2py2 (struct FunctionDefinition *i,
 
 	g_slist_free(items_x.list);
 	g_slist_free(items_y.list);
-	
+
 	return value_new_float (sum);
 }
 
@@ -2281,7 +2279,7 @@ gnumeric_sumxmy2 (struct FunctionDefinition *i,
         if (values_x->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
 		  values_x->v.cell_range.cell_a.sheet, TRUE,
-		  values_x->v.cell_range.cell_a.col, 
+		  values_x->v.cell_range.cell_a.col,
 		  values_x->v.cell_range.cell_a.row,
 		  values_x->v.cell_range.cell_b.col,
 		  values_x->v.cell_range.cell_b.row,
@@ -2295,11 +2293,11 @@ gnumeric_sumxmy2 (struct FunctionDefinition *i,
 		*error_string = _("Array version not implemented!");
 		return NULL;
 	}
-	
+
         if (values_y->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
 		  values_y->v.cell_range.cell_a.sheet, TRUE,
-		  values_y->v.cell_range.cell_a.col, 
+		  values_y->v.cell_range.cell_a.col,
 		  values_y->v.cell_range.cell_a.row,
 		  values_y->v.cell_range.cell_b.col,
 		  values_y->v.cell_range.cell_b.row,
@@ -2336,7 +2334,7 @@ gnumeric_sumxmy2 (struct FunctionDefinition *i,
 
 	g_slist_free(items_x.list);
 	g_slist_free(items_y.list);
-	
+
 	return value_new_float (sum);
 }
 
@@ -2360,7 +2358,7 @@ static char *help_subtotal = {
 	   "9   SUM\n"
 	   "10   VAR\n"
 	   "11   VARP\n"
-	   "\n"	   
+	   "\n"
 	   "@SEEALSO=COUNT,SUM")
 };
 
@@ -2376,7 +2374,7 @@ gnumeric_subtotal (Sheet *tsheet, GList *expr_node_list,
 		*error_string = _("#NUM!");
 		return NULL;
 	}
-	
+
 	tree = (ExprTree *) expr_node_list->data;
 	if (tree == NULL) {
 		*error_string = _("#NUM!");
@@ -2444,7 +2442,7 @@ static char *help_seriessum = {
 	   "@m is the increment to the power for each term in the series, and "
 	   "@coefficients is the coefficents by which each successive power "
 	   "of @x is multiplied. "
-	   "\n"	   
+	   "\n"
 	   "@SEEALSO=COUNT,SUM")
 };
 
@@ -2575,7 +2573,7 @@ FunctionDefinition math_functions [] = {
 	{ "even",    "f",    "number",    &help_even,    NULL, gnumeric_even },
 	{ "exp",     "f",    "number",    &help_exp,     NULL, gnumeric_exp },
 	{ "fact",    "f",    "number",    &help_fact,    NULL, gnumeric_fact },
-	{ "factdouble", "f", "number",    &help_factdouble,    
+	{ "factdouble", "f", "number",    &help_factdouble,
 	  NULL, gnumeric_factdouble },
 	{ "combin",  "ff",   "n,k",       &help_combin,
 	  NULL, gnumeric_combin },

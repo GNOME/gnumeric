@@ -11,9 +11,13 @@
 #define DEBUG_GOAL_SEEK
 #endif
 
-#include "goal-seek.h"
-#include <math.h>
+#include <config.h>
+#include <gnome.h>
 #include <stdlib.h>
+#include <math.h>
+#include "goal-seek.h"
+#include "gnumeric.h"
+#include "utils.h"
 
 /*
  * This value should be comfortably within the relative precision of a float_t.
@@ -24,70 +28,6 @@
 #ifdef DEBUG_GOAL_SEEK
 #include <stdio.h>
 #endif
-
-/*
- * Conservative random number generator.  The result is (supposedly) uniform
- * and between 0 and 1.  This clearly shouldn't be in here.
- *
- * We try to work around lack of randomness in rand's lower bits.  The result
- * should have about 64 bits randomness.
- */
-static double
-random_01 (void)
-{
-	int prime = 65537;
-	int r1, r2, r3, r4;
-
-	g_assert (RAND_MAX > ((1 << 12) - 1));
-
-	r1 = (rand () ^ (rand () << 12)) % prime;
-	r2 = (rand () ^ (rand () << 12)) % prime;
-	r3 = (rand () ^ (rand () << 12)) % prime;
-	r4 = (rand () ^ (rand () << 12)) % prime;
-
-	return (r1 + (r2 + (r3 + r4 / (prime - 1.0)) / prime) / prime) / prime;
-}
-
-/*
- * Inverse of phi in fn-stat.c
- */
-static double
-inv_phi (double p)
-{
-	double n, d;
-
-	n = 3.321838958688251e-13 +
-		p * (7.288531846813834e-09 +
-		     p * (1.587281649308100e-05 +
-			  p * (4.837481463050555e-03 +
-			       p * (2.220020756154365e-01 +
-				    p * (1.064775942464714e+00 +
-					 p * (-2.860384543179446e+00 +
-					      p * (-3.922138485976291e-01)))))));
-
-	d = -7.680547552825736e-14 +
-		p * (-1.993318382731444e-09 +
-		     p * (-5.122948250742077e-06 +
-			  p * (-1.924970983095964e-03 +
-			       p * (-1.209782803791000e-01 +
-				    p * (-1.240727302298919e+00 +
-					 p * (-8.866611986842328e-01 +
-					      p * (1.000000000000000e+00)))))));
-
-	return n / d;
-}
-
-
-
-/*
- * Generate a N(0,1) distributed number.
- */
-static double
-random_normal (void)
-{
-	return inv_phi (random_01 ());
-}
-
 
 static gboolean
 updata_data (float_t x, float_t y, GoalSeekData *data)

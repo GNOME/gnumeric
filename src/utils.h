@@ -28,4 +28,7 @@ gint        gnumeric_strcase_equal (gconstpointer v, gconstpointer v2);
 guint32     g_date_serial          (GDate  *date);
 GDate      *g_date_new_serial      (guint32 serial);
 
+double      random_01              (void);
+double      random_normal          (void);
+
 #endif /* GNUMERIC_UTILS_H */

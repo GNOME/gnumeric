@@ -21,7 +21,7 @@ static char *help_char = {
 	   "@DESCRIPTION="
 	   "Returns the ascii character represented by the number x."
 	   "\n"
-	   
+
 	   "@SEEALSO=CODE")
 };
 
@@ -43,19 +43,22 @@ static char *help_code = {
 	   "@DESCRIPTION="
 	   "Returns the ASCII number for the character char."
 	   "\n"
-	   
+
 	   "@SEEALSO=CHAR")
 };
 
 static Value *
 gnumeric_code (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
+	unsigned char c;
+
 	if (argv [0]->type != VALUE_STRING){
 		*error_string = _("Type mismatch");
 		return NULL;
 	}
 
-	return value_new_int (argv [0]->v.str->str [0]);
+	c = argv [0]->v.str->str [0];
+	return value_new_int (c);
 }
 
 static char *help_exact = {
@@ -65,7 +68,7 @@ static char *help_exact = {
 	   "@DESCRIPTION="
 	   "Returns true if string1 is exactly equal to string2 (this routine is case sensitive)."
 	   "\n"
-	   
+
 	   "@SEEALSO=LEN")  /* FIXME: DELTA, LEN, SEARCH */
 };
 
@@ -87,7 +90,7 @@ static char *help_len = {
 	   "@DESCRIPTION="
 	   "Returns the length in characters of the string @string."
 	   "\n"
-	   
+
 	   "@SEEALSO=CHAR, CODE")
 };
 
@@ -124,14 +127,14 @@ gnumeric_left (struct FunctionDefinition *i, Value *argv [], char **error_string
 		count = value_get_as_int(argv[1]);
 	else
 		count = 1;
-			
+
 	s = g_malloc (count + 1);
 	strncpy (s, argv[0]->v.str->str, count);
 	s [count] = 0;
 
 	v = value_new_string (s);
 	g_free (s);
-	
+
 	return v;
 }
 
@@ -150,7 +153,7 @@ gnumeric_lower (struct FunctionDefinition *i, Value *argv [], char **error_strin
 {
 	Value *v;
 	char *s, *p;
-	
+
 	if (argv [0]->type != VALUE_STRING){
 		*error_string = _("Type mismatch");
 		return NULL;
@@ -175,7 +178,7 @@ static char *help_mid = {
 	   "@DESCRIPTION="
 	   "Returns a substring from @string starting at @position for @length characters."
 	   "\n"
-	   
+
 	   "@SEEALSO=LEFT, RIGHT")
 };
 
@@ -210,7 +213,7 @@ gnumeric_mid (struct FunctionDefinition *i, Value *argv [], char **error)
 	s[len] = '\0';
 	v = value_new_string (s);
 	g_free (s);
-	
+
 	return v;
 }
 
@@ -240,14 +243,14 @@ gnumeric_right (struct FunctionDefinition *i, Value *argv [], char **error_strin
 	len = strlen (argv[0]->v.str->str);
 	if (count > len)
 		count = len;
-	
+
 	s = g_malloc (count + 1);
 	strncpy (s, argv[0]->v.str->str+len-count, count);
 	s [count] = 0;
 
 	v = value_new_string (s);
 	g_free (s);
-	
+
 	return v;
 }
 
@@ -266,7 +269,7 @@ gnumeric_upper (struct FunctionDefinition *i, Value *argv [], char **error_strin
 {
 	Value *v;
 	char *s, *p;
-	
+
 	if (argv [0]->type != VALUE_STRING){
 		*error_string = _("Type mismatch");
 		return NULL;
@@ -297,14 +300,14 @@ gnumeric_concatenate (Sheet *sheet, GList *l, int eval_col, int eval_row, char *
 {
 	Value *v;
 	char *s, *p, *tmp;
-	
+
 	if (l==NULL) {
 		*error_string = _("Invalid number of arguments");
 		return NULL;
 	}
 	s = g_new(gchar, 1);
 	*s = '\0';
-	while ( l != NULL && 
+	while ( l != NULL &&
 		(v=eval_expr(sheet, l->data, eval_col, eval_row, error_string)) != NULL) {
 /*
 		if (v->type != VALUE_STRING) {
@@ -322,7 +325,7 @@ gnumeric_concatenate (Sheet *sheet, GList *l, int eval_col, int eval_row, char *
 		s = p;
 		l = g_list_next (l);
 	}
-	
+
 	v = g_new (Value, 1);
 	v->type = VALUE_STRING;
 	v->v.str = string_get (s);
@@ -345,7 +348,7 @@ gnumeric_rept (struct FunctionDefinition *i, Value *argv [], char **error_string
 	gchar *s, *p;
 	gint num;
 	guint len;
-	
+
 	if (argv [0]->type != VALUE_STRING) {
 		*error_string = _("Type mismatch");
 		return NULL;
@@ -376,7 +379,7 @@ static char *help_clean = {
 	   "@DESCRIPTION="
 	   "Cleans the string from any non-printable characters."
 	   "\n"
-	   
+
 	   "@SEEALSO=")
 };
 
@@ -385,14 +388,14 @@ gnumeric_clean (FunctionDefinition *fn, Value *argv [], char **error_string)
 {
 	Value *res;
 	char *copy, *p, *q;
-	
+
 	if (argv [0]->type != VALUE_STRING){
 		*error_string = _("Type mismatch");
 		return NULL;
 	}
 	p = argv [0]->v.str->str;
 	copy = q = g_malloc (strlen (p) + 1);
-	
+
 	while (*p){
 		if (isprint (*p))
 			*q++ = *p;
@@ -591,6 +594,7 @@ gnumeric_proper (struct FunctionDefinition *i, Value *argv [], char **error_stri
 	v->v.str = string_get (p);
 	return v;
 }
+
 static char *help_replace = {
 	N_("@FUNCTION=REPLACE\n"
 	   "@SYNTAX=REPLACE(old,start,num,new)\n"
@@ -615,7 +619,7 @@ gnumeric_replace (struct FunctionDefinition *i, Value *argv [], char **error_str
 
 	start = value_get_as_int (argv[1]);
 	num = value_get_as_int (argv[2]);
-	oldlen = strlen(argv[0]->v.str->str);	
+	oldlen = strlen(argv[0]->v.str->str);
 
 	if (start <= 0 || num <= 0 || --start + num > oldlen ) {
 		*error_string = _("Invalid arguments");
@@ -742,7 +746,7 @@ static struct subs_string *
 subs_string_new (guint len)
 {
 	struct subs_string *s = g_new (struct subs_string, 1);
-	
+
 	s->len = 0;
 	s->mem = len;
 	s->str = g_new (gchar, len);
@@ -757,7 +761,7 @@ subs_string_append_n (struct subs_string *s, gchar *src, guint n)
 
 	while (s->len + n >= s->mem)
 		s->str = g_realloc (s->str, s->mem += chunk);
-	
+
 	strncpy (&s->str [s->len], src, n);
 
 	s->len += n;
@@ -802,7 +806,7 @@ gnumeric_substitute (struct FunctionDefinition *i, Value *argv [], char **error_
 	len = strlen (text);
 	if (newlen != oldlen) {
 		s = subs_string_new (len);
-	} else 
+	} else
 		s = NULL;
 
 	p = text;
@@ -860,13 +864,13 @@ gnumeric_dollar (struct FunctionDefinition *i, Value *argv [], char **error_stri
 	ag[0] = argv [0];
 	ag[1] = argv [1];
 	ag[2] = NULL;
-	
+
 	v = gnumeric_fixed (i, ag, error_string);
 	if (v == NULL)
 		return NULL;
-	
+
 	g_assert (v->type == VALUE_STRING);
-	
+
 	len = strlen (v->v.str->str);
 	neg = (v->v.str->str [0] == '-') ? 1 : 0;
 

@@ -1,3 +1,24 @@
+1999-05-25  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-string.c (gnumeric_code): Handle compilers for which the
+ 	"char" type is signed.
+
+	* src/utils.c (parse_cell_name): Don't use isalpha which is
+ 	subject to locale.  (So is toupper, but the effects are ok.)
+	Move bounds check to handle overflow also.
+	(col_from_name): Don't use isalpha.
+
+	* src/fn-stat.c: Eliminate fmin2 and fmax2.
+
+	* src/fn-math.c (gnumeric_randbetween): Use random_01.
+	(gnumeric_rand): Ditto.
+
+	* src/utils.c (random_01): Function moved from goal-seek.c and
+ 	improved.
+	(random_normal): Function moved from goal-seek.c.
+
+	* configure.in: Check for a few ways of getting random numbers.
+
 1999-05-23  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/file.c (workbook_save_as): Handle the window closing by the

@@ -48,6 +48,9 @@ dnl On Solaris finite() needs ieeefp.h
 dnl
 AC_CHECK_HEADERS(ieeefp.h)
 
+dnl Check for some functions
+AC_CHECK_FUNCS(random drand48)
+
 dnl **************************************************
 dnl * ORBit support
 dnl **************************************************
