@@ -26,8 +26,8 @@ sheet_init_default_styles (Sheet *sheet)
 	sheet->default_col_style.style      = style_new ();
 	sheet->default_col_style.units      = 40;
 	sheet->default_col_style.pixels     = 0;
-	sheet->default_col_style.margin_a   = 0;
-	sheet->default_col_style.margin_b   = 0;
+	sheet->default_col_style.margin_a   = 1;
+	sheet->default_col_style.margin_b   = 1;
 	sheet->default_col_style.selected   = 0;
 	sheet->default_col_style.data       = NULL;
 
@@ -36,8 +36,8 @@ sheet_init_default_styles (Sheet *sheet)
 	sheet->default_row_style.style    = style_new ();
 	sheet->default_row_style.units    = 20;
 	sheet->default_row_style.pixels   = 0;
-	sheet->default_row_style.margin_a = 0;
-	sheet->default_row_style.margin_b = 0;
+	sheet->default_row_style.margin_a = 1;
+	sheet->default_row_style.margin_b = 1;
 	sheet->default_row_style.selected = 0;
 	sheet->default_row_style.data     = NULL;
 }
@@ -124,6 +124,30 @@ sheet_row_size_changed (ItemBar *item_bar, int row, int height, Sheet *sheet)
 	gnumeric_sheet_compute_visible_ranges (GNUMERIC_SHEET (sheet->sheet_view));
 }
 
+static guint
+cell_hash (gconstpointer key)
+{
+	CellRef *ca = (CellRef *) key;
+
+	return (ca->row << 8) | ca->col;
+}
+
+static gint
+cell_compare (gconstpointer a, gconstpointer b)
+{
+	CellRef *ca, *cb;
+
+	ca = (CellRef *) a;
+	cb = (CellRef *) b;
+
+	if (ca->row != cb->row)
+		return 0;
+	if (ca->col != cb->col)
+		return 0;
+	
+	return 1;
+}
+
 Sheet *
 sheet_new (Workbook *wb, char *name)
 {
@@ -140,6 +164,8 @@ sheet_new (Workbook *wb, char *name)
 	sheet->max_col_used = cols_shown;
 	sheet->max_row_used = rows_shown;
 
+	sheet->cell_hash = g_hash_table_new (cell_hash, cell_compare);
+	
 	sheet_init_default_styles (sheet);
 	
 	/* Dummy initialization */
@@ -200,6 +226,12 @@ sheet_new (Workbook *wb, char *name)
 	return sheet;
 }
 
+static void
+cell_hash_free_key (gpointer key, gpointer value, gpointer user_data)
+{
+	g_free (key);
+}
+	
 void
 sheet_destroy (Sheet *sheet)
 {
@@ -210,7 +242,8 @@ sheet_destroy (Sheet *sheet)
 	
 	style_destroy (sheet->default_row_style.style);
 	style_destroy (sheet->default_col_style.style);
-	
+
+	g_hash_table_foreach (sheet->cell_hash, cell_hash_free_key, NULL);
 	gtk_widget_destroy (sheet->toplevel);
 	
 	g_free (sheet);
@@ -755,6 +788,7 @@ sheet_col_get (Sheet *sheet, int pos)
 			return col;
 	}
 	col = sheet_col_new (sheet);
+	col->pos = pos;
 	sheet_col_add (sheet, col);
 	
 	return col;
@@ -777,8 +811,9 @@ sheet_row_get (Sheet *sheet, int pos)
 		if (row->pos == pos)
 			return row;
 	}
-	row = sheet_col_new (sheet);
-	sheet_col_add (sheet, row);
+	row = sheet_row_new (sheet);
+	row->pos = pos;
+	sheet_row_add (sheet, row);
 	
 	return row;
 }
@@ -807,27 +842,16 @@ gen_col_blanks (Sheet *sheet, int start_col, int end_col,
 Cell *
 sheet_cell_get (Sheet *sheet, int col, int row)
 {
-	GList *cols;
-	GList *rows;
-
+	Cell *cell;
+	CellRef cellref;
+	
 	g_return_val_if_fail (sheet != NULL, NULL);
 
-	for (cols = sheet->cols_info; cols; cols = cols->next){
-		ColRowInfo *ci = cols->data;
+	cellref.col = col;
+	cellref.row = row;
+	cell = g_hash_table_lookup (sheet->cell_hash, &cellref);
 
-		if (ci->pos == col){
-			rows = (GList *) ci->data;
-			
-			for (; rows; rows = rows->next){
-				Cell *cell = (Cell *) rows->data;
-				
-				if (cell->row->pos == row)
-					return cell;
-			}
-			return NULL;
-		}
-	}
-	return NULL;
+	return cell;
 }
 
 /*
@@ -920,21 +944,27 @@ CRowSort (gconstpointer a, gconstpointer b)
 	Cell *ca = (Cell *) a;
 	Cell *cb = (Cell *) b;
 
-	return ca->row->pos - cb->row->pos;
+	return cb->row->pos - ca->row->pos;
 }
 
 Cell *
 sheet_cell_new (Sheet *sheet, int col, int row)
 {
 	Cell *cell;
+	CellRef *cellref;
+	
 	g_return_val_if_fail (sheet != NULL, NULL);
 
-	printf ("Creating cell at %d,%d\n", col, row);
 	cell = g_new0 (Cell, 1);
 	cell->col   = sheet_col_get (sheet, col);
-	cell->row   = sheet_row_get (sheet, col);
+	cell->row   = sheet_row_get (sheet, row);
 	cell->style = sheet_style_compute (sheet, col, row);
 
+	cellref = g_new0 (CellRef, 1);
+	cellref->col = col;
+	cellref->row = row;
+	
+	g_hash_table_insert (sheet->cell_hash, cellref, cell);
 	cell->col->data = g_list_insert_sorted (cell->col->data, cell, CRowSort);
 
 	return cell;

@@ -58,7 +58,7 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		if (total_len >= wd)
 			item_edit->col_span++;
 	} while (total_len >= wd);
-	
+
 	dx = xd - x;
 	dy = yd - y;
 
@@ -68,7 +68,7 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 	first_part_len = gdk_text_width (font, text, cursor_pos);
 	gdk_draw_text (drawable, font, canvas->style->black_gc,
-		       dx + 1, dy + hd - font->descent, text, cursor_pos);
+		       dx, dy + hd - font->descent, text, cursor_pos);
 	gdk_draw_line (drawable, canvas->style->black_gc,
 		       first_part_len + dx + 1,
 		       dy + hd - font->descent,

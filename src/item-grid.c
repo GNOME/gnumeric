@@ -154,16 +154,19 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 		     int x1, int y1, int width, int height, int col, int row)
 {
 	GnumericSheet *gsheet = GNUMERIC_SHEET (item_grid->sheet->sheet_view);
-	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (item_grid)->canvas;
-	Sheet *sheet = item_grid->sheet;
-	GdkGC *gc = item_grid->gc;
+	GnomeCanvas   *canvas = GNOME_CANVAS_ITEM (item_grid)->canvas;
 	GdkFont *font;
-	Cell  *cell;
+	GdkGC *gc       = item_grid->gc;
+	GdkGC *white_gc = GTK_WIDGET (canvas)->style->white_gc;
+	Sheet *sheet = item_grid->sheet;
+	Cell  *cell, *clip_left, *clip_right;
 	Style *style;
-	int   x_offset, y_offset;
-	Cell  *clip_left, *clip_right;
-
+	int   x_offset, y_offset, text_base, pixels;
+	GdkRectangle rect;
+	
+#if 0
 	item_debug_cross (drawable, gc, x1, y1, x1+width, y1+height);
+#endif
 	
 	/* If cell is selected, draw selection */
 	if (sheet_selection_is_cell_selected (sheet, col, row)){
@@ -188,23 +191,41 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 	style = cell->style;
 	font = style->font->font;
 
+	/* Code to test the different alignements, hardcoded for now */
+	switch (col){
+	case 0:
+		style->halign = HALIGN_GENERAL;
+		break;
+	case 1:
+		style->halign = HALIGN_LEFT;
+		break;
+	case 2:
+		style->halign = HALIGN_RIGHT;
+		break;
+	case 3:
+		style->halign = HALIGN_CENTER;
+		break;
+	case 4:
+		style->halign = HALIGN_FILL;
+		break;
+	}
 	switch (style->halign){
 	case HALIGN_GENERAL:
 		if (col < SHEET_MAX_COLS-1)
 			clip_right = sheet_cell_get (sheet, col+1, row);
-		x_offset = 0;
+		x_offset = cell->col->margin_a;
 		break;
 
 	case HALIGN_LEFT:
 		if (col < SHEET_MAX_COLS-1)
 			clip_right = sheet_cell_get (sheet, col+1, row);
-		x_offset = 0;
+		x_offset = cell->col->margin_a;
 		break;
 		
 	case HALIGN_RIGHT:
 		if (col > 0)
 			clip_left = sheet_cell_get (sheet, col-1, row);
-		x_offset = cell->col->pixels - cell->width;
+		x_offset = cell->col->pixels - (cell->width - cell->col->margin_b);
 		break;
 		
 	case HALIGN_CENTER:
@@ -218,7 +239,8 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 	case HALIGN_FILL:
 		if (col < SHEET_MAX_COLS-1)
 			clip_right = sheet_cell_get (sheet, col-1, row);
-		x_offset = 0;
+		clip_left = clip_right = (Cell *) TRUE;
+		x_offset = cell->col->margin_a;
 		break;
 			
 	case HALIGN_JUSTIFY:
@@ -230,16 +252,34 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 		gdk_gc_set_foreground (gc, &cell->color);
 	} else 
 		gdk_gc_set_foreground (gc, &item_grid->default_color);
-	
+
+	text_base = y1 + cell->row->pixels - cell->row->margin_b - font->descent + 1;
+
 	gdk_gc_set_foreground (gc, &item_grid->default_color);
-	printf ("(%d,%d), text: %s\n", col, row, cell->text);
-	gdk_draw_text (drawable, font, gc, x1, y1, "TEXTO", 5);
-	/*
-		       x1 + x_offset,
-		       y1 + y_offset,
-		       cell->text, strlen (cell->text));
-	*/
-	
+
+	if (clip_left || clip_right){
+		rect.x = x1;
+		rect.y = y1;
+		rect.width = width;
+		rect.height = height;
+		gdk_gc_set_clip_rectangle (gc, &rect);
+	} else
+		gdk_gc_set_clip_rectangle (gc, NULL);
+
+	gdk_draw_rectangle (drawable, white_gc, TRUE,
+			    x1 + cell->col->margin_a,
+			    y1 + cell->row->margin_a,
+			    cell->width - (cell->col->margin_a + cell->col->margin_b),
+			    height - (cell->row->margin_a + cell->row->margin_b));
+
+	pixels = 0;
+	do {
+		gdk_draw_text (drawable, font, gc,
+			       x1 + x_offset,
+			       text_base + y_offset,
+			       cell->text, strlen (cell->text));
+		pixels += cell->width;
+	} while (style->halign == HALIGN_FILL && pixels < cell->col->pixels);
 }
 
 static void

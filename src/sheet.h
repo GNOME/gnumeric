@@ -45,7 +45,7 @@ typedef struct {
 	ColRowInfo default_row_style;
 	GList      *rows_info;
 
-	void       *contents;
+	GHashTable *cell_hash;	/* The cells in hashed format */
 
 	GList      *selections;
 
