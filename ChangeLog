@@ -1,3 +1,41 @@
+2001-11-02  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-style.c (sheet_style_unlink) : new.
+	(sheet_style_find) : clarify the reference count semantics and fix
+	  leak.
+	(cb_style_unlink) : renamed from cb_style_unref, and convert to using
+	  link.
+	(rstyle_dtor) : handle the style links/refs too.
+	(rstyle_apply) : Use the link mechanism.
+	(cell_tile_dtor) : use unlink rather than unref.
+	(cell_tile_style_new) : ditto.
+	(cell_tile_matrix_set) : ditto.
+	(sheet_style_init) : link the default style into the sheet.
+	(cb_unlink) : renamed from cb_remove_func, and converted to link.
+	(sheet_style_shutdown) : default style is in the hash no need to clear
+	  in manually.  Disable the hash pointer while clearing so that we
+	  don't change the hash while unlinking.
+	(sheet_style_set_range) : use rstyle_dtor.
+	(sheet_style_set_pos) : use rstyle_dtor.
+	(sheet_style_default) : fix docs.
+	(sheet_style_apply_range) : move the unref in rstyle_dtor.
+
+	* src/mstyle.c : Add some optional ref/link count debugging.
+	(mstyle_new) : init link info.
+	(mstyle_copy) : ditto.
+	(mstyle_copy_merge) : ditto.
+	(mstyle_ref) : add debug.
+	(mstyle_destroy) : merge into.
+	(mstyle_ref) : here.  add debug. Check link_count == 0 on destruction.
+	(mstyle_ref_multiple) : replace with
+	(mstyle_link_multiple) : this.
+	(mstyle_link_sheet) : new routine that assigns a sheet and sets its
+	 link count to 1.  If the sheet is already linked copy it and assign
+	 that.
+	(mstyle_link) : increment the link count for an already linked style.
+	(mstyle_unlink) : unlink and unref if no longer in use.  TODO : this
+	  will unlink an dependent aspects of the style.
+
 2001-11-01  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-edit.c (entry_changed) : autocomplete is in the wbv now.

@@ -51,4 +51,7 @@ StyleList	*sheet_style_get_list	(Sheet const *sheet, Range const *r);
 SpanCalcFlags	 sheet_style_set_list	(Sheet *sheet, CellPos const *corner,
 					 gboolean transpose, StyleList const *l);
 
+/* For internal use only */
+void	 sheet_style_unlink		(Sheet *sheet, MStyle *st);
+
 #endif /* GNUMERIC_SHEET_STYLE_H */

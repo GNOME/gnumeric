@@ -1,3 +1,4 @@
+/* vim: set sw=8: */
 /*
  * MStyle.c: The guts of the style engine.
  *
@@ -8,14 +9,14 @@
  *   Almer S. Tigelaar <almer@gnome.org>
  */
 #include <config.h>
-#include "str.h"
 #include "mstyle.h"
+#include "str.h"
 #include "style-border.h"
 #include "style-color.h"
 #include "validation.h"
 #include "pattern.h"
 #include "format.h"
-#include "main.h"
+#include "sheet-style.h"
 
 typedef struct {
 	MStyleElementType type;
@@ -71,6 +72,7 @@ typedef struct {
 
 struct _MStyle {
 	guint32        ref_count;
+	guint32        link_count;
 	Sheet	      *linked_sheet;
 	MStyleElement  elements[MSTYLE_ELEMENT_MAX];
 };
@@ -135,6 +137,13 @@ const char *mstyle_names[MSTYLE_ELEMENT_MAX] = {
 	"Content.Hidden",
 	"Validation"
 };
+
+/* Some ref/link count debugging */
+#if 0
+#define d(arg)	printf arg
+#else
+#define d(arg)	do { } while (0)
+#endif
 
 guint
 mstyle_hash (gconstpointer st)
@@ -537,7 +546,9 @@ mstyle_new (void)
 	MStyle *style = g_new0 (MStyle, 1);
 
 	style->ref_count = 1;
+	style->link_count = 0;
 	style->linked_sheet = NULL;
+	d(("new %p\n", style));
 
 	return style;
 }
@@ -548,9 +559,11 @@ mstyle_copy (const MStyle *style)
 	MStyle *new_style = g_new (MStyle, 1);
 
 	new_style->ref_count = 1;
+	new_style->link_count = 0;
 	new_style->linked_sheet = NULL;
 	mstyle_elements_copy (new_style, style);
 
+	d(("copy %p\n", new_style));
 	return new_style;
 }
 
@@ -565,6 +578,7 @@ mstyle_copy_merge (const MStyle *orig, const MStyle *overlay)
 	const MStyleElement *overlay_e;
 
 	res->ref_count = 1;
+	res->link_count = 0;
 	res->linked_sheet = NULL;
 	res_e = res->elements;
 	orig_e = orig->elements;
@@ -574,6 +588,7 @@ mstyle_copy_merge (const MStyle *orig, const MStyle *overlay)
 		res_e [i] = mstyle_element_ref (
 			(overlay_e [i].type ? overlay_e : orig_e) + i); 
 
+	d(("copy merge %p\n", res));
 	return res;
 }
 
@@ -639,29 +654,84 @@ mstyle_ref (MStyle *style)
 	g_return_if_fail (style->ref_count > 0);
 
 	style->ref_count++;
+	d(("ref %p = %d\n", style, style->ref_count));
 }
 
 void
-mstyle_ref_multiple (MStyle *style, int count)
-{
-	g_return_if_fail (style->ref_count > 0);
-
-	style->ref_count += count;
-}
-
-int
 mstyle_unref (MStyle *style)
 {
-	int res;
-
 	g_return_if_fail (style->ref_count > 0);
 
-	res = --style->ref_count;
+	d(("unref %p = %d\n", style, style->ref_count-1));
+	if (style->ref_count-- <= 1) {
+		g_return_if_fail (style->link_count == 0);
+		g_return_if_fail (style->linked_sheet == NULL);
 
-	if (style->ref_count <= 0)
-		mstyle_destroy (style);
+		if (style->elements)
+			mstyle_elements_unref (style->elements);
 
-	return res;
+		g_free (style);
+	}
+}
+
+/**
+ * mstyle_link_sheet :
+ * @style :
+ * @sheet :
+ *
+ * ABSORBS a reference to the style and sets the link count to 1.
+ */
+MStyle *
+mstyle_link_sheet (MStyle *style, Sheet *sheet)
+{
+	if (style->linked_sheet != NULL) {
+		MStyle *orig = style;
+		style = mstyle_copy (style);
+		mstyle_unref (orig);
+
+		/* safety test */
+		g_return_val_if_fail (style->linked_sheet != sheet, style);
+	}
+
+	g_return_val_if_fail (style->link_count == 0, style);
+	g_return_val_if_fail (style->linked_sheet == NULL, style);
+
+	style->linked_sheet = sheet;
+	style->link_count = 1;
+
+	d(("link sheet %p = 1\n", style));
+	return style;
+}
+
+void
+mstyle_link (MStyle *style)
+{
+	g_return_if_fail (style->link_count > 0);
+
+	style->link_count++;
+	d(("link %p = %d\n", style, style->link_count));
+}
+
+void
+mstyle_link_multiple (MStyle *style, int count)
+{
+	g_return_if_fail (style->link_count > 0);
+
+	style->link_count += count;
+	d(("multiple link %p + %d = %d\n", style, count, style->link_count));
+}
+
+void
+mstyle_unlink (MStyle *style)
+{
+	g_return_if_fail (style->link_count > 0);
+
+	d(("unlink %p = %d\n", style, style->link_count-1));
+	if (style->link_count-- <= 1) {
+		sheet_style_unlink (style->linked_sheet, style);
+		style->linked_sheet = NULL;
+		mstyle_unref (style);
+	}
 }
 
 char *
@@ -700,18 +770,6 @@ mstyle_dump (const MStyle *style)
 	txt = mstyle_to_string (style);
 	fprintf (stderr, "%s\n", txt);
 	g_free (txt);
-}
-
-void
-mstyle_destroy (MStyle *style)
-{
-	g_return_if_fail (style != NULL);
-	g_return_if_fail (style->ref_count == 0);
-
-	if (style->elements)
-		mstyle_elements_unref (style->elements);
-
-	g_free (style);
 }
 
 gboolean

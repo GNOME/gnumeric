@@ -59,11 +59,13 @@ MStyle     *mstyle_new_default   (void);
 MStyle     *mstyle_copy          (const MStyle *st);
 MStyle	   *mstyle_copy_merge	 (const MStyle *orig, const MStyle *overlay);
 void        mstyle_ref           (MStyle *st);
-void        mstyle_ref_multiple  (MStyle *st, int count);
-int         mstyle_unref         (MStyle *st);
-void        mstyle_link          (MStyle *st, Sheet *sheet);
+void        mstyle_unref         (MStyle *st);
+
+MStyle	   *mstyle_link_sheet    (MStyle *st, Sheet *sheet);
+void        mstyle_link          (MStyle *st);
+void        mstyle_link_multiple (MStyle *st, int count);
 void        mstyle_unlink        (MStyle *st);
-void        mstyle_destroy       (MStyle *st);
+
 gboolean    mstyle_equal         (const MStyle *a, const MStyle *b);
 gboolean    mstyle_verify        (const MStyle *st);
 guint       mstyle_hash          (gconstpointer st);

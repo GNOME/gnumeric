@@ -17,6 +17,8 @@ Jody:
 	* Improve dbf importer.
 	* Make autocorrect non-modal and cleaner.
 	* Make autocompletion a view attribute, with a gui.
+	* Enable per sheet style management to support
+	  validation, conditionals, and simply XL export.
 
 Jukka:
 	* Lots of documentation added.

@@ -39,23 +39,37 @@ struct _SheetStyleData {
 };
 
 /**
- * sheet_style_lookup :
+ * sheet_style_unlink
+ * For internal use only
+ */
+void
+sheet_style_unlink (Sheet *sheet, MStyle *st)
+{
+	if (sheet->style_data->style_hash != NULL)
+		g_hash_table_remove (sheet->style_data->style_hash, st);
+}
+
+/**
+ * sheet_style_find :
  *
  * @sheet : the sheet
  * @s     : a style
  *
- * Looks up (but does not reference) a style from the sheets collection.
- * Inserting if necessary.
+ * Looks up a style from the sheets collection.  Linking if necessary.
+ * ABSORBS the reference and adds a link.
  */
 static MStyle *
 sheet_style_find (Sheet *sheet, MStyle *s)
 {
 	MStyle *res;
 	res = g_hash_table_lookup (sheet->style_data->style_hash, s);
-	if (res != NULL)
+	if (res != NULL) {
+		mstyle_link (res);
+		mstyle_unref (s);
 		return res;
+	}
 
-	mstyle_ref (s);
+	s = mstyle_link_sheet (s, sheet);
 	g_hash_table_insert (sheet->style_data->style_hash, s, s);
 	return s;
 }
@@ -96,19 +110,27 @@ rstyle_ctor (ReplacementStyle *res, MStyle *new_style, MStyle *pstyle, Sheet *sh
 }
 
 static void
-cb_style_unref (gpointer key, gpointer value, gpointer user_data)
+cb_style_unlink (gpointer key, gpointer value, gpointer user_data)
 {
-	mstyle_unref ((MStyle *)key);
-	mstyle_unref ((MStyle *)value);
+	mstyle_unlink ((MStyle *)key);
+	mstyle_unlink ((MStyle *)value);
 }
 
 static void
 rstyle_dtor (ReplacementStyle *rs)
 {
 	if (rs->cache != NULL) {
-		g_hash_table_foreach (rs->cache, cb_style_unref, NULL);
+		g_hash_table_foreach (rs->cache, cb_style_unlink, NULL);
 		g_hash_table_destroy (rs->cache);
 		rs->cache = NULL;
+	}
+	if (rs->new_style != NULL) {
+		mstyle_unlink (rs->new_style);
+		rs->new_style = NULL;
+	}
+	if (rs->pstyle != NULL) {
+		mstyle_unref (rs->pstyle);
+		rs->pstyle = NULL;
 	}
 }
 
@@ -132,20 +154,16 @@ rstyle_apply (MStyle **old, ReplacementStyle *rs)
 		if (s == NULL) {
 			MStyle *tmp = mstyle_copy_merge (*old, rs->pstyle);
 			s = sheet_style_find (rs->sheet, tmp);
-			mstyle_ref (*old);
+			mstyle_link (*old);
 			g_hash_table_insert (rs->cache, *old, s);
 		}
 	} else
 		s = rs->new_style;
 
 	if (*old != s) {
-		mstyle_ref (s);
-		if (*old) {
-			if (mstyle_unref (*old) == 1) {
-				g_hash_table_remove (rs->sheet->style_data->style_hash, *old);
-				mstyle_unref (*old);
-			}
-		}
+		mstyle_link (s);
+		if (*old)
+			mstyle_unlink (*old);
 		*old = s;
 	}
 }
@@ -237,7 +255,7 @@ cell_tile_dtor (CellTile *tile)
 	} else if (TILE_SIMPLE <= t && t <= TILE_MATRIX) {
 		int i = tile_size [t];
 		while (--i >= 0) {
-			mstyle_unref (tile->style_any.style [i]);
+			mstyle_unlink (tile->style_any.style [i]);
 			tile->style_any.style [i] = NULL;
 		}
 	} else {
@@ -269,7 +287,7 @@ cell_tile_style_new (MStyle *style, CellTileType t)
 
 	if (style != NULL) {
 		int i = tile_size [t];
-		mstyle_ref_multiple (style, i);
+		mstyle_link_multiple (style, i);
 		while (--i >= 0)
 			res->style_any.style [i] = style;
 	}
@@ -347,7 +365,7 @@ cell_tile_matrix_set (CellTile *t, Range const *indic, ReplacementStyle *rs)
 
 	switch (t->type) {
 	case TILE_SIMPLE :
-		mstyle_ref_multiple (tmp = t->style_simple.style [0],
+		mstyle_link_multiple (tmp = t->style_simple.style [0],
 				     i = TILE_SIZE_COL * TILE_SIZE_ROW);
 		while (--i >= 0)
 			res->style [i] = tmp;
@@ -356,13 +374,13 @@ cell_tile_matrix_set (CellTile *t, Range const *indic, ReplacementStyle *rs)
 	case TILE_COL :
 		for (i = r = 0 ; r < TILE_SIZE_ROW ; ++r)
 			for (c = 0 ; c < TILE_SIZE_COL ; ++c)
-				mstyle_ref (res->style [i++] =
-					    t->style_col.style [c]);
+				mstyle_link (res->style [i++] =
+					     t->style_col.style [c]);
 		break;
 	case TILE_ROW :
 		for (i = r = 0 ; r < TILE_SIZE_ROW ; ++r) {
-			mstyle_ref_multiple (tmp = t->style_row.style [r],
-					     TILE_SIZE_COL);
+			mstyle_link_multiple (tmp = t->style_row.style [r],
+					      TILE_SIZE_COL);
 			for (c = 0 ; c < TILE_SIZE_COL ; ++c)
 				res->style [i++] = tmp;
 		}
@@ -400,34 +418,43 @@ sheet_style_init (Sheet *sheet)
 	sheet->style_data = g_new (SheetStyleData, 1);
 	sheet->style_data->style_hash =
 		g_hash_table_new (mstyle_hash, (GCompareFunc) mstyle_equal);
-	sheet->style_data->default_style = mstyle_new_default ();
+	sheet->style_data->default_style =
+		sheet_style_find (sheet, mstyle_new_default ());
 	sheet->style_data->styles =
 		cell_tile_style_new (sheet->style_data->default_style,
 				     TILE_SIMPLE);
 }
 
 static gboolean
-cb_remove_func (void *key, void *value, void *user)
+cb_unlink (void *key, void *value, void *user)
 {
-	mstyle_unref (key);
+	mstyle_unlink (key);
 	return TRUE;
 }
 
 void
 sheet_style_shutdown (Sheet *sheet)
 {
+	GHashTable *table;
+
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (sheet->style_data != NULL);
 
 	cell_tile_dtor (sheet->style_data->styles);
 	sheet->style_data->styles = NULL;
 
-	g_hash_table_foreach_remove (sheet->style_data->style_hash,
-				     cb_remove_func, NULL);
-	g_hash_table_destroy (sheet->style_data->style_hash);
-	sheet->style_data->style_hash = NULL;
+	sheet->style_data->default_style = NULL;
 
-	mstyle_unref (sheet->style_data->default_style);
+	/* Clear the pointer to the hash BEFORE clearing and add a test in
+	 * sheet_style_unlink.  If we don't then it is possible/probable that
+	 * unlinking the styles will attempt to remove them from the hash while
+	 * we are walking it.
+	 */
+	table = sheet->style_data->style_hash;
+	sheet->style_data->style_hash = NULL;
+	g_hash_table_foreach_remove (table, cb_unlink, NULL);
+	g_hash_table_destroy (table);
+
 
 	g_free (sheet->style_data);
 	sheet->style_data = NULL;
@@ -813,7 +840,7 @@ sheet_style_set_range (Sheet *sheet, Range const *range,
 	cell_tile_apply (&sheet->style_data->styles,
 			 TILE_TOP_LEVEL, 0, 0,
 			 range, rstyle_ctor (&rs, style, NULL, sheet));
-	mstyle_unref (style);
+	rstyle_dtor (&rs);
 }
 
 /**
@@ -838,16 +865,14 @@ sheet_style_set_pos (Sheet *sheet, int col, int row,
 	cell_tile_apply_pos (&sheet->style_data->styles,
 			     TILE_TOP_LEVEL, col, row,
 			     rstyle_ctor (&rs, style, NULL, sheet));
-	mstyle_unref (style);
+	rstyle_dtor (&rs);
 }
 
 /**
  * sheet_style_default :
- *
  * @sheet :
  *
- * Return the default style for a sheet.
- * NOTE : This does NOT add a reference.
+ * Returns a reference to default style for a sheet.
  */
 MStyle *
 sheet_style_default (Sheet const *sheet)
@@ -1094,7 +1119,6 @@ sheet_style_apply_range (Sheet *sheet, Range const *range, MStyle *pstyle)
 			 TILE_TOP_LEVEL, 0, 0,
 			 range, rstyle_ctor (&rs, NULL, pstyle, sheet));
 	rstyle_dtor (&rs);
-	mstyle_unref (pstyle);
 }
 
 static void
