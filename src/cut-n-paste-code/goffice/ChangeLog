@@ -1,3 +1,10 @@
+2004-12-17  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* graph/gog-series.c (gog_series_dataset_dim_changed): resize for every
+	label change.
+	* graph/gog-axis.c (gog_axis_update): no need to force resize for 
+	discrete axis, it's handled by gog_series_dataset_dim_changed.
+	
 2004-12-15  Morten Welinder  <terra@gnome.org>
 
 	* gui-utils/go-action-combo-stack.c (get_key_at_path): Don't crash

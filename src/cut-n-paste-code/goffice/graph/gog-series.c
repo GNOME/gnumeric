@@ -550,12 +550,22 @@ static void
 gog_series_dataset_dim_changed (GogDataset *set, int dim_i)
 {
 	GogSeries *series = GOG_SERIES (set);
+
 	if (dim_i >= 0) {
 		GogSeriesClass	*klass = GOG_SERIES_GET_CLASS (set);
+		GogPlot *plot = GOG_PLOT (GOG_OBJECT (set)->parent);
+		/* FIXME: we probaly need a signal which will be connected
+		 * to axis and legend objects and let them check if resize
+		 * is really needed (similar to child-name-changed
+		 * connected to legend). For now, let resize for every label
+		 * change */
+		gboolean resize = plot != NULL ?
+			plot->desc.series.dim[dim_i].val_type == GOG_DIM_LABEL :
+			FALSE;
 
 		if (!series->needs_recalc) {
 			series->needs_recalc = TRUE;
-			gog_object_emit_changed (GOG_OBJECT (set), FALSE);
+			gog_object_emit_changed (GOG_OBJECT (set), resize);
 		}
 		if (klass->dim_changed != NULL)
 			(klass->dim_changed) (GOG_SERIES (set), dim_i);

@@ -1257,12 +1257,8 @@ gog_axis_update (GogObject *obj)
 
 	gog_axis_calc_ticks (axis);
 
-	/* FIXME: there isn't an easy way to know if a discrete axis
-	 * needs to emit a changed signal. So allways emit changed signal if
-	 * axis is discrete */
 	if (old_min != axis->auto_bound [AXIS_ELEM_MIN] ||
-	    old_max != axis->auto_bound [AXIS_ELEM_MAX] ||
-	    axis->is_discrete)
+	    old_max != axis->auto_bound [AXIS_ELEM_MAX])
 		gog_object_emit_changed (GOG_OBJECT (obj), TRUE);
 }
 
