@@ -850,10 +850,10 @@ font_init (StylePrefState *state, GogStyle const *style, guint32 enable, GtkWidg
 	g_return_if_fail (GTK_NOTEBOOK (optional_notebook) != NULL);
 
 	w = font_selector_new ();
+	font_selector_set_from_pango  (FONT_SELECTOR (w), style->font.font->desc);
 	g_signal_connect (G_OBJECT (w),
 		"font_changed",
 		G_CALLBACK (cb_font_changed), state);
-	font_selector_set_from_pango  (FONT_SELECTOR (w), style->font.font->desc);
 	gtk_notebook_prepend_page (GTK_NOTEBOOK (optional_notebook), w,
 		gtk_label_new (_("Font")));
 	gtk_widget_show (w);

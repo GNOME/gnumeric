@@ -39,5 +39,5 @@ DISTCLEANFILES	= $(GNUMERIC_GENERATED) stamp_Gnumeric_idl $(xml_DATA)
 EXTRA_DIST	= $(idl_DATA) $(xml_in_files)
 
 dist-hook :
-	cd $(distdir) && rm -f $(CLEANFILES)
+	cd $(distdir) && rm -f $(DISTCLEANFILES)
 

@@ -144,15 +144,18 @@ gog_xy_plot_axis_bounds (GogPlot *plot, GogAxisType axis,
 	GogXYPlot *model = GOG_XY_PLOT (plot);
 
 	if (axis == GOG_AXIS_X) {
+		GSList *ptr;
+
 		*minima = model->x.minimum;
 		*maxima = model->x.maximum;
 		*is_discrete = model->x.minimum > model->x.maximum ||
 			!finite (model->x.minimum) ||
 			!finite (model->x.maximum);
 
-		if (plot->series == NULL)
-			return NULL;
-		return GOG_SERIES (plot->series->data)->values[0].data;
+		for (ptr = plot->series; ptr != NULL ; ptr = ptr->next)
+			if (gog_series_is_valid (GOG_SERIES (ptr->data)))
+				return GOG_SERIES (ptr->data)->values[0].data;
+		return NULL;
 	} 
 	
 	if (axis == GOG_AXIS_Y) {

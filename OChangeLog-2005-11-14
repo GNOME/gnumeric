@@ -1,3 +1,9 @@
+2003-09-18  Jody Goldberg <jody@gnome.org>
+
+	* src/gui-util.c (cb_free_keyed_dialog_context) : remove the
+	  unnecessary precondition.  If we're being called during wbcg::finalize
+	  then the data is already gone.
+
 2003-09-16  Jody Goldberg <jody@gnome.org>
 
 	* src/expr.c (do_expr_as_string) : fill in ParsePos::sheet too so that

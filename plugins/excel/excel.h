@@ -33,18 +33,6 @@ extern  ExcelPaletteEntry const excel_default_palette[];
 extern  char const *excel_builtin_formats[];
 #define EXCEL_BUILTIN_FORMAT_LEN 0x32
 
-typedef struct {
-	char const *name;
-	int num_args ; /* -1 for multi-arg */
-		       /* -2 for unknown args */
-} MsFormulaFuncData;
-
-extern MsFormulaFuncData const formula_func_data[];
-#define FORMULA_FUNC_DATA_LEN 368
-
 #define ROW_BLOCK_MAX_LEN 32
-
-typedef gboolean (*MsExcelReadGbFn) (IOContext *context, Workbook *wb, GsfInput *input);
-extern MsExcelReadGbFn ms_excel_read_gb;
 
 #endif /* GNUMERIC_EXCEL_H */

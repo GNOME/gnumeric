@@ -1,3 +1,8 @@
+2003-09-18  Jody Goldberg <jody@gnome.org>
+
+	* Makefile.am : s/CLEANFILES/DISTCLEANFILES/ to ensure that the
+	  generated source does not go into the tarball.
+
 2003-09-15  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.0

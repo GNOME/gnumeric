@@ -99,8 +99,10 @@ Short Term Goals
 	1.7.6) Avoid leaking GODatas when faced with an unknown	(DONE)
 	       plot type.
 	1.7.7) double axis import on simple_bar2
-	1.7.8) Axis bounds
+	1.7.8) Axis bounds and ticks size
 	1.7.9) log scale
+	1.7.10) Titles
+	1.7.11) check marker none
     1.8) data sources
 	1.8.1) vector and scalar data sources from gnumeric	(DONE)
 	1.8.2) Add min/max elements to vector			(DONE)
@@ -240,9 +242,10 @@ Short Term Goals
 	1.25.6) gradient filled polygons			(DONE)
 	1.25.7) measure text					(DONE)
 	1.25.8) draw text					(DONE)
-	1.25.9) why doesn't text appear in preview
-	1.25.10) why is font selection bogus
-	1.25.11) text anchors
+	1.25.9) why doesn't text appear in preview		(DONE)
+	1.25.10) why is font selection bogus			(DONE)
+	1.25.11) text anchors					(DONE)
+	1.25.12) Check the zoom handling for fonts
     1.26) Move 'use_one_style' from pie -> plot with 1 series	(DONE)
     1.27) Add a flag to gobject to go with its role indicating	(DONE)
 	whether the instance was autocreated or assigned.
@@ -254,6 +257,11 @@ Short Term Goals
 	1.30.3) Add or remove it depending on chart axis set	(DONE)
 	1.30.4) Render background				(DONE)
 	1.30.5) Draw grid lines when appropriate
+    1.31) SVG Render
+	1.31.1) Gradients
+	1.31.2) Text
+    1.32) Radar plots
+	1.31.1) Basic looks trivial
 
     questions
 	- how to select a single point for formating ?
@@ -298,7 +306,7 @@ Short Term Goals
 3) hlinks
     3.1) Finish the edit dialog to load and store results 	(DONE)
     3.2) Figure out import semantics of the other 2 XL types
-    3.3) email support ? via system 'evoltion mailto:....'
+    3.3) email support ? via system 'evolution mailto:....'
 
 6) XL
     6.1) biff7 externsheet records in charts			(DONE)
@@ -322,6 +330,10 @@ Short Term Goals
 	    6.9.4.2) Escher					(DONE)
     6.10) hlink export
     6.11) Comment import for XL97				(DONE)
+    6.12) Set operand classes
+	6.12.1) calc and set the classes			(DONE)
+	6.12.2) check target_type of external func
+	6.12.3) check target type of range/intersect
 
 14) Polish up Open and Save
     14.1) merge open and import dialogs				(DONE)

@@ -1,4 +1,29 @@
+2003-09-21  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-write.c (xl_map_char_to_type) : new util.
+	(xl_get_op_class) : wrapper to help calculate the result class.
+	(write_cellref_v7) : handle operand classes.
+	(write_cellref_v8) : handle operand classes.
+	(excel_formula_write_CELLREF) : ditto and operator mapping.
+	(excel_formula_write_AREA) : ditto.
+	(write_funcall) : ditto.
+	(excel_formula_write_NAME_v8) : ditto.
+	(excel_formula_write_NAME_v7) : ditto.
+	(write_node) : ditto.
+	(excel_write_formula) : collect more information on the calling context
+
+2003-09-18  Jody Goldberg <jody@gnome.org>
+
+	* ms-escher.c (excel_write_MS_O_DRAWING_GROUP) : Add UserDefined to
+	  silence some warnings.
+
 2003-09-16  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-write.c : push all the 'shared' arguments into the
+	  PolishData that we're passing around anyway.
+
+	* ms-formula-write.c (excel_write_prep_expr) : register functions that
+	  exist only in arrays too.
 
 	* ms-excel-util.c (init_xl_font_widths) : add Albany
 

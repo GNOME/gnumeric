@@ -101,7 +101,7 @@ get_font (GogRendererGnomePrint *prend, GOFont const *gf)
 			pango_font_description_get_family (desc),
 			pango_font_description_get_weight (desc) >= PANGO_WEIGHT_BOLD ? GNOME_FONT_BOLD : GNOME_FONT_REGULAR,
 			pango_font_description_get_style (desc) != PANGO_STYLE_NORMAL,
-			pango_font_description_get_size (desc) / PANGO_SCALE);
+			prend->base.zoom * pango_font_description_get_size (desc) / PANGO_SCALE);
 		g_ptr_array_index (prend->fonts, gf->font_index) = res;
 	}
 

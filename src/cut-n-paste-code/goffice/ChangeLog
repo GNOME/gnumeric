@@ -1,3 +1,14 @@
+2003-09-20  Jody Goldberg <jody@gnome.org>
+
+	* graph/plugins/plot_barcol/gog-1.5d.c (gog_plot1_5d_axis_bounds) :
+	  only valid series can contribute to an index dimension.
+	* graph/plugins/plot_xy/gog-xy.c (gog_xy_plot_axis_bounds) : ditto.
+
+	* graph/gog-renderer-gnome-print.c (get_font) : respect zoom.
+
+	* graph/gog-style.c (font_init) : set the font _before_ connecting the
+	  signal. doh!
+
 2003-09-16  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-theme.c (gog_themes_init) : change the default theme for

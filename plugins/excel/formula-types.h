@@ -12,9 +12,6 @@
 /**
  * See S59E2B.HTM for the spec.
  **/
-
-#define FORMULA_PTG_MAX			0x7f
-
 #define FORMULA_PTG_EXPR		0x01
 #define FORMULA_PTG_TBL			0x02
 #define FORMULA_PTG_ADD			0x03
@@ -46,40 +43,58 @@
 #define FORMULA_PTG_BOOL		0x1D
 #define FORMULA_PTG_INT			0x1E
 #define FORMULA_PTG_NUM			0x1F /* 8 byte IEEE floating point number */
-#define FORMULA_PTG_ARRAY		0x20
-#define FORMULA_PTG_FUNC		0x21
-#define FORMULA_PTG_FUNC_VAR		0x22
-#define FORMULA_PTG_NAME		0x23
-#define FORMULA_PTG_REF			0x24
-#define FORMULA_PTG_AREA		0x25
-#define FORMULA_PTG_MEM_AREA		0x26
-#define FORMULA_PTG_MEM_ERR		0x27
-#define FORMULA_PTG_MEM_NO_MEM		0x28
-#define FORMULA_PTG_MEM_FUNC		0x29
-#define FORMULA_PTG_REF_ERR		0x2A
-#define FORMULA_PTG_AREA_ERR		0x2B
-#define FORMULA_PTG_REFN		0x2C
-#define FORMULA_PTG_AREAN		0x2D
-#define FORMULA_PTG_MEM_AREAN		0x2E
-#define FORMULA_PTG_NO_MEMN		0x2F
+
+/* classed V alue, A rray, R reference */
+#define FORMULA_PTG_ARRAY		0x20		/* A */
+#define FORMULA_PTG_FUNC		0x21		/* depends on func */
+#define FORMULA_PTG_FUNC_VAR		0x22		/* depends on func */
+#define FORMULA_PTG_NAME		0x23		/* R */
+#define FORMULA_PTG_REF			0x24		/* R + mapping */
+#define FORMULA_PTG_AREA		0x25		/* R + mapping */
+#define FORMULA_PTG_MEM_AREA		0x26		/* R + mapping */
+#define FORMULA_PTG_MEM_ERR		0x27		/* R */
+#define FORMULA_PTG_MEM_NO_MEM		0x28		/* R + mapping */
+#define FORMULA_PTG_MEM_FUNC		0x29		/* R */
+#define FORMULA_PTG_REF_ERR		0x2A		/* R */
+#define FORMULA_PTG_AREA_ERR		0x2B		/* R */
+#define FORMULA_PTG_REFN		0x2C		/* R, shared, conditional, validation, and for biff2-4 names */
+#define FORMULA_PTG_AREAN		0x2D		/* R, shared, conditional, validation, and for biff2-4 names */
+#define FORMULA_PTG_MEM_AREAN		0x2E		/* R */
+#define FORMULA_PTG_NO_MEMN		0x2F		/* R */
 /* nothing documented */
-#define FORMULA_PTG_NAME_X		0x39
-#define FORMULA_PTG_REF_3D		0x3A
-#define FORMULA_PTG_AREA_3D		0x3B
-#define FORMULA_PTG_REF_ERR_3D		0x3C
-#define FORMULA_PTG_AREA_ERR_3D		0x3D
+#define FORMULA_PTG_FUNC_CE		0x38	/* macro */
+#define FORMULA_PTG_NAME_X		0x39		/* R */
+#define FORMULA_PTG_REF_3D		0x3A		/* R */
+#define FORMULA_PTG_AREA_3D		0x3B		/* R */
+#define FORMULA_PTG_REF_ERR_3D		0x3C		/* R */
+#define FORMULA_PTG_AREA_ERR_3D		0x3D		/* R */
 
-#define FORMULA_PTG_FUNC_CEV		0x58
+#define FORMULA_PTG_MAX			0x7f
 
-/*
- * Classes of Formulae Values
- * These apply mainly to references and arrays
- * Ignore for:
- *    operators
- *    simple values (integer, string ... ) [ string ? ]
- */
-#define FORMULA_CLASS_REF               0x00
-#define FORMULA_CLASS_VALUE             0x20
-#define FORMULA_CLASS_ARRAY             0x40
+typedef enum {
+	/* To catch the magic extension entry */
+	XL_MAGIC	= 1 << 0,
 
-#endif
+	/* fixed and vararg are opposites, be verbose for clarity */
+	XL_FIXED	= 1 << 1,
+	XL_VARARG	= 1 << 2,
+	XL_VOLATILE	= 1 << 3,
+	XL_XLM		= 1 << 4,
+	XL_UNKNOWN	= 1 << 5
+} ExcelFuncFlag;
+
+typedef struct {
+	char const *name;
+	ExcelFuncFlag	 flags;
+	guint8		 num_known_args;
+
+	/* Use chars instead of XLOpType because that is easier to read
+	 * and I am too lazy to make the massive edit it would take to
+	 * change it. */
+	char		 type;
+	char const 	*known_args;
+} ExcelFuncDesc;
+extern ExcelFuncDesc const excel_func_desc[];
+extern int excel_func_desc_size;
+
+#endif /* GNUMERIC_EXCEL_FORMULA_TYPES_H */

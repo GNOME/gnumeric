@@ -204,14 +204,18 @@ gog_plot1_5d_axis_bounds (GogPlot *plot, GogAxisType axis,
 		}
 		return NULL;
 	} else if (axis == gog_axis_get_atype (gog_plot1_5d_get_index_axis (model))) {
+		GSList *ptr;
+
 		*min = 0;
 		*max = model->num_elements;
 		*logical_min = 0;
 		*logical_max = gnm_nan;
 		*is_discrete = TRUE;
-		if (plot->series == NULL)
-			return NULL;
-		return GOG_SERIES (plot->series->data)->values[0].data;
+
+		for (ptr = plot->series; ptr != NULL ; ptr = ptr->next)
+			if (gog_series_is_valid (GOG_SERIES (ptr->data)))
+				return GOG_SERIES (ptr->data)->values[0].data;
+		return NULL;
 	}
 
 	g_warning ("not reached");

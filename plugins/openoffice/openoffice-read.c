@@ -893,6 +893,8 @@ oo_conventions (void)
 	res->unknown_function_handler = gnm_func_placeholder_factory;
 	res->ref_parser = oo_rangeref_parse;
 
+#warning TODO : OO adds a 'mode' parm to floor/ceiling
+#warning TODO : OO missing 'A1' parm for address
 	res->function_rewriter_hash =
 		g_hash_table_new (g_str_hash, g_str_equal);
 	g_hash_table_insert (res->function_rewriter_hash,

@@ -6,19 +6,26 @@
  *    Jody Goldberg (jody@gnome.org)
  *
  * (C) 1998-2001 Michael Meeks
- *          2002 Jody Goldberg
+ *     2002-2003 Jody Goldberg
  */
-#ifndef GNUMERIC_MS_FORMULA_W_H
-#define GNUMERIC_MS_FORMULA_W_H
+#ifndef GNUMERIC_MS_FORMULA_WRITE_H
+#define GNUMERIC_MS_FORMULA_WRITE_H
 
 #include <gnumeric.h>
-#include "ms-excel-write.h"
-#include "ms-biff.h"
-#include "formula-types.h"
+#include "excel.h"
+
+typedef enum {
+	EXCEL_CALLED_FROM_CELL,
+	EXCEL_CALLED_FROM_ARRAY,
+	EXCEL_CALLED_FROM_SHARED,
+	EXCEL_CALLED_FROM_CONDITION,
+	EXCEL_CALLED_FROM_VALIDATION,
+	EXCEL_CALLED_FROM_NAME
+} ExcelFuncContext;
 
 guint32 excel_write_formula    (ExcelWriteState *ewb, GnmExpr const *expr,
 				Sheet *sheet, int fn_col, int fn_row,
-				gboolean shared);
+				ExcelFuncContext context);
 
 void excel_write_prep_expressions (ExcelWriteState *ewb);
 void excel_write_prep_expr  	  (ExcelWriteState *ewb, GnmExpr const *expr);

@@ -741,7 +741,8 @@ excel_write_DV (ValInputPair const *vip, gpointer dummy, ExcelWriteSheet *esheet
 	if (vip->v != NULL && vip->v->expr[0] != NULL) {
 		unsigned pos = bp->curpos;
 		guint16 len = excel_write_formula (esheet->ewb,
-			vip->v->expr[0], esheet->gnum_sheet, col, row, TRUE);
+				vip->v->expr[0], esheet->gnum_sheet, col, row,
+				EXCEL_CALLED_FROM_VALIDATION);
 		unsigned end_pos = bp->curpos;
 		ms_biff_put_var_seekto (bp, pos-4);
 		GSF_LE_SET_GUINT16 (data, len);
@@ -755,7 +756,8 @@ excel_write_DV (ValInputPair const *vip, gpointer dummy, ExcelWriteSheet *esheet
 	if (vip->v != NULL && vip->v->expr[1] != NULL) {
 		unsigned pos = bp->curpos;
 		guint16 len = excel_write_formula (esheet->ewb,
-			vip->v->expr[1], esheet->gnum_sheet, col, row, TRUE);
+				vip->v->expr[1], esheet->gnum_sheet, col, row,
+				EXCEL_CALLED_FROM_VALIDATION);
 		unsigned end_pos = bp->curpos;
 		ms_biff_put_var_seekto (bp, pos-4);
 		GSF_LE_SET_GUINT16 (data, len);
@@ -931,7 +933,7 @@ excel_write_NAME (G_GNUC_UNUSED gpointer key,
 
 	if (!expr_name_is_placeholder (nexpr)) {
 		guint16 expr_len = excel_write_formula (ewb, nexpr->expr,
-							nexpr->pos.sheet, 0, 0, TRUE);
+				nexpr->pos.sheet, 0, 0, EXCEL_CALLED_FROM_NAME);
 		ms_biff_put_var_seekto (ewb->bp, 4);
 		GSF_LE_SET_GUINT16 (data, expr_len);
 		ms_biff_put_var_write (ewb->bp, data, 2);
@@ -2559,7 +2561,7 @@ excel_write_FORMULA (ExcelWriteState *ewb, ExcelWriteSheet *esheet, Cell const *
 	GSF_LE_SET_GUINT16 (data + 20, 0x0); /* bogus len, fill in later */
 	ms_biff_put_var_write (ewb->bp, data, 22);
 	len = excel_write_formula (ewb, expr, esheet->gnum_sheet,
-				   col, row, FALSE); /* unshared for now */
+				col, row, EXCEL_CALLED_FROM_CELL); /* unshared for now */
 
 	ms_biff_put_var_seekto (ewb->bp, 20);
 	GSF_LE_SET_GUINT16 (lendat, len);
@@ -2579,7 +2581,7 @@ excel_write_FORMULA (ExcelWriteState *ewb, ExcelWriteSheet *esheet, Cell const *
 		GSF_LE_SET_GUINT16 (data+12, 0); /* bogus len, fill in later */
 		ms_biff_put_var_write (ewb->bp, data, 14);
 		len = excel_write_formula (ewb, expr->array.corner.expr,
-					   esheet->gnum_sheet, col, row, TRUE);
+				esheet->gnum_sheet, col, row, EXCEL_CALLED_FROM_ARRAY);
 
 		ms_biff_put_var_seekto (ewb->bp, 12);
 		GSF_LE_SET_GUINT16 (lendat, len);

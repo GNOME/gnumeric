@@ -768,6 +768,11 @@ ms_escher_read_Selection (MSEscherState *state, MSEscherHeader *h)
 	return FALSE;
 }
 static gboolean
+ms_escher_read_UserDefined (MSEscherState *state, MSEscherHeader *h)
+{
+	return FALSE;
+}
+static gboolean
 ms_escher_read_Dg (MSEscherState *state, MSEscherHeader *h)
 {
 #if 0
@@ -1891,6 +1896,7 @@ ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
 		case EshRecord(ClientRule);
 		case EshRecord(CalloutRule);
 		case EshRecord(Selection);
+		case EshRecord(UserDefined);
 		default : fbt_name = NULL;
 		};
 #undef EshRecord

@@ -59,8 +59,6 @@ gint ms_excel_write_debug = 0;
 /* Enables debugging mesgs while reading excel objects */
 gint ms_excel_object_debug = 0;
 
-MsExcelReadGbFn ms_excel_read_gb = NULL;
-
 gboolean excel_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl);
 void excel_file_open (GnmFileOpener const *fo, IOContext *context, WorkbookView *wbv, GsfInput *input);
 void excel_biff7_file_save (GnmFileSaver const *fs, IOContext *context, WorkbookView const *wbv, GsfOutput *output);
