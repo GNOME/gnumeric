@@ -610,27 +610,45 @@ yearfrac (GDate const *from, GDate const *to, basis_t basis)
 	int days = days_between_basis (from, to, basis);
 	gnm_float peryear;
 
+	if (days < 0) {
+		const GDate *tmp;
+		days = -days;
+		tmp = from; from = to; to = tmp;
+	}
+
 	switch (basis) {
 	case BASIS_ACT_ACT: {
-		int y1 = g_date_get_year (from) + (g_date_get_month (from) <= 2 ? 0 : 1);
-		int y2 = g_date_get_year (to) + (g_date_get_month (to) <= 2 ? 0 : 1);
+		int y1 = g_date_get_year (from);
+		int y2 = g_date_get_year (to);
+		GDate d1, d2;
+		int feb29s, years;
 
-		if (y1 == y2)
-			peryear = g_date_is_leap_year (y1) ? 366 : 365;
-		else {
-			GDate d1, d2;
-			int leaps;
+		d1 = *from;
+		g_date_add_years (&d1, 1);
+		if (g_date_compare (to, &d1) > 0) {
+			/* More than one year.  */
+			years = y2 + 1 - y1;
 
 			g_date_clear (&d1, 1);
 			g_date_set_dmy (&d1, 1, 1, y1);
 
 			g_date_clear (&d2, 1);
-			g_date_set_dmy (&d2, 1, 1, y2);
+			g_date_set_dmy (&d2, 1, 1, y2 + 1);
 
-			leaps = g_date_get_julian (&d2) - g_date_get_julian (&d1) -
-				365 * (y2 - y1);
-			peryear = 365 + (gnm_float)leaps / (y2 - y1);
+			feb29s = g_date_get_julian (&d2) - g_date_get_julian (&d1) -
+				365 * (y2 + 1 - y1);
+		} else {
+			/* Less than one year.  */
+			years = 1;
+
+			if ((g_date_is_leap_year (y1) && g_date_get_month (from) < 3) ||
+			    (g_date_is_leap_year (y2) && g_date_get_month (to) >= 3))
+				feb29s = 1;
+			else
+				feb29s = 0;			    
 		}
+
+		peryear = 365 + (gnm_float)feb29s / years;
 
 		break;
 	}

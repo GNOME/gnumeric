@@ -1,3 +1,10 @@
+2003-07-02  Morten Welinder  <terra@gnome.org>
+
+	* src/datetime.c (yearfrac): Swap args if incorrectly ordered.
+	Make it clear that we're counting February 29ths, not leap days.
+	(Leap days are February 24ths, if you must know.)  Get the less
+	than one year special case right.
+
 2003-07-02  Jody Goldberg <jody@gnome.org>
 
 	* src/print.c (print_sheet_objects) : translate to the upper left
