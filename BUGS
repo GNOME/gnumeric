@@ -148,8 +148,6 @@ Excel i/o
 Misc stuff that should be fixed
 -------------------------------
 
-- Oleo formulae contains spaces and now break.  (Try demo.oleo.)
-
 - Missing undo/redo for
     - Freeze panes (tricky this is a view attribute)
     - Duplicate sheet.

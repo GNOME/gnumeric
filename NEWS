@@ -63,6 +63,7 @@ Morten:
 	* Overhaul error value layers.
 	* Fix loading and saving of error values in xml format.
 	* Fix parser crash.  (101658.)
+	* Fix oleo parser.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.12
