@@ -23,19 +23,12 @@ typedef struct {
 } autosave_t;
 
 static void
-autosave_on_off_toggled(GtkWidget *widget, gboolean *flag)
+autosave_on_off_toggled(GtkWidget *widget, autosave_t *p)
 {
-	autosave_t *p = gtk_object_get_user_data (GTK_OBJECT (widget));
-
-        *flag = GTK_TOGGLE_BUTTON (widget)->active;
-	gtk_widget_set_sensitive (p->minutes_entry, *flag);
-	gtk_widget_set_sensitive (p->prompt_cb, *flag);
-}
-
-static void
-prompt_on_off_toggled(GtkWidget *widget, gboolean *flag)
-{
-        *flag = GTK_TOGGLE_BUTTON (widget)->active;
+        gboolean active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
+	
+	gtk_widget_set_sensitive (p->minutes_entry, active);
+	gtk_widget_set_sensitive (p->prompt_cb, active);
 }
 
 gboolean
@@ -74,7 +67,6 @@ dialog_autosave (WorkbookControlGUI *wbcg)
 	GtkWidget  *autosave_on_off;
 	gchar      buf[20];
 	gint       v;
-	gboolean   autosave_flag, prompt_flag;
 	autosave_t p;
 
 	wb_control_gui_autosave_cancel (wbcg);
@@ -101,8 +93,7 @@ dialog_autosave (WorkbookControlGUI *wbcg)
 
 	gtk_signal_connect (GTK_OBJECT (autosave_on_off), "toggled",
 			    GTK_SIGNAL_FUNC (autosave_on_off_toggled),
-			    &autosave_flag);
-	gtk_object_set_user_data (GTK_OBJECT (autosave_on_off), &p);
+			    &p);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (autosave_on_off),
 				      wbcg->autosave);
@@ -112,34 +103,30 @@ dialog_autosave (WorkbookControlGUI *wbcg)
 		gtk_widget_set_sensitive (p.prompt_cb, FALSE);
 	}
 
-	if (wbcg->autosave_prompt)
-	        gtk_toggle_button_set_active ((GtkToggleButton *)
-					      p.prompt_cb,
-					      wbcg->autosave_prompt);
-	gtk_signal_connect (GTK_OBJECT (p.prompt_cb), "toggled",
-			    GTK_SIGNAL_FUNC (prompt_on_off_toggled),
-			    &prompt_flag);
-
+	gtk_toggle_button_set_active ((GtkToggleButton *) p.prompt_cb,
+				      wbcg->autosave_prompt);
 loop:
 	v = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dia));
 
 	if (v == 0) {
-		gchar *txt;
-		int   tmp;
+		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (autosave_on_off))) {
+			gchar *txt;
+			int   tmp;
 
-		txt = gtk_entry_get_text (GTK_ENTRY (p.minutes_entry));
-		tmp = atoi (txt);
-		if (tmp <= 0) {
-		        gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
-					 _("You should introduce a proper "
-					   "number of minutes in the entry."));
-			gtk_widget_grab_focus (p.minutes_entry);
-			goto loop;
-		}
-		if (autosave_flag)
-		        wb_control_gui_autosave_set (wbcg, tmp, prompt_flag);
-		else
-		        wb_control_gui_autosave_cancel (wbcg);
+			txt = gtk_entry_get_text (GTK_ENTRY (p.minutes_entry));
+			tmp = atoi (txt);
+			if (tmp <= 0) {
+				gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+						 _("You should introduce a proper "
+						   "number of minutes in the entry."));
+				gtk_widget_grab_focus (p.minutes_entry);
+				goto loop;
+			}
+			
+		        wb_control_gui_autosave_set (
+				wbcg, tmp, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (p.prompt_cb)));
+		} else
+			wb_control_gui_autosave_set (wbcg, 0, FALSE);
 	} else if (v == 2) {
 		GnomeHelpMenuEntry help_ref = { "gnumeric", "autosave.html" };
 		gnome_help_display (NULL, &help_ref);
@@ -150,3 +137,4 @@ loop:
 
 	gtk_object_unref (GTK_OBJECT (gui));
 }
+

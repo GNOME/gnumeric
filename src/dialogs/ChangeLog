@@ -1,3 +1,8 @@
+2001-07-05  Almer S. Tigelaar  <almer@gnome.org>
+
+	* dialog-autosave.c (prompt_on_off_toggled): Burn.
+	(dialog_autosave): Set status of prompt toggle button properly.
+	
 2001-06-28  Jody Goldberg <jgoldberg@home>
 
 	* Release 0.67
