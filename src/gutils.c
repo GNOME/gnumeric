@@ -148,7 +148,7 @@ col_from_name (const char *cell_str)
  *
  * Return value: true if the cell_name could be successfully parsed
  */
-int
+gboolean
 parse_cell_name (const char *cell_str, int *col, int *row)
 {
 	char c;
@@ -275,7 +275,7 @@ parse_cell_name_list (Sheet *sheet,
 	g_return_val_if_fail (error_flag != NULL, NULL);
 
 	buf = g_malloc (strlen (cell_name_str) + 1);
-	for (i = n = 0; 1; i++){
+	for (i = n = 0; cell_name_str [i]; i++){
 
 	        if ((cell_name_str [i] == ',') || (cell_name_str [i] == '\0')){
 		        buf [n] = '\0';
@@ -297,9 +297,6 @@ parse_cell_name_list (Sheet *sheet,
 			n = 0;
 		} else
 		        buf [n++] = cell_name_str [i];
-
-		if (cell_name_str [i] == '\0')
-		        break;
 	}
 
 	*error_flag = 0;

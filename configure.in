@@ -269,6 +269,7 @@ doc/es/Makefile
 corba-test/Makefile
 plugins/Makefile
 plugins/sample/Makefile
+plugins/sc/Makefile
 plugins/sylk/Makefile
 plugins/excel/Makefile
 plugins/excel/libole2/Makefile

@@ -1,3 +1,12 @@
+1999-11-21  Jeff Garzik  <jgarzik@mandrakesoft.com>
+
+	* configure.in, plugins/Makefile.am:
+	New file import filter for SC and xspread spreadsheets.
+	* src/utils.h (parse_cell_name): update prototype
+	* src/utils.c (parse_cell_name): return gboolean, to reflect true,
+	and documented, nature of return value.
+	(parse_cell_name_list): move loop exit condition into 'for' statement
+
 1999-11-20  Jody Goldberg <jgoldberg@home.com>
 
 	* src/format.c (format_number) : Handle m, mm as minutes if followed
