@@ -1,3 +1,7 @@
+2002-04-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* html.c (write_cell) : include styles specs for HTML4.0
+
 2002-04-02  Jody Goldberg <jody@gnome.org>
 
 	* latex.c (latex2e_write_multicolumn_cell) : Cell::col_info is

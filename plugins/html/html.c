@@ -248,7 +248,23 @@ write_cell (FILE *fp, Sheet *sheet, gint row, gint col, html_version_t version)
 		}
 
 	}
-
+	if (version == HTML40) {
+		if (mstyle != NULL) {
+			fprintf (fp, " style=\"");
+			html_get_color (mstyle, MSTYLE_COLOR_BACK, &r, &g, &b);
+			if (r < 255 || g < 255 || b < 255) {
+				fprintf (fp, "background:#%02X%02X%02X;", r, g, b);
+			}
+			if (cell != NULL) {
+				gint size = (int) (mstyle_get_font_size (mstyle) + 0.5);
+				fprintf (fp, " font-size:%ipt;", size);
+				html_get_text_color (cell, mstyle, &r, &g, &b);
+				if (r > 0 || g > 0 || b > 0)
+					fprintf (fp, " color:#%02X%02X%02X;", r, g, b);
+			}
+			fprintf (fp, "\"");
+		}
+	}
 	fprintf (fp, ">");
 	html_write_cell_content (fp, cell, mstyle, version);
 	fputs ("</TD>\n", fp);

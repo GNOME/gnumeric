@@ -12,6 +12,7 @@ Andreas:
 	* Make Random Generator Tool undoable.
 	* Fix and improve row-height dialog.
 	* Fix hide/show detail and group/ungroup dialog.
+	* Include more info in HTML 4.0 files.
 
 Jody:
 	* Add password dialog to support encrypted input.
