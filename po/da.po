@@ -13,7 +13,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.40\n"
-"POT-Creation-Date: 2000-11-07 01:36+0100\n"
+"POT-Creation-Date: 2000-11-13 20:56-0500\n"
 "PO-Revision-Date: 2000-11-11 02:30+01:00\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
@@ -88,16 +88,16 @@ msgstr "#UKENDT!"
 msgid "Sheet%d"
 msgstr "Ark%d"
 
-#: plugins/excel/ms-excel-read.c:3961
+#: plugins/excel/ms-excel-read.c:3968
 msgid "No book or workbook streams found."
 msgstr "Ingen bøger eller arbejdsbogsstrømme fundet."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4263
+#: plugins/excel/ms-excel-read.c:4270
 msgid "Password protected workbooks are not supported yet."
 msgstr "Adgangskodebeskyttede arbejdsbøger er endnu ikke understøttet."
 
-#: plugins/excel/ms-excel-read.c:4421
+#: plugins/excel/ms-excel-read.c:4428
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kunne ikke finde gyldig MS Excel-arbejdsbog"
 
@@ -4351,7 +4351,7 @@ msgstr "FALSE"
 msgid "ARRAY"
 msgstr "ARRAY"
 
-#: src/format.c:1699 src/format.c:1778 src/format.c:1787 src/format.c:1849
+#: src/format.c:1699 src/format.c:1788 src/format.c:1797 src/format.c:1866
 msgid "General"
 msgstr "Generelt"
 
@@ -5701,6 +5701,17 @@ msgstr ""
 "@DESCRIPTION=DAVERAGE-funktionen returnerer gennemsnittet af værdierne i en "
 "liste eller en database som passer til de specificerede betingelser. \n"
 
+#: src/functions/fn-database.c:500
+msgid ""
+"\n"
+"DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
+"DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
+"DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
+"DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
+"\n"
+"@SEEALSO=DCOUNT"
+msgstr ""
+
 #: src/functions/fn-database.c:561
 msgid ""
 "@FUNCTION=DCOUNT\n"
@@ -5712,6 +5723,16 @@ msgstr ""
 "@SYNTAX=DCOUNT(database,felt,kriterie)\n"
 "@DESCRIPTION=DCOUNT-funktionen tæller cellerne som indeholder tal i en "
 "database som passer til de opgivne betingelser. \n"
+
+#: src/functions/fn-database.c:569
+msgid ""
+"\n"
+"DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
+"DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
+"DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
+"\n"
+"@SEEALSO=DAVERAGE"
+msgstr ""
 
 #: src/functions/fn-database.c:622
 msgid ""
@@ -5725,6 +5746,16 @@ msgstr ""
 "@DESCRIPTION=DCOUNTA-funktionen tæller cellerne som indeholder data i en "
 "database som passer til de opgivne betingelser. \n"
 
+#: src/functions/fn-database.c:630
+msgid ""
+"\n"
+"DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
+"DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
+"DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
+"\n"
+"@SEEALSO=DCOUNT"
+msgstr ""
+
 #: src/functions/fn-database.c:680
 msgid ""
 "@FUNCTION=DGET\n"
@@ -5736,6 +5767,17 @@ msgstr ""
 "@SYNTAX=DGET(database,felt,kriterie)\n"
 "@DESCRIPTION=DGET-funktionen returnerer en enkelt værdi fra en kolonne som "
 "tilfredstiller de specificerede betingelser. \n"
+
+#: src/functions/fn-database.c:688
+msgid ""
+"\n"
+"DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
+"DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
+"\n"
+"If none of the items match the conditions, DGET returns #VALUE! error. If "
+"more than one items match the conditions, DGET returns #NUM! error. \n"
+"@SEEALSO=DCOUNT"
+msgstr ""
 
 #: src/functions/fn-database.c:748
 msgid ""
@@ -5749,6 +5791,16 @@ msgstr ""
 "@DESCRIPTION=DMAX-funktionen returnerer det største tal i en kolonne som "
 "tilfredstiller de specificerede betingelser. \n"
 
+#: src/functions/fn-database.c:756
+msgid ""
+"\n"
+"DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
+"DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
+"DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
+"\n"
+"@SEEALSO=DMIN"
+msgstr ""
+
 #: src/functions/fn-database.c:819
 msgid ""
 "@FUNCTION=DMIN\n"
@@ -5761,6 +5813,15 @@ msgstr ""
 "@DESCRIPTION=DMIN-funktionen returnerer det mindste tal i en kolonne som "
 "tilfredstiller de specificerede betingelser. \n"
 
+#: src/functions/fn-database.c:827
+msgid ""
+"\n"
+"DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
+"DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
+"\n"
+"@SEEALSO=DMAX"
+msgstr ""
+
 #: src/functions/fn-database.c:889
 msgid ""
 "@FUNCTION=DPRODUCT\n"
@@ -5772,6 +5833,14 @@ msgstr ""
 "@SYNTAX=DPRODUCT(database,felt,kriterie)\n"
 "@DESCRIPTION=DPRODUCT-funktionen returnerer produktet af tallene i en "
 "kolonne som tilfredstiller de specificerede betingelser. \n"
+
+#: src/functions/fn-database.c:897
+msgid ""
+"\n"
+"DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
+"\n"
+"@SEEALSO=DSUM"
+msgstr ""
 
 #: src/functions/fn-database.c:956
 msgid ""
@@ -5787,6 +5856,15 @@ msgstr ""
 "for en population baseret på et udvalg. Populationen består af tal som til- "
 "fredstiller de specificerede betingelser. \n"
 
+#: src/functions/fn-database.c:965
+msgid ""
+"\n"
+"DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
+"DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
+"\n"
+"@SEEALSO=DSTDEVP"
+msgstr ""
+
 #: src/functions/fn-database.c:1022
 msgid ""
 "@FUNCTION=DSTDEVP\n"
@@ -5801,6 +5879,15 @@ msgstr ""
 "population baseret på hele populationen. Populationen består af tal som til- "
 "fredstiller de specificerede betingelser. \n"
 
+#: src/functions/fn-database.c:1031
+msgid ""
+"\n"
+"DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
+"DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
+"\n"
+"@SEEALSO=DSTDEV"
+msgstr ""
+
 #: src/functions/fn-database.c:1090
 msgid ""
 "@FUNCTION=DSUM\n"
@@ -5812,6 +5899,15 @@ msgstr ""
 "@SYNTAX=DSUM(database,felt,kriterie)\n"
 "@DESCRIPTION=DSUM-funktionen returnerer summen af tallene i en kolonne som "
 "tilfredsstiller de specificerede betingelser. \n"
+
+#: src/functions/fn-database.c:1098
+msgid ""
+"\n"
+"DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
+"DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
+"\n"
+"@SEEALSO=DPRODUCT"
+msgstr ""
 
 #: src/functions/fn-database.c:1157
 msgid ""
@@ -5827,6 +5923,15 @@ msgstr ""
 "baseret på et udvalg. Populationerne består af tal som tilfredsstiller de "
 "specificerede betingelser. \n"
 
+#: src/functions/fn-database.c:1166
+msgid ""
+"\n"
+"DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
+"DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
+"\n"
+"@SEEALSO=DVARP"
+msgstr ""
+
 #: src/functions/fn-database.c:1225
 msgid ""
 "@FUNCTION=DVARP\n"
@@ -5840,6 +5945,15 @@ msgstr ""
 "@DESCRIPTION=DVARP-funktionen returnerer variansen til en population baseret "
 "på alle populationerne. Populationerne består af tal som tilfredsstiller de "
 "specificerede betingelser. \n"
+
+#: src/functions/fn-database.c:1234
+msgid ""
+"\n"
+"DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
+"DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
+"\n"
+"@SEEALSO=DVAR"
+msgstr ""
 
 #: src/functions/fn-database.c:1294
 msgid ""
@@ -7463,8 +7577,8 @@ msgid ""
 "@SEEALSO=ACCRINTM"
 msgstr ""
 "@FUNCTION=ACCRINT\n"
-"@SYNTAX=ACCRINT(udstedelse,første_rente,anbringelse,rente,pari,frekvens"
-"[,basis])\n"
+"@SYNTAX=ACCRINT(udstedelse,første_rente,anbringelse,rente,pari,frekvens[,basi"
+"s])\n"
 "@DESCRIPTION=ACCRINT beregner den påløbne rente for et værdipapir som "
 "udbetaler periodisk rente. @rente er værdipapirets pålydende årlige rente og "
 "@pari er værdipapirets pålydende værdi. @basis er den type "
@@ -8629,8 +8743,8 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=ODDFPRICE\n"
-"@SYNTAX=ODDFPRICE(anbringelse,forfald,udstedelse,første_kupon,rente,ydelse,"
-"indfrielse,frekvens,basis)\n"
+"@SYNTAX=ODDFPRICE(anbringelse,forfald,udstedelse,første_kupon,rente,ydelse,in"
+"dfrielse,frekvens,basis)\n"
 "@DESCRIPTION=\n"
 "@EXAMPLES=\n"
 "\n"
@@ -8647,8 +8761,8 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=ODDFYIELD\n"
-"@SYNTAX=ODDFYIELD(anbringelse,forfald,udstedelse,første_kupon,rente,pris,"
-"indfrielse,frekvens,basis)\n"
+"@SYNTAX=ODDFYIELD(anbringelse,forfald,udstedelse,første_kupon,rente,pris,indf"
+"rielse,frekvens,basis)\n"
 "@DESCRIPTION=\n"
 "@EXAMPLES=\n"
 "\n"
@@ -8665,8 +8779,8 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=ODDLPRICE\n"
-"@SYNTAX=ODDLPRICE(anbringelse,forfald,sidste_rente,rente,ydelse,indfrielse,"
-"frekvens,basis)\n"
+"@SYNTAX=ODDLPRICE(anbringelse,forfald,sidste_rente,rente,ydelse,indfrielse,fr"
+"ekvens,basis)\n"
 "@DESCRIPTION=\n"
 "@EXAMPLES=\n"
 "\n"
@@ -8683,8 +8797,8 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=ODDLYIELD\n"
-"@SYNTAX=ODDLYIELD(anbringelse,forfald,sidste_rente,rente,pris,indfrielse,"
-"frekvens,basis)\n"
+"@SYNTAX=ODDLYIELD(anbringelse,forfald,sidste_rente,rente,pris,indfrielse,frek"
+"vens,basis)\n"
 "@DESCRIPTION=\n"
 "@EXAMPLES=\n"
 "\n"
@@ -9328,8 +9442,8 @@ msgstr ""
 "@DESCRIPTION=AND implementerer den logiske OG funktion: Resultatet er SAND "
 "hvis alt i udtrykket evalueres til SAND, ellers returnerer den FALSK.\n"
 "@b1 til @bN er udtryk som bør evalueres til SAND eller FALSK.  Hvis et "
-"heltal eller kommatal angives, bliver nul antaget som FALSK og alt andet "
-"er SAND.\n"
+"heltal eller kommatal angives, bliver nul antaget som FALSK og alt andet er "
+"SAND.\n"
 "Hvis værdierne indeholder strenge eller tomme celler bliver disse værdier "
 "ignoreret. Hvis ingen logiske værdier er angivet, så returneres en #VALUE! "
 "fejl. Denne funktion er Excel kompatibel. \n"

@@ -24,7 +24,7 @@ You need:
 	gnome-libs  >= 1.0.57	(gnome-libs 2.0 is not supported)
 	libglade    >= 0.14
 	gal	    >= 0.2.2.0
-	gnome-print >= 0.24	(Be careful, newer version may not compile)
+	gnome-print >= 0.25	(Be careful, newer version may not compile)
 
 	gnome-xml   >= 1.8.7    (gnome-xml 2.x not supported yet)
 	NOTE : gnome-xml is also known as libxml
@@ -34,13 +34,13 @@ You need:
 
 Optionally:
 	gb == 0.0.13            (Gnome Basic for macros)
-	bonobo == 0.27
+	bonobo >= 0.27
 	NOTE : This is an unstable interface.  It is not part of the released
 	    GNOME 1.2 api and is subject to change.  Newer released versions of
 	    bonobo will almost certainly NOT compile with this release of
 	    gnumeric.
 	With the newer bonobo you will also want a newer gnome-libs
-	gnome-libs  >= 1.2.6	(gnome-libs 2.0 is not supported)
+	gnome-libs  >= 1.2.7	(gnome-libs 2.0 is not supported)
 	guppi == CVS module guppi3
 
 Notes regarding plugins

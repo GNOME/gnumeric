@@ -1,3 +1,7 @@
+2000-11-13  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.58
+
 2000-11-04  Michael Meeks  <michael@helixcode.com>
 
 	* Makefile.am (gnum_gb_la_SOURCES): add worksheets collection.

@@ -1,3 +1,7 @@
+2000-11-13  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.58
+
 2000-11-12  Jody Goldberg <jgoldberg@home.com>
 
 	* Makefile.am : remove the gif files.

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
-"POT-Creation-Date: 2000-11-13 14:42+0200\n"
+"POT-Creation-Date: 2000-11-13 20:56-0500\n"
 "PO-Revision-Date: 1999-12-08 14:44+0200\n"
 "Last-Translator: Yuri Syrota <rasta@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -82,16 +82,16 @@ msgstr "#НЕВ╤ДОМЕ!"
 msgid "Sheet%d"
 msgstr "Аркуш%d"
 
-#: plugins/excel/ms-excel-read.c:3961
+#: plugins/excel/ms-excel-read.c:3968
 msgid "No book or workbook streams found."
 msgstr "Не знайдено пот╕к книги чи робочо╖ книги"
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4263
+#: plugins/excel/ms-excel-read.c:4270
 msgid "Password protected workbooks are not supported yet."
 msgstr "Захищен╕ паролем книги ще не п╕дтримуються."
 
-#: plugins/excel/ms-excel-read.c:4421
+#: plugins/excel/ms-excel-read.c:4428
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Не вдалось знайти робочу книгу MS Excel"
 
@@ -254,8 +254,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=Функц╕я NT_MU (мю-функц╕я Мьоб╕уса) поверне 0, якщо @n "
-"д╕литься на квадрат простого числа.\n"
+"@DESCRIPTION=Функц╕я NT_MU (мю-функц╕я Мьоб╕уса) поверне 0, якщо @n д╕литься "
+"на квадрат простого числа.\n"
 "╤накше вона поверне:\n"
 "-1 , якщо @n ма╓ непарну к╕льк╕сть р╕зних простих д╕льник╕в.\n"
 "1 , якщо @n ма╓ парну к╕льк╕сть р╕зних простих д╕льник╕в.\n"
@@ -4307,7 +4307,7 @@ msgstr "ХИБН╤СТЬ"
 msgid "ARRAY"
 msgstr "МАСИВ"
 
-#: src/format.c:1699 src/format.c:1778 src/format.c:1787 src/format.c:1849
+#: src/format.c:1699 src/format.c:1788 src/format.c:1797 src/format.c:1866
 msgid "General"
 msgstr "Загальний"
 
@@ -5657,6 +5657,17 @@ msgstr ""
 "@DESCRIPTION=Функц╕я DAVERAGE поверта╓ середн╓ значень з списку чи бази "
 "даних, що забов╕льнять вказаним умовам. \n"
 
+#: src/functions/fn-database.c:500
+msgid ""
+"\n"
+"DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
+"DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
+"DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
+"DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
+"\n"
+"@SEEALSO=DCOUNT"
+msgstr ""
+
 #: src/functions/fn-database.c:561
 msgid ""
 "@FUNCTION=DCOUNT\n"
@@ -5668,6 +5679,16 @@ msgstr ""
 "@SYNTAX=DCOUNT(database,field,criteria)\n"
 "@DESCRIPTION=Функц╕я DCOUNT п╕драхову╓ ком╕рки, що м╕стять числа в баз╕ "
 "даних, як╕ задов╕льняють вказаним умовам. \n"
+
+#: src/functions/fn-database.c:569
+msgid ""
+"\n"
+"DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
+"DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
+"DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
+"\n"
+"@SEEALSO=DAVERAGE"
+msgstr ""
 
 #: src/functions/fn-database.c:622
 msgid ""
@@ -5681,6 +5702,16 @@ msgstr ""
 "@DESCRIPTION=Функц╕я DCOUNTA п╕драхову╓ ком╕рки, що м╕стять дан╕ в баз╕ "
 "даних, як╕ задов╕льняють вказаним умовам. \n"
 
+#: src/functions/fn-database.c:630
+msgid ""
+"\n"
+"DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
+"DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
+"DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
+"\n"
+"@SEEALSO=DCOUNT"
+msgstr ""
+
 #: src/functions/fn-database.c:680
 msgid ""
 "@FUNCTION=DGET\n"
@@ -5692,6 +5723,17 @@ msgstr ""
 "@SYNTAX=DGET(база_даних,поле,критер╕й)\n"
 "@DESCRIPTION=Функц╕я DGET поверта╓ одне значення з стовпчика, яке "
 "задов╕льня╓ вказаним умовам. \n"
+
+#: src/functions/fn-database.c:688
+msgid ""
+"\n"
+"DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
+"DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
+"\n"
+"If none of the items match the conditions, DGET returns #VALUE! error. If "
+"more than one items match the conditions, DGET returns #NUM! error. \n"
+"@SEEALSO=DCOUNT"
+msgstr ""
 
 #: src/functions/fn-database.c:748
 msgid ""
@@ -5705,6 +5747,16 @@ msgstr ""
 "@DESCRIPTION=Функц╕я DMAX поверта╓ найб╕льше число в стовпчику, яке "
 "задов╕льня╓ вказаним умовам. \n"
 
+#: src/functions/fn-database.c:756
+msgid ""
+"\n"
+"DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
+"DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
+"DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
+"\n"
+"@SEEALSO=DMIN"
+msgstr ""
+
 #: src/functions/fn-database.c:819
 msgid ""
 "@FUNCTION=DMIN\n"
@@ -5716,6 +5768,15 @@ msgstr ""
 "@SYNTAX=DMIN(база_даних,поле,критер╕й)\n"
 "@DESCRIPTION=Функц╕я DMIN поверта╓ найменше число в стовпчику, яке "
 "задов╕льня╓ вказаним умовам. \n"
+
+#: src/functions/fn-database.c:827
+msgid ""
+"\n"
+"DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
+"DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
+"\n"
+"@SEEALSO=DMAX"
+msgstr ""
 
 #: src/functions/fn-database.c:889
 msgid ""
@@ -5729,6 +5790,14 @@ msgstr ""
 "@DESCRIPTION=Функц╕я DPRODUCT поверта╓ добуток чисел в стовпчику, що "
 "задов╕льня╓ вказан╕й умов╕. \n"
 
+#: src/functions/fn-database.c:897
+msgid ""
+"\n"
+"DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
+"\n"
+"@SEEALSO=DSUM"
+msgstr ""
+
 #: src/functions/fn-database.c:956
 msgid ""
 "@FUNCTION=DSTDEV\n"
@@ -5738,6 +5807,15 @@ msgid ""
 "match conditions specified. \n"
 msgstr ""
 
+#: src/functions/fn-database.c:965
+msgid ""
+"\n"
+"DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
+"DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
+"\n"
+"@SEEALSO=DSTDEVP"
+msgstr ""
+
 #: src/functions/fn-database.c:1022
 msgid ""
 "@FUNCTION=DSTDEVP\n"
@@ -5745,6 +5823,15 @@ msgid ""
 "@DESCRIPTION=DSTDEVP function returns the standard deviation of a population "
 "based on the entire populations. The populations consists of numbers that "
 "match conditions specified. \n"
+msgstr ""
+
+#: src/functions/fn-database.c:1031
+msgid ""
+"\n"
+"DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
+"DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
+"\n"
+"@SEEALSO=DSTDEV"
 msgstr ""
 
 #: src/functions/fn-database.c:1090
@@ -5759,6 +5846,15 @@ msgstr ""
 "@DESCRIPTION=Функц╕я DSUM поверта╓ суму чисел в стовпчику, що задов╕льня╓ "
 "вказан╕й умов╕. \n"
 
+#: src/functions/fn-database.c:1098
+msgid ""
+"\n"
+"DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
+"DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
+"\n"
+"@SEEALSO=DPRODUCT"
+msgstr ""
+
 #: src/functions/fn-database.c:1157
 msgid ""
 "@FUNCTION=DVAR\n"
@@ -5768,6 +5864,15 @@ msgid ""
 "specified. \n"
 msgstr ""
 
+#: src/functions/fn-database.c:1166
+msgid ""
+"\n"
+"DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
+"DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
+"\n"
+"@SEEALSO=DVARP"
+msgstr ""
+
 #: src/functions/fn-database.c:1225
 msgid ""
 "@FUNCTION=DVARP\n"
@@ -5775,6 +5880,15 @@ msgid ""
 "@DESCRIPTION=DVARP function returns the variance of a population based on "
 "the entire populations. The populations consists of numbers that match "
 "conditions specified. \n"
+msgstr ""
+
+#: src/functions/fn-database.c:1234
+msgid ""
+"\n"
+"DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
+"DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
+"\n"
+"@SEEALSO=DVAR"
 msgstr ""
 
 #: src/functions/fn-database.c:1294

@@ -1,3 +1,7 @@
+2000-11-13  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.58
+
 2000-11-13  JP Rosevear  <jpr@helixcode.com>
 
 	* src/functions/fn-lookup.c (find_bound_walk): Only reverse
