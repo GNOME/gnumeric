@@ -11,6 +11,8 @@ Andreas
 	* http://bugzilla.gnome.org/show_bug.cgi?id=128936
 	  Allow text export to use the rendered strings rather than the 
 	  stored values
+	* http://bugzilla.gnome.org/show_bug.cgi?id=129444
+	  Fix printing of non-word-wrapped cells with hard line breaks
 
 Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=128565

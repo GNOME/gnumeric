@@ -1,3 +1,10 @@
+2003-12-21  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=129444
+	* src/print-cell.c (cell_split_text_no_wrap): new
+	(print_cell): check for non-word-wrapped cells with line breaks
+	  and handle them like word-wrapped ones.
+
 2003-12-20  Jody Goldberg <jody@gnome.org>
 
 	* src/format.c (style_format_account) : quote currencies as necessary.

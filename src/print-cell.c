@@ -93,6 +93,28 @@ print_overflow (GnomePrintContext *context, GnomeFont *font,
 }
 
 static GList *
+cell_split_text_no_wrap (char const *text)
+{
+	GList *lines = NULL;
+	gchar const *next = text;
+
+	while (next != NULL) {
+		gchar const *this = next;
+		gchar *str;
+
+		next = g_utf8_strchr (next, -1, '\n');
+		if (next == NULL)
+			str = g_strdup (this);
+		else {
+			str = g_strndup (this, next - this);
+			next++;
+		}
+		lines = g_list_append (lines, str);
+	}
+	return lines;
+}
+
+static GList *
 cell_split_text (GnomeFont *font, char const *text, int const width)
 {
 	char const *p, *next, *line_begin;
@@ -216,6 +238,8 @@ print_cell (GnmCell const *cell, GnmStyle const *mstyle, GnomePrintContext *cont
 	char const *text;
 	const PangoColor *fore;
 	double cell_width_pts, indent = 0.;
+
+	gboolean is_multi_line_text;
 
 	/* Don't print zeros if they should be ignored. */
 	if (sheet && sheet->hide_zero && cell_is_zero (cell) &&
@@ -341,8 +365,11 @@ print_cell (GnmCell const *cell, GnmStyle const *mstyle, GnomePrintContext *cont
 	if (halign == HALIGN_CENTER_ACROSS_SELECTION || h_center <= 0.)
 		h_center = width / 2.;
 
+	is_multi_line_text = mstyle_get_wrap_text (mstyle) 
+		|| (NULL != g_utf8_strchr (text, -1, '\n')); 
+	
 	if (halign != HALIGN_JUSTIFY && valign != VALIGN_JUSTIFY &&
-	    !mstyle_get_wrap_text (mstyle)) {
+	    !is_multi_line_text) {
 		double x, total, len = cell_width_pts;
 
 		switch (halign) {
@@ -380,7 +407,9 @@ print_cell (GnmCell const *cell, GnmStyle const *mstyle, GnomePrintContext *cont
 		int line_count;
 		double x, y_offset, inter_space;
 
-		lines = cell_split_text (print_font, text, width);
+		lines = mstyle_get_wrap_text (mstyle) ? 
+			cell_split_text (print_font, text, width) :
+			cell_split_text_no_wrap (text);
 		line_count = g_list_length (lines);
 
 		switch (valign) {
