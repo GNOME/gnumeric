@@ -1901,14 +1901,16 @@ gnm_float pt(gnm_float x, gnm_float n, gboolean lower_tail, gboolean log_p)
 	return (x < 0) ? R_DT_0 : R_DT_1;
     if(!finitegnum(n))
 	return pnorm(x, 0.0, 1.0, lower_tail, log_p);
-    if (n > 4e5) { /*-- Fixme(?): test should depend on `n' AND `x' ! */
+    if (0 && n > 4e5) { /*-- Fixme(?): test should depend on `n' AND `x' ! */
 	/* Approx. from	 Abramowitz & Stegun 26.7.8 (p.949) */
 	val = 1./(4.*n);
 	return pnorm(x*(1. - val)/sqrtgnum(1. + x*x*2.*val), 0.0, 1.0,
 		     lower_tail, log_p);
     }
 
-    val = pbeta(n / (n + x * x), n / 2.0, 0.5, /*lower_tail*/1, log_p);
+    val =  (n > x * x)
+	? pbeta (x * x / (n + x * x), 0.5, n / 2, /*lower_tail*/0, log_p)
+	: pbeta (n / (n + x * x), n / 2.0, 0.5, /*lower_tail*/1, log_p);
 
     /* Use "1 - v"  if	lower_tail  and	 x > 0 (but not both):*/
     if(x <= 0.)

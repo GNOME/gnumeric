@@ -1,6 +1,7 @@
 2004-04-12  Morten Welinder  <terra@gnome.org>
 
-	* import-R (import_file): Improve precision of a pbeta call.
+	* import-R (import_file): Improve precision of a pbeta calls in
+	pbinom and pt.
 
 2004-04-12  Morten Welinder  <terra@gnome.org>
 

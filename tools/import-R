@@ -156,30 +156,22 @@ sub import_file {
 	    s/int log_p/gboolean log_p/g;
 	    s/int lower_tail/gboolean lower_tail/g;
 
+	    # Fix pbinom
 	    s/\bpbeta\s*\(1\s*-\s*([^,]*),\s*([^,]*),\s*([^,]*),\s*([^,]*),\s*([^,]*)\)/pbeta ($1, $3, $2, !$4, $5)/;
+
+	    # Fix pt.
+	    if ($filename =~ m|/pt\.c$|) {
+		s/(n > 4e5)/0 && $1/;
+		if (/(^.*\s*=\s*)pbeta\s*(\(.*\);)/) {
+		    $_ = "$1 (n > x * x)\n" .
+			"\t? pbeta (x * x / (n + x * x), 0.5, n / 2, /*lower_tail*/0, log_p)\n" .
+			"\t: pbeta $2";
+		}
+	    }
+
 
 	    if ($filename =~ m|/qbeta\.c$| && /xinbta = 0\.5;/) {
 		s/0\.5/(xinbta < lower) ? sqrtgnum (lower) : 1 - sqrtgnum (lower)/;
-	    }
-
-	    if ($filename =~ m|/qgamma\.c$| && /return 0\.5\*scale\*ch;/) {
-		$_ = ("    /* Special Gnumeric patch to improve precision.  */\n" .
-		      "    {\n" .
-		      "\tgnm_float x0 = 0.5*scale*ch;\n" .
-		      "\tgnm_float e0 = pgamma (x0, alpha, scale, lower_tail, log_p) - p;\n" .
-		      "\n" .
-		      "\tif (e0 != 0 && lower_tail && !log_p) {\n" .
-		      "\t    gnm_float d0 = dgamma (x0, alpha, scale, log_p);\n" .
-		      "\t    if (d0) {\n" .
-		      "\t\tgnm_float x1 = x0 - e0 / d0;\n" .
-		      "\t\tgnm_float e1 = pgamma (x1, alpha, scale, lower_tail, log_p) - p;\n" .
-		      "\t\tif (gnumabs (e1) < gnumabs (e0))\n" .
-		      "\t\t    x0 = x1;\n" .
-		      "\t    }\n" .
-		      "\t}\n" .
-		      "\n" .
-		      "\treturn x0;\n" .
-		      "    }");
 	    }
 
 	    $incomment = 1 if m|/\*$|;
