@@ -97,16 +97,17 @@ gnumeric_popt_options[] = {
 	{ "debug_print", '\0', POPT_ARG_INT, &print_debugging, 0,
 	  N_("Enables some print debugging behavior"), N_("LEVEL") },
 
-	{ "quit", '\0', POPT_ARG_NONE, &immediate_exit_flag, 0,
-	  N_("Exit immediately after loading the selected books (useful for testing)."), NULL },
-
 	{ "debug_ole", '\0', POPT_ARG_NONE,
 	    &libole2_debug, 0,
 	  N_("Enables extra consistency checking while reading ole files"),
 	  NULL  },
 
 	{ "geometry", 'g', POPT_ARG_STRING, &x_geometry, 0,
-	  N_(""), NULL  }, /* POST-RELEASE-FIX: describe option*/
+	  N_("Specify the size and location of the initial window"), N_("WIDTHxHEIGHT+XOFF+YOFF")  
+	},
+
+	{ "quit", '\0', POPT_ARG_NONE, &immediate_exit_flag, 0,
+	  N_("Exit immediately after loading the selected books (useful for testing)."), NULL },
 
 	{ NULL, '\0', 0, NULL, 0 }
 };

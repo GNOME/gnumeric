@@ -3244,33 +3244,24 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
 	for (i_c = 0; i_c < n_c; i_c++)
 		set_cell (dao, 1 + i_c, 2, 
 			 (char *)g_ptr_array_index (col_labels, i_c));
-	for (i_r = 0; i_r < n_r; i_r++) {
-/* POST-RELEASE-FIX:  Next 2 commands should be fused */
-		set_cell_text_col (dao, 0, 3 + i_r * 6, _("/SUMMARY"
-							"/Count"
+	set_cell (dao, 1 + n_c, 2, _("Total"));
+	for (i_r = 0; i_r <= n_r; i_r++) {
+		set_cell_text_col (dao, 0, 4 + i_r * 6, _("/Count"
 							"/Sum"
 							"/Average"
 							"/Variance"));
-		set_cell (dao, 0, 3 + i_r * 6, 
-			 (char *)g_ptr_array_index (row_labels, i_r));
+		if (i_r < n_r)
+			set_cell (dao, 0, 3 + i_r * 6, 
+				  (char *)g_ptr_array_index (row_labels, i_r));
 	}
-	set_cell (dao, 1 + n_c, 2, _("Total"));
-/* POST-RELEASE-FIX:  Next 2 commands should be fused */
-	set_cell_text_col (dao, 0, 3 + n_r * 6, _("/SUMMARY"
-					"/Count"
-					"/Sum"
-					"/Average"
-					"/Variance"));
 	set_cell (dao, 0, 3 + n_r * 6, _("Total"));
 
-/* POST-RELEASE-FIX:  We should be using / notation for the next 7 commands */
-	set_cell (dao, 0, n_r * 6 + 10, _("ANOVA"));
-	set_cell (dao, 0, n_r * 6 + 11, _("Source of Variation"));
-/* POST-RELEASE-FIX:  this should be Rows rather than Sample */
-	set_cell (dao, 0, n_r * 6 + 12, _("Sample"));
-	set_cell (dao, 0, n_r * 6 + 13, _("Columns"));
-	set_cell (dao, 0, n_r * 6 + 14, _("Interaction"));
-	set_cell (dao, 0, n_r * 6 + 15, _("Within"));
+	set_cell_text_col (dao, 0, n_r * 6 + 10, _("/ANOVA"
+						    "/Source of Variation"
+						    "/Rows"
+						    "/Columns"
+						    "/Interaction"
+						    "/Within"));
 	set_cell (dao, 0, n_r * 6 + 17, _("Total"));
 
 	set_cell_text_row (dao, 1,  n_r * 6 + 11, _("/SS"

@@ -1,3 +1,10 @@
+2001-12-31  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* histogram.glade : correct label
+	* dialog-analysis-tools.c (anova_two_factor_tool_ok_clicked_cb) :
+	  correct error message
+	(random_tool_ok_clicked_cb) : correct error messages
+
 2001-12-31  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.0.0

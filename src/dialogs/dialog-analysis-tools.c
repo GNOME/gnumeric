@@ -2841,25 +2841,23 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 			gtk_widget_destroy (state->dialog);
 		}
 		break;
-	case 1: /* non-numeric probability (DiscreteDistribution) POST-RELEASE-FIX */
-		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		error_in_entry (state->wbcg, GTK_WIDGET (state->par1_expr_entry), text);
-		g_free (text);		
+	case 1: /* non-numeric probability (DiscreteDistribution) */
+		error_in_entry (state->wbcg, GTK_WIDGET (state->par1_expr_entry),
+				_("The probability input range contains a non-numeric value.\n"
+				  "All probabilities must be positive numerbers."));
 		break;
-        case 2: /* probabilities are all zero  (DiscreteDistribution) POST-RELEASE-FIX */
-		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		error_in_entry (state->wbcg, GTK_WIDGET (state->par1_expr_entry), text);
-		g_free (text);		
+        case 2: /* probabilities are all zero  (DiscreteDistribution) */
+		error_in_entry (state->wbcg, GTK_WIDGET (state->par1_expr_entry),
+				_("The probabilities may not all be 0!"));
 		break;
-        case 3: /* negative probability  (DiscreteDistribution) POST-RELEASE-FIX */
-		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		error_in_entry (state->wbcg, GTK_WIDGET (state->par1_expr_entry), text);
-		g_free (text);		
+        case 3: /* negative probability  (DiscreteDistribution) */
+		error_in_entry (state->wbcg, GTK_WIDGET (state->par1_expr_entry),
+				_("The probability input range contains a negative number.\n"
+				"All probabilities must be non-negative!"));
 		break;
-        case 4: /* value is empty  (DiscreteDistribution) POST-RELEASE-FIX */
-		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		error_in_entry (state->wbcg, GTK_WIDGET (state->par1_expr_entry), text);
-		g_free (text);		
+        case 4: /* value is empty  (DiscreteDistribution) */
+		error_in_entry (state->wbcg, GTK_WIDGET (state->par1_expr_entry), 
+				_("None of the values in the value range may be empty!"));
 		break;
 	default:
 		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
@@ -3783,7 +3781,6 @@ histogram_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
 	bin_labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 	w = glade_xml_get_widget (state->gui, "pareto-button");
 	pareto = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
-/* POST-RELEASE-FIX: in the glade file rename _Percentage to Per_centages */
 	w = glade_xml_get_widget (state->gui, "percentage-button");
 	percent  = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 	w = glade_xml_get_widget (state->gui, "cum-button");
@@ -4192,10 +4189,10 @@ anova_two_factor_tool_ok_clicked_cb (GtkWidget *button, AnovaTwoFactorToolState 
 				  "least two columns of data and the "
 				  "labels."));
 		break;
-	case 4:  /* POST-RELEASE-FIX: one of the samples is empty */
-		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		error_in_entry (state->wbcg, GTK_WIDGET (state->input_entry), text);
-		g_free (text);		
+	case 4: 
+		error_in_entry (state->wbcg, GTK_WIDGET (state->input_entry), 
+				_("One of the factor combinations does not contain\n"
+				  "any observations!"));
 		break;
 	default:
 		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);

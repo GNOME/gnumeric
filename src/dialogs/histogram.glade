@@ -325,7 +325,7 @@
 	<class>GtkCheckButton</class>
 	<name>percentage-button</name>
 	<can_focus>True</can_focus>
-	<label>_Percentage</label>
+	<label>Per_centages</label>
 	<active>False</active>
 	<draw_indicator>True</draw_indicator>
 	<child>
