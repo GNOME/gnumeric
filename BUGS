@@ -125,7 +125,7 @@ Pending Patches
 25) Audit all fixed-length buffers.  Most non-time-critical can be replaced
     by proper usage of g_strdup_printf.
     25.1)  src/*.[ch]                                           (DONE 20030110 MW)
-    25.2)  plugins/applix
+    25.2)  plugins/applix                                       (DONE 20030409 MW)
     25.3)  plugins/corba                                        (DONE 20030408 MW)
     25.4)  plugins/derivatives                                  (DONE 20030408 MW)
     25.5)  plugins/dif                                          (DONE 20030408 MW)
