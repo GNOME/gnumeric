@@ -186,12 +186,13 @@ icg_user_is_impatient (IOContextGtk *icg)
 			progress += icg->files_done;
 			progress /= icg->files_total;
 		}
-		if (progress == 0.0)
-			ret = TRUE;
-		else {
+		if (progress <= 0.0) {
+			/* We're likely to be back shortly.  */
+			ret = (t > ICG_POPUP_DELAY * 0.8);
+		} else {
 			gfloat forecast = icg->latency;
 			forecast += (t - icg->latency) / progress;
-			ret = forecast > ICG_POPUP_DELAY;
+			ret = (forecast > ICG_POPUP_DELAY);
 		}
 	}
 
