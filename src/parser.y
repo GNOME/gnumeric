@@ -422,7 +422,6 @@ return_symbol (Symbol *sym)
 		type = FUNCALL;
 		e->u.function.symbol = sym;
 		e->u.function.arg_list = NULL;
-		printf ("%p -> %s\n", e, sym->str);
 		break;
 		
 	case SYMBOL_VALUE:
