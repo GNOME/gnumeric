@@ -1,9 +1,15 @@
+2001-02-14  Almer S. Tigelaar  <almer1@dds.nl>
+
+ 	* src/preview-grid.c
+ 	(preview_grid_draw_border): Remove.
+ 	(preview_grid_draw): Revamp excluding border drawing.
+
 2001-02-14  Jody Goldberg <jgoldberg@home.com>
 
 	* configure.in : bump the libglade req to get some translation fixes.
 	* README : ditto.
 	* gnumeric.spec.in : ditto.
-
+	
 2001-02-14  Karl Eichwalder  <ke@suse.de>
 
 	* src/workbook-control-gui.c (cb_edit_search_replace_query):
