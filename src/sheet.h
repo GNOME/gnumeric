@@ -1,6 +1,8 @@
 #ifndef GNUMERIC_SHEET_H
 #define GNUMERIC_SHEET_H
 
+#include "solver.h"
+
 #define SHEET_MAX_ROWS (16 * 1024)
 #define SHEET_MAX_COLS 256
 
@@ -136,6 +138,9 @@ typedef struct {
 	struct {
 		SheetSelection *current;
 	} walk_info;
+
+        /* Solver parameters */
+        SolverParameters solver_parameters;
 } Sheet;
 
 #define SHEET_SIGNATURE 0x12349876

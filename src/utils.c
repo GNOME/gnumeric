@@ -3,6 +3,7 @@
  *
  * Author:
  *    Miguel de Icaza (miguel@gnu.org)
+ *    Jukka-Pekka Iivonen (iivonen@iki.fi)
  */
 #include <config.h>
 #include <stdlib.h>
@@ -11,11 +12,14 @@
 #include <string.h>
 #include <string.h>
 #include <ctype.h>
+#include <gnome.h>
 #include "numbers.h"
 #include "symbol.h"
 #include "str.h"
 #include "expr.h"
 #include "utils.h"
+#include "gnumeric.h"
+#include "sheet.h"
 
 #define SMALL_BUF_SIZE 40
 static char small_buffer [SMALL_BUF_SIZE];
@@ -217,4 +221,46 @@ GDate*
 g_date_new_serial (guint32 serial)
 {
 	return g_date_new_julian (serial + january_1900 ());
+}
+
+/* Returns a list of cells in a string.  If the named cells does not
+ * exist, they are created.  If the input string is not valid
+ * error_flag is set.
+ */
+GSList  *parse_cell_name_list  (void *vsheet, 
+				char *cell_name_str, int *error_flag)
+{
+        Sheet    *sheet = (Sheet *) vsheet;
+        char     *buf = (char *) malloc(strlen(cell_name_str)+1);
+	GSList   *cells = NULL;
+	Cell     *cell;
+	int      i, n, col, row;
+
+	for (i=n=0; 1; i++) {
+	        if ((cell_name_str[i] == ',') ||
+		    (cell_name_str[i] == '\0')) {
+		        buf[n] = '\0';
+			if (! parse_cell_name(buf, &col, &row)) {
+			        *error_flag = 1;
+				free (buf);
+				g_slist_free (cells);
+				return NULL;
+			}
+			cell = sheet_cell_get (sheet, col, row);
+			if (cell == NULL) {
+			        cell = sheet_cell_new (sheet, col, row);
+				cell_set_text (cell, "");
+			}
+			cells = g_slist_append (cells, (gpointer) cell);
+			n = 0;
+		} else
+		        buf[n++] = cell_name_str[i];
+
+		if (cell_name_str[i] == '\0')
+		        break;
+	}
+
+	*error_flag = 0;
+	free (buf);
+	return cells;
 }

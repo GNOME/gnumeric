@@ -771,7 +771,7 @@ gnumeric_correl (void *tsheet, GList *expr_node_list, int eval_col, int eval_row
 {
 	stat_correl_t pr;
 	Sheet *sheet = (Sheet *) tsheet;
-	float_t sum;
+	float_t sum, tmp;
 	int     count;
 	GSList  *list1, *list2;
 
@@ -813,9 +813,13 @@ gnumeric_correl (void *tsheet, GList *expr_node_list, int eval_col, int eval_row
 	g_slist_free (pr.array1);
 	g_slist_free (pr.array2);
 
-	return value_float ((sum - (pr.sum1*pr.sum2/pr.count)) /
-			    sqrt((pr.sqrsum1-(pr.sum1*pr.sum1)/pr.count) *
-				 (pr.sqrsum2-(pr.sum2*pr.sum2)/pr.count)));
+	tmp = (pr.sqrsum1-(pr.sum1*pr.sum1)/pr.count) *
+	        (pr.sqrsum2-(pr.sum2*pr.sum2)/pr.count);
+	if (tmp == 0)
+	        return value_float (0);
+	else
+	        return value_float ((sum - (pr.sum1*pr.sum2/pr.count)) /
+				    sqrt(tmp));
 }
 
 static char *help_negbinomdist = {

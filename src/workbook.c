@@ -636,6 +636,23 @@ workbook_edit_comment (GtkWidget *widget, Workbook *wb)
 }
 
 static void
+goal_seek_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet;
+	sheet = workbook_get_current_sheet (wb) ;
+	dialog_goal_seek (wb, sheet) ;
+}
+
+static void
+solver_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet;
+
+	sheet = workbook_get_current_sheet (wb);
+	dialog_solver (wb, sheet);
+}
+
+static void
 about_cmd (GtkWidget *widget, Workbook *wb)
 {
 	dialog_about (wb);
@@ -811,6 +828,13 @@ static GnomeUIInfo workbook_menu_format [] = {
 	GNOMEUIINFO_END
 };
 
+/* Tools menu */
+static GnomeUIInfo workbook_menu_tools [] = {
+	{ GNOME_APP_UI_ITEM, N_("_Goal Seek..."), NULL, goal_seek_cmd },
+	{ GNOME_APP_UI_ITEM, N_("_Solver..."),    NULL, solver_cmd },
+	GNOMEUIINFO_END
+};
+
 static GnomeUIInfo workbook_menu_help [] = {
         GNOMEUIINFO_MENU_ABOUT_ITEM(about_cmd, NULL),
 	GNOMEUIINFO_SEPARATOR,
@@ -824,6 +848,7 @@ static GnomeUIInfo workbook_menu [] = {
 	GNOMEUIINFO_MENU_VIEW_TREE(workbook_menu_view),
 	{ GNOME_APP_UI_SUBTREE, N_("_Insert"), NULL, workbook_menu_insert },
 	{ GNOME_APP_UI_SUBTREE, N_("F_ormat"), NULL, workbook_menu_format },
+	{ GNOME_APP_UI_SUBTREE, N_("T_ools"), NULL, workbook_menu_tools },
 	GNOMEUIINFO_MENU_HELP_TREE(workbook_menu_help),
 	GNOMEUIINFO_END
 };

@@ -31,11 +31,13 @@ GNUMERIC_BASE_SOURCES =			\
 	dialog-cell-sort.c		\
 	dialog-function-select.c	\
 	dialog-function-wizard.c	\
+	dialog-goal-seek.c		\
 	dialog-goto-cell.c		\
 	dialog-insert-cells.c		\
 	dialog-define-names.c		\
 	dialog-delete-cells.c		\
 	dialog-paste-special.c		\
+	dialog-solver.c			\
 	dialog-zoom.c			\
 	dialogs.h			\
 	dump.c				\
@@ -97,6 +99,7 @@ GNUMERIC_BASE_SOURCES =			\
 	sheet-object.h			\
 	sheet-view.c			\
 	sheet-view.h			\
+	solver-lp.c                     \
 	str.c				\
 	str.h				\
 	style.c				\
