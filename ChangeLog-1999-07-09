@@ -1,3 +1,7 @@
+1998-10-02  Richard Hestilow <hestgray@ionet.net>
+
+	* Added new statistics plugin
+	
 1998-10-02  Jakub Jelinek <jj@sunsite.ms.mff.cuni.cz>
 	
 	* src/dialog-cell-format.c (apply_coloring_format): fix,

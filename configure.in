@@ -91,6 +91,7 @@ plugins/Makefile
 plugins/sample/Makefile
 plugins/python/Makefile
 plugins/perl/Makefile
+plugins/stat/Makefile
 intl/Makefile
 po/Makefile.in
 macros/Makefile
