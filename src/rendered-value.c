@@ -173,9 +173,9 @@ cb_dump (PangoAttribute *a)
 void
 rendered_value_remeasure (RenderedValue *rv)
 {
-	pango_layout_get_pixel_size (rv->layout,
-				     &rv->layout_natural_width,
-				     &rv->layout_natural_height);
+	pango_layout_get_size (rv->layout,
+			       &rv->layout_natural_width,
+			       &rv->layout_natural_height);
 }
 
 
@@ -468,8 +468,8 @@ cell_rendered_height (GnmCell const *cell)
 {
 	if (!cell || !cell->rendered_value)
 		return 0;
-	else
-		return cell->rendered_value->layout_natural_height;
+
+	return PANGO_PIXELS (cell->rendered_value->layout_natural_height);
 }
 
 int
@@ -477,8 +477,8 @@ cell_rendered_width (GnmCell const *cell)
 {
 	if (!cell || !cell->rendered_value)
 		return 0;
-	else
-		return cell->rendered_value->layout_natural_width;
+
+	return PANGO_PIXELS (cell->rendered_value->layout_natural_width);
 }
 
 int
@@ -486,9 +486,9 @@ cell_rendered_offset (GnmCell const * cell)
 {
 	if (!cell || !cell->rendered_value)
 		return 0;
-	else
-		return cell->rendered_value->indent_left +
-			cell->rendered_value->indent_right;
+
+	return cell->rendered_value->indent_left +
+		cell->rendered_value->indent_right;
 }
 
 void

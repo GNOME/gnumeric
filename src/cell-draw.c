@@ -40,7 +40,7 @@ gunichar const zero_width_space = 0x200b;
  *  'm' == margin
  *  ' ' == space for contents
  *
- * @h_center : The number of pixels from x1 marking the logical center
+ * @h_center : The number of pango units from x1 marking the logical center
  *             of the cell.  NOTE This can be asymetric.  Passing
  *             <= 0 will use width / 2
  */
@@ -61,17 +61,17 @@ cell_calc_layout (GnmCell const *cell, RenderedValue *rv, int y_direction,
 	g_return_val_if_fail (rv != NULL, FALSE);
 
 	layout = rv->layout;
-	indent = rv->indent_left + rv->indent_right;
+	indent = (rv->indent_left + rv->indent_right) * PANGO_SCALE;
 
 	if (width <= 0 || height <= 0)
 		return FALSE;
 
-	hoffset = rv->indent_left;
+	hoffset = rv->indent_left * PANGO_SCALE;
 
 	/* This rectangle has the whole area used by this cell
 	 * excluding the surrounding grid lines and margins */
-	rect_x = 1 + ci->margin_a;
-	rect_y = y_direction * (1 + ri->margin_a);
+	rect_x = PANGO_SCALE * (1 + ci->margin_a);
+	rect_y = PANGO_SCALE * y_direction * (1 + ri->margin_a);
 
 	/* if a number overflows, do special drawing */
 	if (rv->layout_natural_width > width - indent &&
@@ -89,7 +89,7 @@ cell_calc_layout (GnmCell const *cell, RenderedValue *rv, int y_direction,
 	}
 
 	if (rv->wrap_text) {
-		int wanted_width = MAX (0, (width - indent) * PANGO_SCALE);
+		int wanted_width = MAX (0, width - indent);
 		if (wanted_width != pango_layout_get_width (layout)) {
 			pango_layout_set_width (layout, wanted_width);
 			rendered_value_remeasure (rv);
@@ -164,7 +164,7 @@ cell_calc_layout (GnmCell const *cell, RenderedValue *rv, int y_direction,
 		if (!rv->vfilled && height > rv->layout_natural_height) {
 			int line_count = pango_layout_get_line_count (layout);
 			if (line_count > 1) {
-				int spacing = PANGO_SCALE * (height - rv->layout_natural_height) /
+				int spacing = (height - rv->layout_natural_height) /
 					(line_count - 1);
 				pango_layout_set_spacing (layout, spacing);
 				rendered_value_remeasure (rv);
@@ -207,7 +207,9 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 		height = ri->size_pixels - (ri->margin_b + ri->margin_a + 1);
 
 	if (cell_calc_layout (cell, rv, +1,
-			      width, height, h_center,
+			      width * PANGO_SCALE,
+			      height * PANGO_SCALE,
+			      h_center == -1 ? -1 : (h_center * PANGO_SCALE),
 			      &color, &x, &y)) {
 		/* +1 to get past left grid-line.  */
 		GdkRectangle rect;
@@ -233,6 +235,9 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 		/* See http://bugzilla.gnome.org/show_bug.cgi?id=105322 */
 		gdk_gc_set_rgb_fg_color (gc, color);
 		
-		gdk_draw_layout (drawable, gc, x1 + x, y1 + y, rv->layout);
+		gdk_draw_layout (drawable, gc,
+				 x1 + PANGO_PIXELS (x),
+				 y1 + PANGO_PIXELS (y),
+				 rv->layout);
 	}
 }

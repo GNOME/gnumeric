@@ -257,7 +257,9 @@ print_cell_NEW (GnmCell const *cell, GnmStyle const *mstyle,
 	rv = rendered_value_recontext (cell_rv, pcontext);
 
 	if (cell_calc_layout (cell, rv, -1,
-			      (int)width, (int)height, (int)h_center,
+			      (int)(width * PANGO_SCALE),
+			      (int)(height * PANGO_SCALE),
+			      (int)h_center == -1 ? -1 : (int)(h_center * PANGO_SCALE),
 			      &color, &x, &y)) {
 		double x0 = x1 + 1 + ci->margin_a;
 		double y0 = y1 - (1 + ri->margin_a);
@@ -271,11 +273,13 @@ print_cell_NEW (GnmCell const *cell, GnmStyle const *mstyle,
 
 		/* Set the font colour */
 		gnome_print_setrgbcolor (context,
-					 color->red   / (double) 0xffff,
-					 color->green / (double) 0xffff,
-					 color->blue  / (double) 0xffff);
+					 color->red   / (double)0xffff,
+					 color->green / (double)0xffff,
+					 color->blue  / (double)0xffff);
 
-		gnome_print_moveto (context, x1 + x, y1 + y);
+		gnome_print_moveto (context,
+				    x1 + x / (double)PANGO_SCALE,
+				    y1 + y / (double)PANGO_SCALE);
 		gnome_print_pango_layout (context, rv->layout);
 		gnome_print_grestore (context);
 	}

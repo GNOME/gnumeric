@@ -10,7 +10,11 @@
  */
 struct _RenderedValue {
 	PangoLayout *layout;
+
+	/* In pango units:  */
 	int layout_natural_width, layout_natural_height;
+
+	/* In pixels:  */
 	guint16 indent_left, indent_right;
 
 	/* See http://bugzilla.gnome.org/show_bug.cgi?id=105322 */
