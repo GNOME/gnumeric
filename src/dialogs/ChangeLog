@@ -4,9 +4,9 @@
 	  needed to determine number f lines)
 	* dialog-stf-format-page.c: obtain trim option menu from
 	  main page
-	* dialog-stf-main-page.c: optain text indicator widgets from
-	  csv page. Disable tehm as appropriate. Recalulate line numbers
-	  when teh text indicator or source format changes.
+	* dialog-stf-main-page.c: obtain text indicator widgets from
+	  csv page. Disable them as appropriate. Recalulate line numbers
+	  when the text indicator or source format changes.
 	* dialog-stf.c (stf_dialog_editables_enter): text indicator
 	  combo has moved to main page
 	* dialog-stf.glade: rearranging of some items and adding
@@ -4684,7 +4684,7 @@
 
 2000-09-28  Jody Goldberg <jgoldberg@home.com>
 
-	* dialog-printer-setup.c (add_unit) : Adjsutto api change in
+	* dialog-printer-setup.c (add_unit) : Adjustto api change in
 	  unit_name_get_short_name.
 
 2000-09-27  Morten Welinder  <terra@diku.dk>
