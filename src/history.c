@@ -105,7 +105,7 @@ history_menu_item_create (Workbook *wb, gchar *name, gint accel_number,
 		bonobo_ui_handler_menu_new_item (wb->uih, path, info[0].label, name, 
 						pos, BONOBO_UI_HANDLER_PIXMAP_NONE, 
 						NULL, 0, GDK_SHIFT_MASK, 
-						(BonoboUIHandlerCallbackFunc)file_history_cmd, 
+						(BonoboUIHandlerCallback)file_history_cmd, 
 						wb);
 		g_free (path);
 	}
