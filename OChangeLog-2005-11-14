@@ -1,3 +1,10 @@
+2002-05-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* schemas/gnumeric-general.schemas : add max-initial-clauses schema
+	* src/gnumeric-gconf-priv.h : add max-initial-clauses key
+	* src/gnumeric-gconf.c : add max-initial-clauses get/set methods
+	* src/gnumeric-gconf.h : ditto
+
 2002-05-03  Morten Welinder  <terra@diku.dk>
 
 	* src/rangefunc.c (range_count): New function.

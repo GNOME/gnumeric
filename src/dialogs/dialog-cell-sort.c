@@ -52,8 +52,6 @@
 
 #define CELL_SORT_KEY "cell-sort-dialog"
 
-#define MAX_INITIAL_CLAUSES 32
-
 typedef struct {
 	Sheet     *sheet;
 	WorkbookControlGUI  *wbcg;
@@ -187,6 +185,7 @@ load_model_data (SortFlowState *state)
 	int end;
 	int index;
 	int i;
+	int limit = gnm_gconf_get_sort_max_initial_clauses ();
 
 	if (state->is_cols) {
 		start = state->sel->v_range.cell.a.col;
@@ -201,8 +200,8 @@ load_model_data (SortFlowState *state)
 	gtk_list_store_clear (state->model);
 	state->sort_items = 0;
 
-	if (end >= start + MAX_INITIAL_CLAUSES)
-		end = start + MAX_INITIAL_CLAUSES - 1;
+	if (end >= start + limit)
+		end = start + limit - 1;
 
 	for (i = start; i <= end; i++)
 		append_data (state, i, index);

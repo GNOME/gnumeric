@@ -264,8 +264,6 @@ typedef struct {
 static pref_tree_data_t pref_tree_data[] = { 
 	{FUNCTION_SELECT_GCONF_NUM_OF_RECENT, NULL, 
 	                      "/schemas" FUNCTION_SELECT_GCONF_NUM_OF_RECENT},
-	{GNUMERIC_GCONF_FILE_HISTORY_N, NULL, 
-	                      "/schemas" GNUMERIC_GCONF_FILE_HISTORY_N},
 	{GNUMERIC_GCONF_GUI_ED_AUTOCOMPLETE, NULL, 
 	                      "/schemas" GNUMERIC_GCONF_GUI_ED_AUTOCOMPLETE},
 	{NULL, NULL, NULL}
@@ -861,6 +859,27 @@ cb_pref_sort_ascending_toggled(GtkToggleButton *button, PrefState *state)
 				       NULL);
 }
 
+static void
+cb_pref_sort_set_initial_clauses (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
+			     GtkSpinButton *button)
+{
+	gint int_in_gconf = gconf_client_get_int (gconf,
+						  GNUMERIC_GCONF_SORT_DIALOG_MAX_INITIAL, 
+						  NULL);
+	gint int_in_button = gtk_spin_button_get_value_as_int (button);
+	if (int_in_gconf != int_in_button)
+		gtk_spin_button_set_value (button, (gdouble) int_in_gconf);
+}
+
+static void 
+cb_pref_sort_initial_clauses_changed (GtkSpinButton *button, PrefState *state)
+{
+	gconf_client_set_int (state->gconf,
+			      GNUMERIC_GCONF_SORT_DIALOG_MAX_INITIAL,
+			      gtk_spin_button_get_value_as_int (button), 
+			      NULL);
+}
+
 static 
 GtkWidget *pref_sort_page_initializer (PrefState *state, gpointer data, 
 					  GtkNotebook *notebook, gint page_num)
@@ -886,6 +905,13 @@ GtkWidget *pref_sort_page_initializer (PrefState *state, gpointer data,
 				     page, row++, state,
 				     cb_pref_sort_set_ascending,
 				     cb_pref_sort_ascending_toggled);
+	/* Max Intial Clauses Spin Button */
+	dialog_pref_create_int_spin (GNUMERIC_GCONF_SORT_DIALOG_MAX_INITIAL, 
+				     "/schemas" GNUMERIC_GCONF_SORT_DIALOG_MAX_INITIAL, 
+				     page, row++, state,
+				     10, 0, 50, 1,
+				     cb_pref_sort_set_initial_clauses,
+				     cb_pref_sort_initial_clauses_changed);
 
 	gtk_widget_show_all (page);
 	return page;
@@ -920,10 +946,10 @@ cb_pref_window_set_window_height (GConfClient *gconf, guint cnxn_id, GConfEntry 
 static void 
 cb_pref_window_height_changed (GtkSpinButton *button, PrefState *state)
 {
-		gconf_client_set_float (state->gconf,
-				      GNUMERIC_GCONF_GUI_WINDOW_Y,
-				      gtk_spin_button_get_value (button), 
-				      NULL);
+	gconf_client_set_float (state->gconf,
+				GNUMERIC_GCONF_GUI_WINDOW_Y,
+				gtk_spin_button_get_value (button), 
+				NULL);
 }
 
 static void
@@ -942,10 +968,10 @@ cb_pref_window_set_window_width (GConfClient *gconf, guint cnxn_id, GConfEntry *
 static void 
 cb_pref_window_width_changed (GtkSpinButton *button, PrefState *state)
 {
-		gconf_client_set_float (state->gconf,
-				      GNUMERIC_GCONF_GUI_WINDOW_X,
-				      gtk_spin_button_get_value (button), 
-				      NULL);
+	gconf_client_set_float (state->gconf,
+				GNUMERIC_GCONF_GUI_WINDOW_X,
+				gtk_spin_button_get_value (button), 
+				NULL);
 }
 
 static void
@@ -963,10 +989,10 @@ cb_pref_window_set_sheet_num (GConfClient *gconf, guint cnxn_id, GConfEntry *ent
 static void 
 cb_pref_window_sheet_num_changed (GtkSpinButton *button, PrefState *state)
 {
-		gconf_client_set_int (state->gconf,
-				       GNUMERIC_GCONF_WORKBOOK_NSHEETS,
-				       gtk_spin_button_get_value_as_int (button), 
-				       NULL);
+	gconf_client_set_int (state->gconf,
+			      GNUMERIC_GCONF_WORKBOOK_NSHEETS,
+			      gtk_spin_button_get_value_as_int (button), 
+			      NULL);
 }
 
 static void
@@ -984,10 +1010,10 @@ cb_pref_window_set_live_scrolling (GConfClient *gconf, guint cnxn_id, GConfEntry
 static void 
 cb_pref_window_live_scrolling_toggled (GtkToggleButton *button, PrefState *state)
 {
-		gconf_client_set_bool (state->gconf,
-				       GNUMERIC_GCONF_GUI_ED_LIVESCROLLING,
-				       gtk_toggle_button_get_active (button), 
-				       NULL);
+	gconf_client_set_bool (state->gconf,
+			       GNUMERIC_GCONF_GUI_ED_LIVESCROLLING,
+			       gtk_toggle_button_get_active (button), 
+			       NULL);
 }
 
 

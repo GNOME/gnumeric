@@ -680,3 +680,22 @@ gnm_gconf_set_sort_default_ascending (gboolean val)
 			       val, NULL);
 }
 
+gint
+gnm_gconf_get_sort_max_initial_clauses (void)
+{
+	gint val = gconf_client_get_int (application_get_gconf_client (), 
+					 GNUMERIC_GCONF_SORT_DIALOG_MAX_INITIAL,
+					 NULL);
+	val = MIN (val, 50);
+	val = MAX (0, val);
+	return val;
+}
+
+void
+gnm_gconf_set_sort_max_initial_clauses (gint val)
+{
+	gconf_client_set_int (application_get_gconf_client (), 
+			      GNUMERIC_GCONF_SORT_DIALOG_MAX_INITIAL,
+			      val, NULL);
+}
+

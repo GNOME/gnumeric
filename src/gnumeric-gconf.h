@@ -114,6 +114,9 @@ void     gnm_gconf_set_sort_default_retain_formats (gboolean val);
 gboolean gnm_gconf_get_sort_default_ascending (void);
 void     gnm_gconf_set_sort_default_ascending (gboolean val);
 
+gint     gnm_gconf_get_sort_max_initial_clauses (void);
+void     gnm_gconf_set_sort_max_initial_clauses (gint val);
+
 /* others */
 gnum_float gnm_gconf_get_horizontal_dpi (void);
 void     gnm_gconf_set_horizontal_dpi  (gnum_float val);

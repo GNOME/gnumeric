@@ -274,6 +274,17 @@
         <long>This option determines the initial state of the sort-order button in the sort dialog.</long>
         </locale>
       </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/core/sort/dialog/max-intial-clauses</key>
+        <applyto>/apps/gnumeric/core/sort/dialog/max-intial-clauses</applyto>
+        <owner>Gnumeric</owner>
+        <type>int</type>
+	<default>10</default>
+        <locale name="C">
+        <short>Number of Automatic Clauses</short>
+        <long>When selecting a sort region in the sort dialog, search clauses are automatically added. This number determines the maximum number of clauses to be added automatically.</long>
+        </locale>
+      </schema>
     </schemalist>
 </gconfschemafile>
   
