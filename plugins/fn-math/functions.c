@@ -1968,6 +1968,10 @@ gnumeric_mround (FunctionEvalInfo *ei, Value **argv)
 	number = value_get_as_float (argv[0]);
 	multiple = value_get_as_float (argv[1]);
 
+	/* Weird, but XL compatible.  */
+	if (multiple == 0)
+		return value_new_int (0);
+
 	if ((number > 0 && multiple < 0)
 	    || (number < 0 && multiple > 0))
 		return value_new_error (ei->pos, gnumeric_err_NUM);
