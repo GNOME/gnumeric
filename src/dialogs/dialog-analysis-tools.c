@@ -2452,7 +2452,7 @@ dialog_loop:
 	if (err == 1) {
 	        error_in_entry(wb, range1_entry, 
 			       _("Given input range contains non-numeric "
-				 "data. "));
+				 "data."));
 	        goto dialog_loop;
 	} else if (err == 2) {
 	        error_in_entry(wb, range2_entry, 
