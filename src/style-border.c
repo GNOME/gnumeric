@@ -550,20 +550,17 @@ style_borders_row_draw (StyleBorder const * const * prev_vert,
 			StyleRow const *next_sr,
 			GdkDrawable * const drawable,
 			int x, int y1, int y2,
-			Sheet const *sheet, gboolean draw_vertical)
+			int *colwidths, gboolean draw_vertical)
 {
 	int o[2][2];
 	int col, next_x = x;
 	GdkGC *gc;
 
 	for (col = sr->start_col; col <= sr->end_col ; col++, x = next_x) {
-		/* TODO : make this sheet agnostic.  Pass in an array of
-		 * widths and a flag for whether or not to draw grids.
-		 */
-		ColRowInfo const *cri = sheet_col_get_info (sheet, col);
-		if (!cri->visible)
+
+		if (colwidths[col] == -1)
 			continue;
-		next_x = x + cri->size_pixels;
+		next_x = x + colwidths[col];
 
 		gc = style_border_get_gc (sr->top [col], drawable);
 		if (gc != NULL) {

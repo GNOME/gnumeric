@@ -288,6 +288,8 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	GSList	 *merged_active, *merged_active_seen,
 		 *merged_used, *merged_unused, *ptr, **lag;
 
+	int *colwidths = NULL;
+
 	/* Skip any hidden rows at the start */
 	for (; start_row <= end_row ; ++start_row) {
 		ri = sheet_row_get_info (sheet, start_row);
@@ -341,6 +343,18 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	next_sr.row = sr.row = row = start_row;
 	sheet_style_get_row (sheet, &sr);
 
+	/* Collect the column widths */	
+	colwidths = g_alloca (n * sizeof (int));
+	colwidths -= start_col;
+	for (col = start_col; col <= end_col; col++) {
+		ColRowInfo const *ci = sheet_col_get_info (sheet, col);
+
+		if (!ci->visible)
+			colwidths[col] = -1;
+		else
+			colwidths[col] = ci->size_pixels;
+	}
+	
 	for (y = -diff_y; row <= end_row; row = sr.row = next_sr.row, ri = next_ri) {
 		/* Restore the set of ranges seen, but still active.
 		 * Reinverting list to maintain the original order */
@@ -403,7 +417,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 			if (!ci->visible)
 				continue;
-
+				
 			/* Skip any merged regions */
 			if (merged_active) {
 				Range const *r = merged_active->data;
@@ -517,7 +531,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		}
 		style_borders_row_draw (prev_vert, &sr, &next_sr,
 					drawable, -diff_x, y, y+ri->size_pixels,
-					sheet, TRUE);
+					colwidths, TRUE);
 
 		/* roll the pointers */
 		borders = prev_vert; prev_vert = sr.vertical;
@@ -530,8 +544,8 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	}
 	if (sr.row >= SHEET_MAX_ROWS-1)
 		style_borders_row_draw (prev_vert, &sr, &next_sr,
-					drawable, -diff_x, y, y, sheet, FALSE);
-
+					drawable, -diff_x, y, y, colwidths, FALSE);
+	
 	if (merged_used)	/* ranges whose bottoms are in the view */
 		g_slist_free (merged_used);
 	if (merged_active_seen) /* ranges whose bottoms are below the view */

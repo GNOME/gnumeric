@@ -1,3 +1,12 @@
+2001-02-08  Almer S. Tigelaar  <almer1@dds.nl>
+
+	* src/style-border.h, src/style-border.c (style_borders_row_draw): 
+	Adjust so it uses a vector of ints for column widths instead of 
+	reading them out of the Sheet directly.
+	
+	* src/item-grid.c (item_grid_draw): Built a column width 
+	vector and pass it to the style_borders_row_draw routine.
+
 2001-02-08  Morten Welinder  <terra@diku.dk>
 
 	* src/file-autoft.c (category_group_list_get): Plug leak.
