@@ -179,6 +179,7 @@ GNUMERIC_CFLAGS="$GNUMERIC_CFLAGS -I\$(top_srcdir)/src/cut-n-paste-code"
 AC_SUBST(GNUMERIC_LIBS)
 AC_SUBST(GNUMERIC_CFLAGS)
 
+win32=no
 case $host_os in
 *mingw* | pw32* | cygwin*)
     win32=yes
@@ -278,7 +279,7 @@ AC_SUBST(WARN_CFLAGS)
 AC_ARG_ENABLE(ssconvert, [--disable-ssconvert		Do not build ssconvert (cmd line spreadsheet conversion tool)],
 	[ ], [enable_ssconvert=yes])
 AM_CONDITIONAL(ENABLE_SSCONVERT, test x"$enable_ssconvert" = "xyes")
-AC_ARG_ENABLE(ssindex, [--enable-ssindex		Do not build ssindex (spreadsheet indexer for beagle)],
+AC_ARG_ENABLE(ssindex, [--enable-ssindex		Build ssindex (spreadsheet indexer for beagle)],
 	[ ], [enable_ssindex=no])
 AM_CONDITIONAL(ENABLE_SSINDEX, test x"$enable_ssindex" = "xyes")
 

@@ -1,3 +1,9 @@
+2005-01-25  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in: Initialize win32=no, in case someone has the variable
+	  in the environment.
+	  Fix the help string for --enable-ssindex.
+
 2005-01-24  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=164455
