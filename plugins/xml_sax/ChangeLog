@@ -1,3 +1,7 @@
+2001-10-07  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.71
+
 2001-09-26  Jody Goldberg <jgoldberg@home.com>
 
 	* xml-sax-read.c (xml_sax_styleregion_start) : Add hidden & locked.

@@ -1,3 +1,7 @@
+2001-10-07  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.71
+
 2001-09-25  Jody Goldberg <jgoldberg@home.com>
 
 	* excel-gb-worksheet.c : Add missing include so that things compile

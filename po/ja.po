@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.66\n"
-"POT-Creation-Date: 2001-10-07 16:22+0900\n"
+"POT-Creation-Date: 2001-10-07 19:43-0400\n"
 "PO-Revision-Date: 2001-10-07 19:38-0500\n"
 "Last-Translator: Yukihiro Nakai <nakai@gnome.gr.jp>\n"
 "Language-Team: Japanese <translation@gnome.gr.jp>\n"
@@ -4662,27 +4662,27 @@ msgstr "セル"
 msgid "Go to..."
 msgstr "移動..."
 
-#: src/dialogs/dialog-graph-guru.c:498
+#: src/dialogs/dialog-graph-guru.c:523
 msgid "Step 1 of 3: Select graph type"
 msgstr "ステップ1/3: グラフタイプの選択"
 
-#: src/dialogs/dialog-graph-guru.c:505
+#: src/dialogs/dialog-graph-guru.c:530
 msgid "Step 2 of 3: Select data ranges"
 msgstr "ステップ2/3: データ範囲の選択"
 
-#: src/dialogs/dialog-graph-guru.c:507
+#: src/dialogs/dialog-graph-guru.c:532
 msgid "Graph Data"
 msgstr "グラフデータ"
 
-#: src/dialogs/dialog-graph-guru.c:512
+#: src/dialogs/dialog-graph-guru.c:537
 msgid "Step 3 of 3: Customize graph"
 msgstr "ステップ3/3: グラフのカスタマイズ"
 
-#: src/dialogs/dialog-graph-guru.c:682
+#: src/dialogs/dialog-graph-guru.c:755
 msgid "Plot name"
 msgstr "プロット名前"
 
-#: src/dialogs/dialog-graph-guru.c:685
+#: src/dialogs/dialog-graph-guru.c:758
 msgid "Series name"
 msgstr "シリーズ名"
 
@@ -15619,8 +15619,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=T\n"
 "@SYNTAX=T(value)\n"
-"@DESCRIPTION=Tは@valueがもし文字列だけなら@valueを返します。そうでなければ"
-"空の文字列を返します。\n"
+"@DESCRIPTION=Tは@valueがもし文字列だけなら@valueを返します。そうでなければ空"
+"の文字列を返します。\n"
 "@EXAMPLES=\n"
 "T(\"text\")は\"text\"になります。\n"
 "T(64)は空のセルを返します。\n"
@@ -15694,8 +15694,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=SUBSTITUTE\n"
 "@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
-"@DESCRIPTION=SUBSTITUTEは@textの@oldを@newで置換します。置換は@textの"
-"@num個の@oldにのみ適用されます。指定されていなければすべて変換されます。\n"
+"@DESCRIPTION=SUBSTITUTEは@textの@oldを@newで置換します。置換は@textの@num個の"
+"@oldにのみ適用されます。指定されていなければすべて変換されます。\n"
 "@EXAMPLES=\n"
 "SUBSTITUTE(\"testing\",\"test\",\"wait\")は\"waiting\"になります。\n"
 "\n"

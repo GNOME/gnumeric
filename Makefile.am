@@ -43,7 +43,8 @@ EXTRA_DIST = \
 	xml-i18n-extract.in	\
 	xml-i18n-merge.in	\
 	xml-i18n-update.in	\
-	$(oaf_in_files)
+	$(oaf_in_files)		\
+	depcomp	# This should not be here, but whatever is supposed to add it, is not adding it, and I need to do a release.
 
 if BONOBO
 gnumeric_version="$(VERSION)-bonobo"

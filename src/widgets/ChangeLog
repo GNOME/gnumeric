@@ -1,3 +1,7 @@
+2001-10-07  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.71
+
 2001-10-04  Jody Goldberg <jgoldberg@home.com>
 
 	* gnumeric-combo-text.c : fix a compiler warning.

@@ -51,12 +51,12 @@ EXTRA_DIST = $(ThreeD_DATA) $(Classical_DATA) $(Colourful_DATA) \
              $(Category_files)
 
 install-data-local:
-	$(mkinstalldirs) $(DESTDIR)$(ThreeD_dir)
-	$(mkinstalldirs) $(DESTDIR)$(Classical_dir)
-	$(mkinstalldirs) $(DESTDIR)$(Colourful_dir)
-	$(mkinstalldirs) $(DESTDIR)$(Financial_dir)
-	$(mkinstalldirs) $(DESTDIR)$(General_dir)
-	$(mkinstalldirs) $(DESTDIR)$(List_dir)
+	$(mkinstalldirs) $(DESTDIR)$(ThreeDdir)
+	$(mkinstalldirs) $(DESTDIR)$(Classicaldir)
+	$(mkinstalldirs) $(DESTDIR)$(Colourfuldir)
+	$(mkinstalldirs) $(DESTDIR)$(Financialdir)
+	$(mkinstalldirs) $(DESTDIR)$(Generaldir)
+	$(mkinstalldirs) $(DESTDIR)$(Listdir)
 
 	$(INSTALL_DATA) $(srcdir)/3D.category $(DESTDIR)$(ThreeDdir)/.category
 	$(INSTALL_DATA) $(srcdir)/Classical.category $(DESTDIR)$(Classicaldir)/.category
@@ -66,9 +66,9 @@ install-data-local:
 	$(INSTALL_DATA) $(srcdir)/List.category $(DESTDIR)$(Listdir)/.category
 
 uninstall-local:
-	rm -rf  $(DESTDIR)$(ThreeD_dir)
-	rm -rf  $(DESTDIR)$(Classical_dir)
-	rm -rf  $(DESTDIR)$(Colourful_dir)
-	rm -rf  $(DESTDIR)$(Financial_dir)
-	rm -rf  $(DESTDIR)$(General_dir)
-	rm -rf  $(DESTDIR)$(List_dir)
+	rm -rf  $(DESTDIR)$(ThreeDdir)
+	rm -rf  $(DESTDIR)$(Classicaldir)
+	rm -rf  $(DESTDIR)$(Colourfuldir)
+	rm -rf  $(DESTDIR)$(Financialdir)
+	rm -rf  $(DESTDIR)$(Generaldir)
+	rm -rf  $(DESTDIR)$(Listdir)

@@ -1,3 +1,11 @@
+2001-10-07  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.71
+
+2001-10-07  gettextize  <bug-gnu-utils@gnu.org>
+
+	* Makefile.in.in: Upgrade to gettext-0.10.40.
+
 2001-10-07  Yukihiro Nakai <nakai@gnome.gr.jp>
 
 	* ja.po: Update Japanese translation.

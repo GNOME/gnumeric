@@ -76,6 +76,4 @@ xml_DATA = $(xml_in_files:.xml.in=.xml)
 XML_I18N_XML_KIND = --pass-through
 @XML_I18N_MERGE_XML_RULE@
 
-#if WITH_PERL
 EXTRA_DIST = $(Perlscripts_DATA) $(xml_in_files) $(xml_DATA)
-#endif

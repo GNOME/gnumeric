@@ -1,3 +1,7 @@
+2001-10-07  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.71
+
 2001-10-06  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-graph-guru.c (graph_guru_state_destroy) : disconnect the
