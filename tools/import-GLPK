@@ -186,7 +186,7 @@ for ($i = 0; $src[$i] ne "@"; $i++) {
 
 	    # Constify a few routines.
 	    if (/^void\s+(_insist|lib_set_fault_hook|fault|lib_set_print_hook|print)\b/) {
-		s/\bchar\s+\*/const char */g;
+		$line =~s/\bchar\s+\*/const char */g;
 	    }
 
 	    print OUTFILE "$line\n";

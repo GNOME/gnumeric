@@ -180,7 +180,7 @@ int lib_free_env(void)
 -- The routine print prints an informative message specified by the
 -- format control string fmt and the optional parameter list. */
 
-void print(char *fmt, ...)
+void print(const char *fmt, ...)
 {     LIBENV *env = lib_env_ptr();
       va_list arg;
       char msg[4095+1];
@@ -225,7 +225,7 @@ skip: /* return to the calling program */
 -- In order to uninstall the hook routine the parameter hook should be
 -- specified as NULL (in this case the parameter info is ignored). */
 
-void lib_set_print_hook(void *info, int (*hook)(void *info, char *msg))
+void lib_set_print_hook(void *info, int (*hook)(void *info, const char *msg))
 {     LIBENV *env = lib_env_ptr();
       env->print_info = info;
       env->print_hook = hook;
@@ -246,7 +246,7 @@ void lib_set_print_hook(void *info, int (*hook)(void *info, char *msg))
 -- control string fmt and the optional parameter list, then terminates
 -- execution of the program. */
 
-void fault(char *fmt, ...)
+void fault(const char *fmt, ...)
 {     LIBENV *env = lib_env_ptr();
       va_list arg;
       char msg[4095+1];
@@ -299,7 +299,7 @@ skip: /* terminate program execution */
 -- In order to uninstall the hook routine the parameter hook should be
 -- specified as NULL (in this case the parameter info is ignored). */
 
-void lib_set_fault_hook(void *info, int (*hook)(void *info, char *msg))
+void lib_set_fault_hook(void *info, int (*hook)(void *info, const char *msg))
 {     LIBENV *env = lib_env_ptr();
       env->fault_info = info;
       env->fault_hook = hook;
@@ -323,7 +323,7 @@ void lib_set_fault_hook(void *info, int (*hook)(void *info, char *msg))
 --
 -- This routine is a replacement of the standard function assert. */
 
-void _insist(char *expr, char *file, int line)
+void _insist(const char *expr, const char *file, int line)
 {     fault("Assertion failed: %s; file %s; line %d", expr, file, line);
       /* no return */
 }

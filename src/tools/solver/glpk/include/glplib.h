@@ -111,22 +111,22 @@ LIBENV *lib_env_ptr(void);
 int lib_free_env(void);
 /* free library environment */
 
-void print(char *fmt, ...);
+void print(const char *fmt, ...);
 /* print informative message */
 
-void lib_set_print_hook(void *info, int (*hook)(void *info, char *msg));
+void lib_set_print_hook(void *info, int (*hook)(void *info, const char *msg));
 /* install print hook routine */
 
-void fault(char *fmt, ...);
+void fault(const char *fmt, ...);
 /* print error message and terminate program execution */
 
-void lib_set_fault_hook(void *info, int (*hook)(void *info, char *msg));
+void lib_set_fault_hook(void *info, int (*hook)(void *info, const char *msg));
 /* install fault hook routine */
 
 #define insist(expr) \
 ((void)((expr) || (_insist(#expr, __FILE__, __LINE__), 1)))
 
-void _insist(char *expr, char *file, int line);
+void _insist(const char *expr, const char *file, int line);
 /* check for logical condition */
 
 /* some processors need data to be properly aligned; the align_boundary
