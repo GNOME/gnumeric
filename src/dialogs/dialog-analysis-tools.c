@@ -227,19 +227,77 @@ add_check_buttons (GtkWidget *box, check_button_t *cbs)
 	}
 }
 
+static int
+parse_output(int output, Sheet *sheet,
+	     GtkWidget *entry, Workbook *wb, data_analysis_output_t *dao)
+{
+        char  *text;
+	Range range;
+
+	text = gtk_entry_get_text (GTK_ENTRY (entry));
+	if (output == 1 && !parse_range (text, &range.start_col,
+			  &range.start_row,
+			  &range.end_col,
+			  &range.end_row)) {
+	        error_in_entry(wb, entry, 
+			       "You should introduce a valid cell range "
+			       "in 'Into a Range:'");
+		return 1;
+	}
+
+	switch (output) {
+	case 0:
+	        dao->type = NewSheetOutput;
+		break;
+	case 1:
+	        dao->type = RangeOutput;
+		dao->start_col = range.start_col;
+		dao->start_row = range.start_row;
+		dao->cols = range.end_col-range.start_col+1;
+		dao->rows = range.end_row-range.start_row+1;
+		dao->sheet = sheet;
+		break;
+	}
+
+	return 0;
+}
+
+static GtkWidget *
+add_output_frame(GtkWidget *box, GSList **output_ops)
+{
+        GtkWidget *r, *hbox, *output_range_entry;
+
+        box = new_frame("Output:", box);
+	*output_ops = NULL;
+	r = gtk_radio_button_new_with_label(*output_ops, "New Sheet");
+	*output_ops = GTK_RADIO_BUTTON (r)->group;
+	gtk_box_pack_start_defaults (GTK_BOX (box), r);
+	hbox = gtk_hbox_new (FALSE, 0);
+	r = gtk_radio_button_new_with_label(*output_ops,
+					    "Into a Range:");
+	*output_ops = GTK_RADIO_BUTTON (r)->group;
+	gtk_box_pack_start_defaults (GTK_BOX (hbox), r);
+	output_range_entry = gtk_entry_new_with_max_length (20);
+	gtk_box_pack_start_defaults (GTK_BOX (hbox), 
+				     output_range_entry);
+	gtk_box_pack_start_defaults (GTK_BOX (box), hbox);
+
+	return output_range_entry;
+}
+
 static void
 dialog_correlation_tool(Workbook *wb, Sheet *sheet)
 {
         static GtkWidget *dialog, *box, *group_box, *groupped_label;
-	static GtkWidget *range_entry;
-	static GSList    *group_ops;
+	static GtkWidget *range_entry, *r, *output_range_entry, *hbox;
+	static GSList    *group_ops, *output_ops;
 
 	data_analysis_output_t  dao;
 
 	char  *text;
 	int   selection;
 	static Range range;
-	int   i=0, size;
+	int   i=0, output, size;
 
 	if (!dialog) {
 	        dialog = new_dialog("Correlation", wb->toplevel);
@@ -259,8 +317,6 @@ dialog_correlation_tool(Workbook *wb, Sheet *sheet)
 		groupped_label = gtk_label_new ("Groupped By:");
 		gtk_box_pack_start_defaults (GTK_BOX (box), groupped_label);
 		for (i = 0; groupped_ops [i]; i++) {
-		        GtkWidget *r;
-
 			r = gtk_radio_button_new_with_label (group_ops,
 							     _(groupped_ops[i])
 							     );
@@ -268,6 +324,12 @@ dialog_correlation_tool(Workbook *wb, Sheet *sheet)
 			gtk_box_pack_start_defaults (GTK_BOX (group_box), r);
 		}
 		gtk_box_pack_start_defaults (GTK_BOX (box), group_box);
+
+		box = gtk_vbox_new (FALSE, 0);
+		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
+						      (dialog)->vbox), box);
+
+		output_range_entry = add_output_frame(box, &output_ops);
 
 		gtk_widget_show_all (dialog);
 	} else
@@ -284,6 +346,7 @@ correlation_dialog_loop:
 	}
 
 	i = gtk_radio_group_get_selected (group_ops);
+	output = gtk_radio_group_get_selected (output_ops);
 
 	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
 	if (!parse_range (text, &range.start_col,
@@ -296,8 +359,8 @@ correlation_dialog_loop:
 		goto correlation_dialog_loop;
 	}
 
-	/* TODO: radio buttos for outputs */
-	dao.type = NewSheetOutput;
+	if (parse_output(output, sheet, output_range_entry, wb, &dao))
+	        goto correlation_dialog_loop;
 
 	correlation_tool (wb, sheet, &range, !i, &dao);
 
@@ -309,13 +372,13 @@ static void
 dialog_covariance_tool(Workbook *wb, Sheet *sheet)
 {
         static GtkWidget *dialog, *box, *group_box, *groupped_label;
-	static GtkWidget *range_entry;
-	static GSList    *group_ops;
+	static GtkWidget *range_entry, *output_range_entry;
+	static GSList    *group_ops, *output_ops;
 
 	data_analysis_output_t  dao;
 
 	char  *text;
-	int   selection;
+	int   selection, output;
 	static Range range;
 	int   i=0, size;
 
@@ -347,6 +410,12 @@ dialog_covariance_tool(Workbook *wb, Sheet *sheet)
 		}
 		gtk_box_pack_start_defaults (GTK_BOX (box), group_box);
 
+		box = gtk_vbox_new (FALSE, 0);
+		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
+						      (dialog)->vbox), box);
+
+		output_range_entry = add_output_frame(box, &output_ops);
+
 		gtk_widget_show_all (dialog);
 	} else
 		gtk_widget_show_all (dialog);
@@ -362,6 +431,7 @@ covariance_dialog_loop:
 	}
 
 	i = gtk_radio_group_get_selected (group_ops);
+	output = gtk_radio_group_get_selected (output_ops);
 
 	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
 	if (!parse_range (text, &range.start_col,
@@ -374,8 +444,8 @@ covariance_dialog_loop:
 		goto covariance_dialog_loop;
 	}
 
-	/* TODO: radio buttos for outputs */
-	dao.type = NewSheetOutput;
+	if (parse_output(output, sheet, output_range_entry, wb, &dao))
+	        goto covariance_dialog_loop;
 
 	covariance_tool (wb, sheet, &range, !i, &dao);
 
@@ -387,13 +457,13 @@ static void
 dialog_sampling_tool(Workbook *wb, Sheet *sheet)
 {
         static GtkWidget *dialog, *box, *sampling_box, *sampling_label;
-	static GtkWidget *range_entry, *sampling_entry[2];
-	static GSList    *sampling_ops;
+	static GtkWidget *range_entry, *output_range_entry, *sampling_entry[2];
+	static GSList    *sampling_ops, *output_ops;
 
 	data_analysis_output_t  dao;
 
 	char  *text;
-	int   selection;
+	int   selection, output;
 	static Range range;
 	int   i=0, size;
 
@@ -443,6 +513,12 @@ dialog_sampling_tool(Workbook *wb, Sheet *sheet)
 		}
 		gtk_box_pack_start_defaults(GTK_BOX (box), sampling_box);
 
+		box = gtk_vbox_new (FALSE, 0);
+		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
+						      (dialog)->vbox), box);
+
+		output_range_entry = add_output_frame(box, &output_ops);
+
 		gtk_widget_show_all (dialog);
 	} else
 		gtk_widget_show_all (dialog);
@@ -468,10 +544,12 @@ sampling_dialog_loop:
 		goto sampling_dialog_loop;
 	}
 
-	/* TODO: radio buttos for outputs */
-	dao.type = NewSheetOutput;
-
 	i = gtk_radio_group_get_selected(sampling_ops);
+	output = gtk_radio_group_get_selected (output_ops);
+
+	if (parse_output(output, sheet, output_range_entry, wb, &dao))
+	        goto sampling_dialog_loop;
+
 	text = gtk_entry_get_text (GTK_ENTRY (sampling_entry[i]));
 	size = atoi(text);
 	sampling_tool (wb, sheet, &range, !i, size, &dao);
@@ -484,14 +562,14 @@ static void
 dialog_descriptive_stat_tool(Workbook *wb, Sheet *sheet)
 {
         static GtkWidget *dialog, *box, *group_box, *groupped_label;
-	static GtkWidget *range_entry;
+	static GtkWidget *range_entry, *output_range_entry;
 	static GtkWidget *check_buttons;
-	static GSList    *group_ops;
+	static GSList    *group_ops, *output_ops;
 
 	data_analysis_output_t  dao;
 
 	char  *text;
-	int   selection;
+	int   selection, output;
 	static Range range;
 	int   i=0, size;
 
@@ -529,6 +607,12 @@ dialog_descriptive_stat_tool(Workbook *wb, Sheet *sheet)
 					     (dialog)->vbox), 
 				    check_buttons, TRUE, TRUE, 0);
 
+		box = gtk_vbox_new (FALSE, 0);
+		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
+						      (dialog)->vbox), box);
+
+		output_range_entry = add_output_frame(box, &output_ops);
+
 		gtk_widget_show_all (dialog);
 	} else
 		gtk_widget_show_all (dialog);
@@ -544,6 +628,7 @@ stat_dialog_loop:
 	}
 
 	i = gtk_radio_group_get_selected (group_ops);
+	output = gtk_radio_group_get_selected (output_ops);
 
 	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
 	if (!parse_range (text, &range.start_col,
@@ -556,8 +641,8 @@ stat_dialog_loop:
 		goto stat_dialog_loop;
 	}
 
-	/* TODO: radio buttos for outputs */
-	dao.type = NewSheetOutput;
+	if (parse_output(output, sheet, output_range_entry, wb, &dao))
+	        goto stat_dialog_loop;
 
 	text = gtk_entry_get_text (GTK_ENTRY (ds.entry[1]));
 	ds.c_level = atof(text);
@@ -576,15 +661,16 @@ static void
 dialog_ztest_tool(Workbook *wb, Sheet *sheet)
 {
         static GtkWidget *dialog, *box;
-	static GtkWidget *range1_entry, *range2_entry;
+	static GtkWidget *range1_entry, *range2_entry, *output_range_entry;
 	static GtkWidget *known_var1_entry, *known_var2_entry;
 	static GtkWidget *mean_diff_entry, *alpha_entry;
+	static GSList    *output_ops;
 
 	data_analysis_output_t  dao;
 	float_t mean_diff, alpha, var1, var2;
 
 	char  *text;
-	int   selection;
+	int   selection, output;
 	static Range range_input1, range_input2;
 	int   i=0, size;
 
@@ -617,6 +703,12 @@ dialog_ztest_tool(Workbook *wb, Sheet *sheet)
 		alpha_entry = hbox_pack_label_and_entry("Alpha:", "0.95",
 							20, box);
 
+		box = gtk_vbox_new (FALSE, 0);
+		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
+						      (dialog)->vbox), box);
+
+		output_range_entry = add_output_frame(box, &output_ops);
+
 		gtk_widget_show_all (dialog);
 	} else
 		gtk_widget_show_all (dialog);
@@ -630,6 +722,8 @@ ztest_dialog_loop:
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
 	}
+
+	output = gtk_radio_group_get_selected (output_ops);
 
 	text = gtk_entry_get_text (GTK_ENTRY (range1_entry));
 	if (!parse_range (text, &range_input1.start_col,
@@ -664,8 +758,8 @@ ztest_dialog_loop:
 	text = gtk_entry_get_text (GTK_ENTRY (known_var2_entry));
 	var2 = atof(text);
 
-	/* TODO: radio buttos for outputs */
-	dao.type = NewSheetOutput;
+	if (parse_output(output, sheet, output_range_entry, wb, &dao))
+	        goto ztest_dialog_loop;
 
 	ztest_tool (wb, sheet, &range_input1, &range_input2, mean_diff,
 		    var1, var2, alpha, &dao);
@@ -678,14 +772,15 @@ static void
 dialog_ttest_paired_tool(Workbook *wb, Sheet *sheet)
 {
         static GtkWidget *dialog, *box;
-	static GtkWidget *range1_entry, *range2_entry;
+	static GtkWidget *range1_entry, *range2_entry, *output_range_entry;
 	static GtkWidget *mean_diff_entry, *alpha_entry;
+	static GSList    *output_ops;
 
 	data_analysis_output_t  dao;
 	float_t mean_diff, alpha;
 
 	char  *text;
-	int   selection;
+	int   selection, output;
 	static Range range_input1, range_input2;
 	int   i=0, size;
 
@@ -712,6 +807,12 @@ dialog_ttest_paired_tool(Workbook *wb, Sheet *sheet)
 		alpha_entry = hbox_pack_label_and_entry("Alpha:", "0.95",
 							20, box);
 
+		box = gtk_vbox_new (FALSE, 0);
+		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
+						      (dialog)->vbox), box);
+
+		output_range_entry = add_output_frame(box, &output_ops);
+
 		gtk_widget_show_all (dialog);
 	} else
 		gtk_widget_show_all (dialog);
@@ -725,6 +826,8 @@ ttest_dialog_loop:
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
 	}
+
+	output = gtk_radio_group_get_selected (output_ops);
 
 	text = gtk_entry_get_text (GTK_ENTRY (range1_entry));
 	if (!parse_range (text, &range_input1.start_col,
@@ -753,8 +856,8 @@ ttest_dialog_loop:
 	text = gtk_entry_get_text (GTK_ENTRY (alpha_entry));
 	alpha = atof(text);
 
-	/* TODO: radio buttos for outputs */
-	dao.type = NewSheetOutput;
+	if (parse_output(output, sheet, output_range_entry, wb, &dao))
+	        goto ttest_dialog_loop;
 
 	ttest_paired_tool (wb, sheet, &range_input1, &range_input2, mean_diff,
 			   alpha, &dao);
@@ -767,14 +870,15 @@ static void
 dialog_ttest_eq_tool(Workbook *wb, Sheet *sheet)
 {
         static GtkWidget *dialog, *box;
-	static GtkWidget *range1_entry, *range2_entry;
+	static GtkWidget *range1_entry, *range2_entry, *output_range_entry;
 	static GtkWidget *mean_diff_entry, *alpha_entry;
+	static GSList    *output_ops;
 
 	data_analysis_output_t  dao;
 	float_t mean_diff, alpha;
 
 	char  *text;
-	int   selection;
+	int   selection, output;
 	static Range range_input1, range_input2;
 	int   i=0, size;
 
@@ -802,6 +906,12 @@ dialog_ttest_eq_tool(Workbook *wb, Sheet *sheet)
 		alpha_entry = hbox_pack_label_and_entry("Alpha:", "0.95",
 							20, box);
 
+		box = gtk_vbox_new (FALSE, 0);
+		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
+						      (dialog)->vbox), box);
+
+		output_range_entry = add_output_frame(box, &output_ops);
+
 		gtk_widget_show_all (dialog);
 	} else
 		gtk_widget_show_all (dialog);
@@ -815,6 +925,8 @@ ttest_dialog_loop:
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
 	}
+
+	output = gtk_radio_group_get_selected (output_ops);
 
 	text = gtk_entry_get_text (GTK_ENTRY (range1_entry));
 	if (!parse_range (text, &range_input1.start_col,
@@ -843,8 +955,8 @@ ttest_dialog_loop:
 	text = gtk_entry_get_text (GTK_ENTRY (alpha_entry));
 	alpha = atof(text);
 
-	/* TODO: radio buttos for outputs */
-	dao.type = NewSheetOutput;
+	if (parse_output(output, sheet, output_range_entry, wb, &dao))
+	        goto ttest_dialog_loop;
 
 	ttest_eq_var_tool (wb, sheet, &range_input1, &range_input2, mean_diff,
 			   alpha, &dao);
@@ -857,14 +969,15 @@ static void
 dialog_ttest_neq_tool(Workbook *wb, Sheet *sheet)
 {
         static GtkWidget *dialog, *box;
-	static GtkWidget *range1_entry, *range2_entry;
+	static GtkWidget *range1_entry, *range2_entry, *output_range_entry;
 	static GtkWidget *mean_diff_entry, *alpha_entry;
+	static GSList    *output_ops;
 
 	data_analysis_output_t  dao;
 	float_t mean_diff, alpha;
 
 	char  *text;
-	int   selection;
+	int   selection, output;
 	static Range range_input1, range_input2;
 	int   i=0, size;
 
@@ -892,6 +1005,12 @@ dialog_ttest_neq_tool(Workbook *wb, Sheet *sheet)
 		alpha_entry = hbox_pack_label_and_entry("Alpha:", "0.95",
 							20, box);
 
+		box = gtk_vbox_new (FALSE, 0);
+		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
+						      (dialog)->vbox), box);
+
+		output_range_entry = add_output_frame(box, &output_ops);
+
 		gtk_widget_show_all (dialog);
 	} else
 		gtk_widget_show_all (dialog);
@@ -905,6 +1024,8 @@ ttest_dialog_loop:
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
 	}
+
+	output = gtk_radio_group_get_selected (output_ops);
 
 	text = gtk_entry_get_text (GTK_ENTRY (range1_entry));
 	if (!parse_range (text, &range_input1.start_col,
@@ -933,8 +1054,8 @@ ttest_dialog_loop:
 	text = gtk_entry_get_text (GTK_ENTRY (alpha_entry));
 	alpha = atof(text);
 
-	/* TODO: radio buttos for outputs */
-	dao.type = NewSheetOutput;
+	if (parse_output(output, sheet, output_range_entry, wb, &dao))
+	        goto ttest_dialog_loop;
 
 	ttest_neq_var_tool (wb, sheet, &range_input1, &range_input2, mean_diff,
 			    alpha, &dao);
@@ -947,14 +1068,15 @@ static void
 dialog_ftest_tool(Workbook *wb, Sheet *sheet)
 {
         static GtkWidget *dialog, *box, *vbox;
-	static GtkWidget *range1_entry, *range2_entry;
+	static GtkWidget *range1_entry, *range2_entry, *output_range_entry;
 	static GtkWidget *alpha_entry;
+	static GSList    *output_ops;
 
 	data_analysis_output_t  dao;
 	float_t alpha;
 
 	char  *text;
-	int   selection;
+	int   selection, output;
 	static Range range_input1, range_input2;
 	int   i=0, size;
 
@@ -977,6 +1099,12 @@ dialog_ftest_tool(Workbook *wb, Sheet *sheet)
 		alpha_entry = hbox_pack_label_and_entry("Alpha:", "0.95",
 							20, vbox);
 
+		box = gtk_vbox_new (FALSE, 0);
+		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
+						      (dialog)->vbox), box);
+
+		output_range_entry = add_output_frame(box, &output_ops);
+
 		gtk_widget_show_all (dialog);
 	} else
 		gtk_widget_show_all (dialog);
@@ -990,6 +1118,8 @@ ttest_dialog_loop:
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
 	}
+
+	output = gtk_radio_group_get_selected (output_ops);
 
 	text = gtk_entry_get_text (GTK_ENTRY (range1_entry));
 	if (!parse_range (text, &range_input1.start_col,
@@ -1016,8 +1146,8 @@ ttest_dialog_loop:
 	text = gtk_entry_get_text (GTK_ENTRY (alpha_entry));
 	alpha = atof(text);
 
-	/* TODO: radio buttos for outputs */
-	dao.type = NewSheetOutput;
+	if (parse_output(output, sheet, output_range_entry, wb, &dao))
+	        goto ttest_dialog_loop;
 
 	ftest_tool (wb, sheet, &range_input1, &range_input2, alpha, &dao);
 

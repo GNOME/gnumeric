@@ -77,7 +77,8 @@ set_cell (data_analysis_output_t *dao, int col, int row, char *text)
 	cell = sheet_cell_get (dao->sheet, dao->start_col+col, 
 			       dao->start_row+row);
 	if (cell == NULL)
-	        cell = sheet_cell_new (dao->sheet, col, row);
+	        cell = sheet_cell_new (dao->sheet, dao->start_col+col,
+				       dao->start_row+row);
 	cell_set_text (cell, text);
 
 	return cell;
