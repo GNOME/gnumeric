@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
-"POT-Creation-Date: 1999-03-29 09:03-0600\n"
+"POT-Creation-Date: 1999-03-30 10:26-0600\n"
 "PO-Revision-Date: 1998-10-03 17:59+01:00\n"
 "Last-Translator: Nuno Ferreira <nmrf@rnl.ist.utl.pt>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
@@ -640,7 +640,7 @@ msgstr "Erro de sintaxe"
 msgid "Missing quote"
 msgstr "Falta uma aspa"
 
-#: src/expr.c:529 src/expr.c:534 src/expr.c:541 src/expr.c:826 src/expr.c:1024
+#: src/expr.c:529 src/expr.c:534 src/expr.c:541 src/expr.c:826 src/expr.c:1021
 #: src/fn-string.c:54 src/fn-string.c:76 src/fn-string.c:98
 #: src/fn-string.c:155 src/fn-string.c:192 src/fn-string.c:271
 #: src/fn-string.c:350 src/fn-string.c:390 src/fn-string.c:569
@@ -652,15 +652,15 @@ msgstr "Tipos incompatíveis"
 msgid "Type error"
 msgstr "Erro de tipo"
 
-#: src/expr.c:879 src/expr.c:916
+#: src/expr.c:876 src/expr.c:913
 msgid "Division by zero"
 msgstr "Divisão por zero"
 
-#: src/expr.c:1004
+#: src/expr.c:1001
 msgid "Reference to newborn cell"
 msgstr ""
 
-#: src/expr.c:1039
+#: src/expr.c:1036
 msgid "Unknown evaluation error"
 msgstr "Erro de avaliação desconhecido"
 

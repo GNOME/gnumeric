@@ -840,10 +840,7 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 				int sum;
 
 				if (tree->oper == OPER_SUB){
-					int t = ia;
-					
-					ia = ib;
-					ib = -t;
+					ib = -ib;
 				}
 
 				sum = ia + ib;

@@ -1,3 +1,8 @@
+1999-03-30  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/expr.c (eval_expr): Fix from Ian Campbell for fixing the
+	subtraction problem.
+
 1999-03-28  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/fn-stat.c: Added large, median, pearson, and small. 

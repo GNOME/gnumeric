@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 1999-03-29 09:03-0600\n"
+"POT-Creation-Date: 1999-03-30 10:26-0600\n"
 "Content-Type: text/plain; charset=\n"
 "Date: 1998-09-02 18:03:00+0200\n"
 "From: Tristan Tarrant <tst@decp3229.etnoteam.it>\n"
@@ -661,7 +661,7 @@ msgstr "Errore di sintassi"
 msgid "Missing quote"
 msgstr "Apice mancante"
 
-#: src/expr.c:529 src/expr.c:534 src/expr.c:541 src/expr.c:826 src/expr.c:1024
+#: src/expr.c:529 src/expr.c:534 src/expr.c:541 src/expr.c:826 src/expr.c:1021
 #: src/fn-string.c:54 src/fn-string.c:76 src/fn-string.c:98
 #: src/fn-string.c:155 src/fn-string.c:192 src/fn-string.c:271
 #: src/fn-string.c:350 src/fn-string.c:390 src/fn-string.c:569
@@ -673,15 +673,15 @@ msgstr "Differenza di tipo"
 msgid "Type error"
 msgstr "Errore di tipo"
 
-#: src/expr.c:879 src/expr.c:916
+#: src/expr.c:876 src/expr.c:913
 msgid "Division by zero"
 msgstr "Divisione per zero"
 
-#: src/expr.c:1004
+#: src/expr.c:1001
 msgid "Reference to newborn cell"
 msgstr ""
 
-#: src/expr.c:1039
+#: src/expr.c:1036
 msgid "Unknown evaluation error"
 msgstr "Errore di valutazione sconosciuto"
 
