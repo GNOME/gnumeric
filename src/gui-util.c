@@ -168,7 +168,17 @@ font_get_bold_name (char *fontname)
 
 	return f;
 }
+
+char *
+font_get_italic_name (char *fontname)
+{
+	char *f;
 	
+	f = font_change_component (fontname, 3, "i");
+
+	return f;
+}
+
 
 
 

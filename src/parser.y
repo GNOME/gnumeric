@@ -168,6 +168,14 @@ exp:	  NUMBER 	{ $$ = $1 }
 		$$->u.binary.value_b = $3;
 	}
 
+	| exp '^' exp {
+		$$ = p_new (ExprTree);
+		$$->ref_count = 1;
+		$$->oper = OPER_EXP;
+		$$->u.binary.value_a = $1;
+		$$->u.binary.value_b = $3;
+	}
+
 	| '(' exp ')'  {
 		$$ = $2;
 	}
