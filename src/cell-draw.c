@@ -17,18 +17,11 @@
 
 static void
 draw_overflow (GdkDrawable *drawable, GdkGC *gc, GdkFont *font,
-	       int x1, int y1, int text_base, int width, int height)
+	       int x1, int text_base, int width)
 {
 	int const len = gdk_string_width (font, "#");
 	int count = (len != 0) ? (width / len) : 0;
 
-	GdkRectangle rect;
-	rect.x = x1;
-	rect.y = y1;
-	rect.width = width;
-	rect.height = height;
-	gdk_gc_set_clip_rectangle (gc, &rect);
-	
 	/* Center */
 	for (x1 += (width - count*len) / 2; --count >= 0 ; x1 += len )
 		gdk_draw_text (drawable, font, gc, x1, text_base, "#", 1);
@@ -141,12 +134,22 @@ cell_draw (Cell *cell, MStyle *mstyle,
 	int font_height;
 	int halign;
 	gboolean is_single_line;
-	char *text;
+	char const *text;
 
 	gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
 	g_return_val_if_fail (GNUMERIC_IS_SHEET (gsheet), 1);
+	g_return_val_if_fail (cell, 1);
+	g_return_val_if_fail (cell->text, 1);
 	canvas = GNOME_CANVAS (gsheet);
-
+	
+	if (cell->text->str == NULL) {
+		g_warning ("Serious cell error at '%s'\n",
+			   cell_name (cell->col->pos, cell->row->pos));
+		/* This can occur when eg. a plugin function fires up a dialog */
+		text = "Pending";
+	} else
+		text = cell->text->str;
+	
 	cell_get_span (cell, &start_col, &end_col);
 
 	/* Get the sizes exclusive of margins and grids */
@@ -155,6 +158,27 @@ cell_draw (Cell *cell, MStyle *mstyle,
 
 	font_height = style_font_get_height (style_font);
 	
+	/* This rectangle has the whole area used by this cell
+	 * including the surrounding grid lines */
+	rect.x = x1;
+	rect.y = y1;
+	rect.width  = cell->col->size_pixels + 1;
+	rect.height = cell->row->size_pixels + 1;
+	gdk_gc_set_clip_rectangle (gc, &rect);
+
+	/*
+	 * x1, y1 are relative to this cell origin, but the cell might be using
+	 * columns to the left (if it is set to right justify or center justify)
+	 * compute the pixel difference 
+	 */
+	if (start_col != cell->col->pos) {
+		int const offset =
+		    sheet_col_get_distance_pixels (cell->sheet,
+						   start_col, cell->col->pos);
+		rect.x     -= offset;
+		rect.width += offset;
+	}
+
 	switch (mstyle_get_align_v (mstyle)) {
 	default:
 		g_warning ("Unhandled cell vertical alignment\n");
@@ -186,47 +210,9 @@ cell_draw (Cell *cell, MStyle *mstyle,
 	
 	halign = cell_get_horizontal_align (cell, mstyle_get_align_h (mstyle));
 
-	/* if a number overflows, do special drawing */
-	if (width < cell->width_pixel && cell_is_number (cell)) {
-		draw_overflow (drawable, gc, font,
-			       x1 + cell->col->margin_a + 1,
-			       y1 + cell->row->margin_a + 1,
-			       text_base,
-			       width, height);
-		style_font_unref (style_font);
-		return 1;
-	}
-
 	is_single_line = (halign != HALIGN_JUSTIFY &&
 			  mstyle_get_align_v (mstyle) != VALIGN_JUSTIFY &&
 			  !mstyle_get_fit_in_cell (mstyle));
-
-	if (cell && cell->text && cell->text->str)
-		text = cell->text->str;
-	else {
-		g_warning ("Serious cell error at '%s'\n",
-			   cell_name (cell->col->pos, cell->row->pos));
-		/* This can occur when eg. a plugin function fires up a dialog */
-		text = "Pending";
-	} 
-	
-	/* This rectangle has the whole area used by this cell
-	 * including the surrounding grid lines */
-	rect.x = x1;
-	rect.y = y1;
-	rect.width  = sheet_col_get_distance_pixels (cell->sheet,
-						     start_col, end_col + 1) + 1;
-	rect.height = cell->row->size_pixels + 1;
-	gdk_gc_set_clip_rectangle (gc, &rect);
-
-	/*
-	 * x1, y1 are relative to this cell origin, but the cell might be using
-	 * columns to the left (if it is set to right justify or center justify)
-	 * compute the pixel difference 
-	 */
-	if (start_col != cell->col->pos)
-		rect.x -= sheet_col_get_distance_pixels (cell->sheet,
-							 start_col, cell->col->pos);
 
 	/* Draw the background if there is one */
 	if (gnumeric_background_set_gc (mstyle, gc, canvas, is_selected))
@@ -251,6 +237,15 @@ cell_draw (Cell *cell, MStyle *mstyle,
 	rect.width -= 2 + cell->col->margin_a + cell->col->margin_b;
 	rect.height -= 2 + cell->row->margin_a + cell->row->margin_b;
 	gdk_gc_set_clip_rectangle (gc, &rect);
+
+	/* if a number overflows, do special drawing */
+	if (width < cell->width_pixel && cell_is_number (cell)) {
+		draw_overflow (drawable, gc, font,
+			       x1 + cell->col->margin_a + 1,
+			       text_base, width);
+		style_font_unref (style_font);
+		return 1;
+	}
 
 	if (is_single_line) {
 		int total, len;

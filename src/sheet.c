@@ -656,7 +656,7 @@ sheet_col_size_fit (Sheet *sheet, int col)
 	if (max < 0)
 		max = sheet->cols.default_style.size_pixels;
 	else
-		/* Cell width does not include margins */
+		/* Cell width does not include margins or far grid line*/
 		max += ci->margin_a + ci->margin_b + 1;
 
 	return max;
@@ -713,7 +713,7 @@ sheet_row_size_fit (Sheet *sheet, int row)
 	if (max < 0)
 		max = sheet->rows.default_style.size_pixels;
 	else
-		/* Cell height does not include margins */
+		/* Cell height does not include margins or far grid line */
 		max += ri->margin_a + ri->margin_b + 1;
 
 	return max;
@@ -3422,9 +3422,8 @@ sheet_col_get_distance_pts (Sheet const *sheet, int from, int to)
 	/* Do not use sheet_foreach_colrow, it ignores empties */
 	for (i = from ; i < to ; ++i) {
 		ColRowInfo const *ci = sheet_col_get_info (sheet, i);
-		/* Add 1 for the grid line */
 		if (ci->visible)
-			units += ci->size_pts + 1;
+			units += ci->size_pts;
 	}
 	
 	return units;
@@ -3528,6 +3527,7 @@ sheet_col_set_internal_size_pts (Sheet *sheet, ColRowInfo *ci, double width_pts)
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (ci != NULL);
 
+	/* Add margins add far grid line */
 	width_pts += ci->margin_a + ci->margin_b + 1;
 	if (ci->size_pts == width_pts)
 		return;
@@ -3723,6 +3723,7 @@ sheet_row_set_internal_size_pts (Sheet *sheet, ColRowInfo *ri, double height_pts
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (ri != NULL);
 
+	/* Add margins add far grid line */
 	height_pts += ri->margin_a + ri->margin_b + 1;
 	if (ri->size_pts == height_pts)
 		return;
