@@ -78,7 +78,8 @@ item_grid_realize (GnomeCanvasItem *item)
 	item_grid->grid_gc = gc = gdk_gc_new (window);
 	item_grid->fill_gc = gdk_gc_new (window);
 	item_grid->gc = gdk_gc_new (window);
-
+	item_grid->empty_gc = gdk_gc_new (window);
+		
 	/* Allocate the default colors */
 	item_grid->background = gs_white;
 	item_grid->grid_color = gs_light_gray;
@@ -130,9 +131,11 @@ item_grid_unrealize (GnomeCanvasItem *item)
 	gdk_gc_unref (item_grid->grid_gc);
 	gdk_gc_unref (item_grid->fill_gc);
 	gdk_gc_unref (item_grid->gc);
+	gdk_gc_unref (item_grid->empty_gc);
 	item_grid->grid_gc = 0;
 	item_grid->fill_gc = 0;
 	item_grid->gc = 0;
+	item_grid->empty_gc = 0;
 
 	for (i = 0; i < BORDER_MAX; i++)
 		gdk_gc_unref (item_grid->border_gc[i]);
@@ -342,31 +345,12 @@ item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 	if ((style->valid_flags & STYLE_BACK_COLOR) && (style->back_color)){
 		Sheet *sheet = item_grid->sheet_view->sheet;
 		
-		if (style->back_color == sheet->default_style->back_color){
-			printf ("SAME, ");
-			fflush (stdout);
+		if (style->back_color == sheet->default_style->back_color)
 			return;
-		}
-		    
-		gdk_gc_set_foreground (item_grid->gc, &style->back_color->color);
-		printf ("Painting %d, %d\n", col, row);
-		item_debug_cross (drawable, item_grid->gc,
-			x + ci->margin_a, y + ri->margin_b,
-			x + ci->margin_a + ci->pixels - ci->margin_b,
-			y + ri->margin_b + ri->pixels - ri->margin_b);
-		return;
-		
-		/*
-		 * FIXME: If the style is the default sheet style, we can
-		 * avoid drawing this
-		 */
-		gdk_gc_set_background (item_grid->gc, &style->back_color->color);
-		printf ("%d %d %d\n",
-			style->back_color->color.red,
-			style->back_color->color.green,
-			style->back_color->color.blue);
+
+		gdk_gc_set_foreground (item_grid->empty_gc, &style->back_color->color);
 		gdk_draw_rectangle (
-			drawable, item_grid->gc, TRUE,
+			drawable, item_grid->empty_gc, TRUE,
 			x + ci->margin_a, y + ri->margin_b,
 			ci->pixels - ci->margin_b,
 			ri->pixels - ri->margin_b);
@@ -450,19 +434,17 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 
 			cell = sheet_cell_get (sheet, col, row);
 
-			if (cell){
+			if (cell_is_blank (cell)){
+				item_grid_paint_empty_cell (
+					drawable, item_grid, ci, ri,
+					col, row, x_paint, y_paint);
+			} else {
 				item_grid_draw_cell (
 					drawable, item_grid, cell,
 					x_paint, y_paint);
 			}
 
-			if (!cell && gnumeric_debugging > 0){
-				item_grid_paint_empty_cell (
-					drawable, item_grid, ci, ri,
-					col, row, x_paint, y_paint);
-			}
-			
-			if (!cell && (ri->pos != -1)){
+			if (cell_is_blank (cell) && (ri->pos != -1)){
 				/*
 				 * If there was no cell, and the row has any cell allocated
 				 * (indicated by ri->pos != -1)

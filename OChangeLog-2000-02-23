@@ -1,5 +1,12 @@
 1999-09-22  Miguel de Icaza  <miguel@gnu.org>
 
+	* src/item-grid.c (item_grid_paint_empty_cell): I am now using a
+	gc for the empty cells (as the default gc is used and abused by
+	the cell-draw code, better to keep our own).
+
+	TODO: queue an update on the regions with changed style.  Wonder
+	why this is not being done automatically.  Need to check. 
+
 	* src/widgets/widget-color-combo.c (color_combo_construct): Fix
 	visuals for working with Imlib properly.
 

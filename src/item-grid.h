@@ -34,6 +34,7 @@ typedef struct {
 	GdkGC      *grid_gc;	/* Draw grid gc */
 	GdkGC      *fill_gc;	/* Default background fill gc */
 	GdkGC      *gc;		/* Color used for the cell */
+	GdkGC      *empty_gc;	/* GC used for drawing empty cells */
 	
 	GdkColor   background;
 	GdkColor   grid_color;

@@ -231,7 +231,7 @@ msgstr "Jody Goldberg, hacker de Excel."
 
 #: src/about.c:28
 msgid "Ross Ihaka, special functions."
-msgstr ""
+msgstr "Ross Ihaka, funciones espciales."
 
 #: src/about.c:29
 msgid "Jukka-Pekka Iivonen, numerous functions and tools."
@@ -316,7 +316,7 @@ msgstr "Referencia circular"
 
 #: src/corba-args.c:33
 msgid "Could not initialize the Gnumeric Workbook factory"
-msgstr ""
+msgstr "No pude inicializar la fábrica de libros de trabajo de Gnumeric"
 
 #: src/dates.c:14
 msgid "*Sun"
@@ -493,7 +493,7 @@ msgstr "Resúmen estadísticas"
 
 #: src/dialogs/dialog-analysis-tools.c:152
 msgid "Confidence Level for Mean"
-msgstr ""
+msgstr "Nivel de confidencia para el promedio"
 
 #: src/dialogs/dialog-analysis-tools.c:153
 msgid "0.95"
@@ -522,7 +522,7 @@ msgstr "Etiquetas"
 
 #: src/dialogs/dialog-analysis-tools.c:174
 msgid "Standard Errors"
-msgstr ""
+msgstr "Errores estándar"
 
 #: src/dialogs/dialog-analysis-tools.c:201
 msgid "Columns"
@@ -709,7 +709,7 @@ msgstr "Columna:"
 
 #: src/dialogs/dialog-cell-sort.c:55
 msgid "Asc"
-msgstr ""
+msgstr "Asc"
 
 #: src/dialogs/dialog-cell-sort.c:58
 msgid "Desc"
@@ -717,15 +717,15 @@ msgstr "Desc"
 
 #: src/dialogs/dialog-cell-sort.c:271
 msgid "more clauses than rows ?"
-msgstr ""
+msgstr "¿Más cláusulas que renglones?"
 
 #: src/dialogs/dialog-cell-sort.c:274
 msgid "too many clauses"
-msgstr ""
+msgstr "Demasiadas cláusulas."
 
 #: src/dialogs/dialog-cell-sort.c:294
 msgid "Need at least one clause"
-msgstr ""
+msgstr "Necesito por lo menos una cláusula"
 
 #: src/dialogs/dialog-cell-sort.c:314 src/workbook.c:1508
 msgid "Selection must be a single range"
@@ -794,7 +794,7 @@ msgstr "Cadena"
 
 #: src/dialogs/dialog-function-wizard.c:212
 msgid "Boolean"
-msgstr ""
+msgstr "Valor de verdad (booleano)"
 
 #: src/dialogs/dialog-function-wizard.c:215
 msgid "Range"
@@ -823,7 +823,7 @@ msgstr "Asistente de fórmulas"
 #: src/dialogs/dialog-goal-seek.c:191
 #, c-format
 msgid "Goal seeking with cell %s found a solution"
-msgstr ""
+msgstr "He encontrado la solución usando la celda %s"
 
 #: src/dialogs/dialog-goal-seek.c:195
 #, c-format
@@ -1015,7 +1015,7 @@ msgstr "Cuadrática"
 
 #: src/dialogs/dialog-solver.c:57
 msgid "Forward"
-msgstr ""
+msgstr "Adelante"
 
 #: src/dialogs/dialog-solver.c:58
 msgid "Central"
@@ -1039,7 +1039,7 @@ msgstr "Asumir no-negativo"
 
 #: src/dialogs/dialog-solver.c:75
 msgid "Use Automatic Scaling"
-msgstr ""
+msgstr "Usar escalamiento automático"
 
 #: src/dialogs/dialog-solver.c:76
 msgid "Show Iteration Results"
@@ -1051,7 +1051,7 @@ msgstr "Opciones del resolvedor de Gnumeric"
 
 #: src/dialogs/dialog-solver.c:246
 msgid "Add Constraint"
-msgstr ""
+msgstr "Añadir límite"
 
 #: src/dialogs/dialog-solver.c:249 src/dialogs/names.glade.h:9
 msgid "Add"
@@ -1410,7 +1410,7 @@ msgstr "Imposible crear el archivo %s\n"
 
 #: src/embeddable-grid.c:153
 msgid "Embedded Sheet"
-msgstr ""
+msgstr "Hoja inmersa"
 
 #: src/expr-name.c:131
 msgid "already defined"
@@ -2955,7 +2955,7 @@ msgstr ""
 
 #: src/functions/fn-eng.c:1612
 msgid "Engineering"
-msgstr ""
+msgstr "Ingeniería"
 
 #: src/functions/fn-financial.c:206
 msgid ""
@@ -3692,7 +3692,7 @@ msgstr ""
 
 #: src/functions/fn-logical.c:192
 msgid "Logical"
-msgstr ""
+msgstr "Lógicas"
 
 #: src/functions/fn-lookup.c:16
 msgid ""
@@ -3863,7 +3863,7 @@ msgstr ""
 
 #: src/functions/fn-lookup.c:780
 msgid "Data / Lookup"
-msgstr ""
+msgstr "Datos/Búsqueda"
 
 #: src/functions/fn-math.c:156
 msgid ""
