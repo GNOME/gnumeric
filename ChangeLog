@@ -1,3 +1,8 @@
+2003-01-07  Morten Welinder  <terra@diku.dk>
+
+	* src/xml-io.c (XML_INPUT_BUFFER_SIZE): Up the size to 10M.
+	(gnumeric_xml_read_workbook): Allocate on heap, not on stack.
+
 2003-01-04  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* NEWS: Added a note for Morten's contribution to 1.0.12.
