@@ -3,6 +3,7 @@
 
 extern FunctionDefinition math_functions [];
 extern FunctionDefinition sheet_functions [];
+extern FunctionDefinition misc_functions [];
 
 typedef int (*FunctionIterateCallback)(Sheet *sheet, Value *value, char **error_string, void *);
 

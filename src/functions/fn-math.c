@@ -1,5 +1,5 @@
 /*
- * func.c:  Built in mathematical functions and functions registration
+ * fn-math.c:  Built in mathematical functions and functions registration
  * (C) 1998 The Free Software Foundation
  *
  * Author:
@@ -279,13 +279,12 @@ gnumeric_bin2dec (Value *argv [], char **error_string)
 		
 	case VALUE_STRING:
 		p = argv [0]->v.str->str;
-		while (*p){
+		for (;*p; p++){
 			if (!(*p == '0' || *p == '1')){
 				*error_string = "#NUM!";
 				return NULL;
 			}
-			/* FIXME: implement */
-			result = *p;
+			result = result << 1 | (*p - '0');
 		}
 		break;
 		
@@ -378,6 +377,46 @@ gnumeric_exp (Value *argv [], char **error_string)
 	v->v.v_float = exp (value_get_as_double (argv [0]));
 
 	return v;
+}
+
+static float_t
+fact (int n)
+{
+	if (n == 0)
+		return 1;
+	return (n * fact (n - 1));
+}
+
+static Value *
+gnumeric_fact (Value *argv [], char **error_string)
+{
+	Value *res;
+	int i;
+
+	switch (argv [0]->type){
+	case VALUE_FLOAT:
+		i = argv [0]->v.v_float;
+		break;
+	case VALUE_INTEGER:
+		i = argv [0]->v.v_int;
+		break;
+	default:
+		*error_string = "#NUM!";
+		return NULL;
+	}
+
+	if (i < 0){
+		*error_string = "#NUM!";
+		return NULL;
+	}
+	
+	res = g_new (Value, 1);
+	if (i > 69){
+		i = 69;
+	}
+	res->type = VALUE_FLOAT;
+	res->v.v_float = fact (i);
+	return res;
 }
 
 static Value *
@@ -749,6 +788,7 @@ FunctionDefinition math_functions [] = {
 	{ "ceil",    "f",    "number",    NULL, NULL, gnumeric_ceil },
 	{ "degrees", "f",    "number",    NULL, NULL, gnumeric_degrees },
 	{ "exp",     "f",    "number",    NULL, NULL, gnumeric_exp },
+	{ "fact",    "f",    "number",    NULL, NULL, gnumeric_fact },
 	{ "floor",   "f",    "number",    NULL, NULL, gnumeric_floor },
 	{ "int",     "f",    "number",    NULL, NULL, gnumeric_int },
 	{ "log",     "f",    "number",    NULL, NULL, gnumeric_log },

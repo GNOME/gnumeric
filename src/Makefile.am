@@ -24,6 +24,7 @@ GNUMERIC_BASE_SOURCES =		\
 	func.h			\
 	fn-sheet.c		\
 	fn-math.c		\
+	fn-misc.c		\
 	gnumeric-sheet.c	\
 	gnumeric-sheet.h	\
 	gnumeric-util.c		\

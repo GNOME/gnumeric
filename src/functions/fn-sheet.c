@@ -1,5 +1,5 @@
 /*
- * func.c:  Built in sheet functions
+ * fn-sheet.c:  Built in sheet functions
  * (C) 1998 The Free Software Foundation
  *
  * Author:

@@ -149,6 +149,7 @@ functions_init (void)
 {
 	install_symbols (math_functions);
 	install_symbols (sheet_functions);
+	install_symbols (misc_functions);
 }
 
 void
