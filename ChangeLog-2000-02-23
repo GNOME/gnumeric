@@ -1,3 +1,13 @@
+1999-11-13  Jody Goldberg <jgoldberg@home.com>
+
+	* src/dialogs/dialog-cell-format.c (border_event) : Switch to
+	  selection_mask to handle singleton, vertical, horizontal, rectangle.
+	(draw_border_preview) : Ditto.
+	(init_border_button) : Ditto.
+	(fmt_dialog_impl) : Ditto.
+	(dialog_cell_format) : Init selection_mask looking at all selected
+	  ranges to see if any are more than 1 cell wide or tall.
+
 1999-11-13  JP Rosevear  <jpr@arcavia.com>
 
 	* src/dialogs/cell-sort.glade*: glade files for sort dialog

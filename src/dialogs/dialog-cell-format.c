@@ -89,7 +89,7 @@ typedef struct _FormatState
 	MStyle		*style, *result;
 	Value		*value;
 
-	gboolean	 is_multi;	/* single cell or multiple ranges */
+	int	 	 selection_mask;
 	gboolean	 enable_edit;
 
 	struct
@@ -119,7 +119,7 @@ typedef struct _FormatState
 		GnomeCanvas	*canvas;
 		GtkButton 	*preset[BORDER_PRESET_MAX];
 		GnomeCanvasItem	*back;
-		GnomeCanvasItem *lines[12];
+		GnomeCanvasItem *lines[20];
 
 		BorderPicker	 edge[STYLE_BORDER_EDGE_MAX];
 		ColorPicker	 color;
@@ -1359,25 +1359,53 @@ draw_pattern_selected (FormatState *state)
 
 static struct
 {
-	double const		points[4];
-	gboolean const		is_single;
+	double const			points[4];
+	int const			states;
 	StyleBorderLocation	const	location;
-} const line_info[12] =
+} const line_info[] =
 {
-	{ { L, T, R, T }, TRUE, STYLE_BORDER_TOP },
-	{ { L, B, R, B }, TRUE, STYLE_BORDER_BOTTOM },
-	{ { L, T, L, B }, TRUE, STYLE_BORDER_LEFT },
-	{ { R, T, R, B }, TRUE, STYLE_BORDER_RIGHT },
-	{ { L, T, R, B }, TRUE, STYLE_BORDER_REV_DIAG },
-	{ { L, B, R, T }, TRUE, STYLE_BORDER_DIAG},
+	/*
+	state 1 = single cell;
+	state 2 = multi vert, single horiz (A1:A2); 
+	state 3 = single vert, multi horiz (A1:B1);
+	state 4 = multi vertical & multi horizontal
+	*/
 
-	{ { L, H, R, H }, FALSE, STYLE_BORDER_HORIZ },
-	{ { L, H, V, B }, FALSE, STYLE_BORDER_REV_DIAG },
-	{ { V, T, R, H }, FALSE, STYLE_BORDER_REV_DIAG },
+	/* 1, 2, 3, 4 */
+	{ { L, T, R, T }, 0xf, STYLE_BORDER_TOP },
+	{ { L, B, R, B }, 0xf, STYLE_BORDER_BOTTOM },
+	{ { L, T, L, B }, 0xf, STYLE_BORDER_LEFT },
+	{ { R, T, R, B }, 0xf, STYLE_BORDER_RIGHT },
 
-	{ { V, T, V, B }, FALSE, STYLE_BORDER_VERT },
-	{ { V, T, L, H }, FALSE, STYLE_BORDER_DIAG },
-	{ { R, H, V, B }, FALSE, STYLE_BORDER_DIAG }
+	/* Only for state 2 & 4 */
+	{ { L, H, R, H }, 0xa, STYLE_BORDER_HORIZ },
+
+	/* Only for state 3 & 4 */
+	{ { V, T, V, B }, 0xc, STYLE_BORDER_VERT },
+
+	/* Only for state 1 & 4 */
+	{ { L, T, R, B }, 0x9, STYLE_BORDER_REV_DIAG },
+	{ { L, B, R, T }, 0x9, STYLE_BORDER_DIAG},
+
+	/* Only for state 2 */
+	{ { L, T, R, H }, 0x2, STYLE_BORDER_REV_DIAG },
+	{ { L, H, R, B }, 0x2, STYLE_BORDER_REV_DIAG },
+	{ { L, H, R, T }, 0x2, STYLE_BORDER_DIAG },
+	{ { L, B, R, H }, 0x2, STYLE_BORDER_DIAG },
+
+	/* Only for state 3 */
+	{ { L, T, V, B }, 0x4, STYLE_BORDER_REV_DIAG },
+	{ { V, T, R, B }, 0x4, STYLE_BORDER_REV_DIAG },
+	{ { L, B, V, T }, 0x4, STYLE_BORDER_DIAG },
+	{ { V, B, R, T }, 0x4, STYLE_BORDER_DIAG },
+
+	/* Only for state 4 */
+	{ { L, H, V, B }, 0x8, STYLE_BORDER_REV_DIAG },
+	{ { V, T, R, H }, 0x8, STYLE_BORDER_REV_DIAG },
+	{ { L, H, V, T }, 0x8, STYLE_BORDER_DIAG },
+	{ { V, B, R, H }, 0x8, STYLE_BORDER_DIAG },
+
+	{ { 0., 0., 0., 0. }, 0, 0 }
 };
 
 static MStyleBorder *
@@ -1414,7 +1442,7 @@ border_format_has_changed (FormatState *state, BorderPicker *edge)
 	if (edge->rgba != state->border.color.rgba) {
 		edge->rgba = state->border.color.rgba;
 
-		for (i = 12; --i >= 0 ; ) {
+		for (i = 0; line_info[i].states != 0 ; ++i ) {
 			if (line_info[i].location == edge->index &&
 			    state->border.lines[i] != NULL)
 				gnome_canvas_item_set (
@@ -1426,7 +1454,7 @@ border_format_has_changed (FormatState *state, BorderPicker *edge)
 	}
 	if (edge->pattern_index != state->border.pattern.cur_index) {
 		edge->pattern_index = state->border.pattern.cur_index;
-		for (i = 12; --i >= 0 ; ) {
+		for (i = 0; line_info[i].states != 0 ; ++i ) {
 			if (line_info[i].location == edge->index &&
 			    state->border.lines[i] != NULL) {
 				gnumeric_dashed_canvas_line_set_dash_index (
@@ -1463,11 +1491,14 @@ border_event (GtkWidget *widget, GdkEventButton *event, FormatState *state)
 		event->type = type;
 	}
 
+	/* The edges are always there */
 	if (x <= L+5.)		which = STYLE_BORDER_LEFT;
 	else if (y <= T+5.)	which = STYLE_BORDER_TOP;
 	else if (y >= B-5.)	which = STYLE_BORDER_BOTTOM;
 	else if (x >= R-5.)	which = STYLE_BORDER_RIGHT;
-	else if (state->is_multi) {
+	else if (state->selection_mask > 1) {
+
+	    /* FIXME : 2 more diagonal cases, and only do vertical or horizontal if permitted */
 		if (V-5. < x  && x < V+5.)
 			which = STYLE_BORDER_VERT;
 		else if (H-5. < y  && y < H+5.)
@@ -1548,8 +1579,15 @@ draw_border_preview (FormatState *state)
 		/* Draw the corners */
 		points = gnome_canvas_points_new (3);
 
-		i = (state->is_multi) ? 12 : 4;
-		for (; --i >= 0 ; ) {
+		for (i = 0; i < 12 ; ++i) {
+			if (i >= 8) {
+				if (!(state->selection_mask & 0xa))
+					continue;
+			} else if (i >= 4) {
+				if (!(state->selection_mask & 0xc))
+					continue;
+			}
+
 			for (j = 6 ; --j >= 0 ;)
 				points->coords [j] = corners[i][j];
 
@@ -1563,13 +1601,14 @@ draw_border_preview (FormatState *state)
 		gnome_canvas_points_free (points);
 
 		points = gnome_canvas_points_new (2);
-		for (i = 12; --i >= 0 ; ) {
+		for (i = 0; line_info[i].states != 0 ; ++i ) {
 			for (j = 4; --j >= 0 ; )
 				points->coords [j] = line_info[i].points[j];
 
-			if (line_info[i].is_single || state->is_multi) {
+			if (line_info[i].states & state->selection_mask) {
 				BorderPicker const * p =
 				    & state->border.edge[line_info[i].location];
+				puts ("bob");
 				state->border.lines[i] =
 					gnome_canvas_item_new (group,
 							       gnumeric_dashed_canvas_line_get_type (),
@@ -1590,7 +1629,7 @@ draw_border_preview (FormatState *state)
 		void (*func)(GnomeCanvasItem *item) = border->is_selected
 			? &gnome_canvas_item_show : &gnome_canvas_item_hide;
 
-		for (j = 12; --j >= 0 ; ) {
+		for (j = 0; line_info[j].states != 0 ; ++j) {
 			if (line_info[j].location == i &&
 			    state->border.lines[j] != NULL)
 				(*func) (state->border.lines[j]);
@@ -1691,7 +1730,8 @@ typedef struct
  */
 static void
 init_border_button (FormatState *state, StyleBorderLocation const i,
-		    GtkWidget *button, gboolean const hide, MStyleBorder *border)
+		    GtkWidget *button,
+		    MStyleBorder const * const border)
 {
 	if (border == NULL) {
 		state->border.edge[i].rgba = 0;
@@ -1719,7 +1759,8 @@ init_border_button (FormatState *state, StyleBorderLocation const i,
 			    GTK_SIGNAL_FUNC (cb_border_toggle),
 			    &state->border.edge[i]);
 
-	if (!state->is_multi && hide)
+	if ((i == STYLE_BORDER_HORIZ && !(state->selection_mask & 0xa)) ||
+	    (i == STYLE_BORDER_VERT  && !(state->selection_mask & 0xc)))
 		gtk_widget_hide (button);
 }
 
@@ -1794,11 +1835,9 @@ static void set_initial_focus (FormatState *state)
 }
 
 static void
-fmt_dialog_impl (Sheet *sheet, MStyle *mstyle, MStyleBorder **borders,
-		 GladeXML *gui, gboolean is_multi, Value *sample_val)
+fmt_dialog_impl (FormatState *state, MStyleBorder **borders)
 {
 	static GnomeHelpMenuEntry help_ref = { "gnumeric", "formatting.html" };
-
 	static struct
 	{
 		char const * const name;
@@ -1863,71 +1902,66 @@ fmt_dialog_impl (Sheet *sheet, MStyle *mstyle, MStyleBorder **borders,
 	    NULL
 	};
 
-	FormatState state;
 	int i, res, selected;
 	char const *name;
 	gboolean has_back;
 
-	GtkWidget *dialog = glade_xml_get_widget (gui, "CellFormat");
+	GtkWidget *dialog = glade_xml_get_widget (state->gui, "CellFormat");
 	g_return_if_fail (dialog != NULL);
 
 	/* Make the dialog a child of the application so that it will iconify */
-	gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (sheet->workbook->toplevel));
+	gnome_dialog_set_parent (GNOME_DIALOG (dialog),
+				 GTK_WINDOW (state->sheet->workbook->toplevel));
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Format Cells"));
 
 	/* Initialize */
-	state.gui			= gui;
-	state.dialog			= GNOME_PROPERTY_BOX (dialog);
-	state.sheet			= sheet;
-	state.value			= sample_val;
-	state.style			= mstyle;
-	state.result			= mstyle_new ();
-	state.is_multi			= is_multi;
-	state.enable_edit		= FALSE;  /* Enable below */
+	state->dialog			= GNOME_PROPERTY_BOX (dialog);
 
-	state.border.canvas	= NULL;
-	state.border.pattern.cur_index	= 0;
+	state->enable_edit		= FALSE;  /* Enable below */
 
-	state.back.canvas	= NULL;
-	state.back.back		= NULL;
-	state.back.pattern_item	= NULL;
-	state.back.pattern.cur_index	= 0;
+	state->border.canvas	= NULL;
+	state->border.pattern.cur_index	= 0;
+
+	state->back.canvas	= NULL;
+	state->back.back		= NULL;
+	state->back.pattern_item	= NULL;
+	state->back.pattern.cur_index	= 0;
 
 	/* Select the same page the last invocation used */
 	gtk_notebook_set_page (
 		GTK_NOTEBOOK (GNOME_PROPERTY_BOX (dialog)->notebook),
 		fmt_dialog_page);
-	state.page_signal = gtk_signal_connect (
+	state->page_signal = gtk_signal_connect (
 		GTK_OBJECT (GNOME_PROPERTY_BOX (dialog)->notebook),
 		"switch_page", GTK_SIGNAL_FUNC (cb_page_select),
 		NULL);
 	gtk_signal_connect (
 		GTK_OBJECT (GNOME_PROPERTY_BOX (dialog)->notebook),
 		"destroy", GTK_SIGNAL_FUNC (cb_notebook_destroy),
-		&state);
+		state);
 
-	fmt_dialog_init_format_page (&state);
-	fmt_dialog_init_align_page (&state);
-	fmt_dialog_init_font_page (&state);
+	fmt_dialog_init_format_page (state);
+	fmt_dialog_init_align_page (state);
+	fmt_dialog_init_font_page (state);
 
 	/* Setup border line pattern buttons & select the 1st button */
-	state.border.pattern.draw_preview = NULL;
-	state.border.pattern.current_pattern = NULL;
-	state.border.pattern.state = &state;
+	state->border.pattern.draw_preview = NULL;
+	state->border.pattern.current_pattern = NULL;
+	state->border.pattern.state = state;
 	for (i = 0; (name = line_pattern_buttons[i].name) != NULL; ++i)
-		setup_pattern_button (gui, name, &state.border.pattern,
+		setup_pattern_button (state->gui, name, &state->border.pattern,
 				      i != 1, /* No image for None */
 				      line_pattern_buttons[i].pattern,
 				      FALSE); /* don't select */
 
 	/* Set the default line pattern to THIN (the 1st element of line_pattern_buttons).
 	 * This can not come from the style.  It is a UI element not a display item */
-	gtk_toggle_button_set_active (state.border.pattern.default_button, TRUE);
+	gtk_toggle_button_set_active (state->border.pattern.default_button, TRUE);
 
 #define COLOR_SUPPORT(v, n, style_element, auto_color, func) \
-	setup_color_pickers (gui, #n "_picker", #n "_custom", #n "_auto",\
-			     &state.v, &state, auto_color, GTK_SIGNAL_FUNC (func),\
-			     style_element, mstyle)
+	setup_color_pickers (state->gui, #n "_picker", #n "_custom", #n "_auto",\
+			     &state->v, state, auto_color, GTK_SIGNAL_FUNC (func),\
+			     style_element, state->style)
 
 	COLOR_SUPPORT (font.color, font_color, MSTYLE_COLOR_FORE,
 		       &gs_black, cb_font_preview_color);
@@ -1944,16 +1978,15 @@ fmt_dialog_impl (Sheet *sheet, MStyle *mstyle, MStyleBorder **borders,
 	/* The background color selector is special.  There is a difference
 	 * between auto (None) and the default custom which is white.
 	 */
-	gtk_signal_connect (GTK_OBJECT (state.back.back_color.custom), "clicked",
+	gtk_signal_connect (GTK_OBJECT (state->back.back_color.custom), "clicked",
 			    GTK_SIGNAL_FUNC (cb_custom_back_selected),
-			    &state);
+			    state);
 
 	/* Setup the border images */
 	for (i = 0; (name = border_buttons[i]) != NULL; ++i) {
-		GtkWidget * tmp = init_button_image (gui, name);
+		GtkWidget * tmp = init_button_image (state->gui, name);
 		if (tmp != NULL) {
-			init_border_button (&state, i, tmp,
-					    i >= STYLE_BORDER_HORIZ,
+			init_border_button (state, i, tmp,
 					    borders [i]);
 			style_border_unref (borders [i]);
 		}
@@ -1966,8 +1999,8 @@ fmt_dialog_impl (Sheet *sheet, MStyle *mstyle, MStyleBorder **borders,
 	 */
 	has_back = FALSE;
 	selected = 1;
-	if (!mstyle_is_element_conflict (mstyle, MSTYLE_PATTERN)) {
-		selected = mstyle_get_pattern (mstyle);
+	if (!mstyle_is_element_conflict (state->style, MSTYLE_PATTERN)) {
+		selected = mstyle_get_pattern (state->style);
 		has_back = (selected != 0);
 	}
 
@@ -1976,11 +2009,12 @@ fmt_dialog_impl (Sheet *sheet, MStyle *mstyle, MStyleBorder **borders,
 	 * NOTE : This must be done AFTER the colour has been setup to
 	 * avoid having it erased by initialization.
 	 */
-	state.back.pattern.draw_preview = &draw_pattern_selected;
-	state.back.pattern.current_pattern = NULL;
-	state.back.pattern.state = &state;
+	state->back.pattern.draw_preview = &draw_pattern_selected;
+	state->back.pattern.current_pattern = NULL;
+	state->back.pattern.state = state;
 	for (i = 0; (name = pattern_buttons[i]) != NULL; ++i)
-		setup_pattern_button (gui, name, &state.back.pattern, TRUE,
+		setup_pattern_button (state->gui, name,
+				      &state->back.pattern, TRUE,
 				      i+1, /* Pattern #s start at 1 */
 				      i+1 == selected);
 
@@ -1988,24 +2022,24 @@ fmt_dialog_impl (Sheet *sheet, MStyle *mstyle, MStyleBorder **borders,
 	 * Set background to No colour.  This will set states correctly.
 	 */
 	if (!has_back)
-		gtk_toggle_button_set_active (state.back.back_color.autob,
+		gtk_toggle_button_set_active (state->back.back_color.autob,
 					      TRUE);
 
 	/* Setup the images in the border presets */
 	for (i = 0; (name = border_preset_buttons[i]) != NULL; ++i) {
-		GtkWidget * tmp = init_button_image (gui, name);
+		GtkWidget * tmp = init_button_image (state->gui, name);
 		if (tmp != NULL) {
-			state.border.preset[i] = GTK_BUTTON (tmp);
+			state->border.preset[i] = GTK_BUTTON (tmp);
 			gtk_signal_connect (GTK_OBJECT (tmp), "clicked",
 					    GTK_SIGNAL_FUNC (cb_border_preset_clicked),
-					    &state);
-			if (!state.is_multi && i == BORDER_PRESET_INSIDE)
+					    state);
+			if (i == BORDER_PRESET_INSIDE && state->selection_mask != 0x8) 
 				gtk_widget_hide (tmp);
 		}
 	}
 
 	/* Draw the border preview */
-	draw_border_preview (&state);
+	draw_border_preview (state);
 
 	/* Setup help */
 	gtk_signal_connect (GTK_OBJECT (dialog), "help",
@@ -2013,20 +2047,33 @@ fmt_dialog_impl (Sheet *sheet, MStyle *mstyle, MStyleBorder **borders,
 
 	/* Handle apply */
 	gtk_signal_connect (GTK_OBJECT (dialog), "apply",
-			    GTK_SIGNAL_FUNC (cb_fmt_dialog_dialog_apply), &state);
+			    GTK_SIGNAL_FUNC (cb_fmt_dialog_dialog_apply), state);
 
 	/* Set initial focus */
-	set_initial_focus (&state);
+	set_initial_focus (state);
 
 	/* Ok, edit events from now on are real */
-	state.enable_edit = TRUE;
+	state->enable_edit = TRUE;
 
 	/* Bring up the dialog, and run it until someone hits ok or cancel */
 	while ((res = gnome_dialog_run (GNOME_DIALOG (dialog))) > 0)
 		;
 
-	g_free ((char *)state.format.spec);
-	mstyle_unref (state.result);
+	g_free ((char *)state->format.spec);
+	mstyle_unref (state->result);
+}
+
+static gboolean
+fmt_dialog_selection_type (Sheet *sheet,
+			   Range const *range,
+			   gpointer user_data)
+{
+	if (range->start.row != range->end.row)
+		*(int *)user_data |= 1;
+	if (range->start.col != range->end.col)
+		*(int *)user_data |= 2;
+
+	return TRUE;
 }
 
 /* Wrapper to ensure the libglade object gets removed on error */
@@ -2035,11 +2082,11 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
 {
 	GladeXML     *gui;
 	MStyle       *mstyle;
-	gboolean      is_multi;
 	Value	     *sample_val;
 	Cell	     *first_upper_left;
 	Range const  *selection;
 	MStyleBorder *borders[STYLE_BORDER_EDGE_MAX];
+	FormatState   state;
 
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (sheet != NULL);
@@ -2052,18 +2099,26 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
 	}
 
 	selection = selection_first_range (sheet, TRUE);
-	is_multi = g_list_length (sheet->selections) != 1 ||
-	    !range_is_singleton (selection);
-
-	sample_val = NULL;
 	first_upper_left = sheet_cell_get (sheet, selection->start.col,
 					   selection->start.row);
 
-	if (first_upper_left)
-		sample_val = first_upper_left->value;
-
+	sample_val = (first_upper_left) ? first_upper_left->value : NULL;
 	mstyle = sheet_selection_get_unique_style (sheet, borders);
-	fmt_dialog_impl (sheet, mstyle, borders, gui, is_multi, sample_val);
+
+	/* Initialize */
+	state.gui		= gui;
+	state.sheet		= sheet;
+	state.value		= sample_val;
+	state.style		= mstyle;
+	state.result		= mstyle_new ();
+	state.selection_mask	= 0;
+
+	(void) selection_foreach_range (sheet,
+					&fmt_dialog_selection_type,
+					&state.selection_mask);
+	state.selection_mask	= 1 << state.selection_mask;
+
+	fmt_dialog_impl (&state, borders);
 	
 	gtk_object_unref (GTK_OBJECT (gui));
 	mstyle_unref (mstyle);
