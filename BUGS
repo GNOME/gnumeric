@@ -18,8 +18,6 @@ Pending Patches
 Long term breakage
 ------------------
 
-    http://bugzilla.gnome.org/show_bug.cgi?id=64712 (crash if quit during load)
-
 - Data->Filter dialog
     : use expr entry widget.
 
@@ -114,9 +112,6 @@ Long term breakage
 - Auto resize needs to handle empty cells.
 
 - auto-fill does not resize row/col
-
-- The implication of mixed mode references ($B$2:C3)
-  is large.  All accesses to a RangeRef need to be normalized. (1/2 done)
 
 - Styles
     : improve uniform_get to handle full sheet more quickly.
