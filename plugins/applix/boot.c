@@ -39,13 +39,13 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-gboolean applix_file_probe (FileOpener const *fo, const gchar *file_name);
-void     applix_file_open (FileOpener const *fo, IOContext *io_context,
+gboolean applix_file_probe (GnumFileOpener const *fo, const gchar *file_name);
+void     applix_file_open (GnumFileOpener const *fo, IOContext *io_context,
                            WorkbookView *wb_view, const char *filename);
 
 
 gboolean
-applix_file_probe (FileOpener const *fo, const gchar *file_name)
+applix_file_probe (GnumFileOpener const *fo, const gchar *file_name)
 {
 	FILE *file;
 	gboolean res;
@@ -62,7 +62,7 @@ applix_file_probe (FileOpener const *fo, const gchar *file_name)
 }
 
 void
-applix_file_open (FileOpener const *fo, IOContext *io_context,
+applix_file_open (GnumFileOpener const *fo, IOContext *io_context,
                   WorkbookView *wb_view, const char *filename)
 {
 	FILE *file;
