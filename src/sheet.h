@@ -14,7 +14,7 @@ typedef struct {
 typedef struct {
 	ColType    col;
 	int        width;
-	Style      style;		/* if existant, this column style */
+	Style      *style;		/* if existant, this column style */
 } ColInfo;
 
 typedef struct {
@@ -37,9 +37,17 @@ typedef struct {
 } Sheet;
 
 Sheet    *sheet_new                (Workbook *wb, char *name);
+ColInfo  *sheet_get_col_info       (Sheet *, int col);
+RowInfo  *sheet_get_row_info       (Sheet *, int row);
 
 Workbook *workbook_new             (void);
 Workbook *workbook_new_with_sheets (int sheet_count);
 void      workbook_attach_sheet    (Workbook *, Sheet *);
+
+/*
+ * Callback routine: invoked when the first view ItemGrid
+ * is realized to allocate the default styles
+ */
+void     workbook_realized         (Workbook *, GdkWindow *);
 
 #endif

@@ -30,13 +30,42 @@ item_grid_destroy (GtkObject *object)
 		(*GTK_OBJECT_CLASS (item_grid_parent_class)->destroy)(object);
 }
 
+static GdkColor
+color_alloc (GnomeCanvas *canvas, char *color_name)
+{
+	GdkColor color;
+
+	color.pixel = 0;
+	
+	gnome_canvas_get_color (canvas, color_name, &color);
+	return color;
+}
+
 static void
 item_grid_realize (GnomeCanvasItem *item)
 {
 	ItemGrid *item_grid;
-
+	GdkWindow *window;
+	GdkGC *gc;
+	
 	item_grid = ITEM_GRID (item);
-	item_grid->grid_gc = gdk_gc_new (GTK_WIDGET (item->canvas)->window);
+	window = GTK_WIDGET (item->canvas)->window;
+	
+	/* Configure the default grid gc */
+	item_grid->grid_gc = gc = gdk_gc_new (window);
+	item_grid->fill_gc = gdk_gc_new (window);
+	
+	gdk_gc_set_line_attributes (gc, 1, GDK_LINE_SOLID,
+				    GDK_CAP_PROJECTING, GDK_JOIN_MITER);
+
+	/* Allocate the default colors */
+	item_grid->background = color_alloc (item->canvas, "white");
+	item_grid->grid_color = color_alloc (item->canvas, "gray60");
+
+	gdk_gc_set_foreground (gc, &item_grid->grid_color);
+	
+	gdk_gc_set_foreground (item_grid->fill_gc, &item_grid->background);
+	gdk_gc_set_background (item_grid->fill_gc, &item_grid->grid_color);
 }
 
 static void
@@ -54,27 +83,119 @@ item_grid_reconfigure (GnomeCanvasItem *item)
 	g_warning ("item_grid_reconfigure\n");
 }
 
+/*
+ * Draw a cell.  It gets pixel level coordinates
+ */
+static void
+item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
+		     int x1, int y1, int x2, int y2)
+{
+	gdk_draw_rectangle (drawable, item_grid->fill_gc, TRUE,
+			    x1+1, y1+1, x2-1, y2-1);
+	gdk_draw_line (drawable,
+		       item_grid->grid_gc,
+		       x1, y1, x2, y1);
+	gdk_draw_line (drawable,
+		       item_grid->grid_gc,
+		       x2, y1, x2, y2);
+	gdk_draw_line (drawable,
+		       item_grid->grid_gc,
+		       x2, y2, x1, y2);
+	gdk_draw_line (drawable,
+		       item_grid->grid_gc,
+		       x1, y1, x1, y2);
+}
+
+/*
+ * find_col: return the column where x belongs to
+ */
+static int
+find_col (ItemGrid *item_grid, int x, int *col_origin)
+{
+	int col   = item_grid->left_col;
+	int pixel = item_grid->left_offset;
+
+	do {
+		ColInfo *ci = sheet_get_col_info (item_grid->sheet, col);
+		
+		if (x >= pixel && x <= pixel + ci->width){
+			if (col_origin)
+				*col_origin = pixel;
+			printf ("Columna inicial: %d, %d\n", col, pixel);
+			return col;
+		}
+		col++;
+		pixel += ci->width;
+	} while (1);
+}
+
+/*
+ * find_row: return the row where y belongs to
+ */
+static int
+find_row (ItemGrid *item_grid, int y, int *row_origin)
+{
+	int row   = item_grid->top_row;
+	int pixel = item_grid->top_offset;
+
+	do {
+		RowInfo *ri = sheet_get_row_info (item_grid->sheet, row);
+		
+		if (y >= pixel && y <= pixel + ri->height){
+			if (row_origin)
+				*row_origin = pixel;
+			return row;
+		}
+		row++;
+		pixel += ri->height;
+	} while (1);
+}
+
 static void
 item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		int x, int y, int width, int height)
 {
 	ItemGrid *item_grid = ITEM_GRID (item);
+	Sheet *sheet = item_grid->sheet;
+	const int end_x = x + width;
+	const int end_y = y + height;
+	int paint_col, paint_row, col, row;
+	int x_paint, y_paint;
+
+	paint_col = find_col (item_grid, x, &x_paint);
+	paint_row = find_row (item_grid, y, &y_paint);
 	
-	printf ("item_grid_draw (%d, %d) for (%d, %d)\n",
-		x, y, width, height);
-	
-	gdk_draw_line (drawable,
-		       item_grid->grid_gc,
-		       x, y, x+width, y+height);
-			    
+	col = paint_col;
+
+	for (x_paint = x; x_paint < end_x; col++){
+		ColInfo *ci;
+
+		ci = sheet_get_col_info (sheet, col);
+
+		row = paint_row;
+		for (y_paint = y; y_paint < end_y; row++){
+			RowInfo *ri;
+
+			ri = sheet_get_row_info (sheet, row);
+			item_grid_draw_cell (drawable, item_grid,
+					     x_paint, y_paint,
+					     x_paint + ci->width,
+					     y_paint + ri->height);
+
+			y_paint += ri->height;
+		}
+
+		x_paint += ci->width;
+	}
+	gdk_draw_line (drawable, item_grid->grid_gc, x, y, x + width, y + height);
+	gdk_draw_line (drawable, item_grid->grid_gc,x, y + height,
+		       x + width, y);
 }
 
 static double
 item_grid_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 		 GnomeCanvasItem **actual_item)
 {
-	printf ("item_grid_point: %g,%g (%d,%d)\n",
-		x, y, cx, cy);
 	*actual_item = NULL;
 	return 0.0;
 }
@@ -123,17 +244,11 @@ item_grid_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
 	GnomeCanvasItem *item;
 	ItemGrid *item_grid;
-	GdkColor color;
 
 	item = GNOME_CANVAS_ITEM (o);
 	item_grid = ITEM_GRID (o);
 	
 	switch (arg_id){
-	case ARG_DEFAULT_GRID_COLOR:
-		if (gnome_canvas_get_color (item->canvas,
-					    GTK_VALUE_STRING (*arg), &color))
-			break;
-		item_grid->default_grid_color = color.pixel;
 	}
 }
 

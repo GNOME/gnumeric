@@ -16,3 +16,28 @@ sheet_new (Workbook *wb, char *name)
 	return sheet;
 }
 
+ColInfo *
+sheet_get_col_info (Sheet *sheet, int col)
+{
+	static ColInfo c;
+
+	c.col   = col;
+	c.width = 60;
+	c.style = NULL;
+
+	return &c;
+}
+
+RowInfo *
+sheet_get_row_info (Sheet *sheet, int row)
+{
+	static RowInfo r;
+
+	/* Just a stub for now */
+	r.row    = row;
+	r.height = 20;
+	r.style  = NULL;
+
+	return &r;
+}
+

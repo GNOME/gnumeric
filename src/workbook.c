@@ -67,3 +67,12 @@ workbook_new_with_sheets (int sheet_count)
 	}
 	return wb;
 }
+
+/*
+ * This routine sets up the default styles for the
+ * workbook
+ */
+void
+workbook_realized (Workbook *workbook, GdkWindow *window)
+{
+}

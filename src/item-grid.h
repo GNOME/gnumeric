@@ -18,8 +18,10 @@ typedef struct {
 	long     top_offset;
 	long     left_offset;
 
-	GdkGC    *grid_gc;
-	gulong   default_grid_color;
+	GdkGC    *grid_gc;	/* Draw grid gc */
+	GdkGC    *fill_gc;	/* Default background fill gc */
+	GdkColor background;
+	GdkColor grid_color;
 	
 } ItemGrid;
 

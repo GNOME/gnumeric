@@ -58,7 +58,6 @@ gnumeric_sheet_new (Sheet *sheet)
 		GNOME_CANVAS (gsheet),
 		GNOME_CANVAS_GROUP (GNOME_CANVAS(gsheet)->root),
 		item_grid_get_type (),
-		"ItemGrid::default_grid_color", "gray",
 		NULL));
 	return GTK_WIDGET (gsheet);
 }
