@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-06-23 00:40-0400\n"
+"POT-Creation-Date: 2004-07-04 12:05+0900\n"
 "PO-Revision-Date: 2003-09-11 18:30+0900\n"
 "Last-Translator: Yukihiro Nakai <nakai@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
@@ -1094,7 +1094,8 @@ msgid "MS Excel (tm) 97/2000/XP"
 msgstr "MS Excel (tm) 97/2000/XP ファイル形式"
 
 #: plugins/excel/plugin.xml.in.h:6
-msgid "MS Excel (tm) 97/2000/XP & 5.0/95"
+#, fuzzy
+msgid "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
 msgstr "MS Excel (tm) 97/2000/XP 及び 5.0/95 ファイル形式"
 
 #: plugins/excel/plugin.xml.in.h:7
@@ -15363,7 +15364,8 @@ msgid "HTML"
 msgstr ""
 
 #: plugins/html/plugin.xml.in.h:2
-msgid "HTML & TeX"
+#, fuzzy
+msgid "HTML &amp; TeX"
 msgstr "HTML と TeX"
 
 #: plugins/html/plugin.xml.in.h:3
@@ -17966,7 +17968,7 @@ msgstr "フーリエ解析(_F)"
 #: src/GNOME_Gnumeric.xml.h:292 src/workbook-control-gui.c:1536
 #: src/workbook-control-gui.c:3560
 msgid "_Freeze Panes"
-msgstr "ペインの圧縮(_F)"
+msgstr "ペインの固定(_F)"
 
 #: src/GNOME_Gnumeric.xml.h:293 src/workbook-control-gui.c:3620
 msgid "_Function..."
@@ -29401,7 +29403,7 @@ msgstr "なし"
 
 #: src/workbook-control-gui.c:1535
 msgid "Un_freeze Panes"
-msgstr "ペインのフリーズを解除(_F)"
+msgstr "ペインの解除(_F)"
 
 #: src/workbook-control-gui.c:1538
 msgid "Unfreeze the top left of the sheet"
