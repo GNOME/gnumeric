@@ -7,11 +7,11 @@
 #include "style.h"
 #include "str.h"
 
-/* Cell contains a comment */
-#define CELL_HAS_COMMENT       1
-
 /* Cell has been queued for recalc */
-#define CELL_QUEUED_FOR_RECALC 4
+typedef enum {
+    CELL_QUEUED_FOR_RECALC = 1,
+    CELL_NEEDS_RENDER 	   = 2
+} CellFlags;
 
 /**
  * CellComment:
@@ -54,8 +54,8 @@ struct _Cell {
 	int         width_pixel, height_pixel;
 
 	CellComment *comment;
-	int         flags;
-	guint8      generation;
+	CellFlags    flags;
+	guint8       generation;
 };
 
 typedef enum {

@@ -132,7 +132,7 @@ static char *help_varp = {
 	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
 	   "VARP(A1:A5) equals 94.112.\n"
 	   "\n"
-	   "@SEEALSO=STDEV,VAR,MEAN")
+	   "@SEEALSO=AVERAGE,DVAR,DVARP,STDEV,VAR")
 };
 
 Value *
@@ -194,7 +194,7 @@ static char *help_stdev = {
 	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
 	   "STDEV(A1:A5) equals 10.84619749.\n"
 	   "\n"
-	   "@SEEALSO=VAR,MEAN")
+	   "@SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR")
 };
 
 Value *
@@ -223,7 +223,7 @@ static char *help_stdevp = {
 	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
 	   "STDEVP(A1:A5) equals 9.701133954.\n"
 	   "\n"
-	   "@SEEALSO=STDEV,VAR,MEAN")
+	   "@SEEALSO=STDEV,STDEVA,STDEVPA")
 };
 
 Value *
@@ -758,7 +758,7 @@ static char *help_harmean = {
 	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
 	   "HARMEAN(A1:A5) equals 19.529814427.\n"
 	   "\n"
-	   "@SEEALSO=GEOMEAN,MEDIAN,MEAN,MODE")
+	   "@SEEALSO=AVERAGE,GEOMEAN,MEDIAN,MODE,TRIMMEAN")
 };
 
 static Value *
@@ -788,7 +788,7 @@ static char *help_geomean = {
 	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
 	   "GEOMEAN(A1:A5) equals 21.279182482.\n"
 	   "\n"
-	   "@SEEALSO=HARMEAN,MEDIAN,MEAN,MODE")
+	   "@SEEALSO=AVERAGE,HARMEAN,MEDIAN,MODE,TRIMMEAN")
 };
 
 static Value *

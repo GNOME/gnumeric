@@ -396,8 +396,6 @@ static char *help_received = {
 	   "If settlement date is after maturity date or they are the same, "
 	   "RECEIVED returns NUM! error. "
 	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
 	   "@SEEALSO=INTRATE")
 };
 
@@ -450,8 +448,6 @@ static char *help_pricedisc = {
 	   "If settlement date is after maturity date or they are the same, "
 	   "PRICEDISC returns NUM! error. "
 	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
 	   "@SEEALSO=PRICEMAT")
 };
 
@@ -496,8 +492,6 @@ static char *help_pricemat = {
 	   "If @basis < 0 or @basis > 4, PRICEMAT returns NUM! error. "
 	   "If settlement date is after maturity date or they are the same, "
 	   "PRICEMAT returns NUM! error. "
-	   "\n"
-	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=PRICEDISC")
 };
@@ -714,7 +708,7 @@ static char *help_db = {
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=DDB,SLN,SYD,VDB")
+	   "@SEEALSO=DDB,SLN,SYD")
 };
 
 static Value *
@@ -769,7 +763,7 @@ static char *help_ddb = {
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=SLN,SYD,VDB")
+	   "@SEEALSO=SLN,SYD")
 };
 
 static Value *

@@ -1,3 +1,14 @@
+2000-04-01  Jody Goldberg <jgoldberg@home.com>
+
+	* docs/C/func.defs, docs/C/functions.sgml : Regenerate.
+
+	* src/functions/*.c : Adjust some 'See Also' tags to point to existing
+	  functions.
+
+	* src/workbook.c (workbook_menu_format_sheet) : Do not use
+	  GNOMEUIINFO_TOGGLEITEM as it requires an xpm, and bonobo crashes
+	  when fed a NULL xpm.
+
 2000-03-31  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook.c : Switch over to useing GNOMEUIINFO_ITEM_ where

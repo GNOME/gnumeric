@@ -1298,22 +1298,37 @@ static GnomeUIInfo workbook_menu_format_sheet [] = {
 		NULL,
 		&sheet_order_cmd),
 
-	GNOMEUIINFO_TOGGLEITEM(N_("Display _Formulas"),
-		NULL,
-		&cb_sheet_pref_display_formulas, NULL),
-	GNOMEUIINFO_TOGGLEITEM(N_("Hide _Zeros"),
-		NULL,
-		&cb_sheet_pref_hide_zeros, NULL),
+	{
+	    GNOME_APP_UI_TOGGLEITEM,
+	    N_("Display _Formulas"), NULL,
+	    (gpointer)&cb_sheet_pref_display_formulas, NULL, NULL,
+	    GNOME_APP_PIXMAP_NONE, NULL, 0, (GdkModifierType) 0, NULL
+	},
+	{
+	    GNOME_APP_UI_TOGGLEITEM,
+	    N_("Hide _Zeros"), NULL,
+	    (gpointer)&cb_sheet_pref_hide_zeros, NULL, NULL,
+	    GNOME_APP_PIXMAP_NONE, NULL, 0, (GdkModifierType) 0, NULL
+	},
+	{
+	    GNOME_APP_UI_TOGGLEITEM,
+	    N_("Hide _Gridlines"), NULL,
+	    (gpointer)&cb_sheet_pref_hide_grid_lines, NULL, NULL,
+	    GNOME_APP_PIXMAP_NONE, NULL, 0, (GdkModifierType) 0, NULL
+	},
+	{
+	    GNOME_APP_UI_TOGGLEITEM,
+	    N_("Hide _Column Header"), NULL,
+	    (gpointer)&cb_sheet_pref_hide_col_header, NULL, NULL,
+	    GNOME_APP_PIXMAP_NONE, NULL, 0, (GdkModifierType) 0, NULL
+	},
+	{
+	    GNOME_APP_UI_TOGGLEITEM,
+	    N_("Hide _Row Header"), NULL,
+	    (gpointer)&cb_sheet_pref_hide_row_header, NULL, NULL,
+	    GNOME_APP_PIXMAP_NONE, NULL, 0, (GdkModifierType) 0, NULL
+	},
 
-	GNOMEUIINFO_TOGGLEITEM(N_("Hide _Gridlines"),
-		NULL,
-		&cb_sheet_pref_hide_grid_lines, NULL),
-	GNOMEUIINFO_TOGGLEITEM(N_("Hide _Column Header"),
-		NULL,
-		&cb_sheet_pref_hide_col_header, NULL),
-	GNOMEUIINFO_TOGGLEITEM(N_("Hide _Row Header"),
-		NULL,
-		&cb_sheet_pref_hide_row_header, NULL),
 	GNOMEUIINFO_END
 };
 

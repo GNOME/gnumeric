@@ -419,7 +419,7 @@ static char *help_clean = {
 	   "CLEAN cleans the string from any non-printable characters."
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "CLEAN(\"one\"&char(7)) equals \"one\".\n"
+	   "CLEAN(\"one\"\\&char(7)) equals \"one\".\n"
 	   "\n"
 	   "@SEEALSO=")
 };
