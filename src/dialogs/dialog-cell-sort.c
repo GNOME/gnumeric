@@ -29,7 +29,7 @@ typedef struct {
 } ORDER_BOX;
 
 static ORDER_BOX *
-order_box_new(GtkWidget * parent, const char *frame_text, const char *default_text)
+order_box_new (GtkWidget * parent, const char *frame_text, const char *default_text)
 {
 	ORDER_BOX *This = g_new(ORDER_BOX, 1);
 	GtkWidget *box = gtk_hbox_new(0, 0);
@@ -72,13 +72,13 @@ order_box_new(GtkWidget * parent, const char *frame_text, const char *default_te
 }
 
 static void
-order_box_set_default(ORDER_BOX * This)
+order_box_set_default (ORDER_BOX * This)
 {
 	gtk_widget_grab_focus(This->rangetext);
 }
 
 static void
-order_box_remove(ORDER_BOX * This)
+order_box_remove (ORDER_BOX * This)
 {
 	g_return_if_fail(This);
 	if (This->main_frame)
@@ -87,7 +87,7 @@ order_box_remove(ORDER_BOX * This)
 }
 
 static void
-order_box_destroy(ORDER_BOX * This)
+order_box_destroy (ORDER_BOX * This)
 {
 	g_return_if_fail(This);
 	g_free(This);
@@ -97,7 +97,7 @@ order_box_destroy(ORDER_BOX * This)
  * Return value must be g_freed
  **/
 static char *
-order_box_get_text(ORDER_BOX * This, int *asc)
+order_box_get_text (ORDER_BOX * This, int *asc)
 {
 	*asc = gtk_radio_group_get_selected(This->group);
 	return gtk_editable_get_chars(GTK_EDITABLE(This->rangetext), 0, -1);
@@ -268,7 +268,8 @@ typedef struct {
 	Workbook *wb;
 } SORT_FLOW;
 
-static void add_clause(GtkWidget * widget, SORT_FLOW * sf)
+static void
+add_clause (GtkWidget * widget, SORT_FLOW * sf)
 {
 	if (sf->num_clause >= sf->max_clause)
 		gnumeric_notice(sf->wb, GNOME_MESSAGE_BOX_ERROR,
@@ -283,7 +284,8 @@ static void add_clause(GtkWidget * widget, SORT_FLOW * sf)
 	}
 }
 
-static void del_clause(GtkWidget * widget, SORT_FLOW * sf)
+static void
+del_clause (GtkWidget * widget, SORT_FLOW * sf)
 {
 	if (sf->num_clause > 1){
 		sf->num_clause--;
@@ -302,7 +304,7 @@ static void del_clause(GtkWidget * widget, SORT_FLOW * sf)
  * Main entry point for the Cell Sort dialog box
  */
 void
-dialog_cell_sort(Workbook * inwb, Sheet * sheet)
+dialog_cell_sort (Workbook * inwb, Sheet * sheet)
 {
 	GladeXML  *gui = glade_xml_new (GNUMERIC_GLADEDIR "/cell-sort.glade", NULL);
 	GtkWidget *table, *check;
@@ -412,13 +414,14 @@ dialog_cell_sort(Workbook * inwb, Sheet * sheet)
 					array[lp].col_offset = array[lp - 1].col_offset;
 				g_free(txt);
 			}
-			if (!sort_flow.retry)
+			if (!sort_flow.retry) {
 				if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check)))
 					sort_cell_range(sheet, array, sort_flow.num_clause, start_col, start_row+1,
 							end_col, end_row);
 				else
 					sort_cell_range(sheet, array, sort_flow.num_clause, start_col, start_row,
 							end_col, end_row);
+			}
 			g_free (array);
 		} else
 			sort_flow.retry = 0;

@@ -662,6 +662,7 @@ item_cursor_set_spin_base (ItemCursor *item_cursor, int col, int row)
 	item_cursor->base_row = row;
 }
 
+#if 0
 /*
  * This can not be used yet.  It exercises a bug in GtkLayout
  */
@@ -695,6 +696,7 @@ item_cursor_tip_setlabel (ItemCursor *item_cursor)
 
 	gtk_label_set_text (GTK_LABEL (item_cursor->tip), buffer);
 }
+#endif
 
 static gint
 item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)

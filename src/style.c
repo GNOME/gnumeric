@@ -319,7 +319,7 @@ style_color_white (void)
 StyleColor *
 style_color_ref (StyleColor *sc)
 {
-	g_return_if_fail (sc != NULL);
+	g_return_val_if_fail (sc != NULL, NULL);
 
 	sc->ref_count++;
 

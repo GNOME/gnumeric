@@ -1,5 +1,14 @@
 1999-11-17  Jody Goldberg <jgoldberg@home.com>
 
+	* src/gnumeric.h : Empty.
+
+	* src/sheet-style.c (border_check) : Fix missing initializer.
+
+	* src/style.c (style_color_ref) : Remove warning and return NULL.
+
+	* src/dialogs/dialog-cell-sort.c (dialog_cell_sort) : 
+	  Add braces around an ambiguous else.
+
 	* src/file.c (workbook_import) : NULL the returned workbook
 	  on failure.  Things don't quite work yet, the workbook destroy
 	  gets pissed when destroying an unrealized workbook, but it is
