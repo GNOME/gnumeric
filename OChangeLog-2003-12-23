@@ -1,3 +1,10 @@
+2002-11-14  Jon K Hellan  <hellan@acm.org>
+
+	* src/file.c (gnum_file_opener_probe_real): Seek back
+	to start of file after probing.
+
+	* src/plugin-service.c (gnum_plugin_file_opener_probe): Ditto.
+	
 2002-11-14  Jody Goldberg <jody@gnome.org>
 
 	* src/gui-util.c (gnumeric_keyed_dialog) : add a weakpointer to the
