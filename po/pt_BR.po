@@ -12,13 +12,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-30 19:45+0100\n"
-"PO-Revision-Date: 2004-11-29 22:29-0200\n"
+"POT-Creation-Date: 2004-12-06 20:11+0100\n"
+"PO-Revision-Date: 2004-12-06 22:58-0200\n"
 "Last-Translator: Afonso Celso Medina <medina@maua.br>\n"
 "Language-Team: Portuguese/Brazil <gnome-l10n-br@listas.cipsga.org.br>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: GNOME_Gnumeric.server.in.in.h:1
 msgid "Gnumeric Workbook"
@@ -9490,7 +9490,7 @@ msgstr ""
 "@SEEALSO="
 
 # plugins/guile/plugin.c:241 src/expr.c:489 src/fn-math.c:1177
-#: plugins/fn-info/functions.c:1662 src/func.c:789
+#: plugins/fn-info/functions.c:1662 src/func.c:859
 msgid "Invalid number of arguments"
 msgstr "Número inválido de argumentos"
 
@@ -10627,7 +10627,7 @@ msgid ""
 "@FUNCTION=HYPOT\n"
 "@SYNTAX=HYPOT(number1,number2,...)\n"
 "@DESCRIPTION=HYPOT returns the square root of the sum of the squares of the "
-"argumnents.\n"
+"arguments.\n"
 "\n"
 "@EXAMPLES=\n"
 "HYPOT(3,4) equals to 5.\n"
@@ -17911,7 +17911,7 @@ msgid "Functions for manipulating strings"
 msgstr "Funções para manipulação de textos"
 
 #: plugins/fn-string/plugin.xml.in.h:2 src/dialogs/dialog-search.c:144
-#: src/func.c:673
+#: src/func.c:743
 msgid "String"
 msgstr "Texto"
 
@@ -21102,7 +21102,7 @@ msgstr ""
 "Barras verticais adjacentes e agrupadas por categorias de maior e menor."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:13
-#: src/func.c:679
+#: src/func.c:749
 msgid "Area"
 msgstr "Área"
 
@@ -23921,7 +23921,7 @@ msgid "Double"
 msgstr "Duplo"
 
 #: src/dialogs/dialog-cell-format.c:470 src/dialogs/dialog-search.c:148
-#: src/func.c:671 src/wbcg-actions.c:1962
+#: src/func.c:741 src/wbcg-actions.c:1962
 #: src/widgets/widget-format-selector.c:76
 msgid "Number"
 msgstr "Número"
@@ -27311,7 +27311,7 @@ msgstr "'%s' já definido na pasta"
 msgid "'%s' is already defined in workbook"
 msgstr "'%s' já definido no WorkBook"
 
-#: src/file-autoft.c:91
+#: src/file-autoft.c:89
 #, c-format
 msgid "Invalid template file: %s"
 msgstr "Arquivo de modelo inválido: %s"
@@ -28187,39 +28187,39 @@ msgstr "Gnumeric"
 msgid "Cannot create file %s\n"
 msgstr "Impossível criar arquivo %s\n"
 
-#: src/func.c:277
+#: src/func.c:347
 msgid "Function implementation not available."
 msgstr "Implementação da função não disponível."
 
-#: src/func.c:490
+#: src/func.c:560
 msgid "Unknown Function"
 msgstr "Função Desconhecida"
 
-#: src/func.c:675
+#: src/func.c:745
 msgid "Boolean"
 msgstr "Booleano"
 
-#: src/func.c:677
+#: src/func.c:747
 msgid "Cell Range"
 msgstr "Região da célula"
 
-#: src/func.c:681
+#: src/func.c:751
 msgid "Scalar or Blank"
 msgstr "Escalar ou Vazio"
 
-#: src/func.c:683
+#: src/func.c:753
 msgid "Scalar or Error"
 msgstr "Escalar ou Erro"
 
-#: src/func.c:685
+#: src/func.c:755
 msgid "Scalar"
 msgstr "Escalar"
 
-#: src/func.c:687
+#: src/func.c:757
 msgid "Any"
 msgstr "Qualquer"
 
-#: src/func.c:1006
+#: src/func.c:1076
 msgid "Function does not exist"
 msgstr "A função não existe"
 
@@ -28671,120 +28671,120 @@ msgstr "Expressão inválida"
 msgid "Unexpected token %c"
 msgstr "Símbolo inválido %c"
 
-#: src/plugin.c:352
+#: src/plugin.c:353
 #, c-format
 msgid "File contains plugin info with invalid id (%s), expected %s."
 msgstr ""
 "O arquivo contém informação de plugin com id inválido (%s), era esperado %s."
 
-#: src/plugin.c:356
+#: src/plugin.c:357
 msgid "Couldn't read plugin info from file."
 msgstr "Impossível ler informação de plugin do arquivo."
 
-#: src/plugin.c:465
+#: src/plugin.c:466
 msgid "Unknown name"
 msgstr "Nome desconhecido"
 
-#: src/plugin.c:562
+#: src/plugin.c:563
 #, c-format
 msgid "Unsupported loader type \"%s\"."
 msgstr "Tipo de carregador não suportado \"%s\"."
 
-#: src/plugin.c:570
+#: src/plugin.c:571
 #, c-format
 msgid "Error while preparing loader \"%s\"."
 msgstr "Erro ao preparar carregador \"%s\"."
 
-#: src/plugin.c:647
+#: src/plugin.c:648
 #, c-format
 msgid "Error while reading service #%d info."
 msgstr "Erro ao ler informação do serviço #%d."
 
-#: src/plugin.c:726
+#: src/plugin.c:727
 #, c-format
 msgid "Can't read plugin info file (\"%s\")."
 msgstr "Impossível ler arquivo de informações de plugin (\"%s\")."
 
-#: src/plugin.c:730
+#: src/plugin.c:731
 #, c-format
 msgid "File \"%s\" is not valid plugin info file."
 msgstr "Arquivo \"%s\" não é um arquivo de informações de plugin válido."
 
-#: src/plugin.c:816
+#: src/plugin.c:817
 #, c-format
 msgid "Errors while reading services for plugin with id=\"%s\"."
 msgstr "Erro ao ler serviços para o plugin cujo id=\"%s\"."
 
-#: src/plugin.c:821
+#: src/plugin.c:822
 #, c-format
 msgid "No services defined for plugin with id=\"%s\"."
 msgstr "Não há serviços definidos para o plugin cujo id=\"%s\"."
 
-#: src/plugin.c:831
+#: src/plugin.c:832
 #, c-format
 msgid "Plugin id contains invalid characters (%s)."
 msgstr "O Plugin id contém caracteres inválidos (%s)."
 
-#: src/plugin.c:835
+#: src/plugin.c:836
 msgid "Unknown plugin name."
 msgstr "Nome de plugin desconhecido."
 
-#: src/plugin.c:839
+#: src/plugin.c:840
 #, c-format
 msgid "No loader defined or loader id invalid for plugin with id=\"%s\"."
 msgstr "Não há carregador definido ou id inválido para o plugin com id=\"%s\"."
 
-#: src/plugin.c:845
+#: src/plugin.c:846
 msgid "Plugin has no id."
 msgstr "Plugin não tem id."
 
-#: src/plugin.c:888
+#: src/plugin.c:889
 #, c-format
 msgid "Error initializing plugin loader (\"%s\")."
 msgstr "Erro ao inicializar carregador do plugin (\"%s\")."
 
-#: src/plugin.c:919 src/plugin.c:1076
+#: src/plugin.c:920 src/plugin.c:1077
 msgid "Detected cyclic plugin dependencies."
 msgstr "Detectada dependências cíclicas do plugin."
 
-#: src/plugin.c:943
+#: src/plugin.c:944
 #, c-format
 msgid "Couldn't activate plugin with id=\"%s\"."
 msgstr "Impossível ativar plugin com id=\"%s\"."
 
-#: src/plugin.c:949 src/plugin.c:1122
+#: src/plugin.c:950 src/plugin.c:1123
 #, c-format
 msgid "Couldn't find plugin with id=\"%s\"."
 msgstr "Não encontrado o plugin com id=\"%s\"."
 
-#: src/plugin.c:956
+#: src/plugin.c:957
 msgid "Error while activating plugin dependencies."
 msgstr "Erro ao ativar dependências do plugin."
 
-#: src/plugin.c:970
+#: src/plugin.c:971
 #, c-format
 msgid "Error while activating plugin service #%d."
 msgstr "Erro ao ativar serviço do plugin #%d."
 
-#: src/plugin.c:1023
+#: src/plugin.c:1024
 #, c-format
 msgid "Error while deactivating plugin service #%d."
 msgstr "Erro ao desativar serviço do plugin #%d."
 
-#: src/plugin.c:1088 src/plugin.c:1109
+#: src/plugin.c:1089 src/plugin.c:1110
 msgid "Cannot load plugin loader."
 msgstr "Impossível carregar carregador do plugin."
 
-#: src/plugin.c:1116
+#: src/plugin.c:1117
 #, c-format
 msgid "Couldn't load plugin with id=\"%s\"."
 msgstr "Não posso carregar o plugin com id=\"%s\"."
 
-#: src/plugin.c:1129
+#: src/plugin.c:1130
 msgid "Error while loading plugin dependencies."
 msgstr "Erro ao carregar dependências do plugin."
 
-#: src/plugin.c:1305
+#: src/plugin.c:1306
 #, c-format
 msgid "Errors occurred while reading plugin informations from file \"%s\"."
 msgstr ""
