@@ -407,23 +407,30 @@ stf_parse_options_valid (StfParseOptions_t *parseoptions)
  * STF PARSE : The actual routines that do the 'trick'
  *******************************************************************************************************/
 
-static inline void
+static void
 trim_spaces_inplace (char *field, StfParseOptions_t const *parseoptions)
 {
-	char *s = field;
+	if (!field) return;
 
-	if (!s) return;
+	if (parseoptions->trim_spaces & TRIM_TYPE_LEFT) {
+		char *s = field;
 
-	if (isspace ((unsigned char)*s) && parseoptions->trim_spaces & TRIM_TYPE_LEFT) {
-		char *tmp = s;
-		while (isspace ((unsigned char)*tmp)) tmp++;
-		strcpy (s, tmp);
+		while (g_unichar_isspace (g_utf8_get_char (s)))
+			s = g_utf8_next_char (s);
+
+		if (s != field)
+			strcpy (field, s);
 	}
 
 	if (parseoptions->trim_spaces & TRIM_TYPE_RIGHT) {
-		int len = strlen (s);
-		while (len && isspace ((unsigned char)(s[len - 1])))
-			s[--len] = 0;
+		char *s = field + strlen (field);
+
+		while (field != s) {
+			s = g_utf8_prev_char (s);
+			if (!g_unichar_isspace (g_utf8_get_char (s)))
+				break;
+			*s = 0;
+		}
 	}
 }
 

@@ -1,3 +1,7 @@
+2003-05-13  Morten Welinder  <terra@gnome.org>
+
+	* src/stf-parse.c (trim_spaces_inplace): Make UTF-8 safe.
+
 2003-05-12  Morten Welinder  <terra@gnome.org>
 
 	* src/stf.c (stf_open_and_read): Fix crash on errors and empty
@@ -192,10 +196,10 @@
 	(stf_parse_csv_is_separator): rewrite
 	(stf_parse_csv_cell): rewrite
 	(stf_parse_eat_separators): new
-	(stf_parse_csv_line): make utf-8 clean
+	(stf_parse_csv_line): make UTF-8 clean
 	
 	* src/stf.c (stf_read_workbook): fix released memory access (thanks Morten)
-	(stf_read_workbook_auto_csvtab): make utf-8 clean and adjust guess to make
+	(stf_read_workbook_auto_csvtab): make UTF-8 clean and adjust guess to make
 	  it more likely to guess tsv rather than csv
 
 2003-05-06  Morten Welinder  <terra@gnome.org>
@@ -213,7 +217,7 @@
 
 2003-05-05  Andreas Guelzow <aguelzow@taliesin.ca>
 	
-	* stf.c (stf_read_workbook_auto_csvtab): make guesswork utf-8 
+	* stf.c (stf_read_workbook_auto_csvtab): make guesswork UTF-8 
 	  clean and make it more likely to guess tsv
 
 2003-05-05  Morten Welinder  <terra@gnome.org>
