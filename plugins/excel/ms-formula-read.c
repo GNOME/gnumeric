@@ -610,7 +610,7 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 			char *str ;
 			printf ("PTG_STR\n") ;
 			dump (q->data, q->length) ;
-			str = biff_get_text (cur+1, BIFF_GETBYTE(cur)) ;
+			str = biff_get_text (cur+2, BIFF_GETBYTE(cur)) ;
 			parse_list_push_raw (stack, str, NO_PRECEDENCE) ;
 			printf ("Found string '%s'\n", str) ; 
 			ptg_length = 1 + BIFF_GETBYTE(cur) ;
