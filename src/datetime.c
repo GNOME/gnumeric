@@ -351,6 +351,8 @@ adjust_dates_basis (GDate *from, GDate *to, int basis)
 	return;
 }
 
+/* ------------------------------------------------------------------------- */
+
 /*
  * days_between_dep_basis
  *
@@ -419,6 +421,7 @@ days_between_dep_basis (GDate *from, GDate *to, int basis)
 	}
 }
 
+/* ------------------------------------------------------------------------- */
 
 /*
  * coup_cd
@@ -472,6 +475,54 @@ coup_cd (GDate *settlement, GDate *maturity, int freq, gboolean oem, gboolean ne
 	return result;
 }
 
+/* ------------------------------------------------------------------------- */
+
+/*
+ * coup_cd_xl
+ *
+ * @settlement: GDate *
+ * @maturity  : GDate *  must follow settlement strictly
+ * @freq      : int      divides 12 evenly
+ * @oem       : gboolean whether to do special end of month 
+ *                       handling
+ * @next      : gboolean whether next or previous date
+ *
+ * returns    : GDate *  date as returned by XL
+ *
+ * this function does not depend on the basis of counting!
+ */
+
+GDate *
+coup_cd_xl (GDate *settlement, GDate *maturity, int freq, gboolean next)
+{
+	GDate      *result;
+	GDate      coupon;
+	gboolean   is_oem_special;
+	int        months = 12 / freq;
+
+	is_oem_special = g_date_is_last_of_month (maturity);
+
+	result = g_date_new();
+
+	g_date_clear (&coupon, 1);
+	g_date_set_julian (&coupon, g_date_julian (maturity));
+
+	do {
+		g_date_set_julian (result, g_date_julian (&coupon));
+		g_date_subtract_months (&coupon, months);
+		if (is_oem_special) 
+			while (!g_date_is_last_of_month (&coupon))
+				g_date_add_days (&coupon, 1);
+	} while (g_date_compare (settlement, &coupon) < 0 );
+
+	if (!next) {
+		g_date_set_julian (result, g_date_julian (&coupon));
+	}
+
+	return result;
+}
+
+/* ------------------------------------------------------------------------- */
 
 
 /*
@@ -479,7 +530,8 @@ coup_cd (GDate *settlement, GDate *maturity, int freq, gboolean oem, gboolean ne
  * Currently, returns negative numbers if the branch is not implemented.
  */
 int
-coupdays (GDate *settlement, GDate *maturity, int freq, int basis, gboolean oem)
+coupdays (GDate *settlement, GDate *maturity, int freq, int basis, gboolean oem, 
+	  gboolean xl)
 {
 	GDate *prev;
 	GDate *next;
@@ -496,8 +548,10 @@ coupdays (GDate *settlement, GDate *maturity, int freq, int basis, gboolean oem)
 
 /* Now we need to look at the real coupon dates */
 
-	prev = coup_cd (settlement, maturity, freq, oem, FALSE);
-	next = coup_cd (settlement, maturity, freq, oem, TRUE);
+	prev = xl ? coup_cd_xl (settlement, maturity, freq, FALSE) :
+		coup_cd (settlement, maturity, freq, oem, FALSE);
+	next = xl ? coup_cd_xl (settlement, maturity, freq, TRUE) :
+		coup_cd (settlement, maturity, freq, oem, TRUE);
 	adjust_dates_basis (prev, next, basis);
 	days = days_between_dep_basis (prev, next, basis);
 	g_date_free (prev);
@@ -505,6 +559,7 @@ coupdays (GDate *settlement, GDate *maturity, int freq, int basis, gboolean oem)
 	return days;
 }
 
+/* ------------------------------------------------------------------------- */
 
 
 /*
@@ -512,17 +567,22 @@ coupdays (GDate *settlement, GDate *maturity, int freq, int basis, gboolean oem)
  * the settlement date.
  */
 int
-coupdaybs (GDate *settlement, GDate *maturity, int freq, int basis, gboolean oem)
+coupdaybs (GDate *settlement, GDate *maturity, int freq, int basis, gboolean oem, 
+	   gboolean xl)
 {
 	GDate      *prev_coupon;
 	int        days;
 
-	prev_coupon = coup_cd (settlement, maturity, freq, oem, FALSE);
+	prev_coupon = xl ? coup_cd_xl (settlement, maturity, freq, FALSE) :
+		coup_cd (settlement, maturity, freq, oem, FALSE);
 	adjust_dates_basis (settlement, prev_coupon, basis);
 	days = - days_between_dep_basis (settlement, prev_coupon, basis);
 	g_date_free (prev_coupon);
 	return days;
 }
+
+/* ------------------------------------------------------------------------- */
+
 
 /*
  * Returns the number of days from the settlement date to the next
@@ -530,14 +590,18 @@ coupdaybs (GDate *settlement, GDate *maturity, int freq, int basis, gboolean oem
  */
 
 int
-coupdaysnc (GDate *settlement, GDate *maturity, int freq, int basis, gboolean oem)
+coupdaysnc (GDate *settlement, GDate *maturity, int freq, int basis, gboolean oem, 
+	    gboolean xl)
 {
 	GDate      *next_coupon;
 	int        days;
 
-	next_coupon = coup_cd (settlement, maturity, freq, oem, TRUE);
+	next_coupon = xl ? coup_cd_xl (settlement, maturity, freq, TRUE) :
+		coup_cd (settlement, maturity, freq, oem, TRUE);
 	adjust_dates_basis (settlement, next_coupon, basis);
 	days = days_between_dep_basis (settlement, next_coupon, basis);
 	g_date_free (next_coupon);
 	return days;
 }
+
+/* ------------------------------------------------------------------------- */

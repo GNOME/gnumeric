@@ -301,6 +301,45 @@ coupnum (GDate *settlement, GDate *maturity, int freq, int basis)
 		        - (months < -9) - (months == -9 && days <= 0);
 }
 
+static Value *
+func_coup_cd (FunctionEvalInfo *ei, Value **argv, gboolean next)
+{
+        GDate   *settlement;
+        GDate   *maturity;
+        GDate   *date;
+        int     freq, basis;
+	gboolean oem, xl, err = FALSE;
+	Value   *result;
+
+        settlement = datetime_value_to_g (argv[0]);
+        maturity   = datetime_value_to_g (argv[1]);
+        freq       = value_get_as_int (argv[2]);
+	basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
+	oem        = argv[4] ? value_get_as_bool (argv[4], &err) : TRUE;
+	xl         = argv[4] ? FALSE : TRUE;
+
+	if (!maturity || !settlement || err) {
+		result = value_new_error (ei->pos, gnumeric_err_VALUE);
+		goto out;
+	}
+
+        if (basis < 0 || basis > 5 || ((12/freq) * freq != 12)
+	    || g_date_compare (settlement, maturity) >= 0) {
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
+
+        date = xl ? coup_cd_xl (settlement, maturity, freq, next) : 
+		coup_cd (settlement, maturity, freq, oem, next);
+	result = value_new_int (datetime_g_to_serial (date));
+	g_date_free (date);
+
+ out:
+	g_date_free (settlement);
+	g_date_free (maturity);
+
+	return result;
+}
 
 
 /***************************************************************************
@@ -2280,9 +2319,9 @@ gnumeric_price (FunctionEvalInfo *ei, Value **argv)
 		goto out;
 	}
 
-	a = coupdaybs (settlement, maturity, freq, basis, TRUE);
-	d = coupdaysnc (settlement, maturity, freq, basis, TRUE);
-	e = coupdays (settlement, maturity, freq, basis, TRUE);
+	a = coupdaybs (settlement, maturity, freq, basis, TRUE, TRUE);
+	d = coupdaysnc (settlement, maturity, freq, basis, TRUE, TRUE);
+	e = coupdays (settlement, maturity, freq, basis, TRUE, TRUE);
 	n = coupnum (settlement, maturity, freq, basis);
 
 	sum = 0.0;
@@ -2368,9 +2407,9 @@ gnumeric_yield (FunctionEvalInfo *ei, Value **argv)
 		goto out;
 	}
 
-	a = coupdaybs (settlement, maturity, freq, basis, TRUE);
-	d = coupdaysnc (settlement, maturity, freq, basis, TRUE);
-	e = coupdays (settlement, maturity, freq, basis, TRUE);
+	a = coupdaybs (settlement, maturity, freq, basis, TRUE, TRUE);
+	d = coupdaysnc (settlement, maturity, freq, basis, TRUE, TRUE);
+	e = coupdays (settlement, maturity, freq, basis, TRUE, TRUE);
 	n = coupnum (settlement, maturity, freq, basis);
 
 	if (n <= 1.0) {
@@ -2539,10 +2578,10 @@ gnumeric_oddfprice (FunctionEvalInfo *ei, Value **argv)
 		goto out;
 	}
 
-	a = coupdaybs (settlement, maturity, freq, basis, TRUE);
+	a = coupdaybs (settlement, maturity, freq, basis, TRUE, TRUE);
 	ds = -1; /* FIXME */
 	df = -1; /* FIXME */
-	e = coupdays (settlement, maturity, freq, basis, TRUE);
+	e = coupdays (settlement, maturity, freq, basis, TRUE, TRUE);
 	n = coupnum (settlement, maturity, freq, basis);
 
 	/*
@@ -2785,12 +2824,14 @@ gnumeric_coupdaybs (FunctionEvalInfo *ei, Value **argv)
         int freq, basis;
 	Value *result;
 	gboolean oem, err = FALSE;
+	gboolean xl;
 
         settlement = datetime_value_to_g (argv[0]);
         maturity   = datetime_value_to_g (argv[1]);
         freq       = value_get_as_int (argv[2]);
 	basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
 	oem        = argv[4] ? value_get_as_bool (argv[4], &err) : 0;
+	xl         = argv[4] ? FALSE : TRUE;
 
 	if (!maturity || !settlement || err) {
 		result = value_new_error (ei->pos, gnumeric_err_VALUE);
@@ -2803,7 +2844,7 @@ gnumeric_coupdaybs (FunctionEvalInfo *ei, Value **argv)
 		goto out;
 	}
 
-	result = value_new_float (coupdaybs (settlement, maturity, freq, basis, oem));
+	result = value_new_float (coupdaybs (settlement, maturity, freq, basis, oem, xl));
 
  out:
 	g_date_free (settlement);
@@ -2850,12 +2891,14 @@ gnumeric_coupdays (FunctionEvalInfo *ei, Value **argv)
         int freq, basis;
 	Value *result;
 	gboolean oem, err = FALSE;
+	gboolean xl;
 
         settlement = datetime_value_to_g (argv[0]);
         maturity   = datetime_value_to_g (argv[1]);
         freq       = value_get_as_int (argv[2]);
 	basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
 	oem        = argv[4] ? value_get_as_bool (argv[4], &err) : 0;
+	xl         = argv[4] ? FALSE : TRUE;
 
 	if (!maturity || !settlement || err) {
 		result = value_new_error (ei->pos, gnumeric_err_VALUE);
@@ -2868,7 +2911,7 @@ gnumeric_coupdays (FunctionEvalInfo *ei, Value **argv)
 		goto out;
 	}
 
-        result = value_new_int (coupdays (settlement, maturity, freq, basis, oem));
+        result = value_new_int (coupdays (settlement, maturity, freq, basis, oem, xl));
 
  out:
 	g_date_free (settlement);
@@ -2915,12 +2958,14 @@ gnumeric_coupdaysnc (FunctionEvalInfo *ei, Value **argv)
         int        freq, basis;
 	Value      *result;
 	gboolean oem, err = FALSE;
+	gboolean xl;
 
         settlement = datetime_value_to_g (argv[0]);
         maturity   = datetime_value_to_g (argv[1]);
         freq       = value_get_as_int (argv[2]);
 	basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
 	oem        = argv[4] ? value_get_as_bool (argv[4], &err) : 0;
+	xl         = argv[4] ? FALSE : TRUE;
 
 	if (!maturity || !settlement || err) {
 		result = value_new_error (ei->pos, gnumeric_err_VALUE);
@@ -2933,7 +2978,7 @@ gnumeric_coupdaysnc (FunctionEvalInfo *ei, Value **argv)
 		goto out;
 	}
 
-	result = value_new_float (coupdaysnc (settlement, maturity, freq, basis, oem));
+	result = value_new_float (coupdaysnc (settlement, maturity, freq, basis, oem, xl));
 
  out:
 	g_date_free (settlement);
@@ -2974,39 +3019,7 @@ static char *help_coupncd = {
 static Value *
 gnumeric_coupncd (FunctionEvalInfo *ei, Value **argv)
 {
-        GDate   *settlement;
-        GDate   *maturity;
-        GDate   *date;
-        int     freq, basis;
-	gboolean oem, err = FALSE;
-	Value   *result;
-
-        settlement = datetime_value_to_g (argv[0]);
-        maturity   = datetime_value_to_g (argv[1]);
-        freq       = value_get_as_int (argv[2]);
-	basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
-	oem        = argv[4] ? value_get_as_bool (argv[4], &err) : TRUE;
-
-	if (!maturity || !settlement || err) {
-		result = value_new_error (ei->pos, gnumeric_err_VALUE);
-		goto out;
-	}
-
-        if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
-	    || g_date_compare (settlement, maturity) > 0) {
-		result = value_new_error (ei->pos, gnumeric_err_NUM);
-		goto out;
-	}
-
-        date = coup_cd (settlement, maturity, freq, oem,TRUE);
-	result = value_new_int (datetime_g_to_serial (date));
-	g_date_free (date);
-
- out:
-	g_date_free (settlement);
-	g_date_free (maturity);
-
-	return result;
+	return func_coup_cd (ei, argv, TRUE);
 }
 
 /***************************************************************************/
@@ -3041,39 +3054,7 @@ static char *help_couppcd = {
 static Value *
 gnumeric_couppcd (FunctionEvalInfo *ei, Value **argv)
 {
-        GDate   *settlement;
-        GDate   *maturity;
-        GDate   *date;
-        int     freq, basis;
-	gboolean oem, err = FALSE;
-	Value   *result;
-
-        settlement = datetime_value_to_g (argv[0]);
-        maturity   = datetime_value_to_g (argv[1]);
-        freq       = value_get_as_int (argv[2]);
-	basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
-	oem        = argv[4] ? value_get_as_bool (argv[4], &err) : TRUE;
-
-	if (!maturity || !settlement || err) {
-		result = value_new_error (ei->pos, gnumeric_err_VALUE);
-		goto out;
-	}
-
-        if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
-	    || g_date_compare (settlement, maturity) > 0) {
-		result = value_new_error (ei->pos, gnumeric_err_NUM);
-		goto out;
-	}
-
-        date = coup_cd (settlement, maturity, freq, oem, FALSE);
-	result = value_new_int (datetime_g_to_serial (date));
-	g_date_free (date);
-
- out:
-	g_date_free (settlement);
-	g_date_free (maturity);
-
-	return result;
+	return func_coup_cd (ei, argv, FALSE);
 }
 
 /***************************************************************************/

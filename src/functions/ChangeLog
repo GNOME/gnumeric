@@ -1,3 +1,12 @@
+2002-01-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* fn-financial.c : Change parameters in calls to coupdaysnc,
+	coupdaybs and coupdays.
+	(func_coup_cd) : extract common code from 
+	  gnumeric_coupncd and gnumeric_couppcd (proposed by Neil Booth)
+	(gnumeric_coupncd) : change into wrapper for func_coup_cd
+	(gnumeric_couppcd) : change into wrapper for func_coup_cd
+
 2002-01-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* fn-financial.c (coupdays) : rewrite  and move to datetime.c

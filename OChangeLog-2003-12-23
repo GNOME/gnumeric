@@ -1,3 +1,15 @@
+2002-01-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/datetime.c (coup_cd_xl) : new function (XL compatible 
+	  implementation of coup_cd.
+	(coupdays) : add xl boolean parameter, call coup_cd or coup_cd_xl 
+	  depending on xl.
+	(coupdaybs) : ditto
+	(coupdaysnc) : ditto
+	* src/datetime.h (coupdays) : add xl boolean parameter
+	(coupdaybs) : ditto
+	(coupdaysnc) : ditto
+
 2002-01-15  Jody Goldberg <jody@gnome.org>
 
 	* src/xml-io.c (xml_read_cell) : be more robust when faced

@@ -71,12 +71,16 @@ void adjust_dates_basis (GDate *from, GDate *to, int basis);
 gint32 days_between_dep_basis (GDate *from, GDate *to, int basis);
 
 GDate * coup_cd (GDate *settlement, GDate *maturity, int freq, gboolean oem, gboolean next);
+GDate * coup_cd_xl (GDate *settlement, GDate *maturity, int freq, gboolean next);
 
-int coupdays (GDate *settlement, GDate *maturity, int freq, int basis, gboolean oem);
+int coupdays (GDate *settlement, GDate *maturity, int freq, int basis, gboolean oem, 
+	      gboolean xl);
 
-int coupdaybs (GDate *settlement, GDate *maturity, int freq, int basis, gboolean oem);
+int coupdaybs (GDate *settlement, GDate *maturity, int freq, int basis, gboolean oem, 
+	       gboolean xl);
 
-int coupdaysnc (GDate *settlement, GDate *maturity, int freq, int basis, gboolean oem);
+int coupdaysnc (GDate *settlement, GDate *maturity, int freq, int basis, gboolean oem, 
+		gboolean xl);
 
 
 #endif
