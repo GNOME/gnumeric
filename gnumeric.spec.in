@@ -17,7 +17,7 @@ Docdir: 	%{prefix}/doc
 Requires: gtk+ >= 1.2.7
 Requires: gnome-libs >= 1.0.57
 Requires: gnome-print >= 0.25
-Requires: libglade >= 0.14
+Requires: libglade >= 0.16
 Requires: libxml >= 1.8.5
 Requires: libole2 >= 0.1.7
 Requires: gal >= 0.5
@@ -121,6 +121,9 @@ fi
 %{prefix}/lib/gnumeric/%{version}/plugins/*.la
 
 %changelog
+* Tue Feb 13 2001 Jody Goldberg <jgoldberg@home.com>
+- Updated version requirements for libglade
+
 * Sat Feb 10 2001 Jody Goldberg <jgoldberg@home.com>
 - Updated version requirements for GAL
 

@@ -365,12 +365,12 @@ unset gnomeprint_ok
 dnl ******************************
 dnl LibGlade checking
 dnl ******************************
-AC_MSG_CHECKING(for Glade libraries >= 0.14					)
+AC_MSG_CHECKING(for Glade libraries >= 0.16					)
 libglade_ok=no
 if gnome-config --libs libglade > /dev/null 2>&1; then 
     verstxt=`gnome-config --modversion libglade`
     vers=`echo "$verstxt" | awk -F. '{ printf "%d", $1 * 1000 + $2;}'`
-    if test "$vers" -ge 14; then
+    if test "$vers" -ge 16; then
 	AC_MSG_RESULT($marker_ok found $verstxt)
 	libglade_ok=yes
     else
