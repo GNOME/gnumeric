@@ -1,3 +1,7 @@
+2004-04-19  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* README: Corrected the Debian package names.
+
 2004-04-19  Jody Goldberg <jody@gnome.org>
 
 	* src/rendered-value.c (rendered_value_new) : don't apply markup to
