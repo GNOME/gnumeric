@@ -67,6 +67,7 @@ Gnumeric Spread Sheet task list
   * Display printing status (pages to go).
   * Add column/row title printing
   * Add color printing support.
+  * Borders & patterns.
 
 * Font dialog
 
@@ -74,6 +75,7 @@ Gnumeric Spread Sheet task list
   * Create a simplistic dialog (to map to font-bold yes/no).
 
 * Cell dimension computation is broken on font change for multi-lines.
+    - Alignment 'Center' is broken when used with spanning cells.
 
 * Number formatting
 
@@ -81,6 +83,10 @@ Gnumeric Spread Sheet task list
    being formatted as well as the width allowed and take this into
    account to render the number as well as possible given the space so
    that for small regions, numbers in scientific notation are displayed.
+
+   - '@' does not work
+   - '*' does not work
+   - 'General' is rather stupid.  It needs to take the size of the cell into account.
 
 * Sheet
 
@@ -143,7 +149,7 @@ Gnumeric Spread Sheet task list
 
    Searching text on the spreadsheet.
 
-* EDITION
+* EDITING
 
 ** Object Clipboard
    If sheet->mode is OBJECT_SELECTED cut/copy/paste should operate on
@@ -192,10 +198,12 @@ Gnumeric Spread Sheet task list
      insert
 
  - Decrease flicker when paging between sheets.
+ - Enable capability to select multiple sheets.
 
-* Sheets
-
-When adding a sheet or renaming a sheet, should we reparse everything?
+ - Allow range selection to work when switching between sheets.
+    ie Use the arrows to select a different cell while entering a
+       formula.  Then use the ctrl-Pg{Up,Down} to select a cell on
+       a different sheet.
 
 * Sheet Objects
 
@@ -244,7 +252,6 @@ Office 2000 and 'explorer' compatibility.
 
 * Drawing
   * Rework borders to agregate the lines and draw them after backgrounds
-  * Scale the fonts in item-bar by zoom factor.
 
 * Excel Import
   * Localise sheet/workbook Name import,
