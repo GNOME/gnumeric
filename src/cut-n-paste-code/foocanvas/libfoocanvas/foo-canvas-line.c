@@ -38,7 +38,6 @@
  * Author: Federico Mena <federico@nuclecu.unam.mx>
  */
 
-#include <config.h>
 #include <math.h>
 #include <string.h>
 #include "libfoocanvas.h"

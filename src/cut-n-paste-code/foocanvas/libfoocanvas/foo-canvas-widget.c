@@ -37,7 +37,6 @@
  * Author: Federico Mena <federico@nuclecu.unam.mx>
  */
 
-#include <config.h>
 #include <math.h>
 #include <gtk/gtksignal.h>
 #include "foo-canvas-widget.h"

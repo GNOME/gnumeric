@@ -40,7 +40,6 @@
  * Port to Pango co-done by Gergõ Érdi <cactus@cactus.rulez.org>
  */
 
-#include <config.h>
 #include <math.h>
 #include <string.h>
 #include "foo-canvas-text.h"

@@ -29,7 +29,6 @@
   @NOTATION@
  */
 
-#include <config.h>
 #include <glib-object.h>
 
 #include "cut-n-paste-code/foocanvas/libfoocanvas/libfoocanvas.h"

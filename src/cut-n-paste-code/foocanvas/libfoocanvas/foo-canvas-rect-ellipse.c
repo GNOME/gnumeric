@@ -37,7 +37,6 @@
  * Author: Federico Mena <federico@nuclecu.unam.mx>
  */
 
-#include <config.h>
 #include <math.h>
 #include "foo-canvas-rect-ellipse.h"
 #include "foo-canvas-util.h"

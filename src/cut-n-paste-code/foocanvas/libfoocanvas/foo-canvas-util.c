@@ -37,7 +37,6 @@
  * Author: Federico Mena <federico@nuclecu.unam.mx>
  */
 
-#include <config.h>
 
 /* needed for M_PI_2 under 'gcc -ansi -predantic' on GNU/Linux */
 #ifndef _BSD_SOURCE

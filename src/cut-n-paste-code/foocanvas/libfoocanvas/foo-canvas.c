@@ -67,7 +67,6 @@
  *   - How to fetch the outline width and know whether it is in pixels or units?
  */
 
-#include <config.h>
 
 #include <math.h>
 #include <string.h>
