@@ -240,19 +240,19 @@ zoom_changed (WorkbookControlGUI *wbcg, Sheet* sheet)
 {
 	gchar buffer [25];
 
-	/* If the user did not initiate this action ignore it.
-	 * This happens whenever the ui updates and the current cell makes a
-	 * change to the toolbar indicators.
-	 */
-	if (wbcg->updating_ui)
-		return;
-
+	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (wbcg->zoom_entry != NULL);
-	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (!wbcg->updating_ui);
 
 	snprintf (buffer, sizeof (buffer), "%d%%",
 		  (int) (sheet->last_zoom_factor_used * 100));
+
+	wbcg->updating_ui = TRUE;
 	gtk_combo_text_set_text (GTK_COMBO_TEXT (wbcg->zoom_entry), buffer);
+	wbcg->updating_ui = FALSE;
+
+	scg_object_update_bbox (wb_control_gui_cur_sheet (wbcg),
+				NULL, NULL, NULL);
 }
 
 static void
@@ -260,15 +260,7 @@ wbcg_zoom_feedback (WorkbookControl *wbc)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
 	Sheet *sheet = wb_control_cur_sheet (wbc);
-
-	/* Do not update the zoom when we update the status display */
-	g_return_if_fail (!wbcg->updating_ui);
-	wbcg->updating_ui = TRUE;
 	zoom_changed (wbcg, sheet);
-	wbcg->updating_ui = FALSE;
-
-	scg_object_update_bbox (wb_control_gui_cur_sheet (wbcg),
-				NULL, NULL, NULL);
 }
 
 static void
@@ -605,7 +597,7 @@ cb_change_zoom (GtkWidget *caller, WorkbookControlGUI *wbcg)
 	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 	int factor;
 
-	if (sheet == NULL)
+	if (sheet == NULL || wbcg->updating_ui)
 		return;
 
 	factor = atoi (gtk_entry_get_text (GTK_ENTRY (caller)));
@@ -685,8 +677,10 @@ toggle_menu_item (
 	g_return_if_fail (wbcg != NULL);
 
 	CORBA_exception_init (&ev);
+
+#warning look up how to do this
 	bonobo_ui_component_set_prop (wbcg->uic, verb_path,
-				      "sensitive", sensitive ? "1" : "0", &ev);
+				      "state", state ? "1" : "0", &ev);
 	CORBA_exception_free (&ev);	
 #endif
 }
@@ -2808,6 +2802,7 @@ workbook_setup_edit_area (WorkbookControlGUI *wbcg)
 	/* Do signal setup for the status input line */
 	gtk_signal_connect (GTK_OBJECT (wbcg->selection_descriptor), "activate",
 			    GTK_SIGNAL_FUNC (wb_jump_to_cell), wbcg);
+	gtk_widget_show_all (box2);
 }
 
 static int

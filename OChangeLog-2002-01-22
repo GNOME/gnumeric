@@ -1,5 +1,15 @@
 2001-02-18  Jody Goldberg <jgoldberg@home.com>
 
+	* src/embeddable-grid.c (set_header_visibility) : delete.
+
+	* src/workbook-control-gui.c (cb_change_zoom) : Block recursion here.
+	(zoom_changed) : not here.
+	(toggle_menu_item) : add warning for bonobo case.
+	(workbook_setup_edit_area) : add show_all to compensate for changes in
+	  construct.
+
+2001-02-18  Jody Goldberg <jgoldberg@home.com>
+
 	* src/workbook-control-gui.c : Back port the help text from the bonobo
 	  verson.
 	(workbook_menu_edit_select) : Use Meta-space for select row,

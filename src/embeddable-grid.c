@@ -37,19 +37,6 @@ Grid_get_sheet (PortableServer_Servant servant, CORBA_Environment *ev)
 }
 
 static void
-set_header_visibility (BonoboView *view, void *data)
-{
-	EmbeddableGrid *eg = EMBEDDABLE_GRID (data);
-	GridView       *grid_view = GRID_VIEW (view);
-
-	g_return_if_fail (eg != NULL);
-	g_return_if_fail (grid_view != NULL);
-	g_return_if_fail (grid_view->scg != NULL);
-
-	scg_adjust_preferences (grid_view->scg);
-}
-
-static void
 Grid_set_header_visibility (PortableServer_Servant servant,
 			    const CORBA_boolean col_headers_visible,
 			    const CORBA_boolean row_headers_visible,
