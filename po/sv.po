@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2003-06-16 14:05+0200\n"
-"PO-Revision-Date: 2003-06-16 14:12+0200\n"
+"POT-Creation-Date: 2003-06-18 15:25+0200\n"
+"PO-Revision-Date: 2003-06-18 15:28+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -4333,7 +4333,7 @@ msgstr "datum1;datum2;intervall"
 #: plugins/fn-date/functions.c:1310 plugins/fn-date/functions.c:1314
 #: plugins/fn-date/functions.c:1322 plugins/fn-date/functions.c:1328
 #: plugins/fn-date/functions.c:1340 plugins/fn-date/functions.c:1344
-#: src/print-info.c:514
+#: src/print-info.c:520
 msgid "date"
 msgstr "datum"
 
@@ -4350,7 +4350,7 @@ msgid "start_date,months"
 msgstr "startdatum;månader"
 
 #: plugins/fn-date/functions.c:1274 plugins/fn-date/functions.c:1278
-#: plugins/fn-date/functions.c:1294 src/print-info.c:515
+#: plugins/fn-date/functions.c:1294 src/print-info.c:521
 msgid "time"
 msgstr "tid"
 
@@ -15176,8 +15176,8 @@ msgstr ""
 "datamängd genom att använda den \"minsta kvadrater\"-linje som bäst passar "
 "din data. @kända_y är de y-värden där y=mx+b och @kända_x innehåller "
 "motsvarande x-värden. @nya_x innehåller x-värdena för vilka du vill "
-"uppskatta y-värden. Om @konst är FALSKT, kommer linjen tvingas att gå "
-"igenom origo, alltså b blir noll.\n"
+"uppskatta y-värden. Om @konst är FALSKT, kommer linjen tvingas att gå igenom "
+"origo, alltså b blir noll.\n"
 "\n"
 "* Om @kända_x utelämnas används en vektor med {1; 2; 3; ...}.\n"
 "* Om @nya_x utelämnas antas det vara samma som @kända_x.\n"
@@ -15940,7 +15940,7 @@ msgstr ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(sträng1; sträng2)\n"
 "@DESCRIPTION=EXACT returnerar SANT om @sträng1 är exakt lika med @sträng2 "
-"(inklusiva stora/små bokstäver).\n"
+"(skiljer på stora/små bokstäver).\n"
 "\n"
 "* Denna funktion är kompatibel med Excel.\n"
 "\n"
@@ -16041,8 +16041,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=MID\n"
 "@SYNTAX=MID(sträng; position; längd)\n"
-"@DESCRIPTION=MID returnerar de @antal_tecken högra tecknen av @text, eller "
-"det tecken som är längst till höger om @antal_tecken inte är angivet.\n"
+"@DESCRIPTION=MID returnerar en substräng av @sträng med början på position "
+"@position och med längd @längd.\n"
 "\n"
 "* Denna funktion är kompatibel med Excel.\n"
 "\n"
@@ -16192,7 +16192,7 @@ msgstr ""
 "@FUNCTION=FIND\n"
 "@SYNTAX=FIND(sträng1;sträng2[;start])\n"
 "@DESCRIPTION=FIND söker efter @sträng1 i @sträng2 (med hänsyn till versaler/"
-"gemener), med start från @start (om inte angiven, 1). Returvärdet är den "
+"gemener), med start från @start (1, om inte angiven). Returvärdet är den "
 "funna positionen.\n"
 "\n"
 "* Denna funktion är kompatibel med Excel.\n"
@@ -16268,9 +16268,9 @@ msgid ""
 "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
 msgstr ""
 "@FUNCTION=REPLACE\n"
-"@SYNTAX=REPLACE(gammal_sträng;start;position;ny_sträng)\n"
-"@DESCRIPTION=REPLACE ersätter tecken i @gammal_sträng från och med @position "
-"med @ny_sträng.\n"
+"@SYNTAX=REPLACE(gammal_sträng;start;antal;ny_sträng)\n"
+"@DESCRIPTION=REPLACE ersätter @antal tecken i @gammal_sträng från och med "
+"@start med @ny_sträng.\n"
 "\n"
 "* Denna funktion är kompatibel med Excel.\n"
 "\n"
@@ -16407,7 +16407,7 @@ msgstr ""
 "@FUNCTION=SUBSTITUTE\n"
 "@SYNTAX=SUBSTITUTE(text; gammal; ny [;nr])\n"
 "@DESCRIPTION=SUBSTITUTE ersätter delsträngen @gammal med @ny i strängen "
-"@text. Ersättning sker bara för förekomst @nr av delsträngen, om @nr är "
+"@text. Ersättning sker bara för förekomst @nr av delsträngen. Om @nr är "
 "uteslutet ersätts alla förekomster.\n"
 "\n"
 "* Denna funktion är kompatibel med Excel.\n"
@@ -16596,9 +16596,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=EXECSQL\n"
 "@SYNTAX=EXECSQL(dsn,användare,lösenord,sql)\n"
-"@DESCRIPTION=Funktionen EXECSQL låter dig köra ett kommando i en\n"
-" databasserver, och visar svaren i det aktuella bladet. Det använder\n"
-" libgda för åtkomst till databaserna.\n"
+"@DESCRIPTION=Funktionen EXECSQL låter dig köra ett kommando i en "
+"databasserver, och visar svaren i det aktuella bladet. Det använder libgda "
+"för åtkomst till databaserna.\n"
 "För att använda det behöver du först sätta upp en libgda-källa.\n"
 "@EXAMPLES=\n"
 "För att hämta alla data i tabellen \"Kunder\" i \"mindatakälla\" GDA-"
@@ -16870,8 +16870,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=NT_PHI\n"
 "@SYNTAX=NT_PHI(n)\n"
-"@DESCRIPTION=Funktionen NT_PHI beräknar antalet heltal som är färre än eller "
-"lika med de @n som är relativt prima med @n.\n"
+"@DESCRIPTION=Funktionen NT_PHI beräknar antalet heltal som mindre än eller "
+"lika med @n som är relativt prima med @n.\n"
 "\n"
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
@@ -17169,7 +17169,7 @@ msgstr "Perl"
 
 #: plugins/plan-perfect/pln.c:504
 msgid "PLN : Spreadsheet is password encrypted"
-msgstr "PLN: Kalkylbladet är lösenordkrypterat"
+msgstr "PLN: Kalkylbladet är lösenordskrypterat"
 
 #: plugins/plan-perfect/pln.c:571
 #, c-format
@@ -17272,7 +17272,7 @@ msgstr "Python-undantag (%s: %s)"
 #: plugins/python-loader/py-gnumeric.c:275
 #, c-format
 msgid "Python exception (%s)"
-msgstr "Python-undantag (%s)"
+msgstr "Python-avbrott (%s)"
 
 #: plugins/python-loader/py-gnumeric.c:406
 msgid "Python list is not an array"
@@ -17713,7 +17713,7 @@ msgstr "Standard vertikal fönsterstorlek"
 
 #: schemas/gnumeric-general.schemas.in.h:10
 msgid "Default Zoom Factor"
-msgstr "Standardinzoomningsvärde"
+msgstr "Standard zoomvärde"
 
 #: schemas/gnumeric-general.schemas.in.h:11
 msgid "Default font name"
@@ -17730,9 +17730,9 @@ msgid ""
 "with the magnitude many milleseconds after the last change where 'last' is "
 "defined as the end of a period of that size after a change with no changes."
 msgstr ""
-"Om det här värdet är positivt räknas automatiska uttryck om efter så många "
+"Om det här värdet är positivt räknas automatiska uttryck om inom så många "
 "millisekunder efter en förändring. Om det är negativt räknas dom om efter "
-"den magnituden millisekunder efter förrä ändringen, där \"förra\" är "
+"den magnituden millisekunder efter förra ändringen, där \"förra\" är "
 "definierad som slutet på en period med den storleken efter en förändring "
 "utan flera förändringar."
 
@@ -18028,7 +18028,7 @@ msgstr "Pil"
 
 #: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:3859
 msgid "Auto _Correct..."
-msgstr "Autorätta..."
+msgstr "Auto_rätta..."
 
 #: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3456
 msgid "Auto_fill"
@@ -18101,7 +18101,7 @@ msgstr "Ändra inställningar för Gnumeric"
 
 #: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:3666
 msgid "Change height of the selected rows"
-msgstr "Ställer in höjden på markerade rader"
+msgstr "Ändra höjden på markerade rader"
 
 #: src/GNOME_Gnumeric.xml.h:28 src/workbook-control-gui.c:3659
 msgid "Change the default column width"
@@ -18113,7 +18113,7 @@ msgstr "Ändra standardhöjden för rader"
 
 #: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:3647
 msgid "Change width of the selected columns"
-msgstr "Ställer in bredden på markerade kolumner"
+msgstr "Ändra bredden på markerade kolumner"
 
 #: src/GNOME_Gnumeric.xml.h:31 src/workbook-object-toolbar.c:146
 msgid "Checkbox"
@@ -18237,7 +18237,7 @@ msgstr "Skapa en ram"
 
 #: src/GNOME_Gnumeric.xml.h:57 src/workbook-object-toolbar.c:131
 msgid "Create a label"
-msgstr "Skapa en rubrik"
+msgstr "Skapa en etikett"
 
 #: src/GNOME_Gnumeric.xml.h:58 src/workbook-object-toolbar.c:161
 msgid "Create a line object"
@@ -18359,11 +18359,11 @@ msgstr "Ellips"
 #: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:3650
 msgid "Ensure columns are just wide enough to display content"
 msgstr ""
-"Försäkra att kolumner är precis så breda som behövs för att visa innehåll"
+"Se till att kolumner är precis så breda som behövs för att visa innehåll"
 
 #: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3669
 msgid "Ensure rows are just tall enough to display content"
-msgstr "Försäkra att rader är precis så höga som behövs för att visa innehåll"
+msgstr "Se till att rader är precis så höga som behövs för att visa innehåll"
 
 #: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3776
 msgid "Exponential smoothing"
@@ -18421,7 +18421,7 @@ msgstr "Ram"
 #: src/GNOME_Gnumeric.xml.h:100 src/workbook-control-gui.c:1500
 #: src/workbook-control-gui.c:3570
 msgid "Freeze the top left of the sheet"
-msgstr "Frys övre vänstra på bladet"
+msgstr "Frys övre vänstra delen bladet"
 
 #: src/GNOME_Gnumeric.xml.h:101 src/dialogs/function-select.glade.h:3
 #: src/workbook-control-gui.c:4064
@@ -18608,7 +18608,7 @@ msgid "Left align"
 msgstr "Vänsterjusterat"
 
 #: src/GNOME_Gnumeric.xml.h:145 src/dialogs/cell-format.glade.h:55
-#: src/dialogs/dialog-stf-main-page.c:341 src/workbook-object-toolbar.c:161
+#: src/dialogs/dialog-stf-main-page.c:391 src/workbook-object-toolbar.c:161
 msgid "Line"
 msgstr "Linje"
 
@@ -18820,7 +18820,7 @@ msgstr "Ta bort en konturgrupp"
 
 #: src/GNOME_Gnumeric.xml.h:195
 msgid "Remove selected cells, shifting others into their place"
-msgstr "Ta bort markerade celler, och skifta in andra celler"
+msgstr "Ta bort markerade celler, och flytta in andra celler"
 
 #: src/GNOME_Gnumeric.xml.h:196 src/workbook-control-gui.c:3485
 #: src/workbook-control-gui.c:3685
@@ -18972,7 +18972,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:231 src/workbook-format-toolbar.c:456
 msgid "Split"
-msgstr "Sampling"
+msgstr "Dela"
 
 #: src/GNOME_Gnumeric.xml.h:232 src/workbook-format-toolbar.c:456
 msgid "Split merged ranges of cells"
@@ -19042,7 +19042,7 @@ msgstr "Två _medelvärden"
 
 #: src/GNOME_Gnumeric.xml.h:247 src/workbook-control-gui.c:3900
 msgid "Uncollapse an outline group"
-msgstr "Fäll ihop en konturgrupp"
+msgstr "Fäll ut en konturgrupp"
 
 #: src/GNOME_Gnumeric.xml.h:248 src/workbook-format-toolbar.c:428
 msgid "Underline"
@@ -19202,7 +19202,7 @@ msgstr "_Fourieranalys"
 #: src/GNOME_Gnumeric.xml.h:283 src/workbook-control-gui.c:1497
 #: src/workbook-control-gui.c:3569
 msgid "_Freeze Panes"
-msgstr "_Frys paneler..."
+msgstr "_Frys paneler"
 
 #: src/GNOME_Gnumeric.xml.h:284 src/workbook-control-gui.c:3629
 msgid "_Function..."
@@ -19521,7 +19521,7 @@ msgid ""
 "\n"
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
-"målet har inte en jämn multipel källkolumner (%d gentemot %d)\n"
+"målet har inte en jämn multipel av källkolumner (%d gentemot %d)\n"
 "\n"
 "Försök markera en enstaka cell eller en yta med samma form och storlek."
 
@@ -19532,7 +19532,7 @@ msgid ""
 "\n"
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
-"målet har inte en jämn multipel källrader (%d gentemot %d)\n"
+"målet har inte en jämn multipel av källrader (%d gentemot %d)\n"
 "\n"
 "Försök markera en enstaka cell eller en yta med samma form och storlek."
 
@@ -19547,13 +19547,13 @@ msgid ""
 "\n"
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
-"målet har en annan form (%dR×%dK) än originalet (%dR×%dK)\n"
+"målet har en annan form (%dR×%dK) än originalet (%dR×%dC)\n"
 "\n"
 "Försök välja en enstaka cell eller en yta med samma form och storlek."
 
 #: src/cmd-edit.c:307
 msgid "Unable to paste into selection"
-msgstr "Kan inte klistra in på markeringen"
+msgstr "Kan inte klistra in i markeringen"
 
 #: src/cmd-edit.c:388
 #, c-format
@@ -19573,7 +19573,7 @@ msgstr "Skifta kolumner %s"
 #: src/cmd-edit.c:427
 #, c-format
 msgid "Shift column %s"
-msgstr "Skifta kolumner %s"
+msgstr "Skifta kolumn %s"
 
 #: src/command-context.c:89
 #, c-format
@@ -19631,7 +19631,7 @@ msgstr "Infogning av %d kolumner före %s"
 #: src/commands.c:1356
 #, c-format
 msgid "Inserting %d column before %s"
-msgstr "Infogning av %d kolumner före %s"
+msgstr "Infogning av %d kolumn före %s"
 
 #: src/commands.c:1371
 #, c-format
@@ -19901,7 +19901,7 @@ msgstr "Inställning av standardhöjd på rader till %.2f punkter"
 #: src/commands.c:3952
 #, c-format
 msgid "Consolidating to %s!%s"
-msgstr "Konsolidation till %s!%s"
+msgstr "Konsolidiering till %s!%s"
 
 #: src/commands.c:4071
 #, c-format
@@ -20433,7 +20433,7 @@ msgstr ""
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:20
 msgid "Minor categories stacked in horizontal bars grouped by major category."
 msgstr ""
-"Delkategorier staplade i horisontella 3D-stolpar, grupperade efter "
+"Delkategorier staplade i horisontella stolpar, grupperade efter "
 "huvudkategori."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:21
@@ -20446,8 +20446,7 @@ msgstr ""
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:22
 msgid "Minor categories stacked in vertical columns grouped by major category."
 msgstr ""
-"Delkategorier staplade i vertikala 3D-kolumner, grupperade efter "
-"huvudkategori."
+"Delkategorier staplade i vertikala kolumner, grupperade efter huvudkategori."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:23
 msgid "Percentage Bars"
@@ -20966,7 +20965,7 @@ msgstr "Första bokstaven"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:658
-#: src/format.c:1830 src/format.c:1914 src/format.c:1923 src/format.c:1990
+#: src/format.c:1845 src/format.c:1929 src/format.c:1938 src/format.c:2005
 #: src/plugin-service.c:199
 msgid "General"
 msgstr "Allmän"
@@ -20985,7 +20984,7 @@ msgstr "_Ersätt text när den skrivs"
 
 #: src/dialogs/autocorrect.glade.h:15
 msgid "_With:"
-msgstr "_Bredd:"
+msgstr "_Med:"
 
 #: src/dialogs/autofilter-expression.glade.h:1
 #: src/dialogs/dialog-autoformat.c:70
@@ -21047,7 +21046,7 @@ msgstr "är större än"
 
 #: src/dialogs/autofilter-expression.glade.h:16
 msgid "is greater than or equal to"
-msgstr "större än eller lika med"
+msgstr "är större än eller lika med"
 
 #: src/dialogs/autofilter-expression.glade.h:17
 msgid "is less than"
@@ -21144,7 +21143,7 @@ msgstr "Malldetaljer"
 
 #: src/dialogs/autoformat.glade.h:18
 msgid "The category this template belongs to"
-msgstr "Kategorin mallen hör till"
+msgstr "Den kategori mallen hör till"
 
 #: src/dialogs/autoformat.glade.h:19
 msgid "The group/individual that made the template"
@@ -22382,7 +22381,7 @@ msgid "Number Formats"
 msgstr "Talformat"
 
 #: src/dialogs/dialog-cell-format.c:1261
-#: src/dialogs/dialog-stf-main-page.c:350
+#: src/dialogs/dialog-stf-main-page.c:400
 msgid "Text"
 msgstr "Text"
 
@@ -22782,13 +22781,13 @@ msgid "Directory"
 msgstr "Katalog"
 
 #. Is it a boolean?
-#: src/dialogs/dialog-preferences.c:375 src/format.c:1681
+#: src/dialogs/dialog-preferences.c:375 src/format.c:1696
 #: src/number-match.c:1069 src/value-sheet.c:33 src/value.c:403
 #: src/value.c:773
 msgid "TRUE"
 msgstr "SANT"
 
-#: src/dialogs/dialog-preferences.c:376 src/format.c:1681
+#: src/dialogs/dialog-preferences.c:376 src/format.c:1696
 #: src/number-match.c:1071 src/value-sheet.c:33 src/value.c:404
 #: src/value.c:773
 msgid "FALSE"
@@ -23530,7 +23529,7 @@ msgstr "%d av %d rader att importera"
 msgid "The data is not valid in encoding %s; please select another encoding."
 msgstr "Data är inte korrekta i kodning %s; välj en annan kodning."
 
-#: src/dialogs/dialog-stf-main-page.c:362
+#: src/dialogs/dialog-stf-main-page.c:412
 #, c-format
 msgid "Data (from %s)"
 msgstr "Data (från %s)"
@@ -25672,40 +25671,40 @@ msgstr "Målområdet är för litet. Det måste vara minst %d kolumner brett"
 msgid "The target region is too small.  It should be at least %d rows high"
 msgstr "Målområdet är för litet. Det måste vara minst %d rader högt"
 
-#: src/format.c:605
+#: src/format.c:620
 msgid "Black"
 msgstr "Svart"
 
-#: src/format.c:606
+#: src/format.c:621
 msgid "Blue"
 msgstr "Blå"
 
-#: src/format.c:607
+#: src/format.c:622
 msgid "Cyan"
 msgstr "Cyan"
 
-#: src/format.c:608
+#: src/format.c:623
 msgid "Green"
 msgstr "Grön"
 
-#: src/format.c:609
+#: src/format.c:624
 msgid "Magenta"
 msgstr "Magenta"
 
-#: src/format.c:610
+#: src/format.c:625
 msgid "Red"
 msgstr "Röd"
 
-#: src/format.c:611
+#: src/format.c:626
 msgid "White"
 msgstr "Vit"
 
-#: src/format.c:612
+#: src/format.c:627
 msgid "Yellow"
 msgstr "Gul"
 
 #. Array of arrays ??
-#: src/format.c:1724
+#: src/format.c:1739
 msgid "ARRAY"
 msgstr "VEKTOR"
 
@@ -27274,41 +27273,41 @@ msgstr "Fel vid aktivering av insticksmoduler."
 msgid "Errors while initializing plugin system."
 msgstr "Fel vid initiering av insticksmodulsystem."
 
-#: src/print-info.c:176 src/print-info.c:179 src/print-info.c:180
-#: src/print-info.c:273
+#: src/print-info.c:177 src/print-info.c:180 src/print-info.c:181
+#: src/print-info.c:279
 msgid "Page &[PAGE]"
 msgstr "Sida &[PAGE]"
 
-#: src/print-info.c:177 src/print-info.c:182
+#: src/print-info.c:178 src/print-info.c:183
 msgid "Page &[PAGE] of &[PAGES]"
 msgstr "Sida &[PAGE] av &[PAGES]"
 
-#: src/print-info.c:178 src/print-info.c:179 src/print-info.c:180
-#: src/print-info.c:182 src/print-info.c:272
+#: src/print-info.c:179 src/print-info.c:180 src/print-info.c:181
+#: src/print-info.c:183 src/print-info.c:278
 msgid "&[TAB]"
 msgstr "&[TAB]"
 
-#: src/print-info.c:180 src/print-info.c:181 src/print-info.c:182
+#: src/print-info.c:181 src/print-info.c:182 src/print-info.c:183
 msgid "&[DATE]"
 msgstr "&[DATE]"
 
-#: src/print-info.c:446
+#: src/print-info.c:452
 msgid "Sheet 1"
 msgstr "Blad 1"
 
-#: src/print-info.c:511
+#: src/print-info.c:517
 msgid "tab"
 msgstr "tab"
 
-#: src/print-info.c:512
+#: src/print-info.c:518
 msgid "page"
 msgstr "sida"
 
-#: src/print-info.c:513
+#: src/print-info.c:519
 msgid "pages"
 msgstr "sidor"
 
-#: src/print-info.c:516
+#: src/print-info.c:522
 msgid "file"
 msgstr "fil"
 
@@ -27519,12 +27518,12 @@ msgstr "Infoga kolumner"
 msgid "Insert Rows"
 msgstr "Infoga rader"
 
-#: src/stf-parse.c:49
+#: src/stf-parse.c:46
 #, c-format
 msgid "Too many rows in data to parse: %d"
 msgstr "För många rader i data för att tolka: %d"
 
-#: src/stf-parse.c:50
+#: src/stf-parse.c:47
 #, c-format
 msgid "Too many columns in data to parse: %d"
 msgstr "För många kolumner i data för att tolka: %d"
@@ -27550,23 +27549,27 @@ msgstr "Endast en kolumn med <b>indata</b> kan tolkas åt gången, inte %d"
 msgid "Error while trying to parse data into sheet"
 msgstr "Fel vid tolkning av data i kalkylbladet"
 
-#: src/stf.c:382
+#: src/stf.c:339
+msgid "That file is not in the given encoding."
+msgstr "Den filen är inte kodad i den givna kodningen."
+
+#: src/stf.c:356
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Tolkningsfel vid tolkning av data i kalkylbladet"
 
-#: src/stf.c:430
+#: src/stf.c:399
 msgid "Error while trying to write csv file"
 msgstr "Fel vid skrivning av csv-fil"
 
-#: src/stf.c:445
+#: src/stf.c:414
 msgid "Comma or tab separated files (CSV/TSV)"
 msgstr "Komma- eller tabseparerad fil (CSV/TSV)"
 
-#: src/stf.c:449
+#: src/stf.c:418
 msgid "Text import (configurable)"
 msgstr "Textimport (konfigurerbar)"
 
-#: src/stf.c:453
+#: src/stf.c:422
 msgid "Text export (configurable)"
 msgstr "Textexport (konfigurerbar)"
 
