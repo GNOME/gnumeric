@@ -29,6 +29,7 @@
 #include "plugin-util.h"
 #include "workbook.h"
 #include "style.h"
+#include "border.h"
 #include "cell.h"
 #include "position.h"
 #include "expr.h"
@@ -182,7 +183,8 @@ STATE_WB,
 	STATE_WB_SUMMARY,
 		STATE_WB_SUMMARY_ITEM,
 			STATE_WB_SUMMARY_ITEM_NAME,
-			STATE_WB_SUMMARY_ITEM_VALUE,
+			STATE_WB_SUMMARY_ITEM_VALUE_STR,
+			STATE_WB_SUMMARY_ITEM_VALUE_INT,
 	STATE_WB_GEOMETRY,
 	STATE_WB_SHEETS,
 		STATE_SHEET,
@@ -224,6 +226,13 @@ STATE_WB,
 				STATE_CELL,
 					STATE_CELL_CONTENT,
 			STATE_SHEET_SOLVER,
+		STATE_SHEET_OBJECTS,
+				STATE_OBJECT_POINTS,
+			STATE_OBJECT_RECTANGLE,
+			STATE_OBJECT_ELLIPSE,
+			STATE_OBJECT_ARROW,
+			STATE_OBJECT_LINE,
+
 	STATE_WB_VIEW,
 
 	STATE_UNKNOWN
@@ -247,6 +256,7 @@ static char const * const xml2_state_names[] =
 		"gmr:Item",
 			"gmr:name",
 			"gmr:val-string",
+			"gmr:val-int",
 	"gmr:Geometry",
 	"gmr:Sheets",
 		"gmr:Sheet",
@@ -289,6 +299,12 @@ static char const * const xml2_state_names[] =
 				"gmr:Cell",
 					"gmr:Content",
 			"gmr:Solver",
+			"gmr:Objects",
+					"gmr:Points",
+				"gmr:Rectangle",
+				"gmr:Ellipse",
+				"gmr:Arrow",
+				"gmr:Line",
 	"gmr:UIData",
 
 	"Unknown",
@@ -700,11 +716,23 @@ xml2ParseStyleRegionBorders (XML2ParseState *state, CHAR const **attrs)
 	int pattern = -1;
 	StyleColor *colour = NULL;
 
+	g_return_if_fail (state->style != NULL);
+
 	for (; attrs[0] && attrs[1] ; attrs += 2) {
 		if (xml2ParseAttrColour (attrs, "Color", &colour)) ;
 		else if (xml2ParseAttrInt (attrs, "Style", &pattern)) ;
 		else
 			xml2UnknownAttr (state, attrs, "StyleBorder");
+	}
+
+	if (colour != NULL && pattern >= 0) {
+		MStyleElementType const type = MSTYLE_BORDER_TOP +
+			state->state - STATE_BORDER_TOP;
+		MStyleBorder *border =
+			style_border_fetch ((StyleBorderType)pattern, colour,
+					    style_border_get_orientation (type));
+		if (border)
+			mstyle_set_border (state->style, type, border);
 	}
 }
 
@@ -895,6 +923,11 @@ xml2ParseCellContent (XML2ParseState *state)
 		cell_set_value (cell, value_new_empty (), NULL);
 }
 
+static void
+xml2ParseObject (XML2ParseState *state, CHAR const **attrs)
+{
+}
+
 /****************************************************************************/
 
 static gboolean
@@ -970,7 +1003,8 @@ xml2StartElement (XML2ParseState *state, CHAR const *name, CHAR const **attrs)
 
 	case STATE_WB_SUMMARY_ITEM :
 		if (xml2SwitchState (state, name, STATE_WB_SUMMARY_ITEM_NAME)) {
-		} else if (xml2SwitchState (state, name, STATE_WB_SUMMARY_ITEM_VALUE)) {
+		} else if (xml2SwitchState (state, name, STATE_WB_SUMMARY_ITEM_VALUE_STR)) {
+		} else if (xml2SwitchState (state, name, STATE_WB_SUMMARY_ITEM_VALUE_INT)) {
 		} else
 			xml2UnknownState (state, name);
 		break;
@@ -994,6 +1028,7 @@ xml2StartElement (XML2ParseState *state, CHAR const *name, CHAR const **attrs)
 			xml2ParseSelection (state, attrs);
 		} else if (xml2SwitchState (state, name, STATE_SHEET_CELLS)) {
 		} else if (xml2SwitchState (state, name, STATE_SHEET_SOLVER)) {
+		} else if (xml2SwitchState (state, name, STATE_SHEET_OBJECTS)) {
 		} else
 			xml2UnknownState (state, name);
 		break;
@@ -1082,6 +1117,25 @@ xml2StartElement (XML2ParseState *state, CHAR const *name, CHAR const **attrs)
 			xml2UnknownState (state, name);
 		break;
 
+	case STATE_SHEET_OBJECTS :
+		if (xml2SwitchState (state, name, STATE_OBJECT_RECTANGLE) ||
+		    xml2SwitchState (state, name, STATE_OBJECT_ELLIPSE) ||
+		    xml2SwitchState (state, name, STATE_OBJECT_ARROW) ||
+		    xml2SwitchState (state, name, STATE_OBJECT_LINE)) {
+			xml2ParseObject (state, attrs);
+		} else
+			xml2UnknownState (state, name);
+		break;
+
+	case STATE_OBJECT_RECTANGLE :
+	case STATE_OBJECT_ELLIPSE :
+	case STATE_OBJECT_ARROW :
+	case STATE_OBJECT_LINE :
+		if (xml2SwitchState (state, name, STATE_OBJECT_POINTS)) {
+		} else
+			xml2UnknownState (state, name);
+		break;
+
 	default :
 		break;
 	};
@@ -1090,6 +1144,11 @@ xml2StartElement (XML2ParseState *state, CHAR const *name, CHAR const **attrs)
 static void
 xml2EndElement (XML2ParseState *state, const CHAR *name)
 {
+	if (state->unknown_depth > 0) {
+		state->unknown_depth--;
+		return;
+	}
+
 	g_return_if_fail (state->state_stack != NULL);
 	g_return_if_fail (!strcmp (name, xml2_state_names[state->state]));
 
@@ -1099,7 +1158,6 @@ xml2EndElement (XML2ParseState *state, const CHAR *name)
 		break;
 
 	case STATE_WB_ATTRIBUTES_ELEM :
-		/* store a single attribute */
 		xml2FinishParseAttr (state);
 		break;
 
@@ -1137,7 +1195,8 @@ xml2EndElement (XML2ParseState *state, const CHAR *name)
 		break;
 
 	case STATE_WB_SUMMARY_ITEM_NAME :
-	case STATE_WB_SUMMARY_ITEM_VALUE :
+	case STATE_WB_SUMMARY_ITEM_VALUE_STR :
+	case STATE_WB_SUMMARY_ITEM_VALUE_INT :
 		g_string_truncate(state->content, 0);
 		break;
 
@@ -1185,7 +1244,8 @@ xml2Characters (XML2ParseState *state, const CHAR *chars, int len)
 	case STATE_WB_ATTRIBUTES_ELEM_TYPE :
 	case STATE_WB_ATTRIBUTES_ELEM_VALUE :
 	case STATE_WB_SUMMARY_ITEM_NAME :
-	case STATE_WB_SUMMARY_ITEM_VALUE :
+	case STATE_WB_SUMMARY_ITEM_VALUE_INT :
+	case STATE_WB_SUMMARY_ITEM_VALUE_STR :
 	case STATE_SHEET_NAME :
 	case STATE_SHEET_ZOOM :
 	case STATE_PRINT_MARGIN :
@@ -1372,7 +1432,7 @@ init_plugin (CommandContext *context, PluginData *pd)
 
 		/* low priority for now */
 		file_format_register_open (1, 
-					   _("Gnumeric (*.gnumeric) XML based file format"),
+					   _("EXPERIMENTAL Gnumeric (*.gnumeric) XML based file format"),
 					   NULL, &xml2_open);
 
 #if 0
