@@ -13,9 +13,11 @@
 #include "item-grid.h"
 #include "item-cursor.h"
 #include "item-debug.h"
+#include "gnumeric-sheet.h"
 
-static GdkColor black, white;
 static GnomeCanvasItem *item_cursor_parent_class;
+
+static void item_cursor_request_redraw (ItemCursor *item_cursor);
 
 /* The argument we take */
 enum {
@@ -26,12 +28,38 @@ enum {
 };
 
 static void
+item_cursor_animation_callback (ItemCursor *item_cursor)
+{
+	item_cursor->state = !item_cursor->state;
+	item_cursor_request_redraw (item_cursor);
+}
+
+static void
+item_cursor_stop_animation (ItemCursor *item_cursor)
+{
+	if (item_cursor->tag == -1)
+		return;
+	
+	gtk_timeout_remove (item_cursor->tag);
+	item_cursor->tag = -1;
+}
+
+static void
+item_cursor_start_animation (ItemCursor *item_cursor)
+{
+	item_cursor->tag = gtk_timeout_add (
+		300, (GtkFunction)(item_cursor_animation_callback),
+		item_cursor);
+}
+
+static void
 item_cursor_destroy (GtkObject *object)
 {
 	ItemCursor *item_cursor;
 
 	item_cursor = ITEM_CURSOR (object);
 
+	item_cursor_stop_animation (item_cursor);
 	if (GTK_OBJECT_CLASS (item_cursor_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (item_cursor_parent_class)->destroy)(object);
 }
@@ -48,10 +76,10 @@ item_cursor_realize (GnomeCanvasItem *item)
 
 	gc = item_cursor->gc = gdk_gc_new (window);
 
-	gdk_color_black (item->canvas->colormap, &black);
-	gdk_color_white (item->canvas->colormap, &white);
-	gdk_gc_set_foreground (gc, &black);
-	gdk_gc_set_background (gc, &white);
+	gnumeric_sheet_color_alloc (item->canvas);
+
+	if (item_cursor->style == ITEM_CURSOR_ANTED)
+		item_cursor_start_animation (item_cursor);
 }
 
 static void
@@ -93,6 +121,7 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 	GdkPoint points [40];
 	int draw_external, draw_internal, draw_handle, draw_center;
 	int premove;
+	GdkColor *fore = NULL, *back = NULL;
 	
 	item_cursor_get_pixel_coords (item_cursor, &xd, &yd,
 				      &cursor_width, &cursor_height);
@@ -120,6 +149,13 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 		draw_handle   = 0;
 		draw_center   = 1;
 		draw_external = 0;
+		if (item_cursor->state){
+			fore = &gs_light_gray;
+			back = &gs_dark_gray;
+		} else {
+			fore = &gs_dark_gray;
+			back = &gs_light_gray;
+		}
 	};
 
 	if (draw_handle)
@@ -129,6 +165,8 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 
 	gdk_gc_set_line_attributes (item_cursor->gc, 1,
 				    GDK_LINE_SOLID, -1, -1);
+	gdk_gc_set_foreground (item_cursor->gc, &gs_black);
+	gdk_gc_set_background (item_cursor->gc, &gs_white);
 	if (draw_external){
 		points [0].x = dx + cursor_width + 1;
 		points [0].y = dy + cursor_height + 1 - premove;
@@ -175,12 +213,13 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 	}
 
 	if (draw_center){
+		gdk_gc_set_foreground (item_cursor->gc, fore);
+		gdk_gc_set_background (item_cursor->gc, back);
 		gdk_gc_set_line_attributes (item_cursor->gc, 1,
 					    GDK_LINE_DOUBLE_DASH, -1, -1);
 		gdk_draw_rectangle (drawable, item_cursor->gc, FALSE,
 				    dx, dy,
-				    dx + cursor_width, dy + cursor_height);
-		
+				    cursor_width, cursor_height);
 	}
 }
 
@@ -191,24 +230,40 @@ item_cursor_request_redraw (ItemCursor *item_cursor)
 	int x, y, w, h;
 
 	item_cursor_get_pixel_coords (item_cursor, &x, &y, &w, &h);
+#if 0
+	printf ("Requesting redraw: %d %d %d %d\n",
+		x - 2, y - 2, x + w + 5, y + h + 5);
+#endif
 	gnome_canvas_request_redraw (canvas, x - 2, y - 2, x + w + 5, y + h + 5);
 }
 
 void
 item_cursor_set_bounds (ItemCursor *item_cursor, int start_col, int start_row, int end_col, int end_row)
 {
+	GnomeCanvasItem *item;
+	int x, y, w, h;
+	
 	g_return_if_fail (start_col <= end_col);
 	g_return_if_fail (start_row <= end_row);
-	
+	g_return_if_fail (item_cursor != NULL);
+	g_return_if_fail (IS_ITEM_CURSOR (item_cursor));
+
+	item = GNOME_CANVAS_ITEM (item_cursor);
 	item_cursor_request_redraw (item_cursor);
 
-	printf ("BOUNDS: %d,%d %d,%d\n", start_col, start_row, end_col, end_row);
 	item_cursor->start_col = start_col;
 	item_cursor->end_col   = end_col;
 	item_cursor->start_row = start_row;
 	item_cursor->end_row   = end_row;
 
 	item_cursor_request_redraw (item_cursor);
+	item_cursor_get_pixel_coords (item_cursor, &x, &y, &w, &h);
+	item->x1 = x - 1;
+	item->y1 = y - 1;
+	item->x2 = x + w + 1;
+	item->y2 = y + h + 1;
+
+	gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
 }
 
 static double
@@ -249,6 +304,7 @@ item_cursor_init (ItemCursor *item_cursor)
 	item_cursor->start_row = 0;
 	item_cursor->end_row   = 0;
 	item_cursor->start_row = ITEM_CURSOR_SELECTION;
+	item_cursor->tag = -1;
 }
 
 static void

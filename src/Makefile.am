@@ -10,6 +10,7 @@ INCLUDES = 			\
 	-I$(includedir)				 \
 	$(GNOME_INCLUDEDIR)
 
+GNOME_XML_LIB = -lxml
 
 GNUMERIC_BASE_SOURCES =		\
 	cell.h			\

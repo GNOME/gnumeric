@@ -33,17 +33,6 @@ item_grid_destroy (GtkObject *object)
 		(*GTK_OBJECT_CLASS (item_grid_parent_class)->destroy)(object);
 }
 
-static GdkColor
-color_alloc (GnomeCanvas *canvas, char *color_name)
-{
-	GdkColor color;
-
-	color.pixel = 0;
-	
-	gnome_canvas_get_color (canvas, color_name, &color);
-	return color;
-}
-
 static void
 item_grid_realize (GnomeCanvasItem *item)
 {
@@ -62,10 +51,12 @@ item_grid_realize (GnomeCanvasItem *item)
 	gdk_gc_set_line_attributes (gc, 1, GDK_LINE_SOLID,
 				    GDK_CAP_PROJECTING, GDK_JOIN_MITER);
 
+	gnumeric_sheet_color_alloc (item->canvas);
+	
 	/* Allocate the default colors */
-	item_grid->background = color_alloc (item->canvas, "white");
-	item_grid->grid_color = color_alloc (item->canvas, "gray60");
-	item_grid->default_color = color_alloc (item->canvas, "black");
+	item_grid->background = gs_white;
+	item_grid->grid_color = gs_light_gray;
+	item_grid->default_color = gs_black;
 	
 	gdk_gc_set_foreground (gc, &item_grid->grid_color);
 	gdk_gc_set_background (gc, &item_grid->background);

@@ -6,6 +6,7 @@
 #include "item-edit.h"
 #include "item-debug.h"
 
+#define CURSOR_LEN 4
 static GnomeCanvasItem *item_edit_parent_class;
 
 /* The arguments we take */
@@ -41,6 +42,7 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	GtkWidget *canvas = GTK_WIDGET (item->canvas);
 	ItemEdit *item_edit = ITEM_EDIT (item);
 	GdkFont  *font;
+	ColRowInfo *ci;
 	int xd, yd, wd, hd, dx, dy;
 	char *text;
 	int  cursor_pos, text_len, first_part_len, total_len;
@@ -52,9 +54,13 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 	total_len = gdk_text_width (font, text, text_len);
 
+	ci = sheet_col_get_info (item_edit->sheet, item_edit->col);
+	total_len += ci->margin_a + ci->margin_b + CURSOR_LEN;
+	
 	/* Adjust the col_span if necesary */
 	do {
 		item_edit_get_pixel_coords (item_edit, &xd, &yd, &wd, &hd);
+		
 		if (total_len >= wd)
 			item_edit->col_span++;
 	} while (total_len >= wd);

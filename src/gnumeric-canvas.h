@@ -46,6 +46,10 @@ void       gnumeric_sheet_load_cell_val          (GnumericSheet *gsheet);
 void       gnumeric_sheet_accept_pending_output  (GnumericSheet *sheet);
 void       gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet);
 void       gnumeric_sheet_set_current_value      (GnumericSheet *sheet);
+void       gnumeric_sheet_color_alloc            (GnomeCanvas *canvas);
+
+/* Colors used by any GnumericSheet item */
+extern GdkColor gs_white, gs_light_gray, gs_dark_gray, gs_black;
 
 typedef struct {
 	GnomeCanvasClass parent_class;

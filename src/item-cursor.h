@@ -21,7 +21,8 @@ typedef struct {
 
 	ItemCursorStyle style;
 	GdkGC    *gc;
-	GdkColor black;
+	int      state;
+	int      tag;
 } ItemCursor;
 
 GtkType item_cursor_get_type (void);

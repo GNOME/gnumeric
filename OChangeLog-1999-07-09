@@ -1,3 +1,18 @@
+1998-07-27    <miguel@nuclecu.unam.mx>
+
+	* src/main.c (main): Rename currentWorkbook to current_workbook,
+	so that it follows the style of the rest of my code ;-)
+
+	* src/item-cursor.c (item_cursor_init): Add a timeout handler for
+	drawing the anted animation.
+	(item_cursor_set_bounds): Setup the Canvas Item bounding box when
+	the bounds of the cursor change.
+
+	* src/gnumeric-sheet.c (start_cell_selection): Create the
+	selection cursor at the same position the regular cursor is. 
+
+	(gnumeric_sheet_init): Share colors between items and the canvas.
+
 Sun Jul 26 17:39:53 EDT 1998  Daniel Veillard <Daniel.Veillard@w3.org>
 
 	* configure.in: added GNOME_XML_CHECK

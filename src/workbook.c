@@ -11,7 +11,7 @@
 
 #define WB_COLS      1
 
-Workbook *currentWorkbook;
+Workbook *current_workbook;
 
 static void
 quit_cmd (void)
@@ -22,7 +22,7 @@ quit_cmd (void)
 static void
 save_cmd (void)
 {
-        gnumericWriteXmlWorkbook(currentWorkbook, "default.wb");
+        gnumericWriteXmlWorkbook (current_workbook, "default.wb");
 }
 
 static GnomeUIInfo workbook_menu_file [] = {

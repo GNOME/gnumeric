@@ -10,8 +10,8 @@ main (int argc, char *argv [])
 
 	style_init ();
 	symbol_init ();
-	currentWorkbook = workbook_new_with_sheets (1);
-	gtk_widget_show (currentWorkbook->toplevel);
+	current_workbook = workbook_new_with_sheets (1);
+	gtk_widget_show (current_workbook->toplevel);
 
 	gtk_main ();
 

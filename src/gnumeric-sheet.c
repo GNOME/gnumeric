@@ -17,6 +17,8 @@
 
 static GnomeCanvasClass *sheet_parent_class;
 
+GdkColor gs_white, gs_black, gs_light_gray, gs_dark_gray;
+
 static void
 gnumeric_sheet_destroy (GtkObject *object)
 {
@@ -291,7 +293,12 @@ start_cell_selection (GnumericSheet *gsheet)
 		"Sheet", gsheet->sheet,
 		"Grid",  gsheet->item_grid,
 		"Style", ITEM_CURSOR_ANTED, NULL));
-	
+	item_cursor_set_bounds (ITEM_CURSOR (gsheet->selection),
+				gsheet->item_cursor->start_col,
+				gsheet->item_cursor->start_row,
+				gsheet->item_cursor->end_col,
+				gsheet->item_cursor->end_row);
+				
 	gsheet->sel_cursor_pos = GTK_EDITABLE (gsheet->entry)->current_pos;
 	gsheet->sel_text_len = 0;
 }
@@ -470,8 +477,9 @@ gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
 	void (*movefn_vertical)   (GnumericSheet *, int);
 	int  cursor_move = gnumeric_sheet_can_move_cursor (sheet);
 
-	printf ("%d\n", cursor_move);
+	printf ("cursor_moving=%d\n", cursor_move);
 	if ((event->state & GDK_SHIFT_MASK) != 0){
+		printf ("SHIFT!\n");
 		if (cursor_move){
 			printf ("Selection exand!\n");
 			movefn_horizontal = selection_expand_horizontal;
@@ -490,6 +498,18 @@ gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
 		}
 	}
 
+	/* Ignore a few keys (to avoid the selection cursor to be killed
+	 * in some cases
+	 */
+	if (cursor_move){
+		switch (event->keyval){
+		case GDK_Shift_L: case GDK_Shift_R:
+		case GDK_Alt_L:   case GDK_Alt_R:
+		case GDK_Control_L:   case GDK_Control_R:
+			return 1;
+		}
+	}
+	
 	switch (event->keyval){
 	case GDK_Left:
 		(*movefn_horizontal)(sheet, -1);
@@ -660,9 +680,25 @@ static void
 gnumeric_sheet_init (GnumericSheet *gsheet)
 {
 	GnomeCanvas *canvas = GNOME_CANVAS (gsheet);
-
+	
 	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_FOCUS);
 	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_DEFAULT);
+
+}
+
+void
+gnumeric_sheet_color_alloc (GnomeCanvas *canvas)
+{
+	static int colors_loaded;
+	
+	if (colors_loaded)
+		return;
+	
+	gdk_color_white (canvas->colormap, &gs_white);
+	gdk_color_black (canvas->colormap, &gs_black);
+	gnome_canvas_get_color (canvas, "gray60", &gs_light_gray);
+	gnome_canvas_get_color (canvas, "gray20", &gs_dark_gray);
+	colors_loaded = 1;
 }
 
 GtkType
