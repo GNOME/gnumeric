@@ -17,6 +17,11 @@ Release Critical
 	sumproduct(A1:A5>4,B1:B4) will not work and that they will
 	need
 	sumproduct(--(A1:A5>4),B1:B4)
+    : Sort this out.  Looks like two different uses of n:
+          ms-excel-write.c: In function `excel_write_workbook':
+          ms-excel-write.c:4778: warning: `n' might be used uninitialized in this function
+
+
 
 Worries
 -------
