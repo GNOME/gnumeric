@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.18\n"
-"POT-Creation-Date: 1999-03-28 00:37+0100\n"
+"POT-Creation-Date: 1999-03-29 09:03-0600\n"
 "PO-Revision-Date: 1998-03-28 00:50+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
@@ -2274,4 +2274,3 @@ msgstr "UtenNavn"
 #: src/xml-io.c:1599
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML filformat"
-
