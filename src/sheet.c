@@ -1859,8 +1859,9 @@ sheet_range_splits_array (Sheet const *sheet,
 	if (closure.flags &&
 	    colrow_foreach (&sheet->cols, r->start.col, r->end.col,
 			    &cb_check_array_horizontal, &closure)) {
-		gnumeric_error_splits_array (COMMAND_CONTEXT (wbc),
-					     cmd, &closure.error);
+		if (wbc)
+			gnumeric_error_splits_array (COMMAND_CONTEXT (wbc),
+						     cmd, &closure.error);
 		return TRUE;
 	}
 
@@ -1880,8 +1881,9 @@ sheet_range_splits_array (Sheet const *sheet,
 	if (closure.flags &&
 	    colrow_foreach (&sheet->rows, r->start.row, r->end.row,
 			    &cb_check_array_vertical, &closure)) {
-		gnumeric_error_splits_array (COMMAND_CONTEXT (wbc),
-					     cmd, &closure.error);
+		if (wbc)
+			gnumeric_error_splits_array (COMMAND_CONTEXT (wbc),
+						     cmd, &closure.error);
 		return TRUE;
 	}
 	return FALSE;
@@ -1922,7 +1924,7 @@ sheet_range_splits_region (Sheet const *sheet,
 		}
 		g_slist_free (merged);
 
-		if (ptr != NULL) {
+		if (wbc != NULL && ptr != NULL) {
 			gnumeric_error_invalid (COMMAND_CONTEXT (wbc), cmd_name,
 						_("Target region contains merged cells"));
 			return TRUE;
@@ -1956,7 +1958,6 @@ sheet_ranges_split_region (Sheet const * sheet, GSList const *ranges,
 	return FALSE;
 }
 
-#if 0
 static Value *
 cb_cell_is_array (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
@@ -1965,41 +1966,34 @@ cb_cell_is_array (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 }
 
 gboolean
-selection_is_simple (WorkbookControl *wbc, Sheet const *sheet,
-		     char const *command_name,
-		     gboolean allow_merged, gboolean allow_arrays)
+sheet_range_contains_region (Sheet const *sheet, Range const *r,
+			     WorkbookControl *wbc, char const *cmd)
 {
-	Range const *r;
 	GSList *merged;
 
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
-	r = sheet->selections->data;
-
-	if (!allow_merged) {
-		merged = sheet_merge_get_overlap (sheet, r);
-		if (merged != NULL) {
-			gnumeric_error_invalid (COMMAND_CONTEXT (wbc), command_name,
+	merged = sheet_merge_get_overlap (sheet, r);
+	if (merged != NULL) {
+		if (wbc != NULL)
+			gnumeric_error_invalid (COMMAND_CONTEXT (wbc), cmd,
 				_("can not operate on merged cells"));
-			g_slist_free (merged);
-			return FALSE;
-		}
+		g_slist_free (merged);
+		return FALSE;
 	}
 
-	if (!allow_arrays) {
-		if (sheet_foreach_cell_in_range ((Sheet *)sheet, TRUE,
-					      r->start.col, r->start.row,
-					      r->end.col, r->end.row,
-					      cb_cell_is_array, NULL)) {
-			gnumeric_error_invalid (COMMAND_CONTEXT (wbc), command_name,
+	if (sheet_foreach_cell_in_range ((Sheet *)sheet, TRUE,
+					 r->start.col, r->start.row,
+					 r->end.col, r->end.row,
+					 cb_cell_is_array, NULL)) {
+		if (wbc != NULL)
+			gnumeric_error_invalid (COMMAND_CONTEXT (wbc), cmd,
 				_("can not operate on array formulae"));
-			return FALSE;
-		}
+		return FALSE;
 	}
 
 	return TRUE;
 }
-#endif
 
 /***************************************************************************/
 

@@ -1909,9 +1909,8 @@ cmd_sort_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	if (!me->perm) {
 		me->perm = sort_contents (wbc, me->data);
 		me->parent.size += 2 * sort_data_length (me->data);
-	} else {
+	} else
 		sort_position (wbc, me->data, me->perm);
-	}
 
 	return FALSE;
 }
@@ -1921,8 +1920,16 @@ cmd_sort (WorkbookControl *wbc, SortData *data)
 {
 	GtkObject *obj;
 	CmdSort *me;
+	char *desc;
 
 	g_return_val_if_fail (data != NULL, TRUE);
+
+	desc = g_strdup_printf (_("Sorting %s"), range_name (data->range));
+	if (sheet_range_contains_region (data->sheet, data->range, wbc, desc)) {
+		sort_data_destroy (data);
+		g_free (desc);
+		return TRUE;
+	}
 
 	obj = gtk_type_new (CMD_SORT_TYPE);
 	me = CMD_SORT (obj);
@@ -1933,8 +1940,7 @@ cmd_sort (WorkbookControl *wbc, SortData *data)
 
 	me->parent.sheet = data->sheet;
 	me->parent.size = 1;  /* Changed in initial redo.  */
-	me->parent.cmd_descriptor =
-		g_strdup_printf (_("Sorting %s"), range_name (me->data->range));
+	me->parent.cmd_descriptor = desc;
 
 	/* Register the command object */
 	return command_push_undo (wbc, obj);

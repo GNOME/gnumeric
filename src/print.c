@@ -532,6 +532,15 @@ print_page (Sheet const *sheet, int start_col, int start_row, int end_col, int e
 	/* Margins */
 	base_x += margins->left.points;
 	base_y += MAX (margins->top.points, margins->header.points);
+	if (pj->pi->print_grid_lines) {
+		/* the initial grid lines */
+		base_x += 1.;
+		base_y += 1.;
+	} else {
+		/* If there are no grids ignore the leading cell margins */
+		base_x -= sheet->cols.default_style.margin_a;
+		base_y -= sheet->rows.default_style.margin_a;
+	}
 
 	for (i = 0; i < pj->n_copies; i++){
 		double x = base_x;

@@ -1,5 +1,22 @@
 2001-05-04  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet.c (sheet_range_splits_array) : Make the displaying the
+	  warning optional.
+	(sheet_range_splits_region) : ditto.
+	(sheet_range_contains_region) : implement.
+
+	* src/workbook-control-gui.c (sort_cmd) : no need to check for merges
+	  or arrays here.
+	* src/dialogs/dialog-cell-sort.c (dialog_cell_sort) : or here.
+
+	* src/commands.c (cmd_sort) : it belongs here.
+
+	* src/print.c (print_page) : in the case of grid lines we were off by
+	  a point.  In the case without gridlines we need not display the
+	  leading cell margins.
+
+2001-05-04  Jody Goldberg <jgoldberg@home.com>
+
 	s/clipboard_release/cellregion_free/
 	s/range_copy/range_dup/
 	s/cell_region_render_ascii/cellregion_to_string/

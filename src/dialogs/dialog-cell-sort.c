@@ -340,7 +340,6 @@ dialog_cell_sort_ok (SortFlow *sf)
 
 	cmd_sort (WORKBOOK_CONTROL (sf->wbcg), data);
 
-
 	return FALSE;
 }
 
@@ -490,9 +489,6 @@ dialog_cell_sort (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	if (!(sel = selection_first_range (sheet, WORKBOOK_CONTROL (wbcg), _("Sort"))))
 		return;
-
-#warning can not contain merged regions
-#warning can not contain arrays
 
 	/* Initialize some important stuff */
 	sort_flow.sel = range_dup (sel);

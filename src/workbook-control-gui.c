@@ -1879,8 +1879,6 @@ sort_cmd (WorkbookControlGUI *wbcg, int asc)
 
 	if (!(tmp = selection_first_range (sheet, WORKBOOK_CONTROL (wbcg), _("Sort"))))
 		return;
-#warning can not contain merged regions
-#warning can not contain arrays
 
 	sel = range_dup (tmp);
 	range_clip_to_finite (sel, sheet);
@@ -1899,11 +1897,13 @@ sort_cmd (WorkbookControlGUI *wbcg, int asc)
 	data->range = sel;
 	data->num_clause = numclause;
 	data->clauses = clause;
+	/* TODO : shouldn't this look at the shape of the region ? */
 	data->top = TRUE;
 
-	if (range_has_header (data->sheet, data->range, TRUE)) {
+	if (range_has_header (data->sheet, data->range, data->top))
 		data->range->start.row += 1;
-	}
+	else
+		data->range->start.col += 1;
 
 	cmd_sort (WORKBOOK_CONTROL (wbcg), data);
 }
