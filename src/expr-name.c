@@ -151,7 +151,6 @@ expr_name_add (Workbook *wb, Sheet *sheet, const char *name,
 	       ExprTree *expr, char **error_msg)
 {
 	NamedExpression *expr_name;
-	ParsePos pos, *pp;
 
 	g_return_val_if_fail (name != NULL, 0);
 	g_return_val_if_fail (expr != NULL, 0);
@@ -161,12 +160,14 @@ expr_name_add (Workbook *wb, Sheet *sheet, const char *name,
 
 /*	printf ("Adding name '%s' to %p %p\n", name, wb, sheet);*/
 
-	pp = parse_pos_init (&pos, wb, sheet, 0, 0);
-	if ((expr_name = expr_name_lookup (pp, name))) {
-		*error_msg = _("already defined");
+	if (sheet != NULL && expr_name_lookup_list (sheet->names, name) != NULL) {
+		*error_msg = _("already defined in sheet");
 		return NULL;
 	}
-
+	if (wb != NULL && expr_name_lookup_list (wb->names, name) != NULL) {
+		*error_msg = _("already defined in workbook");
+		return NULL;
+	}
 	if (name_refer_circular (name, expr)) {
 		*error_msg = _("circular reference");
 		return NULL;

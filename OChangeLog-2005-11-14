@@ -1,3 +1,9 @@
+2000-11-07  Jody Goldberg <jgoldberg@home.com>
+
+	* src/expr-name.c (expr_name_add) : It is legal to add names that are
+	  available in other scopes as long as the new scope does not contiain
+	  the name.
+
 2000-11-06  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-autofill.c (autofill_cell) : Use cell_set_value directly.

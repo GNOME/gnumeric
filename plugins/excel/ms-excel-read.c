@@ -774,7 +774,6 @@ biff_format_data_destroy (gpointer key, BiffFormatData *d, gpointer userdata)
 typedef struct {
 	char const *name;
 	gboolean    sheet_scope;
-	gboolean    inserted;
 	enum { BNDStore, BNDName } type;
 	union {
 		NamedExpression *name;
@@ -843,30 +842,25 @@ biff_name_data_get_name (ExcelSheet *sheet, int idx)
 	}
 
 	if (bnd->type == BNDStore && bnd->v.store.data) {
-		char     *duff = "Some Error";
 		ExprTree *tree = ms_excel_parse_formula (sheet->wb, sheet,
 							 bnd->v.store.data,
 							 0, 0, FALSE,
 							 bnd->v.store.len,
 							 NULL);
 
-		if (!tree) { /* OK so it's a special 'AddIn' name */
-			bnd->type   = BNDName;
-			g_free (bnd->v.store.data);
-			bnd->v.name = NULL;
-		} else {
-			bnd->type = BNDName;
-			g_free (bnd->v.store.data);
-			if (bnd->sheet_scope)
-				bnd->v.name = expr_name_add (NULL, sheet->gnum_sheet,
-							     bnd->name,
-							     tree, &duff);
-			else
-				bnd->v.name = expr_name_add (sheet->wb->gnum_wb, NULL,
-							     bnd->name,
-							     tree, &duff);
+		bnd->type = BNDName;
+		g_free (bnd->v.store.data);
+
+		if (tree) {
+			char *duff = "Some Error";
+			bnd->v.name = (bnd->sheet_scope)
+				? expr_name_add (NULL, sheet->gnum_sheet,
+						  bnd->name, tree, &duff)
+				: expr_name_add (sheet->wb->gnum_wb, NULL,
+						 bnd->name, tree, &duff);
+
 			if (!bnd->v.name)
-				printf ("Error: '%s' on name '%s'\n", duff,
+				printf ("Error: '%s' for name '%s'\n", duff,
 					bnd->name);
 #ifndef NO_DEBUG_EXCEL
 			else if (ms_excel_read_debug > 1) {
@@ -878,13 +872,13 @@ biff_name_data_get_name (ExcelSheet *sheet, int idx)
 					: "error");
 			}
 #endif
-		}
+		} else
+			bnd->v.name = NULL; /* OK so it's a special 'AddIn' name */
 	}
-	bnd->inserted = TRUE;
+
 	if (bnd->type == BNDName && bnd->v.name)
 		return expr_tree_new_name (bnd->v.name);
-	else
-		return expr_tree_new_constant (value_new_string (bnd->name));
+	return expr_tree_new_constant (value_new_string (bnd->name));
 }
 
 static void
