@@ -290,9 +290,8 @@ x_clipboard_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 		      gpointer closure)
 {
 	GnmGtkClipboardCtxt *ctxt = closure;
-	WorkbookControlGUI *wbcg = ctxt->wbcg;
 	GdkAtom table_atom = GDK_NONE, string_atom = GDK_NONE;
-	GdkAtom preferred = GDK_NONE, fallback = GDK_NONE;
+	GdkAtom preferred = GDK_NONE;
 	GdkAtom const *targets = (GdkAtom *) sel->data;
 	unsigned const atom_count = (sel->length / sizeof (GdkAtom));
 	unsigned i, j;
@@ -355,11 +354,10 @@ x_clipboard_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 		ctxt->fallback = GDK_NONE;
 	}
 
-	if (preferred != GDK_NONE) {
-		gtk_clipboard_request_contents 
-			(clipboard, preferred,
+	if (preferred != GDK_NONE)
+		gtk_clipboard_request_contents (clipboard, preferred,
 			 complex_content_received, ctxt);
-	} else {
+	else {
 		/* Nothing we can use - time to give up */
 		g_free (ctxt->paste_target);
 		g_free (ctxt);
@@ -416,8 +414,8 @@ table_cellregion_write (WorkbookControl *wbc, CellRegion *cr,
 	gsf_output_close (output);
  	g_object_unref (wb_view);
 	g_object_unref (wb);
-	g_object_unref (G_OBJECT (ioc));
-	g_object_unref (G_OBJECT (output));
+	g_object_unref (ioc);
+	g_object_unref (output);
 
 	return ret;
 }

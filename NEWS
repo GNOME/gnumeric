@@ -21,7 +21,7 @@ Jean Brefort:
 	* Support image files in chart areas (background, bar/col or pie)
 
 Jody:
-	* Fix the generated files.
+	* Fix the generated source files.
 	* Cleanout the internals of PreviewGrid.
 	* Cleanup AutoFormat dialog.
 	* Printing support for charting engine.

@@ -20,6 +20,60 @@ struct _WorkbookControlGUI {
 	GtkNotebook *notebook;
 
 	unsigned file_history_size;
+
+	/* Combos */
+	GtkWidget *font_name_selector;
+	GtkWidget *font_size_selector;
+	GtkWidget *zoom_entry;
+	GtkWidget *fore_color, *back_color;
+
+	/* ComboStacks */
+	GtkWidget *undo_combo, *redo_combo;
+
+	struct {
+		GnmExprEntry *entry; /* The real edit line */
+		GnmExprEntry *temp_entry; /* A tmp overlay eg from a guru */
+		GtkWidget*guru;
+		int       signal_changed;
+	} edit_line;
+
+	/* While editing these should be visible */
+	GtkWidget *ok_button, *cancel_button;
+
+	/* While not editing these should be visible */
+	GtkWidget *func_button;
+
+	gboolean    updating_ui;
+	gint        toolbar_sensitivity_timer;
+	gboolean    toolbar_is_sensitive;
+
+	/* Auto completion */
+	void		*auto_complete;         /* GtkType is (Complete *) */
+	gboolean	 auto_completing;
+	char		*auto_complete_text;
+
+	/* Used to detect if the user has backspaced, so we turn off auto-complete */
+	int              auto_max_size;
+
+	SheetControlGUI *rangesel;
+
+	GtkWidget  *table;
+	GtkWidget  *auto_expr_label;
+	GtkWidget  *status_text;
+
+	/* Edit area */
+	GtkWidget *selection_descriptor;	/* A GtkEntry */
+
+	/* Autosave */
+        gboolean   autosave;
+        gboolean   autosave_prompt;
+        gint       autosave_minutes;
+        gint       autosave_timer;
+
+	PangoFontDescription *font_desc;
+
+	GnmFileSaver *current_saver;
+
 #ifdef WITH_BONOBO
 	GHashTable *custom_ui_components;
 	BonoboUIComponent *uic;
@@ -67,59 +121,6 @@ struct _WorkbookControlGUI {
 	GtkWidget *format_toolbar;
 	GtkWidget *object_toolbar;
 #endif
-
-	/* Combos */
-	GtkWidget *font_name_selector;
-	GtkWidget *font_size_selector;
-	GtkWidget *zoom_entry;
-	GtkWidget *fore_color, *back_color;
-
-	/* ComboStacks */
-	GtkWidget *undo_combo, *redo_combo;
-
-	struct {
-		GnmExprEntry *entry; /* The real edit line */
-		GnmExprEntry *temp_entry; /* A tmp overlay eg from a guru */
-		GtkWidget*guru;
-		int       signal_changed;
-	} edit_line;
-
-	/* While editing these should be visible */
-	GtkWidget *ok_button, *cancel_button;
-
-	/* While not editing these should be visible */
-	GtkWidget *func_button;
-
-	gboolean    updating_ui;
-	gint        toolbar_sensitivity_timer;
-	gboolean    toolbar_is_sensitive;
-
-	/* Auto completion */
-	void            *auto_complete;         /* GtkType is (Complete *) */
-	gboolean         auto_completing;
-	char            *auto_complete_text;
-
-	/* Used to detect if the user has backspaced, so we turn off auto-complete */
-	int              auto_max_size;
-
-	SheetControlGUI *rangesel;
-
-	GtkWidget  *table;
-	GtkWidget  *auto_expr_label;
-	GtkWidget  *status_text;
-
-	/* Edit area */
-	GtkWidget *selection_descriptor;	/* A GtkEntry */
-
-	/* Autosave */
-        gboolean   autosave;
-        gboolean   autosave_prompt;
-        gint       autosave_minutes;
-        gint       autosave_timer;
-
-	PangoFontDescription *font_desc;
-
-	GnmFileSaver *current_saver;
 };
 
 typedef struct {

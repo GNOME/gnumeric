@@ -32,7 +32,7 @@ struct _GogAxis {
 
 	GogAxisType	 type;
 	GogAxisPosition	 pos;
-	GSList		*i_cross, *crosses_me, *series;
+	GSList		*i_cross, *crosses_me, *plots;
 	GOData		*min_source, *max_source;
 };
 
@@ -45,7 +45,19 @@ static GObjectClass *parent_klass;
 static void
 gog_axis_finalize (GObject *obj)
 {
-	/* GogAxis *axis = GOG_AXIS (obj); */
+	GogAxis *axis = GOG_AXIS (obj);
+
+	g_slist_free (axis->i_cross);	 axis->i_cross = NULL;
+	g_slist_free (axis->crosses_me); axis->crosses_me = NULL;
+	g_slist_free (axis->plots);	 axis->plots = NULL;
+	if (axis->min_source != NULL) {
+		g_object_unref (axis->min_source);
+		axis->min_source = NULL;
+	}
+	if (axis->max_source != NULL) {
+		g_object_unref (axis->max_source);
+		axis->max_source = NULL;
+	}
 
 	if (parent_klass != NULL && parent_klass->finalize != NULL)
 		(parent_klass->finalize) (obj);
