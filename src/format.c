@@ -588,7 +588,7 @@ format_compile (StyleFormat *format)
  *
  * resources allocated in format_compile should be disposed here
  */
-void
+static void
 format_destroy (StyleFormat *format)
 {
 	g_slist_foreach (format->entries, &format_entry_dtor, NULL);
@@ -627,8 +627,10 @@ format_color_shutdown (void)
 {
 	int i;
 
-	for (i = G_N_ELEMENTS (format_colors) ; i-- > 0 ; )
+	for (i = G_N_ELEMENTS (format_colors) ; i-- > 0 ; ) {
 		style_color_unref (format_colors[i].color);
+		format_colors[i].color = NULL;
+	}
 }
 
 static struct FormatColor const *

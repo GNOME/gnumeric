@@ -8,7 +8,9 @@
 #include <gnumeric-config.h>
 #include "gnumeric.h"
 #include "style-color.h"
+#include "style-border.h"
 #include <gtk/gtk.h>
+#include <stdio.h>
 
 /* Public _unallocated_ colours, i.e., no valid .pixel.  */
 GdkColor gs_black      = { 0, 0x0000, 0x0000, 0x0000 };    /* "Black" */
@@ -19,6 +21,9 @@ GdkColor gs_dark_gray  = { 0, 0x3333, 0x3333, 0x3333 };    /* "gray20" */
 GdkColor gs_light_gray = { 0, 0xc7c7, 0xc7c7, 0xc7c7 };    /* "gray78" */
 
 static GHashTable *style_color_hash;
+static StyleColor *sc_black;
+static StyleColor *sc_white;
+static StyleColor *sc_grid;
 
 StyleColor *
 style_color_new_name (char const *name)
@@ -93,31 +98,25 @@ style_color_new_i8 (guint8 red, guint8 green, guint8 blue)
 StyleColor *
 style_color_black (void)
 {
-	static StyleColor *color = NULL;
-
-	if (!color)
-		color = style_color_new (0, 0, 0);
-	return style_color_ref (color);
+	if (!sc_black)
+		sc_black = style_color_new (0, 0, 0);
+	return style_color_ref (sc_black);
 }
 
 StyleColor *
 style_color_white (void)
 {
-	static StyleColor *color = NULL;
-
-	if (!color)
-		color = style_color_new (0xffff, 0xffff, 0xffff);
-	return style_color_ref (color);
+	if (!sc_white)
+		sc_white = style_color_new (0xffff, 0xffff, 0xffff);
+	return style_color_ref (sc_white);
 }
 
 StyleColor *
 style_color_grid (void)
 {
-	static StyleColor *color = NULL;
-
-	if (!color) /* Approx gray78 */
-		color = style_color_new (0xc7c7, 0xc7c7, 0xc7c7);
-	return style_color_ref (color);
+	if (!sc_grid)
+		sc_grid = style_color_new (0xc7c7, 0xc7c7, 0xc7c7);
+	return style_color_ref (sc_grid);
 }
 
 /**
@@ -238,9 +237,43 @@ gnumeric_color_init (void)
 					      (GEqualFunc) style_color_equal);
 }
 
+static void
+cb_color_leak (gpointer key, gpointer value, gpointer user_data)
+{
+	StyleColor *color = value;
+
+	fprintf (stderr, "Leaking style-color at %p [%04x:%04x:%04x].\n",
+		 color, color->color.red, color->color.green, color->color.blue);
+}
+
 void
 gnumeric_color_shutdown (void)
 {
+	/*
+	 * FIXME: this doesn't really belong here, but style-border.c isn't
+	 * able to clean itself up yet.
+	 */	   
+	StyleBorder *none = style_border_none ();
+	style_color_unref (none->color);
+	none->color = NULL;
+
+	if (sc_black) {
+		style_color_unref (sc_black);
+		sc_black = NULL;
+	}
+
+	if (sc_white) {
+		style_color_unref (sc_white);
+		sc_white = NULL;
+	}
+
+	if (sc_grid) {
+		style_color_unref (sc_grid);
+		sc_grid = NULL;
+	}
+
+
+	g_hash_table_foreach (style_color_hash, cb_color_leak, NULL);
 	g_hash_table_destroy (style_color_hash);
 	style_color_hash = NULL;
 }

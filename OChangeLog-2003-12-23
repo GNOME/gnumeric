@@ -1,7 +1,15 @@
 2003-06-06  Morten Welinder  <terra@gnome.org>
 
+	* src/style-border.c (style_border_set_gc_dash): Work around a
+	missing const in gdk.
+	(*_line, *_pattern): constify.
+
+	* src/style-color.c (gnumeric_color_shutdown): Unref
+	black/white/grid colors.  Print leaks.
+
 	* src/format.c (number_format_shutdown): Print leaks.
 	(number_format_shutdown): Unref default formats.
+	(format_destroy): Make static.
 
 2003-06-06  Jody Goldberg <jody@gnome.org>
 
@@ -33,8 +41,8 @@
 	* src/sheet-control-gui.c (scg_setup_group_buttons): Match
 	item_bar_normal_font change.
 
-	* src/style.c (font_init): Don't export gnumeric_default_bold, but
-	gnumeric_default_bold_width instead.  Single user changed.
+	* src/style.c (font_init): Don't export gnumeric_default_font, but
+	gnumeric_default_font_width instead.  Single user changed.
 	(style_font_string_width): Make static.
 	(style_font_get_height): Delete.
 

@@ -30,54 +30,54 @@
 #include "sheet.h"
 
 struct LineDotPattern {
-	gint const		elements;
-	gint8 * const	pattern;
-	double * const		pattern_d;
+	const gint elements;
+	const gint8 *const pattern;
+	const double *const pattern_d;
 };
 
-static gint8 dashed_pattern[] = { 3, 1 };
-static double dashed_pattern_d[] = { 3., 1. };
-static struct LineDotPattern dashed_line =
+static const gint8 dashed_pattern[] = { 3, 1 };
+static const double dashed_pattern_d[] = { 3., 1. };
+static const struct LineDotPattern dashed_line =
 { sizeof (dashed_pattern), dashed_pattern, dashed_pattern_d };
 
-static gint8 med_dashed_pattern[] = { 9, 3 };
-static double med_dashed_pattern_d[] = { 9., 3. };
-static struct LineDotPattern med_dashed_line =
+static const gint8 med_dashed_pattern[] = { 9, 3 };
+static const double med_dashed_pattern_d[] = { 9., 3. };
+static const struct LineDotPattern med_dashed_line =
 { sizeof (med_dashed_pattern), med_dashed_pattern, med_dashed_pattern_d };
 
-static gint8 dotted_pattern[] = { 2, 2 };
-static double dotted_pattern_d[] = { 2., 2. };
-static struct LineDotPattern dotted_line =
+static const gint8 dotted_pattern[] = { 2, 2 };
+static const double dotted_pattern_d[] = { 2., 2. };
+static const struct LineDotPattern dotted_line =
 { sizeof (dotted_pattern), dotted_pattern, dotted_pattern_d };
 
-static gint8 hair_pattern[] = { 1, 1 };
-static double hair_pattern_d[] = { 1., 1. };
-static struct LineDotPattern hair_line =
+static const gint8 hair_pattern[] = { 1, 1 };
+static const double hair_pattern_d[] = { 1., 1. };
+static const struct LineDotPattern hair_line =
 { sizeof (hair_pattern), hair_pattern, hair_pattern_d };
 
-static gint8 dash_dot_pattern[] = { 8, 3, 3, 3 };
-static double dash_dot_pattern_d[] = { 8., 3., 3., 3. };
-static struct LineDotPattern dash_dot_line =
+static const gint8 dash_dot_pattern[] = { 8, 3, 3, 3 };
+static const double dash_dot_pattern_d[] = { 8., 3., 3., 3. };
+static const struct LineDotPattern dash_dot_line =
 { sizeof (dash_dot_pattern), dash_dot_pattern, dash_dot_pattern_d };
 
-static gint8 med_dash_dot_pattern[] = { 9, 3, 3, 3 };
-static double med_dash_dot_pattern_d[] = { 9., 3., 3., 3. };
-static struct LineDotPattern med_dash_dot_line =
+static const gint8 med_dash_dot_pattern[] = { 9, 3, 3, 3 };
+static const double med_dash_dot_pattern_d[] = { 9., 3., 3., 3. };
+static const struct LineDotPattern med_dash_dot_line =
 { sizeof (med_dash_dot_pattern), med_dash_dot_pattern, med_dash_dot_pattern_d };
 
-static gint8 dash_dot_dot_pattern[] = { 3, 3, 9, 3, 3, 3 };
-static double dash_dot_dot_pattern_d[] = { 3., 3., 9., 3., 3., 3. };
-static struct LineDotPattern dash_dot_dot_line =
+static const gint8 dash_dot_dot_pattern[] = { 3, 3, 9, 3, 3, 3 };
+static const double dash_dot_dot_pattern_d[] = { 3., 3., 9., 3., 3., 3. };
+static const struct LineDotPattern dash_dot_dot_line =
 { sizeof (dash_dot_dot_pattern), dash_dot_dot_pattern, dash_dot_dot_pattern_d };
 
-static gint8 med_dash_dot_dot_pattern[] = { 3, 3, 3, 3, 9, 3 };
-static double med_dash_dot_dot_pattern_d[] = { 3., 3., 3., 3., 9., 3. };
-static struct LineDotPattern med_dash_dot_dot_line =
+static const gint8 med_dash_dot_dot_pattern[] = { 3, 3, 3, 3, 9, 3 };
+static const double med_dash_dot_dot_pattern_d[] = { 3., 3., 3., 3., 9., 3. };
+static const struct LineDotPattern med_dash_dot_dot_line =
 { sizeof (med_dash_dot_dot_pattern), med_dash_dot_dot_pattern, med_dash_dot_dot_pattern_d };
 
-static gint8 slant_pattern[] = { 11, 1, 5, 1 };
-static double slant_pattern_d[] = { 11., 1., 5., 1. };
-static struct LineDotPattern slant_line =
+static const gint8 slant_pattern[] = { 11, 1, 5, 1 };
+static const double slant_pattern_d[] = { 11., 1., 5., 1. };
+static const struct LineDotPattern slant_line =
 { sizeof (slant_pattern), slant_pattern, slant_pattern_d };
 
 struct {
@@ -134,11 +134,6 @@ style_border_hash (gconstpointer v)
 	 */
  	return (((unsigned)b->color) ^ b->line_type);
 }
-
-#if 0
-	g_hash_table_destroy (border_hash);
-	border_hash = NULL;
-#endif
 
 StyleBorder *
 style_border_none (void)
@@ -314,12 +309,11 @@ style_border_set_gc_dash (GdkGC *gc, StyleBorderType const i)
 			style_border_data[i].pattern;
 
 		gdk_gc_set_dashes (gc, style_border_data[i].offset,
-				   pat->pattern, pat->elements);
+				   (gint8 *)pat->pattern, pat->elements);
 	}
 
 	/* The background should never be drawn */
 	gdk_gc_set_rgb_bg_color (gc, &gs_white);
-	/* g_print ("A\n"); */
 }
 
 static inline GdkGC *
@@ -340,7 +334,6 @@ style_border_get_gc (StyleBorder const *border, GdkDrawable *drawable)
 		g_object_ref (this_screen);
 		style_border_set_gc_dash (border->gc, border->line_type);
 		gdk_gc_set_rgb_fg_color (border->gc, &border->color->color);
-		/* g_print ("C\n"); */
 	}
 
 	return border->gc;

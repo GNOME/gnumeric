@@ -34,7 +34,6 @@ StyleFormat   *style_format_default_time	(void);
 StyleFormat   *style_format_default_percentage	(void);
 StyleFormat   *style_format_default_money	(void);
 
-void   format_destroy (StyleFormat *format);
 char  *format_value   (StyleFormat const *format, Value const *value, StyleColor **color,
 		       double col_width, GnmDateConventions const *date_conv);
 void   format_value_gstring (GString *result, StyleFormat const *format,
