@@ -28,7 +28,7 @@ GNOME_Gnumeric.server.in : GNOME_Gnumeric.server.in.in
 @INTLTOOL_SERVER_RULE@
 
 CLEANFILES = intltool-extract intltool-merge intltool-update \
-	 $(server_in_files) $(server_DATA)
+	 $(server_in_files)
 
 EXTRA_DIST = \
 	gnumeric.desktop.in gnumeric.spec.in GNOME_Gnumeric.server.in.in\

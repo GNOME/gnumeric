@@ -473,7 +473,7 @@ gnm_pane_object_move (SheetControlGUI *scg, SheetObject *so,
 		      GtkObject *ctrl_pt,
 		      gdouble new_x, gdouble new_y)
 {
-	int i, idx = GPOINTER_TO_INT (gtk_object_get_user_data (ctrl_pt));
+	int i, idx = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (ctrl_pt), "index"));
 	double new_coords [4], dx, dy;
 
 	dx = new_x - scg->last_x;
@@ -577,8 +577,7 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event,
 
 	switch (event->type) {
 	case GDK_ENTER_NOTIFY: {
-		gpointer p = gtk_object_get_data (GTK_OBJECT (ctrl_pt),
-						  "cursor");
+		gpointer p = g_object_get_data (G_OBJECT (ctrl_pt), "cursor");
 		e_cursor_set_widget (ctrl_pt->canvas, GPOINTER_TO_UINT (p));
 		if (pane->control_points [8] != ctrl_pt)
 			foo_canvas_item_set (ctrl_pt,
@@ -696,8 +695,8 @@ new_control_point (GObject *so_view, int idx, double x, double y,
 		"event",
 		G_CALLBACK (cb_control_point_event), so_view);
 
-	gtk_object_set_user_data (GTK_OBJECT (item), GINT_TO_POINTER (idx));
-	gtk_object_set_data (GTK_OBJECT (item), "cursor", GINT_TO_POINTER (ct));
+	g_object_set_data (G_OBJECT (item), "index",  GINT_TO_POINTER (idx));
+	g_object_set_data (G_OBJECT (item), "cursor", GINT_TO_POINTER (ct));
 
 	return item;
 }
@@ -766,8 +765,9 @@ set_acetate_coords (GnumericPane *pane, GObject *so_view,
 		g_signal_connect (G_OBJECT (item),
 			"event",
 			G_CALLBACK (cb_control_point_event), so_view);
-		gtk_object_set_user_data (GTK_OBJECT (item), GINT_TO_POINTER (8));
-		gtk_object_set_data (GTK_OBJECT (item), "cursor",
+		g_object_set_data (G_OBJECT (item), "index",
+			GINT_TO_POINTER (8));
+		g_object_set_data (G_OBJECT (item), "cursor",
 			GINT_TO_POINTER (E_CURSOR_MOVE));
 
 		pane->control_points [8] = item;

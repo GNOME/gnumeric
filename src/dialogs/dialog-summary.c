@@ -30,7 +30,7 @@
 #include <commands.h>
 
 #include <glade/glade.h>
-
+#include <string.h>
 
 #define GLADE_FILE "summary.glade"
 #define SUMMARY_DIALOG_KEY "summary-dialog"

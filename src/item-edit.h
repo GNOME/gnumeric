@@ -9,32 +9,6 @@
 #define ITEM_EDIT_CLASS(k)      (G_TYPE_CHECK_CLASS_CAST ((k), item_edit_get_type (), ItemEditClass))
 #define IS_ITEM_EDIT(o)         (G_TYPE_CHECK_INSTANCE_TYPE((o), item_edit_get_type ()))
 
-struct _ItemEdit {
-	FooCanvasItem canvas_item;
-
-	SheetControlGUI *scg;
-	ItemGrid   	*item_grid;
-	GtkEntry   	*entry;		/* Utility pointer to the workbook entry */
-
-	/* Where are we */
-	CellPos	    pos;
-
-	StyleFont *style_font;
-	MStyle	  *style;
-	gboolean  cursor_visible;
-	int       blink_timer;
-	int       auto_entry;
-	GdkGC    *fill_gc;	/* Default background fill gc */
-
-	/*
-	 * When editing, if the cursor is inside a cell name, or a
-	 * cell range, we highlight this on the spreadsheet.
-	 */
-	FooCanvasItem *feedback_cursor;
-	Range            feedback_region;
-	gboolean         feedback_disabled;
-};
-
 GType item_edit_get_type (void);
 
 void    item_edit_disable_highlight (ItemEdit *item_edit);

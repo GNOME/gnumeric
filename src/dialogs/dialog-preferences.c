@@ -41,6 +41,7 @@
 #include <gui-util.h>
 #include <glade/glade.h>
 #include <gtk/gtk.h>
+#include <string.h>
 
 typedef struct {
 	GladeXML	*gui;
