@@ -21,6 +21,7 @@ Morten:
 	* Fix parse-utils to handle large number of columns.
 	* Reduce the number of source places that need to be changed in
 	  order to get more than 256 columns and/or 65536 rows.
+	* Fix --geometry, I hope.
 
 dorami@bu.iij4u.or.jp:
 	* Add InputMethod support for better international key support

@@ -74,12 +74,6 @@ Long term breakage
 - Audit all fixed-length buffers.  Most non-time-critical can be replaced
   by proper usage of g_strdup_printf.
 
-- Fix "-geometry" handling:
-  : When an anchor is specified (e.g., "+0+0"), the window manager should
-    not be asked to place the window.  (Under twm, for example, the user
-    typically clicks to place the window.) This already works correctly
-    under many window managers.
-
 - The autocalc label should use a more readable format and should not get
   clipped.
 

@@ -1,3 +1,8 @@
+2002-10-04  Morten Welinder  <terra@diku.dk>
+
+	* src/workbook-control-gui.c (show_gui): Adapt --geometry handling
+	to gtk2.
+
 2002-10-04  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control.c (wb_control_parse_and_jump) : use the new
