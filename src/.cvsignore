@@ -7,3 +7,4 @@ gnumeric-component
 parser.c
 gnm-marshalers.c
 gnm-marshalers.h
+test-pango
