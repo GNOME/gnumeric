@@ -1,3 +1,9 @@
+2005-01-25  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in: Initialize win32=no, in case someone has the variable
+	  in the environment.
+	  Fix the help string for --enable-ssindex.
+
 2005-01-22  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	http://bugs.debian.org/291265
