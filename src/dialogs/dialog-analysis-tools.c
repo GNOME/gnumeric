@@ -68,35 +68,35 @@ typedef struct {
 
 
 tool_list_t tools[] = {
-        { { "Anova: Single Factor", NULL },
+        { { N_("Anova: Single Factor"), NULL },
 	  dialog_anova_single_factor_tool },
-        { { "Anova: Two-Factor Without Replication", NULL },
+        { { N_("Anova: Two-Factor Without Replication"), NULL },
 	  dialog_anova_two_factor_without_r_tool },
-        { { "Correlation", NULL },
+        { { N_("Correlation"), NULL },
 	  dialog_correlation_tool },
-        { { "Covariance", NULL },
+        { { N_("Covariance"), NULL },
 	  dialog_covariance_tool },
-        { { "Descriptive Statistics", NULL },
+        { { N_("Descriptive Statistics"), NULL },
 	  dialog_descriptive_stat_tool },
-        { { "F-Test: Two-Sample for Variances", NULL }, 
+        { { N_("F-Test: Two-Sample for Variances"), NULL }, 
 	  dialog_ftest_tool },
-        { { "Moving Average", NULL },
+        { { N_("Moving Average"), NULL },
 	  dialog_average_tool },
-        { { "Random Number Generation", NULL },
+        { { N_("Random Number Generation"), NULL },
 	  dialog_random_tool },
-        { { "Rank and Percentile", NULL },
+        { { N_("Rank and Percentile"), NULL },
 	  dialog_ranking_tool },
-        { { "Regression", NULL },
+        { { N_("Regression"), NULL },
 	  dialog_regression_tool },
-        { { "Sampling", NULL },
+        { { N_("Sampling"), NULL },
 	  dialog_sampling_tool },
-        { { "t-Test: Paired Two Sample for Means", NULL }, 
+        { { N_("t-Test: Paired Two Sample for Means"), NULL }, 
 	  dialog_ttest_paired_tool },
-        { { "t-Test: Two-Sample Assuming Equal Variances", NULL }, 
+        { { N_("t-Test: Two-Sample Assuming Equal Variances"), NULL }, 
 	  dialog_ttest_eq_tool },
-        { { "t-Test: Two-Sample Assuming Unequal Variances", NULL }, 
+        { { N_("t-Test: Two-Sample Assuming Unequal Variances"), NULL }, 
 	  dialog_ttest_neq_tool },
-        { { "z-Test: Two Sample for Means", NULL },
+        { { N_("z-Test: Two Sample for Means"), NULL },
 	  dialog_ztest_tool },
 	{ { NULL, NULL }, NULL }
 };
@@ -342,16 +342,16 @@ add_output_frame(GtkWidget *box, GSList **output_ops)
 
         box = new_frame("Output options:", box);
 	*output_ops = NULL;
-	r = gtk_radio_button_new_with_label(*output_ops, "New Sheet");
+	r = gtk_radio_button_new_with_label(*output_ops, _("New Sheet"));
 	*output_ops = GTK_RADIO_BUTTON (r)->group;
 	gtk_box_pack_start_defaults (GTK_BOX (box), r);
 	/* hbox = gtk_hbox_new (FALSE, 0); */
-	r = gtk_radio_button_new_with_label(*output_ops, "New Workbook");
+	r = gtk_radio_button_new_with_label(*output_ops, _("New Workbook"));
 	*output_ops = GTK_RADIO_BUTTON (r)->group;
 	gtk_box_pack_start_defaults (GTK_BOX (box), r);
 	hbox = gtk_hbox_new (FALSE, 0);
 	r = gtk_radio_button_new_with_label(*output_ops,
-					    "Output Range:");
+					    _("Output Range:"));
 	*output_ops = GTK_RADIO_BUTTON (r)->group;
 	gtk_box_pack_start_defaults (GTK_BOX (hbox), r);
 	output_range_entry = gtk_entry_new_with_max_length (20);
@@ -370,7 +370,7 @@ add_groupped_by(GtkWidget *box)
 	int       i;
 
 	group_ops = NULL;
-	groupped_label = gtk_label_new ("Groupped By:");
+	groupped_label = gtk_label_new (_("Grouped By:"));
 	hbox = gtk_hbox_new (FALSE, 0);
 	group_box = gtk_vbox_new (FALSE, 0);
 	gtk_box_pack_start_defaults (GTK_BOX (hbox), groupped_label);
@@ -405,7 +405,7 @@ dialog_correlation_tool(Workbook *wb, Sheet *sheet)
 	label_row_flag = labels;
 
 	if (!dialog) {
-	        dialog = new_dialog("Correlation", wb->toplevel);
+	        dialog = new_dialog(_("Correlation"), wb->toplevel);
 
 		box = gtk_vbox_new (FALSE, 0);
 
@@ -415,7 +415,7 @@ dialog_correlation_tool(Workbook *wb, Sheet *sheet)
 		box = new_frame("Input:", box);
 
 		range_entry = hbox_pack_label_and_entry
-		  ("Input Range:", "", 20, box);
+		  (_("Input Range:"), "", 20, box);
 
 		group_ops = add_groupped_by(box);
 
@@ -450,8 +450,8 @@ correlation_dialog_loop:
 			  &range.end_col,
 			  &range.end_row)) {
 	        error_in_entry(wb, range_entry, 
-			       "You should introduce a valid cell range "
-			       "in 'Range:'");
+			       _("You should introduce a valid cell range "
+			       "in 'Range:'"));
 		goto correlation_dialog_loop;
 	}
 
@@ -486,17 +486,17 @@ dialog_covariance_tool(Workbook *wb, Sheet *sheet)
 	label_row_flag = labels;
 
 	if (!dialog) {
-	        dialog = new_dialog("Covariance", wb->toplevel);
+	        dialog = new_dialog(_("Covariance"), wb->toplevel);
 
 		box = gtk_vbox_new (FALSE, 0);
 
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
 						      (dialog)->vbox), box);
 
-		box = new_frame("Input:", box);
+		box = new_frame(_("Input:"), box);
 
 		range_entry = hbox_pack_label_and_entry
-		  ("Input Range:", "", 20, box);
+		  (_("Input Range:"), "", 20, box);
 
 		group_ops = add_groupped_by(box);
 		add_check_buttons(box, label_button);
@@ -530,8 +530,8 @@ covariance_dialog_loop:
 			  &range.end_col,
 			  &range.end_row)) {
 	        error_in_entry(wb, range_entry, 
-			       "You should introduce a valid cell range "
-			       "in 'Range:'");
+			       _("You should introduce a valid cell range "
+			       "in 'Range:'"));
 		goto covariance_dialog_loop;
 	}
 
@@ -563,19 +563,19 @@ dialog_sampling_tool(Workbook *wb, Sheet *sheet)
 	int   i=0, size;
 
 	if (!dialog) {
-	        dialog = new_dialog("Sampling", wb->toplevel);
+	        dialog = new_dialog(_("Sampling"), wb->toplevel);
 
 		box = gtk_vbox_new (FALSE, 0);
 
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
 						      (dialog)->vbox), box);
 
-		box = new_frame("Input:", box);
+		box = new_frame(_("Input:"), box);
 
 		range_entry = hbox_pack_label_and_entry
-		  ("Input Range:", "", 20, box);
+		  (_("Input Range:"), "", 20, box);
 
-		sampling_label = gtk_label_new ("Sampling Method:");
+		sampling_label = gtk_label_new (_("Sampling Method:"));
 
 		gtk_box_pack_start_defaults(GTK_BOX (box), sampling_label);
 
@@ -587,10 +587,10 @@ dialog_sampling_tool(Workbook *wb, Sheet *sheet)
 			GtkWidget *label, *r;
 
 			if (i==0)
-			        label = gtk_label_new ("Period:");
+			        label = gtk_label_new (_("Period:"));
 			else
 			        label =
-				  gtk_label_new ("Number of Samples:");
+				  gtk_label_new (_("Number of Samples:"));
 			sampling_entry[i] =
 			        gtk_entry_new_with_max_length (20);
 			r = gtk_radio_button_new_with_label
@@ -634,8 +634,8 @@ sampling_dialog_loop:
 			  &range.end_col,
 			  &range.end_row)) {
 	        error_in_entry(wb, range_entry, 
-			       "You should introduce a valid cell range "
-			       "in 'Range:'");
+			       _("You should introduce a valid cell range "
+			       "in 'Range:'"));
 		goto sampling_dialog_loop;
 	}
 
@@ -674,17 +674,17 @@ dialog_descriptive_stat_tool(Workbook *wb, Sheet *sheet)
 	label_row_flag = labels;
 
 	if (!dialog) {
-	        dialog = new_dialog("Descriptive Statistics", wb->toplevel);
+	        dialog = new_dialog(_("Descriptive Statistics"), wb->toplevel);
 
 		box = gtk_vbox_new (FALSE, 0);
 
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
 						      (dialog)->vbox), box);
 
-		box = new_frame("Input:", box);
+		box = new_frame(_("Input:"), box);
 
 		range_entry = hbox_pack_label_and_entry
-		  ("Input Range:", "", 20, box);
+		  (_("Input Range:"), "", 20, box);
 
 		group_ops = add_groupped_by(box);
 		add_check_buttons(box, first_row_label_button);
@@ -724,8 +724,8 @@ stat_dialog_loop:
 			  &range.end_col,
 			  &range.end_row)) {
 	        error_in_entry(wb, range_entry, 
-			       "You should introduce a valid cell range "
-			       "in 'Range:'");
+			       _("You should introduce a valid cell range "
+			       "in 'Range:'"));
 		goto stat_dialog_loop;
 	}
 
@@ -770,7 +770,7 @@ dialog_ztest_tool(Workbook *wb, Sheet *sheet)
 	label_row_flag = labels;
 
 	if (!dialog) {
-	        dialog = new_dialog("z-Test: Two Sample for Means",
+	        dialog = new_dialog(_("z-Test: Two Sample for Means"),
 				    wb->toplevel);
 
 		box = gtk_vbox_new (FALSE, 0);
@@ -778,24 +778,24 @@ dialog_ztest_tool(Workbook *wb, Sheet *sheet)
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
 						      (dialog)->vbox), box);
 
-		box = new_frame("Input:", box);
+		box = new_frame(_("Input:"), box);
 
 		range1_entry = hbox_pack_label_and_entry
-		  ("Variable 1 Range:", "", 20, box);
+		  (_("Variable 1 Range:"), "", 20, box);
 
 		range2_entry = hbox_pack_label_and_entry
-		  ("Variable 2 Range:", "", 20, box);
+		  (_("Variable 2 Range:"), "", 20, box);
 
 		mean_diff_entry = hbox_pack_label_and_entry
-		  ("Hypothesized Mean Difference:", "0", 20, box);
+		  (_("Hypothesized Mean Difference:"), "0", 20, box);
 
 		known_var1_entry = hbox_pack_label_and_entry
-		  ("Variable 1 Variance (known):", "", 20, box);
+		  (_("Variable 1 Variance (known):"), "", 20, box);
 
 		known_var2_entry = hbox_pack_label_and_entry
-		  ("Variable 2 Variance (known):", "", 20, box);
+		  (_("Variable 2 Variance (known):"), "", 20, box);
 
-		alpha_entry = hbox_pack_label_and_entry("Alpha:", "0.95",
+		alpha_entry = hbox_pack_label_and_entry(_("Alpha:"), "0.95",
 							20, box);
 		add_check_buttons(box, first_row_label_button);
 
@@ -827,8 +827,8 @@ ztest_dialog_loop:
 			  &range_input1.end_col,
 			  &range_input1.end_row)) {
 	        error_in_entry(wb, range1_entry, 
-			       "You should introduce a valid cell range "
-			       "in 'Variable 1:'");
+			       _("You should introduce a valid cell range "
+			       "in 'Variable 1:'"));
 		goto ztest_dialog_loop;
 	}
 
@@ -838,8 +838,8 @@ ztest_dialog_loop:
 			  &range_input2.end_col,
 			  &range_input2.end_row)) {
 	        error_in_entry(wb, range2_entry, 
-			       "You should introduce a valid cell range "
-			       "in 'Variable 2:'");
+			       _("You should introduce a valid cell range "
+			       "in 'Variable 2:'"));
 		goto ztest_dialog_loop;
 	}
 	text = gtk_entry_get_text (GTK_ENTRY (mean_diff_entry));
@@ -887,7 +887,7 @@ dialog_ttest_paired_tool(Workbook *wb, Sheet *sheet)
 	label_row_flag = labels;
 
 	if (!dialog) {
-	        dialog = new_dialog("t-Test: Paired Two Sample for Means",
+	        dialog = new_dialog(_("t-Test: Paired Two Sample for Means"),
 				    wb->toplevel);
 
 		box = gtk_vbox_new (FALSE, 0);
@@ -895,18 +895,18 @@ dialog_ttest_paired_tool(Workbook *wb, Sheet *sheet)
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
 						      (dialog)->vbox), box);
 
-		box = new_frame("Input:", box);
+		box = new_frame(_("Input:"), box);
 
 		range1_entry = hbox_pack_label_and_entry
-		  ("Variable 1 Range:", "", 20, box);
+		  (_("Variable 1 Range:"), "", 20, box);
 
 		range2_entry = hbox_pack_label_and_entry
-		  ("Variable 2 Range:", "", 20, box);
+		  (_("Variable 2 Range:"), "", 20, box);
 
 		mean_diff_entry = hbox_pack_label_and_entry
-		  ("Hypothesized Mean Difference:", "0", 20, box);
+		  (_("Hypothesized Mean Difference:"), "0", 20, box);
 
-		alpha_entry = hbox_pack_label_and_entry("Alpha:", "0.95",
+		alpha_entry = hbox_pack_label_and_entry(_("Alpha:"), "0.95",
 							20, box);
 		add_check_buttons(box, first_row_label_button);
 
@@ -938,8 +938,8 @@ ttest_dialog_loop:
 			  &range_input1.end_col,
 			  &range_input1.end_row)) {
 	        error_in_entry(wb, range1_entry, 
-			       "You should introduce a valid cell range "
-			       "in 'Variable 1:'");
+			       _("You should introduce a valid cell range "
+			       "in 'Variable 1:'"));
 		goto ttest_dialog_loop;
 	}
 
@@ -949,8 +949,8 @@ ttest_dialog_loop:
 			  &range_input2.end_col,
 			  &range_input2.end_row)) {
 	        error_in_entry(wb, range2_entry, 
-			       "You should introduce a valid cell range "
-			       "in 'Variable 2:'");
+			       _("You should introduce a valid cell range "
+			       "in 'Variable 2:'"));
 		goto ttest_dialog_loop;
 	}
 	text = gtk_entry_get_text (GTK_ENTRY (mean_diff_entry));
@@ -992,8 +992,7 @@ dialog_ttest_eq_tool(Workbook *wb, Sheet *sheet)
 	label_row_flag = labels;
 
 	if (!dialog) {
-	        dialog = new_dialog("t-Test: Two-Sample Assuming "
-				    "Equal Variances",
+	        dialog = new_dialog(_("t-Test: Two-Sample Assuming Equal Variances"),
 				    wb->toplevel);
 
 		box = gtk_vbox_new (FALSE, 0);
@@ -1001,18 +1000,18 @@ dialog_ttest_eq_tool(Workbook *wb, Sheet *sheet)
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
 						      (dialog)->vbox), box);
 
-		box = new_frame("Input:", box);
+		box = new_frame(_("Input:"), box);
 
 		range1_entry = hbox_pack_label_and_entry
-		  ("Variable 1 Range:", "", 20, box);
+		  (_("Variable 1 Range:"), "", 20, box);
 
 		range2_entry = hbox_pack_label_and_entry
-		  ("Variable 2 Range:", "", 20, box);
+		  (_("Variable 2 Range:"), "", 20, box);
 
 		mean_diff_entry = hbox_pack_label_and_entry
-		  ("Hypothesized Mean Difference:", "0", 20, box);
+		  (_("Hypothesized Mean Difference:"), "0", 20, box);
 
-		alpha_entry = hbox_pack_label_and_entry("Alpha:", "0.95",
+		alpha_entry = hbox_pack_label_and_entry(_("Alpha:"), "0.95",
 							20, box);
 		add_check_buttons(box, first_row_label_button);
 
@@ -1044,8 +1043,8 @@ ttest_dialog_loop:
 			  &range_input1.end_col,
 			  &range_input1.end_row)) {
 	        error_in_entry(wb, range1_entry, 
-			       "You should introduce a valid cell range "
-			       "in 'Variable 1:'");
+			       _("You should introduce a valid cell range "
+			       "in 'Variable 1:'"));
 		goto ttest_dialog_loop;
 	}
 
@@ -1055,8 +1054,8 @@ ttest_dialog_loop:
 			  &range_input2.end_col,
 			  &range_input2.end_row)) {
 	        error_in_entry(wb, range2_entry, 
-			       "You should introduce a valid cell range "
-			       "in 'Variable 2:'");
+			       _("You should introduce a valid cell range "
+			       "in 'Variable 2:'"));
 		goto ttest_dialog_loop;
 	}
 	text = gtk_entry_get_text (GTK_ENTRY (mean_diff_entry));
@@ -1098,8 +1097,8 @@ dialog_ttest_neq_tool(Workbook *wb, Sheet *sheet)
 	label_row_flag = labels;
 
 	if (!dialog) {
-	        dialog = new_dialog("t-Test: Two-Sample Assuming "
-				    "Unequal Variances",
+	        dialog = new_dialog(_("t-Test: Two-Sample Assuming "
+				    "Unequal Variances"),
 				    wb->toplevel);
 
 		box = gtk_vbox_new (FALSE, 0);
@@ -1107,18 +1106,18 @@ dialog_ttest_neq_tool(Workbook *wb, Sheet *sheet)
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
 						      (dialog)->vbox), box);
 
-		box = new_frame("Input:", box);
+		box = new_frame(_("Input:"), box);
 
 		range1_entry = hbox_pack_label_and_entry
-		  ("Variable 1 Range:", "", 20, box);
+		  (_("Variable 1 Range:"), "", 20, box);
 
 		range2_entry = hbox_pack_label_and_entry
-		  ("Variable 2 Range:", "", 20, box);
+		  (_("Variable 2 Range:"), "", 20, box);
 
 		mean_diff_entry = hbox_pack_label_and_entry
-		  ("Hypothesized Mean Difference:", "0", 20, box);
+		  (_("Hypothesized Mean Difference:"), "0", 20, box);
 
-		alpha_entry = hbox_pack_label_and_entry("Alpha:", "0.95",
+		alpha_entry = hbox_pack_label_and_entry(_("Alpha:"), "0.95",
 							20, box);
 		add_check_buttons(box, first_row_label_button);
 
@@ -1150,8 +1149,8 @@ ttest_dialog_loop:
 			  &range_input1.end_col,
 			  &range_input1.end_row)) {
 	        error_in_entry(wb, range1_entry, 
-			       "You should introduce a valid cell range "
-			       "in 'Variable 1:'");
+			       _("You should introduce a valid cell range "
+			       "in 'Variable 1:'"));
 		goto ttest_dialog_loop;
 	}
 
@@ -1161,8 +1160,8 @@ ttest_dialog_loop:
 			  &range_input2.end_col,
 			  &range_input2.end_row)) {
 	        error_in_entry(wb, range2_entry, 
-			       "You should introduce a valid cell range "
-			       "in 'Variable 2:'");
+			       _("You should introduce a valid cell range "
+			       "in 'Variable 2:'"));
 		goto ttest_dialog_loop;
 	}
 	text = gtk_entry_get_text (GTK_ENTRY (mean_diff_entry));
@@ -1202,7 +1201,7 @@ dialog_ftest_tool(Workbook *wb, Sheet *sheet)
 	static Range range_input1, range_input2;
 
 	if (!dialog) {
-	        dialog = new_dialog("F-Test: Two-Sample for Variances",
+	        dialog = new_dialog(_("F-Test: Two-Sample for Variances"),
 				    wb->toplevel);
 
 		box = gtk_vbox_new (FALSE, 0);
@@ -1212,12 +1211,12 @@ dialog_ftest_tool(Workbook *wb, Sheet *sheet)
 						      (dialog)->vbox), box);
 
 		range1_entry = hbox_pack_label_and_entry
-		  ("Variable 1 Range:", "", 20, vbox);
+		  (_("Variable 1 Range:"), "", 20, vbox);
 
 		range2_entry = hbox_pack_label_and_entry
-		  ("Variable 2 Range:", "", 20, vbox);
+		  (_("Variable 2 Range:"), "", 20, vbox);
 
-		alpha_entry = hbox_pack_label_and_entry("Alpha:", "0.95",
+		alpha_entry = hbox_pack_label_and_entry(_("Alpha:"), "0.95",
 							20, vbox);
 
 		add_check_buttons(vbox, first_row_label_button);
@@ -1250,8 +1249,8 @@ ftest_dialog_loop:
 			  &range_input1.end_col,
 			  &range_input1.end_row)) {
 	        error_in_entry(wb, range1_entry, 
-			       "You should introduce a valid cell range "
-			       "in 'Variable 1:'");
+			       _("You should introduce a valid cell range "
+			       "in 'Variable 1:'"));
 		goto ftest_dialog_loop;
 	}
 
@@ -1261,8 +1260,8 @@ ftest_dialog_loop:
 			  &range_input2.end_col,
 			  &range_input2.end_row)) {
 	        error_in_entry(wb, range2_entry, 
-			       "You should introduce a valid cell range "
-			       "in 'Variable 2:'");
+			       _("You should introduce a valid cell range "
+			       "in 'Variable 2:'"));
 		goto ftest_dialog_loop;
 	}
 
@@ -1326,16 +1325,16 @@ distribution_callback(GtkWidget *widget, random_tool_callback_t *p)
 
         text = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(p->combo)->entry));
 
-	if (strcmp(text, "Uniform") == 0) {
+	if (strcmp(text, _("Uniform")) == 0) {
 	        distribution = UniformDistribution;
 		gtk_widget_show (p->uniform_box);
-	} else if (strcmp(text, "Bernoulli") == 0) {
+	} else if (strcmp(text, _("Bernoulli")) == 0) {
 	        distribution = BernoulliDistribution;
 		gtk_widget_show (p->bernoulli_box);
-	} else if (strcmp(text, "Normal") == 0) {
+	} else if (strcmp(text, _("Normal")) == 0) {
 	        distribution = NormalDistribution;
 		gtk_widget_show (p->normal_box);
-	} else if (strcmp(text, "Discrete") == 0) {
+	} else if (strcmp(text, _("Discrete")) == 0) {
 	        distribution = DiscreteDistribution;
 		gtk_widget_show (p->discrete_box);
 	}
@@ -1366,7 +1365,7 @@ dialog_random_tool(Workbook *wb, Sheet *sheet)
 	int   output;
 
 	if (!dialog) {
-	        dialog = new_dialog("Random Number Generation", wb->toplevel);
+	        dialog = new_dialog(_("Random Number Generation"), wb->toplevel);
 
 	        distribution_type_strs =
 		  add_strings_to_glist (distribution_strs);
@@ -1377,10 +1376,10 @@ dialog_random_tool(Workbook *wb, Sheet *sheet)
 						      (dialog)->vbox), box);
 
 		vars_entry = hbox_pack_label_and_entry
-		  ("Number of Variables:", "", 20, box);
+		  (_("Number of Variables:"), "", 20, box);
 	
 		count_entry = hbox_pack_label_and_entry
-		  ("Number of Random Numbers:", "", 20, box);
+		  (_("Number of Random Numbers:"), "", 20, box);
 
 		distribution_combo = gtk_combo_new ();
 		gtk_combo_set_popdown_strings (GTK_COMBO (distribution_combo),
@@ -1391,7 +1390,7 @@ dialog_random_tool(Workbook *wb, Sheet *sheet)
 						      (dialog)->vbox),
 					     distribution_combo);
 
-		param_box = new_frame("Parameters:", box);
+		param_box = new_frame(_("Parameters:"), box);
 
 		callback_data.dialog = dialog;
 		callback_data.frame = param_box;
@@ -1404,30 +1403,30 @@ dialog_random_tool(Workbook *wb, Sheet *sheet)
 
 		callback_data.discrete_box = gtk_vbox_new (FALSE, 0);
 		discrete_range_entry = pack_label_and_entry
-		  ("Value and Probability Input Range:", "", 20,
+		  (_("Value and Probability Input Range:"), "", 20,
 		   callback_data.discrete_box);
 
 		callback_data.uniform_box = gtk_vbox_new (FALSE, 0);
 		uniform_lower_entry = 
-		  pack_label_and_entry("Between:", "0", 20,
+		  pack_label_and_entry(_("Between:"), "0", 20,
 				       callback_data.uniform_box);
 		uniform_upper_entry = 
-		  pack_label_and_entry("And:", "1", 20, 
+		  pack_label_and_entry(_("And:"), "1", 20, 
 				       callback_data.uniform_box);
 
 		callback_data.normal_box = gtk_vbox_new (FALSE, 0);
 		normal_mean_entry = pack_label_and_entry
-		  ("Mean = ", "0", 20, callback_data.normal_box);
+		  (_("Mean = "), "0", 20, callback_data.normal_box);
 		normal_stdev_entry = pack_label_and_entry
-		  ("Standard Deviation = ", "1", 20, callback_data.normal_box);
+		  (_("Standard Deviation = "), "1", 20, callback_data.normal_box);
 
 		callback_data.poisson_box = gtk_vbox_new (FALSE, 0);
 		poisson_lambda_entry = pack_label_and_entry
-		  ("Lambda", "0", 20, callback_data.poisson_box);
+		  (_("Lambda"), "0", 20, callback_data.poisson_box);
 
 		callback_data.bernoulli_box = gtk_vbox_new (FALSE, 0);
 		bernoulli_p_entry = pack_label_and_entry
-		  ("p Value", "0", 20, callback_data.bernoulli_box);
+		  (_("p Value"), "0", 20, callback_data.bernoulli_box);
 
 		box = gtk_vbox_new (FALSE, 0);
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
@@ -1498,23 +1497,23 @@ random_dialog_loop:
 
         text = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO
 					    (distribution_combo)->entry));
-	if (strcmp(text, "Uniform") == 0) {
+	if (strcmp(text, _("Uniform")) == 0) {
 	        distribution = UniformDistribution;
 		text = gtk_entry_get_text (GTK_ENTRY (uniform_lower_entry));
 		param.uniform.lower_limit = atof(text);
 		text = gtk_entry_get_text (GTK_ENTRY (uniform_upper_entry));
 		param.uniform.upper_limit = atof(text);
-	} else if (strcmp(text, "Normal") == 0) {
+	} else if (strcmp(text, _("Normal")) == 0) {
 	        distribution = NormalDistribution;
 		text = gtk_entry_get_text (GTK_ENTRY (normal_mean_entry));
 		param.normal.mean = atof(text);
 		text = gtk_entry_get_text (GTK_ENTRY (normal_stdev_entry));
 		param.normal.stdev = atof(text);
-	} else if (strcmp(text, "Bernoulli") == 0) {
+	} else if (strcmp(text, _("Bernoulli")) == 0) {
 	        distribution = BernoulliDistribution;
 		text = gtk_entry_get_text (GTK_ENTRY (bernoulli_p_entry));
 		param.bernoulli.p = atof(text);
-	} else if (strcmp(text, "Discrete") == 0) {
+	} else if (strcmp(text, _("Discrete")) == 0) {
 	        distribution = DiscreteDistribution;
 		text = gtk_entry_get_text (GTK_ENTRY (discrete_range_entry));
 		if (!parse_range (text, &param.discrete.start_col,
@@ -1522,9 +1521,9 @@ random_dialog_loop:
 			  &param.discrete.end_col,
 			  &param.discrete.end_row)) {
 		        error_in_entry(wb, discrete_range_entry, 
-				       "You should introduce a valid cell "
+				       _("You should introduce a valid cell "
 				       "range in 'Value and Probability Input "
-				       "Range:'");
+				       "Range:'"));
 			goto random_dialog_loop;
 		}
 	} else
@@ -1557,21 +1556,21 @@ dialog_regression_tool(Workbook *wb, Sheet *sheet)
 	static Range range_input1, range_input2;
 
 	if (!dialog) {
-	        dialog = new_dialog("Regression", wb->toplevel);
+	        dialog = new_dialog(_("Regression"), wb->toplevel);
 
 		box = gtk_vbox_new (FALSE, 0);
-		vbox = new_frame("Input:", box);
+		vbox = new_frame(_("Input:"), box);
 
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
 						      (dialog)->vbox), box);
 
 		range1_entry = hbox_pack_label_and_entry
-		  ("Input Y Range:", "", 20, vbox);
+		  (_("Input Y Range:"), "", 20, vbox);
 
 		range2_entry = hbox_pack_label_and_entry
-		  ("Input X Range:", "", 20, vbox);
+		  (_("Input X Range:"), "", 20, vbox);
 
-		alpha_entry = hbox_pack_label_and_entry("Confidence Level:",
+		alpha_entry = hbox_pack_label_and_entry(_("Confidence Level:"),
 							"0.95", 20, vbox);
 
 		add_check_buttons(vbox, first_row_label_button);
@@ -1604,8 +1603,8 @@ dialog_loop:
 			  &range_input1.end_col,
 			  &range_input1.end_row)) {
 	        error_in_entry(wb, range1_entry, 
-			       "You should introduce a valid cell range "
-			       "in 'Variable 1:'");
+			       _("You should introduce a valid cell range "
+			       "in 'Variable 1:'"));
 		goto dialog_loop;
 	}
 
@@ -1615,8 +1614,8 @@ dialog_loop:
 			  &range_input2.end_col,
 			  &range_input2.end_row)) {
 	        error_in_entry(wb, range2_entry, 
-			       "You should introduce a valid cell range "
-			       "in 'Variable 2:'");
+			       _("You should introduce a valid cell range "
+			       "in 'Variable 2:'"));
 		goto dialog_loop;
 	}
 
@@ -1657,18 +1656,18 @@ dialog_average_tool(Workbook *wb, Sheet *sheet)
 	static Range range;
 
 	if (!dialog) {
-	        dialog = new_dialog("Moving Average", wb->toplevel);
+	        dialog = new_dialog(_("Moving Average"), wb->toplevel);
 
 		box = gtk_vbox_new (FALSE, 0);
-		vbox = new_frame("Input:", box);
+		vbox = new_frame(_("Input:"), box);
 
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
 						      (dialog)->vbox), box);
 
 		range_entry = hbox_pack_label_and_entry
-		  ("Input Range:", "", 20, vbox);
+		  (_("Input Range:"), "", 20, vbox);
 
-		interval_entry = hbox_pack_label_and_entry("Interval:", "3",
+		interval_entry = hbox_pack_label_and_entry(_("Interval:"), "3",
 							   20, vbox);
 
 		add_check_buttons(vbox, first_row_label_button);
@@ -1703,8 +1702,8 @@ dialog_loop:
 			  &range.end_col,
 			  &range.end_row)) {
 	        error_in_entry(wb, range_entry, 
-			       "You should introduce a valid cell range "
-			       "in 'Range Input:'");
+			       _("You should introduce a valid cell range "
+			       "in 'Range Input:'"));
 		goto dialog_loop;
 	}
 
@@ -1747,17 +1746,17 @@ dialog_ranking_tool(Workbook *wb, Sheet *sheet)
 	label_row_flag = labels;
 
 	if (!dialog) {
-	        dialog = new_dialog("Rank and Percentile", wb->toplevel);
+	        dialog = new_dialog(_("Rank and Percentile"), wb->toplevel);
 
 		box = gtk_vbox_new (FALSE, 0);
 
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
 						      (dialog)->vbox), box);
 
-		box = new_frame("Input:", box);
+		box = new_frame(_("Input:"), box);
 
 		range_entry = hbox_pack_label_and_entry
-		  ("Input Range:", "", 20, box);
+		  (_("Input Range:"), "", 20, box);
 
 		group_ops = add_groupped_by(box);
 
@@ -1792,8 +1791,8 @@ dialog_loop:
 			  &range.end_col,
 			  &range.end_row)) {
 	        error_in_entry(wb, range_entry, 
-			       "You should introduce a valid cell range "
-			       "in 'Range:'");
+			       _("You should introduce a valid cell range "
+			       "in 'Range:'"));
 		goto dialog_loop;
 	}
 
@@ -1830,21 +1829,21 @@ dialog_anova_single_factor_tool(Workbook *wb, Sheet *sheet)
 	label_row_flag = labels;
 
 	if (!dialog) {
-	        dialog = new_dialog("Anova: Single Factor", wb->toplevel);
+	        dialog = new_dialog(_("Anova: Single Factor"), wb->toplevel);
 
 		box = gtk_vbox_new (FALSE, 0);
 
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
 						      (dialog)->vbox), box);
 
-		box = new_frame("Input:", box);
+		box = new_frame(_("Input:"), box);
 
 		range_entry = hbox_pack_label_and_entry
-		  ("Input Range:", "", 20, box);
+		  (_("Input Range:"), "", 20, box);
 
 		group_ops = add_groupped_by(box);
 
-		alpha_entry = hbox_pack_label_and_entry("Alpha:", "0.95",
+		alpha_entry = hbox_pack_label_and_entry(_("Alpha:"), "0.95",
 							20, box);
 		add_check_buttons(box, label_button);
 
@@ -1877,8 +1876,8 @@ dialog_loop:
 			  &range.end_col,
 			  &range.end_row)) {
 	        error_in_entry(wb, range_entry, 
-			       "You should introduce a valid cell range "
-			       "in 'Range:'");
+			       _("You should introduce a valid cell range "
+			       "in 'Range:'"));
 		goto dialog_loop;
 	}
 
@@ -1918,7 +1917,7 @@ dialog_anova_two_factor_without_r_tool(Workbook *wb, Sheet *sheet)
 	label_row_flag = labels;
 
 	if (!dialog) {
-	        dialog = new_dialog("Anova: Two-Factor Without Replication",
+	        dialog = new_dialog(_("Anova: Two-Factor Without Replication"),
 				    wb->toplevel);
 
 		box = gtk_vbox_new (FALSE, 0);
@@ -1926,12 +1925,12 @@ dialog_anova_two_factor_without_r_tool(Workbook *wb, Sheet *sheet)
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
 						      (dialog)->vbox), box);
 
-		box = new_frame("Input:", box);
+		box = new_frame(_("Input:"), box);
 
 		range_entry = hbox_pack_label_and_entry
-		  ("Input Range:", "", 20, box);
+		  (_("Input Range:"), "", 20, box);
 
-		alpha_entry = hbox_pack_label_and_entry("Alpha:", "0.95",
+		alpha_entry = hbox_pack_label_and_entry(_("Alpha:"), "0.95",
 							20, box);
 		add_check_buttons(box, label_button);
 
@@ -1963,8 +1962,8 @@ dialog_loop:
 			  &range.end_col,
 			  &range.end_row)) {
 	        error_in_entry(wb, range_entry, 
-			       "You should introduce a valid cell range "
-			       "in 'Range:'");
+			       _("You should introduce a valid cell range "
+			       "in 'Range:'"));
 		goto dialog_loop;
 	}
 
@@ -2013,7 +2012,7 @@ dialog_data_analysis (Workbook *wb, Sheet *sheet)
 		gnome_dialog_close_hides (GNOME_DIALOG (dialog), TRUE);
 
 		box = gtk_vbox_new (FALSE, 0);
-		main_label = gtk_label_new("Analysis Tools");
+		main_label = gtk_label_new(_("Analysis Tools"));
                 gtk_misc_set_alignment (GTK_MISC(main_label), 0,0);
  		gtk_box_pack_start_defaults (GTK_BOX (box), main_label);
 

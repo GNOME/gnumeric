@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
-"POT-Creation-Date: 1999-09-08 11:27+0200\n"
+"POT-Creation-Date: 1999-09-08 17:31+0200\n"
 "PO-Revision-Date: 1998-08-01 13:46+0202\n"
 "Last-Translator: Vincent Renardias <vincent@ldsol.com>\n"
 "Language-Team: GNOME French Team <gnomefr@gnomefr.traduc.org>\n"
@@ -474,20 +474,104 @@ msgstr "novembre"
 msgid "December"
 msgstr "décembre"
 
+#: src/dialogs/dialog-analysis-tools.c:71
+#: src/dialogs/dialog-analysis-tools.c:1833
+msgid "Anova: Single Factor"
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:73
+#: src/dialogs/dialog-analysis-tools.c:1921
+msgid "Anova: Two-Factor Without Replication"
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:75
+#: src/dialogs/dialog-analysis-tools.c:408
+msgid "Correlation"
+msgstr "Corrélation"
+
+#: src/dialogs/dialog-analysis-tools.c:77
+#: src/dialogs/dialog-analysis-tools.c:489
+msgid "Covariance"
+msgstr "Covariance"
+
+#: src/dialogs/dialog-analysis-tools.c:79
+#: src/dialogs/dialog-analysis-tools.c:677
+msgid "Descriptive Statistics"
+msgstr "Statistiques Descriptives"
+
+#: src/dialogs/dialog-analysis-tools.c:81
+#: src/dialogs/dialog-analysis-tools.c:1205
+msgid "F-Test: Two-Sample for Variances"
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:83
+#: src/dialogs/dialog-analysis-tools.c:1660
+#, fuzzy
+msgid "Moving Average"
+msgstr "Moyenne"
+
+#: src/dialogs/dialog-analysis-tools.c:85
+#: src/dialogs/dialog-analysis-tools.c:1369
+msgid "Random Number Generation"
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:87
+#: src/dialogs/dialog-analysis-tools.c:1750
+msgid "Rank and Percentile"
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:89
+#: src/dialogs/dialog-analysis-tools.c:1560
+msgid "Regression"
+msgstr "Régression"
+
+#: src/dialogs/dialog-analysis-tools.c:91
+#: src/dialogs/dialog-analysis-tools.c:566
+msgid "Sampling"
+msgstr "Échantillonage"
+
+#: src/dialogs/dialog-analysis-tools.c:93
+#: src/dialogs/dialog-analysis-tools.c:890
+msgid "t-Test: Paired Two Sample for Means"
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:95
+#: src/dialogs/dialog-analysis-tools.c:995
+msgid "t-Test: Two-Sample Assuming Equal Variances"
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:97
+#: src/dialogs/dialog-analysis-tools.c:1101
+msgid "t-Test: Two-Sample Assuming Unequal Variances"
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:99
+#: src/dialogs/dialog-analysis-tools.c:773
+msgid "z-Test: Two Sample for Means"
+msgstr ""
+
 #: src/dialogs/dialog-analysis-tools.c:106
+#: src/dialogs/dialog-analysis-tools.c:1338
+#: src/dialogs/dialog-analysis-tools.c:1517
 msgid "Discrete"
 msgstr "Discrète"
 
 #: src/dialogs/dialog-analysis-tools.c:107
+#: src/dialogs/dialog-analysis-tools.c:1335
+#: src/dialogs/dialog-analysis-tools.c:1507
 #: src/widgets/widget-font-selector.c:117
 msgid "Normal"
 msgstr "Normal"
 
 #: src/dialogs/dialog-analysis-tools.c:108
+#: src/dialogs/dialog-analysis-tools.c:1332
+#: src/dialogs/dialog-analysis-tools.c:1513
 msgid "Bernoulli"
 msgstr "Bernouille"
 
 #: src/dialogs/dialog-analysis-tools.c:109
+#: src/dialogs/dialog-analysis-tools.c:1329
+#: src/dialogs/dialog-analysis-tools.c:1501
 msgid "Uniform"
 msgstr "Uniforme"
 
@@ -549,9 +633,216 @@ msgstr "Aléatoire"
 msgid "OK"
 msgstr "OK"
 
+#: src/dialogs/dialog-analysis-tools.c:345
+msgid "New Sheet"
+msgstr "Nouvelle feuille"
+
+#. hbox = gtk_hbox_new (FALSE, 0);
+#: src/dialogs/dialog-analysis-tools.c:349
+msgid "New Workbook"
+msgstr "Nouveau classeur"
+
+#: src/dialogs/dialog-analysis-tools.c:354
+msgid "Output Range:"
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:373
+msgid "Grouped By:"
+msgstr "Groupés par :"
+
+#: src/dialogs/dialog-analysis-tools.c:418
+#: src/dialogs/dialog-analysis-tools.c:499
+#: src/dialogs/dialog-analysis-tools.c:576
+#: src/dialogs/dialog-analysis-tools.c:687
+#: src/dialogs/dialog-analysis-tools.c:1669
+#: src/dialogs/dialog-analysis-tools.c:1760
+#: src/dialogs/dialog-analysis-tools.c:1843
+#: src/dialogs/dialog-analysis-tools.c:1932
+msgid "Input Range:"
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:453
+#: src/dialogs/dialog-analysis-tools.c:533
+#: src/dialogs/dialog-analysis-tools.c:637
+#: src/dialogs/dialog-analysis-tools.c:727
+#: src/dialogs/dialog-analysis-tools.c:1795
+#: src/dialogs/dialog-analysis-tools.c:1880
+#: src/dialogs/dialog-analysis-tools.c:1966
+#, fuzzy
+msgid "You should introduce a valid cell range in 'Range:'"
+msgstr ""
+"Vous devez introduire un nom de cellule valide dans 'Affecter la cellule'"
+
+#: src/dialogs/dialog-analysis-tools.c:496
+#: src/dialogs/dialog-analysis-tools.c:573
+#: src/dialogs/dialog-analysis-tools.c:684
+#: src/dialogs/dialog-analysis-tools.c:781
+#: src/dialogs/dialog-analysis-tools.c:898
+#: src/dialogs/dialog-analysis-tools.c:1004
+#: src/dialogs/dialog-analysis-tools.c:1110
+#: src/dialogs/dialog-analysis-tools.c:1563
+#: src/dialogs/dialog-analysis-tools.c:1663
+#: src/dialogs/dialog-analysis-tools.c:1757
+#: src/dialogs/dialog-analysis-tools.c:1840
+#: src/dialogs/dialog-analysis-tools.c:1929
+msgid "Input:"
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:578
+msgid "Sampling Method:"
+msgstr "Méthode d'échantillonage :"
+
+#: src/dialogs/dialog-analysis-tools.c:590
+msgid "Period:"
+msgstr "Période :"
+
+#: src/dialogs/dialog-analysis-tools.c:593
+msgid "Number of Samples:"
+msgstr "Nombre d'échantillons :"
+
+#: src/dialogs/dialog-analysis-tools.c:784
+#: src/dialogs/dialog-analysis-tools.c:901
+#: src/dialogs/dialog-analysis-tools.c:1007
+#: src/dialogs/dialog-analysis-tools.c:1113
+#: src/dialogs/dialog-analysis-tools.c:1215
+msgid "Variable 1 Range:"
+msgstr "Intervalle de la variable 1 :"
+
+#: src/dialogs/dialog-analysis-tools.c:787
+#: src/dialogs/dialog-analysis-tools.c:904
+#: src/dialogs/dialog-analysis-tools.c:1010
+#: src/dialogs/dialog-analysis-tools.c:1116
+#: src/dialogs/dialog-analysis-tools.c:1218
+msgid "Variable 2 Range:"
+msgstr "Intervalle de la variable 2 :"
+
+#: src/dialogs/dialog-analysis-tools.c:790
+#: src/dialogs/dialog-analysis-tools.c:907
+#: src/dialogs/dialog-analysis-tools.c:1013
+#: src/dialogs/dialog-analysis-tools.c:1119
+msgid "Hypothesized Mean Difference:"
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:793
+msgid "Variable 1 Variance (known):"
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:796
+msgid "Variable 2 Variance (known):"
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:798
+#: src/dialogs/dialog-analysis-tools.c:909
+#: src/dialogs/dialog-analysis-tools.c:1015
+#: src/dialogs/dialog-analysis-tools.c:1121
+#: src/dialogs/dialog-analysis-tools.c:1220
+#: src/dialogs/dialog-analysis-tools.c:1847
+#: src/dialogs/dialog-analysis-tools.c:1934
+msgid "Alpha:"
+msgstr "Alpha :"
+
+#: src/dialogs/dialog-analysis-tools.c:830
+#: src/dialogs/dialog-analysis-tools.c:941
+#: src/dialogs/dialog-analysis-tools.c:1047
+#: src/dialogs/dialog-analysis-tools.c:1153
+#: src/dialogs/dialog-analysis-tools.c:1253
+#: src/dialogs/dialog-analysis-tools.c:1607
+#, fuzzy
+msgid "You should introduce a valid cell range in 'Variable 1:'"
+msgstr ""
+"Vous devez introduire un nom de cellule valide dans 'Affecter la cellule'"
+
+#: src/dialogs/dialog-analysis-tools.c:841
+#: src/dialogs/dialog-analysis-tools.c:952
+#: src/dialogs/dialog-analysis-tools.c:1058
+#: src/dialogs/dialog-analysis-tools.c:1164
+#: src/dialogs/dialog-analysis-tools.c:1264
+#: src/dialogs/dialog-analysis-tools.c:1618
+#, fuzzy
+msgid "You should introduce a valid cell range in 'Variable 2:'"
+msgstr ""
+"Vous devez introduire un nom de cellule valide dans 'Affecter la cellule'"
+
+#: src/dialogs/dialog-analysis-tools.c:1380
+msgid "Number of Variables:"
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:1383
+msgid "Number of Random Numbers:"
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:1394
+msgid "Parameters:"
+msgstr "Paramétres :"
+
+#: src/dialogs/dialog-analysis-tools.c:1407
+msgid "Value and Probability Input Range:"
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:1412
+msgid "Between:"
+msgstr "Entre :"
+
+#: src/dialogs/dialog-analysis-tools.c:1415
+msgid "And:"
+msgstr "Et :"
+
+#: src/dialogs/dialog-analysis-tools.c:1420
+msgid "Mean = "
+msgstr "Moyenne = "
+
+#: src/dialogs/dialog-analysis-tools.c:1422
+msgid "Standard Deviation = "
+msgstr "Déviation standard = "
+
+#: src/dialogs/dialog-analysis-tools.c:1426
+msgid "Lambda"
+msgstr "Lambda"
+
+#: src/dialogs/dialog-analysis-tools.c:1430
+#, fuzzy
+msgid "p Value"
+msgstr "Valeurs"
+
+#: src/dialogs/dialog-analysis-tools.c:1525
+#, fuzzy
+msgid ""
+"You should introduce a valid cell range in 'Value and Probability Input "
+"Range:'"
+msgstr ""
+"Vous devez introduire un nom de cellule valide dans 'En changeant la "
+"cellule:'"
+
+#: src/dialogs/dialog-analysis-tools.c:1569
+msgid "Input Y Range:"
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:1572
+msgid "Input X Range:"
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:1574
+#, fuzzy
+msgid "Confidence Level:"
+msgstr "Confiance pour la moyenne"
+
+#: src/dialogs/dialog-analysis-tools.c:1671
+msgid "Interval:"
+msgstr "Intervalle :"
+
+#: src/dialogs/dialog-analysis-tools.c:1706
+#, fuzzy
+msgid "You should introduce a valid cell range in 'Range Input:'"
+msgstr ""
+"Vous devez introduire un nom de cellule valide dans 'Affecter la cellule'"
+
 #: src/dialogs/dialog-analysis-tools.c:2009
 msgid "Data Analysis"
 msgstr "Analyse de Données"
+
+#: src/dialogs/dialog-analysis-tools.c:2016
+msgid "Analysis Tools"
+msgstr "Outils d'analyse"
 
 #: src/dialogs/dialog-cell-comment.c:25
 msgid "Cell comment"
@@ -1211,7 +1502,6 @@ msgid "_Adjust to:"
 msgstr "_Ajuster à :"
 
 #: src/dialogs/print.glade.h:13
-#, fuzzy
 msgid "_Fit to:"
 msgstr ""
 
@@ -3361,7 +3651,8 @@ msgstr ""
 "@FUNCTION=ISPMT\n"
 "@SYNTAX=ISPMT(taux,per,nper,pv)\n"
 "@DESCRIPTION=La fonction ISPMT retourne le montant des intérets payés sur\n"
-"la période donnée. Si @per < 1 ou @per > @nper, alors ISPMT retourne l'erreur\n"
+"la période donnée. Si @per < 1 ou @per > @nper, alors ISPMT retourne "
+"l'erreur\n"
 "#NUM!\n"
 "@SEEALSO=PV"
 
@@ -7678,12 +7969,10 @@ msgid "Diagonal Stripe"
 msgstr "Rayures Diagonales"
 
 #: src/gnumeric-sheet.c:1016
-#, fuzzy
 msgid "Diagonal Crosshatch"
 msgstr ""
 
 #: src/gnumeric-sheet.c:1019
-#, fuzzy
 msgid "Thick Diagonal Crosshatch"
 msgstr ""
 
@@ -7704,12 +7993,10 @@ msgid "Thin Diagonal Stripe"
 msgstr "Bande Diagonale Fine"
 
 #: src/gnumeric-sheet.c:1034
-#, fuzzy
 msgid "Thin Crosshatch"
 msgstr ""
 
 #: src/gnumeric-sheet.c:1037
-#, fuzzy
 msgid "Thin Diagonal Crosshatch"
 msgstr ""
 
@@ -8028,7 +8315,6 @@ msgid "the workbook"
 msgstr "le classeur"
 
 #: src/print-preview.c:546
-#, fuzzy
 msgid ""
 "The Print Preview feature is being developed.\n"
 "The results of the preview is not correct currently,\n"
@@ -8562,7 +8848,8 @@ msgstr "Voulez-vous vraiment enlever la feuille nommée `%s' ?"
 #: src/workbook.c:2242
 msgid "Other sheets depend on the values on this sheet; I cannot remove it."
 msgstr ""
-"D'autres feuilles dépendent de valeurs de cette feuille; je ne peux pas l'enlever."
+"D'autres feuilles dépendent de valeurs de cette feuille; je ne peux pas "
+"l'enlever."
 
 #: src/workbook.c:2262
 msgid "Add another sheet"
@@ -8584,4 +8871,3 @@ msgstr "Gnumeric: "
 #: src/xml-io.c:2033
 msgid "Old Gnumeric XML file format"
 msgstr "Ancien format de fichier Gnumeric XML"
-
