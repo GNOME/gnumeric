@@ -1596,15 +1596,21 @@ sheet_redraw_cell_region (Sheet const *sheet,
 }
 
 void
-sheet_redraw_selection (Sheet const *sheet, SheetSelection const *ss)
+sheet_redraw_range (Sheet const *sheet, Range const *range)
 {
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (ss != NULL);
+	g_return_if_fail (range != NULL);
 
 	sheet_redraw_cell_region (sheet,
-				  ss->user.start.col, ss->user.start.row,
-				  ss->user.end.col, ss->user.end.row);
+				  range->start.col, range->start.row,
+				  range->end.col, range->end.row);
+}
+
+void
+sheet_redraw_selection (Sheet const *sheet, SheetSelection const *ss)
+{
+	sheet_redraw_range (sheet, &ss->user);
 }
 
 int

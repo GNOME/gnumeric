@@ -166,6 +166,8 @@ sheet_selection_append (Sheet *sheet, int col, int row)
 static void
 sheet_selection_change (Sheet *sheet, SheetSelection *old, SheetSelection *new)
 {
+	GList *ranges, *l;
+	
 	if (range_equal (&old->user, &new->user))
 		return;
 
@@ -174,9 +176,19 @@ sheet_selection_change (Sheet *sheet, SheetSelection *old, SheetSelection *new)
 	sheet_set_selection (sheet, new);
 	sheet_selection_changed_hook (sheet);
 
-	sheet_redraw_selection (sheet, old);
-	sheet_redraw_selection (sheet, new);
+	/*
+	 * Compute the blocks that need to be repainted: those that
+	 * are in the complement of the intersection.
+	 */
+	ranges = range_fragment (&old->user, &new->user);
+	
+	for (l = ranges->next; l; l = l->next){
+		Range *range = l->data;
 
+		sheet_redraw_range (sheet, range);
+	}
+	range_fragment_free (ranges);
+	
 	if (new->user.start.col != old->user.start.col ||
 	    new->user.end.col != old->user.end.col ||
 	    ((new->user.start.row == 0 && new->user.end.row == SHEET_MAX_ROWS-1) ^

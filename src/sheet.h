@@ -316,6 +316,7 @@ void        sheet_redraw_cell_region      (Sheet const *sheet,
 void	    sheet_redraw_cols		  (Sheet const *sheet);
 void	    sheet_redraw_rows		  (Sheet const *sheet);
 void        sheet_redraw_selection        (Sheet const *sheet, SheetSelection const *ss);
+void        sheet_redraw_range            (Sheet const *sheet, Range const *sheet_selection);
 void        sheet_redraw_all              (Sheet const *sheet);
 
 void        sheet_update_auto_expr        (Sheet *sheet);

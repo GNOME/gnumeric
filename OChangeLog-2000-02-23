@@ -1,3 +1,16 @@
+2000-01-16  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/sheet.c (sheet_redraw_range): New function.
+
+	* src/selection.c (sheet_selection_change): Just queue redraws for
+	the actual change on the selection.
+
+	* src/sheet.c (sheet_redraw_selection): Make this one take a Range
+	instead of a SheetSelection
+
+	* src/item-cursor.c (item_cursor_request_redraw): We now only
+	queue a redraw event for the exact area exposed.
+
 2000-01-15  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook.c (delete_sheet_cmd) : Add a 'Delete Sheet' menu
