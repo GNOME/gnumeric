@@ -468,7 +468,7 @@ write_ref (PolishData *pd, const CellRef *ref)
 static void
 write_funcall (PolishData *pd, FormulaCacheEntry *fce, GnmExpr const *tree)
 {
-	GnmExprList *args     = tree->func.arg_list;
+	GnmExprList *args;
 	gint     num_args = 0;
 	gboolean prompt   = 0;
 	gboolean cmdequiv = 0;
@@ -489,7 +489,7 @@ write_funcall (PolishData *pd, FormulaCacheEntry *fce, GnmExpr const *tree)
 		}
 	}
 
-	for (args = tree->func.arg_list ; args ; ) {
+	for (args = tree->func.arg_list ; args != NULL; ) {
 		write_node (pd, args->data, 0);
 		num_args++;
 		args = args->next;
@@ -506,6 +506,8 @@ write_funcall (PolishData *pd, FormulaCacheEntry *fce, GnmExpr const *tree)
 #endif
 
 	if (num_args >= 128) {
+		g_warning ("Too many args for XL, it can only handle 128");
+		num_args = 128;
 	}
 
 	if (fce->type == CACHE_STD) {

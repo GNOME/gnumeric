@@ -7,8 +7,6 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-- range sel for expressions that start with +
-- range sel is broken
 - figure out why error dialogs at startup get forced behind workbook
 
 1.2 Targets

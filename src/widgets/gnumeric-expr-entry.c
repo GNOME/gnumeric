@@ -399,6 +399,9 @@ gnm_expr_entry_rangesel_start (GnumericExprEntry *gee)
 
 	parse_pos_init (&pp, NULL, gee->sheet, 0, 0);
 	ptr = gnm_expr_char_start_p (text);
+	if (ptr == NULL)
+		ptr = text;
+
 	while (ptr != NULL && *ptr && ptr <= cursor) {
 		tmp = rangeref_parse (&range, ptr, &pp);
 		if (tmp != ptr) {
