@@ -4478,7 +4478,7 @@ ms_excel_read_SUPBOOK (BiffQuery *q, ExcelWorkbook *ewb)
 		g_ptr_array_add (ewb->supbooks, NULL);
 		return;
 	}
-	g_ptr_array_add (ewb->supbooks, 1);
+	g_ptr_array_add (ewb->supbooks, GINT_TO_POINTER (1));
 	/* gsf_mem_dump (q->data, q->length); */
 
 	encodeType = GSF_LE_GET_GUINT8 (q->data + 4);

@@ -1,3 +1,7 @@
+2002-08-16  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-read.c (ms_excel_read_SUPBOOK): Shut up warning.
+
 2002-08-15  Jon K Hellan  <hellan@acm.org>
 
 	* ms-excel-write.c (biff_boundsheet_write_last, write_index):
