@@ -343,8 +343,6 @@ x_request_clipboard (WorkbookControlGUI *wbcg, PasteTarget const *pt)
 gboolean
 x_claim_clipboard (WorkbookControlGUI *wbcg)
 {
-	gboolean clipboard_owner_set;
-	gboolean primary_owner_set;
 	static const GtkTargetEntry targets[] = {
 		{ (char *) GNUMERIC_ATOM_NAME,  GTK_TARGET_SAME_WIDGET, GNUMERIC_ATOM_INFO },
 		/* { (char *)"text/html", 0, 0 }, */
