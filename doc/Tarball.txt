@@ -11,6 +11,8 @@ Copy the CVS tree into the working environment
 		(cd /var/cache/pbuilder/build/1234/tmp && sudo tar xvf - ) 
 
 Inside the working environment:
+Consistent ownership:
+	chmod -R 0.0 /tmp/gnumeric-cvs-gnome_1_4
 Deal with the lack of a proper homedir:
 	export HOME=/root
 	export XAUTHORITY=/root/.Xauthority
