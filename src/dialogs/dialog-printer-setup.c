@@ -1437,14 +1437,14 @@ do_fetch_page_info (dialog_print_info_t *dpi)
 	top_range = range_parse (NULL, gtk_entry_get_text (entry_top), TRUE);
 	dpi->pi->repeat_top.use = (top_range != NULL);
 	if (dpi->pi->repeat_top.use) {
-		dpi->pi->repeat_top.range = top_range->v_range;
+		dpi->pi->repeat_top.range.cell = top_range->v_range.cell;
 		value_release (top_range);
 	}
 
 	left_range = range_parse (NULL, gtk_entry_get_text (entry_left), TRUE);
 	dpi->pi->repeat_left.use = (left_range != NULL);
 	if (dpi->pi->repeat_left.use) {
-		dpi->pi->repeat_left.range = left_range->v_range;
+		dpi->pi->repeat_left.range.cell = left_range->v_range.cell;
 		value_release (left_range);
 	}
 }

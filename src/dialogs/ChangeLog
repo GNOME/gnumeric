@@ -1,3 +1,7 @@
+2000-12-06  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-printer-setup.c (do_fetch_page_info) : Fix const problem.
+
 2000-12-04  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-cell-format.c (border_event) : Bug 34152.
