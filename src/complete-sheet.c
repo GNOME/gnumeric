@@ -14,6 +14,7 @@
 #include "sheet.h"
 #include "cell.h"
 #include "str.h"
+#include "value.h"
 #include "complete-sheet.h"
 #include "gnumeric-type-util.h"
 
@@ -72,7 +73,7 @@ text_matches (CompleteSheet const *cs)
 	Cell *cell = sheet_cell_get (cs->sheet, cs->col, cs->inf);
 
 	if (cell == NULL || cell->value == NULL ||
-	    cell->value->type == VALUE_STRING || cell_has_expr (cell))
+	    cell->value->type != VALUE_STRING || cell_has_expr (cell))
 		return FALSE;
 
 	text = cell->value->v_str.val->str;
