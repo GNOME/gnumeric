@@ -22,10 +22,10 @@
 	<widget class="GnomeDruidPageStandard" id="sheet_page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Choose sheets to export</property>
-	  <property name="title_foreground">#7cc008187cc0</property>
-	  <property name="background">#f0580825e86c</property>
+	  <property name="title_foreground">#8a1008188a10</property>
+	  <property name="background">#22180823eb5c</property>
 	  <property name="logo_background">#00000000ca48</property>
-	  <property name="logo">stf-druid.png</property>
+	  <property name="logo">../../../pixmaps/gnumeric/stf-druid.png</property>
 
 	  <child internal-child="vbox">
 	    <widget class="GtkVBox" id="druid-vbox1">
@@ -92,7 +92,6 @@
 
 			      <child>
 				<widget class="GtkLabel" id="label2">
-				  <property name="visible">True</property>
 				  <property name="label" translatable="yes"></property>
 				  <property name="use_underline">False</property>
 				  <property name="use_markup">False</property>
@@ -136,7 +135,6 @@
 
 			      <child>
 				<widget class="GtkLabel" id="label3">
-				  <property name="visible">True</property>
 				  <property name="label" translatable="yes"></property>
 				  <property name="use_underline">False</property>
 				  <property name="use_markup">False</property>
@@ -387,10 +385,10 @@
 	<widget class="GnomeDruidPageStandard" id="format_page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Choose export formatting</property>
-	  <property name="title_foreground">#7cc008187cc0</property>
-	  <property name="background">#26b80827e86c</property>
+	  <property name="title_foreground">#8a1008188a10</property>
+	  <property name="background">#99780824eb5c</property>
 	  <property name="logo_background">#00000000ca48</property>
-	  <property name="logo">stf-druid.png</property>
+	  <property name="logo">../../../pixmaps/gnumeric/stf-druid.png</property>
 
 	  <child internal-child="vbox">
 	    <widget class="GtkVBox" id="druid-vbox2">
@@ -465,27 +463,33 @@
 			<widget class="GtkOptionMenu" id="format_termination">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="history">-1</property>
+			  <property name="history">0</property>
 
 			  <child internal-child="menu">
 			    <widget class="GtkMenu" id="convertwidget5">
 			      <property name="visible">True</property>
 
 			      <child>
-				<widget class="GtkMenuItem" id="convertwidget6">
+				<widget class="GtkMenuItem" id="unix">
 				  <property name="visible">True</property>
+				  <property name="label" translatable="yes">Unix (linefeed)</property>
+				  <property name="use_underline">True</property>
 				</widget>
 			      </child>
 
 			      <child>
-				<widget class="GtkMenuItem" id="convertwidget7">
+				<widget class="GtkMenuItem" id="mac">
 				  <property name="visible">True</property>
+				  <property name="label" translatable="yes">Macintosh (carriage return)</property>
+				  <property name="use_underline">True</property>
 				</widget>
 			      </child>
 
 			      <child>
-				<widget class="GtkMenuItem" id="convertwidget8">
+				<widget class="GtkMenuItem" id="windows">
 				  <property name="visible">True</property>
+				  <property name="label" translatable="yes">Windows (carriage return + linefeed)</property>
+				  <property name="use_underline">True</property>
 				</widget>
 			      </child>
 			    </widget>
@@ -656,27 +660,33 @@
 			<widget class="GtkOptionMenu" id="format_quote">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="history">-1</property>
+			  <property name="history">0</property>
 
 			  <child internal-child="menu">
 			    <widget class="GtkMenu" id="convertwidget21">
 			      <property name="visible">True</property>
 
 			      <child>
-				<widget class="GtkMenuItem" id="convertwidget22">
+				<widget class="GtkMenuItem" id="auto">
 				  <property name="visible">True</property>
+				  <property name="label" translatable="yes">Automatic (puts quotes where needed)</property>
+				  <property name="use_underline">True</property>
 				</widget>
 			      </child>
 
 			      <child>
-				<widget class="GtkMenuItem" id="convertwidget23">
+				<widget class="GtkMenuItem" id="always">
 				  <property name="visible">True</property>
+				  <property name="label" translatable="yes">Always</property>
+				  <property name="use_underline">True</property>
 				</widget>
 			      </child>
 
 			      <child>
-				<widget class="GtkMenuItem" id="convertwidget24">
+				<widget class="GtkMenuItem" id="never">
 				  <property name="visible">True</property>
+				  <property name="label" translatable="yes">Never</property>
+				  <property name="use_underline">True</property>
 				</widget>
 			      </child>
 			    </widget>
@@ -766,69 +776,89 @@
 			<widget class="GtkOptionMenu" id="format_separator">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="history">-1</property>
+			  <property name="history">0</property>
 
 			  <child internal-child="menu">
 			    <widget class="GtkMenu" id="convertwidget28">
 			      <property name="visible">True</property>
 
 			      <child>
-				<widget class="GtkMenuItem" id="convertwidget29">
+				<widget class="GtkMenuItem" id="space">
 				  <property name="visible">True</property>
+				  <property name="label" translatable="yes">Space</property>
+				  <property name="use_underline">True</property>
 				</widget>
 			      </child>
 
 			      <child>
-				<widget class="GtkMenuItem" id="convertwidget30">
+				<widget class="GtkMenuItem" id="tab">
 				  <property name="visible">True</property>
+				  <property name="label" translatable="yes">Tab</property>
+				  <property name="use_underline">True</property>
 				</widget>
 			      </child>
 
 			      <child>
-				<widget class="GtkMenuItem" id="convertwidget31">
+				<widget class="GtkMenuItem" id="bang">
 				  <property name="visible">True</property>
+				  <property name="label" translatable="yes">Bang (!)</property>
+				  <property name="use_underline">True</property>
 				</widget>
 			      </child>
 
 			      <child>
-				<widget class="GtkMenuItem" id="convertwidget32">
+				<widget class="GtkMenuItem" id="colon">
 				  <property name="visible">True</property>
+				  <property name="label" translatable="yes">Colon (;)</property>
+				  <property name="use_underline">True</property>
 				</widget>
 			      </child>
 
 			      <child>
-				<widget class="GtkMenuItem" id="convertwidget33">
+				<widget class="GtkMenuItem" id="comma">
 				  <property name="visible">True</property>
+				  <property name="label" translatable="yes">Comma (,)</property>
+				  <property name="use_underline">True</property>
 				</widget>
 			      </child>
 
 			      <child>
-				<widget class="GtkMenuItem" id="convertwidget34">
+				<widget class="GtkMenuItem" id="hyphen">
 				  <property name="visible">True</property>
+				  <property name="label" translatable="yes">Hyphen (-)</property>
+				  <property name="use_underline">True</property>
 				</widget>
 			      </child>
 
 			      <child>
-				<widget class="GtkMenuItem" id="convertwidget35">
+				<widget class="GtkMenuItem" id="pipe">
 				  <property name="visible">True</property>
+				  <property name="label" translatable="yes">Pipe (|)</property>
+				  <property name="use_underline">True</property>
 				</widget>
 			      </child>
 
 			      <child>
-				<widget class="GtkMenuItem" id="convertwidget36">
+				<widget class="GtkMenuItem" id="semicolon">
 				  <property name="visible">True</property>
+				  <property name="label" translatable="yes">Semicolon (;)</property>
+				  <property name="use_underline">True</property>
 				</widget>
 			      </child>
 
 			      <child>
-				<widget class="GtkMenuItem" id="convertwidget37">
+				<widget class="GtkMenuItem" id="slash">
 				  <property name="visible">True</property>
+				  <property name="label" translatable="yes">Slash (/)</property>
+				  <property name="use_underline">True</property>
 				</widget>
 			      </child>
 
 			      <child>
-				<widget class="GtkMenuItem" id="convertwidget38">
+				<widget class="GtkMenuItem" id="custom">
 				  <property name="visible">True</property>
+				  <property name="label" translatable="yes">Custom</property>
+				  <property name="use_underline">True</property>
 				</widget>
 			      </child>
 			    </widget>
