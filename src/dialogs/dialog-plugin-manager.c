@@ -241,6 +241,7 @@ pm_gui_load_directory_page (PluginManagerGUI *pm_gui)
 	GtkTreeIter iter;
 	char * sys_plugins = gnm_sys_plugin_dir ();
 	char * usr_plugins = gnm_usr_plugin_dir ();
+	char * go_plugins = go_plugins_get_plugin_dir ();
 	GSList *plugin_dirs;
 	gchar const *plugin_path_env;
 
@@ -258,6 +259,12 @@ pm_gui_load_directory_page (PluginManagerGUI *pm_gui)
 			    DIR_IS_SYSTEM, TRUE,
 			    -1);
 	g_free (usr_plugins);
+	gtk_list_store_append (pm_gui->model_directories, &iter);
+	gtk_list_store_set (pm_gui->model_directories, &iter,
+			    DIR_NAME, go_plugins,
+			    DIR_IS_SYSTEM, TRUE,
+			    -1);
+	g_free (go_plugins);
 
 	plugin_path_env = g_getenv ("GNUMERIC_PLUGIN_PATH");
 	if (plugin_path_env != NULL) {
