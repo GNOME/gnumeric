@@ -724,6 +724,11 @@ autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
 				gnm_expr_ref (func->array.corner.expr = array->corner.expr);
 		}
 		cell_set_expr (cell, (func == NULL) ? fi->v.expr : func);
+
+		if (func) {
+			g_warning ("oink!");
+			gnm_expr_unref (func);
+		}
 		return;
 	}
 

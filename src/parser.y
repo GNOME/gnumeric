@@ -407,6 +407,7 @@ int yyparse (void);
 %%
 line:	opt_exp exp {
 		unregister_allocation ($2);
+		unregister_allocation ($1);
 		state->result = gnm_expr_list_prepend ($1, $2);
 	}
 
@@ -420,9 +421,11 @@ line:	opt_exp exp {
 
 opt_exp : opt_exp exp  SEPARATOR {
 	       unregister_allocation ($2);
+	       unregister_allocation ($1);
 	       $$ = gnm_expr_list_prepend ($1, $2);
+	       register_expr_list_allocation ($$);
 	}
-	| { $$ = NULL; }
+	| { $$ = NULL; register_expr_list_allocation ($$); }
 	;
 
 exp:	  CONSTANT 	{ $$ = $1; }

@@ -1,3 +1,12 @@
+2002-04-01  Morten Welinder  <terra@diku.dk>
+
+	* src/value.c (USE_VALUE_POOLS): Make pools conditional.
+
+	* src/parser.y (line, opt_exp): Plug gigantic leak.  Now why does
+	the expression widget call the parser thousands of times?
+
+	* src/expr.c (expr_eval_real): Simplify.
+
 2002-04-01  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/item-cursor.c (item_cursor_target_region_ok) : fix message dialog

@@ -654,37 +654,21 @@ expr_eval_real (GnmExpr const *expr, EvalPos const *pos,
 			switch (expr->any.oper){
 			case GNM_EXPR_OP_ADD:
 				dres = (gnum_float)ia + (gnum_float)ib;
-				ires = (int)dres;
-				if (dres == ires)
-					return value_new_int (ires);
-				else
-					return value_new_float ((gnum_float) dres);
+				break;
 
 			case GNM_EXPR_OP_SUB:
 				dres = (gnum_float)ia - (gnum_float)ib;
-				ires = (int)dres;
-				if (dres == ires)
-					return value_new_int (ires);
-				else
-					return value_new_float ((gnum_float) dres);
+				break;
 
 			case GNM_EXPR_OP_MULT:
 				dres = (gnum_float)ia * (gnum_float)ib;
-				ires = (int)dres;
-				if (dres == ires)
-					return value_new_int (ires);
-				else
-					return value_new_float ((gnum_float) dres);
+				break;
 
 			case GNM_EXPR_OP_DIV:
 				if (ib == 0)
 					return value_new_error (pos, gnumeric_err_DIV0);
 				dres = (gnum_float)ia / (gnum_float)ib;
-				ires = (int)dres;
-				if (dres == ires)
-					return value_new_int (ires);
-				else
-					return value_new_float ((gnum_float) dres);
+				break;
 
 			case GNM_EXPR_OP_EXP:
 				if (ia == 0 && ib <= 0)
@@ -692,16 +676,17 @@ expr_eval_real (GnmExpr const *expr, EvalPos const *pos,
 				dres = powgnum ((gnum_float)ia, (gnum_float)ib);
 				if (!finitegnum (dres))
 					return value_new_error (pos, gnumeric_err_NUM);
-
-				ires = (int)dres;
-				if (dres == ires)
-					return value_new_int (ires);
-				else
-					return value_new_float (dres);
+				break;
 
 			default:
 				abort ();
 			}
+
+			ires = (int)dres;
+			if (dres == ires)
+				return value_new_int (ires);
+			else
+				return value_new_float (dres);
 		} else {
 			gnum_float const va = value_get_as_float (a);
 			gnum_float const vb = value_get_as_float (b);

@@ -27,6 +27,19 @@
 #include <ranges.h>
 #include <libgnome/gnome-i18n.h>
 
+#ifndef USE_VALUE_POOLS
+#define USE_VALUE_POOLS 1
+#endif
+
+#if USE_VALUE_POOLS
+#define CHUNK_ALLOC(T,p) ((T*)gnm_mem_chunk_alloc (p))
+#define CHUNK_FREE(p,v) gnm_mem_chunk_free ((p), (v))
+#else
+#define CHUNK_ALLOC(T,c) g_new (T,1)
+#define CHUNK_FREE(p,v) g_free ((v))
+#endif
+
+
 Value *
 value_new_empty (void)
 {
@@ -40,7 +53,7 @@ static gnm_mem_chunk *value_int_pool;
 Value *
 value_new_bool (gboolean b)
 {
-	ValueBool *v = gnm_mem_chunk_alloc (value_int_pool);
+	ValueBool *v = CHUNK_ALLOC (ValueBool, value_int_pool);
 	*((ValueType *)&(v->type)) = VALUE_BOOLEAN;
 	v->fmt = NULL;
 	v->val = b;
@@ -50,7 +63,7 @@ value_new_bool (gboolean b)
 Value *
 value_new_int (int i)
 {
-	ValueInt *v = gnm_mem_chunk_alloc (value_int_pool);
+	ValueInt *v = CHUNK_ALLOC (ValueInt, value_int_pool);
 	*((ValueType *)&(v->type)) = VALUE_INTEGER;
 	v->fmt = NULL;
 	v->val = i;
@@ -62,7 +75,7 @@ Value *
 value_new_float (gnum_float f)
 {
 	if (finitegnum (f)) {
-		ValueFloat *v = gnm_mem_chunk_alloc (value_float_pool);
+		ValueFloat *v = CHUNK_ALLOC (ValueFloat, value_float_pool);
 		*((ValueType *)&(v->type)) = VALUE_FLOAT;
 		v->fmt = NULL;
 		v->val = f;
@@ -78,7 +91,7 @@ static gnm_mem_chunk *value_error_pool;
 Value *
 value_new_error (EvalPos const *ep, char const *mesg)
 {
-	ValueErr *v = gnm_mem_chunk_alloc (value_error_pool);
+	ValueErr *v = CHUNK_ALLOC (ValueErr, value_error_pool);
 	*((ValueType *)&(v->type)) = VALUE_ERROR;
 	v->fmt = NULL;
 	v->mesg = string_get (mesg);
@@ -88,7 +101,7 @@ value_new_error (EvalPos const *ep, char const *mesg)
 Value *
 value_new_error_str (EvalPos const *ep, String *mesg)
 {
-	ValueErr *v = gnm_mem_chunk_alloc (value_error_pool);
+	ValueErr *v = CHUNK_ALLOC (ValueErr, value_error_pool);
 	*((ValueType *)&(v->type)) = VALUE_ERROR;
 	v->fmt = NULL;
 	v->mesg = string_ref (mesg);
@@ -116,7 +129,7 @@ static gnm_mem_chunk *value_string_pool;
 Value *
 value_new_string (char const *str)
 {
-	ValueStr *v = gnm_mem_chunk_alloc (value_string_pool);
+	ValueStr *v = CHUNK_ALLOC (ValueStr, value_string_pool);
 	*((ValueType *)&(v->type)) = VALUE_STRING;
 	v->fmt = NULL;
 	v->val = string_get (str);
@@ -127,7 +140,7 @@ value_new_string (char const *str)
 Value *
 value_new_string_str (String *str)
 {
-	ValueStr *v = gnm_mem_chunk_alloc (value_string_pool);
+	ValueStr *v = CHUNK_ALLOC (ValueStr, value_string_pool);
 	*((ValueType *)&(v->type)) = VALUE_STRING;
 	v->fmt = NULL;
 	v->val = str;
@@ -138,7 +151,7 @@ static gnm_mem_chunk *value_range_pool;
 Value *
 value_new_cellrange_unsafe (CellRef const *a, CellRef const *b)
 {
-	ValueRange *v = gnm_mem_chunk_alloc (value_range_pool);
+	ValueRange *v = CHUNK_ALLOC (ValueRange, value_range_pool);
 	*((ValueType *)&(v->type)) = VALUE_CELLRANGE;
 	v->fmt = NULL;
 	v->cell.a = *a;
@@ -159,7 +172,7 @@ Value *
 value_new_cellrange (CellRef const *a, CellRef const *b,
 		     int eval_col, int eval_row)
 {
-	ValueRange *v = gnm_mem_chunk_alloc (value_range_pool);
+	ValueRange *v = CHUNK_ALLOC (ValueRange, value_range_pool);
 	int tmp;
 
 	*((ValueType *)&(v->type)) = VALUE_CELLRANGE;
@@ -204,7 +217,7 @@ value_new_cellrange (CellRef const *a, CellRef const *b,
 Value *
 value_new_cellrange_r (Sheet *sheet, Range const *r)
 {
-	ValueRange *v = gnm_mem_chunk_alloc (value_range_pool);
+	ValueRange *v = CHUNK_ALLOC (ValueRange, value_range_pool);
 	CellRef *a, *b;
 
 	*((ValueType *)&(v->type)) = VALUE_CELLRANGE;
@@ -228,7 +241,7 @@ static gnm_mem_chunk *value_array_pool;
 Value *
 value_new_array_non_init (guint cols, guint rows)
 {
-	ValueArray *v = gnm_mem_chunk_alloc (value_array_pool);
+	ValueArray *v = CHUNK_ALLOC (ValueArray, value_array_pool);
 	*((ValueType *)&(v->type)) = VALUE_ARRAY;
 	v->fmt = NULL;
 	v->x = cols;
@@ -339,11 +352,11 @@ value_release (Value *value)
 
 	case VALUE_BOOLEAN:
 	case VALUE_INTEGER:
-		gnm_mem_chunk_free (value_int_pool, value);
+		CHUNK_FREE (value_int_pool, value);
 		return;
 
 	case VALUE_FLOAT:
-		gnm_mem_chunk_free (value_float_pool, value);
+		CHUNK_FREE (value_float_pool, value);
 		return;
 
 	case VALUE_ERROR:
@@ -354,12 +367,12 @@ value_release (Value *value)
 		}
 
 		string_unref (value->v_err.mesg);
-		gnm_mem_chunk_free (value_error_pool, value);
+		CHUNK_FREE (value_error_pool, value);
 		return;
 
 	case VALUE_STRING:
 		string_unref (value->v_str.val);
-		gnm_mem_chunk_free (value_string_pool, value);
+		CHUNK_FREE (value_string_pool, value);
 		return;
 
 	case VALUE_ARRAY: {
@@ -375,12 +388,12 @@ value_release (Value *value)
 		}
 
 		g_free (v->vals);
-		gnm_mem_chunk_free (value_array_pool, value);
+		CHUNK_FREE (value_array_pool, value);
 		return;
 	}
 
 	case VALUE_CELLRANGE:
-		gnm_mem_chunk_free (value_range_pool, value);
+		CHUNK_FREE (value_range_pool, value);
 		return;
 
 	default:
@@ -1047,6 +1060,7 @@ const ValueErr value_terminate_err = { VALUE_ERROR, NULL, NULL };
 void
 value_init (void)
 {
+#if USE_VALUE_POOLS
 	/* ValueInt and ValueBool ought to have the same size.  */
 	value_int_pool =
 		gnm_mem_chunk_new ("value int/bool pool",
@@ -1077,11 +1091,13 @@ value_init (void)
 		gnm_mem_chunk_new ("value array pool",
 				   sizeof (ValueArray),
 				   16 * 1024 - 128);
+#endif
 }
 
 void
 value_shutdown (void)
 {
+#if USE_VALUE_POOLS
 	gnm_mem_chunk_destroy (value_int_pool, FALSE);
 	value_int_pool = NULL;
 
@@ -1099,6 +1115,7 @@ value_shutdown (void)
 
 	gnm_mem_chunk_destroy (value_array_pool, FALSE);
 	value_array_pool = NULL;
+#endif
 }
 
 /****************************************************************************/
