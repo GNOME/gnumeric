@@ -2,6 +2,7 @@
 
 	* html_read.c (html_file_open): Check if file is large enough to
 	probe byte order mark.
+	(html_read_content, html_read_row): Import hyperlinks as hyperlinks.
 
 2005-02-08  Jody Goldberg <jody@gnome.org>
 

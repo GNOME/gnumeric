@@ -40,6 +40,8 @@
 #include <sheet-merge.h>
 #include <sheet-style.h>
 #include <style.h>
+#include <style-color.h>
+#include <hlink.h>
 #include <cell.h>
 #include <ranges.h>
 #include <goffice/app/io-context.h>
@@ -96,7 +98,8 @@ html_append_text (GString *buf, const xmlChar *text)
 
 static void
 html_read_content (htmlNodePtr cur, GString *buf, GnmStyle *mstyle,
-		   xmlBufferPtr a_buf, gboolean first, htmlDocPtr doc)
+		   xmlBufferPtr a_buf, GSList **hrefs, gboolean first, 
+		   htmlDocPtr doc)
 {
 	htmlNodePtr ptr;
 
@@ -117,8 +120,9 @@ html_read_content (htmlNodePtr cur, GString *buf, GnmStyle *mstyle,
 				props = ptr->properties;
 				while (props) {
 					if (xmlStrEqual (props->name, CC2XML ("href")) && props->children) {
-						htmlNodeDump (a_buf, doc, props->children);
-						xmlBufferAdd (a_buf, CC2XML ("\n"), -1);
+						*hrefs = g_slist_prepend (
+							*hrefs, props->children);
+
 					}
 					props = props->next;
 				}
@@ -134,7 +138,8 @@ html_read_content (htmlNodePtr cur, GString *buf, GnmStyle *mstyle,
 					props = props->next;
 				}
 			}
-			html_read_content (ptr, buf, mstyle, a_buf, first, doc);
+			html_read_content (
+				ptr, buf, mstyle, a_buf, hrefs, first, doc);
 		}
 		first = FALSE;
 	}
@@ -156,6 +161,8 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 			int rowspan = 1;
 			GnmCellPos pos;
 			GnmStyle *mstyle;
+			GSList *hrefs = NULL;
+			GnmHLink *link = NULL;
 
 			/* Check whether we need to skip merges from above */
 			pos.row = tc->row;
@@ -187,8 +194,54 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 			if (xmlStrEqual (ptr->name, CC2XML ("th")))
 				mstyle_set_font_bold (mstyle, TRUE);
 
-			html_read_content (ptr, buf, mstyle, a_buf, TRUE, doc);
+			html_read_content (ptr, buf, mstyle, a_buf, 
+					   &hrefs, TRUE, doc);
 
+	
+			if (g_slist_length (hrefs) == 1 &&
+			    buf->len > 0) {
+				/* One hyperlink, and text to make it 
+				 * visible */
+				char *url;
+				xmlBufferPtr h_buf = xmlBufferCreate ();
+				
+				htmlNodeDump (
+					h_buf, doc, (htmlNodePtr)hrefs->data);
+				url = g_strndup (
+					CXML2C (h_buf->content), h_buf->use);
+				if (strncmp (url, "mailto:", 
+					     strlen ("mailto:")) == 0)
+					link = g_object_new (
+						gnm_hlink_email_get_type (),
+						NULL);
+				else
+					link = g_object_new (
+						gnm_hlink_url_get_type (), 
+						NULL);
+				gnm_hlink_set_target (link, url);
+				mstyle_set_hlink (mstyle, link);
+				mstyle_set_font_uline (
+					mstyle, UNDERLINE_SINGLE);
+				mstyle_set_color (
+					mstyle, MSTYLE_COLOR_FORE,
+					style_color_new_name ("blue"));
+				g_free (url);
+				xmlBufferFree (h_buf);
+			} else if (hrefs) {
+				/* Multiple links, no way to choose one, 
+				 * or no text to give hyperlink style,
+				 * so put them in a comment */
+				GSList *l;
+
+				hrefs = g_slist_reverse (hrefs);
+				for (l = hrefs; l != NULL; l = l->next) {
+					htmlNodeDump (a_buf, doc, 
+						      (htmlNodePtr)l->data);
+					xmlBufferAdd (a_buf, CC2XML ("\n"), 
+						      -1);
+				}
+			}
+			g_slist_free (hrefs);
 			if (buf->len > 0) {
 				GnmCell *cell = sheet_cell_fetch (tc->sheet, col + 1, tc->row);
 				sheet_style_set_pos (tc->sheet, col + 1, tc->row, mstyle);
