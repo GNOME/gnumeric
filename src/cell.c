@@ -1502,7 +1502,8 @@ cell_get_style (const Cell *cell)
 			     cell->col->pos,
 			     cell->row->pos,
 			     mash);
-	return style_mstyle_new (mash, MSTYLE_ELEMENT_MAX);
+	return style_mstyle_new (mash, MSTYLE_ELEMENT_MAX,
+				 cell->sheet->last_zoom_factor_used);
 }
 
 void

@@ -390,7 +390,7 @@ print_empty_cell (GnomePrintContext *context, Sheet *sheet, int col, int row,
 	MStyleElement mash[MSTYLE_ELEMENT_MAX];
 
 	sheet_style_compute (sheet, col, row, mash);
-	style = style_mstyle_new (mash, MSTYLE_ELEMENT_MAX);
+	style = style_mstyle_new (mash, MSTYLE_ELEMENT_MAX, 1.0);
 	print_cell_background (context, style->back_color, x1, y1, x2, y2);
 	
 	style_unref (style);

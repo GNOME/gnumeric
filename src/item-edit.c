@@ -149,7 +149,8 @@ item_edit_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int 
 	{
 		MStyleElement mash[MSTYLE_ELEMENT_MAX];
 		sheet_style_compute (item_edit->sheet, item_edit->col, item_edit->row, mash);
-		item_edit->style = style_mstyle_new (mash, MSTYLE_ELEMENT_MAX);
+		item_edit->style = style_mstyle_new (mash, MSTYLE_ELEMENT_MAX,
+						     item_edit->sheet->last_zoom_factor_used);
 	}
 }
 

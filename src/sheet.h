@@ -296,6 +296,7 @@ MStyleElement *sheet_selection_get_uniq_style (Sheet *sheet);
 void           sheet_create_styles            (Sheet *sheet);
 void           sheet_destroy_styles           (Sheet *sheet);
 GList         *sheet_get_style_list           (Sheet *sheet);
+void           sheet_zoom_styles              (Sheet *sheet, double factor);
 
 /* Redraw */
 void        sheet_compute_visible_ranges  (Sheet const *sheet);

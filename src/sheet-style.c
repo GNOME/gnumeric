@@ -97,14 +97,13 @@ sheet_style_cache_add (const EvalPosition * const p,
 	EvalPosition  *ep;
 	MStyleElement *ec;
 
+	if (STYLE_CACHE (p->sheet) &&
+	    g_hash_table_size (STYLE_CACHE (p->sheet)) > 1024)
+		sheet_style_cache_flush (p->sheet);
+
 	if (!STYLE_CACHE (p->sheet))
 		STYLE_CACHE (p->sheet) = g_hash_table_new ((GHashFunc)evalpos_hash,
 							   (GCompareFunc)evalpos_compare);
-
-	if (g_hash_table_size (STYLE_CACHE (p->sheet)) > 1024) {
-		g_warning ("Style hash too big, cleaning");
-		sheet_style_cache_flush (p->sheet);
-	}
 
 	ep = g_new (EvalPosition, 1);
 	*ep = *p;
@@ -352,12 +351,12 @@ sheet_style_compute (Sheet const *sheet, int col, int row,
 	}
 	style_list = g_list_reverse (style_list);
 
+	if (!mstyle_list_check_sorted (style_list))
+		g_warning ("Styles not sorted");
 	mstyle_do_merge (style_list, MSTYLE_ELEMENT_MAX, style);
 	g_list_free (style_list);
 
 	sheet_style_cache_add (&cache_pos, style);
-
-	return style_mstyle_new (style, MSTYLE_ELEMENT_MAX);
 }
 
 static void
@@ -433,6 +432,8 @@ sheet_uniq_cb (Sheet *sheet, Range const *range,
 		}
 		style_list = g_list_reverse (style_list);
 
+		if (!mstyle_list_check_sorted (style_list))
+			g_warning ("Styles not sorted");
 		mstyle_do_merge (style_list, MSTYLE_ELEMENT_MAX,
 				 mash);
 		

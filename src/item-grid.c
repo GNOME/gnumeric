@@ -319,7 +319,8 @@ item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 	}
 
 	{
-		Style *style = style_mstyle_new (mash, MSTYLE_ELEMENT_MAX);
+		Style *style = style_mstyle_new (mash, MSTYLE_ELEMENT_MAX,
+						 item_grid->sheet->last_zoom_factor_used);
 		item_grid_draw_border (drawable, style, x, y, ci->pixels, ri->pixels);
 		style_unref (style);
 	}

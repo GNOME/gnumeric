@@ -360,7 +360,8 @@ style_new (void)
 }
 
 Style *
-style_mstyle_new (MStyleElement *e, guint len)
+style_mstyle_new (MStyleElement *e, guint len,
+		  gdouble zoom)
 {
 	Style *style;
 
@@ -374,7 +375,7 @@ style_mstyle_new (MStyleElement *e, guint len)
 	if (len > MSTYLE_ELEMENT_MAX_BLANK) {
 		gchar *name;
 		int    bold, italic;
-		double scale;
+		double size;
 
 		style->valid_flags = STYLE_ALL;
 		
@@ -391,13 +392,14 @@ style_mstyle_new (MStyleElement *e, guint len)
 		else
 			italic = 0;
 		if (e[MSTYLE_FONT_SIZE].type)
-			scale =  e[MSTYLE_FONT_SIZE].u.font.size;
+			size =  e[MSTYLE_FONT_SIZE].u.font.size;
 		else
-			scale = 1.0;
+			size = DEFAULT_SIZE;
 
-		if (bold || italic || (name != DEFAULT_FONT) || (scale != 1.0))
-			style->font = style_font_new (name, DEFAULT_SIZE,
-						      scale, bold, italic);
+		if (bold || italic || (name != DEFAULT_FONT) ||
+		    (size != DEFAULT_SIZE))
+			style->font = style_font_new (name, size, zoom,
+						      bold, italic);
 		else {
 			style->font = gnumeric_default_font;
 			style_font_ref (style->font);

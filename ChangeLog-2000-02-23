@@ -1,5 +1,35 @@
 1999-10-14  Michael Meeks  <mmeeks@gnu.org>
 
+	* src/workbook-format-toolbar.c (workbook_feedback_set): kill old
+	conflict resoltion.
+
+	* src/sheet-style.c (sheet_style_cache_add): fixup cache flush on huge
+	caches.
+
+	* src/print-cell.c (print_empty_cell): 
+
+	* src/mstyle.c (render_merge): kill. (mstyle_list_check_sorted): rename.
+
+	* src/sheet-style.c (sheet_style_compute, sheet_uniq_cb): Add checks for
+	sortedness  kill redundant return.
+
+	* src/item-grid.c (item_grid_paint_empty_cell): 
+
+	* src/cell.c (cell_get_style): zoom.
+
+	* src/item-edit.c (item_edit_update): ditto.
+
+	* src/style.c (style_mstyle_new): Update to take a zoom argument.
+
+	* src/sheet.c (zoom_cell_style): kill: redundant (sheet_set_zoom_factor):
+	use new render side zoom, allows different zoom per view.
+
+	* src/mstyle.c (mstyle_do_merge): optimise by dropping out if we
+	have all attributes set + kill redundant copy.
+	(render_merge_blank): Kill.
+
+	* src/ranges.c (range_contains): re-order for speed & inline.
+
 	* src/sheet.c (sheet_update_controls): update.
 
 1999-10-13  Michael Meeks  <mmeeks@gnu.org>

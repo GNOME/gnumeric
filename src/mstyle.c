@@ -139,7 +139,6 @@ mstyle_element_equal (const MStyleElement a,
 			return TRUE;
 		break;
 	case MSTYLE_FONT_NAME:
-		/* FIXME: String font names should be uniq & hashed ! */
 		if (a.u.font.name == b.u.font.name)
 			return TRUE;
 		break;
@@ -518,20 +517,23 @@ mstyle_do_merge (const GList *list, MStyleElementType max,
 {
 	const GList *l = list;
 	/* Find the intersection */
-	guint i;
+	guint i, numset=0;
 	
 	g_return_if_fail (mash != NULL);
 
 	for (i = 0; i < max; i++)
 		mash[i].type = MSTYLE_ELEMENT_UNSET;
 	
-	while (l) {
+	while (l && (numset < max)) {
 		guint j;
 		PrivateStyle *pst = l->data;
 		for (j = 0; j < max; j++) {
 			MStyleElement e = pst->elements[j];
-			if (mash[e.type].type == MSTYLE_ELEMENT_UNSET)
+			if (e.type > MSTYLE_ELEMENT_UNSET &&
+			    mash[e.type].type == MSTYLE_ELEMENT_UNSET) {
 				mash[e.type] = e;
+				numset++;
+			}
 		}
 		l = g_list_next (l);
 	}
@@ -544,8 +546,8 @@ mstyle_do_merge (const GList *list, MStyleElementType max,
 		}*/
 }
 
-static gboolean
-check_sorted (const GList *list)
+gboolean
+mstyle_list_check_sorted (const GList *list)
 {
 	const GList *l = list;
 	guint32 stamp = -1; /* max guint32 */
@@ -566,30 +568,4 @@ check_sorted (const GList *list)
 		l = g_list_next (l);
 	}
 	return TRUE;
-}
-
-Style *
-render_merge (const GList *styles)
-{
-	MStyleElement mash[MSTYLE_ELEMENT_MAX];
-
-	if (!check_sorted (styles))
-	    g_warning ("Styles not sorted");
-
-	mstyle_do_merge (styles, MSTYLE_ELEMENT_MAX, mash);
-
-	return style_mstyle_new (mash, MSTYLE_ELEMENT_MAX);
-}
-
-Style *
-render_merge_blank (const GList *styles)
-{
-	MStyleElement mash[MSTYLE_ELEMENT_MAX];
-
-	if (!check_sorted (styles))
-	    g_warning ("Styles not sorted");
-
-	mstyle_do_merge (styles, MSTYLE_ELEMENT_MAX_BLANK, mash);
-
-	return style_mstyle_new (mash, MSTYLE_ELEMENT_MAX_BLANK);
 }

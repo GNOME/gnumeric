@@ -281,25 +281,6 @@ sheet_compute_col_row_new_size (Sheet *sheet, ColRowInfo *ci, void *data)
 	return FALSE;
 }
 
-static Value *
-zoom_cell_style (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
-{
-/*	StyleFont *sf;*/
-
-	/*
-	 * If the size is already set, skip
-	 */
-/*	if (cell->style->font->scale == sheet->last_zoom_factor_used)
-		return NULL;
-
-	sf = style_font_new_from (cell->style->font, sheet->last_zoom_factor_used);
-	cell_set_font_from_style (cell, sf);
-	style_font_unref (sf);*/
-	g_warning ("FIXME: unimplemented zoom_cell_style");
-
-	return NULL;
-}
-
 void
 sheet_set_zoom_factor (Sheet *sheet, double factor)
 {
@@ -332,30 +313,6 @@ sheet_set_zoom_factor (Sheet *sheet, double factor)
 
 		cell_comment_reposition (cell);
 	}
-
-	/*
-	 * Scale the fonts for every cell
-	 */
-	sheet_cell_foreach_range (
-		sheet, TRUE, 0, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1,
-		zoom_cell_style, sheet);
-
-	/*
-	 * Scale the internal font styles
-	 */
-		g_warning ("Internal font scaling broken");
-/*	for (l = sheet->style_list; l; l = l->next) {
-		StyleRegion *sr = l->data;
-		Style *style = sr->style;
-		StyleFont *scaled;
-		
-		if (!(style->valid_flags & STYLE_FONT))
-			continue;
-
-		scaled = style_font_new_from (style->font, factor);
-		style_font_unref (style->font);
-		style->font = scaled;
-		}*/
 }
 
 /*

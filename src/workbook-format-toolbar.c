@@ -439,43 +439,37 @@ workbook_feedback_set (Workbook *workbook, MStyleElement *styles)
 	g_return_if_fail (workbook != NULL);
 	g_return_if_fail (IS_WORKBOOK (workbook));
 
-	if (styles [MSTYLE_FONT_BOLD].type != MSTYLE_ELEMENT_CONFLICT)
-		if (styles [MSTYLE_FONT_BOLD].type) {
-			t = GTK_TOGGLE_BUTTON (
-				gnumeric_toolbar_get_widget (
-					toolbar,
-					TOOLBAR_BOLD_BUTTON_INDEX));
-			
-			gtk_signal_handler_block_by_func (GTK_OBJECT (t),
-							  (GtkSignalFunc)&bold_cmd,
-							  workbook);
-			gtk_toggle_button_set_active (t, styles [MSTYLE_FONT_BOLD].u.font.bold);
-			gtk_signal_handler_unblock_by_func (GTK_OBJECT (t),
-							    (GtkSignalFunc)&bold_cmd,
-							    workbook);
-		} else ; /* Not bold */
-	else
-		g_warning ("Bold conflict");
+	if (styles [MSTYLE_FONT_BOLD].type) {
+		t = GTK_TOGGLE_BUTTON (
+			gnumeric_toolbar_get_widget (
+				toolbar,
+				TOOLBAR_BOLD_BUTTON_INDEX));
+		
+		gtk_signal_handler_block_by_func (GTK_OBJECT (t),
+						  (GtkSignalFunc)&bold_cmd,
+						  workbook);
+		gtk_toggle_button_set_active (t, styles [MSTYLE_FONT_BOLD].u.font.bold);
+		gtk_signal_handler_unblock_by_func (GTK_OBJECT (t),
+						    (GtkSignalFunc)&bold_cmd,
+						    workbook);
+	} else ; /* Not bold */
 
-	if (styles [MSTYLE_FONT_ITALIC].type != MSTYLE_ELEMENT_CONFLICT)
-		if (styles [MSTYLE_FONT_ITALIC].type) {
-			t = GTK_TOGGLE_BUTTON (
-				gnumeric_toolbar_get_widget (
-					toolbar,
-					TOOLBAR_ITALIC_BUTTON_INDEX));
-			
-			gtk_signal_handler_block_by_func (GTK_OBJECT (t),
-							  (GtkSignalFunc)&italic_cmd,
-							  workbook);
-			gtk_toggle_button_set_active (t, styles [MSTYLE_FONT_BOLD].u.font.italic);
-			gtk_signal_handler_unblock_by_func (GTK_OBJECT (t),
-							    (GtkSignalFunc)&italic_cmd,
-							    workbook);
-		} else ; /* Not italic */
-	else
-		g_warning ("Italic conflict");
+	if (styles [MSTYLE_FONT_ITALIC].type) {
+		t = GTK_TOGGLE_BUTTON (
+			gnumeric_toolbar_get_widget (
+				toolbar,
+				TOOLBAR_ITALIC_BUTTON_INDEX));
+		
+		gtk_signal_handler_block_by_func (GTK_OBJECT (t),
+						  (GtkSignalFunc)&italic_cmd,
+						  workbook);
+		gtk_toggle_button_set_active (t, styles [MSTYLE_FONT_BOLD].u.font.italic);
+		gtk_signal_handler_unblock_by_func (GTK_OBJECT (t),
+						    (GtkSignalFunc)&italic_cmd,
+						    workbook);
+	} else ; /* Not italic */
 
-	if (styles [MSTYLE_FONT_SIZE].type != MSTYLE_ELEMENT_CONFLICT) {
+	{
 		char size_str [40];
 		if (styles [MSTYLE_FONT_SIZE].type)
 			sprintf (size_str, "%g", styles [MSTYLE_FONT_SIZE].u.font.size);
@@ -483,8 +477,7 @@ workbook_feedback_set (Workbook *workbook, MStyleElement *styles)
 			sprintf (size_str, "%g", DEFAULT_SIZE);
 		gtk_entry_set_text (GTK_ENTRY (workbook->priv->size_widget),
 				    size_str);
-	} else
-		g_warning ("Size conflict");
+	}
 
 	/*
 	 * hack: we try to find the key "gnumeric-index" in the
@@ -494,33 +487,31 @@ workbook_feedback_set (Workbook *workbook, MStyleElement *styles)
 	 * If this is not set, then we compute it
 	 */
 	font_set = FALSE;
-	if (styles [MSTYLE_FONT_NAME].type != MSTYLE_ELEMENT_CONFLICT)
-		if (styles [MSTYLE_FONT_NAME].type) {
-			char *font_name = styles [MSTYLE_FONT_NAME].u.font.name->str;
-			void *np;
-			GList *l;
-			int idx = 0;
+	if (styles [MSTYLE_FONT_NAME].type) {
+		char *font_name = styles [MSTYLE_FONT_NAME].u.font.name->str;
+		void *np;
+		GList *l;
+		int idx = 0;
+		
+		workbook->priv->current_font_name = font_name;
+		
+		for (l = gnumeric_font_family_list; l; l = l->next, idx++) {
+			char *f = l->data;
 			
-			workbook->priv->current_font_name = font_name;
-				
-			for (l = gnumeric_font_family_list; l; l = l->next, idx++) {
-				char *f = l->data;
-				
-				if (strcmp (f, font_name) == 0) {
-					np = GINT_TO_POINTER (idx);
+			if (strcmp (f, font_name) == 0) {
+				np = GINT_TO_POINTER (idx);
 					break;
-				}
 			}
-			/*
-			 * +1 means, skip over the "undefined font" element
-			 */
-			gtk_option_menu_set_history (
-				GTK_OPTION_MENU (workbook->priv->option_menu),
-				GPOINTER_TO_INT (np)+1);
-			font_set = TRUE;
 		}
+		/*
+		 * +1 means, skip over the "undefined font" element
+		 */
+		gtk_option_menu_set_history (
+			GTK_OPTION_MENU (workbook->priv->option_menu),
+			GPOINTER_TO_INT (np)+1);
+		font_set = TRUE;
+	}
 	if (!font_set)
 		gtk_option_menu_set_history (
 			GTK_OPTION_MENU (workbook->priv->option_menu), 0);
 }
-

@@ -124,7 +124,6 @@ void        mstyle_dump        (const MStyle *st);
 
 void        mstyle_do_merge    (const GList *list, MStyleElementType max,
 				MStyleElement *mash);
-Style      *render_merge       (const GList *mstyles);
-Style      *render_merge_blank (const GList *mstyles);
+gboolean    mstyle_list_check_sorted (const GList *list);
 
 #endif /* GNUMERIC_MSTYLE_H */

@@ -250,13 +250,13 @@ range_list_foreach_area (Sheet *sheet, GSList *ranges,
  * 
  * Return value: TRUE if co-ordinate contained.
  **/
-gboolean
+gboolean inline
 range_contains (Range const *range, int col, int row)
 {
-	if ((col >= range->start.col) &&
+	if ((row <= range->end.row)   &&
 	    (row >= range->start.row) &&
-	    (col <= range->end.col)   &&
-	    (row <= range->end.row))
+	    (col >= range->start.col) &&
+	    (col <= range->end.col))
 		return TRUE;
 
 	return FALSE;

@@ -118,7 +118,8 @@ void           style_init  	      (void);
 void	       style_shutdown         (void);
 
 Style         *style_new   	      (void);
-Style         *style_mstyle_new       (MStyleElement *e, guint len);
+Style         *style_mstyle_new       (MStyleElement *e, guint len,
+				       double zoom);
 void           style_merge_to         (Style *target, Style *source);
 Style         *style_duplicate        (const Style *style);
 void           style_destroy          (Style *style);
