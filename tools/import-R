@@ -32,6 +32,7 @@ my @files =
      "pbinom.c",
      "dbinom.c",
      "qbinom.c",
+     "dexp.c",
      "bessel.h",
      "bessel_i.c",
      "bessel_k.c",
@@ -40,6 +41,13 @@ my @files =
 my $mathfunc = $ARGV[0];
 my $dir = $ARGV[1];
 my $subdir = "src/nmath";
+
+unless (defined ($mathfunc) && -r $mathfunc &&
+	defined ($dir) && -d "$dir/$subdir") {
+    print STDERR "Usage: $0 mathfunc.c R-directory\n";
+    exit 1;
+}
+
 
 my ($prefix,$postfix) = &read_mathfunc ($mathfunc);
 

@@ -1,3 +1,10 @@
+2002-03-04  Morten Welinder  <terra@diku.dk>
+
+	* src/mathfunc.c (dexp): Add give_log arg and use R's version.
+	All callers changed.
+
+	* src/analysis-tools.c (destroy_data_set_list): Plug leak.
+
 2002-03-04  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet.c (sheet_cell_insert) : make it clear that this routine

@@ -132,7 +132,7 @@ gnumeric_fake_trunc (gnum_float x)
     : gnumeric_fake_ceil (x);
 }
 
-
+/* When R 1.5 comes out, their pweibull should be ok.  */
 gnum_float
 pweibull (gnum_float x, gnum_float shape, gnum_float scale)
 {
@@ -144,18 +144,7 @@ pweibull (gnum_float x, gnum_float shape, gnum_float scale)
 	    return -expm1gnum (-powgnum (x / scale, shape));
 }
 
-gnum_float
-dexp (gnum_float x, gnum_float scale)
-{
-	if (scale <= 0)
-		return ML_NAN;
-	else if (x < 0)
-		return 0;
-	else
-		return expgnum (-x / scale) / scale;
-}
-
-
+/* When R 1.5 comes out, their pexp should be ok.  */
 gnum_float
 pexp (gnum_float x, gnum_float scale)
 {
@@ -2831,6 +2820,48 @@ gnum_float qbinom(gnum_float p, gnum_float n, gnum_float pr, gboolean lower_tail
 		return y;
 	}
     }
+}
+
+/* ------------------------------------------------------------------------ */
+/* Imported src/nmath/dexp.c from R.  */
+/*
+ *  Mathlib : A C Library of Special Functions
+ *  Copyright (C) 1998 Ross Ihaka
+ *  Copyright (C) 2000 The R Development Core Team
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ *  DESCRIPTION
+ *
+ *	The density of the exponential distribution.
+ */
+
+
+gnum_float dexp(gnum_float x, gnum_float scale, gboolean give_log)
+{
+#ifdef IEEE_754
+    /* NaNs propagated correctly */
+    if (isnangnum(x) || isnangnum(scale)) return x + scale;
+#endif
+    if (scale <= 0.0) ML_ERR_return_NAN;
+
+    if (x < 0.)
+	return R_D__0;
+    return (give_log ?
+	    (-x / scale) - loggnum(scale) :
+	    expgnum(-x / scale) / scale);
 }
 
 /* ------------------------------------------------------------------------ */

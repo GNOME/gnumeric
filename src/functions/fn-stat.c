@@ -1111,7 +1111,7 @@ gnumeric_expondist (FunctionEvalInfo *ei, Value **argv)
 	if (cuml)
 		return value_new_float (pexp (x, 1 / y));
 	else
-		return value_new_float (dexp (x, 1 / y));
+		return value_new_float (dexp (x, 1 / y, FALSE));
 }
 
 /***************************************************************************/

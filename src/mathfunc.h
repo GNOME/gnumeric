@@ -93,7 +93,7 @@ gnum_float dpois (gnum_float x, gnum_float lambda, gboolean give_log);
 gnum_float ppois (gnum_float x, gnum_float lambda, gboolean lower_tail, gboolean log_p);
 
 /* The exponential distribution.  */
-gnum_float dexp (gnum_float x, gnum_float scale);
+gnum_float dexp (gnum_float x, gnum_float scale, gboolean give_log);
 gnum_float pexp (gnum_float x, gnum_float scale);
 
 /* Binomial distribution.  */

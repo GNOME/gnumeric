@@ -226,7 +226,7 @@ destroy_data_set_list (GPtrArray * the_list)
 		data = g_ptr_array_index (the_list, i);
 		destroy_data_set ((data_set_t *) data);
 	}
-	g_ptr_array_free (the_list, FALSE);
+	g_ptr_array_free (the_list, TRUE);
 }
 
 /*
