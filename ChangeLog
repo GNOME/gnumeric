@@ -1,5 +1,10 @@
 2001-06-28  Jody Goldberg <jgoldberg@home.com>
 
+	* src/workbook-control-gui.c (sort_by_rows) : fix old bug with sort
+	  tool buttons.
+
+2001-06-28  Jody Goldberg <jgoldberg@home.com>
+
 	* configure.in : bump libxml1 req to 1.8.14 to fix i18n xml import
 	  broken with the switch to the progress monitor.
 	* gnumeric.spec.in : ditto.

@@ -31,6 +31,7 @@
 #include "sheet.h"
 #include "sheet-private.h"
 #include "sheet-control-gui-priv.h"
+#include "gnumeric-sheet.h"
 #include "sheet-object.h"
 #include "dialogs.h"
 #include "commands.h"
@@ -56,6 +57,7 @@
 #ifdef ENABLE_BONOBO
 #include "sheet-object-container.h"
 #endif
+
 #include "gnumeric-type-util.h"
 #include "gnumeric-util.h"
 #include "widgets/gnumeric-toolbar.h"
@@ -748,16 +750,52 @@ wbcg_undo_redo_push (WorkbookControl *wbc, char const *text, gboolean is_undo)
 	gtk_combo_stack_push_item (ur_stack (wbc, is_undo), text);
 }
 
-static void
 #ifndef ENABLE_BONOBO
-toggle_menu_item (GtkWidget *menu_item, gboolean state)
+static void
+change_menu_state (GtkWidget *menu_item, gboolean state)
 {
 	g_return_if_fail (menu_item != NULL);
 
 	gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menu_item), state);
 }
+
+static void
+change_menu_sensitivity (GtkWidget *menu_item, gboolean sensitive)
+{
+	g_return_if_fail (menu_item != NULL);
+
+	gtk_widget_set_sensitive (menu_item, sensitive);
+}
+
+static void
+change_menu_label (GtkWidget *menu_item, char const *prefix, char const *suffix)
+{
+	gchar    *text;
+	GtkBin   *bin = GTK_BIN (menu_item);
+	GtkLabel *label = GTK_LABEL (bin->child);
+	gboolean  sensitive = TRUE;
+
+	g_return_if_fail (label != NULL);
+
+	if (prefix == NULL) {
+		gtk_label_set_text (label, suffix);
+		return;
+	}
+
+	if (suffix == NULL) {
+		suffix = _("Nothing");
+		sensitive = FALSE;
+	}
+
+	text = g_strdup_printf ("%s : %s", prefix, suffix);
+
+	gtk_label_set_text (label, text);
+	gtk_widget_set_sensitive (menu_item, sensitive);
+	g_free (text);
+}
 #else
-toggle_menu_item (WorkbookControlGUI const *wbcg,
+static void
+change_menu_state (WorkbookControlGUI const *wbcg,
 		  char const *verb_path, gboolean state)
 {
 	CORBA_Environment  ev;
@@ -769,17 +807,8 @@ toggle_menu_item (WorkbookControlGUI const *wbcg,
 				      "state", state ? "1" : "0", &ev);
 	CORBA_exception_free (&ev);	
 }
-#endif
 
 static void
-#ifndef ENABLE_BONOBO
-change_menu_sensitivity (GtkWidget *menu_item, gboolean sensitive)
-{
-	g_return_if_fail (menu_item != NULL);
-
-	gtk_widget_set_sensitive (menu_item, sensitive);
-}
-#else
 change_menu_sensitivity (WorkbookControlGUI const *wbcg,
 			 char const *verb_path, gboolean sensitive)
 {
@@ -791,6 +820,41 @@ change_menu_sensitivity (WorkbookControlGUI const *wbcg,
 	bonobo_ui_component_set_prop (wbcg->uic, verb_path,
 				      "sensitive", sensitive ? "1" : "0", &ev);
 	CORBA_exception_free (&ev);	
+}
+
+static void
+change_menu_label (WorkbookControlGUI const *wbcg,
+		   char const *verb_path,
+		   char const *menu_path, /* FIXME we need verb level labels. */
+		   char const *prefix,
+		   char const *suffix)
+{
+	gboolean  sensitive = TRUE;
+	gchar    *text;
+	CORBA_Environment  ev;
+
+	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+
+	CORBA_exception_init (&ev);
+
+	if (prefix == NULL) {
+		bonobo_ui_component_set_prop (wbcg->uic, menu_path, "label",
+					      suffix, &ev);
+	} else {
+		if (suffix == NULL) {
+			suffix = _("Nothing");
+			sensitive = FALSE;
+		}
+
+		text = g_strdup_printf ("%s : %s", prefix, suffix);
+
+		bonobo_ui_component_set_prop (wbcg->uic, menu_path,
+					      "label", text, &ev);
+		bonobo_ui_component_set_prop (wbcg->uic, verb_path,
+					      "sensitive", sensitive ? "1" : "0", &ev);
+		g_free (text);
+	}
+	CORBA_exception_free (&ev);
 }
 #endif
 
@@ -864,53 +928,19 @@ wbcg_menu_state_update (WorkbookControl *wbc, Sheet const *sheet, int flags)
 		change_menu_sensitivity (wbcg, "/commands/DataConsolidate",
 					 !wbcg_edit_has_guru (wbcg));
 #endif
-}
 
-static void
-change_menu_label (
+	if (MS_FREEZE_VS_THAW & flags) {
+		Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+		char const* label = sheet_is_frozen (sheet)
+			? _("Unfreeze Panes") : _("_Freeze Panes");
 #ifndef ENABLE_BONOBO
-		   GtkWidget *menu_item,
+		change_menu_label (wbcg->menu_item_freeze_panes,
+				   NULL, label);
 #else
-		   WorkbookControlGUI const *wbcg,
-		   char const *verb_path,
-		   char const *menu_path, /* FIXME we need verb level labels. */
+		change_menu_label (wbcg, "/commands/ViewFreezeThawPanes",
+				   "/menu/Edit/Redo", NULL, label);
 #endif
-		   char const *prefix,
-		   char const *suffix)
-{
-	gboolean  sensitive = TRUE;
-	gchar    *text;
-
-#ifndef ENABLE_BONOBO
-	GtkBin   *bin = GTK_BIN(menu_item);
-	GtkLabel *label = GTK_LABEL(bin->child);
-
-	g_return_if_fail (label != NULL);
-#else
-	CORBA_Environment  ev;
-
-	g_return_if_fail (wbcg != NULL);
-#endif
-
-	if (suffix == NULL) {
-		suffix = _("Nothing");
-		sensitive = FALSE;
 	}
-
-	text = g_strdup_printf ("%s : %s", prefix, suffix);
-
-#ifndef ENABLE_BONOBO
-	gtk_label_set_text (label, text);
-	gtk_widget_set_sensitive (menu_item, sensitive);
-#else
-	CORBA_exception_init (&ev);
-
-	bonobo_ui_component_set_prop (wbcg->uic, verb_path,
-				      "sensitive", sensitive ? "1" : "0", &ev);
-	bonobo_ui_component_set_prop (wbcg->uic, menu_path, "label", text, &ev);
-	CORBA_exception_free (&ev);
-#endif
-	g_free (text);
 }
 
 static void
@@ -939,38 +969,38 @@ wbcg_menu_state_sheet_prefs (WorkbookControl *wbc, Sheet const *sheet)
 		return;
 
 #ifndef ENABLE_BONOBO
-	toggle_menu_item (wbcg->menu_item_sheet_display_formulas,
+	change_menu_state (wbcg->menu_item_sheet_display_formulas,
 		sheet->display_formulas);
-	toggle_menu_item (wbcg->menu_item_sheet_hide_zero,
+	change_menu_state (wbcg->menu_item_sheet_hide_zero,
 		sheet->hide_zero);
-	toggle_menu_item (wbcg->menu_item_sheet_hide_grid,
+	change_menu_state (wbcg->menu_item_sheet_hide_grid,
 		sheet->hide_grid);
-	toggle_menu_item (wbcg->menu_item_sheet_hide_col_header,
+	change_menu_state (wbcg->menu_item_sheet_hide_col_header,
 		sheet->hide_col_header);
-	toggle_menu_item (wbcg->menu_item_sheet_hide_row_header,
+	change_menu_state (wbcg->menu_item_sheet_hide_row_header,
 		sheet->hide_row_header);
-	toggle_menu_item (wbcg->menu_item_sheet_display_outlines,
+	change_menu_state (wbcg->menu_item_sheet_display_outlines,
 		sheet->display_outlines);
-	toggle_menu_item (wbcg->menu_item_sheet_outline_symbols_below,
+	change_menu_state (wbcg->menu_item_sheet_outline_symbols_below,
 		sheet->outline_symbols_below);
-	toggle_menu_item (wbcg->menu_item_sheet_outline_symbols_right,
+	change_menu_state (wbcg->menu_item_sheet_outline_symbols_right,
 		sheet->outline_symbols_right);
 #else
-	toggle_menu_item (wbcg,
+	change_menu_state (wbcg,
 		"/commands/SheetDisplayFormulas", sheet->display_formulas);
-	toggle_menu_item (wbcg,
+	change_menu_state (wbcg,
 		"/commands/SheetHideZeros", sheet->hide_zero);
-	toggle_menu_item (wbcg,
+	change_menu_state (wbcg,
 		"/commands/SheetHideGridlines", sheet->hide_grid);
-	toggle_menu_item (wbcg,
+	change_menu_state (wbcg,
 		"/commands/SheetHideColHeader", sheet->hide_col_header);
-	toggle_menu_item (wbcg,
+	change_menu_state (wbcg,
 		"/commands/SheetHideRowHeader", sheet->hide_row_header);
-	toggle_menu_item (wbcg,
+	change_menu_state (wbcg,
 		"/commands/SheetDisplayOutlines", sheet->display_outlines);
-	toggle_menu_item (wbcg,
+	change_menu_state (wbcg,
 		"/commands/SheetOutlineBelow", sheet->outline_symbols_below);
-	toggle_menu_item (wbcg,
+	change_menu_state (wbcg,
 		"/commands/SheetOutlineRight", sheet->outline_symbols_right);
 #endif
 	wbcg_ui_update_end (wbcg);
@@ -1559,15 +1589,21 @@ cb_view_zoom (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	dialog_zoom (wbcg, wb_control_cur_sheet (wbc));
 }
 
-#if 0
 static void
 cb_view_freeze_panes (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
-	sheet_freeze_panes (sheet, &sheet->edit_pos);
+	SheetControlGUI *scg = wb_control_gui_cur_sheet (wbcg);
+
+	if (scg->active_panes) {
+		CellPos top_left;
+		top_left.col = scg->pane[0].gsheet->col.first;
+		top_left.row = scg->pane[0].gsheet->row.first;
+		sheet_freeze_panes (sheet, &top_left, &sheet->edit_pos);
+	} else
+		sheet_freeze_panes (sheet, NULL, NULL);
 }
-#endif
 
 static void
 cb_view_new_shared (GtkWidget *widget, WorkbookControlGUI *wbcg)
@@ -1985,7 +2021,7 @@ cb_formula_guru (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 static void
-sort_cmd (WorkbookControlGUI *wbcg, int asc)
+sort_by_rows (WorkbookControlGUI *wbcg, int asc)
 {
 	Sheet *sheet;
 	Range *sel;
@@ -2019,13 +2055,17 @@ sort_cmd (WorkbookControlGUI *wbcg, int asc)
 	data->range = sel;
 	data->num_clause = numclause;
 	data->clauses = clause;
-	/* TODO : shouldn't this look at the shape of the region ? */
+
+	/* Hard code sorting by row.  I would prefer not to, but user testing
+	 * indicates
+	 * - that the button should always does the same things
+	 * - that the icon matches the behavior
+	 * - XL does this.
+	 */
 	data->top = TRUE;
 
 	if (range_has_header (data->sheet, data->range, data->top))
 		data->range->start.row += 1;
-	else
-		data->range->start.col += 1;
 
 	cmd_sort (WORKBOOK_CONTROL (wbcg), data);
 }
@@ -2033,13 +2073,13 @@ sort_cmd (WorkbookControlGUI *wbcg, int asc)
 static void
 cb_sort_ascending (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	sort_cmd (wbcg, 0);
+	sort_by_rows (wbcg, 0);
 }
 
 static void
 cb_sort_descending (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	sort_cmd (wbcg, 1);
+	sort_by_rows (wbcg, 1);
 }
 
 #ifdef ENABLE_BONOBO
@@ -2247,11 +2287,9 @@ static GnomeUIInfo workbook_menu_view [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("_Zoom..."),
 		N_("Zoom the spreadsheet in or out"),
 		cb_view_zoom),
-#if 0
 	GNOMEUIINFO_ITEM_NONE (N_("_Freeze..."),
 		N_("Freeze the top left of the sheet"),
 		cb_view_freeze_panes),
-#endif
 	GNOMEUIINFO_ITEM_NONE (N_("New _Shared"),
 		N_("Create a new shared view of the workbook"),
 		cb_view_new_shared),
@@ -2634,9 +2672,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("EditRecalc", cb_edit_recalc),
 
 	BONOBO_UI_UNSAFE_VERB ("ViewZoom", cb_view_zoom),
-#if 0
 	BONOBO_UI_UNSAFE_VERB ("ViewFreezePanes", cb_view_freeze_panes),
-#endif
 	BONOBO_UI_UNSAFE_VERB ("ViewNewShared", cb_view_new_shared),
 	BONOBO_UI_UNSAFE_VERB ("ViewNewUnshared", cb_view_new_unshared),
 
@@ -3511,6 +3547,8 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	/* FIXME: Once input validation is enabled change the [3] */
 	wbcg->menu_item_consolidate =
 		workbook_menu_data [3].widget;
+	wbcg->menu_item_freeze_panes =
+		workbook_menu_view [1].widget;
 	
 	wbcg->menu_item_sheet_display_formulas =
 		workbook_menu_format_sheet [2].widget;
