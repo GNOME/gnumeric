@@ -47,6 +47,12 @@ struct _Workbook {
 
 	void       *corba_server;
 
+	struct {
+		gboolean enabled;
+		int      max_number;
+		double   tolerance;
+	} iteration;
+
 	WorkbookPrivate *priv;
 };
 
@@ -112,10 +118,13 @@ Value	   *workbook_foreach_cell_in_range (EvalPos const *pos,
 					    void	  *closure);
 GPtrArray  *workbook_cells               (Workbook *wb, gboolean comments);
 
-/* Calculation control */
-void        workbook_recalc              (Workbook *wb);
-void        workbook_recalc_all          (Workbook *wb);
-gboolean    workbook_enable_recursive_dirty (Workbook *wb, gboolean enable);
+/* Calculation */
+void     workbook_recalc                 (Workbook *wb);	/* in eval.c */
+void     workbook_recalc_all             (Workbook *wb);	/* in eval.c */
+gboolean workbook_enable_recursive_dirty (Workbook *wb, gboolean enable);
+void     workbook_iteration_enabled	 (Workbook *wb, gboolean enable);
+void     workbook_iteration_max_number	 (Workbook *wb, int max_number);
+void     workbook_iteration_tolerance	 (Workbook *wb, double tolerance);
 
 void        workbook_calc_spans          (Workbook *wb, SpanCalcFlags const flags);
 

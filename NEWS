@@ -5,7 +5,9 @@ Almer:
 
 Jody:
 	* Fix ctrl-enter filling.
-	* Reorganize the recalc queue
+	* Reorganize the recalc queue.
+	* Support iteration.
+	* Fix FV arguments.
 
 Morten:
 	* Fix PV.

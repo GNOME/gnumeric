@@ -9,6 +9,7 @@
 #include "config.h"
 #include "gnumeric.h"
 #include "cell.h"
+#include "workbook.h"
 #include "sheet.h"
 #include "expr.h"
 #include "rendered-value.h"
@@ -153,9 +154,7 @@ cell_eval_content (Cell *cell)
 	static Cell *iterating = NULL;
 	Value   *v;
 	EvalPos	 pos;
-
-	/* This _must_ start as a positive number */
-	int	 max_iterate = 100;
+	int	 max_iteration;
 
 	if (!cell_has_expr (cell))
 		return TRUE;
@@ -165,13 +164,16 @@ cell_eval_content (Cell *cell)
 		ParsePos pp;
 		char *str = expr_tree_as_string (cell->base.expression,
 			parse_pos_init_cell (&pp, cell));
-		printf ("{\nEvaluating(%d) %s: %s;\n", max_iterate, cell_name (cell), str);
+		printf ("{\nEvaluating %s: %s;\n", cell_name (cell), str);
 		g_free (str);
 	}
 #endif
 
 	/* This is the bottom of a cycle */
 	if (cell->base.flags & DEPENDENT_BEING_CALCULATED) {
+		if (!cell->base.sheet->workbook->iteration.enabled)
+			return TRUE;
+
 		/* but not the first bottom */
 		if (cell->base.flags & CELL_BEING_ITERATED) {
 #ifdef DEBUG_EVALUATION
@@ -206,6 +208,7 @@ cell_eval_content (Cell *cell)
 	/* Prepare to calculate */
 	eval_pos_init_cell (&pos, cell);
 	cell->base.flags |= DEPENDENT_BEING_CALCULATED;
+	max_iteration = cell->base.sheet->workbook->iteration.max_number;
 
 iterate :
 	v = eval_expr (&pos, cell->base.expression, EVAL_STRICT);
@@ -217,7 +220,7 @@ iterate :
 		char *valtxt = v
 			? value_get_as_string (v)
 			: g_strdup ("NULL");
-		printf ("Evaluation(%d) %s := %s\n", max_iterate, cell_name (cell), valtxt);
+		printf ("Evaluation(%d) %s := %s\n", max_iteration, cell_name (cell), valtxt);
 		g_free (valtxt);
 	}
 #endif
@@ -227,10 +230,10 @@ iterate :
 		cell->base.flags &= ~CELL_BEING_ITERATED;
 
 		/* We just completed the last iteration, don't change things */
-		if (iterating && max_iterate-- > 0) {
+		if (iterating && max_iteration-- > 0) {
 			/* If we are within bounds make this the last round */
-			if (value_diff (cell->value, v) < 0.001)
-				max_iterate = 0;
+			if (value_diff (cell->value, v) < cell->base.sheet->workbook->iteration.tolerance)
+				max_iteration = 0;
 			else {
 #ifdef DEBUG_EVALUATION
 				puts ("/* iterate == NULL */");

@@ -1,3 +1,14 @@
+2001-05-26  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-write.c (write_sheet_bools) : Save the iteration
+	  preferences too.  These are workbook level flags.  I am unclear why
+	  XL saves them at the sheet level.
+
+	* ms-excel-read.c (ms_excel_read_calccount) : new function.
+	(ms_excel_read_delta) : ditto.
+	(ms_excel_read_iteration) : ditto.
+	(ms_excel_read_sheet) : use them here.
+
 2001-05-18  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_read_formula) : Use cell_queue_recalc

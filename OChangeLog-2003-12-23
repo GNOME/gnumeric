@@ -1,3 +1,11 @@
+2001-05-26  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell.c (cell_eval_content) : Use the iteration prefs.
+
+	* src/workbook.c (workbook_iteration_tolerance) : new function.
+	(workbook_iteration_enabled) : ditto.
+	(workbook_iteration_max_number) : ditto.
+
 2001-05-26  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/gui-file.c (fill_save_menu): If recently used saver has been

@@ -3055,6 +3055,7 @@ write_sheet_bools (BiffPut *bp, ExcelSheet *sheet)
 	guint8 *data;
 	PrintInformation *pi;
 	MsBiffVersion ver = sheet->wb->ver;
+	Workbook *wb = sheet->gnum_sheet->workbook;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (sheet->gnum_sheet != NULL);
@@ -3069,7 +3070,7 @@ write_sheet_bools (BiffPut *bp, ExcelSheet *sheet)
 
 	/* See: S59D62.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_CALCCOUNT, 2);
-	MS_OLE_SET_GUINT16 (data, 0x0064);
+	MS_OLE_SET_GUINT16 (data, wb->iteration.max_number);
 	ms_biff_put_commit (bp);
 
 	/* See: S59DD7.HTM */
@@ -3079,13 +3080,12 @@ write_sheet_bools (BiffPut *bp, ExcelSheet *sheet)
 
 	/* See: S59D9C.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_ITERATION, 2);
-	MS_OLE_SET_GUINT16 (data, 0x0000);
+	MS_OLE_SET_GUINT16 (data, wb->iteration.enabled ? 1 : 0);
 	ms_biff_put_commit (bp);
 
-	/* See: S59D75.HTM, FIXME: find what number this really is! */
+	/* See: S59D75.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_DELTA, 8);
-	MS_OLE_SET_GUINT32 (data,   0xd2f1a9fc);
-	MS_OLE_SET_GUINT32 (data+4, 0x3f50624d);
+	gnumeric_set_le_double (data, wb->iteration.tolerance);
 	ms_biff_put_commit (bp);
 
 	/* See: S59DDD.HTM */

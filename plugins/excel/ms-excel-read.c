@@ -3490,6 +3490,39 @@ ms_excel_read_wsbool (BiffQuery *q, ExcelSheet *sheet)
 	sheet->gnum_sheet->display_outlines      = 0 != (options & 0x600);
 }
 
+static void
+ms_excel_read_calcount (BiffQuery *q, ExcelWorkbook *wb)
+{
+	guint16 count;
+
+	g_return_if_fail (q->length == 2);
+
+	count = MS_OLE_GET_GUINT16 (q->data);
+	workbook_iteration_max_number (wb->gnum_wb, count);
+}
+
+static void
+ms_excel_read_delta (BiffQuery *q, ExcelWorkbook *wb)
+{
+	double tolerance;
+
+	g_return_if_fail (q->length == 8);
+
+	tolerance = gnumeric_get_le_double (q->data);
+	workbook_iteration_tolerance (wb->gnum_wb, tolerance);
+}
+
+static void
+ms_excel_read_iteration (BiffQuery *q, ExcelWorkbook *wb)
+{
+	guint16 enabled;
+
+	g_return_if_fail (q->length == 2);
+
+	enabled = MS_OLE_GET_GUINT16 (q->data);
+	workbook_iteration_enabled (wb->gnum_wb, enabled);
+}
+
 static gboolean
 ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb, WorkbookView *wb_view,
 		     ExcelSheet *sheet)
@@ -3561,13 +3594,20 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb, WorkbookView *wb_view,
 		case BIFF_GRIDSET:
 		case BIFF_INDEX:
 		case BIFF_CALCMODE:
-		case BIFF_CALCCOUNT:
 		case BIFF_REFMODE:
-		case BIFF_ITERATION:
-		case BIFF_DELTA:
 		case BIFF_SAVERECALC:
 		case BIFF_PRINTHEADERS:
 		case BIFF_COUNTRY:
+			break;
+
+		case BIFF_CALCCOUNT:
+			ms_excel_read_calccount (q, wb);
+			break;
+		case BIFF_DELTA:
+			ms_excel_read_delta (q, wb);
+			break;
+		case BIFF_ITERATION:
+			ms_excel_read_iteration (q, wb);
 			break;
 
 		case BIFF_WSBOOL:

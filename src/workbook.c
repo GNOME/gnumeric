@@ -375,6 +375,11 @@ workbook_init (GtkObject *object)
 	/* Nothing to undo or redo */
 	wb->undo_commands = wb->redo_commands = NULL;
 
+	/* default to no iteration */
+	wb->iteration.enabled = FALSE;
+	wb->iteration.max_number = 100;
+	wb->iteration.tolerance = .001;
+
 	application_workbook_list_add (wb);
 
 #if 0
@@ -836,6 +841,30 @@ workbook_enable_recursive_dirty (Workbook *wb, gboolean enable)
 	gboolean old = wb->priv->recursive_dirty_enabled;
 	wb->priv->recursive_dirty_enabled = enable;
 	return old;
+}
+
+void
+workbook_iteration_enabled (Workbook *wb, gboolean enable)
+{
+	g_return_if_fail (IS_WORKBOOK (wb));
+	wb->iteration.enabled = enable;
+}
+
+void
+workbook_iteration_max_number (Workbook *wb, int max_number)
+{
+	g_return_if_fail (IS_WORKBOOK (wb));
+	g_return_if_fail (max_number >= 0);
+	wb->iteration.max_number = max_number;
+}
+
+void
+workbook_iteration_tolerance (Workbook *wb, double tolerance)
+{
+	g_return_if_fail (IS_WORKBOOK (wb));
+	g_return_if_fail (tolerance >= 0);
+
+	wb->iteration.tolerance = tolerance;
 }
 
 void
