@@ -1292,7 +1292,7 @@ do_print_ok_cb (GtkWidget *w, PrinterSetupState *state)
 
 static void
 do_print_set_focus_cb (GtkWidget *window, GtkWidget *focus_widget,
-			    PrinterSetupState *state)
+		       PrinterSetupState *state)
 {
 	if (GNUMERIC_IS_EXPR_ENTRY (focus_widget)) {
 		workbook_set_entry (state->wbcg,
@@ -1526,6 +1526,10 @@ void
 dialog_printer_setup (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
 	PrinterSetupState *state;
+
+	/* Only one guru per workbook. */
+	if (workbook_edit_has_guru (wbcg))
+		return;
 
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, PRINTER_SETUP_KEY))

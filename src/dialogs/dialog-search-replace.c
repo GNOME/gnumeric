@@ -180,6 +180,10 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 
 	g_return_if_fail (wbcg != NULL);
 
+	/* Only one guru per workbook. */
+	if (workbook_edit_has_guru (wbcg))
+		return;
+
 	if (gnumeric_dialog_raise_if_exists (wbcg, SEARCH_REPLACE_KEY))
 		return;
 
@@ -220,7 +224,7 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 			    dd);
 	gtk_signal_connect (GTK_OBJECT (dialog), "set-focus",
 			    GTK_SIGNAL_FUNC (set_focus), dd);
-	gtk_signal_connect (GTK_OBJECT (dd->rangetext), "focus_in_event",
+	gtk_signal_connect (GTK_OBJECT (dd->rangetext), "focus-in-event",
 			    GTK_SIGNAL_FUNC (range_focused), dd);
 
 	gtk_widget_show_all (dialog->vbox);

@@ -781,6 +781,15 @@ wbcg_menu_state_update (WorkbookControl *wbc, Sheet const *sheet, int flags)
 	if (all || MS_PASTE_SPECIAL & flags)
 		change_menu_sensitivity (wbcg->menu_item_paste_special,
 					 sheet->priv->enable_paste_special);
+	if (all || MS_PRINT_SETUP & flags)
+		change_menu_sensitivity (wbcg->menu_item_print_setup,
+					 !workbook_edit_has_guru (wbcg));
+	if (all || MS_SEARCH_REPLACE & flags)
+		change_menu_sensitivity (wbcg->menu_item_search_replace,
+					 !workbook_edit_has_guru (wbcg));
+	if (all || MS_DEFINE_NAME & flags)
+		change_menu_sensitivity (wbcg->menu_item_define_name,
+					 !workbook_edit_has_guru (wbcg));
 #else
 	if (all || MS_INSERT_COLS & flags)
 		change_menu_sensitivity (wbcg, "/commands/InsertColumns",
@@ -800,6 +809,15 @@ wbcg_menu_state_update (WorkbookControl *wbc, Sheet const *sheet, int flags)
 	if (all || MS_PASTE_SPECIAL & flags)
 		change_menu_sensitivity (wbcg, "/commands/EditPasteSpecial",
 					 sheet->priv->enable_paste_special);
+	if (all || MS_PRINT_SETUP & flags)
+		change_menu_sensitivity (wbcg, "/commands/FilePrintSetup",
+					 !workbook_edit_has_guru (wbcg));
+	if (all || MS_SEARCH_REPLACE & flags)
+		change_menu_sensitivity (wbcg, "/commands/EditSearchReplace",
+					 !workbook_edit_has_guru (wbcg));
+	if (all || MS_DEFINE_NAME & flags)
+		change_menu_sensitivity (wbcg, "/commands/EditNames",
+					 !workbook_edit_has_guru (wbcg));
 #endif
 }
 
@@ -3359,12 +3377,16 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	/* Get the menu items that will be enabled disabled based on
 	 * workbook state.
 	 */
+	wbcg->menu_item_print_setup =
+		workbook_menu_file [6].widget;
 	wbcg->menu_item_undo =
 		workbook_menu_edit [0].widget;
 	wbcg->menu_item_redo =
 		workbook_menu_edit [1].widget;
 	wbcg->menu_item_paste_special =
 		workbook_menu_edit [6].widget;
+	wbcg->menu_item_search_replace =
+		workbook_menu_edit [13].widget;
 	
 	wbcg->menu_item_insert_rows =
 		workbook_menu_insert [1].widget;
@@ -3372,6 +3394,8 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 		workbook_menu_insert [2].widget;
 	wbcg->menu_item_insert_cells =
 		workbook_menu_insert [3].widget;
+	wbcg->menu_item_define_name =
+		workbook_menu_names [0].widget;
 	
 	wbcg->menu_item_sheet_display_formulas =
 		workbook_menu_format_sheet [2].widget;

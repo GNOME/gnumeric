@@ -37,6 +37,10 @@ struct _WorkbookControlGUI {
 	GtkWidget  *menu_item_sheets_edit_reorder;
 	GtkWidget  *menu_item_sheets_format_reorder;
 
+	GtkWidget  *menu_item_print_setup;
+	GtkWidget  *menu_item_search_replace;
+	GtkWidget  *menu_item_define_name;
+	
 	/* Menu items that get toggled */
 	GtkWidget  *menu_item_sheet_display_formulas;
 	GtkWidget  *menu_item_sheet_hide_zero;

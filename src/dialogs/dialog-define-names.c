@@ -562,7 +562,7 @@ cb_name_guru_destroy (GtkObject *w, NameGuruState *state)
 
 static void
 cb_name_guru_set_focus (GtkWidget *window, GtkWidget *focus_widget,
-		 NameGuruState *state)
+			NameGuruState *state)
 {
 	if (GNUMERIC_IS_EXPR_ENTRY (focus_widget)) {
 		workbook_set_entry (state->wbcg,
@@ -654,6 +654,10 @@ dialog_define_names (WorkbookControlGUI *wbcg)
 	NameGuruState *state;
 
 	g_return_if_fail (wbcg != NULL);
+
+	/* Only one guru per workbook. */
+	if (workbook_edit_has_guru (wbcg))
+		return;
 
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, DEFINE_NAMES_KEY))

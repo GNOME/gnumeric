@@ -1,3 +1,12 @@
+2001-05-15  Jon K Hellan  <hellan@acm.org>
+ 
+ 	* dialog-define-names.c (dialog_define_names): Ensure only one
+ 	guru per workbook.
+ 
+ 	* dialog-search-replace.c (dialog_search_replace): Ditto.
+ 
+ 	* dialog-printer-setup.c (dialog_printer_setup): Ditto.
+ 
 2001-05-14  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-cell-format.c (fmt_dialog_impl) : move the containment logic
