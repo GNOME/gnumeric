@@ -1,5 +1,10 @@
 2000-11-12  Ariel Rios  <ariel@arcavia.com>
 
+	* plugin.c: Add copyright notice.
+	* doc/guile-gnumeric.txt: Update documentation.
+
+2000-11-12  Ariel Rios  <ariel@arcavia.com>
+
 	* functions.scm (fibo): Return value smob
 	* guile-support.c : Ditto for the functions removed on header file.
 	(scm_to_value): We now only call get_value_from_smob and things are

@@ -91,21 +91,21 @@ This function is already included on the gnumeric distribution.
 ;; (fibonacci 20) => 6765
 ;; (fibonacci 30) => 832040
 
-(define (fibo n)   
-  (letrec ((fibof
-            (lambda (n a b)
-             (if (<= n 2)
-                 b
-                 (fibof (- n 1) b (+ a b))))))
+(define (fibo k)
+  (let ((n (value-get-as-int k)))
+    (letrec ((fibof
+	      (lambda (n a b)
+		(if (<= n 2)
+		    b
+		    (fibof (- n 1) b (+ a b))))))
+      (value-new-float (fibof n 1 1)))))
 
-    (fibof n 1 1)))
-
-
-(register-function
+(register-function 
 "fibo" "f"
 "@FUNCTION=FIBO
-@SYNTAX=FIBO(num) 
+@SYNTAX=FIBO(num)
 @DESCRIPTION=Returns the fibonnacci computation for number."
+"Guile"
 fibo)
 
 You are now able to use you newly designed formula with:
@@ -113,12 +113,11 @@ You are now able to use you newly designed formula with:
 
 5. Using gnumeric Value implementation.
 
-The Guile plugin has support for gnumeric value implementation; this implementation
-will be used in the future to get values from gnumeric and send them back
-from the Scheme world. This is used by creating a new smob that adds
+The Guile plugin has support for gnumeric value implementation;
+this is used by creating a new smob that adds
 Value as new Guile data type. 
 
--To create a new value the following set of functions is (or will be) available:
+-To create a new value the following set of functions:
 
 (make-val scm)
 Receives an int, float, string, bool or array and returns a new value smob. 
@@ -133,7 +132,6 @@ This function will be deprecated.
 (value-new-array-list scm)
 
 This functions receive a scm object and returns a new value smob.
-* Not yet available
 
 -To get the value of the smob depending on its type:
 
@@ -145,6 +143,8 @@ This functions receive a scm object and returns a new value smob.
 
 This functions receive a scm object and returns a the value
 allocated within the smob.
+
+
 
 
 
