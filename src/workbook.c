@@ -138,6 +138,11 @@ workbook_finalize (GObject *wb_object)
 			g_warning ("Unexpected left over views");
 	}
 
+	if (wb->sheet_local_functions != NULL) {
+		g_hash_table_destroy (wb->sheet_local_functions);
+		wb->sheet_local_functions = NULL;
+	}
+
 	/* Remove ourselves from the list of workbooks.  */
 	gnm_app_workbook_list_remove (wb);
 
@@ -292,6 +297,7 @@ workbook_init (GObject *object)
 	wb->sheets = g_ptr_array_new ();
 	wb->sheet_hash_private = g_hash_table_new (g_str_hash, g_str_equal);
 	wb->sheet_order_dependents = NULL;
+	wb->sheet_local_functions = NULL;
 	wb->names        = NULL;
 	wb->summary_info = summary_info_new ();
 	summary_info_default (wb->summary_info);
@@ -703,6 +709,12 @@ workbook_cells (Workbook *wb, gboolean comments)
 	g_list_free (sheets);
 
 	return cells;
+}
+
+GSList *
+workbook_local_functions (Workbook const *wb)
+{
+	return NULL;
 }
 
 gboolean
@@ -1574,3 +1586,4 @@ workbook_set_1904 (Workbook *wb, gboolean flag)
 GSF_CLASS (Workbook, workbook,
 	   workbook_class_init, workbook_init,
 	   G_TYPE_OBJECT);
+

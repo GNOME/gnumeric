@@ -1103,7 +1103,7 @@ plugin_service_function_group_deactivate (GnmPluginService *service, ErrorInfo *
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	GNM_SLIST_FOREACH (service_function_group->function_name_list, char, fname,
-		function_remove (service_function_group->func_group, fname);
+		gnm_func_free (gnm_func_lookup (fname, NULL));
 	);
 	service->is_active = FALSE;
 }

@@ -2293,10 +2293,9 @@ cmd_global_outline_change (WorkbookControl *wbc, gboolean is_cols, int depth)
 typedef struct {
 	GnmCommand cmd;
 
-	GnmRange          range;
+	GnmRange       range;
 	gboolean       is_cols;
 	gboolean       group;
-	int            gutter_size;
 } CmdGroup;
 
 MAKE_GNM_COMMAND (CmdGroup, cmd_group);

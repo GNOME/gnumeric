@@ -2062,18 +2062,15 @@ gnm_expr_get_range (GnmExpr const *expr)
 GSList *
 gnm_expr_get_ranges (GnmExpr const *expr)
 {
-	GHashTable *singles, *ranges;
+	/* GHashTable *singles, *ranges; */
 
 	g_return_val_if_fail (expr != NULL, NULL);
 
 	switch (expr->any.oper) {
 	case GNM_EXPR_OP_CELLREF :
-		return value_new_cellrange_unsafe (
-			&expr->cellref.ref, &expr->cellref.ref);
+		return NULL;
 
 	case GNM_EXPR_OP_CONSTANT:
-		if (expr->constant.value->type == VALUE_CELLRANGE)
-			return value_dup (expr->constant.value);
 		return NULL;
 
 	case GNM_EXPR_OP_NAME:

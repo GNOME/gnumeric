@@ -84,9 +84,6 @@ PangoColor const* cell_get_render_color	(GnmCell const * cell);
 char *	cell_get_entered_text	(GnmCell const * cell);
 char *  cell_get_rendered_text  (GnmCell *cell);
 
-guint cellpos_hash (GnmCellPos const *key);
-gint  cellpos_cmp  (GnmCellPos const *a, GnmCellPos const *b);
-
 void cell_init (void);
 void cell_shutdown (void);
 

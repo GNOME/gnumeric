@@ -662,18 +662,6 @@ cell_convert_expr_to_value (GnmCell *cell)
 	cell_dirty (cell);
 }
 
-guint
-cellpos_hash (GnmCellPos const *key)
-{
-	return (key->row << 8) | key->col;
-}
-
-gint
-cellpos_cmp (GnmCellPos const *a, GnmCellPos const *b)
-{
-	return (a->row == b->row && a->col == b->col);
-}
-
 GnmComment *
 cell_has_comment_pos (Sheet const *sheet, GnmCellPos const *pos)
 {

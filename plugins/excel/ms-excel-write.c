@@ -27,6 +27,7 @@
 #include "ms-excel-xf.h"
 #include "ms-escher.h"
 #include "ms-obj.h"
+#include "formula-types.h"
 
 #include <format.h>
 #include <position.h>
@@ -363,7 +364,7 @@ excel_write_externsheets_v7 (ExcelWriteState *ewb)
 
 		ms_biff_put_var_next (ewb->bp, BIFF_EXTERNSHEET);
 		len = excel_write_string_len (
-				esheet->gnum_sheet->name_unquoted, NULL);
+			esheet->gnum_sheet->name_unquoted, NULL);
 
 		GSF_LE_SET_GUINT8 (data, len);
 		GSF_LE_SET_GUINT8 (data + 1, 3); /* undocumented */
@@ -876,14 +877,6 @@ excel_write_builtin_name (char const *ptr, MsBiffVersion version)
 		if (!strcmp (builtins[i], ptr))
 			return i;
 	return -1;
-}
-
-static void
-cb_enumerate_names (gpointer key, GnmNamedExpr *nexpr, ExcelWriteState *ewb)
-{
-	ewb->tmp_counter++; /* pre increment to avoid 0 */
-	g_hash_table_insert (ewb->names, (gpointer)nexpr,
-		GUINT_TO_POINTER (ewb->tmp_counter));
 }
 
 static void
@@ -4019,12 +4012,70 @@ excel_foreach_name (ExcelWriteState *ewb, GHFunc func)
 }
 
 static void
+cb_enumerate_names (gpointer key, GnmNamedExpr *nexpr, ExcelWriteState *ewb)
+{
+	ewb->tmp_counter++; /* pre increment to avoid 0 */
+	g_hash_table_insert (ewb->names, (gpointer)nexpr,
+		GUINT_TO_POINTER (ewb->tmp_counter));
+}
+
+static void
+cb_enumerate_macros (gpointer key, ExcelFunc *efunc, ExcelWriteState *ewb)
+{
+	if (efunc->macro_name != NULL)
+		efunc->idx = ++ewb->tmp_counter;
+}
+
+static void
+cb_write_macro_NAME (gpointer key, ExcelFunc *efunc, ExcelWriteState *ewb)
+{
+	if (efunc->macro_name != NULL) {
+		guint8	data[14] = {
+			0xE, 0x0,	/* flag vba macro */
+			0x0,		/* key */
+			0x0,		/* namelen <FILLIN> */
+			0x0, 0x0,	/* no expr */
+			0x0, 0x0,	/* not sheet local */
+			0x0, 0x0,	/* not sheet local */
+			0x0,		/* menu */
+			0x0,		/* description */
+			0x0,		/* help */
+			0x0		/* status */
+		};
+		unsigned len = excel_write_string_len (efunc->macro_name, NULL);
+
+		if (len > 255)
+			len = 255;
+		ms_biff_put_var_next (ewb->bp, BIFF_NAME);
+		GSF_LE_SET_GUINT8 (data+3, len);
+		ms_biff_put_var_write (ewb->bp, data, sizeof (data));
+		excel_write_string (ewb->bp, efunc->macro_name, STR_NO_LENGTH);
+		ms_biff_put_commit (ewb->bp);
+
+		g_free (efunc->macro_name);	/* INVALIDATE THE NAME */
+	}
+}
+
+static void
+excel_write_names (ExcelWriteState *ewb)
+{
+	excel_foreach_name (ewb, (GHFunc)&cb_enumerate_names);
+	g_hash_table_foreach (ewb->function_map,
+		(GHFunc)cb_enumerate_macros, ewb);
+
+	excel_foreach_name (ewb, (GHFunc)&excel_write_NAME);
+	g_hash_table_foreach (ewb->function_map,
+		(GHFunc)cb_write_macro_NAME, ewb);
+	excel_write_autofilter_names (ewb);
+}
+
+static void
 write_workbook (ExcelWriteState *ewb)
 {
 	BiffPut		*bp = ewb->bp;
 	ExcelWriteSheet	*s = NULL;
 	guint8 *data;
-	guint i;
+	int i, len;
 
 	ewb->streamPos = excel_write_BOF (ewb->bp, MS_BIFF_TYPE_Workbook);
 
@@ -4058,8 +4109,6 @@ write_workbook (ExcelWriteState *ewb)
 	ms_biff_put_commit (bp);
 
 	if (bp->version >= MS_BIFF_V8) {
-		int i, len;
-
 		data = ms_biff_put_len_next (bp, BIFF_DSF, 2);
 		GSF_LE_SET_GUINT16 (data, ewb->double_stream_file ? 1 : 0);
 		ms_biff_put_commit (bp);
@@ -4094,9 +4143,7 @@ write_workbook (ExcelWriteState *ewb)
 
 		/* assign indicies to the names before we export */
 		ewb->tmp_counter = ewb->externnames->len;
-		excel_foreach_name (ewb, (GHFunc)&cb_enumerate_names);
-		excel_foreach_name (ewb, (GHFunc)&excel_write_NAME);
-		excel_write_autofilter_names (ewb);
+		excel_write_names (ewb);
 	}
 
 	/* See: S59E19.HTM */
@@ -4168,7 +4215,7 @@ write_workbook (ExcelWriteState *ewb)
 	}
 	write_palette (bp, ewb);
 
-	for (i = 0; i < ewb->sheets->len; i++) {
+	for (i = 0; i < (int)ewb->sheets->len; i++) {
 		s = g_ptr_array_index (ewb->sheets, i);
 	        s->boundsheetPos = excel_write_BOUNDSHEET (bp,
 			MS_BIFF_TYPE_Worksheet,
@@ -4181,9 +4228,7 @@ write_workbook (ExcelWriteState *ewb)
 		excel_write_externsheets_v8 (ewb);
 
 		ewb->tmp_counter = 0;
-		excel_foreach_name (ewb, (GHFunc)&cb_enumerate_names);
-		excel_foreach_name (ewb, (GHFunc)&excel_write_NAME);
-		excel_write_autofilter_names (ewb);
+		excel_write_names (ewb);
 
 		/* If there are any objects in the workbook add a header */
 		i = workbook_sheet_count (ewb->gnum_wb);
@@ -4202,12 +4247,12 @@ write_workbook (ExcelWriteState *ewb)
 
 	workbook_io_progress_set (ewb->io_context, ewb->gnum_wb,
 	                          N_ELEMENTS_BETWEEN_PROGRESS_UPDATES);
-	for (i = 0; i < ewb->sheets->len; i++)
+	for (i = 0; i < (int)ewb->sheets->len; i++)
 		excel_write_sheet (ewb, g_ptr_array_index (ewb->sheets, i));
 	io_progress_unset (ewb->io_context);
 
 	/* Finalise Workbook stuff */
-	for (i = 0; i < ewb->sheets->len; i++) {
+	for (i = 0; i < (int)ewb->sheets->len; i++) {
 		ExcelWriteSheet *s = g_ptr_array_index (ewb->sheets, i);
 		excel_fix_BOUNDSHEET (bp->output, s->boundsheetPos,
 				      s->streamPos);

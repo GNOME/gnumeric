@@ -1,3 +1,40 @@
+2003-11-25  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-write.c (excel_write_prep_expr) : handle macros.
+	(write_funcall) : ditto.
+
+	* ms-formula-read.c : add specs for the text_B_ functions
+	(excel_parse_formula) : improve debug info.
+	  Fix unicode strings.
+
+	* ms-excel-write.c (write_workbook) : unsigned does not go < 0
+	(cb_enumerate_macros) : new.
+	(cb_write_macro_NAME) : new.
+	(excel_write_names) : new.
+ 
+	* ms-excel-read.c (get_xtn_lens) : add a limiter on the rich text
+	  warning.
+	(excel_formula_shared) : add some debug.
+	(excel_read_NAME) : register macro functions.
+	(excel_read_ROW) : disable debug spew.
+	(excel_read_CF) : ditto.
+	(excel_read_DIMENSIONS) : ditto.
+	(excel_read_GUTS) : ditto.
+	(excel_read_HLINK) : target frame is first (according to 
+	  xls-export-crash.xls) and the docs.
+	(excel_read_SUPBOOK) : handle external workbooks with unicode names.
+
+	* ms-escher.c (ms_escher_parse) : return the property bag.
+
+2003-11-20  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (BC_R(radar)) : Add a note.
+
+2003-11-20  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-read.c (make_function) : Take a Workbook to allow for
+	for book local function lookup.
+
 2003-11-20  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (excel_sheet_new) : Include row/col info in the

@@ -688,7 +688,7 @@ BC_R(clrtclient)(XLChartHandler const *handle,
 		 XLChartReadState *s, BiffQuery *q)
 {
 	fputs ("Undocumented BIFF : clrtclient", stderr);
-	dump_biff (q);
+	ms_biff_query_dump (q);
 	return FALSE;
 }
 /****************************************************************************/
@@ -835,15 +835,21 @@ BC_R(frame)(XLChartHandler const *handle,
 /****************************************************************************/
 
 static gboolean
-BC_R(gelframe)(XLChartHandler const *handle,
-	       XLChartReadState *s, BiffQuery *q)
+BC_R(gelframe) (XLChartHandler const *handle,
+		XLChartReadState *s, BiffQuery *q)
 {
-	gint tmp = ms_excel_escher_debug;
-	ms_excel_escher_debug = 2;
-	ms_escher_parse (q, &s->container);
-	ms_excel_escher_debug = tmp;
+	MSObjAttrBag *attrs = ms_escher_parse (q, &s->container);
+
+#if 0
+	MSObjAttr *crop_bottom_attr = ms_obj_attr_bag_lookup
+		(obj->attrs, MS_OBJ_ATTR_BLIP_CROP_BOTTOM);
+	MS_OBJ_ATTR_FILL_TYPE;
+#endif
+	ms_obj_attr_bag_destroy (attrs);
+
 	return FALSE;
 }
+
 /****************************************************************************/
 
 static gboolean
@@ -1218,6 +1224,9 @@ static gboolean
 BC_R(radar)(XLChartHandler const *handle,
 	    XLChartReadState *s, BiffQuery *q)
 {
+	g_return_val_if_fail (s->plot == NULL, TRUE);
+	s->plot = gog_plot_new_by_name ("GogRadialPlot UNIMPLEMENTED");
+
 	return FALSE;
 }
 
@@ -1227,6 +1236,9 @@ static gboolean
 BC_R(radararea)(XLChartHandler const *handle,
 		XLChartReadState *s, BiffQuery *q)
 {
+	g_return_val_if_fail (s->plot == NULL, TRUE);
+	s->plot = gog_plot_new_by_name ("GogFilledRadialPlot UNIMPLEMENTED");
+
 	return FALSE;
 }
 
@@ -1731,22 +1743,19 @@ BC_R(end)(XLChartHandler const *handle,
 			char const  *type = G_OBJECT_TYPE_NAME (s->plot);
 			GogStyle const *style = s->default_plot_style;
 			
-			if (type != NULL && 0 == strcmp (type, "GogXYPlot")) {
-				if (style->marker.mark != NULL)
-					g_object_set (G_OBJECT (s->plot),
-						"default-style-has-markers",
-						style->marker.mark->shape != GO_MARKER_NONE,
-						NULL);
+			if (type != NULL && style->marker.mark != NULL &&
+			    (!strcmp (type, "GogXYPlot") ||
+			     !strcmp (type, "GogLinePlot") ||
+			     !strcmp (type, "GogRadialPlot")))
+				g_object_set (G_OBJECT (s->plot),
+					"default-style-has-markers",
+					style->marker.mark->shape != GO_MARKER_NONE,
+					NULL);
+			if (type != NULL && 0 == strcmp (type, "GogXYPlot"))
 				g_object_set (G_OBJECT (s->plot),
 					"default-style-has-lines", style->line.width >= 0,
 					NULL);
-			} else if (type != NULL && 0 == strcmp (type, "GogLinePlot")) {
-				if (style->marker.mark != NULL)
-					g_object_set (G_OBJECT (s->plot),
-						"default-style-has-markers",
-						style->marker.mark->shape != GO_MARKER_NONE,
-						NULL);
-			}
+
 			g_object_unref (s->default_plot_style);
 			s->default_plot_style = NULL;
 		}
@@ -2016,7 +2025,7 @@ ms_excel_read_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 			    !chart_biff_handler [lsb] ||
 			    chart_biff_handler  [lsb]->opcode != q->opcode) {
 				d (0, {	fprintf (stderr, "Unknown BIFF_CHART record\n");
-					dump_biff (q);});
+					ms_biff_query_dump (q);});
 			} else {
 				XLChartHandler const *const h =
 					chart_biff_handler [lsb];
@@ -2069,7 +2078,7 @@ ms_excel_read_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 			}
 
 			case BIFF_MS_O_DRAWING:
-				ms_escher_parse (q, &state.container);
+				ms_obj_attr_bag_destroy (ms_escher_parse (q, &state.container));
 				break;
 
 			case BIFF_EXTERNCOUNT: /* ignore */ break;

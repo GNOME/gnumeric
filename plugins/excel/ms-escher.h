@@ -12,17 +12,17 @@
  **/
 #include "ms-excel-read.h"
 #include "ms-container.h"
+#include "ms-obj.h"
 
-struct _MSEscherBlip
-{
+struct _MSEscherBlip {
 	char const   *type;
 	guint8       *data;
 	guint32	      data_len;
 	gboolean      needs_free;
 };
 
-void ms_escher_parse     (BiffQuery  *q, MSContainer *container);
-void ms_escher_blip_free (MSEscherBlip *blip);
+MSObjAttrBag *ms_escher_parse    (BiffQuery  *q, MSContainer *container);
+void	     ms_escher_blip_free (MSEscherBlip *blip);
 
 #if 0
 typedef struct _MSEscherWriter MSEscherWriter;

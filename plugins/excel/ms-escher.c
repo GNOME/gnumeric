@@ -1956,14 +1956,15 @@ ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
  *   This function parses an escher stream, and stores relevant data in the
  * workbook.
  */
-void
+MSObjAttrBag *
 ms_escher_parse (BiffQuery *q, MSContainer *container)
 {
 	MSEscherState state;
 	MSEscherHeader fake_header;
+	MSObjAttrBag  *attrs;
 	char const *drawing_record_name = "Unknown";
 
-	g_return_if_fail (q != NULL);
+	g_return_val_if_fail (q != NULL, NULL);
 
 	if (q->opcode == BIFF_MS_O_DRAWING)
 		drawing_record_name = "Drawing";
@@ -1975,7 +1976,7 @@ ms_escher_parse (BiffQuery *q, MSContainer *container)
 		drawing_record_name = "Chart GelFrame";
 	else {
 		g_warning ("EXCEL : unexpected biff type %x;", q->opcode);
-		return;
+		return NULL;
 	}
 
 	state.container	   = container;
@@ -1991,7 +1992,12 @@ ms_escher_parse (BiffQuery *q, MSContainer *container)
 	d (0, printf ("{  /* Escher '%s'*/\n", drawing_record_name););
 	ms_escher_read_container (&state, &fake_header, -COMMON_HEADER_LEN);
 	d (0, printf ("}; /* Escher '%s'*/\n", drawing_record_name););
+
+	attrs = fake_header.attrs;
+	fake_header.release_attrs = FALSE;
 	ms_escher_header_release (&fake_header);
+
+	return attrs;
 }
 
 /****************************************************************************/

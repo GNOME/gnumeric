@@ -27,6 +27,7 @@
 #include <sheet-view.h>
 #include <selection.h>
 #include <commands.h>
+#include <format.h>
 #include <gnm-marshalers.h>
 
 #include <gsf/gsf-impl-utils.h>

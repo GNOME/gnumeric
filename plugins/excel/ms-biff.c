@@ -37,7 +37,7 @@
 /*******************************************************************************/
 
 void
-dump_biff (BiffQuery *q)
+ms_biff_query_dump (BiffQuery *q)
 {
 	g_print ("Opcode 0x%x length %d malloced? %d\nData:\n", q->opcode, q->length, q->data_malloced);
 	if (q->length > 0)
@@ -269,7 +269,7 @@ ms_biff_query_new (GsfInput *input)
 	q->is_encrypted  = FALSE;
 
 #if BIFF_DEBUG > 0
-	dump_biff (q);
+	ms_biff_query_dump (q);
 #endif
 	return q;
 }
@@ -371,7 +371,7 @@ ms_biff_query_next (BiffQuery *q)
 
 #if BIFF_DEBUG > 2
 	printf ("Biff read code 0x%x, length %d\n", q->opcode, q->length);
-	dump_biff (q);
+	ms_biff_query_dump (q);
 #endif
 	return TRUE;
 }

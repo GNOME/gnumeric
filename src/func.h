@@ -14,12 +14,11 @@ void function_dump_defs (char const *filename, gboolean def_or_state);
 /******************************************************************************/
 /* Function group support */
 
-typedef struct _GnmFuncGroup GnmFuncGroup;
-struct _GnmFuncGroup {
+typedef struct {
 	GnmString *internal_name, *display_name;
 	gboolean has_translation;
-	GList *functions;
-};
+	GSList *functions;
+} GnmFuncGroup;
 
 GnmFuncGroup *gnm_func_group_get_nth (gint n);
 GnmFuncGroup *gnm_func_group_fetch     		    (char const *name);
@@ -72,29 +71,30 @@ typedef enum {
 
 typedef enum {
 	GNM_FUNC_SIMPLE			= 0,
-	GNM_FUNC_VOLATILE		= 0x01, /* eg now(), today() */
-	GNM_FUNC_RETURNS_NON_SCALAR	= 0x02, /* eg transpose(), mmult() */
+	GNM_FUNC_VOLATILE		= 1 << 0, /* eg now(), today() */
+	GNM_FUNC_RETURNS_NON_SCALAR	= 1 << 1, /* eg transpose(), mmult() */
 
 	/* For functions that are not exactly compatible with various import
 	 * formats.  We need to recalc their results to avoid changing values
 	 * unexpectedly when we recalc later.  This probably needs to be done
 	 * on a per import format basis.  It may not belong here.
 	 */
-	GNM_FUNC_RECALC_ONLOAD 		= 0x04,
+	GNM_FUNC_RECALC_ONLOAD 		= 1 << 2,
 
 	/* an unknown function that will hopefully be defined later */
-	GNM_FUNC_IS_PLACEHOLDER		= 0x08,
-	GNM_FUNC_FREE_NAME		= 0x10,
+	GNM_FUNC_IS_PLACEHOLDER		= 1 << 3,
+	GNM_FUNC_FREE_NAME		= 1 << 4,
+	GNM_FUNC_IS_WORKBOOK_LOCAL	= 1 << 5,
 
-	GNM_FUNC_AUTO_UNKNOWN           = 0 << 5,
-	GNM_FUNC_AUTO_MONETARY          = 1 << 5,  /* Like PV */
-	GNM_FUNC_AUTO_DATE              = 2 << 5,  /* Like DATE */
-	GNM_FUNC_AUTO_TIME              = 3 << 5,  /* Like TIME */
-	GNM_FUNC_AUTO_PERCENT           = 4 << 5,  /* Like IRR */
-	GNM_FUNC_AUTO_FIRST             = 5 << 5,  /* Like SUM */
-	GNM_FUNC_AUTO_SECOND            = 6 << 5,  /* Like IF */
-	GNM_FUNC_AUTO_UNITLESS          = 7 << 5,  /* Like COUNT */
-	GNM_FUNC_AUTO_MASK              = 7 << 5   /* The bits we use for AUTO.  */
+	GNM_FUNC_AUTO_UNKNOWN           = 0 << 8,
+	GNM_FUNC_AUTO_MONETARY          = 1 << 8,  /* Like PV */
+	GNM_FUNC_AUTO_DATE              = 2 << 8,  /* Like DATE */
+	GNM_FUNC_AUTO_TIME              = 3 << 8,  /* Like TIME */
+	GNM_FUNC_AUTO_PERCENT           = 4 << 8,  /* Like IRR */
+	GNM_FUNC_AUTO_FIRST             = 5 << 8,  /* Like SUM */
+	GNM_FUNC_AUTO_SECOND            = 6 << 8,  /* Like IF */
+	GNM_FUNC_AUTO_UNITLESS          = 7 << 8,  /* Like COUNT */
+	GNM_FUNC_AUTO_MASK              = 7 << 8   /* The bits we use for AUTO.  */
 } GnmFuncFlags;
 
 /* I do not like this it is going to be different for different apps
@@ -121,8 +121,8 @@ typedef enum {
 } GnmFuncTestStatus;
 typedef struct _GnmFuncDescriptor GnmFuncDescriptor;
 
-typedef GnmValue 		*(*GnmFuncArgs)	  (FunctionEvalInfo *ei, GnmValue **args);
-typedef GnmValue 		*(*GnmFuncNodes)  (FunctionEvalInfo *ei, GnmExprList *l);
+typedef GnmValue 	*(*GnmFuncArgs)	  (FunctionEvalInfo *ei, GnmValue **args);
+typedef GnmValue 	*(*GnmFuncNodes)  (FunctionEvalInfo *ei, GnmExprList *l);
 typedef DependentFlags	 (*GnmFuncLink)	  (FunctionEvalInfo *ei);
 typedef void		 (*GnmFuncUnlink) (FunctionEvalInfo *ei);
 
@@ -176,6 +176,7 @@ struct _FunctionEvalInfo {
 	GnmExprFunction const *func_call;
 };
 
+void	    gnm_func_free	     (GnmFunc *func);
 void	    gnm_func_ref	     (GnmFunc *func);
 void	    gnm_func_unref	     (GnmFunc *func);
 void	    gnm_func_load_stub	     (GnmFunc *fn_def);
@@ -189,7 +190,8 @@ GnmFunc    *gnm_func_add_stub	     (GnmFuncGroup *group,
 				      char const *name,
 				      GnmFuncLoadDesc  load_desc,
 				      GnmFuncRefNotify opt_ref_notify);
-GnmFunc    *gnm_func_add_placeholder (char const *name,
+GnmFunc    *gnm_func_add_placeholder (Workbook *optional_context,
+				      char const *name,
 				      char const *type,
 				      gboolean copy_name);
 GnmExpr const *gnm_func_placeholder_factory (const char *name,
@@ -198,9 +200,6 @@ GnmExpr const *gnm_func_placeholder_factory (const char *name,
 
 
 /* TODO */
-void                function_remove     (GnmFuncGroup *group,
-                                         char const *name);
-
 void        function_def_count_args    (GnmFunc const *fn_def,
                                         gint *min, int *max);
 char        function_def_get_arg_type  (GnmFunc const *fn_def,

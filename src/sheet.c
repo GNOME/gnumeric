@@ -194,11 +194,11 @@ sheet_new (Workbook *wb, char const *name)
 	sheet->scenarios = NULL;
 	sheet->list_merged = NULL;
 	sheet->hash_merged = g_hash_table_new ((GHashFunc)&cellpos_hash,
-					       (GCompareFunc)&cellpos_cmp);
+					       (GCompareFunc)&cellpos_equal);
 
 	sheet->deps	 = gnm_dep_container_new ();
 	sheet->cell_hash = g_hash_table_new ((GHashFunc)&cellpos_hash,
-					     (GCompareFunc)&cellpos_cmp);
+					     (GCompareFunc)&cellpos_equal);
 
 	/* Force the zoom change inorder to initialize things */
 	sheet_set_zoom_factor (sheet, gnm_app_prefs->zoom, TRUE, TRUE);
@@ -840,9 +840,9 @@ sheet_colrow_can_group (Sheet *sheet, GnmRange const *r, gboolean is_cols)
 
 gboolean
 sheet_colrow_group_ungroup (Sheet *sheet, GnmRange const *r,
-			     gboolean is_cols, gboolean group)
+			    gboolean is_cols, gboolean group)
 {
-	int i, new_size, start, end;
+	int i, new_max, start, end;
 	int const step = group ? 1 : -1;
 
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
@@ -860,21 +860,22 @@ sheet_colrow_group_ungroup (Sheet *sheet, GnmRange const *r,
 	}
 
 	/* Set new outline for each col/row and find highest outline level */
-	for (new_size = -1, i = start; i <= end; i++) {
+	new_max = (is_cols ? sheet->cols : sheet->rows).max_outline_level;
+	for (i = start; i <= end; i++) {
 		ColRowInfo *cri = sheet_colrow_fetch (sheet, i, is_cols);
 		int const new_level = cri->outline_level + step;
 
 		if (new_level >= 0) {
 			colrow_set_outline (cri, new_level, FALSE);
-			if (new_level > new_size)
-				new_size = new_level;
+			if (new_max < new_level)
+				new_max = new_level;
 		}
 	}
 
 	if (!group)
-		new_size = sheet_colrow_fit_gutter (sheet, is_cols);
+		new_max = sheet_colrow_fit_gutter (sheet, is_cols);
 
-	sheet_colrow_gutter (sheet, is_cols, new_size);
+	sheet_colrow_gutter (sheet, is_cols, new_max);
 	SHEET_FOREACH_VIEW (sheet, sv,
 		sv_redraw_headers (sv, is_cols, !is_cols, NULL););
 

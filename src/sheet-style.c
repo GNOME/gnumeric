@@ -1975,7 +1975,7 @@ sheet_style_get_list (Sheet const *sheet, GnmRange const *r)
 
 	mi.style_equal = mstyle_equal;
 	mi.cache = g_hash_table_new ((GHashFunc)&cellpos_hash,
-				     (GCompareFunc)&cellpos_cmp);
+				     (GCompareFunc)&cellpos_equal);
 
 	foreach_tile (sheet->style_data->styles,
 		      TILE_TOP_LEVEL, 0, 0, r,
@@ -2030,7 +2030,7 @@ sheet_style_get_validation_list (Sheet const *sheet, GnmRange const *r)
 
 	mi.style_equal = style_validation_equal;
 	mi.cache = g_hash_table_new ((GHashFunc)&cellpos_hash,
-				     (GCompareFunc)&cellpos_cmp);
+				     (GCompareFunc)&cellpos_equal);
 
 	foreach_tile (sheet->style_data->styles,
 		      TILE_TOP_LEVEL, 0, 0, r,

@@ -71,4 +71,7 @@ void         rangeref_normalize (GnmRangeRef const *ref, GnmEvalPos const *ep,
 				 Sheet **start_sheet, Sheet **end_sheet,
 				 GnmRange *dest);
 
+guint cellpos_hash  (GnmCellPos const *key);
+gint  cellpos_equal (GnmCellPos const *a, GnmCellPos const *b);
+
 #endif /* GNUMERIC_POSITION_H */

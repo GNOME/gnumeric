@@ -15,6 +15,7 @@ struct _Workbook {
 	GPtrArray  *sheets;
 	GHashTable *sheet_hash_private;
 	GHashTable *sheet_order_dependents;
+	GHashTable *sheet_local_functions;
 
 	gboolean modified;
 	gboolean is_placeholder;

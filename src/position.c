@@ -324,3 +324,16 @@ rangeref_normalize (GnmRangeRef const *ref, GnmEvalPos const *ep,
 	*start_sheet = eval_sheet (ref->a.sheet, ep->sheet);
 	*end_sheet = eval_sheet (ref->b.sheet, *start_sheet);
 }
+
+guint
+cellpos_hash (GnmCellPos const *key)
+{
+	return (key->row << 8) | key->col;
+}
+
+gint
+cellpos_equal (GnmCellPos const *a, GnmCellPos const *b)
+{
+	return (a->row == b->row && a->col == b->col);
+}
+

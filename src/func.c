@@ -21,7 +21,7 @@
 #include "cell.h"
 #include "str.h"
 #include "symbol.h"
-#include "workbook.h"
+#include "workbook-priv.h"
 #include "sheet.h"
 #include "value.h"
 #include "number-match.h"
@@ -32,11 +32,9 @@
 #include <glib.h>
 #include <stdlib.h>
 
-static GList *categories;
-static SymbolTable *global_symbol_table;
-
+static GList	    *categories;
+static SymbolTable  *global_symbol_table;
 static GnmFuncGroup *unknown_cat;
-static GSList *unknown_functions;
 
 void
 functions_init (void)
@@ -48,14 +46,8 @@ functions_init (void)
 void
 functions_shutdown (void)
 {
-	g_assert ((unknown_cat == NULL) == (unknown_functions == NULL));
-
-	while (unknown_functions) {
-		GnmFunc *func = unknown_functions->data;
-		function_remove (unknown_cat, gnm_func_get_name (func));
-		unknown_functions = g_slist_remove (unknown_functions, func);
-	}
-
+	while (unknown_cat != NULL && unknown_cat->functions != NULL)
+		gnm_func_free (unknown_cat->functions->data);
 	func_builtin_shutdown ();
 
 	symbol_table_destroy (global_symbol_table);
@@ -255,26 +247,12 @@ gnm_func_group_get_nth (int n)
 }
 
 static void
-gnm_func_group_add_func (GnmFuncGroup *fn_group,
-			 GnmFunc *fn_def)
+gnm_func_group_add_func (GnmFuncGroup *fn_group, GnmFunc *fn_def)
 {
 	g_return_if_fail (fn_group != NULL);
 	g_return_if_fail (fn_def != NULL);
 
-	fn_group->functions = g_list_append (fn_group->functions, fn_def);
-}
-
-static void
-gnm_func_group_remove_func (GnmFuncGroup *fn_group, GnmFunc *func)
-{
-	g_return_if_fail (fn_group != NULL);
-	g_return_if_fail (func != NULL);
-
-	fn_group->functions = g_list_remove (fn_group->functions, func);
-	if (fn_group->functions == NULL) {
-		categories = g_list_remove (categories, fn_group);
-		gnm_func_group_free (fn_group);
-	}
+	fn_group->functions = g_slist_prepend (fn_group->functions, fn_def);
 }
 
 /******************************************************************************/
@@ -340,6 +318,38 @@ gnm_func_load_stub (GnmFunc *func)
 }
 
 void
+gnm_func_free (GnmFunc *func)
+{
+	Symbol *sym;
+	GnmFuncGroup *group;
+
+	g_return_if_fail (func != NULL);
+	g_return_if_fail (func->ref_count == 0);
+
+	group = func->fn_group;
+	if (group != NULL) {
+		group->functions = g_slist_remove (group->functions, func);
+		if (group->functions == NULL) {
+			categories = g_list_remove (categories, group);
+			gnm_func_group_free (group);
+			if (unknown_cat == group)
+				unknown_cat = NULL;
+		}
+	}
+
+	if (!(func->flags & GNM_FUNC_IS_WORKBOOK_LOCAL)) {
+		sym = symbol_lookup (global_symbol_table, func->name);
+		symbol_unref (sym);
+	}
+
+	if (func->fn_type == GNM_FUNC_TYPE_ARGS)
+		g_free (func->fn.args.arg_types);
+	if (func->flags & GNM_FUNC_FREE_NAME)
+		g_free ((char *)func->name);
+	g_free (func);
+}
+
+void
 gnm_func_ref (GnmFunc *func)
 {
 	g_return_if_fail (func != NULL);
@@ -361,47 +371,16 @@ gnm_func_unref (GnmFunc *func)
 }
 
 GnmFunc *
-gnm_func_lookup (char const *name, Workbook const *optional_scope)
+gnm_func_lookup (char const *name, Workbook const *scope)
 {
 	Symbol *sym = symbol_lookup (global_symbol_table, name);
 	if (sym != NULL)
 		return sym->data;
-	return NULL;
+	if (scope == NULL || scope->sheet_local_functions == NULL)
+		return NULL;
+	return g_hash_table_lookup (scope->sheet_local_functions, (gpointer)name);
 }
 
-void
-function_remove (GnmFuncGroup *fn_group, char const *name)
-{
-	GnmFunc *func;
-	Symbol *sym;
-
-	g_return_if_fail (name != NULL);
-
-	func = gnm_func_lookup (name, NULL);
-	g_return_if_fail (func != NULL);
-	g_return_if_fail (func->ref_count == 0);
-
-	gnm_func_group_remove_func (fn_group, func);
-	sym = symbol_lookup (global_symbol_table, name);
-	symbol_unref (sym);
-
-	switch (func->fn_type) {
-	case GNM_FUNC_TYPE_ARGS:
-		g_free (func->fn.args.arg_types);
-		break;
-	default:
-		/* Nothing.  */
-		;
-	}
-	if (func->flags & GNM_FUNC_FREE_NAME)
-		g_free ((char *)func->name);
-	g_free (func);
-}
-
-#if 0
-function_add_args
-function_add_nodes
-#endif
 GnmFunc *
 gnm_func_add (GnmFuncGroup *fn_group,
 	      GnmFuncDescriptor const *desc)
@@ -457,7 +436,8 @@ gnm_func_add (GnmFuncGroup *fn_group,
 	func->fn_group = fn_group;
 	if (fn_group != NULL)
 		gnm_func_group_add_func (fn_group, func);
-	symbol_install (global_symbol_table, func->name, SYMBOL_FUNCTION, func);
+	if (!(func->flags & GNM_FUNC_IS_WORKBOOK_LOCAL))
+		symbol_install (global_symbol_table, func->name, SYMBOL_FUNCTION, func);
 
 	return func;
 }
@@ -501,14 +481,15 @@ gnm_func_add_stub (GnmFuncGroup *fn_group,
  *        arguments.
  */
 GnmFunc *
-gnm_func_add_placeholder (char const *name, char const *type,
+gnm_func_add_placeholder (Workbook *scope,
+			  char const *name, char const *type,
 			  gboolean copy_name)
 {
 	GnmFuncDescriptor desc;
-	GnmFunc *func = gnm_func_lookup (name, NULL);
+	GnmFunc *func = gnm_func_lookup (name, scope);
 	char const *unknown_cat_name = N_("Unknown Function");
 
-	g_return_val_if_fail (func == NULL, func);
+	g_return_val_if_fail (func == NULL, NULL);
 
 	if (!unknown_cat)
 		unknown_cat = gnm_func_group_fetch (unknown_cat_name);
@@ -527,11 +508,22 @@ gnm_func_add_placeholder (char const *name, char const *type,
 	desc.impl_status  = GNM_FUNC_IMPL_STATUS_EXISTS;
 	desc.test_status  = GNM_FUNC_TEST_STATUS_UNKNOWN;
 
-	func = gnm_func_add (unknown_cat, &desc);
-	unknown_functions = g_slist_prepend (unknown_functions, func);
+	if (scope != NULL)
+		desc.flags |= GNM_FUNC_IS_WORKBOOK_LOCAL;
+	else
+		/* WISHLIST : it would be nice to have a log if these. */
+		g_warning ("Unknown %sfunction : %s", type, name);
 
-	/* WISHLIST : it would be nice to have a log if these. */
-	g_warning ("Unknown %sfunction : %s", type, name);
+	func = gnm_func_add (unknown_cat, &desc);
+
+	if (scope != NULL) {
+		if (scope->sheet_local_functions == NULL)
+			scope->sheet_local_functions = g_hash_table_new_full (
+				g_str_hash, g_str_equal,
+				NULL, (GDestroyNotify) gnm_func_free);
+		g_hash_table_insert (scope->sheet_local_functions,
+			(gpointer)func->name, func);
+	}
 
 	return func;
 }
@@ -542,7 +534,7 @@ gnm_func_placeholder_factory (const char *name,
 			      GnmExprList *args,
 			      G_GNUC_UNUSED GnmExprConventions *convs)
 {
-	GnmFunc *f = gnm_func_add_placeholder (name, "", TRUE);
+	GnmFunc *f = gnm_func_add_placeholder (NULL, name, "", TRUE);
 	return gnm_expr_new_funcall (f, args);
 }
 

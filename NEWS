@@ -112,6 +112,9 @@ Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=64297
 	* Cosmetic tweak to keep cursor visible on dark backgrounds
 	* Fixed xls export of col/row groups
+	* Support workbook local functions
+	* Fix xls import of unicode in expressions
+	* Fix gutter resize when adding groups
 
 Morten:
 	* Fix crash with STF import and gazillions of columns.

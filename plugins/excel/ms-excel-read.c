@@ -631,10 +631,10 @@ excel_sheet_new (ExcelWorkbook *ewb, char const *sheet_name)
 	esheet->sheet	= sheet;
 	esheet->freeze_panes	= FALSE;
 	esheet->shared_formulae	= g_hash_table_new_full (
-		(GHashFunc)&cellpos_hash, (GCompareFunc)&cellpos_cmp,
+		(GHashFunc)&cellpos_hash, (GCompareFunc)&cellpos_equal,
 		NULL, (GDestroyNotify) &excel_shared_formula_free);
 	esheet->tables		= g_hash_table_new_full (
-		(GHashFunc)&cellpos_hash, (GCompareFunc)&cellpos_cmp,
+		(GHashFunc)&cellpos_hash, (GCompareFunc)&cellpos_equal,
 		NULL, (GDestroyNotify) &excel_data_table_free);
 
 	excel_init_margins (esheet);
@@ -723,6 +723,7 @@ biff_string_get_flags (guint8 const *ptr,
 static void
 get_xtn_lens (guint32 *pre_len, guint32 *end_len, guint8 const *ptr, gboolean ext_str, gboolean rich_str)
 {
+	static gboolean rich_warn = TRUE;
 	*end_len = 0;
 	*pre_len = 0;
 
@@ -733,8 +734,11 @@ get_xtn_lens (guint32 *pre_len, guint32 *end_len, guint8 const *ptr, gboolean ex
 		(*pre_len) += 2;
 		ptr        += 2;
 
-		fprintf (stderr,"rich string support unimplemented:"
-			"discarding %d runs\n", formatting_runs);
+		if (rich_warn) {
+			rich_warn = FALSE;
+			fprintf (stderr,"rich string support unimplemented:"
+				"discarding %d runs\n", formatting_runs);
+		}
 	}
 	if (ext_str) { /* NB this data always comes after the rich_str data */
 		guint32 len_ext_rst = GSF_LE_GET_GUINT32 (ptr); /* A byte length */
@@ -2153,6 +2157,8 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 
 	ms_biff_query_next (q);
 
+	d (2, range_dump (&r, " <-- shared fmla in\n"););
+
 	is_array = (q->ls_op == BIFF_ARRAY);
 	r.start.row	= GSF_LE_GET_GUINT16 (q->data + 0);
 	r.end.row	= GSF_LE_GET_GUINT16 (q->data + 2);
@@ -2987,9 +2993,7 @@ excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb, gboolean global)
 
 	if (name != NULL) {
 		Sheet *sheet = NULL;
-		d (1,
-		fprintf (stderr, "NAME : %s\n", name);
-		   fprintf (stderr, "%hu\n", sheet_index););
+		d (1, fprintf (stderr, "NAME : %s, sheet_index = %hu", name, sheet_index););
 		if (sheet_index > 0) {
 			/* NOTE : the docs lie the index for biff7 is
 			 * indeed a reference to the externsheet
@@ -3002,7 +3006,7 @@ excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb, gboolean global)
 				    sheet_index > 0)
 					sheet = g_ptr_array_index (ewb->boundsheet_sheet_by_index, sheet_index-1);
 				else
-					g_warning ("So much for that theory");
+					g_warning ("So much for that theory 2");
 			} else
 				sheet = excel_externsheet_v7 (&ewb->container, sheet_index);
 		}
@@ -3024,6 +3028,10 @@ excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb, gboolean global)
 			if (nexpr->is_hidden && !strcmp (nexpr->name->str, "_FilterDatabase"))
 				excel_prepare_autofilter (ewb, nexpr);
 			/* g_warning ("flags = %hx, state = %s\n", flags, global ? "global" : "sheet"); */
+
+			if ((flags & 0xE) == 0xE) /* Function & VB-Proc & Proc */
+				gnm_func_add_placeholder (ewb->gnum_wb,
+					nexpr->name->str, "VBA", TRUE);
 		}
 	}
 
@@ -3230,7 +3238,7 @@ excel_read_ROW (BiffQuery *q, ExcelReadSheet *esheet)
 	 */
 	gboolean const is_std_height = (height & 0x8000) != 0;
 
-	d (-1, {
+	d (1, {
 		fprintf (stderr,"Row %d height 0x%x, flags=0x%x;\n", row + 1, height,flags);
 		if (is_std_height)
 			puts ("Is Std Height");
@@ -3509,11 +3517,11 @@ excel_read_GUTS (BiffQuery *q, ExcelReadSheet *esheet)
 
 	/* ignore the specification of how wide/tall the gutters are */
 	row_gut = GSF_LE_GET_GUINT16 (q->data + 4);
-	g_warning ("row_gut = %d", row_gut);
+	d (2, fprintf (stderr, "row_gut = %d", row_gut););
 	if (row_gut >= 1)
 		row_gut--;
 	col_gut = GSF_LE_GET_GUINT16 (q->data + 6);
-	g_warning ("col_gut = %d", row_gut);
+	d (2, fprintf (stderr, "col_gut = %d", col_gut););
 	if (col_gut >= 1)
 		col_gut--;
 	sheet_colrow_gutter (esheet->sheet, TRUE, col_gut);
@@ -3709,7 +3717,7 @@ excel_read_DIMENSIONS (BiffQuery *q, ExcelWorkbook *ewb)
 	} else
 		excel_read_range (&r, q->data);
 
-	d (-1, fprintf (stderr,"Dimension = %s\n", range_name (&r)););
+	d (1, fprintf (stderr,"Dimension = %s\n", range_name (&r)););
 }
 
 static MSContainer *
@@ -4017,10 +4025,10 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet)
 			pat_foregnd_col = swap;
 		}
 
-		fprintf (stderr,"fore = %d, back = %d, pattern = %d.\n",
+		d (1, fprintf (stderr,"fore = %d, back = %d, pattern = %d.\n",
 			pat_foregnd_col,
 			pat_backgnd_col,
-			fill_pattern_idx);
+			fill_pattern_idx););
 
 		offset += 4;
 	}
@@ -4328,8 +4336,8 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 		data += len*2;
 	}
 
-	/* target */
-	if (options & 0x8) {
+	/* target frame */
+	if (options & 0x80) {
 		len = GSF_LE_GET_GUINT32 (data);
 		data += 4;
 		g_return_if_fail (len*2 + data - q->data <= (int)q->length);
@@ -4370,6 +4378,18 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 	} else {
 		g_warning ("Unknown hlink type");
 	}
+
+#if 0
+	/* target mark */
+	if (options & 0x8) {
+		len = GSF_LE_GET_GUINT32 (data);
+		data += 4;
+		g_return_if_fail (len*2 + data - q->data <= (int)q->length);
+		target = read_utf16_str (len, data);
+		data += len*2;
+	}
+#endif
+
 	if (ms_biff_query_peek_next (q, &next_opcode) &&
 	    next_opcode == BIFF_LINK_TIP) {
 		ms_biff_query_next (q);
@@ -5018,7 +5038,7 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 		case BIFF_MS_O_DRAWING:
 		case BIFF_MS_O_DRAWING_GROUP:
 		case BIFF_MS_O_DRAWING_SELECTION:
-			ms_escher_parse (q, sheet_container (esheet));
+			ms_obj_attr_bag_destroy (ms_escher_parse (q, sheet_container (esheet)));
 			break;
 		case BIFF_PHONETIC:	break;
 
@@ -5059,7 +5079,14 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 	return FALSE;
 }
 
-/* see S59DEC.HTM */
+/**
+ * NOTE : MS Docs are incorrect
+ *
+ * unsigned short num_tabs;
+ * unsigned short num_characters_in_book;
+ * unsigned char  flag_for_unicode; 0 or 1
+ * var encoded string stored as 1 or 2 byte characters
+ **/
 static void
 excel_read_SUPBOOK (BiffQuery *q, ExcelWorkbook *ewb)
 {
@@ -5067,51 +5094,62 @@ excel_read_SUPBOOK (BiffQuery *q, ExcelWorkbook *ewb)
 	unsigned len = GSF_LE_GET_GUINT16 (q->data + 2);
 	unsigned i;
 	guint32 byte_length;
+	gboolean is_2byte = FALSE;
 	char *name;
 	guint8 encodeType, *data;
-	ExcelSupBook tmp;
+	ExcelSupBook *new_supbook;
 
 	d (2, fprintf (stderr,"supbook %d has %d\n", ewb->v8.supbook->len, numTabs););
 
-	tmp.externname = g_ptr_array_new ();
-	tmp.wb = NULL;
+	i = ewb->v8.supbook->len;
+	g_array_set_size (ewb->v8.supbook, i+1);
+	new_supbook = &g_array_index (ewb->v8.supbook, ExcelSupBook, i);
+
+	new_supbook->externname = g_ptr_array_new ();
+	new_supbook->wb = NULL;
 
 	/* undocumented guess */
 	if (q->length == 4 && len == 0x0401) {
 		d (2, fprintf (stderr,"\t is self referential\n"););
-		tmp.type = EXCEL_SUP_BOOK_SELFREF;
-		g_array_append_val (ewb->v8.supbook, tmp);
+		new_supbook->type = EXCEL_SUP_BOOK_SELFREF;
 		return;
 	}
 	if (q->length == 4 && len == 0x3A01) {
 		d (2, fprintf (stderr,"\t is a plugin\n"););
-		tmp.type = EXCEL_SUP_BOOK_PLUGIN;
-		g_array_append_val (ewb->v8.supbook, tmp);
+		new_supbook->type = EXCEL_SUP_BOOK_PLUGIN;
 		return;
 	}
 
-	tmp.type = EXCEL_SUP_BOOK_STD;
-	g_array_append_val (ewb->v8.supbook, tmp);
-	encodeType = GSF_LE_GET_GUINT8 (q->data + 4);
-	d (1, {
-		fprintf (stderr,"Supporting workbook with %d Tabs\n", numTabs);
-		fprintf (stderr,"--> SUPBOOK VirtPath encoding = ");
-		switch (encodeType) {
-		case 0x00: /* chEmpty */
-			puts ("chEmpty");
-			break;
-		case 0x01: /* chEncode */
-			puts ("chEncode");
-			break;
-		case 0x02: /* chSelf */
-			puts ("chSelf");
-			break;
-		default:
-			fprintf (stderr,"Unknown/Unencoded?  (%x) %d\n",
-				encodeType, len);
-		};
-	});
+	new_supbook->type = EXCEL_SUP_BOOK_STD;
 
+	switch (GSF_LE_GET_GUINT8 (q->data + 4)) {
+	case 0 : break; /* 1 byte locale compressed unicode for book name */
+	case 1 : len *= 2; is_2byte = TRUE; break;	/* 2 byte unicode */
+	default : 
+		 g_warning ("Invalid header on SUPBOOK record");
+		 gsf_mem_dump (q->data, q->length);
+		 return;
+	};
+
+	g_return_if_fail (len < q->length);
+
+#warning create a workbook and sheets when we have a facility for merging things
+	encodeType = GSF_LE_GET_GUINT8 (q->data + 5);
+	d (1, fprintf (stderr,"Supporting workbook with %d Tabs\n", numTabs););
+	switch (encodeType) {
+	case 0x00:
+		d (0, fprintf (stderr,"--> SUPBOOK VirtPath encoding = chEmpty"););
+		break;
+	case 0x01:
+		d (0, fprintf (stderr,"--> SUPBOOK VirtPath encoding = chEncode"););
+		break;
+	case 0x02: /* chSelf */
+		break;
+	default:
+		fprintf (stderr,"Unknown/Unencoded?  (%x) %d\n",
+			encodeType, len);
+	};
+	d (1, {
 	gsf_mem_dump (q->data + 4 + 1, len);
 	for (data = q->data + 4 + 1 + len, i = 0; i < numTabs ; i++) {
 		len = GSF_LE_GET_GUINT16 (data);
@@ -5119,7 +5157,7 @@ excel_read_SUPBOOK (BiffQuery *q, ExcelWorkbook *ewb)
 		fprintf (stderr,"\t-> %s\n", name);
 		g_free (name);
 		data += byte_length + 2;
-	}
+	}});
 }
 
 /*
@@ -5249,9 +5287,8 @@ excel_read_BOF (BiffQuery	 *q,
 		else
 			fprintf (stderr,"XLM Macrosheet.\n");
 
-		while (ms_biff_query_next (q) &&
-		       q->opcode != BIFF_EOF)
-		    ;
+		while (ms_biff_query_next (q) && q->opcode != BIFF_EOF)
+			d (5, ms_biff_query_dump (q););
 		if (q->opcode != BIFF_EOF)
 			g_warning ("EXCEL: file format error.  Missing BIFF_EOF");
 	} else if (ver->type == MS_BIFF_TYPE_Workspace) {
@@ -5484,7 +5521,7 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 		case BIFF_MS_O_DRAWING:
 		case BIFF_MS_O_DRAWING_GROUP:
 		case BIFF_MS_O_DRAWING_SELECTION:
-			ms_escher_parse (q, &ewb->container);
+			ms_obj_attr_bag_destroy (ms_escher_parse (q, &ewb->container));
 			break;
 
 		case BIFF_ADDMENU:

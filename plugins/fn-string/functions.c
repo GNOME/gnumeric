@@ -239,11 +239,34 @@ static char const *help_len = {
 	   "\n"
 	   "@SEEALSO=CHAR, CODE")
 };
+#warning Add LENB to seealso
 
 static GnmValue *
 gnumeric_len (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	return value_new_int (g_utf8_strlen (value_peek_string (argv[0]), -1));
+}
+
+/***************************************************************************/
+static char const *help_lenb = {
+	"@FUNCTION=LENB\n"
+	   "@SYNTAX=LENB(string)\n"
+
+	   "@DESCRIPTION="
+	   "LEN returns the length in bytes of the string @string.\n\n"
+           "* This function is Excel compatible.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "LEN(\"Helsinki\") equals 8.\n"
+	   "\n"
+	   "@SEEALSO=CHAR, CODE, LEN"
+};
+#warning MARK for translation
+
+static GnmValue *
+gnumeric_lenb (FunctionEvalInfo *ei, GnmValue **argv)
+{
+	return value_new_int (strlen (value_peek_string (argv[0])));
 }
 
 /***************************************************************************/
@@ -1139,6 +1162,9 @@ const GnmFuncDescriptor string_functions[] = {
         { "len",        "S",     N_("text"),                    &help_len,
 	  gnumeric_len, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+        { "lenb",       "S",     N_("text"),                    &help_lenb,
+	  gnumeric_lenb, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
         { "lower",      "S",     N_("text"),                    &help_lower,
 	  gnumeric_lower, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },

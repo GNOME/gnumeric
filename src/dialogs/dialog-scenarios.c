@@ -114,7 +114,7 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	GtkWidget               *entry, *comment_view;
 	GtkTextBuffer           *buf;
 	GtkTextIter             start, end;
-	GnmRangeRef            *rr = NULL;
+	GnmRangeRef const      *rr = NULL;
 	gboolean                res;
 	scenario_t              *scenario;
 

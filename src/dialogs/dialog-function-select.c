@@ -363,7 +363,7 @@ cb_dialog_function_select_cat_selection_changed (GtkTreeSelection *the_selection
 	GtkTreeIter  iter;
 	GtkTreeModel *model;
 	GnmFuncGroup const * cat;
-	GList *funcs, *this_func;
+	GSList *funcs, *this_func;
 
 	gtk_list_store_clear (state->model_f);
 
@@ -376,17 +376,14 @@ cb_dialog_function_select_cat_selection_changed (GtkTreeSelection *the_selection
 				int i = 0;
 				funcs = NULL;
 				
-				while ((cat = gnm_func_group_get_nth (i++)) 
-				       != NULL) {
-					funcs = g_list_concat 
-						(funcs, 
-						 g_list_copy (cat->functions));
-				}
-				funcs = g_list_sort (funcs, dialog_function_select_by_name);
-			} else {
-				funcs = g_list_sort (g_list_copy (cat->functions),
+				while ((cat = gnm_func_group_get_nth (i++)) != NULL)
+					funcs = g_slist_concat (funcs,
+							g_slist_copy (cat->functions));
+
+				funcs = g_slist_sort (funcs, dialog_function_select_by_name);
+			} else
+				funcs = g_slist_sort (g_slist_copy (cat->functions),
 						     dialog_function_select_by_name);
-			}
 			
 			for (this_func = funcs; this_func; this_func = this_func->next) {
 				GnmFunc const *a_func = this_func->data;
@@ -396,7 +393,7 @@ cb_dialog_function_select_cat_selection_changed (GtkTreeSelection *the_selection
 						    FUNCTION, a_func,
 						    -1);
 			}
-			g_list_free (funcs);
+			g_slist_free (funcs);
 		} else if (cat == NULL) {
 			GSList *rec_funcs;
 			for (rec_funcs = state->recent_funcs; rec_funcs;
@@ -413,11 +410,10 @@ cb_dialog_function_select_cat_selection_changed (GtkTreeSelection *the_selection
 			int i = 0;
 			funcs = NULL;
 			
-			while ((cat = gnm_func_group_get_nth (i++)) != NULL) {
-				funcs = g_list_concat (funcs, g_list_copy (cat->functions));
-			}
-			funcs = g_list_sort (funcs, dialog_function_select_by_name);
-			
+			while ((cat = gnm_func_group_get_nth (i++)) != NULL)
+				funcs = g_slist_concat (funcs, g_slist_copy (cat->functions));
+
+			funcs = g_slist_sort (funcs, dialog_function_select_by_name);
 		}
 	}
 }

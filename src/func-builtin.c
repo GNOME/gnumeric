@@ -121,11 +121,8 @@ gnumeric_version (FunctionEvalInfo *ei, GnmValue *argv [])
 
 /***************************************************************************/
 
-static const char *mathcatname = N_("Mathematics");
-static GSList *mathfuncs = NULL;
-
-static const char *gnumericcatname = N_("Gnumeric");
-static GSList *gnumericfuncs = NULL;
+static GnmFuncGroup *math_group = NULL;
+static GnmFuncGroup *gnumeric_group = NULL;
 
 void
 func_builtin_init (void)
@@ -152,39 +149,26 @@ func_builtin_init (void)
 		{ NULL }
 	};
 
-	GnmFunc *func;
-	GnmFuncGroup *mathcat = gnm_func_group_fetch (mathcatname);
-	GnmFuncGroup *gnumericcat = gnm_func_group_fetch (gnumericcatname);
+	math_group = gnm_func_group_fetch (N_("Mathematics"));
+	gnm_func_add (math_group, builtins + 0);
+	gnm_func_add (math_group, builtins + 1);
 
-	func = gnm_func_add (mathcat, builtins + 0);
-	mathfuncs = g_slist_prepend (mathfuncs, func);
-
-	func = gnm_func_add (mathcat, builtins + 1);
-	mathfuncs = g_slist_prepend (mathfuncs, func);
-
-	func = gnm_func_add (gnumericcat, builtins + 2);
-	gnumericfuncs = g_slist_prepend (gnumericfuncs, func);
+	gnumeric_group = gnm_func_group_fetch (N_("Gnumeric"));
+	gnm_func_add (gnumeric_group, builtins + 2);
 }
 
 static void
-shutdown_cat (const char *catname, GSList **funcs)
+shutdown_cat (GnmFuncGroup *group)
 {
-	GSList *tmp;
-	GnmFuncGroup *cat = gnm_func_group_fetch (catname);
-
-	for (tmp = *funcs; tmp; tmp = tmp->next) {
-		GnmFunc *def = tmp->data;
-		char const *name = gnm_func_get_name (def);
-		function_remove (cat, name);
-	}
-	g_slist_free (*funcs);
-	*funcs = NULL;
+	GSList *ptr, *list = g_slist_copy (group->functions);
+	for (ptr = list; ptr; ptr = ptr->next)
+		gnm_func_free (ptr->data);
+	g_slist_free (list);
 }
-
 
 void
 func_builtin_shutdown (void)
 {
-	shutdown_cat (mathcatname, &mathfuncs);
-	shutdown_cat (gnumericcatname, &gnumericfuncs);
+	shutdown_cat (math_group);
+	shutdown_cat (gnumeric_group);
 }

@@ -1,3 +1,7 @@
+2003-11-20  Jody Goldberg <jody@gnome.org>
+
+	* functions.c : add lenb
+
 2003-10-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.1

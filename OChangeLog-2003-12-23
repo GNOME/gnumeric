@@ -1,3 +1,13 @@
+2003-11-24  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet.c (sheet_colrow_group_ungroup) : when adding a group
+	  calculate the global max gutter, not just the max in the changed
+	  region.
+
+2003-11-23  Jody Goldberg <jody@gnome.org>
+
+	* src/item-cursor.c (item_cursor_draw) : Use not xor.
+
 2003-11-20  Jody Goldberg <jody@gnome.org>
 
 	* src/colrow.c (colrow_is_empty) : new.

@@ -21,6 +21,7 @@
 				<function name="fixed"/>
 				<function name="left"/>
 				<function name="len"/>
+				<function name="lenb"/>
 				<function name="lower"/>
 				<function name="mid"/>
 				<function name="proper"/>

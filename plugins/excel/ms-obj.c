@@ -592,7 +592,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 	data_len_left = q->length;
 
 #if 0
-	dump_biff (q);
+	ms_biff_query_dump (q);
 #endif
 
 	/* Scan through the pseudo BIFF substream */

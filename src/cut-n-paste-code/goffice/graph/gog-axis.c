@@ -1032,7 +1032,7 @@ gog_axis_size_allocate (GogView *v, GogViewAllocation const *a)
 	GogAxis *axis = GOG_AXIS (v->model);
 	GogViewRequisition tmp;
 	char *label;
-	int i, n, step;
+	int i, n, step = 1;
 	double total = 0., max = 0., tick_major = 0., tick_minor = 0., pad = 0.;
 
 	aview_parent_klass->size_allocate (v, a);

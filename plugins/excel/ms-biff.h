@@ -58,6 +58,8 @@ gboolean    ms_biff_query_set_decrypt (BiffQuery *q, MsBiffVersion version,
 int         ms_biff_query_next        (BiffQuery *);
 gboolean    ms_biff_query_peek_next   (BiffQuery *, guint16 *opcode);
 void        ms_biff_query_destroy     (BiffQuery *);
+void        ms_biff_query_dump	      (BiffQuery *);
+
 
 /*******************************************************************************/
 /*                                 Write Side                                  */
@@ -102,6 +104,5 @@ void     ms_biff_put_var_seekto (BiffPut *bp, int pos);
 void     ms_biff_put_commit     (BiffPut *bp);
 
 unsigned ms_biff_max_record_len (BiffPut const *bp);
-void dump_biff (BiffQuery *bq);
 
 #endif /* GNUMERIC_BIFF_H */

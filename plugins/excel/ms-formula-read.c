@@ -242,13 +242,13 @@ ExcelFuncDesc const excel_func_desc [] = {
 /* 202 */ { "EXCELFUNC202",	XL_UNKNOWN },
 /* 203 */ { "EXCELFUNC203",	XL_UNKNOWN },
 /* 204 */ { "USDOLLAR",		XL_XLM },
-/* 205 */ { "FINDB",		XL_XLM },
-/* 206 */ { "SEARCHB",		XL_XLM },
-/* 207 */ { "REPLACEB",		XL_XLM },
-/* 208 */ { "LEFTB",		XL_XLM },
-/* 209 */ { "RIGHTB",		XL_XLM },
-/* 210 */ { "MIDB",		XL_XLM },
-/* 211 */ { "LENB",		XL_XLM },
+/* 205 */ { "FINDB",		XL_VARARG, 1, 'V', "V" },	/* start_num is optional */
+/* 206 */ { "SEARCHB",		XL_UNKNOWN | XL_VARARG, 1, 'V', "V" },	/* Start_num is optional */
+/* 207 */ { "REPLACEB",		XL_UNKNOWN | XL_FIXED,  4, 'V', "VVVV" },
+/* 208 */ { "LEFTB",		XL_UNKNOWN | XL_VARARG, 1, 'V', "V" },	/* Num_chars is optional */
+/* 209 */ { "RIGHTB",		XL_UNKNOWN | XL_VARARG, 1, 'V', "V" },	/* Num_chars is optional */
+/* 210 */ { "MIDB",		XL_UNKNOWN | XL_FIXED,  3, 'V', "VVV" },
+/* 211 */ { "LENB",		XL_FIXED,  1, 'V', "V" },
 /* 212 */ { "ROUNDUP",		XL_FIXED,  2, 'V', "VV" },
 /* 213 */ { "ROUNDDOWN",	XL_FIXED,  2, 'V', "VV" },
 /* 214 */ { "ASC",		XL_XLM },
@@ -567,7 +567,7 @@ parse_list_free (GnmExprList **list)
 }
 
 static gboolean
-make_function (GnmExprList **stack, int fn_idx, int numargs)
+make_function (GnmExprList **stack, int fn_idx, int numargs, Workbook *wb)
 {
 	GnmFunc *name = NULL;
 
@@ -600,10 +600,9 @@ make_function (GnmExprList **stack, int fn_idx, int numargs)
 			return FALSE;
 		}
 
-		/* FIXME : Add support for workbook local functions */
-		name = gnm_func_lookup (f_name, NULL);
+		name = gnm_func_lookup (f_name, wb);
 		if (name == NULL)
-			name = gnm_func_add_placeholder (f_name, "", TRUE);
+			name = gnm_func_add_placeholder (wb, f_name, "UNKNOWN", TRUE);
 
 		gnm_expr_unref (tmp);
 		parse_list_push (stack, gnm_expr_new_funcall (name, args));
@@ -612,7 +611,7 @@ make_function (GnmExprList **stack, int fn_idx, int numargs)
 		ExcelFuncDesc const *fd = excel_func_desc + fn_idx;
 		GnmExprList *args;
 
-		d (2, fprintf (stderr, "Function '%s', %d, templ: %d %x\n",
+		d (2, fprintf (stderr, "Function '%s', %d, expected args: %d flags = 0x%x\n",
 			       fd->name, numargs, fd->num_known_args, fd->flags););
 
 		if ((fd->flags & XL_VARARG) && numargs < 0)
@@ -628,7 +627,9 @@ make_function (GnmExprList **stack, int fn_idx, int numargs)
 			/* handle missing trailing arguments */
 			if (numargs > available_args)
 				numargs = available_args;
-		} else if (fd->flags & XL_UNKNOWN)
+		} 
+
+		if (fd->flags & XL_UNKNOWN)
 			g_warning("This sheet uses an Excel function "
 				  "('%s') for which we do \n"
 				  "not have adequate documentation.  "
@@ -638,9 +639,9 @@ make_function (GnmExprList **stack, int fn_idx, int numargs)
 
 		args = parse_list_last_n (stack, numargs);
 		if (fd->name) {
-			name = gnm_func_lookup (fd->name, NULL);
+			name = gnm_func_lookup (fd->name, wb);
 			if (name == NULL)
-				name = gnm_func_add_placeholder (fd->name, "Builtin ", TRUE);
+				name = gnm_func_add_placeholder (wb, fd->name, "0NKNOWN", TRUE);
 		}
 		/* This should not happen */
 		if (!name) {
@@ -749,6 +750,29 @@ excel_formula_parses_ref_sheets (MSContainer const *container, guint8 const *dat
 	return FALSE;
 }
 
+static char const *ptg_name[] = {
+	"PTG ZERO ???",	"PTG_EXPR",	"PTG_TBL",	"PTG_ADD",
+	"PTG_SUB",	"PTG_MULT",	"PTG_DIV",	"PTG_EXP",
+	"PTG_CONCAT",	"PTG_LT",	"PTG_LTE",	"PTG_EQUAL",
+	"PTG_GTE",	"PTG_GT",	"PTG_NOT_EQUAL", "PTG_INTERSECT",
+
+	"PTG_UNION",	"PTG_RANGE",	"PTG_U_PLUS",	"PTG_U_MINUS",
+	"PTG_PERCENT",	"PTG_PAREN",	"PTG_MISSARG",	"PTG_STR",
+	"PTG_EXTENDED", "PTG_ATTR",	"PTG_SHEET",	"PTG_SHEET_END",
+	"PTG_ERR",	"PTG_BOOL",	"PTG_INT",	"PTG_NUM",
+
+	"PTG_ARRAY",	"PTG_FUNC",	"PTG_FUNC_VAR", "PTG_NAME",
+	"PTG_REF",	"PTG_AREA",	"PTG_MEM_AREA", "PTG_MEM_ERR",
+	"PTG_MEM_NO_MEM", "PTG_MEM_FUNC", "PTG_REF_ERR", "PTG_AREA_ERR",
+	"PTG_REFN",	"PTG_AREAN",	"PTG_MEM_AREAN", "PTG_NO_MEMN",
+
+	"PTG_30",	"PTG_31",	"PTG_32",	"PTG_33",
+	"PTG_34",	"PTG_35",	"PTG_36",	"PTG_37",
+
+	"PTG_FUNC_CE",	"PTG_NAME_X",	"PTG_REF_3D",	"PTG_AREA_3D",
+	"PTG_REF_ERR_3D", "PTG_AREA_ERR_3D", "PTG_3E",	"PTG_3F"
+};
+
 /**
  * Parse that RP Excel formula, see S59E2B.HTM
  * Return a dynamicly allocated GnmExpr containing the formula, or NULL
@@ -778,10 +802,10 @@ excel_parse_formula (MSContainer const *container,
 		*array_element = FALSE;
 
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_formula_debug > 1) {
+	if (ms_excel_formula_debug > 0) {
 		ms_excel_dump_cellname (container->ewb, esheet, fn_col, fn_row);
 		fprintf (stderr, "\n");
-		if (ms_excel_formula_debug > 2) {
+		if (ms_excel_formula_debug > 1) {
 			fprintf (stderr, "--> len = %d\n", length);
 			gsf_mem_dump (mem, length);
 		}
@@ -795,7 +819,7 @@ excel_parse_formula (MSContainer const *container,
 		if (ptg > FORMULA_PTG_MAX)
 			break;
 		d (2, {
-			fprintf (stderr, "Ptg : 0x%02x", ptg);
+			fprintf (stderr, "Ptg : %s 0x%02x", ptg_name [ptgbase], ptg);
 			if (ptg != ptgbase)
 				fprintf (stderr, "(0x%02x)", ptgbase);
 			fprintf (stderr, "\n");
@@ -812,12 +836,10 @@ excel_parse_formula (MSContainer const *container,
 			sf = excel_sheet_shared_formula (esheet, &top_left);
 
 			if (sf == NULL) {
-#ifndef NO_DEBUG_EXCEL
-				if (ms_excel_formula_debug > 3) {
-					fprintf (stderr, "Unknown shared formula @");
+				if (top_left.col != fn_col || top_left.row != fn_row) {
+					g_warning ("Unknown shared formula (key = %s) in ", cellpos_as_string (&top_left));
 					ms_excel_dump_cellname (container->ewb, esheet, fn_col, fn_row);
 				}
-#endif
 				parse_list_free (&stack);
 				return NULL;
 			}
@@ -826,7 +848,7 @@ excel_parse_formula (MSContainer const *container,
 				if (array_element != NULL)
 					*array_element = TRUE;
 				else
-					fprintf (stderr, "EXCEL : unexpected array\n");
+					g_warning ("EXCEL : unexpected array\n");
 
 				parse_list_free (&stack);
 				return NULL;
@@ -992,7 +1014,7 @@ excel_parse_formula (MSContainer const *container,
 				if (ver <= MS_BIFF_V3) break;
 				ptg_length = w;
 			} else if (grbit & 0x10) { /* AttrSum: 'optimised' SUM function */
-				if (!make_function (&stack, 0x04, 1))
+				if (!make_function (&stack, 0x04, 1, container->ewb->gnum_wb))
 				{
 					error = TRUE;
 					puts ("Error in optimised SUM");
@@ -1061,10 +1083,13 @@ excel_parse_formula (MSContainer const *container,
 			char *str = NULL;
 			int len;
 			if (ver >= MS_BIFF_V8) {
-				len = GSF_LE_GET_GUINT16 (cur);
+				len = GSF_LE_GET_GUINT8 (cur);
 				if (len <= len_left) {
-					str = biff_get_text (cur+2, len, &len);
-					ptg_length = 2 + len;
+					str = biff_get_text (cur+1, len, &len);
+					ptg_length = 1 + len;
+					/* biff_get_text misses the 1 byte header for empty strings */
+					if (len == 0)
+						ptg_length++;
 				}
 #if 0
 				fprintf (stderr, "v8+ PTG_STR '%s'\n", str);
@@ -1295,7 +1320,7 @@ excel_parse_formula (MSContainer const *container,
 				iftab = GSF_LE_GET_GUINT8(cur);
 			}
 
-			if (!make_function (&stack, iftab, -1)) {
+			if (!make_function (&stack, iftab, -1, container->ewb->gnum_wb)) {
 				error = TRUE;
 				puts ("error making func");
 			}
@@ -1320,7 +1345,7 @@ excel_parse_formula (MSContainer const *container,
 				iftab = GSF_LE_GET_GUINT8(cur+1);
 			}
 
-			if (!make_function (&stack, iftab, numargs)) {
+			if (!make_function (&stack, iftab, numargs, container->ewb->gnum_wb)) {
 				error = TRUE;
 				puts ("error making func var");
 			}
@@ -1563,8 +1588,15 @@ excel_parse_formula (MSContainer const *container,
 			break;
 
 		default:
-			g_warning ("EXCEL : Unhandled PTG 0x%x.", ptg);
-			error = TRUE;
+			/* What the heck ??
+			 * In some workbooks (hebrew.xls) expressions in EXTERNNAMEs 
+			 * seem to have a an extra 2 zero bytes at the end
+			 **/
+			if (len_left > 2) {
+				g_warning ("EXCEL : Unhandled PTG 0x%x.", ptg);
+				error = TRUE;
+				ptg_length = 1;
+			}
 		}
 /*		fprintf (stderr, "Ptg 0x%x length (not inc. ptg byte) %d\n", ptgbase, ptg_length); */
 		cur      += ptg_length + 1;

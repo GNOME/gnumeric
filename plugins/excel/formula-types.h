@@ -94,6 +94,13 @@ typedef struct {
 	char		 type;
 	char const 	*known_args;
 } ExcelFuncDesc;
+
+typedef struct {
+	ExcelFuncDesc const *efunc;
+	char *macro_name;
+	int   idx;
+} ExcelFunc;
+
 extern ExcelFuncDesc const excel_func_desc[];
 extern int excel_func_desc_size;
 

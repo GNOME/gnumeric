@@ -79,6 +79,7 @@ GnmValue   *workbook_foreach_cell_in_range (GnmEvalPos const  *pos,
 					    CellIterFunc    handler,
 					    gpointer	    closure);
 GPtrArray  *workbook_cells               (Workbook *wb, gboolean comments);
+GSList     *workbook_local_functions	 (Workbook const *wb);
 
 /* Calculation */
 void     workbook_recalc                 (Workbook *wb);	/* in eval.c */

@@ -38,11 +38,6 @@
 
 #define FORMULA_DEBUG 0
 
-typedef struct {
-	ExcelFuncDesc const *fd;
-	int idx;
-} ExcelFunc;
-
 static guint
 sheet_pair_hash (ExcelSheetPair const *sp)
 {
@@ -114,17 +109,27 @@ excel_write_prep_expr (ExcelWriteState *ewb, GnmExpr const *expr)
 			return;
 
 		ef = g_new (ExcelFunc, 1);
-		for (i = 0; i < excel_func_desc_size; i++)
-			if (!g_ascii_strcasecmp (excel_func_desc[i].name, func->name)) {
-				ef->fd = excel_func_desc + i;
-				ef->idx = i;
-				break;
-			}
+		if (!(func->flags & (GNM_FUNC_IS_PLACEHOLDER|GNM_FUNC_IS_WORKBOOK_LOCAL))) {
+			for (i = 0; i < excel_func_desc_size; i++)
+				if (!g_ascii_strcasecmp (excel_func_desc[i].name, func->name)) {
+					ef->efunc = excel_func_desc + i;
+					ef->idx = i;
+					ef->macro_name = NULL;
+					break;
+				}
+		} else
+			i = excel_func_desc_size;
 
 		if (i >= excel_func_desc_size) {
-			g_ptr_array_add (ewb->externnames, func);
-			ef->fd = NULL;
-			ef->idx = ewb->externnames->len;
+			ef->efunc = NULL;
+			if (func->flags & GNM_FUNC_IS_WORKBOOK_LOCAL) {
+				ef->macro_name = g_strdup (func->name); 
+				ef->idx = -1;
+			} else {
+				g_ptr_array_add (ewb->externnames, func);
+				ef->macro_name = NULL;
+				ef->idx = -1;
+			}
 		}
 		g_hash_table_insert (ewb->function_map, func, ef);
 		break;
@@ -276,6 +281,7 @@ push_gint16 (PolishData *pd, gint16 b)
 	ms_biff_put_var_write (pd->ewb->bp, data, sizeof(data));
 }
 
+#if 0
 static void
 push_guint32 (PolishData *pd, guint32 b)
 {
@@ -283,6 +289,7 @@ push_guint32 (PolishData *pd, guint32 b)
 	GSF_LE_SET_GUINT32 (data, b);
 	ms_biff_put_var_write (pd->ewb->bp, data, sizeof(data));
 }
+#endif
 
 static void
 write_cellref_v7 (PolishData *pd, GnmCellRef const *ref,
@@ -479,6 +486,8 @@ static void
 write_funcall (PolishData *pd, GnmExpr const *expr,
 	       XLOpType target_type)
 {
+	static guint8 zeros[12] = { 0,0,0,0,0,0,0,0,0,0,0,0 };
+
 	/* excel is limited to 128 args max */
 	int      max_args = 126, num_args = 0;
 	gboolean prompt   = FALSE;
@@ -491,30 +500,32 @@ write_funcall (PolishData *pd, GnmExpr const *expr,
 
 	g_return_if_fail (ef != NULL);
 
-	if (ef->fd == NULL) {
-		push_guint8 (pd, FORMULA_PTG_NAME_X +
-			xl_get_op_class (pd, XL_REF, target_type));
-		if (pd->ewb->bp->version <= MS_BIFF_V7) {
-			/* The Magic Addin entry is after the real sheets
-			 * at the workbook level.
-			 */
-			push_gint16  (pd, -(pd->ewb->sheets->len + 1));
-			push_guint32 (pd, 0); /* reserved */
-			push_guint32 (pd, 0); /* reserved */
+	if (ef->efunc == NULL) {
+		if (ef->macro_name != NULL) {
+			push_guint8 (pd, FORMULA_PTG_NAME);
 			push_guint16 (pd, ef->idx);
-			push_guint32 (pd, 0); /* reserved */
-			push_guint32 (pd, 0); /* reserved */
-			push_guint32 (pd, 0); /* reserved */
+			ms_biff_put_var_write (pd->ewb->bp, zeros,
+				(pd->ewb->bp->version <= MS_BIFF_V7) ? 12 : 2);
 		} else {
-			/* I write the Addin Magic entry 1st */
-			push_guint16 (pd, 0);
-			push_guint16 (pd, ef->idx);
-			push_guint16 (pd, 0); /* reserved */
+			push_guint8 (pd, FORMULA_PTG_NAME_X);
+			if (pd->ewb->bp->version <= MS_BIFF_V7) {
+				/* The Magic Addin entry is after the real sheets
+				 * at the workbook level.  */
+				push_gint16  (pd, -(pd->ewb->sheets->len + 1));
+				ms_biff_put_var_write (pd->ewb->bp, zeros, 8);
+				push_guint16 (pd, ef->idx);
+				ms_biff_put_var_write (pd->ewb->bp, zeros, 12);
+			} else {
+				/* I write the Addin Magic entry 1st */
+				push_guint16 (pd, 0);
+				push_guint16 (pd, ef->idx);
+				push_guint16 (pd, 0); /* reserved */
+			}
 		}
 	} else {
-		arg_types = ef->fd->known_args;
-		if (ef->fd->flags & XL_FIXED)
-			max_args = ef->fd->num_known_args;
+		arg_types = ef->efunc->known_args;
+		if (ef->efunc->flags & XL_FIXED)
+			max_args = ef->efunc->num_known_args;
 	}
 
 	for (ptr = expr->func.arg_list ; ptr != NULL; ptr = ptr->next, num_args++)
@@ -535,23 +546,23 @@ write_funcall (PolishData *pd, GnmExpr const *expr,
 			write_node (pd, ptr->data, 0, arg_type);
 		}
 
-	if (ef->fd != NULL) {
+	if (ef->efunc != NULL) {
 		guint8 op_class = xl_get_op_class (pd, 
-			xl_map_char_to_type (ef->fd->type), target_type);
+			xl_map_char_to_type (ef->efunc->type), target_type);
 
 #if FORMULA_DEBUG > 1
 		printf ("Writing function '%s' as idx %d, args %d\n",
-			name, ef->u.std.idx, fce->u.std.fd->num_known_args);
+			name, ef->u.std.idx, fce->u.std.efunc->num_known_args);
 #endif
 
-		if (ef->fd->flags & XL_VARARG) {
+		if (ef->efunc->flags & XL_VARARG) {
 			push_guint8  (pd, FORMULA_PTG_FUNC_VAR + op_class);
 			push_guint8  (pd, num_args | (prompt ? 0x80 : 0));
 			push_guint16 (pd, ef->idx  | (cmdequiv ? 0x8000 : 0));
 		} else {
 			/* If XL requires more arguments than we do
 			 * pad the remainder with missing args */
-			while (num_args++ < ef->fd->num_known_args)
+			while (num_args++ < ef->efunc->num_known_args)
 				push_guint8 (pd, FORMULA_PTG_MISSARG);
 
 			push_guint8  (pd, FORMULA_PTG_FUNC + op_class);
