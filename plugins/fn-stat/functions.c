@@ -133,56 +133,6 @@ stat_helper (stat_closure_t *cl, EvalPos const *ep, Value *val)
 	return NULL;
 }
 
-typedef struct {
-        GSList    *entries;
-        int       n;
-} make_list_t;
-
-static Value *
-callback_function_make_list (EvalPos const *ep, Value *value,
-			     void *closure)
-{
-	make_list_t *mm = closure;
-	gnm_float  x;
-	gpointer    p;
-
-	if (value != NULL && VALUE_IS_NUMBER (value))
-		x = value_get_as_float (value);
-	else
-	        x = 0.;
-
-	p = g_new (gnm_float, 1);
-	*((gnm_float *) p) = x;
-	mm->entries = g_slist_append (mm->entries, p);
-	mm->n++;
-
-	return NULL;
-}
-
-/**
- * FIXME : this is a kludge.
- * I've trimmed the code to avoid replicating it, but this is a stupid way to
- * do this.
- */
-static Value *
-make_list (make_list_t *p, EvalPos const *ep, Value *val)
-{
-	GnmExprConstant expr;
-	GnmExprList *expr_node_list;
-	Value *err;
-
-        p->n = 0;
-	p->entries = NULL;
-
-	gnm_expr_constant_init (&expr, val);
-	expr_node_list = gnm_expr_list_append (NULL, &expr);
-	err = function_iterate_argument_values (ep,
-		&callback_function_make_list, p, expr_node_list,
-		TRUE, CELL_ITER_ALL);
-	gnm_expr_list_free (expr_node_list);
-	return err;
-}
-
 /***************************************************************************/
 
 static char const *help_varp = {
@@ -3843,56 +3793,58 @@ static char const *help_frequency = {
 	   "@SEEALSO=")
 };
 
+
 static Value *
 gnumeric_frequency (FunctionEvalInfo *ei, Value *argv[])
 {
-	GSList       *current;
-	make_list_t  data_cl, bin_cl;
-	Value        *err, *res;
-	gnm_float   *bin_array;
-	int          *count, i;
+	CollectFlags flags = COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS |
+		COLLECT_IGNORE_BLANKS;
+	Value *error = NULL, *res;
+	int *counts;
+	int i, nvalues, nbins;
+	gnm_float *values = NULL, *bins = NULL;
 
-	if ((err = make_list (&data_cl, ei->pos, argv [0])) ||
-	    (err = make_list (&bin_cl, ei->pos, argv [1])))
-	        return err;
-
-	if (bin_cl.n == 0)
-	        return value_new_int (data_cl.n);
-
-	bin_array = g_new (gnm_float, bin_cl.n);
-	i = 0;
-	for (current = bin_cl.entries; current != NULL; current=current->next) {
-		gnm_float *xp = current->data;
-	        bin_array[i++] = *xp;
-		g_free (xp);
+	values = collect_floats_value (argv[0], ei->pos, flags,
+				       &nvalues, &error);
+	if (error) {
+		res = error;
+		goto out;
 	}
-	qsort (bin_array, bin_cl.n, sizeof (gnm_float),
-	       (void *) &float_compare);
 
-	count = g_new (int, bin_cl.n + 1);
-	for (i = 0; i < bin_cl.n + 1; i++)
-	        count[i] = 0;
+	bins = collect_floats_value (argv[1], ei->pos, flags,
+				     &nbins, &error);
+	if (error) {
+		res = error;
+		goto out;
+	}
 
-	for (current = data_cl.entries; current != NULL; current=current->next) {
-		gnm_float *xp = current->data;
-		for (i = 0; i < bin_cl.n; i++)
-		        if (*xp <= bin_array[i])
+	/* Special case.  */
+	if (nbins == 0) {
+		res = value_new_int (nvalues);
+		goto out;
+	}
+
+	qsort (bins, nbins, sizeof (gnm_float), (void *) &float_compare);
+	counts = g_new0 (int, nbins + 1);
+
+	/* Stupid code.  */
+	for (i = 0; i < nvalues; i++) {
+		int j;
+		for (j = 0; j < nbins; j++)
+		        if (values[i] <= bins[j])
 				break;
-		g_free (xp);
-		count[i]++;
+		counts[j]++;
 	}
 
-	res = value_new_array_non_init (1, bin_cl.n + 1);
-	res->v_array.vals[0] = g_new (Value *, bin_cl.n + 1);
+	res = value_new_array_non_init (1, nbins + 1);
+	res->v_array.vals[0] = g_new (Value *, nbins + 1);
+	for (i = 0; i < nbins + 1; i++)
+		res->v_array.vals[0][i] = value_new_float (counts[i]);
+	g_free (counts);
 
-	for (i = 0; i < bin_cl.n + 1; i++)
-		res->v_array.vals[0][i] = value_new_float (count[i]);
-
-	g_free (bin_array);
-	g_free (count);
-	g_slist_free (data_cl.entries);
-	g_slist_free (bin_cl.entries);
-
+ out:
+	g_free (values);
+	g_free (bins);
 	return res;
 }
 

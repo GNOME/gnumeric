@@ -59,6 +59,7 @@ Morten:
 	* Fix covariance tool.
 	* Plug leaks.
 	* Fix space trimming for stf import.
+	* Clean up FREQUENCY.
 
 Thomas Miesbauer:
 	* Redo screenshots
