@@ -1,3 +1,8 @@
+2000-09-28  Kenneth Christiansen <kenneth@gnu.org>
+
+	* xml2pot: Update
+	* update.pl: Update
+
 2000-09-21  Kenneth Christiansen <kenneth@gnu.org>
 
 	* xml2pot.pl: Corrected small errors. Thanks to
