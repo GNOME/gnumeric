@@ -203,6 +203,8 @@ STATE_WB,
 				STATE_PRINT_MONO,
 				STATE_PRINT_DRAFTS,
 				STATE_PRINT_TITLES,
+				STATE_PRINT_REPEAT_TOP,
+				STATE_PRINT_REPEAT_LEFT,
 				STATE_PRINT_ORDER,
 				STATE_PRINT_ORIENT,
 				STATE_PRINT_HEADER,
@@ -275,6 +277,8 @@ static char const * const xml2_state_names[] =
 				"gmr:monochrome",
 				"gmr:draft",
 				"gmr:titles",
+				"gmr:repeat_top",
+				"gmr:repeat_left",
 				"gmr:order",
 				"gmr:orientation",
 				"gmr:Footer",
@@ -1075,6 +1079,8 @@ xml2StartElement (XML2ParseState *state, CHAR const *name, CHAR const **attrs)
 		} else if (xml2SwitchState (state, name, STATE_PRINT_MONO)) {
 		} else if (xml2SwitchState (state, name, STATE_PRINT_DRAFTS)) {
 		} else if (xml2SwitchState (state, name, STATE_PRINT_TITLES)) {
+		} else if (xml2SwitchState (state, name, STATE_PRINT_REPEAT_TOP)) {
+		} else if (xml2SwitchState (state, name, STATE_PRINT_REPEAT_LEFT)) {
 		} else if (xml2SwitchState (state, name, STATE_PRINT_ORDER)) {
 		} else if (xml2SwitchState (state, name, STATE_PRINT_ORIENT)) {
 		} else if (xml2SwitchState (state, name, STATE_PRINT_HEADER)) {
