@@ -1,3 +1,7 @@
+1999-10-07  Jody Goldberg <jgoldberg@home.com>
+
+	* src/main.c : Add new command line parameter. --debug_ole
+
 1999-10-07  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_compute_visible_ranges):

@@ -80,6 +80,12 @@ struct _MsOle
 /* end if memory mapped */
 };
 
+/* A global variable to enable calles to check_stream,
+ * applications should optionally enable due to the performance penalty.
+ * of 30-50 % of load time.
+ */
+gboolean libole2_debug = FALSE;
+
 typedef guint32 PPS_IDX ;
 
 #if OLE_DEBUG > 0
@@ -1766,7 +1772,8 @@ ms_ole_read_ptr_bb (MsOleStream *s, MsOlePos length)
 	ans = BB_R_PTR(s->file, ms_array_index (s->blocks, BLP, s->position/BB_BLOCK_SIZE))
 	      + s->position%BB_BLOCK_SIZE;
 	ms_ole_lseek (s, length, MsOleSeekCur);
-	check_stream (s);
+	if (libole2_debug)
+		check_stream (s);
 
 	return ans;
 }
@@ -1803,7 +1810,8 @@ ms_ole_read_ptr_sb (MsOleStream *s, MsOlePos length)
 	ans = GET_SB_R_PTR(s->file, ms_array_index (s->blocks, BLP, s->position/SB_BLOCK_SIZE))
 		+ s->position%SB_BLOCK_SIZE;
 	ms_ole_lseek (s, length, MsOleSeekCur);
-	check_stream (s);
+	if (libole2_debug)
+		check_stream (s);
 
 	return ans;
 }
@@ -1856,7 +1864,8 @@ ms_ole_read_copy_bb (MsOleStream *s, guint8 *ptr, MsOlePos length)
 		blkidx++;
 		s->position+=cpylen;
 	}
-	check_stream (s);
+	if (libole2_debug)
+		check_stream (s);
 	return 1;
 }
 
@@ -1902,7 +1911,8 @@ ms_ole_read_copy_sb (MsOleStream *s, guint8 *ptr, MsOlePos length)
 		blkidx++;
 		s->position+=cpylen;
 	}
-	check_stream (s);
+	if (libole2_debug)
+		check_stream (s);
 	return 1;
 }
 
@@ -2013,7 +2023,9 @@ ms_ole_write_bb (MsOleStream *s, guint8 *ptr, MsOlePos length)
 		s->size += lengthen;
 
 	s->lseek (s, length, MsOleSeekCur);
-	check_stream (s);
+
+	if (libole2_debug)
+		check_stream (s);
 
 	return length;
 }
@@ -2100,7 +2112,9 @@ ms_ole_write_sb (MsOleStream *s, guint8 *ptr, MsOlePos length)
 		
 		offset = 0;
 		blkidx++;
-		check_stream (s);
+
+		if (libole2_debug)
+			check_stream (s);
 	}
 	s->lseek (s, length, MsOleSeekCur);
 
