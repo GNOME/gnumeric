@@ -84,12 +84,16 @@ typedef enum {
 } PutType;
 
 #define XF_RESERVED 21
+#define XF_MAGIC 0
 #define FONTS_MINIMUM 5
 #define FONT_SKIP 4
 #define FONT_MAGIC 0
 #define FORMAT_MAGIC 0
-#define PALETTE_WHITE 0
-#define PALETTE_BLACK 1
+#define PALETTE_BLACK 0
+#define PALETTE_ALSO_BLACK 8
+#define PALETTE_WHITE 1
+#define FILL_MAGIC 0
+#define BORDER_MAGIC STYLE_BORDER_NONE
 
 extern int
 biff_put_text (BiffPut *bp, const char *txt, eBiff_version ver,

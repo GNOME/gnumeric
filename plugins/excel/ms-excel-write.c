@@ -43,6 +43,7 @@
 #include "ms-biff.h"
 #include "excel.h"
 #include "ms-excel-write.h"
+#include "ms-excel-xf.h"
 #include "ms-formula-write.h"
 
 /**
@@ -641,15 +642,23 @@ put_color (ExcelWorkbook *wb, const StyleColor *c)
 
 /**
  * Add colors in mstyle to palette
- *
- * FIXME: Border colors not yet included
  **/
 static void
 put_colors (MStyle *st, gconstpointer dummy, ExcelWorkbook *wb)
 {
+	int i;
+	const MStyleBorder * b;
+
 	put_color (wb, mstyle_get_color (st, MSTYLE_COLOR_FORE));
 	put_color (wb, mstyle_get_color (st, MSTYLE_COLOR_BACK));
 	put_color (wb, mstyle_get_color (st, MSTYLE_COLOR_PATTERN));
+
+	/* Borders */
+	for (i = STYLE_TOP; i < STYLE_ORIENT_MAX; i++) {
+		b = mstyle_get_border (st, MSTYLE_BORDER_TOP + i);
+		if (b && b->color)
+			put_color (wb, b->color);
+	}
 }
 
 /**
@@ -761,7 +770,8 @@ excel_font_to_string (const ExcelFont *f)
  *
  * Style color is *not* unrefed. This is correct
  **/
-static ExcelFont *excel_font_new (MStyle *st)
+static ExcelFont *
+excel_font_new (MStyle *st)
 {
 	ExcelFont *f;
 	StyleColor *c;
@@ -841,6 +851,17 @@ fonts_init (ExcelWorkbook *wb)
 }
 
 /**
+ * Get an ExcelFont, given index
+ **/
+static ExcelFont *
+fonts_get_font (ExcelWorkbook *wb, gint idx)
+{
+	TwoWayTable *twt = wb->fonts->two_way_table;
+
+	return (ExcelFont *) two_way_table_idx_to_key (twt, idx);
+}
+
+/**
  * Free font table
  **/
 static void
@@ -854,8 +875,7 @@ fonts_free (ExcelWorkbook *wb)
 		twt = wb->fonts->two_way_table;
 		if (twt) {
 			for (i = 0; i < twt->idx_to_key->len; i++) {
-				f = two_way_table_idx_to_key (twt, 
-							      i + twt->base);
+				f = fonts_get_font (wb, i + twt->base);
 				excel_font_free (f);
 			}
 			two_way_table_free (twt);
@@ -944,7 +964,7 @@ write_font (ExcelWorkbook *wb, BiffPut *bp, const ExcelFont *f)
 	guint16 grbit = 0;
 	guint16 color = palette_get_index (wb, f->color);
 
-	guint16 boldstyle = 190; /* Normal boldness */
+	guint16 boldstyle = 0x190; /* Normal boldness */
 	guint16 subsuper  = 0;   /* 0: Normal, 1; Super, 2: Sub script*/
 	guint8  underline = 0;	 /* No underline */
 	guint8  family    = 0;
@@ -995,14 +1015,14 @@ write_fonts (ExcelWorkbook *wb, BiffPut *bp)
 	
 	for (lp = 0; lp < nfonts; lp++) {
 		if (lp != FONT_SKIP) {	/* FONT_SKIP is invalid, skip it */
-			f = two_way_table_idx_to_key (twt, lp);
+			f = fonts_get_font (wb, lp);
 			write_font (wb, bp, f);
 		}
 	}
 
 	if (nfonts < FONTS_MINIMUM + 1) { /* Add 1 to account for skip */
 		/* Fill up until we've got the minimum number */
-		f = two_way_table_idx_to_key (twt, 0);
+		f = fonts_get_font (wb, 0);
 		for (; lp < FONTS_MINIMUM + 1; lp++) {
 			if (lp != FONT_SKIP) {	
 				/* FONT_SKIP is invalid, skip it */
@@ -1070,6 +1090,18 @@ formats_init (ExcelWorkbook *wb)
 	formats_put_magic (wb);
 }
 
+
+/**
+ * Get a format, given index
+ **/
+static char *
+formats_get_format (ExcelWorkbook *wb, gint idx)
+{
+	TwoWayTable *twt = wb->formats->two_way_table;
+
+	return (char *) two_way_table_idx_to_key (twt, idx);
+}
+
 /**
  * Free format table
  **/
@@ -1084,8 +1116,8 @@ formats_free (ExcelWorkbook *wb)
 		twt = wb->formats->two_way_table;
 		if (twt) {
 			for (i = 0; i < twt->idx_to_key->len; i++) {
-				format = two_way_table_idx_to_key 
-					(twt, i + twt->base);
+				format = formats_get_format (wb, 
+							     i + twt->base);
 				g_free (format);
 			}
 			two_way_table_free (twt);
@@ -1147,8 +1179,7 @@ static void
 write_format (ExcelWorkbook *wb, BiffPut *bp, int fidx)
 {
 	guint8 data[64];
-	TwoWayTable *twt = wb->formats->two_way_table;
-	char *format = two_way_table_idx_to_key (twt, fidx);
+	char *format = formats_get_format(wb, fidx);
 	
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_write_debug > 1) {
@@ -1270,6 +1301,18 @@ xf_init (ExcelWorkbook *wb)
 	wb->xf->default_style = get_default_mstyle ();
 }
 
+
+/**
+ * Get an mstyle, given index
+ **/
+static MStyle *
+xf_get_mstyle (ExcelWorkbook *wb, gint idx)
+{
+	TwoWayTable *twt = wb->xf->two_way_table;
+
+	return (MStyle *) two_way_table_idx_to_key (twt, idx);
+}
+
 /**
  * Free XF/MStyle table
  **/
@@ -1284,8 +1327,7 @@ xf_free (ExcelWorkbook *wb)
 		if (wb->xf->two_way_table) {
 			twt = wb->xf->two_way_table;
 			for (i = 0; i < twt->idx_to_key->len; i++) {
-				st = two_way_table_idx_to_key (twt, 
-							       i + twt->base);
+				st = xf_get_mstyle (wb, i + twt->base);
 				mstyle_unref (st);
 			}
 			two_way_table_free (wb->xf->two_way_table);
@@ -1460,6 +1502,339 @@ map_pattern_index_to_excel (int const i)
 }
 
 /**
+ * Map Gnumeric horizontal alignment to Excel bitfield
+ * @halign Gnumeric horizontal alignment
+ *
+ * See S59E1E.HTM
+ **/
+inline static guint 
+halign_to_excel (StyleHAlignFlags halign)
+{
+	guint ialign;
+
+	switch (halign) {
+	case HALIGN_GENERAL:
+		ialign = eBiffHAGeneral;
+		break;
+	case HALIGN_LEFT:
+		ialign = eBiffHALeft;
+		break;
+	case HALIGN_RIGHT:
+		ialign = eBiffHARight;
+		break;
+	case HALIGN_CENTER:
+		ialign = eBiffHACenter;
+		break;
+	case HALIGN_FILL:  
+		ialign = eBiffHAFill;
+		break;
+	case HALIGN_JUSTIFY:
+		ialign = eBiffHAJustify;
+		break;
+	default:
+		ialign = eBiffHAGeneral;
+	}
+		
+	return ialign;
+}
+
+/**
+ * Map Gnumeric vertical alignment to Excel bitfield
+ * @valign Gnumeric vertical alignment
+ *
+ * See S59E1E.HTM
+ **/
+inline static guint 
+valign_to_excel (StyleVAlignFlags valign)
+{
+	guint ialign;
+
+	switch (valign) {
+	case VALIGN_TOP:
+		ialign = eBiffVATop;
+		break;
+	case VALIGN_BOTTOM:
+		ialign = eBiffVABottom;
+		break;
+	case VALIGN_CENTER:
+		ialign = eBiffVACenter;
+		break;
+	case VALIGN_JUSTIFY:
+		ialign = eBiffVAJustify;
+		break;
+	default:
+		ialign = eBiffVATop;
+	}
+
+	return ialign;
+}
+
+/**
+ * Map Gnumeric orientation to Excel bitfield
+ * @orientation Gnumeric orientation
+ *
+ * See S59E1E.HTM
+ **/
+static guint 
+orientation_to_excel (StyleOrientation orientation)
+{
+	guint ior;
+
+	switch (orientation) {
+	case ORIENT_HORIZ:
+		ior = eBiffOHoriz;
+		break;
+	case ORIENT_VERT_HORIZ_TEXT:
+		ior = eBiffOVertHorizText;
+		break;
+	case ORIENT_VERT_VERT_TEXT:
+		ior = eBiffOVertVertText;
+		break;
+	case ORIENT_VERT_VERT_TEXT2:
+		ior = eBiffOVertVertText2;
+		break;
+	default:
+		ior = eBiffOHoriz;
+	}
+		
+	return ior;
+}
+
+/**
+ * Map Gnumeric border type to Excel bitfield
+ * @btype Gnumeric border type
+ * @ver   Biff version
+ *
+ * See S59E1E.HTM
+ **/
+static guint 
+border_type_to_excel (StyleBorderType btype, eBiff_version ver)
+{
+	guint ibtype = btype;
+
+	if (btype <= STYLE_BORDER_NONE)
+		ibtype = STYLE_BORDER_NONE;
+		
+	if (ver <= eBiffV7) {
+		if (btype > STYLE_BORDER_HAIR)
+			ibtype = STYLE_BORDER_MEDIUM;
+	}
+
+	return ibtype;
+}
+
+/**
+ * Do yucky stuff with fill foreground and background colors 
+ * @xfd  XF data
+ *
+ * Solid fill patterns seem to reverse the meaning of foreground and 
+ * background
+ *
+ * FIXME:
+ * Import side code does not flip colors if xfd->pat_foregnd_col == 0.
+ *
+ * This table shows import side behaviour when fill pattern is 1:
+ *
+ * bg(file) fg(file)    bg(internal) fg(internal)
+ *  == 0     == 0         0            0
+ *  == 0     != 0         fg(file)     0
+ *  != 0     == 0         bg(file)     0
+ *  != 0     != 0         fg(file)     bg(file) 
+ *
+ * We can see from the table that bg(internal) is 0 only if fg(internal) 
+ * is also 0 .
+ *
+ * The closest write side analogue is to flip if fg(internal) != 0.
+ * But we have to do something special for bg(internal) == 0.  In this
+ * situation, I have seen Excel flip colors, but use 8 rather than 0
+ * for black, i.e. fg(file) = 8, bg(file) = fg(internal). This is what
+ * we'll do, although I don't know if Excel always does.
+ *
+ * This makes us compatible with our owin import code.  The import
+ * side test can't be correct, though. Excel displays fg(file) = 0,
+ * bg(file) = 1 as black (=0) background. Gnumeric displays background
+ * as white, since fg(file) = 0.  But I'll leave this ugliness in for
+ * now.
+ **/
+static void
+fixup_fill_colors (BiffXFData *xfd)
+{
+	guint8 c;
+
+	if (xfd->fill_pattern_idx == 1 
+	    && xfd->pat_foregnd_col != PALETTE_BLACK) {
+		c = xfd->pat_backgnd_col;
+		if (c == PALETTE_BLACK)
+			c = PALETTE_ALSO_BLACK;
+		xfd->pat_backgnd_col = xfd->pat_foregnd_col;
+		xfd->pat_foregnd_col = c;
+	}
+}
+
+/**
+ * Fill out map of differences to parent style *
+ * @wb   workbook
+ * @xfd  XF data
+ * @parentst parent style (Not used at present)
+ *
+ * See S59E1E.HTM
+ *
+ * FIXME
+ * At present, we are using a fixed XF record 0, which is the parent of all
+ * others. Can we use the actual default style as XF 0?
+ **/
+static void 
+get_xf_differences (ExcelWorkbook *wb, BiffXFData *xfd, MStyle *parentst)
+{
+	int i;
+
+	xfd->differences = 0;
+
+	if (xfd->format_idx != FORMAT_MAGIC)	
+		xfd->differences |= 1 << eBiffDFormatbit;
+	if (xfd->font_idx != FONT_MAGIC)		
+		xfd->differences |= 1 << eBiffDFontbit;
+	/* hmm. documentation doesn't say that alignment bit is
+	   affected by vertical alignment, but it's a reasonable guess */
+	if (xfd->halign != HALIGN_GENERAL || xfd->valign != VALIGN_TOP 	
+	    || xfd->wrap)
+		xfd->differences |= 1 << eBiffDAlignbit;
+	for (i = 0; i < STYLE_ORIENT_MAX; i++) {
+		/* Should we also test colors? */
+		if (xfd->border_type[i] != BORDER_MAGIC) {
+			xfd->differences |= 1 << eBiffDBorderbit;
+			break;
+		}
+	}
+	if (xfd->pat_foregnd_col != PALETTE_BLACK 
+	    || xfd->pat_backgnd_col != PALETTE_WHITE 
+	    || xfd->fill_pattern_idx != FILL_MAGIC)
+		xfd->differences |= 1 << eBiffDFillbit;
+	if (xfd->hidden || xfd->locked)
+		xfd->differences |= 1 << eBiffDLockbit;		
+}
+
+#ifndef NO_DEBUG_EXCEL
+/**
+ * Log XF data for a record about to be written
+ **/
+static void log_xf_data	(ExcelWorkbook *wb, BiffXFData *xfd, int idx)
+{
+	if (ms_excel_write_debug > 1) {
+		int i;
+		ExcelFont *f = fonts_get_font (wb, xfd->font_idx); 
+
+		printf ("Writing xf 0x%x : font 0x%x (%s), format 0x%x (%s)\n",
+			idx, xfd->font_idx, excel_font_to_string (f), 
+			xfd->format_idx, xfd->style_format->format);
+		printf (" hor align 0x%x, ver align 0x%x, wrap %s\n",
+			xfd->halign, xfd->valign, xfd->wrap ? "on" : "off");
+		printf (" fill fg color idx 0x%x, fill bg color idx 0x%x"
+			", pattern (Excel) %d\n",
+			xfd->pat_foregnd_col, xfd->pat_backgnd_col, 
+			xfd->fill_pattern_idx);
+		for (i = STYLE_TOP; i < STYLE_ORIENT_MAX; i++) {
+			if (xfd->border_type[i] !=  STYLE_BORDER_NONE) {
+				printf (" border_type[%d] : 0x%x"
+					" border_color[%d] : 0x%x\n",
+					i, xfd->border_type[i],
+					i, xfd->border_color[i]);
+			}
+		}
+		printf (" difference bits: 0x%x\n", xfd->differences);
+	}
+}
+#endif
+
+/**
+ * Build XF data for a style
+ * @wb   workbook
+ * @xfd  XF data
+ * @st   style
+ *
+ * See S59E1E.HTM
+ *
+ * All BIFF V7 features are implemented, except:
+ * - hidden and locked - not yet in gnumeric.
+ * 
+ * Apart from font, the style elements we retrieve do *not* need to be unrefed.
+ *
+ * FIXME: 
+ * It may be possible to recognize auto contrast for a few simple cases.
+ **/
+static void
+build_xf_data (ExcelWorkbook *wb, BiffXFData *xfd, MStyle *st)
+{
+	ExcelFont *f;
+	const MStyleBorder *b;
+	int pat;
+	StyleColor *pattern_color;
+	StyleColor *back_color;
+	guint pattern_pal_color;
+	guint back_pal_color;
+	guint c;
+	int i;
+
+	memset (xfd, 0, sizeof *xfd);
+
+	xfd->parentstyle  = XF_MAGIC;
+	xfd->mstyle       = st;
+	f = excel_font_new (st);
+	xfd->font_idx     = fonts_get_index (wb, f);
+	excel_font_free (f);
+	xfd->style_format = mstyle_get_format (st);
+	xfd->format_idx   = formats_get_index (wb, xfd->style_format->format);
+
+	/* Hidden and locked - we don't have those yet */
+	xfd->hidden = eBiffHVisible;
+	xfd->locked = eBiffLUnlocked;
+
+	xfd->halign = mstyle_get_align_h (st);
+	xfd->valign = mstyle_get_align_v (st);
+	xfd->wrap   = mstyle_get_fit_in_cell (st);
+	xfd->orientation = mstyle_get_orientation (st);
+
+	/* Borders */
+	for (i = STYLE_TOP; i < STYLE_ORIENT_MAX; i++) {
+		xfd->border_type[i]  = STYLE_BORDER_NONE;
+		xfd->border_color[i] = PALETTE_BLACK;
+		b = mstyle_get_border (st, MSTYLE_BORDER_TOP + i);
+		if (b) {
+			xfd->border_type[i] = b->line_type;
+			if (b->color) {
+				c = style_color_to_int (b->color);
+				xfd->border_color[i] 
+					= palette_get_index (wb, c);
+			}
+		    
+		}
+	}
+		
+	pat = mstyle_get_pattern (st);
+	xfd->fill_pattern_idx = (map_pattern_index_to_excel (pat)); 
+
+	pattern_color = mstyle_get_color (st, MSTYLE_COLOR_PATTERN);
+	back_color   = mstyle_get_color (st, MSTYLE_COLOR_BACK);
+	if (pattern_color) {
+		pattern_pal_color = style_color_to_int (pattern_color);
+	} else {
+		pattern_pal_color = PALETTE_BLACK;
+	}
+	if (back_color) {
+		back_pal_color = style_color_to_int (back_color);
+	} else {
+		back_pal_color = PALETTE_WHITE;
+	}
+	xfd->pat_backgnd_col = palette_get_index (wb, back_pal_color);
+	xfd->pat_foregnd_col = palette_get_index (wb, pattern_pal_color);
+
+	/* Solid patterns seem to reverse the meaning */
+	fixup_fill_colors (xfd);
+	
+	get_xf_differences (wb, xfd, wb->xf->default_style);
+}
+
+/**
  * Write a built-in XF record to file
  * @bp  BIFF buffer
  * @ver BIFF version
@@ -1491,7 +1866,10 @@ write_xf_magic_record (BiffPut *bp, eBiff_version ver, int idx)
 		MS_OLE_SET_GUINT16(data+2, FORMAT_MAGIC);
 		MS_OLE_SET_GUINT16(data+4, 0xfff5); /* FIXME: Magic */
 		MS_OLE_SET_GUINT16(data+6, 0xf420);
-		MS_OLE_SET_GUINT16(data+8, 0x20c0); /* Color ! */
+		/* The "magic" 0x20c0 means: 
+		 * Fill patt foreground 64 = Autocontrast 
+		 * Fill patt background  1 = white */
+		MS_OLE_SET_GUINT16(data+8, 0x20c0);
 
 		if (idx == 1 || idx == 2)
 			MS_OLE_SET_GUINT16 (data,1);
@@ -1525,86 +1903,17 @@ write_xf_magic_record (BiffPut *bp, eBiff_version ver, int idx)
  * Write an XF record to file
  * @wb  Workbook
  * @bp  BIFF buffer
- * @st  Style
- * @idx Index of record
+ * @xfd XF data
  *
  * See S59E1E.HTM
- *
- * The following features are implemented:
- * - Font
- * - Format
- * The following features are implemented only for BIFF V7:
- * - Fill pattern
- * - Fill pattern foreground color
- * - Fill pattern background color
- *
- * Style colors and style format are *not* unrefed. This is correct
- *
- * FIXME: It may be possible to recognize auto contrast for a few
- * simple cases.
+ * For BIFF V8, only font and format are written.
  **/
 static void
-write_xf_record (ExcelWorkbook *wb, BiffPut *bp, MStyle *st, int idx)
+write_xf_record (ExcelWorkbook *wb, BiffPut *bp, BiffXFData *xfd)
 {
-	guint8 data[256];
-	StyleFormat *sf = mstyle_get_format (st);
-	ExcelFont *f    = excel_font_new (st);
-	StyleColor *sc_fill = mstyle_get_color (st, MSTYLE_COLOR_PATTERN);
-	StyleColor *sc_bg   = mstyle_get_color (st, MSTYLE_COLOR_BACK);
-	int pat         = mstyle_get_pattern (st);
-	guint16 ifont   = fonts_get_index (wb, f);
-	guint16 iformat = formats_get_index (wb, sf->format);
-	guint cfill = sc_fill ? style_color_to_int (sc_fill) : PALETTE_BLACK;
-	guint cbg   = sc_bg   ? style_color_to_int (sc_bg)   : PALETTE_WHITE;
-	/* The "magic 0x20c0 means: 
-	 * Fill patt foreground 64 = Autocontrast 
-	 * Fill patt background  1 = white
-	 * fSxButton bit set */
-	guint16 icolor = 0x20c0; /* Only V7 */
-	/* FIXME : Only V7 */
-	guint16 ipat   = (map_pattern_index_to_excel (pat) & 0x3f); 
-	guint16 ifill;
-	guint16 ibg;
-	guint16 differences = 0;
+	guint8 data[256]; 
+	guint16 itmp;
 	int lp;
-
-	ibg   = palette_get_index (wb, cbg);
-	ifill = palette_get_index (wb, cfill);
-
-	/* Solid patterns seem to reverse the meaning */
-	if (ipat == 1 && ibg != PALETTE_WHITE) {
-		ifill = palette_get_index (wb, cbg);
-		ibg   = palette_get_index (wb, cfill);
-	}
-	
-	icolor = (icolor & (~ 0x1fff)) /* Only V7 */
-		| (ifill & 0x7f) 
-		| ((ibg << 7) & 0x1f80);
-
-#ifndef NO_DEBUG_EXCEL
-	if (ms_excel_write_debug > 1) {
-		printf ("Writing xf 0x%x : font 0x%x (%s), format 0x%x (%s)\n"
-			"fill fg color idx 0x%x"
-			", fill bg color idx 0x%x"
-			", pattern (Excel) %d\n",
-			idx, ifont, excel_font_to_string (f), 
-			iformat, sf->format, ifill, ibg, ipat);
-	}
-#endif
-	excel_font_free (f);
-
-	/* Map of differences to parent style */
-	if (iformat != 0)	/* Bit 10: Format */
-		differences |= 1 << 10;
-	if (ifont != 0)		/* Bit 11: Font */
-		differences |= 1 << 11;
-	/* Bit 12: Alignment or wrap  */
-	/* Bit 13: Border line */
-	if (ifill != PALETTE_BLACK || ibg != PALETTE_WHITE || ipat != 0) {
-		/* FIXME - Check if different from default */
-		differences |= 1 << 14;	/* Bit 14: Fill pattern */
-	}
-	/* Bit 15: Locking */
 
 	for (lp = 0; lp < 250; lp++)
 		data[lp] = 0;
@@ -1615,19 +1924,68 @@ write_xf_record (ExcelWorkbook *wb, BiffPut *bp, MStyle *st, int idx)
 		ms_biff_put_var_next (bp, BIFF_XF_OLD);
 
 	if (wb->ver >= eBiffV8) {
-		MS_OLE_SET_GUINT16 (data+0, ifont);
-		MS_OLE_SET_GUINT16 (data+2, iformat);
+		MS_OLE_SET_GUINT16 (data+0, xfd->font_idx);
+		MS_OLE_SET_GUINT16 (data+2, xfd->format_idx);
 		MS_OLE_SET_GUINT16(data+18, 0xc020); /* Color ! */
 		ms_biff_put_var_write (bp, data, 24);
 	} else {
-		MS_OLE_SET_GUINT16 (data+0, ifont);
-		MS_OLE_SET_GUINT16 (data+2, iformat);
-		/* According to doc, 1 means locked, this seems to be wrong */
-		MS_OLE_SET_GUINT16(data+4, 0x0001); 
-		MS_OLE_SET_GUINT16(data+6, differences);
-		MS_OLE_SET_GUINT16(data+8, icolor);
-		MS_OLE_SET_GUINT16(data+10, ipat);
+		MS_OLE_SET_GUINT16 (data+0, xfd->font_idx);
+		MS_OLE_SET_GUINT16 (data+2, xfd->format_idx);
 
+		/* According to doc, 1 means locked, but it's 1 also for 
+		 * unlocked cells. Presumably, locking becomes effective when
+		 * the locking bit in differences is also set */
+		itmp = 0x0001;
+		if (xfd->hidden != eBiffHVisible)
+			itmp |= 1 << 1;
+		if (xfd->locked != eBiffLUnlocked)
+			itmp |= 1;
+		itmp |= (xfd->parentstyle << 4) & 0xFFF0; /* Parent style */
+		MS_OLE_SET_GUINT16(data+4, itmp); 
+
+		/* Horizontal alignment */
+		itmp  = halign_to_excel (xfd->halign) & 0x7; 
+		if (xfd->wrap)	/* Wrapping */
+			itmp |= 1 << 3;
+		/* Vertical alignment */
+		itmp |= (valign_to_excel (xfd->valign) << 4) & 0x70;
+		itmp |= (orientation_to_excel (xfd->orientation) << 8) 
+			 & 0x300;
+		itmp |= xfd->differences & 0xFC00; /* Difference bits */
+		MS_OLE_SET_GUINT16(data+6, itmp);
+		 
+		itmp = 1 << 13; /* fSxButton bit - apparently always set */
+		/* Fill pattern foreground color */
+		itmp |= xfd->pat_foregnd_col & 0x7f;
+		/* Fill pattern background color */
+		itmp |= (xfd->pat_backgnd_col << 7) & 0x1f80;
+		MS_OLE_SET_GUINT16(data+8, itmp);
+
+		itmp  = xfd->fill_pattern_idx & 0x3f;
+
+		/* Borders */
+		itmp |= (border_type_to_excel (xfd->border_type[STYLE_BOTTOM],
+					       wb->ver)
+			  << 6) & 0x1c0;
+		itmp |= (xfd->border_color[STYLE_BOTTOM] << 9) & 0xfe00;
+		MS_OLE_SET_GUINT16(data+10, itmp);
+
+		itmp  = border_type_to_excel (xfd->border_type[STYLE_TOP], 
+					      wb->ver)
+			& 0x7;
+		itmp |= (border_type_to_excel (xfd->border_type[STYLE_LEFT], 
+					       wb->ver)
+			 << 3) & 0x38;
+		itmp |= (border_type_to_excel (xfd->border_type[STYLE_RIGHT],
+					       wb->ver)
+			 << 6) & 0x1c0;
+		itmp |= (xfd->border_color[STYLE_TOP] << 9) & 0xfe00;
+		MS_OLE_SET_GUINT16(data+12, itmp);
+
+		itmp  = xfd->border_color[STYLE_LEFT] & 0x7f;
+		itmp |= (xfd->border_color[STYLE_RIGHT] << 7) & 0x3f80;
+		MS_OLE_SET_GUINT16(data+14, itmp);
+		
 		ms_biff_put_var_write (bp, data, 16);
 	}
 	ms_biff_put_commit (bp);
@@ -1645,6 +2003,7 @@ write_xf (ExcelWorkbook *wb, BiffPut *bp)
 	int nxf = twt->idx_to_key->len;
 	int lp;
 	MStyle *st;
+	BiffXFData xfd;
 
 	guint32 style_magic[6] = { 0xff038010, 0xff068011, 0xff048012, 0xff078013,
 				   0xff008000, 0xff058014 };
@@ -1655,8 +2014,12 @@ write_xf (ExcelWorkbook *wb, BiffPut *bp)
 
 	/* Scan through all the Styles... */
 	for (; lp < nxf + twt->base; lp++) { 
-		st = two_way_table_idx_to_key (twt, lp);
-		write_xf_record (wb, bp, st, lp);
+		st = xf_get_mstyle (wb, lp);
+		build_xf_data (wb, &xfd, st);
+#ifndef NO_DEBUG_EXCEL
+		log_xf_data (wb, &xfd, lp);
+#endif
+		write_xf_record (wb, bp, &xfd);
 	}
 
 	/* See: S59DEA.HTM */

@@ -1094,6 +1094,7 @@ Sheet_range_set_alignment (PortableServer_Servant servant,
 			   const CORBA_char      *range,
 			   CORBA_long             halign,
 			   CORBA_long             valign,
+			   CORBA_long             orientation,
 			   CORBA_boolean          auto_return,
 			   CORBA_Environment     *ev)
 {
@@ -1106,6 +1107,7 @@ Sheet_range_set_alignment (PortableServer_Servant servant,
 	mstyle = mstyle_new ();
 	mstyle_set_align_h (mstyle, halign);
 	mstyle_set_align_v (mstyle, valign);
+	mstyle_set_orientation (mstyle, orientation);
 	mstyle_set_fit_in_cell (mstyle, (gboolean) auto_return);
 	ranges_set_style (sheet, ranges, mstyle);
 

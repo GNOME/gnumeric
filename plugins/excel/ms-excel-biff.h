@@ -48,6 +48,39 @@ typedef enum _eBiffFontUnderline
 
 typedef enum _eBiffFontScript { eBiffFSNone, eBiffFSSub, eBiffFSSuper } eBiffFontScript ;
 
+typedef enum _eBiffHAlign {	/* Horizontal alignment */
+	eBiffHAGeneral = 0,
+	eBiffHALeft    = 1,
+	eBiffHACenter  = 2,
+	eBiffHARight   = 3,
+	eBiffHAFill    = 4,
+	eBiffHAJustify = 5,
+	eBuffHACenterAcrossSelection = 6
+} eBiffHAlign;
+
+typedef enum _eBiffVAlign {	/* Vertical alignment */
+	eBiffVATop     = 0,
+	eBiffVACenter  = 1,
+	eBiffVABottom  = 2,
+	eBiffVAJustify = 3
+} eBiffVAlign;
+
+typedef enum _eBiffOrient {	/* Text orientation */
+	eBiffOHoriz         = 0,
+	eBiffOVertHorizText = 1,
+	eBiffOVertVertText  = 2,
+	eBiffOVertVertText2 = 3
+} eBiffOrient;
+
+typedef enum _eBiffDifferences { /* Differences to parent styles */
+	eBiffDFormatbit = 10,
+	eBiffDFontbit   = 11,
+	eBiffDAlignbit  = 12,
+	eBiffDBorderbit = 13,
+	eBiffDFillbit   = 14,
+	eBiffDLockbit   = 15
+} _eBiffDifferences;
+
 typedef struct _BIFF_BOF_DATA
 {
   eBiff_version version ;

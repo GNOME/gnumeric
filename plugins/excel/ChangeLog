@@ -1,3 +1,54 @@
+1999-12-14  Jon K Hellan  <hellan@acm.org>
+ 
+        * ms-excel-write.h (XF_MAGIC, PALETTE_ALSO_BLACK, FILL_MAGIC,
+        BORDER_MAGIC): define
+        (PALETTE_WHITE, PALETTE_BLACK): Fix typo, they were switched around.
+ 
+        * ms-excel-write.c (put_colors): Include border colors.
+        (excel_font_new): Newline to conform to coding style.
+        (fonts_get_font): New function. Get font, given index.
+        (fonts_free, write_fonts): Use it.
+        (write_font): Fix boldstyle typo.
+        (formats_get_format): New function. Get format, given index.
+        (formats_free, write_format): Use it.
+        (xf_get_mstyle): New function. Get mstyle, given index.
+        (xf_free): Use it.
+        (halign_to_excel): 
+        New function. Map horizontal alignment to Excel bitfield
+        (valign_to_excel): 
+        New function. Map vertical alignment to Excel bitfield.
+        (orientation_to_excel): 
+        New function. Map text orientation to Excel bitfield.
+        (border_type_to_excel): 
+        New function. Map border type to Excel bitfield.
+        (fixup_fill_colors): 
+        New function. Kluge fill foreground and background colors.
+        (get_xf_differences): Fill out map of differences to parent style.
+        (log_xf_data): 
+        New function. Log XF data for a record about to be written. Pulled
+        out of write_xf_record.
+        (build_xf_data): New function. Build XF data for a style. Pulled
+        out of write_xf_record, but uses BiffXFData struct. Add support
+        for borders, alignments, wrap, rotation. Change some
+        local variable names for consistency with import code.
+        (write_xf_magic_record): Comment magic color value.
+        (write_xf_record): Change signature, take BiffXFData instead of
+        mstyle. Simplify by moving out logging and marshaling. Make more
+        complex by writing borders, alignment, wrap, rotation.
+        (write_xf): Use xf_get_mstyle, build_xf_data, log_xf_data.
+ 
+        * ms-excel-util.h: Fix typo.
+ 
+        * ms-excel-xf.h: New file for BiffXFData struct def.
+ 
+        * ms-excel-read.c: Move BiffXFData struct def to
+        ms-excel-xf.h. Include ms-excel-xf.h. Remove include "border.h" -
+        ms-excel-xf.h includes it.
+        (ms_excel_get_style_from_xf): Express some bewilderment.
+ 
+        * ms-excel-biff.h: Define enums for horizontal alignment, vertical
+        alignment, text orientation, difference bits
+
 1999-12-11  Frank Chiulli  <fchiulli@home.com>
 
 	* ms-summary.c (ms_summary_write): comment out DocumentSummary.

@@ -18,9 +18,9 @@
 #include "ms-escher.h"
 #include "print-info.h"
 #include "selection.h"
-#include "border.h"
 #include "utils.h"	/* for cell_name */
 #include "ranges.h"
+#include "ms-excel-xf.h"
 
 /* #define NO_DEBUG_EXCEL */
 
@@ -44,14 +44,6 @@ static ExcelSheet *ms_excel_sheet_new       (ExcelWorkbook *wb,
 static void        ms_excel_workbook_attach (ExcelWorkbook *wb,
 					     ExcelSheet *ans);
 
-#define STYLE_TOP		(MSTYLE_BORDER_TOP	    - MSTYLE_BORDER_TOP)
-#define STYLE_BOTTOM		(MSTYLE_BORDER_BOTTOM	    - MSTYLE_BORDER_TOP)
-#define STYLE_LEFT		(MSTYLE_BORDER_LEFT	    - MSTYLE_BORDER_TOP)
-#define STYLE_RIGHT		(MSTYLE_BORDER_RIGHT	    - MSTYLE_BORDER_TOP)
-#define STYLE_DIAGONAL		(MSTYLE_BORDER_DIAGONAL     - MSTYLE_BORDER_TOP)
-#define STYLE_REV_DIAGONAL	(MSTYLE_BORDER_REV_DIAGONAL - MSTYLE_BORDER_TOP)
-
-#define STYLE_ORIENT_MAX 6
 
 void
 ms_excel_unexpected_biff (BiffQuery *q, char const *const state)
@@ -948,30 +940,6 @@ ms_excel_palette_destroy (ExcelPalette *pal)
 	g_free (pal);
 }
 
-typedef struct _BiffXFData {
-	guint16 font_idx;
-	guint16 format_idx;
-	StyleFormat *style_format;
-	eBiff_hidden hidden;
-	eBiff_locked locked;
-	eBiff_xftype xftype;	/*  -- Very important field... */
-	eBiff_format format;
-	guint16 parentstyle;
-	StyleHAlignFlags halign;
-	StyleVAlignFlags valign;
-	gboolean wrap;
-	guint8 rotation;
-	eBiff_eastern eastern;
-	guint8 border_color[STYLE_ORIENT_MAX];
-	StyleBorderType border_type[STYLE_ORIENT_MAX];
-	guint8 fill_pattern_idx;
-	guint8 pat_foregnd_col;
-	guint8 pat_backgnd_col;
-
-	MStyle *mstyle;
-} BiffXFData;
-
-
 /**
  * Search for a font record from its index in the workbooks font table
  * NB. index 4 is omitted supposedly for backwards compatiblity
@@ -1128,6 +1096,14 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 	mstyle_set_pattern (mstyle, xf->fill_pattern_idx);
 
 	/* Solid patterns seem to reverse the meaning */
+	/* 
+	 * FIXME: Is this test correct? I fed Excel an XF record with
+	 * fill_pattern_idx = 1, pat_backgnd_col = 1 (black),
+	 * pat_foregnd_col = 0 (white). Excel displays  it with black
+	 * background. Gnumeric displays it with white background.
+	 * Can the "xf->pat_foregnd_col != 0" test be removed?
+	 * - Jon Hellan 
+	 */
 	if (xf->fill_pattern_idx == 1 && xf->pat_foregnd_col != 0) {
 		pattern_index	= xf->pat_backgnd_col;
 		back_index	= xf->pat_foregnd_col;

@@ -1,5 +1,5 @@
 /**
- * ms-excel-util.h: Utility functions for MS Excel import
+ * ms-excel-util.h: Utility functions for MS Excel export
  *
  * Author:
  *    Jon K Hellan (hellan@acm.org)
@@ -46,3 +46,4 @@ gpointer
 two_way_table_idx_to_key (const TwoWayTable *table, gint idx);
 
 #endif
+

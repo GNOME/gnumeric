@@ -24,6 +24,7 @@ libexcel_a_SOURCES =		\
 	ms-escher.h		\
 	ms-excel-util.c	        \
 	ms-excel-util.h	        \
+	ms-excel-xf.h		\
 	ms-excel-read.c	 	\
 	ms-excel-read.h		\
 	ms-excel-write.c	\

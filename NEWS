@@ -6,7 +6,7 @@ Michael:
 
 Jon:
 	* Lots of Excel style export work:
-	format, font, colors
+	format, font, colors, borders, alignment, wrap, rotation.
 
 JP:
 	* Added sorting of infinite ranges
