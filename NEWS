@@ -7,12 +7,16 @@ Miguel:
         Added Grid corba interface
 	Fixed Gnumeric compilation
 	Include all the plugins again
+
 Rasca Gmelch:
 
 Jukka:
         - Implemented Moving Average Tool
         - Started implementation of Rank and Percentile Tool
         - Documented Analysis tools
+
+Jody:
+	Display embedded newlines in multi-line-cells
 
 Michael
         * More improved Excel writing code 
