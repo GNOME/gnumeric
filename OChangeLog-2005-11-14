@@ -1,3 +1,11 @@
+2000-10-12  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-cursor.c (item_cursor_destroy) : Move the destruction of
+	  the tip here.
+	(item_cursor_drag_event) : from here.  do not destroy the cursor.
+	(item_cursor_do_action) : destroy the cursor here.
+	(item_cursor_do_drop) : and sometimes here.
+
 2000-10-12  Jon K Hellan  <hellan@acm.org>
 
 	* configure.in: Require bonobo >= 0.21. We now use

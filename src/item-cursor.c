@@ -74,6 +74,11 @@ item_cursor_destroy (GtkObject *object)
 
 	item_cursor = ITEM_CURSOR (object);
 
+	if (item_cursor->tip) {
+		gtk_widget_destroy (gtk_widget_get_toplevel (item_cursor->tip));
+		item_cursor->tip = NULL;
+	}
+
 	item_cursor_stop_animation (item_cursor);
 	if (GTK_OBJECT_CLASS (item_cursor_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (item_cursor_parent_class)->destroy)(object);
@@ -654,10 +659,12 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 static gboolean
 item_cursor_target_region_ok (ItemCursor *item_cursor)
 {
-	GtkWidget *message;
-	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (item_cursor)->canvas;
-	GtkWidget *window;
 	int v;
+	GtkWidget	*message;
+	GnomeCanvasItem *gci = GNOME_CANVAS_ITEM (item_cursor);
+
+	g_return_val_if_fail (gci != NULL, FALSE);
+	g_return_val_if_fail (gci->canvas != NULL, FALSE);
 
 	v = sheet_is_region_empty_or_selected (
 		item_cursor->sheet_view->sheet,
@@ -675,8 +682,8 @@ item_cursor_target_region_ok (ItemCursor *item_cursor)
 		GNOME_STOCK_BUTTON_YES,
 		GNOME_STOCK_BUTTON_NO,
 		NULL);
-	window = gtk_widget_get_toplevel (GTK_WIDGET (canvas));
-	v = gnumeric_dialog_run (item_cursor->sheet_view->sheet->workbook, GNOME_DIALOG (message));
+	v = gnumeric_dialog_run (item_cursor->sheet_view->sheet->workbook,
+				 GNOME_DIALOG (message));
 
 	if (v == 0)
 		return TRUE;
@@ -698,48 +705,52 @@ typedef enum {
 static void
 item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 {
-	Sheet *sheet = item_cursor->sheet_view->sheet;
-	Workbook *wb = sheet->workbook;
+	Sheet *sheet;
+	Workbook *wb;
 	PasteTarget pt;
 
-	if (action == ACTION_NONE)
+	if (action == ACTION_NONE || !item_cursor_target_region_ok (item_cursor)) {
+		gtk_object_destroy (GTK_OBJECT (item_cursor));
 		return;
+	}
 
-	if (!item_cursor_target_region_ok (item_cursor))
-		return;
+	g_return_if_fail (item_cursor != NULL);
+
+	sheet = item_cursor->sheet_view->sheet;
+	wb = sheet->workbook;
 
 	switch (action) {
 	case ACTION_COPY_CELLS:
 		if (!sheet_selection_copy (workbook_command_context_gui (wb), sheet))
-			return;
+			break;
 		cmd_paste (workbook_command_context_gui (wb),
 			   paste_target_init (&pt, sheet, &item_cursor->pos, PASTE_ALL_TYPES),
 			   time);
-		return;
+		break;
 
 	case ACTION_MOVE_CELLS:
 		if (!sheet_selection_cut (workbook_command_context_gui (wb), sheet))
-			return;
+			break;
 		cmd_paste (workbook_command_context_gui (wb),
 			   paste_target_init (&pt, sheet, &item_cursor->pos, PASTE_ALL_TYPES),
 			   time);
-		return;
+		break;
 
 	case ACTION_COPY_FORMATS:
 		if (!sheet_selection_copy (workbook_command_context_gui (wb), sheet))
-			return;
+			break;
 		cmd_paste (workbook_command_context_gui (wb),
 			   paste_target_init (&pt, sheet, &item_cursor->pos, PASTE_FORMATS),
 			   time);
-		return;
+		break;
 
 	case ACTION_COPY_VALUES:
 		if (!sheet_selection_copy (workbook_command_context_gui (wb), sheet))
-			return;
+			break;
 		cmd_paste (workbook_command_context_gui (wb),
 			   paste_target_init (&pt, sheet, &item_cursor->pos, PASTE_VALUES),
 			   time);
-		return;
+		break;
 
 	case ACTION_SHIFT_DOWN_AND_COPY:
 	case ACTION_SHIFT_RIGHT_AND_COPY:
@@ -751,6 +762,8 @@ item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 	default :
 		g_warning ("Invalid Operation %d\n", action);
 	}
+
+	gtk_object_destroy (GTK_OBJECT (item_cursor));
 }
 
 static gboolean
@@ -812,8 +825,10 @@ item_cursor_do_drop (ItemCursor *ic, GdkEventButton *event)
 	Sheet const *sheet = ic->sheet_view->sheet;
 	Range const *target = selection_first_range (sheet, FALSE);
 
-	if (target == NULL || range_equal (target, &ic->pos))
+	if (target == NULL || range_equal (target, &ic->pos)) {
+		gtk_object_destroy (GTK_OBJECT (ic));
 		return;
+	}
 
 	if (event->button == 3)
 		item_cursor_popup_menu (ic, event);
@@ -989,13 +1004,6 @@ item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 
 		gnome_canvas_item_ungrab (item, event->button.time);
 		item_cursor_do_drop (item_cursor, (GdkEventButton *) event);
-
-		if (item_cursor->tip) {
-			gtk_widget_destroy (gtk_widget_get_toplevel (item_cursor->tip));
-			item_cursor->tip = NULL;
-		}
-
-		gtk_object_destroy (GTK_OBJECT (item));
 		return TRUE;
 
 	case GDK_BUTTON_PRESS:
