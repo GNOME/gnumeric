@@ -1,3 +1,7 @@
+2001-05-07  Morten Welinder  <terra@diku.dk>
+
+	* src/plugin.c (plugin_file_state_from_string): Plug leak.
+
 2001-05-07  Zbigniew Chyla  <cyba@gnome.pl>
 
 	Improved plugin system performance & scalability:

@@ -154,6 +154,7 @@ plugin_file_state_from_string (const gchar *str)
 	state->plugin_id = strv[0];
 	state->file_state = strv[1];
 	state->dir_name = strv[2];
+	g_free (strv);
 	
 	return state;
 }
