@@ -219,12 +219,11 @@ pg_get_style (PreviewGrid *pg, int const row, int const col)
 }
 
 static Cell *
-pg_construct_cell (PreviewGrid *pg, int const row, int const col)
+pg_construct_cell (PangoContext *context, PreviewGrid *pg,
+		   int const row, int const col)
 {
 	Cell          *cell  = NULL;
-	RenderedValue *res   = NULL;
 	MStyle        *style = NULL;
-	PangoContext  *context;
 
 	g_return_val_if_fail (pg != NULL, 0);
 	g_return_val_if_fail (row >= 0 && row < SHEET_MAX_ROWS, 0);
@@ -266,15 +265,7 @@ pg_construct_cell (PreviewGrid *pg, int const row, int const col)
 	if (cell->value == NULL)
 		cell->value = value_new_empty ();
 
-	/* FIXME: probably not here.  */
-	context = gdk_pango_context_get ();
-	/* FIXME: barf!  */
-	gdk_pango_context_set_colormap (context,
-					gtk_widget_get_default_colormap ());
-
-	res = rendered_value_new (cell, style, TRUE, context);
-	g_object_unref (G_OBJECT (context));
-	cell->rendered_value = res;
+	cell->rendered_value = rendered_value_new (cell, style, TRUE, context);
 
 	return cell;
 }
@@ -468,6 +459,7 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	gint width  = expose->area.width;
 	gint height = expose->area.height;
  	PreviewGrid *pg = PREVIEW_GRID (item);
+	PangoContext *context = gtk_widget_get_pango_context (GTK_WIDGET (item->canvas));
 
  	/* To ensure that far and near borders get drawn we pretend to draw +-2
  	 * pixels around the target area which would include the surrounding
@@ -527,7 +519,7 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 			pg_style_get_row (pg, &next_sr);
 
 		for (col = start_col, x = -diff_x; col <= end_col; col++) {
- 			Cell         *cell  = pg_construct_cell (pg, row, col);
+ 			Cell         *cell  = pg_construct_cell (context, pg, row, col);
 			MStyle const *style = sr.styles [col];
 
  			preview_grid_draw_background (drawable, pg,

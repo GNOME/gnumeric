@@ -1,3 +1,9 @@
+2003-05-21  Morten Welinder  <terra@gnome.org>
+
+	* src/preview-grid.c (preview_grid_draw): Get pango context from
+	widget and pass it to pg_construct_cell.
+	(pg_construct_cell): Remove bogus context construction from here.
+
 2003-05-20  Morten Welinder  <terra@gnome.org>
 
 	* src/style-border.c (style_border_set_gc_dash): Set the
