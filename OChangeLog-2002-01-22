@@ -1,3 +1,9 @@
+2001-11-12  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-control-gui.c (cb_file_send) : extra safety.  Ensure
+	that the mail component stayed activated.  It is possible that it
+	starts and exits.
+
 2001-11-11  Jody Goldberg <jgoldberg@home.com>
 
 	* src/ranges.c (range_split_ranges) : remove the unused copy_fn

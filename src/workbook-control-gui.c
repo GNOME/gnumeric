@@ -1378,6 +1378,12 @@ cb_file_send (GtkWidget *widget, WorkbookControlGUI *wbcg)
 		return;
 	}
 
+	if (composer == CORBA_OBJECT_NIL) {
+		g_warning ("Unable to start composer.");
+		CORBA_exception_free (&ev);
+		return;
+	}
+
 	stream = bonobo_stream_mem_create (NULL, 0, FALSE, TRUE);
 	gui_file_save_to_stream (stream, wbcg,
 				 wb_control_view (WORKBOOK_CONTROL (wbcg)),
