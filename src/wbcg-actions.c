@@ -1077,23 +1077,30 @@ static GNM_ACTION_DEF (cb_view_statusbar)
 		wbcg_set_statusbar_visible (wbcg, -1);
 }
 
+static GNM_ACTION_DEF (cb_merge_and_center)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	GSList *range_list = selection_get_ranges (
+		wb_control_cur_sheet_view (wbc), FALSE);
+	cmd_merge_cells (wbc, wb_control_cur_sheet (wbc), range_list, TRUE);
+	range_fragment_free (range_list);
+}
+
 static GNM_ACTION_DEF (cb_merge_cells)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Sheet *sheet = wb_control_cur_sheet (wbc);
-	SheetView *sv = wb_control_cur_sheet_view (wbc);
-	GSList *range_list = selection_get_ranges (sv, FALSE);
-	cmd_merge_cells (wbc, sheet, range_list);
+	GSList *range_list = selection_get_ranges (
+		wb_control_cur_sheet_view (wbc), FALSE);
+	cmd_merge_cells (wbc, wb_control_cur_sheet (wbc), range_list, FALSE);
 	range_fragment_free (range_list);
 }
 
 static GNM_ACTION_DEF (cb_unmerge_cells)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Sheet *sheet = wb_control_cur_sheet (wbc);
-	SheetView *sv = wb_control_cur_sheet_view (wbc);
-	GSList *range_list = selection_get_ranges (sv, FALSE);
-	cmd_unmerge_cells (wbc, sheet, range_list);
+	GSList *range_list = selection_get_ranges (
+		wb_control_cur_sheet_view (wbc), FALSE);
+	cmd_unmerge_cells (wbc, wb_control_cur_sheet (wbc), range_list);
 	range_fragment_free (range_list);
 }
 
@@ -2013,6 +2020,10 @@ static /* const 142334 */ GtkToggleActionEntry toggle_actions[] = {
 		N_("_Center Across Selection"), NULL,
 		N_("Center across the selected cells"),
 		G_CALLBACK (cb_center_across_selection), FALSE },
+	{ "MergeAndCenter", NULL,
+		N_("_Merge and Center"), NULL,
+		N_("Merge the selection into 1 cell, and center horizontaly."),
+		G_CALLBACK (cb_merge_and_center), FALSE },
 #warning "Add justify"
 #warning "h/v distributed?"
 

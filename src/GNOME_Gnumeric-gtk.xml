@@ -37,8 +37,8 @@
         <menuitem action="EditClearContent"/>
       </menu>
       <menu name="Delete" action="MenuEditDelete">
-	<menuitem action="EditDeleteRows"/>
 	<menuitem action="EditDeleteColumns"/>
+	<menuitem action="EditDeleteRows"/>
 	<menuitem action="EditDeleteCells"/>
       </menu>
       <menuitem action="InsertComment"/>

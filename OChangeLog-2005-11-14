@@ -1,5 +1,16 @@
 2004-08-28  Jody Goldberg <jody@gnome.org>
 
+	* src/commands.c (cmd_merge_cells) : optionally center the merged
+	  region
+	* src/wbcg-actions.c (cb_merge_and_center) : new
+
+2004-08-28  Jody Goldberg <jody@gnome.org>
+
+	* src/GNOME_Gnumeric-gtk.xml : Reorder Delete menu to put Col before
+	  Row to be consistent with the other menus
+
+2004-08-28  Jody Goldberg <jody@gnome.org>
+
 	* src/wbcg-actions.c (cb_view_zoom_in) : new
 	(cb_view_zoom_out) : new
 

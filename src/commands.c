@@ -3630,6 +3630,7 @@ typedef struct {
 	GnmCommand cmd;
 	GArray	*ranges;
 	GSList	*old_content;
+	gboolean center;
 } CmdMergeCells;
 
 static void
@@ -3637,7 +3638,8 @@ cmd_merge_cells_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
 {
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	GSList *range_list = selection_get_ranges (sv, FALSE);
-	cmd_merge_cells (wbc, sv_sheet (sv), range_list);
+	cmd_merge_cells (wbc, sv_sheet (sv), range_list,
+		CMD_MERGE_CELLS (cmd)->center);
 	range_fragment_free (range_list);
 }
 MAKE_GNM_COMMAND (CmdMergeCells, cmd_merge_cells, cmd_merge_cells_repeat);
@@ -3646,7 +3648,7 @@ static gboolean
 cmd_merge_cells_undo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdMergeCells *me = CMD_MERGE_CELLS (cmd);
-	unsigned i;
+	unsigned i, flags;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
@@ -3655,6 +3657,9 @@ cmd_merge_cells_undo (GnmCommand *cmd, WorkbookControl *wbc)
 		sheet_merge_remove (me->cmd.sheet, r, GNM_CMD_CONTEXT (wbc));
 	}
 
+	flags = PASTE_CONTENT | PASTE_FORMATS | PASTE_IGNORE_COMMENTS;
+	if (me->center)
+		flags |= PASTE_FORMATS;
 	for (i = 0 ; i < me->ranges->len ; ++i) {
 		GnmRange const *r = &(g_array_index (me->ranges, GnmRange, i));
 		GnmPasteTarget pt;
@@ -3664,9 +3669,8 @@ cmd_merge_cells_undo (GnmCommand *cmd, WorkbookControl *wbc)
 
 		c = me->old_content->data;
 		clipboard_paste_region (c,
-					paste_target_init (&pt, me->cmd.sheet, r,
-							   PASTE_CONTENT | PASTE_FORMATS | PASTE_IGNORE_COMMENTS),
-					GNM_CMD_CONTEXT (wbc));
+			paste_target_init (&pt, me->cmd.sheet, r, flags),
+			GNM_CMD_CONTEXT (wbc));
 		cellregion_unref (c);
 		me->old_content = g_slist_remove (me->old_content, c);
 	}
@@ -3679,11 +3683,16 @@ static gboolean
 cmd_merge_cells_redo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdMergeCells *me = CMD_MERGE_CELLS (cmd);
+	GnmStyle *align_center = NULL;
 	Sheet *sheet;
 	unsigned i;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
+	if (me->center) {
+		align_center = mstyle_new ();
+		mstyle_set_align_h (align_center, HALIGN_CENTER);
+	}
 	sheet = me->cmd.sheet;
 	for (i = 0 ; i < me->ranges->len ; ++i) {
 		GnmRange const *r = &(g_array_index (me->ranges, GnmRange, i));
@@ -3697,8 +3706,12 @@ cmd_merge_cells_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		g_slist_free (merged);
 
 		sheet_merge_add (sheet, r, TRUE, GNM_CMD_CONTEXT (wbc));
+		if (me->center)
+			sheet_apply_style (me->cmd.sheet, r, align_center);
 	}
 
+	if (me->center)
+		mstyle_unref (align_center);
 	me->old_content = g_slist_reverse (me->old_content);
 	return FALSE;
 }
@@ -3730,7 +3743,8 @@ cmd_merge_cells_finalize (GObject *cmd)
  * Return value: TRUE if there was a problem
  **/
 gboolean
-cmd_merge_cells (WorkbookControl *wbc, Sheet *sheet, GSList const *selection)
+cmd_merge_cells (WorkbookControl *wbc, Sheet *sheet, GSList const *selection,
+		 gboolean center)
 {
 	GObject *obj;
 	CmdMergeCells *me;
@@ -3745,10 +3759,11 @@ cmd_merge_cells (WorkbookControl *wbc, Sheet *sheet, GSList const *selection)
 	me->cmd.size = 1;
 
 	names = cmd_range_list_to_string_utility (sheet, selection);
-	me->cmd.cmd_descriptor = g_strdup_printf (_("Merging %s"),
-						     names->str);
+	me->cmd.cmd_descriptor =
+		g_strdup_printf ((center ? _("Merge and Center %s") :_("Merging %s")), names->str);
 	g_string_free (names, TRUE);
 
+	me->center = center;
 	me->ranges = g_array_new (FALSE, FALSE, sizeof (GnmRange));
 	for ( ; selection != NULL ; selection = selection->next) {
 		GnmRange const *exist;
