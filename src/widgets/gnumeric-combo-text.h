@@ -38,8 +38,6 @@ gboolean   gnm_combo_text_set_text	 (GnmComboText *ct, const gchar *label,
 					  GnmComboTextSearch start);
 GtkWidget *gnm_combo_text_add_item	 (GnmComboText *ct, const gchar *label);
 
-void       gnm_combo_text_item_set_label (GtkWidget *item, const gchar *label);
-void       gnm_combo_text_item_delete	 (GtkWidget *item);
 void       gnm_combo_text_clear	 	 (GnmComboText *ct);
 
 #ifdef __cplusplus

@@ -17,6 +17,8 @@ module GNOME {
 	typedef long		   VectorID;
 	typedef sequence<Pair>	   SeqPair;
 	typedef sequence<VectorID> VectorIDs;
+	typedef sequence<octet>	   Buffer;
+
 	exception Error { string mesg; };
 
 	enum VectorType {
@@ -51,11 +53,37 @@ module GNOME {
 	    };
 	};
 
-	module Graph {
-	    interface Manager_v4 : Bonobo::Embeddable {
-		typedef sequence<octet>	Buffer;
+	module Graph_v1 {
+	    interface ConfigGuru : Bonobo::Control {
+		oneway void applyChanges ();
+	    };
 
-		Bonobo::Control configure (in string type);
+	    interface DataGuru : ConfigGuru {
+		readonly attribute Buffer spec;
+
+		/**
+		 * seriesSetDimension :
+		 *
+		 * Add/Remove/Edit the vector associated with a specific dimension
+		 * of an series.
+		 *
+		 * a vectorID of -1 will remove the dimension.
+		 */
+		void seriesSetDimension (in SeriesID seriesID,
+					 in string dim,
+					 in VectorID vectorID)
+		    raises (Error);
+
+		/**
+		 * seriesDelete :
+		 *
+		 * Remove a series from a plot.
+		 */
+		void seriesDelete (in SeriesID series) raises (Error);
+	    };
+
+	    interface Manager : Bonobo::Embeddable {
+		ConfigGuru configure (in string type);
 
 		/**
 		 * Read :
@@ -97,25 +125,6 @@ module GNOME {
 		oneway void arrangeVectors (in VectorIDs data,
 					    in VectorIDs optional_headers);
 
-		/**
-		 * seriesSetDimension :
-		 *
-		 * Add/Remove/Edit the vector associated with a specific dimension
-		 * of an series.
-		 *
-		 * a vectorID of -1 will remove the dimension.
-		 */
-		void seriesSetDimension (in SeriesID seriesID,
-					 in string dim,
-					 in VectorID vectorID)
-		    raises (Error);
-
-		/**
-		 * seriesDelete :
-		 *
-		 * Remove a series from a plot.
-		 */
-		void seriesDelete (in SeriesID series) raises (Error);
 	    };
 	};
     };

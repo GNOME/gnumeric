@@ -387,27 +387,6 @@ gnm_combo_text_add_item (GnmComboText *ct,
 	return listitem;
 }
 
-/**
- * gnm_combo_text_item_set_label :
- * @item : a GtkListItem returned by gnm_combo_text_add_item
- * @label : The new label
- *
- * Change the label of the supplied item and if it is the current selection
- * update the entry.
- */
-void
-gnm_combo_text_item_set_label (GtkWidget *item, const gchar *label)
-{
-}
-
-/**
- * gnm_combo_text_item_delete :
- */
-void
-gnm_combo_text_item_delete (GtkWidget *item)
-{
-}
-
 void
 gnm_combo_text_clear (GnmComboText *ct)
 {

@@ -37,6 +37,7 @@
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-xml-utils.h>
+#include <gnome-xml/parser.h>
 
 #define CONFIG_GURU		GNOME_Gnumeric_Graph_v1_ConfigGuru
 #define CONFIG_GURU1(suffix)	GNOME_Gnumeric_Graph_v1_ConfigGuru_ ## suffix
@@ -94,6 +95,7 @@ struct _GraphGuruState
 	int current_page, initial_page;
 	gboolean valid;
 	gboolean updating;
+	xmlDoc *xml_doc;
 
 	gboolean  is_columns;
 
@@ -103,6 +105,100 @@ struct _GraphGuruState
 	Workbook	   *wb;
 	Sheet		   *sheet;
 };
+
+static void graph_guru_init_data_page (GraphGuruState *s);
+static void graph_guru_select_plot (GraphGuruState *s, xmlNode *plot);
+
+static void
+graph_guru_clear_xml (GraphGuruState *state)
+{
+	if (state->xml_doc != NULL) {
+		xmlFreeDoc (state->xml_doc);
+		state->xml_doc = NULL;
+	}
+}
+
+static char *
+graph_guru_plot_name (GraphGuruState *s, xmlNode *plot)
+{
+	char const *t = "Plot";
+	int i = e_xml_get_integer_prop_by_name_with_default (plot, "index", -1);
+	xmlNode *type = e_xml_get_child_by_name (plot, "Type");
+
+	g_return_val_if_fail (i >= 0, g_strdup ("ERROR Missing Index"));
+
+	if (type != NULL && type->xmlChildrenNode)
+		t = type->xmlChildrenNode->name;
+
+	return g_strdup_printf ("%s%d", t, i+1);
+}
+
+static void
+graph_guru_get_spec (GraphGuruState *s)
+{
+	int indx;
+	xmlNode *plot;
+	char *name;
+	GtkWidget *item;
+	xmlDoc *xml_doc = NULL;
+	GNOME_Gnumeric_Buffer *spec;
+	CORBA_Environment  ev;
+
+	if (s->data_guru == CORBA_OBJECT_NIL)
+		return;
+	CORBA_exception_init (&ev);
+	spec = DATA_GURU1 (_get_spec) (s->data_guru, &ev);
+	if (ev._major == CORBA_NO_EXCEPTION) {
+		xmlParserCtxtPtr pctxt;
+
+		/* A limit in libxml */
+		if (spec->_length >= 4) {
+			pctxt = xmlCreatePushParserCtxt (NULL, NULL,
+				spec->_buffer, spec->_length, NULL);
+			xmlParseChunk (pctxt, "", 0, TRUE);
+			xml_doc = pctxt->myDoc;
+			xmlFreeParserCtxt (pctxt);
+		}
+		GNOME_Gnumeric_Buffer__free (spec, 0, TRUE);
+	} else {
+		g_warning ("'%s' : getting the spec from data_guru %p",
+			   gnm_graph_exception (&ev), s->data_guru);
+	}
+
+	g_return_if_fail (xml_doc != NULL);
+#if 0
+	xmlDocDump (stdout, xml_doc);
+#endif
+
+	graph_guru_clear_xml (s);
+	s->xml_doc = xml_doc;
+
+	s->updating = TRUE;
+	gnm_combo_text_clear (GNM_COMBO_TEXT (s->plot_selector));
+	s->updating = FALSE;
+
+	/* Init lists of plots */
+	plot = e_xml_get_child_by_name (xml_doc->xmlRootNode, "Plots");
+
+	g_return_if_fail (plot != NULL);
+
+	for (plot = plot->xmlChildrenNode; plot; plot = plot->next) {
+		if (strcmp (plot->name, "Plot"))
+			continue;
+		name = graph_guru_plot_name (s, plot);
+		item = gnm_combo_text_add_item (
+			GNM_COMBO_TEXT (s->plot_selector), name);
+		g_free (name);
+
+		indx = e_xml_get_integer_prop_by_name_with_default (plot, "index", -1);
+		g_return_if_fail (indx >= 0);
+		gtk_object_set_data (GTK_OBJECT (item), "index", 
+			GINT_TO_POINTER (indx));
+
+		if (s->current_plot < 0 || s->current_plot == indx)
+			graph_guru_select_plot (s, plot);
+	}
+}
 
 #if 0
 static void
@@ -129,7 +225,6 @@ graph_guru_series_delete (GraphGuruState *state, int series_id)
 static void
 vector_state_series_set_dimension (VectorState *vs, ExprTree *expr)
 {
-	gboolean ok;
 	CORBA_Environment  ev;
 	int vector_id = -1;
 
@@ -146,9 +241,9 @@ vector_state_series_set_dimension (VectorState *vs, ExprTree *expr)
 	CORBA_exception_init (&ev);
 	DATA_GURU1 (seriesSetDimension) (vs->state->data_guru,
 		vs->series_index, vs->element, vector_id, &ev);
-	ok = (ev._major == CORBA_NO_EXCEPTION);
-	if (ok) {
-	} else {
+	if (ev._major == CORBA_NO_EXCEPTION)
+		graph_guru_get_spec (vs->state);
+	else {
 		g_warning ("'%s' : changing a dimension from graph data_guru %p",
 			   gnm_graph_exception (&ev), vs->state->data_guru);
 	}
@@ -286,8 +381,6 @@ vector_state_array_shorten (GPtrArray *a, int len)
 	}
 }
 
-static void graph_guru_select_plot (GraphGuruState *s, xmlNode *plot);
-
 static void
 graph_guru_state_destroy (GraphGuruState *state)
 {
@@ -333,6 +426,8 @@ graph_guru_state_destroy (GraphGuruState *state)
 		g_ptr_array_free (state->unshared, TRUE);
 		state->unshared = NULL;
 	}
+
+	graph_guru_clear_xml (state);
 
 	/* Handle window manger closing the dialog.
 	 * This will be ignored if we are being destroyed differently.
@@ -403,21 +498,6 @@ graph_guru_select_series (GraphGuruState *s, xmlNode *series)
 
 	s->current_series =
 		e_xml_get_integer_prop_by_name_with_default (series, "index", -1);
-}
-
-static char *
-graph_guru_plot_name (GraphGuruState *s, xmlNode *plot)
-{
-	char const *t = "Plot";
-	int i = e_xml_get_integer_prop_by_name_with_default (plot, "index", -1);
-	xmlNode *type = e_xml_get_child_by_name (plot, "Type");
-
-	g_return_val_if_fail (i >= 0, g_strdup ("ERROR Missing Index"));
-
-	if (type != NULL && type->xmlChildrenNode)
-		t = type->xmlChildrenNode->name;
-
-	return g_strdup_printf ("%s%d", t, i+1);
 }
 
 static void
@@ -520,58 +600,21 @@ graph_guru_select_plot (GraphGuruState *s, xmlNode *plot)
 static void
 graph_guru_init_data_page (GraphGuruState *s)
 {
-	int indx;
-	xmlNode *plot;
-	char *name;
-	GtkWidget *item;
-	xmlDoc *xml_doc;
-
-	xml_doc = gnm_graph_get_spec (s->graph, TRUE);
-	g_return_if_fail (xml_doc != NULL);
-#if 0
-	xmlDocDump (stdout, xml_doc);
-#endif
-
 	s->data_guru = gnm_graph_get_config_control (s->graph, "DataGuru"),
 	s->sample = bonobo_widget_new_control_from_objref (s->data_guru,
 		CORBA_OBJECT_NIL);
 	gtk_container_add (GTK_CONTAINER (s->sample_frame), s->sample);
 	gtk_widget_show_all (s->sample_frame);
-
-	/* Init lists of plots */
-	plot = e_xml_get_child_by_name (xml_doc->xmlRootNode, "Plots");
-
-	g_return_if_fail (plot != NULL);
-
-	for (plot = plot->xmlChildrenNode; plot; plot = plot->next) {
-		if (strcmp (plot->name, "Plot"))
-			continue;
-		name = graph_guru_plot_name (s, plot);
-		item = gnm_combo_text_add_item (
-			GNM_COMBO_TEXT (s->plot_selector), name);
-		g_free (name);
-
-		indx = e_xml_get_integer_prop_by_name_with_default (plot, "index", -1);
-		g_return_if_fail (indx >= 0);
-		gtk_object_set_data (GTK_OBJECT (item), "index", 
-			GINT_TO_POINTER (indx));
-
-		if (s->current_plot < 0)
-			graph_guru_select_plot (s, plot);
-	}
+	graph_guru_get_spec (s);
 }
 
 static void
-graph_guru_set_page (GraphGuruState *state, int page)
+graph_guru_apply_changes (GraphGuruState *state)
 {
 	CORBA_Environment  ev;
-	char *name;
-	gboolean prev_ok = TRUE, next_ok = TRUE;
-
-	if (state->current_page == page)
+	if (state->data_guru == CORBA_OBJECT_NIL)
 		return;
 
-	// CONFIG_GURU1 (restoreOriginal) (vs->state->data_guru,
 	CORBA_exception_init (&ev);
 	switch (state->current_page) {
 	case 0: CONFIG_GURU1 (applyChanges) (state->type_selector, &ev);
@@ -585,6 +628,18 @@ graph_guru_set_page (GraphGuruState *state, int page)
 		break;
 	}
 	CORBA_exception_free (&ev);
+}
+
+static void
+graph_guru_set_page (GraphGuruState *state, int page)
+{
+	char *name;
+	gboolean prev_ok = TRUE, next_ok = TRUE;
+
+	if (state->current_page == page)
+		return;
+
+	graph_guru_apply_changes (state);
 
 	switch (page) {
 	case 0: name = _("Step 1 of 3: Select graph type");
@@ -633,6 +688,7 @@ cb_graph_guru_clicked (GtkWidget *button, GraphGuruState *state)
 	}
 
 	if (button == state->button_finish) {
+		graph_guru_apply_changes (state);
 		gtk_object_ref (GTK_OBJECT (state->graph));
 		scg_mode_create_object (state->scg, SHEET_OBJECT (state->graph));
 	}
@@ -643,7 +699,7 @@ cb_graph_guru_clicked (GtkWidget *button, GraphGuruState *state)
 static xmlNode *
 graph_guru_get_plot (GraphGuruState *s, int indx)
 {
-	xmlDoc *xml_doc = gnm_graph_get_spec (s->graph, FALSE);
+	xmlDoc *xml_doc = s->xml_doc;
 	xmlNode *plot = e_xml_get_child_by_name (xml_doc->xmlRootNode, "Plots");
 
 	g_return_val_if_fail (plot != NULL, NULL);
@@ -699,9 +755,11 @@ cb_series_entry_changed (GtkWidget *ct, char *new_text, GraphGuruState *s)
 static gboolean
 cb_series_selection_changed (GtkWidget *ct, GtkWidget *item, GraphGuruState *s)
 {
-	gpointer *tmp = gtk_object_get_data (GTK_OBJECT (item), "index");
-	graph_guru_select_series (s, graph_guru_get_series (s,
-		GPOINTER_TO_INT (tmp)));
+	if (!s->updating) {
+		gpointer *tmp = gtk_object_get_data (GTK_OBJECT (item), "index");
+		graph_guru_select_series (s, graph_guru_get_series (s,
+			GPOINTER_TO_INT (tmp)));
+	}
 
 	return FALSE;
 }
@@ -719,9 +777,11 @@ cb_plot_entry_changed (GtkWidget *ct, char *new_text, GraphGuruState *s)
 static gboolean
 cb_plot_selection_changed (GtkWidget *ct, GtkWidget *item, GraphGuruState *s)
 {
-	gpointer *tmp = gtk_object_get_data (GTK_OBJECT (item), "index");
-	graph_guru_select_plot (s, graph_guru_get_plot (s,
-		GPOINTER_TO_INT (tmp)));
+	if (!s->updating) {
+		gpointer *tmp = gtk_object_get_data (GTK_OBJECT (item), "index");
+		graph_guru_select_plot (s, graph_guru_get_plot (s,
+			GPOINTER_TO_INT (tmp)));
+	}
 	return FALSE;
 }
 
@@ -862,6 +922,7 @@ dialog_graph_guru (WorkbookControlGUI *wbcg, GnmGraph *graph, int page)
 	state->sample   = NULL;
 	state->shared   = g_ptr_array_new ();
 	state->unshared	= g_ptr_array_new ();
+	state->xml_doc	= NULL;
 	state->plot_selector	= NULL;
 	state->series_selector  = NULL;
 	state->current_vector	= NULL;

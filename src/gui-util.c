@@ -527,7 +527,8 @@ gnumeric_dialog_raise_if_exists (WorkbookControlGUI *wbcg, char *key)
  * function enables that behavior.
  *
  **/
-void  gnumeric_editable_enters (GtkWindow *window, GtkEditable *editable)
+void
+gnumeric_editable_enters (GtkWindow *window, GtkEditable *editable)
 {
 	g_return_if_fail(window != NULL);
 	g_return_if_fail(editable != NULL);

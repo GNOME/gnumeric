@@ -1,3 +1,15 @@
+2001-10-16  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-graph-guru.c (graph_guru_apply_changes) : new function.
+	(graph_guru_set_page) : split from here.
+	(cb_graph_guru_clicked) : used here.
+	(graph_guru_clear_xml) : new.
+	(graph_guru_init_data_page) : split some out into.
+	(graph_guru_get_spec) : here.
+	(graph_guru_state_destroy) : use graph_guru_clear_xml.
+	(graph_guru_apply_changes) : update protection.
+	(graph_guru_set_page) : expand.
+
 2001-10-15  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-graph-guru.c (graph_guru_select_series) : fix leak.

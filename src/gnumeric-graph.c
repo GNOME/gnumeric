@@ -978,7 +978,7 @@ xmlDoc *
 gnm_graph_get_spec (GnmGraph *graph, gboolean force_update)
 {
 	CORBA_Environment  ev;
-	MANAGER1(Buffer)  *spec;
+	GNOME_Gnumeric_Buffer *spec;
 
 	g_return_val_if_fail (IS_GNUMERIC_GRAPH (graph), NULL);
 
@@ -1008,6 +1008,7 @@ gnm_graph_get_spec (GnmGraph *graph, gboolean force_update)
 #endif
 
 		xmlFreeParserCtxt (pctxt);
+		GNOME_Gnumeric_Buffer__free (spec, 0, TRUE);
 	} else {
 		g_warning ("'%s' : retrieving the specification for graph %p",
 			   bonobo_exception_get_text (&ev), graph);
@@ -1030,7 +1031,7 @@ void
 gnm_graph_import_specification (GnmGraph *graph, xmlDocPtr spec)
 {
 	CORBA_Environment  ev;
-	MANAGER1(Buffer)  *partial;
+	GNOME_Gnumeric_Buffer *partial;
 	xmlChar *mem;
 	int size;
 
@@ -1041,7 +1042,7 @@ gnm_graph_import_specification (GnmGraph *graph, xmlDocPtr spec)
 
 	xmlDocDumpMemory (spec, &mem, &size);
 
-	partial = MANAGER1(Buffer__alloc) ();
+	partial = GNOME_Gnumeric_Buffer__alloc ();
 	partial->_length = partial->_maximum = size;
 	partial->_buffer = mem;
 	partial->_release = CORBA_FALSE;
@@ -1054,7 +1055,7 @@ gnm_graph_import_specification (GnmGraph *graph, xmlDocPtr spec)
 		g_warning ("'%s' : importing the specification for graph %p",
 			   bonobo_exception_get_text (&ev), graph);
 	}
-	MANAGER1(Buffer__free) (partial, 0/* what is this */, FALSE);
+	GNOME_Gnumeric_Buffer__free (partial, 0/* what is this */, FALSE);
 	CORBA_exception_free (&ev);
 }
 
