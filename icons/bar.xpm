@@ -11,7 +11,7 @@ static char const * const bar_icon [] = {
 "d c #848484",
 "e c #c6c6c6",
 "f c #ffff00",
-"g c #ffffff",
+"g c None",
 /* pixels */
 "gggggggggggggggggg",
 "gggggggggggggggggg",
