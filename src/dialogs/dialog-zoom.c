@@ -137,7 +137,6 @@ cb_zoom_ok_clicked (G_GNUC_UNUSED GtkWidget *button, ZoomState *state)
 					    COL_SHEET_PTR, &this_sheet,
 					    -1);
 			sheets = g_slist_prepend (sheets, this_sheet);
-			gtk_tree_iter_free (&iter);
 		}
 		gtk_tree_path_free (path);
 	}

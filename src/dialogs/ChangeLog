@@ -1,5 +1,10 @@
 2003-07-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-zoom.c (cb_zoom_ok_clicked): use gtk_tree_iter_free
+	  only for iters allocated on the heap
+
+2003-07-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-stf.c (stf_dialog_result_attach_formats_to_cr): new
 	* dialog-stf.h (stf_dialog_result_attach_formats_to_cr): new
 
