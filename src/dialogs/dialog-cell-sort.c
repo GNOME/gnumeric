@@ -303,6 +303,11 @@ dialog_destroy (GtkObject *w, SortFlowState  *state)
 	g_return_val_if_fail (w != NULL, FALSE);
 	g_return_val_if_fail (state != NULL, FALSE);
 
+	if (state->sel) {
+		value_release (state->sel);
+		state->sel = NULL;
+	}
+
 	wbcg_edit_detach_guru (state->wbcg);
 
 	if (state->gui != NULL) {

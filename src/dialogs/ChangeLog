@@ -1,5 +1,9 @@
 2002-04-01  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-cell-sort.c (dialog_destroy) : fix leak
+
+2002-04-01  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* Makefile.am : add dialog-preferences.c and preferences.glade
 	* dialogs.h : add dialog_preferences
 	* dialog-preferences.c : new
