@@ -64,7 +64,7 @@ typedef struct _GridView GridView;
 struct _GridView {
 	BonoboView view;
 
-	SheetControlGUI      *sheet_view;
+	SheetControlGUI      *scg;
 	EmbeddableGrid *embeddable;
 };
 

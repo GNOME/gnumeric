@@ -261,10 +261,10 @@ sheet_selection_redraw (Sheet const *sheet)
 		Range const *r = sel->data;
 
 		SHEET_FOREACH_CONTROL (sheet, control,
-			sheet_view_redraw_cell_region (control,
+			scg_redraw_cell_region (control,
 				r->start.col, r->start.row,
 				r->end.col, r->end.row);
-			sheet_view_redraw_headers (control, TRUE, TRUE, r););
+			scg_redraw_headers (control, TRUE, TRUE, r););
 	}
 }
 
@@ -663,7 +663,7 @@ sheet_selection_ant (Sheet *sheet)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	SHEET_FOREACH_CONTROL (sheet, control,
-		sheet_view_selection_ant (control););
+		scg_selection_ant (control););
 }
 
 void
@@ -672,7 +672,7 @@ sheet_selection_unant (Sheet *sheet)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	SHEET_FOREACH_CONTROL (sheet, control,
-		sheet_view_selection_unant (control););
+		scg_selection_unant (control););
 }
 
 gboolean

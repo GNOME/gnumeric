@@ -1,3 +1,8 @@
+2001-02-14  Jody Goldberg <jgoldberg@home.com>
+
+	* s/sheet_view/scg/
+	Do some renaming before the release
+
 2001-02-14  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* configure.in: Small correction to libglade requirement.

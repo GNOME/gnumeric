@@ -70,34 +70,34 @@ typedef struct {
 GtkType     sheet_control_gui_get_type       (void);
 GtkWidget * sheet_control_gui_new            (Sheet *sheet);
 
-void        sheet_view_set_zoom_factor       (SheetControlGUI *scg,
+void        scg_set_zoom_factor       (SheetControlGUI *scg,
 					      double factor);
 
-void        sheet_view_redraw_all            (SheetControlGUI *scg);
-void        sheet_view_redraw_cell_region    (SheetControlGUI *scg,
+void        scg_redraw_all            (SheetControlGUI *scg);
+void        scg_redraw_cell_region    (SheetControlGUI *scg,
 					      int start_col, int start_row,
 					      int end_col, int end_row);
-void        sheet_view_redraw_headers        (SheetControlGUI *scg,
+void        scg_redraw_headers        (SheetControlGUI *scg,
 					      gboolean const col, gboolean const row,
 					      Range const * r /* optional == NULL */);
 
-void        sheet_view_set_header_visibility (SheetControlGUI *scg,
+void        scg_set_header_visibility (SheetControlGUI *scg,
 					      gboolean col_headers_visible,
 					      gboolean row_headers_visible);
 
 void        scg_scrollbar_config	     (SheetControlGUI const *scg);
 
-void        sheet_view_selection_ant         (SheetControlGUI *scg);
-void        sheet_view_selection_unant       (SheetControlGUI *scg);
+void        scg_selection_ant         (SheetControlGUI *scg);
+void        scg_selection_unant       (SheetControlGUI *scg);
 
-void        sheet_view_adjust_preferences    (SheetControlGUI *scg);
-void        sheet_view_update_cursor_pos	  (SheetControlGUI *scg);
+void        scg_adjust_preferences    (SheetControlGUI *scg);
+void        scg_update_cursor_pos	  (SheetControlGUI *scg);
 
-StyleFont * sheet_view_get_style_font        (Sheet const *sheet,
+StyleFont * scg_get_style_font        (Sheet const *sheet,
 						   MStyle const *mstyle);
 
-void	 sheet_view_stop_sliding  (SheetControlGUI *scg);
-gboolean sheet_view_start_sliding (SheetControlGUI *scg,
+void	 scg_stop_sliding  (SheetControlGUI *scg);
+gboolean scg_start_sliding (SheetControlGUI *scg,
 				   SheetControlGUISlideHandler slide_handler,
 				   gpointer user_data,
 				   int col, int row, int dx, int dy);
@@ -139,7 +139,7 @@ void scg_rangesel_cursor_extend (SheetControlGUI *scg, int col, int row);
 void scg_take_focus             (SheetControlGUI *scg);
 
 /* FIXME : Move these around to a more reasonable location */
-SheetControlGUI *sheet_new_sheet_view (Sheet *sheet);
-void       sheet_detach_sheet_view (SheetControlGUI *scg);
+SheetControlGUI *sheet_new_scg (Sheet *sheet);
+void       sheet_detach_scg (SheetControlGUI *scg);
 
 #endif /* GNUMERIC_SHEET_CONTROL_GUI_H */

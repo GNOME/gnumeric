@@ -47,14 +47,14 @@ void
 sheet_adjust_preferences (Sheet const *sheet)
 {
 	SHEET_FOREACH_CONTROL (sheet, control,
-		sheet_view_adjust_preferences (control););
+		scg_adjust_preferences (control););
 }
 
 void
 sheet_redraw_all (Sheet const *sheet)
 {
 	SHEET_FOREACH_CONTROL (sheet, control,
-		sheet_view_redraw_all (control););
+		scg_redraw_all (control););
 }
 
 void
@@ -63,7 +63,7 @@ sheet_redraw_headers (Sheet const *sheet,
 		      Range const *r /* optional == NULL */)
 {
 	SHEET_FOREACH_CONTROL (sheet, control,
-		sheet_view_redraw_headers (control, col, row, r););
+		scg_redraw_headers (control, col, row, r););
 }
 
 void
@@ -79,7 +79,7 @@ sheet_rename (Sheet *sheet, const char *new_name)
 }
 
 SheetControlGUI *
-sheet_new_sheet_view (Sheet *sheet)
+sheet_new_scg (Sheet *sheet)
 {
 	GtkWidget *scg;
 
@@ -96,13 +96,13 @@ sheet_new_sheet_view (Sheet *sheet)
 }
 
 void
-sheet_detach_sheet_view (SheetControlGUI *sheet_view)
+sheet_detach_scg (SheetControlGUI *scg)
 {
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (sheet_view));
-	g_return_if_fail (IS_SHEET (sheet_view->sheet));
+	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (IS_SHEET (scg->sheet));
 
-	sheet_view->sheet->s_controls = g_list_remove (sheet_view->sheet->s_controls, sheet_view);
-	sheet_view->sheet = NULL;
+	scg->sheet->s_controls = g_list_remove (scg->sheet->s_controls, scg);
+	scg->sheet = NULL;
 }
 
 /*
@@ -450,7 +450,7 @@ sheet_set_zoom_factor (Sheet *sheet, double f, gboolean force, gboolean update)
 			&cb_colrow_compute_pixels_from_pts, &closure);
 
 	SHEET_FOREACH_CONTROL (sheet, control,
-		sheet_view_set_zoom_factor (control, factor););
+		scg_set_zoom_factor (control, factor););
 
 	/*
 	 * The font size does not scale linearly with the zoom factor
@@ -1310,7 +1310,7 @@ sheet_redraw_cell_region (Sheet const *sheet,
 	}
 
 	SHEET_FOREACH_CONTROL (sheet, control,
-		sheet_view_redraw_cell_region (control,
+		scg_redraw_cell_region (control,
 			min_col, min_row, max_col, max_row););
 }
 
@@ -1330,7 +1330,7 @@ sheet_redraw_partial_row (Sheet const *sheet, int const row,
 			  int const start_col, int const end_col)
 {
 	SHEET_FOREACH_CONTROL (sheet, control,
-		sheet_view_redraw_cell_region (control,
+		scg_redraw_cell_region (control,
 			start_col, row, end_col, row););
 }
 
@@ -1346,7 +1346,7 @@ sheet_redraw_cell (Cell const *cell)
 	merged = sheet_merge_is_corner (cell->base.sheet, &cell->pos);
 	if (merged != NULL) {
 		SHEET_FOREACH_CONTROL (cell->base.sheet, control,
-			sheet_view_redraw_cell_region (control,
+			scg_redraw_cell_region (control,
 				merged->start.col, merged->start.row,
 				merged->end.col, merged->end.row););
 	}
@@ -2558,7 +2558,7 @@ sheet_update_cursor_pos (Sheet const *sheet)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	SHEET_FOREACH_CONTROL (sheet, control,
-		sheet_view_update_cursor_pos (control););
+		scg_update_cursor_pos (control););
 }
 
 /**

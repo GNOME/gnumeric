@@ -1100,12 +1100,12 @@ item_cursor_handle_motion (ItemCursor *item_cursor, GdkEvent *event,
 		else if (y >= top + height)
 			dy = y - height - top;
 
-		if (sheet_view_start_sliding (item_cursor->scg,
+		if (scg_start_sliding (item_cursor->scg,
 					      slide_handler, item_cursor,
 					      col, row, dx, dy))
 			return;
 	}
-	sheet_view_stop_sliding (item_cursor->scg);
+	scg_stop_sliding (item_cursor->scg);
 
 	(*slide_handler) (item_cursor->scg, col, row, item_cursor);
 }
@@ -1119,7 +1119,7 @@ item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_BUTTON_RELEASE:
 		/* Note : see comment below, and bug 30507 */
 		if (event->button.button == ic->drag_button) {
-			sheet_view_stop_sliding (ic->scg);
+			scg_stop_sliding (ic->scg);
 			gnome_canvas_item_ungrab (item, event->button.time);
 			item_cursor_do_drop (ic, (GdkEventButton *) event);
 		}
@@ -1181,7 +1181,7 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 
 	case GDK_BUTTON_RELEASE: {
 		Sheet *sheet = item_cursor->scg->sheet;
-		sheet_view_stop_sliding (item_cursor->scg);
+		scg_stop_sliding (item_cursor->scg);
 
 		/*
 		 * We flush after the ungrab, to have the ungrab take

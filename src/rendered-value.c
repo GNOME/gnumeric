@@ -77,7 +77,7 @@ rendered_value_new (Cell *cell, MStyle const *mstyle, gboolean dynamic_width)
 			    (cell->format == NULL ||
 			     style_format_is_general (cell->format))) {
 				StyleFont *style_font =
-					sheet_view_get_style_font (sheet, mstyle);
+					scg_get_style_font (sheet, mstyle);
 				float const font_width = style_font_get_width (style_font);
 				style_font_unref (style_font);
 
@@ -165,7 +165,7 @@ rendered_value_calc_size_ext (Cell const *cell, MStyle *mstyle)
 {
 	Sheet *sheet = cell->base.sheet;
 	RenderedValue *rv = cell->rendered_value;
-	StyleFont *style_font = sheet_view_get_style_font (sheet, mstyle);
+	StyleFont *style_font = scg_get_style_font (sheet, mstyle);
 	GdkFont *gdk_font = style_font_gdk_font (style_font);
 	int font_height = style_font_get_height (style_font);
 	int const cell_w = COL_INTERNAL_WIDTH (cell->col_info);

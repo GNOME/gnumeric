@@ -13,7 +13,6 @@
 #include "ranges.h"
 #include "sheet.h"
 #include "cell.h"
-#include "rendered-value.h"
 #include "parse-util.h"
 #include "command-context-corba.h"
 #include "selection.h"

@@ -59,7 +59,7 @@ static GtkTableClass *scg_parent_class;
 #endif
 
 void
-sheet_view_redraw_all (SheetControlGUI *scg)
+scg_redraw_all (SheetControlGUI *scg)
 {
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
@@ -78,7 +78,7 @@ sheet_view_redraw_all (SheetControlGUI *scg)
  * Redraw selected range, do not honour spans
  */
 void
-sheet_view_redraw_cell_region (SheetControlGUI *scg,
+scg_redraw_cell_region (SheetControlGUI *scg,
 			       int start_col, int start_row,
 			       int end_col, int end_row)
 {
@@ -125,7 +125,7 @@ sheet_view_redraw_cell_region (SheetControlGUI *scg,
 }
 
 void
-sheet_view_redraw_headers (SheetControlGUI *scg,
+scg_redraw_headers (SheetControlGUI *scg,
 			   gboolean const col, gboolean const row,
 			   Range const * r /* optional == NULL */)
 {
@@ -183,7 +183,7 @@ sheet_view_redraw_headers (SheetControlGUI *scg,
 }
 
 void
-sheet_view_update_cursor_pos (SheetControlGUI *scg)
+scg_update_cursor_pos (SheetControlGUI *scg)
 {
 	GList *l;
 	GnumericSheet *gsheet;
@@ -201,7 +201,7 @@ sheet_view_update_cursor_pos (SheetControlGUI *scg)
 }
 
 void
-sheet_view_set_zoom_factor (SheetControlGUI *scg, double factor)
+scg_set_zoom_factor (SheetControlGUI *scg, double factor)
 {
 	GnumericSheet *gsheet;
 	ItemBar *col_item, *row_item;
@@ -252,7 +252,7 @@ sheet_view_set_zoom_factor (SheetControlGUI *scg, double factor)
 			 scg->sheet->edit_pos.row,
 			 TRUE);
 
-	sheet_view_update_cursor_pos (scg);
+	scg_update_cursor_pos (scg);
 }
 
 static void
@@ -332,7 +332,7 @@ scg_scrollbar_config (SheetControlGUI const *scg)
 
 #if 0
 /*
- * sheet_view_make_edit_pos_visible
+ * scg_make_edit_pos_visible
  * @scg  Sheet view
  *
  * Make the cell at the edit position visible.
@@ -341,7 +341,7 @@ scg_scrollbar_config (SheetControlGUI const *scg)
  * new sheet view has been configured.
  */
 static void
-sheet_view_make_edit_pos_visible (SheetControlGUI const *scg)
+scg_make_edit_pos_visible (SheetControlGUI const *scg)
 {
 	GnumericSheet *gsheet = GNUMERIC_SHEET (scg->scg);
 
@@ -355,7 +355,7 @@ sheet_view_make_edit_pos_visible (SheetControlGUI const *scg)
 #endif
 
 static void
-sheet_view_size_allocate (GtkWidget *widget, GtkAllocation *alloc, SheetControlGUI *scg)
+scg_size_allocate (GtkWidget *widget, GtkAllocation *alloc, SheetControlGUI *scg)
 {
 #if 0
 	/* FIXME
@@ -365,7 +365,7 @@ sheet_view_size_allocate (GtkWidget *widget, GtkAllocation *alloc, SheetControlG
 	 *
 	 * Can we somehow do this only if the edit pos was visible initially ?
 	 */
-	sheet_view_make_edit_pos_visible (scg);
+	scg_make_edit_pos_visible (scg);
 #endif
 	scg_scrollbar_config (scg);
 }
@@ -559,7 +559,7 @@ scg_init (SheetControlGUI *scg)
 }
 
 static void
-sheet_view_construct (SheetControlGUI *scg)
+scg_construct (SheetControlGUI *scg)
 {
 	GnomeCanvasGroup *root_group;
 	GtkTable  *table = GTK_TABLE (scg);
@@ -585,7 +585,7 @@ sheet_view_construct (SheetControlGUI *scg)
 	scg->canvas = gnumeric_sheet_new (scg);
 	gtk_signal_connect_after (
 		GTK_OBJECT (scg), "size_allocate",
-		GTK_SIGNAL_FUNC (sheet_view_size_allocate), scg);
+		GTK_SIGNAL_FUNC (scg_size_allocate), scg);
 
 	/* Create the object group inside the GnumericSheet */
 	root_group = GNOME_CANVAS_GROUP (
@@ -656,11 +656,11 @@ sheet_view_construct (SheetControlGUI *scg)
 			  GTK_FILL,
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			  0, 0);
-	sheet_view_set_zoom_factor (scg, 1.);
+	scg_set_zoom_factor (scg, 1.);
 }
 
 void
-sheet_view_set_header_visibility (SheetControlGUI *scg,
+scg_set_header_visibility (SheetControlGUI *scg,
 				  gboolean col_headers_visible,
 				  gboolean row_headers_visible)
 {
@@ -694,13 +694,13 @@ sheet_control_gui_new (Sheet *sheet)
 	scg->sheet = sheet;
 	scg->tip = NULL;
 
-	sheet_view_construct (scg);
+	scg_construct (scg);
 
 	return GTK_WIDGET (scg);
 }
 
 static void
-sheet_view_destroy (GtkObject *object)
+scg_destroy (GtkObject *object)
 {
 	SheetControlGUI *scg = SHEET_CONTROL_GUI (object);
 
@@ -711,7 +711,7 @@ sheet_view_destroy (GtkObject *object)
 		gtk_object_unref (GTK_OBJECT (scg->tip));
 
 	if (scg->sheet)
-		sheet_detach_sheet_view (scg);
+		sheet_detach_scg (scg);
 
 	if (scg->wbcg) {
 		GtkWindow *toplevel = wb_control_gui_toplevel (scg->wbcg);
@@ -735,14 +735,14 @@ scg_class_init (SheetControlGUIClass *Class)
 
 	object_class = (GtkObjectClass *) Class;
 	scg_parent_class = gtk_type_class (gtk_table_get_type ());
-	object_class->destroy = sheet_view_destroy;
+	object_class->destroy = scg_destroy;
 }
 
 GNUMERIC_MAKE_TYPE (sheet_control_gui, "SheetControlGUI", SheetControlGUI,
 		    scg_class_init, scg_init, gtk_table_get_type ())
 
 void
-sheet_view_selection_unant (SheetControlGUI *scg)
+scg_selection_unant (SheetControlGUI *scg)
 {
 	GList *l;
 
@@ -759,7 +759,7 @@ sheet_view_selection_unant (SheetControlGUI *scg)
 }
 
 void
-sheet_view_selection_ant (SheetControlGUI *scg)
+scg_selection_ant (SheetControlGUI *scg)
 {
 	GnomeCanvasGroup *group;
 	GList *l;
@@ -767,7 +767,7 @@ sheet_view_selection_ant (SheetControlGUI *scg)
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
 	if (scg->anted_cursors)
-		sheet_view_selection_unant (scg);
+		scg_selection_unant (scg);
 
 	group = scg->selection_group;
 	for (l = scg->sheet->selections; l; l = l->next){
@@ -789,7 +789,7 @@ sheet_view_selection_ant (SheetControlGUI *scg)
 }
 
 void
-sheet_view_adjust_preferences (SheetControlGUI *scg)
+scg_adjust_preferences (SheetControlGUI *scg)
 {
 	Sheet *sheet = scg->sheet;
 	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (scg->wbcg));
@@ -821,7 +821,7 @@ sheet_view_adjust_preferences (SheetControlGUI *scg)
 }
 
 StyleFont *
-sheet_view_get_style_font (const Sheet *sheet, MStyle const * const mstyle)
+scg_get_style_font (const Sheet *sheet, MStyle const * const mstyle)
 {
 	/* Scale the font size by the average scaling factor for the
 	 * display.  72dpi is base size
@@ -837,7 +837,7 @@ sheet_view_get_style_font (const Sheet *sheet, MStyle const * const mstyle)
 /*****************************************************************************/
 
 void
-sheet_view_stop_sliding (SheetControlGUI *scg)
+scg_stop_sliding (SheetControlGUI *scg)
 {
 	if (scg->sliding == -1)
 		return;
@@ -849,7 +849,7 @@ sheet_view_stop_sliding (SheetControlGUI *scg)
 }
 
 static gint
-sheet_view_sliding_callback (gpointer data)
+scg_sliding_callback (gpointer data)
 {
 	SheetControlGUI *scg = data;
 	GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
@@ -927,7 +927,7 @@ sheet_view_sliding_callback (gpointer data)
 	}
 
 	if (!change) {
-		sheet_view_stop_sliding (scg);
+		scg_stop_sliding (scg);
 		return TRUE;
 	}
 
@@ -939,7 +939,7 @@ sheet_view_sliding_callback (gpointer data)
 }
 
 gboolean
-sheet_view_start_sliding (SheetControlGUI *scg,
+scg_start_sliding (SheetControlGUI *scg,
 			  SheetControlGUISlideHandler slide_handler,
 			  gpointer user_data,
 			  int col, int row, int dx, int dy)
@@ -953,7 +953,7 @@ sheet_view_start_sliding (SheetControlGUI *scg,
 	    ((dy == 0) ||
 	     (dy < 0 && gsheet->row.first == 0) ||
 	     (dy > 0 && gsheet->row.last_full >= SHEET_MAX_ROWS-1))) {
-		sheet_view_stop_sliding (scg);
+		scg_stop_sliding (scg);
 		return FALSE;
 	}
 
@@ -965,10 +965,10 @@ sheet_view_start_sliding (SheetControlGUI *scg,
 	scg->sliding_row = row;
 
 	if (scg->sliding == -1) {
-		sheet_view_sliding_callback (scg);
+		scg_sliding_callback (scg);
 
 		scg->sliding = gtk_timeout_add (
-			200, sheet_view_sliding_callback, scg);
+			200, scg_sliding_callback, scg);
 	}
 	return TRUE;
 }
@@ -995,9 +995,9 @@ static gboolean
 context_menu_hander (GnumericPopupMenuElement const *element,
 		     gpointer user_data)
 {
-	SheetControlGUI *sheet_view = user_data;
-	Sheet *sheet = sheet_view->sheet;
-	WorkbookControlGUI *wbcg = sheet_view->wbcg;
+	SheetControlGUI *scg = user_data;
+	Sheet *sheet = scg->sheet;
+	WorkbookControlGUI *wbcg = scg->wbcg;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 
 	g_return_val_if_fail (element != NULL, TRUE);
@@ -1174,9 +1174,9 @@ static gboolean
 cb_redraw_sel (Sheet *sheet, Range const *r, gpointer user_data)
 {
 	SheetControlGUI *scg = user_data;
-	sheet_view_redraw_cell_region (scg,
+	scg_redraw_cell_region (scg,
 		r->start.col, r->start.row, r->end.col, r->end.row);
-	sheet_view_redraw_headers (scg, TRUE, TRUE, r);
+	scg_redraw_headers (scg, TRUE, TRUE, r);
 	return TRUE;
 }
 
@@ -1419,14 +1419,14 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 		if (scg->drag_object != so)
 			return FALSE;
 
-		sheet_view_stop_sliding (scg);
+		scg_stop_sliding (scg);
 		scg->drag_object = NULL;
 		gnome_canvas_item_ungrab (ctrl_pt, event->button.time);
 		sheet_object_position (so, NULL);
 		break;
 
 	case GDK_BUTTON_PRESS:
-		sheet_view_stop_sliding (scg);
+		scg_stop_sliding (scg);
 
 		switch (event->button.button) {
 		case 1:
@@ -1478,12 +1478,12 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 				dy = y - height - top;
 
 
-			if (sheet_view_start_sliding (scg, cb_slide_handler,
+			if (scg_start_sliding (scg, cb_slide_handler,
 						      ctrl_pt, col, row, dx, dy))
 
 				return TRUE;
 		}
-		sheet_view_stop_sliding (scg);
+		scg_stop_sliding (scg);
 		scg_object_move (scg, so, so_view, GTK_OBJECT (ctrl_pt),
 				 event->motion.x, event->motion.y);
 		break;

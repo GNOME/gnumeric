@@ -100,15 +100,15 @@ sheet_object_widget_set_active (SheetObject *so, gboolean val)
 }
 
 static GtkObject *
-sheet_object_widget_new_view (SheetObject *so, SheetControlGUI *sheet_view)
+sheet_object_widget_new_view (SheetObject *so, SheetControlGUI *scg)
 {
 	GnomeCanvasItem *view_item;
 	GtkWidget *view_widget =
 		SOW_CLASS(so)->create_widget (SHEET_OBJECT_WIDGET (so),
-					      sheet_view);
+					      scg);
 
 	view_item = gnome_canvas_item_new (
-		sheet_view->object_group,
+		scg->object_group,
 		gnome_canvas_widget_get_type (),
 		"widget", view_widget,
 		"size_pixels", FALSE,
@@ -480,7 +480,7 @@ cb_checkbox_config_clicked (GnomeDialog *dialog, gint button_number,
 }
 
 static void
-sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *sheet_view)
+sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *scg)
 {
 	CheckboxConfigState *state;
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
@@ -489,7 +489,7 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *sheet_view)
 
 	state = g_new (CheckboxConfigState, 1);
 	state->swc = swc;
-	state->wbcg = sheet_view->wbcg;
+	state->wbcg = scg->wbcg;
 	state->dialog = gnome_dialog_new (_("Checkbox Configure"),
 					  GNOME_STOCK_BUTTON_OK,
 					  GNOME_STOCK_BUTTON_CANCEL,

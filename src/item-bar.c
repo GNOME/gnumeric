@@ -622,11 +622,11 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 						dy = y - height - top;
 				}
 
-				sheet_view_start_sliding (item_bar->scg,
+				scg_start_sliding (item_bar->scg,
 							  &cb_extend_selection, item_bar,
 							  col, row, dx, dy);
 			} else
-				sheet_view_stop_sliding (item_bar->scg);
+				scg_stop_sliding (item_bar->scg);
 
 			set_cursor (item_bar, pos);
 		} else
@@ -709,7 +709,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		if (e->button.button > 3)
 			return FALSE;
 
-		sheet_view_stop_sliding (item_bar->scg);
+		scg_stop_sliding (item_bar->scg);
 
 		if (item_bar->start_selection >= 0) {
 			needs_ungrab = TRUE;

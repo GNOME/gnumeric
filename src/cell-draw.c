@@ -13,7 +13,7 @@
 #include "value.h"
 #include "workbook.h"
 #include "rendered-value.h"
-#include "sheet-control-gui.h" /* FIXME : Only for sheet_view_get_style_font */
+#include "sheet-control-gui.h" /* FIXME : Only for scg_get_style_font */
 #include "parse-util.h"
 
 static inline void
@@ -196,7 +196,7 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 	rect.width = width;
 	rect.height = height;
 
-	style_font = sheet_view_get_style_font (sheet, mstyle);
+	style_font = scg_get_style_font (sheet, mstyle);
 	font = style_font_gdk_font (style_font);
 	font_height = style_font_get_height (style_font);
 	valign = mstyle_get_align_v (mstyle);

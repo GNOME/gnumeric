@@ -533,7 +533,7 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	if (item_edit->font == NULL) {
 		MStyle *mstyle = sheet_style_get (sheet,
 			item_edit->pos.col, item_edit->pos.row);
-		StyleFont *sf = sheet_view_get_style_font (sheet, mstyle);
+		StyleFont *sf = scg_get_style_font (sheet, mstyle);
 
 		item_edit->font = style_font_gdk_font (sf);
 		item_edit->font_height = style_font_get_height (sf);

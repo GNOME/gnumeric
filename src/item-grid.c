@@ -877,7 +877,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_BUTTON_RELEASE:
 		switch (event->button.button) {
 		case 1 :
-			sheet_view_stop_sliding (item_grid->scg);
+			scg_stop_sliding (item_grid->scg);
 
 			if (item_grid->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE)
 				sheet_make_cell_visible (scg->sheet,
@@ -947,14 +947,14 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			else if (item_grid->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE)
 				slide_handler = &cb_extend_expr_range;
 
-			if (sheet_view_start_sliding (item_grid->scg,
+			if (scg_start_sliding (item_grid->scg,
 						      slide_handler, NULL,
 						      col, row, dx, dy))
 
 				return TRUE;
 		}
 
-		sheet_view_stop_sliding (item_grid->scg);
+		scg_stop_sliding (item_grid->scg);
 
 		if (item_grid->selecting == ITEM_GRID_NO_SELECTION)
 			return 1;
@@ -973,7 +973,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		return TRUE;
 
 	case GDK_BUTTON_PRESS:
-		sheet_view_stop_sliding (item_grid->scg);
+		scg_stop_sliding (item_grid->scg);
 
 		gnome_canvas_w2c (canvas, event->button.x, event->button.y, &x, &y);
 		col = gnumeric_sheet_find_col (gsheet, x, NULL);

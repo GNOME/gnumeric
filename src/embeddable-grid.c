@@ -44,10 +44,10 @@ set_header_visibility (BonoboView *view, void *data)
 
 	g_return_if_fail (eg != NULL);
 	g_return_if_fail (grid_view != NULL);
-	g_return_if_fail (grid_view->sheet_view != NULL);
+	g_return_if_fail (grid_view->scg != NULL);
 
-	sheet_view_set_header_visibility (
-		grid_view->sheet_view,
+	scg_set_header_visibility (
+		grid_view->scg,
 		eg->show_col_title,
 		eg->show_row_title);
 }
@@ -251,7 +251,7 @@ grid_view_activate (GridView *grid_view, gboolean state)
 	if (state) {
 		g_return_if_fail (grid_view != NULL);
 
-		gtk_widget_grab_focus (GTK_WIDGET (grid_view->sheet_view->canvas));
+		gtk_widget_grab_focus (GTK_WIDGET (grid_view->scg->canvas));
 	}
 
 	bonobo_view_activate_notify (BONOBO_VIEW (grid_view), state);
@@ -265,13 +265,13 @@ grid_view_new (EmbeddableGrid *eg)
 	grid_view = gtk_type_new (GRID_VIEW_TYPE);
 
 	grid_view->embeddable = eg;
-	grid_view->sheet_view = sheet_new_sheet_view (eg->sheet);
-	gtk_widget_show (GTK_WIDGET (grid_view->sheet_view));
-	gtk_widget_set_usize (GTK_WIDGET (grid_view->sheet_view), 320, 200);
+	grid_view->scg = sheet_new_scg (eg->sheet);
+	gtk_widget_show (GTK_WIDGET (grid_view->scg));
+	gtk_widget_set_usize (GTK_WIDGET (grid_view->scg), 320, 200);
 
 	grid_view = GRID_VIEW (
 		bonobo_view_construct (	BONOBO_VIEW (grid_view),
-		GTK_WIDGET (grid_view->sheet_view)));
+		GTK_WIDGET (grid_view->scg)));
 	if (!grid_view)
 		return NULL;
 

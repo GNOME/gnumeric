@@ -478,7 +478,7 @@ wbcg_sheet_add (WorkbookControl *wbc, Sheet *sheet)
 	if (wbcg->notebook == NULL)
 		workbook_setup_sheets (wbcg);
 
-	scg = sheet_new_sheet_view (sheet);
+	scg = sheet_new_scg (sheet);
 	scg->wbcg = wbcg;
 
 	/*

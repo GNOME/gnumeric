@@ -97,7 +97,7 @@ sheet_object_container_destroy (GtkObject *object)
 }
 
 static GtkObject *
-sheet_object_container_new_view (SheetObject *so, SheetControlGUI *sheet_view)
+sheet_object_container_new_view (SheetObject *so, SheetControlGUI *scg)
 {
 	SheetObjectContainer *soc;
 	BonoboViewFrame *view_frame;
@@ -108,7 +108,7 @@ sheet_object_container_new_view (SheetObject *so, SheetControlGUI *sheet_view)
 
 	view_frame = bonobo_client_site_new_view (
 		SHEET_OBJECT_BONOBO (so)->client_site,
-		bonobo_ui_component_get_container (sheet_view->wbcg->uic));
+		bonobo_ui_component_get_container (scg->wbcg->uic));
 
 	if (!view_frame) {
 		g_warning ("Component died");
@@ -117,7 +117,7 @@ sheet_object_container_new_view (SheetObject *so, SheetControlGUI *sheet_view)
 
 	view_widget = bonobo_view_frame_get_wrapper (view_frame);
 	view_item = gnome_canvas_item_new (
-		sheet_view->object_group,
+		scg->object_group,
 		gnome_canvas_widget_get_type (),
 		"widget", view_widget,
 		"size_pixels", FALSE,
