@@ -1,3 +1,10 @@
+2001-07-16  Jody Goldberg <jgoldberg@home.com>
+
+	* xml-sax-read.c (xml_sax_attr_cellpos) : new function.
+	(xml_sax_sheet_layout) : new function.
+	(xml_sax_sheet_freezepanes) : new function.
+	(xml_sax_start_element) : handle the new states.
+
 2001-07-14  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* xml-sax-read.c (xml_sax_file_open): Use gnumeric_io_error_string.

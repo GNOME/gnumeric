@@ -139,6 +139,28 @@ xml_sax_int (CHAR const *chars, int *res)
 	return *end == '\0';
 }
 
+static gboolean
+xml_sax_attr_cellpos (CHAR const * const *attrs, char const *name, CellPos *val)
+{
+	CellPos tmp;
+	int dummy;
+
+	g_return_val_if_fail (attrs != NULL, FALSE);
+	g_return_val_if_fail (attrs[0] != NULL, FALSE);
+	g_return_val_if_fail (attrs[1] != NULL, FALSE);
+
+	if (strcmp (attrs[0], name))
+		return FALSE;
+
+	if (!parse_cell_name (attrs[1], &tmp.col, &tmp.row, TRUE, &dummy)) {
+		g_warning ("Invalid attribute '%s', expected cellpos, received '%s'",
+			   name, attrs[1]);
+		return FALSE;
+	}
+	*val = tmp;
+	return TRUE;
+}
+
 static int
 xml_sax_color (CHAR const * const *attrs, char const *name, StyleColor **res)
 {
@@ -272,6 +294,8 @@ STATE_WB,
 					STATE_CELL_CONTENT,
 			STATE_SHEET_MERGED_REGION,
 				STATE_SHEET_MERGE,
+			STATE_SHEET_LAYOUT,
+				STATE_SHEET_FREEZEPANES,
 			STATE_SHEET_SOLVER,
 		STATE_SHEET_OBJECTS,
 			STATE_OBJECT_POINTS,
@@ -366,6 +390,8 @@ static char const * const xmlSax_state_names[] =
 					"gmr:Content",
 			"gmr:MergedRegions",
 				"gmr:Merge",
+			"gmr:SheetLayout",
+				"gmr:FreezePanes",
 			"gmr:Solver",
 			"gmr:Objects",
 				"gmr:Points",
@@ -842,6 +868,36 @@ xml_sax_selection_end (XMLSaxParseState *state)
 	g_return_if_fail (pos.row >= 0);
 
 	sheet_set_edit_pos (state->sheet, pos.col, pos.row);
+}
+
+static void
+xml_sax_sheet_layout (XMLSaxParseState *state, CHAR const **attrs)
+{
+	CellPos tmp;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (xml_sax_attr_cellpos (attrs, "TopLeft", &tmp))
+			sheet_set_initial_top_left (state->sheet, tmp.col, tmp.row);
+		else
+			xml_sax_unknown_attr (state, attrs, "SheetLayout");
+}
+
+static void
+xml_sax_sheet_freezepanes (XMLSaxParseState *state, CHAR const **attrs)
+{
+	CellPos frozen_tl, unfrozen_tl;
+	int flags = 0;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (xml_sax_attr_cellpos (attrs, "FrozenTopLeft", &frozen_tl))
+			flags |= 1;
+		else if (xml_sax_attr_cellpos (attrs, "UnfrozenTopLeft", &unfrozen_tl))
+			flags |= 2;
+		else
+			xml_sax_unknown_attr (state, attrs, "SheetLayout");
+
+	if (flags == 3)
+		sheet_freeze_panes (state->sheet, &frozen_tl, &unfrozen_tl);
 }
 
 static void
@@ -1501,6 +1557,8 @@ xml_sax_start_element (XMLSaxParseState *state, CHAR const *name, CHAR const **a
 			xml_sax_selection (state, attrs);
 		} else if (xml_sax_switch_state (state, name, STATE_SHEET_CELLS)) {
 		} else if (xml_sax_switch_state (state, name, STATE_SHEET_MERGED_REGION)) {
+		} else if (xml_sax_switch_state (state, name, STATE_SHEET_LAYOUT)) {
+			xml_sax_sheet_layout (state, attrs);
 		} else if (xml_sax_switch_state (state, name, STATE_SHEET_SOLVER)) {
 		} else if (xml_sax_switch_state (state, name, STATE_SHEET_OBJECTS)) {
 		} else
@@ -1521,6 +1579,13 @@ xml_sax_start_element (XMLSaxParseState *state, CHAR const *name, CHAR const **a
 		
 	case STATE_SHEET_MERGED_REGION :
 		if (!xml_sax_switch_state (state, name, STATE_SHEET_MERGE))
+			xml_sax_unknown_state (state, name);
+		break;
+
+	case STATE_SHEET_LAYOUT :
+		if (xml_sax_switch_state (state, name, STATE_SHEET_FREEZEPANES))
+			xml_sax_sheet_freezepanes (state, attrs);
+		else
 			xml_sax_unknown_state (state, name);
 		break;
 

@@ -8,12 +8,12 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    - Panes persistence
-	    : XML (DOM & SAX)
-	    : XL
     - Sheet objects
 	    : display a view per Pane not per scg
 	    : Fix exit order to delete the views before the scg
+
+    - Add an idle handler at start up to check for availablity of
+      evo and guppi.  They should only be enabled if they are available.
 
 Pending Patches
 ---------------
@@ -21,20 +21,22 @@ Pending Patches
 Long term breakage
 ------------------
 
+- Clean out the wasteful searching in every xml util.
+
 - clearing 64k expressions from a column is dog slow because we are using an slist.
+    : merge dep list and recalc queue.
+    : add a counter of # of items to recalc.
+    : use a hash instead of a list for deps
+    : keep the hash per sheet rather than per workbook.
 
 - double clicking the drag handle disregards content in the region to fill.
   It only looks at the neighbouring region to find the boundary, but ignores
   content in the region we will fill.
 
-- Evo & Guppi cmnds should only be enabled if those components are available.
-
 - Panes 
-    : Make ctrl-arrow smarter in the presence of panes.
-    : change semantics of freeze operation to clarify where to freeze
-      (is edit bottom-right of freeze or top left of unfrozen)
     : GUI handling of freezing center if the current pos it at the top left.
     : cursor dragging only affects src pane.
+    : Panes : XL export
 
 - support negative durations with [h]
 
@@ -139,6 +141,7 @@ Names :
     : config dialog for arrows and graphic objects (set colour)
     : Other anchor types for sheet objects
     : Add keyboard controls for the control points
+    : display a view per Pane not per scg
 
 Dialogs
 -------
