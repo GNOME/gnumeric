@@ -1,9 +1,14 @@
+2001-05-31  Karl Eichwalder  <ke@suse.de>
+
+	* de.po: Update.
+
 2001-05-27  Karl Eichwalder  <ke@suse.de>
 
 	* de.po: Update.
 
 	* da.po, es.po, et.po, fr.po, gl.po, hu.po, ja.po, ko.po, no.po,
-	pl.po, pt.po, ru.po, sk.po, sv.po: 
+	pl.po, pt.po, ru.po, sk.po, sv.po: Add entry form old .desktop
+	file using xml-i18n-prepare.
 
 2001-05-26  Karl Eichwalder  <ke@suse.de>
 

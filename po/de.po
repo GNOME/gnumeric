@@ -36,7 +36,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.63cvs\n"
 "POT-Creation-Date: 2001-05-27 07:30+0200\n"
-"PO-Revision-Date: 2001-05-27 07:45+0200\n"
+"PO-Revision-Date: 2001-05-31 21:23+0200\n"
 "Last-Translator: Karl Eichwalder <ke@suse.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1311,7 +1311,7 @@ msgstr "Vorgabewert der Zeilenhöhe auf %.2f Punkte festlegen"
 #: src/commands.c:3764
 #, c-format
 msgid "Zoom %s to %.0f%%"
-msgstr ""
+msgstr "Zoom von %s auf %.0f%%"
 
 #: src/corba-args.c:28
 msgid "Oaf options"
@@ -3755,7 +3755,7 @@ msgstr "Blätter"
 #: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:2674
 #: src/workbook-control-gui.c:2731
 msgid "Zoom"
-msgstr "Vergrößern"
+msgstr "Zoom"
 
 #: src/dialogs/dialog-zoom.glade.h:9
 #, no-c-format
@@ -13536,7 +13536,7 @@ msgstr "_Zoom..."
 
 #: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:2190
 msgid "Zoom the spreadsheet in or out"
-msgstr "Das Arbeitsblatt ein- oder davon wegzoomen"
+msgstr "Das Arbeitsblatt heran- oder davon wegzoomen"
 
 #: src/workbook-control-gui.c:2193
 msgid "_Freeze..."
@@ -13907,9 +13907,8 @@ msgid "_Sort"
 msgstr "_Sortieren"
 
 #: src/workbook-control-gui.c:2434
-#, fuzzy
 msgid "Sorts the selected region."
-msgstr "Ausgewählte Zellen sortieren"
+msgstr "Ausgewählten Bereich sortieren"
 
 #: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:2436
 msgid "_Filter..."
@@ -14566,10 +14565,6 @@ msgstr "Die GNOME-Tabellenkalkulation"
 #~ msgid "_No Color"
 #~ msgstr "_Keine Farbe"
 
-#, fuzzy
-#~ msgid "_Error message :"
-#~ msgstr "_Fehlermeldung:"
-
 #~ msgid "Syntax error"
 #~ msgstr "Syntaxfehler"
 
@@ -14825,10 +14820,6 @@ msgstr "Die GNOME-Tabellenkalkulation"
 
 #~ msgid "Enables database access"
 #~ msgstr "Datenbank-Zugriff aktivieren"
-
-#, fuzzy
-#~ msgid "pts\n"
-#~ msgstr "pt"
 
 #~ msgid "Error while trying to pre-convert clipboard data"
 #~ msgstr ""
