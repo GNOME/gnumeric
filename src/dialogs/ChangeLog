@@ -1,3 +1,7 @@
+2004-11-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.0
+
 2004-11-23  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-format-page.c (format_page_update_preview): Remove

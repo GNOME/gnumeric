@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-22 16:47-0500\n"
+"POT-Creation-Date: 2004-11-28 22:56-0500\n"
 "PO-Revision-Date: 2004-08-21 10:58+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <i18n-nb@lister.ping.uio.no>\n"
@@ -935,7 +935,7 @@ msgstr "Finansielle derivater"
 msgid "Functions related to financial derivatives"
 msgstr "Funksjoner relatert til finansielle derivater"
 
-#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5831
+#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5832
 #: plugins/mps/mps.c:547 src/xml-io.c:4199
 msgid "Reading file..."
 msgstr "Leser fil..."
@@ -1082,15 +1082,15 @@ msgstr ""
 "OLE-lenker er ikke støttet.\n"
 "Navn «%s» vil gå tapt.\n"
 
-#: plugins/excel/ms-excel-read.c:5176
+#: plugins/excel/ms-excel-read.c:5177
 msgid "external references"
 msgstr "eksterne referanser"
 
-#: plugins/excel/ms-excel-read.c:5199
+#: plugins/excel/ms-excel-read.c:5200
 msgid "No password supplied"
 msgstr "Ingen passord oppgitt"
 
-#: plugins/excel/ms-excel-read.c:6057
+#: plugins/excel/ms-excel-read.c:6058
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kunne ikke finne en gyldig MS Excel arbeidsbok"
 
@@ -1101,25 +1101,25 @@ msgid ""
 "encoding problems."
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:4164
+#: plugins/excel/ms-excel-write.c:4167
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
 "d rows, and this workbook has %d"
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:4171
+#: plugins/excel/ms-excel-write.c:4174
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
 "rows, and this workbook has %d"
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:4936
+#: plugins/excel/ms-excel-write.c:4939
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Kan ikke åpne strøm «Bok» for skriving\n"
 
-#: plugins/excel/ms-excel-write.c:4956
+#: plugins/excel/ms-excel-write.c:4959
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Kan ikke åpne strøm «Arbeidsbok» for skriving\n"
 
@@ -14844,7 +14844,7 @@ msgstr "Objektiv funksjon:"
 msgid "Constraints:"
 msgstr "Begrensninger:"
 
-#: plugins/mps/mps.c:245 src/commands.c:6144
+#: plugins/mps/mps.c:245 src/commands.c:6168
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1063
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:379
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
@@ -15658,7 +15658,7 @@ msgstr "Dette er en melding fra tillegg «%s»."
 msgid "Error while opening xbase file."
 msgstr "Feil under åpning av xbase-fil."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4938
+#: plugins/xbase/boot.c:175 src/commands.c:4962
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
 #: src/dialogs/dialog-stf-export.c:444 src/dialogs/print.glade.h:21
 #: src/print-info.c:391 src/workbook.c:1091 src/xml-io.c:3789
@@ -16447,7 +16447,7 @@ msgstr ""
 msgid "Use UTF-8 in LaTeX Export"
 msgstr "Bruk UTF-8 ved eksport til LaTeX"
 
-#: src/application.c:306
+#: src/application.c:307
 #, fuzzy
 msgid "Cut Object"
 msgstr "Objekter"
@@ -16550,447 +16550,447 @@ msgstr "%s er låst. Fjern beskyttelse av arket for å muliggjøre redigering."
 msgid "..."
 msgstr "..."
 
-#: src/commands.c:928 src/commands.c:1033 src/commands.c:1038
+#: src/commands.c:960 src/commands.c:1065 src/commands.c:1070
 msgid "Set Text"
 msgstr "Sett tekst"
 
-#: src/commands.c:953
+#: src/commands.c:985
 #, c-format
 msgid "Typing \"%s%s\" in %s"
 msgstr "Skriver «%s%s» i %s"
 
-#: src/commands.c:1156
+#: src/commands.c:1188
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "Skriver «%s%s»"
 
-#: src/commands.c:1193
+#: src/commands.c:1225
 msgid "Ins/Del Column/Row"
 msgstr "Ins/Del kolonne/rad"
 
-#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3251
+#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3258
 msgid "Delete Columns"
 msgstr "Slett kolonner"
 
-#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3371
+#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3380
 msgid "Delete Rows"
 msgstr "Slett rader"
 
-#: src/commands.c:1453
+#: src/commands.c:1480
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Setter inn %d kolonner før %s"
 
-#: src/commands.c:1454
+#: src/commands.c:1481
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Setter inn %d kolonne før %s"
 
-#: src/commands.c:1469
+#: src/commands.c:1496
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "Setter inn %d rader før %s"
 
-#: src/commands.c:1470
+#: src/commands.c:1497
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "Setter inn %d rad før %s"
 
-#: src/commands.c:1481
+#: src/commands.c:1508
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Sletter kolonner %s"
 
-#: src/commands.c:1482
+#: src/commands.c:1509
 #, c-format
 msgid "Deleting column %s"
 msgstr "Sletter kolonne %s"
 
-#: src/commands.c:1492
+#: src/commands.c:1519
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Sletter rader %s"
 
-#: src/commands.c:1493
+#: src/commands.c:1520
 #, c-format
 msgid "Deleting row %s"
 msgstr "Sletter rad %s"
 
 #. Check for locked cells
-#: src/commands.c:1575 src/commands.c:1579 src/sheet.c:2861
+#: src/commands.c:1602 src/commands.c:1606 src/sheet.c:2861
 msgid "Clear"
 msgstr "Tøm"
 
-#: src/commands.c:1650
+#: src/commands.c:1677
 msgid "contents"
 msgstr "innhold"
 
-#: src/commands.c:1652
+#: src/commands.c:1679
 msgid "formats"
 msgstr "formater"
 
-#: src/commands.c:1654
+#: src/commands.c:1681
 msgid "comments"
 msgstr "kommentarer"
 
-#: src/commands.c:1670
+#: src/commands.c:1697
 msgid "all"
 msgstr "alle"
 
-#: src/commands.c:1677
+#: src/commands.c:1704
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Fjerner %s i %s"
 
-#: src/commands.c:1760
+#: src/commands.c:1787
 msgid "Changing Format"
 msgstr "Endrer format"
 
-#: src/commands.c:1885
+#: src/commands.c:1912
 #, c-format
 msgid "Changing format of %s"
 msgstr "Endrer format for %s"
 
-#: src/commands.c:1995
+#: src/commands.c:2022
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Tilpasser kolonne %s automatisk"
 
-#: src/commands.c:1996
+#: src/commands.c:2023
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Tilpasser rad %s automatisk"
 
-#: src/commands.c:1999
+#: src/commands.c:2026
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Setter bredden for rad %s til %d piksler"
 
-#: src/commands.c:2001
+#: src/commands.c:2028
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Setter høyden for rad %s til %d piksler"
 
-#: src/commands.c:2004
+#: src/commands.c:2031
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "Setter bredde for kolonne %s til forvalg"
 
-#: src/commands.c:2007
+#: src/commands.c:2034
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "Setter høyden for rad %s til forvalg"
 
-#: src/commands.c:2011
+#: src/commands.c:2038
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Tilpasser kolonner %s automatisk"
 
-#: src/commands.c:2012
+#: src/commands.c:2039
 #, c-format
 msgid "Autofitting rows %s"
 msgstr "Tilpasser rader %s automatisk"
 
-#: src/commands.c:2015
+#: src/commands.c:2042
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Setter bredden for kolonner %s til %d piksler"
 
-#: src/commands.c:2017
+#: src/commands.c:2044
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Setter høyden for rader %s til %d piksler"
 
-#: src/commands.c:2021
+#: src/commands.c:2048
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "Setter bredden for kolonner %s til forvalg"
 
-#: src/commands.c:2023
+#: src/commands.c:2050
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "Setter høyden for rader %s til forvalg"
 
-#: src/commands.c:2089 src/dialogs/dialog-preferences.c:770
+#: src/commands.c:2116 src/dialogs/dialog-preferences.c:770
 msgid "Sorting"
 msgstr "Sorterer"
 
-#: src/commands.c:2109
+#: src/commands.c:2136
 #, c-format
 msgid "Sorting %s"
 msgstr "Sorterer %s"
 
-#: src/commands.c:2252
+#: src/commands.c:2279
 msgid "Unhide columns"
 msgstr "Ta frem kolonner"
 
-#: src/commands.c:2252
+#: src/commands.c:2279
 msgid "Hide columns"
 msgstr "Skjul kolonner"
 
-#: src/commands.c:2253
+#: src/commands.c:2280
 msgid "Unhide rows"
 msgstr "Ta frem rader"
 
-#: src/commands.c:2253
+#: src/commands.c:2280
 msgid "Hide rows"
 msgstr "Skjul rader"
 
-#: src/commands.c:2335
+#: src/commands.c:2362
 msgid "Expand columns"
 msgstr "Utvid kolonner"
 
-#: src/commands.c:2335
+#: src/commands.c:2362
 msgid "Collapse columns"
 msgstr "Slå sammen kolonnene"
 
-#: src/commands.c:2336
+#: src/commands.c:2363
 msgid "Expand rows"
 msgstr "Utvid rader"
 
-#: src/commands.c:2336
+#: src/commands.c:2363
 msgid "Collapse rows"
 msgstr "Slå sammen rader"
 
-#: src/commands.c:2362
+#: src/commands.c:2389
 #, c-format
 msgid "Show column outline %d"
 msgstr "Vis omriss for kolonne %d"
 
-#: src/commands.c:2362
+#: src/commands.c:2389
 #, c-format
 msgid "Show row outline %d"
 msgstr "Vis omriss for rad %d"
 
-#: src/commands.c:2432
+#: src/commands.c:2459
 msgid "Those columns are already grouped"
 msgstr "Kolonnene er allerede gruppert"
 
-#: src/commands.c:2433
+#: src/commands.c:2460
 msgid "Those rows are already grouped"
 msgstr "Radene er allerede gruppert"
 
-#: src/commands.c:2456
+#: src/commands.c:2483
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Kolonnene er ikke gruppert, du kan ikke fjerne gruppering"
 
-#: src/commands.c:2457
+#: src/commands.c:2484
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Radene er ikke gruppert, du kan ikke fjerne gruppering"
 
-#: src/commands.c:2471
+#: src/commands.c:2498
 #, c-format
 msgid "Group columns %s"
 msgstr "Grupper kolonner %s"
 
-#: src/commands.c:2471
+#: src/commands.c:2498
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Fjern gruppering for kolonne %s"
 
-#: src/commands.c:2473
+#: src/commands.c:2500
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Grupper rader %d:%d"
 
-#: src/commands.c:2473
+#: src/commands.c:2500
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Fjern gruppering for rader %d:%d"
 
-#: src/commands.c:2710
+#: src/commands.c:2733
 #, c-format
 msgid "Moving %s"
 msgstr "Flytter %s"
 
-#: src/commands.c:2719 src/commands.c:2946
+#: src/commands.c:2742 src/commands.c:2970
 msgid "is beyond sheet boundaries"
 msgstr "er utenfor arkgrensen"
 
-#: src/commands.c:2782
+#: src/commands.c:2806
 msgid "Paste Copy"
 msgstr "Lim inn kopi"
 
 #. FIXME?
-#: src/commands.c:2887
+#: src/commands.c:2911
 #, c-format
 msgid "Pasting into %s"
 msgstr "Limer inn i %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:2983 src/commands.c:3140 src/commands.c:3141
+#: src/commands.c:3007 src/commands.c:3164 src/commands.c:3165
 #: src/wbcg-actions.c:427
 msgid "Autofill"
 msgstr "Autofyll"
 
 #. Changed in initial redo.
-#: src/commands.c:3163
+#: src/commands.c:3187
 #, c-format
 msgid "Autofilling %s"
 msgstr "Autofyller %s"
 
-#: src/commands.c:3481
+#: src/commands.c:3505
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Autoformaterer %s"
 
-#: src/commands.c:3598
+#: src/commands.c:3622
 #, c-format
 msgid "Unmerging %s"
 msgstr "Separerer %s"
 
-#: src/commands.c:3762
+#: src/commands.c:3786
 #, fuzzy, c-format
 msgid "Merge and Center %s"
 msgstr "Fletter data inn i %s"
 
-#: src/commands.c:3762
+#: src/commands.c:3786
 #, c-format
 msgid "Merging %s"
 msgstr "Fletter %s"
 
 #. Corrected below.
-#: src/commands.c:4143 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:4167 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "Søk og erstatt"
 
-#: src/commands.c:4238
+#: src/commands.c:4262
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Setter standard bredde for kolonnene til %.2fpkt"
 
-#: src/commands.c:4239
+#: src/commands.c:4263
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Setter standard høyde for radene til %.2fpkt"
 
-#: src/commands.c:4354
+#: src/commands.c:4378
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zoom %s til %.0f%%"
 
-#: src/commands.c:4452
+#: src/commands.c:4476
 #, fuzzy
 msgid "Delete Object"
 msgstr "Slett objekt"
 
-#: src/commands.c:4613
+#: src/commands.c:4637
 #, fuzzy
 msgid "Format Object"
 msgstr "Senk objekt"
 
-#: src/commands.c:5212
+#: src/commands.c:5236
 msgid "Reordering Sheets"
 msgstr "Omplasserer ark"
 
-#: src/commands.c:5215
+#: src/commands.c:5239
 msgid "Renaming Sheets"
 msgstr "Endrer navn på ark"
 
-#: src/commands.c:5218
+#: src/commands.c:5242
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "Legger til %i ark"
 
-#: src/commands.c:5222
+#: src/commands.c:5246
 msgid "Changing Tab Colors"
 msgstr "Endrer farge på faner"
 
-#: src/commands.c:5225
+#: src/commands.c:5249
 msgid "Changing Sheet Protection"
 msgstr "Endrer beskyttelse av ark"
 
-#: src/commands.c:5228
+#: src/commands.c:5252
 msgid "Delete sheets"
 msgstr "Slett ark"
 
-#: src/commands.c:5231
+#: src/commands.c:5255
 msgid "Delete a sheet"
 msgstr "Slett et ark"
 
-#: src/commands.c:5234
+#: src/commands.c:5258
 msgid "Changing Sheet Visibility"
 msgstr "Endrer synlighet for ark"
 
-#: src/commands.c:5237
+#: src/commands.c:5261
 msgid "Reorganizing Sheets"
 msgstr "Omorganiserer ark"
 
-#: src/commands.c:5388
+#: src/commands.c:5412
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Tømmer innhold i %s"
 
-#: src/commands.c:5389
+#: src/commands.c:5413
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Sletter kommentar i %s"
 
-#: src/commands.c:5769
+#: src/commands.c:5793
 #, c-format
 msgid "Merging data into %s"
 msgstr "Fletter data inn i %s"
 
-#: src/commands.c:5871
+#: src/commands.c:5895
 msgid "Changing summary info"
 msgstr "Endrer sammendragsinformasjon"
 
-#: src/commands.c:5960
+#: src/commands.c:5984
 #, fuzzy
 msgid "Pull Object to the Front"
 msgstr "Utsatt for begrensningene:"
 
-#: src/commands.c:5963
+#: src/commands.c:5987
 #, fuzzy
 msgid "Pull Object Forward"
 msgstr "GObject-kaster"
 
-#: src/commands.c:5966
+#: src/commands.c:5990
 msgid "Push Object Backward"
 msgstr ""
 
-#: src/commands.c:5969
+#: src/commands.c:5993
 #, fuzzy
 msgid "Push Object to the Back"
 msgstr "Utsatt for begrensningene:"
 
-#: src/commands.c:6084
+#: src/commands.c:6108
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Sideoppsett for %s"
 
-#: src/commands.c:6086
+#: src/commands.c:6110
 msgid "Page Setup For All Sheets"
 msgstr "Sideoppsett for alle ark"
 
-#: src/commands.c:6201
+#: src/commands.c:6225
 msgid "has a circular reference"
 msgstr "har en sirkulær referanse"
 
-#: src/commands.c:6224
+#: src/commands.c:6248
 #, c-format
 msgid "Define Name %s"
 msgstr "Definer navn %s"
 
-#: src/commands.c:6227
+#: src/commands.c:6251
 #, c-format
 msgid "Update Name %s"
 msgstr "Oppdater navn %s"
 
-#: src/commands.c:6291
+#: src/commands.c:6315
 msgid "Add scenario"
 msgstr "Legg til scenario"
 
-#: src/commands.c:6366
+#: src/commands.c:6390
 msgid "Scenario Show"
 msgstr ""
 
-#: src/commands.c:6430
+#: src/commands.c:6454
 msgid "Shuffle Data"
 msgstr "Bytt om på data"
 
 #. FIXME?
-#: src/commands.c:6540
+#: src/commands.c:6564
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Tekst (%s) til kolonner (%s)"
@@ -17000,28 +17000,28 @@ msgstr "Tekst (%s) til kolonner (%s)"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6684 src/dialogs/solver.glade.h:17
+#: src/commands.c:6708 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
 #: src/tools/solver/reports-write.c:907 src/tools/solver/reports-write.c:958
 msgid "Solver"
 msgstr "Problemløser"
 
-#: src/commands.c:6768
+#: src/commands.c:6792
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Målsøk (%s)"
 
-#: src/commands.c:6913
+#: src/commands.c:6937
 #, c-format
 msgid "Duplicating %s"
 msgstr "Dupliserer %s"
 
-#: src/commands.c:6992
+#: src/commands.c:7016
 msgid "Tabulating Dependencies"
 msgstr "Tabulerer avhengigheter"
 
-#: src/commands.c:7067
+#: src/commands.c:7091
 msgid "Reconfigure Graph"
 msgstr "Rekonfigurer plott"
 
@@ -17414,7 +17414,7 @@ msgstr "Innstillinger"
 msgid "Point"
 msgstr "Punkt"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:159 src/gui-file.c:348
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:159 src/gui-file.c:355
 #, c-format
 msgid "%d x %d"
 msgstr "%d x %d"
@@ -19004,8 +19004,8 @@ msgstr "I_kke korriger:"
 msgid "First Letter"
 msgstr "Første bokstav"
 
-#: src/dialogs/autocorrect.glade.h:9 src/format.c:2232 src/format.c:2520
-#: src/format.c:2526 src/format.c:2599 src/plugin-service.c:195
+#: src/dialogs/autocorrect.glade.h:9 src/format.c:2232 src/format.c:2521
+#: src/format.c:2527 src/format.c:2600 src/plugin-service.c:195
 #: src/widgets/widget-format-selector.c:75
 msgid "General"
 msgstr "Generelt"
@@ -21788,12 +21788,12 @@ msgstr ""
 msgid "Copy format to right"
 msgstr "Kopier format til høyre"
 
-#: src/dialogs/dialog-stf-format-page.c:444
+#: src/dialogs/dialog-stf-format-page.c:443
 msgid ""
 "If this checkbox is selected, the column will be imported into Gnumeric."
 msgstr ""
 
-#: src/dialogs/dialog-stf-format-page.c:601
+#: src/dialogs/dialog-stf-format-page.c:600
 #: src/dialogs/dialog-stf-preview.h:27
 #, c-format
 msgid "Column %d"
@@ -24775,23 +24775,23 @@ msgstr "Automatisk detektert"
 msgid "Load file"
 msgstr "Last fil"
 
-#: src/gui-file.c:224 src/gui-file.c:655
+#: src/gui-file.c:224 src/gui-file.c:662
 msgid "Select a file"
 msgstr "Velg en fil"
 
-#: src/gui-file.c:242 src/gui-file.c:457 src/gui-file.c:669
+#: src/gui-file.c:249 src/gui-file.c:464 src/gui-file.c:676
 msgid "All Files"
 msgstr "Alle filer"
 
-#: src/gui-file.c:247 src/gui-file.c:674
+#: src/gui-file.c:254 src/gui-file.c:681
 msgid "Spreadsheets"
 msgstr "Regneark"
 
-#: src/gui-file.c:273 src/gui-file.c:524 src/gui-file.c:698
+#: src/gui-file.c:280 src/gui-file.c:531 src/gui-file.c:705
 msgid "File _type:"
 msgstr "Fil_type:"
 
-#: src/gui-file.c:389
+#: src/gui-file.c:396
 #, c-format
 msgid ""
 "%s\n"
@@ -24800,7 +24800,7 @@ msgstr ""
 "%s\n"
 "er et katalognavn"
 
-#: src/gui-file.c:395
+#: src/gui-file.c:402
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -24809,7 +24809,7 @@ msgstr ""
 "Du har ikke rettigheter til å lagre til\n"
 "%s"
 
-#: src/gui-file.c:404
+#: src/gui-file.c:411
 #, fuzzy, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -24819,16 +24819,16 @@ msgstr ""
 "%s eksisterer allerede.\n"
 "Vil du overskrive denne?"
 
-#: src/gui-file.c:462
+#: src/gui-file.c:469
 msgid "Images"
 msgstr "Bilder"
 
-#: src/gui-file.c:502
+#: src/gui-file.c:509
 #, fuzzy
 msgid "Save as"
 msgstr "Lagre alle"
 
-#: src/gui-file.c:551 src/gui-file.c:747
+#: src/gui-file.c:558 src/gui-file.c:754
 #, fuzzy
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
@@ -24837,11 +24837,11 @@ msgstr ""
 "Filnavnet er ikke riktig for denne filtypen. Vil du bruke dette navnet "
 "likevel?"
 
-#: src/gui-file.c:578
+#: src/gui-file.c:585
 msgid "Select an Image"
 msgstr "Velg et bilde"
 
-#: src/gui-file.c:597
+#: src/gui-file.c:604
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -24939,15 +24939,15 @@ msgstr "Flytt celler til høyre og flytt"
 msgid "C_ancel"
 msgstr "_Avbryt"
 
-#: src/main-application.c:60 src/ssconvert.c:41
+#: src/main-application.c:60 src/ssconvert.c:41 src/ssindex.c:50
 msgid "Display Gnumeric's version"
 msgstr "Vis Gnumerics versjonsinfo"
 
-#: src/main-application.c:62 src/ssconvert.c:44
+#: src/main-application.c:62 src/ssconvert.c:44 src/ssindex.c:53
 msgid "Set the root library directory"
 msgstr "Sett rotkatalog for biblioteker"
 
-#: src/main-application.c:64 src/ssconvert.c:46
+#: src/main-application.c:64 src/ssconvert.c:46 src/ssindex.c:55
 msgid "Adjust the root data directory"
 msgstr "Juster rotkatalog for data"
 
@@ -25675,11 +25675,11 @@ msgstr "kan ikke operere på flettede celler"
 msgid "cannot operate on array formulae"
 msgstr "kan ikke operere på matriseformularer"
 
-#: src/sheet.c:3191
+#: src/sheet.c:3197
 msgid "Insert Columns"
 msgstr "Sett inn kolonner"
 
-#: src/sheet.c:3311
+#: src/sheet.c:3319
 msgid "Insert Rows"
 msgstr "Sett inn rader"
 
@@ -25916,11 +25916,11 @@ msgstr "Kopier"
 msgid "Cut"
 msgstr "Klipp ut"
 
-#: src/ssconvert.c:49
+#: src/ssconvert.c:49 src/ssindex.c:58 src/ssindex.c:60 src/ssindex.c:62
 msgid "Optionally specify an encoding for imported content"
 msgstr ""
 
-#: src/ssconvert.c:49
+#: src/ssconvert.c:49 src/ssindex.c:62
 msgid "ENCODING"
 msgstr ""
 
@@ -25974,6 +25974,17 @@ msgstr ""
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
+"datadir := '%s'\n"
+"libdir := '%s'\n"
+msgstr ""
+"ssconvert versjon «%s»\n"
+"datakatalog := «%s»\n"
+"bibliotekkatalog := «%s»\n"
+
+#: src/ssindex.c:195
+#, fuzzy, c-format
+msgid ""
+"ssindex version '%s'\n"
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""

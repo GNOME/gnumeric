@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric gnumeric-1-2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-22 16:47-0500\n"
+"POT-Creation-Date: 2004-11-28 22:56-0500\n"
 "PO-Revision-Date: 2004-09-08 15:04+0300\n"
 "Last-Translator: Tommi Vainikainen <Tommi.Vainikainen@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
@@ -954,7 +954,7 @@ msgstr "Talousjohdannaiset"
 msgid "Functions related to financial derivatives"
 msgstr "Talousjohdannaisiin liittyvät funktiot"
 
-#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5831
+#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5832
 #: plugins/mps/mps.c:547 src/xml-io.c:4199
 msgid "Reading file..."
 msgstr "Luetaan tiedostoa..."
@@ -1103,15 +1103,15 @@ msgstr ""
 "OLE-linkkejä ei tueta.\n"
 "Nimi \"%s\" häviää.\n"
 
-#: plugins/excel/ms-excel-read.c:5176
+#: plugins/excel/ms-excel-read.c:5177
 msgid "external references"
 msgstr "ulkoiset viittaukset"
 
-#: plugins/excel/ms-excel-read.c:5199
+#: plugins/excel/ms-excel-read.c:5200
 msgid "No password supplied"
 msgstr "Salasanaa ei annettu"
 
-#: plugins/excel/ms-excel-read.c:6057
+#: plugins/excel/ms-excel-read.c:6058
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kelvollista MS Excel -työkirjaa ei löytynyt"
 
@@ -1124,7 +1124,7 @@ msgstr ""
 "Tämä on jotenkin turmeltunut.\n"
 "Koodausongelman vuoksi typistettävän merkkijonon pituus kirjoitettiin jo."
 
-#: plugins/excel/ms-excel-write.c:4164
+#: plugins/excel/ms-excel-write.c:4167
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -1133,7 +1133,7 @@ msgstr ""
 "Osa sisällöstä häviää tallennettaessa MS Excel™ 95 -muodossa. Se näet tukee "
 "vain %d riviä kun tässä työkirjassa on %d"
 
-#: plugins/excel/ms-excel-write.c:4171
+#: plugins/excel/ms-excel-write.c:4174
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -1142,11 +1142,11 @@ msgstr ""
 "Osa sisällöstä häviää tallennettaessa MS Excel™ -muodossa. Se näet tukee "
 "vain %d riviä kun tässä työkirjassa on %d"
 
-#: plugins/excel/ms-excel-write.c:4936
+#: plugins/excel/ms-excel-write.c:4939
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Ei voi avata virtaa \"Kirja\" kirjoittamista varten\n"
 
-#: plugins/excel/ms-excel-write.c:4956
+#: plugins/excel/ms-excel-write.c:4959
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Ei voi avata virtaa \"Työkirja\" kirjoittamista varten\n"
 
@@ -10890,7 +10890,7 @@ msgstr ""
 msgid "Constraints:"
 msgstr "Rajoitteet:"
 
-#: plugins/mps/mps.c:245 src/commands.c:6144
+#: plugins/mps/mps.c:245 src/commands.c:6168
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1063
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:379
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
@@ -11610,7 +11610,7 @@ msgstr ""
 msgid "Error while opening xbase file."
 msgstr "Virhe avattaessa xbase-tiedostoa."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4938
+#: plugins/xbase/boot.c:175 src/commands.c:4962
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
 #: src/dialogs/dialog-stf-export.c:444 src/dialogs/print.glade.h:21
 #: src/print-info.c:391 src/workbook.c:1091 src/xml-io.c:3789
@@ -12376,7 +12376,7 @@ msgstr ""
 msgid "Use UTF-8 in LaTeX Export"
 msgstr "Käytä UTF-8-koodausta Latex-viennissä"
 
-#: src/application.c:306
+#: src/application.c:307
 #, fuzzy
 msgid "Cut Object"
 msgstr "Laske objekti"
@@ -12478,448 +12478,448 @@ msgstr "%s on lukittu. Poista taulukon suojaus muokkausta varten."
 msgid "..."
 msgstr "..."
 
-#: src/commands.c:928 src/commands.c:1033 src/commands.c:1038
+#: src/commands.c:960 src/commands.c:1065 src/commands.c:1070
 msgid "Set Text"
 msgstr "Aseta teksti"
 
-#: src/commands.c:953
+#: src/commands.c:985
 #, c-format
 msgid "Typing \"%s%s\" in %s"
 msgstr "Kirjoitus \"%s%s\" soluun %s"
 
-#: src/commands.c:1156
+#: src/commands.c:1188
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "Kirjoitus \"%s%s\""
 
-#: src/commands.c:1193
+#: src/commands.c:1225
 #, fuzzy
 msgid "Ins/Del Column/Row"
 msgstr "Lisää sarakkeita"
 
-#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3251
+#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3258
 msgid "Delete Columns"
 msgstr "Poista sarakkeet"
 
-#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3371
+#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3380
 msgid "Delete Rows"
 msgstr "Poista rivit"
 
-#: src/commands.c:1453
+#: src/commands.c:1480
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Lisätään %d saraketta ennen saraketta %s"
 
-#: src/commands.c:1454
+#: src/commands.c:1481
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Lisätään %d sarake ennen saraketta %s"
 
-#: src/commands.c:1469
+#: src/commands.c:1496
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "Lisätään %d riviä ennen riviä %s"
 
-#: src/commands.c:1470
+#: src/commands.c:1497
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "Lisätään %d rivi ennen riviä %s"
 
-#: src/commands.c:1481
+#: src/commands.c:1508
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Poistetaan sarakkeet %s"
 
-#: src/commands.c:1482
+#: src/commands.c:1509
 #, c-format
 msgid "Deleting column %s"
 msgstr "Poistetaan sarake %s"
 
-#: src/commands.c:1492
+#: src/commands.c:1519
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Poistetaan rivit %s"
 
-#: src/commands.c:1493
+#: src/commands.c:1520
 #, c-format
 msgid "Deleting row %s"
 msgstr "Poistetaan rivi %s"
 
 #. Check for locked cells
-#: src/commands.c:1575 src/commands.c:1579 src/sheet.c:2861
+#: src/commands.c:1602 src/commands.c:1606 src/sheet.c:2861
 msgid "Clear"
 msgstr "Tyhjennä"
 
-#: src/commands.c:1650
+#: src/commands.c:1677
 msgid "contents"
 msgstr "sisältö"
 
-#: src/commands.c:1652
+#: src/commands.c:1679
 msgid "formats"
 msgstr "muotoilut"
 
-#: src/commands.c:1654
+#: src/commands.c:1681
 msgid "comments"
 msgstr "kommentit"
 
-#: src/commands.c:1670
+#: src/commands.c:1697
 msgid "all"
 msgstr "kaikki"
 
-#: src/commands.c:1677
+#: src/commands.c:1704
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Tyhjennetään %s: %s"
 
-#: src/commands.c:1760
+#: src/commands.c:1787
 msgid "Changing Format"
 msgstr "Muutetaan muotoilu"
 
-#: src/commands.c:1885
+#: src/commands.c:1912
 #, c-format
 msgid "Changing format of %s"
 msgstr "Muutetaan muotoilu: %s"
 
-#: src/commands.c:1995
+#: src/commands.c:2022
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Automaattisovittaa saraketta %s"
 
-#: src/commands.c:1996
+#: src/commands.c:2023
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Automaattisovittaa riviä %s"
 
-#: src/commands.c:1999
+#: src/commands.c:2026
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Asetetaan sarakkeen %s leveys %d kuvapisteeksi"
 
-#: src/commands.c:2001
+#: src/commands.c:2028
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Asetetaan rivin %s korkeus %d kuvapisteeksi"
 
-#: src/commands.c:2004
+#: src/commands.c:2031
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "Asetetaan sarakkeen %s leveys oletukseksi"
 
-#: src/commands.c:2007
+#: src/commands.c:2034
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "Asetetaan rivin %s korkeus oletukseksi"
 
-#: src/commands.c:2011
+#: src/commands.c:2038
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Automaattisovittaa sarakkeita %s"
 
-#: src/commands.c:2012
+#: src/commands.c:2039
 #, c-format
 msgid "Autofitting rows %s"
 msgstr "Automaattisovittaa riviä %s"
 
-#: src/commands.c:2015
+#: src/commands.c:2042
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Asetetaan sarakkeiden %s leveys %d pikseliksi"
 
-#: src/commands.c:2017
+#: src/commands.c:2044
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Asetetaan rivien %s korkeus %d kuvapisteeksi"
 
-#: src/commands.c:2021
+#: src/commands.c:2048
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "Asetetaan sarakkeiden %s leveys oletukseksi"
 
-#: src/commands.c:2023
+#: src/commands.c:2050
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "Asetetaan rivien %s korkeus oletukseksi"
 
-#: src/commands.c:2089 src/dialogs/dialog-preferences.c:770
+#: src/commands.c:2116 src/dialogs/dialog-preferences.c:770
 msgid "Sorting"
 msgstr "Järjestetään"
 
-#: src/commands.c:2109
+#: src/commands.c:2136
 #, c-format
 msgid "Sorting %s"
 msgstr "%s järjestetään"
 
-#: src/commands.c:2252
+#: src/commands.c:2279
 msgid "Unhide columns"
 msgstr "Poista sarakkeiden piilotus"
 
-#: src/commands.c:2252
+#: src/commands.c:2279
 msgid "Hide columns"
 msgstr "Piilota sarakkeet"
 
-#: src/commands.c:2253
+#: src/commands.c:2280
 msgid "Unhide rows"
 msgstr "Poista rivien piilotus"
 
-#: src/commands.c:2253
+#: src/commands.c:2280
 msgid "Hide rows"
 msgstr "Piilota rivit"
 
-#: src/commands.c:2335
+#: src/commands.c:2362
 msgid "Expand columns"
 msgstr "Laajenna sarakkeet"
 
-#: src/commands.c:2335
+#: src/commands.c:2362
 msgid "Collapse columns"
 msgstr "Kutista sarakkeet"
 
-#: src/commands.c:2336
+#: src/commands.c:2363
 msgid "Expand rows"
 msgstr "Laajenna rivit"
 
-#: src/commands.c:2336
+#: src/commands.c:2363
 msgid "Collapse rows"
 msgstr "Kutista rivit"
 
-#: src/commands.c:2362
+#: src/commands.c:2389
 #, c-format
 msgid "Show column outline %d"
 msgstr "Näytä sarakereunaviiva %d"
 
-#: src/commands.c:2362
+#: src/commands.c:2389
 #, c-format
 msgid "Show row outline %d"
 msgstr "Näytä rivireunaviiva %d"
 
-#: src/commands.c:2432
+#: src/commands.c:2459
 msgid "Those columns are already grouped"
 msgstr "Nuo sarakkeet on jo ryhmitelty"
 
-#: src/commands.c:2433
+#: src/commands.c:2460
 msgid "Those rows are already grouped"
 msgstr "Nuo rivit on jo ryhmitelty"
 
-#: src/commands.c:2456
+#: src/commands.c:2483
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Nuo sarakkeet eivät ole ryhmiteltyjä, joten ryhmittelyä ei voi purkaa"
 
-#: src/commands.c:2457
+#: src/commands.c:2484
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Nuo rivit eivät ole ryhmiteltyjä, joten ryhmittelyä ei voi purkaa"
 
-#: src/commands.c:2471
+#: src/commands.c:2498
 #, c-format
 msgid "Group columns %s"
 msgstr "Ryhmittele sarakkeet %s"
 
-#: src/commands.c:2471
+#: src/commands.c:2498
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Pura sarakkeiden %s ryhmittely"
 
-#: src/commands.c:2473
+#: src/commands.c:2500
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Ryhmittele rivit %d:%d"
 
-#: src/commands.c:2473
+#: src/commands.c:2500
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Pura rivien %d:%d ryhmittely"
 
-#: src/commands.c:2710
+#: src/commands.c:2733
 #, c-format
 msgid "Moving %s"
 msgstr "Siirretään %s"
 
-#: src/commands.c:2719 src/commands.c:2946
+#: src/commands.c:2742 src/commands.c:2970
 msgid "is beyond sheet boundaries"
 msgstr "on taulukon reunojen ulkopuolella"
 
-#: src/commands.c:2782
+#: src/commands.c:2806
 #, fuzzy
 msgid "Paste Copy"
 msgstr "Liittämistyyppi"
 
 #. FIXME?
-#: src/commands.c:2887
+#: src/commands.c:2911
 #, c-format
 msgid "Pasting into %s"
 msgstr "Liitetään alueeseen %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:2983 src/commands.c:3140 src/commands.c:3141
+#: src/commands.c:3007 src/commands.c:3164 src/commands.c:3165
 #: src/wbcg-actions.c:427
 msgid "Autofill"
 msgstr "Automaattitäyttö"
 
 #. Changed in initial redo.
-#: src/commands.c:3163
+#: src/commands.c:3187
 #, c-format
 msgid "Autofilling %s"
 msgstr "Automaattitäytetään %s"
 
-#: src/commands.c:3481
+#: src/commands.c:3505
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Automaattimuotoillaan %s"
 
-#: src/commands.c:3598
+#: src/commands.c:3622
 #, c-format
 msgid "Unmerging %s"
 msgstr "Puretaan alueen %s sulautus"
 
-#: src/commands.c:3762
+#: src/commands.c:3786
 #, fuzzy, c-format
 msgid "Merge and Center %s"
 msgstr "Sulautetaan data alueeseen %s"
 
-#: src/commands.c:3762
+#: src/commands.c:3786
 #, c-format
 msgid "Merging %s"
 msgstr "Yhdistetään %s"
 
 #. Corrected below.
-#: src/commands.c:4143 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:4167 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "Etsi ja korvaa"
 
-#: src/commands.c:4238
+#: src/commands.c:4262
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Asetetaan sarakkeiden oletusleveydeksi %.2fpts"
 
-#: src/commands.c:4239
+#: src/commands.c:4263
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Asetetaan rivien oletuskorkeudeksi %.2fpts"
 
-#: src/commands.c:4354
+#: src/commands.c:4378
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Lähennä %s suhteessa %.0f%%"
 
-#: src/commands.c:4452
+#: src/commands.c:4476
 #, fuzzy
 msgid "Delete Object"
 msgstr "Poista objekti"
 
-#: src/commands.c:4613
+#: src/commands.c:4637
 #, fuzzy
 msgid "Format Object"
 msgstr "Laske objekti"
 
-#: src/commands.c:5212
+#: src/commands.c:5236
 msgid "Reordering Sheets"
 msgstr "Muutetaan taulukkojen järjestystä"
 
-#: src/commands.c:5215
+#: src/commands.c:5239
 msgid "Renaming Sheets"
 msgstr "Nimetään taulukkoja uudelleen"
 
-#: src/commands.c:5218
+#: src/commands.c:5242
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "Lisätään %i taulukkoa"
 
-#: src/commands.c:5222
+#: src/commands.c:5246
 msgid "Changing Tab Colors"
 msgstr "Muutetaan välilehtien värejä"
 
-#: src/commands.c:5225
+#: src/commands.c:5249
 msgid "Changing Sheet Protection"
 msgstr "Muutetaan taulukon suojausta"
 
-#: src/commands.c:5228
+#: src/commands.c:5252
 msgid "Delete sheets"
 msgstr "Poista taulukot"
 
-#: src/commands.c:5231
+#: src/commands.c:5255
 msgid "Delete a sheet"
 msgstr "Poista taulukko"
 
-#: src/commands.c:5234
+#: src/commands.c:5258
 #, fuzzy
 msgid "Changing Sheet Visibility"
 msgstr "Muutetaan taulukon suojausta"
 
-#: src/commands.c:5237
+#: src/commands.c:5261
 msgid "Reorganizing Sheets"
 msgstr "Taulukoiden uudelleenjärjestely"
 
-#: src/commands.c:5388
+#: src/commands.c:5412
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Tyhjennetään solun %s kommenttia"
 
-#: src/commands.c:5389
+#: src/commands.c:5413
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Asetetaan solun %s kommentti"
 
-#: src/commands.c:5769
+#: src/commands.c:5793
 #, c-format
 msgid "Merging data into %s"
 msgstr "Sulautetaan data alueeseen %s"
 
-#: src/commands.c:5871
+#: src/commands.c:5895
 msgid "Changing summary info"
 msgstr "Muutetaan yhteenvetotietoja"
 
-#: src/commands.c:5960
+#: src/commands.c:5984
 msgid "Pull Object to the Front"
 msgstr ""
 
-#: src/commands.c:5963
+#: src/commands.c:5987
 #, fuzzy
 msgid "Pull Object Forward"
 msgstr "GObject-laturi"
 
-#: src/commands.c:5966
+#: src/commands.c:5990
 msgid "Push Object Backward"
 msgstr ""
 
-#: src/commands.c:5969
+#: src/commands.c:5993
 msgid "Push Object to the Back"
 msgstr ""
 
-#: src/commands.c:6084
+#: src/commands.c:6108
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Taulukon %s sivuasetukset"
 
-#: src/commands.c:6086
+#: src/commands.c:6110
 msgid "Page Setup For All Sheets"
 msgstr "Kaikkien taulukkojen sivuasetukset"
 
-#: src/commands.c:6201
+#: src/commands.c:6225
 msgid "has a circular reference"
 msgstr ""
 
-#: src/commands.c:6224
+#: src/commands.c:6248
 #, c-format
 msgid "Define Name %s"
 msgstr "Määrittele nimi %s"
 
-#: src/commands.c:6227
+#: src/commands.c:6251
 #, c-format
 msgid "Update Name %s"
 msgstr "Päivitä nimi %s"
 
-#: src/commands.c:6291
+#: src/commands.c:6315
 msgid "Add scenario"
 msgstr "Lisää skenaario"
 
-#: src/commands.c:6366
+#: src/commands.c:6390
 msgid "Scenario Show"
 msgstr "Skenaarionäkymä"
 
-#: src/commands.c:6430
+#: src/commands.c:6454
 msgid "Shuffle Data"
 msgstr ""
 
 #. FIXME?
-#: src/commands.c:6540
+#: src/commands.c:6564
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Teksti (%s) sarakkeisiin (%s)"
@@ -12929,29 +12929,29 @@ msgstr "Teksti (%s) sarakkeisiin (%s)"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6684 src/dialogs/solver.glade.h:17
+#: src/commands.c:6708 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
 #: src/tools/solver/reports-write.c:907 src/tools/solver/reports-write.c:958
 msgid "Solver"
 msgstr ""
 
-#: src/commands.c:6768
+#: src/commands.c:6792
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Tuloksen etsintä (%s)"
 
-#: src/commands.c:6913
+#: src/commands.c:6937
 #, c-format
 msgid "Duplicating %s"
 msgstr "Monistetaan %s"
 
-#: src/commands.c:6992
+#: src/commands.c:7016
 #, fuzzy
 msgid "Tabulating Dependencies"
 msgstr "Liitännäisten yksityiskohdat"
 
-#: src/commands.c:7067
+#: src/commands.c:7091
 msgid "Reconfigure Graph"
 msgstr ""
 
@@ -13359,7 +13359,7 @@ msgstr "Varoitus"
 msgid "Point"
 msgstr "Piste"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:159 src/gui-file.c:348
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:159 src/gui-file.c:355
 #, c-format
 msgid "%d x %d"
 msgstr "%d × %d"
@@ -14934,8 +14934,8 @@ msgstr "_Älä korjaa:"
 msgid "First Letter"
 msgstr "Ensimmäinen kirjain"
 
-#: src/dialogs/autocorrect.glade.h:9 src/format.c:2232 src/format.c:2520
-#: src/format.c:2526 src/format.c:2599 src/plugin-service.c:195
+#: src/dialogs/autocorrect.glade.h:9 src/format.c:2232 src/format.c:2521
+#: src/format.c:2527 src/format.c:2600 src/plugin-service.c:195
 #: src/widgets/widget-format-selector.c:75
 msgid "General"
 msgstr "Yleistä"
@@ -17696,12 +17696,12 @@ msgstr ""
 msgid "Copy format to right"
 msgstr ""
 
-#: src/dialogs/dialog-stf-format-page.c:444
+#: src/dialogs/dialog-stf-format-page.c:443
 msgid ""
 "If this checkbox is selected, the column will be imported into Gnumeric."
 msgstr ""
 
-#: src/dialogs/dialog-stf-format-page.c:601
+#: src/dialogs/dialog-stf-format-page.c:600
 #: src/dialogs/dialog-stf-preview.h:27
 #, c-format
 msgid "Column %d"
@@ -20747,23 +20747,23 @@ msgstr "Automaattisesti tunnistettu"
 msgid "Load file"
 msgstr "Lataa tiedosto"
 
-#: src/gui-file.c:224 src/gui-file.c:655
+#: src/gui-file.c:224 src/gui-file.c:662
 msgid "Select a file"
 msgstr ""
 
-#: src/gui-file.c:242 src/gui-file.c:457 src/gui-file.c:669
+#: src/gui-file.c:249 src/gui-file.c:464 src/gui-file.c:676
 msgid "All Files"
 msgstr ""
 
-#: src/gui-file.c:247 src/gui-file.c:674
+#: src/gui-file.c:254 src/gui-file.c:681
 msgid "Spreadsheets"
 msgstr ""
 
-#: src/gui-file.c:273 src/gui-file.c:524 src/gui-file.c:698
+#: src/gui-file.c:280 src/gui-file.c:531 src/gui-file.c:705
 msgid "File _type:"
 msgstr "Tiedoston _tyyppi:"
 
-#: src/gui-file.c:389
+#: src/gui-file.c:396
 #, c-format
 msgid ""
 "%s\n"
@@ -20772,14 +20772,14 @@ msgstr ""
 "%s\n"
 "on hakemistonimi"
 
-#: src/gui-file.c:395
+#: src/gui-file.c:402
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
 "%s"
 msgstr ""
 
-#: src/gui-file.c:404
+#: src/gui-file.c:411
 #, fuzzy, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -20789,27 +20789,27 @@ msgstr ""
 "Työkirja %s on jo olemassa.\n"
 "Haluatko tallentaa sen päälle?"
 
-#: src/gui-file.c:462
+#: src/gui-file.c:469
 #, fuzzy
 msgid "Images"
 msgstr "Kuva"
 
-#: src/gui-file.c:502
+#: src/gui-file.c:509
 #, fuzzy
 msgid "Save as"
 msgstr "Tallenna kaikki"
 
-#: src/gui-file.c:551 src/gui-file.c:747
+#: src/gui-file.c:558 src/gui-file.c:754
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
 msgstr ""
 
-#: src/gui-file.c:578
+#: src/gui-file.c:585
 msgid "Select an Image"
 msgstr ""
 
-#: src/gui-file.c:597
+#: src/gui-file.c:604
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -20903,15 +20903,15 @@ msgstr "Siirrä soluja o_ikealle ja liikuta"
 msgid "C_ancel"
 msgstr "_Peru"
 
-#: src/main-application.c:60 src/ssconvert.c:41
+#: src/main-application.c:60 src/ssconvert.c:41 src/ssindex.c:50
 msgid "Display Gnumeric's version"
 msgstr "Näytä Gnumericin versio"
 
-#: src/main-application.c:62 src/ssconvert.c:44
+#: src/main-application.c:62 src/ssconvert.c:44 src/ssindex.c:53
 msgid "Set the root library directory"
 msgstr ""
 
-#: src/main-application.c:64 src/ssconvert.c:46
+#: src/main-application.c:64 src/ssconvert.c:46 src/ssindex.c:55
 msgid "Adjust the root data directory"
 msgstr ""
 
@@ -21623,11 +21623,11 @@ msgstr ""
 msgid "cannot operate on array formulae"
 msgstr ""
 
-#: src/sheet.c:3191
+#: src/sheet.c:3197
 msgid "Insert Columns"
 msgstr "Lisää sarakkeita"
 
-#: src/sheet.c:3311
+#: src/sheet.c:3319
 msgid "Insert Rows"
 msgstr "Lisää rivejä"
 
@@ -21863,11 +21863,11 @@ msgstr "Kopioi"
 msgid "Cut"
 msgstr "Leikkaa"
 
-#: src/ssconvert.c:49
+#: src/ssconvert.c:49 src/ssindex.c:58 src/ssindex.c:60 src/ssindex.c:62
 msgid "Optionally specify an encoding for imported content"
 msgstr ""
 
-#: src/ssconvert.c:49
+#: src/ssconvert.c:49 src/ssindex.c:62
 msgid "ENCODING"
 msgstr ""
 
@@ -21921,6 +21921,14 @@ msgstr ""
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
+"datadir := '%s'\n"
+"libdir := '%s'\n"
+msgstr ""
+
+#: src/ssindex.c:195
+#, c-format
+msgid ""
+"ssindex version '%s'\n"
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-22 16:47-0500\n"
+"POT-Creation-Date: 2004-11-28 22:56-0500\n"
 "PO-Revision-Date: 2004-10-28 18:30+0900\n"
 "Last-Translator: Yukihiro Nakai <nakai@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
@@ -1318,7 +1318,7 @@ msgstr "財務関係"
 msgid "Functions related to financial derivatives"
 msgstr "金融関係の関数"
 
-#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5831
+#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5832
 #: plugins/mps/mps.c:547 src/xml-io.c:4199
 msgid "Reading file..."
 msgstr "ファイルの読み込み中..."
@@ -1461,15 +1461,15 @@ msgstr ""
 "OLEリンクはサポートされていません。\n"
 "名前 '%s' は失われます。\n"
 
-#: plugins/excel/ms-excel-read.c:5176
+#: plugins/excel/ms-excel-read.c:5177
 msgid "external references"
 msgstr "外部参照"
 
-#: plugins/excel/ms-excel-read.c:5199
+#: plugins/excel/ms-excel-read.c:5200
 msgid "No password supplied"
 msgstr "パスワードがありません"
 
-#: plugins/excel/ms-excel-read.c:6057
+#: plugins/excel/ms-excel-read.c:6058
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "有効な MS Excel のワークブックが見つかりません"
 
@@ -1482,7 +1482,7 @@ msgstr ""
 "これはどこかが壊れています。\n"
 "エンコーディングの問題で省略された文字列の長さはすでに書きこみました。"
 
-#: plugins/excel/ms-excel-write.c:4164
+#: plugins/excel/ms-excel-write.c:4167
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -1491,7 +1491,7 @@ msgstr ""
 "MS Excel(tm) 95型式で保存すると失われるデータがあります。Excel 95型式は%d行ま"
 "でサポートしていますが、このワークブックには%d行あります"
 
-#: plugins/excel/ms-excel-write.c:4171
+#: plugins/excel/ms-excel-write.c:4174
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -1500,11 +1500,11 @@ msgstr ""
 "MS Excel(tm)型式で保存すると失われるデータがあります。Excel型式は%d行までサ"
 "ポートしていますが、このワークブックには%d行あります"
 
-#: plugins/excel/ms-excel-write.c:4936
+#: plugins/excel/ms-excel-write.c:4939
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "書き込み用のストリーム'Book'を開けませんでした\n"
 
-#: plugins/excel/ms-excel-write.c:4956
+#: plugins/excel/ms-excel-write.c:4959
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "書き込み用のストリーム'Workbook'が開けませんでした\n"
 
@@ -16105,7 +16105,7 @@ msgstr "オブジェクティブ関数:"
 msgid "Constraints:"
 msgstr "制約条件:"
 
-#: plugins/mps/mps.c:245 src/commands.c:6144
+#: plugins/mps/mps.c:245 src/commands.c:6168
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1063
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:379
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
@@ -16923,7 +16923,7 @@ msgstr "これは\"%s\"プラグインからのメッセージです。"
 msgid "Error while opening xbase file."
 msgstr "xBase ファイルのオープンでエラーが発生しました。"
 
-#: plugins/xbase/boot.c:175 src/commands.c:4938
+#: plugins/xbase/boot.c:175 src/commands.c:4962
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
 #: src/dialogs/dialog-stf-export.c:444 src/dialogs/print.glade.h:21
 #: src/print-info.c:391 src/workbook.c:1091 src/xml-io.c:3789
@@ -17735,7 +17735,7 @@ msgstr ""
 msgid "Use UTF-8 in LaTeX Export"
 msgstr "LaTeXのエクスポートでUTF-8を使う"
 
-#: src/application.c:306
+#: src/application.c:307
 msgid "Cut Object"
 msgstr "オブジェクトの切り取り"
 
@@ -17836,444 +17836,444 @@ msgstr "%s はロックされています。シートを編集するには保護
 msgid "..."
 msgstr "..."
 
-#: src/commands.c:928 src/commands.c:1033 src/commands.c:1038
+#: src/commands.c:960 src/commands.c:1065 src/commands.c:1070
 msgid "Set Text"
 msgstr "テキスト設定"
 
-#: src/commands.c:953
+#: src/commands.c:985
 #, c-format
 msgid "Typing \"%s%s\" in %s"
 msgstr "%s に \"%s%s\" を入力"
 
-#: src/commands.c:1156
+#: src/commands.c:1188
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "\"%s%s\"を入力"
 
-#: src/commands.c:1193
+#: src/commands.c:1225
 msgid "Ins/Del Column/Row"
 msgstr "列/行を挿入/削除"
 
-#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3251
+#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3258
 msgid "Delete Columns"
 msgstr "列を削除"
 
-#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3371
+#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3380
 msgid "Delete Rows"
 msgstr "行を削除"
 
-#: src/commands.c:1453
+#: src/commands.c:1480
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "%d 列を %s の前に挿入"
 
-#: src/commands.c:1454
+#: src/commands.c:1481
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "%d 列を %s の前に挿入"
 
-#: src/commands.c:1469
+#: src/commands.c:1496
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "%d 行を %s の前に挿入"
 
-#: src/commands.c:1470
+#: src/commands.c:1497
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "%d 行を %s の前に挿入"
 
-#: src/commands.c:1481
+#: src/commands.c:1508
 #, c-format
 msgid "Deleting columns %s"
 msgstr "%s 列の削除"
 
-#: src/commands.c:1482
+#: src/commands.c:1509
 #, c-format
 msgid "Deleting column %s"
 msgstr "%s 行の削除"
 
-#: src/commands.c:1492
+#: src/commands.c:1519
 #, c-format
 msgid "Deleting rows %s"
 msgstr "%s 行の削除"
 
-#: src/commands.c:1493
+#: src/commands.c:1520
 #, c-format
 msgid "Deleting row %s"
 msgstr "%s 行の削除"
 
 #. Check for locked cells
-#: src/commands.c:1575 src/commands.c:1579 src/sheet.c:2861
+#: src/commands.c:1602 src/commands.c:1606 src/sheet.c:2861
 msgid "Clear"
 msgstr "消去"
 
-#: src/commands.c:1650
+#: src/commands.c:1677
 msgid "contents"
 msgstr "内容"
 
-#: src/commands.c:1652
+#: src/commands.c:1679
 msgid "formats"
 msgstr "書式"
 
-#: src/commands.c:1654
+#: src/commands.c:1681
 msgid "comments"
 msgstr "注釈"
 
-#: src/commands.c:1670
+#: src/commands.c:1697
 msgid "all"
 msgstr "全て"
 
-#: src/commands.c:1677
+#: src/commands.c:1704
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "%s のクリア (%s 内の)"
 
-#: src/commands.c:1760
+#: src/commands.c:1787
 msgid "Changing Format"
 msgstr "書式の変更"
 
-#: src/commands.c:1885
+#: src/commands.c:1912
 #, c-format
 msgid "Changing format of %s"
 msgstr "書式 %s の変更"
 
-#: src/commands.c:1995
+#: src/commands.c:2022
 #, c-format
 msgid "Autofitting column %s"
 msgstr "列 %s の自動調整"
 
-#: src/commands.c:1996
+#: src/commands.c:2023
 #, c-format
 msgid "Autofitting row %s"
 msgstr "行 %s の自動調整"
 
-#: src/commands.c:1999
+#: src/commands.c:2026
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "列 %s の幅を %d ピクセルに設定"
 
-#: src/commands.c:2001
+#: src/commands.c:2028
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "行 %s の高さを %d ピクセルに設定"
 
-#: src/commands.c:2004
+#: src/commands.c:2031
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "列 %s の幅をデフォルト値にします"
 
-#: src/commands.c:2007
+#: src/commands.c:2034
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "列 %s の高さをデフォルト値にします"
 
-#: src/commands.c:2011
+#: src/commands.c:2038
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "列 %s の自動調整"
 
-#: src/commands.c:2012
+#: src/commands.c:2039
 #, c-format
 msgid "Autofitting rows %s"
 msgstr "行 %s の自動調整"
 
-#: src/commands.c:2015
+#: src/commands.c:2042
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "列 %s の幅を %d ピクセルに設定"
 
-#: src/commands.c:2017
+#: src/commands.c:2044
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "行 %s の高さを %d ピクセルに設定"
 
-#: src/commands.c:2021
+#: src/commands.c:2048
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "列 %s の幅をデフォルト値にします"
 
-#: src/commands.c:2023
+#: src/commands.c:2050
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "行 %s の高さをデフォルト値にします"
 
-#: src/commands.c:2089 src/dialogs/dialog-preferences.c:770
+#: src/commands.c:2116 src/dialogs/dialog-preferences.c:770
 msgid "Sorting"
 msgstr "ソート"
 
-#: src/commands.c:2109
+#: src/commands.c:2136
 #, c-format
 msgid "Sorting %s"
 msgstr "%s を整列中"
 
-#: src/commands.c:2252
+#: src/commands.c:2279
 msgid "Unhide columns"
 msgstr "列を出す"
 
-#: src/commands.c:2252
+#: src/commands.c:2279
 msgid "Hide columns"
 msgstr "列を隠す"
 
-#: src/commands.c:2253
+#: src/commands.c:2280
 msgid "Unhide rows"
 msgstr "行を出す"
 
-#: src/commands.c:2253
+#: src/commands.c:2280
 msgid "Hide rows"
 msgstr "行を隠す"
 
-#: src/commands.c:2335
+#: src/commands.c:2362
 msgid "Expand columns"
 msgstr "列の展開"
 
-#: src/commands.c:2335
+#: src/commands.c:2362
 msgid "Collapse columns"
 msgstr "列を畳む"
 
-#: src/commands.c:2336
+#: src/commands.c:2363
 msgid "Expand rows"
 msgstr "行の展開"
 
-#: src/commands.c:2336
+#: src/commands.c:2363
 msgid "Collapse rows"
 msgstr "行を畳む"
 
-#: src/commands.c:2362
+#: src/commands.c:2389
 #, c-format
 msgid "Show column outline %d"
 msgstr "列のアウトライン %d を表示"
 
-#: src/commands.c:2362
+#: src/commands.c:2389
 #, c-format
 msgid "Show row outline %d"
 msgstr "行のアウトライン %d を表示"
 
-#: src/commands.c:2432
+#: src/commands.c:2459
 msgid "Those columns are already grouped"
 msgstr "これらの列は既にグループ化されています"
 
-#: src/commands.c:2433
+#: src/commands.c:2460
 msgid "Those rows are already grouped"
 msgstr "これらの行は既にグループ化されています"
 
-#: src/commands.c:2456
+#: src/commands.c:2483
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr ""
 "これらの列はグループ化されていません。グループ化を解除することは出来ません"
 
-#: src/commands.c:2457
+#: src/commands.c:2484
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr ""
 "これらの行はグループ化されていません。グループ化を解除することは出来ません"
 
-#: src/commands.c:2471
+#: src/commands.c:2498
 #, c-format
 msgid "Group columns %s"
 msgstr "列 %s のグループ化"
 
-#: src/commands.c:2471
+#: src/commands.c:2498
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "%s 列のグループ化解除"
 
-#: src/commands.c:2473
+#: src/commands.c:2500
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "行 %d:%d のグループ化"
 
-#: src/commands.c:2473
+#: src/commands.c:2500
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "行 %d:%d のグループ化解除"
 
-#: src/commands.c:2710
+#: src/commands.c:2733
 #, c-format
 msgid "Moving %s"
 msgstr "%sを移動中"
 
-#: src/commands.c:2719 src/commands.c:2946
+#: src/commands.c:2742 src/commands.c:2970
 msgid "is beyond sheet boundaries"
 msgstr "はシートの限界を超えています"
 
-#: src/commands.c:2782
+#: src/commands.c:2806
 msgid "Paste Copy"
 msgstr "コピーを貼り付け"
 
 #. FIXME?
-#: src/commands.c:2887
+#: src/commands.c:2911
 #, c-format
 msgid "Pasting into %s"
 msgstr "%s に貼り付け"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:2983 src/commands.c:3140 src/commands.c:3141
+#: src/commands.c:3007 src/commands.c:3164 src/commands.c:3165
 #: src/wbcg-actions.c:427
 msgid "Autofill"
 msgstr "自動で埋める"
 
 #. Changed in initial redo.
-#: src/commands.c:3163
+#: src/commands.c:3187
 #, c-format
 msgid "Autofilling %s"
 msgstr "%s の自動調整"
 
-#: src/commands.c:3481
+#: src/commands.c:3505
 #, c-format
 msgid "Autoformatting %s"
 msgstr "%s の自動書式調整"
 
-#: src/commands.c:3598
+#: src/commands.c:3622
 #, c-format
 msgid "Unmerging %s"
 msgstr "%s の結合解除"
 
-#: src/commands.c:3762
+#: src/commands.c:3786
 #, c-format
 msgid "Merge and Center %s"
 msgstr "%sの結合と中央揃え"
 
-#: src/commands.c:3762
+#: src/commands.c:3786
 #, c-format
 msgid "Merging %s"
 msgstr "%s の結合"
 
 #. Corrected below.
-#: src/commands.c:4143 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:4167 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "検索と置換"
 
-#: src/commands.c:4238
+#: src/commands.c:4262
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "デフォルトで列の幅を %.2f [pts] に設定"
 
-#: src/commands.c:4239
+#: src/commands.c:4263
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "デフォルトで行の高さを %.2f に設定"
 
-#: src/commands.c:4354
+#: src/commands.c:4378
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "%s を %0.f%% に縮小"
 
-#: src/commands.c:4452
+#: src/commands.c:4476
 msgid "Delete Object"
 msgstr "オブジェクトの削除"
 
-#: src/commands.c:4613
+#: src/commands.c:4637
 msgid "Format Object"
 msgstr "オブジェクトの書式"
 
-#: src/commands.c:5212
+#: src/commands.c:5236
 msgid "Reordering Sheets"
 msgstr "シートの並びの変更"
 
-#: src/commands.c:5215
+#: src/commands.c:5239
 msgid "Renaming Sheets"
 msgstr "シート名の変更"
 
-#: src/commands.c:5218
+#: src/commands.c:5242
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "%i シートを追加しています"
 
-#: src/commands.c:5222
+#: src/commands.c:5246
 msgid "Changing Tab Colors"
 msgstr "タブの色の変更"
 
-#: src/commands.c:5225
+#: src/commands.c:5249
 msgid "Changing Sheet Protection"
 msgstr "シートの保護属性を変更します"
 
-#: src/commands.c:5228
+#: src/commands.c:5252
 msgid "Delete sheets"
 msgstr "シートの削除"
 
-#: src/commands.c:5231
+#: src/commands.c:5255
 msgid "Delete a sheet"
 msgstr "シートの削除"
 
-#: src/commands.c:5234
+#: src/commands.c:5258
 msgid "Changing Sheet Visibility"
 msgstr "シートの表示/非表示を変更します"
 
-#: src/commands.c:5237
+#: src/commands.c:5261
 msgid "Reorganizing Sheets"
 msgstr "シートの再構築"
 
-#: src/commands.c:5388
+#: src/commands.c:5412
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "%s の注釈のクリア"
 
-#: src/commands.c:5389
+#: src/commands.c:5413
 #, c-format
 msgid "Setting comment of %s"
 msgstr "%s の注釈のセット"
 
-#: src/commands.c:5769
+#: src/commands.c:5793
 #, c-format
 msgid "Merging data into %s"
 msgstr "%s へのデータの結合"
 
-#: src/commands.c:5871
+#: src/commands.c:5895
 msgid "Changing summary info"
 msgstr "サマリ情報の変更"
 
-#: src/commands.c:5960
+#: src/commands.c:5984
 msgid "Pull Object to the Front"
 msgstr "オブジェクトを最前面に移動します"
 
-#: src/commands.c:5963
+#: src/commands.c:5987
 msgid "Pull Object Forward"
 msgstr "Objectを1つ前面に移動します"
 
-#: src/commands.c:5966
+#: src/commands.c:5990
 msgid "Push Object Backward"
 msgstr "オブジェクトを1つ背面に移動します"
 
-#: src/commands.c:5969
+#: src/commands.c:5993
 msgid "Push Object to the Back"
 msgstr "オブジェクトを最背面に移動します"
 
-#: src/commands.c:6084
+#: src/commands.c:6108
 #, c-format
 msgid "Page Setup For %s"
 msgstr "%sの印刷設定"
 
-#: src/commands.c:6086
+#: src/commands.c:6110
 msgid "Page Setup For All Sheets"
 msgstr "シート全体のページ設定"
 
-#: src/commands.c:6201
+#: src/commands.c:6225
 msgid "has a circular reference"
 msgstr "が参照を繰り返しています"
 
-#: src/commands.c:6224
+#: src/commands.c:6248
 #, c-format
 msgid "Define Name %s"
 msgstr "名前 %s の定義"
 
-#: src/commands.c:6227
+#: src/commands.c:6251
 #, c-format
 msgid "Update Name %s"
 msgstr "名前 %s の更新"
 
-#: src/commands.c:6291
+#: src/commands.c:6315
 msgid "Add scenario"
 msgstr "シナリオの追加"
 
-#: src/commands.c:6366
+#: src/commands.c:6390
 msgid "Scenario Show"
 msgstr ""
 
-#: src/commands.c:6430
+#: src/commands.c:6454
 msgid "Shuffle Data"
 msgstr "データのシャッフル"
 
 #. FIXME?
-#: src/commands.c:6540
+#: src/commands.c:6564
 #, fuzzy, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "列を削除"
@@ -18283,28 +18283,28 @@ msgstr "列を削除"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6684 src/dialogs/solver.glade.h:17
+#: src/commands.c:6708 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
 #: src/tools/solver/reports-write.c:907 src/tools/solver/reports-write.c:958
 msgid "Solver"
 msgstr "ソルバ"
 
-#: src/commands.c:6768
+#: src/commands.c:6792
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "ゴールシーク (%s)"
 
-#: src/commands.c:6913
+#: src/commands.c:6937
 #, c-format
 msgid "Duplicating %s"
 msgstr "%sの複製"
 
-#: src/commands.c:6992
+#: src/commands.c:7016
 msgid "Tabulating Dependencies"
 msgstr "依存関係を表にする"
 
-#: src/commands.c:7067
+#: src/commands.c:7091
 #, fuzzy
 msgid "Reconfigure Graph"
 msgstr "グラフを再設定します"
@@ -18693,7 +18693,7 @@ msgstr "設定(_S)"
 msgid "Point"
 msgstr "点"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:159 src/gui-file.c:348
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:159 src/gui-file.c:355
 #, c-format
 msgid "%d x %d"
 msgstr "%d x %d"
@@ -20308,8 +20308,8 @@ msgstr "訂正しない(_N)"
 msgid "First Letter"
 msgstr "先頭の文字"
 
-#: src/dialogs/autocorrect.glade.h:9 src/format.c:2232 src/format.c:2520
-#: src/format.c:2526 src/format.c:2599 src/plugin-service.c:195
+#: src/dialogs/autocorrect.glade.h:9 src/format.c:2232 src/format.c:2521
+#: src/format.c:2527 src/format.c:2600 src/plugin-service.c:195
 #: src/widgets/widget-format-selector.c:75
 msgid "General"
 msgstr "標準"
@@ -23078,13 +23078,13 @@ msgstr "左の列をすべてインポート"
 msgid "Copy format to right"
 msgstr "書式を右にコピー"
 
-#: src/dialogs/dialog-stf-format-page.c:444
+#: src/dialogs/dialog-stf-format-page.c:443
 msgid ""
 "If this checkbox is selected, the column will be imported into Gnumeric."
 msgstr ""
 "このチェックボックスが選択されていたら、列はGnumericにインポートされます。"
 
-#: src/dialogs/dialog-stf-format-page.c:601
+#: src/dialogs/dialog-stf-format-page.c:600
 #: src/dialogs/dialog-stf-preview.h:27
 #, c-format
 msgid "Column %d"
@@ -26054,23 +26054,23 @@ msgstr "自動検出"
 msgid "Load file"
 msgstr "ファイルを読み込みます"
 
-#: src/gui-file.c:224 src/gui-file.c:655
+#: src/gui-file.c:224 src/gui-file.c:662
 msgid "Select a file"
 msgstr "ファイルの選択"
 
-#: src/gui-file.c:242 src/gui-file.c:457 src/gui-file.c:669
+#: src/gui-file.c:249 src/gui-file.c:464 src/gui-file.c:676
 msgid "All Files"
 msgstr "すべてのファイル"
 
-#: src/gui-file.c:247 src/gui-file.c:674
+#: src/gui-file.c:254 src/gui-file.c:681
 msgid "Spreadsheets"
 msgstr "スプレッドシート"
 
-#: src/gui-file.c:273 src/gui-file.c:524 src/gui-file.c:698
+#: src/gui-file.c:280 src/gui-file.c:531 src/gui-file.c:705
 msgid "File _type:"
 msgstr "ファイルタイプ(_T):"
 
-#: src/gui-file.c:389
+#: src/gui-file.c:396
 #, c-format
 msgid ""
 "%s\n"
@@ -26079,14 +26079,14 @@ msgstr ""
 "%s\n"
 "はディレクトリ名です"
 
-#: src/gui-file.c:395
+#: src/gui-file.c:402
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
 "%s"
 msgstr "%s に保存するためのパーミッションがありません"
 
-#: src/gui-file.c:404
+#: src/gui-file.c:411
 #, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -26097,15 +26097,15 @@ msgstr ""
 "\n"
 "上書き保存しますか?"
 
-#: src/gui-file.c:462
+#: src/gui-file.c:469
 msgid "Images"
 msgstr "画像"
 
-#: src/gui-file.c:502
+#: src/gui-file.c:509
 msgid "Save as"
 msgstr "名前を付けて保存"
 
-#: src/gui-file.c:551 src/gui-file.c:747
+#: src/gui-file.c:558 src/gui-file.c:754
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -26113,11 +26113,11 @@ msgstr ""
 "指定されたファイルの拡張子は選択したファイルタイプと一致していません。この名"
 "前をとにかく使用しますか?"
 
-#: src/gui-file.c:578
+#: src/gui-file.c:585
 msgid "Select an Image"
 msgstr "画像の選択"
 
-#: src/gui-file.c:597
+#: src/gui-file.c:604
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -26215,15 +26215,15 @@ msgstr "セルを右にずらして移動(_T)"
 msgid "C_ancel"
 msgstr "キャンセル(_A)"
 
-#: src/main-application.c:60 src/ssconvert.c:41
+#: src/main-application.c:60 src/ssconvert.c:41 src/ssindex.c:50
 msgid "Display Gnumeric's version"
 msgstr "Gnumericのバージョンの表示"
 
-#: src/main-application.c:62 src/ssconvert.c:44
+#: src/main-application.c:62 src/ssconvert.c:44 src/ssindex.c:53
 msgid "Set the root library directory"
 msgstr "rootライブラリのディレクトリのセット"
 
-#: src/main-application.c:64 src/ssconvert.c:46
+#: src/main-application.c:64 src/ssconvert.c:46 src/ssindex.c:55
 msgid "Adjust the root data directory"
 msgstr "rootデータのディレクトリの調整"
 
@@ -26950,11 +26950,11 @@ msgstr "結合セルを操作できません"
 msgid "cannot operate on array formulae"
 msgstr "配列式を操作できません"
 
-#: src/sheet.c:3191
+#: src/sheet.c:3197
 msgid "Insert Columns"
 msgstr "列を挿入"
 
-#: src/sheet.c:3311
+#: src/sheet.c:3319
 msgid "Insert Rows"
 msgstr "行を挿入"
 
@@ -27188,11 +27188,11 @@ msgstr "コピー"
 msgid "Cut"
 msgstr "切り取り"
 
-#: src/ssconvert.c:49
+#: src/ssconvert.c:49 src/ssindex.c:58 src/ssindex.c:60 src/ssindex.c:62
 msgid "Optionally specify an encoding for imported content"
 msgstr "インポートする内容のエンコーディングをオプションで指定します"
 
-#: src/ssconvert.c:49
+#: src/ssconvert.c:49 src/ssindex.c:62
 msgid "ENCODING"
 msgstr "エンコーディング"
 
@@ -27249,6 +27249,17 @@ msgstr ""
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
+"datadir := '%s'\n"
+"libdir := '%s'\n"
+msgstr ""
+"ssconvert バージョン '%s'\n"
+"データ格納パス    := '%s'\n"
+"ライブラリ格納パス := '%s'\n"
+
+#: src/ssindex.c:195
+#, fuzzy, c-format
+msgid ""
+"ssindex version '%s'\n"
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""
