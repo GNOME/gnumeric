@@ -1,3 +1,12 @@
+2002-08-25  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_write_externsheets) : store the unquoted
+	  name.
+	(excel_write_SELECTION) : swap args to be consistent.
+	  Store current pane == 3 rather than 0 to silence the warning when
+	  loading our sheets in MS Excel.
+	(ms_excel_write_workbook) : add some dummy metadata streams.
+
 2002-08-21  Jody Goldberg <jody@gnome.org>
 
 	* ms-obj.c (ms_obj_new) : add a convenience routine to be safe.

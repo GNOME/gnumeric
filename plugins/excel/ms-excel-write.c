@@ -49,6 +49,7 @@
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-output.h>
 #include <gsf/gsf-outfile.h>
+#include <gsf/gsf-msole-metadata.h>
 
 #include <ctype.h>
 #include <math.h>
@@ -84,7 +85,9 @@ biff_convert_text (char **buf, const char *txt, MsBiffVersion ver)
 		wchar_t* wcbuf;
 		guint16 *outbuf;
 		len = mbstowcs(NULL, txt, 0);
+
 		g_return_val_if_fail (len > 0, 0);
+
 		wcbuf = g_new(wchar_t, len + 1);
 		mbstowcs(wcbuf,txt,len + 1);
 
@@ -107,7 +110,7 @@ biff_convert_text (char **buf, const char *txt, MsBiffVersion ver)
 			 (char **)&inbufptr, &inbufleft, 
 			 &outbufptr, &outbufleft);
 		len = outbufptr - *buf;
-	};
+	}
 	return len;
 }
 
@@ -406,7 +409,7 @@ excel_write_externsheets (BiffPut *bp, ExcelWorkbook *wb, ExcelSheet *ignore)
 
 		if (esheet == ignore) continue;
 
-		len = biff_convert_text (&buf, esheet->gnum_sheet->name_quoted, wb->ver);
+		len = biff_convert_text (&buf, esheet->gnum_sheet->name_unquoted, wb->ver);
 		ms_biff_put_var_next (bp, BIFF_EXTERNSHEET);
 		GSF_LE_SET_GUINT8(data, len);
 		GSF_LE_SET_GUINT8(data + 1, 3); /* Magic */
@@ -465,7 +468,7 @@ excel_write_WINDOW2 (BiffPut *bp, MsBiffVersion ver, ExcelSheet *esheet)
 	guint16 options = 0x0A0;
 	guint8 *data;
 	CellPos top_left;
-	Sheet  const *sheet = esheet->gnum_sheet;
+	Sheet const *sheet = esheet->gnum_sheet;
 	SheetView const *sv = sheet_get_view (sheet, esheet->wb->gnum_wb_view);
 	StyleColor *sheet_auto   = sheet_style_get_auto_pattern_color (sheet);
 	StyleColor *default_auto = style_color_auto_pattern ();
@@ -3003,7 +3006,7 @@ write_sheet_head (BiffPut *bp, ExcelSheet *esheet)
 }
 
 static void
-excel_write_SELECTION (ExcelSheet *esheet, BiffPut *bp)
+excel_write_SELECTION (BiffPut *bp, ExcelSheet *esheet)
 {
 	SheetView const *sv = sheet_get_view (esheet->gnum_sheet,
 		esheet->wb->gnum_wb_view);
@@ -3012,7 +3015,7 @@ excel_write_SELECTION (ExcelSheet *esheet, BiffPut *bp)
 	guint8 *data;
 
 	data = ms_biff_put_len_next (bp, BIFF_SELECTION, 15);
-	GSF_LE_SET_GUINT8  (data +  0, 0);	/* pane 0 */
+	GSF_LE_SET_GUINT8  (data +  0, 3); /* no split == pane 3 ? */
 	GSF_LE_SET_GUINT16 (data +  1, sv->edit_pos.row);
 	GSF_LE_SET_GUINT16 (data +  3, sv->edit_pos.col);
 	GSF_LE_SET_GUINT16 (data +  5, 0); /* our edit_pos is in 1st range */
@@ -3048,7 +3051,7 @@ excel_write_sheet_tail (IOContext *context, BiffPut *bp, ExcelSheet *esheet)
 	GSF_LE_SET_GUINT16 (data + 2, denom);
 	ms_biff_put_commit (bp);
 
-	excel_write_SELECTION (esheet, bp);
+	excel_write_SELECTION (bp, esheet);
 	excel_write_MERGECELLS (bp, ver, esheet);
 
 /* See: S59D90.HTM: Global Column Widths...  not cricual.
@@ -3588,6 +3591,18 @@ ms_excel_write_workbook (IOContext *context, GsfOutfile *outfile, void *state,
 	write_workbook (context, bp, wb, ver);
 	free_workbook (wb);
 	ms_biff_put_destroy (bp);
+	gsf_output_close (content);
+	g_object_unref (G_OBJECT (content));
+
+	content = gsf_outfile_new_child (outfile,
+		"\05DocumentSummaryInformation", FALSE);
+	gsf_msole_metadata_write (content, TRUE, NULL);
+	gsf_output_close (content);
+	g_object_unref (G_OBJECT (content));
+
+	content = gsf_outfile_new_child (outfile,
+		"\05SummaryInformation", FALSE);
+	gsf_msole_metadata_write (content, FALSE, NULL);
 	gsf_output_close (content);
 	g_object_unref (G_OBJECT (content));
 
