@@ -1,3 +1,10 @@
+2005-01-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/gui-file.c: (gui_get_image_save_info): test if file exists after
+	adding extension.
+	(gui_file_save_as): don't exit when file exists and
+	user do not want to overwrite. Back to the file chooser instead.
+	
 2005-01-11  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-edit.c (gnm_pango_attr_list_splice): New function

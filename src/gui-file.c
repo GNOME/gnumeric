@@ -542,10 +542,6 @@ gui_get_image_save_info (WorkbookControlGUI *wbcg,
 	if (!gnumeric_dialog_file_selection (wbcg, GTK_WIDGET (fsel)))
 		goto out;
 	uri = gtk_file_chooser_get_uri (fsel);
-	if (!go_file_is_writable (uri, GTK_WINDOW (fsel))) {
-		g_free (uri);
-		goto loop;
-	}
 	if (format_combo) {
 		char *new_uri = NULL;
 
@@ -567,6 +563,11 @@ gui_get_image_save_info (WorkbookControlGUI *wbcg,
 			uri = new_uri;
 		}
 		*ret_format = sel_format;
+	}
+	if (!go_file_is_writable (uri, GTK_WINDOW (fsel))) {
+		g_free (uri);
+		uri = NULL;
+		goto loop;
 	}
  out:
 	gtk_widget_destroy (GTK_WIDGET (fsel));
@@ -756,7 +757,8 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 							" anyway?"), TRUE)) {
 			g_free (uri);
 			g_free (uri2);
-			goto out;
+			uri = NULL;
+			continue;
 		}
 
 		g_free (uri);
