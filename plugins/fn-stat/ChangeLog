@@ -1,3 +1,7 @@
+2002-06-01  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (stat_functions) : don't translate the empty string. 
+
 2002-05-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.4
