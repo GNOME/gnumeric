@@ -1,3 +1,10 @@
+1999-02-19  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* src/Makefile.am: Use $(GNOME_CONFIG) instead of `gnome-config'
+	to run the gnome-config script.
+	(BUILT_SOURCES): Swap with GNUMERIC_CORBA_GENERATED to be 
+	conceptually clean.
+
 1999-02-19  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/fn-misc.c (gnumeric_min): Implement ISERROR.

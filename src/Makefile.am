@@ -104,19 +104,18 @@ GNUMERIC_BASE_SOURCES =			\
 	xml-io.c			\
 	xml-io.h
 
-BUILT_SOURCES =				\
+GNUMERIC_CORBA_GENERATED = 		\
 	Gnumeric-common.c		\
 	Gnumeric-skels.c		\
 	Gnumeric-stubs.c		\
 	Gnumeric.h
 
-GNUMERIC_CORBA_GENERATED = 		\
-	$(BUILT_SOURCES)
+BUILT_SOURCES = $(GNUMERIC_CORBA_GENERATED)
 
 Gnumeric-impl.c: Gnumeric.h
 
 $(GNUMERIC_CORBA_GENERATED): Gnumeric.idl
-	orbit-idl -I`gnome-config --datadir`/idl $(srcdir)/Gnumeric.idl
+	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl $(srcdir)/Gnumeric.idl
 
 gnumeric_SOURCES =			\
 	main.c				\
