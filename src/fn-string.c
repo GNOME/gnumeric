@@ -161,7 +161,7 @@ gnumeric_lower (struct FunctionDefinition *i,
 		Value *argv [], char **error_string)
 {
 	Value *v;
-	char *s, *p;
+	unsigned char *s, *p;
 
 	if (argv [0]->type != VALUE_STRING){
 		*error_string = _("Type mismatch");
@@ -170,7 +170,7 @@ gnumeric_lower (struct FunctionDefinition *i,
 
 	v = g_new (Value, 1);
 	v->type = VALUE_STRING;
-	p = s = strdup (argv [0]->v.str->str);
+	p = s = g_strdup (argv [0]->v.str->str);
 	for (; *p; p++){
 		*p = tolower (*p);
 	}
@@ -280,7 +280,7 @@ gnumeric_upper (struct FunctionDefinition *i,
 		Value *argv [], char **error_string)
 {
 	Value *v;
-	char *s, *p;
+	unsigned char *s, *p;
 
 	if (argv [0]->type != VALUE_STRING){
 		*error_string = _("Type mismatch");
@@ -289,7 +289,7 @@ gnumeric_upper (struct FunctionDefinition *i,
 
 	v = g_new (Value, 1);
 	v->type = VALUE_STRING;
-	p = s = strdup (argv [0]->v.str->str);
+	p = s = g_strdup (argv [0]->v.str->str);
 
 	for (;*p; p++){
 		*p = toupper (*p);
@@ -596,7 +596,7 @@ gnumeric_proper (struct FunctionDefinition *i,
 		 Value *argv [], char **error_string)
 {
 	Value *v;
-	gchar *s, *p;
+	unsigned char *s, *p;
 	gboolean inword = FALSE;
 
 	if (argv [0]->type != VALUE_STRING) {
@@ -604,9 +604,9 @@ gnumeric_proper (struct FunctionDefinition *i,
 		return NULL;
 	}
 
-	s = p = argv[0]->v.str->str;
+	s = p = g_strdup (argv[0]->v.str->str);
 	while (*s) {
-		if (isalpha((unsigned char)*s)) {
+		if (isalpha(*s)) {
 			if (inword) {
 				*s = tolower(*s);
 			} else {
@@ -621,6 +621,7 @@ gnumeric_proper (struct FunctionDefinition *i,
 	v = g_new (Value, 1);
 	v->type = VALUE_STRING;
 	v->v.str = string_get (p);
+	g_free (p);
 	return v;
 }
 

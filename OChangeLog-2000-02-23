@@ -1,3 +1,26 @@
+1999-06-12  Morten Welinder  <terra@diku.dk>
+
+	* src/utils.c (gnumeric_strcase_hash): Use unsigned chars.
+	(col_from_name): Ditto.
+
+	* src/format.c (append_year): Ditto.
+	(append_month): Ditto.
+	(append_hour): Ditto.
+	(append_day): Ditto.
+	(append_minute): Ditto.
+	(append_second): Ditto.
+	(pre_parse_format): Ditto.
+
+	* src/number-match.c (format_create_regexp): Ditto.
+
+	* src/fn-string.c (gnumeric_lower): Use g_strdup to match g_free.
+	(gnumeric_upper): Ditto.
+	(gnumeric_lower): Use unsigned chars.  (This fixes problems with
+ 	non-English letters.)
+	(gnumeric_upper): Ditto.
+	(gnumeric_proper): Ditto.  Operate on a _copy_ of the string, not
+ 	the source string itself!
+
 1999-06-10  Morten Welinder  <terra@diku.dk>
 
 	* src/parser.y (return_cellref): Surprise: isdigit and friends
