@@ -1,5 +1,10 @@
 2002-06-21  Jody Goldberg <jody@gnome.org>
 
+	* src/application.c (gnumeric_application_finalize) : do not free the
+	  clipboard here.  It is too late.
+
+2002-06-21  Jody Goldberg <jody@gnome.org>
+
 	* src/parse-util.c (parse_cell_name) : take a cellpos *
 
 	* src/func-builtin.c (gnumeric_selection) : dummy out for now until a
