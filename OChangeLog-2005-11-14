@@ -1,5 +1,9 @@
 2002-01-25  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet-control-gui.c (scg_context_menu) : fix the icon names.
+
+	* src/gui-util.c (gnumeric_popup_menu) : sink the menus.
+
 	* src/main.c (main) : lock the encoding to be utf-8.
 
 	* src/eval.c : enable the micro hash by default.

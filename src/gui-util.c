@@ -609,6 +609,9 @@ gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event)
 	g_return_if_fail (menu != NULL);
 	g_return_if_fail (GTK_IS_MENU (menu));
 
+	gtk_object_ref (GTK_OBJECT (menu));
+	gtk_object_sink (GTK_OBJECT (menu));
+
 	gtk_signal_connect (GTK_OBJECT (menu), "hide",
 		GTK_SIGNAL_FUNC (kill_popup_menu), menu);
 
