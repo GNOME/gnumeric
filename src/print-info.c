@@ -724,7 +724,7 @@ print_info_copy (PrintInformation *src_pi)
 	print_hf_free (dst_pi->header);
 	dst_pi->header = print_hf_copy (src_pi->header);
 	print_hf_free (dst_pi->footer);
-	dst_pi->header = print_hf_copy (src_pi->footer);
+	dst_pi->footer = print_hf_copy (src_pi->footer);
 
 	/* Paper */
 	dst_pi->paper = gnome_paper_with_name (gnome_paper_name (src_pi->paper));
