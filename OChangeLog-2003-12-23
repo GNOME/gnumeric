@@ -1,5 +1,8 @@
 2003-09-13  Jody Goldberg <jody@gnome.org>
 
+	* src/graph.c (gnm_go_data_vector_load_values) : typo broke horizontal
+	  data.
+
 	* src/workbook-control-gui.c (cb_graph_dim_entry_unmap) : only fire if
 	  the widget is sensitive.  We have have data displayed that the user
 	  did not enter.

@@ -19,6 +19,7 @@ Jody:
 	* Require libgsf-1.8.2 to fix backward compatibility with libole2 and
 	  Gnumeric-1.0.x
 	* Support index/implicit axis for scatter plots
+	* Fix horizontal data sets
 
 Jon Kåre:
         * Ensure that scrollbars always show up in font combo when
