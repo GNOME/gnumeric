@@ -33,17 +33,17 @@ libGnumericIDL_a_SOURCES =		\
 	$(GNUMERIC_GRAPHS_GENERATED)	\
 	$(EVOLUTION_GENERATED)
 
-stamp_gnumeric : $(srcdir)/Gnumeric.idl 
+stamp_gnumeric_idl : $(srcdir)/Gnumeric.idl 
 	$(ORBIT_IDL) -I$(srcdir) $(IDL_FLAGS) $<
 	touch $@
 
-$(GNUMERIC_GENERATED): stamp_gnumeric
+$(GNUMERIC_GENERATED): stamp_gnumeric_idl
 
-stamp_gnumeric_graphs : $(srcdir)/gnumeric-graphs.idl
+stamp_gnumeric_graphs_idl : $(srcdir)/gnumeric-graphs.idl
 	$(ORBIT_IDL) -I$(srcdir) $(IDL_FLAGS) $<
 	touch $@
 
-$(GNUMERIC_GRAPHS_GENERATED): stamp_gnumeric_graphs
+$(GNUMERIC_GRAPHS_GENERATED): stamp_gnumeric_graphs_idl
 
 if ENABLE_EVOLUTION
 stamp_evolution :

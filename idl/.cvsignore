@@ -5,10 +5,10 @@ Gnumeric.h
 Gnumeric-common.c
 Gnumeric-skels.c
 Gnumeric-stubs.c
-my_gnumeric_idl
+stamp_gnumeric_idl
 gnumeric-graphs.h
 gnumeric-graphs-common.c
 gnumeric-graphs-skels.c
 gnumeric-graphs-stubs.c
-my_gnumeric_graphs_idl
+stamp_gnumeric_graphs_idl
 Evolution*
