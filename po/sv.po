@@ -31,8 +31,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-10-28 09:28+0100\n"
-"PO-Revision-Date: 2003-10-28 09:27+0200\n"
+"POT-Creation-Date: 2003-10-29 21:48+0100\n"
+"PO-Revision-Date: 2003-10-29 21:50+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -56,6 +56,10 @@ msgid "Gnumeric Spreadsheet"
 msgstr "Kalkylprogrammet Gnumeric"
 
 #: gnumeric.desktop.in.h:2
+msgid "Spreadsheet"
+msgstr "Kalkylprogram"
+
+#: gnumeric.desktop.in.h:3
 msgid "The GNOME Spreadsheet"
 msgstr "GNOME-kalkylprogrammet"
 
