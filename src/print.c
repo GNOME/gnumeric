@@ -386,7 +386,7 @@ print_hf_line (PrintJobInfo const *pj, PrintHF const *hf,
 	}
 #endif
 	/* Clip the header or footer */
-	// gnome_print_clip      (pj->print_context);
+	gnome_print_clip      (pj->print_context);
 
 	print_hf_element (pj, hf->left_format, PANGO_ALIGN_LEFT, y, align_bottom);
 	print_hf_element (pj, hf->middle_format, PANGO_ALIGN_CENTER, y, align_bottom);
