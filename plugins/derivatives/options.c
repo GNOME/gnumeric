@@ -148,7 +148,11 @@ static char const *help_cum_biv_norm_dist = {
 	   "normal distribution from parameters a, b & rho"
 	   "The return value is the probability that two random variables "
 	   "with correlation @rho are respectively each less than @a and"
-	   "@b")
+	   "@b\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV")
 };
 
 
