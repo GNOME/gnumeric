@@ -58,15 +58,6 @@ Worries
 	are still forcing it's creation.  There is some redhat work to speed up
 	the printer dialog that may help.
 
-    1. New gnumeric
-    2. Make column A wider.
-    3. Select entire sheet.
-    4. Right-click on A and select column width.
-    5. Click "default" and OK.
-    ** (gnumeric:13188): CRITICAL **: sheet_colrow_default_calc: assertion `units > 0.' failed
-    ** (gnumeric:13188): CRITICAL **: sheet_col_set_size_pixels: assertion `width_pixels > 0.0' failed
-
-
 -------------------------------------------------------------------------------
 Pending Patches
 ---------------
