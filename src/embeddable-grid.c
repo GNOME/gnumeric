@@ -227,7 +227,7 @@ grid_view_activate (GridView *grid_view, gboolean state)
 	if (state) {
 		g_return_if_fail (grid_view != NULL);
 
-		gtk_widget_grab_focus (GTK_WIDGET (grid_view->scg->canvas));
+		gtk_widget_grab_focus (GTK_WIDGET (grid_view->scg->gsheet));
 	}
 
 	bonobo_view_activate_notify (BONOBO_VIEW (grid_view), state);

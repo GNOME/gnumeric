@@ -1,3 +1,8 @@
+2001-06-08  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/embeddable-grid.c (grid_view_activate): Use
+	scg->gsheet.
+
 2001-06-07  Jody Goldberg <jgoldberg@home.com>
 
 	* src/selection.c (sheet_selection_set_internal) : Add some sanity
