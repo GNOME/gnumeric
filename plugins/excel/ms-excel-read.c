@@ -1939,6 +1939,8 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *esheet)
 				 *
 				 * NOTE : Apparently some apps actually store a
 				 *        0 length string record for an empty.
+				 *        DAMN! this was us!  we were screwing
+				 *        up when exporting ""
 				 */
 				guint16 const len = (q->data != NULL) ? MS_OLE_GET_GUINT16 (q->data) : 0;
 

@@ -83,8 +83,9 @@ biff_convert_text (char **buf, const char *txt, MsBiffVersion ver)
 	g_return_val_if_fail (txt, 0);
 
 	len = strlen (txt);
-
-	if (ver >= MS_BIFF_V8) {	/* unicode */
+	if (len == 0)
+		*buf = g_strdup ("");
+	else if (ver >= MS_BIFF_V8) {	/* unicode */
 		wchar_t* wcbuf;
 		guint16 *outbuf;
 		len = mbstowcs(NULL, txt, 0);
@@ -134,7 +135,11 @@ biff_put_text (BiffPut *bp, const char *txt, int len, MsBiffVersion ver,
 	guint32  off;
 
 	g_return_val_if_fail (bp, 0);
-	g_return_val_if_fail (txt, 0);
+
+	if (txt == NULL) {
+		g_warning ("writing NULL string as \"\"");
+		txt = "";
+	}
 
 	ans = 0;
 /*	printf ("Write '%s' len = %d\n", txt, len); */

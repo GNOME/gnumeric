@@ -1,8 +1,14 @@
+2002-05-27  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (biff_put_text) : always write a string.
+	(biff_convert_text) : keep the empty string.
+
 2002-05-14  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=81766
-	* ms-excel-read.c (ms_excel_read_formula) : work around undocumented
-	  'feature' that will store a 0 length RECORD for empty strings.
+	* ms-excel-read.c (ms_excel_read_formula) : work around  bug in our
+	  iconv output that would cause a zero length _record_ to be emited when
+	  writing a "" string in 1.0.6
 
 2002-05-04  Jody Goldberg <jody@gnome.org>
 
