@@ -1,0 +1,151 @@
+Preferences & Persistent Attributes in Gnumeric
+
+** Task:  
+To have persistent workbook attributes, such as grid line color, default
+style for empty cells, and the host of of excel options, for which I
+have already generated a list.  In addition some application wide
+preferences like user defined plugin directories also need to be done.
+Workbook attributes should have the ability to undone and redone.
+
+** Idea:  
+The application wide preferences will be done via the usual gnome-config
+system.  A preferences struct available globally can store various
+values.
+
+Workbook attributes will be handled by GtkArgs.  Attributes can be
+written to the workbook in a standard way, something like: <attribute
+name="grid-colour" type=12><value>124523</value></attribute>.  This can
+be handled by a method like xml_write_attribute(parse_xml_context_t
+*ctxt, GtkArg *arg).  Complex types (ie other objects) can be done be
+multiple <value> tags and probably nested attributes.  The list of args
+can be obtained with a method like workbook_get_attribute_array(Workbook
+*wb).  
+
+When the attributes are read back in they can all be set with a method
+like workbook_set_attribute(Workbook *wb, gchar *name, gint type,
+gpointer value).  
+ 
+Attribute values can be obtain similarly with gpointer
+workbook_get_attribute(Workbook *wb, gchar *name) and then used.
+
+Undo/Redo can then be done via a generic interface for all attributes,
+ie cmd_attribute_set(Workbook *wb, gchar *name, gint type, gpointer
+value) and then a simple structure to store the previous value and type
+will be able to manage the undo/redo - similar to the cmd_set_text
+methods.
+
+Finally, a dialog can be built and then use the get_attribute method
+populate itself and the cmd_attribute_set method to set values that can
+be undone/redone.
+
+
+Excel Preferences
+
+Legend:		cb - checkbox
+		rb - radio button set
+		cs - color selector
+		bt - button
+		cm - combo box
+		en - entry area
+		sp - spinner
+**View
+	Show: 
+	      Formula bar (cb) 
+	      Status bar (cb)
+	Comments: 
+		  None-Comment Indicator Only-Comment & Indicator (rb)
+	Objects: 
+		 Show all-Show placeholders-Hide all (rb)
+	Window options: 
+	       Page breaks (cb)
+	       Formulas (cb)
+	       Gridlines (cb)
+	       Gridline Color (cs)
+	       Row & column headers (cb)
+	       Outline symbols (cb)
+	       Zero values (cb)
+	       Horizontal scroll bar (cb)
+	       Vertical scroll bar (cb)
+	       Sheet tabs (cb)
+
+**Calculation
+	Calculation:
+		Automatic-Manual-Automatic except tables (rb)
+		Recalculate before save (cb - only for manual above)
+		Calc now (bt)
+		Calc sheet (bt)
+	<Separator>:
+		Iteration (cb)
+		Maximum iterations (en)
+		Maximum change (en)
+	Workbook options:
+		Update remote references (cb)
+		Precision as displayed (cb)
+		1904 date system (cb)
+		Save external link values (cb)
+		Accept labels in formulas (cb)
+
+**Edit
+	Settings:
+		Edit directly in cell (cb)
+		Allow cell drag and drop (cb)
+		Alert before overwriting cells (cb)
+		Move selection after Enter (cb)
+		     Alert before overwriting cells (cb)
+		Move selection after Enter (cb)
+		     Direction (cm)
+		Fixed decimal (cb)
+		      Places (sp)
+		Cut, copy and sprt objects with cells (cb)
+		Ask to update automatic links (cb)
+		Provide feedback with Animation (cb)
+		Enable AutoComplete for cell values (cb)
+
+**General
+	Settings:
+		R1C1 reference style (cb)
+		Ignore other applications (cb)
+		Macro virus protection (cb)
+		Recently used file list (cb)
+			 Entries (sp)
+		Prompt for workbook properties (cb)
+		Provide feedback with sound (cb)
+		Zoom on roll with Intellimouse		
+	<Separator>:
+		Sheets in new workbook (sp)
+		Standard Font (cm)
+		Standard Size (sp)
+		Default file location (en)
+		Alternate startup file location (en)
+		User name (en)
+		
+**Transition
+	<Separator>:
+		Save Excel files as (cm)
+	Settings:
+		Microsoft Excel menu or Help key (en)
+		Microsoft Excel menus-Lotus 1-2-3 Help (rb)
+		Transition navigation keys (cb)
+	Sheet Options:
+		Transition formula evaluation (cb)
+		Transition formula entry (cb)
+
+**Custom Lists
+	Interface to allow custom list creation - can import
+	from cells as well. 
+
+**Chart
+	Active chart:
+	        Plot empty cells as -> Not plotted-Zero-Interpolated (rb)
+	        Plot visible cells only (cb)
+	        Chart sizes with window frames (cb)
+	Chart tips:
+		Show names (cb)
+		Show values (cb)
+
+**Color
+	<Separator>:
+		Standard colors (cs)
+		Chart fills (cs)
+		Chart lines (cs)
+		Copy colors from (cm)
