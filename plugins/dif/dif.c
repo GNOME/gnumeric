@@ -326,7 +326,7 @@ dif_file_open (GnumFileOpener const *fo, IOContext *io_context,
 	if (ctxt != NULL) {
 		dif_parse_sheet (ctxt);
 		if (gnumeric_io_error_occurred (io_context)) {
-			gnumeric_io_error_info_push (io_context, error_info_new_str (
+			gnumeric_io_error_push (io_context, error_info_new_str (
 			_("Error while reading DIF file.")));
 		}
 		dif_input_context_destroy (ctxt);

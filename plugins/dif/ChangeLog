@@ -1,3 +1,11 @@
+2001-07-15  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* dif.c (dif_file_open):
+	s/gnumeric_io_error_info_push/gnumeric_io_error_push/
+
+	* plugin.xml (<information>):
+	s/CSV/DIF
+
 2001-07-01  Morten Welinder  <terra@diku.dk>
 
 	* dif.c: Compilation fix from Adrian Bunk.

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <plugin id="Gnumeric_dif">
-	<information name="Data Interchange Format (CSV) module" description="Reads and writes information stored in the Data Interchange Format (*.dif)"/>
+	<information name="Data Interchange Format (DIF) module" description="Reads and writes information stored in the Data Interchange Format (*.dif)"/>
 	<loader type="g_module">
 		<attribute name="module_file" value="dif.so"/>
 	</loader>
