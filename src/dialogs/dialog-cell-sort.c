@@ -626,6 +626,8 @@ cb_toggled_descending (GtkCellRendererToggle *cell,
 	gtk_tree_path_free (path);
 }
 
+#if 0
+/* We are currently not supporting `by-value' vs not. */
 static void
 cb_toggled_sort_by_value (GtkCellRendererToggle *cell,
 	 gchar                 *path_string,
@@ -633,6 +635,7 @@ cb_toggled_sort_by_value (GtkCellRendererToggle *cell,
 {
 	toggled (cell, path_string, data, ITEM_SORT_BY_VALUE);
 }
+#endif
 
 static void
 cb_toggled_case_sensitive (GtkCellRendererToggle *cell,
@@ -734,6 +737,8 @@ dialog_init (SortFlowState *state)
 							   "active", ITEM_CASE_SENSITIVE, NULL);
 	gtk_tree_view_append_column (state->treeview, column);
 
+#if 0
+	/* We are currently not supporting `by-value' vs not. */
 	renderer = gtk_cell_renderer_toggle_new ();
 	g_signal_connect (G_OBJECT (renderer),
 		"toggled",
@@ -742,6 +747,7 @@ dialog_init (SortFlowState *state)
 							   renderer,
 							   "active", ITEM_SORT_BY_VALUE, NULL);
 	gtk_tree_view_append_column (state->treeview, column);
+#endif
 
 	gtk_tree_view_set_reorderable (state->treeview,TRUE);
 

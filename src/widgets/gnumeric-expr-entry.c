@@ -101,16 +101,16 @@ static void     gnumeric_expr_entry_cell_editable_init (GtkCellEditableIface *if
  */
 static void     gnumeric_expr_entry_start_editing (GtkCellEditable *cell_editable,
 						   GdkEvent *event);
-static gboolean gnumeric_cell_editable_key_press_event (GnumericExprEntry *entry,
-							GdkEventKey *key_event,
-							gpointer data);
-static void     gnumeric_cell_editable_entry_activated (GnumericExprEntry *entry, 
-							gpointer data);
+static void     gnumeric_cell_editable_entry_activated (gpointer data, 
+							GnumericExprEntry *entry);
+
 
 /* Call Backs
  */
 static void     cb_scg_destroy (GnumericExprEntry *gee, SheetControlGUI *scg);
 static void     cb_entry_changed (GtkEntry *ignored, GnumericExprEntry *gee);
+static gint     cb_gee_key_press_event (GtkEntry *entry, GdkEventKey *key_event,
+					GnumericExprEntry *gee);
 
 /* Internal routines
  */
@@ -124,7 +124,6 @@ static gboolean gee_update_timeout (gpointer data);
 static void     gee_remove_update_timer (GnumericExprEntry *range);
 static void     gee_reset_update_timer (GnumericExprEntry *gee);
 static void     gee_destroy (GtkObject *object);
-static gint     gee_key_press_event (GtkWidget *widget, GdkEventKey *event);
 static void     gee_notify_cursor_position (GObject *object, GParamSpec *pspec, 
 					    GnumericExprEntry *gee);
 
@@ -225,10 +224,7 @@ gnumeric_expr_entry_start_editing (GtkCellEditable *cell_editable,
 
   g_signal_connect (G_OBJECT (gnm_expr_entry_get_entry (GNUMERIC_EXPR_ENTRY (cell_editable))), 
 		    "activate",
-		    G_CALLBACK (gnumeric_cell_editable_entry_activated), NULL);
-  g_signal_connect (G_OBJECT (gnm_expr_entry_get_entry (GNUMERIC_EXPR_ENTRY (cell_editable))), 
-		    "key_press_event",
-		    G_CALLBACK (gnumeric_cell_editable_key_press_event), NULL);
+		    G_CALLBACK (gnumeric_cell_editable_entry_activated), cell_editable);
 
   gtk_widget_grab_focus (GTK_WIDGET (gnm_expr_entry_get_entry (GNUMERIC_EXPR_ENTRY 
 							       (cell_editable))));
@@ -236,27 +232,10 @@ gnumeric_expr_entry_start_editing (GtkCellEditable *cell_editable,
 }
 
 static void
-gnumeric_cell_editable_entry_activated (GnumericExprEntry *entry, gpointer data)
+gnumeric_cell_editable_entry_activated (gpointer data, GnumericExprEntry *entry)
 {
   gtk_cell_editable_editing_done (GTK_CELL_EDITABLE (entry));
   gtk_cell_editable_remove_widget (GTK_CELL_EDITABLE (entry));
-}
-
-static gboolean
-gnumeric_cell_editable_key_press_event (GnumericExprEntry *entry,
-					GdkEventKey *key_event,
-					gpointer data)
-{
-    if (key_event->keyval == GDK_Escape)
-      {
-	entry->editing_canceled = TRUE;
-	gtk_cell_editable_editing_done (GTK_CELL_EDITABLE (entry));
-	gtk_cell_editable_remove_widget (GTK_CELL_EDITABLE (entry));
-
-	return TRUE;
-      }
-
-    return FALSE;
 }
 
 static void
@@ -552,18 +531,19 @@ gee_destroy (GtkObject *object)
 	GTK_OBJECT_CLASS (gnumeric_expr_entry_parent_class)->destroy (object);
 }
 
-static gint
-gee_key_press_event (GtkWidget *widget, GdkEventKey *event)
+static gboolean
+cb_gee_key_press_event (GtkEntry *entry,
+		     GdkEventKey *event,
+		     GnumericExprEntry *gee)
 {
-	GnumericExprEntry *gee = GNUMERIC_EXPR_ENTRY (widget);
 	WorkbookControlGUI *wbcg  = gee->wbcg;
-	GtkEntry           *entry = gee->entry;
 	int state = gnumeric_filter_modifiers (event->state);
-	gint result;
 
 	switch (event->keyval) {
 	case GDK_Up:	case GDK_KP_Up:
 	case GDK_Down:	case GDK_KP_Down:
+		if (gee->is_cell_renderer)
+			return FALSE;
 		/* Ignore these keys */
 		return TRUE;
 
@@ -603,11 +583,19 @@ gee_key_press_event (GtkWidget *widget, GdkEventKey *event)
 	}
 
 	case GDK_Escape:
-		wbcg_edit_finish (wbcg, FALSE);
+		if (gee->is_cell_renderer) {
+			entry->editing_canceled = TRUE;
+			gtk_cell_editable_editing_done (GTK_CELL_EDITABLE (gee));
+			gtk_cell_editable_remove_widget (GTK_CELL_EDITABLE (gee));
+			return TRUE;
+		} else
+			wbcg_edit_finish (wbcg, FALSE);
 		return TRUE;
 
 	case GDK_KP_Enter:
 	case GDK_Return:
+		if (gee->is_cell_renderer)
+			return FALSE;
 		/* Is this the right way to append a newline ?? */
 		if (state == GDK_MOD1_MASK) {
 			gtk_entry_append_text (entry, "\n");
@@ -644,12 +632,10 @@ gee_key_press_event (GtkWidget *widget, GdkEventKey *event)
 		break;
 	}
 
-	result = GTK_WIDGET_CLASS (gnumeric_expr_entry_parent_class)->key_press_event (widget, event);
-
-	if (!gnm_expr_entry_can_rangesel (gee))
+	if (!gee->is_cell_renderer && !gnm_expr_entry_can_rangesel (gee))
 		scg_rangesel_stop (gee->scg, FALSE);
 
-	return result;
+	return FALSE;
 }
 
 static void
@@ -745,6 +731,10 @@ gnumeric_expr_entry_new (WorkbookControlGUI *wbcg, gboolean with_icon)
 	g_signal_connect (G_OBJECT (gee->entry),
 		"changed",
 		G_CALLBACK (cb_entry_changed), gee);
+	g_signal_connect (G_OBJECT (gee->entry), 
+			  "key_press_event",
+			  G_CALLBACK (cb_gee_key_press_event), gee);
+
 	g_signal_connect (G_OBJECT (gee->entry),
 		"notify::cursor-position",
 		G_CALLBACK (gee_notify_cursor_position), gee);

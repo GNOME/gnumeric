@@ -1,5 +1,9 @@
 2002-03-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-cell-sort.c: disable `by value'
+
+2002-03-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-function-select.c (dialog_function_load_recent_funcs) :
 	  new
 	(dialog_function_write_recent_func) : new

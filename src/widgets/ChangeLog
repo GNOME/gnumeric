@@ -1,3 +1,11 @@
+2002-03-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* gnumeric-expr-entry.c (cell_editable_key_press_event) : delete
+	(gee_key_press_event) : rename cb_gee_key_press_event and add
+	  handling of keypresses for cell-editable
+	(gnumeric_expr_entry_new) : connect cb_gee_key_press_event to
+	  signal
+	
 2002-03-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* gnumeric-cell-renderer-expr-entry.[ch] : new cell renderer using 
