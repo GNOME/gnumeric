@@ -1,5 +1,7 @@
 2000-05-09  Jody Goldberg <jgoldberg@home.com>
 
+	* src/cell.c (cell_set_expr_internal) : Restore static.
+
 	* src/commands.c (cmd_set_date_time_{undo,redo}) : Mark the changed cell for
 	  status update.
 

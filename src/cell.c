@@ -469,7 +469,7 @@ cell_set_expr_and_value (Cell *cell, ExprTree *expr, Value *v)
  * 	- render value, calc dimension, compute spans
  * 	- link the expression into the master list.
  */
-void
+static void
 cell_set_expr_internal (Cell *cell, ExprTree *expr, char const *optional_format)
 {
 	StyleFormat * fmt;
