@@ -89,8 +89,10 @@ stf_open_and_read (const char *filename)
 	 * execution if there is not enough memory
 	 */
 	data = calloc (1, sbuf.st_size + 1);
-	if (!data)
+	if (!data) {
+		close (fd);
 		return NULL;
+	}
 
 	/*
 	 * FIXME: read might not read everything in one go.
