@@ -530,11 +530,16 @@ getRefV8 (CellRef *cr,
 static void
 parse_list_push (GnmExprList **list, GnmExpr const *pd)
 {
-	d (5, fprintf (stderr, "Push 0x%x\n", (int)pd););
-	if (!pd)
-		fprintf (stderr, "FIXME: Pushing nothing onto excel function stack\n");
+	d (5, fprintf (stderr, "Push 0x%p\n", pd););
+	if (pd == NULL) {
+		g_warning ("FIXME: Pushing nothing onto excel function stack");
+		pd = expr_tree_error (NULL, -1, -1,
+			"Incorrect number of parsed formula arguments",
+			"#WrongArgs");
+	}
 	*list = gnm_expr_list_prepend (*list, pd);
 }
+
 static void
 parse_list_push_raw (GnmExprList **list, Value *v)
 {
@@ -608,7 +613,7 @@ make_function (GnmExprList **stack, int fn_idx, int numargs)
 			parse_list_free (&args);
 			parse_list_push_raw (stack,
 				value_new_error (NULL, _("Broken function")));
-			fprintf (stderr, "So much for that theory.\n");
+			g_warning ("So much for that theory.");
 			return FALSE;
 		}
 
@@ -654,7 +659,7 @@ make_function (GnmExprList **stack, int fn_idx, int numargs)
 			char *txt;
 			txt = g_strdup_printf ("[Function '%s']",
 					       fd->name ? fd->name : "?");
-			fprintf (stderr, "Unknown %s\n", txt);
+			g_warning ("Unknown %s", txt);
 			parse_list_push_raw (stack, value_new_error (NULL, txt));
 			g_free (txt);
 
@@ -664,7 +669,7 @@ make_function (GnmExprList **stack, int fn_idx, int numargs)
 		parse_list_push (stack, gnm_expr_new_funcall (name, args));
 		return TRUE;
 	} else
-		fprintf (stderr, "FIXME, unimplemented fn 0x%x, with %d args\n",
+		g_warning ("FIXME, unimplemented fn 0x%x, with %d args",
 			fn_idx, numargs);
 	return FALSE;
 }

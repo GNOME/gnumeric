@@ -229,6 +229,7 @@ init_xl_font_widths (void)
 	    { 114, 122, "Arial Black" },
 	    { 78, 84, "Arial Narrow" },
 	    { 95, 102, "AvantGarde" },
+	    { 109, 117, "Bitstream Vera Sans" },
 	    { 86, 92, "Book Antiqua" },
 	    { 106, 113, "Bookman Old Style" },
 	    { 95, 102, "Century Gothic" },
@@ -266,6 +267,7 @@ init_xl_font_widths (void)
 	    { 95, 102, "Optimum" },
 	    { 86, 92, "Palatino" },
 	    { 81, 87, "Roman" },
+	    { 109, 117, "Sans" }, /* alias for bitstream */
 	    { 69, 74, "Script" },
 	    { 142, 152, "Serpentine" },
 	    { 95, 102, "Small Fonts" },
@@ -296,9 +298,9 @@ init_xl_font_widths (void)
 
 	if (xl_font_width_hash == NULL) {
 		xl_font_width_hash =
-		    g_hash_table_new (&g_str_hash, &g_str_equal);
+			g_hash_table_new (&g_str_hash, &g_str_equal);
 		xl_font_width_warned =
-		    g_hash_table_new (&g_str_hash, &g_str_equal);
+			g_hash_table_new (&g_str_hash, &g_str_equal);
 	}
 
 	g_assert (xl_font_width_hash != NULL);

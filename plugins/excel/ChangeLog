@@ -1,3 +1,11 @@
+2003-07-17  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-util.c (init_xl_font_widths) : add Bitstream Vera, and its
+	  alias 'Sans'
+
+	* ms-formula-read.c (parse_list_push) : be more
+	  resilient in the face of missing args.
+
 2003-07-16  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (ms_biff_get_chars) : make public.
