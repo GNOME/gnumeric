@@ -42,12 +42,12 @@ struct _CellComment {
 typedef struct {
 	SheetObjectClass s_object_class;
 } CellCommentClass;
-static SheetObjectClass *cell_comment_parent_class;
 
 static void
-cell_comment_destroy (GtkObject *object)
+cell_comment_finalize (GObject *object)
 {
 	CellComment *cc = CELL_COMMENT (object);
+	GObjectClass *parent;
 
 	g_return_if_fail (cc != NULL);
 
@@ -64,7 +64,9 @@ cell_comment_destroy (GtkObject *object)
 	SHEET_FOREACH_CONTROL (cc->s_object.sheet, control,
 		scg_comment_unselect ((SheetControlGUI *) control, cc););
 
-	GTK_OBJECT_CLASS (cell_comment_parent_class)->destroy (object);
+	parent = g_type_class_peek (SHEET_OBJECT_TYPE);
+	if (parent != NULL && parent->finalize != NULL)
+		parent->finalize (object);
 }
 
 #define TRIANGLE_WIDTH 6
@@ -247,14 +249,12 @@ cell_comment_clone (SheetObject const *so, Sheet *sheet)
 }
 
 static void
-cell_comment_class_init (GtkObjectClass *object_class)
+cell_comment_class_init (GObjectClass *object_class)
 {
 	SheetObjectClass *sheet_object_class = SHEET_OBJECT_CLASS (object_class);
 
-	cell_comment_parent_class = gtk_type_class (sheet_object_get_type ());
-
 	/* Object class method overrides */
-	object_class->destroy = cell_comment_destroy;
+	object_class->finalize = cell_comment_finalize;
 
 	/* SheetObject class method overrides */
 	sheet_object_class->update_bounds = &cell_comment_update_bounds;
