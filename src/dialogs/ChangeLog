@@ -1,5 +1,8 @@
 2001-12-14  Morten Welinder  <terra@diku.dk>
 
+	* dialog-cell-format.c (fmt_dialog_init_format_page): Sort
+	currencies in drop-down.
+
 	* dialog-function-select.c (function_list_fill): Sort the
 	functions by name.
 

@@ -840,6 +840,31 @@ cb_format_negative_form_selected (GtkCList *clist, gint row, gint column,
 	draw_format_preview (state);
 }
 
+static gint
+funny_currency_order (gconstpointer _a, gconstpointer _b)
+{
+	const char *a = (const char *)_a;
+	const char *b = (const char *)_b;
+
+	/* One letter versions?  */
+	gboolean a1 = (a[0] && a[1] == 0);
+	gboolean b1 = (b[0] && b[1] == 0);
+
+	if (a1) {
+		if (b1) {
+			return strcmp (a, b);
+		} else {
+			return -1;
+		}
+	} else {
+		if (b1) {
+			return +1;
+		} else {
+			return strcmp (a, b);
+		}
+	}
+}
+
 static void
 fmt_dialog_init_format_page (FormatState *state)
 {
@@ -993,6 +1018,7 @@ fmt_dialog_init_format_page (FormatState *state)
 			gchar *descr = _(currency_symbols[i].description);
 			l = g_list_append (l, descr);
 		}
+		l = g_list_sort (l, funny_currency_order);
 
 		gtk_combo_set_popdown_strings (combo, l);
 		g_list_free (l);
