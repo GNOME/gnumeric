@@ -272,7 +272,6 @@ static void
 simulation_ok_clicked_cb (GtkWidget *button, SimulationState *state)
 {
 	data_analysis_output_t  dao;
-	char                    *text;
 	GtkWidget               *w;
 	gchar                   *err;
 	static simulation_t     sim;

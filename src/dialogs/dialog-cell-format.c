@@ -239,8 +239,10 @@ fmt_dialog_changed (FormatState *state)
  * invocations */
 static FormatDialogPosition_t fmt_dialog_page = FD_NUMBER;
 
+#if 0
 /* The last currency selected */
 static int fmt_dialog_currency = 0;
+#endif
 
 /*
  * Callback routine to help remember which format tab was selected
@@ -2837,6 +2839,7 @@ dialog_cell_format (WorkbookControlGUI *wbcg, FormatDialogPosition_t pageno)
 	fmt_dialog_impl (state, pageno);
 }
 
+#if 0
 GtkWidget *
 dialog_cell_number_fmt (WorkbookControlGUI *wbcg, Value *sample_val)
 {
@@ -2871,6 +2874,7 @@ dialog_cell_number_fmt (WorkbookControlGUI *wbcg, Value *sample_val)
 
 	return res;
 }
+#endif
 
 /*
  * TODO

@@ -280,7 +280,6 @@ cb_pm_selection_changed (GtkTreeSelection *selection, PluginManagerGUI *pm_gui)
 {
 	GnmPlugin *pinfo;
 	GtkTreeIter iter;
-	gint i;
 	const char *plugin_desc;
 
 	g_return_if_fail (pm_gui != NULL);
@@ -298,7 +297,6 @@ cb_pm_selection_changed (GtkTreeSelection *selection, PluginManagerGUI *pm_gui)
 	} else {
 		GtkTreeIter iter2, iter3;
 		GSList *dep_ids, *services;
-		char *str;
 
 		gtk_tree_model_get (GTK_TREE_MODEL (pm_gui->model_plugins),
 		                    &iter, PLUGIN_POINTER, &pinfo, -1);
