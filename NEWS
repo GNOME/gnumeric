@@ -20,6 +20,10 @@ Jon:
 Michael:
 	* Re-wrote dependency engine; lots more speed.
 
+Ariel:
+	* Improvements on VALUE_BOOL management on the guile plugin.
+	* Bug fixes.
+
 --------------------------------------------------------------------------
 
 Gnumeric 0.47

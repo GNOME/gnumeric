@@ -1,3 +1,9 @@
+2000-01-12  Ariel Rios  <ariel@arcavia.com>
+
+	* plugin.c (scm_to_value): We are now able to handle scheme booleans.
+	(expr_to_scm): The warnings related to OPER_NAME and OPER_ARRAY were
+	eliminated.
+
 2000-01-06  Ariel Rios <ariel@arcavia.com>
 
 	* plugin.c (scm_to_value). Removed bug brought by SCM_NULLP.

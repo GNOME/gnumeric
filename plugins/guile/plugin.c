@@ -135,8 +135,6 @@ scm_to_value (SCM scm)
                  *  size of scm is bigger than the size of int
 		 */
 
-		//return value_new_int((int)scm_num2int(scm));
-
 		return value_new_float ((float_t)scm_num2dbl(scm, 0));
 	}
 	else if (SCM_NIMP(scm) && SCM_CONSP(scm))
@@ -152,6 +150,10 @@ scm_to_value (SCM scm)
 			return val;
 		}
 	}
+
+	else if (gh_boolean_p (scm))
+		      
+		return value_new_bool ((gboolean) gh_scm2bool (scm));		       
 
 	return NULL;		/* maybe we should return something more meaningful!? */
 }
@@ -241,6 +243,11 @@ expr_to_scm (ExprTree *expr, CellRef cell_ref)
 		case OPER_VAR :
 			return scm_cons(scm_symbolfrom0str("var"),
 					cell_ref_to_scm(expr->u.ref, cell_ref));
+
+	        case OPER_NAME :
+
+	        case OPER_ARRAY :
+		
 
 		/* FIXME : default : */
 	}
