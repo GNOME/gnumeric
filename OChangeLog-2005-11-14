@@ -1,3 +1,8 @@
+2002-05-10  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook-control-gui.c (workbook_setup_sheets): Remove
+	resize kluge. It broke things on Solaris.
+
 2002-05-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* schemas/gnumeric-general.schemas : add 3 printer schemax

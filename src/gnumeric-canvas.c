@@ -133,6 +133,16 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 				cmd_format (WORKBOOK_CONTROL (wbcg), sheet, mstyle, NULL, desc);
 				return TRUE;
 			}
+#if 1
+		} else if ((event->state & GDK_MOD1_MASK)) {
+			g_message ("%s: %s=0x%x, %s=0x%x",
+				   __PRETTY_FUNCTION__,
+				   "event->state",
+				   event->state,
+				   "event->keyval",
+				   event->keyval);
+			return TRUE;
+#endif
 		}
 		movefn = (event->state & GDK_SHIFT_MASK)
 			? scg_cursor_extend
