@@ -1,5 +1,10 @@
-1999-03-16  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+1999-03-16  Vladimir Vuksan <vuksan@veus.hr>
 
+	* src/fn-financial.c: More financial functions: gnumeric_nominal,
+	gnumeric_pv, gnumeric_fv, gnumeric_pmt.
+
+1999-03-16  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+	
 	* src/workbook.c: Change from active voice to passive voice in the
 	help messages for "New".  Thanks to Morden for pointing this out. 2
 
