@@ -1,3 +1,7 @@
+2002-01-24  Rodrigo Moya <rodrigo@gnome-db.org>
+
+	* configure.in: fixed libgda detection for GNOME 2.
+
 2002-01-23  Jody Goldberg <jody@gnome.org>
 
 	* src/history.c : tidy up a mite.

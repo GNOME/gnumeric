@@ -395,41 +395,28 @@ BONOBO_IDL_DIR="`$PKG_CONFIG --variable=idldir libbonobo-2.0`"
 BONOBO_ACTIVATION_IDL_DIR="`$PKG_CONFIG --variable=idldir bonobo-activation-2.0`"
 ORBIT_IDL="${ORBIT} -I${BONOBO_IDL_DIR} -I${BONOBO_ACTIVATION_IDL_DIR}"
 AC_SUBST(ORBIT_IDL)
+
 dnl ****************************
 dnl Check for libgda
 dnl ****************************
 try_gda=true
+gda_modules="libgda >= 0.8.102"
+
 AC_ARG_WITH(gda,
 	[--{with,without}-gda      Compile the Gnome Database Access plugin],
-	if test x$withval = xno; then
-		try_gda=false
+	if test x$withval = xyes; then
+		try_gda=true
 	fi
 )
 
-have_gda=false
-if $try_gda; then
-    AC_PATH_PROG(GDA_CONFIG,gda-config,no)
-    if test "$GDA_CONFIG" = no; then
-        AC_MSG_WARN(GDA plugin will not be built)
-        have_gda=false
-    else
-	AC_MSG_CHECKING(for libgda >= 0.2.92						)
-        verstxt=`$GDA_CONFIG --version`
-        vers=`echo "$verstxt" | sed -e "s/libgda //" | \
-	    awk -F. '{ printf "%d", ($1 * 1000 + $2) * 1000 + $3;}'`
-        if test "$vers" -ge 2092; then
-	    AC_MSG_RESULT($marker_ok found $verstxt)
-	    GDA_CFLAGS=`$GDA_CONFIG --cflags client`
-            GDA_LIBS=`$GDA_CONFIG --libs client`
-	    have_gda=true
-        else
-            AC_MSG_RESULT($marker_fail found only $verstxt)
-	    have_gda=false
-        fi
-    fi
+have_gda=no
+if test "$try_gda" = "true"; then
+    PKG_CHECK_MODULES(GDA, [$gda_modules], [
+      have_gda=yes
+    ], have_gda=no)
 fi
 
-AM_CONDITIONAL(WITH_GDA, $have_gda)
+AM_CONDITIONAL(WITH_GDA, test x"$have_gda" = "xyes")
 AC_SUBST(GDA_CFLAGS)
 AC_SUBST(GDA_LIBS)
 
@@ -508,4 +495,5 @@ Configuration:
 	Bonobo Support:		${bonobo_msg}
 	Guile Support:		${guile_msg}
 	Evolution Support:      ${evolution}
+	GDA support:		${have_gda}
 "
