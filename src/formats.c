@@ -35,7 +35,7 @@ cell_format_numbers [] = {
 
 static char const * const
 cell_format_currency [] = {
-	N_("$#,##0;"),
+	N_("$#,##0"),
 	N_("$#,##0_);($#,##0)"),
 	N_("$#,##0_);[Red]($#,##0)"),
 	N_("$#,##0.00"),

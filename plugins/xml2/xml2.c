@@ -335,6 +335,8 @@ struct _XML2ParseState
 
 	int cell_row, cell_col;
 	int expr_id, array_rows, array_cols;
+	ValueType value_type;
+	char const *value_fmt;
 
 	GString *content;
 
@@ -739,7 +741,9 @@ xml2ParseCell (XML2ParseState *state, CHAR const **attrs)
 {
 	int row = -1, col = -1;
 	int rows = -1, cols = -1;
-	int dummy, expr_id = -1;
+	int value_type = -1;
+	char const *value_fmt = NULL;
+	int expr_id = -1;
 
 	g_return_if_fail (state->cell_row == -1);
 	g_return_if_fail (state->cell_col == -1);
@@ -752,9 +756,11 @@ xml2ParseCell (XML2ParseState *state, CHAR const **attrs)
 		else if (xml2ParseAttrInt (attrs, "Row", &row)) ;
 		else if (xml2ParseAttrInt (attrs, "Cols", &cols)) ;
 		else if (xml2ParseAttrInt (attrs, "Rows", &rows)) ;
-		else if (xml2ParseAttrInt (attrs, "Style", &dummy)) ;
-		else if (xml2ParseAttrInt (attrs, "ExprID", &expr_id)) {
-		} else
+		else if (xml2ParseAttrInt (attrs, "ExprID", &expr_id)) ;
+		else if (xml2ParseAttrInt (attrs, "ValueType", &value_type)) ;
+		else if (!strcmp (attrs[0], "ValueFormat"))
+			value_fmt = attrs[1];
+		else
 			xml2UnknownAttr (state, attrs, "Cell");
 	}
 
@@ -773,6 +779,8 @@ xml2ParseCell (XML2ParseState *state, CHAR const **attrs)
 	state->cell_row = row;
 	state->cell_col = col;
 	state->expr_id = expr_id;
+	state->value_type = value_type;
+	state->value_fmt = value_fmt;
 }
 
 /**
@@ -863,6 +871,8 @@ xml2ParseCellContent (XML2ParseState *state)
 	int const array_cols = state->array_cols;
 	int const array_rows = state->array_rows;
 	int const expr_id = state->expr_id;
+	ValueType const value_type = state->value_type;
+	char const *value_fmt =state->value_fmt;
 	gpointer const id = GINT_TO_POINTER (expr_id);
 	gpointer expr = NULL;
 
@@ -870,6 +880,8 @@ xml2ParseCellContent (XML2ParseState *state)
 	state->cell_row = state->cell_col = -1;
 	state->array_rows = state->array_cols = -1;
 	state->expr_id = -1;
+	state->value_type = 0;
+	state->value_fmt = NULL;
 
 	g_return_if_fail (col >= 0);
 	g_return_if_fail (row >= 0);
@@ -894,8 +906,13 @@ xml2ParseCellContent (XML2ParseState *state)
 
 			xml_cell_set_array_expr (cell, content+1,
 						 array_cols, array_rows);
-		} else if (xml_not_used_old_array_spec (cell, content))
-			cell_set_text (cell, content);
+		} else if (xml_not_used_old_array_spec (cell, content)) {
+			if (value_type != 0) {
+				Value *v = value_new_from_string (value_type, content);
+				cell_set_value (cell, v, style_format_new (value_fmt));
+			} else
+				cell_set_text (cell, content);
+		}
 
 		if (expr_id > 0) {
 			if (expr == NULL) {
@@ -1318,6 +1335,8 @@ xml2StartDocument (XML2ParseState *state)
 	state->cell_row = state->cell_col = -1;
 	state->array_rows = state->array_cols = -1;
 	state->expr_id = -1;
+	state->value_type = 0;
+	state->value_fmt = NULL;
 
 	state->expr_map = g_hash_table_new (g_direct_hash, g_direct_equal);
 }

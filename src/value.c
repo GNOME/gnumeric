@@ -15,6 +15,7 @@
 #include "parse-util.h"
 #include "style.h"
 #include <stdlib.h>
+#include <errno.h>
 
 Value *
 value_new_empty (void)
@@ -210,6 +211,54 @@ value_new_array_empty (guint cols, guint rows)
 			v->vals [x] [y] = NULL;
 	}
 	return (Value *)v;
+}
+
+Value *
+value_new_from_string (ValueType t, const char *str)
+{
+	switch (t) {
+	case VALUE_EMPTY:
+		return value_new_empty ();
+
+	case VALUE_BOOLEAN:
+		/* Is it a boolean */
+		if (0 == g_strcasecmp (str, _("TRUE")))
+			return value_new_bool (TRUE);
+		if (0 == g_strcasecmp (str, _("FALSE")))
+			return value_new_bool (FALSE);
+		return NULL;
+
+	case VALUE_INTEGER:
+	{
+		char *end;
+		long l = strtol (str, &end, 10);
+		if (*end == '\0' && errno != ERANGE)
+			return value_new_int ((int)l);
+		return NULL;
+	}
+
+	case VALUE_FLOAT:
+	{
+		char *end;
+		double d = strtod (str, &end);
+		if (*end == '\0' && errno != ERANGE)
+			return value_new_float ((float_t)d);
+		return NULL;
+	}
+
+	case VALUE_ERROR:
+		return value_new_error (NULL, str);
+
+	case VALUE_STRING:
+		return value_new_string (str);
+
+	/* Should not happend */
+	case VALUE_ARRAY:
+	case VALUE_CELLRANGE:
+	default:
+		g_warning ("value_new_from_string problem\n");
+		return NULL;
+	}
 }
 
 void

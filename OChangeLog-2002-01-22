@@ -1,4 +1,24 @@
+2000-08-18  Jody Goldberg <jgoldberg@home.com>
+
+	* src/xml-io.c (xml_write_cell_and_position) : Do not write Useless
+	  'Style' attribute.
+	- Make Rows/Cols attributes of the Cell not the Content
+	- When storing Values store the value type, the parse format (if
+	  available) and the value as a plain string (eg $100.00 == 100)
+
+	* src/value.c (value_new_from_string) : New function.
+
+	* src/number-match.c (format_create_regexp) : Be more careful when
+	  handling decimals and thousands seperators.  This sucks, but it
+	  sucks less than before.
+
+	* src/formats.c (format_currency) : typo.
+
 2000-08-17  Jody Goldberg <jgoldberg@home.com>
+
+	* src/xml-io.c (xml_check_version) : New function.
+	(xml_probe) : Use it here.
+	(gnumeric_xml_read_workbook) : And here.
 
 	* src/print-info.c (print_info_copy) : Leak less.
 

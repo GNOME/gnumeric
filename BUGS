@@ -4,8 +4,6 @@ and longer term bugs.
 
 Release Critical
 ----------------
-- expressions -> strings loose the format used to parse values.
-- saving the entered_text then parsing in locale C on restore is broken.
 - We should save per block maximums.
 - Changing the size of all rows/cols creates big xml files, and slows
   calculations to a crawl
@@ -18,6 +16,8 @@ Long term breakage
   correctly.
 - The max row/col canvas scroll size is still hard coded.
 
+- Copy sheet, and insert new sheet both append to the end of the sheet list
+  rather than insereting before the current sheet.
 - Increase/Decrease precision toolbar buttons should look at the displayed
   precision for the edit cell and assign the changed value to the entire
   selection.  Not individually adjusting each non-blank cell's precision.

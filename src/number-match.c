@@ -107,7 +107,7 @@ format_create_regexp (const unsigned char *format, GByteArray **dest)
 		switch (*format){
 		case '_':
 			if (format[1]) {
-				g_string_append_c (regexp, ' ');
+				g_string_append (regexp, "[ ]?");
 				format++;
 			}
 			break;
@@ -174,20 +174,43 @@ format_create_regexp (const unsigned char *format, GByteArray **dest)
 			g_string_append_c (regexp, *format);
 			break;
 
-		case '#': case '0': case '.': case '+': case '?':
+		case '#': case '0': case '.': case '+': case '?': {
+			gboolean include_sep = FALSE, include_decimal = FALSE;
+
 			while (*format == '#' || *format == '0' || *format == '.' ||
 			       *format == '-' || *format == 'E' || *format == 'e' ||
-			       *format == '+' || *format == '?' || *format == ',')
+			       *format == '+' || *format == '?' || *format == ',') {
+				if (*format == *thousands_sep)
+					include_sep = TRUE;
+				else if (*format == *decimal)
+					include_decimal = TRUE;
 				format++;
-
+			}
 			format--;
-			g_string_append (regexp, "(([-+]?[0-9\\");
-			g_string_append_c (regexp, *thousands_sep);
-			g_string_append (regexp, "]+)?(\\");
-			g_string_append_c (regexp, *decimal);
-			g_string_append (regexp, "?[0-9]*)?([Ee][-+][0-9]+)?)");
+
+			if (include_sep) {
+				/* Not strictly correct.
+				 * There should be a limit of 1-3 digits.
+				 * However, that creates problems when
+				 * There are formats like
+				 *  $#,##0.00
+				 * but not
+				 *  $###0.00
+				 * as a result $1000 would not be recognized.
+				 */
+				g_string_append (regexp, "([-+]?[0-9]+(\\");
+				g_string_append_c (regexp, *thousands_sep);
+				g_string_append (regexp, "[0-9]{3})*)");
+			} else
+				g_string_append (regexp, "([-+]?[0-9]*)");
+			if (include_decimal) {
+				g_string_append (regexp, "?\\");
+				g_string_append_c (regexp, *decimal);
+				g_string_append (regexp, "[0-9]+([Ee][-+][0-9]+)?");
+			}
 			append_type (MATCH_NUMBER);
 			break;
+		}
 
 		case 'h':
 		case 'H':
@@ -941,6 +964,9 @@ format_match (const char *text, StyleFormat **format)
 		gboolean b;
 		format_parse_t *fp = l->data;
 
+#if 0
+		printf ("test: %s \'%s\'\n", fp->format_str, fp->regexp_str);
+#endif
 		if (regexec (&fp->regexp, text, NM, mp, 0) == REG_NOMATCH)
 			continue;
 

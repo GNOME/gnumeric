@@ -4,6 +4,7 @@
  * Authors:
  *   Daniel Veillard <Daniel.Veillard@w3.org>
  *   Miguel de Icaza <miguel@gnu.org>
+ *   Jody Goldberg <jgoldberg@home.com>
  */
 
 #include <config.h>
@@ -39,6 +40,14 @@
 /*
  * A parsing context.
  */
+typedef enum
+{
+    GNUM_XML_V1,
+    GNUM_XML_V2,
+    GNUM_XML_V3,	/* >= 0.52 */
+    GNUM_XML_V4,	/* >= 0.57 */
+} GnumericXMLVersion;
+
 struct _XmlParseContext {
 	xmlDocPtr doc;		/* Xml document */
 	xmlNsPtr ns;		/* Main name space */
@@ -54,6 +63,7 @@ struct _XmlParseContext {
 	XmlSheetObjectWriteFn write_fn;
 	XmlSheetObjectReadFn  read_fn;
 	gpointer              user_data;
+	GnumericXMLVersion    version;
 };
 
 XmlParseContext *
@@ -1882,7 +1892,6 @@ xml_write_cell_and_position (XmlParseContext *ctxt, Cell *cell, int col, int row
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Cell", NULL);
 	xml_set_value_int (cur, "Col", col);
 	xml_set_value_int (cur, "Row", row);
-	xml_set_value_int (cur, "Style", 0); /* Backwards compatible */
 
  	text = cell_get_comment(cell);
  	if (text) {
@@ -1911,18 +1920,38 @@ xml_write_cell_and_position (XmlParseContext *ctxt, Cell *cell, int col, int row
 	}
 
 	if (write_contents) {
-		text = cell_get_entered_text (cell);
+		if (cell_has_expr (cell)) {
+			char *tmp;
+			ParsePos pp;
+
+			tmp = expr_tree_as_string (cell->u.expression,
+				parse_pos_init_cell (&pp, cell));
+			text = g_strconcat ("=", tmp, NULL);
+			g_free (tmp);
+		} else {
+			text = value_get_as_string (cell->value);
+		}
+
 		tstr = xmlEncodeEntitiesReentrant (ctxt->doc, text);
 		child = xmlNewChild (cur, ctxt->ns, "Content", tstr);
 		if (tstr)
 			xmlFree (tstr);
 		g_free (text);
+
+		if (!cell_has_expr (cell)) {
+			xml_set_value_int (cur, "ValueType",
+					   cell->value->type);
+			if (cell->format)
+				xmlSetProp (cur, "ValueFormat",
+					    cell->format->format);
+		}
 	}
 
 	/* As of version 0.53 we save the size of the array as attributes */
+	/* As of version 0.57 the attributes are in the Cell not the Content */
 	if (ar != NULL) {
-	        xml_set_value_int (child, "Rows", ar->rows);
-	        xml_set_value_int (child, "Cols", ar->cols);
+	        xml_set_value_int (cur, "Rows", ar->rows);
+	        xml_set_value_int (cur, "Cols", ar->cols);
 	}
 
 	return cur;
@@ -2021,7 +2050,7 @@ static Cell *
 xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	Cell *ret;
-	xmlNodePtr childs;
+	xmlNodePtr child;
 	int col, row;
 	int array_cols, array_rows, shared_expr_index = -1;
 	char *content = NULL;
@@ -2030,6 +2059,9 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 	gboolean style_read = FALSE;
 	gboolean is_post_52_array = FALSE;
 	gboolean is_new_cell;
+	gboolean is_value = FALSE;
+	ValueType value_type = VALUE_EMPTY; /* Make compiler shut up */
+	StyleFormat *value_fmt = NULL;
 
 	if (strcmp (tree->name, "Cell")) {
 		fprintf (stderr,
@@ -2047,63 +2079,85 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 	if (ret == NULL)
 		return NULL;
 
-	/*
-	 * This style code is a gross anachronism that slugs performance
-	 * in the common case this data won't exist. In the long term all
-	 * files will make the 0.41 - 0.42 transition and this can go.
-	 * Newer file format includes an index pointer to the Style
-	 * Old format includes the Style online
-	 */
-	if (xml_get_value_int (tree, "Style", &style_idx)) {
-		MStyle *mstyle;
+	if (ctxt->version < GNUM_XML_V3) {
+		/*
+		 * This style code is a gross anachronism that slugs performance
+		 * in the common case this data won't exist. In the long term all
+		 * files will make the 0.41 - 0.42 transition and this can go.
+		 * Newer file format includes an index pointer to the Style
+		 * Old format includes the Style online
+		 */
+		if (xml_get_value_int (tree, "Style", &style_idx)) {
+			MStyle *mstyle;
 
-		style_read = TRUE;
-		mstyle = g_hash_table_lookup (ctxt->style_table,
-					      GINT_TO_POINTER (style_idx));
-		if (mstyle) {
-			mstyle_ref (mstyle);
-			sheet_style_attach_single (ctxt->sheet, col, row,
-						   mstyle);
-		} /* else reading a newer version with style_idx == 0 */
+			style_read = TRUE;
+			mstyle = g_hash_table_lookup (ctxt->style_table,
+						      GINT_TO_POINTER (style_idx));
+			if (mstyle) {
+				mstyle_ref (mstyle);
+				sheet_style_attach_single (ctxt->sheet, col, row,
+							   mstyle);
+			} /* else reading a newer version with style_idx == 0 */
+		}
+	} else {
+		/* Is this a post 0.52 shared expression */
+		if (!xml_get_value_int (tree, "ExprID", &shared_expr_index))
+			shared_expr_index = -1;
+
+		/* Is this a post 0.57 formatted value */
+		if (ctxt->version >= GNUM_XML_V4) {
+			int tmp;
+			is_post_52_array = 
+				xml_get_value_int (tree, "Rows", &array_rows) &&
+				xml_get_value_int (tree, "Cols", &array_cols);
+			if (xml_get_value_int (tree, "ValueType", &tmp)) {
+				char *fmt;
+
+				value_type = tmp;
+				is_value = TRUE;
+
+				fmt = xml_value_get (tree, "ValueFormat");
+				if (fmt != NULL) {
+					value_fmt = style_format_new (fmt);
+					g_free (fmt);
+				}
+			}
+		}
 	}
 
-	/* Is this a post 0.52 shared expression */
-	if (!xml_get_value_int (tree, "ExprID", &shared_expr_index))
-		shared_expr_index = -1;
-
-	childs = tree->childs;
-	while (childs != NULL) {
+	child = tree->childs;
+	while (child != NULL) {
 		/*
 		 * This style code is a gross anachronism that slugs performance
 		 * in the common case this data won't exist. In the long term all
 		 * files will make the 0.41 - 0.42 transition and this can go.
 		 * This is even older backwards compatibility than 0.41 - 0.42
 		 */
-		if (!strcmp (childs->name, "Style")) {
+		if (!strcmp (child->name, "Style")) {
 			if (!style_read) {
 				MStyle *mstyle;
-				mstyle = xml_read_style (ctxt, childs);
+				mstyle = xml_read_style (ctxt, child);
 				if (mstyle)
 					sheet_style_attach_single (ctxt->sheet, col, row,
 								   mstyle);
 			}
-		}
-		if (!strcmp (childs->name, "Content")) {
-			content = xmlNodeGetContent (childs);
+		} else if (!strcmp (child->name, "Content")) {
+			content = xmlNodeGetContent (child);
 
 			/* Is this a post 0.52 array */
-			is_post_52_array = 
-			    xml_get_value_int (childs, "Rows", &array_rows) &&
-			    xml_get_value_int (childs, "Cols", &array_cols);
-		}
-		if (!strcmp (childs->name, "Comment")) {
-			comment = xmlNodeGetContent (childs);
+			if (ctxt->version == GNUM_XML_V3) {
+				is_post_52_array =
+				    xml_get_value_int (child, "Rows", &array_rows) &&
+				    xml_get_value_int (child, "Cols", &array_cols);
+			}
+		} else if (!strcmp (child->name, "Comment")) {
+			comment = xmlNodeGetContent (child);
  			if (comment) {
  				cell_set_comment (ret, comment);
  				xmlFree (comment);
 			}
  		}
-		childs = childs->next;
+		child = child->next;
 	}
 	if (content == NULL)
 		content = xmlNodeGetContent (tree);
@@ -2114,8 +2168,14 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 
 			xml_cell_set_array_expr (ret, content+1,
 						 array_rows, array_cols);
-		} else if (xml_not_used_old_array_spec (ret, content))
-			cell_set_text (ret, content);
+		} else if (ctxt->version >= GNUM_XML_V3 || 
+			   xml_not_used_old_array_spec (ret, content)) {
+			if (is_value) {
+				Value *v = value_new_from_string (value_type, content);
+				cell_set_value (ret, v, value_fmt);
+			} else
+				cell_set_text (ret, content);
+		}
 
 		if (shared_expr_index > 0) {
 			gpointer id = GINT_TO_POINTER (shared_expr_index);
@@ -2160,7 +2220,7 @@ static CellCopy *
 xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	CellCopy *ret;
-	xmlNodePtr childs;
+	xmlNodePtr child;
 
 	if (strcmp (tree->name, "Cell")) {
 		fprintf (stderr,
@@ -2177,13 +2237,13 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree)
 	xml_get_value_int (tree, "Col", &ret->col_offset);
 	xml_get_value_int (tree, "Row", &ret->row_offset);
 
-	childs = tree->childs;
-	while (childs != NULL) {
+	child = tree->childs;
+	while (child != NULL) {
 
-		if (!strcmp (childs->name, "Content"))
-			ret->u.text = xmlNodeGetContent (childs);
-		if (!strcmp (childs->name, "Comment")) {
-			ret->comment = xmlNodeGetContent (childs);
+		if (!strcmp (child->name, "Content"))
+			ret->u.text = xmlNodeGetContent (child);
+		if (!strcmp (child->name, "Comment")) {
+			ret->comment = xmlNodeGetContent (child);
 
 			/*
 			 * use xmlFree, the comment is alloced with malloc not with g_malloc
@@ -2195,7 +2255,7 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree)
 				ret->comment = temp;
 			}
  		}
-		childs = childs->next;
+		child = child->next;
 	}
 	if (ret->u.text == NULL)
 		ret->u.text = xmlNodeGetContent (tree);
@@ -2876,7 +2936,7 @@ xml_workbook_write (XmlParseContext *ctxt, Workbook *wb)
 	if (cur == NULL)
 		return NULL;
 	if (ctxt->ns == NULL) {
-		gmr = xmlNewNs (cur, "http://www.gnome.org/gnumeric/v3", "gmr");
+		gmr = xmlNewNs (cur, "http://www.gnome.org/gnumeric/v4", "gmr");
 		xmlSetNs(cur, gmr);
 		ctxt->ns = gmr;
 	}
@@ -3064,6 +3124,38 @@ xml_workbook_read (Workbook *wb, XmlParseContext *ctxt, xmlNodePtr tree)
 	return TRUE;
 }
 
+/* These will be searched IN ORDER, so add new versions at the top */
+static const struct {
+	char const * const id;
+	GnumericXMLVersion const version;
+} GnumericVersions [] = {
+	{ "http://www.gnome.org/gnumeric/v4", GNUM_XML_V4 },
+	{ "http://www.gnome.org/gnumeric/v3", GNUM_XML_V3 },
+	{ "http://www.gnome.org/gnumeric/v2", GNUM_XML_V2 },
+	{ "http://www.gnome.org/gnumeric/", GNUM_XML_V1 },
+	{ NULL }
+};
+
+static xmlNsPtr
+xml_check_version (xmlDocPtr doc, GnumericXMLVersion *version)
+{
+	xmlNsPtr gmr;
+	int i;
+
+	/* Do a bit of checking, get the namespaces, and check the top elem.  */
+	if (doc->root->name == NULL || strcmp (doc->root->name, "Workbook"))
+		return NULL;
+
+	for (i = 0 ; GnumericVersions [i].id != NULL ; ++i ) {
+		gmr = xmlSearchNsByHref (doc, doc->root, GnumericVersions [i].id);
+		if (gmr != NULL) {
+			*version = GnumericVersions [i].version;
+			return gmr;
+		}
+	}
+	return NULL;
+}
+
 /*
  * We parse and do some limited validation of the XML file, if this
  * passes, then we return TRUE
@@ -3076,6 +3168,7 @@ xml_probe (const char *filename)
 	xmlNsPtr gmr;
 	xmlParserCtxtPtr ctxt;
 	xmlSAXHandler silent, *old;
+	GnumericXMLVersion version;
 
 	/*
 	 * Do a silent call to the XML parser.
@@ -3111,21 +3204,9 @@ xml_probe (const char *filename)
 		return FALSE;
 	}
 
-	/*
-	 * Do a bit of checking, get the namespaces, and check the top elem.
-	 */
-	gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/v3");
-	if (gmr == NULL)
-		gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/v2");
-	if (gmr == NULL)
-		gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/");
-
-	if (res->root->name == NULL || strcmp (res->root->name, "Workbook") || (gmr == NULL)){
-		xmlFreeDoc (res);
-		return FALSE;
-	}
+	gmr = xml_check_version (res, &version);
 	xmlFreeDoc (res);
-	return TRUE;
+	return gmr != NULL;
 }
 
 /*
@@ -3223,6 +3304,7 @@ gnumeric_xml_read_workbook (CommandContext *context, Workbook *wb,
 	xmlDocPtr res;
 	xmlNsPtr gmr;
 	XmlParseContext *ctxt;
+	GnumericXMLVersion    version;
 
 	g_return_val_if_fail (filename != NULL, -1);
 
@@ -3240,28 +3322,22 @@ gnumeric_xml_read_workbook (CommandContext *context, Workbook *wb,
 			(context, _("Invalid xml file. Tree is empty ?"));
 		return -1;
 	}
-	/*
-	 * Do a bit of checking, get the namespaces, and check the top elem.
-	 */
-	gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/v3");
-	if (gmr == NULL)
-		gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/v2");
-	if (gmr == NULL)
-		gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/");
-	if (strcmp (res->root->name, "Workbook") || (gmr == NULL)) {
+
+	/* Do a bit of checking, get the namespaces, and check the top elem. */
+	gmr = xml_check_version (res, &version);
+	if (gmr == NULL) {
 		xmlFreeDoc (res);
-		gnumeric_error_read
-			(context, _("Is not an Workbook file"));
+		gnumeric_error_read (context, _("Is not an Gnumeric Workbook file"));
 		return -1;
 	}
+
+	/* Parse the file */
 	ctxt = xml_parse_ctx_new (res, gmr);
-
+	ctxt->version = version;
 	xml_workbook_read (wb, ctxt, res->root);
-	workbook_set_saveinfo (wb, (char *) filename, FILE_FL_AUTO,
-			       gnumeric_xml_write_workbook);
-
+	workbook_set_saveinfo (wb, filename, FILE_FL_AUTO,
+			       &gnumeric_xml_write_workbook);
 	xml_parse_ctx_destroy (ctxt);
-
 	xmlFreeDoc (res);
 	return 0;
 }
