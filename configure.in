@@ -1,6 +1,6 @@
 -*- mode: m4 -*-
 AC_PREREQ(2.52)
-AC_INIT(gnumeric, 1.1.17,
+AC_INIT(gnumeric, 1.1.18,
 	http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric)
 
 AC_CONFIG_SRCDIR(src/sheet.h)
@@ -147,7 +147,7 @@ AC_ARG_WITH(gda,
 if test "$try_gda" = "true"; then
 	PKG_CHECK_MODULES(GDA, [libgda >= 0.10 ],
 		[gda_msg=yes],
-		[gda_msg="NO.  libdga problem"])
+		[gda_msg="NO.  libgda problem"])
 fi
 AM_CONDITIONAL(WITH_GDA, test x"$gda_msg" = "xyes")
 AC_SUBST(GDA_CFLAGS)
