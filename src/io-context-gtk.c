@@ -186,7 +186,7 @@ GSF_CLASS (IOContextGtk, io_context_gtk,
 
 
 IOContextGtk *
-gnumeric_io_context_gtk_new ()
+gnumeric_io_context_gtk_new (void)
 {
 	IOContextGtk *icg;
 
