@@ -193,6 +193,14 @@ gog_renderer_svg_draw_text (GogRenderer *rend, ArtPoint *pos,
 }
 
 static void
+gog_renderer_svg_draw_marker (GogRenderer *rend, double x, double y)
+{
+#if 0
+	GogRendererSvg *prend = GOG_RENDERER_SVG (rend);
+#endif
+}
+
+static void
 gog_renderer_svg_measure_text (GogRenderer *rend,
 				       char const *text, GogViewRequisition *size)
 {
@@ -208,6 +216,7 @@ gog_renderer_svg_class_init (GogRendererClass *rend_klass)
 	rend_klass->draw_path	  = gog_renderer_svg_draw_path;
 	rend_klass->draw_polygon  = gog_renderer_svg_draw_polygon;
 	rend_klass->draw_text	  = gog_renderer_svg_draw_text;
+	rend_klass->draw_marker	  = gog_renderer_svg_draw_marker;
 	rend_klass->measure_text  = gog_renderer_svg_measure_text;
 }
 

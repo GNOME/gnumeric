@@ -1,3 +1,9 @@
+2003-09-08  Jon K Hellan  <hellan@acm.org>
+
+	* graph/gog-renderer-svg.c (gog_renderer_svg_draw_marker): New
+	dummy implementation.
+	(gog_renderer_svg_class_init): Use it.
+
 2003-09-08  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-style.c (cb_fill_gradient_end_color) : throw the update
