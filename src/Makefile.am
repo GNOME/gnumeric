@@ -240,9 +240,10 @@ gnumeric_LDFLAGS = -export-dynamic
 
 gnumeric_libs =						\
 	../plugins/excel/libexcel.a			\
+	../libole2/libole2/libole2.la			\
 	dialogs/libdialogs.a				\
 	widgets/libwidgets.a				\
-	functions/libfunctions.a		
+	functions/libfunctions.a
 
 gnumeric_LDADD = 					\
 	$(gnumeric_libs)				\

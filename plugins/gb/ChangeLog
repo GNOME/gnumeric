@@ -1,3 +1,7 @@
+2000-05-16  Michael Meeks  <michael@helixcode.com>
+
+	* Makefile.am (-DGNOMELOCALEDIR): add libole2 include.
+
 2000-05-15  Jody Goldberg <jgoldberg@home.com>
 
 	* plugin.c (value_to_gb) : Transition to 0.53 discriminated union.

@@ -231,8 +231,6 @@ AC_SUBST(gnumeric_plugindir)
 AC_SUBST(gnumeric_gladedir)
 AC_SUBST(gnumeric_bonobo_enabled)
 
-AM_PATH_LIBOLE2(0.1.3,, [AC_MSG_ERROR(Can't find libole2 >= 0.1.3)])
-
 dnl ******************************
 dnl Check for GB
 dnl ******************************
@@ -356,8 +354,8 @@ LIBS=$LIBS_save
 
 dnl ***************************************
 
-EXTRA_GNOME_LIBS=`gnome-config --libs gnomeui print libglade $bonobo libole2`
-EXTRA_GNOME_CFLAGS=`gnome-config --cflags gnomeui print libglade $bonobo libole2`
+EXTRA_GNOME_LIBS=`gnome-config --libs gnomeui print libglade $bonobo`
+EXTRA_GNOME_CFLAGS=`gnome-config --cflags gnomeui print libglade $bonobo`
 AC_SUBST(EXTRA_GNOME_LIBS)
 AC_SUBST(EXTRA_GNOME_CFLAGS)
 
@@ -365,6 +363,8 @@ AM_CONDITIONAL(LIBOLE2_PUBLIC_LIBRARY, false)
 
 AM_CONDITIONAL(WITH_GDA, false)
 AM_CONDITIONAL(WITH_PLAN_PERFECT, false)
+
+AC_CONFIG_SUBDIRS(libole2)
 
 AC_OUTPUT([
 gnumeric.spec

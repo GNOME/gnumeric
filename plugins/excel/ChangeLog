@@ -1,3 +1,7 @@
+2000-05-16  Michael Meeks  <michael@helixcode.com>
+
+	* Makefile.am (INCLUDES): add libole2 include.
+
 2000-05-11  Michael Meeks  <michael@helixcode.com>
 
 	* *.[ch]: update libole2 includes.

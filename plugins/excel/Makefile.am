@@ -2,6 +2,7 @@ INCLUDES = 						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
 	-I$(includedir)				 	\
 	-I$(top_srcdir)/src				\
+	-I$(top_srcdir)/libole2				\
 	$(GNOME_INCLUDEDIR)
 
 noinst_LIBRARIES = libexcel.a
