@@ -1985,9 +1985,8 @@ static /* const 142334 */ GtkToggleActionEntry font_toggle_actions[] = {
 	{ "FontDoubleUnderline", GTK_STOCK_UNDERLINE,
 		N_("_Underline"), NULL,
 		N_("Underline"), G_CALLBACK (cb_font_double_underline), FALSE },
-#warning "Should there be an accelerator for strikethrough?"
 	{ "FontStrikeThrough", GTK_STOCK_UNDERLINE,
-		N_("_Strike Through"), NULL,
+		N_("_Strike Through"), "<control>5",
 		N_("Strike Through"), G_CALLBACK (cb_font_strikethrough), FALSE },
 };
 

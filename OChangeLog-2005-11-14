@@ -1,3 +1,7 @@
+2004-07-23  Morten Welinder  <terra@gnome.org>
+
+	* src/wbcg-actions.c: Add Ctrl-5 for strikethough.
+
 2004-07-22  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-edit.c (wbcg_edit_finish) : change 'accept' into an
