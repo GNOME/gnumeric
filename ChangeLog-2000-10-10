@@ -1,3 +1,8 @@
+2000-06-19  Morten Welinder  <terra@diku.dk>
+
+	* src/sheet.c (sheet_get_extent_cb): Typo fix per Jody.  Hopefully
+ 	cures all the save-as-XL95 problems.
+
 2000-06-18  Jody Goldberg <jgoldberg@home.com>
 
         * Release 0.55

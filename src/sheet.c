@@ -833,7 +833,7 @@ sheet_get_extent_cb (gpointer key, gpointer value, gpointer data)
 		if (cell->row_info->pos > range->end.row)
 			range->end.row = cell->row_info->pos;
 
-		span = row_span_get (cell->row_info, cell->row_info->pos);
+		span = row_span_get (cell->row_info, cell->pos.col);
 		tmp = (span != NULL) ? span->left : cell->col_info->pos;
 		if (tmp < range->start.col)
 			range->start.col = tmp;
