@@ -82,7 +82,7 @@
       
       <variablelist>
 	<varlistentry>
-	  <term><Keycap>Backspace</keycap></term>
+	  <term><keycap>Backspace</keycap></term>
 	  <listitem><para>Delete the character to the left of the cursor.</para></listitem>
 	</varlistentry>
 	<varlistentry>
