@@ -163,7 +163,6 @@ src/gnumeric-pane.c
 src/gui-clipboard.c
 src/gui-file.c
 src/gui-util.c
-src/gui-validation.c
 src/history.c
 src/item-bar.c
 src/item-cursor.c
