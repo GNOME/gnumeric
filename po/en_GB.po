@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-07 20:50+0100\n"
-"PO-Revision-Date: 2004-09-07 20:49+0100\n"
+"POT-Creation-Date: 2004-09-08 20:10+0100\n"
+"PO-Revision-Date: 2004-09-08 20:09+0100\n"
 "Last-Translator: David Lodge <dave@cirt.net>\n"
 "Language-Team: English/GB <en_GB@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -30565,16 +30565,16 @@ msgstr ""
 "with unequal variances: t-test..."
 
 #: src/wbcg-actions.c:1762
-msgid "_Known Variances or Large Sample: Z-Test..."
-msgstr "_Known Variances or Large Sample: Z-Test..."
+msgid "_Known Variances: Z-Test..."
+msgstr "_Known Variances: Z-Test..."
 
 #: src/wbcg-actions.c:1763
 msgid ""
-"Comparing two population means from populations with known variances or "
-"using a large sample: z-test..."
+"Comparing two population means from populations with known variances: z-"
+"test..."
 msgstr ""
-"Comparing two population means from populations with known variances or "
-"using a large sample: z-test..."
+"Comparing two population means from populations with known variances: z-"
+"test..."
 
 #. Tools -> Analysis
 #: src/wbcg-actions.c:1767
