@@ -24,11 +24,12 @@ perl_loader_la_SOURCES = \
 perl_loader.so(EXEEXT): perl-loader.o boot.o
 	$(PERL_LD) $(PERL_LDDLFLAGS) -o perl_loader.so boot.o xsinit.o $(PERL_LDOPTS)
 
-boot.o: $(srcdir)/boot.c
-	$(PERL_CC) $(AM_CPPFLAGS) -c $(srcdir)/boot.c
+.c.o:
+	$(PERL_CC) $(AM_CPPFLAGS) -o $@ -c $<
 
-xsinit.o: xsinit.c
-	$(PERL_CC) $(AM_CPPFLAGS) -c xsinit.c
+.c.lo:
+	$(PERL_CC) $(AM_CPPFLAGS) $@.o -c $<
+	mv $@.o $@
 
 xsinit.c:
 	perl -MExtUtils::Embed -e xsinit -- -o xsinit.c

@@ -1,3 +1,7 @@
+2005-04-04  Morten Welinder  <terra@gnome.org>
+
+	* Makefile.am: Use the right compiler.
+
 2005-04-04  Stepan Kasal  <kasal@ucw.cz>
 
 	* plugins/perl-loader/perl-loader.c: GnmPluginLoader renamed to
