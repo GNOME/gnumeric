@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric gnumeric-1-2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-07 01:25-0500\n"
+"POT-Creation-Date: 2004-11-22 16:47-0500\n"
 "PO-Revision-Date: 2004-09-08 15:04+0300\n"
 "Last-Translator: Tommi Vainikainen <Tommi.Vainikainen@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
@@ -954,7 +954,7 @@ msgstr "Talousjohdannaiset"
 msgid "Functions related to financial derivatives"
 msgstr "Talousjohdannaisiin liittyvät funktiot"
 
-#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5743
+#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5831
 #: plugins/mps/mps.c:547 src/xml-io.c:4199
 msgid "Reading file..."
 msgstr "Luetaan tiedostoa..."
@@ -1041,51 +1041,51 @@ msgstr "Valmistellaan tallennusta..."
 msgid "Saving file..."
 msgstr "Tallennetaan tiedostoa..."
 
-#: plugins/excel/excel-xml-read.c:85 plugins/xml_sax/xml-sax-read.c:270
+#: plugins/excel/excel-xml-read.c:85 plugins/xml_sax/xml-sax-read.c:276
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Odottamaton määrite %s::%s == \"%s\"."
 
 #: plugins/excel/excel-xml-read.c:198
 #: plugins/openoffice/openoffice-read.c:1479
-#: plugins/xml_sax/xml-sax-read.c:1649
+#: plugins/xml_sax/xml-sax-read.c:1767
 msgid "XML document not well formed!"
 msgstr "XML-dokumentti ei ole hyvinmuotoiltu!"
 
-#: plugins/excel/ms-excel-read.c:1069 src/value.c:60
+#: plugins/excel/ms-excel-read.c:1070 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#TUNTEMATON!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1151 plugins/excel/ms-excel-read.c:1163
+#: plugins/excel/ms-excel-read.c:1152 plugins/excel/ms-excel-read.c:1164
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:510
 #: src/dialogs/dialog-sheet-order.c:432 src/dialogs/dialog-sheet-order.c:436
 #, c-format
 msgid "Sheet%d"
 msgstr "Taulu%d"
 
-#: plugins/excel/ms-excel-read.c:1167
+#: plugins/excel/ms-excel-read.c:1168
 #, c-format
 msgid "Macro%d"
 msgstr "Makro%d"
 
-#: plugins/excel/ms-excel-read.c:1171
+#: plugins/excel/ms-excel-read.c:1172
 #, c-format
 msgid "Chart%d"
 msgstr "Kaavio%d"
 
-#: plugins/excel/ms-excel-read.c:1174
+#: plugins/excel/ms-excel-read.c:1175
 #, c-format
 msgid "Module%d"
 msgstr "Moduuli%d"
 
-#: plugins/excel/ms-excel-read.c:2963
+#: plugins/excel/ms-excel-read.c:2964
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Virhe jäsennettäessä nimeä \"%s\""
 
-#: plugins/excel/ms-excel-read.c:3059
+#: plugins/excel/ms-excel-read.c:3060
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -1094,7 +1094,7 @@ msgstr ""
 "DDE-linkkejä ei tueta.\n"
 "Nimi \"%s\" häviää.\n"
 
-#: plugins/excel/ms-excel-read.c:3065
+#: plugins/excel/ms-excel-read.c:3066
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -1103,15 +1103,15 @@ msgstr ""
 "OLE-linkkejä ei tueta.\n"
 "Nimi \"%s\" häviää.\n"
 
-#: plugins/excel/ms-excel-read.c:5088
+#: plugins/excel/ms-excel-read.c:5176
 msgid "external references"
 msgstr "ulkoiset viittaukset"
 
-#: plugins/excel/ms-excel-read.c:5111
+#: plugins/excel/ms-excel-read.c:5199
 msgid "No password supplied"
 msgstr "Salasanaa ei annettu"
 
-#: plugins/excel/ms-excel-read.c:5969
+#: plugins/excel/ms-excel-read.c:6057
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kelvollista MS Excel -työkirjaa ei löytynyt"
 
@@ -10890,8 +10890,8 @@ msgstr ""
 msgid "Constraints:"
 msgstr "Rajoitteet:"
 
-#: plugins/mps/mps.c:245 src/commands.c:6112
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1057
+#: plugins/mps/mps.c:245 src/commands.c:6144
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1063
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:379
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
 #: src/dialogs/dialog-function-select.c:443
@@ -11610,7 +11610,7 @@ msgstr ""
 msgid "Error while opening xbase file."
 msgstr "Virhe avattaessa xbase-tiedostoa."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4906
+#: plugins/xbase/boot.c:175 src/commands.c:4938
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
 #: src/dialogs/dialog-stf-export.c:444 src/dialogs/print.glade.h:21
 #: src/print-info.c:391 src/workbook.c:1091 src/xml-io.c:3789
@@ -11649,7 +11649,7 @@ msgstr ""
 msgid "EXPERIMENTAL SAX based XML"
 msgstr ""
 
-#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4325
+#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4327
 #, fuzzy
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumericin XML-tiedosto"
@@ -11658,14 +11658,19 @@ msgstr "Gnumericin XML-tiedosto"
 msgid "The next generation sax based xml I/O subsystem"
 msgstr ""
 
-#: plugins/xml_sax/xml-sax-read.c:302
+#: plugins/xml_sax/xml-sax-read.c:308
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
 msgstr ""
 
-#: plugins/xml_sax/xml-sax-read.c:473
+#: plugins/xml_sax/xml-sax-read.c:479
 msgid "File has inconsistent SheetNameIndex element."
 msgstr ""
+
+#: plugins/xml_sax/xml-sax-read.c:1318 src/xml-io.c:2770
+#, c-format
+msgid "Unsupported object type '%s'"
+msgstr "Tukematon oliotyyppi \"%s\""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:1
 msgid ""
@@ -11685,6 +11690,7 @@ msgid "Activate New Plugins"
 msgstr "Ota uuden liitännäiset käyttöön"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:4
+#: src/dialogs/dialog-preferences.c:708
 msgid "Allow Unfocused Range Selections"
 msgstr ""
 
@@ -11821,6 +11827,7 @@ msgid "List of recently used functions."
 msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:38
+#: src/dialogs/dialog-preferences.c:699
 msgid "Maximum Length of Recently Used Functions List"
 msgstr ""
 
@@ -12061,6 +12068,7 @@ msgid "Auto Expression Recalculation Lag"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:2
+#: src/dialogs/dialog-preferences.c:704
 msgid "Autocomplete"
 msgstr "Automaattitäydennä"
 
@@ -12072,6 +12080,7 @@ msgid ""
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:4
+#: src/dialogs/dialog-preferences.c:616
 msgid "Default Compression Level For Gnumeric Files"
 msgstr ""
 
@@ -12080,22 +12089,27 @@ msgid "Default Font Size"
 msgstr "Kirjasimen oletuskoko"
 
 #: schemas/gnumeric-general.schemas.in.h:6
+#: src/dialogs/dialog-preferences.c:564
 msgid "Default Horizontal Window Size"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:7
+#: src/dialogs/dialog-preferences.c:572
 msgid "Default Number of Sheets"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:8
+#: src/dialogs/dialog-preferences.c:621
 msgid "Default To Overwriting Files"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:9
+#: src/dialogs/dialog-preferences.c:560
 msgid "Default Vertical Window Size"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:10
+#: src/dialogs/dialog-preferences.c:568
 msgid "Default Zoom Factor"
 msgstr "Oletus suurennoskerroin"
 
@@ -12104,6 +12118,7 @@ msgid "Default font name"
 msgstr "Oletuskirjasimen nimi"
 
 #: schemas/gnumeric-general.schemas.in.h:12
+#: src/dialogs/dialog-preferences.c:662
 msgid "Horizontal DPI"
 msgstr "Poikittainen DPI"
 
@@ -12119,6 +12134,7 @@ msgid ""
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:14
+#: src/dialogs/dialog-preferences.c:612
 msgid "Length of File History"
 msgstr ""
 
@@ -12131,22 +12147,27 @@ msgid "List of recently used files"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:17
+#: src/dialogs/dialog-preferences.c:580
 msgid "Live Scrolling"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:18
+#: src/dialogs/dialog-preferences.c:474
 msgid "Maximal Undo Size"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:19
+#: src/dialogs/dialog-preferences.c:515
 msgid "Number of Automatic Clauses"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:20
+#: src/dialogs/dialog-preferences.c:478
 msgid "Number of Undo Items"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:21
+#: src/dialogs/dialog-preferences.c:741
 msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr ""
 
@@ -12173,6 +12194,7 @@ msgid ""
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:27
+#: src/dialogs/dialog-preferences.c:482
 msgid "Show Sheet Name in Undo List"
 msgstr ""
 
@@ -12183,7 +12205,8 @@ msgid ""
 "workbook is being saved."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:29 src/wbcg-actions.c:1903
+#: schemas/gnumeric-general.schemas.in.h:29
+#: src/dialogs/dialog-preferences.c:527 src/wbcg-actions.c:1903
 msgid "Sort Ascending"
 msgstr "Lajittele kasvavasti"
 
@@ -12192,6 +12215,7 @@ msgid "Sort is Case-Sensitive"
 msgstr "Lajittelu riippuu aakkoskoosta"
 
 #: schemas/gnumeric-general.schemas.in.h:31
+#: src/dialogs/dialog-preferences.c:519
 msgid "Sorting Preserves Formats"
 msgstr "Lajittelu säilyttää muotoilut"
 
@@ -12312,14 +12336,17 @@ msgstr ""
 "Työkalupalkin tyyli. Mahdollisia arvoja ovat both, both_horiz, icon ja text."
 
 #: schemas/gnumeric-general.schemas.in.h:55
+#: src/dialogs/dialog-preferences.c:576
 msgid "Transition Keys"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:56
+#: src/dialogs/dialog-preferences.c:666
 msgid "Vertical DPI"
 msgstr "Pystyttäinen DPI"
 
 #: schemas/gnumeric-general.schemas.in.h:57
+#: src/dialogs/dialog-preferences.c:625
 msgid "Warn When Exporting Into Single Sheet Format"
 msgstr ""
 
@@ -12345,6 +12372,7 @@ msgid ""
 msgstr ""
 
 #: schemas/gnumeric-plugins.schemas.in.h:2
+#: src/dialogs/dialog-preferences.c:630
 msgid "Use UTF-8 in LaTeX Export"
 msgstr "Käytä UTF-8-koodausta Latex-viennissä"
 
@@ -12469,11 +12497,11 @@ msgstr "Kirjoitus \"%s%s\""
 msgid "Ins/Del Column/Row"
 msgstr "Lisää sarakkeita"
 
-#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3249
+#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3251
 msgid "Delete Columns"
 msgstr "Poista sarakkeet"
 
-#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3367
+#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3371
 msgid "Delete Rows"
 msgstr "Poista rivit"
 
@@ -12612,7 +12640,7 @@ msgstr "Asetetaan sarakkeiden %s leveys oletukseksi"
 msgid "Setting height of rows %s to default"
 msgstr "Asetetaan rivien %s korkeus oletukseksi"
 
-#: src/commands.c:2089 src/dialogs/dialog-preferences.c:704
+#: src/commands.c:2089 src/dialogs/dialog-preferences.c:770
 msgid "Sorting"
 msgstr "Järjestetään"
 
@@ -12771,127 +12799,127 @@ msgstr "Asetetaan rivien oletuskorkeudeksi %.2fpts"
 msgid "Zoom %s to %.0f%%"
 msgstr "Lähennä %s suhteessa %.0f%%"
 
-#: src/commands.c:4420
+#: src/commands.c:4452
 #, fuzzy
 msgid "Delete Object"
 msgstr "Poista objekti"
 
-#: src/commands.c:4581
+#: src/commands.c:4613
 #, fuzzy
 msgid "Format Object"
 msgstr "Laske objekti"
 
-#: src/commands.c:5180
+#: src/commands.c:5212
 msgid "Reordering Sheets"
 msgstr "Muutetaan taulukkojen järjestystä"
 
-#: src/commands.c:5183
+#: src/commands.c:5215
 msgid "Renaming Sheets"
 msgstr "Nimetään taulukkoja uudelleen"
 
-#: src/commands.c:5186
+#: src/commands.c:5218
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "Lisätään %i taulukkoa"
 
-#: src/commands.c:5190
+#: src/commands.c:5222
 msgid "Changing Tab Colors"
 msgstr "Muutetaan välilehtien värejä"
 
-#: src/commands.c:5193
+#: src/commands.c:5225
 msgid "Changing Sheet Protection"
 msgstr "Muutetaan taulukon suojausta"
 
-#: src/commands.c:5196
+#: src/commands.c:5228
 msgid "Delete sheets"
 msgstr "Poista taulukot"
 
-#: src/commands.c:5199
+#: src/commands.c:5231
 msgid "Delete a sheet"
 msgstr "Poista taulukko"
 
-#: src/commands.c:5202
+#: src/commands.c:5234
 #, fuzzy
 msgid "Changing Sheet Visibility"
 msgstr "Muutetaan taulukon suojausta"
 
-#: src/commands.c:5205
+#: src/commands.c:5237
 msgid "Reorganizing Sheets"
 msgstr "Taulukoiden uudelleenjärjestely"
 
-#: src/commands.c:5356
+#: src/commands.c:5388
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Tyhjennetään solun %s kommenttia"
 
-#: src/commands.c:5357
+#: src/commands.c:5389
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Asetetaan solun %s kommentti"
 
-#: src/commands.c:5737
+#: src/commands.c:5769
 #, c-format
 msgid "Merging data into %s"
 msgstr "Sulautetaan data alueeseen %s"
 
-#: src/commands.c:5839
+#: src/commands.c:5871
 msgid "Changing summary info"
 msgstr "Muutetaan yhteenvetotietoja"
 
-#: src/commands.c:5928
+#: src/commands.c:5960
 msgid "Pull Object to the Front"
 msgstr ""
 
-#: src/commands.c:5931
+#: src/commands.c:5963
 #, fuzzy
 msgid "Pull Object Forward"
 msgstr "GObject-laturi"
 
-#: src/commands.c:5934
+#: src/commands.c:5966
 msgid "Push Object Backward"
 msgstr ""
 
-#: src/commands.c:5937
+#: src/commands.c:5969
 msgid "Push Object to the Back"
 msgstr ""
 
-#: src/commands.c:6052
+#: src/commands.c:6084
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Taulukon %s sivuasetukset"
 
-#: src/commands.c:6054
+#: src/commands.c:6086
 msgid "Page Setup For All Sheets"
 msgstr "Kaikkien taulukkojen sivuasetukset"
 
-#: src/commands.c:6169
+#: src/commands.c:6201
 msgid "has a circular reference"
 msgstr ""
 
-#: src/commands.c:6192
+#: src/commands.c:6224
 #, c-format
 msgid "Define Name %s"
 msgstr "Määrittele nimi %s"
 
-#: src/commands.c:6195
+#: src/commands.c:6227
 #, c-format
 msgid "Update Name %s"
 msgstr "Päivitä nimi %s"
 
-#: src/commands.c:6259
+#: src/commands.c:6291
 msgid "Add scenario"
 msgstr "Lisää skenaario"
 
-#: src/commands.c:6334
+#: src/commands.c:6366
 msgid "Scenario Show"
 msgstr "Skenaarionäkymä"
 
-#: src/commands.c:6398
+#: src/commands.c:6430
 msgid "Shuffle Data"
 msgstr ""
 
 #. FIXME?
-#: src/commands.c:6508
+#: src/commands.c:6540
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Teksti (%s) sarakkeisiin (%s)"
@@ -12901,29 +12929,29 @@ msgstr "Teksti (%s) sarakkeisiin (%s)"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6652 src/dialogs/solver.glade.h:17
+#: src/commands.c:6684 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
 #: src/tools/solver/reports-write.c:907 src/tools/solver/reports-write.c:958
 msgid "Solver"
 msgstr ""
 
-#: src/commands.c:6736
+#: src/commands.c:6768
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Tuloksen etsintä (%s)"
 
-#: src/commands.c:6881
+#: src/commands.c:6913
 #, c-format
 msgid "Duplicating %s"
 msgstr "Monistetaan %s"
 
-#: src/commands.c:6960
+#: src/commands.c:6992
 #, fuzzy
 msgid "Tabulating Dependencies"
 msgstr "Liitännäisten yksityiskohdat"
 
-#: src/commands.c:7035
+#: src/commands.c:7067
 msgid "Reconfigure Graph"
 msgstr ""
 
@@ -13239,19 +13267,25 @@ msgstr ""
 msgid "Chart"
 msgstr "Kaavio"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1083
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1089
 msgid "Step 1 of 2: Select Chart Type"
 msgstr "Vaihe 1/2: Valitse kaavion tyyppi"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1091
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1097
 msgid "Step 2 of 2: Customize Chart"
 msgstr "Vaihe 2/2: Muokkaa kaaviota"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1096
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1102
 msgid "Customize Chart"
 msgstr "Muokkaa kaaviota"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1210
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1178
+#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1442
+#: src/wbcg-actions.c:1600
+msgid "_Insert"
+msgstr "_Lisää"
+
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1236
 msgid "_Plot Type"
 msgstr ""
 
@@ -13325,13 +13359,13 @@ msgstr "Varoitus"
 msgid "Point"
 msgstr "Piste"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:159 src/gui-file.c:359
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:159 src/gui-file.c:348
 #, c-format
 msgid "%d x %d"
 msgstr "%d × %d"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:881
-#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:697
+#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:763
 msgid "Font"
 msgstr "Kirjasin"
 
@@ -14064,12 +14098,12 @@ msgstr ""
 msgid "Bubble"
 msgstr "kupla"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1019
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1021
 #, fuzzy
 msgid "Y Error bars"
 msgstr "Virhe jäsennettäessä riviä"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1021
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1023
 #, fuzzy
 msgid "X Error bars"
 msgstr "Virhe jäsennettäessä riviä"
@@ -14832,7 +14866,7 @@ msgid "_Rows"
 msgstr "_Rivit"
 
 #: src/dialogs/anova-two.glade.h:1 src/dialogs/autocorrect.glade.h:1
-#: src/dialogs/autofilter-expression.glade.h:27
+#: src/dialogs/autofilter-expression.glade.h:14
 #: src/dialogs/autoformat.glade.h:1 src/dialogs/autosave.glade.h:1
 #: src/dialogs/cell-format.glade.h:2 src/dialogs/descriptive-stats.glade.h:2
 #: src/dialogs/dialog-stf-export.glade.h:5 src/dialogs/dialog-stf.glade.h:3
@@ -14949,37 +14983,20 @@ msgid ""
 "does not contain"
 msgstr ""
 
-#: src/dialogs/autofilter-expression.glade.h:14
-msgid ""
-"\n"
-"equals\n"
-"does not equal\n"
-"is greater than\n"
-"is greater than or equal to\n"
-"is_less_than\n"
-"is less than or equal to\n"
-"begins with\n"
-"does not begin with\n"
-"ends with\n"
-"does not end with\n"
-"contains\n"
-"does not contain"
-msgstr ""
-
-#: src/dialogs/autofilter-expression.glade.h:28
+#: src/dialogs/autofilter-expression.glade.h:15
 #: src/dialogs/autofilter-top10.glade.h:1
 msgid "Gnumeric : AutoFilter"
 msgstr "Gnumeric: Automaattisuodatin"
 
-#: src/dialogs/autofilter-expression.glade.h:29
+#: src/dialogs/autofilter-expression.glade.h:16
 msgid "Show rows where:"
 msgstr "Näytä rivit, joissa:"
 
-#: src/dialogs/autofilter-expression.glade.h:30
+#: src/dialogs/autofilter-expression.glade.h:17
 msgid "_And"
 msgstr "_Ja"
 
-#: src/dialogs/autofilter-expression.glade.h:31
+#: src/dialogs/autofilter-expression.glade.h:18
 msgid "_Or"
 msgstr "_Tai"
 
@@ -16232,7 +16249,7 @@ msgstr ""
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr ""
 
-#: src/dialogs/dialog-autocorrect.c:329
+#: src/dialogs/dialog-autocorrect.c:332
 msgid "Could not create the AutoCorrect dialog."
 msgstr ""
 
@@ -16866,65 +16883,74 @@ msgstr "Tunniste"
 msgid "Directory"
 msgstr "Hakemisto"
 
-#: src/dialogs/dialog-preferences.c:442
+#: src/dialogs/dialog-preferences.c:455
 msgid "The items on this page customize the behaviour of the undo/redo system."
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:477
+#: src/dialogs/dialog-preferences.c:470
+msgid "Length of Undo Descriptors"
+msgstr ""
+
+#: src/dialogs/dialog-preferences.c:498
 msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:515
+#: src/dialogs/dialog-preferences.c:523
+#, fuzzy
+msgid "Sorting is Case-Sensitive"
+msgstr "Lajittelu riippuu aakkoskoosta"
+
+#: src/dialogs/dialog-preferences.c:544
 msgid "The items on this page customize the new default workbook."
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:555
+#: src/dialogs/dialog-preferences.c:596
 msgid "The items on this page are related to the saving and opening of files."
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:593
+#: src/dialogs/dialog-preferences.c:646
 msgid "The items on this page are related to the screen layout and resolution."
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:625
+#: src/dialogs/dialog-preferences.c:682
 msgid ""
 "The items on this page and its subpages are related to various gnumeric "
 "tools."
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:660
-msgid "The items on this page arerelated to copy. cut and paste."
+#: src/dialogs/dialog-preferences.c:724
+msgid "The items on this page are related to copy. cut and paste."
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:698
+#: src/dialogs/dialog-preferences.c:764
 msgid "Copy and Paste"
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:699
+#: src/dialogs/dialog-preferences.c:765
 msgid "Files"
 msgstr "Tiedostot"
 
-#: src/dialogs/dialog-preferences.c:700
+#: src/dialogs/dialog-preferences.c:766
 #, fuzzy
 msgid "Tools"
 msgstr "_Työkalut"
 
-#: src/dialogs/dialog-preferences.c:701 src/wbc-gtk.c:472
+#: src/dialogs/dialog-preferences.c:767 src/wbc-gtk.c:472
 msgid "Undo"
 msgstr "Kumoa"
 
-#: src/dialogs/dialog-preferences.c:702
+#: src/dialogs/dialog-preferences.c:768
 #, fuzzy
 msgid "Windows"
 msgstr "Piilota rivit"
 
-#: src/dialogs/dialog-preferences.c:703
+#: src/dialogs/dialog-preferences.c:769
 msgid "Header/Footer"
 msgstr "Ylä- ja alatunniste"
 
-#: src/dialogs/dialog-preferences.c:705
+#: src/dialogs/dialog-preferences.c:771
 #, fuzzy
 msgid "Screen"
 msgstr "Näyttö %d"
@@ -18270,11 +18296,6 @@ msgstr "Murtoluku"
 #: src/dialogs/function-select.glade.h:5
 msgid "Select a function to insert:"
 msgstr ""
-
-#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1442
-#: src/wbcg-actions.c:1600
-msgid "_Insert"
-msgstr "_Lisää"
 
 #: src/dialogs/goalseek.glade.h:1
 #, fuzzy
@@ -19799,13 +19820,13 @@ msgstr ""
 msgid "Invalid template file: %s"
 msgstr "modulia ei voitu avata: "
 
-#: src/file.c:497
+#: src/file.c:522
 msgid "Saving over old files of this type is disabled for safety."
 msgstr ""
 "Tämän tyyppisten vanhojen tiedostojen päälle tallentaminen kielletty "
 "turvallisuuden takia."
 
-#: src/file.c:499
+#: src/file.c:524
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
@@ -20726,23 +20747,23 @@ msgstr "Automaattisesti tunnistettu"
 msgid "Load file"
 msgstr "Lataa tiedosto"
 
-#: src/gui-file.c:224 src/gui-file.c:666
+#: src/gui-file.c:224 src/gui-file.c:655
 msgid "Select a file"
 msgstr ""
 
-#: src/gui-file.c:242 src/gui-file.c:468 src/gui-file.c:680
+#: src/gui-file.c:242 src/gui-file.c:457 src/gui-file.c:669
 msgid "All Files"
 msgstr ""
 
-#: src/gui-file.c:247 src/gui-file.c:685
+#: src/gui-file.c:247 src/gui-file.c:674
 msgid "Spreadsheets"
 msgstr ""
 
-#: src/gui-file.c:284 src/gui-file.c:535 src/gui-file.c:709
+#: src/gui-file.c:273 src/gui-file.c:524 src/gui-file.c:698
 msgid "File _type:"
 msgstr "Tiedoston _tyyppi:"
 
-#: src/gui-file.c:400
+#: src/gui-file.c:389
 #, c-format
 msgid ""
 "%s\n"
@@ -20751,14 +20772,14 @@ msgstr ""
 "%s\n"
 "on hakemistonimi"
 
-#: src/gui-file.c:406
+#: src/gui-file.c:395
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
 "%s"
 msgstr ""
 
-#: src/gui-file.c:415
+#: src/gui-file.c:404
 #, fuzzy, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -20768,27 +20789,27 @@ msgstr ""
 "Työkirja %s on jo olemassa.\n"
 "Haluatko tallentaa sen päälle?"
 
-#: src/gui-file.c:473
+#: src/gui-file.c:462
 #, fuzzy
 msgid "Images"
 msgstr "Kuva"
 
-#: src/gui-file.c:513
+#: src/gui-file.c:502
 #, fuzzy
 msgid "Save as"
 msgstr "Tallenna kaikki"
 
-#: src/gui-file.c:562 src/gui-file.c:758
+#: src/gui-file.c:551 src/gui-file.c:747
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
 msgstr ""
 
-#: src/gui-file.c:589
+#: src/gui-file.c:578
 msgid "Select an Image"
 msgstr ""
 
-#: src/gui-file.c:608
+#: src/gui-file.c:597
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -21337,7 +21358,7 @@ msgstr ""
 msgid "Module doesn't contain \"%s\" function."
 msgstr "Lisiössä pitää olla init_plugin-funktio."
 
-#: src/plugin-service.c:159 src/plugin-service.c:249 src/plugin-service.c:1141
+#: src/plugin-service.c:159 src/plugin-service.c:249 src/plugin-service.c:1166
 msgid "Error while loading plugin service."
 msgstr ""
 
@@ -21353,95 +21374,95 @@ msgstr ""
 msgid "Clipboard"
 msgstr "Leikepöytä"
 
-#: src/plugin-service.c:408
+#: src/plugin-service.c:422
 msgid "File opener has no description"
 msgstr ""
 
-#: src/plugin-service.c:440
+#: src/plugin-service.c:454
 #, c-format
 msgid "File opener - %s"
 msgstr ""
 
-#: src/plugin-service.c:559
+#: src/plugin-service.c:573
 msgid "Error while reading file."
 msgstr ""
 
-#: src/plugin-service.c:714
+#: src/plugin-service.c:739
 msgid "File saver has no description"
 msgstr ""
 
-#: src/plugin-service.c:760
+#: src/plugin-service.c:785
 #, c-format
 msgid "File saver - %s"
 msgstr ""
 
-#: src/plugin-service.c:822
+#: src/plugin-service.c:847
 msgid "Error while saving file."
 msgstr "Virhe tallennettaessa tiedostoa."
 
-#: src/plugin-service.c:975
+#: src/plugin-service.c:1000
 msgid "Missing function category name."
 msgstr ""
 
-#: src/plugin-service.c:979
+#: src/plugin-service.c:1004
 msgid "Function group is empty."
 msgstr "Funktioryhmä on tyhjä."
 
-#: src/plugin-service.c:1009
+#: src/plugin-service.c:1034
 msgid "No func_desc_load method.\n"
 msgstr ""
 
-#: src/plugin-service.c:1079
+#: src/plugin-service.c:1104
 #, c-format
 msgid "%d function in category \"%s\""
 msgstr ""
 
-#: src/plugin-service.c:1080
+#: src/plugin-service.c:1105
 #, c-format
 msgid "Group of %d functions in category \"%s\""
 msgstr ""
 
-#: src/plugin-service.c:1176
+#: src/plugin-service.c:1201
 msgid "Plugin loader"
 msgstr "Liitännäislaturi"
 
-#: src/plugin-service.c:1273
+#: src/plugin-service.c:1298
 msgid "Missing file name."
 msgstr ""
 
-#: src/plugin-service.c:1322
+#: src/plugin-service.c:1347
 #, c-format
 msgid "Cannot read UI description from XML file %s."
 msgstr ""
 
-#: src/plugin-service.c:1356
+#: src/plugin-service.c:1381
 #, c-format
 msgid "User interface with %d action"
 msgstr ""
 
-#: src/plugin-service.c:1357
+#: src/plugin-service.c:1382
 #, c-format
 msgid "User interface with %d actions"
 msgstr ""
 
-#: src/plugin-service.c:1385
+#: src/plugin-service.c:1410
 msgid "GObject loader"
 msgstr "GObject-laturi"
 
-#: src/plugin-service.c:1492
+#: src/plugin-service.c:1517
 msgid "No \"type\" attribute on \"service\" element."
 msgstr ""
 
-#: src/plugin-service.c:1498
+#: src/plugin-service.c:1523
 #, c-format
 msgid "Unknown service type: %s."
 msgstr ""
 
-#: src/plugin-service.c:1514
+#: src/plugin-service.c:1539
 msgid "Error reading service information."
 msgstr ""
 
-#: src/plugin-service.c:1576
+#: src/plugin-service.c:1601
 msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."
@@ -21474,15 +21495,15 @@ msgstr "Tulostuksen esikatselu"
 msgid "Printing failed"
 msgstr "Tulostus epäonnistui"
 
-#: src/print.c:1443
+#: src/print.c:1444
 msgid "Print Sheets"
 msgstr "Tulosta tauluja"
 
-#: src/print.c:1452
+#: src/print.c:1453
 msgid "Act_ive sheet"
 msgstr "_Aktiivinen taulu"
 
-#: src/print.c:1452
+#: src/print.c:1453
 msgid "S_heets"
 msgstr "_Taulut"
 
@@ -21602,11 +21623,11 @@ msgstr ""
 msgid "cannot operate on array formulae"
 msgstr ""
 
-#: src/sheet.c:3190
+#: src/sheet.c:3191
 msgid "Insert Columns"
 msgstr "Lisää sarakkeita"
 
-#: src/sheet.c:3308
+#: src/sheet.c:3311
 msgid "Insert Rows"
 msgstr "Lisää rivejä"
 
@@ -21816,12 +21837,12 @@ msgstr "Kehys"
 msgid "Button"
 msgstr "Painike"
 
-#: src/sheet-object-widget.c:1304
+#: src/sheet-object-widget.c:1352
 #, c-format
 msgid "CheckBox %d"
 msgstr "Valintaruutu %d"
 
-#: src/sheet-object-widget.c:1750 src/wbcg-actions.c:1950
+#: src/sheet-object-widget.c:1807 src/wbcg-actions.c:1950
 msgid "RadioButton"
 msgstr "Vaihtoehtopainike"
 
@@ -21947,19 +21968,19 @@ msgstr ""
 msgid "Error while trying to write CSV file"
 msgstr ""
 
-#: src/stf.c:490
+#: src/stf.c:504
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr "Pilkuin tai sarakemerkein eroteltuja arvoja (CSV/TSV)"
 
-#: src/stf.c:494
+#: src/stf.c:509
 msgid "Text import (configurable)"
 msgstr "Tekstintuonti (muokattavissa)"
 
-#: src/stf.c:499
+#: src/stf.c:515
 msgid "Text export (configurable)"
 msgstr "Tekstinvienti (muokattavissa)"
 
-#: src/stf.c:503
+#: src/stf.c:519
 msgid "Comma separated values (CSV)"
 msgstr "Pilkuin eroteltuja arvoja (CSV)"
 
@@ -25981,11 +26002,6 @@ msgstr "Tuntematon tiedostomuoto."
 msgid "An unexplained error happened while opening %s"
 msgstr "Selittämätön virhe tapahtui avattaessa tiedostoa %s"
 
-#: src/xml-io.c:2770
-#, c-format
-msgid "Unsupported object type '%s'"
-msgstr "Tukematon oliotyyppi \"%s\""
-
 #: src/xml-io.c:3473
 msgid "Unparsable xml in clipboard"
 msgstr "Jäsentymätöntä xml:ää leikepöydällä"
@@ -26009,7 +26025,7 @@ msgstr "Tiedosto ei ole Gnumeric-työkirjatiedosto"
 msgid "Failure saving file"
 msgstr "Virhe tallennettaessa tiedostoa"
 
-#: src/xml-io.c:4329
+#: src/xml-io.c:4332
 msgid "Gnumeric XML (*.gnumeric) original slow exporter"
 msgstr ""
 

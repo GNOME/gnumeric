@@ -31,7 +31,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-15 13:15+0900\n"
+"POT-Creation-Date: 2004-11-22 16:47-0500\n"
 "PO-Revision-Date: 2004-11-15 13:31+0900\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -1563,7 +1563,7 @@ msgstr "Finansiella derivat"
 msgid "Functions related to financial derivatives"
 msgstr "Funktioner relaterade till finansiella derivat"
 
-#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5830
+#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5831
 #: plugins/mps/mps.c:547 src/xml-io.c:4199
 msgid "Reading file..."
 msgstr "Läser fil..."
@@ -1649,51 +1649,51 @@ msgstr "Förbereder sparande..."
 msgid "Saving file..."
 msgstr "Sparar fil..."
 
-#: plugins/excel/excel-xml-read.c:85 plugins/xml_sax/xml-sax-read.c:270
+#: plugins/excel/excel-xml-read.c:85 plugins/xml_sax/xml-sax-read.c:276
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Oväntat attribut %s::%s == \"%s\"."
 
 #: plugins/excel/excel-xml-read.c:198
 #: plugins/openoffice/openoffice-read.c:1479
-#: plugins/xml_sax/xml-sax-read.c:1653
+#: plugins/xml_sax/xml-sax-read.c:1767
 msgid "XML document not well formed!"
 msgstr "XML-dokumentet är inte korrekt utformat!"
 
-#: plugins/excel/ms-excel-read.c:1069 src/value.c:60
+#: plugins/excel/ms-excel-read.c:1070 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#OKÄND!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1151 plugins/excel/ms-excel-read.c:1163
+#: plugins/excel/ms-excel-read.c:1152 plugins/excel/ms-excel-read.c:1164
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:510
 #: src/dialogs/dialog-sheet-order.c:432 src/dialogs/dialog-sheet-order.c:436
 #, c-format
 msgid "Sheet%d"
 msgstr "Blad%d"
 
-#: plugins/excel/ms-excel-read.c:1167
+#: plugins/excel/ms-excel-read.c:1168
 #, c-format
 msgid "Macro%d"
 msgstr "Makro%d"
 
-#: plugins/excel/ms-excel-read.c:1171
+#: plugins/excel/ms-excel-read.c:1172
 #, c-format
 msgid "Chart%d"
 msgstr "Diagram%d"
 
-#: plugins/excel/ms-excel-read.c:1174
+#: plugins/excel/ms-excel-read.c:1175
 #, c-format
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:2963
+#: plugins/excel/ms-excel-read.c:2964
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Fel vid tolkning av namn \"%s\""
 
-#: plugins/excel/ms-excel-read.c:3059
+#: plugins/excel/ms-excel-read.c:3060
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -1702,7 +1702,7 @@ msgstr ""
 "DDE-länkar stöds inte.\n"
 "Namn \"%s\" kommer förloras.\n"
 
-#: plugins/excel/ms-excel-read.c:3065
+#: plugins/excel/ms-excel-read.c:3066
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -1711,15 +1711,15 @@ msgstr ""
 "OLE-länkar stöds inte.\n"
 "Namn \"%s\" kommer förloras.\n"
 
-#: plugins/excel/ms-excel-read.c:5175
+#: plugins/excel/ms-excel-read.c:5176
 msgid "external references"
 msgstr "externa referenser"
 
-#: plugins/excel/ms-excel-read.c:5198
+#: plugins/excel/ms-excel-read.c:5199
 msgid "No password supplied"
 msgstr "Inget lösenord givet"
 
-#: plugins/excel/ms-excel-read.c:6056
+#: plugins/excel/ms-excel-read.c:6057
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kunde inte hitta en giltig MS Excel-arbetsbok"
 
@@ -13453,8 +13453,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=VAR\n"
 "@SYNTAX=VAR(b1; b2; ...)\n"
-"@DESCRIPTION=VAR uppskattar variansen hos ett stickprov. "
-"För att få den exakta variansen av en komplett population, använd VARP.\n"
+"@DESCRIPTION=VAR uppskattar variansen hos ett stickprov. För att få den "
+"exakta variansen av en komplett population, använd VARP.\n"
 "* VAR är även känd som N-1-variansen.  Under normala förhållanden är den en "
 "maximum-likelihood-uppskattning for variansen.\n"
 "\n"
@@ -13490,13 +13490,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=STDEV\n"
 "@SYNTAX=STDEV(b1; b2; ...)\n"
-"@DESCRIPTION=STDEV returnerar standardavvikelsen av det givna "
-"stickprovet.\n"
+"@DESCRIPTION=STDEV returnerar standardavvikelsen av det givna stickprovet.\n"
 "För att få den exakta standardavvikelsen av en komplett population, använd "
 "STDEVP.\n"
 "* STDEV är även känd som N-1-standardavvikelsen.\n"
-"Under normala förhållanden är den en "
-"maximum-likelihood-uppskattning for standardavvikelsen.\n"
+"Under normala förhållanden är den en maximum-likelihood-uppskattning for "
+"standardavvikelsen.\n"
 "\n"
 "* Denna funktion är kompatibel med Excel. \n"
 "\n"
@@ -17879,8 +17878,8 @@ msgstr "Objektivfunktion:"
 msgid "Constraints:"
 msgstr "Bivillkor:"
 
-#: plugins/mps/mps.c:245 src/commands.c:6112
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1058
+#: plugins/mps/mps.c:245 src/commands.c:6144
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1063
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:379
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
 #: src/dialogs/dialog-function-select.c:443
@@ -18718,7 +18717,7 @@ msgstr "Detta är ett meddelande från \"%s\" insticksmodulen."
 msgid "Error while opening xbase file."
 msgstr "Fel vid öppnande av xbase-fil."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4906
+#: plugins/xbase/boot.c:175 src/commands.c:4938
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
 #: src/dialogs/dialog-stf-export.c:444 src/dialogs/print.glade.h:21
 #: src/print-info.c:391 src/workbook.c:1091 src/xml-io.c:3789
@@ -18760,7 +18759,7 @@ msgstr "EXPERIMENTELL SAX-baserad Gnumeric (*.gnumeric)"
 msgid "EXPERIMENTAL SAX based XML"
 msgstr "EXPERIMENTELL SAX-baserad XML"
 
-#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4325
+#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4327
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML (*.gnumeric)"
 
@@ -18768,14 +18767,19 @@ msgstr "Gnumeric XML (*.gnumeric)"
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "Nästa generationens xml-system, baserat på sax"
 
-#: plugins/xml_sax/xml-sax-read.c:302
+#: plugins/xml_sax/xml-sax-read.c:308
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
 msgstr "Flera versionsangivelser. Antar %d"
 
-#: plugins/xml_sax/xml-sax-read.c:473
+#: plugins/xml_sax/xml-sax-read.c:479
 msgid "File has inconsistent SheetNameIndex element."
 msgstr "Filen har inte ett konsistent SheetNameIndex-element."
+
+#: plugins/xml_sax/xml-sax-read.c:1318 src/xml-io.c:2770
+#, c-format
+msgid "Unsupported object type '%s'"
+msgstr "Objekttypen \"%s\" stöds inte"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:1
 msgid ""
@@ -19705,11 +19709,11 @@ msgstr "Inmatning av \"%s%s\""
 msgid "Ins/Del Column/Row"
 msgstr "Infoga/ta bort kolumn/rad"
 
-#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3249
+#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3251
 msgid "Delete Columns"
 msgstr "Ta bort kolumner"
 
-#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3367
+#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3371
 msgid "Delete Rows"
 msgstr "Ta bort rader"
 
@@ -20007,123 +20011,123 @@ msgstr "Inställning av standardhöjd på rader till %.2f punkter"
 msgid "Zoom %s to %.0f%%"
 msgstr "Inzoomning av %s till %.0f%%"
 
-#: src/commands.c:4420
+#: src/commands.c:4452
 msgid "Delete Object"
 msgstr "Ta bort objekt"
 
-#: src/commands.c:4581
+#: src/commands.c:4613
 msgid "Format Object"
 msgstr "Formattera objekt"
 
-#: src/commands.c:5180
+#: src/commands.c:5212
 msgid "Reordering Sheets"
 msgstr "Ändring av ordning av blad"
 
-#: src/commands.c:5183
+#: src/commands.c:5215
 msgid "Renaming Sheets"
 msgstr "Namnbyte på blad"
 
-#: src/commands.c:5186
+#: src/commands.c:5218
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "Lägger till %i blad"
 
-#: src/commands.c:5190
+#: src/commands.c:5222
 msgid "Changing Tab Colors"
 msgstr "Färgbyte på flikar"
 
-#: src/commands.c:5193
+#: src/commands.c:5225
 msgid "Changing Sheet Protection"
 msgstr "Ändrar bladskydd"
 
-#: src/commands.c:5196
+#: src/commands.c:5228
 msgid "Delete sheets"
 msgstr "Ta bort blad"
 
-#: src/commands.c:5199
+#: src/commands.c:5231
 msgid "Delete a sheet"
 msgstr "Ta bort ett blad"
 
-#: src/commands.c:5202
+#: src/commands.c:5234
 msgid "Changing Sheet Visibility"
 msgstr "Ändrar bladsynlighet"
 
-#: src/commands.c:5205
+#: src/commands.c:5237
 msgid "Reorganizing Sheets"
 msgstr "Ändring av ordning av blad"
 
-#: src/commands.c:5356
+#: src/commands.c:5388
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Tömning av kommentar för %s"
 
-#: src/commands.c:5357
+#: src/commands.c:5389
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Sättande av kommentar till %s"
 
-#: src/commands.c:5737
+#: src/commands.c:5769
 #, c-format
 msgid "Merging data into %s"
 msgstr "Sammanslagning av data i %s"
 
-#: src/commands.c:5839
+#: src/commands.c:5871
 msgid "Changing summary info"
 msgstr "Ändrar sammanfattningsinformation"
 
-#: src/commands.c:5928
+#: src/commands.c:5960
 msgid "Pull Object to the Front"
 msgstr "Flytta objektet överst"
 
-#: src/commands.c:5931
+#: src/commands.c:5963
 msgid "Pull Object Forward"
 msgstr "Flytta objektet framåt"
 
-#: src/commands.c:5934
+#: src/commands.c:5966
 msgid "Push Object Backward"
 msgstr "Flytta objektet bakåt"
 
-#: src/commands.c:5937
+#: src/commands.c:5969
 msgid "Push Object to the Back"
 msgstr "Flytta objektet underst"
 
-#: src/commands.c:6052
+#: src/commands.c:6084
 #, c-format
 msgid "Page Setup For %s"
 msgstr "SIdegenskaper för %s"
 
-#: src/commands.c:6054
+#: src/commands.c:6086
 msgid "Page Setup For All Sheets"
 msgstr "Sidegenskaper för alla blad"
 
-#: src/commands.c:6169
+#: src/commands.c:6201
 msgid "has a circular reference"
 msgstr "har en cirkelreferens"
 
-#: src/commands.c:6192
+#: src/commands.c:6224
 #, c-format
 msgid "Define Name %s"
 msgstr "Definiera namn %s"
 
-#: src/commands.c:6195
+#: src/commands.c:6227
 #, c-format
 msgid "Update Name %s"
 msgstr "Uppdatera namn %s"
 
-#: src/commands.c:6259
+#: src/commands.c:6291
 msgid "Add scenario"
 msgstr "Lägg till scenarium"
 
-#: src/commands.c:6334
+#: src/commands.c:6366
 msgid "Scenario Show"
 msgstr "Scenarievisning"
 
-#: src/commands.c:6398
+#: src/commands.c:6430
 msgid "Shuffle Data"
 msgstr "Blanda data"
 
 #. FIXME?
-#: src/commands.c:6508
+#: src/commands.c:6540
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Text (%s) till kolumner (%s)"
@@ -20133,28 +20137,28 @@ msgstr "Text (%s) till kolumner (%s)"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6652 src/dialogs/solver.glade.h:17
+#: src/commands.c:6684 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
 #: src/tools/solver/reports-write.c:907 src/tools/solver/reports-write.c:958
 msgid "Solver"
 msgstr "Lösare"
 
-#: src/commands.c:6736
+#: src/commands.c:6768
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Målsök (%s)"
 
-#: src/commands.c:6881
+#: src/commands.c:6913
 #, c-format
 msgid "Duplicating %s"
 msgstr "Duplicerar %s"
 
-#: src/commands.c:6960
+#: src/commands.c:6992
 msgid "Tabulating Dependencies"
 msgstr "Tabulerar beroenden"
 
-#: src/commands.c:7035
+#: src/commands.c:7067
 msgid "Reconfigure Graph"
 msgstr "Konfigurera om graf"
 
@@ -20449,25 +20453,25 @@ msgstr "Graf"
 msgid "Chart"
 msgstr "Diagram"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1084
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1089
 msgid "Step 1 of 2: Select Chart Type"
 msgstr "Steg 1 av 2: Välj typ av graf"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1092
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1097
 msgid "Step 2 of 2: Customize Chart"
 msgstr "Steg 2 av 2: Anpassa graf"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1097
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1102
 msgid "Customize Chart"
 msgstr "Anpassa graf"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1173
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1178
 #: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1442
 #: src/wbcg-actions.c:1600
 msgid "_Insert"
 msgstr "_Infoga"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1231
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1236
 msgid "_Plot Type"
 msgstr "_Plottyp"
 
@@ -20536,7 +20540,7 @@ msgstr "Inställningar"
 msgid "Point"
 msgstr "Punkt"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:159 src/gui-file.c:359
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:159 src/gui-file.c:348
 #, c-format
 msgid "%d x %d"
 msgstr "%d × %d"
@@ -21342,15 +21346,16 @@ msgstr "Multidimensionella punkter, med cirkel i varje punkt."
 msgid "Plot X, Y and bubble size."
 msgstr "Plotta X, Y och bubbelstorlek."
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:7
+#. really 3_1
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:8
 msgid "XY"
 msgstr "XY"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:8
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:9
 msgid "XY Lines"
 msgstr "XY-linjer"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:9
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:10
 msgid "XY Points"
 msgstr "XY-punkter"
 
@@ -27030,12 +27035,12 @@ msgstr "\"%s\" är redan definierad i arbetsboken"
 msgid "Invalid template file: %s"
 msgstr "Ogiltig mallfil: %s"
 
-#: src/file.c:497
+#: src/file.c:522
 msgid "Saving over old files of this type is disabled for safety."
 msgstr ""
 "Överskrivning av gamla filer av denna typ är inaktiverat av säkerhetsskäl."
 
-#: src/file.c:499
+#: src/file.c:524
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
@@ -27976,23 +27981,23 @@ msgstr "Upptäcks automatiskt"
 msgid "Load file"
 msgstr "Öppna fil"
 
-#: src/gui-file.c:224 src/gui-file.c:666
+#: src/gui-file.c:224 src/gui-file.c:655
 msgid "Select a file"
 msgstr "Välj en fil"
 
-#: src/gui-file.c:242 src/gui-file.c:468 src/gui-file.c:680
+#: src/gui-file.c:242 src/gui-file.c:457 src/gui-file.c:669
 msgid "All Files"
 msgstr "Alla filer"
 
-#: src/gui-file.c:247 src/gui-file.c:685
+#: src/gui-file.c:247 src/gui-file.c:674
 msgid "Spreadsheets"
 msgstr "Kalkylprogram"
 
-#: src/gui-file.c:284 src/gui-file.c:535 src/gui-file.c:709
+#: src/gui-file.c:273 src/gui-file.c:524 src/gui-file.c:698
 msgid "File _type:"
 msgstr "Filt_yp:"
 
-#: src/gui-file.c:400
+#: src/gui-file.c:389
 #, c-format
 msgid ""
 "%s\n"
@@ -28001,7 +28006,7 @@ msgstr ""
 "%s\n"
 "är ett katalognamn"
 
-#: src/gui-file.c:406
+#: src/gui-file.c:395
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -28010,7 +28015,7 @@ msgstr ""
 "Du har inte rättigheter att spara till\n"
 "%s"
 
-#: src/gui-file.c:415
+#: src/gui-file.c:404
 #, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -28021,15 +28026,15 @@ msgstr ""
 "\n"
 "Vill du skriva över den?"
 
-#: src/gui-file.c:473
+#: src/gui-file.c:462
 msgid "Images"
 msgstr "Bilder"
 
-#: src/gui-file.c:513
+#: src/gui-file.c:502
 msgid "Save as"
 msgstr "Spara som"
 
-#: src/gui-file.c:562 src/gui-file.c:758
+#: src/gui-file.c:551 src/gui-file.c:747
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -28037,11 +28042,11 @@ msgstr ""
 "Den givna ändelsen passar inte den valda filtypen. Vill du använda detta "
 "namn i alla fall?"
 
-#: src/gui-file.c:589
+#: src/gui-file.c:578
 msgid "Select an Image"
 msgstr "Välj en bild"
 
-#: src/gui-file.c:608
+#: src/gui-file.c:597
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -28613,7 +28618,7 @@ msgstr "Filen innehåller inte vektorn \"%s\"."
 msgid "Module doesn't contain \"%s\" function."
 msgstr "Modulen innehåller inte funktionen \"%s\"."
 
-#: src/plugin-service.c:159 src/plugin-service.c:249 src/plugin-service.c:1141
+#: src/plugin-service.c:159 src/plugin-service.c:249 src/plugin-service.c:1166
 msgid "Error while loading plugin service."
 msgstr "Fel vid inläsning av insticksmodultjänst."
 
@@ -28629,95 +28634,95 @@ msgstr "Uppstädningsfunktionen i insticksmodulen returnerade ett fel."
 msgid "Clipboard"
 msgstr "Urklipp"
 
-#: src/plugin-service.c:408
+#: src/plugin-service.c:422
 msgid "File opener has no description"
 msgstr "Filöppnaren har ingen beskrivning"
 
-#: src/plugin-service.c:440
+#: src/plugin-service.c:454
 #, c-format
 msgid "File opener - %s"
 msgstr "Filöppnare - %s"
 
-#: src/plugin-service.c:559
+#: src/plugin-service.c:573
 msgid "Error while reading file."
 msgstr "Fel vid läsning av fil."
 
-#: src/plugin-service.c:714
+#: src/plugin-service.c:739
 msgid "File saver has no description"
 msgstr "Filspararen har ingen beskrivning"
 
-#: src/plugin-service.c:760
+#: src/plugin-service.c:785
 #, c-format
 msgid "File saver - %s"
 msgstr "Filsparare -  %s"
 
-#: src/plugin-service.c:822
+#: src/plugin-service.c:847
 msgid "Error while saving file."
 msgstr "Fel vid sparande av fil."
 
-#: src/plugin-service.c:975
+#: src/plugin-service.c:1000
 msgid "Missing function category name."
 msgstr "Kategorinamn för funktion saknas."
 
-#: src/plugin-service.c:979
+#: src/plugin-service.c:1004
 msgid "Function group is empty."
 msgstr "Funktionsgruppen är tom."
 
-#: src/plugin-service.c:1009
+#: src/plugin-service.c:1034
 msgid "No func_desc_load method.\n"
 msgstr ""
 
-#: src/plugin-service.c:1079
+#: src/plugin-service.c:1104
 #, c-format
 msgid "%d function in category \"%s\""
 msgstr "%d funktion i kategori \"%s\""
 
-#: src/plugin-service.c:1080
+#: src/plugin-service.c:1105
 #, c-format
 msgid "Group of %d functions in category \"%s\""
 msgstr "Grupp med %d funktioner i kategori \"%s\""
 
-#: src/plugin-service.c:1176
+#: src/plugin-service.c:1201
 msgid "Plugin loader"
 msgstr "Inläsare för insticksmoduler"
 
-#: src/plugin-service.c:1273
+#: src/plugin-service.c:1298
 msgid "Missing file name."
 msgstr "Saknat filnamn."
 
-#: src/plugin-service.c:1322
+#: src/plugin-service.c:1347
 #, c-format
 msgid "Cannot read UI description from XML file %s."
 msgstr "Kan inte läsa UI-beskrivning från XML-filen %s."
 
-#: src/plugin-service.c:1356
+#: src/plugin-service.c:1381
 #, c-format
 msgid "User interface with %d action"
 msgstr "Användargränssnitt med %d åtgärd"
 
-#: src/plugin-service.c:1357
+#: src/plugin-service.c:1382
 #, c-format
 msgid "User interface with %d actions"
 msgstr "Användargränssnitt med %d åtgärder"
 
-#: src/plugin-service.c:1385
+#: src/plugin-service.c:1410
 msgid "GObject loader"
 msgstr "GObjectinläsare"
 
-#: src/plugin-service.c:1492
+#: src/plugin-service.c:1517
 msgid "No \"type\" attribute on \"service\" element."
 msgstr "Inget \"typ\"-attribut på \"tjänst\"-element."
 
-#: src/plugin-service.c:1498
+#: src/plugin-service.c:1523
 #, c-format
 msgid "Unknown service type: %s."
 msgstr "Okänd tjänstetyp: %s."
 
-#: src/plugin-service.c:1514
+#: src/plugin-service.c:1539
 msgid "Error reading service information."
 msgstr "Fel vid läsning av information för tjänst."
 
-#: src/plugin-service.c:1576
+#: src/plugin-service.c:1601
 msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."
@@ -28752,15 +28757,15 @@ msgstr "Förhandsgranskning"
 msgid "Printing failed"
 msgstr "Utskrift misslyckades"
 
-#: src/print.c:1443
+#: src/print.c:1444
 msgid "Print Sheets"
 msgstr "Skriv ut blad"
 
-#: src/print.c:1452
+#: src/print.c:1453
 msgid "Act_ive sheet"
 msgstr "Akt_ivt blad"
 
-#: src/print.c:1452
+#: src/print.c:1453
 msgid "S_heets"
 msgstr "_Blad"
 
@@ -28880,11 +28885,11 @@ msgstr "kan inte operera på sammanslagna celler"
 msgid "cannot operate on array formulae"
 msgstr "kan inte operera på vektorformler"
 
-#: src/sheet.c:3190
+#: src/sheet.c:3191
 msgid "Insert Columns"
 msgstr "Infoga kolumner"
 
-#: src/sheet.c:3308
+#: src/sheet.c:3311
 msgid "Insert Rows"
 msgstr "Infoga rader"
 
@@ -29091,12 +29096,12 @@ msgstr "Ram"
 msgid "Button"
 msgstr "Knapp"
 
-#: src/sheet-object-widget.c:1304
+#: src/sheet-object-widget.c:1352
 #, c-format
 msgid "CheckBox %d"
 msgstr "Kryssruta %d"
 
-#: src/sheet-object-widget.c:1750 src/wbcg-actions.c:1950
+#: src/sheet-object-widget.c:1807 src/wbcg-actions.c:1950
 msgid "RadioButton"
 msgstr "Radioknapp"
 
@@ -29239,19 +29244,19 @@ msgstr "Fel vid försök att exportera fil som text"
 msgid "Error while trying to write CSV file"
 msgstr "Fel vid försök att skriva csv-fil"
 
-#: src/stf.c:490
+#: src/stf.c:504
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr "Komma- eller tabseparerade värden (CSV/TSV)"
 
-#: src/stf.c:494
+#: src/stf.c:509
 msgid "Text import (configurable)"
 msgstr "Textimport (konfigurerbar)"
 
-#: src/stf.c:499
+#: src/stf.c:515
 msgid "Text export (configurable)"
 msgstr "Textexport (konfigurerbar)"
 
-#: src/stf.c:503
+#: src/stf.c:519
 msgid "Comma separated values (CSV)"
 msgstr "Kommaseparerade värden (CSV)"
 
@@ -33257,11 +33262,6 @@ msgstr "Filformatet stöds inte."
 msgid "An unexplained error happened while opening %s"
 msgstr "Ett oförklarat fel inträffade vid öppnande av %s"
 
-#: src/xml-io.c:2770
-#, c-format
-msgid "Unsupported object type '%s'"
-msgstr "Objekttypen \"%s\" stöds inte"
-
 #: src/xml-io.c:3473
 msgid "Unparsable xml in clipboard"
 msgstr "Otolkningsbar xml i urklipp"
@@ -33285,7 +33285,7 @@ msgstr "Filen är inte en Gnumeric-arbetsboksfil"
 msgid "Failure saving file"
 msgstr "Fel vid sparande av fil"
 
-#: src/xml-io.c:4329
+#: src/xml-io.c:4332
 msgid "Gnumeric XML (*.gnumeric) original slow exporter"
 msgstr "Gnumeric XML (*.gnumeric) ursprunglig, långsam, exportör"
 

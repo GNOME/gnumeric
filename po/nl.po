@@ -124,7 +124,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-21 11:16+0100\n"
+"POT-Creation-Date: 2004-11-22 16:47-0500\n"
 "PO-Revision-Date: 2004-11-21 18:03+0100\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: nl <vertaling@nl.linux.org>\n"
@@ -10879,7 +10879,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=HYPOT\n"
 "@SYNTAX=HYPOT(getal1;getal2;...)\n"
-"@DESCRIPTION=HYPOT geeft de wortel van de som van de kwadraten van de argumenten.\n"
+"@DESCRIPTION=HYPOT geeft de wortel van de som van de kwadraten van de "
+"argumenten.\n"
 "\n"
 "@EXAMPLES=\n"
 "HYPOT(3,4) is 5\n"
@@ -19628,27 +19629,39 @@ msgstr ""
 msgid ""
 "This string gives the default region to be repeated at the left of each "
 "printed sheet. Please use the Print Setup dialog to edit this value."
-msgstr "Deze tekenreeks geeft het standaard gebied dat aan de linkerzijde van elk afgedrukt werkblad wordt herhaald. Gebruik het dialoogvenster Afdrukinstellingen om deze waarde in te stellen."
+msgstr ""
+"Deze tekenreeks geeft het standaard gebied dat aan de linkerzijde van elk "
+"afgedrukt werkblad wordt herhaald. Gebruik het dialoogvenster "
+"Afdrukinstellingen om deze waarde in te stellen."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:65
 msgid ""
 "This string gives the default region to be repeated at the top of each "
 "printed sheet. Please use the Print Setup dialog to edit this value."
-msgstr "Deze tekenreeks geeft het standaard gebied dat aan de bovenzijde van elk afgedrukt werkblad wordt herhaald. Gebruik het dialoogvenster Afdrukinstellingen om deze waarde in te stellen."
+msgstr ""
+"Deze tekenreeks geeft het standaard gebied dat aan de bovenzijde van elk "
+"afgedrukt werkblad wordt herhaald. Gebruik het dialoogvenster "
+"Afdrukinstellingen om deze waarde in te stellen."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:66
 msgid ""
 "This value determines the default number of pages a printout of the current "
 "sheet is suppposed to be high. 0 disables scaling. Please use the Print "
 "Setup dialog to edit this value."
-msgstr "Deze waarde bepaalt hoeveel pagina's hoog een afdrukversie van het huidige werkblad standaard moet zijn. 0 zet schalen uit. Gebruik het dialoogvenster Afdrukinstellingen om deze waarde in te stellen."
+msgstr ""
+"Deze waarde bepaalt hoeveel pagina's hoog een afdrukversie van het huidige "
+"werkblad standaard moet zijn. 0 zet schalen uit. Gebruik het dialoogvenster "
+"Afdrukinstellingen om deze waarde in te stellen."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:67
 msgid ""
 "This value determines the default number of pages a printout of the current "
 "sheet is suppposed to be wide. 0 disables scaling. Please use the Print "
 "Setup dialog to edit this value."
-msgstr "Deze waarde bepaalt hoeveel pagina's breed een afdrukversie van het huidige werkblad standaard moet zijn. 0 zet schalen uit. Gebruik het dialoogvenster Afdrukinstellingen om deze waarde in te stellen."
+msgstr ""
+"Deze waarde bepaalt hoeveel pagina's breed een afdrukversie van het huidige "
+"werkblad standaard moet zijn. 0 zet schalen uit. Gebruik het dialoogvenster "
+"Afdrukinstellingen om deze waarde in te stellen."
 
 # eenvoudiger gemaakt
 #: schemas/gnumeric-dialogs.schemas.in.h:68
@@ -19656,7 +19669,10 @@ msgid ""
 "This value determines the default setting in the Print Setup dialog whether "
 "to center pages horizontally. Please use the Print Setup dialog to edit this "
 "value."
-msgstr "Deze waarde bepaalt of pagina's standaard horizontaal moeten worden gecentreerd. Gebruik het dialoogvenster Afdrukinstellingen om deze waarde in te stellen."
+msgstr ""
+"Deze waarde bepaalt of pagina's standaard horizontaal moeten worden "
+"gecentreerd. Gebruik het dialoogvenster Afdrukinstellingen om deze waarde in "
+"te stellen."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:69
 msgid ""
@@ -19978,7 +19994,9 @@ msgstr ""
 msgid ""
 "This number (between 0.25 and 1.00) gives the vertical fraction of the "
 "screen size covered by the default window."
-msgstr "Dit getal (tussen 0.25 en 1.00) geeft de verticale fractie van het beeldscherm dat door het standaardvenster in beslag wordt genomen."
+msgstr ""
+"Dit getal (tussen 0.25 en 1.00) geeft de verticale fractie van het "
+"beeldscherm dat door het standaardvenster in beslag wordt genomen."
 
 #: schemas/gnumeric-general.schemas.in.h:43
 msgid ""
@@ -20243,11 +20261,11 @@ msgstr "Typen \"%s%s\""
 msgid "Ins/Del Column/Row"
 msgstr "Kolom/Rij inv/verw"
 
-#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3249
+#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3251
 msgid "Delete Columns"
 msgstr "Kolommen verwijderen"
 
-#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3367
+#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3371
 msgid "Delete Rows"
 msgstr "Rijen verwijderen"
 
@@ -21354,7 +21372,8 @@ msgstr "Aanliggende horizontale balken gegroepeerd per hoofd- en subcategorie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:11
 msgid "Adjacent vertical 3D columns grouped by major and minor categories."
-msgstr "Aanliggende verticale 3D-kolommen gegroepeerd per hoofd- en subcategorie."
+msgstr ""
+"Aanliggende verticale 3D-kolommen gegroepeerd per hoofd- en subcategorie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:12
 msgid "Adjacent vertical columns grouped by major and minor categories."
@@ -21406,7 +21425,9 @@ msgstr ""
 msgid ""
 "Minor categories stacked as percentages of the minor total, in 3D vertical "
 "bars, grouped by major category."
-msgstr "Subcategorien gestapeld als percentages van het subtotaal, in verticale 3D-balken, gegroepeerd door hoofdcategorie."
+msgstr ""
+"Subcategorien gestapeld als percentages van het subtotaal, in verticale 3D-"
+"balken, gegroepeerd door hoofdcategorie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:23
 msgid ""
@@ -21420,7 +21441,9 @@ msgstr ""
 msgid ""
 "Minor categories stacked as percentages of the minor total, in vertical "
 "columns, grouped by major category."
-msgstr "Subcategorien gestapeld als percentages van het subtotaal, in verticale balken, gegroepeerd door hoofdcategorie."
+msgstr ""
+"Subcategorien gestapeld als percentages van het subtotaal, in verticale "
+"balken, gegroepeerd door hoofdcategorie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:25
 msgid ""
@@ -21438,11 +21461,15 @@ msgstr ""
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:27
 msgid ""
 "Minor categories stacked in vertical 3D columns, grouped by major category."
-msgstr "Subcategorien gestapeld in verticale 3D-kolommen, gegroepeerd door hoofdcategorie."
+msgstr ""
+"Subcategorien gestapeld in verticale 3D-kolommen, gegroepeerd door "
+"hoofdcategorie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:28
 msgid "Minor categories stacked in vertical columns grouped by major category."
-msgstr "Subcategorien gestapeld in verticale kolommen, gegroepeerd door hoofdcategorie."
+msgstr ""
+"Subcategorien gestapeld in verticale kolommen, gegroepeerd door "
+"hoofdcategorie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:29
 msgid "Percentage Areas"
@@ -21588,7 +21615,9 @@ msgstr "graden"
 msgid ""
 "The amount this slice is separated from the center measured as a percentage "
 "of the radius of the pie"
-msgstr "De afstand waarmee deze punt van het centrum is verwijderd gemeten als een percentage van de straal van de cirkel."
+msgstr ""
+"De afstand waarmee deze punt van het centrum is verwijderd gemeten als een "
+"percentage van de straal van de cirkel."
 
 # afstand
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:4
@@ -28653,7 +28682,9 @@ msgstr "Opslaan als"
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
-msgstr "De opgegeven bestandsextensie komt niet overeen met het gekozen bestandstype. Wilt u evengoed deze naam gebruiken?"
+msgstr ""
+"De opgegeven bestandsextensie komt niet overeen met het gekozen "
+"bestandstype. Wilt u evengoed deze naam gebruiken?"
 
 # Kies een afbeelding/Een afbeelding selecteren
 #: src/gui-file.c:578
@@ -29500,11 +29531,11 @@ msgstr "kan niet toepassen op samengevoegde cellen"
 msgid "cannot operate on array formulae"
 msgstr "kan niet worden toegepast op array formules"
 
-#: src/sheet.c:3190
+#: src/sheet.c:3191
 msgid "Insert Columns"
 msgstr "Kolommen Invoegen"
 
-#: src/sheet.c:3308
+#: src/sheet.c:3311
 msgid "Insert Rows"
 msgstr "Rijen Invoegen"
 
@@ -29881,7 +29912,9 @@ msgstr "Te veel rijen in gegevens om te verwerken: %d"
 msgid ""
 "There are more columns of data than there is room for in the sheet.  Extra "
 "columns will be ignored."
-msgstr "Er zijn meer kolommen met data dan er plaats is in het werkblad.  Overige kolommen zullen worden genegeerd."
+msgstr ""
+"Er zijn meer kolommen met data dan er plaats is in het werkblad.  Overige "
+"kolommen zullen worden genegeerd."
 
 #: src/tools/analysis-tools.c:220 src/tools/analysis-tools.c:409
 #: src/tools/analysis-tools.c:4658
@@ -31358,7 +31391,9 @@ msgstr "_Cellen..."
 
 #: src/wbcg-actions.c:1555
 msgid "Delete the selected cells, shifting others into their place"
-msgstr "De geselecteerde cellen verwijderen waardoor andere cellen in hun plaats schuiven"
+msgstr ""
+"De geselecteerde cellen verwijderen waardoor andere cellen in hun plaats "
+"schuiven"
 
 #: src/wbcg-actions.c:1561
 msgid "Select all cells in the spreadsheet"

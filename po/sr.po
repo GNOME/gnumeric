@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-07 01:25-0500\n"
+"POT-Creation-Date: 2004-11-22 16:47-0500\n"
 "PO-Revision-Date: 2003-12-08 01:14+0100\n"
 "Last-Translator: Слободан Средојевић <ssl@uns.ns.ac.yu>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
@@ -938,7 +938,7 @@ msgstr "Финансијски изводи"
 msgid "Functions related to financial derivatives"
 msgstr "Функције у вези са финансијским изводима"
 
-#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5743
+#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5831
 #: plugins/mps/mps.c:547 src/xml-io.c:4199
 msgid "Reading file..."
 msgstr "Учитава датотеку..."
@@ -1023,51 +1023,51 @@ msgstr "Припрема за снимање..."
 msgid "Saving file..."
 msgstr "Чува датотеку..."
 
-#: plugins/excel/excel-xml-read.c:85 plugins/xml_sax/xml-sax-read.c:270
+#: plugins/excel/excel-xml-read.c:85 plugins/xml_sax/xml-sax-read.c:276
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Неочекивани атрибут %s::%s == '%s'."
 
 #: plugins/excel/excel-xml-read.c:198
 #: plugins/openoffice/openoffice-read.c:1479
-#: plugins/xml_sax/xml-sax-read.c:1649
+#: plugins/xml_sax/xml-sax-read.c:1767
 msgid "XML document not well formed!"
 msgstr "XML документ није добро оформљен!"
 
-#: plugins/excel/ms-excel-read.c:1069 src/value.c:60
+#: plugins/excel/ms-excel-read.c:1070 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#НЕПОЗНАТ!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1151 plugins/excel/ms-excel-read.c:1163
+#: plugins/excel/ms-excel-read.c:1152 plugins/excel/ms-excel-read.c:1164
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:510
 #: src/dialogs/dialog-sheet-order.c:432 src/dialogs/dialog-sheet-order.c:436
 #, c-format
 msgid "Sheet%d"
 msgstr "Табела%d"
 
-#: plugins/excel/ms-excel-read.c:1167
+#: plugins/excel/ms-excel-read.c:1168
 #, c-format
 msgid "Macro%d"
 msgstr "Макро%d"
 
-#: plugins/excel/ms-excel-read.c:1171
+#: plugins/excel/ms-excel-read.c:1172
 #, c-format
 msgid "Chart%d"
 msgstr "Графикон%d"
 
-#: plugins/excel/ms-excel-read.c:1174
+#: plugins/excel/ms-excel-read.c:1175
 #, c-format
 msgid "Module%d"
 msgstr "Модул%d"
 
-#: plugins/excel/ms-excel-read.c:2963
+#: plugins/excel/ms-excel-read.c:2964
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Грешка при обради имена '%s'"
 
-#: plugins/excel/ms-excel-read.c:3059
+#: plugins/excel/ms-excel-read.c:3060
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -1076,7 +1076,7 @@ msgstr ""
 "DDE везе нису подржане.\n"
 "Име „%s“ ће бити изгубљено.\n"
 
-#: plugins/excel/ms-excel-read.c:3065
+#: plugins/excel/ms-excel-read.c:3066
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -1085,16 +1085,16 @@ msgstr ""
 "OLE везе нису подржане.\n"
 "Име „%s“ ће бити изгубљено.\n"
 
-#: plugins/excel/ms-excel-read.c:5088
+#: plugins/excel/ms-excel-read.c:5176
 msgid "external references"
 msgstr "Спољње упућивање."
 
-#: plugins/excel/ms-excel-read.c:5111
+#: plugins/excel/ms-excel-read.c:5199
 msgid "No password supplied"
 msgstr "Лозинка није унета"
 
 # Da nije mozda "imeniku" a ne "direktorijumu"?
-#: plugins/excel/ms-excel-read.c:5969
+#: plugins/excel/ms-excel-read.c:6057
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Не може да пронађе исправну MS EXcel радну свеску"
 
@@ -10644,8 +10644,8 @@ msgstr "Функција чије параметре оптимизујемо:"
 msgid "Constraints:"
 msgstr "Ограничења:"
 
-#: plugins/mps/mps.c:245 src/commands.c:6112
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1057
+#: plugins/mps/mps.c:245 src/commands.c:6144
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1063
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:379
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
 #: src/dialogs/dialog-function-select.c:443
@@ -11378,7 +11378,7 @@ msgstr "Ово је порука из „%s“ додатка."
 msgid "Error while opening xbase file."
 msgstr "Грешка приликом отварања xbase датотеке."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4906
+#: plugins/xbase/boot.c:175 src/commands.c:4938
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
 #: src/dialogs/dialog-stf-export.c:444 src/dialogs/print.glade.h:21
 #: src/print-info.c:391 src/workbook.c:1091 src/xml-io.c:3789
@@ -11417,7 +11417,7 @@ msgstr "ЕКСПЕРИМЕНТАЛНИ SAX базирани Гнумерик (*.
 msgid "EXPERIMENTAL SAX based XML"
 msgstr "ЕКСПЕРИМЕНТАЛНИ SAX базирани XML"
 
-#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4325
+#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4327
 #, fuzzy
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "НЕЗАВРШЕНИ Гнумерик XML (*.gnumeric)"
@@ -11426,14 +11426,19 @@ msgstr "НЕЗАВРШЕНИ Гнумерик XML (*.gnumeric)"
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "Будућа генерација sax базираног XML У/И подсистема"
 
-#: plugins/xml_sax/xml-sax-read.c:302
+#: plugins/xml_sax/xml-sax-read.c:308
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
 msgstr "Вишеструке спецификације верзија. Претпостављам %d"
 
-#: plugins/xml_sax/xml-sax-read.c:473
+#: plugins/xml_sax/xml-sax-read.c:479
 msgid "File has inconsistent SheetNameIndex element."
 msgstr ""
+
+#: plugins/xml_sax/xml-sax-read.c:1318 src/xml-io.c:2770
+#, c-format
+msgid "Unsupported object type '%s'"
+msgstr "Неподржана врста објекта „%s“"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:1
 #, fuzzy
@@ -11456,6 +11461,7 @@ msgid "Activate New Plugins"
 msgstr "Покрени нове додатке"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:4
+#: src/dialogs/dialog-preferences.c:708
 msgid "Allow Unfocused Range Selections"
 msgstr "Допусти нефокусиране изборе опсега"
 
@@ -11602,6 +11608,7 @@ msgid "List of recently used functions."
 msgstr "Списак скоро коришћених функција."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:38
+#: src/dialogs/dialog-preferences.c:699
 msgid "Maximum Length of Recently Used Functions List"
 msgstr "Највећа дужина списка скоро коришћених функција"
 
@@ -11864,6 +11871,7 @@ msgid "Auto Expression Recalculation Lag"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:2
+#: src/dialogs/dialog-preferences.c:704
 msgid "Autocomplete"
 msgstr "Самодопуњавање"
 
@@ -11878,6 +11886,7 @@ msgstr ""
 "преписивање, подразумевано има фокус."
 
 #: schemas/gnumeric-general.schemas.in.h:4
+#: src/dialogs/dialog-preferences.c:616
 msgid "Default Compression Level For Gnumeric Files"
 msgstr "Подразумевани степен компресије за Гнумерик датотеке"
 
@@ -11886,22 +11895,27 @@ msgid "Default Font Size"
 msgstr "Подразумевана величина писма"
 
 #: schemas/gnumeric-general.schemas.in.h:6
+#: src/dialogs/dialog-preferences.c:564
 msgid "Default Horizontal Window Size"
 msgstr "Подразумевана хоризонтална величина прозора"
 
 #: schemas/gnumeric-general.schemas.in.h:7
+#: src/dialogs/dialog-preferences.c:572
 msgid "Default Number of Sheets"
 msgstr "Подразумевани број табела"
 
 #: schemas/gnumeric-general.schemas.in.h:8
+#: src/dialogs/dialog-preferences.c:621
 msgid "Default To Overwriting Files"
 msgstr "Подразумевано је да се препише преко датотека"
 
 #: schemas/gnumeric-general.schemas.in.h:9
+#: src/dialogs/dialog-preferences.c:560
 msgid "Default Vertical Window Size"
 msgstr "Подразумевана вертикална величина прозора"
 
 #: schemas/gnumeric-general.schemas.in.h:10
+#: src/dialogs/dialog-preferences.c:568
 msgid "Default Zoom Factor"
 msgstr "Подразумевана вредност увећања"
 
@@ -11910,6 +11924,7 @@ msgid "Default font name"
 msgstr "Подразумевано писмо"
 
 #: schemas/gnumeric-general.schemas.in.h:12
+#: src/dialogs/dialog-preferences.c:662
 msgid "Horizontal DPI"
 msgstr "Водоравна резолуција (тачака по инчу)"
 
@@ -11925,6 +11940,7 @@ msgid ""
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:14
+#: src/dialogs/dialog-preferences.c:612
 msgid "Length of File History"
 msgstr "Дужина историје датотека"
 
@@ -11937,22 +11953,27 @@ msgid "List of recently used files"
 msgstr "Списак скоро коришћених датотека"
 
 #: schemas/gnumeric-general.schemas.in.h:17
+#: src/dialogs/dialog-preferences.c:580
 msgid "Live Scrolling"
 msgstr "Кретање без кашњења"
 
 #: schemas/gnumeric-general.schemas.in.h:18
+#: src/dialogs/dialog-preferences.c:474
 msgid "Maximal Undo Size"
 msgstr "Дозвољени број поништавања"
 
 #: schemas/gnumeric-general.schemas.in.h:19
+#: src/dialogs/dialog-preferences.c:515
 msgid "Number of Automatic Clauses"
 msgstr "Број аутоматских правила"
 
 #: schemas/gnumeric-general.schemas.in.h:20
+#: src/dialogs/dialog-preferences.c:478
 msgid "Number of Undo Items"
 msgstr "Број ставки за опозив"
 
 #: schemas/gnumeric-general.schemas.in.h:21
+#: src/dialogs/dialog-preferences.c:741
 msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr ""
 
@@ -11985,6 +12006,7 @@ msgstr ""
 "стање кућице за штиклирање за очување облика у прозорчету за поредак."
 
 #: schemas/gnumeric-general.schemas.in.h:27
+#: src/dialogs/dialog-preferences.c:482
 msgid "Show Sheet Name in Undo List"
 msgstr "Прикажи име табеле у списку за опозив"
 
@@ -11998,7 +12020,8 @@ msgstr ""
 "да ли ће корисник бити упозорен ако се чува само једна табела радне свеске "
 "са више табела."
 
-#: schemas/gnumeric-general.schemas.in.h:29 src/wbcg-actions.c:1903
+#: schemas/gnumeric-general.schemas.in.h:29
+#: src/dialogs/dialog-preferences.c:527 src/wbcg-actions.c:1903
 msgid "Sort Ascending"
 msgstr "Растући поредак"
 
@@ -12007,6 +12030,7 @@ msgid "Sort is Case-Sensitive"
 msgstr "Поредак је осетљив на мала и велика слова"
 
 #: schemas/gnumeric-general.schemas.in.h:31
+#: src/dialogs/dialog-preferences.c:519
 msgid "Sorting Preserves Formats"
 msgstr "Поредак очувава формате"
 
@@ -12155,14 +12179,17 @@ msgstr ""
 "„текст“"
 
 #: schemas/gnumeric-general.schemas.in.h:55
+#: src/dialogs/dialog-preferences.c:576
 msgid "Transition Keys"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:56
+#: src/dialogs/dialog-preferences.c:666
 msgid "Vertical DPI"
 msgstr "Усправна резолуција (тачака по инчу)"
 
 #: schemas/gnumeric-general.schemas.in.h:57
+#: src/dialogs/dialog-preferences.c:625
 msgid "Warn When Exporting Into Single Sheet Format"
 msgstr ""
 "Упозори када извозиш у облик датотеке који подржава само једну табелу по "
@@ -12190,6 +12217,7 @@ msgid ""
 msgstr ""
 
 #: schemas/gnumeric-plugins.schemas.in.h:2
+#: src/dialogs/dialog-preferences.c:630
 msgid "Use UTF-8 in LaTeX Export"
 msgstr "Користи УТФ-8 при ЛаТеХ извозу"
 
@@ -12308,11 +12336,11 @@ msgstr "Куцали сте „%s%s“"
 msgid "Ins/Del Column/Row"
 msgstr "Уметни колоне"
 
-#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3249
+#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3251
 msgid "Delete Columns"
 msgstr "Уклони колоне"
 
-#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3367
+#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3371
 msgid "Delete Rows"
 msgstr "Уклони врсте"
 
@@ -12451,7 +12479,7 @@ msgstr "Постављам ширину колона %s на подразуме�
 msgid "Setting height of rows %s to default"
 msgstr "Постављам висину врста %s на подразумевану вредност"
 
-#: src/commands.c:2089 src/dialogs/dialog-preferences.c:704
+#: src/commands.c:2089 src/dialogs/dialog-preferences.c:770
 msgid "Sorting"
 msgstr "Прављење поретка"
 
@@ -12610,130 +12638,130 @@ msgstr "Постави подразумевану висину врста на %
 msgid "Zoom %s to %.0f%%"
 msgstr "Увећање %s на %.0f%%"
 
-#: src/commands.c:4420
+#: src/commands.c:4452
 #, fuzzy
 msgid "Delete Object"
 msgstr "Уклони објекат"
 
-#: src/commands.c:4581
+#: src/commands.c:4613
 #, fuzzy
 msgid "Format Object"
 msgstr "Спусти објекат"
 
-#: src/commands.c:5180
+#: src/commands.c:5212
 msgid "Reordering Sheets"
 msgstr "Преслагање табела"
 
-#: src/commands.c:5183
+#: src/commands.c:5215
 msgid "Renaming Sheets"
 msgstr "Преименује табеле"
 
 # bug: plural-forms
-#: src/commands.c:5186
+#: src/commands.c:5218
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "Допуњава са %i табела"
 
-#: src/commands.c:5190
+#: src/commands.c:5222
 msgid "Changing Tab Colors"
 msgstr "Мењање боје језичка"
 
-#: src/commands.c:5193
+#: src/commands.c:5225
 msgid "Changing Sheet Protection"
 msgstr "Промена заштите табеле"
 
-#: src/commands.c:5196
+#: src/commands.c:5228
 msgid "Delete sheets"
 msgstr "Уклони табеле"
 
-#: src/commands.c:5199
+#: src/commands.c:5231
 msgid "Delete a sheet"
 msgstr "Уклони табелу"
 
-#: src/commands.c:5202
+#: src/commands.c:5234
 #, fuzzy
 msgid "Changing Sheet Visibility"
 msgstr "Промена заштите табеле"
 
-#: src/commands.c:5205
+#: src/commands.c:5237
 msgid "Reorganizing Sheets"
 msgstr "Преуреди табеле"
 
-#: src/commands.c:5356
+#: src/commands.c:5388
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Уклањање напомене за %s"
 
-#: src/commands.c:5357
+#: src/commands.c:5389
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Постављање напомене за %s"
 
-#: src/commands.c:5737
+#: src/commands.c:5769
 #, c-format
 msgid "Merging data into %s"
 msgstr "Стапам податке у %s"
 
-#: src/commands.c:5839
+#: src/commands.c:5871
 msgid "Changing summary info"
 msgstr "Мењам укупни извештај"
 
-#: src/commands.c:5928
+#: src/commands.c:5960
 #, fuzzy
 msgid "Pull Object to the Front"
 msgstr "Подложно ограничењима:"
 
-#: src/commands.c:5931
+#: src/commands.c:5963
 #, fuzzy
 msgid "Pull Object Forward"
 msgstr "Систем за учитавање ГОбјеката"
 
-#: src/commands.c:5934
+#: src/commands.c:5966
 msgid "Push Object Backward"
 msgstr ""
 
-#: src/commands.c:5937
+#: src/commands.c:5969
 #, fuzzy
 msgid "Push Object to the Back"
 msgstr "Подложно ограничењима:"
 
-#: src/commands.c:6052
+#: src/commands.c:6084
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Подешавање стране за %s"
 
-#: src/commands.c:6054
+#: src/commands.c:6086
 msgid "Page Setup For All Sheets"
 msgstr "Подешавање стране за све табеле"
 
-#: src/commands.c:6169
+#: src/commands.c:6201
 msgid "has a circular reference"
 msgstr "има кружно упућивање"
 
-#: src/commands.c:6192
+#: src/commands.c:6224
 #, c-format
 msgid "Define Name %s"
 msgstr "Дефиниши назив %s"
 
-#: src/commands.c:6195
+#: src/commands.c:6227
 #, c-format
 msgid "Update Name %s"
 msgstr "Освежи назив %s"
 
-#: src/commands.c:6259
+#: src/commands.c:6291
 msgid "Add scenario"
 msgstr "Додај сценарио"
 
-#: src/commands.c:6334
+#: src/commands.c:6366
 msgid "Scenario Show"
 msgstr ""
 
-#: src/commands.c:6398
+#: src/commands.c:6430
 msgid "Shuffle Data"
 msgstr "Измешај податке"
 
 #. FIXME?
-#: src/commands.c:6508
+#: src/commands.c:6540
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Текст (%s) у колоне (%s)"
@@ -12743,28 +12771,28 @@ msgstr "Текст (%s) у колоне (%s)"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6652 src/dialogs/solver.glade.h:17
+#: src/commands.c:6684 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
 #: src/tools/solver/reports-write.c:907 src/tools/solver/reports-write.c:958
 msgid "Solver"
 msgstr "Систем за решавање"
 
-#: src/commands.c:6736
+#: src/commands.c:6768
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Тражење вредности (%s)"
 
-#: src/commands.c:6881
+#: src/commands.c:6913
 #, c-format
 msgid "Duplicating %s"
 msgstr "Удвостручава %s"
 
-#: src/commands.c:6960
+#: src/commands.c:6992
 msgid "Tabulating Dependencies"
 msgstr "Табеларне зависности"
 
-#: src/commands.c:7035
+#: src/commands.c:7067
 msgid "Reconfigure Graph"
 msgstr "Преподеси график"
 
@@ -13071,19 +13099,25 @@ msgstr "График"
 msgid "Chart"
 msgstr "Графикон"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1083
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1089
 msgid "Step 1 of 2: Select Chart Type"
 msgstr "Корак 1 од 2: Изаберите тип графикона"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1091
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1097
 msgid "Step 2 of 2: Customize Chart"
 msgstr "Корак 2 од 2: Прилагодите графикон"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1096
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1102
 msgid "Customize Chart"
 msgstr "Прилагодите графикон"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1210
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1178
+#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1442
+#: src/wbcg-actions.c:1600
+msgid "_Insert"
+msgstr "Убацивањ_е"
+
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1236
 msgid "_Plot Type"
 msgstr "Врста и_сцртавања"
 
@@ -13156,13 +13190,13 @@ msgstr "Низови зн_акова"
 msgid "Point"
 msgstr "Тачка"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:159 src/gui-file.c:359
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:159 src/gui-file.c:348
 #, c-format
 msgid "%d x %d"
 msgstr "%d x %d"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:881
-#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:697
+#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:763
 msgid "Font"
 msgstr "Писмо"
 
@@ -13944,12 +13978,12 @@ msgstr "Мехур"
 msgid "Bubble"
 msgstr "Мехур"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1019
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1021
 #, fuzzy
 msgid "Y Error bars"
 msgstr "Грешка при обради линије"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1021
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1023
 #, fuzzy
 msgid "X Error bars"
 msgstr "Грешка при обради линије"
@@ -14727,7 +14761,7 @@ msgid "_Rows"
 msgstr "_Редови"
 
 #: src/dialogs/anova-two.glade.h:1 src/dialogs/autocorrect.glade.h:1
-#: src/dialogs/autofilter-expression.glade.h:27
+#: src/dialogs/autofilter-expression.glade.h:14
 #: src/dialogs/autoformat.glade.h:1 src/dialogs/autosave.glade.h:1
 #: src/dialogs/cell-format.glade.h:2 src/dialogs/descriptive-stats.glade.h:2
 #: src/dialogs/dialog-stf-export.glade.h:5 src/dialogs/dialog-stf.glade.h:3
@@ -14847,37 +14881,20 @@ msgid ""
 "does not contain"
 msgstr ""
 
-#: src/dialogs/autofilter-expression.glade.h:14
-msgid ""
-"\n"
-"equals\n"
-"does not equal\n"
-"is greater than\n"
-"is greater than or equal to\n"
-"is_less_than\n"
-"is less than or equal to\n"
-"begins with\n"
-"does not begin with\n"
-"ends with\n"
-"does not end with\n"
-"contains\n"
-"does not contain"
-msgstr ""
-
-#: src/dialogs/autofilter-expression.glade.h:28
+#: src/dialogs/autofilter-expression.glade.h:15
 #: src/dialogs/autofilter-top10.glade.h:1
 msgid "Gnumeric : AutoFilter"
 msgstr "Гнумерик : Аутоматски филтар"
 
-#: src/dialogs/autofilter-expression.glade.h:29
+#: src/dialogs/autofilter-expression.glade.h:16
 msgid "Show rows where:"
 msgstr "Прикажи врсте где:"
 
-#: src/dialogs/autofilter-expression.glade.h:30
+#: src/dialogs/autofilter-expression.glade.h:17
 msgid "_And"
 msgstr "_И"
 
-#: src/dialogs/autofilter-expression.glade.h:31
+#: src/dialogs/autofilter-expression.glade.h:18
 msgid "_Or"
 msgstr "И_ли"
 
@@ -16191,7 +16208,7 @@ msgstr "Број редова података мора бити дељиво б
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Не могу да образујем прозорче за алатку „АНОВА (два фактора)“."
 
-#: src/dialogs/dialog-autocorrect.c:329
+#: src/dialogs/dialog-autocorrect.c:332
 msgid "Could not create the AutoCorrect dialog."
 msgstr "Не могу да образујем прозорче за алатку „Провера Правописа“."
 
@@ -16829,12 +16846,17 @@ msgstr "ИД"
 msgid "Directory"
 msgstr "Директоријум"
 
-#: src/dialogs/dialog-preferences.c:442
+#: src/dialogs/dialog-preferences.c:455
 msgid "The items on this page customize the behaviour of the undo/redo system."
 msgstr ""
 "Ставке на овој страници прилагођавају понашање „Опозови“/„Понови“ система."
 
-#: src/dialogs/dialog-preferences.c:477
+#: src/dialogs/dialog-preferences.c:470
+#, fuzzy
+msgid "Length of Undo Descriptors"
+msgstr "Дужина „Опозови“ описника"
+
+#: src/dialogs/dialog-preferences.c:498
 msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
@@ -16842,57 +16864,62 @@ msgstr ""
 "Ставке на овој страници прилагођавају почетна подешавања поредак прозорчета "
 "и понашање дугмади за поредак линије са алаткама"
 
-#: src/dialogs/dialog-preferences.c:515
+#: src/dialogs/dialog-preferences.c:523
+#, fuzzy
+msgid "Sorting is Case-Sensitive"
+msgstr "Поредак је осетљив на мала и велика слова"
+
+#: src/dialogs/dialog-preferences.c:544
 msgid "The items on this page customize the new default workbook."
 msgstr "Ставке на овој страници прилагођавају нову подразумевану радну свеску."
 
-#: src/dialogs/dialog-preferences.c:555
+#: src/dialogs/dialog-preferences.c:596
 msgid "The items on this page are related to the saving and opening of files."
 msgstr "Ставке на овој страници су повезане са чувањем и отварањем датотека."
 
-#: src/dialogs/dialog-preferences.c:593
+#: src/dialogs/dialog-preferences.c:646
 #, fuzzy
 msgid "The items on this page are related to the screen layout and resolution."
 msgstr "Ставке на овој страници су повезане са чувањем и отварањем датотека."
 
-#: src/dialogs/dialog-preferences.c:625
+#: src/dialogs/dialog-preferences.c:682
 #, fuzzy
 msgid ""
 "The items on this page and its subpages are related to various gnumeric "
 "tools."
 msgstr "Ставке на овој страници су повезане са чувањем и отварањем датотека."
 
-#: src/dialogs/dialog-preferences.c:660
+#: src/dialogs/dialog-preferences.c:724
 #, fuzzy
-msgid "The items on this page arerelated to copy. cut and paste."
+msgid "The items on this page are related to copy. cut and paste."
 msgstr "Ставке на овој страници су повезане са чувањем и отварањем датотека."
 
-#: src/dialogs/dialog-preferences.c:698
+#: src/dialogs/dialog-preferences.c:764
 msgid "Copy and Paste"
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:699
+#: src/dialogs/dialog-preferences.c:765
 msgid "Files"
 msgstr "Датотеке"
 
-#: src/dialogs/dialog-preferences.c:700
+#: src/dialogs/dialog-preferences.c:766
 #, fuzzy
 msgid "Tools"
 msgstr "_Алати"
 
-#: src/dialogs/dialog-preferences.c:701 src/wbc-gtk.c:472
+#: src/dialogs/dialog-preferences.c:767 src/wbc-gtk.c:472
 msgid "Undo"
 msgstr "Опозови"
 
-#: src/dialogs/dialog-preferences.c:702
+#: src/dialogs/dialog-preferences.c:768
 msgid "Windows"
 msgstr "Прозори"
 
-#: src/dialogs/dialog-preferences.c:703
+#: src/dialogs/dialog-preferences.c:769
 msgid "Header/Footer"
 msgstr "Заглавље и подножје"
 
-#: src/dialogs/dialog-preferences.c:705
+#: src/dialogs/dialog-preferences.c:771
 #, fuzzy
 msgid "Screen"
 msgstr "Екран %d"
@@ -18259,11 +18286,6 @@ msgstr "Избор функција"
 #: src/dialogs/function-select.glade.h:5
 msgid "Select a function to insert:"
 msgstr "Изаберите функцију за убацивање:"
-
-#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1442
-#: src/wbcg-actions.c:1600
-msgid "_Insert"
-msgstr "Убацивањ_е"
 
 #: src/dialogs/goalseek.glade.h:1
 msgid "(Ma_ximum):"
@@ -19767,11 +19789,11 @@ msgstr "'%s' је већ дефинисан у радној свесци"
 msgid "Invalid template file: %s"
 msgstr "Неисправна датотека са шаблоном: %s"
 
-#: src/file.c:497
+#: src/file.c:522
 msgid "Saving over old files of this type is disabled for safety."
 msgstr "Чување преко старих датотека ове врсте је онемогућено због сигурности."
 
-#: src/file.c:499
+#: src/file.c:524
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
@@ -20682,26 +20704,26 @@ msgstr "Аутоматски препознај"
 msgid "Load file"
 msgstr "Учитај датотеку"
 
-#: src/gui-file.c:224 src/gui-file.c:666
+#: src/gui-file.c:224 src/gui-file.c:655
 #, fuzzy
 msgid "Select a file"
 msgstr "Изаберите слику"
 
-#: src/gui-file.c:242 src/gui-file.c:468 src/gui-file.c:680
+#: src/gui-file.c:242 src/gui-file.c:457 src/gui-file.c:669
 #, fuzzy
 msgid "All Files"
 msgstr "Датотеке"
 
-#: src/gui-file.c:247 src/gui-file.c:685
+#: src/gui-file.c:247 src/gui-file.c:674
 #, fuzzy
 msgid "Spreadsheets"
 msgstr "Табеларни прорачун"
 
-#: src/gui-file.c:284 src/gui-file.c:535 src/gui-file.c:709
+#: src/gui-file.c:273 src/gui-file.c:524 src/gui-file.c:698
 msgid "File _type:"
 msgstr "Врста д_атотеке:"
 
-#: src/gui-file.c:400
+#: src/gui-file.c:389
 #, c-format
 msgid ""
 "%s\n"
@@ -20710,7 +20732,7 @@ msgstr ""
 "%s\n"
 "је име директоријума"
 
-#: src/gui-file.c:406
+#: src/gui-file.c:395
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -20719,7 +20741,7 @@ msgstr ""
 "Немате овлашћење да чувате документе под путањом\n"
 "%s"
 
-#: src/gui-file.c:415
+#: src/gui-file.c:404
 #, fuzzy, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -20729,17 +20751,17 @@ msgstr ""
 "Радна свеска %s већ постоји.\n"
 "Желите ли да препишете преко ње?"
 
-#: src/gui-file.c:473
+#: src/gui-file.c:462
 #, fuzzy
 msgid "Images"
 msgstr "Слика"
 
-#: src/gui-file.c:513
+#: src/gui-file.c:502
 #, fuzzy
 msgid "Save as"
 msgstr "Сачувај све"
 
-#: src/gui-file.c:562 src/gui-file.c:758
+#: src/gui-file.c:551 src/gui-file.c:747
 #, fuzzy
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
@@ -20748,12 +20770,12 @@ msgstr ""
 "Наведени наставак датотеке не одговара изабраној врсти датотеке. Да ли "
 "желите да користите ово име поред свега?"
 
-#: src/gui-file.c:589
+#: src/gui-file.c:578
 #, fuzzy
 msgid "Select an Image"
 msgstr "Изаберите слику"
 
-#: src/gui-file.c:608
+#: src/gui-file.c:597
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -21329,7 +21351,7 @@ msgstr "Датотека не садржи „%s“ низ."
 msgid "Module doesn't contain \"%s\" function."
 msgstr "Модул не садржи „%s“ функцију."
 
-#: src/plugin-service.c:159 src/plugin-service.c:249 src/plugin-service.c:1141
+#: src/plugin-service.c:159 src/plugin-service.c:249 src/plugin-service.c:1166
 msgid "Error while loading plugin service."
 msgstr "Грешка при учитавању сервиса додатака."
 
@@ -21346,95 +21368,95 @@ msgstr "Функција унутар додатка која чисти је в
 msgid "Clipboard"
 msgstr "Списак исечака"
 
-#: src/plugin-service.c:408
+#: src/plugin-service.c:422
 msgid "File opener has no description"
 msgstr "Систем за отварање нема опис"
 
-#: src/plugin-service.c:440
+#: src/plugin-service.c:454
 #, c-format
 msgid "File opener - %s"
 msgstr "Систем за отварање - %s"
 
-#: src/plugin-service.c:559
+#: src/plugin-service.c:573
 msgid "Error while reading file."
 msgstr "Грешка приликом читања датотеке."
 
-#: src/plugin-service.c:714
+#: src/plugin-service.c:739
 msgid "File saver has no description"
 msgstr "Систем за чување нема опис"
 
-#: src/plugin-service.c:760
+#: src/plugin-service.c:785
 #, c-format
 msgid "File saver - %s"
 msgstr "Систем за чување - %s"
 
-#: src/plugin-service.c:822
+#: src/plugin-service.c:847
 msgid "Error while saving file."
 msgstr "Грешка приликом чувања датотеке."
 
-#: src/plugin-service.c:975
+#: src/plugin-service.c:1000
 msgid "Missing function category name."
 msgstr "Недостаје име категорије функције"
 
-#: src/plugin-service.c:979
+#: src/plugin-service.c:1004
 msgid "Function group is empty."
 msgstr "Група функција је празна."
 
-#: src/plugin-service.c:1009
+#: src/plugin-service.c:1034
 msgid "No func_desc_load method.\n"
 msgstr ""
 
-#: src/plugin-service.c:1079
+#: src/plugin-service.c:1104
 #, c-format
 msgid "%d function in category \"%s\""
 msgstr "%d функција у категорији „%s“"
 
-#: src/plugin-service.c:1080
+#: src/plugin-service.c:1105
 #, c-format
 msgid "Group of %d functions in category \"%s\""
 msgstr "Група од %d функција у категорији „%s“"
 
-#: src/plugin-service.c:1176
+#: src/plugin-service.c:1201
 msgid "Plugin loader"
 msgstr "Систем за учитавање додатака"
 
-#: src/plugin-service.c:1273
+#: src/plugin-service.c:1298
 msgid "Missing file name."
 msgstr "Недостаје име датотеке."
 
-#: src/plugin-service.c:1322
+#: src/plugin-service.c:1347
 #, c-format
 msgid "Cannot read UI description from XML file %s."
 msgstr "Не могу прочитати UI опис из XML датотеке %s."
 
-#: src/plugin-service.c:1356
+#: src/plugin-service.c:1381
 #, c-format
 msgid "User interface with %d action"
 msgstr "Корисничко сучеље са %d радњи"
 
-#: src/plugin-service.c:1357
+#: src/plugin-service.c:1382
 #, c-format
 msgid "User interface with %d actions"
 msgstr "Корисничко сучеље са %d радњи"
 
-#: src/plugin-service.c:1385
+#: src/plugin-service.c:1410
 msgid "GObject loader"
 msgstr "Систем за учитавање ГОбјеката"
 
-#: src/plugin-service.c:1492
+#: src/plugin-service.c:1517
 msgid "No \"type\" attribute on \"service\" element."
 msgstr "Не постоји „врста“ атрибут за елемент „сервис“."
 
-#: src/plugin-service.c:1498
+#: src/plugin-service.c:1523
 #, c-format
 msgid "Unknown service type: %s."
 msgstr "Непозната врста сервиса: %s."
 
-#: src/plugin-service.c:1514
+#: src/plugin-service.c:1539
 msgid "Error reading service information."
 msgstr "Грешка у читању описа сервиса."
 
-#: src/plugin-service.c:1576
+#: src/plugin-service.c:1601
 msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."
@@ -21469,15 +21491,15 @@ msgstr "Приказ пред штампу"
 msgid "Printing failed"
 msgstr "Неуспело штампање"
 
-#: src/print.c:1443
+#: src/print.c:1444
 msgid "Print Sheets"
 msgstr "Штампај табеле"
 
-#: src/print.c:1452
+#: src/print.c:1453
 msgid "Act_ive sheet"
 msgstr "Активна _табела"
 
-#: src/print.c:1452
+#: src/print.c:1453
 msgid "S_heets"
 msgstr "_Табеле"
 
@@ -21597,11 +21619,11 @@ msgstr "Не могу радити на припојеним пољима"
 msgid "cannot operate on array formulae"
 msgstr "Не могу да радим са низовним формулама"
 
-#: src/sheet.c:3190
+#: src/sheet.c:3191
 msgid "Insert Columns"
 msgstr "Уметни колоне"
 
-#: src/sheet.c:3308
+#: src/sheet.c:3311
 msgid "Insert Rows"
 msgstr "Уметни врсте"
 
@@ -21813,12 +21835,12 @@ msgstr "кадар, фрејм"
 msgid "Button"
 msgstr "Дугме"
 
-#: src/sheet-object-widget.c:1304
+#: src/sheet-object-widget.c:1352
 #, c-format
 msgid "CheckBox %d"
 msgstr "Кућица за потврду %d"
 
-#: src/sheet-object-widget.c:1750 src/wbcg-actions.c:1950
+#: src/sheet-object-widget.c:1807 src/wbcg-actions.c:1950
 msgid "RadioButton"
 msgstr "Једноизборник"
 
@@ -21955,19 +21977,19 @@ msgstr "Грешка у покушају читања датотеке"
 msgid "Error while trying to write CSV file"
 msgstr "Грешка при покушају чувања ЦСВ датотеке"
 
-#: src/stf.c:490
+#: src/stf.c:504
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr "Вредности раздвојене зарезом или табулатором (CSV/TSV)"
 
-#: src/stf.c:494
+#: src/stf.c:509
 msgid "Text import (configurable)"
 msgstr "Увоз текста (подесиво)"
 
-#: src/stf.c:499
+#: src/stf.c:515
 msgid "Text export (configurable)"
 msgstr "Извоз текста (подесиво)"
 
-#: src/stf.c:503
+#: src/stf.c:519
 msgid "Comma separated values (CSV)"
 msgstr "Вредности раздвојене зарезом (CSV)"
 
@@ -26025,11 +26047,6 @@ msgstr "Неподржани облик датотеке."
 msgid "An unexplained error happened while opening %s"
 msgstr "Дошло је до необјашњиве грешке при  отварању %s"
 
-#: src/xml-io.c:2770
-#, c-format
-msgid "Unsupported object type '%s'"
-msgstr "Неподржана врста објекта „%s“"
-
 #: src/xml-io.c:3473
 msgid "Unparsable xml in clipboard"
 msgstr "На списку исечака је XML документ који се не може рашчланити"
@@ -26053,7 +26070,7 @@ msgstr "Датотека није Гнумерик радна свеска"
 msgid "Failure saving file"
 msgstr "Грешка при снимању датотеке"
 
-#: src/xml-io.c:4329
+#: src/xml-io.c:4332
 msgid "Gnumeric XML (*.gnumeric) original slow exporter"
 msgstr ""
 

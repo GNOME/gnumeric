@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-07 01:25-0500\n"
+"POT-Creation-Date: 2004-11-22 16:47-0500\n"
 "PO-Revision-Date: 2004-10-21 11:36-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: English/Canada <adamw@FreeBSD.org>\n"
@@ -1546,7 +1546,7 @@ msgstr "Financial Derivatives"
 msgid "Functions related to financial derivatives"
 msgstr "Functions related to financial derivatives"
 
-#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5743
+#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5831
 #: plugins/mps/mps.c:547 src/xml-io.c:4199
 msgid "Reading file..."
 msgstr "Reading file..."
@@ -1632,51 +1632,51 @@ msgstr "Preparing to save..."
 msgid "Saving file..."
 msgstr "Saving file..."
 
-#: plugins/excel/excel-xml-read.c:85 plugins/xml_sax/xml-sax-read.c:270
+#: plugins/excel/excel-xml-read.c:85 plugins/xml_sax/xml-sax-read.c:276
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Unexpected attribute %s::%s == '%s'."
 
 #: plugins/excel/excel-xml-read.c:198
 #: plugins/openoffice/openoffice-read.c:1479
-#: plugins/xml_sax/xml-sax-read.c:1649
+#: plugins/xml_sax/xml-sax-read.c:1767
 msgid "XML document not well formed!"
 msgstr "XML document not well formed!"
 
-#: plugins/excel/ms-excel-read.c:1069 src/value.c:60
+#: plugins/excel/ms-excel-read.c:1070 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#UNKNOWN!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1151 plugins/excel/ms-excel-read.c:1163
+#: plugins/excel/ms-excel-read.c:1152 plugins/excel/ms-excel-read.c:1164
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:510
 #: src/dialogs/dialog-sheet-order.c:432 src/dialogs/dialog-sheet-order.c:436
 #, c-format
 msgid "Sheet%d"
 msgstr "Sheet%d"
 
-#: plugins/excel/ms-excel-read.c:1167
+#: plugins/excel/ms-excel-read.c:1168
 #, c-format
 msgid "Macro%d"
 msgstr "Macro%d"
 
-#: plugins/excel/ms-excel-read.c:1171
+#: plugins/excel/ms-excel-read.c:1172
 #, c-format
 msgid "Chart%d"
 msgstr "Chart%d"
 
-#: plugins/excel/ms-excel-read.c:1174
+#: plugins/excel/ms-excel-read.c:1175
 #, c-format
 msgid "Module%d"
 msgstr "Module%d"
 
-#: plugins/excel/ms-excel-read.c:2963
+#: plugins/excel/ms-excel-read.c:2964
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Failure parsing name '%s'"
 
-#: plugins/excel/ms-excel-read.c:3059
+#: plugins/excel/ms-excel-read.c:3060
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -1685,7 +1685,7 @@ msgstr ""
 "DDE links are not supported.\n"
 "Name '%s' will be lost.\n"
 
-#: plugins/excel/ms-excel-read.c:3065
+#: plugins/excel/ms-excel-read.c:3066
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -1694,15 +1694,15 @@ msgstr ""
 "OLE links are not supported.\n"
 "Name '%s' will be lost.\n"
 
-#: plugins/excel/ms-excel-read.c:5088
+#: plugins/excel/ms-excel-read.c:5176
 msgid "external references"
 msgstr "external references"
 
-#: plugins/excel/ms-excel-read.c:5111
+#: plugins/excel/ms-excel-read.c:5199
 msgid "No password supplied"
 msgstr "No password supplied"
 
-#: plugins/excel/ms-excel-read.c:5969
+#: plugins/excel/ms-excel-read.c:6057
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Unable to locate valid MS Excel workbook"
 
@@ -17912,8 +17912,8 @@ msgstr "Objective function:"
 msgid "Constraints:"
 msgstr "Constraints:"
 
-#: plugins/mps/mps.c:245 src/commands.c:6112
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1057
+#: plugins/mps/mps.c:245 src/commands.c:6144
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1063
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:379
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
 #: src/dialogs/dialog-function-select.c:443
@@ -18735,7 +18735,7 @@ msgstr "This is message from the \"%s\" plugin."
 msgid "Error while opening xbase file."
 msgstr "Error while opening xbase file."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4906
+#: plugins/xbase/boot.c:175 src/commands.c:4938
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
 #: src/dialogs/dialog-stf-export.c:444 src/dialogs/print.glade.h:21
 #: src/print-info.c:391 src/workbook.c:1091 src/xml-io.c:3789
@@ -18777,7 +18777,7 @@ msgstr "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
 msgid "EXPERIMENTAL SAX based XML"
 msgstr "EXPERIMENTAL SAX based XML"
 
-#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4325
+#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4327
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML (*.gnumeric)"
 
@@ -18785,14 +18785,19 @@ msgstr "Gnumeric XML (*.gnumeric)"
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "The next generation sax based xml I/O subsystem"
 
-#: plugins/xml_sax/xml-sax-read.c:302
+#: plugins/xml_sax/xml-sax-read.c:308
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
 msgstr "Multiple version specifications.  Assuming %d"
 
-#: plugins/xml_sax/xml-sax-read.c:473
+#: plugins/xml_sax/xml-sax-read.c:479
 msgid "File has inconsistent SheetNameIndex element."
 msgstr "File has inconsistent SheetNameIndex element."
+
+#: plugins/xml_sax/xml-sax-read.c:1318 src/xml-io.c:2770
+#, c-format
+msgid "Unsupported object type '%s'"
+msgstr "Unsupported object type '%s'"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:1
 msgid ""
@@ -18818,6 +18823,7 @@ msgid "Activate New Plugins"
 msgstr "Activate New Plugins"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:4
+#: src/dialogs/dialog-preferences.c:708
 msgid "Allow Unfocused Range Selections"
 msgstr "Allow Unfocused Range Selections"
 
@@ -18954,6 +18960,7 @@ msgid "List of recently used functions."
 msgstr "List of recently used functions."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:38
+#: src/dialogs/dialog-preferences.c:699
 msgid "Maximum Length of Recently Used Functions List"
 msgstr "Maximum Length of Recently Used Functions List"
 
@@ -19255,6 +19262,7 @@ msgid "Auto Expression Recalculation Lag"
 msgstr "Auto Expression Recalculation Lag"
 
 #: schemas/gnumeric-general.schemas.in.h:2
+#: src/dialogs/dialog-preferences.c:704
 msgid "Autocomplete"
 msgstr "Autocomplete"
 
@@ -19269,6 +19277,7 @@ msgstr ""
 "dialogue the default button."
 
 #: schemas/gnumeric-general.schemas.in.h:4
+#: src/dialogs/dialog-preferences.c:616
 msgid "Default Compression Level For Gnumeric Files"
 msgstr "Default Compression Level For Gnumeric Files"
 
@@ -19277,22 +19286,27 @@ msgid "Default Font Size"
 msgstr "Default Font Size"
 
 #: schemas/gnumeric-general.schemas.in.h:6
+#: src/dialogs/dialog-preferences.c:564
 msgid "Default Horizontal Window Size"
 msgstr "Default Horizontal Window Size"
 
 #: schemas/gnumeric-general.schemas.in.h:7
+#: src/dialogs/dialog-preferences.c:572
 msgid "Default Number of Sheets"
 msgstr "Default Number of Sheets"
 
 #: schemas/gnumeric-general.schemas.in.h:8
+#: src/dialogs/dialog-preferences.c:621
 msgid "Default To Overwriting Files"
 msgstr "Default To Overwriting Files"
 
 #: schemas/gnumeric-general.schemas.in.h:9
+#: src/dialogs/dialog-preferences.c:560
 msgid "Default Vertical Window Size"
 msgstr "Default Vertical Window Size"
 
 #: schemas/gnumeric-general.schemas.in.h:10
+#: src/dialogs/dialog-preferences.c:568
 msgid "Default Zoom Factor"
 msgstr "Default Zoom Factor"
 
@@ -19301,6 +19315,7 @@ msgid "Default font name"
 msgstr "Default font name"
 
 #: schemas/gnumeric-general.schemas.in.h:12
+#: src/dialogs/dialog-preferences.c:662
 msgid "Horizontal DPI"
 msgstr "Horizontal DPI"
 
@@ -19323,6 +19338,7 @@ msgstr ""
 "period of |lag| milliseconds."
 
 #: schemas/gnumeric-general.schemas.in.h:14
+#: src/dialogs/dialog-preferences.c:612
 msgid "Length of File History"
 msgstr "Length of File History"
 
@@ -19335,22 +19351,27 @@ msgid "List of recently used files"
 msgstr "List of recently used files"
 
 #: schemas/gnumeric-general.schemas.in.h:17
+#: src/dialogs/dialog-preferences.c:580
 msgid "Live Scrolling"
 msgstr "Live Scrolling"
 
 #: schemas/gnumeric-general.schemas.in.h:18
+#: src/dialogs/dialog-preferences.c:474
 msgid "Maximal Undo Size"
 msgstr "Maximal Undo Size"
 
 #: schemas/gnumeric-general.schemas.in.h:19
+#: src/dialogs/dialog-preferences.c:515
 msgid "Number of Automatic Clauses"
 msgstr "Number of Automatic Clauses"
 
 #: schemas/gnumeric-general.schemas.in.h:20
+#: src/dialogs/dialog-preferences.c:478
 msgid "Number of Undo Items"
 msgstr "Number of Undo Items"
 
 #: schemas/gnumeric-general.schemas.in.h:21
+#: src/dialogs/dialog-preferences.c:741
 msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr "Prefer CLIPBOARD over PRIMARY selection"
 
@@ -19383,6 +19404,7 @@ msgstr ""
 "preserve-formats checkbox in the sort dialogue."
 
 #: schemas/gnumeric-general.schemas.in.h:27
+#: src/dialogs/dialog-preferences.c:482
 msgid "Show Sheet Name in Undo List"
 msgstr "Show Sheet Name in Undo List"
 
@@ -19396,7 +19418,8 @@ msgstr ""
 "whether the user will be warned if only a single sheet of a multi-sheet "
 "workbook is being saved."
 
-#: schemas/gnumeric-general.schemas.in.h:29 src/wbcg-actions.c:1903
+#: schemas/gnumeric-general.schemas.in.h:29
+#: src/dialogs/dialog-preferences.c:527 src/wbcg-actions.c:1903
 msgid "Sort Ascending"
 msgstr "Sort Ascending"
 
@@ -19405,6 +19428,7 @@ msgid "Sort is Case-Sensitive"
 msgstr "Sort is Case-Sensitive"
 
 #: schemas/gnumeric-general.schemas.in.h:31
+#: src/dialogs/dialog-preferences.c:519
 msgid "Sorting Preserves Formats"
 msgstr "Sorting Preserves Formats"
 
@@ -19547,14 +19571,17 @@ msgid "Toolbar Style. Valid values are both, both_horiz, icon, and text"
 msgstr "Toolbar Style. Valid values are both, both_horiz, icon, and text"
 
 #: schemas/gnumeric-general.schemas.in.h:55
+#: src/dialogs/dialog-preferences.c:576
 msgid "Transition Keys"
 msgstr "Transition Keys"
 
 #: schemas/gnumeric-general.schemas.in.h:56
+#: src/dialogs/dialog-preferences.c:666
 msgid "Vertical DPI"
 msgstr "Vertical DPI"
 
 #: schemas/gnumeric-general.schemas.in.h:57
+#: src/dialogs/dialog-preferences.c:625
 msgid "Warn When Exporting Into Single Sheet Format"
 msgstr "Warn When Exporting Into Single Sheet Format"
 
@@ -19589,6 +19616,7 @@ msgstr ""
 "package installed."
 
 #: schemas/gnumeric-plugins.schemas.in.h:2
+#: src/dialogs/dialog-preferences.c:630
 msgid "Use UTF-8 in LaTeX Export"
 msgstr "Use UTF-8 in LaTeX Export"
 
@@ -19712,11 +19740,11 @@ msgstr "Typing \"%s%s\""
 msgid "Ins/Del Column/Row"
 msgstr "Ins/Del Column/Row"
 
-#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3249
+#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3251
 msgid "Delete Columns"
 msgstr "Delete Columns"
 
-#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3367
+#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3371
 msgid "Delete Rows"
 msgstr "Delete Rows"
 
@@ -19855,7 +19883,7 @@ msgstr "Setting width of columns %s to default"
 msgid "Setting height of rows %s to default"
 msgstr "Setting height of rows %s to default"
 
-#: src/commands.c:2089 src/dialogs/dialog-preferences.c:704
+#: src/commands.c:2089 src/dialogs/dialog-preferences.c:770
 msgid "Sorting"
 msgstr "Sorting"
 
@@ -20013,123 +20041,123 @@ msgstr "Setting default height of rows to %.2fpts"
 msgid "Zoom %s to %.0f%%"
 msgstr "Zoom %s to %.0f%%"
 
-#: src/commands.c:4420
+#: src/commands.c:4452
 msgid "Delete Object"
 msgstr "Delete Object"
 
-#: src/commands.c:4581
+#: src/commands.c:4613
 msgid "Format Object"
 msgstr "Format Object"
 
-#: src/commands.c:5180
+#: src/commands.c:5212
 msgid "Reordering Sheets"
 msgstr "Reordering Sheets"
 
-#: src/commands.c:5183
+#: src/commands.c:5215
 msgid "Renaming Sheets"
 msgstr "Renaming Sheets"
 
-#: src/commands.c:5186
+#: src/commands.c:5218
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "Appending %i Sheets"
 
-#: src/commands.c:5190
+#: src/commands.c:5222
 msgid "Changing Tab Colors"
 msgstr "Changing Tab Colours"
 
-#: src/commands.c:5193
+#: src/commands.c:5225
 msgid "Changing Sheet Protection"
 msgstr "Changing Sheet Protection"
 
-#: src/commands.c:5196
+#: src/commands.c:5228
 msgid "Delete sheets"
 msgstr "Delete sheets"
 
-#: src/commands.c:5199
+#: src/commands.c:5231
 msgid "Delete a sheet"
 msgstr "Delete a sheet"
 
-#: src/commands.c:5202
+#: src/commands.c:5234
 msgid "Changing Sheet Visibility"
 msgstr "Changing Sheet Visibility"
 
-#: src/commands.c:5205
+#: src/commands.c:5237
 msgid "Reorganizing Sheets"
 msgstr "Reorganizing Sheets"
 
-#: src/commands.c:5356
+#: src/commands.c:5388
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Clearing comment of %s"
 
-#: src/commands.c:5357
+#: src/commands.c:5389
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Setting comment of %s"
 
-#: src/commands.c:5737
+#: src/commands.c:5769
 #, c-format
 msgid "Merging data into %s"
 msgstr "Merging data into %s"
 
-#: src/commands.c:5839
+#: src/commands.c:5871
 msgid "Changing summary info"
 msgstr "Changing summary info"
 
-#: src/commands.c:5928
+#: src/commands.c:5960
 msgid "Pull Object to the Front"
 msgstr "Pull Object to the Front"
 
-#: src/commands.c:5931
+#: src/commands.c:5963
 msgid "Pull Object Forward"
 msgstr "Pull Object Forward"
 
-#: src/commands.c:5934
+#: src/commands.c:5966
 msgid "Push Object Backward"
 msgstr "Push Object Backward"
 
-#: src/commands.c:5937
+#: src/commands.c:5969
 msgid "Push Object to the Back"
 msgstr "Push Object to the Back"
 
-#: src/commands.c:6052
+#: src/commands.c:6084
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Page Setup For %s"
 
-#: src/commands.c:6054
+#: src/commands.c:6086
 msgid "Page Setup For All Sheets"
 msgstr "Page Setup For All Sheets"
 
-#: src/commands.c:6169
+#: src/commands.c:6201
 msgid "has a circular reference"
 msgstr "has a circular reference"
 
-#: src/commands.c:6192
+#: src/commands.c:6224
 #, c-format
 msgid "Define Name %s"
 msgstr "Define Name %s"
 
-#: src/commands.c:6195
+#: src/commands.c:6227
 #, c-format
 msgid "Update Name %s"
 msgstr "Update Name %s"
 
-#: src/commands.c:6259
+#: src/commands.c:6291
 msgid "Add scenario"
 msgstr "Add scenario"
 
-#: src/commands.c:6334
+#: src/commands.c:6366
 msgid "Scenario Show"
 msgstr "Scenario Show"
 
-#: src/commands.c:6398
+#: src/commands.c:6430
 msgid "Shuffle Data"
 msgstr "Shuffle Data"
 
 #. FIXME?
-#: src/commands.c:6508
+#: src/commands.c:6540
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Text (%s) to Columns (%s)"
@@ -20139,28 +20167,28 @@ msgstr "Text (%s) to Columns (%s)"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6652 src/dialogs/solver.glade.h:17
+#: src/commands.c:6684 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
 #: src/tools/solver/reports-write.c:907 src/tools/solver/reports-write.c:958
 msgid "Solver"
 msgstr "Solver"
 
-#: src/commands.c:6736
+#: src/commands.c:6768
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Goal Seek (%s)"
 
-#: src/commands.c:6881
+#: src/commands.c:6913
 #, c-format
 msgid "Duplicating %s"
 msgstr "Duplicating %s"
 
-#: src/commands.c:6960
+#: src/commands.c:6992
 msgid "Tabulating Dependencies"
 msgstr "Tabulating Dependencies"
 
-#: src/commands.c:7035
+#: src/commands.c:7067
 msgid "Reconfigure Graph"
 msgstr "Reconfigure Graph"
 
@@ -20453,19 +20481,25 @@ msgstr "Graph"
 msgid "Chart"
 msgstr "Chart"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1083
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1089
 msgid "Step 1 of 2: Select Chart Type"
 msgstr "Step 1 of 2: Select Chart Type"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1091
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1097
 msgid "Step 2 of 2: Customize Chart"
 msgstr "Step 2 of 2: Customize Chart"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1096
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1102
 msgid "Customize Chart"
 msgstr "Customize Chart"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1210
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1178
+#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1442
+#: src/wbcg-actions.c:1600
+msgid "_Insert"
+msgstr "_Insert"
+
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1236
 msgid "_Plot Type"
 msgstr "_Plot Type"
 
@@ -20534,13 +20568,13 @@ msgstr "Settings"
 msgid "Point"
 msgstr "Point"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:159 src/gui-file.c:359
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:159 src/gui-file.c:348
 #, c-format
 msgid "%d x %d"
 msgstr "%d x %d"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:881
-#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:697
+#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:763
 msgid "Font"
 msgstr "Font"
 
@@ -21292,11 +21326,11 @@ msgstr "PlotBubble"
 msgid "Bubble"
 msgstr "Bubble"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1019
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1021
 msgid "Y Error bars"
 msgstr "Y Error bars"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1021
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1023
 msgid "X Error bars"
 msgstr "X Error bars"
 
@@ -22060,7 +22094,7 @@ msgid "_Rows"
 msgstr "_Rows"
 
 #: src/dialogs/anova-two.glade.h:1 src/dialogs/autocorrect.glade.h:1
-#: src/dialogs/autofilter-expression.glade.h:27
+#: src/dialogs/autofilter-expression.glade.h:14
 #: src/dialogs/autoformat.glade.h:1 src/dialogs/autosave.glade.h:1
 #: src/dialogs/cell-format.glade.h:2 src/dialogs/descriptive-stats.glade.h:2
 #: src/dialogs/dialog-stf-export.glade.h:5 src/dialogs/dialog-stf.glade.h:3
@@ -22190,50 +22224,20 @@ msgstr ""
 "contains\n"
 "does not contain"
 
-#: src/dialogs/autofilter-expression.glade.h:14
-msgid ""
-"\n"
-"equals\n"
-"does not equal\n"
-"is greater than\n"
-"is greater than or equal to\n"
-"is_less_than\n"
-"is less than or equal to\n"
-"begins with\n"
-"does not begin with\n"
-"ends with\n"
-"does not end with\n"
-"contains\n"
-"does not contain"
-msgstr ""
-"\n"
-"equals\n"
-"does not equal\n"
-"is greater than\n"
-"is greater than or equal to\n"
-"is_less_than\n"
-"is less than or equal to\n"
-"begins with\n"
-"does not begin with\n"
-"ends with\n"
-"does not end with\n"
-"contains\n"
-"does not contain"
-
-#: src/dialogs/autofilter-expression.glade.h:28
+#: src/dialogs/autofilter-expression.glade.h:15
 #: src/dialogs/autofilter-top10.glade.h:1
 msgid "Gnumeric : AutoFilter"
 msgstr "Gnumeric : AutoFilter"
 
-#: src/dialogs/autofilter-expression.glade.h:29
+#: src/dialogs/autofilter-expression.glade.h:16
 msgid "Show rows where:"
 msgstr "Show rows where:"
 
-#: src/dialogs/autofilter-expression.glade.h:30
+#: src/dialogs/autofilter-expression.glade.h:17
 msgid "_And"
 msgstr "_And"
 
-#: src/dialogs/autofilter-expression.glade.h:31
+#: src/dialogs/autofilter-expression.glade.h:18
 msgid "_Or"
 msgstr "_Or"
 
@@ -23513,7 +23517,7 @@ msgstr "The number of rows per sample should be a positive integer."
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Could not create the ANOVA (two factor) tool dialogue."
 
-#: src/dialogs/dialog-autocorrect.c:329
+#: src/dialogs/dialog-autocorrect.c:332
 msgid "Could not create the AutoCorrect dialog."
 msgstr "Could not create the AutoCorrect dialogue."
 
@@ -24130,12 +24134,17 @@ msgstr "ID"
 msgid "Directory"
 msgstr "Directory"
 
-#: src/dialogs/dialog-preferences.c:442
+#: src/dialogs/dialog-preferences.c:455
 msgid "The items on this page customize the behaviour of the undo/redo system."
 msgstr ""
 "The items on this page customize the behaviour of the undo/redo system."
 
-#: src/dialogs/dialog-preferences.c:477
+#: src/dialogs/dialog-preferences.c:470
+#, fuzzy
+msgid "Length of Undo Descriptors"
+msgstr "Length of the Undo Descriptors"
+
+#: src/dialogs/dialog-preferences.c:498
 msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
@@ -24143,57 +24152,62 @@ msgstr ""
 "The items on this page customize the inital settings of the sort dialogue "
 "and the behaviour of the sort toolbar buttons."
 
-#: src/dialogs/dialog-preferences.c:515
+#: src/dialogs/dialog-preferences.c:523
+#, fuzzy
+msgid "Sorting is Case-Sensitive"
+msgstr "Sort is Case-Sensitive"
+
+#: src/dialogs/dialog-preferences.c:544
 msgid "The items on this page customize the new default workbook."
 msgstr "The items on this page customize the new default workbook."
 
-#: src/dialogs/dialog-preferences.c:555
+#: src/dialogs/dialog-preferences.c:596
 msgid "The items on this page are related to the saving and opening of files."
 msgstr "The items on this page are related to the saving and opening of files."
 
-#: src/dialogs/dialog-preferences.c:593
+#: src/dialogs/dialog-preferences.c:646
 #, fuzzy
 msgid "The items on this page are related to the screen layout and resolution."
 msgstr "The items on this page are related to the saving and opening of files."
 
-#: src/dialogs/dialog-preferences.c:625
+#: src/dialogs/dialog-preferences.c:682
 #, fuzzy
 msgid ""
 "The items on this page and its subpages are related to various gnumeric "
 "tools."
 msgstr "The items on this page are related to the saving and opening of files."
 
-#: src/dialogs/dialog-preferences.c:660
+#: src/dialogs/dialog-preferences.c:724
 #, fuzzy
-msgid "The items on this page arerelated to copy. cut and paste."
+msgid "The items on this page are related to copy. cut and paste."
 msgstr "The items on this page are related to the saving and opening of files."
 
-#: src/dialogs/dialog-preferences.c:698
+#: src/dialogs/dialog-preferences.c:764
 msgid "Copy and Paste"
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:699
+#: src/dialogs/dialog-preferences.c:765
 msgid "Files"
 msgstr "Files"
 
-#: src/dialogs/dialog-preferences.c:700
+#: src/dialogs/dialog-preferences.c:766
 #, fuzzy
 msgid "Tools"
 msgstr "_Tools"
 
-#: src/dialogs/dialog-preferences.c:701 src/wbc-gtk.c:472
+#: src/dialogs/dialog-preferences.c:767 src/wbc-gtk.c:472
 msgid "Undo"
 msgstr "Undo"
 
-#: src/dialogs/dialog-preferences.c:702
+#: src/dialogs/dialog-preferences.c:768
 msgid "Windows"
 msgstr "Windows"
 
-#: src/dialogs/dialog-preferences.c:703
+#: src/dialogs/dialog-preferences.c:769
 msgid "Header/Footer"
 msgstr "Header/Footer"
 
-#: src/dialogs/dialog-preferences.c:705
+#: src/dialogs/dialog-preferences.c:771
 #, fuzzy
 msgid "Screen"
 msgstr "Screen %d"
@@ -25553,11 +25567,6 @@ msgstr "Function Selector"
 #: src/dialogs/function-select.glade.h:5
 msgid "Select a function to insert:"
 msgstr "Select a function to insert:"
-
-#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1442
-#: src/wbcg-actions.c:1600
-msgid "_Insert"
-msgstr "_Insert"
 
 #: src/dialogs/goalseek.glade.h:1
 msgid "(Ma_ximum):"
@@ -27011,11 +27020,11 @@ msgstr "'%s' is already defined in workbook"
 msgid "Invalid template file: %s"
 msgstr "Invalid template file: %s"
 
-#: src/file.c:497
+#: src/file.c:522
 msgid "Saving over old files of this type is disabled for safety."
 msgstr "Saving over old files of this type is disabled for safety."
 
-#: src/file.c:499
+#: src/file.c:524
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
@@ -27952,23 +27961,23 @@ msgstr "Automatically detected"
 msgid "Load file"
 msgstr "Load file"
 
-#: src/gui-file.c:224 src/gui-file.c:666
+#: src/gui-file.c:224 src/gui-file.c:655
 msgid "Select a file"
 msgstr "Select a file"
 
-#: src/gui-file.c:242 src/gui-file.c:468 src/gui-file.c:680
+#: src/gui-file.c:242 src/gui-file.c:457 src/gui-file.c:669
 msgid "All Files"
 msgstr "All Files"
 
-#: src/gui-file.c:247 src/gui-file.c:685
+#: src/gui-file.c:247 src/gui-file.c:674
 msgid "Spreadsheets"
 msgstr "Spreadsheets"
 
-#: src/gui-file.c:284 src/gui-file.c:535 src/gui-file.c:709
+#: src/gui-file.c:273 src/gui-file.c:524 src/gui-file.c:698
 msgid "File _type:"
 msgstr "File _type:"
 
-#: src/gui-file.c:400
+#: src/gui-file.c:389
 #, c-format
 msgid ""
 "%s\n"
@@ -27977,7 +27986,7 @@ msgstr ""
 "%s\n"
 "is a directory name"
 
-#: src/gui-file.c:406
+#: src/gui-file.c:395
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -27986,7 +27995,7 @@ msgstr ""
 "You do not have permission to save to\n"
 "%s"
 
-#: src/gui-file.c:415
+#: src/gui-file.c:404
 #, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -27997,15 +28006,15 @@ msgstr ""
 "\n"
 "Do you want to overwrite it?"
 
-#: src/gui-file.c:473
+#: src/gui-file.c:462
 msgid "Images"
 msgstr "Images"
 
-#: src/gui-file.c:513
+#: src/gui-file.c:502
 msgid "Save as"
 msgstr "Save as"
 
-#: src/gui-file.c:562 src/gui-file.c:758
+#: src/gui-file.c:551 src/gui-file.c:747
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -28013,11 +28022,11 @@ msgstr ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
 
-#: src/gui-file.c:589
+#: src/gui-file.c:578
 msgid "Select an Image"
 msgstr "Select an Image"
 
-#: src/gui-file.c:608
+#: src/gui-file.c:597
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -28582,7 +28591,7 @@ msgstr "File doesn't contain \"%s\" array."
 msgid "Module doesn't contain \"%s\" function."
 msgstr "Module doesn't contain \"%s\" function."
 
-#: src/plugin-service.c:159 src/plugin-service.c:249 src/plugin-service.c:1141
+#: src/plugin-service.c:159 src/plugin-service.c:249 src/plugin-service.c:1166
 msgid "Error while loading plugin service."
 msgstr "Error while loading plugin service."
 
@@ -28598,95 +28607,95 @@ msgstr "Cleanup function inside plugin returned error."
 msgid "Clipboard"
 msgstr "Clipboard"
 
-#: src/plugin-service.c:408
+#: src/plugin-service.c:422
 msgid "File opener has no description"
 msgstr "File opener has no description"
 
-#: src/plugin-service.c:440
+#: src/plugin-service.c:454
 #, c-format
 msgid "File opener - %s"
 msgstr "File opener - %s"
 
-#: src/plugin-service.c:559
+#: src/plugin-service.c:573
 msgid "Error while reading file."
 msgstr "Error while reading file."
 
-#: src/plugin-service.c:714
+#: src/plugin-service.c:739
 msgid "File saver has no description"
 msgstr "File saver has no description"
 
-#: src/plugin-service.c:760
+#: src/plugin-service.c:785
 #, c-format
 msgid "File saver - %s"
 msgstr "File saver - %s"
 
-#: src/plugin-service.c:822
+#: src/plugin-service.c:847
 msgid "Error while saving file."
 msgstr "Error while saving file."
 
-#: src/plugin-service.c:975
+#: src/plugin-service.c:1000
 msgid "Missing function category name."
 msgstr "Missing function category name."
 
-#: src/plugin-service.c:979
+#: src/plugin-service.c:1004
 msgid "Function group is empty."
 msgstr "Function group is empty."
 
-#: src/plugin-service.c:1009
+#: src/plugin-service.c:1034
 msgid "No func_desc_load method.\n"
 msgstr ""
 
-#: src/plugin-service.c:1079
+#: src/plugin-service.c:1104
 #, c-format
 msgid "%d function in category \"%s\""
 msgstr "%d function in category \"%s\""
 
-#: src/plugin-service.c:1080
+#: src/plugin-service.c:1105
 #, c-format
 msgid "Group of %d functions in category \"%s\""
 msgstr "Group of %d functions in category \"%s\""
 
-#: src/plugin-service.c:1176
+#: src/plugin-service.c:1201
 msgid "Plugin loader"
 msgstr "Plugin loader"
 
-#: src/plugin-service.c:1273
+#: src/plugin-service.c:1298
 msgid "Missing file name."
 msgstr "Missing file name."
 
-#: src/plugin-service.c:1322
+#: src/plugin-service.c:1347
 #, c-format
 msgid "Cannot read UI description from XML file %s."
 msgstr "Cannot read UI description from XML file %s."
 
-#: src/plugin-service.c:1356
+#: src/plugin-service.c:1381
 #, c-format
 msgid "User interface with %d action"
 msgstr "User interface with %d action"
 
-#: src/plugin-service.c:1357
+#: src/plugin-service.c:1382
 #, c-format
 msgid "User interface with %d actions"
 msgstr "User interface with %d actions"
 
-#: src/plugin-service.c:1385
+#: src/plugin-service.c:1410
 msgid "GObject loader"
 msgstr "GObject loader"
 
-#: src/plugin-service.c:1492
+#: src/plugin-service.c:1517
 msgid "No \"type\" attribute on \"service\" element."
 msgstr "No \"type\" attribute on \"service\" element."
 
-#: src/plugin-service.c:1498
+#: src/plugin-service.c:1523
 #, c-format
 msgid "Unknown service type: %s."
 msgstr "Unknown service type: %s."
 
-#: src/plugin-service.c:1514
+#: src/plugin-service.c:1539
 msgid "Error reading service information."
 msgstr "Error reading service information."
 
-#: src/plugin-service.c:1576
+#: src/plugin-service.c:1601
 msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."
@@ -28721,15 +28730,15 @@ msgstr "Print preview"
 msgid "Printing failed"
 msgstr "Printing failed"
 
-#: src/print.c:1443
+#: src/print.c:1444
 msgid "Print Sheets"
 msgstr "Print Sheets"
 
-#: src/print.c:1452
+#: src/print.c:1453
 msgid "Act_ive sheet"
 msgstr "Act_ive sheet"
 
-#: src/print.c:1452
+#: src/print.c:1453
 msgid "S_heets"
 msgstr "S_heets"
 
@@ -28849,11 +28858,11 @@ msgstr "cannot operate on merged cells"
 msgid "cannot operate on array formulae"
 msgstr "cannot operate on array formulae"
 
-#: src/sheet.c:3190
+#: src/sheet.c:3191
 msgid "Insert Columns"
 msgstr "Insert Columns"
 
-#: src/sheet.c:3308
+#: src/sheet.c:3311
 msgid "Insert Rows"
 msgstr "Insert Rows"
 
@@ -29058,12 +29067,12 @@ msgstr "Frame"
 msgid "Button"
 msgstr "Button"
 
-#: src/sheet-object-widget.c:1304
+#: src/sheet-object-widget.c:1352
 #, c-format
 msgid "CheckBox %d"
 msgstr "CheckBox %d"
 
-#: src/sheet-object-widget.c:1750 src/wbcg-actions.c:1950
+#: src/sheet-object-widget.c:1807 src/wbcg-actions.c:1950
 msgid "RadioButton"
 msgstr "RadioButton"
 
@@ -29208,19 +29217,19 @@ msgstr "Error while trying to export file as text"
 msgid "Error while trying to write CSV file"
 msgstr "Error while trying to write CSV file"
 
-#: src/stf.c:490
+#: src/stf.c:504
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr "Comma or tab separated values (CSV/TSV)"
 
-#: src/stf.c:494
+#: src/stf.c:509
 msgid "Text import (configurable)"
 msgstr "Text import (configurable)"
 
-#: src/stf.c:499
+#: src/stf.c:515
 msgid "Text export (configurable)"
 msgstr "Text export (configurable)"
 
-#: src/stf.c:503
+#: src/stf.c:519
 msgid "Comma separated values (CSV)"
 msgstr "Comma separated values (CSV)"
 
@@ -33226,11 +33235,6 @@ msgstr "Unsupported file format."
 msgid "An unexplained error happened while opening %s"
 msgstr "An unexplained error happened while opening %s"
 
-#: src/xml-io.c:2770
-#, c-format
-msgid "Unsupported object type '%s'"
-msgstr "Unsupported object type '%s'"
-
 #: src/xml-io.c:3473
 msgid "Unparsable xml in clipboard"
 msgstr "Unparsable xml in clipboard"
@@ -33254,7 +33258,7 @@ msgstr "The file is not a Gnumeric Workbook file"
 msgid "Failure saving file"
 msgstr "Failure saving file"
 
-#: src/xml-io.c:4329
+#: src/xml-io.c:4332
 msgid "Gnumeric XML (*.gnumeric) original slow exporter"
 msgstr "Gnumeric XML (*.gnumeric) original slow exporter"
 
@@ -33434,6 +33438,35 @@ msgstr "Lila list template"
 #: templates/autoformat/autoformat.List.simple.xml.in.h:1
 msgid "A simple list template"
 msgstr "A simple list template"
+
+#~ msgid ""
+#~ "\n"
+#~ "equals\n"
+#~ "does not equal\n"
+#~ "is greater than\n"
+#~ "is greater than or equal to\n"
+#~ "is_less_than\n"
+#~ "is less than or equal to\n"
+#~ "begins with\n"
+#~ "does not begin with\n"
+#~ "ends with\n"
+#~ "does not end with\n"
+#~ "contains\n"
+#~ "does not contain"
+#~ msgstr ""
+#~ "\n"
+#~ "equals\n"
+#~ "does not equal\n"
+#~ "is greater than\n"
+#~ "is greater than or equal to\n"
+#~ "is_less_than\n"
+#~ "is less than or equal to\n"
+#~ "begins with\n"
+#~ "does not begin with\n"
+#~ "ends with\n"
+#~ "does not end with\n"
+#~ "contains\n"
+#~ "does not contain"
 
 #~ msgid "Various"
 #~ msgstr "Various"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-07 01:25-0500\n"
+"POT-Creation-Date: 2004-11-22 16:47-0500\n"
 "PO-Revision-Date: 2004-09-05 21:52+0000\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
@@ -960,7 +960,7 @@ msgstr "财务相关"
 msgid "Functions related to financial derivatives"
 msgstr "与财务相关的函数"
 
-#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5743
+#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5831
 #: plugins/mps/mps.c:547 src/xml-io.c:4199
 msgid "Reading file..."
 msgstr "正在读取文件..."
@@ -1041,51 +1041,51 @@ msgstr "正在准备保存..."
 msgid "Saving file..."
 msgstr "保存文件..."
 
-#: plugins/excel/excel-xml-read.c:85 plugins/xml_sax/xml-sax-read.c:270
+#: plugins/excel/excel-xml-read.c:85 plugins/xml_sax/xml-sax-read.c:276
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "意外属性 %s::%s ==“%s”。"
 
 #: plugins/excel/excel-xml-read.c:198
 #: plugins/openoffice/openoffice-read.c:1479
-#: plugins/xml_sax/xml-sax-read.c:1649
+#: plugins/xml_sax/xml-sax-read.c:1767
 msgid "XML document not well formed!"
 msgstr "XML 文档格式不正式！"
 
-#: plugins/excel/ms-excel-read.c:1069 src/value.c:60
+#: plugins/excel/ms-excel-read.c:1070 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#UNKNOWN!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1151 plugins/excel/ms-excel-read.c:1163
+#: plugins/excel/ms-excel-read.c:1152 plugins/excel/ms-excel-read.c:1164
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:510
 #: src/dialogs/dialog-sheet-order.c:432 src/dialogs/dialog-sheet-order.c:436
 #, c-format
 msgid "Sheet%d"
 msgstr "Sheet%d"
 
-#: plugins/excel/ms-excel-read.c:1167
+#: plugins/excel/ms-excel-read.c:1168
 #, c-format
 msgid "Macro%d"
 msgstr "宏%d"
 
-#: plugins/excel/ms-excel-read.c:1171
+#: plugins/excel/ms-excel-read.c:1172
 #, c-format
 msgid "Chart%d"
 msgstr "图表%d"
 
-#: plugins/excel/ms-excel-read.c:1174
+#: plugins/excel/ms-excel-read.c:1175
 #, c-format
 msgid "Module%d"
 msgstr "模块%d"
 
-#: plugins/excel/ms-excel-read.c:2963
+#: plugins/excel/ms-excel-read.c:2964
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "处理名称“%s”失败。"
 
-#: plugins/excel/ms-excel-read.c:3059
+#: plugins/excel/ms-excel-read.c:3060
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -1094,7 +1094,7 @@ msgstr ""
 "DDE 链接不支持。\n"
 "名称“%s”将丢失。\n"
 
-#: plugins/excel/ms-excel-read.c:3065
+#: plugins/excel/ms-excel-read.c:3066
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -1103,15 +1103,15 @@ msgstr ""
 "OLE 链接不支持。\n"
 "名称“%s”将丢失。\n"
 
-#: plugins/excel/ms-excel-read.c:5088
+#: plugins/excel/ms-excel-read.c:5176
 msgid "external references"
 msgstr "外部引用"
 
-#: plugins/excel/ms-excel-read.c:5111
+#: plugins/excel/ms-excel-read.c:5199
 msgid "No password supplied"
 msgstr "未提供密码"
 
-#: plugins/excel/ms-excel-read.c:5969
+#: plugins/excel/ms-excel-read.c:6057
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "找不到有效的 MS Excel 工作簿"
 
@@ -15690,8 +15690,8 @@ msgstr "目标函数："
 msgid "Constraints:"
 msgstr "约束条件："
 
-#: plugins/mps/mps.c:245 src/commands.c:6112
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1057
+#: plugins/mps/mps.c:245 src/commands.c:6144
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1063
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:379
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
 #: src/dialogs/dialog-function-select.c:443
@@ -16509,7 +16509,7 @@ msgstr "此信息来自“%s”插件。"
 msgid "Error while opening xbase file."
 msgstr "打开 xbase 文件时出错。"
 
-#: plugins/xbase/boot.c:175 src/commands.c:4906
+#: plugins/xbase/boot.c:175 src/commands.c:4938
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
 #: src/dialogs/dialog-stf-export.c:444 src/dialogs/print.glade.h:21
 #: src/print-info.c:391 src/workbook.c:1091 src/xml-io.c:3789
@@ -16548,7 +16548,7 @@ msgstr ""
 msgid "EXPERIMENTAL SAX based XML"
 msgstr ""
 
-#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4325
+#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4327
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML(*.gnumeric)"
 
@@ -16556,14 +16556,19 @@ msgstr "Gnumeric XML(*.gnumeric)"
 msgid "The next generation sax based xml I/O subsystem"
 msgstr ""
 
-#: plugins/xml_sax/xml-sax-read.c:302
+#: plugins/xml_sax/xml-sax-read.c:308
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
 msgstr ""
 
-#: plugins/xml_sax/xml-sax-read.c:473
+#: plugins/xml_sax/xml-sax-read.c:479
 msgid "File has inconsistent SheetNameIndex element."
 msgstr ""
+
+#: plugins/xml_sax/xml-sax-read.c:1318 src/xml-io.c:2770
+#, fuzzy, c-format
+msgid "Unsupported object type '%s'"
+msgstr "不支持的装入器类型“%s”。"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:1
 msgid ""
@@ -16583,6 +16588,7 @@ msgid "Activate New Plugins"
 msgstr "激活新插件"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:4
+#: src/dialogs/dialog-preferences.c:708
 msgid "Allow Unfocused Range Selections"
 msgstr ""
 
@@ -16733,6 +16739,7 @@ msgid "List of recently used functions."
 msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:38
+#: src/dialogs/dialog-preferences.c:699
 msgid "Maximum Length of Recently Used Functions List"
 msgstr ""
 
@@ -16981,6 +16988,7 @@ msgid "Auto Expression Recalculation Lag"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:2
+#: src/dialogs/dialog-preferences.c:704
 msgid "Autocomplete"
 msgstr "自动完成"
 
@@ -16992,6 +17000,7 @@ msgid ""
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:4
+#: src/dialogs/dialog-preferences.c:616
 msgid "Default Compression Level For Gnumeric Files"
 msgstr "Gnumeric 文件的默认压缩级别"
 
@@ -17000,22 +17009,27 @@ msgid "Default Font Size"
 msgstr "默认字体大小"
 
 #: schemas/gnumeric-general.schemas.in.h:6
+#: src/dialogs/dialog-preferences.c:564
 msgid "Default Horizontal Window Size"
 msgstr "默认水平窗口大小"
 
 #: schemas/gnumeric-general.schemas.in.h:7
+#: src/dialogs/dialog-preferences.c:572
 msgid "Default Number of Sheets"
 msgstr "工作表的默认数目"
 
 #: schemas/gnumeric-general.schemas.in.h:8
+#: src/dialogs/dialog-preferences.c:621
 msgid "Default To Overwriting Files"
 msgstr "默认覆盖文件"
 
 #: schemas/gnumeric-general.schemas.in.h:9
+#: src/dialogs/dialog-preferences.c:560
 msgid "Default Vertical Window Size"
 msgstr "默认垂直窗口大小"
 
 #: schemas/gnumeric-general.schemas.in.h:10
+#: src/dialogs/dialog-preferences.c:568
 msgid "Default Zoom Factor"
 msgstr "默认缩放比例"
 
@@ -17024,6 +17038,7 @@ msgid "Default font name"
 msgstr "默认字体名"
 
 #: schemas/gnumeric-general.schemas.in.h:12
+#: src/dialogs/dialog-preferences.c:662
 msgid "Horizontal DPI"
 msgstr "水平 DPI"
 
@@ -17039,6 +17054,7 @@ msgid ""
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:14
+#: src/dialogs/dialog-preferences.c:612
 msgid "Length of File History"
 msgstr "文件历史长度"
 
@@ -17051,22 +17067,27 @@ msgid "List of recently used files"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:17
+#: src/dialogs/dialog-preferences.c:580
 msgid "Live Scrolling"
 msgstr "实时滚动"
 
 #: schemas/gnumeric-general.schemas.in.h:18
+#: src/dialogs/dialog-preferences.c:474
 msgid "Maximal Undo Size"
 msgstr "最大的撤消次数"
 
 #: schemas/gnumeric-general.schemas.in.h:19
+#: src/dialogs/dialog-preferences.c:515
 msgid "Number of Automatic Clauses"
 msgstr "自动语句的数目"
 
 #: schemas/gnumeric-general.schemas.in.h:20
+#: src/dialogs/dialog-preferences.c:478
 msgid "Number of Undo Items"
 msgstr "撤消项目的数目"
 
 #: schemas/gnumeric-general.schemas.in.h:21
+#: src/dialogs/dialog-preferences.c:741
 msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr ""
 
@@ -17093,6 +17114,7 @@ msgid ""
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:27
+#: src/dialogs/dialog-preferences.c:482
 msgid "Show Sheet Name in Undo List"
 msgstr "在撤消列表中显示工作表名"
 
@@ -17105,7 +17127,8 @@ msgstr ""
 "某些文件格式只包含一张工作表。此变量决定了只保存有多张工作表的工作簿时是否要"
 "警告用户。"
 
-#: schemas/gnumeric-general.schemas.in.h:29 src/wbcg-actions.c:1903
+#: schemas/gnumeric-general.schemas.in.h:29
+#: src/dialogs/dialog-preferences.c:527 src/wbcg-actions.c:1903
 msgid "Sort Ascending"
 msgstr "升序排序"
 
@@ -17114,6 +17137,7 @@ msgid "Sort is Case-Sensitive"
 msgstr "排序区分大小写"
 
 #: schemas/gnumeric-general.schemas.in.h:31
+#: src/dialogs/dialog-preferences.c:519
 #, fuzzy
 msgid "Sorting Preserves Formats"
 msgstr "保留格式排序"
@@ -17234,14 +17258,17 @@ msgid "Toolbar Style. Valid values are both, both_horiz, icon, and text"
 msgstr "工具栏样式。有效值为二者、二者垂直、图标和文字"
 
 #: schemas/gnumeric-general.schemas.in.h:55
+#: src/dialogs/dialog-preferences.c:576
 msgid "Transition Keys"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:56
+#: src/dialogs/dialog-preferences.c:666
 msgid "Vertical DPI"
 msgstr "垂直 DPI"
 
 #: schemas/gnumeric-general.schemas.in.h:57
+#: src/dialogs/dialog-preferences.c:625
 msgid "Warn When Exporting Into Single Sheet Format"
 msgstr ""
 
@@ -17267,6 +17294,7 @@ msgid ""
 msgstr ""
 
 #: schemas/gnumeric-plugins.schemas.in.h:2
+#: src/dialogs/dialog-preferences.c:630
 msgid "Use UTF-8 in LaTeX Export"
 msgstr ""
 
@@ -17391,11 +17419,11 @@ msgstr "输入 \"%s%s\""
 msgid "Ins/Del Column/Row"
 msgstr "插入列"
 
-#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3249
+#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3251
 msgid "Delete Columns"
 msgstr "删除列"
 
-#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3367
+#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3371
 msgid "Delete Rows"
 msgstr "删除行"
 
@@ -17534,7 +17562,7 @@ msgstr "将列 %s 的宽度设为默认值"
 msgid "Setting height of rows %s to default"
 msgstr "将行 %s 的高度设为默认值"
 
-#: src/commands.c:2089 src/dialogs/dialog-preferences.c:704
+#: src/commands.c:2089 src/dialogs/dialog-preferences.c:770
 msgid "Sorting"
 msgstr "排序"
 
@@ -17693,132 +17721,132 @@ msgstr "设置默认行的高度为 %.2fpts"
 msgid "Zoom %s to %.0f%%"
 msgstr "放大 %s 为 %.0f%%"
 
-#: src/commands.c:4420
+#: src/commands.c:4452
 #, fuzzy
 msgid "Delete Object"
 msgstr "删除对象"
 
-#: src/commands.c:4581
+#: src/commands.c:4613
 #, fuzzy
 msgid "Format Object"
 msgstr "推后对象"
 
-#: src/commands.c:5180
+#: src/commands.c:5212
 msgid "Reordering Sheets"
 msgstr "更改工作表的顺序"
 
-#: src/commands.c:5183
+#: src/commands.c:5215
 msgid "Renaming Sheets"
 msgstr "重命名工作表"
 
-#: src/commands.c:5186
+#: src/commands.c:5218
 #, fuzzy, c-format
 msgid "Appending %i Sheets"
 msgstr "重命名工作表"
 
-#: src/commands.c:5190
+#: src/commands.c:5222
 msgid "Changing Tab Colors"
 msgstr "更改标签颜色"
 
-#: src/commands.c:5193
+#: src/commands.c:5225
 msgid "Changing Sheet Protection"
 msgstr "更改工作表保护"
 
-#: src/commands.c:5196
+#: src/commands.c:5228
 #, fuzzy
 msgid "Delete sheets"
 msgstr "删除单元格"
 
-#: src/commands.c:5199
+#: src/commands.c:5231
 #, fuzzy
 msgid "Delete a sheet"
 msgstr "删除对象"
 
-#: src/commands.c:5202
+#: src/commands.c:5234
 #, fuzzy
 msgid "Changing Sheet Visibility"
 msgstr "更改工作表保护"
 
-#: src/commands.c:5205
+#: src/commands.c:5237
 msgid "Reorganizing Sheets"
 msgstr "重组工作表"
 
-#: src/commands.c:5356
+#: src/commands.c:5388
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "清除 %s 的注释"
 
-#: src/commands.c:5357
+#: src/commands.c:5389
 #, c-format
 msgid "Setting comment of %s"
 msgstr "设置 %s 的注释"
 
-#: src/commands.c:5737
+#: src/commands.c:5769
 #, c-format
 msgid "Merging data into %s"
 msgstr "将数据合并至 %s"
 
-#: src/commands.c:5839
+#: src/commands.c:5871
 msgid "Changing summary info"
 msgstr "更改摘要信息"
 
-#: src/commands.c:5928
+#: src/commands.c:5960
 #, fuzzy
 msgid "Pull Object to the Front"
 msgstr "接受制约条件:"
 
-#: src/commands.c:5931
+#: src/commands.c:5963
 #, fuzzy
 msgid "Pull Object Forward"
 msgstr "GObject 装入程序"
 
-#: src/commands.c:5934
+#: src/commands.c:5966
 msgid "Push Object Backward"
 msgstr ""
 
-#: src/commands.c:5937
+#: src/commands.c:5969
 #, fuzzy
 msgid "Push Object to the Back"
 msgstr "接受制约条件:"
 
-#: src/commands.c:6052
+#: src/commands.c:6084
 #, c-format
 msgid "Page Setup For %s"
 msgstr "%s 的页面设置"
 
-#: src/commands.c:6054
+#: src/commands.c:6086
 msgid "Page Setup For All Sheets"
 msgstr "所有工作表的页面设置"
 
-#: src/commands.c:6169
+#: src/commands.c:6201
 #, fuzzy
 msgid "has a circular reference"
 msgstr "“%s”有循环引用"
 
-#: src/commands.c:6192
+#: src/commands.c:6224
 #, c-format
 msgid "Define Name %s"
 msgstr "定义名称 %s"
 
-#: src/commands.c:6195
+#: src/commands.c:6227
 #, c-format
 msgid "Update Name %s"
 msgstr "更新名称 %s"
 
-#: src/commands.c:6259
+#: src/commands.c:6291
 msgid "Add scenario"
 msgstr ""
 
-#: src/commands.c:6334
+#: src/commands.c:6366
 msgid "Scenario Show"
 msgstr ""
 
-#: src/commands.c:6398
+#: src/commands.c:6430
 msgid "Shuffle Data"
 msgstr "打乱数据"
 
 #. FIXME?
-#: src/commands.c:6508
+#: src/commands.c:6540
 #, fuzzy, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "删除列"
@@ -17828,29 +17856,29 @@ msgstr "删除列"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6652 src/dialogs/solver.glade.h:17
+#: src/commands.c:6684 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
 #: src/tools/solver/reports-write.c:907 src/tools/solver/reports-write.c:958
 msgid "Solver"
 msgstr "规划求解"
 
-#: src/commands.c:6736
+#: src/commands.c:6768
 #, fuzzy, c-format
 msgid "Goal Seek (%s)"
 msgstr "搜寻目标..."
 
-#: src/commands.c:6881
+#: src/commands.c:6913
 #, fuzzy, c-format
 msgid "Duplicating %s"
 msgstr "副本(_D)"
 
-#: src/commands.c:6960
+#: src/commands.c:6992
 #, fuzzy
 msgid "Tabulating Dependencies"
 msgstr "插件依赖性"
 
-#: src/commands.c:7035
+#: src/commands.c:7067
 #, fuzzy
 msgid "Reconfigure Graph"
 msgstr "配置工具栏"
@@ -18180,20 +18208,26 @@ msgstr "图表(_G)..."
 msgid "Chart"
 msgstr "图表%d"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1083
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1089
 msgid "Step 1 of 2: Select Chart Type"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1091
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1097
 msgid "Step 2 of 2: Customize Chart"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1096
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1102
 #, fuzzy
 msgid "Customize Chart"
 msgstr "自定义页眉"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1210
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1178
+#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1442
+#: src/wbcg-actions.c:1600
+msgid "_Insert"
+msgstr "插入(_I)"
+
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1236
 #, fuzzy
 msgid "_Plot Type"
 msgstr "粘贴方法"
@@ -18270,13 +18304,13 @@ msgstr "字符串(_S)"
 msgid "Point"
 msgstr "点"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:159 src/gui-file.c:359
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:159 src/gui-file.c:348
 #, fuzzy, c-format
 msgid "%d x %d"
 msgstr "%d 行 x %d 列"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:881
-#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:697
+#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:763
 msgid "Font"
 msgstr "字体"
 
@@ -19079,12 +19113,12 @@ msgstr "双线"
 msgid "Bubble"
 msgstr "双线"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1019
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1021
 #, fuzzy
 msgid "Y Error bars"
 msgstr "处理行出错"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1021
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1023
 #, fuzzy
 msgid "X Error bars"
 msgstr "处理行出错"
@@ -19887,7 +19921,7 @@ msgid "_Rows"
 msgstr "行(_R)"
 
 #: src/dialogs/anova-two.glade.h:1 src/dialogs/autocorrect.glade.h:1
-#: src/dialogs/autofilter-expression.glade.h:27
+#: src/dialogs/autofilter-expression.glade.h:14
 #: src/dialogs/autoformat.glade.h:1 src/dialogs/autosave.glade.h:1
 #: src/dialogs/cell-format.glade.h:2 src/dialogs/descriptive-stats.glade.h:2
 #: src/dialogs/dialog-stf-export.glade.h:5 src/dialogs/dialog-stf.glade.h:3
@@ -20008,37 +20042,20 @@ msgid ""
 "does not contain"
 msgstr ""
 
-#: src/dialogs/autofilter-expression.glade.h:14
-msgid ""
-"\n"
-"equals\n"
-"does not equal\n"
-"is greater than\n"
-"is greater than or equal to\n"
-"is_less_than\n"
-"is less than or equal to\n"
-"begins with\n"
-"does not begin with\n"
-"ends with\n"
-"does not end with\n"
-"contains\n"
-"does not contain"
-msgstr ""
-
-#: src/dialogs/autofilter-expression.glade.h:28
+#: src/dialogs/autofilter-expression.glade.h:15
 #: src/dialogs/autofilter-top10.glade.h:1
 msgid "Gnumeric : AutoFilter"
 msgstr "Gnumeric：自动筛选"
 
-#: src/dialogs/autofilter-expression.glade.h:29
+#: src/dialogs/autofilter-expression.glade.h:16
 msgid "Show rows where:"
 msgstr "显示箭头的位置："
 
-#: src/dialogs/autofilter-expression.glade.h:30
+#: src/dialogs/autofilter-expression.glade.h:17
 msgid "_And"
 msgstr "与(_A)"
 
-#: src/dialogs/autofilter-expression.glade.h:31
+#: src/dialogs/autofilter-expression.glade.h:18
 msgid "_Or"
 msgstr "或(_O)"
 
@@ -21359,7 +21376,7 @@ msgstr "步进大小应为正数"
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "无法创建 Name Guru."
 
-#: src/dialogs/dialog-autocorrect.c:329
+#: src/dialogs/dialog-autocorrect.c:332
 #, fuzzy
 msgid "Could not create the AutoCorrect dialog."
 msgstr "无法创建 Name Guru."
@@ -21999,67 +22016,77 @@ msgstr "ID"
 msgid "Directory"
 msgstr "目录"
 
-#: src/dialogs/dialog-preferences.c:442
+#: src/dialogs/dialog-preferences.c:455
 msgid "The items on this page customize the behaviour of the undo/redo system."
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:477
+#: src/dialogs/dialog-preferences.c:470
+#, fuzzy
+msgid "Length of Undo Descriptors"
+msgstr "文件历史长度"
+
+#: src/dialogs/dialog-preferences.c:498
 msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:515
+#: src/dialogs/dialog-preferences.c:523
+#, fuzzy
+msgid "Sorting is Case-Sensitive"
+msgstr "排序区分大小写"
+
+#: src/dialogs/dialog-preferences.c:544
 msgid "The items on this page customize the new default workbook."
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:555
+#: src/dialogs/dialog-preferences.c:596
 msgid "The items on this page are related to the saving and opening of files."
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:593
+#: src/dialogs/dialog-preferences.c:646
 msgid "The items on this page are related to the screen layout and resolution."
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:625
+#: src/dialogs/dialog-preferences.c:682
 msgid ""
 "The items on this page and its subpages are related to various gnumeric "
 "tools."
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:660
-msgid "The items on this page arerelated to copy. cut and paste."
+#: src/dialogs/dialog-preferences.c:724
+msgid "The items on this page are related to copy. cut and paste."
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:698
+#: src/dialogs/dialog-preferences.c:764
 msgid "Copy and Paste"
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:699
+#: src/dialogs/dialog-preferences.c:765
 #, fuzzy
 msgid "Files"
 msgstr "文件(_F)"
 
-#: src/dialogs/dialog-preferences.c:700
+#: src/dialogs/dialog-preferences.c:766
 #, fuzzy
 msgid "Tools"
 msgstr "工具(_T)"
 
-#: src/dialogs/dialog-preferences.c:701 src/wbc-gtk.c:472
+#: src/dialogs/dialog-preferences.c:767 src/wbc-gtk.c:472
 msgid "Undo"
 msgstr "不做"
 
-#: src/dialogs/dialog-preferences.c:702
+#: src/dialogs/dialog-preferences.c:768
 #, fuzzy
 msgid "Windows"
 msgstr "隐藏行"
 
-#: src/dialogs/dialog-preferences.c:703
+#: src/dialogs/dialog-preferences.c:769
 #, fuzzy
 msgid "Header/Footer"
 msgstr "页眉和页脚"
 
-#: src/dialogs/dialog-preferences.c:705
+#: src/dialogs/dialog-preferences.c:771
 #, fuzzy
 msgid "Screen"
 msgstr "Sheet%d"
@@ -23416,11 +23443,6 @@ msgstr "函数选择"
 #: src/dialogs/function-select.glade.h:5
 msgid "Select a function to insert:"
 msgstr ""
-
-#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1442
-#: src/wbcg-actions.c:1600
-msgid "_Insert"
-msgstr "插入(_I)"
 
 #: src/dialogs/goalseek.glade.h:1
 msgid "(Ma_ximum):"
@@ -24952,11 +24974,11 @@ msgstr "已在工作簿中定义“%s”"
 msgid "Invalid template file: %s"
 msgstr "无效的模板文件：%s"
 
-#: src/file.c:497
+#: src/file.c:522
 msgid "Saving over old files of this type is disabled for safety."
 msgstr ""
 
-#: src/file.c:499
+#: src/file.c:524
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
@@ -25980,23 +26002,23 @@ msgstr "自动检测"
 msgid "Load file"
 msgstr "装入文件"
 
-#: src/gui-file.c:224 src/gui-file.c:666
+#: src/gui-file.c:224 src/gui-file.c:655
 msgid "Select a file"
 msgstr "选择一个文件"
 
-#: src/gui-file.c:242 src/gui-file.c:468 src/gui-file.c:680
+#: src/gui-file.c:242 src/gui-file.c:457 src/gui-file.c:669
 msgid "All Files"
 msgstr "全部文件"
 
-#: src/gui-file.c:247 src/gui-file.c:685
+#: src/gui-file.c:247 src/gui-file.c:674
 msgid "Spreadsheets"
 msgstr "电子表格"
 
-#: src/gui-file.c:284 src/gui-file.c:535 src/gui-file.c:709
+#: src/gui-file.c:273 src/gui-file.c:524 src/gui-file.c:698
 msgid "File _type:"
 msgstr "文件类型(_T)："
 
-#: src/gui-file.c:400
+#: src/gui-file.c:389
 #, c-format
 msgid ""
 "%s\n"
@@ -26005,7 +26027,7 @@ msgstr ""
 "%s\n"
 "是一个目录名"
 
-#: src/gui-file.c:406
+#: src/gui-file.c:395
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -26014,7 +26036,7 @@ msgstr ""
 "您没有权限保存到\n"
 "%s"
 
-#: src/gui-file.c:415
+#: src/gui-file.c:404
 #, fuzzy, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -26024,27 +26046,27 @@ msgstr ""
 "工作簿 %s 已经存在。\n"
 "您是否想要覆盖它？"
 
-#: src/gui-file.c:473
+#: src/gui-file.c:462
 #, fuzzy
 msgid "Images"
 msgstr "图像(_I)..."
 
-#: src/gui-file.c:513
+#: src/gui-file.c:502
 msgid "Save as"
 msgstr "另存为"
 
-#: src/gui-file.c:562 src/gui-file.c:758
+#: src/gui-file.c:551 src/gui-file.c:747
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
 msgstr ""
 
-#: src/gui-file.c:589
+#: src/gui-file.c:578
 #, fuzzy
 msgid "Select an Image"
 msgstr "选中整列"
 
-#: src/gui-file.c:608
+#: src/gui-file.c:597
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -26611,7 +26633,7 @@ msgstr "文件不包含“%s”数组。"
 msgid "Module doesn't contain \"%s\" function."
 msgstr "模块不包含“%s”函数。"
 
-#: src/plugin-service.c:159 src/plugin-service.c:249 src/plugin-service.c:1141
+#: src/plugin-service.c:159 src/plugin-service.c:249 src/plugin-service.c:1166
 msgid "Error while loading plugin service."
 msgstr "当装入插件服务时出现错误。"
 
@@ -26627,96 +26649,96 @@ msgstr "插件内部清理函数返回错误"
 msgid "Clipboard"
 msgstr "剪贴板"
 
-#: src/plugin-service.c:408
+#: src/plugin-service.c:422
 msgid "File opener has no description"
 msgstr "文件打开器无描述"
 
-#: src/plugin-service.c:440
+#: src/plugin-service.c:454
 #, c-format
 msgid "File opener - %s"
 msgstr "文件打开器 - %s"
 
-#: src/plugin-service.c:559
+#: src/plugin-service.c:573
 msgid "Error while reading file."
 msgstr "读取文件时出错。"
 
-#: src/plugin-service.c:714
+#: src/plugin-service.c:739
 msgid "File saver has no description"
 msgstr "文件保存器没有描述"
 
-#: src/plugin-service.c:760
+#: src/plugin-service.c:785
 #, fuzzy, c-format
 msgid "File saver - %s"
 msgstr "文件保存器 - %s"
 
-#: src/plugin-service.c:822
+#: src/plugin-service.c:847
 msgid "Error while saving file."
 msgstr "保存文件时出错。"
 
-#: src/plugin-service.c:975
+#: src/plugin-service.c:1000
 msgid "Missing function category name."
 msgstr "丢失函数分类名。"
 
-#: src/plugin-service.c:979
+#: src/plugin-service.c:1004
 msgid "Function group is empty."
 msgstr "函数组为空。"
 
-#: src/plugin-service.c:1009
+#: src/plugin-service.c:1034
 msgid "No func_desc_load method.\n"
 msgstr ""
 
-#: src/plugin-service.c:1079
+#: src/plugin-service.c:1104
 #, fuzzy, c-format
 msgid "%d function in category \"%s\""
 msgstr "丢失函数分类名."
 
-#: src/plugin-service.c:1080
+#: src/plugin-service.c:1105
 #, c-format
 msgid "Group of %d functions in category \"%s\""
 msgstr ""
 
-#: src/plugin-service.c:1176
+#: src/plugin-service.c:1201
 msgid "Plugin loader"
 msgstr "插件装入器"
 
-#: src/plugin-service.c:1273
+#: src/plugin-service.c:1298
 msgid "Missing file name."
 msgstr "丢失文件名。"
 
-#: src/plugin-service.c:1322
+#: src/plugin-service.c:1347
 #, fuzzy, c-format
 msgid "Cannot read UI description from XML file %s."
 msgstr "不能读取插件信息文件 (\"%s\")."
 
-#: src/plugin-service.c:1356
+#: src/plugin-service.c:1381
 #, c-format
 msgid "User interface with %d action"
 msgstr ""
 
-#: src/plugin-service.c:1357
+#: src/plugin-service.c:1382
 #, c-format
 msgid "User interface with %d actions"
 msgstr ""
 
-#: src/plugin-service.c:1385
+#: src/plugin-service.c:1410
 msgid "GObject loader"
 msgstr "GObject 装入程序"
 
-#: src/plugin-service.c:1492
+#: src/plugin-service.c:1517
 msgid "No \"type\" attribute on \"service\" element."
 msgstr ""
 
-#: src/plugin-service.c:1498
+#: src/plugin-service.c:1523
 #, c-format
 msgid "Unknown service type: %s."
 msgstr "未知服务类型：%s。"
 
-#: src/plugin-service.c:1514
+#: src/plugin-service.c:1539
 #, fuzzy
 msgid "Error reading service information."
 msgstr "当读取服务信息 #%d 时出现错误."
 
-#: src/plugin-service.c:1576
+#: src/plugin-service.c:1601
 msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."
@@ -26749,15 +26771,15 @@ msgstr "打印预览"
 msgid "Printing failed"
 msgstr "打印失败"
 
-#: src/print.c:1443
+#: src/print.c:1444
 msgid "Print Sheets"
 msgstr "打印表格"
 
-#: src/print.c:1452
+#: src/print.c:1453
 msgid "Act_ive sheet"
 msgstr "激活工作表(_I)"
 
-#: src/print.c:1452
+#: src/print.c:1453
 msgid "S_heets"
 msgstr "工作表(_H)"
 
@@ -26879,11 +26901,11 @@ msgstr "不能在合并的单元格上操作"
 msgid "cannot operate on array formulae"
 msgstr "不能在数组公式上操作"
 
-#: src/sheet.c:3190
+#: src/sheet.c:3191
 msgid "Insert Columns"
 msgstr "插入列"
 
-#: src/sheet.c:3308
+#: src/sheet.c:3311
 msgid "Insert Rows"
 msgstr "插入行"
 
@@ -27095,12 +27117,12 @@ msgstr "帧"
 msgid "Button"
 msgstr "按钮"
 
-#: src/sheet-object-widget.c:1304
+#: src/sheet-object-widget.c:1352
 #, c-format
 msgid "CheckBox %d"
 msgstr "复选框 %d"
 
-#: src/sheet-object-widget.c:1750 src/wbcg-actions.c:1950
+#: src/sheet-object-widget.c:1807 src/wbcg-actions.c:1950
 msgid "RadioButton"
 msgstr "单选钮"
 
@@ -27234,20 +27256,20 @@ msgstr "当试图预转换文件时出现错误"
 msgid "Error while trying to write CSV file"
 msgstr "当试图写 csv 文件时出现错误"
 
-#: src/stf.c:490
+#: src/stf.c:504
 #, fuzzy
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr "逗号或跳格分隔的文件(CSV/TSV))"
 
-#: src/stf.c:494
+#: src/stf.c:509
 msgid "Text import (configurable)"
 msgstr "文本输入(可配置)"
 
-#: src/stf.c:499
+#: src/stf.c:515
 msgid "Text export (configurable)"
 msgstr "文本导出(可配置)"
 
-#: src/stf.c:503
+#: src/stf.c:519
 #, fuzzy
 msgid "Comma separated values (CSV)"
 msgstr "逗号或跳格分隔的文件(CSV/TSV))"
@@ -31362,11 +31384,6 @@ msgstr "不支持的文件格式。"
 msgid "An unexplained error happened while opening %s"
 msgstr "打开 %s 时发生了未预期的错误"
 
-#: src/xml-io.c:2770
-#, fuzzy, c-format
-msgid "Unsupported object type '%s'"
-msgstr "不支持的装入器类型“%s”。"
-
 #: src/xml-io.c:3473
 msgid "Unparsable xml in clipboard"
 msgstr "剪贴板上的 XML 无法处理"
@@ -31390,7 +31407,7 @@ msgstr "该文件不是 Gnumeric 工作簿文件"
 msgid "Failure saving file"
 msgstr "保存文件失败"
 
-#: src/xml-io.c:4329
+#: src/xml-io.c:4332
 msgid "Gnumeric XML (*.gnumeric) original slow exporter"
 msgstr ""
 

@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gnumeric 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-07 01:25-0500\n"
+"POT-Creation-Date: 2004-11-22 16:47-0500\n"
 "PO-Revision-Date: 2004-03-24 17:03+0200\n"
 "Last-Translator: Petros Velonis <velonis@freemail.gr>\n"
 "Language-Team: Greek <nls@tux.hellug.gr>\n"
@@ -958,7 +958,7 @@ msgstr "Οικονομικές"
 msgid "Functions related to financial derivatives"
 msgstr ""
 
-#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5743
+#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5831
 #: plugins/mps/mps.c:547 src/xml-io.c:4199
 msgid "Reading file..."
 msgstr "Γίνεται ανάγνωση αρχείου..."
@@ -1049,75 +1049,75 @@ msgstr "Προετοιμασία για αποθήκευση..."
 msgid "Saving file..."
 msgstr "Αποθήκευση αρχείου..."
 
-#: plugins/excel/excel-xml-read.c:85 plugins/xml_sax/xml-sax-read.c:270
+#: plugins/excel/excel-xml-read.c:85 plugins/xml_sax/xml-sax-read.c:276
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr ""
 
 #: plugins/excel/excel-xml-read.c:198
 #: plugins/openoffice/openoffice-read.c:1479
-#: plugins/xml_sax/xml-sax-read.c:1649
+#: plugins/xml_sax/xml-sax-read.c:1767
 msgid "XML document not well formed!"
 msgstr "Κείμενο XML σε κακή διαμόρφωση!"
 
-#: plugins/excel/ms-excel-read.c:1069 src/value.c:60
+#: plugins/excel/ms-excel-read.c:1070 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#ΑΓΝΩΣΤΟ!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1151 plugins/excel/ms-excel-read.c:1163
+#: plugins/excel/ms-excel-read.c:1152 plugins/excel/ms-excel-read.c:1164
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:510
 #: src/dialogs/dialog-sheet-order.c:432 src/dialogs/dialog-sheet-order.c:436
 #, c-format
 msgid "Sheet%d"
 msgstr "Φύλλο%d"
 
-#: plugins/excel/ms-excel-read.c:1167
+#: plugins/excel/ms-excel-read.c:1168
 #, fuzzy, c-format
 msgid "Macro%d"
 msgstr "Μακροεντολή"
 
-#: plugins/excel/ms-excel-read.c:1171
+#: plugins/excel/ms-excel-read.c:1172
 #, fuzzy, c-format
 msgid "Chart%d"
 msgstr "Γρά&φημα"
 
-#: plugins/excel/ms-excel-read.c:1174
+#: plugins/excel/ms-excel-read.c:1175
 #, c-format
 msgid "Module%d"
 msgstr "Άρθρωμα%d"
 
-#: plugins/excel/ms-excel-read.c:2963
+#: plugins/excel/ms-excel-read.c:2964
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:3059
+#: plugins/excel/ms-excel-read.c:3060
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
 "Name '%s' will be lost.\n"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:3065
+#: plugins/excel/ms-excel-read.c:3066
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
 "Name '%s' will be lost.\n"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:5088
+#: plugins/excel/ms-excel-read.c:5176
 #, fuzzy
 msgid "external references"
 msgstr "Κυκιλική αναφορά"
 
-#: plugins/excel/ms-excel-read.c:5111
+#: plugins/excel/ms-excel-read.c:5199
 #, fuzzy
 msgid "No password supplied"
 msgstr "Δεν δόθηκε κωδικός"
 
-#: plugins/excel/ms-excel-read.c:5969
+#: plugins/excel/ms-excel-read.c:6057
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Δε βρέθηκε έγκυρο βιβλίο MS Excel"
 
@@ -14205,8 +14205,8 @@ msgstr "Αντικείμεν_ο..."
 msgid "Constraints:"
 msgstr "Περιορισμοί:"
 
-#: plugins/mps/mps.c:245 src/commands.c:6112
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1057
+#: plugins/mps/mps.c:245 src/commands.c:6144
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1063
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:379
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
 #: src/dialogs/dialog-function-select.c:443
@@ -15058,7 +15058,7 @@ msgstr ""
 msgid "Error while opening xbase file."
 msgstr ""
 
-#: plugins/xbase/boot.c:175 src/commands.c:4906
+#: plugins/xbase/boot.c:175 src/commands.c:4938
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
 #: src/dialogs/dialog-stf-export.c:444 src/dialogs/print.glade.h:21
 #: src/print-info.c:391 src/workbook.c:1091 src/xml-io.c:3789
@@ -15099,7 +15099,7 @@ msgstr "Μορφή αρχείου XML Gnumeric"
 msgid "EXPERIMENTAL SAX based XML"
 msgstr ""
 
-#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4325
+#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4327
 #, fuzzy
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Μορφή αρχείου XML Gnumeric"
@@ -15108,14 +15108,19 @@ msgstr "Μορφή αρχείου XML Gnumeric"
 msgid "The next generation sax based xml I/O subsystem"
 msgstr ""
 
-#: plugins/xml_sax/xml-sax-read.c:302
+#: plugins/xml_sax/xml-sax-read.c:308
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
 msgstr ""
 
-#: plugins/xml_sax/xml-sax-read.c:473
+#: plugins/xml_sax/xml-sax-read.c:479
 msgid "File has inconsistent SheetNameIndex element."
 msgstr ""
+
+#: plugins/xml_sax/xml-sax-read.c:1318 src/xml-io.c:2770
+#, fuzzy, c-format
+msgid "Unsupported object type '%s'"
+msgstr "Μη υποστηριζόμενος τύπος Python %s"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:1
 msgid ""
@@ -15136,6 +15141,7 @@ msgid "Activate New Plugins"
 msgstr "Δείγμα Αρθρώματος"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:4
+#: src/dialogs/dialog-preferences.c:708
 msgid "Allow Unfocused Range Selections"
 msgstr ""
 
@@ -15286,6 +15292,7 @@ msgid "List of recently used functions."
 msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:38
+#: src/dialogs/dialog-preferences.c:699
 msgid "Maximum Length of Recently Used Functions List"
 msgstr ""
 
@@ -15531,6 +15538,7 @@ msgid "Auto Expression Recalculation Lag"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:2
+#: src/dialogs/dialog-preferences.c:704
 msgid "Autocomplete"
 msgstr "Αυτόματη Συμπλήρωση"
 
@@ -15542,6 +15550,7 @@ msgid ""
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:4
+#: src/dialogs/dialog-preferences.c:616
 msgid "Default Compression Level For Gnumeric Files"
 msgstr ""
 
@@ -15550,24 +15559,29 @@ msgid "Default Font Size"
 msgstr "Προκαθορισμένο μέγεθος γραμματοσειράς"
 
 #: schemas/gnumeric-general.schemas.in.h:6
+#: src/dialogs/dialog-preferences.c:564
 #, fuzzy
 msgid "Default Horizontal Window Size"
 msgstr "Ευθυγράμμιση"
 
 #: schemas/gnumeric-general.schemas.in.h:7
+#: src/dialogs/dialog-preferences.c:572
 #, fuzzy
 msgid "Default Number of Sheets"
 msgstr "Αριθμός Δειγμάτων:"
 
 #: schemas/gnumeric-general.schemas.in.h:8
+#: src/dialogs/dialog-preferences.c:621
 msgid "Default To Overwriting Files"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:9
+#: src/dialogs/dialog-preferences.c:560
 msgid "Default Vertical Window Size"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:10
+#: src/dialogs/dialog-preferences.c:568
 msgid "Default Zoom Factor"
 msgstr "Προεπιλεγμένος συντελεστής μεγένθυνσης"
 
@@ -15577,6 +15591,7 @@ msgid "Default font name"
 msgstr "Ορισμός Ονόματος"
 
 #: schemas/gnumeric-general.schemas.in.h:12
+#: src/dialogs/dialog-preferences.c:662
 #, fuzzy
 msgid "Horizontal DPI"
 msgstr "Οριζόντια"
@@ -15593,6 +15608,7 @@ msgid ""
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:14
+#: src/dialogs/dialog-preferences.c:612
 msgid "Length of File History"
 msgstr ""
 
@@ -15605,25 +15621,30 @@ msgid "List of recently used files"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:17
+#: src/dialogs/dialog-preferences.c:580
 msgid "Live Scrolling"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:18
+#: src/dialogs/dialog-preferences.c:474
 #, fuzzy
 msgid "Maximal Undo Size"
 msgstr "Μέγιστο"
 
 #: schemas/gnumeric-general.schemas.in.h:19
+#: src/dialogs/dialog-preferences.c:515
 #, fuzzy
 msgid "Number of Automatic Clauses"
 msgstr "Αριθμός Αποτυχιών"
 
 #: schemas/gnumeric-general.schemas.in.h:20
+#: src/dialogs/dialog-preferences.c:478
 #, fuzzy
 msgid "Number of Undo Items"
 msgstr "Τίτλοι προς εκτύπωση"
 
 #: schemas/gnumeric-general.schemas.in.h:21
+#: src/dialogs/dialog-preferences.c:741
 msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr ""
 
@@ -15650,6 +15671,7 @@ msgid ""
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:27
+#: src/dialogs/dialog-preferences.c:482
 msgid "Show Sheet Name in Undo List"
 msgstr ""
 
@@ -15660,7 +15682,8 @@ msgid ""
 "workbook is being saved."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:29 src/wbcg-actions.c:1903
+#: schemas/gnumeric-general.schemas.in.h:29
+#: src/dialogs/dialog-preferences.c:527 src/wbcg-actions.c:1903
 msgid "Sort Ascending"
 msgstr "Αύξουσα Ταξινόμιση"
 
@@ -15670,6 +15693,7 @@ msgid "Sort is Case-Sensitive"
 msgstr "Διαχ. μικρών/κεφαλαίων"
 
 #: schemas/gnumeric-general.schemas.in.h:31
+#: src/dialogs/dialog-preferences.c:519
 #, fuzzy
 msgid "Sorting Preserves Formats"
 msgstr "Συσχέτιση"
@@ -15794,15 +15818,18 @@ msgstr ""
 "\", και \"text\""
 
 #: schemas/gnumeric-general.schemas.in.h:55
+#: src/dialogs/dialog-preferences.c:576
 msgid "Transition Keys"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:56
+#: src/dialogs/dialog-preferences.c:666
 #, fuzzy
 msgid "Vertical DPI"
 msgstr "Κατακόρυ_φα"
 
 #: schemas/gnumeric-general.schemas.in.h:57
+#: src/dialogs/dialog-preferences.c:625
 msgid "Warn When Exporting Into Single Sheet Format"
 msgstr ""
 
@@ -15828,6 +15855,7 @@ msgid ""
 msgstr ""
 
 #: schemas/gnumeric-plugins.schemas.in.h:2
+#: src/dialogs/dialog-preferences.c:630
 msgid "Use UTF-8 in LaTeX Export"
 msgstr ""
 
@@ -15957,11 +15985,11 @@ msgstr "Πληκτρολόγηση"
 msgid "Ins/Del Column/Row"
 msgstr "Εισαγωγή Στηλών"
 
-#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3249
+#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3251
 msgid "Delete Columns"
 msgstr "Διαγραφή Στηλών"
 
-#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3367
+#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3371
 msgid "Delete Rows"
 msgstr "Διαγραφή Σειρών"
 
@@ -16101,7 +16129,7 @@ msgstr "Ρύθμιση πλάτους της στήλης %s"
 msgid "Setting height of rows %s to default"
 msgstr "Ρύθμιση ύψους της σειράς %s"
 
-#: src/commands.c:2089 src/dialogs/dialog-preferences.c:704
+#: src/commands.c:2089 src/dialogs/dialog-preferences.c:770
 msgid "Sorting"
 msgstr "Ταξινόμηση"
 
@@ -16262,133 +16290,133 @@ msgstr "Ρύθμιση ύψους της σειράς "
 msgid "Zoom %s to %.0f%%"
 msgstr ""
 
-#: src/commands.c:4420
+#: src/commands.c:4452
 #, fuzzy
 msgid "Delete Object"
 msgstr "Διαγραφή αντικειμένου"
 
-#: src/commands.c:4581
+#: src/commands.c:4613
 #, fuzzy
 msgid "Format Object"
 msgstr "Εισαγωγή Αντικειμένου"
 
-#: src/commands.c:5180
+#: src/commands.c:5212
 #, fuzzy
 msgid "Reordering Sheets"
 msgstr "Επανα_δίαταξη Φύλλων"
 
-#: src/commands.c:5183
+#: src/commands.c:5215
 #, fuzzy
 msgid "Renaming Sheets"
 msgstr "Μετονομασία παρόντος φύλλου"
 
-#: src/commands.c:5186
+#: src/commands.c:5218
 #, fuzzy, c-format
 msgid "Appending %i Sheets"
 msgstr "Μετονομασία παρόντος φύλλου"
 
-#: src/commands.c:5190
+#: src/commands.c:5222
 msgid "Changing Tab Colors"
 msgstr ""
 
-#: src/commands.c:5193
+#: src/commands.c:5225
 msgid "Changing Sheet Protection"
 msgstr ""
 
-#: src/commands.c:5196
+#: src/commands.c:5228
 msgid "Delete sheets"
 msgstr "Διαγραφή φύλλων"
 
-#: src/commands.c:5199
+#: src/commands.c:5231
 msgid "Delete a sheet"
 msgstr "Διαγραφή φύλλου"
 
-#: src/commands.c:5202
+#: src/commands.c:5234
 msgid "Changing Sheet Visibility"
 msgstr ""
 
-#: src/commands.c:5205
+#: src/commands.c:5237
 #, fuzzy
 msgid "Reorganizing Sheets"
 msgstr "Εκτύπωση Φύλλων"
 
-#: src/commands.c:5356
+#: src/commands.c:5388
 #, fuzzy, c-format
 msgid "Clearing comment of %s"
 msgstr "Δημιουργία αρχείου %s αδύνατη\n"
 
-#: src/commands.c:5357
+#: src/commands.c:5389
 #, fuzzy, c-format
 msgid "Setting comment of %s"
 msgstr "Ανάθεση τρέχουσας ημ/νίας στο %s"
 
-#: src/commands.c:5737
+#: src/commands.c:5769
 #, c-format
 msgid "Merging data into %s"
 msgstr ""
 
-#: src/commands.c:5839
+#: src/commands.c:5871
 msgid "Changing summary info"
 msgstr ""
 
-#: src/commands.c:5928
+#: src/commands.c:5960
 #, fuzzy
 msgid "Pull Object to the Front"
 msgstr "Υπό τους Περιορισμούς:"
 
-#: src/commands.c:5931
+#: src/commands.c:5963
 #, fuzzy
 msgid "Pull Object Forward"
 msgstr "Φορτωτής GObject"
 
-#: src/commands.c:5934
+#: src/commands.c:5966
 msgid "Push Object Backward"
 msgstr ""
 
-#: src/commands.c:5937
+#: src/commands.c:5969
 #, fuzzy
 msgid "Push Object to the Back"
 msgstr "Υπό τους Περιορισμούς:"
 
-#: src/commands.c:6052
+#: src/commands.c:6084
 #, fuzzy, c-format
 msgid "Page Setup For %s"
 msgstr "Ρυθμίσεις εκτύπωσης %s"
 
-#: src/commands.c:6054
+#: src/commands.c:6086
 #, fuzzy
 msgid "Page Setup For All Sheets"
 msgstr "Εκτύπωση Φύλλων"
 
-#: src/commands.c:6169
+#: src/commands.c:6201
 #, fuzzy
 msgid "has a circular reference"
 msgstr "κυκλική αναφορά"
 
-#: src/commands.c:6192
+#: src/commands.c:6224
 #, fuzzy, c-format
 msgid "Define Name %s"
 msgstr "Ορισμός Ονόματος"
 
-#: src/commands.c:6195
+#: src/commands.c:6227
 #, c-format
 msgid "Update Name %s"
 msgstr ""
 
-#: src/commands.c:6259
+#: src/commands.c:6291
 msgid "Add scenario"
 msgstr ""
 
-#: src/commands.c:6334
+#: src/commands.c:6366
 msgid "Scenario Show"
 msgstr ""
 
-#: src/commands.c:6398
+#: src/commands.c:6430
 msgid "Shuffle Data"
 msgstr ""
 
 #. FIXME?
-#: src/commands.c:6508
+#: src/commands.c:6540
 #, fuzzy, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Διαγραφή στη_λών"
@@ -16398,7 +16426,7 @@ msgstr "Διαγραφή στη_λών"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6652 src/dialogs/solver.glade.h:17
+#: src/commands.c:6684 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
 #: src/tools/solver/reports-write.c:907 src/tools/solver/reports-write.c:958
@@ -16406,22 +16434,22 @@ msgstr "Διαγραφή στη_λών"
 msgid "Solver"
 msgstr "Επί_λυση..."
 
-#: src/commands.c:6736
+#: src/commands.c:6768
 #, fuzzy, c-format
 msgid "Goal Seek (%s)"
 msgstr "Αναζήτηση &στόχου..."
 
-#: src/commands.c:6881
+#: src/commands.c:6913
 #, fuzzy, c-format
 msgid "Duplicating %s"
 msgstr "_Ημ/νία"
 
-#: src/commands.c:6960
+#: src/commands.c:6992
 #, fuzzy
 msgid "Tabulating Dependencies"
 msgstr "Τίτλος Αρθρώματος"
 
-#: src/commands.c:7035
+#: src/commands.c:7067
 msgid "Reconfigure Graph"
 msgstr ""
 
@@ -16744,20 +16772,26 @@ msgstr "Γράφημα"
 msgid "Chart"
 msgstr "Διάγραμμα"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1083
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1089
 msgid "Step 1 of 2: Select Chart Type"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1091
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1097
 msgid "Step 2 of 2: Customize Chart"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1096
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1102
 #, fuzzy
 msgid "Customize Chart"
 msgstr "Ρυθμίσεις ε_πικεφαλίδας"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1210
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1178
+#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1442
+#: src/wbcg-actions.c:1600
+msgid "_Insert"
+msgstr "Ει_σαγωγή"
+
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1236
 #, fuzzy
 msgid "_Plot Type"
 msgstr "Φύλλο 1"
@@ -16834,13 +16868,13 @@ msgstr "Ακολουθίες χαρακτήρων"
 msgid "Point"
 msgstr "Σημείο"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:159 src/gui-file.c:359
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:159 src/gui-file.c:348
 #, c-format
 msgid "%d x %d"
 msgstr "%d x %d"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:881
-#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:697
+#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:763
 msgid "Font"
 msgstr "Γραμματοσειρά"
 
@@ -17643,12 +17677,12 @@ msgstr "Διπλή"
 msgid "Bubble"
 msgstr "Διπλή"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1019
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1021
 #, fuzzy
 msgid "Y Error bars"
 msgstr "σφάλμα συντακτικής ανάλυσης\n"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1021
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1023
 #, fuzzy
 msgid "X Error bars"
 msgstr "σφάλμα συντακτικής ανάλυσης\n"
@@ -18438,7 +18472,7 @@ msgid "_Rows"
 msgstr "Σει_ρές"
 
 #: src/dialogs/anova-two.glade.h:1 src/dialogs/autocorrect.glade.h:1
-#: src/dialogs/autofilter-expression.glade.h:27
+#: src/dialogs/autofilter-expression.glade.h:14
 #: src/dialogs/autoformat.glade.h:1 src/dialogs/autosave.glade.h:1
 #: src/dialogs/cell-format.glade.h:2 src/dialogs/descriptive-stats.glade.h:2
 #: src/dialogs/dialog-stf-export.glade.h:5 src/dialogs/dialog-stf.glade.h:3
@@ -18562,40 +18596,23 @@ msgid ""
 "does not contain"
 msgstr ""
 
-#: src/dialogs/autofilter-expression.glade.h:14
-msgid ""
-"\n"
-"equals\n"
-"does not equal\n"
-"is greater than\n"
-"is greater than or equal to\n"
-"is_less_than\n"
-"is less than or equal to\n"
-"begins with\n"
-"does not begin with\n"
-"ends with\n"
-"does not end with\n"
-"contains\n"
-"does not contain"
-msgstr ""
-
-#: src/dialogs/autofilter-expression.glade.h:28
+#: src/dialogs/autofilter-expression.glade.h:15
 #: src/dialogs/autofilter-top10.glade.h:1
 #, fuzzy
 msgid "Gnumeric : AutoFilter"
 msgstr "Μορφή αρχείου XML Gnumeric"
 
-#: src/dialogs/autofilter-expression.glade.h:29
+#: src/dialogs/autofilter-expression.glade.h:16
 #, fuzzy
 msgid "Show rows where:"
 msgstr "Βέλος"
 
-#: src/dialogs/autofilter-expression.glade.h:30
+#: src/dialogs/autofilter-expression.glade.h:17
 #, fuzzy
 msgid "_And"
 msgstr "C και C++"
 
-#: src/dialogs/autofilter-expression.glade.h:31
+#: src/dialogs/autofilter-expression.glade.h:18
 #, fuzzy
 msgid "_Or"
 msgstr "ή"
@@ -19943,7 +19960,7 @@ msgstr ""
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Άκυρο όρισμα"
 
-#: src/dialogs/dialog-autocorrect.c:329
+#: src/dialogs/dialog-autocorrect.c:332
 #, fuzzy
 msgid "Could not create the AutoCorrect dialog."
 msgstr "Άκυρο όρισμα"
@@ -20606,65 +20623,74 @@ msgstr "ID"
 msgid "Directory"
 msgstr "Κατάλογος"
 
-#: src/dialogs/dialog-preferences.c:442
+#: src/dialogs/dialog-preferences.c:455
 msgid "The items on this page customize the behaviour of the undo/redo system."
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:477
+#: src/dialogs/dialog-preferences.c:470
+msgid "Length of Undo Descriptors"
+msgstr ""
+
+#: src/dialogs/dialog-preferences.c:498
 msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:515
+#: src/dialogs/dialog-preferences.c:523
+#, fuzzy
+msgid "Sorting is Case-Sensitive"
+msgstr "Διαχ. μικρών/κεφαλαίων"
+
+#: src/dialogs/dialog-preferences.c:544
 msgid "The items on this page customize the new default workbook."
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:555
+#: src/dialogs/dialog-preferences.c:596
 msgid "The items on this page are related to the saving and opening of files."
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:593
+#: src/dialogs/dialog-preferences.c:646
 msgid "The items on this page are related to the screen layout and resolution."
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:625
+#: src/dialogs/dialog-preferences.c:682
 msgid ""
 "The items on this page and its subpages are related to various gnumeric "
 "tools."
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:660
-msgid "The items on this page arerelated to copy. cut and paste."
+#: src/dialogs/dialog-preferences.c:724
+msgid "The items on this page are related to copy. cut and paste."
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:698
+#: src/dialogs/dialog-preferences.c:764
 msgid "Copy and Paste"
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:699
+#: src/dialogs/dialog-preferences.c:765
 msgid "Files"
 msgstr "Αρχεία"
 
-#: src/dialogs/dialog-preferences.c:700
+#: src/dialogs/dialog-preferences.c:766
 #, fuzzy
 msgid "Tools"
 msgstr "Εργα_λεία"
 
-#: src/dialogs/dialog-preferences.c:701 src/wbc-gtk.c:472
+#: src/dialogs/dialog-preferences.c:767 src/wbc-gtk.c:472
 msgid "Undo"
 msgstr "Αναίρεση"
 
-#: src/dialogs/dialog-preferences.c:702
+#: src/dialogs/dialog-preferences.c:768
 msgid "Windows"
 msgstr "Παράθυρα"
 
-#: src/dialogs/dialog-preferences.c:703
+#: src/dialogs/dialog-preferences.c:769
 #, fuzzy
 msgid "Header/Footer"
 msgstr "Κεφαλίδα/Υποσέλιδο"
 
-#: src/dialogs/dialog-preferences.c:705
+#: src/dialogs/dialog-preferences.c:771
 #, fuzzy
 msgid "Screen"
 msgstr "Οθόνη # %1"
@@ -22087,11 +22113,6 @@ msgstr "Επιλογέας Συναρτήσεων"
 #: src/dialogs/function-select.glade.h:5
 msgid "Select a function to insert:"
 msgstr ""
-
-#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1442
-#: src/wbcg-actions.c:1600
-msgid "_Insert"
-msgstr "Ει_σαγωγή"
 
 #: src/dialogs/goalseek.glade.h:1
 #, fuzzy
@@ -23715,12 +23736,12 @@ msgstr "Άκυρο αρχείο προτύπου: %1"
 # # NOTE: Help text for financial and statistical functions
 # #   is untranslated (I am not familiar with all the terminology,
 # #   nor do I know of anyone who is).  - Spiros
-#: src/file.c:497
+#: src/file.c:522
 #, fuzzy
 msgid "Saving over old files of this type is disabled for safety."
 msgstr "Αποθήκευση πάνω από παλία αρχεία ανενεργή για λόγους ασφαλείας"
 
-#: src/file.c:499
+#: src/file.c:524
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
@@ -24728,40 +24749,40 @@ msgstr ""
 msgid "Load file"
 msgstr "Φόρτωση αρχείου"
 
-#: src/gui-file.c:224 src/gui-file.c:666
+#: src/gui-file.c:224 src/gui-file.c:655
 #, fuzzy
 msgid "Select a file"
 msgstr "Επιλογή εικόνας"
 
-#: src/gui-file.c:242 src/gui-file.c:468 src/gui-file.c:680
+#: src/gui-file.c:242 src/gui-file.c:457 src/gui-file.c:669
 #, fuzzy
 msgid "All Files"
 msgstr "Αρχεία"
 
-#: src/gui-file.c:247 src/gui-file.c:685
+#: src/gui-file.c:247 src/gui-file.c:674
 #, fuzzy
 msgid "Spreadsheets"
 msgstr "Λογιστικό Φύλλο"
 
-#: src/gui-file.c:284 src/gui-file.c:535 src/gui-file.c:709
+#: src/gui-file.c:273 src/gui-file.c:524 src/gui-file.c:698
 msgid "File _type:"
 msgstr "_Τύπος αρχείου:"
 
-#: src/gui-file.c:400
+#: src/gui-file.c:389
 #, c-format
 msgid ""
 "%s\n"
 "is a directory name"
 msgstr ""
 
-#: src/gui-file.c:406
+#: src/gui-file.c:395
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
 "%s"
 msgstr ""
 
-#: src/gui-file.c:415
+#: src/gui-file.c:404
 #, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -24769,28 +24790,28 @@ msgid ""
 "Do you want to save over it?"
 msgstr ""
 
-#: src/gui-file.c:473
+#: src/gui-file.c:462
 #, fuzzy
 msgid "Images"
 msgstr "Εικόνα"
 
-#: src/gui-file.c:513
+#: src/gui-file.c:502
 #, fuzzy
 msgid "Save as"
 msgstr "Αποθήκευση όλων"
 
-#: src/gui-file.c:562 src/gui-file.c:758
+#: src/gui-file.c:551 src/gui-file.c:747
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
 msgstr ""
 
-#: src/gui-file.c:589
+#: src/gui-file.c:578
 #, fuzzy
 msgid "Select an Image"
 msgstr "Επιλογή εικόνας"
 
-#: src/gui-file.c:608
+#: src/gui-file.c:597
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -25363,7 +25384,7 @@ msgstr "Το άρθρωμα πρέπει να περιλαμβάνει τη συ
 msgid "Module doesn't contain \"%s\" function."
 msgstr "Το άρθρωμα πρέπει να περιλαμβάνει τη συνάρτηση init_plugin.'%s'"
 
-#: src/plugin-service.c:159 src/plugin-service.c:249 src/plugin-service.c:1141
+#: src/plugin-service.c:159 src/plugin-service.c:249 src/plugin-service.c:1166
 #, fuzzy
 msgid "Error while loading plugin service."
 msgstr "Σφάλμα: ανύπαρκτο φύλλο"
@@ -25382,105 +25403,105 @@ msgstr "Η init_plugin επέστρεψε σφάλμα"
 msgid "Clipboard"
 msgstr "Πρόχειρο"
 
-#: src/plugin-service.c:408
+#: src/plugin-service.c:422
 #, fuzzy
 msgid "File opener has no description"
 msgstr "Το άρθρωμα είναι ακόμα σε χρήση.\n"
 
-#: src/plugin-service.c:440
+#: src/plugin-service.c:454
 #, fuzzy, c-format
 msgid "File opener - %s"
 msgstr ""
 "Το άρθρωμα είναι ακόμα σε χρήση.\n"
 "'%s'"
 
-#: src/plugin-service.c:559
+#: src/plugin-service.c:573
 #, fuzzy
 msgid "Error while reading file."
 msgstr ""
 "Σφάλμα κατά την ανάγνωση του αρχείου %s:\n"
 "%s"
 
-#: src/plugin-service.c:714
+#: src/plugin-service.c:739
 #, fuzzy
 msgid "File saver has no description"
 msgstr "Το άρθρωμα είναι ακόμα σε χρήση.\n"
 
-#: src/plugin-service.c:760
+#: src/plugin-service.c:785
 #, fuzzy, c-format
 msgid "File saver - %s"
 msgstr "Όνομα αρχείου: %s"
 
-#: src/plugin-service.c:822
+#: src/plugin-service.c:847
 #, fuzzy
 msgid "Error while saving file."
 msgstr "Σφάλμα: ανύπαρκτο φύλλο"
 
-#: src/plugin-service.c:975
+#: src/plugin-service.c:1000
 msgid "Missing function category name."
 msgstr ""
 
-#: src/plugin-service.c:979
+#: src/plugin-service.c:1004
 msgid "Function group is empty."
 msgstr ""
 
-#: src/plugin-service.c:1009
+#: src/plugin-service.c:1034
 msgid "No func_desc_load method.\n"
 msgstr ""
 
-#: src/plugin-service.c:1079
+#: src/plugin-service.c:1104
 #, fuzzy, c-format
 msgid "%d function in category \"%s\""
 msgstr "_%dΚατηγορίες Συναρτήσεων'%s'"
 
-#: src/plugin-service.c:1080
+#: src/plugin-service.c:1105
 #, c-format
 msgid "Group of %d functions in category \"%s\""
 msgstr ""
 
-#: src/plugin-service.c:1176
+#: src/plugin-service.c:1201
 msgid "Plugin loader"
 msgstr "Φορτωτής επιπρ. λειτουργίας"
 
-#: src/plugin-service.c:1273
+#: src/plugin-service.c:1298
 #, fuzzy
 msgid "Missing file name."
 msgstr "Απόντα εισαγωγικά"
 
-#: src/plugin-service.c:1322
+#: src/plugin-service.c:1347
 #, c-format
 msgid "Cannot read UI description from XML file %s."
 msgstr ""
 
-#: src/plugin-service.c:1356
+#: src/plugin-service.c:1381
 #, c-format
 msgid "User interface with %d action"
 msgstr ""
 
-#: src/plugin-service.c:1357
+#: src/plugin-service.c:1382
 #, c-format
 msgid "User interface with %d actions"
 msgstr ""
 
-#: src/plugin-service.c:1385
+#: src/plugin-service.c:1410
 msgid "GObject loader"
 msgstr "Φορτωτής GObject"
 
-#: src/plugin-service.c:1492
+#: src/plugin-service.c:1517
 msgid "No \"type\" attribute on \"service\" element."
 msgstr ""
 
-#: src/plugin-service.c:1498
+#: src/plugin-service.c:1523
 #, fuzzy, c-format
 msgid "Unknown service type: %s."
 msgstr "Άγνωστο σύστημα'%s'"
 
-#: src/plugin-service.c:1514
+#: src/plugin-service.c:1539
 #, fuzzy
 msgid "Error reading service information."
 msgstr "Σφάλμα: ανύπαρκτο φύλλο"
 
-#: src/plugin-service.c:1576
+#: src/plugin-service.c:1601
 msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."
@@ -25517,15 +25538,15 @@ msgstr "Προεπισκόπιση εκτύπωσης"
 msgid "Printing failed"
 msgstr "Απόντα εισαγωγικά"
 
-#: src/print.c:1443
+#: src/print.c:1444
 msgid "Print Sheets"
 msgstr "Εκτύπωση Φύλλων"
 
-#: src/print.c:1452
+#: src/print.c:1453
 msgid "Act_ive sheet"
 msgstr "Ε_νεργό φύλλο"
 
-#: src/print.c:1452
+#: src/print.c:1453
 msgid "S_heets"
 msgstr "Φ_ύλλα"
 
@@ -25649,11 +25670,11 @@ msgstr ""
 msgid "cannot operate on array formulae"
 msgstr "Δημιουργία αρχείου  αδύνατη\n"
 
-#: src/sheet.c:3190
+#: src/sheet.c:3191
 msgid "Insert Columns"
 msgstr "Εισαγωγή Στηλών"
 
-#: src/sheet.c:3308
+#: src/sheet.c:3311
 msgid "Insert Rows"
 msgstr "Εισαγωγή Γραμμών"
 
@@ -25870,12 +25891,12 @@ msgstr "Πλαίσιο"
 msgid "Button"
 msgstr "Κουμπί"
 
-#: src/sheet-object-widget.c:1304
+#: src/sheet-object-widget.c:1352
 #, fuzzy, c-format
 msgid "CheckBox %d"
 msgstr "Κουτί επιλογής"
 
-#: src/sheet-object-widget.c:1750 src/wbcg-actions.c:1950
+#: src/sheet-object-widget.c:1807 src/wbcg-actions.c:1950
 #, fuzzy
 msgid "RadioButton"
 msgstr "Κουμπί επιλογής"
@@ -26007,22 +26028,22 @@ msgstr "Σφάλμα κατά την ανάγνωση του αρχείου %1."
 msgid "Error while trying to write CSV file"
 msgstr "Σφάλμα κατά την ανάγνωση του αρχείου %1."
 
-#: src/stf.c:490
+#: src/stf.c:504
 #, fuzzy
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr "Άρθρωμα τιμών χωρισμένων με κόμμα (CSV)"
 
-#: src/stf.c:494
+#: src/stf.c:509
 #, fuzzy
 msgid "Text import (configurable)"
 msgstr "Μορφή αρχείου LaTeX (*.tex)"
 
-#: src/stf.c:499
+#: src/stf.c:515
 #, fuzzy
 msgid "Text export (configurable)"
 msgstr "Μορφή αρχείου LaTeX (*.tex)"
 
-#: src/stf.c:503
+#: src/stf.c:519
 #, fuzzy
 msgid "Comma separated values (CSV)"
 msgstr "Άρθρωμα τιμών χωρισμένων με κόμμα (CSV)"
@@ -30252,11 +30273,6 @@ msgstr "Μη υποστηριζόμενος τύπος αρχείου"
 msgid "An unexplained error happened while opening %s"
 msgstr "Ένα ανεξήγητο σφάλμα συνέβηκε κατά το άνοιγμα %s"
 
-#: src/xml-io.c:2770
-#, fuzzy, c-format
-msgid "Unsupported object type '%s'"
-msgstr "Μη υποστηριζόμενος τύπος Python %s"
-
 #: src/xml-io.c:3473
 #, fuzzy
 msgid "Unparsable xml in clipboard"
@@ -30282,7 +30298,7 @@ msgstr "Δεν είναι αρχείο Βιβλίου Εργασίας Gnumeric"
 msgid "Failure saving file"
 msgstr "Σφάλμα: ανύπαρκτο φύλλο"
 
-#: src/xml-io.c:4329
+#: src/xml-io.c:4332
 msgid "Gnumeric XML (*.gnumeric) original slow exporter"
 msgstr ""
 

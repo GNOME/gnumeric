@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-07 01:25-0500\n"
+"POT-Creation-Date: 2004-11-22 16:47-0500\n"
 "PO-Revision-Date: 2003-09-24 00:24+0200\n"
 "Last-Translator: Stanislav Visnovsky <visnovsky@kde.org>\n"
 "Language-Team: Slovak <sk-i18n@linux.sk>\n"
@@ -1152,7 +1152,7 @@ msgstr "Finančné produkty"
 msgid "Functions related to financial derivatives"
 msgstr "Funkcie pre finančné produkty"
 
-#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5743
+#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5831
 #: plugins/mps/mps.c:547 src/xml-io.c:4199
 msgid "Reading file..."
 msgstr "Čítam súbor..."
@@ -1237,51 +1237,51 @@ msgstr "Pripravujem ukladanie..."
 msgid "Saving file..."
 msgstr "Súbor sa ukladá..."
 
-#: plugins/excel/excel-xml-read.c:85 plugins/xml_sax/xml-sax-read.c:270
+#: plugins/excel/excel-xml-read.c:85 plugins/xml_sax/xml-sax-read.c:276
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Neočakávaný atribút %s::%s == '%s'."
 
 #: plugins/excel/excel-xml-read.c:198
 #: plugins/openoffice/openoffice-read.c:1479
-#: plugins/xml_sax/xml-sax-read.c:1649
+#: plugins/xml_sax/xml-sax-read.c:1767
 msgid "XML document not well formed!"
 msgstr "XML dokument nie je syntakticky správny!"
 
-#: plugins/excel/ms-excel-read.c:1069 src/value.c:60
+#: plugins/excel/ms-excel-read.c:1070 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#UNKNOWN!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1151 plugins/excel/ms-excel-read.c:1163
+#: plugins/excel/ms-excel-read.c:1152 plugins/excel/ms-excel-read.c:1164
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:510
 #: src/dialogs/dialog-sheet-order.c:432 src/dialogs/dialog-sheet-order.c:436
 #, c-format
 msgid "Sheet%d"
 msgstr "List %d"
 
-#: plugins/excel/ms-excel-read.c:1167
+#: plugins/excel/ms-excel-read.c:1168
 #, c-format
 msgid "Macro%d"
 msgstr "Makro%d"
 
-#: plugins/excel/ms-excel-read.c:1171
+#: plugins/excel/ms-excel-read.c:1172
 #, c-format
 msgid "Chart%d"
 msgstr "Graf%d"
 
-#: plugins/excel/ms-excel-read.c:1174
+#: plugins/excel/ms-excel-read.c:1175
 #, c-format
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:2963
+#: plugins/excel/ms-excel-read.c:2964
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Chyba pri spracovaní mena '%s'."
 
-#: plugins/excel/ms-excel-read.c:3059
+#: plugins/excel/ms-excel-read.c:3060
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -1290,7 +1290,7 @@ msgstr ""
 "Odkazy DDE nie sú podporované.\n"
 "Meno '%s' bude stratené.\n"
 
-#: plugins/excel/ms-excel-read.c:3065
+#: plugins/excel/ms-excel-read.c:3066
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -1299,15 +1299,15 @@ msgstr ""
 "Odkazy OLE nie sú podporované.\n"
 "Meno '%s' bude stratené.\n"
 
-#: plugins/excel/ms-excel-read.c:5088
+#: plugins/excel/ms-excel-read.c:5176
 msgid "external references"
 msgstr "externé referencie"
 
-#: plugins/excel/ms-excel-read.c:5111
+#: plugins/excel/ms-excel-read.c:5199
 msgid "No password supplied"
 msgstr "Nezadané heslo"
 
-#: plugins/excel/ms-excel-read.c:5969
+#: plugins/excel/ms-excel-read.c:6057
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Nepodarilo sa nájsť platný zošit MS Excel"
 
@@ -16492,8 +16492,8 @@ msgstr "Objektívna funkcia:"
 msgid "Constraints:"
 msgstr "Obmedzenia:"
 
-#: plugins/mps/mps.c:245 src/commands.c:6112
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1057
+#: plugins/mps/mps.c:245 src/commands.c:6144
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1063
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:379
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
 #: src/dialogs/dialog-function-select.c:443
@@ -17327,7 +17327,7 @@ msgstr "Toto je správa od modulu \"%s\"."
 msgid "Error while opening xbase file."
 msgstr "Chyba pri zápise súboru xbase."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4906
+#: plugins/xbase/boot.c:175 src/commands.c:4938
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
 #: src/dialogs/dialog-stf-export.c:444 src/dialogs/print.glade.h:21
 #: src/print-info.c:391 src/workbook.c:1091 src/xml-io.c:3789
@@ -17366,7 +17366,7 @@ msgstr "EXPERIMENTÁLNY Gnumeric založený na SAX (*.gnumeric)"
 msgid "EXPERIMENTAL SAX based XML"
 msgstr "EXPERIMENTÁLNE XML založené na SAX"
 
-#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4325
+#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4327
 #, fuzzy
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Súborový formát Gnumeric XML"
@@ -17375,14 +17375,19 @@ msgstr "Súborový formát Gnumeric XML"
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "Nová generácia V/V XML subsystému založená na sax"
 
-#: plugins/xml_sax/xml-sax-read.c:302
+#: plugins/xml_sax/xml-sax-read.c:308
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
 msgstr "Viacnásobné určenie verzie. Predpokladám %d"
 
-#: plugins/xml_sax/xml-sax-read.c:473
+#: plugins/xml_sax/xml-sax-read.c:479
 msgid "File has inconsistent SheetNameIndex element."
 msgstr "Súbor obsahuje nekonzistentný element SheetNameIndex."
+
+#: plugins/xml_sax/xml-sax-read.c:1318 src/xml-io.c:2770
+#, c-format
+msgid "Unsupported object type '%s'"
+msgstr "Nepodporovaný typ objektu \"%s\""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:1
 #, fuzzy
@@ -17405,6 +17410,7 @@ msgid "Activate New Plugins"
 msgstr "Aktivovať nové moduly"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:4
+#: src/dialogs/dialog-preferences.c:708
 msgid "Allow Unfocused Range Selections"
 msgstr "Povoliť výber nekatívnych rozsahov"
 
@@ -17553,6 +17559,7 @@ msgid "List of recently used functions."
 msgstr "Zoznam nedávno použitých funkcií."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:38
+#: src/dialogs/dialog-preferences.c:699
 msgid "Maximum Length of Recently Used Functions List"
 msgstr "Maximálny počet nedávno použitých funkcií"
 
@@ -17820,6 +17827,7 @@ msgid "Auto Expression Recalculation Lag"
 msgstr "Čakanie pred automatickým prepočítaním"
 
 #: schemas/gnumeric-general.schemas.in.h:2
+#: src/dialogs/dialog-preferences.c:704
 msgid "Autocomplete"
 msgstr "Automatické dopĺňanie"
 
@@ -17833,6 +17841,7 @@ msgstr ""
 "voľby umožňuje predefinovať štandardné tlačidlo v tomto dialógu."
 
 #: schemas/gnumeric-general.schemas.in.h:4
+#: src/dialogs/dialog-preferences.c:616
 msgid "Default Compression Level For Gnumeric Files"
 msgstr "Štandardná úroveň kompresie pre súbory Gnumeric"
 
@@ -17841,22 +17850,27 @@ msgid "Default Font Size"
 msgstr "Štandardná veľkosť písma"
 
 #: schemas/gnumeric-general.schemas.in.h:6
+#: src/dialogs/dialog-preferences.c:564
 msgid "Default Horizontal Window Size"
 msgstr "Štandardná horizontálna veľkosť okna"
 
 #: schemas/gnumeric-general.schemas.in.h:7
+#: src/dialogs/dialog-preferences.c:572
 msgid "Default Number of Sheets"
 msgstr "Štandardný počet listov"
 
 #: schemas/gnumeric-general.schemas.in.h:8
+#: src/dialogs/dialog-preferences.c:621
 msgid "Default To Overwriting Files"
 msgstr "Štandardné tlačidlo pre prepisovanie súborov"
 
 #: schemas/gnumeric-general.schemas.in.h:9
+#: src/dialogs/dialog-preferences.c:560
 msgid "Default Vertical Window Size"
 msgstr "Štandardná vertikálna veľkosť okna"
 
 #: schemas/gnumeric-general.schemas.in.h:10
+#: src/dialogs/dialog-preferences.c:568
 msgid "Default Zoom Factor"
 msgstr "Štandardné zväčšenie"
 
@@ -17865,6 +17879,7 @@ msgid "Default font name"
 msgstr "Meno štandardného písma"
 
 #: schemas/gnumeric-general.schemas.in.h:12
+#: src/dialogs/dialog-preferences.c:662
 msgid "Horizontal DPI"
 msgstr "Horizontálne rozlíšenie"
 
@@ -17880,6 +17895,7 @@ msgid ""
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:14
+#: src/dialogs/dialog-preferences.c:612
 msgid "Length of File History"
 msgstr "Dĺžka histórie súborov"
 
@@ -17892,22 +17908,27 @@ msgid "List of recently used files"
 msgstr "Zoznam naposledy otvorených súborov"
 
 #: schemas/gnumeric-general.schemas.in.h:17
+#: src/dialogs/dialog-preferences.c:580
 msgid "Live Scrolling"
 msgstr "Okamžité posúvanie"
 
 #: schemas/gnumeric-general.schemas.in.h:18
+#: src/dialogs/dialog-preferences.c:474
 msgid "Maximal Undo Size"
 msgstr "Maximálna veľkosť vrátenia späť"
 
 #: schemas/gnumeric-general.schemas.in.h:19
+#: src/dialogs/dialog-preferences.c:515
 msgid "Number of Automatic Clauses"
 msgstr "Počet automatických výrazov"
 
 #: schemas/gnumeric-general.schemas.in.h:20
+#: src/dialogs/dialog-preferences.c:478
 msgid "Number of Undo Items"
 msgstr "Počet položiek vrátenia späť"
 
 #: schemas/gnumeric-general.schemas.in.h:21
+#: src/dialogs/dialog-preferences.c:741
 msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr "Preferovať schránku pred výberom PRIMARY"
 
@@ -17940,6 +17961,7 @@ msgstr ""
 "triedenia v dialógu triedenia."
 
 #: schemas/gnumeric-general.schemas.in.h:27
+#: src/dialogs/dialog-preferences.c:482
 msgid "Show Sheet Name in Undo List"
 msgstr "Zobraziť meno listu v zozname vrátenia späť"
 
@@ -17953,7 +17975,8 @@ msgstr ""
 "určuje, či sa zobrazí varovanie pre používateľa v prípade, že sa ukladá "
 "zošiť s viacerými listami pomocou formátu, ktorý podporuje iba jediný list."
 
-#: schemas/gnumeric-general.schemas.in.h:29 src/wbcg-actions.c:1903
+#: schemas/gnumeric-general.schemas.in.h:29
+#: src/dialogs/dialog-preferences.c:527 src/wbcg-actions.c:1903
 msgid "Sort Ascending"
 msgstr "Utriediť vzostupne"
 
@@ -17962,6 +17985,7 @@ msgid "Sort is Case-Sensitive"
 msgstr "Rozlišovať veľkosť písmen pri triedení"
 
 #: schemas/gnumeric-general.schemas.in.h:31
+#: src/dialogs/dialog-preferences.c:519
 msgid "Sorting Preserves Formats"
 msgstr "Triedenie zachováva formát"
 
@@ -18100,14 +18124,17 @@ msgid "Toolbar Style. Valid values are both, both_horiz, icon, and text"
 msgstr "Štýl panelu nástrojov. Platné hodnoty sú both, both_horiz, icon a text"
 
 #: schemas/gnumeric-general.schemas.in.h:55
+#: src/dialogs/dialog-preferences.c:576
 msgid "Transition Keys"
 msgstr "Klávesy pre prechod"
 
 #: schemas/gnumeric-general.schemas.in.h:56
+#: src/dialogs/dialog-preferences.c:666
 msgid "Vertical DPI"
 msgstr "Vertikálne rozlíšenie"
 
 #: schemas/gnumeric-general.schemas.in.h:57
+#: src/dialogs/dialog-preferences.c:625
 msgid "Warn When Exporting Into Single Sheet Format"
 msgstr "Varovavať pri exporte do formátu s jediným listom"
 
@@ -18141,6 +18168,7 @@ msgstr ""
 "ucs LaTeX."
 
 #: schemas/gnumeric-plugins.schemas.in.h:2
+#: src/dialogs/dialog-preferences.c:630
 msgid "Use UTF-8 in LaTeX Export"
 msgstr "Použiť UTF-8 v export pre LaTeX"
 
@@ -18265,11 +18293,11 @@ msgstr "Napísanie \"%s%s\""
 msgid "Ins/Del Column/Row"
 msgstr "Vložiť stĺpce"
 
-#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3249
+#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3251
 msgid "Delete Columns"
 msgstr "Odstrániť stĺpce"
 
-#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3367
+#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3371
 msgid "Delete Rows"
 msgstr "Odstrániť riadky"
 
@@ -18408,7 +18436,7 @@ msgstr "Nastavenie šírky stĺpcov %s na štandardnú"
 msgid "Setting height of rows %s to default"
 msgstr "Nastavenie výšky riadkov %s na štandardnú"
 
-#: src/commands.c:2089 src/dialogs/dialog-preferences.c:704
+#: src/commands.c:2089 src/dialogs/dialog-preferences.c:770
 msgid "Sorting"
 msgstr "Triedenie"
 
@@ -18567,129 +18595,129 @@ msgstr "Nastavenie štandardnej výšky riadkov na %.2f bodov"
 msgid "Zoom %s to %.0f%%"
 msgstr "Zväčšiť %s na %.0f%%"
 
-#: src/commands.c:4420
+#: src/commands.c:4452
 #, fuzzy
 msgid "Delete Object"
 msgstr "Odstrániť objekt"
 
-#: src/commands.c:4581
+#: src/commands.c:4613
 #, fuzzy
 msgid "Format Object"
 msgstr "Presun objektu nižšie"
 
-#: src/commands.c:5180
+#: src/commands.c:5212
 msgid "Reordering Sheets"
 msgstr "Utriediť listy"
 
-#: src/commands.c:5183
+#: src/commands.c:5215
 msgid "Renaming Sheets"
 msgstr "Premenovať listy"
 
-#: src/commands.c:5186
+#: src/commands.c:5218
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "Pridávam %i listov"
 
-#: src/commands.c:5190
+#: src/commands.c:5222
 msgid "Changing Tab Colors"
 msgstr "Zmena farieb záložky"
 
-#: src/commands.c:5193
+#: src/commands.c:5225
 msgid "Changing Sheet Protection"
 msgstr "Zmena ochrany listu"
 
-#: src/commands.c:5196
+#: src/commands.c:5228
 msgid "Delete sheets"
 msgstr "Odstrániť listy"
 
-#: src/commands.c:5199
+#: src/commands.c:5231
 msgid "Delete a sheet"
 msgstr "Odstrániť list"
 
-#: src/commands.c:5202
+#: src/commands.c:5234
 #, fuzzy
 msgid "Changing Sheet Visibility"
 msgstr "Zmena ochrany listu"
 
-#: src/commands.c:5205
+#: src/commands.c:5237
 msgid "Reorganizing Sheets"
 msgstr "Reorganizácia listov"
 
-#: src/commands.c:5356
+#: src/commands.c:5388
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Vyčistiť komentár %s"
 
-#: src/commands.c:5357
+#: src/commands.c:5389
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Nastaviť komentár %s"
 
-#: src/commands.c:5737
+#: src/commands.c:5769
 #, c-format
 msgid "Merging data into %s"
 msgstr "Spojenie dát do %s"
 
-#: src/commands.c:5839
+#: src/commands.c:5871
 msgid "Changing summary info"
 msgstr "Zmena informácií súhrnu"
 
-#: src/commands.c:5928
+#: src/commands.c:5960
 #, fuzzy
 msgid "Pull Object to the Front"
 msgstr "Obmedzenia použiť pre:"
 
-#: src/commands.c:5931
+#: src/commands.c:5963
 #, fuzzy
 msgid "Pull Object Forward"
 msgstr "Načítanie GObject"
 
-#: src/commands.c:5934
+#: src/commands.c:5966
 msgid "Push Object Backward"
 msgstr ""
 
-#: src/commands.c:5937
+#: src/commands.c:5969
 #, fuzzy
 msgid "Push Object to the Back"
 msgstr "Obmedzenia použiť pre:"
 
-#: src/commands.c:6052
+#: src/commands.c:6084
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Nastavenie tlače pre %s"
 
-#: src/commands.c:6054
+#: src/commands.c:6086
 msgid "Page Setup For All Sheets"
 msgstr "Nastavenie tlače pre všetky listy"
 
-#: src/commands.c:6169
+#: src/commands.c:6201
 msgid "has a circular reference"
 msgstr "obsahuje kruhový odkaz"
 
-#: src/commands.c:6192
+#: src/commands.c:6224
 #, c-format
 msgid "Define Name %s"
 msgstr "Definovať meno %s"
 
-#: src/commands.c:6195
+#: src/commands.c:6227
 #, c-format
 msgid "Update Name %s"
 msgstr "Aktualizovať meno %s"
 
-#: src/commands.c:6259
+#: src/commands.c:6291
 msgid "Add scenario"
 msgstr "Pridať scenár"
 
-#: src/commands.c:6334
+#: src/commands.c:6366
 msgid "Scenario Show"
 msgstr "Zobraziť scenár"
 
-#: src/commands.c:6398
+#: src/commands.c:6430
 msgid "Shuffle Data"
 msgstr "Zamiešať dáta"
 
 #. FIXME?
-#: src/commands.c:6508
+#: src/commands.c:6540
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Text (%s) do stĺpcov (%s)"
@@ -18699,28 +18727,28 @@ msgstr "Text (%s) do stĺpcov (%s)"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6652 src/dialogs/solver.glade.h:17
+#: src/commands.c:6684 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
 #: src/tools/solver/reports-write.c:907 src/tools/solver/reports-write.c:958
 msgid "Solver"
 msgstr "Riešiteľ"
 
-#: src/commands.c:6736
+#: src/commands.c:6768
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Hľadanie cieľa (%s)"
 
-#: src/commands.c:6881
+#: src/commands.c:6913
 #, c-format
 msgid "Duplicating %s"
 msgstr "Duplikujem %s"
 
-#: src/commands.c:6960
+#: src/commands.c:6992
 msgid "Tabulating Dependencies"
 msgstr "Tabulácia závislosti"
 
-#: src/commands.c:7035
+#: src/commands.c:7067
 msgid "Reconfigure Graph"
 msgstr "Zmena nastavenia grafu"
 
@@ -19027,19 +19055,25 @@ msgstr "Graf"
 msgid "Chart"
 msgstr "Graf"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1083
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1089
 msgid "Step 1 of 2: Select Chart Type"
 msgstr "Krok 1 z 2: Výber typu grafu"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1091
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1097
 msgid "Step 2 of 2: Customize Chart"
 msgstr "Krok 2 z 2: Úprava grafu"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1096
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1102
 msgid "Customize Chart"
 msgstr "Upraviť graf"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1210
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1178
+#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1442
+#: src/wbcg-actions.c:1600
+msgid "_Insert"
+msgstr "_Pridať"
+
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1236
 msgid "_Plot Type"
 msgstr "Typ _kresby"
 
@@ -19110,13 +19144,13 @@ msgstr "_Textové"
 msgid "Point"
 msgstr "Hodnota"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:159 src/gui-file.c:359
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:159 src/gui-file.c:348
 #, c-format
 msgid "%d x %d"
 msgstr "%d x %d"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:881
-#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:697
+#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:763
 msgid "Font"
 msgstr "Písmo"
 
@@ -19898,12 +19932,12 @@ msgstr "Bublina"
 msgid "Bubble"
 msgstr "Bublina"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1019
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1021
 #, fuzzy
 msgid "Y Error bars"
 msgstr "Chyba pri spracovaní riadku."
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1021
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1023
 #, fuzzy
 msgid "X Error bars"
 msgstr "Chyba pri spracovaní riadku."
@@ -20682,7 +20716,7 @@ msgid "_Rows"
 msgstr "_Riadky"
 
 #: src/dialogs/anova-two.glade.h:1 src/dialogs/autocorrect.glade.h:1
-#: src/dialogs/autofilter-expression.glade.h:27
+#: src/dialogs/autofilter-expression.glade.h:14
 #: src/dialogs/autoformat.glade.h:1 src/dialogs/autosave.glade.h:1
 #: src/dialogs/cell-format.glade.h:2 src/dialogs/descriptive-stats.glade.h:2
 #: src/dialogs/dialog-stf-export.glade.h:5 src/dialogs/dialog-stf.glade.h:3
@@ -20802,37 +20836,20 @@ msgid ""
 "does not contain"
 msgstr ""
 
-#: src/dialogs/autofilter-expression.glade.h:14
-msgid ""
-"\n"
-"equals\n"
-"does not equal\n"
-"is greater than\n"
-"is greater than or equal to\n"
-"is_less_than\n"
-"is less than or equal to\n"
-"begins with\n"
-"does not begin with\n"
-"ends with\n"
-"does not end with\n"
-"contains\n"
-"does not contain"
-msgstr ""
-
-#: src/dialogs/autofilter-expression.glade.h:28
+#: src/dialogs/autofilter-expression.glade.h:15
 #: src/dialogs/autofilter-top10.glade.h:1
 msgid "Gnumeric : AutoFilter"
 msgstr "Gnumeric: Automatický filter"
 
-#: src/dialogs/autofilter-expression.glade.h:29
+#: src/dialogs/autofilter-expression.glade.h:16
 msgid "Show rows where:"
 msgstr "Zobraziť riadky kde:"
 
-#: src/dialogs/autofilter-expression.glade.h:30
+#: src/dialogs/autofilter-expression.glade.h:17
 msgid "_And"
 msgstr "_a zároveň"
 
-#: src/dialogs/autofilter-expression.glade.h:31
+#: src/dialogs/autofilter-expression.glade.h:18
 msgid "_Or"
 msgstr "a_lebo"
 
@@ -22142,7 +22159,7 @@ msgstr "Počet riadkov dát musí byť násobok počtu replikácií."
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre ANOVA (dvojité triedenie)."
 
-#: src/dialogs/dialog-autocorrect.c:329
+#: src/dialogs/dialog-autocorrect.c:332
 msgid "Could not create the AutoCorrect dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg pre automatické opravy."
 
@@ -22775,11 +22792,16 @@ msgstr "ID"
 msgid "Directory"
 msgstr "Priečinok"
 
-#: src/dialogs/dialog-preferences.c:442
+#: src/dialogs/dialog-preferences.c:455
 msgid "The items on this page customize the behaviour of the undo/redo system."
 msgstr "Položky na tejto stránke upravujú chovanie systému krokov späť."
 
-#: src/dialogs/dialog-preferences.c:477
+#: src/dialogs/dialog-preferences.c:470
+#, fuzzy
+msgid "Length of Undo Descriptors"
+msgstr "Dĺžka popisu vrátenia späť"
+
+#: src/dialogs/dialog-preferences.c:498
 msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
@@ -22787,58 +22809,63 @@ msgstr ""
 "Položky na tejto stránke upravujú počiatočné nastavenia v dialógu triedenia "
 "a chovanie tlačidiel triedenia v paneloch nástrojov."
 
-#: src/dialogs/dialog-preferences.c:515
+#: src/dialogs/dialog-preferences.c:523
+#, fuzzy
+msgid "Sorting is Case-Sensitive"
+msgstr "Rozlišovať veľkosť písmen pri triedení"
+
+#: src/dialogs/dialog-preferences.c:544
 msgid "The items on this page customize the new default workbook."
 msgstr "Položky na tejto stránke upravujú štandardný nový zošiť."
 
-#: src/dialogs/dialog-preferences.c:555
+#: src/dialogs/dialog-preferences.c:596
 msgid "The items on this page are related to the saving and opening of files."
 msgstr "Položky na tejto stránke sa týkajú ukladania a otvárania súborov."
 
-#: src/dialogs/dialog-preferences.c:593
+#: src/dialogs/dialog-preferences.c:646
 #, fuzzy
 msgid "The items on this page are related to the screen layout and resolution."
 msgstr "Položky na tejto stránke sa týkajú ukladania a otvárania súborov."
 
-#: src/dialogs/dialog-preferences.c:625
+#: src/dialogs/dialog-preferences.c:682
 #, fuzzy
 msgid ""
 "The items on this page and its subpages are related to various gnumeric "
 "tools."
 msgstr "Položky na tejto stránke sa týkajú ukladania a otvárania súborov."
 
-#: src/dialogs/dialog-preferences.c:660
+#: src/dialogs/dialog-preferences.c:724
 #, fuzzy
-msgid "The items on this page arerelated to copy. cut and paste."
+msgid "The items on this page are related to copy. cut and paste."
 msgstr "Položky na tejto stránke sa týkajú ukladania a otvárania súborov."
 
-#: src/dialogs/dialog-preferences.c:698
+#: src/dialogs/dialog-preferences.c:764
 msgid "Copy and Paste"
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:699
+#: src/dialogs/dialog-preferences.c:765
 msgid "Files"
 msgstr "Súbory"
 
-#: src/dialogs/dialog-preferences.c:700
+#: src/dialogs/dialog-preferences.c:766
 #, fuzzy
 msgid "Tools"
 msgstr "_Nástroje"
 
-#: src/dialogs/dialog-preferences.c:701 src/wbc-gtk.c:472
+#: src/dialogs/dialog-preferences.c:767 src/wbc-gtk.c:472
 msgid "Undo"
 msgstr "Vrátiť späť"
 
-#: src/dialogs/dialog-preferences.c:702
+#: src/dialogs/dialog-preferences.c:768
 msgid "Windows"
 msgstr "Okná"
 
-#: src/dialogs/dialog-preferences.c:703
+#: src/dialogs/dialog-preferences.c:769
 #, fuzzy
 msgid "Header/Footer"
 msgstr "Hravičky a pätičky"
 
-#: src/dialogs/dialog-preferences.c:705
+#: src/dialogs/dialog-preferences.c:771
 #, fuzzy
 msgid "Screen"
 msgstr "Obrazovka %d"
@@ -24190,11 +24217,6 @@ msgstr "Výber funkcie"
 #: src/dialogs/function-select.glade.h:5
 msgid "Select a function to insert:"
 msgstr "Vyberte vkladanú funkciu:"
-
-#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1442
-#: src/wbcg-actions.c:1600
-msgid "_Insert"
-msgstr "_Pridať"
 
 #: src/dialogs/goalseek.glade.h:1
 msgid "(Ma_ximum):"
@@ -25703,11 +25725,11 @@ msgstr "'%s' už je v zošite definované"
 msgid "Invalid template file: %s"
 msgstr "Neplatný súbor šablóny: %s"
 
-#: src/file.c:497
+#: src/file.c:522
 msgid "Saving over old files of this type is disabled for safety."
 msgstr "Uloženie do starých súborov tohto typu je kvôli bezpečenosti vypnuté."
 
-#: src/file.c:499
+#: src/file.c:524
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
@@ -26649,26 +26671,26 @@ msgstr "Automaticky detekované"
 msgid "Load file"
 msgstr "Načítať súbor"
 
-#: src/gui-file.c:224 src/gui-file.c:666
+#: src/gui-file.c:224 src/gui-file.c:655
 #, fuzzy
 msgid "Select a file"
 msgstr "Vyberte obrázok"
 
-#: src/gui-file.c:242 src/gui-file.c:468 src/gui-file.c:680
+#: src/gui-file.c:242 src/gui-file.c:457 src/gui-file.c:669
 #, fuzzy
 msgid "All Files"
 msgstr "Súbory"
 
-#: src/gui-file.c:247 src/gui-file.c:685
+#: src/gui-file.c:247 src/gui-file.c:674
 #, fuzzy
 msgid "Spreadsheets"
 msgstr "Zošit Gnumeric"
 
-#: src/gui-file.c:284 src/gui-file.c:535 src/gui-file.c:709
+#: src/gui-file.c:273 src/gui-file.c:524 src/gui-file.c:698
 msgid "File _type:"
 msgstr "_Typ súboru:"
 
-#: src/gui-file.c:400
+#: src/gui-file.c:389
 #, c-format
 msgid ""
 "%s\n"
@@ -26677,7 +26699,7 @@ msgstr ""
 "%s\n"
 "je meno priečinku"
 
-#: src/gui-file.c:406
+#: src/gui-file.c:395
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -26686,7 +26708,7 @@ msgstr ""
 "Nemáte práva pre ukladanie do\n"
 "%s"
 
-#: src/gui-file.c:415
+#: src/gui-file.c:404
 #, fuzzy, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -26696,17 +26718,17 @@ msgstr ""
 "Zošit %s už existuje.\n"
 "Chcete ho prepísať?"
 
-#: src/gui-file.c:473
+#: src/gui-file.c:462
 #, fuzzy
 msgid "Images"
 msgstr "Obrázok"
 
-#: src/gui-file.c:513
+#: src/gui-file.c:502
 #, fuzzy
 msgid "Save as"
 msgstr "Uložiť všetko"
 
-#: src/gui-file.c:562 src/gui-file.c:758
+#: src/gui-file.c:551 src/gui-file.c:747
 #, fuzzy
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
@@ -26715,12 +26737,12 @@ msgstr ""
 "Zadaná prípona súboru nezodpovedá vybranému typu súboru. Chcete toto meno "
 "použiť aj tak?"
 
-#: src/gui-file.c:589
+#: src/gui-file.c:578
 #, fuzzy
 msgid "Select an Image"
 msgstr "Vyberte obrázok"
 
-#: src/gui-file.c:608
+#: src/gui-file.c:597
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -27289,7 +27311,7 @@ msgstr "Súbor neobsahuje pole \"%s\"."
 msgid "Module doesn't contain \"%s\" function."
 msgstr "Modul neobsahuje funkciu \"%s\"."
 
-#: src/plugin-service.c:159 src/plugin-service.c:249 src/plugin-service.c:1141
+#: src/plugin-service.c:159 src/plugin-service.c:249 src/plugin-service.c:1166
 msgid "Error while loading plugin service."
 msgstr "Chyba počas načítavania modulu služby."
 
@@ -27305,95 +27327,95 @@ msgstr "Upratovacia funkcia v module vrátila chybu."
 msgid "Clipboard"
 msgstr "Schránka"
 
-#: src/plugin-service.c:408
+#: src/plugin-service.c:422
 msgid "File opener has no description"
 msgstr "Otváranie súborov nemá popis"
 
-#: src/plugin-service.c:440
+#: src/plugin-service.c:454
 #, c-format
 msgid "File opener - %s"
 msgstr "Otváranie súborov - %s"
 
-#: src/plugin-service.c:559
+#: src/plugin-service.c:573
 msgid "Error while reading file."
 msgstr "Chyba pri čítaní súboru."
 
-#: src/plugin-service.c:714
+#: src/plugin-service.c:739
 msgid "File saver has no description"
 msgstr "Ukladanie súborov nemá popis"
 
-#: src/plugin-service.c:760
+#: src/plugin-service.c:785
 #, c-format
 msgid "File saver - %s"
 msgstr "Ukladanie súborov - %s"
 
-#: src/plugin-service.c:822
+#: src/plugin-service.c:847
 msgid "Error while saving file."
 msgstr "Chyba pri ukladaní súboru."
 
-#: src/plugin-service.c:975
+#: src/plugin-service.c:1000
 msgid "Missing function category name."
 msgstr "Chýbajúce meno kategórie funkcie."
 
-#: src/plugin-service.c:979
+#: src/plugin-service.c:1004
 msgid "Function group is empty."
 msgstr "Skupina funkcií je prázdna."
 
-#: src/plugin-service.c:1009
+#: src/plugin-service.c:1034
 msgid "No func_desc_load method.\n"
 msgstr ""
 
-#: src/plugin-service.c:1079
+#: src/plugin-service.c:1104
 #, c-format
 msgid "%d function in category \"%s\""
 msgstr "%d funkcia v kategórii \"%s\""
 
-#: src/plugin-service.c:1080
+#: src/plugin-service.c:1105
 #, c-format
 msgid "Group of %d functions in category \"%s\""
 msgstr "Skupina %d funkcií v kategórii \"%s\""
 
-#: src/plugin-service.c:1176
+#: src/plugin-service.c:1201
 msgid "Plugin loader"
 msgstr "Načítanie modulu"
 
-#: src/plugin-service.c:1273
+#: src/plugin-service.c:1298
 msgid "Missing file name."
 msgstr "Chýbajúce meno súboru."
 
-#: src/plugin-service.c:1322
+#: src/plugin-service.c:1347
 #, c-format
 msgid "Cannot read UI description from XML file %s."
 msgstr "Nie je možné prečítať súbor s popisom rozhrania z XML súboru %s."
 
-#: src/plugin-service.c:1356
+#: src/plugin-service.c:1381
 #, c-format
 msgid "User interface with %d action"
 msgstr "Používateľské rozhranie s %d akciou"
 
-#: src/plugin-service.c:1357
+#: src/plugin-service.c:1382
 #, c-format
 msgid "User interface with %d actions"
 msgstr "Používateľské rozhranie s %d akciami"
 
-#: src/plugin-service.c:1385
+#: src/plugin-service.c:1410
 msgid "GObject loader"
 msgstr "Načítanie GObject"
 
-#: src/plugin-service.c:1492
+#: src/plugin-service.c:1517
 msgid "No \"type\" attribute on \"service\" element."
 msgstr "V elemente \"service\" nie je atribút \"type\"."
 
-#: src/plugin-service.c:1498
+#: src/plugin-service.c:1523
 #, c-format
 msgid "Unknown service type: %s."
 msgstr "Neznámy typ služby: %s."
 
-#: src/plugin-service.c:1514
+#: src/plugin-service.c:1539
 msgid "Error reading service information."
 msgstr "Chyba pri čítaní informácií o službe."
 
-#: src/plugin-service.c:1576
+#: src/plugin-service.c:1601
 msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."
@@ -27428,15 +27450,15 @@ msgstr "Ukážka pred tlačou"
 msgid "Printing failed"
 msgstr "Tlač zlyhala"
 
-#: src/print.c:1443
+#: src/print.c:1444
 msgid "Print Sheets"
 msgstr "Listy"
 
-#: src/print.c:1452
+#: src/print.c:1453
 msgid "Act_ive sheet"
 msgstr "A_ktuálny list"
 
-#: src/print.c:1452
+#: src/print.c:1453
 msgid "S_heets"
 msgstr "_Listy"
 
@@ -27556,11 +27578,11 @@ msgstr "nedá sa vykonať na spojených bunkách"
 msgid "cannot operate on array formulae"
 msgstr "nedá sa vykonať na poli vzorcov"
 
-#: src/sheet.c:3190
+#: src/sheet.c:3191
 msgid "Insert Columns"
 msgstr "Vložiť stĺpce"
 
-#: src/sheet.c:3308
+#: src/sheet.c:3311
 msgid "Insert Rows"
 msgstr "Vložiť riadky"
 
@@ -27772,12 +27794,12 @@ msgstr "Rámec"
 msgid "Button"
 msgstr "Tlačidlo"
 
-#: src/sheet-object-widget.c:1304
+#: src/sheet-object-widget.c:1352
 #, c-format
 msgid "CheckBox %d"
 msgstr "Zaškrtávacie tlačidlo %d"
 
-#: src/sheet-object-widget.c:1750 src/wbcg-actions.c:1950
+#: src/sheet-object-widget.c:1807 src/wbcg-actions.c:1950
 msgid "RadioButton"
 msgstr "Prepínač"
 
@@ -27912,20 +27934,20 @@ msgstr "Chyba pri pokuse o čítanie súboru"
 msgid "Error while trying to write CSV file"
 msgstr "Chyba pri zápise csv súboru"
 
-#: src/stf.c:490
+#: src/stf.c:504
 #, fuzzy
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr "Dáta oddelené čiarkami alebo tabulátormi (CSV/TSV)"
 
-#: src/stf.c:494
+#: src/stf.c:509
 msgid "Text import (configurable)"
 msgstr "Import textového súboru (nastaviteľné)"
 
-#: src/stf.c:499
+#: src/stf.c:515
 msgid "Text export (configurable)"
 msgstr "Export textového súboru (nastaviteľné)"
 
-#: src/stf.c:503
+#: src/stf.c:519
 #, fuzzy
 msgid "Comma separated values (CSV)"
 msgstr "Dáta oddelené čiarkami alebo tabulátormi (CSV/TSV)"
@@ -32003,11 +32025,6 @@ msgstr "Nepodporovaný formát súborov."
 msgid "An unexplained error happened while opening %s"
 msgstr "Nastala nevysvetlená chyba pri otváraní '%s'"
 
-#: src/xml-io.c:2770
-#, c-format
-msgid "Unsupported object type '%s'"
-msgstr "Nepodporovaný typ objektu \"%s\""
-
 #: src/xml-io.c:3473
 msgid "Unparsable xml in clipboard"
 msgstr "XML obsah schránky nie je možné spracovať"
@@ -32031,7 +32048,7 @@ msgstr "Nie je súbor so zošitom Gnumeric"
 msgid "Failure saving file"
 msgstr "Chyba pri ukladaní súboru"
 
-#: src/xml-io.c:4329
+#: src/xml-io.c:4332
 msgid "Gnumeric XML (*.gnumeric) original slow exporter"
 msgstr ""
 

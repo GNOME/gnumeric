@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-10 12:46+0100\n"
+"POT-Creation-Date: 2004-11-22 16:47-0500\n"
 "PO-Revision-Date: 2003-10-31 18:34+0100\n"
 "Last-Translator: Jordi Negrevernis i Font <jorneg@retemail.es>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
@@ -1371,7 +1371,7 @@ msgstr "Subproductes Financers"
 msgid "Functions related to financial derivatives"
 msgstr "Les funcions relacionaven els subproductes financers"
 
-#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5743
+#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5831
 #: plugins/mps/mps.c:547 src/xml-io.c:4199
 msgid "Reading file..."
 msgstr "S'està llegint el fitxer..."
@@ -1463,51 +1463,51 @@ msgstr "S'està preparant per desar..."
 msgid "Saving file..."
 msgstr "S'està desant el fitxer..."
 
-#: plugins/excel/excel-xml-read.c:85 plugins/xml_sax/xml-sax-read.c:270
+#: plugins/excel/excel-xml-read.c:85 plugins/xml_sax/xml-sax-read.c:276
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Atribut inesperat %s::%s == '%s'."
 
 #: plugins/excel/excel-xml-read.c:198
 #: plugins/openoffice/openoffice-read.c:1479
-#: plugins/xml_sax/xml-sax-read.c:1649
+#: plugins/xml_sax/xml-sax-read.c:1767
 msgid "XML document not well formed!"
 msgstr "No s'ha format bé el document XML!"
 
-#: plugins/excel/ms-excel-read.c:1069 src/value.c:60
+#: plugins/excel/ms-excel-read.c:1070 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#UNKNOWN!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1151 plugins/excel/ms-excel-read.c:1163
+#: plugins/excel/ms-excel-read.c:1152 plugins/excel/ms-excel-read.c:1164
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:510
 #: src/dialogs/dialog-sheet-order.c:432 src/dialogs/dialog-sheet-order.c:436
 #, c-format
 msgid "Sheet%d"
 msgstr "Full%d"
 
-#: plugins/excel/ms-excel-read.c:1167
+#: plugins/excel/ms-excel-read.c:1168
 #, c-format
 msgid "Macro%d"
 msgstr "Macro%d"
 
-#: plugins/excel/ms-excel-read.c:1171
+#: plugins/excel/ms-excel-read.c:1172
 #, c-format
 msgid "Chart%d"
 msgstr "Quadre%d"
 
-#: plugins/excel/ms-excel-read.c:1174
+#: plugins/excel/ms-excel-read.c:1175
 #, c-format
 msgid "Module%d"
 msgstr "Mòdul%d"
 
-#: plugins/excel/ms-excel-read.c:2963
+#: plugins/excel/ms-excel-read.c:2964
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "S'ha produït un error analitzant el nom '%s'"
 
-#: plugins/excel/ms-excel-read.c:3059
+#: plugins/excel/ms-excel-read.c:3060
 #, fuzzy, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -1516,7 +1516,7 @@ msgstr ""
 "No se suporten els enllaços DDE.\n"
 "El Nom '%s' es perdrà.\n"
 
-#: plugins/excel/ms-excel-read.c:3065
+#: plugins/excel/ms-excel-read.c:3066
 #, fuzzy, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -1526,15 +1526,15 @@ msgstr ""
 "El Nom '%s' es perdrà.\n"
 
 #
-#: plugins/excel/ms-excel-read.c:5088
+#: plugins/excel/ms-excel-read.c:5176
 msgid "external references"
 msgstr "Referències externes"
 
-#: plugins/excel/ms-excel-read.c:5111
+#: plugins/excel/ms-excel-read.c:5199
 msgid "No password supplied"
 msgstr "No s'ha subministrat la contrasenya"
 
-#: plugins/excel/ms-excel-read.c:5969
+#: plugins/excel/ms-excel-read.c:6057
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "No es pot trobar un llibre de treball de MS Excel vàlid"
 
@@ -16863,8 +16863,8 @@ msgstr "Funció objectiu:"
 msgid "Constraints:"
 msgstr "Restriccions"
 
-#: plugins/mps/mps.c:245 src/commands.c:6112
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1057
+#: plugins/mps/mps.c:245 src/commands.c:6144
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1063
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:379
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
 #: src/dialogs/dialog-function-select.c:443
@@ -17737,7 +17737,7 @@ msgid "Error while opening xbase file."
 msgstr "S'ha produït un error mentre s'obria el fitxer xbase."
 
 # src/functions/fn-sheet.c:104
-#: plugins/xbase/boot.c:175 src/commands.c:4906
+#: plugins/xbase/boot.c:175 src/commands.c:4938
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
 #: src/dialogs/dialog-stf-export.c:444 src/dialogs/print.glade.h:21
 #: src/print-info.c:391 src/workbook.c:1091 src/xml-io.c:3789
@@ -17779,7 +17779,7 @@ msgid "EXPERIMENTAL SAX based XML"
 msgstr "EXPERIMENTAL SAX basat en XML"
 
 #
-#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4325
+#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4327
 #, fuzzy
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "INACABAT Gnumeric XML (*.gnumeric)"
@@ -17788,14 +17788,19 @@ msgstr "INACABAT Gnumeric XML (*.gnumeric)"
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "La nova generació de subsistema d'E/S xml basat en sax"
 
-#: plugins/xml_sax/xml-sax-read.c:302
+#: plugins/xml_sax/xml-sax-read.c:308
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
 msgstr "Múltiples especificacions de versions. Assumint %d"
 
-#: plugins/xml_sax/xml-sax-read.c:473
+#: plugins/xml_sax/xml-sax-read.c:479
 msgid "File has inconsistent SheetNameIndex element."
 msgstr "El fitxer té inconsistències en l'element SheetNameIndex."
+
+#: plugins/xml_sax/xml-sax-read.c:1318 src/xml-io.c:2770
+#, fuzzy, c-format
+msgid "Unsupported object type '%s'"
+msgstr "Tipus de carregador \"%s\" no permès."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:1
 #, fuzzy
@@ -18744,11 +18749,11 @@ msgstr "S'està escrivint \"%s%s\""
 msgid "Ins/Del Column/Row"
 msgstr "Insereix Columnes"
 
-#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3249
+#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3251
 msgid "Delete Columns"
 msgstr "Suprimeix Columnes"
 
-#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3367
+#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3371
 msgid "Delete Rows"
 msgstr "Suprimeix Files"
 
@@ -19047,140 +19052,140 @@ msgid "Zoom %s to %.0f%%"
 msgstr "Zoom %s a %.0f%%"
 
 #
-#: src/commands.c:4420
+#: src/commands.c:4452
 #, fuzzy
 msgid "Delete Object"
 msgstr "Suprimeix l'objecte"
 
 #
-#: src/commands.c:4581
+#: src/commands.c:4613
 #, fuzzy
 msgid "Format Object"
 msgstr "Objecte de sota"
 
 #
-#: src/commands.c:5180
+#: src/commands.c:5212
 msgid "Reordering Sheets"
 msgstr "Reordenant els fulls"
 
 #
-#: src/commands.c:5183
+#: src/commands.c:5215
 msgid "Renaming Sheets"
 msgstr "Reanomenant el full"
 
 #
-#: src/commands.c:5186
+#: src/commands.c:5218
 #, fuzzy, c-format
 msgid "Appending %i Sheets"
 msgstr "Reanomenant el full"
 
 #
-#: src/commands.c:5190
+#: src/commands.c:5222
 msgid "Changing Tab Colors"
 msgstr "Canviant els Colors Tab"
 
-#: src/commands.c:5193
+#: src/commands.c:5225
 msgid "Changing Sheet Protection"
 msgstr "Canvia protecció de la fulla"
 
-#: src/commands.c:5196
+#: src/commands.c:5228
 #, fuzzy
 msgid "Delete sheets"
 msgstr "Suprimeix cel·les"
 
 #
-#: src/commands.c:5199
+#: src/commands.c:5231
 #, fuzzy
 msgid "Delete a sheet"
 msgstr "Suprimeix l'objecte"
 
-#: src/commands.c:5202
+#: src/commands.c:5234
 #, fuzzy
 msgid "Changing Sheet Visibility"
 msgstr "Canvia protecció de la fulla"
 
 #
-#: src/commands.c:5205
+#: src/commands.c:5237
 msgid "Reorganizing Sheets"
 msgstr "Reorganitza els Fulls"
 
-#: src/commands.c:5356
+#: src/commands.c:5388
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Netejant el comentari de %s"
 
-#: src/commands.c:5357
+#: src/commands.c:5389
 #, c-format
 msgid "Setting comment of %s"
 msgstr "S'està especificant el comentari de %s"
 
-#: src/commands.c:5737
+#: src/commands.c:5769
 #, c-format
 msgid "Merging data into %s"
 msgstr "Fusionant la dada cap a %s"
 
 #
-#: src/commands.c:5839
+#: src/commands.c:5871
 msgid "Changing summary info"
 msgstr "Canviant la informació del sumari"
 
-#: src/commands.c:5928
+#: src/commands.c:5960
 #, fuzzy
 msgid "Pull Object to the Front"
 msgstr "Subjecte a les Restriccions:"
 
 #
-#: src/commands.c:5931
+#: src/commands.c:5963
 #, fuzzy
 msgid "Pull Object Forward"
 msgstr "Carregador GObject "
 
-#: src/commands.c:5934
+#: src/commands.c:5966
 msgid "Push Object Backward"
 msgstr ""
 
-#: src/commands.c:5937
+#: src/commands.c:5969
 #, fuzzy
 msgid "Push Object to the Back"
 msgstr "Subjecte a les Restriccions:"
 
-#: src/commands.c:6052
+#: src/commands.c:6084
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Configuració de la pàgina per %s"
 
-#: src/commands.c:6054
+#: src/commands.c:6086
 msgid "Page Setup For All Sheets"
 msgstr "Configuració d'Impressió per a totes les fulles"
 
-#: src/commands.c:6169
+#: src/commands.c:6201
 msgid "has a circular reference"
 msgstr "té una referència circular"
 
-#: src/commands.c:6192
+#: src/commands.c:6224
 #, c-format
 msgid "Define Name %s"
 msgstr "Defineix el Nom %s"
 
-#: src/commands.c:6195
+#: src/commands.c:6227
 #, c-format
 msgid "Update Name %s"
 msgstr "Actualitza Nom %s"
 
-#: src/commands.c:6259
+#: src/commands.c:6291
 msgid "Add scenario"
 msgstr "Afegeix escenari"
 
-#: src/commands.c:6334
+#: src/commands.c:6366
 msgid "Scenario Show"
 msgstr "Ensenya escenaris"
 
-#: src/commands.c:6398
+#: src/commands.c:6430
 msgid "Shuffle Data"
 msgstr "Mescla les dades"
 
 #. FIXME?
-#: src/commands.c:6508
+#: src/commands.c:6540
 #, fuzzy, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Text a les columnes"
@@ -19191,7 +19196,7 @@ msgstr "Text a les columnes"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6652 src/dialogs/solver.glade.h:17
+#: src/commands.c:6684 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
 #: src/tools/solver/reports-write.c:907 src/tools/solver/reports-write.c:958
@@ -19199,23 +19204,23 @@ msgid "Solver"
 msgstr "Solucionador"
 
 #
-#: src/commands.c:6736
+#: src/commands.c:6768
 #, fuzzy, c-format
 msgid "Goal Seek (%s)"
 msgstr "Cerca d'objectius"
 
-#: src/commands.c:6881
+#: src/commands.c:6913
 #, fuzzy, c-format
 msgid "Duplicating %s"
 msgstr "_Duplica"
 
-#: src/commands.c:6960
+#: src/commands.c:6992
 #, fuzzy
 msgid "Tabulating Dependencies"
 msgstr "Dependència Tabulada"
 
 #
-#: src/commands.c:7035
+#: src/commands.c:7067
 #, fuzzy
 msgid "Reconfigure Graph"
 msgstr "Configura el gràfic"
@@ -19547,25 +19552,31 @@ msgid "Chart"
 msgstr "Gràfic"
 
 #
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1083
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1089
 #, fuzzy
 msgid "Step 1 of 2: Select Chart Type"
 msgstr "Pas 1 de 2: Seleccioneu el tipus de gràfic"
 
 #
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1091
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1097
 #, fuzzy
 msgid "Step 2 of 2: Customize Chart"
 msgstr "Pas 2 de 2: Personalitzeu el gràfic"
 
 #
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1096
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1102
 #, fuzzy
 msgid "Customize Chart"
 msgstr "Personalitza la capçalera"
 
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1178
+#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1442
+#: src/wbcg-actions.c:1600
+msgid "_Insert"
+msgstr "_Insereix"
+
 #
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1210
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1236
 msgid "_Plot Type"
 msgstr "Ti_pus Traçat"
 
@@ -19641,7 +19652,7 @@ msgstr "_Cadenes"
 msgid "Point"
 msgstr "Punt"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:159 src/gui-file.c:359
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:159 src/gui-file.c:348
 #, fuzzy, c-format
 msgid "%d x %d"
 msgstr "%dR x %dC"
@@ -20499,12 +20510,12 @@ msgstr "Doble"
 msgid "Bubble"
 msgstr "Doble"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1019
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1021
 #, fuzzy
 msgid "Y Error bars"
 msgstr "S'ha produït un error en analitzar la línia"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1021
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1023
 #, fuzzy
 msgid "X Error bars"
 msgstr "S'ha produït un error en analitzar la línia"
@@ -21322,7 +21333,7 @@ msgid "_Rows"
 msgstr "_Files"
 
 #: src/dialogs/anova-two.glade.h:1 src/dialogs/autocorrect.glade.h:1
-#: src/dialogs/autofilter-expression.glade.h:27
+#: src/dialogs/autofilter-expression.glade.h:14
 #: src/dialogs/autoformat.glade.h:1 src/dialogs/autosave.glade.h:1
 #: src/dialogs/cell-format.glade.h:2 src/dialogs/descriptive-stats.glade.h:2
 #: src/dialogs/dialog-stf-export.glade.h:5 src/dialogs/dialog-stf.glade.h:3
@@ -21446,37 +21457,20 @@ msgid ""
 "does not contain"
 msgstr ""
 
-#: src/dialogs/autofilter-expression.glade.h:14
-msgid ""
-"\n"
-"equals\n"
-"does not equal\n"
-"is greater than\n"
-"is greater than or equal to\n"
-"is_less_than\n"
-"is less than or equal to\n"
-"begins with\n"
-"does not begin with\n"
-"ends with\n"
-"does not end with\n"
-"contains\n"
-"does not contain"
-msgstr ""
-
-#: src/dialogs/autofilter-expression.glade.h:28
+#: src/dialogs/autofilter-expression.glade.h:15
 #: src/dialogs/autofilter-top10.glade.h:1
 msgid "Gnumeric : AutoFilter"
 msgstr "Gnumeric : Autofiltre"
 
-#: src/dialogs/autofilter-expression.glade.h:29
+#: src/dialogs/autofilter-expression.glade.h:16
 msgid "Show rows where:"
 msgstr "Ensenya files aquí:"
 
-#: src/dialogs/autofilter-expression.glade.h:30
+#: src/dialogs/autofilter-expression.glade.h:17
 msgid "_And"
 msgstr "_I"
 
-#: src/dialogs/autofilter-expression.glade.h:31
+#: src/dialogs/autofilter-expression.glade.h:18
 msgid "_Or"
 msgstr "_O"
 
@@ -22901,7 +22895,7 @@ msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "No s'ha pogut crear el diàleg de l?eina ANOVA (factor dos)."
 
 #
-#: src/dialogs/dialog-autocorrect.c:329
+#: src/dialogs/dialog-autocorrect.c:332
 msgid "Could not create the AutoCorrect dialog."
 msgstr "No s'ha pogut crear el diàleg d'AutoCorrecció."
 
@@ -23630,7 +23624,7 @@ msgstr ""
 
 #: src/dialogs/dialog-preferences.c:724
 #, fuzzy
-msgid "The items on this page arerelated to copy. cut and paste."
+msgid "The items on this page are related to copy. cut and paste."
 msgstr ""
 "Els elements en aquesta pàgina estan relacionats amb els fitxers oberts "
 "idesats."
@@ -25116,11 +25110,6 @@ msgstr "Selector de funcions"
 #: src/dialogs/function-select.glade.h:5
 msgid "Select a function to insert:"
 msgstr "Seleccioneu una funció per a afegir:"
-
-#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1442
-#: src/wbcg-actions.c:1600
-msgid "_Insert"
-msgstr "_Insereix"
 
 #
 #: src/dialogs/goalseek.glade.h:1
@@ -26801,11 +26790,11 @@ msgid "Invalid template file: %s"
 msgstr "Fitxer de plantilla no vàlid: %s"
 
 #
-#: src/file.c:497
+#: src/file.c:522
 msgid "Saving over old files of this type is disabled for safety."
 msgstr "S'ha deshabilitat l'opció desar sobre fitxers antics per seguretat"
 
-#: src/file.c:499
+#: src/file.c:524
 #, fuzzy
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
@@ -27895,27 +27884,27 @@ msgstr "Detecta automàticament"
 msgid "Load file"
 msgstr "Carrega fitxer"
 
-#: src/gui-file.c:224 src/gui-file.c:666
+#: src/gui-file.c:224 src/gui-file.c:655
 #, fuzzy
 msgid "Select a file"
 msgstr "Selecciona un fitxer d'imatge"
 
-#: src/gui-file.c:242 src/gui-file.c:468 src/gui-file.c:680
+#: src/gui-file.c:242 src/gui-file.c:457 src/gui-file.c:669
 #, fuzzy
 msgid "All Files"
 msgstr "_Fitxer"
 
 #
-#: src/gui-file.c:247 src/gui-file.c:685
+#: src/gui-file.c:247 src/gui-file.c:674
 #, fuzzy
 msgid "Spreadsheets"
 msgstr "Full de càlcul del Gnumeric"
 
-#: src/gui-file.c:284 src/gui-file.c:535 src/gui-file.c:709
+#: src/gui-file.c:273 src/gui-file.c:524 src/gui-file.c:698
 msgid "File _type:"
 msgstr "Forma_t de fitxer:"
 
-#: src/gui-file.c:400
+#: src/gui-file.c:389
 #, c-format
 msgid ""
 "%s\n"
@@ -27924,7 +27913,7 @@ msgstr ""
 "%s\n"
 "és el nom d'un directori"
 
-#: src/gui-file.c:406
+#: src/gui-file.c:395
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -27933,7 +27922,7 @@ msgstr ""
 "No teniu els permisos necessaris per desar a\n"
 "%s"
 
-#: src/gui-file.c:415
+#: src/gui-file.c:404
 #, fuzzy, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -27944,17 +27933,17 @@ msgstr ""
 "Voleu desar-hi a sobre?"
 
 #
-#: src/gui-file.c:473
+#: src/gui-file.c:462
 #, fuzzy
 msgid "Images"
 msgstr "Imatge"
 
-#: src/gui-file.c:513
+#: src/gui-file.c:502
 #, fuzzy
 msgid "Save as"
 msgstr "Desa ho Tot"
 
-#: src/gui-file.c:562 src/gui-file.c:758
+#: src/gui-file.c:551 src/gui-file.c:747
 #, fuzzy
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
@@ -27963,12 +27952,12 @@ msgstr ""
 "L'extensió del fitxer proporcionat no concorda amb la del tipus de fitxer "
 "escollit. Voleu utilitzar aquest nom de totes maneres?"
 
-#: src/gui-file.c:589
+#: src/gui-file.c:578
 #, fuzzy
 msgid "Select an Image"
 msgstr "Selecciona un fitxer d'imatge"
 
-#: src/gui-file.c:608
+#: src/gui-file.c:597
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -28566,7 +28555,7 @@ msgstr "El fitxer no conté la matriu \"%s\"."
 msgid "Module doesn't contain \"%s\" function."
 msgstr "El mòdul no conté la funció \"%s\"."
 
-#: src/plugin-service.c:159 src/plugin-service.c:249 src/plugin-service.c:1141
+#: src/plugin-service.c:159 src/plugin-service.c:249 src/plugin-service.c:1166
 msgid "Error while loading plugin service."
 msgstr "S'ha produït un error en carregar el servei del connector."
 
@@ -28582,98 +28571,98 @@ msgstr "La funció de neteja dins del connector ha tornat un error."
 msgid "Clipboard"
 msgstr "Porta-retalls"
 
-#: src/plugin-service.c:408
+#: src/plugin-service.c:422
 msgid "File opener has no description"
 msgstr "L'obridor de fitxers no té cap descripció"
 
-#: src/plugin-service.c:440
+#: src/plugin-service.c:454
 #, c-format
 msgid "File opener - %s"
 msgstr "Obridor de fitxers - %s"
 
-#: src/plugin-service.c:559
+#: src/plugin-service.c:573
 msgid "Error while reading file."
 msgstr "S'ha produït un error en llegir el fitxer."
 
-#: src/plugin-service.c:714
+#: src/plugin-service.c:739
 msgid "File saver has no description"
 msgstr "El desador de fitxers no té descripció"
 
-#: src/plugin-service.c:760
+#: src/plugin-service.c:785
 #, c-format
 msgid "File saver - %s"
 msgstr "Desador de fitxers - %s"
 
-#: src/plugin-service.c:822
+#: src/plugin-service.c:847
 msgid "Error while saving file."
 msgstr "S'ha produït un error en desar el fitxer."
 
-#: src/plugin-service.c:975
+#: src/plugin-service.c:1000
 msgid "Missing function category name."
 msgstr "Nom de la categoria de la funció absent"
 
-#: src/plugin-service.c:979
+#: src/plugin-service.c:1004
 msgid "Function group is empty."
 msgstr "El grup de funció està buit."
 
-#: src/plugin-service.c:1009
+#: src/plugin-service.c:1034
 msgid "No func_desc_load method.\n"
 msgstr ""
 
-#: src/plugin-service.c:1079
+#: src/plugin-service.c:1104
 #, c-format
 msgid "%d function in category \"%s\""
 msgstr "%d funció en categoria \"%s\""
 
-#: src/plugin-service.c:1080
+#: src/plugin-service.c:1105
 #, c-format
 msgid "Group of %d functions in category \"%s\""
 msgstr "Grup de %d funcions en la categoria \"%s\""
 
 #
-#: src/plugin-service.c:1176
+#: src/plugin-service.c:1201
 msgid "Plugin loader"
 msgstr "Carregador de connectors"
 
-#: src/plugin-service.c:1273
+#: src/plugin-service.c:1298
 msgid "Missing file name."
 msgstr "Manca el nom del fitxer"
 
-#: src/plugin-service.c:1322
+#: src/plugin-service.c:1347
 #, c-format
 msgid "Cannot read UI description from XML file %s."
 msgstr "No es pot llegir el descriptor UI des de el fitxer XML %s."
 
-#: src/plugin-service.c:1356
+#: src/plugin-service.c:1381
 #, c-format
 msgid "User interface with %d action"
 msgstr "Interfície d'usuari amb %d acció"
 
-#: src/plugin-service.c:1357
+#: src/plugin-service.c:1382
 #, c-format
 msgid "User interface with %d actions"
 msgstr "Interfície d'usuari amb %d accions"
 
 #
-#: src/plugin-service.c:1385
+#: src/plugin-service.c:1410
 msgid "GObject loader"
 msgstr "Carregador GObject "
 
-#: src/plugin-service.c:1492
+#: src/plugin-service.c:1517
 msgid "No \"type\" attribute on \"service\" element."
 msgstr "No hi ha un atribut \"type\" en l'element \"service\""
 
 # src/functions/fn-information.c:317
-#: src/plugin-service.c:1498
+#: src/plugin-service.c:1523
 #, c-format
 msgid "Unknown service type: %s."
 msgstr "Tipus de servei desconegut: '%s'."
 
-#: src/plugin-service.c:1514
+#: src/plugin-service.c:1539
 msgid "Error reading service information."
 msgstr "S'ha produït un error mentre es llegia informació del servei."
 
-#: src/plugin-service.c:1576
+#: src/plugin-service.c:1601
 msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."
@@ -28708,15 +28697,15 @@ msgstr "Visualització prèvia a la impressió"
 msgid "Printing failed"
 msgstr "Ha fallat la impressió"
 
-#: src/print.c:1443
+#: src/print.c:1444
 msgid "Print Sheets"
 msgstr "Imprimeix Fulls"
 
-#: src/print.c:1452
+#: src/print.c:1453
 msgid "Act_ive sheet"
 msgstr "Full act_iu"
 
-#: src/print.c:1452
+#: src/print.c:1453
 msgid "S_heets"
 msgstr "F_ulls"
 
@@ -28846,11 +28835,11 @@ msgstr "no pot treballar en cel·les fusionades"
 msgid "cannot operate on array formulae"
 msgstr "no pot funcionar en fórmules de matriu"
 
-#: src/sheet.c:3190
+#: src/sheet.c:3191
 msgid "Insert Columns"
 msgstr "Insereix Columnes"
 
-#: src/sheet.c:3308
+#: src/sheet.c:3311
 msgid "Insert Rows"
 msgstr "Insereix Files"
 
@@ -29066,12 +29055,12 @@ msgstr "Marc"
 msgid "Button"
 msgstr "Botó"
 
-#: src/sheet-object-widget.c:1304
+#: src/sheet-object-widget.c:1352
 #, c-format
 msgid "CheckBox %d"
 msgstr "Quadre de verificació %d"
 
-#: src/sheet-object-widget.c:1750 src/wbcg-actions.c:1950
+#: src/sheet-object-widget.c:1807 src/wbcg-actions.c:1950
 msgid "RadioButton"
 msgstr "Botó de ràdio"
 
@@ -29208,22 +29197,22 @@ msgstr "S'ha produït un error en llegit del fitxer"
 msgid "Error while trying to write CSV file"
 msgstr "S'ha produït un error en escriure el fitxer csv"
 
-#: src/stf.c:490
+#: src/stf.c:504
 #, fuzzy
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr "fitxers separats per coma o tab (CSV/TSV)"
 
 #
-#: src/stf.c:494
+#: src/stf.c:509
 msgid "Text import (configurable)"
 msgstr "Importació de fitxers de text (personalitzable)"
 
 #
-#: src/stf.c:499
+#: src/stf.c:515
 msgid "Text export (configurable)"
 msgstr "Importació de fitxers de text (personalitzable)"
 
-#: src/stf.c:503
+#: src/stf.c:519
 #, fuzzy
 msgid "Comma separated values (CSV)"
 msgstr "fitxers separats per coma o tab (CSV/TSV)"
@@ -33561,11 +33550,6 @@ msgstr "Format de fitxer no implementat"
 msgid "An unexplained error happened while opening %s"
 msgstr "S'ha produït un error no explicat obrint %s"
 
-#: src/xml-io.c:2770
-#, fuzzy, c-format
-msgid "Unsupported object type '%s'"
-msgstr "Tipus de carregador \"%s\" no permès."
-
 #
 #: src/xml-io.c:3473
 msgid "Unparsable xml in clipboard"
@@ -33594,7 +33578,7 @@ msgstr "No és un fitxer de llibre de treball del Gnumeric"
 msgid "Failure saving file"
 msgstr "S'ha produït un error en desar el fitxer."
 
-#: src/xml-io.c:4329
+#: src/xml-io.c:4332
 msgid "Gnumeric XML (*.gnumeric) original slow exporter"
 msgstr ""
 
