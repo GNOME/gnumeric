@@ -1,10 +1,10 @@
 %% refman.latex %%
 
-%% Copyright (C) 2000, 2001, 2002 Andrew Makhorin <mao@mai2.rcnet.ru>,
-%%               Department for Applied Informatics, Moscow Aviation
-%%               Institute, Moscow, Russia. All rights reserved.
+%% Copyright (C) 2000, 2001, 2002, 2003 Andrew Makhorin, Department
+%% for Applied Informatics, Moscow Aviation Institute, Moscow, Russia.
+%% All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
 %%
-%% This file is a part of GLPK (GNU Linear Programming Kit).
+%% This file is part of GLPK (GNU Linear Programming Kit).
 %%
 %% GLPK is free software; you can redistribute it and/or modify it
 %% under the terms of the GNU General Public License as published by
@@ -60,12 +60,12 @@
 \vspace{0.5in}
 
 \begin{LARGE}
-{\bf Version 3.2}
+{\bf Version 4.1}
 \end{LARGE}
 
 \vspace{0.5in}
 \begin{Large}
-(Draft Edition, July 2002)
+(Draft Edition, August 2003)
 \end{Large}
 \end{center}
 
@@ -78,9 +78,9 @@ The GLPK package is a part of the GNU project released under the aegis
 of GNU.
 
 \medskip \noindent
-Copyright \copyright{} 2000, 2001, 2002 Andrew Makhorin, Department for
-Applied Informatics, Moscow Aviation Institute, Moscow, Russia. All
-rights reserved.
+Copyright \copyright{} 2000, 2001, 2002, 2003 Andrew Makhorin,
+Department for Applied Informatics, Moscow Aviation Institute, Moscow,
+Russia. All rights reserved.
 
 \medskip \noindent
 Free Software Foundation, Inc., 59 Temple Place --- Suite 330, Boston,
@@ -299,7 +299,7 @@ At first this LP problem should be transformed to the standard form
 by one for each original inequality constraint. Thus, the considered
 problem can be reformulated as follows:
 
-\pagebreak[4]
+\pagebreak
 
 \noindent
 \hspace{1in} maximize
@@ -1968,9 +1968,41 @@ Note that the simplex solver implemented in GLPK is not perfect.
 Although it has been successfully tested on a wide set of LP problems,
 there are hard problems, which can't be solved by this solver.
 
+\paragraph{Using built-in LP presolver}
+
+The simplex solver has the {\it built-in LP presolver}, which is
+a subprogram that transforms the original LP problem specified in the
+problem object to an equivalent LP problem, which may be easier for
+solving with the simplex method than the original one. This is attained
+mainly due to reducing the problem size and improving its numeric
+properties (for example, by removing some inactive constraints or by
+fixing some non-basic variables). Once the transformed LP problem has
+been solved, the presolver transforms its basic solution back to
+a corresponding basic solution of the original problem.
+
+Presolving is an optional feature of the routine \verb|lpx_simplex|,
+and by default it is not used. In order to use the LP presolver the
+user should set on the control parameter \verb|LPX_K_PRESOL| (see
+Subsection \ref{subsecparlist}, page \pageref{subsecparlist}) before
+calling the routine \verb|lpx_simplex|. As a rule presolving is useful
+when the problem is solved for the first time. However, it is not
+recommended to use presolving when the problem should be re-optimized.
+
+Presolving procedure is transparent to the API user in the sense that
+all necessary processing is performed internally, and a basic solution
+of the original problem recovered by the presolver is the same as if it
+were computed directly, i.e. without presolving.
+
+Note that the presolver is able to recover only optimal solutions. If
+a computed solution is infeasible or non-optimal, the corresponding
+solution of the original problem cannot be recovered and therefore
+remains undefined. If the user needs to know a basic solution even if
+it is infeasible or non-optimal, the presolver should not be used.
+
 \paragraph{Returns}
 
-The routine \verb|lpx_simplex| returns one of the following exit codes:
+If the LP presolver is not used (the flag \verb|LPX_K_PRESOL| is off),
+the routine \verb|lpx_simplex| returns one of the following exit codes:
 
 \begin{tabular}{@{}p{25mm}p{114mm}@{}}
 \verb|LPX_E_OK|     & the LP problem has been successfully solved.
@@ -1987,11 +2019,28 @@ The routine \verb|lpx_simplex| returns one of the following exit codes:
    continues increasing (the dual simplex only). \\
 \verb|LPX_E_ITLIM|  & the search was prematurely terminated because the
    simplex iterations limit has been exceeded. \\
+\end{tabular}
+
+\begin{tabular}{@{}p{25mm}p{114mm}@{}}
 \verb|LPX_E_TMLIM|  & the search was prematurely terminated because the
    time limit has been exceeded. \\
 \verb|LPX_E_SING|   & the search was prematurely terminated due to the
    solver failure (the current basis matrix got singular or
    ill-conditioned). \\
+\end{tabular}
+
+If the LP presolver is used (the flag \verb|LPX_K_PRESOL| is on), the
+routine \verb|lpx_simplex| returns one of the following exit codes:
+
+\begin{tabular}{@{}p{25mm}p{114mm}@{}}
+\verb|LPX_E_OK|     & optimal solution of the LP problem has been
+   found. \\
+\verb|LPX_E_FAULT|  & the LP problem has no rows and/or columns. \\
+\verb|LPX_E_NOPFS|  & the LP problem has no primal feasible solution. \\
+\verb|LPX_E_NODFS|  & the LP problem has no dual feasible solution. \\
+\verb|LPX_E_ITLIM|  & same as above. \\
+\verb|LPX_E_TMLIB|  & same as above. \\
+\verb|LPX_E_SING|   & same as above. \\
 \end{tabular}
 
 Note that additional exit codes may appear in the future versions of
@@ -2184,6 +2233,348 @@ undefined, the routine returns zero.
 
 \noindent \hrulefill
 
+\subsection{{\tt lpx\_check\_kkt} --- check Karush-Kuhn-Tucker
+conditions}
+
+\paragraph{Synopsis}
+
+\begin{verbatim}
+#include "glpk.h"
+void lpx_check_kkt(LPX *lp, int scaled, LPXKKT *kkt);
+\end{verbatim}
+
+\paragraph{Description}
+
+The routine \verb|lpx_check_kkt| checks Karush-Kuhn-Tucker optimality
+conditions for the current basic solution specified in an LP problem
+object, which the parameter \verb|lp| points to. To use this routine
+both primal and dual components of the basic solution should be defined.
+
+If the parameter \verb|scaled| is zero, the optimality conditions are
+checked for the original, unscaled LP problem. Otherwise, if the
+parameter \verb|scaled| is non-zero, the routine checks the conditions
+for an internally scaled LP problem.
+
+The parameter \verb|kkt| is a pointer to the structure \verb|LPXKKT|,
+to which the routine stores the results of checking. Members of this
+structure are shown in the table below.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{c|l|l}
+Condition & Member & Comment \\
+\hline
+(KKT.PE) & \verb|pe_ae_max| &
+         Largest absolute error \\
+         & \verb|pe_ae_row| &
+         Number of row with largest absolute error \\
+         & \verb|pe_re_max| &
+         Largest relative error \\
+         & \verb|pe_re_row| &
+         Number of row with largest relative error \\
+         & \verb|pe_quality| &
+         Quality of primal solution \\
+\hline
+(KKT.PB) & \verb|pb_ae_max| &
+         Largest absolute error \\
+         & \verb|pb_ae_ind| &
+         Number of variable with largest absolute error \\
+         & \verb|pb_re_max| &
+         Largest relative error \\
+         & \verb|pb_re_ind| &
+         Number of variable with largest relative error \\
+         & \verb|pb_quality| &
+         Quality of primal feasibility \\
+\hline
+(KKT.DE) & \verb|de_ae_max| &
+         Largest absolute error \\
+         & \verb|de_ae_col| &
+         Number of column with largest absolute error \\
+         & \verb|de_re_max| &
+         Largest relative error \\
+         & \verb|de_re_col| &
+         Number of column with largest relative error \\
+         & \verb|de_quality| &
+         Quality of dual solution \\
+\hline
+(KKT.DB) & \verb|db_ae_max| &
+         Largest absolute error \\
+         & \verb|db_ae_ind| &
+         Number of variable with largest absolute error \\
+         & \verb|db_re_max| &
+         Largest relative error \\
+         & \verb|db_re_ind| &
+         Number of variable with largest relative error \\
+         & \verb|db_quality| &
+         Quality of dual feasibility \\
+\end{tabular}
+\end{center}
+\end{table}
+
+The routine performs all computations using only components of the
+given LP problem and the current basic solution.
+
+\paragraph{Background}
+
+The first condition checked by the routine is:
+$$x_R - A x_S = 0, \eqno{\rm (KKT.PE)}$$
+where $x_R$ is the subvector of auxiliary variables (rows), $x_S$ is the
+subvector of structural variables (columns), $A$ is the constraint
+matrix. This condition expresses the requirement that all primal
+variables must satisfy to the system of equality constraints of the
+original LP problem. In case of exact arithmetic this condition would be
+satisfied for any basic solution; however, in case of inexact
+(floating-point) arithmetic, this condition shows how accurate the
+primal basic solution is, that depends on accuracy of a representation
+of the basis matrix used by the simplex method routines.
+
+The second condition checked by the routine is:
+$$l_k \leq x_k \leq u_k {\rm \ \ \ for\ all}\ k=1,\dots,m+n,
+\eqno{\rm (KKT.PB)}$$
+where $x_k$ is auxiliary ($1\leq k\leq m$) or structural
+($m+1\leq k\leq m+n$) variable, $l_k$ and $u_k$ are, respectively,
+lower and upper bounds of the variable $x_k$ (including cases of
+infinite bounds). This condition expresses the requirement that all
+primal variables must satisfy to bound constraints of the original LP
+problem. Since in case of basic solution all non-basic variables are
+placed on their bounds, actually the condition (KKT.PB) needs to be
+checked for basic variables only. If the primal basic solution has
+sufficient accuracy, this condition shows primal feasibility of the
+solution.
+
+The third condition checked by the routine is:
+$${\rm grad}\;Z = c = (\tilde{A})^T \pi + d,$$
+where $Z$ is the objective function, $c$ is the vector of objective
+coefficients, $(\tilde{A})^T$ is a matrix transposed to the expanded
+constraint matrix $\tilde{A} = (I|-A)$, $\pi$ is a vector of Lagrange
+multipliers that correspond to equality constraints of the original LP
+problem, $d$ is a vector of Lagrange multipliers that correspond to
+bound constraints for all (auxiliary and structural) variables of the
+original LP problem. Geometrically the third condition expresses the
+requirement that the gradient of the objective function must belong to
+the orthogonal complement of a linear subspace defined by the equality
+and active bound constraints, i.e. that the gradient must be a linear
+combination of normals to the constraint planes, where Lagrange
+multipliers $\pi$ and $d$ are coefficients of that linear combination.
+
+To eliminate the vector $\pi$ the third condition can be rewritten as:
+$$
+\left(\begin{array}{@{}c@{}}I \\ -A^T\end{array}\right) \pi =
+\left(\begin{array}{@{}c@{}}d_R \\ d_S\end{array}\right) +
+\left(\begin{array}{@{}c@{}}c_R \\ c_S\end{array}\right),
+$$
+or, equivalently:
+$$
+\begin{array}{r@{}c@{}c}
+\pi + d_R&\ =\ &c_R, \\
+-A^T\pi + d_S&\ =\ &c_S. \\
+\end{array}
+$$
+Then substituting the vector $\pi$ from the first equation into the
+second one we have:
+$$A^T (d_R - c_R) + (d_S - c_S) = 0, \eqno{\rm (KKT.DE)}$$
+where $d_R$ is the subvector of reduced costs of auxiliary variables
+(rows), $d_S$ is the subvector of reduced costs of structural variables
+(columns), $c_R$ and $c_S$ are subvectors of objective coefficients at,
+respectively, auxiliary and structural variables, $A^T$ is a matrix
+transposed to the constraint matrix of the original LP problem. In case
+of exact arithmetic this condition would be satisfied for any basic
+solution; however, in case of inexact (floating-point) arithmetic, this
+condition shows how accurate the dual basic solution is, that depends on
+accuracy of a representation of the basis matrix used by the simplex
+method routines.
+
+The last, fourth condition checked by the routine is:
+
+\medskip
+
+\begin{tabular}{r@{}c@{}ll}
+&$\ d_k\ $& $=0,$&if $x_k$ is basic or free non-basic variable \\
+$0\leq$&$\ d_k\ $&$<+\infty$&if $x_k$ is non-basic on its lower
+(minimization) \\
+&&&or upper (maximization) bound \\
+$-\infty<$&$\ d_k\ $&$\leq 0$&if $x_k$ is non-basic on its upper
+(minimization) \\
+&&&or lower (maximization) bound \\
+$-\infty<$&$\ d_k\ $&$<+\infty$&if $x_k$ is non-basic fixed variable \\
+\end{tabular} \hfill (KKT.DB)
+
+\medskip
+
+\noindent
+for all $k=1,\dots,m+n$, where $d_k$ is a reduced cost (Lagrange
+multiplier) of auxiliary ($1\leq k\leq m$) or structural
+($m+1\leq k\leq m+n$) variable $x_k$. Geometrically this condition
+expresses the requirement that constraints of the original problem must
+"hold" the point preventing its movement along the anti-gradient (in
+case of minimization) or the gradient (in case of maximization) of the
+objective function. Since in case of basic solution reduced costs of
+all basic variables are placed on their (zero) bounds, actually the
+condition (KKT.DB) needs to be checked for non-basic variables only.
+If the dual basic solution has sufficient accuracy, this condition shows
+dual feasibility of the solution.
+
+Should note that the complete set of Karush-Kuhn-Tucker optimality
+conditions also includes the fifth, so called complementary slackness
+condition, which expresses the requirement that at least either a primal
+variable $x_k$ or its dual counterpart $d_k$ must be on its bound for
+all $k=1,\dots,m+n$. However, being always satisfied by definition for
+any basic solution that condition is not checked by the routine.
+
+To check the first condition (KKT.PE) the routine computes a vector of
+residuals:
+$$g = x_R - A x_S,$$
+determines component of this vector that correspond to largest absolute
+and relative errors:
+
+\medskip
+
+\hspace{40mm}
+\verb|pe_ae_max| $\displaystyle{= \max_{1\leq i\leq m}|g_i|}$,
+
+\medskip
+
+\hspace{40mm}
+\verb|pe_re_max| $\displaystyle{= \max_{1\leq i\leq m}
+\frac{|g_i|}{1+|(x_R)_i|}}$,
+
+\medskip
+
+\noindent
+and stores these quantities and corresponding row indices to the
+structure \verb|LPXKKT|.
+
+To check the second condition (KKT.PB) the routine computes a vector
+of residuals:
+$$
+h_k = \left\{
+\begin{array}{ll}
+0,         & {\rm if}\ l_k \leq x_k \leq u_k \\
+x_k - l_k, & {\rm if}\ x_k < l_k \\
+x_k - u_k, & {\rm if}\ x_k > u_k \\
+\end{array}
+\right.
+$$
+for all $k=1,\dots,m+n$, determines components of this vector that
+correspond to largest absolute and relative errors:
+
+\medskip
+
+\hspace{40mm}
+\verb|pb_ae_max| $\displaystyle{= \max_{1\leq k \leq m+n}|h_k|}$,
+
+\medskip
+
+\hspace{40mm}
+\verb|pb_re_max| $\displaystyle{= \max_{1\leq k \leq m+n}
+\frac{|h_k|}{1+|x_k|}}$,
+
+\medskip
+
+\noindent
+and stores these quantities and corresponding variable indices to the
+structure \verb|LPXKKT|.
+
+To check the third condition (KKT.DE) the routine computes a vector of
+residuals:
+$$u = A^T (d_R - c_R) + (d_S - c_S),$$
+determines components of this vector that correspond to largest
+absolute and relative errors:
+
+\medskip
+
+\hspace{40mm}
+\verb|de_ae_max| $\displaystyle{= \max_{1\leq j\leq n}|u_j|}$,
+
+\medskip
+
+\hspace{40mm}
+\verb|de_re_max| $\displaystyle{= \max_{1\leq j\leq n}
+\frac{|u_j|}{1+|(d_S)_j - (c_S)_j|}}$,
+
+\medskip
+
+\noindent
+and stores these quantities and corresponding column indices to the
+structure \verb|LPXKKT|.
+
+To check the fourth condition (KKT.DB) the routine computes a vector
+of residuals:
+
+$$
+v_k = \left\{
+\begin{array}{ll}
+0,         & {\rm if}\ d_k\ {\rm has\ correct\ sign} \\
+d_k,       & {\rm if}\ d_k\ {\rm has\ wrong\ sign} \\
+\end{array}
+\right.
+$$
+for all $k=1,\dots,m+n$, determines components of this vector that
+correspond to largest absolute and relative errors:
+
+\medskip
+
+\hspace{40mm}
+\verb|db_ae_max| $\displaystyle{= \max_{1\leq k\leq m+n}|v_k|}$,
+
+\medskip
+
+\hspace{40mm}
+\verb|db_re_max| $\displaystyle{= \max_{1\leq k\leq m+n}
+\frac{|v_k|}{1+|d_k - c_k|}}$,
+
+\medskip
+
+\noindent
+and stores these quantities and corresponding variable indices to the
+structure \verb|LPXKKT|.
+
+Using the relative errors for all the four conditions the routine
+\verb|lpx_check_kkt| also estimates a "quality" of the basic solution
+from the standpoint of these conditions and stores corresponding
+quality indicators to the structure \verb|LPXKKT|:
+
+\verb|pe_quality| --- quality of primal solution;
+
+\verb|pb_quality| --- quality of primal feasibility;
+
+\verb|de_quality| --- quality of dual solution;
+
+\verb|db_quality| --- quality of dual feasibility.
+
+Each of these indicators is assigned to one of the following four
+values:
+
+\verb|'H'| means high quality,
+
+\verb|'M'| means medium quality,
+
+\verb|'L'| means low quality, or
+
+\verb|'?'| means wrong or infeasible solution.
+
+If all the indicators show high or medium quality (for an internally
+scaled LP problem, i.e. when the parameter \verb|scaled| in a call to
+the routine \verb|lpx_check_kkt| is non-zero), the user can be sure that
+the obtained basic solution is quite accurate.
+
+If some of the indicators show low quality, the solution can still be
+considered as relevant, though an additional analysis is needed
+depending on which indicator shows low quality.
+
+If the indicator \verb|pe_quality| is assigned to \verb|'?'|, the
+primal solution is wrong. If the indicator \verb|de_quality| is assigned
+to \verb|'?'|, the dual solution is wrong.
+
+If the indicator \verb|db_quality| is assigned to \verb|'?'| while
+other indicators show a good quality, this means that the current
+basic solution being primal feasible is not dual feasible. Similarly,
+if the indicator \verb|pb_quality| is assigned to \verb|'?'| while
+other indicators are not, this means that the current basic solution
+being dual feasible is not primal feasible.
+
+\noindent \hrulefill
+
 \newpage
 
 \section{Simplex table routines}
@@ -2239,7 +2630,7 @@ row stored in the arrays \verb|ndx| and \verb|val|.
 
 \noindent \hrulefill
 
-\subsection{{\tt lpx\_eval\_col\_col} --- compute column of the simplex
+\subsection{{\tt lpx\_eval\_tab\_col} --- compute column of the simplex
 table}
 
 \paragraph{Synopsis}
@@ -3292,7 +3683,7 @@ default values, and descriptions are given on the right.
 
 \noindent\begin{tabular}{@{}p{28mm}p{117mm}@{}}
 \verb|LPX_K_TOLINT|
-   & type: real, default: $10^{-6}$ \\
+   & type: real, default: $10^{-5}$ \\
    & Absolute tolerance used to check if the current basic solution
      is integer feasible. (Do not change this parameter without detailed
      understanding its purpose.) \\
@@ -3312,7 +3703,8 @@ default values, and descriptions are given on the right.
    & type: int, default: 1 \\
    & If this flag is set, the routine \verb|lpx_write_mps| writes
      several comment cards, which contains some information about the
-     problem. Otherwise the routine writes no comment cards. \\
+     problem. Otherwise the routine writes no comment cards. This flag
+     also affects the routine \verb|lpx_write_bas|.\\
 \end{tabular}
 
 \noindent\begin{tabular}{@{}p{28mm}p{117mm}@{}}
@@ -3331,7 +3723,9 @@ default values, and descriptions are given on the right.
    & type: int, default: 0 \\
    & If this flag is set, the routine \verb|lpx_write_mps| uses the
      original symbolic names of rows and columns. Otherwise the routine
-     generates plain names using ordinal numbers of rows and columns. \\
+     generates plain names using ordinal numbers of rows and columns.
+     This flag also affects the routines \verb|lpx_read_bas| and
+     \verb|lpx_write_bas|.\\
 \end{tabular}
 
 \noindent\begin{tabular}{@{}p{28mm}p{117mm}@{}}
@@ -3357,14 +3751,27 @@ default values, and descriptions are given on the right.
      routine outputs all columns. \\
 \end{tabular}
 
-\newpage
+\noindent\begin{tabular}{@{}p{28mm}p{117mm}@{}}
+\verb|LPX_K_LPTORIG|
+   & type: int, default: 0 \\
+   & If this flag is set, the routine \verb|lpx_write_lpt| uses the
+     original symbolic names of rows and columns. Otherwise the routine
+     generates plain names using ordinal numbers of rows and columns. \\
+\end{tabular}
+
+\noindent\begin{tabular}{@{}p{28mm}p{117mm}@{}}
+\verb|LPX_K_PRESOL|
+   & type: int, default: 0 \\
+   & If this flag is set, the routine \verb|lpx_simplex| solves the
+     problem using the built-in LP presolver. Otherwise the LP presolver
+     is not used. \\
+\end{tabular}
 
 \section{Utility routines}
 
 \noindent \hrulefill
 
-\subsection{{\tt lpx\_read\_mps} --- read problem data prepared in MPS
-format}
+\subsection{{\tt lpx\_read\_mps} --- read problem data in MPS format}
 
 \paragraph{Synopsis}
 
@@ -3375,55 +3782,91 @@ LPX *lpx_read_mps(char *fname);
 
 \paragraph{Description}
 
-The routine \verb|lpx_read_mps| reads LP/MIP problem data using MPS
+The routine \verb|lpx_read_mps| reads LP/MIP problem data in MPS
 format from a text file whose name is the character string \verb|fname|.
-(The MPS format is described in Appendix \ref{champs}, page
-\pageref{champs}.)
+(The MPS format is described in Appendix \ref{champs},
+page \pageref{champs}.)
 
 \paragraph{Returns}
 
-If no error occurred, the routine returns a pointer to the created
+If no errors occurred, the routine returns a pointer to the created
 problem object. Otherwise the routine sends diagnostics to the standard
 output and returns \verb|NULL|.
 
 \noindent \hrulefill
 
-\subsection{{\tt lpx\_read\_lpm} --- read LP/MIP model written in
-GLPK/L}
+\subsection{{\tt lpx\_read\_lpt} --- read problem data in CPLEX LP
+format}
 
 \paragraph{Synopsis}
 
 \begin{verbatim}
 #include "glpk.h"
-LPX *lpx_read_lpm(char *infile, char *outfile);
+LPX *lpx_read_lpt(char *fname);
 \end{verbatim}
 
 \paragraph{Description}
 
-The routine \verb|lpx_read_lpm| reads LP/MIP model written in the
-modeling language GLPK/L from a text file whose name is the character
-string \verb|infile|.
-
-If the parameter \verb|outfile| is not \verb|NULL|, the routine
-writes generated LP/MIP problem to a text file whose name is the
-character string \verb|outfile|.
-
-For detailed description of GLPK/L modeling language see the document
-``GLPK: Modeling Language GLPK/L'' included in the package. The routine
-\verb|lpx_read_lpm| is an interface to the language processor, which is
-a program that analyzes model description statements and translates them
-to some internal data structures.
+The routine \verb|lpx_read_lpt| reads LP/MIP problem data in CPLEX LP
+format from a text file whose name is the character string \verb|fname|.
+(The CPLEX LP format is described in Appendix \ref{chacplex},
+page \pageref{chacplex}.)
 
 \paragraph{Returns}
 
-If no error occurred, the routine returns a pointer to the created
+If no errors occurred, the routine returns a pointer to the created
 problem object. Otherwise the routine sends diagnostics to the standard
 output and returns \verb|NULL|.
 
 \noindent \hrulefill
 
-\subsection{{\tt lpx\_write\_mps} --- write problem data using MPS
-format}
+\subsection{{\tt lpx\_read\_model} --- read model written in GNU
+MathProg modeling language}
+
+\paragraph{Synopsis}
+
+\begin{verbatim}
+#include "glpk.h"
+LPX *lpx_read_model(char *model, char *data, char *output);
+\end{verbatim}
+
+\paragraph{Description}
+
+The routine \verb|lpx_read_model| reads and translates LP/MIP model
+(problem) written in the GNU MathProg modeling language.\footnote{The
+GNU MathProg modeling language is a subset of the AMPL language.}
+
+The character string \verb|model| specifies name of input text file,
+which contains model section and, optionally, data section. This
+parameter cannot be \verb|NULL|.
+
+The character string \verb|data| specifies name of input text file,
+which contains data section. This parameter can be \verb|NULL|. (If the
+data file is specified and the model file also contains data section,
+that section is ignored and data section from the data file is used.)
+
+The character string \verb|output| specifies name of output text file,
+to which the output produced by display statements is written. If the
+parameter output is \verb|NULL|, the display output is sent to stdout
+via the routine \verb|print|.
+
+The routine \verb|lpx_read_model| is an interface to the model
+translator, which is a program that parses model description and
+translates it to some internal data structures.
+
+For detailed description of the modeling language see the document
+``GLPK: Modeling Language GNU MathProg'' included in the GLPK
+distribution.
+
+\paragraph{Returns}
+
+If no errors occurred, the routine returns a pointer to the created
+problem object. Otherwise the routine sends diagnostics to the standard
+output and returns \verb|NULL|.
+
+\noindent \hrulefill
+
+\subsection{{\tt lpx\_write\_mps} --- write problem data in MPS format}
 
 \paragraph{Synopsis}
 
@@ -3436,23 +3879,134 @@ int lpx_write_mps(LPX *lp, char *fname);
 
 The routine \verb|lpx_write_mps| writes data from a problem object,
 which the parameter \verb|lp| points to, to an output text file, whose
-name is the character string \verb|fname|, using the MPS format. (The
-MPS format is described in Appendix \ref{champs},
-page \pageref{champs}.)
+name is the character string \verb|fname|, in MPS format. (The MPS
+format is described in Appendix \ref{champs}, page \pageref{champs}.)
 
-Behaviour of the routine \verb|lpx_write_mps| depends on some control
+Behavior of the routine \verb|lpx_write_mps| depends on some control
 parameters (see Subsection \ref{subsecparlist}, page
 \pageref{subsecparlist}.)
 
 \paragraph{Returns}
 
-If the operation was successful, the routine returns zero. Otherwise
-the routine prints an error message and returns non-zero.
+If no errors occurred, the routine returns zero. Otherwise the routine
+prints an error message and returns non-zero.
 
 \noindent \hrulefill
 
-\subsection{{\tt lpx\_print\_sol} --- write LP problem solution in
-printable format}
+\subsection{{\tt lpx\_write\_lpt} --- write problem data in CPLEX LP
+format}
+
+\paragraph{Synopsis}
+
+\begin{verbatim}
+#include "glpk.h"
+int lpx_write_lpt(LPX *lp, char *fname);
+\end{verbatim}
+
+\paragraph{Description}
+
+The routine \verb|lpx_write_lpt| writes data from a problem object,
+which the parameter \verb|lp| points to, to an output text file, whose
+name is the character string \verb|fname|, in CPLEX LP format. (This
+format is described in Appendix \ref{chacplex},
+page \pageref{chacplex}.)
+
+Behavior of the routine \verb|lpx_write_lpt| depends on some control
+parameters (see Subsection \ref{subsecparlist}, page
+\pageref{subsecparlist}.)
+
+\paragraph{Returns}
+
+If no errors occurred, the routine returns zero. Otherwise the routine
+prints an error message and returns non-zero.
+
+\noindent \hrulefill
+
+\subsection{{\tt lpx\_print\_prob} --- write problem data in plain text
+format}
+
+\paragraph{Synopsis}
+
+\begin{verbatim}
+#include "glpk.h"
+int lpx_print_prob(LPX *lp, char *fname);
+\end{verbatim}
+
+\paragraph{Description}
+
+The routine \verb|lpx_print_prob| writes data from a problem object,
+which the parameter \verb|lp| points to, to an output text file, whose
+name is the character string \verb|fname|, in plain text format.
+
+Information reported by the routine \verb|lpx_print_prob| is intended
+mainly for visual analysis.
+
+\paragraph{Returns}
+
+If no errors occurred, the routine returns zero. Otherwise the routine
+prints an error message and returns non-zero.
+
+\noindent \hrulefill
+
+\subsection{{\tt lpx\_read\_bas} --- read predefined basis in MPS
+format}
+
+\paragraph{Synopsis}
+
+\begin{verbatim}
+#include "glpk.h"
+int lpx_read_bas(LPX *lp, char *fname);
+\end{verbatim}
+
+\paragraph{Description}
+
+The routine \verb|lpx_read_bas| reads a predefined basis prepared in
+MPS format for an LP problem object, which the parameter \verb|lp|
+points to, from a text file, whose name is the character string
+\verb|fname|. (About this feature of the MPS format see
+Section \ref{secbas}, page \pageref{secbas}.)
+
+Behavior of the routine \verb|lpx_read_bas| depends on some control
+parameters (see Subsection \ref{subsecparlist}, page
+\pageref{subsecparlist}.)
+
+\paragraph{Returns}
+
+If no errors occurred, the routine returns zero. Otherwise the routine
+prints an error message and returns non-zero.
+
+\noindent \hrulefill
+
+\subsection{{\tt lpx\_write\_bas} --- write current basis in MPS format}
+
+\paragraph{Synopsis}
+
+\begin{verbatim}
+#include "glpk.h"
+int lpx_write_bas(LPX *lp, char *fname);
+\end{verbatim}
+
+\paragraph{Description}
+
+The routine \verb|lpx_write_bas| writes the current basis information
+from a problem object, which the parameter \verb|lp| points to, to an
+output text file, whose name is the character string \verb|fname|, in
+MPS format. (About this feature of the MPS format see
+Section \ref{secbas}, page \pageref{secbas}.)
+
+Behavior of the routine \verb|lpx_write_bas| depends on some control
+parameters (see Subsection \ref{subsecparlist}, page
+\pageref{subsecparlist}.)
+
+\paragraph{Returns}
+
+If no errors occurred, the routine returns zero. Otherwise the routine
+prints an error message and returns non-zero.
+
+\noindent \hrulefill
+
+\subsection{{\tt lpx\_print\_sol} --- write basic solution in printable
+format}
 
 \paragraph{Synopsis}
 
@@ -3473,8 +4027,8 @@ mainly for visual analysis.
 
 \paragraph{Returns}
 
-If the operation was successful, the routine returns zero. Otherwise
-the routine prints an error message and returns non-zero.
+If no errors occurred, the routine returns zero. Otherwise the routine
+prints an error message and returns non-zero.
 
 \noindent \hrulefill
 
@@ -3500,13 +4054,13 @@ mainly  for visual analysis.
 
 \paragraph{Returns}
 
-If the operation was successful, the routine returns zero. Otherwise
-the routine prints an error message and returns non-zero.
+If no errors occurred, the routine returns zero. Otherwise the routine
+prints an error message and returns non-zero.
 
 \noindent \hrulefill
 
-\subsection{{\tt lpx\_print\_mip} --- write MIP problem solution in
-printable format}
+\subsection{{\tt lpx\_print\_mip} --- write MIP solution in printable
+format}
 
 \paragraph{Synopsis}
 
@@ -3527,8 +4081,8 @@ mainly for visual analysis.
 
 \paragraph{Returns}
 
-If the operation was successful, the routine returns zero. Otherwise
-the routine prints an error message and returns non-zero.
+If no errors occurred, the routine returns zero. Otherwise the routine
+prints an error message and returns non-zero.
 
 \noindent \hrulefill
 
@@ -3744,7 +4298,7 @@ considered as a comment and ignored. Besides, if the first character in
 the field 3 or 5 is the dollar sign `\verb|$|', all characters from the
 dollar sign to the end of card are considered as a comment and ignored.
 
-\pagebreak[4]
+\pagebreak
 
 MPS file should contain cards in the following order:
 
@@ -4026,18 +4580,19 @@ GLPK also allows specifying a constant term of the objective function
 as a right-hand side of the corresponding row in the RHS section.
 
 \section{Example of MPS file}
+\label{secmpsex}
 
 In order to illustrate what the MPS format is, consider the following
 example of LP problem:
 
 \medskip
-minimize
+\noindent minimize
 $$
 value = .03\ bin_1 + .08\ bin_2 + .17\ bin_3 + .12\ bin_4 + .15\ bin_5
 + .21\ alum + .38\ silicon
 $$
 
-subject to linear constraints
+\noindent subject to linear constraints
 $$
 \begin{array}{ll}
 yield &= \ \ \ \ \;bin_1 + \ \ \ \ \;bin_2 + \ \ \ \ \;bin_3 +
@@ -4049,7 +4604,8 @@ cu    &= .03\ bin_1 + .05\ bin_2 + .08\ bin_3 + .02\ bin_4 + .06\ bin_5
          + .01\ alum \\
 mn    &= .02\ bin_1 + .04\ bin_2 + .01\ bin_3 + .02\ bin_4 + .02\ bin_5
          \\
-mg    &= .02\ bin_1 + .03\ bin_2 + .01\ bin_3 \\
+mg    &= .02\ bin_1 + .03\ bin_2
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ + .01\ bin_5 \\
 al    &= .70\ bin_1 + .75\ bin_2 + .80\ bin_3 + .75\ bin_4 + .80\ bin_5
          + .97\ alum \\
 si    &= .02\ bin_1 + .06\ bin_2 + .08\ bin_3 + .12\ bin_4 + .02\ bin_5
@@ -4057,21 +4613,21 @@ si    &= .02\ bin_1 + .06\ bin_2 + .08\ bin_3 + .12\ bin_4 + .02\ bin_5
 \end{array}
 $$
 
-and bounds of (auxiliary and structural) variables
+\noindent and bounds of (auxiliary and structural) variables
 $$
-\begin{array}{rllcrll}
-          & yield & =    200     && 0   \leq & bin_1 & \leq \ \,200 \\
--\infty < & fe    & \leq \ \,60  && 0   \leq & bin_2 & \leq 2500 \\
--\infty < & cu    & \leq 100     && 400 \leq & bin_3 & \leq \ \,800 \\
--\infty < & mn    & \leq \ \,40  && 100 \leq & bin_4 & \leq \ \,700 \\
--\infty < & mg    & \leq \ \,30  && 0   \leq & bin_5 & \leq 1500 \\
-1500    \leq & al    & <    +\infty && 0   \leq & alum  & < +\infty \\
-250     \leq & si    & \leq 300     && 0  \leq & silicon & < +\infty \\
+\begin{array}{r@{\ }l@{\ }l@{\ }l@{\ }rcr@{\ }l@{\ }l@{\ }l@{\ }r}
+&&yield&=&2000&&0&\leq&bin_1&\leq&200\\
+-\infty&<&fe&\leq&60&&0&\leq&bin_2&\leq&2500\\
+-\infty&<&cu&\leq&100&&400&\leq&bin_3&\leq&800\\
+-\infty&<&mn&\leq&40&&100&\leq&bin_4&\leq&700\\
+-\infty&<&mg&\leq&30&&0&\leq&bin_5&\leq&1500\\
+1500&\leq&al&<&+\infty&&0&\leq&alum&<&+\infty\\
+250&\leq&si&\leq&300&&0&\leq&silicon&<&+\infty\\
 \end{array}
 $$
 
-The MPS file, which specifies data for this example, is shown below
-(the first two comment lines show card positions).
+A complete MPS file which specifies data for this example is shown
+below (the first two comment lines show card positions).
 
 \begin{verbatim}
 *000000001111111111222222222233333333334444444444555555555566
@@ -4267,6 +4823,623 @@ BOUNDS
  UP BND1      X4                8.0
 ENDATA
 \end{verbatim}
+
+\section{Specifying predefined basis}
+\label{secbas}
+
+The MPS format can also be used to specify some predefined basis for an
+LP problem, i.e. to specify which rows and columns are basic and which
+are non-basic.
+
+The order of a basis file in the MPS format is:
+
+$\bullet$ NAME indicator card;
+
+$\bullet$ data cards (can appear in arbitrary order);
+
+$\bullet$ ENDATA indicator card.
+
+Each data card specifies either a pair "basic column---non-basic row"
+or a non-basic column. All the data cards have the following format.
+
+`\verb|XL|' in the field 1 means that a column, whose name is given in
+the field 2, is basic, and a row, whose name is given in the field 3,
+is non-basic and placed on its lower bound.
+
+`\verb|XU|' in the field 1 means that a column, whose name is given in
+the field 2, is basic, and a row, whose name is given in the field 3,
+is non-basic and placed on its upper bound.
+
+`\verb|LL|' in the field 1 means that a column, whose name is given in
+the field 3, is non-basic and placed on its lower bound.
+
+`\verb|UL|' in the field 1 means that a column, whose name is given in
+the field 3, is non-basic and placed on its upper bound.
+
+The field 2 contains a column name.
+
+If the indicator given in the field 1 is `\verb|XL|' or `\verb|XU|',
+the field 3 contains a row name. Otherwise, if the indicator is
+`\verb|LL|' or `\verb|UL|', the field 3 is not used and should be empty.
+
+The field 4, 5, and 6 are not used and should be empty.
+
+A basis file in the MPS format acts like a patch: it doesn't specify
+a basis completely, instead that it is just shows in what a given basis
+differs from the "standard" basis, where all rows (auxiliary variables)
+are assumed to be basic and all columns (structural variables) are
+assumed to be non-basic.
+
+As an example here is a basis file that specifies an optimal basis
+for the example LP problem given in Section \ref{secmpsex},
+Page \pageref{secmpsex}:
+
+\begin{verbatim}
+*000000001111111111222222222233333333334444444444555555555566
+*234567890123456789012345678901234567890123456789012345678901
+NAME          PLAN
+ XL BIN2      YIELD
+ XL BIN3      FE
+ XL BIN4      MN
+ XL ALUM      AL
+ XL SILICON   SI
+ LL BIN1
+ LL BIN5
+ENDATA
+\end{verbatim}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{CPLEX LP Format}
+\label{chacplex}
+
+\section{Prelude}
+
+The CPLEX LP format\footnote{The CPLEX LP format was developed in
+the end of 1980's by CPLEX Optimization, Inc. as an input format for
+the CPLEX linear programming system. Although the CPLEX LP format is
+not as widely used as the MPS format, being row-oriented it is more
+convenient for coding mathematical programming models by human. This
+appendix describes only
+the features of the CPLEX LP format which are implemented in the GLPK
+package.} is intended for coding LP/MIP problem data. It is a
+row-oriented format that assumes the formulation of LP/MIP problem
+(1.1)---(1.3) (see Section \ref{seclp}, page \pageref{seclp}).
+
+{\it CPLEX LP file} is a plain text file coded using the CPLEX LP
+format. Each text line of this file may contain up to 255 characters.
+Blank lines are ignored. If a line contains the backslash character
+($\backslash$), this character and anything that follows it until the
+end of line are considered as a comment and also ignored.
+
+An LP file is coded by the user using the following elements:
+
+$\bullet$ keywords;
+
+$\bullet$ symbolic names;
+
+$\bullet$ numeric constants;
+
+$\bullet$ delimiters;
+
+$\bullet$ blanks.
+
+{\it Keywords} that may be used in the LP file are the following:
+
+\begin{verbatim}
+      minimize        minimum        min
+      maximize        maximum        max
+      subject to      such that      s.t.      st.      st
+      bounds          bound
+      general         generals       gen
+      integer         integers       int
+      binary          binaries       bin
+      infinity        inf
+      free
+      end
+\end{verbatim}
+
+\noindent
+All the keywords are case insensitive. Keywords given above on the same
+line are equivalent. Any keyword (except \verb|infinity|, \verb|inf|,
+and \verb|free|) being used in the LP file must start at the beginning
+of a text line.
+
+{\it Symbolic names} are used to identify the objective function,
+constraints (rows), and variables (columns). All symbolic names are case
+sensitive and may contain up to 16 alphanumeric characters (\verb|a|,
+\dots, \verb|z|, \verb|A|, \dots, \verb|Z|, \verb|0|, \dots, \verb|9|)
+as well as the following characters:
+
+\begin{verbatim}
+      !  "  #  $  %  &  (  )  /  ,  .  ;  ?  @  _  `  '  {  }  |  ~
+\end{verbatim}
+
+\noindent
+(except that no symbolic name can begin with a digit or a period). If
+a symbolic name is longer than 16 characters, it is truncated from the
+right.
+
+{\it Numeric constants} are used to denote constraint and objective
+coefficients, right-hand sides of constraints, and bounds of variables.
+They are coded in the standard form $xx$\verb|E|$syy$, where $xx$ is
+a real number with optional decimal point, $s$ is a sign (\verb|+| or
+\verb|-|), $yy$ is an integer decimal exponent. Numeric constants may
+contain arbitrary number of characters. The exponent part is optional.
+The letter `\verb|E|' can be coded as `\verb|e|'. If the sign $s$ is
+omitted, plus is assumed.
+
+{\it Delimiters} that may be used in the LP file are the following:
+
+\begin{verbatim}
+      :
+      +
+      -
+      <   <=   =<
+      >   >=   =>
+      =
+\end{verbatim}
+
+\noindent
+Delimiters given above on the same line are equivalent. The meaning of
+the delimiters will be explained below.
+
+{\it Blanks} are non-significant characters. They may be used freely to
+improve readability of the LP file. Besides, blanks should be used to
+separate elements from each other if there is no other way to do that
+(for example, to separate a keyword from a following symbolic name).
+
+The order of an LP file is:
+
+$\bullet$ objective function definition;
+
+$\bullet$ constraints section;
+
+$\bullet$ bounds section;
+
+$\bullet$ general, integer, and binary sections (can appear in arbitrary
+order);
+
+$\bullet$ end keyword.
+
+These components are discussed in following sections.
+
+\section{Objective function definition}
+
+The objective function definition must appear first in the LP file. It
+defines the objective function and specifies the optimization direction.
+
+The objective function definition has the following form:
+$$
+\left\{
+\begin{array}{@{}c@{}}
+{\tt minimize} \\ {\tt maximize}
+\end{array}
+\right\}\ f\ {\tt :}\ s\ c\ x\ s\ c\ x\ \dots\ s\ c\ x
+$$
+where $f$ is a symbolic name of the objective function, $s$ is a sign
+\verb|+| or \verb|-|, $c$ is a numeric constant that denotes an
+objective coefficient, $x$ is a symbolic name of a variable.
+
+If necessary, the objective function definition can be continued on as
+many text lines as desired.
+
+The name of the objective function is optional and may be omitted
+(together with the semicolon that follows it). In this case the default
+name `\verb|obj|' is assigned to the objective function.
+
+If the very first sign $s$ is omitted, the sign plus is assumed. Other
+signs cannot be omitted.
+
+If some objective coefficient $c$ is omitted, 1 is assumed.
+
+Symbolic names $x$ used to denote variables are recognized by context
+and therefore needn't to be declared somewhere else.
+
+Here is an example of the objective function definition:
+
+\begin{verbatim}
+      Minimize Z : - x1 + 2 x2 - 3.5 x3 + 4.997e3x(4) + x5 + x6 +
+         x7 - .01x8
+\end{verbatim}
+
+\section{Constraints section}
+
+The constraints section must follow the objective function definition.
+It defines a system of equality and/or inequality constraints.
+
+The constraint section has the following form:
+
+\begin{center}
+\begin{tabular}{l}
+\verb|subject to| \\
+{\it constraint}$_1$ \\
+{\it constraint}$_2$ \\
+\hspace{20pt}\dots \\
+{\it constraint}$_m$ \\
+\end{tabular}
+\end{center}
+
+\noindent where {\it constraint}$_i, i=1,\dots,m,$ is a particular
+constraint definition.
+
+Each constraint definition can be continued on as many text lines as
+desired. However, each constraint definition must begin on a new line
+except the very first constraint definition which can begin on the same
+line as the keyword `\verb|subject to|'.
+
+Constraint definitions have the following form:
+$$
+r\ {\tt:}\ s\ c\ x\ s\ c\ x\ \dots\ s\ c\ x
+\ \left\{
+\begin{array}{@{}c@{}}
+\mbox{\tt<=} \\ \mbox{\tt>=} \\ \mbox{\tt=}
+\end{array}
+\right\}\ b
+$$
+where $r$ is a symbolic name of a constraint, $s$ is a sign \verb|+| or
+\verb|-|, $c$ is a numeric constant that denotes a constraint
+coefficient, $x$ is a symbolic name of a variable, $b$ is a right-hand
+side.
+
+The name $r$ of a constraint (which is the name of the corresponding
+auxiliary variable) is optional and may be omitted (together with the
+semicolon that follows it). In this case the default names like
+`\verb|r.nnn|' are assigned to unnamed constraints.
+
+The linear form $s\ c\ x\ s\ c\ x\ \dots\ s\ c\ x$ in the left-hand
+side of a constraint definition has exactly the same meaning as in the
+case of the objective function definition (see above).
+
+After the linear form one of the following delimiters that indicate
+the constraint sense must be specified:
+
+\verb|<=| \ means `less than or equal to'
+
+\verb|>=| \ means `greater than or equal to'
+
+\verb|= | \ means `equal to'
+
+The right hand side $b$ is a numeric constant with an optional sign.
+
+Here is an example of the constraints section:
+
+\begin{verbatim}
+      Subject To
+         one: y1 + 3 a1 - a2 - b >= 1.5
+         y2 + 2 a3 + 2
+            a4 - b >= -1.5
+         two : y4 + 3 a1 + 4 a5 - b <= +1
+         .20y5 + 5 a2 - b = 0
+         1.7 y6 - a6 + 5 a777 - b >= 1
+\end{verbatim}
+
+(Should note that it is impossible to express ranged constraints in the
+CPLEX LP format. Each a ranged constraint can be coded as two
+constraints with identical linear forms in the left-hand side, one of
+which specifies a lower bound and other does an upper one of the
+original ranged constraint.)
+
+\section{Bounds section}
+
+The bounds section is intended to define bounds of variables. This
+section is optional; if it is specified, it must follow the constraints
+section. If the bound section is omitted, all variables are assumed to
+be non-negative (i.e. that they have zero lower bound and no upper
+bound).
+
+The bounds section has the following form:
+
+\begin{center}
+\begin{tabular}{l}
+\verb|bounds| \\
+{\it definition}$_1$ \\
+{\it definition}$_2$ \\
+\hspace{20pt}\dots \\
+{\it definition}$_p$ \\
+\end{tabular}
+\end{center}
+
+\noindent
+where {\it definition}$_k, k=1,\dots,p,$ is a particular bound
+definition.
+
+Each bound definition must begin on a new line\footnote{The GLPK
+implementation allows several bound definitions to be placed on the same
+line.} except the very first bound definition which can begin on the
+same line as the keyword `\verb|bounds|'.
+
+Syntactically constraint definitions can have one of the following six
+forms:
+
+\begin{center}
+\begin{tabular}{ll}
+$x$ \verb|>=| $l$ &              specifies a lower bound \\
+$l$ \verb|<=| $x$ &              specifies a lower bound \\
+$x$ \verb|<=| $u$ &              specifies an upper bound \\
+$l$ \verb|<=| $x$ \verb|<=| $u$ &specifies both lower and upper bounds\\
+$x$ \verb|=| $t$                &specifies a fixed value \\
+$x$ \verb|free|                 &specifies free variable
+\end{tabular}
+\end{center}
+
+\noindent
+where $x$ is a symbolic name of a variable, $l$ is a numeric constant
+with an optional sign that defines a lower bound of the variable or
+\verb|-inf| that means that the variable has no lower bound, $u$ is a
+numeric constant with an optional sign that defines an upper bound of
+the variable or \verb|+inf| that means that the variable has no upper
+bound, $t$ is a numeric constant with an optional sign that defines a
+fixed value of the variable.
+
+\pagebreak
+
+By default all variables are non-negative, i.e. have zero lower bound
+and no upper bound. Therefore definitions of these default bounds can be
+omitted in the bounds section.
+
+Here is an example of the bounds section:
+
+\begin{verbatim}
+      Bounds
+         -inf <= a1 <= 100
+         -100 <= a2
+         b <= 100
+         x2 = +123.456
+         x3 free
+\end{verbatim}
+
+\section{General, integer, and binary sections}
+
+The general, integer, and binary sections are intended to define
+some variables as integer or binary. All these sections are optional
+and needed only in case of MIP problems. If they are specified, they
+must follow the bounds section or, if the latter is omitted, the
+constraints section.
+
+All the general, integer, and binary sections have the same form as
+follows:
+
+\begin{center}
+\begin{tabular}{l}
+$
+\left\{
+\begin{array}{@{}l@{}}
+\verb|general| \\
+\verb|integer| \\
+\verb|binary | \\
+\end{array}
+\right\}
+$ \\
+\hspace{10pt}$x_1$ \\
+\hspace{10pt}$x_2$ \\
+\hspace{10pt}\dots \\
+\hspace{10pt}$x_q$ \\
+\end{tabular}
+\end{center}
+
+\noindent
+where $x_k$ is a symbolic name of variable, $k=1,\dots,q$.
+
+Each symbolic name must begin on a new line\footnote{The GLPK
+implementation allows several symbolic names to be placed on the same
+line.} except the very first symbolic name which can begin on the same
+line as the keyword `\verb|general|', `\verb|integer|', or
+`\verb|binary|'.
+
+If a variable appears in the general or the integer section, it is
+assumed to be general integer variable. If a variable appears in the
+binary section, it is assumed to be binary variable, i.e. an integer
+variable whose lower bound is zero and upper bound is one. (Note that
+if bounds of a variable are specified in the bounds section and then
+the variable appears in the binary section, its previously specified
+bounds are ignored.)
+
+Here is an example of the integer section:
+
+\begin{verbatim}
+      Integer
+         z12
+         z22
+         z35
+\end{verbatim}
+
+\section{End keyword}
+
+The keyword `\verb|end|' is intended to end the LP file. It must begin
+on a separate line and no other elements (except comments and blank
+lines) must follow it. Although this keyword is optional, it is strongly
+recommended to include it in the LP file.
+
+\section{Example of CPLEX LP file}
+
+Here is a complete example of CPLEX LP file that corresponds to the
+example given in Section \ref{secmpsex}, page \pageref{secmpsex}.
+
+\begin{verbatim}
+\* plan.lpt *\
+
+Minimize
+   value: .03 bin1 + .08 bin2 + .17 bin3 + .12 bin4 + .15 bin5 +
+          .21 alum + .38 silicon
+
+Subject To
+   yield:     bin1 +     bin2 +     bin3 +     bin4 +     bin5 +
+              alum +     silicon                                 =  2000
+
+   fe:    .15 bin1 + .04 bin2 + .02 bin3 + .04 bin4 + .02 bin5 +
+          .01 alum + .03 silicon                                 <=   60
+
+   cu:    .03 bin1 + .05 bin2 + .08 bin3 + .02 bin4 + .06 bin5 +
+          .01 alum                                               <=  100
+
+   mn:    .02 bin1 + .04 bin2 + .01 bin3 + .02 bin4 + .02 bin5   <=   40
+
+   mg:    .02 bin1 + .03 bin2                       + .01 bin5   <=   30
+
+   al:    .70 bin1 + .75 bin2 + .80 bin3 + .75 bin4 + .80 bin5 +
+          .97 alum                                               >= 1500
+
+   si1:   .02 bin1 + .06 bin2 + .08 bin3 + .12 bin4 + .02 bin5 +
+          .01 alum + .97 silicon                                 >=  250
+
+   si2:   .02 bin1 + .06 bin2 + .08 bin3 + .12 bin4 + .02 bin5 +
+          .01 alum + .97 silicon                                 <=  300
+
+Bounds
+          bin1 <=  200
+          bin2 <= 2500
+   400 <= bin3 <=  800
+   100 <= bin4 <=  700
+          bin5 <= 1500
+
+End
+
+\* eof *\
+\end{verbatim}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Stand-alone LP/MIP Solver}
+\label{chaglpsol}
+
+The GLPK package includes the program \verb|glpsol| which is a
+stand-alone LP/MIP solver. This program can be invoked from the command
+line of from the shell to read LP/MIP problem data in any format
+supported by GLPK, solve the problem, and write the obtained problem
+solution to a text file in plain format.
+
+\bigskip
+
+\noindent
+{\bf Usage}
+
+\bigskip
+
+\noindent
+\verb|glpsol| [{\it options\dots}] [{\it filename}]
+
+\bigskip
+
+\noindent
+{\bf General options}
+
+\bigskip
+
+\noindent
+\begin{tabular}{@{}p{30mm}p{115.8mm}@{}}
+\verb|--mps|      &  read LP/MIP problem in MPS format (default) \\
+\verb|--lpt|      &  read LP/MIP problem in CPLEX LP format \\
+\verb|--math|     &  read LP/MIP model written in GNU MathProg modeling
+                     language \\
+\multicolumn{2}{@{}l}{{\tt -m} {\it filename}, {\tt --model}
+{\it filename}} \\
+                  &  read model section and optional data section from
+                     filename (the same as \verb|--math|) \\
+\multicolumn{2}{@{}l}{{\tt -d} {\it filename}, {\tt --data}
+{\it filename}} \\
+                  &  read data section from filename (for \verb|--math|
+                     only); if model file also has data section, that
+                     section is ignored \\
+\multicolumn{2}{@{}l}{{\tt -y} {\it filename}, {\tt --display}
+{\it filename}} \\
+                  &  send display output to filename (for \verb|--math|
+                     only); by default the output is sent to
+                     \verb|stdout| \\
+\verb|--min|      &  minimization \\
+\verb|--max|      &  maximization \\
+\verb|--scale|    &  scale problem (default) \\
+\verb|--noscale|  &  do not scale problem \\
+\verb|--simplex|  &  use simplex method (default) \\
+\verb|--interior| &  use interior point method (for pure LP only) \\
+\multicolumn{2}{@{}l}{{\tt -o} {\it filename}, {\tt --output}
+{\it filename}} \\
+                  &  write solution to filename in plain text format \\
+\verb|--tmlim| {\it nnn}
+                  &  limit solution time to {\it nnn} seconds
+                     (\verb|--tmlim 0| allows obtaining solution at
+                     initial point) \\
+\verb|--check|    &  do not solve problem, check input data only \\
+\verb|--plain|    &  use plain names of rows and columns (default) \\
+\end{tabular}
+
+\noindent
+\begin{tabular}{@{}p{30mm}p{115.8mm}@{}}
+\verb|--orig|     &  try using original names of rows and columns \\
+\verb|--wmps| {\it filename}
+                  &  write problem to {\it filename} in MPS format \\
+\verb|--wlpt| {\it filename}
+                  &  write problem to filename in CPLEX LP format \\
+\verb|--wtxt| {\it filename}
+                  &  write problem to filename in plain text format \\
+\verb|-h|, \verb|--help|
+                  &  display this help information and exit \\
+\verb|-v|, \verb|--version|
+                  &  display program version and exit \\
+\end{tabular}
+
+\bigskip
+
+\noindent
+{\bf Options specific to simplex method}
+
+\bigskip
+
+\noindent
+\begin{tabular}{@{}p{30mm}p{115.8mm}@{}}
+\verb|--std|      &  use standard initial basis of all slacks \\
+\verb|--adv|      &  use advanced initial basis (default) \\
+\verb|--steep|    &  use steepest edge technique (default) \\
+\verb|--nosteep|  &  use standard ``textbook'' pricing \\
+\verb|--relax|    &  use Harris' two-pass ratio test (default) \\
+\verb|--norelax|  &  use standard ``textbook'' ratio test \\
+\verb|--presol|   &  use LP presolver (default; assumes \verb|--scale|
+                     and \verb|--adv|) \\
+\verb|--nopresol| &  do not use LP presolver \\
+\end{tabular}
+
+\bigskip
+
+\noindent
+{\bf Options specific to MIP}
+
+\bigskip
+
+\noindent
+\begin{tabular}{@{}p{30mm}p{115.8mm}@{}}
+\verb|--nomip|    &  consider all integer variables as continuous
+                     (allows solving MIP as pure LP) \\
+\verb|--first|    &  branch on first integer variable \\
+\verb|--last|     &  branch on last integer variable \\
+\verb|--drtom|    &  branch using heuristic by Driebeck and Tomlin
+                     (default) \\
+\verb|--dfs|      &  backtrack using depth first search \\
+\verb|--bfs|      &  backtrack using breadth first search \\
+\verb|--bestp|    &  backtrack using the best projection heuristic
+                     (default) \\
+\end{tabular}
+
+\bigskip
+
+\noindent
+For description of the MPS format see Appendix \ref{champs},
+page \pageref{champs}.
+
+\bigskip
+
+\noindent
+For description of the CPLEX LP format see Appendix \ref{chacplex},
+page \pageref{chacplex}.
+
+\bigskip
+
+\noindent
+For description of the modeling language see the document ``GLPK:
+Modeling Language GNU MathProg'' included in the GLPK distribution.
+
+\vspace{20mm}
+
+\noindent \hspace{30mm} \hrulefill \hspace{30mm}
 
 \end{document}
 

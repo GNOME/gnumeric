@@ -289,7 +289,8 @@ beg:  /* initialize weights of non-basic variables */
          if (spx_prim_chuzr(spx, lp->relax * lp->tol_bnd))
          {  /* the basis matrix should be reinverted, because the q-th
                column of the simplex table is unreliable */
-            insist("not implemented yet" == NULL);
+            ret = LPX_E_INSTAB;
+            break;
          }
          /* if no xB[p] has been chosen, the problem is unbounded (has
             no dual feasible solution) */
@@ -674,7 +675,8 @@ int lpx_prim_feas(LPX *lp)
          if (spx_prim_chuzr(spx, lp->relax * lp->tol_bnd))
          {  /* the basis matrix should be reinverted, because the q-th
                column of the simplex table is unreliable */
-            insist("not implemented yet" == NULL);
+            ret = LPX_E_INSTAB;
+            break;
          }
          /* the sum of infeasibilities can't be negative, therefore the
             modified problem can't have unbounded solution */
@@ -1187,7 +1189,8 @@ beg:  /* save the original objective function, because it is changed by
          if (spx_prim_chuzr(spx, lp->relax * lp->tol_bnd))
          {  /* the basis matrix should be reinverted, because the q-th
                column of the simplex table is unreliable */
-            insist("not implemented yet" == NULL);
+            ret = LPX_E_INSTAB;
+            break;
          }
          /* the infeasibility can't be negative, therefore the modified
             problem can't have unbounded solution */
@@ -1544,7 +1547,8 @@ beg:  /* compute initial value of the objective function */
          if (spx_dual_chuzc(spx, lp->relax * lp->tol_dj))
          {  /* the basis matrix should be reinverted, because the p-th
                row of the simplex table is unreliable */
-            insist("not implemented yet" == NULL);
+            ret = LPX_E_INSTAB;
+            break;
          }
          /* if no xN[q] has been chosen, there is no primal feasible
             solution (the dual problem has unbounded solution) */
