@@ -42,8 +42,23 @@ excel_gb_worksheets_remove (GBRunEvalContext *ec,
 			    GBRunCollection  *collection,
 			    const char       *name)
 {
-/*	ExcelGBWorksheets *ws = EXCEL_GB_WORKSHEETS (collection);*/
-	g_warning ("Strangely unimplemented... wierd");
+	Sheet *sheet;
+	ExcelGBWorksheets *ws = EXCEL_GB_WORKSHEETS (collection);
+
+	g_warning ("The worksheet remove function may cause crashes when used incorrectly");
+	
+	/*
+	 * FIXME:
+	 * Below is the proposed implementation for this function, which
+	 * is disabled right now, the problem is that Gnumeric crashes
+	 * if a GB function on the sheet that is about to be deleted
+	 * calls upon this function. Solution?
+	 */
+
+	sheet = workbook_sheet_by_name (ws->wb, name);
+	if (sheet)
+		workbook_sheet_delete (sheet);
+		
 }
 
 /* Returns a list of allocated GBRunCollectionElements */

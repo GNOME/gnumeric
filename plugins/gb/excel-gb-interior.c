@@ -46,6 +46,17 @@ convert_color_to_rgb (long initial)
 	return style_color_new (r, g, b);
 }
 
+static long
+convert_rgb_to_color (int r, int g, int b)
+{
+	long color = 0;
+
+	color |= (b & 0xff00) << 8;
+	color |= (g & 0xff00);
+	color |= (r & 0xff00) >> 8;
+
+	return color;
+}
 
 static StyleColor *
 color_from_palette (int idx)
@@ -58,6 +69,28 @@ color_from_palette (int idx)
 	e = excel_default_palette [idx];
 	
 	return style_color_new (e.r << 8, e.g << 8, e.b << 8);
+}
+
+static int
+palette_from_color (StyleColor *color)
+{
+	int i;
+	int r = color->red >> 8;
+	int g = color->green >> 8;
+	int b = color->blue >> 8;
+	
+	g_return_val_if_fail (color != NULL, 0);
+
+	for (i = 0; i < EXCEL_DEF_PAL_LEN; i++) {
+		EXCEL_PALETTE_ENTRY e = excel_default_palette [i];
+
+/*		g_message ("R:%d,%d;G:%d,%d;B:%d,%d", e.r, r, e.g, g, e.b, b);*/
+		
+		if (e.r == r && e.g == g && e.b == b)
+			return i;
+	};
+
+	return -1;
 }
 
 
@@ -140,11 +173,85 @@ excel_gb_interior_get_arg (GBRunEvalContext *ec,
 			   int               property)
 {
 	ExcelGBInterior *interior = EXCEL_GB_INTERIOR (object);
-
-	g_warning ("Get arg");
-
+	int              col      = interior->range.start.col;
+	int              row      = interior->range.end.col;
+	MStyle          *style;
+	
 	switch (property) {
+	case COLOR: {
+		StyleColor *color;
+		long realcolor;
+		
+		style = sheet_style_compute (interior->sheet, col, row);
+		color = mstyle_get_color (style, MSTYLE_COLOR_FORE);
+		realcolor = convert_rgb_to_color (color->red, color->green, color->blue);
+		
+		mstyle_unref (style);
+		
+		return (gb_value_new_long (realcolor));
+	}
+	case COLOR_INDEX: {
+		StyleColor *color;
+		int index;
 
+		style = sheet_style_compute (interior->sheet, col, row);
+		color = mstyle_get_color (style, MSTYLE_COLOR_FORE);
+
+		index = palette_from_color (color);
+		if (index == -1) {
+			gbrun_exception_firev (
+				ec, "Could not convert color to index (%d, %d, %d)",
+				color->red, color->green, color->blue);
+			return NULL;
+		}
+
+		mstyle_unref (style);
+
+		return (gb_value_new_int (index));
+	}
+	case PATTERN: {
+		int pattern;
+		
+		style = sheet_style_compute (interior->sheet, col, row);
+
+		pattern = mstyle_get_pattern (style);
+
+		mstyle_unref (style);
+		
+		return (gb_value_new_int (pattern));
+	}
+
+	case PATTERN_COLOR: {
+		StyleColor *color;
+		long realcolor;
+		
+		style = sheet_style_compute (interior->sheet, col, row);
+		color = mstyle_get_color (style, MSTYLE_COLOR_BACK);
+		realcolor = convert_rgb_to_color (color->red, color->green, color->blue);
+		
+		mstyle_unref (style);
+
+		return (gb_value_new_long (realcolor));
+	}
+	case PATTERN_COLOR_INDEX: {
+		StyleColor *color;
+		int index;
+
+		style = sheet_style_compute (interior->sheet, col, row);
+		color = mstyle_get_color (style, MSTYLE_COLOR_FORE);
+
+		index = palette_from_color (color);
+		if (index == -1) {
+			gbrun_exception_firev (
+				ec, "Could not convert pattern color to index (%d, %d, %d)",
+				color->red, color->green, color->blue);
+			return NULL;
+		}
+
+		mstyle_unref (style);
+
+		return (gb_value_new_int (index));
+	}
 	default:
 		g_warning ("Unhandled property '%d'", property);
 		return NULL;

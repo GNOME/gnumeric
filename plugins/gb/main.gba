@@ -21,7 +21,7 @@ End Sub
 Function demo () As Variant
 	Dim WKS As Worksheet
 
-	WKS = Worksheets ("Sheet1")
+	WKS = Worksheets (1)
 
 ' Draw 'Gnu' with the selection
 
