@@ -124,15 +124,20 @@ void
 rendered_value_calc_size (Cell const *cell)
 {
 	RenderedValue * rv = cell->rendered_value;
-	char const * const text = rv->rendered_text->str;
 	MStyle *mstyle = cell_get_mstyle (cell);
 	StyleFont * const style_font =
 	    sheet_view_get_style_font (cell->sheet, mstyle);
 	GdkFont * const gdk_font = style_font_gdk_font (style_font);
 	int const font_height    = style_font_get_height (style_font);
-	int const text_width     = gdk_string_measure (gdk_font, text);
 	int const cell_w = COL_INTERNAL_WIDTH (cell->col_info);
+	int text_width;
+	char *text;
 
+	g_return_if_fail (rv != NULL);
+	
+	text       = rv->rendered_text->str;
+	text_width = gdk_string_measure (gdk_font, text);
+	
 	if (text_width < cell_w || cell_is_number (cell)) {
 		rv->width_pixel  = text_width;
 		rv->height_pixel = font_height;

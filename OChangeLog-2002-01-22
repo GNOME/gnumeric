@@ -1,5 +1,12 @@
 2000-05-04  Almer. S. Tigelaar.  <almer1@dds.nl>
 
+	* src/rendered-value.c :
+	(rendered_value_calc_size) : Check if
+	cell->rendered_value is NULL. To avoid
+	segfaulting.
+
+2000-05-04  Almer. S. Tigelaar.  <almer1@dds.nl>
+
 	* doc/stf-export.txt :
 	Added stf-exporter documentation
 
