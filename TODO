@@ -86,10 +86,6 @@ GNOME Spread Sheet task list
 
    It does not shrink.
 
-* Basic functions
-
-   V/H LOOKUP, UPPER, LOWER
-
 * Excel importing
 
    BIFF_NOTE ( comments ) importing.

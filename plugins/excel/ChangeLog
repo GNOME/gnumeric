@@ -1,5 +1,21 @@
 1999-04-12  Michael Meeks <michael@imaginator.com>
 
+	* ms-obj.c: Created to deal with the horrors of embedded graphic
+	objects !
+
+	* ms-obj.h: Include for the same
+
+	* ms-excel.c: Include ms-obj.h
+	(ms_excel_read_sheet): Add call to ms_obj_read_graphic.
+
+	* biff-types.h: Update comments.
+
+	* Makefile.am: Add new files.
+
+	* ole.c: Nice header.
+	
+1999-04-12  Michael Meeks <michael@imaginator.com>
+
 	* biff-types.h: Fleshed out.
 
 	* ms-excel.c (ms_excel_sheet_set_comment): Created

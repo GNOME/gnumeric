@@ -1,4 +1,10 @@
 /**
+ * biff-types.h: A long and dull list of BIFF types.
+ *
+ * Author:
+ *    Michael Meeks (michael@imaginator.com)
+ **/
+/**
  * See S59D52.HTM for the spec.
  * As you add low numbers, check you don't glup an odd-ball
  **/
@@ -41,6 +47,7 @@
 #define BIFF_XF                         0xe0
 #define BIFF_MS_O_DRAWING_GROUP         0xeb
 #define BIFF_MS_O_DRAWING               0xec
+#define BIFF_MS_O_DRAWING_SELECTION     0xed
 #define BIFF_SST                        0xfc
 #define BIFF_LABELSST                   0xfd
 #define BIFF_EXTSST                     0xff

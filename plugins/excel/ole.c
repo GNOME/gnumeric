@@ -1,3 +1,12 @@
+/**
+ * ole.c: OLE2 file format helper program,
+ *        good for dumping OLE streams, and
+ * corresponding biff records, and hopefuly
+ * some more ...
+ *
+ * Author:
+ *    Michael Meeks (michael@imaginator.com)
+ **/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

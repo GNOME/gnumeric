@@ -16,6 +16,8 @@ libexcel_a_SOURCES =	\
 	ms-excel.h	\
 	ms-formula.c	\
 	ms-formula.h	\
+	ms-obj.c	\
+	ms-obj.h	\
 	ms-ole.c	\
 	ms-ole.h
 

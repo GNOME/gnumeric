@@ -30,6 +30,7 @@
 #include "ms-formula.h"
 #include "ms-excel.h"
 #include "ms-excel-biff.h"
+#include "ms-obj.h"
 
 #define EXCEL_DEBUG 0
 
@@ -1854,6 +1855,9 @@ ms_excel_read_sheet (MS_EXCEL_SHEET *sheet, BIFF_QUERY * q, MS_EXCEL_WORKBOOK * 
 				return;
 			}
 			return;
+			break;
+		case BIFF_OBJ: /* See: ms-obj.c and S59DAD.HTM */
+			ms_obj_read_graphic (sheet, q);
 			break;
 		case BIFF_SELECTION: /* S59DE2.HTM */
 		{
