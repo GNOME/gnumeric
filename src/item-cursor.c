@@ -17,6 +17,7 @@
 #include "workbook.h"
 #include "gnumeric-util.h"
 #include "sheet-autofill.h"
+#include "cmd-edit.h"
 
 static GnomeCanvasItem *item_cursor_parent_class;
 
@@ -691,21 +692,20 @@ item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 {
 	Sheet *sheet = item_cursor->sheet;
 	Workbook *wb = sheet->workbook;
-	int   col = item_cursor->pos.start.col;
-	int   row = item_cursor->pos.start.row;
+	PasteTarget pt;
 
 	switch (action){
 	case ACTION_NONE:
 		return;
 
 	case ACTION_COPY_CELLS:
-		if (!item_cursor_target_region_ok (item_cursor)) {
+		if (!item_cursor_target_region_ok (item_cursor))
 			return;
-		}
 		if (!sheet_selection_copy (workbook_command_context_gui (wb), sheet))
 			return;
-		sheet_selection_paste (workbook_command_context_gui (wb), sheet,
-				       col, row, PASTE_ALL_TYPES, time);
+		cmd_paste (workbook_command_context_gui (wb),
+			   paste_target_init (&pt, sheet, &item_cursor->pos, PASTE_ALL_TYPES),
+			   time);
 		return;
 
 	case ACTION_MOVE_CELLS:
@@ -713,8 +713,9 @@ item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 			return;
 		if (!sheet_selection_cut (workbook_command_context_gui (wb), sheet))
 			return;
-		sheet_selection_paste (workbook_command_context_gui (wb), sheet,
-				       col, row, PASTE_ALL_TYPES, time);
+		cmd_paste (workbook_command_context_gui (wb),
+			   paste_target_init (&pt, sheet, &item_cursor->pos, PASTE_ALL_TYPES),
+			   time);
 		return;
 
 	case ACTION_COPY_FORMATS:
@@ -722,8 +723,9 @@ item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 			return;
 		if (!sheet_selection_copy (workbook_command_context_gui (wb), sheet))
 			return;
-		sheet_selection_paste (workbook_command_context_gui (wb), sheet,
-				       col, row, PASTE_FORMATS, time);
+		cmd_paste (workbook_command_context_gui (wb),
+			   paste_target_init (&pt, sheet, &item_cursor->pos, PASTE_FORMATS),
+			   time);
 		return;
 
 	case ACTION_COPY_VALUES:
@@ -731,8 +733,9 @@ item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 			return;
 		if (!sheet_selection_copy (workbook_command_context_gui (wb), sheet))
 			return;
-		sheet_selection_paste (workbook_command_context_gui (wb), sheet,
-				       col, row, PASTE_VALUES, time);
+		cmd_paste (workbook_command_context_gui (wb),
+			   paste_target_init (&pt, sheet, &item_cursor->pos, PASTE_VALUES),
+			   time);
 		return;
 
 	case ACTION_SHIFT_DOWN_AND_COPY:

@@ -910,7 +910,7 @@ init_plugin (CommandContext *context, PluginData * pd)
 	if (PyErr_Occurred ()) {
 		exc_string = string_from_exception ();
 		PyErr_Print (); /* Also do a full traceback to stderr */
-		gnumeric_error_plugin_problem (context, exc_string);
+		gnumeric_error_plugin (context, exc_string);
 		g_free (exc_string);
 		Py_Finalize ();
 		return PLUGIN_QUIET_ERROR;

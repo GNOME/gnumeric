@@ -20,6 +20,8 @@
 #include "workbook-view.h"
 #include "ranges.h"
 #include "cell-comment.h"
+#include "command-context.h"
+#include "commands.h"
 
 #include "xml-io.h"
 #include "value.h"
@@ -34,18 +36,6 @@
 
 /* The name of the TARGETS atom (don't change unless you know what you are doing!) */
 #define TARGETS_ATOM_NAME "TARGETS"
-
-/*
- * Callback information.
- *
- * Passed through the workbook structure.
- */
-struct _PasteTarget {
-	Sheet      *dest_sheet;
-	CellRegion *region;
-	int         dest_col, dest_row;
-	int         paste_flags;
-};
 
 /**
  * paste_cell_flags: Pastes a cell in the spreadsheet
@@ -97,83 +87,293 @@ paste_cell_flags (Sheet *dest_sheet, int target_col, int target_row,
 }
 
 /**
- * do_clipboard_paste_cell_region:
- *
- * region:       a Cell Region that contains information to be pasted
- * dest_col:     initial column where cell pasting takes place
- * dest_row:     initial row where cell pasting takes place
- * paste_width:  boundary for pasting (in columns)
- * paste_height: boundar for pasting (in rows)
- * paste_flags:  controls what gets pasted (see clipboard.h for details
+ * clipboard_paste_region: Main entry point for the paste code.
+ * @context : The context for error handling.
+ * @pt : Where to paste the values.
+ * @content : The CellRegion to paste.
  */
-static void
-do_clipboard_paste_cell_region (CommandContext *context,
-				CellRegion *region, Sheet *dest_sheet,
-				int dest_col,       int dest_row,
-				int paste_width,    int paste_height,
-				int paste_flags)
+void
+clipboard_paste_region (CommandContext *context,
+			PasteTarget const *pt,
+			CellRegion *content)
 {
-	CellCopyList *l;
-	GList        *deps;
-	int col, row, col_inc, row_inc;
+	int tmp;
+	int repeat_horizontal, repeat_vertical;
+	int dst_cols = pt->range.end.col - pt->range.start.col + 1;
+	int dst_rows = pt->range.end.row - pt->range.start.row + 1;
+	int src_cols = content->cols;
+	int src_rows = content->rows;
 
-	/* clear the region where we will paste */
-	if (paste_flags & (PASTE_VALUES | PASTE_FORMULAS))
-		sheet_clear_region (context, dest_sheet,
-				    dest_col, dest_row,
-				    dest_col + paste_width - 1,
-				    dest_row + paste_height - 1,
-				    CLEAR_VALUES|CLEAR_COMMENTS);
-
-	/* If no operations are defined, we clear the area */
-	if (!(paste_flags & PASTE_OPER_MASK))
-		sheet_redraw_cell_region (dest_sheet,
-					  dest_col, dest_row,
-					  dest_col + paste_width - 1,
-					  dest_row + paste_height - 1);
-
-	/* Paste each element */
-	if (paste_flags & PASTE_TRANSPOSE) {
-		col_inc = region->rows;
-		row_inc = region->cols;
-	} else {
-		col_inc = region->cols;
-		row_inc = region->rows;
+	if (pt->paste_flags & PASTE_TRANSPOSE) {
+		int tmp = src_cols;
+		src_cols = src_rows;
+		src_rows = tmp;
 	}
 
-	for (col = 0; col < paste_width; col += col_inc) {
-		for (row = 0; row < paste_height; row += row_inc) {
-			for (l = region->list; l; l = l->next) {
-				CellCopy *c_copy = l->data;
-				int target_col, target_row;
+	/* calculate the tiling */
+	if (dst_cols == 1 && dst_rows == 1) {
+		/* If the destination is a singleton paste the entire content */
+		repeat_horizontal = repeat_vertical = 1;
+		dst_cols = src_cols;
+		dst_rows = src_rows;
+	} else {
+		repeat_horizontal = dst_cols/src_cols;
+		if (repeat_horizontal * src_cols != dst_cols) {
+			char *msg = g_strdup_printf (
+				_("destination does not have an even multiple of source columns (%d vs %d)\n\n"
+				  "Try selecting a single cell or an area of the same shape and size."),
+				dst_cols, src_cols);
+			gnumeric_error_invalid (context, _("Unable to paste"), msg);
+			g_free (msg);
+			return;
+		}
 
-				if (paste_flags & PASTE_TRANSPOSE) {
-					target_col = col + dest_col + c_copy->row_offset;
-					target_row = row + dest_row + c_copy->col_offset;
-				} else {
-					target_col = col + dest_col + c_copy->col_offset;
-					target_row = row + dest_row + c_copy->row_offset;
-				}
-
-				if (target_col > dest_col + paste_width - 1)
-					continue;
-
-				if (target_row > dest_row + paste_height - 1)
-					continue;
-
-				paste_cell_flags (dest_sheet, target_col, target_row,
-						  c_copy, paste_flags);
-			}
+		repeat_vertical = dst_rows/src_rows;
+		if (repeat_vertical * src_rows != dst_rows) {
+			char *msg = g_strdup_printf (
+				_("destination does not have an even multiple of source columns (%d vs %d)\n\n"
+				  "Try selecting a single cell or an area of the same shape and size."),
+				dst_cols, src_cols);
+			gnumeric_error_invalid (context, _("Unable to paste"), msg);
+			g_free (msg);
+			return;
 		}
 	}
 
-	deps = sheet_region_get_deps (dest_sheet,
-				      dest_col, dest_row,
-				      dest_col + paste_width - 1,
-				      dest_row + paste_height - 1);
+	if ((pt->range.start.col + dst_cols) >= SHEET_MAX_COLS ||
+	    (pt->range.start.row + dst_rows) >= SHEET_MAX_ROWS) {
+		gnumeric_error_invalid (context, _("Unable to paste"), 
+					_("result passes the sheet boundary"));
+		return;
+	}
 
-	if (deps)
-		eval_queue_list (deps, TRUE);
+	tmp = 0;
+	/* clear the region where we will paste */
+	if (pt->paste_flags & (PASTE_VALUES|PASTE_FORMULAS))
+		tmp = CLEAR_VALUES|CLEAR_COMMENTS;
+	if (pt->paste_flags & PASTE_FORMATS)
+		tmp |= CLEAR_FORMATS;
+	if (tmp) {
+		int const dst_col = pt->range.start.col;
+		int const dst_row = pt->range.start.row;
+		sheet_clear_region (context, pt->sheet,
+				    dst_col, dst_row,
+				    dst_col + dst_cols - 1,
+				    dst_row + dst_rows - 1,
+				    tmp);
+	}
+
+	while (repeat_horizontal-- > 0)
+		while (repeat_vertical-- > 0) {
+			int const left = repeat_horizontal * src_cols + pt->range.start.col;
+			int const top = repeat_vertical * src_rows + pt->range.start.row;
+			CellCopyList *l;
+
+			/* Move the styles on here so we get correct formats before recalc */
+			if (pt->paste_flags & PASTE_FORMATS) {
+				Range boundary = pt->range;
+
+				boundary.start.col = left;
+				boundary.start.row = top;
+				boundary.end.col   = left + src_cols;
+				boundary.end.row   = top + src_rows;
+				sheet_style_attach_list (pt->sheet, content->styles, &boundary.start,
+							 (pt->paste_flags & PASTE_TRANSPOSE));
+
+				sheet_style_optimize (pt->sheet, boundary);
+			}
+
+			for (l = content->list; l; l = l->next) {
+				CellCopy *c_copy = l->data;
+				int target_col = left;
+				int target_row = top;
+
+				if (pt->paste_flags & PASTE_TRANSPOSE) {
+					target_col += c_copy->row_offset;
+					target_row += c_copy->col_offset;
+				} else {
+					target_col += c_copy->col_offset;
+					target_row += c_copy->row_offset;
+				}
+
+				paste_cell_flags (pt->sheet, target_col, target_row,
+						  c_copy, pt->paste_flags);
+			}
+		}
+
+        if (pt->paste_flags & (PASTE_VALUES|PASTE_FORMULAS)) {
+		GList *deps =
+			sheet_region_get_deps (pt->sheet,
+					       pt->range.start.col,
+					       pt->range.start.row,
+					       pt->range.start.col + dst_cols - 1,
+					       pt->range.start.row + dst_rows - 1);
+		if (deps)
+			eval_queue_list (deps, TRUE);
+	}
+
+	/* Make the newly pasted content the selection (this queues a redraw) */
+	sheet_selection_reset_only (pt->sheet);
+	sheet_selection_add_range (pt->sheet,
+				   pt->range.start.col, pt->range.start.row,
+				   pt->range.start.col, pt->range.start.row,
+				   pt->range.start.col + dst_cols - 1,
+				   pt->range.start.row + dst_rows - 1);
+}
+
+typedef struct {
+	int        base_col, base_row;
+	CellRegion *r;
+} append_cell_closure_t;
+
+static Value *
+clipboard_prepend_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
+{
+	append_cell_closure_t *c = user_data;
+	CellCopy *copy;
+
+	copy = g_new (CellCopy, 1);
+	copy->type       = CELL_COPY_TYPE_CELL;
+	copy->u.cell     = cell_copy (cell);
+	copy->col_offset = col - c->base_col;
+	copy->row_offset = row - c->base_row;
+
+	c->r->list = g_list_prepend (c->r->list, copy);
+
+	return NULL;
+}
+
+/**
+ * clipboard_copy_range:
+ *
+ * Entry point to the clipboard copy code
+ */
+CellRegion *
+clipboard_copy_range (Sheet *sheet, Range const *r)
+{
+	append_cell_closure_t c;
+
+	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	g_return_val_if_fail (r->start.col <= r->end.col, NULL);
+	g_return_val_if_fail (r->start.row <= r->end.row, NULL);
+
+	c.r = g_new0 (CellRegion, 1);
+
+	c.base_col = r->start.col;
+	c.base_row = r->start.row;
+	c.r->cols = r->end.col - r->start.col + 1;
+	c.r->rows = r->end.row - r->start.row + 1;
+
+	sheet_cell_foreach_range ( sheet, TRUE,
+		r->start.col, r->start.row,
+		r->end.col, r->end.row,
+		clipboard_prepend_cell, &c);
+
+	c.r->styles = sheet_get_styles_in_range (sheet, r);
+
+	/* reverse the list so that upper left corner is first */
+	c.r->list = g_list_reverse (c.r->list);
+
+	return c.r;
+}
+
+/**
+ * clipboard_paste :
+ * @content:     a Cell Region that contains information to be pasted
+ * @time:        Time at which the event happened.
+ */
+void
+clipboard_paste (CommandContext *context, PasteTarget const *pt, guint32 time)
+{
+	PasteTarget *new_pt;
+	CellRegion *content;
+
+	g_return_if_fail (pt != NULL);
+	g_return_if_fail (pt->sheet != NULL);
+	g_return_if_fail (IS_SHEET (pt->sheet));
+
+	content = application_clipboard_contents_get ();
+
+	/*
+	 * If we own the selection, there is no need to ask X for
+	 * the selection: we do the paste from our internal buffer.
+	 *
+	 * This is better as we have all sorts of useful information
+	 * to paste from in this case (instead of the simplistic text
+	 * we get from X)
+	 */
+	if (content) {
+		cmd_paste_copy (context, pt, content);
+		return;
+	}
+
+	/*
+	 * OK, we dont have the X selection, so we try to get it:
+	 * Now, trigger a grab of the X selection.
+	 * This will callback x_selection_received
+	 */
+	if (pt->sheet->workbook->clipboard_paste_callback_data != NULL)
+		g_free (pt->sheet->workbook->clipboard_paste_callback_data);
+
+	new_pt = g_new (PasteTarget, 1);
+	*new_pt = *pt;
+	pt->sheet->workbook->clipboard_paste_callback_data = new_pt;
+
+	/* Query the formats */
+	gtk_selection_convert (pt->sheet->workbook->toplevel, GDK_SELECTION_PRIMARY,
+			       gdk_atom_intern (TARGETS_ATOM_NAME, FALSE), time);
+}
+
+/*
+ * Destroys the contents of a CellRegion
+ */
+void
+clipboard_release (CellRegion *content)
+{
+	CellCopyList *l;
+
+	g_return_if_fail (content != NULL);
+
+	for (l = content->list; l; l = l->next){
+		CellCopy *this_cell = l->data;
+
+		if (this_cell->type == CELL_COPY_TYPE_CELL) {
+			/* The cell is not really in the rows or columns */
+			this_cell->u.cell->sheet = NULL;
+			this_cell->u.cell->row_info = NULL;
+			this_cell->u.cell->col_info = NULL;
+			cell_destroy (this_cell->u.cell);
+		} else {
+
+			if (this_cell->type == CELL_COPY_TYPE_TEXT_AND_COMMENT)
+				if (this_cell->comment != NULL)
+					g_free (this_cell->comment);
+
+			if (this_cell->u.text)
+				g_free (this_cell->u.text);
+		}
+
+		g_free (this_cell);
+	}
+	if (content->styles != NULL) {
+		sheet_style_list_destroy (content->styles);
+		content->styles = NULL;
+	}
+
+	g_list_free (content->list);
+	content->list = NULL;
+
+	g_free (content);
+}
+
+PasteTarget*
+paste_target_init (PasteTarget *pt, Sheet *sheet, Range const *r, int flags)
+{
+	pt->sheet = sheet;
+	pt->range = *r;
+	pt->paste_flags = flags;
+	return pt;
 }
 
 static CellRegion *
@@ -223,7 +423,7 @@ x_selection_to_cell_region (CommandContext *context, char const * data,
 		col = 0;
 		rowcount = stf_parse_get_rowcount (dialogresult->parseoptions, dialogresult->newstart);
 		while (iterator) {
-			StyleRegion *region = g_new (StyleRegion, 1);
+			StyleRegion *content = g_new (StyleRegion, 1);
 			MStyle *style = mstyle_new ();
 			Range range;
 
@@ -234,10 +434,10 @@ x_selection_to_cell_region (CommandContext *context, char const * data,
 			range.end.col   = col;
 			range.end.row   = rowcount;
 
-			region->style = style;
-			region->range  = range;
+			content->style = style;
+			content->range  = range;
 
-			cr->styles = g_list_prepend (cr->styles, region);
+			cr->styles = g_list_prepend (cr->styles, content);
 
 			iterator = g_slist_next (iterator);
 
@@ -254,76 +454,6 @@ x_selection_to_cell_region (CommandContext *context, char const * data,
 	g_free (crerr);
 
 	return cr;
-}
-
-void
-sheet_paste_selection (CommandContext *context, Sheet *sheet,
-		       CellRegion *content, Range const *r,
-		       PasteTarget *pt)
-{
-	int        paste_height, paste_width;
-	int        end_col, end_row;
-
-	/* If 'cols' is set to -1 then there is _nothing_ to paste */
-	if (content->cols == -1)
-		return;
-
-	/* Compute the bigger bounding box (selection u clipboard-region) */
-	paste_width = r->end.col - r->start.col + 1;
-	if (paste_width < content->cols)
-		paste_width = content->cols;
-
-	paste_height = r->end.row - r->start.row + 1;
-	if (paste_height < content->rows)
-		paste_height = content->rows;
-
-	if (pt->dest_col + paste_width > SHEET_MAX_COLS)
-		paste_width = SHEET_MAX_COLS - pt->dest_col;
-	if (pt->dest_row + paste_height > SHEET_MAX_ROWS)
-		paste_height = SHEET_MAX_ROWS - pt->dest_row;
-
-	if (pt->paste_flags & PASTE_TRANSPOSE) {
-		int t;
-
-		end_col = pt->dest_col + paste_height - 1;
-		end_row = pt->dest_row + paste_width - 1;
-
-		/* Swap the paste dimensions for transposing */
-		t = paste_height;
-		paste_height = paste_width;
-		paste_width = t;
-	} else {
-		end_col = pt->dest_col + paste_width - 1;
-		end_row = pt->dest_row + paste_height - 1;
-	}
-
-	/* Move the styles on here so we get correct formats before recalc */
-	if (pt->paste_flags & PASTE_FORMATS) {
-		Range boundary;
-
-		boundary.start.col = pt->dest_col;
-		boundary.end.col   = pt->dest_col + paste_width;
-		boundary.start.row = pt->dest_row;
-		boundary.end.row   = pt->dest_row + paste_height;
-		sheet_style_attach_list (sheet, content->styles, &boundary.start,
-					 (pt->paste_flags & PASTE_TRANSPOSE));
-
-		sheet_style_optimize (sheet, boundary);
-	}
-
-	/* Do the actual paste operation */
-	do_clipboard_paste_cell_region (context,
-		content,      sheet,
-		pt->dest_col, pt->dest_row,
-		paste_width,  paste_height,
-		pt->paste_flags);
-
-	/* Make the newly pasted region the selection (this queues a redraw) */
-	sheet_selection_reset_only (pt->dest_sheet);
-	sheet_selection_add_range (pt->dest_sheet,
-				   pt->dest_col, pt->dest_row,
-				   pt->dest_col, pt->dest_row,
-				   end_col, end_row);
 }
 
 /**
@@ -404,25 +534,16 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time, gpoi
 		region_pastable = TRUE;
 
 		/* Did X provide any selection? */
-		if (sel->length < 0){
-			content = pt->region;
-
-			if (!content) {
-				region_pastable = FALSE;
-				free_closure = TRUE;
-			}
+		if (sel->length < 0) {
+			region_pastable = FALSE;
+			free_closure = TRUE;
 		} else
 			content = x_selection_to_cell_region (context,
 							      sel->data, sel->length);
 	}
 
 	if (region_pastable) {
-
-		SheetSelection *ss;
-
-		sheet = pt->dest_sheet;
-		ss = sheet->selections->data;
-		sheet_paste_selection (context, sheet, content, &ss->user, pt);
+		cmd_paste_copy (context, pt, content);
 
 		/* Release the resources we used */
 		if (sel->length >= 0)
@@ -469,7 +590,7 @@ x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data, guint 
 		return;
 
 	/*
-	 * If the region was marked for a cut we need to copy it for pasting
+	 * If the content was marked for a cut we need to copy it for pasting
 	 * we clear it later on, because if the other application (the one that
 	 * requested we render the data) is another instance of gnumeric
 	 * we need the selection to remain "intact" (not cleared) so we can
@@ -481,8 +602,7 @@ x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data, guint 
 		g_return_if_fail (a != NULL);
 
 		content_needs_free = TRUE;
-		clipboard =
-		    clipboard_copy_cell_range (sheet, a);
+		clipboard = clipboard_copy_range (sheet, a);
 	}
 
 	g_return_if_fail (clipboard != NULL);
@@ -513,7 +633,7 @@ x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data, guint 
 	}
 
 	/*
-	 * If this was a CUT operation we need to clear the region that was pasted
+	 * If this was a CUT operation we need to clear the content that was pasted
 	 * into another application and release the stuff on the clipboard
 	 */
 	if (content_needs_free) {
@@ -587,165 +707,5 @@ x_clipboard_bind_workbook (Workbook *wb)
 	gtk_selection_add_targets (wb->toplevel,
 				   GDK_SELECTION_PRIMARY,
 				   &targets, 1);
-}
-
-typedef struct {
-	int        base_col, base_row;
-	CellRegion *r;
-} append_cell_closure_t;
-
-static Value *
-clipboard_prepend_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
-{
-	append_cell_closure_t *c = user_data;
-	CellCopy *copy;
-
-	copy = g_new (CellCopy, 1);
-	copy->type       = CELL_COPY_TYPE_CELL;
-	copy->u.cell     = cell_copy (cell);
-	copy->col_offset = col - c->base_col;
-	copy->row_offset = row - c->base_row;
-
-	c->r->list = g_list_prepend (c->r->list, copy);
-
-	return NULL;
-}
-
-/**
- * clipboard_copy_cell_range:
- *
- * Entry point to the clipboard copy code
- */
-CellRegion *
-clipboard_copy_cell_range (Sheet *sheet, Range const *r)
-{
-	append_cell_closure_t c;
-
-	g_return_val_if_fail (sheet != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-	g_return_val_if_fail (r->start.col <= r->end.col, NULL);
-	g_return_val_if_fail (r->start.row <= r->end.row, NULL);
-
-	c.r = g_new0 (CellRegion, 1);
-
-	c.base_col = r->start.col;
-	c.base_row = r->start.row;
-	c.r->cols = r->end.col - r->start.col + 1;
-	c.r->rows = r->end.row - r->start.row + 1;
-
-	sheet_cell_foreach_range ( sheet, TRUE,
-		r->start.col, r->start.row,
-		r->end.col, r->end.row,
-		clipboard_prepend_cell, &c);
-
-	c.r->styles = sheet_get_styles_in_range (sheet, r);
-
-	/* reverse the list so that upper left corner is first */
-	c.r->list = g_list_reverse (c.r->list);
-
-	return c.r;
-}
-
-/**
- * clipboard_paste_region:
- * @region:      A cell region
- * @dest_sheet:  Destination sheet
- * @dest_col:    Column where we should paste the region in dest_sheet
- * @dest_row:    Row where we should paste the region in dest_sheet
- * @paste_flags: Paste flags
- * @time:        Time at which the event happened.
- *
- * Main entry point for the paste code
- */
-void
-clipboard_paste_region (CommandContext *context,
-			CellRegion *region, Sheet *dest_sheet,
-			int dest_col,       int dest_row,
-			int paste_flags,    guint32 time)
-{
-	PasteTarget *pt;
-
-	g_return_if_fail (dest_sheet != NULL);
-	g_return_if_fail (IS_SHEET (dest_sheet));
-
-	pt = g_new (PasteTarget, 1);
-	pt->region       = region;
-	pt->dest_sheet   = dest_sheet;
-	pt->dest_col     = dest_col;
-	pt->dest_row     = dest_row;
-	pt->paste_flags  = paste_flags;
-
-	/*
-	 * If we own the selection, there is no need to ask X for
-	 * the selection: we do the paste from our internal buffer.
-	 *
-	 * This is better as we have all sorts of useful information
-	 * to paste from in this case (instead of the simplistic text
-	 * we get from X
-	 */
-	if (region) {
-		SheetSelection *ss = dest_sheet->selections->data;
-		sheet_paste_selection (context, dest_sheet,
-				       region, &ss->user, pt);
-		g_free (pt);
-		return;
-	}
-
-	/*
-	 * OK, we dont have the X selection, so we try to get it:
-	 *
-	 * Now, trigger a grab of the X selection.
-	 *
-	 * This will callback x_selection_received
-	 */
-	if (dest_sheet->workbook->clipboard_paste_callback_data != NULL)
-		g_free (dest_sheet->workbook->clipboard_paste_callback_data);
-	dest_sheet->workbook->clipboard_paste_callback_data = pt;
-
-	/* Query the formats */
-	gtk_selection_convert (dest_sheet->workbook->toplevel, GDK_SELECTION_PRIMARY,
-			       gdk_atom_intern (TARGETS_ATOM_NAME, FALSE) , time);
-}
-
-/*
- * Destroys the contents of a CellRegion
- */
-void
-clipboard_release (CellRegion *region)
-{
-	CellCopyList *l;
-
-	g_return_if_fail (region != NULL);
-
-	for (l = region->list; l; l = l->next){
-		CellCopy *this_cell = l->data;
-
-		if (this_cell->type == CELL_COPY_TYPE_CELL) {
-			/* The cell is not really in the rows or columns */
-			this_cell->u.cell->sheet = NULL;
-			this_cell->u.cell->row_info = NULL;
-			this_cell->u.cell->col_info = NULL;
-			cell_destroy (this_cell->u.cell);
-		} else {
-
-			if (this_cell->type == CELL_COPY_TYPE_TEXT_AND_COMMENT)
-				if (this_cell->comment != NULL)
-					g_free (this_cell->comment);
-
-			if (this_cell->u.text)
-				g_free (this_cell->u.text);
-		}
-
-		g_free (this_cell);
-	}
-	if (region->styles != NULL) {
-		sheet_style_list_destroy (region->styles);
-		region->styles = NULL;
-	}
-
-	g_list_free (region->list);
-	region->list = NULL;
-
-	g_free (region);
 }
 

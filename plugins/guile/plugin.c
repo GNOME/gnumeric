@@ -474,7 +474,7 @@ init_plugin (CommandContext *context, PluginData *pd)
 		return PLUGIN_QUIET_ERROR;
 
 	if (!has_gnumeric_been_compiled_with_guile_support ()) {
-		gnumeric_error_plugin_problem (context,
+		gnumeric_error_plugin (context,
 			_("Gnumeric has not been compiled with support for guile."));
 		return PLUGIN_QUIET_ERROR;
 	}

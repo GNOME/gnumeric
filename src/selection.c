@@ -140,16 +140,14 @@ gboolean
 selection_is_simple (CommandContext *context, Sheet const *sheet,
 		     char const *command_name)
 {
-	char *msg;
+	g_return_val_if_fail (sheet != NULL, FALSE);
+	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
 	if (g_list_length (sheet->selections) == 1)
 		return TRUE;
 
-	msg = g_strdup_printf (
-		_("The command `%s' cannot be performed with multiple selections"),
-		command_name);
-	gnumeric_notice (sheet->workbook, GNOME_MESSAGE_BOX_ERROR, msg);
-	g_free (msg);
+	gnumeric_error_invalid	(context, command_name,
+				 _("cannot be performed with multiple selections"));
 
 	return FALSE;
 }
@@ -650,70 +648,6 @@ sheet_selection_cut (CommandContext *context, Sheet *sheet)
 	application_clipboard_cut (sheet, &ss->user);
 
 	return TRUE;
-}
-
-void
-sheet_selection_paste (CommandContext *context, Sheet *sheet,
-		       int dest_col, int dest_row,
-		       int paste_flags, guint32 time)
-{
-	CellRegion  *content;
-	Range const *area;
-
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-
-	if (!selection_is_simple (context, sheet, _("paste")))
-		return;
-
-	area = application_clipboard_area_get ();
-	content = application_clipboard_contents_get ();
-
-	if (content == NULL && area != NULL) {
-		/* Pasting a Cut */
-		ExprRelocateInfo rinfo;
-		Sheet * src_sheet = application_clipboard_sheet_get ();
-		Range const *sel = selection_first_range (sheet, FALSE);
-
-		g_return_if_fail (sel != NULL);
-
-		/* FIXME FIXME : This should not be a dialog.
-		 *
-		 * Use the context
-		 */
-		if (!range_is_singleton (sel) &&
-		    ((sel->end.col - sel->start.col) != (area->end.col - area->start.col) ||
-		     (sel->end.row - sel->start.row) != (area->end.row - area->start.row))) {
-			char * msg = g_strdup_printf (
-				_("The area can not be pasted into the selection because it\n"
-				  "has a different shape (%dRx%dC vs %dRx%dC)\n\n"
-				  "Try selecting a single cell or an area of the same shape and size."),
-				(sel->end.row - sel->start.row)+1,
-				(sel->end.col - sel->start.col)+1,
-				(area->end.row - area->start.row)+1,
-				(area->end.col - area->start.col)+1);
-			gnumeric_notice (sheet->workbook, GNOME_MESSAGE_BOX_ERROR, msg);
-			g_free (msg);
-			return;
-		}
-
-		rinfo.origin = *area;
-		rinfo.col_offset = dest_col - rinfo.origin.start.col;
-		rinfo.row_offset = dest_row - rinfo.origin.start.row;
-		rinfo.origin_sheet = src_sheet;
-		rinfo.target_sheet = sheet;
-
-		cmd_paste_cut (context, &rinfo);
-		application_clipboard_clear ();
-	} else {
-		/* Pasting a Copy or from the X selection */
-		clipboard_paste_region (context, content,
-					sheet, dest_col, dest_row,
-					paste_flags, time);
-
-		workbook_recalc (sheet->workbook);
-		sheet_update (sheet);
-	}
 }
 
 /**

@@ -2435,7 +2435,7 @@ sheet_clear_region (CommandContext *context, Sheet *sheet,
 
 			sheet_flag_status_update_range (sheet, &r);
 		} else
-			gnumeric_error_splits_array (context);
+			gnumeric_error_splits_array (context, _("Clear"));
 	}
 
 	/* Always redraw */
@@ -2860,7 +2860,7 @@ sheet_insert_cols (CommandContext *context, Sheet *sheet,
 					      col, SHEET_MAX_ROWS-1,
 					      &avoid_dividing_array_horizontal,
 					      NULL) != NULL){
-			gnumeric_error_splits_array (context);
+			gnumeric_error_splits_array (context, _("Insert Columns"));
 			return TRUE;
 		}
 
@@ -2869,7 +2869,7 @@ sheet_insert_cols (CommandContext *context, Sheet *sheet,
 				      SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1,
 				      &avoid_dividing_array_horizontal,
 				      NULL) != NULL){
-		gnumeric_error_splits_array (context);
+		gnumeric_error_splits_array (context, _("Insert Columns"));
 		return TRUE;
 	}
 
@@ -2932,7 +2932,7 @@ sheet_delete_cols (CommandContext *context, Sheet *sheet,
 	/* 0. Walk cells in deleted cols and ensure arrays aren't divided. */
 	if (sheet_range_splits_array (sheet, col, 0,
 				      col+count-1, SHEET_MAX_ROWS-1)) {
-		gnumeric_error_splits_array (context);
+		gnumeric_error_splits_array (context, _("Delete Columns"));
 		return TRUE;
 	}
 
@@ -3008,7 +3008,7 @@ sheet_insert_rows (CommandContext *context, Sheet *sheet,
 					      SHEET_MAX_COLS-1, row,
 					      &avoid_dividing_array_vertical,
 					      NULL) != NULL) {
-			gnumeric_error_splits_array (context);
+			gnumeric_error_splits_array (context, _("Insert Rows"));
 			return TRUE;
 		}
 
@@ -3017,7 +3017,7 @@ sheet_insert_rows (CommandContext *context, Sheet *sheet,
 				      SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1,
 				      &avoid_dividing_array_vertical,
 				      NULL) != NULL){
-		gnumeric_error_splits_array (context);
+		gnumeric_error_splits_array (context, _("Insert Rows"));
 		return TRUE;
 	}
 
@@ -3080,7 +3080,7 @@ sheet_delete_rows (CommandContext *context, Sheet *sheet,
 	/* 0. Walk cells in deleted rows and ensure arrays aren't divided. */
 	if (sheet_range_splits_array (sheet, 0, row,
 				      SHEET_MAX_COLS-1, row+count-1)) {
-		gnumeric_error_splits_array (context);
+		gnumeric_error_splits_array (context, _("Delete Rows"));
 		return TRUE;
 	}
 

@@ -15,7 +15,6 @@
 typedef struct {
 	GnomeCanvas   canvas;
 
-	GtkWidget     *controling_entry;
 	SheetView     *sheet_view;
 	
 	struct {

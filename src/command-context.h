@@ -18,18 +18,19 @@ struct _CommandContext {
 
 typedef struct {
 	GtkObjectClass parent_class;
-	void (*error_sys_err)        (CommandContext *context,
-				      char const * message);
-	void (*error_plugin_problem) (CommandContext *context,
-				      char const * message);
-	void (*error_read)           (CommandContext *context,
-				      char const * message);
-	void (*error_save)           (CommandContext *context,
-				      char const * message);
-	void (*error_splits_array)   (CommandContext *context);
-	void (*error_invalid)        (CommandContext *context,
-				      char const * message,
-				      char const * val);
+	void (*error_sys_err)	(CommandContext *context,
+				 char const *message);
+	void (*error_plugin)	(CommandContext *context,
+				 char const *message);
+	void (*error_read)	(CommandContext *context,
+				 char const *message);
+	void (*error_save)	(CommandContext *context,
+				 char const *message);
+	void (*error_invalid)	(CommandContext *context,
+				 char const *msg1,
+				 char const *msg2);
+	void (*set_progress)	(CommandContext *context,
+				 gfloat f);
 } CommandContextClass;
 
 GtkType   command_context_get_type (void);
@@ -48,11 +49,20 @@ command_context_pop_template (CommandContext *context);
  * NOTE : The selection is quite limited by IDL's intentional non-support for
  *        inheritance (single or multiple).
  */
-void gnumeric_error_sys_err        (CommandContext *context, char const *message);
-void gnumeric_error_plugin_problem (CommandContext *context, char const *message);
-void gnumeric_error_read           (CommandContext *context, char const *message);
-void gnumeric_error_save           (CommandContext *context, char const *message);
-void gnumeric_error_invalid        (CommandContext *context, char const *message, char const *val);
-void gnumeric_error_splits_array   (CommandContext *context);
+void gnumeric_error_sys_err	(CommandContext *context,
+				 char const *message);
+void gnumeric_error_plugin	(CommandContext *context,
+				 char const *message);
+void gnumeric_error_read	(CommandContext *context,
+				 char const *message);
+void gnumeric_error_save	(CommandContext *context,
+				 char const *message);
+void gnumeric_error_invalid	(CommandContext *context,
+				 char const *msg1, char const *msg2);
+
+/* utility wrapper to invalid */
+void gnumeric_error_splits_array(CommandContext *context, char const *cmd);
+
+void gnumeric_set_progress	(CommandContext *context, gfloat f);
 
 #endif /* GNUMERIC_COMMAND_CONTEXT_H */

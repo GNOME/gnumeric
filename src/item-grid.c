@@ -28,6 +28,7 @@
 #include "cellspan.h"
 #include "commands.h"
 #include "parse-util.h"
+#include "cmd-edit.h"
 
 #undef PAINT_DEBUG
 
@@ -475,32 +476,20 @@ context_copy_cmd (GtkWidget *widget, Sheet *sheet)
 static void
 context_paste_cmd (GtkWidget *widget, Sheet *sheet)
 {
-	/* Paste starting at the upper left of the selection */
-	sheet_selection_paste (workbook_command_context_gui (sheet->workbook), sheet,
-			       MIN(sheet->cursor.base_corner.col,
-				   sheet->cursor.move_corner.col),
-			       MIN(sheet->cursor.base_corner.row,
-				   sheet->cursor.move_corner.row),
-			       PASTE_DEFAULT,
-			       GDK_CURRENT_TIME);
+	Workbook *wb = sheet->workbook;
+	cmd_paste_to_selection (workbook_command_context_gui (wb),
+				sheet, PASTE_DEFAULT);
 	context_destroy_menu (widget);
 }
 
 static void
 context_paste_special_cmd (GtkWidget *widget, Sheet *sheet)
 {
-	int flags;
-
-	/* Paste starting at the upper left of the selection */
-	flags = dialog_paste_special (sheet->workbook);
+	Workbook *wb = sheet->workbook;
+	int flags = dialog_paste_special (wb);
 	if (flags != 0)
-		sheet_selection_paste (workbook_command_context_gui (sheet->workbook), sheet,
-				       MIN(sheet->cursor.base_corner.col,
-					   sheet->cursor.move_corner.col),
-				       MIN(sheet->cursor.base_corner.row,
-					   sheet->cursor.move_corner.row),
-				       flags,
-				       GDK_CURRENT_TIME);
+		cmd_paste_to_selection (workbook_command_context_gui (wb),
+					sheet, flags);
 	context_destroy_menu (widget);
 }
 

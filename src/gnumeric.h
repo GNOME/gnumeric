@@ -33,6 +33,7 @@ typedef struct _ExprRelocateInfo ExprRelocateInfo;
 typedef struct _ExprRewriteInfo  ExprRewriteInfo;
 typedef struct _NamedExpression	 NamedExpression;
 
+typedef struct _PasteTarget	PasteTarget;
 typedef struct _CellRegion	CellRegion;
 typedef		GList		CellList;
 

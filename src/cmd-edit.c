@@ -24,13 +24,20 @@
  */
 #include "config.h"
 #include "cmd-edit.h"
-#include "selection.h"
+#include "application.h"
+#include "workbook.h"
 #include "sheet.h"
 #include "cell.h"
 #include "expr.h"
 #include "eval.h"
+#include "selection.h"
 #include "parse-util.h"
-#include "stdio.h"
+#include "ranges.h"
+#include "command-context.h"
+#include "commands.h"
+#include "clipboard.h"
+
+#include <gnome.h>
 
 /**
  * cmd_select_all:
@@ -256,4 +263,105 @@ cmd_select_cur_inputs (Sheet *sheet)
 
 	/* TODO : finish this */
 	sheet_update (sheet);
+}
+
+/**
+ * cmd_paste :
+ * @sheet: The destination sheet
+ * @range : The range to paste to within the destination sheet.
+ * @flags: Any paste special flags.
+ *
+ * Pastes the current cut buffer, copy buffer, or X selection to
+ * the destination sheet range.
+ *
+ * When pasting a cut the destination MUST be the same size as the src.
+ *
+ * When pasting a copy the destination can be a singleton, or an integer
+ * multiple of the size of the source.  This is not tested here.
+ * Full undo support.
+ */
+void
+cmd_paste (CommandContext *context, PasteTarget const *pt, guint32 time)
+{
+	CellRegion  *content;
+	Range const *src_range;
+
+	g_return_if_fail (pt->sheet != NULL);
+	g_return_if_fail (IS_SHEET (pt->sheet));
+
+	src_range = application_clipboard_area_get ();
+	content = application_clipboard_contents_get ();
+
+	if (content == NULL && src_range != NULL) {
+		/* Pasting a Cut */
+		ExprRelocateInfo rinfo;
+		Sheet *src_sheet = application_clipboard_sheet_get ();
+
+		/* Validate the size & shape of the target here. */
+		int const cols = (src_range->end.col - src_range->start.col);
+		int const rows = (src_range->end.row - src_range->start.col);
+
+		Range dst = pt->range;
+
+		if (range_is_singleton (&dst)) {
+			dst.end.col = dst.start.col + cols;
+			dst.end.row = dst.start.row + rows;
+		} else if ((dst.end.col - dst.start.col) != cols ||
+			   (dst.end.row - dst.start.row) != rows) {
+
+			char * msg = g_strdup_printf (
+				_("destination has a different shape (%dRx%dC) than the original (%dRx%dC)\n\n"
+				  "Try selecting a single cell or an area of the same shape and size."),
+				(dst.end.row - dst.start.row)+1,
+				(dst.end.col - dst.start.col)+1,
+				rows+1, cols+1);
+			gnumeric_error_invalid (context, _("Unable to paste into selection"), msg);
+			g_free (msg);
+			return;
+		}
+
+		rinfo.origin = *src_range;
+		rinfo.col_offset = dst.start.col - rinfo.origin.start.col;
+		rinfo.row_offset = dst.start.row - rinfo.origin.start.row;
+		rinfo.origin_sheet = src_sheet;
+		rinfo.target_sheet = pt->sheet;
+
+		cmd_paste_cut (context, &rinfo);
+		application_clipboard_clear ();
+	} else
+		/*
+		 * Pasting a Copy or from the X selection
+		 * We can not check the size of the range here.  The source may
+		 * be an X selection whose size is not known until later.
+		 * Check it then.
+		 */
+		clipboard_paste (context, pt, time);
+}
+
+/**
+ * cmd_paste_to_selection :
+ * @dest_sheet: The sheet into which things should be pasted
+ * @flags: special paste flags (eg transpose)
+ *
+ * Using the current selection as a target
+ * Full undo support.
+ */
+void
+cmd_paste_to_selection (CommandContext *context, Sheet *dest_sheet, int paste_flags)
+{
+	Range const *dest_range;
+	PasteTarget pt;
+
+	g_return_if_fail (!application_clipboard_is_empty ());
+
+	if (!selection_is_simple (context, dest_sheet, _("Paste")))
+		return;
+
+	dest_range = selection_first_range (dest_sheet, FALSE);
+	g_return_if_fail (dest_range !=NULL);
+
+	pt.sheet = dest_sheet;
+	pt.range = *dest_range;
+	pt.paste_flags = paste_flags;
+	cmd_paste (context, &pt, GDK_CURRENT_TIME);
 }

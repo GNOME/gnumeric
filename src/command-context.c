@@ -9,6 +9,7 @@
 #include <config.h>
 #include "gnumeric-type-util.h"
 #include "command-context.h"
+#include <gnome.h> /* Ick.  This is required to get _("") */
 
 #define PARENT_TYPE gtk_object_get_type ()
 
@@ -53,7 +54,7 @@ command_context_pop_template (CommandContext *context)
  * FIXME: Make it accept varargs.
  */
 static char *
-format_message (CommandContext *context, char const * const message)
+format_message (CommandContext *context, char const *message)
 {
 	GSList *tlist = context->template_list;
 	char const * const msg = message ? message : "";
@@ -65,8 +66,8 @@ format_message (CommandContext *context, char const * const message)
 }
 
 void
-gnumeric_error_plugin_problem (CommandContext *context,
-			       char const * const message)
+gnumeric_error_plugin (CommandContext *context,
+		       char const *message)
 {
 	char *fmessage;
 	
@@ -74,13 +75,13 @@ gnumeric_error_plugin_problem (CommandContext *context,
 	g_return_if_fail (IS_COMMAND_CONTEXT (context));
 
 	fmessage = format_message (context, message);
-	CC_CLASS (context)->error_plugin_problem (context, message);
+	CC_CLASS (context)->error_plugin (context, message);
 	g_free (fmessage);
 }
 
 void
 gnumeric_error_read (CommandContext *context,
-		     char const * const message)
+		     char const *message)
 {
 	char *fmessage;
 
@@ -94,7 +95,7 @@ gnumeric_error_read (CommandContext *context,
 
 void
 gnumeric_error_save (CommandContext *context,
-		     char const * const message)
+		     char const *message)
 {
 	char *fmessage;
 
@@ -107,12 +108,12 @@ gnumeric_error_save (CommandContext *context,
 }
 
 void
-gnumeric_error_splits_array (CommandContext *context)
+gnumeric_error_splits_array (CommandContext *context, char const *cmd)
 {
 	g_return_if_fail (context);
 	g_return_if_fail (IS_COMMAND_CONTEXT (context));
 
-	CC_CLASS (context)->error_splits_array (context);
+	gnumeric_error_invalid	(context, cmd, _("Would split an array."));
 }
 
 void
@@ -131,6 +132,15 @@ gnumeric_error_invalid (CommandContext *context, char const *message, char const
 	g_return_if_fail (IS_COMMAND_CONTEXT (context));
 
 	CC_CLASS (context)->error_invalid (context, message, val);
+}
+
+void
+gnumeric_set_progress (CommandContext *context, gfloat f)
+{
+	g_return_if_fail (context);
+	g_return_if_fail (IS_COMMAND_CONTEXT (context));
+
+	CC_CLASS (context)->set_progress (context, f);
 }
 
 GNUMERIC_MAKE_TYPE(command_context, "CommandContext", CommandContext, NULL, NULL, PARENT_TYPE);

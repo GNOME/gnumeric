@@ -111,7 +111,7 @@ struct _Workbook {
 	 * This is  used during the clipboard paste command to pass information
 	 * to the asyncronous paste callback
 	 */
-	void       *clipboard_paste_callback_data;
+	PasteTarget *clipboard_paste_callback_data;
 
 	void       *corba_server;
 
@@ -190,6 +190,8 @@ void        workbook_move_sheet          (Sheet *sheet, int direction);
 void        workbook_delete_sheet        (Sheet *sheet);
 
 GtkWidget  *workbook_get_entry           (Workbook const *wb);
+GtkWidget  *workbook_set_entry           (Workbook const *wb, GtkWidget *new_entry);
+gboolean    workbook_editing_expr        (Workbook const *wb);
 
 /* See also sheet_cell_foreach_range */
 Value *

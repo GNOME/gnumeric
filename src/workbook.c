@@ -1,4 +1,3 @@
-#define ENABLE_WIZARD 1
 /*
  * workbook.c:  Workbook management (toplevel windows)
  *
@@ -207,9 +206,9 @@ create_embedded_item_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
-launch_graphics_wizard_cmd (GtkWidget *widget, Workbook *wb)
+launch_graph_druid (GtkWidget *widget, Workbook *wb)
 {
-	graphics_wizard (wb);
+	graph_druid (wb);
 }
 #endif
 
@@ -673,27 +672,18 @@ static void
 paste_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
-
-	sheet_selection_paste (workbook_command_context_gui (wb), sheet,
-			       sheet->cursor.edit_pos.col, sheet->cursor.edit_pos.row,
-			       PASTE_DEFAULT, GDK_CURRENT_TIME);
+	cmd_paste_to_selection (workbook_command_context_gui (wb),
+				sheet, PASTE_DEFAULT);
 }
 
 static void
 paste_special_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
-	int flags;
-
-	/* These menu items should be insensitive when there is nothing to paste */
-	g_return_if_fail (!application_clipboard_is_empty ());
-
-	flags = dialog_paste_special (wb);
+	int flags = dialog_paste_special (wb);
 	if (flags != 0)
-		sheet_selection_paste (workbook_command_context_gui (wb), sheet,
-				       sheet->cursor.edit_pos.col, sheet->cursor.edit_pos.row,
-				       flags, GDK_CURRENT_TIME);
-
+		cmd_paste_to_selection (workbook_command_context_gui (wb),
+					sheet, flags);
 }
 
 static void
@@ -710,7 +700,7 @@ delete_sheet_cmd (GtkWidget *widget, Workbook *wb)
 	sheet_action_delete_sheet (widget, wb->current_sheet);
 }
 
-/* Callbacjs for the selection commands */
+/* Callbacks for the selection commands */
 static void
 cb_edit_select_all (GtkWidget *widget, Workbook *wb)
 {
@@ -1062,7 +1052,7 @@ cb_autofunction (GtkWidget *widget, Workbook *wb)
 		workbook_start_editing_at_cursor (wb, FALSE, TRUE);
 
 		/* FIXME : This is crap!
-		 * When the function wizard is more complete use that.
+		 * When the function druid is more complete use that.
 		 */
 		gtk_entry_set_position (entry, entry->text_length-1);
 	}
@@ -1087,19 +1077,17 @@ autosum_cmd (GtkWidget *widget, Workbook *wb)
 		workbook_start_editing_at_cursor (wb, FALSE, TRUE);
 
 		/* FIXME : This is crap!
-		 * When the function wizard is more complete use that.
+		 * When the function druid is more complete use that.
 		 */
 		gtk_entry_set_position (entry, entry->text_length-1);
 	}
 }
 
-#ifdef ENABLE_WIZARD
 static void
-wizard_input (GtkWidget *widget, Workbook *wb)
+function_druid (GtkWidget *widget, Workbook *wb)
 {
-	dialog_function_wizard (wb);
+	dialog_function_druid (wb);
 }
-#endif /* ENABLE_WIZARD */
 
 static void
 sort_ascend_cmd (GtkWidget *widget, Workbook *wb)
@@ -1529,12 +1517,9 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Sum"), N_("Sum into the current cell."),
 		autosum_cmd, NULL, auto_sum_xpm),
-#if ENABLE_WIZARD
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Function"), N_("Edit a function in the current cell."),
-		&wizard_input, NULL, function_selector_xpm),
-#endif
-
+		&function_druid, NULL, function_selector_xpm),
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Sort Ascending"), N_("Sorts the selected region in ascending order based on the first column selected."),
 		sort_ascend_cmd, NULL, sort_ascending_xpm),
@@ -1546,8 +1531,8 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_ITEM_DATA (
-		N_("Creates a graphic"), N_("Invokes the graphic wizard to create a graphic"),
-		launch_graphics_wizard_cmd, NULL, graphic_xpm),
+		N_("Creates a graphic"), N_("Invokes the graph druid to create a graphic"),
+		launch_graph_druid, NULL, graphic_xpm),
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Insert Object"), N_("Inserts an object in the spreadsheet"),
 		create_embedded_component_cmd, NULL, insert_bonobo_component_xpm),
@@ -2130,8 +2115,8 @@ workbook_setup_status_area (Workbook *wb)
 	/*
 	 * Create the GnomeAppBar
 	 */
-	wb->priv->appbar = GNOME_APPBAR (gnome_appbar_new (FALSE, TRUE,
-						    GNOME_PREFERENCES_USER));
+	wb->priv->appbar = GNOME_APPBAR (gnome_appbar_new (TRUE, TRUE,
+							   GNOME_PREFERENCES_USER));
 	gnome_app_set_statusbar (GNOME_APP (wb->toplevel),
 				 GTK_WIDGET (wb->priv->appbar));
 
@@ -3816,8 +3801,14 @@ workbook_get_entry (Workbook const *wb)
 	g_return_val_if_fail (wb != NULL, NULL);
 	g_return_val_if_fail (wb->priv != NULL, NULL);
 
-	/* TODO : If there is an function wizard up use the edit line from there */
+	/* TODO : If there is an function drui up use the edit line from there */
 	return wb->priv->edit_line;
+}
+
+gboolean
+workbook_editing_expr (Workbook const *wb)
+{
+	return gnumeric_entry_at_subexpr_boundary_p (wb->priv->edit_line);
 }
 
 void

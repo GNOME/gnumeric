@@ -1,5 +1,46 @@
 2000-05-26  Jody Goldberg <jgoldberg@home.com>
 
+	* src/selection.c (selection_is_simple) : Use a command context.
+	(sheet_selection_paste) : Delete.
+
+	* src/plugin.c : rename error_plugin_problem -> error_plugin.
+
+	* src/item-grid.c (context_paste_cmd) : Use cmd_paste_to_selection.
+	(context_paste_special_cmd) : Ditto.
+
+	* src/gnumeric-sheet.c : remove cached 'controlling_entry' in
+	  preparation for the function druid.
+
+	* src/corba-sheet.c : Delete Sheet_selection_paste.
+	  this will need to be replaced with a new signature.
+
+	* src/item-cursor.c (item_cursor_do_action) : Use new cmd_paste.
+
+	* src/commands.c (cmd_area_set_text_{undo,redo}) : Use new
+	  clipboard_paste_region.
+	(cmd_ins_del_row_col_{undo,redo}) : Ditto.
+	(cmd_clear_{undo,redo}) : Ditto.
+	(cmd_set_date_time_{undo,redo}) : Ditto.
+	(cmd_paste_cut_*) : new functions.
+
+	* src/command-context*.c : Add progress, remove splits_array.
+
+	* src/cmd-edit.c (cmd_paste) : New function.
+	(cmd_paste_to_selection) : New function.
+
+	* src/clipboard.c : Reorganize/rewrite.
+	(clipboard_paste_region) : paste content.
+	(clipboard_paste) : paste content from clipboard or X selection.
+	(paste_target_init) : New function.
+	(sheet_paste_selection) : merge into clipboard_paste_region.
+
+	* src/application.c (application_clipboard_copy) : rename
+	  clipboard_copy_cell_range -> clipboard_copy_range.
+
+	* idl/Gnumeric.idl : Merge InvalidValue, SplitsArray -> InvalidCmd.
+
+	* src/workbook.c (workbook_setup_status_area) : Include a progress bar.
+
 	* src/sheet.c (sheet_update) : SPANCALC_NO_DRAW exists now.
 
 2000-05-26  Michael Meeks  <michael@helixcode.com>
@@ -143,7 +184,6 @@
 
 	* src/file.c (workbook_import) : set the import dialog's parent widget
 	  to be the PARENT workbook, not the new unrealized workbook.
-
 
 	* src/cell.c (cell_set_expr_internal) : Actually assign the format
 	  after we ref it.

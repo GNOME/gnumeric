@@ -14,13 +14,11 @@ typedef enum {
     /* Cell has been queued for recalc */
     CELL_QUEUED_FOR_RECALC = 0x2,
 
-#if TODO
     /* Cell has be linked into the workbook wide expression list */
     CELL_IN_EXPR_LIST	   = 0x4,
 
     /* Cell is linked into the sheet */
     CELL_IN_SHEET_LIST	   = 0x8
-#endif
 } CellFlags;
 
 typedef struct _CellComment CellComment;

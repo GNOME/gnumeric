@@ -39,7 +39,7 @@ gnumeric_sheet_destroy (GtkObject *object)
 }
 
 static GnumericSheet *
-gnumeric_sheet_create (SheetView *sheet_view, GtkWidget *controling_entry)
+gnumeric_sheet_create (SheetView *sheet_view)
 {
 	GnumericSheet *gsheet;
 	GnomeCanvas   *canvas;
@@ -52,7 +52,6 @@ gnumeric_sheet_create (SheetView *sheet_view, GtkWidget *controling_entry)
 	gsheet->col.first = gsheet->col.last_full = gsheet->col.last_visible = 0;
 	gsheet->row_offset.first = gsheet->row_offset.last_full = gsheet->row_offset.last_visible = 0;
 	gsheet->col_offset.first = gsheet->col_offset.last_full = gsheet->col_offset.last_visible = 0;
-	gsheet->controling_entry   = controling_entry;
 
 	return gsheet;
 }
@@ -190,24 +189,27 @@ move_vertical_selection (GnumericSheet *gsheet,
 gboolean
 gnumeric_sheet_can_select_expr_range (GnumericSheet *gsheet)
 {
+	Workbook const *wb;
+
 	g_return_val_if_fail (gsheet != NULL, FALSE);
 	g_return_val_if_fail (GNUMERIC_IS_SHEET (gsheet), FALSE);
 
-	if (!gsheet->sheet_view->sheet->workbook->editing)
+	wb = gsheet->sheet_view->sheet->workbook;
+	if (!wb->editing)
 		return FALSE;
 
 	if (gsheet->selecting_cell)
 		return TRUE;
 
-	return gnumeric_entry_at_subexpr_boundary_p (gsheet->controling_entry);
+	return workbook_editing_expr (wb);
 }
 
 static void
 selection_remove_selection_string (GnumericSheet *gsheet)
 {
-	g_return_if_fail (gsheet->controling_entry != NULL);
+	Workbook const *wb = gsheet->sheet_view->sheet->workbook;
 
-	gtk_editable_delete_text (GTK_EDITABLE (gsheet->controling_entry),
+	gtk_editable_delete_text (GTK_EDITABLE (workbook_get_entry (wb)),
 				  gsheet->sel_cursor_pos,
 				  gsheet->sel_cursor_pos+gsheet->sel_text_len);
 }
@@ -221,8 +223,6 @@ selection_insert_selection_string (GnumericSheet *gsheet)
 	gboolean const inter_sheet = (sheet != wb->editing_sheet);
 	char * buffer;
 	int pos;
-
-	g_return_if_fail (gsheet->controling_entry != NULL);
 
 	/* Get the new selection string */
 	buffer = g_strdup_printf ("%s%s%s%d",
@@ -251,13 +251,13 @@ selection_insert_selection_string (GnumericSheet *gsheet)
 
 	gsheet->sel_text_len = strlen (buffer);
 	pos = gsheet->sel_cursor_pos;
-	gtk_editable_insert_text (GTK_EDITABLE (gsheet->controling_entry),
+	gtk_editable_insert_text (GTK_EDITABLE (workbook_get_entry (wb)),
 				  buffer, gsheet->sel_text_len,
 				  &pos);
 	g_free (buffer);
 
 	/* Set the cursor at the end.  It looks nicer */
-	gtk_editable_set_position (GTK_EDITABLE (gsheet->controling_entry),
+	gtk_editable_set_position (GTK_EDITABLE (workbook_get_entry (wb)),
 				   gsheet->sel_cursor_pos +
 				   gsheet->sel_text_len);
 }
@@ -268,9 +268,9 @@ start_cell_selection_at (GnumericSheet *gsheet, int col, int row)
 	GnomeCanvas *canvas = GNOME_CANVAS (gsheet);
 	GnomeCanvasGroup *group = GNOME_CANVAS_GROUP (canvas->root);
 	Sheet *sheet = gsheet->sheet_view->sheet;
+	Workbook *wb = sheet->workbook;
 
 	g_return_if_fail (gsheet->selecting_cell == FALSE);
-	g_return_if_fail (gsheet->controling_entry != NULL);
 
 	/* Hide the primary cursor while the range selection cursor is visible 
 	 * and we are selecting on a different sheet than the expr being edited
@@ -292,7 +292,7 @@ start_cell_selection_at (GnumericSheet *gsheet, int col, int row)
 	if (gsheet->item_editor)
 		item_edit_disable_highlight (ITEM_EDIT (gsheet->item_editor));
 
-	gsheet->sel_cursor_pos = GTK_EDITABLE (gsheet->controling_entry)->current_pos;
+	gsheet->sel_cursor_pos = GTK_EDITABLE (workbook_get_entry (wb))->current_pos;
 	gsheet->sel_text_len = 0;
 }
 
@@ -704,7 +704,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		     event->state == (GDK_CONTROL_MASK|GDK_SHIFT_MASK) ||
 		     event->state == GDK_MOD1_MASK))
 			/* Forward the keystroke to the input line */
-			return gtk_widget_event (gsheet->controling_entry,
+			return gtk_widget_event (workbook_get_entry (wb),
 						 (GdkEvent *) event);
 		/* fall down */
 
@@ -756,10 +756,8 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		}
 		gnumeric_sheet_stop_cell_selection (gsheet, FALSE);
 
-		g_return_val_if_fail (gsheet->controling_entry != NULL, TRUE);
-
 		/* Forward the keystroke to the input line */
-		return gtk_widget_event (gsheet->controling_entry, (GdkEvent *) event);
+		return gtk_widget_event (workbook_get_entry (wb), (GdkEvent *) event);
 	}
 	sheet_update (sheet);
 
@@ -906,7 +904,6 @@ gnumeric_sheet_new (SheetView *sheet_view, ItemBar *colbar, ItemBar *rowbar)
 	GnomeCanvas   *gsheet_canvas;
 	GnomeCanvasGroup *gsheet_group;
 	GtkWidget *widget;
-	GtkWidget *entry;
 	Sheet     *sheet;
 	Workbook  *workbook;
 	static GtkTargetEntry drag_types[] = {
@@ -924,8 +921,7 @@ gnumeric_sheet_new (SheetView *sheet_view, ItemBar *colbar, ItemBar *rowbar)
 	sheet = sheet_view->sheet;
 	workbook = sheet->workbook;
 
-	entry = workbook_get_entry (workbook);
-	gsheet = gnumeric_sheet_create (sheet_view, entry);
+	gsheet = gnumeric_sheet_create (sheet_view);
 
 	/* FIXME: figure out some real size for the canvas scrolling region */
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (gsheet), 0, 0,

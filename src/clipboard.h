@@ -44,22 +44,21 @@ struct _CellRegion {
 	GList        *styles;
 };
 
-CellRegion *clipboard_copy_cell_range    (Sheet *sheet, Range const *r);
+struct _PasteTarget {
+	Sheet      *sheet;
+	Range	    range;
+	int         paste_flags;
+};
 
-void        clipboard_paste_region       (CommandContext *context, CellRegion *region,
-					  Sheet      *dest_sheet,
-					  int         dest_col,
-					  int         dest_row,
-					  int         paste_flags,
-					  guint32     time32);
-
-void        clipboard_release            (CellRegion *region);
-
+CellRegion *clipboard_copy_range   (Sheet *sheet, Range const *r);
+void        clipboard_release      (CellRegion *region);
+void	    clipboard_paste_region (CommandContext *context,
+				    PasteTarget const *pt,
+				    CellRegion *content);
+void 	    clipboard_paste	   (CommandContext *context,
+				    PasteTarget const *pt, guint32 time);
+PasteTarget*paste_target_init      (PasteTarget *pt,
+				    Sheet *sheet, Range const *r, int flags);
 void        x_clipboard_bind_workbook    (Workbook *wb);
 	
-typedef struct _PasteTarget PasteTarget;
-void	    sheet_paste_selection	 (CommandContext *context, Sheet *sheet,
-					  CellRegion *content, Range const *r,
-					  PasteTarget *pt);
-
 #endif /* GNUMERIC_CLIPBOARD_H */

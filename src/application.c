@@ -146,7 +146,7 @@ application_clipboard_copy (Sheet *sheet, Range const *area)
 	if (application_set_selected_sheet (sheet) ) {
 		app.clipboard_cut_range = *area;
 		app.clipboard_copied_contents = 
-		    clipboard_copy_cell_range (sheet, area);
+			clipboard_copy_range (sheet, area);
 
 		workbook_view_set_paste_special_state (sheet->workbook, TRUE);
 

@@ -348,7 +348,7 @@ workbook_import (CommandContext *context, Workbook *parent,
 		
 	gtk_widget_grab_focus (GTK_WIDGET (clist));
 
-	ret = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
+	ret = gnumeric_dialog_run (parent, GNOME_DIALOG (dialog));
 
 	if (ret == 0 && clist->selection) {
 		int sel_row;

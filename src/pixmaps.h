@@ -9,9 +9,7 @@
 #include "pixmaps/sort-descending.xpm"
 #include "pixmaps/auto-sum.xpm"
 #include "pixmaps/equal-sign.xpm"
-#ifdef ENABLE_WIZARD
 #include "pixmaps/function_selector.xpm"
-#endif
 #ifdef GNUMERIC_TEST_ACTIVE_OBJECT
 #include "pixmaps/button.xpm"
 #include "pixmaps/checkbox.xpm"

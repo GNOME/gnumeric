@@ -30,11 +30,10 @@ gboolean cmd_delete_rows	(CommandContext *context, Sheet *sheet,
 gboolean cmd_resize_row_col	(CommandContext *context, Sheet *sheet,
 				 int index, gboolean is_col);
 
-gboolean cmd_hide_selection_rows_cols (CommandContext *context, Sheet *sheet,
-				       gboolean is_cols, gboolean visible);
-
 gboolean cmd_paste_cut		(CommandContext *context,
 				 ExprRelocateInfo const *info);
+gboolean cmd_paste_copy		(CommandContext *context,
+				 PasteTarget const *pt, CellRegion *content);
 
 gboolean cmd_rename_sheet	(CommandContext *context, Workbook *wb,
 				 char const *old_name, char const *new_name);
@@ -48,5 +47,7 @@ gboolean cmd_format		(CommandContext *context, Sheet *sheet,
 
 gboolean cmd_clear_selection	(CommandContext *context, Sheet *sheet,
 				 int const clear_flags);
+gboolean cmd_hide_selection_rows_cols (CommandContext *context, Sheet *sheet,
+				       gboolean is_cols, gboolean visible);
 
 #endif /* GNUMERIC_COMMAND_H */

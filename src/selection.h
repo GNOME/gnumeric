@@ -30,9 +30,7 @@ char       *sheet_selection_to_string    (Sheet *sheet, gboolean include_sheet_n
 /* Cut/Copy/Paste on the workbook selection */
 gboolean    sheet_selection_copy              (CommandContext *context, Sheet *sheet);
 gboolean    sheet_selection_cut               (CommandContext *context, Sheet *sheet);
-void        sheet_selection_paste             (CommandContext *context, Sheet *sheet,
-					       int dest_col,    int dest_row,
-					       int paste_flags, guint32 time32);
+
 void        sheet_selection_walk_step         (Sheet *sheet,
 					       gboolean const forward,
 					       gboolean const horizontal);

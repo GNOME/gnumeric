@@ -65,7 +65,7 @@ plugin_version_mismatch  (CommandContext *context, PluginData *pd,
 		    g_strdup_printf (_("Unable to open plugin '%s'\n"
 				       "Plugin version '%s' is different from application '%s'."),
 				     pd->file_name, plugin_version, GNUMERIC_VERSION);
-		gnumeric_error_plugin_problem (context, mesg);
+		gnumeric_error_plugin (context, mesg);
 		g_free (mesg);
 	}
 
@@ -121,7 +121,7 @@ plugin_load (CommandContext *context, const gchar *modfile)
 	if (!data->handle) {
 		char *str;
 		str = g_strconcat(_("unable to open module file: "), g_module_error(), NULL);
-		gnumeric_error_plugin_problem (context, str);
+		gnumeric_error_plugin (context, str);
 		g_free (data->file_name);
 		g_free (str);
 		g_free (data);
@@ -129,14 +129,14 @@ plugin_load (CommandContext *context, const gchar *modfile)
 	}
 	
 	if (!g_module_symbol (data->handle, "init_plugin", (gpointer *) &data->init_plugin)){
-		gnumeric_error_plugin_problem (context, 
-					       _("Plugin must contain init_plugin function."));
+		gnumeric_error_plugin (context, 
+				       _("Plugin must contain init_plugin function."));
 		goto error;
 	}
 
 	if (stat (data->file_name, &sbuf) < 0) {
-	        gnumeric_error_plugin_problem (context,
-					       _("Couldn't determine size or modification date"));
+	        gnumeric_error_plugin (context,
+				       _("Couldn't determine size or modification date"));
 		goto error;
 	} else {
 	        data->size = sbuf.st_size;
@@ -147,8 +147,8 @@ plugin_load (CommandContext *context, const gchar *modfile)
 	if (res != PLUGIN_OK) {
 		/* Avoid displaying 2 error boxes */
 		if (res == PLUGIN_ERROR)
-			gnumeric_error_plugin_problem (context, 
-						       _("init_plugin returned error"));
+			gnumeric_error_plugin (context,
+					       _("init_plugin returned error"));
 		goto error;
 	}
 
@@ -162,7 +162,7 @@ plugin_load (CommandContext *context, const gchar *modfile)
 				       "It is probably for a different version of Gnumeric than '%s'."),
 				     data->file_name,
 				     GNUMERIC_VERSION);
-		gnumeric_error_plugin_problem (context, mesg);
+		gnumeric_error_plugin (context, mesg);
 		g_free (mesg);
 		goto error;
 	}
@@ -181,8 +181,7 @@ plugin_unload (CommandContext *context, PluginData *pd)
 	g_return_if_fail (pd != NULL);
 
 	if (pd->can_unload && !pd->can_unload (pd)) {
-		gnumeric_error_plugin_problem (context,
-					       _("Plugin is still in use.\n"));
+		gnumeric_error_plugin (context, _("Plugin is still in use."));
 		return;
 	}
 

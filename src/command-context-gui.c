@@ -10,13 +10,15 @@
 #include "gnumeric-type-util.h"
 #include "command-context-gui.h"
 #include "gnumeric-util.h"
+#include "workbook-private.h"
+#include "workbook.h"
 
 #define PARENT_TYPE command_context_get_type ()
 
 #define CCG_CLASS(o) CMD_CONTEXT_GUI_CLASS (GTK_OBJECT (o)->klass)
 
 static void
-ccg_error_plugin_problem (CommandContext *context, char const * message)
+ccg_error_plugin (CommandContext *context, char const * message)
 {
 	CommandContextGui *ccg = COMMAND_CONTEXT_GUI (context);
 
@@ -40,15 +42,6 @@ ccg_error_save (CommandContext *context, char const * message)
 }
 
 static void
-ccg_error_splits_array (CommandContext *context)
-{
-	CommandContextGui *ccg = COMMAND_CONTEXT_GUI (context);
-	
-	gnumeric_notice (ccg->wb, GNOME_MESSAGE_BOX_ERROR,
-			 _("You cannot change part of an array."));
-}
-
-static void
 ccg_error_sys_err (CommandContext *context, char const * message)
 {
 	CommandContextGui *ccg = COMMAND_CONTEXT_GUI (context);
@@ -67,16 +60,24 @@ ccg_error_invalid (CommandContext *context, char const * message, char const * v
 }
 
 static void
+ccg_set_progress (CommandContext *context, gfloat f)
+{
+	CommandContextGui *ccg = COMMAND_CONTEXT_GUI (context);
+
+	gnome_appbar_set_progress (ccg->wb->priv->appbar, f);
+}
+
+static void
 ccg_init_class (GtkObjectClass *object_class)
 {
 	CommandContextClass *cc_class = (CommandContextClass *) object_class;
 
-	cc_class->error_plugin_problem = &ccg_error_plugin_problem;
-	cc_class->error_read           = &ccg_error_read;
-	cc_class->error_save           = &ccg_error_save;
-	cc_class->error_splits_array   = &ccg_error_splits_array;
-	cc_class->error_sys_err        = &ccg_error_sys_err;
-	cc_class->error_invalid        = &ccg_error_invalid;
+	cc_class->error_plugin		= &ccg_error_plugin;
+	cc_class->error_read		= &ccg_error_read;
+	cc_class->error_save		= &ccg_error_save;
+	cc_class->error_sys_err		= &ccg_error_sys_err;
+	cc_class->error_invalid		= &ccg_error_invalid;
+	cc_class->set_progress		= &ccg_set_progress;
 }
 
 GNUMERIC_MAKE_TYPE(command_context_gui, "CommandContextGui", CommandContextGui, ccg_init_class, NULL, PARENT_TYPE)

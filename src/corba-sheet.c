@@ -204,21 +204,6 @@ Sheet_selection_cut (PortableServer_Servant servant, CORBA_Environment *ev)
 }
 
 static void
-Sheet_selection_paste (PortableServer_Servant servant,
-		       const CORBA_long dest_col, const CORBA_long dest_row,
-		       const CORBA_long paste_flags, CORBA_Environment *ev)
-{
-	Sheet *sheet = sheet_from_servant (servant);
-
-	verify_col (dest_col);
-	verify_row (dest_row);
-	
-	sheet_selection_paste (
-		command_context_corba (sheet->workbook), sheet,
-		dest_col, dest_row, paste_flags, 0);
-}
-
-static void
 Sheet_clear_region (PortableServer_Servant servant,
 		    const CORBA_long start_col, const CORBA_long start_row,
 		    const CORBA_long end_col, const CORBA_long end_row,
@@ -1190,7 +1175,6 @@ Sheet_corba_class_init (void)
 	gnome_gnumeric_sheet_epv.selection_append_range = Sheet_selection_append_range;
 	gnome_gnumeric_sheet_epv.selection_copy = Sheet_selection_copy;
 	gnome_gnumeric_sheet_epv.selection_cut = Sheet_selection_cut;
-	gnome_gnumeric_sheet_epv.selection_paste = Sheet_selection_paste;
 	gnome_gnumeric_sheet_epv.clear_region = Sheet_clear_region;
 	gnome_gnumeric_sheet_epv.clear_region_content = Sheet_clear_region_content;
 	gnome_gnumeric_sheet_epv.clear_region_comments = Sheet_clear_region_comments;

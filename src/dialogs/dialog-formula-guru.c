@@ -19,51 +19,24 @@
 #define INPUTS_FOR_MULTI_ARG 6
 
 typedef struct {
-	GtkWidget *dialog;
-	GtkBox *dialog_box;
-	GtkWidget *widget;
-	Workbook *wb;
+	GtkWidget	*dialog;
+	GtkBox		*dialog_box;
+	GtkWidget	*saved_entry;
+
+	Workbook	   *wb;
 	FunctionDefinition *fd;
-	GPtrArray *args;
-	TokenizedHelp *tok;
+	TokenizedHelp	   *tok;
+	GPtrArray	   *args;
 } State;
-
-static GtkWidget *
-create_description (FunctionDefinition *fd)
-{
-	GtkBox  *vbox;
-	TokenizedHelp *tok;
-
-	tok = tokenized_help_new (fd);
-
-	vbox = GTK_BOX (gtk_vbox_new (0, 0));
-	{ /* Syntax label */
-		GtkLabel *label =
-			GTK_LABEL(gtk_label_new (tokenized_help_find (tok, "SYNTAX")));
-		gtk_box_pack_start (vbox, GTK_WIDGET(label),
-				    TRUE, TRUE, 0);
-	}
-
-	{ /* Description */
-		GtkLabel *label;
-		const char *txt = tokenized_help_find (tok, "DESCRIPTION");
-		label = GTK_LABEL (gtk_label_new (txt));
-		gtk_label_set_line_wrap (label, TRUE);
-		gtk_box_pack_start (vbox, GTK_WIDGET(label),
-				    TRUE, TRUE, 0);
-	}
-
-	tokenized_help_destroy (tok);
-	return GTK_WIDGET (vbox);
-}
 
 typedef struct {
 	gchar   *arg_name;
 	gboolean optional;
 	gchar    type;
+
 	GtkEntry *entry;
 	Workbook *wb;
-} ARG_DATA;
+} ArgumentEntry;
 
 /**
  * Build descriptions of arguments
@@ -89,9 +62,9 @@ arg_data_list_new (State *state)
 		int lp;
 
 		for (lp = 0; lp < INPUTS_FOR_MULTI_ARG; lp++) {
-			ARG_DATA *ad;
+			ArgumentEntry *ad;
 
-			ad = g_new (ARG_DATA, 1);
+			ad = g_new (ArgumentEntry, 1);
 			ad->arg_name = g_strdup ("Value");
 			ad->wb = state->wb;
 			ad->type = '?';
@@ -122,8 +95,8 @@ arg_data_list_new (State *state)
 		}
 		if (*ptr == ',' || *ptr == ')') {
 			if (ptr > start) {
-				ARG_DATA *ad;
-				ad = g_new (ARG_DATA, 1);
+				ArgumentEntry *ad;
+				ad = g_new (ArgumentEntry, 1);
 				ad->arg_name = g_strndup (start, (int)(ptr - start));
 				ad->wb = state->wb;
 
@@ -141,7 +114,6 @@ arg_data_list_new (State *state)
 	g_free (copy_args);
 }
 
-#if 0
 static void
 arg_data_list_destroy (State *state)
 {
@@ -155,19 +127,22 @@ arg_data_list_destroy (State *state)
 		return;
 
 	for (lp = 0; lp < pa->len; lp++){
-		ARG_DATA *ad;
+		ArgumentEntry *ad;
 
 		ad = g_ptr_array_index (pa, 0);
 		g_free (ad->arg_name);
 		g_free (ad);
 	}
 	g_ptr_array_free (state->args, FALSE);
+	state->args = NULL;
 }
-#endif
 
-static void
-function_input (GtkWidget *widget, ARG_DATA *ad)
+static gboolean
+func_wiz_entry_focus_in (GtkWidget *widget, GdkEventFocus *event, ArgumentEntry *ad)
 {
+	puts ("in");
+	return FALSE;
+#if 0
 	FunctionDefinition *fd = dialog_function_select (ad->wb);
 	GtkEntry *entry = ad->entry;
 	gchar *txt;
@@ -184,13 +159,19 @@ function_input (GtkWidget *widget, ARG_DATA *ad)
 	gtk_editable_insert_text (GTK_EDITABLE(entry),
 				  txt, strlen(txt), &pos);
 	g_free (txt);
+#endif
+}
+
+static gboolean
+func_wiz_entry_focus_out (GtkWidget *widget, GdkEventFocus *event, ArgumentEntry *ad)
+{
+	puts ("out");
+	return FALSE;
 }
 
 static void
-function_type_input (GtkTable *table, int row, ARG_DATA *ad)
+function_type_input (GtkTable *table, int row, ArgumentEntry *ad)
 {
-	GtkButton *button;
-	GtkWidget *pix;
 	gchar *txt = NULL, *label;
 
 	g_return_if_fail (ad);
@@ -234,49 +215,29 @@ function_type_input (GtkTable *table, int row, ARG_DATA *ad)
 	else
 		label = g_strconcat ("=", txt, NULL);
 
+	gtk_table_attach_defaults (table, gtk_label_new (label),
+				   3, 4, row, row+1);
+#if 0
+	GtkButton *button;
+	GtkWidget *pix;
+	gtk_table_attach_defaults (table, GTK_WIDGET(button),
+				   2, 3, row, row+1);
 	button = GTK_BUTTON(gtk_button_new());
 	pix = gnome_stock_pixmap_widget_new (ad->wb->toplevel,
 					     GNOME_STOCK_PIXMAP_BOOK_GREEN);
 	gtk_container_add (GTK_CONTAINER (button), pix);
 	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
-	gtk_signal_connect (GTK_OBJECT (button), "clicked",
-			    GTK_SIGNAL_FUNC(function_input), ad);
+#endif
+	gtk_signal_connect (GTK_OBJECT (ad->entry), "focus-in-event",
+			    GTK_SIGNAL_FUNC(func_wiz_entry_focus_in), ad);
+	gtk_signal_connect (GTK_OBJECT (ad->entry), "focus-out-event",
+			    GTK_SIGNAL_FUNC(func_wiz_entry_focus_out), ad);
 
-	gtk_table_attach_defaults (table, GTK_WIDGET(button),
-				   2, 3, row, row+1);
-	gtk_table_attach_defaults (table, gtk_label_new (label),
-				   3, 4, row, row+1);
 	g_free (label);
 }
 
-static void
-function_wizard_create (State *state)
-{
-	GtkWidget *vbox, *description;
-	GtkTable *table;
-	int lp;
-
-	g_return_if_fail (state->args);
-	vbox = gtk_vbox_new (0, 2);
-
-	table = GTK_TABLE (gtk_table_new (3, state->args->len, FALSE));
-	for (lp = 0; lp < state->args->len; lp++)
-		function_type_input (table, lp, g_ptr_array_index (state->args, lp));
-
-	gtk_box_pack_start (GTK_BOX(vbox), GTK_WIDGET (table), TRUE, TRUE, 0);
-
-	description = create_description (state->fd);
-	gtk_box_pack_start (GTK_BOX(vbox), description,
-			    TRUE, TRUE, 0);
-
-	state->widget = vbox;
-	gtk_box_pack_start (state->dialog_box, vbox,
-			    FALSE, FALSE, 0);
-	gtk_widget_show_all (GTK_WIDGET(state->dialog_box));
-}
-
 static char*
-get_text_value (State *state)
+func_wiz_expr_string (State *state)
 {
 	gchar *txt, *txt2;
 	const char *name;
@@ -290,7 +251,7 @@ get_text_value (State *state)
 	txt = g_strconcat (name, "(", NULL);
 
 	for (lp = 0; lp < state->args->len; lp++) {
-		ARG_DATA *ad = g_ptr_array_index (state->args, lp);
+		ArgumentEntry *ad = g_ptr_array_index (state->args, lp);
 		gchar *val = gtk_entry_get_text (ad->entry);
 
 		if (!ad->optional || strlen (val)) {
@@ -304,12 +265,53 @@ get_text_value (State *state)
 	return txt2;
 }
 
+static void
+func_wiz_init (State *state)
+{
+	GtkBox *vbox;
+	GtkTable *table;
+	TokenizedHelp *tok;
+	int lp;
+
+	g_return_if_fail (state->args);
+
+	tok = tokenized_help_new (state->fd);
+
+	vbox = GTK_BOX (gtk_vbox_new (0, 0));
+
+	{ /* Syntax label */
+		GtkWidget *label = gtk_label_new (tokenized_help_find (tok, "SYNTAX"));
+		gtk_box_pack_start (vbox, label, TRUE, TRUE, 0);
+	}
+
+	{ /* Description */
+		GtkLabel *label;
+		const char *txt = tokenized_help_find (tok, "DESCRIPTION");
+		label = GTK_LABEL (gtk_label_new (txt));
+		gtk_label_set_line_wrap (label, TRUE);
+		gtk_box_pack_start (vbox, GTK_WIDGET(label),
+				    TRUE, TRUE, 0);
+	}
+
+	tokenized_help_destroy (tok);
+
+	table = GTK_TABLE (gtk_table_new (3, state->args->len, FALSE));
+	for (lp = 0; lp < state->args->len; lp++)
+		function_type_input (table, lp, g_ptr_array_index (state->args, lp));
+
+	gtk_box_pack_start (GTK_BOX(vbox),	GTK_WIDGET (table), TRUE, TRUE, 0);
+	gtk_box_pack_start (state->dialog_box,	GTK_WIDGET (vbox),  FALSE, FALSE, 0);
+	gtk_widget_show_all (GTK_WIDGET(state->dialog_box));
+}
+
 /* Handler for destroy */
 static gboolean
-cb_func_wizard_destroy (GtkObject *w, State *state)
+cb_func_wiz_destroy (GtkObject *w, State *state)
 {
 	g_return_val_if_fail (w != NULL, FALSE);
 	g_return_val_if_fail (state != NULL, FALSE);
+
+	arg_data_list_destroy (state);
 
 	if (state->tok != NULL) {
 		tokenized_help_destroy (state->tok);
@@ -320,7 +322,7 @@ cb_func_wizard_destroy (GtkObject *w, State *state)
 }
 
 static void
-cb_func_wizard_clicked (GnomeDialog *d, gint arg, State *state)
+cb_func_wiz_clicked (GnomeDialog *d, gint arg, State *state)
 {
 	/* Help */
 	if (arg == 0)
@@ -331,8 +333,13 @@ cb_func_wizard_clicked (GnomeDialog *d, gint arg, State *state)
 	gnome_dialog_close (d);
 }
 
+/**
+ * dialog_function_druid : pop up a function selection then a wizard.
+ *
+ * Returns : a pointer to the new dialog.
+ */
 void
-dialog_function_wizard (Workbook *wb)
+dialog_function_druid (Workbook *wb)
 {
 	Sheet *sheet;
 	GtkEntry *entry;
@@ -341,7 +348,7 @@ dialog_function_wizard (Workbook *wb)
 	State *state;
 	FunctionDefinition *fd;
 
-	g_return_if_fail (wb);
+	g_return_if_fail (wb != NULL);
 
 	w = workbook_get_entry (wb);
 	entry = GTK_ENTRY(w);
@@ -383,19 +390,19 @@ dialog_function_wizard (Workbook *wb)
 	gtk_window_set_modal (GTK_WINDOW (dialog), FALSE);
 
 	/* Handle destroy */
-	gtk_signal_connect(GTK_OBJECT(dialog), "destroy",
-			   GTK_SIGNAL_FUNC(cb_func_wizard_destroy),
-			   state);
-	gtk_signal_connect(GTK_OBJECT(dialog), "clicked",
-			   GTK_SIGNAL_FUNC(cb_func_wizard_clicked),
-			   state);
+	gtk_signal_connect (GTK_OBJECT (dialog), "destroy",
+			    GTK_SIGNAL_FUNC (cb_func_wiz_destroy),
+			    state);
+	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
+			    GTK_SIGNAL_FUNC (cb_func_wiz_clicked),
+			    state);
 
 	state->dialog = dialog;
 	state->dialog_box = GTK_BOX(GNOME_DIALOG (dialog)->vbox);
 
-	function_wizard_create (state);
+	func_wiz_init (state);
 
-	gtk_entry_append_text (entry, get_text_value (state));
+	gtk_entry_append_text (entry, func_wiz_expr_string (state));
 
 	gnumeric_dialog_show (wb->toplevel, GNOME_DIALOG (dialog), FALSE, TRUE);
 }

@@ -1,3 +1,8 @@
+2000-05-26  Jody Goldberg <jgoldberg@home.com>
+
+	* plugin.c (init_plugin) : rename
+	  gnumeric_error_plugin_problem -> gnumeric_error_plugin.
+
 2000-05-20  Jody Goldberg <jgoldberg@home.com>
 
         * Release 0.54
