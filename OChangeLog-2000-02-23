@@ -1,3 +1,14 @@
+1999-05-16  Morten Welinder  <terra@diku.dk>
+
+	* src/expr.c (evaluate_level): Deleted.
+	(bigger_prec): Deleted.
+	(do_expr_decode_tree): Handle left/right associativity.
+
+	* src/cell.c (cell_set_text_simple): Simplify value parsing.
+
+	* src/dialog-goal-seek.c (test_cell_with_value): Cast to double,
+ 	not float.
+
 1999-05-16  Michael Meeks  <michael@imaginator.com>
 
 	* src/workbook.c (cb_assemble_selection): Add 'char *sel'
@@ -42,7 +53,6 @@
  	regression testing.  It is in Excel format so it tests the Excel
  	plugin's functionality in the same time too.
 
-
 1999-05-15  Michael Meeks  <michael@imaginator.com>
 
 	* src/file.c (file_format_register_save): Changed to append
@@ -56,7 +66,6 @@
 	* src/parser.y (value_dump): Fixed array problem.
 	Added const to parameter.
 
-	
 1999-05-15  Michael Meeks  <michael@imaginator.com>
 
 	* src/parser.c (value_dump): Updated Arrays, to use Value *
@@ -86,7 +95,6 @@
 
 	* src/func.c (constants_init): Added a 'value_zero' constant
 	to kill leak in out-of-range / NULL cell cases in value_get_at_x_y
-	
 
 1999-05-14  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
@@ -4030,7 +4038,6 @@ Sun Aug 30 17:19:02 EDT 1998 Daniel Veillard <Daniel.Veillard@w3.org>
 	StyleFormat structure is actually released.  resources allocated
 	in format_compile should be disposed here
 
-
 	* src/sheet.c (sheet_cursor_set): New function.  Use this instead
 	of the view-specific routine (gnumeric_cursor_set).
 
@@ -4552,7 +4559,6 @@ Sun Jul 26 17:39:53 EDT 1998  Daniel Veillard <Daniel.Veillard@w3.org>
 	columns. 
 
 	* src/utils.c (cell_name): New routine.  Renders a cell name.
-
 
 	* src/sheet.h (IS_SHEET): Added a signature to Sheet strucutres
 	and a signature to test with.

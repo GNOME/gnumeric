@@ -411,19 +411,19 @@ value_get_as_int (const Value *v)
 
 	case VALUE_CELLRANGE:
 		g_warning ("Getting range as a double: what to do?");
-		return 0.0;
+		return 0;
 
 	case VALUE_INTEGER:
 		return v->v.v_int;
 
 	case VALUE_ARRAY:
-		return 0.0;
+		return 0;
 
 	case VALUE_FLOAT:
 		return (int) v->v.v_float;
 	default:
 		g_warning ("value_get_as_int unknown type\n");
-		break;
+		return 0;
 	}
 	return 0.0;
 }
@@ -1282,60 +1282,61 @@ cell_get_abs_col_row (const CellRef *cell_ref, int eval_col, int eval_row, int *
 		*row = cell_ref->row;
 }
 
-static int
-evaluate_level (Operation x)
-{
-	if (x == OPER_EXP)
-		return 3;
-	if ((x==OPER_MULT) || (x==OPER_DIV))
-		return 2;
-	if ((x==OPER_ADD)  || (x==OPER_SUB)   || (x==OPER_CONCAT))
-		return 1;
-	return 0;
-}
-
-static int
-bigger_prec (Operation parent, Operation this)
-{
-	int parent_level, this_level;
-
-	parent_level = evaluate_level (parent);
-	this_level   = evaluate_level (this);
-
-	return parent_level >= this_level;
-}
-
 /*
  * Converts a parsed tree into its string representation
- * assuming that we are evaluating at col, row (This is
- * only used during copying to "render" a new text
- * representation for a copied cell.
+ * assuming that we are evaluating at col, row
  *
  * This routine is pretty simple: it walks the ExprTree and
- * create a string representation.
+ * creates a string representation.
+ *
+ * FIXME: strings containing quotes will come out wrong.
+ * FIXME: negative constants should pretend to have OPER_NEG's precedence.
  */
 static char *
-do_expr_decode_tree (ExprTree *tree, Sheet *sheet, int col, int row, Operation parent_op)
+do_expr_decode_tree (ExprTree *tree, Sheet *sheet, int col, int row, int paren_level)
 {
-	static const char *operation_names [] = {
-		"=", ">", "<", ">=", "<=", "<>",
-		"+", "-", "*", "/",  "^",  "&",
-		NULL, NULL, NULL, "-"
+	static struct {
+		const char *name;
+		int prec;	              /* Precedences -- should match parser.y  */
+		int assoc_left, assoc_right;  /* 0: no, 1: yes.  */
+	} operations [] = {
+		{ "=",  1, 1, 0 },
+		{ ">",  1, 1, 0 },
+		{ "<",  1, 1, 0 },
+		{ ">=", 1, 1, 0 },
+		{ "<=", 1, 1, 0 },
+		{ "<>", 1, 1, 0 },
+		{ "+",  3, 1, 0 },
+		{ "-",  3, 1, 0 },
+		{ "*",  4, 1, 0 },
+		{ "/",  4, 1, 0 },
+		{ "^",  6, 0, 1 },
+		{ "&",  2, 1, 0 },
+		{ NULL, 0, 0, 0 },
+		{ NULL, 0, 0, 0 },
+		{ NULL, 0, 0, 0 },
+		{ "-",  5, 0, 0 }
 	};
+	int op;
 
-	switch (tree->oper){
+	op = tree->oper;
+
+	switch (op){
 	case OPER_ANY_BINARY: {
 		char *a, *b, *res;
-		char const *op;
+		char const *opname;
+		int prec;
 
-		a = do_expr_decode_tree (tree->u.binary.value_a, sheet, col, row, tree->oper);
-		b = do_expr_decode_tree (tree->u.binary.value_b, sheet, col, row, tree->oper);
-		op = operation_names [tree->oper];
+		prec = operations[op].prec;
 
-		if (bigger_prec (parent_op, tree->oper))
-			res = g_strconcat ("(", a, op, b, ")", NULL);
+		a = do_expr_decode_tree (tree->u.binary.value_a, sheet, col, row, prec - operations[op].assoc_left);
+		b = do_expr_decode_tree (tree->u.binary.value_b, sheet, col, row, prec - operations[op].assoc_right);
+		opname = operations[op].name;
+
+		if (prec <= paren_level)
+			res = g_strconcat ("(", a, opname, b, ")", NULL);
 		else
-			res = g_strconcat (a, op, b, NULL);
+			res = g_strconcat (a, opname, b, NULL);
 
 		g_free (a);
 		g_free (b);
@@ -1344,9 +1345,17 @@ do_expr_decode_tree (ExprTree *tree, Sheet *sheet, int col, int row, Operation p
 
 	case OPER_ANY_UNARY: {
 		char *res, *a;
+		char const *opname;
+		int prec;
 
-		a = do_expr_decode_tree (tree->u.value, sheet, col, row, tree->oper);
-		res = g_strconcat (operation_names[tree->oper], a, NULL);
+		prec = operations[op].prec;
+		a = do_expr_decode_tree (tree->u.value, sheet, col, row, operations[op].prec);
+		opname = operations[op].name;
+
+		if (prec <= paren_level)
+			res = g_strconcat ("(", opname, a, ")", NULL);
+		else
+			res = g_strconcat (opname, a, NULL);
 		g_free (a);
 		return res;
 	}
@@ -1370,7 +1379,7 @@ do_expr_decode_tree (ExprTree *tree, Sheet *sheet, int col, int row, Operation p
 			for (l = arg_list; l; l = l->next, i++){
 				ExprTree *t = l->data;
 
-				args [i] = do_expr_decode_tree (t, sheet, col, row, OPER_CONSTANT);
+				args [i] = do_expr_decode_tree (t, sheet, col, row, 0);
 				len += strlen (args [i]) + 1;
 			}
 			len++;
@@ -1384,8 +1393,7 @@ do_expr_decode_tree (ExprTree *tree, Sheet *sheet, int col, int row, Operation p
 					strcat (sum, ",");
 			}
 
-			res = g_strconcat (
-				fd->name, "(", sum, ")", NULL);
+			res = g_strconcat (fd->name, "(", sum, ")", NULL);
 			g_free (sum);
 
 			for (i = 0; i < argc; i++)
@@ -1439,7 +1447,7 @@ expr_decode_tree (ExprTree *tree, Sheet *sheet, int col, int row)
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
-	return do_expr_decode_tree (tree, sheet, col, row, OPER_CONSTANT);
+	return do_expr_decode_tree (tree, sheet, col, row, 0);
 }
 
 static ExprTree *

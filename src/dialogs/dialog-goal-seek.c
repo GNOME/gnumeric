@@ -21,11 +21,11 @@
 #define MAX_CELL_NAME_LEN  20
 
 
-static int test_cell_with_value (Cell *set_cell, Cell *change_cell,
-				 float_t x, float_t *value)
+static int
+test_cell_with_value (Cell *set_cell, Cell *change_cell, float_t x, float_t *value)
 {
         char buf[256];
-	sprintf(buf, "%f", (float) x);
+	sprintf(buf, "%f", (double) x);
 
         cell_set_text(change_cell, buf);
 	cell_eval(set_cell);

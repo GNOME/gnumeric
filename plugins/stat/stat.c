@@ -11,7 +11,14 @@ can_unload (PluginData *pd)
 {
 	return TRUE;
 }
-	
+
+
+static void
+cleanup_plugin (PluginData *pd)
+{
+	g_free (pd->title);
+}
+
 int
 init_plugin (PluginData *pd)
 {
@@ -21,13 +28,3 @@ init_plugin (PluginData *pd)
 
 	return 0;
 }
-
-static void
-cleanup_plugin (PluginData *pd)
-{
-	g_free (pd->title);
-}
-
-
-
-			

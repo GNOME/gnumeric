@@ -14,6 +14,7 @@
 #include "color.h"
 #include "cursors.h"
 #include "utils.h"
+#include <ctype.h>
 
 static int         redraws_frozen      = 0;
 static int         redraws_deep_frozen = 0;
@@ -640,69 +641,30 @@ cell_set_text_simple (Cell *cell, const char *text)
  	if (text [0] == '=' && text [1] != 0){
 		cell_set_formula (cell, text); 
 	} else {
-		Value *v = g_new (Value, 1);
-		int is_text, is_float, maybe_float, has_digits;
-		int seen_exp;
 		const char *p;
+		char *end;
+		long l;
 
-		lconv = localeconv ();
-		
-		is_text = is_float = maybe_float = has_digits = FALSE;
-		seen_exp = FALSE;
-		for (p = text; *p && !is_text; p++){
-			switch (*p){
-			case '0': case '1': case '2': case '3': case '4':
-			case '5': case '6': case '7': case '8': case '9':
-				has_digits = TRUE;
-				break;
+		/* Skip spaces, just in case.  */
+		p = text;
+		while (isspace (*p)) p++;
 
-			case '-':
-				if (p == text)
-					break;
-				if (seen_exp)
-					is_text = TRUE;
-				/* falldown */
-				
-			case 'E': case 'e': case '+': case ':': case '.': case ',':
-				if (*p == 'e' || *p == 'E') {
-					seen_exp = TRUE;
-
-					/* Lookahead */
-					if (*(p+1) == '-')
-						p++; 
-				}
-				
-				if (*p == ',' || *p == '.')
-					if (*lconv->decimal_point != *p){
-						is_text = TRUE;
-						break;
-					}
-				maybe_float = TRUE;
-				break;
-
-			default:
-				is_text = TRUE;
-			}
-		}
-		if (has_digits && maybe_float)
-			is_float = TRUE;
-		
-		if (has_digits && !is_text){
-			if (is_float){
-				v->type = VALUE_FLOAT;
-				float_get_from_range (text, text+strlen(text),
-						      &v->v.v_float);
-			} else {
-				v->type = VALUE_INTEGER;
-				int_get_from_range (text, text+strlen (text),
-						    &v->v.v_int);
-			}
+		l = strtol (p, &end, 10);
+		if (p != end && *end == 0) {
+			/* It is an int.  FIXME: long/int confusion here.  */
+			cell->value = value_new_int (l);
 		} else {
-			v->type = VALUE_STRING;
-			v->v.str = string_get (text);
+			double d;
+			d = strtod (p, &end);
+			if (p != end && *end == 0) {
+				/* It is a floating point number.  */
+				cell->value = value_new_float ((float_t)d);
+			} else {
+				/* It is text.  */
+				cell->value = value_new_string (text);
+			}
 		}
-		cell->value = v;
-		
+
 		cell_render_value (cell);
 	}	
 }
