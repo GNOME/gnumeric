@@ -1005,7 +1005,7 @@ static char const *help_opt_rgw = {
 	   "\n"
 	   "@DESCRIPTION="
 	   "OPT_RGW models the theoretical price of an option according to "
-	   "the Roll Geske Whaley apporximation where t1 is the time to the "
+	   "the Roll-Geske-Whaley approximation where t1 is the time to the "
 	   "dividend payout and t2 is the time to option expiration."
 	   "\n"
 	   "@EXAMPLES=\n"
