@@ -96,6 +96,7 @@ typedef enum {
 /* Short integer properties */
 	MS_OLE_SUMMARY_CODEPAGE       = 0x4001,
 
+/* FIXME tenix it is Preview, isn't it? */
 /* Security */	
 	MS_OLE_SUMMARY_THUMBNAIL      = 0x6011,
 
