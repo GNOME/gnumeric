@@ -87,7 +87,7 @@ pgamma(double x, double p, double scale)
 	if (p > plimit) {
 	        pn1 = sqrt(p) * 3.0 * (pow(x/p, third) + 1.0 /
 					 (p * 9.0) - 1.0);
-		return phi(pn1); //pnorm(pn1, 0.0, 1.0);
+		return phi(pn1);
 	}
  
 	/* if x is extremely large compared to p then return 1 */
