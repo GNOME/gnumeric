@@ -2224,21 +2224,38 @@ sheet_show_cursor (Sheet *sheet)
 char *
 sheet_name_quote (const char *name_unquoted)
 {
-	int         i, j, quote;
+	int         i, j, quotes_embedded;
+	gboolean    quote;
 	static char quote_chr [] = { '=', '<', '>', '+', '-', ' ', '^', '&', '%', '\0' };
 
 	g_return_val_if_fail (name_unquoted != NULL, NULL);
 
 	quote = FALSE;
-	for (i = 0; name_unquoted [i]; i++) {
-		for (j = 0; quote_chr [j]; j++)
+	for (i = 0, quotes_embedded = 0; name_unquoted [i]; i++) {
+		for (j = 0; quote_chr [j]; j++) 
 			if (name_unquoted [i] == quote_chr [j])
 				quote = TRUE;
+		if (name_unquoted [i] == '"')
+			quotes_embedded++;
 	}
 
-	if (quote)
-		return g_strconcat ("\"", name_unquoted, "\"", NULL);
-	else
+	if (quote) {
+		int  len_quoted = strlen (name_unquoted) + quotes_embedded + 3;
+		char  *ret = g_malloc (len_quoted);
+		const char *src;
+		char  *dst;
+
+		*ret = '"';
+		for (src = name_unquoted, dst = ret + 1; *src; src++, dst++) {
+			if (*src == '"')
+				*dst++ = '\\';
+			*dst = *src;
+		}
+		*dst++ = '"';
+		*dst = '\0';
+		
+		return ret;
+	} else
 		return g_strdup (name_unquoted);
 }
 
