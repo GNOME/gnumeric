@@ -14,9 +14,9 @@ plugindir = $(libdir)/gnumeric/plugins
 # 	-Wshadow             -Wpointer-arith  	\
 # 	-Wmissing-prototypes -Wmissing-declarations 
 
-plugin_LTLIBRARIES = libpython.la
+plugin_LTLIBRARIES = libperl.la
 
-libpython_la_SOURCES = perl.c xsinit.c
+libperl_la_SOURCES = perl.c xsinit.c
 
 xsinit.c:
 	perl -MExtUtils::Embed -e xsinit -- -o xsinit.c
@@ -28,7 +28,7 @@ INCLUDES = 						\
 	$(PERL_CCOPTS)					\
 	$(GNOME_INCLUDEDIR)
 
-libpython_la_LIBADD = $(PERL_LDOPTS)
+libperl_la_LIBADD = $(PERL_LDOPTS)
 
 Perlscriptsdir = $(datadir)/gnumeric/perl
 
