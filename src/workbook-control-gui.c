@@ -3696,6 +3696,157 @@ workbook_setup_status_area (WorkbookControlGUI *wbcg)
 	workbook_setup_auto_calc (wbcg);
 }
 
+
+
+/*******************************************************************************/
+/* Stolen from GTK+ 2.0                                                        */
+/* When we move up to Gnome 2.0 we should get rid of them again and use        */
+/* the appropriate tools                                                       */
+/*******************************************************************************/
+
+static int
+read_int (gchar   *string,
+          gchar  **next)
+{
+  int result = 0;
+  int sign = 1;
+  
+  if (*string == '+')
+    string++;
+  else if (*string == '-')
+    {
+      string++;
+      sign = -1;
+    }
+
+  for (; (*string >= '0') && (*string <= '9'); string++)
+    {
+      result = (result * 10) + (*string - '0');
+    }
+
+  *next = string;
+
+  if (sign >= 0)
+    return (result);
+  else
+    return (-result);
+}
+
+/* 
+ * Bitmask returned by XParseGeometry().  Each bit tells if the corresponding
+ * value (x, y, width, height) was found in the parsed string.
+ */
+#define NoValue         0x0000
+#define XValue          0x0001
+#define YValue          0x0002
+#define WidthValue      0x0004
+#define HeightValue     0x0008
+#define AllValues       0x000F
+#define XNegative       0x0010
+#define YNegative       0x0020
+
+/* Try not to reformat/modify, so we can compare/sync with X sources */
+static int
+gtk_XParseGeometry (const char   *string,
+                    int          *x,
+                    int          *y,
+                    unsigned int *width,   
+                    unsigned int *height)  
+{
+  int mask = NoValue;
+  char *strind;
+  unsigned int tempWidth, tempHeight;
+  int tempX, tempY;
+  char *nextCharacter;
+
+  /* These initializations are just to silence gcc */
+  tempWidth = 0;
+  tempHeight = 0;
+  tempX = 0;
+  tempY = 0;
+  
+  if ( (string == NULL) || (*string == '\0')) return(mask);
+  if (*string == '=')
+    string++;  /* ignore possible '=' at beg of geometry spec */
+
+  strind = (char *)string;
+  if (*strind != '+' && *strind != '-' && *strind != 'x') {
+    tempWidth = read_int(strind, &nextCharacter);
+    if (strind == nextCharacter) 
+      return (0);
+    strind = nextCharacter;
+    mask |= WidthValue;
+  }
+
+  if (*strind == 'x' || *strind == 'X') {	
+    strind++;
+    tempHeight = read_int(strind, &nextCharacter);
+    if (strind == nextCharacter)
+      return (0);
+    strind = nextCharacter;
+    mask |= HeightValue;
+  }
+
+  if ((*strind == '+') || (*strind == '-')) {
+    if (*strind == '-') {
+      strind++;
+      tempX = -read_int(strind, &nextCharacter);
+      if (strind == nextCharacter)
+        return (0);
+      strind = nextCharacter;
+      mask |= XNegative;
+
+    }
+    else
+      {	strind++;
+      tempX = read_int(strind, &nextCharacter);
+      if (strind == nextCharacter)
+        return(0);
+      strind = nextCharacter;
+      }
+    mask |= XValue;
+    if ((*strind == '+') || (*strind == '-')) {
+      if (*strind == '-') {
+        strind++;
+        tempY = -read_int(strind, &nextCharacter);
+        if (strind == nextCharacter)
+          return(0);
+        strind = nextCharacter;
+        mask |= YNegative;
+
+      }
+      else
+        {
+          strind++;
+          tempY = read_int(strind, &nextCharacter);
+          if (strind == nextCharacter)
+            return(0);
+          strind = nextCharacter;
+        }
+      mask |= YValue;
+    }
+  }
+	
+  /* If strind isn't at the end of the string the it's an invalid
+		geometry specification. */
+
+  if (*strind != '\0') return (0);
+
+  if (mask & XValue)
+    *x = tempX;
+  if (mask & YValue)
+    *y = tempY;
+  if (mask & WidthValue)
+    *width = tempWidth;
+  if (mask & HeightValue)
+    *height = tempHeight;
+  return (mask);
+}
+
+/*******************************************************************************/
+/* end of stolen code section                                                  */
+/*******************************************************************************/
+
 static int
 show_gui (WorkbookControlGUI *wbcg)
 {
@@ -3704,48 +3855,62 @@ show_gui (WorkbookControlGUI *wbcg)
 	int sy = MAX (gdk_screen_height (), 200);
 	int x_loc = 0;
 	int y_loc = 0;
-	gboolean reposition_window = FALSE;
-
-	reposition_window = x_geometry && wbv && wbcg->notebook &&
-		(wbv->preferred_width == 0 && wbv->preferred_height == 0) &&
-		sscanf (x_geometry, "%ix%i+%i+%i", 
-			&wbv->preferred_width, &wbv->preferred_height,
-			&x_loc, &y_loc) > 2;
-		x_geometry = NULL;
-
-/* Set grid size to preferred width */
-	if (wbv && (wbv->preferred_width > 0 || wbv->preferred_height > 0)) {
-		int pwidth = wbv->preferred_width;
-		int pheight = wbv->preferred_height;
-		GdkGeometry geometry;
-
-		pwidth = pwidth > 0 ? pwidth : -2;
-		pheight = pheight > 0 ? pheight : -2;
-		gtk_widget_set_usize (GTK_WIDGET (wbcg->notebook),
-				      pwidth, pheight);
-
-		geometry.max_width  = sx;
-		geometry.max_height = sy;
-		gtk_window_set_geometry_hints (wbcg->toplevel, NULL,
-					       &geometry, GDK_HINT_MAX_SIZE);
-	} else {
-		gdouble fx, fy;
-
-		fx = gnome_config_get_float_with_default (
+	gdouble fx, fy;
+	GdkGeometry geometry;
+	
+	fx = gnome_config_get_float_with_default (
 		"Gnumeric/Placement/WindowRelativeSizeX=0.75", NULL);
-		fy = gnome_config_get_float_with_default (
+	fy = gnome_config_get_float_with_default (
 		"Gnumeric/Placement/WindowRelativeSizeY=0.75", NULL);
-		fx = MIN (fx, 1.0);
-		fx = MAX (0.25, fx);
-		fy = MIN (fy, 1.0);
-		fy = MAX (0.2, fy);
-		gtk_window_set_default_size (wbcg->toplevel, sx * fx, sy * fy);
+	fx = MIN (fx, 1.0);
+	fx = MAX (0.25, fx);
+	fy = MIN (fy, 1.0);
+	fy = MAX (0.2, fy);
+
+	if (x_geometry && wbv && wbcg->toplevel) {
+		gint result;
+		guint width;   
+		guint height;  
+		
+		result = gtk_XParseGeometry (x_geometry, &x_loc, &y_loc,
+					     &width, &height); 
+		
+		if (!(result & WidthValue) || width == 0 || wbv->preferred_width > 0)
+			width = (wbv->preferred_width == 0) ? sx * fx : wbv->preferred_width;
+		if (!(result & HeightValue) || height == 0 || wbv->preferred_height > 0)
+			height = (wbv->preferred_height == 0) ? 
+				sy * fy : wbv->preferred_height;
+		gtk_window_set_default_size (wbcg->toplevel, width, height);
+
+		if ((result & XValue) && (result & YValue)) {
+			if (result & XNegative)
+				x_loc = gdk_screen_width  () - width + x_loc;
+			if (result & YNegative)
+				y_loc = gdk_screen_height () - height + y_loc;
+			gtk_widget_set_uposition (GTK_WIDGET (wbcg->toplevel), x_loc, y_loc);
+		}
+
+	} else {	
+/* Set grid size to preferred width */
+		if (wbv && (wbv->preferred_width > 0 || wbv->preferred_height > 0)) {
+			int pwidth = wbv->preferred_width;
+			int pheight = wbv->preferred_height;
+			
+			pwidth = pwidth > 0 ? pwidth : -2;
+			pheight = pheight > 0 ? pheight : -2;
+			gtk_widget_set_usize (GTK_WIDGET (wbcg->notebook),
+					      pwidth, pheight);
+		} else {
+			gtk_window_set_default_size (wbcg->toplevel, sx * fx, sy * fy);
+		} 
 	}
 
+	geometry.max_width  = sx;
+	geometry.max_height = sy;
+	gtk_window_set_geometry_hints (wbcg->toplevel, NULL,
+				       &geometry, GDK_HINT_MAX_SIZE);
+	x_geometry = NULL;
 	gtk_widget_show_all (GTK_WIDGET (wbcg->toplevel));
-
-	if (reposition_window)
-		gtk_window_reposition(wbcg->toplevel, x_loc, y_loc);
 
 	/* rehide headers if necessary */
 	if (wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg))) {

@@ -1,3 +1,11 @@
+2001-12-02  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/workbook-control-gui.c (show_gui) : implement complete 
+	  --geometry option (according to X man page)
+	(read_int) : taken from GTK 2.0
+	(gtk_XParseGeometry) : ditto
+
+	
 2001-12-01  Abel Cheung  <maddog@linux.org.hk>
 
 	* configure.in: Renamed zh_CN.GB2312 to zh_CN in ALL_LINGUAS .
