@@ -1,5 +1,8 @@
 2001-09-21  Jody Goldberg <jgoldberg@home.com>
 
+	* src/clipboard.c (cellregion_to_string) : don't append tabs or
+	  newlines for singletons.
+
 	* src/item-bar.c (item_bar_event) : fix silliness that was breaking
 	  autoscroll.
 

@@ -627,18 +627,20 @@ cellregion_to_string (CellRegion *cr)
 
 	all = g_string_new (NULL);
 	line = g_string_new (NULL);
-	for (row = 0; row < cr->rows; row++) {
+	for (row = 0; row < cr->rows;) {
 		g_string_assign (line, "");
 
-		for (col = 0; col < cr->cols; col++) {
+		for (col = 0; col < cr->cols;) {
 			if (data [row][col]) {
 				g_string_append (line, data [row][col]);
 				g_free (data [row][col]);
 			}
-			g_string_append_c (line, '\t');
+			if (++col < cr->cols)
+				g_string_append_c (line, '\t');
 		}
 		g_string_append (all, line->str);
-		g_string_append_c (all, '\n');
+		if (++row < cr->rows)
+			g_string_append_c (all, '\n');
 	}
 
 	return_val = g_strdup (all->str);
