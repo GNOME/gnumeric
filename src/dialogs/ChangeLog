@@ -1,3 +1,11 @@
+2003-06-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* descriptive-stats.glade: use notebook
+	* exp-smoothing.glade: ditto
+	* mean-tests.glade: ditto
+	* moving-averages.glade: ditto
+	* sampling.glade: ditto
+
 2003-06-10  Morten Welinder  <terra@gnome.org>
 
 	* dialog-printer-setup.c: Switch to foocanvas.
