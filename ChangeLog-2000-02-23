@@ -1,3 +1,9 @@
+1999-12-15  Morten Welinder  <terra@diku.dk>
+
+	* configure.in (WITH_PYTHON): Disable python until someone fixes it.
+	(Remove config.cache and the installed python plugin, or else you
+	will not see the effect of this.)
+
 1999-12-14  Morten Welinder  <terra@diku.dk>
 
 	* src/dialogs/dialog-analysis-tools.c (dialog_regression_tool):
@@ -5744,4 +5750,3 @@
 
 	* src/eval.c (add_cell_range_deps): Use eval_sheet, and make
 	warning more correct.
-

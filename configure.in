@@ -104,7 +104,9 @@ dnl **************************************************
 dnl * Check for Python
 dnl **************************************************
 dnl
-AC_CHECK_PROG(python_val, python, true, false)
+dnl Someone need to find out why PyExc_TypeError is undefined when we dl the
+dnl plugin.  Until then, no Python support.
+AC_CHECK_PROG(python_val, DISABLED_python_DISABLED, true, false)
 if $python_val; then
 	  PY_PREFIX=`python -c 'import sys ; print sys.prefix'`
 	  PY_EXEC_PREFIX=`python -c 'import sys ; print sys.exec_prefix'`
