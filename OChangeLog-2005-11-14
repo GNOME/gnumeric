@@ -8,6 +8,9 @@
 
 2003-05-27  Morten Welinder  <terra@gnome.org>
 
+	* src/style-border.c (style_border_none_set_color): Fix ref count
+	leak.
+
 	* src/style.c (style_font_new_simple): Fix warning text.
 
 	* src/gnumeric-pane.h (struct _GnumericPane): cursor_type is of

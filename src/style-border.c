@@ -178,7 +178,7 @@ style_border_none_set_color (StyleColor *color)
  	StyleColor *nc;
 
 	if (color == none->color) {
-#warning "FIXME: ref count error here, MW thinks."
+		style_color_unref (color);
 		return;
 	}
 
@@ -187,7 +187,6 @@ style_border_none_set_color (StyleColor *color)
 	style_color_unref (nc);
 
 	if (none->gc) {
-		/* g_print ("B\n"); */
 		gdk_gc_set_rgb_fg_color (none->gc, &none->color->color);
 	}
 }
