@@ -292,7 +292,8 @@ typedef struct {
 static gboolean
 intersects (Sheet *sheet, int col, int row, DependencyRange *range)
 {
-	if (range_contains (&range->range, col, row) && (sheet == range->sheet))
+	if ((sheet == range->sheet) &&
+	    range_contains (&range->range, col, row))
 		return TRUE;
 
 	return FALSE;
@@ -305,13 +306,17 @@ search_cell_deps (gpointer key, gpointer value, gpointer closure)
 	get_dep_closure_t *c = closure;
 	Sheet *sheet = c->sheet;
 	GList *l;
+	static int inters=0;
+	static int nointers=0;
+
+	/* No intersection is the common case */
 
 	if (!(intersects (sheet, c->start_col, c->start_row, range) ||
 	      intersects (sheet, c->end_col,   c->end_row,   range) ||
 	      intersects (sheet, c->start_col, c->end_row,   range) ||
 	      intersects (sheet, c->end_col,   c->start_row, range)))
 		return;
-			
+
 	for (l = range->cell_list; l; l = l->next){
 		Cell *cell = l->data;
 
@@ -441,6 +446,8 @@ pick_next_cell_from_queue (Workbook *wb)
 	
 	cell = wb->eval_queue->data;
 	wb->eval_queue = g_list_remove (wb->eval_queue, cell);
+	if (!(cell->flags & CELL_QUEUED_FOR_RECALC))
+		printf ("De-queued cell here\n");
 	cell->flags &= ~CELL_QUEUED_FOR_RECALC;
 	return cell;
 }

@@ -1223,16 +1223,50 @@ wizard_input (GtkWidget *widget, Workbook *wb)
 }
 
 static void
+deps_output (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet = workbook_get_current_sheet (wb);
+	int col, row, dummy;
+	Cell *cell;
+	GList *list;
+
+	if (!sheet_selection_first_range(sheet, &dummy, &dummy,
+					 &col, &row,
+					 &dummy, &dummy)) {
+		gnumeric_notice(wb, GNOME_MESSAGE_BOX_ERROR,
+				_("Selection must be a single range"));
+		return;
+	}
+	printf ("The cells that depend on %s\n",
+		cell_name (col, row));
+	if (!(cell = sheet_cell_get (sheet, col, row))) {
+		printf ("must contain some data\n");
+		return;
+	}
+	list = cell_get_dependencies (sheet, col, row);
+	if (!list)
+		printf ("No dependencies\n");
+	while (list) {
+		Cell *cell = list->data;
+		list = g_list_next (list);
+		if (!cell) continue;
+		if (sheet != cell->sheet && cell->sheet)
+			printf ("%s", cell->sheet->name);
+		printf ("%s\n", cell_name (cell->col->pos,
+					   cell->row->pos));
+	}
+}
+
+static void
 workbook_setup_edit_area (Workbook *wb)
 {
-	GtkWidget *ok_button, *cancel_button, *wizard_button, *box, *box2;
-	GtkWidget *pix;
+	GtkWidget *ok_button, *cancel_button, *wizard_button;
+	GtkWidget *pix, *deps_button, *box, *box2;
 	
 	wb->ea_status = gtk_entry_new ();
 	wb->ea_input  = gtk_entry_new ();
 	ok_button     = gtk_button_new ();
 	cancel_button = gtk_button_new ();
-	wizard_button = gtk_button_new ();
 	box           = gtk_hbox_new (0, 0);
 	box2          = gtk_hbox_new (0, 0);
 	
@@ -1252,19 +1286,33 @@ workbook_setup_edit_area (Workbook *wb)
 	gtk_signal_connect (GTK_OBJECT (cancel_button), "clicked",
 			    GTK_SIGNAL_FUNC(cancel_input), wb);
 	
+
+	gtk_box_pack_start (GTK_BOX (box2), wb->ea_status, 0, 0, 0);
+	gtk_box_pack_start (GTK_BOX (box), ok_button, 0, 0, 0);
+	gtk_box_pack_start (GTK_BOX (box), cancel_button, 0, 0, 0);
+
 	/* Function Wizard, currently only enabled if you run with --debug=1 */
 	if (gnumeric_debugging){
+		wizard_button = gtk_button_new ();
 		pix = gnome_stock_pixmap_widget_new (wb->toplevel, GNOME_STOCK_PIXMAP_BOOK_GREEN);
 		gtk_container_add (GTK_CONTAINER (wizard_button), pix);
 		GTK_WIDGET_UNSET_FLAGS (wizard_button, GTK_CAN_FOCUS);
 		gtk_signal_connect (GTK_OBJECT (wizard_button), "clicked",
 				    GTK_SIGNAL_FUNC(wizard_input), wb);
+		gtk_box_pack_start (GTK_BOX (box), wizard_button, 0, 0, 0);
 	}
 	
-	gtk_box_pack_start (GTK_BOX (box2), wb->ea_status, 0, 0, 0);
-	gtk_box_pack_start (GTK_BOX (box), ok_button, 0, 0, 0);
-	gtk_box_pack_start (GTK_BOX (box), cancel_button, 0, 0, 0);
-	gtk_box_pack_start (GTK_BOX (box), wizard_button, 0, 0, 0);
+	/* Dependency Debugger, currently only enabled if you run with --debug=10 */
+	if (gnumeric_debugging>9){
+		deps_button = gtk_button_new ();
+		pix = gnome_stock_pixmap_widget_new (wb->toplevel, GNOME_STOCK_PIXMAP_BOOK_RED);
+		gtk_container_add (GTK_CONTAINER (deps_button), pix);
+		GTK_WIDGET_UNSET_FLAGS (deps_button, GTK_CAN_FOCUS);
+		gtk_signal_connect (GTK_OBJECT (deps_button), "clicked",
+				    GTK_SIGNAL_FUNC(deps_output), wb);
+		gtk_box_pack_start (GTK_BOX (box), deps_button, 0, 0, 0);
+	}
+	
 	gtk_box_pack_start (GTK_BOX (box2), box, 0, 0, 0);
 	gtk_box_pack_end   (GTK_BOX (box2), wb->ea_input, 1, 1, 0);
 

@@ -112,8 +112,8 @@ gboolean
 range_contains (Range *range, int col, int row)
 {
 	if ((col >= range->start_col) &&
-	    (col <= range->end_col)   &&
 	    (row >= range->start_row) &&
+	    (col <= range->end_col)   &&
 	    (row <= range->end_row))
 		return TRUE;
 
