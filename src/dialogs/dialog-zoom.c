@@ -93,7 +93,7 @@ dialog_zoom_impl (Workbook *wb, Sheet *cur_sheet, GladeXML  *gui)
 		radio  = GTK_RADIO_BUTTON (glade_xml_get_widget (gui, "radio_custom"));
 		g_return_if_fail (radio != NULL);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radio), TRUE);
-		gtk_spin_button_set_value (zoom, (int)(cur_sheet->last_zoom_factor_used * 100.));
+		gtk_spin_button_set_value (zoom, (int)(cur_sheet->last_zoom_factor_used * 100. + .5));
 	}
 
 	gtk_clist_freeze (list);
@@ -119,6 +119,10 @@ dialog_zoom_impl (Workbook *wb, Sheet *cur_sheet, GladeXML  *gui)
 		return;
 	}
 
+	/* Make the dialog a child of the application so that it will iconify */
+	gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (wb->toplevel));
+
+	/* Bring up the dialog */
 	res = gnome_dialog_run (GNOME_DIALOG (dialog));
 	if (res == 0) {
 		float const new_zoom = gtk_spin_button_get_value_as_int(zoom) / 100.;
@@ -128,6 +132,7 @@ dialog_zoom_impl (Workbook *wb, Sheet *cur_sheet, GladeXML  *gui)
 		}
 	}
 
+	/* If the user closed the dialog with prejudice, its already destroyed */
 	if (res >= 0)
 		gnome_dialog_close (GNOME_DIALOG (dialog));
 }

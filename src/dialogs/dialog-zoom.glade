@@ -29,9 +29,9 @@
   <class>GnomeDialog</class>
   <name>Zoom</name>
   <title>Zoom</title>
-  <type>GTK_WINDOW_TOPLEVEL</type>
-  <position>GTK_WIN_POS_NONE</position>
-  <modal>False</modal>
+  <type>GTK_WINDOW_DIALOG</type>
+  <position>GTK_WIN_POS_MOUSE</position>
+  <modal>True</modal>
   <allow_shrink>False</allow_shrink>
   <allow_grow>False</allow_grow>
   <auto_shrink>False</auto_shrink>
@@ -336,6 +336,7 @@
 	<class>GtkButton</class>
 	<name>ok_button</name>
 	<can_default>True</can_default>
+	<has_default>True</has_default>
 	<can_focus>True</can_focus>
 	<stock_button>GNOME_STOCK_BUTTON_OK</stock_button>
       </widget>
@@ -345,6 +346,7 @@
 	<name>cancel_button</name>
 	<can_default>True</can_default>
 	<can_focus>True</can_focus>
+	<has_focus>True</has_focus>
 	<stock_button>GNOME_STOCK_BUTTON_CANCEL</stock_button>
       </widget>
     </widget>

@@ -2,6 +2,7 @@
 
 	* ole.c (dump_vba) : Remove the escher code.  The new version needs to
 	  much context to be useable at this level.
+	(enter_dir) : Improve error message, and fix thinko.
 
 	* ms-excel-read.c (ms_excel_read_cell) : Fix importing of column
 	  widths.

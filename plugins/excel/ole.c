@@ -128,6 +128,7 @@ list_commands ()
 	printf (" * dump    <stream name>:   dump stream\n");
 	printf (" * summary              :   dump document summary info\n");
 	printf (" * debug                :   dump internal ole library status\n");
+	printf (" * vba                  :   attempt to dump vba \n");
 	printf (" Raw transfer commands\n");
 	printf (" * get     <stream name> <fname>\n");
 	printf (" * put     <fname> <stream name>\n");
@@ -198,9 +199,9 @@ enter_dir (MsOle *ole)
 			g_free (newpath);
 			return;
 		}
-		if (s.type != MsOleStorageT ||
+		if (s.type != MsOleStorageT &&
 		    s.type != MsOleRootT) {
-			printf ("Trying to enter a stream");
+			printf ("Trying to enter a stream. (%d)\n", s.type);
 			g_free (newpath);
 			return;
 		}

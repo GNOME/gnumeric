@@ -845,7 +845,6 @@ sheet_col_set_width (Sheet *sheet, int col, int width)
 
 	/* Move any cell comments */
 	sheet_reposition_comments_from_col (sheet, col);
-	
 }
 
 static inline int

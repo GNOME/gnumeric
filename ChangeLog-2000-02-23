@@ -10,7 +10,8 @@
 1999-09-23  Jody Goldberg <jgoldberg@home.com>
 
 	* src/dialogs/dialog-zoom.c (dialog_zoom_impl) : Set the spinbox value
-	  when we start with a custom zoom factor.
+	  when we start with a custom zoom factor, round correctly.  Set the
+	  parent to be gnumeric.
 
 1999-09-22  Jody Goldberg <jgoldberg@home.com>
 
