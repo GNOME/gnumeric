@@ -1526,7 +1526,8 @@ xml_write_cell (parse_xml_context_t *ctxt, Cell *cell)
 	text = cell_get_content (cell);
 	tstr = xmlEncodeEntitiesReentrant (ctxt->doc, text);
 	xmlNewChild (cur, ctxt->ns, "Content", tstr);
-	if (tstr) xmlFree (tstr);
+	if (tstr)
+		xmlFree (tstr);
 	g_free (text);
 
  	text = cell_get_comment(cell);
@@ -1644,8 +1645,9 @@ xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
 		    OPER_ARRAY != ret->parsed_node->oper)
 			cell_set_text_simple (ret, content);
 		xmlFree (content);
-	} else
-		cell_set_text_simple (ret, "");
+	} else {
+		cell_set_value (ret, value_new_empty ());
+	}
 
 	cell_deep_thaw_redraws ();
 /*	cell_deep_thaw_dependencies (); */

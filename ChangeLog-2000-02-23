@@ -1,5 +1,8 @@
 2000-01-01  Miguel de Icaza  <miguel@gnu.org>
 
+	* src/xml-io.c (xml_read_cell): Set the cell value to empty
+	instead of an empty string.
+
 	* src/cell.c (cell_set_text): Add warning if cell_set_text is
 	invoked with the empty string.
 
