@@ -371,8 +371,11 @@ expr_name_remove (NamedExpression *nexpr)
 	g_return_if_fail (nexpr != NULL);
 	g_return_if_fail (nexpr->active);
 
+	/* ref so that we can safely clear the expression later */
+	expr_name_ref (nexpr);
 	expr_name_unlink (nexpr);
 	expr_name_set_expr (nexpr, NULL);
+	expr_name_unref (nexpr);
 }
 
 /**
