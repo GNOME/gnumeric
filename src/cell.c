@@ -80,6 +80,7 @@ cell_cleanout (Cell *cell)
 		rendered_value_destroy (cell->rendered_value);
 		cell->rendered_value = NULL;
 	}
+	cell->row_info->needs_respan = TRUE;
 }
 
 /* The pool from which all cells are allocated.  */
@@ -221,7 +222,6 @@ cell_set_text (Cell *cell, char const *text)
 	if (val != NULL) {	/* String was a value */
 		cell_cleanout (cell);
 		cell->value = val;
-		cell_render_value (cell, TRUE);
 		cell_dirty (cell);
 	} else {		/* String was an expression */
 		cell_set_expr (cell, expr);
@@ -252,7 +252,6 @@ cell_assign_value (Cell *cell, Value *v)
 	if (cell->value != NULL)
 		value_release (cell->value);
 	cell->value = v;
-	cell_render_value (cell, TRUE);
 }
 
 /**
@@ -613,9 +612,6 @@ cell_convert_expr_to_value (Cell *cell)
 
 	gnm_expr_unref (cell->base.expression);
 	cell->base.expression = NULL;
-
-	if (cell->rendered_value == NULL)
-		cell_render_value (cell, TRUE);
 
 	cell_dirty (cell);
 }

@@ -407,6 +407,8 @@ row_calc_spans (ColRowInfo *rinfo, Sheet const *sheet)
 			continue;
 		}
 
+		cell_render_value ((Cell *)cell, TRUE);
+
 		if (cell_is_merged (cell)) {
 			merged = sheet_merge_is_corner (sheet, &cell->pos);
 			if (NULL != merged) {
@@ -415,7 +417,6 @@ row_calc_spans (ColRowInfo *rinfo, Sheet const *sheet)
 			}
 		}
 
-		cell_render_value ((Cell *)cell, TRUE);
 		cell_calc_span (cell, &left, &right);
 		if (left != right) {
 			cell_register_span (cell, left, right);

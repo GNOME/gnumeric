@@ -1,3 +1,28 @@
+2002-10-28  Jody Goldberg <jody@gnome.org>
+
+	* src/ranges.c (global_range_parse) : don't create names.
+	(global_range_list_parse) : ditto.
+
+	* src/gnumeric.h : Bump the max size
+
+	* src/cell.c (cell_cleanout) : mark the row for respan.
+
+	* src/func.c (gnm_func_add_placeholder) : init ref_notify to NULL
+	  explicitly.
+	(function_remove) : free the name if necessary.
+
+	* src/print.c (print_job_info_set_one_time_defaults) : patch warning.
+
+	* src/cellspan.c (row_calc_spans) : even merges need to be rendered.
+
+	* src/cell-draw.c (cell_draw) : item-grid takes care of the
+	  render/span.
+	* src/print-cell.c (print_cell) : ditto.
+
+	* src/print-cell.c (print_cell_range) : check for render/span _before_
+	  merges.
+	* src/item-grid.c (item_grid_draw) : ditto.
+
 2002-10-27  Jody Goldberg <jody@gnome.org>
 
 	* src/dependent.c (dependents_link) : new.

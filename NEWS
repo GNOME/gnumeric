@@ -1,5 +1,12 @@
 Gnumeric 1.1.11
 
+Jody:
+	* Store current sheet in both spots for xls export
+	* Fix multiple name invalidation within 1 expr on sheet delete
+	* Work around incorrect XL95 export in OpenCalc
+	* Enable full simplistic just in time render & span.
+	* Fix names.
+
 Morten:
 	* Clean up SERIESSUM.
 

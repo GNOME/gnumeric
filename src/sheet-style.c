@@ -195,6 +195,8 @@ rstyle_apply (MStyle **old, ReplacementStyle *rs)
 /* This is good until 16M rows.  */
 #if SHEET_MAX_ROWS <= 16 * 16 * 16 * 16
 #define	TILE_SIZE_ROW 16
+#elif SHEET_MAX_ROWS <= 20 * 20 * 20 * 20
+#define	TILE_SIZE_ROW 20
 #elif SHEET_MAX_ROWS <= 32 * 32 * 32 * 32
 #define	TILE_SIZE_ROW 32
 #else

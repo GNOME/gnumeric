@@ -232,17 +232,19 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 	    (!sheet->display_formulas || !cell_has_expr (cell)))
 		return;
 
-	if (cell->rendered_value == NULL)
-		cell_render_value ((Cell *)cell, TRUE);
-
-	g_return_if_fail (cell->rendered_value->rendered_text);
-
-	if (cell->rendered_value->rendered_text->str == NULL) {
+	if (cell->rendered_value == NULL ||
+	    cell->rendered_value->rendered_text == NULL ||
+	    cell->rendered_value->rendered_text->str == NULL) {
 		g_warning ("Serious cell error at '%s'", cell_name (cell));
 		/* This can occur when eg. a plugin function fires up a dialog */
 		text = "Pending";
-	} else
+		fore = NULL;
+	} else {
 		text = cell->rendered_value->rendered_text->str;
+		fore = cell->rendered_value->render_color;
+	}
+	if (fore == NULL)
+		fore = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
 
 	/* Get the sizes exclusive of margins and grids */
 	/* FIXME : all callers will eventually pass in their cell size */
@@ -309,9 +311,6 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 	gnome_print_clip (context);
 
 	/* Set the font colour */
-	fore = cell->rendered_value->render_color;
-	if (fore == NULL)
-		fore = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
 	g_return_if_fail (fore != NULL); /* Be extra careful */
 	gnome_print_setrgbcolor (context,
 				 fore->red   / (double) 0xffff,
@@ -656,6 +655,12 @@ print_cell_range (GnomePrintContext *context,
 			}
 		}
 
+		/* its safe to const_cast because only the a non-default row
+		 * will ever get flagged.
+		 */
+		if (ri->needs_respan)
+			row_calc_spans ((ColRowInfo *)ri, sheet);
+
 		/* look for merges that start on this row, on the first painted row
 		 * also check for merges that start above. */
 		view.start.row = row;
@@ -687,12 +692,6 @@ print_cell_range (GnomePrintContext *context,
 				ptr = ptr->next;
 			}
 		}
-
-		/* its safe to const_cast because only the a non-default row
-		 * will ever get flagged.
-		 */
-		if (ri->needs_respan)
-			row_calc_spans ((ColRowInfo *)ri, sheet);
 
 		for (col = start_col, x = base_x; col <= end_col ; col++) {
 			MStyle const *style;

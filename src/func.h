@@ -83,7 +83,8 @@ typedef enum {
 	GNM_FUNC_RECALC_ONLOAD 		= 0x04,
 
 	/* an unknown function that will hopefully be defined later */
-	GNM_FUNC_IS_PLACEHOLDER		= 0x08
+	GNM_FUNC_IS_PLACEHOLDER		= 0x08,
+	GNM_FUNC_FREE_NAME		= 0x10
 } GnmFuncFlags;
 
 /* I do not like this it is going to be different for different apps

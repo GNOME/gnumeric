@@ -411,27 +411,6 @@ sheet_apply_style (Sheet       *sheet,
 
 /****************************************************************************/
 
-/**
- * sheet_update_zoom_controls:
- *
- * This routine is run every time the zoom has changed.  It checks
- * what the status of various toolbar feedback controls should be
- *
- * FIXME: This will at some point become a sheet view function.
- */
-static void
-sheet_update_zoom_controls (Sheet *sheet)
-{
-	g_return_if_fail (IS_SHEET (sheet));
-
-	WORKBOOK_FOREACH_VIEW (sheet->workbook, view,
-	{
-		if (wb_view_cur_sheet (view) == sheet) {
-			WORKBOOK_VIEW_FOREACH_CONTROL (view, control,
-				wb_control_zoom_feedback (control););
-		}
-	});
-}
 
 /**
  * sheet_set_zoom_factor : Change the zoom factor.
@@ -488,8 +467,11 @@ sheet_set_zoom_factor (Sheet *sheet, double f, gboolean force, gboolean update)
 			sheet->priv->reposition_objects.row = 0;
 		sheet_update_only_grid (sheet);
 
-		if (sheet->workbook)
-			sheet_update_zoom_controls (sheet);
+		SHEET_FOREACH_VIEW (sheet, sv,
+			if (wb_view_cur_sheet (sv_wbv (sv)) == sheet)
+				WORKBOOK_VIEW_FOREACH_CONTROL (sv_wbv (sv), control,
+					wb_control_zoom_feedback (control););
+			);
 	}
 }
 

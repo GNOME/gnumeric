@@ -429,6 +429,12 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			}
 		}
 
+		/* its safe to const_cast because only the a non-default row
+		 * will ever get flagged.
+		 */
+		if (ri->needs_respan)
+			row_calc_spans ((ColRowInfo *)ri, sheet);
+
 		/* look for merges that start on this row, on the first painted row
 		 * also check for merges that start above. */
 		view.start.row = row;
@@ -460,12 +466,6 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				ptr = ptr->next;
 			}
 		}
-
-		/* its safe to const_cast because only the a non-default row
-		 * will ever get flagged.
-		 */
-		if (ri->needs_respan)
-			row_calc_spans ((ColRowInfo *)ri, sheet);
 
 		for (col = start_col, x = diff_x; col <= end_col ; col++) {
 			MStyle const *style;

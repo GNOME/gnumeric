@@ -190,17 +190,18 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 	    (!sheet->display_formulas || !cell_has_expr (cell)))
 		return;
 
-	if (cell->rendered_value == NULL)
-		cell_render_value ((Cell *)cell, TRUE);
-
-	g_return_if_fail (cell->rendered_value->rendered_text);
-
-	if (cell->rendered_value->rendered_text->str == NULL) {
+	if (cell->rendered_value == NULL ||
+	    cell->rendered_value->rendered_text == NULL ||
+	    cell->rendered_value->rendered_text->str == NULL) {
 		g_warning ("Serious cell error at '%s'.", cell_name (cell));
-		/* This can occur when eg. a plugin function fires up a dialog */
 		text = "Pending";
-	} else
+		fore = NULL;
+	} else {
 		text = cell->rendered_value->rendered_text->str;
+		fore = cell->rendered_value->render_color;
+	}
+	if (fore == NULL)
+		fore = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
 
 	/* Get the sizes exclusive of margins and grids */
 	/* FIXME : all callers will eventually pass in their cell size */
@@ -253,9 +254,6 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 
 	/* Set the font colour */
 	gdk_gc_set_fill (gc, GDK_SOLID);
-	fore = cell->rendered_value->render_color;
-	if (fore == NULL)
-		fore = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
 	g_return_if_fail (fore != NULL); /* Be extra careful */
 	gdk_gc_set_foreground (gc, &fore->color);
 

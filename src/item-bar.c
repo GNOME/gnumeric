@@ -132,7 +132,7 @@ item_bar_calc_size (ItemBar *ib)
 
 	/* 5 pixels left and right plus the width of the widest string I can think of */
 	ib->cell_width = 5 + 5 + 
-		style_font_string_width(bold_font, "88888");
+		style_font_string_width(bold_font, "188888");
 	ib->indent = ib->is_col_header
 		? ib_compute_pixels_from_indent (sheet, TRUE)
 		: ib_compute_pixels_from_indent (sheet, FALSE);

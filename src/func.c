@@ -390,6 +390,8 @@ function_remove (GnmFuncGroup *fn_group, char const *name)
 		/* Nothing.  */
 		;
 	}
+	if (func->flags & GNM_FUNC_FREE_NAME)
+		g_free ((char *)func->name);
 	g_free (func);
 }
 
@@ -509,7 +511,6 @@ gnm_func_add_placeholder (char const *name, char const *type,
 		unknown_cat = gnm_func_group_fetch (unknown_cat_name);
 
 	memset (&desc, 0, sizeof (GnmFuncDescriptor));
-	/* FIXME: if copied, the name is leaked.  */
 	desc.name	  = copy_name ? g_strdup (name) : name;
 	desc.arg_spec	  = NULL;
 	desc.arg_names	  = "...";
@@ -518,7 +519,8 @@ gnm_func_add_placeholder (char const *name, char const *type,
 	desc.fn_nodes	  = &unknownFunctionHandler;
 	desc.linker	  = NULL;
 	desc.unlinker	  = NULL;
-	desc.flags	  = GNM_FUNC_IS_PLACEHOLDER;
+	desc.ref_notify	  = NULL;
+	desc.flags	  = GNM_FUNC_IS_PLACEHOLDER | (copy_name ? GNM_FUNC_FREE_NAME : 0);
 	desc.impl_status  = GNM_FUNC_IMPL_STATUS_EXISTS;
 	desc.test_status  = GNM_FUNC_TEST_STATUS_UNKNOWN;
 
