@@ -1,3 +1,8 @@
+2003-06-10  Abel Cheung  <maddog@linux.org.hk>
+
+	* configure.in: Removed en_CA and en_AU from ALL_LINGUAS. They are
+	  dummy translations now.
+
 2003-06-09  Jody Goldberg <jody@gnome.org>
 
 	* src/format-template.c (xml_read_format_col_row_info) : remove use of

@@ -1,3 +1,13 @@
+2003-06-10  Abel Cheung  <maddog@linux.org.hk>
+
+	* en_CA.po, en_AU.po: Removed, since they are unmaintained for 2 yrs,
+	  and they contain only 1 valid entry. Using en_GB is a lot better.
+
+2003-06-10  Abel Cheung  <maddog@linux.org.hk>
+
+	* POTFILES.in: Added some more files.
+	* POTFILES.skip: Added egg stuff from POTFILES.in, they were not built.
+
 2003-06-07  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.19
