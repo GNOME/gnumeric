@@ -20,7 +20,7 @@ CFLAGS += $(PERL_CCCDLFLAGS)				\
 	$(GNOME_INCLUDEDIR)
 
 
-plugin_PROGRAMS = perl.so
+noinst_PROGRAMS = perl.so
 
 .c.o:
 	$(CC) $(CFLAGS) -c $<
