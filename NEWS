@@ -12,6 +12,7 @@ Jukka:
 	  Solver (currently, not very useful though).
 	* Major GUI improvementes for Solver, i.g. Solver constraints
           can now be cell ranges, not just cells.
+	* Solver documentation added.
 	* Added `Advanced Filter' tool.
 	* Added the following distributions for the random number
 	  generation tool:
