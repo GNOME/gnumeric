@@ -8,7 +8,8 @@
 typedef struct _MSContainer	MSContainer;
 typedef struct _ExcelWorkbook	ExcelWorkbook;
 typedef struct _MSEscherBlip	MSEscherBlip;
-typedef struct _MSObj MSObj;
+typedef struct _MSEscherShape	MSEscherShape;
+typedef struct _MSObj		MSObj;
 
 typedef struct {
 	gboolean        (*realize_obj)	(MSContainer *container, MSObj *obj);

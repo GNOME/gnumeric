@@ -335,7 +335,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 
 	anchor = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_ANCHOR);
 	if (anchor == NULL) {
-		fprintf (stderr,"MISSING anchor for obj %p\n", (void *)obj);
+		fprintf (stderr,"MISSING anchor for obj %p with id %d of type %s\n", (void *)obj, obj->id, obj->excel_type_name);
 		return TRUE;
 	}
 
@@ -413,14 +413,14 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 {
 	SheetObject *so = NULL;
 	Workbook *wb;
-	ExcelReadSheet const *esheet;
+	ExcelReadSheet *esheet;
 
 	if (obj == NULL)
 		return NULL;
 
 	g_return_val_if_fail (container != NULL, NULL);
 
-	esheet = (ExcelReadSheet const *)container;
+	esheet = (ExcelReadSheet *)container;
 	wb = esheet->container.ewb->gnum_wb;
 
 	switch (obj->excel_type) {
@@ -436,6 +436,7 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 			gnm_so_graphic_set_fill_color (so, color);
 		break;
 	}
+	case 0x00: /* draw the group border */
 	case 0x02:
 	case 0x03: { /* Box or Oval */
 		GnmColor *fill_color = NULL;
@@ -524,8 +525,12 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 
 	/* ignore combos associateed with filters */
 	case 0x14:
-		if (!obj->ignore_combo_in_filter)
+		if (!obj->combo_in_autofilter)
 			so = g_object_new (sheet_widget_combo_get_type (), NULL);
+
+		/* ok, there are combos to go with the autofilter it can stay */
+		else if (esheet != NULL)
+			esheet->filter = NULL;
 	break;
 
 	case 0x19: so = g_object_new (cell_comment_get_type (), NULL);
@@ -623,12 +628,12 @@ excel_sheet_new (ExcelWorkbook *ewb, char const *sheet_name)
 		workbook_sheet_attach (ewb->gnum_wb, sheet, NULL);
 		d (1, fprintf (stderr,"Adding sheet '%s'\n", sheet_name););
 	}
-	/* in case nothing forces a spanning flag it here so that spans will
-	 * regenerater later.
-	 */
+
+	/* Flag a respan here in case nothing else does */
 	sheet_flag_recompute_spans (sheet);
 
 	esheet->sheet	= sheet;
+	esheet->filter	= NULL;
 	esheet->freeze_panes	= FALSE;
 	esheet->shared_formulae	= g_hash_table_new_full (
 		(GHashFunc)&cellpos_hash, (GCompareFunc)&cellpos_equal,
@@ -2572,6 +2577,15 @@ excel_sheet_destroy (ExcelReadSheet *esheet)
 		esheet->tables = NULL;
 	}
 
+	/* There appear to be workbooks like guai.xls that have a filter NAME
+	 * defined but no visible combos, so we remove a filter if it has no
+	 * objects */
+	if (esheet->filter != NULL) {
+		gnm_filter_remove (esheet->filter);
+		gnm_filter_free (esheet->filter);
+		esheet->filter = NULL;
+	}
+
 	ms_container_finalize (&esheet->container);
 
 	g_free (esheet);
@@ -2926,7 +2940,9 @@ excel_read_EXTERNNAME (BiffQuery *q, MSContainer *container)
 }
 
 /* Do some error checking to handle the magic name associated with an
- * autofilter in a sheet */
+ * autofilter in a sheet.  Do not make it an error.
+ * We have lots of examples of things that are not autofilters.
+ **/
 static void
 excel_prepare_autofilter (ExcelWorkbook *ewb, GnmNamedExpr *nexpr)
 {
@@ -2938,17 +2954,27 @@ excel_prepare_autofilter (ExcelWorkbook *ewb, GnmNamedExpr *nexpr)
 			value_release (v);
 
 			if (valid) {
-				(void) gnm_filter_new (r.sheet, &r.range);
+				unsigned   i;
+				GnmFilter *filter;
+				ExcelReadSheet *esheet;
+				
+				filter = gnm_filter_new (r.sheet, &r.range);
 				expr_name_remove (nexpr);
-				return;
+
+				for (i = 0 ; i < ewb->excel_sheets->len; i++) {
+					esheet = g_ptr_array_index (ewb->excel_sheets, i);
+					if (esheet->sheet == r.sheet) {
+						g_return_if_fail (esheet->filter == NULL);
+						esheet->filter = filter;
+					}
+				}
 			}
 		}
 	}
-	gnm_io_warning (ewb->context, _("Failure parsing AutoFilter."));
 }
 
 static void
-excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb, gboolean global)
+excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb, ExcelReadSheet *esheet)
 {
 	GPtrArray *a;
 	GnmNamedExpr *nexpr = NULL;
@@ -3048,7 +3074,7 @@ excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb, gboolean global)
 				excel_prepare_autofilter (ewb, nexpr);
 			/* g_warning ("flags = %hx, state = %s\n", flags, global ? "global" : "sheet"); */
 
-			if ((flags & 0xE) == 0xE) /* Function & VB-Proc & Proc */
+			else if ((flags & 0xE) == 0xE) /* Function & VB-Proc & Proc */
 				gnm_func_add_placeholder (ewb->gnum_wb,
 					nexpr->name->str, "VBA", TRUE);
 		}
@@ -5082,7 +5108,7 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 		case BIFF_XF_OLD:
 			excel_read_XF_OLD (q, ewb, esheet->container.ver);
 			break;
-		case BIFF_NAME:		excel_read_NAME (q, ewb, FALSE);	break;
+		case BIFF_NAME:		excel_read_NAME (q, ewb, esheet);	break;
 		case BIFF_FONT:		excel_read_FONT (q, ewb);	break;
 		case BIFF_FORMAT:	excel_read_FORMAT (q, ewb);	break;
 		case BIFF_STYLE:	break;
@@ -5498,7 +5524,7 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			break;
 
 		case BIFF_EXTERNNAME:	excel_read_EXTERNNAME (q, &ewb->container); break;
-		case BIFF_NAME:		excel_read_NAME (q, ewb, TRUE);	break;
+		case BIFF_NAME:		excel_read_NAME (q, ewb, NULL);	break;
 		case BIFF_XCT:		excel_read_XCT (q, ewb);	break;
 
 		case BIFF_WRITEACCESS:

@@ -42,7 +42,7 @@
 #define GR_END                0x00
 #define GR_MACRO              0x04
 #define GR_COMMAND_BUTTON     0x05
-#define GR_GROUP_BUTTON       0x06
+#define GR_GROUP	      0x06
 #define GR_CLIPBOARD_FORMAT   0x07
 #define GR_PICTURE_OPTIONS    0x08
 #define GR_PICTURE_FORMULA    0x09
@@ -275,7 +275,7 @@ ms_obj_new (MSObjAttrBag *attrs)
 	obj->id = -1;
 	obj->gnum_obj = NULL;
 	obj->attrs = (attrs != NULL) ? attrs : ms_obj_attr_bag_new ();
-	obj->ignore_combo_in_filter	= FALSE;
+	obj->combo_in_autofilter	= FALSE;
 	obj->is_linked			= FALSE;
 	obj->comment_pos.col = obj->comment_pos.row = -1;
 
@@ -567,7 +567,7 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 	case 0x13 : /* group box */
 		break;
 	case 0x14 : /* drop down */
-		obj->ignore_combo_in_filter =
+		obj->combo_in_autofilter =
 			(GSF_LE_GET_GUINT16 (q->data + 8) & 0x8000) ? TRUE : FALSE;
 		break;
 	default :
@@ -615,7 +615,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 		switch (record_type) {
 		case GR_END:
 			g_return_val_if_fail (len == 0, TRUE);
-			ms_obj_dump (data, len, data_len_left, "ObjEnd");
+			/* ms_obj_dump (data, len, data_len_left, "ObjEnd"); */
 			hit_end = TRUE;
 			break;
 
@@ -627,8 +627,8 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			ms_obj_dump (data, len, data_len_left, "CommandButton");
 			break;
 
-		case GR_GROUP_BUTTON :
-			ms_obj_dump (data, len, data_len_left, "GroupButton");
+		case GR_GROUP :
+			ms_obj_dump (data, len, data_len_left, "Group");
 			break;
 
 		case GR_CLIPBOARD_FORMAT :
@@ -750,7 +750,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			/* Undocumented.  It appears that combos for filters are marked
 			 * with flag 0x100
 			 */
-			obj->ignore_combo_in_filter =
+			obj->combo_in_autofilter =
 				(obj->excel_type == 0x14) && (options & 0x100);
 
 #ifndef NO_DEBUG_EXCEL
@@ -852,8 +852,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 void
 ms_read_OBJ (BiffQuery *q, MSContainer *container, MSObjAttrBag *attrs)
 {
-	static char const * const object_type_names[] =
-	{
+	static char const * const object_type_names[] = {
 		"Group", 	/* 0x00 */
 		"Line",		/* 0x01 */
 		"Rectangle",	/* 0x02 */

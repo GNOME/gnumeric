@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 #ifndef GNUMERIC_MS_OFFICE_ESCHER_H
 #define GNUMERIC_MS_OFFICE_ESCHER_H
 
@@ -20,9 +21,12 @@ struct _MSEscherBlip {
 	guint32	      data_len;
 	gboolean      needs_free;
 };
+struct _MSEscherShape {
+	MSObjAttrBag *attrs;
+};
 
-MSObjAttrBag *ms_escher_parse    (BiffQuery  *q, MSContainer *container);
-void	     ms_escher_blip_free (MSEscherBlip *blip);
+MSObjAttrBag *ms_escher_parse     (BiffQuery  *q, MSContainer *container);
+void	      ms_escher_blip_free (MSEscherBlip *blip);
 
 #if 0
 typedef struct _MSEscherWriter MSEscherWriter;

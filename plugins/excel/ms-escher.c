@@ -49,8 +49,7 @@
 #endif
 
 /* A storage accumulator for common state information */
-typedef struct
-{
+typedef struct {
 	MSContainer	*container;
 	BiffQuery	*q;
 
@@ -61,8 +60,7 @@ typedef struct
 	gint32 end_offset;	/* 1st byte past end of current segment */
 } MSEscherState;
 
-typedef struct _MSEscherHeader
-{
+typedef struct _MSEscherHeader {
 	/* Read from the data stream */
 	guint	ver;
 	guint	instance;
@@ -149,7 +147,7 @@ ms_escher_blip_free (MSEscherBlip *blip)
 static guint8 const *
 ms_escher_get_data (MSEscherState *state,
 		    gint offset,	/* bytes from logical start of the stream */
-		    gint num_bytes,	/* how many bytes we want, NOT incl prefix */
+		    gint num_bytes,	/*how many bytes we want, NOT incl prefix */
 		    gboolean * needs_free)
 {
 	BiffQuery *q = state->q;
@@ -242,7 +240,7 @@ ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
 /****************************************************************************/
 
 static gboolean
-ms_escher_read_CLSID (MSEscherState * state, MSEscherHeader * h)
+ms_escher_read_CLSID (MSEscherState *state, MSEscherHeader *h)
 {
 	/* Holds a 'Class ID Record' ID record which is only included in the
 	 * 'clipboard format'.  It contains an OLE CLSID record from the source
@@ -254,7 +252,7 @@ ms_escher_read_CLSID (MSEscherState * state, MSEscherHeader * h)
 }
 
 static gboolean
-ms_escher_read_ColorMRU (MSEscherState * state, MSEscherHeader * h)
+ms_escher_read_ColorMRU (MSEscherState *state, MSEscherHeader *h)
 {
 	d (3 , {
 		guint const num_Colours = h->instance;
@@ -268,13 +266,13 @@ ms_escher_read_ColorMRU (MSEscherState * state, MSEscherHeader * h)
 }
 
 static gboolean
-ms_escher_read_SplitMenuColors (MSEscherState * state, MSEscherHeader * h)
+ms_escher_read_SplitMenuColors (MSEscherState *state, MSEscherHeader *h)
 {
 	gboolean needs_free;
 	guint8 const * data;
 
 	g_return_val_if_fail (h->instance == 4, TRUE);
-	g_return_val_if_fail (h->len == 24, TRUE); /* header + 4*4 */
+	g_return_val_if_fail (h->len == 24, TRUE); /*header + 4*4 */
 
 	if ((data = ms_escher_get_data (state, h->offset + COMMON_HEADER_LEN,
 					16, &needs_free))) {
@@ -291,7 +289,7 @@ ms_escher_read_SplitMenuColors (MSEscherState * state, MSEscherHeader * h)
 }
 
 static gboolean
-ms_escher_read_BStoreContainer (MSEscherState * state, MSEscherHeader * h)
+ms_escher_read_BStoreContainer (MSEscherState *state, MSEscherHeader *h)
 {
 	return ms_escher_read_container (state, h, 0);
 }
@@ -311,7 +309,7 @@ bliptype_name (int const type)
 }
 
 static gboolean
-ms_escher_read_BSE (MSEscherState * state, MSEscherHeader * h)
+ms_escher_read_BSE (MSEscherState *state, MSEscherHeader *h)
 {
 	/* read the header */
 	gboolean needs_free;
@@ -365,7 +363,7 @@ ms_escher_read_BSE (MSEscherState * state, MSEscherHeader * h)
 }
 
 static gboolean
-ms_escher_read_Blip (MSEscherState * state, MSEscherHeader * h)
+ms_escher_read_Blip (MSEscherState *state, MSEscherHeader *h)
 {
 	int offset = COMMON_HEADER_LEN + 16;
 	guint32 inst = h->instance;
@@ -469,25 +467,25 @@ ms_escher_read_Blip (MSEscherState * state, MSEscherHeader * h)
 }
 
 static gboolean
-ms_escher_read_RegroupItems (MSEscherState * state, MSEscherHeader * h)
+ms_escher_read_RegroupItems (MSEscherState *state, MSEscherHeader *h)
 {
 	return FALSE;
 }
 
 static gboolean
-ms_escher_read_ColorScheme (MSEscherState * state, MSEscherHeader * h)
+ms_escher_read_ColorScheme (MSEscherState *state, MSEscherHeader *h)
 {
 	return FALSE;
 }
 
 static gboolean
-ms_escher_read_SpContainer (MSEscherState * state, MSEscherHeader * h)
+ms_escher_read_SpContainer (MSEscherState *state, MSEscherHeader *h)
 {
 	return ms_escher_read_container (state, h, 0);
 }
 
 static gboolean
-ms_escher_read_Spgr (MSEscherState * state, MSEscherHeader * h)
+ms_escher_read_Spgr (MSEscherState *state, MSEscherHeader *h)
 {
 	static char const * const shape_names[] = {
 		/* 0 */ "Not a primitive",
@@ -635,7 +633,7 @@ ms_escher_read_Spgr (MSEscherState * state, MSEscherHeader * h)
 }
 
 static gboolean
-ms_escher_read_Sp (MSEscherState * state, MSEscherHeader * h)
+ms_escher_read_Sp (MSEscherState *state, MSEscherHeader *h)
 {
 	gboolean needs_free;
 	guint8 const *data = ms_escher_get_data (state,
@@ -674,20 +672,51 @@ ms_escher_read_Sp (MSEscherState * state, MSEscherHeader * h)
 }
 
 static gboolean
-ms_escher_read_Textbox (MSEscherState * state, MSEscherHeader * h)
+ms_escher_read_Textbox (MSEscherState *state, MSEscherHeader *h)
 {
 	return FALSE;
 }
 
 static gboolean
-ms_escher_read_Anchor (MSEscherState * state, MSEscherHeader * h)
+ms_escher_read_Anchor (MSEscherState *state, MSEscherHeader *h)
 {
+	/* only needed for clipboard info, like child anchor with dim 100,000 */
 	return FALSE;
 }
 
 static gboolean
-ms_escher_read_ChildAnchor (MSEscherState * state, MSEscherHeader * h)
+ms_escher_read_ChildAnchor (MSEscherState *state, MSEscherHeader *h)
 {
+	gboolean needs_free;
+	int len = h->len - COMMON_HEADER_LEN;
+	guint8 const *data = ms_escher_get_data (state,
+		h->offset + COMMON_HEADER_LEN, len, &needs_free);
+
+#if 0
+	0 | 40  0  0  0 23  0  0  0	bd  0  0  0 44  0  0  0
+	0 | bd  0  0  0 44  0  0  0	3a  1  0  0 65  0  0  0
+	0 | 3a  1  0  0 66  0  0  0	b7  1  0  0 87  0  0  0
+
+	64	step 125
+	189	step 125
+	314	step 125
+	439
+
+	0 | 40  0  0  0 23  0  0  0	80  0  0  0 64  0  0  0
+	0 | 81  0  0  0 64  0  0  0	c1  0  0  0 a5  0  0  0
+	0 | c1  0  0  0 a6  0  0  0	 1  1  0  0 e7  0  0  0
+
+	64 in steps of 64
+
+	0 |  1  0  0  0 32  0  0  0 40  0  0  0 66  0  0  0 | ....2...@...f...
+	0 | 41  0  0  0 66  0  0  0 80  0  0  0 9a  0  0  0 | A...f...........
+	0 | 80  0  0  0 99  0  0  0 bf  0  0  0 cd  0  0  0 | ................
+
+	gsf_mem_dump (data, len);
+#endif
+
+	if (needs_free)
+		g_free ((guint8 *)data);
 	return FALSE;
 }
 
@@ -706,13 +735,15 @@ ms_escher_read_ClientAnchor (MSEscherState *state, MSEscherHeader *h)
 
 	data = ms_escher_get_data (state, h->offset + COMMON_HEADER_LEN,
 		MS_ANCHOR_SIZE, &needs_free);
+#if 0
+	gsf_mem_dump (data, MS_ANCHOR_SIZE);
+#endif
 	if (data) {
 		guint8 *anchor = g_malloc (MS_ANCHOR_SIZE);
 		memcpy (anchor, data, MS_ANCHOR_SIZE);
 
 		ms_escher_header_add_attr (h,
-			ms_obj_attr_new_ptr (MS_OBJ_ATTR_ANCHOR,
-						anchor));
+			ms_obj_attr_new_ptr (MS_OBJ_ATTR_ANCHOR, anchor));
 
 		if (needs_free)
 			g_free ((guint8 *)data);

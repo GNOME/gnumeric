@@ -38,7 +38,8 @@ typedef struct {
 	Sheet		*sheet;
 	GHashTable	*shared_formulae, *tables;
 
-	gboolean freeze_panes;
+	gboolean 	 freeze_panes;
+	GnmFilter	*filter;
 } ExcelReadSheet;
 
 typedef struct {

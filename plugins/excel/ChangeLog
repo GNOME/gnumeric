@@ -1,3 +1,9 @@
+2003-12-13  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=127625
+	* ms-excel-read.c (excel_sheet_destroy) : kludge around autofilters in
+	 XL97 that have no related drop downs (eg guia.xls)
+
 2003-11-26  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.2

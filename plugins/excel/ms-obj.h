@@ -108,9 +108,9 @@ struct _MSObj {
 
 	/* a kludge for now until the indicator and the box have distinct objects */
 	GnmCellPos	 comment_pos;
-	gboolean	 ignore_combo_in_filter;
+	gboolean	 combo_in_autofilter;
 	gboolean	 is_linked;
-	GHashTable	*attrs;
+	MSObjAttrBag	*attrs;
 };
 
 void  ms_read_OBJ   (BiffQuery *q, MSContainer *c, MSObjAttrBag *attrs);
