@@ -1,7 +1,7 @@
 /* vim: set sw=8: */
 
 /*
- * sheet-object-widget.c: SheetObejct wrappers for simple gtk widgets.
+ * sheet-object-widget.c: SheetObject wrappers for simple gtk widgets.
  *
  * Copyright (C) 2000 Jody Goldberg (jgoldberg@home.com)
  *
@@ -32,6 +32,7 @@
 #include "sheet-object-widget.h"
 #include "expr.h"
 #include "value.h"
+#include "bonobo.h"
 
 #define SHEET_OBJECT_WIDGET_TYPE     (sheet_object_widget_get_type ())
 #define SHEET_OBJECT_WIDGET(obj)     (GTK_CHECK_CAST((obj), SHEET_OBJECT_WIDGET_TYPE, SheetObjectWidget))
@@ -66,7 +67,7 @@ sheet_widget_ ## n1 ## _new(Sheet *sheet) \
 typedef struct _SheetObjectWidget SheetObjectWidget;
 
 struct _SheetObjectWidget {
-	SheetObject     parent_object;
+	SheetObject      parent_object;
 };
 
 typedef struct {
@@ -78,6 +79,15 @@ static SheetObjectClass *sheet_object_widget_parent_class = NULL;
 static GtkObjectClass *sheet_object_widget_class = NULL;
 
 static GtkType sheet_object_widget_get_type	(void);
+
+static void
+sheet_object_widget_set_active (SheetObject *so, gboolean val)
+{
+	GList  *l;
+
+	for (l = so->realized_list; l; l = l->next){
+	}
+}
 
 static GnomeCanvasItem *
 sheet_object_widget_new_view (SheetObject *so, SheetView *sheet_view)
@@ -145,6 +155,8 @@ sheet_object_widget_class_init (GtkObjectClass *object_class)
 	/* SheetObject class method overrides */
 	so_class->new_view = sheet_object_widget_new_view;
 	so_class->update_bounds = sheet_object_widget_update_bounds;
+	so_class->set_active  = sheet_object_widget_set_active;
+
 	sow_class->create_widget = NULL;
 }
 

@@ -1,3 +1,14 @@
+2000-09-15  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric.xml : Use placeholder for file history.
+	  How to have multiple place holders ?
+
+	* src/history.c (history_menu_insert_items) : Quick fix to reduce
+	  number of warnings.
+
+	* src/sheet-object.c (sheet_object_stop_editing) : Use set_active.
+	(sheet_mode_edit_object) : Ditto.
+
 2000-09-14  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-object-widget.c (sheet_object_widget_new_view) : Fix off

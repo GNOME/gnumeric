@@ -58,6 +58,7 @@ typedef struct {
 				      GtkMenu     *menu);
 	void                (*print) (SheetObject *so, SheetObjectPrintInfo *pi);
 	GtkWidget *   (*user_config) (SheetObject *, SheetView *);
+	void           (*set_active) (SheetObject *so, gboolean val);
 } SheetObjectClass;
 
 GtkType sheet_object_get_type      (void);

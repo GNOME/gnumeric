@@ -449,21 +449,6 @@ sheet_mode_clear (Sheet *sheet)
 	}
 	sheet_object_stop_editing (sheet->current_object);
 
-#ifdef ENABLE_BONOBO
-	/* FIXME FIXME FIXME : JEG 11/Sep/2000
-	 * Michael :
-	 * Should we have a virtual void SheetObject::set_active(gboolean) ?
-	 * then move this down into SheetObjectbonobo ?
-	 * We could also remove active_object_frame from Sheet.
-	 * That seems like it belongs at a view level.
-	 */
-	if (sheet->active_object_frame) {
-		bonobo_view_frame_view_deactivate (sheet->active_object_frame);
-		if (sheet->active_object_frame != NULL)
-			bonobo_view_frame_set_covered (sheet->active_object_frame, TRUE);
-		sheet->active_object_frame = NULL;
-	}
-#endif
 	return TRUE;
 }
 
@@ -500,6 +485,8 @@ sheet_mode_edit_object (SheetObject *so)
 	sheet = so->sheet;
 	if (sheet_mode_clear (sheet)) {
 		sheet->current_object = so;
+		if (SO_CLASS (so)->set_active != NULL)
+			SO_CLASS (so)->set_active (so, TRUE);
 		update_bbox (so);
 		sheet_hide_cursor (sheet);
 	}
@@ -559,6 +546,23 @@ sheet_object_stop_editing (SheetObject *so)
 		if (so == sheet->current_object) {
 			sheet_object_destroy_control_points (sheet);
 			sheet->current_object = NULL;
+			if (SO_CLASS (so)->set_active != NULL)
+				SO_CLASS (so)->set_active (so, FALSE);
+#ifdef ENABLE_BONOBO
+	/* FIXME FIXME FIXME : JEG 11/Sep/2000
+	 * Michael :
+	 * Should we have a virtual void SheetObject::set_active(gboolean) ?
+	 * then move this down into SheetObjectbonobo ?
+	 * We could also remove active_object_frame from Sheet.
+	 * That seems like it belongs at a view level.
+	 */
+	if (sheet->active_object_frame) {
+		bonobo_view_frame_view_deactivate (sheet->active_object_frame);
+		if (sheet->active_object_frame != NULL)
+			bonobo_view_frame_set_covered (sheet->active_object_frame, TRUE);
+		sheet->active_object_frame = NULL;
+	}
+#endif
 		}
 	}
 }
@@ -651,9 +655,6 @@ set_acetate_coords (SheetObject *so, SheetView *sheet_view,
 			"width",  r - l + 1.,
 			"height", b - t + 1.,
 			NULL);
-		gtk_signal_connect (GTK_OBJECT (event_box), "button_press",
-				    GTK_SIGNAL_FUNC (control_point_handle_event),
-				    so);
 		gtk_signal_connect (GTK_OBJECT (item), "event",
 				    GTK_SIGNAL_FUNC (control_point_handle_event),
 				    so);

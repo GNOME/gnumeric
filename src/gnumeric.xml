@@ -25,8 +25,6 @@
 			_descr="Save the current file with a different name"
 			pixtype="stock" pixname="Menu_Save As"/>
 
-			<placeholder/>
-	
 			<menuitem name="FileSummary" verb="" _label="Su_mmary..."
 			_descr="Summary information"/>
 	
@@ -45,7 +43,7 @@
 			_descr="Close the current file" pixtype="stock" pixname="Menu_Close"
 			accel="&lt;Control&gt;w"/>
 
-			<menuitem/>
+			<placeholder delimit="both"/>
 	
 			<menuitem name="FileExit" verb="" _label="E_xit" _descr="Exit the program"
 			pixtype="stock" pixname="Menu_Exit" accel="&lt;Control&gt;q"/>

@@ -93,6 +93,7 @@ history_item_label (const gchar *name, const gint accel_number)
 /*
  * Create a history menu item in a menu at a given position.
  */
+#ifndef ENABLE_BONOBO
 static void
 history_menu_item_create (Workbook *wb, gchar *name, gint accel_number,
 			  GtkWidget *menu, gint pos)
@@ -106,28 +107,15 @@ history_menu_item_create (Workbook *wb, gchar *name, gint accel_number,
 	info [0].label = history_item_label (name, accel_number);
 	info [0].user_data = wb;
 
-#ifndef ENABLE_BONOBO
 	gnome_app_fill_menu (GTK_MENU_SHELL (menu), info,
 			     GNOME_APP (wb->toplevel)->accel_group, TRUE,
 			     pos);
 	gtk_object_set_data (GTK_OBJECT (info [0].widget), UGLY_GNOME_UI_KEY, name);
 	gnome_app_install_menu_hints (GNOME_APP (wb->toplevel), info);
-#else
-	{
-		gchar *path;
-
-		path = g_strconcat (_("/File/"), info[0].label, NULL);
-		bonobo_ui_handler_menu_new_item (wb->priv->uih, path, info[0].label, name, 
-						pos, BONOBO_UI_HANDLER_PIXMAP_NONE, 
-						NULL, 0, GDK_SHIFT_MASK, 
-						(BonoboUIHandlerCallback)file_history_cmd, 
-						wb);
-		g_free (path);
-	}
-#endif
 
 	g_free (info[0].label);
 }
+#endif
 
 typedef struct {
 	GtkWidget *menu;
@@ -209,8 +197,24 @@ history_menu_insert_items (Workbook *wb, MenuPos *mp, GList *name_list)
 	/* Add a new menu item for each item in the history list */
 	accel_number = 1;
 	for (l = name_list; l; l = l->next)
+#ifndef ENABLE_BONOBO
 		history_menu_item_create (wb, (gchar *)l->data, accel_number++,
 					  mp->menu, (mp->pos)++);
+#else
+	{
+		char *str;
+
+		str =
+		g_strdup_printf ("<placeholder><menuitem name=\"FileHistory%d\" label=\"_%d %s\"/></placeholder>\n",
+				 accel_number, accel_number, l->data);
+		bonobo_ui_component_set (bonobo_ui_compat_get_component (wb->priv->uih),
+					 bonobo_ui_compat_get_container (wb->priv->uih),
+					 "/menu/File",
+					 str, NULL);
+		g_free (str);
+		++accel_number;
+	}
+#endif
 }
 
 /*
