@@ -1,3 +1,12 @@
+1999-10-23  Jody Goldberg <jgoldberg@home.com>
+
+	* src/mstyle.c (mstyle_elements_equal) : Correct the loop.
+
+	* src/mstyle.c (mstyle_new_default) : Do not set colours by default.
+	  There is an important difference between selecting a colour and
+	  using the default colour.  The default does not override the
+	  borders.
+
 1999-10-23  Michael Meeks  <mmeeks@gnu.org>
 
 	* doc/Styles.txt: update.

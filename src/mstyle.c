@@ -219,7 +219,7 @@ mstyle_element_equal (const MStyleElement a,
 			return TRUE;
 		break;
 	case MSTYLE_ANY_BORDER:
-		if (a.u.border.top == b.u.border.top)
+		if (a.u.border.any == b.u.border.any)
 			return TRUE;
 		break;
 	case MSTYLE_PATTERN:
@@ -289,8 +289,7 @@ mstyle_elements_equal (const MStyleElement *a,
 	g_return_val_if_fail (b != NULL, FALSE);
 
 	for (i = 1; i < MSTYLE_ELEMENT_MAX; i++)
-
-		g_assert (i < MSTYLE_ELEMENT_MAX);
+	{
 		if (a[i].type != b[i].type)
 			return FALSE;
 
@@ -299,6 +298,7 @@ mstyle_elements_equal (const MStyleElement *a,
 				printf ("%s mismatch\n", mstyle_names[i]);
 			return FALSE;
 		}
+	}
 
 	return TRUE;
 }
@@ -436,12 +436,14 @@ mstyle_new_default (void)
 	mstyle_set_font_bold   (mstyle, 0);
 	mstyle_set_font_italic (mstyle, 0);
 	mstyle_set_font_size   (mstyle, DEFAULT_SIZE);
+#if 0
 	mstyle_set_color       (mstyle, MSTYLE_COLOR_FORE,
 				style_color_new (0, 0, 0));
 	mstyle_set_color       (mstyle, MSTYLE_COLOR_BACK,
 				style_color_new (0xffff, 0xffff, 0xffff));
 	mstyle_set_color       (mstyle, MSTYLE_COLOR_PATTERN,
 				style_color_new (0, 0, 0));
+#endif
 
 	return mstyle;
 }
