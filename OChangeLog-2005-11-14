@@ -1,3 +1,10 @@
+2001-07-13  Morten Welinder  <terra@diku.dk>
+
+	* src/eval.c (dependent_unqueue_sheet): Unconstify since it
+ 	changes things.
+	(dependent_unlink_sheet): Ditto.
+	(dep_slist_filter_sheet): Return the right list.
+
 2001-07-13  Lutz Müller <urc8@rz.uni-karlsruhe.de>
 
         * src/sheet-control-gui.[c,h]: Clean up the handling of bonobo objects

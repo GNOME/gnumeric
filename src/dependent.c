@@ -228,11 +228,11 @@ dependent_unqueue (Dependent *dep)
  * should have O(n) and reverses the list as a side effect.
  */
 static GSList *
-dep_slist_filter_sheet (GSList *queue, Sheet const *sheet, int const filter)
+dep_slist_filter_sheet (GSList *queue, Sheet const *sheet, int filter)
 {
-	GSList *refuse = NULL, *prev = NULL, *next, *ptr = queue;
+	GSList *refuse = NULL, *prev = NULL, *next, *ptr;
 
-	for (ptr = queue; ptr != NULL ; ptr = next) {
+	for (ptr = queue; ptr != NULL; ptr = next) {
 		Dependent *dep = ptr->data;
 		next = ptr->next;
 
@@ -246,7 +246,7 @@ dep_slist_filter_sheet (GSList *queue, Sheet const *sheet, int const filter)
 		}
 	}
 	g_slist_free (refuse);
-	return queue;
+	return prev;
 }
 
 /**
@@ -256,7 +256,7 @@ dep_slist_filter_sheet (GSList *queue, Sheet const *sheet, int const filter)
  * Remove all cells from the specified sheet from the recalc queue.
  */
 void
-dependent_unqueue_sheet (Sheet const *sheet)
+dependent_unqueue_sheet (Sheet *sheet)
 {
 	Workbook *wb;
 
@@ -670,7 +670,7 @@ dependent_unlink (Dependent *dep, CellPos const *pos)
  * for use by sheet_destroy_contents.
  */
 void
-dependent_unlink_sheet (Sheet const *sheet)
+dependent_unlink_sheet (Sheet *sheet)
 {
 	Workbook *wb;
 

@@ -37,10 +37,10 @@ void dependent_types_shutdown	 (void);
 
 void dependent_set_expr		 (Dependent *dependent, ExprTree *expr);
 void dependent_unqueue		 (Dependent *dep);
-void dependent_unqueue_sheet	 (Sheet const *sheet);
+void dependent_unqueue_sheet	 (Sheet *sheet);
 void dependent_link		 (Dependent *dep, CellPos const *pos);
 void dependent_unlink		 (Dependent *dep, CellPos const *pos);
-void dependent_unlink_sheet	 (Sheet const *sheet);
+void dependent_unlink_sheet	 (Sheet *sheet);
 void dependent_changed		 (Dependent *dep, CellPos const *pos,
 				  gboolean queue_recalc);
 void cb_dependent_queue_recalc	 (Dependent *dep, gpointer ignore);
