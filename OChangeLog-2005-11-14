@@ -1,3 +1,22 @@
+2001-08-29  Jody Goldberg <jgoldberg@home.com>
+
+	* src/eval.c (dependent_queue_recalc) : make this a macro.
+	(cb_dependent_queue_recalc) : simplify to just mark the requirement
+	  now that there is no distinct reval queue.
+	(dependent_unqueue) : this is now trivial.
+	(dep_slist_filter_sheet) : delete.
+	(dependent_unqueue_sheet) : delete.
+	(dependent_unlink) : clear the recalc flag directly.
+	(cell_foreach_single_dep) : remove broken debugging.
+	(workbook_recalc) : just walk the dependent list.  We can optimize
+	  this later if need be.
+	(sheet_dump_dependencies) : remove unnecessary debug info.
+
+	* src/sheet.c (sheet_destroy_contents) : no need to unqueue_sheet.
+	  unlink handles it.
+
+	* src/workbook.c (workbook_destroy) : no more eval_queue.
+
 2001-08-28  Jody Goldberg <jgoldberg@home.com>
 
 	* src/eval.c (dependent_unlink_sheet) : Clear the sheet in case the
