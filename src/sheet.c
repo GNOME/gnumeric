@@ -3333,10 +3333,12 @@ colrow_move (Sheet *sheet,
 		return;
 
 	/* Collect the cells */
+	g_hash_table_freeze (sheet->cell_hash);
 	sheet_foreach_cell_in_range (sheet, TRUE,
-				  start_col, start_row,
-				  end_col, end_row,
-				  &cb_collect_cell, &cells);
+				     start_col, start_row,
+				     end_col, end_row,
+				     &cb_collect_cell, &cells);
+	g_hash_table_thaw (sheet->cell_hash);
 
 	/* Reverse the list so that we start at the top left
 	 * which makes things easier for arrays.

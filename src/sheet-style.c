@@ -31,6 +31,35 @@
 #include "cell.h"
 #include "portability.h"
 
+typedef union _CellTile CellTile;
+struct _SheetStyleData {
+	GHashTable *style_hash;
+	CellTile   *styles;
+	MStyle	   *default_style;
+};
+
+/**
+ * sheet_style_lookup :
+ *
+ * @sheet : the sheet
+ * @s     : a style
+ *
+ * Looks up (but does not reference) a style from the sheets collection.
+ * Inserting if necessary.
+ */
+static MStyle *
+sheet_style_find (Sheet *sheet, MStyle *s)
+{
+	MStyle *res;
+	res = g_hash_table_lookup (sheet->style_data->style_hash, s);
+	if (res != NULL)
+		return res;
+
+	mstyle_ref (s);
+	g_hash_table_insert (sheet->style_data->style_hash, s, s);
+	return s;
+}
+
 /* Place holder until I merge in the new styles too */
 static void
 pstyle_set_border (MStyle *st, StyleBorder *border,
@@ -47,13 +76,15 @@ typedef struct {
 	MStyle	   *new_style;
 	MStyle	   *pstyle;
 	GHashTable *cache;
+	Sheet	   *sheet;
 } ReplacementStyle;
 
 static ReplacementStyle *
-rstyle_ctor (ReplacementStyle *res, MStyle *new_style, MStyle *pstyle)
+rstyle_ctor (ReplacementStyle *res, MStyle *new_style, MStyle *pstyle, Sheet *sheet)
 {
-	if (pstyle == NULL) {
-		res->new_style = new_style;
+	res->sheet = sheet;
+	if (new_style != NULL) {
+		res->new_style = sheet_style_find (sheet, new_style);
 		res->pstyle = NULL;
 		res->cache = NULL;
 	} else {
@@ -93,10 +124,7 @@ rstyle_apply (MStyle **old, ReplacementStyle *rs)
 	g_return_if_fail (old != NULL);
 	g_return_if_fail (rs != NULL);
 
-	s = rs->new_style;
 	if (rs->pstyle != NULL) {
-		g_return_if_fail (s == NULL);
-
 		/* Cache the merged styles keeping a reference to the originals
 		 * just in case all instances change.
 		 */
@@ -106,35 +134,20 @@ rstyle_apply (MStyle **old, ReplacementStyle *rs)
 			mstyle_ref (*old);
 			g_hash_table_insert (rs->cache, *old, s);
 		}
-	}
+	} else
+		s = rs->new_style;
 
 	if (*old != s) {
 		mstyle_ref (s);
-		if (*old)
-			mstyle_unref (*old);
+		if (*old) {
+			if (mstyle_unref (*old) == 1) {
+				g_hash_table_remove (rs->sheet->style_data->style_hash, *old);
+				mstyle_ref (*old);
+			}
+		}
 		*old = s;
 	}
 }
-
-#if 0
-/**
- * sheet_style_lookup :
- *
- * @sheet : the sheet
- * @s     : an optional style
- * @ps    : an optional partial style
- *
- * Looks up (but does not reference) a style from the sheets collection.
- *
- * FIXME : The style engine needs to do a better job of merging like styles.
- * We should do a lookup within a sheet specific hash table.
- */
-MStyle *
-sheet_style_lookup (Sheet *sheet, MStyle const *s, MStyle const *ps)
-{
-	return NULL;
-}
-#endif
 
 /****************************************************************************/
 
@@ -175,7 +188,6 @@ static int const tile_heights [] = {
 	TILE_SIZE_ROW * TILE_SIZE_ROW * TILE_SIZE_ROW * TILE_SIZE_ROW
 };
 
-typedef union _CellTile CellTile;
 typedef struct {
 	CellTileType const type;
 	MStyle *style [1];
@@ -376,12 +388,6 @@ cell_tile_matrix_set (CellTile *t, Range const *indic, ReplacementStyle *rs)
 
 /****************************************************************************/
 
-struct _SheetStyleData {
-	GHashTable *style_hash;
-	CellTile   *styles;
-	MStyle	   *default_style;
-};
-
 void
 sheet_style_init (Sheet *sheet)
 {
@@ -399,6 +405,13 @@ sheet_style_init (Sheet *sheet)
 				     TILE_SIMPLE);
 }
 
+static gboolean
+cb_remove_func (void *key, void *value, void *user)
+{
+	mstyle_unref (key);
+	return TRUE;
+}
+
 void
 sheet_style_shutdown (Sheet *sheet)
 {
@@ -408,6 +421,8 @@ sheet_style_shutdown (Sheet *sheet)
 	cell_tile_dtor (sheet->style_data->styles);
 	sheet->style_data->styles = NULL;
 
+	g_hash_table_foreach_remove (sheet->style_data->style_hash,
+				     cb_remove_func, NULL);
 	g_hash_table_destroy (sheet->style_data->style_hash);
 	sheet->style_data->style_hash = NULL;
 
@@ -796,7 +811,7 @@ sheet_style_set_range (Sheet *sheet, Range const *range,
 
 	cell_tile_apply (&sheet->style_data->styles,
 			 TILE_TOP_LEVEL, 0, 0,
-			 range, rstyle_ctor (&rs, style, NULL));
+			 range, rstyle_ctor (&rs, style, NULL, sheet));
 	mstyle_unref (style);
 }
 
@@ -821,7 +836,7 @@ sheet_style_set_pos (Sheet *sheet, int col, int row,
 
 	cell_tile_apply_pos (&sheet->style_data->styles,
 			     TILE_TOP_LEVEL, col, row,
-			     rstyle_ctor (&rs, style, NULL));
+			     rstyle_ctor (&rs, style, NULL, sheet));
 	mstyle_unref (style);
 }
 
@@ -1076,7 +1091,7 @@ sheet_style_apply_range (Sheet *sheet, Range const *range, MStyle *pstyle)
 
 	cell_tile_apply (&sheet->style_data->styles,
 			 TILE_TOP_LEVEL, 0, 0,
-			 range, rstyle_ctor (&rs, NULL, pstyle));
+			 range, rstyle_ctor (&rs, NULL, pstyle, sheet));
 	rstyle_dtor (&rs);
 	mstyle_unref (pstyle);
 }
@@ -1788,4 +1803,67 @@ style_list_get_style (StyleList const *list, CellPos const *pos)
 			return sr->style;
 	}
 	return NULL;
+}
+
+static void
+cb_accumulate_count (MStyle *style,
+		     int corner_col, int corner_row, int width, int height,
+		     Range const *apply_to, gpointer accumulator)
+{
+	gpointer count;
+
+	count = g_hash_table_lookup (accumulator, style);
+	if (count == NULL) {
+		int *res = g_new (int, 1);
+		*res = height;
+		g_hash_table_insert (accumulator, style, res);
+	} else
+		*((int *)count) += height;
+}
+
+typedef struct
+{
+	MStyle *style;
+	int     count;
+} MostCommon;
+
+static void
+cb_find_max (gpointer key, gpointer value, gpointer user_data)
+{
+	MostCommon *mc = user_data;
+	int count = *((int *)value);
+	if (mc->style == NULL || mc->count < count) {
+		mc->style = key;
+		mc->count = count;
+	}
+
+	g_free (value);
+}
+
+/**
+ * sheet_style_most_common_in_col :
+ * @sheet :
+ * @col :
+ *
+ * Find the most common style in a column.
+ * The resulting style does not have its reference count bumped.
+ */
+MStyle *
+sheet_style_most_common_in_row (Sheet const *sheet, int col)
+{
+	MostCommon  res;
+	GHashTable *accumulator;
+	Range       r;
+
+	r.start.col = r.end.col = col;
+	r.start.row = 0; r.end.row = SHEET_MAX_ROWS-1;
+	accumulator = g_hash_table_new (mstyle_hash, (GCompareFunc) mstyle_equal);
+	foreach_tile (sheet->style_data->styles,
+		      TILE_TOP_LEVEL, 0, 0, &r,
+		      cb_accumulate_count, accumulator);
+
+	res.style = NULL;
+	g_hash_table_foreach (accumulator, cb_find_max, &res);
+	g_hash_table_destroy (accumulator);
+	return res.style;
 }

@@ -1,3 +1,20 @@
+2001-10-27  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (colrow_move) : trivial optimization to speed col/row
+	  ins/del.
+
+	* src/sheet-style.c (rstyle_ctor) : store the sheet to look up partial
+	  styles and use sheet_style_find for complete styles.
+	(sheet_style_set_range) : signature change to rstyle_ctor.
+	(sheet_style_set_pos) : ditto.
+	(sheet_style_apply_range) : ditto.
+	(sheet_style_find) : new.
+	(sheet_style_shutdown) : unref the styles in the sheet hash.
+	(cb_accumulate_count) : new.
+	(cb_find_max) : new.
+	(sheet_style_most_common_in_row) : new utility for use in the XL
+	  exporter.
+
 2001-10-29  Jody Goldberg <jgoldberg@home.com>
 
 	* src/xml-io.c (gnumeric_xml_write_workbook) : re-enable compression.

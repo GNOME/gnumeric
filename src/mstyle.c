@@ -71,7 +71,7 @@ typedef struct {
 
 struct _MStyle {
 	guint32        ref_count;
-	gchar         *name;
+	Sheet	      *linked_sheet;
 	MStyleElement  elements[MSTYLE_ELEMENT_MAX];
 };
 
@@ -537,7 +537,7 @@ mstyle_new (void)
 	MStyle *style = g_new0 (MStyle, 1);
 
 	style->ref_count = 1;
-	style->name = NULL;
+	style->linked_sheet = NULL;
 
 	return style;
 }
@@ -548,10 +548,7 @@ mstyle_copy (const MStyle *style)
 	MStyle *new_style = g_new (MStyle, 1);
 
 	new_style->ref_count = 1;
-	if (style->name)
-		new_style->name = g_strdup (style->name);
-	else
-		new_style->name = NULL;
+	new_style->linked_sheet = NULL;
 	mstyle_elements_copy (new_style, style);
 
 	return new_style;
@@ -568,7 +565,7 @@ mstyle_copy_merge (const MStyle *orig, const MStyle *overlay)
 	const MStyleElement *overlay_e;
 
 	res->ref_count = 1;
-	res->name = NULL;
+	res->linked_sheet = NULL;
 	res_e = res->elements;
 	orig_e = orig->elements;
 	overlay_e = overlay->elements;
@@ -652,15 +649,19 @@ mstyle_ref_multiple (MStyle *style, int count)
 	style->ref_count += count;
 }
 
-void
+int
 mstyle_unref (MStyle *style)
 {
+	int res;
+
 	g_return_if_fail (style->ref_count > 0);
 
-	style->ref_count--;
+	res = --style->ref_count;
 
 	if (style->ref_count <= 0)
 		mstyle_destroy (style);
+
+	return res;
 }
 
 char *
@@ -694,8 +695,7 @@ mstyle_dump (const MStyle *style)
 {
 	char *txt;
 
-	fprintf (stderr, "Style '%s' Refs %d\n",
-		 style->name ? style->name : "unnamed",
+	fprintf (stderr, "Style Refs %d\n",
 		 style->ref_count);
 	txt = mstyle_to_string (style);
 	fprintf (stderr, "%s\n", txt);
@@ -707,10 +707,6 @@ mstyle_destroy (MStyle *style)
 {
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (style->ref_count == 0);
-
-	if (style->name)
-		g_free (style->name);
-	style->name = NULL;
 
 	if (style->elements)
 		mstyle_elements_unref (style->elements);
@@ -726,9 +722,6 @@ mstyle_equal (const MStyle *a, const MStyle *b)
 
 	if (a == b)
 		return TRUE;
-
-	if (a->name || b->name)
-		g_warning ("Named style equal unimplemented");
 
 	return mstyle_elements_equal (a->elements, b->elements);
 }
