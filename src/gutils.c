@@ -79,12 +79,15 @@ gnumeric_sys_plugin_dir (void)
 char *
 gnumeric_usr_dir (const char *subdir)
 {
-	const char *home_dir = getenv ("HOME");
+	const char *home_dir = g_get_home_dir ();
 
-	if (home_dir != NULL)
-		return g_strconcat (
-			home_dir, G_DIR_SEPARATOR_S ".gnumeric/" GNUMERIC_VERSION G_DIR_SEPARATOR_S,
-			subdir, G_DIR_SEPARATOR_S, NULL);
+	if (home_dir != NULL) {
+		gboolean has_slash = (home_dir[strlen (home_dir) - 1] == G_DIR_SEPARATOR);
+		return g_strconcat (home_dir, (has_slash ? "" : G_DIR_SEPARATOR_S),
+				    ".gnumeric" G_DIR_SEPARATOR_S GNUMERIC_VERSION G_DIR_SEPARATOR_S,
+				    subdir, G_DIR_SEPARATOR_S,
+				    NULL);
+	}
 	return NULL;
 }
 
