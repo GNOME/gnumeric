@@ -20,6 +20,7 @@
 #ifdef WITH_BONOBO
 #include <bonobo.h>
 #endif
+#include <string.h>
 
 /* Command callback called on activation of a file history menu item. */
 #ifndef WITH_BONOBO

@@ -414,7 +414,10 @@ int yyparse (void);
 	Value		*value;
 	CellRef		*cell;
 	GnmExprList	*list;
-	Sheet		*sheet;
+	struct {
+		Sheet	*first;
+		Sheet	*last;
+	} sheet;
 }
 %type  <list>	opt_exp arg_list array_row, array_cols
 %type  <expr>	exp array_exp string_opt_quote cellref
@@ -507,24 +510,33 @@ exp:	  CONSTANT 	{ $$ = $1; }
 		}
 	}
 	| sheetref string_opt_quote {
-		GnmNamedExpr *expr_name;
-		char *name = $2->constant.value->v_str.val->str;
+		GnmNamedExpr *expr_name = NULL;
+		char const *name = $2->constant.value->v_str.val->str;
 		ParsePos pos = *state->pos;
 
-		pos.sheet = $1;
-		expr_name = expr_name_lookup (&pos, name);
-		if (expr_name == NULL) {
-			int retval = gnumeric_parse_error (
-				state, PERR_UNKNOWN_EXPRESSION,
-				g_strdup_printf (_("Name '%s' does not exist in sheet '%s'"),
-						name, $1->name_quoted),
+		pos.sheet = $1.first;
+		if ($1.last != NULL)
+			gnumeric_parse_error (
+				state, PERR_3D_NAME,
+				g_strdup_printf (_("What is a 3D name %s:%s!%s ?"),
+						$1.first->name_quoted,
+						$1.last->name_quoted,
+						name),
 				state->expr_text - state->expr_backup + 1, strlen (name));
+		else {
+			expr_name = expr_name_lookup (&pos, name);
+			if (expr_name == NULL)
+				gnumeric_parse_error (
+					state, PERR_UNKNOWN_NAME,
+					g_strdup_printf (_("Name '%s' does not exist in sheet '%s'"),
+							name, pos.sheet->name_quoted),
+					state->expr_text - state->expr_backup + 1, strlen (name));
+		}
 
-			unregister_allocation ($2); gnm_expr_unref ($2);
-			return retval;
-		} else
-			unregister_allocation ($2); gnm_expr_unref ($2);
-	        $$ = register_expr_allocation (gnm_expr_new_name (expr_name, $1, NULL));
+		unregister_allocation ($2); gnm_expr_unref ($2);
+		if (expr_name == NULL)
+			return ERROR;
+	        $$ = register_expr_allocation (gnm_expr_new_name (expr_name, $1.first, NULL));
 	}
 	| '[' string_opt_quote ']' string_opt_quote {
 		GnmNamedExpr *expr_name;
@@ -537,7 +549,7 @@ exp:	  CONSTANT 	{ $$ = $1; }
 
 		if (pos.wb == NULL) {
 			int retval = gnumeric_parse_error (
-				state, PERR_UNKNOWN_EXPRESSION,
+				state, PERR_UNKNOWN_WORKBOOK,
 				g_strdup_printf (_("Unknown workbook '%s'"), wb_name), 
 				state->expr_text - state->expr_backup + 1, strlen (name));
 
@@ -549,7 +561,7 @@ exp:	  CONSTANT 	{ $$ = $1; }
 		expr_name = expr_name_lookup (&pos, name);
 		if (expr_name == NULL) {
 			int retval = gnumeric_parse_error (
-				state, PERR_UNKNOWN_EXPRESSION,
+				state, PERR_UNKNOWN_NAME,
 				g_strdup_printf (_("Name '%s' does not exist in workbook '%s'"),
 						name, wb_name),
 				state->expr_text - state->expr_backup + 1, strlen (name));
@@ -574,7 +586,8 @@ sheetref: string_opt_quote SHEET_SEP {
 		unregister_allocation ($1); gnm_expr_unref ($1);
 		if (sheet == NULL)
 			return ERROR;
-	        $$ = sheet;
+	        $$.first = sheet;
+	        $$.last = NULL;
 	}
 
 	| '[' string_opt_quote ']' string_opt_quote SHEET_SEP {
@@ -587,12 +600,13 @@ sheetref: string_opt_quote SHEET_SEP {
 
 		if (sheet == NULL)
 			return ERROR;
-	        $$ = sheet;
+	        $$.first = sheet;
+	        $$.last = NULL;
         }
 	;
 
 opt_sheetref: sheetref
-	    | { $$ = NULL; }
+	    | { $$.first = $$.last = NULL; }
 	    ;
 
 cellref:  CELLREF {
@@ -606,8 +620,17 @@ cellref:  CELLREF {
 	}
 
 	| sheetref CELLREF {
-		$2->cellref.ref.sheet = $1;
-	        $$ = $2;
+		$2->cellref.ref.sheet = $1.first;
+		if (state->use_excel_reference_conventions && $1.last != NULL) {
+			CellRef tmp = $2->cellref.ref;
+			$$ = register_expr_allocation
+				(gnm_expr_new_constant
+				 (value_new_cellrange (&($2->cellref.ref), &tmp,
+						       state->pos->eval.col, state->pos->eval.row)));
+			unregister_allocation ($2);
+			gnm_expr_unref ($2);
+		} else
+			$$ = $2;
 	}
 
 	| CELLREF RANGE_SEP CELLREF {
@@ -633,8 +656,12 @@ cellref:  CELLREF {
 	| sheetref CELLREF RANGE_SEP opt_sheetref CELLREF {
 		unregister_allocation ($5);
 		unregister_allocation ($2);
-		$2->cellref.ref.sheet = $1;
-		$5->cellref.ref.sheet = $4 ? $4 : $1;
+		$2->cellref.ref.sheet = $1.first;
+		if (state->use_excel_reference_conventions) {
+			$5->cellref.ref.sheet = $1.last ? $1.last : $1.first;
+		} else {
+			$5->cellref.ref.sheet = $4.first ? $4.first : $1.first;
+		}
 		$$ = register_expr_allocation
 			(gnm_expr_new_constant
 			 (value_new_cellrange (&($2->cellref.ref), &($5->cellref.ref),

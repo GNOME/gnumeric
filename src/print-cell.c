@@ -27,6 +27,7 @@
 #include "str.h"
 
 #include <ctype.h>
+#include <string.h>
 #include <locale.h>
 
 /*

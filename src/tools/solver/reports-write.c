@@ -580,7 +580,7 @@ solver_performance_report (WorkbookControl *wbc,
 			   SolverResults   *res)
 {
         data_analysis_output_t dao;
-	int                    mat_size, zeros, i;
+	int                    mat_size, i;
 	struct                 utsname unamedata;
 	Value                  *v;
 	gchar                  model_name [256], cpu_mhz [256];

@@ -28,6 +28,7 @@
 
 #include <math.h>
 #include <string.h>
+#include <stdlib.h>
 #include <libgnome/gnome-i18n.h>
 
 /*

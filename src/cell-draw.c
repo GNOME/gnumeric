@@ -21,6 +21,7 @@
 
 #include <gdk/gdk.h>
 #include <ctype.h>
+#include <string.h>
 
 static inline void
 draw_text (GdkDrawable *drawable, GdkFont *font, GdkGC *gc,

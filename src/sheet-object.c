@@ -32,6 +32,8 @@
 #include <gtk/gtkstock.h>
 #include <gal/util/e-util.h>
 
+#include <string.h>
+
 /* Returns the class for a SheetObject */
 #define SO_CLASS(so) SHEET_OBJECT_CLASS(G_OBJECT_GET_CLASS(so))
 

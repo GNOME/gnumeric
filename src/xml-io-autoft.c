@@ -39,13 +39,10 @@
 #include <libgnome/gnome-util.h>
 #include <gal/util/e-xml-utils.h>
 #include <unistd.h>
+#include <string.h>
 
 #define CATEGORY_FILE_NAME    ".category"
-
-
-
 #define ERR_READ_FT_MEMBER "xml_read_format_template_member: : No %s section in template member!"
-
 
 /**
  * gnumeric_xml_read_format_template_category :

@@ -674,7 +674,7 @@ static void
 solver_reporting (SolverState *state, SolverResults *res, gchar *errmsg)
 {
 	SolverOptions *opt = &res->param->options;
-	gchar         *err;
+	gchar         *err = NULL;
 
 	switch (res->status) {
 	case SolverOptimal :

@@ -50,6 +50,7 @@
 #include <libgnome/gnome-util.h>
 #include <gal/util/e-util.h>
 #include <locale.h>
+#include <string.h>
 
 /* WorkbookView signals */
 enum {

@@ -34,6 +34,7 @@
 #include <libgnome/gnome-i18n.h>
 
 #include <errno.h>
+#include <string.h>
 
 /*
  * escape special characters .. needs work

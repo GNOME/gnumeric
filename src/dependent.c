@@ -35,6 +35,8 @@
 #include "ranges.h"
 #include "gutils.h"
 
+#include <string.h>
+
 #define BUCKET_SIZE	128
 
 static GPtrArray *dep_classes = NULL;

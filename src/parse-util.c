@@ -39,6 +39,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <glib.h>
+#include <string.h>
 
 /* Can remove sheet since local references have NULL sheet */
 char *

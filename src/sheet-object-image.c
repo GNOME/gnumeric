@@ -19,6 +19,7 @@
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 
 #include <math.h>
+#include <string.h>
 
 struct _SheetObjectImage {
 	SheetObject  sheet_object;

@@ -550,6 +550,7 @@ html_file_save (GnumFileSaver const *fs, IOContext *io_context,
 "</HEAD>\n<BODY>\n", fp);
 		break;
 	default:
+		break;
 	}
 
 	sheets = workbook_sheets (wb);

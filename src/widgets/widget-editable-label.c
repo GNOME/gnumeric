@@ -31,6 +31,8 @@
 #include <gdk/gdkkeysyms.h>
 #include <gal/util/e-util.h>
 
+#include <string.h>
+
 #define EDITABLE_LABEL_CLASS(k) (G_TYPE_CHECK_CLASS_CAST (k), EDITABLE_LABEL_TYPE)
 struct _EditableLabel {
 	GtkEntry  entry;
