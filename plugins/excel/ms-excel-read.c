@@ -13,6 +13,7 @@
 #include <assert.h>
 #include <config.h>
 #include <stdio.h>
+#include <ctype.h>
 #include <gnome.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
@@ -257,7 +258,7 @@ biff_font_data_new (BIFF_QUERY *q)
     }
   fd->fontname   = ms_get_biff_text (q->data + 15, BIFF_GETBYTE(q->data + 14)) ;
   /* dump (q->data, q->length) ; */
-  printf ("Insert fount '%s' size %5.2f\n", fd->fontname, fd->height*20.0) ;
+  printf ("Insert fount '%s' size %5.2f\n", fd->fontname, fd->height) ;
   return fd ;
 }
 
@@ -357,6 +358,8 @@ ms_excel_set_cell_colors (MS_EXCEL_SHEET *sheet, Cell *cell, BIFF_XF_DATA *xf)
 static void
 ms_excel_set_cell_font (MS_EXCEL_SHEET *sheet, Cell *cell, BIFF_XF_DATA *xf)
 {
+  char font_size[10];	/* I know it may seem excessive. Time will say.  */
+  int i;
   GList *ptr = g_list_first (sheet->wb->font_data) ;
   int idx = 0 ;
   
@@ -370,8 +373,14 @@ ms_excel_set_cell_font (MS_EXCEL_SHEET *sheet, Cell *cell, BIFF_XF_DATA *xf)
 	  BIFF_FONT_DATA *fd = ptr->data ;
 
 	  /* FIXME: instead of just copying the windows font into the cell, we 
-	   * should implement a font name mapping mechanism.  */
-	  cell_set_font (cell, fd->fontname) ;	  
+	   * should implement a font name mapping mechanism.
+       * In our first attempt to make it work, let's try to guess the 
+       * X font name from the windows name, by letting the first word 
+       * of the name be inserted in 0'th position of the X font name.  */
+      for (i=0; fd->fontname[i] != ' '; ++i)
+        fd->fontname[i] = tolower (fd->fontname[i]);
+      fd->fontname[i] = '\x0';
+	  cell_set_font (cell, font_change_component (cell->style->font->font_name, 1, fd->fontname));
 	  if (fd->italic)
 	    {
 	      cell_set_font (cell, font_get_italic_name (cell->style->font->font_name)) ;
@@ -383,6 +392,10 @@ ms_excel_set_cell_font (MS_EXCEL_SHEET *sheet, Cell *cell, BIFF_XF_DATA *xf)
 	      cell->style->font->hint_is_bold = 1;
 	    }
 	  /* What about underlining?  */
+      sprintf (font_size, "%d", fd->height/2);
+	  cell_set_font (cell, font_change_component (cell->style->font->font_name, 7, font_size));
+      /* delete me: */
+      printf ("The new font name is: %s\n", cell->style->font->font_name);
 	  return ;
 	}
       idx++ ;
