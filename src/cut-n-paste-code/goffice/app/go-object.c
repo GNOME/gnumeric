@@ -98,11 +98,13 @@ go_object_new_valist (char const *type, char const *first_prop, va_list args)
 		if (!go_plugin_is_loaded (plugin))
 			err = go_plugin_load (plugin);
 
-		t = g_type_from_name (type);
-		if (t == 0)
-			err = gog_error_stack_new (err,
-				_("Loading plugin '%s' that contains the object '%s'"),
-				go_plugin_get_id (plugin), type);;
+		if (err == NULL) {
+			t = g_type_from_name (type);
+			if (t == 0)
+				err = go_error_stack_new (err,
+					_("Loading plugin '%s' that contains the object '%s'"),
+					go_plugin_get_id (plugin), type);;
+		}
 		if (err != NULL) {
 			go_error_stack_dump (err);
 			go_error_stack_free (err);

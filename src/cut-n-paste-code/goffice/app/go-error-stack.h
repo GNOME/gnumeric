@@ -22,9 +22,10 @@
 #define GO_ERROR_STACK_H
 
 #include <glib-object.h>
+#include <goffice/app/goffice-app.h>
 
-GOErrorStack *gog_error_stack_new (GOErrorStack *child,
-				   char const *msg, ...) G_GNUC_PRINTF (2, 3);
+GOErrorStack *go_error_stack_new (GOErrorStack *parent,
+				   char const *fmt, ...) G_GNUC_PRINTF (2, 3);
 void go_error_stack_add_child	  (GOErrorStack *estack, GOErrorStack *child);
 void go_error_stack_dump	  (GOErrorStack *estack);
 void go_error_stack_free	  (GOErrorStack *estack);
