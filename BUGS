@@ -17,6 +17,26 @@ Release Critical
     http://bugzilla.gnome.org/show_bug.cgi?id=127203	[x axis child pos]
     : X axis label seperation
 
+    Saving ROGSA0402 yields...
+      ZPR: Zero page read
+      This is occurring while in:
+            gnm_input_msg_get_title [input-msg.c:97 pc=0x100878]
+            g_hash_table_foreach [ghash.c:559 pc=0xf9e31d34]
+            excel_write_DVAL [ms-excel-write.c:827 pc=0xf78b8db8]
+            excel_write_sheet [ms-excel-write.c:3855 pc=0xf78c41e4]
+            excel_write_workbook [ms-excel-write.c:4383 pc=0xf78c6050]
+            excel_write_v8 [ms-excel-write.c:4433 pc=0xf78c682c]
+            excel_save     [boot.c:247 pc=0xf78914e0]
+            excel_biff8_file_save [boot.c:293 pc=0xf7891764]
+            gnm_plugin_loader_module_func_file_save [plugin-loader-module.c:386 pc=0x1450bc]
+            gnm_plugin_file_saver_save [plugin-service.c:868 pc=0x14a0f4]
+            gnm_file_saver_save [file.c:495 pc=0xdad50]
+            wbv_save_to_file [workbook-view.c:584 pc=0x1d9fb8]
+            wb_view_save_as [workbook-view.c:641 pc=0x1da2e8]
+            do_save_as     [gui-file.c:548 pc=0xf9b84]
+      Reading 4 bytes from 0x4
+
+
 Worries
     http://bugzilla.gnome.org/show_bug.cgi?id=123403
     : loading in XL corrupts.  xbat is being lost when xl modifies it ??
