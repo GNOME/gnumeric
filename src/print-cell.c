@@ -537,33 +537,60 @@ print_merged_range (GnomePrintContext *context, Sheet const *sheet,
 		    GnmRange const *view, GnmRange const *range)
 {
 	float l, r, t, b;
-	GnmCell  const *cell    = sheet_cell_get (sheet, range->start.col, range->start.row);
-	GnmStyle const *mstyle = sheet_style_get (sheet, range->start.col, range->start.row);
+	int last;
+	GnmCell  const *cell  = sheet_cell_get (sheet, range->start.col, range->start.row);
+	GnmStyle const *style = sheet_style_get (sheet, range->start.col, range->start.row);
 
-	l = sheet_col_get_distance_pts (sheet,
-		view->start.col, range->start.col) + start_x;
-	r = sheet_col_get_distance_pts (sheet,
-		view->start.col, range->end.col+1) + start_x;
+	l = r = start_x;
+	if (view->start.col < range->start.col)
+		l += sheet_col_get_distance_pts (sheet,
+			view->start.col, range->start.col);
+	if (range->end.col <= (last = view->end.col))
+		last = range->end.col;
+	r += sheet_col_get_distance_pts (sheet, view->start.col, last+1);
 
-	t = sheet_row_get_distance_pts (sheet,
-		view->start.row, range->start.row) + start_y;
-	b = sheet_row_get_distance_pts (sheet,
-		view->start.row, range->end.row+1) + start_y;
+	t = b = start_y;
+	if (view->start.row < range->start.row)
+		t -= sheet_row_get_distance_pts (sheet,
+			view->start.row, range->start.row);
+	if (range->end.row <= (last = view->end.row))
+		last = range->end.row;
+	b -= sheet_row_get_distance_pts (sheet, view->start.row, last+1);
 
-	if (gnumeric_background_set_pc (mstyle, context))
+	if (l == r || t == b)
+		return;
+
+	if (gnumeric_background_set_pc (style, context))
 		/* Remember api excludes the far pixels */
-		print_rectangle (context, l, t, r-l+1, b-t+1);
+		print_rectangle (context, l, t, r-l+1, t-b+1);
+
+	if (range->start.col < view->start.col)
+		l -= sheet_col_get_distance_pts (sheet,
+			range->start.col, view->start.col);
+	if (view->end.col < range->end.col)
+		r += sheet_col_get_distance_pts (sheet,
+			view->end.col+1, range->end.col+1);
+	if (range->start.row < view->start.row)
+		t += sheet_row_get_distance_pts (sheet,
+			range->start.row, view->start.row);
+	if (view->end.row < range->end.row)
+		b -= sheet_row_get_distance_pts (sheet,
+			view->end.row+1, range->end.row+1);
 
 	if (cell != NULL) {
 		ColRowInfo const * const ri = cell->row_info;
 		ColRowInfo const * const ci = cell->col_info;
 
+		if (ri->needs_respan)
+			row_calc_spans ((ColRowInfo *)ri, sheet);
+
 		/* FIXME : get the margins from the far col/row too */
-		print_cell (cell, mstyle, context,
+		print_cell (cell, style, context,
 			    l, t,
 			    r - l - ci->margin_b - ci->margin_a,
-			    b - t - ri->margin_b - ri->margin_a, -1.);
+			    t - b - ri->margin_b - ri->margin_a, -1.);
 	}
+	style_border_print_diag (style, context, l, t, r, b);
 }
 
 static gint
@@ -698,9 +725,9 @@ print_cell_range (GnomePrintContext *context,
 							(GCompareFunc)merged_col_cmp);
 				MERGE_DEBUG (r, " : unused -> active\n");
 
-					if (ci->visible)
-				print_merged_range (context, sheet,
-						    base_x, y, &view, r);
+				if (ci->visible)
+					print_merged_range (context, sheet,
+							    base_x, y, &view, r);
 				}
 			} else {
 				lag = &(ptr->next);

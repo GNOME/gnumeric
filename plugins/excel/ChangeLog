@@ -1,3 +1,8 @@
+2004-06-22  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (extract_gog_object_style) : handle no fmt for axis.
+	(excel_write_objs) : the count is +1, not the spid
+
 2004-06-20  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (palette_get_index) : make public

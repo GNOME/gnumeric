@@ -3163,7 +3163,7 @@ excel_write_start_drawing (ExcelWriteSheet *esheet)
 {
 	if (esheet->cur_obj++ > 0)
 		ms_biff_put_var_next (esheet->ewb->bp, BIFF_MS_O_DRAWING);
-	return 0x400*esheet->ewb->cur_obj_group + esheet->cur_obj + 1;
+	return 0x400*esheet->ewb->cur_obj_group + esheet->cur_obj;
 }
 
 static void
@@ -3198,7 +3198,7 @@ excel_write_autofilter_objs (ExcelWriteSheet *esheet)
 	static guint8 const obj_v8[] = {
 /* SpContainer */  0x0f,   0,   4, 0xf0,   0x52, 0, 0, 0,
 /* Sp */	   0x92, 0xc, 0xa, 0xf0,      8, 0, 0, 0,
-			0,   0, 0, 0,	/* fill in 0x400 | spid */
+			0,   0, 0, 0,	/* fill in spid */
 			0, 0xa, 0, 0,
 /* OPT */	   0x43,   0, 0xb, 0xf0,   0x18, 0, 0, 0,
 			0x7f, 0, 4, 1,	4, 1, /* bool LockAgainstGrouping 127 = 0x1040104; */
@@ -3274,7 +3274,7 @@ excel_write_chart (ExcelWriteSheet *esheet, SheetObject *so)
 	static guint8 const obj_v8[] = {
 /* SpContainer */   0xf,   0,   4, 0xf0,   0x6a, 0, 0, 0,
 /* Sp */	   0x92, 0xc, 0xa, 0xf0,      8, 0, 0, 0,
-			0,   0, 0, 0,	/* fill in 0x400 | spid */
+			0,   0, 0, 0,	/* fill in spid */
 			0, 0xa, 0, 0,
 /* OPT */	   0x83,   0, 0xb, 0xf0,   0x30, 0, 0, 0,
 			0x7f, 0,    4, 1,  4, 1, /* bool   LockAgainstGrouping 127 = 0x1040104; */
@@ -3748,7 +3748,7 @@ excel_write_objs (ExcelWriteSheet *esheet)
 		static guint8 const header_obj_v8[] = {
 /* DgContainers */ 0x0f, 0,   2, 0xf0,	   0, 0, 0, 0,	/* fill in length */
 /* Dg */	   0x10, 0,   8, 0xf0,	   8, 0, 0, 0,
-			0, 0, 0, 0,			/* fill num objects in this group */
+			0, 0, 0, 0,			/* fill num objects in this group + 1 */
 			0, 0, 0, 0,			/* fill last spid in this group */
 /* SpgrContainer */0x0f, 0,   3, 0xf0,	   0, 0, 0, 0,	/* fill in length */
 /* SpContainer */  0x0f, 0,   4, 0xf0,	0x28, 0, 0, 0,
@@ -3769,13 +3769,13 @@ excel_write_objs (ExcelWriteSheet *esheet)
 		}
 
 		esheet->ewb->cur_obj_group++;
-		last_id = 0x400*esheet->ewb->cur_obj_group + esheet->num_objs + 1;
+		last_id = 0x400*esheet->ewb->cur_obj_group + esheet->num_objs;
 
 		ms_biff_put_var_next (bp, BIFF_MS_O_DRAWING);
 		memcpy (buf, header_obj_v8, sizeof header_obj_v8);
 		len = 90*num_filters + 114*num_charts;
 		GSF_LE_SET_GUINT32 (buf +  4, 72 + len);
-		GSF_LE_SET_GUINT32 (buf + 16, esheet->num_objs);
+		GSF_LE_SET_GUINT32 (buf + 16, esheet->num_objs + 1);
 		GSF_LE_SET_GUINT32 (buf + 20, last_id);	/* last spid in this group */
 		GSF_LE_SET_GUINT32 (buf + 28, 48 + len);
 		ms_biff_put_var_write (bp, buf, sizeof header_obj_v8);
@@ -4486,18 +4486,18 @@ extract_gog_object_style (ExcelWriteState *ewb, GogObject *obj)
 	}
 	if (IS_GOG_AXIS (obj)) {
 		char *fmt_str;
-		GnmFormat *fmt;
 		g_object_get (G_OBJECT (obj), "assigned-format-string-XL", &fmt_str, NULL);
-		fmt = style_format_new_XL (fmt_str, FALSE);
+		if (fmt_str != NULL) {
+			GnmFormat *fmt = style_format_new_XL (fmt_str, FALSE);
+			if (!style_format_is_general (fmt))
+				two_way_table_put (ewb->formats.two_way_table,
+						   (gpointer)fmt, TRUE,
+						   (AfterPutFunc) after_put_format,
+						   "Found unique format %d - 0x%x\n");
+			else
+				style_format_unref (fmt);
+		}
 		g_free (fmt_str);
-
-		if (!style_format_is_general (fmt))
-			two_way_table_put (ewb->formats.two_way_table,
-					   (gpointer)fmt, TRUE,
-					   (AfterPutFunc) after_put_format,
-					   "Found unique format %d - 0x%x\n");
-		else
-			style_format_unref (fmt);
 	}
 
 	for ( ; ptr != NULL ; ptr = ptr->next)
