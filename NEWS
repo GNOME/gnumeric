@@ -50,6 +50,10 @@ Morten:
 	* Fix EXPRESSION crash.
 	* Fix 65577.
 
+Sultanov Albert:
+	* http://bugzilla.gnome.org/show_bug.cgi?id=55142
+	Do charset conversions on summary fields to/form XL.
+
 Toralf Lund:
 	* http://bugzilla.gnome.org/show_bug.cgi?id=60468
 	More work on the oleo importer.
