@@ -149,16 +149,12 @@ install: build
 	dh_clean -k
 	dh_installdirs
 
-	#	prefix=`pwd`/../debian/tmp/usr 
 	cd build && env GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 \
 		RPM_BUILD_ROOT=fake_so_scrollkeeper-update_wont_be_called \
 		$(MAKE) install \
 		DESTDIR=`pwd`/../debian/tmp/ \
-		sysconfdir=`pwd`/../debian/tmp/etc \
 		localstatedir=`pwd`/../debian/tmp/var/lib \
 		libexecdir=`pwd`/../debian/tmp/usr/bin
-
-	cd build/schemas && install -m 644 -o root -g root -p *.schemas `pwd`/../../debian/gnumeric/usr/share/gconf/schemas/
 
 	# Plugins are not intended as stand-alone executables
 	find `pwd`/debian/tmp/usr/lib/gnumeric/*/plugins -type f -print0 | xargs -0 chmod a-x
@@ -169,41 +165,24 @@ install: build
 	# Bonobo-only files
 	rm -rf debian/tmp/usr/lib/bonobo
 
-	# We no longer remove the libtool files for plugins as we did for
-	# 1.0.x: 1.2.x actually needs them for the plugins to work.
-	#find `pwd`/debian/gnumeric/usr/lib/gnumeric/*/plugins -name '*.la' -print0 | xargs -0 rm -f
-
-	# Remove scrollkeeper stuff as well, as it should be done at package
-	# (de)install time.
+	# Remove scrollkeeper generated files as well; for a package they
+	# need to be (re)generated at package (de)install time.
 	rm -rf `pwd`/debian/tmp/var/lib/scrollkeeper
 
 	# Low-colour icon for use by the menu system
 	$(INSTALL) -m 644 debian/gnome-gnumeric.xpm `pwd`/debian/tmp/usr/share/pixmaps/
 
-	dh_install --sourcedir=debian/tmp --list-missing
+	dh_install --sourcedir=`pwd`/debian/tmp --list-missing
 
 	# Name the binary just "gnumeric"
 	cd debian/gnumeric/usr/bin && mv gnumeric-* gnumeric
 
-	# gnumeric and gnumeric-common are always installed together; they
-	# can share a doc dir.
-	# (Note that's not the case with gnumeric-doc as it can be installed
-	# without having gnumeric installed)
-	dh_link -pgnumeric-common usr/share/doc/gnumeric/ usr/share/doc/gnumeric-common
-
 	dh_link usr/share/gnumeric/$(upstreamversion)/idl/GNOME_Gnumeric.idl usr/share/idl/GNOME_Gnumeric.idl
 
-	dh_link -pgnumeric-doc usr/share/pixmaps/gnome-logo-icon.png usr/share/gnome/help/gnumeric/C/stylesheet/gnome-logo-icon.png 
+	# Make the documentation accessible to yelp
+	dh_link -pgnumeric-doc usr/share/gnumeric/$(upstreamversion)/doc usr/share/gnome/help/gnumeric 
 
-ifeq ($(GENERATE_HTML_DOCS),1)
-	dh_link -pgnumeric-doc usr/share/gnome/help/gnumeric/C/gnumeric.html usr/share/doc/gnumeric-doc/gnumeric.html
-	# For the callout pngs
-	dh_link -pgnumeric-doc usr/share/xml/docbook/stylesheet/nwalsh/images/ usr/share/gnome/help/gnumeric/C/images
-endif
-
-#	dh_link -pgnumeric-doc usr/share/gnome/help/gnumeric/C/gnumeric.xml usr/share/doc/gnumeric-doc/gnumeric.xml
-
-	dh_link -pgnumeric-doc usr/share/gnome/help/gnumeric usr/share/gnumeric/$(upstreamversion)/doc
+	dh_link -pgnumeric-doc usr/share/xml/docbook/stylesheet/nwalsh/images/ usr/share/gnumeric/$(upstreamversion)/doc/C/images
 
 	# Remove files from the main package that belong to a more
 	# specialist package
@@ -233,6 +212,7 @@ binary-indep: build install
 #	dh_installinit -i
 	dh_installcron -i
 #	dh_installman -i
+	dh_link -i
 	dh_installinfo -i
 #	dh_undocumented -i
 	dh_installchangelogs ChangeLog -i
@@ -253,12 +233,8 @@ binary-arch: build install
 	dh_testdir -a
 	dh_testroot -a
 #	dh_installdebconf -a
-ifeq ($(GENERATE_HTML_DOCS),1)
-	dh_installdocs -a
-else
 	dh_installdocs -a --noscripts
 	rm -rf `pwd`/debian/gnumeric-doc/usr/share/doc-base
-endif
 	dh_installexamples -a
 	dh_installmenu -a
 #	dh_installlogrotate -a
@@ -268,6 +244,7 @@ endif
 #	dh_installinit -a
 	dh_installcron -a
 	dh_installman -a
+	dh_link -a
 	dh_installinfo -a
 #	dh_undocumented -a
 	dh_installchangelogs ChangeLog -a

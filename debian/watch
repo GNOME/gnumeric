@@ -1,4 +1,4 @@
 version=2
-ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric/1.3/ \
+ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric/1.4/ \
         gnumeric-(.*)\.tar\.gz \
         debian
