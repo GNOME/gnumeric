@@ -1110,22 +1110,7 @@ sheet_row_size_fit_pixels (Sheet *sheet, int row)
 		return 0;
 
 	/* Cell height does not include margins or bottom grid line */
-	max += ri->margin_a + ri->margin_b + 1;
-
-	/* FIXME FIXME FIXME : HACK HACK HACK
-	 * if the height is 1 pixel larger than the minimum required
-	 * do not bother to resize.  The current font kludges cause a
-	 * problem because the 9pt font font that we display @ 96dpi is a 12
-	 * pixel font.  Where as the row height was calculated using windows
-	 * which uses a 10pt font @96 dpi and displays a 13pixel font.
-	 *
-	 * As a result the default row height is 1 pixel too large for the
-	 * font.  When we run this test things then resize 1 pixel smaller for
-	 * no apparent reason.
-	 */
-	if (ri->size_pixels == (max+1))
-		return 0;
-	return max;
+	return max + ri->margin_a + ri->margin_b;
 }
 
 struct recalc_span_closure {
