@@ -1,3 +1,8 @@
+2003-08-14  Carlos Perelló Marín <carlos@gnome.org>
+
+	* configure.in: We need intltool 0.27.2 to be able to work with UTF-8
+	strings inside source code.
+
 2003-08-12  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/workbook-control.c (wb_control_parse_and_jump): make the range 
