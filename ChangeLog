@@ -1,5 +1,15 @@
 2002-11-25  Jody Goldberg <jody@gnome.org>
 
+	* src/parse-util.c (rangeref_parse) : init sheet_b in the case where
+	  there is no sheet at all.
+
+	* src/workbook.c (cb_tweak_3d) : new.
+	(workbook_sheet_detach) : use it here to fix 3d references.
+
+	* src/dependent.c (dependent_changed) : don't relink here.
+	(dependent_set_expr) : which cleans up the semantics here.
+	(dependent_set_sheet) : relink here instead which is much nicer.
+
 	* src/sheet-control-gui.c (scg_set_left_col) : clip on pane 1
 	  but we always need to scroll 3 if it exists.
 	(scg_set_top_row) : ditto, but reverse the panes.

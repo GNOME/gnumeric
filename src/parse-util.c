@@ -844,7 +844,8 @@ rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
 
 		if (*ptr++ != '!')
 			return start; /* TODO syntax error */
-	}
+	} else
+		res->b.sheet = NULL;
 
 	tmp1 = col_parse (ptr, &res->a.col, &res->a.col_relative);
 	if (tmp1 == ptr) { /* check for row only ref 2:3 */ 
