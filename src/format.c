@@ -1204,6 +1204,7 @@ format_number (GString *result,
 	gboolean hour_seen = FALSE;
 	gboolean time_display_elapsed = FALSE;
 	gboolean ignore_further_elapsed = FALSE;
+	size_t prelen = result->len;
 
 	gunichar fill_char = 0;
 	int fill_start = -1;
@@ -1363,18 +1364,19 @@ format_number (GString *result,
 					errno = 0;
 					denominator = strtol ((char *)format + 1, &end, 10);
 					if ((char *)format + 1 != end && errno != ERANGE) {
+						size = (const guchar *)end - (format + 1);
 						format = (guchar *)end;
 						numerator = (int)((number - (int)number) * denominator + 0.5);
 					}
 				} else {
-					static int const powers[8] = {
+					static int const powers[9] = {
 						10, 100, 1000, 10000, 100000,
-						1000000, 10000000, 100000000
+						1000000, 10000000, 100000000, 1000000000
 					};
 
 					format += size + 1;
-					if (size > 8)
-						size = 8;
+					if (size > (int)G_N_ELEMENTS (powers))
+						size = G_N_ELEMENTS (powers);
 					continued_fraction (number - (int)number, powers[size - 1],
 							    &numerator, &denominator);
 				}
@@ -1385,12 +1387,23 @@ format_number (GString *result,
 						info.rendered = TRUE;
 						numerator += ((int)number) * denominator;
 						if (info.negative && !info.supress_minus)
-							g_string_prepend_c (result, '-');
+							g_string_insert_c (result, prelen, '-');
 					}
+
+					/*
+					 * FIXME: the space-aligning here doesn't come out
+					 * right except in mono-space fonts.
+					 */
 					if (numerator > 0) {
-						char buffer[4 * sizeof (numerator) + 4 * sizeof (denominator)];
-						sprintf (buffer, "%d/%d", numerator, denominator);
-						g_string_append (result, buffer);
+						g_string_append_printf (result,
+									"%*d/%-*d",
+									info.left_spaces, numerator,
+									size, denominator);
+					} else {
+						g_string_append_printf (result,
+									"%-*s",
+									info.left_spaces + 1 + size,
+									"");
 					}
 					continue;
 				}
