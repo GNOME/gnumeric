@@ -1,17 +1,16 @@
 # Brazilian Portuguese translation of Gnumeric
-# E. A. Tacão <tacao@conectiva.com.br>, 2000
-# Juan Carlos Castro y Castro <jcastro@vialink.com.br>, 2001
-# Johnny Birnfeld <akiractb@icqmail.com>, 2003
+# E. A. Tacão <tacao@conectiva.com.br>, 2000.
+# Juan Carlos Castro y Castro <jcastro@vialink.com.br>, 2001.
+# Johnny Birnfeld <akiractb@icqmail.com>, 2003.
 # Afonso Celso Medina <medina@maua.br>, 2004.
 # Raphael Higino <raphaelh@uai.com.br>, 2004.
-# 
-# 
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 1.2.0\n"
+"Project-Id-Version: gnumeric.gnumeric-1-2.pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-06-23 00:40-0400\n"
-"PO-Revision-Date: 2004-03-23 23:24-0300\n"
+"POT-Creation-Date: 2004-06-24 10:19-0400\n"
+"PO-Revision-Date: 2004-06-24 10:17-0400\n"
 "Last-Translator: Afonso Celso Medina <medina@maua.br>\n"
 "Language-Team: Portuguese/Brazil <gnome-l10n-br@listas.cipsga.org.br>\n"
 "MIME-Version: 1.0\n"
@@ -10643,11 +10642,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
-"@DESCRIPTION=COMBIN calcula as combinações de @n @k a @k.\n"
+"@DESCRIPTION=COMBIN calcula o número de combinações.\n"
 "\n"
 "* Aplicar esta função a números não-inteiros ou negativos retorna o erro "
 "#NUM!\n"
-"* Se @n < @k, COMBIN retorna o erro #NUM!\n"
+"* Se @n é menor do que @k, COMBIN retorna o erro #NUM!\n"
 "* Esta função é compatível com o Excel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -17386,7 +17385,7 @@ msgstr "Não é um texto Guile"
 
 #: plugins/html/html_read.c:478
 msgid "Unable to parse the html."
-msgstr "Impossível processar o html"
+msgstr "Impossível processar o html."
 
 #: plugins/html/plugin.xml.in.h:1
 msgid "HTML"
@@ -17806,7 +17805,7 @@ msgstr "Impossível corrigir '%s' porque '%s'"
 
 #: plugins/openoffice/openoffice-read.c:497
 msgid "Invalid array expression does not specify number of columns."
-msgstr "Vetor inválido, a expressão não especifica o número de colunas"
+msgstr "Vetor inválido, a expressão não especifica o número de colunas."
 
 #: plugins/openoffice/openoffice-read.c:500
 msgid "Invalid array expression does not specify number of rows."
@@ -17988,7 +17987,7 @@ msgstr "Nome de módulo Python não fornecido."
 
 #: plugins/python-loader/python-loader.c:106
 msgid "Cannot create new Python interpreter."
-msgstr "Não pôde criar novo interpretador Phyton"
+msgstr "Não pôde criar novo interpretador Phyton."
 
 #: plugins/python-loader/python-loader.c:127
 #, c-format
@@ -18196,7 +18195,7 @@ msgstr "Pasta"
 
 #: plugins/xbase/xbase.c:142
 msgid "Failed to read DBF header."
-msgstr ""
+msgstr "Falha ao ler cabeçalho DBF."
 
 #: plugins/xbase/plugin.xml.in.h:1
 msgid "Imports XBase files"
@@ -18229,7 +18228,7 @@ msgstr "Especificações de múltplas versões. Assumindo %d"
 
 #: plugins/xml_sax/xml-sax-read.c:473
 msgid "File has inconsistent SheetNameIndex element."
-msgstr "O arquivo contém elemento PastaNomeÍndice inconsistente"
+msgstr "O arquivo contém elemento PastaNomeÍndice inconsistente."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:1
 msgid "Activate New Plugins"
@@ -18274,11 +18273,11 @@ msgstr "Lista de Plugins Ativos."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:11
 msgid "List of Extra Autoformat Directories."
-msgstr "Lista de diretórios de Autoformatação Extra"
+msgstr "Lista de diretórios de Autoformatação Extra."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:12
 msgid "List of Extra Plugin Directories."
-msgstr "Lista de diretórios de Plugin Extra"
+msgstr "Lista de diretórios de Plugin Extra."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:13
 msgid "List of First Letter Exceptions"
@@ -18294,11 +18293,11 @@ msgstr "Lista dos Plugins Conhecidos."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:16
 msgid "List of Plugin File States."
-msgstr "Lista dos Estados dos Arquivos do Plugin"
+msgstr "Lista dos Estados dos Arquivos do Plugin."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:17
 msgid "List of recently used functions."
-msgstr "Lista das funções recentemente utilizadas"
+msgstr "Lista das funções recentemente utilizadas."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:18
 msgid "Maximum Length of Recently Used Functions List"
@@ -18974,7 +18973,7 @@ msgstr "Fecha o arquivo atual"
 
 #: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:3513
 msgid "Co_mment..."
-msgstr "Co_mentário"
+msgstr "Co_mentário..."
 
 #: src/GNOME_Gnumeric.xml.h:40 src/dialogs/print.glade.h:7
 #: src/workbook-control-gui.c:3393
@@ -20090,7 +20089,7 @@ msgstr "Procura por Obj_etivo..."
 
 #: src/GNOME_Gnumeric.xml.h:296 src/workbook-control-gui.c:3537
 msgid "_Goto cell..."
-msgstr "_Ir para a célula.."
+msgstr "_Ir para a célula..."
 
 #: src/GNOME_Gnumeric.xml.h:297 src/workbook-control-gui.c:3966
 msgid "_Group and Outline"
@@ -20276,7 +20275,7 @@ msgstr "Lar_gura Padrão"
 
 #: src/GNOME_Gnumeric.xml.h:339 src/workbook-control-gui.c:3443
 msgid "_Tabulate Dependency..."
-msgstr "_Tabular Dependência"
+msgstr "_Tabular Dependência..."
 
 #: src/GNOME_Gnumeric.xml.h:340 src/workbook-control-gui.c:3959
 msgid "_Text to Columns..."
@@ -21249,7 +21248,7 @@ msgstr "_Fim:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:19
 msgid "_Fill color:"
-msgstr "Cor de preenchimento"
+msgstr "Cor de _preenchimento:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:20
 msgid "_Fit:"
@@ -21442,12 +21441,12 @@ msgstr ""
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:11
 msgid "Adjacent vertical 3D columns grouped by major and minor categories."
 msgstr ""
-"Barras 3D verticais adjacentes e agrupadas por categorias de maior e menor"
+"Barras 3D verticais adjacentes e agrupadas por categorias de maior e menor."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:12
 msgid "Adjacent vertical columns grouped by major and minor categories."
 msgstr ""
-"Barras verticais adjacentes e agrupadas por categorias de maior e menor"
+"Barras verticais adjacentes e agrupadas por categorias de maior e menor."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:13
 #: src/func.c:679
@@ -21554,7 +21553,7 @@ msgstr "Linhas de Porcentagem"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:33
 msgid "Percentage area plot."
-msgstr "Gráfico de área de porcentagem"
+msgstr "Gráfico de área de porcentagem."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:34
 msgid "Percentage line plot."
@@ -21844,7 +21843,7 @@ msgstr "Interpola entre pontos multi-dimensionais, com círculos em cada ponto."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:6
 msgid "Plot X, Y and bubble size."
-msgstr "Plota X,Y e o tamanho da bolha"
+msgstr "Plota X,Y e o tamanho da bolha."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:7
 msgid "XY"
@@ -23139,7 +23138,7 @@ msgstr "Co_locar:"
 
 #: src/dialogs/consolidate.glade.h:34
 msgid "_Source areas:"
-msgstr "Áreas de _origem"
+msgstr "Áreas de _origem:"
 
 #: src/dialogs/correlation.glade.h:3 src/tools/analysis-tools.c:784
 #: src/tools/analysis-tools.c:787
@@ -23289,7 +23288,7 @@ msgstr "Chris Lahey, mecanismo de formato numérico."
 
 #: src/dialogs/dialog-about.c:74
 msgid "Takashi Matsuda, original text plugin."
-msgstr "Takashi Matsuda, plugin de texto original"
+msgstr "Takashi Matsuda, plugin de texto original."
 
 #: src/dialogs/dialog-about.c:75
 msgid "Michael Meeks, Excel and OLE2 importing."
@@ -23419,11 +23418,11 @@ msgstr "As áreas de entrada selecionadas devem ter o mesmo tamanho!"
 
 #: src/dialogs/dialog-analysis-tools.c:631
 msgid "Could not create the Correlation Tool dialog."
-msgstr "Impossível criar o diálogo da Ferramenta de Correlação"
+msgstr "Impossível criar o diálogo da Ferramenta de Correlação."
 
 #: src/dialogs/dialog-analysis-tools.c:749
 msgid "Could not create the Covariance Tool dialog."
-msgstr "Impossível criar o diálogo da Ferramenta de Covariância"
+msgstr "Impossível criar o diálogo da Ferramenta de Covariância."
 
 #: src/dialogs/dialog-analysis-tools.c:838
 msgid "Could not create the Rank and Percentile Tools dialog."
@@ -23435,7 +23434,7 @@ msgstr "Impossível criar o diálogo da Ferramenta da Análise de Fourier."
 
 #: src/dialogs/dialog-analysis-tools.c:1091
 msgid "Could not create the Descriptive Statistics Tool dialog."
-msgstr "Impossível criar o diálogo da Ferramenta de Estatísticas Descritivas"
+msgstr "Impossível criar o diálogo da Ferramenta de Estatísticas Descritivas."
 
 #: src/dialogs/dialog-analysis-tools.c:1233
 msgid ""
@@ -23493,7 +23492,7 @@ msgstr "Variáveis _X:"
 
 #: src/dialogs/dialog-analysis-tools.c:2087 src/dialogs/regression.glade.h:22
 msgid "_Y Variable:"
-msgstr "Variável _Y"
+msgstr "Variável _Y:"
 
 #: src/dialogs/dialog-analysis-tools.c:2088
 msgid "Could not create the Regression Tool dialog."
@@ -23916,7 +23915,7 @@ msgstr "Preparar um email"
 
 #: src/dialogs/dialog-hyperlink.c:211
 msgid "_Web Link"
-msgstr "Link da _Web:"
+msgstr "Link da _Web"
 
 #: src/dialogs/dialog-hyperlink.c:213
 msgid "Browse to the specified URL"
@@ -24097,7 +24096,7 @@ msgstr "Erros ao desativar plugin \"%s\"."
 #: src/dialogs/dialog-plugin-manager.c:620
 #, c-format
 msgid "Error while activating plugin \"%s\"."
-msgstr "Erro ao ativar plugin \"%s\""
+msgstr "Erro ao ativar plugin \"%s\"."
 
 #: src/dialogs/dialog-plugin-manager.c:688
 msgid "Active"
@@ -24636,7 +24635,7 @@ msgid ""
 "solver for Gnumeric?"
 msgstr ""
 "Procurando um tema para a sua tese? Talvez você pudesse escrever um "
-"otimizador de Programação Quadrática para o Gnumeric..."
+"otimizador de Programação Quadrática para o Gnumeric?"
 
 #: src/dialogs/dialog-solver.c:777
 msgid ""
@@ -25136,7 +25135,7 @@ msgstr "Ta_bulação"
 
 #: src/dialogs/dialog-stf.glade.h:46
 msgid "Te_xt indicator: "
-msgstr "Indicator de te_xto:"
+msgstr "Indicator de te_xto: "
 
 #: src/dialogs/dialog-stf.glade.h:47
 msgid "Text Import Configuration"
@@ -25160,7 +25159,7 @@ msgid ""
 "lines"
 msgstr ""
 "A seqüência de retorno de final de linha e de alimentação de linha (códigos "
-"ASCII 13 e 10) quebram linhas."
+"ASCII 13 e 10) quebram linhas"
 
 #: src/dialogs/dialog-stf.glade.h:52
 msgid ""
@@ -25204,7 +25203,7 @@ msgstr "_Separado"
 
 #: src/dialogs/dialog-stf.glade.h:61
 msgid "_To line: "
-msgstr "A_té a linha:"
+msgstr "A_té a linha: "
 
 #: src/dialogs/dialog-stf.glade.h:62
 msgid "_Unix (LF)"
@@ -25365,7 +25364,7 @@ msgstr "Séries em:"
 
 #: src/dialogs/fill-series.glade.h:12
 msgid "Start Value: "
-msgstr "Valor Inicial:"
+msgstr "Valor Inicial: "
 
 #: src/dialogs/fill-series.glade.h:13
 msgid "Step Value: "
@@ -25497,7 +25496,7 @@ msgstr "Seleciona, automaticamente, um formato apropriado."
 
 #: src/dialogs/format-selector.glade.h:17
 msgid "Specify an XL-style format directly"
-msgstr "Especifica diretamente um formato no estilo Excel."
+msgstr "Especifica diretamente um formato no estilo Excel"
 
 #: src/dialogs/format-selector.glade.h:18
 msgid "_Format:"
@@ -25614,7 +25613,7 @@ msgstr "_Região de Entrada:"
 
 #: src/dialogs/histogram.glade.h:9
 msgid "M_in:"
-msgstr "M_ín"
+msgstr "M_ín:"
 
 #: src/dialogs/histogram.glade.h:10
 msgid "Ma_x:"
@@ -25641,7 +25640,7 @@ msgstr "_Pareto (Ordenado)"
 
 #: src/dialogs/histogram.glade.h:16
 msgid "Retain Output Range _Comments"
-msgstr "Mater _Comentários da Região de Saída:"
+msgstr "Mater _Comentários da Região de Saída"
 
 #: src/dialogs/histogram.glade.h:17
 msgid "Retain Output Range _Formatting"
@@ -25930,7 +25929,7 @@ msgstr "Gerenciador de Plugins"
 
 #: src/dialogs/plugin-manager.glade.h:8
 msgid "Plugin directory:"
-msgstr "Diretório do plugin"
+msgstr "Diretório do plugin:"
 
 #: src/dialogs/plugin-manager.glade.h:9
 msgid ""
@@ -25965,7 +25964,7 @@ msgstr "Aplicar _em:"
 
 #: src/dialogs/print.glade.h:5
 msgid "Apply to _all sheets of this workbook."
-msgstr "Aplicar a todas pastas deste _WorkBook"
+msgstr "Aplicar a todas pastas deste _WorkBook."
 
 #: src/dialogs/print.glade.h:6
 msgid "Center on page"
@@ -26340,7 +26339,7 @@ msgstr "O texto de busca é uma expressão regular"
 
 #: src/dialogs/search-replace.glade.h:33 src/dialogs/search.glade.h:27
 msgid "The search text is taken literally."
-msgstr "O texto de busca é literal"
+msgstr "O texto de busca é literal."
 
 #: src/dialogs/search-replace.glade.h:34
 msgid "Turn unparsable entries into string values"
@@ -26673,7 +26672,7 @@ msgstr "Cor de _Preenchimento:"
 
 #: src/dialogs/so-fill.glade.h:4
 msgid "O_utline Color:"
-msgstr "Cor do _Contorno"
+msgstr "Cor do _Contorno:"
 
 #: src/dialogs/so-frame.glade.h:2
 msgid "Frame Properties"
@@ -26910,7 +26909,7 @@ msgid ""
 "Use down for first source, right for second, and multiple sheets for third"
 msgstr ""
 "Use abaixo para a primeira fonte, direita para a segunda e pastas múltiplas "
-"para a terceira."
+"para a terceira"
 
 #: src/dialogs/tabulate.glade.h:12
 msgid "_Coordinate"
@@ -26982,7 +26981,7 @@ msgstr "A_lteração Máxima:"
 
 #: src/dialogs/workbook-attr.glade.h:7
 msgid "Maximum it_erations:"
-msgstr "Máximo de It_erações"
+msgstr "Máximo de It_erações:"
 
 #: src/dialogs/workbook-attr.glade.h:8
 msgid "Notebook _Tabs for Sheets"
@@ -28455,7 +28454,7 @@ msgstr "Carregador do plugin"
 
 #: src/plugin-service.c:1299
 msgid "Missing file name."
-msgstr "Faltando nome do arquivo"
+msgstr "Faltando nome do arquivo."
 
 #: src/plugin-service.c:1365
 #, c-format
@@ -28483,7 +28482,7 @@ msgstr "Nenhum atributo \"tipo\" no elemento \"serviço\"."
 #: src/plugin-service.c:1546
 #, c-format
 msgid "Unknown service type: %s."
-msgstr "Serviço desconhecido: '%s'"
+msgstr "Serviço desconhecido: %s."
 
 #: src/plugin-service.c:1562
 msgid "Error reading service information."
@@ -28574,7 +28573,7 @@ msgstr "Não há serviços definidos para o plugin cujo id=\"%s\"."
 #: src/plugin.c:836
 #, c-format
 msgid "Plugin id contains invalid characters (%s)."
-msgstr "O Plugin id contém caracteres inválidos (%s)"
+msgstr "O Plugin id contém caracteres inválidos (%s)."
 
 #: src/plugin.c:840
 msgid "Unknown plugin name."
@@ -28844,7 +28843,7 @@ msgstr "Limpar Co_nteúdo"
 
 #: src/sheet-control-gui.c:1535
 msgid "Edit Co_mment..."
-msgstr "Editar Co_mentários"
+msgstr "Editar Co_mentários..."
 
 #: src/sheet-control-gui.c:1541
 msgid "_Format Cells..."
@@ -29284,7 +29283,7 @@ msgid ""
 "value's"
 msgstr ""
 "O valor absoluto da probabilidade de uma observação sendo maior do que o "
-"valor t."
+"valor t"
 
 #: src/tools/analysis-tools.c:2403
 msgid ""
@@ -30685,7 +30684,7 @@ msgstr "Ocidental (Windows-1252)"
 
 #: src/widgets/widget-charmap-selector.c:419
 msgid "Locale: "
-msgstr "Local:"
+msgstr "Local: "
 
 #: src/widgets/widget-charmap-selector.c:458
 msgid "Conversion Direction"
@@ -30693,7 +30692,7 @@ msgstr "Direção de Conversão"
 
 #: src/widgets/widget-charmap-selector.c:459
 msgid "This value determines which iconv test to perform."
-msgstr "Este valor determina qual teste iconv deve ser realizado"
+msgstr "Este valor determina qual teste iconv deve ser realizado."
 
 #: src/widgets/widget-font-selector.c:152
 msgid "Bold italic"
@@ -30721,7 +30720,7 @@ msgstr "Especial"
 
 #: src/widgets/widget-format-selector.c:960
 msgid "Negative Number Format"
-msgstr "Formato de Número negativo:"
+msgstr "Formato de Número negativo"
 
 #: src/widgets/widget-format-selector.c:991
 msgid "Number Formats"
@@ -31675,7 +31674,7 @@ msgstr "Definir o Alinhamento Horizontal"
 
 #: src/workbook-format-toolbar.c:189
 msgid "Set Font Style"
-msgstr "Definir o Estilo da Fonte:"
+msgstr "Definir o Estilo da Fonte"
 
 #: src/workbook-format-toolbar.c:255
 msgid "Set Font"
@@ -31843,7 +31842,7 @@ msgstr "Conteúdo xml não codificável na Área de Transferência"
 
 #: src/xml-io.c:3436
 msgid "Clipboard is in unknown format"
-msgstr "A área de transferência está em formato desconhecido."
+msgstr "A área de transferência está em formato desconhecido"
 
 #.
 #. * Pass 2: read the contents
@@ -31863,30 +31862,3 @@ msgstr "Falha ao salvar arquivo"
 #: src/xml-io.c:4254
 msgid "Gnumeric XML file format"
 msgstr "Formato de arquivo XML Gnumeric"
-
-#~ msgid "Failure parsing AutoFilter."
-#~ msgstr "Falha analisando gramática do AutoFiltro."
-
-#~ msgid "Invalid password"
-#~ msgstr "Senha inválida"
-
-#~ msgid "Imported %s"
-#~ msgstr "%s Importado"
-
-#~ msgid "TODO : Unfinished"
-#~ msgstr "AFAZER: Não terminado"
-
-#~ msgid "Interpolate between multi-dimensional points."
-#~ msgstr "Interpola entre pontos multi-dimensionais."
-
-#~ msgid "Interpolated points"
-#~ msgstr "Pontos interpolados"
-
-#~ msgid "Linearly interpolated points"
-#~ msgstr "Pontos linearmente interpolados"
-
-#~ msgid "Marked linearly interpolated points"
-#~ msgstr "Pontos linearmente interpolados marcados"
-
-#~ msgid "Plot one series per axis."
-#~ msgstr "Plotar uma série por eixo"
