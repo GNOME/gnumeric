@@ -16,9 +16,7 @@ typedef struct {
 	CellPos start, end;
 } Range;
 
-typedef struct {
-	int dummy;
-} MStyle;
+typedef struct _MStyle MStyle;
 
 typedef struct {
 	Range    range; /* must be 1st */

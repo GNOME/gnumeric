@@ -1,3 +1,12 @@
+1999-11-16  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/mstyle.c: Define mstyle properly;  Kill MSTYLE_ELEMENTS
+	macro.  
+	Kill PrivateStyle.
+	(mstyle_copy): Use sensible names;	
+	(mstyle_set_format): Implement.
+	Renamed all variables called "st" to "style".
+
 1999-11-16  Morten Welinder  <terra@diku.dk>
 
 	* src/functions/fn-financial.c (gnumeric_irr): Plug leak.

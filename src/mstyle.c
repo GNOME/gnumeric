@@ -17,6 +17,12 @@
 
 typedef struct _MStyleElement     MStyleElement;
 
+struct _MStyle {
+	guint32        ref_count;
+	gchar         *name;
+	MStyleElement *elements;
+};
+
 #define MSTYLE_ANY_COLOR             MSTYLE_COLOR_FORE: \
 				case MSTYLE_COLOR_BACK: \
 				case MSTYLE_COLOR_PATTERN
@@ -27,7 +33,7 @@ typedef struct _MStyleElement     MStyleElement;
 				case MSTYLE_BORDER_DIAGONAL: \
 				case MSTYLE_BORDER_REV_DIAGONAL
 
-extern const char *mstyle_names[MSTYLE_ELEMENT_MAX];
+extern const char *mstyle_names [MSTYLE_ELEMENT_MAX];
 
 struct _MStyleElement {
 /*	MStyleElementType type; - memory efficiency */
@@ -75,14 +81,7 @@ void           mstyle_elements_compare (MStyleElement *a, const MStyleElement *b
 void           mstyle_elements_unref   (MStyleElement *e);
 MStyleElement *mstyle_elements_copy    (const MStyleElement *e);
 
-typedef struct {
-	guint32        ref_count;
-	gchar         *name;
-	MStyleElement *elements;
-} PrivateStyle;
-#define MSTYLE_ELEMENTS(s) (((PrivateStyle *)s)->elements)
-
-const char *mstyle_names[MSTYLE_ELEMENT_MAX] = {
+const char *mstyle_names [MSTYLE_ELEMENT_MAX] = {
 	"--UnSet--",
 	"--Conflict--",
 	"Color.Back",
@@ -115,7 +114,7 @@ mstyle_hash (gconstpointer st)
 	guint32 hash;
 
 	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++) {
-		MStyleElement *e = &MSTYLE_ELEMENTS (mstyle) [i];
+		MStyleElement *e = &mstyle->elements [i];
 		hash = hash << 8;
 		switch (i) {
 		case MSTYLE_ANY_COLOR:
@@ -289,13 +288,13 @@ mstyle_elements_equal (const MStyleElement *a,
 
 		g_assert (i < MSTYLE_ELEMENT_MAX);
 
-		if (a[i].type != b[i].type)
+		if (a [i].type != b [i].type)
 			return FALSE;
 
-		if (!mstyle_element_equal (a[i], b[i])) {
+		if (!mstyle_element_equal (a [i], b [i])) {
 			g_assert (i < MSTYLE_ELEMENT_MAX);
 			if (STYLE_DEBUG)
-				printf ("%s mismatch\n", mstyle_names[i]);
+				printf ("%s mismatch\n", mstyle_names [i]);
 			return FALSE;
 		}
 	}
@@ -363,16 +362,16 @@ mstyle_elements_compare (MStyleElement *a,
 	g_return_if_fail (b != NULL);
 
 	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++) {
-		if (b[i].type == MSTYLE_ELEMENT_UNSET ||
-		    b[i].type == MSTYLE_ELEMENT_CONFLICT ||
-		    a[i].type == MSTYLE_ELEMENT_CONFLICT)
+		if (b [i].type == MSTYLE_ELEMENT_UNSET ||
+		    b [i].type == MSTYLE_ELEMENT_CONFLICT ||
+		    a [i].type == MSTYLE_ELEMENT_CONFLICT)
 			continue;
-		if (a[i].type == MSTYLE_ELEMENT_UNSET) {
-			mstyle_element_ref (b[i]);
-			a[i] = b[i];
-		} else if (!mstyle_element_equal (a[i], b[i])) {
-			mstyle_element_unref (a[i]);
-			a[i].type = MSTYLE_ELEMENT_CONFLICT;
+		if (a [i].type == MSTYLE_ELEMENT_UNSET) {
+			mstyle_element_ref (b [i]);
+			a [i] = b [i];
+		} else if (!mstyle_element_equal (a [i], b [i])) {
+			mstyle_element_unref (a [i]);
+			a [i].type = MSTYLE_ELEMENT_CONFLICT;
 		}
 	}
 
@@ -381,8 +380,8 @@ mstyle_elements_compare (MStyleElement *a,
 void
 mstyle_compare (MStyle *a, const MStyle *b)
 {
-	mstyle_elements_compare (((PrivateStyle *)a)->elements,
-				 ((const PrivateStyle *)b)->elements);
+	mstyle_elements_compare (a->elements,
+				 b->elements);
 }
 
 void
@@ -391,8 +390,8 @@ mstyle_elements_unref (MStyleElement *e)
 	int i;
 	if (e)
 		for (i = 0; i < MSTYLE_ELEMENT_MAX; i++) {
-			mstyle_element_unref (e[i]);
-			e[i].type = MSTYLE_ELEMENT_UNSET;
+			mstyle_element_unref (e [i]);
+			e [i].type = MSTYLE_ELEMENT_UNSET;
 		}
 }
 
@@ -407,8 +406,8 @@ mstyle_elements_copy (const MStyleElement *e)
 	ans = g_new (MStyleElement, MSTYLE_ELEMENT_MAX);
 
 	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++) {
-		mstyle_element_ref (e[i]);
-		ans[i] = e[i];
+		mstyle_element_ref (e [i]);
+		ans [i] = e [i];
 	}
 
 	return ans;
@@ -417,46 +416,45 @@ mstyle_elements_copy (const MStyleElement *e)
 MStyle *
 mstyle_new (void)
 {
-	PrivateStyle *pst = g_new (PrivateStyle, 1);
+	MStyle *style = g_new (MStyle, 1);
 	int i;
 
-	pst->ref_count = 1;
-	pst->name = NULL;
-	pst->elements  = g_new (MStyleElement, MSTYLE_ELEMENT_MAX);
+	style->ref_count = 1;
+	style->name = NULL;
+	style->elements  = g_new (MStyleElement, MSTYLE_ELEMENT_MAX);
 
 	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++)
-		pst->elements[i].type = MSTYLE_ELEMENT_UNSET;
+		style->elements [i].type = MSTYLE_ELEMENT_UNSET;
 
-	return (MStyle *)pst;
+	return style;
 }
 
 MStyle *
-mstyle_copy (const MStyle *st)
+mstyle_copy (const MStyle *style)
 {
-	PrivateStyle *pst = g_new (PrivateStyle, 1);
-	PrivateStyle *pcp = (PrivateStyle *)st;
+	MStyle *new_style = g_new (MStyle, 1);
 
-	pst->ref_count = 1;
-	if (pcp->name)
-		pst->name = g_strdup (pcp->name);
+	new_style->ref_count = 1;
+	if (style->name)
+		new_style->name = g_strdup (style->name);
 	else
-		pst->name = NULL;
-	pst->elements  = mstyle_elements_copy (pcp->elements);
+		new_style->name = NULL;
+	new_style->elements  = mstyle_elements_copy (style->elements);
 
-	return (MStyle *)pst;
+	return new_style;
 }
 
 MStyle *
 mstyle_new_name (const gchar *name)
 {
-	PrivateStyle *pst = (PrivateStyle *)mstyle_new ();
+	MStyle *style = mstyle_new ();
 
 	if (name) {
 		g_warning ("names not yet supported");
-		pst->name = g_strdup (name);
+		style->name = g_strdup (name);
 	}
 
-	return (MStyle *)pst;
+	return style;
 }
 
 static MStyle *default_mstyle = NULL;
@@ -513,34 +511,33 @@ mstyle_new_default (void)
 }
 
 void
-mstyle_ref (MStyle *st)
+mstyle_ref (MStyle *style)
 {
-	PrivateStyle *pst = (PrivateStyle *)st;
-	g_return_if_fail (pst->ref_count > 0);
-	pst->ref_count++;
+	g_return_if_fail (style->ref_count > 0);
+
+	style->ref_count++;
 }
 
 void
-mstyle_unref (MStyle *st)
+mstyle_unref (MStyle *style)
 {
-	PrivateStyle *pst = (PrivateStyle *)st;
+	g_return_if_fail (style->ref_count > 0);
 
-	g_return_if_fail (pst->ref_count > 0);
+	style->ref_count--;
 
-	pst->ref_count--;
-
-	if (pst->ref_count == 0)
-		mstyle_destroy (st);
+	if (style->ref_count == 0)
+		mstyle_destroy (style);
 }
 
 MStyle *
 mstyle_do_merge (const GList *list, MStyleElementType max)
 {
 	const GList *l = list;
+
 	/* Find the intersection */
 	guint numset = 0;
 	MStyle *ans = mstyle_new ();
-	MStyleElement *mash = MSTYLE_ELEMENTS (ans);
+	MStyleElement *mash = ans->elements;
 	g_return_val_if_fail (max <= MSTYLE_ELEMENT_MAX,
 			      mstyle_new_default ());
 	g_return_val_if_fail (max > 0,
@@ -548,20 +545,22 @@ mstyle_do_merge (const GList *list, MStyleElementType max)
 		
 	while (l && (numset < max)) {
 		guint j;
-		PrivateStyle *pst = l->data;
+		MStyle *style = l->data;
+		
 		for (j = 0; j < max; j++) {
-			MStyleElement e = pst->elements[j];
+			MStyleElement e = style->elements [j];
+
 			if (e.type > MSTYLE_ELEMENT_UNSET &&
-			    mash[e.type].type == MSTYLE_ELEMENT_UNSET) {
+			    mash [e.type].type == MSTYLE_ELEMENT_UNSET) {
 				g_return_val_if_fail (e.type < MSTYLE_ELEMENT_MAX,
 						      ans);
-				mash[e.type] = mstyle_element_ref (e);
+				mash [e.type] = mstyle_element_ref (e);
 				numset++;
 			}
 		}
 		l = g_list_next (l);
 	}
-
+	
 	return ans;
 }
 
@@ -581,44 +580,43 @@ mstyle_do_merge (const GList *list, MStyleElementType max)
 MStyle *
 mstyle_merge (MStyle *master, MStyle *slave)
 {
-	PrivateStyle *pstm, *psts; /* Master, slave */
-	int           i;
+	MStyle *psts;
+	int i;
 
 	g_return_val_if_fail (slave != NULL, NULL);
 	g_return_val_if_fail (master != NULL, NULL);
 
-	psts = (PrivateStyle *)slave;
-	pstm = (PrivateStyle *)master;
+	psts = slave;
 
 	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++) {
-		if (pstm->elements[i].type && psts->elements[i].type) {
+		if (master->elements [i].type && psts->elements [i].type) {
 			if (psts->ref_count > 1) {
-				psts = (PrivateStyle *)mstyle_copy (slave);
+				psts = mstyle_copy (slave);
 				mstyle_unref (slave);
 			}
-			mstyle_element_unref (psts->elements[i]);
-			psts->elements[i].type = MSTYLE_ELEMENT_UNSET;
+			mstyle_element_unref (psts->elements [i]);
+			psts->elements [i].type = MSTYLE_ELEMENT_UNSET;
 		}
 	}
 
-	return (MStyle *)psts;
+	return psts;
 }
 
 char *
-mstyle_to_string (const MStyle *st)
+mstyle_to_string (const MStyle *style)
 {
 	guint i;
 	GString *ans;
-	char    *txt_ans;
-	const PrivateStyle *pst = (PrivateStyle *)st;
+	char *txt_ans;
 
-	g_return_val_if_fail (pst != NULL, "(null)");
+	g_return_val_if_fail (style != NULL, "(null)");
 	
 	ans = g_string_new ("Elements : ");
 	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++) {
 		char *txt;
-		if (pst->elements[i].type) {
-			txt = mstyle_element_dump (&pst->elements[i]);
+
+		if (style->elements [i].type) {
+			txt = mstyle_element_dump (&style->elements [i]);
 			g_string_sprintfa (ans, "%s ", txt);
 			g_free (txt);
 		} else
@@ -631,80 +629,72 @@ mstyle_to_string (const MStyle *st)
 }
 
 void
-mstyle_dump (const MStyle *st)
+mstyle_dump (const MStyle *style)
 {
 	char *txt;
-	const PrivateStyle *pst = (PrivateStyle *)st;
 
 	printf ("Style '%s' Ref s%d\n",
-		pst->name?pst->name:"unnamed",
-		pst->ref_count);
-	txt = mstyle_to_string (st);
+		style->name ? style->name : "unnamed",
+		style->ref_count);
+	txt = mstyle_to_string (style);
 	printf ("%s\n", txt);
 	g_free (txt);
 }
 
 void
-mstyle_destroy (MStyle *st)
+mstyle_destroy (MStyle *style)
 {
-	PrivateStyle *pst = (PrivateStyle *)st;
-
-	g_return_if_fail (pst != NULL);
-	g_return_if_fail (pst->ref_count == 0);
+	g_return_if_fail (style != NULL);
+	g_return_if_fail (style->ref_count == 0);
 	
-	if (pst->name)
-		g_free (pst->name);
-	pst->name = NULL;
+	if (style->name)
+		g_free (style->name);
+	style->name = NULL;
 
-	if (pst->elements) {
-		mstyle_elements_unref (pst->elements);
-		g_free (pst->elements);
+	if (style->elements) {
+		mstyle_elements_unref (style->elements);
+		g_free (style->elements);
 	}
-	pst->elements = NULL;
+	style->elements = NULL;
 		
-	g_free (pst);
+	g_free (style);
 }
 
 gboolean
 mstyle_equal (const MStyle *a, const MStyle *b)
 {
-	PrivateStyle *pa = (PrivateStyle *)a;
-	PrivateStyle *pb = (PrivateStyle *)b;
-
 	g_return_val_if_fail (a != NULL, FALSE);
 	g_return_val_if_fail (b != NULL, FALSE);
 
 	if (a == b)
 		return TRUE;
 
-	if (pa->name || pb->name)
+	if (a->name || b->name)
 		g_warning ("Named style equal unimplemented");
 
-	return mstyle_elements_equal (pa->elements, pb->elements);
+	return mstyle_elements_equal (a->elements, b->elements);
 }
 
 gboolean
-mstyle_empty (const MStyle *st)
+mstyle_empty (const MStyle *style)
 {
-	PrivateStyle *pst = (PrivateStyle *)st;
 	int i;
 
-	g_return_val_if_fail (st != NULL, FALSE);
+	g_return_val_if_fail (style != NULL, FALSE);
 
 	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++)
-		if (pst->elements[i].type)
+		if (style->elements [i].type)
 			return FALSE;
 	return TRUE;
 }
 
 gboolean
-mstyle_verify (const MStyle *st)
+mstyle_verify (const MStyle *style)
 {
-	PrivateStyle *pst = (PrivateStyle *)st;
 	int j;
 
 	for (j = 0; j < MSTYLE_ELEMENT_MAX; j++) {
-		MStyleElement e = pst->elements[j];
+		MStyleElement e = style->elements [j];
 
 		g_return_val_if_fail (e.type <  MSTYLE_ELEMENT_MAX, FALSE);
 		g_return_val_if_fail (e.type != MSTYLE_ELEMENT_CONFLICT, FALSE);
@@ -718,8 +708,8 @@ mstyle_is_element_set (const MStyle *st, MStyleElementType t)
 	g_return_val_if_fail (st != NULL, FALSE);
 	g_return_val_if_fail (t > 0 && t < MSTYLE_ELEMENT_MAX, FALSE);
 
-	return  MSTYLE_ELEMENTS (st) [t].type != MSTYLE_ELEMENT_UNSET &&
-		MSTYLE_ELEMENTS (st) [t].type != MSTYLE_ELEMENT_CONFLICT;
+	return  st->elements [t].type != MSTYLE_ELEMENT_UNSET &&
+		st->elements [t].type != MSTYLE_ELEMENT_CONFLICT;
 }
 
 gboolean
@@ -728,7 +718,7 @@ mstyle_is_element_conflict (const MStyle *st, MStyleElementType t)
 	g_return_val_if_fail (st != NULL, FALSE);
 	g_return_val_if_fail (t > 0 && t < MSTYLE_ELEMENT_MAX, FALSE);
 
-	return MSTYLE_ELEMENTS (st) [t].type == MSTYLE_ELEMENT_CONFLICT;
+	return st->elements [t].type == MSTYLE_ELEMENT_CONFLICT;
 }
 
 void
@@ -737,8 +727,8 @@ mstyle_unset_element (MStyle *st, MStyleElementType t)
 	g_return_if_fail (st != NULL);
 	g_return_if_fail (t > 0 && t < MSTYLE_ELEMENT_MAX);
 
-	mstyle_element_unref (MSTYLE_ELEMENTS (st) [t]);
-	MSTYLE_ELEMENTS (st) [t].type = MSTYLE_ELEMENT_UNSET;
+	mstyle_element_unref (st->elements [t]);
+	st->elements [t].type = MSTYLE_ELEMENT_UNSET;
 }
 
 void
@@ -750,9 +740,9 @@ mstyle_set_color (MStyle *st, MStyleElementType t,
 
 	switch (t) {
 	case MSTYLE_ANY_COLOR:
-		mstyle_element_unref (MSTYLE_ELEMENTS (st) [t]);
-		MSTYLE_ELEMENTS (st) [t].type = t;
-		MSTYLE_ELEMENTS (st) [t].u.color.any = col;
+		mstyle_element_unref (st->elements [t]);
+		st->elements [t].type = t;
+		st->elements [t].u.color.any = col;
 		break;
 	default:
 		g_warning ("Not a color element");
@@ -768,7 +758,8 @@ mstyle_get_color (MStyle *st, MStyleElementType t)
 
 	switch (t) {
 	case MSTYLE_ANY_COLOR:
-		return MSTYLE_ELEMENTS (st) [t].u.color.any;
+		return st->elements [t].u.color.any;
+
 	default:
 		g_warning ("Not a color element");
 		return NULL;
@@ -784,9 +775,9 @@ mstyle_set_border (MStyle *st, MStyleElementType t,
 	/* NOTE : It is legal for border to be NULL */
 	switch (t) {
 	case MSTYLE_ANY_BORDER:
-		mstyle_element_unref (MSTYLE_ELEMENTS (st) [t]);
-		MSTYLE_ELEMENTS (st) [t].type = t;
-		MSTYLE_ELEMENTS (st) [t].u.border.any = border;
+		mstyle_element_unref (st->elements [t]);
+		st->elements [t].type = t;
+		st->elements [t].u.border.any = border;
 		break;
 	default:
 		g_warning ("Not a color element");
@@ -803,7 +794,8 @@ mstyle_get_border (const MStyle *st, MStyleElementType t)
 
 	switch (t) {
 	case MSTYLE_ANY_BORDER:
-		return MSTYLE_ELEMENTS (st) [t].u.border.any;
+		return st->elements [t].u.border.any;
+
 	default:
 		g_warning ("Not a color element");
 		return NULL;
@@ -815,213 +807,214 @@ mstyle_set_pattern (MStyle *st, int pattern)
 {
 	g_return_if_fail (st != NULL);
 
-	MSTYLE_ELEMENTS (st) [MSTYLE_PATTERN].type = MSTYLE_PATTERN;
-	MSTYLE_ELEMENTS (st) [MSTYLE_PATTERN].u.pattern = pattern;
+	st->elements [MSTYLE_PATTERN].type = MSTYLE_PATTERN;
+	st->elements [MSTYLE_PATTERN].u.pattern = pattern;
 }
 
 int
-mstyle_get_pattern (const MStyle *st)
+mstyle_get_pattern (const MStyle *style)
 {
-	g_return_val_if_fail (st != NULL, 0);
-	g_return_val_if_fail (mstyle_is_element_set (st, MSTYLE_PATTERN), 0);
+	g_return_val_if_fail (style != NULL, 0);
+	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_PATTERN), 0);
 
-	return MSTYLE_ELEMENTS (st) [MSTYLE_PATTERN].u.pattern;
+	return style->elements [MSTYLE_PATTERN].u.pattern;
 }
 
 StyleFont *
-mstyle_get_font (const MStyle *st, double zoom)
+mstyle_get_font (const MStyle *style, double zoom)
 {
 	StyleFont *font;
 	const gchar *name;
 	int    bold, italic;
 	double size;
 
-	g_return_val_if_fail (st != NULL, NULL);
+	g_return_val_if_fail (style != NULL, NULL);
 
-	if (mstyle_is_element_set (st, MSTYLE_FONT_NAME))
-		name = mstyle_get_font_name (st);
+	if (mstyle_is_element_set (style, MSTYLE_FONT_NAME))
+		name = mstyle_get_font_name (style);
 	else
 		name = DEFAULT_FONT;
-	if (mstyle_is_element_set (st, MSTYLE_FONT_BOLD))
-		bold = mstyle_get_font_bold (st);
+	if (mstyle_is_element_set (style, MSTYLE_FONT_BOLD))
+		bold = mstyle_get_font_bold (style);
 	else
 		bold = 0;
-	if (mstyle_is_element_set (st, MSTYLE_FONT_ITALIC))
-		italic = mstyle_get_font_italic (st);
+	if (mstyle_is_element_set (style, MSTYLE_FONT_ITALIC))
+		italic = mstyle_get_font_italic (style);
 	else
 		italic = 0;
-	if (mstyle_is_element_set (st, MSTYLE_FONT_SIZE))
-		size = mstyle_get_font_size (st);
+	if (mstyle_is_element_set (style, MSTYLE_FONT_SIZE))
+		size = mstyle_get_font_size (style);
 	else
 		size = DEFAULT_SIZE;
 
-	font = style_font_new (name, size, zoom,
-			       bold, italic);
+	font = style_font_new (
+		name, size, zoom, bold, italic);
 	
 	return font;
 }
 
 void
-mstyle_set_font_name (MStyle *st, const char *name)
+mstyle_set_font_name (MStyle *style, const char *name)
 {
-	g_return_if_fail (st != NULL);
+	g_return_if_fail (style != NULL);
 	g_return_if_fail (name != NULL);
 	
-	mstyle_element_unref (MSTYLE_ELEMENTS (st) [MSTYLE_FONT_NAME]);
-	MSTYLE_ELEMENTS (st) [MSTYLE_FONT_NAME].type = MSTYLE_FONT_NAME;
-	MSTYLE_ELEMENTS (st) [MSTYLE_FONT_NAME].u.font.name = string_get (name);
+	mstyle_element_unref (style->elements [MSTYLE_FONT_NAME]);
+	style->elements [MSTYLE_FONT_NAME].type = MSTYLE_FONT_NAME;
+	style->elements [MSTYLE_FONT_NAME].u.font.name = string_get (name);
 }
 
 const char *
-mstyle_get_font_name (const MStyle *st)
+mstyle_get_font_name (const MStyle *style)
 {
-	g_return_val_if_fail (st != NULL, NULL);
-	g_return_val_if_fail (mstyle_is_element_set (st, MSTYLE_FONT_NAME), NULL);
+	g_return_val_if_fail (style != NULL, NULL);
+	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_NAME), NULL);
 
-	return MSTYLE_ELEMENTS (st) [MSTYLE_FONT_NAME].u.font.name->str;
+	return style->elements [MSTYLE_FONT_NAME].u.font.name->str;
 }
 
 void
-mstyle_set_font_bold (MStyle *st, gboolean bold)
+mstyle_set_font_bold (MStyle *style, gboolean bold)
 {
-	g_return_if_fail (st != NULL);
+	g_return_if_fail (style != NULL);
 
-	MSTYLE_ELEMENTS (st) [MSTYLE_FONT_BOLD].type = MSTYLE_FONT_BOLD;
-	MSTYLE_ELEMENTS (st) [MSTYLE_FONT_BOLD].u.font.bold = bold;
+	style->elements [MSTYLE_FONT_BOLD].type = MSTYLE_FONT_BOLD;
+	style->elements [MSTYLE_FONT_BOLD].u.font.bold = bold;
 }
 
 gboolean
-mstyle_get_font_bold (const MStyle *st)
+mstyle_get_font_bold (const MStyle *style)
 {
-	g_return_val_if_fail (st != NULL, FALSE);
-	g_return_val_if_fail (mstyle_is_element_set (st, MSTYLE_FONT_BOLD), FALSE);
+	g_return_val_if_fail (style != NULL, FALSE);
+	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_BOLD), FALSE);
 
-	return MSTYLE_ELEMENTS (st) [MSTYLE_FONT_BOLD].u.font.bold;
+	return style->elements [MSTYLE_FONT_BOLD].u.font.bold;
 }
 
 void
-mstyle_set_font_italic (MStyle *st, gboolean italic)
+mstyle_set_font_italic (MStyle *style, gboolean italic)
 {
-	g_return_if_fail (st != NULL);
+	g_return_if_fail (style != NULL);
 
-	MSTYLE_ELEMENTS (st) [MSTYLE_FONT_ITALIC].type = MSTYLE_FONT_ITALIC;
-	MSTYLE_ELEMENTS (st) [MSTYLE_FONT_ITALIC].u.font.italic = italic;
+	style->elements [MSTYLE_FONT_ITALIC].type = MSTYLE_FONT_ITALIC;
+	style->elements [MSTYLE_FONT_ITALIC].u.font.italic = italic;
 }
 
 gboolean
-mstyle_get_font_italic (const MStyle *st)
+mstyle_get_font_italic (const MStyle *style)
 {
-	g_return_val_if_fail (st != NULL, FALSE);
-	g_return_val_if_fail (mstyle_is_element_set (st, MSTYLE_FONT_ITALIC), FALSE);
+	g_return_val_if_fail (style != NULL, FALSE);
+	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_ITALIC), FALSE);
 
-	return MSTYLE_ELEMENTS (st) [MSTYLE_FONT_ITALIC].u.font.italic;
+	return style->elements [MSTYLE_FONT_ITALIC].u.font.italic;
 }
 
 void
-mstyle_set_font_size (MStyle *st, double size)
+mstyle_set_font_size (MStyle *style, double size)
 {
-	g_return_if_fail (st != NULL);
+	g_return_if_fail (style != NULL);
 
-	MSTYLE_ELEMENTS (st) [MSTYLE_FONT_SIZE].type = MSTYLE_FONT_SIZE;
-	MSTYLE_ELEMENTS (st) [MSTYLE_FONT_SIZE].u.font.size = size;
+	style->elements [MSTYLE_FONT_SIZE].type = MSTYLE_FONT_SIZE;
+	style->elements [MSTYLE_FONT_SIZE].u.font.size = size;
 }
 
 double
-mstyle_get_font_size (const MStyle *st)
+mstyle_get_font_size (const MStyle *style)
 {
-	g_return_val_if_fail (st != NULL, 12.0);
-	g_return_val_if_fail (mstyle_is_element_set (st, MSTYLE_FONT_ITALIC), 12.0);
+	g_return_val_if_fail (style != NULL, 12.0);
+	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_ITALIC), 12.0);
 
-	return MSTYLE_ELEMENTS (st) [MSTYLE_FONT_SIZE].u.font.size;
+	return style->elements [MSTYLE_FONT_SIZE].u.font.size;
 }
 
 void
-mstyle_set_format (MStyle *st, const char *format)
+mstyle_set_format (MStyle *style, const char *format)
 {
-	g_return_if_fail (st != NULL);
+	g_return_if_fail (style != NULL);
 	g_return_if_fail (format != NULL);
 
-	mstyle_element_unref (MSTYLE_ELEMENTS (st) [MSTYLE_FORMAT]);
-	MSTYLE_ELEMENTS (st) [MSTYLE_FORMAT].type = MSTYLE_FORMAT;
-	MSTYLE_ELEMENTS (st) [MSTYLE_FORMAT].u.format = style_format_new (format);
+	mstyle_element_unref (style->elements [MSTYLE_FORMAT]);
+	style->elements [MSTYLE_FORMAT].type = MSTYLE_FORMAT;
+	style->elements [MSTYLE_FORMAT].u.format = style_format_new (format);
 }
 
 StyleFormat *
-mstyle_get_format (MStyle *st)
+mstyle_get_format (MStyle *style)
 {
-	g_return_val_if_fail (st != NULL, NULL);
-	g_return_val_if_fail (mstyle_is_element_set (st, MSTYLE_FORMAT), NULL);
+	g_return_val_if_fail (style != NULL, NULL);
+	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_FORMAT), NULL);
 
-	return MSTYLE_ELEMENTS (st) [MSTYLE_FORMAT].u.format;
+	return style->elements [MSTYLE_FORMAT].u.format;
 }
 
 void
-mstyle_set_align_h (MStyle *st, StyleHAlignFlags a)
+mstyle_set_align_h (MStyle *style, StyleHAlignFlags a)
 {
-	g_return_if_fail (st != NULL);
+	g_return_if_fail (style != NULL);
 
-	MSTYLE_ELEMENTS (st) [MSTYLE_ALIGN_H].type = MSTYLE_ALIGN_H;
-	MSTYLE_ELEMENTS (st) [MSTYLE_ALIGN_H].u.align.h = a;
+	style->elements [MSTYLE_ALIGN_H].type = MSTYLE_ALIGN_H;
+	style->elements [MSTYLE_ALIGN_H].u.align.h = a;
 }
 
 StyleHAlignFlags
-mstyle_get_align_h (const MStyle *st)
+mstyle_get_align_h (const MStyle *style)
 {
-	g_return_val_if_fail (st != NULL, 0);
-	g_return_val_if_fail (mstyle_is_element_set (st, MSTYLE_ALIGN_H), 0);
+	g_return_val_if_fail (style != NULL, 0);
+	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_ALIGN_H), 0);
 
-	return MSTYLE_ELEMENTS (st) [MSTYLE_ALIGN_H].u.align.h;
+	return style->elements [MSTYLE_ALIGN_H].u.align.h;
 }
 
 void
-mstyle_set_align_v (MStyle *st, StyleVAlignFlags a)
+mstyle_set_align_v (MStyle *style, StyleVAlignFlags a)
 {
-	g_return_if_fail (st != NULL);
+	g_return_if_fail (style != NULL);
 
-	MSTYLE_ELEMENTS (st) [MSTYLE_ALIGN_V].type = MSTYLE_ALIGN_V;
-	MSTYLE_ELEMENTS (st) [MSTYLE_ALIGN_V].u.align.v = a;
+	style->elements [MSTYLE_ALIGN_V].type = MSTYLE_ALIGN_V;
+	style->elements [MSTYLE_ALIGN_V].u.align.v = a;
 }
 
 StyleVAlignFlags
-mstyle_get_align_v (const MStyle *st)
+mstyle_get_align_v (const MStyle *style)
 {
-	g_return_val_if_fail (st != NULL, 0);
-	g_return_val_if_fail (mstyle_is_element_set (st, MSTYLE_ALIGN_V), 0);
+	g_return_val_if_fail (style != NULL, 0);
+	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_ALIGN_V), 0);
 
-	return MSTYLE_ELEMENTS (st) [MSTYLE_ALIGN_V].u.align.v;
+	return style->elements [MSTYLE_ALIGN_V].u.align.v;
 }
 
 void
-mstyle_set_orientation (MStyle *st, StyleOrientation o)
+mstyle_set_orientation (MStyle *style, StyleOrientation o)
 {
-	g_return_if_fail (st != NULL);
-	MSTYLE_ELEMENTS (st) [MSTYLE_ORIENTATION].type = MSTYLE_ORIENTATION;
-	MSTYLE_ELEMENTS (st) [MSTYLE_ORIENTATION].u.orientation = o;
+	g_return_if_fail (style != NULL);
+	
+	style->elements [MSTYLE_ORIENTATION].type = MSTYLE_ORIENTATION;
+	style->elements [MSTYLE_ORIENTATION].u.orientation = o;
 }
 
 StyleOrientation
-mstyle_get_orientation (const MStyle *st)
+mstyle_get_orientation (const MStyle *style)
 {
-	g_return_val_if_fail (st != NULL, 0);
-	g_return_val_if_fail (mstyle_is_element_set (st, MSTYLE_ORIENTATION), 0);
+	g_return_val_if_fail (style != NULL, 0);
+	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_ORIENTATION), 0);
 
-	return MSTYLE_ELEMENTS (st) [MSTYLE_ORIENTATION].u.align.v;
+	return style->elements [MSTYLE_ORIENTATION].u.align.v;
 }
 
 void
-mstyle_set_fit_in_cell (MStyle *st, gboolean f)
+mstyle_set_fit_in_cell (MStyle *style, gboolean f)
 {
-	g_return_if_fail (st != NULL);
+	g_return_if_fail (style != NULL);
 
-	MSTYLE_ELEMENTS (st) [MSTYLE_FIT_IN_CELL].type = MSTYLE_FIT_IN_CELL;
-	MSTYLE_ELEMENTS (st) [MSTYLE_FIT_IN_CELL].u.fit_in_cell = f;
+	style->elements [MSTYLE_FIT_IN_CELL].type = MSTYLE_FIT_IN_CELL;
+	style->elements [MSTYLE_FIT_IN_CELL].u.fit_in_cell = f;
 }
 
 gboolean
-mstyle_get_fit_in_cell (const MStyle *st)
+mstyle_get_fit_in_cell (const MStyle *style)
 {
-	g_return_val_if_fail (st != NULL, FALSE);
-	g_return_val_if_fail (mstyle_is_element_set (st, MSTYLE_FIT_IN_CELL), FALSE);
+	g_return_val_if_fail (style != NULL, FALSE);
+	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_FIT_IN_CELL), FALSE);
 
-	return MSTYLE_ELEMENTS (st) [MSTYLE_FIT_IN_CELL].u.fit_in_cell;
+	return style->elements [MSTYLE_FIT_IN_CELL].u.fit_in_cell;
 }
