@@ -117,6 +117,11 @@ search_replace_verify (SearchReplace *sr)
 	if (!sr->replace_text)
 		return g_strdup (_("Replacement string must be set."));
 
+	if (sr->scope == SRS_range) {
+		if (!sr->range_text || sr->range_text[0] == 0)
+			return g_strdup (_("You must specify a range to search."));
+	}
+
 	err = search_replace_compile (sr);
 	if (err)
 		return g_strdup (_("Invalid search pattern."));

@@ -254,6 +254,21 @@
 
 	    <widget>
 	      <class>GtkCheckButton</class>
+	      <name>ignore_case</name>
+	      <tooltip>When set, do not distinguish between upper and lower case letters</tooltip>
+	      <can_focus>True</can_focus>
+	      <label>Ignore case</label>
+	      <active>True</active>
+	      <draw_indicator>True</draw_indicator>
+	      <child>
+		<padding>0</padding>
+		<expand>False</expand>
+		<fill>False</fill>
+	      </child>
+	    </widget>
+
+	    <widget>
+	      <class>GtkCheckButton</class>
 	      <name>query</name>
 	      <tooltip>Ask before each change</tooltip>
 	      <can_focus>True</can_focus>

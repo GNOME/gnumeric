@@ -1,5 +1,8 @@
 2001-01-22  Morten Welinder  <terra@diku.dk>
 
+	* dialog-search-replace.c (dialog_search_replace): Handle the
+ 	new ignore-case checkbutton.
+
 	* Makefile.am (INCLUDES): Prefer our .h files over the systems.
 
 2001-01-17  Morten Welinder  <terra@diku.dk>

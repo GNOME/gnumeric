@@ -85,7 +85,7 @@ typedef struct
 	Range		 clipboard_cut_range;
 
 	/* Display resolution */
-	float horizontal_dpi, vertical_dpi;
+	double           horizontal_dpi, vertical_dpi;
 
 	/* History for file menu */
 	GList           *history_list;
@@ -442,14 +442,14 @@ application_workbook_get_by_index (int i)
 	return close.wb;
 }
 
-inline float
-application_display_dpi_get (gboolean const horizontal)
+inline double
+application_display_dpi_get (gboolean horizontal)
 {
 	return horizontal ? app.horizontal_dpi : app.vertical_dpi;
 }
 
 void
-application_display_dpi_set (gboolean const horizontal, float const val)
+application_display_dpi_set (gboolean horizontal, double val)
 {
 	if (horizontal)
 		app.horizontal_dpi  = val;
@@ -458,7 +458,7 @@ application_display_dpi_set (gboolean const horizontal, float const val)
 }
 
 double
-application_dpi_to_pixels ()
+application_dpi_to_pixels (void)
 {
 	return MIN (application_display_dpi_get (FALSE),
 		    application_display_dpi_get (TRUE)) / 72.;
@@ -519,7 +519,7 @@ application_history_get_list (void)
  * Return value:
  **/
 gchar *
-application_history_update_list (gchar *filename)
+application_history_update_list (const gchar *filename)
 {
 	gchar *name, *old_name = NULL;
 	GList *l = NULL;

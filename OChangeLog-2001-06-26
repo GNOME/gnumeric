@@ -1,5 +1,13 @@
 2001-01-22  Morten Welinder  <terra@diku.dk>
 
+	* src/search.c (search_replace_verify): When relevant, check that
+ 	the range text is not empty.
+
+	* src/application.c (application_dpi_to_pixels): Fix prototype.
+	(application_history_update_list): Constify.
+	(application_display_dpi_get, application_display_dpi_set): Change
+ 	to using doubles, not floats.
+
 	* src/commands.c (cmd_search_replace_redo): hack: don't do
  	anything the first time around.
 	(cmd_search_replace_do_cell): Partially implement.

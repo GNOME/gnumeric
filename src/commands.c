@@ -2798,38 +2798,46 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, WorkbookControl *wbc,
 		}
 	} else if (!cell_is_blank (cell) && cell->value && !test_run) {
 		Value *v = cell->value;
-		switch (v->type) {
-		case VALUE_STRING:
-			if (sr->replace_strings) {
-				const char *old_text = v->v_str.val->str;
-				char *new_text = search_replace_string (sr, old_text);
-				if (new_text) {
-					gboolean doit = TRUE;
+		gboolean is_string = (v->type == VALUE_STRING);
 
-					if (sr->query) {
-						/* FIXME. */
-					}
+		if (is_string ? sr->replace_strings : sr->replace_other_values) {
+			char *old_copy, *new_text;
+			const char *old_text;
 
-					if (doit) {
-						SearchReplaceItem *sri = g_new (SearchReplaceItem, 1);
-						sri->pos.sheet = sheet;
-						sri->pos.eval = cell->pos;
-						sri->old_type = sri->new_type = SRI_text;
-						sri->old.text = g_strdup (old_text);
-						sri->new.text = new_text;
-						me->cells = g_list_prepend (me->cells, sri);
+			if (is_string) {
+				old_copy = NULL;
+				old_text = v->v_str.val->str;
+			} else {
+				old_copy = value_get_as_string (v);
+				old_text = old_copy;
+			}
 
-						sheet_cell_set_text (cell, new_text);
-					} else
-						g_free (new_text);
+			new_text = search_replace_string (sr, old_text);
+			if (new_text) {
+				gboolean doit = TRUE;
+
+				if (sr->query) {
+					/* FIXME. */
 				}
+
+				if (doit) {
+					SearchReplaceItem *sri = g_new (SearchReplaceItem, 1);
+
+					if (!old_copy) old_copy = g_strdup (old_text);
+					sri->pos.sheet = sheet;
+					sri->pos.eval = cell->pos;
+					sri->old_type = sri->new_type = SRI_text;
+					sri->old.text = old_copy;
+					sri->new.text = new_text;
+					me->cells = g_list_prepend (me->cells, sri);
+					old_copy = NULL;
+
+					sheet_cell_set_text (cell, new_text);
+				} else
+					g_free (new_text);
 			}
-			break;
-		default:
-			if (sr->replace_other_values) {
-				g_warning ("Unimplemented.");
-			}
-			break;
+
+			g_free (old_copy);
 		}
 	}
 
@@ -2922,9 +2930,19 @@ cmd_search_replace_do (CmdSearchReplace *me, WorkbookControl *wbc, gboolean test
 	switch (sr->scope) {
 	case SRS_workbook:
 	{
-		(void)wb;
-		g_warning ("Unimplemented.");
-		/* break; */
+		GList *tmp, *sheets = workbook_sheets (wb);
+
+		for (tmp = sheets; tmp; tmp = tmp->next) {
+			Sheet *sheet = tmp->data;
+			sheet_foreach_cell_in_range (sheet, TRUE,
+						     0, 0,
+						     SHEET_MAX_COLS, SHEET_MAX_ROWS,
+						     cb_search_replace_collect,
+						     cells);
+		}
+		g_list_free (sheets);
+
+		break;
 	}
 
 	case SRS_sheet:
@@ -2938,11 +2956,12 @@ cmd_search_replace_do (CmdSearchReplace *me, WorkbookControl *wbc, gboolean test
 	case SRS_range:
 		g_warning ("Unimplemented.");
 		break;
+
 	default:
 		g_assert_not_reached ();
 	}
 
-	/* Sort our list of cells.  */
+	/* Sort our cells.  */
 	qsort (&g_ptr_array_index (cells, 0),
 	       cells->len,
 	       sizeof (gpointer),

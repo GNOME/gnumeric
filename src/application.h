@@ -28,13 +28,13 @@ CellRegion * application_clipboard_contents_get	(void);
 Range const* application_clipboard_area_get	(void);
 
 GList *	     application_history_get_list	(void);
-gchar *	     application_history_update_list	(gchar *);
+gchar *	     application_history_update_list	(const gchar *);
 gchar *	     application_history_list_shrink	(void);
 void 	     application_history_write_config 	(void);
 
 
-float	     application_display_dpi_get (gboolean const horizontal);
-void 	     application_display_dpi_set (gboolean const horizontal, float const);
+double	     application_display_dpi_get (gboolean horizontal);
+void 	     application_display_dpi_set (gboolean horizontal, double);
 double	     application_dpi_to_pixels (void);
 
 gboolean     application_use_auto_complete_get (void);
