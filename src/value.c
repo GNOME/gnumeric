@@ -682,7 +682,7 @@ value_equal (Value const *a, Value const *b)
 #ifndef DEBUG_SWITCH_ENUM
 	default:
 		g_assert_not_reached ();
-		return 0;
+		return FALSE;
 #endif
 	}
 }
