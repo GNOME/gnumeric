@@ -20,6 +20,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "workbook-view.h"
 #include "workbook.h"
@@ -31,7 +32,6 @@
 #include "io-context.h"
 #include "error-info.h"
 #include "plugin-util.h"
-#include <libgnome/gnome-i18n.h>
 
 #include <errno.h>
 #include <string.h>

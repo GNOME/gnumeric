@@ -20,6 +20,7 @@
  * USA
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "workbook-view.h"
 
@@ -47,7 +48,6 @@
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-input-stdio.h>
 
-#include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 #include <gsf/gsf-impl-utils.h>
 #include <locale.h>

@@ -26,6 +26,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 
@@ -43,7 +44,6 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gal/util/e-util.h>
 
-#include <libgnome/gnome-i18n.h>
 #include <string.h>
 
 typedef struct {

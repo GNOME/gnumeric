@@ -8,6 +8,7 @@
  *	Based on ff-csv code.
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 
 #include <cell.h>
@@ -21,7 +22,6 @@
 
 #include <gsf/gsf-input-textline.h>
 #include <string.h>
-#include <libgnome/gnome-i18n.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 

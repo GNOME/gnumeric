@@ -20,6 +20,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "format-template.h"
 
@@ -33,7 +34,6 @@
 #include "plugin-util.h"	/* for gnumeric_fopen */
 #include <string.h>
 #include <libxml/parser.h>
-#include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 #include <gal/util/e-xml-utils.h>
 

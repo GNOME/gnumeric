@@ -24,6 +24,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include <func.h>
 
@@ -40,7 +41,6 @@
 
 #include <string.h>
 #include <stdlib.h>
-#include <libgnome/gnome-i18n.h>
 
 #include "plugin.h"
 #include "plugin-util.h"

@@ -57,14 +57,12 @@ typedef struct {
 	GList *categories;
 	gchar *orig_name, *name;
 	gchar *description;
-	gint lang_score;
 } FormatTemplateCategoryGroup;
 
 typedef struct {
 	char *directory;
 	char *orig_name, *name;
 	char *description;
-	int lang_score;
 	gboolean is_writable;
 } FormatTemplateCategory;
 

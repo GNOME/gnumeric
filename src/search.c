@@ -6,6 +6,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "search.h"
 
@@ -19,7 +20,6 @@
 #include "sheet-object-cell-comment.h"
 
 #include <string.h>
-#include <libgnome/gnome-i18n.h>
 #include <ctype.h>
 #include <stdlib.h>
 

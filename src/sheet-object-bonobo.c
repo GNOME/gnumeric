@@ -18,6 +18,7 @@
  *    to keep track of the view frames.
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "sheet-object-bonobo.h"
 

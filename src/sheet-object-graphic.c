@@ -7,6 +7,7 @@
  *   Miguel de Icaza (miguel@kernel.org)
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "sheet-object-graphic.h"
 
@@ -19,7 +20,6 @@
 #include "sheet-object-impl.h"
 #include "workbook-edit.h"
 
-#include <libgnome/gnome-i18n.h>
 #include <gdk/gdkkeysyms.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gal/widgets/e-colors.h>

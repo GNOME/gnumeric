@@ -20,6 +20,7 @@
  * USA
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "cmd-edit.h"
 
@@ -39,7 +40,6 @@
 #include "clipboard.h"
 
 #include <gtk/gtk.h>
-#include <libgnome/gnome-i18n.h>
 
 /**
  * cmd_select_cur_row:

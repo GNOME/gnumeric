@@ -8,6 +8,7 @@
  *    Morten Welinder (terra@diku.dk)
  **/
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "lotus.h"
 #include "lotus-types.h"
@@ -23,7 +24,6 @@
 #include <error-info.h>
 #include <parse-util.h>
 
-#include <libgnome/gnome-i18n.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-utils.h>
 #include <string.h>

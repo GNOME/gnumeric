@@ -7,6 +7,7 @@
  *  (C) 1998-2002 Miguel de Icaza
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "style.h"
 
@@ -22,7 +23,6 @@
 
 #include <glib.h>
 #include <string.h>
-#include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 #include <gal/widgets/e-colors.h>
 

@@ -21,6 +21,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "xml-io-version.h"
 #include "io-context.h"
@@ -54,7 +55,6 @@
 #include <libxml/parserInternals.h>
 #include <stdlib.h>
 #include <string.h>
-#include <libgnome/gnome-i18n.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 

@@ -7,6 +7,7 @@
  *   Almer S. Tigelaar (almer@gnome.org)
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "widget-font-selector.h"
 
@@ -17,7 +18,6 @@
 #include <style-color.h>
 
 #include <gsf/gsf-impl-utils.h>
-#include <libgnome/gnome-i18n.h>
 #include <libgnomeui/libgnomeui.h>
 #include <stdlib.h>
 #include <stdio.h>

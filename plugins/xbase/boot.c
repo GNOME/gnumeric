@@ -6,6 +6,7 @@
  *    Sean Atkinson <sca20@cam.ac.uk>
  **/
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "xbase.h"
 
@@ -21,8 +22,6 @@
 #include <ranges.h>
 #include <mstyle.h>
 #include <sheet-style.h>
-
-#include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;

@@ -7,6 +7,7 @@
  *  Jody Goldberg (jody@gnome.org)
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "gui-clipboard.h"
 
@@ -26,7 +27,6 @@
 #include "stf-parse.h"
 #include "mstyle.h"
 
-#include <libgnome/gnome-i18n.h>
 #include <libxml/globals.h>
 #include <locale.h>
 #include <string.h>

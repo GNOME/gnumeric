@@ -21,6 +21,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "stf.h"
 
@@ -42,7 +43,6 @@
 #include <gsf/gsf-input.h>
 #include <ctype.h>
 #include <string.h>
-#include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 
 /**

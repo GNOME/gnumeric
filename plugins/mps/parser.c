@@ -23,6 +23,7 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include <sys/types.h>
 #include <sys/mman.h>
@@ -47,8 +48,6 @@
 #include "sheet-style.h"
 #include "parse-util.h"
 #include "mps.h"
-
-#include <libgnome/gnome-i18n.h>
 
 
 /************************************************************************

@@ -21,9 +21,9 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include <glib.h>
-#include <libgnome/gnome-i18n.h>
 
 #include "func.h"
 #include "plugin.h"

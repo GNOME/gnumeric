@@ -21,6 +21,7 @@
  * USA
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "workbook-object-toolbar.h"
 
@@ -35,7 +36,6 @@
 #ifdef WITH_BONOBO
 #include <bonobo.h>
 #endif
-#include <libgnome/gnome-i18n.h>
 
 static void
 create_object_command (WorkbookControlGUI *wbcg, SheetObject *so)

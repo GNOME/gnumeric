@@ -20,6 +20,7 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 
@@ -32,7 +33,6 @@
 #include <selection.h>
 #include <widgets/gnumeric-expr-entry.h>
 #include <workbook-edit.h>
-#include <libgnome/gnome-i18n.h>
 
 #define GLADE_FILE "consolidate.glade"
 

@@ -30,6 +30,7 @@
  * copyright on the CELL implementation.
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include <func.h>
 
@@ -51,7 +52,6 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
-#include <libgnome/gnome-i18n.h>
 
 #include "plugin.h"
 #include "plugin-util.h"

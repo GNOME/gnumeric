@@ -24,6 +24,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 
 #include <func.h>
@@ -32,7 +33,6 @@
 #include <value.h>
 #include <auto-format.h>
 
-#include <libgnome/gnome-i18n.h>
 #include <expr.h>
 #include <sheet.h>
 #include <cell.h>

@@ -9,6 +9,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "gnumeric-expr-entry.h"
 
@@ -32,7 +33,6 @@
 #include <gtk/gtkcelleditable.h>
 #include <ctype.h>
 #include <stdio.h>
-#include <libgnome/gnome-i18n.h>
 
 typedef struct {
 	Range range;

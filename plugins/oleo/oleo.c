@@ -9,6 +9,7 @@
  * partially based on actual Oleo code.
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "oleo.h"
 
@@ -24,7 +25,6 @@
 #include <ranges.h>
 #include <number-match.h>
 
-#include <libgnome/gnome-i18n.h>
 #include <gsf/gsf-input-textline.h>
 
 #include <ctype.h>

@@ -20,6 +20,7 @@
  * USA
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "sheet.h"
 
@@ -56,7 +57,6 @@
 #include "solver.h"
 #include "hlink.h"
 
-#include <libgnome/gnome-i18n.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>

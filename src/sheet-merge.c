@@ -20,6 +20,7 @@
  * USA
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "sheet-merge.h"
 
@@ -33,8 +34,6 @@
 #include "mstyle.h"
 #include "expr.h"
 #include "command-context.h"
-
-#include <libgnome/gnome-i18n.h>
 
 static gint
 range_row_cmp (Range const *a, Range const *b)

@@ -25,6 +25,7 @@
 
 /* TODO: Limit the number of include files a bit */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include <libgnome/libgnome.h>
 #include "psiconv-plugin.h"

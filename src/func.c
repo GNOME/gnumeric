@@ -10,6 +10,7 @@
  *  Jody Goldberg   (jody@gnome.org)
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "func.h"
 
@@ -29,7 +30,6 @@
 
 #include <string.h>
 #include <glib.h>
-#include <libgnome/gnome-i18n.h>
 #include <stdlib.h>
 #include <ctype.h>
 

@@ -21,6 +21,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "xml-io-autoft.h"
 
@@ -35,7 +36,6 @@
 
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>
-#include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 #include <gal/util/e-xml-utils.h>
 #include <unistd.h>
@@ -81,7 +81,6 @@ gnumeric_xml_read_format_template_category (char const *dir_name)
 			category->orig_name = g_strdup ((gchar *)orig_name);
 			category->name = g_strdup ((gchar *)name);
 			category->description = g_strdup ((gchar *)description);
-			category->lang_score = g_lang_score_in_lang_list ((gchar *)lang, NULL);
 			category->is_writable = (access (dir_name, W_OK) == 0);
 		}
 		xmlFree (orig_name);

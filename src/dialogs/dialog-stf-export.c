@@ -20,13 +20,12 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialog-stf-export.h"
 #include "dialog-stf-export-private.h"
 
 #include <command-context.h>
-
-#include <libgnome/gnome-i18n.h>
 
 #define GLADE_FILE "dialog-stf-export.glade"
 

@@ -22,6 +22,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 
@@ -37,7 +38,6 @@
 #include <workbook-control.h>
 #include <sheet.h>
 
-#include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <widgets/gnumeric-expr-entry.h>
 #include <mathfunc.h>

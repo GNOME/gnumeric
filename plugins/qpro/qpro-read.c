@@ -20,6 +20,7 @@
  * USA
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "qpro.h"
 
@@ -41,7 +42,6 @@
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-infile.h>
 #include <gsf/gsf-infile-msole.h>
-#include <libgnome/gnome-i18n.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 

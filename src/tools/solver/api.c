@@ -23,6 +23,7 @@
 */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "numbers.h"
 
@@ -41,7 +42,6 @@
 
 #include <math.h>
 #include <stdlib.h>
-#include <libgnome/gnome-i18n.h>
 
 #include "lp_solve/lpkit.h"
 #include "api.h"

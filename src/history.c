@@ -6,6 +6,7 @@
  *
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "history.h"
 
@@ -16,7 +17,6 @@
 #include "workbook.h"
 
 #include <gtk/gtkmenuitem.h>
-#include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-app-helper.h>
 #ifdef WITH_BONOBO
 #include <bonobo.h>

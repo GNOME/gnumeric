@@ -6,6 +6,7 @@
  *  Miguel de Icaza (miguel@gnu.org)
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "gui-util.h"
 
@@ -31,7 +32,6 @@
 #	include "workbook-private.h"
 #endif
 
-#include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-help.h>
 
 gboolean

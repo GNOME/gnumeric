@@ -20,6 +20,7 @@
  * USA
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 
 #include "sheet-view.h"
@@ -37,7 +38,6 @@
 #include "parse-util.h"
 
 #include <gsf/gsf-impl-utils.h>
-#include <libgnome/gnome-i18n.h>
 
 /*************************************************************************/
 

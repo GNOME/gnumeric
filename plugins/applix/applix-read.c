@@ -28,6 +28,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "applix.h"
 
@@ -54,7 +55,6 @@
 #include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
-#include <libgnome/gnome-i18n.h>
 
 typedef struct {
 	GsfInputTextline *input;

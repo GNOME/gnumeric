@@ -10,6 +10,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "expr-name.h"
 
@@ -24,7 +25,6 @@
 #include "sheet-style.h"
 
 #include <gdk/gdkkeysyms.h>
-#include <libgnome/gnome-i18n.h>
 
 /* We don't expect that many global names ! */
 static GList *global_names = NULL;

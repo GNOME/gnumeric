@@ -20,6 +20,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "file-autoft.h"
 
@@ -32,7 +33,6 @@
 
 #include <gsf/gsf-impl-utils.h>
 
-#include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -44,18 +44,17 @@
 #define TEMPLATE_FILE_EXT    ".xml"
 
 /**
- * category_compare_orig_name:
+ * category_compare_orig_name_and_dir:
  *
  **/
 static gint
-category_compare_orig_name (const void *a, const void *b)
+category_compare_orig_name_and_dir (const void *a, const void *b)
 {
-	FormatTemplateCategory *cat_a = (FormatTemplateCategory *) a,
-	                       *cat_b = (FormatTemplateCategory *) b;
+	const FormatTemplateCategory *cat_a = a, *cat_b = b;
+	int res;
 
-	g_assert (cat_a != NULL && cat_b != NULL);
-
-	return strcmp (cat_a->orig_name, cat_b->orig_name);
+	res = strcmp (cat_a->orig_name, cat_b->orig_name);
+	return res != 0 ? res : strcmp (cat_a->directory, cat_b->directory);
 }
 
 /**
@@ -198,7 +197,7 @@ category_group_list_get (void)
 	dir_list = g_slist_concat (dir_list, gnm_gconf_get_autoformat_extra_dirs ());
 	categories = category_list_get_from_dir_list (dir_list);
 
-	categories = g_list_sort (categories, category_compare_orig_name);
+	categories = g_list_sort (categories, category_compare_orig_name_and_dir);
 
 	current_group = NULL;
 	for (l = categories; l != NULL; l = l->next) {
@@ -214,16 +213,8 @@ category_group_list_get (void)
 			current_group->orig_name = g_strdup (category->orig_name);
 			current_group->name = g_strdup (category->name);
 			current_group->description = g_strdup (category->description);
-			current_group->lang_score = category->lang_score;
 		} else {
 			current_group->categories = g_list_prepend (current_group->categories, category);
-			if (g_lang_score_is_better (category->lang_score, current_group->lang_score)) {
-				g_free (current_group->name);
-				g_free (current_group->description);
-				current_group->name = g_strdup (category->name);
-				current_group->description = g_strdup (category->description);
-				current_group->lang_score = category->lang_score;
-			}
 		}
 	}
 	if (current_group != NULL) {

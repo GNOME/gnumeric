@@ -7,6 +7,7 @@
  *     Jody Goldberg   (jody@gnome.org)
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "item-bar.h"
 
@@ -22,7 +23,6 @@
 #include "parse-util.h"
 #include "commands.h"
 
-#include <libgnome/gnome-i18n.h>
 #include <gsf/gsf-impl-utils.h>
 #define GNUMERIC_ITEM "BAR"
 #include "item-debug.h"

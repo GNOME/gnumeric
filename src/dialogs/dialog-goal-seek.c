@@ -22,6 +22,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 
@@ -44,7 +45,6 @@
 #include <mathfunc.h>
 #include <widgets/gnumeric-expr-entry.h>
 
-#include <libgnome/gnome-i18n.h>
 #include <math.h>
 
 #define MAX_CELL_NAME_LEN  20

@@ -10,6 +10,7 @@
  * (C) 2000-2002 Jody Goldberg
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "workbook-format-toolbar.h"
 
@@ -36,7 +37,6 @@
 #include <gal/widgets/gtk-combo-text.h>
 #include <gal/widgets/widget-color-combo.h>
 #include <gal/widgets/widget-pixmap-combo.h>
-#include <libgnome/gnome-i18n.h>
 
 #define TOOLBAR_FONT_BUTTON_INDEX		2
 #define TOOLBAR_BOLD_BUTTON_INDEX		3

@@ -7,6 +7,7 @@
  *
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "print-info.h"
 
@@ -17,7 +18,6 @@
 #include "sheet.h"
 #include "value.h"
 
-#include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-config.h>
 #include <string.h>
 

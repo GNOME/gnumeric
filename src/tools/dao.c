@@ -26,6 +26,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "dao.h"
 
 #include "value.h"
@@ -40,7 +41,6 @@
 #include "sheet-object-cell-comment.h"
 #include "commands.h"
 
-#include <libgnome/gnome-i18n.h>
 #include <gtk/gtk.h>
 #include <time.h>
 #include <parse-util.h>

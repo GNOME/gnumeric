@@ -7,13 +7,13 @@
  *
  * (C) 2002 Jon K Hellan
  */
-#include <stdio.h>
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
+#include <stdio.h>
 #include "gnumeric.h"
 #include "command-context-stderr.h"
 #include "command-context-priv.h"
 #include <gsf/gsf-impl-utils.h>
-#include <libgnome/gnome-i18n.h>
 #include "error-info.h"
 #include "ranges.h"
 

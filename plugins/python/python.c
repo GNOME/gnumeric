@@ -9,6 +9,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include <gnome.h>
 #include <string.h>

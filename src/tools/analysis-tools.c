@@ -25,6 +25,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "analysis-tools.h"
 
@@ -46,7 +47,6 @@
 #include "workbook-control.h"
 #include "gui-util.h"
 
-#include <libgnome/gnome-i18n.h>
 #include <gtk/gtk.h>
 #include <string.h>
 #include <math.h>

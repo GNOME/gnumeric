@@ -23,6 +23,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "tool-dialogs.h"
@@ -44,7 +45,6 @@
 #include <value.h>
 #include <widgets/gnumeric-expr-entry.h>
 
-#include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <string.h>
 #include <commands.h>

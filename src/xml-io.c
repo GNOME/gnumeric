@@ -8,6 +8,7 @@
  *   Jody Goldberg <jody@gnome.org>
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "xml-io.h"
 
@@ -54,7 +55,6 @@
 #include <libxml/xmlmemory.h>
 #include <gal/util/e-xml-utils.h>
 #include <gal/widgets/e-colors.h>
-#include <libgnome/gnome-i18n.h>
 #include <libgnomeprint/gnome-print-config.h>
 
 #include <locale.h>

@@ -12,6 +12,7 @@
  *     ranges are highlighted on the spreadsheet).
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "item-edit.h"
 
@@ -31,8 +32,6 @@
 #include "widgets/gnumeric-expr-entry.h"
 #include "item-debug.h"
 #define GNUMERIC_ITEM "EDIT"
-
-#include <libgnome/gnome-i18n.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <gal/widgets/e-cursors.h>

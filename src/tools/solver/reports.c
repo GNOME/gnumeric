@@ -23,6 +23,7 @@
 */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "reports.h"
 
 #include "format.h"
@@ -47,7 +48,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-#include <libgnome/gnome-i18n.h>
 #include <sys/utsname.h>
 #include <string.h>
 

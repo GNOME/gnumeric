@@ -19,6 +19,7 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 
@@ -30,8 +31,6 @@
 #include <ranges.h>
 #include <gtk/gtk.h>
 #include <commands.h>
-
-#include <libgnome/gnome-i18n.h>
 
 #define GLADE_FILE "cell-comment.glade"
 #define COMMENT_DIALOG_KEY "cell-comment-dialog"

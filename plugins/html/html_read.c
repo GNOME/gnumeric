@@ -28,6 +28,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "html.h"
 
@@ -44,7 +45,6 @@
 #include <gsf/gsf-input.h>
 #include <libxml/HTMLparser.h>
 #include <libxml/HTMLtree.h>
-#include <libgnome/gnome-i18n.h>
 
 static Sheet *
 html_get_sheet (char const *name, Workbook *wb) 

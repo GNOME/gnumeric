@@ -14,6 +14,7 @@
  * are computed on a per-group basis.
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "sheet-autofill.h"
 
@@ -37,7 +38,6 @@
 #include <ctype.h>
 #include <errno.h>
 #include <stdlib.h>
-#include <libgnome/gnome-i18n.h>
 
 typedef enum {
 

@@ -9,6 +9,7 @@
  *   Jody Goldberg   (jody@gnome.org)
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "sheet-object.h"
 
@@ -27,7 +28,6 @@
 #include "sheet-object-widget.h"
 
 #include <libxml/globals.h>
-#include <libgnome/gnome-i18n.h>
 #include <gtk/gtkimagemenuitem.h>
 #include <gtk/gtkstock.h>
 #include <gsf/gsf-impl-utils.h>

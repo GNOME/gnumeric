@@ -9,6 +9,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "libgnumeric.h"
 
@@ -20,7 +21,6 @@
 #include "gui-file.h"
 #include "gnumeric-gconf.h"
 
-#include <libgnome/gnome-i18n.h>
 #include <gtk/gtkmain.h>
 
 #include <sys/types.h>

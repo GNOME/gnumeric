@@ -11,6 +11,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "file.h"
 #include "io-context.h"
@@ -24,7 +25,6 @@
 #include "plugin.h"
 #include "module-plugin-defs.h"
 
-#include <libgnome/gnome-i18n.h>
 #include <string.h>
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-input-textline.h>

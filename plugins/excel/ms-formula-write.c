@@ -12,6 +12,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "ms-formula-write.h"
 #include "excel.h"
@@ -29,7 +30,6 @@
 #include <io-context.h>
 
 #include <gsf/gsf-utils.h>
-#include <libgnome/gnome-i18n.h>
 
 #define FORMULA_DEBUG 0
 /*#define DO_IT (ms_excel_formula_debug > 0)*/

@@ -26,12 +26,12 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "dao-gui-utils.h"
 
 #include "value.h"
 #include "gui-util.h"
 #include "workbook-control-gui.h"
-#include <libgnome/gnome-i18n.h>
 #include <gtk/gtk.h>
 
 const char *output_group[] = {

@@ -25,6 +25,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 
@@ -40,7 +41,6 @@
 #include <widgets/gnumeric-cell-renderer-toggle.h>
 #include "../pixmaps/gnumeric-stock-pixbufs.h"
 
-#include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <gal/widgets/widget-color-combo.h>
 #include <gal/util/e-util.h>

@@ -5,6 +5,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include <Python.h>
 #include <glib.h>

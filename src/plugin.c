@@ -10,6 +10,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "plugin.h"
 
@@ -45,7 +46,6 @@
 #include <libxml/xmlmemory.h>
 #include <gsf/gsf-impl-utils.h>
 
-#include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
 #include <gal/util/e-xml-utils.h>
 

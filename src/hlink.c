@@ -20,6 +20,7 @@
  * USA
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "hlink.h"
 #include "hlink-impl.h"
@@ -36,7 +37,6 @@
 #include "mstyle.h"
 
 #include <gsf/gsf-impl-utils.h>
-#include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-url.h>
 
 #define GET_CLASS(instance) G_TYPE_INSTANCE_GET_CLASS (instance, GNM_HLINK_TYPE, GnmHLinkClass)

@@ -19,6 +19,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialog-stf.h"
 
@@ -26,8 +27,6 @@
 #include <command-context.h>
 #include <workbook-control.h>
 #include <gui-util.h>
-
-#include <libgnome/gnome-i18n.h>
 
 #define GLADE_FILE "dialog-stf.glade"
 

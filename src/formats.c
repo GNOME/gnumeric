@@ -9,12 +9,12 @@
  *    Miguel de Icaza (miguel@kernel.org)
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "formats.h"
 
 #include "format.h"
 #include <string.h>
-#include <libgnome/gnome-i18n.h>
 
 /* The various formats */
 static char const * const

@@ -9,6 +9,7 @@
  * (C) 2000-2001 Ximian, Inc.
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "workbook-edit.h"
 
@@ -32,7 +33,6 @@
 #include "widgets/gnumeric-expr-entry.h"
 
 #include <gtk/gtk.h>
-#include <libgnome/gnome-i18n.h>
 #include <ctype.h>
 #include <string.h>
 

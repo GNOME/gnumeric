@@ -24,6 +24,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 
@@ -38,7 +39,6 @@
 #include <gsf/gsf-impl-utils.h>
 #include <glade/glade.h>
 #include <gal/util/e-util.h>
-#include <libgnome/gnome-i18n.h>
 #include <ctype.h>
 
 #define GLADE_FILE "function-select.glade"

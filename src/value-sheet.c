@@ -5,6 +5,7 @@
  *   Miguel de Icaza (miguel@gnu.org).
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 
 #include "value.h"
@@ -14,8 +15,6 @@
 #include "cell.h"
 #include "workbook.h"
 #include "parse-util.h"
-
-#include <libgnome/gnome-i18n.h>
 
 /* Debugging utility to print a Value */
 void

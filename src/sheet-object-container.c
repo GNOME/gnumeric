@@ -8,6 +8,7 @@
  *   Michael Meeks (mmeeks@gnu.org)
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "sheet-object-container.h"
 
@@ -21,7 +22,6 @@
 
 #include <gdk/gdkkeysyms.h>
 #include <math.h>
-#include <libgnome/gnome-i18n.h>
 #include <gsf/gsf-impl-utils.h>
 #include <bonobo/bonobo-item-container.h>
 #include <bonobo/bonobo-exception.h>

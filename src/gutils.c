@@ -7,6 +7,7 @@
  *    Zbigniew Chyla (cyba@gnome.pl)
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "gutils.h"
 
@@ -14,7 +15,6 @@
 #include "ranges.h"
 #include "mathfunc.h"
 
-#include <libgnome/gnome-i18n.h>
 #include <stdlib.h>
 #include <math.h>
 #include <stdio.h>
@@ -270,30 +270,6 @@ g_slist_free_custom (GSList *list, GFreeFunc free_func)
 		free_func (l->data);
 	}
 	g_slist_free (list);
-}
-
-/**
- * g_lang_score_in_lang_list:
- *
- */
-gint
-g_lang_score_in_lang_list (gchar *lang, GList *lang_list)
-{
-	if (lang_list == NULL)
-		lang_list = (GList *)gnome_i18n_get_language_list ("LC_MESSAGES");
-
-	if (lang == NULL) {
-		return g_list_length (lang_list);
-	} else {
-		GList *lang_item;
-
-		lang_item = g_list_find_custom (lang_list, lang, g_str_compare);
-		if (lang_item != NULL) {
-			return g_list_position (lang_list, lang_item);
-		} else {
-			return G_MAXINT;
-		}
-	}
 }
 
 gint

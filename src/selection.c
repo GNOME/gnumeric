@@ -9,6 +9,7 @@
  *  (C) 1999-2001 Jody Goldberg
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "selection.h"
 
@@ -27,7 +28,6 @@
 #include "sheet-merge.h"
 #include "sheet-private.h"
 #include "sheet-control.h"
-#include <libgnome/gnome-i18n.h>
 
 /**
  * sv_is_singleton_selected:

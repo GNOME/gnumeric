@@ -21,6 +21,7 @@
  * USA
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 
@@ -37,7 +38,6 @@
 #include <idl/GNOME_Gnumeric_Graph.h>
 
 #include <bonobo.h>
-#include <libgnome/gnome-i18n.h>
 #include <gal/util/e-xml-utils.h>
 #include <libxml/parser.h>
 

@@ -14,6 +14,7 @@
  * FIXME: Check for errors and propagate upward. We've only started.
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "ms-formula-write.h"
 #include "boot.h"
@@ -49,7 +50,6 @@
 #include <gsf/gsf-output.h>
 #include <gsf/gsf-outfile.h>
 
-#include <libgnome/gnome-i18n.h>
 #include <ctype.h>
 #include <math.h>
 

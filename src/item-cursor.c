@@ -7,6 +7,7 @@
  *     Jody Goldberg   (jody@gnome.org)
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "item-cursor.h"
 
@@ -26,7 +27,6 @@
 #include "commands.h"
 #include "ranges.h"
 #include "parse-util.h"
-#include <libgnome/gnome-i18n.h>
 #include <gal/widgets/e-cursors.h>
 #include <gsf/gsf-impl-utils.h>
 #define GNUMERIC_ITEM "CURSOR"

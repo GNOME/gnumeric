@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <glib.h>
-#include <libgnome/gnome-i18n.h>
 
 #include "sheet.h"
 #include "cell.h"

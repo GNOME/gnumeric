@@ -105,6 +105,8 @@ GNUMERIC_BASE =					\
 	gnumeric-gconf-priv.h			\
 	gnumeric-pane.c				\
 	gnumeric-pane.h				\
+	gnumeric-i18n.c				\
+	gnumeric-i18n.h				\
 	gnumeric.h				\
 	gui-clipboard.c				\
 	gui-clipboard.h				\

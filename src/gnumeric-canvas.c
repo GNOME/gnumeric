@@ -6,6 +6,7 @@
  *     Miguel de Icaza (miguel@kernel.org)
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "gnumeric-canvas.h"
 
@@ -28,7 +29,6 @@
 #include "cmd-edit.h"
 #include "clipboard.h"
 
-#include <libgnome/gnome-i18n.h>
 #ifdef WITH_BONOBO
 #  include "sheet-object-container.h"
 #endif

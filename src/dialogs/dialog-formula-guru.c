@@ -24,6 +24,7 @@
  * USA
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 
@@ -41,7 +42,6 @@
 #include <widgets/gnumeric-expr-entry.h>
 #include <widgets/gnumeric-cell-renderer-expr-entry.h>
 
-#include <libgnome/gnome-i18n.h>
 #include <gdk/gdkkeysyms.h>
 #include <locale.h>
 

@@ -6,6 +6,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "plugin-service.h"
 
@@ -31,7 +32,6 @@
 #include <bonobo/bonobo-ui-node.h>
 #include <gal/util/e-util.h>
 #include <gal/util/e-xml-utils.h>
-#include <libgnome/gnome-i18n.h>
 
 #include <string.h>
 

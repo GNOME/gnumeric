@@ -7,11 +7,11 @@
  * (C) 1999-2001 Jody Goldberg
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "command-context-priv.h"
 
 #include <gsf/gsf-impl-utils.h>
-#include <libgnome/gnome-i18n.h>
 
 #define CC_CLASS(o) COMMAND_CONTEXT_CLASS (G_OBJECT_GET_CLASS (o))
 

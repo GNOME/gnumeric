@@ -21,6 +21,7 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 
@@ -28,8 +29,6 @@
 #include <gui-util.h>
 #include <clipboard.h>
 #include <dependent.h>
-
-#include <libgnome/gnome-i18n.h>
 
 #define BUTTON_PASTE_LINK 0
 

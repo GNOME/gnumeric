@@ -7,6 +7,7 @@
  *   Zbigniew Chyla (cyba@gnome.pl)
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "file.h"
 
@@ -31,7 +32,6 @@
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
-#include <libgnome/gnome-i18n.h>
 
 static void
 gnum_file_opener_init (GnumFileOpener *fo)

@@ -23,6 +23,7 @@
 */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "numbers.h"
 #include "reports-write.h"
@@ -45,7 +46,6 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <libgnome/gnome-i18n.h>
 #include <sys/utsname.h>
 #include <string.h>
 

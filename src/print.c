@@ -7,7 +7,7 @@
  * Handles printing of Sheets.
  */
 #include <gnumeric-config.h>
-#include "gnumeric.h"
+#include <gnumeric-i18n.h>#include "gnumeric.h"
 #include "print.h"
 
 #include "gui-util.h"
@@ -29,7 +29,6 @@
 #include "ranges.h"
 #include "style.h"
 
-#include <libgnome/gnome-i18n.h>
 #include <libgnomeprint/gnome-print-master.h>
 #include <libgnomeprint/gnome-print-config.h>
 #include <libgnomeprintui/gnome-print-master-preview.h>

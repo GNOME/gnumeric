@@ -70,9 +70,6 @@ G_STMT_START { \
 
 #define GNM_SIZEOF_ARRAY(array) ((int) (sizeof (array) / sizeof ((array)[0])))
 
-#define   g_lang_score_is_better(score_a, score_b) (score_a < score_b)
-gint      g_lang_score_in_lang_list (gchar *lang, GList *lang_list);
-
 guint     gnumeric_strcase_hash  (gconstpointer v);
 gint      gnumeric_strcase_equal (gconstpointer v, gconstpointer v2);
 

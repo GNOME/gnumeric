@@ -6,10 +6,9 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "dates.h"
-
-#include <libgnome/gnome-i18n.h>
 
 /* FIXME : use nl_langinfo */
 const char *day_short [] =

@@ -21,6 +21,7 @@
  * USA
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "sheet-object-widget.h"
 
@@ -46,7 +47,6 @@
 #include "widgets/gnumeric-combo-text.h"
 
 #include <libxml/globals.h>
-#include <libgnome/gnome-i18n.h>
 #include <gdk/gdkkeysyms.h>
 #include <math.h>
 #include <gsf/gsf-impl-utils.h>

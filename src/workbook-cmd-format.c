@@ -7,6 +7,7 @@
  *   Jody Goldberg (jody@gnome.org)
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "workbook-cmd-format.h"
 
@@ -23,8 +24,6 @@
 #include "commands.h"
 #include "style-border.h"
 #include "style-color.h"
-
-#include <libgnome/gnome-i18n.h>
 
 /* Adds borders to all the selected regions on the sheet.
  * FIXME: This is a little more simplistic then it should be, it always

@@ -5,8 +5,8 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <glib.h>
-#include <libgnome/gnome-i18n.h>
 
 #include <workbook-control-gui.h>
 #include <gui-util.h>

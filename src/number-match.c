@@ -14,6 +14,7 @@
  *   Miguel de Icaza (miguel@gnu.org)
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "number-match.h"
 
@@ -28,7 +29,6 @@
 #include "mathfunc.h"
 #include "str.h"
 
-#include <libgnome/gnome-i18n.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

@@ -8,6 +8,7 @@
  *   Miguel de Icaza (miguel@gnu.org)
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "libgnumeric.h"
 
@@ -56,7 +57,6 @@ extern gboolean EmbeddableGridFactory_init (void);
 #ifdef WITH_BONOBO
 #include <bonobo.h>
 #endif
-#include <libgnome/gnome-i18n.h>
 
 /* The debugging level */
 int gnumeric_debugging = 0;

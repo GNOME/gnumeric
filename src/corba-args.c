@@ -8,6 +8,7 @@
  *   Miguel de Icaza (miguel@gnu.org)
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "libgnumeric.h"
 
@@ -18,7 +19,6 @@
 #include "ranges.h"
 #include "value.h"
 
-#include <libgnome/gnome-i18n.h>
 #include <bonobo.h>
 
 void

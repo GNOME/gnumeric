@@ -24,6 +24,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 
@@ -38,7 +39,6 @@
 #include <commands.h>
 #include <widgets/gnumeric-expr-entry.h>
 
-#include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 
 #define MERGE_KEY            "merge-dialog"

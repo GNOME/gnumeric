@@ -23,6 +23,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 
@@ -35,7 +36,6 @@
 #include <sheet.h>
 #include <workbook-view.h>
 
-#include <libgnome/gnome-i18n.h>
 #include <workbook-edit.h>
 
 #define GLADE_FILE "goto.glade"

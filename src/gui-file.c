@@ -7,6 +7,7 @@
  *    Zbigniew Chyla (cyba@gnome.pl)
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "gui-file.h"
 
@@ -21,7 +22,6 @@
 #include "workbook.h"
 #include "gnumeric-gconf.h"
 
-#include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 #include <errno.h>
 #include <sys/stat.h>

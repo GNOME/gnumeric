@@ -1,3 +1,96 @@
+2002-08-15  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/gnumeric-i18n.[ch]: New
+
+	* src/Makefile.am: Added gnumeric-i18n.[ch]
+
+	* src/gutils.[ch]
+	(g_lang_score_in_lang_list, g_lang_score_is_better): Removed
+
+	* src/format-template.h
+	(FormatTemplateCategoryGroup, FormatTemplateCategory): Removed lang_score
+
+	* src/xml-io-autoft.c (gnumeric_xml_read_format_template_category):
+	Don't assign category->lang_score
+
+	* src/file-autoft.c
+	(category_compare_orig_name): Renamed to
+	category_compare_orig_name_and_dir, compare by both name and directory
+	(category_group_list_get): Don't use lang_score, get translation from
+	the first category in a group. Sorting by name and directory guarantees
+	deterministic results
+
+	* plugins/applix/applix-read.c, plugins/derivatives/options.c,
+	plugins/dif/dif.c, plugins/excel/boot.c, plugins/excel/ms-excel-read.c,
+	plugins/excel/ms-excel-write.c, plugins/excel/ms-formula-read.c,
+	plugins/excel/ms-formula-write.c, plugins/fn-complex/functions.c,
+	plugins/fn-complex/gsl-complex.c, plugins/fn-database/functions.c,
+	plugins/fn-date/functions.c, plugins/fn-eng/functions.c,
+	plugins/fn-financial/functions.c, plugins/fn-info/functions.c,
+	plugins/fn-logical/functions.c, plugins/fn-lookup/functions.c,
+	plugins/fn-math/functions.c, plugins/fn-random/functions.c,
+	plugins/fn-stat/functions.c, plugins/fn-string/functions.c
+	plugins/gb/plugin.c, plugins/gda/plugin-gda.c, plugins/guile/plugin.c,
+	plugins/guile/smob-value.c, plugins/html/html_read.c,
+	plugins/html/roff.c, plugins/lotus-123/lotus.c, plugins/mps/mps.c,
+	plugins/mps/parser.c, plugins/numtheory/numtheory.c,
+	plugins/oleo/oleo.c, plugins/plan-perfect/pln.c,
+	plugins/psiconv/psiconv-read.c, plugins/python/python.c,
+	plugins/python-loader/py-gnumeric.c,
+	plugins/python-loader/python-loader.c, plugins/qpro/qpro-read.c,
+	plugins/sample_datasource/sample_datasource.c, plugins/sc/sc.c,
+	plugins/sylk/sylk.c, plugins/uihello/uihello.c, plugins/xbase/boot.c,
+	plugins/xml_sax/xml-sax-read.c, src/bonobo-io.c, src/clipboard.c,
+	src/cmd-edit.c, src/command-context-stderr.c, src/command-context.c,
+	src/commands.c, src/corba-args.c, src/dates.c,
+	src/dialogs/dao-gui-utils.c, src/dialogs/dialog-about.c,
+	src/dialogs/dialog-advanced-filter.c,
+	src/dialogs/dialog-analysis-tools.c, src/dialogs/dialog-autocorrect.c,
+	src/dialogs/dialog-autoformat.c, src/dialogs/dialog-autosave.c,
+	src/dialogs/dialog-cell-comment.c, src/dialogs/dialog-cell-format.c,
+	src/dialogs/dialog-cell-sort.c, src/dialogs/dialog-col-width.c,
+	src/dialogs/dialog-consolidate.c, src/dialogs/dialog-define-names.c,
+	src/dialogs/dialog-delete-cells.c, src/dialogs/dialog-formula-guru.c,
+	src/dialogs/dialog-function-select.c, src/dialogs/dialog-goal-seek.c,
+	src/dialogs/dialog-goto-cell.c, src/dialogs/dialog-graph-guru.c,
+	src/dialogs/dialog-insert-cells.c, src/dialogs/dialog-merge.c,
+	src/dialogs/dialog-paste-special.c, src/dialogs/dialog-plugin-manager.c,
+	src/dialogs/dialog-preferences.c, src/dialogs/dialog-printer-setup.c,
+	src/dialogs/dialog-random-generator.c, src/dialogs/dialog-row-height.c,
+	src/dialogs/dialog-search-replace.c, src/dialogs/dialog-search.c,
+	src/dialogs/dialog-sheet-order.c, src/dialogs/dialog-simulation.c,
+	src/dialogs/dialog-solver.c, src/dialogs/dialog-stf-export-sheet-page.c,
+	src/dialogs/dialog-stf-export.c, src/dialogs/dialog-stf-fixed-page.c,
+	src/dialogs/dialog-stf-format-page.c,
+	src/dialogs/dialog-stf-main-page.c, src/dialogs/dialog-stf-preview.c,
+	src/dialogs/dialog-stf.c, src/dialogs/dialog-summary.c,
+	src/dialogs/dialog-tabulate.c, src/dialogs/dialog-workbook-attr.c,
+	src/dialogs/dialog-zoom.c, src/expr-name.c, src/expr.c,
+	src/file.c, src/format-template.c, src/format.c, src/formats.c,
+	src/func-builtin.c, src/func.c, src/gnumeric-canvas.c,
+	src/gnumeric-graph.c, src/gui-clipboard.c, src/gui-file.c,
+	src/gui-util.c, src/history.c, src/hlink.c, src/item-bar.c,
+	src/item-cursor.c, src/item-edit.c, src/libgnumeric.c,
+	src/main-application.c, src/number-match.c, src/parser.y,
+	src/plugin-loader-module.c, src/plugin-loader.c, src/plugin-service.c,
+	src/plugin-util.c, src/plugin.c, src/print-info.c, src/print.c,
+	src/search.c, src/selection.c, src/sheet-autofill.c,
+	src/sheet-control-gui.c, src/sheet-merge.c, src/sheet-object-bonobo.c,
+	src/sheet-object-container.c, src/sheet-object-graphic.c,
+	src/sheet-object-widget.c, src/sheet-object.c, src/sheet-view.c,
+	src/sheet.c, src/stf-parse.c, src/stf-parse.h, src/stf.c, src/style.c,
+	src/tools/analysis-tools.c, src/tools/auto-correct.c, src/tools/dao.c,
+	src/tools/filter.c, src/tools/random-generator.c,
+	src/tools/simulation.c, src/tools/solver/api.c,
+	src/tools/solver/reports-write.c, src/tools/solver/reports.c,
+	src/tools/solver/solver.c, src/validation.c, src/value-sheet.c,
+	src/value.c, src/widgets/gnumeric-expr-entry.c,
+	src/widgets/widget-font-selector.c, src/workbook-cmd-format.c,
+	src/workbook-control-gui.c, src/workbook-control.c, src/workbook-edit.c,
+	src/workbook-format-toolbar.c, src/workbook-object-toolbar.c,
+	src/workbook-view.c, src/workbook.c, src/xml-io.c:
+	Use <gnumeric-i18n.h> everywhere
+
 2002-08-18  Jody Goldberg <jody@gnome.org>
 
 	* src/item-grid.c (item_grid_draw) : hmm, we didn't notice the typo

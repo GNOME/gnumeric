@@ -20,6 +20,7 @@
  * USA
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "expr.h"
 
@@ -43,7 +44,6 @@
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>
-#include <libgnome/gnome-i18n.h>
 
 /*
  * Using pools here probably does not save anything, but it's a darn

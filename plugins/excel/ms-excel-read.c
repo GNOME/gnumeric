@@ -11,6 +11,7 @@
  **/
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 
 #include "boot.h"
@@ -50,7 +51,6 @@
 #  include <gnumeric-graph.h>
 #endif
 
-#include <libgnome/gnome-i18n.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-utils.h>
 #include <locale.h>

@@ -20,6 +20,7 @@
  * USA
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "workbook-control-gui-priv.h"
 
@@ -83,7 +84,6 @@
 #include <gal/widgets/widget-color-combo.h>
 #include <gal/widgets/gtk-combo-stack.h>
 
-#include <libgnome/gnome-i18n.h>
 #include <libgnomevfs/gnome-vfs-uri.h>
 
 #include <ctype.h>

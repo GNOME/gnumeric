@@ -11,6 +11,7 @@
  * (C) 2000-2001 Ximian, Inc.
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "workbook.h"
 
@@ -45,7 +46,6 @@
 #include <gtk/gtkmain.h> /* for gtk_main_quit */
 #include <gsf/gsf-impl-utils.h>
 #include <gal/util/e-util.h>
-#include <libgnome/gnome-i18n.h>
 #include <ctype.h>
 #include <string.h>
 

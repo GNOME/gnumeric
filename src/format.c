@@ -22,6 +22,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "numbers.h"
 #include "format.h"
@@ -37,7 +38,6 @@
 #include "number-match.h"
 #include "formats.h"
 
-#include <libgnome/gnome-i18n.h>
 #include <locale.h>
 #include <ctype.h>
 #include <string.h>

@@ -20,6 +20,7 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 
@@ -42,7 +43,6 @@
 #include <gal/e-table/e-table-simple.h>
 #include <gal/e-table/e-table.h>
 #include <gal/e-table/e-table-scrolled.h>
-#include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 
 /*#include <gal/util/e-unicode-i18n.h>*/

@@ -7,6 +7,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include <plugin.h>
 #include <plugin-util.h>
@@ -27,7 +28,6 @@
 
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-input.h>
-#include <libgnome/gnome-i18n.h>
 #include <string.h>
 #include <math.h>
 

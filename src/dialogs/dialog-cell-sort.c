@@ -22,6 +22,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 
@@ -42,7 +43,6 @@
 #include <widgets/gnumeric-expr-entry.h>
 #include <value.h>
 
-#include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <gsf/gsf-impl-utils.h>
 #include <ctype.h>

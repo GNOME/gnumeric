@@ -8,6 +8,7 @@
  * (C) 1998-2002 Michael Meeks
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "ms-formula-read.h"
 #include "excel.h"
@@ -23,8 +24,6 @@
 #include <parse-util.h>
 #include <sheet.h>
 #include <workbook.h>
-
-#include <libgnome/gnome-i18n.h>
 #include <gsf/gsf-utils.h>
 
 #undef G_LOG_DOMAIN

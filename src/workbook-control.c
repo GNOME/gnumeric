@@ -20,6 +20,7 @@
  * USA
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "workbook-control-priv.h"
 
@@ -34,7 +35,6 @@
 #include "expr-name.h"
 
 #include <gsf/gsf-impl-utils.h>
-#include <libgnome/gnome-i18n.h>
 
 #define WBC_CLASS(o) WORKBOOK_CONTROL_CLASS (G_OBJECT_GET_CLASS (o))
 #define WBC_VIRTUAL_FULL(func, handle, arglist, call)		\

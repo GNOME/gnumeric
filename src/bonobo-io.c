@@ -8,6 +8,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "bonobo-io.h"
 
@@ -21,7 +22,6 @@
 #include "sheet.h"
 #include "file.h"
 
-#include <libgnome/gnome-i18n.h>
 #include <stdio.h>
 #include <string.h>
 #include <locale.h>

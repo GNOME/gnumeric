@@ -7,6 +7,7 @@
  *    Jody Goldberg (jody@gnome.org)
  */
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "sheet-control-gui-priv.h"
 
@@ -41,7 +42,6 @@
 #include "item-cursor.h"
 #include "widgets/gnumeric-expr-entry.h"
 
-#include <libgnome/gnome-i18n.h>
 #include <gdk/gdkkeysyms.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gal/widgets/e-colors.h>

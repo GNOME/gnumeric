@@ -23,6 +23,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "numbers.h"
 #include "mathfunc.h"
@@ -36,7 +37,6 @@
 #include "workbook-control.h"
 #include "parse-util.h"
 
-#include <libgnome/gnome-i18n.h>
 #include <math.h>
 #include <string.h>
 

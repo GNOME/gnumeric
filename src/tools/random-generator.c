@@ -25,6 +25,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "random-generator.h"
 
@@ -43,7 +44,6 @@
 #include "gui-util.h"
 #include "sheet-object-cell-comment.h"
 
-#include <libgnome/gnome-i18n.h>
 #include <gtk/gtk.h>
 #include <string.h>
 #include <math.h>

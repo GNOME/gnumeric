@@ -22,12 +22,12 @@
  */
 
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include <libguile.h>
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <stdlib.h>
-#include <libgnome/gnome-i18n.h>
 
 #include "smob-value.h"
 #include "value.h"
