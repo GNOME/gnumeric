@@ -1782,6 +1782,8 @@ sheet_cell_fetch (Sheet *sheet, int col, int row)
 	return cell;
 }
 
+#define SWAP_INT(a,b) do { int t; t = a; a = b; b = t; } while (0)
+
 /**
  * sheet_cell_foreach_range:
  *
@@ -1807,7 +1809,13 @@ sheet_cell_foreach_range (Sheet *sheet, int only_existing,
 	g_return_val_if_fail (sheet != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE); 
 	g_return_val_if_fail (callback != NULL, FALSE);
+
+	if (start_col > end_col)
+		SWAP_INT (start_col, end_col);
 	
+	if (start_row > end_row)
+		SWAP_INT (start_row, end_row);
+		
 	col = sheet->cols_info;
 	for (; col; col = col->next){
 		ColRowInfo *ci = col->data;

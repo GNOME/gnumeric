@@ -98,7 +98,7 @@ function_iterate_do_value (Sheet                   *sheet,
 		cell_get_abs_col_row (&value->v.cell_range.cell_b,
 				      eval_col, eval_row,
 				      &end_col, &end_row);
-		
+
 		ret = sheet_cell_foreach_range (
 			sheet, TRUE,
 			start_col, start_row,

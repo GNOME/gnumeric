@@ -1,3 +1,8 @@
+1999-03-08  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet.c (sheet_cell_foreach_range): Revert the arguments if
+	they are in a different order.
+
 1999-03-08  Takashi Matsuda <matsu@arch.comp.kyutech.ac.jp>
 
 	* plugins: new text plugin. 	
