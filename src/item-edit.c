@@ -455,8 +455,8 @@ item_edit_destroy (GtkObject *o)
 	entry_destroy_feedback_range (item_edit);
 
 	if (item_edit->signal_changed != 0) {
-		g_signal_handler_disconnect 
-			(G_OBJECT (gtk_widget_get_parent (GTK_WIDGET (entry))), 
+		g_signal_handler_disconnect
+			(G_OBJECT (gtk_widget_get_parent (GTK_WIDGET (entry))),
 			 item_edit->signal_changed);
 		g_signal_handler_disconnect (G_OBJECT (entry), item_edit->signal_key_press);
 		g_signal_handler_disconnect (G_OBJECT (entry), item_edit->signal_button_press);

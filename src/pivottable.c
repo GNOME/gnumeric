@@ -1,7 +1,7 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
- * pivottable.c: 
+ * pivottable.c:
  *
  * Copyright (C) 2002 Jody Goldberg (jody@gnome.org)
  *

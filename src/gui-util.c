@@ -261,11 +261,11 @@ insert_error_info (GtkTextBuffer* text, ErrorInfo *error, gint level)
 	gchar *message = (gchar *) error_info_peek_message (error);
 	GSList *details_list, *l;
 	GtkTextIter start, last;
-	gchar *tag_name = g_strdup_printf (ERROR_INFO_TAG_NAME, 
-					   MIN (level, ERROR_INFO_MAX_LEVEL)); 
+	gchar *tag_name = g_strdup_printf (ERROR_INFO_TAG_NAME,
+					   MIN (level, ERROR_INFO_MAX_LEVEL));
 	if (message == NULL)
 		message = g_strdup (_("Multiple errors\n"));
-	else 
+	else
 		message = g_strdup_printf ("%s\n", message);
 	gtk_text_buffer_get_bounds (text, &start, &last);
 	gtk_text_buffer_insert_with_tags_by_name (text, &last,
@@ -310,7 +310,7 @@ gnumeric_error_info_dialog_new (ErrorInfo *error)
 					 mtype, GTK_BUTTONS_CLOSE, " ");
 	gtk_widget_set_usize (dialog, 450, 250);
 	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window), 
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
 					GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type
@@ -790,9 +790,9 @@ gnumeric_position_tooltip (GtkWidget *tip, int horizontal)
 /**
  * gnm_glade_xml_new :
  * @cc : #CommandContext
- * @gladefile : 
- * 
- * Simple utility to open glade files 
+ * @gladefile :
+ *
+ * Simple utility to open glade files
  **/
 GladeXML *
 gnm_glade_xml_new (CommandContext *cc, char const *gladefile,
@@ -1112,7 +1112,7 @@ focus_on_entry (GtkEntry *entry)
 }
 
 gboolean
-entry_to_float_with_format_default (GtkEntry *entry, gnm_float *the_float, gboolean update, 
+entry_to_float_with_format_default (GtkEntry *entry, gnm_float *the_float, gboolean update,
 				    StyleFormat *format, gnm_float num)
 {
 	char const *text = gtk_entry_get_text (entry);
@@ -1136,7 +1136,7 @@ entry_to_float_with_format_default (GtkEntry *entry, gnm_float *the_float, gbool
 }
 
 gboolean
-entry_to_float_with_format (GtkEntry *entry, gnm_float *the_float, gboolean update, 
+entry_to_float_with_format (GtkEntry *entry, gnm_float *the_float, gboolean update,
 			    StyleFormat *format)
 {
 	Value *value = format_match_number (gtk_entry_get_text (entry), format, NULL);
@@ -1263,7 +1263,7 @@ add_atk_relation (GtkWidget *w0, GtkWidget *w1, AtkRelationType type)
 
 /**
  * gnm_setup_label_atk :
- * @label : #GtkLabel 
+ * @label : #GtkLabel
  * @target : #GtkWidget
  *
  * A convenience routine to setup label-for/labeled-by relationship between a

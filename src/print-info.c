@@ -677,8 +677,8 @@ print_info_dup (PrintInformation const *src_pi)
 	return dst_pi;
 }
 
-gboolean    
-print_info_get_margins (PrintInformation const *pi, 
+gboolean
+print_info_get_margins (PrintInformation const *pi,
 			double *top, double *bottom, double *left, double *right)
 {
 	gboolean res_top, res_bottom, res_left, res_right;
@@ -686,63 +686,63 @@ print_info_get_margins (PrintInformation const *pi,
 	g_return_val_if_fail (pi->print_config != NULL, FALSE);
 
 
-	res_top = gnome_print_config_get_length (pi->print_config, 
-						 GNOME_PRINT_KEY_PAGE_MARGIN_TOP, 
+	res_top = gnome_print_config_get_length (pi->print_config,
+						 GNOME_PRINT_KEY_PAGE_MARGIN_TOP,
 						 top, NULL);
-	res_bottom = gnome_print_config_get_length (pi->print_config, 
-						    GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM, 
+	res_bottom = gnome_print_config_get_length (pi->print_config,
+						    GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM,
 						    bottom, NULL);
-	res_left = gnome_print_config_get_length (pi->print_config, 
-						  GNOME_PRINT_KEY_PAGE_MARGIN_LEFT, 
+	res_left = gnome_print_config_get_length (pi->print_config,
+						  GNOME_PRINT_KEY_PAGE_MARGIN_LEFT,
 						  left, NULL);
-	res_right = gnome_print_config_get_length (pi->print_config, 
-						   GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT, 
+	res_right = gnome_print_config_get_length (pi->print_config,
+						   GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT,
 						   right, NULL);
 	return res_top && res_bottom && res_left && res_right;
 }
 
-void        
+void
 print_info_set_margin_header   (PrintInformation *pi, double top)
 {
 	g_return_if_fail (pi->print_config != NULL);
 
-	gnome_print_config_set_length (pi->print_config, 
-				       GNOME_PRINT_KEY_PAGE_MARGIN_TOP, 
+	gnome_print_config_set_length (pi->print_config,
+				       GNOME_PRINT_KEY_PAGE_MARGIN_TOP,
 				       top, GNOME_PRINT_PS_UNIT);
 }
 
-void        
+void
 print_info_set_margin_footer   (PrintInformation *pi, double bottom)
 {
 	g_return_if_fail (pi->print_config != NULL);
 
-	gnome_print_config_set_length (pi->print_config, 
-				       GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM, 
+	gnome_print_config_set_length (pi->print_config,
+				       GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM,
 				       bottom, GNOME_PRINT_PS_UNIT);
 }
 
-void        
+void
 print_info_set_margin_left     (PrintInformation *pi, double left)
 {
 	g_return_if_fail (pi->print_config != NULL);
 
-	gnome_print_config_set_length (pi->print_config, 
-				       GNOME_PRINT_KEY_PAGE_MARGIN_LEFT, 
+	gnome_print_config_set_length (pi->print_config,
+				       GNOME_PRINT_KEY_PAGE_MARGIN_LEFT,
 				       left, GNOME_PRINT_PS_UNIT);
 }
 
-void        
+void
 print_info_set_margin_right    (PrintInformation *pi, double right)
 {
 	g_return_if_fail (pi->print_config != NULL);
 
-	gnome_print_config_set_length (pi->print_config, 
-				       GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT, 
+	gnome_print_config_set_length (pi->print_config,
+				       GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT,
 				       right, GNOME_PRINT_PS_UNIT);
 }
 
 void
-print_info_set_margins (PrintInformation *pi, 
+print_info_set_margins (PrintInformation *pi,
 			double top, double bottom, double left, double right)
 {
 	g_return_if_fail (pi->print_config != NULL);

@@ -133,7 +133,7 @@ gui_file_open (WorkbookControlGUI *wbcg)
 	openers = g_list_copy (openers);
 	openers = g_list_sort (openers, file_opener_description_cmp);
 	/* NULL represents automatic file type recognition */
-	openers = g_list_prepend (openers, NULL); 
+	openers = g_list_prepend (openers, NULL);
 
 	/* Make format chooser */
 	omenu = GTK_OPTION_MENU (gtk_option_menu_new ());
@@ -249,7 +249,7 @@ do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view,
                       _("The given file extension does not match the"
 			" chosen file type. Do you want to use this name"
 			" anyways?"),
-                       TRUE)) { 
+                       TRUE)) {
 		g_free (filename);
                 return FALSE;
 	}

@@ -90,7 +90,7 @@ struct _GnmPlugin {
 	gboolean require_explicit_enabling;
 
 	gboolean is_active;
-	gint use_refcount; 
+	gint use_refcount;
 	GSList *dependencies;
 	gchar *loader_id;
 	GHashTable *loader_attrs;
@@ -192,7 +192,7 @@ gnm_plugin_type_module_unload (GTypeModule *module)
 static void
 gnm_plugin_class_init (GObjectClass *gobject_class)
 {
-	GTypeModuleClass *type_module_class = G_TYPE_MODULE_CLASS (gobject_class); 
+	GTypeModuleClass *type_module_class = G_TYPE_MODULE_CLASS (gobject_class);
 
 	parent_class = g_type_class_peek_parent (gobject_class);
 
@@ -202,7 +202,7 @@ gnm_plugin_class_init (GObjectClass *gobject_class)
 	type_module_class->unload = gnm_plugin_type_module_unload;
 
 	gnm_plugin_signals[STATE_CHANGED] = g_signal_new (
-		"state_changed", 
+		"state_changed",
 		G_TYPE_FROM_CLASS (gobject_class),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GnmPluginClass, state_changed),
@@ -210,7 +210,7 @@ gnm_plugin_class_init (GObjectClass *gobject_class)
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
 	gnm_plugin_signals[CAN_DEACTIVATE_CHANGED] = g_signal_new (
-		"can_deactivate_changed", 
+		"can_deactivate_changed",
 		G_TYPE_FROM_CLASS (gobject_class),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GnmPluginClass, can_deactivate_changed),
@@ -255,7 +255,7 @@ plugin_info_new_with_id_and_dir_name_only (const gchar *id, const gchar *dir_nam
 
 	return plugin;
 }
-              
+
 
 /*
  * PluginFileState - information about plugin.xml files used in previous
@@ -1579,7 +1579,7 @@ ghf_set_state_old_unused (gpointer key, gpointer value, gpointer unused)
  *
  *
  */
-void 
+void
 plugins_rescan (ErrorInfo **ret_error, GSList **ret_new_plugins)
 {
 	GSList *error_list = NULL;

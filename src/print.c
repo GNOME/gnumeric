@@ -741,7 +741,7 @@ print_range_down_then_right (PrintJobInfo const *pj, Sheet const *sheet,
 	usable_y_initial   = pj->y_points - pj->titles_used_y;
 	usable_y_repeating = usable_y_initial - pj->repeat_rows_used_y;
 
-       /* 
+       /*
         * Has the user selected the 'SIZE_FIT' scaling type?
 	* If so adjust the scaling percentages to the correct values.
         */

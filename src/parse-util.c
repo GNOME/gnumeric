@@ -797,7 +797,7 @@ rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
 		res->b.sheet = NULL;
 
 	tmp1 = col_parse (ptr, &res->a.col, &res->a.col_relative);
-	if (tmp1 == NULL) { /* check for row only ref 2:3 */ 
+	if (tmp1 == NULL) { /* check for row only ref 2:3 */
 		tmp1 = row_parse (ptr, &res->a.row, &res->a.row_relative);
 		if (!tmp1 || *tmp1++ != ':') /* row only requires : even for singleton */
 			return start;
@@ -814,7 +814,7 @@ rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
 	}
 
 	tmp2 = row_parse (tmp1, &res->a.row, &res->a.row_relative);
-	if (!tmp2) { /* check for col only ref B:C */ 
+	if (!tmp2) { /* check for col only ref B:C */
 		if (*tmp1++ != ':') /* col only requires : even for singleton */
 			return start;
 		tmp2 = col_parse (tmp1, &res->b.col, &res->b.col_relative);

@@ -88,19 +88,19 @@ gboolean cmd_object_move	(WorkbookControl *wbc, SheetObject *so,
 				 SheetObjectAnchor const *old_anchor,
 				 gboolean resize);
 
-gboolean cmd_reorganize_sheets	(WorkbookControl *wbc, GSList *old_order, GSList *new_order, 
+gboolean cmd_reorganize_sheets	(WorkbookControl *wbc, GSList *old_order, GSList *new_order,
 				 GSList *changed_names, GSList *new_names, GSList *deleted_sheets,
 				 GSList *color_changed, GSList *new_colors_back,
-				 GSList *new_colors_fore, 
+				 GSList *new_colors_fore,
 				 GSList *protection_changed, GSList *new_locks);
-gboolean cmd_rename_sheet	(WorkbookControl *wbc, Sheet *sheet, 
+gboolean cmd_rename_sheet	(WorkbookControl *wbc, Sheet *sheet,
 				 char const *old_name, char const *new_name);
 
 gboolean cmd_set_comment	(WorkbookControl *wbc, Sheet *sheet,
 				 CellPos const *pos, const char *new_text);
 
-gboolean cmd_analysis_tool	(WorkbookControl *wbc, Sheet *sheet, 
-				 data_analysis_output_t *dao, gpointer specs, 
+gboolean cmd_analysis_tool	(WorkbookControl *wbc, Sheet *sheet,
+				 data_analysis_output_t *dao, gpointer specs,
 				 analysis_tool_engine engine);
 
 gboolean cmd_merge_data		(WorkbookControl *wbc, Sheet *sheet,

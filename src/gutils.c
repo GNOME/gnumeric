@@ -943,7 +943,7 @@ g_str_compare (void const *x, void const *y)
 			return 0;
 		else
 			return x ? -1 : 1;
-	} 
+	}
 
 	return strcmp (x, y);
 }

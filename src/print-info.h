@@ -20,7 +20,7 @@ typedef struct {
 		SIZE_FIT
 	} type;
 
-	/* We store separate x and y scales internally, for the 
+	/* We store separate x and y scales internally, for the
 	 * 'fit-to' printing feature. (They are calculated at print-time)
 	 * When the user is doing the simple scaling, both these values
 	 * will be equal.
@@ -128,9 +128,9 @@ double      unit_convert             (double value,
 void        print_init               (void);
 void        print_shutdown           (void);
 
-gboolean    print_info_get_margins   (PrintInformation const *pi, 
+gboolean    print_info_get_margins   (PrintInformation const *pi,
 				      double *header, double *footer, double *left, double *right);
-void        print_info_set_margins   (PrintInformation *pi, 
+void        print_info_set_margins   (PrintInformation *pi,
 				      double header, double footer, double left, double right);
 void        print_info_set_margin_header   (PrintInformation *pi, double header);
 void        print_info_set_margin_footer   (PrintInformation *pi, double footer);

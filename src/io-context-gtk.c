@@ -234,7 +234,7 @@ icg_finalize (GObject *obj)
 	icg->window = NULL;
 	icg->work_bar = NULL;
 	icg->file_bar = NULL;
-	if (icg->timer) 
+	if (icg->timer)
 		g_timer_destroy (icg->timer);
 	icg->timer = NULL;
 

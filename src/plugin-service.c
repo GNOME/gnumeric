@@ -1339,7 +1339,7 @@ plugin_service_ui_activate (PluginService *service, ErrorInfo **ret_error)
 		             full_file_name);
 		g_free (full_file_name);
 		return;
-	}		             
+	}
 	g_free (full_file_name);
 
 	xml_ui = bonobo_ui_node_to_string (uinode, TRUE);
