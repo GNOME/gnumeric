@@ -2,8 +2,14 @@
 # a static libpython are resolved.
 if WITH_PYTHON
 PYTHON_DIR = python
+PYTHON_LOADER_DIR = python-loader
+PYFUNC_DIR = py-func
+GNOME_GLOSSARY_DIR = gnome-glossary
 else
 PYTHON_DIR = 
+PYTHON_LOADER_DIR = 
+PYFUNC_DIR = 
+GNOME_GLOSSARY_DIR = 
 endif
 
 if WITH_PERL
@@ -31,9 +37,11 @@ GDA_DIR=
 endif
 
 SUBDIRS_FILE_FORMATS = excel lotus-123 oleo sc sylk xbase html dif plan-perfect \
-	xml2 applix
+	xml2 applix $(GNOME_GLOSSARY_DIR)
 
 SUBDIRS_FUNCTIONS = $(PYTHON_DIR) $(PERL_DIR) $(GUILE_DIR) $(GB_DIR) \
-	numtheory $(GDA_DIR)
+	numtheory $(GDA_DIR) $(PYFUNC_DIR)
 
-SUBDIRS = $(SUBDIRS_FILE_FORMATS) $(SUBDIRS_FUNCTIONS)
+SUBDIRS_LOADERS = $(PYTHON_LOADER_DIR)
+
+SUBDIRS = $(SUBDIRS_FILE_FORMATS) $(SUBDIRS_FUNCTIONS) $(SUBDIRS_LOADERS)

@@ -159,15 +159,15 @@ dnl **************************************************
 dnl * Check for Python
 dnl **************************************************
 try_python=true
-python_val=false
 AC_ARG_WITH(python,
-	[--{with,without}-python   Compile the Python plugin],
+	[--{with,without}-python   Compile the Python plugin loader],
 	if test x$withval = xno; then
 		try_python=false
 	fi
 )
 
 if $try_python; then
+	python_val=
 	AC_CHECK_PROG(python_val, python, true, false)
 	if $python_val; then
 		  PY_PREFIX=`python -c 'import sys ; print sys.prefix'`
@@ -192,8 +192,10 @@ if $try_python; then
 			  python_val=false
 		  fi
 	fi
+	AM_CONDITIONAL(WITH_PYTHON, $python_val)
+else
+	AM_CONDITIONAL(WITH_PYTHON, false)
 fi
-AM_CONDITIONAL(WITH_PYTHON, $python_val)
 
 dnl Check for libole2
 AC_MSG_CHECKING(for libole2 >= 0.1.7						)
@@ -547,6 +549,9 @@ plugins/gb/Makefile
 plugins/lotus-123/Makefile
 plugins/oleo/Makefile
 plugins/python/Makefile
+plugins/python-loader/Makefile
+plugins/gnome-glossary/Makefile
+plugins/py-func/Makefile
 plugins/perl/Makefile
 plugins/perl/ext/Makefile.PL
 plugins/guile/Makefile

@@ -1,5 +1,15 @@
 2001-03-05  Zbigniew Chyla  <cyba@gnome.pl>
 
+	* configure.in:
+	(AC_OUTPUT): Added plugins/python-loader/Makefile,
+	plugins/gnome-glossary/Makefile, plugins/py-func/Makefile.
+	Fixed Python configuration.
+
+	* plugins/Makefile.am:
+	Conditionally added plugins: python-loader, py-func, gnome-glossary.
+
+2001-03-05  Zbigniew Chyla  <cyba@gnome.pl>
+
 	Fixes #51316 (actually, it fixes the _real_ problem).
 
 	* src/dialogs/dialog-plugin-manager.c
