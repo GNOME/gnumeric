@@ -427,9 +427,8 @@ Misc stuff that should be fixed
 
 - Missing undo/redo for
     - Freeze panes (tricky this is a view attribute)
-    - Remove sheet. (Done except that the formats are slightly messed up
-                     and sheet objects are lost. Neither are references 
-                     linked back.)
+    - Remove sheet. (Done except that graphs are lost and  references 
+                     are not linked back.)
     - `Add Scenario' Portion of Solver
     - Sheet object configuration changes.
     - Workbook attr changes
@@ -441,6 +440,7 @@ Misc stuff that should be fixed
       correspond to hiding.
 
 - Remove duplication of code between analysis-tools.c and collect.c
+    (Many analysis tools may in fact want to follow the consolidate style)
 
 - Make deletion work for multiple ranges.
 
