@@ -24,9 +24,8 @@ static char *help_date = {
 	   "(the date serial number) for the given year, month and day.\n"
 
 	   "The day might be negative (to count backwards) and it is relative "
-	   "to the previous month.  The years should be at least 1900"
+	   "to the previous month.  The years should be at least 1900."
 	   "\n"
-	   
 	   ""
 	   "@SEEALSO=TODAY, NOW")
 };
@@ -37,10 +36,16 @@ gnumeric_date (struct FunctionDefinition *fd, Value *argv [], char **error_strin
 	Value *v;
 	int year, month, day;
 	GDate date;
-	
-	year  = value_get_as_float (argv [0]);
-	month = value_get_as_float (argv [1]);
-	day   = value_get_as_float (argv [2]);
+
+	year  = floor (value_get_as_float (argv [0]));
+	month = floor (value_get_as_float (argv [1]));
+	day   = floor (value_get_as_float (argv [2]));
+
+	/* FIXME: someone should check this.  */
+	if (year <= 30)
+		year += 2000;
+	else if (year <= 99)
+		year += 1900;
 
         if (!g_date_valid_dmy(1, month, year))
           {
@@ -77,7 +82,7 @@ static char *help_datevalue = {
 	   "DATEVALUE returns the serial number of the date.  @date_str is "
 	   "the string that contains the date.  For example, "
 	   "DATEVALUE(\"1/1/1999\") equals to 36160. "
-	   "\n"	   
+	   "\n"
 	   ""
 	   "@SEEALSO=DATE")
 };
@@ -112,9 +117,9 @@ static char *help_edate = {
 	   "specified number of months before or after a given date.  "
 	   "@date is the serial number of the initial date and @months "
 	   "is the number of months before (negative number) or after "
-	   "(positive number) the initial date. "
+	   "(positive number) the initial date."
 	   "\n"
-	   "If @months is not an integer, it is truncated. "
+	   "If @months is not an integer, it is truncated."
 	   "\n"
 	   "@SEEALSO=DATE")
 };
@@ -125,7 +130,7 @@ gnumeric_edate (struct FunctionDefinition *fd,
 {
 	int    serial, months;
 	GDate* date;
-	
+
 	serial = value_get_as_int(argv[0]);
 	months = value_get_as_int(argv[1]);
 
@@ -145,7 +150,7 @@ gnumeric_edate (struct FunctionDefinition *fd,
                   *error_string = _("#NUM!");
                   return NULL;
 	}
-		
+
 	return value_new_int (g_date_serial (date));
 }
 
@@ -157,7 +162,7 @@ static char *help_today = {
 	   "Returns the serial number for today (the number of days "
 	   "elapsed since the 1st of January of 1900)"
 	   "\n"
-	   
+
 	   ""
 	   "@SEEALSO=TODAY, NOW")
 };
@@ -165,17 +170,12 @@ static char *help_today = {
 static Value *
 gnumeric_today (FunctionDefinition *fd, Value *argv [], char **error_string)
 {
-	Value *v;
-
 	GDate date;
 
         g_date_clear(&date, 1);
-	
 	g_date_set_time (&date, time (NULL));
-	
-	v = value_new_int (g_date_serial (&date));
 
-	return v;
+	return value_new_int (g_date_serial (&date));
 }
 
 static char *help_now = {
@@ -194,7 +194,7 @@ static char *help_now = {
 	   "For example: .0 represents the beginning of the day, and 0.5 "
 	   "represents noon"
 	   "\n"
-	   
+
 	   ""
 	   "@SEEALSO=TODAY, NOW")
 };
@@ -202,20 +202,16 @@ static char *help_now = {
 static Value *
 gnumeric_now (FunctionDefinition *fd, Value *argv [], char **error_string)
 {
-	Value *v;
 	time_t t = time (NULL);
 	struct tm *tm = localtime (&t);
+	int secs;
 
 	GDate date;
-        g_date_clear(&date, 1);
-	
+        g_date_clear (&date, 1);
 	g_date_set_time (&date, t);
 
-	v = value_new_float (g_date_serial(&date) +
-			 ((tm->tm_hour * 3600 + tm->tm_min * 60 
-			   + tm->tm_sec)/(double)DAY_SECONDS));
-
-	return v;
+	secs = tm->tm_hour * 3600 + tm->tm_min * 60 + tm->tm_sec;
+	return value_new_float (g_date_serial (&date) + secs / (double)DAY_SECONDS);
 }
 
 static char *help_time = {
@@ -223,9 +219,9 @@ static char *help_time = {
 	   "@SYNTAX=TIME (hours,minutes,seconds)\n"
 
 	   "@DESCRIPTION="
-	   "Returns a fraction representing the hour"
+	   "Returns a fraction representing the time of day."
 	   "\n"
-	   
+
 	   ""
 	   "@SEEALSO=HOUR")
 };
@@ -233,17 +229,35 @@ static char *help_time = {
 static Value *
 gnumeric_time (FunctionDefinition *fd, Value *argv [], char **error_string)
 {
-	Value *v;
 	float_t hours, minutes, seconds;
 
 	hours   = value_get_as_float (argv [0]);
 	minutes = value_get_as_float (argv [1]);
 	seconds = value_get_as_float (argv [2]);
 
-	v = value_new_float ((hours * 3600 + minutes * 60 + seconds) / DAY_SECONDS);
-
-	return v;
+	return value_new_float ((hours * 3600 + minutes * 60 + seconds) / DAY_SECONDS);
 }
+
+
+static char *help_timevalue = {
+	N_("@FUNCTION=TIMEVALUE\n"
+	   "@SYNTAX=TIMEVALUE (hours,minutes,seconds)\n"
+
+	   "@DESCRIPTION="
+	   "Returns a fraction representing the time of day."
+	   "\n"
+
+	   ""
+	   "@SEEALSO=HOUR")
+};
+
+static Value *
+gnumeric_timevalue (FunctionDefinition *fd, Value *argv [], char **error_string)
+{
+	/* FIXME: is this really right?  */
+	return gnumeric_time (fd, argv, error_string);
+}
+
 
 static char *help_hour = {
 	N_("@FUNCTION=HOUR\n"
@@ -255,10 +269,21 @@ static char *help_hour = {
 	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
-	   "string\n"
+	   "string.\n"
 	   ""
 	   "@SEEALSO=MINUTE, NOW, TIME, SECOND")
 };
+
+static Value *
+gnumeric_hour (FunctionDefinition *fd, Value *argv [], char **error_string)
+{
+	float_t serial = value_get_as_float (argv [0]);
+	int secs;
+
+	secs = (int)((serial - floor (serial)) * DAY_SECONDS + 0.5);
+	return value_new_int (secs / 3600);
+}
+
 
 static char *help_minute = {
 	N_("@FUNCTION=MINUTE\n"
@@ -270,10 +295,21 @@ static char *help_minute = {
 	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
-	   "string\n"
+	   "string.\n"
 	   ""
 	   "@SEEALSO=HOUR, NOW, TIME, SECOND")
 };
+
+static Value *
+gnumeric_minute (FunctionDefinition *fd, Value *argv [], char **error_string)
+{
+	float_t serial = value_get_as_float (argv [0]);
+	int secs;
+
+	secs = (int)((serial - floor (serial)) * DAY_SECONDS + 0.5);
+	return value_new_int ((secs / 60) % 60);
+}
+
 
 static char *help_second = {
 	N_("@FUNCTION=SECOND\n"
@@ -285,33 +321,21 @@ static char *help_second = {
 	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
-	   "string\n"
+	   "string.\n"
 	   ""
 	   "@SEEALSO=HOUR, MINUTE, NOW, TIME")
 };
 
-/*
- * Handles requests for HOUR, MINUTE and SECOND functions
- */
 static Value *
-gnumeric_hour_min_sec (FunctionDefinition *fd, Value *argv [], char **error_string)
+gnumeric_second (FunctionDefinition *fd, Value *argv [], char **error_string)
 {
-	Value *v = g_new (Value, 1);
-	float_t serial;
+	float_t serial = value_get_as_float (argv [0]);
+	int secs;
 
-	serial   = value_get_as_float (argv [0]);
-	serial = serial - floor (serial);
-	
-	v->type = VALUE_INTEGER;
-
-	if (fd->name [0] == 'h')
-		v->v.v_int = (serial * DAY_SECONDS) / 3600;
-	else if (fd->name [0] == 'm')
-		v->v.v_int = (((int)(serial * DAY_SECONDS)) % 3600) / 60;
-	else
-		v->v.v_int = (((int)(serial * DAY_SECONDS)) % 3600) % 60;
-	return v;
+	secs = (int)((serial - floor (serial)) * DAY_SECONDS + 0.5);
+	return value_new_int (secs % 60);
 }
+
 
 static char *help_year = {
 	N_("@FUNCTION=YEAR\n"
@@ -322,10 +346,21 @@ static char *help_year = {
 	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
-	   "string\n"
+	   "string.\n"
 	   ""
 	   "@SEEALSO=DAY, MONTH, TIME, NOW")
 };
+
+static Value *
+gnumeric_year (FunctionDefinition *fd, Value *argv [], char **error_string)
+{
+	int res;
+	GDate *date = g_date_new_serial (floor (value_get_as_float (argv [0])));
+	res = g_date_year (date);
+	g_date_free (date);
+	return value_new_int (res);
+}
+
 
 static char *help_month = {
 	N_("@FUNCTION=MONTH\n"
@@ -336,10 +371,21 @@ static char *help_month = {
 	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
-	   "string\n"
+	   "string.\n"
 	   ""
 	   "@SEEALSO=DAY, TIME, NOW, YEAR")
 };
+
+static Value *
+gnumeric_month (FunctionDefinition *fd, Value *argv [], char **error_string)
+{
+	int res;
+	GDate *date = g_date_new_serial (floor (value_get_as_float (argv [0])));
+	res = g_date_month (date);
+	g_date_free (date);
+	return value_new_int (res);
+}
+
 
 static char *help_day = {
 	N_("@FUNCTION=DAY\n"
@@ -350,31 +396,46 @@ static char *help_day = {
 	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
-	   "string\n"
+	   "string.\n"
 	   ""
 	   "@SEEALSO=MONTH, TIME, NOW, YEAR")
 };
 
 static Value *
-gnumeric_year_month_day (FunctionDefinition *fd, Value *argv [], char **error_string)
+gnumeric_day (FunctionDefinition *fd, Value *argv [], char **error_string)
 {
-	Value *v = g_new (Value, 1);
-	guint32 serial = floor (value_get_as_float (argv [0]));
-	GDate* date = g_date_new_serial (serial);
-
-	v->type = VALUE_INTEGER;
-	
-	if (fd->name [0] == 'y')
-		v->v.v_int = g_date_year (date);
-	else if (fd->name [0] == 'm')
-		v->v.v_int = g_date_month (date);
-	else if (fd->name [0] == 'd')
-		v->v.v_int = g_date_day (date);
-
+	int res;
+	GDate *date = g_date_new_serial (floor (value_get_as_float (argv [0])));
+	res = g_date_day (date);
 	g_date_free (date);
-
-	return v;
+	return value_new_int (res);
 }
+
+
+static char *help_weekday = {
+	N_("@FUNCTION=WEEKDAY\n"
+	   "@SYNTAX=WEEKDAY (serial_number)\n"
+
+	   "@DESCRIPTION="
+	   "Converts a serial number to a weekday.  FIXME: explain."
+	   "\n"
+	   "Note that Gnumeric will perform regular string to serial "
+	   "number conversion for you, so you can enter a date as a "
+	   "string.\n"
+	   ""
+	   "@SEEALSO=MONTH, TIME, NOW, YEAR")
+};
+
+static Value *
+gnumeric_weekday (FunctionDefinition *fd, Value *argv [], char **error_string)
+{
+	int res;
+	GDate *date = g_date_new_serial (floor (value_get_as_float (argv [0])));
+	res = (g_date_weekday (date) + 1) % 7;
+	g_date_free (date);
+	return value_new_int (res);
+}
+
 
 FunctionDefinition date_functions [] = {
 	{ "date",      "fff",  "year,month,day",        &help_date,
@@ -382,24 +443,28 @@ FunctionDefinition date_functions [] = {
 	{ "datevalue", "s",    "date_str",              &help_datevalue,
 	  NULL, gnumeric_datevalue  },
 	{ "day",       "f",    "serial_number",         &help_day,
-	  NULL, gnumeric_year_month_day  },
+	  NULL, gnumeric_day  },
 	{ "edate",     "ff",   "serial_number,months",  &help_edate,
 	  NULL, gnumeric_edate  },
 	{ "hour",      "f",    "serial_number",         &help_hour,
-	  NULL, gnumeric_hour_min_sec },
+	  NULL, gnumeric_hour },
 	{ "minute",    "f",    "serial_number",         &help_minute,
-	  NULL, gnumeric_hour_min_sec },
+	  NULL, gnumeric_minute },
 	{ "month",     "f",    "serial_number",         &help_month,
-	  NULL, gnumeric_year_month_day  },
+	  NULL, gnumeric_month  },
 	{ "now",       "",     "",                      &help_now,
 	  NULL, gnumeric_now },
 	{ "second",    "f",    "serial_number",         &help_second,
-	  NULL, gnumeric_hour_min_sec },
+	  NULL, gnumeric_second },
 	{ "time",      "fff",  "hours,minutes,seconds", &help_time,
 	  NULL, gnumeric_time },
+	{ "timevalue", "fff",  "hours,minutes,seconds", &help_timevalue,
+	  NULL, gnumeric_timevalue },
 	{ "today",     "",     "",                      &help_today,
 	  NULL, gnumeric_today },
+	{ "weekday",   "f",    "serial_number",         &help_weekday,
+	  NULL, gnumeric_weekday  },
 	{ "year",      "f",    "serial_number",         &help_year,
-	  NULL, gnumeric_year_month_day  },
+	  NULL, gnumeric_year  },
 	{ NULL, NULL },
 };

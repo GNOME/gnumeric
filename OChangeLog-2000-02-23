@@ -1,5 +1,17 @@
 1999-06-02  Morten Welinder  <terra@diku.dk>
 
+	* src/fn-date.c (gnumeric_year_month_day): Delete.
+	(gnumeric_day, gnumeric_month, gnumeric_year): New functions.
+	(gnumeric_hour_min_sec): Delete.
+	(gnumeric_hour, gnumeric_minute, gnumeric_second): New functions.
+	(gnumeric_weekday): New function.
+	(gnumeric_date): Handle two-digit years.  Check this, please.
+	(gnumeric_timevalue): New function.  (Untested -- Excel plugin
+ 	does not handle it yet.)
+
+	* src/utils.c (g_date_serial): Deal with 19000229.
+	(g_date_new_serial): Ditto.
+
 	* samples/datefuns.xls: New file from Nick Lamb.
 
 	* src/eval.c (workbook_recalc): If a cell has already been
