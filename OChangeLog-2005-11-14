@@ -1,3 +1,9 @@
+2001-04-24  Morten Welinder  <terra@diku.dk>
+
+	* src/parse-util.c (gnumeric_char_start_expr_p): Make sure lines
+ 	like "-----------" are not considered expressions.  (Even though
+ 	XL does.)
+
 2001-04-23  Jon K Hellan  <hellan@acm.org>
 
 	* src/sheet-control-gui.c (scg_stop_range_selection): Stop

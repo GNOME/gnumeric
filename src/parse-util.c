@@ -241,17 +241,28 @@ cellref_get (CellRef *out, const char *in, CellPos const *pos)
 char const *
 gnumeric_char_start_expr_p (char const * c)
 {
-	if (*c == '=' || *c == '@')
+	char c0 = *c;
+
+	if (c0 == '=' || c0 == '@')
 		return c + 1;
 
-	if (*c == '-' || *c == '+') {
+	if ((c0 == '-' || c0 == '+') && c[1] != 0 && c0 != c[1]) {
 		char *end;
 
-		/* Careful.  We don't want numbers to be formulae.  */
+		/*
+		 * Ok, we have a string that
+		 * 1. starts with a sign
+		 * 2. does not start with the sign repeated (think --------)
+		 * 3. is more than one character
+		 *
+		 * Now we check whether we have a number.  We don't want
+		 * numbers to be treated as formulae.  FIXME: this really
+		 * just checks for C-syntax numbers.
+		 */
 		errno = 0;
 		(void) strtod (c, &end);
 		if (errno || *end != 0 || end == c)
-			return (*c == '+') ? c + 1 : c;
+			return (c0 == '+') ? c + 1 : c;
 		/* Otherwise, it's a number.  */
 	}
 	return NULL;
@@ -263,16 +274,16 @@ cell_coord_name (int col, int row)
 	static char buffer [2 + 4 * sizeof (long)];
 	char *p = buffer;
 
-	if (col <= 'Z'-'A'){
+	if (col <= 'Z' - 'A'){
 		*p++ = col + 'A';
 	} else {
-		int a = col / ('Z'-'A'+1);
-		int b = col % ('Z'-'A'+1);
+		int a = col / ('Z' - 'A' + 1);
+		int b = col % ('Z' - 'A' + 1);
 
 		*p++ = a + 'A' - 1;
 		*p++ = b + 'A';
 	}
-	sprintf (p, "%d", row+1);
+	sprintf (p, "%d", row + 1);
 
 	return buffer;
 }
