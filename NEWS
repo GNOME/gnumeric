@@ -35,6 +35,7 @@ Jon Kåre:
 	* Fix bugs in the bonobo control version of Gnumeric.
 	* Install the bonobo control in libexec.
 	* Fix key navigation and scrollbar scrolling in auto-filter combos.
+	* Clean up editable-label some more.
 
 Morten:
 	* Improve qpro importer.

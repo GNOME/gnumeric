@@ -48,8 +48,6 @@ typedef struct {
 	gboolean (* edit_finished) (EditableLabel *el, char const *newtext);
 } EditableLabelClass;
 
-#define MARGIN 1
-
 /* Signals we emit */
 enum {
 	EDIT_FINISHED,
@@ -60,21 +58,29 @@ enum {
 
 static guint el_signals [LAST_SIGNAL] = { 0 };
 
+/*
+ * FIXME: If and when we depend on gtk+ >= 2.1.4, we can replace
+ * gtk_widget_modify_style with gtk_widget_modify_{base|text} (w, NULL). We
+ * need the fix to http://bugzilla.gnome.org/show_bug.cgi?id=100702
+ */
 static void
-el_set_color_gdk (EditableLabel *el, GdkColor *base, GdkColor *text)
+el_set_style_entry (EditableLabel *el)
 {
-	GtkStyle *s = gtk_style_copy (gtk_widget_get_style (GTK_WIDGET (el)));
+	GtkWidget * w = GTK_WIDGET (el);
+	GtkRcStyle *nullstyle = gtk_rc_style_new ();
 
-	GdkColor tmp = s->base [GTK_STATE_NORMAL];
-	s->base [GTK_STATE_NORMAL] = *base;
-	*base = tmp;
+	gtk_widget_modify_style (w, nullstyle);
 
-	tmp = s->text [GTK_STATE_NORMAL];
-	s->text [GTK_STATE_NORMAL] = *text;
-	*text = tmp;
+	g_object_unref (nullstyle);
+}
 
-	gtk_widget_set_style (GTK_WIDGET (el), s);
-	gtk_style_unref (s);
+static void
+el_set_style_label (EditableLabel *el)
+{
+	GtkWidget * w = GTK_WIDGET (el);
+
+	gtk_widget_modify_base (w, GTK_STATE_NORMAL, &el->base);
+	gtk_widget_modify_text (w, GTK_STATE_NORMAL, &el->text);
 }
 
 static void
@@ -94,7 +100,7 @@ el_stop_editing (EditableLabel *el)
 	g_free (el->unedited_text);
 	el->unedited_text = NULL;
 
-	el_set_color_gdk (el, &el->base, &el->text);
+	el_set_style_label (el);
 	el_set_cursor (GTK_ENTRY (el), GDK_HAND2);
 	gtk_editable_set_editable (GTK_EDITABLE (el), FALSE);
 	gtk_editable_select_region (GTK_EDITABLE (el), 0, 0);
@@ -236,24 +242,9 @@ cb_el_changed (GtkWidget *w, G_GNUC_UNUSED gpointer ignored)
 }
 
 static void
-cb_el_parent_set (GtkWidget *w, G_GNUC_UNUSED gpointer ignored,
-		  G_GNUC_UNUSED gpointer ignored_2)
-{
-	EditableLabel *el = EDITABLE_LABEL (w);
-	GtkStyle *s = gtk_widget_get_style (w);
-	if (!el->base_set)
-		el->base = s->bg [GTK_STATE_NORMAL];
-	if (!el->text_set)
-		el->text = s->fg [GTK_STATE_NORMAL];
-	editable_label_set_color (el, NULL, NULL);
-}
-
-
-static void
 el_init (GObject *obj)
 {
 	g_signal_connect (obj, "changed", G_CALLBACK (cb_el_changed), NULL);
-	g_signal_connect (obj, "parent_set", G_CALLBACK (cb_el_parent_set), NULL);
 }
 
 GSF_CLASS (EditableLabel, editable_label,
@@ -297,18 +288,7 @@ editable_label_set_color (EditableLabel *el, GdkColor *base_color, GdkColor *tex
 	}
 
 	if (el->unedited_text == NULL) {
-		GdkColor base, text;
-
-		if (base_color == NULL)
-			base_color = &el->base;
-		if (text_color == NULL)
-			text_color = &el->text;
-
-		base = *base_color;
-		text = *text_color;
-
-		/* ignore the current colors */
-		el_set_color_gdk (el, &base, &text);
+		el_set_style_label (el);
 	}
 }
 
@@ -324,9 +304,6 @@ editable_label_new (char const *text, GdkColor *base_color,
 	GtkStyle *s = gtk_widget_get_default_style ();
 	el->base = s->bg [GTK_STATE_NORMAL];
 	el->text = s->fg [GTK_STATE_NORMAL];
-
-	/* assign the fg/bg and store base/text */
-	el_set_color_gdk (el, &el->base, &el->text);
 
 	editable_label_set_color (el, base_color, text_color);
 
@@ -348,7 +325,7 @@ editable_label_start_editing (EditableLabel *el)
 		G_CALLBACK (el_entry_activate), NULL);
 	gtk_editable_select_region (GTK_EDITABLE (el), 0, -1);
 	gtk_editable_set_editable (GTK_EDITABLE (el), TRUE);
-	el_set_color_gdk (el, &el->base, &el->text);
+	el_set_style_entry (el);
 	el_set_cursor (GTK_ENTRY (el), GDK_XTERM);
 	gtk_widget_grab_focus (GTK_WIDGET (el));
 	gtk_grab_add (GTK_WIDGET (el));

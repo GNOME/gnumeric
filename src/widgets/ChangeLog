@@ -1,3 +1,16 @@
+2002-12-09  Jon K Hellan  <hellan@acm.org>
+
+	* widget-editable-label.c (el_set_color_gdk): Remove.
+	(el_set_style_entry): New. Set style to GtkEntry appearance.
+	(el_set_style_label): New. Set style to GtkLabel appearance.
+	(el_stop_editing): Use el_set_style_label.
+	(cb_el_parent_set): Remove.
+	(el_init): Don't connect cb_el_parent_set.
+	(editable_label_set_color): Use el_set_style_label.
+	(editable_label_new): Don't call el_set_color_gdk.
+	(editable_label_start_editing): Replace el_set_color_gdk with
+	el_set_style_entry.
+
 2002-11-15  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.12
