@@ -108,6 +108,45 @@ mathfunc_init (void)
 	/* Nothing, for the time being.  */
 }
 
+/*
+ * Compute the log of a sum from logs of terms, i.e.,
+ *
+ *     log (exp (logx) + exp (logy))
+ *
+ * without causing overflows and without throwing away large handfuls
+ * of accuracy.
+ */
+static gnm_float
+logspace_add (gnm_float logx, gnm_float logy)
+{
+	return fmax2 (logx, logy) + gnm_log1p (gnm_exp (-gnm_abs (logx - logy)));
+}
+
+
+/*
+ * Compute the log of a difference from logs of terms, i.e.,
+ *
+ *     log (exp (logx) - exp (logy))
+ *
+ * without causing overflows and without throwing away large handfuls
+ * of accuracy.
+ */
+static gnm_float
+logspace_sub (gnm_float logx, gnm_float logy)
+{
+	return logx + gnm_log1p (-gnm_exp (logy - logx));
+}
+
+#if 0
+static gnm_float
+logspace_signed_add (gnm_float logx, gnm_float logabsy, gboolean ypos)
+{
+	return ypos
+		? logspace_add (logx, logabsy)
+		: logspace_sub (logx, logabsy);
+}
+#endif
+
 /* ------------------------------------------------------------------------- */
 /* --- BEGIN MAGIC R SOURCE MARKER --- */
 
@@ -1286,39 +1325,6 @@ gnm_float dgamma(gnm_float x, gnm_float shape, gnm_float scale, gboolean give_lo
  *	Algorithm AS 239, Incomplete Gamma Function
  *	Applied Statistics 37, 1988.
  */
-
-
-
-
-/*
- * Compute the log of a sum from logs of terms, i.e.,
- *
- *     log (exp (logx) + exp (logy))
- *
- * without causing overflows and without throwing away large handfuls
- * of accuracy.
- */
-static gnm_float
-logspace_add (gnm_float logx, gnm_float logy)
-{
-     return fmax2 (logx, logy) + gnm_log1p (gnm_exp (-gnm_abs (logx - logy)));
-}
-
-
-/*
- * Compute the log of a difference from logs of terms, i.e.,
- *
- *     log (exp (logx) - exp (logy))
- *
- * without causing overflows and without throwing away large handfuls
- * of accuracy.
- */
-static gnm_float
-logspace_sub (gnm_float logx, gnm_float logy)
-{
-     return logx + gnm_log1p (-gnm_exp (logy - logx));
-}
-
 
 static gnm_float
 dpois_wrap (gnm_float x_plus_1, gnm_float lambda, gboolean give_log)
@@ -5162,7 +5168,7 @@ pbeta (gnm_float x, gnm_float a, gnm_float b, gboolean lower_tail, gboolean log_
 	if (a < 1 && (b < 1 || (1 + b) * x <= 1))
 		return pbeta_smalla (x, a, b, lower_tail, log_p);
 
-	if (b < 1 && (1 + a) * (1 - x) <= 1)  /* a/(1+a) <= x ??? */
+	if (b < 1 && (1 + a) * (1 - x) <= 1)
 		return pbeta_smalla (1 - x, b, a, !lower_tail, log_p);
 
 	if (a < 1)
