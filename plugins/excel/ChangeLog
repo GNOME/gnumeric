@@ -1,3 +1,53 @@
+2000-08-21  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-write.c (formats_init) : The format table nows stores
+	  pointers to StyleFormats rather than their strings.
+	(formats_get_format) : Ditto.
+	(formats_free) : Ditto.
+	(formats_get_index) : Ditto.
+	(put_format) : Ditto.
+	(write_format) : Ditto.
+
+	* ms-excel-read.c (biff_format_data_lookup) : Number formats are
+	  stored in XLS using the 'C' locale. eg a french user who sees
+	  '# ##0,00' will actually save '#,##0.00'.
+	(ms_excel_get_style_from_xf) : Kludge.  We need to actually set
+	  non-borders so that things get over ridden.  The core model needs
+	  improving before this can happen correctly.
+	(ms_excel_get_style_from_xf) : Ditto.
+
+	* ms-escher.c (ms_escher_read_Blip) : Remove gnorba.
+
+	* ms-chart.c (ai) : Changes to the interface for StyleFormats.
+	(ifmt) : Ditto.
+	(ms_excel_chart) : Init the sheet.  Ignore BIFF_DIMENSION records for
+	  now.  I have no idea what they represenent.
+
+2000-08-20  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_get_style_from_xf) : No need to use
+	  set_text.  Set the StyleFormat directly.
+
+2000-08-16  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-util.c (init_xl_font_widths) : Tweak Times New Roman
+	  to match observations.  It seems as if the size is non-linear :-(
+	  We'll need another round of measurements to account for this.
+
+2000-08-15  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-chart.c (ms_excel_chart) : conditionalize debug info.
+
+2000-08-14  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_set_xf) : Improve debug info.
+	(ms_excel_set_xf_segment) : Ditto.
+	(biff_xf_data_new) : Ditto.
+	(ms_excel_get_style_from_xf) : Always apply the
+	  borders.  We need to apply even in the case of no border in order to
+	  over ride previously applied defaults.
+	(ms_excel_read_row) : Apply default style to the entire row.
+
 2000-08-09  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_biff_dimensions) : Move back from

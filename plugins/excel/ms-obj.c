@@ -254,6 +254,11 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			break;
 
 		case GR_SCROLLBAR_FORMULA :
+			/* A touch of spelunking suggests that
+			 * 0x06 uint16 == first visible element (0 based)
+			 * 0x12 uint16 == number of elements
+			 * 0x14 uint16 == current element (1 based)
+			 */
 			ms_obj_dump (data, len, "ScrollbarFmla");
 			break;
 
@@ -274,8 +279,10 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			break;
 
 		case GR_LISTBOX_DATA :
+		{
 			ms_obj_dump (data, len, "ListBoxData");
 			break;
+		}
 
 		case GR_CHECKBOX_FORMULA :
 		{

@@ -17,6 +17,7 @@
 #include "ms-escher.h"
 #include "parse-util.h"
 #include "style.h"
+#include "format.h"
 #include "expr.h"
 #include "gnumeric-chart.h"
 
@@ -161,9 +162,11 @@ BC_R(ai)(ExcelChartHandler const *handle,
 		guint16 const fmt_index = MS_OLE_GET_GUINT16 (q->data + 4);
 		StyleFormat * fmt = biff_format_data_lookup (chart->wb, fmt_index);
 		puts ("Has Custom number format");
-		if (fmt != NULL)
-			printf ("Format = '%s';\n", fmt->format);
-
+		if (fmt != NULL) {
+			char * desc = style_format_as_XL (fmt, FALSE);
+			printf ("Format = '%s';\n", desc);
+			g_free (desc);
+		}
 	} else
 		puts ("Uses number format from data source");
 
@@ -924,8 +927,12 @@ BC_R(ifmt)(ExcelChartHandler const *handle,
 	guint16 const fmt_index = MS_OLE_GET_GUINT16 (q->data);
 	StyleFormat * fmt = biff_format_data_lookup (s->wb, fmt_index);
 
-	if (fmt != NULL)
-		printf ("Format = '%s';\n", fmt->format);
+	if (fmt != NULL) {
+		char * desc = style_format_as_XL (fmt, FALSE);
+		printf ("Format = '%s';\n", desc);
+		g_free (desc);
+	}
+
 	return FALSE;
 }
 
@@ -2030,6 +2037,7 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffBofData *bof)
 
 	state.container.ver = bof->version;
 	state.depth = 0;
+	state.sheet = NULL;
 	state.prev_opcode = 0xdead; /* Invalid */
 	state.parent = container;
 	state.chart = gnumeric_chart_new ();
@@ -2087,16 +2095,10 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffBofData *bof)
 			}
 			break;
 
-			/* The ordering seems constant at the start
-			 * of a chart
-			 */
-			case BIFF_DIMENSIONS :
-				/* ms_excel_biff_dimensions (q, wb); */
-				break;
-
 			case BIFF_NUMBER:	/* Should figure out what these are associated with */
 			{
-				printf ("%f\n", BIFF_GETDOUBLE (q->data + 6));
+				if (ms_excel_chart_debug > 0)
+					printf ("%f\n", BIFF_GETDOUBLE (q->data + 6));
 				break;
 			}
 
@@ -2106,10 +2108,11 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffBofData *bof)
 				guint16 xf  = MS_OLE_GET_GUINT16 (q->data + 4);
 				guint16 len = MS_OLE_GET_GUINT16 (q->data + 6);
 				char *label = biff_get_text (q->data + 8, len, NULL);
-				puts (label);
-
-				printf ("hmm, what are these values for a chart ???\n"
-					"row = %d, col = %d, xf = %d\n", row, col, xf);
+				if (ms_excel_chart_debug > 0) {
+					puts (label);
+					printf ("hmm, what are these values for a chart ???\n"
+						"row = %d, col = %d, xf = %d\n", row, col, xf);
+				}
 				g_free (label);
 				break;
 			}
@@ -2118,6 +2121,7 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffBofData *bof)
 				ms_escher_parse (q, &state.container);
 				break;
 
+			case BIFF_DIMENSIONS :	/* Skip for Now */
 			case BIFF_HEADER :	/* Skip for Now */
 			case BIFF_FOOTER :	/* Skip for Now */
 			case BIFF_HCENTER :	/* Skip for Now */

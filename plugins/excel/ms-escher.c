@@ -399,11 +399,7 @@ ms_escher_read_Blip (MSEscherState * state, MSEscherHeader * h)
 			ms_escher_get_data (state, h->offset, h->len,
 					    header, &needs_free);
 
-#if USING_OAF
 		repoid = "OAFIID:eog_image-generic:0d77ee99-ce0d-4463-94ec-99969f567f33";
-#else
-		repoid = "embeddable:image-generic";
-#endif
 		ms_escher_blip_new (data, h->len - header, repoid, state->container);
 
 #ifndef NO_DEBUG_EXCEL

@@ -23,6 +23,7 @@
 #include "ranges.h"
 #include "expr-name.h"
 #include "style.h"
+#include "format.h"
 #include "eval.h"
 #include "cell-comment.h"
 #include "application.h"
@@ -755,7 +756,7 @@ biff_format_data_lookup (ExcelWorkbook *wb, guint16 idx)
 		printf ("Unknown format: 0x%x\n", idx);
 
 	if (ans)
-		return style_format_new (ans);
+		return style_format_new_XL (ans, FALSE);
 	else
 		return NULL;
 }
@@ -1230,10 +1231,8 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 	/* If we've already done the conversion use the cached style */
 	if (xf->mstyle[0] != NULL) {
 		mstyle_ref (xf->mstyle[0]);
-		if (xf->mstyle[1] != NULL)
-			mstyle_ref (xf->mstyle[1]);
-		if (xf->mstyle[2] != NULL)
-			mstyle_ref (xf->mstyle[2]);
+		mstyle_ref (xf->mstyle[1]);
+		mstyle_ref (xf->mstyle[2]);
 		return xf->mstyle;
 	}
 
@@ -1242,7 +1241,7 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 
 	/* Format */
 	if (xf->style_format)
-		mstyle_set_format_text (mstyle, xf->style_format->format);
+		mstyle_set_format (mstyle, xf->style_format);
 
 	/* Alignment */
 	mstyle_set_align_v     (mstyle, xf->valign);
@@ -1403,6 +1402,8 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 
 	/* Borders */
 	for (i = 0; i < STYLE_ORIENT_MAX; i++) {
+		MStyle *tmp = mstyle;
+		MStyleElementType t;
 		int const color_index = xf->border_color[i];
 		/* Handle auto colours */
 		StyleColor *color = (color_index == 64 || color_index == 65 || color_index == 127)
@@ -1413,23 +1414,19 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 			? style_color_black ()
 			: ms_excel_palette_get (sheet->wb->palette,
 						color_index);
-		if (xf->border_type [i] != STYLE_BORDER_NONE) {
-			MStyle *tmp = mstyle;
-			MStyleElementType t;
 
-			if (i == STYLE_BOTTOM) {
-				t = MSTYLE_BORDER_TOP;
-				mstyle_ref (((BiffXFData *)xf)->mstyle[1] = tmp = mstyle_new());
-			} else if (i == STYLE_RIGHT) {
-				t = MSTYLE_BORDER_LEFT;
-				mstyle_ref (((BiffXFData *)xf)->mstyle[2] = tmp = mstyle_new());
-			} else
-				t = MSTYLE_BORDER_TOP + i;
+		if (i == STYLE_BOTTOM) {
+			t = MSTYLE_BORDER_TOP;
+			mstyle_ref (((BiffXFData *)xf)->mstyle[1] = tmp = mstyle_new());
+		} else if (i == STYLE_RIGHT) {
+			t = MSTYLE_BORDER_LEFT;
+			mstyle_ref (((BiffXFData *)xf)->mstyle[2] = tmp = mstyle_new());
+		} else
+			t = MSTYLE_BORDER_TOP + i;
 
-			mstyle_set_border (tmp, t,
-					   style_border_fetch (xf->border_type [i],
-							       color, t));
-		}
+		mstyle_set_border (tmp, t,
+				   style_border_fetch (xf->border_type [i],
+						       color, t));
 	}
 
 	/* Set the cache (const_cast) */
@@ -1456,6 +1453,10 @@ ms_excel_set_xf (ExcelSheet *sheet, int col, int row, guint16 xfidx)
 	if (ms_excel_color_debug > 2) {
 		printf ("%s!%s%d\n", sheet->gnum_sheet->name_unquoted,
 			col_name(col), row+1);
+	}
+	if (ms_excel_read_debug > 2) {
+		printf ("%s!%s%d = xf(%d)\n", sheet->gnum_sheet->name_unquoted,
+			col_name(col), row+1, xfidx);
 	}
 #endif
 
@@ -1526,6 +1527,12 @@ ms_excel_set_xf_segment (ExcelSheet *sheet, int start_col, int end_col, int row,
 	range.end.row   = row;
 	sheet_style_attach (sheet->gnum_sheet, range, mstyle[0]);
 
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_read_debug > 2) {
+		range_dump (&range);
+		fprintf (stderr, " = xf(%d)\n", xfidx);
+	}
+#endif
 	if (mstyle[1] != NULL) {
 		range.start.col = start_col;
 		range.start.row = row+1;
@@ -1867,9 +1874,13 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, MsBiffVersion ver)
 	g_ptr_array_add (wb->XF_cell_records, xf);
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 2) {
-		printf ("XF : Font %d, Format %d, Fore %d, Back %d\n",
-			xf->font_idx, xf->format_idx,
-			xf->pat_foregnd_col, xf->pat_backgnd_col);
+		printf ("XF(%d) : Font %d, Format %d, Fore %d, Back %d, Pattern = %d\n",
+			wb->XF_cell_records->len,
+			xf->font_idx,
+			xf->format_idx,
+			xf->pat_foregnd_col,
+			xf->pat_backgnd_col,
+			xf->fill_pattern_idx);
 	}
 #endif
 }
@@ -2546,6 +2557,7 @@ ms_excel_workbook_new (MsBiffVersion ver)
 	ans->container.ver = ver;
 
 	ans->extern_sheets = NULL;
+	ans->num_extern_sheets = 0;
 	ans->gnum_wb = NULL;
 	/* Boundsheet data hashed twice */
 	ans->boundsheet_data_by_stream = g_hash_table_new ((GHashFunc)biff_guint32_hash,
@@ -2940,8 +2952,13 @@ static void
 ms_excel_read_row (BiffQuery *q, ExcelSheet *sheet)
 {
 	const guint16 row = MS_OLE_GET_GUINT16(q->data);
+#if 0
+	/* Unnecessary info for now.
+	 * FIXME : do we want to preallocate baed on this info ?
+	 */
 	const guint16 start_col = MS_OLE_GET_GUINT16(q->data+2);
 	const guint16 end_col = MS_OLE_GET_GUINT16(q->data+4) - 1;
+#endif
 	const guint16 height = MS_OLE_GET_GUINT16(q->data+6);
 	const guint16 flags = MS_OLE_GET_GUINT16(q->data+12);
 	const guint16 flags2 = MS_OLE_GET_GUINT16(q->data+14);
@@ -2976,19 +2993,17 @@ ms_excel_read_row (BiffQuery *q, ExcelSheet *sheet)
 		sheet_row_set_size_pts (sheet->gnum_sheet, row, hu, TRUE);
 	}
 
-	/* FIXME : We should associate a style region with the row segment */
-
 	/* FIXME : I am not clear on the difference between collapsed, and dyn 0
 	 * Use both for now */
 	if (flags & 0x30)
 		col_row_set_visibility (sheet->gnum_sheet, FALSE, FALSE, row, row);
 
 	if (flags & 0x80) {
+		ms_excel_set_xf_segment (sheet, 0, SHEET_MAX_COLS, row, xf);
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_read_debug > 1) {
-			printf ("row %d has flags 0x%x a default style %hd from col %s - ",
-				row+1, flags, xf, col_name(start_col));
-			printf ("%s;\n", col_name(end_col));
+			printf ("row %d has flags 0x%x a default style %hd;\n",
+				row+1, flags, xf);
 		}
 #endif
 	}

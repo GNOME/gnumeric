@@ -37,11 +37,13 @@
 #include "cell.h"
 #include "sheet-object.h"
 #include "style.h"
+#include "format.h"
 #include "main.h"
 #include "parse-util.h"
 #include "print-info.h"
 #include "command-context.h"
 #include "workbook.h"
+#include "expr.h"
 
 #include <libole2/ms-ole.h>
 #include "ms-biff.h"
@@ -764,7 +766,7 @@ excel_font_to_string (const ExcelFont *f)
 	int nused;
 
 	nused = snprintf (buf, sizeof buf, "%s, %g", sf->font_name, sf->size);
-	
+
 	if (nused < sizeof buf && sf->is_bold)
 		nused += snprintf (buf + nused, sizeof buf - nused, ", %s",
 				   "bold");
@@ -812,7 +814,7 @@ excel_font_new (MStyle *st)
 	f->color = style_color_to_int (c);
 	f->underline     = mstyle_get_font_uline (st);
 	f->strikethrough = mstyle_get_font_strike (st);
-	
+
 	return f;
 }
 
@@ -1129,7 +1131,7 @@ formats_init (ExcelWorkbook *wb)
 
 	wb->formats = g_new (Formats, 1);
 	wb->formats->two_way_table
-		= two_way_table_new (g_str_hash, g_str_equal, 0);
+		= two_way_table_new (g_direct_hash, g_direct_equal, 0);
 
 	formats_put_magic (wb);
 }
@@ -1138,12 +1140,12 @@ formats_init (ExcelWorkbook *wb)
 /**
  * Get a format, given index
  **/
-static char *
+static StyleFormat const *
 formats_get_format (ExcelWorkbook *wb, gint idx)
 {
 	TwoWayTable *twt = wb->formats->two_way_table;
 
-	return (char *) two_way_table_idx_to_key (twt, idx);
+	return two_way_table_idx_to_key (twt, idx);
 }
 
 /**
@@ -1153,19 +1155,12 @@ static void
 formats_free (ExcelWorkbook *wb)
 {
 	TwoWayTable *twt;
-	int i;
-	char *format;
 
 	if (wb && wb->formats) {
 		twt = wb->formats->two_way_table;
-		if (twt) {
-			for (i = 0; i < twt->idx_to_key->len; i++) {
-				format = formats_get_format (wb,
-							     i + twt->base);
-				g_free (format);
-			}
+		if (twt)
 			two_way_table_free (twt);
-		}
+
 		g_free (wb->formats);
 		wb->formats = NULL;
 	}
@@ -1175,7 +1170,7 @@ formats_free (ExcelWorkbook *wb)
  * Get index of a format
  **/
 static gint
-formats_get_index (ExcelWorkbook *wb, const char *format)
+formats_get_index (ExcelWorkbook *wb, StyleFormat const *format)
 {
 	TwoWayTable *twt = wb->formats->two_way_table;
 	return two_way_table_key_to_idx (twt, format);
@@ -1189,10 +1184,9 @@ formats_get_index (ExcelWorkbook *wb, const char *format)
 static void
 put_format (MStyle *mstyle, gconstpointer dummy, ExcelWorkbook *wb)
 {
-	StyleFormat *sf = mstyle_get_format (mstyle);
-
+	StyleFormat const *fmt = mstyle_get_format (mstyle);
 	two_way_table_put (wb->formats->two_way_table,
-			   g_strdup (sf->format), TRUE,
+			   (gpointer)fmt, TRUE,
 			   (AfterPutFunc) after_put_format,
 			   "Found unique format %d - %s\n");
 }
@@ -1224,7 +1218,9 @@ static void
 write_format (BiffPut *bp, ExcelWorkbook *wb, int fidx)
 {
 	guint8 data[64];
-	char *format = formats_get_format(wb, fidx);
+	StyleFormat const *sf = formats_get_format(wb, fidx);
+
+	char *format = style_format_as_XL (sf, FALSE);
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_write_debug > 1) {
@@ -1242,6 +1238,7 @@ write_format (BiffPut *bp, ExcelWorkbook *wb, int fidx)
 
 	biff_put_text (bp, format, MS_BIFF_V7, TRUE, AS_PER_VER);
 	ms_biff_put_commit (bp);
+	g_free (format);
 }
 
 /**
@@ -1435,8 +1432,8 @@ pre_cell (gconstpointer dummy, Cell *cell, ExcelSheet *sheet)
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (sheet != NULL);
 
-	col = cell->col_info->pos;
-	row = cell->row_info->pos;
+	col = cell->pos.col;
+	row = cell->pos.row;
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_write_debug > 3) {
@@ -1813,9 +1810,14 @@ log_xf_data (ExcelWorkbook *wb, BiffXFData *xfd, int idx)
 		int i;
 		ExcelFont *f = fonts_get_font (wb, xfd->font_idx);
 
+		/* Formats are saved using the 'C' locale number format */
+		char * desc = style_format_as_XL (xfd->style_format, FALSE);
+
 		printf ("Writing xf 0x%x : font 0x%x (%s), format 0x%x (%s)\n",
 			idx, xfd->font_idx, excel_font_to_string (f),
-			xfd->format_idx, xfd->style_format->format);
+			xfd->format_idx, desc);
+		g_free (desc);
+
 		printf (" hor align 0x%x, ver align 0x%x, wrap %s\n",
 			xfd->halign, xfd->valign, xfd->wrap ? "on" : "off");
 		printf (" fill fg color idx 0x%x, fill bg color idx 0x%x"
@@ -1875,7 +1877,7 @@ build_xf_data (ExcelWorkbook *wb, BiffXFData *xfd, MStyle *st)
 	xfd->font_idx     = fonts_get_index (wb, f);
 	excel_font_free (f);
 	xfd->style_format = mstyle_get_format (st);
-	xfd->format_idx   = formats_get_index (wb, xfd->style_format->format);
+	xfd->format_idx   = formats_get_index (wb, xfd->style_format);
 
 	/* Hidden and locked - we don't have those yet */
 	xfd->hidden = MS_BIFF_H_VISIBLE;
@@ -2365,8 +2367,8 @@ write_formula (BiffPut *bp, ExcelSheet *sheet, const Cell *cell, gint16 xf)
 	g_return_if_fail (cell_has_expr (cell));
 	g_return_if_fail (cell->value);
 
-	col = cell->col_info->pos;
-	row = cell->row_info->pos;
+	col = cell->pos.col;
+	row = cell->pos.row;
 	v = cell->value;
 
 	/* See: S59D8F.HTM */
@@ -2451,8 +2453,8 @@ write_cell (BiffPut *bp, ExcelSheet *sheet, const ExcelCell *cell)
 	g_return_if_fail (sheet);
 
 	gnum_cell = cell->gnum_cell;
-	col = gnum_cell->col_info->pos;
-	row = gnum_cell->row_info->pos;
+	col = gnum_cell->pos.col;
+	row = gnum_cell->pos.row;
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_write_debug > 2) {
@@ -2461,7 +2463,7 @@ write_cell (BiffPut *bp, ExcelSheet *sheet, const ExcelCell *cell)
 			cell_name (gnum_cell),
 			(cell_has_expr (gnum_cell) ?
 			 expr_tree_as_string (gnum_cell->u.expression,
-					   parse_pos_init_cell (&tmp, gnum_cell)) :
+					      parse_pos_init_cell (&tmp, gnum_cell)) :
 			 "none"),
 			(gnum_cell->value ?
 			 value_get_as_string (gnum_cell->value) : "empty"),
@@ -2624,7 +2626,7 @@ init_base_char_width_for_write (ExcelSheet *sheet)
 			excel_font_free (f);
 		}
 	}
-		
+
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_write_debug > 1)
 		printf ("Font for column sizing: %s %.1f\n", name, size);
@@ -3257,7 +3259,7 @@ new_sheet (ExcelWorkbook *wb, Sheet *value)
 
 	ms_formula_cache_init (sheet);
 	sheet->cell_used_map = cell_used_map_new (sheet);
-	
+
 	sheet->cells = g_new (ExcelCell *, sheet->maxy);
 	for (p = sheet->cells, pmax = p + sheet->maxy; p < pmax; p++)
 		*p = g_new0 (ExcelCell, sheet->maxx);
@@ -3295,7 +3297,7 @@ static int
 pre_pass (CommandContext *context, ExcelWorkbook *wb)
 {
 	int ret = 0;
-	
+
 	/* The default style first */
 	put_mstyle (wb, wb->xf->default_style);
 	/* Its font and format */
@@ -3321,7 +3323,7 @@ static void
 free_workbook (ExcelWorkbook *wb)
 {
 	int lp;
-	
+
 	fonts_free   (wb);
 	formats_free (wb);
 	palette_free (wb);
@@ -3431,7 +3433,7 @@ ms_excel_check_write (CommandContext *context, void **state, Workbook *gwb,
 	g_return_val_if_fail (ver >= MS_BIFF_V7, -1);
 
 	*state = wb;
-	
+
 	wb->ver      = ver;
 	wb->gnum_wb  = gwb;
 	wb->sheets   = g_ptr_array_new ();

@@ -242,7 +242,11 @@ init_xl_font_widths ()
 	    { 93, 100, "Tahoma" },
 	    { 50, 54, "Terminal" },
 	    { 86, 92, "Times" },
-	    { 86, 92, "Times New Roman" },
+
+	    /* TODO : actual measurement was 86, but that was too big when
+	     * columns with 10pt fonts.  Figure out why ? (test case aksjefon.xls)
+	     */
+	    { 83, 92, "Times New Roman" },
 	    { 91, 97, "Times New Roman MT Extra Bold" },
 	    { 90, 96, "Trebuchet MS" },
 	    { 109, 117, "Verdana" },
