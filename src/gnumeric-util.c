@@ -47,10 +47,10 @@ gnumeric_dialog_run (WorkbookControlGUI *wbcg, GnomeDialog *dialog)
 {
 	GtkWindow *toplevel;
 
-	g_return_if_fail (GNOME_IS_DIALOG (dialog));
+	g_return_val_if_fail (GNOME_IS_DIALOG (dialog), -1);
 
 	if (wbcg) {
-		g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+		g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), -1);
 
 		toplevel = wb_control_gui_toplevel (wbcg);
 		if (GTK_WINDOW (dialog)->transient_parent != toplevel)

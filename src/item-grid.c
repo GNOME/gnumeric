@@ -227,7 +227,7 @@ item_grid_draw_background (GdkDrawable *drawable, ItemGrid *ig,
 		sheet_is_cell_selected (sheet, col, row);
 	gboolean const has_back = 
 		gnumeric_background_set_gc (style, gc,
-					    ig->canvasitem.canvas,
+					    ig->canvas_item.canvas,
 					    is_selected);
 
 	if (has_back || is_selected)

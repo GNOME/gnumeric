@@ -1,5 +1,11 @@
 2001-04-26  Jon K Hellan  <hellan@acm.org>
 
+	* src/item-grid.c (item_grid_draw_background): Fix typo.
+
+	* src/gnumeric-util.c (gnumeric_dialog_run): Fix silly mistake
+
+2001-04-26  Jon K Hellan  <hellan@acm.org>
+
 	* src/gnumeric-util.c (gnumeric_wb_dialog_run): Eliminate attempt
 	to handle parent being closed underneath dialog running a
 	recursive mainloop. That can't happen since GTK 1.2.7. Move what
