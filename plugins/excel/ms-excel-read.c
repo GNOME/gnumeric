@@ -1476,39 +1476,6 @@ excel_get_default_palette (MsBiffVersion ver)
 	return pal;
 }
 
-/* See: S59DC9.HTM */
-static void
-excel_read_PALETTE (BiffQuery *q, ExcelWorkbook *ewb)
-{
-	int lp, len;
-	ExcelPalette *pal;
-
-	pal = g_new (ExcelPalette, 1);
-	len = GSF_LE_GET_GUINT16 (q->data);
-	pal->length = len;
-	pal->red = g_new (int, len);
-	pal->green = g_new (int, len);
-	pal->blue = g_new (int, len);
-	pal->gnm_colors = g_new (GnmColor *, len);
-
-	d (3, fprintf (stderr,"New palette with %d entries\n", len););
-
-	for (lp = 0; lp < len; lp++) {
-		guint32 num = GSF_LE_GET_GUINT32 (q->data + 2 + lp * 4);
-
-		/* NOTE the order of bytes is different from what one would
-		 * expect */
-		pal->blue[lp] = (num & 0x00ff0000) >> 16;
-		pal->green[lp] = (num & 0x0000ff00) >> 8;
-		pal->red[lp] = (num & 0x000000ff) >> 0;
-		d (5, fprintf (stderr,"Colour %d: 0x%8x (%x,%x,%x)\n", lp,
-			      num, pal->red[lp], pal->green[lp], pal->blue[lp]););
-
-		pal->gnm_colors[lp] = NULL;
-	}
-	ewb->palette = pal;
-}
-
 GnmColor *
 excel_palette_get (ExcelPalette const *pal, gint idx)
 {
@@ -1589,6 +1556,42 @@ excel_palette_destroy (ExcelPalette *pal)
 			style_color_unref (pal->gnm_colors[lp]);
 	g_free (pal->gnm_colors);
 	g_free (pal);
+}
+
+/* See: S59DC9.HTM */
+static void
+excel_read_PALETTE (BiffQuery *q, ExcelWorkbook *ewb)
+{
+	int lp, len;
+	ExcelPalette *pal;
+
+	pal = g_new (ExcelPalette, 1);
+	len = GSF_LE_GET_GUINT16 (q->data);
+	pal->length = len;
+	pal->red = g_new (int, len);
+	pal->green = g_new (int, len);
+	pal->blue = g_new (int, len);
+	pal->gnm_colors = g_new (GnmColor *, len);
+
+	d (3, fprintf (stderr,"New palette with %d entries\n", len););
+
+	for (lp = 0; lp < len; lp++) {
+		guint32 num = GSF_LE_GET_GUINT32 (q->data + 2 + lp * 4);
+
+		/* NOTE the order of bytes is different from what one would
+		 * expect */
+		pal->blue[lp] = (num & 0x00ff0000) >> 16;
+		pal->green[lp] = (num & 0x0000ff00) >> 8;
+		pal->red[lp] = (num & 0x000000ff) >> 0;
+		d (5, fprintf (stderr,"Colour %d: 0x%8x (%x,%x,%x)\n", lp,
+			      num, pal->red[lp], pal->green[lp], pal->blue[lp]););
+
+		pal->gnm_colors[lp] = NULL;
+	}
+	if (ewb->palette)
+		excel_palette_destroy (ewb->palette);
+	ewb->palette = pal;
+	
 }
 
 /**
