@@ -4321,8 +4321,8 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 		data += len*2;
 	}
 
-	/* target frame */
-	if (options & 0x80) {
+	/* target */
+	if (options & 0x8) {
 		len = GSF_LE_GET_GUINT32 (data);
 		data += 4;
 		g_return_if_fail (len*2 + data - q->data <= (int)q->length);

@@ -1,3 +1,14 @@
+2003-09-30  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_HLINK) : typo 0x80 rather than 0x8 was
+	  breaking import of local workbook links (Thanks to Tim for noticing)
+
+2003-09-29  Jody Goldberg <jody@gnome.org>
+
+	From Nick Lamb <njl195@zepler.org.uk>
+	* boot.c (excel_file_probe) : bug in libgsf < 1.8.3 that would not
+	  seek back to 0 on failed gsf_infile_msole_new.
+
 2003-09-27  Jody Goldberg <jody@gnome.org>
 
 	* ms-formula-write.c (write_funcall) : Use the last specified type for

@@ -77,7 +77,9 @@ excel_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 		return FALSE;
 	ole = gsf_infile_msole_new (input, NULL);
 	if (ole == NULL) {	/* Test for non-OLE BIFF file */
-		guint8 const *data = gsf_input_read (input, 2, NULL);
+		guint8 const *data;
+		gsf_input_seek (input, 0, G_SEEK_SET);
+		data = gsf_input_read (input, 2, NULL);
 		return data && data[0] == 0x09 && (data[1] & 0xf1) == 0;
 	}
 

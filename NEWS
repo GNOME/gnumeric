@@ -31,6 +31,8 @@ Jody:
 	* Enable basic style import for chart elements
 	* Drop in a basic implementatin of ssconvert
 	* Be anal about exporting unicode chars > 0xfeff to xls
+	* Fix import typo that broke xls import of local hyperlinks
+	* Draw marker and lines for legend elements that support them
 
 John Gill:
 	* Heuristics to improve finger feel of autofilter range selection
