@@ -67,7 +67,7 @@ func-index.sgml: func.defs make-index.pl
 
 make-func.defs: 
 	gnumericdir=`cd $(top_builddir)/src && pwd`; \
-	cd $(srcdir) && $$gnumericdir/gnumeric --dump-func-defs=func.defs
+	cd $(srcdir) && $$gnumericdir/$(gnumeric) --dump-func-defs=func.defs
 
 dist-hook:
 	mkdir $(distdir)/gnumeric

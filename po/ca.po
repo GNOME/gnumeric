@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.56\n"
-"POT-Creation-Date: 2000-12-04 19:06+0100\n"
+"POT-Creation-Date: 2000-12-07 20:18-0500\n"
 "PO-Revision-Date: 2000-12-03 15:45+0200\n"
 "Last-Translator: Quico Llach <tradgnome@softcatala.org>\n"
 "Language-Team: Catalan <linux@softcatala.org>\n"
@@ -84,18 +84,18 @@ msgstr "#DESCONEGUT!"
 msgid "Sheet%d"
 msgstr "Full%d"
 
-#: plugins/excel/ms-excel-read.c:3956
+#: plugins/excel/ms-excel-read.c:3947
 msgid "No book or workbook streams found."
 msgstr "No s'han trobat fluxes de llibres ni llibres de treball"
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4250
+#: plugins/excel/ms-excel-read.c:4241
 msgid "Password protected workbooks are not supported yet."
 msgstr ""
 "La protecció mitjançant contrasenya dels llibres de treball encara no s'ha "
 "implementat."
 
-#: plugins/excel/ms-excel-read.c:4408
+#: plugins/excel/ms-excel-read.c:4399
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "No es pot trobar un llibre de treball de MS Excel vàlid"
 
@@ -817,16 +817,16 @@ msgstr "Mínim"
 msgid "Maximum"
 msgstr "Màxim"
 
-#: src/analysis-tools.c:750 src/analysis-tools.c:2335
-#: src/analysis-tools.c:2501 src/analysis-tools.c:2748
-#: src/workbook-control-gui.c:2085 src/workbook-control-gui.c:2804
-#: src/workbook-view.c:386
+#: po/tmp/gnumeric.xml.h:179 src/analysis-tools.c:750
+#: src/analysis-tools.c:2335 src/analysis-tools.c:2501
+#: src/analysis-tools.c:2748 src/workbook-control-gui.c:2082
+#: src/workbook-control-gui.c:2801 src/workbook-view.c:487
 msgid "Sum"
 msgstr "Suma"
 
 #: src/analysis-tools.c:751 src/analysis-tools.c:2334
 #: src/analysis-tools.c:2500 src/analysis-tools.c:2747
-#: src/workbook-control-gui.c:2808
+#: src/workbook-control-gui.c:2805
 msgid "Count"
 msgstr "Compta"
 
@@ -856,7 +856,8 @@ msgstr "K-èssim més petit"
 msgid "Smallest (%d)"
 msgstr "Més petit (%d)"
 
-#: src/analysis-tools.c:978 src/analysis-tools.c:2763
+#: po/tmp/cell-format.glade.h:61 src/analysis-tools.c:978
+#: src/analysis-tools.c:2763
 msgid "Sample"
 msgstr "Exemple"
 
@@ -1091,8 +1092,8 @@ msgstr "Punt"
 msgid "Rank"
 msgstr "Abast"
 
-#: src/analysis-tools.c:2213 src/analysis-tools.c:2239
-#: src/workbook-format-toolbar.c:406
+#: po/tmp/gnumeric.xml.h:139 src/analysis-tools.c:2213
+#: src/analysis-tools.c:2239 src/workbook-format-toolbar.c:417
 msgid "Percent"
 msgstr "Percent"
 
@@ -1101,7 +1102,8 @@ msgstr "Percent"
 msgid "Anova"
 msgstr "Anova"
 
-#: src/analysis-tools.c:2331 src/dialogs/dialog-analysis-tools.c:83
+#: po/tmp/analysis-tools.glade.h:8 src/analysis-tools.c:2331
+#: src/dialogs/dialog-analysis-tools.c:83
 msgid "Anova: Single Factor"
 msgstr "Anova d'un factor"
 
@@ -1115,7 +1117,7 @@ msgid "Groups"
 msgstr "Grups"
 
 #: src/analysis-tools.c:2336 src/analysis-tools.c:2502
-#: src/analysis-tools.c:2749 src/workbook-control-gui.c:2807
+#: src/analysis-tools.c:2749 src/workbook-control-gui.c:2804
 msgid "Average"
 msgstr "Mitjana"
 
@@ -1136,7 +1138,8 @@ msgstr "Entre grups"
 msgid "Within Groups"
 msgstr "Dins dels grups"
 
-#: src/analysis-tools.c:2498 src/dialogs/dialog-analysis-tools.c:87
+#: po/tmp/analysis-tools.glade.h:10 src/analysis-tools.c:2498
+#: src/dialogs/dialog-analysis-tools.c:87
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Anova: dos factors sense replicació"
 
@@ -1144,8 +1147,8 @@ msgstr "Anova: dos factors sense replicació"
 msgid "Rows"
 msgstr "Files"
 
-#: src/analysis-tools.c:2604 src/analysis-tools.c:2764
-#: src/dialogs/dialog-analysis-tools.c:404
+#: po/tmp/dialog-stf.glade.h:22 src/analysis-tools.c:2604
+#: src/analysis-tools.c:2764 src/dialogs/dialog-analysis-tools.c:404
 msgid "Columns"
 msgstr "Columnes"
 
@@ -1153,7 +1156,8 @@ msgstr "Columnes"
 msgid "Error"
 msgstr "Error"
 
-#: src/analysis-tools.c:2673 src/dialogs/dialog-analysis-tools.c:85
+#: po/tmp/analysis-tools.glade.h:9 src/analysis-tools.c:2673
+#: src/dialogs/dialog-analysis-tools.c:85
 msgid "Anova: Two-Factor With Replication"
 msgstr "Anova: dos factors amb replicació"
 
@@ -1170,7 +1174,8 @@ msgstr "Dins de"
 msgid "F crit"
 msgstr "F crítica"
 
-#: src/analysis-tools.c:2818 src/dialogs/dialog-analysis-tools.c:99
+#: po/tmp/analysis-tools.glade.h:18 src/analysis-tools.c:2818
+#: src/dialogs/dialog-analysis-tools.c:99
 msgid "Histogram"
 msgstr "Histograma"
 
@@ -1253,7 +1258,8 @@ msgstr ""
 msgid "Unable to paste into selection"
 msgstr "No es pot enganxar dins de la selecció"
 
-#: src/cmd-edit.c:356 src/workbook-control-gui.c:2065
+#: po/tmp/gnumeric.xml.h:134 src/cmd-edit.c:356
+#: src/workbook-control-gui.c:2062
 msgid "Paste"
 msgstr "Enganxa"
 
@@ -1318,7 +1324,7 @@ msgstr "Desfés Buida"
 
 #. FIXME?
 #. TODO : Something more descriptive ? maybe the range name
-#: src/commands.c:1113 src/sheet.c:2356
+#: src/commands.c:1113 src/sheet.c:2355
 msgid "Clear"
 msgstr "Buida"
 
@@ -1568,6 +1574,964 @@ msgstr "Novembre"
 msgid "December"
 msgstr "Desembre"
 
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * DO NOT compile this file as part of your application.
+#.
+#: po/tmp/advanced-filter.glade.h:6
+msgid "Action"
+msgstr "Acció"
+
+#: po/tmp/advanced-filter.glade.h:7
+msgid "Advanced Filter"
+msgstr "Filtre avançat"
+
+#: po/tmp/advanced-filter.glade.h:8
+msgid "C_opy to:        "
+msgstr "C_opia a:        "
+
+#: po/tmp/advanced-filter.glade.h:9
+msgid "C_riteria range:"
+msgstr "C_riteri de abast:"
+
+#: po/tmp/advanced-filter.glade.h:10
+msgid "Copy to a new _sheet"
+msgstr "Copia a un _nou full"
+
+#: po/tmp/advanced-filter.glade.h:11
+msgid "Copy to a new _workbook"
+msgstr "Copia a un nou _llibre de treball"
+
+#: po/tmp/advanced-filter.glade.h:12
+msgid "_Copy to a new location"
+msgstr "_Copia a una nova destinació"
+
+#: po/tmp/advanced-filter.glade.h:13
+msgid "_Filter in-place"
+msgstr "_Filtre a lloc"
+
+#: po/tmp/advanced-filter.glade.h:14
+msgid "_List range:     "
+msgstr "_Llista el abast: "
+
+#: po/tmp/advanced-filter.glade.h:15
+msgid "_Unique records only"
+msgstr "_Només registres únics"
+
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * DO NOT compile this file as part of your application.
+#.
+#: po/tmp/analysis-tools.glade.h:6
+#, fuzzy
+msgid "1 - _Alpha:"
+msgstr "_Alfa:"
+
+#: po/tmp/analysis-tools.glade.h:7
+msgid "Analysis Tools"
+msgstr "Eines d'anàlisi"
+
+#: po/tmp/analysis-tools.glade.h:11
+#, fuzzy
+msgid "C_umulative Percentages"
+msgstr "_Percentatge"
+
+#: po/tmp/analysis-tools.glade.h:12 src/dialogs/dialog-analysis-tools.c:89
+msgid "Correlation"
+msgstr "Correlació"
+
+#: po/tmp/analysis-tools.glade.h:13 src/dialogs/dialog-analysis-tools.c:91
+msgid "Covariance"
+msgstr "Covariança"
+
+#: po/tmp/analysis-tools.glade.h:14
+msgid "Data Analysis"
+msgstr "Anàlisi de dades"
+
+#: po/tmp/analysis-tools.glade.h:15 src/dialogs/dialog-analysis-tools.c:95
+msgid "F-Test: Two-Sample for Variances"
+msgstr "Test-F: dues mostres per variances"
+
+#: po/tmp/analysis-tools.glade.h:16 src/dialogs/dialog-analysis-tools.c:97
+msgid "Fourier Analysis"
+msgstr "Anàlisi de Fourier"
+
+#: po/tmp/analysis-tools.glade.h:17
+msgid "Grouped by:"
+msgstr "Agrupat per:"
+
+#: po/tmp/analysis-tools.glade.h:19
+#, fuzzy
+msgid "I_nverse"
+msgstr "Incrementa"
+
+#: po/tmp/analysis-tools.glade.h:20
+msgid "In_terval:"
+msgstr "_Interval"
+
+#: po/tmp/analysis-tools.glade.h:21
+msgid "Input"
+msgstr "Entrada"
+
+#: po/tmp/analysis-tools.glade.h:22 src/dialogs/dialog-analysis-tools.c:101
+msgid "Moving Average"
+msgstr "Mitjana mòbil"
+
+#: po/tmp/analysis-tools.glade.h:23
+msgid "N_ew Workbook"
+msgstr "N_ou llibre de treball"
+
+#: po/tmp/analysis-tools.glade.h:24
+#, fuzzy
+msgid "N_ew sheet"
+msgstr "Nou full"
+
+#: po/tmp/analysis-tools.glade.h:25
+msgid "New _workbook"
+msgstr "Nou _llibre de treball"
+
+#: po/tmp/analysis-tools.glade.h:26
+msgid "Numbe_r of samples:"
+msgstr "Nomb_re de mostres:"
+
+#: po/tmp/analysis-tools.glade.h:27
+msgid "Output options"
+msgstr "Opcions de sortida"
+
+#: po/tmp/analysis-tools.glade.h:28 src/dialogs/dialog-analysis-tools.c:103
+msgid "Random Number Generation"
+msgstr "Generador de nombres aleatoris"
+
+#: po/tmp/analysis-tools.glade.h:29 src/dialogs/dialog-analysis-tools.c:105
+msgid "Rank and Percentile"
+msgstr "Abast i percentil"
+
+#: po/tmp/analysis-tools.glade.h:30
+msgid "T-Test: Assuming Equal Variances"
+msgstr "Test-T: Suposant variances iguals"
+
+#: po/tmp/analysis-tools.glade.h:31
+msgid "T-Test: Assuming Unequal Variances"
+msgstr "Test-T: Suposant variances diferents"
+
+#: po/tmp/analysis-tools.glade.h:32
+msgid "T-Test: Paired Two Sample for Means"
+msgstr "Test-T: dues mostres aparellades per mitjanes"
+
+#: po/tmp/analysis-tools.glade.h:33
+msgid "Va_riable 2 Range:"
+msgstr "Abast de la va_riable 2:"
+
+#: po/tmp/analysis-tools.glade.h:34
+#, fuzzy
+msgid "_Bin Range:"
+msgstr "Abast d'_entrada:"
+
+#: po/tmp/analysis-tools.glade.h:35
+msgid "_Chart Output"
+msgstr ""
+
+#: po/tmp/analysis-tools.glade.h:36 po/tmp/gnumeric.xml.h:198
+#: src/workbook-control-gui.c:1856
+msgid "_Columns"
+msgstr "_Columnes"
+
+#: po/tmp/analysis-tools.glade.h:37
+msgid "_Distribution:"
+msgstr "_Distribució:"
+
+#: po/tmp/analysis-tools.glade.h:38
+msgid "_Hypothesized Mean Difference:"
+msgstr "_Diferència mitjana hipotètica:"
+
+#: po/tmp/analysis-tools.glade.h:39
+msgid "_Input Range:"
+msgstr "Abast d'_entrada:"
+
+#: po/tmp/analysis-tools.glade.h:40
+msgid "_Labels"
+msgstr "_Etiquetes"
+
+#: po/tmp/analysis-tools.glade.h:41
+msgid "_Labels in First Row"
+msgstr "_Etiquetes a la primera fila"
+
+#: po/tmp/analysis-tools.glade.h:42
+msgid "_New Sheet"
+msgstr "_Nou full"
+
+#: po/tmp/analysis-tools.glade.h:43
+msgid "_Number of variables:"
+msgstr "_Nombre de variables:"
+
+#: po/tmp/analysis-tools.glade.h:44
+msgid "_Output Range:"
+msgstr " Abast de _sortida:"
+
+#: po/tmp/analysis-tools.glade.h:45
+msgid "_Output range:"
+msgstr "Abast de _sortida:"
+
+#: po/tmp/analysis-tools.glade.h:46
+msgid "_Pareto (Sorted)"
+msgstr ""
+
+#: po/tmp/analysis-tools.glade.h:47 po/tmp/gnumeric.xml.h:225
+#: src/workbook-control-gui.c:1853
+msgid "_Rows"
+msgstr "_Files"
+
+#: po/tmp/analysis-tools.glade.h:48
+msgid "_Rows per sample:"
+msgstr ""
+
+#: po/tmp/analysis-tools.glade.h:49
+msgid "_Standard Errors"
+msgstr "_Errors estàndard"
+
+#: po/tmp/analysis-tools.glade.h:50
+msgid "_Variable 1 Range:"
+msgstr "Abast de la v_ariable 1:"
+
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * DO NOT compile this file as part of your application.
+#.
+#: po/tmp/autocorrect-exceptions.glade.h:6
+msgid "AutoCorrect Exceptions"
+msgstr "Autocorregeix les excepcions"
+
+#: po/tmp/autocorrect-exceptions.glade.h:7
+msgid "Do _not correct:"
+msgstr "_No corregeixis:"
+
+#: po/tmp/autocorrect-exceptions.glade.h:8 po/tmp/dialog-stf.glade.h:66
+#: po/tmp/solver.glade.h:18
+msgid "_Add"
+msgstr "_Afegeix"
+
+#: po/tmp/autocorrect-exceptions.glade.h:9
+msgid "_Do not capitalize after:"
+msgstr "_No escriguis en majúscules després de:"
+
+#: po/tmp/autocorrect-exceptions.glade.h:10
+msgid "_First Letter"
+msgstr "_Primera lletra"
+
+#: po/tmp/autocorrect-exceptions.glade.h:11
+msgid "_INitial CApitals"
+msgstr "_MAjúscules INicials"
+
+#: po/tmp/autocorrect-exceptions.glade.h:12 po/tmp/dialog-stf.glade.h:71
+msgid "_Remove"
+msgstr "_Suprimeix"
+
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * DO NOT compile this file as part of your application.
+#.
+#: po/tmp/autocorrect.glade.h:6
+msgid "Auto Correct"
+msgstr "Autocorregeix"
+
+#: po/tmp/autocorrect.glade.h:7
+msgid "Capitalize _first letter of sentence"
+msgstr "Escriu en majúscules la _primera lletra de cada frase"
+
+#: po/tmp/autocorrect.glade.h:8
+msgid "Capitalize _names of days"
+msgstr "Escriu en majúscules els _noms dels dies"
+
+#: po/tmp/autocorrect.glade.h:9
+msgid "Correct _TWo INitial CApitals                           "
+msgstr "Corregeix _DUes INicials MAjúscules                     "
+
+#: po/tmp/autocorrect.glade.h:10
+msgid "Correct accidental use of _cAPS LOCK key"
+msgstr "Corregeix l'ús accidental de la tecla _bLOQ MAJ"
+
+#: po/tmp/autocorrect.glade.h:11
+msgid "Re_place:"
+msgstr "Reem_plaça"
+
+#: po/tmp/autocorrect.glade.h:12
+msgid "_Exceptions..."
+msgstr "_Excepcions..."
+
+#: po/tmp/autocorrect.glade.h:13
+msgid "_Replace text when typed"
+msgstr "_Reemplaça el text en teclejar"
+
+#: po/tmp/autocorrect.glade.h:14
+msgid "_With:"
+msgstr "_Amb:"
+
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * DO NOT compile this file as part of your application.
+#.
+#: po/tmp/autoformat.glade.h:6
+msgid "A short description of the template"
+msgstr "Una descripció curta de la plantilla"
+
+#: po/tmp/autoformat.glade.h:7
+msgid "Apply _Alignment"
+msgstr "Aplica l'_alineament"
+
+#: po/tmp/autoformat.glade.h:8
+msgid "Apply _Borders"
+msgstr "Aplica els _contorns"
+
+#: po/tmp/autoformat.glade.h:9
+msgid "Apply _Fonts"
+msgstr "Aplica les _fonts"
+
+#: po/tmp/autoformat.glade.h:10
+msgid "Apply _Number Formats"
+msgstr "Aplica el format dels _nombres"
+
+#: po/tmp/autoformat.glade.h:11
+msgid "Apply _Patterns"
+msgstr "Aplica els _patrons"
+
+#: po/tmp/autoformat.glade.h:12
+msgid "Author :"
+msgstr "Autor :"
+
+#: po/tmp/autoformat.glade.h:13
+msgid "Category :"
+msgstr "Categoria :"
+
+#: po/tmp/autoformat.glade.h:14
+msgid "Description :"
+msgstr "Descripció :"
+
+#: po/tmp/autoformat.glade.h:15
+msgid "Gnumeric: Autoformat"
+msgstr "Gnumeric: Autoformatatge"
+
+#: po/tmp/autoformat.glade.h:16
+msgid "Name :"
+msgstr "Nom :"
+
+#: po/tmp/autoformat.glade.h:17
+msgid "Name of template"
+msgstr "Nom de la plantilla"
+
+#: po/tmp/autoformat.glade.h:18
+msgid "The category this template belongs to"
+msgstr "La categoria a la qual pertany aquesta plantilla"
+
+#: po/tmp/autoformat.glade.h:19
+msgid "The current category"
+msgstr "La categoria actual"
+
+#: po/tmp/autoformat.glade.h:20
+msgid "The group/individual that made the template"
+msgstr "El grup/individu que creà la plantilla"
+
+#: po/tmp/autoformat.glade.h:21
+msgid "_Category"
+msgstr "_Categoria"
+
+#: po/tmp/autoformat.glade.h:22
+msgid "_Edit..."
+msgstr "_Edita..."
+
+#: po/tmp/autoformat.glade.h:23
+msgid "_New..."
+msgstr "_Nou..."
+
+#: po/tmp/autoformat.glade.h:24
+msgid "_Preview"
+msgstr "_Previsualitza"
+
+#: po/tmp/autoformat.glade.h:25
+msgid "_Remove Current"
+msgstr "_Suprimeix l'actual"
+
+#: po/tmp/autoformat.glade.h:26
+msgid "_Show Gridlines"
+msgstr "_Mostra les línies de graella"
+
+#: po/tmp/autoformat.glade.h:27
+msgid "_Template Details"
+msgstr "_Detalls de la plantilla"
+
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * DO NOT compile this file as part of your application.
+#.
+#: po/tmp/autosave-prompt.glade.h:6 po/tmp/autosave.glade.h:6
+msgid "Auto Save"
+msgstr "Desa automàticament"
+
+#: po/tmp/autosave-prompt.glade.h:7
+msgid "Do you want to save the workbook?"
+msgstr "Desitgeu desar el llibre de treball?"
+
+#: po/tmp/autosave.glade.h:7
+msgid "_Automatic Save Every"
+msgstr "_Desa automàticament cada"
+
+#: po/tmp/autosave.glade.h:8
+msgid "_Prompt Before Saving"
+msgstr "_Sol·licita abans de desar"
+
+#: po/tmp/autosave.glade.h:9
+msgid "_minutes"
+msgstr "_minuts"
+
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * DO NOT compile this file as part of your application.
+#.
+#: po/tmp/cell-format.glade.h:6
+msgid "$"
+msgstr "$"
+
+#: po/tmp/cell-format.glade.h:7
+#, c-format
+msgid "12.5% Grey"
+msgstr "Gris 12.5%"
+
+#: po/tmp/cell-format.glade.h:8
+#, c-format
+msgid "25% Grey"
+msgstr "Gris 25%"
+
+#: po/tmp/cell-format.glade.h:9
+#, c-format
+msgid "50% Grey"
+msgstr "Gris 50%"
+
+#: po/tmp/cell-format.glade.h:10
+#, c-format
+msgid "6.25% Grey"
+msgstr "Gris 6.25%"
+
+#: po/tmp/cell-format.glade.h:11
+#, c-format
+msgid "75% Grey"
+msgstr "Gris 75%"
+
+#: po/tmp/cell-format.glade.h:12
+msgid "Alignment"
+msgstr "Alineament"
+
+#: po/tmp/cell-format.glade.h:13 po/tmp/gnumeric.xml.h:15
+#: src/workbook-format-toolbar.c:754 src/workbook-format-toolbar.c:786
+msgid "Background"
+msgstr "Fons"
+
+#: po/tmp/cell-format.glade.h:14
+msgid "Background Color"
+msgstr "Color de fons"
+
+#: po/tmp/cell-format.glade.h:15
+msgid "Border"
+msgstr "Contorn"
+
+#: po/tmp/cell-format.glade.h:16 src/workbook-format-toolbar.c:552
+msgid "Bottom"
+msgstr "Inferior"
+
+#: po/tmp/cell-format.glade.h:17
+msgid "Bricks"
+msgstr "Maons"
+
+#: po/tmp/cell-format.glade.h:18
+msgid "C_enter"
+msgstr "C_entre"
+
+#: po/tmp/cell-format.glade.h:19
+msgid "C_olor"
+msgstr "C_olor"
+
+#: po/tmp/cell-format.glade.h:20
+msgid "Center _across selection"
+msgstr "Centra _a través de la selecció"
+
+#: po/tmp/cell-format.glade.h:21
+msgid "Color"
+msgstr "Color"
+
+#: po/tmp/cell-format.glade.h:22
+msgid "Control"
+msgstr "Control"
+
+#: po/tmp/cell-format.glade.h:23
+msgid "Cust_om"
+msgstr "Pe_rsonalitzat"
+
+#: po/tmp/cell-format.glade.h:24
+msgid "De_lete format"
+msgstr "Suprimeix el _format"
+
+#: po/tmp/cell-format.glade.h:25
+msgid "Deci_mal places:"
+msgstr "Nombre de _decimals:"
+
+#: po/tmp/cell-format.glade.h:26
+msgid "Diagonal"
+msgstr "Diagonal"
+
+#: po/tmp/cell-format.glade.h:27
+msgid "Diagonal Crosshatch"
+msgstr "Línies creuades en diagonal"
+
+#: po/tmp/cell-format.glade.h:28
+msgid "Diagonal Stripe"
+msgstr "Línia diagonal"
+
+#: po/tmp/cell-format.glade.h:29
+msgid "Display the value exactly as it was entered"
+msgstr "Mostra el valor tal i com es va introduir"
+
+#: po/tmp/cell-format.glade.h:30 src/dialogs/dialog-cell-format.c:1206
+#: src/dialogs/dialog-cell-format.c:1272
+msgid "Double"
+msgstr "Doble"
+
+#: po/tmp/cell-format.glade.h:31
+msgid "Effects"
+msgstr "Efectes"
+
+#: po/tmp/cell-format.glade.h:32 po/tmp/gnumeric.xml.h:75
+#: src/workbook-format-toolbar.c:691
+msgid "Font"
+msgstr "Tipus de lletra"
+
+#: po/tmp/cell-format.glade.h:33
+msgid "Foreground Solid"
+msgstr "Sòlid en primer pla"
+
+#: po/tmp/cell-format.glade.h:34
+msgid ""
+"General format cells attempt to select an appropriate format depending on "
+"the value of the cell."
+msgstr ""
+"Les cel·les amb el formatatge General intenten sel·leccionar un format "
+"apropiat que depèn del valor de la cel·la."
+
+#: po/tmp/cell-format.glade.h:35
+msgid "Horizontal"
+msgstr "Horitzontal"
+
+#: po/tmp/cell-format.glade.h:36
+msgid "Horizontal Stripe"
+msgstr "Línia horitzontal"
+
+#: po/tmp/cell-format.glade.h:37
+msgid "Inside"
+msgstr "Interior"
+
+#: po/tmp/cell-format.glade.h:38
+msgid "Inside Horizontal"
+msgstr "Horitzontal interior"
+
+#: po/tmp/cell-format.glade.h:39
+msgid "Inside Vertical"
+msgstr "Vertical interior"
+
+#: po/tmp/cell-format.glade.h:40
+msgid "J_ustify"
+msgstr "J_ustifica"
+
+#: po/tmp/cell-format.glade.h:41
+msgid "Large Circles"
+msgstr "Cercles grans"
+
+#: po/tmp/cell-format.glade.h:42 po/tmp/gnumeric.xml.h:114
+#: src/workbook-format-toolbar.c:544
+msgid "Left"
+msgstr "Esquerra"
+
+#: po/tmp/cell-format.glade.h:43
+msgid "Left _Indent"
+msgstr "_Sagna a l'esquerra"
+
+#: po/tmp/cell-format.glade.h:44 po/tmp/gnumeric.xml.h:116
+#: src/workbook-object-toolbar.c:150
+msgid "Line"
+msgstr "Línia"
+
+#: po/tmp/cell-format.glade.h:45
+msgid "Locking cells or hiding formulas only affects protected worksheets."
+msgstr ""
+"El bloqueig de cel·les o l'ocultació de fórmules només afecta fulls de "
+"treball protegits."
+
+#: po/tmp/cell-format.glade.h:46
+msgid "Negat_ive number:"
+msgstr "Nombre _negatiu:"
+
+#: po/tmp/cell-format.glade.h:47 src/dialogs/dialog-cell-format.c:1208
+#: src/dialogs/dialog-cell-format.c:1270 src/dialogs/dialog-paste-special.c:32
+msgid "None"
+msgstr "Cap"
+
+#: po/tmp/cell-format.glade.h:48 src/dialogs/dialog-function-wizard.c:406
+msgid "Number"
+msgstr "Nombre"
+
+#: po/tmp/cell-format.glade.h:49 po/tmp/print.glade.h:19
+msgid "Orientation"
+msgstr "Orientació"
+
+#: po/tmp/cell-format.glade.h:50
+msgid "Outline"
+msgstr "Contorn"
+
+#: po/tmp/cell-format.glade.h:51
+msgid "Pattern"
+msgstr "Patró"
+
+#: po/tmp/cell-format.glade.h:52
+msgid "Pick a Background color"
+msgstr "Escolliu un color de fons"
+
+#: po/tmp/cell-format.glade.h:53
+msgid "Pick a Pattern color"
+msgstr "Escolliu el color del patró"
+
+#: po/tmp/cell-format.glade.h:54
+msgid "Pick a border color"
+msgstr "Escolliu un color del contorn"
+
+#: po/tmp/cell-format.glade.h:55
+msgid "Pick a font color"
+msgstr "Escolliu el color del text"
+
+#: po/tmp/cell-format.glade.h:56
+msgid "Protection"
+msgstr "Protecció"
+
+#: po/tmp/cell-format.glade.h:57
+msgid "Reverse Diagonal"
+msgstr "Diagonal inversa"
+
+#: po/tmp/cell-format.glade.h:58
+msgid "Reverse Diagonal Stripe"
+msgstr "Línia diagonal invertida"
+
+#: po/tmp/cell-format.glade.h:59 po/tmp/gnumeric.xml.h:153
+#: src/workbook-format-toolbar.c:546
+msgid "Right"
+msgstr "Dreta"
+
+#: po/tmp/cell-format.glade.h:60
+msgid "S_ymbol:"
+msgstr "S_ímbol:"
+
+#: po/tmp/cell-format.glade.h:62
+msgid "Semi Circles"
+msgstr "Semi cercles"
+
+#: po/tmp/cell-format.glade.h:63
+msgid "Shrin_k to fit"
+msgstr "_Encongeix fins que encaixi"
+
+#. There must be a better way than this
+#: po/tmp/cell-format.glade.h:64 src/dialogs/dialog-cell-format.c:1204
+#: src/dialogs/dialog-cell-format.c:1271
+msgid "Single"
+msgstr "Simple"
+
+#: po/tmp/cell-format.glade.h:65
+msgid "Small Circles"
+msgstr "Cercles petits"
+
+#: po/tmp/cell-format.glade.h:66
+msgid "Solid"
+msgstr "Sòlid"
+
+#: po/tmp/cell-format.glade.h:67
+msgid "Sp_ecial"
+msgstr "_Especial"
+
+#: po/tmp/cell-format.glade.h:68
+msgid "Stri_kethrough"
+msgstr "_Ratllat"
+
+#: po/tmp/cell-format.glade.h:69
+msgid "Su_bscript"
+msgstr "Su_bíndex"
+
+#: po/tmp/cell-format.glade.h:70
+msgid "Sup_erscript"
+msgstr "Su_períndex"
+
+#: po/tmp/cell-format.glade.h:71
+msgid "Te_xt"
+msgstr "Te_xt"
+
+#: po/tmp/cell-format.glade.h:72
+msgid "Thatch"
+msgstr "Línia superior"
+
+#: po/tmp/cell-format.glade.h:73
+msgid "Thick Diagonal Crosshatch"
+msgstr "Línies gruixudes creuades en diagonal"
+
+#: po/tmp/cell-format.glade.h:74
+msgid "Thin Diagonal Crosshatch"
+msgstr "Línies primes creuades en diagonal"
+
+#: po/tmp/cell-format.glade.h:75
+msgid "Thin Diagonal Stripe"
+msgstr "Línia diagonal prima"
+
+#: po/tmp/cell-format.glade.h:76
+msgid "Thin Horizontal Crosshatch"
+msgstr "Línies gruixudes creuades en diagonal"
+
+#: po/tmp/cell-format.glade.h:77
+msgid "Thin Horizontal Stripe"
+msgstr "Línia horitzontal prima"
+
+#: po/tmp/cell-format.glade.h:78
+msgid "Thin Reverse Diagonal Stripe"
+msgstr "Línia diagonal invertida prima"
+
+#: po/tmp/cell-format.glade.h:79
+msgid "Thin Vertical Stripe"
+msgstr "Línia vertical prima"
+
+#: po/tmp/cell-format.glade.h:80
+msgid "Top"
+msgstr "Superior"
+
+#: po/tmp/cell-format.glade.h:81
+msgid "Unfinished"
+msgstr "Inacabat"
+
+#: po/tmp/cell-format.glade.h:82
+msgid "Vertical Alignment"
+msgstr "Alineació vertical"
+
+#: po/tmp/cell-format.glade.h:83
+msgid "Vertical Stripe"
+msgstr "Línia vertical"
+
+#: po/tmp/cell-format.glade.h:84
+msgid "Worksheet _protected"
+msgstr "Full de treball _protegit"
+
+#: po/tmp/cell-format.glade.h:85
+msgid "_Accounting"
+msgstr "_Estadístiques"
+
+#: po/tmp/cell-format.glade.h:86
+msgid "_Automatic"
+msgstr "_Automàtic"
+
+#: po/tmp/cell-format.glade.h:87
+msgid "_Bottom"
+msgstr "_Inferior"
+
+#: po/tmp/cell-format.glade.h:88
+msgid "_Center"
+msgstr "_Centre"
+
+#: po/tmp/cell-format.glade.h:89
+msgid "_Currency"
+msgstr "_Moneda"
+
+#: po/tmp/cell-format.glade.h:90 po/tmp/dialog-zoom.glade.h:15
+msgid "_Custom"
+msgstr "_Personalitzat"
+
+#: po/tmp/cell-format.glade.h:91
+msgid "_Date"
+msgstr "_Data"
+
+#: po/tmp/cell-format.glade.h:92
+msgid "_Fill"
+msgstr "_Omple"
+
+#: po/tmp/cell-format.glade.h:93
+msgid "_Fraction"
+msgstr "_Fracció"
+
+#: po/tmp/cell-format.glade.h:94
+msgid "_General"
+msgstr "_General"
+
+#: po/tmp/cell-format.glade.h:95
+msgid "_Hidden"
+msgstr "_Amagat"
+
+#: po/tmp/cell-format.glade.h:96
+msgid "_Justify"
+msgstr "_Justifica"
+
+#: po/tmp/cell-format.glade.h:97
+msgid "_Left"
+msgstr "_Esquerra"
+
+#: po/tmp/cell-format.glade.h:98
+msgid "_Locked"
+msgstr "_Bloquejat"
+
+#: po/tmp/cell-format.glade.h:99
+msgid "_Merge Cells"
+msgstr "_Fusiona cel·les"
+
+#: po/tmp/cell-format.glade.h:100
+msgid "_No Color"
+msgstr "_Sense color"
+
+#: po/tmp/cell-format.glade.h:101
+msgid "_Number"
+msgstr "_Nombre"
+
+#: po/tmp/cell-format.glade.h:102
+msgid "_Percentage"
+msgstr "_Percentatge"
+
+#: po/tmp/cell-format.glade.h:103
+msgid "_Right"
+msgstr "_Dreta"
+
+#: po/tmp/cell-format.glade.h:104
+msgid "_Scientific"
+msgstr "_Científic"
+
+#: po/tmp/cell-format.glade.h:105
+msgid "_Style"
+msgstr "_Estil"
+
+#: po/tmp/cell-format.glade.h:106
+msgid "_Time"
+msgstr "_Hora"
+
+#: po/tmp/cell-format.glade.h:107
+msgid "_Top"
+msgstr "_Superior"
+
+#: po/tmp/cell-format.glade.h:108
+msgid "_Type"
+msgstr "_Tipus"
+
+#: po/tmp/cell-format.glade.h:109
+msgid "_Underline:"
+msgstr "_Subratllat:"
+
+#: po/tmp/cell-format.glade.h:110
+msgid "_Use Separator for 1000's"
+msgstr "_Utilitza el separador pels milers"
+
+#: po/tmp/cell-format.glade.h:111
+msgid "_Wrap text"
+msgstr "_Ajusta el text"
+
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * DO NOT compile this file as part of your application.
+#.
+#: po/tmp/cell-sort.glade.h:6
+msgid "A header"
+msgstr "Una capçalera"
+
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * DO NOT compile this file as part of your application.
+#.
+#: po/tmp/cell-sort.glade.h:7 po/tmp/names.glade.h:6
+#: po/tmp/plugin-manager.glade.h:6
+msgid "Add"
+msgstr "Afegeix"
+
+#: po/tmp/cell-sort.glade.h:8
+msgid "Advanced Sort Options"
+msgstr "Opcions d'ordenació avançades"
+
+#: po/tmp/cell-sort.glade.h:9
+msgid "Case sensitive"
+msgstr "Sensible a les majúscules"
+
+#: po/tmp/cell-sort.glade.h:10
+msgid "Entries are"
+msgstr "Les entrades són"
+
+#: po/tmp/cell-sort.glade.h:11 po/tmp/plugin-manager.glade.h:11
+msgid "Remove"
+msgstr "Suprimeix"
+
+#: po/tmp/cell-sort.glade.h:12
+msgid "Right-Left"
+msgstr "Dreta-Esquerra"
+
+#: po/tmp/cell-sort.glade.h:13
+msgid "Selection has"
+msgstr "La sel·lecció té"
+
+#: po/tmp/cell-sort.glade.h:14
+msgid "Sort"
+msgstr "Ordena"
+
+#: po/tmp/cell-sort.glade.h:15 src/dialogs/dialog-cell-sort.c:573
+msgid "Sort by"
+msgstr "Ordena segons"
+
+#: po/tmp/cell-sort.glade.h:16
+msgid "Sort..."
+msgstr "Ordena..."
+
+#: po/tmp/cell-sort.glade.h:17
+msgid "Text"
+msgstr "Text"
+
+#: po/tmp/cell-sort.glade.h:18
+msgid "Top-Bottom"
+msgstr "Superior-Inferior"
+
+#: po/tmp/cell-sort.glade.h:19 src/solver-lp.c:1065 src/solver-lp.c:1114
+msgid "Value"
+msgstr "Valor"
+
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * DO NOT compile this file as part of your application.
+#.
+#: po/tmp/col-width.glade.h:6
+msgid "Column width"
+msgstr "Amplada de la columna"
+
+#: po/tmp/col-width.glade.h:7
+msgid "_Column width (pts):"
+msgstr "_Amplada de la columna (pts):"
+
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * DO NOT compile this file as part of your application.
+#.
+#: po/tmp/delete-cells.glade.h:6 po/tmp/names.glade.h:8
+#: po/tmp/sheet-order.glade.h:7 src/sheet-object.c:65
+msgid "Delete"
+msgstr "Suprimeix"
+
+#: po/tmp/delete-cells.glade.h:7
+msgid "Delete _column(s)"
+msgstr "Suprimeix _columna(es)"
+
+#: po/tmp/delete-cells.glade.h:8
+msgid "Delete _row(s)"
+msgstr "Suprimeix _fila(es)"
+
+#: po/tmp/delete-cells.glade.h:9
+msgid "Delete cells"
+msgstr "Suprimeix cel·les"
+
+#: po/tmp/delete-cells.glade.h:10
+msgid "Shift cells _left"
+msgstr "Desplaça les cel·les cap a l'_esquerra"
+
+#: po/tmp/delete-cells.glade.h:11
+msgid "Shift cells _up"
+msgstr "Desplaça les cel·les cap a_munt"
+
 #: src/dialogs/dialog-advanced-filter.c:238
 msgid "You should introduce a valid cell names in 'List Range:'"
 msgstr "Heu d'introduir un nom de cel·la vàlid a 'Abast de la llista:'"
@@ -1588,38 +2552,10 @@ msgstr ""
 "Heu d'introduir el mateix nombre de columnes a 'Abast de la llista' i a "
 "'Abast dels criteris:'"
 
-#: src/dialogs/dialog-analysis-tools.c:89
-msgid "Correlation"
-msgstr "Correlació"
-
-#: src/dialogs/dialog-analysis-tools.c:91
-msgid "Covariance"
-msgstr "Covariança"
-
 #: src/dialogs/dialog-analysis-tools.c:93
 #: src/dialogs/dialog-analysis-tools.c:919
 msgid "Descriptive Statistics"
 msgstr "Estadístiques descriptives"
-
-#: src/dialogs/dialog-analysis-tools.c:95
-msgid "F-Test: Two-Sample for Variances"
-msgstr "Test-F: dues mostres per variances"
-
-#: src/dialogs/dialog-analysis-tools.c:97
-msgid "Fourier Analysis"
-msgstr "Anàlisi de Fourier"
-
-#: src/dialogs/dialog-analysis-tools.c:101
-msgid "Moving Average"
-msgstr "Mitjana mòbil"
-
-#: src/dialogs/dialog-analysis-tools.c:103
-msgid "Random Number Generation"
-msgstr "Generador de nombres aleatoris"
-
-#: src/dialogs/dialog-analysis-tools.c:105
-msgid "Rank and Percentile"
-msgstr "Abast i percentil"
 
 #: src/dialogs/dialog-analysis-tools.c:109
 #: src/dialogs/dialog-analysis-tools.c:804
@@ -1978,21 +2914,7 @@ msgstr "_);("
 msgid "_);[Red]("
 msgstr "_);[Vermell]("
 
-#. There must be a better way than this
-#: src/dialogs/dialog-cell-format.c:1204 src/dialogs/dialog-cell-format.c:1271
-msgid "Single"
-msgstr "Simple"
-
-#: src/dialogs/dialog-cell-format.c:1206 src/dialogs/dialog-cell-format.c:1272
-msgid "Double"
-msgstr "Doble"
-
-#: src/dialogs/dialog-cell-format.c:1208 src/dialogs/dialog-cell-format.c:1270
-#: src/dialogs/dialog-paste-special.c:32
-msgid "None"
-msgstr "Cap"
-
-#: src/dialogs/dialog-cell-format.c:2072
+#: src/dialogs/dialog-cell-format.c:2074
 msgid "Format Cells"
 msgstr "Formata cel·les"
 
@@ -2042,13 +2964,9 @@ msgid "then by"
 msgstr "llavors per"
 
 #. We can't sort complex ranges
-#: src/dialogs/dialog-cell-sort.c:507 src/workbook-control-gui.c:1573
+#: src/dialogs/dialog-cell-sort.c:507 src/workbook-control-gui.c:1576
 msgid "sort"
 msgstr "ordena"
-
-#: src/dialogs/dialog-cell-sort.c:573
-msgid "Sort by"
-msgstr "Ordena segons"
 
 #: src/dialogs/dialog-define-names.c:59 src/dialogs/dialog-define-names.c:63
 msgid "Workbook"
@@ -2070,10 +2988,6 @@ msgstr "Valor%d"
 #: src/dialogs/dialog-function-wizard.c:405 src/functions/fn-string.c:1334
 msgid "String"
 msgstr "Cadena de caràcters"
-
-#: src/dialogs/dialog-function-wizard.c:406
-msgid "Number"
-msgstr "Nombre"
 
 #: src/dialogs/dialog-function-wizard.c:407
 msgid "Boolean"
@@ -2245,6 +3159,7 @@ msgstr "Nom de fitxer:"
 msgid "File name: %s"
 msgstr "Nom de fitxer: %s"
 
+#: po/tmp/font-sel.glade.h:10 po/tmp/plugin-manager.glade.h:12
 #: src/dialogs/dialog-plugin-manager.c:100
 msgid "Size:"
 msgstr "Mida:"
@@ -2254,7 +3169,7 @@ msgstr "Mida:"
 msgid "Size: %ld bytes"
 msgstr "Mida: %ld octets"
 
-#: src/dialogs/dialog-plugin-manager.c:107
+#: po/tmp/plugin-manager.glade.h:9 src/dialogs/dialog-plugin-manager.c:107
 msgid "Modified:"
 msgstr "Modificat:"
 
@@ -2277,7 +3192,7 @@ msgstr "Configuració de la capçalera personalitzada"
 msgid "Custom footer configuration"
 msgstr "Configuració del peu de pàgina personalitzat"
 
-#: src/dialogs/dialog-sheet-order.c:145 src/workbook-control-gui.c:341
+#: src/dialogs/dialog-sheet-order.c:145 src/workbook-control-gui.c:344
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Esteu segurs que voleu eliminar el full anumenat `%s'?"
@@ -2334,14 +3249,184 @@ msgstr "Heu de sel·leccionar almenys un full per exportar"
 msgid "Are you sure you want to cancel?"
 msgstr "Esteu segur que volu cancel·lar?"
 
-#: src/dialogs/dialog-stf-fixed-page.c:63
-msgid "Autodiscovery did not find any columns in the text. Try manually"
-msgstr "L'autodescoberta no ha trobat columnes en el text. Proveu manualment."
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * DO NOT compile this file as part of your application.
+#.
+#: po/tmp/dialog-stf-export.glade.h:6
+msgid "<- Remove"
+msgstr "<- Suprimeix"
 
+#: po/tmp/dialog-stf-export.glade.h:7
+msgid "<- Remove all"
+msgstr "<- Suprimeix-los tots"
+
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * DO NOT compile this file as part of your application.
+#.
+#: po/tmp/dialog-stf-export.glade.h:8 po/tmp/dialog-stf.glade.h:6
+msgid "\""
+msgstr "\""
+
+#: po/tmp/dialog-stf-export.glade.h:9 po/tmp/dialog-stf.glade.h:7
+msgid "'"
+msgstr ""
+
+#: po/tmp/dialog-stf-export.glade.h:10
+msgid "Add ->"
+msgstr "Afegeix ->"
+
+#: po/tmp/dialog-stf-export.glade.h:11
+msgid "Add all ->"
+msgstr "Afegeix-los tots ->"
+
+#: po/tmp/dialog-stf-export.glade.h:12
+msgid "Always"
+msgstr ""
+
+#: po/tmp/dialog-stf-export.glade.h:13
+#, fuzzy
+msgid "Automatic (puts quotes where needed)"
+msgstr ""
+"Automàtic (posa cometes on sigui necessari)\n"
+"Sempre\n"
+"Mai\n"
+
+#: po/tmp/dialog-stf-export.glade.h:14
+msgid "Available sheets"
+msgstr "Fulls disponibles"
+
+#: po/tmp/dialog-stf-export.glade.h:15
+#, fuzzy
+msgid "Bang (!)"
+msgstr "_Exclamació (!)"
+
+#: po/tmp/dialog-stf-export.glade.h:16
+msgid "Choose export formatting"
+msgstr "Esculliu el format d'exportació"
+
+#: po/tmp/dialog-stf-export.glade.h:17
+msgid "Choose sheets to export"
+msgstr "Escolliu els fulls per exportar"
+
+#: po/tmp/dialog-stf-export.glade.h:18
+#, fuzzy
+msgid "Colon (:)"
+msgstr "_Dos punts (:)"
+
+#: po/tmp/dialog-stf-export.glade.h:19
+#, fuzzy
+msgid "Comma (,)"
+msgstr "_Coma (,)"
+
+#: po/tmp/dialog-stf-export.glade.h:20
 #: src/dialogs/dialog-stf-format-page.c:174
 #: src/dialogs/dialog-stf-format-page.c:390
 msgid "Custom"
 msgstr "Personalitzat"
+
+#: po/tmp/dialog-stf-export.glade.h:21
+msgid ""
+"Customize the export format. The line terminator is the character sequence "
+"used for terminating a line in the text file. Wether the quote character is "
+"placed around cells depends on the value choosen for quoting."
+msgstr ""
+"Personalitza el format d'exportació. El caràcter final de cada línia és la "
+"seqüència emprada per acabar una línia en un fitxer de text. El fet de que "
+"s'inclogui el caràcter de cometes per cada cel·la depen del valor escollit "
+"per les cometes."
+
+#: po/tmp/dialog-stf-export.glade.h:22
+msgid "Gnumeric : Exporting structured text"
+msgstr "Gnumeric: Exportant text estructurat"
+
+#: po/tmp/dialog-stf-export.glade.h:23
+#, fuzzy
+msgid "Hyphen (-)"
+msgstr "_Guió (-)"
+
+#: po/tmp/dialog-stf-export.glade.h:24
+msgid "Line termination :"
+msgstr "Final de la línia:"
+
+#: po/tmp/dialog-stf-export.glade.h:25
+msgid "Macintosh (carriage return)"
+msgstr ""
+
+#: po/tmp/dialog-stf-export.glade.h:26 po/tmp/dialog-stf.glade.h:41
+#, fuzzy
+msgid "Never"
+msgstr "Novembre"
+
+#: po/tmp/dialog-stf-export.glade.h:27
+#, fuzzy
+msgid "Pipe (|)"
+msgstr "_Barra vertical (|)"
+
+#: po/tmp/dialog-stf-export.glade.h:28
+msgid ""
+"Please select which sheets you want to export from the current workbook. "
+"They will be exported in the same order as in the export list."
+msgstr ""
+"Sel·leccioneu quins fulls voleu exportar del llibre de treball actual. Seran "
+"exportats en el mateix ordre que la llista d'exportació."
+
+#: po/tmp/dialog-stf-export.glade.h:29
+msgid "Quote character :"
+msgstr "Caràcter de cometes:"
+
+#: po/tmp/dialog-stf-export.glade.h:30
+msgid "Quoting :"
+msgstr "Cita :"
+
+#: po/tmp/dialog-stf-export.glade.h:31
+#, fuzzy
+msgid "Semicolon (;)"
+msgstr "_Punt i coma (;)"
+
+#: po/tmp/dialog-stf-export.glade.h:32
+msgid "Separator :"
+msgstr "Separador:"
+
+#: po/tmp/dialog-stf-export.glade.h:33
+msgid "Sheets to export"
+msgstr "Fulls per exportar"
+
+#: po/tmp/dialog-stf-export.glade.h:34
+#, fuzzy
+msgid "Slash (/)"
+msgstr "Barra _diagonal (/)"
+
+#: po/tmp/dialog-stf-export.glade.h:35
+#, fuzzy
+msgid "Space"
+msgstr "pàgina"
+
+#: po/tmp/dialog-stf-export.glade.h:36
+#, fuzzy
+msgid "Tab"
+msgstr "_Tabulació"
+
+#: po/tmp/dialog-stf-export.glade.h:37
+msgid "Unix (linefeed)"
+msgstr ""
+
+#: po/tmp/dialog-stf-export.glade.h:38
+#, fuzzy
+msgid "Windows (carriage return + linefeed)"
+msgstr ""
+"Unix (nova línia)\n"
+"Macintosh (retorn)\n"
+"Windows (retorn + nova línia)\n"
+
+#: po/tmp/dialog-stf-export.glade.h:39 po/tmp/dialog-stf.glade.h:74
+msgid "`"
+msgstr ""
+
+#: src/dialogs/dialog-stf-fixed-page.c:63
+msgid "Autodiscovery did not find any columns in the text. Try manually"
+msgstr "L'autodescoberta no ha trobat columnes en el text. Proveu manualment."
 
 #: src/dialogs/dialog-stf-main-page.c:85
 #, c-format
@@ -2353,9 +3438,928 @@ msgstr "S'han d'importar %d línies"
 msgid "Data (from %s)"
 msgstr "Dades (de %s)"
 
+#: po/tmp/dialog-stf.glade.h:8
+msgid ""
+"Actual processing will start at this line, any previous lines will be ignored"
+msgstr ""
+
+#: po/tmp/dialog-stf.glade.h:9
+#, fuzzy
+msgid "Add a new column"
+msgstr "Inserta noves columnes"
+
+#: po/tmp/dialog-stf.glade.h:10
+msgid "Always (Both sides)"
+msgstr ""
+
+#: po/tmp/dialog-stf.glade.h:11
+msgid "Attempt to recognize columns in the text automatically"
+msgstr ""
+
+#: po/tmp/dialog-stf.glade.h:12
+msgid "Auto Column _Discovery"
+msgstr "_Autodescoberta de columnes"
+
+#: po/tmp/dialog-stf.glade.h:13
+msgid "Ban_g (!)"
+msgstr "_Exclamació (!)"
+
+#: po/tmp/dialog-stf.glade.h:14
+msgid "C_ustom"
+msgstr "_Personalitzat"
+
+#: po/tmp/dialog-stf.glade.h:15
+msgid ""
+"Character interpreted as quote character. If the separation character is "
+"encountered within quotes it will be ignored"
+msgstr ""
+
+#: po/tmp/dialog-stf.glade.h:16
+#, fuzzy
+msgid "Clear list of columns"
+msgstr "S'està especificant l'amplada de les columnes"
+
+#: po/tmp/dialog-stf.glade.h:17
+msgid "Click to select a column"
+msgstr ""
+
+#: po/tmp/dialog-stf.glade.h:18
+msgid "Co_lumn end : "
+msgstr "_Final de columna : "
+
+#: po/tmp/dialog-stf.glade.h:19
+msgid "Co_mma (,)"
+msgstr "_Coma (,)"
+
+#: po/tmp/dialog-stf.glade.h:20
+msgid "Column"
+msgstr "Columna"
+
+# src/functions/fn-information.c:847
+#: po/tmp/dialog-stf.glade.h:21
+msgid "Column formatting"
+msgstr "Formatatge de columnes"
+
+#: po/tmp/dialog-stf.glade.h:23
+msgid "Custom separator, this can be any character"
+msgstr ""
+
+#: po/tmp/dialog-stf.glade.h:24
+msgid ""
+"Customize the columns using the buttons or the mouse (hover mouse above "
+"example for instructions)"
+msgstr ""
+
+#: po/tmp/dialog-stf.glade.h:25
+msgid "Data type and number of lines"
+msgstr "Tipus de dades i nombre de línies"
+
+#: po/tmp/dialog-stf.glade.h:26
+msgid "Define the width of each column manually"
+msgstr ""
+
+#: po/tmp/dialog-stf.glade.h:27
+msgid ""
+"Each column in the text is separated by a 'separation' character, e.g. a "
+"semicolon"
+msgstr ""
+
+#: po/tmp/dialog-stf.glade.h:28
+msgid "End"
+msgstr "Final"
+
+#: po/tmp/dialog-stf.glade.h:29
+msgid "Example"
+msgstr "Exemple"
+
+#: po/tmp/dialog-stf.glade.h:30
+msgid "Fixed wi_dth"
+msgstr "_Amplada fixa"
+
+#: po/tmp/dialog-stf.glade.h:31
+msgid "Fixed width customization"
+msgstr "Personalització d'amplada fixa"
+
+#: po/tmp/dialog-stf.glade.h:32
+msgid "Format"
+msgstr "Format"
+
+#: po/tmp/dialog-stf.glade.h:33
+#, fuzzy
+msgid "Formatting for the selected column"
+msgstr "Modifica el format de les cel·les seleccionades"
+
+#: po/tmp/dialog-stf.glade.h:34
+msgid "Formatting options"
+msgstr "Opcions de formatatge"
+
+#: po/tmp/dialog-stf.glade.h:35
+msgid "Fr_om line :"
+msgstr "_Des de la línia:"
+
+#: po/tmp/dialog-stf.glade.h:36
+msgid "Gnumeric : Importing structured text"
+msgstr "Gnumeric: Important text estructurat"
+
+#: po/tmp/dialog-stf.glade.h:37
+msgid "H_yphen (-)"
+msgstr "_Guió (-)"
+
+#: po/tmp/dialog-stf.glade.h:38
+#, fuzzy
+msgid ""
+"Left click to create a new column, right click on a column border to delete "
+"an existing column or hold the left mouse button on a column border and drag "
+"to resize a column"
+msgstr ""
+"Personalitzeu les columnes emprant els butons afegeix/suprimeix o el ratolí: "
+"cliqueu el botó esquerre per crear una nova columna, el botó dret sobre un "
+"contorn d'una columna per suprimir una columna existent i mantingueu el botó "
+"esquerre apretat en un contorn d'una columna i arrossegueu per canviar el "
+"tamany de la columna. L'autodescoberta de columnes provarà de reconéixer "
+"automàticament les columnes dins del text."
+
+#: po/tmp/dialog-stf.glade.h:39
+msgid "Lines to import"
+msgstr "Línies per importar"
+
+#: po/tmp/dialog-stf.glade.h:40
+msgid "Misc"
+msgstr "Miscel·lània"
+
+#: po/tmp/dialog-stf.glade.h:42
+msgid "Number of lines to import"
+msgstr "Nombre de línies per importar"
+
+#: po/tmp/dialog-stf.glade.h:43
+msgid "On left side only"
+msgstr ""
+
+#: po/tmp/dialog-stf.glade.h:44
+msgid "On right side only"
+msgstr ""
+
+#: po/tmp/dialog-stf.glade.h:45
+msgid "Original data type :"
+msgstr "Tipus de dades original"
+
+#: po/tmp/dialog-stf.glade.h:46
+msgid "P_ipe (|)"
+msgstr "_Barra vertical (|)"
+
+#: po/tmp/dialog-stf.glade.h:47
+msgid "Per column formatting"
+msgstr "Formatatge per columnes"
+
+#: po/tmp/dialog-stf.glade.h:48
+msgid "Processing ends at this line, any subsequent lines will be ignored"
+msgstr ""
+
+#: po/tmp/dialog-stf.glade.h:49
+#, fuzzy
+msgid "Remove selected column"
+msgstr "Ordena les cel·les seleccionades"
+
+#: po/tmp/dialog-stf.glade.h:50
+msgid "S_ee two separators as one"
+msgstr "_Veure dos separadors com si en fossin un"
+
+#: po/tmp/dialog-stf.glade.h:51
+#, fuzzy
+msgid "S_pace"
+msgstr "Reem_plaça"
+
+#: po/tmp/dialog-stf.glade.h:52
+#, fuzzy
+msgid "See two successive separators as one"
+msgstr "_Veure dos separadors com si en fossin un"
+
+#: po/tmp/dialog-stf.glade.h:53
+msgid ""
+"See two successive text indicators as one that does not terminate the cell"
+msgstr ""
+
+#: po/tmp/dialog-stf.glade.h:54
+#, fuzzy
+msgid ""
+"Select the format for each column. You can click in the column list on the "
+"left or in the example to select a column. You can then enter a custom "
+"format or select one from the list on the right."
+msgstr ""
+"Sel·leccioneu el format per a cada columna. Podeu clicar a la llista de "
+"columnes de l'esquerra per sel·leccionar una columna, o podeu clicar a la "
+"previsualització. Podeu introduïr un format personalitzat o sel·leccionar-ne "
+"un de la llista de la dreta."
+
+#: po/tmp/dialog-stf.glade.h:55
+#, fuzzy
+msgid ""
+"Select the separators that appear in the text (you can choose multiple "
+"separators if desired and also enter a custom one)"
+msgstr ""
+"Sel·leccioneu els separadors que apareixen al text (podeu escollir "
+"separadors múltiples si ho desitgeu i també entrar-ne un de personalitzat). "
+"Podeu escollir també l'indicador de cadenes de caràcters i si voleu veure "
+"dos separadors consecutius com si en fossin un. Els canvis es reflectiran en "
+"l'exemple inferior."
+
+#: po/tmp/dialog-stf.glade.h:56
+msgid "Select the structure of the text that most closely matches the data."
+msgstr ""
+
+#: po/tmp/dialog-stf.glade.h:57
+msgid "Semicolo_n (;)"
+msgstr "_Punt i coma (;)"
+
+#: po/tmp/dialog-stf.glade.h:58
+msgid "Separation customization"
+msgstr "Personalització del separador"
+
+#: po/tmp/dialog-stf.glade.h:59
+msgid "Separators"
+msgstr "Separadors"
+
+#: po/tmp/dialog-stf.glade.h:60
+#, fuzzy
+msgid "Set the end of this column"
+msgstr "Selecciona una columna completa"
+
+#: po/tmp/dialog-stf.glade.h:61
+msgid "Slas_h (/)"
+msgstr "Barra _diagonal (/)"
+
+#: po/tmp/dialog-stf.glade.h:62
+msgid "Ta_b"
+msgstr "_Tabulació"
+
+#: po/tmp/dialog-stf.glade.h:63
+msgid "Te_xt indicator : "
+msgstr "_Indicador de text: "
+
+#: po/tmp/dialog-stf.glade.h:64
+msgid "Trim :"
+msgstr "SUprimeix espais:"
+
+#: po/tmp/dialog-stf.glade.h:65
+msgid ""
+"Trim leading and trailing spaces from each column, if you are unsure you "
+"should leave this at the default setting"
+msgstr ""
+
+#: po/tmp/dialog-stf.glade.h:67
+#, fuzzy
+msgid "_Adjacent text indicators escaped"
+msgstr "_Suprimir cometes adjacents"
+
+#: po/tmp/dialog-stf.glade.h:68
+msgid "_Clear"
+msgstr "_Buida"
+
+#: po/tmp/dialog-stf.glade.h:69
+msgid "_Colon (:)"
+msgstr "_Dos punts (:)"
+
+#: po/tmp/dialog-stf.glade.h:70
+msgid "_Format :"
+msgstr "_Format :"
+
+#: po/tmp/dialog-stf.glade.h:72
+msgid "_Separated"
+msgstr "_Separat"
+
+#: po/tmp/dialog-stf.glade.h:73
+msgid "_To line : "
+msgstr "_Fins a la línia : "
+
 #: src/dialogs/dialog-workbook-attr.c:168
 msgid "Workbook Attributes"
 msgstr "Atributs del llibre de treball"
+
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * DO NOT compile this file as part of your application.
+#.
+#: po/tmp/dialog-zoom.glade.h:6
+#, fuzzy, c-format
+msgid "%"
+msgstr "%"
+
+#: po/tmp/dialog-zoom.glade.h:7
+#, c-format
+msgid "20_0 %"
+msgstr "20_0 %"
+
+#: po/tmp/dialog-zoom.glade.h:8
+msgid "Magnification"
+msgstr "Augment"
+
+#: po/tmp/dialog-zoom.glade.h:9
+msgid "Sheets"
+msgstr "Fulls"
+
+#: po/tmp/dialog-zoom.glade.h:10 src/workbook-control-gui.c:2239
+#: src/workbook-control-gui.c:2296
+msgid "Zoom"
+msgstr "Zoom"
+
+#: po/tmp/dialog-zoom.glade.h:11
+#, c-format
+msgid "_100 %"
+msgstr "_100 %"
+
+#: po/tmp/dialog-zoom.glade.h:12
+#, c-format
+msgid "_25 %"
+msgstr "_25 %"
+
+#: po/tmp/dialog-zoom.glade.h:13
+#, c-format
+msgid "_50 %"
+msgstr "_50 %"
+
+#: po/tmp/dialog-zoom.glade.h:14
+#, c-format
+msgid "_75 %"
+msgstr "_75 %"
+
+#: po/tmp/dialog-zoom.glade.h:16
+#, c-format
+msgid "_Fit Selection %"
+msgstr "_Adapta sel·lecció %"
+
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * DO NOT compile this file as part of your application.
+#.
+#: po/tmp/font-sel.glade.h:6
+msgid "AaBbCcDdEe12345"
+msgstr "AaBbCcDdEe12345"
+
+#: po/tmp/font-sel.glade.h:7
+msgid "Font style:"
+msgstr "Estil del tipus de lletra:"
+
+#: po/tmp/font-sel.glade.h:8
+msgid "Font:"
+msgstr "Tipus de lletra:"
+
+#: po/tmp/font-sel.glade.h:9
+msgid "Preview"
+msgstr "Previsualització"
+
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * DO NOT compile this file as part of your application.
+#.
+#: po/tmp/formula-guru.glade.h:6
+msgid "Formula Guru"
+msgstr "Fòrmula per a experts"
+
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * DO NOT compile this file as part of your application.
+#.
+#: po/tmp/function-select.glade.h:6
+msgid "Function Selector"
+msgstr "Sel·lector de funcions"
+
+#: po/tmp/function-select.glade.h:7
+msgid "Function _Categories"
+msgstr "_Categories de funcions"
+
+#: po/tmp/function-select.glade.h:8
+msgid "Function _Names"
+msgstr "_Noms de les funcions"
+
+#: po/tmp/function-select.glade.h:9
+msgid "place holder no need to translate"
+msgstr "place holder no need to translate"
+
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * DO NOT compile this file as part of your application.
+#.
+#: po/tmp/hf-config.glade.h:6
+msgid "Center section:"
+msgstr "Secció central:"
+
+#: po/tmp/hf-config.glade.h:7
+msgid "Enter the format strings for each section:"
+msgstr "Entreu cadenes de formatatge per a cada secció:"
+
+#: po/tmp/hf-config.glade.h:8
+msgid "Left section:"
+msgstr "Secció esquerra:"
+
+#: po/tmp/hf-config.glade.h:9
+msgid "Right section:"
+msgstr "Secció dreta:"
+
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * DO NOT compile this file as part of your application.
+#.
+#: po/tmp/import.glade.h:6
+msgid "Choose an import filter for loading the file:"
+msgstr "Escolliu un filtre d'importació per carregar el fitxer:"
+
+#: po/tmp/import.glade.h:7
+msgid "Import"
+msgstr "Importa"
+
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * DO NOT compile this file as part of your application.
+#.
+#: po/tmp/insert-cells.glade.h:6
+msgid "Insert"
+msgstr "Inserta"
+
+#: po/tmp/insert-cells.glade.h:7
+msgid "Insert _column(s)"
+msgstr "Inserta _columna(es)"
+
+#: po/tmp/insert-cells.glade.h:8
+msgid "Insert _row(s)"
+msgstr "Inserta _fila(es)"
+
+#: po/tmp/insert-cells.glade.h:9
+msgid "Insert cells"
+msgstr "Inserta cel·les"
+
+#: po/tmp/insert-cells.glade.h:10
+msgid "Shift cells _down"
+msgstr "Desplaça les cel·les cap _avall"
+
+#: po/tmp/insert-cells.glade.h:11
+msgid "_Shift cells right"
+msgstr "_Desplaça les cel·les cap a la dreta"
+
+#: po/tmp/names.glade.h:7
+msgid "Define Name"
+msgstr "Defineix el nom"
+
+#: po/tmp/names.glade.h:9
+msgid "Name Guru"
+msgstr "Nom expert"
+
+#: po/tmp/plugin-manager.glade.h:7
+msgid "Gnumeric Plugin Manager"
+msgstr "Gestor de connectors de Gnumeric"
+
+#: po/tmp/plugin-manager.glade.h:8
+msgid "Installed Plugins"
+msgstr "Connectors instal·lats"
+
+#: po/tmp/plugin-manager.glade.h:10
+msgid "Path:"
+msgstr "Camí:"
+
+#: po/tmp/plugin-manager.glade.h:13
+msgid "_Description"
+msgstr "_Descripció"
+
+#: po/tmp/plugin-manager.glade.h:14
+msgid "_File Details"
+msgstr "_Detalls del fitxer"
+
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * DO NOT compile this file as part of your application.
+#.
+#: po/tmp/print.glade.h:6
+#, c-format
+msgid "% of normal size"
+msgstr "% de la mida normal"
+
+#: po/tmp/print.glade.h:7
+msgid "Center on page"
+msgstr "Centra dins de la pàgina"
+
+#: po/tmp/gnumeric.xml.h:36 po/tmp/print.glade.h:8
+#: src/workbook-control-gui.c:1722
+msgid "Co_mments"
+msgstr "Co_mentaris"
+
+#: po/tmp/print.glade.h:9
+msgid "Customize _footer"
+msgstr "Personalitza el _peu de pàgina"
+
+#: po/tmp/print.glade.h:10
+msgid "Customize _header"
+msgstr "Personalitza la _capçalera"
+
+#: po/tmp/print.glade.h:11
+msgid "Fi_rst page number:"
+msgstr "_Primer nombre de pàgina:"
+
+#: po/tmp/print.glade.h:12
+msgid "Footer:"
+msgstr "Peu de pàgina:"
+
+#: po/tmp/print.glade.h:13
+msgid "He_ader:"
+msgstr "_Capçalera:"
+
+#: po/tmp/print.glade.h:14
+msgid "Header"
+msgstr "Capçalera"
+
+#: po/tmp/print.glade.h:15
+msgid "Headers and footers"
+msgstr "Capçaleres i peus de pàgina"
+
+#: po/tmp/print.glade.h:16 src/print-info.c:443
+msgid "In"
+msgstr "In"
+
+#: po/tmp/print.glade.h:17
+msgid "Margins"
+msgstr "Marges"
+
+#: po/tmp/print.glade.h:18
+msgid "Options"
+msgstr "Opcions"
+
+#: po/tmp/print.glade.h:20
+msgid "Page"
+msgstr "Pàgina"
+
+#: po/tmp/print.glade.h:21
+msgid "Page order"
+msgstr "Ordre de les pàgines"
+
+#: po/tmp/print.glade.h:22
+msgid "Paper _size:"
+msgstr "_Mida de paper:"
+
+#: po/tmp/print.glade.h:23
+msgid "Por_trait"
+msgstr "_Vertical"
+
+#: po/tmp/gnumeric.xml.h:140 po/tmp/print.glade.h:24
+#: src/workbook-control-gui.c:2047
+msgid "Print"
+msgstr "Imprimeix"
+
+#: po/tmp/print.glade.h:25
+msgid "Print _area:"
+msgstr "_Àrea d'impressió:"
+
+#: po/tmp/gnumeric.xml.h:144 po/tmp/print.glade.h:26 src/print.c:1189
+#: src/workbook-control-gui.c:1696 src/workbook-control-gui.c:2050
+msgid "Print preview"
+msgstr "Imprimeix la visualització prèvia"
+
+#: po/tmp/print.glade.h:27
+msgid "Print setup"
+msgstr "Configuració d'impressió"
+
+#: po/tmp/print.glade.h:28
+msgid "R_ight, then down"
+msgstr "_A la dreta, després avall"
+
+#: po/tmp/print.glade.h:29
+msgid "Row and co_lumn headings"
+msgstr "Títols de les files i les columnes"
+
+#: po/tmp/print.glade.h:30
+msgid "Scale"
+msgstr "Escala"
+
+# src/functions/fn-sheet.c:104
+#: po/tmp/print.glade.h:31 src/functions/fn-sheet.c:135 src/workbook.c:1026
+msgid "Sheet"
+msgstr "Full"
+
+#: po/tmp/print.glade.h:32
+msgid "Titles to print"
+msgstr "Títols a imprimir"
+
+#: po/tmp/print.glade.h:33
+msgid "_Adjust to:"
+msgstr "_Ajusta a:"
+
+#: po/tmp/print.glade.h:34
+msgid "_Black and white"
+msgstr "_Blanc i negre"
+
+#: po/tmp/print.glade.h:35
+msgid "_Bottom:"
+msgstr "_Inferior:"
+
+#: po/tmp/print.glade.h:36
+msgid "_Columns to repeat on the left side:"
+msgstr "_Columnes que s'han de repetir al costat esquerre:"
+
+#: po/tmp/print.glade.h:37
+msgid "_Down, then right"
+msgstr "_Avall, després a la dreta"
+
+#: po/tmp/print.glade.h:38
+msgid "_Fit to:"
+msgstr "_Adapta a:"
+
+#: po/tmp/print.glade.h:39
+msgid "_Footer:"
+msgstr "_Peu de pàgina:"
+
+#: po/tmp/print.glade.h:40
+msgid "_Grid lines"
+msgstr "_Línies de graella"
+
+#: po/tmp/print.glade.h:41
+msgid "_Horizontally"
+msgstr "_Horitzontalment"
+
+#: po/tmp/print.glade.h:42
+msgid "_Landscape"
+msgstr "_Apaïsat"
+
+#: po/tmp/print.glade.h:43
+msgid "_Left:"
+msgstr "_Esquerra:"
+
+#: po/tmp/print.glade.h:44
+msgid "_Right:"
+msgstr "_Dreta:"
+
+#: po/tmp/print.glade.h:45
+msgid "_Rows to repeat on the upper region:"
+msgstr "_Files que s'han de repetir a la regió superior:"
+
+#: po/tmp/print.glade.h:46
+msgid "_Top:"
+msgstr "_Superior:"
+
+#: po/tmp/print.glade.h:47
+msgid "_Units:"
+msgstr "_Unitats:"
+
+#: po/tmp/print.glade.h:48
+msgid "_Vertically"
+msgstr "_Verticalment"
+
+#. 1in = 25.4mm, exact
+#: po/tmp/print.glade.h:49 src/print-info.c:442
+msgid "cm"
+msgstr "cm"
+
+#: po/tmp/print.glade.h:50 src/print-info.c:441
+msgid "mm"
+msgstr "mm"
+
+#: po/tmp/print.glade.h:51
+msgid "page(s) wide by"
+msgstr "l'amplada de la pàgina en"
+
+#: po/tmp/print.glade.h:52 src/print-info.c:440
+msgid "pts"
+msgstr "pts"
+
+#: po/tmp/print.glade.h:53
+msgid "sample goes here"
+msgstr "la mostra va aquí"
+
+#: po/tmp/print.glade.h:54
+msgid "tall"
+msgstr "alt"
+
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * DO NOT compile this file as part of your application.
+#.
+#: po/tmp/row-height.glade.h:6
+msgid "Row height"
+msgstr "Alçada de la fila"
+
+#: po/tmp/row-height.glade.h:7
+msgid "_Row height (pts):"
+msgstr "_Alçada de la fila (pts):"
+
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * DO NOT compile this file as part of your application.
+#.
+#: po/tmp/sheet-order.glade.h:6
+msgid "Close this dialog"
+msgstr "Tanca aquesta finestra"
+
+#: po/tmp/sheet-order.glade.h:8
+msgid "Delete the currently selected sheet"
+msgstr "Suprimeix el full sel·leccionat"
+
+#: po/tmp/sheet-order.glade.h:9
+msgid "Move the currently selected sheet down one position"
+msgstr "Mou el full sel·leccionat una posició cap avall"
+
+#: po/tmp/sheet-order.glade.h:10
+msgid "Move the currently selected sheet up one position"
+msgstr "Mou el full sel·leccionat una posició cap amunt"
+
+#: po/tmp/sheet-order.glade.h:11
+msgid "Order Sheets"
+msgstr "Ordena els fulls"
+
+#: po/tmp/sheet-order.glade.h:12
+msgid "Sheet Name"
+msgstr "Nom del full"
+
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * DO NOT compile this file as part of your application.
+#.
+#: po/tmp/sheet-rename.glade.h:6
+msgid "Enter new _sheet name:"
+msgstr "Introduiu un nou nom de _full:"
+
+#: po/tmp/sheet-rename.glade.h:7
+msgid "Rename sheet"
+msgstr "Reanomena el full"
+
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * DO NOT compile this file as part of your application.
+#.
+#: po/tmp/solver-options.glade.h:6
+msgid "Assume _Linear Model"
+msgstr "Assumeix el model _lineal"
+
+#: po/tmp/solver-options.glade.h:7
+msgid "Assume _Non-Negative"
+msgstr "Assumeix _no-negatiu"
+
+#: po/tmp/solver-options.glade.h:8
+msgid "Solver Options"
+msgstr "Opcions del solucionador"
+
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * DO NOT compile this file as part of your application.
+#.
+#: po/tmp/solver.glade.h:6
+msgid "                         "
+msgstr "                         "
+
+#: po/tmp/solver.glade.h:7
+msgid "Add  "
+msgstr "Afegeix "
+
+#: po/tmp/solver.glade.h:8
+msgid "Add Constraint"
+msgstr "Afegeix restricció"
+
+#: po/tmp/solver.glade.h:9
+msgid "B_y Changing Cells: "
+msgstr "_Canviant les cel·les: "
+
+#: po/tmp/solver.glade.h:10
+msgid "Change Constraint"
+msgstr "Canvia restricció"
+
+#: po/tmp/solver.glade.h:11
+msgid "Equal To:"
+msgstr "Igual a:"
+
+#: po/tmp/solver.glade.h:12
+msgid "Gnumeric Solver Parameters"
+msgstr "Paràmetres del solucionador de Gnumeric"
+
+#: po/tmp/solver.glade.h:13
+msgid "M_in"
+msgstr "M_ín"
+
+#: po/tmp/solver.glade.h:14
+msgid "Options..."
+msgstr "Opcions..."
+
+#: po/tmp/solver.glade.h:15
+msgid "Reports:"
+msgstr "Informes:"
+
+#: po/tmp/solver.glade.h:16
+msgid "Solve"
+msgstr "Resol"
+
+#: po/tmp/solver.glade.h:17
+msgid "Subject to the Constraints:"
+msgstr "Subjecte a les restriccions:"
+
+#: po/tmp/solver.glade.h:19
+msgid "_Answer"
+msgstr "_Respon"
+
+#: po/tmp/solver.glade.h:20
+msgid "_Change"
+msgstr "_Canvia"
+
+#: po/tmp/solver.glade.h:21
+msgid "_Delete"
+msgstr "_Suprimeix"
+
+#: po/tmp/solver.glade.h:22
+msgid "_Keep Solver Solution"
+msgstr "_Mantingues la solució del solucionador"
+
+#: po/tmp/solver.glade.h:23
+msgid "_Left Hand Side:"
+msgstr "Costat _esquerre:"
+
+#: po/tmp/solver.glade.h:24
+msgid "_Limits"
+msgstr "_Límits"
+
+#: po/tmp/solver.glade.h:25
+msgid "_Max"
+msgstr "_Màx"
+
+#: po/tmp/solver.glade.h:26
+msgid "_Restore Original Values"
+msgstr "_Restaura els valors originals"
+
+#: po/tmp/solver.glade.h:27
+msgid "_Right Hand Side:"
+msgstr "Costat _dret:"
+
+#: po/tmp/solver.glade.h:28
+msgid "_Sensitivity"
+msgstr "_Sensibilitat"
+
+#: po/tmp/solver.glade.h:29
+msgid "_Set Target Cell:       "
+msgstr "_Cel·la de destinació:  "
+
+#: po/tmp/solver.glade.h:30
+msgid "_Type:"
+msgstr "_Tipus:"
+
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * DO NOT compile this file as part of your application.
+#.
+#: po/tmp/summary.glade.h:6
+msgid "Author"
+msgstr "Autor"
+
+#: po/tmp/summary.glade.h:7
+msgid "Category"
+msgstr "Categoria"
+
+#: po/tmp/summary.glade.h:8
+msgid "Comments"
+msgstr "Comentaris"
+
+#: po/tmp/summary.glade.h:9
+msgid "Company"
+msgstr "Empresa"
+
+#: po/tmp/summary.glade.h:10
+msgid "Document Summary Information\n"
+msgstr "Informació resum del document\n"
+
+#: po/tmp/summary.glade.h:11
+msgid "Keywords"
+msgstr "Paraules clau"
+
+#: po/tmp/summary.glade.h:12
+msgid "Manager"
+msgstr "Gestor"
+
+#: po/tmp/summary.glade.h:13
+msgid "Summary"
+msgstr "Resum"
+
+#: po/tmp/summary.glade.h:14
+msgid "Title"
+msgstr "Títol"
+
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * DO NOT compile this file as part of your application.
+#.
+#: po/tmp/workbook-attr.glade.h:6
+msgid "Notebook"
+msgstr "Bloc de notes"
+
+#: po/tmp/workbook-attr.glade.h:7
+msgid "Scrollbars"
+msgstr "Barres de desplaçament"
+
+#: po/tmp/workbook-attr.glade.h:8
+msgid "View"
+msgstr "Visualitza"
+
+#: po/tmp/workbook-attr.glade.h:9
+msgid "_Horizontal Scrollbar"
+msgstr "Barra de desplaçament _horitzontal"
+
+#: po/tmp/workbook-attr.glade.h:10
+msgid "_Tabs"
+msgstr "_Tabulacions"
+
+#: po/tmp/workbook-attr.glade.h:11
+msgid "_Vertical Scrollbar"
+msgstr "Brra de desplaçament _vertical"
 
 #: src/expr-name.c:164
 #, fuzzy
@@ -2403,7 +4407,7 @@ msgstr "Operador desconegut"
 msgid "Unknown evaluation error"
 msgstr "Error d'evaluació desconegut"
 
-#: src/file.c:315
+#: src/file.c:316
 msgid ""
 "Could not read file %s\n"
 "%%s"
@@ -2411,7 +4415,7 @@ msgstr ""
 "No s'ha pogut llegir el fitxer %s\n"
 "%%s"
 
-#: src/file.c:410
+#: src/file.c:411
 msgid ""
 "Could not import file %s\n"
 "%%s"
@@ -2419,11 +4423,11 @@ msgstr ""
 "No s'ha pogut importar fitxer %s\n"
 "%%s"
 
-#: src/file.c:510
+#: src/file.c:544
 msgid "File format:"
 msgstr "Format de fitxer:"
 
-#: src/file.c:586
+#: src/file.c:620
 #, c-format
 msgid ""
 "Workbook %s already exists.\n"
@@ -2432,7 +4436,7 @@ msgstr ""
 "El llibre de treball %s ja existeix.\n"
 "Voleu desar-hi a sobre?"
 
-#: src/file.c:629
+#: src/file.c:663
 #, c-format
 msgid ""
 "%s\n"
@@ -2441,7 +4445,7 @@ msgstr ""
 "%s\n"
 "és el nom d'un directori"
 
-#: src/file.c:638
+#: src/file.c:672
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -2450,7 +4454,7 @@ msgstr ""
 "No teniu els permisos necessaris per desar a\n"
 "%s"
 
-#: src/file.c:669
+#: src/file.c:703
 msgid ""
 "Please enter a file name,\n"
 "not a directory"
@@ -2458,7 +4462,7 @@ msgstr ""
 "Introduïu un nom de fitxer,\n"
 "no un directori"
 
-#: src/file.c:677
+#: src/file.c:711
 msgid ""
 "Sorry, there are no file savers loaded,\n"
 "I cannot save"
@@ -2466,7 +4470,7 @@ msgstr ""
 "No s'ha carregat cap desador de fitxer,\n"
 "no puc desar"
 
-#: src/file.c:693 src/file.c:781
+#: src/file.c:727 src/file.c:815
 msgid ""
 "Could not save to file %s\n"
 "%%s"
@@ -2474,11 +4478,11 @@ msgstr ""
 "No s'ha pogut desar el fitxer %s\n"
 "%%s"
 
-#: src/file.c:722
+#: src/file.c:756
 msgid "Save workbook as"
 msgstr "Desa llibre de treball com"
 
-#: src/file.c:804
+#: src/file.c:838
 msgid "Load file"
 msgstr "Carrega fitxer"
 
@@ -2515,12 +4519,12 @@ msgid "yellow"
 msgstr "groc"
 
 #. Is it a boolean?
-#: src/format.c:1631 src/number-match.c:941 src/value-sheet.c:33
+#: src/format.c:1631 src/number-match.c:970 src/value-sheet.c:33
 #: src/value.c:235 src/value.c:468
 msgid "TRUE"
 msgstr "CERT"
 
-#: src/format.c:1631 src/number-match.c:943 src/value-sheet.c:33
+#: src/format.c:1631 src/number-match.c:972 src/value-sheet.c:33
 #: src/value.c:237 src/value.c:468
 msgid "FALSE"
 msgstr "FALS"
@@ -3889,6 +5893,17 @@ msgstr ""
 "@DESCRIPTION=La funció DAVERAGE retorna la mitjana dels valors d'una llista "
 "o base de dades que compleixen unes condicions especificades. \n"
 
+#: src/functions/fn-database.c:500
+msgid ""
+"\n"
+"DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
+"DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
+"DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
+"DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
+"\n"
+"@SEEALSO=DCOUNT"
+msgstr ""
+
 #: src/functions/fn-database.c:561
 msgid ""
 "@FUNCTION=DCOUNT\n"
@@ -3900,6 +5915,16 @@ msgstr ""
 "@SYNTAX=DCOUNT(base de dades,camp,criteri)\n"
 "@DESCRIPTION=La funció DCOUNT compta les cel·les que contenen nombres en una "
 "base de dades i que compleixen les condicions especificades. \n"
+
+#: src/functions/fn-database.c:569
+msgid ""
+"\n"
+"DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
+"DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
+"DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
+"\n"
+"@SEEALSO=DAVERAGE"
+msgstr ""
 
 #: src/functions/fn-database.c:622
 msgid ""
@@ -3913,6 +5938,16 @@ msgstr ""
 "@DESCRIPTION=La funció DCOUNTA compta les cel·les que contenen dades en una "
 "base de dades i que compleixen les condicions especificades. \n"
 
+#: src/functions/fn-database.c:630
+msgid ""
+"\n"
+"DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
+"DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
+"DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
+"\n"
+"@SEEALSO=DCOUNT"
+msgstr ""
+
 #: src/functions/fn-database.c:680
 msgid ""
 "@FUNCTION=DGET\n"
@@ -3924,6 +5959,17 @@ msgstr ""
 "@SYNTAX=DGET(base de dades,camp,criteri)\n"
 "@DESCRIPTION=La funció DGET retorna un sol valor d'una columna que compleix "
 "les condicions especificades. \n"
+
+#: src/functions/fn-database.c:688
+msgid ""
+"\n"
+"DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
+"DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
+"\n"
+"If none of the items match the conditions, DGET returns #VALUE! error. If "
+"more than one items match the conditions, DGET returns #NUM! error. \n"
+"@SEEALSO=DCOUNT"
+msgstr ""
 
 #: src/functions/fn-database.c:748
 msgid ""
@@ -3937,6 +5983,16 @@ msgstr ""
 "@DESCRIPTION=La funció DMAX retorna el nombre més gran d'una columna que "
 "compleix les condicions especificades. \n"
 
+#: src/functions/fn-database.c:756
+msgid ""
+"\n"
+"DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
+"DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
+"DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
+"\n"
+"@SEEALSO=DMIN"
+msgstr ""
+
 #: src/functions/fn-database.c:819
 msgid ""
 "@FUNCTION=DMIN\n"
@@ -3949,6 +6005,15 @@ msgstr ""
 "@DESCRIPTION=La funció DMIN retorna el nombre més petit d'una columna que "
 "compleix les condicions especificades. \n"
 
+#: src/functions/fn-database.c:827
+msgid ""
+"\n"
+"DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
+"DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
+"\n"
+"@SEEALSO=DMAX"
+msgstr ""
+
 #: src/functions/fn-database.c:889
 msgid ""
 "@FUNCTION=DPRODUCT\n"
@@ -3960,6 +6025,14 @@ msgstr ""
 "@SYNTAX=DPRODUCT(base de dades,camp,criteri)\n"
 "@DESCRIPTION=La funció DPRODUCT retorna el producte de nombres d'una columna "
 "que compleixen les condicions especificades. \n"
+
+#: src/functions/fn-database.c:897
+msgid ""
+"\n"
+"DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
+"\n"
+"@SEEALSO=DSUM"
+msgstr ""
 
 #: src/functions/fn-database.c:956
 msgid ""
@@ -3975,6 +6048,15 @@ msgstr ""
 "població basada en una mostra. Les poblacions consisteixen en nombres que "
 "compleixen les condicions especificades. \n"
 
+#: src/functions/fn-database.c:965
+msgid ""
+"\n"
+"DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
+"DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
+"\n"
+"@SEEALSO=DSTDEVP"
+msgstr ""
+
 #: src/functions/fn-database.c:1022
 msgid ""
 "@FUNCTION=DSTDEVP\n"
@@ -3989,6 +6071,15 @@ msgstr ""
 "basada en les poblacions senceres. Les poblacions consisteixen en nombres "
 "que compleixen les condicions especificades. \n"
 
+#: src/functions/fn-database.c:1031
+msgid ""
+"\n"
+"DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
+"DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
+"\n"
+"@SEEALSO=DSTDEV"
+msgstr ""
+
 #: src/functions/fn-database.c:1090
 msgid ""
 "@FUNCTION=DSUM\n"
@@ -4000,6 +6091,15 @@ msgstr ""
 "@SYNTAX=DSUM(base de dades,camp,criteri)\n"
 "@DESCRIPTION=La funció DSUM retorna la suma dels nombres d'una columna que "
 "compleixen les condicions especificades. \n"
+
+#: src/functions/fn-database.c:1098
+msgid ""
+"\n"
+"DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
+"DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
+"\n"
+"@SEEALSO=DPRODUCT"
+msgstr ""
 
 #: src/functions/fn-database.c:1157
 msgid ""
@@ -4015,6 +6115,15 @@ msgstr ""
 "població basada en una mostra. Les poblacions consisteixen en nombres que "
 "compleixen les condicions especificades. \n"
 
+#: src/functions/fn-database.c:1166
+msgid ""
+"\n"
+"DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
+"DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
+"\n"
+"@SEEALSO=DVARP"
+msgstr ""
+
 #: src/functions/fn-database.c:1225
 msgid ""
 "@FUNCTION=DVARP\n"
@@ -4028,6 +6137,15 @@ msgstr ""
 "@DESCRIPTION=La funció DVARP retorna la variança de la població basada en "
 "poblacions senceres. Les poblacions consisteixen en nombres que compleixen "
 "les condicions especificades. \n"
+
+#: src/functions/fn-database.c:1234
+msgid ""
+"\n"
+"DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
+"DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
+"\n"
+"@SEEALSO=DVAR"
+msgstr ""
 
 #: src/functions/fn-database.c:1294
 msgid ""
@@ -7240,7 +9358,7 @@ msgstr "%s versió %s"
 
 # src/functions/fn-information.c:308 src/workbook-format-toolbar.c:649
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/functions/fn-information.c:320 src/workbook-format-toolbar.c:747
+#: src/functions/fn-information.c:320 src/workbook-format-toolbar.c:759
 msgid "Automatic"
 msgstr "Automàtic"
 
@@ -10076,11 +12194,6 @@ msgstr ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
-
-# src/functions/fn-sheet.c:104
-#: src/functions/fn-sheet.c:135 src/workbook.c:1026
-msgid "Sheet"
-msgstr "Full"
 
 # src/functions/fn-stat.c:120
 #: src/functions/fn-stat.c:121
@@ -12989,17 +15102,17 @@ msgstr "Previsualitza el fitxer/la impressió"
 msgid "File/"
 msgstr "Fitxer/"
 
-#: src/item-bar.c:494
+#: src/item-bar.c:502
 #, c-format
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Alçada: %.2f pts (%d píxels)"
 
-#: src/item-bar.c:497
+#: src/item-bar.c:505
 #, c-format
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "Amplada: %.2f pts (%d píxels)"
 
-#: src/item-cursor.c:787
+#: src/item-cursor.c:794
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
@@ -13009,46 +15122,47 @@ msgstr ""
 "cel·les existents en aquest abast. Voleu substituir el contingut \n"
 "d'aquestes regions?"
 
-#: src/item-cursor.c:889
+#: src/item-cursor.c:896
 #, fuzzy
 msgid "_Move"
 msgstr "Mou"
 
-#: src/item-cursor.c:892 src/sheet-control-gui.c:1116
+#: po/tmp/gnumeric.xml.h:200 src/item-cursor.c:899
+#: src/sheet-control-gui.c:1127
 msgid "_Copy"
 msgstr "_Copia"
 
-#: src/item-cursor.c:895
+#: src/item-cursor.c:902
 #, fuzzy
 msgid "Copy _Formats"
 msgstr "Copia formats"
 
-#: src/item-cursor.c:897
+#: src/item-cursor.c:904
 #, fuzzy
 msgid "Copy _Values"
 msgstr "Copia valors"
 
-#: src/item-cursor.c:902
+#: src/item-cursor.c:909
 #, fuzzy
 msgid "Shift _Down and Copy"
 msgstr "Desplaça cel·les avall i copia"
 
-#: src/item-cursor.c:904
+#: src/item-cursor.c:911
 #, fuzzy
 msgid "Shift _Right and Copy"
 msgstr "Desplaça cel·les a la dreta i copia"
 
-#: src/item-cursor.c:906
+#: src/item-cursor.c:913
 #, fuzzy
 msgid "Shift Dow_n and Move"
 msgstr "Desplaça cel·les avall i mou"
 
-#: src/item-cursor.c:908
+#: src/item-cursor.c:915
 #, fuzzy
 msgid "Shift Righ_t and Move"
 msgstr "Desplaça cel·les a la dreta i mou"
 
-#: src/item-cursor.c:913
+#: src/item-cursor.c:920
 #, fuzzy
 msgid "C_ancel"
 msgstr "_Espai"
@@ -13133,11 +15247,11 @@ msgstr ""
 "Habilita la comprovació extra de consistència mentre es llegeixen fitxers ole"
 
 #: src/main.c:158
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"gnumeric version %s\n"
-"datadir := %s\n"
-"libdir := %s\n"
+"gnumeric version '%s'\n"
+"datadir := '%s'\n"
+"libdir := '%s'\n"
 msgstr ""
 "versió de Gnumeric %s\n"
 "datadir := %s\n"
@@ -13155,35 +15269,35 @@ msgid "Could not initialize EmbeddableGrid factory"
 msgstr ""
 "No s'ha pogut inicialitzar el creador de llibres de treball de Gnumeric"
 
-#: src/number-match.c:585
+#: src/number-match.c:613
 msgid "#NULL!"
 msgstr "#NULL!"
 
-#: src/number-match.c:586
+#: src/number-match.c:614
 msgid "#DIV/0!"
 msgstr "#DIV/0!"
 
-#: src/number-match.c:587
+#: src/number-match.c:615
 msgid "#VALUE!"
 msgstr "#VALUE!"
 
-#: src/number-match.c:588
+#: src/number-match.c:616
 msgid "#REF!"
 msgstr "#REF!"
 
-#: src/number-match.c:589
+#: src/number-match.c:617
 msgid "#NAME?"
 msgstr "#NAME?"
 
-#: src/number-match.c:590
+#: src/number-match.c:618
 msgid "#NUM!"
 msgstr "#NUM!"
 
-#: src/number-match.c:591
+#: src/number-match.c:619
 msgid "#N/A"
 msgstr "#N/A"
 
-#: src/number-match.c:592
+#: src/number-match.c:620
 msgid "#RECALC!"
 msgstr "#RECALC!"
 
@@ -13265,33 +15379,16 @@ msgid "&[DATE]"
 msgstr "&[DATE]"
 
 #: src/print-info.c:440
-msgid "pts"
-msgstr "pts"
-
-#: src/print-info.c:440
 msgid "points"
 msgstr "punts"
-
-#: src/print-info.c:441
-msgid "mm"
-msgstr "mm"
 
 #: src/print-info.c:441
 msgid "millimeter"
 msgstr "milímetre"
 
-#. 1in = 25.4mm, exact
-#: src/print-info.c:442
-msgid "cm"
-msgstr "cm"
-
 #: src/print-info.c:442
 msgid "centimeter"
 msgstr "centímetre"
-
-#: src/print-info.c:443
-msgid "In"
-msgstr "In"
 
 #: src/print-info.c:443
 msgid "inch"
@@ -13326,7 +15423,7 @@ msgstr "hora"
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:985 src/workbook-control-gui.c:2497
+#: src/print.c:985 src/workbook-control-gui.c:2494
 msgid "Selection must be a single range"
 msgstr "La selecció ha de ser d'un sol abast"
 
@@ -13342,88 +15439,108 @@ msgstr "Full act_iu"
 msgid "S_heets"
 msgstr "_Fulls"
 
-#: src/print.c:1189 src/workbook-control-gui.c:1693
-#: src/workbook-control-gui.c:2053
-msgid "Print preview"
-msgstr "Imprimeix la visualització prèvia"
-
 #: src/print.c:1199
 msgid "Printing failed"
 msgstr "Ha fallat la impressió"
 
-#: src/selection.c:60
-#, c-format
-msgid "%dLx%dC"
-msgstr ""
-
-#: src/selection.c:107
+#: src/selection.c:93
 msgid "cannot be performed with multiple selections"
 msgstr "no es pot realitzar amb seleccions múltiples"
 
 #. FIXME FIXME : disable copying part of an array
-#: src/selection.c:612
+#: src/selection.c:580
 msgid "copy"
 msgstr "copia"
 
-#: src/selection.c:642
+#: src/selection.c:610
 msgid "cut"
 msgstr "retalla"
 
-#: src/sheet-control-gui.c:473
+#: src/sheet-control-gui.c:483
 #, c-format
 msgid "Row: %d"
 msgstr "Fila: %d"
 
-#: src/sheet-control-gui.c:484
+#: src/sheet-control-gui.c:494
 #, c-format
 msgid "Column: %s"
 msgstr "Columna: %s"
 
-#: src/sheet-control-gui.c:1114
+#: po/tmp/gnumeric.xml.h:53 src/sheet-control-gui.c:1125
 msgid "Cu_t"
 msgstr "Tall_a"
 
-#: src/sheet-control-gui.c:1118
+#: po/tmp/gnumeric.xml.h:219 src/sheet-control-gui.c:1129
 msgid "_Paste"
 msgstr "_Enganxa"
 
-#: src/sheet-control-gui.c:1120
+#: src/sheet-control-gui.c:1131
 msgid "Paste _Special"
 msgstr "Enganxa_especial"
 
-#: src/sheet-control-gui.c:1125
+#. TODO : One day make the labels smarter.  Generate them to include
+#. * quantities.
+#. * 	eg : Insert 4 rows
+#. * 	or : Insert row
+#. * This is hard for now because there is no memory management for the label
+#. * strings, and the logic that knows the count is elsewhere
+#.
+#: src/sheet-control-gui.c:1143
 msgid "_Insert..."
 msgstr "_Inserta..."
 
-#: src/sheet-control-gui.c:1127 src/workbook-control-gui.c:1776
+#: po/tmp/gnumeric.xml.h:204 src/sheet-control-gui.c:1145
+#: src/workbook-control-gui.c:1779
 msgid "_Delete..."
 msgstr "_Suprimeix"
 
-#: src/sheet-control-gui.c:1129
+#: src/sheet-control-gui.c:1147
+#, fuzzy
+msgid "_Insert Column(s)"
+msgstr "Insereix columnes"
+
+#: src/sheet-control-gui.c:1149
+#, fuzzy
+msgid "_Delete Column(s)"
+msgstr "Suprimeix columnes"
+
+#: src/sheet-control-gui.c:1151
+#, fuzzy
+msgid "_Insert Row(s)"
+msgstr "Insereix files"
+
+#: src/sheet-control-gui.c:1153
+#, fuzzy
+msgid "_Delete Row(s)"
+msgstr "Suprimeix files"
+
+#: src/sheet-control-gui.c:1156
 msgid "Clear Co_ntents"
 msgstr "Buida Co_ntingut"
 
-#: src/sheet-control-gui.c:1134
+#: src/sheet-control-gui.c:1162
 msgid "_Format Cells..."
 msgstr "_Format de cel·les..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1138
+#: src/sheet-control-gui.c:1166
 msgid "Column _Width..."
 msgstr "Amplada de _Columna..."
 
-#: src/sheet-control-gui.c:1140 src/sheet-control-gui.c:1148
-#: src/workbook-control-gui.c:1886 src/workbook-control-gui.c:1905
+#: po/tmp/gnumeric.xml.h:213 src/sheet-control-gui.c:1168
+#: src/sheet-control-gui.c:1176 src/workbook-control-gui.c:1883
+#: src/workbook-control-gui.c:1902
 msgid "_Hide"
 msgstr "_Oculta"
 
-#: src/sheet-control-gui.c:1142 src/sheet-control-gui.c:1150
-#: src/workbook-control-gui.c:1889 src/workbook-control-gui.c:1908
+#: po/tmp/gnumeric.xml.h:234 src/sheet-control-gui.c:1170
+#: src/sheet-control-gui.c:1178 src/workbook-control-gui.c:1886
+#: src/workbook-control-gui.c:1905
 msgid "_Unhide"
 msgstr "_Mostra"
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1146
+#: src/sheet-control-gui.c:1174
 msgid "_Row Height..."
 msgstr "_Alçada de columna..."
 
@@ -13432,44 +15549,41 @@ msgstr "_Alçada de columna..."
 msgid "can't create object for '%s'"
 msgstr "No es pot crear el fitxer %s\n"
 
-#: src/sheet-object-widget.c:254 src/workbook-object-toolbar.c:135
+#: po/tmp/gnumeric.xml.h:18 src/sheet-object-widget.c:255
+#: src/workbook-object-toolbar.c:135
 msgid "Button"
 msgstr "Botó"
 
-#: src/sheet-object-widget.c:492
+#: src/sheet-object-widget.c:494
 msgid "Checkbox Configure"
 msgstr "Quadre de verificació Configura"
-
-#: src/sheet-object.c:65
-msgid "Delete"
-msgstr "Suprimeix"
 
 #: src/sheet-object.c:73
 msgid "Configure"
 msgstr "Configura"
 
-#: src/sheet.c:2758 src/sheet.c:2768
+#: src/sheet.c:2757 src/sheet.c:2767
 msgid "Insert Columns"
 msgstr "Insereix columnes"
 
-#: src/sheet.c:2839
+#: src/sheet.c:2838
 msgid "Delete Columns"
 msgstr "Suprimeix columnes"
 
-#: src/sheet.c:2909 src/sheet.c:2919
+#: src/sheet.c:2908 src/sheet.c:2918
 msgid "Insert Rows"
 msgstr "Insereix files"
 
-#: src/sheet.c:2990
+#: src/sheet.c:2989
 msgid "Delete Rows"
 msgstr "Suprimeix files"
 
-#: src/sheet.c:3867
+#: src/sheet.c:3866
 #, fuzzy
 msgid "Merge"
 msgstr "Mitjana"
 
-#: src/sheet.c:3874
+#: src/sheet.c:3873
 msgid "There is already a merged region that intersects"
 msgstr ""
 
@@ -13559,10 +15673,6 @@ msgstr "Objectiu"
 #: src/solver-lp.c:1110
 msgid "Allowable"
 msgstr "Permissible"
-
-#: src/solver-lp.c:1065 src/solver-lp.c:1114
-msgid "Value"
-msgstr "Valor"
 
 #: src/solver-lp.c:1066
 msgid "Cost"
@@ -13690,7 +15800,8 @@ msgstr "no s'ha trobat al lloc esperat"
 msgid "Terminate"
 msgstr "Acaba"
 
-#: src/widgets/widget-font-selector.c:130 src/workbook-format-toolbar.c:365
+#: po/tmp/gnumeric.xml.h:16 src/widgets/widget-font-selector.c:130
+#: src/workbook-format-toolbar.c:372
 msgid "Bold"
 msgstr "Negreta"
 
@@ -13698,7 +15809,7 @@ msgstr "Negreta"
 msgid "Bold italic"
 msgstr "Negreta cursiva"
 
-#: src/widgets/widget-font-selector.c:132 src/workbook-format-toolbar.c:372
+#: src/widgets/widget-font-selector.c:132 src/workbook-format-toolbar.c:379
 msgid "Italic"
 msgstr "Cursiva"
 
@@ -13710,173 +15821,161 @@ msgstr "Heu introduit una amplada de columna no vàlida. Ha de ser major que 0"
 msgid "You entered an invalid row height value.  It must be bigger than 0"
 msgstr "Heu introduit una alçada de fila no vàlida. Ha de ser major de 0"
 
-#: src/workbook-format-toolbar.c:362
+#: src/workbook-format-toolbar.c:369
 #, fuzzy
 msgid "Select font"
 msgstr "Selecciona una _fila"
 
-#: src/workbook-format-toolbar.c:362 src/workbook-format-toolbar.c:766
+#: po/tmp/gnumeric.xml.h:77 src/workbook-format-toolbar.c:369
+#: src/workbook-format-toolbar.c:778
 msgid "Font selector"
 msgstr "Selector de tipus de lletra"
 
-#: src/workbook-format-toolbar.c:365
+#: src/workbook-format-toolbar.c:372
 msgid "Sets the bold font"
 msgstr "Especifica la lletra negreta"
 
-#: src/workbook-format-toolbar.c:372
+#: src/workbook-format-toolbar.c:379
 msgid "Makes the font italic"
 msgstr "Fa la lletra itàlic"
 
-#: src/workbook-format-toolbar.c:379
+#: po/tmp/gnumeric.xml.h:186 src/workbook-format-toolbar.c:386
 msgid "Underline"
 msgstr "Subratlla"
 
-#: src/workbook-format-toolbar.c:379
+#: src/workbook-format-toolbar.c:386
 msgid "Underlines the font"
 msgstr "Subratlla la lletra"
 
-#: src/workbook-format-toolbar.c:388
+#: src/workbook-format-toolbar.c:395
 msgid "Left align"
 msgstr "Alinea a l'esquerra"
 
-#: src/workbook-format-toolbar.c:388
+#: src/workbook-format-toolbar.c:395
 msgid "Left justifies the cell contents"
 msgstr "Justifica a l'esquerra el contingut de la cel·la"
 
-#: src/workbook-format-toolbar.c:392
+#: po/tmp/gnumeric.xml.h:21 src/workbook-format-toolbar.c:399
 msgid "Center"
 msgstr "Centra"
 
-#: src/workbook-format-toolbar.c:392
+#: src/workbook-format-toolbar.c:399
 msgid "Centers the cell contents"
 msgstr "Centra el contingut de la cel·la"
 
-#: src/workbook-format-toolbar.c:396
+#: src/workbook-format-toolbar.c:403
 msgid "Right align"
 msgstr "Alinea a la dreta"
 
-#: src/workbook-format-toolbar.c:396
+#: src/workbook-format-toolbar.c:403
 msgid "Right justifies the cell contents"
 msgstr "Justifica a la dreta el contingut de la cel·la"
 
-#: src/workbook-format-toolbar.c:403
+#: src/workbook-format-toolbar.c:407
+#, fuzzy
+msgid "Center across selection"
+msgstr "Centra _a través de la selecció"
+
+#: src/workbook-format-toolbar.c:414
 msgid "Money format"
 msgstr "Format de diner"
 
-#: src/workbook-format-toolbar.c:403
+#: src/workbook-format-toolbar.c:414
 msgid "Sets the format of the selected cells to monetary"
 msgstr "Defineix el format de les cel·les seleccionades com a monetari"
 
-#: src/workbook-format-toolbar.c:406
+#: src/workbook-format-toolbar.c:417
 msgid "Sets the format of the selected cells to percentage"
 msgstr "Defineix el format de les cel·les seleccionades com a percentatge"
 
-#: src/workbook-format-toolbar.c:409
+#: src/workbook-format-toolbar.c:420
 msgid "Thousand separator"
 msgstr "Separador de milers"
 
-#: src/workbook-format-toolbar.c:409
+#: src/workbook-format-toolbar.c:420
 msgid "Sets the format of the selected cells to include a thousands separator"
 msgstr ""
 "Defineix el format de les cel·les seleccionades per incloure separadors de "
 "milers"
 
-#: src/workbook-format-toolbar.c:412
+#: src/workbook-format-toolbar.c:423
 msgid "Add decimals"
 msgstr "Afegeix decimals"
 
-#: src/workbook-format-toolbar.c:412
+#: src/workbook-format-toolbar.c:423
 msgid "Increases the number of decimal numbers displayed"
 msgstr "Incrementa el nombre de números decimals mostrats"
 
-#: src/workbook-format-toolbar.c:415
+#: src/workbook-format-toolbar.c:426
 msgid "Remove decimals"
 msgstr "Elimina decimals"
 
-#: src/workbook-format-toolbar.c:415
+#: src/workbook-format-toolbar.c:426
 msgid "Decreases the number of decimal numbers displayed"
 msgstr "Disminueix el nombre de números decimals mostrats"
 
-#: src/workbook-format-toolbar.c:532
-msgid "Left"
-msgstr "Esquerra"
-
-#: src/workbook-format-toolbar.c:533
+#: src/workbook-format-toolbar.c:545
 msgid "Clear Borders"
 msgstr "Suprimir les vores"
 
-#: src/workbook-format-toolbar.c:534
-msgid "Right"
-msgstr "Dreta"
-
-#: src/workbook-format-toolbar.c:536
+#: src/workbook-format-toolbar.c:548
 msgid "All Borders"
 msgstr "Totes les vores"
 
-#: src/workbook-format-toolbar.c:537
+#: src/workbook-format-toolbar.c:549
 msgid "Outside Borders"
 msgstr "Vores exteriors"
 
-#: src/workbook-format-toolbar.c:538
+#: src/workbook-format-toolbar.c:550
 msgid "Thick Outside Borders"
 msgstr "Vores gruixudes exteriors"
 
-#: src/workbook-format-toolbar.c:540
-msgid "Bottom"
-msgstr "Inferior"
-
-#: src/workbook-format-toolbar.c:541
+#: src/workbook-format-toolbar.c:553
 msgid "Double Bottom"
 msgstr "Dobla la part inferior"
 
-#: src/workbook-format-toolbar.c:542
+#: src/workbook-format-toolbar.c:554
 msgid "Thick Bottom"
 msgstr "Part interior gruixuda"
 
-#: src/workbook-format-toolbar.c:544
+#: src/workbook-format-toolbar.c:556
 msgid "Top and Bottom"
 msgstr "Part superior i part inferior"
 
-#: src/workbook-format-toolbar.c:545
+#: src/workbook-format-toolbar.c:557
 msgid "Top and Double Bottom"
 msgstr "Part superior i doble part inferior"
 
-#: src/workbook-format-toolbar.c:546
+#: src/workbook-format-toolbar.c:558
 msgid "Top and Thick Bottom"
 msgstr "Part superior i part inferior gruixuda"
 
-#: src/workbook-format-toolbar.c:679
-msgid "Font"
-msgstr "Tipus de lletra"
-
-#: src/workbook-format-toolbar.c:706
+#: src/workbook-format-toolbar.c:718
 msgid "Size"
 msgstr "Talla"
 
-#: src/workbook-format-toolbar.c:729 src/workbook-format-toolbar.c:771
+#: po/tmp/gnumeric.xml.h:17 src/workbook-format-toolbar.c:741
+#: src/workbook-format-toolbar.c:783
 msgid "Borders"
 msgstr "Vores"
 
 #.
 #. * Create the background colour combo box.
 #.
-#: src/workbook-format-toolbar.c:734
+#: src/workbook-format-toolbar.c:746
 msgid "Clear Background"
 msgstr "Buida el fons"
 
-#: src/workbook-format-toolbar.c:742 src/workbook-format-toolbar.c:774
-msgid "Background"
-msgstr "Fons"
-
-#: src/workbook-format-toolbar.c:756 src/workbook-format-toolbar.c:777
+#: po/tmp/gnumeric.xml.h:78 src/workbook-format-toolbar.c:768
+#: src/workbook-format-toolbar.c:789
 msgid "Foreground"
 msgstr "Primer pla"
 
-#: src/workbook-format-toolbar.c:768
+#: po/tmp/gnumeric.xml.h:76 src/workbook-format-toolbar.c:780
 msgid "Font Size"
 msgstr "Mida de la lletra"
 
-#: src/workbook-object-toolbar.c:129
+#: po/tmp/gnumeric.xml.h:113 src/workbook-object-toolbar.c:129
 msgid "Label"
 msgstr "Etiqueta"
 
@@ -13884,7 +15983,7 @@ msgstr "Etiqueta"
 msgid "Creates a label"
 msgstr "Crea una etiqueta"
 
-#: src/workbook-object-toolbar.c:132
+#: po/tmp/gnumeric.xml.h:82 src/workbook-object-toolbar.c:132
 msgid "Frame"
 msgstr "Marc"
 
@@ -13896,7 +15995,7 @@ msgstr "Crea un marc"
 msgid "Creates a button"
 msgstr "Crea un botó"
 
-#: src/workbook-object-toolbar.c:138
+#: po/tmp/gnumeric.xml.h:29 src/workbook-object-toolbar.c:138
 msgid "Checkbox"
 msgstr "Quadre de verificació"
 
@@ -13912,7 +16011,7 @@ msgstr "Botó de ràdio"
 msgid "Creates a radio button"
 msgstr "Crea un botó de ràdio"
 
-#: src/workbook-object-toolbar.c:144
+#: po/tmp/gnumeric.xml.h:117 src/workbook-object-toolbar.c:144
 msgid "List"
 msgstr "Llista"
 
@@ -13929,14 +16028,10 @@ msgid "Creates a combobox"
 msgstr "Crea un quadre combinat"
 
 #: src/workbook-object-toolbar.c:150
-msgid "Line"
-msgstr "Línia"
-
-#: src/workbook-object-toolbar.c:150
 msgid "Creates a line object"
 msgstr "Crea un objecte de línia"
 
-#: src/workbook-object-toolbar.c:153
+#: po/tmp/gnumeric.xml.h:11 src/workbook-object-toolbar.c:153
 msgid "Arrow"
 msgstr "Fletxa"
 
@@ -13944,7 +16039,7 @@ msgstr "Fletxa"
 msgid "Creates an arrow object"
 msgstr "Crea un objecte de fletxa"
 
-#: src/workbook-object-toolbar.c:156
+#: po/tmp/gnumeric.xml.h:150 src/workbook-object-toolbar.c:156
 msgid "Rectangle"
 msgstr "Rectangle"
 
@@ -13960,7 +16055,12 @@ msgstr "Elipse"
 msgid "Creates an ellipse object"
 msgstr "Crea un objecte d'elipse"
 
-#: src/workbook-view.c:243
+#: src/workbook-view.c:210
+#, c-format
+msgid "%dLx%dC"
+msgstr ""
+
+#: src/workbook-view.c:354
 msgid "Internal ERROR"
 msgstr "ERROR intern"
 
@@ -13968,579 +16068,557 @@ msgstr "ERROR intern"
 msgid " : Gnumeric"
 msgstr " : Gnumeric"
 
-#: src/workbook-control-gui.c:404
+#: src/workbook-control-gui.c:407
 msgid "Add another sheet"
 msgstr "Afegeix un altre full"
 
-#: src/workbook-control-gui.c:405
+#: src/workbook-control-gui.c:408
 msgid "Remove this sheet"
 msgstr "Elimina aquest full"
 
-#: src/workbook-control-gui.c:406
+#: src/workbook-control-gui.c:409
 msgid "Rename this sheet"
 msgstr "Reanomena aquest full"
 
-#: src/workbook-control-gui.c:407
+#: src/workbook-control-gui.c:410
 msgid "Duplicate this sheet"
 msgstr "Duplica aquest full"
 
-#: src/workbook-control-gui.c:408
+#: src/workbook-control-gui.c:411
 msgid "Re-order sheets"
 msgstr "Torna a ordenar els fulls"
 
-#: src/workbook-control-gui.c:721
+#: src/workbook-control-gui.c:724
 msgid "Nothing"
 msgstr "Res"
 
-#: src/workbook-control-gui.c:748 src/workbook-control-gui.c:752
-#: src/workbook-control-gui.c:2072 src/workbook-control-gui.c:2255
-#: src/workbook-control-gui.c:2295
+#: src/workbook-control-gui.c:751 src/workbook-control-gui.c:755
+#: src/workbook-control-gui.c:2069 src/workbook-control-gui.c:2252
+#: src/workbook-control-gui.c:2292
 msgid "Undo"
 msgstr "Desfés"
 
-#: src/workbook-control-gui.c:749 src/workbook-control-gui.c:754
-#: src/workbook-control-gui.c:2075 src/workbook-control-gui.c:2263
-#: src/workbook-control-gui.c:2297
+#: src/workbook-control-gui.c:752 src/workbook-control-gui.c:757
+#: src/workbook-control-gui.c:2072 src/workbook-control-gui.c:2260
+#: src/workbook-control-gui.c:2294
 msgid "Redo"
 msgstr "Refés"
 
-#: src/workbook-control-gui.c:829
+#: src/workbook-control-gui.c:832
 msgid "Would split an array."
 msgstr "Dividiria una cadena"
 
-#: src/workbook-control-gui.c:872
+#: src/workbook-control-gui.c:875
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr "Hi ha canvis no desats en el llibre de treball %s, els voleu desar?"
 
-#: src/workbook-control-gui.c:875
+#: src/workbook-control-gui.c:878
 msgid "Workbook has unsaved changes, save them?"
 msgstr "Hi ha canvis no desats en el llibre de treball, els voleu desar?"
 
 #. TODO : No need to check simplicty.  XL applies for each
 #. * non-discrete selected region, (use selection_apply)
-#: src/workbook-control-gui.c:1303
+#: src/workbook-control-gui.c:1306
 msgid "Insert rows"
 msgstr "Inserta files"
 
 #. TODO : No need to check simplicty.  XL applies for each
 #. * non-discrete selected region, (use selection_apply)
-#: src/workbook-control-gui.c:1327
+#: src/workbook-control-gui.c:1330
 msgid "Insert cols"
 msgstr "Inserta columnes"
 
-#: src/workbook-control-gui.c:1356 src/workbook-control-gui.c:1629
+#: src/workbook-control-gui.c:1359 src/workbook-control-gui.c:1632
 msgid "Select an object to add"
 msgstr "Seleccioneu un objecte per afegir"
 
-#: src/workbook-control-gui.c:1679
+#: po/tmp/gnumeric.xml.h:216 src/workbook-control-gui.c:1682
 msgid "_New"
 msgstr "_Nou"
 
-#: src/workbook-control-gui.c:1679
+#: po/tmp/gnumeric.xml.h:49 src/workbook-control-gui.c:1682
 msgid "Create a new spreadsheet"
 msgstr "Crea un nou full de difusió"
 
-#: src/workbook-control-gui.c:1683
+#: src/workbook-control-gui.c:1686
 msgid "_Import..."
 msgstr "_Importa..."
 
-#: src/workbook-control-gui.c:1683
+#: po/tmp/gnumeric.xml.h:92 src/workbook-control-gui.c:1686
 msgid "Imports a file"
 msgstr "Importa un fitxer"
 
-#: src/workbook-control-gui.c:1693 src/workbook-control-gui.c:2053
+#: src/workbook-control-gui.c:1696 src/workbook-control-gui.c:2050
 msgid "Print pre_view"
 msgstr "Imprimeix la visualització prèvia"
 
-#: src/workbook-control-gui.c:1699
+#: po/tmp/gnumeric.xml.h:178 src/workbook-control-gui.c:1702
 msgid "Su_mmary..."
 msgstr "Su_mari..."
 
-#: src/workbook-control-gui.c:1700
+#: po/tmp/gnumeric.xml.h:181 src/workbook-control-gui.c:1703
 msgid "Summary information"
 msgstr "Informació del sumari"
 
-#: src/workbook-control-gui.c:1713
+#: po/tmp/gnumeric.xml.h:191 src/workbook-control-gui.c:1716
 msgid "_All"
 msgstr "_Tot"
 
-#: src/workbook-control-gui.c:1714
+#: po/tmp/gnumeric.xml.h:33 src/workbook-control-gui.c:1717
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr ""
 "Suprimeix els formats, comentaris i continguts de les cel·les seleccionades"
 
-#: src/workbook-control-gui.c:1716
+#: po/tmp/gnumeric.xml.h:208 src/workbook-control-gui.c:1719
 msgid "_Formats"
 msgstr "_Formats"
 
-#: src/workbook-control-gui.c:1717
+#: po/tmp/gnumeric.xml.h:32 src/workbook-control-gui.c:1720
 msgid "Clear the selected cells' formats"
 msgstr "Suprimeix els formats de les cel·les seleccionades"
 
-#: src/workbook-control-gui.c:1719
-msgid "Co_mments"
-msgstr "Co_mentaris"
-
-#: src/workbook-control-gui.c:1720
+#: po/tmp/gnumeric.xml.h:30 src/workbook-control-gui.c:1723
 msgid "Clear the selected cells' comments"
 msgstr "Suprimeix els comentaris de les cel·les seleccionades"
 
-#: src/workbook-control-gui.c:1722
+#: po/tmp/gnumeric.xml.h:199 src/workbook-control-gui.c:1725
 msgid "_Content"
 msgstr "_Contingut"
 
-#: src/workbook-control-gui.c:1723
+#: po/tmp/gnumeric.xml.h:31 src/workbook-control-gui.c:1726
 msgid "Clear the selected cells' contents"
 msgstr "Suprimeix els continguts de les cel·les seleccionades"
 
-#: src/workbook-control-gui.c:1731
+#: po/tmp/gnumeric.xml.h:162 src/workbook-control-gui.c:1734
 msgid "Select _All"
 msgstr "Selecciona-ho _tot"
 
-#: src/workbook-control-gui.c:1732
+#: po/tmp/gnumeric.xml.h:166 src/workbook-control-gui.c:1735
 msgid "Select all cells in the spreadsheet"
 msgstr "Selecciona totes les cel·les del full de difusió"
 
-#: src/workbook-control-gui.c:1736
+#: po/tmp/gnumeric.xml.h:165 src/workbook-control-gui.c:1739
 msgid "Select _Row"
 msgstr "Selecciona una _fila"
 
-#: src/workbook-control-gui.c:1737
+#: po/tmp/gnumeric.xml.h:170 src/workbook-control-gui.c:1740
 msgid "Select an entire row"
 msgstr "Selecciona una fila completa"
 
-#: src/workbook-control-gui.c:1741
+#: po/tmp/gnumeric.xml.h:163 src/workbook-control-gui.c:1744
 msgid "Select _Column"
 msgstr "Selecciona una _columna"
 
-#: src/workbook-control-gui.c:1742
+#: po/tmp/gnumeric.xml.h:169 src/workbook-control-gui.c:1745
 msgid "Select an entire column"
 msgstr "Selecciona una columna completa"
 
-#: src/workbook-control-gui.c:1746
+#: po/tmp/gnumeric.xml.h:161 src/workbook-control-gui.c:1749
 msgid "Select Arra_y"
 msgstr "Selecciona una matri_u"
 
-#: src/workbook-control-gui.c:1747
+#: po/tmp/gnumeric.xml.h:168 src/workbook-control-gui.c:1750
 msgid "Select an array of cells"
 msgstr "Selecciona una matriu de cel·les"
 
-#: src/workbook-control-gui.c:1751
+#: po/tmp/gnumeric.xml.h:164 src/workbook-control-gui.c:1754
 msgid "Select _Depends"
 msgstr "Selecciona _dependències"
 
-#: src/workbook-control-gui.c:1752
+#: src/workbook-control-gui.c:1755
 msgid "Select all the cells that depend on the current edit cell."
 msgstr ""
 "Selecciona totes les cel·les que dependen de la cel·la que s'està editant"
 
-#: src/workbook-control-gui.c:1768
+#: src/workbook-control-gui.c:1771
 msgid "P_aste special..."
 msgstr "_Enganxa de forma especial..."
 
-#: src/workbook-control-gui.c:1769
+#: po/tmp/gnumeric.xml.h:138 src/workbook-control-gui.c:1772
 msgid "Paste with optional filters and transformations"
 msgstr "Enganxa amb filtres i transformacions opcionals"
 
-#: src/workbook-control-gui.c:1774
+#: src/workbook-control-gui.c:1777
 msgid "C_lear"
 msgstr "S_uprimeix"
 
-#: src/workbook-control-gui.c:1777
+#: src/workbook-control-gui.c:1780
 msgid "Remove selected cells, shifting other into their place"
 msgstr "Suprimeix les cel·les seleccionades, desplaçant les altres al seu lloc"
 
-#: src/workbook-control-gui.c:1779
+#: po/tmp/gnumeric.xml.h:58 src/workbook-control-gui.c:1782
 msgid "De_lete Sheet"
 msgstr "_Suprimeix el full"
 
-#: src/workbook-control-gui.c:1780
+#: po/tmp/gnumeric.xml.h:108 src/workbook-control-gui.c:1783
 msgid "Irrevocably remove an entire sheet"
 msgstr "Suprimeix un full sencer irrevocablement"
 
-#: src/workbook-control-gui.c:1785
+#: po/tmp/gnumeric.xml.h:226 src/workbook-control-gui.c:1788
 msgid "_Select..."
 msgstr "_Selecciona..."
 
 #. Default <Ctrl-G> to be goto
-#: src/workbook-control-gui.c:1788
+#: po/tmp/gnumeric.xml.h:210 src/workbook-control-gui.c:1791
 msgid "_Goto cell..."
 msgstr "_Vés a la cel·la..."
 
-#: src/workbook-control-gui.c:1789
+#: po/tmp/gnumeric.xml.h:112 src/workbook-control-gui.c:1792
 msgid "Jump to a specified cell"
 msgstr "Salta a una cel·la específica"
 
 #. Default <F9> to recalculate
-#: src/workbook-control-gui.c:1794
+#: po/tmp/gnumeric.xml.h:222 src/workbook-control-gui.c:1797
 msgid "_Recalculate"
 msgstr "_Recalcula"
 
-#: src/workbook-control-gui.c:1795
+#: po/tmp/gnumeric.xml.h:149 src/workbook-control-gui.c:1798
 msgid "Recalculate the spreadsheet"
 msgstr "Recalcula el full de difusió"
 
-#: src/workbook-control-gui.c:1805
+#: po/tmp/gnumeric.xml.h:238 src/workbook-control-gui.c:1808
 msgid "_Zoom..."
 msgstr "_Zoom..."
 
-#: src/workbook-control-gui.c:1806
+#: po/tmp/gnumeric.xml.h:189 src/workbook-control-gui.c:1809
 msgid "Zoom the spreadsheet in or out"
 msgstr "Augmenta o redueix el zoom al full de difusió"
 
-#: src/workbook-control-gui.c:1808
+#: po/tmp/gnumeric.xml.h:128 src/workbook-control-gui.c:1811
 #, fuzzy
 msgid "New _Shared"
 msgstr "Nou full"
 
-#: src/workbook-control-gui.c:1809
+#: po/tmp/gnumeric.xml.h:48 src/workbook-control-gui.c:1812
 #, fuzzy
 msgid "Create a new shared view of the workbook"
 msgstr "Crea un nou llibre de treball"
 
-#: src/workbook-control-gui.c:1811
+#: po/tmp/gnumeric.xml.h:129 src/workbook-control-gui.c:1814
 #, fuzzy
 msgid "New _Unshared"
 msgstr "Nou _full"
 
-#: src/workbook-control-gui.c:1812
+#: po/tmp/gnumeric.xml.h:50 src/workbook-control-gui.c:1815
 #, fuzzy
 msgid "Create a new unshared view of the workbook"
 msgstr "Crea un nou llibre de treball"
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
-#: src/workbook-control-gui.c:1821
+#: po/tmp/gnumeric.xml.h:54 src/workbook-control-gui.c:1824
 msgid "Current _date"
 msgstr "Dades _actuals"
 
-#: src/workbook-control-gui.c:1822
+#: po/tmp/gnumeric.xml.h:104 src/workbook-control-gui.c:1825
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Inserta les dades actuals a les cel·les seleccionades"
 
 #. Default <Ctrl-:> (control colon) to insert the current time
-#: src/workbook-control-gui.c:1827
+#: po/tmp/gnumeric.xml.h:55 src/workbook-control-gui.c:1830
 msgid "Current _time"
 msgstr "Hora _actual"
 
-#: src/workbook-control-gui.c:1828
+#: po/tmp/gnumeric.xml.h:105 src/workbook-control-gui.c:1831
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Inserta l'hora actual a les cel·les seleccionades"
 
-#: src/workbook-control-gui.c:1835
+#: src/workbook-control-gui.c:1838
 #, fuzzy
 msgid "_Define..."
 msgstr "_Suprimeix"
 
-#: src/workbook-control-gui.c:1836
+#: po/tmp/gnumeric.xml.h:67 src/workbook-control-gui.c:1839
 msgid "Edit sheet and workbook names"
 msgstr "Edita els noms del full i del llibre de treball"
 
-#: src/workbook-control-gui.c:1839
+#: src/workbook-control-gui.c:1842
 msgid "_Auto generate names..."
 msgstr "_Genera els noms automàticament..."
 
-#: src/workbook-control-gui.c:1840
+#: src/workbook-control-gui.c:1843
 msgid "Use the current selection to create names"
 msgstr "Utilitza la selecció actual per crear els noms"
 
-#: src/workbook-control-gui.c:1847 src/workbook-control-gui.c:1961
+#: po/tmp/gnumeric.xml.h:227 src/workbook-control-gui.c:1850
+#: src/workbook-control-gui.c:1958
 msgid "_Sheet"
 msgstr "_Full"
 
-#: src/workbook-control-gui.c:1848
+#: po/tmp/gnumeric.xml.h:98 src/workbook-control-gui.c:1851
 msgid "Insert a new spreadsheet"
 msgstr "Inserta en un nou full de difusió"
 
-#: src/workbook-control-gui.c:1850
-msgid "_Rows"
-msgstr "_Files"
-
-#: src/workbook-control-gui.c:1851
+#: po/tmp/gnumeric.xml.h:103 src/workbook-control-gui.c:1854
 msgid "Insert new rows"
 msgstr "Inserta noves files"
 
-#: src/workbook-control-gui.c:1853
-msgid "_Columns"
-msgstr "_Columnes"
-
-#: src/workbook-control-gui.c:1854
+#: po/tmp/gnumeric.xml.h:102 src/workbook-control-gui.c:1857
 msgid "Insert new columns"
 msgstr "Inserta noves columnes"
 
-#: src/workbook-control-gui.c:1856
+#: src/workbook-control-gui.c:1859
 msgid "C_ells..."
 msgstr "C_el·les"
 
-#: src/workbook-control-gui.c:1857
+#: po/tmp/gnumeric.xml.h:101 src/workbook-control-gui.c:1860
 msgid "Insert new cells"
 msgstr "Inserta noves cel·les"
 
-#: src/workbook-control-gui.c:1861
-msgid "_Object..."
-msgstr "_Objecte..."
-
-#: src/workbook-control-gui.c:1862
-msgid "Inserts a Bonobo object"
-msgstr "Inserta un objecte Bonobo"
-
-#: src/workbook-control-gui.c:1868
+#: po/tmp/gnumeric.xml.h:215 src/workbook-control-gui.c:1865
 #, fuzzy
 msgid "_Name"
 msgstr "Nom"
 
-#: src/workbook-control-gui.c:1870
+#: src/workbook-control-gui.c:1867
 msgid "_Add\\modify comment..."
 msgstr "_Afegeix\\modifica un comentari..."
 
-#: src/workbook-control-gui.c:1871
+#: po/tmp/gnumeric.xml.h:69 src/workbook-control-gui.c:1868
 msgid "Edit the selected cell's comment"
 msgstr "Edita el comentari de les cel·les seleccionades"
 
-#: src/workbook-control-gui.c:1874
+#: po/tmp/gnumeric.xml.h:155 src/workbook-control-gui.c:1871
 msgid "S_pecial"
 msgstr "Es_pecial"
 
-#: src/workbook-control-gui.c:1880 src/workbook-control-gui.c:1899
+#: po/tmp/gnumeric.xml.h:193 src/workbook-control-gui.c:1877
+#: src/workbook-control-gui.c:1896
 msgid "_Auto fit selection"
 msgstr "_Ajusta automàticament la selecció"
 
-#: src/workbook-control-gui.c:1883
+#: po/tmp/gnumeric.xml.h:236 src/workbook-control-gui.c:1880
 msgid "_Width..."
 msgstr "_Amplada..."
 
-#: src/workbook-control-gui.c:1892
+#: po/tmp/gnumeric.xml.h:231 src/workbook-control-gui.c:1889
 msgid "_Standard Width"
 msgstr "_Amplada patró"
 
-#: src/workbook-control-gui.c:1902
+#: po/tmp/gnumeric.xml.h:211 src/workbook-control-gui.c:1899
 msgid "_Height..."
 msgstr "_Alçada..."
 
-#: src/workbook-control-gui.c:1911
+#: po/tmp/gnumeric.xml.h:230 src/workbook-control-gui.c:1908
 msgid "_Standard Height"
 msgstr "_Alçada patró"
 
-#: src/workbook-control-gui.c:1918
+#: src/workbook-control-gui.c:1915
 msgid "_Change name"
 msgstr "_Canvia el nom"
 
-#: src/workbook-control-gui.c:1921
+#: po/tmp/gnumeric.xml.h:148 src/workbook-control-gui.c:1918
 msgid "Re-_Order Sheets"
 msgstr "Torna a _ordenar els fulls"
 
-#: src/workbook-control-gui.c:1925
+#: po/tmp/gnumeric.xml.h:61 src/workbook-control-gui.c:1922
 msgid "Display _Formulas"
 msgstr "Mostra les _fórmules"
 
-#: src/workbook-control-gui.c:1930
+#: po/tmp/gnumeric.xml.h:88 src/workbook-control-gui.c:1927
 msgid "Hide _Zeros"
 msgstr "Oculta els _zeros"
 
-#: src/workbook-control-gui.c:1935
+#: po/tmp/gnumeric.xml.h:86 src/workbook-control-gui.c:1932
 msgid "Hide _Gridlines"
 msgstr "Oculta les _línies de quadrícula"
 
-#: src/workbook-control-gui.c:1940
+#: src/workbook-control-gui.c:1937
 msgid "Hide _Column Header"
 msgstr "Oculta les capçaleres de _columna"
 
-#: src/workbook-control-gui.c:1945
+#: src/workbook-control-gui.c:1942
 msgid "Hide _Row Header"
 msgstr "Oculta les capçaleres de _fila"
 
 #. Default <Ctrl-1> invoke the format dialog
-#: src/workbook-control-gui.c:1955
+#: po/tmp/gnumeric.xml.h:196 src/workbook-control-gui.c:1952
 msgid "_Cells..."
 msgstr "_Cel·les..."
 
-#: src/workbook-control-gui.c:1956
+#: po/tmp/gnumeric.xml.h:124 src/workbook-control-gui.c:1953
 msgid "Modify the formatting of the selected cells"
 msgstr "Modifica el format de les cel·les seleccionades"
 
-#: src/workbook-control-gui.c:1959
+#: po/tmp/gnumeric.xml.h:20 src/workbook-control-gui.c:1956
 msgid "C_olumn"
 msgstr "C_olumna"
 
-#: src/workbook-control-gui.c:1960
+#: po/tmp/gnumeric.xml.h:224 src/workbook-control-gui.c:1957
 msgid "_Row"
 msgstr "_Fila"
 
-#: src/workbook-control-gui.c:1963
+#: po/tmp/gnumeric.xml.h:194 src/workbook-control-gui.c:1960
 msgid "_Autoformat..."
 msgstr "_Autoformatatge..."
 
-#: src/workbook-control-gui.c:1964
+#: po/tmp/gnumeric.xml.h:79 src/workbook-control-gui.c:1961
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Formata una regió de cel·les seguint un patró predefinit"
 
-#: src/workbook-control-gui.c:1967
+#: po/tmp/gnumeric.xml.h:237 src/workbook-control-gui.c:1964
 msgid "_Workbook..."
 msgstr "_Llibre de treball"
 
-#: src/workbook-control-gui.c:1968
+#: po/tmp/gnumeric.xml.h:125 src/workbook-control-gui.c:1965
 msgid "Modify the workbook attributes"
 msgstr "Modifica els atributs d'un llibre de treball"
 
-#: src/workbook-control-gui.c:1975
+#: po/tmp/gnumeric.xml.h:220 src/workbook-control-gui.c:1972
 msgid "_Plug-ins..."
 msgstr "_Connectors..."
 
-#: src/workbook-control-gui.c:1976
+#: src/workbook-control-gui.c:1973
 msgid "Manage available plugin modules."
 msgstr "Gestiona els mòduls de connectors disponibles"
 
-#: src/workbook-control-gui.c:1981
+#: po/tmp/gnumeric.xml.h:12 src/workbook-control-gui.c:1978
 msgid "Auto _Correct..."
 msgstr "_Corregeix automàticament..."
 
-#: src/workbook-control-gui.c:1982
+#: po/tmp/gnumeric.xml.h:13 src/workbook-control-gui.c:1979
 msgid "Automatically perform simple spell checking"
 msgstr "Realitza una correcció ortogràfica simple automàticament"
 
-#: src/workbook-control-gui.c:1984
+#: po/tmp/gnumeric.xml.h:192 src/workbook-control-gui.c:1981
 msgid "_Auto Save..."
 msgstr "Desa _automàticament..."
 
-#: src/workbook-control-gui.c:1985
+#: po/tmp/gnumeric.xml.h:14 src/workbook-control-gui.c:1982
 msgid "Automatically save the current document at regular intervals"
 msgstr "Desa el document actual a intèrvals regulars actualment"
 
-#: src/workbook-control-gui.c:1990
+#: po/tmp/gnumeric.xml.h:209 src/workbook-control-gui.c:1987
 msgid "_Goal Seek..."
 msgstr "_Objectiu de cerca..."
 
-#: src/workbook-control-gui.c:1991
+#: po/tmp/gnumeric.xml.h:110 src/workbook-control-gui.c:1988
 msgid "Iteratively recalculate to find a target value"
 msgstr "Recalcula interactivament per trobar un valor de destinació"
 
-#: src/workbook-control-gui.c:1993
+#: po/tmp/gnumeric.xml.h:228 src/workbook-control-gui.c:1990
 msgid "_Solver..."
 msgstr "_Solucionador..."
 
-#: src/workbook-control-gui.c:1994
+#: po/tmp/gnumeric.xml.h:111 src/workbook-control-gui.c:1991
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 "Recalcula interactivament les restriccions per acostar-se a un valor de "
 "destinació"
 
-#: src/workbook-control-gui.c:1999
+#: po/tmp/gnumeric.xml.h:202 src/workbook-control-gui.c:1996
 msgid "_Data Analysis..."
 msgstr "_Anàlisi de dades..."
 
-#: src/workbook-control-gui.c:2000
+#: src/workbook-control-gui.c:1997
 msgid "Statistical methods."
 msgstr "Mètodes estadístics."
 
-#: src/workbook-control-gui.c:2008
+#: po/tmp/gnumeric.xml.h:229 src/workbook-control-gui.c:2005
 msgid "_Sort..."
 msgstr "_Ordena..."
 
-#: src/workbook-control-gui.c:2009
+#: po/tmp/gnumeric.xml.h:174 src/workbook-control-gui.c:2006
 msgid "Sort the selected cells"
 msgstr "Ordena les cel·les seleccionades"
 
-#: src/workbook-control-gui.c:2011
+#: po/tmp/gnumeric.xml.h:207 src/workbook-control-gui.c:2008
 msgid "_Filter..."
 msgstr "_Filtra..."
 
-#: src/workbook-control-gui.c:2012
+#: po/tmp/gnumeric.xml.h:74 src/workbook-control-gui.c:2009
 msgid "Filter data with given criteria"
 msgstr "Filtra les dades a partir dels criteris donats"
 
-#: src/workbook-control-gui.c:2028
+#: po/tmp/gnumeric.xml.h:214 src/workbook-control-gui.c:2025
 msgid "_Insert"
 msgstr "_Inserta"
 
-#: src/workbook-control-gui.c:2029
+#: po/tmp/gnumeric.xml.h:73 src/workbook-control-gui.c:2026
 msgid "F_ormat"
 msgstr "F_ormat"
 
-#: src/workbook-control-gui.c:2030
+#: po/tmp/gnumeric.xml.h:232 src/workbook-control-gui.c:2027
 msgid "_Tools"
 msgstr "_Eines"
 
-#: src/workbook-control-gui.c:2031
+#: po/tmp/gnumeric.xml.h:201 src/workbook-control-gui.c:2028
 msgid "_Data"
 msgstr "_Dades"
 
-#: src/workbook-control-gui.c:2038
+#: po/tmp/gnumeric.xml.h:127 src/workbook-control-gui.c:2035
 msgid "New"
 msgstr "Nou"
 
-#: src/workbook-control-gui.c:2038
+#: src/workbook-control-gui.c:2035
 msgid "Creates a new workbook"
 msgstr "Crea un nou llibre de treball"
 
-#: src/workbook-control-gui.c:2041
+#: po/tmp/gnumeric.xml.h:130 src/workbook-control-gui.c:2038
 msgid "Open"
 msgstr "Obre"
 
-#: src/workbook-control-gui.c:2041
+#: src/workbook-control-gui.c:2038
 msgid "Opens an existing workbook"
 msgstr "Obre un llibre de treball existent"
 
-#: src/workbook-control-gui.c:2044
+#: po/tmp/gnumeric.xml.h:156 src/workbook-control-gui.c:2041
 msgid "Save"
 msgstr "Desa"
 
-#: src/workbook-control-gui.c:2044
+#: src/workbook-control-gui.c:2041
 msgid "Saves the workbook"
 msgstr "Desa el llibre de treball"
 
-#: src/workbook-control-gui.c:2050
-msgid "Print"
-msgstr "Imprimeix"
-
-#: src/workbook-control-gui.c:2050
+#: src/workbook-control-gui.c:2047
 msgid "Prints the workbook"
 msgstr "Imprimeix el llibre de treball"
 
-#: src/workbook-control-gui.c:2059
+#: po/tmp/gnumeric.xml.h:56 src/workbook-control-gui.c:2056
 msgid "Cut"
 msgstr "Retalla"
 
-#: src/workbook-control-gui.c:2059
+#: src/workbook-control-gui.c:2056
 msgid "Cuts the selection to the clipboard"
 msgstr "Retalla la selecció al porta-retalls"
 
-#: src/workbook-control-gui.c:2062
+#: po/tmp/gnumeric.xml.h:38 src/workbook-control-gui.c:2059
 msgid "Copy"
 msgstr "Copia"
 
-#: src/workbook-control-gui.c:2062
+#: src/workbook-control-gui.c:2059
 msgid "Copies the selection to the clipboard"
 msgstr "Copia la selecció al porta-retalls"
 
-#: src/workbook-control-gui.c:2065
+#: src/workbook-control-gui.c:2062
 msgid "Pastes the clipboard"
 msgstr "Enganxa el porta-retalls"
 
-#: src/workbook-control-gui.c:2072
+#: src/workbook-control-gui.c:2069
 msgid "Undo the operation"
 msgstr "Desfés l'operació"
 
-#: src/workbook-control-gui.c:2075
+#: src/workbook-control-gui.c:2072
 msgid "Redo the operation"
 msgstr "Refés l'operació"
 
-#: src/workbook-control-gui.c:2085
+#: src/workbook-control-gui.c:2082
 msgid "Sum into the current cell."
 msgstr "Suma a la cel·la actual."
 
-#: src/workbook-control-gui.c:2088
+#: src/workbook-control-gui.c:2085
 msgid "Function"
 msgstr "Funció"
 
-#: src/workbook-control-gui.c:2088
+#: src/workbook-control-gui.c:2085
 msgid "Edit a function in the current cell."
 msgstr "Edita una funció a la cel·la actual"
 
-#: src/workbook-control-gui.c:2092
+#: po/tmp/gnumeric.xml.h:172 src/workbook-control-gui.c:2089
 msgid "Sort Ascending"
 msgstr "Ordena de forma ascendent"
 
-#: src/workbook-control-gui.c:2092
+#: src/workbook-control-gui.c:2089
 msgid ""
 "Sorts the selected region in ascending order based on the first column "
 "selected."
@@ -14548,11 +16626,11 @@ msgstr ""
 "Ordena la regió seleccionada en ordre ascendent basant-se en la primera "
 "columna seleccionada."
 
-#: src/workbook-control-gui.c:2095
+#: po/tmp/gnumeric.xml.h:173 src/workbook-control-gui.c:2092
 msgid "Sort Descending"
 msgstr "Ordena de forma descendent"
 
-#: src/workbook-control-gui.c:2095
+#: src/workbook-control-gui.c:2092
 msgid ""
 "Sorts the selected region in descending order based on the first column "
 "selected."
@@ -14560,15 +16638,11 @@ msgstr ""
 "Ordena la regió seleccionada en ordre descendent basant-se en la primera "
 "columna seleccionada."
 
-#: src/workbook-control-gui.c:2242 src/workbook-control-gui.c:2299
-msgid "Zoom"
-msgstr "Zoom"
-
-#: src/workbook-control-gui.c:2805
+#: src/workbook-control-gui.c:2802
 msgid "Min"
 msgstr "Mínim"
 
-#: src/workbook-control-gui.c:2806
+#: src/workbook-control-gui.c:2803
 msgid "Max"
 msgstr "Màxim"
 
@@ -14615,6 +16689,550 @@ msgstr "No és un fitxer de patrons d'autoformat"
 msgid "Error while trying to build tree from autoformat template file"
 msgstr "S'ha produït un error mentre es mapejava a memòria el fitxer"
 
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * DO NOT compile this file as part of your application.
+#.
+#: po/tmp/gnumeric.xml.h:6
+#, fuzzy
+msgid "*Control*b"
+msgstr "Control"
+
+#: po/tmp/gnumeric.xml.h:7
+#, fuzzy
+msgid "*Control*i"
+msgstr "Control"
+
+#: po/tmp/gnumeric.xml.h:8
+#, fuzzy
+msgid "*Control*u"
+msgstr "Control"
+
+#: po/tmp/gnumeric.xml.h:9
+msgid "About this application"
+msgstr ""
+
+#: po/tmp/gnumeric.xml.h:10
+#, fuzzy
+msgid "About..."
+msgstr "Ordena..."
+
+#: po/tmp/gnumeric.xml.h:19
+#, fuzzy
+msgid "C_lear..."
+msgstr "S_uprimeix"
+
+#: po/tmp/gnumeric.xml.h:22
+#, fuzzy
+msgid "CenterAcrossSelection"
+msgstr "Centra _a través de la selecció"
+
+#: po/tmp/gnumeric.xml.h:23
+#, fuzzy
+msgid "Centers the text in each selection"
+msgstr "Entreu cadenes de formatatge per a cada secció:"
+
+#: po/tmp/gnumeric.xml.h:24
+#, fuzzy
+msgid "Change height of the selected rows"
+msgstr "S'està especificant l'alçada de les files"
+
+#: po/tmp/gnumeric.xml.h:25
+msgid "Change the default column width"
+msgstr ""
+
+#: po/tmp/gnumeric.xml.h:26
+msgid "Change the default row height"
+msgstr ""
+
+#: po/tmp/gnumeric.xml.h:27
+msgid "Change the order the sheets are displayed"
+msgstr ""
+
+#: po/tmp/gnumeric.xml.h:28
+#, fuzzy
+msgid "Change width of the selected columns"
+msgstr "S'està especificant l'amplada de les columnes"
+
+#: po/tmp/gnumeric.xml.h:34
+#, fuzzy
+msgid "Close"
+msgstr "Cost"
+
+#: po/tmp/gnumeric.xml.h:35
+#, fuzzy
+msgid "Close the current file"
+msgstr "Suma a la cel·la actual."
+
+#: po/tmp/gnumeric.xml.h:37
+#, fuzzy
+msgid "Combo Box"
+msgstr "Quadre combinat"
+
+#: po/tmp/gnumeric.xml.h:39
+#, fuzzy
+msgid "Copy the current selection to the clipboard"
+msgstr "Copia la selecció al porta-retalls"
+
+#: po/tmp/gnumeric.xml.h:40
+#, fuzzy
+msgid "Copy the selection"
+msgstr "_Ajusta automàticament la selecció"
+
+#: po/tmp/gnumeric.xml.h:41
+#, fuzzy
+msgid "Create a button"
+msgstr "Crea un botó"
+
+#: po/tmp/gnumeric.xml.h:42
+#, fuzzy
+msgid "Create a checkbox"
+msgstr "Crea un quadre de verificació"
+
+#: po/tmp/gnumeric.xml.h:43
+#, fuzzy
+msgid "Create a combo box"
+msgstr "Crea un quadre combinat"
+
+#: po/tmp/gnumeric.xml.h:44
+#, fuzzy
+msgid "Create a frame"
+msgstr "Crea un marc"
+
+#: po/tmp/gnumeric.xml.h:45
+#, fuzzy
+msgid "Create a label"
+msgstr "Crea una etiqueta"
+
+#: po/tmp/gnumeric.xml.h:46
+#, fuzzy
+msgid "Create a line"
+msgstr "Crea una llista"
+
+#: po/tmp/gnumeric.xml.h:47
+#, fuzzy
+msgid "Create a list"
+msgstr "Crea una llista"
+
+#: po/tmp/gnumeric.xml.h:51
+#, fuzzy
+msgid "Create a new workbook"
+msgstr "Crea un nou llibre de treball"
+
+#: po/tmp/gnumeric.xml.h:52
+#, fuzzy
+msgid "Create a radio button"
+msgstr "Crea un botó de ràdio"
+
+#: po/tmp/gnumeric.xml.h:57
+#, fuzzy
+msgid "Cut the selection"
+msgstr "_Ajusta automàticament la selecció"
+
+#: po/tmp/gnumeric.xml.h:59
+#, fuzzy
+msgid "Decrease Precision"
+msgstr "Redueix"
+
+#: po/tmp/gnumeric.xml.h:60
+#, fuzzy
+msgid "Decrease the preceision of the selected cells"
+msgstr "Modifica el format de les cel·les seleccionades"
+
+#: po/tmp/gnumeric.xml.h:62
+msgid "Display the value of a formula or the formula itself"
+msgstr ""
+
+#: po/tmp/gnumeric.xml.h:63
+#, fuzzy
+msgid "Draw a rectangle"
+msgstr "Crea un objecte de rectangle"
+
+#: po/tmp/gnumeric.xml.h:64
+msgid "Draw an oval"
+msgstr ""
+
+#: po/tmp/gnumeric.xml.h:65
+#, fuzzy
+msgid "E_xit"
+msgstr "Te_xt"
+
+#: po/tmp/gnumeric.xml.h:66
+#, fuzzy
+msgid "Edit a formula in the current cell"
+msgstr "Edita una funció a la cel·la actual"
+
+#: po/tmp/gnumeric.xml.h:68
+#, fuzzy
+msgid "Edit the name of the current sheet"
+msgstr "Edita una funció a la cel·la actual"
+
+#: po/tmp/gnumeric.xml.h:70
+msgid "Ensure columns are just wide enough to display content"
+msgstr ""
+
+#: po/tmp/gnumeric.xml.h:71
+msgid "Ensure rows are just tall enough to display content"
+msgstr ""
+
+#: po/tmp/gnumeric.xml.h:72
+msgid "Exit the program"
+msgstr ""
+
+#: po/tmp/gnumeric.xml.h:80
+#, fuzzy
+msgid "Format the selected cells as money"
+msgstr "Ordena les cel·les seleccionades"
+
+#: po/tmp/gnumeric.xml.h:81
+#, fuzzy
+msgid "Format the selected cells as percentages"
+msgstr "Defineix el format de les cel·les seleccionades com a percentatge"
+
+#: po/tmp/gnumeric.xml.h:83
+#, fuzzy
+msgid "Function Guru"
+msgstr "Funció"
+
+#: po/tmp/gnumeric.xml.h:84
+#, fuzzy
+msgid "Graph Guru"
+msgstr "Fòrmula per a experts"
+
+#: po/tmp/gnumeric.xml.h:85
+#, fuzzy
+msgid "Hide _Column Headers"
+msgstr "Oculta les capçaleres de _columna"
+
+#: po/tmp/gnumeric.xml.h:87
+#, fuzzy
+msgid "Hide _Row Headers"
+msgstr "Oculta les capçaleres de _fila"
+
+#: po/tmp/gnumeric.xml.h:89
+#, fuzzy
+msgid "Hide the selected columns"
+msgstr "Ordena les cel·les seleccionades"
+
+#: po/tmp/gnumeric.xml.h:90
+#, fuzzy
+msgid "Hide the selected rows"
+msgstr "Ordena les cel·les seleccionades"
+
+#: po/tmp/gnumeric.xml.h:91
+#, fuzzy
+msgid "Import..."
+msgstr "_Importa..."
+
+#: po/tmp/gnumeric.xml.h:93
+#, fuzzy
+msgid "Includes a thousands seperator in the selected cells"
+msgstr "Inserta les dades actuals a les cel·les seleccionades"
+
+#: po/tmp/gnumeric.xml.h:94
+#, fuzzy
+msgid "Increase Precision"
+msgstr "Incrementa"
+
+#: po/tmp/gnumeric.xml.h:95
+#, fuzzy
+msgid "Increase the preceision of the selected cells"
+msgstr "Inserta les dades actuals a les cel·les seleccionades"
+
+#: po/tmp/gnumeric.xml.h:96
+#, fuzzy
+msgid "Insert Component"
+msgstr "Insereix columnes"
+
+#: po/tmp/gnumeric.xml.h:97
+#, fuzzy
+msgid "Insert Shaped Component"
+msgstr "Inserta un objecte amb forma"
+
+#: po/tmp/gnumeric.xml.h:99
+#, fuzzy
+msgid "Insert a shaped component into the spreadsheet"
+msgstr "Inserta un objecte amb forma en el full de difusió"
+
+#: po/tmp/gnumeric.xml.h:100
+#, fuzzy
+msgid "Insert an object into the spreadsheet"
+msgstr "Inserta un objecte en el full de difusió"
+
+#: po/tmp/gnumeric.xml.h:106
+msgid "Inserts a Bonobo object"
+msgstr "Inserta un objecte Bonobo"
+
+#: po/tmp/gnumeric.xml.h:107
+#, fuzzy
+msgid "Invoke the graph guru to create a graph"
+msgstr "Invoca l'auxiliar de gràfics per crear un gràfic"
+
+#: po/tmp/gnumeric.xml.h:109
+#, fuzzy
+msgid "Italicize"
+msgstr "Cursiva"
+
+#: po/tmp/gnumeric.xml.h:115
+#, fuzzy
+msgid "Left justifies the contents of each cell"
+msgstr "Justifica a l'esquerra el contingut de la cel·la"
+
+#: po/tmp/gnumeric.xml.h:118
+msgid "Make any hidden columns in the selection visible"
+msgstr ""
+
+#: po/tmp/gnumeric.xml.h:119
+#, fuzzy
+msgid "Make any hidden rows in the selection visible"
+msgstr "No es pot afegir més que la llargada de la sel·lecció."
+
+#: po/tmp/gnumeric.xml.h:120
+#, fuzzy
+msgid "Make font bold"
+msgstr "Fa la lletra itàlic"
+
+#: po/tmp/gnumeric.xml.h:121
+#, fuzzy
+msgid "Makes font italic"
+msgstr "Fa la lletra itàlic"
+
+#: po/tmp/gnumeric.xml.h:122
+#, fuzzy
+msgid "Manage available plugin modules"
+msgstr "Gestiona els mòduls de connectors disponibles"
+
+#: po/tmp/gnumeric.xml.h:123
+#, fuzzy
+msgid "Mark the current selection for movement"
+msgstr "Utilitza la selecció actual per crear els noms"
+
+#: po/tmp/gnumeric.xml.h:126
+#, fuzzy
+msgid "Money"
+msgstr "Dilluns"
+
+#: po/tmp/gnumeric.xml.h:131
+#, fuzzy
+msgid "Open a spreadsheet"
+msgstr "Crea un nou full de difusió"
+
+#: po/tmp/gnumeric.xml.h:132
+#, fuzzy
+msgid "Open an existing workbook"
+msgstr "Obre un llibre de treball existent"
+
+#: po/tmp/gnumeric.xml.h:133
+msgid "Oval"
+msgstr ""
+
+#: po/tmp/gnumeric.xml.h:135
+#, fuzzy
+msgid "Paste _Special..."
+msgstr "Enganxa_especial"
+
+#: po/tmp/gnumeric.xml.h:136
+#, fuzzy
+msgid "Paste the clipboard"
+msgstr "Enganxa el porta-retalls"
+
+#: po/tmp/gnumeric.xml.h:137
+msgid "Paste the contents of the clipboard or cut buffer"
+msgstr ""
+
+#: po/tmp/gnumeric.xml.h:141
+#, fuzzy
+msgid "Print Pre_view"
+msgstr "Imprimeix la visualització prèvia"
+
+#: po/tmp/gnumeric.xml.h:142
+#, fuzzy
+msgid "Print Preview"
+msgstr "Imprimeix la visualització prèvia"
+
+#: po/tmp/gnumeric.xml.h:143
+#, fuzzy
+msgid "Print S_etup"
+msgstr "Configuració d'impressió"
+
+#: po/tmp/gnumeric.xml.h:145
+#, fuzzy
+msgid "Print the current file"
+msgstr "Suma a la cel·la actual."
+
+#: po/tmp/gnumeric.xml.h:146
+#, fuzzy
+msgid "Print the workbook"
+msgstr "Imprimeix el llibre de treball"
+
+#: po/tmp/gnumeric.xml.h:147
+#, fuzzy
+msgid "Radio Button"
+msgstr "Botó de ràdio"
+
+#: po/tmp/gnumeric.xml.h:151
+#, fuzzy
+msgid "Redo the undone action"
+msgstr "Refés l'operació"
+
+#: po/tmp/gnumeric.xml.h:152
+#, fuzzy
+msgid "Remove selected cells, shifting others into their place"
+msgstr "Suprimeix les cel·les seleccionades, desplaçant les altres al seu lloc"
+
+#: po/tmp/gnumeric.xml.h:154
+#, fuzzy
+msgid "Right justifies the contents of each cell"
+msgstr "Justifica a la dreta el contingut de la cel·la"
+
+#: po/tmp/gnumeric.xml.h:157
+#, fuzzy
+msgid "Save As"
+msgstr "Desa"
+
+#: po/tmp/gnumeric.xml.h:158
+#, fuzzy
+msgid "Save the current file"
+msgstr "Suma a la cel·la actual."
+
+#: po/tmp/gnumeric.xml.h:159
+#, fuzzy
+msgid "Save the current file with a different name"
+msgstr "Utilitza la selecció actual per crear els noms"
+
+#: po/tmp/gnumeric.xml.h:160
+#, fuzzy
+msgid "Save the current workbook"
+msgstr "Desa el llibre de treball"
+
+#: po/tmp/gnumeric.xml.h:167
+#, fuzzy
+msgid "Select all the cells that depend on the current edit cell"
+msgstr ""
+"Selecciona totes les cel·les que dependen de la cel·la que s'està editant"
+
+#: po/tmp/gnumeric.xml.h:171
+msgid "Setup the page settings for your current printer"
+msgstr ""
+
+#: po/tmp/gnumeric.xml.h:175
+#, fuzzy
+msgid ""
+"Sort the selected region in ascending order based on the first column "
+"selected"
+msgstr ""
+"Ordena la regió seleccionada en ordre ascendent basant-se en la primera "
+"columna seleccionada."
+
+#: po/tmp/gnumeric.xml.h:176
+#, fuzzy
+msgid ""
+"Sort the selected region in descending order based on the first column "
+"selected"
+msgstr ""
+"Ordena la regió seleccionada en ordre descendent basant-se en la primera "
+"columna seleccionada."
+
+#: po/tmp/gnumeric.xml.h:177
+#, fuzzy
+msgid "Statistical methods"
+msgstr "Mètodes estadístics."
+
+#: po/tmp/gnumeric.xml.h:180
+#, fuzzy
+msgid "Sum into the current cell"
+msgstr "Suma a la cel·la actual."
+
+#: po/tmp/gnumeric.xml.h:182
+msgid "Toggle whether or not to display column headers"
+msgstr ""
+
+#: po/tmp/gnumeric.xml.h:183
+msgid "Toggle whether or not to display gridlines"
+msgstr ""
+
+#: po/tmp/gnumeric.xml.h:184
+msgid "Toggle whether or not to display row headers"
+msgstr ""
+
+#: po/tmp/gnumeric.xml.h:185
+msgid "Toggle whether or not to display zeros as blanks"
+msgstr ""
+
+#: po/tmp/gnumeric.xml.h:187
+#, fuzzy
+msgid "Underlines the text"
+msgstr "Subratlla la lletra"
+
+#: po/tmp/gnumeric.xml.h:188
+#, fuzzy
+msgid "Undo the last action"
+msgstr "Desfés l'operació"
+
+#: po/tmp/gnumeric.xml.h:190
+#, fuzzy
+msgid "_Add / modify comment..."
+msgstr "_Afegeix\\modifica un comentari..."
+
+#: po/tmp/gnumeric.xml.h:195
+#, fuzzy
+msgid "_Cells"
+msgstr "Cel·la"
+
+#: po/tmp/gnumeric.xml.h:197
+#, fuzzy
+msgid "_Change Name"
+msgstr "_Canvia el nom"
+
+#: po/tmp/gnumeric.xml.h:203
+#, fuzzy
+msgid "_Define"
+msgstr "_Suprimeix"
+
+#: po/tmp/gnumeric.xml.h:205
+#, fuzzy
+msgid "_Edit"
+msgstr "_Edita..."
+
+#: po/tmp/gnumeric.xml.h:206
+#, fuzzy
+msgid "_File"
+msgstr "Fitxer/"
+
+#: po/tmp/gnumeric.xml.h:212
+#, fuzzy
+msgid "_Help"
+msgstr "_Oculta"
+
+#: po/tmp/gnumeric.xml.h:217
+#, fuzzy
+msgid "_Object"
+msgstr "_Objecte..."
+
+#: po/tmp/gnumeric.xml.h:218
+#, fuzzy
+msgid "_Open"
+msgstr "Obre"
+
+#: po/tmp/gnumeric.xml.h:221
+msgid "_Print"
+msgstr "_Imprimeix"
+
+#: po/tmp/gnumeric.xml.h:223
+#, fuzzy
+msgid "_Redo"
+msgstr "Refés"
+
+#: po/tmp/gnumeric.xml.h:233
+#, fuzzy
+msgid "_Undo"
+msgstr "Desfés"
+
+#: po/tmp/gnumeric.xml.h:235
+#, fuzzy
+msgid "_View"
+msgstr "Visualitza"
+
 #~ msgid "Database Access"
 #~ msgstr "Accés a bases de dades"
 
@@ -14637,92 +17255,11 @@ msgstr "S'ha produït un error mentre es mapejava a memòria el fitxer"
 #~ msgstr ""
 #~ "S'ha produït un error d'anàlisi en processar les dades d'una regió de cel·les"
 
-#~ msgid "Advanced Filter"
-#~ msgstr "Filtre avançat"
-
-#~ msgid "Action"
-#~ msgstr "Acció"
-
-#~ msgid "_Filter in-place"
-#~ msgstr "_Filtre a lloc"
-
-#~ msgid "_Copy to a new location"
-#~ msgstr "_Copia a una nova destinació"
-
-#~ msgid "Copy to a new _sheet"
-#~ msgstr "Copia a un _nou full"
-
-#~ msgid "Copy to a new _workbook"
-#~ msgstr "Copia a un nou _llibre de treball"
-
-#~ msgid "C_riteria range:"
-#~ msgstr "C_riteri de abast:"
-
-#~ msgid "C_opy to:        "
-#~ msgstr "C_opia a:        "
-
-#~ msgid "_List range:     "
-#~ msgstr "_Llista el abast: "
-
-#~ msgid "_Unique records only"
-#~ msgstr "_Només registres únics"
-
-#~ msgid "Data Analysis"
-#~ msgstr "Anàlisi de dades"
-
-#~ msgid "Analysis Tools"
-#~ msgstr "Eines d'anàlisi"
-
-#~ msgid "Input"
-#~ msgstr "Entrada"
-
-#~ msgid "_Labels in First Row"
-#~ msgstr "_Etiquetes a la primera fila"
-
-#~ msgid "_Alpha:"
-#~ msgstr "_Alfa:"
-
-#~ msgid "Va_riable 2 Range:"
-#~ msgstr "Abast de la va_riable 2:"
-
-#~ msgid "_Variable 1 Range:"
-#~ msgstr "Abast de la v_ariable 1:"
-
-#~ msgid "Output options"
-#~ msgstr "Opcions de sortida"
-
-#~ msgid "_Output Range:"
-#~ msgstr " Abast de _sortida:"
-
-#~ msgid "_New Sheet"
-#~ msgstr "_Nou full"
-
-#~ msgid "N_ew Workbook"
-#~ msgstr "N_ou llibre de treball"
-
-#~ msgid "T-Test: Paired Two Sample for Means"
-#~ msgstr "Test-T: dues mostres aparellades per mitjanes"
-
-#~ msgid "_Hypothesized Mean Difference:"
-#~ msgstr "_Diferència mitjana hipotètica:"
-
-#~ msgid "T-Test: Assuming Equal Variances"
-#~ msgstr "Test-T: Suposant variances iguals"
-
 #~ msgid "_Labels in First Row           "
 #~ msgstr "_Etiquetes a la primera fila           "
 
-#~ msgid "T-Test: Assuming Unequal Variances"
-#~ msgstr "Test-T: Suposant variances diferents"
-
 #~ msgid " _Input Range: "
 #~ msgstr " Abast d'_entrada: "
-
-#~ msgid "_Labels"
-#~ msgstr "_Etiquetes"
-
-#~ msgid "Grouped by:"
-#~ msgstr "Agrupat per:"
 
 #~ msgid "_Output Range: "
 #~ msgstr "Abast de _sortida: "
@@ -14733,572 +17270,12 @@ msgstr "S'ha produït un error mentre es mapejava a memòria el fitxer"
 #~ msgid "_Labels      "
 #~ msgstr "_Etiquetes      "
 
-#~ msgid "_Input Range:"
-#~ msgstr "Abast d'_entrada:"
-
-#~ msgid "In_terval:"
-#~ msgstr "_Interval"
-
-#~ msgid "_Standard Errors"
-#~ msgstr "_Errors estàndard"
-
-#~ msgid "_Distribution:"
-#~ msgstr "_Distribució:"
-
-#~ msgid "_Number of variables:"
-#~ msgstr "_Nombre de variables:"
-
-#~ msgid "Numbe_r of samples:"
-#~ msgstr "Nomb_re de mostres:"
-
-#~ msgid "New _workbook"
-#~ msgstr "Nou _llibre de treball"
-
-#~ msgid "_Output range:"
-#~ msgstr "Abast de _sortida:"
-
-#~ msgid "AutoCorrect Exceptions"
-#~ msgstr "Autocorregeix les excepcions"
-
-#~ msgid "_Do not capitalize after:"
-#~ msgstr "_No escriguis en majúscules després de:"
-
-#~ msgid "_Add"
-#~ msgstr "_Afegeix"
-
-#~ msgid "_Remove"
-#~ msgstr "_Suprimeix"
-
-#~ msgid "_First Letter"
-#~ msgstr "_Primera lletra"
-
-#~ msgid "Do _not correct:"
-#~ msgstr "_No corregeixis:"
-
-#~ msgid "_INitial CApitals"
-#~ msgstr "_MAjúscules INicials"
-
-#~ msgid "Auto Correct"
-#~ msgstr "Autocorregeix"
-
-#~ msgid "Correct _TWo INitial CApitals                           "
-#~ msgstr "Corregeix _DUes INicials MAjúscules                     "
-
-#~ msgid "_Exceptions..."
-#~ msgstr "_Excepcions..."
-
-#~ msgid "Capitalize _first letter of sentence"
-#~ msgstr "Escriu en majúscules la _primera lletra de cada frase"
-
-#~ msgid "Capitalize _names of days"
-#~ msgstr "Escriu en majúscules els _noms dels dies"
-
-#~ msgid "Correct accidental use of _cAPS LOCK key"
-#~ msgstr "Corregeix l'ús accidental de la tecla _bLOQ MAJ"
-
-#~ msgid "_Replace text when typed"
-#~ msgstr "_Reemplaça el text en teclejar"
-
-#~ msgid "Re_place:"
-#~ msgstr "Reem_plaça"
-
-#~ msgid "_With:"
-#~ msgstr "_Amb:"
-
-#~ msgid "Gnumeric: Autoformat"
-#~ msgstr "Gnumeric: Autoformatatge"
-
-#~ msgid "Apply _Number Formats"
-#~ msgstr "Aplica el format dels _nombres"
-
-#~ msgid "Apply _Borders"
-#~ msgstr "Aplica els _contorns"
-
-#~ msgid "Apply _Fonts"
-#~ msgstr "Aplica les _fonts"
-
-#~ msgid "Apply _Patterns"
-#~ msgstr "Aplica els _patrons"
-
-#~ msgid "Apply _Alignment"
-#~ msgstr "Aplica l'_alineament"
-
-#~ msgid "_Show Gridlines"
-#~ msgstr "_Mostra les línies de graella"
-
-#~ msgid "_New..."
-#~ msgstr "_Nou..."
-
-#~ msgid "_Edit..."
-#~ msgstr "_Edita..."
-
-#~ msgid "_Remove Current"
-#~ msgstr "_Suprimeix l'actual"
-
-#~ msgid "_Category"
-#~ msgstr "_Categoria"
-
-#~ msgid "The current category"
-#~ msgstr "La categoria actual"
-
-#~ msgid "_Preview"
-#~ msgstr "_Previsualitza"
-
-#~ msgid "A short description of the template"
-#~ msgstr "Una descripció curta de la plantilla"
-
-#~ msgid "The category this template belongs to"
-#~ msgstr "La categoria a la qual pertany aquesta plantilla"
-
-#~ msgid "The group/individual that made the template"
-#~ msgstr "El grup/individu que creà la plantilla"
-
-#~ msgid "Name of template"
-#~ msgstr "Nom de la plantilla"
-
-#~ msgid "Name :"
-#~ msgstr "Nom :"
-
-#~ msgid "Author :"
-#~ msgstr "Autor :"
-
-#~ msgid "Category :"
-#~ msgstr "Categoria :"
-
-#~ msgid "Description :"
-#~ msgstr "Descripció :"
-
-#~ msgid "_Template Details"
-#~ msgstr "_Detalls de la plantilla"
-
-#~ msgid "Auto Save"
-#~ msgstr "Desa automàticament"
-
-#~ msgid "Do you want to save the workbook?"
-#~ msgstr "Desitgeu desar el llibre de treball?"
-
-#~ msgid "_Automatic Save Every"
-#~ msgstr "_Desa automàticament cada"
-
-#~ msgid "_Prompt Before Saving"
-#~ msgstr "_Sol·licita abans de desar"
-
-#~ msgid "_minutes"
-#~ msgstr "_minuts"
-
-#~ msgid "_General"
-#~ msgstr "_General"
-
-#~ msgid "_Number"
-#~ msgstr "_Nombre"
-
-#~ msgid "_Currency"
-#~ msgstr "_Moneda"
-
-#~ msgid "_Accounting"
-#~ msgstr "_Estadístiques"
-
-#~ msgid "_Date"
-#~ msgstr "_Data"
-
-#~ msgid "_Time"
-#~ msgstr "_Hora"
-
-#~ msgid "_Percentage"
-#~ msgstr "_Percentatge"
-
-#~ msgid "_Fraction"
-#~ msgstr "_Fracció"
-
-#~ msgid "_Scientific"
-#~ msgstr "_Científic"
-
-#~ msgid "Te_xt"
-#~ msgstr "Te_xt"
-
-#~ msgid "Sp_ecial"
-#~ msgstr "_Especial"
-
-#~ msgid "Cust_om"
-#~ msgstr "Pe_rsonalitzat"
-
-#~ msgid ""
-#~ "General format cells attempt to select an appropriate format depending on "
-#~ "the value of the cell."
-#~ msgstr ""
-#~ "Les cel·les amb el formatatge General intenten sel·leccionar un format "
-#~ "apropiat que depèn del valor de la cel·la."
-
-#~ msgid "Deci_mal places:"
-#~ msgstr "Nombre de _decimals:"
-
-#~ msgid "_Use Separator for 1000's"
-#~ msgstr "_Utilitza el separador pels milers"
-
-#~ msgid "S_ymbol:"
-#~ msgstr "S_ímbol:"
-
-#~ msgid "$"
-#~ msgstr "$"
-
-#~ msgid "Negat_ive number:"
-#~ msgstr "Nombre _negatiu:"
-
-#~ msgid "De_lete format"
-#~ msgstr "Suprimeix el _format"
-
-#~ msgid "_Type"
-#~ msgstr "_Tipus"
-
-#~ msgid "Display the value exactly as it was entered"
-#~ msgstr "Mostra el valor tal i com es va introduir"
-
-#~ msgid "Horizontal"
-#~ msgstr "Horitzontal"
-
-#~ msgid "_Justify"
-#~ msgstr "_Justifica"
-
-#~ msgid "_Right"
-#~ msgstr "_Dreta"
-
-#~ msgid "_Fill"
-#~ msgstr "_Omple"
-
-#~ msgid "_Center"
-#~ msgstr "_Centre"
-
-#~ msgid "_Left"
-#~ msgstr "_Esquerra"
-
-#~ msgid "Center _across selection"
-#~ msgstr "Centra _a través de la selecció"
-
-#~ msgid "Left _Indent"
-#~ msgstr "_Sagna a l'esquerra"
-
-#~ msgid "Vertical Alignment"
-#~ msgstr "Alineació vertical"
-
-#~ msgid "_Top"
-#~ msgstr "_Superior"
-
-#~ msgid "C_enter"
-#~ msgstr "C_entre"
-
-#~ msgid "_Bottom"
-#~ msgstr "_Inferior"
-
-#~ msgid "J_ustify"
-#~ msgstr "J_ustifica"
-
-#~ msgid "Control"
-#~ msgstr "Control"
-
-#~ msgid "_Wrap text"
-#~ msgstr "_Ajusta el text"
-
-#~ msgid "Shrin_k to fit"
-#~ msgstr "_Encongeix fins que encaixi"
-
-#~ msgid "_Merge Cells"
-#~ msgstr "_Fusiona cel·les"
-
-#~ msgid "Orientation"
-#~ msgstr "Orientació"
-
-#~ msgid "Unfinished"
-#~ msgstr "Inacabat"
-
-#~ msgid "Alignment"
-#~ msgstr "Alineament"
-
-#~ msgid "Color"
-#~ msgstr "Color"
-
-#~ msgid "_Automatic"
-#~ msgstr "_Automàtic"
-
-#~ msgid "_Custom"
-#~ msgstr "_Personalitzat"
-
-#~ msgid "Pick a font color"
-#~ msgstr "Escolliu el color del text"
-
-#~ msgid "Effects"
-#~ msgstr "Efectes"
-
-#~ msgid "_Underline:"
-#~ msgstr "_Subratllat:"
-
-#~ msgid "Stri_kethrough"
-#~ msgstr "_Ratllat"
-
-#~ msgid "Sup_erscript"
-#~ msgstr "Su_períndex"
-
-#~ msgid "Su_bscript"
-#~ msgstr "Su_bíndex"
-
-#~ msgid "Reverse Diagonal"
-#~ msgstr "Diagonal inversa"
-
-#~ msgid "Top"
-#~ msgstr "Superior"
-
-#~ msgid "Diagonal"
-#~ msgstr "Diagonal"
-
-#~ msgid "Outline"
-#~ msgstr "Contorn"
-
-#~ msgid "Inside Vertical"
-#~ msgstr "Vertical interior"
-
-#~ msgid "Inside"
-#~ msgstr "Interior"
-
-#~ msgid "Inside Horizontal"
-#~ msgstr "Horitzontal interior"
-
-#~ msgid "_Style"
-#~ msgstr "_Estil"
-
-#~ msgid "Pick a border color"
-#~ msgstr "Escolliu un color del contorn"
-
-#~ msgid "Border"
-#~ msgstr "Contorn"
-
-#~ msgid "Background Color"
-#~ msgstr "Color de fons"
-
-#~ msgid "_No Color"
-#~ msgstr "_Sense color"
-
-#~ msgid "C_olor"
-#~ msgstr "C_olor"
-
-#~ msgid "Pick a Background color"
-#~ msgstr "Escolliu un color de fons"
-
-#~ msgid "Pattern"
-#~ msgstr "Patró"
-
-#~ msgid "Pick a Pattern color"
-#~ msgstr "Escolliu el color del patró"
-
-#~ msgid "75% Grey"
-#~ msgstr "Gris 75%"
-
-#~ msgid "50% Grey"
-#~ msgstr "Gris 50%"
-
-#~ msgid "25% Grey"
-#~ msgstr "Gris 25%"
-
-#~ msgid "12.5% Grey"
-#~ msgstr "Gris 12.5%"
-
-#~ msgid "6.25% Grey"
-#~ msgstr "Gris 6.25%"
-
-#~ msgid "Horizontal Stripe"
-#~ msgstr "Línia horitzontal"
-
-#~ msgid "Thin Horizontal Stripe"
-#~ msgstr "Línia horitzontal prima"
-
-#~ msgid "Vertical Stripe"
-#~ msgstr "Línia vertical"
-
-#~ msgid "Thin Vertical Stripe"
-#~ msgstr "Línia vertical prima"
-
-#~ msgid "Reverse Diagonal Stripe"
-#~ msgstr "Línia diagonal invertida"
-
-#~ msgid "Thin Reverse Diagonal Stripe"
-#~ msgstr "Línia diagonal invertida prima"
-
-#~ msgid "Diagonal Stripe"
-#~ msgstr "Línia diagonal"
-
-#~ msgid "Thin Diagonal Stripe"
-#~ msgstr "Línia diagonal prima"
-
-#~ msgid "Diagonal Crosshatch"
-#~ msgstr "Línies creuades en diagonal"
-
-#~ msgid "Thick Diagonal Crosshatch"
-#~ msgstr "Línies gruixudes creuades en diagonal"
-
-#~ msgid "Thin Horizontal Crosshatch"
-#~ msgstr "Línies gruixudes creuades en diagonal"
-
-#~ msgid "Thin Diagonal Crosshatch"
-#~ msgstr "Línies primes creuades en diagonal"
-
-#~ msgid "Solid"
-#~ msgstr "Sòlid"
-
-#~ msgid "Bricks"
-#~ msgstr "Maons"
-
-#~ msgid "Large Circles"
-#~ msgstr "Cercles grans"
-
-#~ msgid "Thatch"
-#~ msgstr "Línia superior"
-
-#~ msgid "Semi Circles"
-#~ msgstr "Semi cercles"
-
-#~ msgid "Small Circles"
-#~ msgstr "Cercles petits"
-
-#~ msgid "Foreground Solid"
-#~ msgstr "Sòlid en primer pla"
-
-#~ msgid "_Locked"
-#~ msgstr "_Bloquejat"
-
-#~ msgid "_Hidden"
-#~ msgstr "_Amagat"
-
-#~ msgid "Locking cells or hiding formulas only affects protected worksheets."
-#~ msgstr ""
-#~ "El bloqueig de cel·les o l'ocultació de fórmules només afecta fulls de "
-#~ "treball protegits."
-
-#~ msgid "Worksheet _protected"
-#~ msgstr "Full de treball _protegit"
-
-#~ msgid "Protection"
-#~ msgstr "Protecció"
-
-#~ msgid "Sort..."
-#~ msgstr "Ordena..."
-
-#~ msgid "Add"
-#~ msgstr "Afegeix"
-
-#~ msgid "Remove"
-#~ msgstr "Suprimeix"
-
-#~ msgid "Selection has"
-#~ msgstr "La sel·lecció té"
-
-#~ msgid "A header"
-#~ msgstr "Una capçalera"
-
-#~ msgid "Sort"
-#~ msgstr "Ordena"
-
-#~ msgid "Right-Left"
-#~ msgstr "Dreta-Esquerra"
-
-#~ msgid "Top-Bottom"
-#~ msgstr "Superior-Inferior"
-
-#~ msgid "Advanced Sort Options"
-#~ msgstr "Opcions d'ordenació avançades"
-
-#~ msgid "Text"
-#~ msgstr "Text"
-
-#~ msgid "Entries are"
-#~ msgstr "Les entrades són"
-
-#~ msgid "Case sensitive"
-#~ msgstr "Sensible a les majúscules"
-
-#~ msgid "Column width"
-#~ msgstr "Amplada de la columna"
-
-#~ msgid "_Column width (pts):"
-#~ msgstr "_Amplada de la columna (pts):"
-
-#~ msgid "Delete cells"
-#~ msgstr "Suprimeix cel·les"
-
-#~ msgid "Shift cells _left"
-#~ msgstr "Desplaça les cel·les cap a l'_esquerra"
-
-#~ msgid "Shift cells _up"
-#~ msgstr "Desplaça les cel·les cap a_munt"
-
-#~ msgid "Delete _row(s)"
-#~ msgstr "Suprimeix _fila(es)"
-
-#~ msgid "Delete _column(s)"
-#~ msgstr "Suprimeix _columna(es)"
-
 #~ msgid "Formulas"
 #~ msgstr "Fórmules"
 
 #~ msgid "Values"
 #~ msgstr "Valors"
 
-#~ msgid "Gnumeric : Exporting structured text"
-#~ msgstr "Gnumeric: Exportant text estructurat"
-
-#~ msgid "Choose sheets to export"
-#~ msgstr "Escolliu els fulls per exportar"
-
-#~ msgid ""
-#~ "Please select which sheets you want to export from the current workbook. "
-#~ "They will be exported in the same order as in the export list."
-#~ msgstr ""
-#~ "Sel·leccioneu quins fulls voleu exportar del llibre de treball actual. Seran "
-#~ "exportats en el mateix ordre que la llista d'exportació."
-
-#~ msgid "Available sheets"
-#~ msgstr "Fulls disponibles"
-
-#~ msgid "Sheets to export"
-#~ msgstr "Fulls per exportar"
-
-#~ msgid "Add ->"
-#~ msgstr "Afegeix ->"
-
-#~ msgid "<- Remove"
-#~ msgstr "<- Suprimeix"
-
-#~ msgid "Add all ->"
-#~ msgstr "Afegeix-los tots ->"
-
-#~ msgid "<- Remove all"
-#~ msgstr "<- Suprimeix-los tots"
-
-#~ msgid "Choose export formatting"
-#~ msgstr "Esculliu el format d'exportació"
-
-#~ msgid ""
-#~ "Customize the export format. The line terminator is the character sequence "
-#~ "used for terminating a line in the text file. Wether the quote character is "
-#~ "placed around cells depends on the value choosen for quoting."
-#~ msgstr ""
-#~ "Personalitza el format d'exportació. El caràcter final de cada línia és la "
-#~ "seqüència emprada per acabar una línia en un fitxer de text. El fet de que "
-#~ "s'inclogui el caràcter de cometes per cada cel·la depen del valor escollit "
-#~ "per les cometes."
-
-#~ msgid "Line termination :"
-#~ msgstr "Final de la línia:"
-
-#~ msgid ""
-#~ "Unix (linefeed)\n"
-#~ "Macintosh (carriage return)\n"
-#~ "Windows (carriage return + linefeed)\n"
-#~ msgstr ""
-#~ "Unix (nova línia)\n"
-#~ "Macintosh (retorn)\n"
-#~ "Windows (retorn + nova línia)\n"
-
-#~ msgid "Separator :"
-#~ msgstr "Separador:"
-
 #~ msgid ""
 #~ "\"\n"
 #~ "'\n"
@@ -15307,24 +17284,6 @@ msgstr "S'ha produït un error mentre es mapejava a memòria el fitxer"
 #~ "\"\n"
 #~ "'\n"
 #~ "`\n"
-
-#~ msgid "\""
-#~ msgstr "\""
-
-#~ msgid ""
-#~ "Automatic (puts quotes where needed)\n"
-#~ "Always\n"
-#~ "Never\n"
-#~ msgstr ""
-#~ "Automàtic (posa cometes on sigui necessari)\n"
-#~ "Sempre\n"
-#~ "Mai\n"
-
-#~ msgid "Quoting :"
-#~ msgstr "Cita :"
-
-#~ msgid "Quote character :"
-#~ msgstr "Caràcter de cometes:"
 
 #~ msgid ""
 #~ "Space\n"
@@ -15349,12 +17308,6 @@ msgstr "S'ha produït un error mentre es mapejava a memòria el fitxer"
 #~ "Barra endavant (/)\n"
 #~ "Personalitza\n"
 
-#~ msgid "Gnumeric : Importing structured text"
-#~ msgstr "Gnumeric: Important text estructurat"
-
-#~ msgid "Data type and number of lines"
-#~ msgstr "Tipus de dades i nombre de línies"
-
 #~ msgid ""
 #~ "Select the structure of the text that most closely matches the data. "
 #~ "Separated means that the each column is separated by a 'separation' "
@@ -15371,15 +17324,6 @@ msgstr "S'ha produït un error mentre es mapejava a memòria el fitxer"
 #~ "deixeu el valor per defecte. També podeu sel·leccionar quina part de les "
 #~ "dades voleu importar simplement ajustant des de la línia... a la línia..."
 
-#~ msgid "Formatting options"
-#~ msgstr "Opcions de formatatge"
-
-#~ msgid "Trim :"
-#~ msgstr "SUprimeix espais:"
-
-#~ msgid "Original data type :"
-#~ msgstr "Tipus de dades original"
-
 #~ msgid ""
 #~ "Always (Both sides)\n"
 #~ "Never\n"
@@ -15391,303 +17335,11 @@ msgstr "S'ha produït un error mentre es mapejava a memòria el fitxer"
 #~ "Només al costat esquerre\n"
 #~ "Només al costat dret\n"
 
-#~ msgid "_Separated"
-#~ msgstr "_Separat"
-
-#~ msgid "Fixed wi_dth"
-#~ msgstr "_Amplada fixa"
-
-#~ msgid "Lines to import"
-#~ msgstr "Línies per importar"
-
-#~ msgid "Fr_om line :"
-#~ msgstr "_Des de la línia:"
-
-#~ msgid "_To line : "
-#~ msgstr "_Fins a la línia : "
-
-#~ msgid "Number of lines to import"
-#~ msgstr "Nombre de línies per importar"
-
-#~ msgid "Example"
-#~ msgstr "Exemple"
-
-#~ msgid "Separation customization"
-#~ msgstr "Personalització del separador"
-
-#~ msgid ""
-#~ "Select the separators that appear in the text (you can choose multiple "
-#~ "separators if desired and also enter a custom one). You may choose the "
-#~ "string indicator and wether you want to see two successive separators as one "
-#~ "aswell. Changes will reflect in the example below."
-#~ msgstr ""
-#~ "Sel·leccioneu els separadors que apareixen al text (podeu escollir "
-#~ "separadors múltiples si ho desitgeu i també entrar-ne un de personalitzat). "
-#~ "Podeu escollir també l'indicador de cadenes de caràcters i si voleu veure "
-#~ "dos separadors consecutius com si en fossin un. Els canvis es reflectiran en "
-#~ "l'exemple inferior."
-
-#~ msgid "Separators"
-#~ msgstr "Separadors"
-
-#~ msgid "C_ustom"
-#~ msgstr "_Personalitzat"
-
-#~ msgid "H_yphen (-)"
-#~ msgstr "_Guió (-)"
-
-#~ msgid "Ta_b"
-#~ msgstr "_Tabulació"
-
-#~ msgid "Ban_g (!)"
-#~ msgstr "_Exclamació (!)"
-
-#~ msgid "_Colon (:)"
-#~ msgstr "_Dos punts (:)"
-
-#~ msgid "Co_mma (,)"
-#~ msgstr "_Coma (,)"
-
-#~ msgid "P_ipe (|)"
-#~ msgstr "_Barra vertical (|)"
-
-#~ msgid "Semicolo_n (;)"
-#~ msgstr "_Punt i coma (;)"
-
-#~ msgid "Slas_h (/)"
-#~ msgstr "Barra _diagonal (/)"
-
-#~ msgid "Misc"
-#~ msgstr "Miscel·lània"
-
-#~ msgid "S_ee two separators as one"
-#~ msgstr "_Veure dos separadors com si en fossin un"
-
-#~ msgid "_Adjacent quotes escaped"
-#~ msgstr "_Suprimir cometes adjacents"
-
-#~ msgid "Te_xt indicator : "
-#~ msgstr "_Indicador de text: "
-
-#~ msgid "Fixed width customization"
-#~ msgstr "Personalització d'amplada fixa"
-
-#~ msgid ""
-#~ "Customize the columns using the add/remove buttons or the mouse : left click "
-#~ "to create a new column, right click on a colum border to delete an existing "
-#~ "column and hold the left mouse button on a column border and drag to resize "
-#~ "a column. Auto column discovery will try to recognize columns in the text "
-#~ "automatically."
-#~ msgstr ""
-#~ "Personalitzeu les columnes emprant els butons afegeix/suprimeix o el ratolí: "
-#~ "cliqueu el botó esquerre per crear una nova columna, el botó dret sobre un "
-#~ "contorn d'una columna per suprimir una columna existent i mantingueu el botó "
-#~ "esquerre apretat en un contorn d'una columna i arrossegueu per canviar el "
-#~ "tamany de la columna. L'autodescoberta de columnes provarà de reconéixer "
-#~ "automàticament les columnes dins del text."
-
-#~ msgid "Column"
-#~ msgstr "Columna"
-
-#~ msgid "End"
-#~ msgstr "Final"
-
-#~ msgid "Co_lumn end : "
-#~ msgstr "_Final de columna : "
-
-#~ msgid "_Clear"
-#~ msgstr "_Buida"
-
-#~ msgid "Auto Column _Discovery"
-#~ msgstr "_Autodescoberta de columnes"
-
-# src/functions/fn-information.c:847
-#~ msgid "Column formatting"
-#~ msgstr "Formatatge de columnes"
-
-#~ msgid ""
-#~ "Select the format for each column. You can click in the column list on the "
-#~ "left to select a column, or you can click in the preview. You can then enter "
-#~ "a custom format or select one from the list on the right."
-#~ msgstr ""
-#~ "Sel·leccioneu el format per a cada columna. Podeu clicar a la llista de "
-#~ "columnes de l'esquerra per sel·leccionar una columna, o podeu clicar a la "
-#~ "previsualització. Podeu introduïr un format personalitzat o sel·leccionar-ne "
-#~ "un de la llista de la dreta."
-
-#~ msgid "Per column formatting"
-#~ msgstr "Formatatge per columnes"
-
-#~ msgid "Format"
-#~ msgstr "Format"
-
-#~ msgid "_Format :"
-#~ msgstr "_Format :"
-
-#~ msgid "Magnification"
-#~ msgstr "Augment"
-
-#~ msgid "20_0 %"
-#~ msgstr "20_0 %"
-
-#~ msgid "_100 %"
-#~ msgstr "_100 %"
-
-#~ msgid "_75 %"
-#~ msgstr "_75 %"
-
-#~ msgid "_50 %"
-#~ msgstr "_50 %"
-
-#~ msgid "_25 %"
-#~ msgstr "_25 %"
-
-#~ msgid "_Fit Selection %"
-#~ msgstr "_Adapta sel·lecció %"
-
-#~ msgid "Sheets"
-#~ msgstr "Fulls"
-
 #~ msgid "window1"
 #~ msgstr "finestra1"
 
-#~ msgid "Font:"
-#~ msgstr "Tipus de lletra:"
-
-#~ msgid "Font style:"
-#~ msgstr "Estil del tipus de lletra:"
-
-#~ msgid "Preview"
-#~ msgstr "Previsualització"
-
-#~ msgid "AaBbCcDdEe12345"
-#~ msgstr "AaBbCcDdEe12345"
-
-#~ msgid "Formula Guru"
-#~ msgstr "Fòrmula per a experts"
-
-#~ msgid "Function Selector"
-#~ msgstr "Sel·lector de funcions"
-
-#~ msgid "Function _Categories"
-#~ msgstr "_Categories de funcions"
-
-#~ msgid "Function _Names"
-#~ msgstr "_Noms de les funcions"
-
-#~ msgid "place holder no need to translate"
-#~ msgstr "place holder no need to translate"
-
-#~ msgid "Left section:"
-#~ msgstr "Secció esquerra:"
-
-#~ msgid "Center section:"
-#~ msgstr "Secció central:"
-
-#~ msgid "Right section:"
-#~ msgstr "Secció dreta:"
-
-#~ msgid "Enter the format strings for each section:"
-#~ msgstr "Entreu cadenes de formatatge per a cada secció:"
-
-#~ msgid "Import"
-#~ msgstr "Importa"
-
-#~ msgid "Choose an import filter for loading the file:"
-#~ msgstr "Escolliu un filtre d'importació per carregar el fitxer:"
-
-#~ msgid "Insert cells"
-#~ msgstr "Inserta cel·les"
-
-#~ msgid "Insert"
-#~ msgstr "Inserta"
-
-#~ msgid "_Shift cells right"
-#~ msgstr "_Desplaça les cel·les cap a la dreta"
-
-#~ msgid "Shift cells _down"
-#~ msgstr "Desplaça les cel·les cap _avall"
-
-#~ msgid "Insert _row(s)"
-#~ msgstr "Inserta _fila(es)"
-
-#~ msgid "Insert _column(s)"
-#~ msgstr "Inserta _columna(es)"
-
-#~ msgid "Name Guru"
-#~ msgstr "Nom expert"
-
-#~ msgid "Define Name"
-#~ msgstr "Defineix el nom"
-
 #~ msgid "\n"
 #~ msgstr "\n"
-
-#~ msgid "Gnumeric Plugin Manager"
-#~ msgstr "Gestor de connectors de Gnumeric"
-
-#~ msgid "Installed Plugins"
-#~ msgstr "Connectors instal·lats"
-
-#~ msgid "_Description"
-#~ msgstr "_Descripció"
-
-#~ msgid "Path:"
-#~ msgstr "Camí:"
-
-#~ msgid "_File Details"
-#~ msgstr "_Detalls del fitxer"
-
-#~ msgid "Print setup"
-#~ msgstr "Configuració d'impressió"
-
-#~ msgid "Por_trait"
-#~ msgstr "_Vertical"
-
-#~ msgid "_Landscape"
-#~ msgstr "_Apaïsat"
-
-#~ msgid "Scale"
-#~ msgstr "Escala"
-
-#~ msgid "_Adjust to:"
-#~ msgstr "_Ajusta a:"
-
-#~ msgid "_Fit to:"
-#~ msgstr "_Adapta a:"
-
-#~ msgid "% of normal size"
-#~ msgstr "% de la mida normal"
-
-#~ msgid "page(s) wide by"
-#~ msgstr "l'amplada de la pàgina en"
-
-#~ msgid "tall"
-#~ msgstr "alt"
-
-#~ msgid "Fi_rst page number:"
-#~ msgstr "_Primer nombre de pàgina:"
-
-#~ msgid "Page"
-#~ msgstr "Pàgina"
-
-#~ msgid "Center on page"
-#~ msgstr "Centra dins de la pàgina"
-
-#~ msgid "_Horizontally"
-#~ msgstr "_Horitzontalment"
-
-#~ msgid "_Vertically"
-#~ msgstr "_Verticalment"
-
-#~ msgid "_Left:"
-#~ msgstr "_Esquerra:"
-
-#~ msgid "_Right:"
-#~ msgstr "_Dreta:"
-
-#~ msgid "_Units:"
-#~ msgstr "_Unitats:"
 
 #~ msgid ""
 #~ "pts\n"
@@ -15699,231 +17351,6 @@ msgstr "S'ha produït un error mentre es mapejava a memòria el fitxer"
 #~ "mm\n"
 #~ "cm\n"
 #~ "polzades\n"
-
-#~ msgid "_Top:"
-#~ msgstr "_Superior:"
-
-#~ msgid "He_ader:"
-#~ msgstr "_Capçalera:"
-
-#~ msgid "_Footer:"
-#~ msgstr "_Peu de pàgina:"
-
-#~ msgid "_Bottom:"
-#~ msgstr "_Inferior:"
-
-#~ msgid "Paper _size:"
-#~ msgstr "_Mida de paper:"
-
-#~ msgid "Margins"
-#~ msgstr "Marges"
-
-#~ msgid "sample goes here"
-#~ msgstr "la mostra va aquí"
-
-#~ msgid "Header"
-#~ msgstr "Capçalera"
-
-#~ msgid "Customize _header"
-#~ msgstr "Personalitza la _capçalera"
-
-#~ msgid "Customize _footer"
-#~ msgstr "Personalitza el _peu de pàgina"
-
-#~ msgid "Footer:"
-#~ msgstr "Peu de pàgina:"
-
-#~ msgid "Headers and footers"
-#~ msgstr "Capçaleres i peus de pàgina"
-
-#~ msgid "Print _area:"
-#~ msgstr "_Àrea d'impressió:"
-
-#~ msgid "Titles to print"
-#~ msgstr "Títols a imprimir"
-
-#~ msgid "_Columns to repeat on the left side:"
-#~ msgstr "_Columnes que s'han de repetir al costat esquerre:"
-
-#~ msgid "_Rows to repeat on the upper region:"
-#~ msgstr "_Files que s'han de repetir a la regió superior:"
-
-#~ msgid "Row and co_lumn headings"
-#~ msgstr "Títols de les files i les columnes"
-
-#~ msgid "_Grid lines"
-#~ msgstr "_Línies de graella"
-
-#~ msgid "_Black and white"
-#~ msgstr "_Blanc i negre"
-
-#~ msgid "Page order"
-#~ msgstr "Ordre de les pàgines"
-
-#~ msgid "_Down, then right"
-#~ msgstr "_Avall, després a la dreta"
-
-#~ msgid "R_ight, then down"
-#~ msgstr "_A la dreta, després avall"
-
-#~ msgid "Options"
-#~ msgstr "Opcions"
-
-#~ msgid "Row height"
-#~ msgstr "Alçada de la fila"
-
-#~ msgid "_Row height (pts):"
-#~ msgstr "_Alçada de la fila (pts):"
-
-#~ msgid "Order Sheets"
-#~ msgstr "Ordena els fulls"
-
-#~ msgid "Sheet Name"
-#~ msgstr "Nom del full"
-
-#~ msgid "Move the currently selected sheet up one position"
-#~ msgstr "Mou el full sel·leccionat una posició cap amunt"
-
-#~ msgid "Move the currently selected sheet down one position"
-#~ msgstr "Mou el full sel·leccionat una posició cap avall"
-
-#~ msgid "Delete the currently selected sheet"
-#~ msgstr "Suprimeix el full sel·leccionat"
-
-#~ msgid "Close this dialog"
-#~ msgstr "Tanca aquesta finestra"
-
-#~ msgid "Rename sheet"
-#~ msgstr "Reanomena el full"
-
-#~ msgid "Enter new _sheet name:"
-#~ msgstr "Introduiu un nou nom de _full:"
-
-#~ msgid "Solver Options"
-#~ msgstr "Opcions del solucionador"
-
-#~ msgid "Assume _Linear Model"
-#~ msgstr "Assumeix el model _lineal"
-
-#~ msgid "Assume _Non-Negative"
-#~ msgstr "Assumeix _no-negatiu"
-
-#~ msgid "Add Constraint"
-#~ msgstr "Afegeix restricció"
-
-#~ msgid "_Left Hand Side:"
-#~ msgstr "Costat _esquerre:"
-
-#~ msgid "_Type:"
-#~ msgstr "_Tipus:"
-
-#~ msgid "_Right Hand Side:"
-#~ msgstr "Costat _dret:"
-
-#~ msgid "Add  "
-#~ msgstr "Afegeix "
-
-#~ msgid "Change Constraint"
-#~ msgstr "Canvia restricció"
-
-#~ msgid "Gnumeric Solver Parameters"
-#~ msgstr "Paràmetres del solucionador de Gnumeric"
-
-#~ msgid "_Set Target Cell:       "
-#~ msgstr "_Cel·la de destinació:  "
-
-#~ msgid "                         "
-#~ msgstr "                         "
-
-#~ msgid "Equal To:"
-#~ msgstr "Igual a:"
-
-#~ msgid "_Max"
-#~ msgstr "_Màx"
-
-#~ msgid "M_in"
-#~ msgstr "M_ín"
-
-#~ msgid "B_y Changing Cells: "
-#~ msgstr "_Canviant les cel·les: "
-
-#~ msgid "Subject to the Constraints:"
-#~ msgstr "Subjecte a les restriccions:"
-
-#~ msgid "_Change"
-#~ msgstr "_Canvia"
-
-#~ msgid "_Delete"
-#~ msgstr "_Suprimeix"
-
-#~ msgid "Solve"
-#~ msgstr "Resol"
-
-#~ msgid "Options..."
-#~ msgstr "Opcions..."
-
-#~ msgid "Reports:"
-#~ msgstr "Informes:"
-
-#~ msgid "_Answer"
-#~ msgstr "_Respon"
-
-#~ msgid "_Sensitivity"
-#~ msgstr "_Sensibilitat"
-
-#~ msgid "_Limits"
-#~ msgstr "_Límits"
-
-#~ msgid "_Keep Solver Solution"
-#~ msgstr "_Mantingues la solució del solucionador"
-
-#~ msgid "_Restore Original Values"
-#~ msgstr "_Restaura els valors originals"
-
-#~ msgid "Summary"
-#~ msgstr "Resum"
-
-#~ msgid "Title"
-#~ msgstr "Títol"
-
-#~ msgid "Author"
-#~ msgstr "Autor"
-
-#~ msgid "Category"
-#~ msgstr "Categoria"
-
-#~ msgid "Keywords"
-#~ msgstr "Paraules clau"
-
-#~ msgid "Manager"
-#~ msgstr "Gestor"
-
-#~ msgid "Document Summary Information\n"
-#~ msgstr "Informació resum del document\n"
-
-#~ msgid "Comments"
-#~ msgstr "Comentaris"
-
-#~ msgid "Company"
-#~ msgstr "Empresa"
-
-#~ msgid "Scrollbars"
-#~ msgstr "Barres de desplaçament"
-
-#~ msgid "_Horizontal Scrollbar"
-#~ msgstr "Barra de desplaçament _horitzontal"
-
-#~ msgid "_Vertical Scrollbar"
-#~ msgstr "Brra de desplaçament _vertical"
-
-#~ msgid "Notebook"
-#~ msgstr "Bloc de notes"
-
-#~ msgid "_Tabs"
-#~ msgstr "_Tabulacions"
-
-#~ msgid "View"
-#~ msgstr "Visualitza"
 
 #~ msgid "You cannot change part of an array."
 #~ msgstr "No podeu canviar una part d'una matriu."
@@ -16039,9 +17466,6 @@ msgstr "S'ha produït un error mentre es mapejava a memòria el fitxer"
 
 #~ msgid "window2"
 #~ msgstr "finestra2"
-
-#~ msgid "_Print"
-#~ msgstr "_Imprimeix"
 
 #~ msgid "Print previe_w"
 #~ msgstr "_Previsualitza l'impressió"
@@ -16491,17 +17915,5 @@ msgstr "S'ha produït un error mentre es mapejava a memòria el fitxer"
 #~ msgid "Gnumeric plugins"
 #~ msgstr "Connexions Gnumèriques"
 
-#~ msgid "Invokes the graphic wizard to create a graphic"
-#~ msgstr "Invoca l'auxiliar de gràfics per crear un gràfic"
-
 #~ msgid "Insert Object"
 #~ msgstr "Inserta un objecte"
-
-#~ msgid "Inserts an object in the spreadsheet"
-#~ msgstr "Inserta un objecte en el full de difusió"
-
-#~ msgid "Insert shaped object"
-#~ msgstr "Inserta un objecte amb forma"
-
-#~ msgid "Inserts a shaped object in the spreadsheet"
-#~ msgstr "Inserta un objecte amb forma en el full de difusió"

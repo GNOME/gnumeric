@@ -1,5 +1,16 @@
 2000-12-07  Jody Goldberg <jgoldberg@home.com>
 
+        * Release 0.60
+
+2000-12-07  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-grid.c : Disable canvas grab debug.
+	* src/item-cursor.c : Ditto.
+	* src/item-bar.c : Ditto.
+	* src/sheet-control-gui.c : Ditto.
+
+2000-12-07  Jody Goldberg <jgoldberg@home.com>
+
 	* src/sheet-control-gui.c (scg_context_menu) : Use more of the new
 	  artwork.
 

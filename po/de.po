@@ -34,7 +34,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.56cvs\n"
-"POT-Creation-Date: 2000-11-18 13:14-0500\n"
+"POT-Creation-Date: 2000-12-07 20:18-0500\n"
 "PO-Revision-Date: 2000-09-20 19:36+0200\n"
 "Last-Translator: the Team <gnome-de@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
@@ -107,29 +107,29 @@ msgid "#UNKNOWN!"
 msgstr "#UNBEKANNT!"
 
 #: plugins/excel/ms-excel-read.c:600 plugins/lotus-123/lotus.c:196
-#: plugins/oleo/oleo.c:44 src/workbook.c:559
+#: plugins/oleo/oleo.c:44 src/workbook.c:561
 #, c-format
 msgid "Sheet%d"
 msgstr "Blatt%d"
 
-#: plugins/excel/ms-excel-read.c:3968
+#: plugins/excel/ms-excel-read.c:3947
 msgid "No book or workbook streams found."
 msgstr "Keine book- oder workbook-Streams gefunden."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4270
+#: plugins/excel/ms-excel-read.c:4241
 msgid "Password protected workbooks are not supported yet."
 msgstr "Passwortgeschützte Arbeitsbücher werden noch nicht unterstützt."
 
-#: plugins/excel/ms-excel-read.c:4428
+#: plugins/excel/ms-excel-read.c:4399
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kann kein gültiges MS-Excel-Arbeitsbuch auffinden."
 
-#: plugins/excel/ms-excel-write.c:3462
+#: plugins/excel/ms-excel-write.c:3484
 msgid "Too many rows for this format"
 msgstr "Zu viele Zeilen für dies Format"
 
-#: plugins/excel/ms-excel-write.c:3546
+#: plugins/excel/ms-excel-write.c:3568
 msgid "Can't open stream for writing\n"
 msgstr "Kann keinen Stream öffen, um zu schreiben\n"
 
@@ -141,25 +141,53 @@ msgstr "Fehlerhafte Funktion"
 msgid " Unknown formula"
 msgstr " Unbekannte Formel"
 
-#: plugins/gb/plugin.c:124
+#: plugins/gb/plugin.c:131
 msgid "Unknown GB error"
 msgstr "Unbekannter GB-Fehler"
 
-#: plugins/gb/plugin.c:376
+#: plugins/gb/plugin.c:384
 msgid "Gnome Basic"
 msgstr "GNOME Basic"
 
-#: plugins/gb/plugin.c:377
+#: plugins/gb/plugin.c:385
 msgid "Enables Gnome Basic support"
 msgstr "Unterstützung für GNOME Basic aktivieren"
 
-#: plugins/gda/plugin-gda.c:251
-msgid "Database Access"
-msgstr "Datenbank-Zugriff"
+#: plugins/gda/plugin-gda.c:105
+msgid ""
+"@FUNCTION=EXECSQL\n"
+"@SYNTAX=EXECSQL(i)\n"
+"@DESCRIPTION=The EXECSQL function lets you execute a command in a\n"
+" database server, and show the results returned in\n"
+" current sheet\n"
+"\n"
+"@EXAMPLES=\n"
+"@SEEALSO="
+msgstr ""
 
-#: plugins/gda/plugin-gda.c:252
-msgid "Enables database access"
-msgstr "Datenbank-Zugriff aktivieren"
+#: plugins/gda/plugin-gda.c:134
+msgid "Format: execSQL(dsn,user,password,sql)"
+msgstr ""
+
+#: plugins/gda/plugin-gda.c:140
+#, fuzzy
+msgid "Error: could not initialize connection pool"
+msgstr "Konnte die Gnumeric-Arbeitsbuch-Factory nicht initialisieren"
+
+#: plugins/gda/plugin-gda.c:145
+#, c-format
+msgid "Error: could not open connection to %s"
+msgstr ""
+
+#. register functions
+#: plugins/gda/plugin-gda.c:197 plugins/gda/plugin-gda.c:202
+#: src/functions/fn-database.c:1337
+msgid "Database"
+msgstr "Datenbank"
+
+#: plugins/gda/plugin-gda.c:203
+msgid "Database functions for allowing the retrieval of data from a database"
+msgstr ""
 
 #: plugins/guile/plugin.c:63 src/func.c:547 src/functions/fn-information.c:585
 #: src/functions/fn-information.c:653 src/functions/fn-information.c:680
@@ -779,14 +807,14 @@ msgstr "Maximum"
 
 #: po/tmp/gnumeric.xml.h:179 src/analysis-tools.c:750
 #: src/analysis-tools.c:2335 src/analysis-tools.c:2501
-#: src/analysis-tools.c:2748 src/workbook-control-gui.c:2070
-#: src/workbook-control-gui.c:2797 src/workbook-view.c:386
+#: src/analysis-tools.c:2748 src/workbook-control-gui.c:2082
+#: src/workbook-control-gui.c:2801 src/workbook-view.c:487
 msgid "Sum"
 msgstr "Summe"
 
 #: src/analysis-tools.c:751 src/analysis-tools.c:2334
 #: src/analysis-tools.c:2500 src/analysis-tools.c:2747
-#: src/workbook-control-gui.c:2801
+#: src/workbook-control-gui.c:2805
 msgid "Count"
 msgstr "Anzahl"
 
@@ -816,7 +844,7 @@ msgstr "K-kleinste"
 msgid "Smallest (%d)"
 msgstr "Kleinste (%d)"
 
-#: po/tmp/cell-format.glade.h:63 src/analysis-tools.c:978
+#: po/tmp/cell-format.glade.h:61 src/analysis-tools.c:978
 #: src/analysis-tools.c:2763
 msgid "Sample"
 msgstr "Beispiel"
@@ -1053,7 +1081,7 @@ msgid "Rank"
 msgstr "Wertebereich"
 
 #: po/tmp/gnumeric.xml.h:139 src/analysis-tools.c:2213
-#: src/analysis-tools.c:2239 src/workbook-format-toolbar.c:406
+#: src/analysis-tools.c:2239 src/workbook-format-toolbar.c:417
 msgid "Percent"
 msgstr "Prozent"
 
@@ -1062,7 +1090,7 @@ msgstr "Prozent"
 msgid "Anova"
 msgstr ""
 
-#: po/tmp/analysis-tools.glade.h:9 src/analysis-tools.c:2331
+#: po/tmp/analysis-tools.glade.h:8 src/analysis-tools.c:2331
 #: src/dialogs/dialog-analysis-tools.c:83
 msgid "Anova: Single Factor"
 msgstr "Anova: Einzelner Faktor"
@@ -1077,7 +1105,7 @@ msgid "Groups"
 msgstr "Gruppen"
 
 #: src/analysis-tools.c:2336 src/analysis-tools.c:2502
-#: src/analysis-tools.c:2749 src/workbook-control-gui.c:2800
+#: src/analysis-tools.c:2749 src/workbook-control-gui.c:2804
 msgid "Average"
 msgstr "Mittel"
 
@@ -1098,7 +1126,7 @@ msgstr "Zwischen Gruppen"
 msgid "Within Groups"
 msgstr "Innerhalb von Gruppen"
 
-#: po/tmp/analysis-tools.glade.h:11 src/analysis-tools.c:2498
+#: po/tmp/analysis-tools.glade.h:10 src/analysis-tools.c:2498
 #: src/dialogs/dialog-analysis-tools.c:87
 msgid "Anova: Two-Factor Without Replication"
 msgstr ""
@@ -1107,7 +1135,7 @@ msgstr ""
 msgid "Rows"
 msgstr "Zeilen"
 
-#: po/tmp/dialog-stf.glade.h:28 src/analysis-tools.c:2604
+#: po/tmp/dialog-stf.glade.h:22 src/analysis-tools.c:2604
 #: src/analysis-tools.c:2764 src/dialogs/dialog-analysis-tools.c:404
 msgid "Columns"
 msgstr "Spalten"
@@ -1116,7 +1144,7 @@ msgstr "Spalten"
 msgid "Error"
 msgstr "Fehler"
 
-#: po/tmp/analysis-tools.glade.h:10 src/analysis-tools.c:2673
+#: po/tmp/analysis-tools.glade.h:9 src/analysis-tools.c:2673
 #: src/dialogs/dialog-analysis-tools.c:85
 msgid "Anova: Two-Factor With Replication"
 msgstr ""
@@ -1133,7 +1161,7 @@ msgstr "Innerhalb"
 msgid "F crit"
 msgstr ""
 
-#: po/tmp/analysis-tools.glade.h:19 src/analysis-tools.c:2818
+#: po/tmp/analysis-tools.glade.h:18 src/analysis-tools.c:2818
 #: src/dialogs/dialog-analysis-tools.c:99
 msgid "Histogram"
 msgstr "Histogramm"
@@ -1151,26 +1179,26 @@ msgstr "Frequenz"
 msgid "Cumulative %"
 msgstr "Kumulative %"
 
-#: src/bonobo-io.c:457
+#: src/bonobo-io.c:451
 #, c-format
 msgid "Error '%s' opening workbook stream"
 msgstr ""
 
-#: src/bonobo-io.c:476 src/xml-io-autoft.c:452 src/xml-io.c:3465
+#: src/bonobo-io.c:470 src/xml-io-autoft.c:452 src/xml-io.c:3326
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ungültige XML-Datei. Ist der Baum leer?"
 
-#: src/bonobo-io.c:487
+#: src/bonobo-io.c:481
 #, fuzzy
 msgid "Does not contain a Workbook file"
 msgstr "Ist keine gnumeric-Arbeitsbuch-Datei"
 
-#: src/bonobo-io.c:533
+#: src/bonobo-io.c:527
 #, fuzzy
 msgid "Gnumeric Bonobo file format"
 msgstr "Gnumeric-XML-Dateiformat"
 
-#: src/clipboard.c:285
+#: src/clipboard.c:280
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -1183,11 +1211,11 @@ msgstr ""
 "Wählen Sie eine einzelne Zelle oder einen Bereich mit gleichem\n"
 "Umriss und gleicher Größe aus."
 
-#: src/clipboard.c:289 src/clipboard.c:301 src/clipboard.c:309
+#: src/clipboard.c:284 src/clipboard.c:296 src/clipboard.c:304
 msgid "Unable to paste"
 msgstr "Kann nicht einfügen."
 
-#: src/clipboard.c:297
+#: src/clipboard.c:292
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -1200,7 +1228,7 @@ msgstr ""
 "Wählen Sie eine einzelne Zelle oder einen Bereich mit gleichem\n"
 "Umriss und gleicher Größe aus."
 
-#: src/clipboard.c:310
+#: src/clipboard.c:305
 msgid "result passes the sheet boundary"
 msgstr "Das Ergebnis überschreitet die Blattgrenzen."
 
@@ -1222,79 +1250,80 @@ msgid "Unable to paste into selection"
 msgstr "Kann nicht in die Markierung einfügen."
 
 #: po/tmp/gnumeric.xml.h:134 src/cmd-edit.c:356
-#: src/workbook-control-gui.c:2050
+#: src/workbook-control-gui.c:2062
 msgid "Paste"
 msgstr "Einfügen"
 
-#: src/commands.c:429 src/commands.c:526
+#: src/commands.c:511 src/commands.c:610
 msgid "Set Text"
 msgstr "Text eingeben"
 
-#: src/commands.c:453
+#: src/commands.c:537
 #, c-format
 msgid "Typing \"%s%s\" in %s"
 msgstr "Gebe \"%s%s\" in %s ein"
 
-#: src/commands.c:639
+#: src/commands.c:725
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "Gebe \"%s%s\" ein"
 
-#: src/commands.c:839
+#: src/commands.c:927
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Füge %d Spalten vor %s ein"
 
-#: src/commands.c:840
+#: src/commands.c:928
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Füge %d Spalte vor %s ein"
 
-#: src/commands.c:851
+#: src/commands.c:939
 #, c-format
 msgid "Inserting %d rows before %d"
 msgstr "Füge %d Zeilen vor %d ein"
 
-#: src/commands.c:852
+#: src/commands.c:940
 #, c-format
 msgid "Inserting %d row before %d"
 msgstr "Füge %d Zeile vor %d ein"
 
 #. col_name uses a static buffer
-#: src/commands.c:865
+#: src/commands.c:953
 #, c-format
 msgid "Deleting %d columns %s:"
 msgstr "Lösche %d Spalten %s:"
 
-#: src/commands.c:870
+#: src/commands.c:958
 #, c-format
 msgid "Deleting column %s"
 msgstr "Lösche Spalte %s"
 
-#: src/commands.c:880
+#: src/commands.c:969
 #, c-format
 msgid "Deleting %d rows %d:%d"
 msgstr "Lösche %d Zeilen %d:%d"
 
-#: src/commands.c:882
+#: src/commands.c:971
 #, c-format
 msgid "Deleting row %d"
 msgstr "Lösche Zeile %d"
 
-#: src/commands.c:950
+#: src/commands.c:1039
 msgid "Undo Clear"
 msgstr "Leeren rückgängig machen"
 
+#. FIXME?
 #. TODO : Something more descriptive ? maybe the range name
-#: src/commands.c:1022 src/sheet.c:2402
+#: src/commands.c:1113 src/sheet.c:2355
 msgid "Clear"
 msgstr "Leeren"
 
-#: src/commands.c:1212
+#: src/commands.c:1306
 msgid "Format cells"
 msgstr "Zellen formatieren"
 
-#: src/commands.c:1283
+#: src/commands.c:1379
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr "Benenne Blatt von `%s' in `%s' um"
@@ -1306,73 +1335,76 @@ msgstr "Benenne Blatt von `%s' in `%s' um"
 #. * translators should be aware that the leading character of the
 #. * result will be ignored.
 #.
-#: src/commands.c:1361
+#: src/commands.c:1457
 msgid ">mm/dd/yyyy"
 msgstr ">dd. mm. yyyy"
 
 #. FIXME : See comment above
-#: src/commands.c:1366
+#: src/commands.c:1462
 msgid ">hh:mm"
 msgstr ">hh:mm"
 
-#: src/commands.c:1410
+#: src/commands.c:1506
 msgid "Set Date/Time"
 msgstr "Datum/Zeit setzen"
 
-#: src/commands.c:1425
+#: src/commands.c:1523
 #, c-format
 msgid "Setting current date in %s"
 msgstr "Stelle aktuelles Datum ein in %s"
 
-#: src/commands.c:1426
+#: src/commands.c:1524
 #, c-format
 msgid "Setting current time in %s"
 msgstr "Stelle aktuelle Zeit ein in %s"
 
-#: src/commands.c:1523
+#: src/commands.c:1626
 msgid "Setting width of columns"
 msgstr "Spaltenbreite einstellen"
 
-#: src/commands.c:1524
+#: src/commands.c:1627
 msgid "Setting height of rows"
 msgstr "Zeilenhöhe einstellen"
 
-#: src/commands.c:1618
+#: src/commands.c:1724
 #, c-format
 msgid "Sorting %s"
 msgstr "Sortiere %s"
 
-#: src/commands.c:1699
+#: src/commands.c:1807
 msgid "Unhide columns"
 msgstr "Spalten hervorholen"
 
-#: src/commands.c:1699
+#: src/commands.c:1807
 msgid "Hide columns"
 msgstr "Spalten verbergen"
 
-#: src/commands.c:1700
+#: src/commands.c:1808
 msgid "Unhide rows"
 msgstr "Zeilen hervorholen"
 
-#: src/commands.c:1700
+#: src/commands.c:1808
 msgid "Hide rows"
 msgstr "Zeilen verbergen"
 
 #. FIXME : improve on this
-#: src/commands.c:1869
+#: src/commands.c:1978
 msgid "Moving cells"
 msgstr "Verschiebe Zellen"
 
-#: src/commands.c:2010
+#. FIXME?
+#: src/commands.c:2123
 #, c-format
 msgid "Pasting into %s"
 msgstr "In %s einfügen"
 
-#: src/commands.c:2141
+#. Changed in initial redo.
+#: src/commands.c:2261
 msgid "Autofill"
 msgstr "AutoFüllen"
 
-#: src/commands.c:2297
+#. FIXME?
+#: src/commands.c:2419
 #, fuzzy
 msgid "Autoformat"
 msgstr "_Autoformat..."
@@ -1535,422 +1567,420 @@ msgstr "Dezember"
 
 #.
 #. * Translatable strings file generated by extract-ui.
-#. * Add this file to your project's POTFILES.in
-#. * DO NOT compile it as part of your application.
+#. * DO NOT compile this file as part of your application.
 #.
-#: po/tmp/advanced-filter.glade.h:7
+#: po/tmp/advanced-filter.glade.h:6
 msgid "Action"
 msgstr "Aktion"
 
-#: po/tmp/advanced-filter.glade.h:8
+#: po/tmp/advanced-filter.glade.h:7
 msgid "Advanced Filter"
 msgstr "Komplexer Filter"
 
-#: po/tmp/advanced-filter.glade.h:9
+#: po/tmp/advanced-filter.glade.h:8
 msgid "C_opy to:        "
 msgstr "K_opieren auf:   "
 
-#: po/tmp/advanced-filter.glade.h:10
+#: po/tmp/advanced-filter.glade.h:9
 msgid "C_riteria range:"
 msgstr "K_riterienbereich:"
 
-#: po/tmp/advanced-filter.glade.h:11
+#: po/tmp/advanced-filter.glade.h:10
 msgid "Copy to a new _sheet"
 msgstr "Auf ein neues _Blatt kopieren"
 
-#: po/tmp/advanced-filter.glade.h:12
+#: po/tmp/advanced-filter.glade.h:11
 msgid "Copy to a new _workbook"
 msgstr "In ein neues _Arbeitsbuch kopieren"
 
-#: po/tmp/advanced-filter.glade.h:13
+#: po/tmp/advanced-filter.glade.h:12
 msgid "_Copy to a new location"
 msgstr "An einen neuen Ort _kopieren"
 
-#: po/tmp/advanced-filter.glade.h:14
+#: po/tmp/advanced-filter.glade.h:13
 msgid "_Filter in-place"
 msgstr "An Ort und Stelle _filtern"
 
-#: po/tmp/advanced-filter.glade.h:15
+#: po/tmp/advanced-filter.glade.h:14
 msgid "_List range:     "
 msgstr "_Listenbereich:  "
 
-#: po/tmp/advanced-filter.glade.h:16
+#: po/tmp/advanced-filter.glade.h:15
 msgid "_Unique records only"
 msgstr "Keine do_ppelten Datensätze"
 
 #.
 #. * Translatable strings file generated by extract-ui.
-#. * Add this file to your project's POTFILES.in
-#. * DO NOT compile it as part of your application.
+#. * DO NOT compile this file as part of your application.
 #.
-#: po/tmp/analysis-tools.glade.h:7
+#: po/tmp/analysis-tools.glade.h:6
 #, fuzzy
 msgid "1 - _Alpha:"
 msgstr "_Alpha:"
 
-#: po/tmp/analysis-tools.glade.h:8
+#: po/tmp/analysis-tools.glade.h:7
 msgid "Analysis Tools"
 msgstr "Analyse-Werkzeuge"
 
-#: po/tmp/analysis-tools.glade.h:12
+#: po/tmp/analysis-tools.glade.h:11
 #, fuzzy
 msgid "C_umulative Percentages"
 msgstr "_Prozent"
 
-#: po/tmp/analysis-tools.glade.h:13 src/dialogs/dialog-analysis-tools.c:89
+#: po/tmp/analysis-tools.glade.h:12 src/dialogs/dialog-analysis-tools.c:89
 msgid "Correlation"
 msgstr "Korrelation"
 
-#: po/tmp/analysis-tools.glade.h:14 src/dialogs/dialog-analysis-tools.c:91
+#: po/tmp/analysis-tools.glade.h:13 src/dialogs/dialog-analysis-tools.c:91
 msgid "Covariance"
 msgstr "Kovarianz"
 
-#: po/tmp/analysis-tools.glade.h:15
+#: po/tmp/analysis-tools.glade.h:14
 msgid "Data Analysis"
 msgstr "Datenanalyse"
 
-#: po/tmp/analysis-tools.glade.h:16 src/dialogs/dialog-analysis-tools.c:95
+#: po/tmp/analysis-tools.glade.h:15 src/dialogs/dialog-analysis-tools.c:95
 msgid "F-Test: Two-Sample for Variances"
 msgstr ""
 
-#: po/tmp/analysis-tools.glade.h:17 src/dialogs/dialog-analysis-tools.c:97
+#: po/tmp/analysis-tools.glade.h:16 src/dialogs/dialog-analysis-tools.c:97
 msgid "Fourier Analysis"
 msgstr "Fourier-Analyse"
 
-#: po/tmp/analysis-tools.glade.h:18
+#: po/tmp/analysis-tools.glade.h:17
 msgid "Grouped by:"
 msgstr "Gruppiert nach:"
 
-#: po/tmp/analysis-tools.glade.h:20
+#: po/tmp/analysis-tools.glade.h:19
 #, fuzzy
 msgid "I_nverse"
 msgstr "Erhöhen"
 
-#: po/tmp/analysis-tools.glade.h:21
+#: po/tmp/analysis-tools.glade.h:20
 msgid "In_terval:"
 msgstr "In_terval:"
 
-#: po/tmp/analysis-tools.glade.h:22
+#: po/tmp/analysis-tools.glade.h:21
 msgid "Input"
 msgstr "Eingabe"
 
-#: po/tmp/analysis-tools.glade.h:23 src/dialogs/dialog-analysis-tools.c:101
+#: po/tmp/analysis-tools.glade.h:22 src/dialogs/dialog-analysis-tools.c:101
 msgid "Moving Average"
 msgstr "Gleitender Durchschnitt"
 
-#: po/tmp/analysis-tools.glade.h:24
+#: po/tmp/analysis-tools.glade.h:23
 msgid "N_ew Workbook"
 msgstr "N_eues Arbeitsbuch"
 
-#: po/tmp/analysis-tools.glade.h:25
+#: po/tmp/analysis-tools.glade.h:24
 msgid "N_ew sheet"
 msgstr "N_eues Blatt"
 
-#: po/tmp/analysis-tools.glade.h:26
+#: po/tmp/analysis-tools.glade.h:25
 msgid "New _workbook"
 msgstr "Neues _Arbeitsbuch"
 
-#: po/tmp/analysis-tools.glade.h:27
+#: po/tmp/analysis-tools.glade.h:26
 msgid "Numbe_r of samples:"
 msgstr "Anza_hl der Stichproben:"
 
-#: po/tmp/analysis-tools.glade.h:28
+#: po/tmp/analysis-tools.glade.h:27
 msgid "Output options"
 msgstr "Ausgabeoptionen"
 
-#: po/tmp/analysis-tools.glade.h:29 src/dialogs/dialog-analysis-tools.c:103
+#: po/tmp/analysis-tools.glade.h:28 src/dialogs/dialog-analysis-tools.c:103
 msgid "Random Number Generation"
 msgstr "Zufallszahlenerzeugung"
 
-#: po/tmp/analysis-tools.glade.h:30 src/dialogs/dialog-analysis-tools.c:105
+#: po/tmp/analysis-tools.glade.h:29 src/dialogs/dialog-analysis-tools.c:105
 msgid "Rank and Percentile"
 msgstr ""
 
-#: po/tmp/analysis-tools.glade.h:31
+#: po/tmp/analysis-tools.glade.h:30
 msgid "T-Test: Assuming Equal Variances"
 msgstr "T-Test: Nehme gleiche Varianzen an"
 
-#: po/tmp/analysis-tools.glade.h:32
+#: po/tmp/analysis-tools.glade.h:31
 msgid "T-Test: Assuming Unequal Variances"
 msgstr "T-Test: Nehme ungleiche Varianzen an"
 
-#: po/tmp/analysis-tools.glade.h:33
+#: po/tmp/analysis-tools.glade.h:32
 msgid "T-Test: Paired Two Sample for Means"
 msgstr ""
 
-#: po/tmp/analysis-tools.glade.h:34
+#: po/tmp/analysis-tools.glade.h:33
 msgid "Va_riable 2 Range:"
 msgstr "Be_reich Variable 2:"
 
-#: po/tmp/analysis-tools.glade.h:35
+#: po/tmp/analysis-tools.glade.h:34
 #, fuzzy
 msgid "_Bin Range:"
 msgstr "_Eingabebereich:"
 
-#: po/tmp/analysis-tools.glade.h:36
+#: po/tmp/analysis-tools.glade.h:35
 msgid "_Chart Output"
 msgstr ""
 
-#: po/tmp/analysis-tools.glade.h:37 po/tmp/gnumeric.xml.h:198
-#: src/workbook-control-gui.c:1838
+#: po/tmp/analysis-tools.glade.h:36 po/tmp/gnumeric.xml.h:198
+#: src/workbook-control-gui.c:1856
 msgid "_Columns"
 msgstr "S_palten"
 
-#: po/tmp/analysis-tools.glade.h:38
+#: po/tmp/analysis-tools.glade.h:37
 msgid "_Distribution:"
 msgstr "_Verteilung:"
 
-#: po/tmp/analysis-tools.glade.h:39
+#: po/tmp/analysis-tools.glade.h:38
 msgid "_Hypothesized Mean Difference:"
 msgstr "_Hypothetische Mitteldifferenz:"
 
-#: po/tmp/analysis-tools.glade.h:40
+#: po/tmp/analysis-tools.glade.h:39
 msgid "_Input Range:"
 msgstr "_Eingabebereich:"
 
-#: po/tmp/analysis-tools.glade.h:41
+#: po/tmp/analysis-tools.glade.h:40
 msgid "_Labels"
 msgstr "_Beschriftungen"
 
-#: po/tmp/analysis-tools.glade.h:42
+#: po/tmp/analysis-tools.glade.h:41
 msgid "_Labels in First Row"
 msgstr "_Beschriftungen in erster Zeile"
 
-#: po/tmp/analysis-tools.glade.h:43
+#: po/tmp/analysis-tools.glade.h:42
 msgid "_New Sheet"
 msgstr "_Neues Blatt"
 
-#: po/tmp/analysis-tools.glade.h:44
+#: po/tmp/analysis-tools.glade.h:43
 msgid "_Number of variables:"
 msgstr "An_zahl der Variablen:"
 
-#: po/tmp/analysis-tools.glade.h:45
+#: po/tmp/analysis-tools.glade.h:44
 msgid "_Output Range:"
 msgstr "A_usgabebereich:"
 
-#: po/tmp/analysis-tools.glade.h:46
+#: po/tmp/analysis-tools.glade.h:45
 msgid "_Output range:"
 msgstr "A_usgabebereich:"
 
-#: po/tmp/analysis-tools.glade.h:47
+#: po/tmp/analysis-tools.glade.h:46
 msgid "_Pareto (Sorted)"
 msgstr ""
 
-#: po/tmp/analysis-tools.glade.h:48 po/tmp/gnumeric.xml.h:225
-#: src/workbook-control-gui.c:1835
+#: po/tmp/analysis-tools.glade.h:47 po/tmp/gnumeric.xml.h:225
+#: src/workbook-control-gui.c:1853
 msgid "_Rows"
 msgstr "_Zeilen"
 
-#: po/tmp/analysis-tools.glade.h:49
+#: po/tmp/analysis-tools.glade.h:48
 msgid "_Rows per sample:"
 msgstr ""
 
-#: po/tmp/analysis-tools.glade.h:50
+#: po/tmp/analysis-tools.glade.h:49
 msgid "_Standard Errors"
 msgstr "_Standardfehler"
 
-#: po/tmp/analysis-tools.glade.h:51
+#: po/tmp/analysis-tools.glade.h:50
 msgid "_Variable 1 Range:"
 msgstr "_Bereich Variable 1:"
 
 #.
 #. * Translatable strings file generated by extract-ui.
-#. * Add this file to your project's POTFILES.in
-#. * DO NOT compile it as part of your application.
+#. * DO NOT compile this file as part of your application.
 #.
-#: po/tmp/autocorrect-exceptions.glade.h:7
+#: po/tmp/autocorrect-exceptions.glade.h:6
 msgid "AutoCorrect Exceptions"
 msgstr "Ausnahmen AutoKorrigieren"
 
-#: po/tmp/autocorrect-exceptions.glade.h:8
+#: po/tmp/autocorrect-exceptions.glade.h:7
 msgid "Do _not correct:"
 msgstr "_Nicht korrigieren:"
 
-#: po/tmp/autocorrect-exceptions.glade.h:9 po/tmp/dialog-stf.glade.h:69
-#: po/tmp/solver.glade.h:19
+#: po/tmp/autocorrect-exceptions.glade.h:8 po/tmp/dialog-stf.glade.h:66
+#: po/tmp/solver.glade.h:18
 msgid "_Add"
 msgstr "_Hinzufügen"
 
-#: po/tmp/autocorrect-exceptions.glade.h:10
+#: po/tmp/autocorrect-exceptions.glade.h:9
 msgid "_Do not capitalize after:"
 msgstr "_Nicht groß schreiben nach:"
 
-#: po/tmp/autocorrect-exceptions.glade.h:11
+#: po/tmp/autocorrect-exceptions.glade.h:10
 msgid "_First Letter"
 msgstr "E_rster Buchstabe"
 
-#: po/tmp/autocorrect-exceptions.glade.h:12
+#: po/tmp/autocorrect-exceptions.glade.h:11
 msgid "_INitial CApitals"
 msgstr "_ANfangsbuchstaben"
 
-#: po/tmp/autocorrect-exceptions.glade.h:13 po/tmp/dialog-stf.glade.h:74
+#: po/tmp/autocorrect-exceptions.glade.h:12 po/tmp/dialog-stf.glade.h:71
 msgid "_Remove"
 msgstr "_Entfernen"
 
 #.
 #. * Translatable strings file generated by extract-ui.
-#. * Add this file to your project's POTFILES.in
-#. * DO NOT compile it as part of your application.
+#. * DO NOT compile this file as part of your application.
 #.
-#: po/tmp/autocorrect.glade.h:7
+#: po/tmp/autocorrect.glade.h:6
 msgid "Auto Correct"
 msgstr "Automatisches Korrigieren"
 
-#: po/tmp/autocorrect.glade.h:8
+#: po/tmp/autocorrect.glade.h:7
 msgid "Capitalize _first letter of sentence"
 msgstr "_Ersten Buchstaben im Satz groß schreiben"
 
-#: po/tmp/autocorrect.glade.h:9
+#: po/tmp/autocorrect.glade.h:8
 msgid "Capitalize _names of days"
 msgstr "_Wochentage groß schreiben"
 
-#: po/tmp/autocorrect.glade.h:10
+#: po/tmp/autocorrect.glade.h:9
 msgid "Correct _TWo INitial CApitals                           "
 msgstr "_ZWei GRoße ANfangsbuchstaben korrigieren"
 
-#: po/tmp/autocorrect.glade.h:11
+#: po/tmp/autocorrect.glade.h:10
 msgid "Correct accidental use of _cAPS LOCK key"
 msgstr "_Versehentliches dRÜCKEN DES fESTSTELLERS korrigieren"
 
-#: po/tmp/autocorrect.glade.h:12
+#: po/tmp/autocorrect.glade.h:11
 msgid "Re_place:"
 msgstr "_Ersetzen:"
 
-#: po/tmp/autocorrect.glade.h:13
+#: po/tmp/autocorrect.glade.h:12
 msgid "_Exceptions..."
 msgstr "_Ausnahmen..."
 
-#: po/tmp/autocorrect.glade.h:14
+#: po/tmp/autocorrect.glade.h:13
 msgid "_Replace text when typed"
 msgstr "_Text beim Eingeben ersetzen"
 
-#: po/tmp/autocorrect.glade.h:15
+#: po/tmp/autocorrect.glade.h:14
 msgid "_With:"
 msgstr "_Breite:"
 
 #.
 #. * Translatable strings file generated by extract-ui.
-#. * Add this file to your project's POTFILES.in
-#. * DO NOT compile it as part of your application.
+#. * DO NOT compile this file as part of your application.
 #.
-#: po/tmp/autoformat.glade.h:7
+#: po/tmp/autoformat.glade.h:6
 msgid "A short description of the template"
 msgstr "Eine kurze Beschreibung der Vorlage"
 
-#: po/tmp/autoformat.glade.h:8
+#: po/tmp/autoformat.glade.h:7
 msgid "Apply _Alignment"
 msgstr "Ausrichtung anwenden"
 
-#: po/tmp/autoformat.glade.h:9
+#: po/tmp/autoformat.glade.h:8
 msgid "Apply _Borders"
 msgstr "Rahmen anwenden"
 
-#: po/tmp/autoformat.glade.h:10
+#: po/tmp/autoformat.glade.h:9
 msgid "Apply _Fonts"
 msgstr ""
 
-#: po/tmp/autoformat.glade.h:11
+#: po/tmp/autoformat.glade.h:10
 msgid "Apply _Number Formats"
 msgstr "Wendet Zahlenformat an"
 
-#: po/tmp/autoformat.glade.h:12
+#: po/tmp/autoformat.glade.h:11
 msgid "Apply _Patterns"
 msgstr "Muster anwenden"
 
-#: po/tmp/autoformat.glade.h:13
+#: po/tmp/autoformat.glade.h:12
 msgid "Author :"
 msgstr "Autor :"
 
-#: po/tmp/autoformat.glade.h:14
+#: po/tmp/autoformat.glade.h:13
 msgid "Category :"
 msgstr "Kategorie :"
 
-#: po/tmp/autoformat.glade.h:15
+#: po/tmp/autoformat.glade.h:14
 msgid "Description :"
 msgstr "Beschreibung :"
 
-#: po/tmp/autoformat.glade.h:16
+#: po/tmp/autoformat.glade.h:15
 msgid "Gnumeric: Autoformat"
 msgstr "Gnumerc: Autoformat"
 
-#: po/tmp/autoformat.glade.h:17
+#: po/tmp/autoformat.glade.h:16
 msgid "Name :"
 msgstr "Name :"
 
-#: po/tmp/autoformat.glade.h:18
+#: po/tmp/autoformat.glade.h:17
 msgid "Name of template"
 msgstr "Name der Vorlage"
 
-#: po/tmp/autoformat.glade.h:19
+#: po/tmp/autoformat.glade.h:18
 msgid "The category this template belongs to"
 msgstr "Die Kategorie, zu der diese Vorlage gehört"
 
-#: po/tmp/autoformat.glade.h:20
+#: po/tmp/autoformat.glade.h:19
 msgid "The current category"
 msgstr "Die aktuelle Kategorie"
 
-#: po/tmp/autoformat.glade.h:21
+#: po/tmp/autoformat.glade.h:20
 msgid "The group/individual that made the template"
 msgstr "Die Gruppe oder Person, die diese Vorlage erstellt hat"
 
-#: po/tmp/autoformat.glade.h:22
+#: po/tmp/autoformat.glade.h:21
 msgid "_Category"
 msgstr "_Kategorie"
 
-#: po/tmp/autoformat.glade.h:23
+#: po/tmp/autoformat.glade.h:22
 msgid "_Edit..."
 msgstr "_Bearbeiten..."
 
-#: po/tmp/autoformat.glade.h:24
+#: po/tmp/autoformat.glade.h:23
 msgid "_New..."
 msgstr "_Neu..."
 
-#: po/tmp/autoformat.glade.h:25
+#: po/tmp/autoformat.glade.h:24
 msgid "_Preview"
 msgstr "_Vorschau"
 
-#: po/tmp/autoformat.glade.h:26
+#: po/tmp/autoformat.glade.h:25
 msgid "_Remove Current"
 msgstr "Aktuellen _Entfernen"
 
-#: po/tmp/autoformat.glade.h:27
+#: po/tmp/autoformat.glade.h:26
 msgid "_Show Gridlines"
 msgstr "_Gitterlinien zeigen"
 
-#: po/tmp/autoformat.glade.h:28
+#: po/tmp/autoformat.glade.h:27
 msgid "_Template Details"
 msgstr "_Details zur Vorlage"
 
 #.
 #. * Translatable strings file generated by extract-ui.
-#. * Add this file to your project's POTFILES.in
-#. * DO NOT compile it as part of your application.
+#. * DO NOT compile this file as part of your application.
 #.
-#: po/tmp/autosave-prompt.glade.h:7 po/tmp/autosave.glade.h:7
+#: po/tmp/autosave-prompt.glade.h:6 po/tmp/autosave.glade.h:6
 msgid "Auto Save"
 msgstr "Automatisches Speichern"
 
-#: po/tmp/autosave-prompt.glade.h:8
+#: po/tmp/autosave-prompt.glade.h:7
 msgid "Do you want to save the workbook?"
 msgstr "Wollen Sie das Arbeitsbuch speichern?"
 
-#: po/tmp/autosave.glade.h:8
+#: po/tmp/autosave.glade.h:7
 msgid "_Automatic Save Every"
 msgstr "_Automatisch speichern alle"
 
-#: po/tmp/autosave.glade.h:9
+#: po/tmp/autosave.glade.h:8
 msgid "_Prompt Before Saving"
 msgstr "_Vor dem Speichern nachfragen"
 
-#: po/tmp/autosave.glade.h:10
+#: po/tmp/autosave.glade.h:9
 msgid "_minutes"
 msgstr "_Minuten"
 
 #.
 #. * Translatable strings file generated by extract-ui.
-#. * Add this file to your project's POTFILES.in
-#. * DO NOT compile it as part of your application.
+#. * DO NOT compile this file as part of your application.
 #.
+#: po/tmp/cell-format.glade.h:6
+#, fuzzy
+msgid "$"
+msgstr "DM"
+
 #: po/tmp/cell-format.glade.h:7
 #, c-format
 msgid "12.5% Grey"
@@ -1980,8 +2010,8 @@ msgstr "75% grau"
 msgid "Alignment"
 msgstr "Ausrichtung"
 
-#: po/tmp/cell-format.glade.h:13 po/tmp/gnumeric.xml.h:16
-#: src/workbook-format-toolbar.c:742 src/workbook-format-toolbar.c:774
+#: po/tmp/cell-format.glade.h:13 po/tmp/gnumeric.xml.h:15
+#: src/workbook-format-toolbar.c:754 src/workbook-format-toolbar.c:786
 msgid "Background"
 msgstr "Hintergrund"
 
@@ -1993,7 +2023,7 @@ msgstr "Hintergrundfarbe"
 msgid "Border"
 msgstr "Rand"
 
-#: po/tmp/cell-format.glade.h:16 src/workbook-format-toolbar.c:540
+#: po/tmp/cell-format.glade.h:16 src/workbook-format-toolbar.c:552
 msgid "Bottom"
 msgstr "Unten"
 
@@ -2049,20 +2079,25 @@ msgstr "Diagonale Streifen"
 msgid "Display the value exactly as it was entered"
 msgstr "Den Wert genauso darstellen, wie er eingegeben wurde"
 
-#: po/tmp/cell-format.glade.h:30
+#: po/tmp/cell-format.glade.h:30 src/dialogs/dialog-cell-format.c:1206
+#: src/dialogs/dialog-cell-format.c:1272
+msgid "Double"
+msgstr "Doppelt"
+
+#: po/tmp/cell-format.glade.h:31
 msgid "Effects"
 msgstr "Effekte"
 
-#: po/tmp/cell-format.glade.h:31 po/tmp/gnumeric.xml.h:75
-#: src/workbook-format-toolbar.c:679
+#: po/tmp/cell-format.glade.h:32 po/tmp/gnumeric.xml.h:75
+#: src/workbook-format-toolbar.c:691
 msgid "Font"
 msgstr "Schriftart"
 
-#: po/tmp/cell-format.glade.h:32
+#: po/tmp/cell-format.glade.h:33
 msgid "Foreground Solid"
 msgstr "Einfarbiger Vordergrund"
 
-#: po/tmp/cell-format.glade.h:33
+#: po/tmp/cell-format.glade.h:34
 msgid ""
 "General format cells attempt to select an appropriate format depending on "
 "the value of the cell."
@@ -2070,435 +2105,422 @@ msgstr ""
 "Allgemein formatierte Zellen versuchen, ein dem Wert der Zelle "
 "entsprechendes Format auszuwählen."
 
-#: po/tmp/cell-format.glade.h:34
+#: po/tmp/cell-format.glade.h:35
 msgid "Horizontal"
 msgstr "Horizontal"
 
-#: po/tmp/cell-format.glade.h:35
+#: po/tmp/cell-format.glade.h:36
 msgid "Horizontal Stripe"
 msgstr "Horizontale Streifen"
 
-#: po/tmp/cell-format.glade.h:36
+#: po/tmp/cell-format.glade.h:37
 msgid "Inside"
 msgstr "Innen"
 
-#: po/tmp/cell-format.glade.h:37
+#: po/tmp/cell-format.glade.h:38
 msgid "Inside Horizontal"
 msgstr "Innen horizontal"
 
-#: po/tmp/cell-format.glade.h:38
+#: po/tmp/cell-format.glade.h:39
 msgid "Inside Vertical"
 msgstr "Innen vertikal"
 
-#: po/tmp/cell-format.glade.h:39
+#: po/tmp/cell-format.glade.h:40
 msgid "J_ustify"
 msgstr "Aus_richten"
 
-#: po/tmp/cell-format.glade.h:40
+#: po/tmp/cell-format.glade.h:41
 msgid "Large Circles"
 msgstr "Große Kreise"
 
-#: po/tmp/cell-format.glade.h:41 po/tmp/gnumeric.xml.h:114
-#: src/workbook-format-toolbar.c:532
+#: po/tmp/cell-format.glade.h:42 po/tmp/gnumeric.xml.h:114
+#: src/workbook-format-toolbar.c:544
 msgid "Left"
 msgstr "Links"
 
-#: po/tmp/cell-format.glade.h:42
+#: po/tmp/cell-format.glade.h:43
 msgid "Left _Indent"
 msgstr "L_inker Einzug"
 
-#: po/tmp/cell-format.glade.h:43 po/tmp/gnumeric.xml.h:116
-#: src/workbook-object-toolbar.c:151
+#: po/tmp/cell-format.glade.h:44 po/tmp/gnumeric.xml.h:116
+#: src/workbook-object-toolbar.c:150
 msgid "Line"
 msgstr "Zeile"
 
-#: po/tmp/cell-format.glade.h:44
+#: po/tmp/cell-format.glade.h:45
 msgid "Locking cells or hiding formulas only affects protected worksheets."
 msgstr ""
 "Das Sperren von Zellen oder das Verbergen von Formeln betrifft nur "
 "geschützte Arbeitsblätter."
 
-#: po/tmp/cell-format.glade.h:45
+#: po/tmp/cell-format.glade.h:46
 msgid "Negat_ive number:"
 msgstr "Negat_ive Zahl:"
 
-#: po/tmp/cell-format.glade.h:46 src/dialogs/dialog-cell-format.c:1208
+#: po/tmp/cell-format.glade.h:47 src/dialogs/dialog-cell-format.c:1208
 #: src/dialogs/dialog-cell-format.c:1270 src/dialogs/dialog-paste-special.c:32
 msgid "None"
 msgstr "Keine"
 
-#: po/tmp/cell-format.glade.h:47
-#, fuzzy
-msgid "None\n"
-msgstr "Keine"
-
-#: po/tmp/cell-format.glade.h:48
-#, fuzzy
-msgid "Single\n"
-msgstr "Einfach"
-
-#: po/tmp/cell-format.glade.h:49 src/dialogs/dialog-cell-format.c:1206
-#: src/dialogs/dialog-cell-format.c:1272
-msgid "Double"
-msgstr "Doppelt"
-
-#: po/tmp/cell-format.glade.h:50 src/dialogs/dialog-function-wizard.c:406
+#: po/tmp/cell-format.glade.h:48 src/dialogs/dialog-function-wizard.c:406
 msgid "Number"
 msgstr "Zahl"
 
-#: po/tmp/cell-format.glade.h:51 po/tmp/print.glade.h:19
+#: po/tmp/cell-format.glade.h:49 po/tmp/print.glade.h:19
 msgid "Orientation"
 msgstr "Ausrichtung"
 
-#: po/tmp/cell-format.glade.h:52
+#: po/tmp/cell-format.glade.h:50
 msgid "Outline"
 msgstr "Umriss"
 
-#: po/tmp/cell-format.glade.h:53
+#: po/tmp/cell-format.glade.h:51
 msgid "Pattern"
 msgstr "Muster"
 
-#: po/tmp/cell-format.glade.h:54
+#: po/tmp/cell-format.glade.h:52
 msgid "Pick a Background color"
 msgstr "Wählen Sie eine Hintergrundfarbe aus"
 
-#: po/tmp/cell-format.glade.h:55
+#: po/tmp/cell-format.glade.h:53
 msgid "Pick a Pattern color"
 msgstr "Eine Musterfarbe wählen"
 
-#: po/tmp/cell-format.glade.h:56
+#: po/tmp/cell-format.glade.h:54
 msgid "Pick a border color"
 msgstr "Eine Randfarbe wählen"
 
-#: po/tmp/cell-format.glade.h:57
+#: po/tmp/cell-format.glade.h:55
 msgid "Pick a font color"
 msgstr "Eine Schriftfarbe wählen"
 
-#: po/tmp/cell-format.glade.h:58
+#: po/tmp/cell-format.glade.h:56
 msgid "Protection"
 msgstr "Schutz"
 
-#: po/tmp/cell-format.glade.h:59
+#: po/tmp/cell-format.glade.h:57
 msgid "Reverse Diagonal"
 msgstr "Umgekehrt diagonal"
 
-#: po/tmp/cell-format.glade.h:60
+#: po/tmp/cell-format.glade.h:58
 msgid "Reverse Diagonal Stripe"
 msgstr "Diagonale Streifen rückwärts"
 
-#: po/tmp/cell-format.glade.h:61 po/tmp/gnumeric.xml.h:153
-#: src/workbook-format-toolbar.c:534
+#: po/tmp/cell-format.glade.h:59 po/tmp/gnumeric.xml.h:153
+#: src/workbook-format-toolbar.c:546
 msgid "Right"
 msgstr "Rechts"
 
-#: po/tmp/cell-format.glade.h:62
+#: po/tmp/cell-format.glade.h:60
 msgid "S_ymbol:"
 msgstr "S_ymbol:"
 
-#: po/tmp/cell-format.glade.h:64
+#: po/tmp/cell-format.glade.h:62
 msgid "Semi Circles"
 msgstr "Halbkreise"
 
-#: po/tmp/cell-format.glade.h:65
+#: po/tmp/cell-format.glade.h:63
 msgid "Shrin_k to fit"
 msgstr "Zum Einpassen schrumpfen"
 
-#: po/tmp/cell-format.glade.h:66
+#. There must be a better way than this
+#: po/tmp/cell-format.glade.h:64 src/dialogs/dialog-cell-format.c:1204
+#: src/dialogs/dialog-cell-format.c:1271
+msgid "Single"
+msgstr "Einfach"
+
+#: po/tmp/cell-format.glade.h:65
 msgid "Small Circles"
 msgstr "Kleine Kreise"
 
-#: po/tmp/cell-format.glade.h:67
+#: po/tmp/cell-format.glade.h:66
 msgid "Solid"
 msgstr "Einfarbig"
 
-#: po/tmp/cell-format.glade.h:68
+#: po/tmp/cell-format.glade.h:67
 msgid "Sp_ecial"
 msgstr "Sp_ezial"
 
-#: po/tmp/cell-format.glade.h:69
+#: po/tmp/cell-format.glade.h:68
 msgid "Stri_kethrough"
 msgstr "_Durchstreichen"
 
-#: po/tmp/cell-format.glade.h:70
+#: po/tmp/cell-format.glade.h:69
 msgid "Su_bscript"
 msgstr "_Tiefstellen"
 
-#: po/tmp/cell-format.glade.h:71
+#: po/tmp/cell-format.glade.h:70
 msgid "Sup_erscript"
 msgstr "_Hochstellen"
 
-#: po/tmp/cell-format.glade.h:72
+#: po/tmp/cell-format.glade.h:71
 msgid "Te_xt"
 msgstr "Te_xt"
 
 # Stroh -- wird das so bezeichnet? -ke-
-#: po/tmp/cell-format.glade.h:73
+#: po/tmp/cell-format.glade.h:72
 msgid "Thatch"
 msgstr "Riet"
 
-#: po/tmp/cell-format.glade.h:74
+#: po/tmp/cell-format.glade.h:73
 msgid "Thick Diagonal Crosshatch"
 msgstr "Dicke diagonale Schraffen"
 
-#: po/tmp/cell-format.glade.h:75
+#: po/tmp/cell-format.glade.h:74
 msgid "Thin Diagonal Crosshatch"
 msgstr "Dünne diagonale Schraffen"
 
-#: po/tmp/cell-format.glade.h:76
+#: po/tmp/cell-format.glade.h:75
 msgid "Thin Diagonal Stripe"
 msgstr "Dünne diagonale Streifen"
 
-#: po/tmp/cell-format.glade.h:77
+#: po/tmp/cell-format.glade.h:76
 msgid "Thin Horizontal Crosshatch"
 msgstr "Dünne horizontale Schraffen"
 
-#: po/tmp/cell-format.glade.h:78
+#: po/tmp/cell-format.glade.h:77
 msgid "Thin Horizontal Stripe"
 msgstr "Dünne horizontale Streifen"
 
-#: po/tmp/cell-format.glade.h:79
+#: po/tmp/cell-format.glade.h:78
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "Dünne diagonale Streifen rückwärts"
 
-#: po/tmp/cell-format.glade.h:80
+#: po/tmp/cell-format.glade.h:79
 msgid "Thin Vertical Stripe"
 msgstr "Dünne vertikale Streifen"
 
-#: po/tmp/cell-format.glade.h:81
+#: po/tmp/cell-format.glade.h:80
 msgid "Top"
 msgstr "Oben"
 
-#: po/tmp/cell-format.glade.h:82
+#: po/tmp/cell-format.glade.h:81
 msgid "Unfinished"
 msgstr "Unvollendet"
 
-#: po/tmp/cell-format.glade.h:83
+#: po/tmp/cell-format.glade.h:82
 msgid "Vertical Alignment"
 msgstr "Vertikale Ausrichtung"
 
-#: po/tmp/cell-format.glade.h:84
+#: po/tmp/cell-format.glade.h:83
 msgid "Vertical Stripe"
 msgstr "Vertikale Streifen"
 
-#: po/tmp/cell-format.glade.h:85
+#: po/tmp/cell-format.glade.h:84
 msgid "Worksheet _protected"
 msgstr "Arbeitsblatt ge_schützt"
 
-#: po/tmp/cell-format.glade.h:86
+#: po/tmp/cell-format.glade.h:85
 msgid "_Accounting"
 msgstr "_Buchhaltung"
 
-#: po/tmp/cell-format.glade.h:87
+#: po/tmp/cell-format.glade.h:86
 msgid "_Automatic"
 msgstr "_Automatisch"
 
-#: po/tmp/cell-format.glade.h:88
+#: po/tmp/cell-format.glade.h:87
 msgid "_Bottom"
 msgstr "_Unten"
 
-#: po/tmp/cell-format.glade.h:89
+#: po/tmp/cell-format.glade.h:88
 msgid "_Center"
 msgstr "_Zentriert"
 
-#: po/tmp/cell-format.glade.h:90
+#: po/tmp/cell-format.glade.h:89
 msgid "_Currency"
 msgstr "_Währung"
 
-#: po/tmp/cell-format.glade.h:91 po/tmp/dialog-zoom.glade.h:15
+#: po/tmp/cell-format.glade.h:90 po/tmp/dialog-zoom.glade.h:15
 msgid "_Custom"
 msgstr "_Benutzerdefiniert"
 
-#: po/tmp/cell-format.glade.h:92
+#: po/tmp/cell-format.glade.h:91
 msgid "_Date"
 msgstr "_Datum"
 
-#: po/tmp/cell-format.glade.h:93
+#: po/tmp/cell-format.glade.h:92
 msgid "_Fill"
 msgstr "_Füllen"
 
-#: po/tmp/cell-format.glade.h:94
+#: po/tmp/cell-format.glade.h:93
 msgid "_Fraction"
 msgstr "Br_uch"
 
-#: po/tmp/cell-format.glade.h:95
+#: po/tmp/cell-format.glade.h:94
 msgid "_General"
 msgstr "_Allgemeines"
 
-#: po/tmp/cell-format.glade.h:96
+#: po/tmp/cell-format.glade.h:95
 msgid "_Hidden"
 msgstr "_Verborgen"
 
-#: po/tmp/cell-format.glade.h:97
+#: po/tmp/cell-format.glade.h:96
 msgid "_Justify"
 msgstr "Aus_richten"
 
-#: po/tmp/cell-format.glade.h:98
+#: po/tmp/cell-format.glade.h:97
 msgid "_Left"
 msgstr "_Links"
 
-#: po/tmp/cell-format.glade.h:99
+#: po/tmp/cell-format.glade.h:98
 msgid "_Locked"
 msgstr "Ges_perrt"
 
-#: po/tmp/cell-format.glade.h:100
+#: po/tmp/cell-format.glade.h:99
 msgid "_Merge Cells"
 msgstr "Zellen zusa_mmenführen"
 
-#: po/tmp/cell-format.glade.h:101
+#: po/tmp/cell-format.glade.h:100
 msgid "_No Color"
 msgstr "_Keine Farbe"
 
-#: po/tmp/cell-format.glade.h:102
+#: po/tmp/cell-format.glade.h:101
 msgid "_Number"
 msgstr "_Zahl"
 
-#: po/tmp/cell-format.glade.h:103
+#: po/tmp/cell-format.glade.h:102
 msgid "_Percentage"
 msgstr "_Prozent"
 
-#: po/tmp/cell-format.glade.h:104
+#: po/tmp/cell-format.glade.h:103
 msgid "_Right"
 msgstr "_Rechts:"
 
-#: po/tmp/cell-format.glade.h:105
+#: po/tmp/cell-format.glade.h:104
 msgid "_Scientific"
 msgstr "Wissensc_haftlich"
 
-#: po/tmp/cell-format.glade.h:106
+#: po/tmp/cell-format.glade.h:105
 msgid "_Style"
 msgstr "_Stil"
 
-#: po/tmp/cell-format.glade.h:107
+#: po/tmp/cell-format.glade.h:106
 msgid "_Time"
 msgstr "_Zeit"
 
-#: po/tmp/cell-format.glade.h:108
+#: po/tmp/cell-format.glade.h:107
 msgid "_Top"
 msgstr "_Oben"
 
-#: po/tmp/cell-format.glade.h:109
+#: po/tmp/cell-format.glade.h:108
 msgid "_Type"
 msgstr "_Typ"
 
-#: po/tmp/cell-format.glade.h:110
+#: po/tmp/cell-format.glade.h:109
 msgid "_Underline:"
 msgstr "_Unterstreichen:"
 
-#: po/tmp/cell-format.glade.h:111
+#: po/tmp/cell-format.glade.h:110
 msgid "_Use Separator for 1000's"
 msgstr "_Trennzeichen für Tausender benutzen"
 
-#: po/tmp/cell-format.glade.h:112
+#: po/tmp/cell-format.glade.h:111
 msgid "_Wrap text"
 msgstr "Text um_brechen"
 
 #.
 #. * Translatable strings file generated by extract-ui.
-#. * Add this file to your project's POTFILES.in
-#. * DO NOT compile it as part of your application.
+#. * DO NOT compile this file as part of your application.
 #.
-#: po/tmp/cell-sort.glade.h:7
+#: po/tmp/cell-sort.glade.h:6
 msgid "A header"
 msgstr "Eine Kopfzeile"
 
 #.
 #. * Translatable strings file generated by extract-ui.
-#. * Add this file to your project's POTFILES.in
-#. * DO NOT compile it as part of your application.
+#. * DO NOT compile this file as part of your application.
 #.
-#: po/tmp/cell-sort.glade.h:8 po/tmp/names.glade.h:7
-#: po/tmp/plugin-manager.glade.h:7
+#: po/tmp/cell-sort.glade.h:7 po/tmp/names.glade.h:6
+#: po/tmp/plugin-manager.glade.h:6
 msgid "Add"
 msgstr "Hinzufügen"
 
-#: po/tmp/cell-sort.glade.h:9
+#: po/tmp/cell-sort.glade.h:8
 msgid "Advanced Sort Options"
 msgstr "Komplexe Sortieroptionen"
 
-#: po/tmp/cell-sort.glade.h:10
+#: po/tmp/cell-sort.glade.h:9
 msgid "Case sensitive"
 msgstr "Groß-/Kleinschreibung beachten"
 
-#: po/tmp/cell-sort.glade.h:11
+#: po/tmp/cell-sort.glade.h:10
 msgid "Entries are"
 msgstr "Einträge sind"
 
-#: po/tmp/cell-sort.glade.h:12 po/tmp/plugin-manager.glade.h:12
+#: po/tmp/cell-sort.glade.h:11 po/tmp/plugin-manager.glade.h:11
 msgid "Remove"
 msgstr "Entfernen"
 
-#: po/tmp/cell-sort.glade.h:13
+#: po/tmp/cell-sort.glade.h:12
 msgid "Right-Left"
 msgstr "Rechts-Links"
 
-#: po/tmp/cell-sort.glade.h:14
+#: po/tmp/cell-sort.glade.h:13
 msgid "Selection has"
 msgstr "Die Auswahl hat"
 
-#: po/tmp/cell-sort.glade.h:15
+#: po/tmp/cell-sort.glade.h:14
 msgid "Sort"
 msgstr "Sortieren"
 
-#: po/tmp/cell-sort.glade.h:16 src/dialogs/dialog-cell-sort.c:573
+#: po/tmp/cell-sort.glade.h:15 src/dialogs/dialog-cell-sort.c:573
 msgid "Sort by"
 msgstr "Sortieren nach"
 
-#: po/tmp/cell-sort.glade.h:17
+#: po/tmp/cell-sort.glade.h:16
 msgid "Sort..."
 msgstr "_Sortieren..."
 
-#: po/tmp/cell-sort.glade.h:18
+#: po/tmp/cell-sort.glade.h:17
 msgid "Text"
 msgstr "Text"
 
-#: po/tmp/cell-sort.glade.h:19
+#: po/tmp/cell-sort.glade.h:18
 msgid "Top-Bottom"
 msgstr "Oben-Unten"
 
-#: po/tmp/cell-sort.glade.h:20 src/solver-lp.c:1065 src/solver-lp.c:1114
+#: po/tmp/cell-sort.glade.h:19 src/solver-lp.c:1065 src/solver-lp.c:1114
 msgid "Value"
 msgstr "Wert"
 
 #.
 #. * Translatable strings file generated by extract-ui.
-#. * Add this file to your project's POTFILES.in
-#. * DO NOT compile it as part of your application.
+#. * DO NOT compile this file as part of your application.
 #.
-#: po/tmp/col-width.glade.h:7
+#: po/tmp/col-width.glade.h:6
 msgid "Column width"
 msgstr "Spaltenbreite"
 
-#: po/tmp/col-width.glade.h:8
+#: po/tmp/col-width.glade.h:7
 msgid "_Column width (pts):"
 msgstr "_Spaltenbreite (Punkte):"
 
 #.
 #. * Translatable strings file generated by extract-ui.
-#. * Add this file to your project's POTFILES.in
-#. * DO NOT compile it as part of your application.
+#. * DO NOT compile this file as part of your application.
 #.
-#: po/tmp/delete-cells.glade.h:7 po/tmp/names.glade.h:9
-#: po/tmp/sheet-order.glade.h:8 src/sheet-object.c:779
+#: po/tmp/delete-cells.glade.h:6 po/tmp/names.glade.h:8
+#: po/tmp/sheet-order.glade.h:7 src/sheet-object.c:65
 msgid "Delete"
 msgstr "Löschen"
 
-#: po/tmp/delete-cells.glade.h:8
+#: po/tmp/delete-cells.glade.h:7
 msgid "Delete _column(s)"
 msgstr "S_palte(n) löschen"
 
-#: po/tmp/delete-cells.glade.h:9
+#: po/tmp/delete-cells.glade.h:8
 msgid "Delete _row(s)"
 msgstr "_Zeile(n) löschen"
 
-#: po/tmp/delete-cells.glade.h:10
+#: po/tmp/delete-cells.glade.h:9
 msgid "Delete cells"
 msgstr "Zellen löschen"
 
-#: po/tmp/delete-cells.glade.h:11
+#: po/tmp/delete-cells.glade.h:10
 msgid "Shift cells _left"
 msgstr "Zellen nach _links verschieben"
 
-#: po/tmp/delete-cells.glade.h:12
+#: po/tmp/delete-cells.glade.h:11
 msgid "Shift cells _up"
 msgstr "Zellen nach _oben verschieben"
 
@@ -2860,13 +2882,13 @@ msgstr ""
 "Die gegeben Eingabe sollte zumindest zwei Spalten mit Daten und die Titel "
 "umfassen."
 
-#: src/dialogs/dialog-autoformat.c:869 src/dialogs/dialog-stf-export.c:380
+#: src/dialogs/dialog-autoformat.c:868 src/dialogs/dialog-stf-export.c:380
 #: src/dialogs/dialog-stf.c:532
 #, c-format
 msgid "Missing %s file"
 msgstr "Datei %s ist nicht vorhanden"
 
-#: src/dialogs/dialog-autoformat.c:1004
+#: src/dialogs/dialog-autoformat.c:1003
 msgid "An error occured while reading the category list"
 msgstr "Beim Lesen der Kategorieenliste trat ein Fehler auf"
 
@@ -2874,7 +2896,7 @@ msgstr "Beim Lesen der Kategorieenliste trat ein Fehler auf"
 msgid "You should introduce a proper number of minutes in the entry."
 msgstr "Sie sollten eine geeignete Anzahl an Minuten in das Feld eintragen."
 
-#: src/dialogs/dialog-cell-comment.c:28
+#: src/dialogs/dialog-cell-comment.c:32
 msgid "Cell comment"
 msgstr "Zellenkommentar"
 
@@ -2890,12 +2912,7 @@ msgstr "_);("
 msgid "_);[Red]("
 msgstr "_);[Red]("
 
-#. There must be a better way than this
-#: src/dialogs/dialog-cell-format.c:1204 src/dialogs/dialog-cell-format.c:1271
-msgid "Single"
-msgstr "Einfach"
-
-#: src/dialogs/dialog-cell-format.c:2072
+#: src/dialogs/dialog-cell-format.c:2074
 msgid "Format Cells"
 msgstr "Zellen formatieren"
 
@@ -2945,7 +2962,7 @@ msgid "then by"
 msgstr "dann nach"
 
 #. We can't sort complex ranges
-#: src/dialogs/dialog-cell-sort.c:507 src/workbook-control-gui.c:1558
+#: src/dialogs/dialog-cell-sort.c:507 src/workbook-control-gui.c:1576
 msgid "sort"
 msgstr "sortieren"
 
@@ -3139,7 +3156,7 @@ msgstr "Dateiname:"
 msgid "File name: %s"
 msgstr "Dateiname: %s"
 
-#: po/tmp/font-sel.glade.h:11 po/tmp/plugin-manager.glade.h:13
+#: po/tmp/font-sel.glade.h:10 po/tmp/plugin-manager.glade.h:12
 #: src/dialogs/dialog-plugin-manager.c:100
 msgid "Size:"
 msgstr "Größe:"
@@ -3149,12 +3166,17 @@ msgstr "Größe:"
 msgid "Size: %ld bytes"
 msgstr "Größe: %ld Bytes"
 
-#: po/tmp/plugin-manager.glade.h:10 src/dialogs/dialog-plugin-manager.c:107
+#: po/tmp/plugin-manager.glade.h:9 src/dialogs/dialog-plugin-manager.c:107
 msgid "Modified:"
 msgstr "Geändert:"
 
-#. get rid of '\n'
+#. This is strftime format. Use custom one if "%c" prints only last 2 digits of year in your locale.
 #: src/dialogs/dialog-plugin-manager.c:112
+#, fuzzy, c-format
+msgid "%c"
+msgstr "%"
+
+#: src/dialogs/dialog-plugin-manager.c:113
 #, c-format
 msgid "Modified: %s"
 msgstr "Geändert: %s"
@@ -3167,7 +3189,7 @@ msgstr "Kopfzeilenkonfiguration"
 msgid "Custom footer configuration"
 msgstr "Fußzeilenkonfiguration"
 
-#: src/dialogs/dialog-sheet-order.c:145 src/workbook-control-gui.c:310
+#: src/dialogs/dialog-sheet-order.c:145 src/workbook-control-gui.c:344
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Sind Sie sicher, dass Sie das Blatt `%s' entfernen wollen?"
@@ -3227,76 +3249,81 @@ msgstr "Sind Sie sicher, dass Sie abbrechen wollen?"
 
 #.
 #. * Translatable strings file generated by extract-ui.
-#. * Add this file to your project's POTFILES.in
-#. * DO NOT compile it as part of your application.
+#. * DO NOT compile this file as part of your application.
 #.
-#: po/tmp/dialog-stf-export.glade.h:7
+#: po/tmp/dialog-stf-export.glade.h:6
 msgid "<- Remove"
 msgstr "<- Entfernen"
 
-#: po/tmp/dialog-stf-export.glade.h:8
+#: po/tmp/dialog-stf-export.glade.h:7
 msgid "<- Remove all"
 msgstr "<- Alle entfernen"
 
 #.
 #. * Translatable strings file generated by extract-ui.
-#. * Add this file to your project's POTFILES.in
-#. * DO NOT compile it as part of your application.
+#. * DO NOT compile this file as part of your application.
 #.
-#: po/tmp/dialog-stf-export.glade.h:9 po/tmp/dialog-stf.glade.h:7
+#: po/tmp/dialog-stf-export.glade.h:8 po/tmp/dialog-stf.glade.h:6
 msgid "\""
 msgstr "\""
 
-#: po/tmp/dialog-stf-export.glade.h:10 po/tmp/dialog-stf.glade.h:8
+#: po/tmp/dialog-stf-export.glade.h:9 po/tmp/dialog-stf.glade.h:7
 #, fuzzy
-msgid "\"\n"
-msgstr "\""
-
-#: po/tmp/dialog-stf-export.glade.h:11 po/tmp/dialog-stf.glade.h:9
-#, fuzzy
-msgid "'\n"
+msgid "'"
 msgstr "\n"
 
-#: po/tmp/dialog-stf-export.glade.h:12 po/tmp/dialog-stf.glade.h:10
-msgid "`"
-msgstr ""
-
-#: po/tmp/dialog-stf-export.glade.h:13
+#: po/tmp/dialog-stf-export.glade.h:10
 msgid "Add ->"
 msgstr "Hinzufügen ->"
 
-#: po/tmp/dialog-stf-export.glade.h:14
+#: po/tmp/dialog-stf-export.glade.h:11
 msgid "Add all ->"
 msgstr "Alle hinzufügen ->"
 
-#: po/tmp/dialog-stf-export.glade.h:15
+#: po/tmp/dialog-stf-export.glade.h:12
+msgid "Always"
+msgstr ""
+
+#: po/tmp/dialog-stf-export.glade.h:13
 #, fuzzy
-msgid "Automatic (puts quotes where needed)\n"
+msgid "Automatic (puts quotes where needed)"
 msgstr ""
 "Automatisch (wenn nötig, Anführungszeichen setzen)\n"
 "Immer\n"
 "Nie\n"
 
-#: po/tmp/dialog-stf-export.glade.h:16
-msgid "Always\n"
-msgstr ""
-
-#: po/tmp/dialog-stf-export.glade.h:17
-#, fuzzy
-msgid "Never"
-msgstr "November"
-
-#: po/tmp/dialog-stf-export.glade.h:18
+#: po/tmp/dialog-stf-export.glade.h:14
 msgid "Available sheets"
 msgstr "Verfügbare Blätter"
 
-#: po/tmp/dialog-stf-export.glade.h:19
+#: po/tmp/dialog-stf-export.glade.h:15
+#, fuzzy
+msgid "Bang (!)"
+msgstr "_Ausrufezeichen (!)"
+
+#: po/tmp/dialog-stf-export.glade.h:16
 msgid "Choose export formatting"
 msgstr "Export-Format wählen"
 
-#: po/tmp/dialog-stf-export.glade.h:20
+#: po/tmp/dialog-stf-export.glade.h:17
 msgid "Choose sheets to export"
 msgstr "Zu exportierende Blätter wählen"
+
+#: po/tmp/dialog-stf-export.glade.h:18
+#, fuzzy
+msgid "Colon (:)"
+msgstr "_Doppelpunkt (:)"
+
+#: po/tmp/dialog-stf-export.glade.h:19
+#, fuzzy
+msgid "Comma (,)"
+msgstr "_Komma (,)"
+
+#: po/tmp/dialog-stf-export.glade.h:20
+#: src/dialogs/dialog-stf-format-page.c:174
+#: src/dialogs/dialog-stf-format-page.c:390
+msgid "Custom"
+msgstr "Benutzerdefiniert"
 
 #: po/tmp/dialog-stf-export.glade.h:21
 msgid ""
@@ -3314,10 +3341,33 @@ msgid "Gnumeric : Exporting structured text"
 msgstr "Gnumeric : Strukturierten Text exportieren"
 
 #: po/tmp/dialog-stf-export.glade.h:23
+#, fuzzy
+msgid "Hyphen (-)"
+msgstr "Stric_h (-)"
+
+#: po/tmp/dialog-stf-export.glade.h:24
 msgid "Line termination :"
 msgstr "Zeilenendezeichen:"
 
-#: po/tmp/dialog-stf-export.glade.h:24
+#: po/tmp/dialog-stf-export.glade.h:25
+#, fuzzy
+msgid "Macintosh (carriage return)"
+msgstr ""
+"Unix (Linefeed)\n"
+"Macintosh (Carriage Return)\n"
+"Windows (Carriage Return + Linefeed)\n"
+
+#: po/tmp/dialog-stf-export.glade.h:26 po/tmp/dialog-stf.glade.h:41
+#, fuzzy
+msgid "Never"
+msgstr "November"
+
+#: po/tmp/dialog-stf-export.glade.h:27
+#, fuzzy
+msgid "Pipe (|)"
+msgstr "P_ipe (|)"
+
+#: po/tmp/dialog-stf-export.glade.h:28
 msgid ""
 "Please select which sheets you want to export from the current workbook. "
 "They will be exported in the same order as in the export list."
@@ -3326,88 +3376,57 @@ msgstr ""
 "möchten.  Die Blätter werden in der gleichen Reihenfolge exportiert, wie sie "
 "in der Exportliste aufgeführt sind."
 
-#: po/tmp/dialog-stf-export.glade.h:25
+#: po/tmp/dialog-stf-export.glade.h:29
 msgid "Quote character :"
 msgstr "Anführungszeichen:"
 
-#: po/tmp/dialog-stf-export.glade.h:26
+#: po/tmp/dialog-stf-export.glade.h:30
 msgid "Quoting :"
 msgstr "Anführen:"
 
-#: po/tmp/dialog-stf-export.glade.h:27
+#: po/tmp/dialog-stf-export.glade.h:31
+#, fuzzy
+msgid "Semicolon (;)"
+msgstr "Semikolo_n (;)"
+
+#: po/tmp/dialog-stf-export.glade.h:32
 msgid "Separator :"
 msgstr "Trennzeichen:"
 
-#: po/tmp/dialog-stf-export.glade.h:28
+#: po/tmp/dialog-stf-export.glade.h:33
 msgid "Sheets to export"
 msgstr "Zu exportierende Blätter"
 
-#: po/tmp/dialog-stf-export.glade.h:29
-#, fuzzy
-msgid "Space\n"
-msgstr "_Leerzeichen"
-
-#: po/tmp/dialog-stf-export.glade.h:30
-#, fuzzy
-msgid "Tab\n"
-msgstr "_Reiter"
-
-#: po/tmp/dialog-stf-export.glade.h:31
-#, fuzzy
-msgid "Bang (!)\n"
-msgstr "_Ausrufezeichen (!)"
-
-#: po/tmp/dialog-stf-export.glade.h:32
-#, fuzzy
-msgid "Colon (:)\n"
-msgstr "_Doppelpunkt (:)"
-
-#: po/tmp/dialog-stf-export.glade.h:33
-#, fuzzy
-msgid "Comma (,)\n"
-msgstr "_Komma (,)"
-
 #: po/tmp/dialog-stf-export.glade.h:34
 #, fuzzy
-msgid "Hyphen (-)\n"
-msgstr "Stric_h (-)"
+msgid "Slash (/)"
+msgstr "Schrä_gstrich (/)"
 
 #: po/tmp/dialog-stf-export.glade.h:35
 #, fuzzy
-msgid "Pipe (|)\n"
-msgstr "P_ipe (|)"
+msgid "Space"
+msgstr "_Leerzeichen"
 
 #: po/tmp/dialog-stf-export.glade.h:36
 #, fuzzy
-msgid "Semicolon (;)\n"
-msgstr "Semikolo_n (;)"
+msgid "Tab"
+msgstr "_Reiter"
 
 #: po/tmp/dialog-stf-export.glade.h:37
-#, fuzzy
-msgid "Slash (/)\n"
-msgstr "Schrä_gstrich (/)"
+msgid "Unix (linefeed)"
+msgstr ""
 
 #: po/tmp/dialog-stf-export.glade.h:38
-#: src/dialogs/dialog-stf-format-page.c:174
-#: src/dialogs/dialog-stf-format-page.c:390
-msgid "Custom"
-msgstr "Benutzerdefiniert"
-
-#: po/tmp/dialog-stf-export.glade.h:39
-msgid "Unix (linefeed)\n"
-msgstr ""
-
-#: po/tmp/dialog-stf-export.glade.h:40
-msgid "Macintosh (carriage return)\n"
-msgstr ""
-
-#: po/tmp/dialog-stf-export.glade.h:41
 #, fuzzy
 msgid "Windows (carriage return + linefeed)"
 msgstr ""
 "Unix (Linefeed)\n"
 "Macintosh (Carriage Return)\n"
 "Windows (Carriage Return + Linefeed)\n"
+
+#: po/tmp/dialog-stf-export.glade.h:39 po/tmp/dialog-stf.glade.h:74
+msgid "`"
+msgstr ""
 
 #: src/dialogs/dialog-stf-fixed-page.c:63
 msgid "Autodiscovery did not find any columns in the text. Try manually"
@@ -3425,203 +3444,199 @@ msgstr "%d Zeilen sind zu importieren"
 msgid "Data (from %s)"
 msgstr "Daten (von %s)"
 
-#: po/tmp/dialog-stf.glade.h:11
+#: po/tmp/dialog-stf.glade.h:8
 msgid ""
 "Actual processing will start at this line, any previous lines will be ignored"
 msgstr ""
 
-#: po/tmp/dialog-stf.glade.h:12
+#: po/tmp/dialog-stf.glade.h:9
 #, fuzzy
 msgid "Add a new column"
 msgstr "Neue Spalte(n) einfügen"
 
-#: po/tmp/dialog-stf.glade.h:13
-msgid "Always (Both sides)\n"
+#: po/tmp/dialog-stf.glade.h:10
+msgid "Always (Both sides)"
 msgstr ""
 
-#: po/tmp/dialog-stf.glade.h:14
-msgid "Never\n"
-msgstr ""
-
-#: po/tmp/dialog-stf.glade.h:15
-msgid "On left side only\n"
-msgstr ""
-
-#: po/tmp/dialog-stf.glade.h:16
-msgid "On right side only"
-msgstr ""
-
-#: po/tmp/dialog-stf.glade.h:17
+#: po/tmp/dialog-stf.glade.h:11
 msgid "Attempt to recognize columns in the text automatically"
 msgstr ""
 
-#: po/tmp/dialog-stf.glade.h:18
+#: po/tmp/dialog-stf.glade.h:12
 msgid "Auto Column _Discovery"
 msgstr "Automatische Spaltenbreite"
 
-#: po/tmp/dialog-stf.glade.h:19
+#: po/tmp/dialog-stf.glade.h:13
 msgid "Ban_g (!)"
 msgstr "_Ausrufezeichen (!)"
 
-#: po/tmp/dialog-stf.glade.h:20
+#: po/tmp/dialog-stf.glade.h:14
 msgid "C_ustom"
 msgstr "Ben_utzerdefiniert"
 
-#: po/tmp/dialog-stf.glade.h:21
+#: po/tmp/dialog-stf.glade.h:15
 msgid ""
 "Character interpreted as quote character. If the separation character is "
 "encountered within quotes it will be ignored"
 msgstr ""
 
-#: po/tmp/dialog-stf.glade.h:22
+#: po/tmp/dialog-stf.glade.h:16
 #, fuzzy
 msgid "Clear list of columns"
 msgstr "Spaltenbreite einstellen"
 
-#: po/tmp/dialog-stf.glade.h:23
+#: po/tmp/dialog-stf.glade.h:17
 msgid "Click to select a column"
 msgstr ""
 
-#: po/tmp/dialog-stf.glade.h:24
+#: po/tmp/dialog-stf.glade.h:18
 msgid "Co_lumn end : "
 msgstr "S_paltenende: "
 
-#: po/tmp/dialog-stf.glade.h:25
+#: po/tmp/dialog-stf.glade.h:19
 msgid "Co_mma (,)"
 msgstr "_Komma (,)"
 
-#: po/tmp/dialog-stf.glade.h:26
+#: po/tmp/dialog-stf.glade.h:20
 msgid "Column"
 msgstr "Spalte"
 
-#: po/tmp/dialog-stf.glade.h:27
+#: po/tmp/dialog-stf.glade.h:21
 msgid "Column formatting"
 msgstr "Spaltenformatierung"
 
-#: po/tmp/dialog-stf.glade.h:29
+#: po/tmp/dialog-stf.glade.h:23
 msgid "Custom separator, this can be any character"
 msgstr ""
 
-#: po/tmp/dialog-stf.glade.h:30
+#: po/tmp/dialog-stf.glade.h:24
 msgid ""
 "Customize the columns using the buttons or the mouse (hover mouse above "
 "example for instructions)"
 msgstr ""
 
-#: po/tmp/dialog-stf.glade.h:31
+#: po/tmp/dialog-stf.glade.h:25
 msgid "Data type and number of lines"
 msgstr "Datentyp und Anzahl der Zeilen"
 
-#: po/tmp/dialog-stf.glade.h:32
+#: po/tmp/dialog-stf.glade.h:26
 msgid "Define the width of each column manually"
 msgstr ""
 
-#: po/tmp/dialog-stf.glade.h:33
+#: po/tmp/dialog-stf.glade.h:27
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon"
 msgstr ""
 
-#: po/tmp/dialog-stf.glade.h:34
+#: po/tmp/dialog-stf.glade.h:28
 msgid "End"
 msgstr "Ende"
 
-#: po/tmp/dialog-stf.glade.h:35
+#: po/tmp/dialog-stf.glade.h:29
 msgid "Example"
 msgstr "Beispiel"
 
-#: po/tmp/dialog-stf.glade.h:36
+#: po/tmp/dialog-stf.glade.h:30
 msgid "Fixed wi_dth"
 msgstr "Fes_te Weite"
 
-#: po/tmp/dialog-stf.glade.h:37
+#: po/tmp/dialog-stf.glade.h:31
 msgid "Fixed width customization"
 msgstr ""
 
-#: po/tmp/dialog-stf.glade.h:38
+#: po/tmp/dialog-stf.glade.h:32
 msgid "Format"
 msgstr "Format"
 
-#: po/tmp/dialog-stf.glade.h:39
+#: po/tmp/dialog-stf.glade.h:33
 #, fuzzy
 msgid "Formatting for the selected column"
 msgstr "Formatierung der ausgewählten Zellen ändern"
 
-#: po/tmp/dialog-stf.glade.h:40
+#: po/tmp/dialog-stf.glade.h:34
 msgid "Formatting options"
 msgstr "Ausgabeoptionen"
 
-#: po/tmp/dialog-stf.glade.h:41
+#: po/tmp/dialog-stf.glade.h:35
 msgid "Fr_om line :"
 msgstr "V_on Zeile:"
 
-#: po/tmp/dialog-stf.glade.h:42
+#: po/tmp/dialog-stf.glade.h:36
 msgid "Gnumeric : Importing structured text"
 msgstr "Gnumeric: Strukturierten Text importieren"
 
-#: po/tmp/dialog-stf.glade.h:43
+#: po/tmp/dialog-stf.glade.h:37
 msgid "H_yphen (-)"
 msgstr "Stric_h (-)"
 
-#: po/tmp/dialog-stf.glade.h:44
+#: po/tmp/dialog-stf.glade.h:38
 msgid ""
 "Left click to create a new column, right click on a column border to delete "
 "an existing column or hold the left mouse button on a column border and drag "
 "to resize a column"
 msgstr ""
 
-#: po/tmp/dialog-stf.glade.h:45
+#: po/tmp/dialog-stf.glade.h:39
 msgid "Lines to import"
 msgstr "Zu importierende Zeilen"
 
-#: po/tmp/dialog-stf.glade.h:46
+#: po/tmp/dialog-stf.glade.h:40
 msgid "Misc"
 msgstr "Sonstiges"
 
-#: po/tmp/dialog-stf.glade.h:47
+#: po/tmp/dialog-stf.glade.h:42
 msgid "Number of lines to import"
 msgstr "Anzahl der zu importierenden Zeilen"
 
-#: po/tmp/dialog-stf.glade.h:48
+#: po/tmp/dialog-stf.glade.h:43
+msgid "On left side only"
+msgstr ""
+
+#: po/tmp/dialog-stf.glade.h:44
+msgid "On right side only"
+msgstr ""
+
+#: po/tmp/dialog-stf.glade.h:45
 msgid "Original data type :"
 msgstr "Ursprüngl. Datentyp:"
 
-#: po/tmp/dialog-stf.glade.h:49
+#: po/tmp/dialog-stf.glade.h:46
 msgid "P_ipe (|)"
 msgstr "P_ipe (|)"
 
-#: po/tmp/dialog-stf.glade.h:50
+#: po/tmp/dialog-stf.glade.h:47
 msgid "Per column formatting"
 msgstr "Je Spalte formatieren"
 
-#: po/tmp/dialog-stf.glade.h:51
+#: po/tmp/dialog-stf.glade.h:48
 msgid "Processing ends at this line, any subsequent lines will be ignored"
 msgstr ""
 
-#: po/tmp/dialog-stf.glade.h:52
+#: po/tmp/dialog-stf.glade.h:49
 #, fuzzy
 msgid "Remove selected column"
 msgstr "Ausgewählte Zellen sortieren"
 
-#: po/tmp/dialog-stf.glade.h:53
+#: po/tmp/dialog-stf.glade.h:50
 msgid "S_ee two separators as one"
 msgstr "Zwei Trennzeichen als eines sehen"
 
-#: po/tmp/dialog-stf.glade.h:54
+#: po/tmp/dialog-stf.glade.h:51
 msgid "S_pace"
 msgstr "_Leerzeichen"
 
-#: po/tmp/dialog-stf.glade.h:55
+#: po/tmp/dialog-stf.glade.h:52
 #, fuzzy
 msgid "See two successive separators as one"
 msgstr "Zwei Trennzeichen als eines sehen"
 
-#: po/tmp/dialog-stf.glade.h:56
+#: po/tmp/dialog-stf.glade.h:53
 msgid ""
 "See two successive text indicators as one that does not terminate the cell"
 msgstr ""
 
-#: po/tmp/dialog-stf.glade.h:57
+#: po/tmp/dialog-stf.glade.h:54
 #, fuzzy
 msgid ""
 "Select the format for each column. You can click in the column list on the "
@@ -3633,76 +3648,76 @@ msgstr ""
 "Dann können Sie ein eigenes Format eingeben oder eines von der Liste rechts\n"
 "wählen."
 
-#: po/tmp/dialog-stf.glade.h:58
+#: po/tmp/dialog-stf.glade.h:55
 msgid ""
 "Select the separators that appear in the text (you can choose multiple "
 "separators if desired and also enter a custom one)"
 msgstr ""
 
-#: po/tmp/dialog-stf.glade.h:59
+#: po/tmp/dialog-stf.glade.h:56
 msgid "Select the structure of the text that most closely matches the data."
 msgstr ""
 
-#: po/tmp/dialog-stf.glade.h:60
+#: po/tmp/dialog-stf.glade.h:57
 msgid "Semicolo_n (;)"
 msgstr "Semikolo_n (;)"
 
-#: po/tmp/dialog-stf.glade.h:61
+#: po/tmp/dialog-stf.glade.h:58
 msgid "Separation customization"
 msgstr "Anpassung der Trennzeichen"
 
-#: po/tmp/dialog-stf.glade.h:62
+#: po/tmp/dialog-stf.glade.h:59
 msgid "Separators"
 msgstr "Trennzeichen"
 
-#: po/tmp/dialog-stf.glade.h:63
+#: po/tmp/dialog-stf.glade.h:60
 #, fuzzy
 msgid "Set the end of this column"
 msgstr "Eine komplette Spalte auswählen"
 
-#: po/tmp/dialog-stf.glade.h:64
+#: po/tmp/dialog-stf.glade.h:61
 msgid "Slas_h (/)"
 msgstr "Schrä_gstrich (/)"
 
-#: po/tmp/dialog-stf.glade.h:65
+#: po/tmp/dialog-stf.glade.h:62
 msgid "Ta_b"
 msgstr "_Reiter"
 
-#: po/tmp/dialog-stf.glade.h:66
+#: po/tmp/dialog-stf.glade.h:63
 msgid "Te_xt indicator : "
 msgstr ""
 
-#: po/tmp/dialog-stf.glade.h:67
+#: po/tmp/dialog-stf.glade.h:64
 msgid "Trim :"
 msgstr "Beschneiden:"
 
-#: po/tmp/dialog-stf.glade.h:68
+#: po/tmp/dialog-stf.glade.h:65
 msgid ""
 "Trim leading and trailing spaces from each column, if you are unsure you "
 "should leave this at the default setting"
 msgstr ""
 
-#: po/tmp/dialog-stf.glade.h:70
+#: po/tmp/dialog-stf.glade.h:67
 msgid "_Adjacent text indicators escaped"
 msgstr ""
 
-#: po/tmp/dialog-stf.glade.h:71
+#: po/tmp/dialog-stf.glade.h:68
 msgid "_Clear"
 msgstr "_Leeren"
 
-#: po/tmp/dialog-stf.glade.h:72
+#: po/tmp/dialog-stf.glade.h:69
 msgid "_Colon (:)"
 msgstr "_Doppelpunkt (:)"
 
-#: po/tmp/dialog-stf.glade.h:73
+#: po/tmp/dialog-stf.glade.h:70
 msgid "_Format :"
 msgstr "_Format: "
 
-#: po/tmp/dialog-stf.glade.h:75
+#: po/tmp/dialog-stf.glade.h:72
 msgid "_Separated"
 msgstr "_Abgetrennt mit"
 
-#: po/tmp/dialog-stf.glade.h:76
+#: po/tmp/dialog-stf.glade.h:73
 msgid "_To line : "
 msgstr "_Bis Zeile:"
 
@@ -3712,9 +3727,13 @@ msgstr "Eigenschaften des Arbeitsbuches"
 
 #.
 #. * Translatable strings file generated by extract-ui.
-#. * Add this file to your project's POTFILES.in
-#. * DO NOT compile it as part of your application.
+#. * DO NOT compile this file as part of your application.
 #.
+#: po/tmp/dialog-zoom.glade.h:6
+#, c-format
+msgid "%"
+msgstr "%"
+
 #: po/tmp/dialog-zoom.glade.h:7
 #, c-format
 msgid "20_0 %"
@@ -3728,8 +3747,8 @@ msgstr "Vergrößerung"
 msgid "Sheets"
 msgstr "Blätter"
 
-#: po/tmp/dialog-zoom.glade.h:10 src/workbook-control-gui.c:2227
-#: src/workbook-control-gui.c:2284
+#: po/tmp/dialog-zoom.glade.h:10 src/workbook-control-gui.c:2239
+#: src/workbook-control-gui.c:2296
 msgid "Zoom"
 msgstr "Vergrößern"
 
@@ -3760,195 +3779,192 @@ msgstr "Auswahl _einpassen %"
 
 #.
 #. * Translatable strings file generated by extract-ui.
-#. * Add this file to your project's POTFILES.in
-#. * DO NOT compile it as part of your application.
+#. * DO NOT compile this file as part of your application.
 #.
-#: po/tmp/font-sel.glade.h:7
+#: po/tmp/font-sel.glade.h:6
 msgid "AaBbCcDdEe12345"
 msgstr "AaBbCcDdEe12345ÄÖÜäöüß"
 
-#: po/tmp/font-sel.glade.h:8
+#: po/tmp/font-sel.glade.h:7
 msgid "Font style:"
 msgstr "Stil der Schriftart:"
 
-#: po/tmp/font-sel.glade.h:9
+#: po/tmp/font-sel.glade.h:8
 msgid "Font:"
 msgstr "Schriftart:"
 
-#: po/tmp/font-sel.glade.h:10
+#: po/tmp/font-sel.glade.h:9
 msgid "Preview"
 msgstr "Vorschau"
 
 #.
 #. * Translatable strings file generated by extract-ui.
-#. * Add this file to your project's POTFILES.in
-#. * DO NOT compile it as part of your application.
+#. * DO NOT compile this file as part of your application.
 #.
-#: po/tmp/formula-guru.glade.h:7
+#: po/tmp/formula-guru.glade.h:6
 msgid "Formula Guru"
 msgstr "Formel-Druiden"
 
 #.
 #. * Translatable strings file generated by extract-ui.
-#. * Add this file to your project's POTFILES.in
-#. * DO NOT compile it as part of your application.
+#. * DO NOT compile this file as part of your application.
 #.
-#: po/tmp/function-select.glade.h:7
+#: po/tmp/function-select.glade.h:6
 msgid "Function Selector"
 msgstr "Funktionswähler"
 
-#: po/tmp/function-select.glade.h:8
+#: po/tmp/function-select.glade.h:7
 msgid "Function _Categories"
 msgstr "Funktions_kategorien"
 
-#: po/tmp/function-select.glade.h:9
+#: po/tmp/function-select.glade.h:8
 msgid "Function _Names"
 msgstr "Fu_nktionsnamen"
 
-#: po/tmp/function-select.glade.h:10
+#: po/tmp/function-select.glade.h:9
 msgid "place holder no need to translate"
 msgstr "place holder no need to translate"
 
 #.
 #. * Translatable strings file generated by extract-ui.
-#. * Add this file to your project's POTFILES.in
-#. * DO NOT compile it as part of your application.
+#. * DO NOT compile this file as part of your application.
 #.
-#: po/tmp/hf-config.glade.h:7
+#: po/tmp/hf-config.glade.h:6
 msgid "Center section:"
 msgstr "Mittlerer Abschnitt:"
 
-#: po/tmp/hf-config.glade.h:8
+#: po/tmp/hf-config.glade.h:7
 msgid "Enter the format strings for each section:"
 msgstr ""
 "Geben Sie eine Zeichenkette für die Formatierungen für jeden Abschnitt ein:"
 
-#: po/tmp/hf-config.glade.h:9
+#: po/tmp/hf-config.glade.h:8
 msgid "Left section:"
 msgstr "Linker Abschnitt:"
 
-#: po/tmp/hf-config.glade.h:10
+#: po/tmp/hf-config.glade.h:9
 msgid "Right section:"
 msgstr "Rechter Abschnitt:"
 
 #.
 #. * Translatable strings file generated by extract-ui.
-#. * Add this file to your project's POTFILES.in
-#. * DO NOT compile it as part of your application.
+#. * DO NOT compile this file as part of your application.
 #.
-#: po/tmp/import.glade.h:7
+#: po/tmp/import.glade.h:6
 msgid "Choose an import filter for loading the file:"
 msgstr "Einen Import-Filter wählen, um die Datei zu laden:"
 
-#: po/tmp/import.glade.h:8
+#: po/tmp/import.glade.h:7
 msgid "Import"
 msgstr "Import"
 
 #.
 #. * Translatable strings file generated by extract-ui.
-#. * Add this file to your project's POTFILES.in
-#. * DO NOT compile it as part of your application.
+#. * DO NOT compile this file as part of your application.
 #.
-#: po/tmp/insert-cells.glade.h:7
+#: po/tmp/insert-cells.glade.h:6
 msgid "Insert"
 msgstr "_Einfügen"
 
-#: po/tmp/insert-cells.glade.h:8
+#: po/tmp/insert-cells.glade.h:7
 msgid "Insert _column(s)"
 msgstr "S_palte(n) einfügen"
 
-#: po/tmp/insert-cells.glade.h:9
+#: po/tmp/insert-cells.glade.h:8
 msgid "Insert _row(s)"
 msgstr "_Zeile(n) einfügen"
 
-#: po/tmp/insert-cells.glade.h:10
+#: po/tmp/insert-cells.glade.h:9
 msgid "Insert cells"
 msgstr "Zellen einfügen"
 
-#: po/tmp/insert-cells.glade.h:11
+#: po/tmp/insert-cells.glade.h:10
 msgid "Shift cells _down"
 msgstr "Zellen nach _unten verschieben"
 
-#: po/tmp/insert-cells.glade.h:12
+#: po/tmp/insert-cells.glade.h:11
 msgid "_Shift cells right"
 msgstr "Zellen nach _rechts verschieben"
 
-#: po/tmp/names.glade.h:8
+#: po/tmp/names.glade.h:7
 msgid "Define Name"
 msgstr "Name definieren"
 
-#: po/tmp/names.glade.h:10
+#: po/tmp/names.glade.h:9
 msgid "Name Guru"
 msgstr "Namen-Guru"
 
-#: po/tmp/plugin-manager.glade.h:8
+#: po/tmp/plugin-manager.glade.h:7
 msgid "Gnumeric Plugin Manager"
 msgstr "Gnumeric-Plugin-Manager"
 
-#: po/tmp/plugin-manager.glade.h:9
+#: po/tmp/plugin-manager.glade.h:8
 msgid "Installed Plugins"
 msgstr "Installierte Plugins"
 
-#: po/tmp/plugin-manager.glade.h:11
+#: po/tmp/plugin-manager.glade.h:10
 msgid "Path:"
 msgstr "Pfad:"
 
-#: po/tmp/plugin-manager.glade.h:14
+#: po/tmp/plugin-manager.glade.h:13
 msgid "_Description"
 msgstr "_Beschreibung"
 
-#: po/tmp/plugin-manager.glade.h:15
+#: po/tmp/plugin-manager.glade.h:14
 msgid "_File Details"
 msgstr "_Details zu den Dateien"
 
 # Not a C string! -ke-
 #.
 #. * Translatable strings file generated by extract-ui.
-#. * Add this file to your project's POTFILES.in
-#. * DO NOT compile it as part of your application.
+#. * DO NOT compile this file as part of your application.
 #.
-#: po/tmp/print.glade.h:7
+#: po/tmp/print.glade.h:6
 #, c-format
 msgid "% of normal size"
 msgstr "% der Originalgröße"
 
-#: po/tmp/print.glade.h:8
+#: po/tmp/print.glade.h:7
 msgid "Center on page"
 msgstr "Auf der Seite zentrieren"
 
-#: po/tmp/gnumeric.xml.h:36 po/tmp/print.glade.h:9
-#: src/workbook-control-gui.c:1704
+#: po/tmp/gnumeric.xml.h:36 po/tmp/print.glade.h:8
+#: src/workbook-control-gui.c:1722
 msgid "Co_mments"
 msgstr "Ko_mmentare"
 
-#: po/tmp/print.glade.h:10
+#: po/tmp/print.glade.h:9
 msgid "Customize _footer"
 msgstr "_Fußzeilen anpassen"
 
-#: po/tmp/print.glade.h:11
+#: po/tmp/print.glade.h:10
 msgid "Customize _header"
 msgstr "_Kopfzeilen anpassen"
 
-#: po/tmp/print.glade.h:12
+#: po/tmp/print.glade.h:11
 msgid "Fi_rst page number:"
 msgstr "E_rste Seitenzahl:"
 
-#: po/tmp/print.glade.h:13
+#: po/tmp/print.glade.h:12
 msgid "Footer:"
 msgstr "Fußzeile:"
 
-#: po/tmp/print.glade.h:14
+#: po/tmp/print.glade.h:13
 msgid "He_ader:"
 msgstr "_Kopfzeilen:"
 
 # With `:' for consistency -ke-
-#: po/tmp/print.glade.h:15
+#: po/tmp/print.glade.h:14
 msgid "Header"
 msgstr "Kopfzeile:"
 
-#: po/tmp/print.glade.h:16
+#: po/tmp/print.glade.h:15
 msgid "Headers and footers"
 msgstr "Kopf- und Fußzeilen"
+
+#: po/tmp/print.glade.h:16 src/print-info.c:443
+msgid "In"
+msgstr "''"
 
 #: po/tmp/print.glade.h:17
 msgid "Margins"
@@ -3975,7 +3991,7 @@ msgid "Por_trait"
 msgstr "Auf_recht (Porträt)"
 
 #: po/tmp/gnumeric.xml.h:140 po/tmp/print.glade.h:24
-#: src/workbook-control-gui.c:2035
+#: src/workbook-control-gui.c:2047
 msgid "Print"
 msgstr "Druck"
 
@@ -3984,8 +4000,8 @@ msgstr "Druck"
 msgid "Print _area:"
 msgstr "_Bereich drucken:"
 
-#: po/tmp/gnumeric.xml.h:144 po/tmp/print.glade.h:26 src/print.c:1191
-#: src/workbook-control-gui.c:1678 src/workbook-control-gui.c:2038
+#: po/tmp/gnumeric.xml.h:144 po/tmp/print.glade.h:26 src/print.c:1189
+#: src/workbook-control-gui.c:1696 src/workbook-control-gui.c:2050
 msgid "Print preview"
 msgstr "Druckvorschau"
 
@@ -4005,7 +4021,7 @@ msgstr "Kopfzeilen der Zeilen und S_palten"
 msgid "Scale"
 msgstr "Skalierung"
 
-#: po/tmp/print.glade.h:31 src/functions/fn-sheet.c:135 src/workbook.c:1028
+#: po/tmp/print.glade.h:31 src/functions/fn-sheet.c:135 src/workbook.c:1026
 msgid "Sheet"
 msgstr "Blatt"
 
@@ -4078,278 +4094,265 @@ msgstr "_Einheiten:"
 msgid "_Vertically"
 msgstr "_Vertikal"
 
-#: po/tmp/print.glade.h:49
+#. 1in = 25.4mm, exact
+#: po/tmp/print.glade.h:49 src/print-info.c:442
+msgid "cm"
+msgstr "cm"
+
+#: po/tmp/print.glade.h:50 src/print-info.c:441
+msgid "mm"
+msgstr "mm"
+
+#: po/tmp/print.glade.h:51
 msgid "page(s) wide by"
 msgstr "Seite(n) mit einer Breite von"
 
-#: po/tmp/print.glade.h:50
-#, fuzzy
-msgid "pts\n"
+#: po/tmp/print.glade.h:52 src/print-info.c:440
+msgid "pts"
 msgstr "pt"
 
-#: po/tmp/print.glade.h:51
-#, fuzzy
-msgid "mm\n"
-msgstr "mm"
-
-#: po/tmp/print.glade.h:52
-#, fuzzy
-msgid "cm\n"
-msgstr "cm"
-
-#: po/tmp/print.glade.h:53 src/print-info.c:443
-msgid "In"
-msgstr "''"
-
-#: po/tmp/print.glade.h:54
+#: po/tmp/print.glade.h:53
 msgid "sample goes here"
 msgstr "Beispiel kommt hier"
 
 # Checkit
-#: po/tmp/print.glade.h:55
+#: po/tmp/print.glade.h:54
 msgid "tall"
 msgstr "Höhe"
 
 #.
 #. * Translatable strings file generated by extract-ui.
-#. * Add this file to your project's POTFILES.in
-#. * DO NOT compile it as part of your application.
+#. * DO NOT compile this file as part of your application.
 #.
-#: po/tmp/row-height.glade.h:7
+#: po/tmp/row-height.glade.h:6
 msgid "Row height"
 msgstr "Zeilenhöhe"
 
-#: po/tmp/row-height.glade.h:8
+#: po/tmp/row-height.glade.h:7
 msgid "_Row height (pts):"
 msgstr "_Zeilenhöhe (Punkte):"
 
 #.
 #. * Translatable strings file generated by extract-ui.
-#. * Add this file to your project's POTFILES.in
-#. * DO NOT compile it as part of your application.
+#. * DO NOT compile this file as part of your application.
 #.
-#: po/tmp/sheet-order.glade.h:7
+#: po/tmp/sheet-order.glade.h:6
 msgid "Close this dialog"
 msgstr "Diesen Dialog schließen"
 
-#: po/tmp/sheet-order.glade.h:9
+#: po/tmp/sheet-order.glade.h:8
 msgid "Delete the currently selected sheet"
 msgstr "Das aktuell gewählte Blatt löschen"
 
-#: po/tmp/sheet-order.glade.h:10
+#: po/tmp/sheet-order.glade.h:9
 msgid "Move the currently selected sheet down one position"
 msgstr "Das aktuell gewählte Blatt eine Stelle nach hinten verschieben"
 
-#: po/tmp/sheet-order.glade.h:11
+#: po/tmp/sheet-order.glade.h:10
 msgid "Move the currently selected sheet up one position"
 msgstr "Das aktuell gewählte Blatt eine Stelle nach vorn verschieben"
 
-#: po/tmp/sheet-order.glade.h:12
+#: po/tmp/sheet-order.glade.h:11
 msgid "Order Sheets"
 msgstr "Blätter ordnen"
 
-#: po/tmp/sheet-order.glade.h:13
+#: po/tmp/sheet-order.glade.h:12
 msgid "Sheet Name"
 msgstr "Blattname"
 
 #.
 #. * Translatable strings file generated by extract-ui.
-#. * Add this file to your project's POTFILES.in
-#. * DO NOT compile it as part of your application.
+#. * DO NOT compile this file as part of your application.
 #.
-#: po/tmp/sheet-rename.glade.h:7
+#: po/tmp/sheet-rename.glade.h:6
 msgid "Enter new _sheet name:"
 msgstr "Namen für neues _Blatt eingeben:"
 
-#: po/tmp/sheet-rename.glade.h:8
+#: po/tmp/sheet-rename.glade.h:7
 msgid "Rename sheet"
 msgstr "Blatt umbenennen"
 
 #.
 #. * Translatable strings file generated by extract-ui.
-#. * Add this file to your project's POTFILES.in
-#. * DO NOT compile it as part of your application.
+#. * DO NOT compile this file as part of your application.
 #.
-#: po/tmp/solver-options.glade.h:7
+#: po/tmp/solver-options.glade.h:6
 msgid "Assume _Linear Model"
 msgstr "_Lineares Modell annehmen"
 
-#: po/tmp/solver-options.glade.h:8
+#: po/tmp/solver-options.glade.h:7
 msgid "Assume _Non-Negative"
 msgstr "_Nicht-Negativ annehmen"
 
-#: po/tmp/solver-options.glade.h:9
+#: po/tmp/solver-options.glade.h:8
 msgid "Solver Options"
 msgstr "Analysis-Optionen"
 
 #.
 #. * Translatable strings file generated by extract-ui.
-#. * Add this file to your project's POTFILES.in
-#. * DO NOT compile it as part of your application.
+#. * DO NOT compile this file as part of your application.
 #.
-#: po/tmp/solver.glade.h:7
+#: po/tmp/solver.glade.h:6
 msgid "                         "
 msgstr "                         "
 
-#: po/tmp/solver.glade.h:8
+#: po/tmp/solver.glade.h:7
 msgid "Add  "
 msgstr "Addieren"
 
-#: po/tmp/solver.glade.h:9
+#: po/tmp/solver.glade.h:8
 msgid "Add Constraint"
 msgstr "Beschränkung hinzufügen"
 
-#: po/tmp/solver.glade.h:10
+#: po/tmp/solver.glade.h:9
 msgid "B_y Changing Cells: "
 msgstr "D_urch Ändern von Zellen:"
 
-#: po/tmp/solver.glade.h:11
+#: po/tmp/solver.glade.h:10
 msgid "Change Constraint"
 msgstr "Beschränkung ändern"
 
-#: po/tmp/solver.glade.h:12
+#: po/tmp/solver.glade.h:11
 msgid "Equal To:"
 msgstr "Ist gleich:"
 
-#: po/tmp/solver.glade.h:13
+#: po/tmp/solver.glade.h:12
 msgid "Gnumeric Solver Parameters"
 msgstr "Gnumeric-Analysis-Parameter"
 
-#: po/tmp/solver.glade.h:14
+#: po/tmp/solver.glade.h:13
 msgid "M_in"
 msgstr "M_in"
 
-#: po/tmp/solver.glade.h:15
+#: po/tmp/solver.glade.h:14
 msgid "Options..."
 msgstr "Optionen..."
 
-#: po/tmp/solver.glade.h:16
+#: po/tmp/solver.glade.h:15
 msgid "Reports:"
 msgstr "Berichte:"
 
-#: po/tmp/solver.glade.h:17
+#: po/tmp/solver.glade.h:16
 msgid "Solve"
 msgstr "Lösen"
 
-#: po/tmp/solver.glade.h:18
+#: po/tmp/solver.glade.h:17
 msgid "Subject to the Constraints:"
 msgstr "Unterliegt den Einschränkungen:"
 
-#: po/tmp/solver.glade.h:20
+#: po/tmp/solver.glade.h:19
 msgid "_Answer"
 msgstr "_Antwort"
 
-#: po/tmp/solver.glade.h:21
+#: po/tmp/solver.glade.h:20
 msgid "_Change"
 msgstr "Än_dern"
 
-#: po/tmp/solver.glade.h:22
+#: po/tmp/solver.glade.h:21
 msgid "_Delete"
 msgstr "_Löschen"
 
-#: po/tmp/solver.glade.h:23
+#: po/tmp/solver.glade.h:22
 msgid "_Keep Solver Solution"
 msgstr "Analysis-Lösung behalten"
 
-#: po/tmp/solver.glade.h:24
+#: po/tmp/solver.glade.h:23
 msgid "_Left Hand Side:"
 msgstr "Linke Seite:"
 
-#: po/tmp/solver.glade.h:25
+#: po/tmp/solver.glade.h:24
 msgid "_Limits"
 msgstr "_Grenzen"
 
-#: po/tmp/solver.glade.h:26
+#: po/tmp/solver.glade.h:25
 msgid "_Max"
 msgstr "_Max"
 
-#: po/tmp/solver.glade.h:27
+#: po/tmp/solver.glade.h:26
 msgid "_Restore Original Values"
 msgstr "Auf u_rsprünglichen Werte zurücksetzen"
 
-#: po/tmp/solver.glade.h:28
+#: po/tmp/solver.glade.h:27
 msgid "_Right Hand Side:"
 msgstr "Rechte Seite:"
 
-#: po/tmp/solver.glade.h:29
+#: po/tmp/solver.glade.h:28
 msgid "_Sensitivity"
 msgstr "E_mpfindlichkeit"
 
-#: po/tmp/solver.glade.h:30
+#: po/tmp/solver.glade.h:29
 msgid "_Set Target Cell:       "
 msgstr "_Zielzelle setzen:       "
 
-#: po/tmp/solver.glade.h:31
+#: po/tmp/solver.glade.h:30
 msgid "_Type:"
 msgstr "_Typ:"
 
 #.
 #. * Translatable strings file generated by extract-ui.
-#. * Add this file to your project's POTFILES.in
-#. * DO NOT compile it as part of your application.
+#. * DO NOT compile this file as part of your application.
 #.
-#: po/tmp/summary.glade.h:7
+#: po/tmp/summary.glade.h:6
 msgid "Author"
 msgstr "Autor"
 
-#: po/tmp/summary.glade.h:8
+#: po/tmp/summary.glade.h:7
 msgid "Category"
 msgstr "Kategorie"
 
-#: po/tmp/summary.glade.h:9
+#: po/tmp/summary.glade.h:8
 msgid "Comments"
 msgstr "Kommentare"
 
-#: po/tmp/summary.glade.h:10
+#: po/tmp/summary.glade.h:9
 msgid "Company"
 msgstr "Firma"
 
-#: po/tmp/summary.glade.h:11
+#: po/tmp/summary.glade.h:10
 msgid "Document Summary Information\n"
 msgstr "Kurzinformation zum Dokument\n"
 
-#: po/tmp/summary.glade.h:12
+#: po/tmp/summary.glade.h:11
 msgid "Keywords"
 msgstr "Stichwörter"
 
-#: po/tmp/summary.glade.h:13
+#: po/tmp/summary.glade.h:12
 msgid "Manager"
 msgstr "Vorgesetzter"
 
-#: po/tmp/summary.glade.h:14
+#: po/tmp/summary.glade.h:13
 msgid "Summary"
 msgstr "Kurzinfo"
 
-#: po/tmp/summary.glade.h:15
+#: po/tmp/summary.glade.h:14
 msgid "Title"
 msgstr "Titel"
 
 #.
 #. * Translatable strings file generated by extract-ui.
-#. * Add this file to your project's POTFILES.in
-#. * DO NOT compile it as part of your application.
+#. * DO NOT compile this file as part of your application.
 #.
-#: po/tmp/workbook-attr.glade.h:7
+#: po/tmp/workbook-attr.glade.h:6
 msgid "Notebook"
 msgstr "Notebook"
 
-#: po/tmp/workbook-attr.glade.h:8
+#: po/tmp/workbook-attr.glade.h:7
 msgid "Scrollbars"
 msgstr "Rollbalken"
 
-#: po/tmp/workbook-attr.glade.h:9
+#: po/tmp/workbook-attr.glade.h:8
 msgid "View"
 msgstr "_Ansicht"
 
-#: po/tmp/workbook-attr.glade.h:10
+#: po/tmp/workbook-attr.glade.h:9
 msgid "_Horizontal Scrollbar"
 msgstr "_Horizontaler Rollbalken"
 
-#: po/tmp/workbook-attr.glade.h:11
+#: po/tmp/workbook-attr.glade.h:10
 msgid "_Tabs"
 msgstr "_Reiter"
 
-#: po/tmp/workbook-attr.glade.h:12
+#: po/tmp/workbook-attr.glade.h:11
 msgid "_Vertical Scrollbar"
 msgstr "_Vertikaler Rollbalken"
 
@@ -4399,7 +4402,7 @@ msgstr "Unbekannter Operator"
 msgid "Unknown evaluation error"
 msgstr "Unbekannter Auswertungsfehler"
 
-#: src/file.c:314
+#: src/file.c:316
 msgid ""
 "Could not read file %s\n"
 "%%s"
@@ -4407,7 +4410,7 @@ msgstr ""
 "Konnte Datei %s nicht lesen\n"
 "%%s"
 
-#: src/file.c:409
+#: src/file.c:411
 msgid ""
 "Could not import file %s\n"
 "%%s"
@@ -4415,11 +4418,11 @@ msgstr ""
 "Konnte Datei %s nicht importieren\n"
 "%%s"
 
-#: src/file.c:509
+#: src/file.c:544
 msgid "File format:"
 msgstr "Dateiformat:"
 
-#: src/file.c:585
+#: src/file.c:620
 #, c-format
 msgid ""
 "Workbook %s already exists.\n"
@@ -4428,7 +4431,7 @@ msgstr ""
 "Arbeitsbuch %s existiert bereits.\n"
 "Wollen Sie es beim Speichern überschreiben?"
 
-#: src/file.c:628
+#: src/file.c:663
 #, c-format
 msgid ""
 "%s\n"
@@ -4437,7 +4440,7 @@ msgstr ""
 "%s\n"
 "ist ein Verzeichnisname."
 
-#: src/file.c:637
+#: src/file.c:672
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -4446,7 +4449,7 @@ msgstr ""
 "Sie haben nicht die Rechte nach\n"
 "%s zu speichern."
 
-#: src/file.c:668
+#: src/file.c:703
 msgid ""
 "Please enter a file name,\n"
 "not a directory"
@@ -4454,7 +4457,7 @@ msgstr ""
 "Bitte geben Sie einen Dateinamen ein,\n"
 "kein Verzeichnis."
 
-#: src/file.c:676
+#: src/file.c:711
 msgid ""
 "Sorry, there are no file savers loaded,\n"
 "I cannot save"
@@ -4462,7 +4465,7 @@ msgstr ""
 "Tut mir leid, es sind keine Dateispeicherer geladen.\n"
 "Ich kann nicht speichern."
 
-#: src/file.c:692 src/file.c:780
+#: src/file.c:727 src/file.c:815
 msgid ""
 "Could not save to file %s\n"
 "%%s"
@@ -4470,11 +4473,11 @@ msgstr ""
 "Konnte nicht in Datei %s speichern\n"
 "%%s"
 
-#: src/file.c:721
+#: src/file.c:756
 msgid "Save workbook as"
 msgstr "Arbeitsbuch speichern als"
 
-#: src/file.c:803
+#: src/file.c:838
 msgid "Load file"
 msgstr "Datei laden"
 
@@ -4511,12 +4514,12 @@ msgid "yellow"
 msgstr "gelb"
 
 #. Is it a boolean?
-#: src/format.c:1631 src/number-match.c:940 src/value-sheet.c:33
+#: src/format.c:1631 src/number-match.c:970 src/value-sheet.c:33
 #: src/value.c:235 src/value.c:468
 msgid "TRUE"
 msgstr "WAHR"
 
-#: src/format.c:1631 src/number-match.c:942 src/value-sheet.c:33
+#: src/format.c:1631 src/number-match.c:972 src/value-sheet.c:33
 #: src/value.c:237 src/value.c:468
 msgid "FALSE"
 msgstr "FALSCH"
@@ -5576,278 +5579,287 @@ msgid "St.Helena pound"
 msgstr "St.-Helena-Pfund"
 
 #: src/formats.c:354
+#, fuzzy
+msgid "[$SIT]"
+msgstr "[$ITL]"
+
+#: src/formats.c:354
+msgid "Slovenia tolar"
+msgstr ""
+
+#: src/formats.c:355
 msgid "[$SLL]"
 msgstr "[$SLL]"
 
-#: src/formats.c:354
+#: src/formats.c:355
 msgid "Sierra Leone leone"
 msgstr "Sierra Leone Leone"
 
-#: src/formats.c:355
+#: src/formats.c:356
 msgid "[$SOS]"
 msgstr "[$SOS]"
 
-#: src/formats.c:355
+#: src/formats.c:356
 msgid "Somali shilling"
 msgstr "Somalischer Schilling"
 
-#: src/formats.c:356
+#: src/formats.c:357
 msgid "[$SRG]"
 msgstr "[$SRG]"
 
-#: src/formats.c:356
+#: src/formats.c:357
 msgid "Suriname guilder"
 msgstr "Surinamesischer Gulden"
 
-#: src/formats.c:357
+#: src/formats.c:358
 msgid "[$STD]"
 msgstr "[$STD]"
 
-#: src/formats.c:357
+#: src/formats.c:358
 msgid "Sao Tome and Principe dobra"
 msgstr "Sao Tome and Principe Dobra"
 
-#: src/formats.c:358
+#: src/formats.c:359
 msgid "[$SUR]"
 msgstr "[$SUR]"
 
-#: src/formats.c:358
+#: src/formats.c:359
 msgid "USSR rouble"
 msgstr "Rubel der UdSSR"
 
-#: src/formats.c:359
+#: src/formats.c:360
 msgid "[$SVC]"
 msgstr "[$SVC]"
 
-#: src/formats.c:359
+#: src/formats.c:360
 msgid "El Salvador colon"
 msgstr "El Salvador Colon"
 
-#: src/formats.c:360
+#: src/formats.c:361
 msgid "[$SYP]"
 msgstr "[$SYP]"
 
-#: src/formats.c:360
+#: src/formats.c:361
 msgid "Syrian pound"
 msgstr "Syrisches Pfund"
 
-#: src/formats.c:361
+#: src/formats.c:362
 msgid "[$SZL]"
 msgstr "[$SZL]"
 
-#: src/formats.c:361
+#: src/formats.c:362
 msgid "Swaziland lilangeni"
 msgstr "Swaziland Lilangeni"
 
-#: src/formats.c:362
+#: src/formats.c:363
 msgid "[$THB]"
 msgstr "[$THB]"
 
-#: src/formats.c:362
+#: src/formats.c:363
 msgid "Thai baht"
 msgstr "Thai Baht"
 
-#: src/formats.c:363
+#: src/formats.c:364
 msgid "[$TND]"
 msgstr "[$TND]"
 
-#: src/formats.c:363
+#: src/formats.c:364
 msgid "Tunisian dinar"
 msgstr "Tunesischer Dinar"
 
-#: src/formats.c:364
+#: src/formats.c:365
 msgid "[$TOP]"
 msgstr "[$TOP]"
 
-#: src/formats.c:364
+#: src/formats.c:365
 msgid "Tongan pa'anga"
 msgstr "Tongan Pa'anga"
 
-#: src/formats.c:365
+#: src/formats.c:366
 msgid "[$TPE]"
 msgstr "[$TPE]"
 
-#: src/formats.c:365
+#: src/formats.c:366
 msgid "East Timor escudo"
 msgstr "Osttimoresischer Escudo"
 
-#: src/formats.c:366
+#: src/formats.c:367
 msgid "[$TRL]"
 msgstr "[$TRL]"
 
-#: src/formats.c:366
+#: src/formats.c:367
 msgid "Turkish lira"
 msgstr "Türkische Lira"
 
-#: src/formats.c:367
+#: src/formats.c:368
 msgid "[$TTD]"
 msgstr "[$TTD]"
 
-#: src/formats.c:367
+#: src/formats.c:368
 msgid "Trinidad and Tobago dollar"
 msgstr "Trinidad-und-Tobago-Dollar"
 
-#: src/formats.c:368
+#: src/formats.c:369
 msgid "[$TWD]"
 msgstr "[$TWD]"
 
-#: src/formats.c:368
+#: src/formats.c:369
 msgid "New Taiwan dollar"
 msgstr "Neuer Taiwanesischer Dollar"
 
-#: src/formats.c:369
+#: src/formats.c:370
 msgid "[$TZS]"
 msgstr "[$TZS]"
 
-#: src/formats.c:369
+#: src/formats.c:370
 msgid "Tanzanian shilling"
 msgstr "Tansanischer Shilling"
 
-#: src/formats.c:370
+#: src/formats.c:371
 msgid "[$UAH]"
 msgstr "[$UAH]"
 
-#: src/formats.c:370
+#: src/formats.c:371
 msgid "Ukrainian hryvnia"
 msgstr "Ukrainischer Hryvnia"
 
-#: src/formats.c:371
+#: src/formats.c:372
 msgid "[$UGX]"
 msgstr "[$UGX]"
 
-#: src/formats.c:371
+#: src/formats.c:372
 msgid "Ugandan shilling"
 msgstr "Ugandischer Shilling"
 
-#: src/formats.c:372
+#: src/formats.c:373
 msgid "[$USD]"
 msgstr "[$USD]"
 
-#: src/formats.c:372
+#: src/formats.c:373
 msgid "US dollar"
 msgstr "US-Dollar"
 
-#: src/formats.c:373
+#: src/formats.c:374
 msgid "[$UYP]"
 msgstr "[$UYP]"
 
-#: src/formats.c:373
+#: src/formats.c:374
 msgid "Uruguayan peso"
 msgstr "Uruguayanischer Peso"
 
-#: src/formats.c:374
+#: src/formats.c:375
 msgid "[$VEB]"
 msgstr "[$VEB]"
 
-#: src/formats.c:374
+#: src/formats.c:375
 msgid "Venezuelan bolivar"
 msgstr "Venezolanischer Bolivar"
 
-#: src/formats.c:375
+#: src/formats.c:376
 msgid "[$VND]"
 msgstr "[$VND]"
 
-#: src/formats.c:375
+#: src/formats.c:376
 msgid "Vietnamese dong"
 msgstr "Vietnamescher Dong"
 
-#: src/formats.c:376
+#: src/formats.c:377
 msgid "[$VUV]"
 msgstr "[$VUV]"
 
-#: src/formats.c:376
+#: src/formats.c:377
 msgid "Vanuatu vatu"
 msgstr "Vanuatu Vatu"
 
-#: src/formats.c:377
+#: src/formats.c:378
 msgid "[$WST]"
 msgstr "[$WST]"
 
-#: src/formats.c:377
+#: src/formats.c:378
 msgid "Samoan tala"
 msgstr "Saoanischer Tala"
 
-#: src/formats.c:378
+#: src/formats.c:379
 msgid "[$XCD]"
 msgstr "[$XCD]"
 
-#: src/formats.c:378
+#: src/formats.c:379
 msgid "East Caribbean dollar"
 msgstr "Ostkaribik-Dollar"
 
-#: src/formats.c:379
+#: src/formats.c:380
 msgid "[$XEU]"
 msgstr "[$XEU]"
 
-#: src/formats.c:379
+#: src/formats.c:380
 msgid "European currency unit"
 msgstr "Europäische Währungseinheit"
 
-#: src/formats.c:380
+#: src/formats.c:381
 msgid "[$YDD]"
 msgstr "[$YDD]"
 
-#: src/formats.c:380
+#: src/formats.c:381
 msgid "Democratic Yemeni dinar"
 msgstr "Dinar des Demokratischen Jemen"
 
-#: src/formats.c:381
+#: src/formats.c:382
 msgid "[$YER]"
 msgstr "[$YER]"
 
-#: src/formats.c:381
+#: src/formats.c:382
 msgid "Yemeni rial"
 msgstr "Jemenitischer Rial"
 
-#: src/formats.c:382
+#: src/formats.c:383
 msgid "[$YUN]"
 msgstr "[$YUN]"
 
-#: src/formats.c:382
+#: src/formats.c:383
 msgid "New Yugoslavia dinar"
 msgstr "Neuer Jugoslawischer Dinar"
 
-#: src/formats.c:383
+#: src/formats.c:384
 msgid "[$ZAL]"
 msgstr "[$ZAL]"
 
-#: src/formats.c:383
+#: src/formats.c:384
 msgid "South African rand funds code"
 msgstr "Code für Fonds in Südafrikanischen Rand"
 
-#: src/formats.c:384
+#: src/formats.c:385
 msgid "[$ZAR]"
 msgstr "[$ZAR]"
 
-#: src/formats.c:384
+#: src/formats.c:385
 msgid "South African rand"
 msgstr "Südafrikanischer Rand"
 
-#: src/formats.c:385
+#: src/formats.c:386
 msgid "[$ZMK]"
 msgstr "[$ZMK]"
 
-#: src/formats.c:385
+#: src/formats.c:386
 msgid "Zambian kwacha"
 msgstr "Zambianischer Kwacha"
 
-#: src/formats.c:386
+#: src/formats.c:387
 msgid "[$ZRZ]"
 msgstr "[$ZRZ]"
 
-#: src/formats.c:386
+#: src/formats.c:387
 msgid "Zaire Zaire"
 msgstr "Zaire Zaire"
 
-#: src/formats.c:387
+#: src/formats.c:388
 msgid "[$ZWD]"
 msgstr "[$ZWD]"
 
-#: src/formats.c:387
+#: src/formats.c:388
 msgid "Zimbabwe dollar"
 msgstr "Simbabwe-Dollar"
 
-#: src/formats.c:519
+#: src/formats.c:520
 msgid "[Red]"
 msgstr "[Red]"
 
@@ -6120,10 +6132,6 @@ msgid ""
 "If the summary data is unavailable, GETPIVOTDATA returns #REF! error. \n"
 "@SEEALSO="
 msgstr ""
-
-#: src/functions/fn-database.c:1337
-msgid "Database"
-msgstr "Datenbank"
 
 #: src/functions/fn-date.c:22
 msgid ""
@@ -8234,7 +8242,7 @@ msgid "%s version %s"
 msgstr "%s Version %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/functions/fn-information.c:320 src/workbook-format-toolbar.c:747
+#: src/functions/fn-information.c:320 src/workbook-format-toolbar.c:759
 msgid "Automatic"
 msgstr "Automatisch"
 
@@ -8601,7 +8609,7 @@ msgid ""
 "@SEEALSO=HLOOKUP"
 msgstr ""
 
-#: src/functions/fn-lookup.c:542
+#: src/functions/fn-lookup.c:539
 msgid ""
 "@FUNCTION=HLOOKUP\n"
 "@SYNTAX=HLOOKUP(value,range,row[,approximate])\n"
@@ -8617,7 +8625,7 @@ msgid ""
 "@SEEALSO=VLOOKUP"
 msgstr ""
 
-#: src/functions/fn-lookup.c:606
+#: src/functions/fn-lookup.c:600
 msgid ""
 "@FUNCTION=LOOKUP\n"
 "@SYNTAX=LOOKUP(value,vector1,vector2)\n"
@@ -8633,7 +8641,7 @@ msgid ""
 "@SEEALSO=VLOOKUP,HLOOKUP"
 msgstr ""
 
-#: src/functions/fn-lookup.c:673
+#: src/functions/fn-lookup.c:667
 msgid ""
 "@FUNCTION=MATCH\n"
 "@SYNTAX=MATCH(seek,vector[,type])\n"
@@ -8654,7 +8662,7 @@ msgid ""
 "@SEEALSO=LOOKUP"
 msgstr ""
 
-#: src/functions/fn-lookup.c:733
+#: src/functions/fn-lookup.c:727
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text,[format])\n"
@@ -8668,7 +8676,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-lookup.c:797
+#: src/functions/fn-lookup.c:791
 msgid ""
 "@FUNCTION=INDEX\n"
 "@SYNTAX=INDEX(reference,[row, col, area])\n"
@@ -8680,7 +8688,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-lookup.c:843
+#: src/functions/fn-lookup.c:837
 msgid ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([reference])\n"
@@ -8693,7 +8701,7 @@ msgid ""
 "@SEEALSO=COLUMNS,ROW,ROWS"
 msgstr ""
 
-#: src/functions/fn-lookup.c:895
+#: src/functions/fn-lookup.c:889
 msgid ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(reference)\n"
@@ -8706,7 +8714,7 @@ msgid ""
 "@SEEALSO=COLUMN,ROW,ROWS"
 msgstr ""
 
-#: src/functions/fn-lookup.c:920
+#: src/functions/fn-lookup.c:914
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col,height,width)\n"
@@ -8720,7 +8728,7 @@ msgid ""
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 msgstr ""
 
-#: src/functions/fn-lookup.c:983
+#: src/functions/fn-lookup.c:977
 msgid ""
 "@FUNCTION=ROW\n"
 "@SYNTAX=ROW([reference])\n"
@@ -8733,7 +8741,7 @@ msgid ""
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 msgstr ""
 
-#: src/functions/fn-lookup.c:1035
+#: src/functions/fn-lookup.c:1029
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -8746,7 +8754,7 @@ msgid ""
 "@SEEALSO=COLUMN,ROW,ROWS"
 msgstr ""
 
-#: src/functions/fn-lookup.c:1060
+#: src/functions/fn-lookup.c:1054
 msgid ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(reference)\n"
@@ -8758,7 +8766,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-lookup.c:1085
+#: src/functions/fn-lookup.c:1079
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
@@ -8768,7 +8776,7 @@ msgid ""
 "@SEEALSO=MMULT"
 msgstr ""
 
-#: src/functions/fn-lookup.c:1133
+#: src/functions/fn-lookup.c:1127
 msgid "Data / Lookup"
 msgstr "Daten / Auffinden"
 
@@ -9641,14 +9649,14 @@ msgid ""
 "@SEEALSO=SUMSQ,SUMX2PY2"
 msgstr ""
 
-#: src/functions/fn-math.c:2525 src/functions/fn-math.c:2540
-#: src/functions/fn-math.c:2623 src/functions/fn-math.c:2639
-#: src/functions/fn-math.c:2720 src/functions/fn-math.c:2736
+#: src/functions/fn-math.c:2527 src/functions/fn-math.c:2546
+#: src/functions/fn-math.c:2640 src/functions/fn-math.c:2660
+#: src/functions/fn-math.c:2752 src/functions/fn-math.c:2772
 #: src/functions/fn-stat.c:2711 src/functions/fn-stat.c:2741
 msgid "Array version not implemented!"
 msgstr "Feldversion nicht implementiert!"
 
-#: src/functions/fn-math.c:2569
+#: src/functions/fn-math.c:2584
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -9668,7 +9676,7 @@ msgid ""
 "@SEEALSO=SUMSQ,SUMX2MY2"
 msgstr ""
 
-#: src/functions/fn-math.c:2666
+#: src/functions/fn-math.c:2696
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -9688,7 +9696,7 @@ msgid ""
 "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
 msgstr ""
 
-#: src/functions/fn-math.c:2765
+#: src/functions/fn-math.c:2810
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
@@ -9719,7 +9727,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/functions/fn-math.c:2858
+#: src/functions/fn-math.c:2903
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -9736,7 +9744,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/functions/fn-math.c:2981
+#: src/functions/fn-math.c:3026
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -9750,11 +9758,11 @@ msgid ""
 "@SEEALSO=MMULT, MDETERM"
 msgstr ""
 
-#: src/functions/fn-math.c:3029
+#: src/functions/fn-math.c:3074
 msgid "#3D MULT?"
 msgstr "#3D-MULT?"
 
-#: src/functions/fn-math.c:3108
+#: src/functions/fn-math.c:3153
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -9766,7 +9774,7 @@ msgid ""
 "@SEEALSO=TRANSPOSE,MINVERSE"
 msgstr ""
 
-#: src/functions/fn-math.c:3184
+#: src/functions/fn-math.c:3229
 msgid ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(matrix)\n"
@@ -9782,7 +9790,7 @@ msgid ""
 "@SEEALSO=MMULT, MINVERSE"
 msgstr ""
 
-#: src/functions/fn-math.c:3242
+#: src/functions/fn-math.c:3287
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -9800,7 +9808,7 @@ msgid ""
 "@SEEALSO=SUM,PRODUCT"
 msgstr ""
 
-#: src/functions/fn-math.c:3357
+#: src/functions/fn-math.c:3402
 msgid "Maths / Trig."
 msgstr "Mathe / Trig."
 
@@ -11466,17 +11474,17 @@ msgstr "Datei/Druckvorschau"
 msgid "File/"
 msgstr "Datei/"
 
-#: src/item-bar.c:482
+#: src/item-bar.c:502
 #, c-format
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Höhe: %.2f Punkte (%d Pixel)"
 
-#: src/item-bar.c:485
+#: src/item-bar.c:505
 #, c-format
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "Breite: %.2f Punkte (%d Pixel)"
 
-#: src/item-cursor.c:775
+#: src/item-cursor.c:794
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
@@ -11486,101 +11494,50 @@ msgstr ""
 "in diesem Wertebereich überschreiben.  Soll ich den Inhalt\n"
 "dieses Bereichs ersetzen?"
 
-#: src/item-cursor.c:877
+#: src/item-cursor.c:896
 #, fuzzy
 msgid "_Move"
 msgstr "Verschieben"
 
-#: po/tmp/gnumeric.xml.h:200 src/item-cursor.c:880 src/item-grid.c:470
+#: po/tmp/gnumeric.xml.h:200 src/item-cursor.c:899
+#: src/sheet-control-gui.c:1127
 msgid "_Copy"
 msgstr "_Kopieren"
 
-#: src/item-cursor.c:883
+#: src/item-cursor.c:902
 #, fuzzy
 msgid "Copy _Formats"
 msgstr "Formate kopieren"
 
-#: src/item-cursor.c:885
+#: src/item-cursor.c:904
 #, fuzzy
 msgid "Copy _Values"
 msgstr "Werte kopieren"
 
-#: src/item-cursor.c:890
+#: src/item-cursor.c:909
 #, fuzzy
 msgid "Shift _Down and Copy"
 msgstr "Zellen nach unten verschieben und kopieren"
 
-#: src/item-cursor.c:892
+#: src/item-cursor.c:911
 #, fuzzy
 msgid "Shift _Right and Copy"
 msgstr "Zellen nach rechts verschieben und kopieren"
 
-#: src/item-cursor.c:894
+#: src/item-cursor.c:913
 #, fuzzy
 msgid "Shift Dow_n and Move"
 msgstr "Zellen nach unten verschieben und bewegen"
 
-#: src/item-cursor.c:896
+#: src/item-cursor.c:915
 #, fuzzy
 msgid "Shift Righ_t and Move"
 msgstr "Zellen nach rechts verschieben und bewegen"
 
-#: src/item-cursor.c:901
+#: src/item-cursor.c:920
 #, fuzzy
 msgid "C_ancel"
 msgstr "_Leerzeichen"
-
-#: po/tmp/gnumeric.xml.h:53 src/item-grid.c:468
-msgid "Cu_t"
-msgstr "_Ausschneiden"
-
-#: po/tmp/gnumeric.xml.h:219 src/item-grid.c:472
-msgid "_Paste"
-msgstr "E_infügen"
-
-#: src/item-grid.c:474
-msgid "Paste _Special"
-msgstr "Einfügen _spezial"
-
-# This has to be different from "Paste"
-# 2000-04-13 03:37:38 CEST -ke-
-#: src/item-grid.c:479
-msgid "_Insert..."
-msgstr "_Eintragen..."
-
-# Checkit. vs. "Clear"
-#: po/tmp/gnumeric.xml.h:204 src/item-grid.c:481
-#: src/workbook-control-gui.c:1761
-msgid "_Delete..."
-msgstr "_Entfernen..."
-
-#: src/item-grid.c:483
-msgid "Clear Co_ntents"
-msgstr "_Inhalt löschen"
-
-#: src/item-grid.c:488
-msgid "_Format Cells..."
-msgstr "Zellen _formatieren..."
-
-#. Column specific (Note some labels duplicate row labels)
-#: src/item-grid.c:492
-msgid "Column _Width..."
-msgstr "Spalten_breite..."
-
-#: po/tmp/gnumeric.xml.h:213 src/item-grid.c:494 src/item-grid.c:502
-#: src/workbook-control-gui.c:1871 src/workbook-control-gui.c:1890
-msgid "_Hide"
-msgstr "_Verbergen"
-
-#: po/tmp/gnumeric.xml.h:234 src/item-grid.c:496 src/item-grid.c:504
-#: src/workbook-control-gui.c:1874 src/workbook-control-gui.c:1893
-msgid "_Unhide"
-msgstr "_Hervorholen"
-
-#. Row specific (Note some labels duplicate col labels)
-#: src/item-grid.c:500
-msgid "_Row Height..."
-msgstr "_Zeilenhöhe..."
 
 #: src/main.c:82
 msgid "Display Gnumeric's version"
@@ -11653,11 +11610,11 @@ msgid "Enables extra consistancy checking while reading ole files"
 msgstr "Aktiviert zusätzliche Konsistenzprüfung beim Lesen von OLE-Dateien"
 
 #: src/main.c:158
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"gnumeric version %s\n"
-"datadir := %s\n"
-"libdir := %s\n"
+"gnumeric version '%s'\n"
+"datadir := '%s'\n"
+"libdir := '%s'\n"
 msgstr ""
 "gnumeric-Version %s\n"
 "datadir := %s\n"
@@ -11673,35 +11630,35 @@ msgstr "Konnte die Gnumeric-Arbeitsbuch-Factory nicht initialisieren"
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr "Konnte die Gnumeric-Arbeitsbuch-Factory nicht initialisieren"
 
-#: src/number-match.c:584
+#: src/number-match.c:613
 msgid "#NULL!"
 msgstr "#NULL!"
 
-#: src/number-match.c:585
+#: src/number-match.c:614
 msgid "#DIV/0!"
 msgstr "#DIV/0!"
 
-#: src/number-match.c:586
+#: src/number-match.c:615
 msgid "#VALUE!"
 msgstr "#WERT!"
 
-#: src/number-match.c:587
+#: src/number-match.c:616
 msgid "#REF!"
 msgstr "#BEZUG!"
 
-#: src/number-match.c:588
+#: src/number-match.c:617
 msgid "#NAME?"
 msgstr "#NAME?"
 
-#: src/number-match.c:589
+#: src/number-match.c:618
 msgid "#NUM!"
 msgstr "#ZAHL!"
 
-#: src/number-match.c:590
+#: src/number-match.c:619
 msgid "#N/A"
 msgstr "#-/-"
 
-#: src/number-match.c:591
+#: src/number-match.c:620
 msgid "#RECALC!"
 msgstr "#NEU-BER!"
 
@@ -11783,25 +11740,12 @@ msgid "&[DATE]"
 msgstr "&[DATE]"
 
 #: src/print-info.c:440
-msgid "pts"
-msgstr "pt"
-
-#: src/print-info.c:440
 msgid "points"
 msgstr "Punkte"
 
 #: src/print-info.c:441
-msgid "mm"
-msgstr "mm"
-
-#: src/print-info.c:441
 msgid "millimeter"
 msgstr "Millimeter"
-
-#. 1in = 25.4mm, exact
-#: src/print-info.c:442
-msgid "cm"
-msgstr "cm"
 
 #: src/print-info.c:442
 msgid "centimeter"
@@ -11836,83 +11780,178 @@ msgid "time"
 msgstr "Zeit"
 
 #. Note: we cannot have spaces in page numbers.
-#: src/print.c:505
+#: src/print.c:506
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:987 src/workbook-control-gui.c:2490
+#: src/print.c:985 src/workbook-control-gui.c:2494
 msgid "Selection must be a single range"
 msgstr "Auswahl muss ein einzelner Bereich sein"
 
-#: src/print.c:1104
+#: src/print.c:1102
 msgid "Print Sheets"
 msgstr "Blätter drucken"
 
-#: src/print.c:1114
+#: src/print.c:1112
 msgid "Act_ive sheet"
 msgstr "Akt_ives Blatt"
 
-#: src/print.c:1114
+#: src/print.c:1112
 msgid "S_heets"
 msgstr "_Blätter"
 
-#: src/print.c:1201
+#: src/print.c:1199
 msgid "Printing failed"
 msgstr "Drucken ist fehlgeschlagen"
 
-#: src/selection.c:60
-#, c-format
-msgid "%dLx%dC"
-msgstr ""
-
-#: src/selection.c:152
+#: src/selection.c:93
 msgid "cannot be performed with multiple selections"
 msgstr "kann nicht mit mehreren Markierungen durchgeführt werden."
 
 #. FIXME FIXME : disable copying part of an array
-#: src/selection.c:575
+#: src/selection.c:580
 msgid "copy"
 msgstr "kopieren"
 
-#: src/selection.c:606
+#: src/selection.c:610
 msgid "cut"
 msgstr "ausschneiden"
 
-#: src/sheet-object-container.c:270
+#: src/sheet-control-gui.c:483
+#, c-format
+msgid "Row: %d"
+msgstr "Zeile: %d"
+
+#: src/sheet-control-gui.c:494
+#, c-format
+msgid "Column: %s"
+msgstr "Spalte: %s"
+
+#: po/tmp/gnumeric.xml.h:53 src/sheet-control-gui.c:1125
+msgid "Cu_t"
+msgstr "_Ausschneiden"
+
+#: po/tmp/gnumeric.xml.h:219 src/sheet-control-gui.c:1129
+msgid "_Paste"
+msgstr "E_infügen"
+
+#: src/sheet-control-gui.c:1131
+msgid "Paste _Special"
+msgstr "Einfügen _spezial"
+
+# This has to be different from "Paste"
+# 2000-04-13 03:37:38 CEST -ke-
+#. TODO : One day make the labels smarter.  Generate them to include
+#. * quantities.
+#. * 	eg : Insert 4 rows
+#. * 	or : Insert row
+#. * This is hard for now because there is no memory management for the label
+#. * strings, and the logic that knows the count is elsewhere
+#.
+#: src/sheet-control-gui.c:1143
+msgid "_Insert..."
+msgstr "_Eintragen..."
+
+# Checkit. vs. "Clear"
+#: po/tmp/gnumeric.xml.h:204 src/sheet-control-gui.c:1145
+#: src/workbook-control-gui.c:1779
+msgid "_Delete..."
+msgstr "_Entfernen..."
+
+#: src/sheet-control-gui.c:1147
+#, fuzzy
+msgid "_Insert Column(s)"
+msgstr "Spalten einfügen"
+
+#: src/sheet-control-gui.c:1149
+#, fuzzy
+msgid "_Delete Column(s)"
+msgstr "Spalten löschen"
+
+#: src/sheet-control-gui.c:1151
+#, fuzzy
+msgid "_Insert Row(s)"
+msgstr "Zeilen einfügen"
+
+#: src/sheet-control-gui.c:1153
+#, fuzzy
+msgid "_Delete Row(s)"
+msgstr "Zeilen löschen"
+
+#: src/sheet-control-gui.c:1156
+msgid "Clear Co_ntents"
+msgstr "_Inhalt löschen"
+
+#: src/sheet-control-gui.c:1162
+msgid "_Format Cells..."
+msgstr "Zellen _formatieren..."
+
+#. Column specific (Note some labels duplicate row labels)
+#: src/sheet-control-gui.c:1166
+msgid "Column _Width..."
+msgstr "Spalten_breite..."
+
+#: po/tmp/gnumeric.xml.h:213 src/sheet-control-gui.c:1168
+#: src/sheet-control-gui.c:1176 src/workbook-control-gui.c:1883
+#: src/workbook-control-gui.c:1902
+msgid "_Hide"
+msgstr "_Verbergen"
+
+#: po/tmp/gnumeric.xml.h:234 src/sheet-control-gui.c:1170
+#: src/sheet-control-gui.c:1178 src/workbook-control-gui.c:1886
+#: src/workbook-control-gui.c:1905
+msgid "_Unhide"
+msgstr "_Hervorholen"
+
+#. Row specific (Note some labels duplicate col labels)
+#: src/sheet-control-gui.c:1174
+msgid "_Row Height..."
+msgstr "_Zeilenhöhe..."
+
+#: src/sheet-object-container.c:218
 #, fuzzy, c-format
 msgid "can't create object for '%s'"
 msgstr "Kann Datei %s nicht erzeugen\n"
 
-#: po/tmp/gnumeric.xml.h:19 src/sheet-object-widget.c:307
-#: src/workbook-object-toolbar.c:136
+#: po/tmp/gnumeric.xml.h:18 src/sheet-object-widget.c:255
+#: src/workbook-object-toolbar.c:135
 #, fuzzy
 msgid "Button"
 msgstr "Unten"
 
-#: src/sheet-object-widget.c:545
+#: src/sheet-object-widget.c:494
 #, fuzzy
 msgid "Checkbox Configure"
 msgstr "Konfiguriere"
 
-#: src/sheet-object.c:787
+#: src/sheet-object.c:73
 msgid "Configure"
 msgstr "Konfiguriere"
 
-#: src/sheet.c:2831 src/sheet.c:2841
+#: src/sheet.c:2757 src/sheet.c:2767
 msgid "Insert Columns"
 msgstr "Spalten einfügen"
 
-#: src/sheet.c:2911
+#: src/sheet.c:2838
 msgid "Delete Columns"
 msgstr "Spalten löschen"
 
-#: src/sheet.c:2980 src/sheet.c:2990
+#: src/sheet.c:2908 src/sheet.c:2918
 msgid "Insert Rows"
 msgstr "Zeilen einfügen"
 
-#: src/sheet.c:3060
+#: src/sheet.c:2989
 msgid "Delete Rows"
 msgstr "Zeilen löschen"
+
+#: src/sheet.c:3866
+#, fuzzy
+msgid "Merge"
+msgstr "Mittel"
+
+#: src/sheet.c:3873
+msgid "There is already a merged region that intersects"
+msgstr ""
 
 #: src/solver-lp.c:897
 msgid "Answer Report"
@@ -12124,8 +12163,8 @@ msgstr "konnte nicht an der erwarteten Stelle gefunden werden"
 msgid "Terminate"
 msgstr "Beenden"
 
-#: po/tmp/gnumeric.xml.h:17 src/widgets/widget-font-selector.c:130
-#: src/workbook-format-toolbar.c:365
+#: po/tmp/gnumeric.xml.h:16 src/widgets/widget-font-selector.c:130
+#: src/workbook-format-toolbar.c:372
 msgid "Bold"
 msgstr "Fett"
 
@@ -12133,7 +12172,7 @@ msgstr "Fett"
 msgid "Bold italic"
 msgstr "Fett-kursiv"
 
-#: src/widgets/widget-font-selector.c:132 src/workbook-format-toolbar.c:372
+#: src/widgets/widget-font-selector.c:132 src/workbook-format-toolbar.c:379
 msgid "Italic"
 msgstr "Kursiv"
 
@@ -12149,819 +12188,821 @@ msgstr ""
 "Sie haben einen ungültigen Wert für die Zeilenhöhe eingegeben.\n"
 "Der Wert muss größer als 0 sein."
 
-#: src/workbook-format-toolbar.c:362
+#: src/workbook-format-toolbar.c:369
 #, fuzzy
 msgid "Select font"
 msgstr "_Zeile auswählen"
 
-#: po/tmp/gnumeric.xml.h:77 src/workbook-format-toolbar.c:362
-#: src/workbook-format-toolbar.c:766
+#: po/tmp/gnumeric.xml.h:77 src/workbook-format-toolbar.c:369
+#: src/workbook-format-toolbar.c:778
 msgid "Font selector"
 msgstr "Schriftartwähler"
 
-#: src/workbook-format-toolbar.c:365
+#: src/workbook-format-toolbar.c:372
 msgid "Sets the bold font"
 msgstr "Die Schrift fett machen"
 
-#: src/workbook-format-toolbar.c:372
+#: src/workbook-format-toolbar.c:379
 msgid "Makes the font italic"
 msgstr "Die Schrift kursiv machen"
 
-#: po/tmp/gnumeric.xml.h:186 src/workbook-format-toolbar.c:379
+#: po/tmp/gnumeric.xml.h:186 src/workbook-format-toolbar.c:386
 msgid "Underline"
 msgstr "Unterstreichen"
 
-#: src/workbook-format-toolbar.c:379
+#: src/workbook-format-toolbar.c:386
 msgid "Underlines the font"
 msgstr "Die Schrift unterstreichen"
 
-#: src/workbook-format-toolbar.c:388
+#: src/workbook-format-toolbar.c:395
 msgid "Left align"
 msgstr "Links ausrichten"
 
-#: src/workbook-format-toolbar.c:388
+#: src/workbook-format-toolbar.c:395
 msgid "Left justifies the cell contents"
 msgstr "Zelleninhalt links ausrichten"
 
-#: po/tmp/gnumeric.xml.h:22 src/workbook-format-toolbar.c:392
+#: po/tmp/gnumeric.xml.h:21 src/workbook-format-toolbar.c:399
 msgid "Center"
 msgstr "Mitte"
 
-#: src/workbook-format-toolbar.c:392
+#: src/workbook-format-toolbar.c:399
 msgid "Centers the cell contents"
 msgstr "Zelleninhalt zentrieren"
 
-#: src/workbook-format-toolbar.c:396
+#: src/workbook-format-toolbar.c:403
 msgid "Right align"
 msgstr "Rechts ausrichten"
 
-#: src/workbook-format-toolbar.c:396
+#: src/workbook-format-toolbar.c:403
 msgid "Right justifies the cell contents"
 msgstr "Zelleninhalt rechts ausrichten"
 
-#: src/workbook-format-toolbar.c:403
+#: src/workbook-format-toolbar.c:407
+#, fuzzy
+msgid "Center across selection"
+msgstr "Über Auswahl zentrieren"
+
+#: src/workbook-format-toolbar.c:414
 msgid "Money format"
 msgstr "Format für Geld"
 
-#: src/workbook-format-toolbar.c:403
+#: src/workbook-format-toolbar.c:414
 msgid "Sets the format of the selected cells to monetary"
 msgstr "Die ausgewählten Zellen als Währungswert formatieren"
 
-#: src/workbook-format-toolbar.c:406
+#: src/workbook-format-toolbar.c:417
 msgid "Sets the format of the selected cells to percentage"
 msgstr "Die ausgewählten Zellen als Prozentwert formatieren"
 
-#: src/workbook-format-toolbar.c:409
+#: src/workbook-format-toolbar.c:420
 msgid "Thousand separator"
 msgstr "Trennzeichen für Tausender"
 
-#: src/workbook-format-toolbar.c:409
+#: src/workbook-format-toolbar.c:420
 msgid "Sets the format of the selected cells to include a thousands separator"
 msgstr ""
 "Dem Format der gewählten Zellen das Trennzeichen für Tausender hinzufügen"
 
-#: src/workbook-format-toolbar.c:412
+#: src/workbook-format-toolbar.c:423
 msgid "Add decimals"
 msgstr "Dezimalen hinzufügen"
 
-#: src/workbook-format-toolbar.c:412
+#: src/workbook-format-toolbar.c:423
 msgid "Increases the number of decimal numbers displayed"
 msgstr "Die Anzahl der angezeigten Dezimalen erhöhen"
 
-#: src/workbook-format-toolbar.c:415
+#: src/workbook-format-toolbar.c:426
 msgid "Remove decimals"
 msgstr "Dezimalen entfernen"
 
-#: src/workbook-format-toolbar.c:415
+#: src/workbook-format-toolbar.c:426
 msgid "Decreases the number of decimal numbers displayed"
 msgstr "Die Anzahl der angezeigten Dezimalen vermindern"
 
-#: src/workbook-format-toolbar.c:533
+#: src/workbook-format-toolbar.c:545
 msgid "Clear Borders"
 msgstr "Rahmen löschen"
 
-#: src/workbook-format-toolbar.c:536
+#: src/workbook-format-toolbar.c:548
 msgid "All Borders"
 msgstr "Alle Rahmen"
 
-#: src/workbook-format-toolbar.c:537
+#: src/workbook-format-toolbar.c:549
 msgid "Outside Borders"
 msgstr "Außenrahmen"
 
-#: src/workbook-format-toolbar.c:538
+#: src/workbook-format-toolbar.c:550
 msgid "Thick Outside Borders"
 msgstr "Dicker Außenrahmen"
 
-#: src/workbook-format-toolbar.c:541
+#: src/workbook-format-toolbar.c:553
 msgid "Double Bottom"
 msgstr "Unten doppelt"
 
-#: src/workbook-format-toolbar.c:542
+#: src/workbook-format-toolbar.c:554
 msgid "Thick Bottom"
 msgstr "Unten dick"
 
-#: src/workbook-format-toolbar.c:544
+#: src/workbook-format-toolbar.c:556
 msgid "Top and Bottom"
 msgstr "Oben und unten"
 
-#: src/workbook-format-toolbar.c:545
+#: src/workbook-format-toolbar.c:557
 msgid "Top and Double Bottom"
 msgstr "Oben, dazu unten doppelt"
 
-#: src/workbook-format-toolbar.c:546
+#: src/workbook-format-toolbar.c:558
 msgid "Top and Thick Bottom"
 msgstr "Oben, dazu unten dick"
 
-#: src/workbook-format-toolbar.c:706
+#: src/workbook-format-toolbar.c:718
 msgid "Size"
 msgstr "Größe"
 
-#: po/tmp/gnumeric.xml.h:18 src/workbook-format-toolbar.c:729
-#: src/workbook-format-toolbar.c:771
+#: po/tmp/gnumeric.xml.h:17 src/workbook-format-toolbar.c:741
+#: src/workbook-format-toolbar.c:783
 msgid "Borders"
 msgstr "Rahmen"
 
 #.
 #. * Create the background colour combo box.
 #.
-#: src/workbook-format-toolbar.c:734
+#: src/workbook-format-toolbar.c:746
 msgid "Clear Background"
 msgstr "Hintergrund löschen"
 
-#: po/tmp/gnumeric.xml.h:78 src/workbook-format-toolbar.c:756
-#: src/workbook-format-toolbar.c:777
+#: po/tmp/gnumeric.xml.h:78 src/workbook-format-toolbar.c:768
+#: src/workbook-format-toolbar.c:789
 msgid "Foreground"
 msgstr "Vordergrund"
 
-#: po/tmp/gnumeric.xml.h:76 src/workbook-format-toolbar.c:768
+#: po/tmp/gnumeric.xml.h:76 src/workbook-format-toolbar.c:780
 msgid "Font Size"
 msgstr "Schriftgröße"
 
-#: po/tmp/gnumeric.xml.h:113 src/workbook-object-toolbar.c:130
+#: po/tmp/gnumeric.xml.h:113 src/workbook-object-toolbar.c:129
 #, fuzzy
 msgid "Label"
 msgstr "_Beschriftungen"
 
-#: src/workbook-object-toolbar.c:130
+#: src/workbook-object-toolbar.c:129
 #, fuzzy
 msgid "Creates a label"
 msgstr "Eine Grafik erzeugen"
 
-#: po/tmp/gnumeric.xml.h:82 src/workbook-object-toolbar.c:133
+#: po/tmp/gnumeric.xml.h:82 src/workbook-object-toolbar.c:132
 #, fuzzy
 msgid "Frame"
 msgstr "Name"
 
-#: src/workbook-object-toolbar.c:133
+#: src/workbook-object-toolbar.c:132
 #, fuzzy
 msgid "Creates a frame"
 msgstr "Eine Grafik erzeugen"
 
-#: src/workbook-object-toolbar.c:136
+#: src/workbook-object-toolbar.c:135
 #, fuzzy
 msgid "Creates a button"
 msgstr "Ein neues Arbeitsbuch erzeugen"
 
-#: po/tmp/gnumeric.xml.h:29 src/workbook-object-toolbar.c:139
+#: po/tmp/gnumeric.xml.h:29 src/workbook-object-toolbar.c:138
 msgid "Checkbox"
 msgstr ""
 
-#: src/workbook-object-toolbar.c:139
+#: src/workbook-object-toolbar.c:138
 #, fuzzy
 msgid "Creates a checkbox"
 msgstr "Ein neues Arbeitsbuch erzeugen"
 
-#: src/workbook-object-toolbar.c:142
+#: src/workbook-object-toolbar.c:141
 msgid "RadioButton"
 msgstr ""
 
-#: src/workbook-object-toolbar.c:142
+#: src/workbook-object-toolbar.c:141
 #, fuzzy
 msgid "Creates a radio button"
 msgstr "Eine Grafik erzeugen"
 
-#: po/tmp/gnumeric.xml.h:117 src/workbook-object-toolbar.c:145
+#: po/tmp/gnumeric.xml.h:117 src/workbook-object-toolbar.c:144
 msgid "List"
 msgstr ""
 
-#: src/workbook-object-toolbar.c:145
+#: src/workbook-object-toolbar.c:144
 #, fuzzy
 msgid "Creates a list"
 msgstr "Eine Grafik erzeugen"
 
-#: src/workbook-object-toolbar.c:148
+#: src/workbook-object-toolbar.c:147
 #, fuzzy
 msgid "Combo"
 msgstr "Farbe"
 
-#: src/workbook-object-toolbar.c:148
+#: src/workbook-object-toolbar.c:147
 #, fuzzy
 msgid "Creates a combobox"
 msgstr "Ein neues Arbeitsbuch erzeugen"
 
-#: src/workbook-object-toolbar.c:151
+#: src/workbook-object-toolbar.c:150
 #, fuzzy
 msgid "Creates a line object"
 msgstr "Ein neues Arbeitsbuch erzeugen"
 
-#: po/tmp/gnumeric.xml.h:12 src/workbook-object-toolbar.c:154
+#: po/tmp/gnumeric.xml.h:11 src/workbook-object-toolbar.c:153
 #, fuzzy
 msgid "Arrow"
 msgstr "Zeilen"
 
-#: src/workbook-object-toolbar.c:154
+#: src/workbook-object-toolbar.c:153
 #, fuzzy
 msgid "Creates an arrow object"
 msgstr "Ein neues Arbeitsbuch erzeugen"
 
-#: po/tmp/gnumeric.xml.h:150 src/workbook-object-toolbar.c:157
+#: po/tmp/gnumeric.xml.h:150 src/workbook-object-toolbar.c:156
 #, fuzzy
 msgid "Rectangle"
 msgstr "Wertebereich"
 
-#: src/workbook-object-toolbar.c:157
+#: src/workbook-object-toolbar.c:156
 #, fuzzy
 msgid "Creates a rectangle object"
 msgstr "Ein neues Arbeitsbuch erzeugen"
 
-#: src/workbook-object-toolbar.c:160
+#: src/workbook-object-toolbar.c:159
 msgid "Ellipse"
 msgstr ""
 
-#: src/workbook-object-toolbar.c:160
+#: src/workbook-object-toolbar.c:159
 #, fuzzy
 msgid "Creates an ellipse object"
 msgstr "Neues Arbeitsblatt erzeugen"
 
-#: src/workbook-view.c:243
+#: src/workbook-view.c:210
+#, c-format
+msgid "%dLx%dC"
+msgstr ""
+
+#: src/workbook-view.c:354
 msgid "Internal ERROR"
 msgstr "Interner FEHLER"
 
-#: src/workbook-control-gui.c:161
+#: src/workbook-control-gui.c:192
 msgid " : Gnumeric"
 msgstr " : Gnumeric"
 
-#: src/workbook-control-gui.c:373
+#: src/workbook-control-gui.c:407
 msgid "Add another sheet"
 msgstr "Weiteres Blatt hinzufügen"
 
-#: src/workbook-control-gui.c:374
+#: src/workbook-control-gui.c:408
 msgid "Remove this sheet"
 msgstr "Dieses Blatt entfernen"
 
-#: src/workbook-control-gui.c:375
+#: src/workbook-control-gui.c:409
 msgid "Rename this sheet"
 msgstr "Dieses Blatt umbenennen"
 
-#: src/workbook-control-gui.c:376
+#: src/workbook-control-gui.c:410
 msgid "Duplicate this sheet"
 msgstr "Dieses Blatt duplizieren"
 
-#: src/workbook-control-gui.c:377
+#: src/workbook-control-gui.c:411
 msgid "Re-order sheets"
 msgstr "Blätter neu ordnen"
 
-#: src/workbook-control-gui.c:703
+#: src/workbook-control-gui.c:724
 msgid "Nothing"
 msgstr "Nichts"
 
-#: src/workbook-control-gui.c:730 src/workbook-control-gui.c:734
-#: src/workbook-control-gui.c:2057 src/workbook-control-gui.c:2240
-#: src/workbook-control-gui.c:2280
+#: src/workbook-control-gui.c:751 src/workbook-control-gui.c:755
+#: src/workbook-control-gui.c:2069 src/workbook-control-gui.c:2252
+#: src/workbook-control-gui.c:2292
 msgid "Undo"
 msgstr "Rückgängig"
 
-#: src/workbook-control-gui.c:731 src/workbook-control-gui.c:736
-#: src/workbook-control-gui.c:2060 src/workbook-control-gui.c:2248
-#: src/workbook-control-gui.c:2282
+#: src/workbook-control-gui.c:752 src/workbook-control-gui.c:757
+#: src/workbook-control-gui.c:2072 src/workbook-control-gui.c:2260
+#: src/workbook-control-gui.c:2294
 msgid "Redo"
 msgstr "Wiederholen"
 
-#: src/workbook-control-gui.c:811
+#: src/workbook-control-gui.c:832
 msgid "Would split an array."
 msgstr "Würde ein Array spalten."
 
-#: src/workbook-control-gui.c:854
+#: src/workbook-control-gui.c:875
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr "Arbeitsbuch %s hat nicht gespeicherte Änderungen; speichern?"
 
-#: src/workbook-control-gui.c:857
+#: src/workbook-control-gui.c:878
 msgid "Workbook has unsaved changes, save them?"
 msgstr "Arbeitsbuch hat nicht gespeicherte Änderungen; speichern?"
 
 #. TODO : No need to check simplicty.  XL applies for each
 #. * non-discrete selected region, (use selection_apply)
-#: src/workbook-control-gui.c:1283
+#: src/workbook-control-gui.c:1306
 msgid "Insert rows"
 msgstr "Zeile(n) einfügen"
 
 #. TODO : No need to check simplicty.  XL applies for each
 #. * non-discrete selected region, (use selection_apply)
-#: src/workbook-control-gui.c:1307
+#: src/workbook-control-gui.c:1330
 msgid "Insert cols"
 msgstr "Spalten einfügen"
 
-#: src/workbook-control-gui.c:1337 src/workbook-control-gui.c:1614
+#: src/workbook-control-gui.c:1359 src/workbook-control-gui.c:1632
 msgid "Select an object to add"
 msgstr "Ein hinzuzufügendes Objekt auswählen"
 
-#: po/tmp/gnumeric.xml.h:216 src/workbook-control-gui.c:1664
+#: po/tmp/gnumeric.xml.h:216 src/workbook-control-gui.c:1682
 msgid "_New"
 msgstr "_Neu"
 
-#: po/tmp/gnumeric.xml.h:49 src/workbook-control-gui.c:1664
+#: po/tmp/gnumeric.xml.h:49 src/workbook-control-gui.c:1682
 msgid "Create a new spreadsheet"
 msgstr "Neues Arbeitsblatt erzeugen"
 
-#: src/workbook-control-gui.c:1668
+#: src/workbook-control-gui.c:1686
 msgid "_Import..."
 msgstr "_Importieren..."
 
-#: po/tmp/gnumeric.xml.h:92 src/workbook-control-gui.c:1668
+#: po/tmp/gnumeric.xml.h:92 src/workbook-control-gui.c:1686
 msgid "Imports a file"
 msgstr "Importiert eine Datei"
 
-#: src/workbook-control-gui.c:1678 src/workbook-control-gui.c:2038
+#: src/workbook-control-gui.c:1696 src/workbook-control-gui.c:2050
 msgid "Print pre_view"
 msgstr "Druck_vorschau"
 
-#: po/tmp/gnumeric.xml.h:178 src/workbook-control-gui.c:1684
+#: po/tmp/gnumeric.xml.h:178 src/workbook-control-gui.c:1702
 msgid "Su_mmary..."
 msgstr "_Kurzinfo..."
 
-#: po/tmp/gnumeric.xml.h:181 src/workbook-control-gui.c:1685
+#: po/tmp/gnumeric.xml.h:181 src/workbook-control-gui.c:1703
 msgid "Summary information"
 msgstr "Kurzinformation"
 
-#: po/tmp/gnumeric.xml.h:191 src/workbook-control-gui.c:1698
+#: po/tmp/gnumeric.xml.h:191 src/workbook-control-gui.c:1716
 msgid "_All"
 msgstr "_Alles"
 
-#: po/tmp/gnumeric.xml.h:33 src/workbook-control-gui.c:1699
+#: po/tmp/gnumeric.xml.h:33 src/workbook-control-gui.c:1717
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Formate, Kommentare und Inhalte der gewählten Zellen löschen"
 
-#: po/tmp/gnumeric.xml.h:208 src/workbook-control-gui.c:1701
+#: po/tmp/gnumeric.xml.h:208 src/workbook-control-gui.c:1719
 msgid "_Formats"
 msgstr "_Formate"
 
-#: po/tmp/gnumeric.xml.h:32 src/workbook-control-gui.c:1702
+#: po/tmp/gnumeric.xml.h:32 src/workbook-control-gui.c:1720
 msgid "Clear the selected cells' formats"
 msgstr "Formate der gewählten Zellen löschen"
 
-#: po/tmp/gnumeric.xml.h:30 src/workbook-control-gui.c:1705
+#: po/tmp/gnumeric.xml.h:30 src/workbook-control-gui.c:1723
 msgid "Clear the selected cells' comments"
 msgstr "Kommentare der gewählten Zellen löschen"
 
-#: po/tmp/gnumeric.xml.h:199 src/workbook-control-gui.c:1707
+#: po/tmp/gnumeric.xml.h:199 src/workbook-control-gui.c:1725
 msgid "_Content"
 msgstr "_Inhalt"
 
-#: po/tmp/gnumeric.xml.h:31 src/workbook-control-gui.c:1708
+#: po/tmp/gnumeric.xml.h:31 src/workbook-control-gui.c:1726
 msgid "Clear the selected cells' contents"
 msgstr "Ausgewählte Zelleninhalte löschen"
 
-#: po/tmp/gnumeric.xml.h:162 src/workbook-control-gui.c:1716
+#: po/tmp/gnumeric.xml.h:162 src/workbook-control-gui.c:1734
 msgid "Select _All"
 msgstr "_Alles auswählen"
 
-#: po/tmp/gnumeric.xml.h:166 src/workbook-control-gui.c:1717
+#: po/tmp/gnumeric.xml.h:166 src/workbook-control-gui.c:1735
 msgid "Select all cells in the spreadsheet"
 msgstr "Alle Zellen des Arbeitsblatts auswählen"
 
-#: po/tmp/gnumeric.xml.h:165 src/workbook-control-gui.c:1721
+#: po/tmp/gnumeric.xml.h:165 src/workbook-control-gui.c:1739
 msgid "Select _Row"
 msgstr "_Zeile auswählen"
 
-#: po/tmp/gnumeric.xml.h:170 src/workbook-control-gui.c:1722
+#: po/tmp/gnumeric.xml.h:170 src/workbook-control-gui.c:1740
 msgid "Select an entire row"
 msgstr "Eine komplette Zeile auswählen"
 
-#: po/tmp/gnumeric.xml.h:163 src/workbook-control-gui.c:1726
+#: po/tmp/gnumeric.xml.h:163 src/workbook-control-gui.c:1744
 msgid "Select _Column"
 msgstr "S_palte auswählen"
 
-#: po/tmp/gnumeric.xml.h:169 src/workbook-control-gui.c:1727
+#: po/tmp/gnumeric.xml.h:169 src/workbook-control-gui.c:1745
 msgid "Select an entire column"
 msgstr "Eine komplette Spalte auswählen"
 
-#: po/tmp/gnumeric.xml.h:161 src/workbook-control-gui.c:1731
+#: po/tmp/gnumeric.xml.h:161 src/workbook-control-gui.c:1749
 msgid "Select Arra_y"
 msgstr "Arra_y auswählen"
 
-#: po/tmp/gnumeric.xml.h:168 src/workbook-control-gui.c:1732
+#: po/tmp/gnumeric.xml.h:168 src/workbook-control-gui.c:1750
 msgid "Select an array of cells"
 msgstr "Wählt einen Bereich von Zellen"
 
-#: po/tmp/gnumeric.xml.h:164 src/workbook-control-gui.c:1736
+#: po/tmp/gnumeric.xml.h:164 src/workbook-control-gui.c:1754
 msgid "Select _Depends"
 msgstr "A_bhängigkeiten auswählen"
 
-#: src/workbook-control-gui.c:1737
+#: src/workbook-control-gui.c:1755
 msgid "Select all the cells that depend on the current edit cell."
 msgstr "Alle die Zellen auswählen, die von der aktuellen Zelle abhängig sind."
 
-#: src/workbook-control-gui.c:1753
+#: src/workbook-control-gui.c:1771
 msgid "P_aste special..."
 msgstr "Einfügen _spezial..."
 
-#: po/tmp/gnumeric.xml.h:138 src/workbook-control-gui.c:1754
+#: po/tmp/gnumeric.xml.h:138 src/workbook-control-gui.c:1772
 msgid "Paste with optional filters and transformations"
 msgstr "Mit optionalen Filtern und Umwandlungen einfügen"
 
 # Checkit.  vs. "Delete"
-#: src/workbook-control-gui.c:1759
+#: src/workbook-control-gui.c:1777
 msgid "C_lear"
 msgstr "_Leeren"
 
-#: src/workbook-control-gui.c:1762
+#: src/workbook-control-gui.c:1780
 msgid "Remove selected cells, shifting other into their place"
 msgstr "Ausgewählte Zellen entfernen, andere an deren Stelle einsetzen"
 
-#: po/tmp/gnumeric.xml.h:58 src/workbook-control-gui.c:1764
+#: po/tmp/gnumeric.xml.h:58 src/workbook-control-gui.c:1782
 msgid "De_lete Sheet"
 msgstr "B_latt löschen"
 
-#: po/tmp/gnumeric.xml.h:108 src/workbook-control-gui.c:1765
+#: po/tmp/gnumeric.xml.h:108 src/workbook-control-gui.c:1783
 msgid "Irrevocably remove an entire sheet"
 msgstr "Ein gesamtes Blatt unwiderruflich entfernen"
 
-#: po/tmp/gnumeric.xml.h:226 src/workbook-control-gui.c:1770
+#: po/tmp/gnumeric.xml.h:226 src/workbook-control-gui.c:1788
 msgid "_Select..."
 msgstr "_Auswählen..."
 
 #. Default <Ctrl-G> to be goto
-#: po/tmp/gnumeric.xml.h:210 src/workbook-control-gui.c:1773
+#: po/tmp/gnumeric.xml.h:210 src/workbook-control-gui.c:1791
 msgid "_Goto cell..."
 msgstr "_Gehe zu Zelle..."
 
-#: po/tmp/gnumeric.xml.h:112 src/workbook-control-gui.c:1774
+#: po/tmp/gnumeric.xml.h:112 src/workbook-control-gui.c:1792
 msgid "Jump to a specified cell"
 msgstr "Zu einer angegebenen Zelle springen"
 
 #. Default <F9> to recalculate
-#: po/tmp/gnumeric.xml.h:222 src/workbook-control-gui.c:1779
+#: po/tmp/gnumeric.xml.h:222 src/workbook-control-gui.c:1797
 msgid "_Recalculate"
 msgstr "Neu be_rechnen"
 
-#: po/tmp/gnumeric.xml.h:149 src/workbook-control-gui.c:1780
+#: po/tmp/gnumeric.xml.h:149 src/workbook-control-gui.c:1798
 msgid "Recalculate the spreadsheet"
 msgstr "Arbeitsblatt neu berechnen"
 
-#: po/tmp/gnumeric.xml.h:238 src/workbook-control-gui.c:1790
+#: po/tmp/gnumeric.xml.h:238 src/workbook-control-gui.c:1808
 msgid "_Zoom..."
 msgstr "_Zoom..."
 
-#: po/tmp/gnumeric.xml.h:189 src/workbook-control-gui.c:1791
+#: po/tmp/gnumeric.xml.h:189 src/workbook-control-gui.c:1809
 msgid "Zoom the spreadsheet in or out"
 msgstr "Das Arbeitsblatt ein- oder davon wegzoomen"
 
-#: po/tmp/gnumeric.xml.h:128 src/workbook-control-gui.c:1793
+#: po/tmp/gnumeric.xml.h:128 src/workbook-control-gui.c:1811
 #, fuzzy
 msgid "New _Shared"
 msgstr "Neues Blatt"
 
-#: po/tmp/gnumeric.xml.h:48 src/workbook-control-gui.c:1794
+#: po/tmp/gnumeric.xml.h:48 src/workbook-control-gui.c:1812
 #, fuzzy
 msgid "Create a new shared view of the workbook"
 msgstr "Ein neues Arbeitsbuch erzeugen"
 
-#: po/tmp/gnumeric.xml.h:129 src/workbook-control-gui.c:1796
+#: po/tmp/gnumeric.xml.h:129 src/workbook-control-gui.c:1814
 #, fuzzy
 msgid "New _Unshared"
 msgstr "N_eues Blatt"
 
-#: po/tmp/gnumeric.xml.h:50 src/workbook-control-gui.c:1797
+#: po/tmp/gnumeric.xml.h:50 src/workbook-control-gui.c:1815
 #, fuzzy
 msgid "Create a new unshared view of the workbook"
 msgstr "Ein neues Arbeitsbuch erzeugen"
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
-#: po/tmp/gnumeric.xml.h:54 src/workbook-control-gui.c:1806
+#: po/tmp/gnumeric.xml.h:54 src/workbook-control-gui.c:1824
 msgid "Current _date"
 msgstr "Aktuelles _Datum"
 
-#: po/tmp/gnumeric.xml.h:104 src/workbook-control-gui.c:1807
+#: po/tmp/gnumeric.xml.h:104 src/workbook-control-gui.c:1825
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Aktuelles Datum in die ausgewählte(n) Zelle(n) einfügen"
 
 #. Default <Ctrl-:> (control colon) to insert the current time
-#: po/tmp/gnumeric.xml.h:55 src/workbook-control-gui.c:1812
+#: po/tmp/gnumeric.xml.h:55 src/workbook-control-gui.c:1830
 msgid "Current _time"
 msgstr "Aktuelle _Zeit"
 
-#: po/tmp/gnumeric.xml.h:105 src/workbook-control-gui.c:1813
+#: po/tmp/gnumeric.xml.h:105 src/workbook-control-gui.c:1831
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Aktuelle Zeit in die ausgewählte(n) Zelle(n) einfügen"
 
 # Checkit. vs. "Clear"
-#: src/workbook-control-gui.c:1820
+#: src/workbook-control-gui.c:1838
 #, fuzzy
 msgid "_Define..."
 msgstr "_Entfernen..."
 
-#: po/tmp/gnumeric.xml.h:67 src/workbook-control-gui.c:1821
+#: po/tmp/gnumeric.xml.h:67 src/workbook-control-gui.c:1839
 msgid "Edit sheet and workbook names"
 msgstr "Namen des Blatts und des Arbeitsbuchs bearbeiten"
 
-#: src/workbook-control-gui.c:1824
+#: src/workbook-control-gui.c:1842
 msgid "_Auto generate names..."
 msgstr "N_amen automatisch erzeugen..."
 
-#: src/workbook-control-gui.c:1825
+#: src/workbook-control-gui.c:1843
 msgid "Use the current selection to create names"
 msgstr "Die aktuelle Markierung verwenden, um Namen zu erzeugen."
 
-#: po/tmp/gnumeric.xml.h:227 src/workbook-control-gui.c:1832
-#: src/workbook-control-gui.c:1946
+#: po/tmp/gnumeric.xml.h:227 src/workbook-control-gui.c:1850
+#: src/workbook-control-gui.c:1958
 msgid "_Sheet"
 msgstr "_Blatt"
 
-#: po/tmp/gnumeric.xml.h:98 src/workbook-control-gui.c:1833
+#: po/tmp/gnumeric.xml.h:98 src/workbook-control-gui.c:1851
 msgid "Insert a new spreadsheet"
 msgstr "Neues Arbeitsblatt einfügen"
 
-#: po/tmp/gnumeric.xml.h:103 src/workbook-control-gui.c:1836
+#: po/tmp/gnumeric.xml.h:103 src/workbook-control-gui.c:1854
 msgid "Insert new rows"
 msgstr "Neue Zeilen einfügen"
 
-#: po/tmp/gnumeric.xml.h:102 src/workbook-control-gui.c:1839
+#: po/tmp/gnumeric.xml.h:102 src/workbook-control-gui.c:1857
 msgid "Insert new columns"
 msgstr "Neue Spalte(n) einfügen"
 
-#: src/workbook-control-gui.c:1841
+#: src/workbook-control-gui.c:1859
 msgid "C_ells..."
 msgstr "_Zellen..."
 
-#: po/tmp/gnumeric.xml.h:101 src/workbook-control-gui.c:1842
+#: po/tmp/gnumeric.xml.h:101 src/workbook-control-gui.c:1860
 msgid "Insert new cells"
 msgstr "Neue Zellen einfügen"
 
-#: src/workbook-control-gui.c:1846
-msgid "_Object..."
-msgstr "_Objekt..."
-
-#: po/tmp/gnumeric.xml.h:106 src/workbook-control-gui.c:1847
-msgid "Inserts a Bonobo object"
-msgstr "Ein Bonobo-Objekt einfügen"
-
-#: po/tmp/gnumeric.xml.h:215 src/workbook-control-gui.c:1853
+#: po/tmp/gnumeric.xml.h:215 src/workbook-control-gui.c:1865
 #, fuzzy
 msgid "_Name"
 msgstr "Name"
 
-#: src/workbook-control-gui.c:1855
+#: src/workbook-control-gui.c:1867
 msgid "_Add\\modify comment..."
 msgstr "Kommentar _hinzufügen/ändern..."
 
-#: po/tmp/gnumeric.xml.h:69 src/workbook-control-gui.c:1856
+#: po/tmp/gnumeric.xml.h:69 src/workbook-control-gui.c:1868
 msgid "Edit the selected cell's comment"
 msgstr "Kommentar der ausgewählten Zelle bearbeiten"
 
-#: po/tmp/gnumeric.xml.h:155 src/workbook-control-gui.c:1859
+#: po/tmp/gnumeric.xml.h:155 src/workbook-control-gui.c:1871
 msgid "S_pecial"
 msgstr "Bes_onderes"
 
-#: po/tmp/gnumeric.xml.h:193 src/workbook-control-gui.c:1865
-#: src/workbook-control-gui.c:1884
+#: po/tmp/gnumeric.xml.h:193 src/workbook-control-gui.c:1877
+#: src/workbook-control-gui.c:1896
 msgid "_Auto fit selection"
 msgstr "_Auswahl automatisch einpasssen"
 
-#: po/tmp/gnumeric.xml.h:236 src/workbook-control-gui.c:1868
+#: po/tmp/gnumeric.xml.h:236 src/workbook-control-gui.c:1880
 msgid "_Width..."
 msgstr "_Breite..."
 
-#: po/tmp/gnumeric.xml.h:231 src/workbook-control-gui.c:1877
+#: po/tmp/gnumeric.xml.h:231 src/workbook-control-gui.c:1889
 msgid "_Standard Width"
 msgstr "_Standardbreite"
 
-#: po/tmp/gnumeric.xml.h:211 src/workbook-control-gui.c:1887
+#: po/tmp/gnumeric.xml.h:211 src/workbook-control-gui.c:1899
 msgid "_Height..."
 msgstr "_Höhe..."
 
-#: po/tmp/gnumeric.xml.h:230 src/workbook-control-gui.c:1896
+#: po/tmp/gnumeric.xml.h:230 src/workbook-control-gui.c:1908
 msgid "_Standard Height"
 msgstr "_Standardhöhe"
 
-#: src/workbook-control-gui.c:1903
+#: src/workbook-control-gui.c:1915
 msgid "_Change name"
 msgstr "Namen än_dern"
 
-#: po/tmp/gnumeric.xml.h:148 src/workbook-control-gui.c:1906
+#: po/tmp/gnumeric.xml.h:148 src/workbook-control-gui.c:1918
 msgid "Re-_Order Sheets"
 msgstr "Blätter neu _ordnen"
 
-#: po/tmp/gnumeric.xml.h:61 src/workbook-control-gui.c:1910
+#: po/tmp/gnumeric.xml.h:61 src/workbook-control-gui.c:1922
 msgid "Display _Formulas"
 msgstr "_Formeln anzeigen"
 
-#: po/tmp/gnumeric.xml.h:88 src/workbook-control-gui.c:1915
+#: po/tmp/gnumeric.xml.h:88 src/workbook-control-gui.c:1927
 msgid "Hide _Zeros"
 msgstr "_Nullen verbergen"
 
-#: po/tmp/gnumeric.xml.h:86 src/workbook-control-gui.c:1920
+#: po/tmp/gnumeric.xml.h:86 src/workbook-control-gui.c:1932
 msgid "Hide _Gridlines"
 msgstr "_Gitterlinien verbergen"
 
-#: src/workbook-control-gui.c:1925
+#: src/workbook-control-gui.c:1937
 msgid "Hide _Column Header"
 msgstr "S_paltenkopf verbergen"
 
-#: src/workbook-control-gui.c:1930
+#: src/workbook-control-gui.c:1942
 msgid "Hide _Row Header"
 msgstr "_Zeilenkopf verbergen"
 
 #. Default <Ctrl-1> invoke the format dialog
-#: po/tmp/gnumeric.xml.h:196 src/workbook-control-gui.c:1940
+#: po/tmp/gnumeric.xml.h:196 src/workbook-control-gui.c:1952
 msgid "_Cells..."
 msgstr "_Zellen..."
 
-#: po/tmp/gnumeric.xml.h:124 src/workbook-control-gui.c:1941
+#: po/tmp/gnumeric.xml.h:124 src/workbook-control-gui.c:1953
 msgid "Modify the formatting of the selected cells"
 msgstr "Formatierung der ausgewählten Zellen ändern"
 
-#: po/tmp/gnumeric.xml.h:21 src/workbook-control-gui.c:1944
+#: po/tmp/gnumeric.xml.h:20 src/workbook-control-gui.c:1956
 msgid "C_olumn"
 msgstr "S_palte"
 
-#: po/tmp/gnumeric.xml.h:224 src/workbook-control-gui.c:1945
+#: po/tmp/gnumeric.xml.h:224 src/workbook-control-gui.c:1957
 msgid "_Row"
 msgstr "_Zeile"
 
-#: po/tmp/gnumeric.xml.h:194 src/workbook-control-gui.c:1948
+#: po/tmp/gnumeric.xml.h:194 src/workbook-control-gui.c:1960
 msgid "_Autoformat..."
 msgstr "_Autoformat..."
 
-#: po/tmp/gnumeric.xml.h:79 src/workbook-control-gui.c:1949
+#: po/tmp/gnumeric.xml.h:79 src/workbook-control-gui.c:1961
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Formatiert einen Bereich von Zellen nach einer vordefinierten Vorlage"
 
-#: po/tmp/gnumeric.xml.h:237 src/workbook-control-gui.c:1952
+#: po/tmp/gnumeric.xml.h:237 src/workbook-control-gui.c:1964
 msgid "_Workbook..."
 msgstr "_Arbeitsbuch..."
 
-#: po/tmp/gnumeric.xml.h:125 src/workbook-control-gui.c:1953
+#: po/tmp/gnumeric.xml.h:125 src/workbook-control-gui.c:1965
 msgid "Modify the workbook attributes"
 msgstr "Eigenschaften des Arbeitsbuches ändern"
 
-#: po/tmp/gnumeric.xml.h:220 src/workbook-control-gui.c:1960
+#: po/tmp/gnumeric.xml.h:220 src/workbook-control-gui.c:1972
 msgid "_Plug-ins..."
 msgstr "_Plugins..."
 
-#: src/workbook-control-gui.c:1961
+#: src/workbook-control-gui.c:1973
 msgid "Manage available plugin modules."
 msgstr "Verfügbare Module einbinden"
 
-#: po/tmp/gnumeric.xml.h:13 src/workbook-control-gui.c:1966
+#: po/tmp/gnumeric.xml.h:12 src/workbook-control-gui.c:1978
 msgid "Auto _Correct..."
 msgstr "Auto-_Korrektur..."
 
-#: po/tmp/gnumeric.xml.h:14 src/workbook-control-gui.c:1967
+#: po/tmp/gnumeric.xml.h:13 src/workbook-control-gui.c:1979
 msgid "Automatically perform simple spell checking"
 msgstr "Automatisch einfache Überprüfung der Rechtschreibung durchführen"
 
-#: po/tmp/gnumeric.xml.h:192 src/workbook-control-gui.c:1969
+#: po/tmp/gnumeric.xml.h:192 src/workbook-control-gui.c:1981
 msgid "_Auto Save..."
 msgstr "_Auto-Speichern..."
 
-#: po/tmp/gnumeric.xml.h:15 src/workbook-control-gui.c:1970
+#: po/tmp/gnumeric.xml.h:14 src/workbook-control-gui.c:1982
 msgid "Automatically save the current document at regular intervals"
 msgstr ""
 "Das aktuelle Dokument automatisch in regelmäßigen Intervallen speichern"
 
-#: po/tmp/gnumeric.xml.h:209 src/workbook-control-gui.c:1975
+#: po/tmp/gnumeric.xml.h:209 src/workbook-control-gui.c:1987
 msgid "_Goal Seek..."
 msgstr "_Zielsuche..."
 
-#: po/tmp/gnumeric.xml.h:110 src/workbook-control-gui.c:1976
+#: po/tmp/gnumeric.xml.h:110 src/workbook-control-gui.c:1988
 msgid "Iteratively recalculate to find a target value"
 msgstr "Wiederholt neu berechnen, um einen Zielwert zu finden"
 
 # What does this mean? -ke-
-#: po/tmp/gnumeric.xml.h:228 src/workbook-control-gui.c:1978
+#: po/tmp/gnumeric.xml.h:228 src/workbook-control-gui.c:1990
 msgid "_Solver..."
 msgstr "_Analysis..."
 
-#: po/tmp/gnumeric.xml.h:111 src/workbook-control-gui.c:1979
+#: po/tmp/gnumeric.xml.h:111 src/workbook-control-gui.c:1991
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:202 src/workbook-control-gui.c:1984
+#: po/tmp/gnumeric.xml.h:202 src/workbook-control-gui.c:1996
 msgid "_Data Analysis..."
 msgstr "_Datenanalyse..."
 
-#: src/workbook-control-gui.c:1985
+#: src/workbook-control-gui.c:1997
 msgid "Statistical methods."
 msgstr "Statistische Methoden"
 
-#: po/tmp/gnumeric.xml.h:229 src/workbook-control-gui.c:1993
+#: po/tmp/gnumeric.xml.h:229 src/workbook-control-gui.c:2005
 msgid "_Sort..."
 msgstr "_Sortieren..."
 
-#: po/tmp/gnumeric.xml.h:174 src/workbook-control-gui.c:1994
+#: po/tmp/gnumeric.xml.h:174 src/workbook-control-gui.c:2006
 msgid "Sort the selected cells"
 msgstr "Ausgewählte Zellen sortieren"
 
-#: po/tmp/gnumeric.xml.h:207 src/workbook-control-gui.c:1996
+#: po/tmp/gnumeric.xml.h:207 src/workbook-control-gui.c:2008
 msgid "_Filter..."
 msgstr "_Filter..."
 
-#: po/tmp/gnumeric.xml.h:74 src/workbook-control-gui.c:1997
+#: po/tmp/gnumeric.xml.h:74 src/workbook-control-gui.c:2009
 msgid "Filter data with given criteria"
 msgstr "Daten anhand gegebener Kriterien filtern"
 
-#: po/tmp/gnumeric.xml.h:214 src/workbook-control-gui.c:2013
+#: po/tmp/gnumeric.xml.h:214 src/workbook-control-gui.c:2025
 msgid "_Insert"
 msgstr "_Einfügen"
 
-#: po/tmp/gnumeric.xml.h:73 src/workbook-control-gui.c:2014
+#: po/tmp/gnumeric.xml.h:73 src/workbook-control-gui.c:2026
 msgid "F_ormat"
 msgstr "F_ormate"
 
-#: po/tmp/gnumeric.xml.h:232 src/workbook-control-gui.c:2015
+#: po/tmp/gnumeric.xml.h:232 src/workbook-control-gui.c:2027
 msgid "_Tools"
 msgstr "_Werkzeuge"
 
 # Shortcut _D ist schon weg: s. "_Datei".
 # 2000-04-15 19:32:37 CEST -ke-
-#: po/tmp/gnumeric.xml.h:201 src/workbook-control-gui.c:2016
+#: po/tmp/gnumeric.xml.h:201 src/workbook-control-gui.c:2028
 msgid "_Data"
 msgstr "Da_ten"
 
-#: po/tmp/gnumeric.xml.h:127 src/workbook-control-gui.c:2023
+#: po/tmp/gnumeric.xml.h:127 src/workbook-control-gui.c:2035
 msgid "New"
 msgstr "Neu"
 
-#: src/workbook-control-gui.c:2023
+#: src/workbook-control-gui.c:2035
 msgid "Creates a new workbook"
 msgstr "Ein neues Arbeitsbuch erzeugen"
 
-#: po/tmp/gnumeric.xml.h:130 src/workbook-control-gui.c:2026
+#: po/tmp/gnumeric.xml.h:130 src/workbook-control-gui.c:2038
 msgid "Open"
 msgstr "Öffnen"
 
-#: src/workbook-control-gui.c:2026
+#: src/workbook-control-gui.c:2038
 msgid "Opens an existing workbook"
 msgstr "Ein vorhandenes Arbeitsbuch öffnen"
 
-#: po/tmp/gnumeric.xml.h:156 src/workbook-control-gui.c:2029
+#: po/tmp/gnumeric.xml.h:156 src/workbook-control-gui.c:2041
 msgid "Save"
 msgstr "Speichern"
 
-#: src/workbook-control-gui.c:2029
+#: src/workbook-control-gui.c:2041
 msgid "Saves the workbook"
 msgstr "Das Arbeitsbuch speichern"
 
-#: src/workbook-control-gui.c:2035
+#: src/workbook-control-gui.c:2047
 msgid "Prints the workbook"
 msgstr "Arbeitsbuch drucken"
 
-#: po/tmp/gnumeric.xml.h:56 src/workbook-control-gui.c:2044
+#: po/tmp/gnumeric.xml.h:56 src/workbook-control-gui.c:2056
 msgid "Cut"
 msgstr "Ausschneiden"
 
-#: src/workbook-control-gui.c:2044
+#: src/workbook-control-gui.c:2056
 msgid "Cuts the selection to the clipboard"
 msgstr "Die Auswahl ausschneiden und in die Zwischenablage ablegen"
 
-#: po/tmp/gnumeric.xml.h:38 src/workbook-control-gui.c:2047
+#: po/tmp/gnumeric.xml.h:38 src/workbook-control-gui.c:2059
 msgid "Copy"
 msgstr "Kopieren"
 
-#: src/workbook-control-gui.c:2047
+#: src/workbook-control-gui.c:2059
 msgid "Copies the selection to the clipboard"
 msgstr "Die Auswahl in die Zwischenablage kopieren"
 
-#: src/workbook-control-gui.c:2050
+#: src/workbook-control-gui.c:2062
 msgid "Pastes the clipboard"
 msgstr "Den Inhalt der Zwischenablage einfügen"
 
-#: src/workbook-control-gui.c:2057
+#: src/workbook-control-gui.c:2069
 msgid "Undo the operation"
 msgstr "Operation rückgängig machen"
 
-#: src/workbook-control-gui.c:2060
+#: src/workbook-control-gui.c:2072
 msgid "Redo the operation"
 msgstr "Operation wiederholen"
 
-#: src/workbook-control-gui.c:2070
+#: src/workbook-control-gui.c:2082
 msgid "Sum into the current cell."
 msgstr "Summe in die aktuelle Zelle schreiben"
 
-#: src/workbook-control-gui.c:2073
+#: src/workbook-control-gui.c:2085
 msgid "Function"
 msgstr "Funktion"
 
-#: src/workbook-control-gui.c:2073
+#: src/workbook-control-gui.c:2085
 msgid "Edit a function in the current cell."
 msgstr "Eine Funktion in der aktuellen Zelle bearbeiten"
 
-#: po/tmp/gnumeric.xml.h:172 src/workbook-control-gui.c:2077
+#: po/tmp/gnumeric.xml.h:172 src/workbook-control-gui.c:2089
 msgid "Sort Ascending"
 msgstr "Aufsteigend sortieren"
 
-#: src/workbook-control-gui.c:2077
+#: src/workbook-control-gui.c:2089
 msgid ""
 "Sorts the selected region in ascending order based on the first column "
 "selected."
@@ -12969,11 +13010,11 @@ msgstr ""
 "Die markierte Region in aufsteigender Ordnung sortieren, basierend auf der "
 "ersten markierten Spalte."
 
-#: po/tmp/gnumeric.xml.h:173 src/workbook-control-gui.c:2080
+#: po/tmp/gnumeric.xml.h:173 src/workbook-control-gui.c:2092
 msgid "Sort Descending"
 msgstr "Absteigend sortieren"
 
-#: src/workbook-control-gui.c:2080
+#: src/workbook-control-gui.c:2092
 msgid ""
 "Sorts the selected region in descending order based on the first column "
 "selected."
@@ -12981,40 +13022,40 @@ msgstr ""
 "Die markierte Region in absteigender Ordnung sortieren, basierend auf der "
 "ersten markierten Spalte."
 
-#: src/workbook-control-gui.c:2798
+#: src/workbook-control-gui.c:2802
 msgid "Min"
 msgstr "Min"
 
-#: src/workbook-control-gui.c:2799
+#: src/workbook-control-gui.c:2803
 msgid "Max"
 msgstr "Max"
 
-#: src/workbook.c:495
+#: src/workbook.c:497
 #, c-format
 msgid "Book%d.gnumeric"
 msgstr "Buch%d.gnumeric"
 
-#: src/workbook.c:1172
+#: src/workbook.c:1170
 msgid "Sheet name"
 msgstr "Ein Blattname"
 
-#: src/workbook.c:1173
+#: src/workbook.c:1171
 msgid "must have at least 1 letter"
 msgstr "muss wenigstens einen Buchstaben haben"
 
-#: src/workbook.c:1180
+#: src/workbook.c:1178
 msgid "Duplicate Sheet name"
 msgstr "Mehrfach vergebener Blattname"
 
-#: src/xml-io.c:3422
+#: src/xml-io.c:3283
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "Ungültige XML-Zwischenablagedatei. Ist der Baum leer?"
 
-#: src/xml-io.c:3474
+#: src/xml-io.c:3335
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Ist keine gnumeric-Arbeitsbuch-Datei"
 
-#: src/xml-io.c:3533
+#: src/xml-io.c:3394
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric-XML-Dateiformat"
 
@@ -13034,38 +13075,42 @@ msgstr "Fehler beim Versuch, Datei in Speicher zu mappen"
 
 #.
 #. * Translatable strings file generated by extract-ui.
-#. * Add this file to your project's POTFILES.in
-#. * DO NOT compile it as part of your application.
+#. * DO NOT compile this file as part of your application.
 #.
-#: po/tmp/gnumeric.xml.h:7
+#: po/tmp/gnumeric.xml.h:6
 #, fuzzy
 msgid "*Control*b"
 msgstr "Kontrolle"
 
-#: po/tmp/gnumeric.xml.h:8
+#: po/tmp/gnumeric.xml.h:7
 #, fuzzy
 msgid "*Control*i"
 msgstr "Kontrolle"
 
-#: po/tmp/gnumeric.xml.h:9
+#: po/tmp/gnumeric.xml.h:8
 #, fuzzy
 msgid "*Control*u"
 msgstr "Kontrolle"
 
-#: po/tmp/gnumeric.xml.h:10
+#: po/tmp/gnumeric.xml.h:9
 msgid "About this application"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:11
+#: po/tmp/gnumeric.xml.h:10
 #, fuzzy
 msgid "About..."
 msgstr "_Sortieren..."
 
 # Checkit.  vs. "Delete"
-#: po/tmp/gnumeric.xml.h:20
+#: po/tmp/gnumeric.xml.h:19
 #, fuzzy
 msgid "C_lear..."
 msgstr "_Leeren"
+
+#: po/tmp/gnumeric.xml.h:22
+#, fuzzy
+msgid "CenterAcrossSelection"
+msgstr "Über Auswahl zentrieren"
 
 #: po/tmp/gnumeric.xml.h:23
 #, fuzzy
@@ -13299,6 +13344,10 @@ msgstr "Ein genormtes Objekt in das Arbeitsblatt einfügen"
 #, fuzzy
 msgid "Insert an object into the spreadsheet"
 msgstr "Ein Objekt in das Arbeitsblatt einfügen"
+
+#: po/tmp/gnumeric.xml.h:106
+msgid "Inserts a Bonobo object"
+msgstr "Ein Bonobo-Objekt einfügen"
 
 #: po/tmp/gnumeric.xml.h:107
 #, fuzzy
@@ -13571,11 +13620,38 @@ msgstr "Rückgängig"
 msgid "_View"
 msgstr "_Ansicht"
 
-#~ msgid "Row: %d"
-#~ msgstr "Zeile: %d"
+#~ msgid "Database Access"
+#~ msgstr "Datenbank-Zugriff"
 
-#~ msgid "Column: %s"
-#~ msgstr "Spalte: %s"
+#~ msgid "Enables database access"
+#~ msgstr "Datenbank-Zugriff aktivieren"
+
+#, fuzzy
+#~ msgid "None\n"
+#~ msgstr "Keine"
+
+#, fuzzy
+#~ msgid "Single\n"
+#~ msgstr "Einfach"
+
+#, fuzzy
+#~ msgid "\"\n"
+#~ msgstr "\""
+
+#, fuzzy
+#~ msgid "pts\n"
+#~ msgstr "pt"
+
+#, fuzzy
+#~ msgid "mm\n"
+#~ msgstr "mm"
+
+#, fuzzy
+#~ msgid "cm\n"
+#~ msgstr "cm"
+
+#~ msgid "_Object..."
+#~ msgstr "_Objekt..."
 
 #~ msgid "Error while trying to pre-convert clipboard data"
 #~ msgstr ""
@@ -13605,10 +13681,6 @@ msgstr "_Ansicht"
 
 #~ msgid "_Labels      "
 #~ msgstr "_Beschriftungen"
-
-#, fuzzy
-#~ msgid "$"
-#~ msgstr "DM"
 
 #~ msgid "Formulas"
 #~ msgstr "Formeln"
@@ -13658,9 +13730,6 @@ msgstr "_Ansicht"
 #~ "Nie\n"
 #~ "Nur links\n"
 #~ "Nur rechts\n"
-
-#~ msgid "%"
-#~ msgstr "%"
 
 #~ msgid "window1"
 #~ msgstr "fenster1"

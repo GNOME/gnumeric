@@ -30,6 +30,7 @@ static void   item_bar_marshal      (GtkObject *,
 typedef void (*ItemBarSignal1) (GtkObject *, gint arg1, gpointer data);
 typedef void (*ItemBarSignal2) (GtkObject *, gint arg1, gint arg2, gpointer data);
 
+#if 0
 #ifndef __GNUC__
 #define __FUNCTION__ __FILE__
 #endif
@@ -43,6 +44,7 @@ typedef void (*ItemBarSignal2) (GtkObject *, gint arg1, gint arg2, gpointer data
 		 __FUNCTION__, __LINE__, a);		\
 	gnome_canvas_item_ungrab (a, b);		\
 } while (0)
+#endif
 
 /* The signals we emit */
 enum {

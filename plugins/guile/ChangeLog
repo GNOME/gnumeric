@@ -1,3 +1,7 @@
+2000-12-7  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.60
+
 2000-11-23  Ariel Rios  <ariel@arcavia.com>
 
 	* guile-support.h (gnumeric_list2scm): Removed unused prototypes.

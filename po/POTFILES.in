@@ -129,7 +129,6 @@ src/sheet-control-gui.c
 src/sheet-object-container.c
 src/sheet-object-widget.c
 src/sheet-object.c
-src/sheet-view.c
 src/sheet.c
 src/solver-lp.c
 src/stf-export.c

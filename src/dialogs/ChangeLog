@@ -1,3 +1,7 @@
+2000-12-7  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.60
+
 2000-12-06  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-stf-preview.c (stf_preview_format_recalc_colwidths) : Avoid

@@ -1,3 +1,7 @@
+2000-12-7  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.60
+
 2000-12-01  Jody Goldberg <jgoldberg@home.com>
 
 	* Makefile.am (SGML_FILES) : Add missing copying-moving.sgml
