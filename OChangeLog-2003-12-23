@@ -1,3 +1,9 @@
+2003-07-06  Rodrigo Moya <rodrigo@gnome-db.org>
+
+	* configure.in:
+	* plugins/Makefile.am: added gnome-db plugin directory, built only
+	when Bonobo is compiled in.
+
 2003-07-06  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/GNOME_Gnumeric.xml: clean up the sheet insert/append issue

@@ -17,7 +17,12 @@ CORBA_DIR =
 endif
 
 if WITH_BONOBO
-BONOBO_PLUGINS = uihello
+if WITH_GNOMEDB
+gnomedb_plugin = gnome-db
+else
+gnomedb_plugin =
+endif
+BONOBO_PLUGINS =  $(gnomedb_plugin) uihello
 else
 BONOBO_PLUGINS =
 endif

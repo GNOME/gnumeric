@@ -755,6 +755,7 @@ plugins/sylk/Makefile
 plugins/excel/Makefile
 plugins/gda/Makefile
 plugins/gb/Makefile
+plugins/gnome-db/Makefile
 plugins/lotus-123/Makefile
 plugins/oleo/Makefile
 plugins/python-loader/Makefile
