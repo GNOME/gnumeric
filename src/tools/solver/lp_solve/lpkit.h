@@ -303,8 +303,8 @@ void       set_mat (lprec *lp, int row, int column, gnum_float value);
 /* fill in element (Row,Column) of the matrix
    Row in [0..Rows] and Column in [1..Columns] */
 
-void       lp_solve_set_obj_fn (lprec *lp, gnum_float *row);
-/* set the objective function (Row 0) of the matrix */
+void       lp_solve_set_obj_fn (lprec *lp, int col, gnum_float value);
+/* set the objective function of the matrix */
 void       str_set_obj_fn (lprec *lp, char *row);
 /* The same, but with string input */
 
@@ -424,7 +424,7 @@ void       print_duals (lprec *lp);
 void       print_scales (lprec *lp);
 /* If scaling is used, print the scaling factors */
 
-gnum_float get_solution (lprec *lp, int column);
+gnum_float lp_solve_get_solution (lprec *lp, int column);
 /* returns the value of a variable at the given column */
 
 gnum_float get_constraint_value (lprec *lp, int row);
@@ -433,7 +433,7 @@ gnum_float get_constraint_value (lprec *lp, int row);
 gnum_float lp_solve_get_value_of_obj_fn (lprec *lp);
 /* returns the value of the objective function. */
 
-gnum_float get_dual (lprec *lp, int row);
+gnum_float lp_solve_get_dual (lprec *lp, int row);
 /* returns the value of a dual. */
 
 

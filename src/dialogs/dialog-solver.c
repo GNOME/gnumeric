@@ -5,7 +5,7 @@
  * Author:
  *  Jukka-Pekka Iivonen <iivonen@iki.fi>
  *
- * (C) Copyright 2000 by Jukka-Pekka Iivonen <iivonen@iki.fi>
+ * (C) Copyright 2000, 2002 by Jukka-Pekka Iivonen <iivonen@iki.fi>
  */
 
 #include <gnumeric-config.h>
@@ -660,7 +660,7 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 	EvalPos            *pos;
 	CellPos            cellpos = {0, 0};
 	gint               i;
-	gboolean           answer, sensitivity, limits;
+	gboolean           answer, sensitivity, limits, program;
 	gchar              *errmsg;
 
 	if (state->warning_dialog != NULL)
@@ -702,7 +702,8 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 		glade_xml_get_widget (state->gui, "sensitivity")));
 	limits = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget (state->gui, "limits")));
-
+	program = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
+		glade_xml_get_widget (state->gui, "program")));
 
 	i = check_int_constraints (input_range, state->constraint_list);
 
@@ -769,7 +770,7 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 
 			solver_lp_reports (WORKBOOK_CONTROL (state->wbcg),
 					   state->sheet, res,
-					   answer, sensitivity, limits);
+					   answer, sensitivity, limits, program);
 
 		} else {
 		        printf ("NLP not implemented yet!\n");

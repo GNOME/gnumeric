@@ -1,3 +1,10 @@
+2002-03-07  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* reports.c (solver_limits_report): Implemented the initial limits
+	reporting.
+	(solver_program_report): Implemented the program statistics
+	reporting.
+
 2002-03-06  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* lp_solve: Imported.

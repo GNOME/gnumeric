@@ -46,7 +46,9 @@ static SolverLPAlgorithm lp_algorithm[] = {
 		(solver_lp_set_minim_fn*)        lp_solve_set_minim,
 		(solver_lp_set_int_fn*)          lp_solve_set_int,
 		(solver_lp_solve_fn*)            lp_solve_solve,
-		(solver_lp_get_obj_fn_value_fn*) lp_solve_get_value_of_obj_fn
+		(solver_lp_get_obj_fn_value_fn*) lp_solve_get_value_of_obj_fn,
+		(solver_lp_get_obj_fn_var_fn*)   lp_solve_get_solution,
+		(solver_lp_get_shadow_prize_fn*) lp_solve_get_dual
 	},
 	{ NULL }
 };
@@ -78,16 +80,20 @@ solver_param_destroy (SolverParameters *sp)
 SolverResults *
 solver_results_init (const SolverParameters *sp)
 {
-        SolverResults *res    = g_new (SolverResults, 1);
+        SolverResults *res     = g_new (SolverResults, 1);
 
-	res->optimal_values   = g_new (gnum_float, sp->n_variables);
-	res->original_values  = g_new (gnum_float, sp->n_variables);
-	res->variable_names   = g_new0 (gchar *, sp->n_variables);
-	res->constraint_names = g_new0 (gchar *, sp->n_constraints);
-	res->shadow_prizes    = g_new0 (gnum_float, sp->n_constraints +
-					sp->n_int_bool_constraints);
-	res->n_variables      = sp->n_variables;
-	res->n_constraints    = sp->n_constraints;
+	res->optimal_values    = g_new (gnum_float, sp->n_variables);
+	res->original_values   = g_new (gnum_float, sp->n_variables);
+	res->variable_names    = g_new0 (gchar *, sp->n_variables);
+	res->constraint_names  = g_new0 (gchar *, sp->n_constraints);
+	res->shadow_prizes     = g_new0 (gnum_float, sp->n_constraints +
+					 sp->n_int_bool_constraints);
+	res->n_variables       = sp->n_variables;
+	res->n_constraints     = sp->n_constraints;
+	res->n_nonzeros_in_mat = 0;
+	res->time_user         = 0;
+	res->time_system       = 0;
+	res->time_real         = 0;
 
 	return res;
 }
@@ -228,7 +234,7 @@ callback (int iter, gnum_float *x, gnum_float bv, gnum_float cx, int n, void *da
  * program is ready to run.
  */
 static SolverProgram *
-lp_solver_init (Sheet *sheet, const SolverParameters *param)
+lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res)
 {
         SolverProgram *program;
 	gnum_float    *row = g_new (gnum_float, 100);
@@ -244,8 +250,10 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param)
 	target = get_solver_target_cell (sheet);
 	for (i = 0; i < param->n_variables; i++) {
 	        x = get_lp_coeff (target, get_solver_input_var (sheet, i));
-		if (x != 0)
-		        set_mat (program, 0, i+1, x); /* FIXME: use API fn */
+		if (x != 0) {
+		        lp_algorithm[param->options.algorithm].
+			        set_obj_fn (program, i+1, x);
+		}
 	}
 			 
 	/* Add constraints. */
@@ -257,10 +265,13 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param)
 		if (c->type == SolverINT) {
 		        continue;
 		}
-		for (n = 0; n < param->n_variables; n++)
+		for (n = 0; n < param->n_variables; n++) {
 		        row[n + 1] = get_lp_coeff (target,
 						   get_solver_input_var (sheet,
 									 n));
+			if (row[n + 1] != 0)
+			        res->n_nonzeros_in_mat += 1;
+		}
 		target = sheet_cell_get (sheet, c->rhs.col, c->rhs.row);
 		x = value_get_as_float (target->value);
 		lp_solve_add_constraint (program, row, c->type, x); /* FIXME:
@@ -292,9 +303,9 @@ write_constraint_str (int lhs_col, int lhs_row, int rhs_col,
 		      int rhs_row, SolverConstraintType type,
 		      int cols, int rows)
 {
-	GString *buf = g_string_new ("");
+	GString    *buf = g_string_new ("");
 	const char *type_str[] = { "<=", ">=", "=", "Int", "Bool" };
-	char    *result;
+	char       *result;
 
 	if (cols == 1 && rows == 1)
 		g_string_sprintfa (buf, "%s %s ",
@@ -444,7 +455,7 @@ solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 
 	save_original_values (res, param, sheet);
 
-	program              = lp_solver_init (sheet, param);
+	program              = lp_solver_init (sheet, param, res);
 
         res->status          = lp_algorithm[param->options.algorithm]
 	        .solve_fn (program);
@@ -452,7 +463,8 @@ solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 	res->value_of_obj_fn = lp_algorithm[param->options.algorithm]
 	        .get_obj_fn_value_fn (program);
 	for (i = 0; i < param->n_variables; i++) {
-	        res->optimal_values[i] = get_solution (program, i + 1);
+	        res->optimal_values[i] = lp_algorithm[param->options.algorithm]
+		        .get_obj_fn_var_fn (program, i + 1);
 		cell = param->input_cells_array[i];
 		sheet_cell_set_value (cell, 
 				      value_new_float(res->optimal_values[i]));
@@ -460,7 +472,8 @@ solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 
 	for (i = 0; i < param->n_constraints + param->n_int_bool_constraints;
 	     i++) {
-	        res->shadow_prizes[i] = get_dual (program, i);
+	        res->shadow_prizes[i] = lp_algorithm[param->options.algorithm]
+		        .get_shadow_prize_fn (program, i);
 	}
 
 	res->param = sheet->solver_parameters;

@@ -24,6 +24,7 @@
 
 #include <math.h>
 #include <stdlib.h>
+#include <sys/utsname.h>
 
 /* ------------------------------------------------------------------------- */
 
@@ -231,12 +232,9 @@ solver_answer_report (WorkbookControl *wbc,
 	/*
 	 * Autofit columns to make the sheet more readable.
 	 */
-	autofit_column (&dao, 0);
-	autofit_column (&dao, 1);
-	autofit_column (&dao, 2);
-	autofit_column (&dao, 3);
-	autofit_column (&dao, 4);
-	autofit_column (&dao, 5);
+
+	for (i = 0; i <= 5; i++)
+	        autofit_column (&dao, i);
 
 
 	/*
@@ -348,11 +346,9 @@ solver_sensitivity_report (WorkbookControl *wbc,
 	/*
 	 * Autofit columns to make the sheet more readable.
 	 */
-	autofit_column (&dao, 0);
-	autofit_column (&dao, 1);
-	autofit_column (&dao, 2);
-	autofit_column (&dao, 3);
-	autofit_column (&dao, 4);
+
+	for (i = 0; i <= 4; i++)
+	        autofit_column (&dao, i);
 
 
 	/*
@@ -367,16 +363,303 @@ solver_sensitivity_report (WorkbookControl *wbc,
 	set_cell (&dao, 0, 9 + vars, _("Constraints"));
 }
 
+
+/*
+ * Generates the Solver's limits report.
+ */
+static void
+solver_limits_report (WorkbookControl *wbc,
+		      Sheet           *sheet,
+		      SolverResults   *res)
+{
+        data_analysis_output_t dao;
+	Cell                   *cell;
+	int                    vars, i;
+
+	dao.type = NewSheetOutput;
+        prepare_output (wbc, &dao, _("Limits Report"));
+
+	dao.sheet->hide_grid = TRUE;
+	vars                 = res->param->n_variables;
+
+	/* Set this to fool the autofit_column function.  (It will be
+	 * overwriten). */
+	set_cell (&dao, 0, 0, "A");
+	set_cell (&dao, 4, 0, "A");
+	set_cell (&dao, 7, 0, "A");
+
+
+	/*
+	 * Fill in the labels.
+	 */
+
+	set_cell (&dao, 2, 5, _("Target"));
+	set_cell (&dao, 1, 6, _("Cell"));
+	set_cell (&dao, 2, 6, _("Name"));
+	set_cell (&dao, 3, 6, _("Value"));
+	set_bold (dao.sheet, 2, 5, 2, 5);
+	set_bold (dao.sheet, 0, 6, 3, 6);
+
+	set_cell (&dao, 2, 10, _("Adjustable"));
+	set_cell (&dao, 1, 11, _("Cell"));
+	set_cell (&dao, 2, 11, _("Name"));
+	set_cell (&dao, 3, 11, _("Value"));
+
+	set_cell (&dao, 5, 10, _("Lower"));
+	set_cell (&dao, 6, 10, _("Target"));
+	set_cell (&dao, 5, 11, _("Limit"));
+	set_cell (&dao, 6, 11, _("Result"));
+
+	set_cell (&dao, 8, 10, _("Upper"));
+	set_cell (&dao, 9, 10, _("Target"));
+	set_cell (&dao, 8, 11, _("Limit"));
+	set_cell (&dao, 9, 11, _("Result"));
+
+	set_bold (dao.sheet, 2, 10, 9, 10);
+	set_bold (dao.sheet, 0, 11, 9, 11);
+
+
+	/*
+	 * Fill in the target cell section.
+	 */
+
+	/* Set `Target Cell' field (cell reference to the target cell). */
+	set_cell (&dao, 1, 7, cell_name (res->param->target_cell));
+
+	/* Set `Target Name' field */
+	set_cell (&dao, 2, 7, find_name (sheet,
+					 res->param->target_cell->pos.col,
+					 res->param->target_cell->pos.row));
+
+	/* Set `Target Value' field */
+	set_cell_float (&dao, 3, 7, res->value_of_obj_fn);
+
+
+	/*
+	 * Fill in the adjustable cells and limits section.
+	 */
+
+	for (i = 0; i < vars; i++) {
+		/* Set `Adjustable Cell' column */
+	        cell = get_solver_input_var (sheet, i);
+		set_cell (&dao, 1, 12 + i, cell_name (cell));
+
+		/* Set `Adjustable Name' column */
+		set_cell (&dao, 2, 12 + i, find_name (sheet, cell->pos.col,
+						      cell->pos.row));
+
+		/* Set `Adjustable Value' column */
+		set_cell_value (&dao, 3, 12 + i,
+				value_duplicate (cell->value));
+
+
+		/* Set `Lower Limit' column */
+		set_cell_value (&dao, 5, 12 + i, value_new_float(0)); /* FIXME */
+
+		/* Set `Target Result' column */
+		set_cell_value (&dao, 6, 12 + i, value_new_float(0)); /* FIXME */
+
+
+		/* Set `Upper Limit' column */
+		set_cell_value (&dao, 8, 12 + i, value_new_float(0)); /* FIXME */
+
+		/* Set `Target Result' column */
+		set_cell_value (&dao, 9, 12 + i, value_new_float(0)); /* FIXME */
+	}
+
+
+	/*
+	 * Autofit columns to make the sheet more readable.
+	 */
+
+	for (i = 0; i <= 9; i++)
+	        autofit_column (&dao, i);
+
+	/* Clear these after autofit calls */
+	set_cell (&dao, 4, 0, "");
+	set_cell (&dao, 7, 0, "");
+
+
+	/*
+	 * Fill in the titles.
+	 */
+
+	/* Fill in the header titles. */
+	fill_header_titles (&dao, _("Limits Report"), sheet);
+}
+
+
+/* Generates the Solver's program report.  Contains some statistical
+ * information regarding the program, information on how long it took
+ * to be solved, and what kind of a system did the processing.
+ */
+static void
+solver_program_report (WorkbookControl *wbc,
+		       Sheet           *sheet,
+		       SolverResults   *res)
+{
+        data_analysis_output_t dao;
+	int                    i, mat_size, zeros;
+	struct                 utsname unamedata;
+
+	dao.type = NewSheetOutput;
+        prepare_output (wbc, &dao, _("Program Report"));
+
+	dao.sheet->hide_grid = TRUE;
+
+	/* Set this to fool the autofit_column function.  (It will be
+	 * overwriten). */
+	set_cell (&dao, 0, 0, "A");
+
+
+	/*
+	 * Fill in the labels of `General Statistics' section.
+	 */
+
+	set_cell (&dao, 2, 6, _("Variables"));
+	set_cell (&dao, 3, 6, _("Constraints"));
+	set_cell (&dao, 4, 6, _("Int Constraints"));
+	set_cell (&dao, 5, 6, _("Bool Constraints"));
+	set_cell (&dao, 1, 7, _("Number of"));
+	set_bold (dao.sheet, 0, 6, 5, 6);
+	set_bold (dao.sheet, 1, 7, 1, 7);
+
+	/* Set the `Nbr of Variables'. */
+	set_cell_value (&dao, 2, 7, value_new_float (res->param->n_variables));
+
+	/* Set the `Nbr of Constraints'. */
+	set_cell_value (&dao, 3, 7, value_new_float (res->param->n_constraints));
+
+	/* Set the `Nbr of Int Constraints'. */
+	set_cell_value (&dao, 4, 7, /* FIXME: Bools */
+			value_new_float (res->param->n_int_bool_constraints));
+
+	/* Set the `Nbr of Bool Constraints'. */
+	set_cell_value (&dao, 5, 7, value_new_float (0)); /* FIXME: Bools */
+
+
+	/*
+	 * Fill in the labels of `Data Sparsity' section.
+	 */
+
+	set_cell (&dao, 2, 11, _("Matrix Elements"));
+	set_cell (&dao, 3, 11, _("Non-zeros"));
+	set_cell (&dao, 4, 11, _("Zeros"));
+	set_cell (&dao, 1, 12, _("Number of"));
+	set_cell (&dao, 1, 13, _("Ratio"));
+	set_bold (dao.sheet, 0, 11, 4, 11);
+	set_bold (dao.sheet, 1, 12, 1, 13);
+
+	/* Set the `Nbr of Matrix Elements'. */
+	mat_size = res->param->n_variables * res->param->n_constraints;
+	set_cell_value (&dao, 2, 12, value_new_float (mat_size));
+
+	/* Set the `Nbr of Non-zeros'. */
+	set_cell_value (&dao, 3, 12, value_new_float (res->n_nonzeros_in_mat));
+
+	/* Set the `Nbr of Zeros'. */
+	zeros = mat_size - res->n_nonzeros_in_mat;
+	set_cell_value (&dao, 4, 12, value_new_float (zeros));
+
+	/* Set the `Ratio of Matrix Elements'. */
+	set_cell_value (&dao, 2, 13, value_new_float (1));
+
+	/* Set the `Ratio of Non-zeros'. */
+	set_cell_value (&dao, 3, 13, 
+			value_new_float ((gnum_float) res->n_nonzeros_in_mat /
+					 mat_size));
+
+	/* Set the `Ratio of Zeros'. */
+	set_cell_value (&dao, 4, 13, 
+			value_new_float ((gnum_float) zeros / mat_size));
+
+
+	/*
+	 * Fill in the labels of `Computing Time' section.
+	 */
+
+	set_cell (&dao, 2, 17, _("User"));
+	set_cell (&dao, 3, 17, _("System"));
+	set_cell (&dao, 4, 17, _("Real"));
+	set_cell (&dao, 1, 18, _("Time (sec.)"));
+	set_bold (dao.sheet, 0, 17, 4, 17);
+	set_bold (dao.sheet, 1, 18, 1, 18);
+
+	/* Set the `User Time'. */
+	set_cell_value (&dao, 2, 18, value_new_float (res->time_user));
+
+	/* Set the `System Time'. */
+	set_cell_value (&dao, 3, 18, value_new_float (res->time_system));
+
+	/* Set the `Real Time'. */
+	set_cell_value (&dao, 4, 18, value_new_float (res->time_real));
+
+
+	/*
+	 * Fill in the labels of `System Information' section.
+	 */
+
+	set_cell (&dao, 2, 22, _("CPU"));
+	set_cell (&dao, 3, 22, _("OS"));
+	set_cell (&dao, 1, 23, _("Name"));
+	set_bold (dao.sheet, 0, 22, 3, 22);
+	set_bold (dao.sheet, 1, 23, 1, 23);
+
+	/* Set the `CPU Name'. */
+	set_cell (&dao, 2, 23, _("Unknown")); /* FIXME */
+
+	/* Set the `OS Name'. */
+	if (uname (&unamedata) == -1) {
+	        char  *tmp = g_strdup_printf (_("Unknown"));
+		Value *r = value_new_string (tmp);
+		g_free (tmp);
+		set_cell_value (&dao, 3, 23, r);
+	} else {
+	        char  *tmp = g_strdup_printf (_("%s (%s)"),
+					      unamedata.sysname,
+					      unamedata.release);
+		Value *r = value_new_string (tmp);
+		g_free (tmp);
+		set_cell_value (&dao, 3, 23, r);
+	}
+
+
+	/*
+	 * Autofit columns to make the sheet more readable.
+	 */
+
+	for (i = 0; i <= 4; i++)
+	        autofit_column (&dao, i);
+
+
+	/*
+	 * Fill in the titles.
+	 */
+
+	/* Fill in the header titles. */
+	fill_header_titles (&dao, _("Program Report"), sheet);
+
+	/* Fill in other titles. */
+	set_cell (&dao, 0, 5, _("General Statistics"));
+	set_cell (&dao, 0, 10, _("Data Sparsity"));
+	set_cell (&dao, 0, 16, _("Computing Time"));
+	set_cell (&dao, 0, 21, _("System Information"));
+}
+
+
 void
 solver_lp_reports (WorkbookControl *wbc, Sheet *sheet, SolverResults *res,
-		   gboolean answer, gboolean sensitivity, gboolean limits)
+		   gboolean answer, gboolean sensitivity, gboolean limits,
+		   gboolean program)
 {
         if (answer)
 	        solver_answer_report (wbc, sheet, res);
 	if (sensitivity)
 	        solver_sensitivity_report (wbc, sheet, res);
 	if (limits)
-	        ;
+	        solver_limits_report (wbc, sheet, res);
+	if (program)
+	        solver_program_report (wbc, sheet, res);
 }
 
 

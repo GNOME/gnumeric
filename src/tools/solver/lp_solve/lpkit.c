@@ -358,13 +358,12 @@ void set_mat(lprec *lp, int Row, int Column, gnum_float Value)
 	}
 }
 
-void lp_solve_set_obj_fn(lprec *lp, gnum_float *row)
+void lp_solve_set_obj_fn(lprec *lp, int col, gnum_float value)
 {
-        int i;
-	for (i = 1; i <= lp->columns; i++)
-	        set_mat(lp, 0, i, row[i]);
+        set_mat (lp, 0, col, value);
 }
 
+#if 0
 void str_set_obj_fn(lprec *lp, char *row)
 {
         int  i;
@@ -382,7 +381,7 @@ void str_set_obj_fn(lprec *lp, char *row)
 	lp_solve_set_obj_fn (lp, arow);
 	g_free (arow);
 }
-
+#endif
 
 void lp_solve_add_constraint(lprec *lp, gnum_float *row,
 			     SolverConstraintType constr_type,
@@ -1398,7 +1397,7 @@ void reset_basis(lprec *lp)
         lp->basis_valid = FALSE;
 }
 
-gnum_float get_solution (lprec *lp, int column)
+gnum_float lp_solve_get_solution (lprec *lp, int column)
 {
         return lp->best_solution[lp->rows + column];
 }
@@ -1413,7 +1412,7 @@ gnum_float get_constraint_value (lprec *lp, int row)
         return lp->best_solution[row + 1];
 }
 
-gnum_float get_dual (lprec *lp, int row)
+gnum_float lp_solve_get_dual (lprec *lp, int row)
 {
         return lp->duals[row + 1];
 }

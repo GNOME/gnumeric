@@ -1,3 +1,10 @@
+2002-03-07  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* goal-seek, Makefile.am: Moved goal seek into this directory.
+
+	* stat-analysis, Makefile.am: Moved analysis tools into this
+	directory.
+
 2002-03-06  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* solver: Moved Solver into this directory.

@@ -2,12 +2,13 @@
  * analysis-tools.c:
  *
  * Authors:
- *   Jukka-Pekka Iivonen <iivonen@iki.fi>
+ *   Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
  *   Andreas J. Guelzow  <aguelzow@taliesin.ca>
  *
  * (C) Copyright 2000, 2001 by Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
  *
  * Modified 2001 to use range_* functions of mathfunc.h
+ *
  */
 
 #include <gnumeric-config.h>

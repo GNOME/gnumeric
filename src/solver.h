@@ -34,7 +34,8 @@ typedef void * SolverProgram;
 
 typedef SolverProgram * (solver_lp_init_fn) (int n_vars, int n_constraints);
 typedef void (solver_lp_remove_fn) (SolverProgram *handle);
-typedef void (solver_lp_set_obj_fn) (SolverProgram *handle, gnum_float *row);
+typedef void (solver_lp_set_obj_fn) (SolverProgram *handle, int col, 
+				     gnum_float v);
 typedef void (solver_lp_add_constraint_fn) (SolverProgram *handle,
 					      SolverConstraintType type,
 					      gnum_float *row, gnum_float rhs);
@@ -44,6 +45,8 @@ typedef void (solver_lp_set_int_fn) (SolverProgram *handle, int col,
 				       gboolean must_be_int);
 typedef int  (solver_lp_solve_fn) (SolverProgram *handle);
 typedef gnum_float (solver_lp_get_obj_fn_value_fn) (SolverProgram *handle);
+typedef gnum_float (solver_lp_get_obj_fn_var_fn) (SolverProgram *lp, int col);
+typedef gnum_float (solver_lp_get_shadow_prize_fn) (SolverProgram *lp, int row);
 
 
 typedef struct {
@@ -57,6 +60,8 @@ typedef struct {
         solver_lp_set_int_fn          *set_int_fn;
         solver_lp_solve_fn            *solve_fn;
         solver_lp_get_obj_fn_value_fn *get_obj_fn_value_fn;
+        solver_lp_get_obj_fn_var_fn   *get_obj_fn_var_fn;
+        solver_lp_get_shadow_prize_fn *get_shadow_prize_fn;
 } SolverLPAlgorithm;
 
 struct _SolverOptions {
@@ -99,6 +104,10 @@ struct _SolverParameters {
 typedef struct {
         int              n_variables;
         int              n_constraints;
+        int              n_nonzeros_in_mat;
+        gnum_float       time_user;
+        gnum_float       time_system;
+        gnum_float       time_real;
         gchar            **variable_names;
         gchar            **constraint_names;
         gnum_float       value_of_obj_fn;
@@ -126,7 +135,7 @@ gboolean solver_lp (WorkbookControl *wbc, Sheet *sheet, gnum_float **opt_x,
 void solver_lp_reports (WorkbookControl *wbc, Sheet *sheet,
 			SolverResults *res,
 			gboolean answer, gboolean sensitivity, 
-			gboolean limits);
+			gboolean limits, gboolean program);
 
 char *write_constraint_str (int lhs_col, int lhs_row, int rhs_col, int rhs_row,
 			    SolverConstraintType type, int cols, int rows);

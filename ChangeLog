@@ -1,3 +1,12 @@
+2002-03-07  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* src/analysis-tools.[ch]: Moved into src/tools.
+	src/auto-correct.[ch]: Ditto.
+	src/goal-seek.[ch]: Ditto.
+
+	* src/solver.h (SolverResults): Added a few more fields to improve
+	reporting.
+
 2002-03-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* workbook.c (workbook_sheet_reorganize) : implement adding of

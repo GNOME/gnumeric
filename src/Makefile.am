@@ -19,6 +19,7 @@ INCLUDES = 								\
 	-I$(srcdir)/widgets						\
 	-I$(srcdir)/functions						\
 	-I$(srcdir)/dialogs						\
+	-I$(srcdir)/tools						\
 	$(GNUMERIC_CFLAGS)
 
 BUILT_SOURCES =					\
@@ -27,14 +28,11 @@ BUILT_SOURCES =					\
 
 GNUMERIC_BASE =					\
 	$(BUILT_SOURCES)			\
-	analysis-tools.c			\
 	analysis-tools.h			\
 	application.c				\
 	application.h				\
 	auto-format.c				\
 	auto-format.h				\
-	auto-correct.c				\
-	auto-correct.h				\
 	cell.h					\
 	cell.c					\
 	cell-draw.c				\
@@ -94,8 +92,6 @@ GNUMERIC_BASE =					\
 	format.h				\
 	global-gnome-font.c			\
 	global-gnome-font.h			\
-	goal-seek.c				\
-	goal-seek.h				\
 	gnumeric-simple-canvas.c		\
 	gnumeric-simple-canvas.h		\
 	gnumeric-canvas.c			\

@@ -1,3 +1,8 @@
+2002-03-07  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* solver.glade: added `Program' checkbutton for program report and
+	made the Limits reporting button sensitive.
+
 2002-03-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* sheet-order.glade : add buttons
