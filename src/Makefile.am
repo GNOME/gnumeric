@@ -28,6 +28,7 @@ GNUMERIC_BASE_SOURCES =			\
 	dialog-cell-format.c		\
 	dialog-goto-cell.c		\
 	dialog-insert-cells.c		\
+	dialog-define-names.c		\
 	dialog-delete-cells.c		\
 	dialog-paste-special.c		\
 	dialog-zoom.c			\

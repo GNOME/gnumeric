@@ -418,6 +418,12 @@ goto_cell_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
+define_cell_cmd (GtkWidget *widget, Workbook *wb)
+{
+	dialog_define_names (wb);
+}
+
+static void
 insert_cells_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet;
@@ -611,6 +617,9 @@ static GnomeUIInfo workbook_menu_edit [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
+	{ GNOME_APP_UI_ITEM, N_("_Define cell names"), NULL, define_cell_cmd },
+	GNOMEUIINFO_SEPARATOR,
+	
 	{ GNOME_APP_UI_ITEM, N_("_Recalculate"), NULL, recalc_cmd, NULL, NULL,
 	  0, 0, GDK_F9, 0 },
 	GNOMEUIINFO_END

@@ -15,7 +15,7 @@ void
 dialog_define_names (Workbook *wb)
 {
 	static GtkWidget *dialog;
-	GtkWidget *l;
+	GtkWidget *l, *box;
 	GtkCList  *clist;
 	GtkEntry  *name, *refers;
 	
@@ -46,6 +46,9 @@ dialog_define_names (Workbook *wb)
 		gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
 		gtk_box_pack_start (GTK_BOX (box), l, FALSE, FALSE, 0);
 		gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET (refers), TRUE, TRUE, 0);
+
+		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG (dialog)->vbox),
+					     box);
 	}
 
 	gtk_widget_show_all (dialog);
