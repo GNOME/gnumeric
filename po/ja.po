@@ -6,11 +6,12 @@
 # Yukihiro Nakai <nakai@gnome.gr.jp>, 2000-2001.
 # Takeshi Aihana <aihana@gnome.gr.jp>, 2000-2002.
 # 
+#, no-wrap
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 1.0.4\n"
-"POT-Creation-Date: 2002-03-09 16:44-0500\n"
-"PO-Revision-Date: 2002-02-03 01:04+0900\n"
+"Project-Id-Version: gnumeric 1.0.5\n"
+"POT-Creation-Date: 2002-03-11 23:35+0900\n"
+"PO-Revision-Date: 2002-03-11 23:17+0900\n"
 "Last-Translator: Takeshi Aihana <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -72,6 +73,19 @@ msgid ""
 "opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
 "opt_bs_gamma"
 msgstr ""
+"@FUNCTION=opt_bs_call\n"
+"@SYNTAX=opt_bs_call(危険証券の価格,市場価格,ボラティリティ,満期,収益率)\n"
+"@DESCRIPTION=@市場価格 で @危険証券の価格 をオプションにしてヨーロッパ・オプ"
+"ションの配当を計算するためにブラック=ショールズ方式を使用します。@ボラティリ"
+"ティ は可変なボラティリティで、取り引きを行った期間に対する資産の百分率で表現"
+"します。@満期 は取り引きが完了するまでの期間で、@収益率 は市場取り引きの期間"
+"に対する安全証券の利率で、百分率で表現します。\n"
+"返り値は @儲け と @価格 と同じ単位で表現されます。\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=opt_bs_put, opt_bs_call_delta, opt_bs_put_delta opt_bs_call_rho, "
+"opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
+"opt_bs_gamma"
 
 #: plugins/derivatives/options.c:309
 msgid ""
@@ -91,6 +105,19 @@ msgid ""
 "opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
 "opt_bs_gamma"
 msgstr ""
+"@FUNCTION=opt_bs_put\n"
+"@SYNTAX=opt_bs_put(危険証券の価格,市場価格,ボラティリティ,満期,収益率)\n"
+"@DESCRIPTION=@市場価格 で @危険証券の価格 をオプションにしてヨーロピアンコー"
+"ルの配当を計算するためにブラック=ショールズ方式を使用します。@ボラティリティ "
+"は可変なボラティリティで、取り引きを行った期間に対する資産の百分率で表現しま"
+"す。@満期 は取り引きが完了するまでの期間で、@収益率 は市場取り引きの期間に対"
+"する安全証券の利率で、百分率で表現します。\n"
+"返り値は @危険証券の価格 と @市場価格 と同じ単位で表現されます。\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=opt_bs_call, opt_bs_call_delta, opt_bs_put_delta opt_bs_call_rho, "
+"opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
+"opt_bs_gamma"
 
 #: plugins/derivatives/options.c:329
 msgid ""
@@ -112,6 +139,21 @@ msgid ""
 "opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
 "opt_bs_gamma"
 msgstr ""
+"@FUNCTION=opt_bs_call_delta\n"
+"@SYNTAX=opt_bs_call_delta(危険証券の価格,市場価格,ボラティリティ,満期,収益"
+"率)\n"
+"@DESCRIPTION=@市場価格 で @危険証券の価格 をオプションにしてヨーロピアンコー"
+"ルの \"δ\" を計算するためにブラック=ショールズ方式を使用します。\n"
+"(あるオプションのδは基本資産の価格に関連する価格自体の変更率です。)\n"
+"@ボラティリティ は可変はボラティリティで、取り引きを行った期間に対する資産の"
+"百分率で表現します。@満期 は取り引きが完了するまでの期間で、@収益率 は市場取"
+"り引きの期間に対する安全証券の利率で、百分率で表現します。\n"
+"返り値は @市場価格 の変更単位に対するオプション価格の変更率です。\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_put_delta opt_bs_call_rho, "
+"opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
+"opt_bs_gamma"
 
 #: plugins/derivatives/options.c:352
 msgid ""
@@ -133,6 +175,22 @@ msgid ""
 "opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
 "opt_bs_gamma"
 msgstr ""
+"@FUNCTION=opt_bs_put_delta\n"
+"@SYNTAX=opt_bs_put_delta(危険証券の価格,市場価格,ボラティリティ,満期,収益"
+"率)\n"
+"@DESCRIPTION=@市場価格 で @危険証券の価格 をオプションにしてヨーロピアンプッ"
+"トの \"δ\" を計算するためにブラック=ショールズ方式を使用します。\n"
+"(あるオプションに対するδは基本資産の価格に関連するその価格自体の変更率で"
+"す。)\n"
+"@ボラティリティ は可変はボラティリティで、取り引きを行った期間に対する資産の"
+"百分率で表現します。@満期 は取り引きが完了するまでの期間で、@収益率 は市場取"
+"り引きの期間に対する安全証券の利率で、百分率で表現します。\n"
+"返り値は @市場価格 の変更単位に対するオプション価格の変更率です。\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta opt_bs_call_rho, "
+"opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
+"opt_bs_gamma"
 
 #: plugins/derivatives/options.c:376
 #, no-c-format
@@ -155,6 +213,21 @@ msgid ""
 "opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
 "opt_bs_gamma"
 msgstr ""
+"@FUNCTION=opt_bs_call_rho\n"
+"@SYNTAX=opt_bs_call_rho(危険証券の価格,市場価格,ボラティリティ,満期,収益率)\n"
+"@DESCRIPTION=@市場価格 で @危険証券の価格 をオプションとしてヨーロピアンコー"
+"ルの \"ρ\" を計算するためにブラック=ショールズ方式を使用します。\n"
+"(あるオプションのρは安全証券の配当に関連する価格自体の変更率です)\n"
+"@ボラティリティ は可変はボラティリティで、取り引きを行った期間に対する資産の"
+"百分率で表現します。@満期 は取り引きが完了するまでの期間で、@収益率 は市場取"
+"り引きの期間に対する安全証券の利率で、百分率で表現します。\n"
+"返り値は @収益率の 100% 変更に対する、オプション価格の変更率で表現されま"
+"す。\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta, opt_bs_put_delta, "
+"opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
+"opt_bs_gamma"
 
 #: plugins/derivatives/options.c:400
 #, no-c-format
@@ -177,6 +250,21 @@ msgid ""
 "opt_bs_call_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
 "opt_bs_gamma"
 msgstr ""
+"@FUNCTION=opt_bs_put_rho\n"
+"@SYNTAX=opt_bs_put_rho(危険証券の価格,市場価格,ボラティリティ,満期,収益率)\n"
+"@DESCRIPTION=@市場価格 で @危険証券の価格 をオプションとしてヨーロピアンプッ"
+"トの \"ρ\" を計算するためにブラック=ショールズ方式を使用します。\n"
+"(あるオプションのρは安全証券の配当に関連する価格自体の変更率です)\n"
+"@ボラティリティ は可変はボラティリティで、取り引きを行った期間に対する資産の"
+"百分率で表現します。@満期 は取り引きが完了するまでの期間で、@収益率 は市場取"
+"り引きの期間に対する安全証券の利率で、百分率で表現します。\n"
+"返り値は @収益率の 100% 変更に対する、オプション価格の変更率で表現されま"
+"す。\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta opt_bs_put_delta, "
+"opt_bs_call_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
+"opt_bs_gamma"
 
 #: plugins/derivatives/options.c:423
 msgid ""
@@ -197,6 +285,20 @@ msgid ""
 "@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta, opt_bs_put_delta, "
 "opt_bs_call_rho, opt_bs_put_rho, opt_bs_put_theta, opt_bs_vega, opt_bs_gamma"
 msgstr ""
+"@FUNCTION=opt_bs_call_theta\n"
+"@SYNTAX=opt_bs_call_theta(危険証券の価格,市場価格,ボラティリティ,満期,収益"
+"率)\n"
+"@DESCRIPTION=@市場価格 で @危険証券の価格 をオプションとしてヨーロピアンコー"
+"ルの \"θ\" を計算するためにブラック=ショールズ方式を使用します。\n"
+"(あるオプションのθは expiry する時間に関連する価格自体の変更率です。)\n"
+"@ボラティリティ は可変はボラティリティで、取り引きを行った期間に対する資産の"
+"百分率で表現します。@満期 は取り引きが完了するまでの期間で、@収益率 は市場取"
+"り引きの期間に対する安全証券の利率で、百分率で表現します。\n"
+"返り値は 365.25 日に対するオプション価格の負の変更率で表現されます。\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta, opt_bs_put_delta, "
+"opt_bs_call_rho, opt_bs_put_rho, opt_bs_put_theta, opt_bs_vega, opt_bs_gamma"
 
 #: plugins/derivatives/options.c:446
 msgid ""
@@ -217,6 +319,20 @@ msgid ""
 "@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta opt_bs_put_delta, "
 "opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_vega, opt_bs_gamma"
 msgstr ""
+"@FUNCTION=opt_bs_put_theta\n"
+"@SYNTAX=opt_bs_put_theta(危険証券の価格,市場価格,ボラティリティ,満期,収益"
+"率)\n"
+"@DESCRIPTION=@市場価格 で @危険証券の価格 をオプションとしてヨーロピアンプッ"
+"トの \"θ\" を計算するためにブラック=ショールズ方式を使用します。\n"
+"(あるオプションのθは expiry する時間に関連する価格自体の変更率です。)\n"
+"@ボラティリティ は可変はボラティリティで、取り引きを行った期間に対する資産の"
+"百分率で表現します。@満期 は取り引きが完了するまでの期間で、@収益率 は市場取"
+"り引きの期間に対する安全証券の利率で、百分率で表現します。\n"
+"返り値は 365.25 日に対するオプション価格の負の変更率で表現されます。\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta opt_bs_put_delta, "
+"opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_vega, opt_bs_gamma"
 
 #: plugins/derivatives/options.c:469
 msgid ""
@@ -238,6 +354,21 @@ msgid ""
 "opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_rho, "
 "opt_bs_vega"
 msgstr ""
+"@FUNCTION=opt_bs_gamma\n"
+"@SYNTAX=opt_bs_gamma(危険証券の価格,市場価格,ボラティリティ,満期,収益率)\n"
+"@DESCRIPTION=@市場価格 で @危険証券の価格 をオプションとしてヨーロピアンプッ"
+"トの \"γ\" を計算するためにブラック=ショールズ方式を使用します。\n"
+"(あるオプションのγは基本資産の価格に関連する二番目の配当で、コールとプットと"
+"同じです。)\n"
+"@ボラティリティ は可変はボラティリティで、取り引きを行った期間に対する資産の"
+"百分率で表現します。@満期 は取り引きが完了するまでの期間で、@収益率 は市場取"
+"り引きの期間に対する安全証券の利率で、百分率で表現します。\n"
+"返り値は @市場価格 のユニット変更に対するδの変更率で表現されます。\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta opt_bs_put_delta, "
+"opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_rho, "
+"opt_bs_vega"
 
 #: plugins/derivatives/options.c:493
 #, no-c-format
@@ -260,6 +391,21 @@ msgid ""
 "opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_rho, "
 "opt_bs_gamma"
 msgstr ""
+"@FUNCTION=opt_bs_vega\n"
+"@SYNTAX=opt_bs_bega(危険証券の価格,市場価格,ボラティリティ,満期,収益率)\n"
+"@DESCRIPTION=@市場価格 で @危険証券の価格 をオプションとしてヨーロピアンオプ"
+"ションの \"γ\" を計算するためにブラック=ショールズ方式を使用します。\n"
+"(あるオプションのγは基本資産の価格に関連する二番目の配当で、コールとプットと"
+"同じです。)\n"
+"@ボラティリティ は可変はボラティリティで、取り引きを行った期間に対する資産の"
+"百分率で表現します。@満期 は取り引きが完了するまでの期間で、@収益率 は市場取"
+"り引きの期間に対する安全証券の利率で、百分率で表現します。\n"
+"返り値は 100% ボラリティに対するオプション価格の変更率で表現されます。\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta opt_bs_put_delta, "
+"opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_rho, "
+"opt_bs_gamma"
 
 #: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4524
 #: plugins/mps/mps.c:579 src/xml-io.c:3379
@@ -3074,7 +3220,7 @@ msgstr "全て"
 #: src/commands.c:1324
 #, c-format
 msgid "Clearing %s in %s"
-msgstr "%2$s の中の %s のクリア"
+msgstr "%s (%s にある) のクリア"
 
 #: src/commands.c:1519
 #, c-format
@@ -4265,36 +4411,36 @@ msgid "_Wrap text"
 msgstr "折り返し(_W)"
 
 #: src/dialogs/cell-format.glade.h:131
-msgid "min <= val <= max         (between)"
-msgstr "最小値 <= 値 <= 最大値     (範囲内)"
+msgid "min &lt;= val &lt;= max         (between)"
+msgstr "最小値 &lt;= 値 &lt;= 最大値     (範囲内)"
 
 #: src/dialogs/cell-format.glade.h:132
 msgid "val != bound                  (not equal to)"
 msgstr "値 != 境界値                   (等しくない)"
 
 #: src/dialogs/cell-format.glade.h:133
-msgid "val <  bound                  (less than)"
-msgstr "値 < 境界値                     (小さい)"
+msgid "val &gt;  bound                  (greater than)"
+msgstr "値 &gt; 境界値                        (大きい)"
 
 #: src/dialogs/cell-format.glade.h:134
-msgid "val <= min || max <= val (not between)"
-msgstr "値 <= 最小値 || 最大値 <= 値  (範囲外)"
+msgid "val &gt;=bound                  (greater than or equal to)"
+msgstr "値 &gt;= 境界値                      (大きいまたは等しい)"
 
 #: src/dialogs/cell-format.glade.h:135
-msgid "val <=bound                  (less than or equal to)"
-msgstr "値 <= 境界値                    (小さいまたは等しい)"
+msgid "val &lt;  bound                  (less than)"
+msgstr "値 &lt 境界値                     (小さい)"
 
 #: src/dialogs/cell-format.glade.h:136
-msgid "val == bound                 (equal to)"
-msgstr "値 == 境界値                  (等しい)"
+msgid "val &lt;= min || max &lt;= val (not between)"
+msgstr "値 &lt;= 最小値 || 最大値 &lt;= 値  (範囲外)"
 
 #: src/dialogs/cell-format.glade.h:137
-msgid "val >  bound                  (greater than)"
-msgstr "値 > 境界値                        (大きい)"
+msgid "val &lt;=bound                  (less than or equal to)"
+msgstr "値 &lt;= 境界値                    (小さいまたは等しい)"
 
 #: src/dialogs/cell-format.glade.h:138
-msgid "val >=bound                  (greater than or equal to)"
-msgstr "値 >= 境界値                      (大きいまたは等しい)"
+msgid "val == bound                 (equal to)"
+msgstr "値 == 境界値                  (等しい)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A _header"
@@ -5531,15 +5677,15 @@ msgstr "注釈"
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "シート `%s' を削除しても宜しいですか？"
 
-#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:1
+#: src/dialogs/dialog-solver.c:65
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:66
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
 msgid "="
 msgstr "="
 
@@ -5585,25 +5731,25 @@ msgstr "本当にキャンセルしますか?"
 msgid "\""
 msgstr "\""
 
-#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
+#: src/dialogs/dialog-stf-export.glade.h:2
+msgid "&lt;- Remove"
+msgstr "&lt;- 削除"
+
+#: src/dialogs/dialog-stf-export.glade.h:3
+msgid "&lt;- Remove all"
+msgstr "&lt;- 全て削除"
+
+#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
 msgstr "'"
 
-#: src/dialogs/dialog-stf-export.glade.h:3
-msgid "<- Remove"
-msgstr "<- 削除"
-
-#: src/dialogs/dialog-stf-export.glade.h:4
-msgid "<- Remove all"
-msgstr "<- 全て削除"
-
 #: src/dialogs/dialog-stf-export.glade.h:5
-msgid "Add ->"
-msgstr "追加 ->"
+msgid "Add -&gt;"
+msgstr "追加 -&gt;"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
-msgid "Add all ->"
-msgstr "全て追加 ->"
+msgid "Add all -&gt;"
+msgstr "全て追加 -&gt;"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
 msgid "Always"
@@ -7090,6 +7236,14 @@ msgstr "新しいシート名を入力(_S):"
 #: src/dialogs/sheet-rename.glade.h:2
 msgid "Rename sheet"
 msgstr "シートの名前を変更"
+
+#: src/dialogs/solver.glade.h:1
+msgid "&gt;="
+msgstr "&gt;="
+
+#: src/dialogs/solver.glade.h:2
+msgid "&lt;="
+msgstr "&lt;="
 
 #: src/dialogs/solver.glade.h:4
 msgid "Assume _Linear Model"
@@ -14738,7 +14892,6 @@ msgstr ""
 "@SEEALSO=RANDBETWEEN"
 
 #: src/functions/fn-math.c:1235
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDEXP\n"
 "@SYNTAX=RANDEXP(b)\n"
@@ -14748,16 +14901,15 @@ msgid ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
-"@FUNCTION=RandExp\n"
-"@SYNTAX=RandExp(b)\n"
-"@DESCRIPTION=RandExp 関数は指数分布を用いて乱数を発生させます。\n"
+"@FUNCTION=RANDEXP\n"
+"@SYNTAX=RANDEXP(b)\n"
+"@DESCRIPTION=RANDEXP 関数は指数分布を用いて乱数を発生させます。\n"
 "@EXAMPLES=\n"
-"RandExp(0.5)\n"
+"RANDEXP(0.5)\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
 #: src/functions/fn-math.c:1258
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDPOISSON\n"
 "@SYNTAX=RANDPOISSON(lambda)\n"
@@ -14767,16 +14919,15 @@ msgid ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
-"@FUNCTION=RandPoisson\n"
-"@SYNTAX=RandPoisson(lambda)\n"
-"@DESCRIPTION=RandPoisson 関数はポアソン分布を用いて、乱数を発生させます。\n"
+"@FUNCTION=RANDPOISSON\n"
+"@SYNTAX=RANDPOISSON(lambda)\n"
+"@DESCRIPTION=RANDPOISSON 関数はポアソン分布を用いて、乱数を発生させます。\n"
 "@EXAMPLES=\n"
-"RandPoisson(3)\n"
+"RANDPOISSON(3)\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
 #: src/functions/fn-math.c:1284
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDBINOM\n"
 "@SYNTAX=RANDBINOM(p,trials)\n"
@@ -14789,16 +14940,16 @@ msgid ""
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
 "@FUNCTION=RANDNEGBINOM\n"
-"@SYNTAX=RANDNEGBINOM(p,failures)\n"
+"@SYNTAX=RANDNEGBINOM(p,trials)\n"
 "@DESCRIPTION=RANDNEGBINOM 関数は負の二項分布を用いて乱数を発生させます。\n"
-"@p < 0 または @p > 1 の場合、#NUM! エラーが返されます。\n"
+"@p < 0 または @p > 1 の場合、または @trials < 0 の場合、RANDBINOM 関数は "
+"#NUM! エラーを返します。\n"
 "@EXAMPLES=\n"
 "RANDNEGBINOM(0.5,2)\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
 #: src/functions/fn-math.c:1314
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,failures)\n"
@@ -14814,14 +14965,14 @@ msgstr ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,failures)\n"
 "@DESCRIPTION=RANDNEGBINOM 関数は負の二項分布を用いて乱数を発生させます。\n"
-"@p < 0 または @p > 1 の場合、#NUM! エラーが返されます。\n"
+"@p < 0 または @p > 1 の場合、または @failures < 0 の場合、RANDNEGBINOM 関数"
+"は #NUM! エラーを返します。\n"
 "@EXAMPLES=\n"
 "RANDNEGBINOM(0.5,2)\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
 #: src/functions/fn-math.c:1345
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDBERNOULLI\n"
 "@SYNTAX=RANDBERNOULLI(p)\n"
@@ -14832,10 +14983,10 @@ msgid ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
-"@FUNCTION=RandBernoulli\n"
-"@SYNTAX=RandBernoulli(p)\n"
-"@DESCRIPTION=RandBernoulli 関数はベルヌーイ分布を用いて乱数を発生させます。\n"
-"@p < 0 または @p > 1 #NUM! エラーが返されます。\n"
+"@FUNCTION=RANDBERNOULLI\n"
+"@SYNTAX=RANDBERNOULLI(p)\n"
+"@DESCRIPTION=RANDBERNOULLI 関数はベルヌーイ分布を用いて乱数を発生させます。\n"
+"@p < 0 または @p > 1 の場合、RANDBERNOULLI 関数は #NUM! エラーを返します。\n"
 "@EXAMPLES=\n"
 "RandBernoulli(0.5)\n"
 "\n"
@@ -19844,19 +19995,16 @@ msgid "Error while trying to write csv file"
 msgstr "csv ファイルの書き出しに失敗しました"
 
 #: src/stf.c:439
-#, fuzzy
 msgid "Text import (defaults to csv)"
-msgstr "テキストファイルのインポート (デフォルト csv)"
+msgstr "テキストのインポート (デフォルト csv)"
 
 #: src/stf.c:443
-#, fuzzy
 msgid "Text import (configurable)"
-msgstr "テキストファイルのインポート (カスタマイズ可能)"
+msgstr "テキストのインポート (カスタマイズ可能)"
 
 #: src/stf.c:447
-#, fuzzy
 msgid "Text export (configurable)"
-msgstr "テキストファイルのインポート (カスタマイズ可能)"
+msgstr "テキストのエキスポート (カスタマイズ可能)"
 
 #: src/style.c:265 src/style.c:267
 msgid "<Has not been set>"
@@ -19923,19 +20071,19 @@ msgid "Cell %s is not permitted to be blank"
 msgstr "セル %s を空白にすることはできません"
 
 #: src/validation.c:155
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' is an error"
-msgstr "'%s' は数値ではありません"
+msgstr "'%s' はエラーです"
 
 #: src/validation.c:165
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' is not a valid date"
-msgstr "%s は正しい対象先の場所ではありません"
+msgstr "'%s' は正しい日付ではありません"
 
 #: src/validation.c:167
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' is not a valid time"
-msgstr "'%s' は数値ではありません"
+msgstr "'%s' は正しい時刻ではありません"
 
 #: src/validation.c:169
 #, c-format
@@ -19943,14 +20091,14 @@ msgid "'%s' is not a number"
 msgstr "'%s' は数値ではありません"
 
 #: src/validation.c:182
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' is not an integer"
-msgstr "'%f' は整数ではありません"
+msgstr "'%s' は整数ではありません"
 
 #: src/validation.c:275
 #, c-format
 msgid "%s is not true."
-msgstr "%s は TRUE ではありません"
+msgstr "%s は TRUE(真) ではありません"
 
 #: src/validation.c:288
 msgid ""
