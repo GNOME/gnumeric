@@ -22,9 +22,9 @@ int ftest_tool            (WorkbookControl *context, Sheet *sheet,
 			   gnum_float alpha,
 			   data_analysis_output_t *dao);
 int regression_tool       (WorkbookControl *context, Sheet *sheet,
-			   Range *input_rangeys, Range *input_rangexs,
+			   GSList *x_input, Value *y_input, group_by_t group_by, 
 			   gnum_float alpha, data_analysis_output_t *dao,
-			   int intercept, int xdim);
+			   int intercept);
 int ttest_paired_tool     (WorkbookControl *context, Sheet *sheet,
 			   Value *input_range1, Value *input_range2,
 			   gnum_float mean_diff, gnum_float alpha,

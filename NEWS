@@ -2,13 +2,15 @@ Gnumeric 0.76
 
 Andreas:
 	* Fix handling of missing observations in F-test, z-test,
-	  one-factor ANOVA, histogram, and t-tests analysis tools.
+	  one-factor ANOVA, histogram, regression, and t-tests analysis 
+          tools.
 	* Permit input from other sheets in F-test, z-test, one-factor 
-	  ANOVA, histogram and t-tests analysis tools.
+	  ANOVA, histogram, regression, and t-tests analysis tools.
 	* Fix small errors in F-test, z-test, one-factor 
 	  ANOVA, and t-tests analysis tools.
 	* Improve Exponential Smoothing and Moving Averages tools.
-	* Implement pareto and labels in histogram tool
+	* Implement pareto and labels in histogram tool.
+        * Use confidence level in regression tool.
 
 Jody:
 	* More work on the expr entry.

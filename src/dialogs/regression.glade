@@ -98,7 +98,7 @@
 	<class>GtkTable</class>
 	<name>input-table</name>
 	<border_width>5</border_width>
-	<rows>3</rows>
+	<rows>4</rows>
 	<columns>2</columns>
 	<homogeneous>False</homogeneous>
 	<row_spacing>0</row_spacing>
@@ -143,8 +143,8 @@
 	  <child>
 	    <left_attach>0</left_attach>
 	    <right_attach>1</right_attach>
-	    <top_attach>1</top_attach>
-	    <bottom_attach>2</bottom_attach>
+	    <top_attach>2</top_attach>
+	    <bottom_attach>3</bottom_attach>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
 	    <xexpand>False</xexpand>
@@ -159,7 +159,6 @@
 	<widget>
 	  <class>GtkCheckButton</class>
 	  <name>labels_button</name>
-	  <sensitive>False</sensitive>
 	  <can_focus>True</can_focus>
 	  <label>_Labels</label>
 	  <active>False</active>
@@ -167,8 +166,8 @@
 	  <child>
 	    <left_attach>0</left_attach>
 	    <right_attach>1</right_attach>
-	    <top_attach>2</top_attach>
-	    <bottom_attach>3</bottom_attach>
+	    <top_attach>3</top_attach>
+	    <bottom_attach>4</bottom_attach>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
 	    <xexpand>False</xexpand>
@@ -178,6 +177,98 @@
 	    <xfill>True</xfill>
 	    <yfill>False</yfill>
 	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkLabel</class>
+	  <name>label8</name>
+	  <label>Grouped By:</label>
+	  <justify>GTK_JUSTIFY_CENTER</justify>
+	  <wrap>False</wrap>
+	  <xalign>0</xalign>
+	  <yalign>0.5</yalign>
+	  <xpad>5</xpad>
+	  <ypad>0</ypad>
+	  <child>
+	    <left_attach>0</left_attach>
+	    <right_attach>1</right_attach>
+	    <top_attach>1</top_attach>
+	    <bottom_attach>2</bottom_attach>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <xexpand>False</xexpand>
+	    <yexpand>False</yexpand>
+	    <xshrink>False</xshrink>
+	    <yshrink>False</yshrink>
+	    <xfill>True</xfill>
+	    <yfill>False</yfill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkHBox</class>
+	  <name>hbox2</name>
+	  <homogeneous>False</homogeneous>
+	  <spacing>0</spacing>
+	  <child>
+	    <left_attach>1</left_attach>
+	    <right_attach>2</right_attach>
+	    <top_attach>1</top_attach>
+	    <bottom_attach>2</bottom_attach>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <xexpand>True</xexpand>
+	    <yexpand>False</yexpand>
+	    <xshrink>False</xshrink>
+	    <yshrink>False</yshrink>
+	    <xfill>True</xfill>
+	    <yfill>True</yfill>
+	  </child>
+
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>grouped_by_col</name>
+	    <can_focus>True</can_focus>
+	    <label>_Columns</label>
+	    <active>True</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>GroupedBy</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>grouped_by_row</name>
+	    <can_focus>True</can_focus>
+	    <label>_Rows</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>GroupedBy</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>grouped_by_area</name>
+	    <can_focus>True</can_focus>
+	    <label>_Areas</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>GroupedBy</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
 	</widget>
       </widget>
     </widget>

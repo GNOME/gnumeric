@@ -428,71 +428,6 @@ typedef union {
 /*  by virtually all tools.                   */
 /**********************************************/
 
-/* Parses text specifying ranges into columns, sorting from left to right.
-For example, the text "A5:B30,J10:J15,C1:C5" would be returned in **ranges
-as the equivalent of running parse_ranges on "A5:A30" "B5:B30" "J10:J15" and
-"C1:C5" in that order. */
-
-/* FIXME: A clear candidate for a rewrite using range_list_parse.  */
-
-static int
-parse_multiple_ranges (const char *text, Range **ranges, int *dim)
-{
-        char *buf, *buf0;
-        char *p;
-	int i, last, curdim;
-
-	i = strlen (text);
-	buf = buf0 = g_new (char, i + 2);
-	strcpy (buf, text);
-	buf[i + 1] = 0;  /* Double terminator.  */
-
-	curdim = 0;
-	last = 0;
-	*ranges = NULL;
-
-	for (i = last; buf[i] != ',' && buf[i] != '\0'; i++)
-		/* Nothing */;
-	while (buf[last] != '\0') {
-		Range *newranges;
-		int j;
-		int start_col, start_row, end_col, end_row;
-
-		buf[i] = '\0';
-		p = strchr (buf + last, ':');
-		if (p == NULL)
-	        	goto failure;
-		*p = '\0';
-		if (!parse_cell_name (buf + last, &start_col, &start_row, TRUE, NULL))
-	        	goto failure;
-		if (!parse_cell_name (p + 1, &end_col, &end_row, TRUE, NULL))
-	        	goto failure;
-		newranges = g_new (Range, curdim + end_col - start_col + 1);
-		for (j = 0; j < curdim; j++)
-			newranges[j] = (*ranges)[j];
-		for (j = 0; j < (end_col - start_col + 1); j++) {
-			/* Just want single columns */
-			newranges[curdim + j].start.col = start_col + j;
-			newranges[curdim + j].end.col = start_col + j;
-			newranges[curdim + j].start.row = start_row;
-			newranges[curdim + j].end.row = end_row;
-		}
-		curdim += (end_col - start_col + 1);
-		if (*ranges) g_free (*ranges);
-		*ranges = newranges;
-		last = i + 1;
-		for (i = last; buf[i] != ',' && buf[i] != '\0'; i++)
-			/* Nothing */;
-	}
-	*dim = curdim;
-	g_free (buf0);
-	return 1;
-failure:
-	g_free (*ranges);
-	g_free (buf0);
-	return 0;
-}
-
 static void
 error_in_entry (WorkbookControlGUI *wbcg, GtkWidget *entry, const char *err_str)
 {
@@ -1048,7 +983,7 @@ corr_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
         dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	err = correlation_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, input,
-				  gnumeric_glade_group_value (state->gui, grouped_by_group),
+				gnumeric_glade_group_value (state->gui, grouped_by_group),
 				&dao);
 	switch (err) {
 	case 0: gtk_widget_destroy (state->dialog);
@@ -2845,27 +2780,19 @@ static void
 regression_tool_ok_clicked_cb (GtkWidget *button, RegressionToolState *state)
 {
 	data_analysis_output_t  dao;
-	Range *range_1;
-	int xdim;
-	Range range_2;
+	GSList *x_input;
+	Value  *y_input;
+
         char   *text;
 	GtkWidget *w;
-	int intercept_flag;
+	int intercept_flag, err;
 	gnum_float confidence;
 
 	text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
-	if (!parse_multiple_ranges (text, &range_1, &xdim)) {
-	        error_in_entry (state->wbcg, GTK_WIDGET (state->input_entry_2),
-				_("You should introduce a valid cell range "
-				  "in 'X Variables:'"));
-		return;
-	}
+	x_input = global_range_list_parse (state->sheet, text);
 
 	text = gtk_entry_get_text (GTK_ENTRY (state->input_entry_2));
-	parse_range (text, &range_2.start.col,
-		     &range_2.start.row,
-		     &range_2.end.col,
-		     &range_2.end.row);
+	y_input = global_range_parse (state->sheet, text);
 
         parse_output ((GenericToolState *)state, &dao);
 
@@ -2874,12 +2801,16 @@ regression_tool_ok_clicked_cb (GtkWidget *button, RegressionToolState *state)
 
 	text = gtk_entry_get_text (GTK_ENTRY (state->confidence_entry));
 	confidence = atof (text);
+
 	w = glade_xml_get_widget (state->gui, "intercept-button");
 	intercept_flag = 1 - gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	switch (regression_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
-			       &range_2, range_1, confidence, &dao,
-				 intercept_flag, xdim)) {
+	err = regression_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
+			       x_input, y_input, 
+			       gnumeric_glade_group_value (state->gui, grouped_by_group),
+			       1 - confidence, &dao, intercept_flag);
+
+	switch (err) {
 	case 0:
 		gtk_widget_destroy (state->dialog);
 		break;
@@ -2920,28 +2851,42 @@ static void
 regression_tool_update_sensitivity_cb (GtkWidget *dummy, RegressionToolState *state)
 {
 	gboolean ready  = FALSE;
+	gboolean input_1_ready  = FALSE;
+	gboolean input_2_ready  = FALSE;
+	gboolean output_ready  = FALSE;
+
 	char const *output_text;
 	char const *input_text;
+	char const *input_text_2;
 	char const *text;
 	int i;
 	gnum_float confidence;
         Value *output_range;
-        Value *input_range;
+        GSList *input_range;
+        Value *input_range_2;
 
 	output_text = gtk_entry_get_text (GTK_ENTRY (state->output_entry));
-	input_text = gtk_entry_get_text (GTK_ENTRY (state->input_entry_2));
+	input_text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
+	input_text_2 = gtk_entry_get_text (GTK_ENTRY (state->input_entry_2));
         output_range = global_range_parse (state->sheet,output_text);
-        input_range = range_parse (state->sheet,input_text,TRUE);
+        input_range = global_range_list_parse (state->sheet,input_text);
+	input_range_2 = global_range_parse(state->sheet,input_text_2);
 
 	i = gnumeric_glade_group_value (state->gui, output_group);
 	text = gtk_entry_get_text (GTK_ENTRY (state->confidence_entry));
 	confidence = atof (text);
 
-	ready = ((input_range != NULL) &&
-                 (1 > confidence ) && (confidence > 0) &&
-                 ((i != 2) || (output_range != NULL)));
+	input_1_ready = (input_range != NULL);
+	input_2_ready = (input_range_2 != NULL);
+	output_ready =  ((i != 2) || (output_range != NULL));
 
-        if (input_range != NULL) value_release (input_range);
+	ready = input_1_ready &&
+		input_2_ready &&
+		(1 > confidence ) && (confidence > 0) &&
+		output_ready;
+
+        if (input_range != NULL) range_list_destroy (input_range);
+        if (input_range_2 != NULL) value_release (input_range_2);
         if (output_range != NULL) value_release (output_range);
 
 	gtk_widget_set_sensitive (state->ok_button, ready);
@@ -2958,21 +2903,91 @@ regression_tool_update_sensitivity_cb (GtkWidget *dummy, RegressionToolState *st
 static gboolean
 dialog_regression_tool_init (RegressionToolState *state)
 {
-	if (dialog_tool_init ((GenericToolState *)state, "regression.glade", "Regression",
-			      GTK_SIGNAL_FUNC (regression_tool_ok_clicked_cb),
-			      GTK_SIGNAL_FUNC (regression_tool_update_sensitivity_cb),
-			      GNUM_EE_SINGLE_RANGE | GNUM_EE_SHEET_OPTIONAL)) {
-		return TRUE;
-	}
+	GtkTable *table;
+	GtkWidget *widget;
+	gint key;
+
+	state->gui = gnumeric_glade_xml_new (state->wbcg, "regression.glade");
+        if (state->gui == NULL)
+                return TRUE;
+
+	state->dialog = glade_xml_get_widget (state->gui, "Regression");
+        if (state->dialog == NULL)
+                return TRUE;
+
+	state->accel = gtk_accel_group_new ();
+
+	dialog_tool_init_buttons ((GenericToolState *)state, 
+				  GTK_SIGNAL_FUNC (regression_tool_ok_clicked_cb));
+
+	table = GTK_TABLE (glade_xml_get_widget (state->gui, "input-table"));
+	state->input_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
+	gnumeric_expr_entry_set_flags (state->input_entry, 
+				       GNUM_EE_ABS_COL | GNUM_EE_ABS_ROW, 
+				       GNUM_EE_MASK);
+        gnumeric_expr_entry_set_scg (state->input_entry, wb_control_gui_cur_sheet (state->wbcg));
+	gtk_table_attach (table, GTK_WIDGET (state->input_entry),
+			  1, 2, 0, 1,
+			  GTK_EXPAND | GTK_FILL, 0,
+			  0, 0);
+	gtk_signal_connect_after (GTK_OBJECT (state->input_entry), "changed",
+				  GTK_SIGNAL_FUNC (regression_tool_update_sensitivity_cb), 
+				  state);
+ 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_EDITABLE (state->input_entry));
+
+	widget = glade_xml_get_widget (state->gui, "var1-label");
+	state->input_var1_str = _("_X Variables:");
+	key = gtk_label_parse_uline (GTK_LABEL(widget), state->input_var1_str);
+	if (key != GDK_VoidSymbol)
+		gtk_widget_add_accelerator (GTK_WIDGET (state->input_entry),
+					    "grab_focus",
+					    state->accel, key,
+					    GDK_MOD1_MASK, 0);
+	gtk_widget_show (GTK_WIDGET (state->input_entry));
+
+	state->input_entry_2 = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
+	gnumeric_expr_entry_set_flags (state->input_entry_2, 
+				       GNUM_EE_SINGLE_RANGE | GNUM_EE_ABS_COL | GNUM_EE_ABS_ROW, 
+				       GNUM_EE_MASK);
+	gnumeric_expr_entry_set_scg (state->input_entry_2,
+				     wb_control_gui_cur_sheet (state->wbcg));
+	gtk_table_attach (table, GTK_WIDGET (state->input_entry_2),
+			  1, 2, 2, 3,
+			  GTK_EXPAND | GTK_FILL, 0,
+			  0, 0);
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_EDITABLE (state->input_entry_2));
+	gtk_signal_connect_after (GTK_OBJECT (state->input_entry_2), "changed",
+				  GTK_SIGNAL_FUNC (regression_tool_update_sensitivity_cb), 
+				  state);
+	widget = glade_xml_get_widget (state->gui, "var2-label");
+	state->input_var2_str = _("_Y Variable:");
+	key = gtk_label_parse_uline (GTK_LABEL(widget), state->input_var2_str);
+	if (key != GDK_VoidSymbol)
+		gtk_widget_add_accelerator (GTK_WIDGET (state->input_entry_2),
+					    "grab_focus",
+					    state->accel, key,
+					    GDK_MOD1_MASK, 0);
+	gtk_widget_show (GTK_WIDGET (state->input_entry_2));
+
+	wbcg_edit_attach_guru (state->wbcg, state->dialog);
+	gtk_signal_connect (GTK_OBJECT (state->dialog), "set-focus",
+			    GTK_SIGNAL_FUNC (tool_set_focus), state);
+	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
+			    GTK_SIGNAL_FUNC (tool_destroy), state);
+
+	dialog_tool_init_outputs ((GenericToolState *)state, 
+				  GTK_SIGNAL_FUNC (regression_tool_update_sensitivity_cb));
+
+	gtk_window_add_accel_group (GTK_WINDOW (state->dialog),
+				    state->accel);
 
 	state->confidence_entry = glade_xml_get_widget (state->gui, "confidence-entry");
-
 	gtk_signal_connect_after (GTK_OBJECT (state->confidence_entry), "changed",
 				  GTK_SIGNAL_FUNC (regression_tool_update_sensitivity_cb), state);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_EDITABLE (state->confidence_entry));
-
-	gnumeric_expr_entry_set_flags (state->input_entry, 0, GNUM_EE_SINGLE_RANGE);
 
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       REGRESSION_KEY);
@@ -3010,8 +3025,6 @@ dialog_regression_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
 	state->helpfile = "regression-tool.html";
-	state->input_var1_str = _("_X Variables:");
-	state->input_var2_str = _("_Y Variables:");
 
 	if (dialog_regression_tool_init (state)) {
 		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,

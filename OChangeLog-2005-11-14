@@ -1,3 +1,8 @@
+2001-11-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/analysis-tools.c (get_data) : deleted
+	(regression_tool) : handle missing observations and use confidence level
+
 2001-11-15  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-control-gui.c (wbcg_rangesel_possible) : Doh!

@@ -1,3 +1,13 @@
+2001-11-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-analysis-tools.c (parse_multiple_ranges) : deleted
+        (regression_tool_ok_clicked_cb) : use global_range_list_parse
+        (regression_tool_update_sensitivity_cb) : ditto
+        (dialog_regression_tool_init) : allow disconnected selections
+          and selections from other sheets
+        * regression.glade : include group-by buttons
+        * tools.h : change arguments of regression_tool
+
 2001-11-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-analysis-tools.c (tool_update_sensitivity_multiple_areas_cb)

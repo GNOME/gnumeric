@@ -657,61 +657,6 @@ set_cell_text_row (data_analysis_output_t *dao, int col, int row, const char *te
 	g_free (orig_copy);
 }
 
-
-/* Returns 1 if non-numeric data was found, 0 otherwise.
- */
-static int
-get_data (Sheet *sheet, Range *range, old_data_set_t *data, gboolean ignore_blanks)
-{
-        gpointer p;
-	Value const   *v;
-	gnum_float  x;
-	int      row, col, status = 0;
-
-	data->min = 0.;
-	data->max = 0.;
-	data->sum = 0.;
-	data->sum2 = 0.;
-	data->sqrsum = 0.;
-	data->n = 0;
-	data->array = NULL;
-
-	for (col = range->start.col; col <= range->end.col; col++)
-	        for (row = range->start.row; row <= range->end.row; row++) {
-		        v = sheet_cell_get_value (sheet, col, row);
-			if (v != NULL && v->type != VALUE_EMPTY) {
-				if (VALUE_IS_NUMBER (v))
-				        x = value_get_as_float (v);
-				else {
-				        x = 0;
-					status = 1;
-				}
-
-				p = g_new (gnum_float, 1);
-				* ((gnum_float *) p) = x;
-				data->array = g_slist_prepend (data->array, p);
-				data->sum += x;
-				data->sqrsum += x * x;
-				if (data->n == 0) {
-				        data->min = x;
-					data->max = x;
-				} else {
-				        if (data->min > x)
-					        data->min = x;
-					if (data->max < x)
-					        data->max = x;
-				}
-				data->n++;
-			} else if (!ignore_blanks)
-			        status = 1;
-		}
-
-	data->sum2 = data->sum * data->sum;
-	data->array = g_slist_reverse (data->array);
-
-	return status;
-}
-
 static void
 get_data_groupped_by_columns (Sheet *sheet, const Range *range, int col,
 			      old_data_set_t *data)
@@ -2123,7 +2068,9 @@ ftest_tool (WorkbookControl *wbc, Sheet *sheet,
 		sheet_set_dirty (dao->sheet, TRUE);
 		sheet_update (sheet);
 	}
-
+	
+	value_release(input_range_1);
+	value_release(input_range_2);
 	destroy_data_set(variable_1);
 	destroy_data_set(variable_2);
 	
@@ -2352,61 +2299,98 @@ random_tool (WorkbookControl *wbc, Sheet *sheet, int vars, int count,
  **/
 
 int
-regression_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range_y,
-		 Range *input_range_xs, gnum_float alpha,
-		 data_analysis_output_t *dao, int intercept, int xdim)
+regression_tool (WorkbookControl *wbc, Sheet *sheet,
+		 GSList *x_input, Value *y_input,
+		 group_by_t group_by, gnum_float alpha,
+		 data_analysis_output_t *dao, int intercept)
 {
-        old_data_set_t          set_y, *setxs;
-	gnum_float             mean_y, *mean_xs;
-	gnum_float             r, ss_xy, *ss_xx, ss_yy, ss_xx_total;
-	gnum_float             *res, *ys, **xss;
-	int                 i, j, err;
-	GSList              *current_x, *current_y;
+	GSList       *x_input_range = NULL;
+	GSList       *missing       = NULL;
+	GPtrArray    *x_data        = NULL;
+	data_set_t   *y_data        = NULL;
+	GArray       *cleaned       = NULL;
+	char         *text          = NULL;
 	regression_stat_t   extra_stat;
+	gnum_float   mean_y;
+	gnum_float   ss_yy;
+	gnum_float   r;
+	gnum_float   *res,  **xss;
+	guint        i;
+	guint        xdim           = 0;
+	int          err            = 0; 
+	int          cor_err        = 0;
+	int          av_err         = 0;
+	int          sumsq_err      = 0;
 
-	setxs = g_new (old_data_set_t, xdim);
-	get_data (sheet, input_range_y, &set_y, FALSE);
-	for (i = 0; i < xdim; i++)
-		get_data (sheet, &input_range_xs[i], &setxs[i], FALSE);
+/* read the data and check for consistency */
+	x_input_range = x_input;
+	prepare_input_range (&x_input_range, group_by);
+	if (!check_input_range_list_homogeneity (x_input_range)) {
+		range_list_destroy (x_input_range);
+		value_release (y_input);
+		return 3;
+	}
+	x_data = new_data_set_list (x_input_range, group_by,
+				  FALSE, dao->labels_flag, sheet);
+	xdim = x_data->len;
+	y_data = new_data_set (y_input, FALSE, dao->labels_flag,
+			       _("Y Variable"), 0, sheet);
 
+	if (y_data->data->len != ((data_set_t *)g_ptr_array_index(x_data,0))->data->len) {
+		destroy_data_set(y_data);
+		destroy_data_set_list (x_data);
+		range_list_destroy (x_input_range);
+		value_release (y_input);
+		return 3;		
+	}
+
+/* create a list of all missing or incomplete observations */
+	missing = y_data->missing;
 	for (i = 0; i < xdim; i++) {
-		if (setxs[i].n != set_y.n) {
-			free_data_set (&set_y);
-			for (i = 0; i < xdim; i++)
-				free_data_set (&setxs[i]);
-			g_free (setxs);
-			return 3; /* Different number of data points */
+		GSList *this_missing;
+		GSList *the_union;
+		
+		this_missing = ((data_set_t *)g_ptr_array_index(x_data,i))->missing;
+		the_union = union_of_int_sets (missing, this_missing);
+		g_slist_free (missing);
+		missing = the_union;
+	}
+
+	if (missing != NULL) {
+		cleaned = strip_missing (y_data->data, missing);
+		g_array_free (y_data->data, TRUE);
+		y_data->data = cleaned;
+		for (i = 0; i < xdim; i++) {
+			cleaned = strip_missing (((data_set_t *)
+						  g_ptr_array_index(x_data,i))->data, 
+						 missing);
+			g_array_free (((data_set_t *)
+				       g_ptr_array_index(x_data,i))->data, TRUE);
+			((data_set_t *) g_ptr_array_index(x_data,i))->data = cleaned;
 		}
 	}
+
+/* data is now clean and ready */
 
 	xss = g_new (gnum_float *, xdim);
 	res = g_new (gnum_float, xdim + 1);
-	mean_xs = g_new (gnum_float, xdim);
 
 	for (i = 0; i < xdim; i++) {
-		j = 0;
-		xss[i] = g_new (gnum_float, set_y.n);
-		current_x = setxs[i].array;
-		while (current_x != NULL) {
-			xss[i][j] = * ((gnum_float *) current_x->data);
-			current_x = current_x->next;
-			j++;
-		}
+		xss[i] = (gnum_float *)(((data_set_t *)g_ptr_array_index(x_data,i))->data->data);
 	}
 
-	ys = g_new (gnum_float, set_y.n);
-	current_y = set_y.array;
-	i = 0;
-	while (current_y != NULL) {
-		ys[i] = * ((gnum_float *) current_y->data);
-		current_y = current_y->next;
-		i++;
-	}
-
-	err = linear_regression (xss, xdim, ys, set_y.n,
+	err = linear_regression (xss, xdim, (gnum_float *)(y_data->data->data), y_data->data->len,
 				 intercept, res, &extra_stat);
 
-	if (err) return err;
+	if (err) {
+		destroy_data_set(y_data);
+		destroy_data_set_list (x_data);
+		range_list_destroy (x_input_range);
+		value_release (y_input);
+		g_free(xss);
+		g_free(res);
+		return err;
+	}
 
 	prepare_output (wbc, dao, _("Regression"));
 
@@ -2427,63 +2411,39 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range_y,
 					"/"
 					"/"
 					"/Intercept"));
-
-	for (i = 1; i <= xdim; i++)
-		set_cell_printf (dao, 0, 16 + i, _("X Variable %d"), i);
+	for (i = 0; i < xdim; i++)
+		set_cell (dao, 0, 17 + i, ((data_set_t *)g_ptr_array_index(x_data,i))->label);
+	set_italic (dao, 0, 0, 0, 16 + xdim);
 
         set_cell_text_row (dao, 1, 10, _("/df"
 					 "/SS"
 					 "/MS"
 					 "/F"
-					 "/Significance F"));
+					 "/Significance of F"));
+	set_italic (dao, 1, 10, 5, 10);
+	
+	text = g_strdup_printf (_("/Coefficients"
+				  "/Standard Error"
+				  "/t Stat"
+				  "/P-value"
+				  "/Lower %0.0f%%"
+				  "/Upper %0.0f%%"),
+				((1.0 - alpha) * 100),((1.0 - alpha) * 100));
+        set_cell_text_row (dao, 1, 15, text);
+	set_italic (dao, 1, 15, 6, 15);
+	g_free(text);
 
-        set_cell_text_row (dao, 1, 15, _("/Coefficients"
-					 "/Standard Error"
-					 "/t Stat"
-					 "/P-value"
-					 "/Lower 95%"
-					 "/Upper 95%"));
-
-	for (i = 0; i < xdim; i++)
-		mean_xs[i] = setxs[i].sum / setxs[i].n;
-	mean_y = set_y.sum / set_y.n;
-
-	ss_xx = g_new (gnum_float, xdim);
-	ss_xy = ss_yy = ss_xx_total = 0;
-	current_y = set_y.array;
-	while (current_y != NULL) {
-		gnum_float y = * ((gnum_float *) current_y->data);
-		ss_yy += (y - mean_y) * (y - mean_y);
-		current_y = current_y->next;
-	}
-
-	for (i = 0; i < xdim; i++) {
-		ss_xx[i] = 0;
-		current_x = setxs[i].array;
-		current_y = set_y.array;
-		while (current_x != NULL && current_y != NULL) {
-		        gnum_float x, y;
-
-			x = * ((gnum_float *) current_x->data);
-			y = * ((gnum_float *) current_y->data);
-		        ss_xy += (x - mean_xs[i]) * (y - mean_y);
-			ss_xx[i] += (x - mean_xs[i]) * (x - mean_xs[i]);
-		        current_y = current_y->next;
-		        current_x = current_x->next;
-		}
-		ss_xx_total += ss_xx[i];
-	}
+	av_err = range_average ((gnum_float *)(y_data->data->data), y_data->data->len, &mean_y);
+	sumsq_err = range_sumsq ((gnum_float *)(y_data->data->data), y_data->data->len, &ss_yy);
+	ss_yy -=  y_data->data->len * mean_y * mean_y;
 
 	if (xdim == 1)
-		r = ss_xy / sqrt (ss_xx[0] * ss_yy);
-	else r = sqrt (extra_stat.sqr_r); /* Can this be negative? */
-
-/* TODO User-defined confidence intervals (alpha). Also, figure out
-   how to write values to cells in scientific notation, since many of
-these values can be tiny.*/
+		cor_err =  range_correl_pop (xss[0], (gnum_float *)(y_data->data->data),
+					  y_data->data->len, &r);
+	else r = sqrt (extra_stat.sqr_r);
 
 	/* Multiple R */
-	set_cell_float (dao, 1, 3, r);
+	set_cell_float_na (dao, 1, 3, r, cor_err == 0);
 
 	/* R Square */
 	set_cell_float (dao, 1, 4, extra_stat.sqr_r);
@@ -2495,38 +2455,40 @@ these values can be tiny.*/
 	set_cell_float (dao, 1, 6, sqrt (extra_stat.var));
 
 	/* Observations */
-	set_cell_float (dao, 1, 7, set_y.n);
+	set_cell_float (dao, 1, 7, y_data->data->len);
 
 	/* Regression / df */
 	set_cell_float (dao, 1, 11, xdim);
 
 	/* Residual / df */
-	set_cell_float (dao, 1, 12, set_y.n - intercept - xdim);
+	set_cell_float (dao, 1, 12, y_data->data->len - intercept - xdim);
 
 	/* Total / df */
-	set_cell_float (dao, 1, 13, set_y.n - intercept);
+	set_cell_float (dao, 1, 13, y_data->data->len - intercept);
 
 	/* Residual / SS */
 	set_cell_float (dao, 2, 12, extra_stat.ss_resid);
 
 	/* Total / SS */
-	set_cell_float (dao, 2, 13, ss_yy);
+	set_cell_float_na (dao, 2, 13, ss_yy, (sumsq_err == 0) && (av_err == 0));
 
 	/* Regression / SS */
-	set_cell_float (dao, 2, 11, ss_yy - extra_stat.ss_resid);
+	set_cell_float_na (dao, 2, 11, ss_yy - extra_stat.ss_resid, 
+			   (sumsq_err == 0) && (av_err == 0));
 
 	/* Regression / MS */
-	set_cell_float (dao, 3, 11, (ss_yy - extra_stat.ss_resid) / xdim);
+	set_cell_float_na (dao, 3, 11, (ss_yy - extra_stat.ss_resid) / xdim,
+			   (sumsq_err == 0) && (av_err == 0));
 
 	/* Residual / MS */
-	set_cell_float (dao, 3, 12, extra_stat.ss_resid / (set_y.n - 1 - xdim));
+	set_cell_float (dao, 3, 12, extra_stat.ss_resid / (y_data->data->len - 1 - xdim));
 
 	/* F */
 	set_cell_float (dao, 4, 11, extra_stat.F);
 
 	/* Significance of F */
 	set_cell_float (dao, 5, 11, 1 - pf (extra_stat.F, xdim - intercept,
-					    set_y.n - xdim));
+					    y_data->data->len - xdim));
 
 	/* Intercept / Coefficient */
 	set_cell_float (dao, 1, 16, res[0]);
@@ -2537,7 +2499,7 @@ these values can be tiny.*/
 	else {
 		gnum_float t;
 
-		t = qt (1 - 0.025, set_y.n - xdim - 1);
+		t = qt (1 - alpha/2, y_data->data->len - xdim - 1);
 
 		/* Intercept / Standard Error */
 		set_cell_float (dao, 2, 16, extra_stat.se[0]);
@@ -2547,7 +2509,7 @@ these values can be tiny.*/
 
 		/* Intercept / p values */
 		set_cell_float (dao, 4, 16, 2.0 * (1.0 - pt (extra_stat.t[0],
-							     set_y.n - xdim - 1)));
+							     y_data->data->len - xdim - 1)));
 
 		/* Intercept / Lower 95% */
 		set_cell_float (dao, 5, 16, res[0] - t * extra_stat.se[0]);
@@ -2574,9 +2536,9 @@ these values can be tiny.*/
 		/* Slopes / p values */
 		set_cell_float (dao, 4, 17 + i,
 				2.0 * (1.0 - pt (extra_stat.t[intercept + i],
-						 set_y.n - xdim - intercept)));
+						 y_data->data->len - xdim - intercept)));
 
-		t = qt (1 - 0.025, set_y.n - xdim - intercept);
+		t = qt (1 - alpha/2, y_data->data->len - xdim - intercept);
 
 		/* Slope / Lower 95% */
 		set_cell_float (dao, 5, 17 + i,
@@ -2587,24 +2549,15 @@ these values can be tiny.*/
 				res[i + 1] + t * extra_stat.se[intercept + i]);
 	}
 
-	for (i = 0; i < xdim; i++) {
-		free_data_set (&setxs[i]);
-	}
-	g_free (setxs);
-	g_free (extra_stat.se);
-	g_free (extra_stat.xbar);
-	g_free (extra_stat.t);
-	g_free (mean_xs);
-	g_free (ss_xx);
-	g_free (ys);
-	free_data_set (&set_y);
-	for (i = 0; i < xdim; i++)
-		g_free (xss[i]);
-	g_free (xss);
-	g_free (res);
+	destroy_data_set(y_data);
+	destroy_data_set_list (x_data);
+	range_list_destroy (x_input_range);
+	value_release (y_input);
+	g_free(xss);
+	g_free(res);
 
 	sheet_set_dirty (dao->sheet, TRUE);
-	sheet_update (sheet);
+	sheet_update (dao->sheet);
 
 	return 0;
 }
