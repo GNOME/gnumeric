@@ -1,3 +1,17 @@
+2001-08-26  Morten Welinder  <terra@diku.dk>
+
+	* mps.c (mps_add_column): Use g_strdup.
+	(mps_add_rhs): Ditto.
+	(mps_parse_columns): Use new function get_token.  Fix signedness
+ 	problem.
+	(mps_parse_rhs): Ditto.
+	(mps_add_row): Fix signedness problem.
+	(mps_parse_columns): Ditto.
+	(mps_parse_name): Ditto.
+	(mps_parse_columns, mps_parse_rhs): Allow much wider names and
+ 	numbers.
+	(mps_parse_rhs): Stop on non-indented line.
+
 2001-08-26  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* mps.c: Initial version.
