@@ -798,12 +798,10 @@ applix_read_view (ApplixReadState *state, char *name)
 				int row, height;
 				char *tmp;
 
-				tmp = ++ptr;
-				row = strtol (tmp, &ptr, 10) - 1;
+				row = strtol (tmp = ptr + 1, &ptr, 10) - 1;
 				if (tmp == ptr || row < 0 || *ptr != ':')
 					return applix_parse_error (state, "Invalid row size row number");
-				tmp = ++ptr;
-				height = strtol (tmp, &ptr, 10);
+				height = strtol (tmp = ptr + 1, &ptr, 10);
 				if (height >= 32768)
 					height -= 32768;
 
@@ -825,12 +823,10 @@ applix_read_view (ApplixReadState *state, char *name)
 				int col, width;
 				char *tmp;
 
-				tmp = ++ptr;
-				col = parse_col_name (tmp, (char const **)&ptr);
+				col = parse_col_name (tmp = ptr + 1, (char const **)&ptr);
 				if (tmp == ptr || col < 0 || *ptr != ':')
 					return applix_parse_error (state, "Invalid column");
-				tmp = ++ptr;
-				width = strtol (tmp, &ptr, 10);
+				width = strtol (tmp = ptr + 1, &ptr, 10);
 				if (tmp == ptr || width <= 0)
 					return applix_parse_error (state, "Invalid column size");
 
