@@ -1,3 +1,8 @@
+2003-07-28  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-fixed-page.c (cb_treeview_button_press): Make the
+	context menu work here too.
+
 2003-07-27  Jon K Hellan  <hellan@acm.org>
 
 	* autofilter-expression.glade: Set has_default for ok_button.

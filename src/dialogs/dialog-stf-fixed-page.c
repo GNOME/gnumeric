@@ -224,6 +224,53 @@ fixed_context_menu_handler (GnumericPopupMenuElement const *element,
 	return TRUE;
 }
 
+static void
+fixed_context_menu (StfDialogData *pagedata, GdkEventButton *event,
+		    int col, int dx)
+{
+	int sensitivity_filter = 0;
+
+	pagedata->fixed.context_col = col;
+	pagedata->fixed.context_dx = dx;
+
+	if (!delete_column (pagedata, col - 1, TRUE))
+		sensitivity_filter |= (1 << CONTEXT_STF_IMPORT_MERGE_LEFT);
+	if (!delete_column (pagedata, col, TRUE))
+		sensitivity_filter |= (1 << CONTEXT_STF_IMPORT_MERGE_RIGHT);
+	if (!make_new_column (pagedata, col, dx, TRUE))
+		sensitivity_filter |= (1 << CONTEXT_STF_IMPORT_SPLIT);
+	if (!widen_column (pagedata, col, TRUE))
+		sensitivity_filter |= (1 << CONTEXT_STF_IMPORT_WIDEN);
+	if (!narrow_column (pagedata, col, TRUE))
+		sensitivity_filter |= (1 << CONTEXT_STF_IMPORT_NARROW);
+
+	select_column (pagedata, col);
+	gnumeric_create_popup_menu (popup_elements, &fixed_context_menu_handler,
+				    pagedata, 0,
+				    sensitivity_filter, event);
+}
+
+static void
+find_column (StfDialogData *pagedata, int x, int *pcol, int *dx)
+{
+	int colcount = stf_parse_options_fixed_splitpositions_count (pagedata->parseoptions);
+	int col;
+
+	/* Figure out what column we pressed in.  */
+	for (col = 0; col < colcount; col++) {
+		GtkTreeViewColumn *column =
+			stf_preview_get_column (pagedata->fixed.renderdata, col);
+		GtkWidget *w = GTK_BIN (column->button)->child;
+		if (x < w->allocation.x + w->allocation.width) {
+			*dx = x - w->allocation.x;
+			break;
+		}
+	}
+
+	*pcol = col;
+}
+
+
 
 static gint
 cb_treeview_button_press (GtkWidget *treeview,
@@ -231,23 +278,16 @@ cb_treeview_button_press (GtkWidget *treeview,
 			  StfDialogData *pagedata)
 {
 	if (event->type == GDK_2BUTTON_PRESS && event->button == 1) {
-		/* Split column.  */
-		int colcount = stf_parse_options_fixed_splitpositions_count (pagedata->parseoptions);
-		int dx = (int)event->x;
-		int col;
-
-		/* Figure out what column we pressed in.  */
-		for (col = 0; col < colcount; col++) {
-			GtkTreeViewColumn *column =
-				stf_preview_get_column (pagedata->fixed.renderdata, col);
-			GtkWidget *w = GTK_BIN (column->button)->child;
-			if (dx < w->allocation.x + w->allocation.width) {
-				dx -= w->allocation.x;
-				break;
-			}
-		}
-
+		int dx, col;
+		find_column (pagedata, (int)event->x, &col, &dx);
 		make_new_column (pagedata, col, dx, FALSE);
+		return TRUE;
+	}
+
+	if (event->type == GDK_BUTTON_PRESS && event->button == 3) {
+		int dx, col;
+		find_column (pagedata, (int)event->x, &col, &dx);
+		fixed_context_menu (pagedata, event, col, dx);
 		return TRUE;
 	}
 
@@ -274,28 +314,10 @@ cb_col_button_press (GtkWidget *button,
 	}
 
 	if (event->type == GDK_BUTTON_PRESS && event->button == 3) {
-		int sensitivity_filter = 0;
 		/* Correct for indentation of button.  */
 		int offset = GTK_BIN (button)->child->allocation.x - button->allocation.x;
 
-		data->fixed.context_col = col;
-		data->fixed.context_dx = (int)event->x - offset;
-
-		if (!delete_column (data, col - 1, TRUE))
-			sensitivity_filter |= (1 << CONTEXT_STF_IMPORT_MERGE_LEFT);
-		if (!delete_column (data, col, TRUE))
-			sensitivity_filter |= (1 << CONTEXT_STF_IMPORT_MERGE_RIGHT);
-		if (!make_new_column (data, col, data->fixed.context_dx, TRUE))
-			sensitivity_filter |= (1 << CONTEXT_STF_IMPORT_SPLIT);
-		if (!widen_column (data, col, TRUE))
-			sensitivity_filter |= (1 << CONTEXT_STF_IMPORT_WIDEN);
-		if (!narrow_column (data, col, TRUE))
-			sensitivity_filter |= (1 << CONTEXT_STF_IMPORT_NARROW);
-
-		select_column (data, col);
-		gnumeric_create_popup_menu (popup_elements, &fixed_context_menu_handler,
-					    data, 0,
-					    sensitivity_filter, event);
+		fixed_context_menu (data, event, col, (int)event->x - offset);
 		return TRUE;
 	}
 
