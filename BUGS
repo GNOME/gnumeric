@@ -376,6 +376,11 @@ Pending Patches
     	  the use of gconf.
     29.5) update the preference structure on local changes	
 
+30) sheet-object-image
+    30.1) Don't make files for things we do not understand.
+    30.2) Make sure we can reexport things we do not 
+          understand
+
 1.2 Targets
 -----------
 - insert cut
