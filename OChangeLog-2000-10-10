@@ -1,3 +1,7 @@
+2000-09-28  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* configure.in,po/ca.po: Added Catalan language file
+
 2000-09-28  Jody Goldberg <jgoldberg@home.com>
 
 	* configure.in : Bump gnome-print req to 0.24
