@@ -1,3 +1,8 @@
+2000-06-20  Jody Goldberg <jgoldberg@home.com>
+
+	* src/number-match.c (format_match) : strings with only spaces are NOT
+	  numbers.
+
 2000-06-18  Jody Goldberg <jgoldberg@home.com>
 
         * Release 0.56

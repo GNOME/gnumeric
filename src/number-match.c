@@ -902,7 +902,7 @@ format_match (const char *text, StyleFormat **format)
 	{
 		char *end;
 		long l = strtol (text, &end, 10);
-		if (errno != ERANGE) {
+		if (text != end && errno != ERANGE) {
 			/* ignore spaces at the end . */
 			while (*end == ' ')
 				end++;
@@ -915,11 +915,13 @@ format_match (const char *text, StyleFormat **format)
 	{
 		char *end;
 		double d = strtod (text, &end);
-		/* Allow and ignore spaces at the end . */
-		while (*end == ' ')
-			end++;
-		if (text != end && *end == '\0' && d == (float_t)d)
-			return value_new_float ((float_t)d);
+		if (text != end && errno != ERANGE) {
+			/* Allow and ignore spaces at the end . */
+			while (*end == ' ')
+				end++;
+			if (text != end && *end == '\0' && d == (float_t)d)
+				return value_new_float ((float_t)d);
+		}
 	}
 
 	/* Fall back to checking the set of canned formats */
