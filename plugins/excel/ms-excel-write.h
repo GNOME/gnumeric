@@ -13,6 +13,7 @@
 #include "ms-biff.h"
 #include "ms-excel-biff.h"
 #include "ms-excel-util.h"
+#include "style.h"
 
 typedef struct _ExcelFont     ExcelFont;
 typedef struct _ExcelCell     ExcelCell;
@@ -28,6 +29,8 @@ typedef struct _Palette  Palette;
 struct _ExcelFont {
 	StyleFont  *style_font;
 	guint32    color;
+	StyleUnderlineType underline;
+	gboolean  strikethrough;
 };
 
 struct _Palette {
@@ -74,6 +77,7 @@ struct _ExcelSheet {
 	gpointer       cell_used_map;
 	ExcelCell    **cells;
 	double         base_char_width;
+	double         base_char_width_default;
 };
 
 struct _ExcelWorkbook {

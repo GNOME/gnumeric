@@ -1,3 +1,18 @@
+2000-03-05  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-write.c (lookup_base_char_width_for_write): Rename to
+	init_base_char_width_for_write. Init width and default width.
+	(get_base_char_width): Add is_default parameter.
+	(write_colinfo, write_default_col_width): Use it.
+
+	* ms-excel-write.h (struct _ExcelSheet): Add base_char_width_default.
+
+	* ms-excel-write.c (excel_font_to_string, excel_font_new,
+	excel_font_hash, excel_font_equal, write_font): Handle underline,
+	strikethrough.
+
+	* ms-excel-write.h (struct _ExcelFont): Ditto
+
 2000-03-05  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_get_style_from_xf) : enable strikethrough.

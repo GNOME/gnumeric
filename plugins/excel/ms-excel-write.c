@@ -754,17 +754,28 @@ static char *
 excel_font_to_string (const ExcelFont *f)
 {
 	const StyleFont *sf = f->style_font;
-	static char buf[64];
-	char* fstyle = "";
+	static char buf[96];
+	int nused;
 
-	if (sf->is_bold && sf->is_italic)
-		fstyle = ", bold, italic";
-	else if (sf->is_bold)
-		fstyle = ", bold";
-	else if (sf->is_italic)
-		fstyle = ", italic";
-	snprintf (buf, sizeof buf, "%s, %g %s",
-		  sf->font_name, sf->size, fstyle);
+	nused = snprintf (buf, sizeof buf, "%s, %g", sf->font_name, sf->size);
+	
+	if (nused < sizeof buf && sf->is_bold)
+		nused += snprintf (buf + nused, sizeof buf - nused, ", %s",
+				   "bold");
+	if (nused < sizeof buf && sf->is_italic)
+		nused += snprintf (buf + nused, sizeof buf - nused, ", %s",
+				   "italic");
+	if (nused < sizeof buf) {
+		if ((StyleUnderlineType) f->underline == UNDERLINE_SINGLE)
+			nused += snprintf (buf + nused, sizeof buf - nused,
+					   ", %s", "single underline");
+		else if ((StyleUnderlineType) f->underline == UNDERLINE_DOUBLE)
+			nused += snprintf (buf + nused, sizeof buf - nused,
+					   ", %s", "double underline");
+	}
+	if (nused < sizeof buf && f->strikethrough)
+		nused += snprintf (buf + nused, sizeof buf - nused, ", %s",
+				   "strikethrough");
 
 	return buf;
 }
@@ -793,7 +804,9 @@ excel_font_new (MStyle *st)
 	f->style_font = mstyle_get_font (st, 1.0);
 	c = mstyle_get_color (st, MSTYLE_COLOR_FORE);
 	f->color = style_color_to_int (c);
-
+	f->underline     = mstyle_get_font_uline (st);
+	f->strikethrough = mstyle_get_font_strike (st);
+	
 	return f;
 }
 
@@ -822,7 +835,8 @@ excel_font_hash (gconstpointer f)
 	ExcelFont * font = (ExcelFont *) f;
 
 	if (f)
-		res = style_font_hash_func (font->style_font) ^ font->color;
+		res = style_font_hash_func (font->style_font) ^ font->color
+			^ font->underline ^ font->strikethrough;
 
 	return res;
 }
@@ -847,7 +861,9 @@ excel_font_equal (gconstpointer a, gconstpointer b)
 		const ExcelFont *fa  = (const ExcelFont *) a;
 		const ExcelFont *fb  = (const ExcelFont *) b;
 		res = style_font_equal (fa->style_font, fb->style_font)
-			&& (fa->color == fb->color);
+			&& (fa->color == fb->color)
+			&& (fa->underline == fb->underline)
+			&& (fa->strikethrough == fb->strikethrough);
 	}
 
 	return res;
@@ -981,7 +997,8 @@ write_font (BiffPut *bp, ExcelWorkbook *wb, const ExcelFont *f)
 
 	guint16 boldstyle = 0x190; /* Normal boldness */
 	guint16 subsuper  = 0;   /* 0: Normal, 1; Super, 2: Sub script*/
-	guint8  underline = 0;	 /* No underline */
+	guint8  underline = (guint8) f->underline; /* 0: None, 1: Single,
+						      2: Double */
 	guint8  family    = 0;
 	guint8  charset   = 0;	 /* Seems OK. */
 	char    *font_name = sf->font_name;
@@ -995,6 +1012,8 @@ write_font (BiffPut *bp, ExcelWorkbook *wb, const ExcelFont *f)
 
 	if (sf->is_italic)
 		grbit |= 1 << 1;
+	if (f->strikethrough)
+		grbit |= 1 << 3;
 	if (sf->is_bold)
 		boldstyle = 0x2bc;
 
@@ -2547,42 +2566,43 @@ margin_write (BiffPut *bp, guint16 op, PrintUnit *pu)
 }
 
 /**
- * lookup_sheet_base_char_width_for_write
+ * init_base_char_width_for_write
  * @sheet sheet
  *
- * Look up base character width
+ * Initialize base character width
  */
-static double
-lookup_base_char_width_for_write (ExcelSheet *sheet)
+static void
+init_base_char_width_for_write (ExcelSheet *sheet)
 {
-	double res = EXCEL_DEFAULT_CHAR_WIDTH;
 	ExcelFont *f = NULL;
+	/* default to Arial 10 */
+	char *name = "Arial";
+	double size = 20.* 10.;
+
 	if (sheet && sheet->wb
 	    && sheet->wb->xf && sheet->wb->xf->default_style) {
 		f = excel_font_new (sheet->wb->xf->default_style);
+		if (f) {
+			name = f->style_font->font_name;
+			size = f->style_font->size * 20.;
+			excel_font_free (f);
+		}
 	}
-
+		
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_write_debug > 1) {
-		printf ("Font for column sizing: %s\n",
-			f ? excel_font_to_string (f) : "none");
-	}
+	if (ms_excel_write_debug > 1)
+		printf ("Font for column sizing: %s %.1f\n", name, size);
 #endif
-	if (f) {
-		gboolean do_log = (ms_excel_write_debug > 2);
-		res = lookup_font_base_char_width (f->style_font, do_log);
-		excel_font_free (f);
-	}
-
-	return res;
+	sheet->base_char_width =
+		lookup_font_base_char_width_new (name, size, FALSE);
+	sheet->base_char_width_default =
+		lookup_font_base_char_width_new (name, size, TRUE);
 }
 
 /**
  * get_base_char_width
  * @sheet	the Excel sheet
- *
- * Returns base character width for column sizing. Uses cached value
- * if font alrady measured. Otherwise measure font.
+ * @is_default  if true, this is for the default width.
  *
  * Excel uses the character width of the font in the "Normal" style.
  * The char width is based on the font in the "Normal" style.
@@ -2591,18 +2611,18 @@ lookup_base_char_width_for_write (ExcelSheet *sheet)
  * attribute.
  *
  * FIXME: There is a function with this name both in ms-excel-read.c and
- * ms-excel-write.c. The only difference is lookup_base_char_width_for_read
- * vs. lookup_base_char_width_for_write. Pass the function as parameter?
+ * ms-excel-write.c. The only difference is init_base_char_width_for_read
+ * vs. init_base_char_width_for_write. Pass the function as parameter?
  * May be not. I don't like clever code.
  */
 static double
-get_base_char_width (ExcelSheet *sheet)
+get_base_char_width (ExcelSheet *sheet, gboolean const is_default)
 {
 	if (sheet->base_char_width <= 0)
-		sheet->base_char_width
-			= lookup_base_char_width_for_write (sheet);
+		init_base_char_width_for_write (sheet);
 
-	return sheet->base_char_width;
+	return is_default
+		? sheet->base_char_width_default : sheet->base_char_width;
 }
 
 /**
@@ -2626,7 +2646,7 @@ write_default_col_width (BiffPut *bp, ExcelSheet *sheet)
 	guint16 width;
 
 	def_width = sheet_col_get_default_size_pts (sheet->gnum_sheet);
-	width_chars = def_width / get_base_char_width (sheet);
+	width_chars = def_width / get_base_char_width (sheet, TRUE);
 	width = (guint16) (width_chars + .5);
 
 #ifndef NO_DEBUG_EXCEL
@@ -2651,7 +2671,8 @@ static void
 write_colinfo (BiffPut *bp, ExcelCol *col)
 {
 	guint8 *data;
-	double  width_chars = col->width / get_base_char_width (col->sheet);
+	double  width_chars
+		= col->width / get_base_char_width (col->sheet, FALSE);
 	guint16 width = (guint16) (width_chars * 256.);
 
 #ifndef NO_DEBUG_EXCEL
