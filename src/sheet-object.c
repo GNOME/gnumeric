@@ -178,6 +178,7 @@ sheet_object_init (GtkObject *object)
 
 	so->type = SHEET_OBJECT_ACTION_STATIC;
 	so->sheet = NULL;
+	so->is_visible = TRUE;
 
 	/* Store the logical position as A1 */
 	so->anchor.cell_bound.start.col = so->anchor.cell_bound.start.row = 0;
@@ -258,6 +259,8 @@ void
 sheet_object_update_bounds (SheetObject *so, CellPos const *pos)
 {
 	GList *l;
+	gboolean is_hidden = TRUE;
+	int i, end;
 
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 
@@ -265,6 +268,23 @@ sheet_object_update_bounds (SheetObject *so, CellPos const *pos)
 	    so->anchor.cell_bound.end.col < pos->col &&
 	    so->anchor.cell_bound.end.row < pos->row)
 		return;
+
+	/* Are all cols hidden ? */
+	end = so->anchor.cell_bound.end.col;
+	i = so->anchor.cell_bound.start.col;
+	while (i <= end && is_hidden)
+		is_hidden &= sheet_col_is_hidden (so->sheet, i++);
+
+	/* Are all rows hidden ? */
+	if (!is_hidden) {
+		is_hidden = TRUE;
+		end = so->anchor.cell_bound.end.row;
+		i = so->anchor.cell_bound.start.row;
+		while (i <= end && is_hidden)
+			is_hidden &= sheet_row_is_hidden (so->sheet, i++);
+	}
+
+	so->is_visible = !is_hidden;
 
 	for (l = so->realized_list; l; l = l->next) {
 		GtkObject *view = GTK_OBJECT (l->data);

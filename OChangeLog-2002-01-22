@@ -1,3 +1,16 @@
+2001-10-21  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-object-container.c (sheet_object_container_update_bounds) :
+	  handle visibility.
+	* src/sheet-object-cell-comment.c (cell_comment_update_bounds) : ditto.
+	* src/sheet-object-graphic.c (sheet_object_graphic_update_bounds) : ditto.
+	(sheet_object_filled_update_bounds) : ditto.
+	* src/sheet-object-widget.c (sheet_object_widget_update_bounds) : ditto.
+
+	* src/sheet-object.c (sheet_object_init) : init is_visible.
+	  Not really needed, but lets be careful.
+	(sheet_object_update_bounds) : check to visibility.
+
 2001-10-20  jody goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (cb_max_cell_width) : factor in indents too.

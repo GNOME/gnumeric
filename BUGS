@@ -8,6 +8,7 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+    http://bugzilla.gnome.org/show_bug.cgi?id=62284	freeze vs delete col/row
     http://bugzilla.gnome.org/show_bug.cgi?id=62649	counta recalc (replicate?)
     http://bugzilla.gnome.org/show_bug.cgi?id=62004	rand paste (replicate?)
 

@@ -37,9 +37,15 @@ sheet_object_item_new_view (SheetObject *so, SheetControlGUI *scg)
 }
 
 static void
-sheet_object_item_update_bounds (SheetObject *so, GtkObject *obj_view,
+sheet_object_item_update_bounds (SheetObject *so, GtkObject *view,
 				 SheetControlGUI *s_control)
 {
+	/* FIXME : what goes here ?? */
+
+	if (so->is_visible)
+		gnome_canvas_item_show (GNOME_CANVAS_ITEM (view));
+	else
+		gnome_canvas_item_hide (GNOME_CANVAS_ITEM (view));
 }
 
 static void

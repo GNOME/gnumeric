@@ -175,6 +175,11 @@ sheet_object_graphic_update_bounds (SheetObject *so, GtkObject *view,
 			       "points", points,
 			       NULL);
 	gnome_canvas_points_free (points);
+
+	if (so->is_visible)
+		gnome_canvas_item_show (GNOME_CANVAS_ITEM (view));
+	else
+		gnome_canvas_item_hide (GNOME_CANVAS_ITEM (view));
 }
 
 static gboolean
@@ -674,6 +679,11 @@ sheet_object_filled_update_bounds (SheetObject *so, GtkObject *view,
 		"y1", MIN (coords [1], coords [3]),
 		"y2", MAX (coords [1], coords [3]),
 		NULL);
+
+	if (so->is_visible)
+		gnome_canvas_item_show (GNOME_CANVAS_ITEM (view));
+	else
+		gnome_canvas_item_hide (GNOME_CANVAS_ITEM (view));
 }
 
 static GtkObject *

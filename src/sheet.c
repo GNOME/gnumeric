@@ -1761,38 +1761,20 @@ sheet_redraw_cell (Cell const *cell)
 
 /****************************************************************************/
 
-int
-sheet_row_check_bound (int row, int diff)
-{
-	int new_val = row + diff;
-
-	if (new_val < 0)
-		return 0;
-	if (new_val >= SHEET_MAX_ROWS)
-		return SHEET_MAX_ROWS - 1;
-
-	return new_val;
-}
-
-int
-sheet_col_check_bound (int col, int diff)
-{
-	int new_val = col + diff;
-
-	if (new_val < 0)
-		return 0;
-	if (new_val >= SHEET_MAX_COLS)
-		return SHEET_MAX_COLS - 1;
-
-	return new_val;
-}
-
-static inline gboolean
-sheet_col_is_hidden (Sheet *sheet, int const col)
+gboolean
+sheet_col_is_hidden (Sheet const *sheet, int col)
 {
 	ColRowInfo const * const res = sheet_col_get (sheet, col);
 	return (res != NULL && !res->visible);
 }
+
+gboolean
+sheet_row_is_hidden (Sheet const *sheet, int row)
+{
+	ColRowInfo const * const res = sheet_row_get (sheet, row);
+	return (res != NULL && !res->visible);
+}
+
 
 /*
  * sheet_find_boundary_horizontal
@@ -1890,13 +1872,6 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int move_row,
 
 
 	return new_col;
-}
-
-static inline gboolean
-sheet_row_is_hidden (Sheet *sheet, int const row)
-{
-	ColRowInfo const * const res = sheet_row_get (sheet, row);
-	return (res != NULL && !res->visible);
 }
 
 /*

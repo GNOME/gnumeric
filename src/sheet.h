@@ -133,11 +133,12 @@ gboolean    sheet_is_region_empty_or_selected (Sheet *sheet, Range const *r);
 gboolean    sheet_is_region_empty 	      (Sheet *sheet, Range const *r);
 gboolean    sheet_is_cell_empty 	      (Sheet *sheet, int col, int row);
 
+gboolean    sheet_col_is_hidden		   (Sheet const *sheet, int col);
+gboolean    sheet_row_is_hidden		   (Sheet const *sheet, int row);
+
 /* Create new ColRowInfos from the default sheet style */
 ColRowInfo *sheet_col_new                  (Sheet *sheet);
 ColRowInfo *sheet_row_new                  (Sheet *sheet);
-int         sheet_row_check_bound          (int row, int diff);
-int         sheet_col_check_bound          (int col, int diff);
 int	    sheet_find_boundary_horizontal (Sheet *sheet, int col, int move_row,
 					    int base_row, int count,
 					    gboolean jump_to_boundaries);

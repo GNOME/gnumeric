@@ -17,6 +17,7 @@ struct _SheetObject {
 	Sheet             *sheet;
 	GList             *realized_list;
 	SheetObjectAnchor  anchor;
+	gboolean	   is_visible;
 };
 
 typedef struct {

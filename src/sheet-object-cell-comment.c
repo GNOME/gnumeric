@@ -105,6 +105,11 @@ cell_comment_update_bounds (SheetObject *so, GtkObject *view,
 	GnomeCanvasPoints *points = comment_get_points (scg, so);
 	gnome_canvas_item_set (item, "points", points, NULL);
 	gnome_canvas_points_free (points);
+
+	if (so->is_visible)
+		gnome_canvas_item_show (item);
+	else
+		gnome_canvas_item_hide (item);
 }
 
 static int

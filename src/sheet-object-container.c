@@ -100,6 +100,11 @@ sheet_object_container_update_bounds (SheetObject *so, GtkObject *view,
 		"width",  coords [2] - coords [0] + 1.,
 		"height", coords [3] - coords [1] + 1.,
 		NULL);
+
+	if (so->is_visible)
+		gnome_canvas_item_show (GNOME_CANVAS_ITEM (view));
+	else
+		gnome_canvas_item_hide (GNOME_CANVAS_ITEM (view));
 }
 
 static void

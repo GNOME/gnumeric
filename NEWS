@@ -4,6 +4,11 @@ Andreas:
 	* Allow analysis tool output to be directed onto a range 
           on another sheet.
 
+Jody:
+	* Fix autosizing of indented content.
+	* Fix jump to bound with end in hidden region.
+	* Hide objects in hidden regions.
+
 Morten:
 	* Improve goal seek.
 	* Fixed parsing of numbers is scientific context.
