@@ -66,7 +66,6 @@ static int
 LUPDecomp (gnum_float **A, gnum_float **LU, int *P, int n)
 {
 	int i, j, k, tempint;
-	gnum_float temp;
 
 	for (j = 0; j < n; j++)
 		for (i = 0; i < n; i++)
@@ -77,6 +76,7 @@ LUPDecomp (gnum_float **A, gnum_float **LU, int *P, int n)
 	for (i = 0; i < n; i++) {
 		gnum_float max = 0;
 		int mov = -1;
+
 		for (j = i; j < n; j++)
 			if (abs (LU[i][j]) > max) {
 				max = abs (LU[i][j]);
@@ -87,9 +87,9 @@ LUPDecomp (gnum_float **A, gnum_float **LU, int *P, int n)
 		P[i] = P[mov];
 		P[mov] = tempint;
 		for (j = 0; j < n; j++) {		/*swap the two rows */
-			temp = LU[j][i];
-		  	LU[j][i] = LU[j][mov];
-		  	LU[j][mov] = temp;
+			gnum_float temp = LU[i][j];
+		  	LU[i][j] = LU[i][mov];
+		  	LU[i][mov] = temp;
 		}
 		for (j = i + 1; j < n; j++) {
 			LU[i][j] = LU[i][j] / LU[i][i];
@@ -97,6 +97,7 @@ LUPDecomp (gnum_float **A, gnum_float **LU, int *P, int n)
 				LU[k][j] = LU[k][j] - LU[i][j] * LU[k][i];
 		}
 	}
+
 	return 0;
 }
 
@@ -261,8 +262,8 @@ general_linear_regression (gnum_float **xss, int xdim,
 		P = g_new (int, n);
 
 		err2 = LUPDecomp (xTx, LU, P, xdim);
+		extra_stat->se = g_new (gnum_float, xdim);
 		if (err2 == 0) {
-			extra_stat->se = g_new (gnum_float, xdim);
 			e = g_new (gnum_float, xdim); /* Elmentary vector */
 			inv = g_new (gnum_float, xdim);
 			for (i = 0; i < xdim; i++)
@@ -275,6 +276,10 @@ general_linear_regression (gnum_float **xss, int xdim,
 		 	}
 		 	g_free (e);
 		  	g_free (inv);
+		} else {
+			/* FIXME: got any better idea?  */
+			for (i = 0; i < xdim; i++)
+				extra_stat->se[i] = 1;
 		}
 		FREE_MATRIX (LU, xdim, xdim);
 		g_free (P);
