@@ -5259,10 +5259,12 @@ workbook_control_gui_ctor_class (GObjectClass *object_class)
 
 	{
 		GdkPixbuf *icon = gnumeric_load_pixbuf ("gnome-gnumeric.png");
-		GList *icon_list = g_list_prepend (NULL, icon);
-		gtk_window_set_default_icon_list (icon_list);
-		g_list_free (icon_list);
-		g_object_unref (G_OBJECT (icon));
+		if (icon != NULL) {
+			GList *icon_list = g_list_prepend (NULL, icon);
+			gtk_window_set_default_icon_list (icon_list);
+			g_list_free (icon_list);
+			g_object_unref (G_OBJECT (icon));
+		}
 	}
 }
 
