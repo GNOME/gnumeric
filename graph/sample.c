@@ -214,23 +214,19 @@ static GnomeUIInfo sample_menu [] = {
 };
 
 static BonoboUIHandler *
-create_gui (GtkWidget *content)
+create_gui (GtkWidget **toplevel)
 {
 	BonoboUIHandlerMenuItem *list;
 	BonoboUIHandler *uih;
-	GtkWidget *toplevel;
 	
-	toplevel = gnome_app_new ("Sample", "Sample");
-	gtk_widget_show (toplevel);
-
-	gnome_app_set_contents (GNOME_APP (toplevel), content);
-	gtk_widget_show (content);
+	*toplevel = gnome_app_new ("Sample", "Sample");
+	gtk_widget_show (*toplevel);
 
 	/*
 	 * Menus
 	 */
 	uih = bonobo_ui_handler_new ();
-	bonobo_ui_handler_set_app (uih, GNOME_APP (toplevel));
+	bonobo_ui_handler_set_app (uih, GNOME_APP (*toplevel));
 	bonobo_ui_handler_create_menubar (uih);
 	list = bonobo_ui_handler_menu_parse_uiinfo_list_with_data (sample_menu, NULL);
 	bonobo_ui_handler_menu_add_list (uih, "/", list);
@@ -291,7 +287,7 @@ int
 main (int argc, char *argv [])
 {
 	BonoboUIHandler *uih;
-	GtkWidget *graph_widget;
+	GtkWidget *graph_widget, *toplevel;
 	
 	CORBA_exception_init (&ev);
 	gnome_CORBA_init ("Sample tester", "1.0", &argc, argv, 0, &ev);
@@ -310,8 +306,11 @@ main (int argc, char *argv [])
 	 * Program setup.
 	 */
 	create_vectors ();
-	uih = create_gui (graph_widget);
+	uih = create_gui (&toplevel);
 	graph_widget = create_test (uih);
+	gnome_app_set_contents (GNOME_APP (toplevel), graph_widget);
+	gtk_widget_show (graph_widget);
+
 
 	/*
 	 * Process user requests

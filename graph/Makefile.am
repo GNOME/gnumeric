@@ -11,16 +11,6 @@ bin_PROGRAMS = graph
 
 noinst_PROGRAMS = sample
 
-noinst_LIBRARIES = libGraph.a
-
-GRAPH_CORBA_GENERATED = 		\
-	Graph-common.c			\
-	Graph-skels.c			\
-	Graph-stubs.c			\
-	Graph.h
-
-libGraph_a_SOURCES = $(GRAPH_CORBA_GENERATED)
-
 graph_SOURCES =			\
 	graph.c			\
 	graph.h			\
@@ -48,31 +38,23 @@ graph_SOURCES =			\
 
 graph_LDADD =			\
 	$(EXTRA_GNOME_LIBS)	\
-	../src/libGnumeric.a	\
-	libGraph.a		\
+	../idl/libGnumeric.a	\
+	../idl/libGraph.a	\
 	$(INTLLIBS)
 
 sample_SOURCES =		\
 	sample.c		\
 	vector.c		\
-	vector.h		\
-	$(GRAPH_CORBA_GENERATED)
+	vector.h
 
 sample_LDADD =			\
 	$(EXTRA_GNOME_LIBS)	\
-	../src/libGnumeric.a	\
+	../idl/libGnumeric.a	\
+	../idl/libGraph.a	\
 	$(INTLLIBS)
 
-$(GRAPH_CORBA_GENERATED): Graph.idl $(top_srcdir)/src/Gnumeric-value.idl $(top_srcdir)/src/Gnumeric.idl
-	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) -I$(top_srcdir) $(srcdir)/Graph.idl
-	touch my_graph_idl
-
-idldir   = $(datadir)/idl
-idl_DATA = Graph.idl
 
 gnorbadir = $(sysconfdir)/CORBA/servers
 gnorba_DATA = graph.gnorba
 
-MYHACKAROUNDAUTOMAKE=$(shell echo $(GNUMERIC_CORBA_GENERATED))
-
-EXTRA_DIST = $(idl_DATA) $(MYHACKAROUNDAUTOMAKE) graph.gnorba
+EXTRA_DIST = graph.gnorba

@@ -10,10 +10,10 @@
 #include <Bonobo.idl>
 
 %{
-#pragma include_defs src/Gnumeric.h
+#pragma include_defs idl/Gnumeric.h
 %}
 #pragma inhibit push
-#include "src/Gnumeric.idl"
+#include "idl/Gnumeric.idl"
 #pragma inhibit pop
 
 module GNOME {

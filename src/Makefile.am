@@ -36,21 +36,6 @@ INCLUDES = 						\
 	$(EXTRA_GNOME_CFLAGS)				\
 	$(GUILE_INCS)
 
-if BONOBO
-GNUMERIC_CORBA_GENERATED = 			\
-	Gnumeric-common.c			\
-	Gnumeric-skels.c			\
-	Gnumeric-stubs.c			\
-	Gnumeric.h
-
-noinst_LIBRARIES = libGnumeric.a
-
-libGnumeric_a_SOURCES = $(GNUMERIC_CORBA_GENERATED)
-
-else
-GNUMERIC_CORBA_GENERATED = 
-endif
-
 GNUMERIC_BASE_SOURCES =				\
 	about.c					\
 	analysis-tools.c			\
@@ -205,8 +190,7 @@ GNUMERIC_BASE_SOURCES =				\
 	workbook-view.h				\
 	workbook-view.c				\
 	xml-io.c				\
-	xml-io.h				\
-	$(GNUMERIC_CORBA_GENERATED)
+	xml-io.h
 
 GNUMERIC_BONOBO_SOURCES = 			\
 	embeddable-grid.c			\
@@ -220,22 +204,10 @@ GNUMERIC_BONOBO_SOURCES = 			\
 	sheet-vector.c				\
 	sheet-vector.h
 
-Gnumeric-impl.o: Gnumeric.h
-
-Vector-impl.o: Vector.h
-
-$(GNUMERIC_CORBA_GENERATED): Gnumeric.idl 
-	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) $(srcdir)/Gnumeric.idl 
-
 gnumeric_SOURCES =					\
 	main.c						\
 	normal-args.c					\
 	$(GNUMERIC_BASE_SOURCES)
-
-corba-sheet.c corba-workbook-factory.c corba-workbook.c Gnumeric-impl.c \
-embeddable-grid.c: Gnumeric.h
-
-sheet-vector.h: Gnumeric.h
 
 gnumeric_bonobo_SOURCES =				\
 	main.c						\
@@ -265,8 +237,8 @@ gnumeric_LDADD = 					\
 gnumeric_bonobo_LDADD =					\
 	$(gnumeric_libs)				\
 	../wizards/graphics/libwizard_graphics.a	\
-	libGnumeric.a					\
-	../graph/libGraph.a				\
+	../idl/libGnumeric.a				\
+	../idl/libGraph.a				\
 	$(EXTRA_GNOME_LIBS)				\
 	$(GNOME_XML_LIB) 				\
 	$(GUILE_LIBS)					\
@@ -290,11 +262,5 @@ dist-hook:
 #	$(GNOME_XML_LIB) 		\
 #	$(INTLLIBS)
 
-idldir   = $(datadir)/idl
-idl_DATA = Gnumeric.idl Gnumeric-value.idl
-
-
-MYHACKAROUNDAUTOMAKE=$(shell echo $(GNUMERIC_CORBA_GENERATED))
-
-EXTRA_DIST = $(idl_DATA) $(MYHACKAROUNDAUTOMAKE) portability.h.in
+EXTRA_DIST = portability.h.in
 

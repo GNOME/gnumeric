@@ -1,3 +1,15 @@
+2000-03-11  Miguel de Icaza  <miguel@helixcode.com>
+
+	* src/Makefile.am: Cleaned Makefile.
+
+	* graph/Makefile.am: ditto.
+	
+	* graph/sample.c: fix
+	
+	* idl/Makefile.am, idl/Graph.idl, idl/Gnumeric.idl: Moved IDL
+	files here, and create the libGnumeric.a and libGraph.a libraries
+	here. 
+
 2000-03-11  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook.c (workbook_setup_edit_area) : Use sensitize rather

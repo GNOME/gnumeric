@@ -2317,7 +2317,7 @@ workbook_new (void)
 	wb->show_notebook_tabs = TRUE;
 
 	gtk_window_set_policy (GTK_WINDOW (wb->toplevel), 1, 1, 0);
-	sx = MAX (gdk_screen_width  () - 64, 400);
+	sx = MAX (gdk_screen_width  () - 64, 600);
 	sy = MAX (gdk_screen_height () - 64, 200);
 	sx = (sx * 3) / 4;
 	sy = (sy * 3) / 4;

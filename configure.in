@@ -299,6 +299,7 @@ AC_OUTPUT([
 gnumeric.spec
 Makefile
 icons/Makefile
+idl/Makefile
 src/Makefile
 src/dialogs/Makefile
 src/widgets/Makefile
