@@ -1,3 +1,9 @@
+2000-01-13  Daniel Veillard <Daniel.Veillard@w3.org>
+
+	* src/xml-io.c (gnumeric_xml_write_sheet, gnumeric_xml_write_workbook,
+	  xml_workbook_write, xml_sheet_write) : removed use of xmlNewGlobalNs
+	  to use xmlNewNs on the root element of the document instead
+
 2000-01-13  Jody Goldberg <jgoldberg@home.com>
 
 	* src/application.c (application_clipboard_copy,

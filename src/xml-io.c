@@ -1698,6 +1698,7 @@ static xmlNodePtr
 xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 {
 	xmlNodePtr cur;
+	xmlNsPtr gmr;
 	xmlNodePtr child;
 	xmlNodePtr rows;
 	xmlNodePtr cols;
@@ -1716,6 +1717,11 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Sheet", NULL);
 	if (cur == NULL)
 		return NULL;
+	if (ctxt->ns == NULL) {
+	    gmr = xmlNewNs (cur, "http://www.gnome.org/gnumeric/", "gmr");
+	    xmlSetNs(cur, gmr);
+	    ctxt->ns = gmr;
+	}
 	tstr = xmlEncodeEntitiesReentrant (ctxt->doc, sheet->name);
 	xmlNewChild (cur, ctxt->ns, "Name",  tstr);
 	if (tstr) xmlFree (tstr);
@@ -1981,6 +1987,7 @@ static xmlNodePtr
 xml_workbook_write (parse_xml_context_t *ctxt, Workbook *wb)
 {
 	xmlNodePtr cur;
+	xmlNsPtr gmr;
 	xmlNodePtr child;
 	GList *sheets, *sheets0;
 	char *oldlocale;
@@ -1991,6 +1998,11 @@ xml_workbook_write (parse_xml_context_t *ctxt, Workbook *wb)
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Workbook", NULL);	/* the Workbook name !!! */
 	if (cur == NULL)
 		return NULL;
+	if (ctxt->ns == NULL) {
+	    gmr = xmlNewNs (cur, "http://www.gnome.org/gnumeric/v2", "gmr");
+	    xmlSetNs(cur, gmr);
+	    ctxt->ns = gmr;
+	}
 
 	oldlocale = g_strdup (setlocale (LC_NUMERIC, NULL));
 	setlocale (LC_NUMERIC, "C");
@@ -2256,7 +2268,6 @@ gnumeric_xml_write_sheet (Sheet *sheet, const char *filename)
 {
 	parse_xml_context_t ctxt;
 	xmlDocPtr xml;
-	xmlNsPtr gmr;
 	int ret;
 
 	g_return_val_if_fail (sheet != NULL, -1);
@@ -2270,9 +2281,8 @@ gnumeric_xml_write_sheet (Sheet *sheet, const char *filename)
 	if (xml == NULL){
 		return -1;
 	}
-	gmr = xmlNewGlobalNs (xml, "http://www.gnome.org/gnumeric/", "gmr");
 	ctxt.doc = xml;
-	ctxt.ns = gmr;
+	ctxt.ns = NULL;
 
 	xml->root = xml_sheet_write (&ctxt, sheet);
 
@@ -2342,7 +2352,6 @@ int
 gnumeric_xml_write_workbook (Workbook *wb, const char *filename)
 {
 	xmlDocPtr xml;
-	xmlNsPtr gmr;
 	parse_xml_context_t ctxt;
 	int ret;
 
@@ -2356,9 +2365,8 @@ gnumeric_xml_write_workbook (Workbook *wb, const char *filename)
 	if (xml == NULL){
 		return -1;
 	}
-	gmr = xmlNewGlobalNs (xml, "http://www.gnome.org/gnumeric/v2", "gmr");
 	ctxt.doc = xml;
-	ctxt.ns = gmr;
+	ctxt.ns = NULL;
 
 	xml->root = xml_workbook_write (&ctxt, wb);
 
