@@ -3943,9 +3943,19 @@ typedef struct
 	GSList      *changed_names;
 	GSList      *new_names;
 	GSList      *old_names;
+	GSList      *new_sheets;
 } CmdReorganizeSheets;
 
 GNUMERIC_MAKE_COMMAND (CmdReorganizeSheets, cmd_reorganize_sheets);
+
+static void
+delete_pristine_sheets (gpointer data, gpointer dummy)
+{
+	Sheet *sheet = data;
+	g_return_if_fail (sheet->pristine);
+
+	workbook_sheet_delete (sheet);
+}
 
 static gboolean
 cmd_reorganize_sheets_undo (GnumericCommand *cmd, WorkbookControl *wbc)
@@ -3954,8 +3964,12 @@ cmd_reorganize_sheets_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
+	g_slist_foreach (me->new_sheets, delete_pristine_sheets, NULL);
+	g_slist_free (me->new_sheets);	
+	me->new_sheets = NULL;
+
 	return workbook_sheet_reorganize (me->wbc, me->changed_names, me->old_order,  
-					  me->old_names, me->new_names);
+					  me->old_names, me->new_names, NULL);
 }
 
 static gboolean
@@ -3966,7 +3980,8 @@ cmd_reorganize_sheets_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me != NULL, TRUE);
 
 	return workbook_sheet_reorganize (me->wbc, me->changed_names, me->new_order, 
-					  me->new_names, me->old_names);
+					  me->new_names, me->old_names,
+					  &me->new_sheets);
 }
 
 static void
@@ -3982,6 +3997,9 @@ cmd_reorganize_sheets_finalize (GObject *cmd)
 
 	g_slist_free (me->changed_names);
 	me->changed_names = NULL;
+
+	g_slist_free (me->new_sheets);
+	me->new_sheets = NULL;	
 
 	e_free_string_slist (me->old_names);
 	me->old_names = NULL;
@@ -4000,6 +4018,7 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *old_order, GSList *new_orde
 	CmdReorganizeSheets *me;
 	Workbook *wb = wb_control_workbook (wbc);
 	GSList *the_names;
+	int selector = 0;
 	
 	obj = g_object_new (CMD_REORGANIZE_SHEETS_TYPE, NULL);
 	me = CMD_REORGANIZE_SHEETS (obj);
@@ -4011,35 +4030,59 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *old_order, GSList *new_orde
 	me->old_order = old_order;
 	me->changed_names = changed_names;
 	me->new_names = new_names;
-
+	me->new_sheets = NULL;
 	me->old_names = NULL;
 	the_names = changed_names;
 	while (the_names) {
 		Sheet *sheet = the_names->data;
-		me->old_names = g_slist_prepend (me->old_names, g_strdup (sheet->name_unquoted));
+		if (sheet  == NULL)
+			me->old_names = g_slist_prepend (me->old_names, NULL);
+		else
+			me->old_names = g_slist_prepend 
+				(me->old_names, g_strdup (sheet->name_unquoted));
 		the_names = the_names->next;
 	}
 	me->old_names = g_slist_reverse (me->old_names);
 
 	me->parent.sheet = NULL;
 	me->parent.size = 1;
-	if (new_order == NULL ) {
-		if (new_names == NULL)
-			me->parent.cmd_descriptor = g_strdup ("Nothing to do?");
-		else if (new_names->next == NULL)
-			me->parent.cmd_descriptor = g_strdup_printf (_("Rename sheet '%s' '%s'"), 
-					      ((Sheet *)changed_names->data)->name_unquoted,
-					      (const char *)new_names->data);
-		else
-			me->parent.cmd_descriptor = g_strdup (_("Renaming Sheets"));		
-	} else {
-		if (new_names == NULL)
-			me->parent.cmd_descriptor = g_strdup (_("Reordering Sheets"));
-		else
-			me->parent.cmd_descriptor = g_strdup (_("Reorganizing Sheets"));
-	}
-			
 
+	if (new_order == NULL) 
+		selector += (1 << 0);
+	if (new_names == NULL) 
+		selector += (1 << 1);
+	else if (new_names->next == NULL)
+		selector += (1 << 2);
+
+	switch (selector) {
+	case 1:
+		me->parent.cmd_descriptor = g_strdup (_("Renaming Sheets"));
+		break;
+	case 2:
+		me->parent.cmd_descriptor = g_strdup (_("Reordering Sheets"));
+		break;
+	case 3:
+		me->parent.cmd_descriptor = g_strdup ("Nothing to do?");
+		break;
+	case 5:
+		if (changed_names->data == NULL) {
+			if (new_names->data == NULL)
+				me->parent.cmd_descriptor = g_strdup (_("Adding a sheet"));
+			else
+				me->parent.cmd_descriptor 
+					= g_strdup_printf (_("Adding sheet '%s'"), 
+							   (const char *)new_names->data);
+		} else
+			me->parent.cmd_descriptor 
+				= g_strdup_printf (_("Rename sheet '%s' '%s'"), 
+						   ((Sheet *)changed_names->data)->name_unquoted,
+						   (const char *)new_names->data);
+		break;
+	default:
+		me->parent.cmd_descriptor = g_strdup (_("Reorganizing Sheets"));
+		break;
+	}
+	
 	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }

@@ -1,3 +1,18 @@
+2002-03-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/commands.c (delete_pristine_sheets) : new
+	(cmd_reorganize_sheets_undo) : delete new sheets, change calling
+	  sequence of workbook_sheet_reorganize
+	(cmd_reorganize_sheets_redo) : change calling
+	  sequence of workbook_sheet_reorganize
+	(cmd_reorganize_sheets_finalize) : clear new_sheets
+	(cmd_reorganize_sheets) : handle adding of sheets, streamline 
+	  selection of cmd descriptor
+	* src/workbook-control-gui.c (cb_insert_sheet) : use 
+	  cmd_reorganize_sheets
+	* src/workbook.c (workbook_sheet_reorganize) : handle adding of sheets
+	* src/workbook.h (workbook_sheet_reorganize) : add argument
+
 2002-03-05  Jody Goldberg <jody@gnome.org>
 
 	* src/eval.c (link_single_dep) : flag inter-{sheet,book} references.

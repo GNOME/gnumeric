@@ -38,6 +38,7 @@ Andreas:
 	* Add `Add/Modify Comments' item to cell context menu.
 	* Fix 73491.
 	* Improve comment popup.
+	* Make adding sheet undoable/redoable
 
 Jody:
 	* Initial port to gnome2.

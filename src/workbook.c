@@ -1161,9 +1161,11 @@ workbook_sheet_get_free_name (Workbook *wb,
 gboolean
 workbook_sheet_reorganize (WorkbookControl *wbc, 
 			   GSList *changed_names, GSList *new_order,  
-			   GSList *new_names,  GSList *old_names)
+			   GSList *new_names,  GSList *old_names,
+			   GSList **new_sheets)
 {
-	GSList *this = new_order;
+	GSList *this_sheet;
+	GSList *new_sheet;
 	gint old_pos, new_pos = 0;
 	GSList *the_names;
 	GSList *the_sheets;
@@ -1174,51 +1176,58 @@ workbook_sheet_reorganize (WorkbookControl *wbc,
 	the_sheets = changed_names;
 	while (the_names) {
 		Sheet *tmp;
-		Sheet *sheet = the_sheets->data;
+		Sheet *sheet;
 		char *new_name = the_names->data;
 
 		g_return_val_if_fail (the_sheets != NULL, TRUE);
 
-		/* Is the sheet name to short ?*/
-		if (1 > strlen (new_name)) {
-			gnumeric_error_invalid (COMMAND_CONTEXT (wbc), 
-						_("Sheet name must have at least 1 letter"),
-						new_name);
-			return TRUE;
-		}
-
-		/* Is the sheet name already in use ?*/
-		tmp = (Sheet *) g_hash_table_lookup (sheet->workbook->sheet_hash_private, 
-						     new_name);
-		
-		if (tmp != NULL) {
-			/* Perhaps it is a sheet also to be renamed */
-			GSList *tmp_sheets = g_slist_find (changed_names, tmp);
-			if (NULL == tmp_sheets) {
-				gnumeric_error_invalid (COMMAND_CONTEXT (wbc),
-							_("There is already a sheet named"),
+		if (new_name != NULL ) {
+			sheet = the_sheets->data;
+			
+			/* Is the sheet name to short ?*/
+			if (1 > strlen (new_name)) {
+				gnumeric_error_invalid (COMMAND_CONTEXT (wbc), 
+							_("Sheet name must have at least 1 letter"),
 							new_name);
 				return TRUE;
 			}
-		}
-
-		/* Will we try to use the same name a second time ?*/
-		if (the_names->next != NULL && 
-		    g_slist_find_custom (the_names->next, new_name, g_str_compare) != NULL) {
+			
+			/* Is the sheet name already in use ?*/
+			tmp = (Sheet *) g_hash_table_lookup (wb->sheet_hash_private, 
+							     new_name);
+			
+			if (tmp != NULL) {
+				/* Perhaps it is a sheet also to be renamed */
+				GSList *tmp_sheets = g_slist_find (changed_names, tmp);
+				if (NULL == tmp_sheets) {
+					gnumeric_error_invalid (COMMAND_CONTEXT (wbc),
+							 _("There is already a sheet named"),
+								new_name);
+					return TRUE;
+				}
+			}
+			
+			/* Will we try to use the same name a second time ?*/
+			if (the_names->next != NULL && 
+			    g_slist_find_custom (the_names->next, new_name, g_str_compare) != NULL) {
 				gnumeric_error_invalid (COMMAND_CONTEXT (wbc),
 							_("You may not use this name twice"),
 							new_name);
 				return TRUE;			
+			}
 		}
 		the_names = the_names->next;
 		the_sheets = the_sheets->next;
 	}
 /* Names are indeed valid */
-
+/* Changing Names */
 	the_names = old_names;
+	the_sheets = changed_names;
 	while (the_names) {
-		g_hash_table_remove (wb->sheet_hash_private, the_names->data);
+		if (the_sheets->data != NULL)
+			g_hash_table_remove (wb->sheet_hash_private, the_names->data);
 		the_names = the_names->next;
+		the_sheets = the_sheets->next;
 	}
 
 	the_names = new_names;
@@ -1226,34 +1235,73 @@ workbook_sheet_reorganize (WorkbookControl *wbc,
 	while (the_names) {
 		Sheet *sheet = the_sheets->data;
 
-		sheet_rename (sheet, the_names->data);
-		g_hash_table_insert (wb->sheet_hash_private,
-			     sheet->name_unquoted, sheet);
-
-		sheet_set_dirty (sheet, TRUE);
-
-		WORKBOOK_FOREACH_CONTROL (wb, view, control,
-					  wb_control_sheet_rename (control, sheet););
-
+		if (sheet != NULL) {
+			sheet_rename (sheet, the_names->data);
+			g_hash_table_insert (wb->sheet_hash_private,
+					     sheet->name_unquoted, sheet);
+			
+			sheet_set_dirty (sheet, TRUE);
+			
+			WORKBOOK_FOREACH_CONTROL (wb, view, control,
+						  wb_control_sheet_rename (control, sheet););
+		}
 		the_names = the_names->next;
 		the_sheets = the_sheets->next;
 	}
 	
+/* Names have been changed */
+/* Create new sheets */
 
-	while (this) {
-		Sheet *sheet = this->data;
-		Workbook *this_wb = sheet->workbook;
-		old_pos = workbook_sheet_index_get (this_wb, sheet);
-		if (new_pos != old_pos) {
-			g_ptr_array_remove_index (this_wb->sheets, old_pos);
-			g_ptr_array_insert (this_wb->sheets, sheet, new_pos);
-			WORKBOOK_FOREACH_CONTROL (this_wb, view, control,
-						  wb_control_sheet_move (control, 
-									 sheet, new_pos););
-			sheet_set_dirty (sheet, TRUE);
+	if (new_sheets) {
+		the_names = new_names;
+		the_sheets = changed_names;
+		while (the_names) {
+			Sheet *sheet = the_sheets->data;
+			
+			if (sheet == NULL) {
+				char *name = the_names->data;
+				Sheet *a_new_sheet ;
+				gboolean free_name = (name == NULL);
+				
+				if (free_name)
+					name = workbook_sheet_get_free_name 
+						(wb, _("Sheet"), TRUE, FALSE);
+				a_new_sheet = sheet_new (wb, name);
+				if (free_name)
+					g_free (name);
+				workbook_sheet_attach (wb, a_new_sheet, NULL);
+				sheet_set_dirty (a_new_sheet, TRUE);
+				*new_sheets = g_slist_prepend (	*new_sheets, a_new_sheet);
+			}
+			the_names = the_names->next;
+			the_sheets = the_sheets->next;
 		}
-		new_pos++;
-		this = this->next;
+		*new_sheets = g_slist_reverse (*new_sheets);
+		new_sheet = *new_sheets;
+	}
+
+/* reordering */
+	this_sheet = new_order;
+	while (this_sheet) {
+		Sheet *sheet = this_sheet->data;
+
+		if (new_sheets && sheet == NULL) {
+			sheet = new_sheet->data;
+			new_sheet = new_sheet->next;
+		}
+		if (sheet != NULL) {
+			old_pos = workbook_sheet_index_get (wb, sheet);
+			if (new_pos != old_pos) {
+				g_ptr_array_remove_index (wb->sheets, old_pos);
+				g_ptr_array_insert (wb->sheets, sheet, new_pos);
+				WORKBOOK_FOREACH_CONTROL (wb, view, control,
+							  wb_control_sheet_move (control, 
+										 sheet, new_pos););
+				sheet_set_dirty (sheet, TRUE);
+			}
+			new_pos++;
+		}
+		this_sheet = this_sheet->next;
 	}
 	return FALSE;
 }

@@ -80,7 +80,8 @@ char       *workbook_sheet_get_free_name (Workbook *wb,
 					  gboolean handle_counter);
 gboolean    workbook_sheet_reorganize    (WorkbookControl *wbc,
 					  GSList *changed_names, GSList *new_order,  
-					  GSList *new_names,  GSList *old_names);
+					  GSList *new_names,  GSList *old_names,
+					  GSList **new_sheets);
 
 /* IO Routines */
 gboolean       workbook_set_filename   (Workbook *wb, const gchar *);

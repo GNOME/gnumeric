@@ -1957,8 +1957,9 @@ cb_define_name (GtkWidget *unused, WorkbookControlGUI *wbcg)
 static void
 cb_insert_sheet (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
-	workbook_sheet_add (wb_control_workbook (WORKBOOK_CONTROL (wbcg)),
-			    NULL, TRUE);
+	cmd_reorganize_sheets (WORKBOOK_CONTROL (wbcg), NULL, NULL, 
+			       g_slist_prepend (NULL, NULL), 
+			       g_slist_prepend (NULL, NULL));
 }
 
 static void
