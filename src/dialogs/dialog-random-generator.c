@@ -855,7 +855,6 @@ dialog_random_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_RANDOM_GENERATOR,
 			      "random-generation.glade", "Random",
-			      NULL, NULL,
 			      _("Could not create the Random Tool dialog."),
 			      RANDOM_KEY,
 			      G_CALLBACK (random_tool_ok_clicked_cb), NULL,

@@ -148,7 +148,6 @@ dialog_shuffle (WorkbookControlGUI *wbcg)
 	if (dialog_tool_init (state, wbcg, wb_control_cur_sheet (wbc),
 			      GNUMERIC_HELP_LINK_DATA_SHUFFLE,
 			      "shuffle.glade", "Shuffling",
-			      _("_Input Range:"), NULL,
 			      _("Could not create the Data Shuffling dialog."),
 			      SHUFFLE_KEY,
 			      G_CALLBACK (shuffle_ok_clicked_cb), NULL,

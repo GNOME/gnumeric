@@ -560,7 +560,6 @@ dialog_consolidate (WorkbookControlGUI *wbcg)
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_CONSOLIDATE,
 			      "consolidate.glade", "Consolidate",
-			      NULL, NULL,
 			      _("Could not create the Consolidate dialog."),
 			      CONSOLIDATE_KEY,
 			      G_CALLBACK (cb_consolidate_ok_clicked), 

@@ -427,7 +427,6 @@ dialog_simulation (WorkbookControlGUI *wbcg, G_GNUC_UNUSED Sheet *sheet)
 	if (dialog_tool_init (state, wbcg, wb_control_cur_sheet (wbc),
 			      GNUMERIC_HELP_LINK_SIMULATION,
 			      "simulation.glade", "Simulation",
-			      _("_Inputs:"), _("_Outputs:"),
 			      _("Could not create the Simulation dialog."),
 			      SIMULATION_KEY,
 			      G_CALLBACK (simulation_ok_clicked_cb),

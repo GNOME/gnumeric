@@ -43,8 +43,6 @@ struct _GenericToolState {
 	GtkWidget *apply_button;
 	GtkWidget *help_button;
 	char const *help_link;
-	char const *input_var1_str;
-	char const *input_var2_str;
 	GtkWidget *new_sheet;
 	GtkWidget *new_workbook;
 	GtkWidget *output_range;
@@ -69,8 +67,6 @@ gboolean dialog_tool_init (GenericToolState *state,
 			   char const *help_file,
 			   char const *gui_name,
 			   char const *dialog_name,
-			   char const *input_var1_str,
-			   char const *input_var2_str,
 			   char const *error_str,
 			   char const *key,
 			   GtkSignalFunc ok_function, 

@@ -320,8 +320,6 @@ dialog_tool_init (GenericToolState *state,
 		  char const *help_file,
 		  char const *gui_name,
 		  char const *dialog_name,
-		  char const *input_var1_str,
-		  char const *input_var2_str,
 		  char const *error_str,
 		  char const *key,
 		  GtkSignalFunc ok_function,
@@ -338,9 +336,6 @@ dialog_tool_init (GenericToolState *state,
 	state->sv    = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
 	state->warning_dialog = NULL;
 	state->help_link      = help_file;
-	state->input_var1_str = (input_var1_str == NULL) ?
-		_("_Input Range:") : input_var1_str;
-	state->input_var2_str = input_var2_str;
 	state->state_destroy = NULL;
 
 	state->gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (state->wbcg),
@@ -640,7 +635,7 @@ dialog_correlation_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	if (dialog_tool_init (state, wbcg, sheet, 
 			      GNUMERIC_HELP_LINK_CORRELATION,
-			      "correlation.glade", "Correlation", NULL, NULL,
+			      "correlation.glade", "Correlation",
 			      _("Could not create the Correlation Tool dialog."),
 			      CORRELATION_KEY,
 			      G_CALLBACK (corr_tool_ok_clicked_cb), NULL,
@@ -759,7 +754,7 @@ dialog_covariance_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	if (dialog_tool_init (state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_COVARIANCE,
-			      "covariance.glade", "Covariance", NULL, NULL,
+			      "covariance.glade", "Covariance",
 			      _("Could not create the Covariance Tool dialog."),
 			      COVARIANCE_KEY,
 			      G_CALLBACK (cov_tool_ok_clicked_cb), NULL,
@@ -849,7 +844,7 @@ dialog_ranking_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	if (dialog_tool_init (state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_RANKING,
-			      "rank.glade", "RankPercentile", NULL, NULL,
+			      "rank.glade", "RankPercentile",
 			      _("Could not create the Rank and Percentile "
 				"Tools dialog."),
 			      RANK_PERCENTILE_KEY,
@@ -940,7 +935,6 @@ dialog_fourier_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	if (dialog_tool_init (state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_FOURIER_ANALYSIS,
 			      "fourier-analysis.glade", "FourierAnalysis",
-			      NULL, NULL,
 			      _("Could not create the Fourier Analysis Tool "
 				"dialog."),
 			      FOURIER_KEY,
@@ -1095,7 +1089,6 @@ dialog_descriptive_stat_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_DESCRIPTIVE_STATS,
 			      "descriptive-stats.glade", "DescStats",
-			      NULL, NULL,
 			      _("Could not create the Descriptive Statistics "
 				"Tool dialog."),
 			      DESCRIPTIVE_STATS_KEY,
@@ -1464,8 +1457,6 @@ dialog_ttest_tool (WorkbookControlGUI *wbcg, Sheet *sheet, ttest_type test)
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_MEAN_TESTS,
 			      "mean-tests.glade", "MeanTests",
-			      _("Var_iable 1 Range:"),
-			      _("_Variable 2 Range:"),
 			      _("Could not create the Mean Tests Tool dialog."),
 			      TTEST_KEY,
 			      G_CALLBACK (ttest_tool_ok_clicked_cb), NULL,
@@ -1655,7 +1646,6 @@ dialog_ftest_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_F_TEST_TWO_SAMPLE,
 			      "variance-tests.glade", "VarianceTests",
-			      _("Var_iable 1 Range"), _("_Variable 2 Range"),
 			      _("Could not create the FTest Tool dialog."),
 			      FTEST_KEY,
 			      G_CALLBACK (ftest_tool_ok_clicked_cb), NULL,
@@ -1849,7 +1839,7 @@ dialog_sampling_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_SAMPLING,
-			      "sampling.glade", "Sampling", NULL, NULL,
+			      "sampling.glade", "Sampling",
 			      _("Could not create the Sampling Tool dialog."),
 			      SAMPLING_KEY,
 			      G_CALLBACK (sampling_tool_ok_clicked_cb), NULL,
@@ -2060,7 +2050,6 @@ dialog_regression_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_REGRESSION,
 			      "regression.glade", "Regression",
-			      _("_X Variables:"), _("_Y Variable:"),
 			      _("Could not create the Regression Tool dialog."),
 			      REGRESSION_KEY,
 			      G_CALLBACK (regression_tool_ok_clicked_cb), NULL,
@@ -2188,7 +2177,7 @@ dialog_exp_smoothing_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_EXP_SMOOTHING,
 			      "exp-smoothing.glade",
-			      "ExpSmoothing", NULL, NULL,
+			      "ExpSmoothing",
 			      _("Could not create the Exponential Smoothing "
 				"Tool dialog."),
 			      EXP_SMOOTHING_KEY,
@@ -2321,7 +2310,7 @@ dialog_average_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_MOVING_AVERAGES,
 			      "moving-averages.glade",
-			      "MovAverages", NULL, NULL,
+			      "MovAverages",
 			      _("Could not create the Moving Average Tool "
 				"dialog."),
 			      AVERAGE_KEY,
@@ -2533,7 +2522,6 @@ dialog_histogram_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_HISTOGRAM,
 			      "histogram.glade", "Histogram",
-			      _("_Input Range:"), _("Bin _Range:"),
 			      _("Could not create the Histogram Tool dialog."),
 			      HISTOGRAM_KEY,
 			      G_CALLBACK (histogram_tool_ok_clicked_cb), NULL,
@@ -2712,7 +2700,7 @@ dialog_anova_single_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_ANOVA_SINGLE_FACTOR,
-			      "anova-one.glade", "ANOVA", NULL, NULL,
+			      "anova-one.glade", "ANOVA",
 			      _("Could not create the ANOVA (single factor) "
 				"tool dialog."),
 			      ANOVA_SINGLE_KEY,
@@ -2916,7 +2904,7 @@ dialog_anova_two_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_ANOVA_TWO_FACTOR,
-			      "anova-two.glade", "ANOVA", NULL, NULL,
+			      "anova-two.glade", "ANOVA",
 			      _("Could not create the ANOVA (two factor) "
 				"tool dialog."),
 			      ANOVA_TWO_FACTOR_KEY,

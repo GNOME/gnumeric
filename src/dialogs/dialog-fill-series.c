@@ -263,7 +263,6 @@ dialog_fill_series (WorkbookControlGUI *wbcg)
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sv_sheet (sv),
 			      GNUMERIC_HELP_LINK_FILL_SERIES,
 			      "fill-series.glade", "Fill_series",
-			      NULL, NULL,
 			      _("Could not create the Fill Series dialog."),
 			      FILL_SERIES_KEY,
 			      G_CALLBACK (cb_fill_series_ok_clicked), NULL,

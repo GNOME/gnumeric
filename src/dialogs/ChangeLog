@@ -1,5 +1,20 @@
 2003-12-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* tool-dialogs.h (_GenericToolState): remove unused fields
+	(dialog_tool_init): remove unused arguments
+	* dialog-analysis-tools.c (dialog_tool_init): remove unused 
+	  arguments and adjust calls to dialog_tool_init throughout
+	* dialog-advanced-filter.c: adjust calls to dialog_tool_init 
+	  throughout
+	* dialog-consolidate.c: ditto
+	* dialog-fill-series.c: ditto
+	* dialog-random-generator.c: ditto
+	* dialog-scenarios.c: ditto
+	* dialog-shuffle.c: ditto
+	* dialog-simulation.c: ditto
+
+2003-12-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dao.glade: some HIG modifications
 	* dialog-analysis-tools.c (ttest_update_sensitivity_cb):
 	  use new dao widget

@@ -196,7 +196,6 @@ dialog_advanced_filter (WorkbookControlGUI *wbcg)
 	if (dialog_tool_init (state, wbcg, wb_control_cur_sheet (wbc),
 			      GNUMERIC_HELP_LINK_ADVANCED_FILTER,
 			      "advanced-filter.glade", "Filter",
-			      _("_List Range:"), _("Criteria _Range:"),
 			      _("Could not create the Advanced Filter dialog."),
 			      ADVANCED_FILTER_KEY,
 			      G_CALLBACK (advanced_filter_ok_clicked_cb), NULL,
