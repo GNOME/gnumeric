@@ -1,3 +1,8 @@
+1999-12-12  Tuomas Kuosmanen  <tigert@gimp.org>
+
+	* src/pixmaps/bucket.xpm 
+	* src/pixmaps/font.xpm: New icons that are both the same size..
+
 1999-12-11  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/dialogs/dialog-cell-sort.c (dialog_cell_sort_adv): nail ref leak of
