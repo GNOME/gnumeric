@@ -409,9 +409,9 @@ init_button_image (GladeXML *gui, char const *const name)
 {
 	GtkWidget *tmp = glade_xml_get_widget (gui, name);
 	if (tmp != NULL) {
-		GtkWidget *image = gnumeric_load_image (name);
-		if (image != NULL)
-			gtk_container_add (GTK_CONTAINER (tmp), image);
+		GtkWidget *image = gtk_image_new_from_pixbuf (application_get_pixbuf (name));
+		gtk_widget_show (image);
+		gtk_container_add (GTK_CONTAINER (tmp), image);
 	}
 
 	return tmp;

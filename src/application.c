@@ -556,6 +556,18 @@ gnumeric_application_setup_pixbufs (GnumericApplication *app)
 		{ line_pattern_slant, "line_pattern_slant" },
 		{ line_pattern_thick, "line_pattern_thick" },
 		{ line_pattern_thin, "line_pattern_thin" },
+		/* Borders */
+		{ bottom_border, "bottom_border" },
+		{ diag_border, "diag_border" },
+		{ inside_border, "inside_border" },
+		{ inside_horiz_border, "inside_horiz_border" },
+		{ inside_vert_border, "inside_vert_border" },
+		{ left_border, "left_border" },
+		{ no_border, "no_border" },
+		{ outline_border, "outline_border" },
+		{ rev_diag_border, "rev_diag_border" },
+		{ right_border, "right_border" },
+		{ top_border, "top_border" },
 		/* Stuff */
 		{ gnumeric_splash, "gnumeric_splash" }
 	};

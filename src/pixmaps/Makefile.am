@@ -58,6 +58,18 @@ IMAGES = @STRIP_BEGIN@ 						\
 	object_scrollbar_24.png 	\
 	object_spinbutton_24.png 	\
 	\
+	bottom_border.xpm		\
+	diag_border.xpm			\
+	inside_border.xpm		\
+	inside_horiz_border.xpm		\
+	inside_vert_border.xpm		\
+	left_border.xpm			\
+	no_border.xpm			\
+	outline_border.xpm		\
+	rev_diag_border.xpm		\
+	right_border.xpm		\
+	top_border.xpm			\
+	\
 	gp_125grey.xpm			\
 	gp_25grey.xpm			\
 	gp_50grey.xpm			\
@@ -208,6 +220,18 @@ VARIABLES = @STRIP_BEGIN@ 									\
 	gnm_object_radiobutton_24		$(srcdir)/object_radiobutton_24.png		\
 	gnm_object_scrollbar_24			$(srcdir)/object_scrollbar_24.png		\
 	gnm_object_spinbutton_24		$(srcdir)/object_spinbutton_24.png		\
+	\
+	bottom_border				$(srcdir)/bottom_border.xpm			\
+	diag_border				$(srcdir)/diag_border.xpm			\
+	inside_border				$(srcdir)/inside_border.xpm			\
+	inside_horiz_border			$(srcdir)/inside_horiz_border.xpm		\
+	inside_vert_border			$(srcdir)/inside_vert_border.xpm		\
+	left_border				$(srcdir)/left_border.xpm			\
+	no_border				$(srcdir)/no_border.xpm				\
+	outline_border				$(srcdir)/outline_border.xpm			\
+	rev_diag_border				$(srcdir)/rev_diag_border.xpm			\
+	right_border				$(srcdir)/right_border.xpm			\
+	top_border				$(srcdir)/top_border.xpm			\
 	\
 	gp_125grey				$(srcdir)/gp_125grey.xpm			\
 	gp_25grey				$(srcdir)/gp_25grey.xpm				\

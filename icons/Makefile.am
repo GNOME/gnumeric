@@ -15,10 +15,6 @@ icons_DATA = \
 	orient-vertical.png	\
 	right-down.png		\
 	down-right.png	\
-	bottom_border diag_border left_border \
-	rev_diag_border right_border top_border \
-	inside_horiz_border inside_vert_border \
-	inside_border outline_border no_border \
 	stf-druid.png
 
 plot_icondir = $(gnumeric_icondir)
