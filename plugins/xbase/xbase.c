@@ -10,8 +10,6 @@
 #include <gnome.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
-#include "gnome-xml/tree.h"
-#include "gnome-xml/parser.h"
 #include "gnumeric-sheet.h"
 #include "format.h"
 #include "color.h"
