@@ -28,6 +28,7 @@ Morten:
 	* Fix window menu in case of "_" in names.  [#155235]
 	* Add support for setting text and markup in buttons.
 	* Fix XL save crash.  [#155371]
+	* Limit the width of search window.  [#136421]
 
 Yukihiro Nakai:
 	* Improve perl plugin.

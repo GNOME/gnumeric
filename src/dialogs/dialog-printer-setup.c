@@ -642,7 +642,7 @@ unit_editor_configure (UnitInfo *target, PrinterSetupState *state,
 	gnome_print_unit_selector_add_adjustment (GNOME_PRINT_UNIT_SELECTOR (state->unit_selector),
 						  target->adj);
 	g_signal_connect (G_OBJECT (target->spin),
-		"value-changed",
+		"value_changed",
 		G_CALLBACK (unit_changed), cbdata);
 	g_object_set_data_full (G_OBJECT (target->spin),
 		"cbdata", cbdata, g_free); /* avoid a leak */

@@ -1,3 +1,8 @@
+2004-10-19  Morten Welinder  <terra@gnome.org>
+
+	* dialog-search.c (make_matches_table): Add ellipsize property to
+	contents column if supported.
+
 2004-10-18  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-stf-export.glade: fix formatting on all pages
