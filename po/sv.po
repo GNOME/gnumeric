@@ -383,7 +383,7 @@ msgstr "Töm"
 #: src/commands.c:899
 #, c-format
 msgid "Rename sheet '%s' '%s'"
-msgstr "Döp om blad '%s' '%s'"
+msgstr "Byt namn på blad '%s' '%s'"
 
 #. FIXME : the '>' prefix is intended to give the translators
 #. * a chance to provide a locale specific date format.
@@ -394,17 +394,17 @@ msgstr "Döp om blad '%s' '%s'"
 #.
 #: src/commands.c:969
 msgid ">mm/dd/yyyy"
-msgstr ">mm/dd/åååå"
+msgstr ">yyyy/mm/dd"
 
 #. FIXME : See comment above
 #: src/commands.c:974
 msgid ">hh:mm"
-msgstr ">tt:mm"
+msgstr ">hh:mm"
 
 #: src/commands.c:1032
 #, c-format
 msgid "Setting current date in %s"
-msgstr ""
+msgstr "Sätter nuvarande datum i %s"
 
 #: src/commands.c:1033
 #, c-format
@@ -427,7 +427,7 @@ msgstr "Sorterar %s"
 
 #: src/commands.c:1306
 msgid "Unhide columns"
-msgstr ""
+msgstr "Visa kolumner"
 
 #: src/commands.c:1306
 msgid "Hide columns"
@@ -435,7 +435,7 @@ msgstr "Göm kolumner"
 
 #: src/commands.c:1307
 msgid "Unhide rows"
-msgstr ""
+msgstr "Visa rader"
 
 #: src/commands.c:1307
 msgid "Hide rows"
@@ -2823,7 +2823,6 @@ msgid "Base error"
 msgstr "Fel i bas"
 
 #: src/functions/fn-eng.c:135
-#, fuzzy
 msgid ""
 "@FUNCTION=BIN2DEC\n"
 "@SYNTAX=BIN2DEC(x)\n"
@@ -2834,18 +2833,16 @@ msgid ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 msgstr ""
-"@FUNCTION=HEX2DEC\n"
-"@SYNTAX=HEX2DEC(x)\n"
-"@DESCRIPTION=HEX2DEC omvandlar ett hexadecimalt tal till dess decimala "
-"motsvarighet.\n"
-"\n"
+"@FUNCTION=BIN2DEC\n"
+"@SYNTAX=BIN2DEC(x)\n"
+"@DESCRIPTION=BIN2DEC omvandlar ett binärt tal i en sträng eller ett tal till "
+"dess decimala motsvarighet. Denna funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
 "BIN2DEC(101) är lika med 5.\n"
 "\n"
-"@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT"
+"@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
 #: src/functions/fn-eng.c:158
-#, fuzzy
 msgid ""
 "@FUNCTION=BIN2OCT\n"
 "@SYNTAX=BIN2OCT(number[,places])\n"
@@ -2859,18 +2856,19 @@ msgid ""
 "\n"
 "@SEEALSO=OCT2BIN, BIN2DEC, BIN2HEX"
 msgstr ""
-"@FUNCTION=HEX2DEC\n"
-"@SYNTAX=HEX2DEC(x)\n"
-"@DESCRIPTION=HEX2DEC omvandlar ett hexadecimalt tal till dess decimala "
-"motsvarighet.\n"
-"\n"
+"@FUNCTION=BIN2OCT\n"
+"@SYNTAX=BIN2OCT(tal[,siffror])\n"
+"@DESCRIPTION=BIN2OCT omvandlar ett binärt tal till ett oktalt tal. "
+"@siffror kan anges valfritt, och anger till vilken längd resultatet ska "
+"fyllas ut med nollor.\n"
+"Om @siffror är för litet eller negativt, returneras felvärdet #NUM!. Denna "
+"funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
-"BIN2DEC(101) är lika med 5.\n"
+"BIN2OCT(110111) är lika med 67.\n"
 "\n"
-"@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT"
+"@SEEALSO=OCT2BIN, BIN2DEC, BIN2HEX"
 
 #: src/functions/fn-eng.c:184
-#, fuzzy
 msgid ""
 "@FUNCTION=BIN2HEX\n"
 "@SYNTAX=BIN2HEX(number[,places])\n"
@@ -2884,18 +2882,19 @@ msgid ""
 "\n"
 "@SEEALSO=HEX2BIN, BIN2OCT, BIN2DEC"
 msgstr ""
-"@FUNCTION=HEX2DEC\n"
-"@SYNTAX=HEX2DEC(x)\n"
-"@DESCRIPTION=HEX2DEC omvandlar ett hexadecimalt tal till dess decimala "
-"motsvarighet.\n"
-"\n"
+"@FUNCTION=BIN2HEX\n"
+"@SYNTAX=BIN2HEX(tal[,siffror])\n"
+"@DESCRIPTION=BIN2HEX omvandlar ett binärt tal till ett hexadecimalt tal. "
+"@siffror kan anges valfritt, och anger till vilken längd resultatet ska "
+"fyllas ut med nollor.\n"
+"Om @siffror är för litet eller negativt, returneras felvärdet #NUM!. Denna "
+"funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
-"BIN2DEC(101) är lika med 5.\n"
+"BIN2HEX(100111) är lika med 27.\n"
 "\n"
-"@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT"
+"@SEEALSO=HEX2BIN, BIN2OCT, BIN2DEC"
 
 #: src/functions/fn-eng.c:210
-#, fuzzy
 msgid ""
 "@FUNCTION=DEC2BIN\n"
 "@SYNTAX=DEC2BIN(number[,places])\n"
@@ -2909,18 +2908,19 @@ msgid ""
 "\n"
 "@SEEALSO=BIN2DEC, DEC2OCT, DEC2HEX"
 msgstr ""
-"@FUNCTION=HEX2DEC\n"
-"@SYNTAX=HEX2DEC(x)\n"
-"@DESCRIPTION=HEX2DEC omvandlar ett hexadecimalt tal till dess decimala "
-"motsvarighet.\n"
-"\n"
+"@FUNCTION=DEC2BIN\n"
+"@SYNTAX=DEC2BIN(tal[,siffror])\n"
+"@DESCRIPTION=DEC2BIN omvandlar ett decimaltal till ett binärt tal. "
+"@siffror kan anges valfritt, och anger till vilken längd resultatet ska "
+"fyllas ut med nollor.\n"
+"Om @siffror är för litet eller negativt, returneras felvärdet #NUM!. Denna "
+"funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
-"BIN2DEC(101) är lika med 5.\n"
+"DEC2BIN(42) är lika med 101010.\n"
 "\n"
-"@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT"
+"@SEEALSO=BIN2DEC, DEC2OCT, DEC2HEX"
 
 #: src/functions/fn-eng.c:236
-#, fuzzy
 msgid ""
 "@FUNCTION=DEC2OCT\n"
 "@SYNTAX=DEC2OCT(number[,places])\n"
@@ -2934,17 +2934,19 @@ msgid ""
 "\n"
 "@SEEALSO=OCT2DEC, DEC2BIN, DEC2HEX"
 msgstr ""
-"@FUNCTION=OCT2DEC\n"
-"@SYNTAX=OCT2DEC(x)\n"
-"@DESCRIPTION=OCT2DEC omvandlar ett oktalt tal (eller sträng) till dess "
-"decimala motsvarighet. Denna funktion är kompatibel med Excel.\n"
+"@FUNCTION=DEC2OCT\n"
+"@SYNTAX=DEC2OCT(tal[,siffror])\n"
+"@DESCRIPTION=DEC2OCT omvandlar ett decimaltal till ett oktalt tal. "
+"@siffror kan anges valfritt, och anger till vilken längd resultatet ska "
+"fyllas ut med nollor.\n"
+"Om @siffror är för litet eller negativt, returneras felvärdet #NUM!. Denna "
+"funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
-"OCT2DEC(\"124\") är lika med 84.\n"
+"DEC2OCT(42) är lika med 52.\n"
 "\n"
-"@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX"
+"@SEEALSO=OCT2DEC, DEC2BIN, DEC2HEX"
 
 #: src/functions/fn-eng.c:262
-#, fuzzy
 msgid ""
 "@FUNCTION=DEC2HEX\n"
 "@SYNTAX=DEC2HEX(number[,places])\n"
@@ -2958,17 +2960,19 @@ msgid ""
 "\n"
 "@SEEALSO=HEX2DEC, DEC2BIN, DEC2OCT"
 msgstr ""
-"@FUNCTION=OCT2DEC\n"
-"@SYNTAX=OCT2DEC(x)\n"
-"@DESCRIPTION=OCT2DEC omvandlar ett oktalt tal (eller sträng) till dess "
-"decimala motsvarighet. Denna funktion är kompatibel med Excel.\n"
+"@FUNCTION=DEC2HEX\n"
+"@SYNTAX=DEC2HEX(tal[,siffror])\n"
+"@DESCRIPTION=DEC2HEX omvandlar ett decimaltal till ett hexadecimalt tal. "
+"@siffror kan anges valfritt, och anger till vilken längd resultatet ska "
+"fyllas ut med nollor.\n"
+"Om @siffror är för litet eller negativt, returneras felvärdet #NUM!. Denna "
+"funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
-"OCT2DEC(\"124\") är lika med 84.\n"
+"DEC2HEX(42) är lika med 2A.\n"
 "\n"
-"@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX"
+"@SEEALSO=HEX2DEC, DEC2BIN, DEC2OCT"
 
 #: src/functions/fn-eng.c:288
-#, fuzzy
 msgid ""
 "@FUNCTION=OCT2DEC\n"
 "@SYNTAX=OCT2DEC(x)\n"
@@ -2989,7 +2993,6 @@ msgstr ""
 "@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX"
 
 #: src/functions/fn-eng.c:311
-#, fuzzy
 msgid ""
 "@FUNCTION=OCT2BIN\n"
 "@SYNTAX=OCT2BIN(number[,places])\n"
@@ -3002,17 +3005,19 @@ msgid ""
 "\n"
 "@SEEALSO=BIN2OCT, OCT2DEC, OCT2HEX"
 msgstr ""
-"@FUNCTION=OCT2DEC\n"
-"@SYNTAX=OCT2DEC(x)\n"
-"@DESCRIPTION=OCT2DEC omvandlar ett oktalt tal (eller sträng) till dess "
-"decimala motsvarighet. Denna funktion är kompatibel med Excel.\n"
+"@FUNCTION=OCT2BIN\n"
+"@SYNTAX=OCT2BIN(tal[,siffror])\n"
+"@DESCRIPTION=OCT2BIN omvandlar ett oktalt tal till ett binärt tal. "
+"@siffror kan anges valfritt, och anger till vilken längd resultatet ska "
+"fyllas ut med nollor.\n"
+"Om @siffror är för litet eller negativt, returneras felvärdet #NUM!. Denna "
+"funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
-"OCT2DEC(\"124\") är lika med 84.\n"
+"OCT2BIN(\"213\") är lika med 10001011.\n"
 "\n"
-"@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX"
+"@SEEALSO=BIN2OCT, OCT2DEC, OCT2HEX"
 
 #: src/functions/fn-eng.c:337
-#, fuzzy
 msgid ""
 "@FUNCTION=OCT2HEX\n"
 "@SYNTAX=OCT2HEX(number[,places])\n"
@@ -3025,17 +3030,19 @@ msgid ""
 "\n"
 "@SEEALSO=HEX2OCT, OCT2BIN, OCT2DEC"
 msgstr ""
-"@FUNCTION=OCT2DEC\n"
-"@SYNTAX=OCT2DEC(x)\n"
-"@DESCRIPTION=OCT2DEC omvandlar ett oktalt tal (eller sträng) till dess "
-"decimala motsvarighet. Denna funktion är kompatibel med Excel.\n"
+"@FUNCTION=OCT2HEX\n"
+"@SYNTAX=OCT2HEX(tal[,siffror])\n"
+"@DESCRIPTION=OCT2HEX omvandlar ett oktalt tal till ett hexadecimalt tal. "
+"@siffror kan anges valfritt, och anger till vilken längd resultatet ska "
+"fyllas ut med nollor.\n"
+"Om @siffror är för litet eller negativt, returneras felvärdet #NUM!. Denna "
+"funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
-"OCT2DEC(\"124\") är lika med 84.\n"
+"OCT2HEX(132) är lika med 5A.\n"
 "\n"
-"@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX"
+"@SEEALSO=HEX2OCT, OCT2BIN, OCT2DEC"
 
 #: src/functions/fn-eng.c:363
-#, fuzzy
 msgid ""
 "@FUNCTION=HEX2BIN\n"
 "@SYNTAX=HEX2BIN(number[,places])\n"
@@ -3049,18 +3056,19 @@ msgid ""
 "\n"
 "@SEEALSO=BIN2HEX, HEX2OCT, HEX2DEC"
 msgstr ""
-"@FUNCTION=HEX2DEC\n"
-"@SYNTAX=HEX2DEC(x)\n"
-"@DESCRIPTION=HEX2DEC omvandlar ett hexadecimalt tal till dess decimala "
-"motsvarighet.\n"
-"\n"
+"@FUNCTION=HEX2BIN\n"
+"@SYNTAX=HEX2BIN(tal[,siffror])\n"
+"@DESCRIPTION=HEX2BIN omvandlar ett hexadecimalt tal till ett binärt tal. "
+"@siffror kan anges valfritt, och anger till vilken längd resultatet ska "
+"fyllas ut med nollor.\n"
+"Om @siffror är för litet eller negativt, returneras felvärdet #NUM!. Denna "
+"funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
-"HEX2DEC(\"2A\") equals 42.\n"
+"HEX2BIN(\"2A\") är lika med 101010.\n"
 "\n"
-"@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT"
+"@SEEALSO=BIN2HEX, HEX2OCT, HEX2DEC"
 
 #: src/functions/fn-eng.c:389
-#, fuzzy
 msgid ""
 "@FUNCTION=HEX2OCT\n"
 "@SYNTAX=HEX2OCT(number[,places])\n"
@@ -3074,18 +3082,19 @@ msgid ""
 "\n"
 "@SEEALSO=OCT2HEX, HEX2BIN, HEX2DEC"
 msgstr ""
-"@FUNCTION=HEX2DEC\n"
-"@SYNTAX=HEX2DEC(x)\n"
-"@DESCRIPTION=HEX2DEC omvandlar ett hexadecimalt tal till dess decimala "
-"motsvarighet.\n"
-"\n"
+"@FUNCTION=HEX2OCT\n"
+"@SYNTAX=HEX2OCT(tal[,siffror])\n"
+"@DESCRIPTION=HEX2OCT omvandlar ett hexadecimalt tal till ett oktalt tal. "
+"@siffror kan anges valfritt, och anger till vilken längd resultatet ska "
+"fyllas ut med nollor.\n"
+"Om @siffror är för litet eller negativt, returneras felvärdet #NUM!. Denna "
+"funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
-"HEX2DEC(\"2A\") equals 42.\n"
+"HEX2OCT(\"2A\") är lika med 52.\n"
 "\n"
-"@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT"
+"@SEEALSO=OCT2HEX, HEX2BIN, HEX2DEC"
 
 #: src/functions/fn-eng.c:415
-#, fuzzy
 msgid ""
 "@FUNCTION=HEX2DEC\n"
 "@SYNTAX=HEX2DEC(x)\n"
@@ -3099,10 +3108,10 @@ msgstr ""
 "@FUNCTION=HEX2DEC\n"
 "@SYNTAX=HEX2DEC(x)\n"
 "@DESCRIPTION=HEX2DEC omvandlar ett hexadecimalt tal till dess decimala "
-"motsvarighet.\n"
+"motsvarighet. Denna funktion är kompatibel med Excel.\n"
 "\n"
 "@EXAMPLES=\n"
-"HEX2DEC(\"2A\") equals 42.\n"
+"HEX2DEC(\"2A\") är lika med 42.\n"
 "\n"
 "@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT"
 
@@ -3121,12 +3130,6 @@ msgid ""
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 msgstr ""
-"@FUNCTION=FACTDOUBLE\n"
-"@SYNTAX=FACTDOUBLE(tal)\n"
-"@DESCRIPTION=FACTDOUBLE beräknar semifakulteten för @tal.\n"
-"Om @tal inte är ett heltal, trunkeras det. Om @tal är negativt, returneras "
-"felet #NUM!\n"
-"@SEEALSO=FACT"
 
 #: src/functions/fn-eng.c:479
 #, fuzzy
@@ -3142,7 +3145,7 @@ msgid ""
 "BESSELK(3,9) equals 397.95880.\n"
 "\n"
 "@SEEALSO=BESSELI,BESSELJ,BESSELY"
-msgstr "@FUNCTION="
+msgstr ""
 
 #: src/functions/fn-eng.c:519
 #, fuzzy
@@ -3158,7 +3161,7 @@ msgid ""
 "BESSELJ(0.89,3) equals 0.013974004.\n"
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
-msgstr "@FUNCTION="
+msgstr ""
 
 #: src/functions/fn-eng.c:555
 #, fuzzy
@@ -3197,9 +3200,20 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=COMPLEX\n"
+"@SYNTAX=COMPLEX(real,im[,suffix])\n"
+"@DESCRIPTION=COMPLEX returnerar ett komplext tal på formen x + yi. @real är "
+"realdelen och @im är imaginärdelen.  "
+"@suffix är suffixet som ska användas för imaginärdelen.  Om det ej anges, "
+"används 'i'.\n"
+"Om @suffix varken är 'i' eller 'j', returneras felvärdet #VALUE!. Denna funktion "
+"är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"COMPLEX(1,-1) är lika med 1-i.\n"
+"\n"
+"@SEEALSO="
 
 #: src/functions/fn-eng.c:675
-#, fuzzy
 msgid ""
 "@FUNCTION=IMAGINARY\n"
 "@SYNTAX=IMAGINARY(inumber)\n"
@@ -3213,14 +3227,13 @@ msgstr ""
 "@FUNCTION=IMAGINARY\n"
 "@SYNTAX=IMAGINARY(i)\n"
 "@DESCRIPTION=IMAGINARY returnerar imaginärdelens koefficient för ett "
-"komplext tal. \n"
+"komplext tal. Denna funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
 "IMAGINARY(\"132-j\") är lika med -1.\n"
 "\n"
 "@SEEALSO=IMREAL"
 
 #: src/functions/fn-eng.c:706
-#, fuzzy
 msgid ""
 "@FUNCTION=IMREAL\n"
 "@SYNTAX=IMREAL(inumber)\n"
@@ -3233,14 +3246,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMREAL\n"
 "@SYNTAX=IMREAL(i)\n"
-"@DESCRIPTION=IMREAL returnerar realdelens koefficient för ett komplext tal.\n"
+"@DESCRIPTION=IMREAL returnerar realdelens koefficient för ett komplext tal. "
+"Denna funktion är kompatibel med Excel." 
 "@EXAMPLES=\n"
 "imreal(\"132-j\") är lika med 132.\n"
 "\n"
 "@SEEALSO=IMAGINARY"
 
 #: src/functions/fn-eng.c:737
-#, fuzzy
 msgid ""
 "@FUNCTION=IMABS\n"
 "@SYNTAX=IMABS(inumber)\n"
@@ -3253,14 +3266,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMABS\n"
 "@SYNTAX=IMABS(i)\n"
-"@DESCRIPTION=IMABS returnerar absolutbeloppet av ett komplext tal.\n"
+"@DESCRIPTION=IMABS returnerar absolutbeloppet av ett komplext tal. "
+"Denna funktion är kompatibel med Excel."
 "@EXAMPLES=\n"
 "IMABS(\"2-j\") är lika med 2.23606798.\n"
 "\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 
 #: src/functions/fn-eng.c:768
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCONJUGATE\n"
 "@SYNTAX=IMCONJUGATE(inumber)\n"
@@ -3274,14 +3287,13 @@ msgstr ""
 "@FUNCTION=IMCONJUGATE\n"
 "@SYNTAX=IMCONJUGATE(i)\n"
 "@DESCRIPTION=IMCONJUGATE returnerar komplexkonjugatet för ett komplext tal. "
-"Funktionen är kompatibel med Excel.\n"
+"Denna funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
 "IMCONJUGATE(\"1-j\") är lika med 1+j.\n"
 "\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 
 #: src/functions/fn-eng.c:799
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCOS\n"
 "@SYNTAX=IMCOS(inumber)\n"
@@ -3302,7 +3314,6 @@ msgstr ""
 "@SEEALSO=IMSIN,IMTAN"
 
 #: src/functions/fn-eng.c:827
-#, fuzzy
 msgid ""
 "@FUNCTION=IMTAN\n"
 "@SYNTAX=IMTAN(inumber)\n"
@@ -3321,7 +3332,6 @@ msgstr ""
 "@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-eng.c:854
-#, fuzzy
 msgid ""
 "@FUNCTION=IMEXP\n"
 "@SYNTAX=IMEXP(inumber)\n"
@@ -3336,10 +3346,12 @@ msgstr ""
 "@SYNTAX=IMEXP(i)\n"
 "@DESCRIPTION=IMEXP returnerar exponentialen av ett komplext tal. Funktionen "
 "är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"IMEXP(\"2-j\") är lika med 3.992324-6.217676j.\n"
+"\n"
 "@SEEALSO=IMLN"
 
 #: src/functions/fn-eng.c:882
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(inumber)\n"
@@ -3355,7 +3367,7 @@ msgstr ""
 "@DESCRIPTION=IMARGUMENT returnerar argumentet (theta) för ett komplext tal. "
 "Denna funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
-"IMEXP(\"2-j\") är lika med 3.992324-6.217676j.\n"
+"IMARGUMENT(\"2-j\") är lika med -0.463647609.\n"
 "\n"
 "@SEEALSO="
 
@@ -3386,7 +3398,6 @@ msgstr ""
 "@SEEALSO=IMEXP,IMLOG2,IMLOG10"
 
 #: src/functions/fn-eng.c:941
-#, fuzzy
 msgid ""
 "@FUNCTION=IMLOG2\n"
 "@SYNTAX=IMLOG2(inumber)\n"
@@ -3407,7 +3418,6 @@ msgstr ""
 "@SEEALSO=IMLN,IMLOG10"
 
 #: src/functions/fn-eng.c:971
-#, fuzzy
 msgid ""
 "@FUNCTION=IMLOG10\n"
 "@SYNTAX=IMLOG10(inumber)\n"
@@ -3428,7 +3438,6 @@ msgstr ""
 "@SEEALSO=IMLN,IMLOG2"
 
 #: src/functions/fn-eng.c:1001
-#, fuzzy
 msgid ""
 "@FUNCTION=IMPOWER\n"
 "@SYNTAX=IMPOWER(inumber,number)\n"
@@ -3451,7 +3460,6 @@ msgstr ""
 "@SEEALSO=IMSQRT"
 
 #: src/functions/fn-eng.c:1037
-#, fuzzy
 msgid ""
 "@FUNCTION=IMDIV\n"
 "@SYNTAX=IMDIV(inumber,inumber)\n"
@@ -3472,7 +3480,6 @@ msgstr ""
 "@SEEALSO=IMPRODUCT"
 
 #: src/functions/fn-eng.c:1071
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSIN\n"
 "@SYNTAX=IMSIN(inumber)\n"
@@ -3493,7 +3500,6 @@ msgstr ""
 "@SEEALSO=IMCOS,IMTAN"
 
 #: src/functions/fn-eng.c:1099
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSQRT\n"
 "@SYNTAX=IMSQRT(inumber)\n"
@@ -3514,7 +3520,6 @@ msgstr ""
 "@SEEALSO=IMPOWER"
 
 #: src/functions/fn-eng.c:1127
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSUB\n"
 "@SYNTAX=IMSUB(inumber,inumber)\n"
@@ -3535,7 +3540,6 @@ msgstr ""
 "@SEEALSO=IMSUM"
 
 #: src/functions/fn-eng.c:1158
-#, fuzzy
 msgid ""
 "@FUNCTION=IMPRODUCT\n"
 "@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])\n"
@@ -3551,12 +3555,11 @@ msgstr ""
 "@DESCRIPTION=IMPRODUCT returnerar produkten av de givna komplexa talen. "
 "Denna funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
-"IMPRODUCT(\"2-j\",\"4-2j\") är like med 6-8j.\n"
+"IMPRODUCT(\"2-j\",\"4-2j\") är lika med 6-8j.\n"
 "\n"
 "@SEEALSO=IMDIV"
 
 #: src/functions/fn-eng.c:1228
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSUM\n"
 "@SYNTAX=IMSUM(inumber,inumber)\n"
@@ -3797,7 +3800,7 @@ msgid ""
 "ERF(0.4) equals 0.428392355.\n"
 "\n"
 "@SEEALSO=ERFC"
-msgstr "@FUNCTION="
+msgstr ""
 
 #: src/functions/fn-eng.c:1701
 #, fuzzy
@@ -3811,7 +3814,7 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=ERF"
-msgstr "@FUNCTION="
+msgstr ""
 
 #: src/functions/fn-eng.c:1730
 #, fuzzy
@@ -3827,11 +3830,6 @@ msgid ""
 "\n"
 "@SEEALSO=EXACT,GESTEP"
 msgstr ""
-"@FUNCTION=SQRT\n"
-"@SYNTAX=SQRT(x)\n"
-"@DESCRIPTION=Funktionen SQRT returnerar kvadratroten av @x.\n"
-"Om @x är negativt, returnas #NUM!. Funktionen tar endast ett argument.\n"
-"@SEEALSO=POW"
 
 #: src/functions/fn-eng.c:1776 src/functions/fn-eng.c:1831
 msgid "Impossible"
@@ -3851,15 +3849,10 @@ msgid ""
 "\n"
 "@SEEALSO=DELTA"
 msgstr ""
-"@FUNCTION=SQRT\n"
-"@SYNTAX=SQRT(x)\n"
-"@DESCRIPTION=Funktionen SQRT returnerar kvadratroten av @x.\n"
-"Om @x är negativt, returnas #NUM!. Funktionen tar endast ett argument.\n"
-"@SEEALSO=POW"
 
 #: src/functions/fn-eng.c:1844
 msgid "Engineering"
-msgstr ""
+msgstr "Tekniska"
 
 #: src/functions/fn-financial.c:209
 msgid ""
@@ -4080,7 +4073,6 @@ msgid "nominal - domain error"
 msgstr "nominal - domänfel"
 
 #: src/functions/fn-financial.c:653
-#, fuzzy
 msgid ""
 "@FUNCTION=ISPMT\n"
 "@SYNTAX=ISPMT(rate,per,nper,pv)\n"
@@ -4092,7 +4084,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISPMT\n"
 "@SYNTAX=ISPMT(räntesats,per,nper,pv)\n"
-"@DESCRIPTION=ISPMT returnerar räntan för en viss period.\n"
+"@DESCRIPTION=ISPMT returnerar den betalda räntan för en viss period.\n"
 "Om @per < 1 eller @per > @nper, returnerar ISPMT felvärdet #NUM!.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -4497,7 +4489,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-financial.c:1728
-#, fuzzy
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
@@ -4506,10 +4497,12 @@ msgid ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
-"@FUNCTION=PV\n"
-"@SYNTAX=PV(ränta,nper,pmt,fv,typ)\n"
-"@DESCRIPTION=Beräknar nuvarande värdet av en investering.\n"
-"@SEEALSO=FV"
+"@FUNCTION=NPER\n"
+"@SYNTAX=NPER(ränta,pmt,pv,fv,typ)\n"
+"@DESCRIPTION=NPER beräknar antalet perioder för en investering.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=PPMT,PV,FV"
 
 #: src/functions/fn-financial.c:1764
 msgid ""
@@ -5469,7 +5462,6 @@ msgstr ""
 "@SEEALSO=GCD"
 
 #: src/functions/fn-math.c:245
-#, fuzzy
 msgid ""
 "@FUNCTION=ABS\n"
 "@SYNTAX=ABS(b1)\n"
@@ -5569,7 +5561,6 @@ msgstr ""
 "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:364
-#, fuzzy
 msgid ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
@@ -5590,7 +5581,6 @@ msgstr ""
 "@SEEALSO=ASIN, ACOSH, SIN, COS, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:388
-#, fuzzy
 msgid ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
@@ -5603,7 +5593,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
-"@DESCRIPTION=ATAN beräknar arctan av @x; det vill säga det värde vars "
+"@DESCRIPTION=ATAN beräknar arcus tangens av @x; det vill säga det värde vars "
 "tangens är @x. Resultatet ges i radianer. Denna funktion är kompatibel med "
 "Excel.\n"
 "@EXAMPLES=\n"
@@ -5611,7 +5601,6 @@ msgstr ""
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:411
-#, fuzzy
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
@@ -5627,13 +5616,12 @@ msgstr ""
 "@SYNTAX=ATANH(x)\n"
 "@DESCRIPTION=ATANH beräknar inversen till tangens hyperbolicus; det vill "
 "säga det värde vars tanh är @x. Om absolutvärdet av @x är större än 1.0, "
-"returnerar ATANH felet NUM! Denna funktion är kompatibel med Excel.\n"
+"returnerar ATANH felvärdet NUM! Denna funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
 "ATANH(0.5) är lika med 0.549306. ATANH(0.8) är lika med 1.098612.\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:443
-#, fuzzy
 msgid ""
 "@FUNCTION=ATAN2\n"
 "@SYNTAX=ATAN2(b1,b2)\n"
@@ -5657,7 +5645,6 @@ msgstr ""
 "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:471
-#, fuzzy
 msgid ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
@@ -5730,7 +5717,6 @@ msgstr ""
 "@SEEALSO=COUNTIF,SUM"
 
 #: src/functions/fn-math.c:733
-#, fuzzy
 msgid ""
 "@FUNCTION=CEILING\n"
 "@SYNTAX=CEILING(x,significance)\n"
@@ -5747,7 +5733,7 @@ msgstr ""
 "@SYNTAX=CEILING(x,significance)\n"
 "@DESCRIPTION=CEILING avrundar @x uppåt till den minsta multipeln av "
 "@significance.\n"
-"Om @x eller @significance är icke-numerisk, returnerar CEILING felet #VALUE! "
+"Om @x eller @significance är icke-numerisk, returnerar CEILING felet #VÄRDE! "
 "Om @x och @significance har olika tecken, returneras felet #NUM!. Denna "
 "funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
@@ -5777,7 +5763,6 @@ msgstr ""
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 
 #: src/functions/fn-math.c:798
-#, fuzzy
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
@@ -5798,7 +5783,6 @@ msgstr ""
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 
 #: src/functions/fn-math.c:823
-#, fuzzy
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -5861,7 +5845,6 @@ msgstr ""
 "@SEEALSO="
 
 #: src/functions/fn-math.c:917
-#, fuzzy
 msgid ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
@@ -5888,7 +5871,6 @@ msgstr ""
 "@SEEALSO="
 
 #: src/functions/fn-math.c:967
-#, fuzzy
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x,significance)\n"
@@ -5980,7 +5962,6 @@ msgstr ""
 "@SEEALSO=EXP, LOG2, LOG10"
 
 #: src/functions/fn-math.c:1098
-#, fuzzy
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
@@ -6106,7 +6087,6 @@ msgstr ""
 "@SEEALSO="
 
 #: src/functions/fn-math.c:1282
-#, fuzzy
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -6127,7 +6107,6 @@ msgstr ""
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
 #: src/functions/fn-math.c:1305
-#, fuzzy
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -6149,7 +6128,6 @@ msgstr ""
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
 #: src/functions/fn-math.c:1328
-#, fuzzy
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -6165,14 +6143,13 @@ msgstr ""
 "@SYNTAX=SQRT(x)\n"
 "@DESCRIPTION=Funktionen SQRT returnerar kvadratroten av @x. Denna funktion "
 "är kompatibel med Excel.\n"
-"Om @x är negativt, returnas #NUM!. \n"
+"Om @x är negativt, returneras felvärdet #NUM!. \n"
 "@EXAMPLES=\n"
 "SQRT(2) är lika med 1.4142136.\n"
 "\n"
 "@SEEALSO=POW"
 
 #: src/functions/fn-math.c:1356
-#, fuzzy
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -6188,11 +6165,15 @@ msgstr ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(värde1, värde2, ...)\n"
 "@DESCRIPTION=Beräknar summan av alla värden och celler som referaras till i "
-"argumentlistan. \n"
+"argumentlistan. Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"Antag att cellerna A1, A2, ..., A5 innehåller talen 11, 15, 17, 21, "
+"och 43. Då är\n"
+"SUM(A1:A5) lika med 107.\n"
+"\n"
 "@SEEALSO=AVERAGE, COUNT"
 
 #: src/functions/fn-math.c:1385
-#, fuzzy
 msgid ""
 "@FUNCTION=SUMA\n"
 "@SYNTAX=SUMA(value1, value2, ...)\n"
@@ -6211,14 +6192,18 @@ msgstr ""
 "@FUNCTION=SUMA\n"
 "@SYNTAX=SUMA(värde1, värde2, ...)\n"
 "@DESCRIPTION=Beräknar summan av alla värden och celler som referaras till i "
-"argumentlistan. Tal, text och logiska värden inkulderas även de i "
+"argumentlistan. Tal, text och logiska värden inkluderas även de i "
 "beräkningen. Om cellen innehåller text eller om argumenten evalueras till "
 "FALSE, räknas de som noll (0). Om ett argument evalueras till TRUE, räknas "
-"det som 1. Observera  att tomma celler inte räknas.\n"
+"det som 1.\n"
+"@EXAMPLES=\n"
+"Antag att cellerna A1, A2, ..., A5 innehåller talen 11, 15, 17, 21, "
+"och 43. Då är\n"
+"SUMA(A1:A5) lika med 107.\n"
+"\n"
 "@SEEALSO=AVERAGE, SUM, COUNT"
 
 #: src/functions/fn-math.c:1416
-#, fuzzy
 msgid ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(value1, value2, ...)\n"
@@ -6234,11 +6219,15 @@ msgstr ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(värde1, värde2, ...)\n"
 "@DESCRIPTION=SUMSQ beräknar summan av kvadraterna på alla värden och celler "
-"som referaras till i argumentlistan.\n"
+"som referaras till i argumentlistan. Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"Antag att cellerna A1, A2, ..., A5 innehåller talen 11, 15, 17, 21, "
+"och 43. Då är\n"
+"SUMSQ(A1:A5) lika med 2925.\n"
+"\n"
 "@SEEALSO=SUM, COUNT"
 
 #: src/functions/fn-math.c:1446
-#, fuzzy
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
@@ -6252,11 +6241,13 @@ msgstr ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(värde1, värde2, ...)\n"
 "@DESCRIPTION=MULTINOMIAL beräknar förhållandet (fakulteten av en summa av "
-"värden) / (produkten av fakulteterna av värdena).\n"
+"värden) / (produkten av fakulteterna av värdena). Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"MULTINOMIAL(2,3,4) är lika med 1260.\n"
+"\n"
 "@SEEALSO=SUM"
 
 #: src/functions/fn-math.c:1506
-#, fuzzy
 msgid ""
 "@FUNCTION=PRODUCT\n"
 "@SYNTAX=PRODUCT(value1, value2, ...)\n"
@@ -6271,11 +6262,14 @@ msgstr ""
 "@FUNCTION=PRODUCT\n"
 "@SYNTAX=PRODUCT(värde1, värde2, ...)\n"
 "@DESCRIPTION=PRODUCT returnerar produkten av alla värden och celler som "
-"refereras till i argumentlistan.\n"
+"refereras till i argumentlistan. Funktionen är kompatibel med Excel. Detta "
+"innebär att om alla celler är tomma, blir resultatet 0.\n"
+"@EXAMPLES=\n"
+"PRODUCT(2,5,9) är lika med 90.\n"
+"\n"
 "@SEEALSO=SUM, COUNT"
 
 #: src/functions/fn-math.c:1543
-#, fuzzy
 msgid ""
 "@FUNCTION=G_PRODUCT\n"
 "@SYNTAX=G_PRODUCT(value1, value2, ...)\n"
@@ -6287,14 +6281,17 @@ msgid ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 msgstr ""
-"@FUNCTION=PRODUCT\n"
-"@SYNTAX=PRODUCT(värde1, värde2, ...)\n"
-"@DESCRIPTION=PRODUCT returnerar produkten av alla värden och celler som "
-"refereras till i argumentlistan.\n"
+"@FUNCTION=G_PRODUCT\n"
+"@SYNTAX=G_PRODUCT(värde1, värde2, ...)\n"
+"@DESCRIPTION=G_PRODUCT returnerar produkten av alla värden och celler som "
+"refereras till i argumentlistan. Tomma celler ignoreras och produkten av "
+"tomma celler är 1.\n"
+"@EXAMPLES=\n"
+"G_PRODUCT(2,5,9) är lika med 90.\n"
+"\n"
 "@SEEALSO=SUM, COUNT"
 
 #: src/functions/fn-math.c:1570
-#, fuzzy
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -6308,13 +6305,13 @@ msgstr ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
 "@DESCRIPTION=Funktionen TAN returnerar tangens av @x, där @x anges i "
-"radianer.\n"
-"Om funktionen utförs på en sträng eller tom cell, händer ingenting. "
-"Funktionen tar endast ett argument.\n"
+"radianer. Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"TAN(3) är lika med -0.1425465.\n"
+"\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:1593
-#, fuzzy
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -6329,13 +6326,14 @@ msgstr ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
 "@DESCRIPTION= TANH returnerar tangens hyperbolicus av @x,  vilket är "
-"definierat matematiskt som sinh(@x) / cosh(@x).\n"
-"Om funktionen utförs på en sträng eller tom cell, händer ingenting. "
-"Funktionen tar endast ett argument.\n"
+"definierat matematiskt som sinh(@x) / cosh(@x). "
+"Funktionen är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"TANH(2) är lika med 0.96402758.\n"
+"\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:1616
-#, fuzzy
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -6349,12 +6347,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
-"@DESCRIPTION=PI returnerar värdet av pi, definierat av M_PI.\n"
-"Funktionen har inga argument.\n"
+"@DESCRIPTION=PI returnerar värdet av pi. \n"
+"Funktionen är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"PI() är lika med 3.141593.\n"
+"\n"
 "@SEEALSO="
 
 #: src/functions/fn-math.c:1640
-#, fuzzy
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -6370,12 +6370,14 @@ msgstr ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(tal[,siffror])\n"
 "@DESCRIPTION=TRUNC returnerar värdet av @tal avhuggt till det givna antalet "
-"decimaler. Om @siffror inte anges, huggs alla decimaler av.\n"
+"decimaler. Om @siffror inte anges, huggs alla decimaler av. Funktionen är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"TRUNC(3.12) är lika med 3.\n"
+"TRUNC(4.15,1) är lika med 4.1.\n"
 "\n"
 "@SEEALSO="
 
 #: src/functions/fn-math.c:1678
-#, fuzzy
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
@@ -6388,11 +6390,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(tal)\n"
-"@DESCRIPTION=EVEN returnerar @tal avrundat uppåt till närmsta jämna heltal.\n"
+"@DESCRIPTION=EVEN returnerar @tal avrundat uppåt till närmsta jämna heltal. "
+"Funktionen är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"EVEN(5.4) är lika med 6.\n"
+"\n"
 "@SEEALSO=ODD"
 
 #: src/functions/fn-math.c:1716
-#, fuzzy
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
@@ -6405,11 +6410,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(tal)\n"
-"@DESCRIPTION=ODD returnerar @tal avrundat uppåt till närmsta udda heltal.\n"
+"@DESCRIPTION=ODD returnerar @tal avrundat uppåt till närmsta udda heltal. "
+"Funktionen är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"ODD(4.4) är lika med 5.\n"
+"\n"
 "@SEEALSO=EVEN"
 
 #: src/functions/fn-math.c:1754
-#, fuzzy
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -6426,11 +6434,13 @@ msgstr ""
 "@SYNTAX=FACTDOUBLE(tal)\n"
 "@DESCRIPTION=FACTDOUBLE beräknar semifakulteten för @tal.\n"
 "Om @tal inte är ett heltal, trunkeras det. Om @tal är negativt, returneras "
-"felet #NUM!\n"
+"felet #NUM!. Funktionen är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"FACTDOUBLE(5) är lika med 15.\n"
+"\n"
 "@SEEALSO=FACT"
 
 #: src/functions/fn-math.c:1792
-#, fuzzy
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(num,den)\n"
@@ -6444,11 +6454,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(täljare,nämnare)\n"
-"@DESCRIPTION=QUOTIENT returnerar heltalsdelen av ett bråk.\n"
+"@DESCRIPTION=QUOTIENT returnerar heltalsdelen av ett bråk. "
+"Funktionen är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"QUOTIENT(23,5) är lika med 4.\n"
+"\n"
 "@SEEALSO=MOD"
 
 #: src/functions/fn-math.c:1820
-#, fuzzy
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(number)\n"
@@ -6465,11 +6478,10 @@ msgstr ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(tal)\n"
 "@DESCRIPTION=Funktionen SIGN returnerar 1 om @tal är positivt, 0 om det är "
-"0, och -1 om @tal är negativt.\n"
+"0, och -1 om @tal är negativt. Funktionen är kompatibel med Excel.\n"
 "@SEEALSO="
 
 #: src/functions/fn-math.c:1854
-#, fuzzy
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
@@ -6483,11 +6495,13 @@ msgstr ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(tal)\n"
 "@DESCRIPTION=SQRTPI beräknar kvadratroten av ett @tal multiplicarat med pi. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"SQRTPI(2) är lika med 2.506628275.\n"
 "\n"
 "@SEEALSO=PI"
 
 #: src/functions/fn-math.c:1883
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bottom,top)\n"
@@ -6506,11 +6520,13 @@ msgstr ""
 "@DESCRIPTION=RANDBETWEEN returnerar ett slumpheltal mellan @lägst och "
 "@högst.\n"
 "Om @lägst eller @högst är icke-heltal, trunkeras de. Om @lägst > @högst, "
-"returneras felet #NUM!.\n"
+"returneras felet #NUM!. Funktionen är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"RANDBETWEEN(3,7).\n"
+"\n"
 "@SEEALSO=RAND"
 
 #: src/functions/fn-math.c:1917
-#, fuzzy
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -6535,11 +6551,16 @@ msgstr ""
 "siffror som @tal skall avrundas till.\n"
 "Om @siffror är noll eller utelämnat, avrundas @tal nedåt till närmsta "
 "heltal. Om @siffror är mindre än noll, avrundas @tal nedåt till vänster om "
-"decimaltecknet.\n"
+"decimaltecknet. Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"ROUNDDOWN(5.5) är lika med 5.\n"
+"ROUNDDOWN(-3.3) är lika med -4.\n"
+"ROUNDDOWN(1501.15,1) är lika med 1501.1.\n"
+"ROUNDDOWN(1501.15,-2) är lika med 1500.0.\n"
+"\n"
 " @SEEALSO=ROUNDUP"
 
 #: src/functions/fn-math.c:1964
-#, fuzzy
 msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
@@ -6563,11 +6584,16 @@ msgstr ""
 "@DESCRIPTION=ROUND avrundar @tal till @siffror decimaler.\n"
 "Om @siffror är mindre än noll eller utelämnat, avrundas @tal till närmsta "
 "heltal. Om @siffror är mindre än noll, avrundas @tal till vänster om "
-"decimaltecknet.\n"
+"decimaltecknet. Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"ROUND(5.5) är lika med 6.\n"
+"ROUND(-3.3) är lika med -3.\n"
+"ROUND(1501.15,1) är lika med 1501.2.\n"
+"ROUND(1501.15,-2) är lika med 1500.0.\n"
+"\n"
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 
 #: src/functions/fn-math.c:2008
-#, fuzzy
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -6592,7 +6618,13 @@ msgstr ""
 "antalet siffror som @tal skall avrundas till.\n"
 "Om @siffror är noll eller utelämnat, avrundas @tal uppåt till närmsta "
 "heltal. Om @siffror är mindre än noll, avrundas @tal uppåt till vänster om "
-"decimaltecknet.\n"
+"decimaltecknet. Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"ROUNDUP(5.5) är lika med 6.\n"
+"ROUNDUP(-3.3) är lika med -3.\n"
+"ROUNDUP(1501.15,1) är lika med 1501.2.\n"
+"ROUNDUP(1501.15,-2) är lika med 1600.0.\n"
+"\n"
 " @SEEALSO=ROUNDDOWN"
 
 #: src/functions/fn-math.c:2055
@@ -6612,7 +6644,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-math.c:2105
-#, fuzzy
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -6642,11 +6673,17 @@ msgstr ""
 "mer precis är den klassiska stilen, typ 2 är mer precis är typ 1 och typ 3 "
 "är mer precis än typ 2. Typ 4 är en förenklad stil. \n"
 "Om @tal är negativt eller större än 3999, returnerar ROMAN felvärdet "
-"#VALUE!.\n"
+"#VÄRDE!. Funktionen är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"ROMAN(999) är lika med CMXCIX.\n"
+"ROMAN(999,1) är lika med LMVLIV.\n"
+"ROMAN(999,2) är lika med XMIX.\n"
+"ROMAN(999,3) är lika med VMIV.\n"
+"ROMAN(999,4) är lika med IM.\n"
+"\n"
 "@SEEALSO="
 
 #: src/functions/fn-math.c:2374
-#, fuzzy
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -6671,7 +6708,14 @@ msgstr ""
 "av talen i de två fälten @fält1 och @fält2. Ekvationen för SUMX2MY2 är: SUM "
 "(x^2-y^2).\n"
 "Strängar och tomma celler ignoreras.\n"
-"Om @fält1 och @fält2 har olika antal värden, returneras felvärdet #N/A!.\n"
+"Om @fält1 och @fält2 har olika antal värden, returneras felvärdet #N/A!. "
+"Funktionen är kompatibel mee Excel.\n"
+"@EXAMPLES=\n"
+"Antag att cellerna A1, A2, ..., A5 innehåller talen 11, 15, 17, 21, "
+"och 43 och cellerna B1, B2, ..., B5 innehåller talen 13, 22, 31, 33, samt 39.  "
+"Då är\n"
+"SUMX2MY2(A1:A5,B1:B5) lika med -1299.\n"
+"\n"
 "@SEEALSO=SUMSQ"
 
 #: src/functions/fn-math.c:2429 src/functions/fn-math.c:2444
@@ -6711,7 +6755,6 @@ msgstr ""
 "@SEEALSO=SUMSQ"
 
 #: src/functions/fn-math.c:2569
-#, fuzzy
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -6736,11 +6779,17 @@ msgstr ""
 "av talen i de två fälten @fält1 och @fält2. Ekvationen för SUMX2MY2 är: SUM "
 "(x^2-y^2).\n"
 "Strängar och tomma celler ignoreras.\n"
-"Om @fält1 och @fält2 har olika antal värden, returneras felvärdet #N/A!.\n"
+"Om @fält1 och @fält2 har olika antal värden, returneras felvärdet #N/A!. "
+"Funktionen är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"Antag att cellerna A1, A2, ..., A5 innehåller talen 11, 15, 17, 21, "
+"och 43 och att cellerna B1, B2, ..., B5 innehåller talen 13, 22, 31, 33, samt 39.  "
+"Då är\n"
+"SUMXMY2(A1:A5,B1:B5) lika med 409.\n"
+"\n"
 "@SEEALSO=SUMSQ"
 
 #: src/functions/fn-math.c:2666
-#, fuzzy
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
@@ -6786,11 +6835,19 @@ msgstr ""
 "9   SUM\n"
 "10   VAR\n"
 "11   VARP\n"
+"Funktionen är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"Antag att cellerna A1, A2, ..., A5 innehåller talen 23, 27, 28, 33, "
+"och 39. Då gäller:\n"
+"SUBTOTAL(1,A1:A5) är lika med 30.\n"
+"SUBTOTAL(6,A1:A5) är lika med 22378356.\n"
+"SUBTOTAL(7,A1:A5) är lika med 6.164414003.\n"
+"SUBTOTAL(9,A1:A5) är lika med 150.\n"
+"SUBTOTAL(11,A1:A5) är lika med 30.4.\n"
 "\n"
 "@SEEALSO=COUNT,SUM"
 
 #: src/functions/fn-math.c:2759
-#, fuzzy
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -6811,11 +6868,14 @@ msgstr ""
 "@DESCRIPTION=Funktionen SERIESSUM returnerar summan av en exponentialserie. "
 "@x är basen i serien, @n är den första exponenten, @m är ökningen i "
 "exponenten och @koefficienter är koefficienterna som termerna multipliceras "
-"med.\n"
+"med. Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"Antag att cellerna A1, A2, ..., A5 innehåller talen 1.23, 2.32, "
+"2.98, 3.42, och 4.33.  Då är\n"
+"SERIESSUM(3,1,2.23,A1:A5) lika med 251416.43018.\n"
 "@SEEALSO=COUNT,SUM"
 
 #: src/functions/fn-math.c:2882
-#, fuzzy
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(array)\n"
@@ -6832,7 +6892,10 @@ msgstr ""
 "@SYNTAX=MINVERSE(matris)\n"
 "@DESCRIPTION=MINVERSE returnerar inversen av den givna matrisen @matris.\n"
 "Om matrisen inte kan inverteras, returneras felet #NUM!. Om matrisen inte "
-"har lika antal rader som kolumner, returneras felet #VALUE!.\n"
+"har lika antal rader som kolumner, returneras felet #VÄRDE!. "
+"Funktionen är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=MMULT, MDETERM"
 
 #: src/functions/fn-math.c:2930
@@ -6851,12 +6914,6 @@ msgid ""
 "\n"
 "@SEEALSO=TRANSPOSE,MINVERSE"
 msgstr ""
-"@FUNCTION=MINVERSE\n"
-"@SYNTAX=MINVERSE(matris)\n"
-"@DESCRIPTION=MINVERSE returnerar inversen av den givna matrisen @matris.\n"
-"Om matrisen inte kan inverteras, returneras felet #NUM!. Om matrisen inte "
-"har lika antal rader som kolumner, returneras felet #VALUE!.\n"
-"@SEEALSO=MMULT, MDETERM"
 
 #: src/functions/fn-math.c:3134
 #, fuzzy
@@ -6874,12 +6931,6 @@ msgid ""
 "\n"
 "@SEEALSO=MMULT, MINVERSE"
 msgstr ""
-"@FUNCTION=MINVERSE\n"
-"@SYNTAX=MINVERSE(matris)\n"
-"@DESCRIPTION=MINVERSE returnerar inversen av den givna matrisen @matris.\n"
-"Om matrisen inte kan inverteras, returneras felet #NUM!. Om matrisen inte "
-"har lika antal rader som kolumner, returneras felet #VALUE!.\n"
-"@SEEALSO=MMULT, MDETERM"
 
 #: src/functions/fn-math.c:3260
 msgid ""
@@ -6937,11 +6988,6 @@ msgid ""
 "\n"
 "@SEEALSO=STDEV,VAR,MEAN"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(x)\n"
-"@DESCRIPTION=Omvandlar @x radianer till grader.\n"
-"Om funktionen utförs på en sträng eller tom cell, händer ingenting.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-stat.c:146
 msgid ""
@@ -6974,11 +7020,6 @@ msgid ""
 "\n"
 "@SEEALSO=VAR,MEAN"
 msgstr ""
-"@FUNCTION=CEIL\n"
-"@SYNTAX=CEIL(x)\n"
-"@DESCRIPTION=Funktionen CEIL avrundar @x uppåt till närmsta heltal.\n"
-"Om argumentet är en sträng eller tom cell, händer ingenting.\n"
-"@SEEALSO=ABS, FLOOR, INT"
 
 #: src/functions/fn-stat.c:208
 #, fuzzy
@@ -6995,11 +7036,6 @@ msgid ""
 "\n"
 "@SEEALSO=STDEV,VAR,MEAN"
 msgstr ""
-"@FUNCTION=CEIL\n"
-"@SYNTAX=CEIL(x)\n"
-"@DESCRIPTION=Funktionen CEIL avrundar @x uppåt till närmsta heltal.\n"
-"Om argumentet är en sträng eller tom cell, händer ingenting.\n"
-"@SEEALSO=ABS, FLOOR, INT"
 
 #: src/functions/fn-stat.c:237
 msgid ""
@@ -7257,7 +7293,6 @@ msgstr ""
 "@SEEALSO=RADIANS, PI"
 
 #: src/functions/fn-stat.c:803
-#, fuzzy
 msgid ""
 "@FUNCTION=COUNT\n"
 "@SYNTAX=COUNT(b1, b2, ...)\n"
@@ -7273,12 +7308,15 @@ msgstr ""
 "@FUNCTION=COUNT\n"
 "@SYNTAX=COUNT(b1, b2, ...)\n"
 "@DESCRIPTION=Returnerar totala antalet heltal eller flyttal som anges som "
-"argument.\n"
-" Utförs funktionen på en sträng eller tom cell, händer ingenting.\n"
+"argument. Funktionen är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"Antag att cellern A1, A2, ..., A5 innehåller talen 11.4, 17.3, "
+"21.3, 25.9, och 40.1.  Då är\n"
+"COUNT(A1:A5) lika med 5.\n"
+"\n"
 "@SEEALSO=AVERAGE"
 
 #: src/functions/fn-stat.c:844
-#, fuzzy
 msgid ""
 "@FUNCTION=COUNTA\n"
 "@SYNTAX=COUNTA(b1, b2, ...)\n"
@@ -7293,12 +7331,16 @@ msgid ""
 msgstr ""
 "@FUNCTION=COUNTA\n"
 "@SYNTAX=COUNTA(b1, b2, ...)\n"
-"@DESCRIPTION=Returnerar antalet argument som angetts exklusive tomma "
-"celler.\n"
+"@DESCRIPTION=Returnerar antalet argument som anges, exklusive tomma "
+"celler. Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"Antag att cellerna A1, A2, ..., A5 innehåller talen och strängarna "
+"11.4, \"saknad\", \"saknad\", 25.9, och 40.1.  Då är\n"
+"COUNTA(A1:A5) lika med 5.\n"
+"\n"
 "@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM"
 
 #: src/functions/fn-stat.c:886
-#, fuzzy
 msgid ""
 "@FUNCTION=AVERAGE\n"
 "@SYNTAX=AVERAGE(value1, value2,...)\n"
@@ -7317,11 +7359,15 @@ msgstr ""
 "@SYNTAX=AVERAGE(värde1, värde2,...)\n"
 "@DESCRIPTION=Beräknar medelvärdet av alla värden och celler refererade till "
 "i argumentlistan. Detta är likvärdigt med att summera alla argument och dela "
-"med antalet argument.\n"
+"med antalet argument. Funktionen är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"Antag att cellerna A1, A2, ..., A5 innehåller talen 11.4, 17.3, "
+"21.3, 25.9, och 40.1.  Då är\n"
+"AVERAGE(A1:A5) lika med 23.2.\n"
+"\n"
 "@SEEALSO=SUM, COUNT"
 
 #: src/functions/fn-stat.c:917
-#, fuzzy
 msgid ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
@@ -7338,12 +7384,15 @@ msgstr ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
 "@DESCRIPTION=MIN returnerar det värde av argumenten som är det minsta. "
-"Negativa tal räknas som  mindre än positiva tal.\n"
-"Utförs funktionen på en sträng eller tom cell, händer ingenting.\n"
+"Negativa tal räknas som  mindre än positiva tal. Funktionen är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"Antag att cellerna A1, A2, ..., A5 innehåller talen 11.4, 17.3, "
+"21.3, 25.9, och 40.1.  Då är\n"
+"MIN(A1:A5) lika med 11.4.\n"
+"\n"
 "@SEEALSO=MAX,ABS"
 
 #: src/functions/fn-stat.c:958
-#, fuzzy
 msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -7360,8 +7409,12 @@ msgstr ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
 "@DESCRIPTION=MAX returnerar det värde av argumenten som är det största. "
-"Negativa tal räknas som  mindre än positiva tal.\n"
-"Utförs funktionen på en sträng eller tom cell, händer ingenting.\n"
+"Negativa tal räknas som  mindre än positiva tal. Funktionen är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"Antag att cellerna A1, A2, ..., A5 innehåller talen 11.4, 17.3, "
+"21.3, 25.9, och 40.1.  Då är\n"
+"MAX(A1:A5) lika med 40.1.\n"
+"\n"
 "@SEEALSO=MIN,ABS"
 
 #: src/functions/fn-stat.c:999
@@ -7384,11 +7437,6 @@ msgid ""
 "\n"
 "@SEEALSO=AVERAGE,VAR,SKEWP,KURT"
 msgstr ""
-"@FUNCTION=SUMSQ\n"
-"@SYNTAX=SUMSQ(värde1, värde2, ...)\n"
-"@DESCRIPTION=SUMSQ beräknar summan av kvadraterna på alla värden och celler "
-"som referaras till i argumentlistan.\n"
-"@SEEALSO=SUM, COUNT"
 
 #: src/functions/fn-stat.c:1036
 msgid ""
@@ -7434,13 +7482,6 @@ msgid ""
 "\n"
 "@SEEALSO=POISSON"
 msgstr ""
-"@FUNCTION=CEILING\n"
-"@SYNTAX=CEILING(x,significance)\n"
-"@DESCRIPTION=CEILING avrundar @x uppåt till den minsta multipeln av "
-"@significance.\n"
-"Om @x eller @significance är icke-numerisk, returnerar CEILING felet #VALUE! "
-"Om @x och @significance har olika tecken, returneras felet #NUM!.\n"
-"@SEEALSO=CEIL"
 
 #: src/functions/fn-stat.c:1148
 #, fuzzy
@@ -7730,12 +7771,6 @@ msgid ""
 "\n"
 "@SEEALSO=COMBIN"
 msgstr ""
-"@FUNCTION=FACTDOUBLE\n"
-"@SYNTAX=FACTDOUBLE(tal)\n"
-"@DESCRIPTION=FACTDOUBLE beräknar semifakulteten för @tal.\n"
-"Om @tal inte är ett heltal, trunkeras det. Om @tal är negativt, returneras "
-"felet #NUM!\n"
-"@SEEALSO=FACT"
 
 #: src/functions/fn-stat.c:1799
 #, fuzzy
@@ -7776,16 +7811,10 @@ msgid ""
 "\n"
 "@SEEALSO=AVERAGE"
 msgstr ""
-"@FUNCTION=FACTDOUBLE\n"
-"@SYNTAX=FACTDOUBLE(tal)\n"
-"@DESCRIPTION=FACTDOUBLE beräknar semifakulteten för @tal.\n"
-"Om @tal inte är ett heltal, trunkeras det. Om @tal är negativt, returneras "
-"felet #NUM!\n"
-"@SEEALSO=FACT"
 
 #: src/functions/fn-stat.c:1869 src/value-sheet.c:399
 msgid "#DIV/0!"
-msgstr ""
+msgstr "#DIV/0!"
 
 #: src/functions/fn-stat.c:1880
 #, fuzzy
@@ -10462,7 +10491,7 @@ msgstr "Ta bort detta blad"
 
 #: src/workbook.c:2430
 msgid "Rename this sheet"
-msgstr "Döp om detta blad"
+msgstr "Byt namn på detta blad"
 
 #: src/workbook.c:2658 src/workbook.c:2691
 #, c-format
@@ -10473,102 +10502,3 @@ msgstr "Blad%d"
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
 
-#~ msgid "OLD Statistics Plugin, not required anymore"
-#~ msgstr "GAMMALT Statistiktillägg, krävs inte längre"
-
-#~ msgid "Data Analysis"
-#~ msgstr "Dataanalys"
-
-#~ msgid "Analysis Tools"
-#~ msgstr "Analysverktyg"
-
-#~ msgid "Tangent"
-#~ msgstr "Tangent"
-
-#~ msgid "Quadratic"
-#~ msgstr "Kvadratisk"
-
-#~ msgid "Forward"
-#~ msgstr "Framåt"
-
-#~ msgid "Central"
-#~ msgstr "Central"
-
-#~ msgid "Newton"
-#~ msgstr "Newton"
-
-#~ msgid "Conjugate"
-#~ msgstr "Konjugat"
-
-#~ msgid "Assume Linear Model"
-#~ msgstr "Antag linjär modell"
-
-#~ msgid "Assume Non-Negative"
-#~ msgstr "Antag icke-negativ"
-
-#~ msgid "Use Automatic Scaling"
-#~ msgstr "Använd automatisk skalning"
-
-#~ msgid "Show Iteration Results"
-#~ msgstr "Visa iterationer"
-
-#~ msgid "Gnumeric Solver Options"
-#~ msgstr "Gnumeric problemlösningsalternativ"
-
-#~ msgid "Estimates"
-#~ msgstr "Uppskattning"
-
-#, fuzzy
-#~ msgid "Derivatives"
-#~ msgstr "Terminera"
-
-#~ msgid "Search"
-#~ msgstr "Sök"
-
-#, fuzzy
-#~ msgid "Missing argument"
-#~ msgstr "Apostrof saknas"
-
-#~ msgid "Sheet &[PAGE]"
-#~ msgstr "Blad &[PAGE]"
-
-#, fuzzy
-#~ msgid "Display _Grid lines"
-#~ msgstr "R_utnät"
-
-#~ msgid "Perl"
-#~ msgstr "Perl"
-
-#~ msgid "Gnumeric/Python module initialized\n"
-#~ msgstr "Gnumeric/Python-modul initialiserad\n"
-
-#~ msgid "C_olumns"
-#~ msgstr "_Kolumner"
-
-#~ msgid "Gnumeric: "
-#~ msgstr "Gnumeric: "
-
-#~ msgid ""
-#~ "While opening %s\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Vid öppnandet av %s\n"
-#~ "%s"
-
-#~ msgid "OK"
-#~ msgstr "OK"
-
-#~ msgid "Close"
-#~ msgstr "Stäng"
-
-#~ msgid "Add..."
-#~ msgstr "Lägg till..."
-
-#~ msgid "P_aste special..."
-#~ msgstr "Klistra in _special..."
-
-#~ msgid "could not alloc FuncDef"
-#~ msgstr "kunde inte allokera FuncDef"
-
-#~ msgid "Selection must be a finite range"
-#~ msgstr "Markeringen måste bestå av ett ändligt område"
