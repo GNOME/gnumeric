@@ -27,7 +27,6 @@
 #include "workbook.h"
 #include "sheet.h"
 #include "file.h"
-#include "xml-io.h"
 #include "bonobo-io.h"
 
 static GnumFileOpener *gnumeric_bonobo_opener;

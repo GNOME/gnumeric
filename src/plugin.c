@@ -34,7 +34,6 @@
 #include "gnumeric-util.h"
 #include "gutils.h"
 #include "command-context.h"
-#include "xml-io.h"
 #include "file.h"
 #include "workbook.h"
 #include "workbook-view.h"

@@ -1,3 +1,22 @@
+2001-05-23  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/bonobo-io.c, src/clipboard.c, src/file.c, src/plugin.c,
+	src/sheet-object.c, src/stf.c, src/workbook.c:
+	Removed #include "xml-io.h".
+
+	* src/dialogs/dialog-plugin-manager.c (gnumeric_dialog_question_yes_no):
+	Function moved ...
+
+	* src/gnumeric-util.[ch]: ... here.
+
+	* src/gui-file.c
+	(gui_file_import): Sorting file importers.
+	(fill_save_menu): Sorting file savers, function simplified (doesn't use
+	file_saver_is_default_format).
+	(can_try_save_to): Function simplified, uses
+	gnumeric_dialog_question_yes_no from gnumeric-util.h, default answer
+	for question about overwriting a file is configurable.
+
 2001-05-22  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/xml-io.c : Bump XML version number.

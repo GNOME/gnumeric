@@ -20,7 +20,6 @@
 #include "sheet-private.h"
 #include "expr.h"
 #include "ranges.h"
-#include "xml-io.h"
 
 #include "sheet-object-graphic.h"
 #include "sheet-object-cell-comment.h"

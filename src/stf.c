@@ -47,7 +47,6 @@
 #include "workbook-control.h"
 #include "workbook-view.h"
 #include "workbook.h"
-#include "xml-io.h"
 
 #include "stf.h"
 #include "dialog-stf.h"

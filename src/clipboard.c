@@ -27,8 +27,6 @@
 #include "ranges.h"
 #include "expr.h"
 #include "commands.h"
-
-#include "xml-io.h"
 #include "value.h"
 
 #include "dialog-stf.h"

@@ -167,29 +167,6 @@ typedef struct {
 static void update_plugin_manager_view (PluginManagerGUI *pm_gui);
 static void update_plugin_details_view (PluginManagerGUI *pm_gui);
 
-static gboolean
-gnumeric_dialog_question_yes_no (WorkbookControlGUI *wbcg,
-                                 const gchar *message,
-                                 gboolean default_answer)
-{
-	GtkWidget *dialog, *default_button;
-
-	dialog = gnome_message_box_new (
-	         message,
-	         GNOME_MESSAGE_BOX_QUESTION,
-	         GNOME_STOCK_BUTTON_YES,
-	         GNOME_STOCK_BUTTON_NO,
-	         NULL);
-	if (default_answer) {
-		default_button = (GtkWidget *) (GNOME_DIALOG (dialog)->buttons)->data;
-	} else {
-		default_button = (GtkWidget *) (GNOME_DIALOG (dialog)->buttons)->next->data;
-	}
-	gtk_widget_grab_focus (default_button);
-
-	return gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog)) == 0;
-}
-
 static void
 cb_pm_button_activate_plugin_clicked (GtkButton *button, PluginManagerGUI *pm_gui)
 {

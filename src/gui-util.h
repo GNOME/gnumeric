@@ -7,6 +7,9 @@
 #include "error-info.h"
 #include "gutils.h"
 
+gboolean   gnumeric_dialog_question_yes_no (WorkbookControlGUI *wbcg,
+                                            const gchar *message,
+                                            gboolean default_answer);
 void       gnumeric_notice (WorkbookControlGUI *wbcg, const char *type, const char *str);
 
 void       gnumeric_non_modal_dialog (WorkbookControlGUI *wbcg, GtkWindow *dialog);

@@ -12,7 +12,6 @@
 #include "io-context.h"
 #include "command-context.h"
 #include "gnumeric.h"
-#include "xml-io.h"
 #include "sheet.h"
 #include "application.h"
 #include "workbook-control.h"

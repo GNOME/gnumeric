@@ -29,7 +29,6 @@
 #include "ranges.h"
 #include "history.h"
 #include "commands.h"
-#include "xml-io.h"
 #include "main.h"
 #include "file.h"
 #include "io-context.h"

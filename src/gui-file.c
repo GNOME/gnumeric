@@ -1,10 +1,10 @@
 #include <config.h>
+#include <errno.h>
 #include <gnome.h>
 #include <glade/glade.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "dialogs.h"
-#include "xml-io.h"
 #include "gui-file.h"
 #include "sheet.h"
 #include "application.h"
@@ -14,6 +14,24 @@
 #include "workbook-view.h"
 #include "workbook.h"
 #include <sys/stat.h>
+
+static gint
+file_opener_description_cmp (gconstpointer a, gconstpointer b)
+{
+	const GnumFileOpener *fo_a = a, *fo_b = b;
+
+	return strcoll (gnum_file_opener_get_description (fo_a),
+	                gnum_file_opener_get_description (fo_b));
+}
+
+static gint
+file_saver_description_cmp (gconstpointer a, gconstpointer b)
+{
+	const GnumFileSaver *fs_a = a, *fs_b = b;
+
+	return strcoll (gnum_file_saver_get_description (fs_a),
+	                gnum_file_saver_get_description (fs_b));
+}
 
 static void
 cb_select (GtkWidget *clist, gint row, gint column,
@@ -38,7 +56,7 @@ gui_file_import (WorkbookControlGUI *wbcg, const char *filename)
 	GtkCList *clist;
 	GnumFileOpener *fo = NULL;
 	int row;
-	GList *l;
+	GList *importers, *l;
 	gint ret;
 
 	gui = gnumeric_glade_xml_new (wbcg, "import.glade");
@@ -51,7 +69,9 @@ gui_file_import (WorkbookControlGUI *wbcg, const char *filename)
 
 	clist = GTK_CLIST (glade_xml_get_widget (gui, "import-clist"));
 
-	for (l = get_file_importers (), row = 0; l != NULL; l = l->next, row++) {
+	importers = g_list_sort (g_list_copy (get_file_importers ()),
+	                         file_opener_description_cmp);
+	for (l = importers, row = 0; l != NULL; l = l->next, row++) {
 		GnumFileOpener *fo = l->data;
 		char *text[1];
 
@@ -62,6 +82,7 @@ gui_file_import (WorkbookControlGUI *wbcg, const char *filename)
 	if (row > 0) {
 		gtk_clist_select_row (clist, 0, 0);
 	}
+	g_list_free (importers);
 
 	gtk_signal_connect (GTK_OBJECT(clist), "select_row",
 	                    GTK_SIGNAL_FUNC (cb_select), (gpointer) dialog);
@@ -128,34 +149,14 @@ saver_activate (GtkMenuItem *item, GnumFileSaver *saver)
 	wbcg->current_saver = saver;
 }
 
-/**
- * file_saver_is_default_format:
- *
- * Returns TRUE if @saver is the default file save format.
- */
-static gboolean
-file_saver_is_default_format (WorkbookControlGUI *wbcg, GnumFileSaver *saver)
-{
-	if (wbcg->current_saver == saver)
-		return TRUE;
-
-	if (wbcg->current_saver == NULL) {
-		if (saver == get_default_file_saver ()) {
-			wbcg->current_saver = saver;
-			return TRUE;
-		}
-	}
-
-	return FALSE;
-}
-
 static void
 fill_save_menu (WorkbookControlGUI *wbcg, GtkOptionMenu *omenu, GtkMenu *menu)
 {
-	GList *l;
-	int i, selected=-1;
+	GList *savers, *l;
 
-	for (l = get_file_savers (), i = 0; l != NULL; l = l->next, i++){
+	savers = g_list_sort (g_list_copy (get_file_savers ()),
+	                      file_saver_description_cmp);
+	for (l = savers; l != NULL; l = l->next) {
 		GtkWidget *menu_item;
 		GnumFileSaver *fs = l->data;
 
@@ -163,17 +164,18 @@ fill_save_menu (WorkbookControlGUI *wbcg, GtkOptionMenu *omenu, GtkMenu *menu)
 		gtk_object_set_data (GTK_OBJECT (menu_item), "wbcg", wbcg);
 		gtk_widget_show (menu_item);
 		gtk_menu_append (menu, menu_item);
-
-		if (file_saver_is_default_format (wbcg, fs))
-			selected = i;
-
 		gtk_signal_connect (GTK_OBJECT (menu_item), "activate",
-				    GTK_SIGNAL_FUNC (saver_activate), fs);
+		                    GTK_SIGNAL_FUNC (saver_activate), fs);
 	}
-
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), GTK_WIDGET (menu));
-	if (selected > 0)
-		gtk_option_menu_set_history (omenu, selected);
+
+	if (wbcg->current_saver == NULL) {
+		wbcg->current_saver = get_default_file_saver ();
+	}
+	gtk_option_menu_set_history (omenu,
+	                             g_list_index (savers, wbcg->current_saver));
+
+	g_list_free (savers);
 }
 
 static GtkWidget *
@@ -233,33 +235,6 @@ fs_set_filename (GtkFileSelection *fsel, Workbook *wb)
 }
 
 /*
- * Returns true if user confirmed that existing workbook should be
- * overwritten.
- *
- * FIXME: The dialog should really be a child of the file selector,
- * not the workbook.
- */
-static gboolean
-wants_to_overwrite (WorkbookControlGUI *wbcg, const char *name)
-{
-	GtkWidget *d, *button_no;
-	char *message = g_strdup_printf
-		(_("Workbook %s already exists.\nDo you want to save over it?"),
-		 name);
-
-	d = gnome_message_box_new (
-		message, GNOME_MESSAGE_BOX_QUESTION,
-		GNOME_STOCK_BUTTON_YES,
-		GNOME_STOCK_BUTTON_NO,
-		NULL);
-	g_free (message);
-	button_no = g_list_last (GNOME_DIALOG (d)->buttons)->data;
-	gtk_widget_grab_focus (button_no);
-
-	return (gnumeric_dialog_run (wbcg, GNOME_DIALOG (d)) == 0);
-}
-
-/*
  * Check if it makes sense to try saving.
  * If it's an existing file and writable for us, ask if we want to overwrite.
  * We check for other problems, but if we miss any, the saver will report.
@@ -271,39 +246,35 @@ wants_to_overwrite (WorkbookControlGUI *wbcg, const char *name)
 static gboolean
 can_try_save_to (WorkbookControlGUI *wbcg, const char *name)
 {
-	struct stat sb;
-	char *err_str;
-	gboolean dir_entered = FALSE;
-	gboolean file_exists = FALSE;
+	gboolean result = TRUE;
+	gchar *msg;
 
-	if (*name == 0)
-		return FALSE;
-	else if (name [strlen (name) - 1] == '/') {
-		dir_entered = TRUE;
-	} else if ((stat (name, &sb) == 0)) {
-		if (S_ISDIR (sb.st_mode))
-			dir_entered = TRUE;
-		else
-			file_exists = TRUE;
+	if (name == NULL || name[0] == '\0') {
+		result = FALSE;
+	} else if (name [strlen (name) - 1] == '/' ||
+	    g_file_test (name, G_FILE_TEST_ISDIR)) {
+		msg = g_strdup_printf (_("%s\nis a directory name"), name);
+		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR, msg);
+		g_free (msg);
+		result = FALSE;
+	} else if (access (name, W_OK) != 0 && errno != ENOENT) {
+		msg = g_strdup_printf (
+		      _("You do not have permission to save to\n%s"),
+		      name);
+		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR, msg);
+		g_free (msg);
+		result = FALSE;
+	} else if (g_file_exists (name)) {
+		msg = g_strdup_printf (
+		      _("Workbook %s already exists.\n"
+		      "Do you want to save over it?"), name);
+		result = gnumeric_dialog_question_yes_no (wbcg, msg,
+		         gnome_config_get_bool_with_default (
+		         "Gnumeric/File/FileOverwriteDefaultAnswer=false", NULL));
+		g_free (msg);
 	}
-	if (dir_entered) {
-		err_str = g_strdup_printf (_("%s\nis a directory name"), name);
-		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR, err_str);
-		g_free (err_str);
-		return FALSE;
-	}
-	if (file_exists) {
-		if (access (name, W_OK) == 0)
-			return wants_to_overwrite (wbcg, name);
-		else {
-			err_str = g_strdup_printf (_("You do not have permission to save to\n%s"),
-						   name);
-			gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR, err_str);
-			g_free (err_str);
-			return FALSE;
-		}
-	} else
-		return TRUE;
+
+	return result;
 }
 
 static gboolean

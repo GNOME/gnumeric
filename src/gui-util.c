@@ -22,6 +22,29 @@
 #	include "workbook-private.h"
 #endif
 
+gboolean
+gnumeric_dialog_question_yes_no (WorkbookControlGUI *wbcg,
+                                 const gchar *message,
+                                 gboolean default_answer)
+{
+	GtkWidget *dialog, *default_button;
+
+	dialog = gnome_message_box_new (
+	         message,
+	         GNOME_MESSAGE_BOX_QUESTION,
+	         GNOME_STOCK_BUTTON_YES,
+	         GNOME_STOCK_BUTTON_NO,
+	         NULL);
+	if (default_answer) {
+		default_button = (GtkWidget *) (GNOME_DIALOG (dialog)->buttons)->data;
+	} else {
+		default_button = (GtkWidget *) (GNOME_DIALOG (dialog)->buttons)->next->data;
+	}
+	gtk_widget_grab_focus (default_button);
+
+	return gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog)) == 0;
+}
+
 /*
  * TODO:
  * Get rid of trailing newlines /whitespace.
