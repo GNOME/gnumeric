@@ -22,7 +22,6 @@
 #include "workbook-view.h"
 #include "sheet-object.h"
 #include "number-match.h"
-#include "main.h"
 #include "expr-name.h"
 #include "func.h"
 #include "application.h"
