@@ -1251,30 +1251,22 @@ do_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
 		Value const *v = expr->constant.value;
 		if (v->type == VALUE_STRING)
 			return gnumeric_strescape (v->v_str.val->str);
-		if (v->type == VALUE_CELLRANGE) {
-			char *b, *a = cellref_name (&v->v_range.cell.a, pp, FALSE);
-			if (cellref_equal (&v->v_range.cell.a, &v->v_range.cell.b))
-				return a;
-			b = cellref_name (&v->v_range.cell.b, pp,
-				v->v_range.cell.a.sheet == v->v_range.cell.b.sheet);
-			res = g_strconcat (a, ":", b, NULL);
-			g_free (a);
-			g_free (b);
-		} else {
-			res = value_get_as_string (v);
+		if (v->type == VALUE_CELLRANGE)
+			return rangeref_name (&v->v_range.cell, pp);
 
-			/* If the number has a sign, pretend that it is the result of
-			 * OPER_UNARY_{NEG,PLUS}.  It is not clear how we would
-			 * currently get negative numbers here, but some loader might
-			 * do it.
-			 */
-			if ((v->type == VALUE_INTEGER || v->type == VALUE_FLOAT) &&
-			    (res[0] == '-' || res[0] == '+') &&
-			    operations[GNM_EXPR_OP_UNARY_NEG].prec <= paren_level) {
-				char *new_res = g_strconcat ("(", res, ")", NULL);
-				g_free (res);
-				return new_res;
-			}
+		res = value_get_as_string (v);
+
+		/* If the number has a sign, pretend that it is the result of
+		 * OPER_UNARY_{NEG,PLUS}.  It is not clear how we would
+		 * currently get negative numbers here, but some loader might
+		 * do it.
+		 */
+		if ((v->type == VALUE_INTEGER || v->type == VALUE_FLOAT) &&
+		    (res[0] == '-' || res[0] == '+') &&
+		    operations[GNM_EXPR_OP_UNARY_NEG].prec <= paren_level) {
+			char *new_res = g_strconcat ("(", res, ")", NULL);
+			g_free (res);
+			return new_res;
 		}
 		return res;
 	}

@@ -1,4 +1,5 @@
 %{
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * Gnumeric Parser
  *
@@ -421,7 +422,7 @@ int yyparse (void);
 }
 %type  <list>	opt_exp arg_list array_row, array_cols
 %type  <expr>	exp array_exp function string_opt_quote cellref
-%token <expr>	STRING QUOTED_STRING CONSTANT CELLREF GTE LTE NE AND OR NOT
+%token <expr>	STRING QUOTED_STRING CONSTANT CELLREF RANGEREF GTE LTE NE AND OR NOT
 %token		SEPARATOR INVALID_TOKEN
 %type  <sheet>	sheetref opt_sheetref
 
@@ -592,6 +593,18 @@ sheetref: string_opt_quote SHEET_SEP {
 	        $$.first = sheet;
 	        $$.last = NULL;
 	}
+	| string_opt_quote RANGE_SEP string_opt_quote SHEET_SEP {
+		Sheet *a_sheet = parser_sheet_by_name (state->pos->wb, $1);
+		Sheet *b_sheet = parser_sheet_by_name (state->pos->wb, $3);
+
+		unregister_allocation ($1); gnm_expr_unref ($1);
+		unregister_allocation ($3); gnm_expr_unref ($3);
+
+		if (a_sheet == NULL || b_sheet == NULL)
+			return ERROR;
+	        $$.first = a_sheet;
+	        $$.last = b_sheet;
+	}
 
 	| '[' string_opt_quote ']' string_opt_quote SHEET_SEP {
 		Workbook *wb = application_workbook_get_by_name (
@@ -605,6 +618,21 @@ sheetref: string_opt_quote SHEET_SEP {
 			return ERROR;
 	        $$.first = sheet;
 	        $$.last = NULL;
+        }
+	| '[' string_opt_quote ']' string_opt_quote RANGE_SEP string_opt_quote SHEET_SEP {
+		Workbook *wb = application_workbook_get_by_name (
+			$2->constant.value->v_str.val->str);
+		Sheet *a_sheet = parser_sheet_by_name (wb, $4);
+		Sheet *b_sheet = parser_sheet_by_name (wb, $6);
+
+		unregister_allocation ($2); gnm_expr_unref ($2);
+		unregister_allocation ($4); gnm_expr_unref ($4);
+		unregister_allocation ($6); gnm_expr_unref ($6);
+
+		if (a_sheet == NULL || b_sheet == NULL)
+			return ERROR;
+	        $$.first = a_sheet;
+	        $$.last = b_sheet;
         }
 	;
 
@@ -624,16 +652,25 @@ cellref:  CELLREF {
 
 	| sheetref CELLREF {
 		$2->cellref.ref.sheet = $1.first;
-		if (state->use_excel_reference_conventions && $1.last != NULL) {
+		if ($1.last != NULL) {
 			CellRef tmp = $2->cellref.ref;
-			$$ = register_expr_allocation
-				(gnm_expr_new_constant
-				 (value_new_cellrange (&($2->cellref.ref), &tmp,
-						       state->pos->eval.col, state->pos->eval.row)));
+			tmp.sheet = $1.last;
+			$$ = register_expr_allocation (
+				gnm_expr_new_constant (
+					value_new_cellrange (&($2->cellref.ref), &tmp,
+						state->pos->eval.col,
+						state->pos->eval.row)));
 			unregister_allocation ($2);
 			gnm_expr_unref ($2);
 		} else
 			$$ = $2;
+	}
+
+	/* special case to handle 3:5 or A:C style references. */
+	| RANGEREF { $$ = $1; }
+	| sheetref RANGEREF {
+		$2->constant.value->v_range.cell.a.sheet = $1.first;
+		$2->constant.value->v_range.cell.b.sheet = $1.last;
 	}
 
 	| CELLREF RANGE_SEP CELLREF {
@@ -657,14 +694,29 @@ cellref:  CELLREF {
 	}
 
 	| sheetref CELLREF RANGE_SEP opt_sheetref CELLREF {
+		gboolean failed;
+
 		unregister_allocation ($5);
 		unregister_allocation ($2);
 		$2->cellref.ref.sheet = $1.first;
-		if (state->use_excel_reference_conventions) {
-			$5->cellref.ref.sheet = $1.last ? $1.last : $1.first;
-		} else {
-			$5->cellref.ref.sheet = $4.first ? $4.first : $1.first;
+
+		if ($1.last != NULL) {
+			$5->cellref.ref.sheet = $1.last;
+			failed = ($4.first != NULL || $4.last != NULL);
+		} else if ($4.first != NULL) {
+			$5->cellref.ref.sheet = $4.first;
+			failed = ($4.last != NULL);
 		}
+
+		if (failed) {
+			gnm_expr_unref ($5);
+			gnm_expr_unref ($2);
+			return gnumeric_parse_error (
+				state, PERR_3D_NAME,
+				g_strdup (_("Invalid syntax for a 3d reference")),
+				state->expr_text - state->expr_backup, 0);
+		}
+
 		$$ = register_expr_allocation
 			(gnm_expr_new_constant
 			 (value_new_cellrange (&($2->cellref.ref), &($5->cellref.ref),
@@ -938,10 +990,23 @@ yylex (void)
 				g_warning ("%s is not an integer, but was expected to be one", start);
 			} else if (errno != ERANGE) {
 				/* Check for a Row range ref (3:4 == A3:IV4) */
-				if (*end == ':' && l < SHEET_MAX_COLS) {
-				    /* TODO : adjust parser to allow returning
-				     * a range, not just a cellref
-				     */
+				if (end[0] == ':' && end[1] != '\0' && l < SHEET_MAX_ROWS) {
+					char *end2;
+					long r = strtol (end+1, &end2, 10);
+					if (end+1 != end2 && errno != ERANGE && r < SHEET_MAX_ROWS) {
+						CellRef a, b;
+						a.sheet = b.sheet = NULL;
+						a.col_relative = a.row_relative = b.col_relative = b.row_relative = TRUE;
+						a.col = 0;	b.col = SHEET_MAX_COLS - 1;
+						a.row = l;	b.row = r;
+						yylval.expr = register_expr_allocation (
+							gnm_expr_new_constant (
+								value_new_cellrange (&a, &b,
+									state->pos->eval.col,
+									state->pos->eval.row)));
+						state->expr_text = end2;
+						return RANGEREF;
+					}
 				}
 				v = value_new_int (l);
 				state->expr_text = end;

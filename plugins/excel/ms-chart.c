@@ -24,9 +24,7 @@
 #include <value.h>
 #include <gutils.h>
 
-#ifdef WITH_BONOBO
 #include <gnumeric-graph.h>
-#endif
 #include <xml-io.h>
 #include <gal/util/e-xml-utils.h>
 #include <libxml/tree.h>
@@ -57,9 +55,7 @@ char const *const ms_vector_purpose_type_name [] =
 typedef struct _ExcelChartSeries
 {
 	struct {
-#ifdef WITH_BONOBO
 		GnmGraphVectorType type;
-#endif
 		int count, remote_ID;
 	} vector [MS_VECTOR_PURPOSE_MAX];
 
@@ -125,15 +121,11 @@ excel_chart_series_new (void)
 	series->xml = NULL;
 	for (i = MS_VECTOR_PURPOSE_MAX; i-- > 0 ; ) {
 		series->vector [i].remote_ID = -1;
-#ifdef WITH_BONOBO
 		series->vector [i].type = GNM_VECTOR_AUTO; /* may be reset later */
-#endif
 	}
 
 	/* labels are always strings */
-#ifdef WITH_BONOBO
 	series->vector [MS_VECTOR_PURPOSE_LABELS].type = GNM_VECTOR_STRING;
-#endif
 
 	return series;
 }
@@ -156,13 +148,11 @@ excel_chart_series_write_xml (ExcelChartSeries *series,
 	xmlAddChild (data, series->xml);
 	for (i = 0 ; i < MS_VECTOR_PURPOSE_MAX; i++ )
 		if (series->vector [i].remote_ID >= 0) {
-#ifdef WITH_BONOBO
 			xmlNode *v = gnm_graph_series_add_dimension (series->xml,
 				ms_vector_purpose_type_name [i]);
 			if (v != NULL)
 				e_xml_set_integer_prop_by_name (v, (xmlChar *)"ID",
 					series->vector [i].remote_ID);
-#endif
 		}
 }
 
@@ -344,13 +334,10 @@ BC_R(ai)(ExcelChartHandler const *handle,
 			g_return_val_if_fail (sheet != NULL, FALSE);
 			g_return_val_if_fail (s->currentSeries != NULL, TRUE);
 
-#ifdef WITH_BONOBO
 			s->currentSeries->vector [purpose].remote_ID =
 				gnm_graph_add_vector (s->graph, expr,
 					s->currentSeries->vector [purpose].type,
 					sheet);
-#endif
-
 		}
 	} else {
 		g_return_val_if_fail (length == 0, TRUE);
@@ -1723,7 +1710,6 @@ BC_R(vector_details)(ExcelChartReadState *s, BiffQuery *q, ExcelChartSeries *ser
 		     MS_VECTOR_PURPOSE purpose,
 		     int type_offset, int count_offset, char const *name)
 {
-#ifdef WITH_BONOBO
 	GnmGraphVectorType type;
 	guint16 e_type = GSF_LE_GET_GUINT16 (q->data + type_offset);
 
@@ -1750,7 +1736,6 @@ BC_R(vector_details)(ExcelChartReadState *s, BiffQuery *q, ExcelChartSeries *ser
 	d (0, printf ("%d %s are %s\n",
 		series->vector [purpose].count, name,
 		gnm_graph_vector_type_name [series->vector [purpose].type]););
-#endif
 }
 
 
@@ -1827,7 +1812,6 @@ BC_R(seriestext)(ExcelChartHandler const *handle,
 	/* A quick heuristic */
 	if (s->currentSeries != NULL &&
 	    s->currentSeries->vector [MS_VECTOR_PURPOSE_LABELS].remote_ID == -1) {
-#ifdef WITH_BONOBO
 		s->currentSeries->vector [MS_VECTOR_PURPOSE_LABELS].type = GNM_VECTOR_STRING;
 
 		s->currentSeries->vector [MS_VECTOR_PURPOSE_LABELS].remote_ID =
@@ -1835,7 +1819,6 @@ BC_R(seriestext)(ExcelChartHandler const *handle,
 				gnm_expr_new_constant (value_new_string (str)),
 				GNM_VECTOR_STRING,
 				ms_container_sheet (s->parent));
-#endif
 	}
 
 	/* TODO : handle axis and chart titles */
@@ -2417,11 +2400,9 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver, GObject
 	state.xml.currentChartGroup = NULL;
 	state.xml.dataFormat = NULL;
 
-#ifdef WITH_BONOBO
 	if (graph != NULL)
 		state.graph = GNUMERIC_GRAPH (graph);
 	else
-#endif
 		state.graph = NULL;
 
 	d (0, puts ("{ CHART"););
@@ -2524,10 +2505,8 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver, GObject
 		state.prev_opcode = q->opcode;
 	}
 
-#ifdef WITH_BONOBO
 	if (state.graph != NULL)
 		gnm_graph_import_specification (state.graph, state.xml.doc);
-#endif
 
 	/* Cleanup */
 	xmlFreeDoc (state.xml.doc);

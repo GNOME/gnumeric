@@ -63,9 +63,6 @@
 #include <errno.h>
 #include <string.h>
 #include <limits.h>
-#ifdef WITH_BONOBO
-#include <bonobo/bonobo-exception.h>
-#endif
 
 /* Precision to use when saving point measures. */
 #define POINT_SIZE_PRECISION 3

@@ -1,3 +1,7 @@
+2002-09-04  Jody Goldberg <jody@gnome.org>
+
+	* *.c : remove ifdef WITH_BONOBOization of graphs
+
 2002-08-30  Jody Goldberg <jody@gnome.org>
 
 	* boot.c (excel_read_metadata) : new.

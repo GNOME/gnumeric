@@ -8,7 +8,8 @@ char const  *cols_name                (int start_col, int end_col);
 char const  *row_name                 (int row);
 char const  *rows_name                (int start_row, int end_col);
 
-char        *cellref_name            (CellRef const *cell_ref,
+char	    *rangeref_name	     (RangeRef const *ref, ParsePos const *pp);
+char        *cellref_name            (CellRef const *ref,
 				      ParsePos const *pp, gboolean no_sheetname);
 char const  *cellref_get             (CellRef *out, char const *in,
 				      CellPos const *pos);

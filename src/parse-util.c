@@ -41,6 +41,134 @@
 #include <glib.h>
 #include <string.h>
 
+inline static char *
+col_name_internal (char *buf, int col)
+{
+	g_return_val_if_fail (col < SHEET_MAX_COLS, buf);
+	g_return_val_if_fail (col >= 0, buf);
+
+	if (col <= 'Z'-'A') {
+		*buf++ = col + 'A';
+	} else {
+		int a = col / ('Z'-'A'+1);
+		int b = col % ('Z'-'A'+1);
+
+		*buf++ = a + 'A' - 1;
+		*buf++ = b + 'A';
+	}
+	return buf;
+}
+
+inline static char *
+row_name_internal (char *buf, int row)
+{
+	int len = g_snprintf (buf, 6, "%d", row + 1); /* The 6 is hardcoded, see comments in row{s}_name */
+	return buf + len;
+}
+
+
+inline static int
+cellref_abs_col (CellRef const *ref, ParsePos const *pp)
+{
+	int col = (ref->col_relative) ? pp->eval.col + ref->col : ref->col;
+
+	/* ICK!  XL compatibility kludge */
+	col %= SHEET_MAX_COLS;
+	if (col < 0)
+		return col + SHEET_MAX_COLS;
+	return col;
+}
+
+inline static int
+cellref_abs_row (CellRef const *ref, ParsePos const *pp)
+{
+	int row = (ref->row_relative) ? pp->eval.row + ref->row : ref->row;
+
+	/* ICK!  XL compatibility kludge */
+	row %= SHEET_MAX_ROWS;
+	if (row < 0)
+		return row + SHEET_MAX_ROWS;
+	return row;
+}
+
+/**
+ * rangeref_name :
+ * @ref :
+ * @pp :
+ *
+ **/
+char *
+rangeref_name (RangeRef const *ref, ParsePos const *pp)
+{
+	char buf [2*(10  /* max digits in 32 bit row */
+		     + 7 /* max letters in 32 bit col */
+		     + 2 /* dollar signs for abs */
+		    ) + 2 /* colon and eos */];
+	char *p = buf;
+	Range r;
+
+	r.start.col = cellref_abs_col (&ref->a, pp);
+	r.end.col   = cellref_abs_col (&ref->b, pp);
+	r.start.row = cellref_abs_row (&ref->a, pp);
+	r.end.row   = cellref_abs_row (&ref->b, pp);
+
+	/* be sure to use else if so that a1:iv65535 does not vanish */
+	if (r.start.col == 0 && r.end.col == SHEET_MAX_COLS-1) {
+		if (!ref->a.row_relative)
+			*p++ = '$';
+		p = row_name_internal (p, r.start.row);
+		*p++ = ':';
+		if (!ref->b.row_relative)
+			*p++ = '$';
+		p = row_name_internal (p, r.end.row);
+	} else if (r.start.row == 0 && r.end.row == SHEET_MAX_ROWS-1) {
+		if (!ref->a.col_relative)
+			*p++ = '$';
+		p = col_name_internal (p, r.start.col);
+		*p++ = ':';
+		if (!ref->b.col_relative)
+			*p++ = '$';
+		p = col_name_internal (p, r.end.col);
+	} else {
+		if (!ref->a.col_relative)
+			*p++ = '$';
+		p = col_name_internal (p, r.start.col);
+		if (!ref->a.row_relative)
+			*p++ = '$';
+		p = row_name_internal (p, r.start.row);
+
+		if (r.start.col != r.end.col || r.start.row != r.end.row) {
+			*p++ = ':';
+			if (!ref->b.col_relative)
+				*p++ = '$';
+			p = col_name_internal (p, r.end.col);
+			if (!ref->b.row_relative)
+				*p++ = '$';
+			p = row_name_internal (p, r.end.row);
+		}
+	}
+	*p = '\0';
+
+	if (ref->a.sheet == NULL)
+		return g_strdup (buf);
+
+	/* For the expression leak printer. */
+	if (pp->wb == NULL && pp->sheet == NULL)
+		return g_strconcat ("'?'!", buf, NULL);
+
+	if (ref->b.sheet == NULL || ref->a.sheet == ref->b.sheet) {
+		if (pp->wb == NULL || ref->a.sheet->workbook == pp->wb)
+			return g_strconcat (ref->a.sheet->name_quoted, "!", buf, NULL);
+		return g_strconcat ("[", ref->a.sheet->workbook->filename, "]",
+				    ref->a.sheet->name_quoted, "!", buf, NULL);
+	} else {
+		if (pp->wb == NULL || ref->a.sheet->workbook == pp->wb)
+			return g_strconcat (ref->a.sheet->name_quoted, ":", ref->b.sheet->name_quoted, "!", buf, NULL);
+		return g_strconcat ("[", ref->a.sheet->workbook->filename, "]",
+				    ref->a.sheet->name_quoted, ":", ref->b.sheet->name_quoted, "!", buf, NULL);
+	}
+}
+
 /* Can remove sheet since local references have NULL sheet */
 char *
 cellref_name (CellRef const *cell_ref, ParsePos const *pp, gboolean no_sheetname)
@@ -302,24 +430,6 @@ gnumeric_char_start_expr_p (char const * c)
 	return NULL;
 }
 
-static char *
-col_name_internal (char *buf, int col)
-{
-	g_return_val_if_fail (col < SHEET_MAX_COLS, buf);
-	g_return_val_if_fail (col >= 0, buf);
-
-	if (col <= 'Z'-'A') {
-		*buf++ = col + 'A';
-	} else {
-		int a = col / ('Z'-'A'+1);
-		int b = col % ('Z'-'A'+1);
-
-		*buf++ = a + 'A' - 1;
-		*buf++ = b + 'A';
-	}
-	return buf;
-}
-
 char const *
 col_name (int col)
 {
@@ -341,13 +451,6 @@ cols_name (int start_col, int end_col)
 	}
 	*res = '\0';
 	return buffer;
-}
-
-static char *
-row_name_internal (char *buf, int row)
-{
-	int len = g_snprintf (buf, 6, "%d", row + 1); /* The 6 is hardcoded, see comments in row{s}_name */
-	return buf + len;
 }
 
 char const *

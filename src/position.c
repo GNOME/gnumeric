@@ -274,7 +274,8 @@ cellref_hash (const CellRef *cr)
 	return h;
 }
 
-RangeRef *value_to_rangeref    (Value *v, gboolean release)
+RangeRef *
+value_to_rangeref (Value *v, gboolean release)
 {
 	RangeRef *gr;
 
@@ -289,6 +290,7 @@ RangeRef *value_to_rangeref    (Value *v, gboolean release)
 	return gr;
 	
 }
+
 
 /**
  * range_ref_normalize :  Take a range_ref and normalize it

@@ -5,6 +5,9 @@ Jody:
 	* Begin to re-enable xls document metadata
 	* Fix translations in the bonobo build
 	* Enable translation of function category names
+	* Parser support for both sytaxes of 3d reference
+	* Parser support for row or col only references (A:C or 1:5)
+	* Fix some drawing issues related to the pango conversion
 
 Morten:
 	* Leak plugging.

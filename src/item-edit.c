@@ -150,8 +150,8 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		left_pos, top_pos, layout);
 	if (item_edit->cursor_visible)
 		gdk_draw_line (drawable, canvas->style->black_gc,
-			left_pos + PANGO_PIXELS (pos.x), PANGO_PIXELS (pos.y),
-			left_pos + PANGO_PIXELS (pos.x), PANGO_PIXELS (pos.y + pos.height));
+			left_pos + PANGO_PIXELS (pos.x), top_pos + PANGO_PIXELS (pos.y),
+			left_pos + PANGO_PIXELS (pos.x), top_pos + PANGO_PIXELS (pos.y + pos.height));
 	g_object_unref (G_OBJECT (layout));
 }
 

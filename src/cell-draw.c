@@ -380,7 +380,6 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 			inter_space = font_height;
 		}
 
-		y_offset += font_height - 1;
 		for (l = lines; l; l = l->next) {
 			char const * const str = l->data;
 			int len = 0;
@@ -395,18 +394,18 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 				break;
 
 			case HALIGN_RIGHT:
-				len = style_font_string_width(style_font,str);
+				len = style_font_string_width (style_font,str);
 				x = rect.x + rect.width - 1 - len - indent;
 				break;
 
 			case HALIGN_CENTER:
 			case HALIGN_CENTER_ACROSS_SELECTION:
-				len = style_font_string_width(style_font,str);
+				len = style_font_string_width (style_font,str);
 				x = rect.x + h_center - len / 2;
 			}
 
 			draw_text (drawable, style_font, gc,
-				   x, y1 + y_offset,
+				   x, rect.y + y_offset,
 				   str, strlen (str), attrs);
 			y_offset += inter_space;
 

@@ -47,9 +47,7 @@
 #include <sheet-object-widget.h>
 #include <sheet-object-graphic.h>
 #include <sheet-object-image.h>
-#ifdef WITH_BONOBO
-#  include <gnumeric-graph.h>
-#endif
+#include <gnumeric-graph.h>
 
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-utils.h>
@@ -414,16 +412,7 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 	}
 
 	case 0x05: { /* Chart */
-#ifdef WITH_BONOBO
 		so = SHEET_OBJECT (gnm_graph_new (wb));
-#else
-		so = sheet_object_box_new (FALSE);  /* placeholder */
-		if (esheet->wb->warn_unsupported_graphs) {
-			/* TODO : Use IOContext when available */
-			esheet->wb->warn_unsupported_graphs = FALSE;
-			g_warning ("Graphs are not supported in non-bonobo version.");
-		}
-#endif
 		break;
 	}
 
@@ -4063,12 +4052,7 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 			 * at the NEXT record.
 			 */
 			if (q->opcode == BIFF_CHART_units) {
-				GObject *graph =
-#ifdef WITH_BONOBO
-					gnm_graph_new (esheet->wb->gnum_wb);
-#else
-					NULL;
-#endif
+				GObject *graph = gnm_graph_new (esheet->wb->gnum_wb);
 				ms_excel_chart (q, sheet_container (esheet),
 						esheet->container.ver,
 						graph);

@@ -1,3 +1,20 @@
+2002-09-04  Jody Goldberg <jody@gnome.org>
+
+	* src/cell-draw.c (cell_draw) : fix handling of multiline text.
+	* src/item-edit.c (item_edit_draw) : fix position of cursor line.
+
+2002-09-03  Jody Goldberg <jody@gnome.org>
+
+	* src/position.c (rangeref_name) : new.
+
+	* src/expr.c (do_expr_as_string) : Use rangeref_name.
+
+	* src/parser.y (sheetref) : support XL style 3d references
+	(cellref) : accept XL style 3d references in addition to applix format.
+	  Produce an error if an invalid combination is used.
+	    eg sheet1:sheet2!a1:sheet3!a1
+	  Prepare to support row only or col only references (A:C or 1:5)
+
 2002-09-02  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet.c (sheet_range_bounding_box) : doh!

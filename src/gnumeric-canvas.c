@@ -29,10 +29,6 @@
 #include "formats.h"
 #include "cmd-edit.h"
 #include "clipboard.h"
-
-#ifdef WITH_BONOBO
-#  include "sheet-object-container.h"
-#endif
 #include <gal/widgets/e-cursors.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gdk/gdkkeysyms.h>
