@@ -143,9 +143,9 @@ src/functions/fn-stat.c
 src/functions/fn-string.c
 src/gnumeric-canvas.c
 src/gnumeric-pane.c
-src/gnumeric-util.c
 src/gui-clipboard.c
 src/gui-file.c
+src/gui-util.c
 src/history.c
 src/item-bar.c
 src/item-cursor.c

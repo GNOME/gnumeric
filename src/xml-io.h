@@ -53,7 +53,9 @@ struct _XmlParseContext {
 	GHashTable *expr_map;	/*
 				 * Emitted expressions with ref count > 1
 				 * When writing this is map from expr pointer -> index
-				 * when reading this is a map from index -> expr pointer
+				 */
+	GPtrArray *shared_exprs;/*
+				 * When reading this is a map from index -> expr pointer
 				 */
 	XmlSheetObjectWriteFn write_fn;
 	XmlSheetObjectReadFn  read_fn;

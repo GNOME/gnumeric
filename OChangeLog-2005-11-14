@@ -1,3 +1,16 @@
+2001-09-07  Morten Welinder  <terra@diku.dk>
+
+	* src/xml-io.c (gnumeric_xml_read_selection_clipboard): Properly
+ 	initialise context.
+	(gnumeric_xml_write_selection_clipboard): Ditto.
+	(StyleSideNames): Constify.
+	(xml_arg_set): Constify.
+	(xml_write_print_repeat_range): Constify.
+	(xml_parse_ctx_new_full): Initialise new shared_exprs member for
+ 	reading.
+	(xml_parse_ctx_destroy): Destroy shared_exprs.
+	(xml_read_cell): Use shared_exprs over expr_map.
+
 2001-09-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/dialogs/descriptive-stats.glade : New file. Template for 
@@ -21,7 +34,7 @@
 	(desc_stat_tool_update_sensitivity) : new procedure
 	(desc_stat_tool_update_sensitivity_cb) : new procedure
 	(dialog_desc_stat_tool_init) : new procedure
-	(dialog_descriptive_stat_tool) : setu-p guru rather than modal dialog.
+	(dialog_descriptive_stat_tool) : setup guru rather than modal dialog.
 
 2001-09-06  Jody Goldberg <jgoldberg@home.com>
 

@@ -65,6 +65,8 @@
 #define XML_INPUT_BUFFER_SIZE      4096
 #define N_ELEMENTS_BETWEEN_UPDATES 20
 
+/* ------------------------------------------------------------------------- */
+
 static GnumFileOpener *xml_opener = NULL;
 static GnumFileSaver  *xml_saver = NULL;
 
@@ -80,6 +82,8 @@ gnumeric_xml_get_saver (void)
 	return xml_saver;
 }
 
+/* ------------------------------------------------------------------------- */
+
 XmlParseContext *
 xml_parse_ctx_new_full (xmlDocPtr             doc,
 			xmlNsPtr              ns,
@@ -90,14 +94,15 @@ xml_parse_ctx_new_full (xmlDocPtr             doc,
 {
 	XmlParseContext *ctxt = g_new0 (XmlParseContext, 1);
 
-	ctxt->version   = version;
-	ctxt->doc       = doc;
-	ctxt->ns        = ns;
-	ctxt->expr_map  = g_hash_table_new (g_direct_hash, g_direct_equal);
+	ctxt->version      = version;
+	ctxt->doc          = doc;
+	ctxt->ns           = ns;
+	ctxt->expr_map     = g_hash_table_new (g_direct_hash, g_direct_equal);
+	ctxt->shared_exprs = g_ptr_array_new ();
 
-	ctxt->write_fn  = write_fn;
-	ctxt->read_fn   = read_fn;
-	ctxt->user_data = user_data;
+	ctxt->write_fn     = write_fn;
+	ctxt->read_fn      = read_fn;
+	ctxt->user_data    = user_data;
 
 	return ctxt;
 }
@@ -116,15 +121,19 @@ xml_parse_ctx_destroy (XmlParseContext *ctxt)
 	g_return_if_fail (ctxt != NULL);
 
 	g_hash_table_destroy (ctxt->expr_map);
+	g_ptr_array_free (ctxt->shared_exprs, TRUE);
+
 	g_free (ctxt);
 }
+
+/* ------------------------------------------------------------------------- */
 
 /*
  * Internal stuff: xml helper functions.
  */
 
 static void
-xml_arg_set (GtkArg *arg, gchar *string)
+xml_arg_set (GtkArg *arg, const gchar *string)
 {
 	switch (arg->type) {
 	case GTK_TYPE_CHAR:
@@ -505,7 +514,7 @@ xml_node_set_gdkcolor (xmlNodePtr node, const char *name, const GdkColor *color)
 /*
  * Create an XML subtree of doc equivalent to the given StyleBorder.
  */
-static char *StyleSideNames[6] =
+static const char *StyleSideNames[6] =
 {
  	"Top",
  	"Bottom",
@@ -1025,7 +1034,9 @@ xml_read_attributes (XmlParseContext *ctxt, xmlNodePtr tree, GList **list)
 }
 
 static xmlNodePtr
-xml_write_print_repeat_range (XmlParseContext *ctxt, char *name, PrintRepeatRange *range)
+xml_write_print_repeat_range (XmlParseContext *ctxt,
+			      const char *name,
+			      PrintRepeatRange *range)
 {
 	xmlNodePtr cur;
 	char const *s;
@@ -1622,7 +1633,7 @@ xml_cell_set_array_expr (Cell *cell, char const *text,
 			 int const rows, int const cols)
 {
 	ParsePos pp;
-	ExprTree * expr;
+	ExprTree *expr;
 
 	expr = expr_parse_string (text,
 				  parse_pos_init_cell (&pp, cell),
@@ -1676,7 +1687,7 @@ xml_not_used_old_array_spec (Cell *cell, char *content)
 
 	if (row == 0 && col == 0) {
 		*expr_end = '\0';
-		xml_cell_set_array_expr (cell, content+2, rows, cols);
+		xml_cell_set_array_expr (cell, content + 2, rows, cols);
 	}
 
 	return FALSE;
@@ -1812,7 +1823,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 		if (is_post_52_array) {
 			g_return_val_if_fail (content[0] == '=', NULL);
 
-			xml_cell_set_array_expr (ret, content+1,
+			xml_cell_set_array_expr (ret, content + 1,
 						 array_rows, array_cols);
 		} else if (ctxt->version >= GNUM_XML_V3 ||
 			   xml_not_used_old_array_spec (ret, content)) {
@@ -1824,28 +1835,26 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 		}
 
 		if (shared_expr_index > 0) {
-			gpointer id = GINT_TO_POINTER (shared_expr_index);
-			gpointer expr =
-				g_hash_table_lookup (ctxt->expr_map, id);
-
-			if (expr == NULL) {
+			if (shared_expr_index == (int)ctxt->shared_exprs->len + 1) {
 				if (cell_has_expr (ret))
-					g_hash_table_insert (ctxt->expr_map, id,
-							     ret->base.expression);
+					g_ptr_array_add (ctxt->shared_exprs,
+							 ret->base.expression);
 				else
-					g_warning ("XML-IO : Shared expression with no expession ??");
-			} else if (!is_post_52_array)
-				g_warning ("XML-IO : Duplicate shared expression");
+					g_warning ("XML-IO: Shared expression with no expession?");
+			} else {
+				g_warning ("XML-IO: Duplicate or invalid shared expression: %d",
+					   shared_expr_index);
+			}
 		}
 		xmlFree (content);
 	} else if (shared_expr_index > 0) {
-		gpointer expr = g_hash_table_lookup (ctxt->expr_map,
-			GINT_TO_POINTER (shared_expr_index));
-
-		if (expr != NULL)
+		if (shared_expr_index <= (int)ctxt->shared_exprs->len + 1) {
+			ExprTree *expr = g_ptr_array_index (ctxt->shared_exprs,
+							    shared_expr_index - 1);
 			cell_set_expr (ret, expr, NULL);
-		else
-			g_warning ("XML-IO : Missing shared expression");
+		} else {
+			g_warning ("XML-IO: Missing shared expression");
+		}
 	} else if (is_new_cell)
 		/*
 		 * Only set to empty if this is a new cell.
@@ -3109,7 +3118,7 @@ gnumeric_xml_write_selection_clipboard (WorkbookControl *wbc, Sheet *sheet,
 					xmlChar **buffer, int *size)
 {
 	xmlDocPtr xml;
-	XmlParseContext ctxt;
+	XmlParseContext *ctxt;
 
 	g_return_val_if_fail (IS_SHEET (sheet), -1);
 
@@ -3121,13 +3130,10 @@ gnumeric_xml_write_selection_clipboard (WorkbookControl *wbc, Sheet *sheet,
 		gnumeric_error_save (COMMAND_CONTEXT (wbc), "");
 		return -1;
 	}
-	ctxt.doc = xml;
-	ctxt.ns = NULL;
-	ctxt.expr_map = g_hash_table_new (g_direct_hash, g_direct_equal);
 
-	xml->xmlRootNode = xml_write_selection_clipboard (&ctxt, sheet);
-
-	g_hash_table_destroy (ctxt.expr_map);
+	ctxt = xml_parse_ctx_new (xml, NULL);
+	xml->xmlRootNode = xml_write_selection_clipboard (ctxt, sheet);
+	xml_parse_ctx_destroy (ctxt);
 
 	/*
 	 * Dump it with a high compression level
@@ -3149,8 +3155,8 @@ int
 gnumeric_xml_read_selection_clipboard (WorkbookControl *wbc, CellRegion **cr,
 				       xmlChar *buffer)
 {
-	xmlDocPtr res;
-	XmlParseContext ctxt;
+	xmlDocPtr doc;
+	XmlParseContext *ctxt;
 
 	g_return_val_if_fail (*cr == NULL, -1);
 	g_return_val_if_fail (buffer != NULL, -1);
@@ -3158,25 +3164,23 @@ gnumeric_xml_read_selection_clipboard (WorkbookControl *wbc, CellRegion **cr,
 	/*
 	 * Load the buffer into an XML tree.
 	 */
-	res = xmlParseDoc (buffer);
-	if (res == NULL) {
+	doc = xmlParseDoc (buffer);
+	if (doc == NULL) {
 		gnumeric_error_read (COMMAND_CONTEXT (wbc), "");
 		return -1;
 	}
-	if (res->xmlRootNode == NULL) {
-		xmlFreeDoc (res);
+	if (doc->xmlRootNode == NULL) {
+		xmlFreeDoc (doc);
 		gnumeric_error_read (COMMAND_CONTEXT (wbc),
 			_("Invalid xml clipboard data. Tree is empty ?"));
 		return -1;
 	}
 
-	ctxt.doc = res;
-	ctxt.expr_map = g_hash_table_new (g_direct_hash, g_direct_equal);
+	ctxt = xml_parse_ctx_new (doc, NULL);
+	*cr = xml_read_selection_clipboard (ctxt, doc->xmlRootNode);
+	xml_parse_ctx_destroy (ctxt);
 
-	*cr = xml_read_selection_clipboard (&ctxt, res->xmlRootNode);
-
-	g_hash_table_destroy (ctxt.expr_map);
-	xmlFreeDoc (res);
+	xmlFreeDoc (doc);
 
 	return 0;
 }
