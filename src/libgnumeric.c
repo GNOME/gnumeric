@@ -164,9 +164,9 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	application_init ();
 	string_init ();
 	style_init ();
+	gnumeric_color_init ();
 	format_match_init ();
 	format_color_init ();
-	gnumeric_color_init ();
 	e_cursors_init ();
 	auto_format_init ();
 	functions_init ();

@@ -1,3 +1,8 @@
+2000-09-17  Morten Welinder  <terra@diku.dk>
+
+	* dialog-autoformat.c (dialog_autoformat): Free "info" only when
+ 	done with it.  Free tooltips using unref, not plain g_free.
+
 2000-09-10  Miguel de Icaza  <miguel@helixcode.com>
 
 	* dialog-paste-special.c (dialog_paste_special): Changed the

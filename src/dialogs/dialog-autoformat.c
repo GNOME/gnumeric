@@ -1107,11 +1107,12 @@ dialog_autoformat (Workbook *wb)
 	previews_free (info);
 	templates_free (info);
 
-	g_free (info->tooltips);
-	g_free (info);
+	gtk_object_unref (GTK_OBJECT (info->tooltips));
 
 	free_categories (info->categories);
 	
 	gtk_widget_destroy (GTK_WIDGET (info->dialog));
 	gtk_object_unref (GTK_OBJECT (gui));
+
+	g_free (info);
 }
