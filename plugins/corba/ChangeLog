@@ -1,3 +1,19 @@
+2004-09-24  Jon K Hellan  <hellan@acm.org>
+
+	* TODO: New file. Tell about outstanding issues.
+	
+	* GNOME_Gnumeric.idl: Workbook doesn't nedd to inherit from Bonobo
+	after all.
+
+	* corba-application.c (plugin_init_general): Check return value
+	from register_active_server.
+
+	* corba-workbook.c (wbcc_gnm_cmd_context_init): New. Initialize
+	command context interface.
+	(wbcc_class_init): No longer inherits from command
+	context. Initialize CORBA base class.
+	(GSF_CLASS_FULL): Use instead of GSF_CLASS.
+
 2004-09-23  Jon K Hellan  <hellan@acm.org>
 
 	* GNOME_Gnumeric.idl: Derive interfaces from Bonobo::Unknown

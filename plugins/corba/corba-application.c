@@ -125,10 +125,13 @@ plugin_init_general (ErrorInfo **ret_error)
 
 	capp = g_object_new (capp_get_type(), NULL);
 
-	bonobo_activation_register_active_server (
-		"OAFIID:GNOME_Gnumeric_Application",
-		BONOBO_OBJREF (capp), NULL);
-	/* FIXME: this badly needs to check return values */
+	if (bonobo_activation_register_active_server (
+		    "OAFIID:GNOME_Gnumeric_Application",
+		    BONOBO_OBJREF (capp), NULL)
+	    != Bonobo_ACTIVATION_REG_SUCCESS) {
+                        printf("Could not register as CORBA server\n");
+                        return ;
+	}
 }
 
 void

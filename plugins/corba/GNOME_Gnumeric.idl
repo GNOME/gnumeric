@@ -19,7 +19,7 @@ module GNOME {
 		};
 		typedef sequence<Sheet>	Sheets;
 
-		interface Workbook : Bonobo::Unknown {
+		interface Workbook {
 			attribute string name;
 
 			Sheet  sheet_by_index (in short i);

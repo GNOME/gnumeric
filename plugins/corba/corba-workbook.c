@@ -213,6 +213,7 @@ wbcc_sheet_remove_all (WorkbookControl *wbc)
 }
 
 static POA_GNOME_Gnumeric_Workbook__vepv	workbook_vepv;
+static PortableServer_ServantBase__epv          base_epv;
 static POA_GNOME_Gnumeric_Workbook__epv		workbook_epv;
 
 static void
@@ -251,22 +252,25 @@ wbcc_finalize (GObject *obj)
 }
 
 static void
+wbcc_gnm_cmd_context_init (GnmCmdContextClass *iface)
+{
+	iface->get_password	    = wbcc_get_password;
+	iface->set_sensitive	    = wbcc_set_sensitive;
+	iface->error.error	    = wbcc_error;
+}
+
+static void
 wbcc_class_init (GObjectClass *object_class)
 {
-	GnmCmdContextClass *cc_class = GNM_CMD_CONTEXT_CLASS (object_class);
 	WorkbookControlClass *wbc_class = WORKBOOK_CONTROL_CLASS (object_class);
 
 	object_class->finalize	    = &wbcc_finalize;
-
-	g_return_if_fail (cc_class != NULL);
-	cc_class->get_password	     = wbcc_get_password;
-	cc_class->set_sensitive	     = wbcc_set_sensitive;
-	cc_class->error.error        = wbcc_error;
 
 	wbc_class->sheet.add        = wbcc_sheet_add;
 	wbc_class->sheet.remove	    = wbcc_sheet_remove;
 	wbc_class->sheet.remove_all = wbcc_sheet_remove_all;
 
+	workbook_vepv._base_epv     = &base_epv;
 	workbook_vepv.GNOME_Gnumeric_Workbook_epv = &workbook_epv;
 	workbook_epv._get_name	    = cworkbook_get_name;
 	workbook_epv._set_name	    = cworkbook_set_name;
@@ -308,8 +312,11 @@ wbcc_init (WorkbookControlCORBA *wbcc)
 	CORBA_exception_free (&ev);
 }
 
-GSF_CLASS (WorkbookControlCORBA, workbook_control_corba,
-	   wbcc_class_init, wbcc_init, WORKBOOK_CONTROL_TYPE);
+GSF_CLASS_FULL (WorkbookControlCORBA, workbook_control_corba,
+		wbcc_class_init, wbcc_init, 
+		WORKBOOK_CONTROL_TYPE, 0,
+		GSF_INTERFACE (wbcc_gnm_cmd_context_init,
+			       GNM_CMD_CONTEXT_TYPE))
 
 WorkbookControl *
 workbook_control_corba_new (WorkbookView *optional_view,
