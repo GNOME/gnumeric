@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-21 21:50+0900\n"
+"POT-Creation-Date: 2004-10-22 18:22+0900\n"
 "PO-Revision-Date: 2004-03-08 18:30+0900\n"
 "Last-Translator: Yukihiro Nakai <nakai@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
@@ -20185,6 +20185,10 @@ msgstr "先頭の文字"
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:671
 #: src/format.c:2233 src/format.c:2398 src/format.c:2404 src/format.c:2477
 #: src/plugin-service.c:198 src/widgets/widget-format-selector.c:75
+#: templates/autoformat/autoformat.General.advanced.xml.in.h:3
+#: templates/autoformat/autoformat.General.basic.xml.in.h:3
+#: templates/autoformat/autoformat.General.empty.xml.in.h:3
+#: templates/autoformat/autoformat.General.table.xml.in.h:1
 msgid "General"
 msgstr "標準"
 
@@ -26456,7 +26460,11 @@ msgstr "プラグインシステムの初期化中にエラーが発生しまし
 msgid "Loader has no set_attributes method.\n"
 msgstr ""
 
-#: src/plugin-loader.c:263 src/plugin-loader.c:303
+#: src/plugin-loader.c:205
+msgid "Loader has no load_base method.\n"
+msgstr ""
+
+#: src/plugin-loader.c:266 src/plugin-loader.c:306
 #, c-format
 msgid "Service '%s' not supported by loader."
 msgstr "サービス '%s' は、ローダーはサポートしていません。"
@@ -26519,7 +26527,7 @@ msgstr "ファイルには \"%s\" 配列が含まれていません。"
 msgid "Module doesn't contain \"%s\" function."
 msgstr "モジュールには関数 \"%s\" が含まれていません。"
 
-#: src/plugin-service.c:162 src/plugin-service.c:252 src/plugin-service.c:1138
+#: src/plugin-service.c:162 src/plugin-service.c:252 src/plugin-service.c:1144
 msgid "Error while loading plugin service."
 msgstr "プラグイン・サービスの読み込み中にエラーが発生しました。"
 
@@ -26569,57 +26577,61 @@ msgstr "関数のカテゴリ名がありません。"
 msgid "Function group is empty."
 msgstr "関数グループは空です。"
 
-#: src/plugin-service.c:1076
+#: src/plugin-service.c:1012
+msgid "No func_desc_load method.\n"
+msgstr ""
+
+#: src/plugin-service.c:1082
 #, c-format
 msgid "%d function in category \"%s\""
 msgstr "%d の関数がカテゴリ\"%s\"にあります"
 
-#: src/plugin-service.c:1077
+#: src/plugin-service.c:1083
 #, c-format
 msgid "Group of %d functions in category \"%s\""
 msgstr "%d個の関数のグループがカテゴリ\"%s\"にあります"
 
-#: src/plugin-service.c:1173
+#: src/plugin-service.c:1179
 msgid "Plugin loader"
 msgstr "プラグイン・ローダー"
 
-#: src/plugin-service.c:1250
+#: src/plugin-service.c:1256
 msgid "Missing file name."
 msgstr "ファイル名が見当たりません"
 
-#: src/plugin-service.c:1316
+#: src/plugin-service.c:1322
 #, c-format
 msgid "Cannot read UI description from XML file %s."
 msgstr "XMLファイル %s からUI情報が読み取れません。"
 
-#: src/plugin-service.c:1353
+#: src/plugin-service.c:1359
 #, c-format
 msgid "User interface with %d action"
 msgstr "%dアクションのユーザインターフェース"
 
-#: src/plugin-service.c:1354
+#: src/plugin-service.c:1360
 #, c-format
 msgid "User interface with %d actions"
 msgstr "%dアクションのユーザインターフェース"
 
-#: src/plugin-service.c:1384
+#: src/plugin-service.c:1390
 msgid "GObject loader"
 msgstr "GObjectローダー"
 
-#: src/plugin-service.c:1491
+#: src/plugin-service.c:1497
 msgid "No \"type\" attribute on \"service\" element."
 msgstr "\"type\"属性が\"service\"要素ありません。"
 
-#: src/plugin-service.c:1497
+#: src/plugin-service.c:1503
 #, c-format
 msgid "Unknown service type: %s."
 msgstr "不明なサービスタイプです: %s"
 
-#: src/plugin-service.c:1513
+#: src/plugin-service.c:1519
 msgid "Error reading service information."
 msgstr "サービス情報の読み込みでエラーが発生しました。"
 
-#: src/plugin-service.c:1575
+#: src/plugin-service.c:1581
 msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."
@@ -26994,7 +27006,7 @@ msgid "Frame"
 msgstr "フレーム"
 
 #: src/sheet-object-widget.c:496 src/wbcg-actions.c:1947
-#: templates/autoformat/autoformat.3D.button.xml.in.h:2
+#: templates/autoformat/autoformat.3D.button.xml.in.h:3
 msgid "Button"
 msgstr "ボタン"
 
@@ -29368,7 +29380,11 @@ msgstr "スピンボタン"
 msgid "Create a spin button"
 msgstr "スピンボタンを作成します"
 
-#: src/wbcg-actions.c:1929 templates/autoformat/autoformat.3D.list.xml.in.h:3
+#: src/wbcg-actions.c:1929 templates/autoformat/autoformat.3D.list.xml.in.h:4
+#: templates/autoformat/autoformat.List.basic.xml.in.h:4
+#: templates/autoformat/autoformat.List.green.xml.in.h:4
+#: templates/autoformat/autoformat.List.lila.xml.in.h:4
+#: templates/autoformat/autoformat.List.simple.xml.in.h:3
 msgid "List"
 msgstr "リスト"
 
@@ -31146,28 +31162,33 @@ msgid "Gnumeric XML (*.gnumeric) original slow exporter"
 msgstr "Gnumeric XML (*.gnumeric) オリジナルの遅いエクスポート"
 
 #: templates/autoformat/autoformat.3D.button.xml.in.h:1
+#: templates/autoformat/autoformat.3D.list.xml.in.h:1
+msgid "3D"
+msgstr "3次元"
+
+#: templates/autoformat/autoformat.3D.button.xml.in.h:2
 msgid "A button like template"
 msgstr "ボタンのようなテンプレート"
 
-#: templates/autoformat/autoformat.3D.button.xml.in.h:3
-#: templates/autoformat/autoformat.3D.list.xml.in.h:2
-#: templates/autoformat/autoformat.Classical.cool.xml.in.h:2
-#: templates/autoformat/autoformat.Classical.simple.xml.in.h:2
-#: templates/autoformat/autoformat.Classical.trendy.xml.in.h:2
-#: templates/autoformat/autoformat.Colourful.banana.xml.in.h:3
-#: templates/autoformat/autoformat.Colourful.black.xml.in.h:2
-#: templates/autoformat/autoformat.Colourful.blue.xml.in.h:3
-#: templates/autoformat/autoformat.Colourful.orange.xml.in.h:1
-#: templates/autoformat/autoformat.Colourful.vanilla.xml.in.h:1
-#: templates/autoformat/autoformat.Financial.basic.xml.in.h:1
-#: templates/autoformat/autoformat.Financial.desert.xml.in.h:3
-#: templates/autoformat/autoformat.Financial.ice.xml.in.h:2
-#: templates/autoformat/autoformat.Financial.modern.xml.in.h:1
-#: templates/autoformat/autoformat.Financial.purple.xml.in.h:2
-#: templates/autoformat/autoformat.General.advanced.xml.in.h:3
-#: templates/autoformat/autoformat.General.basic.xml.in.h:3
-#: templates/autoformat/autoformat.General.empty.xml.in.h:3
-#: templates/autoformat/autoformat.General.table.xml.in.h:1
+#: templates/autoformat/autoformat.3D.button.xml.in.h:4
+#: templates/autoformat/autoformat.3D.list.xml.in.h:3
+#: templates/autoformat/autoformat.Classical.cool.xml.in.h:3
+#: templates/autoformat/autoformat.Classical.simple.xml.in.h:3
+#: templates/autoformat/autoformat.Classical.trendy.xml.in.h:3
+#: templates/autoformat/autoformat.Colourful.banana.xml.in.h:4
+#: templates/autoformat/autoformat.Colourful.black.xml.in.h:3
+#: templates/autoformat/autoformat.Colourful.blue.xml.in.h:4
+#: templates/autoformat/autoformat.Colourful.orange.xml.in.h:2
+#: templates/autoformat/autoformat.Colourful.vanilla.xml.in.h:2
+#: templates/autoformat/autoformat.Financial.basic.xml.in.h:2
+#: templates/autoformat/autoformat.Financial.desert.xml.in.h:4
+#: templates/autoformat/autoformat.Financial.ice.xml.in.h:3
+#: templates/autoformat/autoformat.Financial.modern.xml.in.h:2
+#: templates/autoformat/autoformat.Financial.purple.xml.in.h:3
+#: templates/autoformat/autoformat.General.advanced.xml.in.h:4
+#: templates/autoformat/autoformat.General.basic.xml.in.h:4
+#: templates/autoformat/autoformat.General.empty.xml.in.h:4
+#: templates/autoformat/autoformat.General.table.xml.in.h:2
 #: templates/autoformat/autoformat.List.basic.xml.in.h:3
 #: templates/autoformat/autoformat.List.green.xml.in.h:2
 #: templates/autoformat/autoformat.List.lila.xml.in.h:1
@@ -31175,15 +31196,21 @@ msgstr "ボタンのようなテンプレート"
 msgid "Gnumeric Team"
 msgstr "Gnumericチーム"
 
-#: templates/autoformat/autoformat.3D.list.xml.in.h:1
+#: templates/autoformat/autoformat.3D.list.xml.in.h:2
 msgid "A 3D list template"
 msgstr "3次元リストテンプレート"
 
 #: templates/autoformat/autoformat.Classical.cool.xml.in.h:1
+#: templates/autoformat/autoformat.Classical.simple.xml.in.h:2
+#: templates/autoformat/autoformat.Classical.trendy.xml.in.h:2
+msgid "Classical"
+msgstr "クラシック"
+
+#: templates/autoformat/autoformat.Classical.cool.xml.in.h:2
 msgid "Cool"
 msgstr "クール"
 
-#: templates/autoformat/autoformat.Classical.cool.xml.in.h:3
+#: templates/autoformat/autoformat.Classical.cool.xml.in.h:4
 msgid "Template with a 'cool' look"
 msgstr "「クール」な見栄えのテンプレート"
 
@@ -31191,9 +31218,9 @@ msgstr "「クール」な見栄えのテンプレート"
 msgid "A simple template with classical look and feel"
 msgstr "クラシックなルック&フィールのシンプルなテンプレート"
 
-#: templates/autoformat/autoformat.Classical.simple.xml.in.h:3
-#: templates/autoformat/autoformat.Financial.basic.xml.in.h:2
-#: templates/autoformat/autoformat.List.simple.xml.in.h:3
+#: templates/autoformat/autoformat.Classical.simple.xml.in.h:4
+#: templates/autoformat/autoformat.Financial.basic.xml.in.h:3
+#: templates/autoformat/autoformat.List.simple.xml.in.h:4
 msgid "Simple"
 msgstr "シンプル"
 
@@ -31201,7 +31228,7 @@ msgstr "シンプル"
 msgid "A classical yet colorful template"
 msgstr "クラシックだけれどカラフルなテンプレート"
 
-#: templates/autoformat/autoformat.Classical.trendy.xml.in.h:3
+#: templates/autoformat/autoformat.Classical.trendy.xml.in.h:4
 msgid "Trendy"
 msgstr "トレンディ"
 
@@ -31213,7 +31240,15 @@ msgstr "バナナの色をしたテンプレート"
 msgid "Banana"
 msgstr "バナナ"
 
-#: templates/autoformat/autoformat.Colourful.black.xml.in.h:3
+#: templates/autoformat/autoformat.Colourful.banana.xml.in.h:3
+#: templates/autoformat/autoformat.Colourful.black.xml.in.h:2
+#: templates/autoformat/autoformat.Colourful.blue.xml.in.h:3
+#: templates/autoformat/autoformat.Colourful.orange.xml.in.h:1
+#: templates/autoformat/autoformat.Colourful.vanilla.xml.in.h:1
+msgid "Colourful"
+msgstr "カラフル"
+
+#: templates/autoformat/autoformat.Colourful.black.xml.in.h:4
 msgid "Template with a black background"
 msgstr "黒い背景のテンプレート"
 
@@ -31221,23 +31256,31 @@ msgstr "黒い背景のテンプレート"
 msgid "A colourful template with mainly blue and teal colours"
 msgstr "青や緑青系統の色をしたテンプレート"
 
-#: templates/autoformat/autoformat.Colourful.orange.xml.in.h:2
+#: templates/autoformat/autoformat.Colourful.orange.xml.in.h:3
 msgid "Orange"
 msgstr "オレンジ"
 
-#: templates/autoformat/autoformat.Colourful.orange.xml.in.h:3
+#: templates/autoformat/autoformat.Colourful.orange.xml.in.h:4
 msgid "Orange template"
 msgstr "オレンジ色テンプレート"
 
-#: templates/autoformat/autoformat.Colourful.vanilla.xml.in.h:2
+#: templates/autoformat/autoformat.Colourful.vanilla.xml.in.h:3
 msgid "Template with vanilla colour"
 msgstr "原色のテンプレート"
 
-#: templates/autoformat/autoformat.Colourful.vanilla.xml.in.h:3
+#: templates/autoformat/autoformat.Colourful.vanilla.xml.in.h:4
 msgid "Vanilla"
 msgstr "原色"
 
-#: templates/autoformat/autoformat.Financial.basic.xml.in.h:3
+#: templates/autoformat/autoformat.Financial.basic.xml.in.h:1
+#: templates/autoformat/autoformat.Financial.desert.xml.in.h:3
+#: templates/autoformat/autoformat.Financial.ice.xml.in.h:1
+#: templates/autoformat/autoformat.Financial.modern.xml.in.h:1
+#: templates/autoformat/autoformat.Financial.purple.xml.in.h:1
+msgid "Financial"
+msgstr "財務"
+
+#: templates/autoformat/autoformat.Financial.basic.xml.in.h:4
 msgid "Simple financial template"
 msgstr "シンプルな財務用テンプレート"
 
@@ -31249,27 +31292,27 @@ msgstr "砂漠"
 msgid "Desert colored financial template"
 msgstr "砂漠のような色の財務用テンプレート"
 
-#: templates/autoformat/autoformat.Financial.ice.xml.in.h:1
+#: templates/autoformat/autoformat.Financial.ice.xml.in.h:2
 msgid "Financial style with cold border color"
 msgstr "境界が冷色の財務スタイル"
 
-#: templates/autoformat/autoformat.Financial.ice.xml.in.h:3
+#: templates/autoformat/autoformat.Financial.ice.xml.in.h:4
 msgid "Ice"
 msgstr "アイス"
 
-#: templates/autoformat/autoformat.Financial.modern.xml.in.h:2
+#: templates/autoformat/autoformat.Financial.modern.xml.in.h:3
 msgid "Modern"
 msgstr "モダン"
 
-#: templates/autoformat/autoformat.Financial.modern.xml.in.h:3
+#: templates/autoformat/autoformat.Financial.modern.xml.in.h:4
 msgid "Modern style with financial formatting"
 msgstr "財務用フォーマットのモダンスタイル"
 
-#: templates/autoformat/autoformat.Financial.purple.xml.in.h:1
+#: templates/autoformat/autoformat.Financial.purple.xml.in.h:2
 msgid "Financial template with purple borders"
 msgstr "境界が紫の財務用テンプレート"
 
-#: templates/autoformat/autoformat.Financial.purple.xml.in.h:3
+#: templates/autoformat/autoformat.Financial.purple.xml.in.h:4
 msgid "Purple"
 msgstr "紫"
 
@@ -31294,11 +31337,11 @@ msgstr "完全に空白のテンプレート"
 msgid "Empty"
 msgstr "空白"
 
-#: templates/autoformat/autoformat.General.table.xml.in.h:2
+#: templates/autoformat/autoformat.General.table.xml.in.h:3
 msgid "Table"
 msgstr "テーブル"
 
-#: templates/autoformat/autoformat.General.table.xml.in.h:3
+#: templates/autoformat/autoformat.General.table.xml.in.h:4
 msgid "Very simple table template with the same border everywhere "
 msgstr "どこも同じ境界の非常にシンプルなテーブルテンプレート"
 
@@ -31341,16 +31384,6 @@ msgstr "シンプルなリストテンプレート"
 
 #~ msgid "_Delete..."
 #~ msgstr "削除(_D)..."
-
-#~ msgid "3D"
-#~ msgstr "3次元"
-
-#, fuzzy
-#~ msgid "Colourful"
-#~ msgstr "色:"
-
-#~ msgid "Financial"
-#~ msgstr "財務"
 
 #, fuzzy
 #~ msgid "Raise object"
