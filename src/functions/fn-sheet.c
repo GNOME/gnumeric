@@ -116,7 +116,7 @@ static char *help_gnumeric_version = {
 static Value *
 gnumeric_version (FunctionEvalInfo *ei, Value *argv [])
 {
-	return value_new_float (atof (GNUMERIC_VERSION));
+	return value_new_string (GNUMERIC_VERSION);
 }
 
 /***************************************************************************/

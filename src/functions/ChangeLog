@@ -1,3 +1,8 @@
+2002-01-16  Jon K Hellan  <hellan@acm.org>
+
+	* fn-sheet.c (gnumeric_version): Return string as documented, not
+	float.
+
 2002-01-16  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* fn-financial.c : change oem to eom, don't release null maturity
