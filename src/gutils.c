@@ -111,7 +111,7 @@ gnumeric_sys_lib_dir (const char *subdir)
 }
 
 #define GLADE_SUFFIX	"glade"
-#define PLUGIN_SUFFIX	"plugin"
+#define PLUGIN_SUFFIX	"plugins"
 
 char * gnumeric_sys_glade_dir ()  { return gnumeric_sys_data_dir (GLADE_SUFFIX); }
 char * gnumeric_sys_plugin_dir () { return gnumeric_sys_lib_dir (PLUGIN_SUFFIX); }

@@ -3073,7 +3073,7 @@ char *
 workbook_sheet_get_free_name (Workbook *wb, const char * const base,
 			      gboolean always_suffix)
 {
-	const char *name_format = _("%s%d");
+	const char *name_format = "%s%d";
 	char *name;
 	int  i;
 		

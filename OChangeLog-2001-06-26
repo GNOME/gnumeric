@@ -1,3 +1,9 @@
+2000-04-27  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c (workbook_sheet_get_free_name) : No need to translate "%s%d".
+
+	* src/gutils.c (PLUGIN_SUFFIX) : typo.
+
 2000-04-27  Karl EICHWALDER  <ke@suse.de>
 
 	* NEWS (Translations): Add `da', `es', `no', and `uk'.
