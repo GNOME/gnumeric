@@ -1753,19 +1753,23 @@ cmd_format_undo (GnmCommand *cmd,
 	if (me->old_styles) {
 		GSList *l1 = me->old_styles;
 		GSList *l2 = me->selection;
+		GnmRange const *r;
+		CmdFormatOldStyle *os;
+		SpanCalcFlags flags;
+		gboolean const re_fit_height =
+			(SPANCALC_ROW_HEIGHT & required_updates_for_style (me->new_style));
 
 		for (; l1; l1 = l1->next, l2 = l2->next) {
-			GnmRange const *r;
-			CmdFormatOldStyle *os = l1->data;
-			SpanCalcFlags flags = sheet_style_set_list (me->cmd.sheet,
+			os = l1->data;
+			flags = sheet_style_set_list (me->cmd.sheet,
 				&os->pos, FALSE, os->styles);
 
 			g_return_val_if_fail (l2 && l2->data, TRUE);
 
 			r = l2->data;
-			sheet_range_calc_spans (me->cmd.sheet, r, flags);
-			if (flags != SPANCALC_SIMPLE)
+			if (re_fit_height)
 				rows_height_update (me->cmd.sheet, r, TRUE);
+			sheet_range_calc_spans (me->cmd.sheet, r, flags);
 			sheet_flag_format_update_range (me->cmd.sheet, r);
 		}
 		sheet_redraw_all (me->cmd.sheet, FALSE);

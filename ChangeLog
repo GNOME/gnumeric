@@ -1,5 +1,12 @@
 2005-01-09  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=163407
+	* src/commands.c (cmd_format_undo) : doh! resize only if we needed a
+	  resize when the style was applied, not based on the properties of
+	  the format we are restoring.
+
+2005-01-09  Jody Goldberg <jody@gnome.org>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=162923
 	* src/expr.c (gnm_expr_eval) : minor thinko, array result from a
 	  function in a non-scalar context return the first element, not

@@ -1154,7 +1154,7 @@ cb_max_cell_height (Sheet *sheet, int col, int row, GnmCell *cell,
  *
  * Return : Maximum size in pixels INCLUDING margins and grid lines
  *          or 0 if there are no cells.
- */
+ **/
 int
 sheet_row_size_fit_pixels (Sheet *sheet, int row)
 {

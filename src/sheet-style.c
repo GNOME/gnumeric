@@ -2071,7 +2071,7 @@ sheet_style_get_validation_list (Sheet const *sheet, GnmRange const *r)
  *
  * Applies a list of styles to the sheet with the supplied offset.  Optionally
  * transposing the ranges
- */
+ **/
 SpanCalcFlags
 sheet_style_set_list (Sheet *sheet, GnmCellPos const *corner,
 		      gboolean transpose, GnmStyleList const *list)
