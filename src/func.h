@@ -4,18 +4,18 @@
 #include "expr.h"
 #include "sheet.h"
 
-extern void math_functions_init(void);
-extern void sheet_functions_init(void);
-extern void misc_functions_init(void);
-extern void date_functions_init(void);
-extern void string_functions_init(void);
-extern void stat_functions_init(void);
-extern void finance_functions_init(void);
-extern void eng_functions_init(void);
-extern void lookup_functions_init(void);
-extern void logical_functions_init(void);
-extern void database_functions_init(void);
-extern void information_functions_init(void);
+extern void math_functions_init        (void);
+extern void sheet_functions_init       (void);
+extern void misc_functions_init        (void);
+extern void date_functions_init        (void);
+extern void string_functions_init      (void);
+extern void stat_functions_init        (void);
+extern void finance_functions_init     (void);
+extern void eng_functions_init         (void);
+extern void lookup_functions_init      (void);
+extern void logical_functions_init     (void);
+extern void database_functions_init    (void);
+extern void information_functions_init (void);
 
 typedef int (*FunctionIterateCallback)(const EvalPosition *ep, Value *value,
 				       ErrorMessage *error, void *);
@@ -115,11 +115,12 @@ TokenizedHelp *tokenized_help_new     (FunctionDefinition *fd);
 const char    *tokenized_help_find    (TokenizedHelp *tok, const char *token);
 void           tokenized_help_destroy (TokenizedHelp *tok);
 
-float_t combin (int n, int k);
-float_t fact   (int n);
-void setup_stat_closure (stat_closure_t *cl);
-int callback_function_stat (const EvalPosition *ep, Value *value, ErrorMessage *error,
-			    void *closure);
+float_t        combin (int n, int k);
+float_t        fact   (int n);
+
+void setup_stat_closure     (stat_closure_t *cl);
+int  callback_function_stat (const EvalPosition *ep, Value *value, ErrorMessage *error,
+			     void *closure);
 
 Value *gnumeric_average     (FunctionEvalInfo *s, GList *nodes);
 Value *gnumeric_count       (FunctionEvalInfo *s, GList *nodes);
@@ -133,6 +134,8 @@ Value *gnumeric_min         (FunctionEvalInfo *s, GList *nodes);
 Value *gnumeric_max         (FunctionEvalInfo *s, GList *nodes);
 Value *gnumeric_suma        (FunctionEvalInfo *s, GList *nodes);
 
+Value *gnumeric_return_current_time (void);
+
 
 /* Type definitions and function prototypes for criteria functions.
  * This includes the database functions and some mathematical functions
@@ -145,16 +148,14 @@ typedef struct {
         Value                *x;
 } func_criteria_t;
 
-int criteria_test_equal(Value *x, Value *y);
-int criteria_test_unequal(Value *x, Value *y);
-int criteria_test_greater(Value *x, Value *y);
-int criteria_test_less(Value *x, Value *y);
-int criteria_test_greater_or_equal(Value *x, Value *y);
-int criteria_test_less_or_equal(Value *x, Value *y);
-void parse_criteria(char *criteria, criteria_test_fun_t *fun,
-		    Value **test_value);
-
-
-int solver_simplex(Workbook *wb, Sheet *sheet);
+int  criteria_test_equal            (Value *x, Value *y);
+int  criteria_test_unequal          (Value *x, Value *y);
+int  criteria_test_greater          (Value *x, Value *y);
+int  criteria_test_less             (Value *x, Value *y);
+int  criteria_test_greater_or_equal (Value *x, Value *y);
+int  criteria_test_less_or_equal    (Value *x, Value *y);
+void parse_criteria                 (char *criteria, criteria_test_fun_t *fun,
+				     Value **test_value);
+int  solver_simplex                 (Workbook *wb, Sheet *sheet);
 
 #endif /* GNUMERIC_FUNC_H */

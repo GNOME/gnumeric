@@ -61,6 +61,12 @@ typedef struct {
 	Workbook *wb;
 	PrintInformation *pi;
 	GnomePrintContext *print_context;
+
+	/*
+	 * For headers and footers
+	 */
+	HFRenderInfo *render_info;
+	GnomeFont    *decoration_font;
 } PrintJobInfo;
 
 static void
@@ -151,6 +157,74 @@ print_page_cells (Sheet *sheet,
 		base_x, base_y);
 }
 
+typedef enum {
+	LEFT_HEADER,
+	RIGHT_HEADER,
+	MIDDLE_HEADER,
+} HFSide;
+
+static void
+print_hf (PrintJobInfo *pj, const char *format, HFSide side, double y)
+{
+	PrintMargins *pm = &pj->pi->margins;
+	char *text;
+	double x;
+	double len;
+	
+	text = hf_format_render (format, pj->render_info, HF_RENDER_PRINT);
+
+	len = gnome_font_get_width_string (pj->decoration_font, text);
+	
+	switch (side){
+	case LEFT_HEADER:
+		x = pm->left.points;
+		break;
+		
+	case RIGHT_HEADER:
+		x = pj->width - pm->right.points - len;
+		break;
+
+	case MIDDLE_HEADER:
+		x = (pj->x_points - len)/2 + pm->left.points;
+		break;
+
+	default:
+		x = 0;
+	}	
+	gnome_print_moveto (pj->print_context, x, y);
+	gnome_print_show (pj->print_context, text);
+	gnome_print_stroke (pj->print_context);
+	g_free (text);
+}
+
+static void
+print_headers (PrintJobInfo *pj)
+{
+	PrintMargins *pm = &pj->pi->margins;
+	double y;
+	
+	gnome_print_setfont (pj->print_context, pj->decoration_font);
+
+	y = pj->height - pm->top.points - pj->decoration_font->size;
+	print_hf (pj, pj->pi->header->left_format,   LEFT_HEADER, y);
+	print_hf (pj, pj->pi->header->middle_format, MIDDLE_HEADER, y);
+	print_hf (pj, pj->pi->header->right_format,  RIGHT_HEADER, y);
+}
+
+static void
+print_footers (PrintJobInfo *pj)
+{
+	PrintMargins *pm = &pj->pi->margins;
+	double y;
+	
+	gnome_print_setfont (pj->print_context, pj->decoration_font);
+
+	y = pm->footer.points = pm->bottom.points;
+	print_hf (pj, pj->pi->footer->left_format,   LEFT_HEADER, y);
+	print_hf (pj, pj->pi->footer->middle_format, MIDDLE_HEADER, y);
+	print_hf (pj, pj->pi->footer->right_format,  RIGHT_HEADER, y);
+}
+
 static void
 print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row, PrintJobInfo *pj)
 {
@@ -189,6 +263,9 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 		double x = base_x;
 		double y = base_y;
 
+		print_headers (pj);
+		print_footers (pj);
+		
 		/*
 		 * Print any titles that might be used
 		 */
@@ -291,9 +368,12 @@ print_sheet_range (Sheet *sheet, int start_col, int start_row, int end_col, int 
 	cols = compute_groups (sheet, start_col, end_col, usable_x, sheet_col_get_info);
 	rows = compute_groups (sheet, start_row, end_row, usable_y, sheet_row_get_info);
 
+	pj->render_info->pages = g_list_length (cols) * g_list_length (rows);
+	
 	if (pj->pi->print_order == PRINT_ORDER_DOWN_THEN_RIGHT){
 		int col = start_col;
-		
+
+		pj->render_info->page = 1;
 		for (l = cols; l; l = l->next){
 			int col_count = GPOINTER_TO_INT (l->data);
 			int row = start_row;
@@ -304,12 +384,14 @@ print_sheet_range (Sheet *sheet, int start_col, int start_row, int end_col, int 
 				print_page (sheet, col, row, col + col_count - 1, row + row_count - 1, pj);
 
 				row += row_count;
+				pj->render_info->page++;
 			}
 			col += col_count;
 		}
 	} else {
 		int row = start_row;
 
+		pj->render_info->page = 1;
 		for (l = rows; l; l = l->next){
 			int row_count = GPOINTER_TO_INT (l->data);
 			int col = start_col;
@@ -320,6 +402,7 @@ print_sheet_range (Sheet *sheet, int start_col, int start_row, int end_col, int 
 				print_page (sheet, col, row, col + col_count - 1, row + row_count - 1, pj);
 
 				col += col_count;
+				pj->render_info->page++;
 			}
 			row += row_count;
 		}
@@ -373,6 +456,8 @@ print_sheet (gpointer key, gpointer value, gpointer user_data)
 	pj->repeat_cols_used_x = print_range_used_units (
 		sheet, FALSE, &pj->pi->repeat_left);
 
+	pj->render_info->sheet = sheet;
+	
 	print_sheet_range (sheet, 0, 0, sheet->max_col_used+1, sheet->max_row_used+1, pj);
 }
 
@@ -422,12 +507,23 @@ print_job_info_get (Workbook *wb)
 	pj->y_points = pj->height -
 		(pm->top.points + pm->bottom.points + pm->header.points + pm->footer.points);
 
+	/*
+	 * Setup render info
+	 */
+	pj->render_info = hf_render_info_new ();
+	pj->render_info->wb = wb;
+
+	pj->decoration_font = gnome_font_new ("Helvetica", 12);
+	
 	return pj;
 }
 
 static void
 print_job_info_destroy (PrintJobInfo *pj)
 {
+	hf_render_info_destroy (pj->render_info);
+	gtk_object_unref (GTK_OBJECT (pj->decoration_font));
+	
 	g_free (pj);
 }
 

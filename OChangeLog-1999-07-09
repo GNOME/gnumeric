@@ -1,3 +1,20 @@
+1999-07-09  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/about.c (dialog_about): Sort in alphabetical order.
+
+	* src/print-info.c (print_hf_free): Killed the style_format feature.
+
+	* src/print.c (print_job_info_get): Create render info context
+	here for header/footer printing.
+	(print_sheet_range): Setup number of pages here;  Increment pages
+	after each one is outputed.
+	(print_headers): Implemented the header/footer printing.
+
+	* src/print-info.c (hf_render_info_new, hf_render_info_destroy):
+	New routines.
+
+	* src/fn-date.c (gnumeric_return_current_time): New function.
+
 1999-07-09  Miguel de Icaza  <miguel@gnu.org>
 
 	* configure.in (GNOMEGNORBA_LIBS): Simplified the Bonobo detection code.

@@ -247,11 +247,15 @@ idldir   = $(datadir)/idl
 idl_DATA = Gnumeric.idl
 
 gladedir   = $(datadir)/gnumeric/glade
-glade_DATA = print.glade import.glade
+glade_DATA = 				\
+	hf-config.glade			\
+	import.glade			\
+	print.glade 
 
 glade_msgs = 				\
-	print.glade.h			\
-	import.glade.h
+	hf-config.glade.h		\
+	import.glade.h			\
+	print.glade.h
 
 EXTRA_DIST = $(idl_DATA) $(glade_DATA) $(glade_msgs)
 

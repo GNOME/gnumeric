@@ -213,19 +213,24 @@ static char *help_now = {
 	   "@SEEALSO=TODAY, NOW")
 };
 
-static Value *
-gnumeric_now (FunctionEvalInfo *ei, Value **argv)
+Value *
+gnumeric_return_current_time (void)
 {
 	time_t t = time (NULL);
 	struct tm *tm = localtime (&t);
 	int secs;
-
 	GDate date;
         g_date_clear (&date, 1);
 	g_date_set_time (&date, t);
 
 	secs = tm->tm_hour * 3600 + tm->tm_min * 60 + tm->tm_sec;
 	return value_new_float (g_date_serial (&date) + secs / (double)DAY_SECONDS);
+}
+
+static Value *
+gnumeric_now (FunctionEvalInfo *ei, Value **argv)
+{
+	return gnumeric_return_current_time ();
 }
 
 static char *help_time = {

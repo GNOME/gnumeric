@@ -35,3 +35,5 @@ src/sheet.c
 src/workbook.c
 src/xml-io.c
 src/print.glade.h
+src/import.glade.h
+src/hf-config.glade.h

@@ -63,8 +63,13 @@ typedef struct {
 
 	GtkWidget *icon_rd;
 	GtkWidget *icon_dr;
-} dialog_print_info_t;
 
+	/*
+	 * The header/footers formats 
+	 */
+	PrintHF *header;
+	PrintHF *footer;
+} dialog_print_info_t;
 
 static void fetch_settings (dialog_print_info_t *dpi);
 
@@ -304,13 +309,98 @@ do_setup_margin (dialog_print_info_t *dpi)
 }
 
 static void
+header_changed (GtkObject *object, dialog_print_info_t *dpi)
+{
+	PrintHF *format = gtk_object_get_user_data (object);
+
+	print_hf_free (dpi->header);
+	dpi->header = print_hf_copy (format);
+}
+
+static void
+footer_changed (GtkObject *object, dialog_print_info_t *dpi)
+{
+	PrintHF *format = gtk_object_get_user_data (object);
+
+	print_hf_free (dpi->footer);
+	dpi->footer = print_hf_copy (format);
+}
+
+/*
+ * Fills one of the GtkCombos for headers or footers with the list
+ * of existing header/footer formats
+ */
+static void
+fill_hf (dialog_print_info_t *dpi, GtkOptionMenu *om, GtkSignalFunc callback)
+{
+	GList *l;
+	HFRenderInfo *hfi;
+	GtkWidget *menu;
+	
+	hfi = hf_render_info_new ();
+	hfi->page = 1;
+	hfi->pages = 1;
+
+	menu = gtk_menu_new ();
+
+	for (l = hf_formats; l; l = l ->next){
+		GtkWidget *li;
+		PrintHF *format = l->data;
+		char *left, *middle, *right;
+		char *res;
+		
+		left = hf_format_render (format->left_format, hfi, HF_RENDER_PRINT);
+		middle = hf_format_render (format->middle_format, hfi, HF_RENDER_PRINT);
+		right = hf_format_render (format->right_format, hfi, HF_RENDER_PRINT);
+
+		res = g_strdup_printf (
+			"%s%s%s%s%s",
+			left, *left ? "," : "",
+			right, *right ? "," : "",
+			middle);
+			
+		li = gtk_menu_item_new_with_label (res);
+		gtk_widget_show (li);
+		gtk_container_add (GTK_CONTAINER (menu), li);
+		gtk_object_set_user_data (GTK_OBJECT (li), format);
+		gtk_signal_connect (GTK_OBJECT (li), "activate", callback, dpi);
+		
+		g_free (res);
+		g_free (left);
+		g_free (middle);
+		g_free (right);
+	}
+	gtk_option_menu_set_menu (om, menu);
+	gtk_option_menu_set_history (om, 0);
+	
+	hf_render_info_destroy (hfi);
+}
+
+static void
+do_hf_config (GtkWidget *button, GtkOptionMenu *w)
+{
+	g_error ("This should not be accessible to users in this release");
+}
+
+static void
 do_setup_hf (dialog_print_info_t *dpi)
 {
-	GtkEntry *header = GTK_ENTRY (glade_xml_get_widget (dpi->gui, "header-entry"));
-	GtkEntry *footer = GTK_ENTRY (glade_xml_get_widget (dpi->gui, "footer-entry"));
-	
-	gtk_entry_set_text (header, dpi->pi->header->middle_format);
-	gtk_entry_set_text (footer, dpi->pi->footer->middle_format);
+	GtkOptionMenu *header = GTK_OPTION_MENU (glade_xml_get_widget (dpi->gui, "option-menu-header"));
+	GtkOptionMenu *footer = GTK_OPTION_MENU (glade_xml_get_widget (dpi->gui, "option-menu-footer"));
+
+	fill_hf (dpi, header, GTK_SIGNAL_FUNC (header_changed));
+	fill_hf (dpi, footer, GTK_SIGNAL_FUNC (footer_changed));
+
+	dpi->header = print_hf_copy (hf_formats->data);
+	dpi->footer = print_hf_copy (hf_formats->data);
+		
+	gtk_signal_connect (
+		GTK_OBJECT (glade_xml_get_widget (dpi->gui, "configure-header")),
+		"clicked", GTK_SIGNAL_FUNC (do_hf_config), header);
+
+	gtk_signal_connect (
+		GTK_OBJECT (glade_xml_get_widget (dpi->gui, "configure-footer")),
+		"clicked", GTK_SIGNAL_FUNC (do_hf_config), footer);
 }
 
 static void
@@ -620,14 +710,11 @@ do_fetch_margins (dialog_print_info_t *dpi)
 static void
 do_fetch_hf (dialog_print_info_t *dpi)
 {
-	g_free (dpi->pi->header->middle_format);
-	g_free (dpi->pi->footer->middle_format);
+	print_hf_free (dpi->pi->header);
+	print_hf_free (dpi->pi->footer);
 
-	dpi->pi->header->middle_format = g_strdup (gtk_entry_get_text (
-		GTK_ENTRY (glade_xml_get_widget (dpi->gui, "header-entry"))));
-
-	dpi->pi->footer->middle_format = g_strdup (gtk_entry_get_text (
-		GTK_ENTRY (glade_xml_get_widget (dpi->gui, "footer-entry"))));
+	dpi->pi->header = print_hf_copy (dpi->header);
+	dpi->pi->footer = print_hf_copy (dpi->footer);
 }
 
 static void

@@ -13,21 +13,29 @@
 #include "ranges.h"
 #include "print-info.h"
 #include "format.h"
+#include "func.h"
+
+static PrintHF predefined_formats [] = {
+	{ "",                 "",                             "" },
+	{ "",                 N_("Page &[PAGE]"),             "" },
+	{ "",                 N_("Page &[PAGE] of &[PAGES]"), "" },
+	{ "",                 N_("&[TAB]"),                   "" },
+	{ N_("Page &[PAGE]"), N_("&[TAB]"),                   "" },
+	{ NULL, }
+};
+
+GList *hf_formats;
 
 PrintHF *
-print_hf_new (const char *style_name,
-	      const char *left_side_format,
+print_hf_new (const char *left_side_format,
 	      const char *middle_format,
 	      const char *right_side_format)
 {
 	PrintHF *format;
 
 	format = g_new0 (PrintHF, 1);
-
-	if (style_name)
-		format->style_name = g_strdup (style_name);
 	
-	if (style_name)
+	if (left_side_format)
 		format->left_format = g_strdup (left_side_format);
 
 	if (middle_format)
@@ -39,6 +47,19 @@ print_hf_new (const char *style_name,
 	return format;
 }
 
+PrintHF *
+print_hf_copy (const PrintHF *source)
+{
+	PrintHF *res;
+
+	res = g_new0 (PrintHF, 1);
+	res->left_format = g_strdup (source->left_format);
+	res->middle_format = g_strdup (source->middle_format);
+	res->right_format = g_strdup (source->right_format);
+
+	return res;
+}
+
 void
 print_hf_free (PrintHF *print_hf)
 {
@@ -47,7 +68,6 @@ print_hf_free (PrintHF *print_hf)
 	g_free (print_hf->left_format);
 	g_free (print_hf->middle_format);
 	g_free (print_hf->right_format);
-	g_free (print_hf->style_name);
 	g_free (print_hf);
 }
 
@@ -130,6 +150,44 @@ load_range (const char *name)
 	return v;
 }
 
+static void
+load_formats (void)
+{
+	int format_count;
+	int i;
+	
+	/* Fetch header/footer formats */
+	gnome_config_push_prefix ("/Gnumeric/Headers_and_Footers");
+
+	format_count = gnome_config_get_int ("formats=0");
+	if (format_count == 0){
+		int i;
+		
+		for (i = 0; predefined_formats [i].left_format; i++){
+			PrintHF *format;
+			
+			format = print_hf_new (
+				predefined_formats [i].left_format,
+				predefined_formats [i].middle_format,
+				predefined_formats [i].right_format);
+
+			hf_formats = g_list_prepend (hf_formats, format);
+		}
+		hf_formats = g_list_reverse (hf_formats);
+		return;
+	}
+
+	for (i = 0; i < format_count; i++){
+		char *str = g_strdup_printf ("Format-%d", i);
+		PrintHF *format;
+		
+		format = load_hf (str, "", "", "");
+		hf_formats = g_list_prepend (hf_formats, format);
+	}
+	
+	gnome_config_pop_prefix ();
+}
+
 #define CENTIMETER_IN_POINTS      "28.346457"
 #define HALF_CENTIMETER_IN_POINTS "14.1732285"
 
@@ -210,8 +268,11 @@ print_info_new (void)
 		value_release (cellrange);
 	} else
 		pi->repeat_left.use = FALSE;
-		
+
 	gnome_config_pop_prefix ();
+
+	load_formats ();
+	
 	gnome_config_sync ();
 
 	return pi;
@@ -339,7 +400,10 @@ unit_name_to_unit (const char *s)
 static void
 render_tab (GString *target, HFRenderInfo *info, const char *args)
 {
-	g_string_append (target, info->sheet->name);
+	if (info->sheet)
+		g_string_append (target, info->sheet->name);
+	else
+		g_string_append (target, _("Sheet 1"));
 }
 
 static void
@@ -401,7 +465,7 @@ static struct {
 	{ N_("page"),  render_page  },
 	{ N_("pages"), render_pages },
 	{ N_("date"),  render_date  },
-	{ N_("time"), render_time   },
+	{ N_("time"),  render_time  },
 	{ NULL },
 };
 
@@ -470,6 +534,7 @@ hf_format_render (const char *format, HFRenderInfo *info, HFRenderType render_ty
 				char *operation = g_malloc (p - start + 1);
 
 				strncpy (operation, start, p - start);
+				operation [p-start] = 0;
 				render_opcode (result, operation, info, render_type);
 			} else
 				break;
@@ -483,3 +548,22 @@ hf_format_render (const char *format, HFRenderInfo *info, HFRenderType render_ty
 	return str;
 }
 		  
+HFRenderInfo *
+hf_render_info_new (void)
+{
+	HFRenderInfo *hfi;
+	
+	hfi = g_new0 (HFRenderInfo, 1);
+	hfi->date_time = gnumeric_return_current_time ();
+
+	return hfi;
+}
+
+void
+hf_render_info_destroy (HFRenderInfo *hfi)
+{
+	g_return_if_fail (hfi != NULL);
+
+	value_release (hfi->date_time);
+	g_free (hfi);
+}

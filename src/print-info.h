@@ -55,7 +55,6 @@ typedef struct {
 
 /* Header/Footer definition */
 typedef struct {
-	char *style_name;
 	char *left_format;
 	char *middle_format;
 	char *right_format;
@@ -106,26 +105,32 @@ typedef struct {
 	Value     *date_time;
 } HFRenderInfo;
 
-PrintInformation *print_info_new     (void);
-void              print_info_save    (PrintInformation *pi);
+PrintInformation *print_info_new         (void);
+void              print_info_save        (PrintInformation *pi);
 
-void              print_info_free    (PrintInformation *pi);
+void              print_info_free        (PrintInformation *pi);
 
-PrintHF          *print_hf_new       (const char *style_name,
-				      const char *left_side_format,
-				      const char *middle_format,
-				      const char *right_side_format);
-void              print_hf_free      (PrintHF *print_hf);
+PrintHF          *print_hf_new           (const char *left_side_format,
+					  const char *middle_format,
+				          const char *right_side_format);
+void              print_hf_free          (PrintHF *print_hf);
+PrintHF          *print_hf_copy          (const PrintHF *source);
 
-char             *hf_format_render   (const char *format,
-				      HFRenderInfo *info,
-				      HFRenderType render_type);
+char             *hf_format_render       (const char *format,
+					  HFRenderInfo *info,
+					  HFRenderType render_type);
+HFRenderInfo     *hf_render_info_new     (void);
+void              hf_render_info_destroy (HFRenderInfo *hfi);
 
+	
 const char *unit_name_get_short_name (UnitName name);
 const char *unit_name_get_name       (UnitName name);
 double      print_unit_get_prefered  (PrintUnit *unit);
 double      unit_convert             (double value, UnitName source, UnitName target);
 UnitName    unit_name_to_unit        (const char *s);
+
+/* Formats known */
+GList *hf_formats;
 
 #endif
 
