@@ -31,7 +31,6 @@
 #include <mathfunc.h>
 #include <rangefunc.h>
 #include <value.h>
-#include <auto-format.h>
 
 #include <expr.h>
 #include <sheet.h>

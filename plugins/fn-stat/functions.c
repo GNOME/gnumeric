@@ -36,7 +36,6 @@
 #include <value.h>
 #include <expr.h>
 #include <expr-impl.h>
-#include <auto-format.h>
 #include <func-builtin.h>
 
 #include <math.h>

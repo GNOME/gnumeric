@@ -31,7 +31,6 @@
 #include <cell.h>
 #include <tools/goal-seek.h>
 #include <collect.h>
-#include <auto-format.h>
 #include <datetime.h>
 #include <value.h>
 #include <str.h>

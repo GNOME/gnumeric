@@ -31,7 +31,6 @@
 #include <cell.h>
 #include <datetime.h>
 #include <value.h>
-#include <auto-format.h>
 #include <mathfunc.h>
 #include <format.h>
 

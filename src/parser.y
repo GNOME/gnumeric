@@ -24,7 +24,6 @@
 #include "application.h"
 #include "parse-util.h"
 #include "gutils.h"
-#include "auto-format.h"
 #include "style.h"
 #include "value.h"
 #include "str.h"

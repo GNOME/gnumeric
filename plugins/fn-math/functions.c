@@ -33,7 +33,6 @@
 #include <collect.h>
 #include <value.h>
 #include <expr.h>
-#include <auto-format.h>
 
 #include <math.h>
 #include <string.h>

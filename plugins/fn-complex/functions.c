@@ -32,7 +32,6 @@
 #include <cell.h>
 #include <expr.h>
 #include <value.h>
-#include <auto-format.h>
 #include <mathfunc.h>
 
 #include "plugin.h"
