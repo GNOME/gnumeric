@@ -688,10 +688,17 @@ paste_special_cmd (GtkWidget *widget, Workbook *wb)
 static void
 delete_cells_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet;
+	dialog_delete_cells (wb, workbook_get_current_sheet (wb));
+}
 
-	sheet = workbook_get_current_sheet (wb);
-	dialog_delete_cells (wb, sheet);
+static void
+sheet_action_delete_sheet (GtkWidget *ignored, Sheet *current_sheet);
+
+static void
+delete_sheet_cmd (GtkWidget *widget, Workbook *wb)
+{
+	sheet_action_delete_sheet (widget,
+				   workbook_get_current_sheet (wb));
 }
 
 static void
@@ -1035,12 +1042,17 @@ static GnomeUIInfo workbook_menu_edit [] = {
         GNOMEUIINFO_MENU_CUT_ITEM(cut_cmd, NULL),
 	GNOMEUIINFO_MENU_COPY_ITEM(copy_cmd, NULL),
 	GNOMEUIINFO_MENU_PASTE_ITEM(paste_cmd, NULL),
+
+	GNOMEUIINFO_SEPARATOR,
+
 	{ GNOME_APP_UI_ITEM, PASTE_SPECIAL_NAME, NULL,
 	  paste_special_cmd },
-        { GNOME_APP_UI_ITEM, N_("_Delete..."), NULL,
-	  delete_cells_cmd },
         { GNOME_APP_UI_SUBTREE, N_("C_lear"),
 	  N_("Clear the selected cell(s)"), workbook_menu_edit_clear },
+        { GNOME_APP_UI_ITEM, N_("_Delete..."), NULL,
+	  delete_cells_cmd },
+        { GNOME_APP_UI_ITEM, N_("De_lete Sheet"), NULL,
+	  delete_sheet_cmd },
 
 	GNOMEUIINFO_SEPARATOR,
 
@@ -2319,7 +2331,7 @@ sheet_action_add_sheet (GtkWidget *widget, Sheet *current_sheet)
  * Invoked when the user selects the option to remove a sheet
  */
 static void
-sheet_action_delete_sheet (GtkWidget *widget, Sheet *current_sheet)
+sheet_action_delete_sheet (GtkWidget *ignored, Sheet *current_sheet)
 {
 	GtkWidget *d;
 	Workbook *wb = current_sheet->workbook;

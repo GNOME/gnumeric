@@ -1,3 +1,8 @@
+2000-01-15  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c (delete_sheet_cmd) : Add a 'Delete Sheet' menu
+	  item.
+
 2000-01-16  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* samples/*.xls: Moved to samples/excel.
