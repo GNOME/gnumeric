@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<plugin id="Gnumeric_derivatives">
+	<information name="Financial Derivatives" description="Functions related to financial derivatives"/>
+	<loader type="g_module">
+		<attribute name="module_file" value="derivatives.so"/>
+	</loader>
+	<services>
+		<service type="function_group" id="derivatives">
+			<category name="Finance"/>
+			<functions>
+				<function name="opt_bs_call"/>
+				<function name="opt_bs_call_delta"/>
+				<function name="opt_bs_call_rho"/>
+				<function name="opt_bs_call_theta"/>
+				<function name="opt_bs_put"/>
+				<function name="opt_bs_put_delta"/>
+				<function name="opt_bs_put_rho"/>
+				<function name="opt_bs_put_theta"/>
+				<function name="opt_bs_gamma"/>
+				<function name="opt_bs_vega"/>
+			</functions>
+		</service>
+	</services>
+</plugin>

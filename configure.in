@@ -608,6 +608,7 @@ doc/Makefile
 doc/C/Makefile
 plugins/Makefile
 plugins/numtheory/Makefile
+plugins/derivatives/Makefile
 plugins/sc/Makefile
 plugins/sylk/Makefile
 plugins/excel/Makefile

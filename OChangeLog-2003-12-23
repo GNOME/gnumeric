@@ -1,3 +1,10 @@
+2001-06-19  Morten Welinder  <terra@diku.dk>
+
+	* configure.in: Add derivatives plugin.
+	* plugins/Makefile.am (SUBDIRS_FUNCTIONS): Ditto.
+
+	* src/plugin.h: Fix includes.
+
 2001-06-19  Yukihiro Nakai <nakai@gnome.gr.jp>
 
 	* configure.in: Re-add ja to ALL_LINGUAS.

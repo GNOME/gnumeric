@@ -11,6 +11,9 @@ Almer:
 	* Fix the STF exporter (it works again).
 	* Add new consolidation feature.
 
+Elliot:
+	* Financial functions.
+
 Jody:
 	* Fix ctrl-enter filling.
 	* Reorganize the recalc queue to speed things up a bit.
