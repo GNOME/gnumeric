@@ -1,3 +1,7 @@
+2000-06-17  Valek Filippov  <frob@df.ru>
+
+	* style.c: fixed message about bug-repporting.
+
 2000-06-15  Jody Goldberg <jgoldberg@home.com>
 
 	* src/value-sheet.c (value_is_error) : No need for 'offset' parm.
