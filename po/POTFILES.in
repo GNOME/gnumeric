@@ -74,8 +74,6 @@ plugins/python-loader/py-console.c
 plugins/python-loader/py-gnumeric.c
 plugins/python-loader/python-loader.c
 plugins/python-loader/ui-console-menu.xml
-plugins/python/plugin.xml.in
-plugins/python/python.c
 plugins/qpro/qpro-read.c
 plugins/qpro/plugin.xml.in
 plugins/sample_datasource/sample_datasource.c
