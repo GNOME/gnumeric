@@ -1,3 +1,8 @@
+2003-07-13  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/commands.c (cmd_analysis_tool_redo): recalc
+	(cmd_analysis_tool_undo): ditto
+
 2003-07-10  Jody Goldberg <jody@gnome.org>
 
 	* src/func.c (function_dump_defs) : tack on category

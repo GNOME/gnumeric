@@ -4763,6 +4763,7 @@ cmd_analysis_tool_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 			dao_set_colrow_state_list (me->dao, FALSE, me->row_info);
 			me->row_info = colrow_state_list_destroy (me->row_info);
 		}
+		workbook_recalc (me->dao->sheet->workbook);
 		sheet_update (me->dao->sheet);
 	}
 
@@ -4824,6 +4825,7 @@ cmd_analysis_tool_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	dao_autofit_columns (me->dao);
 	sheet_set_dirty (me->dao->sheet, TRUE);
+	workbook_recalc (me->dao->sheet->workbook);
 	sheet_update (me->dao->sheet);
 
 	/* The concept of an undo if we create a new worksheet is extremely strange,
