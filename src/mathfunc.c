@@ -3243,73 +3243,6 @@ gnm_float dcauchy(gnm_float x, gnm_float location, gnm_float scale, gboolean giv
 }
 
 /* ------------------------------------------------------------------------ */
-/* Imported src/nmath/pcauchy.c from R.  */
-/*
- *  Mathlib : A C Library of Special Functions
- *  Copyright (C) 1998 Ross Ihaka
- *  Copyright (C) 2000 The R Development Core Team
- *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
- *
- *  DESCRIPTION
- *
- *	The distribution function of the Cauchy distribution.
- */
-
-
-gnm_float pcauchy(gnm_float x, gnm_float location, gnm_float scale,
-	       gboolean lower_tail, gboolean log_p)
-{
-    const gnm_float x_big = powgnum(5* GNUM_EPSILON, -0.25);/* = 5478.3 for IEEE */
-
-#ifdef IEEE_754
-    if (isnangnum(x) || isnangnum(location) || isnangnum(scale))
-	return x + location + scale;
-#endif
-    if (scale <= 0) ML_ERR_return_NAN;
-
-    x = (x - location) / scale;
-    if (isnangnum(x)) ML_ERR_return_NAN;
-#ifdef IEEE_754
-    if(!finitegnum(x)) {
-	if(x < 0) return R_DT_0;
-	else return R_DT_1;
-    }
-#endif
-    /* for large (negative || "upper tail & positive")  x,
-       the standard formula suffers from cancellation */
-    if( x < 0 && lower_tail && (-x) > x_big) {
-	/* P = 1/(pi*(-x)) *(1 - 1/(3* x^2)) */
-	if(log_p)
-	    return -loggnum(-M_PIgnum*x) + log1pgnum(- 1./(3*x*x));
-	/* else */
-	return (1 - 1./(3*x*x))/(-M_PIgnum*x);
-    }
-    /* else */
-    if(x > 0 && !lower_tail && x > x_big) {
-	/* P = 1 - 1/(pi*x) *(1 - 1/(3* x^2))  */
-	if(log_p)
-	    return -loggnum(M_PIgnum*x) + log1pgnum(- 1./(3*x*x));
-	/* else */
-	return (1 - 1./(3*x*x))/(M_PIgnum*x);
-    }
-    /* else */
-    return R_DT_val(0.5 + atan(x) / M_PIgnum);
-}
-
-/* ------------------------------------------------------------------------ */
 /* Imported src/nmath/bessel.h from R.  */
 
 /* Constants und Documentation that apply to several of the
@@ -5256,6 +5189,37 @@ pbeta (gnm_float x, gnm_float a, gnm_float b, gboolean lower_tail, gboolean log_
 }
 
 /* --- END IANDJMSMITH SOURCE MARKER --- */
+/* ------------------------------------------------------------------------ */
+
+gnm_float
+pcauchy (gnm_float x, gnm_float location, gnm_float scale,
+	 gboolean lower_tail, gboolean log_p)
+{
+#ifdef IEEE_754
+    if (isnangnum(x) || isnangnum(location) || isnangnum(scale))
+	    return x + location + scale;
+#endif
+    if (scale <= 0) ML_ERR_return_NAN;
+
+    x = (x - location) / scale;
+    if (isnangnum(x)) ML_ERR_return_NAN;
+#ifdef IEEE_754
+    if (!finitegnum(x)) {
+	    if(x < 0) return R_DT_0;
+	    else return R_DT_1;
+    }
+#endif
+
+    if (!lower_tail)
+	    x = -x;
+
+    if (gnumabs (x) > 1) {
+	    gnm_float temp = atangnum (1 / x) / M_PIgnum;
+	    return (x > 0) ? R_D_Clog (temp) : R_D_val (-temp);
+    } else
+	    return R_D_val (0.5 + atangnum (x) / M_PIgnum);
+}
+
 /* ------------------------------------------------------------------------ */
 
 typedef gnm_float (*PFunc) (gnm_float x, const gnm_float shape[],

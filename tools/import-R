@@ -46,7 +46,7 @@ my @files =
      "dgeom.c",
      "pgeom.c",
      "dcauchy.c",
-     "pcauchy.c",
+     # "pcauchy.c",
      "bessel.h",
      "bessel_i.c",
      "bessel_k.c",

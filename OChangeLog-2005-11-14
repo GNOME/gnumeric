@@ -1,5 +1,7 @@
 2004-04-09  Morten Welinder  <terra@gnome.org>
 
+	* src/mathfunc.c (pcauchy): New implementation.
+
 	* src/gutils.c (erfgnum): Improve precision for small x.
 	(modfgnum): Fix precision for huge x.
 	(frexpgnum): Fix precision for huge x.
