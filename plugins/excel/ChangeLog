@@ -1,3 +1,13 @@
+2001-10-18  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-chart.c (BC_R(store_chartgroup_type)) : store the type as a
+	  property rather than a child.
+	(BC_R(bar)) : store the attributes as children rather than props.
+	(BC_R(line)) : ditto.
+	(BC_R(pie)) : ditto.
+	(BC_R(pieformat)) : ditto.
+	(BC_R(scatter)) : ditto.
+
 2001-10-15  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-write.c (excel_sheet_new) : merge check_sheet into here.

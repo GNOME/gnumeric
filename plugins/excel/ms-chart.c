@@ -199,22 +199,9 @@ BC_R(store_chartgroup_type)(ExcelChartReadState *s, char const *t)
 	g_return_val_if_fail (fmt == NULL, NULL);
 
 	fmt = xmlNewChild (s->xml.currentChartGroup, s->xml.ns, "Type", NULL);
-	return xmlNewChild (fmt, s->xml.ns, t, NULL);
+	xmlSetProp (fmt, "name", t);
+	return fmt;
 }
-
-#if 0
-static xmlNode *
-BC_R(get_chartgroup_type)(ExcelChartReadState *s, char const *t)
-{       
-	xmlNode *fmt;
-
-	g_return_val_if_fail (s->xml.currentChartGroup != NULL, NULL);
-
-	fmt = e_xml_get_child_by_name (s->xml.currentChartGroup, "Type");
-	g_return_val_if_fail (fmt != NULL, NULL);
-	return e_xml_get_child_by_name (fmt, t);
-}
-#endif
 
 /****************************************************************************/
 
@@ -680,25 +667,26 @@ BC_R(bar)(ExcelChartHandler const *handle,
 {
 	guint16 const flags = MS_OLE_GET_GUINT16 (q->data+4);
 
-	xmlNode * fmt = BC_R(store_chartgroup_type)(s, "Bar");
+	xmlNode *tmp, *fmt = BC_R(store_chartgroup_type)(s, "Bar");
 
 	g_return_val_if_fail (fmt != NULL, TRUE);
 
-	e_xml_set_bool_prop_by_name (fmt, "horizontal", 
-				     (flags & 0x01) ? TRUE : FALSE);
+	/* Always set this it makes things clearer */
+	xmlNewChild (fmt, fmt->ns, "horizontal",
+		(flags & 0x01) ? "true" : "false");
 
 	if (flags & 0x04)
-		e_xml_set_bool_prop_by_name (fmt, "as_percentage", TRUE);
+		xmlNewChild (fmt, fmt->ns, "as_percentage", NULL);
 	else if (flags & 0x02)
-		e_xml_set_bool_prop_by_name (fmt, "stacked", TRUE);
+		xmlNewChild (fmt, fmt->ns, "stacked", NULL);
 
 	if (s->container.ver >= MS_BIFF_V8 && (flags & 0x08))
-		e_xml_set_bool_prop_by_name (fmt, "in_3d", TRUE);
+		xmlNewChild (fmt, fmt->ns, "in_3d", NULL);
 
-	xml_node_set_int (fmt, "percentage_space_between_items",
-			  MS_OLE_GET_GUINT16 (q->data));
-	xml_node_set_int (fmt, "percentage_space_between_groups",
-			  MS_OLE_GET_GUINT16 (q->data+2));
+	tmp = xmlNewChild (fmt, fmt->ns, "percentage_space_between_items", NULL);
+	xml_node_set_int (tmp, NULL, MS_OLE_GET_GUINT16 (q->data));
+	tmp = xmlNewChild (fmt, fmt->ns, "percentage_space_between_groups", NULL);
+	xml_node_set_int (fmt, NULL, MS_OLE_GET_GUINT16 (q->data+2));
 
 	return FALSE;
 }
@@ -1229,17 +1217,17 @@ BC_R(line)(ExcelChartHandler const *handle,
 {
 	guint16 const flags = MS_OLE_GET_GUINT16 (q->data);
 
-	xmlNode * fmt = BC_R(store_chartgroup_type)(s, "Line");
+	xmlNode *fmt = BC_R(store_chartgroup_type)(s, "Line");
 
 	g_return_val_if_fail (fmt != NULL, TRUE);
 
 	if (flags & 0x02)
-		e_xml_set_bool_prop_by_name (fmt, "as_percentage", TRUE);
+		xmlNewChild (fmt, fmt->ns, "as_percentage", NULL);
 	else if (flags & 0x01)
-		e_xml_set_bool_prop_by_name (fmt, "stacked", TRUE);
+		xmlNewChild (fmt, fmt->ns, "stacked", NULL);
 
 	if (s->container.ver >= MS_BIFF_V8 && (flags & 0x04))
-		e_xml_set_bool_prop_by_name (fmt, "in_3d", TRUE);
+		xmlNewChild (fmt, fmt->ns, "in_3d", NULL);
 
 	return FALSE;
 }
@@ -1312,7 +1300,7 @@ BC_R(lineformat)(ExcelChartHandler const *handle,
 
 	/* Applies to frames too */
 	if (s->xml.dataFormat != NULL) {
-		line = e_xml_get_child_by_name (s->xml.dataFormat, "Area");
+		line = e_xml_get_child_by_name (s->xml.dataFormat, "Line");
 		if (line == NULL)
 			line = xmlNewChild (s->xml.dataFormat, s->xml.ns,
 					    "Line", NULL);
@@ -1460,23 +1448,30 @@ BC_R(pie)(ExcelChartHandler const *handle,
 	  ExcelChartReadState *s, BiffQuery *q)
 {
 	double radians;
-	xmlNode *fmt = BC_R(store_chartgroup_type)(s, "Pie");
+	xmlNode *tmp, *fmt = BC_R(store_chartgroup_type)(s, "Pie");
+	guint16 const percent_diam = MS_OLE_GET_GUINT16 (q->data+2); /* 0-100 */
 
-	/* XL counts 0 at a different position */
+	/* This is for the whole pie */
+	if (percent_diam > 0) {
+		xmlNode *tmp = xmlNewChild (fmt, fmt->ns,
+			"separation_percent_of_radius", NULL);
+		xml_node_set_int (tmp, NULL, percent_diam);
+	}
+
 	radians = MS_OLE_GET_GUINT16 (q->data);
-	radians = (radians * 2. * M_PI / 360 - M_PI / 2.);
-	xml_node_set_double (fmt, "radians_of_first_pie",
-		radians, -1); 
+	radians = (radians * 2. * M_PI / 360.);
+	tmp = xmlNewChild (fmt, fmt->ns, "radians_of_first_pie", NULL);
+	xml_node_set_double (fmt, NULL, radians, -1); 
 
-	xml_node_set_int (fmt, "hole_percentage_of_diameter", 
-		MS_OLE_GET_GUINT16 (q->data+2));
 	if (s->container.ver >= MS_BIFF_V8) {
 		guint16 const flags = MS_OLE_GET_GUINT16 (q->data+4);
 
 		if (flags & 0x1)
-			e_xml_set_bool_prop_by_name (fmt, "in_3d", TRUE);
+			xmlNewChild (fmt, fmt->ns, "in_3d", NULL);
+#if 0
 		if (flags & 0x2)
 			e_xml_set_bool_prop_by_name (fmt, "leader_lines", TRUE);
+#endif
 	}
 
 	return FALSE;
@@ -1505,8 +1500,12 @@ BC_R(pieformat)(ExcelChartHandler const *handle,
 	if (pie == NULL)
 		pie = xmlNewChild (s->xml.dataFormat, s->xml.ns, "Pie", NULL);
 
-	e_xml_set_integer_prop_by_name (pie,
-		"separation_percent_of_diameter", percent_diam);
+	/* This is for individual slices */
+	if (percent_diam > 0) {
+		xmlNode *tmp = xmlNewChild (pie, pie->ns,
+			"separation_percent_of_radius", NULL);
+		xml_node_set_int (tmp, NULL, percent_diam);
+	}
 
 	d (2, printf ("Pie slice is %hu %% of diam from center\n", percent_diam););
 	return FALSE;
@@ -1639,7 +1638,7 @@ static gboolean
 BC_R(scatter)(ExcelChartHandler const *handle,
 	      ExcelChartReadState *s, BiffQuery *q)
 {
-	xmlNode * fmt = BC_R(store_chartgroup_type)(s, "Scatter");
+	xmlNode *fmt = BC_R(store_chartgroup_type)(s, "Scatter");
 
 	g_return_val_if_fail (fmt != NULL, TRUE);
 
@@ -1651,17 +1650,20 @@ BC_R(scatter)(ExcelChartHandler const *handle,
 			guint16 const size_type = MS_OLE_GET_GUINT16 (q->data+2);
 			e_xml_set_bool_prop_by_name (fmt, "has_bubbles", TRUE);
 			if (!(flags & 0x02))
-				e_xml_set_bool_prop_by_name (fmt, "hide_negatives", TRUE);
+				xmlNewChild (fmt, fmt->ns, "hide_negatives", NULL);
 			if (flags & 0x04)
-				e_xml_set_bool_prop_by_name (fmt, "in_3d", TRUE);
+				xmlNewChild (fmt, fmt->ns, "in_3d", NULL);
 
+#if 0
+			/* huh ? */
 			xml_node_set_int (fmt, "percentage_largest_tochart",
 					  MS_OLE_GET_GUINT16 (q->data));
-			e_xml_set_bool_prop_by_name (fmt,
-						     (size_type == 2)
-						     ? "bubble_sized_as_width"
-						     : "bubble_sized_as_area",
-						     TRUE);
+#endif
+			xmlNewChild (fmt, fmt->ns,
+				     (size_type == 2)
+				     ? "bubble_sized_as_width"
+				     : "bubble_sized_as_area",
+				     NULL);
 		}
 	}
 
