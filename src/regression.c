@@ -127,13 +127,17 @@ rescale (gnum_float **A, gnum_float *b, int n)
 }
 
 
-/* Performs an LUP Decomposition; LU and P must already be allocated.
-	 A is not destroyed
-
-This function is adapted from pseudocode in
-	_Introduction to Algorithms_. Cormen, Leiserson, and Rivest.
-	p 759. MIT Press, 1990.
-*/
+/*
+ * Performs an LUP Decomposition; LU and P must already be allocated.
+ * A is not destroyed.
+ *
+ * This function is adapted from pseudocode in
+ *   _Introduction to Algorithms_. Cormen, Leiserson, and Rivest.
+ *   p 759. MIT Press, 1990.
+ *
+ * A rescaling of rows is done and the b_scaled vector is scaled
+ * accordingly.
+ */
 static RegressionResult
 LUPDecomp (gnum_float **A, gnum_float **LU, int *P, int n, gnum_float *b_scaled)
 {
@@ -386,13 +390,22 @@ general_linear_regression (gnum_float **xss, int xdim,
 			for (i = 0; i < xdim; i++) {
 				e[i] = one_scaled[i];
 				backsolve (LU, P, e, xdim, inv);
-				if (inv[i] <= 0) regerr = REG_near_singular_bad;
-				regression_stat->se[i] = sqrtgnum (regression_stat->var * inv[i]);
+
+				if (inv[i] <= 0) {
+					/*
+					 * If this happens, something is really
+					 * wrong, numerically.
+					 */
+					regerr = REG_near_singular_bad;
+				}
+				regression_stat->se[i] =
+					sqrtgnum (regression_stat->var * inv[i]);
 				e[i] = 0;
 			}
 			g_free (e);
 			g_free (inv);
 		} else {
+			g_assert_not_reached ();
 			/* FIXME: got any better idea?  */
 			for (i = 0; i < xdim; i++)
 				regression_stat->se[i] = 1;
