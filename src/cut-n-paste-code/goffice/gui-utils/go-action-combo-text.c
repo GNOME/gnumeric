@@ -45,6 +45,7 @@ static GType go_tool_combo_text_get_type (void);
 static void
 go_tool_combo_text_finalize (GObject *obj)
 {
+	/* Call parent->finalize (obj).  */
 }
 static gboolean
 go_tool_combo_text_create_menu_proxy (GtkToolItem *tool_item)

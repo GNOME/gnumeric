@@ -70,7 +70,6 @@ GType gog_bubble_plot_get_type (void);
 
 typedef struct {
 	GogSeries base;
-	       
 	GogErrorBar *x_errors, *y_errors;
 } GogXYSeries;
 

@@ -233,6 +233,8 @@ god_property_table_finalize (GObject *object)
 	g_hash_table_destroy (prop_table->priv->attrs);
 	g_free (prop_table->priv);
 	prop_table->priv = NULL;
+
+	G_OBJECT_CLASS (parent_klass)->finalize (obj);
 }
 
 static void

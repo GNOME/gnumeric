@@ -1,3 +1,18 @@
+2004-03-16  Morten Welinder  <terra@gnome.org>
+
+	* drawing/god-property-table.c (god_property_table_finalize): Chain up.
+	* drawing/god-shape.c (god_shape_dispose): Chain up.
+	* drawing/god-text-model.c (god_text_model_finalize): Chain up.
+	* drawing/god-drawing-group.c (god_drawing_group_finalize): Chain
+	up.
+
+	* gui-utils/go-action-combo-text.c
+	(go_tool_combo_text_finalize): Add dummy chain.
+
+	* graph/plugins/plot_xy/gog-xy.c (gog_2d_plot_update): Initialize
+	series.
+	(gog_xy_series_finalize, gog_2d_finalize): Skip pointless tests.
+
 2004-03-16  Jean Brefort  <jean.brefort@ac-dijon.fr>
 
 	* Makefile.am: restore data subdir

@@ -204,6 +204,8 @@ god_shape_dispose (GObject *object)
 		g_object_unref (shape->priv->text_model);
 	g_free (shape->priv);
 	shape->priv = NULL;
+
+	G_OBJECT_CLASS (parent_klass)->dispose (obj);
 }
 
 static void

@@ -73,7 +73,7 @@ static void
 gog_2d_plot_update (GogObject *obj)
 {
 	Gog2DPlot *model = GOG_2D_PLOT (obj);
-	GogXYSeries const *series;
+	GogXYSeries const *series = NULL;
 	double x_min, x_max, y_min, y_max, tmp_min, tmp_max;
 	GSList *ptr;
 	gboolean is_discrete = FALSE;
@@ -220,8 +220,7 @@ static void
 gog_2d_finalize (GObject *obj)
 {
 	gog_2d_plot_clear_formats (GOG_2D_PLOT (obj));
-	if (G_OBJECT_CLASS (plot2d_parent_klass)->finalize)
-		G_OBJECT_CLASS (plot2d_parent_klass)->finalize (obj);
+	G_OBJECT_CLASS (plot2d_parent_klass)->finalize (obj);
 }
 
 static GType gog_xy_view_get_type (void);
@@ -585,7 +584,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	double y_min, y_max, y_off, y_scale;
 	double zmax, rmax = 0.;
 	double x_margin_min, x_margin_max, y_margin_min, y_margin_max, margin;
-	double delta, xerrmin, xerrmax, yerrmin, yerrmax;
+	double xerrmin, xerrmax, yerrmin, yerrmax;
 	double prev_x = 0., prev_y = 0.; /* make compiler happy */
 	ArtVpath	path[3];
 	GogStyle *style = NULL;
@@ -868,8 +867,7 @@ gog_xy_series_finalize (GObject *obj)
 		series->y_errors = NULL;
 	}
 
-	if (series_parent_klass != NULL && G_OBJECT_CLASS (series_parent_klass)->finalize != NULL)
-		(G_OBJECT_CLASS (series_parent_klass)->finalize) (obj);
+	G_OBJECT_CLASS (series_parent_klass)->finalize (obj);
 }
 
 static void
