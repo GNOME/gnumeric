@@ -788,6 +788,14 @@ style_format_account (GString *res, FormatCharacteristics const *fmt)
 	g_string_free (sym, TRUE);
 }
 
+/**
+ * style_format_number :
+ * @res :
+ * @fmt : #FormatCharacteristics
+ *
+ * generate an unlocalized number format based on @fmt.
+ * Store result in @res which the caller is responsible for freeing.
+ **/
 void
 style_format_number (GString *res, FormatCharacteristics const *fmt)
 {
@@ -828,11 +836,11 @@ style_format_number (GString *res, FormatCharacteristics const *fmt)
 		GString *tmp = g_string_new (NULL);
 		g_string_append (tmp, res->str);
 		switch (fmt->negative_fmt) {
-		case 1 : g_string_append (res, _(";[Red]"));
+		case 1 : g_string_append (res, ";[Red]");
 			break;
-		case 2 : g_string_append (res, _("_);("));
+		case 2 : g_string_append (res, "_);(");
 			break;
-		case 3 : g_string_append (res, _("_);[Red]("));
+		case 3 : g_string_append (res, "_);[Red](");
 			break;
 		default :
 			g_assert_not_reached ();

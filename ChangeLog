@@ -1,3 +1,9 @@
+2003-06-24  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=115853
+	* src/formats.c (style_format_number) : generate an _un_translated
+	  format.
+
 2003-06-24  Jon K Hellan  <hellan@acm.org>
 
 	* src/gui-clipboard.c (x_clipboard_get_cb): Call
