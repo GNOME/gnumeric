@@ -86,7 +86,7 @@ FORMULA_FUNC_DATA formula_func_data[] =
 	{ "COS", 1 },
 	{ "TAN", 1 },
 	{ "ATAN", 1 },
-	{ "ATAN2", 2 },
+	{ "PI", 0 },
 	{ "SQRT", 1 },
 	{ "EXP", 1 },
 	{ "LN", 1 },

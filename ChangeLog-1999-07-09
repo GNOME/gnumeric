@@ -1,3 +1,8 @@
+1999-06-06  Michael Meeks  <michael@edenproject.org>
+
+	* src/expr.c (value_area_get_at_x_y): Add vital check for
+	forthcoming name stuff.
+
 1999-06-03  Morten Welinder  <terra@diku.dk>
 
 	* src/item-bar.c (item_bar_event): Handle zoom.

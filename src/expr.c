@@ -580,6 +580,7 @@ value_area_get_at_x_y (Value *v, guint x, guint y)
 		g_return_val_if_fail (!b->row_relative, value_zero);
 		g_return_val_if_fail (a->col<=b->col, value_zero);
 		g_return_val_if_fail (a->row<=b->row, value_zero);
+		g_return_val_if_fail (a->sheet,       value_zero);
 
 		/* Speedup */
 		if (a->sheet->max_col_used < a->col+x ||
