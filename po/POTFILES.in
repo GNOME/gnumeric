@@ -151,6 +151,11 @@ src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in
 src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar.c
 src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in
 src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plugin.xml.in
+src/cut-n-paste-code/goffice/graph/plugins/plot_surface/gog-contour-prefs.c
+src/cut-n-paste-code/goffice/graph/plugins/plot_surface/gog-contour-prefs.glade
+src/cut-n-paste-code/goffice/graph/plugins/plot_surface/gog-surface.c
+src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plot-types.xml.in
+src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plugin.xml.in
 src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade
 src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c
 src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in
