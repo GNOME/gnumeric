@@ -95,4 +95,4 @@ GNOME Spread Sheet task list
 * OLE
 
    Serious testing required.
-
+   Integrate 'advance' into read_copy, and write, and rename to lseek

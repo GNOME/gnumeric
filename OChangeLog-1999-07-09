@@ -1,3 +1,8 @@
+1998-12-09  Michael Meeks    <michael@imaginator.com>
+
+	* plugins/excel/ms-ole.c: Indented correctly, implemented writes
+	of all file lengths.
+
 1998-12-08  Jaka Mocnik  <jaka.mocnik@kiss.uni-lj.si>
 
 	* src/dialog-paste-special.c (dialog_paste_special): changed
