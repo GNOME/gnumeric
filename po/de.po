@@ -36,7 +36,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.63cvs\n"
 "POT-Creation-Date: 2001-05-20 11:44-0400\n"
-"PO-Revision-Date: 2001-05-18 13:27+02:00\n"
+"PO-Revision-Date: 2001-05-24 06:20+02:00\n"
 "Last-Translator: Karl Eichwalder <ke@suse.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -88,7 +88,7 @@ msgstr "Passwortgeschützte Arbeitsbücher werden noch nicht unterstützt."
 
 #: plugins/excel/ms-excel-read.c:4391
 msgid "Unable to locate valid MS Excel workbook"
-msgstr "Kann kein gültiges MS-Excel-Arbeitsbuch auffinden."
+msgstr "Es ist nicht möglich, ein gültiges MS-Excel-Arbeitsbuch aufzufinden."
 
 #: plugins/excel/ms-excel-write.c:3649
 msgid "Too many rows for this format"
@@ -2945,7 +2945,7 @@ msgstr "Mindestens eine Klausel ist notwendig."
 
 #: src/dialogs/dialog-cell-sort.c:379
 msgid "Can't add more than the selection length."
-msgstr "Kann nicht mehr als die Auswahllänge hinzufügen."
+msgstr "Es ist nicht möglich, mehr als die Auswahllänge hinzuzufügen."
 
 #: src/dialogs/dialog-cell-sort.c:382
 msgid "Maximum number of clauses has been reached."
@@ -12191,7 +12191,7 @@ msgstr "#NEU-BER!"
 #: src/plugin-util.c:121
 #, c-format
 msgid "Unable to unmap the file, error : %s"
-msgstr "Kann Datei nicht unmappen, Fehler: %s"
+msgstr "»unmap« der Datei ist nicht möglich, Fehler: %s"
 
 #: src/plugin-util.c:130
 #, c-format
@@ -12201,7 +12201,7 @@ msgstr "Fehler beim Schließen der Datei, Fehler: %s"
 #: src/plugin-util.c:185
 #, c-format
 msgid "Unable to mmap the file, error : %s"
-msgstr "Kann Datei nicht in den Speicher legen (mmap), Fehler: %s"
+msgstr "Es ist nicht möglich, die Datei in den Speicher zu legen (mmap), Fehler: %s"
 
 #: src/plugin-util.c:224 src/plugin-util.c:262
 #, fuzzy, c-format
@@ -14871,15 +14871,6 @@ msgstr "_Ansicht"
 
 #~ msgid "Modified: %s"
 #~ msgstr "Geändert: %s"
-
-#~ msgid ""
-#~ "Unable to open plugin '%s'\n"
-#~ "The plugin did not check it's version.\n"
-#~ "It is probably for a different version of Gnumeric than '%s'."
-#~ msgstr ""
-#~ "Kann Plugin `%s' nicht öffnen.\n"
-#~ "Das Plugin hat seine Version nicht geprüft.\n"
-#~ "Wahrscheinlich ist es für eine andere Gnumeric-Version als `%s' gedacht."
 
 #~ msgid "cut"
 #~ msgstr "ausschneiden"
