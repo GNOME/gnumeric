@@ -260,15 +260,18 @@ return_cellref (char *p)
 
 	/* Setup the cell reference information */
 	if (row_relative)
-		ref->row = parser_row - row;
+		ref->row = row - parser_row;
+	else
+		ref->row = row;
 
 	if (col_relative)
-		ref->col = parser_col - col;
+		ref->col = col - parser_col;
+	else
+		ref->col = col;
 	
-	ref->col = col;
-	ref->row = row;
 	ref->col_relative = col_relative;
 	ref->row_relative = row_relative;
+
 	e->u.constant = v;
 	
 	yylval.tree = e;
