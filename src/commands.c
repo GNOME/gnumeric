@@ -1178,21 +1178,25 @@ cmd_clear_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	for (ranges = me->selection; ranges != NULL ; ranges = ranges->next) {
 		Range const * const r = ranges->data;
+		CellRegion  *c;
 		PasteTarget pt;
-		CellRegion * c;
 
 		g_return_val_if_fail (me->old_content != NULL, TRUE);
 
 		c = me->old_content->data;
-		clipboard_paste_region (wbc,
-					paste_target_init (&pt, me->sheet, r, me->paste_flags),
-					c);
+
+		/* FIXME : no support for pasting comments */
+		if (me->clear_flags != CLEAR_COMMENTS)
+			clipboard_paste_region (wbc,
+				paste_target_init (&pt, me->sheet, r, me->paste_flags),
+				c);
+
 		cellregion_free (c);
 		me->old_content = g_slist_remove (me->old_content, c);
 		sheet_selection_add_range (me->sheet,
-					   r->start.col, r->start.row,
-					   r->start.col, r->start.row,
-					   r->end.col, r->end.row);
+			r->start.col, r->start.row,
+			r->start.col, r->start.row,
+			r->end.col, r->end.row);
 	}
 	g_return_val_if_fail (me->old_content == NULL, TRUE);
 
@@ -1258,8 +1262,22 @@ cmd_clear_selection (WorkbookControl *wbc, Sheet *sheet, int clear_flags)
 	GtkObject *obj;
 	CmdClear *me;
 	GString *names, *types;
+	int paste_flags;
 
-	g_return_val_if_fail (sheet != NULL, TRUE);
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
+
+	paste_flags = 0;
+	if (clear_flags & CLEAR_VALUES)
+		paste_flags |= PASTE_CONTENT;
+	if (clear_flags & CLEAR_FORMATS)
+		paste_flags |= PASTE_FORMATS;
+	if (clear_flags & CLEAR_COMMENTS) {
+		static gboolean warn = TRUE;
+		if (warn) {
+			warn = FALSE;
+			g_warning ("Deleted comments cannot be restored yet");
+		}
+	}
 
 	obj = gtk_type_new (CMD_CLEAR_TYPE);
 	me = CMD_CLEAR (obj);
@@ -1267,16 +1285,9 @@ cmd_clear_selection (WorkbookControl *wbc, Sheet *sheet, int clear_flags)
 	/* Store the specs for the object */
 	me->sheet = sheet;
 	me->clear_flags = clear_flags;
+	me->paste_flags = paste_flags;
 	me->old_content = NULL;
 	me->selection = selection_get_ranges (sheet, FALSE /* No intersection */);
-
-	me->paste_flags = 0;
-	if (clear_flags & CLEAR_VALUES)
-		me->paste_flags |= PASTE_CONTENT;
-	if (clear_flags & CLEAR_FORMATS)
-		me->paste_flags |= PASTE_FORMATS;
-	if (clear_flags & CLEAR_COMMENTS)
-		g_warning ("Deleted comments cannot be restored yet");
 
 	me->parent.sheet = sheet;
 	me->parent.size = 1;  /* FIXME?  */

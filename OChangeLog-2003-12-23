@@ -1,5 +1,8 @@
 2001-05-12  Jody Goldberg <jgoldberg@home.com>
 
+	* src/commands.c (cmd_clear_selection) : only print warning once.
+	(cmd_clear_undo) : There is no undo for pasting comments.
+
 	* src/item-grid.c (item_grid_draw) : If everything is hidden we can
 	  get into odd states.
 
