@@ -42,6 +42,8 @@
 
 typedef GenericToolState SimulationState;
 
+static GtkTextBuffer   *log_buffer;
+
 /**
  * simulation_update_sensitivity_cb:
  * @dummy:
@@ -157,6 +159,35 @@ prepare_ranges (simulation_t *sim)
 	return FALSE;
 }
 
+static void
+update_log (simulation_t *sim)
+{
+	gchar   *t1 = _("Simulations\t\t\t= ");
+	gchar   *t2 = _("Iterations\t\t\t= ");
+	gchar   *t3 = _("# Input variables\t\t= ");
+	gchar   *t4 = _("# Output variables\t= ");
+	gchar   *t5 = _("Runtime\t\t\t= ");
+	gchar   *t6 = _("Run on\t\t\t= ");
+	GString *buf;
+
+	buf = g_string_new ("");
+	g_string_sprintfa (buf, "%s %d\n", t1,
+			   sim->last_round - sim->first_round + 1);
+	g_string_sprintfa (buf, "%s %d\n", t2, sim->n_iterations);
+	g_string_sprintfa (buf, "%s %d\n", t3, sim->n_input_vars);
+	g_string_sprintfa (buf, "%s %d\n", t4, sim->n_output_vars);
+	g_string_sprintfa (buf, "%s %.2f sec.\n", t5, 
+			   sim->end.tv_sec - sim->start.tv_sec +
+			   (sim->end.tv_usec - sim->start.tv_usec) /
+			   (gnum_float) G_USEC_PER_SEC);
+	g_string_sprintfa (buf, "%s ", t6);
+	dao_append_date (buf);
+	g_string_sprintfa (buf, "\n");
+
+	gtk_text_buffer_set_text (log_buffer, buf->str, strlen (buf->str));
+	g_string_free (buf, FALSE);
+}
+
 /**
  * simulation_ok_clicked_cb:
  * @button:
@@ -203,8 +234,13 @@ simulation_ok_clicked_cb (GtkWidget *button, SimulationState *state)
 		goto out;
 	}
 		
+	g_get_current_time (&sim.start);
 	err = simulation_tool (WORKBOOK_CONTROL (state->wbcg),
 			       &dao, &sim);
+	g_get_current_time (&sim.end);
+
+      	if (err == NULL)
+		update_log (&sim);
  out:
 	value_release (sim.inputs);
 	value_release (sim.outputs);
@@ -213,6 +249,19 @@ simulation_ok_clicked_cb (GtkWidget *button, SimulationState *state)
 		error_in_entry ((GenericToolState *) state,
 				GTK_WIDGET (state->input_entry_2), err);
 	return;
+}
+
+static void
+init_log (SimulationState *state)
+{
+	GtkTextView     *view;
+	GtkTextTagTable *tag_table;
+
+	tag_table  = gtk_text_tag_table_new ();
+	log_buffer = gtk_text_buffer_new (tag_table);
+	view = GTK_TEXT_VIEW (glade_xml_get_widget (state->gui,
+						    "last-run-view"));
+	gtk_text_view_set_buffer (view, log_buffer);
 }
 
 /**
@@ -248,6 +297,8 @@ dialog_simulation (WorkbookControlGUI *wbcg, Sheet *sheet)
 			      G_CALLBACK (simulation_update_sensitivity_cb),
 			      0))
 		return;
+
+	init_log (state);
 
 	simulation_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
