@@ -4486,7 +4486,7 @@ random_gaussian_pdf (gnum_float x, gnum_float sigma)
 {
         gnum_float u = x / gnumabs (sigma);
 
-	return (1 / (sqrtgnum (2 * M_PI) * gnumabs (sigma))) *
+	return (1 / (sqrtgnum (2 * M_PIgnum) * gnumabs (sigma))) *
 	        expgnum (-u * u / 2);
 }
 
@@ -4514,6 +4514,7 @@ random_binomial (gnum_float p, int trials)
 	gnum_float t = x;
 	gnum_float i = 0;
 
+	/* FIXME: I don't think this is sane for p near 1.  */
 	/* FIXME: how many times can this loop?  */
 	while (r > t) {
 	      x *= (((trials - i) * p) / ((1 + i) * (1 - p)));
@@ -4535,6 +4536,7 @@ random_negbinom (gnum_float p, int f)
 	gnum_float t = x;
 	gnum_float i = 0;
 
+	/* FIXME: I don't think this is sane for p near 1.  */
 	/* FIXME: how many times can this loop?  */
 	while (r > t) {
 	      x *= (((f + i) * (1 - p)) / (1 + i));
@@ -4551,7 +4553,7 @@ random_negbinom (gnum_float p, int f)
 gnum_float
 random_exponential (gnum_float b)
 {
-        return -1 * b * loggnum (random_01 ());
+        return -b * loggnum (random_01 ());
 }
 
 /*
@@ -5302,7 +5304,7 @@ random_gaussian_tail (gnum_float a, gnum_float sigma)
  */
 
 gnum_float
-random_landau ()
+random_landau (void)
 {
         static gnum_float F[982] = {
 	        00.000000, 00.000000, 00.000000, 00.000000, 00.000000,
