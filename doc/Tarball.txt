@@ -65,7 +65,18 @@ Now throw out the old automake; this needs to be done forcefully as woody's
 intltool doesn't know about the Provides: automaken which sid's various
 automake versions offer.
 	dpkg --force-depends --purge automake1.4	
-OK, now build the tarball:
+OK, now we can get to work in the source tree:
 	cd /tmp/gnumeric-cvs-gnome_1_4
-	debian/rules && ./configure -v --with-bonobo --with-evolution
-	make && make distcheck
+Update the version number as given to the AM_INIT_AUTOMAKE macro if needed:
+	vi configure.in
+And update the changelogs:
+	env NAME='Your Name' tools/release-do-CLog your@email.address.net 1.0.23
+Generate configure etc.:
+	debian/rules
+Do a build:
+	./configure -v --with-bonobo --with-evolution && make
+And check and build the tarball:
+	make distcheck
+Once the tarball is approved, be sure to commit the files that were updated
+ad part of the tarball generation process (in particular, the ChangeLog
+files and the po files).
