@@ -1,3 +1,9 @@
+1998-12-14  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_new): Use
+	gtk_widget_set_usize() instead of gnome_canvas_set_size().
+	* src/pattern-selector.c (pattern_selector_new): Likewise.
+
 1998-12-13  Sebastian Wilhelmi  <wilhelmi@ira.uka.de>
 
 	* src/fn-date.c (gnumeric_year_month_day, gnumeric_now,

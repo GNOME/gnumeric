@@ -841,7 +841,7 @@ gnumeric_sheet_new (SheetView *sheet_view, ItemBar *colbar, ItemBar *rowbar)
 	
 	entry = workbook->ea_input;
 	gsheet = gnumeric_sheet_create (sheet_view, entry);
-	gnome_canvas_set_size (GNOME_CANVAS (gsheet), 300, 100);
+	gtk_widget_set_usize (gsheet, 300, 100);
 	
 	/* FIXME: figure out some real size for the canvas scrolling region */
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (gsheet), 0, 0, 1000000, 1000000);

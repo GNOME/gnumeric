@@ -58,7 +58,7 @@ pattern_selector_new (int initial_pattern)
 	ps = gtk_type_new (pattern_selector_get_type ());
 	canvas = GNOME_CANVAS (ps);
 	
-	gnome_canvas_set_size (canvas, 7*PIXS_PER_SQUARE, 2*PIXS_PER_SQUARE);
+	gtk_widget_set_usize (GTK_WIDGET (canvas), 7*PIXS_PER_SQUARE, 2*PIXS_PER_SQUARE);
 	gnome_canvas_set_scroll_region (canvas, 0, 0, 7*PIXS_PER_SQUARE, 2*PIXS_PER_SQUARE);
 	gnome_canvas_set_pixels_per_unit (canvas, 1.0);
 
