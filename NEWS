@@ -13,6 +13,7 @@ Christian Neumair:
 Emmanuel Pacaud:
 	http://bugzilla.gnome.org/show_bug.cgi?id=142212
 	* In a line graph, don't use '0' if Y value is missing.
+	* fix a double draw of chart childs.
 
 Jean Brefort:
 	* Add error bars in bars, columns, lines and areas plots.
