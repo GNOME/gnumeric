@@ -104,4 +104,8 @@ void gnumeric_create_popup_menu (GnumericPopupMenuElement const *elements,
 
 StyleColor *color_combo_get_style_color (GtkWidget *color_combo);
 
+GtkWidget *gnumeric_toolbar_new (WorkbookControlGUI *wbcg, GnomeUIInfo *info,
+				  char const *name, gint band_num, gint band_position, gint offset);
+GtkWidget *gnumeric_toolbar_get_widget (GtkToolbar *toolbar, int pos);
+
 #endif /* GNUMERIC_GUI_UTIL_H */

@@ -1040,3 +1040,63 @@ color_combo_get_style_color (GtkWidget *color_combo)
 	return (gdk == NULL) ? NULL
 		    : style_color_new (gdk->red, gdk->green, gdk->blue);
 }
+
+GtkWidget *
+gnumeric_toolbar_new (WorkbookControlGUI *wbcg,
+		      GnomeUIInfo *info,
+		      char const *name,
+		      gint band_num,
+		      gint band_position,
+		      gint offset)
+{
+	GnomeApp *app = GNOME_APP (wbcg->toplevel);
+	GnomeDockItemBehavior behavior;
+	GtkWidget *tbar;
+
+	g_return_val_if_fail (info != NULL, NULL);
+
+	tbar = gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL, GTK_TOOLBAR_ICONS);
+	gnome_app_fill_toolbar_with_data (GTK_TOOLBAR (tbar), info,
+		app->accel_group, wbcg);
+
+	behavior = GNOME_DOCK_ITEM_BEH_NORMAL;
+	if (!gnome_preferences_get_toolbar_detachable ())
+		behavior |= GNOME_DOCK_ITEM_BEH_LOCKED;
+
+	gnome_app_add_toolbar (GNOME_APP (wbcg->toplevel), GTK_TOOLBAR (tbar),
+		name, behavior, GNOME_DOCK_TOP,
+		band_num, band_position, offset);
+
+	return tbar;
+}
+
+GtkWidget *
+gnumeric_toolbar_get_widget (GtkToolbar *toolbar, int pos)
+{
+	GtkToolbarChild *child;
+	GList *children;
+	int i;
+
+	g_return_val_if_fail (GTK_IS_TOOLBAR (toolbar), NULL);
+	g_return_val_if_fail (pos > 0, NULL);
+
+	children = GTK_TOOLBAR (toolbar)->children;
+
+	if (!children)
+		return NULL;
+
+	i = 0;
+	do {
+		child = children->data;
+		children = children->next;
+
+		if (child->type == GTK_TOOLBAR_CHILD_SPACE)
+			continue;
+
+		if (i == pos)
+			return child->widget;
+		i++;
+	} while (children);
+
+	return NULL;
+}

@@ -28,9 +28,9 @@
 #include "sheet-control-gui.h"
 #include "workbook-control-gui-priv.h"
 #include "workbook.h"
-#include "gnumeric-toolbar.h"
 #include "sheet-object-widget.h"
 #include "sheet-object-graphic.h"
+#include "gui-util.h"
 
 #ifdef ENABLE_BONOBO
 #include <bonobo.h>
@@ -189,27 +189,9 @@ static GnomeUIInfo workbook_object_toolbar [] = {
 void
 workbook_create_object_toolbar (WorkbookControlGUI *wbcg)
 {
-	GtkWidget *toolbar = NULL;
-
-	static char const * const name = "ObjectToolbar";
-	GnomeDockItemBehavior behavior;
-	GnomeApp *app;
-
-	app = GNOME_APP (wbcg->toplevel);
-
-	g_return_if_fail (app != NULL);
-
-	toolbar = gnumeric_toolbar_new (workbook_object_toolbar,
-					app->accel_group, wbcg);
-
-	behavior = GNOME_DOCK_ITEM_BEH_NORMAL;
-	if (!gnome_preferences_get_toolbar_detachable ())
-		behavior |= GNOME_DOCK_ITEM_BEH_LOCKED;
-
-	gnome_app_add_toolbar (app, GTK_TOOLBAR (toolbar), name, behavior,
-			       GNOME_DOCK_TOP, 3, 0, 0);
-	gtk_widget_show (toolbar);
-	wbcg->object_toolbar = toolbar;
+	wbcg->object_toolbar = gnumeric_toolbar_new (wbcg,
+		workbook_object_toolbar, "ObjectToolbar", 3, 0, 0);
+	gtk_widget_show (wbcg->object_toolbar);
 }
 #else
 static BonoboUIVerb verbs [] = {

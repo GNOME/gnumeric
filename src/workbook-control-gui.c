@@ -59,7 +59,6 @@
 #include "error-info.h"
 #include "pixmaps/equal-sign.xpm"
 #include "gui-util.h"
-#include "widgets/gnumeric-toolbar.h"
 #include "widgets/widget-editable-label.h"
 #include "widgets/gnumeric-combo-text.h"
 
@@ -986,10 +985,9 @@ wbcg_menu_state_sensitivity (WorkbookControl *wbc, gboolean sensitive)
 #endif
 
 	/* Don't disable/enable again (prevent toolbar flickering) */
-	if (wbcg->toolbar_is_sensitive != sensitive)
-		wbcg->toolbar_is_sensitive = sensitive;
-	else
+	if (wbcg->toolbar_is_sensitive == sensitive)
 		return;
+	wbcg->toolbar_is_sensitive = sensitive;
 
 #ifdef ENABLE_BONOBO
 	CORBA_exception_init (&ev);
@@ -3155,12 +3153,7 @@ static void
 workbook_create_standard_toolbar (WorkbookControlGUI *wbcg)
 {
 	int i, len;
-	GtkWidget *toolbar, *zoom, *entry, *undo, *redo;
-#ifndef ENABLE_BONOBO
-	GnomeApp *app;
-	GnomeDockItemBehavior behavior;
-	const char *name = "StandardToolbar";
-#endif
+	GtkWidget *zoom, *entry, *undo, *redo;
 
 	/* Zoom combo box */
 	zoom = wbcg->zoom_entry = gnm_combo_text_new (NULL);
@@ -3199,40 +3192,23 @@ workbook_create_standard_toolbar (WorkbookControlGUI *wbcg)
 	gnumeric_inject_widget_into_bonoboui (wbcg, undo, "/StandardToolbar/EditUndo");
 	gnumeric_inject_widget_into_bonoboui (wbcg, redo, "/StandardToolbar/EditRedo");
 	gnumeric_inject_widget_into_bonoboui (wbcg, zoom, "/StandardToolbar/SheetZoom");
-	toolbar = NULL;
 #else
-	app = GNOME_APP (wbcg->toplevel);
 
-	g_return_if_fail (app != NULL);
-
-	toolbar = gnumeric_toolbar_new (workbook_standard_toolbar,
-					app->accel_group, wbcg);
-
-	behavior = GNOME_DOCK_ITEM_BEH_NORMAL;
-
-	if (!gnome_preferences_get_toolbar_detachable ())
-		behavior |= GNOME_DOCK_ITEM_BEH_LOCKED;
-	gnome_app_add_toolbar (
-		GNOME_APP (wbcg->toplevel),
-		GTK_TOOLBAR (toolbar),
-		name,
-		behavior,
-		GNOME_DOCK_TOP, 1, 0, 0);
-
-	/* Add them to the toolbar */
-	gnumeric_toolbar_insert_with_eventbox (GTK_TOOLBAR (toolbar),
+	wbcg->standard_toolbar = gnumeric_toolbar_new (wbcg,
+		workbook_standard_toolbar, "StandardToolbar", 1, 0, 0);
+	gnumeric_toolbar_insert_with_eventbox (
+		GTK_TOOLBAR (wbcg->standard_toolbar),
 					       undo, _("Undo"), NULL, TB_UNDO_POS);
-	gnumeric_toolbar_insert_with_eventbox (GTK_TOOLBAR (toolbar),
+	gnumeric_toolbar_insert_with_eventbox (
+		GTK_TOOLBAR (wbcg->standard_toolbar),
 					       redo, _("Redo"), NULL, TB_REDO_POS);
-	gnumeric_toolbar_append_with_eventbox (GTK_TOOLBAR (toolbar),
+	gnumeric_toolbar_append_with_eventbox (
+		GTK_TOOLBAR (wbcg->standard_toolbar),
 					       zoom, _("Zoom"), NULL);
-
-	gtk_signal_connect (
-		GTK_OBJECT(toolbar), "orientation-changed",
+	gtk_signal_connect (GTK_OBJECT(wbcg->standard_toolbar),
+		"orientation-changed",
 		GTK_SIGNAL_FUNC (workbook_standard_toolbar_orient), wbcg);
-
-	wbcg->standard_toolbar = toolbar;
-	gtk_widget_show (toolbar);
+	gtk_widget_show (wbcg->standard_toolbar);
 #endif
 }
 

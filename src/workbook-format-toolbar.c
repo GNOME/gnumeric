@@ -28,7 +28,6 @@
 #include "style-border.h"
 #include "ranges.h"
 #include "mstyle.h"
-#include "widgets/gnumeric-toolbar.h"
 
 #include <gal/widgets/gtk-combo-text.h>
 #include <gal/widgets/widget-color-combo.h>
@@ -594,7 +593,7 @@ workbook_format_toolbar_orient (GtkToolbar *toolbar,
 	WorkbookControlGUI *wbcg = closure;
 	GtkWidget *font_button;
 
-	font_button = gnumeric_toolbar_get_widget (GNUMERIC_TOOLBAR (toolbar),
+	font_button = gnumeric_toolbar_get_widget (toolbar,
 						   TOOLBAR_FONT_BUTTON_INDEX);
 
 	if (dir == GTK_ORIENTATION_HORIZONTAL) {
@@ -740,29 +739,9 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 	int i, len;
 
 #ifndef ENABLE_BONOBO
-	GtkWidget *toolbar;
-	const char *name = "FormatToolbar";
-	GnomeDockItemBehavior behavior;
-	GnomeApp *app;
 	GtkWidget *font_button;
-
-	app = GNOME_APP (wbcg->toplevel);
-
-	g_return_if_fail (app != NULL);
-
-	toolbar = gnumeric_toolbar_new (workbook_format_toolbar,
-					app->accel_group, wbcg);
-
-	behavior = GNOME_DOCK_ITEM_BEH_NORMAL;
-	if (!gnome_preferences_get_toolbar_detachable ())
-		behavior |= GNOME_DOCK_ITEM_BEH_LOCKED;
-
-	gnome_app_add_toolbar (
-		app,
-		GTK_TOOLBAR (toolbar),
-		name,
-		behavior,
-		GNOME_DOCK_TOP, 2, 0, 0);
+	GtkWidget *toolbar = gnumeric_toolbar_new (wbcg,
+		workbook_format_toolbar, "FormatToolbar", 2, 0, 0);
 #else
 	bonobo_ui_component_add_verb_list_with_data (wbcg->uic, verbs, wbcg);
 #endif
@@ -899,7 +878,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 		fore_combo, _("Foreground"), NULL);
 
 	/* Hide font selector button - only shown in vertical mode */
-	font_button = gnumeric_toolbar_get_widget (GNUMERIC_TOOLBAR (toolbar),
+	font_button = gnumeric_toolbar_get_widget (GTK_TOOLBAR (toolbar),
 						   TOOLBAR_FONT_BUTTON_INDEX);
 	gtk_widget_hide (font_button);
 
@@ -951,7 +930,7 @@ workbook_format_halign_feedback_set (WorkbookControlGUI *wbcg,
 #else
 static void
 workbook_format_toolbutton_update (WorkbookControlGUI *wbcg,
-				   GnumericToolbar *toolbar,
+				   GtkToolbar *toolbar,
 				   int const button_index,
 				   gboolean const state)
 {
@@ -968,7 +947,7 @@ static void
 workbook_format_halign_feedback_set (WorkbookControlGUI *wbcg,
 				     StyleHAlignFlags h_align)
 {
-	GnumericToolbar *toolbar = GNUMERIC_TOOLBAR (wbcg->format_toolbar);
+	GtkToolbar *toolbar = GTK_TOOLBAR (wbcg->format_toolbar);
 
 	workbook_format_toolbutton_update (wbcg, toolbar,
 					   TOOLBAR_ALIGN_LEFT_BUTTON_INDEX,
@@ -992,7 +971,7 @@ void
 workbook_feedback_set (WorkbookControlGUI *wbcg)
 {
 #ifndef ENABLE_BONOBO
-	GnumericToolbar *toolbar;
+	GtkToolbar *toolbar;
 #endif
 	MStyle 		*style;
 	GtkComboText    *fontsel;
@@ -1014,7 +993,7 @@ workbook_feedback_set (WorkbookControlGUI *wbcg)
 	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_NAME));
 
 #ifndef ENABLE_BONOBO
-	toolbar = GNUMERIC_TOOLBAR (wbcg->format_toolbar);
+	toolbar = GTK_TOOLBAR (wbcg->format_toolbar);
 	g_return_if_fail (toolbar);
 
 	workbook_format_toolbutton_update (wbcg, toolbar,
