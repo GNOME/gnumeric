@@ -17,6 +17,9 @@ Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=142474
 	* Use first rather than last conditional value fmt as catch-all
 
+Morten:
+	* Fix image-inside-xls problem.
+
 --------------------------------------------------------------------------
 Gnumeric 1.2.12
 
