@@ -43,8 +43,13 @@ typedef struct {
 	xmlNsPtr ns;		/* Main name space */
 	xmlNodePtr parent;	/* used only for g_hash_table_foreach callbacks */
 	Sheet *sheet;		/* the associated sheet */
-	Workbook *wb;		/* the associated sheet */
+	Workbook *wb;		/* the associated workbook */
 	GHashTable *style_table;/* old style styles compatibility */
+	GHashTable *expr_map;	/*
+				 * Emitted expressions with ref count > 1
+				 * When writing this is map from expr pointer -> index
+				 * when reading this is a map from index -> expr pointer
+				 */
 } parse_xml_context_t;
 
 /*
@@ -1817,6 +1822,9 @@ xml_write_cell_and_position (parse_xml_context_t *ctxt, Cell *cell, int col, int
 	xmlNodePtr cur, child;
 	char *text, *tstr;
 	ExprArray const *ar;
+	gboolean write_contents = TRUE;
+	gboolean const is_shared_expr =
+	    (cell_has_expr (cell) && expr_tree_shared (cell->u.expression));
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Cell", NULL);
 	xml_set_value_int (cur, "Col", col);
@@ -1835,12 +1843,28 @@ xml_write_cell_and_position (parse_xml_context_t *ctxt, Cell *cell, int col, int
 	if (NULL != (ar = cell_is_array (cell)) && (ar->y != 0 || ar->x != 0))
 		return cur;
 
-	text = cell_get_entered_text (cell);
-	tstr = xmlEncodeEntitiesReentrant (ctxt->doc, text);
-	child = xmlNewChild (cur, ctxt->ns, "Content", tstr);
-	if (tstr)
-		xmlFree (tstr);
-	g_free (text);
+	/* As of version 0.53 we save the ID of shared expressions */
+	if (is_shared_expr) {
+		gpointer const expr = cell->u.expression;
+		gpointer id = g_hash_table_lookup (ctxt->expr_map, expr);
+
+		if (id == NULL) {
+			id = GINT_TO_POINTER (g_hash_table_size (ctxt->expr_map) + 1);
+			g_hash_table_insert (ctxt->expr_map, expr, id);
+		} else
+			write_contents = FALSE;
+
+		xml_set_value_int (cur, "ExprID", GPOINTER_TO_INT (id));
+	}
+
+	if (write_contents) {
+		text = cell_get_entered_text (cell);
+		tstr = xmlEncodeEntitiesReentrant (ctxt->doc, text);
+		child = xmlNewChild (cur, ctxt->ns, "Content", tstr);
+		if (tstr)
+			xmlFree (tstr);
+		g_free (text);
+	}
 
 	/* As of version 0.53 we save the size of the array as attributes */
 	if (ar != NULL) {
@@ -1907,13 +1931,16 @@ xml_not_used_old_array_spec (Cell *cell, char *content)
 	g_string_sprintfa (str, "{%s}(%d,%d)[%d][%d]", expr_text,
 			   array.rows, array.cols, array.y, array.x);
 #endif
-	char *end;
-	char *last = strrchr (content, '}');
-	char *ptr = last;
-	if (ptr == NULL || ptr[1] != '(')
+	char *end, *expr_end, *ptr;
+
+	if (content[0] != '=' || content[1] != '{')
 		return TRUE;
 
-	rows = strtol (ptr += 2, &end, 10);
+	expr_end = strrchr (content, '}');
+	if (expr_end == NULL || expr_end[1] != '(')
+		return TRUE;
+
+	rows = strtol (ptr = expr_end + 2, &end, 10);
 	if (end == ptr || *end != ',')
 		return TRUE;
 	cols = strtol (ptr = ++end, &end, 10);
@@ -1927,7 +1954,7 @@ xml_not_used_old_array_spec (Cell *cell, char *content)
 		return TRUE;
 
 	if (row == 0 && col == 0) {
-		*last = '\0';
+		*expr_end = '\0';
 		xml_cell_set_array_expr (cell, content+2, rows, cols);
 	}
 
@@ -1943,7 +1970,7 @@ xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	Cell *ret;
 	xmlNodePtr childs;
 	int col, row;
-	int array_cols, array_rows;
+	int array_cols, array_rows, shared_expr_index = -1;
 	char *content = NULL;
 	char *comment = NULL;
 	int  style_idx;
@@ -1987,6 +2014,10 @@ xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
 		} /* else reading a newer version with style_idx == 0 */
 	}
 
+	/* Is this a post 0.52 shared expression */
+	if (!xml_get_value_int (tree, "ExprID", &shared_expr_index))
+		shared_expr_index = -1;
+
 	childs = tree->childs;
 	while (childs != NULL) {
 		/*
@@ -2027,14 +2058,39 @@ xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	if (content != NULL) {
 		if (is_post_52_array) {
 			g_return_val_if_fail (content[0] == '=', NULL);
+
 			xml_cell_set_array_expr (ret, content+1,
 						 array_rows, array_cols);
-		} else if (content[0] != '=' || content[1] != '{' ||
-		    xml_not_used_old_array_spec (ret, content))
+		} else if (xml_not_used_old_array_spec (ret, content))
 			cell_set_text (ret, content);
+
+		if (shared_expr_index > 0) {
+			gpointer id = GINT_TO_POINTER (shared_expr_index);
+			gpointer expr =
+			    g_hash_table_lookup (ctxt->expr_map, id);
+
+			if (expr == NULL) {
+				if (cell_has_expr (ret))
+					g_hash_table_insert (ctxt->expr_map, id,
+							     ret->u.expression);
+				else
+					g_warning ("XML-IO : Shared expression with no expession ??");
+			} else if (!is_post_52_array)
+				g_warning ("XML-IO : Duplicate shared expression");
+		}
 		xmlFree (content);
+	} else if (shared_expr_index > 0) {
+		gpointer expr =
+		    g_hash_table_lookup (ctxt->expr_map,
+					 GINT_TO_POINTER (shared_expr_index));
+
+		if (expr != NULL)
+			cell_set_expr (ret, expr, NULL);
+		else
+			g_warning ("XML-IO : Missing shared expression");
 	} else if (is_new_cell)
-		/* Only set to empty if this is a new cell.
+		/*
+		 * Only set to empty if this is a new cell.
 		 * If it was created by a previous array
 		 * we do not want to erase it.
 		 */
@@ -3027,8 +3083,11 @@ gnumeric_xml_write_selection_clipboard (CommandContext *context, Sheet *sheet,
 	}
 	ctxt.doc = xml;
 	ctxt.ns = NULL;
+	ctxt.expr_map = g_hash_table_new (g_direct_hash, g_direct_equal);
 
 	xml->root = xml_write_selection_clipboard (&ctxt, sheet);
+
+	g_hash_table_destroy (ctxt.expr_map);
 
 	/*
 	 * Dump it with a high compression level
@@ -3072,8 +3131,11 @@ gnumeric_xml_read_selection_clipboard (CommandContext *context, CellRegion **cr,
 	}
 
 	ctxt.doc = res;
+	ctxt.expr_map = g_hash_table_new (g_direct_hash, g_direct_equal);
+
 	*cr = xml_read_selection_clipboard (&ctxt, res->root);
 
+	g_hash_table_destroy (ctxt.expr_map);
 	xmlFreeDoc (res);
 
 	return 0;
@@ -3122,10 +3184,13 @@ gnumeric_xml_read_workbook (CommandContext *context, Workbook *wb,
 	}
 	ctxt.doc = res;
 	ctxt.ns = gmr;
+	ctxt.expr_map = g_hash_table_new (g_direct_hash, g_direct_equal);
+
 	xml_workbook_read (wb, &ctxt, res->root);
 	workbook_set_saveinfo (wb, (char *) filename, FILE_FL_AUTO,
 			       gnumeric_xml_write_workbook);
 
+	g_hash_table_destroy (ctxt.expr_map);
 	xmlFreeDoc (res);
 	return 0;
 }
@@ -3157,8 +3222,11 @@ gnumeric_xml_write_workbook (CommandContext *context, Workbook *wb,
 	}
 	ctxt.doc = xml;
 	ctxt.ns = NULL;
+	ctxt.expr_map = g_hash_table_new (g_direct_hash, g_direct_equal);
 
 	xml->root = xml_workbook_write (&ctxt, wb);
+
+	g_hash_table_destroy (ctxt.expr_map);
 
 	/*
 	 * Dump it.

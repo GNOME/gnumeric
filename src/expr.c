@@ -395,6 +395,18 @@ expr_tree_unref (ExprTree *tree)
 	do_expr_tree_unref (tree);
 }
 
+/**
+ * expr_tree_shared : Returns TRUE if the reference count
+ *   for the supplied expression is > 1
+ */
+gboolean
+expr_tree_shared (ExprTree const *tree)
+{
+	g_return_val_if_fail (tree != NULL, FALSE);
+
+	return (tree->any.ref_count > 1);
+}
+
 static Value *
 eval_funcall (EvalPosition const *pos, ExprTree const *tree)
 {

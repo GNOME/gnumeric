@@ -185,8 +185,9 @@ ExprTree   *expr_tree_new_name     (NamedExpression const *name);
 ExprTree   *expr_tree_new_var      (CellRef const *cr);
 ExprTree   *expr_tree_new_array	   (int x, int y, int rows, int cols);
 
-void        expr_tree_ref          (ExprTree *tree);
-void        expr_tree_unref        (ExprTree *tree);
+void	    expr_tree_ref    (ExprTree *tree);
+void	    expr_tree_unref  (ExprTree *tree);
+gboolean    expr_tree_shared (ExprTree const *tree);
 
 struct _ExprRelocateInfo {
 	Range origin;		/* References to cells in origin_sheet!range */

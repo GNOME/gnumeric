@@ -1,5 +1,18 @@
 2000-05-01  Jody Goldberg <jgoldberg@home.com>
 
+	* src/expr.c (expr_tree_shared) : New function.
+
+	* src/xml-io.c (gnumeric_xml_write_selection_clipboard) : Init and
+	  destroy the expression hash.
+	(gnumeric_xml_read_selection_clipboard) : Ditto.
+	(gnumeric_xml_read_workbook) : Ditto.
+	(gnumeric_xml_write_workbook) : Ditto.
+	(xml_write_cell_and_position) : When saving cells that have expression
+	  assign and store an ID for shared expressions.
+	(xml_read_cell) : Use the ID to restore shared expressions.
+
+2000-05-01  Jody Goldberg <jgoldberg@home.com>
+
 	* ExprName -> NamedExpression
 	  ArrayRef -> ExprArray
 

@@ -7,6 +7,7 @@ Morten:
 Jody:
 	* Overhaul cell structure to cleanup temp formats, improve spans.
 	* Improve array formula entry, editing, and xml-io.
+	* Share formulas persisted using xml.
 	* Add auto-sum
 	* Improve versioning.
 	* Decrease memory usage.

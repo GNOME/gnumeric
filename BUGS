@@ -4,8 +4,6 @@ and longer term bugs.
 
 Release Critical
 ----------------
-- If there are no problems with the new array formula xml format then
-  we should convert expressions to use the same scheme.
 
 Long term breakage
 ------------------
