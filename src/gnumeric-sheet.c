@@ -43,24 +43,6 @@ gnumeric_sheet_destroy (GtkObject *object)
 		(*GTK_OBJECT_CLASS (sheet_parent_class)->destroy)(object);
 }
 
-static GnumericSheet *
-gnumeric_sheet_create (SheetControlGUI *scg)
-{
-	GnumericSheet *gsheet;
-	GnomeCanvas   *canvas;
-
-	gsheet = gtk_type_new (gnumeric_sheet_get_type ());
-	canvas = GNOME_CANVAS (gsheet);
-
-	gsheet->scg = scg;
-	gsheet->row.first = gsheet->row.last_full = gsheet->row.last_visible = 0;
-	gsheet->col.first = gsheet->col.last_full = gsheet->col.last_visible = 0;
-	gsheet->row_offset.first = gsheet->row_offset.last_full = gsheet->row_offset.last_visible = 0;
-	gsheet->col_offset.first = gsheet->col_offset.last_full = gsheet->col_offset.last_visible = 0;
-
-	return gsheet;
-}
-
 /*
  * move_cursor:
  * @gsheet:   The sheet where the cursor is located
@@ -915,75 +897,62 @@ gnumeric_sheet_filenames_dropped (GtkWidget        *widget,
 }
 
 GtkWidget *
-gnumeric_sheet_new (SheetControlGUI *scg, ItemBar *colbar, ItemBar *rowbar)
+gnumeric_sheet_new (SheetControlGUI *scg)
 {
-	GnomeCanvasItem *item;
-	GnumericSheet *gsheet;
-	GnomeCanvas   *gsheet_canvas;
-	GnomeCanvasGroup *gsheet_group;
-	GtkWidget *widget;
-	Sheet     *sheet;
-	Workbook  *workbook;
-	static GtkTargetEntry drag_types[] = {
+	static GtkTargetEntry const drag_types[] = {
 		{ "text/uri-list", 0, 0 },
 	};
-	static gint n_drag_types = sizeof (drag_types) / sizeof (drag_types [0]);
+	static gint const n_drag_types = sizeof (drag_types) / sizeof (drag_types [0]);
+
+	GnomeCanvasItem	 *item;
+	GnumericSheet	 *gsheet;
+	GnomeCanvasGroup *gsheet_group;
+	GtkWidget	 *widget;
 
 	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), NULL);
-	g_return_val_if_fail (colbar != NULL, NULL);
-	g_return_val_if_fail (rowbar != NULL, NULL);
-	g_return_val_if_fail (IS_ITEM_BAR (colbar), NULL);
-	g_return_val_if_fail (IS_ITEM_BAR (rowbar), NULL);
 
-	sheet = scg->sheet;
-	workbook = sheet->workbook;
+	gsheet = gtk_type_new (gnumeric_sheet_get_type ());
+	gsheet_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (gsheet)->root);
+	widget = GTK_WIDGET (gsheet);
 
-	gsheet = gnumeric_sheet_create (scg);
+	gsheet->scg = scg;
+	gsheet->row.first = gsheet->row.last_full = gsheet->row.last_visible = 0;
+	gsheet->col.first = gsheet->col.last_full = gsheet->col.last_visible = 0;
+	gsheet->row_offset.first = gsheet->row_offset.last_full = gsheet->row_offset.last_visible = 0;
+	gsheet->col_offset.first = gsheet->col_offset.last_full = gsheet->col_offset.last_visible = 0;
 
 	/* FIXME: figure out some real size for the canvas scrolling region */
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (gsheet), 0, 0,
 					GNUMERIC_SHEET_FACTOR_X, GNUMERIC_SHEET_FACTOR_Y);
 
-	/* handy shortcuts */
-	gsheet_canvas = GNOME_CANVAS (gsheet);
-	gsheet_group = GNOME_CANVAS_GROUP (gsheet_canvas->root);
-
-	gsheet->colbar = colbar;
-	gsheet->rowbar = rowbar;
-
 	/* The grid */
 	item = gnome_canvas_item_new (gsheet_group,
-				      item_grid_get_type (),
-				      "ItemGrid::SheetControlGUI", scg,
-				      NULL);
+		item_grid_get_type (),
+		"ItemGrid::SheetControlGUI", scg,
+		NULL);
 	gsheet->item_grid = ITEM_GRID (item);
 
 	/* The cursor */
 	item = gnome_canvas_item_new (gsheet_group,
-				      item_cursor_get_type (),
-				      "ItemCursor::SheetControlGUI", scg,
-				      "ItemCursor::Grid", gsheet->item_grid,
-				      NULL);
+		item_cursor_get_type (),
+		"ItemCursor::SheetControlGUI", scg,
+		"ItemCursor::Grid", gsheet->item_grid,
+		NULL);
 	gsheet->item_cursor = ITEM_CURSOR (item);
+	item_cursor_set_bounds (gsheet->item_cursor, 0, 0, 0, 0); /* A1 */
 
-	/* Set the cursor in A1 */
-	item_cursor_set_bounds (gsheet->item_cursor, 0, 0, 0, 0);
-
-	widget = GTK_WIDGET (gsheet);
-
-	gtk_signal_connect (
-		GTK_OBJECT (widget), "drag_data_get",
-		GTK_SIGNAL_FUNC (gnumeric_sheet_drag_data_get), NULL);
-
-	gtk_drag_dest_set (widget,
-			   GTK_DEST_DEFAULT_ALL,
-			   drag_types, n_drag_types,
-			   GDK_ACTION_COPY);
-
+	/* Setup a test of Drag and Drop */
 	gtk_signal_connect (GTK_OBJECT (widget),
-			    "drag_data_received",
-			    GTK_SIGNAL_FUNC (gnumeric_sheet_filenames_dropped),
-			    widget);
+		"drag_data_get",
+		GTK_SIGNAL_FUNC (gnumeric_sheet_drag_data_get), NULL);
+	gtk_drag_dest_set (widget,
+		GTK_DEST_DEFAULT_ALL,
+		drag_types, n_drag_types,
+		GDK_ACTION_COPY);
+	gtk_signal_connect (GTK_OBJECT (widget),
+		"drag_data_received",
+		GTK_SIGNAL_FUNC (gnumeric_sheet_filenames_dropped),
+		widget);
 
 	return widget;
 }
@@ -1072,12 +1041,12 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet,
 
 		gsheet->col_offset.first =
 			scg_colrow_distance_get (scg, TRUE, 0, gsheet->col.first);
-		canvas = GNOME_CANVAS_ITEM (gsheet->colbar)->canvas;
+		canvas = scg->col_item->canvas;
 		gnome_canvas_scroll_to (canvas, gsheet->col_offset.first, 0);
 
 		gsheet->row_offset.first =
 			scg_colrow_distance_get (scg, FALSE, 0, gsheet->row.first);
-		canvas = GNOME_CANVAS_ITEM (gsheet->rowbar)->canvas;
+		canvas = scg->row_item->canvas;
 		gnome_canvas_scroll_to (canvas, 0, gsheet->row_offset.first);
 
 		gnome_canvas_scroll_to (GNOME_CANVAS (gsheet),
@@ -1168,7 +1137,7 @@ gnumeric_sheet_bar_set_top_row (GnumericSheet *gsheet, int new_first_row)
 	g_return_val_if_fail (gsheet->item_grid != NULL, 0);
 	g_return_val_if_fail (0 <= new_first_row && new_first_row < SHEET_MAX_ROWS, 0);
 
-	rowc = GNOME_CANVAS_ITEM (gsheet->rowbar)->canvas;
+	rowc = gsheet->scg->row_item->canvas;
 	row_distance = gsheet->row_offset.first +=
 		scg_colrow_distance_get (gsheet->scg, FALSE, gsheet->row.first, new_first_row);
 	gsheet->row.first = new_first_row;
@@ -1212,7 +1181,7 @@ gnumeric_sheet_bar_set_left_col (GnumericSheet *gsheet, int new_first_col)
 	g_return_val_if_fail (gsheet->item_grid != NULL, 0);
 	g_return_val_if_fail (0 <= new_first_col && new_first_col < SHEET_MAX_COLS, 0);
 
-	colc = GNOME_CANVAS_ITEM (gsheet->colbar)->canvas;
+	colc = gsheet->scg->col_item->canvas;
 	col_distance = gsheet->col_offset.first +=
 		scg_colrow_distance_get (gsheet->scg, TRUE, gsheet->col.first, new_first_col);
 	gsheet->col.first = new_first_col;

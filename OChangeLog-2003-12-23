@@ -1,3 +1,11 @@
+2000-12-16  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_new) : No need to pass in the
+	  col/row items.  They are available from the sheet control.
+
+	* src/sheet-control-gui.c (sheet_view_construct) : signature change to
+	  gnumeric_sheet_new.
+
 2000-12-15  Jody Goldberg <jgoldberg@home.com>
 
 	Tidy up the naming scheme a bit.

@@ -586,12 +586,7 @@ sheet_view_construct (SheetControlGUI *scg)
 			    GTK_SIGNAL_FUNC (sheet_view_row_selection_changed),
 			    scg);
 
-	/* Create the gnumeric sheet canvas */
-	scg->canvas = gnumeric_sheet_new (
-		scg,
-		ITEM_BAR (scg->col_item),
-		ITEM_BAR (scg->row_item));
-
+	scg->canvas = gnumeric_sheet_new (scg);
 	gtk_signal_connect_after (
 		GTK_OBJECT (scg), "size_allocate",
 		GTK_SIGNAL_FUNC (sheet_view_size_allocate), scg);

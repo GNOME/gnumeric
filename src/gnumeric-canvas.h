@@ -37,17 +37,11 @@ struct _GnumericSheet {
 	/* Input context for dead key support */
 	GdkIC     *ic;
 	GdkICAttr *ic_attr;
-
-	/*
-	 * The column and row bars
-	 */
-	ItemBar       *colbar;
-	ItemBar       *rowbar;
 };
 
 GtkType    gnumeric_sheet_get_type               (void);
 
-GtkWidget *gnumeric_sheet_new            	 (SheetControlGUI *sheet, ItemBar *colbar, ItemBar *rowbar);
+GtkWidget *gnumeric_sheet_new            	 (SheetControlGUI *sheet);
 void       gnumeric_sheet_set_top_row            (GnumericSheet *gsheet, int new_first_row);
 void       gnumeric_sheet_set_left_col           (GnumericSheet *gsheet, int new_first_col);
 gboolean   gnumeric_sheet_can_select_expr_range  (GnumericSheet *gsheet);
