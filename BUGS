@@ -31,6 +31,12 @@ Pending Patches
 
 - Force the "for" (and thus the "switch") in mstyle_hash to be unrolled.
 
+- Why do both mstyle_element_equal and mstyle_equal check types?
+
+- gnm_expr_equal ends up calling value_compare for checking equality of
+  something.  That leads to UTF-8 conversions and whatsnot.  That is
+  grossly inefficient.
+
 0) Misc minor UI tweaks
     0.1)  Missing toolbar borders for color and stack combos	(DONE)
     0.2)  Add keynav for autoformat canvases			(DONE)
