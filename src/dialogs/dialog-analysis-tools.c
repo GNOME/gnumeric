@@ -817,6 +817,7 @@ dialog_tool_init (GenericToolState *state, char *gui_name, char *dialog_name,
 		gtk_widget_show (GTK_WIDGET (state->input_entry_2));				
 	}
 
+	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "set-focus",
 			    GTK_SIGNAL_FUNC (tool_set_focus), state);
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
@@ -2511,6 +2512,8 @@ dialog_random_tool_init (RandomToolState *state)
 	state->dialog = glade_xml_get_widget (state->gui, "Random");
         if (state->dialog == NULL)
                 return TRUE;
+
+	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "set-focus",
 			    GTK_SIGNAL_FUNC (tool_set_focus), state);
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",

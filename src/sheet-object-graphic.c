@@ -453,15 +453,15 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControlGUI *scg)
 
 	label = gtk_label_new (_("Color"));
 	gtk_table_attach_defaults (GTK_TABLE (table), label, 0, 1, 0, 1);
-	label = gtk_label_new (_("Border width"));
+	label = gtk_label_new (_("Line Width"));
 	gtk_table_attach_defaults (GTK_TABLE (table), label, 0, 1, 1, 2);
 
 	if (sog->type == SHEET_OBJECT_ARROW) {
-		label = gtk_label_new (_("Arrow shape a"));
+		label = gtk_label_new (_("Arrow tip"));
 		gtk_table_attach_defaults (GTK_TABLE (table), label, 0, 1, 2,3);
-		label = gtk_label_new (_("Arrow shape b"));
+		label = gtk_label_new (_("Arrow length"));
 		gtk_table_attach_defaults (GTK_TABLE (table), label, 0, 1, 3,4);
-		label = gtk_label_new (_("Arrow shape c"));
+		label = gtk_label_new (_("Arrow width"));
 		gtk_table_attach_defaults (GTK_TABLE (table), label, 0, 1, 4,5);
 	}
 

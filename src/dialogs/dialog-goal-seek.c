@@ -594,6 +594,7 @@ dialog_init (GoalSeekState *state)
 	gtk_widget_show (GTK_WIDGET (state->change_cell_entry));				
 
 
+	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "set-focus",
 			    GTK_SIGNAL_FUNC (dialog_set_focus), state);
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "realize",
