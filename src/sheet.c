@@ -723,7 +723,7 @@ int
 sheet_col_size_fit (Sheet *sheet, int col)
 {
 	ColRowInfo *ci;
-	int max = 0;
+	int max = -1;
 	
 	g_return_val_if_fail (sheet != NULL, 0);
 	g_return_val_if_fail (IS_SHEET (sheet), 0);
@@ -744,6 +744,9 @@ sheet_col_size_fit (Sheet *sheet, int col)
 				  col, SHEET_MAX_ROWS-1,
 				  (sheet_cell_foreach_callback)&cb_max_cell_width, &max);
 
+	/* Reset to the default width if the column was empty */
+	if (max < 0)
+		max = sheet->cols.default_style.pixels;
 	return max + ci->margin_a + ci->margin_b;
 }
 
@@ -773,7 +776,7 @@ int
 sheet_row_size_fit (Sheet *sheet, int row)
 {
 	ColRowInfo *ri;
-	int max = 0;
+	int max = -1;
 	
 	g_return_val_if_fail (sheet != NULL, 0);
 	g_return_val_if_fail (IS_SHEET (sheet), 0);
@@ -793,6 +796,10 @@ sheet_row_size_fit (Sheet *sheet, int row)
 				  0, row,
 				  SHEET_MAX_COLS-1, row,
 				  (sheet_cell_foreach_callback)&cb_max_cell_height, &max);
+
+	/* Reset to the default width if the column was empty */
+	if (max < 0)
+		max = sheet->rows.default_style.pixels;
 
 	return max + ri->margin_a + ri->margin_b;
 }

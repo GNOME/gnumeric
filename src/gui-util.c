@@ -11,6 +11,7 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "style.h"
+#include "color.h"
 
 void
 gnumeric_no_modify_array_notice (Workbook *wb)
@@ -229,3 +230,52 @@ gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event)
 	gnumeric_auto_kill_popup_menu_on_hide (menu);
 	gtk_menu_popup (menu, NULL, NULL, 0, NULL, event->button, event->time);
 }
+
+GtkWidget *
+gnumeric_create_tooltip (void)
+{
+	GtkWidget *tip, *label, *frame;
+	static GtkRcStyle*rc_style = NULL;
+	
+	if (rc_style == NULL) {
+		int i;
+		rc_style = gtk_rc_style_new();
+
+		for (i = 5; --i >= 0 ; ) {
+			rc_style->color_flags[i] = GTK_RC_BG;
+			color_alloc_name ("LightYellow",  &rc_style->bg[i]);
+		}
+	}
+
+	tip = gtk_window_new (GTK_WINDOW_POPUP);
+	if (rc_style != NULL)
+		gtk_widget_modify_style (tip, rc_style);
+
+	frame = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);
+	label = gtk_label_new ("");
+
+	gtk_container_add (GTK_CONTAINER (tip), frame);
+	gtk_container_add (GTK_CONTAINER (frame), label);
+	
+	return label;
+}
+
+void
+gnumeric_position_tooltip (GtkWidget *tip, int horizontal)
+{
+	GtkRequisition req;
+	int  x, y;
+
+	gtk_widget_size_request (tip, &req);
+	gdk_window_get_pointer (NULL, &x, &y, NULL);
+	if (horizontal){
+		x = x - req.width/2;
+		y = y - req.height - 20;
+	} else {
+		x = x - req.width - 20;
+		y = y - req.height/2;
+	}
+	gtk_widget_set_uposition (gtk_widget_get_toplevel (tip), x, y);
+}
+

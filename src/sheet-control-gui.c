@@ -16,6 +16,7 @@
 #include "selection.h"
 #include "sheet-object.h"
 #include "item-cursor.h"
+#include "gnumeric-util.h"
 #include "utils.h"
 #include "selection.h"
 
@@ -343,70 +344,32 @@ button_select_all (GtkWidget *the_button, SheetView *sheet_view)
 }
 
 static void
-set_tip_label (SheetView *sheet_view, char *format, GtkAdjustment *adj, int horizontal)
-{
-	char buffer [20 + sizeof (long) * 4];
-
-	if (horizontal)
-		snprintf (buffer, sizeof (buffer), format, col_name (adj->value));
-	else
-		snprintf (buffer, sizeof (buffer), format, (int) adj->value + 1);
-
-	gtk_label_set_text (GTK_LABEL (sheet_view->tip), buffer);
-}
-
-static void
 vertical_scroll_change (GtkAdjustment *adj, SheetView *sheet_view)
 {
-	if (sheet_view->tip)
-		set_tip_label (sheet_view, _("Row: %d"), adj, 0);
+	if (sheet_view->tip) {
+		char buffer [20 + sizeof (long) * 4];
+		snprintf (buffer, sizeof (buffer), _("Row: %d"), (int) adj->value + 1);
+		gtk_label_set_text (GTK_LABEL (sheet_view->tip), buffer);
+	}
 }
 
 static void
 horizontal_scroll_change (GtkAdjustment *adj, SheetView *sheet_view)
 {
-	if (sheet_view->tip)
-		set_tip_label (sheet_view, _("Column: %s"), adj, 1);
-}
-
-static GtkWidget *
-create_tip (void)
-{
-	GtkWidget *tip, *label;
-
-	tip = gtk_window_new (GTK_WINDOW_POPUP);
-	label = gtk_label_new ("");
-	
-	gtk_container_add (GTK_CONTAINER (tip), label);
-	
-	return label;
-}
-
-static void
-position_tooltip (SheetView *sheet_view, int horizontal)
-{
-	GtkRequisition req;
-	int  x, y;
-
-	gtk_widget_size_request (sheet_view->tip, &req);
-	gdk_window_get_pointer (NULL, &x, &y, NULL);
-	if (horizontal){
-		x = x - req.width/2;
-		y = y - req.height - 20;
-	} else {
-		x = x - req.width - 20;
-		y = y - req.height/2;
+	if (sheet_view->tip) {
+		char buffer [20 + sizeof (long) * 4];
+		snprintf (buffer, sizeof (buffer), _("Column: %s"), col_name (adj->value));
+		gtk_label_set_text (GTK_LABEL (sheet_view->tip), buffer);
 	}
-	gtk_widget_set_uposition (gtk_widget_get_toplevel (sheet_view->tip), x, y);
 }
 
 static int
 horizontal_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet_view)
 {
 	if (event->type == GDK_BUTTON_PRESS){
-		sheet_view->tip = create_tip ();
-		set_tip_label (sheet_view, _("Column: %s"), GTK_ADJUSTMENT (sheet_view->ha), 1);
-		position_tooltip (sheet_view, 1);
+		sheet_view->tip = gnumeric_create_tooltip ();
+		horizontal_scroll_change (GTK_ADJUSTMENT (sheet_view->ha), sheet_view);
+		gnumeric_position_tooltip (sheet_view->tip, 1);
 		gtk_widget_show_all (gtk_widget_get_toplevel (sheet_view->tip));
 	}
 	else if (event->type == GDK_BUTTON_RELEASE)
@@ -430,9 +393,9 @@ static int
 vertical_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet_view)
 {
 	if (event->type == GDK_BUTTON_PRESS){
-		sheet_view->tip = create_tip ();
-		set_tip_label (sheet_view, _("Row: %d"), GTK_ADJUSTMENT (sheet_view->va), 0);
-		position_tooltip (sheet_view, 0);
+		sheet_view->tip = gnumeric_create_tooltip ();
+		vertical_scroll_change (GTK_ADJUSTMENT (sheet_view->va), sheet_view);
+		gnumeric_position_tooltip (sheet_view->tip, 0);
 		gtk_widget_show_all (gtk_widget_get_toplevel (sheet_view->tip));
 	}
 	else if (event->type == GDK_BUTTON_RELEASE)
@@ -635,6 +598,7 @@ sheet_view_new (Sheet *sheet)
 
 	sheet_view = gtk_type_new (sheet_view_get_type ());
 	sheet_view->sheet = sheet;
+	sheet_view->tip = NULL;
 
 	sheet_view_construct (sheet_view);
 	

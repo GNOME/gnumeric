@@ -1,6 +1,8 @@
-1999-10-07  Jody Goldberg <jgoldberg@home.com>
+1999-10-08  Jody Goldberg <jgoldberg@home.com>
 
-	* src/main.c : Add new command line parameter. --debug_ole
+	* src/item-bar.c (item_bar_event) : Use item_bar_end_resize.
+	(item_bar_end_resize) : Cleare resizing flag even if when have not
+	  moved and created a resize marker.
 
 1999-10-07  Miguel de Icaza  <miguel@gnu.org>
 
@@ -8,6 +10,28 @@
 	Fix typo here.
 
 1999-10-07  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-bar.c : Add tooltip to show width/height during resize.
+
+	* src/gnumeric-util.[ch] (gnumeric_create_tooltip,
+	gnumeric_position_tooltip) : New functions.
+
+	* src/mathfunc.[ch], src/utils.[ch] : Move random_01, random_normal,
+	  and gpow10 from utils -> mathfunc.
+
+	* src/goal-seek.c : Add an include for mathfunc.h
+
+	* src/sheet-view.c (sheet_view_new) : Init tip to NULL.
+	(set_tip_label) : Delete.
+	(create_tip) : Poach the inards and use as a starting point for
+	  gnumeric_create_tooltip.
+	(position_tooltip) : Rename and move to gnumeric-utils.
+
+	* src/main.c : Add new command line parameter. --debug_ole
+
+	* src/sheet.c (sheet_col_size_fit) : Handle empty col by using the
+	  default width.
+	(sheet_row_size_fit) : Handle empty row by using the default height.
 
 	* src/item-grid.c (item_grid_find_row,
 	item_grid_find_col) : Return a value in the overflow case.

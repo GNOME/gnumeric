@@ -13,6 +13,7 @@
 #include "item-bar.h"
 #include "item-debug.h"
 #include "utils.h"
+#include "gnumeric-util.h"
 #include "selection.h"
 
 /* Marshal forward declarations */
@@ -49,6 +50,9 @@ item_bar_destroy (GtkObject *object)
 	ItemBar *bar;
 
 	bar = ITEM_BAR (object);
+
+	if (bar->tip)
+		gtk_object_unref (GTK_OBJECT (bar->tip));
 
 	if (GTK_OBJECT_CLASS (item_bar_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (item_bar_parent_class)->destroy)(object);
@@ -392,6 +396,39 @@ get_col_from_pos (ItemBar *item_bar, int pos)
 	return i;
 }
 
+static void
+colrow_tip_setlabel (ItemBar *item_bar, gboolean const is_vertical, int const size)
+{
+	if (item_bar->tip) {
+		char buffer [20 + sizeof (long) * 4];
+		if (is_vertical)
+			snprintf (buffer, sizeof (buffer), _("Height: %.2f"), size *.75);
+		else
+			snprintf (buffer, sizeof (buffer), _("Width: %.2f"), size / 7.5);
+		gtk_label_set_text (GTK_LABEL (item_bar->tip), buffer);
+	}
+}
+
+static void
+item_bar_end_resize (ItemBar *item_bar, int new_size)
+{
+	if (item_bar->resize_guide) {
+		if (new_size > 0)
+			gtk_signal_emit (GTK_OBJECT (item_bar),
+					 item_bar_signals [SIZE_CHANGED],
+					 item_bar->resize_pos,
+					 new_size);
+		gtk_object_destroy (item_bar->resize_guide);
+		item_bar->resize_guide = NULL;
+	}
+	if (item_bar->tip) {
+		gtk_widget_destroy (gtk_widget_get_toplevel (item_bar->tip));
+		item_bar->tip = NULL;
+	}
+	item_bar->start_selection = -1;
+	item_bar->resize_pos = -1;
+}
+
 #define convert(c,sx,sy,x,y) gnome_canvas_w2c (c,sx,sy,x,y)
 
 static gint
@@ -401,14 +438,13 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 	GnomeCanvas *canvas = item->canvas;
 	ItemBar *item_bar = ITEM_BAR (item);
 	int pos, start, element, x, y;
-	int resizing;
-
-	resizing = ITEM_BAR_RESIZING (item_bar);
+	gboolean const resizing = ITEM_BAR_RESIZING (item_bar);
+	gboolean const is_vertical = (item_bar->orientation == GTK_ORIENTATION_VERTICAL);
 
 	switch (e->type){
 	case GDK_ENTER_NOTIFY:
 		convert (canvas, e->crossing.x, e->crossing.y, &x, &y);
-		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL)
+		if (is_vertical)
 			pos = y;
 		else
 			pos = x;
@@ -417,7 +453,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 
 	case GDK_MOTION_NOTIFY:
 		convert (canvas, e->motion.x, e->motion.y, &x, &y);
-		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL)
+		if (is_vertical)
 			pos = y;
 		else
 			pos = x;
@@ -443,6 +479,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 
 			item_bar->resize_width = npos;
 
+			colrow_tip_setlabel (item_bar, is_vertical, item_bar->resize_width);
 			resize_guide = GNOME_CANVAS_ITEM (item_bar->resize_guide);
 
 			points = item_bar_get_line_points (canvas, item_bar, pos);
@@ -473,14 +510,14 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 
 	case GDK_BUTTON_PRESS:
 		convert (canvas, e->button.x, e->button.y, &x, &y);
-		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL)
+		if (is_vertical)
 			pos = y;
 		else
 			pos = x;
 
 		cri = is_pointer_on_division (item_bar, pos, &start, &element);
 
-		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL){
+		if (is_vertical) {
 			if (element > SHEET_MAX_ROWS-1)
 				break;
 		} else {
@@ -499,22 +536,28 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			item_bar->resize_pos = element;
 			item_bar->resize_start_pos = start - cri->pixels;
 			item_bar->resize_width = cri->pixels;
+
+			if (item_bar->tip == NULL) {
+				item_bar->tip = gnumeric_create_tooltip ();
+				colrow_tip_setlabel (item_bar, is_vertical, item_bar->resize_width);
+				gnumeric_position_tooltip (item_bar->tip, !is_vertical);
+				gtk_widget_show_all (gtk_widget_get_toplevel (item_bar->tip));
+			}
 		} else if (e->button.button == 3){
 			Sheet   *sheet = item_bar->sheet_view->sheet;
-			gboolean const is_col = (item_bar->orientation != GTK_ORIENTATION_VERTICAL);
 
 			/* If the selection does not contain the current row/col
 			 * then clear the selection and add it.
 			 */
-			if (!selection_contains_colrow (sheet, element, is_col))
+			if (!selection_contains_colrow (sheet, element, !is_vertical))
 				gtk_signal_emit (GTK_OBJECT (item),
 						 item_bar_signals [SELECTION_CHANGED],
 						 element, e->button.state | GDK_BUTTON1_MASK);
 
-			if (is_col)
-				item_grid_popup_menu (sheet, e, element, 0);
-			else
+			if (is_vertical)
 				item_grid_popup_menu (sheet, e, 0, element);
+			else
+				item_grid_popup_menu (sheet, e, element, 0);
 		} else {
 			item_bar->start_selection = element;
 			gnome_canvas_item_grab (item,
@@ -536,19 +579,12 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			break;
 
 		sheet = item_bar->sheet_view->sheet;
-		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL)
+		if (is_vertical)
 			new_size = sheet_row_size_fit (sheet, item_bar->resize_pos);
 		else
 			new_size = sheet_col_size_fit (sheet, item_bar->resize_pos);
 
-		if (new_size == 0)
-			break;
-		
-		gtk_signal_emit (GTK_OBJECT (item),
-				 item_bar_signals [SIZE_CHANGED],
-				 item_bar->resize_pos,
-				 new_size);
-		item_bar->resize_pos = -1;
+		item_bar_end_resize (item_bar, new_size);
 		}
 		break;
 		
@@ -556,17 +592,9 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		if (e->button.button == 3)
 			break;
 
-		if (resizing && item_bar->resize_guide){
-			gtk_signal_emit (GTK_OBJECT (item),
-					 item_bar_signals [SIZE_CHANGED],
-					 item_bar->resize_pos,
-					 item_bar->resize_width);
-			item_bar->resize_pos = -1;
-			gtk_object_destroy (item_bar->resize_guide);
-			item_bar->resize_guide = NULL;
-		}
+		/* This will only happen if we did not double click */
 		gnome_canvas_item_ungrab (item, e->button.time);
-		item_bar->start_selection = -1;
+		item_bar_end_resize (item_bar, item_bar->resize_width);
 		break;
 
 	default:
@@ -592,6 +620,7 @@ item_bar_init (ItemBar *item_bar)
 	item_bar->orientation = GTK_ORIENTATION_VERTICAL;
 	item_bar->resize_pos = -1;
 	item_bar->start_selection = -1;
+	item_bar->tip = NULL;
 }
 
 static void

@@ -23,4 +23,10 @@ char      *x11_font_change_component    (const char *fontname, int idx, const ch
 void      gnumeric_auto_kill_popup_menu_on_hide (GtkMenu *menu);
 void      gnumeric_popup_menu                   (GtkMenu *menu, GdkEventButton *event);
 
+/*
+ * Some tool tip support code.
+ */
+void        gnumeric_position_tooltip (GtkWidget *tip, int horizontal);
+GtkWidget * gnumeric_create_tooltip (void);
+
 #endif /* GNUMERIC_GNUMERIC_UTIL_H */

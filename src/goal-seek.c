@@ -17,7 +17,7 @@
 #include <math.h>
 #include "goal-seek.h"
 #include "gnumeric.h"
-#include "utils.h"
+#include "mathfunc.h"
 
 /*
  * This value should be comfortably within the relative precision of a float_t.

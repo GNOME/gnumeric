@@ -108,4 +108,8 @@ double qbinom (double x, double n, double p);
 
 /* ------------------------------------------------------------------------- */
 
+double      random_01              (void);
+double      random_normal          (void);
+float_t     gpow10                 (int n);
+
 #endif

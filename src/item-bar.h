@@ -31,6 +31,9 @@ typedef struct {
 
 	int             dragging : 1;
 
+	/* Tip for scrolling */
+	GtkWidget        *tip;
+
 	/* Where the selection started */
 	int             start_selection;
 } ItemBar;
