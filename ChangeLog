@@ -1,3 +1,7 @@
+2004-04-08  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (check_underlines): Make UTF-8 safe.
+
 2004-04-08  Jean Brefort  <jean.brefort@ac-dijon.fr>
 
 	* src/selection.c: (sv_selection_to_plot): skip errors dims.

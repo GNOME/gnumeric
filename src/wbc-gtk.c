@@ -52,6 +52,7 @@
 #include <gtk/gtkvbox.h>
 #include <gtk/gtkhandlebox.h>
 #include <gtk/gtkcheckmenuitem.h>
+#include "gdk/gdkkeysyms.h"
 #include <glib/gi18n.h>
 #include <errno.h>
 
@@ -830,27 +831,19 @@ cb_handlebox_dock_status (GtkHandleBox *hb,
 #ifdef CHECK_MENU_UNDERLINES
 
 static const char *
-get_accel_label (GtkMenuItem *item, char *key)
+get_accel_label (GtkMenuItem *item, guint *key)
 {
 	GList *children = gtk_container_get_children (GTK_CONTAINER (item));
 	GList *l;
 	const char *res = NULL;
 
-	*key = 0;
+	*key = GDK_VoidSymbol;
 	for (l = children; l; l = l->next) {
 		GtkWidget *w = l->data;
 
 		if (GTK_IS_ACCEL_LABEL (w)) {
-			const char *label = gtk_label_get_label (GTK_LABEL (w));
-			*key = 0;
-			while (*label) {
-				if (*label == '_') {
-					*key = g_ascii_toupper (label[1]);
-					break;
-				}
-				label++;
-			}
-			res = gtk_label_get_text (GTK_LABEL (w));
+			*key = gtk_label_get_mnemonic_keyval (GTK_LABEL (w));
+			res = gtk_label_get_label (GTK_LABEL (w));
 			break;
 		}
 	}
@@ -869,7 +862,7 @@ check_underlines (GtkWidget *w, const char *path)
 	for (l = children; l; l = l->next) {
 		GtkMenuItem *item = GTK_MENU_ITEM (l->data);
 		GtkWidget *sub = gtk_menu_item_get_submenu (item);
-		char key;
+		guint key;
 		const char *label = get_accel_label (item, &key);
 
 		if (sub) {
@@ -878,13 +871,19 @@ check_underlines (GtkWidget *w, const char *path)
 			g_free (newpath);
 		}
 
-		if (key) {
-			const char *prev = g_hash_table_lookup (used, GINT_TO_POINTER ((int)key));
-			if (prev)
-				g_warning ("In the `%s' menu, the key `%c' is used for both `%s' and `%s'.",
-					   path, key, prev, label);
-			else
-				g_hash_table_insert (used, GINT_TO_POINTER ((int)key), g_strdup (label));
+		if (key != GDK_VoidSymbol) {
+			const char *prev = g_hash_table_lookup (used, GUINT_TO_POINTER (key));
+			if (prev) {
+				/* xgettext: Translators: if this warning shows up when
+				 * running Gnumeric in your locale, the underlines need
+				 * to be moved in strings representing menu entries.
+				 * One slightly tricky point here is that in certain cases,
+				 * the same menu entry shows up in more than one menu.
+				 */
+				g_warning (_("In the `%s' menu, the key `%s' is used for both `%s' and `%s'."),
+					   path, gdk_keyval_name (key), prev, label);
+			} else
+				g_hash_table_insert (used, GUINT_TO_POINTER (key), g_strdup (label));
 		}
 	}
 
