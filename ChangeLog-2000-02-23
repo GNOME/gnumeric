@@ -1,3 +1,13 @@
+1999-06-20  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-math.c (gnumeric_mod): Another try.
+	(gnumeric_int): Fix for negative numbers.
+
+	* src/sheet.c (sheet_set_text): Set value directly, not via text.  Also
+	improve entry when a format is already set.
+	(sheet_cancel_pending_input): Fixed behavior of canceling a cell
+ 	entry.  [From Bake Timmon.]
+
 1999-06-18  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* samples/dbfuns.xls: Added new file for database functions.

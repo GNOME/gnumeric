@@ -729,7 +729,7 @@ sheet_set_text (Sheet *sheet, int col, int row, const char *str)
 	 * a rendered version of the text, if they compare equally, then
 	 * use that.
 	 */
-	if (!CELL_IS_FORMAT_SET (cell) && *text != '=') {
+	if (*text != '=') {
 		char *end, *format;
 		double v;
 
@@ -741,22 +741,21 @@ sheet_set_text (Sheet *sheet, int col, int row, const char *str)
 		} else if (format_match (text, &v, &format)) {
 			StyleFormat *sf;
 			char *new_text;
-			char buffer [50];
 			Value *vf = value_new_float (v);
 
 			/* Render it */
 			sf = style_format_new (format);
 			new_text = format_value (sf, vf, NULL);
-			value_release (vf);
 			style_format_unref (sf);
 
 			/* Compare it */
 			if (strcasecmp (new_text, text) == 0){
-				cell_set_format_simple (cell, format);
-				sprintf (buffer, "%f", v);
-				cell_set_text (cell, buffer);
+				if (!CELL_IS_FORMAT_SET (cell))
+					cell_set_format_simple (cell, format);
+				cell_set_value (cell, vf);
 				text_set = TRUE;
-			}
+			} else
+				value_release (vf);
 			g_free (new_text);
 		}
 	}
@@ -840,6 +839,7 @@ sheet_cancel_pending_input (Sheet *sheet)
 
 		gnumeric_sheet_destroy_editing_cursor (gsheet);
 	}
+	sheet->editing = FALSE;
 }
 
 void

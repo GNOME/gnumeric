@@ -943,13 +943,8 @@ static Value *
 gnumeric_int (struct FunctionDefinition *i,
 	      Value *argv [], char **error_string)
 {
-	float_t t;
-
 	/* FIXME: What about strings and empty cells?  */
-
-	t = value_get_as_float (argv [0]);
-
-	return value_new_float (t > 0.0 ? floor (t) : ceil (t));
+	return value_new_float (floor (value_get_as_float (argv [0])));
 }
 
 static char *help_log = {
@@ -1098,7 +1093,7 @@ static char *help_mod = {
 
 	   "@DESCRIPTION="
 	   "Implements modulo arithmetic."
-	   "Returns the remainder when divisor is divided into abs(number)."
+	   "Returns the remainder when @divisor is divided into @number."
 	   "\n"
 	   "Returns #DIV/0! if divisor is zero."
 	   "@SEEALSO=INT,FLOOR,CEIL")
@@ -1112,27 +1107,24 @@ gnumeric_mod (struct FunctionDefinition *i,
 
 	a = value_get_as_int (argv[0]);
 	b = value_get_as_int (argv[1]);
-	/* Obscure handling of C's mod function */
-	if (a<0) a = -a;
 
-	if (a < 0){ /* -0 */
-		*error_string = gnumeric_err_NUM;
-		return NULL;
-	}
-	if (b < 0){
-		a = -a;
-		b = -b;
-	}
-	if (b < 0) { /* -0 */
-		*error_string = gnumeric_err_NUM;
-		return NULL;
-	}
 	if (b == 0) {
 		*error_string = gnumeric_err_DIV0;
 		return NULL;
 	}
 
-	return value_new_int (a % b);
+	if (b < 0) {
+		a = -a;
+		b = -b;
+		/* FIXME: check for overflow.  */
+	}
+
+	if (a >= 0)
+		return value_new_int (a % b);
+	else {
+		int invres = (-a) % b;
+		return value_new_int (invres == 0 ? 0 : b - invres);
+	}
 }
 
 static char *help_radians = {
