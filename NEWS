@@ -1,5 +1,8 @@
 Gnumeric 1.2.14
 
+Andreas:
+	* Fix database functions
+
 Jody:
 	* Invalid metadata in xls is a warning not an error
 
