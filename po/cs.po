@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-16 21:15-0500\n"
-"PO-Revision-Date: 2004-02-24 13:12+0100\n"
+"POT-Creation-Date: 2004-03-18 04:05+0100\n"
+"PO-Revision-Date: 2004-03-18 19:33+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -21279,40 +21279,37 @@ msgid "Ring plotting engine"
 msgstr "Engine kreslení prstenců"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:2
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "% of default size"
-msgstr "% _normální velikosti"
+msgstr "% normální velikosti"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:3
 msgid "3_d"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:4
-#, fuzzy
 msgid "Dia_meter"
-msgstr "Parametry"
+msgstr "Prů_měr"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:5
 msgid "Show _negative values"
-msgstr ""
+msgstr "Zobrazovat _záporné hodnoty"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:6
-#, fuzzy
 msgid "Sur_face"
-msgstr "Zdroj"
+msgstr "Po_vrch"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:7
 msgid "_Bubbles scaled to"
-msgstr ""
+msgstr "Měřítko _bublin změněno na"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:8
 msgid "_Size reprented by:"
-msgstr ""
+msgstr "_Velikost je reprezentována:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:9
-#, fuzzy
 msgid "_Vary colors by bubble"
-msgstr "_Měnit barvy podle dílu"
+msgstr "_Měnit barvy bublin"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
