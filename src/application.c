@@ -626,7 +626,7 @@ gnumeric_application_class_init (GObjectClass *object_class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GnumericApplicationClass, workbook_added),
 		(GSignalAccumulator) NULL, NULL,
-		gnm__VOID__OBJECT,
+		gnm__VOID__POINTER,
 		G_TYPE_NONE,
 		1, WORKBOOK_TYPE);
 	signals [WORKBOOK_REMOVED] = g_signal_new ("workbook_removed",
@@ -634,7 +634,7 @@ gnumeric_application_class_init (GObjectClass *object_class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GnumericApplicationClass, workbook_removed),
 		(GSignalAccumulator) NULL, NULL,
-		gnm__VOID__OBJECT,
+		gnm__VOID__POINTER,
 		G_TYPE_NONE,
 		1, WORKBOOK_TYPE);
 	signals [CLIPBOARD_MODIFIED] = g_signal_new ("clipboard_modified",

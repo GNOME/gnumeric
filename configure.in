@@ -58,7 +58,7 @@ AC_ARG_WITH(guppi,
 	[--{with,without}-guppi      ],
 	if test "x$withval" = xyes; then
 		try_guppi=true
-		guppi_msg=$marker_ok
+		guppi_msg=yes
 	fi
 )
 if test "$try_guppi" = "true"; then

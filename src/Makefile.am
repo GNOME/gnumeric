@@ -286,8 +286,6 @@ GNUMERIC_BONOBO = 				\
 	workbook-control-component.h 		\
 	workbook-control-component-priv.h
 #	 $(GNUMERIC_CORBA)
-#	 embeddable-grid.c			
-#	 embeddable-grid.h			
 
 if WITH_BONOBO
 gnumeric_SOURCES =				\
@@ -299,7 +297,6 @@ gnumeric_SOURCES =				\
 
 gnumeric_LDADD =				\
 	$(gnumeric_app_libs)			\
-	../idl/libGnumericIDL.a			\
 	$(GNUMERIC_LIBS)			\
 	$(LIBBONOBO_LIBS)			\
 	$(INTLLIBS)
