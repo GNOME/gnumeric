@@ -1,3 +1,114 @@
+2001-08-20  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-object.c (sheet_object_remove_cb) : All we need is a wbc.
+	(sheet_object_anchor_set) : new routine to replace range_set.
+	(sheet_object_anchor_get) : new.
+	(sheet_object_anchor_cpy) : new.
+	(sheet_object_anchor_init) : new routine to bundle up object
+	  positioning more neatly.
+
+	* src/sheet-object-cell-comment.c (cell_set_comment) : Only use anchor
+	  types that are implemented.  Use the new SheetObjectAnchor scheme.
+
+	* src/sheet-control-gui.c (scg_object_move) : track whether the ctrl
+	  point causes a move or a resize.
+	(cb_control_point_event) : store the initial anchor rather than the
+	  control specific position,  and assume that the changes are simple
+	  movements until a resize occurs.
+	(scg_object_calc_position) : adjust to using SheetObjectAnchor.
+	(scg_colrow_distance_get_virtual) : new routine.
+	(scg_class_init) : register it here.
+
+	* src/sheet-control.c (sc_colrow_distance_get) : a new new virtual.
+
+	* src/gnumeric-canvas.c (gnm_canvas_key_mode_object) : delete newly
+	  created objects too.
+	(gnm_canvas_filenames_dropped) : signature change
+	  for sheet_object_container_new_file.
+
+	* src/gnumeric.h : add GnmGraph.
+
+	* src/Makefile.am : rename graph-vector -> gnumeric-graph
+
+	* idl/gnumeric-graphs.idl : Add some versioning.
+	  Move the header arg out of the value callback.
+	  Replace VectorNotify::remove with Manger::clearVectors.
+	  Merge freeze & thaw.
+	  Renamed 'nameChange' to 'headerChanged'
+	  Add an 'id' arg when registering vectors.
+
+2001-08-19  Jody Goldberg <jgoldberg@home.com>
+
+	* src/commands.c
+	    s/insert_object/object_insert/
+	    s/move_object/object_move/
+	    s/delete_object/object/delete/
+	(cmd_object_insert_redo) : The object knows its position based on its
+	  anchor. No need to set the control specific coordinates for an
+	  arbitrary control.  No need to tweak the reference count either.
+	(cmd_object_insert) :  ditto.
+	(cmd_object_insert_undo) : no need to tweak the ref count.
+	(cmd_object_delete_redo) : keep it simple, just set the sheet.
+	(cmd_object_delete_undo) : just clear the sheet.
+	(cmd_object_delete_destroy) : very simple.
+	(cmd_object_move_redo) : store the anchor, not the position for a
+	  specific control.  Be careful not to move the object the firs time
+	  through.  We've already done that.
+	(cmd_move_object_undo) : just call redo.
+	(cmd_object_move) : store the old anchor and take a flag indicating
+	  move vs resize.
+
+	* src/workbook-control-gui.c (wb_control_gui_toplevel) : Add some
+	  protection.
+
+	* src/sheet-object.c (sheet_object_update_bounds) : rename from
+	  sheet_object_position to have a clearer name.
+
+	* src/embeddable-grid.c (embeddable_grid_init_anon) : init the sheet.
+	(grid_view_new) : use scg_toplevel.
+
+	* src/sheet-control-gui.c (scg_toplevel) : new function.
+
+2001-08-18  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric-graph.c : Major reorg to fix life cycle issues.
+	(gnm_graph_new) : don't dangle the reference returned by oaf.
+	(gnm_graph_destroy) : deactivate & _fini the corba obj.
+	(gnm_graph_vector_destroy) : ditto.
+
+	* src/expr.c (expr_to_graph_vector) : delete this function.
+	  we have no need to disassemble the expression in graphs.
+
+	* src/item-grid.c : revert switch from destroy -> finalize.
+	* src/item-bar.c : ditto.
+
+	* src/sheet-object-container.c : no need to include gnorba.
+	  no need to include sheet-control-gui-priv anymore.
+	(sheet_object_container_destroy) : delete unused.
+	(sheet_object_container_new) : weaken requirements to take a workbook,
+	  rather than a sheet as the container.
+	(sheet_object_container_new_object) : ditto.
+	(sheet_object_container_new_file) : ditto.
+
+	* src/workbook-private.c : delete some unnecessary code.
+
+	* src/workbook.c : include sheet-control vs sheet-control-gui.
+	(workbook_expr_unrelocate) : it is ok to attempt to relocate to a
+	  non-existent cell.
+
+	* src/commands.c (cmd_paste_cut_undo) : restore the original content
+	  AFTER unrelocating the expressions.
+
+	* src/workbook-control-gui.c (workbook_control_gui_init) : Add the
+	  magic to enable the bonobo toolbar config utility.
+	(workbook_menu_edit) : Fix the accelerators and sync the text with the
+	  bonobo version.
+	(wbcg_menu_state_update) : Fix the capitalization for freeze/unfreeze.
+	(change_menu_label) : Fix accelerator display, we still don't set
+	  them, but at least we display them correctly.
+	(insert_bonobo_object) : signature change to
+	  sheet_object_container_new_object.
+
 2001-08-17  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_freeze_panes) : set the initial top_left position

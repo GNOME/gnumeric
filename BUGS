@@ -10,7 +10,6 @@ Release Critical
 
     - Add an idle handler at start up to check for availablity of
       evo and guppi.  They should only be enabled if they are available.
-    - non-bonobo frozen menu accelerator
     - bonobo toolbar undo/redo sensitivity after edit
 
 Pending Patches

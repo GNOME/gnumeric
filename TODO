@@ -132,7 +132,7 @@ to features that already work.
    + Object properties
 
    + Objects
-     Load / save, print of all objects + Bonobo objects.
+     Load / save of Bonobo objects.
 
    + Style
      Protection: Bloqued/Hidden.
@@ -146,7 +146,6 @@ to features that already work.
    + Add "hints" to the file save routine based on the registered
      formats.
    + Supply default extension to use with a write operation.
-   + Improve error handling and display in file_read routines.
    + Improve handling of unknown fonts and functions when importing.
 
 * Unicode

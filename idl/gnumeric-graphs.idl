@@ -9,8 +9,7 @@
 module GNOME {
 	module Gnumeric {
 		interface VectorNotify {
-			oneway void remove ();
-			oneway void nameChanged (in string name);
+			oneway void headerChanged (in string header);
 		};
 
 		typedef sequence<double> SeqScalar;
@@ -18,7 +17,7 @@ module GNOME {
 			oneway void valueChanged (in short start, in SeqScalar new_values);
 		};
 		interface VectorScalar : VectorScalarNotify {
-			void value (out SeqScalar values, out string name);
+			void value (out SeqScalar values);
 		};
 
 		typedef sequence<long> SeqDate;
@@ -26,7 +25,7 @@ module GNOME {
 			oneway void valueChanged (in short start, in SeqDate new_values);
 		};
 		interface VectorDate : VectorDateNotify {
-			void value (out SeqDate values, out string name);
+			void value (out SeqDate values);
 		};
 
 		typedef sequence<string> SeqString;
@@ -34,20 +33,20 @@ module GNOME {
 			oneway void valueChanged (in short start, in SeqString new_values);
 		};
 		interface VectorString : VectorStringNotify {
-			void value (out SeqString values, out string name);
+			void value (out SeqString values);
 		};
 
 		module Graph {
-			interface Manager : Bonobo::Unknown {
+			interface Manager_v1 : Bonobo::Unknown {
 				Bonobo::Control getTypeSelectControl ();
 				Bonobo::Control getLayoutControl ();
 
-				VectorScalarNotify addVectorScalar (in VectorScalar vec);
-				VectorDateNotify   addVectorDate   (in VectorDate   vec);
-				VectorStringNotify addVectorString (in VectorString vec);
+				VectorScalarNotify addVectorScalar (in VectorScalar v, in long id);
+				VectorDateNotify   addVectorDate   (in VectorDate   v, in long id);
+				VectorStringNotify addVectorString (in VectorString v, in long id);
 
-				oneway void freeze ();
-				oneway void thaw ();
+				oneway void freeze (in boolean flag);
+				oneway void clearVectors ();
 			};
 		};
 	};
