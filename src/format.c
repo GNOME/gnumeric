@@ -1571,10 +1571,10 @@ format_value (StyleFormat const *format, Value const *value, StyleColor **color,
 			return g_strdup (gnumeric_err_VALUE);
 
 		if (need_abs)
-			val = fabs (val);
+			val = gnumabs (val);
 
 		if (entry == NULL) {
-			if (INT_MAX >= val && val >= INT_MIN)
+			if (INT_MAX >= val && val >= INT_MIN && val == floorgnum (val))
 				return fmt_general_int ((int)val, col_width);
 			return fmt_general_float (val, col_width);
 		}

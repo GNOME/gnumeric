@@ -1,5 +1,13 @@
 2002-03-26  Morten Welinder  <terra@diku.dk>
 
+	* src/format.c (format_value): Fix general display of floats.
+	Oops.
+
+	* src/value.c (value_release): Use the fact that VALUE_TERMINATE
+	is an error value.
+
+2002-03-26  Morten Welinder  <terra@diku.dk>
+
 	* src/value.c (value_new_bool, value_new_int, value_release): Use
 	int/bool pool.
 	(value_init): Initialise int/bool pool.

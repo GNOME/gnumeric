@@ -2507,21 +2507,21 @@ gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
 	lower_limit = value_get_as_float (argv[2]);
 	upper_limit = argv[3] ? value_get_as_float (argv[3]) : lower_limit;
 
-	prob_vals = collect_floats_value
+	x_vals = collect_floats_value
 		(argv[0], ei->pos,
 		 COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS |
 		 COLLECT_IGNORE_BLANKS,
-		 &prob_n, &error);
+		 &x_n, &error);
 	if (error) {
 		res = error;
 		goto out;
 	}
 
-	x_vals = collect_floats_value
+	prob_vals = collect_floats_value
 		(argv[1], ei->pos,
 		 COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS |
 		 COLLECT_IGNORE_BLANKS,
-		 &x_n, &error);
+		 &prob_n, &error);
 	if (error) {
 		res = error;
 		goto out;
@@ -2548,7 +2548,7 @@ gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
 		        sum += prob;
 	}
 
-	if (gnumabs (total_sum - 1) > 1e-6) {
+	if (gnumabs (total_sum - 1) > x_n * 2 * GNUM_EPSILON) {
 	        res = value_new_error (ei->pos, gnumeric_err_NUM);
 		goto out;
 	}

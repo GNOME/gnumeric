@@ -324,12 +324,6 @@ value_release (Value *value)
 {
 	g_return_if_fail (value != NULL);
 
-	/* Do not release VALUE_TERMINATE, it is a magic number */
-	if (value == VALUE_TERMINATE) {
-		g_warning ("Someone freed VALUE_TERMINATE -- shame on them.");
-		return;
-	}
-
 	if (VALUE_FMT (value) != NULL)
 		style_format_unref (VALUE_FMT (value));
 
@@ -348,6 +342,12 @@ value_release (Value *value)
 		return;
 
 	case VALUE_ERROR:
+		/* Do not release VALUE_TERMINATE, it is a magic number */
+		if (value == VALUE_TERMINATE) {
+			g_warning ("Someone freed VALUE_TERMINATE -- shame on them.");
+			return;
+		}
+
 		string_unref (value->v_err.mesg);
 		break;
 
