@@ -501,15 +501,14 @@ collect_strings (GnmExprList *exprlist, EvalPos const *ep, CollectFlags flags, V
 
 Value *
 string_range_function (GnmExprList *exprlist, FunctionEvalInfo *ei,
-		      string_range_function_t func,
-		      CollectFlags flags,
-		      char const *func_error)
+		       string_range_function_t func,
+		       CollectFlags flags,
+		       char const *func_error)
 {
 	Value *error = NULL;
 	GSList *vals;
 	char *res = NULL;
 	int err;
-	Value *v;
 
 	vals = collect_strings (exprlist, ei->pos, flags, &error);
 	if (!vals)
@@ -523,9 +522,6 @@ string_range_function (GnmExprList *exprlist, FunctionEvalInfo *ei,
 			g_free (res);
 		return value_new_error (ei->pos, func_error);
 	} else {
-		v =  value_new_string (res);
-		g_free (res);
-		return v;
+		return value_new_string_nocopy (res);
 	}
 }
-
