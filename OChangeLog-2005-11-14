@@ -1,5 +1,14 @@
 2003-08-25  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* src/gui-util.c (selchanged_foreach): new
+	(cb_file_open_selchanged): new
+	(gnumeric_dialog_image_file_selection): new
+	* src/gui-util.h (gnumeric_dialog_image_file_selection): new
+	* src/workbook-control-gui.c (cb_insert_image): use 
+	  gnumeric_dialog_image_file_selection
+
+2003-08-25  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* src/GNOME_Gnumeric.xml: enable DataImportText
 	* src/gui-file.c (gui_file_open): add format argument
 	(file_opener_find_by_id): new

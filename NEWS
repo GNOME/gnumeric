@@ -2,6 +2,7 @@ Gnumeric 1.1.90
 
 Andreas:
 	* Make graph configuration undoable.
+	* Add image preview to insert image dialog.
 
 Ben Liblit:
 	* Improve spec file.

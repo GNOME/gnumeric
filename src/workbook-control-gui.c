@@ -3086,10 +3086,11 @@ cb_insert_image (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
 	GtkFileSelection *fsel;
 
-	fsel = GTK_FILE_SELECTION (gtk_file_selection_new (_("Load file")));
+	fsel = GTK_FILE_SELECTION (
+		gtk_file_selection_new (_("Select an image")));
 	gtk_file_selection_hide_fileop_buttons (fsel);
 
-	if (gnumeric_dialog_file_selection (wbcg, fsel)) {
+	if (gnumeric_dialog_image_file_selection (wbcg, fsel)) {
 		int fd, file_size;
 		IOContext *ioc = gnumeric_io_context_new (COMMAND_CONTEXT (wbcg));
 		unsigned char const *data = gnumeric_mmap_open (ioc,

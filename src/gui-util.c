@@ -194,6 +194,79 @@ gnumeric_dialog_file_selection (WorkbookControlGUI *wbcg, GtkFileSelection *fsel
 	return result;
 }
 
+static void
+selchanged_foreach (GtkTreeModel *model,
+		    GtkTreePath  *path,
+		    GtkTreeIter  *iter,
+		    gpointer      data)
+{
+	gboolean *selected = data;
+	
+	*selected = TRUE;
+}
+
+typedef struct {
+	GtkFileSelection *fsel;
+	GtkWidget        *image;
+	GdkPixbuf        *pix;
+} gnumeric_dialog_image_file_selection_data_t;
+
+static void
+cb_file_open_selchanged (GtkTreeSelection *sel,
+			 gnumeric_dialog_image_file_selection_data_t *data)
+{
+	gboolean          selected = FALSE;
+	
+	gtk_tree_selection_selected_foreach (sel,
+					     selchanged_foreach,
+					     &selected);
+	if (selected)
+	{
+		gchar const *fullfname;
+		GdkPixbuf* pix;
+
+		fullfname = gtk_file_selection_get_filename (data->fsel);
+		pix = gdk_pixbuf_new_from_file (fullfname, NULL);
+		if (pix != NULL) {
+			/*We should probably scale the image to something like 150 by 150 */
+			gtk_image_set_from_pixbuf (GTK_IMAGE (data->image), pix);
+			g_object_unref (pix);
+		} else
+			gtk_image_set_from_pixbuf (GTK_IMAGE (data->image), data->pix);
+	}
+	else
+	{
+		gtk_image_set_from_pixbuf (GTK_IMAGE (data->image), NULL);
+	}
+}
+
+
+
+gboolean
+gnumeric_dialog_image_file_selection (WorkbookControlGUI *wbcg, GtkFileSelection *fsel)
+{
+	GtkTreeSelection *tree_sel;
+	gnumeric_dialog_image_file_selection_data_t data;
+
+	data.fsel = fsel;
+	data.pix  = application_get_pixbuf ("unknown_image");
+
+	tree_sel = gtk_tree_view_get_selection (GTK_TREE_VIEW (fsel->file_list));
+	g_signal_connect (tree_sel, "changed",
+			  G_CALLBACK (cb_file_open_selchanged),
+			  &data);
+
+	data.image = gtk_image_new_from_pixbuf (data.pix);
+	gtk_misc_set_alignment (GTK_MISC(data.image), 0.5, 0.5);
+	gtk_misc_set_padding (GTK_MISC(data.image), 5, 5);
+	gtk_widget_set_size_request (data.image, 120, 120);
+	gtk_box_pack_start (GTK_BOX (fsel->action_area), data.image, FALSE, TRUE, 0);
+
+	cb_file_open_selchanged (tree_sel, &data);
+
+	return gnumeric_dialog_file_selection (wbcg, fsel);
+}
+
 gboolean
 gnumeric_dialog_dir_selection (WorkbookControlGUI *wbcg, GtkFileSelection *fsel)
 {
