@@ -15,6 +15,6 @@ Mimedir = $(datadir)/mime-info
 Mime_DATA = gnumeric.keys gnumeric.mime
 
 gnumeric.keys: gnumeric.keys.in Makefile
-	sed -e 's^\@icondir\@^$(icondir)^g' < gnumeric.keys.in > gnumeric.keys.tmp \
+	sed -e 's^\@icondir\@^$(icondir)^g' < $(srcdir)/gnumeric.keys.in > gnumeric.keys.tmp \
 	&& mv gnumeric.keys.tmp gnumeric.keys 
 
