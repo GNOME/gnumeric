@@ -1,3 +1,15 @@
+1999-10-16  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/xml-io.c (xml_read_colrow_info): Set the Column/Row
+	dimensions here after loading them, as the new
+	sheet_set_zoom_factor can no longer be used to reset lingering
+	values (the value of the pixels was being computed here after we
+	had read the units).
+
+	* src/eval.c (cell_get_dependencies): Prototype change.  We now
+	take the Cell as an argument and we scan all the sheets that
+	depend on us.
+
 1999-10-14  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/functions/fn-stat.c: Fixed the optional argument handling of

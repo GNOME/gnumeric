@@ -1854,7 +1854,7 @@ sheet_col_get (Sheet const *sheet, int const pos)
 	return ci;
 }
 /**
- * sheet_col_get:
+ * sheet_col_fetch:
  *
  * Returns an allocated column:  either an existing one, or a fresh copy
  */
@@ -1862,6 +1862,7 @@ ColRowInfo *
 sheet_col_fetch (Sheet *sheet, int pos)
 {
 	ColRowInfo * res = sheet_col_get (sheet, pos);
+
 	if (res == NULL)
 		if ((res = sheet_col_new (sheet)) != NULL) {
 			res->pos = pos;
@@ -2164,7 +2165,7 @@ sheet_cell_remove_internal (Sheet *sheet, Cell *cell)
 	if (cell->parsed_node)
 		sheet_cell_formula_unlink (cell);
 
-	deps = cell_get_dependencies (sheet, cell->col->pos, cell->row->pos);
+	deps = cell_get_dependencies (cell);
 	cell_queue_recalc_list (deps, TRUE);
 
 	sheet_cell_remove_from_hash (sheet, cell);
@@ -2527,9 +2528,9 @@ sheet_clear_region (Sheet *sheet, int start_col, int start_row, int end_col, int
 	cb.end_col = end_col;
 	cb.end_row = end_row;
 	cb.l = NULL;
-	if (sheet_cell_foreach_range ( sheet, TRUE,
+	if (sheet_cell_foreach_range (sheet, TRUE,
 				       start_col, start_row, end_col, end_row,
-				       assemble_clear_cell_list, &cb) == NULL) {
+				       assemble_clear_cell_list, &cb) == NULL){
 		cb.l = g_list_reverse (cb.l);
 		cell_freeze_redraws();
 		for (l = cb.l; l; l = l->next){

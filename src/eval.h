@@ -31,7 +31,7 @@ void    cell_drop_dependencies   (Cell *cell);
  * Returns a newly allocated list with Cells inside that
  * depend on the value at Sheet, col, row
  */
-GList   *cell_get_dependencies   (Sheet *sheet, int col, int row);
+GList   *cell_get_dependencies   (Cell *cell);
 
 /*
  * Returns a newly allocated list with Cells inside that

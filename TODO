@@ -84,6 +84,9 @@ Gnumeric Spread Sheet task list
 
 * Sheet
 
+   Should be possible to bind a name by typing the name on the
+   region box and applying it to the selection
+
 ** Column sizes
 
    Columns should be smaller by default, and have an

@@ -974,7 +974,7 @@ static GnomeUIInfo workbook_menu_insert [] = {
 
 	{ GNOME_APP_UI_ITEM, N_("_Add/modify comment..."),
 	  N_("Edit the selected cell's comment"), workbook_edit_comment },
-	{ GNOME_APP_UI_SUBTREE, N_("_Special"), NULL, workbook_menu_insert_special },
+	{ GNOME_APP_UI_SUBTREE, N_("S_pecial"), NULL, workbook_menu_insert_special },
 
 	GNOMEUIINFO_END
 };

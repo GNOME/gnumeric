@@ -409,6 +409,9 @@ search_cell_deps (gpointer key, gpointer value, gpointer closure)
 	get_cell_dep_closure_t *c = closure;
 	GList *l;
 
+	if (deprange->sheet != c->sheet)
+		return;
+	
 	/* No intersection is the common case */
 	if (!range_contains (range, c->col, c->row))
 		return;
@@ -421,26 +424,28 @@ search_cell_deps (gpointer key, gpointer value, gpointer closure)
 }
 
 GList *
-cell_get_dependencies (Sheet *sheet, int col, int row)
+cell_get_dependencies (Cell *cell)
 {
 	get_cell_dep_closure_t closure;
+	GList *l;
+	
+	if (!cell->sheet->dependency_hash)
+		dependency_hash_init (cell->sheet);
 
-	g_return_val_if_fail (sheet != NULL, NULL);
-
-	if (!sheet->dependency_hash)
-		dependency_hash_init (sheet);
-
-	closure.col = col;
-	closure.row = row;
-	closure.sheet = sheet;
+	closure.col = cell->col->pos;
+	closure.row = cell->row->pos;
+	closure.sheet = cell->sheet;
 	closure.list = NULL;
 
-#if 0
-	printf ("Checking deps for %s:%s%d\n",
-		sheet->name, col_name(col), row+1);
-#endif
-	g_hash_table_foreach (sheet->dependency_hash,
-			      &search_cell_deps, &closure);
+	for (l = workbook_sheets (cell->sheet->workbook); l; l = l->next){
+		Sheet *sheet = l->data;
+
+		if (!sheet->dependency_hash)
+			continue;
+		
+		g_hash_table_foreach (sheet->dependency_hash,
+				      &search_cell_deps, &closure);
+	}
 
 	return closure.list;
 }
@@ -575,13 +580,12 @@ workbook_recalc (Workbook *wb)
 
 		cell->generation = generation;
 		cell_eval (cell);
-		deps = cell_get_dependencies (cell->sheet,
-					      cell->col->pos, cell->row->pos);
+		deps = cell_get_dependencies (cell);
 
 #ifdef DEBUG_EVALUATION
 		printf ("\nDepends for %s:%s :\n",
 			cell->sheet->name,
-			cell_name(cell->col->pos, cell->row->pos));
+			cell_name (cell->col->pos, cell->row->pos));
 #endif
 
 		for (l = deps; l; l = l->next){

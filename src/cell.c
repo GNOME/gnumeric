@@ -690,9 +690,7 @@ cell_content_changed (Cell *cell)
 	g_return_if_fail (cell != NULL);
 
 	/* Queue all of the dependencies for this cell */
-	deps = cell_get_dependencies (cell->sheet,
-				      cell->col->pos,
-				      cell->row->pos);
+	deps = cell_get_dependencies (cell);
 	if (deps)
 		cell_queue_recalc_list (deps, TRUE);
 }

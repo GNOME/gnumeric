@@ -5,7 +5,6 @@
  *   Daniel Veillard <Daniel.Veillard@w3.org>
  *   Miguel de Icaza <miguel@gnu.org>
  *
- * $Id$
  */
 
 #include <config.h>
@@ -1306,11 +1305,11 @@ xml_write_colrow_info (Sheet *sheet, ColRowInfo *info, void *user_data)
  * Create a ColRowInfo equivalent to the XML subtree of doc.
  */
 static ColRowInfo *
-xml_read_colrow_info (parse_xml_context_t *ctxt, xmlNodePtr tree, ColRowInfo *ret)
+xml_read_colrow_info (parse_xml_context_t *ctxt, xmlNodePtr tree, ColRowInfo *ret, double *units)
 {
 	int col = 0;
 	int val;
-
+	
 	if (!strcmp (tree->name, "ColInfo")){
 		col = 1;
 	} else if (!strcmp (tree->name, "RowInfo")){
@@ -1330,8 +1329,9 @@ xml_read_colrow_info (parse_xml_context_t *ctxt, xmlNodePtr tree, ColRowInfo *re
 	if (ret == NULL)
 		return NULL;
 
+	ret->units = -1;
 	xml_get_value_int (tree, "No", &ret->pos);
-	xml_get_value_double (tree, "Unit", &ret->units);
+	xml_get_value_double (tree, "Unit", units);
 	xml_get_value_double (tree, "MarginA", &ret->margin_a_pt);
 	xml_get_value_double (tree, "MarginB", &ret->margin_b_pt);
 	if (xml_get_value_int (tree, "HardSize", &val))
@@ -1814,9 +1814,13 @@ xml_read_cols_info (parse_xml_context_t *ctxt, Sheet *sheet, xmlNodePtr tree)
 		return;
 	
 	for (cols = child->childs; cols; cols = cols->next){
-		info = xml_read_colrow_info (ctxt, cols, NULL);
-		if (info != NULL)
-			sheet_col_add (sheet, info);
+		double units;
+		
+		info = xml_read_colrow_info (ctxt, cols, NULL, &units);
+		if (!info)
+			continue;
+		sheet_col_add (sheet, info);
+		sheet_col_set_width_units (ctxt->sheet, info->pos, units);
 	}
 }
 
@@ -1831,9 +1835,13 @@ xml_read_rows_info (parse_xml_context_t *ctxt, Sheet *sheet, xmlNodePtr tree)
 		return;
 	
 	for (rows = child->childs; rows; rows = rows->next){
-		info = xml_read_colrow_info (ctxt, rows, NULL);
-		if (info != NULL)
-			sheet_row_add (sheet, info);
+		double units;
+		
+		info = xml_read_colrow_info (ctxt, rows, NULL, &units);
+		if (!info)
+			continue;
+		sheet_row_add (sheet, info);
+		sheet_row_set_height_units (ctxt->sheet, info->pos, units, info->hard_size);
 	}
 }
 
