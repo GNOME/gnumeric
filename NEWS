@@ -16,6 +16,7 @@ Andreas:
 	* Update consolidate dialog
 	* Permit to ignore any columns during text import
 	* Add column header menu to format page of text import
+	* Fix locale specific parsing on paste
 
 Ben Liblit:
 	* Another attempt at configure time path generation.

@@ -1,3 +1,10 @@
+2003-07-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-stf.c: change dialogresult->formats to
+	  dialogresult->parseoptions->formats throughout
+	(stf_dialog_result_free): don't free formats
+	* dialog-stf.h: remove formats from DialogStfResult_t
+
 2003-07-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-stf-format-page.c (format_page_update_preview): preserve

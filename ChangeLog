@@ -1,3 +1,14 @@
+2003-07-05  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/gui-clipboard.c: change dialogresult->formats to
+	  dialogresult->parseoptions->formats thoughout
+	* src/stf-parse.c (stf_parse_options_new): initialize formats
+	(stf_parse_options_free (stf_parse_region): rewrite 
+	* src/stf-parse.h: add formats list to parseoptions
+	* src/stf.c (stf_store_results): split into stf_store_results
+	  and stf_apply_formats
+	(stf_apply_formats): new
+
 2003-07-05  Morten Welinder  <terra@gnome.org>
 
 	* src/position.c (cellref_hash): Use hash space much better.

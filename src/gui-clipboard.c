@@ -131,9 +131,10 @@ text_to_cell_region (WorkbookControlGUI *wbcg,
 			}
 
 			targetcol = 0;
-			for (col = 0; col < dialogresult->formats->len; col++) {
+			for (col = 0; col < dialogresult->parseoptions->formats->len; col++) {
 				if (dialogresult->parseoptions->col_import_array[col]) {
-					StyleFormat *sf = g_ptr_array_index (dialogresult->formats, col);
+					StyleFormat *sf = g_ptr_array_index 
+						(dialogresult->parseoptions->formats, col);
 					StyleRegion *sr = g_new (StyleRegion, 1);
 
 					sr->range.start.col = targetcol;

@@ -401,7 +401,7 @@ stf_dialog (WorkbookControlGUI *wbcg,
 		dialogresult->parseoptions->locale = pagedata.locale;
 		pagedata.locale = NULL;
 
-		dialogresult->formats = pagedata.format.formats;
+		dialogresult->parseoptions->formats = pagedata.format.formats;
 		pagedata.format.formats = NULL;
 		dialogresult->parseoptions->col_import_array 
 			=  pagedata.format.col_import_array;
@@ -438,19 +438,9 @@ stf_dialog (WorkbookControlGUI *wbcg,
 void
 stf_dialog_result_free (DialogStfResult_t *dialogresult)
 {
-	unsigned int ui;
-	GPtrArray *formats;
-
 	g_return_if_fail (dialogresult != NULL);
 
 	stf_parse_options_free (dialogresult->parseoptions);
-
-	formats = dialogresult->formats;
-	for (ui = 0; ui < formats->len; ui++) {
-		StyleFormat *sf = g_ptr_array_index (formats, ui);
-		style_format_unref (sf);
-	}
-	g_ptr_array_free (formats, TRUE);
 
 	g_free (dialogresult->text);
 	g_free (dialogresult->encoding);

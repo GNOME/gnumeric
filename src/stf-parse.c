@@ -40,6 +40,7 @@
 #include "gutils.h"
 #include "parse-util.h"
 #include "format.h"
+#include "datetime.h"
 
 #include <stdlib.h>
 #include <locale.h>
@@ -162,6 +163,7 @@ stf_parse_options_new (void)
 	parseoptions->sep.chr = NULL;
 
 	parseoptions->col_import_array = NULL;
+	parseoptions->formats = NULL;
 
 	return parseoptions;
 }
@@ -194,6 +196,18 @@ stf_parse_options_free (StfParseOptions_t *parseoptions)
 	g_array_free (parseoptions->splitpositions, TRUE);
 
 	stf_parse_options_clear_line_terminator (parseoptions);
+
+	if (parseoptions->formats) {
+		unsigned int ui;
+		GPtrArray *formats = parseoptions->formats;
+
+		for (ui = 0; ui < formats->len; ui++) {
+			StyleFormat *sf = g_ptr_array_index (formats, ui);
+			style_format_unref (sf);
+		}
+		g_ptr_array_free (formats, TRUE);
+		parseoptions->formats = NULL;
+	}
 
 	g_free (parseoptions);
 }
@@ -1163,6 +1177,8 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 	for (row = 0; row < lines->len; row++) {
 		GPtrArray *line = g_ptr_array_index (lines, row);
 		unsigned int col, targetcol = 0;
+#warning FIXME: We should not just assume the 1900 convention 
+		GnmDateConventions date_conv = {FALSE};
 
 		for (col = 0; col < line->len; col++) {
 			if (parseoptions->col_import_array[col]) {
@@ -1170,34 +1186,25 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 
 				if (text) {
 					CellCopy *ccopy;
+					Value *v;
+					StyleFormat *fmt = g_ptr_array_index 
+						(parseoptions->formats, col);
 
-#warning FIXME
-					/************************
-					 * AAARRRGGGGG
-					 * This is bogus
-					 * none of this should be at this level.
-					 * we need the user selected formats
-					 * which are currently stuck down in the render info ??
-					 * All we really need at this level is the set of values.
-					 * See stf_parse_sheet
-					 **/
-
-					if (text[0] == '\'' || gnm_expr_char_start_p (text)) {
-						char *tmp = g_strconcat ("\'", text, NULL);
-						g_free (text);
-						text = tmp;
+					v = format_match (text, fmt, &date_conv);
+					if (v == NULL) {
+						v = value_new_string_nocopy (text);
+						g_ptr_array_index (line, col) = NULL;
 					}
 
 					ccopy = g_new (CellCopy, 1);
-					ccopy->type = CELL_COPY_TYPE_TEXT;
+					ccopy->type = CELL_COPY_TYPE_CELL;
 					ccopy->col_offset = targetcol;
 					ccopy->row_offset = row;
-					ccopy->u.text = text; /* No need to free this here */
+					ccopy->u.cell = cell_new ();
+					cell_set_value(ccopy->u.cell, v);
 					ccopy->comment = NULL;
 
 					content = g_list_prepend (content, ccopy);
-
-					g_ptr_array_index (line, col) = NULL;
 
 					if (targetcol > colhigh)
 						colhigh = targetcol;

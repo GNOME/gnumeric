@@ -124,7 +124,6 @@ typedef struct {
 	char              *text;          /* Decoded text.  */
 	int                rowcount;      /* Number of resulting rows.  */
 	StfParseOptions_t *parseoptions;  /* parse options */
-	GPtrArray         *formats;       /* Contains StyleFormat *s */
 } DialogStfResult_t;
 
 /* This is the main function which handles all the dialog import stuff */
