@@ -38,12 +38,16 @@ write_stream_to_storage (xmlNodePtr           cur,
 	Bonobo_Stream stream;
 	char *name = NULL;
 	gboolean loop;
+	int flags;
 	
+	flags = Bonobo_Storage_CREATE |	Bonobo_Storage_WRITE |
+		Bonobo_Storage_FAILIFEXIST;
+
 	do {
 		loop = FALSE;
 		g_free (name);
 		name = g_strdup_printf ("stream %d", idx++);
-		stream = Bonobo_Storage_create_stream (storage, name, ev);
+		stream = Bonobo_Storage_open_stream (storage, name, flags, ev);
 		if (ev->_major == CORBA_USER_EXCEPTION &&
 		    strcmp (ev->_repo_id, ex_Bonobo_Storage_NameExists)) {
 			CORBA_exception_free (ev);
@@ -51,7 +55,7 @@ write_stream_to_storage (xmlNodePtr           cur,
 		}
 	} while (loop);
 	
-	if (ev->_major != CORBA_NO_EXCEPTION) {
+	if (BONOBO_EX (ev)) {
 		g_free (name);
 		return;
 	}
@@ -98,8 +102,7 @@ gnumeric_bonobo_obj_write (xmlNodePtr   cur,
 		bonobo_object_corba_objref (BONOBO_OBJECT (sob->object_server)),
 		"IDL:Bonobo/PersistStream:1.0", &ev);
 
-	if (ev._major == CORBA_NO_EXCEPTION &&
-	    ps != CORBA_OBJECT_NIL) {
+	if (!BONOBO_EX (&ev) && ps != CORBA_OBJECT_NIL) {
 		write_stream_to_storage (cur, ps, storage, &ev);
 
 		Bonobo_Unknown_unref ((Bonobo_Unknown) ps, &ev);
@@ -109,7 +112,7 @@ gnumeric_bonobo_obj_write (xmlNodePtr   cur,
 		ret = FALSE;
 	}
 
-	if (ret && ev._major != CORBA_NO_EXCEPTION)
+	if (ret && BONOBO_EX (&ev))
 		ret = FALSE;
 
 	CORBA_exception_free (&ev);
@@ -138,8 +141,7 @@ read_stream_from_storage (Bonobo_Unknown       object,
 
 	ps = Bonobo_Unknown_query_interface (object, "IDL:Bonobo/PersistStream:1.0", ev);
 
-	if (ev->_major != CORBA_NO_EXCEPTION ||
-	    ps == CORBA_OBJECT_NIL) {
+	if (BONOBO_EX (ev) || ps == CORBA_OBJECT_NIL) {
 		g_warning ("Wierd, component used to have a PersistStream interface");
 		return;
 	}
@@ -240,7 +242,8 @@ gnumeric_bonobo_write_workbook (CommandContext *context, Workbook *wb,
 	flags = Bonobo_Storage_CREATE | Bonobo_Storage_READ |
 		Bonobo_Storage_WRITE | Bonobo_Storage_FAILIFEXIST;
 
-	storage = bonobo_storage_open ("vfs", filename, flags, 0);
+	storage = bonobo_storage_open (BONOBO_IO_DRIVER_EFS,
+				       filename, flags, 0);
 
 	if (!storage) {
 		char *msg = g_strdup_printf ("Can't open '%s'", filename);
@@ -272,20 +275,29 @@ gnumeric_bonobo_write_workbook (CommandContext *context, Workbook *wb,
 	if (mem) {
 		CORBA_Environment ev;
 		Bonobo_Stream stream;
+		int flags;
+		
+		flags = Bonobo_Storage_CREATE |	Bonobo_Storage_WRITE |
+			Bonobo_Storage_FAILIFEXIST;
 
 		CORBA_exception_init (&ev);
 	
-		stream = Bonobo_Storage_create_stream (
-			bonobo_object_corba_objref (BONOBO_OBJECT (storage)), "Workbook", &ev);
+		stream = Bonobo_Storage_open_stream (
+			bonobo_object_corba_objref (BONOBO_OBJECT (storage)),
+			"Workbook", flags, &ev);
 		if (ev._major == CORBA_USER_EXCEPTION &&
 		    strcmp (ev._repo_id, ex_Bonobo_Storage_NameExists)) {
 			g_warning ("Workbook stream already exists");
 			ret = -1;
 		} else {
-			bonobo_stream_client_write (stream, mem, size, &ev);
-
-			if (ev._major != CORBA_NO_EXCEPTION) {
-				gnumeric_error_save (context, "Error storking workbook stream");
+			if (!BONOBO_EX (&ev))
+				bonobo_stream_client_write (stream, mem,
+							    size, &ev);
+		
+			if (BONOBO_EX (&ev)) {
+				gnumeric_error_save (
+					context,
+					"Error storing workbook stream");
 				ret = -1;
 			}
 		}
@@ -415,7 +427,8 @@ gnumeric_bonobo_read_workbook (CommandContext *context, Workbook *wb,
 
 	g_return_val_if_fail (filename != NULL, -1);
 
-	storage = bonobo_storage_open ("vfs", filename, Bonobo_Storage_READ, 0);
+	storage = bonobo_storage_open (BONOBO_IO_DRIVER_EFS,
+				       filename, Bonobo_Storage_READ, 0);
 	if (!storage) {
 		char *msg = g_strdup_printf ("Can't open '%s'", filename);
 		gnumeric_error_save (context, msg);
@@ -428,8 +441,7 @@ gnumeric_bonobo_read_workbook (CommandContext *context, Workbook *wb,
 		bonobo_object_corba_objref (BONOBO_OBJECT (storage)),
 		"Workbook", Bonobo_Storage_READ, &ev);
 
-	if (ev._major != CORBA_NO_EXCEPTION ||
-	    stream == CORBA_OBJECT_NIL) {
+	if (BONOBO_EX (&ev) || stream == CORBA_OBJECT_NIL) {
 		gnumeric_error_save (context, "Error opening workbook stream");
 		goto storage_err;
 	}

@@ -1,3 +1,15 @@
+2000-10-28  Jon K Hellan  <hellan@acm.org>
+
+	* configure.in: Require Bonobo >= 0.26.
+
+	* src/bonobo-io.c (write_stream_to_storage,
+	gnumeric_bonobo_write_workbook): Switch from
+	Bonobo_Storage_create_stream (which no longer exists) to
+	Bonobo_Storage_open_stream
+	(gnumeric_bonobo_obj_write, read_stream_from_storage,
+	gnumeric_bonobo_write_workbook, gnumeric_bonobo_read_workbook):
+	Use BONOBO_EX macro for clarity.
+
 2000-10-26  Michael Meeks  <michael@helixcode.com>
 
 	* configure.in: Depend on gb-0.0.14 (CVS)
