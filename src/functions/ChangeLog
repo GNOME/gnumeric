@@ -1,3 +1,8 @@
+2001-10-21  Jody Goldberg <jgoldberg@home.com>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=62762
+	* fn-math.c (gnumeric_log) : base > 0 && base != 1 are defined.
+
 2001-10-18  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.72

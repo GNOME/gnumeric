@@ -988,6 +988,7 @@ static char *help_log = {
 	   "@DESCRIPTION="
 	   "LOG computes the logarithm of @x in the given base @base.  "
 	   "If no @base is given LOG returns the logarithm in base 10. "
+	   "@base must be > 0. and can not equal 1. "
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -1008,7 +1009,7 @@ gnumeric_log (FunctionEvalInfo *ei, Value **argv)
 	        base = 10;
 	else {
 	        base = value_get_as_float (argv[1]);
-		if (base <= 1)
+		if (base == 1. || base <= 0.)
 			return value_new_error (ei->pos, gnumeric_err_NUM);
 	}
 
