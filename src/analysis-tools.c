@@ -234,8 +234,6 @@ free_data_set(data_set_t *data)
  * The results are given in a table which can be printed out in a new
  * sheet, in a new workbook, or simply into an existing sheet.
  *
- * TODO: a new workbook output and output to an existing sheet
- *
  **/
 
 
@@ -364,8 +362,6 @@ correlation_tool (Workbook *wb, Sheet *current_sheet,
  * results are given in a table which can be printed out in a new
  * sheet, in a new workbook, or simply into an existing sheet.
  *
- * TODO: a new workbook output and output to an existing sheet
- *
  **/
 
 
@@ -489,8 +485,6 @@ covariance_tool (Workbook *wb, Sheet *current_sheet,
  * skewness, kurtosis, and standard error about the given variables.
  * The results are given in a table which can be printed out in a new
  * sheet, in a new workbook, or simply into an existing sheet.
- *
- * TODO: a new workbook output and output to an existing sheet
  *
  **/
 
@@ -820,8 +814,6 @@ descriptive_stat_tool (Workbook *wb, Sheet *current_sheet,
  * out in a new sheet, in a new workbook, or simply into an existing
  * sheet.
  *
- * TODO: a new workbook output and output to an existing sheet
- *
  **/
 
 
@@ -939,8 +931,6 @@ int sampling_tool (Workbook *wb, Sheet *sheet, Range *input_range,
  * The results are given in a table which can be printed out in a new
  * sheet, in a new workbook, or simply into an existing sheet.
  *
- * TODO: a new workbook output and output to an existing sheet
- *
  **/
 
 
@@ -1041,8 +1031,6 @@ int ztest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
  * and the same test assuming unequal variance.  The results are given
  * in a table which can be printed out in a new sheet, in a new
  * workbook, or simply into an existing sheet.
- *
- * TODO: a new workbook output and output to an existing sheet
  *
  **/
 
@@ -1399,8 +1387,6 @@ ttest_neq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
  * The results are given in a table which can be printed out in a new
  * sheet, in a new workbook, or simply into an existing sheet.
  *
- * TODO: a new workbook output and output to an existing sheet
- *
  **/
 
 
@@ -1497,8 +1483,6 @@ ftest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
  *
  * The results are given in a table which can be printed out in a new
  * sheet, in a new workbook, or simply into an existing sheet.
- *
- * TODO: a new workbook output and output to an existing sheet
  *
  **/
 
@@ -1617,6 +1601,121 @@ int random_tool (Workbook *wb, Sheet *sheet, int vars, int count,
 	        printf("Not implemented yet.\n");
 		break;
 	}
+
+	return 0;
+}
+
+
+
+/************* Regression Tool *********************************************
+ *
+ * The results are given in a table which can be printed out in a new
+ * sheet, in a new workbook, or simply into an existing sheet.
+ *
+ **/
+
+int regression_tool (Workbook *wb, Sheet *sheet, Range *input_range1, 
+		     Range *input_range2, float_t alpha,
+		     data_analysis_output_t *dao)
+{
+        data_set_t set_one, set_two;
+	float_t    mean1, mean2;
+	float_t    r, ss_xy, ss_xx, ss_yy;
+	char       buf[256];
+	GSList     *current_one, *current_two;
+
+	get_data(sheet, input_range1, &set_one);
+	get_data(sheet, input_range2, &set_two);
+
+	if (set_one.n != set_two.n) {
+	        free_data_set(&set_one);
+		free_data_set(&set_two);
+
+		return 1;
+	}
+
+	if (dao->type == NewSheetOutput) {
+	        dao->sheet = sheet_new(wb, "Regression");
+		dao->start_col = dao->start_row = 0;
+		workbook_attach_sheet(wb, dao->sheet);
+	}
+	  
+        set_cell (dao, 0, 0, "SUMMARY OUTPUT");
+
+	set_cell (dao, 0, 2, "Regression Statistics");
+        set_cell (dao, 0, 3, "Multiple R");
+        set_cell (dao, 0, 4, "R Square");
+        set_cell (dao, 0, 5, "Adjusted R Square");
+        set_cell (dao, 0, 6, "Standard Error");
+        set_cell (dao, 0, 7, "Observations");
+
+        set_cell (dao, 0, 9, "ANOVA");
+        set_cell (dao, 0, 11, "Regression");
+        set_cell (dao, 0, 12, "Residual");
+        set_cell (dao, 0, 13, "Total");
+
+        set_cell (dao, 0, 16, "Intercept");
+        set_cell (dao, 0, 17, "X Variable 1");
+
+        set_cell (dao, 1, 10, "df");
+        set_cell (dao, 2, 10, "SS");
+        set_cell (dao, 3, 10, "MS");
+        set_cell (dao, 4, 10, "F");
+        set_cell (dao, 5, 10, "Significance F");
+
+        set_cell (dao, 1, 15, "Coefficients");
+        set_cell (dao, 2, 15, "Standard Error");
+        set_cell (dao, 3, 15, "t Stat");
+        set_cell (dao, 4, 15, "P-value");
+        set_cell (dao, 5, 15, "Lower 95%");
+        set_cell (dao, 6, 15, "Upper 95%");
+
+
+	mean1 = set_one.sum / set_one.n;
+	mean2 = set_two.sum / set_two.n;
+
+	current_one = set_one.array;
+	current_two = set_two.array;
+	ss_xy = ss_xx = ss_yy = 0;
+
+	while (current_one != NULL && current_two != NULL) {
+	        float_t x, y;
+
+		x = *((float_t *) current_one->data);
+		y = *((float_t *) current_two->data);
+	        ss_xy += (x - mean1) * (y - mean2);
+		ss_xx += (x - mean1) * (x - mean1);
+		ss_yy += (y - mean2) * (y - mean2);
+	        current_one = current_one->next;
+	        current_two = current_two->next;
+	}
+
+	r = ss_xy/sqrt(ss_xx*ss_yy);
+
+	/* Multiple R */
+	sprintf(buf, "%f", r);
+	set_cell(dao, 1, 3, buf);
+
+	/* R Square */
+	sprintf(buf, "%f", r*r);
+	set_cell(dao, 1, 4, buf);
+
+	/* Observations */
+	sprintf(buf, "%d", set_one.n);
+	set_cell(dao, 1, 7, buf);
+
+	/* Total / df */
+	sprintf(buf, "%d", set_one.n-1);
+	set_cell(dao, 1, 13, buf);
+
+	/* Total / SS */
+	sprintf(buf, "%f", ss_xx);
+	set_cell(dao, 2, 13, buf);
+
+	/* TODO: Fill in the rest of the outputs */
+
+        free_data_set(&set_one);
+        free_data_set(&set_two);
 
 	return 0;
 }

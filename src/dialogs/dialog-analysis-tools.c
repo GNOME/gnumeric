@@ -25,6 +25,7 @@ static void dialog_ttest_eq_tool(Workbook *wb, Sheet *sheet);
 static void dialog_ttest_neq_tool(Workbook *wb, Sheet *sheet);
 static void dialog_ftest_tool(Workbook *wb, Sheet *sheet);
 static void dialog_random_tool(Workbook *wb, Sheet *sheet);
+static void dialog_regression_tool(Workbook *wb, Sheet *sheet);
 
 
 static descriptive_stat_tool_t ds;
@@ -55,7 +56,7 @@ typedef struct {
 typedef struct {
         GtkWidget *dialog;
         GtkWidget *frame;
-        GtkWidget *discrete_box, *uniform_box, *normal_box;
+        GtkWidget *discrete_box, *uniform_box, *normal_box, *poisson_box;
         GtkWidget *combo;
 } random_tool_callback_t;
 
@@ -72,6 +73,8 @@ tool_list_t tools[] = {
 	  dialog_ftest_tool },
         { { "Random Number Generation", NULL },
 	  dialog_random_tool },
+        { { "Regression", NULL },
+	  dialog_regression_tool },
         { { "Sampling", NULL },
 	  dialog_sampling_tool },
         { { "t-Test: Paired Two Sample for Means", NULL }, 
@@ -514,7 +517,6 @@ dialog_sampling_tool(Workbook *wb, Sheet *sheet)
         static GtkWidget *dialog, *box, *sampling_box, *sampling_label;
 	static GtkWidget *range_entry, *output_range_entry, *sampling_entry[2];
 	static GSList    *sampling_ops, *output_ops;
-	static int       labels = 0;
 
 	data_analysis_output_t  dao;
 
@@ -522,8 +524,6 @@ dialog_sampling_tool(Workbook *wb, Sheet *sheet)
 	int   selection, output;
 	static Range range;
 	int   i=0, size;
-
-	label_row_flag = labels;
 
 	if (!dialog) {
 	        dialog = new_dialog("Sampling", wb->toplevel);
@@ -571,8 +571,6 @@ dialog_sampling_tool(Workbook *wb, Sheet *sheet)
 		}
 		gtk_box_pack_start_defaults(GTK_BOX (box), sampling_box);
 
-		add_check_buttons(box, first_row_label_button);
-
 		box = gtk_vbox_new (FALSE, 0);
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
 						      (dialog)->vbox), box);
@@ -612,10 +610,6 @@ sampling_dialog_loop:
 
 	text = gtk_entry_get_text (GTK_ENTRY (sampling_entry[i]));
 	size = atoi(text);
-
-	labels = label_row_flag;
-	if (labels)
-	        range.start_row++;
 
 	if (sampling_tool (wb, sheet, &range, !i, size, &dao))
 	        goto sampling_dialog_loop;
@@ -1327,6 +1321,7 @@ dialog_random_tool(Workbook *wb, Sheet *sheet)
 	static GtkWidget *discrete_range_entry;
 	static GtkWidget *uniform_upper_entry, *uniform_lower_entry;
 	static GtkWidget *normal_mean_entry, *normal_stdev_entry;
+	static GtkWidget *poisson_lambda_entry;
 
 	static GSList    *group_ops, *output_ops;
 	static GList     *distribution_type_strs;
@@ -1386,17 +1381,21 @@ dialog_random_tool(Workbook *wb, Sheet *sheet)
 
 		callback_data.uniform_box = gtk_vbox_new (FALSE, 0);
 		uniform_lower_entry = 
-		  pack_label_and_entry("Between:", "", 20,
+		  pack_label_and_entry("Between:", "0", 20,
 				       callback_data.uniform_box);
 		uniform_upper_entry = 
-		  pack_label_and_entry("And:", "", 20, 
+		  pack_label_and_entry("And:", "1", 20, 
 				       callback_data.uniform_box);
 
 		callback_data.normal_box = gtk_vbox_new (FALSE, 0);
 		normal_mean_entry = pack_label_and_entry
-		  ("Mean = ", "", 20, callback_data.normal_box);
+		  ("Mean = ", "0", 20, callback_data.normal_box);
 		normal_stdev_entry = pack_label_and_entry
-		  ("Standard Deviation = ", "", 20, callback_data.normal_box);
+		  ("Standard Deviation = ", "1", 20, callback_data.normal_box);
+
+		callback_data.poisson_box = gtk_vbox_new (FALSE, 0);
+		poisson_lambda_entry = pack_label_and_entry
+		  ("Lambda", "0", 20, callback_data.poisson_box);
 
 		box = gtk_vbox_new (FALSE, 0);
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
@@ -1493,6 +1492,105 @@ random_dialog_loop:
  	gnome_dialog_close (GNOME_DIALOG (dialog));
 }
 
+static void
+dialog_regression_tool(Workbook *wb, Sheet *sheet)
+{
+        static GtkWidget *dialog, *box, *vbox;
+	static GtkWidget *range1_entry, *range2_entry, *output_range_entry;
+	static GtkWidget *alpha_entry;
+	static GSList    *output_ops;
+	static int       labels = 0;
+
+	data_analysis_output_t  dao;
+	float_t alpha;
+
+	char  *text;
+	int   selection, output;
+	static Range range_input1, range_input2;
+
+	if (!dialog) {
+	        dialog = new_dialog("Regression", wb->toplevel);
+
+		box = gtk_vbox_new (FALSE, 0);
+		vbox = new_frame("Input:", box);
+
+		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
+						      (dialog)->vbox), box);
+
+		range1_entry = hbox_pack_label_and_entry
+		  ("Input Y Range:", "", 20, vbox);
+
+		range2_entry = hbox_pack_label_and_entry
+		  ("Input X Range:", "", 20, vbox);
+
+		alpha_entry = hbox_pack_label_and_entry("Confidence Level:",
+							"0.95", 20, vbox);
+
+		add_check_buttons(vbox, first_row_label_button);
+
+		box = gtk_vbox_new (FALSE, 0);
+		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
+						      (dialog)->vbox), box);
+
+		output_range_entry = add_output_frame(box, &output_ops);
+
+		gtk_widget_show_all (dialog);
+	} else
+		gtk_widget_show_all (dialog);
+
+        gtk_widget_grab_focus (range1_entry);
+
+dialog_loop:
+
+	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+	if (selection == 1) {
+	        gnome_dialog_close (GNOME_DIALOG (dialog));
+		return;
+	}
+
+	output = gtk_radio_group_get_selected (output_ops);
+
+	text = gtk_entry_get_text (GTK_ENTRY (range1_entry));
+	if (!parse_range (text, &range_input1.start_col,
+			  &range_input1.start_row,
+			  &range_input1.end_col,
+			  &range_input1.end_row)) {
+	        error_in_entry(wb, range1_entry, 
+			       "You should introduce a valid cell range "
+			       "in 'Variable 1:'");
+		goto dialog_loop;
+	}
+
+	text = gtk_entry_get_text (GTK_ENTRY (range2_entry));
+	if (!parse_range (text, &range_input2.start_col,
+			  &range_input2.start_row,
+			  &range_input2.end_col,
+			  &range_input2.end_row)) {
+	        error_in_entry(wb, range2_entry, 
+			       "You should introduce a valid cell range "
+			       "in 'Variable 2:'");
+		goto dialog_loop;
+	}
+
+	text = gtk_entry_get_text (GTK_ENTRY (alpha_entry));
+	alpha = atof(text);
+
+	if (parse_output(output, sheet, output_range_entry, wb, &dao))
+	        goto dialog_loop;
+
+	labels = label_row_flag;
+	if (labels) {
+	        range_input1.start_row++;
+	        range_input2.start_row++;
+	}
+
+	if (regression_tool (wb, sheet, &range_input1,
+			     &range_input2, alpha, &dao))
+	        goto dialog_loop;
+
+	workbook_focus_sheet(sheet);
+ 	gnome_dialog_close (GNOME_DIALOG (dialog));
+}
 
 static void
 selection_made(GtkWidget *clist, gint row, gint column,

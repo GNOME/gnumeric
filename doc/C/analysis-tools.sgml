@@ -1,0 +1,230 @@
+<sect1 id="analysis-tools">
+  <title>Data Analysis Tools</title>
+
+  <para>Data analysis tools package contains various tools for
+  statistical data analysis, random number generation and data
+  sampling.  To use these tools select the ``Data Analysis...'' entry
+  in the ``Tools'' menu.  This gives you a list of tools to choose
+  from.  Select one of the tools from the list and press the OK
+  button.  The tools are described bellow.</para>
+
+  <para>All the tools have the same output options.  The results can
+  be printed out into a new sheet or to the same sheet into a given
+  output range.  To select the output method just select one of the
+  radio buttons bellow the ``Output options:'' label.  Note that if
+  the output is printed into a range that is too small, some or all of
+  the results will not be printed.</para>
+
+
+  <sect2>
+     <title>Correlation Tool</title>
+
+     <para>The correlation tool calculates correlation coefficients of
+     given variables.  Use this tool to calculate any number of
+     correlation coefficients at the same time.  The variables for
+     which the correlations are calulated are specified by the ``Input
+     Range:'' entry.  The given range can be groupped either by
+     columns or by rows.</para>
+
+     <para>For example, you want to calculate the correlation between
+     two variables, one in a column A and the other in a column B.
+     Both variables have 10 values in rows between one and ten.  First
+     you should enter A1:B10 to the ``Input Range:'' entry.  Secondly,
+     select the ``Columns'' radio button next to the ``Groupped By:''
+     label.  Then specify the output options described above and press
+     the OK button.</para>
+
+     <para>If you have labels, for example the names of the variables,
+     in the first row of the given range, you should check the
+     ``Labels in First Row'' button on.  This leaves the first row of
+     the input range out of the analysis.  In addition, the names of
+     the variables are printed nicely into the output table.</para>
+
+     <para>The results are printed into a table where each column and
+     row is labeled according to the names of the variables.  If the
+     names are not given in the first row of the input range, the
+     column or row numbers are used instead.  The calculated
+     correlations are given in the table.  For example, the
+     correlation of the previous example, i.e, correlation between a
+     variable in a column A and B, can be read in the second column
+     and third row of the results table (bellow the column labeled
+     ``Column 1'' and in the row labeled ``Column 2'').</para>
+  </sect2>
+
+
+  <sect2>
+     <title>Covariance Tool</title>
+
+     <para>The covariance tool calculates covariance of given
+     variables.  Use this tool to calculate any number of covariances
+     at the same time.  The variables for which the covariances are
+     calulated are specified by the ``Input Range:'' entry.  The given
+     range can be groupped either by columns or by rows.</para>
+
+     <para>For example, you want to calculate the covarance of two
+     variables, one in a column A and the other in a column B.  Both
+     variables have 10 values in rows between one and ten.  First you
+     should enter A1:B10 to the ``Input Range:'' entry.  Secondly,
+     select the ``Columns'' radio button next to the ``Groupped By:''
+     label.  Then specify the output options described above and press
+     the OK button.</para>
+
+     <para>If you have labels, for example the names of the variables,
+     in the first row of the given range, you should check the
+     ``Labels in First Row'' button on.  This leaves the first row of
+     the input range out of the analysis.  In addition, the names of
+     the variables are printed nicely into the output table.</para>
+
+     <para>The results are printed into a table where each column and
+     row is labeled according to the names of the variables.  If the
+     names are not given in the first row of the input range, the
+     column or row numbers are used instead.  The calculated
+     covariances are given in the table.  For example, the covariance
+     of the previous example, i.e, covariance between a variable in a
+     column A and B, can be read in the second column and third row of
+     the results table (bellow the column labeled ``Column 1'' and in
+     the row labeled ``Column 2'').</para>
+  </sect2>
+
+
+  <sect2>
+     <title>Descriptive Statistics Tool</title>
+
+     <para>The descriptive statistics tool calculates some statistical
+     information of the given variables.  Use this tool to calculate
+     general statistical measures and confidence levels for mean for
+     any number variables at the same time.  The variables for which
+     the statistical analysis is made are specified by the ``Input
+     Range:'' entry.  The given range can be groupped either by
+     columns or by rows.</para>
+
+     <para>This tool can produce four different kinds of statistical
+     data.  The summary statistics is produced if the button
+     ``Summary Statistics'' is checked on.  This tool calculates the
+     mean, standard error, median, mode, standard deviation, sample
+     variance, kurtosis, skewness, range, minimum, maximum, sum, and
+     count for each given variable.</para>
+
+     <para>If ``Conficence Level for Mean'' button is checked on, the
+     tool calculates the confidence level for mean for each variable.
+     You should specify the percentage of the confidence in the entry
+     box.  The default value is to calculate the confidence level of
+     95%.</para>
+
+     <para>If ``Kth Largest:'' button is checked on, the tool finds
+     the kth largest value of each of the variables.  Specify the k in
+     the entry box next to the check button.</para>
+
+     <para>If ``Kth Smallest:'' button is checked on, the tool finds
+     the kth smallest value of each of the variables.  Specify the k in
+     the entry box next to the check button.</para>
+
+     <para>If you have labels, for example the names of the variables,
+     in the first row of the given range, you should check the
+     ``Labels in First Row'' button on.  This leaves the first row of
+     the input range out of the analysis.  In addition, the names of
+     the variables are printed nicely into the output table.</para>
+  </sect2>
+
+
+  <sect2>
+     <title>F-Test:Two-Sample for Variances Tool</title>
+
+     <para>Use the F-Test tool to analyze wheater the variances of two
+     variables are significantly different or not.  The values of the
+     first variable are specified in the ``Variable 1 Range:'' entry.
+     Correspondingly, the values of the second variable are given in
+     the ``Variable 2 Range:'' entry.  ``Alpha:'' entry specifies the
+     level of significance which is by default 95%.</para>
+
+     <para>If the output is printed into a range, it should contain at
+     least three columns and eight rows.</para>
+
+     <para>The results are given in a table.  The tool calculates and
+     prints the mean, variance, count of observations and the degree
+     of freedom for both variables.  It also calculates the F-value,
+     the one-tailed probability for the F-value, and the F Critical
+     value for one-tailed test.  The one-tailed probability for the
+     F-value (``P(F<=f) one-tail'' row) describes the risk of making a
+     Type I error of one-tailed test.</para>
+  </sect2>
+
+
+  <sect2>
+     <title>Random Number Generation Tool</title>
+
+     <para>Use the random number generation tool to generate random
+     numbers.  This tool can generate random numbers having different
+     probability distributions.</para>
+
+     <para>To use this tool, first specify the number of variables in
+     the ``Number of Variables:'' entry box.  This determines the
+     number of columns of random values to be produced.  Secondly,
+     specify the number of random numbers.  This determines the number
+     of rows of random values to be produced.  Thirdly specify the
+     random distribution by selecting one of the list items from the
+     random distribution list.  The following random distributions are
+     supported: discrete, normal, and uniform.  Then specify the
+     parameters of the distribution.</para>
+
+     <para>For discrete random distribution, specify the value and
+     probability input range in the ``Value and Probability Input
+     Range:'' entry box.  That is a table consisting of two columns
+     and any number of rows.  The first column specifies the discrete
+     random values and the second column the probabilities of them.
+     The discrete random values do not have to be numbers, for
+     example, strings will do as well.  The sum of the probabilities
+     in the second column should be one.  For example, if you have the
+     values A, B, C, and D in A1:A4 and values 0.1, 0.4, 0.2, and 0.3
+     in B1:B4, you could specify value and probability input range to
+     be A1:B4.</para>
+
+    <para>For normal random distribution, specify the mean and the
+    standard deviation.  The default values for them are 0 for mean
+    and 1 for standard deviation.</para>
+
+    <para>For uniform random distribution, specify the range of the
+    random variables by filling the ``Between:'' and ``And:'' entries.
+    The default values for them are 0 and 1 that gives random numbers
+    between zero and one.</para>
+  </sect2>
+
+
+  <sect2>
+     <title>Sampling Tool</title>
+
+     <para>Use the sampling tool to take a sample of a data set.  This
+     tool can take both a random sample of a given size or a periodic
+     sample where, for example, every fourth value of the data set is
+     taken to the sample.</para>
+
+     <para>To use this tool, first specify the data set by setting the
+     ``Input Range:'' entry.  Then select the sampling method which
+     can be either periodic or random.  Periodic sampling requires
+     that you specify the period by typing a number to the ``Period:''
+     entry.  For example, if you specify the period to be three then
+     you will get a sample that has every third value of the original
+     data set.  Random sampling requires that you specify the size of
+     the random sample in ``Number of Samples:'' entry.  The size
+     cannot be larger than the original data set since each value of
+     the original data set is taken at most once to the sample.</para>
+  </sect2>
+
+
+</sect1>
+
+  <!-- Keep this comment at the end of the file
+  Local variables:
+  mode: sgml
+  sgml-omittag:t
+  sgml-shorttag:t
+  sgml-minimize-attributes:nil
+  sgml-always-quote-attributes:t
+  sgml-indent-step:2
+  sgml-indent-data:t
+  sgml-parent-document:nil
+  sgml-exposed-tags:nil
+  sgml-local-catalogs:nil
+  sgml-local-ecat-files:nil
+  End:
+  -->             

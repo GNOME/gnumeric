@@ -21,6 +21,8 @@ Jukka:
 	- Implemented F-Test Tool
 	- Implemented Random Number Generation Tool with the following
 	  distributions: Discrete, Normal, and Uniform.
+	- Started implementation of Regression Tool
+	- Added some documentation about these tools
 	* Added the following functions:
 	- FORECAST() and INTERCEPT().
         * And fixed these functions:
