@@ -25,6 +25,7 @@ Andreas:
 	* Implement multirow merges in LaTeX exporter
 	* Remove default grid in LaTeX exporter
 	* Implement cell borders in LaTeX exporter
+	* Fix merged cell to merged cell copy (#65760 & #58691)
 
 Jody:
 	* Tricky corner cases for style applications.

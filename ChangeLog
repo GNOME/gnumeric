@@ -1,3 +1,9 @@
+2001-12-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/clipboard.c (clipboard_paste_region) : handle a 
+	  single merged target cell only as special if the 
+	  source is a single cell.  (#65760 & #58691)
+
 2001-12-04  Morten Welinder  <terra@diku.dk>
 
 	* plugins/*/Makefile.am: fixup xml file's dlname.
