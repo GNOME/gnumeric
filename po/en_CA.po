@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-02 15:16-0400\n"
-"PO-Revision-Date: 2004-08-02 11:36-0400\n"
+"POT-Creation-Date: 2004-08-09 13:14-0400\n"
+"PO-Revision-Date: 2004-08-09 11:36-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: English/Canada <adamw@FreeBSD.org>\n"
 "MIME-Version: 1.0\n"
@@ -1372,8 +1372,8 @@ msgid "MS Excel (tm) 97/2000/XP"
 msgstr "MS Excel (tm) 97/2000/XP"
 
 #: plugins/excel/plugin.xml.in.h:6
-msgid "MS Excel (tm) 97/2000/XP & 5.0/95"
-msgstr "MS Excel (tm) 97/2000/XP & 5.0/95"
+msgid "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
+msgstr "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
 
 #: plugins/excel/plugin.xml.in.h:7
 msgid "MS Excel (tm) XML"
@@ -17150,8 +17150,8 @@ msgid "HTML"
 msgstr "HTML"
 
 #: plugins/html/plugin.xml.in.h:2
-msgid "HTML & TeX"
-msgstr "HTML & TeX"
+msgid "HTML &amp; TeX"
+msgstr "HTML &amp; TeX"
 
 #: plugins/html/plugin.xml.in.h:3
 msgid "HTML (*.html) fragment"
