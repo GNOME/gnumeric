@@ -185,6 +185,48 @@ sog_gsf_gdk_pixbuf_save (const gchar *buf,
 	return ok;
 }
 
+static void
+sheet_object_graph_write_image (SheetObject const *so, const char *format,
+				GsfOutput *output, GError **err)
+{
+	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
+	gboolean res = FALSE;
+	double coords[4];
+	double w, h;
+	
+	if (so->sheet) {
+		sheet_object_position_pts_get (SHEET_OBJECT (sog), coords);
+		w = fabs (coords[2] - coords[0]) + 1.;
+		h = fabs (coords[3] - coords[1]) + 1.;
+	} else {
+		w = GPOINTER_TO_UINT 
+			(g_object_get_data (G_OBJECT (so), "pt-width-at-copy"));
+		h = GPOINTER_TO_UINT 
+			(g_object_get_data (G_OBJECT (so), "pt-height-at-copy"));
+	}
+
+	g_return_if_fail (w > 0 && h > 0);
+
+	if (strcmp (format, "svg") == 0) {
+		res = gog_graph_export_to_svg (sog->graph, output, w, h, 1.0);
+	} else {
+		GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (sog->renderer);
+		GdkPixbuf *pixbuf = gog_renderer_pixbuf_get (prend);
+
+		if (!pixbuf) {
+			gog_renderer_pixbuf_update (prend, w, h, 1.);
+			pixbuf = gog_renderer_pixbuf_get (prend);
+		}
+		res = gdk_pixbuf_save_to_callback (pixbuf,
+						   sog_gsf_gdk_pixbuf_save,
+						   output, format,
+						   err, NULL);
+	}
+	if (!res && err && *err == NULL)
+		*err = g_error_new (gsf_output_error_id (), 0,
+				    _("Unknown failure while saving image"));
+}
+
 /* 
  * The following are useful formats to save in:
  *  png
@@ -207,7 +249,6 @@ sog_cb_save_as (SheetObject *so, SheetControl *sc)
 	WorkbookControlGUI *wbcg;
 	char *uri;
 	GError *err = NULL;
-	gboolean ret = FALSE;
 	GsfOutput *output;
 	GSList *l = NULL;
 	GOImageType const *sel_fmt = &fmts[0];
@@ -229,29 +270,10 @@ sog_cb_save_as (SheetObject *so, SheetControl *sc)
 	output = go_file_create (uri, &err);
 	if (!output)
 		goto out;
-	if (strcmp (sel_fmt->name, "svg") == 0) {
-		double coords [4];
-		sheet_object_position_pts_get (SHEET_OBJECT (sog), coords);
-		ret = gog_graph_export_to_svg (sog->graph, output,
-					       fabs (coords[2] - coords[0]) + 1.,
-					       fabs (coords[3] - coords[1]) + 1.,
-					       1.);
-	} else {
-		GdkPixbuf *pixbuf = gog_renderer_pixbuf_get (
-			GOG_RENDERER_PIXBUF (sog->renderer));
-
-		ret = gdk_pixbuf_save_to_callback (pixbuf,
-						   sog_gsf_gdk_pixbuf_save,
-						   output, sel_fmt->name,
-						   &err, NULL);
-	}
-	gsf_output_close (output);
+	sheet_object_write_image (so, sel_fmt->name, output, &err);
 	g_object_unref (output);
 		
-	if (!ret && err == NULL)
-		err = g_error_new (gsf_output_error_id (), 0,
-				   _("Unknown failure while saving image"));
-	if (!ret)
+	if (err != NULL)
 		go_cmd_context_error (GO_CMD_CONTEXT (wbcg), err);
 
 out:
@@ -433,9 +455,16 @@ sheet_object_graph_init (GObject *obj)
 	so->anchor.direction = SO_DIR_DOWN_RIGHT;
 }
 
-GSF_CLASS (SheetObjectGraph, sheet_object_graph,
-	   sheet_object_graph_class_init, sheet_object_graph_init,
-	   SHEET_OBJECT_TYPE);
+static void
+sog_imageable_init (SheetObjectImageableIface *soi_iface)
+{
+	soi_iface->write_image	= sheet_object_graph_write_image;
+}
+
+GSF_CLASS_FULL (SheetObjectGraph, sheet_object_graph,
+		sheet_object_graph_class_init, sheet_object_graph_init,
+		SHEET_OBJECT_TYPE, 0,
+		GSF_INTERFACE (sog_imageable_init, SHEET_OBJECT_IMAGEABLE_TYPE));
 
 /**
  * sheet_object_graph_new :

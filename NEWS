@@ -27,6 +27,7 @@ Jon Kåre:
 	* Fix session management bug when gnumeric is minimized. [#166769]
 	* Receive drag/drop images.
 	* Paste images from clipboard.
+	* Copy images and graphs to clipboard.
 
 Kasal:
 	* Modified the way generated files are handled by Automake.

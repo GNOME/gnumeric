@@ -1,3 +1,14 @@
+2005-03-23  Jon K Hellan  <hellan@acm.org>
+
+	* src/sheet-object-graph.c (sheet_object_graph_write_image): 
+	New. Implements SheetObjectImageable. Extracted from
+	sog_cb_save_as. 
+	(sog_cb_save_as): Use sheet_object_write_image.
+	(sog_imageable_init): SheetObjectImageable gobject voodoo.
+
+	* src/application.c (gnm_app_clipboard_cut_copy_obj): Save sheet
+	object points dimensions as object data.
+
 2005-03-23  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-view.c (wb_view_sendto): Use g_mkdir, not mkdir.
