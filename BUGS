@@ -54,7 +54,6 @@ Long term breakage
   This would mirror the application of bold/italic/underline
 - Moreover, the above buttons ought to work.  Try "44", click $, then add
   and remove decimals.
-- The buttons need undo/redo support.
 - While we're playing with those functions, lets add simple ones like inc/dec
   font size and things like that.
 

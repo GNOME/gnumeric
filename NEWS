@@ -1,12 +1,20 @@
 Gnumeric 0.63
 
+Almer:
+	* menu state improvements.
+
 Jody:
 	* Fix parenthesis for XL export.
 	* Enable right/left indent.
+	* Sheet prefs IO and MVC support.
+	* MVC fixes.
 
 Morten:
 	* Column header drawing fix.
 	* [Linear] Regression fix.
+
+Jon Kåre:
+	* item-edit fix.
 
 Translations:
 	* Updated: de (Karl), ja (Yukihiro Nakai), and maybe more.
