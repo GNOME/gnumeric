@@ -6,7 +6,7 @@
 	</loader>
 	<services>
 		<service type="file_opener" id="oleo" priority="100" probe="FALSE">
-			<information description="GNU Oleo (*.oleo) file format"/>
+			<information description="GNU Oleo (*.oleo)"/>
 			<file_patterns>
 				<file_pattern type="shell_pattern" value="*.oleo"/>
 			</file_patterns>

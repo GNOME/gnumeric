@@ -6,7 +6,7 @@
 	</loader>
 	<services>
 		<service type="file_opener" id="excel" priority="100" probe="TRUE">
-			<information description="Microsoft(R) Excel file format"/>
+			<information description="Microsoft(R) Excel (*.xls)"/>
 			<file_patterns>
 				<file_pattern type="shell_pattern" value="*.xls"/>
 			</file_patterns>

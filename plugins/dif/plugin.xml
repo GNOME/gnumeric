@@ -7,7 +7,7 @@
 	<services>
 		<service type="file_opener" id="dif" priority="1" probe="FALSE"
 		         open="TRUE" import="TRUE">
-			<information description="Data Interchange Format (*.dif) file format"/>
+			<information description="Data Interchange Format (*.dif)"/>
 			<file_patterns>
 				<file_pattern type="shell_pattern" value="*.dif"/>
 			</file_patterns>

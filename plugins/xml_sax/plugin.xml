@@ -7,7 +7,7 @@
 	<services>
 		<service type="file_opener" id="xml_sax" priority="1" probe="FALSE"
 		         open="FALSE" import="TRUE">
-			<information description="EXPERIMENTAL Gnumeric (*.gnumeric) SAX based XML file format"/>
+			<information description="EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"/>
 			<save_info saver_id="" format_level="manual_remember"/>
 		</service>
 	</services>

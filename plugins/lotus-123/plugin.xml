@@ -6,7 +6,7 @@
 	</loader>
 	<services>
 		<service type="file_opener" id="lotus" priority="50" probe="TRUE">
-			<information description="Lotus file format (*.wk1)"/>
+			<information description="Lotus 123 (*.wk1)"/>
 			<file_patterns>
 				<file_pattern type="shell_pattern" value="*.wk1"/>
 				<file_pattern type="shell_pattern" value="*.wks"/>

@@ -7,7 +7,7 @@
 	<services>
 		<service type="file_opener" id="sc" priority="1" probe="FALSE"
 		         open="FALSE" import="TRUE">
-			<information description="SC/xspread file import"/>
+			<information description="SC/xspread"/>
 			<save_info saver_id="" format_level="manual"/>
 		</service>
 	</services>

@@ -6,7 +6,7 @@
 	</loader>
 	<services>
 		<service type="file_opener" id="psiconv" priority="100" probe="TRUE">
-			<information description="Psion (*.psisheet) file format"/>
+			<information description="Psion (*.psisheet)"/>
 			<file_patterns>
 				<file_pattern type="shell_pattern" value="*.psisheet"/>
 			</file_patterns>
