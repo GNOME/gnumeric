@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
-"POT-Creation-Date: 1999-10-21 13:01-0500\n"
+"POT-Creation-Date: 1999-11-17 19:06-0600\n"
 "PO-Revision-Date: 1998-08-01 13:46+0202\n"
 "Last-Translator: Vincent Renardias <vincent@ldsol.com>\n"
 "Language-Team: GNOME French Team <gnomefr@gnomefr.traduc.org>\n"
@@ -36,7 +36,7 @@ msgstr "format de fichier Excel(R) 97"
 msgid "Excel(R) 95 file format"
 msgstr "format de fichier Excel(R) 95"
 
-#: plugins/excel/ms-excel-read.c:269
+#: plugins/excel/ms-excel-read.c:264
 msgid "#UNKNOWN!"
 msgstr "#INCONNU!"
 
@@ -48,56 +48,27 @@ msgstr "Fonction inconnue"
 msgid "Broken function"
 msgstr "Mauvaise fonction"
 
-#: plugins/excel/ms-formula-read.c:1396
+#: plugins/excel/ms-formula-read.c:1397
 msgid " Unknown formula"
 msgstr " Formule inconnue"
 
-#: plugins/ff-csv/csv-io.c:52
+#: plugins/ff-csv/csv-io.c:138 plugins/sylk/sylk.c:443
 #, c-format
 msgid "Imported %s"
 msgstr "%s importé"
 
-#: plugins/ff-csv/csv-io.c:82
+#: plugins/ff-csv/csv-io.c:256
 msgid "Comma Separated Value (CSV) import"
 msgstr "Importation CSV (valeurs séparées par des virgules)"
 
-#: plugins/ff-csv/csv-io.c:85
+#: plugins/ff-csv/csv-io.c:259
+#, fuzzy
+msgid "Comma Separated Value format (*.csv)"
+msgstr "Importation CSV (valeurs séparées par des virgules)"
+
+#: plugins/ff-csv/csv-io.c:262
 msgid "Comma Separated Value (CSV) module"
 msgstr "module CSV (valeurs séparées par des virgules)"
-
-#: plugins/guile/plugin.c:219
-msgid "Argument must be a Guile expression"
-msgstr "L'argument doit être une expression Guile"
-
-#: plugins/guile/plugin.c:237 src/expr.c:491
-#: src/functions/fn-information.c:574 src/functions/fn-information.c:643
-#: src/functions/fn-information.c:670 src/functions/fn-information.c:696
-#: src/functions/fn-information.c:745 src/functions/fn-information.c:774
-#: src/functions/fn-information.c:839 src/functions/fn-logical.c:191
-#: src/functions/fn-lookup.c:467 src/functions/fn-lookup.c:578
-#: src/functions/fn-string.c:342
-msgid "Invalid number of arguments"
-msgstr "Nombre d'arguments invalide"
-
-#: plugins/guile/plugin.c:241 plugins/guile/plugin.c:245
-msgid "First argument to SCM must be a Guile expression"
-msgstr "Le premier argument de SCM doit être une expression Guile"
-
-#: plugins/guile/plugin.c:249
-msgid "Undefined scheme function"
-msgstr "Fonction scheme non définie"
-
-#: plugins/guile/plugin.c:265
-msgid "Could not evaluate argument"
-msgstr "Impossible d'évaluer l'argument"
-
-#: plugins/guile/plugin.c:375
-msgid "Unable to lookup Guile function."
-msgstr "Impossible de trouver la fonction Guile"
-
-#: plugins/guile/plugin.c:439
-msgid "Guile Plugin"
-msgstr "Plugin Guile"
 
 #: plugins/html/boot.c:65
 msgid "HTML 3.2 file format (*.html)"
@@ -151,6 +122,16 @@ msgstr "Format Lotus (*.wk1)"
 msgid "Lotus 123 file import/export plugin"
 msgstr "Plugin d'importation/exporation de fichiers Lotus 123"
 
+#: plugins/oleo/boot.c:88
+#, fuzzy
+msgid "GNU Oleo (*.oleo) file format"
+msgstr "Format Lotus (*.wk1)"
+
+#: plugins/oleo/boot.c:94
+#, fuzzy
+msgid "GNU Oleo import plugin"
+msgstr "plugin d'inportation/exportation de fichier XBase"
+
 #: plugins/python/python.c:101
 msgid "Unable to lookup Python code object."
 msgstr "Impossible de trouver l'objet en code Python."
@@ -187,6 +168,14 @@ msgstr "Exemple de plugin"
 #: plugins/stat/stat.c:27
 msgid "OLD Statistics Plugin, not required anymore"
 msgstr "ANCIEN plugin Statistiques, n'est plus requis"
+
+#: plugins/sylk/sylk.c:501
+msgid "MultiPlan (SYLK) import"
+msgstr ""
+
+#: plugins/sylk/sylk.c:506
+msgid "MultiPlan (SYLK) file import module"
+msgstr ""
 
 #: plugins/text/text-io.c:305
 #, c-format
@@ -309,17 +298,17 @@ msgstr "Page WWW principale de Gnumeric"
 msgid "Gnumeric Support page"
 msgstr "Page du support de Gnumeric"
 
-#: src/cell.c:74
+#: src/cell.c:75
 msgid "ERROR"
 msgstr "ERREUR"
 
 #. Until the value is recomputed, we put in this value.
-#: src/cell.c:125
+#: src/cell.c:131
 msgid "Pending recomputation"
 msgstr ""
 
 #. Until the value is recomputed, we put in this value.
-#: src/cell.c:752
+#: src/cell.c:583
 msgid "Circular reference"
 msgstr "Référence circulaire"
 
@@ -479,329 +468,329 @@ msgstr "novembre"
 msgid "December"
 msgstr "décembre"
 
-#: src/dialogs/dialog-analysis-tools.c:72
-#: src/dialogs/dialog-analysis-tools.c:1799
+#: src/dialogs/dialog-analysis-tools.c:73
+#: src/dialogs/dialog-analysis-tools.c:1800
 msgid "Anova: Single Factor"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:74
-#: src/dialogs/dialog-analysis-tools.c:1887
+#: src/dialogs/dialog-analysis-tools.c:75
+#: src/dialogs/dialog-analysis-tools.c:1888
 msgid "Anova: Two-Factor Without Replication"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:76
-#: src/dialogs/dialog-analysis-tools.c:394
+#: src/dialogs/dialog-analysis-tools.c:77
+#: src/dialogs/dialog-analysis-tools.c:395
 msgid "Correlation"
 msgstr "Corrélation"
 
-#: src/dialogs/dialog-analysis-tools.c:78
-#: src/dialogs/dialog-analysis-tools.c:475
+#: src/dialogs/dialog-analysis-tools.c:79
+#: src/dialogs/dialog-analysis-tools.c:476
 msgid "Covariance"
 msgstr "Covariance"
 
-#: src/dialogs/dialog-analysis-tools.c:80
-#: src/dialogs/dialog-analysis-tools.c:663
+#: src/dialogs/dialog-analysis-tools.c:81
+#: src/dialogs/dialog-analysis-tools.c:664
 msgid "Descriptive Statistics"
 msgstr "Statistiques Descriptives"
 
-#: src/dialogs/dialog-analysis-tools.c:82
-#: src/dialogs/dialog-analysis-tools.c:1190
+#: src/dialogs/dialog-analysis-tools.c:83
+#: src/dialogs/dialog-analysis-tools.c:1191
 msgid "F-Test: Two-Sample for Variances"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:84
-#: src/dialogs/dialog-analysis-tools.c:1626
+#: src/dialogs/dialog-analysis-tools.c:85
+#: src/dialogs/dialog-analysis-tools.c:1627
 msgid "Moving Average"
 msgstr "Moyenne mobille"
 
-#: src/dialogs/dialog-analysis-tools.c:86
-#: src/dialogs/dialog-analysis-tools.c:1335
+#: src/dialogs/dialog-analysis-tools.c:87
+#: src/dialogs/dialog-analysis-tools.c:1336
 msgid "Random Number Generation"
 msgstr "Génération de nombres aléatoires"
 
-#: src/dialogs/dialog-analysis-tools.c:88
-#: src/dialogs/dialog-analysis-tools.c:1716
+#: src/dialogs/dialog-analysis-tools.c:89
+#: src/dialogs/dialog-analysis-tools.c:1717
 msgid "Rank and Percentile"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:90
-#: src/dialogs/dialog-analysis-tools.c:1526
+#: src/dialogs/dialog-analysis-tools.c:91
+#: src/dialogs/dialog-analysis-tools.c:1527
 msgid "Regression"
 msgstr "Régression"
 
-#: src/dialogs/dialog-analysis-tools.c:92
-#: src/dialogs/dialog-analysis-tools.c:552
+#: src/dialogs/dialog-analysis-tools.c:93
+#: src/dialogs/dialog-analysis-tools.c:553
 msgid "Sampling"
 msgstr "Échantillonage"
 
-#: src/dialogs/dialog-analysis-tools.c:94
-#: src/dialogs/dialog-analysis-tools.c:876
+#: src/dialogs/dialog-analysis-tools.c:95
+#: src/dialogs/dialog-analysis-tools.c:877
 msgid "t-Test: Paired Two Sample for Means"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:96
-#: src/dialogs/dialog-analysis-tools.c:981
+#: src/dialogs/dialog-analysis-tools.c:97
+#: src/dialogs/dialog-analysis-tools.c:982
 msgid "t-Test: Two-Sample Assuming Equal Variances"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:98
-#: src/dialogs/dialog-analysis-tools.c:1086
+#: src/dialogs/dialog-analysis-tools.c:99
+#: src/dialogs/dialog-analysis-tools.c:1087
 msgid "t-Test: Two-Sample Assuming Unequal Variances"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:100
-#: src/dialogs/dialog-analysis-tools.c:759
+#: src/dialogs/dialog-analysis-tools.c:101
+#: src/dialogs/dialog-analysis-tools.c:760
 msgid "z-Test: Two Sample for Means"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:107
-#: src/dialogs/dialog-analysis-tools.c:1304
-#: src/dialogs/dialog-analysis-tools.c:1483
+#: src/dialogs/dialog-analysis-tools.c:108
+#: src/dialogs/dialog-analysis-tools.c:1305
+#: src/dialogs/dialog-analysis-tools.c:1484
 msgid "Discrete"
 msgstr "Discrète"
 
-#: src/dialogs/dialog-analysis-tools.c:108
-#: src/dialogs/dialog-analysis-tools.c:1301
-#: src/dialogs/dialog-analysis-tools.c:1473
-#: src/widgets/widget-font-selector.c:110
+#: src/dialogs/dialog-analysis-tools.c:109
+#: src/dialogs/dialog-analysis-tools.c:1302
+#: src/dialogs/dialog-analysis-tools.c:1474
+#: src/widgets/widget-font-selector.c:125
 msgid "Normal"
 msgstr "Normal"
 
-#: src/dialogs/dialog-analysis-tools.c:109
-#: src/dialogs/dialog-analysis-tools.c:1298
-#: src/dialogs/dialog-analysis-tools.c:1479
+#: src/dialogs/dialog-analysis-tools.c:110
+#: src/dialogs/dialog-analysis-tools.c:1299
+#: src/dialogs/dialog-analysis-tools.c:1480
 msgid "Bernoulli"
 msgstr "Bernouille"
 
-#: src/dialogs/dialog-analysis-tools.c:110
-#: src/dialogs/dialog-analysis-tools.c:1295
-#: src/dialogs/dialog-analysis-tools.c:1467
+#: src/dialogs/dialog-analysis-tools.c:111
+#: src/dialogs/dialog-analysis-tools.c:1296
+#: src/dialogs/dialog-analysis-tools.c:1468
 msgid "Uniform"
 msgstr "Uniforme"
 
-#: src/dialogs/dialog-analysis-tools.c:151
+#: src/dialogs/dialog-analysis-tools.c:152
 msgid "Summary Statistics"
 msgstr "Résumé des Statistiques"
 
-#: src/dialogs/dialog-analysis-tools.c:153
+#: src/dialogs/dialog-analysis-tools.c:154
 msgid "Confidence Level for Mean"
 msgstr "Confiance pour la moyenne"
 
-#: src/dialogs/dialog-analysis-tools.c:154
+#: src/dialogs/dialog-analysis-tools.c:155
 msgid "0.95"
 msgstr "0.95"
 
-#: src/dialogs/dialog-analysis-tools.c:155
+#: src/dialogs/dialog-analysis-tools.c:156
 msgid "Kth Largest:"
 msgstr "Kième plus grand:"
 
-#: src/dialogs/dialog-analysis-tools.c:156
-#: src/dialogs/dialog-analysis-tools.c:158
+#: src/dialogs/dialog-analysis-tools.c:157
+#: src/dialogs/dialog-analysis-tools.c:159
 msgid "1"
 msgstr "1"
 
-#: src/dialogs/dialog-analysis-tools.c:157
+#: src/dialogs/dialog-analysis-tools.c:158
 msgid "Kth Smallest:"
 msgstr "Kième plus petit:"
 
-#: src/dialogs/dialog-analysis-tools.c:163
+#: src/dialogs/dialog-analysis-tools.c:164
 msgid "Labels in First Row"
 msgstr "Titres sur la Première ligne"
 
-#: src/dialogs/dialog-analysis-tools.c:169
+#: src/dialogs/dialog-analysis-tools.c:170
 msgid "Labels"
 msgstr "Titres"
 
-#: src/dialogs/dialog-analysis-tools.c:175
+#: src/dialogs/dialog-analysis-tools.c:176
 msgid "Standard Errors"
 msgstr "Erreurs moyennes"
 
-#: src/dialogs/dialog-analysis-tools.c:202
+#: src/dialogs/dialog-analysis-tools.c:203
 msgid "Columns"
 msgstr "Colonnes"
 
-#: src/dialogs/dialog-analysis-tools.c:203
+#: src/dialogs/dialog-analysis-tools.c:204
 msgid "Rows"
 msgstr "Lignes"
 
-#: src/dialogs/dialog-analysis-tools.c:208
+#: src/dialogs/dialog-analysis-tools.c:209
 msgid "Periodic"
 msgstr "Périodique"
 
-#: src/dialogs/dialog-analysis-tools.c:209
+#: src/dialogs/dialog-analysis-tools.c:210
 msgid "Random"
 msgstr "Aléatoire"
 
-#: src/dialogs/dialog-analysis-tools.c:219
-#: src/dialogs/dialog-analysis-tools.c:1976
+#: src/dialogs/dialog-analysis-tools.c:220
+#: src/dialogs/dialog-analysis-tools.c:1977
 msgid "OK"
 msgstr "OK"
 
-#: src/dialogs/dialog-analysis-tools.c:330
+#: src/dialogs/dialog-analysis-tools.c:331
 msgid "New Sheet"
 msgstr "Nouvelle feuille"
 
 #. hbox = gtk_hbox_new (FALSE, 0);
-#: src/dialogs/dialog-analysis-tools.c:334
+#: src/dialogs/dialog-analysis-tools.c:335
 msgid "New Workbook"
 msgstr "Nouveau classeur"
 
-#: src/dialogs/dialog-analysis-tools.c:339
+#: src/dialogs/dialog-analysis-tools.c:340
 msgid "Output Range:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:359
+#: src/dialogs/dialog-analysis-tools.c:360
 msgid "Grouped By:"
 msgstr "Groupés par :"
 
-#: src/dialogs/dialog-analysis-tools.c:404
-#: src/dialogs/dialog-analysis-tools.c:485
-#: src/dialogs/dialog-analysis-tools.c:562
-#: src/dialogs/dialog-analysis-tools.c:673
-#: src/dialogs/dialog-analysis-tools.c:1635
-#: src/dialogs/dialog-analysis-tools.c:1726
-#: src/dialogs/dialog-analysis-tools.c:1809
-#: src/dialogs/dialog-analysis-tools.c:1898
+#: src/dialogs/dialog-analysis-tools.c:405
+#: src/dialogs/dialog-analysis-tools.c:486
+#: src/dialogs/dialog-analysis-tools.c:563
+#: src/dialogs/dialog-analysis-tools.c:674
+#: src/dialogs/dialog-analysis-tools.c:1636
+#: src/dialogs/dialog-analysis-tools.c:1727
+#: src/dialogs/dialog-analysis-tools.c:1810
+#: src/dialogs/dialog-analysis-tools.c:1899
 msgid "Input Range:"
 msgstr "Intervalle d'entrée :"
 
-#: src/dialogs/dialog-analysis-tools.c:439
-#: src/dialogs/dialog-analysis-tools.c:519
-#: src/dialogs/dialog-analysis-tools.c:623
-#: src/dialogs/dialog-analysis-tools.c:713
-#: src/dialogs/dialog-analysis-tools.c:1761
-#: src/dialogs/dialog-analysis-tools.c:1846
-#: src/dialogs/dialog-analysis-tools.c:1932
+#: src/dialogs/dialog-analysis-tools.c:440
+#: src/dialogs/dialog-analysis-tools.c:520
+#: src/dialogs/dialog-analysis-tools.c:624
+#: src/dialogs/dialog-analysis-tools.c:714
+#: src/dialogs/dialog-analysis-tools.c:1762
+#: src/dialogs/dialog-analysis-tools.c:1847
+#: src/dialogs/dialog-analysis-tools.c:1933
 msgid "You should introduce a valid cell range in 'Range:'"
 msgstr "Vous devez introduire un nom de cellule valide dans 'Intervalle:'"
 
-#: src/dialogs/dialog-analysis-tools.c:482
-#: src/dialogs/dialog-analysis-tools.c:559
-#: src/dialogs/dialog-analysis-tools.c:670
-#: src/dialogs/dialog-analysis-tools.c:767
-#: src/dialogs/dialog-analysis-tools.c:884
-#: src/dialogs/dialog-analysis-tools.c:989
-#: src/dialogs/dialog-analysis-tools.c:1095
-#: src/dialogs/dialog-analysis-tools.c:1529
-#: src/dialogs/dialog-analysis-tools.c:1629
-#: src/dialogs/dialog-analysis-tools.c:1723
-#: src/dialogs/dialog-analysis-tools.c:1806
-#: src/dialogs/dialog-analysis-tools.c:1895
+#: src/dialogs/dialog-analysis-tools.c:483
+#: src/dialogs/dialog-analysis-tools.c:560
+#: src/dialogs/dialog-analysis-tools.c:671
+#: src/dialogs/dialog-analysis-tools.c:768
+#: src/dialogs/dialog-analysis-tools.c:885
+#: src/dialogs/dialog-analysis-tools.c:990
+#: src/dialogs/dialog-analysis-tools.c:1096
+#: src/dialogs/dialog-analysis-tools.c:1530
+#: src/dialogs/dialog-analysis-tools.c:1630
+#: src/dialogs/dialog-analysis-tools.c:1724
+#: src/dialogs/dialog-analysis-tools.c:1807
+#: src/dialogs/dialog-analysis-tools.c:1896
 msgid "Input:"
 msgstr "Entrée :"
 
-#: src/dialogs/dialog-analysis-tools.c:564
+#: src/dialogs/dialog-analysis-tools.c:565
 msgid "Sampling Method:"
 msgstr "Méthode d'échantillonage :"
 
-#: src/dialogs/dialog-analysis-tools.c:576
+#: src/dialogs/dialog-analysis-tools.c:577
 msgid "Period:"
 msgstr "Période :"
 
-#: src/dialogs/dialog-analysis-tools.c:579
+#: src/dialogs/dialog-analysis-tools.c:580
 msgid "Number of Samples:"
 msgstr "Nombre d'échantillons :"
 
-#: src/dialogs/dialog-analysis-tools.c:770
-#: src/dialogs/dialog-analysis-tools.c:887
-#: src/dialogs/dialog-analysis-tools.c:992
-#: src/dialogs/dialog-analysis-tools.c:1098
-#: src/dialogs/dialog-analysis-tools.c:1200
+#: src/dialogs/dialog-analysis-tools.c:771
+#: src/dialogs/dialog-analysis-tools.c:888
+#: src/dialogs/dialog-analysis-tools.c:993
+#: src/dialogs/dialog-analysis-tools.c:1099
+#: src/dialogs/dialog-analysis-tools.c:1201
 msgid "Variable 1 Range:"
 msgstr "Intervalle de la variable 1 :"
 
-#: src/dialogs/dialog-analysis-tools.c:773
-#: src/dialogs/dialog-analysis-tools.c:890
-#: src/dialogs/dialog-analysis-tools.c:995
-#: src/dialogs/dialog-analysis-tools.c:1101
-#: src/dialogs/dialog-analysis-tools.c:1203
+#: src/dialogs/dialog-analysis-tools.c:774
+#: src/dialogs/dialog-analysis-tools.c:891
+#: src/dialogs/dialog-analysis-tools.c:996
+#: src/dialogs/dialog-analysis-tools.c:1102
+#: src/dialogs/dialog-analysis-tools.c:1204
 msgid "Variable 2 Range:"
 msgstr "Intervalle de la variable 2 :"
 
-#: src/dialogs/dialog-analysis-tools.c:776
-#: src/dialogs/dialog-analysis-tools.c:893
-#: src/dialogs/dialog-analysis-tools.c:998
-#: src/dialogs/dialog-analysis-tools.c:1104
+#: src/dialogs/dialog-analysis-tools.c:777
+#: src/dialogs/dialog-analysis-tools.c:894
+#: src/dialogs/dialog-analysis-tools.c:999
+#: src/dialogs/dialog-analysis-tools.c:1105
 msgid "Hypothesized Mean Difference:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:779
+#: src/dialogs/dialog-analysis-tools.c:780
 msgid "Variable 1 Variance (known):"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:782
+#: src/dialogs/dialog-analysis-tools.c:783
 msgid "Variable 2 Variance (known):"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:784
-#: src/dialogs/dialog-analysis-tools.c:895
-#: src/dialogs/dialog-analysis-tools.c:1000
-#: src/dialogs/dialog-analysis-tools.c:1106
-#: src/dialogs/dialog-analysis-tools.c:1205
-#: src/dialogs/dialog-analysis-tools.c:1813
-#: src/dialogs/dialog-analysis-tools.c:1900
+#: src/dialogs/dialog-analysis-tools.c:785
+#: src/dialogs/dialog-analysis-tools.c:896
+#: src/dialogs/dialog-analysis-tools.c:1001
+#: src/dialogs/dialog-analysis-tools.c:1107
+#: src/dialogs/dialog-analysis-tools.c:1206
+#: src/dialogs/dialog-analysis-tools.c:1814
+#: src/dialogs/dialog-analysis-tools.c:1901
 msgid "Alpha:"
 msgstr "Alpha :"
 
-#: src/dialogs/dialog-analysis-tools.c:816
-#: src/dialogs/dialog-analysis-tools.c:927
-#: src/dialogs/dialog-analysis-tools.c:1032
-#: src/dialogs/dialog-analysis-tools.c:1138
-#: src/dialogs/dialog-analysis-tools.c:1238
-#: src/dialogs/dialog-analysis-tools.c:1573
+#: src/dialogs/dialog-analysis-tools.c:817
+#: src/dialogs/dialog-analysis-tools.c:928
+#: src/dialogs/dialog-analysis-tools.c:1033
+#: src/dialogs/dialog-analysis-tools.c:1139
+#: src/dialogs/dialog-analysis-tools.c:1239
+#: src/dialogs/dialog-analysis-tools.c:1574
 msgid "You should introduce a valid cell range in 'Variable 1:'"
 msgstr "Vous devez introduire un nom de cellule valide dans 'Variable 1:'"
 
-#: src/dialogs/dialog-analysis-tools.c:827
-#: src/dialogs/dialog-analysis-tools.c:938
-#: src/dialogs/dialog-analysis-tools.c:1043
-#: src/dialogs/dialog-analysis-tools.c:1149
-#: src/dialogs/dialog-analysis-tools.c:1249
-#: src/dialogs/dialog-analysis-tools.c:1584
+#: src/dialogs/dialog-analysis-tools.c:828
+#: src/dialogs/dialog-analysis-tools.c:939
+#: src/dialogs/dialog-analysis-tools.c:1044
+#: src/dialogs/dialog-analysis-tools.c:1150
+#: src/dialogs/dialog-analysis-tools.c:1250
+#: src/dialogs/dialog-analysis-tools.c:1585
 msgid "You should introduce a valid cell range in 'Variable 2:'"
 msgstr "Vous devez introduire un nom de cellule valide dans 'Variable 2:'"
 
-#: src/dialogs/dialog-analysis-tools.c:1346
+#: src/dialogs/dialog-analysis-tools.c:1347
 msgid "Number of Variables:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1349
+#: src/dialogs/dialog-analysis-tools.c:1350
 msgid "Number of Random Numbers:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1360
+#: src/dialogs/dialog-analysis-tools.c:1361
 msgid "Parameters:"
 msgstr "Paramétres :"
 
-#: src/dialogs/dialog-analysis-tools.c:1373
+#: src/dialogs/dialog-analysis-tools.c:1374
 msgid "Value and Probability Input Range:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1378
+#: src/dialogs/dialog-analysis-tools.c:1379
 msgid "Between:"
 msgstr "Entre :"
 
-#: src/dialogs/dialog-analysis-tools.c:1381
+#: src/dialogs/dialog-analysis-tools.c:1382
 msgid "And:"
 msgstr "Et :"
 
-#: src/dialogs/dialog-analysis-tools.c:1386
+#: src/dialogs/dialog-analysis-tools.c:1387
 msgid "Mean = "
 msgstr "Moyenne = "
 
-#: src/dialogs/dialog-analysis-tools.c:1388
+#: src/dialogs/dialog-analysis-tools.c:1389
 msgid "Standard Deviation = "
 msgstr "Déviation standard = "
 
-#: src/dialogs/dialog-analysis-tools.c:1392
+#: src/dialogs/dialog-analysis-tools.c:1393
 msgid "Lambda"
 msgstr "Lambda"
 
-#: src/dialogs/dialog-analysis-tools.c:1396
+#: src/dialogs/dialog-analysis-tools.c:1397
 msgid "p Value"
 msgstr "Valeur p"
 
-#: src/dialogs/dialog-analysis-tools.c:1491
+#: src/dialogs/dialog-analysis-tools.c:1492
 #, fuzzy
 msgid ""
 "You should introduce a valid cell range in 'Value and Probability Input "
@@ -810,33 +799,33 @@ msgstr ""
 "Vous devez introduire un nom de cellule valide dans 'En changeant la "
 "cellule:'"
 
-#: src/dialogs/dialog-analysis-tools.c:1535
+#: src/dialogs/dialog-analysis-tools.c:1536
 msgid "Input Y Range:"
 msgstr "Intervalle d'entré Y :"
 
-#: src/dialogs/dialog-analysis-tools.c:1538
+#: src/dialogs/dialog-analysis-tools.c:1539
 msgid "Input X Range:"
 msgstr "Intervalle d'entré X :"
 
-#: src/dialogs/dialog-analysis-tools.c:1540
+#: src/dialogs/dialog-analysis-tools.c:1541
 msgid "Confidence Level:"
 msgstr "Niveau de confiance :"
 
-#: src/dialogs/dialog-analysis-tools.c:1637
+#: src/dialogs/dialog-analysis-tools.c:1638
 msgid "Interval:"
 msgstr "Intervalle :"
 
-#: src/dialogs/dialog-analysis-tools.c:1672
+#: src/dialogs/dialog-analysis-tools.c:1673
 #, fuzzy
 msgid "You should introduce a valid cell range in 'Range Input:'"
 msgstr ""
 "Vous devez introduire un nom de cellule valide dans 'Affecter la cellule'"
 
-#: src/dialogs/dialog-analysis-tools.c:1975
+#: src/dialogs/dialog-analysis-tools.c:1976
 msgid "Data Analysis"
 msgstr "Analyse de Données"
 
-#: src/dialogs/dialog-analysis-tools.c:1983
+#: src/dialogs/dialog-analysis-tools.c:1984
 msgid "Analysis Tools"
 msgstr "Outils d'analyse"
 
@@ -844,205 +833,70 @@ msgstr "Outils d'analyse"
 msgid "Cell comment"
 msgstr "Commentaire de cellule"
 
-#: src/dialogs/dialog-cell-format.c:69
-msgid "Numbers"
-msgstr "Nombres"
+#: src/dialogs/dialog-cell-format.c:401
+msgid ";[Red]"
+msgstr ""
 
-#: src/dialogs/dialog-cell-format.c:70
-msgid "Accounting"
-msgstr "Comptabilité"
+#: src/dialogs/dialog-cell-format.c:403
+msgid "_);("
+msgstr ""
 
-#: src/dialogs/dialog-cell-format.c:71
-msgid "Date"
-msgstr "Date"
+#: src/dialogs/dialog-cell-format.c:405
+#, fuzzy
+msgid "_);[Red]("
+msgstr "#,##0_);[Red](#,##0)"
 
-#: src/dialogs/dialog-cell-format.c:72
-msgid "Time"
-msgstr "Heure"
+#: src/dialogs/dialog-cell-format.c:1956
+#, fuzzy
+msgid "Format Cells"
+msgstr "Trier Cellules"
 
-#: src/dialogs/dialog-cell-format.c:73 src/workbook-format-toolbar.c:430
-msgid "Percent"
-msgstr "Pourcentage"
-
-#: src/dialogs/dialog-cell-format.c:74
-msgid "Fraction"
-msgstr "Fraction"
-
-#: src/dialogs/dialog-cell-format.c:75
-msgid "Scientific"
-msgstr "Scientifique"
-
-#: src/dialogs/dialog-cell-format.c:76
-msgid "Text"
-msgstr "Texte"
-
-#: src/dialogs/dialog-cell-format.c:77
-msgid "Money"
-msgstr "Monétaire"
-
-#. 1. Categories
-#: src/dialogs/dialog-cell-format.c:259
-msgid "Categories"
-msgstr "Catégories"
-
-#. 2.1 Input line
-#: src/dialogs/dialog-cell-format.c:291
-msgid "Code:"
-msgstr "Code:"
-
-#. 2.2 Sample
-#: src/dialogs/dialog-cell-format.c:300
-msgid "Sample:"
-msgstr "Exemple:"
-
-#: src/dialogs/dialog-cell-format.c:312
-msgid "Format codes"
-msgstr "Codes de formats"
-
-#: src/dialogs/dialog-cell-format.c:361 src/formats.c:16
-#: src/number-match.c:457
-msgid "General"
-msgstr "Général"
-
-#: src/dialogs/dialog-cell-format.c:362
-msgid "Left"
-msgstr "Gauche"
-
-#: src/dialogs/dialog-cell-format.c:363 src/dialogs/dialog-cell-format.c:372
-#: src/workbook-format-toolbar.c:418
-msgid "Center"
-msgstr "Centre"
-
-#: src/dialogs/dialog-cell-format.c:364
-msgid "Right"
-msgstr "Droite"
-
-#: src/dialogs/dialog-cell-format.c:365
-msgid "Fill"
-msgstr "Remplir"
-
-#: src/dialogs/dialog-cell-format.c:366 src/dialogs/dialog-cell-format.c:374
-msgid "Justify"
-msgstr "Justifier"
-
-#: src/dialogs/dialog-cell-format.c:371
-msgid "Top"
-msgstr "Haut"
-
-#: src/dialogs/dialog-cell-format.c:373
-msgid "Bottom"
-msgstr "Bas"
-
-#. Vertical alignment
-#: src/dialogs/dialog-cell-format.c:429
-msgid "Vertical"
-msgstr "Vertical"
-
-#. Horizontal alignment
-#: src/dialogs/dialog-cell-format.c:433
-msgid "Horizontal"
-msgstr "Horizontal"
-
-#: src/dialogs/dialog-cell-format.c:436
-msgid "Auto return"
-msgstr "Retour à la ligne automatique"
-
-#: src/dialogs/dialog-cell-format.c:620
-msgid "Text color"
-msgstr "Couleur du texte"
-
-#. The radio buttons
-#: src/dialogs/dialog-cell-format.c:624 src/dialogs/dialog-cell-format.c:660
-#: src/dialogs/dialog-paste-special.c:28 src/widgets/widget-color-combo.c:111
-msgid "None"
-msgstr "Aucun"
-
-#: src/dialogs/dialog-cell-format.c:626
-msgid "Use this color"
-msgstr "Utiliser cette couleur"
-
-#: src/dialogs/dialog-cell-format.c:628 src/dialogs/dialog-cell-format.c:666
-msgid "No change"
-msgstr "Aucun changement"
-
-#: src/dialogs/dialog-cell-format.c:654
-msgid "Background configuration"
-msgstr "Configuration du fond"
-
-#: src/dialogs/dialog-cell-format.c:662
-msgid "Use solid color"
-msgstr "Utiliser une couleur unie"
-
-#: src/dialogs/dialog-cell-format.c:664
-msgid "Use a pattern"
-msgstr "Utiliser un motif"
-
-#: src/dialogs/dialog-cell-format.c:937
-#: src/dialogs/dialog-function-wizard.c:209
-msgid "Number"
-msgstr "Nombre"
-
-#: src/dialogs/dialog-cell-format.c:938
-msgid "Alignment"
-msgstr "Alignement"
-
-#: src/dialogs/dialog-cell-format.c:939
-msgid "Font"
-msgstr "Police"
-
-#: src/dialogs/dialog-cell-format.c:940
-msgid "Coloring"
-msgstr "Coloration"
-
-#: src/dialogs/dialog-cell-sort.c:42
+#: src/dialogs/dialog-cell-sort.c:43
 msgid "Column:"
 msgstr "Colonne:"
 
-#: src/dialogs/dialog-cell-sort.c:58
+#: src/dialogs/dialog-cell-sort.c:59
 msgid "Asc"
 msgstr "Asc"
 
-#: src/dialogs/dialog-cell-sort.c:61
+#: src/dialogs/dialog-cell-sort.c:62
 msgid "Desc"
 msgstr "Desc"
 
-#: src/dialogs/dialog-cell-sort.c:274
+#: src/dialogs/dialog-cell-sort.c:276
 msgid "more clauses than rows ?"
 msgstr "plus de clauses que de lignes ?"
 
-#: src/dialogs/dialog-cell-sort.c:277
+#: src/dialogs/dialog-cell-sort.c:279
 msgid "too many clauses"
 msgstr "trop de clauses"
 
-#: src/dialogs/dialog-cell-sort.c:297
+#: src/dialogs/dialog-cell-sort.c:300
 msgid "Need at least one clause"
 msgstr "Au moins une clause est nécessaire"
 
-#: src/dialogs/dialog-cell-sort.c:317 src/workbook.c:1438
+#: src/dialogs/dialog-cell-sort.c:335 src/print.c:502 src/workbook.c:1457
 msgid "Selection must be a single range"
 msgstr "La sélection doit être un intervalle unique"
 
-#: src/dialogs/dialog-cell-sort.c:329
+#: src/dialogs/dialog-cell-sort.c:347
 msgid "Selection must be a finite range"
 msgstr "La sélection doit être un intervalle fermé"
 
-#: src/dialogs/dialog-cell-sort.c:341
-msgid "Sort Cells"
-msgstr "Trier Cellules"
-
-#: src/dialogs/dialog-cell-sort.c:356
+#: src/dialogs/dialog-cell-sort.c:367
 msgid "then by"
 msgstr "ensuite par"
 
-#: src/dialogs/dialog-cell-sort.c:356
-msgid "sort by"
+#: src/dialogs/dialog-cell-sort.c:367
+#, fuzzy
+msgid "Sort by"
 msgstr "trier par"
 
-#: src/dialogs/dialog-cell-sort.c:394
+#: src/dialogs/dialog-cell-sort.c:405
 msgid "Column must be within range"
 msgstr "La colonne doit être dans l'intervalle"
 
-#: src/dialogs/dialog-cell-sort.c:400
+#: src/dialogs/dialog-cell-sort.c:411
 msgid "First column must be valid"
 msgstr "La première colonne doit être valide"
 
@@ -1057,6 +911,10 @@ msgstr "Sélection de formule"
 #: src/dialogs/dialog-function-wizard.c:206 src/functions/fn-string.c:1295
 msgid "String"
 msgstr "Chaîne"
+
+#: src/dialogs/cell-format.glade.h:32 src/dialogs/dialog-function-wizard.c:209
+msgid "Number"
+msgstr "Nombre"
 
 #: src/dialogs/dialog-function-wizard.c:212
 msgid "Boolean"
@@ -1175,21 +1033,27 @@ msgstr "Spécial..."
 msgid "insert cells"
 msgstr "insérer cellules"
 
-#: src/dialogs/dialog-paste-special.c:20 src/dialogs/dialog-solver.c:34
+#: src/dialogs/dialog-paste-special.c:20 src/dialogs/dialog-solver.c:35
 msgid "All"
 msgstr "Tous"
 
-#: src/dialogs/dialog-paste-special.c:21 src/dialogs/dialog-solver.c:35
+#: src/dialogs/dialog-paste-special.c:21 src/dialogs/dialog-solver.c:36
 msgid "Formulas"
 msgstr "Formules"
 
-#: src/dialogs/dialog-paste-special.c:22 src/dialogs/dialog-solver.c:36
+#: src/dialogs/dialog-paste-special.c:22 src/dialogs/dialog-solver.c:37
 msgid "Values"
 msgstr "Valeurs"
 
-#: src/dialogs/dialog-paste-special.c:23 src/dialogs/dialog-solver.c:37
+#: src/dialogs/dialog-paste-special.c:23 src/dialogs/dialog-solver.c:38
 msgid "Formats"
 msgstr "Formats"
+
+#: src/dialogs/cell-format.glade.h:60 src/dialogs/cell-format.glade.h:71
+#: src/dialogs/cell-format.glade.h:78 src/dialogs/dialog-paste-special.c:28
+#: src/widgets/widget-color-combo.c:111
+msgid "None"
+msgstr "Aucun"
 
 #: src/dialogs/dialog-paste-special.c:29
 msgid "Add "
@@ -1207,7 +1071,7 @@ msgstr "Multiplier"
 msgid "Divide"
 msgstr "Diviser"
 
-#: src/dialogs/dialog-paste-special.c:64 src/item-grid.c:653
+#: src/dialogs/dialog-paste-special.c:64
 msgid "Paste special"
 msgstr "Collage spécial"
 
@@ -1223,72 +1087,92 @@ msgstr "Opération"
 msgid "Transpose"
 msgstr "Transpose"
 
-#: src/dialogs/dialog-printer-setup.c:518
+#: src/dialogs/dialog-printer.c:70
+#, fuzzy
+msgid "active sheet"
+msgstr "Ajouter une autre feuille"
+
+#: src/dialogs/dialog-printer.c:82
+#, fuzzy
+msgid "all sheets"
+msgstr "Ajouter une autre feuille"
+
+#: src/dialogs/dialog-printer.c:94
+#, fuzzy
+msgid "selection"
+msgstr "Section de gauche"
+
+#: src/dialogs/dialog-printer.c:129
+#, fuzzy
+msgid "Select Printer"
+msgstr "Sélectionner un objet"
+
+#: src/dialogs/dialog-printer-setup.c:502
 msgid "Custom header configuration"
 msgstr "Configuration personnalisée du haut de page"
 
-#: src/dialogs/dialog-printer-setup.c:529
+#: src/dialogs/dialog-printer-setup.c:513
 msgid "Custom footer configuration"
 msgstr "Configuration personnalisée du pied de page"
 
-#: src/dialogs/dialog-printer-setup.c:742
+#: src/dialogs/dialog-printer-setup.c:726
 msgid "Print setup"
 msgstr "Configuration de l'impression"
 
-#: src/dialogs/dialog-solver.c:21
+#: src/dialogs/dialog-solver.c:22
 msgid "<="
 msgstr "<="
 
 #. N_("="),
-#: src/dialogs/dialog-solver.c:23
+#: src/dialogs/dialog-solver.c:24
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:43 src/workbook.c:1548
+#: src/dialogs/dialog-solver.c:44 src/workbook.c:1573
 msgid "Max"
 msgstr "Max"
 
-#: src/dialogs/dialog-solver.c:44 src/workbook.c:1547
+#: src/dialogs/dialog-solver.c:45 src/workbook.c:1572
 msgid "Min"
 msgstr "Min"
 
-#: src/dialogs/dialog-solver.c:49
+#: src/dialogs/dialog-solver.c:50
 msgid "Tangent"
 msgstr "Tangente"
 
-#: src/dialogs/dialog-solver.c:50
+#: src/dialogs/dialog-solver.c:51
 msgid "Quadratic"
 msgstr "Quadratique"
 
-#: src/dialogs/dialog-solver.c:55
+#: src/dialogs/dialog-solver.c:56
 msgid "Forward"
 msgstr "Avant"
 
-#: src/dialogs/dialog-solver.c:56
+#: src/dialogs/dialog-solver.c:57
 msgid "Central"
 msgstr "Central"
 
-#: src/dialogs/dialog-solver.c:61
+#: src/dialogs/dialog-solver.c:62
 msgid "Newton"
 msgstr "Newton"
 
-#: src/dialogs/dialog-solver.c:62
+#: src/dialogs/dialog-solver.c:63
 msgid "Conjugate"
 msgstr "Conjuguer"
 
-#: src/dialogs/dialog-solver.c:67
+#: src/dialogs/dialog-solver.c:68
 msgid "Assume Linear Model"
 msgstr "Supposer le modèle linéaire"
 
-#: src/dialogs/dialog-solver.c:68
+#: src/dialogs/dialog-solver.c:69
 msgid "Assume Non-Negative"
 msgstr "Supposer non-négatif"
 
-#: src/dialogs/dialog-solver.c:73
+#: src/dialogs/dialog-solver.c:74
 msgid "Use Automatic Scaling"
 msgstr "Utiliser le changement d'échelle automatique"
 
-#: src/dialogs/dialog-solver.c:74
+#: src/dialogs/dialog-solver.c:75
 msgid "Show Iteration Results"
 msgstr "Afficher les résultats d'itérations"
 
@@ -1347,7 +1231,6 @@ msgid "Change"
 msgstr "Intervalle"
 
 #: src/dialogs/dialog-solver.c:409 src/dialogs/names.glade.h:10
-#: src/item-grid.c:656
 msgid "Delete"
 msgstr "Effacer"
 
@@ -1454,7 +1337,7 @@ msgstr "label2"
 msgid "window2"
 msgstr "fenêtre2"
 
-#: src/dialogs/print.glade.h:8
+#: src/dialogs/cell-format.glade.h:47 src/dialogs/print.glade.h:8
 msgid "Orientation"
 msgstr "Orientation"
 
@@ -1546,7 +1429,7 @@ msgstr "_Verticalement"
 msgid "_Left:"
 msgstr "_Gauche :"
 
-#: src/dialogs/print.glade.h:30
+#: src/dialogs/cell-format.glade.h:35 src/dialogs/print.glade.h:30
 msgid "_Right"
 msgstr "_Droite"
 
@@ -1598,7 +1481,7 @@ msgstr "_Colonnes à répéter sur la partie gauche :"
 msgid "_Rows to repeat on the upper region:"
 msgstr "_Lignes à répéter sur la région supérieure :"
 
-#: src/dialogs/print.glade.h:50 src/workbook.c:1066
+#: src/dialogs/print.glade.h:50 src/workbook.c:1084
 msgid "Print"
 msgstr "Imprimer"
 
@@ -1606,7 +1489,7 @@ msgstr "Imprimer"
 msgid "Row and co_lumn headings"
 msgstr "Entêtes de lignes et colonnes"
 
-#: src/dialogs/print.glade.h:52 src/workbook.c:897
+#: src/dialogs/print.glade.h:52 src/workbook.c:913
 msgid "Co_mments"
 msgstr "Co_mmentaires"
 
@@ -1698,6 +1581,503 @@ msgstr "Informations résumées\n"
 msgid "Comments"
 msgstr "Commentaires"
 
+#: src/dialogs/summary.glade.h:15
+#, fuzzy
+msgid "Company"
+msgstr "Copier"
+
+#.
+#. * Translatable strings file generated by Glade.
+#. * Add this file to your project's POTFILES.in.
+#. * DO NOT compile it as part of your application.
+#.
+#: src/dialogs/cell-format.glade.h:7 src/dialogs/cell-format.glade.h:39
+#, fuzzy
+msgid "_General"
+msgstr "Général"
+
+#: src/dialogs/cell-format.glade.h:8
+#, fuzzy
+msgid "_Number"
+msgstr "Nombre"
+
+#: src/dialogs/cell-format.glade.h:9
+msgid "_Currency"
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:10
+#, fuzzy
+msgid "_Acounting"
+msgstr "Comptabilité"
+
+#: src/dialogs/cell-format.glade.h:11
+#, fuzzy
+msgid "_Date"
+msgstr "Date"
+
+#: src/dialogs/cell-format.glade.h:12
+#, fuzzy
+msgid "_Time"
+msgstr "Heure"
+
+#: src/dialogs/cell-format.glade.h:13
+#, fuzzy
+msgid "_Percentage"
+msgstr "Pourcentage"
+
+#: src/dialogs/cell-format.glade.h:14
+#, fuzzy
+msgid "_Fraction"
+msgstr "Fraction"
+
+#: src/dialogs/cell-format.glade.h:15
+#, fuzzy
+msgid "_Scientific"
+msgstr "Scientifique"
+
+#: src/dialogs/cell-format.glade.h:16
+#, fuzzy
+msgid "Te_xt"
+msgstr "Texte"
+
+#: src/dialogs/cell-format.glade.h:17 src/workbook.c:995
+#, fuzzy
+msgid "S_pecial"
+msgstr "_Spécial"
+
+#: src/dialogs/cell-format.glade.h:18
+#, fuzzy
+msgid "C_ustom"
+msgstr "Personnalisé"
+
+#: src/dialogs/cell-format.glade.h:19 src/dialogs/cell-format.glade.h:109
+#, fuzzy
+msgid "Sample"
+msgstr "Exemple:"
+
+#: src/dialogs/cell-format.glade.h:20
+msgid ""
+"General format cells attempt to select an appropriate format depending on "
+"the value of the cell."
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:21
+msgid "_Decimal places:"
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:22
+msgid "_Use Seperator for 1000's"
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:23
+msgid "_Symbol:"
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:24
+#, fuzzy
+msgid ""
+"$\n"
+"None\n"
+msgstr "Aucun"
+
+#: src/dialogs/cell-format.glade.h:27
+msgid "$"
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:28
+#, fuzzy
+msgid "_Negative number:"
+msgstr "Numéro de la premiè_re page :"
+
+#: src/dialogs/cell-format.glade.h:29
+#, fuzzy
+msgid "_Delete format"
+msgstr "Format de cellule"
+
+#: src/dialogs/cell-format.glade.h:30
+#, fuzzy
+msgid "_Type"
+msgstr "_Haut :"
+
+#: src/dialogs/cell-format.glade.h:31
+msgid "Display the value exactly as it was entered"
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:33
+msgid "Horizontal"
+msgstr "Horizontal"
+
+#: src/dialogs/cell-format.glade.h:34
+#, fuzzy
+msgid "_Justify"
+msgstr "Justifier"
+
+#: src/dialogs/cell-format.glade.h:36
+#, fuzzy
+msgid "_Fill"
+msgstr "Remplir"
+
+#: src/dialogs/cell-format.glade.h:37
+#, fuzzy
+msgid "_Center"
+msgstr "Centre"
+
+#: src/dialogs/cell-format.glade.h:38
+#, fuzzy
+msgid "_Left"
+msgstr "_Gauche :"
+
+#: src/dialogs/cell-format.glade.h:40
+msgid "Vertical"
+msgstr "Vertical"
+
+#: src/dialogs/cell-format.glade.h:41
+#, fuzzy
+msgid "J_ustify"
+msgstr "Justifier"
+
+#: src/dialogs/cell-format.glade.h:42
+#, fuzzy
+msgid "_Top"
+msgstr "_Haut :"
+
+#: src/dialogs/cell-format.glade.h:43
+#, fuzzy
+msgid "C_enter"
+msgstr "Centre"
+
+#: src/dialogs/cell-format.glade.h:44
+#, fuzzy
+msgid "_Bottom"
+msgstr "_Bas :"
+
+#: src/dialogs/cell-format.glade.h:45
+#, fuzzy
+msgid "Control"
+msgstr "Central"
+
+#: src/dialogs/cell-format.glade.h:46
+msgid "_Wrap text"
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:48
+msgid "Unfinished"
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:49
+msgid "Alignment"
+msgstr "Alignement"
+
+#: src/dialogs/cell-format.glade.h:50
+#, fuzzy
+msgid "Color"
+msgstr "Coloration"
+
+#: src/dialogs/cell-format.glade.h:51 src/dialogs/cell-format.glade.h:79
+#: src/dialogs/cell-format.glade.h:88
+#, fuzzy
+msgid "_Automatic"
+msgstr "Automatique"
+
+#: src/dialogs/cell-format.glade.h:52 src/dialogs/cell-format.glade.h:80
+#: src/dialogs/cell-format.glade.h:89 src/dialogs/dialog-zoom.glade.h:15
+#, fuzzy
+msgid "_Custom"
+msgstr "Personnalisé"
+
+#: src/dialogs/cell-format.glade.h:53
+msgid "Pick a font color"
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:54
+msgid "Effects"
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:55
+msgid "_Underline:"
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:56
+msgid ""
+"None\n"
+"Single\n"
+"Double\n"
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:61
+msgid "Sup_erscript"
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:62
+msgid "Su_bscript"
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:63
+msgid "Stri_kethrough"
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:64
+msgid "Font"
+msgstr "Police"
+
+#: src/dialogs/cell-format.glade.h:65
+#, fuzzy
+msgid "Reverse Diagonal"
+msgstr "Rayures Diagonales Inversées"
+
+#: src/dialogs/cell-format.glade.h:66
+msgid "Left"
+msgstr "Gauche"
+
+#: src/dialogs/cell-format.glade.h:67
+msgid "Top"
+msgstr "Haut"
+
+#: src/dialogs/cell-format.glade.h:68
+msgid "Bottom"
+msgstr "Bas"
+
+#: src/dialogs/cell-format.glade.h:69
+#, fuzzy
+msgid "Diagonal"
+msgstr "Rayures Diagonales"
+
+#: src/dialogs/cell-format.glade.h:70
+msgid "Right"
+msgstr "Droite"
+
+#: src/dialogs/cell-format.glade.h:72
+msgid "Outline"
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:73
+#, fuzzy
+msgid "Inside Vertical"
+msgstr "Vertical"
+
+#: src/dialogs/cell-format.glade.h:74
+#, fuzzy
+msgid "Inside"
+msgstr "Insérer"
+
+#: src/dialogs/cell-format.glade.h:75
+#, fuzzy
+msgid "Inside Horizontal"
+msgstr "Horizontal"
+
+#: src/dialogs/cell-format.glade.h:76 src/workbook.c:1124
+msgid "Line"
+msgstr "Ligne"
+
+#: src/dialogs/cell-format.glade.h:77
+msgid "_Style"
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:81
+msgid "Pick a border color"
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:82
+#, fuzzy
+msgid "Border"
+msgstr "Ordre des pages"
+
+#: src/dialogs/cell-format.glade.h:83
+#, fuzzy
+msgid "Background Color"
+msgstr "Configuration du fond"
+
+#: src/dialogs/cell-format.glade.h:84
+msgid "_No Color"
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:85
+#, fuzzy
+msgid "C_olor"
+msgstr "Coloration"
+
+#: src/dialogs/cell-format.glade.h:86
+msgid "Pick a Background color"
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:87
+#, fuzzy
+msgid "Pattern"
+msgstr "Coller"
+
+#: src/dialogs/cell-format.glade.h:90
+msgid "Pick a Pattern color"
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:91
+#, c-format
+msgid "75% grey"
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:92
+#, c-format
+msgid "50% Grey"
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:93
+#, c-format
+msgid "25% Grey"
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:94
+#, fuzzy, c-format
+msgid "12.5% Grey"
+msgstr "12.5%"
+
+#: src/dialogs/cell-format.glade.h:95
+#, fuzzy, c-format
+msgid "6.25% Grey"
+msgstr "6.25%"
+
+#: src/dialogs/cell-format.glade.h:96
+msgid "Horizontal Stripe"
+msgstr "Rayures Horizontales"
+
+#: src/dialogs/cell-format.glade.h:97
+msgid "Thin Horizontal Stripe"
+msgstr "Rayures Horizontales Fines"
+
+#: src/dialogs/cell-format.glade.h:98
+msgid "Vertical Stripe"
+msgstr "Rayures Verticales"
+
+#: src/dialogs/cell-format.glade.h:99
+msgid "Thin Vertical Stripe"
+msgstr "Rayures Verticales Fines"
+
+#: src/dialogs/cell-format.glade.h:100
+msgid "Reverse Diagonal Stripe"
+msgstr "Rayures Diagonales Inversées"
+
+#: src/dialogs/cell-format.glade.h:101
+msgid "Thin Reverse Diagonal Stripe"
+msgstr "Rayures Diagonales Fines Inversées"
+
+#: src/dialogs/cell-format.glade.h:102
+msgid "Diagonal Stripe"
+msgstr "Rayures Diagonales"
+
+#: src/dialogs/cell-format.glade.h:103
+msgid "Thin Diagonal Stripe"
+msgstr "Bande Diagonale Fine"
+
+#: src/dialogs/cell-format.glade.h:104
+msgid "Diagonal Crosshatch"
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:105
+msgid "Thick Diagonal Crosshatch"
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:106
+#, fuzzy
+msgid "Thin Horizontal Crosshatch"
+msgstr "Rayures Horizontales Fines"
+
+#: src/dialogs/cell-format.glade.h:107
+msgid "Thin Diagonal Crosshatch"
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:108
+msgid "Solid"
+msgstr "Solide"
+
+#: src/dialogs/cell-format.glade.h:110 src/workbook-format-toolbar.c:425
+msgid "Background"
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:111
+msgid "_Locked"
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:112
+msgid "_Hidden"
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:113
+msgid "Locking cells or hiding formulas only affects protected worksheets."
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:114
+msgid "Worksheet protected"
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:115
+#, fuzzy
+msgid "Protection"
+msgstr "Fraction"
+
+#.
+#. * Translatable strings file generated by Glade.
+#. * Add this file to your project's POTFILES.in.
+#. * DO NOT compile it as part of your application.
+#.
+#: src/dialogs/cell-sort.glade.h:7
+msgid "My selection has"
+msgstr ""
+
+#: src/dialogs/cell-sort.glade.h:8
+msgid "A header row"
+msgstr ""
+
+#.
+#. * Translatable strings file generated by Glade.
+#. * Add this file to your project's POTFILES.in.
+#. * DO NOT compile it as part of your application.
+#.
+#: src/dialogs/dialog-zoom.glade.h:7
+msgid "Zoom"
+msgstr "Zoom"
+
+#: src/dialogs/dialog-zoom.glade.h:8
+msgid "Magnification"
+msgstr ""
+
+#: src/dialogs/dialog-zoom.glade.h:9
+#, c-format
+msgid "20_0 %"
+msgstr ""
+
+#: src/dialogs/dialog-zoom.glade.h:10
+#, c-format
+msgid "_100 %"
+msgstr ""
+
+#: src/dialogs/dialog-zoom.glade.h:11
+#, fuzzy, c-format
+msgid "_75 %"
+msgstr "75%"
+
+#: src/dialogs/dialog-zoom.glade.h:12
+#, fuzzy, c-format
+msgid "_50 %"
+msgstr "50%"
+
+#: src/dialogs/dialog-zoom.glade.h:13
+#, fuzzy, c-format
+msgid "_25%"
+msgstr "25%"
+
+#: src/dialogs/dialog-zoom.glade.h:14
+#, fuzzy, c-format
+msgid "_Fit Selection %"
+msgstr "Section de gauche"
+
+#: src/dialogs/dialog-zoom.glade.h:16
+#, fuzzy, c-format
+msgid "%"
+msgstr "0%"
+
+#: src/dialogs/dialog-zoom.glade.h:17
+#, fuzzy
+msgid "Sheets"
+msgstr "Feuille"
+
 #: src/dump.c:31
 #, c-format
 msgid "Can not create file %s\n"
@@ -1739,527 +2119,171 @@ msgstr "Guillemet manquante"
 msgid "Impossible!"
 msgstr "Impossible!"
 
-#: src/expr.c:464
+#: src/expr.c:477
 msgid "Internal error"
 msgstr "Erreur interne"
 
-#: src/expr.c:847
+#: src/expr.c:504 src/functions/fn-information.c:572
+#: src/functions/fn-information.c:641 src/functions/fn-information.c:668
+#: src/functions/fn-information.c:694 src/functions/fn-information.c:743
+#: src/functions/fn-information.c:772 src/functions/fn-information.c:837
+#: src/functions/fn-logical.c:191 src/functions/fn-lookup.c:468
+#: src/functions/fn-lookup.c:579 src/functions/fn-string.c:342
+msgid "Invalid number of arguments"
+msgstr "Nombre d'arguments invalide"
+
+#: src/expr.c:855
 msgid "Internal type error"
 msgstr "Erreur de type interne"
 
-#: src/expr.c:985
+#: src/expr.c:993
 msgid "Unknown operator"
 msgstr "Opérateur inconnu"
 
-#: src/expr.c:1124
+#: src/expr.c:1129
 msgid "Unknown evaluation error"
 msgstr "Erreur d'évaluation inconnue"
 
-#: src/file.c:222
+#: src/file.c:231
 #, c-format
 msgid "Could not read file %s"
 msgstr "Impossible de lire le fichier %s"
 
-#: src/file.c:395
+#: src/file.c:404
 msgid "File format:"
 msgstr "Format de fichier:"
 
-#: src/file.c:449
+#: src/file.c:458
 msgid "Save workbook as"
 msgstr "Enregistrer la feuille sous"
 
-#: src/file.c:491
+#: src/file.c:502
 msgid "Sorry, there are no file savers loaded, I cannot save"
 msgstr ""
 "Désolé, il n'y a pas d'enregistreurs de fichiers chargés, je ne peux pas "
 "enregistrer"
 
-#: src/file.c:529
+#: src/file.c:515 src/file.c:539
+#, fuzzy, c-format
+msgid "Could not save to file %s"
+msgstr "Impossible de lire le fichier %s"
+
+#: src/file.c:550
 msgid "Load file"
 msgstr "Ouvrir fichier"
 
-#: src/functions/fn-database.c:341
+#: src/functions/fn-database.c:398
 msgid ""
 "@FUNCTION=DAVERAGE\n"
 "@SYNTAX=DAVERAGE(database,field,criteria)\n"
 "@DESCRIPTION=DAVERAGE function returns the average of the values in a list "
 "or database that match conditions specified. \n"
-"@database is a range of cells in which rows of related information are "
-"records and columns of data are fields. The first row of a database contains "
-"labels for each column. \n"
-"@field specifies which column is used in the function. If @field is an "
-"integer, i.e. 2, the second column is used. Field can also be the label of a "
-"column. \n"
-"@criteria is the range of cells which contains the specified conditions. The "
-"first row of a @criteria should contain the labels of the fields for which "
-"the criterias are for. Cells below the label specify coditions, for example, "
-"``>3'' or ``<9''. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=DCOUNT"
 msgstr ""
-"@FUNCTION=DAVERAGE\n"
-"@SYNTAX=DAVERAGE(base_données,champ,critère)\n"
-"@DESCRIPTION=La fonction DAVERAGE retourne la moyenne des valeurs contenues "
-"dans une liste ou une base de données satisfaisant les conditions "
-"spécifiées. \n"
-"@base_données est un intervalle de cellules dans lequel les lignes "
-"contiennent les enregistrements et les colonnes définissent les différents "
-"champs. La première ligne de cette base contient les titres de chaque "
-"colonne. \n"
-"@critère est un intervalle de cellules qui contient des conditions "
-"spécifiées. La première ligne d'un critère contient aussi les titres des "
-"différents champs. Les cellules situées en dessous décrivent les conditions, "
-"par exemple, ``>3'' ou ``<9''. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=DCOUNT"
 
-#: src/functions/fn-database.c:412
+#: src/functions/fn-database.c:461
 msgid ""
 "@FUNCTION=DCOUNT\n"
 "@SYNTAX=DCOUNT(database,field,criteria)\n"
 "@DESCRIPTION=DCOUNT function counts the cells that contain numbers in a "
 "database that match conditions specified. \n"
-"@database is a range of cells in which rows of related information are "
-"records and columns of data are fields. The first row of a database contains "
-"labels for each column. \n"
-"@field specifies which column is used in the function. If @field is an "
-"integer, i.e. 2, the second column is used. Field can also be the label of a "
-"column. \n"
-"@criteria is the range of cells which contains the specified conditions. The "
-"first row of a @criteria should contain the labels of the fields for which "
-"the criterias are for. Cells below the label specify coditions, for example, "
-"``>3'' or ``<9''. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=DAVERAGE"
 msgstr ""
-"@FUNCTION=DCOUNT\n"
-"@SYNTAX=DCOUNT(base_données,champ,critère)\n"
-"@DESCRIPTION=La fonction DCOUNT compte le nombre de cellules à valeur "
-"numérique d'une base de données, satisfaisant certains critères. \n"
-"@base_données est un intervalle de cellules dans lequel les lignes "
-"contiennent les enregistrements et les colonnes définissent les différents "
-"champs. La première ligne de cette base contient les titres de chaque "
-"colonne. \n"
-"@champ définit quelles sont les colonnes utilisées dans cette fonction. Si "
-"@field est un entier, par exemple 2, la seconde colonne est utilisée. @Field "
-"peut également être l'identificateur (titre) d'une colonne. \n"
-"@critère est un intervalle de cellules qui contient des conditions "
-"spécifiées. La première ligne d'un critère contient aussi les titres des "
-"différents champs. Les cellules situées en dessous décrivent les conditions, "
-"par exemple, ``>3'' ou ``<9''. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=DCOUNT"
 
-#: src/functions/fn-database.c:479
+#: src/functions/fn-database.c:519
 msgid ""
 "@FUNCTION=DCOUNTA\n"
 "@SYNTAX=DCOUNTA(database,field,criteria)\n"
 "@DESCRIPTION=DCOUNTA function counts the cells that contain data in a "
 "database that match conditions specified. \n"
-"@database is a range of cells in which rows of related information are "
-"records and columns of data are fields. The first row of a database contains "
-"labels for each column. \n"
-"@field specifies which column is used in the function. If @field is an "
-"integer, i.e. 2, the second column is used. Field can also be the label of a "
-"column. \n"
-"@criteria is the range of cells which contains the specified conditions. The "
-"first row of a @criteria should contain the labels of the fields for which "
-"the criterias are for. Cells below the label specify coditions, for example, "
-"``>3'' or ``<9''. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=DCOUNT"
 msgstr ""
-"@FUNCTION=DCOUNTA\n"
-"@SYNTAX=DCOUNTA(base_données,champ,critère)\n"
-"@DESCRIPTION=La fonction DCOUNTA compte le nombre de cellules d'une base de "
-"données, satisfaisant certains critères. \n"
-"@base_données est un intervalle de cellules dans lequel les lignes "
-"contiennent les enregistrements et les colonnes définissent les différents "
-"champs. La première ligne de cette base contient les titres de chaque "
-"colonne. \n"
-"@champ définit quelles sont les colonnes utilisées dans cette fonction. Si "
-"@field est un entier, par exemple 2, la seconde colonne est utilisée. @Field "
-"peut également être l'identificateur (titre) d'une colonne. \n"
-"@critère est un intervalle de cellules qui contient des conditions "
-"spécifiées. La première ligne d'un critère contient aussi les titres des "
-"différents champs. Les cellules situées en dessous décrivent les conditions, "
-"par exemple, ``>3'' ou ``<9''. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=DCOUNT"
 
-#: src/functions/fn-database.c:543
+#: src/functions/fn-database.c:574
 msgid ""
 "@FUNCTION=DGET\n"
 "@SYNTAX=DGET(database,field,criteria)\n"
 "@DESCRIPTION=DGET function returns a single value from a column that match "
 "conditions specified. \n"
-"@database is a range of cells in which rows of related information are "
-"records and columns of data are fields. The first row of a database contains "
-"labels for each column. \n"
-"@field specifies which column is used in the function. If @field is an "
-"integer, i.e. 2, the second column is used. Field can also be the label of a "
-"column. \n"
-"@criteria is the range of cells which contains the specified conditions. The "
-"first row of a @criteria should contain the labels of the fields for which "
-"the criterias are for. Cells below the label specify coditions, for example, "
-"``>3'' or ``<9''. \n"
-"If none of the items match the conditions, DGET returns #VALUE! error. If "
-"more than one items match the conditions, DGET returns #NUM! error. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=DCOUNT"
 msgstr ""
-"@FUNCTION=DGET\n"
-"@SYNTAX=DGET(base_données,champ,critère)\n"
-"@DESCRIPTION=La fonction DGET retourne une valeur unique pour une colonne "
-"satisfaisant des conditions spécifiées. \n"
-"@base_données est un intervalle de cellules dans lequel les lignes "
-"contiennent les enregistrements et les colonnes définissent les différents "
-"champs. La première ligne de cette base contient les titres de chaque "
-"colonne. \n"
-"@champ définit quelles sont les colonnes utilisées dans cette fonction. Si "
-"@field est un entier, par exemple 2, la seconde colonne est utilisée. @Field "
-"peut également être l'identificateur (titre) d'une colonne. \n"
-"@critère est un intervalle de cellules qui contient des conditions "
-"spécifiées. La première ligne d'un critère contient aussi les titres des "
-"différents champs. Les cellules situées en dessous décrivent les conditions, "
-"par exemple, ``>3'' ou ``<9''. \n"
-"Si aucun des éléments ne satisfait les conditions, DGET retourne l'erreur "
-"#VALEUR!. Si plus d'un élément satisfait les conditions, DGET retourne "
-"l'erreur #NUM!.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=DCOUNT"
 
-#: src/functions/fn-database.c:620
+#: src/functions/fn-database.c:641
 msgid ""
 "@FUNCTION=DMAX\n"
 "@SYNTAX=DMAX(database,field,criteria)\n"
 "@DESCRIPTION=DMAX function returns the largest number in a column that match "
 "conditions specified. \n"
-"@database is a range of cells in which rows of related information are "
-"records and columns of data are fields. The first row of a database contains "
-"labels for each column. \n"
-"@field specifies which column is used in the function. If @field is an "
-"integer, i.e. 2, the second column is used. Field can also be the label of a "
-"column. \n"
-"@criteria is the range of cells which contains the specified conditions. The "
-"first row of a @criteria should contain the labels of the fields for which "
-"the criterias are for. Cells below the label specify coditions, for example, "
-"``>3'' or ``<9''. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=DMIN"
 msgstr ""
-"@FUNCTION=DMAX\n"
-"@SYNTAX=DMAX(base_données,champ,critère)\n"
-"@DESCRIPTION=La fonction DMAX retourne le plus grand nombre dans une colonne "
-"qui satisfait des conditions spécifiées. \n"
-"@base_données est un intervalle de cellules dans lequel les lignes "
-"contiennent les enregistrements et les colonnes définissent les différents "
-"champs. La première ligne de cette base contient les titres de chaque "
-"colonne. \n"
-"@champ définit quelles sont les colonnes utilisées dans cette fonction. Si "
-"@field est un entier, par exemple 2, la seconde colonne est utilisée. @Field "
-"peut également être l'identificateur (titre) d'une colonne. \n"
-"@critère est un intervalle de cellules qui contient des conditions "
-"spécifiées. La première ligne d'un critère contient aussi les titres des "
-"différents champs. Les cellules situées en dessous décrivent les conditions, "
-"par exemple, ``>3'' ou ``<9''. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=DMIN"
 
-#: src/functions/fn-database.c:697
+#: src/functions/fn-database.c:709
 msgid ""
 "@FUNCTION=DMIN\n"
 "@SYNTAX=DMIN(database,field,criteria)\n"
 "@DESCRIPTION=DMIN function returns the smallest number in a column that "
 "match conditions specified. \n"
-"@database is a range of cells in which rows of related information are "
-"records and columns of data are fields. The first row of a database contains "
-"labels for each column. \n"
-"@field specifies which column is used in the function. If @field is an "
-"integer, i.e. 2, the second column is used. Field can also be the label of a "
-"column. \n"
-"@criteria is the range of cells which contains the specified conditions. The "
-"first row of a @criteria should contain the labels of the fields for which "
-"the criterias are for. Cells below the label specify coditions, for example, "
-"``>3'' or ``<9''. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=DMAX"
 msgstr ""
-"@FUNCTION=DMIN\n"
-"@SYNTAX=DMIN(base_données,champ,critère)\n"
-"@DESCRIPTION=La fonction DMIN retourne le plus petit nombre dans une colonne "
-"qui satisfait des conditions spécifiées. \n"
-"@base_données est un intervalle de cellules dans lequel les lignes "
-"contiennent les enregistrements et les colonnes définissent les différents "
-"champs. La première ligne de cette base contient les titres de chaque "
-"colonne. \n"
-"@champ définit quelles sont les colonnes utilisées dans cette fonction. Si "
-"@field est un entier, par exemple 2, la seconde colonne est utilisée. @Field "
-"peut également être l'identificateur (titre) d'une colonne. \n"
-"@critère est un intervalle de cellules qui contient des conditions "
-"spécifiées. La première ligne d'un critère contient aussi les titres des "
-"différents champs. Les cellules situées en dessous décrivent les conditions, "
-"par exemple, ``>3'' ou ``<9''. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=DMAX"
 
-#: src/functions/fn-database.c:774
+#: src/functions/fn-database.c:776
 msgid ""
 "@FUNCTION=DPRODUCT\n"
 "@SYNTAX=DPRODUCT(database,field,criteria)\n"
 "@DESCRIPTION=DPRODUCT function returns the product of numbers in a column "
 "that match conditions specified. \n"
-"@database is a range of cells in which rows of related information are "
-"records and columns of data are fields. The first row of a database contains "
-"labels for each column. \n"
-"@field specifies which column is used in the function. If @field is an "
-"integer, i.e. 2, the second column is used. Field can also be the label of a "
-"column. \n"
-"@criteria is the range of cells which contains the specified conditions. The "
-"first row of a @criteria should contain the labels of the fields for which "
-"the criterias are for. Cells below the label specify coditions, for example, "
-"``>3'' or ``<9''. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=DSUM"
 msgstr ""
-"@FUNCTION=DPRODUCT\n"
-"@SYNTAX=DPRODUCT(base_données,champ,critère)\n"
-"@DESCRIPTION=La fonction DPRODUCT retourne le produit des nombres dans une "
-"colonne qui satisfont des conditions spécifiées. \n"
-"@base_données est un intervalle de cellules dans lequel les lignes "
-"contiennent les enregistrements et les colonnes définissent les différents "
-"champs. La première ligne de cette base contient les titres de chaque "
-"colonne. \n"
-"@champ définit quelles sont les colonnes utilisées dans cette fonction. Si "
-"@field est un entier, par exemple 2, la seconde colonne est utilisée. @Field "
-"peut également être l'identificateur (titre) d'une colonne. \n"
-"@critère est un intervalle de cellules qui contient des conditions "
-"spécifiées. La première ligne d'un critère contient aussi les titres des "
-"différents champs. Les cellules situées en dessous décrivent les conditions, "
-"par exemple, ``>3'' ou ``<9''. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=DSUM"
 
-#: src/functions/fn-database.c:850
+#: src/functions/fn-database.c:841
 msgid ""
 "@FUNCTION=DSTDEV\n"
 "@SYNTAX=DSTDEV(database,field,criteria)\n"
 "@DESCRIPTION=DSTDEV function returns the estimate of the standard deviation "
 "of a population based on a sample. The populations consists of numbers that "
 "match conditions specified. \n"
-"@database is a range of cells in which rows of related information are "
-"records and columns of data are fields. The first row of a database contains "
-"labels for each column. \n"
-"@field specifies which column is used in the function. If @field is an "
-"integer, i.e. 2, the second column is used. Field can also be the label of a "
-"column. \n"
-"@criteria is the range of cells which contains the specified conditions. The "
-"first row of a @criteria should contain the labels of the fields for which "
-"the criterias are for. Cells below the label specify coditions, for example, "
-"``>3'' or ``<9''. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=DSTDEVP"
 msgstr ""
-"@FUNCTION=DSTDEV\n"
-"@SYNTAX=DSTDEV(base_données,champ,critère)\n"
-"@DESCRIPTION=La fonction STDEV retourne une estimation de l'écart-type d'une "
-"population fondée sur un échantillon. Les populations consistent en des "
-"nombres qui satisfont des conditions spécifiées. \n"
-"@base_données est un intervalle de cellules dans lequel les lignes "
-"contiennent les enregistrements et les colonnes définissent les différents "
-"champs. La première ligne de cette base contient les titres de chaque "
-"colonne. \n"
-"@champ définit quelles sont les colonnes utilisées dans cette fonction. Si "
-"@field est un entier, par exemple 2, la seconde colonne est utilisée. @Field "
-"peut également être l'identificateur (titre) d'une colonne. \n"
-"@critère est un intervalle de cellules qui contient des conditions "
-"spécifiées. La première ligne d'un critère contient aussi les titres des "
-"différents champs. Les cellules situées en dessous décrivent les conditions, "
-"par exemple, ``>3'' ou ``<9''. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=DSTDEVP"
 
-#: src/functions/fn-database.c:923
+#: src/functions/fn-database.c:904
 msgid ""
 "@FUNCTION=DSTDEVP\n"
 "@SYNTAX=DSTDEVP(database,field,criteria)\n"
 "@DESCRIPTION=DSTDEVP function returns the standard deviation of a population "
 "based on the entire populations. The populations consists of numbers that "
 "match conditions specified. \n"
-"@database is a range of cells in which rows of related information are "
-"records and columns of data are fields. The first row of a database contains "
-"labels for each column. \n"
-"@field specifies which column is used in the function. If @field is an "
-"integer, i.e. 2, the second column is used. Field can also be the label of a "
-"column. \n"
-"@criteria is the range of cells which contains the specified conditions. The "
-"first row of a @criteria should contain the labels of the fields for which "
-"the criterias are for. Cells below the label specify coditions, for example, "
-"``>3'' or ``<9''. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=DSTDEV"
 msgstr ""
-"@FUNCTION=DSTDEVP\n"
-"@SYNTAX=DSTDEVP(base_données,champ,critère)\n"
-"@DESCRIPTION=La fonction STDEVP retourne une estimation de l'écart-type "
-"d'une population fondée sur la population complète. Les populations "
-"consistent en des nombres qui satisfont des conditions spécifiées. \n"
-"@base_données est un intervalle de cellules dans lequel les lignes "
-"contiennent les enregistrements et les colonnes définissent les différents "
-"champs. La première ligne de cette base contient les titres de chaque "
-"colonne. \n"
-"@champ définit quelles sont les colonnes utilisées dans cette fonction. Si "
-"@field est un entier, par exemple 2, la seconde colonne est utilisée. @Field "
-"peut également être l'identificateur (titre) d'une colonne. \n"
-"@critère est un intervalle de cellules qui contient des conditions "
-"spécifiées. La première ligne d'un critère contient aussi les titres des "
-"différents champs. Les cellules situées en dessous décrivent les conditions, "
-"par exemple, ``>3'' ou ``<9''. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=DSTDEV"
 
-#: src/functions/fn-database.c:998
+#: src/functions/fn-database.c:969
 msgid ""
 "@FUNCTION=DSUM\n"
 "@SYNTAX=DSUM(database,field,criteria)\n"
 "@DESCRIPTION=DSUM function returns the sum of numbers in a column that match "
 "conditions specified. \n"
-"@database is a range of cells in which rows of related information are "
-"records and columns of data are fields. The first row of a database contains "
-"labels for each column. \n"
-"@field specifies which column is used in the function. If @field is an "
-"integer, i.e. 2, the second column is used. Field can also be the label of a "
-"column. \n"
-"@criteria is the range of cells which contains the specified conditions. The "
-"first row of a @criteria should contain the labels of the fields for which "
-"the criterias are for. Cells below the label specify coditions, for example, "
-"``>3'' or ``<9''. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=DPRODUCT"
 msgstr ""
-"@FUNCTION=DSUM\n"
-"@SYNTAX=DSUM(base_données,champ,critère)\n"
-"@DESCRIPTION=La fonction DSUM retourne la somme des nombres dans une colonne "
-"qui satisfont des conditions spécifiées. \n"
-"@base_données est un intervalle de cellules dans lequel les lignes "
-"contiennent les enregistrements et les colonnes définissent les différents "
-"champs. La première ligne de cette base contient les titres de chaque "
-"colonne. \n"
-"@champ définit quelles sont les colonnes utilisées dans cette fonction. Si "
-"@champ est un entier, par exemple 2, la seconde colonne est utilisée. @champ "
-"peut également être l'identificateur (titre) d'une colonne. \n"
-"@critère est un intervalle de cellules qui contient des conditions "
-"spécifiées. La première ligne d'un critère contient aussi les titres des "
-"différents champs. Les cellules situées en dessous décrivent les conditions, "
-"par exemple, ``>3'' ou ``<9''. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=DPRODUCT"
 
-#: src/functions/fn-database.c:1072
+#: src/functions/fn-database.c:1033
 msgid ""
 "@FUNCTION=DVAR\n"
 "@SYNTAX=DVAR(database,field,criteria)\n"
 "@DESCRIPTION=DVAR function returns the estimate of variance of a population "
 "based on a sample. The populations consists of numbers that match conditions "
 "specified. \n"
-"@database is a range of cells in which rows of related information are "
-"records and columns of data are fields. The first row of a database contains "
-"labels for each column. \n"
-"@field specifies which column is used in the function. If @field is an "
-"integer, i.e. 2, the second column is used. Field can also be the label of a "
-"column. \n"
-"@criteria is the range of cells which contains the specified conditions. The "
-"first row of a @criteria should contain the labels of the fields for which "
-"the criterias are for. Cells below the label specify coditions, for example, "
-"``>3'' or ``<9''. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=DVARP"
 msgstr ""
-"@FUNCTION=DVAR\n"
-"@SYNTAX=DVAR(base_données,champ,critère)\n"
-"@DESCRIPTION=La fonction DVAR retourne une estimation de la variance d'une "
-"population fondée sur un échantillon. Les populations consistent en des "
-"nombres qui satisfont des conditions spécifiées. \n"
-"@base_données est un intervalle de cellules dans lequel les lignes "
-"contiennent les enregistrements et des conditions spécifiées. \n"
-"@base_données est un intervalle de cellules dans lequel les lignes "
-"contiennent les enregistrements et les colonnes définissent les différents "
-"champs. La première ligne de cette base contient les titres de chaque "
-"colonne. \n"
-"@champ définit quelles sont les colonnes utilisées dans cette fonction. Si "
-"@field est un entier, par exemple 2, la seconde colonne est utilisée. @Field "
-"peut également être l'identificateur (titre) d'une colonne. \n"
-"@critère est un intervalle de cellules qui contient des conditions "
-"spécifiées. La première ligne d'un critère contient aussi les titres des "
-"différents champs. Les cellules situées en dessous décrivent les conditions, "
-"par exemple, ``>3'' ou ``<9''. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=DVARP"
 
-#: src/functions/fn-database.c:1147
+#: src/functions/fn-database.c:1098
 msgid ""
 "@FUNCTION=DVARP\n"
 "@SYNTAX=DVARP(database,field,criteria)\n"
 "@DESCRIPTION=DVARP function returns the variance of a population based on "
 "the entire populations. The populations consists of numbers that match "
 "conditions specified. \n"
-"@database is a range of cells in which rows of related information are "
-"records and columns of data are fields. The first row of a database contains "
-"labels for each column. \n"
-"@field specifies which column is used in the function. If @field is an "
-"integer, i.e. 2, the second column is used. Field can also be the label of a "
-"column. \n"
-"@criteria is the range of cells which contains the specified conditions. The "
-"first row of a @criteria should contain the labels of the fields for which "
-"the criterias are for. Cells below the label specify coditions, for example, "
-"``>3'' or ``<9''. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=DVAR"
 msgstr ""
-"@FUNCTION=DVARP\n"
-"@SYNTAX=DVARP(base_données,champ,critère)\n"
-"@DESCRIPTION=La fonction DVARP retourne une estimation de la variance d'une "
-"population fondée la population complète. Les populations consistent en des "
-"nombres qui satisfont des conditions spécifiées. \n"
-"@base_données est un intervalle de cellules dans lequel les lignes "
-"contiennent les enregistrements et les colonnes définissent les différents "
-"champs. La première ligne de cette base contient les titres de chaque "
-"colonne. \n"
-"@champ définit quelles sont les colonnes utilisées dans cette fonction. Si "
-"@field est un entier, par exemple 2, la seconde colonne est utilisée. @Field "
-"peut également être l'identificateur (titre) d'une colonne. \n"
-"@critère est un intervalle de cellules qui contient des conditions "
-"spécifiées. La première ligne d'un critère contient aussi les titres des "
-"différents champs. Les cellules situées en dessous décrivent les conditions, "
-"par exemple, ``>3'' ou ``<9''. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=DVAR"
 
-#: src/functions/fn-database.c:1226
+#: src/functions/fn-database.c:1165
+msgid ""
+"@FUNCTION=GETPIVOTDATA\n"
+"@SYNTAX=GETPIVOTDATA(pivot_table,field_name)\n"
+"@DESCRIPTION=GETPIVOTDATA function fetches summary data from a pivot table. "
+"@pivot_table is a cell range containing the pivot table. @field_name is the "
+"name of the field of which you want the summary data. \n"
+"If the summary data is unavailable, GETPIVOTDATA returns #REF! error. \n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-database.c:1207
 msgid "Database"
 msgstr "Base de données"
 
@@ -2647,9 +2671,9 @@ msgstr ""
 #.
 #: src/functions/fn-date.c:684 src/functions/fn-eng.c:120
 #: src/functions/fn-information.c:156 src/functions/fn-information.c:168
-#: src/functions/fn-information.c:185 src/functions/fn-information.c:188
-#: src/functions/fn-information.c:207 src/functions/fn-information.c:275
-#: src/functions/fn-information.c:291
+#: src/functions/fn-information.c:183 src/functions/fn-information.c:186
+#: src/functions/fn-information.c:205 src/functions/fn-information.c:273
+#: src/functions/fn-information.c:289
 msgid "Unimplemented"
 msgstr "Non implémenté"
 
@@ -4271,6 +4295,26 @@ msgstr ""
 "@SEEALSO=PV,FV"
 
 #: src/functions/fn-financial.c:1258
+msgid ""
+"@FUNCTION=IRR\n"
+"@SYNTAX=IRR(values[,guess])\n"
+"@DESCRIPTION=IRR calculates and returns the internal rate of return of an "
+"investment.  This function is closely related to the net present value "
+"function (NPV).  The IRR is the interest rate for a serie of cash flow where "
+"the net preset value is zero. \n"
+"@values contains the serie of cash flow generated by the investment.  The "
+"payments should occur at regular intervals.  The optional @guess is the "
+"initial value used in calculating the IRR.  You do not have to use that, it "
+"is only provided for the Excel compatibility. \n"
+"This function is Excel compatible. \n"
+"@EXAMPLES=\n"
+"Let us assume that the cells A1:A8 contain the numbers -32432, 5324, 7432, "
+"9332, 12324, 4334, 1235, -3422.  Now\n"
+"IRR(A1:A8) returns 0.04375. \n"
+"@SEEALSO=FV,NPV,PV"
+msgstr ""
+
+#: src/functions/fn-financial.c:1339
 #, fuzzy
 msgid ""
 "@FUNCTION=PV\n"
@@ -4285,11 +4329,11 @@ msgstr ""
 "@DESCRIPTION=Calcule la valeur actuelle d'un investissement.\n"
 "@SEEALSO=FV"
 
-#: src/functions/fn-financial.c:1282
+#: src/functions/fn-financial.c:1363
 msgid "pv - domain error"
 msgstr "pv - erreur de domaine"
 
-#: src/functions/fn-financial.c:1295
+#: src/functions/fn-financial.c:1376
 msgid ""
 "@FUNCTION=NPV\n"
 "@SYNTAX=NPV(rate,v1,v2,...)\n"
@@ -4303,7 +4347,7 @@ msgid ""
 "@SEEALSO=PV,XNPV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1349
+#: src/functions/fn-financial.c:1430
 msgid ""
 "@FUNCTION=XNPV\n"
 "@SYNTAX=XNPV(rate,values,dates)\n"
@@ -4318,7 +4362,30 @@ msgid ""
 "@SEEALSO=NPV,PV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1406
+#: src/functions/fn-financial.c:1487
+msgid ""
+"@FUNCTION=XIRR\n"
+"@SYNTAX=XIRR(values,dates[,guess])\n"
+"@DESCRIPTION=XIRR calculates and returns the internal rate of return of an "
+"investment that has not necessarily periodic payments.  This function is "
+"closely related to the net present value function (NPV and XNPV).  The XIRR "
+"is the interest rate for a serie of cash flow where the XNPV is zero. \n"
+"@values contains the serie of cash flow generated by the investment.  @dates "
+"contains the dates of the payments.  The first date describes the payment "
+"day of the initial payment and thus all the other dates should be after this "
+"date. The optional @guess is the initial value used in calculating the XIRR. "
+" You do not have to use that, it is only provided for the Excel "
+"compatibility. \n"
+"This function is Excel compatible. \n"
+"@EXAMPLES=\n"
+"Let us assume that the cells A1:A5 contain the numbers -6000, 2134, 1422, "
+"1933, and 1422, and the cells B1:B5 contain the dates \"1999-01-15\", "
+"\"1999-04-04\", \"1999-05-09\", \"2000-03-12\", and \"2000-05-1\". Then "
+"XIRR(A1:A5,B1:B5) returns 0.224838. \n"
+"@SEEALSO=IRR,XNPV"
+msgstr ""
+
+#: src/functions/fn-financial.c:1591
 #, fuzzy
 msgid ""
 "@FUNCTION=FV\n"
@@ -4333,7 +4400,7 @@ msgstr ""
 "@DESCRIPTION=Calcule la valeur future d'un investissement.\n"
 "@SEEALSO=PV,PMT,PPMT"
 
-#: src/functions/fn-financial.c:1439
+#: src/functions/fn-financial.c:1624
 #, fuzzy
 msgid ""
 "@FUNCTION=PMT\n"
@@ -4348,7 +4415,7 @@ msgstr ""
 "@DESCRIPTION=Calcule la valeur actuelle d'un investissement.\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:1473
+#: src/functions/fn-financial.c:1658
 #, fuzzy
 msgid ""
 "@FUNCTION=IPMT\n"
@@ -4376,7 +4443,7 @@ msgstr ""
 "PRINCIPA(per-1) = montant du reste principal sur la période précédente.\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:1527
+#: src/functions/fn-financial.c:1712
 #, fuzzy
 msgid ""
 "@FUNCTION=PPMT\n"
@@ -4403,7 +4470,7 @@ msgstr ""
 "PRINCIPA(per-1) = montant du reste principal sur la précédente période\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:1582
+#: src/functions/fn-financial.c:1767
 #, fuzzy
 msgid ""
 "@FUNCTION=NPER\n"
@@ -4418,7 +4485,7 @@ msgstr ""
 "@DESCRIPTION=Calcule le nombre de périodes d'un investissement.\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:1618
+#: src/functions/fn-financial.c:1803
 #, fuzzy
 msgid ""
 "@FUNCTION=DURATION\n"
@@ -4440,7 +4507,7 @@ msgstr ""
 "inflow.\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:1655
+#: src/functions/fn-financial.c:1840
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
 "@SYNTAX=FVSCHEDULE(pv,schedule)\n"
@@ -4453,7 +4520,7 @@ msgid ""
 "@SEEALSO=PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1698
+#: src/functions/fn-financial.c:1883
 msgid "Financial"
 msgstr "Financier"
 
@@ -4474,11 +4541,11 @@ msgstr ""
 "l'emplacement ou le contenu d'une cellule.\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:210 src/functions/fn-information.c:328
+#: src/functions/fn-information.c:208 src/functions/fn-information.c:326
 msgid "Unknown info_type"
 msgstr "info_type Inconnu"
 
-#: src/functions/fn-information.c:216
+#: src/functions/fn-information.c:214
 #, fuzzy
 msgid ""
 "@FUNCTION=COUNTBLANK\n"
@@ -4496,7 +4563,7 @@ msgstr ""
 "Cette fonction est compatible avec Excel.\n"
 "@SEEALSO=COUNT"
 
-#: src/functions/fn-information.c:256
+#: src/functions/fn-information.c:254
 #, fuzzy
 msgid ""
 "@FUNCTION=INFO\n"
@@ -4514,25 +4581,25 @@ msgstr ""
 "Cette fonction est compatible avec Excel.\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:298
+#: src/functions/fn-information.c:296
 msgid "Unknown version"
 msgstr "Version inconnue"
 
-#: src/functions/fn-information.c:300
+#: src/functions/fn-information.c:298
 #, c-format
 msgid "%s version %s"
 msgstr "%s version %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/functions/fn-information.c:309
+#: src/functions/fn-information.c:307
 msgid "Automatic"
 msgstr "Automatique"
 
-#: src/functions/fn-information.c:318
+#: src/functions/fn-information.c:316
 msgid "Unknown system"
 msgstr "Système inconnu"
 
-#: src/functions/fn-information.c:334
+#: src/functions/fn-information.c:332
 #, fuzzy
 msgid ""
 "@FUNCTION=ISERROR\n"
@@ -4550,11 +4617,11 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:357
+#: src/functions/fn-information.c:355
 msgid "Argument mismatch"
 msgstr "Arguments incompatibles"
 
-#: src/functions/fn-information.c:388
+#: src/functions/fn-information.c:386
 #, fuzzy
 msgid ""
 "@FUNCTION=ISNA\n"
@@ -4573,7 +4640,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:422
+#: src/functions/fn-information.c:420
 #, fuzzy
 msgid ""
 "@FUNCTION=ISERR\n"
@@ -4592,7 +4659,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:452
+#: src/functions/fn-information.c:450
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR(exp)\n"
@@ -4611,7 +4678,7 @@ msgid ""
 "@SEEALSO=ISERROR"
 msgstr ""
 
-#: src/functions/fn-information.c:511
+#: src/functions/fn-information.c:509
 #, fuzzy
 msgid ""
 "@FUNCTION=NA\n"
@@ -4628,7 +4695,7 @@ msgstr ""
 "Cette fonction est compatible avec Excel.\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:532
+#: src/functions/fn-information.c:530
 #, fuzzy
 msgid ""
 "@FUNCTION=ERROR\n"
@@ -4645,7 +4712,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISERROR"
 
-#: src/functions/fn-information.c:547 src/functions/fn-string.c:66
+#: src/functions/fn-information.c:545 src/functions/fn-string.c:66
 #: src/functions/fn-string.c:93 src/functions/fn-string.c:118
 #: src/functions/fn-string.c:183 src/functions/fn-string.c:221
 #: src/functions/fn-string.c:307 src/functions/fn-string.c:395
@@ -4655,7 +4722,7 @@ msgstr ""
 msgid "Type mismatch"
 msgstr "Types incompatibles"
 
-#: src/functions/fn-information.c:555
+#: src/functions/fn-information.c:553
 #, fuzzy
 msgid ""
 "@FUNCTION=ISBLANK\n"
@@ -4672,7 +4739,7 @@ msgstr ""
 "Cette fonction est compatible avec Excel.\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:603
+#: src/functions/fn-information.c:601
 #, fuzzy
 msgid ""
 "@FUNCTION=ISEVEN\n"
@@ -4689,7 +4756,7 @@ msgstr ""
 "Cette fonction est compatible avec Excel.\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:624
+#: src/functions/fn-information.c:622
 #, fuzzy
 msgid ""
 "@FUNCTION=ISLOGICAL\n"
@@ -4707,7 +4774,7 @@ msgstr ""
 "Cette fonction est compatible avec Excel.\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:653
+#: src/functions/fn-information.c:651
 #, fuzzy
 msgid ""
 "@FUNCTION=ISNONTEXT\n"
@@ -4725,7 +4792,7 @@ msgstr ""
 "Cette fonction est compatible avec Excel.\n"
 "@SEEALSO=ISTEXT"
 
-#: src/functions/fn-information.c:679
+#: src/functions/fn-information.c:677
 #, fuzzy
 msgid ""
 "@FUNCTION=ISNUMBER\n"
@@ -4743,7 +4810,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:705
+#: src/functions/fn-information.c:703
 #, fuzzy
 msgid ""
 "@FUNCTION=ISODD\n"
@@ -4760,7 +4827,7 @@ msgstr ""
 "Cette fonction est compatible avec Excel.\n"
 "@SEEALSO=ISEVEN"
 
-#: src/functions/fn-information.c:726
+#: src/functions/fn-information.c:724
 #, fuzzy
 msgid ""
 "@FUNCTION=ISREF\n"
@@ -4778,7 +4845,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:757
+#: src/functions/fn-information.c:755
 #, fuzzy
 msgid ""
 "@FUNCTION=ISTEXT\n"
@@ -4795,7 +4862,7 @@ msgstr ""
 "Cette fonction est compatible avec Excel.\n"
 "@SEEALSO=ISNONTEXT"
 
-#: src/functions/fn-information.c:783
+#: src/functions/fn-information.c:781
 #, fuzzy
 msgid ""
 "@FUNCTION=N\n"
@@ -4813,7 +4880,7 @@ msgstr ""
 "Cette fonction est compatible avec Excel.\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:822
+#: src/functions/fn-information.c:820
 #, fuzzy
 msgid ""
 "@FUNCTION=TYPE\n"
@@ -4831,7 +4898,7 @@ msgstr ""
 "Cette fonction est compatible avec Excel.\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:849
+#: src/functions/fn-information.c:847
 msgid "Information"
 msgstr "Information"
 
@@ -4891,9 +4958,9 @@ msgstr ""
 "\n"
 "@SEEALSO=AND, OR"
 
-#: src/functions/fn-logical.c:99 src/functions/fn-lookup.c:462
-#: src/functions/fn-lookup.c:470 src/functions/fn-lookup.c:574
-#: src/functions/fn-lookup.c:581 src/functions/fn-string.c:524
+#: src/functions/fn-logical.c:99 src/functions/fn-lookup.c:463
+#: src/functions/fn-lookup.c:471 src/functions/fn-lookup.c:575
+#: src/functions/fn-lookup.c:582 src/functions/fn-string.c:524
 msgid "Type Mismatch"
 msgstr "Types Incompatibles"
 
@@ -4958,7 +5025,7 @@ msgstr ""
 msgid "Logical"
 msgstr "Logique"
 
-#: src/functions/fn-lookup.c:18
+#: src/functions/fn-lookup.c:19
 #, fuzzy
 msgid ""
 "@FUNCTION=ADDRESS\n"
@@ -4998,7 +5065,7 @@ msgstr ""
 "#!NUM. \n"
 "@SEEALSO="
 
-#: src/functions/fn-lookup.c:135
+#: src/functions/fn-lookup.c:136
 #, fuzzy
 msgid ""
 "@FUNCTION=CHOOSE\n"
@@ -5018,11 +5085,11 @@ msgstr ""
 "l'erreur #VAL!.\n"
 "@SEEALSO=IF"
 
-#: src/functions/fn-lookup.c:159
+#: src/functions/fn-lookup.c:160
 msgid "#ARG!"
 msgstr "#ARG!"
 
-#: src/functions/fn-lookup.c:186
+#: src/functions/fn-lookup.c:187
 #, fuzzy
 msgid ""
 "@FUNCTION=VLOOKUP\n"
@@ -5052,7 +5119,7 @@ msgstr ""
 "tombe en dehors d'@intervalle.\n"
 "@SEEALSO=HLOOKUP"
 
-#: src/functions/fn-lookup.c:342
+#: src/functions/fn-lookup.c:343
 #, fuzzy
 msgid ""
 "@FUNCTION=HLOOKUP\n"
@@ -5081,7 +5148,7 @@ msgstr ""
 "tombe en dehors de l'intervalle.\n"
 "@SEEALSO=VLOOKUP"
 
-#: src/functions/fn-lookup.c:428
+#: src/functions/fn-lookup.c:429
 #, fuzzy
 msgid ""
 "@FUNCTION=LOOKUP\n"
@@ -5106,7 +5173,7 @@ msgstr ""
 "Si @valeur est inférieur à la première valeur, la fonction retourne #N/A\n"
 "@SEEALSO=VLOOKUP,HLOOKUP"
 
-#: src/functions/fn-lookup.c:529
+#: src/functions/fn-lookup.c:530
 #, fuzzy
 msgid ""
 "@FUNCTION=MATCH\n"
@@ -5132,7 +5199,7 @@ msgstr ""
 "Si @valeur est inférieur à la première valeur, la fonction retourne #N/A\n"
 "@SEEALSO=VLOOKUP,HLOOKUP"
 
-#: src/functions/fn-lookup.c:638
+#: src/functions/fn-lookup.c:639
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text, [format])\n"
@@ -5146,7 +5213,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-lookup.c:702
+#: src/functions/fn-lookup.c:703
 msgid ""
 "@FUNCTION=INDEX\n"
 "@SYNTAX=INDEX(reference, [row, col, area])\n"
@@ -5158,7 +5225,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-lookup.c:753
+#: src/functions/fn-lookup.c:754
 #, fuzzy
 msgid ""
 "@FUNCTION=COLUMN\n"
@@ -5180,7 +5247,7 @@ msgstr ""
 "fonction retourne l'erreur #VALEUR!\n"
 "@SEEALSO=COLUMNS,ROW,ROWS"
 
-#: src/functions/fn-lookup.c:806
+#: src/functions/fn-lookup.c:807
 #, fuzzy
 msgid ""
 "@FUNCTION=COLUMNS\n"
@@ -5201,7 +5268,7 @@ msgstr ""
 "fonction retourne l'erreur #VALEUR!\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: src/functions/fn-lookup.c:831
+#: src/functions/fn-lookup.c:832
 #, fuzzy
 msgid ""
 "@FUNCTION=OFFSET\n"
@@ -5225,7 +5292,7 @@ msgstr ""
 "sont utilisées.\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
-#: src/functions/fn-lookup.c:894
+#: src/functions/fn-lookup.c:895
 #, fuzzy
 msgid ""
 "@FUNCTION=ROW\n"
@@ -5247,7 +5314,7 @@ msgstr ""
 "fonction retourne l'erreur #VALEUR!\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
-#: src/functions/fn-lookup.c:947
+#: src/functions/fn-lookup.c:948
 #, fuzzy
 msgid ""
 "@FUNCTION=ROWS\n"
@@ -5268,7 +5335,7 @@ msgstr ""
 "fonction retourne l'erreur #VALEUR!\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: src/functions/fn-lookup.c:972
+#: src/functions/fn-lookup.c:973
 #, fuzzy
 msgid ""
 "@FUNCTION=HYPERLINK\n"
@@ -5287,7 +5354,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-lookup.c:997
+#: src/functions/fn-lookup.c:998
 #, fuzzy
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
@@ -5303,7 +5370,7 @@ msgstr ""
 "fournie en paramètre.\n"
 "@SEEALSO=MMULT"
 
-#: src/functions/fn-lookup.c:1047
+#: src/functions/fn-lookup.c:1048
 msgid "Data / Lookup"
 msgstr "Données / Recherche"
 
@@ -7042,7 +7109,7 @@ msgid ""
 "@EXAMPLES=\n"
 "NORMSDIST(2) equals 0.977249868.\n"
 "\n"
-"@SEEALSO=NOMRDIST"
+"@SEEALSO=NORMDIST"
 msgstr ""
 "@FUNCTION=NORMSDIST\n"
 "@SYNTAX=NORMSDIST(x)\n"
@@ -7816,7 +7883,7 @@ msgstr ""
 "l'erreur #DIV/0!. \n"
 "@SEEALSO=AVERAGE"
 
-#: src/functions/fn-stat.c:1848
+#: src/functions/fn-stat.c:1848 src/value-sheet.c:353
 msgid "#DIV/0!"
 msgstr "#DIV/0!"
 
@@ -8606,13 +8673,20 @@ msgid ""
 "returns #NUM! error.\n"
 "If @const is FALSE, the line will be forced to go through the origin, i.e., "
 "b will be zero.  The default is TRUE.\n"
-"If @stat is TRUE, extra statistical information will be returned. The "
-"default is FALSE.@EXAMPLES=\n"
+"If @stat is TRUE, extra statistical information will be returned. Extra "
+"statistical information is written bellow the regression line coefficients "
+"in the result array.  Extra statistical information consists of four rows of "
+"data.  In the first row the standard error values for the coefficients m1, "
+"(m2, ...), b are represented.  The second row contains the square of R and "
+"the standard error for the y estimate.  The third row contains the "
+"F-observed value and the degrees of freedom.  The last row contains the "
+"regression sum of squares and the residual sum of squares. \n"
+"The default of @stat is FALSE.@EXAMPLES=\n"
 "\n"
 "@SEEALSO=LOGEST,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:3898
+#: src/functions/fn-stat.c:3923
 #, fuzzy
 msgid ""
 "@FUNCTION=TREND\n"
@@ -8641,7 +8715,7 @@ msgstr ""
 "d'arguments, alors STEYX retourne l'erreur #N/A!.\n"
 "@SEEALSO=PEARSON,RSQ,SLOPE"
 
-#: src/functions/fn-stat.c:3999
+#: src/functions/fn-stat.c:4035
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -8654,13 +8728,20 @@ msgid ""
 "returns #NUM! error.\n"
 "If @const is FALSE, the line will be forced to go through (0,1),i.e., b will "
 "be one.  The default is TRUE.\n"
-"If @stat is TRUE, extra statistical information will be returned. The "
-"default is FALSE.@EXAMPLES=\n"
+"If @stat is TRUE, extra statistical information will be returned. Extra "
+"statistical information is written bellow the regression line coefficients "
+"in the result array.  Extra statistical information consists of four rows of "
+"data.  In the first row the standard error values for the coefficients m1, "
+"(m2, ...), b are represented.  The second row contains the square of R and "
+"the standard error for the y estimate.  The third row contains the "
+"F-observed value and the degrees of freedom.  The last row contains the "
+"regression sum of squares and the residual sum of squares. \n"
+"The default of @stat is FALSE.@EXAMPLES=\n"
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4105
+#: src/functions/fn-stat.c:4165
 msgid ""
 "@FUNCTION=GROWTH\n"
 "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
@@ -8680,7 +8761,7 @@ msgid ""
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4208
+#: src/functions/fn-stat.c:4279
 #, fuzzy
 msgid ""
 "@FUNCTION=FORECAST\n"
@@ -8709,7 +8790,7 @@ msgstr ""
 "@x_connus est zéro, FORECAST retourne l'erreur #DIV/0. \n"
 "@SEEALSO=INTERCEPT,TREND"
 
-#: src/functions/fn-stat.c:4279
+#: src/functions/fn-stat.c:4350
 #, fuzzy
 msgid ""
 "@FUNCTION=INTERCEPT\n"
@@ -8736,7 +8817,7 @@ msgstr ""
 "@x_connus est zéro, INTERCEPT retourne l'erreur #DIV/0. \n"
 "@SEEALSO=FORECAST,TREND"
 
-#: src/functions/fn-stat.c:4328
+#: src/functions/fn-stat.c:4399
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -8751,7 +8832,7 @@ msgid ""
 "@SEEALSO=STDEV,STDEVPA"
 msgstr ""
 
-#: src/functions/fn-stat.c:4373
+#: src/functions/fn-stat.c:4444
 msgid "Statistics"
 msgstr "Statistiques"
 
@@ -9186,397 +9267,340 @@ msgstr ""
 "SEARCH retourne l'erreur #VALEUR!.\n"
 "@SEEALSO=FIND"
 
-#: src/format.c:429
+#: src/format.c:428
 msgid "black"
 msgstr "noir"
 
-#: src/format.c:430
+#: src/format.c:429
 msgid "blue"
 msgstr "bleu"
 
-#: src/format.c:431
+#: src/format.c:430
 msgid "cyan"
 msgstr "cyan"
 
-#: src/format.c:432
+#: src/format.c:431
 msgid "green"
 msgstr "vert"
 
-#: src/format.c:433
+#: src/format.c:432
 msgid "magenta"
 msgstr "magenta"
 
-#: src/format.c:434
+#: src/format.c:433
 msgid "red"
 msgstr "rouge"
 
-#: src/format.c:435
+#: src/format.c:434
 msgid "white"
 msgstr "blanc"
 
-#: src/format.c:436
+#: src/format.c:435
 msgid "yellow"
 msgstr "jaune"
 
-#: src/format.c:1326
+#: src/format.c:1334
 msgid "0.0########"
 msgstr "0,0########"
 
-#: src/format.c:1340 src/value.c:321
+#: src/format.c:1348 src/value-sheet.c:26 src/value.c:321
 msgid "TRUE"
 msgstr "VRAI"
 
-#: src/format.c:1340 src/value.c:321
+#: src/format.c:1348 src/value-sheet.c:26 src/value.c:321
 msgid "FALSE"
 msgstr "FAUX"
 
-#: src/format.c:1349
+#: src/format.c:1357
 msgid "CELLRANGE"
 msgstr "INTERVALLECELL"
 
 #. Array of arrays ??
-#: src/format.c:1353
+#: src/format.c:1361
 msgid "ARRAY"
 msgstr "TABLEAU"
 
-#: src/formats.c:17
+#: src/formats.c:17 src/number-match.c:447
+msgid "General"
+msgstr "Général"
+
+#: src/formats.c:22
 msgid "0"
 msgstr "0"
 
-#: src/formats.c:18
+#: src/formats.c:23
 msgid "0.00"
 msgstr "0,00"
 
-#: src/formats.c:19
+#: src/formats.c:24
 msgid "#,##0"
 msgstr "# ##0"
 
-#: src/formats.c:20
+#: src/formats.c:25
 msgid "#,##0.00"
 msgstr "# ##0,00"
 
-#: src/formats.c:21
+#: src/formats.c:26
 msgid "#,##0_);(#,##0)"
 msgstr "# ##0_);(# ##0)"
 
-#: src/formats.c:22
+#: src/formats.c:27
 msgid "#,##0_);[Red](#,##0)"
 msgstr "#,##0_);[Red](#,##0)"
 
-#: src/formats.c:23
+#: src/formats.c:28
 msgid "#,##0.00_);(#,##0.00)"
 msgstr "# ##0,00_);(# ##0,00)"
 
-#: src/formats.c:24
+#: src/formats.c:29
 msgid "#,##0.00_);[Red](#,##0.00)"
 msgstr "#,##0.00_);[Red](#,##0.00)"
 
-#: src/formats.c:25
+#: src/formats.c:30
 msgid "0.0"
 msgstr "0,0"
 
-#: src/formats.c:30
+#: src/formats.c:35
+msgid "$#,##0_);($#,##0)"
+msgstr "$# ##0_);($# ##0)"
+
+#: src/formats.c:36
+msgid "$#,##0_);[Red]($#,##0)"
+msgstr "$#,##0_);[Red]($#,##0)"
+
+#: src/formats.c:37
+msgid "$#,##0.00_);($#,##0.00)"
+msgstr "$# ##0,00_);($# ##0,00)"
+
+#: src/formats.c:38
+msgid "$#,##0.00_);[Red]($#,##0.00)"
+msgstr "$#,##0.00_);[Red]($#,##0.00)"
+
+#: src/formats.c:44
 msgid "_($*#,##0_);_($*(#,##0);_($*\"-\"_);_(@_)"
 msgstr "_($*# ##0_);_($*(# ##0);_($*\"-\"_);_(@_)"
 
-#: src/formats.c:31
-msgid "_(*$,$$0_);_(*(#,##0);_(*\"-\"_);_(@_)"
-msgstr "_(*$ $$0_);_(*(# ##0);_(*\"-\"_);_(@_)"
+#: src/formats.c:45
+#, fuzzy
+msgid "_(*#,##0_);_(*(#,##0);_(*\"-\"_);_(@_)"
+msgstr "_($*# ##0_);_($*(# ##0);_($*\"-\"_);_(@_)"
 
-#: src/formats.c:32
+#: src/formats.c:46
 msgid "_($*#,##0.00_);_($*(#,##0.00);_($*\"-\"??_);_(@_)"
 msgstr "_($*# ##0,00_);_($*(# ##0,00);_($*\"-\"??_);_(@_)"
 
-#: src/formats.c:33
+#: src/formats.c:47
 msgid "_(*#,##0.00_);_(*(#,##0.00);_(*\"-\"??_);_(@_)"
 msgstr "_(*# ##0,00_);_(*(# ##0,00);_(*\"-\"??_);_(@_)"
 
-#: src/formats.c:38
+#: src/formats.c:52
 msgid "m/d/yy"
 msgstr "d/m/yy"
 
-#: src/formats.c:39
+#: src/formats.c:53
 msgid "m/d/yyyy"
 msgstr "d/m/yyyy"
 
-#: src/formats.c:40
+#: src/formats.c:54
 msgid "d-mmm-yy"
 msgstr "d-mmm-yy"
 
-#: src/formats.c:41
+#: src/formats.c:55
 msgid "d-mmm-yyyy"
 msgstr "d-mmm-yyyy"
 
-#: src/formats.c:42
+#: src/formats.c:56
 msgid "d-mmm"
 msgstr "d-mmm"
 
-#: src/formats.c:43
+#: src/formats.c:57
 msgid "d-mm"
 msgstr "d-mm"
 
-#: src/formats.c:44
+#: src/formats.c:58
 msgid "mmm/d"
 msgstr "d/mmm"
 
-#: src/formats.c:45
+#: src/formats.c:59
 msgid "mm/d"
 msgstr "d/mm"
 
-#: src/formats.c:46
+#: src/formats.c:60
 msgid "mm/dd/yy"
 msgstr "dd/mm/yy"
 
-#: src/formats.c:47
+#: src/formats.c:61
 msgid "mm/dd/yyyy"
 msgstr "dd/mm/yyyy"
 
-#: src/formats.c:48
+#: src/formats.c:62
 msgid "mmm/dd/yy"
 msgstr "dd/mmm/yy"
 
-#: src/formats.c:49
+#: src/formats.c:63
 msgid "mmm/dd/yyyy"
 msgstr "dd/mmm/yyyy"
 
-#: src/formats.c:50
+#: src/formats.c:64
 msgid "mmm/ddd/yy"
 msgstr "ddd/mmm/yy"
 
-#: src/formats.c:51
+#: src/formats.c:65
 msgid "mmm/ddd/yyyy"
 msgstr "ddd/mmm/yyyy"
 
-#: src/formats.c:52
+#: src/formats.c:66
 msgid "mm/ddd/yy"
 msgstr "ddd/mm/yy"
 
-#: src/formats.c:53
+#: src/formats.c:67
 msgid "mm/ddd/yyyy"
 msgstr "ddd/mm/yyyy"
 
-#: src/formats.c:54
+#: src/formats.c:68
 msgid "mmm-yy"
 msgstr "mmm-yy"
 
-#: src/formats.c:55
+#: src/formats.c:69
 msgid "mmm-yyyy"
 msgstr "mmm-yyyy"
 
-#: src/formats.c:56 src/formats.c:74
+#: src/formats.c:70 src/formats.c:88
 msgid "m/d/yy h:mm"
 msgstr "d/m/yy h:mm"
 
-#: src/formats.c:57
+#: src/formats.c:71
 msgid "m/d/yyyy h:mm"
 msgstr "d/m/yyyy h:mm"
 
-#: src/formats.c:58
+#: src/formats.c:72
 msgid "yyyy/mm/d"
 msgstr "yyyy/mm/d"
 
-#: src/formats.c:59
+#: src/formats.c:73
 msgid "yyyy/mmm/d"
 msgstr "yyyy/mmm/d"
 
-#: src/formats.c:60
+#: src/formats.c:74
 msgid "yyyy/mm/dd"
 msgstr "yyyy/mm/dd"
 
-#: src/formats.c:61
+#: src/formats.c:75
 msgid "yyyy/mmm/dd"
 msgstr "yyyy/mmm/dd"
 
-#: src/formats.c:62
+#: src/formats.c:76
 msgid "yyyy-mm-d"
 msgstr "yyyy-mm-d"
 
-#: src/formats.c:63
+#: src/formats.c:77
 msgid "yyyy-mmm-d"
 msgstr "yyyy-mmm-d"
 
-#: src/formats.c:64
+#: src/formats.c:78
 msgid "yyyy-mm-dd"
 msgstr "yyyy-mm-dd"
 
-#: src/formats.c:65
+#: src/formats.c:79
 msgid "yyyy-mmm-dd"
 msgstr "yyyy-mmm-dd"
 
-#: src/formats.c:70
+#: src/formats.c:84
 msgid "h:mm AM/PM"
 msgstr "h:mm AM/PM"
 
-#: src/formats.c:71
+#: src/formats.c:85
 msgid "h:mm:ss AM/PM"
 msgstr "h:mm:ss AM/PM"
 
-#: src/formats.c:72
+#: src/formats.c:86
 msgid "h:mm"
 msgstr "h:mm"
 
-#: src/formats.c:73
+#: src/formats.c:87
 msgid "h:mm:ss"
 msgstr "h:mm:ss"
 
-#: src/formats.c:75
+#: src/formats.c:89
 msgid "mm:ss"
 msgstr "mm:ss"
 
-#: src/formats.c:76
+#: src/formats.c:90
 msgid "mm:ss.0"
 msgstr "mm:ss.0"
 
-#: src/formats.c:77
+#: src/formats.c:91
 msgid "[h]:mm:ss"
 msgstr "[h]:mm:ss"
 
-#: src/formats.c:78
+#: src/formats.c:92
 #, fuzzy
 msgid "[h]:mm"
 msgstr "h:mm"
 
-#: src/formats.c:79
+#: src/formats.c:93
 #, fuzzy
 msgid "[mm]:ss"
 msgstr "mm:ss"
 
-#: src/formats.c:80
+#: src/formats.c:94
 msgid "[ss]"
 msgstr ""
 
-#: src/formats.c:85
+#: src/formats.c:99
 #, c-format
 msgid "0%"
 msgstr "0%"
 
-#: src/formats.c:86
+#: src/formats.c:100
 #, c-format
 msgid "0.00%"
 msgstr "0,00%"
 
-#: src/formats.c:91
+#: src/formats.c:105
 msgid "# ?/?"
 msgstr "# ?/?"
 
-#: src/formats.c:92
+#: src/formats.c:106
 msgid "# ??/??"
 msgstr "# ??/??"
 
-#: src/formats.c:97
+#: src/formats.c:111
 msgid "0.00E+00"
 msgstr "0,00E+00"
 
-#: src/formats.c:98
+#: src/formats.c:112
 msgid "##0.0E+0"
 msgstr "##0,0E+0"
 
-#: src/formats.c:108
-msgid "$#,##0_);($#,##0)"
-msgstr "$# ##0_);($# ##0)"
+#. TODO : Do we handle 'Red' being translated ??
+#: src/formats.c:421
+msgid "[Red]"
+msgstr ""
 
-#: src/formats.c:109
-msgid "$#,##0_);[Red]($#,##0)"
-msgstr "$#,##0_);[Red]($#,##0)"
-
-#: src/formats.c:110
-msgid "$#,##0.00_);($#,##0.00)"
-msgstr "$# ##0,00_);($# ##0,00)"
-
-#: src/formats.c:111
-msgid "$#,##0.00_);[Red]($#,##0.00)"
-msgstr "$#,##0.00_);[Red]($#,##0.00)"
-
-#: src/func.c:424
+#: src/func.c:422
 msgid "Function does not exist"
 msgstr "La fonction n'existe pas"
 
-#: src/func.c:426
+#: src/func.c:424
 msgid "Calling non-function"
 msgstr "Appel à une non-fonction"
-
-#: src/gnumeric-sheet.c:1030
-msgid "Solid"
-msgstr "Solide"
-
-#: src/gnumeric-sheet.c:1034
-#, no-c-format
-msgid "75%"
-msgstr "75%"
-
-#: src/gnumeric-sheet.c:1038
-#, no-c-format
-msgid "50%"
-msgstr "50%"
-
-#: src/gnumeric-sheet.c:1042
-#, no-c-format
-msgid "25%"
-msgstr "25%"
-
-#: src/gnumeric-sheet.c:1046
-#, no-c-format
-msgid "12.5%"
-msgstr "12.5%"
-
-#: src/gnumeric-sheet.c:1050
-#, no-c-format
-msgid "6.25%"
-msgstr "6.25%"
-
-#: src/gnumeric-sheet.c:1053
-msgid "Horizontal Stripe"
-msgstr "Rayures Horizontales"
-
-#: src/gnumeric-sheet.c:1056
-msgid "Vertical Stripe"
-msgstr "Rayures Verticales"
-
-#: src/gnumeric-sheet.c:1059
-msgid "Reverse Diagonal Stripe"
-msgstr "Rayures Diagonales Inversées"
-
-#: src/gnumeric-sheet.c:1062
-msgid "Diagonal Stripe"
-msgstr "Rayures Diagonales"
-
-#: src/gnumeric-sheet.c:1065
-msgid "Diagonal Crosshatch"
-msgstr ""
-
-#: src/gnumeric-sheet.c:1068
-msgid "Thick Diagonal Crosshatch"
-msgstr ""
-
-#: src/gnumeric-sheet.c:1071
-msgid "Thin Horizontal Stripe"
-msgstr "Rayures Horizontales Fines"
-
-#: src/gnumeric-sheet.c:1074
-msgid "Thin Vertical Stripe"
-msgstr "Rayures Verticales Fines"
-
-#: src/gnumeric-sheet.c:1077
-msgid "Thin Reverse Diagonal Stripe"
-msgstr "Rayures Diagonales Fines Inversées"
-
-#: src/gnumeric-sheet.c:1080
-msgid "Thin Diagonal Stripe"
-msgstr "Bande Diagonale Fine"
-
-#: src/gnumeric-sheet.c:1083
-msgid "Thin Crosshatch"
-msgstr ""
-
-#: src/gnumeric-sheet.c:1086
-msgid "Thin Diagonal Crosshatch"
-msgstr ""
 
 #: src/gnumeric-util.c:20
 msgid "You cannot change part of an array."
 msgstr "Vous ne pouvez pas changer une partie d'un tableau"
 
-#: src/item-cursor.c:501
+#: src/item-bar.c:451
+#, fuzzy, c-format
+msgid "Height: %.2f"
+msgstr "_Hauteur"
+
+#: src/item-bar.c:454
+#, c-format
+msgid "Width: %.2f"
+msgstr ""
+
+#: src/item-cursor.c:516
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
@@ -9586,94 +9610,140 @@ msgstr ""
 "dans cette région. Voulez-vous remplacer le contenu des cellules de cette "
 "région?"
 
-#: src/item-cursor.c:582 src/item-grid.c:651 src/workbook.c:1078
+#: src/item-cursor.c:597 src/workbook.c:1096
 msgid "Copy"
 msgstr "Copier"
 
-#: src/item-cursor.c:583 src/print-preview.c:454
+#: src/item-cursor.c:598 src/print-preview.c:538
 msgid "Move"
 msgstr "Déplacer"
 
-#: src/item-cursor.c:584
+#: src/item-cursor.c:599
 msgid "Copy formats"
 msgstr "Copier les formats"
 
-#: src/item-cursor.c:585
+#: src/item-cursor.c:600
 msgid "Copy values"
 msgstr "Copier les valeurs"
 
-#: src/item-cursor.c:586
+#: src/item-cursor.c:601
 msgid "Shift cells down and copy"
 msgstr "Décaler vers le bas et copier"
 
-#: src/item-cursor.c:587
+#: src/item-cursor.c:602
 msgid "Shift cells right and copy"
 msgstr "Décaler vers la droite et copier"
 
-#: src/item-cursor.c:588
+#: src/item-cursor.c:603
 msgid "Shift cells down and move"
 msgstr "Décaler vers le bas et déplacer"
 
-#: src/item-cursor.c:589
+#: src/item-cursor.c:604
 msgid "Shift cells right and move"
 msgstr "Décaler vers la droite et déplacer"
 
-#: src/item-grid.c:650 src/workbook.c:1075
-msgid "Cut"
+#: src/item-grid.c:640
+#, fuzzy
+msgid "Cu_t"
 msgstr "Couper"
 
-#: src/item-grid.c:652 src/workbook.c:1081
-msgid "Paste"
+#: src/item-grid.c:642
+#, fuzzy
+msgid "_Copy"
+msgstr "Copier"
+
+#: src/item-grid.c:644
+#, fuzzy
+msgid "_Paste"
 msgstr "Coller"
 
+#: src/item-grid.c:646
+#, fuzzy
+msgid "Paste _Special"
+msgstr "Collage spécial"
+
+#: src/item-grid.c:651
+#, fuzzy
+msgid "_Insert..."
+msgstr "_Insérer"
+
+#: src/item-grid.c:653 src/workbook.c:928
+#, fuzzy
+msgid "_Delete..."
+msgstr "Effacer"
+
 #: src/item-grid.c:655
-msgid "Insert"
-msgstr "Insérer"
+#, fuzzy
+msgid "Clear Co_ntents"
+msgstr "_Contenu"
 
-#: src/item-grid.c:657
-msgid "Erase content"
-msgstr "Effacer le contenu"
+#: src/item-grid.c:660
+#, fuzzy
+msgid "_Format Cells..."
+msgstr "_Cellules..."
 
-#: src/item-grid.c:659
-msgid "Cell format"
-msgstr "Format de cellule"
+#. Column specific functions
+#: src/item-grid.c:664
+#, fuzzy
+msgid "Column _Width..."
+msgstr "Largeur de _colonne :"
 
-#: src/main.c:45
+#: src/item-grid.c:666 src/item-grid.c:674
+#, fuzzy
+msgid "_Hide"
+msgstr "_Vue"
+
+#: src/item-grid.c:668 src/item-grid.c:676
+msgid "_Unhide"
+msgstr ""
+
+#. Row specific functions (Note some of the labels are duplicated
+#: src/item-grid.c:672
+#, fuzzy
+msgid "_Row Height..."
+msgstr "_Hauteur de ligne :"
+
+#: src/main.c:47
 msgid "Dumps the function definitions"
 msgstr "Liste les définitions de fonction"
 
-#: src/main.c:45
+#: src/main.c:47
 msgid "FILE"
 msgstr "FICHIER"
 
-#: src/main.c:47
+#: src/main.c:49
 msgid "Enables some debugging functions"
 msgstr "Activer quelques fonctions de débugage"
 
-#: src/main.c:47 src/main.c:52 src/main.c:56 src/main.c:60 src/main.c:64
-#: src/main.c:68
+#: src/main.c:49 src/main.c:51 src/main.c:56 src/main.c:60 src/main.c:64
+#: src/main.c:68 src/main.c:72
 msgid "LEVEL"
 msgstr "NIVEAU"
 
 #: src/main.c:51
+#, fuzzy
+msgid "Enables some style related debugging functions"
+msgstr "Activer quelques fonctions de débugage"
+
+#: src/main.c:55
 msgid "Enables debugging mesgs while reading excel workbooks"
 msgstr ""
 "Activer les messages de débugage à la lectures des feuilles de calcul excel"
 
-#: src/main.c:55
+#: src/main.c:59
 msgid "Enables debugging mesgs while reading excel functions"
 msgstr "Activer les messages de débugage à la lectures des fonctions excel"
 
-#: src/main.c:59
+#: src/main.c:63
 msgid "Enables debugging mesgs while reading excel colours & patterns"
 msgstr ""
 "Activer les messages de débugage à la lectures des couleurs & motifs excel"
 
-#: src/main.c:63
+#: src/main.c:67
 msgid "Enables debugging mesgs while reading excel charts"
 msgstr "Activer les messages de débugage à la lectures des graphiques excel"
 
-#: src/main.c:67
+#: src/main.c:71
 #, fuzzy
 msgid "Enables extra consistancy checking while reading ole files"
 msgstr "Activer les messages de débugage à la lectures des fonctions excel"
@@ -9698,7 +9768,7 @@ msgstr "Fermer"
 msgid "Add..."
 msgstr "Ajouter..."
 
-#: src/plugin-manager.c:143
+#: src/plugin-manager.c:143 src/sheet-object.c:978
 msgid "Remove"
 msgstr "Enlever"
 
@@ -9797,130 +9867,215 @@ msgstr "date"
 msgid "time"
 msgstr "date"
 
-#: src/print-preview.c:290
+#: src/print-preview.c:374
 msgid "Page: "
 msgstr "Page : "
 
-#: src/print-preview.c:414
+#: src/print-preview.c:498
 msgid "_First page"
 msgstr "Première page"
 
-#: src/print-preview.c:414 src/print-preview.c:442
+#: src/print-preview.c:498 src/print-preview.c:526
 msgid "Shows the first page"
 msgstr "Montrer la première page"
 
-#: src/print-preview.c:417
+#: src/print-preview.c:501
 msgid "_Previous page"
 msgstr "_Page précédente"
 
-#: src/print-preview.c:417 src/print-preview.c:445
+#: src/print-preview.c:501 src/print-preview.c:529
 msgid "Shows the previous page"
 msgstr "Montre la page précédente"
 
-#: src/print-preview.c:420
+#: src/print-preview.c:504
 msgid "_Next page"
 msgstr "Page _suivante"
 
-#: src/print-preview.c:420 src/print-preview.c:448
+#: src/print-preview.c:504 src/print-preview.c:532
 msgid "Shows the next page"
 msgstr "Montre la page suivante"
 
-#: src/print-preview.c:423
+#: src/print-preview.c:507
 msgid "_Last page"
 msgstr "_Dernière page"
 
-#: src/print-preview.c:423 src/print-preview.c:451
+#: src/print-preview.c:507 src/print-preview.c:535
 msgid "Shows the last page"
 msgstr "Montre la dernière page"
 
-#: src/print-preview.c:428
+#: src/print-preview.c:512
 msgid "Zoom _in"
 msgstr "Zoom _avant"
 
-#: src/print-preview.c:428
+#: src/print-preview.c:512
 msgid "Zooms in"
 msgstr "Zoom avant"
 
-#: src/print-preview.c:429
+#: src/print-preview.c:513
 msgid "Zoom _out"
 msgstr "Z_oom arrière"
 
-#: src/print-preview.c:429
+#: src/print-preview.c:513
 msgid "Zooms out"
 msgstr "Zoom arrière"
 
-#: src/print-preview.c:436
+#: src/print-preview.c:520
 msgid "_View"
 msgstr "_Vue"
 
-#: src/print-preview.c:442
+#: src/print-preview.c:526
 msgid "First"
 msgstr "Première"
 
-#: src/print-preview.c:445
+#: src/print-preview.c:529
 msgid "Back"
 msgstr "Retour"
 
-#: src/print-preview.c:448
+#: src/print-preview.c:532
 msgid "Next"
 msgstr "Suivant"
 
-#: src/print-preview.c:451
+#: src/print-preview.c:535
 msgid "Last"
 msgstr "Dernier"
 
-#: src/print-preview.c:455 src/workbook.c:2080
+#: src/print-preview.c:539 src/workbook.c:2104
 msgid "Zoom in"
 msgstr "Zoom avant"
 
-#: src/print-preview.c:455
+#: src/print-preview.c:539
 msgid "Zooms the page in"
 msgstr "Zoom avant"
 
-#: src/print-preview.c:456 src/workbook.c:2073
+#: src/print-preview.c:540 src/workbook.c:2097
 msgid "Zoom out"
 msgstr "Zoom arrière"
 
-#: src/print-preview.c:456
+#: src/print-preview.c:540
 msgid "Zooms the page out"
 msgstr "Zoom arrière"
 
-#: src/print-preview.c:475
+#: src/print-preview.c:559
 #, fuzzy, c-format
 msgid "Preview for %s in %s"
 msgstr "Aperçu de %s"
 
-#: src/print-preview.c:476
+#: src/print-preview.c:560
 #, fuzzy
 msgid "the sheet"
 msgstr "Ajouter une autre feuille"
 
-#: src/print-preview.c:477
+#: src/print-preview.c:561
 msgid "the workbook"
 msgstr "le classeur"
 
-#: src/sheet-view.c:351
+#: src/print.c:617
+msgid "Printing failed -- bad filename?"
+msgstr ""
+
+#: src/selection.c:144
+msgid "The command `"
+msgstr ""
+
+#: src/selection.c:146
+msgid "' cannot be performed with multiple selections"
+msgstr ""
+
+#: src/selection.c:594
+#, fuzzy
+msgid "copy"
+msgstr "Copier"
+
+#: src/selection.c:627
+#, fuzzy
+msgid "cut"
+msgstr "Couper"
+
+#: src/selection.c:668
+#, fuzzy
+msgid "paste"
+msgstr "Coller"
+
+#: src/selection.c:691
+#, c-format
+msgid ""
+"The area can not be pasted into the selection because it\n"
+"has a different shape (%dRx%dC vs %dRx%dC)\n"
+"\n"
+"Try selecting a single cell or an area of the same shape and size."
+msgstr ""
+
+#: src/sheet-object.c:359 src/workbook.c:1114
+msgid "Button"
+msgstr "Bouton"
+
+#: src/sheet-object.c:728 src/workbook.c:860
+msgid "Select an object"
+msgstr "Sélectionner un objet"
+
+#: src/sheet-view.c:368
 #, c-format
 msgid "Row: %d"
 msgstr "Ligne: %d"
 
-#: src/sheet-view.c:361
+#: src/sheet-view.c:378
 #, c-format
 msgid "Column: %s"
 msgstr "Colonne: %s"
 
-#: src/sheet.c:1020
+#: src/sheet.c:990
 msgid "Internal ERROR"
 msgstr "Erreur interne"
 
-#: src/sheet.c:3172
+#: src/sheet.c:2976
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Je n'ai pas pu activer l'objet %s"
 
-#: src/sheet.c:3184
+#: src/sheet.c:2988
 msgid "I was unable to the bind object"
 msgstr "Je n'ai pas pu associer l'objet"
+
+#: src/style.c:406
+msgid ""
+"Gnumeric failed to find a suitable default font.\n"
+"\n"
+"Please verify your gnome-print installation and that your fontmap file\n"
+"(typically located in /usr/local/share/fonts/fontmap) is not empty or\n"
+"near empty.\n"
+"\n"
+"If you still have no luck, please file a proper bug report (see\n"
+"http://bugs.gnome.org) including the following extra items:\n"
+"\n"
+"1. Values of LC_ALL and LANG environment variables.\n"
+"2. Your fontmap file, see above.\n"
+"\n"
+"Thanks -- the Gnumeric Team\n"
+msgstr ""
+
+#: src/value-sheet.c:352
+msgid "#NULL!"
+msgstr "#NULL!"
+
+#: src/value-sheet.c:354
+msgid "#VALUE!"
+msgstr "#VALEUR!"
+
+#: src/value-sheet.c:355
+msgid "#REF!"
+msgstr "#REF!"
+
+#: src/value-sheet.c:356
+msgid "#NAME?"
+msgstr "#NOM?"
+
+#: src/value-sheet.c:357
+msgid "#NUM!"
+msgstr "#NUM!"
+
+#: src/value-sheet.c:358
+msgid "#N/A"
+msgstr "#N/A"
 
 #: src/value.c:483
 msgid "Terminate"
@@ -9928,563 +10083,1084 @@ msgstr "Terminer"
 
 #. Placeholder: font selector
 #. Placeholder: size selector
-#: src/widgets/widget-font-selector.c:111 src/workbook-format-toolbar.c:406
+#: src/widgets/widget-font-selector.c:126 src/workbook-format-toolbar.c:258
 msgid "Bold"
 msgstr "Gras"
 
-#: src/widgets/widget-font-selector.c:112
+#: src/widgets/widget-font-selector.c:127
 msgid "Bold italic"
 msgstr "Gras Italique"
 
-#: src/widgets/widget-font-selector.c:113 src/workbook-format-toolbar.c:409
+#: src/widgets/widget-font-selector.c:128 src/workbook-format-toolbar.c:261
 msgid "Italic"
 msgstr "Italique"
 
-#: src/workbook.c:413
+#: src/workbook-cmd-format.c:88
+msgid "You entered an invalid column width value.  It must be bigger than 0"
+msgstr ""
+
+#: src/workbook-cmd-format.c:172
+msgid "You entered an invalid row height value.  It must be bigger than 0"
+msgstr ""
+
+#: src/workbook-format-toolbar.c:258
+msgid "Sets the bold font"
+msgstr "Définir une police grasse"
+
+#: src/workbook-format-toolbar.c:261
+msgid "Makes the font italic"
+msgstr "Utiliser une police italique"
+
+#: src/workbook-format-toolbar.c:267
+msgid "Left align"
+msgstr "Aligner à gauche"
+
+#: src/workbook-format-toolbar.c:267
+msgid "Left justifies the cell contents"
+msgstr "Justifier à gauche le contenu des cellules"
+
+#: src/workbook-format-toolbar.c:270
+msgid "Center"
+msgstr "Centre"
+
+#: src/workbook-format-toolbar.c:270
+msgid "Centers the cell contents"
+msgstr "Centrer le contenu des cellules"
+
+#: src/workbook-format-toolbar.c:273
+msgid "Right align"
+msgstr "Aligner à droite"
+
+#: src/workbook-format-toolbar.c:273
+msgid "Right justifies the cell contents"
+msgstr "Justifier à droite le contenu des cellules"
+
+#: src/workbook-format-toolbar.c:279
+msgid "Money format"
+msgstr "Format monétaire"
+
+#: src/workbook-format-toolbar.c:279
+#, fuzzy
+msgid "Sets the format of the selected cells to monetary"
+msgstr "Modifier le formatage des cellules sélectionnées"
+
+#: src/workbook-format-toolbar.c:282
+msgid "Percent"
+msgstr "Pourcentage"
+
+#: src/workbook-format-toolbar.c:282
+#, fuzzy
+msgid "Sets the format of the selected cells to percentage"
+msgstr "Modifier le formatage des cellules sélectionnées"
+
+#: src/workbook-format-toolbar.c:285
+msgid "Thousand separator"
+msgstr ""
+
+#: src/workbook-format-toolbar.c:285
+msgid "Sets the format of the selected cells to include a thousands separator"
+msgstr ""
+
+#: src/workbook-format-toolbar.c:288
+msgid "Add decimals"
+msgstr "Ajouter décimales"
+
+#: src/workbook-format-toolbar.c:288
+msgid "Increases the number of decimal numbers displayed"
+msgstr ""
+
+#: src/workbook-format-toolbar.c:291
+msgid "Remove decimals"
+msgstr "Enlever décimales"
+
+#: src/workbook-format-toolbar.c:291
+msgid "Decreases the number of decimal numbers displayed"
+msgstr ""
+
+#: src/workbook-format-toolbar.c:383
+msgid "Font selector"
+msgstr "Sélecteur de police"
+
+#: src/workbook-format-toolbar.c:399
+msgid "Size"
+msgstr "Taille"
+
+#: src/workbook-format-toolbar.c:421
+msgid "Foreground"
+msgstr ""
+
+#: src/workbook.c:415
 msgid "Warning"
 msgstr "Avertissement"
 
-#: src/workbook.c:422
+#: src/workbook.c:424
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr ""
 "La feuille de calcul %s a des changements non enregistrés; les enregistrer "
 "maintenant?"
 
-#: src/workbook.c:425
+#: src/workbook.c:427
 msgid "Workbook has unsaved changes, save them?"
 msgstr ""
 "La feuille de calcul a des changements non enregistrés; les enregistrer "
 "maintenant?"
 
-#: src/workbook.c:625
+#: src/workbook.c:640
 msgid "Insert cols"
 msgstr "Insérer colonnes"
 
-#: src/workbook.c:645
+#: src/workbook.c:660
 msgid "Insert rows"
 msgstr "Insérer lignes"
 
-#: src/workbook.c:740
+#: src/workbook.c:755
 msgid ">mm/dd/yyyy"
 msgstr ">dd/mm/yyyy"
 
-#: src/workbook.c:759
+#: src/workbook.c:774
 msgid ">hh:mm"
 msgstr ">hh:mm"
 
-#: src/workbook.c:845
-msgid "Select an object"
-msgstr "Sélectionner un objet"
-
-#: src/workbook.c:854
+#: src/workbook.c:869
 msgid "_New"
 msgstr "_Nouveau"
 
-#: src/workbook.c:854
+#: src/workbook.c:869
 msgid "Create a new spreadsheet"
 msgstr "Créer une nouvelle feuille"
 
-#: src/workbook.c:858
+#: src/workbook.c:873
 #, fuzzy
 msgid "_Import..."
 msgstr "_Importer"
 
-#: src/workbook.c:858
+#: src/workbook.c:873
 msgid "Imports a file"
 msgstr "Importe un fichier"
 
-#: src/workbook.c:864
+#: src/workbook.c:879
 msgid "Su_mmary..."
 msgstr "Résu_mé..."
 
-#: src/workbook.c:864
+#: src/workbook.c:879
 msgid "Summary information"
 msgstr "Informations résumées"
 
-#: src/workbook.c:869
+#: src/workbook.c:884
 msgid "Plu_g-ins..."
 msgstr "Plu_g-ins..."
 
-#: src/workbook.c:869
+#: src/workbook.c:884
 msgid "Gnumeric plugins"
 msgstr "plugins Gnumeric"
 
-#: src/workbook.c:876 src/workbook.c:1069
+#: src/workbook.c:891 src/workbook.c:1087
 msgid "Print pre_view"
 msgstr "_Aperçu de l'impression"
 
-#: src/workbook.c:876 src/workbook.c:1069
+#: src/workbook.c:891 src/workbook.c:1087
 msgid "Print preview"
 msgstr "Aperçu de l'impression"
 
-#: src/workbook.c:892
+#: src/workbook.c:907
 msgid "_All"
 msgstr "_Tous"
 
-#: src/workbook.c:893
+#: src/workbook.c:908
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Efface les cellules sélectionnées: formats, commentaires et contenu"
 
-#: src/workbook.c:895
+#: src/workbook.c:910
 msgid "_Formats"
 msgstr "_Formats"
 
-#: src/workbook.c:896
+#: src/workbook.c:911
 msgid "Clear the selected cells' formats"
 msgstr "Effacer les formats des cellules sélectionnées"
 
-#: src/workbook.c:898
+#: src/workbook.c:914
 msgid "Clear the selected cells' comments"
 msgstr "Effacer les commentaires des cellules sélectionnées"
 
-#: src/workbook.c:899
+#: src/workbook.c:916
 msgid "_Content"
 msgstr "_Contenu"
 
-#: src/workbook.c:900
+#: src/workbook.c:917
 msgid "Clear the selected cells' contents"
 msgstr "Effacer le contenu des cellules sélectionnées"
 
-#: src/workbook.c:908
+#: src/workbook.c:926
 msgid "P_aste special..."
 msgstr "Coll_age spécial..."
 
-#: src/workbook.c:910
-#, fuzzy
-msgid "_Delete..."
-msgstr "Effacer"
-
-#: src/workbook.c:912
+#: src/workbook.c:930
 msgid "C_lear"
 msgstr "Vi_der"
 
-#: src/workbook.c:913
+#: src/workbook.c:931
 msgid "Clear the selected cell(s)"
 msgstr "Vider la(les) cellule(s) sélectionnée(s)"
 
-#: src/workbook.c:917
+#: src/workbook.c:935
 msgid "_Select All"
 msgstr "Tout _sélectionner"
 
-#: src/workbook.c:918
+#: src/workbook.c:936
 msgid "Select all cells in the spreadsheet"
 msgstr "Sélectionner toutes les cellules dans la feuille"
 
-#: src/workbook.c:920
+#: src/workbook.c:938
 msgid "_Goto cell..."
 msgstr "_Aller à la cellule..."
 
-#: src/workbook.c:921
+#: src/workbook.c:939
 msgid "Jump to a specified cell"
 msgstr "Aller à une cellule spécifique"
 
-#: src/workbook.c:927
+#: src/workbook.c:945
 msgid "Insert object..."
 msgstr "Insérer objet..."
 
-#: src/workbook.c:928
+#: src/workbook.c:946
 msgid "Inserts a Bonobo object"
 msgstr "Insérer un objet Bonobo"
 
-#: src/workbook.c:932
+#: src/workbook.c:950
 msgid "_Define cell names"
 msgstr "_Définir les noms de cellules"
 
-#: src/workbook.c:935
+#: src/workbook.c:953
 msgid "_Recalculate"
 msgstr "_Recalculer"
 
-#: src/workbook.c:936
+#: src/workbook.c:954
 msgid "Recalculate the spreadsheet"
 msgstr "Recalculer la feuille"
 
-#: src/workbook.c:944
+#: src/workbook.c:962
 msgid "_Zoom..."
 msgstr "_Zoom..."
 
-#: src/workbook.c:945
+#: src/workbook.c:963
 msgid "Zoom the spreadsheet in or out"
 msgstr "Zoomer en avant ou en arrière"
 
-#: src/workbook.c:952
+#: src/workbook.c:970
 msgid "Current _date"
 msgstr "_Date courante"
 
-#: src/workbook.c:953
+#: src/workbook.c:971
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Insérer la date courante dans la(les) cellule(s) sélectionnée(s)"
 
-#: src/workbook.c:956
+#: src/workbook.c:974
 msgid "Current _time"
 msgstr "_Heure courante"
 
-#: src/workbook.c:957
+#: src/workbook.c:975
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Insérer l'heure courante dans la(les) cellule(s) sélectionnée(s)"
 
-#: src/workbook.c:964 src/workbook.c:1012
+#: src/workbook.c:982 src/workbook.c:1030
 msgid "_Sheet"
 msgstr "_Feuille"
 
-#: src/workbook.c:964
+#: src/workbook.c:982
 msgid "Insert a new spreadsheet"
 msgstr "Insérer une nouvelle feuille"
 
-#: src/workbook.c:966 src/workbook.c:1007
+#: src/workbook.c:984 src/workbook.c:1025
 msgid "_Cells..."
 msgstr "_Cellules..."
 
-#: src/workbook.c:966
+#: src/workbook.c:984
 msgid "Insert new cells"
 msgstr "Insérer de nouvelles cellules"
 
-#: src/workbook.c:968
+#: src/workbook.c:986
 msgid "_Rows"
 msgstr "_Lignes"
 
-#: src/workbook.c:968
+#: src/workbook.c:986
 msgid "Insert new rows"
 msgstr "Insérer de nouvelles lignes"
 
-#: src/workbook.c:970
+#: src/workbook.c:988
 msgid "C_olumns"
 msgstr "C_olonnes"
 
-#: src/workbook.c:970
+#: src/workbook.c:988
 msgid "Insert new columns"
 msgstr "Insérer de nouvelles colonnes"
 
-#: src/workbook.c:975
+#: src/workbook.c:993
 msgid "_Add/modify comment..."
 msgstr "_Ajouter/modifier commentaire"
 
-#: src/workbook.c:976
+#: src/workbook.c:994
 msgid "Edit the selected cell's comment"
 msgstr "Editer le commentaire de la cellule sélectionnée"
 
-#: src/workbook.c:977
-#, fuzzy
-msgid "S_pecial"
-msgstr "_Spécial"
-
-#: src/workbook.c:985 src/workbook.c:993
+#: src/workbook.c:1003 src/workbook.c:1011
 #, fuzzy
 msgid "_Auto fit selection"
 msgstr "Section de gauche"
 
-#: src/workbook.c:987
+#: src/workbook.c:1005
 msgid "_Width"
 msgstr "_Largeur"
 
-#: src/workbook.c:995
+#: src/workbook.c:1013
 msgid "_Height"
 msgstr "_Hauteur"
 
-#: src/workbook.c:1001
+#: src/workbook.c:1019
 msgid "_Change name"
 msgstr "_Changer nom"
 
-#: src/workbook.c:1008
+#: src/workbook.c:1026
 msgid "Modify the formatting of the selected cells"
 msgstr "Modifier le formatage des cellules sélectionnées"
 
-#: src/workbook.c:1010
+#: src/workbook.c:1028
 msgid "C_olumn"
 msgstr "C_olonne"
 
-#: src/workbook.c:1011
+#: src/workbook.c:1029
 msgid "_Row"
 msgstr "_Ligne"
 
-#: src/workbook.c:1019
+#: src/workbook.c:1037
 msgid "_Sort..."
 msgstr "_Tri..."
 
-#: src/workbook.c:1020
+#: src/workbook.c:1038
 msgid "Sort the selected cells"
 msgstr "Trie les cellules sélectionnées"
 
-#: src/workbook.c:1021
+#: src/workbook.c:1039
 msgid "_Goal Seek..."
 msgstr "_Résolveur..."
 
-#: src/workbook.c:1023
+#: src/workbook.c:1041
 msgid "_Solver..."
 msgstr "_Solveur..."
 
-#: src/workbook.c:1025
+#: src/workbook.c:1043
 msgid "_Data Analysis..."
 msgstr "Analyse des _Données..."
 
-#: src/workbook.c:1041
+#: src/workbook.c:1059
 msgid "_Insert"
 msgstr "_Insérer"
 
-#: src/workbook.c:1042
+#: src/workbook.c:1060
 msgid "F_ormat"
 msgstr "F_ormat"
 
-#: src/workbook.c:1043
+#: src/workbook.c:1061
 msgid "_Tools"
 msgstr "_Outils"
 
-#: src/workbook.c:1054
+#: src/workbook.c:1072
 msgid "New"
 msgstr "Nouveau"
 
-#: src/workbook.c:1054
+#: src/workbook.c:1072
 msgid "Creates a new sheet"
 msgstr "Crée une nouvelle feuille"
 
-#: src/workbook.c:1057
+#: src/workbook.c:1075
 msgid "Open"
 msgstr "Ouvrir"
 
-#: src/workbook.c:1057
+#: src/workbook.c:1075
 msgid "Opens an existing workbook"
 msgstr "Ouvrir une feuille existante"
 
-#: src/workbook.c:1060
+#: src/workbook.c:1078
 msgid "Save"
 msgstr "Enregistrer"
 
-#: src/workbook.c:1060
+#: src/workbook.c:1078
 msgid "Saves the workbook"
 msgstr "Enregistrer la feuille"
 
-#: src/workbook.c:1066
+#: src/workbook.c:1084
 msgid "Prints the workbook"
 msgstr "Imprimer la feuille"
 
-#: src/workbook.c:1075
+#: src/workbook.c:1093
+msgid "Cut"
+msgstr "Couper"
+
+#: src/workbook.c:1093
 msgid "Cuts the selection to the clipboard"
 msgstr "Coupe la sélection vers le presse-papier"
 
-#: src/workbook.c:1078
+#: src/workbook.c:1096
 msgid "Copies the selection to the clipboard"
 msgstr "Copie la sélection vers presse-papier"
 
-#: src/workbook.c:1081
+#: src/workbook.c:1099
+msgid "Paste"
+msgstr "Coller"
+
+#: src/workbook.c:1099
 msgid "Pastes the clipboard"
 msgstr "Colle le contenu du presse-papier"
 
-#: src/workbook.c:1088
+#: src/workbook.c:1106
 msgid "Graphic"
 msgstr "Graphique"
 
-#: src/workbook.c:1088
+#: src/workbook.c:1106
 msgid "Creates a graphic in the spreadsheet"
 msgstr "Créer un graphique dans la feuille"
 
-#: src/workbook.c:1091
+#: src/workbook.c:1109
 msgid "Bobobo Item"
 msgstr ""
 
-#: src/workbook.c:1091
+#: src/workbook.c:1109
 #, fuzzy
 msgid "Creates a Bonobo shaped item"
 msgstr "Crée une nouvelle feuille"
 
-#: src/workbook.c:1096
-msgid "Button"
-msgstr "Bouton"
-
-#: src/workbook.c:1096
+#: src/workbook.c:1114
 #, fuzzy
 msgid "Creates a button"
 msgstr "Créer un objet bouton"
 
-#: src/workbook.c:1099
+#: src/workbook.c:1117
 msgid "Checkbox"
 msgstr ""
 
-#: src/workbook.c:1099
+#: src/workbook.c:1117
 #, fuzzy
 msgid "Creates a checkbox"
 msgstr "Crée une nouvelle feuille"
 
-#: src/workbook.c:1106
-msgid "Line"
-msgstr "Ligne"
-
-#: src/workbook.c:1106
+#: src/workbook.c:1124
 msgid "Creates a line object"
 msgstr "Créer une nouvelle ligne"
 
-#: src/workbook.c:1109
+#: src/workbook.c:1127
 msgid "Arrow"
 msgstr "Flèche"
 
-#: src/workbook.c:1109
+#: src/workbook.c:1127
 msgid "Creates an arrow object"
 msgstr "Créer une nouvelle flèche"
 
-#: src/workbook.c:1112
+#: src/workbook.c:1130
 msgid "Rectangle"
 msgstr "Rectangle"
 
-#: src/workbook.c:1112
+#: src/workbook.c:1130
 msgid "Creates a rectangle object"
 msgstr "Créer un nouveau rectangle"
 
-#: src/workbook.c:1115
+#: src/workbook.c:1133
 msgid "Ellipse"
 msgstr "Ellipse"
 
-#: src/workbook.c:1115
+#: src/workbook.c:1133
 msgid "Creates an ellipse object"
 msgstr "Créer une nouvelle ellipse"
 
-#: src/workbook.c:1333
+#: src/workbook.c:1351
 msgid "You should introduce a valid cell name"
 msgstr "Vous devez introduire un nom de cellule valide"
 
-#: src/workbook.c:1342
+#: src/workbook.c:1360
 msgid "Column out of range"
 msgstr "Colonne invalide"
 
-#: src/workbook.c:1348
+#: src/workbook.c:1366
 msgid "Row number out of range"
 msgstr "Numéro de ligne invalide"
 
-#: src/workbook.c:1546
+#: src/workbook.c:1571
 msgid "Sum"
 msgstr "Somme"
 
-#: src/workbook.c:1549
+#: src/workbook.c:1574
 msgid "Average"
 msgstr "Moyenne"
 
-#: src/workbook.c:1550
+#: src/workbook.c:1575
 msgid "Count"
 msgstr "Compte"
 
-#: src/workbook.c:1981
+#: src/workbook.c:2005
 msgid "Untitled.gnumeric"
 msgstr "SansTitre.gnumeric"
 
-#: src/workbook.c:2202
+#: src/workbook.c:2228
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Voulez-vous vraiment enlever la feuille nommée `%s' ?"
 
-#: src/workbook.c:2221
-msgid "Other sheets depend on the values on this sheet; I cannot remove it."
-msgstr ""
-"D'autres feuilles dépendent de valeurs de cette feuille; je ne peux pas "
-"l'enlever."
-
-#: src/workbook.c:2259
+#: src/workbook.c:2277
 msgid "Add another sheet"
 msgstr "Ajouter une autre feuille"
 
-#: src/workbook.c:2260
+#: src/workbook.c:2278
 msgid "Remove this sheet"
 msgstr "Enlever cette feuille"
 
-#: src/workbook.c:2526 src/workbook.c:2561
+#: src/workbook.c:2546 src/workbook.c:2590
 #, c-format
 msgid "Sheet%d"
 msgstr "Feuille %d"
 
-#: src/workbook.c:2596
+#: src/workbook.c:2582
+#, fuzzy, c-format
+msgid "Book%d"
+msgstr "Gras"
+
+#: src/workbook.c:2625
 msgid "Gnumeric: "
 msgstr "Gnumeric: "
 
-#: src/workbook-format-toolbar.c:406
-msgid "Sets the bold font"
-msgstr "Définir une police grasse"
-
-#: src/workbook-format-toolbar.c:409
-msgid "Makes the font italic"
-msgstr "Utiliser une police italique"
-
-#: src/workbook-format-toolbar.c:415
-msgid "Left align"
-msgstr "Aligner à gauche"
-
-#: src/workbook-format-toolbar.c:415
-msgid "Left justifies the cell contents"
-msgstr "Justifier à gauche le contenu des cellules"
-
-#: src/workbook-format-toolbar.c:418
-msgid "Centers the cell contents"
-msgstr "Centrer le contenu des cellules"
-
-#: src/workbook-format-toolbar.c:421
-msgid "Right align"
-msgstr "Aligner à droite"
-
-#: src/workbook-format-toolbar.c:421
-msgid "Right justifies the cell contents"
-msgstr "Justifier à droite le contenu des cellules"
-
-#: src/workbook-format-toolbar.c:427
-msgid "Money format"
-msgstr "Format monétaire"
-
-#: src/workbook-format-toolbar.c:427
+#: src/xml-io.c:2338
 #, fuzzy
-msgid "Sets the format of the selected cells to monetary"
-msgstr "Modifier le formatage des cellules sélectionnées"
-
-#: src/workbook-format-toolbar.c:430
-#, fuzzy
-msgid "Sets the format of the selected cells to percentage"
-msgstr "Modifier le formatage des cellules sélectionnées"
-
-#: src/workbook-format-toolbar.c:433
-msgid "Thousand separator"
-msgstr ""
-
-#: src/workbook-format-toolbar.c:433
-msgid "Sets the format of the selected cells to include a thousands separator"
-msgstr ""
-
-#: src/workbook-format-toolbar.c:436
-msgid "Add decimals"
-msgstr "Ajouter décimales"
-
-#: src/workbook-format-toolbar.c:436
-msgid "Increases the number of decimal numbers displayed"
-msgstr ""
-
-#: src/workbook-format-toolbar.c:439
-msgid "Remove decimals"
-msgstr "Enlever décimales"
-
-#: src/workbook-format-toolbar.c:439
-msgid "Decreases the number of decimal numbers displayed"
-msgstr ""
-
-#: src/workbook-format-toolbar.c:547
-msgid "Font selector"
-msgstr "Sélecteur de police"
-
-#: src/workbook-format-toolbar.c:563
-msgid "Size"
-msgstr "Taille"
-
-#: src/workbook-format-toolbar.c:585
-msgid "Foreground"
-msgstr ""
-
-#: src/workbook-format-toolbar.c:589
-msgid "Background"
-msgstr ""
-
-#: src/workbook-cmd-format.c:83
-msgid "You entered an invalid column width value.  It must be bigger than 0"
-msgstr ""
-
-#: src/workbook-cmd-format.c:162
-msgid "You entered an invalid row height value.  It must be bigger than 0"
-msgstr ""
-
-#: src/xml-io.c:2305
-msgid "Old Gnumeric XML file format"
+msgid "Gnumeric XML file format"
 msgstr "Ancien format de fichier Gnumeric XML"
+
+#~ msgid "Argument must be a Guile expression"
+#~ msgstr "L'argument doit être une expression Guile"
+
+#~ msgid "First argument to SCM must be a Guile expression"
+#~ msgstr "Le premier argument de SCM doit être une expression Guile"
+
+#~ msgid "Undefined scheme function"
+#~ msgstr "Fonction scheme non définie"
+
+#~ msgid "Could not evaluate argument"
+#~ msgstr "Impossible d'évaluer l'argument"
+
+#~ msgid "Unable to lookup Guile function."
+#~ msgstr "Impossible de trouver la fonction Guile"
+
+#~ msgid "Guile Plugin"
+#~ msgstr "Plugin Guile"
+
+#~ msgid "Numbers"
+#~ msgstr "Nombres"
+
+#~ msgid "Money"
+#~ msgstr "Monétaire"
+
+#~ msgid "Categories"
+#~ msgstr "Catégories"
+
+#~ msgid "Code:"
+#~ msgstr "Code:"
+
+#~ msgid "Format codes"
+#~ msgstr "Codes de formats"
+
+#~ msgid "Auto return"
+#~ msgstr "Retour à la ligne automatique"
+
+#~ msgid "Text color"
+#~ msgstr "Couleur du texte"
+
+#~ msgid "Use this color"
+#~ msgstr "Utiliser cette couleur"
+
+#~ msgid "No change"
+#~ msgstr "Aucun changement"
+
+#~ msgid "Use solid color"
+#~ msgstr "Utiliser une couleur unie"
+
+#~ msgid "Use a pattern"
+#~ msgstr "Utiliser un motif"
+
+#~ msgid ""
+#~ "@FUNCTION=DAVERAGE\n"
+#~ "@SYNTAX=DAVERAGE(database,field,criteria)\n"
+#~ "@DESCRIPTION=DAVERAGE function returns the average of the values in a list "
+#~ "or database that match conditions specified. \n"
+#~ "@database is a range of cells in which rows of related information are "
+#~ "records and columns of data are fields. The first row of a database contains "
+#~ "labels for each column. \n"
+#~ "@field specifies which column is used in the function. If @field is an "
+#~ "integer, i.e. 2, the second column is used. Field can also be the label of a "
+#~ "column. \n"
+#~ "@criteria is the range of cells which contains the specified conditions. The "
+#~ "first row of a @criteria should contain the labels of the fields for which "
+#~ "the criterias are for. Cells below the label specify coditions, for example, "
+#~ "``>3'' or ``<9''. \n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO=DCOUNT"
+#~ msgstr ""
+#~ "@FUNCTION=DAVERAGE\n"
+#~ "@SYNTAX=DAVERAGE(base_données,champ,critère)\n"
+#~ "@DESCRIPTION=La fonction DAVERAGE retourne la moyenne des valeurs contenues "
+#~ "dans une liste ou une base de données satisfaisant les conditions "
+#~ "spécifiées. \n"
+#~ "@base_données est un intervalle de cellules dans lequel les lignes "
+#~ "contiennent les enregistrements et les colonnes définissent les différents "
+#~ "champs. La première ligne de cette base contient les titres de chaque "
+#~ "colonne. \n"
+#~ "@critère est un intervalle de cellules qui contient des conditions "
+#~ "spécifiées. La première ligne d'un critère contient aussi les titres des "
+#~ "différents champs. Les cellules situées en dessous décrivent les conditions, "
+#~ "par exemple, ``>3'' ou ``<9''. \n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO=DCOUNT"
+
+#~ msgid ""
+#~ "@FUNCTION=DCOUNT\n"
+#~ "@SYNTAX=DCOUNT(database,field,criteria)\n"
+#~ "@DESCRIPTION=DCOUNT function counts the cells that contain numbers in a "
+#~ "database that match conditions specified. \n"
+#~ "@database is a range of cells in which rows of related information are "
+#~ "records and columns of data are fields. The first row of a database contains "
+#~ "labels for each column. \n"
+#~ "@field specifies which column is used in the function. If @field is an "
+#~ "integer, i.e. 2, the second column is used. Field can also be the label of a "
+#~ "column. \n"
+#~ "@criteria is the range of cells which contains the specified conditions. The "
+#~ "first row of a @criteria should contain the labels of the fields for which "
+#~ "the criterias are for. Cells below the label specify coditions, for example, "
+#~ "``>3'' or ``<9''. \n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO=DAVERAGE"
+#~ msgstr ""
+#~ "@FUNCTION=DCOUNT\n"
+#~ "@SYNTAX=DCOUNT(base_données,champ,critère)\n"
+#~ "@DESCRIPTION=La fonction DCOUNT compte le nombre de cellules à valeur "
+#~ "numérique d'une base de données, satisfaisant certains critères. \n"
+#~ "@base_données est un intervalle de cellules dans lequel les lignes "
+#~ "contiennent les enregistrements et les colonnes définissent les différents "
+#~ "champs. La première ligne de cette base contient les titres de chaque "
+#~ "colonne. \n"
+#~ "@champ définit quelles sont les colonnes utilisées dans cette fonction. Si "
+#~ "@field est un entier, par exemple 2, la seconde colonne est utilisée. @Field "
+#~ "peut également être l'identificateur (titre) d'une colonne. \n"
+#~ "@critère est un intervalle de cellules qui contient des conditions "
+#~ "spécifiées. La première ligne d'un critère contient aussi les titres des "
+#~ "différents champs. Les cellules situées en dessous décrivent les conditions, "
+#~ "par exemple, ``>3'' ou ``<9''. \n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO=DCOUNT"
+
+#~ msgid ""
+#~ "@FUNCTION=DCOUNTA\n"
+#~ "@SYNTAX=DCOUNTA(database,field,criteria)\n"
+#~ "@DESCRIPTION=DCOUNTA function counts the cells that contain data in a "
+#~ "database that match conditions specified. \n"
+#~ "@database is a range of cells in which rows of related information are "
+#~ "records and columns of data are fields. The first row of a database contains "
+#~ "labels for each column. \n"
+#~ "@field specifies which column is used in the function. If @field is an "
+#~ "integer, i.e. 2, the second column is used. Field can also be the label of a "
+#~ "column. \n"
+#~ "@criteria is the range of cells which contains the specified conditions. The "
+#~ "first row of a @criteria should contain the labels of the fields for which "
+#~ "the criterias are for. Cells below the label specify coditions, for example, "
+#~ "``>3'' or ``<9''. \n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO=DCOUNT"
+#~ msgstr ""
+#~ "@FUNCTION=DCOUNTA\n"
+#~ "@SYNTAX=DCOUNTA(base_données,champ,critère)\n"
+#~ "@DESCRIPTION=La fonction DCOUNTA compte le nombre de cellules d'une base de "
+#~ "données, satisfaisant certains critères. \n"
+#~ "@base_données est un intervalle de cellules dans lequel les lignes "
+#~ "contiennent les enregistrements et les colonnes définissent les différents "
+#~ "champs. La première ligne de cette base contient les titres de chaque "
+#~ "colonne. \n"
+#~ "@champ définit quelles sont les colonnes utilisées dans cette fonction. Si "
+#~ "@field est un entier, par exemple 2, la seconde colonne est utilisée. @Field "
+#~ "peut également être l'identificateur (titre) d'une colonne. \n"
+#~ "@critère est un intervalle de cellules qui contient des conditions "
+#~ "spécifiées. La première ligne d'un critère contient aussi les titres des "
+#~ "différents champs. Les cellules situées en dessous décrivent les conditions, "
+#~ "par exemple, ``>3'' ou ``<9''. \n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO=DCOUNT"
+
+#~ msgid ""
+#~ "@FUNCTION=DGET\n"
+#~ "@SYNTAX=DGET(database,field,criteria)\n"
+#~ "@DESCRIPTION=DGET function returns a single value from a column that match "
+#~ "conditions specified. \n"
+#~ "@database is a range of cells in which rows of related information are "
+#~ "records and columns of data are fields. The first row of a database contains "
+#~ "labels for each column. \n"
+#~ "@field specifies which column is used in the function. If @field is an "
+#~ "integer, i.e. 2, the second column is used. Field can also be the label of a "
+#~ "column. \n"
+#~ "@criteria is the range of cells which contains the specified conditions. The "
+#~ "first row of a @criteria should contain the labels of the fields for which "
+#~ "the criterias are for. Cells below the label specify coditions, for example, "
+#~ "``>3'' or ``<9''. \n"
+#~ "If none of the items match the conditions, DGET returns #VALUE! error. If "
+#~ "more than one items match the conditions, DGET returns #NUM! error. \n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO=DCOUNT"
+#~ msgstr ""
+#~ "@FUNCTION=DGET\n"
+#~ "@SYNTAX=DGET(base_données,champ,critère)\n"
+#~ "@DESCRIPTION=La fonction DGET retourne une valeur unique pour une colonne "
+#~ "satisfaisant des conditions spécifiées. \n"
+#~ "@base_données est un intervalle de cellules dans lequel les lignes "
+#~ "contiennent les enregistrements et les colonnes définissent les différents "
+#~ "champs. La première ligne de cette base contient les titres de chaque "
+#~ "colonne. \n"
+#~ "@champ définit quelles sont les colonnes utilisées dans cette fonction. Si "
+#~ "@field est un entier, par exemple 2, la seconde colonne est utilisée. @Field "
+#~ "peut également être l'identificateur (titre) d'une colonne. \n"
+#~ "@critère est un intervalle de cellules qui contient des conditions "
+#~ "spécifiées. La première ligne d'un critère contient aussi les titres des "
+#~ "différents champs. Les cellules situées en dessous décrivent les conditions, "
+#~ "par exemple, ``>3'' ou ``<9''. \n"
+#~ "Si aucun des éléments ne satisfait les conditions, DGET retourne l'erreur "
+#~ "#VALEUR!. Si plus d'un élément satisfait les conditions, DGET retourne "
+#~ "l'erreur #NUM!.\n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO=DCOUNT"
+
+#~ msgid ""
+#~ "@FUNCTION=DMAX\n"
+#~ "@SYNTAX=DMAX(database,field,criteria)\n"
+#~ "@DESCRIPTION=DMAX function returns the largest number in a column that match "
+#~ "conditions specified. \n"
+#~ "@database is a range of cells in which rows of related information are "
+#~ "records and columns of data are fields. The first row of a database contains "
+#~ "labels for each column. \n"
+#~ "@field specifies which column is used in the function. If @field is an "
+#~ "integer, i.e. 2, the second column is used. Field can also be the label of a "
+#~ "column. \n"
+#~ "@criteria is the range of cells which contains the specified conditions. The "
+#~ "first row of a @criteria should contain the labels of the fields for which "
+#~ "the criterias are for. Cells below the label specify coditions, for example, "
+#~ "``>3'' or ``<9''. \n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO=DMIN"
+#~ msgstr ""
+#~ "@FUNCTION=DMAX\n"
+#~ "@SYNTAX=DMAX(base_données,champ,critère)\n"
+#~ "@DESCRIPTION=La fonction DMAX retourne le plus grand nombre dans une colonne "
+#~ "qui satisfait des conditions spécifiées. \n"
+#~ "@base_données est un intervalle de cellules dans lequel les lignes "
+#~ "contiennent les enregistrements et les colonnes définissent les différents "
+#~ "champs. La première ligne de cette base contient les titres de chaque "
+#~ "colonne. \n"
+#~ "@champ définit quelles sont les colonnes utilisées dans cette fonction. Si "
+#~ "@field est un entier, par exemple 2, la seconde colonne est utilisée. @Field "
+#~ "peut également être l'identificateur (titre) d'une colonne. \n"
+#~ "@critère est un intervalle de cellules qui contient des conditions "
+#~ "spécifiées. La première ligne d'un critère contient aussi les titres des "
+#~ "différents champs. Les cellules situées en dessous décrivent les conditions, "
+#~ "par exemple, ``>3'' ou ``<9''. \n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO=DMIN"
+
+#~ msgid ""
+#~ "@FUNCTION=DMIN\n"
+#~ "@SYNTAX=DMIN(database,field,criteria)\n"
+#~ "@DESCRIPTION=DMIN function returns the smallest number in a column that "
+#~ "match conditions specified. \n"
+#~ "@database is a range of cells in which rows of related information are "
+#~ "records and columns of data are fields. The first row of a database contains "
+#~ "labels for each column. \n"
+#~ "@field specifies which column is used in the function. If @field is an "
+#~ "integer, i.e. 2, the second column is used. Field can also be the label of a "
+#~ "column. \n"
+#~ "@criteria is the range of cells which contains the specified conditions. The "
+#~ "first row of a @criteria should contain the labels of the fields for which "
+#~ "the criterias are for. Cells below the label specify coditions, for example, "
+#~ "``>3'' or ``<9''. \n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO=DMAX"
+#~ msgstr ""
+#~ "@FUNCTION=DMIN\n"
+#~ "@SYNTAX=DMIN(base_données,champ,critère)\n"
+#~ "@DESCRIPTION=La fonction DMIN retourne le plus petit nombre dans une colonne "
+#~ "qui satisfait des conditions spécifiées. \n"
+#~ "@base_données est un intervalle de cellules dans lequel les lignes "
+#~ "contiennent les enregistrements et les colonnes définissent les différents "
+#~ "champs. La première ligne de cette base contient les titres de chaque "
+#~ "colonne. \n"
+#~ "@champ définit quelles sont les colonnes utilisées dans cette fonction. Si "
+#~ "@field est un entier, par exemple 2, la seconde colonne est utilisée. @Field "
+#~ "peut également être l'identificateur (titre) d'une colonne. \n"
+#~ "@critère est un intervalle de cellules qui contient des conditions "
+#~ "spécifiées. La première ligne d'un critère contient aussi les titres des "
+#~ "différents champs. Les cellules situées en dessous décrivent les conditions, "
+#~ "par exemple, ``>3'' ou ``<9''. \n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO=DMAX"
+
+#~ msgid ""
+#~ "@FUNCTION=DPRODUCT\n"
+#~ "@SYNTAX=DPRODUCT(database,field,criteria)\n"
+#~ "@DESCRIPTION=DPRODUCT function returns the product of numbers in a column "
+#~ "that match conditions specified. \n"
+#~ "@database is a range of cells in which rows of related information are "
+#~ "records and columns of data are fields. The first row of a database contains "
+#~ "labels for each column. \n"
+#~ "@field specifies which column is used in the function. If @field is an "
+#~ "integer, i.e. 2, the second column is used. Field can also be the label of a "
+#~ "column. \n"
+#~ "@criteria is the range of cells which contains the specified conditions. The "
+#~ "first row of a @criteria should contain the labels of the fields for which "
+#~ "the criterias are for. Cells below the label specify coditions, for example, "
+#~ "``>3'' or ``<9''. \n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO=DSUM"
+#~ msgstr ""
+#~ "@FUNCTION=DPRODUCT\n"
+#~ "@SYNTAX=DPRODUCT(base_données,champ,critère)\n"
+#~ "@DESCRIPTION=La fonction DPRODUCT retourne le produit des nombres dans une "
+#~ "colonne qui satisfont des conditions spécifiées. \n"
+#~ "@base_données est un intervalle de cellules dans lequel les lignes "
+#~ "contiennent les enregistrements et les colonnes définissent les différents "
+#~ "champs. La première ligne de cette base contient les titres de chaque "
+#~ "colonne. \n"
+#~ "@champ définit quelles sont les colonnes utilisées dans cette fonction. Si "
+#~ "@field est un entier, par exemple 2, la seconde colonne est utilisée. @Field "
+#~ "peut également être l'identificateur (titre) d'une colonne. \n"
+#~ "@critère est un intervalle de cellules qui contient des conditions "
+#~ "spécifiées. La première ligne d'un critère contient aussi les titres des "
+#~ "différents champs. Les cellules situées en dessous décrivent les conditions, "
+#~ "par exemple, ``>3'' ou ``<9''. \n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO=DSUM"
+
+#~ msgid ""
+#~ "@FUNCTION=DSTDEV\n"
+#~ "@SYNTAX=DSTDEV(database,field,criteria)\n"
+#~ "@DESCRIPTION=DSTDEV function returns the estimate of the standard deviation "
+#~ "of a population based on a sample. The populations consists of numbers that "
+#~ "match conditions specified. \n"
+#~ "@database is a range of cells in which rows of related information are "
+#~ "records and columns of data are fields. The first row of a database contains "
+#~ "labels for each column. \n"
+#~ "@field specifies which column is used in the function. If @field is an "
+#~ "integer, i.e. 2, the second column is used. Field can also be the label of a "
+#~ "column. \n"
+#~ "@criteria is the range of cells which contains the specified conditions. The "
+#~ "first row of a @criteria should contain the labels of the fields for which "
+#~ "the criterias are for. Cells below the label specify coditions, for example, "
+#~ "``>3'' or ``<9''. \n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO=DSTDEVP"
+#~ msgstr ""
+#~ "@FUNCTION=DSTDEV\n"
+#~ "@SYNTAX=DSTDEV(base_données,champ,critère)\n"
+#~ "@DESCRIPTION=La fonction STDEV retourne une estimation de l'écart-type d'une "
+#~ "population fondée sur un échantillon. Les populations consistent en des "
+#~ "nombres qui satisfont des conditions spécifiées. \n"
+#~ "@base_données est un intervalle de cellules dans lequel les lignes "
+#~ "contiennent les enregistrements et les colonnes définissent les différents "
+#~ "champs. La première ligne de cette base contient les titres de chaque "
+#~ "colonne. \n"
+#~ "@champ définit quelles sont les colonnes utilisées dans cette fonction. Si "
+#~ "@field est un entier, par exemple 2, la seconde colonne est utilisée. @Field "
+#~ "peut également être l'identificateur (titre) d'une colonne. \n"
+#~ "@critère est un intervalle de cellules qui contient des conditions "
+#~ "spécifiées. La première ligne d'un critère contient aussi les titres des "
+#~ "différents champs. Les cellules situées en dessous décrivent les conditions, "
+#~ "par exemple, ``>3'' ou ``<9''. \n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO=DSTDEVP"
+
+#~ msgid ""
+#~ "@FUNCTION=DSTDEVP\n"
+#~ "@SYNTAX=DSTDEVP(database,field,criteria)\n"
+#~ "@DESCRIPTION=DSTDEVP function returns the standard deviation of a population "
+#~ "based on the entire populations. The populations consists of numbers that "
+#~ "match conditions specified. \n"
+#~ "@database is a range of cells in which rows of related information are "
+#~ "records and columns of data are fields. The first row of a database contains "
+#~ "labels for each column. \n"
+#~ "@field specifies which column is used in the function. If @field is an "
+#~ "integer, i.e. 2, the second column is used. Field can also be the label of a "
+#~ "column. \n"
+#~ "@criteria is the range of cells which contains the specified conditions. The "
+#~ "first row of a @criteria should contain the labels of the fields for which "
+#~ "the criterias are for. Cells below the label specify coditions, for example, "
+#~ "``>3'' or ``<9''. \n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO=DSTDEV"
+#~ msgstr ""
+#~ "@FUNCTION=DSTDEVP\n"
+#~ "@SYNTAX=DSTDEVP(base_données,champ,critère)\n"
+#~ "@DESCRIPTION=La fonction STDEVP retourne une estimation de l'écart-type "
+#~ "d'une population fondée sur la population complète. Les populations "
+#~ "consistent en des nombres qui satisfont des conditions spécifiées. \n"
+#~ "@base_données est un intervalle de cellules dans lequel les lignes "
+#~ "contiennent les enregistrements et les colonnes définissent les différents "
+#~ "champs. La première ligne de cette base contient les titres de chaque "
+#~ "colonne. \n"
+#~ "@champ définit quelles sont les colonnes utilisées dans cette fonction. Si "
+#~ "@field est un entier, par exemple 2, la seconde colonne est utilisée. @Field "
+#~ "peut également être l'identificateur (titre) d'une colonne. \n"
+#~ "@critère est un intervalle de cellules qui contient des conditions "
+#~ "spécifiées. La première ligne d'un critère contient aussi les titres des "
+#~ "différents champs. Les cellules situées en dessous décrivent les conditions, "
+#~ "par exemple, ``>3'' ou ``<9''. \n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO=DSTDEV"
+
+#~ msgid ""
+#~ "@FUNCTION=DSUM\n"
+#~ "@SYNTAX=DSUM(database,field,criteria)\n"
+#~ "@DESCRIPTION=DSUM function returns the sum of numbers in a column that match "
+#~ "conditions specified. \n"
+#~ "@database is a range of cells in which rows of related information are "
+#~ "records and columns of data are fields. The first row of a database contains "
+#~ "labels for each column. \n"
+#~ "@field specifies which column is used in the function. If @field is an "
+#~ "integer, i.e. 2, the second column is used. Field can also be the label of a "
+#~ "column. \n"
+#~ "@criteria is the range of cells which contains the specified conditions. The "
+#~ "first row of a @criteria should contain the labels of the fields for which "
+#~ "the criterias are for. Cells below the label specify coditions, for example, "
+#~ "``>3'' or ``<9''. \n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO=DPRODUCT"
+#~ msgstr ""
+#~ "@FUNCTION=DSUM\n"
+#~ "@SYNTAX=DSUM(base_données,champ,critère)\n"
+#~ "@DESCRIPTION=La fonction DSUM retourne la somme des nombres dans une colonne "
+#~ "qui satisfont des conditions spécifiées. \n"
+#~ "@base_données est un intervalle de cellules dans lequel les lignes "
+#~ "contiennent les enregistrements et les colonnes définissent les différents "
+#~ "champs. La première ligne de cette base contient les titres de chaque "
+#~ "colonne. \n"
+#~ "@champ définit quelles sont les colonnes utilisées dans cette fonction. Si "
+#~ "@champ est un entier, par exemple 2, la seconde colonne est utilisée. @champ "
+#~ "peut également être l'identificateur (titre) d'une colonne. \n"
+#~ "@critère est un intervalle de cellules qui contient des conditions "
+#~ "spécifiées. La première ligne d'un critère contient aussi les titres des "
+#~ "différents champs. Les cellules situées en dessous décrivent les conditions, "
+#~ "par exemple, ``>3'' ou ``<9''. \n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO=DPRODUCT"
+
+#~ msgid ""
+#~ "@FUNCTION=DVAR\n"
+#~ "@SYNTAX=DVAR(database,field,criteria)\n"
+#~ "@DESCRIPTION=DVAR function returns the estimate of variance of a population "
+#~ "based on a sample. The populations consists of numbers that match conditions "
+#~ "specified. \n"
+#~ "@database is a range of cells in which rows of related information are "
+#~ "records and columns of data are fields. The first row of a database contains "
+#~ "labels for each column. \n"
+#~ "@field specifies which column is used in the function. If @field is an "
+#~ "integer, i.e. 2, the second column is used. Field can also be the label of a "
+#~ "column. \n"
+#~ "@criteria is the range of cells which contains the specified conditions. The "
+#~ "first row of a @criteria should contain the labels of the fields for which "
+#~ "the criterias are for. Cells below the label specify coditions, for example, "
+#~ "``>3'' or ``<9''. \n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO=DVARP"
+#~ msgstr ""
+#~ "@FUNCTION=DVAR\n"
+#~ "@SYNTAX=DVAR(base_données,champ,critère)\n"
+#~ "@DESCRIPTION=La fonction DVAR retourne une estimation de la variance d'une "
+#~ "population fondée sur un échantillon. Les populations consistent en des "
+#~ "nombres qui satisfont des conditions spécifiées. \n"
+#~ "@base_données est un intervalle de cellules dans lequel les lignes "
+#~ "contiennent les enregistrements et des conditions spécifiées. \n"
+#~ "@base_données est un intervalle de cellules dans lequel les lignes "
+#~ "contiennent les enregistrements et les colonnes définissent les différents "
+#~ "champs. La première ligne de cette base contient les titres de chaque "
+#~ "colonne. \n"
+#~ "@champ définit quelles sont les colonnes utilisées dans cette fonction. Si "
+#~ "@field est un entier, par exemple 2, la seconde colonne est utilisée. @Field "
+#~ "peut également être l'identificateur (titre) d'une colonne. \n"
+#~ "@critère est un intervalle de cellules qui contient des conditions "
+#~ "spécifiées. La première ligne d'un critère contient aussi les titres des "
+#~ "différents champs. Les cellules situées en dessous décrivent les conditions, "
+#~ "par exemple, ``>3'' ou ``<9''. \n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO=DVARP"
+
+#~ msgid ""
+#~ "@FUNCTION=DVARP\n"
+#~ "@SYNTAX=DVARP(database,field,criteria)\n"
+#~ "@DESCRIPTION=DVARP function returns the variance of a population based on "
+#~ "the entire populations. The populations consists of numbers that match "
+#~ "conditions specified. \n"
+#~ "@database is a range of cells in which rows of related information are "
+#~ "records and columns of data are fields. The first row of a database contains "
+#~ "labels for each column. \n"
+#~ "@field specifies which column is used in the function. If @field is an "
+#~ "integer, i.e. 2, the second column is used. Field can also be the label of a "
+#~ "column. \n"
+#~ "@criteria is the range of cells which contains the specified conditions. The "
+#~ "first row of a @criteria should contain the labels of the fields for which "
+#~ "the criterias are for. Cells below the label specify coditions, for example, "
+#~ "``>3'' or ``<9''. \n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO=DVAR"
+#~ msgstr ""
+#~ "@FUNCTION=DVARP\n"
+#~ "@SYNTAX=DVARP(base_données,champ,critère)\n"
+#~ "@DESCRIPTION=La fonction DVARP retourne une estimation de la variance d'une "
+#~ "population fondée la population complète. Les populations consistent en des "
+#~ "nombres qui satisfont des conditions spécifiées. \n"
+#~ "@base_données est un intervalle de cellules dans lequel les lignes "
+#~ "contiennent les enregistrements et les colonnes définissent les différents "
+#~ "champs. La première ligne de cette base contient les titres de chaque "
+#~ "colonne. \n"
+#~ "@champ définit quelles sont les colonnes utilisées dans cette fonction. Si "
+#~ "@field est un entier, par exemple 2, la seconde colonne est utilisée. @Field "
+#~ "peut également être l'identificateur (titre) d'une colonne. \n"
+#~ "@critère est un intervalle de cellules qui contient des conditions "
+#~ "spécifiées. La première ligne d'un critère contient aussi les titres des "
+#~ "différents champs. Les cellules situées en dessous décrivent les conditions, "
+#~ "par exemple, ``>3'' ou ``<9''. \n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO=DVAR"
+
+#~ msgid "_(*$,$$0_);_(*(#,##0);_(*\"-\"_);_(@_)"
+#~ msgstr "_(*$ $$0_);_(*(# ##0);_(*\"-\"_);_(@_)"
+
+#~ msgid "Erase content"
+#~ msgstr "Effacer le contenu"
+
+#~ msgid "Other sheets depend on the values on this sheet; I cannot remove it."
+#~ msgstr ""
+#~ "D'autres feuilles dépendent de valeurs de cette feuille; je ne peux pas "
+#~ "l'enlever."
 
 #~ msgid "Delete cells"
 #~ msgstr "Effacer cellules"
@@ -10528,35 +11204,11 @@ msgstr "Ancien format de fichier Gnumeric XML"
 #~ msgid "Object server"
 #~ msgstr "Serveur d'objets"
 
-#~ msgid "#NULL!"
-#~ msgstr "#NULL!"
-
-#~ msgid "#VALUE!"
-#~ msgstr "#VALEUR!"
-
-#~ msgid "#REF!"
-#~ msgstr "#REF!"
-
-#~ msgid "#NAME?"
-#~ msgstr "#NOM?"
-
-#~ msgid "#NUM!"
-#~ msgstr "#NUM!"
-
-#~ msgid "#N/A"
-#~ msgstr "#N/A"
-
 #~ msgid "Sheet &[NUM]"
 #~ msgstr "Feuille &[NUM]"
 
 #~ msgid "Page &[NUM]"
 #~ msgstr "Page &[NUM]"
-
-#~ msgid "Zoom"
-#~ msgstr "Zoom"
-
-#~ msgid "Custom"
-#~ msgstr "Personnalisé"
 
 #~ msgid "Zoom factor should be at least 25%"
 #~ msgstr "Le facteur de zoom doit être au moins de 25%"

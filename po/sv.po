@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.31\n"
-"POT-Creation-Date: 1999-11-17 20:55+0100\n"
+"POT-Creation-Date: 1999-11-17 19:06-0600\n"
 "PO-Revision-Date: 1999-11-17 20:00+0200\n"
 "Last-Translator: Richard Hult <rhult@hem2.passagen.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -33,7 +33,7 @@ msgstr "Excel(R) 97 filformat"
 msgid "Excel(R) 95 file format"
 msgstr "Excel(R) 95 filformat"
 
-#: plugins/excel/ms-excel-read.c:263
+#: plugins/excel/ms-excel-read.c:264
 msgid "#UNKNOWN!"
 msgstr "#OKÄND!"
 
@@ -49,16 +49,21 @@ msgstr "Trasig funktion"
 msgid " Unknown formula"
 msgstr "Okänd formel"
 
-#: plugins/ff-csv/csv-io.c:125 plugins/sylk/sylk.c:443
+#: plugins/ff-csv/csv-io.c:138 plugins/sylk/sylk.c:443
 #, c-format
 msgid "Imported %s"
 msgstr "Importerade %s"
 
-#: plugins/ff-csv/csv-io.c:160
+#: plugins/ff-csv/csv-io.c:256
 msgid "Comma Separated Value (CSV) import"
 msgstr "Importera fil med kommaseparerade värden (CSV)"
 
-#: plugins/ff-csv/csv-io.c:163
+#: plugins/ff-csv/csv-io.c:259
+#, fuzzy
+msgid "Comma Separated Value format (*.csv)"
+msgstr "Importera fil med kommaseparerade värden (CSV)"
+
+#: plugins/ff-csv/csv-io.c:262
 msgid "Comma Separated Value (CSV) module"
 msgstr "Modul för kommaseparerade värden (CSV)"
 
@@ -846,39 +851,39 @@ msgstr "Stigande"
 msgid "Desc"
 msgstr "Sjunkade"
 
-#: src/dialogs/dialog-cell-sort.c:275
+#: src/dialogs/dialog-cell-sort.c:276
 msgid "more clauses than rows ?"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:278
+#: src/dialogs/dialog-cell-sort.c:279
 msgid "too many clauses"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:298
+#: src/dialogs/dialog-cell-sort.c:300
 msgid "Need at least one clause"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:333 src/print.c:502 src/workbook.c:1457
+#: src/dialogs/dialog-cell-sort.c:335 src/print.c:502 src/workbook.c:1457
 msgid "Selection must be a single range"
 msgstr "Markeringen måste bestå av ett sammanhängande område"
 
-#: src/dialogs/dialog-cell-sort.c:345
+#: src/dialogs/dialog-cell-sort.c:347
 msgid "Selection must be a finite range"
 msgstr "Markeringen måste bestå av ett ändligt område"
 
-#: src/dialogs/dialog-cell-sort.c:365
+#: src/dialogs/dialog-cell-sort.c:367
 msgid "then by"
 msgstr "sedan efter"
 
-#: src/dialogs/dialog-cell-sort.c:365
+#: src/dialogs/dialog-cell-sort.c:367
 msgid "Sort by"
 msgstr "Sortera efter"
 
-#: src/dialogs/dialog-cell-sort.c:403
+#: src/dialogs/dialog-cell-sort.c:405
 msgid "Column must be within range"
 msgstr "Kolumnen måste vara inom området"
 
-#: src/dialogs/dialog-cell-sort.c:409
+#: src/dialogs/dialog-cell-sort.c:411
 msgid "First column must be valid"
 msgstr "Den första kolumnen måste vara giltig"
 
@@ -2084,24 +2089,24 @@ msgstr "Okänt evalueringsfel"
 msgid "Could not read file %s"
 msgstr "Kunde inte läsa filen %s"
 
-#: src/file.c:403
+#: src/file.c:404
 msgid "File format:"
 msgstr "Filformat:"
 
-#: src/file.c:457
+#: src/file.c:458
 msgid "Save workbook as"
 msgstr "Spara arbetsbok som"
 
-#: src/file.c:501
+#: src/file.c:502
 msgid "Sorry, there are no file savers loaded, I cannot save"
 msgstr "Det finns inga filsparare, kan inte spara"
 
-#: src/file.c:514 src/file.c:538
+#: src/file.c:515 src/file.c:539
 #, c-format
 msgid "Could not save to file %s"
 msgstr "Kunde inte spara filen %s"
 
-#: src/file.c:549
+#: src/file.c:550
 msgid "Load file"
 msgstr "Öppna fil"
 

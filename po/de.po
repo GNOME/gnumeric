@@ -21,7 +21,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.35\n"
-"POT-Creation-Date: 1999-11-17 21:54+0100\n"
+"POT-Creation-Date: 1999-11-17 19:06-0600\n"
 "PO-Revision-Date: 1999-09-18 09:27+02:00\n"
 "Last-Translator: Karl Eichwalder <ke@suse.de>\n"
 "Language-Team: German <de@li.org>\n"
@@ -49,7 +49,7 @@ msgstr "Excel(R) 97 Dateiformat"
 msgid "Excel(R) 95 file format"
 msgstr "Excel(R) 95 Dateiformat"
 
-#: plugins/excel/ms-excel-read.c:263
+#: plugins/excel/ms-excel-read.c:264
 msgid "#UNKNOWN!"
 msgstr "#UNBEKANNT!"
 
@@ -70,11 +70,16 @@ msgstr " Unbekannte Formel"
 msgid "Imported %s"
 msgstr "%s importiert"
 
-#: plugins/ff-csv/csv-io.c:176
+#: plugins/ff-csv/csv-io.c:256
 msgid "Comma Separated Value (CSV) import"
 msgstr "Import für kommagetrennte Werte (CSV)"
 
-#: plugins/ff-csv/csv-io.c:179
+#: plugins/ff-csv/csv-io.c:259
+#, fuzzy
+msgid "Comma Separated Value format (*.csv)"
+msgstr "Import für kommagetrennte Werte (CSV)"
+
+#: plugins/ff-csv/csv-io.c:262
 msgid "Comma Separated Value (CSV) module"
 msgstr "Modul für kommagetrennte Werte (CSV)"
 
@@ -867,39 +872,39 @@ msgstr "Aufst."
 msgid "Desc"
 msgstr "Abst."
 
-#: src/dialogs/dialog-cell-sort.c:275
+#: src/dialogs/dialog-cell-sort.c:276
 msgid "more clauses than rows ?"
 msgstr "mehr Klauseln als Reihen?"
 
-#: src/dialogs/dialog-cell-sort.c:278
+#: src/dialogs/dialog-cell-sort.c:279
 msgid "too many clauses"
 msgstr "zu viele Klauseln"
 
-#: src/dialogs/dialog-cell-sort.c:298
+#: src/dialogs/dialog-cell-sort.c:300
 msgid "Need at least one clause"
 msgstr "Benötige mindestens eine Klausel"
 
-#: src/dialogs/dialog-cell-sort.c:333 src/print.c:502 src/workbook.c:1457
+#: src/dialogs/dialog-cell-sort.c:335 src/print.c:502 src/workbook.c:1457
 msgid "Selection must be a single range"
 msgstr "Auswahl muß ein einzelner Bereich sein"
 
-#: src/dialogs/dialog-cell-sort.c:345
+#: src/dialogs/dialog-cell-sort.c:347
 msgid "Selection must be a finite range"
 msgstr "Auswahl muß ein endlicher Wertebereich sein"
 
-#: src/dialogs/dialog-cell-sort.c:365
+#: src/dialogs/dialog-cell-sort.c:367
 msgid "then by"
 msgstr "dann nach"
 
-#: src/dialogs/dialog-cell-sort.c:365
+#: src/dialogs/dialog-cell-sort.c:367
 msgid "Sort by"
 msgstr "Sortieren nach"
 
-#: src/dialogs/dialog-cell-sort.c:403
+#: src/dialogs/dialog-cell-sort.c:405
 msgid "Column must be within range"
 msgstr "Spalte muß im Wertebereich liegen"
 
-#: src/dialogs/dialog-cell-sort.c:409
+#: src/dialogs/dialog-cell-sort.c:411
 msgid "First column must be valid"
 msgstr "Die erste Spalte muß gültig sein"
 
@@ -1641,7 +1646,9 @@ msgstr "Beispiel"
 msgid ""
 "General format cells attempt to select an appropriate format depending on "
 "the value of the cell."
-msgstr "Allgemein formatierte Zellen versuchen, ein dem Wert der Zelle entsprechendes Format auszuwählen."
+msgstr ""
+"Allgemein formatierte Zellen versuchen, ein dem Wert der Zelle "
+"entsprechendes Format auszuwählen."
 
 #: src/dialogs/cell-format.glade.h:21
 msgid "_Decimal places:"
@@ -1963,7 +1970,9 @@ msgstr "Verborgen"
 
 #: src/dialogs/cell-format.glade.h:113
 msgid "Locking cells or hiding formulas only affects protected worksheets."
-msgstr "Das Sperren von Zellen oder das Verbergen von Formeln betrifft nur geschützte Arbeitsblätter."
+msgstr ""
+"Das Sperren von Zellen oder das Verbergen von Formeln betrifft nur "
+"geschützte Arbeitsblätter."
 
 #: src/dialogs/cell-format.glade.h:114
 msgid "Worksheet protected"

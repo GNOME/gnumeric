@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.42\n"
-"POT-Creation-Date: 1999-11-17 22:44+0100\n"
+"POT-Creation-Date: 1999-11-17 19:06-0600\n"
 "PO-Revision-Date: 1999-11-06 13:11+01:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
@@ -33,7 +33,7 @@ msgstr "Excel(R) 97 filformat"
 msgid "Excel(R) 95 file format"
 msgstr "Excel(R) 95 filformat"
 
-#: plugins/excel/ms-excel-read.c:263
+#: plugins/excel/ms-excel-read.c:264
 msgid "#UNKNOWN!"
 msgstr "#UKJENT!"
 
@@ -852,39 +852,39 @@ msgstr "Asc"
 msgid "Desc"
 msgstr "Beskr"
 
-#: src/dialogs/dialog-cell-sort.c:275
+#: src/dialogs/dialog-cell-sort.c:276
 msgid "more clauses than rows ?"
 msgstr "flere klausuler enn rader ?"
 
-#: src/dialogs/dialog-cell-sort.c:278
+#: src/dialogs/dialog-cell-sort.c:279
 msgid "too many clauses"
 msgstr "for mange klausuler"
 
-#: src/dialogs/dialog-cell-sort.c:298
+#: src/dialogs/dialog-cell-sort.c:300
 msgid "Need at least one clause"
 msgstr "Trenger minst en klausul"
 
-#: src/dialogs/dialog-cell-sort.c:333 src/print.c:502 src/workbook.c:1457
+#: src/dialogs/dialog-cell-sort.c:335 src/print.c:502 src/workbook.c:1457
 msgid "Selection must be a single range"
 msgstr "Utvalget må bestå av et enkelt område"
 
-#: src/dialogs/dialog-cell-sort.c:345
+#: src/dialogs/dialog-cell-sort.c:347
 msgid "Selection must be a finite range"
 msgstr "Utvalget må bestå av et endelig område"
 
-#: src/dialogs/dialog-cell-sort.c:365
+#: src/dialogs/dialog-cell-sort.c:367
 msgid "then by"
 msgstr "så etter"
 
-#: src/dialogs/dialog-cell-sort.c:365
+#: src/dialogs/dialog-cell-sort.c:367
 msgid "Sort by"
 msgstr "Sortér etter"
 
-#: src/dialogs/dialog-cell-sort.c:403
+#: src/dialogs/dialog-cell-sort.c:405
 msgid "Column must be within range"
 msgstr "Kolonnen må være innenfor området"
 
-#: src/dialogs/dialog-cell-sort.c:409
+#: src/dialogs/dialog-cell-sort.c:411
 msgid "First column must be valid"
 msgstr "Første kolonne må være gyldig"
 

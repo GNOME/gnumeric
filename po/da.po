@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.36\n"
-"POT-Creation-Date: 1999-11-17 21:39+0000\n"
+"POT-Creation-Date: 1999-11-17 19:06-0600\n"
 "PO-Revision-Date: 1999-09-22 01:22+02:00\n"
 "Last-Translator: Birger langkjer <birger.langkjer@image.dk>\n"
 "Language-Team: Dansk/Danish <sslug-locale@sslug.dk>\n"
@@ -35,7 +35,7 @@ msgstr "Excel(R) 97-filformat"
 msgid "Excel(R) 95 file format"
 msgstr "Excel(R) 95-filformat"
 
-#: plugins/excel/ms-excel-read.c:251
+#: plugins/excel/ms-excel-read.c:264
 msgid "#UNKNOWN!"
 msgstr "#UKENDT!"
 
@@ -51,52 +51,23 @@ msgstr "Brudt funktion"
 msgid " Unknown formula"
 msgstr " Ukendt formel"
 
-#: plugins/ff-csv/csv-io.c:125
+#: plugins/ff-csv/csv-io.c:138 plugins/sylk/sylk.c:443
 #, c-format
 msgid "Imported %s"
 msgstr "Importeret %s"
 
-#: plugins/ff-csv/csv-io.c:160
+#: plugins/ff-csv/csv-io.c:256
 msgid "Comma Separated Value (CSV) import"
 msgstr "Komma Separeret værdi (CSV) import"
 
-#: plugins/ff-csv/csv-io.c:163
+#: plugins/ff-csv/csv-io.c:259
+#, fuzzy
+msgid "Comma Separated Value format (*.csv)"
+msgstr "Komma Separeret værdi (CSV) import"
+
+#: plugins/ff-csv/csv-io.c:262
 msgid "Comma Separated Value (CSV) module"
 msgstr "Komma Separeret værdi (CSV) modul"
-
-#: plugins/guile/plugin.c:219
-msgid "Argument must be a Guile expression"
-msgstr "Argumentet skal være et Guile-udtryk"
-
-#: plugins/guile/plugin.c:237 src/expr.c:504
-#: src/functions/fn-information.c:572 src/functions/fn-information.c:641
-#: src/functions/fn-information.c:668 src/functions/fn-information.c:694
-#: src/functions/fn-information.c:743 src/functions/fn-information.c:772
-#: src/functions/fn-information.c:837 src/functions/fn-logical.c:191
-#: src/functions/fn-lookup.c:468 src/functions/fn-lookup.c:579
-#: src/functions/fn-string.c:342
-msgid "Invalid number of arguments"
-msgstr "Ugyldigt antal argumenter"
-
-#: plugins/guile/plugin.c:241 plugins/guile/plugin.c:245
-msgid "First argument to SCM must be a Guile expression"
-msgstr "Det første argument til SCM skal være et Guile-udtryk"
-
-#: plugins/guile/plugin.c:249
-msgid "Undefined scheme function"
-msgstr "udefineret scheme funktion"
-
-#: plugins/guile/plugin.c:265
-msgid "Could not evaluate argument"
-msgstr "Kan ikke evaluere argument"
-
-#: plugins/guile/plugin.c:375
-msgid "Unable to lookup Guile function."
-msgstr "Kan ikke slå Guile-funktion op"
-
-#: plugins/guile/plugin.c:439
-msgid "Guile Plugin"
-msgstr "Guile-tillæg"
 
 #: plugins/html/boot.c:65
 msgid "HTML 3.2 file format (*.html)"
@@ -150,6 +121,16 @@ msgstr "Lotus (*.wk1) filformat"
 msgid "Lotus 123 file import/export plugin"
 msgstr "Lotus 123 fil import/eksport tillæg"
 
+#: plugins/oleo/boot.c:88
+#, fuzzy
+msgid "GNU Oleo (*.oleo) file format"
+msgstr "Lotus (*.wk1) filformat"
+
+#: plugins/oleo/boot.c:94
+#, fuzzy
+msgid "GNU Oleo import plugin"
+msgstr "XBase fil import/eksport tillæg"
+
 #: plugins/python/python.c:101
 msgid "Unable to lookup Python code object."
 msgstr "Kan ikke slå Python-kodeobjekt op"
@@ -186,6 +167,14 @@ msgstr "Eksempel-tillæg"
 #: plugins/stat/stat.c:27
 msgid "OLD Statistics Plugin, not required anymore"
 msgstr "GAMMEL Statistik tillæg, ikke længere nødvendigt"
+
+#: plugins/sylk/sylk.c:501
+msgid "MultiPlan (SYLK) import"
+msgstr ""
+
+#: plugins/sylk/sylk.c:506
+msgid "MultiPlan (SYLK) file import module"
+msgstr ""
 
 #: plugins/text/text-io.c:305
 #, c-format
@@ -870,40 +859,40 @@ msgstr "Opst"
 msgid "Desc"
 msgstr "Nedst"
 
-#: src/dialogs/dialog-cell-sort.c:275
+#: src/dialogs/dialog-cell-sort.c:276
 msgid "more clauses than rows ?"
 msgstr "flere klausuler end rækker ?"
 
-#: src/dialogs/dialog-cell-sort.c:278
+#: src/dialogs/dialog-cell-sort.c:279
 msgid "too many clauses"
 msgstr "for mange klausuler"
 
-#: src/dialogs/dialog-cell-sort.c:298
+#: src/dialogs/dialog-cell-sort.c:300
 msgid "Need at least one clause"
 msgstr "Behøver mindst en klausul"
 
-#: src/dialogs/dialog-cell-sort.c:333 src/workbook.c:1457
+#: src/dialogs/dialog-cell-sort.c:335 src/print.c:502 src/workbook.c:1457
 msgid "Selection must be a single range"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:345
+#: src/dialogs/dialog-cell-sort.c:347
 msgid "Selection must be a finite range"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:365
+#: src/dialogs/dialog-cell-sort.c:367
 msgid "then by"
 msgstr "så efter"
 
-#: src/dialogs/dialog-cell-sort.c:365
+#: src/dialogs/dialog-cell-sort.c:367
 #, fuzzy
 msgid "Sort by"
 msgstr "sorter efter"
 
-#: src/dialogs/dialog-cell-sort.c:403
+#: src/dialogs/dialog-cell-sort.c:405
 msgid "Column must be within range"
 msgstr "Kolonne skal være indenfor rammen"
 
-#: src/dialogs/dialog-cell-sort.c:409
+#: src/dialogs/dialog-cell-sort.c:411
 msgid "First column must be valid"
 msgstr "Første kolonne skal være gyldig"
 
@@ -1088,6 +1077,25 @@ msgstr "Operation"
 #: src/dialogs/dialog-paste-special.c:105
 msgid "Transpose"
 msgstr "Transponer"
+
+#: src/dialogs/dialog-printer.c:70
+#, fuzzy
+msgid "active sheet"
+msgstr "arket"
+
+#: src/dialogs/dialog-printer.c:82
+#, fuzzy
+msgid "all sheets"
+msgstr "arket"
+
+#: src/dialogs/dialog-printer.c:94
+#, fuzzy
+msgid "selection"
+msgstr "Venstre sektion:"
+
+#: src/dialogs/dialog-printer.c:129
+msgid "Select Printer"
+msgstr ""
 
 #: src/dialogs/dialog-printer-setup.c:502
 msgid "Custom header configuration"
@@ -1731,7 +1739,7 @@ msgid "_Automatic"
 msgstr "_Automatisk"
 
 #: src/dialogs/cell-format.glade.h:52 src/dialogs/cell-format.glade.h:80
-#: src/dialogs/cell-format.glade.h:89
+#: src/dialogs/cell-format.glade.h:89 src/dialogs/dialog-zoom.glade.h:15
 msgid "_Custom"
 msgstr "_Egendefineret"
 
@@ -1967,6 +1975,60 @@ msgstr ""
 msgid "A header row"
 msgstr ""
 
+#.
+#. * Translatable strings file generated by Glade.
+#. * Add this file to your project's POTFILES.in.
+#. * DO NOT compile it as part of your application.
+#.
+#: src/dialogs/dialog-zoom.glade.h:7
+#, fuzzy
+msgid "Zoom"
+msgstr "Zoom ud"
+
+#: src/dialogs/dialog-zoom.glade.h:8
+msgid "Magnification"
+msgstr ""
+
+#: src/dialogs/dialog-zoom.glade.h:9
+#, c-format
+msgid "20_0 %"
+msgstr ""
+
+#: src/dialogs/dialog-zoom.glade.h:10
+#, c-format
+msgid "_100 %"
+msgstr ""
+
+#: src/dialogs/dialog-zoom.glade.h:11
+#, c-format
+msgid "_75 %"
+msgstr ""
+
+#: src/dialogs/dialog-zoom.glade.h:12
+#, c-format
+msgid "_50 %"
+msgstr ""
+
+#: src/dialogs/dialog-zoom.glade.h:13
+#, c-format
+msgid "_25%"
+msgstr ""
+
+#: src/dialogs/dialog-zoom.glade.h:14
+#, fuzzy, c-format
+msgid "_Fit Selection %"
+msgstr "Venstre sektion:"
+
+#: src/dialogs/dialog-zoom.glade.h:16
+#, fuzzy, c-format
+msgid "%"
+msgstr "0%"
+
+#: src/dialogs/dialog-zoom.glade.h:17
+#, fuzzy
+msgid "Sheets"
+msgstr "Ark"
+
 #: src/dump.c:31
 #, c-format
 msgid "Can not create file %s\n"
@@ -2012,6 +2074,15 @@ msgstr "Umuligt!"
 msgid "Internal error"
 msgstr "Intern fejl"
 
+#: src/expr.c:504 src/functions/fn-information.c:572
+#: src/functions/fn-information.c:641 src/functions/fn-information.c:668
+#: src/functions/fn-information.c:694 src/functions/fn-information.c:743
+#: src/functions/fn-information.c:772 src/functions/fn-information.c:837
+#: src/functions/fn-logical.c:191 src/functions/fn-lookup.c:468
+#: src/functions/fn-lookup.c:579 src/functions/fn-string.c:342
+msgid "Invalid number of arguments"
+msgstr "Ugyldigt antal argumenter"
+
 #: src/expr.c:855
 msgid "Internal type error"
 msgstr "Intern typefejl"
@@ -2029,24 +2100,24 @@ msgstr "Ukendt evalueringsfejl"
 msgid "Could not read file %s"
 msgstr "Kan ikke læse filen %s"
 
-#: src/file.c:403
+#: src/file.c:404
 msgid "File format:"
 msgstr "Filformat:"
 
-#: src/file.c:457
+#: src/file.c:458
 msgid "Save workbook as"
 msgstr "Gem arbejdsbog som"
 
-#: src/file.c:501
+#: src/file.c:502
 msgid "Sorry, there are no file savers loaded, I cannot save"
 msgstr "Undskyld, gemning er umulig da ingen filgemmere er indlæst"
 
-#: src/file.c:514 src/file.c:538
+#: src/file.c:515 src/file.c:539
 #, fuzzy, c-format
 msgid "Could not save to file %s"
 msgstr "Kan ikke læse filen %s"
 
-#: src/file.c:549
+#: src/file.c:550
 msgid "Load file"
 msgstr "Åbn fil"
 
@@ -4173,7 +4244,7 @@ msgid ""
 "@SEEALSO=FV,NPV,PV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1337
+#: src/functions/fn-financial.c:1339
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt,fv,type)\n"
@@ -4189,11 +4260,11 @@ msgstr ""
 "\n"
 "@SEEALSO=FV"
 
-#: src/functions/fn-financial.c:1361
+#: src/functions/fn-financial.c:1363
 msgid "pv - domain error"
 msgstr "pv - domenefeil"
 
-#: src/functions/fn-financial.c:1374
+#: src/functions/fn-financial.c:1376
 msgid ""
 "@FUNCTION=NPV\n"
 "@SYNTAX=NPV(rate,v1,v2,...)\n"
@@ -4207,7 +4278,7 @@ msgid ""
 "@SEEALSO=PV,XNPV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1428
+#: src/functions/fn-financial.c:1430
 msgid ""
 "@FUNCTION=XNPV\n"
 "@SYNTAX=XNPV(rate,values,dates)\n"
@@ -4222,7 +4293,7 @@ msgid ""
 "@SEEALSO=NPV,PV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1485
+#: src/functions/fn-financial.c:1487
 msgid ""
 "@FUNCTION=XIRR\n"
 "@SYNTAX=XIRR(values,dates[,guess])\n"
@@ -4245,7 +4316,7 @@ msgid ""
 "@SEEALSO=IRR,XNPV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1588
+#: src/functions/fn-financial.c:1591
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,nper,pmt,pv,type)\n"
@@ -4261,7 +4332,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,PMT,PPMT"
 
-#: src/functions/fn-financial.c:1621
+#: src/functions/fn-financial.c:1624
 msgid ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
@@ -4277,7 +4348,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:1655
+#: src/functions/fn-financial.c:1658
 msgid ""
 "@FUNCTION=IPMT\n"
 "@SYNTAX=IPMT(rate,per,nper,pv,fv,type)\n"
@@ -4294,7 +4365,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1709
+#: src/functions/fn-financial.c:1712
 msgid ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
@@ -4310,7 +4381,7 @@ msgid ""
 "@SEEALSO=IPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1764
+#: src/functions/fn-financial.c:1767
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
@@ -4326,7 +4397,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:1800
+#: src/functions/fn-financial.c:1803
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(rate,pv,fv)\n"
@@ -4339,7 +4410,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1837
+#: src/functions/fn-financial.c:1840
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
 "@SYNTAX=FVSCHEDULE(pv,schedule)\n"
@@ -4352,7 +4423,7 @@ msgid ""
 "@SEEALSO=PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1880
+#: src/functions/fn-financial.c:1883
 msgid "Financial"
 msgstr "Finans"
 
@@ -6958,6 +7029,7 @@ msgstr ""
 "@SEEALSO=POISSON"
 
 #: src/functions/fn-stat.c:486
+#, fuzzy
 msgid ""
 "@FUNCTION=NORMSDIST\n"
 "@SYNTAX=NORMSDIST(x)\n"
@@ -6967,7 +7039,7 @@ msgid ""
 "@EXAMPLES=\n"
 "NORMSDIST(2) equals 0.977249868.\n"
 "\n"
-"@SEEALSO=NOMRDIST"
+"@SEEALSO=NORMDIST"
 msgstr ""
 "@FUNCTION=NORMSDIST\n"
 "@SYNTAX=NORMDIST(x)\n"
@@ -7757,7 +7829,7 @@ msgid ""
 "@SEEALSO=AVERAGE"
 msgstr ""
 
-#: src/functions/fn-stat.c:1848
+#: src/functions/fn-stat.c:1848 src/value-sheet.c:353
 msgid "#DIV/0!"
 msgstr "#DIV/0!"
 
@@ -9103,11 +9175,11 @@ msgstr "gul"
 msgid "0.0########"
 msgstr "0.0########"
 
-#: src/format.c:1348 src/value.c:321
+#: src/format.c:1348 src/value-sheet.c:26 src/value.c:321
 msgid "TRUE"
 msgstr "SANN"
 
-#: src/format.c:1348 src/value.c:321
+#: src/format.c:1348 src/value-sheet.c:26 src/value.c:321
 msgid "FALSE"
 msgstr "USANN"
 
@@ -9388,6 +9460,16 @@ msgstr "Ukendt funktion"
 msgid "You cannot change part of an array."
 msgstr ""
 
+#: src/item-bar.c:451
+#, fuzzy, c-format
+msgid "Height: %.2f"
+msgstr "_Højde"
+
+#: src/item-bar.c:454
+#, c-format
+msgid "Width: %.2f"
+msgstr ""
+
 #: src/item-cursor.c:516
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
@@ -9553,7 +9635,7 @@ msgstr "Kode:"
 msgid "Add..."
 msgstr "Tilføj"
 
-#: src/plugin-manager.c:143
+#: src/plugin-manager.c:143 src/sheet-object.c:978
 msgid "Remove"
 msgstr ""
 
@@ -9767,6 +9849,51 @@ msgstr "arket"
 msgid "the workbook"
 msgstr "arbejdsbogen"
 
+#: src/print.c:617
+msgid "Printing failed -- bad filename?"
+msgstr ""
+
+#: src/selection.c:144
+msgid "The command `"
+msgstr ""
+
+#: src/selection.c:146
+msgid "' cannot be performed with multiple selections"
+msgstr ""
+
+#: src/selection.c:594
+#, fuzzy
+msgid "copy"
+msgstr "_Top:"
+
+#: src/selection.c:627
+#, fuzzy
+msgid "cut"
+msgstr "Klip"
+
+#: src/selection.c:668
+#, fuzzy
+msgid "paste"
+msgstr "Indsæt"
+
+#: src/selection.c:691
+#, c-format
+msgid ""
+"The area can not be pasted into the selection because it\n"
+"has a different shape (%dRx%dC vs %dRx%dC)\n"
+"\n"
+"Try selecting a single cell or an area of the same shape and size."
+msgstr ""
+
+#: src/sheet-object.c:359 src/workbook.c:1114
+#, fuzzy
+msgid "Button"
+msgstr "Bund"
+
+#: src/sheet-object.c:728 src/workbook.c:860
+msgid "Select an object"
+msgstr ""
+
 #: src/sheet-view.c:368
 #, c-format
 msgid "Row: %d"
@@ -9790,6 +9917,48 @@ msgstr ""
 msgid "I was unable to the bind object"
 msgstr ""
 
+#: src/style.c:406
+msgid ""
+"Gnumeric failed to find a suitable default font.\n"
+"\n"
+"Please verify your gnome-print installation and that your fontmap file\n"
+"(typically located in /usr/local/share/fonts/fontmap) is not empty or\n"
+"near empty.\n"
+"\n"
+"If you still have no luck, please file a proper bug report (see\n"
+"http://bugs.gnome.org) including the following extra items:\n"
+"\n"
+"1. Values of LC_ALL and LANG environment variables.\n"
+"2. Your fontmap file, see above.\n"
+"\n"
+"Thanks -- the Gnumeric Team\n"
+msgstr ""
+
+#: src/value-sheet.c:352
+msgid "#NULL!"
+msgstr ""
+
+#: src/value-sheet.c:354
+msgid "#VALUE!"
+msgstr ""
+
+#: src/value-sheet.c:355
+#, fuzzy
+msgid "#REF!"
+msgstr "#ARG!"
+
+#: src/value-sheet.c:356
+msgid "#NAME?"
+msgstr ""
+
+#: src/value-sheet.c:357
+msgid "#NUM!"
+msgstr ""
+
+#: src/value-sheet.c:358
+msgid "#N/A"
+msgstr ""
+
 #: src/value.c:483
 msgid "Terminate"
 msgstr "Terminer"
@@ -9807,6 +9976,102 @@ msgstr "Fed kursiv"
 #: src/widgets/widget-font-selector.c:128 src/workbook-format-toolbar.c:261
 msgid "Italic"
 msgstr "Kursiv"
+
+#: src/workbook-cmd-format.c:88
+msgid "You entered an invalid column width value.  It must be bigger than 0"
+msgstr ""
+
+#: src/workbook-cmd-format.c:172
+msgid "You entered an invalid row height value.  It must be bigger than 0"
+msgstr ""
+
+#: src/workbook-format-toolbar.c:258
+msgid "Sets the bold font"
+msgstr ""
+
+#: src/workbook-format-toolbar.c:261
+msgid "Makes the font italic"
+msgstr ""
+
+#: src/workbook-format-toolbar.c:267
+#, fuzzy
+msgid "Left align"
+msgstr "Venstre sektion:"
+
+#: src/workbook-format-toolbar.c:267
+msgid "Left justifies the cell contents"
+msgstr ""
+
+#: src/workbook-format-toolbar.c:270
+msgid "Center"
+msgstr "Centrér"
+
+#: src/workbook-format-toolbar.c:270
+msgid "Centers the cell contents"
+msgstr ""
+
+#: src/workbook-format-toolbar.c:273
+#, fuzzy
+msgid "Right align"
+msgstr "Højre sektion:"
+
+#: src/workbook-format-toolbar.c:273
+msgid "Right justifies the cell contents"
+msgstr ""
+
+#: src/workbook-format-toolbar.c:279
+#, fuzzy
+msgid "Money format"
+msgstr "Filformat:"
+
+#: src/workbook-format-toolbar.c:279
+msgid "Sets the format of the selected cells to monetary"
+msgstr ""
+
+#: src/workbook-format-toolbar.c:282
+msgid "Percent"
+msgstr "Procent"
+
+#: src/workbook-format-toolbar.c:282
+msgid "Sets the format of the selected cells to percentage"
+msgstr ""
+
+#: src/workbook-format-toolbar.c:285
+msgid "Thousand separator"
+msgstr ""
+
+#: src/workbook-format-toolbar.c:285
+msgid "Sets the format of the selected cells to include a thousands separator"
+msgstr ""
+
+#: src/workbook-format-toolbar.c:288
+msgid "Add decimals"
+msgstr ""
+
+#: src/workbook-format-toolbar.c:288
+msgid "Increases the number of decimal numbers displayed"
+msgstr ""
+
+#: src/workbook-format-toolbar.c:291
+msgid "Remove decimals"
+msgstr ""
+
+#: src/workbook-format-toolbar.c:291
+msgid "Decreases the number of decimal numbers displayed"
+msgstr ""
+
+#: src/workbook-format-toolbar.c:383
+#, fuzzy
+msgid "Font selector"
+msgstr "Skriftstil:"
+
+#: src/workbook-format-toolbar.c:399
+msgid "Size"
+msgstr "Størrelse"
+
+#: src/workbook-format-toolbar.c:421
+msgid "Foreground"
+msgstr ""
 
 #: src/workbook.c:415
 msgid "Warning"
@@ -9836,10 +10101,6 @@ msgstr ">mm/dd/yyyy"
 #: src/workbook.c:774
 msgid ">hh:mm"
 msgstr ">hh:mm"
-
-#: src/workbook.c:860
-msgid "Select an object"
-msgstr ""
 
 #: src/workbook.c:869
 msgid "_New"
@@ -10157,11 +10418,6 @@ msgid "Creates a Bonobo shaped item"
 msgstr ""
 
 #: src/workbook.c:1114
-#, fuzzy
-msgid "Button"
-msgstr "Bund"
-
-#: src/workbook.c:1114
 msgid "Creates a button"
 msgstr ""
 
@@ -10263,103 +10519,25 @@ msgstr ""
 msgid "Gnumeric: "
 msgstr "Gnumeric"
 
-#: src/workbook-format-toolbar.c:258
-msgid "Sets the bold font"
-msgstr ""
-
-#: src/workbook-format-toolbar.c:261
-msgid "Makes the font italic"
-msgstr ""
-
-#: src/workbook-format-toolbar.c:267
-#, fuzzy
-msgid "Left align"
-msgstr "Venstre sektion:"
-
-#: src/workbook-format-toolbar.c:267
-msgid "Left justifies the cell contents"
-msgstr ""
-
-#: src/workbook-format-toolbar.c:270
-msgid "Center"
-msgstr "Centrér"
-
-#: src/workbook-format-toolbar.c:270
-msgid "Centers the cell contents"
-msgstr ""
-
-#: src/workbook-format-toolbar.c:273
-#, fuzzy
-msgid "Right align"
-msgstr "Højre sektion:"
-
-#: src/workbook-format-toolbar.c:273
-msgid "Right justifies the cell contents"
-msgstr ""
-
-#: src/workbook-format-toolbar.c:279
-#, fuzzy
-msgid "Money format"
-msgstr "Filformat:"
-
-#: src/workbook-format-toolbar.c:279
-msgid "Sets the format of the selected cells to monetary"
-msgstr ""
-
-#: src/workbook-format-toolbar.c:282
-msgid "Percent"
-msgstr "Procent"
-
-#: src/workbook-format-toolbar.c:282
-msgid "Sets the format of the selected cells to percentage"
-msgstr ""
-
-#: src/workbook-format-toolbar.c:285
-msgid "Thousand separator"
-msgstr ""
-
-#: src/workbook-format-toolbar.c:285
-msgid "Sets the format of the selected cells to include a thousands separator"
-msgstr ""
-
-#: src/workbook-format-toolbar.c:288
-msgid "Add decimals"
-msgstr ""
-
-#: src/workbook-format-toolbar.c:288
-msgid "Increases the number of decimal numbers displayed"
-msgstr ""
-
-#: src/workbook-format-toolbar.c:291
-msgid "Remove decimals"
-msgstr ""
-
-#: src/workbook-format-toolbar.c:291
-msgid "Decreases the number of decimal numbers displayed"
-msgstr ""
-
-#: src/workbook-format-toolbar.c:383
-#, fuzzy
-msgid "Font selector"
-msgstr "Skriftstil:"
-
-#: src/workbook-format-toolbar.c:399
-msgid "Size"
-msgstr "Størrelse"
-
-#: src/workbook-format-toolbar.c:421
-msgid "Foreground"
-msgstr ""
-
-#: src/workbook-cmd-format.c:88
-msgid "You entered an invalid column width value.  It must be bigger than 0"
-msgstr ""
-
-#: src/workbook-cmd-format.c:172
-msgid "You entered an invalid row height value.  It must be bigger than 0"
-msgstr ""
-
 #: src/xml-io.c:2338
 #, fuzzy
 msgid "Gnumeric XML file format"
 msgstr "Parametere for Gnumeric problemløser"
+
+#~ msgid "Argument must be a Guile expression"
+#~ msgstr "Argumentet skal være et Guile-udtryk"
+
+#~ msgid "First argument to SCM must be a Guile expression"
+#~ msgstr "Det første argument til SCM skal være et Guile-udtryk"
+
+#~ msgid "Undefined scheme function"
+#~ msgstr "udefineret scheme funktion"
+
+#~ msgid "Could not evaluate argument"
+#~ msgstr "Kan ikke evaluere argument"
+
+#~ msgid "Unable to lookup Guile function."
+#~ msgstr "Kan ikke slå Guile-funktion op"
+
+#~ msgid "Guile Plugin"
+#~ msgstr "Guile-tillæg"
