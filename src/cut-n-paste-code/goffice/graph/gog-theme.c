@@ -334,8 +334,17 @@ map_area_series_solid_default (GogStyle *style, unsigned ind)
 	unsigned palette_index = ind;
 	if (palette_index >= G_N_ELEMENTS (palette))
 		palette_index %= G_N_ELEMENTS (palette);
-	if (style->fill.is_auto)
-		style->fill.u.pattern.pat.back = palette [palette_index];
+	if (style->fill.is_auto) {
+		if (style->fill.type == GOG_FILL_STYLE_PATTERN)
+			style->fill.u.pattern.pat.back = palette [palette_index];
+		else if (style->fill.type == GOG_FILL_STYLE_GRADIENT &&
+			 style->fill.u.gradient.brightness >= 0) {
+			style->fill.u.gradient.start = palette [palette_index];
+			/* force the brightness to reinterpolate */
+			gog_style_set_fill_brightness (style,
+				style->fill.u.gradient.brightness);
+		}
+	}
 
 	palette_index += 8;
 	if (palette_index >= G_N_ELEMENTS (palette))
@@ -362,8 +371,17 @@ map_area_series_solid_guppi (GogStyle *style, unsigned ind)
 	unsigned palette_index = ind;
 	if (palette_index >= G_N_ELEMENTS (palette))
 		palette_index %= G_N_ELEMENTS (palette);
-	if (style->fill.is_auto)
-		style->fill.u.pattern.pat.back = palette [palette_index];
+	if (style->fill.is_auto) {
+		if (style->fill.type == GOG_FILL_STYLE_PATTERN)
+			style->fill.u.pattern.pat.back = palette [palette_index];
+		else if (style->fill.type == GOG_FILL_STYLE_GRADIENT &&
+			 style->fill.u.gradient.brightness >= 0) {
+			style->fill.u.gradient.start = palette [palette_index];
+			/* force the brightness to reinterpolate */
+			gog_style_set_fill_brightness (style,
+				style->fill.u.gradient.brightness);
+		}
+	}
 	if (style->line.auto_color)
 		style->line.color = palette [palette_index];
 	map_marker (&style->marker, ind, palette_index, palette);

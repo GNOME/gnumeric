@@ -1,3 +1,9 @@
+2004-02-27  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-theme.c (map_area_series_solid_default) : don't set colors
+	  for image fills.
+	(map_area_series_solid_guppi) : ditto.
+
 2004-02-04  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.6

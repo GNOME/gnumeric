@@ -413,7 +413,7 @@ sheet_apply_style (Sheet       *sheet,
  * @f : The new zoom
  * @force : Force the zoom to change irrespective of its current value.
  *          Most callers will want to say FALSE.
- * @respan : recalculate the spans.
+ * @update : recalculate the spans too
  */
 void
 sheet_set_zoom_factor (Sheet *sheet, double f, gboolean force, gboolean update)
@@ -3965,7 +3965,6 @@ sheet_dup (Sheet const *src)
 	Workbook *wb;
 	Sheet *dst;
 	char *name;
-	double old_zoom_factor;
 
 	g_return_val_if_fail (IS_SHEET (src), NULL);
 	g_return_val_if_fail (src->workbook !=NULL, NULL);
@@ -3975,9 +3974,7 @@ sheet_dup (Sheet const *src)
 					     TRUE, TRUE);
 	dst = sheet_new (wb, name);
 	g_free (name);
-
-	old_zoom_factor = src->last_zoom_factor_used;
-	sheet_set_zoom_factor ((Sheet *)src, 1., TRUE, FALSE);
+	sheet_set_zoom_factor (dst, src->last_zoom_factor_used, FALSE, FALSE);
 
         /* Copy the print info */
 	print_info_free (dst->print_info);
@@ -4003,10 +4000,7 @@ sheet_dup (Sheet const *src)
 	/* Copy scenarios */
 	dst->scenarios = scenario_copy_all (src->scenarios, dst);
 
-	/* Force a respan and rerender */
-	sheet_set_zoom_factor ((Sheet *)src, old_zoom_factor, TRUE, TRUE);
-	sheet_set_zoom_factor (dst, src->last_zoom_factor_used, TRUE, TRUE);
-
+	sheet_set_zoom_factor (dst, dst->last_zoom_factor_used, TRUE, TRUE);
 	sheet_set_dirty (dst, TRUE);
 	sheet_redraw_all (dst, TRUE);
 

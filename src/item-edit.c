@@ -19,7 +19,7 @@
 
 #include "item-cursor.h"
 #include "gnumeric-canvas.h"
-#include "sheet-control-gui.h"
+#include "sheet-control-gui-priv.h"
 #include "sheet.h"
 #include "sheet-view.h"
 #include "sheet-style.h"
@@ -63,7 +63,7 @@ struct _ItemEdit {
 
 	/* When editing, if the cursor is inside a cell name, or a cell range,
 	 * we highlight this on the spreadsheet. */
-	FooCanvasItem *feedback_cursor;
+	FooCanvasItem *feedback_cursor [SCG_NUM_PANES];
 	gboolean       feedback_disabled;
 };
 
@@ -78,10 +78,13 @@ enum {
 static void
 ie_destroy_feedback_range (ItemEdit *ie)
 {
-	if (ie->feedback_cursor != NULL) {
-		gtk_object_destroy (GTK_OBJECT (ie->feedback_cursor));
-		ie->feedback_cursor = NULL;
-	}
+	int i = G_N_ELEMENTS (ie->feedback_cursor);
+
+	while (i-- > 0)
+		if (ie->feedback_cursor[i] != NULL) {
+			gtk_object_destroy (GTK_OBJECT (ie->feedback_cursor[i]));
+			ie->feedback_cursor[i] = NULL;
+		}
 }
 
 /* WARNING : DO NOT CALL THIS FROM FROM UPDATE.  It may create another
@@ -100,16 +103,18 @@ ie_scan_for_range (ItemEdit *ie)
 	if (!ie->feedback_disabled) {
 		gnm_expr_expr_find_range (gee);
 		if (gnm_expr_entry_get_rangesel (gee, &range, &parse_sheet) &&
-		    (parse_sheet == sheet)) {
-			if (ie->feedback_cursor == NULL)
-				ie->feedback_cursor = foo_canvas_item_new (
-					FOO_CANVAS_GROUP (ie->canvas_item.canvas->root),
-					item_cursor_get_type (),
-					"SheetControlGUI",	ie->scg,
-					"style",		ITEM_CURSOR_BLOCK,
-					"color",		"blue",
-					NULL);
-			item_cursor_bound_set (ITEM_CURSOR (ie->feedback_cursor), &range);
+		    parse_sheet == sheet) {
+			SCG_FOREACH_PANE (ie->scg, pane, {
+				if (ie->feedback_cursor[i] == NULL)
+					ie->feedback_cursor[i] = foo_canvas_item_new (
+						FOO_CANVAS_GROUP (FOO_CANVAS (pane->gcanvas)->root),
+						item_cursor_get_type (),
+						"SheetControlGUI",	ie->scg,
+						"style",		ITEM_CURSOR_BLOCK,
+						"color",		"blue",
+						NULL);
+				item_cursor_bound_set (ITEM_CURSOR (ie->feedback_cursor[i]), &range);
+			});
 			return;
 		}
 	}
@@ -431,6 +436,7 @@ static void
 item_edit_init (ItemEdit *ie)
 {
 	FooCanvasItem *item = FOO_CANVAS_ITEM (ie);
+	int i;
 
 	item->x1 = 0;
 	item->y1 = 0;
@@ -444,8 +450,9 @@ item_edit_init (ItemEdit *ie)
 	ie->style      = NULL;
 	ie->cursor_visible = TRUE;
 	ie->feedback_disabled = FALSE;
-	ie->feedback_cursor = NULL;
 	ie->fill_gc = NULL;
+	for (i = G_N_ELEMENTS (ie->feedback_cursor); i-- > 0 ; )
+		ie->feedback_cursor[i] = NULL;
 }
 
 /*
