@@ -602,7 +602,7 @@ typedef struct
 {
 	gboolean is_cols, visible;
 	ColRowVisList *elements;
-} colrow_visiblity;
+} ColRowVisiblity;
 
 static gint
 colrow_index_cmp (ColRowIndex const *a, ColRowIndex const *b)
@@ -612,8 +612,8 @@ colrow_index_cmp (ColRowIndex const *a, ColRowIndex const *b)
 }
 
 static void
-colrow_visibility (Sheet const *sheet, colrow_visiblity * const dat,
-		   int first, int last, gboolean honour_collapse)
+colrow_visibility (Sheet const *sheet, ColRowVisiblity * const dat,
+		   int first, int last)
 {
 	int i;
 	gboolean const visible = dat->visible;
@@ -667,19 +667,19 @@ ColRowVisList *
 colrow_get_outline_toggle (Sheet const *sheet, gboolean is_cols, gboolean visible,
 			   int first, int last)
 {
-	colrow_visiblity closure;
+	ColRowVisiblity closure;
 	closure.is_cols = is_cols;
 	closure.visible = visible;
 	closure.elements = NULL;
 
-	colrow_visibility (sheet, &closure, first, last, TRUE);
+	colrow_visibility (sheet, &closure, first, last);
 	return closure.elements;
 }
 
 static void
 cb_colrow_visibility (Sheet *sheet, Range const *r, void *closure)
 {
-	colrow_visiblity * const dat = (colrow_visiblity *)closure;
+	ColRowVisiblity * const dat = (ColRowVisiblity *)closure;
 	int first, last;
 
 	if (dat->is_cols) {
@@ -689,7 +689,7 @@ cb_colrow_visibility (Sheet *sheet, Range const *r, void *closure)
 		first = r->start.row;
 		last = r->end.row;
 	}
-	colrow_visibility (sheet, dat, first, last, FALSE);
+	colrow_visibility (sheet, dat, first, last);
 }
 
 /**
@@ -708,7 +708,7 @@ ColRowVisList *
 colrow_get_visiblity_toggle (Sheet *sheet, gboolean is_cols,
 			     gboolean visible)
 {
-	colrow_visiblity closure;
+	ColRowVisiblity closure;
 	closure.is_cols = is_cols;
 	closure.visible = visible;
 	closure.elements = NULL;
@@ -739,9 +739,10 @@ colrow_set_visibility_list (Sheet *sheet, gboolean is_cols,
 			    gboolean visible, ColRowVisList *list)
 {
 	ColRowVisList *ptr;
+	ColRowIndex *info;
 
 	for (ptr = list; ptr != NULL ; ptr = ptr->next) {
-		ColRowIndex *info = ptr->data;
+		info = ptr->data;
 		colrow_set_visibility (sheet, is_cols, visible,
 				       info->first, info->last);
 	}
@@ -870,7 +871,8 @@ colrow_find_adjacent_visible (Sheet *sheet, gboolean is_col,
  * @first	: The index of the first row/col (inclusive)
  * @last	: The index of the last row/col (inclusive)
  *
- * Change the visibility of the selected range of contiguous rows/cols.
+ * Change the visibility of the selected range of contiguous cols/rows.
+ * NOTE : only changes the collapsed state for the LAST+1 element.
  */
 void
 colrow_set_visibility (Sheet *sheet, gboolean is_cols,
@@ -930,12 +932,79 @@ colrow_set_visibility (Sheet *sheet, gboolean is_cols,
 			}
 		}
 	}
-	if (prev_changed &&
-	    ((is_cols && i < SHEET_MAX_COLS) ||
-	     (!is_cols && i < SHEET_MAX_ROWS))) {
+
+	if (prev_changed && i < colrow_max (is_cols)) {
 		ColRowInfo * const cri = sheet_colrow_fetch (sheet, i, is_cols);
 
 		if (prev_outline > cri->outline_level)
 			cri->is_collapsed = !visible;
 	}
 }
+
+/**
+ * colrow_get_global_outline :
+ * @sheet :
+ * @is_cols :
+ * @depth :
+ * @show :
+ * @hide :
+ *
+ * Collect the set of visiblity changes required to change the visiblity of
+ * all outlined columns such tach those > @depth are visible.
+ **/
+void
+colrow_get_global_outline (Sheet const *sheet, gboolean is_cols, int depth,
+			   ColRowVisList **show, ColRowVisList **hide)
+{
+	ColRowInfo const *cri;
+	ColRowIndex *prev = NULL;
+	gboolean show_prev = FALSE;
+	unsigned tmp, prev_outline = 0;
+	int i, max = is_cols ? sheet->cols.max_used : sheet->rows.max_used;
+
+	*show = *hide = NULL;
+	for (i = 0; i <= max ; i++) {
+		cri = sheet_colrow_get (sheet, i, is_cols);
+
+		if (cri == NULL || cri->outline_level == 0) {
+			prev_outline = 0;
+			continue;
+		}
+		tmp = prev_outline;
+		prev_outline = cri->outline_level;
+
+		/* see what sort of changes are necessary and do simple run
+		 * length encoding.  Do not be too efficent, we need to change
+		 * the visiblity per outline level or the collapse state
+		 * change in colrow_set_visibility is missed. */
+		if (cri->outline_level < depth) {
+			if (cri->visible)
+				continue;
+			if (show_prev && prev != NULL && prev->last == (i-1) &&
+			    tmp == prev_outline) {
+				prev->last = i;
+				continue;
+			}
+			prev = g_new (ColRowIndex, 1);
+			prev->first = prev->last = i;
+			*show = g_slist_prepend (*show, prev);
+			show_prev = TRUE;
+		} else {
+			if (!cri->visible)
+				continue;
+			if (!show_prev && prev != NULL && prev->last == (i-1) &&
+			    tmp == prev_outline) {
+				prev->last = i;
+				continue;
+			}
+			prev = g_new (ColRowIndex, 1);
+			prev->first = prev->last = i;
+			*hide = g_slist_prepend (*hide, prev);
+			show_prev = FALSE;
+		}
+	}
+
+	*show = g_slist_reverse (*show);
+	*hide = g_slist_reverse (*hide);
+}
+

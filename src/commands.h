@@ -67,6 +67,7 @@ gboolean cmd_colrow_hide_selection (WorkbookControl *wbc, Sheet *sheet,
 				    gboolean is_cols, gboolean visible);
 gboolean cmd_colrow_outline_change (WorkbookControl *wbc, Sheet *sheet,
 				    gboolean is_cols, int index, int depth);
+gboolean cmd_global_outline_change (WorkbookControl *wbc, gboolean is_cols, int depth);
 
 gboolean cmd_group              (WorkbookControl *wbc, Sheet *sheet,
 				 gboolean is_cols, gboolean group);

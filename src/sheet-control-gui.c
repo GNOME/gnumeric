@@ -175,8 +175,28 @@ scg_redraw_headers (SheetControl *sc,
 }
 
 static void
+cb_outline_button (GtkWidget *btn, SheetControlGUI *scg)
+{
+	SheetControl *sc = (SheetControl *) scg;
+	WorkbookControl *wbc = sc->wbc;
+	GPtrArray const *btns;
+	unsigned i = 0;
+	gboolean is_cols = gtk_object_get_data (GTK_OBJECT (btn), "is_cols") != NULL;
+
+	/* which button */
+	btns = is_cols ? scg->col_group.buttons : scg->row_group.buttons;
+	for (i = 0; i < btns->len; i++)
+		if (g_ptr_array_index (btns, i) == btn)
+			break;
+
+	g_return_if_fail (i < btns->len);
+
+	cmd_global_outline_change (wbc, is_cols, i+1);
+}
+
+static void
 scg_setup_group_buttons (SheetControlGUI *scg, unsigned max_outline,
-			 ItemBar const *ib, int w, int h,
+			 ItemBar const *ib, gboolean is_cols, int w, int h,
 			 GPtrArray *btns, GtkWidget *box)
 {
 	GtkStyle *style;
@@ -197,9 +217,16 @@ scg_setup_group_buttons (SheetControlGUI *scg, unsigned max_outline,
 		gtk_container_add (GTK_CONTAINER (in), gtk_label_new (tmp));
 		gtk_container_add (GTK_CONTAINER (btn), in); 
 		gtk_container_add (GTK_CONTAINER (out), btn); 
-		gtk_box_pack_end (GTK_BOX (box), out, TRUE, TRUE, 0);
-		g_ptr_array_add (btns, out);
+ 		gtk_box_pack_start (GTK_BOX (box), out, TRUE, TRUE, 0);
+ 		g_ptr_array_add (btns, btn);
 		g_free (tmp);
+
+		gtk_signal_connect (GTK_OBJECT (btn),
+			"clicked",
+			GTK_SIGNAL_FUNC (cb_outline_button), scg);
+		if (is_cols)
+			gtk_object_set_data (GTK_OBJECT (btn),
+					     "is_cols", GINT_TO_POINTER (1));
 	}
 
 	style = gtk_style_new ();
@@ -210,7 +237,7 @@ scg_setup_group_buttons (SheetControlGUI *scg, unsigned max_outline,
 	/* size all of the button so things work after a zoom */
 	for (i = 0 ; i < btns->len ; i++) {
 		GtkWidget *btn = g_ptr_array_index (btns, i);
-		GtkWidget *label = GTK_BIN (GTK_BIN (GTK_BIN (btn)->child)->child)->child;
+		GtkWidget *label = GTK_BIN (GTK_BIN (btn)->child)->child;
 		gtk_widget_set_usize (GTK_WIDGET (btn), w, h);
 		gtk_widget_set_style (label, style);
 	}
@@ -253,10 +280,10 @@ scg_resize (SheetControl *sc, gboolean force_scroll)
 	tmp = item_bar_group_size (scg->pane[0].col.item,
 		sheet->cols.max_outline_level);
 	scg_setup_group_buttons (scg, sheet->cols.max_outline_level,
-		scg->pane[0].col.item,
+		scg->pane[0].col.item, TRUE,
 		tmp, tmp, scg->col_group.buttons, scg->col_group.button_box);
 	scg_setup_group_buttons (scg, sheet->rows.max_outline_level,
-		scg->pane[0].row.item,
+		scg->pane[0].row.item, FALSE,
 		-1, btn_h, scg->row_group.buttons, scg->row_group.button_box);
 
 	if (scg->active_panes == 1) {

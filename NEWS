@@ -17,6 +17,7 @@ Jody:
 	* fix crash when validating 'between' and 'not-between' conditions
 	* fix bound check when exporting to XL95 to actually warn
 	* POISSON is defined for x == 0
+ 	* Support the global outline buttons
 
 Morten:
 	* Fix GAMMAINV.
