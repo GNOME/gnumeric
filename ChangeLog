@@ -1,3 +1,8 @@
+2002-06-26  Jon K Hellan  <hellan@acm.org>
+
+	* GNOME_Gnumeric.server.in.in: Add mime types for lotus, applix,
+	oleo & xbase.
+
 2002-06-25  Jon K Hellan  <hellan@acm.org>
 
 	* src/bonobo-io.c (get_raw_bytes_from_stream)

@@ -23,7 +23,11 @@
   <oaf_attribute name="bonobo:editable" type="boolean" value="false"/>
   <oaf_attribute name="bonobo:supported_mime_types" type="stringv">
     <item value="application/x-gnumeric"/>
+    <item value="application/vnd.lotus-1-2-3"/>
     <item value="application/vnd.ms-excel"/>
+    <item value="application/x-applix-spreadsheet"/>
+    <item value="application/x-oleo"/>
+    <item value="application/x-xbase"/>
   </oaf_attribute>
   <oaf_attribute name="nautilus:view_as_name" type="string" _value="Gnumeric Workbook"/>
 </oaf_server>
