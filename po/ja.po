@@ -25332,9 +25332,8 @@ msgid "Load file"
 msgstr "ファイルを読み込みます"
 
 #: src/gui-file.c:185
-#, fuzzy
 msgid "File _type:"
-msgstr "ファイル(_F)"
+msgstr "ファイルタイプ(_T):"
 
 #: src/gui-file.c:249
 #, c-format
@@ -25491,15 +25490,15 @@ msgstr "キャンセル(_A)"
 
 #: src/main-application.c:53
 msgid "Display Gnumeric's version"
-msgstr "Gnumeric のバージョンの表示"
+msgstr "Gnumericのバージョンの表示"
 
 #: src/main-application.c:55
 msgid "Set the root library directory"
-msgstr "root ライブラリのディレクトリのセット"
+msgstr "rootライブラリのディレクトリのセット"
 
 #: src/main-application.c:57
 msgid "Adjust the root data directory"
-msgstr "root データのディレクトリの調整"
+msgstr "rootデータのディレクトリの調整"
 
 #: src/main-application.c:60 src/main-application.c:62
 msgid "Dumps the function definitions"
@@ -25536,11 +25535,11 @@ msgstr "起動時のウィンドウのサイズとジオメトリの指定"
 
 #: src/main-application.c:75
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
-msgstr "幅x高さ+位置X(オフセット)+位置Y(オフセット)"
+msgstr "WIDTHxHEIGHT+XOFF+YOFF"
 
 #: src/main-application.c:79
 msgid "Don't show splash screen"
-msgstr ""
+msgstr "スプラッシュスクリーンを表示しない"
 
 #: src/main-application.c:82
 msgid "Exit immediately after loading the selected books (useful for testing)."
