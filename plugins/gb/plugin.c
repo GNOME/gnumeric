@@ -19,7 +19,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
-#include <ctype.h>
+/* Do not include c-t-y-p-e-.-h */
 
 #include <glib.h>
 #include <gnome.h>

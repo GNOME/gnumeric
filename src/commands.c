@@ -65,11 +65,11 @@
 #include "sheet-control.h"
 #include "style-color.h"
 #include "summary.h"
+#include "auto-format.h"
 #include "tools/dao.h"
 #include "gnumeric-gconf.h"
 
 #include <gsf/gsf-impl-utils.h>
-#include <ctype.h>
 
 /*
  * There are several distinct stages to wrapping each command.
@@ -930,6 +930,8 @@ cmd_area_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	CmdAreaSetText *me = CMD_AREA_SET_TEXT (cmd);
 	GnmExpr const *expr = NULL;
 	GSList *l;
+	StyleFormat *sf;
+	MStyle *new_style = NULL;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
@@ -948,6 +950,21 @@ cmd_area_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 			gnm_expr_char_start_p (me->text), &me->pp);
 		if (expr == NULL)
 			return TRUE;
+	} else {
+		const GnmExpr *tmpexpr = gnm_expr_parse_str_simple (
+			gnm_expr_char_start_p (me->text), &me->pp);
+		if (tmpexpr) {
+			EvalPos ep;
+
+			ep.eval = me->pp.eval;
+			ep.sheet = me->cmd.sheet;
+			ep.dep = NULL;
+			sf = auto_style_format_suggest (tmpexpr, &ep);
+			gnm_expr_unref (tmpexpr);
+			new_style = mstyle_new ();
+			mstyle_set_format (new_style, sf);
+			style_format_unref (sf);
+		}
 	}
 
 	/* Everything is ok. Store previous contents and perform the operation */
@@ -966,8 +983,13 @@ cmd_area_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 						r->end.col, r->end.row,
 						expr);
 			sheet_region_queue_recalc (me->cmd.sheet, r);
-		} else
+		} else {
 			sheet_range_set_text (&me->pp, r, me->text);
+			if (new_style) {
+				mstyle_ref (new_style);
+				sheet_apply_style (me->cmd.sheet, r, new_style);
+			}
+		}
 
 		/* mark content as dirty */
 		sheet_flag_status_update_range (me->cmd.sheet, r);
@@ -976,8 +998,12 @@ cmd_area_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	me->old_content = g_slist_reverse (me->old_content);
 	sheet_redraw_all (me->cmd.sheet, FALSE);
 
+	if (new_style)
+		mstyle_unref (new_style);
+
 	return FALSE;
 }
+
 static void
 cmd_area_set_text_finalize (GObject *cmd)
 {
