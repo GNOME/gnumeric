@@ -16,53 +16,6 @@ wbcc_progress_set (CommandContext *cc, gfloat val) {}
 static void
 wbcc_progress_message_set (CommandContext *cc, gchar const *msg) {}
 
-static void
-wbcc_error_system (CommandContext *cc, char const *msg)
-{
-	/* FIXME: Set exception */
-	g_warning (msg);
-}
-static void
-wbcc_error_plugin (CommandContext *cc, char const *msg)
-{
-	/* FIXME: Set exception */
-	g_warning (msg);
-}
-static void
-wbcc_error_read (CommandContext *cc, char const *msg)
-{
-	/* FIXME: Set exception */
-	g_warning (msg);
-}
-
-static void
-wbcc_error_save (CommandContext *cc, char const *msg)
-{
-	/* FIXME: Set exception */
-	g_warning (msg);
-}
-
-static void
-wbcc_error_invalid (CommandContext *cc, char const *msg, char const * value)
-{
-	/* FIXME: Set exception */
-	char *buf = g_strconcat (msg, " : ", value, NULL);
-	g_warning (buf);
-	g_free (buf);
-}
-
-/* We inherit the implementation of error.splits_array
- * from WorkbookControlGUI */
-
-static void
-wbcc_error_error_info (CommandContext *context,
-                       ErrorInfo *error)
-{
-	/* FIXME: Set exception */
-	error_info_print (error);
-
-}
-
 static WorkbookControl *
 wbcc_control_new (WorkbookControl *wbc, WorkbookView *wbv, Workbook *wb)
 {
@@ -353,13 +306,7 @@ workbook_control_component_ctor_class (GObjectClass *object_class)
 	wbc_class->context_class.progress_message_set
 		= wbcc_progress_message_set;
 
-	wbc_class->context_class.error.system	= wbcc_error_system;
-	wbc_class->context_class.error.plugin	= wbcc_error_plugin;
-	wbc_class->context_class.error.read	= wbcc_error_read;
-	wbc_class->context_class.error.save	= wbcc_error_save;
-	wbc_class->context_class.error.invalid	= wbcc_error_invalid;
-	/* wbc_class->context_class.error.splits_array inherited from wbcg */
-	wbc_class->context_class.error.error_info  = wbcc_error_error_info;
+	/* wbc_class->context_class.* inherited from wbcg */
 
 	wbc_class->control_new	      = wbcc_control_new;
 	wbc_class->init_state	      = wbcc_init_state;

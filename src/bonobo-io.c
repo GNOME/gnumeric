@@ -205,12 +205,14 @@ deserialize_wb_from_xml_stream (StreamIOCtxt *sc, IOContext *ioc,
 	 */
 	doc = hack_xmlSAXParseFile (sc);
 	if (!doc) {
-		g_warning ("Failed to parse file");
+		gnumeric_io_error_read (
+			ioc, "Failed to parse file");
 		return -1;
 	}
 	if (!doc->xmlRootNode) {
 		xmlFreeDoc (doc);
-		g_warning ("Invalid xml file. Tree is empty ?");
+		gnumeric_io_error_read (
+			ioc, _("Invalid xml file. Tree is empty ?"));
 		return -1;
 	}
 
@@ -220,6 +222,8 @@ deserialize_wb_from_xml_stream (StreamIOCtxt *sc, IOContext *ioc,
 	gmr = xml_check_version (doc, &version);
 	if (!gmr) {
 		xmlFreeDoc (doc);
+		gnumeric_io_error_read (
+			ioc, _("Does not contain a Workbook file"));
 		return -1;
 	}
 	xc = xml_parse_ctx_new_full (doc, gmr, version, NULL, NULL, NULL);
@@ -306,6 +310,8 @@ gnumeric_bonobo_read_from_stream (BonoboPersistStream       *ps,
 	read_from_stream (deserialize_wb_from_xml_stream, stream, ioc,
 			  wb_view, ev);
 	workbook_enable_recursive_dirty (wb, old);
+	if (gnumeric_io_error_occurred (ioc))
+		gnumeric_io_error_display (ioc);
 	g_object_unref (G_OBJECT (ioc));
 	if (BONOBO_EX (ev)) {	
 		workbook_unref (wb);		

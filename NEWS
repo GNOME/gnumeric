@@ -27,8 +27,10 @@ Morten:
 	* Fix XIRR.
 
 Jon Kåre:
-	* Improve bonobo control
 	* Install bonobo control
+	* Merge bonobo control commands into container's menus
+	* Make bonobo control zoomable
+	* Enable bonobo control to display message dialog.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.3

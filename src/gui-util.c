@@ -194,9 +194,7 @@ gnumeric_dialog_run (WorkbookControlGUI *wbcg, GtkDialog *dialog)
 	if (wbcg) {
 		g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), GTK_RESPONSE_NONE);
 
-		toplevel = wbcg_toplevel (wbcg);
-		if (GTK_WINDOW (dialog)->transient_parent != toplevel)
-			gtk_window_set_transient_for (GTK_WINDOW (dialog), toplevel);
+		wbcg_set_transient (wbcg, dialog);
 	}
 
 	result = gtk_dialog_run (dialog);

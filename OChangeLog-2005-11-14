@@ -1,3 +1,18 @@
+2002-05-06  Jon K Hellan  <hellan@acm.org>
+
+	* src/bonobo-io.c (deserialize_wb_from_xml_stream)
+	(gnumeric_bonobo_read_from_stream): Display message on error.
+
+	* src/workbook-control-component.c
+	(workbook_control_component_ctor_class): Inherit io context
+	methods from wbcg.
+	(wbcc_error_system, wbcc_error_read, wbcc_error_read) 
+	(wbcc_error_read, wbcc_error_save, wbcc_error_invalid) 
+	(wbcc_error_error_info): Remove.
+
+	* src/gui-util.c (gnumeric_dialog_run): Use wbcg_set_transient
+	instead of gtk_window_set_transient_for.
+
 2002-05-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/print.c (print_job_info_get) : duplicate print_info
