@@ -8048,7 +8048,7 @@ msgstr "Rida: %d"
 #: src/sheet-view.c:379
 #, c-format
 msgid "Column: %s"
-msgstr "Tulp: %d"
+msgstr "Tulp: %s"
 
 #: src/sheet.c:1216
 msgid "Internal ERROR"

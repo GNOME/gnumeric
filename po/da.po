@@ -1,15 +1,16 @@
 # Danish translation of Gnumeric
 # Kontakt dansk@klid.dk før ændring af denne fil.
-# -----------------------------------------------
+#
 # Copyright (C) 1999 Free Software Foundation, Inc.
 # Jan Normann Nielsen <normann@diku.dk>, 1999.
 # Kenneth Christiansen <kenneth@ripen.dk>, 1999-2000.
 # Birger langkjer <birger.langkjer@image.dk>, 1999.
+# Keld Simonsen <keld@dkuug.dk>, 2000.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.40\n"
-"POT-Creation-Date: 2000-04-11 20:17+0200\n"
+"POT-Creation-Date: 2000-04-12 19:24+0200\n"
 "PO-Revision-Date: 2000-03-14 01:30+01:00\n"
 "Last-Translator: Birger langkjer <birger.langkjer@image.dk>\n"
 "Language-Team: Dansk/Danish <sslug-locale@sslug.dk>\n"
@@ -52,7 +53,7 @@ msgstr "Adgangskodebeskyttede arbejdsbøger er endnu ikke understøttet."
 
 #: plugins/excel/ms-excel-read.c:4037
 msgid "Unable to locate valid MS Excel workbook"
-msgstr "Kunne ikke finde gyldig MS Excel-arbejdsbog"
+msgstr "Kunne ikke finde gyldig MS Excel arbejdsbog"
 
 #: plugins/excel/ms-formula-read.c:649
 msgid "Unknown Function"
@@ -320,17 +321,17 @@ msgstr "Gnumeric hjemmeside"
 msgid "Gnumeric Support page"
 msgstr "Gnumeric supportside"
 
-#: src/cell.c:79
+#: src/cell.c:104
 msgid "ERROR"
 msgstr "ERROR"
 
 #. Until the value is recomputed, we put in this value.
-#: src/cell.c:106
+#: src/cell.c:131
 msgid "Pending recomputation"
 msgstr "Venter på genomregning"
 
 #. Until the value is recomputed, we put in this value.
-#: src/cell.c:630
+#: src/cell.c:629
 msgid "Circular reference"
 msgstr "Cirkulær reference"
 
@@ -2700,7 +2701,7 @@ msgstr "_Tilpas markering %"
 msgid "%"
 msgstr "%"
 
-#: src/dialogs/dialog-zoom.glade.h:17 src/print.c:863
+#: src/dialogs/dialog-zoom.glade.h:17 src/print.c:873
 msgid "Sheets"
 msgstr "Ark"
 
@@ -2811,7 +2812,7 @@ msgstr ""
 "Kan ikke læse filen %s\n"
 "%%s"
 
-#: src/file.c:353
+#: src/file.c:354
 msgid ""
 "Could not import file %s\n"
 "%%s"
@@ -2819,44 +2820,44 @@ msgstr ""
 "Kunne ikke importere filen %s\n"
 "%%s"
 
-#: src/file.c:459
+#: src/file.c:460
 msgid "File format:"
 msgstr "Filformat:"
 
-#: src/file.c:535
+#: src/file.c:536
 #, c-format
 msgid ""
 "Workbook %s already exists\n"
 "Do you want to save over it?"
 msgstr ""
 
-#: src/file.c:576
+#: src/file.c:577
 #, c-format
 msgid ""
 "%s\n"
 "is a directory name"
 msgstr ""
 
-#: src/file.c:585
+#: src/file.c:586
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
 "%s"
 msgstr ""
 
-#: src/file.c:609
+#: src/file.c:610
 msgid ""
 "Please enter a file name,\n"
 "not a directory"
 msgstr ""
 
-#: src/file.c:616
+#: src/file.c:617
 msgid ""
 "Sorry, there are no file savers loaded,\n"
 "I cannot save"
 msgstr "Beklager, gemning er umulig da ingen filgemmere er indlæst"
 
-#: src/file.c:632 src/file.c:715
+#: src/file.c:633 src/file.c:716
 msgid ""
 "Could not save to file %s\n"
 "%%s"
@@ -2864,11 +2865,11 @@ msgstr ""
 "Kunne ikke gemme som filen %s\n"
 "%%s"
 
-#: src/file.c:660
+#: src/file.c:661
 msgid "Save workbook as"
 msgstr "Gem arbejdsbog som"
 
-#: src/file.c:738
+#: src/file.c:739
 msgid "Load file"
 msgstr "Åbn fil"
 
@@ -11964,55 +11965,55 @@ msgstr "Flyt celler ned og flyt"
 msgid "Shift cells right and move"
 msgstr "Flyt celler til højre og flyt"
 
-#: src/item-grid.c:594
+#: src/item-grid.c:589
 msgid "Cu_t"
 msgstr "K_lip"
 
-#: src/item-grid.c:596
+#: src/item-grid.c:591
 msgid "_Copy"
 msgstr "_Kopiér"
 
-#: src/item-grid.c:598
+#: src/item-grid.c:593
 msgid "_Paste"
 msgstr "_Indsæt"
 
-#: src/item-grid.c:600
+#: src/item-grid.c:595
 msgid "Paste _Special"
 msgstr "Indsæt s_peciel"
 
-#: src/item-grid.c:605
+#: src/item-grid.c:600
 msgid "_Insert..."
 msgstr "_Indsæt..."
 
-#: src/item-grid.c:607 src/workbook.c:1171
+#: src/item-grid.c:602 src/workbook.c:1171
 msgid "_Delete..."
 msgstr "_Slet..."
 
-#: src/item-grid.c:609
+#: src/item-grid.c:604
 msgid "Clear Co_ntents"
 msgstr "Ryd i_ndhold"
 
-#: src/item-grid.c:614
+#: src/item-grid.c:609
 msgid "_Format Cells..."
 msgstr "_Formatér celler..."
 
 #. Column specific functions
-#: src/item-grid.c:618
+#: src/item-grid.c:613
 msgid "Column _Width..."
 msgstr "_Kolonnebredde..."
 
-#: src/item-grid.c:620 src/item-grid.c:628 src/workbook.c:1267
+#: src/item-grid.c:615 src/item-grid.c:623 src/workbook.c:1267
 #: src/workbook.c:1286
 msgid "_Hide"
 msgstr "_Skjul"
 
-#: src/item-grid.c:622 src/item-grid.c:630 src/workbook.c:1270
+#: src/item-grid.c:617 src/item-grid.c:625 src/workbook.c:1270
 #: src/workbook.c:1289
 msgid "_Unhide"
 msgstr "_Vis igen"
 
 #. Row specific functions (Note some of the labels are duplicated
-#: src/item-grid.c:626
+#: src/item-grid.c:621
 msgid "_Row Height..."
 msgstr "_Rækkehøjde..."
 
@@ -12285,19 +12286,25 @@ msgstr "arket"
 msgid "the workbook"
 msgstr "arbejdsbogen"
 
-#: src/print.c:751 src/workbook.c:1803
+#. Note: we cannot have spaces in page numbers.
+#: src/print.c:378
+#, fuzzy
+msgid "&[PAGE]"
+msgstr "Side &[PAGE]"
+
+#: src/print.c:761 src/workbook.c:1803
 msgid "Selection must be a single range"
 msgstr "Markering skal være et enkelt omfang"
 
-#: src/print.c:856
+#: src/print.c:866
 msgid "Print Sheets"
 msgstr "Udskriv ark"
 
-#: src/print.c:863
+#: src/print.c:873
 msgid "Active sheet"
 msgstr "Aktiv ark"
 
-#: src/print.c:936 src/workbook.c:1120 src/workbook.c:1441
+#: src/print.c:948 src/workbook.c:1120 src/workbook.c:1441
 msgid "Print preview"
 msgstr "Vis udskrift"
 
@@ -12339,12 +12346,12 @@ msgstr "Bund"
 msgid "Select an object"
 msgstr "Vælg et objekt"
 
-#: src/sheet-view.c:488
+#: src/sheet-view.c:486
 #, c-format
 msgid "Row: %d"
 msgstr "Række: %d"
 
-#: src/sheet-view.c:498
+#: src/sheet-view.c:496
 #, c-format
 msgid "Column: %s"
 msgstr "Kolonne: %s"

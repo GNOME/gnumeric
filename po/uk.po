@@ -354,12 +354,12 @@ msgstr "Вставляння %d стовпчик╕в п╕сля %s"
 #: src/commands.c:597
 #, c-format
 msgid "Inserting %d rows before %d"
-msgstr "Вставляння %d рядк╕в перед %s"
+msgstr "Вставляння %d рядк╕в перед %d"
 
 #: src/commands.c:598
 #, c-format
 msgid "Inserting %d row before %d"
-msgstr "Вставляння %d рядк╕в п╕сля %s"
+msgstr "Вставляння %d рядк╕в п╕сля %d"
 
 #. col_name uses a static buffer
 #: src/commands.c:611
@@ -429,7 +429,7 @@ msgstr "Встановлення ширини стовпчика %s"
 #: src/commands.c:1243
 #, c-format
 msgid "Setting height of row %d"
-msgstr "Встановлення висоти стовпчика %s"
+msgstr "Встановлення висоти стовпчика %d"
 
 #: src/corba-args.c:33
 msgid "Could not initialize the Gnumeric Workbook factory"

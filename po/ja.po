@@ -374,12 +374,12 @@ msgstr "%2$s の前に %1$d 列を挿入"
 #: src/commands.c:611
 #, c-format
 msgid "Inserting %d rows before %d"
-msgstr "%2$s の前に %1$d 行を挿入"
+msgstr "%2$d の前に %1$d 行を挿入"
 
 #: src/commands.c:612
 #, c-format
 msgid "Inserting %d row before %d"
-msgstr "%2$s の前に %1$d 行を挿入"
+msgstr "%2$d の前に %1$d 行を挿入"
 
 #. col_name uses a static buffer
 #: src/commands.c:625
@@ -446,7 +446,7 @@ msgstr "列の幅を %s に設定"
 #: src/commands.c:1127
 #, c-format
 msgid "Setting height of row %d"
-msgstr "行の高さを %s に設定"
+msgstr "行の高さを %d に設定"
 
 #: src/commands.c:1236
 #, c-format
