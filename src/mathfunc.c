@@ -59,11 +59,9 @@
 #define M_2PIgnum       (2 * M_PIgnum)
 #define	M_Egnum         GNM_const(2.718281828459045235360287471352662497757247)
 
-#define ML_NAN gnm_nan
 #define ML_NEGINF (-HUGE_VAL)
 #define ML_POSINF (HUGE_VAL)
 #define ML_UNDERFLOW (GNUM_EPSILON * GNUM_EPSILON)
-#define ML_VALID(_x) (!isnangnum (_x))
 #define ML_ERROR(cause) /* Nothing */
 #define MATHLIB_ERROR g_error
 #define MATHLIB_WARNING g_warning
@@ -79,7 +77,7 @@
 #define lfastchoose(_n,_k) (lgammagnum((_n) + 1.0) - lgammagnum((_k) + 1.0) - lgammagnum((_n) - (_k) + 1.0))
 
 #define MATHLIB_STANDALONE
-#define ML_ERR_return_NAN { return ML_NAN; }
+#define ML_ERR_return_NAN { return gnm_nan; }
 static void pnorm_both (gnm_float x, gnm_float *cum, gnm_float *ccum, int i_tail, gboolean log_p);
 
 /* MW ---------------------------------------------------------------------- */
@@ -293,7 +291,7 @@ gnm_float dnorm(gnm_float x, gnm_float mu, gnm_float sigma, gboolean give_log)
  *
  *  SYNOPSIS
  *
- *   #include "Rmath.h"
+ *   #include <Rmath.h>
  *
  *   double pnorm5(double x, double mu, double sigma, int lower_tail,int log_p);
  *	   {pnorm (..) is synonymous and preferred inside R}
@@ -335,7 +333,7 @@ gnm_float pnorm(gnm_float x, gnm_float mu, gnm_float sigma, gboolean lower_tail,
 
     x = (x - mu) / sigma;
     if(!finitegnum(x)) {
-	if(isnangnum(x)) /* e.g. x=mu=Inf */ return(ML_NAN);
+	if(isnangnum(x)) /* e.g. x=mu=Inf */ return(gnm_nan);
 	if(x < 0) return R_DT_0;
 	else return R_DT_1;
     }
@@ -1309,7 +1307,7 @@ gnm_float dgamma(gnm_float x, gnm_float shape, gnm_float scale, gboolean give_lo
  *
  *  SYNOPSIS
  *
- *	#include "Rmath.h"
+ *	#include <Rmath.h>
  *	double pgamma(double x, double alph, double scale,
  *		      int lower_tail, int log_p)
  *
@@ -1586,7 +1584,7 @@ static gnm_float chebyshev_eval(gnm_float x, const gnm_float *a, const int n)
  *
  *  SYNOPSIS
  *
- *    #include "Rmath.h"
+ *    #include <Rmath.h>
  *    double lgammacor(double x);
  *
  *  DESCRIPTION
@@ -1693,7 +1691,7 @@ static gnm_float lgammacor(gnm_float x)
  *
  *  SYNOPSIS
  *
- *    #include "Rmath.h"
+ *    #include <Rmath.h>
  *    double lbeta(double a, double b);
  *
  *  DESCRIPTION
@@ -1771,7 +1769,7 @@ static gnm_float lbeta(gnm_float a, gnm_float b)
  *
  *  SYNOPSIS
  *
- * #include "Rmath.h"
+ * #include <Rmath.h>
  *
  * double pbeta_raw(double x, double pin, double qin, int lower_tail)
  * double pbeta	   (double x, double pin, double qin, int lower_tail, int log_p)
@@ -1859,7 +1857,7 @@ static gnm_float pbeta_raw(gnm_float x, gnm_float pin, gnm_float qin, gboolean l
 	/* now evaluate the finite sum, maybe. */
 
 	if (q > 1) {
-	    xb = p * loggnum(y) + q * log1pgnum (-y) - lbeta(p, q) - loggnum(q);
+	    xb = p * loggnum(y) + q * log1pgnum(-y) - lbeta(p, q) - loggnum(q);
 	    ib = fmax2(xb / lnsml, 0.0);
 	    term = expgnum(xb - ib * lnsml);
 	    c = 1 / (1 - y);
@@ -2062,7 +2060,7 @@ gnm_float qbeta(gnm_float alpha, gnm_float p, gnm_float q, gboolean lower_tail, 
 		ML_ERR_return_NAN;
 
 	y = (y - a) *
-	    expgnum(logbeta + r * loggnum(xinbta) + t * log1pgnum (-xinbta));
+	    expgnum(logbeta + r * loggnum(xinbta) + t * log1pgnum(-xinbta));
 	if (y * yprev <= 0.)
 	    prev = fmax2(gnumabs(adj),fpu);
 	g = 1;
@@ -2337,7 +2335,7 @@ gnm_float pf(gnm_float x, gnm_float n1, gnm_float n2, gboolean lower_tail, gbool
     x = pbeta(n2 / (n2 + n1 * x), n2 / 2.0, n1 / 2.0,
 	      !lower_tail, log_p);
 
-    return ML_VALID(x) ? x : ML_NAN;
+    return !isnangnum(x) ? x : gnm_nan;
 }
 
 /* ------------------------------------------------------------------------ */
@@ -2388,7 +2386,7 @@ gnm_float qf(gnm_float p, gnm_float n1, gnm_float n2, gboolean lower_tail, gbool
 	return 1/qchisq(p, n2, !lower_tail, log_p) * n2;
 
     p = (1. / qbeta(R_DT_CIv(p), n2/2, n1/2, TRUE, FALSE) - 1.) * (n2 / n1);
-    return ML_VALID(p) ? p : ML_NAN;
+    return !isnangnum(p) ? p : gnm_nan;
 }
 
 /* ------------------------------------------------------------------------ */
@@ -3221,7 +3219,7 @@ gnm_float pgeom(gnm_float x, gnm_float p, gboolean lower_tail, gboolean log_p)
     if (x < 0. || p == 0.) return R_DT_0;
     if (!finitegnum(x)) return R_DT_1;
     if(log_p && !lower_tail)
-	return log1pgnum (-p) * (x + 1);
+	return log1pgnum(-p) * (x + 1);
     return R_DT_Cval(powgnum(1 - p, x + 1));
 }
 
@@ -3490,7 +3488,7 @@ gnm_float bessel_i(gnm_float x, gnm_float alpha, gnm_float expo)
 #endif
     if (x < 0) {
 	ML_ERROR(ME_RANGE);
-	return ML_NAN;
+	return gnm_nan;
     }
     ize = (long)expo;
     if (alpha < 0) {
@@ -3922,6 +3920,7 @@ L230:
 /*
  *  Mathlib : A C Library of Special Functions
  *  Copyright (C) 1998-2001 Ross Ihaka and the R Development Core team.
+ *  Copyright (C) 2002      The R Foundation
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -3965,7 +3964,7 @@ gnm_float bessel_k(gnm_float x, gnm_float alpha, gnm_float expo)
 #endif
     if (x < 0) {
 	ML_ERROR(ME_RANGE);
-	return ML_NAN;
+	return gnm_nan;
     }
     ize = (long)expo;
     if(alpha < 0)
@@ -4133,10 +4132,14 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
     *ncalc = imin2(*nb,0) - 2;
     if (*nb > 0 && (0. <= nu && nu < 1.) && (1 <= *ize && *ize <= 2)) {
 	if(ex <= 0 || (*ize == 1 && ex > xmax_BESS_K)) {
-	    ML_ERROR(ME_RANGE);
+	    if(ex <= 0) {
+		ML_ERROR(ME_RANGE);
+		for(i=0; i < *nb; i++)
+		    bk[i] = ML_POSINF;
+	    } else /* would only have underflow */
+		for(i=0; i < *nb; i++)
+		    bk[i] = 0.;
 	    *ncalc = *nb;
-	    for(i=0; i < *nb; i++)
-		bk[i] = ML_POSINF;
 	    return;
 	}
 	k = 0;
@@ -5884,7 +5887,7 @@ fact (int n)
 	static gboolean init = FALSE;
 
 	if (n < 0)
-		return ML_NAN;
+		return gnm_nan;
 
 	if (n < (int)G_N_ELEMENTS (table)) {
 		if (!init) {
@@ -5927,7 +5930,7 @@ lbeta3 (gnm_float a, gnm_float b, int *sign)
 	if ((a <= 0 && a == floorgnum (a)) ||
 	    (b <= 0 && b == floorgnum (b)) ||
 	    (ab <= 0 && ab == floorgnum (ab)))
-		return ML_NAN;
+		return gnm_nan;
 
 	res_a = lgammagnum (a); sign_a = signgam;
 	res_b = lgammagnum (b); sign_b = signgam;
