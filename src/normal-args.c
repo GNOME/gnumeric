@@ -20,7 +20,7 @@
 static GnomeProgram *program;
 
 void
-gnumeric_arg_shutdown ()
+gnumeric_arg_shutdown (void)
 {
 	g_object_unref (program);
 	program = NULL;
