@@ -8,7 +8,7 @@
 #include <gtk/gtk.h>
 #include <guile/gh.h>
 #include "guile-support.h"
-
+#include "smob-value.h"
 
 SCM
 scm_symbolfrom0str (char *name)
@@ -129,63 +129,13 @@ gnumeric_scm2list (SCM obj , void (*fromscm)(SCM, void*))
   return res;
 }
 
-
-
 SCM
 value_to_scm (Value const *val, CellRef cell_ref)
 {
-	if (val == NULL)
-		return SCM_EOL;
-
-	switch (val->type)
-	{
-		case VALUE_EMPTY :
-			return SCM_EOL;
- 
-		case VALUE_BOOLEAN :
-			return gh_bool2scm (val->v_bool.val);	
-			
-		case VALUE_ERROR :
-			return scm_makfrom0str (val->v_err.mesg->str);
-
-		case VALUE_STRING :
-			return scm_makfrom0str (value_get_as_string (val));
-
-		case VALUE_INTEGER :
-			return scm_long2num (value_get_as_int (val));
-
-		case VALUE_FLOAT :
-			return gh_double2scm (value_get_as_float (val));
-
-		case VALUE_CELLRANGE :
-			/* FIXME : Support inverted ranges */
-			return scm_cons (scm_symbolfrom0str ("cell-range"),
-					 scm_cons (cell_ref_to_scm(val->v_range.cell.a, cell_ref),
-						   cell_ref_to_scm (val->v_range.cell.b, cell_ref)));
-
-		case VALUE_ARRAY :
-			{
-				int x, y, i, ii;
-				SCM list, *ls = &list;
-				
-				x = val->v_array.x;
-				y = val->v_array.y;
-
-				for (i = 0; i < y; i++)
-					for (ii = 0; i < x; i++)
-						{
-							*ls = scm_cons (value_to_scm (val->v_array.vals[i][ii], cell_ref), *ls);
-							ls = SCM_CDRLOC (*ls);
-						}
-				*ls = SCM_EOL;
-				*ls = scm_reverse (*ls);
-
-				return list;
-			}
-	}
-
-	return SCM_EOL;
+	Value *v = (Value *) val;
+	return make_new_smob ((Value *) v);
 }
+
 
 Value*
 scm_to_value (SCM scm)
