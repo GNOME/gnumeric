@@ -5,7 +5,7 @@
 #include <gal/util/e-util.h>
 
 static char *
-wbcc_get_password (CommandContext *cc, char const* msg) {}
+wbcc_get_password (CommandContext *cc, char const* msg) { return NULL; }
 
 static void
 wbcc_progress_set (CommandContext *cc, gfloat val) {}

@@ -23,18 +23,20 @@
 #include <gnumeric.h>
 #include <func.h>
 
-#include <func-util.h>
 #include <parse-util.h>
 #include <str.h>
 #include <cell.h>
 #include <sheet.h>
 #include <value.h>
 #include <number-match.h>
+#include <collect.h>
+#include <rangefunc.h>
 
 #include <math.h>
 #include <string.h>
 #include <libgnome/gnome-i18n.h>
 
+/***************************************************************************/
 
 /**
  * find_cells_that_match :
@@ -88,7 +90,161 @@ find_cells_that_match (Sheet *sheet, Value *database,
 	return g_slist_reverse (cells);
 }
 
+static void *
+database_find_values (Sheet *sheet, Value *database,
+		      int col, GSList *criterias,
+		      CollectFlags flags,
+		      int *pcount,
+		      Value **error,
+		      gboolean floats)
+{
+	GSList *cells, *current;
+	int cellcount, count;
+	gnum_float *res1 = NULL;
+	Value **res2 = NULL;
+	void *res;
 
+	/* FIXME: expand and sanitise this call later.  */
+	cells = find_cells_that_match (sheet, database, col, criterias);
+
+	cellcount = g_slist_length (cells);
+	if (floats)
+		res = res1 = g_new (gnum_float, cellcount);
+	else
+		res = res2 = g_new (Value *, cellcount);
+	for (count = 0, current = cells; current; current = current->next) {
+		Cell *cell = current->data;
+		Value *value = cell->value;
+
+		if ((flags & COLLECT_IGNORE_STRINGS) && value->type == VALUE_STRING)
+			continue;
+		if ((flags & COLLECT_IGNORE_BOOLS) && value->type == VALUE_BOOLEAN)
+			continue;
+		if (floats)
+			res1[count++] = value_get_as_float (value);
+		else
+			res2[count++] = value;
+	}
+
+	*pcount = count;
+	g_slist_free (cells);
+	return res;
+}
+
+/***************************************************************************/
+
+static Value *
+database_float_range_function (FunctionEvalInfo *ei,
+			       Value *database,
+			       Value *field,
+			       Value *criteria,
+			       float_range_function_t func,
+			       CollectFlags flags,
+			       const char *zero_count_error,
+			       const char *func_error)
+{
+	int fieldno;
+	GSList *criterias = NULL;
+	Sheet *sheet;
+	int count;
+	int err;
+	gnum_float *vals = NULL;
+	gnum_float fres;
+	Value *res;
+
+	fieldno = find_column_of_field (ei->pos, database, field);
+	if (field < 0)
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+
+	criterias = parse_database_criteria (ei->pos, database, criteria);
+	if (criterias == NULL)
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+
+	sheet = eval_sheet (database->v_range.cell.a.sheet,
+			    ei->pos->sheet);
+
+	vals = database_find_values (sheet, database, fieldno, criterias,
+				     flags, &count, &res, TRUE);
+
+	if (!vals) {
+		goto out;
+	}
+
+	if (count == 0 && zero_count_error) {
+		res = value_new_error (ei->pos, zero_count_error);
+		goto out;
+	}
+
+	err = func (vals, count, &fres);
+	if (err)
+		res = value_new_error (ei->pos, func_error);
+	else
+		res = value_new_float (fres);
+
+ out:
+	if (criterias)
+		free_criterias (criterias);
+	g_free (vals);
+	return res;
+}
+
+/***************************************************************************/
+
+typedef int (*value_range_function_t) (Value **, int, Value **);
+
+static Value *
+database_value_range_function (FunctionEvalInfo *ei,
+			       Value *database,
+			       Value *field,
+			       Value *criteria,
+			       value_range_function_t func,
+			       CollectFlags flags,
+			       const char *zero_count_error,
+			       const char *func_error)
+{
+	int fieldno;
+	GSList *criterias = NULL;
+	Sheet *sheet;
+	int count;
+	int err;
+	Value **vals = NULL;
+	Value *res;
+
+	fieldno = find_column_of_field (ei->pos, database, field);
+	if (field < 0)
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+
+	criterias = parse_database_criteria (ei->pos, database, criteria);
+	if (criterias == NULL)
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+
+	sheet = eval_sheet (database->v_range.cell.a.sheet,
+			    ei->pos->sheet);
+
+	vals = database_find_values (sheet, database, fieldno, criterias,
+				     flags, &count, &res, FALSE);
+
+	if (!vals) {
+		goto out;
+	}
+
+	if (count == 0 && zero_count_error) {
+		res = value_new_error (ei->pos, zero_count_error);
+		goto out;
+	}
+
+	err = func (vals, count, &res);
+	if (err)
+		res = value_new_error (ei->pos, func_error);
+
+ out:
+	if (criterias)
+		free_criterias (criterias);
+	g_free (vals);
+	return res;
+}
+
+/***************************************************************************/
 
 #define DB_ARGUMENT_HELP \
 	   "@database is a range of cells in which rows of related " \
@@ -155,50 +311,16 @@ static const char *help_daverage = {
 static Value *
 gnumeric_daverage (FunctionEvalInfo *ei, Value **argv)
 {
-        Value       *database, *criteria;
-	Sheet       *sheet;
-	GSList      *criterias;
-	GSList      *cells, *current;
-	int         field;
-	gnum_float     sum;
-	int         count;
-
-	database = argv[0];
-	criteria = argv[2];
-
-	field = find_column_of_field (ei->pos, database, argv[1]);
-	if (field < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	criterias = parse_database_criteria (ei->pos, database, criteria);
-	if (criterias == NULL)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	sheet = eval_sheet (database->v_range.cell.a.sheet,
-			    ei->pos->sheet);
-	cells = find_cells_that_match (sheet, database, field, criterias);
-
-	current = cells;
-	count = 0;
-	sum = 0;
-
-	while (current != NULL) {
-	        Cell *cell = current->data;
-
-		if (VALUE_IS_NUMBER (cell->value)) {
-			count++;
-			sum += value_get_as_float (cell->value);
-		}
-		current = g_slist_next (current);
-	}
-
-	g_slist_free (cells);
-	free_criterias (criterias);
-
-	if ( count > 0 )
-	        return value_new_float (sum / count);
-	else
-	        return value_new_error (ei->pos, gnumeric_err_NUM);
+	return database_float_range_function (ei,
+					      argv[0],
+					      argv[1],
+					      argv[2],
+					      range_average,
+					      COLLECT_IGNORE_STRINGS |
+					      COLLECT_IGNORE_BOOLS |
+					      COLLECT_IGNORE_BLANKS,
+					      gnumeric_err_NUM,
+					      gnumeric_err_NUM);
 }
 
 /***************************************************************************/
@@ -224,43 +346,16 @@ static const char *help_dcount = {
 static Value *
 gnumeric_dcount (FunctionEvalInfo *ei, Value **argv)
 {
-        Value       *database, *criteria;
-	Sheet       *sheet;
-	GSList      *criterias;
-	GSList      *cells, *current;
-	int         field;
-	int         count;
-
-	database = argv[0];
-	criteria = argv[2];
-
-	field = find_column_of_field (ei->pos, database, argv[1]);
-	if (field < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	criterias = parse_database_criteria (ei->pos, database, criteria);
-	if (criterias == NULL)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	sheet = eval_sheet (database->v_range.cell.a.sheet,
-			    ei->pos->sheet);
-	cells = find_cells_that_match (sheet, database, field, criterias);
-
-	current = cells;
-	count = 0;
-
-	while (current != NULL) {
-	        Cell *cell = current->data;
-
-		if (VALUE_IS_NUMBER (cell->value))
-		        count++;
-		current = g_slist_next (current);
-	}
-
-	g_slist_free (cells);
-	free_criterias (criterias);
-
-        return value_new_int (count);
+	return database_float_range_function (ei,
+					      argv[0],
+					      argv[1],
+					      argv[2],
+					      range_count,
+					      COLLECT_IGNORE_STRINGS |
+					      COLLECT_IGNORE_BOOLS |
+					      COLLECT_IGNORE_BLANKS,
+					      NULL,
+					      gnumeric_err_NUM);
 }
 
 /***************************************************************************/
@@ -286,40 +381,14 @@ static const char *help_dcounta = {
 static Value *
 gnumeric_dcounta (FunctionEvalInfo *ei, Value **argv)
 {
-        Value       *database, *criteria;
-	Sheet       *sheet;
-	GSList      *criterias;
-	GSList      *cells, *current;
-	int         field;
-	int         count;
-
-	database = argv[0];
-	criteria = argv[2];
-
-	field = find_column_of_field (ei->pos, database, argv[1]);
-	if (field < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	criterias = parse_database_criteria (ei->pos, database, criteria);
-	if (criterias == NULL)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	sheet = eval_sheet (database->v_range.cell.a.sheet,
-			    ei->pos->sheet);
-	cells = find_cells_that_match (sheet, database, field, criterias);
-
-	current = cells;
-	count = 0;
-
-	while (current != NULL) {
-	        count++;
-		current = g_slist_next (current);
-	}
-
-	g_slist_free (cells);
-	free_criterias (criterias);
-
-        return value_new_int (count);
+	return database_float_range_function (ei,
+					      argv[0],
+					      argv[1],
+					      argv[2],
+					      range_count,
+					      COLLECT_IGNORE_BLANKS,
+					      NULL,
+					      gnumeric_err_NUM);
 }
 
 /***************************************************************************/
@@ -346,51 +415,27 @@ static const char *help_dget = {
            "@SEEALSO=DCOUNT")
 };
 
+static int
+range_first (Value **xs, int n, Value **res)
+{
+	if (n <= 0)
+		return 1;
+
+	*res = value_duplicate (xs[0]);
+	return 0;
+}
+
 static Value *
 gnumeric_dget (FunctionEvalInfo *ei, Value **argv)
 {
-        Value       *database, *criteria;
-	Sheet       *sheet;
-	GSList      *criterias;
-	GSList      *cells, *current;
-	int         field;
-	Cell        *cell = NULL;
-	int         count;
-
-	database = argv[0];
-	criteria = argv[2];
-
-	field = find_column_of_field (ei->pos, database, argv[1]);
-	if (field < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	criterias = parse_database_criteria (ei->pos, database, criteria);
-	if (criterias == NULL)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	sheet = eval_sheet (database->v_range.cell.a.sheet,
-			    ei->pos->sheet);
-	cells = find_cells_that_match (sheet, database, field, criterias);
-
-	current = cells;
-	count = 0;
-
-	while (current != NULL) {
-	        cell = current->data;
-	        count++;
-		current = g_slist_next (current);
-	}
-
-	g_slist_free (cells);
-	free_criterias (criterias);
-
-	if (count == 0)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
-
-	if (count > 1)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-        return value_duplicate (cell->value);
+	return database_value_range_function (ei,
+					      argv[0],
+					      argv[1],
+					      argv[2],
+					      range_first,
+					      COLLECT_IGNORE_BLANKS,
+					      gnumeric_err_VALUE,
+					      gnumeric_err_NUM);
 }
 
 static const char *help_dmax = {
@@ -416,51 +461,16 @@ static const char *help_dmax = {
 static Value *
 gnumeric_dmax (FunctionEvalInfo *ei, Value **argv)
 {
-        Value       *database, *criteria;
-	Sheet       *sheet;
-	GSList      *criterias;
-	GSList      *cells, *current;
-	Cell        *cell;
-	int         field;
-	gnum_float     max;
-
-	database = argv[0];
-	criteria = argv[2];
-
-	field = find_column_of_field (ei->pos, database, argv[1]);
-	if (field < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	criterias = parse_database_criteria (ei->pos, database, criteria);
-	if (criterias == NULL)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	sheet = eval_sheet (database->v_range.cell.a.sheet,
-			    ei->pos->sheet);
-	cells = find_cells_that_match (sheet, database, field, criterias);
-	if (cells == NULL)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	current = cells;
-	cell = current->data;
-	max = value_get_as_float (cell->value);
-
-	while (current != NULL) {
-	        gnum_float v;
-
-	        cell = current->data;
-		if (VALUE_IS_NUMBER (cell->value)) {
-			v = value_get_as_float (cell->value);
-			if (max < v)
-				max = v;
-		}
-		current = g_slist_next (current);
-	}
-
-	g_slist_free (cells);
-	free_criterias (criterias);
-
-        return value_new_float (max);
+	return database_float_range_function (ei,
+					      argv[0],
+					      argv[1],
+					      argv[2],
+					      range_max,
+					      COLLECT_IGNORE_STRINGS |
+					      COLLECT_IGNORE_BOOLS |
+					      COLLECT_IGNORE_BLANKS,
+					      gnumeric_err_NUM,
+					      gnumeric_err_NUM);
 }
 
 /***************************************************************************/
@@ -485,53 +495,16 @@ static const char *help_dmin = {
 static Value *
 gnumeric_dmin (FunctionEvalInfo *ei, Value **argv)
 {
-        Value       *database, *criteria;
-	Sheet       *sheet;
-	GSList      *criterias;
-	GSList      *cells, *current;
-	Cell        *cell;
-	int         field;
-	gnum_float     min;
-
-	database = argv[0];
-	criteria = argv[2];
-
-	field = find_column_of_field (ei->pos, database, argv[1]);
-	if (field < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	criterias = parse_database_criteria (ei->pos, database, criteria);
-	if (criterias == NULL)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	sheet = eval_sheet (database->v_range.cell.a.sheet,
-			    ei->pos->sheet);
-	cells = find_cells_that_match (sheet, database, field, criterias);
-	if (cells == NULL) {
-		free_criterias (criterias);
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-	}
-
-	current = cells;
-	cell = current->data;
-	min = value_get_as_float (cell->value);
-
-	while (current != NULL) {
-	        gnum_float v;
-
-	        cell = current->data;
-		if (VALUE_IS_NUMBER (cell->value)) {
-			v = value_get_as_float (cell->value);
-			if (min > v)
-				min = v;
-		}
-		current = g_slist_next (current);
-	}
-
-	g_slist_free (cells);
-	free_criterias (criterias);
-
-        return value_new_float (min);
+	return database_float_range_function (ei,
+					      argv[0],
+					      argv[1],
+					      argv[2],
+					      range_min,
+					      COLLECT_IGNORE_STRINGS |
+					      COLLECT_IGNORE_BOOLS |
+					      COLLECT_IGNORE_BLANKS,
+					      gnumeric_err_NUM,
+					      gnumeric_err_NUM);
 }
 
 /***************************************************************************/
@@ -555,51 +528,17 @@ static const char *help_dproduct = {
 static Value *
 gnumeric_dproduct (FunctionEvalInfo *ei, Value **argv)
 {
-        Value       *database, *criteria;
-	Sheet       *sheet;
-	GSList      *criterias;
-	GSList      *cells, *current;
-	Cell        *cell;
-	int         field;
-	gnum_float     product;
-
-	database = argv[0];
-	criteria = argv[2];
-
-	field = find_column_of_field (ei->pos, database, argv[1]);
-	if (field < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	criterias = parse_database_criteria (ei->pos, database, criteria);
-	if (criterias == NULL)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	sheet = eval_sheet (database->v_range.cell.a.sheet,
-			    ei->pos->sheet);
-	cells = find_cells_that_match (sheet, database, field, criterias);
-
-	if (cells == NULL) {
-		free_criterias (criterias);
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-	}
-
-	current = cells;
-	product = 1;
-	cell = current->data;
-
-	while (current != NULL) {
-	        gnum_float v;
-
-	        cell = current->data;
-		v = value_get_as_float (cell->value);
-		product *= v;
-		current = g_slist_next (current);
-	}
-
-	g_slist_free (cells);
-	free_criterias (criterias);
-
-        return value_new_float (product);
+	/* FIXME: check what happens for zero count.  */
+	return database_float_range_function (ei,
+					      argv[0],
+					      argv[1],
+					      argv[2],
+					      range_product,
+					      COLLECT_IGNORE_STRINGS |
+					      COLLECT_IGNORE_BOOLS |
+					      COLLECT_IGNORE_BLANKS,
+					      NULL,
+					      gnumeric_err_NUM);
 }
 
 /***************************************************************************/
@@ -625,48 +564,16 @@ static const char *help_dstdev = {
 static Value *
 gnumeric_dstdev (FunctionEvalInfo *ei, Value **argv)
 {
-        Value          *database, *criteria;
-	Sheet          *sheet;
-	GSList         *criterias;
-	GSList         *cells, *current;
-	int            field;
-	stat_closure_t p;
-
-	database = argv[0];
-	criteria = argv[2];
-
-	field = find_column_of_field (ei->pos, database, argv[1]);
-	if (field < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	criterias = parse_database_criteria (ei->pos, database, criteria);
-	if (criterias == NULL)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	sheet = eval_sheet (database->v_range.cell.a.sheet,
-			    ei->pos->sheet);
-	cells = find_cells_that_match (sheet, database, field, criterias);
-	if (cells == NULL)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	current = cells;
-	setup_stat_closure (&p);
-
-	while (current != NULL) {
-	        Cell *cell = current->data;
-
-		/* FIXME : What about errors ? */
-		callback_function_stat (NULL, cell->value, &p);
-		current = g_slist_next (current);
-	}
-
-	g_slist_free (cells);
-	free_criterias (criterias);
-
-	if (p.N - 1 == 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-        return value_new_float (sqrtgnum (p.Q / (p.N - 1)));
+	return database_float_range_function (ei,
+					      argv[0],
+					      argv[1],
+					      argv[2],
+					      range_stddev_est,
+					      COLLECT_IGNORE_STRINGS |
+					      COLLECT_IGNORE_BOOLS |
+					      COLLECT_IGNORE_BLANKS,
+					      NULL,
+					      gnumeric_err_NUM);
 }
 
 /***************************************************************************/
@@ -692,50 +599,16 @@ static const char *help_dstdevp = {
 static Value *
 gnumeric_dstdevp (FunctionEvalInfo *ei, Value **argv)
 {
-        Value          *database, *criteria;
-	Sheet          *sheet;
-	GSList         *criterias;
-	GSList         *cells, *current;
-	int            field;
-	stat_closure_t p;
-
-	database = argv[0];
-	criteria = argv[2];
-
-	field = find_column_of_field (ei->pos, database, argv[1]);
-	if (field < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	criterias = parse_database_criteria (ei->pos, database, criteria);
-	if (criterias == NULL)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	sheet = eval_sheet (database->v_range.cell.a.sheet,
-			    ei->pos->sheet);
-	cells = find_cells_that_match (sheet, database, field, criterias);
-	if (cells == NULL) {
-		free_criterias (criterias);
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-	}
-
-	current = cells;
-	setup_stat_closure (&p);
-
-	while (current != NULL) {
-	        Cell *cell = current->data;
-
-		/* FIXME : What about errors ? */
-		callback_function_stat (NULL, cell->value, &p);
-		current = g_slist_next (current);
-	}
-
-	g_slist_free (cells);
-	free_criterias (criterias);
-
-	if (p.N == 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-        return value_new_float (sqrtgnum (p.Q / p.N));
+	return database_float_range_function (ei,
+					      argv[0],
+					      argv[1],
+					      argv[2],
+					      range_stddev_pop,
+					      COLLECT_IGNORE_STRINGS |
+					      COLLECT_IGNORE_BOOLS |
+					      COLLECT_IGNORE_BLANKS,
+					      NULL,
+					      gnumeric_err_NUM);
 }
 
 /***************************************************************************/
@@ -760,50 +633,17 @@ static const char *help_dsum = {
 static Value *
 gnumeric_dsum (FunctionEvalInfo *ei, Value **argv)
 {
-        Value       *database, *criteria;
-	Sheet       *sheet;
-	GSList      *criterias;
-	GSList      *cells, *current;
-	Cell        *cell;
-	int         field;
-	gnum_float     sum;
-
-	database = argv[0];
-	criteria = argv[2];
-
-	field = find_column_of_field (ei->pos, database, argv[1]);
-	if (field < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	criterias = parse_database_criteria (ei->pos, database, criteria);
-	if (criterias == NULL)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	sheet = eval_sheet (database->v_range.cell.a.sheet,
-			    ei->pos->sheet);
-	cells = find_cells_that_match (sheet, database, field, criterias);
-	if (cells == NULL) {
-		free_criterias (criterias);
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-	}
-
-	current = cells;
-	sum = 0;
-	cell = current->data;
-
-	while (current != NULL) {
-	        gnum_float v;
-
-	        cell = current->data;
-		v = value_get_as_float (cell->value);
-		sum += v;
-		current = g_slist_next (current);
-	}
-
-	g_slist_free (cells);
-	free_criterias (criterias);
-
-        return value_new_float (sum);
+	/* FIXME: check what happens for zero count.  */
+	return database_float_range_function (ei,
+					      argv[0],
+					      argv[1],
+					      argv[2],
+					      range_sum,
+					      COLLECT_IGNORE_STRINGS |
+					      COLLECT_IGNORE_BOOLS |
+					      COLLECT_IGNORE_BLANKS,
+					      NULL,
+					      gnumeric_err_NUM);
 }
 
 /***************************************************************************/
@@ -829,50 +669,16 @@ static const char *help_dvar = {
 static Value *
 gnumeric_dvar (FunctionEvalInfo *ei, Value **argv)
 {
-        Value          *database, *criteria;
-	Sheet          *sheet;
-	GSList         *criterias;
-	GSList         *cells, *current;
-	int            field;
-	stat_closure_t p;
-
-	database = argv[0];
-	criteria = argv[2];
-
-	field = find_column_of_field (ei->pos, database, argv[1]);
-	if (field < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	criterias = parse_database_criteria (ei->pos, database, criteria);
-	if (criterias == NULL)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	sheet = eval_sheet (database->v_range.cell.a.sheet,
-			    ei->pos->sheet);
-	cells = find_cells_that_match (sheet, database, field, criterias);
-	if (cells == NULL) {
-		free_criterias (criterias);
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-	}
-
-	current = cells;
-	setup_stat_closure (&p);
-
-	while (current != NULL) {
-		Cell *cell = current->data;
-
-		/* FIXME : What about errors ? */
-		callback_function_stat (NULL, cell->value, &p);
-		current = g_slist_next (current);
-	}
-
-	g_slist_free (cells);
-	free_criterias (criterias);
-
-	if (p.N - 1 == 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-        return value_new_float (p.Q / (p.N - 1));
+	return database_float_range_function (ei,
+					      argv[0],
+					      argv[1],
+					      argv[2],
+					      range_var_est,
+					      COLLECT_IGNORE_STRINGS |
+					      COLLECT_IGNORE_BOOLS |
+					      COLLECT_IGNORE_BLANKS,
+					      NULL,
+					      gnumeric_err_NUM);
 }
 
 /***************************************************************************/
@@ -898,51 +704,16 @@ static const char *help_dvarp = {
 static Value *
 gnumeric_dvarp (FunctionEvalInfo *ei, Value **argv)
 {
-        Value          *database, *criteria;
-	Sheet          *sheet;
-	GSList         *criterias;
-	GSList         *cells, *current;
-	int            field;
-	stat_closure_t p;
-
-	database = argv[0];
-	criteria = argv[2];
-
-	field = find_column_of_field (ei->pos, database, argv[1]);
-	if (field < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	criterias = parse_database_criteria (ei->pos, database, criteria);
-
-	if (criterias == NULL)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	sheet = eval_sheet (database->v_range.cell.a.sheet,
-			    ei->pos->sheet);
-	cells = find_cells_that_match (sheet, database, field, criterias);
-	if (cells == NULL) {
-		free_criterias (criterias);
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-	}
-
-	current = cells;
-	setup_stat_closure (&p);
-
-	while (current != NULL) {
-	        Cell *cell = current->data;
-
-		/* FIXME : What about errors ? */
-		callback_function_stat (NULL, cell->value, &p);
-		current = g_slist_next (current);
-	}
-
-	g_slist_free (cells);
-	free_criterias (criterias);
-
-	if (p.N == 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-        return  value_new_float (p.Q / p.N);
+	return database_float_range_function (ei,
+					      argv[0],
+					      argv[1],
+					      argv[2],
+					      range_var_pop,
+					      COLLECT_IGNORE_STRINGS |
+					      COLLECT_IGNORE_BOOLS |
+					      COLLECT_IGNORE_BLANKS,
+					      NULL,
+					      gnumeric_err_NUM);
 }
 
 /***************************************************************************/

@@ -231,7 +231,7 @@ deserialize_wb_from_xml_stream (StreamIOCtxt *sc, IOContext *ioc,
 	return gnumeric_io_error_occurred (ioc) ? -1 : 0;
 }
 
-static int
+static void
 read_from_stream (StreamDeserializer sdeserializer, Bonobo_Stream stream,
 		  IOContext *ioc,  WorkbookView *wb_view,
 		  CORBA_Environment *ev)

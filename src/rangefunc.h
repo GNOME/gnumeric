@@ -3,6 +3,8 @@
 
 #include "numbers.h"
 
+int range_count (const gnum_float *xs, int n, gnum_float *res);
+
 int range_sum (const gnum_float *xs, int n, gnum_float *res);
 int range_product (const gnum_float *xs, int n, gnum_float *res);
 int range_multinomial (const gnum_float *xs, int n, gnum_float *res);

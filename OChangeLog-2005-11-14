@@ -1,3 +1,8 @@
+2002-05-03  Morten Welinder  <terra@diku.dk>
+
+	* src/rangefunc.c (range_count): New function.
+	* src/func-util.h: Remove.
+
 2002-05-02  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/print-info.c (print_info_free) : add print-config

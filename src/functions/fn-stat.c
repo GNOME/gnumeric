@@ -25,7 +25,6 @@
 #include <gnumeric.h>
 #include <func.h>
 
-#include <func-util.h>
 #include <parse-util.h>
 #include <mathfunc.h>
 #include <rangefunc.h>
@@ -55,7 +54,13 @@ float_compare (const gnum_float *a, const gnum_float *b)
 	        return 1;
 }
 
-void
+typedef struct {
+	int N;
+	gnum_float M, Q, sum;
+        gboolean afun_flag;
+} stat_closure_t;
+
+static void
 setup_stat_closure (stat_closure_t *cl)
 {
 	cl->N = 0;
@@ -63,6 +68,35 @@ setup_stat_closure (stat_closure_t *cl)
 	cl->Q = 0.0;
 	cl->afun_flag = 0;
 	cl->sum = 0.0;
+}
+
+static Value *
+callback_function_stat (EvalPos const *ep, Value *value, void *closure)
+{
+	stat_closure_t *mm = closure;
+	gnum_float x, dx, dm;
+
+	if (value != NULL && VALUE_IS_NUMBER (value))
+		x = value_get_as_float (value);
+	else {
+	        if (mm->afun_flag)
+		        x = 0;
+		else
+		        return NULL;
+	}
+
+	/* I'm paranoid - if mm->N == -1, mm->N + 1 is 0 and the next line blows out */
+	if (mm->N == - 1)
+	        return value_new_error (ep, gnumeric_err_NUM);
+
+	dx = x - mm->M;
+	dm = dx / (mm->N + 1);
+	mm->M += dm;
+	mm->Q += mm->N * dx * dm;
+	mm->N++;
+	mm->sum += x;
+
+	return NULL;
 }
 
 /**
@@ -89,35 +123,6 @@ stat_helper (stat_closure_t *cl, EvalPos const *ep, Value *val)
 		return err;
 	if (cl->N <= 1)
 		return value_new_error (ep, gnumeric_err_VALUE);
-	return NULL;
-}
-
-Value *
-callback_function_stat (EvalPos const *ep, Value *value, void *closure)
-{
-	stat_closure_t *mm = closure;
-	gnum_float x, dx, dm;
-
-	if (value != NULL && VALUE_IS_NUMBER (value))
-		x = value_get_as_float (value);
-	else {
-	        if (mm->afun_flag)
-		        x = 0;
-		else
-		        return NULL;
-	}
-
-	/* I'm paranoid - if mm->N == -1, mm->N + 1 is 0 and the next line blows out */
-	if (mm->N == - 1)
-	        return value_new_error (ep, gnumeric_err_NUM);
-
-	dx = x - mm->M;
-	dm = dx / (mm->N + 1);
-	mm->M += dm;
-	mm->Q += mm->N * dx * dm;
-	mm->N++;
-	mm->sum += x;
-
 	return NULL;
 }
 

@@ -15,6 +15,14 @@
 #include <stdlib.h>
 #include <string.h>
 
+int
+range_count (const gnum_float *xs, int n, gnum_float *res)
+{
+	*res = n;
+	return 0;
+}
+
+
 /* Arithmetic sum.  */
 /* We are using the double pass algorithm 2.3.1 described in */
 /* Thisted: Elements of Statistical Computing                */

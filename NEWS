@@ -9,6 +9,10 @@ Jody
 	* Fix drawing glitch when creating unshared views not at A1
 	* Copy freeze state and outline info
 
+Morten:
+	* Cleanup fn-database.
+	* Disentangle fn-stat and fn-database.
+
 --------------------------------------------------------------------------
 Gnumeric 1.1.3
 

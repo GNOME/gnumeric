@@ -94,7 +94,6 @@ GNUMERIC_BASE =					\
 	func.h					\
 	func-builtin.c				\
 	func-builtin.h				\
-	func-util.h				\
 	format.c				\
 	format.h				\
 	global-gnome-font.c			\
