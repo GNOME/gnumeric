@@ -945,8 +945,10 @@ cb_sheet_get_extent (gpointer ignored, gpointer value, gpointer data)
 			sheet_merge_is_corner (cell->base.sheet, &cell->pos);
 		res->range = range_union (&res->range, merged);
 	} else {
-		CellSpanInfo const *span =
-			row_span_get (cell->row_info, cell->pos.col);
+		CellSpanInfo const *span;
+		if (cell->row_info->needs_respan)
+			row_calc_spans (cell->row_info, cell->base.sheet);
+		span = row_span_get (cell->row_info, cell->pos.col);
 		if (NULL != span) {
 			if (res->range.start.col > span->left)
 				res->range.start.col = span->left;

@@ -1,3 +1,8 @@
+2003-05-01  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (cb_sheet_get_extent): Per Jody, let's respan here
+	when needed.
+
 2003-04-29  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (mathfunc_init): New function.
