@@ -41,10 +41,10 @@ typedef struct {
         int                         start_col, cols;
         int                         start_row, rows;
 	int                         offset_col, offset_row;
-	gboolean                    autofit_flag : 1;
-	gboolean                    clear_outputrange : 1;
-	gboolean                    retain_format : 1;
-	gboolean                    retain_comments : 1;
+	gboolean                    autofit_flag;
+	gboolean                    clear_outputrange;
+	gboolean                    retain_format;
+	gboolean                    retain_comments;
 	WorkbookControl             *wbc;
 } data_analysis_output_t;
 

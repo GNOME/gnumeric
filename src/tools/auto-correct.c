@@ -38,10 +38,10 @@
 #include <string.h>
 
 static struct {
-	gboolean init_caps	: 1;
-	gboolean first_letter	: 1;
-	gboolean names_of_days	: 1;
-	gboolean replace	: 1;
+	gboolean init_caps;
+	gboolean first_letter;
+	gboolean names_of_days;
+	gboolean replace;
 
 	struct {
 		GSList *first_letter;
