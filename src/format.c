@@ -24,14 +24,11 @@
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
 #include "gnumeric.h"
-#include "numbers.h"
 #include "format.h"
 
 #include "style-color.h"
-#include "expr.h"
 #include "dates.h"
 #include "value.h"
-#include "parse-util.h"
 #include "datetime.h"
 #include "mathfunc.h"
 #include "str.h"

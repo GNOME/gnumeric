@@ -10,6 +10,7 @@ Jody:
 	* Fix HIG-ification of validation page in fmt dialog
 	* Add some mnemonics to the new and improved file open dialog.
 	* Finish conversion of default font to Sans 10
+	* Fix http://bugs.debian.org/193276
 
 Morten:
 	* New function COLUMNNUMBER.

@@ -1,3 +1,11 @@
+2003-05-14  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-io.c (xml_read_names) : revert my previous error.
+	  We can't use parse_pos_init_sheet here because it will fail in the
+	  context of workbook level names.
+
+	* src/position.c (parse_pos_init_sheet) : check for that.
+
 2003-05-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/gui-file.c (gui_file_open): change in charmap_selector_new

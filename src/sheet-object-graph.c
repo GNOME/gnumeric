@@ -35,7 +35,7 @@
 
 #ifdef NEW_GRAPHS
 #include <goffice/graph/gog-graph.h>
-#include <goffice/graph/gog-object.h>
+#include <goffice/graph/gog-renderer-pixbuf.h>
 #include <goffice/graph/gog-control-foocanvas.h>
 #include <graph.h>
 #endif
@@ -57,8 +57,8 @@
 typedef struct {
 	SheetObject  base;
 #ifdef NEW_GRAPHS
-	GogGraph *graph;
-	GogView  *view;
+	GogGraph	*graph;
+	GogRenderer	*renderer;
 #endif
 } SheetObjectGraph;
 typedef struct {
@@ -104,14 +104,15 @@ sheet_object_graph_new (GogGraph *graph)
 	sog->graph = graph;
 	g_object_ref (G_OBJECT (sog->graph));
 
+	sog->renderer = g_object_new (GOG_RENDERER_PIXBUF_TYPE,
+				      "model", sog->graph,
+				      NULL);
 	g_signal_connect_object (G_OBJECT (graph),
 		"add_data",
 		G_CALLBACK (cb_graph_add_data), G_OBJECT (sog), 0);
 	g_signal_connect_object (G_OBJECT (graph),
 		"remove_data",
 		G_CALLBACK (cb_graph_remove_data), G_OBJECT (sog), 0);
-
-	sog->view = gog_graph_new_view (sog->graph);
 
 	return SHEET_OBJECT (sog);
 }
@@ -123,9 +124,9 @@ sheet_object_graph_finalize (GObject *obj)
 	SheetObjectGraph *graph = SHEET_OBJECT_GRAPH (obj);
 
 #ifdef NEW_GRAPHS
-	if (graph->view != NULL) {
-		g_object_unref (graph->view);
-		graph->view = NULL;
+	if (graph->renderer != NULL) {
+		g_object_unref (graph->renderer);
+		graph->renderer = NULL;
 	}
 	if (graph->graph != NULL) {
 		g_object_unref (graph->graph);
@@ -145,7 +146,7 @@ sheet_object_graph_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
 	FooCanvasItem *item = foo_canvas_item_new (gcanvas->sheet_object_group,
 		GOG_CONTROL_FOOCANVAS_TYPE,
-		"view",	sog->view,
+		"renderer",	sog->renderer,
 		NULL);
 	foo_canvas_item_raise_to_top (FOO_CANVAS_ITEM (gcanvas->sheet_object_group));
 
@@ -254,13 +255,10 @@ static void
 sheet_object_graph_default_size (SheetObject const *so, double *w, double *h)
 {
 #ifdef NEW_GRAPHS
-	int real_w, real_h;
-	g_object_get (G_OBJECT (SHEET_OBJECT_GRAPH (so)->view),
-		"logical_width_pts",  &real_w,
-		"logical_height_pts", &real_h,
+	g_object_get (G_OBJECT (SHEET_OBJECT_GRAPH (so)->renderer),
+		"logical_width_pts",  w,
+		"logical_height_pts", h,
 		NULL);
-	*w = real_w / PANGO_SCALE;
-	*h = real_h / PANGO_SCALE;
 #else
 	*w = 200.;
 	*h = 200.;
@@ -274,9 +272,9 @@ sheet_object_graph_position_changed (SheetObject const *so)
 	double coords [4];
 
 	sheet_object_position_pts_get (so, coords);
-	g_object_set (G_OBJECT (SHEET_OBJECT_GRAPH (so)->view),
-		"logical_width_pts",  (int) (PANGO_SCALE * floor (fabs (coords[2] - coords[0]) + 1.5)),
-		"logical_height_pts", (int) (PANGO_SCALE * floor (fabs (coords[3] - coords[1]) + 1.5)),
+	g_object_set (G_OBJECT (SHEET_OBJECT_GRAPH (so)->renderer),
+		"logical_width_pts",  fabs (coords[2] - coords[0]),
+		"logical_height_pts", fabs (coords[3] - coords[1]),
 		NULL);
 #endif
 }

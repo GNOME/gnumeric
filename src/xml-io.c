@@ -774,7 +774,7 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree,
 		expr_str = xml_node_get_cstr (expr_node, NULL);
 		g_return_if_fail (name_str != NULL && expr_str != NULL);
 
-		parse_pos_init_sheet (&pp, sheet);
+		parse_pos_init (&pp, wb, sheet, 0, 0);
 		if (position != NULL) {
 			xmlChar *pos_txt = xml_node_get_cstr (position, NULL);
 			if (pos_txt != NULL) {

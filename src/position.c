@@ -180,6 +180,8 @@ parse_pos_init_editpos (ParsePos *pp, SheetView const *sv)
 ParsePos *
 parse_pos_init_sheet (ParsePos *pp, Sheet *sheet)
 {
+	g_return_val_if_fail (pp != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	return parse_pos_init (pp, NULL, sheet, 0, 0);
 }
 
