@@ -3,11 +3,11 @@ INCLUDES = \
     -I$(top_srcdir)/src	-I$(top_builddir)/src	\
     $(GNUMERIC_CFLAGS)
 
-gnumeric_plugin_derivativesdir = $(gnumeric_plugindir)/derivatives
-xmldir = $(gnumeric_plugin_derivativesdir)
-gnumeric_plugin_derivatives_LTLIBRARIES = derivatives.la
-derivatives_la_LDFLAGS = -module -avoid-version
-derivatives_la_SOURCES = options.c
+gnumeric_plugin_sample_datasourcedir = $(gnumeric_plugindir)/sample_datasource
+xmldir = $(gnumeric_plugin_sample_datasourcedir)
+gnumeric_plugin_sample_datasource_LTLIBRARIES = sample_datasource.la
+sample_datasource_la_LDFLAGS = -module -avoid-version
+sample_datasource_la_SOURCES = sample_datasource.c
 
 xml_in_files = plugin.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)

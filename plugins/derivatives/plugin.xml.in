@@ -1,26 +1,17 @@
 <?xml version="1.0"?>
-<plugin id="Gnumeric_derivatives">
+<plugin id="Gnumeric_sample_datasource">
 	<information>
-		<_name>Financial Derivatives</_name>
-		<_description>Functions related to financial derivatives</_description>
+		<_name>Sample DataSource</_name>
+		<_description>A proof of concept external data source</_description>
 	</information>
 	<loader type="g_module">
-		<attribute name="module_file" value="derivatives.la"/>
+		<attribute name="module_file" value="sample_datasource.la"/>
 	</loader>
 	<services>
-		<service type="function_group" id="derivatives">
+		<service type="function_group" id="ATL">
 			<_category>Financial</_category>
 			<functions>
-				<function name="opt_bs_call"/>
-				<function name="opt_bs_call_delta"/>
-				<function name="opt_bs_call_rho"/>
-				<function name="opt_bs_call_theta"/>
-				<function name="opt_bs_put"/>
-				<function name="opt_bs_put_delta"/>
-				<function name="opt_bs_put_rho"/>
-				<function name="opt_bs_put_theta"/>
-				<function name="opt_bs_gamma"/>
-				<function name="opt_bs_vega"/>
+				<function name="atl_last"/>
 			</functions>
 		</service>
 	</services>
