@@ -1,3 +1,7 @@
+2000-10-27  Ariel Rios  <ariel@arcavia.com>
+
+	* plugin.c (list_to_scm): Removed
+
 2000-10-10  Jody Goldberg <jgoldberg@home.com>
 
         * Release 0.57

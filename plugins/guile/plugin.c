@@ -25,6 +25,9 @@
 #include "main.h"
 #include "command-context.h"
 
+
+static SCM list_to_scm (GList *, CellRef);
+
 /* This is damn ugly.
  * However, it will get things working again (I hope)
  * until someone who actually uses this thing takes
