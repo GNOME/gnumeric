@@ -49,6 +49,11 @@
 #include "workbook-view.h"
 #include "workbook.h"
 #include "error-info.h"
+#include "sheet-object-impl.h"
+#include "sheet-object-cell-comment.h"
+#include "gnm-so-line.h"
+#include "gnm-so-filled.h"
+#include "sheet-object-graph.h"
 
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-input.h>
@@ -255,6 +260,7 @@ typedef struct {
 	/* expressions with ref > 1 a map from index -> expr pointer */
 	GHashTable *expr_map;
 	GList *delayed_names;
+	SheetObject *so;
 } XMLSaxParseState;
 
 /****************************************************************************/
@@ -1269,8 +1275,90 @@ xml_sax_merge (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-xml_sax_object (GsfXMLIn *gsf_state, xmlChar const **attrs)
+xml_sax_object_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 {
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+	char const *type_name = gsf_state->node->name;
+	char *tmp;
+	int tmp_int;
+	SheetObject *so;
+
+	g_return_if_fail (state->so == NULL);
+
+	/* Old crufty IO */
+	if (!strcmp (type_name, "Rectangle"))
+		so = g_object_new (GNM_SO_FILLED_TYPE, NULL);
+	else if (!strcmp (type_name, "Ellipse"))
+		so = g_object_new (GNM_SO_FILLED_TYPE, "is_oval", TRUE, NULL);
+	else if (!strcmp (type_name, "Line"))
+		so = g_object_new (GNM_SO_LINE_TYPE, "is_arrow", TRUE, NULL);
+	else if (!strcmp (type_name, "Arrow"))
+		so = g_object_new (GNM_SO_LINE_TYPE, NULL);
+
+	/* Class renamed between 1.0.x and 1.2.x */
+	else if (!strcmp (type_name, "GnmGraph"))
+		so = sheet_object_graph_new (FALSE);
+
+	/* Class renamed in 1.2.2 */
+	else if (!strcmp (type_name, "CellComment"))
+		so = g_object_new (cell_comment_get_type (), NULL);
+
+	/* Class renamed in 1.3.91 */
+	else if (!strcmp (type_name, "SheetObjectGraphic"))
+		so = g_object_new (GNM_SO_LINE_TYPE, NULL);
+	else if (!strcmp (type_name, "SheetObjectFilled"))
+		so = g_object_new (GNM_SO_FILLED_TYPE, NULL);
+	else if (!strcmp (type_name, "SheetObjectText"))
+		so = g_object_new (GNM_SO_FILLED_TYPE, NULL);
+
+	else {
+		GType type = g_type_from_name ((gchar *)type_name);
+
+		if (type == 0) {
+			char *str = g_strdup_printf (_("Unsupported object type '%s'"),
+						     type_name);
+			gnm_io_warning_unsupported_feature (state->context, str);
+			g_free (str);
+			return;
+		}
+
+		so = g_object_new (type, NULL);
+		if (so == NULL)
+			return;
+
+	}
+	state->so = so;
+
+	so->anchor.direction = SO_DIR_UNKNOWN;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (!strcmp (attrs[0], "ObjectBound")) {
+			GnmRange r;
+			if (parse_range (attrs[1], &r))
+				so->anchor.cell_bound = r;
+		} else if (!strcmp (attrs[0], "ObjectOffset")) {
+			sscanf (attrs[1], "%g %g %g %g",
+				so->anchor.offset +0, so->anchor.offset +1,
+				so->anchor.offset +2, so->anchor.offset +3);
+		} else if (!strcmp (attrs[0], "ObjectanchorType")) {
+			int i[4], count;
+			sscanf (tmp, "%d %d %d %d", i+0, i+1, i+2, i+3);
+
+			for (count = 4; count-- > 0 ; )
+				so->anchor.type[count] = i[count];
+		} else if (xml_sax_attr_int (attrs, "Direction", &tmp_int))
+			so->anchor.direction = tmp_int;
+		else
+			unknown_attr (state, attrs, "Object");
+	}
+}
+
+static void
+xml_sax_object_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+	sheet_object_set_sheet (state->so, state->sheet);
+	g_object_unref (state->so);
+	state->so = NULL;
 }
 
 static void
@@ -1508,12 +1596,21 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", FALSE, TRUE, FALSE, &xml_sax_w
 	GSF_XML_IN_NODE (SHEET_LAYOUT, SHEET_FREEZEPANES, GNM, "FreezePanes", FALSE, &xml_sax_sheet_freezepanes, NULL),
 
       GSF_XML_IN_NODE (SHEET, SHEET_SOLVER, GNM, "Solver", FALSE, NULL, NULL),
+
       GSF_XML_IN_NODE (SHEET, SHEET_OBJECTS, GNM, "Objects", FALSE, NULL, NULL),
-	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_POINTS, GNM, "Points", FALSE, NULL, NULL),
-	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_RECTANGLE, GNM, "Rectangle", FALSE, &xml_sax_object, NULL),
-	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_ELLIPSE, GNM, "Ellipse", FALSE, &xml_sax_object, NULL),
-	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_ARROW, GNM, "Arrow", FALSE, &xml_sax_object, NULL),
-	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_LINE, GNM, "Line", FALSE, &xml_sax_object, NULL),
+        /* Old crufty IO */
+	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_ANCIENT_RECTANGLE, GNM, "Rectangle", FALSE, &xml_sax_object_start, &xml_sax_object_end),
+	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_ANCIENT_ELLIPSE, GNM, "Ellipse", FALSE,	&xml_sax_object_start, &xml_sax_object_end),
+	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_ANCIENT_ARROW, GNM, "Arrow", FALSE,	&xml_sax_object_start, &xml_sax_object_end),
+	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_ANCIENT_LINE, GNM, "Line", FALSE,	&xml_sax_object_start, &xml_sax_object_end),
+	/* Class renamed between 1.0.x and 1.2.x */
+	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_OLD_GRAPH, GNM,	"GnmGraph", FALSE,	&xml_sax_object_start, &xml_sax_object_end),
+	/* Class renamed in 1.2.2 */
+	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_OLD_COMMENT, GNM, "CellComment", FALSE,	&xml_sax_object_start, &xml_sax_object_end),
+	/* Class renamed in 1.3.91 */
+	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_OLD_LINE, GNM, "SheetObjectGraphic", FALSE, &xml_sax_object_start, &xml_sax_object_end),
+	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_OLD_FILLED, GNM, "SheetObjectFilled", FALSE, &xml_sax_object_start, &xml_sax_object_end),
+	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_OLD_TEXT, GNM, "SheetObjectText", FALSE,	&xml_sax_object_start, &xml_sax_object_end),
 
   GSF_XML_IN_NODE (WB, WB_GEOMETRY, GNM, "Geometry", FALSE, &xml_sax_wb_view, NULL),
   GSF_XML_IN_NODE (WB, WB_VIEW, GNM, "UIData", FALSE, &xml_sax_wb_view, NULL),
@@ -1521,6 +1618,22 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", FALSE, TRUE, FALSE, &xml_sax_w
   { NULL }
 };
 static GsfXMLInDoc *doc;
+
+#if 0 /* requires gsf 1.11.0 */
+static gboolean
+xml_sax_unknown (GsfXMLIn *state, xmlChar const *elem, xmlChar const **attrs)
+{
+	g_return_val_if_fail (state != NULL, FALSE);
+	g_return_val_if_fail (state->doc != NULL, FALSE);
+	g_return_val_if_fail (state->node != NULL, FALSE);
+
+	if (GNM == state->node->ns_id &&
+	    0 == strcmp (state->node->id, "SHEET_OBJECTS")) {
+		g_warning ("foo");
+	}
+	return FALSE;
+}
+#endif
 
 static GsfInput *
 maybe_gunzip (GsfInput *input)
@@ -1637,6 +1750,7 @@ xml_sax_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	state.validation.expr[0] = state.validation.expr[1] = NULL;
 	state.expr_map = g_hash_table_new (g_direct_hash, g_direct_equal);
 	state.delayed_names = NULL;
+	state.so = NULL;
 
 	g_object_ref (input);
 	input = maybe_gunzip (input);
@@ -1670,6 +1784,9 @@ void
 plugin_init (void)
 {
 	doc = gsf_xml_in_doc_new (gnumeric_1_0_dtd, content_ns);
+#if 0 /* requires gsf 1.11.0 */
+	gsf_xml_in_doc_set_unknown_handler (doc, &xml_sax_unknown);
+#endif
 }
 void
 plugin_cleanup (void)

@@ -1,3 +1,10 @@
+2004-11-15  Jody Goldberg <jody@gnome.org>
+
+	* xml-sax-read.c : add basic (but incomplete) support for sheet
+	  objects.  gsf-1.11.0 will have some of the api needed to support
+	  them (unknown handler, and doc extension) but I'm clear on the api
+	  in SheetObject to handle the current mess.
+
 2004-11-10  Jody Goldberg <jody@gnome.org>
 
 	* xml-sax-read.c (xml_sax_orientation) : this should be an end handler
