@@ -31,8 +31,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric HEAD\n"
-"POT-Creation-Date: 2002-10-10 20:06+0200\n"
-"PO-Revision-Date: 2002-10-10 20:05+0100\n"
+"POT-Creation-Date: 2002-10-12 22:15+0200\n"
+"PO-Revision-Date: 2002-10-12 22:15+0100\n"
 "Last-Translator: Christian Neumair <chris@gnome-de.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -120,14 +120,14 @@ msgid ""
 "@FUNCTION=opt_bs\n"
 "@SYNTAX=OPT_BS(call_put_flag,spot,strike,time,rate,volatility,"
 "cost_of_carry)\n"
-"@DESCRIPTION=OPT_BS uses the Black-Scholes model to calculate the price ofa "
+"@DESCRIPTION=OPT_BS uses the Black-Scholes model to calculate the price of a "
 "European option using call_put_flag, @call_put_flag struck at @strike on an "
 "asset with spot price @spot.\n"
 "\n"
-"@volatility is the annualized volatility, in percent, of the asset for the "
-"period through to the exercise date.  @days_to_maturity the number of days "
-"to exercise, and @rate is the risk-free interest rate to the exercise date, "
-"in percent.\n"
+"@volatility is the annualized volatility, in percent, of the asset or the "
+"period through to the exercise date. @days_to_maturity the number of days to "
+"exercise, and @rate is the risk-free interest rate to the exercise date, in "
+"percent.\n"
 "\n"
 "* The returned value will be expressed in the same units as @strike and "
 "@spot.\n"
@@ -138,18 +138,14 @@ msgid ""
 "OPT_BS_GAMMA"
 msgstr "LATER"
 
-#: plugins/derivatives/options.c:270
+#: plugins/derivatives/options.c:271
 msgid ""
 "@FUNCTION=OPT_BS_DELTA\n"
 "@SYNTAX=OPT_BS_DELTA(call_put_flag,spot,strike,time,rate,volatility,"
 "cost_of_carry)\n"
 "@DESCRIPTION=OPT_BS_DELTA uses the Black-Scholes model to calculate the "
-"\"delta\" of a European option with call_put_flag, @call_put_flag"
-msgstr "LATER"
-
-#: plugins/derivatives/options.c:276
-msgid ""
-"asset with spot price @spot.\n"
+"\"delta\" of a European option with call_put_flag, @call_put_flagstruck at "
+"@strike on an asset with spot price @spot.\n"
 "\n"
 "(The delta of an option is the rate of change of its price with respect to "
 "the spot price of the underlying asset.)\n"
@@ -163,8 +159,7 @@ msgid ""
 "per unit change in @spot.\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, "
-"OPT_BS_GAMMA"
+"@SEEALSO=OPT_BS, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA"
 msgstr "LATER"
 
 #: plugins/derivatives/options.c:328
@@ -207,7 +202,7 @@ msgid ""
 "to exercise, and @rate is the risk-free interest rate to the exercise date, "
 "in percent.\n"
 "\n"
-"* The returned value will be expressed as minus the rate of changeof option "
+"* The returned value will be expressed as minus the rate of change of option "
 "value, per 365.25 days.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -229,15 +224,15 @@ msgid ""
 "volatility, and is the same for calls and puts.)\n"
 "\n"
 "@volatility is the annualized volatility, in percent, of the asset for the "
-"period through to the exercise date.  @days_to_maturity the number of days "
-"to exercise, and @rate is the risk-free interest rate to the exercise date, "
-"in percent.\n"
+"period through to the exercise date. @days_to_maturity the number of days to "
+"exercise, and @rate is the risk-free interest rate to the exercise date, in "
+"percent.\n"
 "\n"
 "* The returned value will be expressed as the rate of change of option "
 "value, per 100% volatilty.\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=OPT_BS, OPT_BS_DELTA, , OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
+"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr "LATER"
 
 #: plugins/derivatives/options.c:542
@@ -247,13 +242,8 @@ msgid ""
 "@SYNTAX=OPT_BS_RHO(call_put_flag,spot,strike,time,rate,volatility,"
 "cost_of_carry)\n"
 "@DESCRIPTION=OPT_BS_RHO uses the Black-Scholes model to calculate the \"rho"
-"\" of a European option with call_put_flag, @call_put_flag"
-msgstr "LATER"
-
-#: plugins/derivatives/options.c:548
-#, c-format
-msgid ""
-"with spot price @spot.\n"
+"\" of a European option with call_put_flag, @call_put_flag struck at @strike "
+"on an asset with spot price @spot.\n"
 "\n"
 "(The rho of an option is the rate of change of its price with respect to the "
 "risk free interest rate.)\n"
@@ -267,11 +257,10 @@ msgid ""
 "value, per 100% change in @rate.\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, "
-"OPT_BS_GAMMA"
+"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA"
 msgstr "LATER"
 
-#: plugins/derivatives/options.c:613
+#: plugins/derivatives/options.c:612
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_BS_CARRYCOST\n"
@@ -281,12 +270,8 @@ msgid ""
 "\"elasticity\" of a European option struck at @strike on an assetwith spot "
 "price @spot.\n"
 "\n"
-"(The elasticity of an option is the rate of change of its price"
-msgstr "LATER"
-
-#: plugins/derivatives/options.c:623
-msgid ""
-"respect to its cost of carry.)\n"
+"(The elasticity of an option is the rate of change of its pricewith respect "
+"to its cost of carry.)\n"
 "\n"
 "@volatility is the annualized volatility, in percent, of the asset for the "
 "period through to the exercise date.  @days_to_maturity the number of days "
@@ -297,144 +282,133 @@ msgid ""
 "value, per 100% volatilty.\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA,"
+"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr "LATER"
 
-#: plugins/derivatives/options.c:637 plugins/derivatives/options.c:704
-#: plugins/derivatives/options.c:769 plugins/derivatives/options.c:823
-#: plugins/derivatives/options.c:909 plugins/derivatives/options.c:1010
-#: plugins/derivatives/options.c:1051 plugins/derivatives/options.c:1233
-#: plugins/derivatives/options.c:1314 plugins/derivatives/options.c:1354
-#: plugins/derivatives/options.c:1410 plugins/derivatives/options.c:1453
-#: plugins/derivatives/options.c:1506 plugins/derivatives/options.c:1611
-#: plugins/derivatives/options.c:1685
-msgid ")"
-msgstr "LATER"
-
-#: plugins/derivatives/options.c:684
+#: plugins/derivatives/options.c:682
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_GARMAN_KOHLHAGEN\n"
 "@SYNTAX=OPT_GARMAN_KOHLHAGEN(call_put_flag,spot,strike,time,domesitc_rate,"
 "foreign_rate,volatility,cost_of_carry)\n"
 "@DESCRIPTION=OPT_GARMAN_KOHLHAGEN values the theoretical price of a European "
-"option struck at @strike on an assetwith spot price @spot.\n"
+"option struck at @strike on an asset with spot price @spot.\n"
 "\n"
 "@volatility is the annualized volatility, in percent, of the asset for the "
-"period through to the exercise date.  @days_to_maturity the number of days "
-"to exercise, and @domestic_rate is the domestic risk-free interest rate to "
-"the exercise date,@foreign_rate is the foreign risk-free interest rate to "
-"the exercise date, in percent.\n"
+"period through to the exercise date. @days_to_maturity the number of days to "
+"exercise, and @domestic_rate is the domestic risk-free interest rate to the "
+"exercise date,@foreign_rate is the foreign risk-free interest rate to the "
+"exercise date, in percent.\n"
 "\n"
 "* The returned value will be expressed as the rate of change of option "
 "value, per 100% volatilty.\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA,"
+"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr "LATER"
 
-#: plugins/derivatives/options.c:749
+#: plugins/derivatives/options.c:748
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_FRENCH\n"
 "@SYNTAX=OPT_FRENCH(call_put_flag,spot,strike,time,t2,rate,volatility,"
 "cost_of_carry)\n"
 "@DESCRIPTION=OPT_FRENCH values the theoretical price of a European option "
-"adjusted for trading day volatility, struck at @strike on an assetwith spot "
+"adjusted for trading day volatility, struck at @strike on an asset with spot "
 "price @spot.\n"
 "\n"
 "@volatility is the annualized volatility, in percent, of the asset for the "
-"period through to the exercise date.  @days_to_maturity the number of days "
-"to exercise, and @domestic_rate is the domestic risk-free interest rate to "
-"the exercise date,@foreign_rate is the foreign risk-free interest rate to "
-"the exercise date, in percent.\n"
+"period through to the exercise date. @days_to_maturity the number of days to "
+"exercise, and @domestic_rate is the domestic risk-free interest rate to the "
+"exercise date,@foreign_rate is the foreign risk-free interest rate to the "
+"exercise date, in percent.\n"
 "\n"
 "* The returned value will be expressed as the rate of change of option "
 "value, per 100% volatilty.\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA,"
+"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr "LATER"
 
-#: plugins/derivatives/options.c:813
+#: plugins/derivatives/options.c:814
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_JUMP_DIFF\n"
 "@SYNTAX=OPT_JUMP_DIFF(call_put_flag,spot,strike,time,rate,volatility,lambda,"
 "gamma)\n"
 "@DESCRIPTION=OPT_JUMP_DIFF models the theoretical price of an option "
-"according tothe Jump Diffussion process (Merton)\n"
+"according to the Jump Diffussion process (Merton).\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA,"
+"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr "LATER"
 
-#: plugins/derivatives/options.c:899
+#: plugins/derivatives/options.c:901
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_MILTERSEN_SCHWARTZ\n"
 "@SYNTAX=OPT_MILTERSEN_SCHWARTZ(call_put_flag,p_t,f_t,x,t1,t2,v_s,v_e,v_f,"
 "rho_se,rho_sf,rho_ef,kappa_e,kappa_f)\n"
 "@DESCRIPTION=OPT_MILTERSEN_SCHWARTZ models the theoretical price of an "
-"option according toMiltersen & Schwartz\n"
+"option according to Miltersen & Schwartz.\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA,"
+"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr "LATER"
 
-#: plugins/derivatives/options.c:999
+#: plugins/derivatives/options.c:1002
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_RGW\n"
 "@SYNTAX=OPT_RGW(call_put_flag,spot,strike,t1,t2,rate,d,volatility)\n"
-"@DESCRIPTION=OPT_RGW models the theoretical price of an option according "
-"tothe Roll Geske Whaley apporximation where t1 is the time to the dividend "
-"payout and t2 is the time to optionexpiration.\n"
+"@DESCRIPTION=OPT_RGW models the theoretical price of an option according to "
+"the Roll Geske Whaley apporximation where t1 is the time to the dividend "
+"payout and t2 is the time to option expiration.\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA,"
+"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr "LATER"
 
-#: plugins/derivatives/options.c:1040
+#: plugins/derivatives/options.c:1044
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_BAW_AMER\n"
 "@SYNTAX=OPT_BAW_AMER(call_put_flag,spot,strike,time,rate,cost_of_carry,"
 "volatility)\n"
 "@DESCRIPTION=OPT_BAW_AMER models the theoretical price of an option "
-"according tothe Barone Adesie & Whaley approximation\n"
+"according to the Barone Adesie & Whaley approximation.\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA,"
+"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr "LATER"
 
-#: plugins/derivatives/options.c:1223
+#: plugins/derivatives/options.c:1227
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_BJERSTENS\n"
 "@SYNTAX=OPT_BJERSTENS(call_put_flag,spot,strike,time,rate,cost_of_carry,"
 "volatility)\n"
 "@DESCRIPTION=OPT_BJERSTENS models the theoretical price of american options "
-"accordingthe Bjerksund & Stensland approximation technique\n"
+"according to the Bjerksund & Stensland approximation technique.\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA,"
+"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr "LATER"
 
-#: plugins/derivatives/options.c:1304
+#: plugins/derivatives/options.c:1306
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_EXEC\n"
 "@SYNTAX=OPT_EXEC(call_put_flag,spot,strike,time,rate,volatility,"
 "cost_of_carry,lambda)\n"
 "@DESCRIPTION=OPT_EXEC models the theoretical price of executive stock "
-"options givenlambda (jump rate for executives)\n"
+"options given lambda (jump rate for executives).\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA,"
+"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr "LATER"
 
-#: plugins/derivatives/options.c:1344
+#: plugins/derivatives/options.c:1347
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_FORWARD_START\n"
@@ -444,49 +418,49 @@ msgid ""
 "options\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA,"
+"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr "LATER"
 
-#: plugins/derivatives/options.c:1400
+#: plugins/derivatives/options.c:1404
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_TIME_SWITCH\n"
 "@SYNTAX=OPT_TIME_SWITCH(call_put_flag,spot,strike,a,time,m,dt,rate,"
 "cost_of_carry,volatility)\n"
 "@DESCRIPTION=OPT_TIME_SWITCH models the theoretical price of time switch "
-"options\n"
+"options.\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA,"
+"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr "LATER"
 
-#: plugins/derivatives/options.c:1443
+#: plugins/derivatives/options.c:1448
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_SIMPLE_CHOOSER\n"
 "@SYNTAX=OPT_SIMPLE_CHOOSER(call_put_flag,spot,strike,time1,time2,rate,"
 "cost_of_carry,volatility)\n"
 "@DESCRIPTION=OPT_SIMPLE_CHOOSER models the theoretical price of simple "
-"chooser options\n"
+"chooser options.\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA,"
+"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr "LATER"
 
-#: plugins/derivatives/options.c:1496
+#: plugins/derivatives/options.c:1502
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_COMPLEX_CHOOSER\n"
 "@SYNTAX=OPT_COMPLEX_CHOOSER(call_put_flag,spot,strike_call,strike_put,time,"
 "time_call,time_put,rate,cost_of_carry,volatility)\n"
 "@DESCRIPTION=OPT_COMPLEX_CHOOSER models the theoretical price of complex "
-"chooser options\n"
+"chooser options.\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA,"
+"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr "LATER"
 
-#: plugins/derivatives/options.c:1601
+#: plugins/derivatives/options.c:1608
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_ON_OPTIONS\n"
@@ -496,25 +470,21 @@ msgid ""
 "options\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA,"
+"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr "LATER"
 
-#: plugins/derivatives/options.c:1675
+#: plugins/derivatives/options.c:1682
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_EXTENDIBLE_WRITER\n"
 "@SYNTAX=OPT_EXTENDIBLE_WRITER(call_put_flag,spot,strike1,strike2,time1,time2,"
 "rate,cost_of_carry,volatility)\n"
 "@DESCRIPTION=OPT_EXTENDIBLE_WRITER models the theoretical price of "
-"extendible writer options\n"
+"extendible writer options.\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA,"
+"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr "LATER"
-
-#: plugins/derivatives/options.c:1689
-msgid "opt_bs"
-msgstr "opt_bs"
 
 #: plugins/derivatives/plugin.xml.in.h:1
 #: plugins/fn-financial/plugin.xml.in.h:1
@@ -529,7 +499,7 @@ msgstr "Finanzfunktionen"
 msgid "Functions related to financial derivatives"
 msgstr "Funktionen aus dem Finanzbereich"
 
-#: plugins/dif/dif.c:60 plugins/excel/ms-excel-read.c:4790
+#: plugins/dif/dif.c:60 plugins/excel/ms-excel-read.c:4784
 #: plugins/mps/mps.c:554 src/xml-io.c:3390
 msgid "Reading file..."
 msgstr "Datei wird gelesen..."
@@ -621,51 +591,51 @@ msgstr "»%s« konnte nicht geöffnet werden: %s"
 msgid "Saving file..."
 msgstr "Datei wird gespeichert..."
 
-#: plugins/excel/ms-excel-read.c:939
+#: plugins/excel/ms-excel-read.c:933
 msgid "#UNKNOWN!"
 msgstr "#UNBEKANNT!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1073 plugins/oleo/oleo.c:362
+#: plugins/excel/ms-excel-read.c:1067 plugins/oleo/oleo.c:362
 #: plugins/psiconv/psiconv-read.c:501 src/dialogs/dialog-sheet-order.c:417
 #: src/dialogs/dialog-sheet-order.c:421
 #, c-format
 msgid "Sheet%d"
 msgstr "Blatt%d"
 
-#: plugins/excel/ms-excel-read.c:1076
+#: plugins/excel/ms-excel-read.c:1070
 #, c-format
 msgid "Macro%d"
 msgstr "Makro%d"
 
-#: plugins/excel/ms-excel-read.c:1079
+#: plugins/excel/ms-excel-read.c:1073
 #, c-format
 msgid "Chart%d"
 msgstr "Diagramm%d"
 
-#: plugins/excel/ms-excel-read.c:1082
+#: plugins/excel/ms-excel-read.c:1076
 #, c-format
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:4671
+#: plugins/excel/ms-excel-read.c:4665
 msgid "external references"
 msgstr "externe Bezüge"
 
-#: plugins/excel/ms-excel-read.c:4961
+#: plugins/excel/ms-excel-read.c:4955
 msgid "This file is encrypted"
 msgstr "Diese Datei ist verschlüsselt"
 
-#: plugins/excel/ms-excel-read.c:4963
+#: plugins/excel/ms-excel-read.c:4957
 msgid "No password supplied"
 msgstr "Kein Passwort angegeben"
 
-#: plugins/excel/ms-excel-read.c:4967
+#: plugins/excel/ms-excel-read.c:4961
 msgid "Invalid password"
 msgstr "Ungültiges Passwort"
 
-#: plugins/excel/ms-excel-read.c:5090
+#: plugins/excel/ms-excel-read.c:5084
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Es konnte kein gültiges MS-Excel-Arbeitsbuch aufgefunden werden."
 
@@ -2548,10 +2518,10 @@ msgid ""
 "@SEEALSO=DATE"
 msgstr ""
 "@FUNCTION=DATEDIF\n"
-"@SYNTAX=DATEDIF(Datum1, Datum2, Intervall)\n"
+"@SYNTAX=DATEDIF(Datum1,Datum2,Intervall)\n"
 "@DESCRIPTION=DATEDIF liefert die Differenz zwischen zwei Daten. @Intervall "
-"ist einer der sechs möglichen Werte:  \"y\", \"m\", \"d\", \"ym\", \"md\", "
-"und \"yd\".\n"
+"ist einer der sechs folgenden möglichen Werte:\n"
+"\"y\", \"m\", \"d\", \"ym\", \"md\" und \"yd\".\n"
 "\n"
 "Die ersten drei Möglichkeiten liefern jeweils die Anzahl ganzer Jahre, "
 "Monate oder Tage zwischen den beiden angegebenen Daten.\n"
@@ -2739,7 +2709,7 @@ msgid ""
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 msgstr ""
 "@FUNCTION=STUNDE\n"
-"@SYNTAX=STUNDE (Seriennummer)\n"
+"@SYNTAX=STUNDE(Seriennummer)\n"
 "@DESCRIPTION=STUNDE konvertiert eine Seriennummer in eine Stunde. Die Stunde "
 "wird als eine Ganzzahl im Bereich zwischen 0 und 23 geliefert.\n"
 "\n"
@@ -2770,7 +2740,7 @@ msgid ""
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 msgstr ""
 "@FUNCTION=MINUTE\n"
-"@SYNTAX=MINUTE (Seriennummer)\n"
+"@SYNTAX=MINUTE(Seriennummer)\n"
 "@DESCRIPTION=MINUTE konvertiert eine Seriennummer in eine Minute. Die Minute "
 "wird als Ganzzahl im Bereich zwischen 0 und 59 zurückgegeben.\n"
 "\n"
@@ -2801,7 +2771,7 @@ msgid ""
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 msgstr ""
 "@FUNCTION=SEKUNDE\n"
-"@SYNTAX=SEKUNDE (Seriennummer)\n"
+"@SYNTAX=SEKUNDE(Seriennummer)\n"
 "@DESCRIPTION=Konvertierung einer Seriennummer in eine Sekunde.  Die Sekunde "
 "wird als Ganzzahl im Bereich zwischen 0 und 59 geliefert.\n"
 "\n"
@@ -2831,7 +2801,7 @@ msgid ""
 "@SEEALSO=DAY, MONTH, TIME, NOW"
 msgstr ""
 "@FUNCTION=JAHR\n"
-"@SYNTAX=JAHR (Seriennummer)\n"
+"@SYNTAX=JAHR(Seriennummer)\n"
 "@DESCRIPTION=JAHR konvertiert eine Seriennummer in ein Jahr.\n"
 "\n"
 "* Beachten Sie, dass Gnumeric eine Zeichenkette automatisch in eine "
@@ -2860,7 +2830,7 @@ msgid ""
 "@SEEALSO=DAY, TIME, NOW, YEAR"
 msgstr ""
 "@FUNCTION=MONAT\n"
-"@SYNTAX=MONAT (Seriennummer)\n"
+"@SYNTAX=MONAT(Seriennummer)\n"
 "@DESCRIPTION=MONAT konvertiert eine Seriennummer in einen Monat.\n"
 "\n"
 "* Bitte beachten Sie, dass Gnumeric eine Zeichenkette automatisch in eine "
@@ -2925,7 +2895,7 @@ msgid ""
 "@SEEALSO=DAY, MONTH, TIME, NOW, YEAR"
 msgstr ""
 "@FUNCTION=WOCHENTAG\n"
-"@SYNTAX=WOCHENTAG (Seriennummer[, Methode])\n"
+"@SYNTAX=WOCHENTAG(Seriennummer[, Methode])\n"
 "@DESCRIPTION=WOCHENTAG konvertiert eine Seriennummer in einen Wochentag.\n"
 "\n"
 "Diese Funktion liefert eine Ganzzahl, die den Wochentag angibt.\n"
@@ -3010,8 +2980,8 @@ msgstr ""
 "@DESCRIPTION=MONATSENDE liefert den letzten Tag des Monats, der @Monate nach "
 "dem @Ausgangsdatum liegt.\n"
 "\n"
-"* MONATSENDE liefert den #ZAHL!-Fehler, falls @Ausgangsdatum oder @Monate "
-"ungültig ist.\n"
+"* Falls @Ausgangsdatum oder @Monate ungültig ist, liefert MONATSENDE einen "
+"#ZAHL!-Fehler.\n"
 "* Diese Funktion ist Excel-kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -3038,13 +3008,13 @@ msgid ""
 "@SEEALSO=NETWORKDAYS"
 msgstr ""
 "@FUNCTION=ARBEITSTAG\n"
-"@SYNTAX=ARBEITSTAG (Ausgangsdatum,Tage,Freie_Tage)\n"
+"@SYNTAX=ARBEITSTAG(Ausgangsdatum,Tage,Freie_Tage)\n"
 "@DESCRIPTION=ARBEISTAG liefert das Datum des Tags, der @Tage Werktage vom "
 "@Ausgangsdatum entfernt ist. Feiertage, die zusätzlich als @Freie_Tage "
 "angegeben werden, werden ebenfalls berücksichtigt.\n"
 "\n"
-"* ARBEITSTAG liefert den #ZAHL!-Fehler, falls @Ausgangsdatum oder @Tage "
-"ungültig ist.\n"
+"* Falls @Ausgangsdatum oder @Monate ungültig ist, liefert ARBEITSTAG einen "
+"#ZAHL!-Fehler.\n"
 "* Diese Funktion ist Excel-kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -3055,7 +3025,7 @@ msgstr ""
 
 #. Path of the current directory or folder.
 #: plugins/fn-date/functions.c:986 plugins/fn-eng/functions.c:101
-#: plugins/fn-info/functions.c:1264 plugins/fn-info/functions.c:1280
+#: plugins/fn-info/functions.c:1269 plugins/fn-info/functions.c:1285
 msgid "Unimplemented"
 msgstr "Nicht implementiert"
 
@@ -3076,14 +3046,14 @@ msgid ""
 "@SEEALSO=WORKDAY"
 msgstr ""
 "@FUNCTION=NETTOARBEITSTAGE\n"
-"@SYNTAX=NETTOARBEITSTAGE (Ausgangsdatum,Enddatum,Freie_Tage)\n"
+"@SYNTAX=NETTOARBEITSTAGE(Ausgangsdatum,Enddatum,Freie_Tage)\n"
 "@DESCRIPTION=NETTOARBEITSTAGE liefert die Anzahl der Werktage zwischen "
 "@Ausgangsdatum und @Enddatum einschließlich diesen. Feiertage, die "
 "zusätzlich als @Freie_Tage angegeben werden, werden ebenfalls "
 "berücksichtigt.\n"
 "\n"
-"* NETTOARBEITSTAGE liefert den #ZAHL!-Fehler, falls @Ausgangsdatum oder "
-"@Tage ungültig ist.\n"
+"* Falls @Ausgangsdatum oder @Monate ungültig ist, liefert NETTOARBEITSTAGE "
+"einen #ZAHL!-Fehler.\n"
 "* Diese Funktion ist Excel-kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -3091,7 +3061,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NETTOARBEITSTAGE"
 
-#: plugins/fn-date/functions.c:1156
+#: plugins/fn-date/functions.c:1155
 msgid ""
 "@FUNCTION=ISOWEEKNUM\n"
 "@SYNTAX=ISOWEEKNUM (date)\n"
@@ -3126,7 +3096,7 @@ msgstr ""
 "Falls A1 12/21/00 enthält, liefert ISOWOCHENZAHL(A1) 51\n"
 "@SEEALSO=WOCHENZAHL, ISOJAHR"
 
-#: plugins/fn-date/functions.c:1201
+#: plugins/fn-date/functions.c:1200
 msgid ""
 "@FUNCTION=ISOYEAR\n"
 "@SYNTAX=ISOYEAR (date)\n"
@@ -3161,7 +3131,7 @@ msgstr ""
 "Falls A1 12/31/2001 enthält, liefert ISOJAHR 2002\n"
 "@SEEALSO=ISOWOCHENZAHL"
 
-#: plugins/fn-date/functions.c:1255
+#: plugins/fn-date/functions.c:1254
 msgid ""
 "@FUNCTION=WEEKNUM\n"
 "@SYNTAX=WEEKNUM (date, method)\n"
@@ -3196,7 +3166,6 @@ msgstr ""
 "  Falls @Methode=2, beginnt die Woche am Montag und Tage vor dem ersten "
 "Montag sind in Woche 0.\n"
 "  Falls @Methode=150, liefert WOCHENZAHL die ISO 8601-Wochenzahl.\n"
-"\n"
 "* Falls @Datum oder @Methode ungültig ist, liefert WOCHENZAHL einen #ZAHL-"
 "Fehler.\n"
 "* Diese Funktion ist Excel kompatibel, bis auf die Tatsache, dass Excel "
@@ -3236,8 +3205,10 @@ msgstr ""
 "@SYNTAX=BININDEZ(x)\n"
 "@DESCRIPTION=BININDEZ wandelt eine Binärzahl in ihr dezimales Äquivalent "
 "um.\n"
+"\n"
 "Diese Funktion ist Excel-kompatibel.\n"
-"@BEISPIELE=\n"
+"\n"
+"@EXAMPLES=\n"
 "BININDEZ(101) liefert 5.\n"
 "\n"
 "@SEEALSO=DEZINBIN, BININOKT, BININHEX"
@@ -3268,7 +3239,7 @@ msgstr ""
 "geliefert.\n"
 "* Diese Funktion ist Excel-kompatibel.\n"
 "\n"
-"@BEISPIELE=\n"
+"@EXAMPLES=\n"
 "BININOKT(110111) liefert 67.\n"
 "\n"
 "@SEEALSO=OKTINBIN, BININDEZ, BININHEX"
@@ -3299,7 +3270,7 @@ msgstr ""
 "geliefert.\n"
 "* Diese Funktion ist Excel-kompatibel.\n"
 "\n"
-"@BEISPIELE=\n"
+"@EXAMPLES=\n"
 "BININHEX(100111) liefert 27.\n"
 "\n"
 "@SEEALSO=HEXINBIN, BININOKT, BININDEZ"
@@ -3330,7 +3301,7 @@ msgstr ""
 "geliefert.\n"
 "* Diese Funktion ist Excel-kompatibel.\n"
 "\n"
-"@BEISPIELE=\n"
+"@EXAMPLES=\n"
 "DEZINBIN(42) liefert 101010.\n"
 "\n"
 "@SEEALSO=BININDEZ, DEZINOKT, DEZINHEX"
@@ -3361,7 +3332,7 @@ msgstr ""
 "geliefert.\n"
 "* Diese Funktion ist Excel-kompatibel.\n"
 "\n"
-"@BEISPIELE=\n"
+"@EXAMPLES=\n"
 "DEZINOKT(42) liefert 52.\n"
 "\n"
 "@SEEALSO=OKTINDEZ, DEZINBIN, DEZINHEX"
@@ -3392,7 +3363,7 @@ msgstr ""
 "geliefert.\n"
 "* Diese Funktion ist Excel-kompatibel.\n"
 "\n"
-"@BEISPIELE=\n"
+"@EXAMPLES=\n"
 "DEZINHEX(42) liefert 2A.\n"
 "\n"
 "@SEEALSO=HEXINDEZ, DEZINBIN, DEZINOKT"
@@ -3418,7 +3389,7 @@ msgstr ""
 "\n"
 "* Diese Funktion ist Excel-kompatibel.\n"
 "\n"
-"@BEISPIELE=\n"
+"@EXAMPLES=\n"
 "OKTINDEZ(\"124\") liefert 84.\n"
 "\n"
 "@SEEALSO=DEZINOKT, OKTINBIN, OKTINHEX"
@@ -3451,8 +3422,8 @@ msgstr ""
 "geliefert.\n"
 "* Diese Funktion ist Excel-kompatibel.\n"
 "\n"
-"@BEISPIELE=\n"
-"OKTINBIN(\"213\") liefertt 10001011.\n"
+"@EXAMPLES=\n"
+"OKTINBIN(\"213\") liefert 10001011.\n"
 "\n"
 "@SEEALSO=BININOKT, OKTINDEZ, OCTINHEX"
 
@@ -3482,7 +3453,7 @@ msgstr ""
 "geliefert.\n"
 "* Diese Funktion ist Excel-kompatibel.\n"
 "\n"
-"@BEISPIELE=\n"
+"@EXAMPLES=\n"
 "OKTINHEX(132) liefert 5A.\n"
 "\n"
 "@SEEALSO=HEXINOKT, OKTINBIN, OKTINDEZ"
@@ -3513,7 +3484,7 @@ msgstr ""
 "geliefert.\n"
 "* Diese Funktion ist Excel-kompatibel.\n"
 "\n"
-"@BEISPIELE=\n"
+"@EXAMPLES=\n"
 "HEXINBIN(101) liefert 5.\n"
 "\n"
 "@SEEALSO=BININHEX, HEXINOKT, HEXINDEZ"
@@ -3544,7 +3515,7 @@ msgstr ""
 "geliefert.\n"
 "* Diese Funktion ist Excel-kompatibel.\n"
 "\n"
-"@BEISPIELE=\n"
+"@EXAMPLES=\n"
 "HEXINOKT(\"2A\") liefert 52.\n"
 "\n"
 "@SEEALSO=OKTINHEX, HEXINBIN, HEXINDEZ"
@@ -3570,7 +3541,7 @@ msgstr ""
 "\n"
 "* Diese Funktion ist Excel-kompatibel.\n"
 "\n"
-"@BEISPIELE=\n"
+"@EXAMPLES=\n"
 "HEXINDEZ(\"2A\") liefert 42.\n"
 "\n"
 "@SEEALSO=DEZINHEX, HEXINBIN, HEXINOKT"
@@ -5699,7 +5670,7 @@ msgstr "Finanzfunktionen"
 msgid "Interest rate calculations"
 msgstr "Zinsberechnung"
 
-#: plugins/fn-info/functions.c:65
+#: plugins/fn-info/functions.c:66
 msgid ""
 "@FUNCTION=CELL\n"
 "@SYNTAX=CELL(type,ref)\n"
@@ -5747,7 +5718,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1149
+#: plugins/fn-info/functions.c:1150
 msgid ""
 "@FUNCTION=EXPRESSION\n"
 "@SYNTAX=EXPRESSION(cell)\n"
@@ -5769,7 +5740,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TEXT"
 
-#: plugins/fn-info/functions.c:1192
+#: plugins/fn-info/functions.c:1193
 msgid ""
 "@FUNCTION=COUNTBLANK\n"
 "@SYNTAX=COUNTBLANK(range)\n"
@@ -5794,7 +5765,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ANZAHL"
 
-#: plugins/fn-info/functions.c:1232
+#: plugins/fn-info/functions.c:1237
 msgid ""
 "@FUNCTION=INFO\n"
 "@SYNTAX=INFO(type)\n"
@@ -5824,7 +5795,7 @@ msgstr ""
 "@SYNTAX=INFO(Typ)\n"
 "@DESCRIPTION=INFO liefert Informationen zur aktuellen Arbeitsumgebung. \n"
 "\n"
-"@Type ist der Informationstyp, den Sie erhalten möchten:\n"
+"@Typ ist der Informationstyp, den Sie erhalten möchten:\n"
 "\n"
 "  memavail \tLiefert den freien Speicher in Bytes.\n"
 "  memused  \tLiefert den freien Speicher in Bytes.\n"
@@ -5843,31 +5814,31 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1287
+#: plugins/fn-info/functions.c:1292
 msgid "Unknown version"
 msgstr "Unbekannte Version"
 
-#: plugins/fn-info/functions.c:1289
+#: plugins/fn-info/functions.c:1294
 #, c-format
 msgid "%s version %s"
 msgstr "%s Version %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: plugins/fn-info/functions.c:1296 src/dialogs/dialog-cell-format.c:2674
+#: plugins/fn-info/functions.c:1301 src/dialogs/dialog-cell-format.c:2674
 #: src/dialogs/dialog-cell-format.c:2679 src/dialogs/dialog-cell-format.c:2689
 #: src/workbook-format-toolbar.c:836
 msgid "Automatic"
 msgstr "Automatisch"
 
-#: plugins/fn-info/functions.c:1305
+#: plugins/fn-info/functions.c:1310
 msgid "Unknown system"
 msgstr "Unbekanntes System"
 
-#: plugins/fn-info/functions.c:1315
+#: plugins/fn-info/functions.c:1320
 msgid "Unknown info_type"
 msgstr "Unbekannter Info_typ"
 
-#: plugins/fn-info/functions.c:1321
+#: plugins/fn-info/functions.c:1326
 msgid ""
 "@FUNCTION=ISERROR\n"
 "@SYNTAX=ISERROR(value)\n"
@@ -5891,7 +5862,7 @@ msgstr ""
 "ISTFEHLER(NA()) liefert WAHR.\n"
 "@SEEALSO=FEHLER"
 
-#: plugins/fn-info/functions.c:1343
+#: plugins/fn-info/functions.c:1348
 msgid ""
 "@FUNCTION=ISNA\n"
 "@SYNTAX=ISNA(value)\n"
@@ -5915,7 +5886,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NV"
 
-#: plugins/fn-info/functions.c:1370
+#: plugins/fn-info/functions.c:1375
 msgid ""
 "@FUNCTION=ISERR\n"
 "@SYNTAX=ISERR(value)\n"
@@ -5940,7 +5911,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISTFEHLER"
 
-#: plugins/fn-info/functions.c:1393
+#: plugins/fn-info/functions.c:1398
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR(value)\n"
@@ -5980,7 +5951,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISTFEHLER"
 
-#: plugins/fn-info/functions.c:1445
+#: plugins/fn-info/functions.c:1450
 msgid ""
 "@FUNCTION=NA\n"
 "@SYNTAX=NA()\n"
@@ -6004,7 +5975,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISTNV"
 
-#: plugins/fn-info/functions.c:1467
+#: plugins/fn-info/functions.c:1472
 msgid ""
 "@FUNCTION=ERROR\n"
 "@SYNTAX=ERROR(text)\n"
@@ -6024,7 +5995,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISTFEHLER"
 
-#: plugins/fn-info/functions.c:1488
+#: plugins/fn-info/functions.c:1493
 msgid ""
 "@FUNCTION=ISBLANK\n"
 "@SYNTAX=ISBLANK(value)\n"
@@ -6048,12 +6019,12 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1508 plugins/fn-info/functions.c:1669
+#: plugins/fn-info/functions.c:1513 plugins/fn-info/functions.c:1674
 #: plugins/fn-logical/functions.c:281 src/func.c:764
 msgid "Invalid number of arguments"
 msgstr "Ungültige Anzahl an Argumenten"
 
-#: plugins/fn-info/functions.c:1538
+#: plugins/fn-info/functions.c:1543
 msgid ""
 "@FUNCTION=ISEVEN\n"
 "@SYNTAX=ISEVEN(value)\n"
@@ -6076,7 +6047,7 @@ msgstr ""
 "ISTGERADE(4) liefert WAHR.\n"
 "@SEEALSO=ISTUNGERADE"
 
-#: plugins/fn-info/functions.c:1560
+#: plugins/fn-info/functions.c:1565
 msgid ""
 "@FUNCTION=ISLOGICAL\n"
 "@SYNTAX=ISLOGICAL(value)\n"
@@ -6100,7 +6071,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1582
+#: plugins/fn-info/functions.c:1587
 msgid ""
 "@FUNCTION=ISNONTEXT\n"
 "@SYNTAX=ISNONTEXT(value)\n"
@@ -6124,7 +6095,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISTTEXT"
 
-#: plugins/fn-info/functions.c:1604
+#: plugins/fn-info/functions.c:1609
 msgid ""
 "@FUNCTION=ISNUMBER\n"
 "@SYNTAX=ISNUMBER(value)\n"
@@ -6148,7 +6119,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1627
+#: plugins/fn-info/functions.c:1632
 msgid ""
 "@FUNCTION=ISODD\n"
 "@SYNTAX=ISODD(value)\n"
@@ -6171,7 +6142,7 @@ msgstr ""
 "ISTUNGERADE(3) liefert WAHR.\n"
 "@SEEALSO=ISTGERADE"
 
-#: plugins/fn-info/functions.c:1649
+#: plugins/fn-info/functions.c:1654
 msgid ""
 "@FUNCTION=ISREF\n"
 "@SYNTAX=ISREF(value)\n"
@@ -6195,7 +6166,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1681
+#: plugins/fn-info/functions.c:1686
 msgid ""
 "@FUNCTION=ISTEXT\n"
 "@SYNTAX=ISTEXT(value)\n"
@@ -6219,7 +6190,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1703
+#: plugins/fn-info/functions.c:1708
 msgid ""
 "@FUNCTION=N\n"
 "@SYNTAX=N(value)\n"
@@ -6236,7 +6207,7 @@ msgstr ""
 "@FUNCTION=N\n"
 "@SYNTAX=N(Wert)\n"
 "@DESCRIPTION=N wandelt @Wert in eine Zahl um. Zeichenketten, die Text "
-"enthalten, werden in den Wert NULL umgewandelt.\n"
+"enthalten, werden in den Wert Null umgewandelt.\n"
 "\n"
 "* Diese Funktion ist Excel-kompatibel.\n"
 "\n"
@@ -6245,7 +6216,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1742
+#: plugins/fn-info/functions.c:1747
 msgid ""
 "@FUNCTION=TYPE\n"
 "@SYNTAX=TYPE(value)\n"
@@ -6281,7 +6252,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1791
+#: plugins/fn-info/functions.c:1796
 msgid ""
 "@FUNCTION=GETENV\n"
 "@SYNTAX=GETENV(string)\n"
@@ -6307,15 +6278,15 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1819
+#: plugins/fn-info/functions.c:1824
 msgid "info_type, cell"
 msgstr "Info_typ, Zelle"
 
-#: plugins/fn-info/functions.c:1821
+#: plugins/fn-info/functions.c:1826
 msgid "range"
 msgstr "Bereich"
 
-#: plugins/fn-info/functions.c:1823 plugins/fn-string/functions.c:1241
+#: plugins/fn-info/functions.c:1828 plugins/fn-string/functions.c:1241
 #: plugins/fn-string/functions.c:1243 plugins/fn-string/functions.c:1257
 #: plugins/fn-string/functions.c:1259 plugins/fn-string/functions.c:1261
 #: plugins/fn-string/functions.c:1279 plugins/fn-string/functions.c:1281
@@ -6323,26 +6294,26 @@ msgstr "Bereich"
 msgid "text"
 msgstr "Text"
 
-#: plugins/fn-info/functions.c:1825 plugins/fn-info/functions.c:1831
-#: plugins/fn-info/functions.c:1833 plugins/fn-info/functions.c:1835
-#: plugins/fn-info/functions.c:1837 plugins/fn-info/functions.c:1839
-#: plugins/fn-info/functions.c:1841 plugins/fn-info/functions.c:1843
-#: plugins/fn-info/functions.c:1845 plugins/fn-info/functions.c:1847
-#: plugins/fn-info/functions.c:1849 plugins/fn-info/functions.c:1851
-#: plugins/fn-info/functions.c:1853 plugins/fn-info/functions.c:1857
+#: plugins/fn-info/functions.c:1830 plugins/fn-info/functions.c:1836
+#: plugins/fn-info/functions.c:1838 plugins/fn-info/functions.c:1840
+#: plugins/fn-info/functions.c:1842 plugins/fn-info/functions.c:1844
+#: plugins/fn-info/functions.c:1846 plugins/fn-info/functions.c:1848
+#: plugins/fn-info/functions.c:1850 plugins/fn-info/functions.c:1852
+#: plugins/fn-info/functions.c:1854 plugins/fn-info/functions.c:1856
+#: plugins/fn-info/functions.c:1858 plugins/fn-info/functions.c:1862
 #: plugins/fn-string/functions.c:1275
 msgid "value"
 msgstr "Wert"
 
-#: plugins/fn-info/functions.c:1827
+#: plugins/fn-info/functions.c:1832
 msgid "cell"
 msgstr "Zelle"
 
-#: plugins/fn-info/functions.c:1829
+#: plugins/fn-info/functions.c:1834
 msgid "info_type"
 msgstr "Info_typ"
 
-#: plugins/fn-info/functions.c:1859
+#: plugins/fn-info/functions.c:1864
 msgid "string"
 msgstr "Zeichenkette"
 
@@ -6385,24 +6356,26 @@ msgstr ""
 "@FUNCTION=UND\n"
 "@SYNTAX=UND(b1,b2[,...])\n"
 "@DESCRIPTION=UND stellt die logische UND-Verknüpfung bereit: Das Ergebnis "
-"ist wahr, wenn alle Ausdrücke WAHR sind; andernfalls liefert UND FALSCH.\n"
+"ist WAHR, falls alle Ausdrücke WAHR sind, andernfalls FALSCH.\n"
 "\n"
-"@b1, trough @bN are expressions that should evaluate to TRUE or FALSE.  If "
-"an integer or floating point value is provided zero is considered FALSE and "
-"anything else is TRUE.\n"
+"@b1 bis @bN sind die auszuwertenden Ausdrücke. Falls ein ganzzahliger oder "
+"Fließpunkt-Wert übergeben wird, wird für den Wert Null FALSCH, für alle "
+"anderen WAHR angenommen.\n"
 "\n"
-"* If the values contain strings or empty cells those values are ignored.\n"
-"* If no logical values are provided, then the error #VALUE! is returned.\n"
-"* This function is Excel compatible.\n"
+"* Falls die Werte Zeichenketten oder leere Zellen enthalten, werden diese "
+"Werte ignoriert.\n"
+"* Falls keine logischen Werte übergeben werden, liefert ODER einen #WERT!-"
+"Fehler.\n"
+"* Diese Funktion ist Excel-kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
 "AND(TRUE,TRUE) equals TRUE.\n"
 "AND(TRUE,FALSE) equals FALSE.\n"
 "\n"
-"Let us assume that A1 holds number five and A2 number one.  Then\n"
-"AND(A1>3,A2<2) equals TRUE.\n"
+"Angenommen, die Zelle A1 enthält 5 und A2 1. Dann liefert\n"
+"UND(A1>3,A2<2) WAHR.\n"
 "\n"
-"@SEEALSO=OR, NOT"
+"@SEEALSO=ODER, NICHT"
 
 #: plugins/fn-logical/functions.c:107
 msgid ""
@@ -6418,11 +6391,23 @@ msgid ""
 "NOT(TRUE) equals FALSE.\n"
 "\n"
 "@SEEALSO=AND, OR"
-msgstr "LATER"
+msgstr ""
+"@FUNCTION=NICHT\n"
+"@SYNTAX=NICHT(Zahl)\n"
+"@DESCRIPTION=NICHT stellt die logische NICHT-Verknüpfung bereit: Das "
+"Ergebnis ist WAHR, falls der Wert von @Zahl Null ist, andernfalls FALSCH.\n"
+"\n"
+"* Diese Funktion ist Excel-kompatibel.\n"
+"\n"
+"@EXAMPLES=\n"
+"NICHT(0) liefert WAHR.\n"
+"NICHT(WAHR) liefert FALSCH.\n"
+"\n"
+"@SEEALSO=UND, ODER"
 
 #: plugins/fn-logical/functions.c:128
 msgid "Type Mismatch"
-msgstr "Unpassende Typen"
+msgstr "Unterschiedliche Typen"
 
 #: plugins/fn-logical/functions.c:135
 msgid ""
@@ -6444,7 +6429,27 @@ msgid ""
 "OR(3>4,4<3) equals FALSE.\n"
 "\n"
 "@SEEALSO=AND, NOT"
-msgstr "LATER"
+msgstr ""
+"@FUNCTION=ODER\n"
+"@SYNTAX=ODER(b1,b2,...)\n"
+"@DESCRIPTION=ODER stellt die logische ODER-Verknüpfung bereit: Das Ergebnis "
+"ist WAHR, falls einer der übergebenen Werte WAHR ist.\n"
+"\n"
+"@b1 bis @bN sind die auszuwertenden Ausdrücke. Falls ein ganzzahliger oder "
+"Fließpunkt-Wert übergeben wird, wird für den Wert Null FALSCH, für alle "
+"anderen WAHR angenommen.\n"
+"\n"
+"* Falls die Werte Zeichenketten oder leere Zellen enthalten, werden diese "
+"Werte ignoriert.\n"
+"* Falls keine logischen Werte übergeben werden, liefert ODER einen #WERT!-"
+"Fehler.\n"
+"* Diese Funktion ist Excel-kompatibel.\n"
+"\n"
+"@EXAMPLES=\n"
+"ODER(WAHR,FALSCH) liefert WAHR.\n"
+"ODER(3>4,4<3) liefert FALSCH.\n"
+"\n"
+"@SEEALSO=UND, NICHT"
 
 #: plugins/fn-logical/functions.c:194
 msgid ""
@@ -6464,7 +6469,25 @@ msgid ""
 "XOR(3>4,4<3) equals FALSE.\n"
 "\n"
 "@SEEALSO=OR, AND, NOT"
-msgstr "LATER"
+msgstr ""
+"@FUNCTION=XODER\n"
+"@SYNTAX=XODER(b1, b2, ...)\n"
+"@DESCRIPTION=XODER stellt die exklusive ODER-Verknüpfung bereit: Das "
+"Ergebnis ist WAHR, falls eine ungerade Anzahl der Werte WAHR ist.\n"
+"\n"
+"@b1 bis @bN sind die auszuwertenden Ausdrücke. Falls ein ganzzahliger oder "
+"Fließpunkt-Wert übergeben wird, wird für den Wert Null FALSCH, für alle "
+"anderen WAHR angenommen.\n"
+"\n"
+"* Falls die Werte Zeichenketten oder leere Zellen enthalten, werden diese "
+"Werte ignoriert.\n"
+"* Falls keine logischen Werte übergeben werden, liefert XODER einen #WERT!-"
+"Fehler.\n"
+"\n"
+"XODER(WAHR,FALSCH) liefert WAHR.\n"
+"XOR(3>4,4<3) liefert FALSCH.\n"
+"\n"
+"@SEEALSO=ODER, UND, NICHT"
 
 #: plugins/fn-logical/functions.c:251
 msgid ""
@@ -6482,7 +6505,22 @@ msgid ""
 "IF(FALSE,TRUE,FALSE) equals FALSE.\n"
 "\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
+"@FUNCTION=WENN\n"
+"@SYNTAX=WENN(Bedingung[,wenn-wahr,wenn-falsch])\n"
+"@DESCRIPTION=WENN kann zur fallweisen Auswertung anderer Ausdrücke verwendet "
+"werden und wertet @Bedingung aus. Falls @Bedingung einen Wert != Null "
+"liefert, ist das Ergebnis des WENN-Ausdrucks @wenn-wahr, andernfalls wird "
+"der Wert von @wenn-falsch ermittelt.\n"
+"\n"
+"* Falls @wenn-wahr und @wenn-falsch nicht übergeben werden, wird WAHR für "
+"@wenn-wahr bzw. FALSCH für @wenn-falsch angenommen.\n"
+"* Diese Funktion ist Excel-kompatibel.\n"
+"\n"
+"@EXAMPLES=\n"
+"WENN(FALSCH,WAHR,FALSCH) liefert FALSCH.\n"
+"\n"
+"@SEEALSO="
 
 #: plugins/fn-logical/functions.c:315
 msgid ""
@@ -6531,7 +6569,7 @@ msgstr ""
 "@SEEALSO=WAHR"
 
 #: plugins/fn-logical/functions.c:359 plugins/fn-logical/functions.c:361
-#: plugins/fn-logical/functions.c:363 plugins/fn-math/functions.c:3182
+#: plugins/fn-logical/functions.c:363 plugins/fn-math/functions.c:3184
 #: plugins/fn-stat/functions.c:5155 plugins/fn-stat/functions.c:5157
 #: plugins/fn-stat/functions.c:5159 plugins/fn-stat/functions.c:5179
 #: plugins/fn-stat/functions.c:5181 plugins/fn-stat/functions.c:5191
@@ -6549,23 +6587,23 @@ msgstr ""
 msgid "number,number,"
 msgstr "Zahl,Zahl,"
 
-#: plugins/fn-logical/functions.c:365 plugins/fn-math/functions.c:3090
-#: plugins/fn-math/functions.c:3092 plugins/fn-math/functions.c:3094
-#: plugins/fn-math/functions.c:3096 plugins/fn-math/functions.c:3098
-#: plugins/fn-math/functions.c:3100 plugins/fn-math/functions.c:3102
-#: plugins/fn-math/functions.c:3106 plugins/fn-math/functions.c:3108
-#: plugins/fn-math/functions.c:3112 plugins/fn-math/functions.c:3116
-#: plugins/fn-math/functions.c:3118 plugins/fn-math/functions.c:3120
-#: plugins/fn-math/functions.c:3122 plugins/fn-math/functions.c:3124
-#: plugins/fn-math/functions.c:3126 plugins/fn-math/functions.c:3130
-#: plugins/fn-math/functions.c:3134 plugins/fn-math/functions.c:3138
-#: plugins/fn-math/functions.c:3142 plugins/fn-math/functions.c:3144
-#: plugins/fn-math/functions.c:3152 plugins/fn-math/functions.c:3156
-#: plugins/fn-math/functions.c:3160 plugins/fn-math/functions.c:3172
-#: plugins/fn-math/functions.c:3174 plugins/fn-math/functions.c:3176
-#: plugins/fn-math/functions.c:3178 plugins/fn-math/functions.c:3180
-#: plugins/fn-math/functions.c:3188 plugins/fn-math/functions.c:3196
-#: plugins/fn-math/functions.c:3198 plugins/fn-stat/functions.c:5205
+#: plugins/fn-logical/functions.c:365 plugins/fn-math/functions.c:3092
+#: plugins/fn-math/functions.c:3094 plugins/fn-math/functions.c:3096
+#: plugins/fn-math/functions.c:3098 plugins/fn-math/functions.c:3100
+#: plugins/fn-math/functions.c:3102 plugins/fn-math/functions.c:3104
+#: plugins/fn-math/functions.c:3108 plugins/fn-math/functions.c:3110
+#: plugins/fn-math/functions.c:3114 plugins/fn-math/functions.c:3118
+#: plugins/fn-math/functions.c:3120 plugins/fn-math/functions.c:3122
+#: plugins/fn-math/functions.c:3124 plugins/fn-math/functions.c:3126
+#: plugins/fn-math/functions.c:3128 plugins/fn-math/functions.c:3132
+#: plugins/fn-math/functions.c:3136 plugins/fn-math/functions.c:3140
+#: plugins/fn-math/functions.c:3144 plugins/fn-math/functions.c:3146
+#: plugins/fn-math/functions.c:3154 plugins/fn-math/functions.c:3158
+#: plugins/fn-math/functions.c:3162 plugins/fn-math/functions.c:3174
+#: plugins/fn-math/functions.c:3176 plugins/fn-math/functions.c:3178
+#: plugins/fn-math/functions.c:3180 plugins/fn-math/functions.c:3182
+#: plugins/fn-math/functions.c:3190 plugins/fn-math/functions.c:3198
+#: plugins/fn-math/functions.c:3200 plugins/fn-stat/functions.c:5205
 #: plugins/fn-stat/functions.c:5207 plugins/fn-stat/functions.c:5215
 #: plugins/fn-stat/functions.c:5271 plugins/fn-string/functions.c:1239
 msgid "number"
@@ -6573,7 +6611,7 @@ msgstr "Zahl"
 
 #: plugins/fn-logical/functions.c:366
 msgid "condition,if true,if false"
-msgstr "Zustand, falls WAHR, falls FALSCH"
+msgstr "Bedingung, falls-wahr, falls-falsch"
 
 #: plugins/fn-logical/plugin.xml.in.h:1
 msgid "Functions for manipulating truth values"
@@ -6587,7 +6625,7 @@ msgstr "Logisch"
 msgid "Logical Functions"
 msgstr "Logische Funktionen"
 
-#: plugins/fn-lookup/functions.c:342
+#: plugins/fn-lookup/functions.c:327
 msgid ""
 "@FUNCTION=ADDRESS\n"
 "@SYNTAX=ADDRESS(row_num,col_num[,abs_num,a1,text])\n"
@@ -6616,7 +6654,27 @@ msgid ""
 "@SEEALSO="
 msgstr "LATER"
 
-#: plugins/fn-lookup/functions.c:446
+#: plugins/fn-lookup/functions.c:431
+msgid ""
+"@FUNCTION=AREAS\n"
+"@SYNTAX=AREAS(references)\n"
+"@DESCRIPTION=AREAS returns the number of areas in @reference. \n"
+"\n"
+"@EXAMPLES=\n"
+"AREAS((A1,B2,C3)) equals .\n"
+"\n"
+"@SEEALSO=ADDRESS,INDEX,INDIRECT,OFFSET"
+msgstr ""
+"@FUNCTION=BEREICHE\n"
+"@SYNTAX=BEREICHE(@Bezüge)\n"
+"@DESCRIPTION=BEREICHE liefert die Anzahl der Bereiche in @Bezüge.\n"
+"\n"
+"@EXAMPLES=\n"
+"BEREICHE((A1,B2,C3)) liefert 3.\n"
+"\n"
+"@SEEALSO=ADRESSE, INDEX, INDIREKT, BEREICH.VERSCHIEBEN"
+
+#: plugins/fn-lookup/functions.c:505
 msgid ""
 "@FUNCTION=CHOOSE\n"
 "@SYNTAX=CHOOSE(index[,value1][,value2]...)\n"
@@ -6631,7 +6689,7 @@ msgid ""
 "@SEEALSO=IF"
 msgstr "LATER"
 
-#: plugins/fn-lookup/functions.c:498
+#: plugins/fn-lookup/functions.c:557
 msgid ""
 "@FUNCTION=VLOOKUP\n"
 "@SYNTAX=VLOOKUP(value,range,column[,approximate,as_index])\n"
@@ -6651,7 +6709,7 @@ msgid ""
 "@SEEALSO=HLOOKUP"
 msgstr "LATER"
 
-#: plugins/fn-lookup/functions.c:556
+#: plugins/fn-lookup/functions.c:615
 msgid ""
 "@FUNCTION=HLOOKUP\n"
 "@SYNTAX=HLOOKUP(value,range,row[,approximate,as_index])\n"
@@ -6671,7 +6729,7 @@ msgid ""
 "@SEEALSO=VLOOKUP"
 msgstr "LATER"
 
-#: plugins/fn-lookup/functions.c:614
+#: plugins/fn-lookup/functions.c:673
 msgid ""
 "@FUNCTION=LOOKUP\n"
 "@SYNTAX=LOOKUP(value,vector1,vector2)\n"
@@ -6690,7 +6748,7 @@ msgid ""
 "@SEEALSO=VLOOKUP,HLOOKUP"
 msgstr "LATER"
 
-#: plugins/fn-lookup/functions.c:680
+#: plugins/fn-lookup/functions.c:735
 msgid ""
 "@FUNCTION=MATCH\n"
 "@SYNTAX=MATCH(seek,vector[,type])\n"
@@ -6714,7 +6772,7 @@ msgid ""
 "@SEEALSO=LOOKUP"
 msgstr "LATER"
 
-#: plugins/fn-lookup/functions.c:739
+#: plugins/fn-lookup/functions.c:794
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text,[format])\n"
@@ -6728,10 +6786,24 @@ msgid ""
 "If A1 contains 3.14 and A2 contains A1, then\n"
 "INDIRECT(A2) equals 3.14.\n"
 "\n"
-"@SEEALSO="
-msgstr "LATER"
+"@SEEALSO=AREAS,INDEX,"
+msgstr ""
+"@FUNCTION=INDIREKT\n"
+"@SYNTAX=INDIREKT(Bez_Text[,Format])\n"
+"@DESCRIPTION=INDIREKT liefert den Inhalt der in @Bez_Text angegebenen Zelle. "
+"Die Zeichenkette @Bez_Text ist ein einzelliger Bezug, der entweder A1- oder "
+"R1C1-formatiert ist. Das vorliegende Format wird durch den boolschen "
+"Parameter @Format bestimmt, dessen Vorgabe ersteres ist.\n"
+"\n"
+"* Falls @Bez_Text kein gültiger Bezug ist, liefert INDIREKT einen #BEZUG!-"
+"Fehler \n"
+"@EXAMPLES=\n"
+"Angenommen, A1 enthält 3.14 und A2 A1, dann liefert\n"
+"INDIREKT(A2) 3.14.\n"
+"\n"
+"@SEEALSO=BEREICHE, INDEX"
 
-#: plugins/fn-lookup/functions.c:798
+#: plugins/fn-lookup/functions.c:836
 msgid ""
 "@FUNCTION=INDEX\n"
 "@SYNTAX=INDEX(array,[row, col, area])\n"
@@ -6764,7 +6836,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-lookup/functions.c:865
+#: plugins/fn-lookup/functions.c:903
 msgid ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([reference])\n"
@@ -6778,9 +6850,22 @@ msgid ""
 "COLUMN() in E1 equals 5.\n"
 "\n"
 "@SEEALSO=COLUMNS,ROW,ROWS"
-msgstr "LATER"
+msgstr ""
+"@FUNCTION=SPALTE\n"
+"@SYNTAX=SPALTE([Bezug])\n"
+"@DESCRIPTION=SPALTE liefert ein Feld der fortlaufenden "
+"Spaltennummerierungen, wobei das Vorgabe-Argument die Zelle ist, in der die "
+"Funktion aufgerufen wurde.\n"
+"\n"
+"* Falls @Bezug weder ein Feld, noch ein Bezug oder Bereich ist, liefert "
+"SPALTE einen #WERT!-Fehler.\n"
+"\n"
+"@EXAMPLES=\n"
+"SPALTE() in E1 liefert 5.\n"
+"\n"
+"@SEEALSO=SPALTEN, ZEILE, ZEILEN"
 
-#: plugins/fn-lookup/functions.c:917
+#: plugins/fn-lookup/functions.c:955
 msgid ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(reference)\n"
@@ -6794,9 +6879,21 @@ msgid ""
 "COLUMNS(H2:J3) equals 3.\n"
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
-msgstr "LATER"
+msgstr ""
+"@FUNCTION=SPALTEN\n"
+"@SYNTAX=SPALTEN(Bezug)\n"
+"@DESCRIPTION=SPALTEN liefert die Anzahl der Spalten im Bereich oder dem "
+"Feldbezug.\n"
+"\n"
+"* Falls @Bezug weder ein Feld, noch ein Bezug oder Bereich ist, liefert "
+"SPALTEN einen #WERT!-Fehler.\n"
+"\n"
+"@EXAMPLES=\n"
+"SPALTEN(H2:J3) liefert 3.\n"
+"\n"
+"@SEEALSO=SPALTE, ZEILE, ZEILEN"
 
-#: plugins/fn-lookup/functions.c:943
+#: plugins/fn-lookup/functions.c:980
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col,height,width)\n"
@@ -6809,7 +6906,7 @@ msgid ""
 "\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=COLUMN,COLUMNS,ROWS"
+"@SEEALSO=COLUMN,COLUMNS,ROWS,INDEX,INDIRECT,ADDRESS"
 msgstr ""
 "@FUNCTION=BEREICH.VERSCHIEBEN\n"
 "@SYNTAX=BEREICH.VERSCHIEBEN(Bereich,Zeilen,Spalten,Höhe,Breite)\n"
@@ -6824,9 +6921,9 @@ msgstr ""
 "\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=SPALTE,SPALTEN,ZEILE,ZEILEN"
+"@SEEALSO=SPALTE, SPALTEN, ZEILE, ZEILEN, INDEX, INDIREKT, ADRESSE"
 
-#: plugins/fn-lookup/functions.c:1000
+#: plugins/fn-lookup/functions.c:1037
 msgid ""
 "@FUNCTION=ROW\n"
 "@SYNTAX=ROW([reference])\n"
@@ -6851,7 +6948,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SPALTE,SPALTEN,ZEILEN"
 
-#: plugins/fn-lookup/functions.c:1052
+#: plugins/fn-lookup/functions.c:1089
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -6876,7 +6973,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SPALTE,SPALTEN,ZEILE"
 
-#: plugins/fn-lookup/functions.c:1078
+#: plugins/fn-lookup/functions.c:1114
 msgid ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(link_location, optional_label)\n"
@@ -6888,14 +6985,17 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=ITHPRIME\n"
-"@SYNTAX=ITHPRIME(i)\n"
-"@DESCRIPTION=Die ITHPRIME Funktion liefert den @i-ten Primteiler.\n"
-"Diese Funktion hat nur ein Argument.\n"
+"@FUNCTION=VERKNÜPFUNG\n"
+"@SYNTAX=VERKNÜPFUNG(Ort[,Beschriftung])\n"
+"@DESCRIPTION=VERKNÜPFUNG liefert im Augenblick das zweite, oder, falls "
+"dieses nicht übergeben wird, das erste Argument.\n"
+"\n"
 "@EXAMPLES=\n"
-"@SEEALSO=NT_D, NT_SIGMA"
+"VERWEIS(\"www.gnome.de\",\"GNOME Deutschland\").\n"
+"\n"
+"@SEEALSO="
 
-#: plugins/fn-lookup/functions.c:1103
+#: plugins/fn-lookup/functions.c:1139
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
@@ -6913,48 +7013,52 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT"
 
-#: plugins/fn-lookup/functions.c:1148
+#: plugins/fn-lookup/functions.c:1183
 msgid "row_num,col_num,abs_num,a1,text"
 msgstr "Anzahl_Zeilen,Anzahl_Spalten,Anzahl_Absolut,a1,Text"
 
-#: plugins/fn-lookup/functions.c:1150
+#: plugins/fn-lookup/functions.c:1185
+msgid "reference"
+msgstr "Bezug"
+
+#: plugins/fn-lookup/functions.c:1187
 msgid "index,value,"
 msgstr "Index,Wert,"
 
-#: plugins/fn-lookup/functions.c:1152 plugins/fn-lookup/functions.c:1154
-#: plugins/fn-lookup/functions.c:1170 plugins/fn-lookup/functions.c:1172
+#: plugins/fn-lookup/functions.c:1189 plugins/fn-lookup/functions.c:1191
+#: plugins/fn-lookup/functions.c:1207 plugins/fn-lookup/functions.c:1209
 msgid "ref"
 msgstr "Bez"
 
-#: plugins/fn-lookup/functions.c:1156 plugins/fn-lookup/functions.c:1176
+#: plugins/fn-lookup/functions.c:1193 plugins/fn-lookup/functions.c:1213
 msgid "val,range,col_idx,approx,as_index"
 msgstr "Wert,Bereich,Spalten_IDx,Approx,wie_Index"
 
-#: plugins/fn-lookup/functions.c:1158
+#: plugins/fn-lookup/functions.c:1195
 msgid "link_location, label"
 msgstr "Verknüpfung_Ziel,Beschriftung"
 
-#: plugins/fn-lookup/functions.c:1160
+#: plugins/fn-lookup/functions.c:1197
 msgid "ref_string,format"
 msgstr "Bez_Zkette,Format"
 
-#: plugins/fn-lookup/functions.c:1162
+#: plugins/fn-lookup/functions.c:1199
 msgid "reference,row,col,area"
 msgstr "Referenz,Zeile,Spalte,Bereich"
 
-#: plugins/fn-lookup/functions.c:1164
+#: plugins/fn-lookup/functions.c:1201
 msgid "val,range,range"
 msgstr "Wert,Bereich,Bereich"
 
-#: plugins/fn-lookup/functions.c:1166
+#: plugins/fn-lookup/functions.c:1203
 msgid "val,range,approx"
 msgstr "Wert,Bereich,Approx"
 
-#: plugins/fn-lookup/functions.c:1168
+#: plugins/fn-lookup/functions.c:1205
 msgid "ref,row,col,height,width"
 msgstr "Bez,Zeile,Spalte,Höhe,Breite"
 
-#: plugins/fn-lookup/functions.c:1174 plugins/fn-math/functions.c:3206
+#: plugins/fn-lookup/functions.c:1211 plugins/fn-math/functions.c:3208
 msgid "array"
 msgstr "Feld"
 
@@ -6985,7 +7089,22 @@ msgid ""
 "GCD(470,770,1495) equals to 5.\n"
 "\n"
 "@SEEALSO=LCM"
-msgstr "LATER"
+msgstr ""
+"@FUNCTION=GGT\n"
+"@SYNTAX=GGT(Zahl1,Zahl2,...)\n"
+"@DESCRIPTION=GGT liefert den größten gemeinsamen Teiler der übergebenen "
+"Zahlen.\n"
+"\n"
+"* Falls eines der Argumente negativ ist, liefert GGT einen #ZAHL!-Fehler.\n"
+"* Falls eines der Argumente nicht ganzzahlig ist, werden die "
+"Nachkommastellen abgeschnitten.\n"
+"* Diese Funktion ist Excel-kompatibel.\n"
+"\n"
+"@EXAMPLES=\n"
+"GGT(470,770) liefert 10.\n"
+"GGT(470,770,1495) liefert 5.\n"
+"\n"
+"@SEEALSO=KGV"
 
 #: plugins/fn-math/functions.c:192
 msgid ""
@@ -7003,7 +7122,21 @@ msgid ""
 "LCM(4,7,5) equals to 140.\n"
 "\n"
 "@SEEALSO=GCD"
-msgstr "LATER"
+msgstr ""
+"@FUNCTION=KGV\n"
+"@SYNTAX=KGV(Zahl1,Zahl2,...)\n"
+"@DESCRIPTION=KGV liefert die kleinste gemeinsame Vielfache von Ganzzahlen. "
+"Die kleinste gemeinsame Vielfache ist die kleinste positive Zahl, die die "
+"Vielfache aller übergebenen ganzzahligen Argumente ist.\n"
+"\n"
+"* Falls eines der Argumente negativ ist, liefert KGV einen #ZAHL!-Fehler.\n"
+"* Diese Funktion ist Excel-kompatibel.\n"
+"\n"
+"@EXAMPLES=\n"
+"KGV(2,13) liefert 26.\n"
+"KGV(4,7,5) liefert 140.\n"
+"\n"
+"@SEEALSO=GGT"
 
 #: plugins/fn-math/functions.c:249
 msgid ""
@@ -7264,7 +7397,19 @@ msgid ""
 "CEIL(-2.9) equals -2.\n"
 "\n"
 "@SEEALSO=ABS, FLOOR, INT"
-msgstr "LATER"
+msgstr ""
+"@FUNCTION=AUFRUNDEN\n"
+"@SYNTAX=AUFRUNDEN(x)\n"
+"@DESCRIPTION=AUFRUNDEN rundet @x auf die nächste Ganzzahl auf.\n"
+"\n"
+"* Diese Funktion ist Excel-kompatibel.\n"
+"\n"
+"@EXAMPLES=\n"
+"AUFRUNDEN(0.4) liefert 1.\n"
+"AUFRUNDEN(-1.1) liefert -1.\n"
+"AUFRUNDEN(-2.9) liefert -2.\n"
+"\n"
+"@SEEALSO=ABS, ABRUNDEN, GANZZAHL"
 
 #: plugins/fn-math/functions.c:509
 msgid ""
@@ -7284,7 +7429,23 @@ msgid ""
 "COUNTIF(A1:A5,\">28\") equals 2.\n"
 "\n"
 "@SEEALSO=COUNT,SUMIF"
-msgstr "LATER"
+msgstr ""
+"@FUNCTION=ZÄHLENWENN\n"
+"@SYNTAX=ZÄHLENWENN(Bereich,Kriterium)\n"
+"@DESCRIPTION=ZÄHLENWENN zählt die Anzahl der Zellen im angegebenen Bereich "
+"@Bereich, die dem angegebenen Kriterium @Kriterium entsprechen.\n"
+"\n"
+"* Diese Funktion ist Excel-kompatibel.\n"
+"\n"
+"@EXAMPLES=\n"
+"Angenommen, die Zellen A1, A2, ..., A5 enthalten die Zahlen 23, 27, 28, 33 "
+"und 39.  Dann liefert\n"
+"ZÄHLENWENN(A1:A5,\"<=28\") 3,\n"
+"ZÄHLENWENN(A1:A5,\"<28\") 2,\n"
+"ZÄHLENWENN(A1:A5,\"28\") 1 und\n"
+"ZÄHLENWENN(A1:A5,\">28\") 2.\n"
+"\n"
+"@SEEALSO=ZÄHLEN, SUMMEWENN"
 
 #: plugins/fn-math/functions.c:587
 msgid ""
@@ -7307,7 +7468,27 @@ msgid ""
 "SUMIF(A1:A5,\"<=27\",B1:B5) equals 8.\n"
 "\n"
 "@SEEALSO=COUNTIF, SUM"
-msgstr "LATER"
+msgstr ""
+"@FUNCTION=SUMMEWENN\n"
+"@SYNTAX=SUMMEWENN(Bereich,Kriterium[,Tatsächlicher_Bereich)\n"
+"@DESCRIPTION=SUMMEWENN liefert die Summe der Werte im angegebenen Bereich "
+"@Bereich, die dem angegebenen Kriterium @Kriterium entsprechen. Falls "
+"@Tatsächlicher_Bereich übergeben ist, addiert SUMMEWENN die Werte in "
+"@Tatsächlicher_Bereich, deren entsprechende Komponenten in @Bereich dem "
+"angegebenen @Kriterium entsprechen.\n"
+"\n"
+"* Diese Funktion ist Excel-kompatibel.\n"
+"\n"
+"@EXAMPLES=\n"
+"Angenommen, die Zellen A1, A2, ..., A5 enthalten die Zahlen 23, 27, 28, 33 "
+"und 39.  Dann liefert\n"
+"SUMMEWENN(A1:A5,\"<=28\") 78 und\n"
+"SUMMEWENN(A1:A5,\"<28\") 50.\n"
+"Falls zusätzlich die Zellen B1, B2, ..., B5 die Zahlen 5, 3, 2, 6 und 7 "
+"enthalen, liefert:\n"
+"SUMMEWENN(A1:A5,\"<=27\",B1:B5) 8.\n"
+"\n"
+"@SEEALSO=ZÄHLENWENN, SUMME"
 
 #: plugins/fn-math/functions.c:741
 msgid ""
@@ -7325,7 +7506,23 @@ msgid ""
 "CEILING(123.123,3) equals 126.\n"
 "\n"
 "@SEEALSO=CEIL"
-msgstr "LATER"
+msgstr ""
+"@FUNCTION=OBERGRENZE\n"
+"@SYNTAX=OBERGRENZE(x,Signifikanz)\n"
+"@DESCRIPTION=OBERGRENZE rundet @x auf die nächste Vielfache von @Signifikanz "
+"auf.\n"
+"\n"
+"* Falls @x oder @Signifikanz nicht numerisch ist, liefert OBERGRENZE einen "
+"#WERT!-Fehler.\n"
+"* Falls @x und @Signifikanz unterschiedliche Vorzeichen haben, liefert "
+"OBERGRENZE einen #ZAHL!-Fehler.\n"
+"* Diese Funktion ist Excel-kompatibel.\n"
+"\n"
+"@EXAMPLES=\n"
+"OBERGRENZE(2.43,1) liefert 3.\n"
+"OBERGRENZE(123.123,3) liefert 126\n"
+"\n"
+"@SEEALSO=AUFRUNDEN"
 
 #: plugins/fn-math/functions.c:782
 msgid ""
@@ -7518,7 +7715,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=UNTERGRENZE\n"
 "@SYNTAX=UNTERGRENZE\n"
-"@DESCRIPTION=UNTERGRENZE rundet @x auf die nächste Vielfache der "
+"@DESCRIPTION=UNTERGRENZE rundet @x auf die nächste Vielfache von "
 "@Signifikanz ab.\n"
 "\n"
 "* Die Vorgabe für @Signifikanz ist 1.\n"
@@ -7719,7 +7916,7 @@ msgstr ""
 "\n"
 "@SEEALSO=GANZZAHL, UNTERGRENZE, OBERGRENZE"
 
-#: plugins/fn-math/functions.c:1227
+#: plugins/fn-math/functions.c:1230
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -7744,7 +7941,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PI, GRAD"
 
-#: plugins/fn-math/functions.c:1251
+#: plugins/fn-math/functions.c:1254
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -7770,7 +7967,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COS, COSHYP, SINHYP, TAN, TANHYP, BOGENMASS, GRAD"
 
-#: plugins/fn-math/functions.c:1274
+#: plugins/fn-math/functions.c:1277
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -7800,7 +7997,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SIN, COS, COSHYP, TAN, TANHYP, BOGENMASS, GRAD, EXP"
 
-#: plugins/fn-math/functions.c:1298
+#: plugins/fn-math/functions.c:1301
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -7826,7 +8023,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POTENZ"
 
-#: plugins/fn-math/functions.c:1326
+#: plugins/fn-math/functions.c:1329
 msgid ""
 "@FUNCTION=SUMA\n"
 "@SYNTAX=SUMA(value1, value2, ...)\n"
@@ -7842,9 +8039,23 @@ msgid ""
 "SUMA(A1:A5) equals 107.\n"
 "\n"
 "@SEEALSO=AVERAGE, SUM, COUNT"
-msgstr "LATER"
+msgstr ""
+"@FUNCTION=SUMMEA\n"
+"@SYNTAX=SUMMEA(Wert1,Wert2,...)\n"
+"@DESCRIPTION=SUMMEA berechnet die Summe aller übergebenen Werte und Zellen. "
+"Auch Zahlen, Text und Logische Werte werden in die Berechnung einbezogen. "
+"Falls die Zelle Text enthält oder das Argument FALSCH ist, wird es als der "
+"Wert Null (0) gewertet. Falls das Argument WAHR ist, wird es als Eins (1) "
+"gewertet.\n"
+"\n"
+"@EXAMPLES=\n"
+"Angenommen, die Zellen A1, A2, ..., A5 enthalten die Zahlen 11, 15, 17, 21 "
+"und 43. Dann liefert\n"
+"SUMMEA(A1:A5) 107.\n"
+"\n"
+"@SEEALSO=MITTELWERT, SUMME, ZÄHLEN"
 
-#: plugins/fn-math/functions.c:1358
+#: plugins/fn-math/functions.c:1361
 msgid ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(value1, value2, ...)\n"
@@ -7874,7 +8085,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMME, ANZAHL"
 
-#: plugins/fn-math/functions.c:1389
+#: plugins/fn-math/functions.c:1392
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
@@ -7900,7 +8111,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMME"
 
-#: plugins/fn-math/functions.c:1418
+#: plugins/fn-math/functions.c:1421
 msgid ""
 "@FUNCTION=G_PRODUCT\n"
 "@SYNTAX=G_PRODUCT(value1, value2, ...)\n"
@@ -7926,7 +8137,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMME, ANZAHL"
 
-#: plugins/fn-math/functions.c:1446
+#: plugins/fn-math/functions.c:1449
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -7952,7 +8163,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TANHYP, COS, COSHYP, SIN, SINHYP, GRAD, BOGENMASS"
 
-#: plugins/fn-math/functions.c:1469
+#: plugins/fn-math/functions.c:1472
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -7982,7 +8193,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TAN, SIN, SINHYP, COS, COSHYP, GRAD, BOGENMASS"
 
-#: plugins/fn-math/functions.c:1492
+#: plugins/fn-math/functions.c:1495
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -8010,7 +8221,7 @@ msgstr ""
 "\n"
 "@SEEALSO=WURZELPI"
 
-#: plugins/fn-math/functions.c:1517
+#: plugins/fn-math/functions.c:1520
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -8040,7 +8251,7 @@ msgstr ""
 "\n"
 "@SEEALSO=GANZZAHL"
 
-#: plugins/fn-math/functions.c:1552
+#: plugins/fn-math/functions.c:1555
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
@@ -8065,7 +8276,7 @@ msgstr ""
 "\n"
 "@SEEALSO=UNGERADE"
 
-#: plugins/fn-math/functions.c:1590
+#: plugins/fn-math/functions.c:1593
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
@@ -8091,7 +8302,7 @@ msgstr ""
 "\n"
 "@SEEALSO=GERADE"
 
-#: plugins/fn-math/functions.c:1628
+#: plugins/fn-math/functions.c:1631
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -8123,7 +8334,7 @@ msgstr ""
 "@SEEALSO=FAKULTÄT"
 
 # FIXME: check for mathematical correctness
-#: plugins/fn-math/functions.c:1666
+#: plugins/fn-math/functions.c:1669
 msgid ""
 "@FUNCTION=FIB\n"
 "@SYNTAX=FIB(number)\n"
@@ -8150,7 +8361,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-math/functions.c:1714
+#: plugins/fn-math/functions.c:1717
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(numerator,denumerator)\n"
@@ -8176,7 +8387,7 @@ msgstr ""
 "\n"
 "@SEEALSO=REST"
 
-#: plugins/fn-math/functions.c:1746
+#: plugins/fn-math/functions.c:1749
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(number)\n"
@@ -8194,7 +8405,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=VORZEICHEN\n"
 "@SYNTAX=VORZEICHEN(Zahl)\n"
-"@DESCRIPTION=VORZEICHEN liefert 1, falls @Zahl positiv ist, NULL, falls "
+"@DESCRIPTION=VORZEICHEN liefert 1, falls @Zahl positiv ist, Null, falls "
 "@Zahl 0 ist und -1, falls @Zahl negativ ist.\n"
 "\n"
 "* Diese Funktion ist Excel-kompatibel.\n"
@@ -8206,7 +8417,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-math/functions.c:1780
+#: plugins/fn-math/functions.c:1783
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
@@ -8232,7 +8443,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PI"
 
-#: plugins/fn-math/functions.c:1809
+#: plugins/fn-math/functions.c:1812
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -8255,9 +8466,30 @@ msgid ""
 "ROUNDDOWN(1501.15,-2) equals 1500.0.\n"
 "\n"
 "@SEEALSO=ROUND,ROUNDUP"
-msgstr "LATER"
+msgstr ""
+"@FUNCTION=ABRUNDEN\n"
+"@SYNTAX=ABRUNDEN(Zahl[,Stellen])\n"
+"@DESCRIPTION=ABRUNDEN rundet die angegebene Zahl ab.\n"
+"\n"
+"@Zahl ist die abzurundende Zahl und @Stellen die Anzahl der Stellen, auf die "
+"diese Zahl gerundet werden soll.\n"
+"\n"
+"* Falls @Stellen positiv ist, wird @Zahl auf die angegebene Anzahl der "
+"Stellen abgerundet.\n"
+"* Falls @Stellen Null ist, wird @Zahl auf die nächste Ganzzahl abgerundet.\n"
+"* Falls @Stellen negativ ist, wird @Zahl auf die Zahl links der "
+"Dezimalstelle abgerundet.\n"
+"* Diese Funktion ist Excel-kompatibel.\n"
+"\n"
+"@EXAMPLES=\n"
+"ABRUNDEN(5.5) liefert 5.\n"
+"ABRUNDEN(-3.3) liefert -4.\n"
+"ABRUNDEN(1501.15,1) liefert 1501.1.\n"
+"ABRUNDEN(1501.15,-2) liefert 1500.0.\n"
+"\n"
+"@SEEALSO=RUNDEN, AUFRUNDEN"
 
-#: plugins/fn-math/functions.c:1853
+#: plugins/fn-math/functions.c:1856
 msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
@@ -8280,9 +8512,30 @@ msgid ""
 "ROUND(1501.15,-2) equals 1500.0.\n"
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
-msgstr "LATER"
+msgstr ""
+"@FUNCTION=RUNDEN\n"
+"@SYNTAX=RUNDEN(Zahl[,Stellen])\n"
+"@DESCRIPTION=RUNDEN rundet die angegebene Zahl.\n"
+"\n"
+"@Zahl ist die zu rundende Zahl und @Stellen die Anzahl der Stellen, auf die "
+"diese Zahl gerundet werden soll.\n"
+"\n"
+"* Falls @Stellen positiv ist, wird @Zahl auf die angegebene Anzahl der "
+"Stellen gerundet.\n"
+"* Falls @Stellen Null ist, wird @Zahl auf die nächste Ganzzahl gerundet.\n"
+"* Falls @Stellen negativ ist, wird @Zahl auf die Zahl links der "
+"Dezimalstelle gerundet.\n"
+"* Diese Funktion ist Excel-kompatibel.\n"
+"\n"
+"@EXAMPLES=\n"
+"RUNDEN(5.5) liefert 6.\n"
+"RUNDEN(-3.3) liefert -3.\n"
+"RUNDEN(1501.15,1) liefert 1501.2.\n"
+"RUNDEN(1501.15,-2) liefert 1500.0.\n"
+"\n"
+"@SEEALSO=ABRUNDEN, AUFRUNDEN"
 
-#: plugins/fn-math/functions.c:1894
+#: plugins/fn-math/functions.c:1897
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -8306,9 +8559,30 @@ msgid ""
 "ROUNDUP(1501.15,-2) equals 1600.0.\n"
 "\n"
 "@SEEALSO=ROUND,ROUNDDOWN"
-msgstr "LATER"
+msgstr ""
+"@FUNCTION=AUFRUNDEN\n"
+"@SYNTAX=AUFRUNDEN(Zahl[,Stellen])\n"
+"@DESCRIPTION=AUFRUNDEN rundet die angegebene Zahl auf.\n"
+"\n"
+"@Zahl ist die aufzurundende Zahl und @Stellen die Anzahl der Stellen, auf "
+"die diese Zahl gerundet werden soll.\n"
+"\n"
+"* Falls @Stellen positiv ist, wird @Zahl auf die angegebene Anzahl der "
+"Stellen aufgerundet.\n"
+"* Falls @Stellen Null ist, wird @Zahl auf die nächste Ganzzahl aufgerundet.\n"
+"* Falls @Stellen negativ ist, wird @Zahl auf die Zahl links der "
+"Dezimalstelle aufgerundet.\n"
+"* Diese Funktion ist Excel-kompatibel.\n"
+"\n"
+"@EXAMPLES=\n"
+"AUFRUNDEN(5.5) liefert 6.\n"
+"AUFRUNDEN(-3.3) liefert -3.\n"
+"AUFRUNDEN(1501.15,1) liefert 1501.2.\n"
+"AUFRUNDEN(1501.15,-2) liefert 1600.0.\n"
+"\n"
+"@SEEALSO=RUNDEN, ABRUNDEN"
 
-#: plugins/fn-math/functions.c:1938
+#: plugins/fn-math/functions.c:1941
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -8325,9 +8599,26 @@ msgid ""
 "MROUND(321.123,0.12) equals 321.12.\n"
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
-msgstr "LATER"
+msgstr ""
+"@FUNCTION=VRUNDEN\n"
+"@SYNTAX=VRUNDEN(Zahl,Vielfache)\n"
+"@DESCRIPTION=VRUNDEN rundet die angegebene Zahl auf die gewünschte "
+"Vielfache.\n"
+"\n"
+"@Zahl ist zu rundende Zahl und @Vielfache die Vielfache, auf die die Zahl "
+"gerundet werden soll.\n"
+"\n"
+"* Falls @Zahl und @Vielfache ein anderes Vorzeichen haben, liefert VRUNDEN "
+"einen #ZAHL!-Fehler.\n"
+"* Diese Funktion ist Excel-kompatibel.\n"
+"\n"
+"@EXAMPLES=\n"
+"MROUND(1.7,0.2) liefert 1.8.\n"
+"MROUND(321.123,0.12) liefert 321.12.\n"
+"\n"
+"@SEEALSO=RUNDEN, ABRUNDEN, AUFRUNDEN"
 
-#: plugins/fn-math/functions.c:1988
+#: plugins/fn-math/functions.c:1991
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -8349,9 +8640,32 @@ msgid ""
 "ROMAN(999,4) equals IM.\n"
 "\n"
 "@SEEALSO="
-msgstr "LATER"
+msgstr ""
+"@FUNCTION=RÖMISCH\n"
+"@SYNTAX=RÖMISCH(Zahl[,Typ])\n"
+"@DESCRIPTION=RÖMISCH wandelt eine arabische Zahl in die römische "
+"Schreibweise um. @Zahl ist die zu konvertierende Zahl und @Typ der Typ der "
+"gewünschte römischen Darstellung.\n"
+"\n"
+"* Falls @Typ Null ist oder nicht übergeben wird, liefert RÖMISCH klassiche "
+"römische Zahlen.\n"
+"* Typ 1 is übersichtlicher als der klassische Typ, Typ 2 übersichtlicher als "
+"Typ 1 und Typ 3 ist übersichtlicher als Typ 2. Typ 4 ist der vereinfachte "
+"Typ.\n"
+"* Falls @Zahl negativ oder größer als 3999 ist, liefert RÖMISCH einen #WERT!-"
+"Fehler.\n"
+"* Diese Funktion ist Excel-kompatibel.\n"
+"\n"
+"@EXAMPLES=\n"
+"RÖMISCH(999) liefert CMXCIX.\n"
+"RÖMISCH(999,1) liefert LMVLIV.\n"
+"RÖMISCH(999,2) liefert XMIX.\n"
+"RÖMISCH(999,3) liefert VMIV.\n"
+"RÖMISCH(999,4) liefert IM.\n"
+"\n"
+"@SEEALSO="
 
-#: plugins/fn-math/functions.c:2254
+#: plugins/fn-math/functions.c:2257
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -8374,14 +8688,14 @@ msgid ""
 "@SEEALSO=SUMSQ,SUMX2PY2"
 msgstr "LATER"
 
-#: plugins/fn-math/functions.c:2310 plugins/fn-math/functions.c:2330
-#: plugins/fn-math/functions.c:2423 plugins/fn-math/functions.c:2443
-#: plugins/fn-math/functions.c:2534 plugins/fn-math/functions.c:2554
+#: plugins/fn-math/functions.c:2313 plugins/fn-math/functions.c:2333
+#: plugins/fn-math/functions.c:2426 plugins/fn-math/functions.c:2446
+#: plugins/fn-math/functions.c:2537 plugins/fn-math/functions.c:2557
 #: plugins/fn-stat/functions.c:2868 plugins/fn-stat/functions.c:2898
 msgid "Array version not implemented!"
 msgstr "Feldversion nicht implementiert!"
 
-#: plugins/fn-math/functions.c:2368
+#: plugins/fn-math/functions.c:2371
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -8404,7 +8718,7 @@ msgid ""
 "@SEEALSO=SUMSQ,SUMX2MY2"
 msgstr "LATER"
 
-#: plugins/fn-math/functions.c:2479
+#: plugins/fn-math/functions.c:2482
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -8427,7 +8741,7 @@ msgid ""
 "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
 msgstr "LATER"
 
-#: plugins/fn-math/functions.c:2592
+#: plugins/fn-math/functions.c:2595
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -8446,7 +8760,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr "LATER"
 
-#: plugins/fn-math/functions.c:2714
+#: plugins/fn-math/functions.c:2717
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -8477,11 +8791,11 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MDETERM"
 
-#: plugins/fn-math/functions.c:2763
+#: plugins/fn-math/functions.c:2766
 msgid "#3D MULT?"
 msgstr "#3D-MULT?"
 
-#: plugins/fn-math/functions.c:2843
+#: plugins/fn-math/functions.c:2846
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -8507,7 +8821,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TRANSPOSE,MTRANS"
 
-#: plugins/fn-math/functions.c:2919
+#: plugins/fn-math/functions.c:2922
 msgid ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(matrix)\n"
@@ -8542,7 +8856,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MINVERSE"
 
-#: plugins/fn-math/functions.c:2977
+#: plugins/fn-math/functions.c:2980
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -8580,71 +8894,71 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMME, PRODUKT"
 
-#: plugins/fn-math/functions.c:3104
+#: plugins/fn-math/functions.c:3106
 msgid "xnum,ynum"
 msgstr "XZahl,YZahl"
 
-#: plugins/fn-math/functions.c:3110
+#: plugins/fn-math/functions.c:3112
 msgid "range,criteria"
 msgstr "Bereich,Kriterien"
 
-#: plugins/fn-math/functions.c:3114
+#: plugins/fn-math/functions.c:3116
 msgid "number,significance"
 msgstr "Zahl,Signifikanz"
 
-#: plugins/fn-math/functions.c:3128 plugins/fn-stat/functions.c:5195
+#: plugins/fn-math/functions.c:3130 plugins/fn-stat/functions.c:5195
 msgid "n,k"
 msgstr "n,k"
 
-#: plugins/fn-math/functions.c:3132
+#: plugins/fn-math/functions.c:3134
 msgid "number,number"
 msgstr "Zahl,Zahl"
 
-#: plugins/fn-math/functions.c:3140
+#: plugins/fn-math/functions.c:3142
 msgid "number,base"
 msgstr "Zahl,Basis"
 
-#: plugins/fn-math/functions.c:3146 plugins/fn-math/functions.c:3158
+#: plugins/fn-math/functions.c:3148 plugins/fn-math/functions.c:3160
 msgid "numerator,denominator"
 msgstr "Zähler,Nenner"
 
-#: plugins/fn-math/functions.c:3148
+#: plugins/fn-math/functions.c:3150
 msgid "number,multiple"
 msgstr "Zahl,Vielfaches"
 
-#: plugins/fn-math/functions.c:3154
+#: plugins/fn-math/functions.c:3156
 msgid "base,exponent"
 msgstr "Basis,Exponent"
 
-#: plugins/fn-math/functions.c:3162
+#: plugins/fn-math/functions.c:3164
 msgid "number,type"
 msgstr "Zahl,Typ"
 
-#: plugins/fn-math/functions.c:3164 plugins/fn-math/functions.c:3166
-#: plugins/fn-math/functions.c:3168 plugins/fn-math/functions.c:3200
+#: plugins/fn-math/functions.c:3166 plugins/fn-math/functions.c:3168
+#: plugins/fn-math/functions.c:3170 plugins/fn-math/functions.c:3202
 msgid "number,digits"
 msgstr "Zahl,Stellen"
 
-#: plugins/fn-math/functions.c:3170
+#: plugins/fn-math/functions.c:3172
 msgid "x,n,m,coefficients"
 msgstr "x,n,m,Koeffizienten"
 
-#: plugins/fn-math/functions.c:3184
+#: plugins/fn-math/functions.c:3186
 msgid "range,criteria,actual_range"
 msgstr "Reichweite,Kriterien,tatsächliche_Reichweite"
 
-#: plugins/fn-math/functions.c:3186
+#: plugins/fn-math/functions.c:3188
 msgid "range,range,"
 msgstr "Bereich,Bereich,"
 
-#: plugins/fn-math/functions.c:3190 plugins/fn-math/functions.c:3192
-#: plugins/fn-math/functions.c:3194 plugins/fn-math/functions.c:3204
+#: plugins/fn-math/functions.c:3192 plugins/fn-math/functions.c:3194
+#: plugins/fn-math/functions.c:3196 plugins/fn-math/functions.c:3206
 #: plugins/fn-stat/functions.c:5187 plugins/fn-stat/functions.c:5189
 #: plugins/fn-stat/functions.c:5281 plugins/fn-stat/functions.c:5293
 msgid "array1,array2"
 msgstr "Feld1,Feld2"
 
-#: plugins/fn-math/functions.c:3208 plugins/fn-math/functions.c:3211
+#: plugins/fn-math/functions.c:3210 plugins/fn-math/functions.c:3213
 msgid "array,matrix_type,bandsize"
 msgstr "Feld,Matrix_Typ,Streifenbreite"
 
@@ -10217,7 +10531,7 @@ msgstr ""
 "@FUNCTION=CHIVERT\n"
 "@SYNTAX=CHIVERT(x,Freiheitsgrad)\n"
 "@DESCRIPTION=CHIVERT liefet die einseitige Wahrscheinlichkeit Chi²-"
-"Verteilung. @Freiheitsgrad ist die Anzahl der Freiheitsgrade.\n"
+"Verteilung. @Freiheitsgrad ist die Zahl der Freiheitsgrade.\n"
 "\n"
 "* Falls @Freiheitsgrad keine Ganzzahl ist, werden die Nachkommastellen "
 "abgeschnitten.\n"
@@ -10294,7 +10608,23 @@ msgid ""
 "BETADIST(0.12,2,3) equals 0.07319808.\n"
 "\n"
 "@SEEALSO=BETAINV"
-msgstr "LATER"
+msgstr ""
+"@FUNCTION=BETAVERT\n"
+"@SYNTAX=BETAVERT(x,Alpha,Beta[,a,b])\n"
+"@DESCRIPTION=BETAVERT liefert die kumulative Beta-Verteilung. @a ist die "
+"optionale untere Schranke von @x und @b die optionale obere Schranke von "
+"@x.  Falls @a nicht übergeben wird, wird 0 verwendet.\n"
+"\n"
+"* Falls @b nicht übergeben wird, wird 1 verwendet.\n"
+"* Falls @x < @a oder @x > @b, liefert BETAVERT einen #ZAHL!-Fehler.\n"
+"* Falls @Alpha <= 0 oder @Beta <= 0, liefert BETAVERT einen #ZAHL!-Fehler.\n"
+"* Falls @a >= @b, liefert BETAVERT einen #ZAHL!-Fehler.\n"
+"* Diese Funktion ist Excel-kompatibel.\n"
+"\n"
+"@EXAMPLES=\n"
+"BETAVERT(0.12,2,3) liefert 0.07319808.\n"
+"\n"
+"@SEEALSO=BETAINV"
 
 #: plugins/fn-stat/functions.c:1556
 msgid ""
@@ -10314,7 +10644,23 @@ msgid ""
 "BETAINV(0.45,1.6,1) equals 0.607096629.\n"
 "\n"
 "@SEEALSO=BETADIST"
-msgstr "LATER"
+msgstr ""
+"@FUNCTION=BETAINV\n"
+"@SYNTAX=BETAINV(p,Alpha,Beta[,a,b])\n"
+"@DESCRIPTION=BETAINV liefert die inverse kumulative Beta-Verteilung. @a ist "
+"die optionale untere Schranke von @x und @b die optionale obere Schranke von "
+"@x.  Falls @a nicht übergeben wird, wird 0 verwendet.\n"
+"\n"
+"* Falls @b nicht übergeben wird, wird 1 verwendet.\n"
+"* Falls @p < 0 oder @p > @b, liefert BETAINV einen #ZAHL!-Fehler.\n"
+"* Falls @Alpha <= 0 oder @Beta <= 0, liefert BETAINV einen #ZAHL!-Fehler.\n"
+"* Falls @a >= @b, liefert BETAINV einen #ZAHL!-Fehler.\n"
+"* Diese Funktion ist Excel-kompatibel.\n"
+"\n"
+"@EXAMPLES=\n"
+"BETAINV(0.45,1.6,1) liefert 0.607096629.\n"
+"\n"
+"@SEEALSO=BETAVERT"
 
 #: plugins/fn-stat/functions.c:1597
 msgid ""
@@ -10350,10 +10696,11 @@ msgid ""
 "@SEEALSO=TDIST,TTEST"
 msgstr ""
 "@FUNCTION=TINV\n"
-"@SYNTAX=TINV(p,dof)\n"
+"@SYNTAX=TINV(p,Freiheitsgrad)\n"
 "@DESCRIPTION=TINV liefert die inverse zweiseitige Student-t-Verteilung.\n"
 "\n"
-"* Falls @p < 0, @p > 1 oder @dof < 1, liefert TINV einen #ZAHL!-Fehler.\n"
+"* Falls @p < 0, @p > 1 oder @Freiheitsgrad < 1, liefert TINV einen #ZAHL!-"
+"Fehler.\n"
 "* Diese Funktion ist Excel-kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -10377,7 +10724,22 @@ msgid ""
 "FDIST(2,5,5) equals 0.232511319.\n"
 "\n"
 "@SEEALSO=FINV"
-msgstr "LATER"
+msgstr ""
+"@FUNCTION=FVERT\n"
+"@SYNTAX=FVERT(x,Freiheitsgrad1,Freiheitsgrad2)\n"
+"@DESCRIPTION=FVERT liefert die F-Wahrscheinlichkeitsverteilung. "
+"@Freiheitsgrad1 ist der Freiheitsgrad des Zählers und @Freiheitsgrad2 der "
+"des Nenners.\n"
+"\n"
+"* Falls @x < 0, liefert FVERT einen #ZAHL!-Fehler.\n"
+"* Falls @Freiheitsgrad1 < 1 oder @Freiheitsgrad2 < 1, liefert FVERT einen "
+"#ZAHL!-Fehler.\n"
+"* Diese Funktion ist Excel-kompatibel.\n"
+"\n"
+"@EXAMPLES=\n"
+"FVERT(2,5,5) liefert 0.232511319.\n"
+"\n"
+"@SEEALSO=FINV"
 
 #: plugins/fn-stat/functions.c:1705
 msgid ""
@@ -10416,11 +10778,12 @@ msgid ""
 "@SEEALSO=FDIST"
 msgstr ""
 "@FUNCTION=FINV\n"
-"@SYNTAX=FINV(p,dof1,dof2)\n"
-"@DESCRIPTION=FINV liefert die inverse Wahrscheinlichkeitsverteilung F.\n"
+"@SYNTAX=FINV(p,Freiheitsgrad1,Freiheitsgrad2)\n"
+"@DESCRIPTION=FINV liefert die inverse F-Wahrscheinlichkeitsverteilung.\n"
 "\n"
 "* Falls @p < 0 oder @p > 1, liefert FINV einen #ZAHL!-Fehler.\n"
-"* Falls @dof1 < 1 oder @dof2 < 1 FINV, liefert FINV einen #ZAHL!-Fehler.\n"
+"* Falls @Freiheitsgrad1 < 1 oder @Freiheitsgrad2 < 1, liefert FINV einen "
+"#ZAHL!-Fehler.\n"
 "* Diese Funktion ist Excel-kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -10504,7 +10867,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=VARIATIONEN\n"
 "@SYNTAX=VARIATIONEN(n,k)\n"
-"@DESCRIPTION=VARIATIONEN liefert die Zahl der Permutationen. @n ist die "
+"@DESCRIPTION=VARIATIONEN liefert die Anzahl der Permutationen. @n ist die "
 "Objektanzahl, @k die Objektanzahl in jeder Permutation.\n"
 "\n"
 "* Falls @n = 0, liefert VARIATIONEN einen #ZAHL!-Fehler.\n"
@@ -10533,7 +10896,23 @@ msgid ""
 "HYPGEOMDIST(1,2,3,10) equals 0.4666667.\n"
 "\n"
 "@SEEALSO=BINOMDIST,POISSON"
-msgstr "LATER"
+msgstr ""
+"@FUNCTION=HYPGEOMVERT\n"
+"@SYNTAX=HYPGEOMVERT(x,n,M,N)\n"
+"@DESCRIPTION=HYPGEOMVERT liefert die hypergeometrische Verteilung. @x ist "
+"die Anzahl der Treffer in der Stichprobe, @n die Anzahl der Versuche, @M die "
+"Anzahl der Gesamttreffer und @N die Populationsgröße.\n"
+"\n"
+"* Falls @x, @n, @M oder @N keine Ganzzahl ist, werden die Nachkommastellen "
+"abgeschnitten.\n"
+"* Falls @x, @n, @M oder @N < 0, liefert HYPERGEOMVERT einen #ZAHL!-Fehler.\n"
+"* Falls @x > @M oder @n > @N, liefert HYPERGEOMVERT einen #ZAHL!-Fehler.\n"
+"* Diese Funktion ist Excel-kompatibel.\n"
+"\n"
+"@EXAMPLES=\n"
+"HYPERGEOMVERT(1,2,3,10) liefert 0.4666667.\n"
+"\n"
+"@SEEALSO=BINOMVERT,POISSON"
 
 #: plugins/fn-stat/functions.c:2083
 msgid ""
@@ -11155,7 +11534,30 @@ msgid ""
 "QUARTILE(A1:A5,1) equals 17.3.\n"
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"
-msgstr "LATER"
+msgstr ""
+"@FUNCTION=QUARTILE\n"
+"@SYNTAX=QUARTILE(Feld,Quart)\n"
+"@DESCRIPTION=QUARTILE liefert die Quartile der angegebenen Datenpunkte.\n"
+"\n"
+"Falls @Quart gleich: liefert QUARTILE:\n"
+"0                      den kleinsten Wert von @Feld.\n"
+"1                      die erste Quartile\n"
+"2                      die zweite Quartile\n"
+"3                      die dritte Quartile\n"
+"4                      den größten Wert von @Feld.\n"
+"\n"
+"* Falls @Feld leer ist, liefert QUARTILE einen #ZAHL!-Fehler.\n"
+"* Falls @Quart < 1 oder @Quart > 4, liefert QUARTILE einen #ZAHL!-Fehler.\n"
+"* Falls @Quart keine Ganzzahl ist, werden die Nachkommastellen "
+"abgeschnitten.\n"
+"* Diese Funktion ist Excel-kompatibel.\n"
+"\n"
+"@EXAMPLES=\n"
+"Angenommen, die Zellen A1, A2, ..., A5 enthalten die Zahlen 11.4, 17.3, "
+"21.3, 25.9 und 40.1. Dann liefert\n"
+"QUARTILE(A1:A5,1) 17.3.\n"
+"\n"
+"@SEEALSO= :: LATER"
 
 #: plugins/fn-stat/functions.c:3507
 msgid ""
@@ -11568,7 +11970,16 @@ msgid ""
 "EXPPOWDIST(0.4,1,2).\n"
 "\n"
 "@SEEALSO=RANDEXPPOW"
-msgstr "LATER"
+msgstr ""
+"@FUNCTION=EXPVERT\n"
+"@SYNTAX=EXPVERT(x,a,b)\n"
+"@DESCRIPTION=EXPVERT liefert die Wahrscheinlichkeitsdichte p(x) bei @x für "
+"die exponentielle Verteilung mit Skalierungsparameter @a und Exponent @b.\n"
+"\n"
+"@EXAMPLES=\n"
+"EXPVERT(0.4,1,2).\n"
+"\n"
+"@SEEALSO=ZUFALLSZAHL.EXP"
 
 #: plugins/fn-stat/functions.c:5130
 msgid ""
@@ -11588,7 +11999,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "LAPLACE(0.4,1).\n"
 "\n"
-"@SEEALSO=ZUFALLSZAHLLAPLACE"
+"@SEEALSO=ZUFALLSZAHL.LAPLACE"
 
 #: plugins/fn-stat/functions.c:5161 plugins/fn-stat/functions.c:5221
 msgid "k,p"
@@ -12664,7 +13075,7 @@ msgstr "Einschränkungen:"
 
 #: plugins/mps/mps.c:252 src/commands.c:5297
 #: src/cut-n-paste-code/egg/menu/egg-action.c:120
-#: src/dialogs/dialog-define-names.c:499 src/dialogs/dialog-formula-guru.c:809
+#: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:809
 #: src/dialogs/dialog-function-select.c:419
 #: src/dialogs/dialog-function-select.c:441 src/format-template.c:404
 #: src/tools/solver/reports-write.c:124 src/tools/solver/reports-write.c:146
@@ -12772,7 +13183,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=NT_MU Funktion (Möbius Mu Funktion) liefert \n"
+"@DESCRIPTION=NT_MU (Möbius Mu) liefert \n"
 "0, falls @n durch das Quadrat einer Primzahl teilbar ist.\n"
 "Andernfalls liefert es: \n"
 "-1, falls @n eine ungerade Anzahl verschiedener Primfaktoren besitzt.\n"
@@ -12780,7 +13191,7 @@ msgstr ""
 "\n"
 "* Falls @n = 1, liefert NT_MU 1\n"
 "@EXAMPLES=\n"
-"@SEEALSO=NT_D, ITHPRIME, NT_PHI"
+"@SEEALSO=NT_D, ITERPRIM, NT_PHI"
 
 #: plugins/numtheory/numtheory.c:285
 msgid ""
@@ -12796,7 +13207,7 @@ msgstr ""
 "@DESCRIPTION=NT_D liefert die Anzahl der Teiler von @n.\n"
 "\n"
 "@EXAMPLES=\n"
-"@SEEALSO=ITHPRIME, NT_PHI, NT_SIGMA"
+"@SEEALSO=ITERPRIM, NT_PHI, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:318
 msgid ""
@@ -12812,7 +13223,7 @@ msgstr ""
 "@DESCRIPTION=NT_SIGMA liefert die Summe der Teiler von @n.\n"
 "\n"
 "@EXAMPLES=\n"
-"@SEEALSO=NT_D, ITHPRIME, NT_PHI"
+"@SEEALSO=ITERPRIM, NT_D, NT_PHI"
 
 #: plugins/numtheory/numtheory.c:352
 msgid ""
@@ -12843,7 +13254,7 @@ msgstr ""
 "@SYNTAX=ISTPRIM(i)\n"
 "@DESCRIPTION=ISTPRIM liefert WAHR, falls @i prim ist, sonst FALSCH.\n"
 "\n"
-"@SEEALSO=ITHPRIME, NT_D, NT_SIGMA"
+"@SEEALSO=ITERPRIM, NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:403
 msgid ""
@@ -12859,7 +13270,7 @@ msgstr ""
 "@DESCRIPTION=NT_PI Funktion liefert die Anzahl der Primzahlen, die kleiner "
 "als @n sind.\n"
 "\n"
-"@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA"
+"@SEEALSO=ITERPRIM, NT_PHI, NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:429
 msgid ""
@@ -12872,8 +13283,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=BITODER\n"
 "@SYNTAX=BITODER(a,b)\n"
-"@DESCRIPTION=BITODER liefert das Ergebnis der bitweisen ODER-Verknüpfung "
-"ihrer Argumente.\n"
+"@DESCRIPTION=BITODER liefert das Ergebnis der bitweisen ODER-Verknüpfung der "
+"übergebenen Argumente.\n"
 "\n"
 "@EXAMPLES=\n"
 "@SEEALSO=BITXODER,BITUND"
@@ -12891,7 +13302,7 @@ msgstr ""
 "@FUNCTION=BITXODER\n"
 "@SYNTAX=BITXODER(a,b)\n"
 "@DESCRIPTION=BITXODER liefert das Ergebnis der bitweisen exklusiven ODER-"
-"Verknüpfung ihrer Argumente.\n"
+"Verknüpfung der übergebenen Argumente.\n"
 "\n"
 "@EXAMPLES=\n"
 "@SEEALSO=BITODER,BITUND"
@@ -12907,8 +13318,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=BITUND\n"
 "@SYNTAX=BITUND(a,b)\n"
-"@DESCRIPTION=BITUND liefert das Ergebnis der bitweisen UND-Verknüpfung ihrer "
-"Argumente.\n"
+"@DESCRIPTION=BITUND liefert das Ergebnis der bitweisen UND-Verknüpfung der "
+"übergebenen Argumente.\n"
 "\n"
 "@EXAMPLES=\n"
 "@SEEALSO=BITODER,BITXODER"
@@ -13221,35 +13632,6 @@ msgstr "Die Python-Konsole öffnen"
 #: plugins/python-loader/ui-console-menu.xml.h:2
 msgid "Python console"
 msgstr "Python-Konsole"
-
-#: plugins/python/plugin.xml.in.h:1
-msgid "Python Plugin"
-msgstr "Python-Plugins"
-
-#: plugins/python/plugin.xml.in.h:2
-msgid "This plugin provides Python language support in Gnumeric"
-msgstr "Dieses Plugin bietet Python-Sprach-Unterstützung in Gnumeric"
-
-#: plugins/python/python.c:53
-msgid "Python exception"
-msgstr "Python-Ausnahme"
-
-#: plugins/python/python.c:586
-msgid "Unknown Python type"
-msgstr "Unbekannter Python-Typ"
-
-#: plugins/python/python.c:627
-msgid "Unable to lookup Python code object."
-msgstr "Python-Codeobjekt kann nicht gefunden werden."
-
-#: plugins/python/python.c:846
-msgid "object must be callable"
-msgstr "Objekt muss aufrufbar sein."
-
-#: plugins/python/python.c:961
-#, c-format
-msgid "Unhandled Python exception: %s"
-msgstr "Nicht-abgefangene Python-Ausnahme: %s"
 
 #: plugins/qpro/qpro-read.c:136
 #, c-format
@@ -14967,16 +15349,16 @@ msgstr "Beinhaltet keine Arbeitsbuch-Datei"
 msgid "EXPERIMENTAL Bonobo EFS format"
 msgstr "EXPERIMENTELLES Bonobo-EFS-Format"
 
-#: src/clipboard.c:303 src/clipboard.c:316 src/clipboard.c:328
-#: src/clipboard.c:336
+#: src/clipboard.c:305 src/clipboard.c:318 src/clipboard.c:330
+#: src/clipboard.c:338
 msgid "Unable to paste"
 msgstr "Einfügen nicht möglich."
 
-#: src/clipboard.c:304
+#: src/clipboard.c:306
 msgid "Content can only be pasted by value or by link."
 msgstr "Inhalt kann nur als Wert oder Link eingefügt werden"
 
-#: src/clipboard.c:312
+#: src/clipboard.c:314
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -14989,7 +15371,7 @@ msgstr ""
 "Wählen Sie eine einzelne Zelle oder einen Bereich mit gleichem\n"
 "Umriss und gleicher Größe aus."
 
-#: src/clipboard.c:324
+#: src/clipboard.c:326
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -15002,7 +15384,7 @@ msgstr ""
 "Wählen Sie eine einzelne Zelle oder einen Bereich mit gleichem\n"
 "Umriss und gleicher Größe aus."
 
-#: src/clipboard.c:337
+#: src/clipboard.c:339
 msgid "result passes the sheet boundary"
 msgstr "Das Ergebnis überschreitet die Blattgrenzen."
 
@@ -17551,7 +17933,7 @@ msgstr "Warum soll ein Name als #NAME definiert werden?"
 msgid "You cannot redefine a builtin name."
 msgstr "Einen Builtin-Namen können Sie nicht umdefinieren."
 
-#: src/dialogs/dialog-define-names.c:582
+#: src/dialogs/dialog-define-names.c:579
 msgid "Could not create the Name Guru."
 msgstr "Es war nicht möglich, den Namen-Druiden zu erzeugen."
 
@@ -17692,41 +18074,41 @@ msgstr "Plot-Name"
 msgid "Series name"
 msgstr "Reihenname"
 
-#: src/dialogs/dialog-hyperlink.c:87
+#: src/dialogs/dialog-hyperlink.c:85
 msgid "_Internal Link"
 msgstr "_Interne Verknüpfung"
 
-#: src/dialogs/dialog-hyperlink.c:89
+#: src/dialogs/dialog-hyperlink.c:87
 msgid "Jump to specific cells or named range in the current workbook"
 msgstr ""
 "Zu den spezifischen Zellen oder dem angegebenen Bereich im aktuellen "
 "Arbeitsbuch springen"
 
-#: src/dialogs/dialog-hyperlink.c:90
+#: src/dialogs/dialog-hyperlink.c:88
 msgid "_External Link"
 msgstr "_Externe Verknüpfung"
 
-#: src/dialogs/dialog-hyperlink.c:92
+#: src/dialogs/dialog-hyperlink.c:90
 msgid "Open an external file with the specified name"
 msgstr "Eine externen Datei mit dem angegebenen Namen öffnen"
 
-#: src/dialogs/dialog-hyperlink.c:93
+#: src/dialogs/dialog-hyperlink.c:91
 msgid "Send _Email"
 msgstr "_E-Mail abschicken"
 
-#: src/dialogs/dialog-hyperlink.c:95
+#: src/dialogs/dialog-hyperlink.c:93
 msgid "Prepare an email"
 msgstr "Eine E-Mail vorbereiten"
 
-#: src/dialogs/dialog-hyperlink.c:96
+#: src/dialogs/dialog-hyperlink.c:94
 msgid "_URL"
 msgstr "_Adresse"
 
-#: src/dialogs/dialog-hyperlink.c:98
+#: src/dialogs/dialog-hyperlink.c:96
 msgid "Browse to the specified URL"
 msgstr "Zur angegebenen Adresse gehen"
 
-#: src/dialogs/dialog-hyperlink.c:275
+#: src/dialogs/dialog-hyperlink.c:273
 msgid "Could not create the hyperlink dialog."
 msgstr "Der Verknüpfung-Dialog konnte nicht erzeugt werden."
 
@@ -17893,13 +18275,13 @@ msgstr "Verzeichnis"
 
 #. Is it a boolean?
 #: src/dialogs/dialog-preferences.c:374 src/format.c:1569
-#: src/number-match.c:1109 src/value-sheet.c:33 src/value.c:298
+#: src/number-match.c:1113 src/value-sheet.c:33 src/value.c:298
 #: src/value.c:607
 msgid "TRUE"
 msgstr "WAHR"
 
 #: src/dialogs/dialog-preferences.c:375 src/format.c:1569
-#: src/number-match.c:1111 src/value-sheet.c:33 src/value.c:300
+#: src/number-match.c:1115 src/value-sheet.c:33 src/value.c:300
 #: src/value.c:607
 msgid "FALSE"
 msgstr "FALSCH"
@@ -20273,15 +20655,15 @@ msgstr "Eingebaut"
 msgid "Error: no sheet"
 msgstr "Fehler: kein Blatt"
 
-#: src/expr.c:678
+#: src/expr.c:746
 msgid "Internal type error"
 msgstr "Interner Typenfehler"
 
-#: src/expr.c:843
+#: src/expr.c:894
 msgid "Unknown operator"
 msgstr "Unbekannter Operator"
 
-#: src/expr.c:1073
+#: src/expr.c:1101
 msgid "Unknown evaluation error"
 msgstr "Unbekannter Auswertungsfehler"
 
@@ -21205,7 +21587,7 @@ msgstr "Skalar"
 msgid "Any"
 msgstr "Beliebig"
 
-#: src/func.c:964
+#: src/func.c:961
 msgid "Function does not exist"
 msgstr "Funktion existiert nicht"
 
@@ -21237,7 +21619,7 @@ msgstr "Als Zeit formatieren"
 msgid "Format as alternative Number"
 msgstr "Als alternative Zahl formatieren"
 
-#: src/gnumeric-graph.c:926
+#: src/gnumeric-graph.c:928
 msgid "Data..."
 msgstr "Daten..."
 
@@ -21330,14 +21712,14 @@ msgstr "Mehrere Fehler\n"
 msgid "Unable to open file '%s'"
 msgstr "Datei »%s« kann nicht geöffnet werden."
 
-#: src/gutils.c:450
+#: src/gutils.c:421
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "modfgnum."
 msgstr ""
 "Diese Gnumeric Version wurde mit unzureichender modfgnum-Präzision kompiliert"
 
-#: src/gutils.c:544
+#: src/gutils.c:515
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "frexpgnum."
@@ -21345,7 +21727,7 @@ msgstr ""
 "Diese Gnumeric Version wurde mit unzureichender frexpgnum-Präzision "
 "kompiliert"
 
-#: src/gutils.c:597
+#: src/gutils.c:568
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "yngnum."
@@ -21566,76 +21948,76 @@ msgstr "Erstellte Bereiche verwenden einfache Bezüge"
 msgid "All entries in the set must be references"
 msgstr "Alle Einträge im Satz müssen Bezüge sein"
 
-#: src/parser.y:433
+#: src/parser.y:440
 #, c-format
 msgid "Unknown sheet '%s'"
 msgstr "Unbekanntes Blatt »%s«"
 
-#: src/parser.y:522
+#: src/parser.y:529
 msgid "() is an invalid expression"
 msgstr "() ist ein ungültiger Ausdruck"
 
-#: src/parser.y:554
+#: src/parser.y:561
 #, c-format
 msgid "What is a 3D name %s:%s!%s ?"
 msgstr "Was ist ein 3D-Name %s:%s!%s ?"
 
-#: src/parser.y:563
+#: src/parser.y:570
 #, c-format
 msgid "Name '%s' does not exist in sheet '%s'"
 msgstr "Name »%s« existiert im Blatt »%s« nicht"
 
-#: src/parser.y:585
+#: src/parser.y:592
 #, c-format
 msgid "Unknown workbook '%s'"
 msgstr "Unbekanntes Arbeitsbuch »%s«"
 
-#: src/parser.y:593
+#: src/parser.y:600
 #, c-format
 msgid "Name '%s' does not exist in workbook '%s'"
 msgstr "Name »%s« existiert im Arbeitsbuch »%s« nicht"
 
-#: src/parser.y:744
+#: src/parser.y:751
 msgid "This locale uses '\\' rather than ',' to separate array columns."
 msgstr ""
 "Diese Locale verwendet »\\« anstatt von »,«, um Feldspalten zu trennen."
 
-#: src/parser.y:757
+#: src/parser.y:764
 msgid "This locale uses ',' rather than '\\' to separate array columns."
 msgstr ""
 "Diese Locale verwendet »,« anstatt von »\\«, um Feldspalten zu trennen."
 
-#: src/parser.y:891 src/parser.y:1106
+#: src/parser.y:898 src/parser.y:1113
 msgid "Could not find matching closing quote"
 msgstr ""
 "Zugehöriges schliessendes Anführungszeichen konnte nicht gefunden werden"
 
-#: src/parser.y:995
+#: src/parser.y:1002
 msgid "Sheet name is required"
 msgstr "Blattname ist notwendig."
 
-#: src/parser.y:1044 src/parser.y:1053 src/parser.y:1079
+#: src/parser.y:1051 src/parser.y:1060 src/parser.y:1086
 msgid "The number is out of range"
 msgstr "Die Zahl liegt außerhalb des Gültigkeitbereichs"
 
-#: src/parser.y:1275
+#: src/parser.y:1282
 msgid "Multiple expressions are not supported in this context"
 msgstr "Mehrfache Ausdrücke werden in diesem Zusammenhang nicht unterstützt"
 
-#: src/parser.y:1297
+#: src/parser.y:1304
 msgid "Could not find matching opening parenthesis"
 msgstr "Zugehörige öffnende Klammer konnte nicht gefunden werden"
 
-#: src/parser.y:1301
+#: src/parser.y:1308
 msgid "Could not find matching closing parenthesis"
 msgstr "Zugehörige schließende Klammer konnte nicht gefunden werden"
 
-#: src/parser.y:1305
+#: src/parser.y:1312
 msgid "Invalid expression"
 msgstr "Ungültiger Ausdruck"
 
 # Token ~ Zeichen
-#: src/parser.y:1310
+#: src/parser.y:1317
 #, c-format
 msgid "Unexpected token %c"
 msgstr "Unerwartetes Zeichen %c"
@@ -22223,7 +22605,7 @@ msgstr "Datei kann nicht geladen werden: %s"
 msgid "Transparent"
 msgstr "Transparent"
 
-#: src/sheet-object-widget.c:978
+#: src/sheet-object-widget.c:980
 #, c-format
 msgid "CheckBox %d"
 msgstr "Kontrollkästchen %d"
