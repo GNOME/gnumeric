@@ -200,7 +200,7 @@
 2004-09-22  Morten Welinder  <terra@gnome.org>
 
 	* src/print-cell.c (print_merged_range, print_cell): Take extra
-	PangoContext argument.  All callers changed.
+	  PangoContext argument.  All callers changed.
 	(print_cell_range): Create a pango context.
 
 	(print_cell_OLD): Renamed from print_cell.
@@ -208,7 +208,7 @@
 	(print_cell): New macro to call _OLD or _NEW as appropriate.
 
 	* src/rendered-value.c (rendered_value_new): Get rid of quantify
-	artefacts.
+	  artifacts.
 
 2004-09-22  Morten Welinder  <terra@gnome.org>
 
