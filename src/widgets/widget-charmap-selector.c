@@ -35,7 +35,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <stdlib.h>
 
-#define CS(x) CHARMAP_SELECTOR(x)
+#define CS(x) CHARMAP_SELECTOR (x)
 
 #define CHARMAP_NAME_KEY "Name of Character Encoding"
 
@@ -294,7 +294,7 @@ get_locale_encoding_name (void)
 static void
 encodings_changed_cb (GnumericOptionMenu *optionmenu, CharmapSelector *cs)
 {
-	g_return_if_fail (IS_CHARMAP_SELECTOR(cs));
+	g_return_if_fail (IS_CHARMAP_SELECTOR (cs));
 	g_return_if_fail (optionmenu == cs->encodings);
 
 	gtk_signal_emit (GTK_OBJECT (cs),
@@ -307,7 +307,7 @@ set_menu_to_default (CharmapSelector *cs, gint item)
 {
 	GSList sel = { GINT_TO_POINTER (item - 1), NULL};
 
-	g_return_if_fail (cs != NULL && IS_CHARMAP_SELECTOR(cs));
+	g_return_if_fail (cs != NULL && IS_CHARMAP_SELECTOR (cs));
 
 	gnumeric_option_menu_set_history (cs->encodings, &sel);
 }
@@ -340,7 +340,7 @@ cs_init (CharmapSelector *cs)
 
 	g_signal_connect (G_OBJECT (cs->encodings), "changed",
                           G_CALLBACK (encodings_changed_cb), cs);
-        gtk_box_pack_start (GTK_BOX(cs), GTK_WIDGET(cs->encodings),
+        gtk_box_pack_start (GTK_BOX(cs), GTK_WIDGET (cs->encodings),
                             TRUE, TRUE, 0);
 }
 
@@ -378,7 +378,7 @@ cs_build_menu (CharmapSelector *cs)
 					gtk_menu_shell_append (GTK_MENU_SHELL (submenu),  subitem);
 					if (charset_trans->imp == CI_MAJOR)
 						cs_emphasize_label (GTK_LABEL(gtk_bin_get_child (GTK_BIN(subitem))));
-					g_object_set_data (G_OBJECT(subitem), CHARMAP_NAME_KEY,
+					g_object_set_data (G_OBJECT (subitem), CHARMAP_NAME_KEY,
 							   (gpointer)name);
 					cnt++;
 				} else if (0) {
@@ -388,7 +388,7 @@ cs_build_menu (CharmapSelector *cs)
 			charset_trans++;
 		}
 		if (cnt > 0) {
-			gtk_menu_item_set_submenu (GTK_MENU_ITEM(item), GTK_WIDGET(submenu));
+			gtk_menu_item_set_submenu (GTK_MENU_ITEM(item), GTK_WIDGET (submenu));
 			gtk_widget_show (item);
 			gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
 			lg_cnt++;
@@ -527,20 +527,95 @@ charmap_selector_get_encoding (CharmapSelector *cs)
 
 	g_get_charset (&locale_encoding);
 
- 	g_return_val_if_fail (IS_CHARMAP_SELECTOR(cs), locale_encoding);
+ 	g_return_val_if_fail (IS_CHARMAP_SELECTOR (cs), locale_encoding);
 
- 	selection = GTK_MENU_ITEM(gnumeric_option_menu_get_history (cs->encodings));
-	encoding = (char const *) g_object_get_data (G_OBJECT(selection),
+ 	selection = GTK_MENU_ITEM (gnumeric_option_menu_get_history (cs->encodings));
+	encoding = (char const *) g_object_get_data (G_OBJECT (selection),
 						     CHARMAP_NAME_KEY);
 	return encoding ? encoding : locale_encoding;
 }
 
+struct cb_find_entry {
+	const char *enc;
+	gboolean found;
+	int i;
+	GSList *path;
+};
+
+static void
+cb_find_entry (GtkMenuItem *w, struct cb_find_entry *cl)
+{
+	GtkWidget *sub;
+
+	if (cl->found)
+		return;
+
+	sub = gtk_menu_item_get_submenu (w);
+	if (sub) {
+		GSList *tmp = cl->path = g_slist_prepend (cl->path, GINT_TO_POINTER (cl->i));
+		cl->i = 0;
+
+		gtk_container_foreach (GTK_CONTAINER (sub), (GtkCallback)cb_find_entry, cl);
+		if (cl->found)
+			return;
+		
+		cl->i = GPOINTER_TO_INT (cl->path->data);
+		cl->path = cl->path->next;
+		g_slist_free_1 (tmp);
+	} else {
+		const char *this_enc =
+			g_object_get_data (G_OBJECT (w), CHARMAP_NAME_KEY);
+		if (this_enc && strcmp (this_enc, cl->enc) == 0) {
+			cl->found = TRUE;
+			cl->path = g_slist_prepend (cl->path, GINT_TO_POINTER (cl->i));
+			cl->path = g_slist_reverse (cl->path);
+			return;
+		}
+	}
+	cl->i++;
+}
+
+gboolean
+charmap_selector_set_encoding (CharmapSelector *cs, const char *enc)
+{
+	struct cb_find_entry cl;
+	CharsetInfo const *ci;
+
+	g_return_val_if_fail (IS_CHARMAP_SELECTOR (cs), FALSE);
+	g_return_val_if_fail (enc != NULL, FALSE);
+
+	ci = g_hash_table_lookup (encoding_hash, enc);
+	if (!ci)
+		return FALSE;
+
+	enc = ci->to_utf8_iconv_name;
+	if (!enc)
+		return FALSE;
+
+	cl.enc = enc;
+	cl.found = FALSE;
+	cl.i = 0;
+	cl.path = NULL;
+
+	gtk_container_foreach (GTK_CONTAINER (cs->encodings_menu),
+			       (GtkCallback)cb_find_entry,
+			       &cl);
+	if (!cl.found)
+		return FALSE;
+
+	gnumeric_option_menu_set_history (cs->encodings, cl.path);
+	g_slist_free (cl.path);
+
+	return TRUE;
+}
+
+
 void
 charmap_selector_set_sensitive (CharmapSelector *cs, gboolean sensitive)
 {
-	g_return_if_fail (IS_CHARMAP_SELECTOR(cs));
+	g_return_if_fail (IS_CHARMAP_SELECTOR (cs));
 
-	gtk_widget_set_sensitive (GTK_WIDGET(cs->encodings), sensitive);
+	gtk_widget_set_sensitive (GTK_WIDGET (cs->encodings), sensitive);
 }
 
 static void

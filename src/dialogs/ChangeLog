@@ -1,5 +1,15 @@
 2003-06-05  Morten Welinder  <terra@gnome.org>
 
+	* dialog-stf.c (stf_dialog): Take an optional encoding.  Specify
+	that input is not necessarily UTF-8.
+
+	* dialog-stf.h (DialogStfResult_t): Make the return text be the
+	UTF-8 version of the input.  Add rowcount.
+
+	* dialog-stf-main-page.c (main_page_set_encoding): New function.
+	(stf_dialog_main_page_init): Pick an encoding, either the supplied
+	one or using a fallback.
+
 	* dialog-stf*.[ch]: Another round of cleanups.
 
 2003-06-04  Morten Welinder  <terra@gnome.org>

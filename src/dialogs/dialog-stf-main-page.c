@@ -30,13 +30,51 @@
  * MISC UTILITY FUNCTIONS
  *************************************************************************************************/
 
+static gboolean
+main_page_set_encoding (DruidPageData_t *pagedata, const char *enc)
+{
+	char *utf8_data;
+	gsize bytes_read = -1;
+	gsize bytes_written = -1;
+	GError *error = NULL;
+
+	if (!enc) return FALSE;
+
+	utf8_data = g_convert_with_fallback (pagedata->raw_data,
+					     strlen (pagedata->raw_data),
+					     "UTF-8", enc, NULL,
+					     &bytes_read, &bytes_written, &error);
+	if (error) {
+		g_free (utf8_data);
+		g_error_free (error);
+		/* FIXME: What to do with error?  */
+		return FALSE;
+	}
+
+	if (!charmap_selector_set_encoding (pagedata->main.charmap_selector, enc)) {
+		g_free (utf8_data);
+		return FALSE;
+	}
+
+	g_free (pagedata->utf8_data);
+	pagedata->utf8_data = utf8_data;
+
+	if (enc != pagedata->encoding) {
+		g_free (pagedata->encoding);
+		pagedata->encoding = g_strdup (enc);
+	}
+
+	return TRUE;
+}
+
+
 static void
 main_page_update_preview (DruidPageData_t *pagedata)
 {
 	RenderData_t *renderdata = pagedata->main.renderdata;
 
 	stf_preview_set_lines (renderdata,
-			       stf_parse_lines (pagedata->data, TRUE));
+			       stf_parse_lines (pagedata->utf8_data, TRUE));
 	stf_preview_render (renderdata);
 }
 
@@ -103,6 +141,24 @@ main_page_import_range_changed (DruidPageData_t *data)
  * SIGNAL HANDLERS
  *************************************************************************************************/
 
+static void
+encodings_changed_cb (CharmapSelector *cs, char const *new_charmap,
+		      DruidPageData_t *pagedata)
+{
+	if (main_page_set_encoding (pagedata, new_charmap)) {
+		main_page_update_preview (pagedata);
+	} else {
+		char *msg = g_strdup_printf
+			(_("The data is not valid in encoding %s; "
+			   "please select another encoding."),
+			 new_charmap);
+		gnumeric_notice (pagedata->wbcg, GTK_MESSAGE_ERROR, msg);
+		g_free (msg);
+
+		main_page_set_encoding (pagedata, pagedata->encoding);
+	}
+}
+
 /**
  * main_page_startrow_changed
  * @button : the spinbutton the event handler is attached to
@@ -116,7 +172,7 @@ main_page_import_range_changed (DruidPageData_t *data)
 static void
 main_page_startrow_changed (GtkSpinButton* button, DruidPageData_t *data)
 {
-	const char *cur = data->data;
+	const char *cur = data->utf8_data;
 	int startrow;
 
 	startrow = gtk_spin_button_get_value_as_int (button) - 1;
@@ -171,23 +227,14 @@ static void
 main_page_source_format_toggled (G_GNUC_UNUSED GtkWidget *widget,
 				 DruidPageData_t *data)
 {
-     if (gtk_toggle_button_get_active
-	 (GTK_TOGGLE_BUTTON (data->main.main_separated))) {
-	  gtk_widget_set_sensitive
-	       (GTK_WIDGET (data->main.main_2x_indicator), TRUE);
-	  gtk_widget_set_sensitive
-	       (GTK_WIDGET (data->main.main_textindicator), TRUE);
-	  gtk_widget_set_sensitive
-	       (GTK_WIDGET (data->main.main_textfield), TRUE);
-     } else {
-	  gtk_widget_set_sensitive
-	       (GTK_WIDGET (data->main.main_2x_indicator), FALSE);
-	  gtk_widget_set_sensitive
-	       (GTK_WIDGET (data->main.main_textindicator), FALSE);
-	  gtk_widget_set_sensitive
-	       (GTK_WIDGET (data->main.main_textfield), FALSE);
-     }
-     main_page_stoprow_changed (NULL, data);
+	gboolean active = gtk_toggle_button_get_active
+		(GTK_TOGGLE_BUTTON (data->main.main_separated));
+
+	gtk_widget_set_sensitive (GTK_WIDGET (data->main.main_2x_indicator), active);
+	gtk_widget_set_sensitive (GTK_WIDGET (data->main.main_textindicator), active);
+	gtk_widget_set_sensitive (GTK_WIDGET (data->main.main_textfield), active);
+
+	main_page_stoprow_changed (NULL, data);
 }
 
 /**
@@ -236,6 +283,9 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	RenderData_t *renderdata;
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *cell;
+	char const *locale_encoding;
+
+	g_get_charset (&locale_encoding);
 
 	pagedata->main.main_separated = GTK_RADIO_BUTTON (glade_xml_get_widget (gui, "main_separated"));
 	pagedata->main.main_fixed     = GTK_RADIO_BUTTON (glade_xml_get_widget (gui, "main_fixed"));
@@ -246,6 +296,17 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	pagedata->main.main_2x_indicator  = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "main_2x_indicator"));
 	pagedata->main.main_textindicator = GTK_COMBO    (glade_xml_get_widget (gui, "main_textindicator"));
 	pagedata->main.main_textfield     = GTK_ENTRY    (glade_xml_get_widget (gui, "main_textfield"));
+
+	pagedata->main.charmap_selector = CHARMAP_SELECTOR (charmap_selector_new (CHARMAP_SELECTOR_TO_UTF8));
+	if (!main_page_set_encoding (pagedata, pagedata->encoding) &&
+	    !main_page_set_encoding (pagedata, locale_encoding) &&
+	    !main_page_set_encoding (pagedata, "ASCII") &&
+	    !main_page_set_encoding (pagedata, "ISO-8859-1") &&
+	    !main_page_set_encoding (pagedata, "UTF-8"))
+		g_warning ("This is not good -- failed to find a valid encoding of data!");
+	gtk_container_add (GTK_CONTAINER (glade_xml_get_widget (gui, "encoding_hbox")),
+			   GTK_WIDGET (pagedata->main.charmap_selector));
+	gtk_widget_show_all (GTK_WIDGET (pagedata->main.charmap_selector));
 
 	renderdata = pagedata->main.renderdata = stf_preview_new
 		(pagedata->main.main_data_container,
@@ -305,5 +366,9 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 		"prepare",
 		G_CALLBACK (main_page_prepare), pagedata);
 
+	g_signal_connect (G_OBJECT (pagedata->main.charmap_selector),
+			  "charmap_changed",
+			  G_CALLBACK (encodings_changed_cb), pagedata);
+	
 	main_page_startrow_changed (pagedata->main.main_startrow, pagedata);
 }

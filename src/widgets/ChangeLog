@@ -1,3 +1,8 @@
+2003-06-05  Morten Welinder  <terra@gnome.org>
+
+	* widget-charmap-selector.c (charmap_selector_set_encoding): New
+	function.
+
 2003-06-03  Morten Welinder  <terra@gnome.org>
 
 	* gnumeric-lazy-list.c (gnumeric_lazy_list_add_column): New

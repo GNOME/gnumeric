@@ -101,102 +101,16 @@ static char *
 stf_preparse (CommandContext *context, GsfInput *input, gchar const *enc)
 {
 	char *data;
-/*	unsigned char const *c;*/
 	size_t len;
-	
+
 	data = stf_open_and_read (input, &len);
-	
+
 	if (!data) {
 		if (context)
 			gnumeric_error_read (context,
 				_("Error while trying to read file"));
 		return NULL;
 	}
-
-#if 0
-	/* This would only make sense for some encodings */
-	len = stf_parse_convert_to_unix (data);
-	if (len < 0) {
-		g_free (data);
-		if (context)
-			gnumeric_error_read (context,
-				_("Error while trying to pre-convert file"));
-		return NULL;
-	}
-
-#endif
-
-        /* Now that the data is read we have to translate it into the   */
-	/* utf8 encoding. I tis impossible to do anything with the file */
-        /* unless we know the encoding it is in.                        */
-
-        if (enc == NULL)
-		        g_get_charset (&enc);
-	
-	{
-		char *result;
-		gsize bytes_read = -1;
-		gsize bytes_written = -1;
-		GError *error = NULL;
-
-		/* FIXME: check for overflow in buf_len conversion */
-		result = g_convert_with_fallback (data, len, "UTF-8", enc, NULL,
-						  &bytes_read, &bytes_written, &error);
-		if (error) {
-			char *msg = NULL;
-			if (bytes_read < len) {
-				msg = g_strdup_printf (_("The file does not appear to use the %s encoding.\n"
-                                                         "After %i of %i bytes a conversion error occurred:\n%s.\n"
-							 "The next two bytes have (hex) values %02X and %02X."),
-						       enc, bytes_read, len, error->message, 
-						       (unsigned int)*((unsigned char *)(data + bytes_read)),
-						       (unsigned int)*((unsigned char *)(data + bytes_read + 1)));
-			} else {
-				msg = g_strdup_printf (_("The file does not appear to use the %s encoding.\n"
-							 "After %i of %i bytes a conversion error occurred:\n%s.\n"), 
-						       enc, bytes_read, len, error->message);
-			}
-			if (context)
-				gnumeric_error_read (context, msg);
-			g_warning (msg);
-			g_error_free (error);
-			g_free (msg);
-		}
-		
-		g_free (data);
-		data = result;
-	}
-	
-
-#if 0
-
-	if ((c = stf_parse_is_valid_data (data, len)) != NULL) {
-		if (context) {
-			char *msg;
-			char *invalid_char = g_locale_to_utf8 (c, 1, NULL, NULL, NULL);
-
-			/* if locale conversion failed try 8859-1 as a fallback
-			 * it is ok to do this for an error message */
-			if (invalid_char == NULL)
-				invalid_char = g_convert (c, 1, "UTF-8", "ISO-8859-1", NULL, NULL, NULL);
-			if (invalid_char != NULL) {
-				msg = g_strdup_printf (_("This file does not seem to be a valid text file.\n"
-							 "The character '%s' (ASCII decimal %d) was encountered.\n"
-							 "Most likely your locale settings are wrong."),
-						       invalid_char, (int)*c);
-				g_free (invalid_char);
-			} else
-				msg = g_strdup_printf (_("This file does not seem to be a valid text file.\n"
-							 "Byte 0x%d was encountered.\n"
-							 "Most likely your locale settings are wrong."),
-						       (int)*c);
-			gnumeric_error_read (context, msg);
-			g_free (msg);
-		}
-		g_free (data);
-		return NULL;
-	}
-#endif
 
 	return data;
 }
@@ -206,11 +120,9 @@ stf_store_results (DialogStfResult_t *dialogresult,
 		   Sheet *sheet, int start_col, int start_row)
 {
 	unsigned int ui;
-	int rowcount;
 
 	stf_parse_options_set_lines_to_parse (dialogresult->parseoptions, dialogresult->lines);
 
-	rowcount = stf_parse_get_rowcount (dialogresult->parseoptions, dialogresult->newstart);
 	for (ui = 0; ui < dialogresult->formats->len; ui++) {
 		StyleFormat *sf = g_ptr_array_index (dialogresult->formats, ui);
 		Range range;
@@ -221,13 +133,13 @@ stf_store_results (DialogStfResult_t *dialogresult,
 		range.start.col = start_col + ui;
 		range.start.row = start_row;
 		range.end.col   = start_col + ui;
-		range.end.row   = start_row + rowcount - 1;
+		range.end.row   = start_row + dialogresult->rowcount - 1;
 
 		sheet_style_apply_range (sheet, &range, style);
 	}
 
 	return stf_parse_sheet (dialogresult->parseoptions,
-				dialogresult->newstart, sheet,
+				dialogresult->text, sheet,
 				start_col, start_row);
 }
 
@@ -242,7 +154,7 @@ stf_store_results (DialogStfResult_t *dialogresult,
  * Main routine, handles importing a file including all dialog mumbo-jumbo
  **/
 static void
-stf_read_workbook (GnmFileOpener const *fo,  gchar const *enc, 
+stf_read_workbook (GnmFileOpener const *fo,  gchar const *enc,
 		   IOContext *context, WorkbookView *wbv, GsfInput *input)
 {
 	DialogStfResult_t *dialogresult = NULL;
@@ -265,7 +177,7 @@ stf_read_workbook (GnmFileOpener const *fo,  gchar const *enc,
 	sheet = sheet_new (book, name);
 	workbook_sheet_attach (book, sheet, NULL);
 
-	dialogresult = stf_dialog (WORKBOOK_CONTROL_GUI (context->impl), name, data);
+	dialogresult = stf_dialog (WORKBOOK_CONTROL_GUI (context->impl), enc, name, data);
 	g_free (name);
 	if (dialogresult != NULL && stf_store_results (dialogresult, sheet, 0, 0)) {
 		workbook_recalc (book);
@@ -358,7 +270,8 @@ stf_text_to_columns (WorkbookControl *wbc, CommandContext *cc)
 	gsf_output_close (GSF_OUTPUT (buf));
 	data = gsf_output_memory_get_bytes (buf);
 	dialogresult = stf_dialog (WORKBOOK_CONTROL_GUI (wbc),
-		_("Text to Columns"), data);
+				   NULL,
+				   _("Text to Columns"), data);
 
 	if (dialogresult == NULL ||
 	    !stf_store_results (dialogresult, target_sheet,
@@ -382,7 +295,7 @@ stf_text_to_columns (WorkbookControl *wbc, CommandContext *cc)
 /**
  * stf_read_workbook_auto_csvtab
  * @fo       : file opener
- * @enc      : optional encoding 
+ * @enc      : optional encoding
  * @context  : command context
  * @book     : workbook
  * @input    : file to read from+convert
@@ -390,7 +303,7 @@ stf_text_to_columns (WorkbookControl *wbc, CommandContext *cc)
  * Attempt to auto-detect CSV or tab-delimited file
  **/
 static void
-stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc, 
+stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc,
 			       IOContext *context,
 			       WorkbookView *wbv, GsfInput *input)
 {
@@ -408,7 +321,7 @@ stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc,
 	gunichar guni_newline = '\n';
 	gunichar guni_carriage = '\r';
 	gunichar guni_sep = format_get_arg_sep ();
-	
+
 	book = wb_view_workbook (wbv);
 	data = stf_preparse (COMMAND_CONTEXT (context), input, enc);
 	if (!data)
@@ -423,18 +336,18 @@ stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc,
 	stf_parse_options_csv_set_indicator_2x_is_single (po, TRUE);
 	stf_parse_options_csv_set_duplicates (po, FALSE);
 
-        for (i = STF_PROBE_SIZE, pos = data ; pos && *pos && i-- > 0; 
+        for (i = STF_PROBE_SIZE, pos = data ; pos && *pos && i-- > 0;
 	     pos = stf_parse_next_token (pos, po, NULL)) {
 		gunichar this_char;
-		
+
 		this_char = g_utf8_get_char (pos);
 		if (this_char == guni_sep) {
-			++sep; 
+			++sep;
 			last_was_newline = FALSE;
 		} else if (this_char == guni_tab) {
 			++tab;
 			last_was_newline = FALSE;
-		} else if ((this_char == guni_newline || this_char == guni_carriage) 
+		} else if ((this_char == guni_newline || this_char == guni_carriage)
 			   && !last_was_newline) {
 			++lines;
 			last_was_newline = TRUE;
@@ -541,7 +454,7 @@ stf_init (void)
 		_("Comma or tab separated files (CSV/TSV)"),
 		stf_read_default_probe, stf_read_workbook_auto_csvtab), 0);
 	gnm_file_opener_register (gnm_file_opener_new_with_enc (
-		"Gnumeric_stf:stf_druid", 
+		"Gnumeric_stf:stf_druid",
 		_("Text import (configurable)"),
 		NULL, stf_read_workbook), 0);
 	gnm_file_saver_register (gnm_file_saver_new (

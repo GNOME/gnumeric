@@ -40,14 +40,14 @@ typedef enum {
      CHARMAP_SELECTOR_FROM_UTF8
 } CharmapSelectorTestDirection;
 
+GType        charmap_selector_get_type (void);
+GtkWidget *  charmap_selector_new (CharmapSelectorTestDirection test);
 
-GType    charmap_selector_get_type (void);
-GtkWidget *charmap_selector_new    (CharmapSelectorTestDirection test);
+gchar const *charmap_selector_get_encoding (CharmapSelector *cs);
+gboolean     charmap_selector_set_encoding (CharmapSelector *cs, const char *enc);
 
-gchar const *charmap_selector_get_encoding     (CharmapSelector *cs);
-void charmap_selector_set_sensitive (CharmapSelector *cs, gboolean sensitive);
+void         charmap_selector_set_sensitive (CharmapSelector *cs, gboolean sensitive);
 
 G_END_DECLS
 
 #endif /* GNUMERIC_WIDGET_CHARMAP_SELECTOR_H */
-

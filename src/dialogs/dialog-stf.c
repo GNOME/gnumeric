@@ -444,7 +444,10 @@ stf_dialog_editables_enter (DruidPageData_t *pagedata)
  * returns: A DialogStfResult_t struct on success, NULL otherwise.
  **/
 DialogStfResult_t*
-stf_dialog (WorkbookControlGUI *wbcg, const char *filename, const char *data)
+stf_dialog (WorkbookControlGUI *wbcg,
+	    const char *opt_encoding,
+	    const char *filename,
+	    const char *data)
 {
 	GladeXML *gui;
 	DialogStfResult_t *dialogresult;
@@ -457,10 +460,12 @@ stf_dialog (WorkbookControlGUI *wbcg, const char *filename, const char *data)
 
 	pagedata.canceled = FALSE;
 
+	pagedata.encoding    = g_strdup (opt_encoding);
 	pagedata.wbcg	     = wbcg;
 	pagedata.filename    = filename;
-	pagedata.data        = data;
-	pagedata.cur         = data;
+	pagedata.raw_data    = data;
+	pagedata.utf8_data   = NULL;
+	pagedata.cur         = NULL;
 
 	pagedata.window      = GTK_WINDOW  (glade_xml_get_widget (gui, "window"));
 	pagedata.druid       = GNOME_DRUID (glade_xml_get_widget (gui, "druid"));
@@ -493,8 +498,16 @@ stf_dialog (WorkbookControlGUI *wbcg, const char *filename, const char *data)
 	} else {
 		dialogresult = g_new (DialogStfResult_t, 1);
 
-		dialogresult->newstart = pagedata.cur;
+		dialogresult->text = pagedata.utf8_data;
+		strcpy (dialogresult->text, pagedata.cur);
+		pagedata.cur = pagedata.utf8_data = NULL;
+
+		dialogresult->encoding = pagedata.encoding;
+		pagedata.encoding = NULL;
+
 		dialogresult->lines = pagedata.importlines;
+		dialogresult->rowcount = pagedata.format.renderdata->lines->len;
+
 		if (pagedata.parsetype == PARSE_TYPE_CSV) {
 			dialogresult->parseoptions = pagedata.csv.parseoptions;
 			pagedata.csv.parseoptions = NULL;
@@ -520,6 +533,8 @@ stf_dialog (WorkbookControlGUI *wbcg, const char *filename, const char *data)
 	gtk_widget_destroy (GTK_WIDGET (pagedata.window));
 	g_object_unref (pagedata.window);
 	g_object_unref (G_OBJECT (gui));
+	g_free (pagedata.encoding);
+	g_free (pagedata.utf8_data);
 
 	return dialogresult;
 }
@@ -549,6 +564,9 @@ stf_dialog_result_free (DialogStfResult_t *dialogresult)
 		style_format_unref (sf);
 	}
 	g_ptr_array_free (formats, TRUE);
+
+	g_free (dialogresult->text);
+	g_free (dialogresult->encoding);
 
 	g_free (dialogresult);
 }

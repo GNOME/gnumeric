@@ -5,6 +5,7 @@
 #include "gui-util.h"
 #include <stf-parse.h>
 #include <libgnomeui/gnome-druid.h>
+#include "widgets/widget-charmap-selector.h"
 
 /* Define for text offsets used on the main page of the druid */
 #define TEXT_OFFSET 10.0
@@ -23,6 +24,7 @@ typedef struct {
 	GtkEntry        *main_textfield;
      
 	/* Page members that are created at run-time */
+	CharmapSelector *charmap_selector;
 	RenderData_t    *renderdata;
 } MainInfo_t;
 
@@ -96,11 +98,13 @@ typedef struct {
 	GnomeDruid            *druid;                                            /* The gnome druid */
 	GnomeDruidPage        *main_page, *csv_page, *fixed_page, *format_page;  /* Rest of the pages */
 
-	const char            *filename;     /* File we are reading from */
-	const char            *data;         /* Pointer to beginning of data */
-	const char            *cur;          /* Pointer pointing to position in data to start parsing */
+	char                  *encoding;
+	const char            *raw_data;     /* Raw bytes, not UTF-8.  */
+	char                  *utf8_data;    /* raw_data converted into UTF-8.  */
+	const char            *cur;          /* Pointer pointing to position in utf8_data to start parsing */
 
-	int                   importlines;  /* Number of lines to import */
+	const char            *filename;     /* File we are reading from */
+	int                   importlines;   /* Number of lines to import */
 
 	MainInfo_t            main;
 	CsvInfo_t             csv;
@@ -114,14 +118,19 @@ typedef struct {
 } DruidPageData_t;
 
 typedef struct {
-	char const        *newstart;      /* New start position */
-	int                lines;         /* Number of lines to parse */
+	char              *encoding;
+
+	char              *text;          /* Decoded text (not truncated) */
+	int                lines;         /* Number of lines to parse.  */
+	int                rowcount;      /* Number of resulting rows.  */
 	StfParseOptions_t *parseoptions;  /* parse options */
 	GPtrArray         *formats;       /* Contains StyleFormat *s */
 } DialogStfResult_t;
 
 /* This is the main function which handles all the dialog import stuff */
-DialogStfResult_t *stf_dialog                           (WorkbookControlGUI *wbcg, const char *filename,
+DialogStfResult_t *stf_dialog                           (WorkbookControlGUI *wbcg,
+							 const char *opt_encoding,
+							 const char *filename,
 							 const char *data);
 void               stf_dialog_result_free               (DialogStfResult_t *dialogresult);
 
