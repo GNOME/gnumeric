@@ -1869,7 +1869,7 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree)
 
 	if (strcmp (tree->name, "Cell")) {
 		fprintf (stderr,
-		 "xml_read_cell: invalid element type %s, 'Cell' expected`\n",
+		 "xml_read_cell_copy: invalid element type %s, 'Cell' expected`\n",
 			 tree->name);
 		return NULL;
 	}
@@ -2666,7 +2666,7 @@ xml_read_selection_clipboard (XmlParseContext *ctxt, xmlNodePtr tree)
 
 	if (strcmp (tree->name, "ClipboardRange")){
 		fprintf (stderr,
-			 "xml_sheet_read_selection_clipboard: invalid element type %s, 'ClipboardRange' expected\n",
+			 "xml_read_selection_clipboard: invalid element type %s, 'ClipboardRange' expected\n",
 			 tree->name);
 	}
 	child = tree->xmlChildrenNode;
