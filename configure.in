@@ -160,12 +160,17 @@ AM_CONDITIONAL(WITH_PYTHON, $python_val)
 
 
 dnl Check for libole2
-AC_MSG_CHECKING(for libole2)
-
 AC_MSG_CHECKING(for libole2 >= 0.1.4)
-vers=`gnome-config --modversion libole2 | sed -e "s/libole2-//" | \
+vers_ok="";
+vers=`gnome-config --modversion libole2 | grep "libole2-" | sed -e "s/libole2-//" | \
 	awk 'BEGIN { FS = "."; } { printf "%d", $1 * 10000 + $2 * 100 + $3 ;}'`
-if test "$vers" -ge 104; then
+if test "$vers"; then
+       if test "$vers" -ge 104; then
+               vers_ok="yes";
+       fi
+fi
+
+if test "$vers_ok"; then
 	AC_MSG_RESULT(found)
 else
 	AC_MSG_ERROR(not found

@@ -247,7 +247,7 @@ expr_to_scm (ExprTree *expr, CellRef cell_ref)
 
 		case OPER_FUNCALL :
 			return SCM_LIST3(scm_symbolfrom0str("funcall"),
-					 scm_makfrom0str(expr->func.symbol->str),
+					 scm_makfrom0str(expr->func.func->name),
 					 list_to_scm(expr->func.arg_list, cell_ref));
 
 		case OPER_CONSTANT :

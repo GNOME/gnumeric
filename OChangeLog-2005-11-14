@@ -1,3 +1,7 @@
+2000-06-28  Arturo Tena <arturo@directmail.org>
+ 
+	* configure.in: Improve libole2 detection.
+ 
 2000-06-29  Jody Goldberg <jgoldberg@home.com>
 
 	* src/parser.y : Add 'string_opt_quote' and use it in a few
