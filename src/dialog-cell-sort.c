@@ -249,6 +249,12 @@ dialog_cell_sort (Workbook *wb, Sheet *sheet)
 				 _("Selection must be a single range")) ;
 		return ;
 	}
+	if (end_row >= SHEET_MAX_ROWS-2 ||
+	    end_col >= SHEET_MAX_COLS-2) {
+		gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+				 _("Selection must be a finite range")) ;
+		return ;		
+	}
 
 	num_clause = 1; 
 	
