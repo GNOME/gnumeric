@@ -7,6 +7,9 @@
 
 #ifndef FINITE
 #  if defined(HAVE_FINITE)
+#    ifdef HAVE_IEEEFP_H
+#      include <ieeefp.h>
+#    endif
 #    define FINITE finite
 #  elif defined(HAVE_ISFINITE)
 #    define FINITE isfinite

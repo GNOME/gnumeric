@@ -31,6 +31,7 @@ Morten:
 	* Fix DATE.
 	* Fix a pile of leaks in financial functions.
 	* Fix COUPNCD, YIELD, PRICE.
+	* Fix overflow issues.
 
 Wayne Schuller:
 	* Search and search-replace history persistence.

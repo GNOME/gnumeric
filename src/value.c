@@ -15,6 +15,7 @@
 #include "format.h"
 #include "portability.h"
 #include "str.h"
+#include "mathfunc.h"
 
 #include <stdlib.h>
 #include <errno.h>
@@ -51,10 +52,15 @@ value_new_int (int i)
 Value *
 value_new_float (gnum_float f)
 {
-	ValueFloat *v = g_new (ValueFloat, 1);
-	*((ValueType *)&(v->type)) = VALUE_FLOAT;
-	v->val = f;
-	return (Value *)v;
+	if (FINITE (f)) {
+		ValueFloat *v = g_new (ValueFloat, 1);
+		*((ValueType *)&(v->type)) = VALUE_FLOAT;
+		v->val = f;
+		return (Value *)v;
+	} else {
+		/* FIXME: bogus ep sent here.  What to do?  */
+		return value_new_error (NULL, gnumeric_err_VALUE);
+	}
 }
 
 Value *

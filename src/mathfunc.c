@@ -23,7 +23,6 @@
 #include <stdlib.h>
 #include <float.h>
 #ifdef HAVE_IEEEFP_H
-#include <ieeefp.h>
 /* Make sure we have this symbol defined, since the existance of the header
    file implies it.  */
 #ifndef IEEE_754
