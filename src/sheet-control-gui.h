@@ -3,6 +3,7 @@
 
 #include "sheet.h"
 #include <gtk/gtktable.h>
+#include <gnome.h>
 
 #define SHEET_VIEW_TYPE        (sheet_view_get_type ())
 #define SHEET_VIEW(obj)        (GTK_CHECK_CAST((obj), SHEET_VIEW_TYPE, SheetView))

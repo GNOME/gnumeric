@@ -55,8 +55,8 @@ cell_eval (Cell *cell)
 static gint
 dependency_equal (gconstpointer v, gconstpointer v2)
 {
-	DependencyRange *r1 = (DependencyRange *) v;
-	DependencyRange *r2 = (DependencyRange *) v2;
+	const DependencyRange *r1 = (const DependencyRange *) v;
+	const DependencyRange *r2 = (const DependencyRange *) v2;
 
 	if (r1->sheet != r2->sheet)
 		return 0;

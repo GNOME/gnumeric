@@ -1,3 +1,20 @@
+1999-05-26  Morten Welinder  <terra@diku.dk>
+
+	* src/sheet-view.h: Include fix.
+
+	* src/style.h: Include fix.
+
+	* src/symbol.c (symbol_table_new): Use gnumeric_strcase_equal and
+ 	gnumeric_strcase_hash.
+	(g_strcase_equal): Delete.
+	(g_strcase_hash): Delete.
+
+	* src/eval.c (dependency_equal): Constify.
+
+	* src/sheet.c (cell_hash): Constify.
+	(cell_compare): Ditto.
+	(CRsort): Ditto.
+
 1999-05-26  Michael Meeks  <michael@imaginator.com>
 
 	* src/file.c (file_saver_is_default_format): Fixed bug causing

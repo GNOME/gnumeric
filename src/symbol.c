@@ -10,6 +10,7 @@
 #include <ctype.h>
 #include <stdio.h>
 #include "symbol.h"
+#include "utils.h"
 
 SymbolTable *global_symbol_table;
 
@@ -138,37 +139,12 @@ symbol_unref (Symbol *sym)
 	}
 }
 
-static gint
-g_strcase_equal (gconstpointer v1, gconstpointer v2)
-{
-	return strcasecmp ((const gchar*) v1, (const gchar*) v2) == 0;
-}
-
-
-static guint
-g_strcase_hash (gconstpointer v)
-{
-	const char *s = (const char *) v;
-	const char *p;
-	guint h = 0, g;
-	
-	for (p = s; *p != '\0'; p += 1){
-		h = (h << 4) + toupper (*p);
-		if ((g = h & 0xf0000000)){
-			h = h ^ (g >> 24);
-			h = h ^ g;
-		}
-	}
-	
-	return h /* % M */;
-}
-
 SymbolTable *
 symbol_table_new (void)
 {
 	SymbolTable *st = g_new (SymbolTable, 1);
 
-	st->hash = g_hash_table_new (g_strcase_hash, g_strcase_equal);
+	st->hash = g_hash_table_new (gnumeric_strcase_hash, gnumeric_strcase_equal);
 
 	return st;
 }
@@ -178,7 +154,7 @@ symbol_table_new (void)
  * @st: The symbol table to destroy
  *
  * This only releases the resources associated with a SymbolTable.
- * Note that the symols on the Symbol Table are not unrefed, it is
+ * Note that the symbols on the SymbolTable are not unrefed, it is
  * up to the caller to unref them.
  */
 void

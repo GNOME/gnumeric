@@ -1,6 +1,8 @@
 #ifndef GNUMERIC_STYLE_H
 #define GNUMERIC_STYLE_H
 
+#include <gdk/gdk.h>
+
 typedef struct {
         char     *format;
 	int      want_am_pm;

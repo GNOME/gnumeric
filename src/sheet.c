@@ -111,7 +111,7 @@ sheet_init_dummy_stuff (Sheet *sheet)
 static guint
 cell_hash (gconstpointer key)
 {
-	CellPos *ca = (CellPos *) key;
+	const CellPos *ca = (const CellPos *) key;
 
 	return (ca->row << 8) | ca->col;
 }
@@ -119,10 +119,10 @@ cell_hash (gconstpointer key)
 static gint
 cell_compare (gconstpointer a, gconstpointer b)
 {
-	CellPos *ca, *cb;
+	const CellPos *ca, *cb;
 
-	ca = (CellPos *) a;
-	cb = (CellPos *) b;
+	ca = (const CellPos *) a;
+	cb = (const CellPos *) b;
 
 	if (ca->row != cb->row)
 		return 0;
@@ -294,8 +294,8 @@ sheet_col_new (Sheet *sheet)
 static gint
 CRsort (gconstpointer a, gconstpointer b)
 {
-	ColRowInfo *ia = (ColRowInfo *) a;
-	ColRowInfo *ib = (ColRowInfo *) b;
+	const ColRowInfo *ia = (const ColRowInfo *) a;
+	const ColRowInfo *ib = (const ColRowInfo *) b;
 
 	return (ia->pos - ib->pos);
 }
