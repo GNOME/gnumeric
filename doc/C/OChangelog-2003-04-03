@@ -1,3 +1,7 @@
+2002-02-23  Kevin Breit  <mrproper@ximian.com>
+
+	* new/analysis-tools.xml: Updated the introduction.  This was some changes that were in the SGML version but not the XML version.
+
 2002-02-18  Kevin Breit  <mrproper@ximian.com>
 
 	* new/solver.xml: Made changes by C. Scott Ananian
