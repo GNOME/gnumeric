@@ -389,7 +389,7 @@ sylk_parse_line (sylk_file_state_t *src, char *buf)
 {
 	int i;
 
-	for (i = 0; i < arraysize (sylk_rtd_list); i++)
+	for (i = 0; i < (int) arraysize (sylk_rtd_list); i++)
 		if (strncmp (sylk_rtd_list [i].name, buf,
 			     strlen (sylk_rtd_list [i].name)) == 0) {
 			sylk_rtd_list [i].handler (src,
