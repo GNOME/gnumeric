@@ -220,7 +220,7 @@ set_style(Sheet *sheet, int row, int col,
 }
 
 static Value *
-value_new_from_psi_cell(Cell *cell, const psiconv_sheet_cell psi_cell)
+value_new_from_psi_cell(const psiconv_sheet_cell psi_cell)
 {
 	switch (psi_cell->type) {
 	case psiconv_cell_int :
@@ -420,7 +420,7 @@ expr_new_from_formula (const psiconv_sheet_cell psi_cell,
 
 	formula = psiconv_get_formula (psi_formulas, psi_cell->ref_formula);
 
-	return (formula != NULL) ?  return parse_subexpr (formula) : NULL;
+	return (formula != NULL) ?  parse_subexpr (formula) : NULL;
 }
 
 static void
@@ -429,7 +429,7 @@ add_cell (Sheet *sheet, const psiconv_sheet_cell psi_cell,
 {
 	Cell *cell;
 	Value *val;
-	ExprTree *tree;
+	ExprTree *expr;
 	psiconv_formula psi_formula;
 
 	cell = sheet_cell_fetch (sheet, psi_cell->column, psi_cell->row);
@@ -445,11 +445,11 @@ add_cell (Sheet *sheet, const psiconv_sheet_cell psi_cell,
 		/* TODO : is there a notion of parse format ?
 		 * How does it store a user entered date ?
 		 */
-		if (value != NULL)
+		if (val != NULL)
 			cell_set_expr_and_value (cell, expr, val, NULL, TRUE);
 		else
 			cell_set_expr (cell, expr, NULL);
-	} else if (value != NULL) {
+	} else if (val != NULL) {
 		/* TODO : is there a notion of parse format ?
 		 * How does it store a user entered date ?
 		 */

@@ -1,3 +1,7 @@
+2001-11-05  Bugzilla User  <cly@mail.dotcom.fr>
+
+	* psiconv-read.c: bitrot fight.
+
 2001-11-05  Jody Goldberg <jgoldberg@home,com>
 
 	* Release 0.75

@@ -18,8 +18,6 @@ Release Critical
   ==> ** CRITICAL **: file item-grid.c: line 580 (item_grid_draw): assertion `merged_unused == NULL' failed.
   (One per screen redraw)
 
-- Patch in http://bugzilla.gnome.org/show_bug.cgi?id=63950
-
 Pending Patches
 ---------------
 
