@@ -32,6 +32,12 @@ that are almost self documenting.
 code honest as you will be forced to split your routines in more
 modular chunks (as detailed by Linus). 
    
+   Emacs users can get the default indentation style with this:
+  (set-c-style "K&R")
+  (setq c-basic-offset 8)
+
+   Do not put a space between a closing parent and an opening bracket.
+
    On top of that, you will have to:
 
 	- Follow the Gtk+ cleanliness conventions for function

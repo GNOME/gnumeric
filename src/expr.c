@@ -1033,7 +1033,7 @@ do_expr_decode_tree (ExprTree *tree, void *sheet, int col, int row, Operation pa
 		char *res, *a;
 
 		a = do_expr_decode_tree (tree->u.value, sheet, col, row, tree->oper);
-		res = g_strconcat ("-", a);
+		res = g_strconcat ("-", a, NULL);
 		g_free (a);
 		return res;
 	}

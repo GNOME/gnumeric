@@ -1,7 +1,10 @@
 1999-01-03  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
-	* src/expr.c (eval_expr): Add support for non-local cells here.  I
-	am impressed how simple this was.
+	* src/expr.c (do_expr_decode_tree): Add termination NULL to the OPER_NEG
+	operation. 
+	
+	* (eval_expr): Add support for non-local cells here.  I am
+	impressed how simple this was.
 
 	* src/parser.y: Add rules for cell references outside of the
 	current sheet.
