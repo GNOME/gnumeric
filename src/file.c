@@ -428,6 +428,16 @@ file_dialog_delete_event (GtkWidget *widget, GdkEventAny *event)
 	return TRUE;
 }
 
+static void
+fs_key_event (GtkFileSelection *fsel, GdkEventKey *event)
+{
+	if (event->keyval == GDK_Escape){
+		gtk_button_clicked (fsel->cancel_button);
+		return 1;
+	}
+	return 0;
+}
+
 void
 workbook_save_as (Workbook *wb)
 {
@@ -453,6 +463,9 @@ workbook_save_as (Workbook *wb)
 			    GTK_SIGNAL_FUNC (set_ok), &accepted);
 	gtk_signal_connect (GTK_OBJECT (fsel->cancel_button), "clicked",
 			    GTK_SIGNAL_FUNC (gtk_main_quit), NULL);
+	gtk_signal_connect (GTK_OBJECT (fsel), "key_press_event",
+			    GTK_SIGNAL_FUNC (fs_key_event), NULL);
+	
 	gtk_window_set_position (GTK_WINDOW (fsel), GTK_WIN_POS_MOUSE);
 
 	/*
@@ -524,6 +537,8 @@ dialog_query_load_file (Workbook *wb)
 			    GTK_SIGNAL_FUNC (set_ok), &accepted);
 	gtk_signal_connect (GTK_OBJECT (fsel->cancel_button), "clicked",
 			    GTK_SIGNAL_FUNC (gtk_main_quit), NULL);
+	gtk_signal_connect (GTK_OBJECT (fsel), "key_press_event",
+			    GTK_SIGNAL_FUNC (fs_key_event), NULL);
 	gtk_window_set_position (GTK_WINDOW (fsel), GTK_WIN_POS_MOUSE);
 
 	/*

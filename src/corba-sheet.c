@@ -14,6 +14,7 @@
 #include "corba.h"
 #include "utils.h"
 #include "ranges.h"
+#include "selection.h"
 
 #define verify(cond)          if (!(cond)){ out_of_range (ev); return; }
 #define verify_val(cond,val)  if (!(cond)){ out_of_range (ev); return (val); }
@@ -209,7 +210,7 @@ Sheet_clear_region (PortableServer_Servant servant,
 
 	verify_region (start_col, start_row, end_col, end_row);
 
-	sheet_clear_region (sheet, start_col, start_row, end_col, end_row);
+	sheet_clear_region (sheet, start_col, start_row, end_col, end_row, NULL);
 }
 
 static void
@@ -221,7 +222,7 @@ Sheet_clear_region_content (PortableServer_Servant servant,
 	Sheet *sheet = sheet_from_servant (servant);
 
 	verify_region (start_col, start_row, end_col, end_row);
-	sheet_clear_region_content (sheet, start_col, start_row, end_col, end_row);
+	sheet_clear_region_content (sheet, start_col, start_row, end_col, end_row, NULL);
 }
 
 static void
@@ -233,7 +234,7 @@ Sheet_clear_region_comments (PortableServer_Servant servant,
 	Sheet *sheet = sheet_from_servant (servant);
 
 	verify_region (start_col, start_row, end_col, end_row);
-	sheet_clear_region_comments (sheet, start_col, start_row, end_col, end_row);
+	sheet_clear_region_comments (sheet, start_col, start_row, end_col, end_row, NULL);
 }
 
 static void
@@ -245,7 +246,7 @@ Sheet_clear_region_formats (PortableServer_Servant servant,
 	Sheet *sheet = sheet_from_servant (servant);
 
 	verify_region (start_col, start_row, end_col, end_row);
-	sheet_clear_region_formats (sheet, start_col, start_row, end_col, end_row);
+	sheet_clear_region_formats (sheet, start_col, start_row, end_col, end_row, NULL);
 }
 
 static void

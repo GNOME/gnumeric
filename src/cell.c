@@ -238,7 +238,7 @@ cell_comment_destroy (Cell *cell)
 		gtk_timeout_remove (comment->timer_tag);
 
 	if (comment->window)
-		gtk_object_unref (GTK_OBJECT (comment->window));
+		gtk_object_destroy (GTK_OBJECT (comment->window));
 
 	for (l = comment->realized_list; l; l = l->next)
 		gtk_object_destroy (l->data);
@@ -317,7 +317,7 @@ cell_comment_clicked (GnomeCanvasItem *item, GdkEvent *event, Cell *cell)
 	case GDK_LEAVE_NOTIFY:
 		cell_comment_cancel_timer (cell);
 		if (cell->comment->window){
-			gtk_object_unref (GTK_OBJECT (cell->comment->window));
+			gtk_object_destroy (GTK_OBJECT (cell->comment->window));
 			cell->comment->window = NULL;
 		}
 		break;

@@ -1,3 +1,19 @@
+1999-09-10  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/corba-sheet.c: Updated to the new sheet selection API
+	changes. 
+
+	* src/gnumeric-sheet.c (destroy_item_editor): Removed FIXME
+	comment.  More fixing from Federico's talk
+	(gnumeric_sheet_stop_cell_selection): ditto
+
+	* src/cell.c: Replaced unrefs of windows with destroys.  Federico
+	explained a thing or two to me today.
+
+	* src/file.c (dialog_query_load_file): Added a key handler to
+	handle ESC on dialog boxes to mean cancel.
+	(workbook_save_as): ditto.
+
 1999-09-10  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* src/sheet-object.c (window_to_world): Added debug.

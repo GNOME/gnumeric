@@ -332,13 +332,7 @@ gnumeric_sheet_stop_cell_selection (GnumericSheet *gsheet)
 		return;
 
 	gsheet->selecting_cell = FALSE;
-	/* FIXME: there is only one reference and the canvas thinks it owns
-	   it.  */
-#if 0
-	gtk_object_unref (GTK_OBJECT (gsheet->selection));
-#else
 	gtk_object_destroy (GTK_OBJECT (gsheet->selection));
-#endif
 	gsheet->selection = NULL;
 }
 
@@ -371,13 +365,8 @@ destroy_item_editor (GnumericSheet *gsheet)
 {
 	g_return_if_fail (gsheet->item_editor);
 
-	/* FIXME: there is only one reference and the canvas thinks it owns
-	   it.  */
-#if 0
-	gtk_object_unref (GTK_OBJECT (gsheet->item_editor));
-#else
 	gtk_object_destroy (GTK_OBJECT (gsheet->item_editor));
-#endif
+
 	gsheet->item_editor = NULL;
 }
 
