@@ -1,6 +1,11 @@
 2002-02-18  Kevin Breit  <mrproper@ximian.com>
 
+	* C/number_theory/bitxor_title.xml: Wrote and added this file.
+
+	* C/number_theory/bitxor.xml: Wrote and added this file.
+
 	* C/funct-ref.xml: Added bitor*
+	Added bitxor*
 
 	* C/number_theory/bitor*xml: Added to CVS.
 

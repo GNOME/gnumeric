@@ -1,0 +1,22 @@
+<sect2 id="numtheory-bitxor">
+  <title>nt_bitxor</title>
+  <sect3 id="numtheory-bitxor-syntax">
+    <title>Syntax</title>
+    <para>
+      =NT_BITXOR(a,b)
+    </para>
+  </sect3>
+  <sect3 id="numtheory-bitxor-description">
+    <title>Description</title>
+    <para>
+      The BITXOR function returns bitwise exclusive or-ing of its arguments.
+    </para>
+  </sect3>
+  <sect3 id="numtheory-bitxor-seealso">
+    <title>See Also</title>
+    <para>
+      <xref linkend="numtheory-bitor" />
+	<xref linkend="numtheory-bitand" />
+    </para>
+  </sect3>
+</sect2>
