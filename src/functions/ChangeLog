@@ -1,3 +1,7 @@
+2002-02-26  Morten Welinder  <terra@diku.dk>
+
+	* fn-stat.c (gnumeric_prob): Plug a load of leaks.
+
 2002-02-21  Morten Welinder  <terra@diku.dk>
 
 	* fn-math.c (gnumeric_abs): Use gnumabs.

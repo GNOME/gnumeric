@@ -93,6 +93,9 @@ sub import_file {
 	    # Given a good compiler, this is better.
 	    s/\bM_LN2/loggnum(2)/g;
 
+	    # These are made static.
+	    s/^gnum_float\s+(pbeta_both|stirlerr|bd0|dpois_raw|chebyshev_init|chebyshev_eval|lgammacor|lbeta|pbeta_raw|dbinom_raw)/static gnum_float $1/;
+
 	    s/dnorm4/dnorm/g;
 	    s/pnorm5/pnorm/g;
 	    s/qnorm5/qnorm/g;

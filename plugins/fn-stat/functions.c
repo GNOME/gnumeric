@@ -2481,37 +2481,25 @@ static Value *
 gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
 {
 	make_list_t  x_cl, prob_cl;
-	Value        *err;
+	Value        *res;
 	gnum_float   sum, total_sum;
 	gnum_float   lower_limit, upper_limit;
 	GSList       *list1, *list2;
 
-	if ((err = make_list (&x_cl, ei->pos, argv [0])) ||
-	    (err = make_list (&prob_cl, ei->pos, argv [1])))
-		return err;
+	x_cl.entries = NULL;
+	prob_cl.entries = NULL;
+
+	if ((res = make_list (&x_cl, ei->pos, argv [0])) ||
+	    (res = make_list (&prob_cl, ei->pos, argv [1])))
+		goto error;
 
 	if (x_cl.n != prob_cl.n) {
-		list1 = x_cl.entries;
-		list2 = prob_cl.entries;
-		while (list1 != NULL) {
-		        g_free (list1->data);
-			list1 = list1->next;
-		}
-		while (list2 != NULL) {
-		        g_free (list2->data);
-			list2 = list2->next;
-		}
-		g_slist_free (x_cl.entries);
-		g_slist_free (prob_cl.entries);
-
-	        return value_new_error (ei->pos, gnumeric_err_NA);
+		res = value_new_error (ei->pos, gnumeric_err_NA);
+		goto error;
 	}
 
 	lower_limit = value_get_as_float (argv[2]);
-	if (argv[3] == NULL)
-	        upper_limit = lower_limit;
-	else
-	        upper_limit = value_get_as_float (argv[3]);
+	upper_limit = argv[3] ? value_get_as_float (argv[3]) : lower_limit;
 
 	list1 = x_cl.entries;
 	list2 = prob_cl.entries;
@@ -2523,27 +2511,41 @@ gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
 		x = *((gnum_float *) list1->data);
 		prob = *((gnum_float *) list2->data);
 
-		if (prob <= 0 || prob > 1)
-		        return value_new_error (ei->pos, gnumeric_err_NUM);
+		if (prob <= 0 || prob > 1) {
+			res= value_new_error (ei->pos, gnumeric_err_NUM);
+			goto error;
+		}
 
 		total_sum += prob;
 
 		if (x >= lower_limit && x <= upper_limit)
 		        sum += prob;
 
-		g_free (list1->data);
-		g_free (list2->data);
 		list1 = list1->next;
 		list2 = list2->next;
 	}
 
-	g_slist_free (x_cl.entries);
-	g_slist_free (prob_cl.entries);
+	if (total_sum != 1) {
+	        res = value_new_error (ei->pos, gnumeric_err_NUM);
+		goto error;
+	}
 
-	if (total_sum != 1)
-	        return value_new_error (ei->pos, gnumeric_err_NUM);
+	res = value_new_float (sum);
 
-	return value_new_float (sum);
+	{
+		GSList *tmp;
+
+		for (tmp = x_cl.entries; tmp; tmp = tmp->next)
+		        g_free (tmp->data);
+		g_slist_free (x_cl.entries);
+
+		for (tmp = prob_cl.entries; tmp; tmp = tmp->next)
+		        g_free (tmp->data);
+		g_slist_free (prob_cl.entries);
+	}
+
+ error:
+	return res;
 }
 
 /***************************************************************************/

@@ -69,7 +69,7 @@
 
 #define MATHLIB_STANDALONE
 #define ML_ERR_return_NAN { return ML_NAN; }
-void pnorm_both(gnum_float x, gnum_float *cum, gnum_float *ccum, int i_tail, gboolean log_p);
+static void pnorm_both(gnum_float x, gnum_float *cum, gnum_float *ccum, int i_tail, gboolean log_p);
 
 /* MW ---------------------------------------------------------------------- */
 
@@ -924,7 +924,7 @@ gnum_float ppois(gnum_float x, gnum_float lambda, gboolean lower_tail, gboolean 
 
 /* stirlerr(n) = loggnum(n!) - loggnum( sqrtgnum(2*pi*n)*(n/e)^n ) */
 
-gnum_float stirlerr(gnum_float n)
+static gnum_float stirlerr(gnum_float n)
 {
 
 #define S0 GNUM_const(0.083333333333333333333)       /* 1/12 */
@@ -1028,7 +1028,7 @@ gnum_float stirlerr(gnum_float n)
  *	of log((1+v)/(1-v)) with v = (x-np)/(x+np).
  */
 
-gnum_float bd0(gnum_float x, gnum_float np)
+static gnum_float bd0(gnum_float x, gnum_float np)
 {
     gnum_float ej, s, s1, v;
     int j;
@@ -1087,7 +1087,7 @@ gnum_float bd0(gnum_float x, gnum_float np)
  */
 
 
-gnum_float dpois_raw(gnum_float x, gnum_float lambda, gboolean give_log)
+static gnum_float dpois_raw(gnum_float x, gnum_float lambda, gboolean give_log)
 {
     if (lambda == 0) return( (x == 0) ? R_D__1 : R_D__0 );
     if (x == 0) return( R_D_exp(-lambda) );
@@ -1625,7 +1625,7 @@ int chebyshev_init(gnum_float *dos, int nos, gnum_float eta)
 }
 
 
-gnum_float chebyshev_eval(gnum_float x, const gnum_float *a, const int n)
+static gnum_float chebyshev_eval(gnum_float x, const gnum_float *a, const int n)
 {
     gnum_float b0, b1, b2, twox;
     int i;
@@ -1691,7 +1691,7 @@ gnum_float chebyshev_eval(gnum_float x, const gnum_float *a, const int n)
  */
 
 
-gnum_float lgammacor(gnum_float x)
+static gnum_float lgammacor(gnum_float x)
 {
     const gnum_float algmcs[15] = {
 	GNUM_const(+.1666389480451863247205729650822e+0),
@@ -1789,7 +1789,7 @@ gnum_float lgammacor(gnum_float x)
  */
 
 
-gnum_float lbeta(gnum_float a, gnum_float b)
+static gnum_float lbeta(gnum_float a, gnum_float b)
 {
     gnum_float corr, p, q;
 
@@ -1877,7 +1877,7 @@ gnum_float lbeta(gnum_float a, gnum_float b)
 
 /* This is called from	qbeta(.) in a root-finding loop --- be FAST! */
 
-gnum_float pbeta_raw(gnum_float x, gnum_float pin, gnum_float qin, gboolean lower_tail)
+static gnum_float pbeta_raw(gnum_float x, gnum_float pin, gnum_float qin, gboolean lower_tail)
 {
     gnum_float ans, c, finsum, p, ps, p1, q, term, xb, xi, y;
     int n, i, ib, swap_tail;
@@ -2675,7 +2675,7 @@ gnum_float pbinom(gnum_float x, gnum_float n, gnum_float p, gboolean lower_tail,
  */
 
 
-gnum_float dbinom_raw(gnum_float x, gnum_float n, gnum_float p, gnum_float q, gboolean give_log)
+static gnum_float dbinom_raw(gnum_float x, gnum_float n, gnum_float p, gnum_float q, gboolean give_log)
 {
     gnum_float f, lc;
 

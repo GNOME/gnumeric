@@ -3329,7 +3329,7 @@ gnumeric_xml_write_workbook (GnumFileSaver const *fs,
 void
 xml_init (void)
 {
-	gchar *desc = _("Gnumeric XML file format");
+	const gchar *desc = _("Gnumeric XML file format");
 
 	xml_opener = gnum_file_opener_new (
 	             "Gnumeric_XmlIO:gnum_xml", desc,

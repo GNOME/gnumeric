@@ -230,14 +230,11 @@ general_linear_regression (gnum_float **xss, int xdim,
 		gnum_float *residuals = g_new (gnum_float, n);
 		gnum_float **LU;
 		int *P;
-		gnum_float *e, *inv;
-		gnum_float ybar;
 		int err;
 
 		/* This should not fail since n >= 1.  */
-		err = range_average (ys, n, &ybar);
+		err = range_average (ys, n, &regression_stat->ybar);
 		g_assert (err == 0);
-		regression_stat->ybar = ybar;
 
 		/* FIXME: we ought to have a devsq variant that does not
 		   recompute the mean.  */
@@ -283,8 +280,8 @@ general_linear_regression (gnum_float **xss, int xdim,
 		err2 = LUPDecomp (xTx, LU, P, xdim);
 		regression_stat->se = g_new (gnum_float, xdim);
 		if (err2 == 0) {
-			e = g_new (gnum_float, xdim); /* Elmentary vector */
-			inv = g_new (gnum_float, xdim);
+			gnum_float *e = g_new (gnum_float, xdim); /* Elmentary vector */
+			gnum_float *inv = g_new (gnum_float, xdim);
 			for (i = 0; i < xdim; i++)
 				e[i] = 0;
 			for (i = 0; i < xdim; i++) {
