@@ -1,3 +1,7 @@
+1999-12-18  Ariel Rios <jarios@usa.net>
+
+	* galway_startup.scm: We no longer display Guile initialization messages.
+
 1999-12-10  Ariel Rios <jarios@usa.net>
 
 	* plugin.c: (value_to_scm) We now handle the VALUE_ARRAY case passing the value

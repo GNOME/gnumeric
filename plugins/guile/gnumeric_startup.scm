@@ -5,7 +5,7 @@
 ; Mark Probst (schani@unix.cslab.tuwien.ac.at)
 ;
 
-(display "Guile plug-in initializing\n")
+;(display "Guile plug-in initializing\n")
 (load "functions.scm")
 
 ; cell-refs
@@ -216,4 +216,14 @@
   (if (access? home-gnumericrc R_OK)
       (load home-gnumericrc)))
 
-(display "Guile plug-in initialization complete\n")
+;(display "Guile plug-in initialization complete\n")
+
+
+
+
+
+
+
+
+
+
