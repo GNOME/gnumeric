@@ -58,13 +58,13 @@ struct _Workbook {
 	GtkObject  gtk_object;
 #endif
 
-	/* { Start view specific elements */;
+	/* { Start view specific elements */
         GtkWidget  *toplevel; 
 	GtkWidget  *notebook;
 
 	/* Edit area */
 	GtkWidget  *ea_input;
-	/* } End view specific elements */;
+	/* } End view specific elements */
 
 	char       *filename;
 	gboolean    needs_name;

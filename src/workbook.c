@@ -2128,6 +2128,23 @@ workbook_create_toolbars (Workbook *wb)
 	gtk_widget_show (wb->priv->format_toolbar);
 }
 
+static gboolean
+cb_scroll_wheel_support (GtkWidget *w, GdkEventButton *event, Workbook *wb)
+{
+	/* This is a stub routine to handle scroll wheel events
+	 * Unfortunately the toplevel window is currently owned by the workbook
+	 * rather than a workbook-view so we can not really scroll things
+	 * unless we scrolled al lthe views at once which is ugly.
+	 */
+#if 0
+	if (event->button == 4)
+	    puts("up");
+	else if (event->button == 5)
+	    puts("down");
+#endif
+	return FALSE;
+}
+
 /**
  * workbook_new:
  *
@@ -2243,6 +2260,10 @@ workbook_new (void)
 
 	/* clipboard setup */
 	x_clipboard_bind_workbook (wb);
+
+	gtk_signal_connect (GTK_OBJECT (wb->toplevel), "button-release-event",
+			    GTK_SIGNAL_FUNC (cb_scroll_wheel_support),
+			    wb);
 
 	gtk_widget_show_all (wb->priv->table);
 

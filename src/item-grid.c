@@ -1094,7 +1094,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 					row = MIN (gsheet->row.last_full , SHEET_MAX_ROWS-1);
 				gnumeric_sheet_set_top_row (gsheet, row);
 			}
-			return TRUE;
+			return FALSE;
 
 		default:
 			return FALSE;
@@ -1179,7 +1179,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			event->motion.y = 0;
 
 		sheet_selection_extend_to (sheet, col, row);
-		return 1;
+		return TRUE;
 
 	case GDK_BUTTON_PRESS:
 		sheet_set_mode_type (sheet, SHEET_MODE_SHEET);
@@ -1203,14 +1203,17 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			item_grid_popup_menu (sheet,
 					      event, col, row,
 					      FALSE, FALSE);
-			return 1;
+			return TRUE;
+
+		default :
+			return FALSE;
 		}
 
 	default:
-		return 0;
+		return FALSE;
 	}
 
-	return 0;
+	return FALSE;
 }
 
 /*

@@ -168,9 +168,7 @@ get_row_name (int n)
 static void
 bar_draw_cell (ItemBar const * const item_bar,
 	       GdkDrawable *drawable, ItemBarSelectionType const type,
-	       char const * const str,
-	       int const x, int const y,
-	       int const width, int const height)
+	       char const * const str, GdkRectangle * rect)
 {
 	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (item_bar)->canvas);
 	GdkFont *font;
@@ -201,12 +199,13 @@ bar_draw_cell (ItemBar const * const item_bar,
 	len = gdk_string_width (font, str);
 	texth = font->ascent + font->descent;
 
-	gdk_draw_rectangle (drawable, gc, TRUE, x + 1, y + 1, width-2, height-2);
+	gdk_gc_set_clip_rectangle (gc, rect);
+	gdk_draw_rectangle (drawable, gc, TRUE, rect->x + 1, rect->y + 1, rect->width-2, rect->height-2);
 	gtk_draw_shadow (canvas->style, drawable, GTK_STATE_NORMAL, shadow,
-			 x, y, width, height);
+			 rect->x, rect->y, rect->width, rect->height);
 	gdk_draw_string (drawable, font, item_bar->gc,
-			 x + (width - len) / 2,
-			 y + (height - texth) / 2 + font->ascent,
+			 rect->x + (rect->width - len) / 2,
+			 rect->y + (rect->height - texth) / 2 + font->ascent,
 			 str);
 }
 
@@ -216,13 +215,34 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 	ItemBar const * const item_bar = ITEM_BAR (item);
 	Sheet   const * const sheet = item_bar->sheet_view->sheet;
 	GnumericSheet const * const gsheet = GNUMERIC_SHEET (item_bar->sheet_view->sheet_view);
+	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (item)->canvas);
 	int pixels;
+	GdkRectangle rect;
 
 	if (item_bar->orientation == GTK_ORIENTATION_VERTICAL) {
-		int const real_width = GTK_WIDGET (item->canvas)->allocation.width;
+		/* Include a 1 pixel buffer.
+		 * To avoid overlaping the cells the shared pixel belongs to the cell above.
+		 * This has the nice property that the bottom dark line of the
+		 * shadow aligns with the grid lines.
+		 * Unfortunately it also implies a 1 pixel empty space at the
+		 * top of the bar.  Which we are forced to fill in with
+		 * something.  For now I draw a black line there to be
+		 * compatible with the default colour used on the bottom of the
+		 * cell shadows.
+		 */
+		int total = 1 + gsheet->row_offset.first - y;
 		int element = gsheet->row.first;
-		int total = gsheet->row_offset.first - y;
 
+		rect.x = -x;
+		rect.width = canvas->allocation.width;
+
+		/* FIXME : How to avoid hard coding this color ?
+		 * We need the color that will be drawn as the bottom bevel
+		 * for the button shadow
+		 */
+		gdk_draw_line (drawable, canvas->style->black_gc,
+			       rect.x, total-1,
+			       rect.x + rect.width, total-1);
 		do {
 			if (element >= SHEET_MAX_ROWS)
 				return;
@@ -237,19 +257,30 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 				total += pixels;
 				if (total >= 0) {
 					char const * const str = get_row_name (element);
+					rect.y = total - pixels;
+					rect.height = pixels;
 					bar_draw_cell (item_bar, drawable,
 						       sheet_row_selection_type (sheet, element),
-						       str,
-						       -x, 1 + total - pixels,
-						       real_width, pixels);
+						       str, &rect);
 				}
 			}
 			++element;
 		} while (total < height);
 	} else {
-		int const real_height = GTK_WIDGET (item->canvas)->allocation.height;
+		/* See comment above for explaination of the extra 1 pixel */
+		int total = 1 + gsheet->col_offset.first - x;
 		int element = gsheet->col.first;
-		int total = gsheet->col_offset.first - x;
+
+		rect.y = -y;
+		rect.height = canvas->allocation.height;
+
+		/* FIXME : How to avoid hard coding this color ?
+		 * We need the color that will be drawn as the right bevel
+		 * for the button shadow
+		 */
+		gdk_draw_line (drawable, canvas->style->black_gc,
+			       total-1, rect.y,
+			       total-1, rect.y + rect.height);
 
 		do {
 			if (element >= SHEET_MAX_COLS)
@@ -263,12 +294,13 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 
 			if (pixels > 0) {
 				total += pixels;
-				if (total >= 0)
+				if (total >= 0) {
+					rect.x = total - pixels;
+					rect.width = pixels;
 					bar_draw_cell (item_bar, drawable,
 						       sheet_col_selection_type (sheet, element),
-						       col_name (element),
-						       1 + total - pixels, -y,
-						       pixels, real_height);
+						       col_name (element), &rect);
+				}
 			}
 
 			++element;

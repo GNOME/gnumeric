@@ -20,6 +20,7 @@ Jody:
 	* Row/Col header redraw improvements.
 	* Zoom enhancement/fixing.
 	* More work on undo.
+	* Parse interbook references.
 
 Jon:
 	* Cursor fixes and speedups.

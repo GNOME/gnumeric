@@ -15,6 +15,7 @@
 #include "dialogs.h"
 #include "workbook.h"
 #include "func.h"
+#include "ranges.h"
 
 
 #define OK               0
