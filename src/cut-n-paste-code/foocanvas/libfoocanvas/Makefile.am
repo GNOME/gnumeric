@@ -16,23 +16,12 @@ lib_LIBRARIES = libfoocanvas.a
 
 libfoocanvas_a_LIBADD = \
 	$(RENDER_LIBS)				\
- 
+	$(OINK)
 
 libfoocanvasincludedir = $(includedir)/libfoocanvas-1.0/libfoocanvas
 
-libfoocanvasinclude_HEADERS =			\
-	foo-canvas-line.h			\
-	foo-canvas-pixbuf.h			\
-	foo-canvas-polygon.h			\
-	foo-canvas-rect-ellipse.h		\
-	foo-canvas-text.h			\
-	foo-canvas-util.h			\
-	foo-canvas-widget.h			\
-	foo-canvas.h				\
-	libfoocanvas.h
 
 libfoocanvas_a_SOURCES =			\
-	$(libfoocanvasinclude_HEADERS)	\
 	foo-canvas-i18n.h			\
 	foo-canvas-line.c			\
 	foo-canvas-pixbuf.c			\

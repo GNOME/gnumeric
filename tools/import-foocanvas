@@ -46,7 +46,11 @@ sub copy_subsystem {
 	next if /^noinst_PROGRAMS/;
 
 	s|\$\(LIBFOOCANVAS_CFLAGS\)|\$\(GNUMERIC_CFLAGS\) -I\$\(top_srcdir\)/src|;
-	s/\s*\$\(LIBFOOCANVAS_LIBS\)/ /;
+	if (s/\s*\$\(LIBFOOCANVAS_LIBS\)/	/) {
+	    s/^\s*$/	\$(OINK)\n/;
+	}
+
+	s/\$\(libfoocanvasinclude_HEADERS\)//;
 
 	if (/^[a-zA-Z0-9_]+_(HEADERS|la_SOURCES)\s*=/ ... !/\\\s*$/) {
 	    my $line = $_;
@@ -54,13 +58,16 @@ sub copy_subsystem {
 	    $line =~ s/\s*\\//;
 	    $line =~ s/^\s+//;
 	    $line =~ s/\s+$//;
-	    $line =~ s/\$\(libfoocanvasinclude_HEADERS\)//;
 	    push @sources, split (' ', $line) if $line ne '';
 	}
 
 	s/LTLIBRARIES/LIBRARIES/;
 	s/_la_/_a_/;
 	s/\.la/\.a/;
+
+	next if /^\s*\\$/;
+
+	next if /^libfoocanvasinclude_HEADERS\s*=/ ... !/\\\s*$/;
 
 	print DST;
     }
@@ -104,6 +111,8 @@ sub copy_subsystem {
 	    }
 
 	    s/\s+$//;
+
+	    next if (/^\s*\* \$Id$\s*$/);
 
 	    # Turn C++ comments into C comments.
 	    if (m|^\s*//|) {
