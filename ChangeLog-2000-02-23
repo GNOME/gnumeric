@@ -1,3 +1,8 @@
+1999-08-01    <jrb@redhat.com>
+
+	* src/workbook.c: move the about-entry lower to make it more
+	consistent with the rest of GNOME.
+
 1999-08-01  Morten Welinder  <terra@diku.dk>
 
 	* src/format.c (format_number): YAL -- yet another leak.

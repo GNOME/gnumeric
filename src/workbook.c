@@ -1000,9 +1000,8 @@ static GnomeUIInfo workbook_menu_tools [] = {
 };
 
 static GnomeUIInfo workbook_menu_help [] = {
-        GNOMEUIINFO_MENU_ABOUT_ITEM(about_cmd, NULL),
-	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_HELP ("gnumeric"),
+        GNOMEUIINFO_MENU_ABOUT_ITEM(about_cmd, NULL),
 	GNOMEUIINFO_END
 };
 
