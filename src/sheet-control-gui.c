@@ -2051,11 +2051,12 @@ void
 scg_rangesel_cursor_extend (SheetControlGUI *scg, int col, int row)
 {
 	GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
-	ItemCursor *ic = gsheet->sel_cursor;
+	ItemCursor *ic;
 
 	gnumeric_sheet_rangesel_cursor_extend (
 		gsheet, col, row);
 
+	ic = gsheet->sel_cursor;
 	scg_range_selection_changed (scg, ic ? &ic->pos : NULL);
 }
 
@@ -2065,11 +2066,12 @@ scg_rangesel_cursor_bounds (SheetControlGUI *scg,
 			    int move_col, int move_row)
 {
 	GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
-	ItemCursor *ic = gsheet->sel_cursor;
+	ItemCursor *ic;
 
 	gnumeric_sheet_rangesel_cursor_bounds (
 		gsheet, base_col, base_row, move_col, move_row);
 
+	ic = gsheet->sel_cursor;
 	scg_range_selection_changed (scg, ic ? &ic->pos : NULL);
 }
 
@@ -2078,11 +2080,12 @@ scg_rangesel_horizontal_move (SheetControlGUI *scg, int dir,
 			      gboolean jump_to_boundaries)
 {
 	GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
-	ItemCursor *ic = gsheet->sel_cursor;
+	ItemCursor *ic;
 
 	gnumeric_sheet_rangesel_horizontal_move (gsheet, dir,
 						 jump_to_boundaries);
 
+	ic = gsheet->sel_cursor;
 	scg_range_selection_changed (scg, ic ? &ic->pos : NULL);
 }
 
@@ -2091,11 +2094,12 @@ scg_rangesel_vertical_move (SheetControlGUI *scg, int dir,
 			    gboolean jump_to_boundaries)
 {
 	GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
-	ItemCursor *ic = gsheet->sel_cursor;
+	ItemCursor *ic;
 
 	gnumeric_sheet_rangesel_vertical_move (gsheet, dir,
 					       jump_to_boundaries);
 
+	ic = gsheet->sel_cursor;
 	scg_range_selection_changed (scg, ic ? &ic->pos : NULL);
 }
 
@@ -2104,11 +2108,12 @@ scg_rangesel_horizontal_extend (SheetControlGUI *scg, int n,
 				gboolean jump_to_boundaries)
 {
 	GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
-	ItemCursor *ic = gsheet->sel_cursor;
+	ItemCursor *ic;
 
 	gnumeric_sheet_rangesel_horizontal_extend (gsheet, n,
 						   jump_to_boundaries);
 
+	ic = gsheet->sel_cursor;
 	scg_range_selection_changed (scg, ic ? &ic->pos : NULL);
 }
 
@@ -2117,11 +2122,12 @@ scg_rangesel_vertical_extend (SheetControlGUI *scg, int n,
 			      gboolean jump_to_boundaries)
 {
 	GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
-	ItemCursor *ic = gsheet->sel_cursor;
+	ItemCursor *ic;
 
 	gnumeric_sheet_rangesel_vertical_extend (gsheet, n,
 						 jump_to_boundaries);
 
+	ic = gsheet->sel_cursor;
 	scg_range_selection_changed (scg, ic ? &ic->pos : NULL);
 }
 

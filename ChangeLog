@@ -1,5 +1,14 @@
 2001-04-18  Jon K Hellan  <hellan@acm.org>
 
+	* src/sheet-control-gui.c (scg_rangesel_cursor_extend,
+	scg_rangesel_cursor_bounds, scg_rangesel_horizontal_move,
+	scg_rangesel_vertical_move, scg_rangesel_horizontal_extend,
+	scg_rangesel_vertical_extend, scg_rangesel_cursor_extend): Use
+	value of item_cursor from after GnumericSheet method has been
+	invoked.
+
+2001-04-18  Jon K Hellan  <hellan@acm.org>
+
 	* src/workbook-edit.[ch] (workbook_get_entry,
 	workbook_get_entry_logical): Change return type to
 	GnumericExprEntry.
