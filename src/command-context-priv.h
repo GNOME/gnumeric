@@ -5,13 +5,13 @@
 
 struct _CommandContext {
 	GObject g_object;
-	GSList *template_list;
 };
 
 typedef struct {
 	GObjectClass g_object_class;
 
 	char *  (*get_password)		(CommandContext *cc, char const *msg);
+	void    (*set_sensitive)	(CommandContext *cc, gboolean sensitive);
 	void    (*progress_set)		(CommandContext *cc, gfloat val);
 	void    (*progress_message_set)	(CommandContext *cc, gchar const *msg);
 	struct {

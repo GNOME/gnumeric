@@ -71,8 +71,8 @@ two_way_table_new (GHashFunc    hash_func,
 	TwoWayTable *table = g_new (TwoWayTable, 1);
 
 	g_return_val_if_fail (base >= 0, NULL);
-	table->all_keys  = g_hash_table_new (g_direct_hash, g_direct_equal);
-	table->unique_keys	   = g_hash_table_new (hash_func, key_compare_func);
+	table->all_keys    = g_hash_table_new (g_direct_hash, g_direct_equal);
+	table->unique_keys = g_hash_table_new (hash_func, key_compare_func);
 	table->idx_to_key  = g_ptr_array_new ();
 	table->base        = base;
 

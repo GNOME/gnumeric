@@ -76,6 +76,7 @@ struct _PrintInformation {
 	unsigned int     print_even_if_only_styles:1;
 	unsigned int     print_black_and_white:1;
 	unsigned int     print_as_draft:1;
+	unsigned int     print_comments:1;
 	unsigned int     print_titles:1;
 
 	enum {

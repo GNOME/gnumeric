@@ -85,7 +85,7 @@ gui_file_read (WorkbookControlGUI *wbcg, char const *file_name,
 	IOContext *io_context;
 	WorkbookView *wbv;
 
-	wb_control_set_sensitive (WORKBOOK_CONTROL (wbcg), FALSE);
+	cmd_context_set_sensitive (COMMAND_CONTEXT (wbcg), FALSE);
 	io_context = gnumeric_io_context_new (COMMAND_CONTEXT (wbcg));
 	wbv = wb_view_new_from_file  (file_name, optional_format, io_context);
 
@@ -93,7 +93,7 @@ gui_file_read (WorkbookControlGUI *wbcg, char const *file_name,
 		gnumeric_io_error_display (io_context);
 
 	g_object_unref (G_OBJECT (io_context));
-	wb_control_set_sensitive (WORKBOOK_CONTROL (wbcg), TRUE);
+	cmd_context_set_sensitive (COMMAND_CONTEXT (wbcg), TRUE);
 
 	if (wbv != NULL) {
 		Workbook *tmp_wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));

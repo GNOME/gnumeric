@@ -731,6 +731,7 @@ print_info_dup (PrintInformation const *src_pi)
 	dst_pi->print_even_if_only_styles = src_pi->print_even_if_only_styles;
 	dst_pi->print_black_and_white	  = src_pi->print_black_and_white;
 	dst_pi->print_as_draft		  = src_pi->print_as_draft;
+	dst_pi->print_comments		  = src_pi->print_comments;
 	dst_pi->print_titles		  = src_pi->print_titles;
 	dst_pi->print_order		  = src_pi->print_order;
 

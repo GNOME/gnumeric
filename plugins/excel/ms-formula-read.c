@@ -419,6 +419,13 @@ const FormulaFuncData formula_func_data[FORMULA_FUNC_DATA_LEN] =
 /* 367 */	{ "VARA", -1 }
 };
 
+/* #define NO_DEBUG_EXCEL */
+#ifndef NO_DEBUG_EXCEL
+#define d(level, code)	do { if (ms_excel_formula_debug > level) { code } } while (0)
+#else
+#define d(level, code)
+#endif
+
 static GnmExpr const *
 expr_tree_string (char const *str)
 {
@@ -436,12 +443,8 @@ getRefV7 (CellRef *cr,
 {
 	guint16 const row = (guint16)(gbitrw & 0x3fff);
 
-#ifndef NO_DEBUG_EXCEL
-	if (ms_excel_formula_debug > 2) {
-		printf ("7In : 0x%x, 0x%x  at %s%s\n", col, gbitrw,
-			cell_coord_name (curcol, currow), (shared?" (shared)":""));
-	}
-#endif
+	d (2, printf ("7In : 0x%x, 0x%x  at %s%s\n", col, gbitrw,
+		      cell_coord_name (curcol, currow), (shared?" (shared)":"")););
 
 	cr->sheet = NULL;
 
@@ -484,12 +487,8 @@ getRefV8 (CellRef *cr,
 {
 	guint8 const col = (guint8)(gbitcl & 0xff);
 
-#ifndef NO_DEBUG_EXCEL
-	if (ms_excel_formula_debug > 2) {
-		printf ("8In : 0x%x, 0x%x  at %s%s\n", row, gbitcl,
-			cell_coord_name (curcol, currow), (shared?" (shared)":""));
-	}
-#endif
+	d (2, printf ("8In : 0x%x, 0x%x  at %s%s\n", row, gbitcl,
+		      cell_coord_name (curcol, currow), (shared?" (shared)":"")););
 
 	cr->sheet = NULL;
 
@@ -515,11 +514,7 @@ getRefV8 (CellRef *cr,
 static void
 parse_list_push (GnmExprList **list, GnmExpr const *pd)
 {
-#ifndef NO_DEBUG_EXCEL
-	if (ms_excel_formula_debug > 5) {
-		printf ("Push 0x%x\n", (int)pd);
-	}
-#endif
+	d (5, printf ("Push 0x%x\n", (int)pd););
 	if (!pd)
 		printf ("FIXME: Pushing nothing onto excel function stack\n");
 	*list = gnm_expr_list_prepend (*list, pd);
@@ -539,11 +534,7 @@ parse_list_pop (GnmExprList **list)
 	{
 		GnmExpr const *ans = tmp->data;
 		*list = g_slist_remove (*list, ans);
-#ifndef NO_DEBUG_EXCEL
-		if (ms_excel_formula_debug > 5) {
-		    printf ("Pop 0x%x\n", (int)ans);
-		}
-#endif
+		d (5, printf ("Pop 0x%x\n", (int)ans););
 		return ans;
 	}
 
@@ -617,12 +608,9 @@ make_function (GnmExprList **stack, int fn_idx, int numargs)
 		const FormulaFuncData *fd = &formula_func_data[fn_idx];
 		GnmExprList *args;
 
-#ifndef NO_DEBUG_EXCEL
-		if (ms_excel_formula_debug > 0) {
-			printf ("Function '%s', args %d, templ: %d\n",
-				fd->prefix, numargs, fd->num_args);
-		}
-#endif
+		d (0, printf ("Function '%s', args %d, templ: %d\n",
+			      fd->prefix, numargs, fd->num_args););
+
 		/* Right args for multi-arg funcs. */
 		if (fd->num_args >= 0) {
 			int const available_args =
@@ -748,14 +736,12 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 		int ptgbase = ((ptg & 0x40) ? (ptg | 0x20): ptg) & 0x3F;
 		if (ptg > FORMULA_PTG_MAX)
 			break;
-#ifndef NO_DEBUG_EXCEL
-		if (ms_excel_formula_debug > 5) {
+		d (5, {
 			printf ("Ptg : 0x%02x", ptg);
 			if (ptg != ptgbase)
 				printf ("(0x%02x)", ptgbase);
 			printf ("\n");
-		}
-#endif
+		});
 
 		switch (ptgbase) {
 		case FORMULA_PTG_EXPR: {
@@ -1094,71 +1080,97 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 		break;
 
 		case FORMULA_PTG_ARRAY : {
-			/* NB. the spec. is wrong here, these are zero offset */
-			guint32 const cols=GSF_LE_GET_GUINT8(array_data)+1;
-			guint32 const rows=GSF_LE_GET_GUINT16(array_data+1)+1;
-			guint16 lpx,lpy;
-			Value *v = value_new_array (cols, rows);
+			unsigned cols = GSF_LE_GET_GUINT8  (array_data + 0);
+			unsigned rows = GSF_LE_GET_GUINT16 (array_data + 1);
+			unsigned lpx, lpy, elem_len = 0;
+			Value *v, *elem;
+			guint8 val_type;
+			
+			if (ver >= MS_BIFF_V8) {
+				cols++;
+				rows++;
+			} else if (cols == 0)
+				cols = 256;
+
+			v = value_new_array (cols, rows);
 			ptg_length = 7;
 
 #ifndef NO_DEBUG_EXCEL
-			if (ms_excel_formula_debug > 1) {
+			if (ms_excel_formula_debug > 4) {
+				/* no way to dump the content because we have
+				 * no idea how long it is
+				 */
 				printf ("An Array how interesting: (%d,%d)\n",
 					cols, rows);
-				gsf_mem_dump (mem, length);
 			}
 #endif
 			array_data += 3;
 			for (lpy = 0; lpy < rows; lpy++) {
 				for (lpx = 0; lpx < cols; lpx++) {
-					Value *set_val = 0;
-					guint8 opts = GSF_LE_GET_GUINT8(array_data);
+					val_type = GSF_LE_GET_GUINT8 (array_data);
 #ifndef NO_DEBUG_EXCEL
-					if (ms_excel_formula_debug > 0) {
-						printf ("Opts 0x%x\n", opts);
+					if (ms_excel_formula_debug > 5) {
+						printf ("\tArray elem type 0x%x (%d,%d)\n", val_type, lpx, lpy);
 					}
 #endif
-					if (opts == 1) {
-						double const v = gsf_le_get_double(array_data+1);
-						set_val = value_new_float (v);
-						array_data+=9;
-					} else if (opts == 2) {
+					switch (val_type) {
+					case 1:
+						elem = value_new_float (gsf_le_get_double (array_data+1));
+						elem_len = 9;
+						break;
+
+					case 2: {
 						guint32 len;
 						char *str;
 
-						if (ver >= MS_BIFF_V8) { /* Cunningly not mentioned in spec. ! */
-							str = biff_get_text (array_data+3,
-									     GSF_LE_GET_GUINT16(array_data+1),
+						if (ver >= MS_BIFF_V8) {
+							str = biff_get_text (array_data + 3,
+									     GSF_LE_GET_GUINT16 (array_data+1),
 									     &len);
-							array_data+=len+3;
+							elem_len = len + 3;
+							/* biff_get_text misses the 1 byte header for empty strings */
+							if (len == 0)
+								elem_len++;
 						} else {
-							str = biff_get_text (array_data+2,
-									     GSF_LE_GET_GUINT8(array_data+1),
+							str = biff_get_text (array_data + 2,
+									     GSF_LE_GET_GUINT8 (array_data+1),
 									     &len);
-							array_data+=len+2;
+							elem_len = len + 2;
 						}
+
 						if (str) {
-							set_val = value_new_string (str);
+							elem = value_new_string (str);
 #ifndef NO_DEBUG_EXCEL
-							if (ms_excel_formula_debug > 0) {
-								printf ("String '%s'\n", str);
+							if (ms_excel_formula_debug > 5) {
+								printf ("\tString '%s'\n", str);
 							}
 #endif
 							g_free (str);
 						} else
-							set_val = value_new_string ("");
-					} else {
-						printf ("FIXME: Duff array item type %d @ %s%d\n",
-							opts, col_name(fn_col), fn_row+1);
-						gsf_mem_dump (array_data+1, 8);
-						error = TRUE;
-						goto really_duff;
+							elem = value_new_string ("");
 						break;
 					}
-					value_array_set (v, lpx, lpy, set_val);
+
+					case 4:
+						elem = value_new_bool (array_data [1] ? TRUE : FALSE);
+						elem_len = 9;
+						break;
+					case 16:
+						elem = value_new_error (NULL,
+							biff_get_error_text (array_data [1]));
+						elem_len = 9;
+						break;
+
+					default :
+						printf ("FIXME: Duff array item type %d @ %s%d:%d,%d with %d\n",
+							val_type, col_name(fn_col), fn_row+1, lpx, lpy, elem_len);
+						gsf_mem_dump (array_data-elem_len-9, 9+elem_len+9);
+						elem = value_new_empty ();
+					}
+					value_array_set (v, lpx, lpy, elem);
+					array_data += elem_len;
 				}
 			}
-		really_duff:
 			parse_list_push_raw (&stack, v);
 			break;
 		}
@@ -1191,22 +1203,14 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 		}
 
 		case FORMULA_PTG_NAME: {
-			gint32 name_idx; /* 1 based */
-
-			if (ver >= MS_BIFF_V8) {
-				name_idx = GSF_LE_GET_GUINT16 (cur) - 1;
+			guint16 name_idx = GSF_LE_GET_GUINT16 (cur);
+			if (ver >= MS_BIFF_V8)
 				ptg_length = 4;  /* Docs are wrong, no ixti */
-			} else {
-				name_idx = GSF_LE_GET_GUINT16 (cur) - 1;
+			else
 				ptg_length = 14;
-			}
-			if (name_idx < 0)
-				printf ("FIXME: how odd; negative name calling is bad!\n");
-			parse_list_push (&stack, ms_excel_workbook_get_name (ewb, name_idx));
-#ifndef NO_DEBUG_EXCEL
-			if (ms_excel_formula_debug > 2)
-				printf ("Name idx %d\n", name_idx);
-#endif
+
+			parse_list_push (&stack, ms_excel_workbook_get_name (ewb, -1, name_idx));
+			d (2, printf ("Name idx %hu\n", name_idx););
 		}
 		break;
 
@@ -1277,18 +1281,17 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 			guint16 extn_name_idx; /* 1 based */
 			guint16 extn_sheet_idx;
 
+			extn_sheet_idx = GSF_LE_GET_GUINT16 (cur);
 			if (ver == MS_BIFF_V8) {
-				extn_sheet_idx = GSF_LE_GET_GUINT16(cur);
-				extn_name_idx  = GSF_LE_GET_GUINT16(cur+2);
+				extn_name_idx  = GSF_LE_GET_GUINT16 (cur+2);
 /*				printf ("FIXME: v8 NameX : %d %d\n", extn_sheet_idx, extn_name_idx); */
 				ptg_length = 6;
 			} else {
-				extn_sheet_idx = GSF_LE_GET_GUINT16(cur);
-				extn_name_idx  = GSF_LE_GET_GUINT16(cur+10);
+				extn_name_idx  = GSF_LE_GET_GUINT16 (cur+10);
 /*				printf ("FIXME: v7 NameX : %d %d\n", extn_sheet_idx, extn_name_idx); */
 				ptg_length = 24;
 			}
-			tree = ms_excel_workbook_get_name (ewb, extn_name_idx-1);
+			tree = ms_excel_workbook_get_name (ewb, extn_sheet_idx, extn_name_idx);
 			parse_list_push (&stack, tree);
 		}
 		break;
@@ -1415,7 +1418,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 
 	if (error) {
 		g_warning ("Unknown Formula/Array at %s!%s%s.",
-			(esheet->gnum_sheet)?
+			(esheet != NULL && esheet->gnum_sheet != NULL) ?
 			esheet->gnum_sheet->name_unquoted : "",
 			cell_coord_name (fn_col,fn_row),
 			(shared?" (shared)":""));

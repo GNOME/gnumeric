@@ -143,9 +143,16 @@ expr_name_lookup_list (GList *p, char const *name)
 	return NULL;
 }
 
+/**
+ * expr_name_lookup:
+ * @pp :
+ * @name :
+ *
+ * lookup but do not reference a named expression.
+ */
 /* FIXME : Why not use hash tables ? */
 GnmNamedExpr *
-expr_name_lookup (ParsePos const *pos, char const *name)
+expr_name_lookup (ParsePos const *pp, char const *name)
 {
 	GnmNamedExpr *res = NULL;
 	Sheet const *sheet = NULL;
@@ -153,9 +160,9 @@ expr_name_lookup (ParsePos const *pos, char const *name)
 
 	g_return_val_if_fail (name != NULL, NULL);
 
-	if (pos != NULL) {
-		sheet = pos->sheet;
-		wb = (sheet != NULL) ? sheet->workbook : pos->wb;
+	if (pp != NULL) {
+		sheet = pp->sheet;
+		wb = (sheet != NULL) ? sheet->workbook : pp->wb;
 	}
 
 	if (sheet != NULL)
@@ -603,6 +610,7 @@ expr_name_init (void)
 		GnmNamedExpr *nexpr;
 		nexpr = expr_name_new (builtins[lp].name, TRUE);
 		nexpr->t.expr_func = builtins[lp].fn;
+		nexpr->active = TRUE;
 		global_names = g_list_append (global_names, nexpr);
 	}
 }

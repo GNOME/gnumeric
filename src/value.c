@@ -625,13 +625,17 @@ value_get_as_string (Value const *v)
 		for (y = 0; y < v->v_array.y; y++){
 			for (x = 0; x < v->v_array.x; x++){
 				Value const *val = v->v_array.vals[x][y];
-				char *text;
 
 				if (x)
 					g_string_append_c (str, row_sep);
-				text = value_get_as_string (val);
-				g_string_append (str, text);
-				g_free (text);
+
+				/* quote strings */
+				if (val->type == VALUE_STRING) {
+					char *tmp = gnumeric_strescape (val->v_str.val->str);
+					g_string_append (str, tmp);
+					g_free (tmp);
+				} else
+					g_string_append (str, value_peek_string (val));
 			}
 			if (y < v->v_array.y-1)
 				g_string_append_c (str, col_sep);

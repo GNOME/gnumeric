@@ -255,7 +255,8 @@ STATE_WB,
 				STATE_PRINT_HCENTER,
 				STATE_PRINT_GRID,
 				STATE_PRINT_MONO,
-				STATE_PRINT_DRAFTS,
+				STATE_PRINT_AS_DRAFT,
+				STATE_PRINT_COMMENTS,
 				STATE_PRINT_TITLES,
 				STATE_PRINT_REPEAT_TOP,
 				STATE_PRINT_REPEAT_LEFT,
@@ -357,6 +358,7 @@ static char const * const xmlSax_state_names[] =
 				"gmr:grid",
 				"gmr:monochrome",
 				"gmr:draft",
+				"gmr:comments",
 				"gmr:titles",
 				"gmr:repeat_top",
 				"gmr:repeat_left",
@@ -1701,7 +1703,8 @@ xml_sax_start_element (XMLSaxParseState *state, xmlChar const *name, xmlChar con
 		} else if (xml_sax_switch_state (state, name, STATE_PRINT_HCENTER)) {
 		} else if (xml_sax_switch_state (state, name, STATE_PRINT_GRID)) {
 		} else if (xml_sax_switch_state (state, name, STATE_PRINT_MONO)) {
-		} else if (xml_sax_switch_state (state, name, STATE_PRINT_DRAFTS)) {
+		} else if (xml_sax_switch_state (state, name, STATE_PRINT_AS_DRAFT)) {
+		} else if (xml_sax_switch_state (state, name, STATE_PRINT_COMMENTS)) {
 		} else if (xml_sax_switch_state (state, name, STATE_PRINT_TITLES)) {
 		} else if (xml_sax_switch_state (state, name, STATE_PRINT_REPEAT_TOP)) {
 		} else if (xml_sax_switch_state (state, name, STATE_PRINT_REPEAT_LEFT)) {

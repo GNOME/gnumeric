@@ -26,12 +26,8 @@ void  gnumeric_error_splits_array   (CommandContext *cc, char const *cmd,
 void  gnumeric_error_error_info	    (CommandContext *cc, ErrorInfo *error);
 void  gnumeric_progress_set	    (CommandContext *cc, gfloat f);
 void  gnumeric_progress_message_set (CommandContext *cc, char const *msg);
-char *cmd_context_get_password	    (CommandContext *cc, char const *msg);
 
-/* Push a printf template to the list. The template is used to provide
- * context for error messages. E.g.: "Could not read file: %s". */
-void command_context_pop_err_template  (CommandContext *context);
-void command_context_push_err_template (CommandContext *context,
-					char const *template_str);
+char *cmd_context_get_password	    (CommandContext *cc, char const *msg);
+void  cmd_context_set_sensitive	    (CommandContext *cc, gboolean sensitive);
 
 #endif /* GNUMERIC_COMMAND_CONTEXT_H */

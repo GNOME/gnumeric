@@ -1213,6 +1213,10 @@ xml_read_print_info (XmlParseContext *ctxt, xmlNodePtr tree)
 		xml_node_get_int  (child, "value",   &b);
 		pi->print_as_draft        = (b == 1);
 	}
+	if ((child = e_xml_get_child_by_name (tree, (xmlChar const *)"comments"))) {
+		xml_node_get_int  (child, "value",   &b);
+		pi->print_comments        = (b == 1);
+	}
 	if ((child = e_xml_get_child_by_name (tree, (xmlChar const *)"titles"))) {
 		xml_node_get_int  (child, "value",  &b);
 		pi->print_titles          = (b == 1);

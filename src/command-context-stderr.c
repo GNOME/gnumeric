@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * command-context-stderr.c : Error dispatch for line oriented clients
  *
@@ -129,12 +130,24 @@ ccs_init (CommandContextStderr *ccs)
 	ccs->status = 0;
 }
 
+static char *
+ccs_get_password (CommandContext *cc, char const* msg)
+{
+	return NULL;
+}
+static void
+ccs_set_sensitive (CommandContext *cc, gboolean sensitive)
+{
+}
+
 static void
 ccs_class_init (GObjectClass *object_class)
 {
 	CommandContextClass *cc_class = COMMAND_CONTEXT_CLASS (object_class);
 
 	g_return_if_fail (cc_class != NULL);
+	cc_class->get_password	     = ccs_get_password;
+	cc_class->set_sensitive	     = ccs_set_sensitive;
 	cc_class->error.system       = ccs_system;
 	cc_class->error.plugin       = ccs_plugin;
 	cc_class->error.read         = ccs_read;

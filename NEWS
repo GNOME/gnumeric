@@ -18,6 +18,11 @@ Jody:
 	* Support Double click in cell to start editing.
 	* Change the cursor when the mouse is in the edit item.
 	* Improve (Fix?) colwidth exporting in xls
+	* Fix XLS name import in the presence of external links
+	* Extend XLS array import
+	* Take a step towards supporting external links in XLS.
+	* Fix reporting of import errors.
+	* Fix ref-count problem importing builtin names in XLS.
 
 Jukka:
 	* New random distribution functions (mostly integrated from the 

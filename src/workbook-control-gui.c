@@ -482,9 +482,9 @@ cb_thaw_ui_toolbar (gpointer *data)
 }
 
 static void
-wbcg_set_sensitive (WorkbookControl *wbc, gboolean sensitive)
+wbcg_set_sensitive (CommandContext *cc, gboolean sensitive)
 {
-	GtkWindow *toplevel = wbcg_toplevel (WORKBOOK_CONTROL_GUI (wbc));
+	GtkWindow *toplevel = wbcg_toplevel (WORKBOOK_CONTROL_GUI (cc));
 
 	if (toplevel != NULL)
 		gtk_widget_set_sensitive (GTK_WIDGET (toplevel), sensitive);
@@ -4876,6 +4876,8 @@ wbcg_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 static void
 workbook_control_gui_ctor_class (GObjectClass *object_class)
 {
+	CommandContextClass  *cc_class =
+		COMMAND_CONTEXT_CLASS (object_class);
 	WorkbookControlClass *wbc_class =
 		WORKBOOK_CONTROL_CLASS (object_class);
 	WorkbookControlGUIClass *wbcg_class =
@@ -4885,16 +4887,17 @@ workbook_control_gui_ctor_class (GObjectClass *object_class)
 
 	object_class->finalize = wbcg_finalize;
 
-	wbc_class->context_class.get_password  = wbcg_get_password;
-	wbc_class->context_class.progress_set         = wbcg_progress_set;
-	wbc_class->context_class.progress_message_set = wbcg_progress_message_set;
-	wbc_class->context_class.error.system	= wbcg_error_system;
-	wbc_class->context_class.error.plugin	= wbcg_error_plugin;
-	wbc_class->context_class.error.read	= wbcg_error_read;
-	wbc_class->context_class.error.save	= wbcg_error_save;
-	wbc_class->context_class.error.invalid	= wbcg_error_invalid;
-	wbc_class->context_class.error.splits_array  = wbcg_error_splits_array;
-	wbc_class->context_class.error.error_info  = wbcg_error_error_info;
+	cc_class->get_password		= wbcg_get_password;
+	cc_class->set_sensitive		= wbcg_set_sensitive;
+	cc_class->progress_set		= wbcg_progress_set;
+	cc_class->progress_message_set	= wbcg_progress_message_set;
+	cc_class->error.system		= wbcg_error_system;
+	cc_class->error.plugin		= wbcg_error_plugin;
+	cc_class->error.read		= wbcg_error_read;
+	cc_class->error.save		= wbcg_error_save;
+	cc_class->error.invalid		= wbcg_error_invalid;
+	cc_class->error.splits_array 	= wbcg_error_splits_array;
+	cc_class->error.error_info	= wbcg_error_error_info;
 
 	wbc_class->control_new		= wbcg_control_new;
 	wbc_class->init_state		= wbcg_init_state;
@@ -4904,7 +4907,6 @@ workbook_control_gui_ctor_class (GObjectClass *object_class)
 	wbc_class->zoom_feedback	= wbcg_zoom_feedback;
 	wbc_class->edit_line_set	= wbcg_edit_line_set;
 	wbc_class->selection_descr_set	= wbcg_edit_selection_descr_set;
-	wbc_class->set_sensitive	= wbcg_set_sensitive;
 	wbc_class->edit_set_sensitive	= wbcg_edit_set_sensitive;
 	wbc_class->auto_expr_value	= wbcg_auto_expr_value;
 

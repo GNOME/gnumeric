@@ -547,7 +547,11 @@ wb_view_save_as (WorkbookView *wbv, GnumFileSaver *fs, gchar const *file_name,
 
 	wb = wb_view_workbook (wbv);
 	io_context = gnumeric_io_context_new (context);
+
+	cmd_context_set_sensitive (context, TRUE);
 	gnum_file_saver_save (fs, io_context, wbv, file_name);
+	cmd_context_set_sensitive (context, FALSE);
+
 	error = gnumeric_io_error_occurred (io_context);
 	if (!error) {
 		workbook_set_saveinfo (wb, file_name, gnum_file_saver_get_format_level (fs), fs);
@@ -648,10 +652,6 @@ wb_view_new_from_input  (GsfInput *input,
 		gnum_file_opener_open (optional_fmt, io_context, new_wbv, input);
 		workbook_enable_recursive_dirty (new_wb, old);
 
-		if (!gnumeric_io_error_occurred (io_context) &&
-		    workbook_sheet_count (new_wb) == 0)
-			gnumeric_io_error_read (io_context, _("No sheets in workbook."));
-
 		if (gnumeric_io_error_occurred (io_context)) {
 			g_object_unref (G_OBJECT (new_wb));
 			new_wbv = NULL;
@@ -659,9 +659,6 @@ wb_view_new_from_input  (GsfInput *input,
 			workbook_set_dirty (new_wb, FALSE);
 	} else
 		gnumeric_io_error_read (io_context, _("Unsupported file format."));
-
-	if (gnumeric_io_error_occurred (io_context))
-		gnumeric_io_error_display (io_context);
 
 	return new_wbv;
 }
@@ -691,6 +688,7 @@ wb_view_new_from_file (char const *file_name,
 	if (input == NULL)
 		input = gsf_input_stdio_new (file_name, &err);
 
+	puts (file_name);
 	if (input != NULL) {
 		WorkbookView *res = wb_view_new_from_input  (input,
 			optional_fmt, io_context);

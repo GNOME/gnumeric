@@ -88,11 +88,12 @@ typedef struct _ExcelWorkbook
 
 	GPtrArray	 *excel_sheets;
 	GHashTable	 *boundsheet_data_by_stream;
-	GHashTable	 *boundsheet_data_by_index;
+	GPtrArray	 *boundsheet_sheet_by_index;
 	GPtrArray	 *XF_cell_records;
 	GHashTable	 *font_data;
 	GHashTable	 *format_data; /* leave as a hash */
 	GPtrArray	 *names;
+	GPtrArray	 *supbooks;
 	GArray		 *extern_sheet_v8;
 	GPtrArray	 *extern_sheet_v7;
 	ExcelPalette	 *palette;
@@ -113,12 +114,13 @@ typedef struct _ExcelWorkbook
 char       *biff_get_text (guint8 const *ptr, guint32 length, guint32 *byte_length);
 char const *biff_get_error_text (guint8 err);
 
-GnmExpr const	 	*ms_excel_workbook_get_name  (ExcelWorkbook const *ewb, int idx);
+GnmExpr const	 	*ms_excel_workbook_get_name  (ExcelWorkbook const *ewb,
+						      guint16 extern_index, guint16 name_idx);
 ExcelSheet		*ms_excel_workbook_get_sheet (ExcelWorkbook const *wb, guint idx);
 XLExternSheetV8 const	*ms_excel_workbook_get_externsheet_v8 (ExcelWorkbook const *wb,
 							       guint idx);
 Sheet 			*ms_excel_workbook_get_externsheet_v7 (ExcelWorkbook const *wb,
-							       int idx, int sheet_index);
+							       int idx, guint sheet_index);
 
 MsBiffBofData * ms_biff_bof_data_new (BiffQuery * q);
 void ms_biff_bof_data_destroy (MsBiffBofData * data);

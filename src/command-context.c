@@ -25,13 +25,8 @@
 static char *
 format_message (CommandContext *context, char const *message)
 {
-	GSList *tlist = context->template_list;
 	char const * const msg = message ? message : "";
-
-	if (tlist)
-		return g_strdup_printf ((char *) (tlist->data), msg);
-	else
-		return g_strdup (msg);
+	return g_strdup (msg);
 }
 
 void
@@ -129,34 +124,12 @@ cmd_context_get_password (CommandContext *cc, char const *msg)
 	return CC_CLASS (cc)->get_password (cc, msg);
 }
 
-/**
- * command_context_push_template
- * @template: printf template to display message
- *
- * Push a printf template to the stack. The template is used to provide
- * context for error messages. E.g.: "Could not read file: %s"
- */
 void
-command_context_push_err_template (CommandContext *context, const char *template)
+cmd_context_set_sensitive (CommandContext *cc, gboolean sensitive)
 {
-	context->template_list = g_slist_prepend (context->template_list,
-						  g_strdup(template));
-}
+	g_return_if_fail (IS_COMMAND_CONTEXT (cc));
 
-/**
- * command_context_pop_template:
- *
- * Call this routine to remove the current template from the stack.
- */
-void
-command_context_pop_err_template (CommandContext *context)
-{
-	if (context->template_list) {
-		GSList *tlist = context->template_list;
-		g_free(context->template_list->data);
-		context->template_list = context->template_list->next;
-		g_slist_free_1(tlist);
-	}
+	CC_CLASS (cc)->set_sensitive (cc, sensitive);
 }
 
 GSF_CLASS (CommandContext, command_context,
