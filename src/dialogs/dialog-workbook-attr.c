@@ -68,7 +68,7 @@ typedef struct {
 		gboolean	recalc_auto;
 		gboolean	iteration_enabled;
 		int		max_iterations;
-		double		iteration_tolerance;
+		gnm_float	iteration_tolerance;
 	} old;
 } AttrState;
 
@@ -95,7 +95,7 @@ cb_page_select (G_GNUC_UNUSED GtkNotebook *notebook,
 /*****************************************************************************/
 
 static void
-get_entry_values (AttrState *state, int *max_iterations, double *iteration_tolerance)
+get_entry_values (AttrState *state, int *max_iterations, gnm_float *iteration_tolerance)
 {
 	if (!entry_to_int (state->view.max_iterations, max_iterations, TRUE))
 		*max_iterations = state->old.max_iterations;
@@ -108,7 +108,7 @@ cb_widget_changed (G_GNUC_UNUSED GtkWidget *widget, AttrState *state)
 {
 	gboolean changed;
 	int max_iterations;
-	double iteration_tolerance;
+	gnm_float iteration_tolerance;
 
 	get_entry_values (state, &max_iterations, &iteration_tolerance);
 	changed =

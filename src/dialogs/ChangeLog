@@ -1,3 +1,12 @@
+2005-02-09  Jon K Hellan  <hellan@acm.org>
+
+	* dialog-simulation.c (simulation_update_sensitivity_cb) 
+	(update_results_view): Cast gnm_float to double in printf.
+
+	* dialog-workbook-attr.c (struct AttrState, get_entry_values,
+	cb_widget_changed): Make iteration_tolerance gnm_float instead of
+	double.
+
 2005-02-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.5.0
