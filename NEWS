@@ -1,5 +1,8 @@
 Gnumeric 1.3.94
 
+Andreas:
+	* Fix crash on empty file in lotus file probe. [#158126]
+
 Harald Ashburner:
 	* Update derivatives.gnumeric
 

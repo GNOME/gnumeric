@@ -1,3 +1,8 @@
+2004-11-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=158126
+	* boot.c (lotus_file_probe): don't work with null pointer
+
 2004-11-07  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.3.93

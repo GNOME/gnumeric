@@ -38,7 +38,7 @@ lotus_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 	if (!gsf_input_seek (input, 0, G_SEEK_SET))
 		h = gsf_input_read (input, 6, NULL);
 
-	if (h == NULL &&
+	if (h == NULL ||
 	    GSF_LE_GET_GUINT16 (h+0) != LOTUS_BOF)
 		return FALSE;
 
