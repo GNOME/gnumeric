@@ -102,6 +102,14 @@ gnumeric_progress_set (CommandContext *context, gfloat f)
 	CC_CLASS (context)->progress_set (context, f);
 }
 
+void
+gnumeric_progress_message_set (CommandContext *context, gchar const *msg)
+{
+	g_return_if_fail (IS_COMMAND_CONTEXT (context));
+
+	CC_CLASS (context)->progress_message_set (context, msg);
+}
+
 /**
  * command_context_push_template
  * @template: printf template to display message

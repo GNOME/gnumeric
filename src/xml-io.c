@@ -37,7 +37,12 @@
 #include "ranges.h"
 #include "file.h"
 #include "str.h"
+#include "plugin-util.h"
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <zlib.h>
 #include <gal/util/e-xml-utils.h>
 #include <gnome.h>
 #include <locale.h>
@@ -46,6 +51,10 @@
 
 /* Precision to use when saving point measures. */
 #define POINT_SIZE_PRECISION 3
+
+/* FIXME - tune the values below */
+#define XML_INPUT_BUFFER_SIZE      4096
+#define N_ELEMENTS_BETWEEN_UPDATES 20
 
 static GnumFileOpener *xml_opener = NULL;
 static GnumFileSaver  *xml_saver = NULL;
@@ -2526,8 +2535,12 @@ xml_read_styles (XmlParseContext *ctxt, xmlNodePtr tree)
 	if (child == NULL)
 		return;
 
-	for (regions = child->xmlChildrenNode; regions; regions = regions->next)
+	for (regions = child->xmlChildrenNode; regions != NULL; regions = regions->next) {
 		xml_read_style_region (ctxt, regions);
+		if (++ctxt->element_counter % N_ELEMENTS_BETWEEN_UPDATES == 0) {
+			count_io_progress_update (ctxt->io_context, ctxt->element_counter);
+		}
+	}
 }
 
 /*
@@ -2755,9 +2768,14 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 
 	child = e_xml_get_child_by_name (tree, "Cells");
 	if (child != NULL) {
-		xmlNodePtr cell = child->xmlChildrenNode;
-		for (; cell != NULL ; cell = cell->next)
+		xmlNodePtr cell;
+
+		for (cell = child->xmlChildrenNode; cell != NULL ; cell = cell->next) {
 			xml_read_cell (ctxt, cell);
+			if (++ctxt->element_counter % N_ELEMENTS_BETWEEN_UPDATES == 0) {
+				count_io_progress_update (ctxt->io_context, ctxt->element_counter);
+			}
+		}
 	}
 
 	child = e_xml_get_child_by_name (tree, "Solver");
@@ -2999,6 +3017,51 @@ xml_sheet_create (XmlParseContext *ctxt, xmlNodePtr node)
 	}
 }
 
+static gint
+xml_get_n_children (xmlNodePtr tree)
+{
+	gint n = 0;
+	xmlNodePtr node;
+
+	for (node = tree->xmlChildrenNode; node != NULL; node = node->next)
+		n++;
+
+	return n;
+}
+
+static gint 
+xml_read_sheet_n_elements (xmlNodePtr tree)
+{
+	gint n = 0;
+	xmlNodePtr node;
+
+	node = e_xml_get_child_by_name (tree, "Styles");
+	if (node != NULL) {
+		n += xml_get_n_children (node);
+	}
+	node = e_xml_get_child_by_name (tree, "Cells");
+	if (node != NULL) {
+		n += xml_get_n_children (node);
+	}
+
+	return n;
+}
+
+static gint
+xml_read_workbook_n_elements (xmlNodePtr tree)
+{
+	xmlNodePtr node;
+	gint n = 0;
+
+	for (node = tree->xmlChildrenNode; node != NULL; node = node->next) {
+		if (node->name != NULL && strcmp (node->name, "Sheet") == 0) {
+			n += xml_read_sheet_n_elements (node);
+		}
+	}
+
+	return n;
+}
+
 /*
  * Create a Workbook equivalent to the XML subtree of doc.
  */
@@ -3068,14 +3131,21 @@ xml_workbook_read (IOContext *context, WorkbookView *wb_view,
 		xml_read_names (ctxt, child, wb, NULL);
 
 	child = e_xml_get_child_by_name (tree, "Sheets");
+
+
 	/*
 	 * Pass 2: read the contents
 	 */
+	io_progress_message (context, _("Processing XML tree..."));
+	count_io_progress_set (context, xml_read_workbook_n_elements (child), 0.5, 1.0);
+	ctxt->io_context = context;
+	ctxt->element_counter = 0;
 	c = child->xmlChildrenNode;
 	while (c != NULL) {
 		sheet = xml_sheet_read (ctxt, c);
 		c = c->next;
 	}
+	io_progress_unset (context);
 
 	child = e_xml_get_child_by_name (tree, "Attributes");
 	if (child && ctxt->version >= GNUM_XML_V5) {
@@ -3253,6 +3323,13 @@ gnumeric_xml_read_workbook (GnumFileOpener const *fo,
                             WorkbookView *wbv,
                             const gchar *filename)
 {
+	gint fd;
+	gzFile *f;
+	gint file_size;
+	ErrorInfo *open_error;
+	gchar buffer[XML_INPUT_BUFFER_SIZE];
+	gint bytes;
+	xmlParserCtxtPtr pctxt;
 	xmlDocPtr res;
 	xmlNsPtr gmr;
 	XmlParseContext *ctxt;
@@ -3263,7 +3340,39 @@ gnumeric_xml_read_workbook (GnumFileOpener const *fo,
 	/*
 	 * Load the file into an XML tree.
 	 */
-	res = xmlParseFile (filename);
+	fd = gnumeric_open_error_info (filename, O_RDONLY, &open_error);
+	if (fd < 0) {
+		gnumeric_io_error_info_set (context, open_error);
+		return;
+	}
+	file_size = lseek (fd, 0, SEEK_END);
+	if (file_size < 0 || lseek (fd, 0, SEEK_SET) < 0) {
+		close (fd);
+		gnumeric_io_error_info_set (context, error_info_new_str (
+		_("Cannot get file size.")));
+		return;
+	}
+	f = gzdopen (fd, "r");
+	if (f == NULL) {
+		close (fd);
+		gnumeric_io_error_info_set (context, error_info_new_str (
+		_("Not enough memory to create zlib decompression state.")));
+		return;
+	}
+	io_progress_message (context, _("Parsing XML file..."));
+	count_io_progress_set (context, file_size, 0.0, 0.5);
+	bytes = gzread (f, buffer, 4);
+	pctxt = xmlCreatePushParserCtxt (NULL, NULL, buffer, bytes, filename);
+	while ((bytes = gzread (f, buffer, XML_INPUT_BUFFER_SIZE)) > 0) {
+		xmlParseChunk (pctxt, buffer, bytes, 0);
+		count_io_progress_update (context, lseek (fd, 0, SEEK_CUR));
+	}
+	xmlParseChunk (pctxt, buffer, 0, 1);
+	res = pctxt->myDoc;
+	xmlFreeParserCtxt (pctxt);
+	gzclose (f);
+	io_progress_unset (context);
+
 	if (res == NULL) {
 		gnumeric_io_error_read (context, "");
 		return;

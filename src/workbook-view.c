@@ -611,7 +611,7 @@ wb_view_save_as (WorkbookView *wbv, WorkbookControl *wbc,
 	} else {
 		success = FALSE;
 	}
-	gnumeric_io_context_free (io_context);
+	gtk_object_destroy (GTK_OBJECT (io_context));
 
 	return success;
 }
@@ -658,7 +658,7 @@ wb_view_save (WorkbookView *wbv, WorkbookControl *wbc)
 	} else {
 		success = FALSE;
 	}
-	gnumeric_io_context_free (io_context);
+	gtk_object_destroy (GTK_OBJECT (io_context));
 
 	return success;
 }
@@ -750,7 +750,7 @@ wb_view_open_custom (WorkbookView *wbv, WorkbookControl *wbc,
 		if (gnumeric_io_has_error_info (io_context))
 			gnumeric_io_error_info_display (io_context);
 
-		gnumeric_io_context_free (io_context);
+		gtk_object_destroy (GTK_OBJECT (io_context));
 	} else {
 		new_wb = workbook_new_with_sheets (1);
 		new_wbv = workbook_view_new (new_wb);

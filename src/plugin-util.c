@@ -15,7 +15,8 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <errno.h>
-#include <gnome.h>
+#include <string.h>
+#include <libgnome/libgnome.h>
 
 #include "plugin-util.h"
 #include "command-context.h"

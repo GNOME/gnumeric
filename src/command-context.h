@@ -23,7 +23,8 @@ void gnumeric_error_invalid	 (CommandContext *context,
 				  char const *msg, char const *val);
 void gnumeric_error_splits_array (CommandContext *context,
 				  char const *cmd, Range const *array);
-void gnumeric_progress_set	 (CommandContext *context, gfloat f);
+void gnumeric_progress_set (CommandContext *context, gfloat f);
+void gnumeric_progress_message_set (CommandContext *context, gchar const *msg);
 
 /* Push a printf template to the list. The template is used to provide
  * context for error messages. E.g.: "Could not read file: %s". */

@@ -1010,12 +1010,32 @@ wbcg_claim_selection  (WorkbookControl *wbc)
 static void
 wbcg_progress_set (CommandContext *cc, gfloat val)
 {
-	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)cc;
+	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (cc);
+
 #ifdef ENABLE_BONOBO
 	gtk_progress_bar_update (GTK_PROGRESS_BAR (wbcg->progress_bar), val);
 #else
 	gnome_appbar_set_progress (wbcg->appbar, val);
 #endif
+}
+
+static void
+wbcg_progress_message_set (CommandContext *cc, gchar const *msg)
+{
+	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (cc);
+	GtkProgress *progress;
+
+#ifdef ENABLE_BONOBO
+	progress = GTK_PROGRESS (wbcg->progress_bar);
+#else
+	progress = gnome_appbar_get_progress (wbcg->appbar);
+#endif
+	if (msg != NULL) {
+		gtk_progress_set_format_string (progress, msg);
+		gtk_progress_set_show_text (progress, TRUE);
+	} else {
+		gtk_progress_set_show_text (progress, FALSE);
+	}
 }
 
 static void
@@ -3374,9 +3394,17 @@ show_gui (WorkbookControlGUI *wbcg)
 		gtk_window_set_geometry_hints (wbcg->toplevel, NULL,
 					       &geometry, GDK_HINT_MAX_SIZE);
 	} else {
-		sx = (sx * 3) / 4;
-		sy = (sy * 3) / 4;
-		gtk_window_set_default_size (wbcg->toplevel, sx, sy);
+		gdouble fx, fy;
+
+		fx = gnome_config_get_float_with_default (
+		"Gnumeric/Placement/WindowRelativeSizeX=0.75", NULL);
+		fy = gnome_config_get_float_with_default (
+		"Gnumeric/Placement/WindowRelativeSizeY=0.75", NULL);
+		fx = MIN (fx, 1.0);
+		fx = MAX (0.25, fx);
+		fy = MIN (fy, 1.0);
+		fy = MAX (0.2, fy);
+		gtk_window_set_default_size (wbcg->toplevel, sx * fx, sy * fy);
 	}
 
 	gtk_widget_show_all (GTK_WIDGET (wbcg->toplevel));
@@ -3572,7 +3600,8 @@ workbook_control_gui_ctor_class (GtkObjectClass *object_class)
 
 	object_class->destroy		= wbcg_destroy;
 
-	wbc_class->context_class.progress_set	= wbcg_progress_set;
+	wbc_class->context_class.progress_set         = wbcg_progress_set;
+	wbc_class->context_class.progress_message_set = wbcg_progress_message_set;
 	wbc_class->context_class.error.system	= wbcg_error_system;
 	wbc_class->context_class.error.plugin	= wbcg_error_plugin;
 	wbc_class->context_class.error.read	= wbcg_error_read;

@@ -1,13 +1,18 @@
 #ifndef GNUMERIC_IO_CONTEXT_H
 #define GNUMERIC_IO_CONTEXT_H
 
+#include <stdio.h>
 #include <gtk/gtkobject.h>
+#include <gal/util/e-util.h>
 #include "gnumeric.h"
 #include "error-info.h"
 
-#define IO_CONTEXT_TYPE  (io_context_get_type ())
-#define IO_CONTEXT(o)    (GTK_CHECK_CAST ((o), IO_CONTEXT_TYPE, IOContext))
-#define IS_IO_CONTEXT(o) (GTK_CHECK_TYPE ((o), IO_CONTEXT_TYPE))
+/* typedef struct _IOContext IOContext; */
+typedef struct _IOContextClass IOContextClass;
+
+#define TYPE_IO_CONTEXT    (io_context_get_type ())
+#define IO_CONTEXT(obj)    (GTK_CHECK_CAST ((obj), TYPE_IO_CONTEXT, IOContext))
+#define IS_IO_CONTEXT(obj) (GTK_CHECK_TYPE ((obj), TYPE_IO_CONTEXT))
 
 GtkType   io_context_get_type (void);
 
@@ -17,7 +22,6 @@ GtkType   io_context_get_type (void);
  *        inheritance (single or multiple).
  */
 IOContext *gnumeric_io_context_new        (WorkbookControl *wbc);
-void       gnumeric_io_context_free       (IOContext *context);
 
 void       gnumeric_io_error_system       (IOContext *context, char const *msg);
 void       gnumeric_io_error_read         (IOContext *context, char const *msg);
@@ -34,10 +38,25 @@ gboolean   gnumeric_io_has_error_info     (IOContext *context);
 void       gnumeric_io_clear_error        (IOContext *context);
 gboolean   gnumeric_io_error_occurred     (IOContext *context);
 
+void       io_progress_message      (IOContext *io_context, const gchar *msg);
+void       io_progress_update       (IOContext *io_context, gdouble f);
+
+void       file_io_progress_set    (IOContext *io_context, const gchar *file_name,
+                                    FILE *f, gdouble min_f, gdouble max_f);
+void       file_io_progress_update (IOContext *io_context);
+
+void       memory_io_progress_set    (IOContext *io_context, void *mem_start,
+                                      gint mem_size, gdouble min_f, gdouble max_f);
+void       memory_io_progress_update (IOContext *io_context, void *mem_current);
+
+void       count_io_progress_set    (IOContext *io_context, gint total,
+                                     gdouble min_f, gdouble max_f);
+void       count_io_progress_update (IOContext *io_context, gint count);
+
+void       io_progress_unset      (IOContext *io_context);
+
 void gnumeric_warning_unknown_font        (IOContext *context, char const *msg);
 void gnumeric_warning_unknown_feature     (IOContext *context, char const *msg);
 void gnumeric_warning_unknown_function    (IOContext *context, char const *msg);
-
-void gnumeric_io_progress_set             (IOContext *context, gfloat f);
 
 #endif /* GNUMERIC_IO_CONTEXT_H */

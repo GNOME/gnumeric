@@ -12,7 +12,8 @@ struct _CommandContext {
 typedef struct {
 	GtkObjectClass gtk_object_class;
 
-	void (*progress_set)	(CommandContext *context, gfloat val);
+	void (*progress_set)         (CommandContext *context, gfloat val);
+	void (*progress_message_set) (CommandContext *context, gchar const *msg);
 	struct {
 		void (*system)		(CommandContext *ctxt, char const *msg);
 		void (*plugin)		(CommandContext *ctxt, char const *msg);

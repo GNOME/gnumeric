@@ -1,3 +1,50 @@
+2001-06-01  Zbigniew Chyla  <cyba@gnome.pl>
+
+	Support for reporting i/o progress via IOContext.
+
+	* src/command-context-priv.h (struct CommandContextClass): Added
+	progress_message_set virtual.
+
+	* src/command-context.[ch] (gnumeric_progress_message_set): New.
+
+	* src/io-context-priv.h
+	Made IOContext a GtkObject.
+	(enum GnumProgressHelperType, struct GnumProgressHelper): New.
+
+	* src/io-context.[ch]
+	Made IOContext a GtkObject.
+	(io_progress_update, io_progress_message,
+	file_io_progress_set, file_io_progress_update,
+	memory_io_progress_set, memory_io_progress_update,
+	count_io_progress_set, count_io_progress_update,
+	io_progress_unset): New functions.
+	(gnumeric_io_context_free): Removed, use gtk_object_destroy instead.
+
+	* src/workbook-control-gui.c (wbcg_progress_message_set): New,
+	implementation of CommandContext virtual.
+
+	* src/workbook-view.c
+	(wb_view_save_as, wb_view_save, wb_view_open_custom):
+	s/gnumeric_io_context_free/gtk_object_destroy
+
+	* src/xml-io.h
+	(struct _XmlParseContext): New members (io_context, element_counter) for
+	progress reporting.
+
+	* src/xml-io.c
+	(xml_read_styles): Update i/o progress every N_ELEMENTS_BETWEEN_UPDATES
+	styles.
+	(xml_sheet_read): Ditto for cells.
+	(xml_get_n_children, xml_read_sheet_n_elements,
+	xml_read_workbook_n_elements): Internal functions, calculating the
+	number of "elements" (styles and cells) in workbook.
+	(xml_workbook_read): Set up io progress to "Processing XML tree" stage.
+	(gnumeric_xml_read_workbook): Load the file into an XML tree using the
+	Push mode and update i/o progress regularly.
+
+	* src/plugin-util.c
+	#include <libgnome/libgnome.h> instead of <gnome.h>.
+
 2001-05-31  Jody Goldberg <jgoldberg@home.com>
 
 	* src/solver-lp.c : Use cell_eval in place of cell_eval_content.
