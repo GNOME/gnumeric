@@ -10,35 +10,21 @@
 #include <gnumeric-config.h>
 #include <glib.h>
 #include <libgnumeric.h>
+#include "bonobo-io.h"
 #include <bonobo/bonobo-ui-main.h> 
 
 #include <bonobo/bonobo-generic-factory.h>
 
-#define DUMMY
-#ifdef DUMMY
 #include <stdio.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-persist-file.h>
 #include <bonobo/bonobo-persist-stream.h>
-#include <gtk/gtklabel.h>
-#endif
+#include "gui-gnumeric.h"
+#include "workbook-view.h"
+#include "workbook-control-component-priv.h"
 
 char const *gnumeric_lib_dir = GNUMERIC_LIBDIR;
 char const *gnumeric_data_dir = GNUMERIC_DATADIR;
-
-#ifdef DUMMY
-/*
- * Loads an Workbook from a Bonobo_Stream
- */
-static void
-load_workbook_from_stream (BonoboPersistStream       *ps,
-			   Bonobo_Stream              stream,
-			   Bonobo_Persist_ContentType type,
-			   void                      *data,
-			   CORBA_Environment         *ev)
-{
-	g_message (__PRETTY_FUNCTION__);
-}
 
 /*
  * Loads an Workbook from a Bonobo_File
@@ -51,8 +37,8 @@ load_workbook_from_file (BonoboPersistFile *pf, const CORBA_char *text_uri,
 	return 0;
 }
 
-BonoboObject *
-dummy_add_interfaces (BonoboObject *control)
+static BonoboObject *
+add_interfaces (BonoboObject *control, WorkbookControl *wbc)
 {
 	BonoboPersistFile   *file;
 	BonoboPersistStream *stream;
@@ -61,8 +47,8 @@ dummy_add_interfaces (BonoboObject *control)
 
 	/* Interface Bonobo::PersistStream */
 	stream = bonobo_persist_stream_new
-		(load_workbook_from_stream, NULL,
-		 NULL, "OAFIID:GNOME_Gnumeric_Control", NULL);
+		(gnumeric_bonobo_read_from_stream, NULL,
+		 NULL, "OAFIID:GNOME_Gnumeric_Control", wbc);
 	if (!stream) {
 		bonobo_object_unref (BONOBO_OBJECT (control));
 		return NULL;
@@ -84,7 +70,6 @@ dummy_add_interfaces (BonoboObject *control)
 
 	return control;
 }
-#endif
 
 static BonoboObject *
 gnumeric_component_factory (BonoboGenericFactory *this,
@@ -92,24 +77,19 @@ gnumeric_component_factory (BonoboGenericFactory *this,
 			    void                 *data)
 {
 	BonoboControl *control;
-	BonoboObject *retval;
-#ifdef DUMMY
 	GtkWidget *w;
+	WorkbookControl *wbc;
 
 	g_message ("Trying to produce a '%s'", oaf_iid);
-	w = gtk_label_new ("gnumeric-component "
-				      "doesn't do anything useful yet");
+	wbc = workbook_control_component_new (NULL, NULL);
+	w = WORKBOOK_CONTROL_GUI (wbc)->table;
 	gtk_widget_show(w);
 	control = bonobo_control_new (w);
-	printf ("control=0x%p\n", control);
-	if (!dummy_add_interfaces (BONOBO_OBJECT (control)))
+	g_message ("control=0x%p\n", control);
+	if (!add_interfaces (BONOBO_OBJECT (control), wbc))
 		return NULL;
 
- 	retval = BONOBO_OBJECT (control);
-
-	printf ("gnumeric-component doesn't do anything useful yet\n");
-	return retval;
-#endif
+ 	return BONOBO_OBJECT (control);
 }
 
 int

@@ -1,3 +1,53 @@
+2002-04-19  Jon K Hellan  <hellan@acm.org>
+
+	* src/bonobo-io.[ch] (gnumeric_bonobo_read_from_stream): New
+	function. Reads a workbook from a Bonobo PersistStream.
+
+	* src/bonobo-io.c (hack_xmlSAXParseFile): Re-enable
+
+	* src/main-component.c: No longer a dummy. Remove DUMMY compile
+	flag.
+	(load_workbook_from_stream): Remove.
+	(dummy_add_interfaces): Rename to add_interfaces. Pass control to
+	bonobo_persist_stream_new.
+	(gnumeric_component_factory): Make a real gnumeric component.
+
+	* src/sheet-control-gui.c (scg_take_focus): Test if wbcg_toplevel
+	!= NULL.
+
+	* src/workbook-control.[ch] (wb_control_menu_state_sheet_count):
+	New virtual.
+
+	* src/workbook-control-priv.h: Virtualize menu_state.sheet_count.
+
+	* src/workbook-control-component.c (wbcc_get_password,
+	wbcc_progress_set, wbcc_progress_message_set, wbcc_init_state,
+	wbcc_title_set, wbcc_format_feedback, wbcc_zoom_feedback,
+	wbcc_edit_line_set, wbcc_edit_selection_descr_set,
+	wbcc_auto_expr_value, wbcc_undo_redo_clear,
+	wbcc_undo_redo_truncate, wbcc_undo_redo_pop, wbcc_undo_redo_push,
+	wbcc_undo_redo_labels, wbcc_menu_state_update,
+	wbcc_menu_state_sheet_prefs, wbcc_menu_state_sheet_count,
+	wbcc_menu_state_sensitivity, wbcc_validation_msg): New no-op
+	methods.
+	(wbcc_error_system, wbcc_error_plugin, wbcc_error_read,
+	wbcc_error_save, wbcc_error_invalid, wbcc_error_error_info,
+	wbcc_control_new, wbcc_sheet_focus, wbcc_claim_selection): New
+	methods.
+	(workbook_control_component_init): New function.
+	(workbook_control_component_ctor_class): Flesh out.
+	(workbook_control_component_new): New function.
+
+	* src/workbook-control-gui.[ch] (wbcg_sheet_to_page_index): Rename
+	from sheet_to_page_index and make public.
+
+	* src/workbook-control-gui.c (wbcg_cur_scg, wbcg_sheet_remove,
+	wbcg_sheet_rename, wbcg_sheet_focus, wbcg_sheet_move, cb_edit_cut,
+	cb_sheet_remove): Use new name of from sheet_to_page_index and
+	make public.
+	(wbcg_sheet_add): Use virtualized menu_sheet_count.
+	(workbook_control_gui_ctor_class): Virtualize menu_sheet_count.
+
 2002-04-18  Morten Welinder  <terra@diku.dk>
 
 	* src/expr-name.c (expr_name_add): Plug leaks.

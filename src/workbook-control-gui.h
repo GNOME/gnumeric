@@ -17,6 +17,8 @@ void		 workbook_control_gui_init      (WorkbookControlGUI *wbcg,
 						 WorkbookView *optional_view,
 						 Workbook *optional_wb);
 
+int      wbcg_sheet_to_page_index (WorkbookControlGUI *wbcg, Sheet *sheet,
+				   SheetControlGUI **res);
 GtkWindow	*wbcg_toplevel	  (WorkbookControlGUI *wbcg);
 SheetControlGUI *wbcg_cur_scg	  (WorkbookControlGUI *wbcg);
 Sheet		*wbcg_focus_cur_scg (WorkbookControlGUI *wbcg);

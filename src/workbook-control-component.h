@@ -16,5 +16,7 @@
     (G_TYPE_CHECK_INSTANCE_TYPE ((o), WORKBOOK_CONTROL_COMPONENT_TYPE))
 
 GType            workbook_control_component_get_type  (void);
-
+WorkbookControl *
+workbook_control_component_new (WorkbookView *optional_view,
+				Workbook *optional_wb);
 #endif /* GNUMERIC_WORKBOOK_CONTROL_COMPONENT_H */

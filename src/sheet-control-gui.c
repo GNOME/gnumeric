@@ -2836,8 +2836,10 @@ scg_take_focus (SheetControlGUI *scg)
 {
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
-	gtk_window_set_focus (wbcg_toplevel (scg->wbcg),
-			      GTK_WIDGET (scg_pane (scg, 0)));
+	/* FIXME: Slightly hackish. */
+	if (wbcg_toplevel (scg->wbcg))
+		gtk_window_set_focus (wbcg_toplevel (scg->wbcg),
+				      GTK_WIDGET (scg_pane (scg, 0)));
 }
 
 void

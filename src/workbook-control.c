@@ -108,6 +108,8 @@ WBC_VIRTUAL_FULL (menu_state_update, menu_state.update,
 WBC_VIRTUAL_FULL (menu_state_sensitivity, menu_state.sensitivity,
         (WorkbookControl *wbc, gboolean sensitive),
 	(wbc, sensitive))
+WBC_VIRTUAL_FULL (menu_state_sheet_count, menu_state.sheet_count,
+	(WorkbookControl *wbc), (wbc))
 
 WBC_VIRTUAL (paste_from_selection,
 	(WorkbookControl *wbc, PasteTarget const *pt, guint32 time),

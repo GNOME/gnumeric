@@ -13,7 +13,9 @@
 
 #include "sheet-object-bonobo.h"
 #include "sheet-object-container.h"
+#include "command-context.h"
 #include "io-context.h"
+#include "workbook-control-component.h"
 #include "workbook-view.h"
 #include "workbook.h"
 #include "sheet.h"
@@ -21,6 +23,7 @@
 
 #include <libgnome/gnome-i18n.h>
 #include <stdio.h>
+#include <string.h>
 #include <locale.h>
 #include <math.h>
 #include <limits.h>
@@ -314,6 +317,7 @@ gnumeric_bonobo_write_workbook (GnumFileSaver const *fs,
 	xmlFreeDoc (xml);
 	bonobo_object_unref (BONOBO_OBJECT (storage));
 }
+#endif
 
 #ifdef HAVE_LIBXML_2
 static int
@@ -417,6 +421,82 @@ hack_xmlSAXParseFile (Bonobo_Stream stream)
 #endif /* HAVE_LIBXML_2*/
 }
 
+void
+gnumeric_bonobo_read_from_stream (BonoboPersistStream       *ps,
+				  Bonobo_Stream              stream,
+				  Bonobo_Persist_ContentType type,
+				  void                      *data,
+				  CORBA_Environment         *ev)
+{
+	WorkbookControl *wbc;
+	WorkbookView       *wb_view;
+	Workbook           *wb;
+	Workbook           *old_wb;
+	xmlDoc             *doc;
+	xmlNs              *gmr;
+	GnumericXMLVersion  version;
+	XmlParseContext    *ctxt;
+	CommandContext     *cc;
+	IOContext     *ioc;
+
+	g_return_if_fail (data != NULL);
+	g_return_if_fail (IS_WORKBOOK_CONTROL_COMPONENT (data));
+	wbc  = WORKBOOK_CONTROL (data);
+	
+	/* FIXME: Probe for file type */
+	
+	old_wb = wb_control_workbook (wbc);
+	if (!workbook_is_pristine (old_wb)) {
+		/* No way to interact properly with user */
+		g_warning ("Old workbook has unsaved changes.");
+		goto exit_wrong_type;
+	}
+		
+	wb_view = wb_control_view (wbc);
+
+	/*
+	 * Load the file into an XML tree.
+	 */
+	/* FIXME: exceptions inside the hack will be lost. */
+	doc = hack_xmlSAXParseFile (stream);
+	if (!doc) {
+		g_warning ("Failed to parse file");
+		goto exit_wrong_type;
+	}
+	if (!doc->xmlRootNode) {
+		xmlFreeDoc (doc);
+		g_warning ("Invalid xml file. Tree is empty ?");
+		goto exit_wrong_type;
+	}
+	/*
+	 * Do a bit of checking, get the namespaces, and check the top elem.
+	 */
+	gmr = xml_check_version (doc, &version);
+	if (!gmr) {
+		xmlFreeDoc (doc);
+		goto exit_wrong_type;
+	}
+	ctxt = xml_parse_ctx_new_full (doc, gmr, version, NULL, NULL, NULL);
+	ioc = gnumeric_io_context_new (COMMAND_CONTEXT (wbc));
+	xml_workbook_read (ioc, wb_view, ctxt, doc->xmlRootNode);
+	
+	xml_parse_ctx_destroy (ctxt);
+	xmlFreeDoc (doc);
+
+	if (gnumeric_io_error_occurred (ioc)) {
+		g_object_unref (G_OBJECT (ioc));
+		goto exit_wrong_type;
+	}	
+
+	g_object_unref (G_OBJECT (ioc));
+	return;
+
+exit_wrong_type:
+	CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+			     ex_Bonobo_Persist_WrongDataType, NULL);
+}
+
+#ifdef GNOME2_CONVERSION_COMPLETE
 static void
 gnumeric_bonobo_read_workbook (GnumFileOpener const *fo,
                                IOContext    *context,

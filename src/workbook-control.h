@@ -69,6 +69,7 @@ enum {
 void wb_control_menu_state_update      (WorkbookControl *wbc, Sheet const *s, int flags);
 void wb_control_menu_state_sheet_prefs (WorkbookControl *wbc, Sheet const *s);
 void wb_control_menu_state_sensitivity (WorkbookControl *wbc, gboolean sensitive);
+void wb_control_menu_state_sheet_count  (WorkbookControl *wbc);
 
 void wb_control_paste_from_selection (WorkbookControl *wbc,
 				      PasteTarget const *pt, guint32 time);

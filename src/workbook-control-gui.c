@@ -111,8 +111,9 @@ wbcg_ui_update_end (WorkbookControlGUI *wbcg)
 	wbcg->updating_ui = FALSE;
 }
 
-static int
-sheet_to_page_index (WorkbookControlGUI *wbcg, Sheet *sheet, SheetControlGUI **res)
+int
+wbcg_sheet_to_page_index (WorkbookControlGUI *wbcg, Sheet *sheet,
+			  SheetControlGUI **res)
 {
 	int i = 0;
 	GtkWidget *w;
@@ -181,7 +182,8 @@ wbcg_cur_scg (WorkbookControlGUI *wbcg)
 {
 	SheetControlGUI *scg;
 
-	sheet_to_page_index (wbcg,
+	wbcg_sheet_to_page_index (
+		wbcg,
 		wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)), &scg);
 
 	return scg;
@@ -585,7 +587,7 @@ wbcg_sheet_add (WorkbookControl *wbc, Sheet *sheet)
 		wbcg_ui_update_end (wbcg);
 	}
 
-	wbcg_menu_state_sheet_count (wbc);
+	wb_control_menu_state_sheet_count (wbc);
 
 	/* create views for the sheet objects */
 	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next)
@@ -606,7 +608,7 @@ wbcg_sheet_remove (WorkbookControl *wbc, Sheet *sheet)
 	if (wbcg->notebook == NULL)
 		return;
 
-	i = sheet_to_page_index (wbcg, sheet, &scg);
+	i = wbcg_sheet_to_page_index (wbcg, sheet, &scg);
 
 	g_return_if_fail (i >= 0);
 
@@ -621,7 +623,7 @@ wbcg_sheet_rename (WorkbookControl *wbc, Sheet *sheet)
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
 	GtkWidget *label;
 	SheetControlGUI *scg;
-	int i = sheet_to_page_index (wbcg, sheet, &scg);
+	int i = wbcg_sheet_to_page_index (wbcg, sheet, &scg);
 
 	g_return_if_fail (i >= 0);
 
@@ -636,7 +638,7 @@ wbcg_sheet_focus (WorkbookControl *wbc, Sheet *sheet)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
 	SheetControlGUI *scg;
-	int i = sheet_to_page_index (wbcg, sheet, &scg);
+	int i = wbcg_sheet_to_page_index (wbcg, sheet, &scg);
 
 	/* A sheet added in another view may not yet have a view */
 	if (i >= 0) {
@@ -654,7 +656,7 @@ wbcg_sheet_move (WorkbookControl *wbc, Sheet *sheet, int new_pos)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	/* No need for sanity checking, the workbook did that */
-        if (sheet_to_page_index (wbcg, sheet, &scg) >= 0)
+        if (wbcg_sheet_to_page_index (wbcg, sheet, &scg) >= 0)
 		gtk_notebook_reorder_child (wbcg->notebook,
 			GTK_WIDGET (scg->table), new_pos);
 }
@@ -1667,7 +1669,8 @@ cb_edit_cut (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	Sheet *sheet = wb_control_cur_sheet (wbc);
 	SheetControlGUI *scg;
 
-	if (sheet_to_page_index (wbcg, wb_control_cur_sheet (wbc), &scg) >= 0) {
+	if (wbcg_sheet_to_page_index (wbcg, wb_control_cur_sheet (wbc), &scg)
+	    >= 0) {
 		SheetControl *sc = (SheetControl *) scg;
 		/* FIXME : Add clipboard support for objects */
 		if (scg->current_object != NULL)
@@ -1717,7 +1720,8 @@ cb_sheet_remove (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	SheetControlGUI *res;
 
-	if (sheet_to_page_index (wbcg, wb_control_cur_sheet (wbc), &res) >= 0)
+	if (wbcg_sheet_to_page_index (wbcg, wb_control_cur_sheet (wbc), &res)
+	    >= 0)
 		delete_sheet_if_possible (NULL, res);
 }
 
@@ -4652,6 +4656,7 @@ workbook_control_gui_ctor_class (GObjectClass *object_class)
 	wbc_class->menu_state.update      = wbcg_menu_state_update;
 	wbc_class->menu_state.sheet_prefs = wbcg_menu_state_sheet_prefs;
 	wbc_class->menu_state.sensitivity = wbcg_menu_state_sensitivity;
+	wbc_class->menu_state.sheet_count = wbcg_menu_state_sheet_count;
 
 	wbc_class->claim_selection	 = wbcg_claim_selection;
 	wbc_class->paste_from_selection  = wbcg_paste_from_selection;
