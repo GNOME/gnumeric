@@ -27,6 +27,26 @@ Release Critical
 - Evaluate mathfunc.c's use of gamma and lgamma.  We use the libc lgamma
   (probably ok) and have gamma(x)=exp(lgamma(x)) (questionable).
 
+1) graphs
+2) stf
+3) finish hlink
+4) finish support for h/v only splits
+5) zip based format
+5.1) move existing code into plugin
+5.2) work on sax style exporter
+5.3) extend api for gnm_expr_as_string to handle 1.0 vs 1.1 style rangerefs
+6) finish corba plugin
+7) support some method of persistence when embedded in abiword
+8) conditional formats			-> bumped
+9) pivots and scripting		-> bumped
+10) XL97 export
+11) eggmenu
+12) plugin cleanup
+13) merge open and import dialogs
+14) Make save-as smart enough to notice incorrect suffix saver mismatch
+15) manual recalc
+16) some handling of external references
+
 Pending Patches
 ---------------
 
@@ -35,8 +55,6 @@ Pending Patches
 
 Long term breakage
 ------------------
-
-- xls import should retain VBA macros and re-export them.
 
 - Remove duplication of code between analysis-tools.c and collect.c
 
@@ -158,10 +176,6 @@ Long term breakage
     : Add 'is_printable' flag and import
     : research the other xl object flags.
 
-- Add a warning when attempting to save using the suffix from a different saver.
-  eg saving .gnumeric as foo.xls
-- Can we probe for .gzipped files to catch the misnaming ?
-
 Dialogs
 -------
 - Formula Guru
@@ -171,9 +185,6 @@ Dialogs
 
 Function Breakage
 -----------------
-- Index : does not support 0,0 or reference syntax.
-- address : This code is a duplicate.  Have the function use the standard
-    routines.
 - There are a number of #UNIMPLEMENTED! things to take care of in the
     financial functions.  Mostly this is due to incomplete documentation.
 - Function range_min_k uses an O(n*log n) algorithm.  It should use O(n)
@@ -186,10 +197,6 @@ Printing
 --------
 - cell text wraps differently when printing than displaying due to scaling
   differences in font size.  do we want to eliminate this ?
-
-Widget polishing
-----------------
-- extensions to the notebook to enable dragging a tab to reorder and copy
 
 Plugins
 -------
