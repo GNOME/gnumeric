@@ -115,6 +115,8 @@ GNUMERIC_BASE_SOURCES =				\
 	gnumeric.h				\
 	gui-clipboard.c				\
 	gui-clipboard.h				\
+	gui-file.c				\
+	gui-file.h				\
 	gui-gnumeric.h				\
 	gutils.c				\
 	gutils.h				\
