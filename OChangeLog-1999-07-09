@@ -1,5 +1,12 @@
 1999-03-11  Michael Meeks <michael@imaginator.com>
 
+	* src/fn-math.c (gnumeric_power): Implemented.
+
+	* src/fn-stat.c (gnumeric_poisson, gnumeric_gammaln):
+	Implemented.
+
+1999-03-11  Michael Meeks <michael@imaginator.com>
+
 	* src/fn-stat.c (gnumeric_expondist, gnumeric_geomean):
 	Implemented.
 

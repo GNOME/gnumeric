@@ -272,25 +272,105 @@ gnumeric_expondist (struct FunctionDefinition *i, Value *argv [], char **error_s
 	x = value_get_as_double (argv [0]);
 	y = value_get_as_double (argv [1]);
 	if (x < 0.0 || y <= 0.0) {
-		*error_string = _("expondist - range error");
+		*error_string = _("#NUM!") ;
 		return NULL;
 	}
 	cuml = value_get_bool (argv[2], &err) ;
 	if (err) {
-		*error_string = _("expondist - cumulative?");
+		*error_string = _("#VALUE!") ;
 		return NULL;
 	}
 	
 	if (cuml) {
-		return value_float (1.0 - exp(-y*x)) ;
+		return value_float (-expm1(-y*x)) ;
 	} else {
 		return value_float (y*exp(-y*x)) ;
 	}
 }
 
+static char *help_gammaln = {
+	N_("@FUNCTION=GAMMALN\n"
+	   "@SYNTAX=GAMMALN(x)\n"
+
+	   "@DESCRIPTION="
+	   "The GAMMALN function returns the ln of the gamma function"
+	   "\n"
+	   "Performing this function on a string or empty cell returns an error. "
+	   "\n"
+	   "@SEEALSO=POISSON")
+};
+
+static Value *
+gnumeric_gammaln (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+	float_t x ;
+
+	if (argv[0]->type != VALUE_INTEGER &&
+	    argv[0]->type != VALUE_FLOAT) {
+		*error_string = _("#VALUE!") ;
+		return NULL;
+	}
+
+	x = value_get_as_double (argv [0]);
+	if (x<=0) {
+		*error_string = _("#NUM!") ;
+		return NULL;
+	}
+	return value_float (lgamma(x)) ;
+}
+
+static char *help_poisson = {
+	N_("@FUNCTION=POISSON\n"
+	   "@SYNTAX=POISSON(x,mean,cumulative)\n"
+
+	   "@DESCRIPTION="
+	   "The POISSON function returns the Poisson distribution "
+	   "@x is the number of events, @mean is the expected numeric value "
+	   "@cumulative describes whether to return the sum of the poisson function from 0 to x."
+	   "\n"
+	   "Performing this function on a string or empty cell returns an error."
+	   "if x is a non-integer it is truncated. "
+	   "if x <= 0 POISSON returns #NUM! error. "
+	   "if mean <= 0 POISSON returns the #NUM! error. "
+	   "\n"
+	   "@SEEALSO=POISSON")
+};
+
+static Value *
+gnumeric_poisson (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+	float_t x, mean ;
+	int cuml, err ;
+
+	if (argv[0]->type != VALUE_INTEGER &&
+	    argv[0]->type != VALUE_FLOAT &&
+	    argv[1]->type != VALUE_INTEGER &&
+	    argv[1]->type != VALUE_FLOAT) {
+		*error_string = _("#VALUE!") ;
+		return NULL;
+	}
+	x = value_get_as_int (argv [0]);
+	mean = value_get_as_double (argv [1]);
+	if (x<=0  || mean <=0) {
+		*error_string = _("#NUM!") ;
+		return NULL;
+	}
+
+	x = value_get_as_int (argv [0]);      /* Hint, think */
+	mean = value_get_as_double (argv [1]);
+	cuml = value_get_bool (argv[2], &err) ;
+
+	if (cuml) {
+		*error_string = _("Unimplemented") ;
+		return NULL;
+	} else
+		return value_float (exp(-mean)*pow(mean,x)/exp (lgamma (x + 1))) ;
+}
 
 FunctionDefinition stat_functions [] = {
+	{ "poisson",   "ffb",  "",          &help_poisson,   NULL, gnumeric_poisson },
 	{ "expondist", "ffb",  "",          &help_expondist, NULL, gnumeric_expondist },
+	{ "gammaln",   "f",    "number",    &help_gammaln,   NULL, gnumeric_gammaln },
 	{ "geomean",   0,      "",          &help_geomean,   gnumeric_geomean, NULL },
 	{ "stdev",     0,      "",          &help_stdev,     gnumeric_stdev, NULL },
 	{ "stdevp",    0,      "",          &help_stdevp,    gnumeric_stdevp, NULL },
@@ -302,4 +382,6 @@ FunctionDefinition stat_functions [] = {
 
 /*
  * Mode, Median: Use large hash table :-)
+ *
+ * Engineering: Bessel functions: use C fns: j0, y0 etc.
  */

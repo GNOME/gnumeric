@@ -686,6 +686,25 @@ gnumeric_log (struct FunctionDefinition *i, Value *argv [], char **error_string)
 	return value_float (log (t));
 }
 
+static char *help_power = {
+	N_("@FUNCTION=POWER\n"
+	   "@SYNTAX=POWER(x,y)\n"
+
+	   "@DESCRIPTION="
+	   "Returns the value of x raised to the power y"
+	   "\n"
+	   "Performing this function on a string or empty cell returns an error. "
+	   "\n"
+	   "@SEEALSO=EXP")
+};
+
+static Value *
+gnumeric_power (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+	return value_float (pow(value_get_as_double (argv [0]),
+				value_get_as_double (argv [1]))) ;
+}
+
 static char *help_log2 = {
 	N_("@FUNCTION=LOG2\n"
 	   "@SYNTAX=LOG2(x)\n"
@@ -1220,6 +1239,7 @@ FunctionDefinition math_functions [] = {
 	{ "max",     0,      "",          &help_max,     gnumeric_max, NULL },
 	{ "not",     "f",    "number",    &help_not,     NULL, gnumeric_not },
 	{ "or",      0,      "",          &help_or,      gnumeric_or, NULL },
+	{ "power",   "ff",   "x,y",       &help_power,   NULL, gnumeric_power },
 	{ "radians", "f",    "number",    &help_radians, NULL, gnumeric_radians },
 	{ "sin",     "f",    "number",    &help_sin,     NULL, gnumeric_sin },
 	{ "sinh",    "f",    "number",    &help_sinh,    NULL, gnumeric_sinh },
