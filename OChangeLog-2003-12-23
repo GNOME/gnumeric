@@ -1,3 +1,11 @@
+2003-07-08  Morten Welinder  <terra@gnome.org>
+
+	* src/datetime.c (days_between_basis): Handle new basis
+	BASIS_MSRB_30_360_SYM.
+	(days_between_BASIS_MSRB_30_360_SYM): New function.
+	(days_between_BASIS_MSRB_30_360): Handle end-of-February
+	correctly.
+
 2003-07-07  Morten Welinder  <terra@gnome.org>
 
 	* src/datetime.c (yearfrac): Even get February 29 right.

@@ -339,11 +339,36 @@ days_between_BASIS_MSRB_30_360 (GDate const *from, GDate const *to)
 	m2 = g_date_get_month (to);
 	d2 = g_date_get_day (to);
 
-	if (d1 >= 30) {
+	if (m1 == 2 && g_date_is_last_of_month (from))
 		d1 = 30;
-		if (d2 == 31)
-			d2 = 30;
-	}
+	if (d2 == 31 && d1 >= 30)
+		d2 = 30;
+	if (d1 == 31)
+		d1 = 30;
+
+	return (y2 - y1) * 360 + (m2 - m1) * 30 + (d2 - d1);
+}
+
+static gint32
+days_between_BASIS_MSRB_30_360_SYM (GDate const *from, GDate const *to)
+{
+	int y1, m1, d1, y2, m2, d2;
+
+	y1 = g_date_get_year (from);
+	m1 = g_date_get_month (from);
+	d1 = g_date_get_day (from);
+	y2 = g_date_get_year (to);
+	m2 = g_date_get_month (to);
+	d2 = g_date_get_day (to);
+
+	if (m1 == 2 && g_date_is_last_of_month (from))
+		d1 = 30;
+	if (m2 == 2 && g_date_is_last_of_month (to))
+		d2 = 30;
+	if (d2 == 31 && d1 >= 30)
+		d2 = 30;
+	if (d1 == 31)
+		d1 = 30;
 
 	return (y2 - y1) * 360 + (m2 - m1) * 30 + (d2 - d1);
 }
@@ -426,6 +451,8 @@ days_between_basis (GDate const *from, GDate const *to, basis_t basis)
 		return sign * days_between_BASIS_30E_360 (from, to);
 	case BASIS_30Ep_360:
 		return sign * days_between_BASIS_30Ep_360 (from, to);
+	case BASIS_MSRB_30_360_SYM:
+		return sign * days_between_BASIS_MSRB_30_360_SYM (from, to);
 	case BASIS_MSRB_30_360:
 	default:
 		return sign * days_between_BASIS_MSRB_30_360 (from, to);

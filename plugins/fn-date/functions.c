@@ -790,67 +790,23 @@ static char const *help_days360 = {
 static Value *
 gnumeric_days360 (FunctionEvalInfo *ei, Value **argv)
 {
-	enum Method { METHOD_US_XL = 0, METHOD_EUROPE = 1, METHOD_US_SANE = 2 } method;
+	basis_t basis;
 	GDate date1, date2;
-	int day1, day2, month1, month2, year1, year2, result;
-	gboolean flipped;
-	GnmDateConventions const *conv = DATE_CONV (ei->pos);
-
-	gnm_float serial1 = datetime_value_to_serial (argv[0], conv);
-	gnm_float serial2 = datetime_value_to_serial (argv[1], conv);
-	int imethod = argv[2] ? value_get_as_int (argv[2]) : 0;
-
-	method = (imethod >= 0 && imethod <= METHOD_US_SANE)
-		? (enum Method)imethod
-		: METHOD_EUROPE;
-
-	if ((flipped = (serial1 > serial2))) {
-		gnm_float tmp = serial1;
-		serial1 = serial2;
-		serial2 = tmp;
-	}
-
-	datetime_serial_to_g (&date1, serial1, conv);
-	datetime_serial_to_g (&date2, serial2, conv);
-	day1   = g_date_get_day (&date1);
-	day2   = g_date_get_day (&date2);
-	month1 = g_date_get_month (&date1);
-	month2 = g_date_get_month (&date2);
-	year1  = g_date_get_year (&date1);
-	year2  = g_date_get_year (&date2);
+	GnmDateConventions const *date_conv = DATE_CONV (ei->pos);
+	gnm_float serial1 = datetime_value_to_serial (argv[0], date_conv);
+	gnm_float serial2 = datetime_value_to_serial (argv[1], date_conv);
+	int method = argv[2] ? value_get_as_int (argv[2]) : 0;
 
 	switch (method) {
-	case METHOD_US_SANE:
-		if (month1 == 2 && month2 == 2 &&
-		    g_date_is_last_of_month (&date1) &&
-		    g_date_is_last_of_month (&date2))
-			day2 = 30;
-		/* Fall through.  */
-
-	case METHOD_US_XL:
-		if (month1 == 2 && g_date_is_last_of_month (&date1))
-			day1 = 30;
-		if (day2 == 31 && day1 >= 30)
-			day2 = 30;
-		if (day1 == 31)
-			day1 = 30;
-		break;
-
-	case METHOD_EUROPE:
-		if (day1 == 31)
-			day1 = 30;
-		if (day2 == 31)
-			day2 = 30;
-		break;
-
-	default:
-		return value_new_error_VALUE (ei->pos);
+	default: 
+	case 0: basis = BASIS_MSRB_30_360; break;
+	case 1: basis = BASIS_30E_360; break;
+	case 2: basis = BASIS_MSRB_30_360_SYM; break;
 	}
 
-	result = ((year2 - year1) * 12 + (month2 - month1)) * 30 +
-		(day2 - day1);
-
-	return value_new_int (flipped ? -result : result);
+	datetime_serial_to_g (&date1, serial1, date_conv);
+	datetime_serial_to_g (&date2, serial2, date_conv);
+	return value_new_int (days_between_basis (&date1, &date2, basis));
 }
 
 /***************************************************************************/

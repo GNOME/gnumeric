@@ -63,13 +63,13 @@ int datetime_g_years_between (GDate const *date1, GDate const *date2);
 int datetime_weeknum (GDate const *date, int method);
 
 typedef enum { /* see doc/fn-financial-basis.txt for details */
-	BASIS_MSRB_30_360 = 0,
-	BASIS_ACT_ACT     = 1,
-	BASIS_ACT_360     = 2,
-	BASIS_ACT_365     = 3,
-	BASIS_30E_360     = 4,
-	BASIS_30Ep_360    = 5,
-	BASIS_LAST        = 6
+	BASIS_MSRB_30_360     = 0,
+	BASIS_ACT_ACT         = 1,
+	BASIS_ACT_360         = 2,
+	BASIS_ACT_365         = 3,
+	BASIS_30E_360         = 4,
+	BASIS_30Ep_360        = 5,
+	BASIS_MSRB_30_360_SYM = 6         /* Gnumeric extension.  */
 } basis_t;
 
 gint32  days_between_basis (GDate const *from, GDate const *to, basis_t basis);

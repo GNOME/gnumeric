@@ -1,3 +1,8 @@
+2003-07-08  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_days360): Simplify greatly using
+	days_between_basis.
+
 2003-07-01  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_yearfrac): Use yearfrac.
