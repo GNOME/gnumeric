@@ -669,6 +669,49 @@ sheet_col_get_distance (Sheet *sheet, int from_col, int to_col)
 	return col_row_distance (sheet->cols_info, from_col, to_col, sheet->default_col_style.pixels);
 }
 
+static inline int
+col_row_unit_distance (GList *list, int from, int to, double default_units)
+{
+	ColRowInfo *cri;
+	double units = 0;
+	int n = 0;
+	GList *l;
+	
+	if (to == from)
+		return 0;
+
+	n = to - from;
+	
+	for (l = list; l; l = l->next){
+		cri = l->data;
+		
+		if (cri->pos >= to)
+			break;
+		
+		if (cri->pos >= from){
+			n--;
+			units += cri->units;
+		}
+	}
+	units += n * default_units;
+	
+	return units;
+}
+
+/**
+ * sheet_col_get_distance:
+ *
+ * Return the number of points between from_col to to_col
+ */
+double
+sheet_col_get_unit_distance (Sheet *sheet, int from_col, int to_col)
+{
+	g_assert (from_col <= to_col);
+	g_assert (sheet != NULL);
+
+	return col_row_unit_distance (sheet->cols_info, from_col, to_col, sheet->default_col_style.units);
+}
+
 /**
  * sheet_row_get_distance:
  *

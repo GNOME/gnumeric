@@ -85,21 +85,29 @@ style_font_new_simple (char *font_name, double size, double scale, int bold, int
 	font = (StyleFont *) g_hash_table_lookup (style_font_hash, &key);
 	if (!font){
 		GnomeDisplayFont *display_font;
+		GnomeFont *gnome_font;
 
 		display_font = gnome_get_display_font (
 			font_name,
 			bold ? GNOME_FONT_BOLD : GNOME_FONT_BOOK,
 			italic,
 			size, scale);
-		
+
 		if (!display_font)
 			return NULL;
-		
+
+		gnome_font = gnome_font_new_closest (
+			font_name,
+			bold ? GNOME_FONT_BOLD : GNOME_FONT_BOOK,
+			italic,
+			size);
+			
 		font = g_new0 (StyleFont, 1);
 		font->font_name = g_strdup (font_name);
 		font->size      = size;
 		font->scale     = scale;
 		font->dfont     = display_font;
+		font->font      = gnome_font;
 		font->is_bold   = bold;
 		font->is_italic = italic;
 		g_hash_table_insert (style_font_hash, font, font);

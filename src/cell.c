@@ -2,7 +2,7 @@
  * cell.c: Cell management of the Gnumeric spreadsheet.
  *
  * Author:
- *    Miguel de Icaza 1998 (miguel@kernel.org)
+ *    Miguel de Icaza 1998, 1999 (miguel@kernel.org)
  */
 #include <config.h>
 #include <gnome.h>

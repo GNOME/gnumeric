@@ -19,10 +19,6 @@
 
 #include "../plugins/excel/boot.h"
 
-#ifdef HAVE_GUILE
-#include <libguile.h>
-#endif
-
 /* The debugging level */
 int gnumeric_debugging = 0;
 

@@ -11,6 +11,7 @@ INCLUDES = 						\
 	-DGNUMERIC_VERSION=\""$(VERSION)"\"		\
 	-I$(includedir)				 	\
 	$(GNOME_INCLUDEDIR)				\
+	-I/gnome/include/libgnomeprint			\
 	$(GUILE_INCS)
 
 GNUMERIC_BASE_SOURCES =			\
@@ -81,6 +82,7 @@ GNUMERIC_BASE_SOURCES =			\
 	plugin.c			\
 	plugin.h			\
 	plugin-manager.c		\
+	print-cell.c			\
 	print-info.c			\
 	print-info.h			\
 	render-ascii.c			\

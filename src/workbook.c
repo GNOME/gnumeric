@@ -21,6 +21,9 @@
 #include "pixmaps.h"
 #include "widget-editable-label.h"
 
+#include <gnome-printer.h>
+#include <gnome-print.h>
+
 /* The locations within the main table in the workbook */
 #define WB_EA_LINE   0
 #define WB_EA_SHEETS 1
@@ -613,9 +616,28 @@ workbook_edit_comment (GtkWidget *widget, Workbook *wb)
 }
 
 static void
-print_setup (GtkWidget *widget, Workbook *wb)
+print_setup_cmd (GtkWidget *widget, Workbook *wb)
 {
 	dialog_printer_setup (wb);
+}
+
+static void
+print_cmd (GtkWidget *widget, Workbook *wb)
+{
+	GnomePrinter *printer;
+	GnomePrintContext *pc;
+	
+	Sheet *sheet = workbook_get_current_sheet (wb);
+
+	printer = gnome_printer_dialog_new_modal ();
+	if (printer){
+		pc = gnome_print_context_new (printer);
+		print_cell_range (pc, sheet, 0, 0, 10, 20, 10.0, 200.0);
+		gnome_print_context_close_file (pc);
+		
+		gtk_object_unref (GTK_OBJECT (printer));
+		gtk_object_unref (GTK_OBJECT (pc));
+	}
 }
 
 static void
@@ -667,7 +689,8 @@ static GnomeUIInfo workbook_menu_file [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_MENU_PRINT_SETUP_ITEM(print_setup, NULL),
+	GNOMEUIINFO_MENU_PRINT_SETUP_ITEM(print_setup_cmd, NULL),
+	GNOMEUIINFO_MENU_PRINT_ITEM(print_cmd, NULL),
 	
 	GNOMEUIINFO_SEPARATOR,
 	
@@ -1347,24 +1370,41 @@ zoom_out (GtkButton *b, Sheet *sheet)
 }
 
 static void
+zoom_change (GtkAdjustment *adj, Sheet *sheet)
+{
+	sheet_set_zoom_factor (sheet, adj->value);
+}
+
+static void
 buttons (Sheet *sheet, GtkTable *table)
 {
 	GtkWidget *b;
-	
-	b = gtk_button_new_with_label (_("Zoom out"));
-	GTK_WIDGET_UNSET_FLAGS (b, GTK_CAN_FOCUS);	
-	gtk_table_attach (table, b,
-			  0, 1, 1, 2, 0, 0, 0, 0);
-	gtk_signal_connect (GTK_OBJECT (b), "clicked",
-			    GTK_SIGNAL_FUNC (zoom_out), sheet);
 
-	b = gtk_button_new_with_label (_("Zoom in"));
-	GTK_WIDGET_UNSET_FLAGS (b, GTK_CAN_FOCUS);	
-	gtk_table_attach (table, b,
-			  1, 2, 1, 2, 0, 0, 0, 0);
-	gtk_signal_connect (GTK_OBJECT (b), "clicked",
-			    GTK_SIGNAL_FUNC (zoom_in), sheet);
-	
+	if (0){
+		b = gtk_button_new_with_label (_("Zoom out"));
+		GTK_WIDGET_UNSET_FLAGS (b, GTK_CAN_FOCUS);	
+		gtk_table_attach (table, b,
+				  0, 1, 1, 2, 0, 0, 0, 0);
+		gtk_signal_connect (GTK_OBJECT (b), "clicked",
+				    GTK_SIGNAL_FUNC (zoom_out), sheet);
+		
+		b = gtk_button_new_with_label (_("Zoom in"));
+		GTK_WIDGET_UNSET_FLAGS (b, GTK_CAN_FOCUS);	
+		gtk_table_attach (table, b,
+				  1, 2, 1, 2, 0, 0, 0, 0);
+		gtk_signal_connect (GTK_OBJECT (b), "clicked",
+				    GTK_SIGNAL_FUNC (zoom_in), sheet);
+	} else {
+		static GtkAdjustment *adj;
+		GtkWidget *sc;
+		
+		adj = gtk_adjustment_new (1.0, 0.5, 10.0, 0.1, 0.5, 0.5);
+		sc = gtk_hscrollbar_new (adj);
+		gtk_widget_show (sc);
+		gtk_table_attach (table, sc,
+				  0, 2, 1, 2, GTK_FILL|GTK_EXPAND, 0, 0, 0);
+		gtk_signal_connect (GTK_OBJECT (adj), "value_changed", zoom_change, sheet);
+	}
 }
 
 /**

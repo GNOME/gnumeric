@@ -21,6 +21,7 @@ typedef struct {
 	double             size;
 	double             scale;
 	GnomeDisplayFont  *dfont;
+	GnomeFont         *font;
 
 	unsigned int is_bold:1;
 	unsigned int is_italic:1;
