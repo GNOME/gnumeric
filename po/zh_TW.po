@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.1.17\n"
 "POT-Creation-Date: 2003-04-12 18:39+0800\n"
-"PO-Revision-Date: 2003-04-15 04:24+0800\n"
+"PO-Revision-Date: 2003-04-20 09:47+0800\n"
 "Last-Translator: Abel Cheung <maddog@linux.org.hk>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
 "MIME-Version: 1.0\n"
@@ -7145,7 +7145,7 @@ msgstr ""
 "我們假設儲存格 A1、A2、...、A5 含有數字 23、27、28、33 和 39。這樣\n"
 "SUMIF(A1:A5,\"<=28\") 等於 78\n"
 "SUMIF(A1:A5,\"<28\") 等於 50\n"
-"另外，如果儲存格 B1、B2、...、B5 的數字是 5、3、2、6、7，\n"
+"另外，如果儲存格 B1、B2、...、B5 的數字是 5、3、2、6 和 7，\n"
 "SUMIF(A1:A5,\"<=27\",B1:B5) 等於 8\n"
 "\n"
 "@SEEALSO=COUNTIF,SUM"
@@ -9430,6 +9430,19 @@ msgid ""
 "\n"
 "@SEEALSO=CORREL,FISHER,FISHERINV"
 msgstr ""
+"@FUNCTION=COVAR\n"
+"@SYNTAX=COVAR(陣列1,陣列2)\n"
+"@DESCRIPTION=COVAR 會回傳兩組數據的協方差。\n"
+"\n"
+"* 字串及空白的儲存格會完全忽略。\n"
+"* 本函數是兼容於 Excel 的。\n"
+"\n"
+"@EXAMPLES=\n"
+"我們來假設儲存格 A1、A2、...、A5 的數值為 11.4、17.3、21.3、25.9 和 40.1，而 "
+"B1、B2、...、B5 為 23.2、25.8、29.9、33.5 和 42.7。這樣\n"
+"COVAR(A1:A5,B1:B5) 等於 65.858\n"
+"\n"
+"@SEEALSO=CORREL,FISHER,FISHERINV"
 
 #: plugins/fn-stat/functions.c:501
 msgid ""
@@ -9448,6 +9461,19 @@ msgid ""
 "\n"
 "@SEEALSO=COVAR,FISHER,FISHERINV"
 msgstr ""
+"@FUNCTION=CORREL\n"
+"@SYNTAX=CORREL(陣列1,陣列2)\n"
+"@DESCRIPTION=CORREL 會回傳兩組數據的相關系數。\n"
+"\n"
+"* 字串及空白的儲存格都會忽略不計。\n"
+"* 本函數是兼容於 Excel 的。\n"
+"\n"
+"@EXAMPLES=\n"
+"我們來假設儲存格 A1、A2、...、A5 的數值為 11.4、17.3、21.3、25.9 和 40.1，而 "
+"B1、B2、...、B5 為 23.2、25.8、29.9、33.5 和 42.7。這樣\n"
+"CORREL(A1:A5,B1:B5) 等於 0.996124788\n"
+"\n"
+"@SEEALSO=COVAR,FISHER,FISHERINV"
 
 #: plugins/fn-stat/functions.c:533
 msgid ""
@@ -10461,7 +10487,7 @@ msgstr ""
 "@SYNTAX=MEDIAN(n1, n2, ...)\n"
 "@DESCRIPTION=MEDIAN 會回傳一堆數值的中位數。\n"
 "\n"
-"* 字串和空白的儲存格都會忽略不計。\n"
+"* 字串及空白的儲存格都會忽略不計。\n"
 "* 如果 MEDIAN 的參數數目是偶數，則取最中間兩個數字的平均值。\n"
 "* 本函數是兼容於 Excel 的。\n"
 "\n"
@@ -10622,7 +10648,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=AVERAGEA\n"
 "@SYNTAX=AVERAGEA(數值1,數值2,...)\n"
-"@DESCRIPTION=AVERAGEA 會回傳各參數的平均值。數字、文字和邏輯值都計算在內。"
+"@DESCRIPTION=AVERAGEA 會回傳各參數的平均值。數字、文字及邏輯值都計算在內。"
 "如果儲存格含有文字或者它的邏輯值是 FALSE，會以數值 0 計算。若邏輯值為 TRUE，"
 "則以 1 計算。要注意空白的儲存格是不會計算在內的。\n"
 "\n"
@@ -12670,7 +12696,7 @@ msgstr "可匯入 GNU Oleo 文件"
 
 #: plugins/openoffice/openoffice-read.c:421
 msgid "Missing expression"
-msgstr ""
+msgstr "缺少了算式"
 
 #: plugins/openoffice/openoffice-read.c:426
 #, c-format
@@ -12684,11 +12710,11 @@ msgstr ""
 
 #: plugins/openoffice/openoffice-read.c:496
 msgid "Invalid array expression does no specify number of columns"
-msgstr ""
+msgstr "陣列算式無效，沒有指定列數"
 
 #: plugins/openoffice/openoffice-read.c:499
 msgid "Invalid array expression does no specify number of rows"
-msgstr ""
+msgstr "陣列算式無效，沒有指定行數"
 
 #: plugins/openoffice/openoffice-read.c:747
 #, c-format
@@ -13240,7 +13266,7 @@ msgstr "AR PL KaitiM Big5"
 
 #: schemas/gnumeric-general.schemas.in.h:13
 msgid "Horizontal DPI"
-msgstr ""
+msgstr "水平 DPI"
 
 #: schemas/gnumeric-general.schemas.in.h:14
 msgid ""
@@ -13252,7 +13278,7 @@ msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:15
 msgid "Length of File History"
-msgstr ""
+msgstr "檔案紀錄長度"
 
 #: schemas/gnumeric-general.schemas.in.h:16
 msgid "Length of the Undo Descriptors"
@@ -13260,7 +13286,7 @@ msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:17
 msgid "List of recently used files"
-msgstr ""
+msgstr "最近使用的檔案的清單"
 
 #: schemas/gnumeric-general.schemas.in.h:18
 msgid "Live Scrolling"
@@ -13310,6 +13336,8 @@ msgid ""
 "whether the user will be warned if only a single sheet of a multi-sheet "
 "workbook is being saved."
 msgstr ""
+"某些檔案格式只能容納一張工作表。在一本有多張工作表的活頁簿中，當只能儲存一張"
+"工作表時，本變數決定是否向使用者發出警告。"
 
 #: schemas/gnumeric-general.schemas.in.h:28 src/GNOME_Gnumeric.xml.h:230
 #: src/workbook-control-gui.c:3910
@@ -13442,7 +13470,7 @@ msgstr "工具列樣式。有效的值為 both、both_horiz、icon、text"
 
 #: schemas/gnumeric-general.schemas.in.h:53
 msgid "Vertical DPI"
-msgstr ""
+msgstr "垂直 DPI"
 
 #: schemas/gnumeric-general.schemas.in.h:54
 msgid "Warn When Exporting Into Single Sheet Format"
@@ -13671,7 +13699,7 @@ msgstr "註解(_M)"
 
 #: src/GNOME_Gnumeric.xml.h:37 src/workbook-control-gui.c:3666
 msgid "Co_variance"
-msgstr ""
+msgstr "協方差(_V)"
 
 #: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:3745
 msgid "Collapse an outline group"
@@ -13732,7 +13760,7 @@ msgstr "將選擇範圍複製至剪貼簿"
 #: src/tools/analysis-tools.c:894 src/tools/analysis-tools.c:897
 #: src/workbook-control-gui.c:3667
 msgid "Covariance"
-msgstr ""
+msgstr "協方差"
 
 #: src/GNOME_Gnumeric.xml.h:51 src/workbook-object-toolbar.c:139
 msgid "Create a button"
@@ -13848,7 +13876,7 @@ msgstr "顯示算式(_F)"
 
 #: src/GNOME_Gnumeric.xml.h:78 src/workbook-control-gui.c:3760
 msgid "Display _Outlines"
-msgstr "顯示輪廓(_O)"
+msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:79 src/workbook-control-gui.c:3543
 msgid "Display the value of a formula or the formula itself"
@@ -14313,11 +14341,12 @@ msgstr "圓形按鈕"
 
 #: src/GNOME_Gnumeric.xml.h:189
 msgid "Ranks and _Percentiles"
-msgstr ""
+msgstr "等級及百分位數值(_P)"
 
 #: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:3682
+#, fuzzy
 msgid "Ranks, placements and percentiles"
-msgstr ""
+msgstr "等級、位置及百分位數值"
 
 #: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:3328
 #: src/workbook-control-gui.c:3533
@@ -14677,7 +14706,7 @@ msgstr "複製(_C)"
 
 #: src/GNOME_Gnumeric.xml.h:275 src/workbook-control-gui.c:3663
 msgid "_Correlation"
-msgstr ""
+msgstr "相關系數(_C)"
 
 #: src/GNOME_Gnumeric.xml.h:276 src/dialogs/pivottable.glade.h:8
 #: src/workbook-control-gui.c:3845
@@ -14695,7 +14724,7 @@ msgstr "刪除(_D)..."
 
 #: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:3669
 msgid "_Descriptive Statistics"
-msgstr ""
+msgstr "描述統計(_D)"
 
 #: src/GNOME_Gnumeric.xml.h:280 src/dialogs/sheet-order.glade.h:2
 #: src/workbook-control-gui.c:3320
@@ -14762,7 +14791,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:295 src/workbook-control-gui.c:3750
 msgid "_Group..."
-msgstr ""
+msgstr "組成群組(_G)..."
 
 #: src/GNOME_Gnumeric.xml.h:296 src/GNOME_Gnumeric_Component.xml.h:17
 msgid "_Help"
@@ -14858,7 +14887,7 @@ msgstr "取消還原(_R)"
 
 #: src/GNOME_Gnumeric.xml.h:318 src/workbook-control-gui.c:3684
 msgid "_Regression"
-msgstr ""
+msgstr "回歸分析(_R)"
 
 #: src/GNOME_Gnumeric.xml.h:319 src/dialogs/autocorrect.glade.h:13
 #: src/dialogs/dialog-stf.glade.h:66 src/dialogs/pivottable.glade.h:12
@@ -14888,7 +14917,7 @@ msgstr "行(_R)"
 
 #: src/GNOME_Gnumeric.xml.h:323 src/workbook-control-gui.c:3687
 msgid "_Sampling"
-msgstr "取樣(_S)"
+msgstr "抽樣(_S)"
 
 #: src/GNOME_Gnumeric.xml.h:324
 msgid "_Save"
@@ -14965,7 +14994,7 @@ msgstr "還原(_U)"
 
 #: src/GNOME_Gnumeric.xml.h:342 src/workbook-control-gui.c:3753
 msgid "_Ungroup..."
-msgstr ""
+msgstr "解除群組(_U)..."
 
 #: src/GNOME_Gnumeric.xml.h:343 src/sheet-control-gui.c:1523
 #: src/sheet-control-gui.c:1531 src/workbook-control-gui.c:3504
@@ -15875,7 +15904,7 @@ msgstr "十二月"
 #: src/dialogs/regression.glade.h:2 src/dialogs/sampling.glade.h:2
 #: src/dialogs/shuffle.glade.h:1 src/dialogs/variance-tests.glade.h:2
 msgid "A_utofit Columns"
-msgstr ""
+msgstr "列寬自動符合內容(_U)"
 
 #: src/dialogs/advanced-filter.glade.h:2
 msgid "Advanced Filter"
@@ -15953,7 +15982,7 @@ msgstr "新增工作表(_N)"
 #: src/dialogs/regression.glade.h:17 src/dialogs/sampling.glade.h:20
 #: src/dialogs/shuffle.glade.h:11 src/dialogs/variance-tests.glade.h:16
 msgid "_Output Range:"
-msgstr ""
+msgstr "輸出範圍(_O)："
 
 #: src/dialogs/advanced-filter.glade.h:11
 msgid "_Unique Records Only"
@@ -15977,7 +16006,7 @@ msgstr ""
 #: src/dialogs/regression.glade.h:3 src/dialogs/sampling.glade.h:3
 #: src/dialogs/variance-tests.glade.h:3
 msgid "Clear Output Range"
-msgstr ""
+msgstr "清除輸出範圍中原本的內容"
 
 #: src/dialogs/anova-one.glade.h:5 src/dialogs/correlation.glade.h:4
 #: src/dialogs/covariance.glade.h:4 src/dialogs/descriptive-stats.glade.h:8
@@ -15998,7 +16027,7 @@ msgstr ""
 #: src/dialogs/regression.glade.h:10 src/dialogs/sampling.glade.h:10
 #: src/dialogs/variance-tests.glade.h:7
 msgid "Retain Output Range Comments"
-msgstr ""
+msgstr "保留輸出範圍的註解"
 
 #: src/dialogs/anova-one.glade.h:10 src/dialogs/anova-two.glade.h:11
 #: src/dialogs/correlation.glade.h:9 src/dialogs/covariance.glade.h:9
@@ -16010,7 +16039,7 @@ msgstr ""
 #: src/dialogs/regression.glade.h:11 src/dialogs/sampling.glade.h:11
 #: src/dialogs/variance-tests.glade.h:8
 msgid "Retain Output Range Formatting"
-msgstr ""
+msgstr "保留輸出範圍的格式"
 
 #: src/dialogs/anova-one.glade.h:11 src/dialogs/anova-two.glade.h:12
 msgid "_Alpha = "
@@ -16021,7 +16050,7 @@ msgstr ""
 #: src/dialogs/histogram.glade.h:24 src/dialogs/rank.glade.h:12
 #: src/dialogs/regression.glade.h:12 src/dialogs/sampling.glade.h:15
 msgid "_Areas"
-msgstr ""
+msgstr "區域(_A)"
 
 #: src/dialogs/anova-one.glade.h:14 src/dialogs/anova-two.glade.h:13
 #: src/dialogs/correlation.glade.h:12 src/dialogs/covariance.glade.h:12
@@ -16032,7 +16061,7 @@ msgstr ""
 #: src/dialogs/fourier-analysis.glade.h:12
 #: src/dialogs/moving-averages.glade.h:13 src/dialogs/rank.glade.h:14
 msgid "_Input Range:"
-msgstr ""
+msgstr "輸入範圍(_I)："
 
 #: src/dialogs/anova-one.glade.h:15 src/dialogs/anova-two.glade.h:14
 #: src/dialogs/correlation.glade.h:13 src/dialogs/covariance.glade.h:13
@@ -16043,7 +16072,7 @@ msgstr ""
 #: src/dialogs/regression.glade.h:15 src/dialogs/sampling.glade.h:18
 #: src/dialogs/variance-tests.glade.h:14
 msgid "_Labels"
-msgstr ""
+msgstr "第 1 行/列為標題(_L)"
 
 #: src/dialogs/anova-two.glade.h:2 src/dialogs/descriptive-stats.glade.h:3
 #: src/dialogs/random-generation.glade.h:1 src/dialogs/sampling.glade.h:1
@@ -16551,7 +16580,7 @@ msgstr "數字"
 
 #: src/dialogs/cell-format.glade.h:62
 msgid "Outline"
-msgstr "輪廓"
+msgstr ""
 
 #: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-cell-format.c:2895
 msgid "Pattern"
@@ -16580,7 +16609,7 @@ msgstr "符號(_Y)："
 #: src/dialogs/cell-format.glade.h:69 src/tools/analysis-tools.c:1310
 #: src/tools/analysis-tools.c:1313
 msgid "Sample"
-msgstr "示範"
+msgstr "樣本"
 
 #: src/dialogs/cell-format.glade.h:70
 msgid "Semi Circles"
@@ -17002,7 +17031,7 @@ msgstr ""
 #: src/dialogs/correlation.glade.h:3 src/tools/analysis-tools.c:784
 #: src/tools/analysis-tools.c:787
 msgid "Correlation"
-msgstr ""
+msgstr "相關系數"
 
 #: src/dialogs/delete-cells.glade.h:1 src/dialogs/dialog-delete-cells.c:134
 #: src/dialogs/scenario-manager.glade.h:4
@@ -17031,7 +17060,7 @@ msgstr "將原來的儲存格向上移(_U)"
 
 #: src/dialogs/descriptive-stats.glade.h:1
 msgid "(1 - alpha) = "
-msgstr ""
+msgstr "(1 - α) = "
 
 #: src/dialogs/descriptive-stats.glade.h:2
 msgid ".95"
@@ -17039,12 +17068,12 @@ msgstr ".95"
 
 #: src/dialogs/descriptive-stats.glade.h:6
 msgid "Confidence Interval for the _Mean"
-msgstr ""
+msgstr "平均值的信賴區間[Confidence Interval] (_M)"
 
 #: src/dialogs/descriptive-stats.glade.h:7 src/tools/analysis-tools.c:1188
 #: src/tools/analysis-tools.c:1191
 msgid "Descriptive Statistics"
-msgstr ""
+msgstr "描述統計"
 
 #: src/dialogs/descriptive-stats.glade.h:10
 msgid "K = "
@@ -17052,15 +17081,15 @@ msgstr "K = "
 
 #: src/dialogs/descriptive-stats.glade.h:11
 msgid "Kth Largest"
-msgstr ""
+msgstr "第 K 個最大數字"
 
 #: src/dialogs/descriptive-stats.glade.h:12
 msgid "Kth Smallest"
-msgstr ""
+msgstr "第 K 個最小數字"
 
 #: src/dialogs/descriptive-stats.glade.h:17
 msgid "S_ummary Statistics"
-msgstr ""
+msgstr "統計結果摘要(_U)"
 
 #: src/dialogs/dialog-about.c:45
 msgid "Miguel de Icaza, creator."
@@ -17272,7 +17301,7 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:599
 #: src/dialogs/dialog-analysis-tools.c:716
 msgid "The selected input areas must have equal size!"
-msgstr "已選擇的輸入區域的大小必須相同！"
+msgstr "選定的輸入區域的大小必須相同！"
 
 #: src/dialogs/dialog-analysis-tools.c:645
 msgid "Could not create the Correlation Tool dialog."
@@ -17280,19 +17309,19 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:762
 msgid "Could not create the Covariance Tool dialog."
-msgstr ""
+msgstr "無法顯示「協方差」工具對話窗。"
 
 #: src/dialogs/dialog-analysis-tools.c:851
 msgid "Could not create the Rank and Percentile Tools dialog."
-msgstr ""
+msgstr "無法顯示「等級及百分位數值」工具對話窗。"
 
 #: src/dialogs/dialog-analysis-tools.c:941
 msgid "Could not create the Fourier Analysis Tool dialog."
-msgstr "無法顯示「Fourier 分析工具」對話窗。"
+msgstr "無法顯示「Fourier 分析」工具對話窗。"
 
 #: src/dialogs/dialog-analysis-tools.c:1103
 msgid "Could not create the Descriptive Statistics Tool dialog."
-msgstr ""
+msgstr "無法顯示「描述統計」工具對話窗。"
 
 #: src/dialogs/dialog-analysis-tools.c:1245
 msgid ""
@@ -17342,15 +17371,15 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:2092 src/dialogs/regression.glade.h:19
 msgid "_X Variables:"
-msgstr ""
+msgstr "_X 變數："
 
 #: src/dialogs/dialog-analysis-tools.c:2092 src/dialogs/regression.glade.h:20
 msgid "_Y Variable:"
-msgstr ""
+msgstr "_Y 變數："
 
 #: src/dialogs/dialog-analysis-tools.c:2093
 msgid "Could not create the Regression Tool dialog."
-msgstr ""
+msgstr "無法顯示「迴歸分析」工具對話窗。"
 
 #: src/dialogs/dialog-analysis-tools.c:2229
 msgid "Could not create the Exponential Smoothing Tool dialog."
@@ -18318,7 +18347,7 @@ msgstr "結果"
 
 #: src/dialogs/dialog-search.c:469
 msgid "Expression"
-msgstr "表示式"
+msgstr "算式"
 
 #: src/dialogs/dialog-search.c:473
 msgid "Integer"
@@ -18330,23 +18359,23 @@ msgstr "其它值"
 
 #: src/dialogs/dialog-sheet-order.c:315
 msgid "Current Name"
-msgstr ""
+msgstr "目前的名稱"
 
 #: src/dialogs/dialog-sheet-order.c:325
 msgid "New Name"
-msgstr ""
+msgstr "新的名稱"
 
 #: src/dialogs/dialog-sheet-order.c:628
 msgid "Deletion of sheets is not undoable. Do you want to proceed?"
-msgstr ""
+msgstr "刪除工作表是不可還原的。是否確定繼續？"
 
 #: src/dialogs/dialog-sheet-order.c:632
 msgid "You may not delete all sheets in a workbook!"
-msgstr ""
+msgstr "不可以刪除活頁簿內的所有工作表！"
 
 #: src/dialogs/dialog-sheet-order.c:867
 msgid "The sheet order has changed. Do you want to update the list?"
-msgstr ""
+msgstr "工作表次序已更改。要不要更新清單中的內容？"
 
 #: src/dialogs/dialog-sheet-order.c:926 src/dialogs/dialog-sheet-order.c:938
 msgid "Default"
@@ -18354,7 +18383,7 @@ msgstr "預設"
 
 #: src/dialogs/dialog-shuffle.c:76
 msgid "The input range is invalid."
-msgstr ""
+msgstr "輸入範圍無效。"
 
 #: src/dialogs/dialog-shuffle.c:161
 msgid "Could not create the Data Shuffling dialog."
@@ -19310,7 +19339,7 @@ msgstr "提示(_T)："
 
 #: src/dialogs/hyperlink.glade.h:9
 msgid "_Web Address:"
-msgstr ""
+msgstr "網頁位址(_W)："
 
 #: src/dialogs/insert-cells.glade.h:2
 msgid "Insert _column(s)"
@@ -19680,7 +19709,7 @@ msgstr "變數數目(_V)："
 
 #: src/dialogs/random-generation.glade.h:7
 msgid "Random Number Generation"
-msgstr ""
+msgstr "隨機數產生程序"
 
 #: src/dialogs/random-generation.glade.h:8 src/tools/random-generator.c:674
 #: src/tools/random-generator.c:677
@@ -19689,11 +19718,11 @@ msgstr "隨機數"
 
 #: src/dialogs/random-generation.glade.h:11
 msgid "Size of _Sample:"
-msgstr ""
+msgstr "每個樣本的大小(_S)："
 
 #: src/dialogs/random-generation.glade.h:12
 msgid "_Distribution:"
-msgstr ""
+msgstr "分佈(_D)："
 
 #: src/dialogs/rank.glade.h:2
 msgid "Average _Rank"
@@ -19701,7 +19730,7 @@ msgstr ""
 
 #: src/dialogs/rank.glade.h:8
 msgid "Rank and Percentile"
-msgstr ""
+msgstr "等級及百分位數值"
 
 #: src/dialogs/rank.glade.h:11
 msgid "Ties:"
@@ -19722,11 +19751,11 @@ msgstr ""
 #: src/dialogs/regression.glade.h:9 src/tools/analysis-tools.c:2436
 #: src/tools/analysis-tools.c:2439
 msgid "Regression"
-msgstr ""
+msgstr "迴歸分析"
 
 #: src/dialogs/regression.glade.h:14
 msgid "_Force Intercept To Be Zero"
-msgstr ""
+msgstr "強制截距為零(_F)"
 
 #: src/dialogs/row-height.glade.h:1
 msgid "Row Height"
@@ -19738,23 +19767,23 @@ msgstr "每行高度[點數] (_R)："
 
 #: src/dialogs/sampling.glade.h:7
 msgid "N_umber of Samples:"
-msgstr ""
+msgstr "抽樣次數(_U)："
 
 #: src/dialogs/sampling.glade.h:9
 msgid "Per_iod:"
-msgstr ""
+msgstr "周期(_I)："
 
 #: src/dialogs/sampling.glade.h:12
 msgid "Sampling"
-msgstr "取樣"
+msgstr "抽樣"
 
 #: src/dialogs/sampling.glade.h:13
 msgid "Sampling Method:"
-msgstr "取樣方式："
+msgstr "抽樣方式："
 
 #: src/dialogs/sampling.glade.h:14
 msgid "Size of Sample:"
-msgstr ""
+msgstr "每個樣本的大小："
 
 #: src/dialogs/sampling.glade.h:17
 msgid "_Input Range: "
@@ -20106,15 +20135,15 @@ msgstr ""
 
 #: src/dialogs/simulation.glade.h:1
 msgid "A_utofit columns"
-msgstr ""
+msgstr "列寬自動符合內容(_U)"
 
 #: src/dialogs/simulation.glade.h:2
 msgid "Find Max."
-msgstr ""
+msgstr "尋找最大值"
 
 #: src/dialogs/simulation.glade.h:3
 msgid "Find Min."
-msgstr ""
+msgstr "尋找最小值"
 
 #: src/dialogs/simulation.glade.h:4
 msgid "First Round #: "
@@ -20187,7 +20216,7 @@ msgstr "選項(_O)"
 
 #: src/dialogs/simulation.glade.h:23
 msgid "_Output Range: "
-msgstr ""
+msgstr "輸出範圍(_O)："
 
 #: src/dialogs/simulation.glade.h:24
 msgid "_Summary"
@@ -20227,7 +20256,7 @@ msgstr ""
 
 #: src/dialogs/so-fill.glade.h:4
 msgid "_Outline Color:"
-msgstr "輪廓顏色(_O)："
+msgstr ""
 
 #: src/dialogs/so-frame.glade.h:2
 msgid "Frame Label"
@@ -20447,7 +20476,7 @@ msgstr ""
 
 #: src/dialogs/tabulate.glade.h:11
 msgid "_Coordinate"
-msgstr ""
+msgstr "座標(_C)"
 
 #: src/dialogs/tabulate.glade.h:12
 msgid "_Visual"
@@ -20459,11 +20488,11 @@ msgstr ""
 
 #: src/dialogs/variance-tests.glade.h:11
 msgid "Variable _1 Range:"
-msgstr ""
+msgstr "變數 _1 的範圍："
 
 #: src/dialogs/variance-tests.glade.h:12
 msgid "Variable _2 Range:"
-msgstr ""
+msgstr "變數 _2 的範圍："
 
 #: src/dialogs/workbook-attr.glade.h:2
 msgid "A_uto Complete Text in Cells"
@@ -22550,21 +22579,21 @@ msgstr "第 %i 個區域"
 
 #: src/tools/analysis-tools.c:712
 msgid "Correlations"
-msgstr ""
+msgstr "相關系數"
 
 #: src/tools/analysis-tools.c:768
 #, c-format
 msgid "Correlation (%s)"
-msgstr ""
+msgstr "相關系數 (%s)"
 
 #: src/tools/analysis-tools.c:822
 msgid "Covariances"
-msgstr ""
+msgstr "協方差"
 
 #: src/tools/analysis-tools.c:878
 #, c-format
 msgid "Covariance (%s)"
-msgstr ""
+msgstr "協方差 (%s)"
 
 #.
 #. * Note to translators: in the following string and others like it,
@@ -22578,6 +22607,8 @@ msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
 msgstr ""
+"/平均值/標準誤差/中位數/眾數/標準差/樣本變異數/峰態/偏斜度/值域/最小值/"
+"最大值/總和/個數"
 
 #: src/tools/analysis-tools.c:1028
 #, c-format
@@ -22597,7 +22628,7 @@ msgstr "最小 (%d)"
 #: src/tools/analysis-tools.c:1173
 #, c-format
 msgid "Descriptive Statistics (%s)"
-msgstr ""
+msgstr "描述統計 (%s)"
 
 #: src/tools/analysis-tools.c:1251
 msgid "The requested sample size is to large for a periodic sample."
@@ -22606,7 +22637,7 @@ msgstr ""
 #: src/tools/analysis-tools.c:1298
 #, c-format
 msgid "Sampling (%s)"
-msgstr "取樣 (%s)"
+msgstr "抽樣 (%s)"
 
 #: src/tools/analysis-tools.c:1342 src/tools/analysis-tools.c:1344
 #: src/tools/analysis-tools.c:1477 src/tools/analysis-tools.c:1479
@@ -22615,7 +22646,7 @@ msgstr "取樣 (%s)"
 #: src/tools/analysis-tools.c:1946 src/tools/analysis-tools.c:1948
 #, c-format
 msgid "Variable %i"
-msgstr ""
+msgstr "變數 %i"
 
 #: src/tools/analysis-tools.c:1347
 msgid ""
@@ -22695,7 +22726,7 @@ msgstr ""
 
 #: src/tools/analysis-tools.c:2152
 msgid "Y Variable"
-msgstr ""
+msgstr "Y 變數"
 
 #: src/tools/analysis-tools.c:2210
 msgid ""
@@ -22723,10 +22754,13 @@ msgstr ""
 #. we have to figure out which data we have to trnasfer from
 #. to here
 #: src/tools/analysis-tools.c:2249
+#, fuzzy
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
 msgstr ""
+"/統計結果摘要//迴歸分析統計結果/Multiple R/R Square/Adjusted R Square/"
+"標準誤差/抽樣數目//ANOVA//迴歸/殘差/總計///截距"
 
 #: src/tools/analysis-tools.c:2272
 msgid "/df/SS/MS/F/Significance of F"
@@ -22754,11 +22788,11 @@ msgstr ""
 #: src/tools/analysis-tools.c:2419
 #, c-format
 msgid "Regression (%s)"
-msgstr ""
+msgstr "迴歸分析 (%s)"
 
 #: src/tools/analysis-tools.c:2483
 msgid "Standard Error"
-msgstr ""
+msgstr "標準誤差"
 
 #: src/tools/analysis-tools.c:2544
 #, c-format
@@ -22772,24 +22806,24 @@ msgstr ""
 
 #: src/tools/analysis-tools.c:2745
 msgid "Point"
-msgstr ""
+msgstr "位置"
 
 #: src/tools/analysis-tools.c:2747
 msgid "Rank"
-msgstr ""
+msgstr "等級"
 
 #: src/tools/analysis-tools.c:2748
 msgid "Percentile"
-msgstr ""
+msgstr "百分位數值"
 
 #: src/tools/analysis-tools.c:2808
 #, c-format
 msgid "Ranks (%s)"
-msgstr ""
+msgstr "等級 (%s)"
 
 #: src/tools/analysis-tools.c:2820 src/tools/analysis-tools.c:2823
 msgid "Ranks"
-msgstr ""
+msgstr "等級"
 
 #: src/tools/analysis-tools.c:2861
 msgid "Anova: Single Factor"
@@ -23683,7 +23717,7 @@ msgstr ""
 
 #: src/workbook-control-gui.c:3681
 msgid "Ranks And _Percentiles"
-msgstr ""
+msgstr "等級及百分位數值(_P)"
 
 #: src/workbook-control-gui.c:3806
 msgid "Sh_uffle..."
@@ -24458,24 +24492,8 @@ msgstr "Gnumeric XML 檔案格式"
 #~ msgid "Error while loading plugin."
 #~ msgstr "載入增效模組時發生錯誤。"
 
-#~ msgid ""
-#~ "This file is not an 'OLE' file.  It may be too old for Gnumeric to read.\n"
-#~ "Sorry, the management."
-#~ msgstr ""
-#~ "這檔案不是 'OLE' 檔。Gnumeric 不能讀入這類太舊的檔案。\n"
-#~ "抱歉。"
-
 #~ msgid "Unexpected error reading the file"
 #~ msgstr "讀入檔案時發生不明的錯誤"
-
-#~ msgid "HTML file made by gnumeric"
-#~ msgstr "由 gnumeric 建立的 HTML 檔"
-
-#~ msgid "First argument to SCM must be a Guile expression"
-#~ msgstr "給 SCM 的第一個參數必須為 Guile 表示式"
-
-#~ msgid "Undefined scheme function"
-#~ msgstr "未定義的 scheme 函數"
 
 #~ msgid "Detailed error message"
 #~ msgstr "詳細錯誤訊息"
@@ -24563,9 +24581,6 @@ msgstr "Gnumeric XML 檔案格式"
 
 #~ msgid "Must not be equal to %s\n"
 #~ msgstr "必須不等於 %s\n"
-
-#~ msgid "The expression must be true."
-#~ msgstr "表示式回傳值必須為 true。"
 
 #~ msgid "Must be a decimal\n"
 #~ msgstr "必須為十進位數\n"
