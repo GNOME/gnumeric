@@ -2959,7 +2959,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-database/functions.c:1149
-#, fuzzy
 msgid ""
 "@FUNCTION=GETPIVOTDATA\n"
 "@SYNTAX=GETPIVOTDATA(pivot_table,field_name)\n"
@@ -2976,9 +2975,11 @@ msgstr ""
 "@FUNCTION=GETPIVOTDATA\n"
 "@SYNTAX=GETPIVOTDATA(ピボットテーブル,フィールド名)\n"
 "@DESCRIPTION=GETPIVOTDATA はピボットテーブルから集計データを取得します。@ピ"
-"ボットテーブルにはピボットテーブルが含まれるセル範囲を指定します。@フィールド"
+"ボットテーブル にはピボットテーブルが含まれるセル範囲を指定します。@フィールド"
 "名には集計データを取得したいフィールド名を指定します。\n"
-"集計データが無効な場合には、#REF! エラーが返されます。\n"
+"\n"
+"* 集計データが無効な場合には、#REF! エラーが返されます。\n"
+"\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -2990,12 +2991,12 @@ msgstr ""
 #: plugins/fn-database/functions.c:1218 plugins/fn-database/functions.c:1221
 #: plugins/fn-database/functions.c:1224 plugins/fn-database/functions.c:1227
 msgid "database,field,criteria"
-msgstr ""
+msgstr "データベース,フィールド,基準"
 
 #. XL stores in lookup
 #: plugins/fn-database/functions.c:1232
 msgid "pivot_table,field_name"
-msgstr ""
+msgstr "ピボットテーブル,フィールド名"
 
 #: plugins/fn-database/plugin.xml.in.h:1 plugins/gda/plugin.xml.in.h:1
 msgid "Database"
@@ -3703,7 +3704,6 @@ msgstr ""
 "@SEEALSO=WEEKNUM"
 
 #: plugins/fn-date/functions.c:1092
-#, fuzzy
 msgid ""
 "@FUNCTION=ISOYEAR\n"
 "@SYNTAX=ISOYEAR (date)\n"
@@ -3720,18 +3720,21 @@ msgid ""
 "If A1 contains 12/31/2001 then ISOYEAR(A1)=2002\n"
 "@SEEALSO=ISOWEEKNUM"
 msgstr ""
-"@FUNCTION=ISOWEEKNUM\n"
-"@SYNTAX=ISOWEEKNUM (シリアル値)\n"
-"@DESCRIPTION=ISOWEEKNUM 関数は @シリアル値 に対応する日がその年の何週目に当た"
-"るかを ISO 8601準拠の整数値で返します。\n"
-"@シリアル値 が正しくない場合、#NUM! エラーを返します。\n"
+"@FUNCTION=ISOYEAR\n"
+"@SYNTAX=ISOYEAR (日付)\n"
+"@DESCRIPTION=ISOYEAR 関数は @日付 がISO 8601準拠で何週目かに対応する"
+"年を返します。\n"
+"\n"
 "ISO 8601 準拠の週は月曜日から始まります。週の番号は 1 から順に付けられます。"
-"年をまたぐ日を含む週はもっとも新しい日を含む年の方に繰り上がります。これは 12"
+"年をまたぐ日を含む週はより多くの日を含む年の方になります。これは 12"
 "月 31日が次の年の第一週に含まれ、次の年の 1月 1日は前の年の週 52 または 53 に"
-"含まれることを意味します。 \n"
+"なりうるということです。"
+"ISOYEARはその週が含まれている年を返します。\n"
+"\n"
+"* 日付が間違っていると、ISOYEARは#NUM!を返します。\n"
 "@EXAMPLES=\n"
-"セル A1 が 12/21/00 の場合、ISOWEEKNUM(A1)=51 です。\n"
-"@SEEALSO=WEEKNUM"
+"セル A1 が 12/31/2001 の場合、ISOYEAR(A1)=2002 です。\n"
+"@SEEALSO=ISOWEEKNUM"
 
 #: plugins/fn-date/functions.c:1139
 #, fuzzy
@@ -3924,7 +3927,6 @@ msgstr ""
 "@SEEALSO=OCT2BIN, BIN2DEC, BIN2HEX"
 
 #: plugins/fn-eng/functions.c:164
-#, fuzzy
 msgid ""
 "@FUNCTION=BIN2HEX\n"
 "@SYNTAX=BIN2HEX(number[,places])\n"
@@ -3945,15 +3947,15 @@ msgstr ""
 "@DESCRIPTION=BIN2HEX 関数は2進数を文字列あるいは対応する16進数に変換します。@"
 "列数 はオプションのフィールドで、列数を指定すると列数にあわせてゼロを埋めるこ"
 "とができます。\n"
-"@列数 が小さすぎたり負数であると #NUM! エラーが返されます。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* @列数 が小さすぎたり負数であると #NUM! エラーが返されます。\n"
+"* この関数は Excel 互換です。\n"
 "@EXAMPLES=\n"
 "BIN2HEX(100111) = 27 です。\n"
 "\n"
 "@SEEALSO=HEX2BIN, BIN2OCT, BIN2DEC"
 
 #: plugins/fn-eng/functions.c:190
-#, fuzzy
 msgid ""
 "@FUNCTION=DEC2BIN\n"
 "@SYNTAX=DEC2BIN(number[,places])\n"
@@ -3974,15 +3976,16 @@ msgstr ""
 "@DESCRIPTION=DEC2BIN 関数は10進数を2進数に変換します。@列数 はオプションの"
 "フィールドで、列数を指定すると列数にあわせて先頭にゼロを埋めることができま"
 "す。\n"
-"@列数 が小さすぎたり負であると #NUM! エラーが返されます。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* @列数 が小さすぎたり負であると #NUM! エラーが返されます。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "DEC2BIN(42) = 101010 です。\n"
 "\n"
 "@SEEALSO=BIN2DEC, DEC2OCT, DEC2HEX"
 
 #: plugins/fn-eng/functions.c:216
-#, fuzzy
 msgid ""
 "@FUNCTION=DEC2OCT\n"
 "@SYNTAX=DEC2OCT(number[,places])\n"
@@ -4003,15 +4006,16 @@ msgstr ""
 "@DESCRIPTION=DEC2OCT 関数は10進数から8進数に変換します。@列数 はオプションの"
 "フィールドで、列数を指定すると列数にあわせて先頭にゼロを埋めることができま"
 "す。\n"
-"@列数 が小さすぎたり負であると #NUM! エラーが返されます。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* @列数 が小さすぎたり負であると #NUM! エラーが返されます。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "DEC2OCT(42) = 52 です。\n"
 "\n"
 "@SEEALSO=OCT2DEC, DEC2BIN, DEC2HEX"
 
 #: plugins/fn-eng/functions.c:242
-#, fuzzy
 msgid ""
 "@FUNCTION=DEC2HEX\n"
 "@SYNTAX=DEC2HEX(number[,places])\n"
@@ -4029,18 +4033,19 @@ msgid ""
 msgstr ""
 "@FUNCTION=DEC2HEX\n"
 "@SYNTAX=DEC2HEX(数値[,列数])\n"
-"@DESCRIPTION=DEC2HEX 関数は10進数から16進数に変換します。@配置 はオプションの"
+"@DESCRIPTION=DEC2HEX 関数は10進数から16進数に変換します。@列数 はオプションの"
 "フィールドで、列数を指定すると列数にあわせて先頭にゼロを埋めることができま"
 "す。\n"
-"@配置 が小さすぎたり負であると #NUM! エラーが返されます。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* @配置 が小さすぎたり負であると #NUM! エラーが返されます。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "DEC2HEX(42) = 2A です。\n"
 "\n"
 "@SEEALSO=HEX2DEC, DEC2BIN, DEC2OCT"
 
 #: plugins/fn-eng/functions.c:268
-#, fuzzy
 msgid ""
 "@FUNCTION=OCT2DEC\n"
 "@SYNTAX=OCT2DEC(x)\n"
@@ -4057,14 +4062,15 @@ msgstr ""
 "@FUNCTION=OCT2DEC\n"
 "@SYNTAX=OCT2DEC(x)\n"
 "@DESCRIPTION=OCT2DEC 関数は8進数を文字列または等価な10進数に変換します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "OCT2DEC(\"124\") = 84 です。\n"
 "\n"
 "@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX"
 
 #: plugins/fn-eng/functions.c:291
-#, fuzzy
 msgid ""
 "@FUNCTION=OCT2BIN\n"
 "@SYNTAX=OCT2BIN(number[,places])\n"
@@ -4080,20 +4086,21 @@ msgid ""
 "\n"
 "@SEEALSO=BIN2OCT, OCT2DEC, OCT2HEX"
 msgstr ""
-"@FUNCTION=DEC2BIN\n"
-"@SYNTAX=DEC2BIN(数値[,列数])\n"
-"@DESCRIPTION=DEC2BIN 関数は10進数を2進数に変換します。@列数 はオプションの"
+"@FUNCTION=OCT2BIN\n"
+"@SYNTAX=OCT2BIN(数値[,列数])\n"
+"@DESCRIPTION=OCT2BIN 関数は8進数を2進数に変換します。@列数 はオプションの"
 "フィールドで、列数を指定すると列数にあわせて先頭にゼロを埋めることができま"
 "す。\n"
-"@列数 が小さすぎたり負であると #NUM! エラーが返されます。\n"
-"この関数は Excel 互換です。\n"
-"@EXAMPLES=\n"
-"DEC2BIN(42) = 101010 です。\n"
 "\n"
-"@SEEALSO=BIN2DEC, DEC2OCT, DEC2HEX"
+"* @列数 が小さすぎたり負であると #NUM! エラーが返されます。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
+"@EXAMPLES=\n"
+"OCT2BIN(213) = 10001011 です。\n"
+"\n"
+"@SEEALSO=BIN2OCT, OCT2DEC, OCT2HEX"
 
 #: plugins/fn-eng/functions.c:317
-#, fuzzy
 msgid ""
 "@FUNCTION=OCT2HEX\n"
 "@SYNTAX=OCT2HEX(number[,places])\n"
@@ -4109,20 +4116,21 @@ msgid ""
 "\n"
 "@SEEALSO=HEX2OCT, OCT2BIN, OCT2DEC"
 msgstr ""
-"@FUNCTION=DEC2HEX\n"
-"@SYNTAX=DEC2HEX(数値[,列数])\n"
-"@DESCRIPTION=DEC2HEX 関数は10進数から16進数に変換します。@配置 はオプションの"
+"@FUNCTION=OCT2HEX\n"
+"@SYNTAX=OCT2HEX(数値[,列数])\n"
+"@DESCRIPTION=OCT2HEX 関数は8進数から16進数に変換します。@列数 はオプションの"
 "フィールドで、列数を指定すると列数にあわせて先頭にゼロを埋めることができま"
 "す。\n"
-"@配置 が小さすぎたり負であると #NUM! エラーが返されます。\n"
-"この関数は Excel 互換です。\n"
-"@EXAMPLES=\n"
-"DEC2HEX(42) = 2A です。\n"
 "\n"
-"@SEEALSO=HEX2DEC, DEC2BIN, DEC2OCT"
+"* @列数 が小さすぎたり負であると #NUM! エラーが返されます。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
+"@EXAMPLES=\n"
+"OCT2HEX(132) = 5A です。\n"
+"\n"
+"@SEEALSO=HEX2OCT, OCT2BIN, OCT2DEC"
 
 #: plugins/fn-eng/functions.c:343
-#, fuzzy
 msgid ""
 "@FUNCTION=HEX2BIN\n"
 "@SYNTAX=HEX2BIN(number[,places])\n"
@@ -4143,15 +4151,16 @@ msgstr ""
 "@DESCRIPTION=HEX2BIN 関数は16進数を2進数に変換します。@列数 はオプションの"
 "フィールドで、列数を指定すると列数にあわせて先頭にゼロを埋めることができま"
 "す。\n"
-"この関数は Excel 互換です。\n"
-"@列数 が小さすぎたり負の場合だと #NUM! エラーが返されます。\n"
+"\n"
+"* @列数 が小さすぎたり負の場合だと #NUM! エラーが返されます。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "HEX2BIN(\"2A\") = 101010 です。\n"
 "\n"
 "@SEEALSO=BIN2HEX, HEX2OCT, HEX2DEC"
 
 #: plugins/fn-eng/functions.c:369
-#, fuzzy
 msgid ""
 "@FUNCTION=HEX2OCT\n"
 "@SYNTAX=HEX2OCT(number[,places])\n"
@@ -4172,8 +4181,10 @@ msgstr ""
 "@DESCRIPTION=HEX2OCT 関数は16進数を8進数に変換します。@列数 はオプションの"
 "フィールドで、列数を指定すると列数にあわせて先頭にゼロを埋めることができま"
 "す。\n"
-"この関数は Excel 互換です。\n"
-"@列数 が小さすぎたり負の場合だと #NUM! エラーが返されます。\n"
+"\n"
+"* @列数 が小さすぎたり負の場合だと #NUM! エラーが返されます。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "HEX2OCT(\"2A\") = 52 です。\n"
 "\n"
@@ -23995,7 +24006,6 @@ msgid "Ma_x:"
 msgstr "最大(_X):"
 
 #: src/dialogs/histogram.glade.h:11
-#, fuzzy
 msgid "Pareto (_sorted)"
 msgstr "パレート(ソート済み)(_S)"
 
@@ -26368,12 +26378,10 @@ msgid "File _type:"
 msgstr "ファイルタイプ(_T):"
 
 #: src/gui-file.c:367
-#, fuzzy
 msgid "Select an Image"
-msgstr "列全体を選択します"
+msgstr "画像の選択"
 
 #: src/gui-file.c:392
-#, fuzzy
 msgid "Images"
 msgstr "画像"
 
@@ -26610,85 +26618,80 @@ msgstr ""
 
 #: src/main-application.c:186
 msgid "Gdk debugging flags to set"
-msgstr ""
+msgstr "セットするGdkデバッグフラグ"
 
 #: src/main-application.c:186 src/main-application.c:188
 #: src/main-application.c:200 src/main-application.c:202
-#, fuzzy
 msgid "FLAGS"
-msgstr "FALSE"
+msgstr "フラグ"
 
 #: src/main-application.c:188
 msgid "Gdk debugging flags to unset"
-msgstr ""
+msgstr "セットしないGdkデバッグフラグ"
 
 #: src/main-application.c:190
-#, fuzzy
 msgid "X display to use"
-msgstr "公式を表示する(_F)"
+msgstr "使用するXディスプレイ"
 
 #: src/main-application.c:190
 msgid "DISPLAY"
-msgstr ""
+msgstr "ディスプレイ"
 
 #: src/main-application.c:192
 msgid "X screen to use"
-msgstr ""
+msgstr "使用するXスクリーン"
 
 #: src/main-application.c:192
 msgid "SCREEN"
-msgstr ""
+msgstr "スクリーン"
 
 #: src/main-application.c:194
 msgid "Make X calls synchronous"
-msgstr ""
+msgstr "Xの呼出しを同期する"
 
 #: src/main-application.c:196
 msgid "Program name as used by the window manager"
-msgstr ""
+msgstr "ウィンドウマネージャが使用するプログラム名"
 
 #: src/main-application.c:196
-#, fuzzy
 msgid "NAME"
-msgstr "#NAME?"
+msgstr "名前"
 
 #: src/main-application.c:198
 msgid "Program class as used by the window manager"
-msgstr ""
+msgstr "プログラムクラスはウィンドウマネージャが使用しています"
 
 #: src/main-application.c:198
 msgid "CLASS"
-msgstr ""
+msgstr "クラス"
 
 #: src/main-application.c:200
 msgid "Gtk+ debugging flags to set"
-msgstr ""
+msgstr "セットするGTK+デバッグフラグ"
 
 #: src/main-application.c:202
 msgid "Gtk+ debugging flags to unset"
-msgstr ""
+msgstr "セットしないGTK+デバッグフラグ"
 
 #: src/main-application.c:204
 msgid "Make all warnings fatal"
-msgstr ""
+msgstr "すべての警告をfatalにする"
 
 #: src/main-application.c:206
 msgid "Load an additional Gtk module"
-msgstr ""
+msgstr "追加のGTK+モジュールを読みこむ"
 
 #: src/main-application.c:206
 msgid "MODULE"
-msgstr ""
+msgstr "モジュール"
 
 #: src/main-application.c:212
-#, fuzzy
 msgid "Gnumeric options"
-msgstr "Gnumeric: 変化量"
+msgstr "Gnumericオプション"
 
 #: src/main-application.c:214
-#, fuzzy
 msgid "GTK+ options"
-msgstr "オプション"
+msgstr "GTK+オプション"
 
 #: src/main-application.c:251
 #, c-format
@@ -28588,14 +28591,12 @@ msgid "Set Background Color"
 msgstr "背景色のセット"
 
 #: src/wbc-gtk.c:486
-#, fuzzy, c-format
 msgid "Font Name %s"
-msgstr "名前 %s の更新"
+msgstr "フォント名 %s"
 
 #: src/wbc-gtk.c:529
-#, fuzzy, c-format
 msgid "Font Size %f"
-msgstr "フォントサイズ"
+msgstr "フォントサイズ %f"
 
 #: src/wbc-gtk.c:576
 msgid "File/"
