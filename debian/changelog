@@ -1,3 +1,27 @@
+gnumeric (1.2.9-1) unstable; urgency=medium
+
+  * New upstream bugfix release.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu,  8 Apr 2004 11:19:22 +0200
+
+gnumeric (1.2.8-5) unstable; urgency=medium
+
+  * [configure.in] substitute WARN_CFLAGS as
+    src/cut-n-paste-code/foocanvas/libfoocanvas/Makefile references it 
+    directly.
+  * [aclocal.m4, ltmain.sh, configure] Regenerated using current libtool
+    in order to cut down direct dependencies.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat,  3 Apr 2004 20:40:11 +0200
+
+gnumeric (1.2.8-4) unstable; urgency=medium
+
+  * [po/ChangeLog, po/ga.po, po/pt_BR.po] Updated translations from CVS.
+  * [plugins/excel/*] Excel import/export fixes from CVS (at upstream's
+    recommendation).
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon, 22 Mar 2004 08:00:47 +0100
+
 gnumeric (1.2.8-3) unstable; urgency=medium
 
   * [po/ChangeLog, po/cs.po, po/es.po, po/hr.po, po/nl.po, po/pt_BR.po,
