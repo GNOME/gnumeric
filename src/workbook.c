@@ -2407,7 +2407,6 @@ workbook_create_standard_toobar (Workbook *wb)
 	gtk_toolbar_append_widget (GTK_TOOLBAR (toolbar),
 				   zoom, _("Zoom"), NULL);
 
-
 	gtk_signal_connect (
 		GTK_OBJECT(toolbar), "orientation-changed",
 		GTK_SIGNAL_FUNC (&workbook_standard_toolbar_orient), wb);
@@ -2785,6 +2784,17 @@ sheet_action_rename_sheet (GtkWidget *widget, Sheet *current_sheet)
 	g_free (new_name);
 }
 
+/*
+ * sheet_action_reorder_sheet
+ * Invoked when the user selects the option to re-order the sheets
+ * When more than 1 sheet exists
+ */
+static void
+sheet_action_reorder_sheet (GtkWidget *widget, Sheet *current_sheet)
+{
+	dialog_sheet_order (current_sheet->workbook);
+}
+
 #define SHEET_CONTEXT_TEST_SIZE 1
 
 struct {
@@ -2795,6 +2805,7 @@ struct {
 	{ N_("Add another sheet"), sheet_action_add_sheet, 0 },
 	{ N_("Remove this sheet"), sheet_action_delete_sheet, SHEET_CONTEXT_TEST_SIZE },
 	{ N_("Rename this sheet"), sheet_action_rename_sheet, 0 },
+	{ N_("Re-order sheets"), sheet_action_reorder_sheet, SHEET_CONTEXT_TEST_SIZE },
 	{ NULL, NULL }
 };
 
@@ -3127,7 +3138,6 @@ workbook_set_saveinfo (Workbook *wb, const char *name,
 	g_return_val_if_fail (name != NULL, FALSE);
 	g_return_val_if_fail (level > FILE_FL_NONE && level <= FILE_FL_AUTO,
 			      FALSE);
-	g_return_val_if_fail (save_fn != NULL, FALSE);
 
 	if (level < wb->file_format_level)
 		return FALSE;
@@ -3135,7 +3145,8 @@ workbook_set_saveinfo (Workbook *wb, const char *name,
 	if (!workbook_set_filename (wb, name))
 		return FALSE;
 	wb->file_format_level = level;
-	wb->file_save_fn = save_fn;
+	if (save_fn != NULL)
+	wb->file_save_fn = save_fn ? save_fn : gnumeric_xml_write_workbook;
 	workbook_view_set_title (wb, g_basename (name));
 
 	return TRUE;
@@ -3485,7 +3496,8 @@ workbook_delete_sheet (Sheet *sheet)
  *  2) above sheet editing when you hit F2.
  */
 void
-workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp, gboolean cursorp)
+workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp,
+				  gboolean cursorp)
 {
 	Sheet *sheet;
 
@@ -3517,6 +3529,10 @@ workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp, gboolean cursor
 	/* These are only sensitive while editing */
 	gtk_widget_set_sensitive (wb->priv->ok_button, TRUE);
 	gtk_widget_set_sensitive (wb->priv->cancel_button, TRUE);
+
+	/* Toolbars are insensitive while editing */
+	gtk_widget_set_sensitive (wb->priv->standard_toolbar, FALSE);
+	gtk_widget_set_sensitive (wb->priv->format_toolbar, FALSE);
 }
 
 void
@@ -3541,6 +3557,10 @@ workbook_finish_editing (Workbook *wb, gboolean const accept)
 	/* These are only sensitive while editing */
 	gtk_widget_set_sensitive (wb->priv->ok_button, FALSE);
 	gtk_widget_set_sensitive (wb->priv->cancel_button, FALSE);
+
+	/* Toolbars are insensitive while editing */
+	gtk_widget_set_sensitive (wb->priv->standard_toolbar, TRUE);
+	gtk_widget_set_sensitive (wb->priv->format_toolbar, TRUE);
 
 	/* Save the results before changing focus */
 	if (accept) {

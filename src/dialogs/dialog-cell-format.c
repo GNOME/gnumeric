@@ -740,10 +740,12 @@ cb_format_entry (GtkEditable *w, FormatState *state)
 	if (!g_strcasecmp (state->format.spec, tmp))
 		return;
 
-	g_free ((char *)state->format.spec);
-	state->format.spec = g_strdup (tmp);
-	mstyle_set_format (state->result, state->format.spec);
-	fmt_dialog_changed (state);
+	if (state->enable_edit) {
+		g_free ((char *)state->format.spec);
+		state->format.spec = g_strdup (tmp);
+		mstyle_set_format (state->result, state->format.spec);
+		fmt_dialog_changed (state);
+	}
 	draw_format_preview (state);
 }
 
@@ -993,11 +995,13 @@ cb_align_h_toggle (GtkToggleButton *button, FormatState *state)
 	if (!gtk_toggle_button_get_active (button))
 		return;
 
-	mstyle_set_align_h (
-		state->result,
-		GPOINTER_TO_INT (gtk_object_get_data (
-		GTK_OBJECT (button), "align")));
-	fmt_dialog_changed (state);
+	if (state->enable_edit) {
+		mstyle_set_align_h (
+			state->result,
+			GPOINTER_TO_INT (gtk_object_get_data (
+			GTK_OBJECT (button), "align")));
+		fmt_dialog_changed (state);
+	}
 }
 
 static void
@@ -1006,19 +1010,23 @@ cb_align_v_toggle (GtkToggleButton *button, FormatState *state)
 	if (!gtk_toggle_button_get_active (button))
 		return;
 
-	mstyle_set_align_v (
-		state->result,
-		GPOINTER_TO_INT (gtk_object_get_data (
-		GTK_OBJECT (button), "align")));
-	fmt_dialog_changed (state);
+	if (state->enable_edit) {
+		mstyle_set_align_v (
+			state->result,
+			GPOINTER_TO_INT (gtk_object_get_data (
+			GTK_OBJECT (button), "align")));
+		fmt_dialog_changed (state);
+	}
 }
 
 static void
 cb_align_wrap_toggle (GtkToggleButton *button, FormatState *state)
 {
-	mstyle_set_fit_in_cell (state->result,
-				gtk_toggle_button_get_active (button));
-	fmt_dialog_changed (state);
+	if (state->enable_edit) {
+		mstyle_set_fit_in_cell (state->result,
+					gtk_toggle_button_get_active (button));
+		fmt_dialog_changed (state);
+	}
 }
 
 static void
@@ -1118,6 +1126,10 @@ cb_font_preview_color (GtkObject *obj, guint r, guint g, guint b, guint a,
 {
 	GtkStyle *style;
 	GdkColor col;
+
+	if (!state->enable_edit)
+		return;
+
 	state->font.color.r = col.red   = r;
 	state->font.color.g = col.green = g;
 	state->font.color.b = col.blue  = b;
@@ -1168,9 +1180,11 @@ cb_font_changed (GtkWidget *widget, GtkStyle *previous_style, FormatState *state
 static void
 cb_font_strike_toggle (GtkToggleButton *button, FormatState *state)
 {
-	mstyle_set_font_strike (state->result,
-				gtk_toggle_button_get_active (button));
-	fmt_dialog_changed (state);
+	if (state->enable_edit) {
+		mstyle_set_font_strike (state->result,
+					gtk_toggle_button_get_active (button));
+		fmt_dialog_changed (state);
+	}
 }
 
 static void
@@ -1178,6 +1192,9 @@ cb_font_underline_changed (GtkEditable *w, FormatState *state)
 {
 	gchar const *tmp = gtk_entry_get_text (GTK_ENTRY (w));
 	StyleUnderlineType res = UNDERLINE_NONE;
+
+	if (!state->enable_edit)
+		return;
 
 	/* There must be a better way than this */
 	if (!g_strcasecmp (tmp, _("Single")))

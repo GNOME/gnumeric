@@ -17,7 +17,8 @@
 <widget>
   <class>GnomeDialog</class>
   <name>dialog</name>
-  <height>300</height>
+  <width>375</width>
+  <height>220</height>
   <visible>False</visible>
   <title>Order Sheets</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
@@ -57,48 +58,13 @@
 	<fill>True</fill>
 	<pack>GTK_PACK_END</pack>
       </child>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>up_btn</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<stock_button>GNOME_STOCK_BUTTON_UP</stock_button>
-      </widget>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>down_btn</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<stock_button>GNOME_STOCK_BUTTON_DOWN</stock_button>
-      </widget>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>delete_btn</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<label>Delete</label>
-	<stock_pixmap>GNOME_STOCK_PIXMAP_TRASH</stock_pixmap>
-      </widget>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>button4</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<stock_button>GNOME_STOCK_BUTTON_CLOSE</stock_button>
-      </widget>
     </widget>
 
     <widget>
-      <class>GtkScrolledWindow</class>
-      <name>scrolledwindow1</name>
-      <hscrollbar_policy>GTK_POLICY_ALWAYS</hscrollbar_policy>
-      <vscrollbar_policy>GTK_POLICY_ALWAYS</vscrollbar_policy>
-      <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
-      <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
+      <class>GtkHBox</class>
+      <name>hbox1</name>
+      <homogeneous>False</homogeneous>
+      <spacing>8</spacing>
       <child>
 	<padding>0</padding>
 	<expand>True</expand>
@@ -106,26 +72,104 @@
       </child>
 
       <widget>
-	<class>GtkCList</class>
-	<name>sheet_name_clist</name>
-	<can_focus>True</can_focus>
-	<columns>1</columns>
-	<column_widths>80</column_widths>
-	<selection_mode>GTK_SELECTION_SINGLE</selection_mode>
-	<show_titles>True</show_titles>
-	<shadow_type>GTK_SHADOW_IN</shadow_type>
+	<class>GtkScrolledWindow</class>
+	<name>scrolledwindow1</name>
+	<hscrollbar_policy>GTK_POLICY_ALWAYS</hscrollbar_policy>
+	<vscrollbar_policy>GTK_POLICY_ALWAYS</vscrollbar_policy>
+	<hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
+	<vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
+	<child>
+	  <padding>0</padding>
+	  <expand>True</expand>
+	  <fill>True</fill>
+	</child>
 
 	<widget>
-	  <class>GtkLabel</class>
-	  <child_name>CList:title</child_name>
-	  <name>label1</name>
-	  <label>Sheet Name</label>
-	  <justify>GTK_JUSTIFY_CENTER</justify>
-	  <wrap>False</wrap>
-	  <xalign>0.5</xalign>
-	  <yalign>0.5</yalign>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
+	  <class>GtkCList</class>
+	  <name>sheet_clist</name>
+	  <can_focus>True</can_focus>
+	  <columns>1</columns>
+	  <column_widths>80</column_widths>
+	  <selection_mode>GTK_SELECTION_SINGLE</selection_mode>
+	  <show_titles>True</show_titles>
+	  <shadow_type>GTK_SHADOW_IN</shadow_type>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <child_name>CList:title</child_name>
+	    <name>label1</name>
+	    <label>Sheet Name</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	  </widget>
+	</widget>
+      </widget>
+
+      <widget>
+	<class>GtkVBox</class>
+	<name>vbox1</name>
+	<homogeneous>True</homogeneous>
+	<spacing>0</spacing>
+	<child>
+	  <padding>0</padding>
+	  <expand>False</expand>
+	  <fill>True</fill>
+	</child>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>up_btn</name>
+	  <tooltip>Move the currently selected sheet up one position</tooltip>
+	  <can_focus>True</can_focus>
+	  <stock_button>GNOME_STOCK_BUTTON_UP</stock_button>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>down_btn</name>
+	  <tooltip>Move the currently selected sheet down one position</tooltip>
+	  <can_focus>True</can_focus>
+	  <stock_button>GNOME_STOCK_BUTTON_DOWN</stock_button>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>delete_btn</name>
+	  <tooltip>Delete the currently selected sheet</tooltip>
+	  <can_focus>True</can_focus>
+	  <label>Delete</label>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>close_btn</name>
+	  <tooltip>Close this dialog</tooltip>
+	  <can_focus>True</can_focus>
+	  <stock_button>GNOME_STOCK_BUTTON_CLOSE</stock_button>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
 	</widget>
       </widget>
     </widget>

@@ -534,8 +534,13 @@ cell_set_text_simple (Cell *cell, const char *text)
 			 */
 			cell->entered_text = NULL;
 		}
-		cell_render_value (cell);
 
+		/* FIXME : This calls calc_dimension much too early in the
+		 * import process.  There is no point calculating spans or
+		 * dimensions before the cells neighbours or format has been
+		 * applied.
+		 */
+		cell_render_value (cell);
 	}
 }
 
@@ -1258,7 +1263,7 @@ cell_calculate_span (Cell const * const cell,
  * The line splitting code is VERY similar to cell-draw.c:cell_split_text
  * please keep it that way.
  */
-void
+static void
 calc_text_dimensions (Cell *cell,
 		      MStyle const * const mstyle,
 		      char const * const text)

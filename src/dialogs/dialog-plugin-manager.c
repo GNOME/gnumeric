@@ -22,12 +22,6 @@
 #include "plugin.h"
 #include "workbook.h"
 
-#include "color.h"
-
-#define DESCR_FORE_COLOR &gs_black
-#define DESCR_BACK_COLOR &gs_white
-#define DESCR_FONT_FACE  "-*-helvetica-medium-r-normal-*-*-120-*-*-*-*-iso8859-1"
-
 #define GLADE_FILE "plugin-manager.glade"
 
 typedef struct 
@@ -94,8 +88,7 @@ static void
 refresh_right_frame (PluginData *pd, PluginManager *pm)
 {
 	gchar *str;
-	GdkFont *font = gdk_font_load (DESCR_FONT_FACE);
-	
+
 	if (!pd)
 		str = g_strdup (_("File name:"));
 	else
@@ -125,12 +118,11 @@ refresh_right_frame (PluginData *pd, PluginManager *pm)
 	gtk_text_backward_delete (GTK_TEXT (pm->desc_text), gtk_text_get_length (GTK_TEXT (pm->desc_text)));
 	
 	if (pd && plugin_data_get_descr (pd))
-		gtk_text_insert (GTK_TEXT (pm->desc_text), font, DESCR_FORE_COLOR,
-				 DESCR_BACK_COLOR, plugin_data_get_descr (pd), -1);
+		gtk_text_insert (GTK_TEXT (pm->desc_text), NULL, NULL, NULL,
+				 plugin_data_get_descr (pd), -1);
 	
 	gtk_text_thaw (GTK_TEXT (pm->desc_text));
 	gtk_text_set_editable (GTK_TEXT (pm->desc_text), FALSE);
-	gdk_font_unref (font);
 }
 
 /*

@@ -25,10 +25,12 @@ typedef struct {
 	Workbook  *wb;
 	GtkWidget *dialog;
 	GtkWidget *clist;
+	GtkWidget *up_btn;
+	GtkWidget *down_btn;
+	GtkWidget *delete_btn;
+	GtkWidget *close_btn;
 	gint       current_row;
 } SheetManager;
-
-enum { BUTTON_UP = 0, BUTTON_DOWN, BUTTON_DELETE, BUTTON_CLOSE };
 
 /*
  * Add one sheet's name to the clist
@@ -96,38 +98,31 @@ row_cb (GtkWidget *w, gint row, gint col,
 		sm->current_row = row;
 
 		can_go = (row != 0); /* top row test */
-		gnome_dialog_set_sensitive (GNOME_DIALOG (sm->dialog),
-					    BUTTON_UP, can_go);
+		gtk_widget_set_sensitive (sm->up_btn, can_go);
 
 		can_go = !(row >= (numrows - 1)); /* bottom row test */
-		gnome_dialog_set_sensitive (GNOME_DIALOG (sm->dialog),
-					    BUTTON_DOWN, can_go);
+		gtk_widget_set_sensitive (sm->down_btn, can_go);
 
 		/* don't delete the last remaining sheet */
 		can_go = (numrows > 1);
-		gnome_dialog_set_sensitive (GNOME_DIALOG (sm->dialog),
-					    BUTTON_DELETE, can_go);
+		gtk_widget_set_sensitive (sm->delete_btn, can_go);
 
 		/* Display/focus on the selected sheet underneath us */
 		gtk_notebook_set_page (GTK_NOTEBOOK (sm->wb->notebook), row);
 
 	} else {
 		sm->current_row = -1;
-		gnome_dialog_set_sensitive (GNOME_DIALOG (sm->dialog),
-					    BUTTON_UP, FALSE);
-		gnome_dialog_set_sensitive (GNOME_DIALOG (sm->dialog),
-					    BUTTON_DOWN, FALSE);
-		gnome_dialog_set_sensitive (GNOME_DIALOG (sm->dialog),
-					    BUTTON_DELETE, FALSE);
+		gtk_widget_set_sensitive (sm->up_btn, FALSE);
+		gtk_widget_set_sensitive (sm->down_btn, FALSE);
+		gtk_widget_set_sensitive (sm->delete_btn, FALSE);
 	}
-
 }
 
 /*
  * User wanted to delete this sheet from the workbook
  */
 static void
-delete_cb (SheetManager *sm)
+delete_clicked_cb (GtkWidget *button, SheetManager *sm)
 {
 	GtkCList *clist = GTK_CLIST (sm->clist);
 	GList *selection = GTK_CLIST (clist)->selection;
@@ -193,7 +188,7 @@ move_cb (SheetManager *sm, gint direction)
  * User wants to move the sheet up
  */
 static void
-up_cb (SheetManager *sm)
+up_clicked_cb (GtkWidget *button, SheetManager *sm)
 {
 	move_cb (sm, -1); /* c-array style : move -1 == left == up */
 }
@@ -202,9 +197,15 @@ up_cb (SheetManager *sm)
  * User wants to move the sheet down
  */
 static void
-down_cb (SheetManager *sm)
+down_clicked_cb (GtkWidget *button, SheetManager *sm)
 {
 	move_cb (sm, 1); /* c-array style : move 1 == right == down */
+}
+
+static void
+close_clicked_cb (GtkWidget *button, SheetManager *sm)
+{
+	gnome_dialog_close (GNOME_DIALOG (sm->dialog));
 }
 
 /*
@@ -217,9 +218,16 @@ dialog_sheet_order_impl (Workbook *wb, GladeXML *gui)
 	int bval;
 
 	sm.wb = wb;
-	sm.dialog = glade_xml_get_widget (gui, "dialog");
-	sm.clist  = glade_xml_get_widget (gui, "sheet_name_clist");
+	sm.dialog     = glade_xml_get_widget (gui, "dialog");
+	sm.clist      = glade_xml_get_widget (gui, "sheet_clist");
+	sm.up_btn     = glade_xml_get_widget (gui, "up_btn");
+	sm.down_btn   = glade_xml_get_widget (gui, "down_btn");
+	sm.delete_btn = glade_xml_get_widget (gui, "delete_btn");
+	sm.close_btn  = glade_xml_get_widget (gui, "close_btn");
+	
 	sm.current_row = -1;
+
+	gtk_clist_column_titles_passive (GTK_CLIST (sm.clist));
 
 	gtk_signal_connect (GTK_OBJECT (sm.dialog), "key_press_event",
 			    GTK_SIGNAL_FUNC (key_event_cb), NULL);
@@ -230,52 +238,41 @@ dialog_sheet_order_impl (Workbook *wb, GladeXML *gui)
 	gtk_signal_connect (GTK_OBJECT (sm.clist), "unselect_row",
 			    GTK_SIGNAL_FUNC (row_cb), &sm);
 
+	gtk_signal_connect (GTK_OBJECT (sm.up_btn), "clicked",
+ 			    GTK_SIGNAL_FUNC (up_clicked_cb), &sm);
+
+	gtk_signal_connect (GTK_OBJECT (sm.down_btn), "clicked",
+			    GTK_SIGNAL_FUNC (down_clicked_cb), &sm);
+
+	gtk_signal_connect (GTK_OBJECT (sm.delete_btn), "clicked",
+			    GTK_SIGNAL_FUNC (delete_clicked_cb), &sm);
+
+	gtk_signal_connect (GTK_OBJECT (sm.close_btn), "clicked",
+			    GTK_SIGNAL_FUNC (close_clicked_cb), &sm);
+
 	populate_sheet_clist (&sm);
 
 	if (GTK_CLIST (sm.clist)->rows > 0) {
 		gtk_widget_grab_focus (sm.clist);
 	} else {
-		gnome_dialog_set_sensitive (GNOME_DIALOG (sm.dialog),
-					    BUTTON_UP, FALSE);
-		gnome_dialog_set_sensitive (GNOME_DIALOG (sm.dialog),
-					    BUTTON_DOWN, FALSE);
-		gnome_dialog_set_sensitive (GNOME_DIALOG (sm.dialog),
-					    BUTTON_DELETE, FALSE);
+		gtk_widget_set_sensitive (sm.up_btn, FALSE);
+		gtk_widget_set_sensitive (sm.down_btn, FALSE);
+		gtk_widget_set_sensitive (sm.delete_btn, FALSE);
 	}
 
 	gtk_clist_column_titles_passive (GTK_CLIST (sm.clist));
+#if 0
 	gnome_dialog_set_default (GNOME_DIALOG (sm.dialog), BUTTON_CLOSE);
+#endif
 	gtk_window_set_policy (GTK_WINDOW (sm.dialog), FALSE, TRUE, FALSE);
 
 	gtk_widget_show_all (GNOME_DIALOG (sm.dialog)->vbox);
 
-	do {
-		bval = gnumeric_dialog_run (sm.wb, GNOME_DIALOG (sm.dialog));
-		switch (bval) {
-
-		case BUTTON_UP:
-			up_cb (&sm);
-			break;
-
-		case BUTTON_DOWN:
-			down_cb (&sm);
-			break;
-
-		case BUTTON_DELETE:
-			delete_cb (&sm);
-			break;
-
-		case -1: /* close window */
-		        return;
-		  
-		case BUTTON_CLOSE:
-		default:
-			break;
-		}
-	} while (bval != BUTTON_CLOSE);
-
-	/* If the user canceled we have already returned */
-	gnome_dialog_close (GNOME_DIALOG (sm.dialog));
+	bval = gnumeric_dialog_run (sm.wb, GNOME_DIALOG (sm.dialog));
+  
+  	/* If the user canceled we have already returned */
+	if (bval != -1)
+		gnome_dialog_close (GNOME_DIALOG (sm.dialog));
 }
 
 /*

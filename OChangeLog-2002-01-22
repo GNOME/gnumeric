@@ -1,3 +1,40 @@
+2000-04-09  Jody Goldberg <jgoldberg@home.com>
+
+	* src/dialogs/dialog-cell-format.c : Do not change the target style if
+	  editing has not yet been enabled.
+
+	* src/workbook.c (workbook_set_saveinfo) : If the save function is
+	  NULL default to xml.
+
+	* src/format.c (format_value) : Add some error checking.
+
+	* src/cell.c (calc_text_dimensions) : Make static
+
+	* src/main.c : Add main.h
+
+2000-04-03  Dom Lachowicz <dominicl@seas.upenn.edu>
+ 
+ 	* src/workbook.c (sheet_action_reorder_sheet): Right click on a
+ 	sheet tab, and if there's more than one sheet, you'll get an
+ 	option to bring up the re-order sheets dialog
+ 
+ 	* src/dialogs/dialog-plugin-manager.c (refresh_right_frame) :  Do not
+	  override default fonts and colours.
+ 
+	* src/dialogs/sheet-order.glade,
+	* src/dialogs/sheet-order.glade.h,
+	* src/dialogs/dialog-sheet-order.c (row_cb, delete_clicked_cb,
+	  up_clicked_cb, down_clicked_cb, close_clicked_cb, 
+	  dialog_sheet_order_impl) : Improve look by moving buttons to the
+	  right edge rather than using stock buttons on the bottom and side.
+	
+2000-04-07  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c (workbook_finish_editing) : resensitize the toolbars
+	  after editing.
+	(workbook_start_editing_at_cursor) : Desensitize the toolbars when we
+	  start to edit.
+
 2000-04-09  Morten Welinder  <terra@diku.dk>
 
 	* src/sheet-style.c (sheet_unique_cb): Plug leak.

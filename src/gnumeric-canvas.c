@@ -39,7 +39,7 @@ gnumeric_sheet_destroy (GtkObject *object)
 }
 
 static GnumericSheet *
-gnumeric_sheet_create (SheetView *sheet_view, GtkWidget *entry)
+gnumeric_sheet_create (SheetView *sheet_view, GtkWidget *controling_entry)
 {
 	GnumericSheet *gsheet;
 	GnomeCanvas   *canvas;
@@ -52,7 +52,7 @@ gnumeric_sheet_create (SheetView *sheet_view, GtkWidget *entry)
 	gsheet->col.first = gsheet->col.last_full = gsheet->col.last_visible = 0;
 	gsheet->row_offset.first = gsheet->row_offset.last_full = gsheet->row_offset.last_visible = 0;
 	gsheet->col_offset.first = gsheet->col_offset.last_full = gsheet->col_offset.last_visible = 0;
-	gsheet->entry   = entry;
+	gsheet->controling_entry   = controling_entry;
 
 	return gsheet;
 }
@@ -84,7 +84,7 @@ move_cursor (GnumericSheet *gsheet, int col, int row, gboolean clear_selection)
 	 *
 	 * If you dont know what this means, just mail me.
 	 */
-	 
+
 	if (clear_selection)
 		sheet_selection_reset_only (sheet);
 
@@ -199,13 +199,15 @@ gnumeric_sheet_can_move_cursor (GnumericSheet *gsheet)
 	if (gsheet->selecting_cell)
 		return TRUE;
 
-	return gnumeric_entry_at_subexpr_boundary_p (gsheet->entry);
+	return gnumeric_entry_at_subexpr_boundary_p (gsheet->controling_entry);
 }
 
 static void
 selection_remove_selection_string (GnumericSheet *gsheet)
 {
-	gtk_editable_delete_text (GTK_EDITABLE (gsheet->entry),
+	g_return_if_fail (gsheet->controling_entry != NULL);
+
+	gtk_editable_delete_text (GTK_EDITABLE (gsheet->controling_entry),
 				  gsheet->sel_cursor_pos,
 				  gsheet->sel_cursor_pos+gsheet->sel_text_len);
 }
@@ -219,6 +221,8 @@ selection_insert_selection_string (GnumericSheet *gsheet)
 	gboolean const inter_sheet = (sheet != wb->editing_sheet);
 	char * buffer;
 	int pos;
+
+	g_return_if_fail (gsheet->controling_entry != NULL);
 
 	/* Get the new selection string */
 	buffer = g_strdup_printf ("%s%s%s%d",
@@ -244,16 +248,16 @@ selection_insert_selection_string (GnumericSheet *gsheet)
 		g_free (buffer);
 		buffer = tmp;
 	}
-	   
+
 	gsheet->sel_text_len = strlen (buffer);
 	pos = gsheet->sel_cursor_pos;
-	gtk_editable_insert_text (GTK_EDITABLE (gsheet->entry),
+	gtk_editable_insert_text (GTK_EDITABLE (gsheet->controling_entry),
 				  buffer, gsheet->sel_text_len,
 				  &pos);
 	g_free (buffer);
 
 	/* Set the cursor at the end.  It looks nicer */
-	gtk_editable_set_position (GTK_EDITABLE (gsheet->entry),
+	gtk_editable_set_position (GTK_EDITABLE (gsheet->controling_entry),
 				   gsheet->sel_cursor_pos +
 				   gsheet->sel_text_len);
 }
@@ -265,6 +269,7 @@ start_cell_selection_at (GnumericSheet *gsheet, int col, int row)
 	GnomeCanvasGroup *group = GNOME_CANVAS_GROUP (canvas->root);
 
 	g_return_if_fail (gsheet->selecting_cell == FALSE);
+	g_return_if_fail (gsheet->controling_entry != NULL);
 
 	/* Hide the primary cursor while the range selection cursor is visible */
 	item_cursor_set_visibility (gsheet->item_cursor, FALSE);
@@ -281,7 +286,7 @@ start_cell_selection_at (GnumericSheet *gsheet, int col, int row)
 
 	item_edit_disable_highlight (ITEM_EDIT (gsheet->item_editor));
 
-	gsheet->sel_cursor_pos = GTK_EDITABLE (gsheet->entry)->current_pos;
+	gsheet->sel_cursor_pos = GTK_EDITABLE (gsheet->controling_entry)->current_pos;
 	gsheet->sel_text_len = 0;
 }
 
@@ -704,25 +709,29 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	 */
 	case GDK_KP_Enter:
 	case GDK_Return:
-		if ((event->state & GDK_CONTROL_MASK) != 0){
-			if (wb->editing){
-				gboolean const is_array = (event->state & GDK_SHIFT_MASK);
-				char * const text = gtk_entry_get_text (GTK_ENTRY (gsheet->entry));
+		if (wb->editing) {
+			if (event->state == GDK_CONTROL_MASK) {
+				gboolean const is_array =
+					(event->state & GDK_SHIFT_MASK);
+				char * const text =
+					gtk_entry_get_text (GTK_ENTRY (gsheet->controling_entry));
 
 				/* Be careful to use the editing sheet */
 				gboolean const trouble =
-				    cmd_area_set_text (workbook_command_context_gui (wb),
-						       wb->editing_sheet, text, is_array);
+					cmd_area_set_text (workbook_command_context_gui (wb),
+							   wb->editing_sheet, text, is_array);
 
 				/* If the assignment was successful finish
 				 * editing but do NOT store the results
 				 */
 				if (!trouble)
 					workbook_finish_editing (wb, FALSE);
-			} else
-				gtk_widget_grab_focus (gsheet->entry);
-
-			return 1;
+				return 1;
+			}
+			if (event->state == GDK_MOD1_MASK)
+				/* Forward the keystroke to the input line */
+				return gtk_widget_event (gsheet->controling_entry,
+							 (GdkEvent *) event);
 		}
 		/* fall down */
 
@@ -775,8 +784,10 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		}
 		gnumeric_sheet_stop_cell_selection (gsheet, FALSE);
 
+		g_return_val_if_fail (gsheet->controling_entry != NULL, TRUE);
+
 		/* Forward the keystroke to the input line */
-		return gtk_widget_event (gsheet->entry, (GdkEvent *) event);
+		return gtk_widget_event (gsheet->controling_entry, (GdkEvent *) event);
 	}
 	sheet_update (sheet);
 
@@ -839,12 +850,12 @@ gnumeric_sheet_drag_data_get (GtkWidget *widget,
 	char *s;
 	CommandContext *command_context =
 	    workbook_command_context_gui (sheet->workbook);
-	
+
 	if (wb->filename == NULL)
 		workbook_save (command_context, wb);
 	if (wb->filename == NULL)
 		return;
-	
+
 	moniker = bonobo_moniker_new ();
 	bonobo_moniker_set_server (
 		moniker,
@@ -920,11 +931,13 @@ gnumeric_sheet_new (SheetView *sheet_view, ItemBar *colbar, ItemBar *rowbar)
 	sheet = sheet_view->sheet;
 	workbook = sheet->workbook;
 
+	/* FIXME FIXME FIXME : We should not be conecting directly to the entry */
 	entry = workbook->ea_input;
 	gsheet = gnumeric_sheet_create (sheet_view, entry);
 
 	/* FIXME: figure out some real size for the canvas scrolling region */
-	gnome_canvas_set_scroll_region (GNOME_CANVAS (gsheet), 0, 0, 1000000, 1200000);
+	gnome_canvas_set_scroll_region (GNOME_CANVAS (gsheet), 0, 0,
+					1000000, 1200000);
 
 	/* handy shortcuts */
 	gsheet_canvas = GNOME_CANVAS (gsheet);
@@ -1017,7 +1030,7 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet,
 		gnome_canvas_get_scroll_offsets (canvas, &tmp, NULL);
 		gnome_canvas_scroll_to (canvas, tmp, gsheet->row_offset.first);
 
-		gnome_canvas_scroll_to (GNOME_CANVAS (gsheet), 
+		gnome_canvas_scroll_to (GNOME_CANVAS (gsheet),
 					gsheet->col_offset.first,
 					gsheet->row_offset.first);
 	}
@@ -1196,7 +1209,7 @@ gnumeric_sheet_set_left_col (GnumericSheet *gsheet, int new_first_col)
  *
  * Ensure that cell (col, row) is visible.
  * Sheet is scrolled if cell is outside viewport.
- * 
+ *
  * Avoid calling this before the canvas is realized:
  * We do not know the visible area, and would unconditionally scroll the cell
  * to the top left of the viewport.

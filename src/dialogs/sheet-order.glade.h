@@ -5,5 +5,9 @@
  */
 
 gchar *s = N_("Order Sheets");
-gchar *s = N_("Delete");
 gchar *s = N_("Sheet Name");
+gchar *s = N_("Move the currently selected sheet up one position");
+gchar *s = N_("Move the currently selected sheet down one position");
+gchar *s = N_("Delete the currently selected sheet");
+gchar *s = N_("Delete");
+gchar *s = N_("Close this dialog");
