@@ -1,3 +1,10 @@
+1998-09-22  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_key): Do not process events
+	that might be catched by the menubar.
+
+	* src/about.c: Add about box.
+
 1998-09-21  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/fn-math.c: Changed the way we tag the function definitions

@@ -1,43 +1,42 @@
+<sect1>
+  <title>Copying and moving cells</title>
+  
+  <para>There are two ways of moving and copying cells in Gnumeric:</para>
+  
+  <itemizedlist>
+    <item>Using copy/cut/paste operations</item>
+    <item>Using the mouse to drag the selection</item>
+  </itemizedlist>
+  
+  <sect2>Using the mouse to drag the selection</sect>
+    
+    <para>Dragging the border of a selection to a target area will move
+      the cells.</para>
+    
+    <para>Dragging the border of a selection to a target area while
+    holding the control key down will perform a move.</para>
 
-<sect1><title>Copying and moving cells</title>
-
-There are two ways of moving and copying cells in Gnumeric:
-
-	<item>Using copy/cut/paste operations</item>
-	<item>Using the mouse to drag the selection</item>
-
-<subsection>Using the mouse to drag the selection</subsection>
-
-Dragging the border of a selection to a target area will move the
-cells. 
-
-Dragging the border of a selection to a target area while holding the
-control key down will perform a move.
-
-If you use the right button for performing the drag, a menu with the
-possible options appears when you release it.
+    <para>If you use the right button for performing the drag, a menu with the
+      possible options appears when you release it.</para>
 </sect1> 
 
 <sect1>
-<title>Editing cells using hte selection</title>
+  <title>Editing cells using hte selection</title>
+  
+  <para>There are various ways of using the selection to ease the
+    edition of the cells in the spreadhsheet. </para>
 
-<para>
-     There are various ways of using the selection to ease the
-     edition of the cells in the spreadhsheet.
-</para>
-
-<para>
-     For instance, given a selection of cells (contiguous, or
+  <para>For instance, given a selection of cells (contiguous, or
      non-contiguous), data can be entered.  THe enter key will accept
      the data and move the cursor to the next cell in the selection
      down the selection.  The tab on the other hand key will move the
      cursor to the rightmost cell (or it will scroll if you have
-     reached the edge of the selection).
-</para>
+     reached the edge of the selection).</para>
 
-<para>
-     Control-Enter does the inverser of Enter (it moves to the
+  <para>Control-Enter does the inverser of Enter (it moves to the
      previous cell in the selection, moving towards the top), while
-     control-tab moves the cursor to the left.
-</para>
+     control-tab moves the cursor to the left.</para>
+
+</sect1>
+
 

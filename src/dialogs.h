@@ -8,4 +8,6 @@ void  dialog_insert_cells    (Sheet *sheet);
 void  dialog_delete_cells    (Sheet *sheet);
 void  dialog_zoom            (Sheet *sheet);
 char *dialog_query_load_file (void);
+void  dialog_about           (void);
+
 #endif

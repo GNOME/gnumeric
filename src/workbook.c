@@ -274,6 +274,12 @@ format_cells_cmd (GtkWidget *widget, Workbook *wb)
 	dialog_cell_format (sheet);
 }
 
+static void
+about_cmd (GtkWidget *widge, Workbook *wb)
+{
+	dialog_about ();
+}
+
 static GnomeUIInfo workbook_menu_file [] = {
 	{ GNOME_APP_UI_ITEM, N_("_New"), NULL, new_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_NEW },
@@ -333,12 +339,19 @@ static GnomeUIInfo workbook_menu_format [] = {
 	GNOMEUIINFO_END
 };
 
+static GnomeUIInfo workbook_menu_help [] = {
+	{ GNOME_APP_UI_ITEM, N_("_About Gnumeric"), NULL, about_cmd, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_ABOUT, 0, 0, NULL },
+	GNOMEUIINFO_END
+};
+
 static GnomeUIInfo workbook_menu [] = {
 	{ GNOME_APP_UI_SUBTREE, N_("_File"),   NULL, &workbook_menu_file },
 	{ GNOME_APP_UI_SUBTREE, N_("_Edit"),   NULL, &workbook_menu_edit },
 	{ GNOME_APP_UI_SUBTREE, N_("_View"),   NULL, &workbook_menu_view },
 	{ GNOME_APP_UI_SUBTREE, N_("_Insert"), NULL, &workbook_menu_insert },
 	{ GNOME_APP_UI_SUBTREE, N_("F_ormat"), NULL, &workbook_menu_format },
+	{ GNOME_APP_UI_SUBTREE, N_("_Help"),   NULL, &workbook_menu_help },
 	GNOMEUIINFO_END
 };
 

@@ -1,0 +1,28 @@
+<sect1>
+  <title>Formatting numbers</title>
+
+  <para>To change the formatting style for a cell or a range of cells,
+  you only need to select the range of cells where you want to
+  apply/change the format and then select from the
+  Format/Cells/Numbers menu (or from the context sensitive popup menu
+  bound to the right mouse button) the appropiate format.</para>
+
+  <para>Gnumeric provides a wide range of predetermined formatting
+  styles.  These formatting styles are shown by cathegory in the
+  Cell/Style dialog box.  Just choose one of the display formats and
+  accept the changes to change the display format for your
+  cells.</para>
+
+  <para>If none of the predetermined formatting styles fits your
+  needs, you can define your own number formatting style by using a
+  custom formatting expression: the custom formatting expressions give
+  you more flexibility in number display.</para>
+
+  <sect2><title>Number formatting expressions</title>
+    <para>The number formatting engine in Gnumeric is very powerful: it
+      can be used to display numbers in various format as well as
+      providing the user with the ability to specify colors based on
+      various conditions.</para>
+    
+  </sect2>
+</sect1>

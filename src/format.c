@@ -1,5 +1,5 @@
 /* format.c - attempts to emulate excel's number formatting ability.
- * Copyright (C) 1998 Chris Lahey
+ * Copyright (C) 1998 Chris Lahey, Miguel de Icaza
  *
  * Redid the format parsing routine to make it accept more of the Excel
  * formats.  The number rendeing code from Chris has not been touched,

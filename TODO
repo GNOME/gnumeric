@@ -2,18 +2,6 @@
 
 GNOME Spread Sheet task list
 
-* BUGS
-  A1: numero
-  B1: =EXP(A1)  -> loop
-
-  =YEAR(NOW())
-
-  .33 -> scientific format anade un leading - -> segv
-
-* Autofill
-
-  Finish implementation
-
 * Sheet
 
 * EDITION
@@ -26,10 +14,6 @@ GNOME Spread Sheet task list
 
 ** Style
 
-    Orientation
-      horizontal
-      vertical: 3 types of string display.
-
   Borders:
 
   Color/patterns
@@ -38,15 +22,6 @@ GNOME Spread Sheet task list
     Bloqued/Hidden
 
 ** Keyboard shortcuts
-
-  We need to *Document*:
-     CTRL+SPACEBAR	Select column
-     CTRL+A		Select all
-     SHIFT+SPACEBAR	Select row
-    Selection keys+CTRL	Extend selection to boundary of worksheet
-    SHIFT+BACKSPACE	Collapse selection to active cell
-
-    More...
 
 * File Load/Save
 

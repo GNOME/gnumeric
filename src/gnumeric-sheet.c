@@ -596,6 +596,7 @@ gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
 				return 1;
 			}
 		}
+
 	}
 
 	switch (event->keyval){
@@ -684,6 +685,9 @@ gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
 		/* fall down */
 
 	default:
+		if ((event->state & (GDK_MOD1_MASK|GDK_CONTROL_MASK)) != 0)
+			return 0;
+		
 		if (!gsheet->item_editor){
 			if (event->keyval >= 0x20 && event->keyval <= 0xff)
 			    sheet_start_editing_at_cursor (sheet);

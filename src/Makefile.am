@@ -10,6 +10,7 @@ INCLUDES = 						\
 	$(GNOME_INCLUDEDIR)
 
 GNUMERIC_BASE_SOURCES =			\
+	about.c				\
 	cell.h				\
 	cell.c				\
 	cellspan.c			\

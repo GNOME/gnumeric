@@ -94,3 +94,14 @@ documentation for these:
 	- Gnumeric distinguishes regular text from formulas by preceding
 	  formulas with an equal sign.  So to enter an expression you have	
 	  to enter for example: =1+2.
+
+	- Control-Space selects a column
+
+	- Control-A selects all
+
+	- SHift-Space selects the row.
+
+	- Selection-keys + control extend the selection to boundary of
+	  worksheet.
+
+	- SHift-Backspace:  Collapses selection to active cell.
