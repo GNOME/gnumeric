@@ -8,6 +8,10 @@ Jody:
 	* Export multiple selections to xls for frozen panes
 	http://bugzilla.gnome.org/show_bug.cgi?id=130582
 	* Rangesel doesn't bind the panes during cursor movements either
+	http://bugzilla.gnome.org/show_bug.cgi?id=130424
+	* Recalc new expressions even when manual recalc is set
+	http://bugzilla.gnome.org/show_bug.cgi?id=130835
+	* ISNUMBER() should return false for blank references
 
 --------------------------------------------------------------------------
 Gnumeric 1.2.4

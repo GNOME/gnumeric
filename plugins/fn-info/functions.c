@@ -1621,8 +1621,8 @@ static char const *help_isnumber = {
 static GnmValue *
 gnumeric_isnumber (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	return value_new_bool (argv[0]->type == VALUE_INTEGER ||
-			       argv[0]->type == VALUE_FLOAT);
+	return value_new_bool (argv[0] != NULL &&
+		(argv[0]->type == VALUE_INTEGER || argv[0]->type == VALUE_FLOAT));
 }
 
 /***************************************************************************/
@@ -1851,7 +1851,7 @@ const GnmFuncDescriptor info_functions[] = {
 	{ "isnontext",	"E", N_("value"), &help_isnontext,
 	  gnumeric_isnontext, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "isnumber",	"E", N_("value"), &help_isnumber,
+	{ "isnumber",	"B", N_("value"), &help_isnumber,
 	  gnumeric_isnumber, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "isodd",	"S", N_("value"), &help_isodd,
