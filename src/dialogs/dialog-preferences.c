@@ -721,7 +721,7 @@ pref_copypaste_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
 		     G_GNUC_UNUSED gint page_num)
 {
 	dialog_pref_load_description (state,
-				      _("The items on this page are"
+				      _("The items on this page are "
                                         "related to "
 					"copy. cut and paste."));
 }
