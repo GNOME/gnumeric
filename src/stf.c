@@ -396,17 +396,16 @@ stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc,
 	char *data;
 	StfParseOptions_t *po;
 	char *pos;
-	unsigned int comma = 0, semi = 0, tab = 0, lines = 0;
+	unsigned int sep = 0, tab = 0, lines = 0;
 	int i;
 	gboolean last_was_newline = FALSE;
 
-	gunichar guni_comma = ',';
-	gunichar guni_semicolon = ';';
         gunichar guni_tab = '\t';
 	gunichar guni_newline = '\n';
 	gunichar guni_carriage = '\r';
 	gunichar guni_quote = '\"';
-
+	gunichar guni_sep = format_get_arg_sep ();
+	
 	book = wb_view_workbook (wbv);
 	data = stf_preparse (COMMAND_CONTEXT (context), input, enc);
 	if (!data)
@@ -417,11 +416,8 @@ stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc,
 		gunichar this_char;
 		
 		this_char = g_utf8_get_char (pos);
-		if (this_char == guni_comma) {
-			++comma; 
-			last_was_newline = FALSE;
-		} else if (this_char == guni_semicolon) {
-			++semi;
+		if (this_char == guni_sep) {
+			++sep; 
 			last_was_newline = FALSE;
 		} else if (this_char == guni_tab) {
 			++tab;
@@ -449,8 +445,8 @@ stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc,
 	stf_parse_options_csv_set_duplicates (po, FALSE);
 
 	/* Guess */
-	stf_parse_options_csv_set_separators (po, (comma >= semi) ? "," : ";", NULL);
-	if (tab > lines || (tab >= comma && tab >= semi))
+	stf_parse_options_csv_set_separators (po, (guni_sep == ',') ? ",":";", NULL);
+	if (tab > lines || tab >= sep)
 		stf_parse_options_csv_set_separators (po, "\t", NULL);
 
 	if (!stf_parse_sheet (po, data, sheet, 0, 0)) {

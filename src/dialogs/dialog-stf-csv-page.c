@@ -183,6 +183,12 @@ stf_dialog_csv_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
 	stf_parse_options_set_trim_spaces (info->csv_run_parseoptions, pagedata->trim);
 	pagedata->colcount = stf_parse_get_colcount (info->csv_run_parseoptions, pagedata->cur);
 
+	if (format_get_arg_sep () == ',')
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (info->csv_comma), TRUE);
+	else
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (info->csv_semicolon), TRUE);
+	
+
 	/*
 	 * This piece of code is here to limit the number of rows we display
 	 * when previewing
