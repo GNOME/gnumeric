@@ -247,7 +247,7 @@ xml_set_gnome_canvas_points (xmlNodePtr node, const char *name,
 {
 	xmlNodePtr child;
 	char *str, *base;
-	xmlChar *tstr;
+	char *tstr;
 	int i;
 
 	if (val == NULL)
@@ -427,7 +427,7 @@ xml_set_print_unit (xmlNodePtr node, const char *name,
 {
 	xmlNodePtr  child;
 	char       *txt = "points";
-	xmlChar    *tstr;
+	char       *tstr;
 
 	if (pu == NULL || name == NULL)
 		return;
@@ -679,7 +679,7 @@ xml_write_style (parse_xml_context_t *ctxt,
 		 MStyle *style)
 {
 	xmlNodePtr  cur, child;
-	xmlChar    *tstr;
+	char       *tstr;
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Style", NULL);
 	
@@ -746,7 +746,7 @@ static xmlNodePtr
 xml_write_names (parse_xml_context_t *ctxt, GList *names)
 {
 	xmlNodePtr  cur;
-	xmlChar    *tstr;
+	char       *tstr;
 
 	if (!names)
 		return NULL;
@@ -825,7 +825,7 @@ static xmlNodePtr
 xml_write_summary (parse_xml_context_t *ctxt, SummaryInfo *summary_info)
 {
 	GList *items, *m;
-	xmlChar   *tstr;
+	char *tstr;
 	xmlNodePtr cur;
 
 	if (!summary_info)
@@ -930,7 +930,7 @@ xml_set_print_hf (xmlNodePtr node, const char *name,
 		  const PrintHF * const hf)
 {
 	xmlNodePtr  child;
-	xmlChar    *tstr;
+	char *tstr;
 
 	if (hf == NULL || name == NULL)
 		return;
@@ -1501,8 +1501,8 @@ static xmlNodePtr
 xml_write_cell (parse_xml_context_t *ctxt, Cell *cell)
 {
 	xmlNodePtr cur;
-	char      *text;
-	xmlChar   *tstr;
+	char *text;
+	char *tstr;
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Cell", NULL);
 	xml_set_value_int (cur, "Col", cell->col->pos);
@@ -1688,8 +1688,8 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 	xmlNodePtr styles;
 	GList     *style_regions;
 
-	char     str[50];
-	xmlChar *tstr;
+	char str [50];
+	char *tstr;
 
 	/*
 	 * General informations about the Sheet.
