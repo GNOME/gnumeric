@@ -43,17 +43,17 @@ static GnomeCanvasItem *
 make_container_item (SheetObject *so, SheetView *sheet_view, GtkWidget *w)
 {
 	GnomeCanvasItem *item;
-	double *c;
+	double x1, y1, x2, y2;
 
-	c = so->bbox_points->coords;	
+	sheet_object_get_bounds (so, &x1, &y1, &x2, &y2);
 	item = gnome_canvas_item_new (
 		sheet_view->object_group,
 		gnome_canvas_widget_get_type (),
 		"widget", w,
-		"x",      MIN (c [0], c [2]),
-		"y",      MIN (c [1], c [3]),
-		"width",  fabs (c [0] - c [2]),
-		"height", fabs (c [1] - c [3]),
+		"x",      x1,
+		"y",      y1,
+		"width",  x2 - x1,
+		"height", y2 - y1,
 		"size_pixels", FALSE,
 		NULL);
 
@@ -69,7 +69,7 @@ sheet_object_container_destroy_views (SheetObject *so)
 	for (l = so->realized_list; l; l = l->next){
 		GnomeCanvasItem *item = l->data;
 
-		gtk_object_unref (GTK_OBJECT (item));
+		gtk_object_destroy (GTK_OBJECT (item));
 	}
 	g_list_free (so->realized_list);
 	so->realized_list = NULL;
@@ -267,18 +267,7 @@ sheet_object_container_land (SheetObject *so, const gchar *fname,
 	}
 
 	/*
-	 * 4. Ask the component how big it wants to be, if it is allowed.
-	 */
-	if (own_size) {
-		int dx = -1, dy = -1;
-		gtk_signal_emit_by_name (GTK_OBJECT (soc->client_site),
-					 "size_query", &dx, &dy);
-		if (dx > 0 && dy > 0)
-			g_warning ("unimplemented auto size to %d, %d", dx, dy);
-	}
-	
-	/*
-	 * 5. Instatiate the views of the object across the sheet views
+	 * 4. Instatiate the views of the object across the sheet views
 	 */
 	for (l = so->sheet->sheet_views; l; l = l->next){
 		GnomeCanvasItem *item;
@@ -297,6 +286,26 @@ sheet_object_container_land (SheetObject *so, const gchar *fname,
 				    GTK_SIGNAL_FUNC (user_activation_request_cb), so);
 		gtk_signal_connect (GTK_OBJECT (view_frame), "view_activated",
 				    GTK_SIGNAL_FUNC (view_activated_cb), so);
+
+
+		/*
+		 * 5. Ask the component how big it wants to be, if it is allowed.
+		 */
+		if (own_size) {
+			int dx = -1, dy = -1;
+			gnome_view_frame_size_request (view_frame, &dx, &dy);
+
+			if (dx < 8 || dy < 8)
+				g_warning ("Refused to auto-size %s to %d %d",
+					   soc->repoid?soc->repoid:"No ID!", dx, dy);
+			else {
+				double tlx, tly, brx, bry;
+				
+				printf ("Auto sizing\n");
+				sheet_object_get_bounds (so, &tlx, &tly, &brx, &bry);
+				sheet_object_set_bounds (so,  tlx,  tly, tlx + dx, tly + dy);
+			}
+		}
 		
 		view_widget = gnome_view_frame_get_wrapper (view_frame);
 		item = make_container_item (so, sheet_view, view_widget);
@@ -330,20 +339,23 @@ sheet_object_container_realize (SheetObject *so, SheetView *sheet_view)
 	return i;
 }
 
+/*
+ * This implemenation moves the widget rather than
+ * destroying/updating/creating the views
+ */
 static void
-sheet_object_container_set_coords (SheetObject *so,
-				   gdouble x1, gdouble y1,
-				   gdouble x2, gdouble y2)
+sheet_object_container_update_bounds (SheetObject *so)
 {
 	GList *l;
-	double *c;
+	double x1, y1, x2, y2;
+	double const zoom = so->sheet->last_zoom_factor_used;
 
-	c = so->bbox_points->coords;
+	sheet_object_get_bounds (so, &x1, &y1, &x2, &y2);
 
-	c [0] = x1;
-	c [1] = y1;
-	c [2] = x2;
-	c [3] = y2;
+	x1 *= zoom;
+	y1 *= zoom;
+	x2 *= zoom;
+	y2 *= zoom;
 
 	for (l = so->realized_list; l; l = l->next){
 		GnomeCanvasItem *item = l->data;
@@ -352,53 +364,10 @@ sheet_object_container_set_coords (SheetObject *so,
 			item,
 			"x",      x1,
 			"y",      y1,
-			"width",  fabs (x2-x1),
-			"height", fabs (y2-y1),
+			"width",  x2 - x1,
+			"height", y2 - y1,
 			NULL);
 	}
-}
-
-static void
-sheet_object_container_update (SheetObject *so, gdouble to_x, gdouble to_y)
-{
-	double x1, x2, y1, y2;
-	double *c;
-
-	c = so->bbox_points->coords;
-	
-	x1 = MIN (c [0], to_x);
-	x2 = MAX (c [0], to_x);
-	y1 = MIN (c [1], to_y);
-	y2 = MAX (c [1], to_y);
-
-	sheet_object_container_set_coords (so, x1, y1, x2, y2);
-}
-
-/*
- * This implemenation moves the widget rather than
- * destroying/updating/creating the views
- */
-static void
-sheet_object_container_update_coords (SheetObject *so, 
-				      gdouble x1d, gdouble y1d,
-				      gdouble x2d, gdouble y2d)
-{
-	double *c = so->bbox_points->coords;
-	gdouble x1, y1, x2, y2;
-	
-	/* Update coordinates */
-	c [0] += x1d;
-	c [1] += y1d;
-	c [2] += x2d;
-	c [3] += y2d;
-
-	/* Normalize it */
-	x1 = MIN (c [0], c [2]);
-	y1 = MIN (c [1], c [3]);
-	x2 = MAX (c [0], c [2]);
-	y2 = MAX (c [1], c [3]);
-
-	sheet_object_container_set_coords (so, x1, y1, x2, y2);
 }
 
 static void
@@ -427,8 +396,7 @@ sheet_object_container_class_init (GtkObjectClass *object_class)
 	
 	/* SheetObject class method overrides */
 	sheet_object_class->realize = sheet_object_container_realize;
-	sheet_object_class->update = sheet_object_container_update;
-	sheet_object_class->update_coords = sheet_object_container_update_coords;
+	sheet_object_class->update_bounds = sheet_object_container_update_bounds;
 	sheet_object_class->creation_finished = sheet_object_container_creation_finished;
 }
 
@@ -466,8 +434,6 @@ sheet_object_container_new (Sheet *sheet,
 	
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-	g_return_val_if_fail (x1 <= x2, NULL);
-	g_return_val_if_fail (y1 <= y2, NULL);
 
 #if 0
 	GnomeObjectClient *object_server;
@@ -547,11 +513,8 @@ sheet_object_container_new (Sheet *sheet,
 	c = gtk_type_new (sheet_object_container_get_type ());
 	so = SHEET_OBJECT (c);
 	
-	sheet_object_construct (so, sheet);
-	so->bbox_points->coords [0] = x1;
-	so->bbox_points->coords [1] = y1;
-	so->bbox_points->coords [2] = x2;
-	so->bbox_points->coords [3] = y2;
+	sheet_object_construct  (so, sheet);
+	sheet_object_set_bounds (so, x1, y1, x2, y2);
 
 	c->repoid = g_strdup (objref);
 	

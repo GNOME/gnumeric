@@ -23,66 +23,22 @@ sheet_object_widget_realize (SheetObject *so, SheetView *sheet_view)
 	SheetObjectWidget *sow;
 	GnomeCanvasItem *item;
 	GtkWidget *view_widget;
-	double *c;
-
-	c = so->bbox_points->coords;	
+	double x1, x2, y1, y2;
+	
+	sheet_object_get_bounds (so, &x1, &y1, &x2, &y2);
 	sow = SHEET_OBJECT_WIDGET (so);
 	view_widget = sow->realize (sow, sow->realize_closure);
 	item = gnome_canvas_item_new (
 		sheet_view->object_group,
 		gnome_canvas_widget_get_type (),
 		"widget", view_widget,
-		"x",      MIN (c [0], c [2]),
-		"y",      MIN (c [1], c [3]),
-		"width",  fabs (c [0] - c [2]),
-		"height", fabs (c [1] - c [3]),
+		"x",      x1,
+		"y",      y1,
+		"width",  x2 - x1,
+		"height", y2 - y1,
 		"size_pixels", FALSE,
 		NULL);
 	return item;
-}
-
-static void
-sheet_object_widget_set_coords (SheetObject *so,
-				gdouble x1, gdouble y1,
-				gdouble x2, gdouble y2)
-{
-	GList *l;
-	double *c;
-
-	c = so->bbox_points->coords;
-
-	c [0] = MIN (x1, x2);
-	c [1] = MIN (y1, y2);
-	c [2] = MAX (x1, x2);
-	c [3] = MAX (y1, y2);
-
-	for (l = so->realized_list; l; l = l->next){
-		GnomeCanvasItem *item = l->data;
-
-		gnome_canvas_item_set (
-			item,
-			"x",      c [0],
-			"y",      c [1],
-			"width",  fabs (x2-x1),
-			"height", fabs (y2-y1),
-			NULL);
-	}
-}
-
-static void
-sheet_object_widget_update (SheetObject *so, gdouble to_x, gdouble to_y)
-{
-	double x1, x2, y1, y2;
-	double *c;
-
-	c = so->bbox_points->coords;
-	
-	x1 = MIN (c [0], to_x);
-	x2 = MAX (c [0], to_x);
-	y1 = MIN (c [1], to_y);
-	y2 = MAX (c [1], to_y);
-
-	sheet_object_widget_set_coords (so, x1, y1, x2, y2);
 }
 
 /*
@@ -90,27 +46,29 @@ sheet_object_widget_update (SheetObject *so, gdouble to_x, gdouble to_y)
  * destroying/updating/creating the views
  */
 static void
-sheet_object_widget_update_coords (SheetObject *so, 
-				   gdouble x1d, gdouble y1d,
-				   gdouble x2d, gdouble y2d)
+sheet_object_widget_update_bounds (SheetObject *so)
 {
-	double *c = so->bbox_points->coords;
-	gdouble x1, y1, x2, y2;
-	double const zoom = so->sheet->last_zoom_factor_used;
-	
-	/* Update coordinates */
-	c [0] += x1d*zoom;
-	c [1] += y1d*zoom;
-	c [2] += x2d*zoom;
-	c [3] += y2d*zoom;
+	GList  *l;
+	double x1, y1, x2, y2;
+	double zoom = so->sheet->last_zoom_factor_used;
 
-	/* Normalize it */
-	x1 = MIN (c [0], c [2]);
-	y1 = MIN (c [1], c [3]);
-	x2 = MAX (c [0], c [2]);
-	y2 = MAX (c [1], c [3]);
+	sheet_object_get_bounds (so, &x1, &y1, &x2, &y2);
 
-	sheet_object_widget_set_coords (so, x1, y1, x2, y2);
+	x1 *= zoom;
+	y1 *= zoom;
+	x2 *= zoom;
+	y2 *= zoom;
+	for (l = so->realized_list; l; l = l->next){
+		GnomeCanvasItem *item = l->data;
+
+		gnome_canvas_item_set (
+			item,
+			"x",      x1,
+			"y",      y1,
+			"width",  x2 - x1,
+			"height", y2 - y1,
+			NULL);
+	}
 }
 
 static void
@@ -122,8 +80,7 @@ sheet_object_widget_class_init (GtkObjectClass *object_class)
 
 	/* SheetObject class method overrides */
 	sheet_object_class->realize = sheet_object_widget_realize;
-	sheet_object_class->update = sheet_object_widget_update;
-	sheet_object_class->update_coords = sheet_object_widget_update_coords;
+	sheet_object_class->update_bounds = sheet_object_widget_update_bounds;
 }
 
 GtkType
@@ -162,18 +119,12 @@ sheet_object_widget_construct (SheetObjectWidget *sow,
 	g_return_if_fail (IS_SHEET_WIDGET_OBJECT (sow));
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (x1 <= x2);
-	g_return_if_fail (y1 <= y2);
 	g_return_if_fail (realize != NULL);
 
 	so = SHEET_OBJECT (sow);
 	
-	sheet_object_construct (so, sheet);
-
-	so->bbox_points->coords [0] = x1;
-	so->bbox_points->coords [1] = y1;
-	so->bbox_points->coords [2] = x2;
-	so->bbox_points->coords [3] = y2;
+	sheet_object_construct  (so, sheet);
+	sheet_object_set_bounds (so, x1, y1, x2, y2);
 
 	sow->realize = realize;
 	sow->realize_closure = realize_closure;
@@ -190,8 +141,6 @@ sheet_object_widget_new (Sheet *sheet,
 	
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-	g_return_val_if_fail (x1 <= x2, NULL);
-	g_return_val_if_fail (y1 <= y2, NULL);
 	g_return_val_if_fail (realize != NULL, NULL);
 	
 	sow = gtk_type_new (sheet_object_widget_get_type ());

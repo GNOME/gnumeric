@@ -21,8 +21,8 @@ typedef struct {
 	GList     *realized_list;
 	gboolean   dragging;
 
-	/* Bounding box */
-	GnomeCanvasPoints *bbox_points;
+	/* Private data */
+	GnomeCanvasPoints *bbox_points; /* use _get / _set_bounds */
 } SheetObject;
 
 typedef struct {
@@ -30,17 +30,20 @@ typedef struct {
 
 	/* Virtual methods */
 	GnomeCanvasItem *(*realize) (SheetObject *sheet_object, SheetView *sheet_view);
-	void             (*update)  (SheetObject *sheet_object, gdouble x, gdouble y);
-	void       (*update_coords) (SheetObject *sheet_object,
-				     gdouble x1delta, gdouble y1delta,
-				     gdouble x2delta, gdouble y2delta);
+	void       (*update_bounds) (SheetObject *sheet_object);
 	void   (*creation_finished) (SheetObject *sheet_object);
 } SheetObjectClass;
 
-GtkType sheet_object_get_type  (void);
-void    sheet_object_construct (SheetObject *sheet_object, Sheet *sheet);
-void    sheet_object_drop_file (SheetView *sheet_view, gint x, gint y,
-				const char *fname);
+GtkType sheet_object_get_type   (void);
+void    sheet_object_construct  (SheetObject *sheet_object, Sheet *sheet);
+void    sheet_object_drop_file  (SheetView *sheet_view, gint x, gint y,
+				 const char *fname);
+
+/* b = bottom, t = top, l = left, r = right */
+void    sheet_object_get_bounds (SheetObject *sheet_object, double *tlx, double *tly,
+				 double *brx, double *bry);
+void    sheet_object_set_bounds (SheetObject *sheet_object, double tlx, double tly,
+				 double brx, double bry);
 
 /*
  * Sheet modes

@@ -397,13 +397,27 @@ static int
 workbook_widget_delete_event (GtkWidget *widget, Workbook *wb)
 {
 #ifdef ENABLE_BONOBO
-	if (wb->bonobo_regions){
+	if (wb->bonobo_regions) {
 		gtk_widget_hide (GTK_WIDGET (wb->toplevel));
 		return FALSE;
 	}
 #endif
-	gtk_object_unref (GTK_OBJECT (wb));
+/*	gtk_object_unref (GTK_OBJECT (wb)); */
 	return TRUE;
+}
+
+static int
+workbook_delete_event (GtkWidget *widget, GdkEvent *event, Workbook *wb)
+{
+	if (workbook_can_close (wb)){
+#ifdef BONOBO_ENABLED
+		gnome_object_unref (GNOME_OBJECT (wb));
+#else
+		gtk_object_unref (GTK_OBJECT (wb));
+#endif
+		return FALSE;
+	} else
+		return TRUE;
 }
 
 static void
@@ -522,16 +536,6 @@ close_cmd (GtkWidget *widget, Workbook *wb)
 		gtk_object_unref (GTK_OBJECT (wb));
 #endif
 	}
-}
-
-static int
-workbook_delete_event (GtkWidget *widget, GdkEvent *event, Workbook *wb)
-{
-	if (workbook_can_close (wb)){
-		gtk_object_unref (GTK_OBJECT (wb));
-		return FALSE;
-	} else
-		return TRUE;
 }
 
 static void

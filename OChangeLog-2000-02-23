@@ -1,3 +1,30 @@
+1999-09-09  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* src/workbook.c (workbook_delete_event): Fix object_unref for
+	Bonobo case. (workbook_widget_delete_event): remove strange unref, this
+	needs looking at.
+
+	* src/sheet-object.c (sheet_view_object_unrealize, sheet_object_destroy),
+	(sheet_object_destroy_control_points): Changed _unref to _destroy nailing
+	scads of warnings.
+
+	* src/sheet-object-container.c (sheet_object_container_destroy_views): 
+	ditto.
+
+	* src/sheet-object-container.c (sheet_object_container_land): Get
+	auto sizing working.
+
+	* src/sheet-object*.[ch]: Large overhaul, extensively re-wrote signal
+	handling, and state passing. Generic object 'bounds' is now stored in
+	sheet-object, and accessed via access procedures. Homegenized naming,
+	Drasticaly simplified re-sizing modes.
+	
+	* src/sheet-view.c: Include selection.h to kill warnings.
+
+	* src/sheet-object.c (sheet_object_get_bounds): Created.
+	(sheet_view_object_unrealize): Fix the same list manipulation bug
+	( it gets everywhere ).
+
 1999-09-09  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/functions/fn-*: Started adding examples to all functions.

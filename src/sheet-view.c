@@ -13,6 +13,7 @@
 #include <string.h>
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
+#include "selection.h"
 #include "sheet-object.h"
 #include "item-cursor.h"
 #include "utils.h"
