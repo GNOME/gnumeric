@@ -10,7 +10,7 @@ $myself =~ s|^.*/||;
 
 die "$0: must run from top-level gnumeric directory.\n"
     unless -r "gnumeric-config.h.in";
-my $dst = "src/cut-n-paste-code/egg";
+my $dst = "src/cut-n-paste-code/goffice/cut-n-paste";
 
 my $eggdir = $ARGV[0];
 $eggdir = "../libegg" unless defined $eggdir;
@@ -20,9 +20,9 @@ die "$0: must specify libegg directory on command line.\n"
 -d $dst or mkdir $dst or
     die "$0: cannot mkdir $dst: $!\n";
 
-&copy_subsystem ("menu");
-&copy_subsystem ("toolbar");
-# &copy_subsystem ("recent-files");
+# &copy_subsystem ("menu");
+# &copy_subsystem ("toolbar");
+&copy_subsystem ("recent-files");
 
 # -----------------------------------------------------------------------------
 
@@ -30,7 +30,7 @@ sub copy_subsystem {
     my ($sys) = @_;
 
     my $srcdir = "$eggdir/libegg/$sys";
-    my $dstdir = "$dst/$sys";
+    my $dstdir = "$dst/egg-$sys";
 
     -d $dstdir or mkdir "$dstdir" or
 	die "$0: cannot mkdir $dstdir: $!\n";
@@ -46,9 +46,13 @@ sub copy_subsystem {
     while (<SRC>) {
 	next if /^test_/ ... !/\\\s*$/;
 	next if /^noinst_PROGRAMS/;
+	next if /^(librecent_files_la_|bonobo_view_test_|gtk_view_test_|populate_recent_|vfs_|vfsconf_)/;
 
-	s|\$\(EGG_CFLAGS\)|\$\(GNUMERIC_CFLAGS\) -I\$\(top_srcdir\)/src|;
-	s/\s*\$\(EGG_LIBS\)/ /;
+	s/\b[a-z0-9.-]*bonobo[a-z0-9.-]*\b//;
+
+	s|\$\(EGG_RECENT_CFLAGS\)|\$\(GNUMERIC_CFLAGS\) -I\$\(top_srcdir\)/src -DUSE_STABLE_LIBGNOMEUI|;
+	s/\$\(EGG_EXEC_CFLAGS\)/ /;
+	s/\$\(EGG_VFS_MODULE_CFLAGS\)/ /;
 
 	if (/^[a-zA-Z0-9_]+_(HEADERS|la_SOURCES)\s*=/ ... !/\\\s*$/) {
 	    my $line = $_;
@@ -91,20 +95,20 @@ sub copy_subsystem {
 	print DST "/* File import from libegg to gnumeric by $myself.  Do not edit.  */\n\n";
 
 	if ($file =~ /\.c$/) {
-	    print DST "#include <gnumeric-config.h>\n";
-	    print DST "#include <glib/gi18n.h>\n";
-	    print DST "#include <gnumeric.h>\n\n";
+	    print DST "#include <goffice/goffice-config.h>\n";
+	    # print DST "#include <glib/gi18n.h>\n";
+	    # print DST "#include <gnumeric.h>\n\n";
 	}
 
       LINE:
 	while (<SRC>) {
 	    chomp;
-	    if (m{^\s*\#\s*include\s*[<\"]libegg/(.*)[>\"]}) {
-		print DST "#include \"cut-n-paste-code/egg/$1\"\n";
-		next LINE;
-	    }
 
 	    s/\s+$//;
+
+	    if (/^\s*\#\s*include\s*<config\.h>$/) {
+		$_ = "/* $_ */";
+	    }
 
 	    # Turn C++ comments into C comments.
 	    if (m|^\s*//|) {
