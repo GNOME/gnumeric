@@ -1,3 +1,13 @@
+2002-10-13  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (ms_excel_read_pane) : the sizes are only valid if
+	  there is a freeze in that direction.
+
+	* ms-excel-read.c (ms_excel_read_dv) : Fix handling of empty strings
+	  and improve validation.  NOTE : This is likely to come up again.
+	  We need to know when there is always a 1 byte header, and when there
+	  isn't in biff_get_text.
+
 2002-10-09  Morten Welinder  <welinder@rentec.com>
 
 	* ms-obj.h (struct _MSObj): Avoid "gboolean ... : 1".

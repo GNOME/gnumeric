@@ -5,15 +5,11 @@
 #include "dependent.h"
 
 typedef enum {
-	/* MUST BE > 0xFFFFFFF for Dependent */
-	/* Cell has an expression (Can we use base.expr == NULL ?)*/
-	CELL_HAS_EXPRESSION = 0x10000000,
+	/* MUST BE > 0xFFF,FFFF to avoid conflict with Dependent */
 	/* Cell is linked into the sheet */
-	CELL_IN_SHEET_LIST  = 0x20000000,
+	CELL_IN_SHEET_LIST  = 0x10000000,
 	/* Is the top left corner of a merged region */
-	CELL_IS_MERGED	    = 0x40000000,
-	/* Cell content spans */
-	CELL_CONTENT_SPANS  = 0x80000000
+	CELL_IS_MERGED	    = 0x20000000,
 } CellFlags;
 
 /* Definition of a Gnumeric Cell */
@@ -43,7 +39,7 @@ void	  cell_relocate     (Cell *cell, GnmExprRewriteInfo const *rwinfo);
  */
 #define	    cell_needs_recalc(cell)	((cell)->base.flags & DEPENDENT_NEEDS_RECALC)
 #define	    cell_expr_is_linked(cell)	((cell)->base.flags & DEPENDENT_IS_LINKED)
-#define	    cell_has_expr(cell)		((cell)->base.flags & CELL_HAS_EXPRESSION)
+#define	    cell_has_expr(cell)		((cell)->base.expression != NULL)
 #define	    cell_is_linked(cell)	((cell)->base.flags & CELL_IN_SHEET_LIST)
 #define	    cell_is_merged(cell)	((cell)->base.flags & CELL_IS_MERGED)
 CellComment     *cell_has_comment_pos   (const Sheet *sheet, const CellPos *pos);

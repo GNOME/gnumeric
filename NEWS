@@ -42,6 +42,8 @@ Jody:
 	* Add AREAS so that we can finally finish off the lookup functions
 	* Clean up the function registration api
 	* Make format parsing utf8 clean
+	* Fix mishandling of empty strings in xls data validation importer
+	* Support Horizontal and Vertical only frozen panes
 
 Morten:
 	* Port search center from gal's e-table to gtk's treeview.

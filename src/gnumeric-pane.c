@@ -86,7 +86,7 @@ gnumeric_pane_header_init (GnumericPane *pane, SheetControlGUI *scg,
 
 void
 gnm_pane_init (GnumericPane *pane, SheetControlGUI *scg,
-	       gboolean headers, int index)
+	       gboolean col_headers, gboolean row_headers, int index)
 {
 	GnomeCanvasItem	 *item;
 	GnomeCanvasGroup *gcanvas_group;
@@ -119,11 +119,15 @@ gnm_pane_init (GnumericPane *pane, SheetControlGUI *scg,
 	pane->cursor.special = NULL;
 	pane->anted_cursors = NULL;
 
-	if (headers) {
+	if (col_headers)
 		gnumeric_pane_header_init (pane, scg, TRUE);
+	else
+		pane->col.canvas = NULL;
+
+	if (row_headers)
 		gnumeric_pane_header_init (pane, scg, FALSE);
-	} else
-		pane->col.canvas = pane->row.canvas = NULL;
+	else
+		pane->row.canvas = NULL;
 
 	pane->drag_object = NULL;
 	i = sizeof (pane->control_points)/sizeof(GnomeCanvasItem *);

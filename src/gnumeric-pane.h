@@ -36,7 +36,7 @@ struct _GnumericPane {
 };
 
 void gnm_pane_init	(GnumericPane *pane, SheetControlGUI *scg,
-			 gboolean headers, int index);
+			 gboolean col_header, gboolean row_header, int index);
 void gnm_pane_release	(GnumericPane *pane);
 void gnm_pane_bound_set	(GnumericPane *pane,
 			 int start_col, int start_row,

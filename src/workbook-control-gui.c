@@ -2304,16 +2304,25 @@ cb_view_freeze_panes (GtkWidget *widget, WorkbookControlGUI *wbcg)
 		frozen_tl = gcanvas->first;
 		unfrozen_tl = sv->edit_pos;
 
-		if (unfrozen_tl.col <= gcanvas->first.col ||
+		if (unfrozen_tl.col == gcanvas->first.col) {
+			if (unfrozen_tl.row == gcanvas->first.row)
+				unfrozen_tl.col = unfrozen_tl.row = -1;
+			else
+				unfrozen_tl.col = frozen_tl.col = 0;
+		} else if (unfrozen_tl.row == gcanvas->first.row)
+			unfrozen_tl.row = frozen_tl.row = 0;
+
+		if (unfrozen_tl.col < gcanvas->first.col ||
 		    unfrozen_tl.col > gcanvas->last_full.col)
 			unfrozen_tl.col = (gcanvas->first.col + gcanvas->last_full.col) / 2;
-		if (unfrozen_tl.row <= gcanvas->first.row ||
+		if (unfrozen_tl.row < gcanvas->first.row ||
 		    unfrozen_tl.row > gcanvas->last_full.row)
 			unfrozen_tl.row = (gcanvas->first.row + gcanvas->last_full.row) / 2;
 
-		if (unfrozen_tl.col > frozen_tl.col &&
-		    unfrozen_tl.row > frozen_tl.row)
-			sv_freeze_panes (sv, &frozen_tl, &unfrozen_tl);
+		g_return_if_fail (unfrozen_tl.col > frozen_tl.col ||
+				  unfrozen_tl.row > frozen_tl.row);
+
+		sv_freeze_panes (sv, &frozen_tl, &unfrozen_tl);
 	} else
 		sv_freeze_panes (sv, NULL, NULL);
 }

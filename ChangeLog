@@ -1,3 +1,13 @@
+2002-10-13  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-pane.c (gnm_pane_init) : control configuration of col
+	  and row headers seperately.
+	* src/sheet-control-gui.c (scg_resize) : support H or V only freezing.
+	(scg_set_left_col) : test for freezing distinctly from the existence
+	  of pane 3.
+	(scg_set_top_row) : test for freezing distincly from the existence of
+	  pane 1.
+
 2002-10-13  Jon K Hellan  <hellan@acm.org>
 
 	* src/func.c (tokenized_help_new): Fix check for empty help string.

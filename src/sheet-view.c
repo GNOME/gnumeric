@@ -617,13 +617,12 @@ sv_freeze_panes (SheetView *sv,
 
 	if (frozen != NULL) {
 		g_return_if_fail (unfrozen != NULL);
-		g_return_if_fail (unfrozen->col > frozen->col);
-		g_return_if_fail (unfrozen->row > frozen->row);
+		g_return_if_fail (unfrozen->col >= frozen->col);
+		g_return_if_fail (unfrozen->row >= frozen->row);
 
 		/* Just in case */
 		if (unfrozen->col != (SHEET_MAX_COLS-1) &&
 		    unfrozen->row != (SHEET_MAX_ROWS-1)) {
-			g_return_if_fail (unfrozen->row > frozen->row);
 			sv->frozen_top_left = *frozen;
 			sv->unfrozen_top_left = *unfrozen;
 		} else
@@ -687,4 +686,5 @@ sv_set_initial_top_left (SheetView *sv, int col, int row)
 
 	sv->initial_top_left.col = col;
 	sv->initial_top_left.row = row;
+	printf ("initial = %s\n", cellpos_as_string (&sv->initial_top_left));
 }

@@ -18,7 +18,7 @@ Release Critical
 1) graphs
 2) stf
 3) finish hlink dialog
-4) finish support for h/v only splits
+4) finish support for h/v only splits			(DONE)
 5) zip based format
     5.1) move existing code into plugin
     5.2) work on sax style exporter
@@ -66,9 +66,9 @@ Misc stuff that should be fixed
 -------------------------------
 
 - Missing undo/redo for
+    - Freeze panes.				(DONE)
     - Duplicate sheet.
     - Remove sheet. This raises some serious design issues.
-    - Freeze panes.
     - Goal seek.
     - Tabulate.
     - Sheet object configuration changes.

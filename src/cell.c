@@ -70,7 +70,6 @@ cell_cleanout (Cell *cell)
 			dependent_unlink (CELL_TO_DEP (cell), &cell->pos);
 		gnm_expr_unref (cell->base.expression);
 		cell->base.expression = NULL;
-		cell->base.flags &= ~(CELL_HAS_EXPRESSION);
 	}
 
 	if (cell->value) {
@@ -304,7 +303,6 @@ cell_set_expr_and_value (Cell *cell, GnmExpr const *expr, Value *v,
 	cell_dirty (cell);
 
 	cell->base.expression = expr;
-	cell->base.flags |= CELL_HAS_EXPRESSION;
 	cell->value = v;
 	if (link_expr)
 		dependent_link (CELL_TO_DEP (cell), &cell->pos);
@@ -330,7 +328,6 @@ cell_set_expr_internal (Cell *cell, GnmExpr const *expr)
 	cell_cleanout (cell);
 
 	cell->base.expression = expr;
-	cell->base.flags |= CELL_HAS_EXPRESSION;
 
 	/* Until the value is recomputed, we put in this value.  */
 	cell->value = value_new_empty ();
@@ -616,7 +613,6 @@ cell_convert_expr_to_value (Cell *cell)
 
 	gnm_expr_unref (cell->base.expression);
 	cell->base.expression = NULL;
-	cell->base.flags &= ~CELL_HAS_EXPRESSION;
 
 	if (cell->rendered_value == NULL)
 		cell_render_value (cell, TRUE);

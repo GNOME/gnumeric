@@ -3454,7 +3454,14 @@ ms_excel_read_pane (BiffQuery *q, ExcelSheet *esheet, WorkbookView *wb_view)
 		CellPos frozen, unfrozen;
 
 		frozen = unfrozen = sv->initial_top_left;
-		unfrozen.col += x; unfrozen.row += y;
+		if (x > 0)
+			unfrozen.col += x;
+		else
+			colLeft = sv->initial_top_left.col;
+		if (y > 0)
+			unfrozen.row += y;
+		else
+			rwTop = sv->initial_top_left.row;
 		sv_freeze_panes (sv, &frozen, &unfrozen);
 		sv_set_initial_top_left (sv, colLeft, rwTop);
 	} else {
@@ -3715,6 +3722,7 @@ ms_excel_read_dv (BiffQuery *q, ExcelSheet *esheet)
 	char *input_msg, *error_msg, *input_title, *error_title;
 	guint32	options, len;
 	guint8 const *data, *expr1_dat, *expr2_dat;
+	guint8 const *end = q->data + q->length;
 	int i;
 	Range r;
 	ValidationStyle style;
@@ -3727,21 +3735,21 @@ ms_excel_read_dv (BiffQuery *q, ExcelSheet *esheet)
 	options	= GSF_LE_GET_GUINT32 (q->data);
 	data = q->data + 4;
 
-	g_return_if_fail (data < (q->data + q->length));
+	g_return_if_fail (data+3 <= end);
 	input_title = biff_get_text (data + 2, GSF_LE_GET_GUINT8 (data), &len);
-	data += len + 2;
+	data += len + 2; if (len == 0) data++;
 
-	g_return_if_fail (data < (q->data + q->length));
+	g_return_if_fail (data+3 <= end);
 	error_title = biff_get_text (data + 2, GSF_LE_GET_GUINT8 (data), &len);
-	data += len + 2;
+	data += len + 2; if (len == 0) data++;
 
-	g_return_if_fail (data < (q->data + q->length));
+	g_return_if_fail (data+3 <= end);
 	input_msg = biff_get_text (data + 2, GSF_LE_GET_GUINT8 (data), &len);
-	data += len + 2;
+	data += len + 2; if (len == 0) data++;
 
-	g_return_if_fail (data < (q->data + q->length));
+	g_return_if_fail (data+3 <= end);
 	error_msg = biff_get_text (data + 2, GSF_LE_GET_GUINT8 (data), &len);
-	data += len + 2;
+	data += len + 2; if (len == 0) data++;
 
 	d (1, {
 		printf ("Input Title : '%s'\n", input_title);
@@ -3750,21 +3758,22 @@ ms_excel_read_dv (BiffQuery *q, ExcelSheet *esheet)
 		printf ("Error Msg   : '%s'\n", error_msg);
 	});
 
+	g_return_if_fail (data+2 <= end);
 	expr1_len = GSF_LE_GET_GUINT16 (data);
-	d (5, printf ("Unknown = %hu\n", GSF_LE_GET_GUINT16 (data+2)););
+	d (5, printf ("Unknown = %hx\n", GSF_LE_GET_GUINT16 (data+2)););
 	expr1_dat = data  + 4;	/* TODO : What are the missing 2 bytes ? */
 	data += expr1_len + 4;
-	g_return_if_fail (data < (q->data + q->length));
 
+	g_return_if_fail (data+2 <= end);
 	expr2_len = GSF_LE_GET_GUINT16 (data);
-	d (5, printf ("Unknown = %hu\n", GSF_LE_GET_GUINT16 (data+2)););
+	d (5, printf ("Unknown = %hx\n", GSF_LE_GET_GUINT16 (data+2)););
 	expr2_dat = data  + 4;	/* TODO : What are the missing 2 bytes ? */
 	data += expr2_len + 4;
-	g_return_if_fail (data < (q->data + q->length));
-	len = GSF_LE_GET_GUINT16 (data);
 
+	g_return_if_fail (data+2 < end);
 	i = GSF_LE_GET_GUINT16 (data);
 	for (data += 2; i-- > 0 ;) {
+		g_return_if_fail (data+8 <= end);
 		data = ms_excel_read_range (&r, data);
 		ranges = g_slist_prepend (ranges, range_dup (&r));
 	}
@@ -3831,6 +3840,7 @@ ms_excel_read_dv (BiffQuery *q, ExcelSheet *esheet)
 		Range *r = ptr->data;
 		mstyle_ref (mstyle);
 		sheet_style_apply_range (esheet->gnum_sheet, r, mstyle);
+		d (1, range_dump (r, "\n"););
 		g_free (r);
 	}
 	g_slist_free (ranges);

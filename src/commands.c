@@ -5373,3 +5373,86 @@ cmd_define_name (WorkbookControl *wbc, char const *name, ParsePos const *pp,
 	return command_push_undo (wbc, obj);
 }
 
+/******************************************************************/
+
+#if 0
+#define CMD_FREEZE_PANES_TYPE        (cmd_freeze_panes_get_type ())
+#define CMD_FREEZE_PANES(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_FREEZE_PANES_TYPE, CmdFreezePanes))
+
+typedef struct
+{
+	GnumericCommand cmd;
+
+	SheetView *sv;
+	CellPos	   pos;
+} CmdFreezePanes;
+
+GNUMERIC_MAKE_COMMAND (CmdFreezePanes, cmd_freeze_panes);
+
+static gboolean
+cmd_freeze_panes_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdFreezePanes *me = CMD_FREEZE_PANES (cmd);
+
+	return FALSE;
+}
+
+static gboolean
+cmd_freeze_panes_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdFreezePanes *me = CMD_FREEZE_PANES (cmd);
+
+	return FALSE;
+}
+
+static void
+cmd_freeze_panes_finalize (GObject *cmd)
+{
+	CmdFreezePanes *me = CMD_FREEZE_PANES (cmd);
+
+	gnumeric_command_finalize (cmd);
+}
+
+/**
+ * cmd_freeze_panes :
+ * @wbc : where to report errors
+ * @sv  : the view to freeze
+ * @frozen   :
+ * @unfrozen :
+ *
+ * Returns TRUE on error
+ **/
+gboolean
+cmd_freeze_panes (WorkbookControl *wbc, SheetView *sv,
+		 CellPos const *frozen, CellPos const *unfrozen)
+{
+	GObject		*obj;
+	CmdFreezePanes	*me;
+
+	g_return_val_if_fail (name != NULL, TRUE);
+	g_return_val_if_fail (pp != NULL, TRUE);
+	g_return_val_if_fail (expr != NULL, TRUE);
+
+	obj = g_object_new (CMD_FREEZE_PANES_TYPE, NULL);
+	me = CMD_FREEZE_PANES (obj);
+	me->sv = sv;
+	me->frozen   = f;
+	me->unfrozen = expr;
+	me->nexpr = nexpr;
+	me->create_name = nexpr == NULL;
+	if (nexpr != NULL)
+		expr_name_ref (me->nexpr);
+
+	me->cmd.sheet = wb_control_cur_sheet (wbc);
+	me->cmd.size = 1;
+	if (me->create_name)
+		me->cmd.cmd_descriptor =
+			g_strdup_printf (_("Define Name %s"), name);
+	else
+		me->cmd.cmd_descriptor =
+			g_strdup_printf (_("Update Name %s"), name);
+
+	return command_push_undo (wbc, obj);
+}
+
+#endif
