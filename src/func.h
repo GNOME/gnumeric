@@ -70,6 +70,7 @@ typedef enum {
 } GnmFuncType;
 
 typedef enum {
+	GNM_FUNC_SIMPLE			= 0,
 	GNM_FUNC_VOLATILE		= 0x01, /* eg now(), today() */
 	GNM_FUNC_RETURNS_NON_SCALAR	= 0x02, /* eg transpose(), mmult() */
 
