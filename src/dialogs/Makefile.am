@@ -34,6 +34,7 @@ base_files =					\
 	dialog-cell-format.c			\
 	dialog-cell-sort.c			\
 	dialog-col-width.c			\
+	dialog-col-row.c			\
 	dialog-consolidate.c			\
 	dialog-function-select.c		\
 	dialog-formula-guru.c			\
@@ -52,7 +53,6 @@ base_files =					\
 	dialog-search.c				\
 	dialog-search-replace.c			\
 	dialog-sheet-order.c			\
-	dialog-simple-input.c			\
 	dialog-solver.c				\
 	dialog-stf.c				\
 	dialog-stf.h				\

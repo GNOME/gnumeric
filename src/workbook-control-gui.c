@@ -2377,11 +2377,29 @@ cb_data_consolidate (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 static void
+hide_show_detail_real (WorkbookControlGUI *wbcg, gboolean is_cols, gboolean show)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	Sheet *sheet = wb_control_cur_sheet (wbc);
+	char const *operation = show ? _("Show Detail") : _("Hide Detail");
+	Range const *r = selection_first_range (sheet, wbc, operation);
+	
+	/* This operation can only be performed on a whole existing group */
+	if (sheet_colrow_can_group (sheet, r, is_cols)) {
+		gnumeric_error_invalid (COMMAND_CONTEXT (wbc), operation,
+					_("can only be performed on an existing group"));
+		return;
+	}
+
+	cmd_colrow_hide_selection (wbc, sheet, is_cols, show);
+}
+
+static void
 hide_show_detail (WorkbookControlGUI *wbcg, gboolean show)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
-	char const *operation = show ? _("Show") : _("Hide");
+	char const *operation = show ? _("Show Detail") : _("Hide Detail");
 	Range const *r = selection_first_range (sheet, wbc, operation);
 	gboolean is_cols;
 
@@ -2392,17 +2410,15 @@ hide_show_detail (WorkbookControlGUI *wbcg, gboolean show)
 	/* Do we need to ask the user what he/she wants to group/ungroup? */
 	if (range_is_full (r, TRUE) ^ range_is_full (r, FALSE))
 		is_cols = !range_is_full (r, TRUE);
-	else if (!dialog_choose_cols_vs_rows (wbcg, operation, &is_cols))
-		return;
-
-	/* This operation can only be performed on a whole existing group */
-	if (sheet_colrow_can_group (sheet, r, is_cols)) {
-		gnumeric_error_invalid (COMMAND_CONTEXT (wbc), operation,
-					_("can only be performed on an existing group"));
+	else {
+		GtkWidget *dialog = dialog_col_row (wbcg, operation,
+						    (ColRowCallback_t) hide_show_detail_real,
+						    GINT_TO_POINTER (show));
+		gtk_widget_show (dialog);
 		return;
 	}
 
-	cmd_colrow_hide_selection (wbc, sheet, is_cols, show);
+	hide_show_detail_real (wbcg, is_cols, show);	
 }
 
 static void
@@ -2415,6 +2431,15 @@ static void
 cb_data_show_detail (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	hide_show_detail (wbcg, TRUE);
+}
+
+static void
+group_ungroup_colrow_real (WorkbookControlGUI *wbcg, gboolean is_cols, gboolean group)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	Sheet *sheet = wb_control_cur_sheet (wbc);
+
+	cmd_group (wbc, sheet, is_cols, group);
 }
 
 static void
@@ -2433,11 +2458,15 @@ group_ungroup_colrow (WorkbookControlGUI *wbcg, gboolean group)
 	/* Do we need to ask the user what he/she wants to group/ungroup? */
 	if (range_is_full (r, TRUE) ^ range_is_full (r, FALSE))
 		is_cols = !range_is_full (r, TRUE);
-	else
-		if (!dialog_choose_cols_vs_rows (wbcg, operation, &is_cols))
-			return;
+	else {
+		GtkWidget *dialog = dialog_col_row (wbcg, operation,
+						    (ColRowCallback_t) group_ungroup_colrow_real,
+						    GINT_TO_POINTER (group));
+		gtk_widget_show (dialog);
+		return;
+	}
 
-	cmd_group (wbc, sheet, is_cols, group);
+	group_ungroup_colrow_real (wbcg, is_cols, group);
 }
 
 static void

@@ -13,11 +13,6 @@ Release Critical
 - Why doesn't float_range_function2 use its "flags" argument?
 - 3D reference fixes on sheet deletion
 - iconv utf8 password -> usc4 before hashing
-- Fix dialogs:
-    - Hide Detail
-    - Show Detail
-    - Group
-    - Ungroup
 
 1.2 Targets
 -----------

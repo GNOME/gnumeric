@@ -1,3 +1,10 @@
+2002-04-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/workbook-control-gui.c (hide_show_detail_real) : new
+	(group_ungroup_colrow_real) : new
+	(hide_show_detail) : use dialog_col_row
+	(group_ungroup_colrow) : use dialog_col_row
+
 2002-04-08  Morten Welinder  <terra@diku.dk>
 
 	* src/expr.c (cb_expression_pool_leak): New function.

@@ -1,5 +1,14 @@
 2002-04-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* Makefile.am : add dialog-col-row.c, remove dialog-simple-input.c
+	* colrow.glade : slightly redesigned
+	* dialog-simple-input.c : removed
+	* dialogs.h : add dialog_col_row, remove dialog_get_number and 
+	  dialog_choose_cols_vs_rows
+	* dialog-col-row.c : new
+
+2002-04-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-cell-sort.c : use gnumeric-cell-renderer-toggle rather than 
 	  gnumeric-cell-renderer
 
