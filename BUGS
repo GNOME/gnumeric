@@ -9,7 +9,6 @@ Release Critical
 
 - validate expression names to ensure that they are not simple values (eg TRUE)
 - check the implementation of seriessum returning NULL seems bad
-- Bonobo-WARNING **: Leaked a total of 24 refs to 16 bonobo object(s)
 
 1.2 Targets
 -----------
@@ -35,7 +34,7 @@ Release Critical
     6.1) 97 export
     6.2) Form import
     6.3) Intersection, union and set export
-    6.4) unknown name export
+    6.4) fix name export now that we sorta understand it
     6.5) non-ole import (Nick Lamb is working on this)
 9) Manual recalc						(DONE)
     9.1) finish calculation ui in workbook attr dialog		(DONE)
@@ -73,7 +72,6 @@ UTF-8: (grep for ctype.h is a good start)
     - Window titles.
     - function_category_compare
     - format precompile
-
 
 Pending Patches
 ---------------
