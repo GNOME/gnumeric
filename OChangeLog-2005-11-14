@@ -1,5 +1,9 @@
 2002-12-12  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
+	* configure.in, NEWS: Post release version bump.
+
+2002-12-12  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
 	* Release 1.0.11
 
 2002-12-08  J.H.M. Dassen (Ray) <jdassen@debian.org>
