@@ -280,3 +280,5 @@ src/workbook.c
 src/xml-io-autoft.c
 src/xml-io.c
 schemas/plot-types.xml.in
+schemas/gnumeric-dialogs.schemas.in
+schemas/gnumeric-general.schemas.in
