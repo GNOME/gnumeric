@@ -1,3 +1,7 @@
+2002-07-13  Jody Goldberg <jody@gnome.org>
+
+	* functions.c : fix includes.
+
 2002-07-08  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* functions.c: Moved RAND(), RANDBERNOULLI(), RNADBETWEEN(),

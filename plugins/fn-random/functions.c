@@ -24,13 +24,12 @@
 
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include <func.h>
 
-#include <parse-util.h>
-#include <cell.h>
-#include <expr.h>
+#include <func.h>
+#include <mathfunc.h>
 #include <value.h>
 #include <auto-format.h>
+
 #include <libgnome/gnome-i18n.h>
 
 #include "plugin.h"
