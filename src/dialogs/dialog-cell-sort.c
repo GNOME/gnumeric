@@ -91,6 +91,7 @@ dialog_cell_sort_adv (GtkWidget *widget, OrderBox *orderbox)
 	rb2    = glade_xml_get_widget (gui, "cell_sort_adv_text");
 	if (!dialog || !check || !rb1 || !rb2) {
 		g_warning ("Corrupt file cell-sort.glade\n");
+		gtk_object_unref (GTK_OBJECT (gui));
 		return;
 	}
 
@@ -104,6 +105,7 @@ dialog_cell_sort_adv (GtkWidget *widget, OrderBox *orderbox)
 	}
 
 	gtk_object_destroy (GTK_OBJECT (dialog));
+	gtk_object_unref (GTK_OBJECT (gui));
 }
 
 static OrderBox *
@@ -629,6 +631,7 @@ dialog_cell_sort (Workbook * inwb, Sheet * sheet)
 	rb2   = glade_xml_get_widget (gui, "cell_sort_col_rb");
 	if (!sort_flow.dialog || !table || !check || !rb1 || !rb2) {
 		g_warning ("Corrupt file cell-sort.glade\n");
+		gtk_object_unref (GTK_OBJECT (gui));
 		return;
 	}
 
@@ -752,4 +755,6 @@ dialog_cell_sort (Workbook * inwb, Sheet * sheet)
 	string_list_free (sort_flow.colnames_header);
 	string_list_free (sort_flow.rownames_plain);
 	string_list_free (sort_flow.rownames_header);
+
+	gtk_object_unref (GTK_OBJECT (gui));
 }

@@ -1,3 +1,8 @@
+1999-12-11  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/dialogs/dialog-cell-sort.c (dialog_cell_sort_adv): nail ref leak of
+	glade_xml object. (dialog_cell_sort): ditto.
+
 1999-12-10  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/ranges.c (range_clip): kill. (range_intersection): implement.
