@@ -449,7 +449,7 @@ if test $ac_cv_func_lgamma = no; then
 	 )
          LIBS="$LIBS -lm"])
 fi
-AC_CHECK_FUNCS(lgamma_r expm1 log1p)
+AC_CHECK_FUNCS(lgamma_r expm1 log1p asinh acosh atanh)
 
 AC_C_LONG_DOUBLE
 float_msg=double

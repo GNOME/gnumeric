@@ -1,5 +1,10 @@
 2004-08-20  Morten Welinder  <terra@gnome.org>
 
+	* configure.in: Check for asinh, acosh, atanh.
+
+	* src/gutils.c (asinhgnum, acoshgnum, atanhgnum): Provide if
+	needed.
+
 	* src/parser.y (yylex): Take extra care not to run off the edge.
 
 2004-08-17  Morten Welinder  <terra@gnome.org>

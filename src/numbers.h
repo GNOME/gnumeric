@@ -180,6 +180,24 @@ gnm_float lgamma_rgnum (gnm_float x, int *signp);
 gnm_float expm1 (gnm_float x);
 #endif
 
+#ifndef HAVE_ASINH
+#define NEED_FAKE_ASINH
+/* Defined in gutils.c  */
+gnm_float asinh (gnm_float x);
+#endif
+
+#ifndef HAVE_ACOSH
+#define NEED_FAKE_ACOSH
+/* Defined in gutils.c  */
+gnm_float acosh (gnm_float x);
+#endif
+
+#ifndef HAVE_ATANH
+#define NEED_FAKE_ATANH
+/* Defined in gutils.c  */
+gnm_float atanh (gnm_float x);
+#endif
+
 #define GNUM_FORMAT_e "e"
 #define GNUM_FORMAT_E "E"
 #define GNUM_FORMAT_f "f"

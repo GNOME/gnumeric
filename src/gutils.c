@@ -598,6 +598,41 @@ expm1gnum (gnm_float x)
 
 /* ------------------------------------------------------------------------- */
 
+#ifdef NEED_FAKE_ASINH
+gnm_float
+asinhgnum (gnm_float x)
+{
+  gnm_float y = gnumabs (x);
+  gnm_float r = log1pgnum (y * y / (hypotgnum (y, 1.0) + 1.0) + y);
+  return (x >= 0) ? r : -r;
+}
+#endif
+
+/* ------------------------------------------------------------------------- */
+
+#ifdef NEED_FAKE_ACOSH
+gnm_float
+acoshgnum (gnm_float x)
+{
+  gnm_float xm1 = x - 1;
+  return log1pgnum (xm1 + sqrtgnum (xm1) * sqrtgnum (x + 1.0));
+}
+#endif
+
+/* ------------------------------------------------------------------------- */
+
+#ifdef NEED_FAKE_ATANH
+gnm_float
+atanhgnum (gnm_float x)
+{
+  gnm_float y = gnumabs (x);
+  gnm_float r = -0.5 * log1pgnum (-(y + y) / (1.0 + y));
+  return (x >= 0) ? r : -r;
+}
+#endif
+
+/* ------------------------------------------------------------------------- */
+
 /**
  * gnumeric_utf8_strcapital:
  * @p: pointer to UTF-8 string
