@@ -2197,7 +2197,7 @@ sheet_action_delete_sheet (GtkWidget *widget, Sheet *current_sheet)
 		return;
 
 	message = g_strdup_printf (
-		_("Are you sure you want to remove the sheet called `%s' "),
+		_("Are you sure you want to remove the sheet called `%s'?"),
 		current_sheet->name);
 
 	d = gnome_message_box_new (
@@ -2217,7 +2217,7 @@ sheet_action_delete_sheet (GtkWidget *widget, Sheet *current_sheet)
 		gnumeric_notice (
 			wb, GNOME_MESSAGE_BOX_ERROR,
 			_("Other sheets depend on the values on this sheet; "
-			  "I cannot remove it"));
+			  "I cannot remove it."));
 		return;
 	}
 

@@ -1,6 +1,9 @@
 1999-08-27  Karl Eichwalder  <ke@suse.de>
 
-	* src/workbook.c: typo.
+	* src/workbook.c: Typo.
+	* src/workbook.c (sheet_action_delete_sheet): Change messages
+	string.
+	* src/workbook.c (sheet_action_delete_sheet): Ditto.
 
 1999-08-26  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
