@@ -12,6 +12,6 @@ Comment[fr]=Tableur Gnumeric
 Comment[pt]=Folha de cálculo Gnumeric
 Comment[no]=Regnearkprogram
 Exec=gnumeric
-Icon=
+Icon=gnome-gnumeric.png
 Terminal=0
 Type=Application

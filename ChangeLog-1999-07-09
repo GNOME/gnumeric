@@ -1,3 +1,10 @@
+1998-12-17  Tuomas Kuosmanen  <tigert@fun112.koivukyla.hoas.fi>
+
+	* gnumeric.desktop: Added gnumeric program icon
+	* Makefile.am: added the stuff to install the icon - 
+	could someone check that I did it correctly?
+	* gnome-gnumeric.png: the icon itself
+
 1998-12-16  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/workbook.c: Use GNOME stock icons for the stuff that hsa

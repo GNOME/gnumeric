@@ -1,8 +1,11 @@
 SUBDIRS = intl po macros plugins src 
 
+appicondir = $(datadir)/pixmaps
+appicon_DATA = gnome-gnumeric.png
+
 EXTRA_DIST = \
 	gnumeric.desktop README HACKING xlibtool \
-	gnumeric.keys.in gnumeric.mime
+	gnumeric.keys.in gnumeric.mime $(appicon_DATA)
 
 dist-hook:
 	mkdir $(distdir)/samples
