@@ -1,3 +1,17 @@
+2001-05-13  Almer S. Tigelaar  <almer@gnome.org>
+ 
+ 	* src/colrow.c (colrow_save_sizes): Use float.
+ 	(colrow_restore_sizes): Use float.
+ 	(colrow_restore_sizes_group): Walk the selections
+ 	in parallel with the saved_sizes. Now this will
+ 	actually work for variabele size multiple selections.
+
+	* src/commands.c (cmd_paste_copy_undo): Use the new
+	is_undo flag. We need this to properly set and restore
+	the row heights.
+	(cmd_paste_copy_redo): Set is_undo to false.
+	(cmd_paste_copy): Init is_undo flag.
+	
 2001-05-13  Jody Goldberg <jgoldberg@home.com>
 
 	* src/clipboard.c (clipboard_paste_region) : Use the new CLEAR_NORESPAN

@@ -116,7 +116,7 @@ typedef struct _ColRowIndex
 
 typedef struct {
 	int    length;
-	double size;
+	float  size;
 } SavedSize;
 
 ColRowRLESizeList *
@@ -253,7 +253,7 @@ colrow_save_sizes (Sheet *sheet, gboolean const is_cols, int first, int last)
 	int                i;
 	ColRowRLESizeList *list = NULL;
 	SavedSize         *ss;
-	double             size, run_size = 0.;
+	float              size, run_size = 0.;
 	int                run_length = 0;
 
 	g_return_val_if_fail (sheet != NULL, NULL);
@@ -412,10 +412,10 @@ colrow_restore_sizes (Sheet *sheet, gboolean const is_cols,
 
 	for (l = sizes; l != NULL; l = l->next) {
 		SavedSize const *ss = l->data;
-
+		
 		for (i = offset; i < offset + ss->length; i++) {
 			gboolean hard_size = FALSE;
-			double   size      = ss->size;
+			float   size      = ss->size;
 
 			if (size == 0.) {
 				ColRowCollection *infos = is_cols ? &(sheet->cols) : &(sheet->rows);
@@ -463,6 +463,11 @@ colrow_restore_sizes_group (Sheet *sheet, gboolean const is_cols,
 			    int old_size)
 {
 	ColRowSizeList *ptr = saved_sizes;
+
+	/* Cycle to end, we have to traverse the selections
+	 * in parallel with the saved_sizes
+	 */
+	selection = g_list_last (selection);
 	while (selection != NULL && ptr != NULL) {
 		ColRowIndex *index = selection->data;
 
@@ -484,7 +489,7 @@ colrow_restore_sizes_group (Sheet *sheet, gboolean const is_cols,
 				      index->first, index->last,
 				      ptr->data);
 
-		selection = selection->next;
+		selection = selection->prev;
 		ptr = ptr->next;
 	}
 	g_slist_free (saved_sizes);
