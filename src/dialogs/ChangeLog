@@ -1,3 +1,9 @@
+2001-02-20  Morten Welinder  <terra@diku.dk>
+
+	* dialog-analysis-tools.c (dialog_regression_tool): Fix error
+ 	messages.
+	(parse_multiple_ranges): Fix overflows.  (Needs rewrite.)
+
 2001-02-19  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-cell-format.c (cb_indent_changed) : enable.
@@ -34,7 +40,6 @@
 	* dialog-printer-setup.c (do_fetch_margins, do_setup_margin):
 	Header, not top margin, should be top of header area and footer,
 	not bottom margin, should be top of footer area.
-
 
 2001-01-23  Morten Welinder  <terra@diku.dk>
 

@@ -348,34 +348,40 @@ static int selected_row;
 For example, the text "A5:B30,J10:J15,C1:C5" would be returned in **ranges
 as the equivalent of running parse_ranges on "A5:A30" "B5:B30" "J10:J15" and
 "C1:C5" in that order. */
-static int
-parse_multiple_ranges (char *text, Range **ranges, int *dim)
-{
-        char buf[256];
-        char *p;
-	int i, j, last, curdim;
-	int start_col, start_row,
-	    end_col, end_row;
 
-	strcpy(buf, text);
-	buf[255] = '\0';
+/* FIXME: A clear candidate for a rewrite using range_list_parse.  */
+
+static int
+parse_multiple_ranges (const char *text, Range **ranges, int *dim)
+{
+        char *buf, *buf0;
+        char *p;
+	int i, last, curdim;
+
+	i = strlen (text);
+	buf = buf0 = g_new (char, i + 2);
+	strcpy (buf, text);
+	buf[i + 1] = 0;  /* Double terminator.  */
+
 	curdim = 0;
 	last = 0;
 	*ranges = NULL;
-	for (i = 0; (i < 256) && buf[i] != '\0'; i++);
-	buf[i + 1] = '\0'; /* Makes it easier to catch later, though it
-			      it limits text entry to 254 useful bytes */
-	for (i = last; (buf[i] != ',') && buf[i] != '\0'; i++);
-	while (buf[last] != '\0'){
+
+	for (i = last; buf[i] != ',' && buf[i] != '\0'; i++)
+		/* Nothing */;
+	while (buf[last] != '\0') {
 		Range *newranges;
+		int j;
+		int start_col, start_row, end_col, end_row;
+
 		buf[i] = '\0';
-		p = strchr(buf+last, ':');
+		p = strchr (buf + last, ':');
 		if (p == NULL)
 	        	goto failure;
 		*p = '\0';
-		if (!parse_cell_name (buf+last, &start_col, &start_row, TRUE, NULL))
+		if (!parse_cell_name (buf + last, &start_col, &start_row, TRUE, NULL))
 	        	goto failure;
-		if (!parse_cell_name (p+1, &end_col, &end_row, TRUE, NULL))
+		if (!parse_cell_name (p + 1, &end_col, &end_row, TRUE, NULL))
 	        	goto failure;
 		newranges = g_new (Range, curdim + end_col - start_col + 1);
 		for (j = 0; j < curdim; j++)
@@ -391,12 +397,15 @@ parse_multiple_ranges (char *text, Range **ranges, int *dim)
 		if (*ranges) g_free (*ranges);
 		*ranges = newranges;
 		last = i + 1;
-		for (i = last; (buf[i] != ',') && buf[i] != '\0'; i++);
+		for (i = last; buf[i] != ',' && buf[i] != '\0'; i++)
+			/* Nothing */;
 	}
 	*dim = curdim;
+	g_free (buf0);
 	return 1;
 failure:
 	g_free (*ranges);
+	g_free (buf0);
 	return 0;
 }
 
@@ -2048,7 +2057,7 @@ dialog_loop:
 			  &range_inputy.end.row)) {
 	        error_in_entry (wbcg, range1_entry,
 				_("You should introduce a valid cell range "
-				  "in 'Variable 1:'"));
+				  "in 'Input X Range'"));
 		goto dialog_loop;
 	}
 
@@ -2056,7 +2065,7 @@ dialog_loop:
 	if (!parse_multiple_ranges (text, &range_inputxs, &xdim)) {
 	        error_in_entry (wbcg, range2_entry,
 				_("You should introduce a valid cell range "
-				  "in 'Variable 2:'"));
+				  "in 'Input X Range'"));
 		goto dialog_loop;
 	}
 
