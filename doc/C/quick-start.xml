@@ -86,7 +86,7 @@
     menus until you find something named "Gnumeric" with the 
       <inlinemediaobject>
         <imageobject>
-          <imagedata fileref="figures/gnumeric-icon.png" 
+          <imagedata fileref="figures/gnumeric-icon-24.png" 
               format="PNG" />
         </imageobject>
         <textobject>
@@ -1137,7 +1137,8 @@
     discover relationships and trends in the data values. Graphs also
     provide an effective way to present data so as to demonstrate
     relationships in the data and summarize large amounts of data in
-    an effective image.
+    an effective image. In <application>Gnumeric</application>, both
+    of these can be done easily and efficiently.
   </para>
 
   <para>
@@ -1146,7 +1147,9 @@
     not designed to look polished but must present the required
     information as quickly as possible. To produce these graphs, users
     must learn a simple series of operations which will produce the
-    desired plots.
+    desired plots. For speed, the most critical operation involves
+    selecting the cells on the spreadsheet which will be used as data
+    <emphasis>before</emphasis> starting the graphing process.
   </para>
 
   <para>
@@ -1165,77 +1168,40 @@
     </tip>
     <application>Gnumeric</application> includes a large number of
     features which allow users to craft the look of a particular graph
-    for maximum effectiveness. These features will be explained in
-    detail below.
+    for maximum effectiveness. In <application>Gnumeric</application>,
+    it is possible to change the font, modify the borders of each
+    graph and of each plot, add patterns and images to backgrounds,
+    add patterns to plot elements and configure the graph in multiple
+    ways. These features will be explained in detail below.
     <tip>
       <para>
         Graphs which use a large number of the graphical features
         available in <application>Gnumeric</application> often appear
-        cluttered. The visual richness of such images can often drown
-        out the message which should be communicated. Spare, elegant
+        cluttered. The visual richness of such images can often obscure
+        the message which should be communicated. Spare, elegant
         and direct graphs will communicate the idea most effectively.
       </para>
     </tip>
   </para>
 
   <sect2 id="quick-graphing-anExamples">
-    <title>A Simple Example</title>
+    <title>A Simple Graphing Example</title>
 
     <para>
       This section will introduce the process of creating a graph
-      using an example of a side-by-side column chart. 
+      by presenting an example of a side-by-side column chart.
     </para>
 
     <sect3>
     <title>Data for the examples.</title>
     <para>
       Because a graph requires data, it is first necessary to create
-      some simple data to use in these examples. The data are presented
-      in <xref linkend="table-quick-graph-data"/>. First we have to input
-      these data into a worksheet. For clarity in this discussion, the
-      word "Interval" should be in cell A1. This will result in a
-      worksheet whose top left corner looks like <xref
+      some simple data to use in these examples. First we have to
+      input these data into a worksheet. For clarity in this
+      discussion, the word "Interval" should be in cell A1. This will
+      result in a worksheet whose top left corner looks like <xref
       linkend="fig-quick-graph-dataPic"/>.
     </para>
-
-
-    <table frame='all' id="table-quick-graph-data">
-      <title>Sample Data</title>
-      <tgroup cols='3' align='center' colsep='1' rowsep='1'>
-        <colspec colname='c1'/>
-        <colspec colname='c2'/>
-        <colspec colname='c3'/>
-        <thead>
-          <row>
-            <entry align="center">Interval</entry>
-            <entry align="center">Eggs</entry>
-            <entry align="center">Females</entry>
-          </row>
-        </thead>
-        <tbody>
-          <row>
-            <entry>jan - mar</entry>
-            <entry>184</entry>
-            <entry>16</entry>
-          </row>
-          <row>
-            <entry>apr - jun</entry>
-            <entry>322</entry>
-            <entry>27</entry>
-          </row>
-          <row>
-            <entry>jul - sept</entry>
-            <entry>289</entry>
-            <entry>32</entry>
-          </row>
-          <row>
-            <entry>oct - dec</entry>
-            <entry>120</entry>
-            <entry>12</entry>
-          </row>
-        </tbody>
-      </tgroup>
-    </table>
 
     <figure id="fig-quick-graph-dataPic">
       <title>Gnumeric with the data used in this example.</title>
@@ -1293,8 +1259,8 @@
                   </para>
                 </textobject>
               </inlinemediaobject>
-            which looks like three colored pillars. This launches a
-            new window called the graph druid.
+             which looks like three colored pillars. This launches a
+             new window called the graph druid.
           </para>
         </step>
 
@@ -1365,10 +1331,11 @@
       <title>Modifying the Column Plot</title>
 
       <para>
-        The graph can be
-        customized with titles, label boxes and lots of extra
-        information. To customize the graph, right click on the plot
-        to open the graph custom menu.
+        The graph can be customized with titles, label boxes and lots
+        of extra information. To customize the graph, right click on
+        the plot to open the graph custom menu. The graph context menu
+        will appear as shown in <xref
+        linkend="fig-quick-graph-contextMenu"/>.
       </para>
 
       <figure id="fig-quick-graph-contextMenu">
@@ -1390,15 +1357,17 @@
       </figure>
 
       <para>
-        This menu allows the graph to be further customized by
-        selecting the <guimenuitem>Properties</guimenuitem> menu item,
-        enables the graph to be saved into PNG or SVG formats using
-        the <guimenuitem>Save as image</guimenuitem> menu item, to be
-        displayed as a different layer using the
+        This menu provides access to several functions. Users can
+        customize the appearance of graphs by selecting the
+        <guimenuitem>Properties</guimenuitem> menu item, can save the
+        graph into PNG or SVG formats using the <guimenuitem>Save as
+        image</guimenuitem> menu item, can reorder the various
+        graphical elements displayed in the worksheet using the
         <guimenuitem>Top</guimenuitem>, <guimenuitem>Up</guimenuitem>,
-        <guimenuitem>Down</guimenuitem>,
-        <guimenuitem>Bottom</guimenuitem> menu items or to be deleted
-        with the <guimenuitem>Delete</guimenuitem> menu item.
+        <guimenuitem>Down</guimenuitem>, and
+        <guimenuitem>Bottom</guimenuitem> menu items or can delete
+        graphical elements with the <guimenuitem>Delete</guimenuitem>
+        menu item.
       </para>
 
       <para>
@@ -1502,6 +1471,24 @@
     </sect3>
 
   </sect2>
+
+  <sect2 id="quick-graphing-conclusion">
+    <title>Graphing is changing rapidly in Gnumeric 1.2</title>
+
+    <para>
+      Graphical charts in <application>Gnumeric</application> version
+      1.2 are evolving quickly to provide many types of charts, each
+      of which provides an elegant plot automatically but can be
+      cutomized in detail according the user's preferences. This is a
+      active area for the programmers and therefore will be changing
+      dramatically in the future. Detailled information about
+      graphical charts is presented in <xref
+      linkend="chapter-graphics" />. That chapter will be updated
+      regularly during development to explain in detail how to produce
+      and modify charts.
+    </para>
+
+  </sect2>      
 
 </sect1>
 

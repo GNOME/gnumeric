@@ -1,3 +1,8 @@
+2003-10-05 Adrian Custer <acuster@gnome.org>
+
+	* quick-start.xml: edit the graphing section.
+	* figures/gnumeric-icon-24.png: add.
+
 2003-09-27  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* ssconvert.1: New.
