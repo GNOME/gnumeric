@@ -5,7 +5,7 @@
   <requires lib="gnome" />
   <requires lib="canvas" />
 
-  <widget class="GtkDialog" id="CellFormat">
+  <widget class="GnomePropertyBox" id="CellFormat">
     <property name="visible">no</property>
     <property name="modal">no</property>
     <property name="allow_shrink">no</property>

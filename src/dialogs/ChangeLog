@@ -1,3 +1,21 @@
+2002-01-24  Jody Goldberg <jody@gnome.org>
+
+	* cell-format.glade : fix typo.
+	* advanced-filter.glade : add use_underline.
+	* cell-sort.glade : ditto.
+	* colrow.glade : ditto.
+	* delete-cells.glade : ditto.
+	* dialog-sheet-order.c : ditto.
+	* dialog-stf.glade : ditto.
+	* dialog-zoom.glade : ditto.
+	* insert-cells.glade : ditto.
+	* names.glade : ditto.
+	* print.glade : ditto.
+	* search-replace.glade : ditto.
+	* search.glade : ditto.
+	* solver.glade : ditto.
+	* tabulate.glade : ditto.
+
 2002-01-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* anova-one.glade : added underline property
@@ -16,7 +34,6 @@
 	* regression.glade : added underline property
 	* sampling.glade : added underline property
 	* variance-tests.glade : added underline property
-
 
 2002-01-23  Jody Goldberg <jody@gnome.org>
 

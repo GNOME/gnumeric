@@ -166,6 +166,7 @@
                             <property name="active">no</property>
                             <property name="draw_indicator">yes</property>
                             <property name="visible">yes</property>
+			    <property name="use_underline">yes</property>
                           </widget>
                           <packing>
                             <property name="left_attach">1</property>
@@ -187,6 +188,7 @@
                             <property name="draw_indicator">yes</property>
                             <property name="visible">yes</property>
                             <property name="group">vertical-radio</property>
+			    <property name="use_underline">yes</property>
                           </widget>
                           <packing>
                             <property name="left_attach">3</property>
@@ -265,6 +267,7 @@
                             <property name="active">yes</property>
                             <property name="draw_indicator">yes</property>
                             <property name="visible">yes</property>
+			    <property name="use_underline">yes</property>
                           </widget>
                           <packing>
                             <property name="left_attach">0</property>
@@ -287,6 +290,7 @@
                             <property name="draw_indicator">yes</property>
                             <property name="visible">yes</property>
                             <property name="group">scale-percent-radio</property>
+			    <property name="use_underline">yes</property>
                           </widget>
                           <packing>
                             <property name="left_attach">0</property>
@@ -1901,6 +1905,7 @@
                             <property name="active">no</property>
                             <property name="draw_indicator">yes</property>
                             <property name="visible">yes</property>
+			    <property name="use_underline">yes</property>
                           </widget>
                           <packing>
                             <property name="left_attach">0</property>
@@ -1922,6 +1927,7 @@
                             <property name="draw_indicator">yes</property>
                             <property name="visible">yes</property>
                             <property name="group">radio-order-down</property>
+			    <property name="use_underline">yes</property>
                           </widget>
                           <packing>
                             <property name="left_attach">0</property>

@@ -133,6 +133,7 @@
                             <property name="active">no</property>
                             <property name="draw_indicator">yes</property>
                             <property name="visible">yes</property>
+			    <property name="use_underline">yes</property>
                           </widget>
                           <packing>
                             <property name="padding">0</property>
@@ -149,6 +150,7 @@
                             <property name="draw_indicator">yes</property>
                             <property name="visible">yes</property>
                             <property name="group">cell_sort_row_rb</property>
+			    <property name="use_underline">yes</property>
                           </widget>
                           <packing>
                             <property name="padding">0</property>
@@ -273,6 +275,7 @@
                         <property name="active">yes</property>
                         <property name="draw_indicator">yes</property>
                         <property name="visible">yes</property>
+			<property name="use_underline">yes</property>
                       </widget>
                       <packing>
                         <property name="padding">0</property>
@@ -289,6 +292,7 @@
                         <property name="draw_indicator">yes</property>
                         <property name="visible">yes</property>
                         <property name="group">cell_sort_adv_value</property>
+			<property name="use_underline">yes</property>
                       </widget>
                       <packing>
                         <property name="padding">0</property>

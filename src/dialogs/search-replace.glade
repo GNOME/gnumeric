@@ -268,6 +268,7 @@
                                 <property name="active">yes</property>
                                 <property name="draw_indicator">yes</property>
                                 <property name="visible">yes</property>
+				<property name="use_underline">yes</property>
                               </widget>
                               <packing>
                                 <property name="padding">0</property>
@@ -285,6 +286,7 @@
                                 <property name="draw_indicator">yes</property>
                                 <property name="visible">yes</property>
                                 <property name="group">search_type_text</property>
+				<property name="use_underline">yes</property>
                               </widget>
                               <packing>
                                 <property name="padding">0</property>
@@ -331,6 +333,7 @@
                             <property name="active">yes</property>
                             <property name="draw_indicator">yes</property>
                             <property name="visible">yes</property>
+			    <property name="use_underline">yes</property>
                           </widget>
                           <packing>
                             <property name="padding">0</property>
@@ -348,6 +351,7 @@
                             <property name="draw_indicator">yes</property>
                             <property name="visible">yes</property>
                             <property name="group">scope_workbook</property>
+			    <property name="use_underline">yes</property>
                           </widget>
                           <packing>
                             <property name="padding">0</property>
@@ -371,6 +375,7 @@
                                 <property name="draw_indicator">yes</property>
                                 <property name="visible">yes</property>
                                 <property name="group">scope_workbook</property>
+				<property name="use_underline">yes</property>
                               </widget>
                               <packing>
                                 <property name="padding">0</property>
@@ -576,6 +581,7 @@
                             <property name="active">yes</property>
                             <property name="draw_indicator">yes</property>
                             <property name="visible">yes</property>
+			    <property name="use_underline">yes</property>
                           </widget>
                           <packing>
                             <property name="padding">0</property>
@@ -593,6 +599,7 @@
                             <property name="draw_indicator">yes</property>
                             <property name="visible">yes</property>
                             <property name="group">error_fail</property>
+			    <property name="use_underline">yes</property>
                           </widget>
                           <packing>
                             <property name="padding">0</property>
@@ -610,6 +617,7 @@
                             <property name="draw_indicator">yes</property>
                             <property name="visible">yes</property>
                             <property name="group">error_fail</property>
+			    <property name="use_underline">yes</property>
                           </widget>
                           <packing>
                             <property name="padding">0</property>
@@ -627,6 +635,7 @@
                             <property name="draw_indicator">yes</property>
                             <property name="visible">yes</property>
                             <property name="group">error_fail</property>
+			    <property name="use_underline">yes</property>
                           </widget>
                           <packing>
                             <property name="padding">0</property>
@@ -644,6 +653,7 @@
                             <property name="draw_indicator">yes</property>
                             <property name="visible">yes</property>
                             <property name="group">error_fail</property>
+			    <property name="use_underline">yes</property>
                           </widget>
                           <packing>
                             <property name="padding">0</property>
@@ -721,7 +731,8 @@
                                 <property name="label" translatable="yes">_Row major</property>
                                 <property name="active">yes</property>
                                 <property name="draw_indicator">yes</property>
-                                <property name="visible">yes</property>
+				<property name="visible">yes</property>
+				<property name="use_underline">yes</property>
                               </widget>
                               <packing>
                                 <property name="padding">0</property>
@@ -738,6 +749,7 @@
                                 <property name="draw_indicator">yes</property>
                                 <property name="visible">yes</property>
                                 <property name="group">row_major</property>
+				<property name="use_underline">yes</property>
                               </widget>
                               <packing>
                                 <property name="padding">0</property>

@@ -81,6 +81,7 @@
                         <property name="active">no</property>
                         <property name="draw_indicator">yes</property>
                         <property name="visible">yes</property>
+			<property name="use_underline">yes</property>
                       </widget>
                       <packing>
                         <property name="padding">0</property>
@@ -97,6 +98,7 @@
                         <property name="draw_indicator">yes</property>
                         <property name="visible">yes</property>
                         <property name="group">radio_200</property>
+			<property name="use_underline">yes</property>
                       </widget>
                       <packing>
                         <property name="padding">0</property>
@@ -113,6 +115,7 @@
                         <property name="draw_indicator">yes</property>
                         <property name="visible">yes</property>
                         <property name="group">radio_200</property>
+			<property name="use_underline">yes</property>
                       </widget>
                       <packing>
                         <property name="padding">0</property>
@@ -129,6 +132,7 @@
                         <property name="draw_indicator">yes</property>
                         <property name="visible">yes</property>
                         <property name="group">radio_200</property>
+			<property name="use_underline">yes</property>
                       </widget>
                       <packing>
                         <property name="padding">0</property>
@@ -145,6 +149,7 @@
                         <property name="draw_indicator">yes</property>
                         <property name="visible">yes</property>
                         <property name="group">radio_200</property>
+			<property name="use_underline">yes</property>
                       </widget>
                       <packing>
                         <property name="padding">0</property>
@@ -162,6 +167,7 @@
                         <property name="draw_indicator">yes</property>
                         <property name="visible">yes</property>
                         <property name="group">radio_200</property>
+			<property name="use_underline">yes</property>
                       </widget>
                       <packing>
                         <property name="padding">0</property>
@@ -184,6 +190,7 @@
                             <property name="draw_indicator">yes</property>
                             <property name="visible">yes</property>
                             <property name="group">radio_200</property>
+			    <property name="use_underline">yes</property>
                           </widget>
                           <packing>
                             <property name="padding">0</property>

@@ -213,6 +213,7 @@
                             <property name="active">yes</property>
                             <property name="draw_indicator">yes</property>
                             <property name="visible">yes</property>
+			    <property name="use_underline">yes</property>
                           </widget>
                           <packing>
                             <property name="left_attach">1</property>
@@ -235,6 +236,7 @@
                             <property name="draw_indicator">yes</property>
                             <property name="visible">yes</property>
                             <property name="group">main_separated</property>
+			    <property name="use_underline">yes</property>
                           </widget>
                           <packing>
                             <property name="left_attach">2</property>
