@@ -98,8 +98,7 @@ plugins/xml_sax/xml-sax-read.c
 schemas/gnumeric-dialogs.schemas.in
 schemas/gnumeric-general.schemas.in
 schemas/gnumeric-plugins.schemas.in
-src/GNOME_Gnumeric.xml
-src/GNOME_Gnumeric_Component.xml
+src/GNOME_Gnumeric-gtk.xml
 src/bonobo-io.c
 src/cell.c
 src/clipboard.c
@@ -339,7 +338,6 @@ src/tools/tabulate.c
 src/validation.c
 src/value-sheet.c
 src/value.c
-src/wbc-bonobo.c
 src/wbc-gtk.c
 src/wbcg-actions.c
 src/widgets/gnm-dao.c
@@ -353,12 +351,9 @@ src/widgets/widget-font-selector.c
 src/widgets/widget-format-selector.c
 src/widgets/widget-locale-selector.c
 src/workbook-cmd-format.c
-src/workbook-control-component.c
 src/workbook-control-gui.c
 src/workbook-control.c
 src/workbook-edit.c
-src/workbook-format-toolbar.c
-src/workbook-object-toolbar.c
 src/workbook-view.c
 src/workbook.c
 src/xml-io-autoft.c

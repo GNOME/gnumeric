@@ -78,7 +78,7 @@
       <menuitem action="InsertCells"/>
       <menuitem action="InsertColumns"/>
       <menuitem action="InsertRows"/>
-      <menuitem action="InsertSheet"/>
+      <menuitem action="SheetInsert"/>
       <separator/>
       <menuitem action="ChartGuru"/>
 <!-- These don't work yet for Gnome 2 

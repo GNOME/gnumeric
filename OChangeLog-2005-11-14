@@ -1,5 +1,9 @@
 2004-03-28  Jody Goldberg <jody@gnome.org>
 
+	* src/wbcg-actions.c : cheat and install a SheetInsert action to avoid
+	  having an 'Insert' entry in the insert menu because we named the
+	  InsertSheet action for the Sheet menu.
+
 	* src/item-edit.c (ie_layout) : Support rich text.
 
 	* src/wbc-gtk.c (wbc_gtk_style_feedback) : Pull the values from

@@ -1589,6 +1589,10 @@ static GtkActionEntry actions[] = {
 	{ "InsertSheet", NULL, N_("_Insert"),
 		NULL, N_("Insert a new sheet"),
 		G_CALLBACK (wbcg_insert_sheet) },
+    /* ICK A DUPLICATE : we have no way to override a label on one proxy */
+	{ "SheetInsert", NULL, N_("_Sheet"),
+		NULL, N_("Insert a new sheet"),
+		G_CALLBACK (wbcg_insert_sheet) },
 	{ "InsertSheetAtEnd", NULL, N_("_Append"),
 		NULL, N_("Append a new sheet"),
 		G_CALLBACK (wbcg_append_sheet) },

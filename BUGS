@@ -11,9 +11,6 @@ Release Critical
     http://bugzilla.gnome.org/show_bug.cgi?id=127203	[x axis child pos]
     : X axis label seperation
 
-    The Insert menu has an "Insert" entry.  (Which is named thusly because it
-    is also edit->sheet->insert.)
-
 Worries
     http://bugzilla.gnome.org/show_bug.cgi?id=123403
     : loading in XL corrupts.  xbat is being lost when xl modifies it ??
