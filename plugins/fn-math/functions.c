@@ -23,7 +23,7 @@ static Value *gnumeric_count       (void *tsheet, GList *expr_node_list,
 				    char **error_string);
 
 static Value *
-gnumeric_abs (Value *argv [], char **error_string)
+gnumeric_abs (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 
@@ -34,7 +34,7 @@ gnumeric_abs (Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_acos (Value *argv [], char **error_string)
+gnumeric_acos (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	Value *v;
 	float_t t;
@@ -52,7 +52,7 @@ gnumeric_acos (Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_acosh (Value *argv [], char **error_string)
+gnumeric_acosh (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	Value *v;
 	float_t t;
@@ -208,7 +208,7 @@ gnumeric_and (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, c
 }
 
 static Value *
-gnumeric_asin (Value *argv [], char **error_string)
+gnumeric_asin (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	Value *v;
 	float_t t;
@@ -226,7 +226,7 @@ gnumeric_asin (Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_asinh (Value *argv [], char **error_string)
+gnumeric_asinh (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	Value *v;
 
@@ -238,7 +238,7 @@ gnumeric_asinh (Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_atan (Value *argv [], char **error_string)
+gnumeric_atan (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 
@@ -249,7 +249,7 @@ gnumeric_atan (Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_atanh (Value *argv [], char **error_string)
+gnumeric_atanh (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 	float_t t;
@@ -266,7 +266,7 @@ gnumeric_atanh (Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_atan2 (Value *argv [], char **error_string)
+gnumeric_atan2 (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 
@@ -316,7 +316,7 @@ gnumeric_average (void *tsheet, GList *expr_node_list, int eval_col, int eval_ro
 }
 
 static Value *
-gnumeric_ceil (Value *argv [], char **error_string)
+gnumeric_ceil (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 
@@ -327,7 +327,7 @@ gnumeric_ceil (Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_bin2dec (Value *argv [], char **error_string)
+gnumeric_bin2dec (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	Value *value;
 	int  result, v, n, bit;
@@ -368,7 +368,7 @@ gnumeric_bin2dec (Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_cos (Value *argv [], char **error_string)
+gnumeric_cos (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 
@@ -379,7 +379,7 @@ gnumeric_cos (Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_cosh (Value *argv [], char **error_string)
+gnumeric_cosh (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 
@@ -426,7 +426,7 @@ gnumeric_count (void *tsheet, GList *expr_node_list, int eval_col, int eval_row,
 }
 
 static Value *
-gnumeric_degrees (Value *argv [], char **error_string)
+gnumeric_degrees (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 
@@ -437,7 +437,7 @@ gnumeric_degrees (Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_exp (Value *argv [], char **error_string)
+gnumeric_exp (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 
@@ -456,7 +456,7 @@ fact (int n)
 }
 
 static Value *
-gnumeric_fact (Value *argv [], char **error_string)
+gnumeric_fact (struct FunctionDefinition *id, Value *argv [], char **error_string)
 {
 	Value *res;
 	int i;
@@ -488,7 +488,7 @@ gnumeric_fact (Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_floor (Value *argv [], char **error_string)
+gnumeric_floor (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 
@@ -499,7 +499,7 @@ gnumeric_floor (Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_int (Value *argv [], char **error_string)
+gnumeric_int (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 	float_t t;
@@ -513,7 +513,7 @@ gnumeric_int (Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_log (Value *argv [], char **error_string)
+gnumeric_log (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	Value *v;
 	float_t t;
@@ -531,7 +531,7 @@ gnumeric_log (Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_log2 (Value *argv [], char **error_string)
+gnumeric_log2 (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	Value *v;
 	float_t t;
@@ -549,7 +549,7 @@ gnumeric_log2 (Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_log10 (Value *argv [], char **error_string)
+gnumeric_log10 (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	Value *v;
 	float_t t;
@@ -727,7 +727,7 @@ gnumeric_or (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, ch
 
 
 static Value *
-gnumeric_radians (Value *argv [], char **error_string)
+gnumeric_radians (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 
@@ -738,7 +738,7 @@ gnumeric_radians (Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_sin (Value *argv [], char **error_string)
+gnumeric_sin (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 	
@@ -749,7 +749,7 @@ gnumeric_sin (Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_sinh (Value *argv [], char **error_string)
+gnumeric_sinh (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 	
@@ -801,7 +801,7 @@ gnumeric_sum (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, c
 }
 
 static Value *
-gnumeric_tan (Value *argv [], char **error_string)
+gnumeric_tan (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 
@@ -812,7 +812,7 @@ gnumeric_tan (Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_tanh (Value *argv [], char **error_string)
+gnumeric_tanh (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 
@@ -823,7 +823,7 @@ gnumeric_tanh (Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_pi (Value *argv [], char **error_string)
+gnumeric_pi (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 

@@ -1329,6 +1329,9 @@ static Sheet *readXmlSheet(parseXmlContextPtr ctxt, xmlNodePtr tree) {
 	    cells = cells->next;
 	}
     }
+
+    /* Initialize the ColRowInfo's ->pixels data */
+    sheet_set_zoom_factor (ret, ret->last_zoom_factor_used);
     return(ret);
 }
 

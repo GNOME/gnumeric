@@ -111,7 +111,8 @@ typedef enum {
  * it is up to that routine to do the value computations and range
  * processing.
  */
-typedef struct {
+
+struct FunctionDefinition {
 	/* The function name */
 	char  *name;
 
@@ -126,8 +127,10 @@ typedef struct {
 	char  **help;
 	Value *(*expr_fn)(void *sheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string);
 	
-	Value *(*fn)(Value *argv [], char **error_string);
-} FunctionDefinition;
+	Value *(*fn)(struct FunctionDefinition *func_def, Value *argv [], char **error_string);
+};
+
+typedef struct FunctionDefinition FunctionDefinition;
 
 /* For communication with yyparse */
 extern char     *parser_expr;

@@ -15,7 +15,7 @@
 #include "func.h"
 
 static Value *
-gnumeric_char (Value *argv [], char **error_string)
+gnumeric_char (FunctionDefinition *fn, Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 	int i;
@@ -31,7 +31,7 @@ gnumeric_char (Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_clean (Value *argv [], char **error_string)
+gnumeric_clean (FunctionDefinition *fn, Value *argv [], char **error_string)
 {
 	Value *res;
 	char *copy, *p, *q;
@@ -59,7 +59,7 @@ gnumeric_clean (Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_exact (Value *argv [], char **error_string)
+gnumeric_exact (FunctionDefinition *fn, Value *argv [], char **error_string)
 {
 	Value *res;
 	

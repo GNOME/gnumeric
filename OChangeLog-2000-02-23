@@ -1,5 +1,23 @@
 1998-09-17  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/sheet-view.c (sheet_view_row_size_changed,
+	sheet_view_col_size_changed): If there is a selection of columns
+	or rows, change the sizes of all of the columns. 
+
+	* src/sheet.c (sheet_row_get_distance, sheet_col_get_distance):
+	optimized to be O(n) instead of O(n^2) using 
+	(col_row_distance): new routine to compute distances. 
+
+	* src/sheet-view.c (sheet_view_redraw_cell_region): Add the
+	scrolling offset to the x and y positions to draw properly
+
+	* src/xml-io.c (readXmlSheet): Call sheet_set_zoom_factor to
+	initialize the ->pixels field.
+
+	* src/expr.h: Valued functions  now take a FunctionDefinition *
+	parameter which points to the definition that was used for this
+	function.  This is required for the python interpreter.
+
 	* src/cellspan.c (row_cell_get_displayed_at): row->data might be NULL.
 	(cell_unregister_span): row->data might be NULL.
 

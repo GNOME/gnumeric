@@ -24,7 +24,7 @@ the symbolic names for the arguments (in case our function supports
 them, this allows users to specify named paramters); The fourth
 parameter links in the help description.
 
-Now, our routine is pretty simple: it will always require 2 arguments
+Now, our routine is pretty simple: it will always require two arguments
 to be passed, so we can let Gnumeric deal with argument count and we
 can let the Gnumeric engine compute the values in the expression for
 us.  So, for this case we leave the fift parameter set as NULL and set
@@ -43,7 +43,7 @@ expression, our routine will be invoked, this is how the add2numbers
 function signature looks like:
 
 static Value *
-add2numbers (Value *argv [], char **error_string)
+add2numbers (FunctionDefinition *fn_def, Value *argv [], char **error_string)
 {
 	
 }
@@ -53,10 +53,17 @@ Arguments are passed in the argv array and they contain Value
 structures (look in gnumeric/src/expr.h for the definition of the
 Value structure).
 
+The first parameter, fn_def is a pointer to the FunctionDefinition
+structure that was used to define this function.  This is normally
+ignored, but some functions might want to access this (for example, a
+single function callback might implement various functions and can
+figure how it was invoked by poking at this value)
+
+
 Here is the actual implementation:
 
 static Value *
-add2numbers (Value *argv [], char **error_string)
+add2numbers (FunctionDefinition *fn_def, Value *argv [], char **error_string)
 {
 	Value *result;
 	float number_a, number_b;

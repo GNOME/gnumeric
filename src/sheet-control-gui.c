@@ -37,6 +37,7 @@ void
 sheet_view_redraw_cell_region (SheetView *sheet_view, int start_col, int start_row, int end_col, int end_row)
 {
 	GnumericSheet *gsheet;
+	GnomeCanvas *canvas;
 	Sheet *sheet = sheet_view->sheet;
 	int first_col, first_row, last_col, last_row;
 	int col, row, min_col, max_col;
@@ -47,6 +48,7 @@ sheet_view_redraw_cell_region (SheetView *sheet_view, int start_col, int start_r
 
 	gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
+	canvas = GNOME_CANVAS (gsheet);
 
 	if ((end_col < gsheet->top_col) ||
 	    (end_row < gsheet->top_row) ||
@@ -90,6 +92,8 @@ sheet_view_redraw_cell_region (SheetView *sheet_view, int start_col, int start_r
 	w = sheet_col_get_distance (sheet, min_col, max_col+1);
 	h = sheet_row_get_distance (sheet, first_row, last_row+1);
 
+	x += canvas->layout.xoffset - canvas->zoom_xofs;
+	y += canvas->layout.yoffset - canvas->zoom_yofs;
 	gnome_canvas_request_redraw (GNOME_CANVAS (gsheet),
 				     x, y,
 				     x+w, y+h);
@@ -237,7 +241,14 @@ static void
 sheet_view_col_size_changed (ItemBar *item_bar, int col, int width, SheetView *sheet_view)
 {
 	Sheet *sheet = sheet_view->sheet;
+	GList *l;
 	
+	for (l = sheet->cols_info; l; l = l->next){
+		ColRowInfo *ci = l->data;
+
+		if (ci->selected)
+			sheet_col_set_width (sheet, ci->pos, width);
+	}
 	sheet_col_set_width (sheet, col, width);
 	gnumeric_sheet_compute_visible_ranges (GNUMERIC_SHEET (sheet_view->sheet_view));
 }
@@ -266,7 +277,14 @@ static void
 sheet_view_row_size_changed (ItemBar *item_bar, int row, int height, SheetView *sheet_view)
 {
 	Sheet *sheet = sheet_view->sheet;
+	GList *l;
 	
+	for (l = sheet->rows_info; l; l = l->next){
+		ColRowInfo *ri = l->data;
+
+		if (ri->selected)
+			sheet_row_set_height (sheet, ri->pos, height, TRUE);
+	}
 	sheet_row_set_height (sheet, row, height, TRUE);
 	gnumeric_sheet_compute_visible_ranges (GNUMERIC_SHEET (sheet_view->sheet_view));
 }

@@ -477,26 +477,44 @@ sheet_col_set_width (Sheet *sheet, int col, int width)
 	sheet_redraw_all (sheet);
 }
 
+static inline int
+col_row_distance (GList *list, int from, int to, int default_pixels)
+{
+	ColRowInfo *cri;
+	int pixels = 0, n = 0;
+	GList *l;
+	
+	if (to == from)
+		return 0;
+
+	n = to - from;
+	
+	for (l = list; l; l = l->next){
+		cri = l->data;
+		
+		if (cri->pos >= to)
+			break;
+		
+		if (cri->pos >= from){
+			n--;
+			pixels += cri->pixels;
+		}
+	}
+	pixels += n * default_pixels;
+	
+	return pixels;
+}
+
 /*
  * Return the number of pixels between from_col to to_col
  */
 int
 sheet_col_get_distance (Sheet *sheet, int from_col, int to_col)
 {
-	ColRowInfo *ci;
-	int pixels = 0, i;
-
-	g_assert (sheet);
 	g_assert (from_col <= to_col);
+	g_assert (sheet != NULL);
 
-	/* This can be optimized, yes, but the implementation
-	 * of the ColRowInfo sets is going to change anyways
-	 */
-	for (i = from_col; i < to_col; i++){
-		ci = sheet_col_get_info (sheet, i);
-		pixels += ci->pixels;
-	}
-	return pixels;
+	return col_row_distance (sheet->cols_info, from_col, to_col, sheet->default_col_style.pixels);
 }
 
 /*
@@ -505,19 +523,10 @@ sheet_col_get_distance (Sheet *sheet, int from_col, int to_col)
 int
 sheet_row_get_distance (Sheet *sheet, int from_row, int to_row)
 {
-	ColRowInfo *ri;
-	int pixels = 0, i;
-
 	g_assert (from_row <= to_row);
+	g_assert (sheet != NULL);
 	
-	/* This can be optimized, yes, but the implementation
-	 * of the RowInfo, ColInfo sets is going to change anyways
-	 */
-	for (i = from_row; i < to_row; i++){
-		ri = sheet_row_get_info (sheet, i);
-		pixels += ri->pixels;
-	}
-	return pixels;
+	return col_row_distance (sheet->rows_info, from_row, to_row, sheet->default_row_style.pixels);
 }
 
 int

@@ -37,11 +37,17 @@ ALL_LINGUAS="es fr ko pt it"
 AM_GNU_GETTEXT
 AC_LINK_FILES($nls_cv_header_libgt, $nls_cv_header_intl)
 
+dnl
+dnl Check for Python
+dnl
+dnl rats, this is more difficult that I expected
+
 AC_OUTPUT([
 Makefile
 src/Makefile
 plugins/Makefile
 plugins/sample/Makefile
+plugins/python/Makefile
 intl/Makefile
 po/Makefile.in
 macros/Makefile
