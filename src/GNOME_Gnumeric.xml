@@ -640,19 +640,19 @@
 	<toolitem name="Thousands"
 	    pixtype="stock" pixname="Gnumeric_FormatThousandSeperator"
 	    _label="Right"
-	    _tip="Includes a thousands seperator in the selected cells"
+	    _tip="Includes a thousands separator in the selected cells"
 	    verb="FormatWithThousands"/>
 
 	<toolitem name="IncreasePrecision"
 	    pixtype="stock" pixname="Gnumeric_FormatAddPrecision"
 	    _label="Increase Precision"
-	    _tip="Increase the preceision of the selected cells"
+	    _tip="Increase the precision of the selected cells"
 	    verb="FormatIncreasePrecision"/>
 
 	<toolitem name="DecreasePrecision"
 	    pixtype="stock" pixname="Gnumeric_FormatRemovePrecision"
 	    _label="Decrease Precision"
-	    _tip="Decrease the preceision of the selected cells"
+	    _tip="Decrease the precision of the selected cells"
 	    verb="FormatDecreasePrecision"/>
 
 	<separator/>
