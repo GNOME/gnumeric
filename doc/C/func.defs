@@ -3827,7 +3827,7 @@ ROWS(H7:I13) equals 7.
 ABS(7) equals 7.
 ABS(-3.14) equals 3.14.
 
-@SEEALSO=CEIL, FLOOR
+@SEEALSO=CEIL, CEILING, FLOOR, INT, MOD
 
 @CATEGORY=Mathematics
 @FUNCTION=ACOS
@@ -3957,14 +3957,13 @@ BETALN(-0.5,0.5) equals #NUM!.
 @SYNTAX=CEIL(x)
 @DESCRIPTION=CEIL function rounds @x up to the next nearest integer.
 
-* This function is Excel compatible.
 
 @EXAMPLES=
 CEIL(0.4) equals 1.
 CEIL(-1.1) equals -1.
 CEIL(-2.9) equals -2.
 
-@SEEALSO=ABS, FLOOR, INT
+@SEEALSO=CEILING, FLOOR, ABS, INT, MOD
 
 @CATEGORY=Mathematics
 @FUNCTION=CEILING
@@ -3979,7 +3978,7 @@ CEIL(-2.9) equals -2.
 CEILING(2.43,1) equals 3.
 CEILING(123.123,3) equals 126.
 
-@SEEALSO=CEIL
+@SEEALSO=CEIL, FLOOR, ABS, INT, MOD
 
 @CATEGORY=Mathematics
 @FUNCTION=COMBIN
@@ -4078,6 +4077,16 @@ EXP(2) equals 7.389056.
 @SEEALSO=LOG, LOG2, LOG10
 
 @CATEGORY=Mathematics
+@FUNCTION=EXPM1
+@SYNTAX=EXPM1(x)
+@DESCRIPTION=EXPM1 computes EXP(@x)-1 with higher resulting precision than the direct formula.
+
+@EXAMPLES=
+EXPM1(0.01) equals 0.01005.
+
+@SEEALSO=EXP, LN1P
+
+@CATEGORY=Mathematics
 @FUNCTION=FACT
 @SYNTAX=FACT(x)
 @DESCRIPTION=FACT computes the factorial of @x. ie, @x!
@@ -4131,7 +4140,7 @@ FLOOR(5,2) equals 4.
 FLOOR(-5,-2) equals -4.
 FLOOR(-5,2) equals #NUM!.
 
-@SEEALSO=CEIL, ABS, INT
+@SEEALSO=CEIL, CEILING, ABS, INT, MOD
 
 @CATEGORY=Mathematics
 @FUNCTION=G_PRODUCT
@@ -4171,7 +4180,7 @@ GCD(470,770,1495) equals 5.
 INT(7.2) equals 7.
 INT(-5.5) equals -6.
 
-@SEEALSO=FLOOR, CEIL, ABS
+@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD
 
 @CATEGORY=Mathematics
 @FUNCTION=LCM
@@ -4200,6 +4209,18 @@ LCM(4,7,5) equals to 140.
 LN(7) equals 1.94591.
 
 @SEEALSO=EXP, LOG2, LOG10
+
+@CATEGORY=Mathematics
+@FUNCTION=LN1P
+@SYNTAX=LN1P(x)
+@DESCRIPTION=LN1P computes LN(1+@x) with higher resulting precision than the direct formula.
+
+* If @x <= -1, LN1P returns #NUM! error.
+
+@EXAMPLES=
+LN1P(0.01) equals 0.00995.
+
+@SEEALSO=LN, EXPM1
 
 @CATEGORY=Mathematics
 @FUNCTION=LOG
@@ -4288,7 +4309,7 @@ MDETERM(A1:D4) equals 148.
 @EXAMPLES=
 MOD(23,7) equals 2.
 
-@SEEALSO=INT,FLOOR,CEIL
+@SEEALSO=CEIL, CEILING, FLOOR, ABS, INT, ABS
 
 @CATEGORY=Mathematics
 @FUNCTION=MROUND
@@ -5647,8 +5668,10 @@ HARMEAN(A1:A5) equals 19.529814427.
 
 @CATEGORY=Statistics
 @FUNCTION=HYPGEOMDIST
-@SYNTAX=HYPGEOMDIST(x,n,M,N)
+@SYNTAX=HYPGEOMDIST(x,n,M,N[,cumulative])
 @DESCRIPTION=HYPGEOMDIST function returns the hypergeometric distribution. @x is the number of successes in the sample, @n is the number of trials, @M is the number of successes overall, and @N is the population size.
+
+If the optional argument @cumulative is TRUE, the cumulative left tail will be returned.
 
 * If @x,@n,@M or @N is a non-integer it is truncated.
 * If @x,@n,@M or @N < 0 HYPGEOMDIST returns #NUM! error.

@@ -9469,7 +9469,10 @@
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-CEIL"><function>CEIL</function></link>,
-        <link linkend="gnumeric-FLOOR"><function>FLOOR</function></link>.
+        <link linkend="gnumeric-CEILING"><function>CEILING</function></link>,
+        <link linkend="gnumeric-FLOOR"><function>FLOOR</function></link>,
+        <link linkend="gnumeric-INT"><function>INT</function></link>,
+        <link linkend="gnumeric-MOD"><function>MOD</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -9867,11 +9870,6 @@
       <refsect1>
         <title>Description</title>
         <para><function>CEIL</function> function rounds <parameter>x</parameter> up to the next nearest integer.</para>
-        <itemizedlist>
-          <listitem>
-            <para>This function is Excel compatible.</para>
-          </listitem>
-        </itemizedlist>
       </refsect1>
       <refsect1>
         <title>Examples</title>
@@ -9882,9 +9880,11 @@
       </refsect1>
       <refsect1>
         <title>See also</title>
-        <para><link linkend="gnumeric-ABS"><function>ABS</function></link>,
+        <para><link linkend="gnumeric-CEILING"><function>CEILING</function></link>,
         <link linkend="gnumeric-FLOOR"><function>FLOOR</function></link>,
-        <link linkend="gnumeric-INT"><function>INT</function></link>.
+        <link linkend="gnumeric-ABS"><function>ABS</function></link>,
+        <link linkend="gnumeric-INT"><function>INT</function></link>,
+        <link linkend="gnumeric-MOD"><function>MOD</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -9926,7 +9926,11 @@
       </refsect1>
       <refsect1>
         <title>See also</title>
-        <para><link linkend="gnumeric-CEIL"><function>CEIL</function></link>.
+        <para><link linkend="gnumeric-CEIL"><function>CEIL</function></link>,
+        <link linkend="gnumeric-FLOOR"><function>FLOOR</function></link>,
+        <link linkend="gnumeric-ABS"><function>ABS</function></link>,
+        <link linkend="gnumeric-INT"><function>INT</function></link>,
+        <link linkend="gnumeric-MOD"><function>MOD</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -10209,6 +10213,37 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-EXPM1">
+      <refmeta>
+        <refentrytitle>
+          <function>EXPM1</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>EXPM1</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>EXPM1</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><function>EXPM1</function> computes EXP(<parameter>x</parameter>)-1 with higher resulting precision than the direct formula.</para>
+      </refsect1>
+      <refsect1>
+        <title>Examples</title>
+        <para/>
+        <para><function>EXPM1</function>(0.01) equals 0.01005.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-EXP"><function>EXP</function></link>,
+        <link linkend="gnumeric-LN1P"><function>LN1P</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-FACT">
       <refmeta>
         <refentrytitle>
@@ -10362,8 +10397,10 @@
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-CEIL"><function>CEIL</function></link>,
+        <link linkend="gnumeric-CEILING"><function>CEILING</function></link>,
         <link linkend="gnumeric-ABS"><function>ABS</function></link>,
-        <link linkend="gnumeric-INT"><function>INT</function></link>.
+        <link linkend="gnumeric-INT"><function>INT</function></link>,
+        <link linkend="gnumeric-MOD"><function>MOD</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -10477,9 +10514,11 @@
       </refsect1>
       <refsect1>
         <title>See also</title>
-        <para><link linkend="gnumeric-FLOOR"><function>FLOOR</function></link>,
-        <link linkend="gnumeric-CEIL"><function>CEIL</function></link>,
-        <link linkend="gnumeric-ABS"><function>ABS</function></link>.
+        <para><link linkend="gnumeric-CEIL"><function>CEIL</function></link>,
+        <link linkend="gnumeric-CEILING"><function>CEILING</function></link>,
+        <link linkend="gnumeric-FLOOR"><function>FLOOR</function></link>,
+        <link linkend="gnumeric-ABS"><function>ABS</function></link>,
+        <link linkend="gnumeric-MOD"><function>MOD</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -10562,6 +10601,42 @@
         <para><link linkend="gnumeric-EXP"><function>EXP</function></link>,
         <link linkend="gnumeric-LOG2"><function>LOG2</function></link>,
         <link linkend="gnumeric-LOG10"><function>LOG10</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-LN1P">
+      <refmeta>
+        <refentrytitle>
+          <function>LN1P</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>LN1P</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>LN1P</function>(<parameter>x</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><function>LN1P</function> computes LN(1+<parameter>x</parameter>) with higher resulting precision than the direct formula.</para>
+        <itemizedlist>
+          <listitem>
+            <para>If <parameter>x</parameter> &lt;= -1, <function>LN1P</function> returns #NUM! error.</para>
+          </listitem>
+        </itemizedlist>
+      </refsect1>
+      <refsect1>
+        <title>Examples</title>
+        <para/>
+        <para><function>LN1P</function>(0.01) equals 0.00995.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-LN"><function>LN</function></link>,
+        <link linkend="gnumeric-EXPM1"><function>EXPM1</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -10830,9 +10905,12 @@
       </refsect1>
       <refsect1>
         <title>See also</title>
-        <para><link linkend="gnumeric-INT"><function>INT</function></link>,
+        <para><link linkend="gnumeric-CEIL"><function>CEIL</function></link>,
+        <link linkend="gnumeric-CEILING"><function>CEILING</function></link>,
         <link linkend="gnumeric-FLOOR"><function>FLOOR</function></link>,
-        <link linkend="gnumeric-CEIL"><function>CEIL</function></link>.
+        <link linkend="gnumeric-ABS"><function>ABS</function></link>,
+        <link linkend="gnumeric-INT"><function>INT</function></link>,
+        <link linkend="gnumeric-ABS"><function>ABS</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -14758,11 +14836,12 @@
         <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>HYPGEOMDIST</function>(<parameter>x</parameter>,<parameter>n</parameter>,<parameter>M</parameter>,<parameter>N</parameter>)</synopsis>
+        <synopsis><function>HYPGEOMDIST</function>(<parameter>x</parameter>,<parameter>n</parameter>,<parameter>M</parameter>,<parameter>N</parameter>[,<parameter>cumulative</parameter>])</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
         <para><function>HYPGEOMDIST</function> function returns the hypergeometric distribution. <parameter>x</parameter> is the number of successes in the sample, <parameter>n</parameter> is the number of trials, <parameter>M</parameter> is the number of successes overall, and <parameter>N</parameter> is the population size.</para>
+        <para>If the optional argument <parameter>cumulative</parameter> is TRUE, the cumulative left tail will be returned.</para>
         <itemizedlist>
           <listitem>
             <para>If <parameter>x</parameter>,<parameter>n</parameter>,<parameter>M</parameter> or <parameter>N</parameter> is a non-integer it is truncated.</para>
