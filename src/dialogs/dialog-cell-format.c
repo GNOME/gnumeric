@@ -606,14 +606,14 @@ fmt_dialog_init_fmt_list (GtkCList *cl, char const * const *formats,
 static void
 fmt_dialog_enable_widgets (FormatState *state, int page)
 {
-	static FormatWidget contents[12][7] = {
+	static FormatWidget contents[12][8] = {
 		/* General */
 		{ F_GENERAL, F_MAX_WIDGET },
 		/* Number */
 		{ F_DECIMAL_BOX, F_DECIMAL_SPIN, F_SEPARATOR,
 		  F_NEGATIVE_SCROLL, F_NEGATIVE, F_MAX_WIDGET },
 		/* Currency */
-		{ F_DECIMAL_BOX, F_DECIMAL_SPIN, F_SYMBOL_LABEL, F_SYMBOL,
+		{ F_DECIMAL_BOX, F_DECIMAL_SPIN, F_SEPARATOR, F_SYMBOL_LABEL, F_SYMBOL,
 		  F_NEGATIVE_SCROLL, F_NEGATIVE, F_MAX_WIDGET },
 		/* Accounting */
 		{ F_DECIMAL_BOX, F_DECIMAL_SPIN, F_SYMBOL_LABEL, F_SYMBOL, F_MAX_WIDGET },
@@ -721,7 +721,7 @@ cb_format_changed (GtkObject *obj, FormatState *state)
 {
 	GtkToggleButton *button = GTK_TOGGLE_BUTTON (obj);
 	if (gtk_toggle_button_get_active (button))
-		fmt_dialog_enable_widgets ( state,
+		fmt_dialog_enable_widgets (state,
 			GPOINTER_TO_INT (gtk_object_get_data (obj, "index")));
 }
 
@@ -1918,7 +1918,7 @@ cb_fmt_dialog_dialog_apply (GtkObject *w, int page, FormatState *state)
 		    state->sheet, state->result, borders);
 
 	mstyle_unref (state->result);
-	sheet_update_controls (state->sheet);
+	sheet_update (state->sheet);
 
 	/* Get a fresh style to accumulate results in */
 	state->result = mstyle_new ();

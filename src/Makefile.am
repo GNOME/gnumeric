@@ -209,6 +209,7 @@ GNUMERIC_BASE_SOURCES =				\
 	workbook-format-toolbar.c		\
 	workbook-format-toolbar.h		\
 	workbook-private.h			\
+	workbook-private.c			\
 	workbook-view.h				\
 	workbook-view.c				\
 	xml-io.c				\

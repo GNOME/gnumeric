@@ -140,25 +140,25 @@ _connect (GladeXML *gui, const char *widget_name,
 
 #define connect(a,b,c,d,e) _connect(a,b,c, GTK_SIGNAL_FUNC(d),e)
 
-#ifdef WIZARD_PLUGIN
+#ifdef GURU_PLUGIN
 /*
  * No code here yet
  */
 #else
 static void
-boot_wizard (Workbook *wb)
+boot_guru (Workbook *wb)
 {
 }
 #endif
 
 void
-graph_druid (Workbook *wb)
+gnumeric_graph_guru (Workbook *wb)
 {
 	GladeXML *gui;
 	WizardGraphicContext *gc;
 	GtkWidget *toplevel;
 	
-	boot_wizard (wb);
+	boot_guru (wb);
 	
 	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
 				      "graphics.glade");
@@ -205,7 +205,7 @@ graph_druid (Workbook *wb)
 		sheet_set_mode_type_full (gc->workbook->current_sheet,
 					  SHEET_MODE_CREATE_GRAPHIC, gc->client_site);
 #warning super hack
-		gtk_object_destroy (gc->dialog_toplevel);
+		gtk_object_destroy (GTK_OBJECT(gc->dialog_toplevel));
 
 		for (l = gc->data_range_list; l; l = l->next) {
 			DataRange *r = l->data;

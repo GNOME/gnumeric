@@ -19,6 +19,8 @@
 #    include <bonobo.h>
 #    include "sheet-object-container.h"
 #    include "sheet-object-item.h"
+#    include "workbook.h"
+#    include "workbook-private.h"
 #endif
 #include "sheet-object-widget.h"
 
@@ -763,7 +765,11 @@ sheet_set_mode_type_full (Sheet *sheet, SheetModeType mode, void *mode_data)
 	case SHEET_MODE_CREATE_CANVAS_ITEM:
 #ifdef ENABLE_BONOBO
 	{
+#if USING_OAF
+		char const *required_interfaces [2];
+#else
 		char *required_interfaces [2];
+#endif
 		char *obj_id;
 
 		if (sheet->mode == SHEET_MODE_CREATE_CANVAS_ITEM)
@@ -1349,3 +1355,41 @@ sheet_object_make_current (SheetObject *so)
 
 	sheet->current_object = so;
 }
+
+void
+sheet_object_insert (Sheet *sheet, char *obj_id)
+{
+#ifdef ENABLE_BONOBO
+	BonoboClientSite *client_site;
+	BonoboObjectClient *object_server;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (obj_id != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	object_server = bonobo_object_activate (obj_id, 0);
+	
+	if (!object_server) {
+		char *msg;
+
+		msg = g_strdup_printf (_("I was not able to activate object %s"), obj_id);
+
+		gnumeric_notice (sheet->workbook, GNOME_MESSAGE_BOX_ERROR, msg);
+		g_free (msg);
+		return;
+	}
+
+	client_site = bonobo_client_site_new (sheet->workbook->priv->bonobo_container);
+	bonobo_container_add (sheet->workbook->priv->bonobo_container, BONOBO_OBJECT (client_site));
+
+	if (!bonobo_client_site_bind_embeddable (client_site, object_server)){
+		gnumeric_notice (sheet->workbook, GNOME_MESSAGE_BOX_ERROR,
+				 _("I was unable to the bind object"));
+		gtk_object_unref (GTK_OBJECT (object_server));
+		gtk_object_unref (GTK_OBJECT (client_site));
+		return;
+	}
+
+#endif
+}
+

@@ -4,8 +4,6 @@ and longer term bugs.
 
 Release Critical
 ----------------
-- Selection in the font name combo is partly broken. Manually entering a value
-  does not change the selected entry.
 - Changing an expression name that is in use causes a crash.
 - Saving xml should not rely on changing the textdomain to disable translation
   of TRUE/FALSE.
@@ -22,6 +20,8 @@ Long term breakage
   and remove decimals.
 
 - Auto resize needs to handle empty cells.
+- auto-fill does not resize row/col
+
 - The implication of mixed mode references ($B$2:C3)
   is large.  All accesses to a RangeRef need to be normalized. (1/2 done)
 
@@ -34,6 +34,9 @@ Long term breakage
   quotes) in a cell with an assigned format of Text.  This should be treated as
   text.  Instead It parses as a Date (Oct 1) and gets converted.
 
+- Some number formats are being written in their native locale.  Breaking things when
+  they are reloaded in other locales.
+
 - The File->Print Preview icon is too big.  Use the stock version when the next
   release of gnome-libs is made. (tigert is adding to gnome-libs)
 
@@ -44,14 +47,9 @@ Long term breakage
   gnome-print has a function we could use for printing which returns the
   underline thickness.
 
-- auto-fill does not resize row/col
-
-- Some number formats are being written in their native locale.  Breaking things when
-  they are reloaded in other locales.
-
 Dialogs
 -------
-- Finish function wizard
+- Enhance function wizard
 - Use color combos in format dialog.
 
 Function Breakage

@@ -311,9 +311,6 @@ void        sheet_move_range              (CommandContext *context,
 char       *sheet_name_quote              (const char *unquoted_name);
 Sheet      *sheet_lookup_by_name          (Workbook *wb, const char *name);
 
-void        sheet_update_controls         (Sheet const *sheet);
-void        sheet_load_cell_val           (Sheet const *sheet);
-
 int         sheet_col_selection_type      (Sheet const *sheet, int col);
 int         sheet_row_selection_type      (Sheet const *sheet, int row);
 
@@ -327,7 +324,7 @@ void        sheet_show_cursor                (Sheet *sheet);
 void        sheet_hide_cursor                (Sheet *sheet);
 void        sheet_create_edit_cursor         (Sheet *sheet);
 void        sheet_stop_editing               (Sheet *sheet);
-void        sheet_destroy_cell_select_cursor (Sheet *sheet);
+void        sheet_destroy_cell_select_cursor (Sheet *sheet, gboolean clear_string);
 
 /*
  * Utilities to set cell contents, queueing recalcs,
@@ -343,11 +340,6 @@ void sheet_calc_spans	    (Sheet const *sheet,	SpanCalcFlags flags);
 void sheet_range_calc_spans (Sheet *sheet, Range r,	SpanCalcFlags flags);
 void sheet_cell_calc_span   (Cell const *cell,		SpanCalcFlags flags);
 SpanCalcFlags required_updates_for_style (MStyle *style);
-
-/*
- * Sheet, Bobobo objects
- */
-void sheet_insert_object (Sheet *sheet, char *goadid);
 
 /*
  * Hooks for CORBA bootstrap: they create the

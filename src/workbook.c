@@ -71,7 +71,7 @@ static int workbook_count;
 
 static GList *workbook_list = NULL;
 
-static WORKBOOK_PARENT_CLASS *workbook_parent_class;
+static GtkObject *workbook_parent_class;
 
 /* Workbook signals */
 enum {
@@ -208,9 +208,9 @@ create_embedded_item_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
-launch_graph_druid (GtkWidget *widget, Workbook *wb)
+launch_graph_guru (GtkWidget *widget, Workbook *wb)
 {
-	graph_druid (wb);
+	gnumeric_graph_guru (wb);
 }
 #endif
 
@@ -269,12 +269,6 @@ static void
 sheet_order_cmd (GtkWidget *widget, Workbook *wb)
 {
         dialog_sheet_order (wb);
-}
-
-static void
-workbook_do_destroy_private (Workbook *wb)
-{
-	g_free (wb->priv);
 }
 
 static void
@@ -387,7 +381,7 @@ workbook_do_destroy (Workbook *wb)
 
 	gtk_object_unref (GTK_OBJECT (wb->priv->gui_context));
 
-	workbook_do_destroy_private (wb);
+	workbook_private_delete (wb->priv);
 
 	if (!GTK_OBJECT_DESTROYED (wb->toplevel))
 		gtk_object_destroy (GTK_OBJECT (wb->toplevel));
@@ -489,7 +483,7 @@ workbook_is_pristine (Workbook *wb)
 
 	if (wb->names || wb->formula_cell_list ||
 #ifdef ENABLE_BONOBO
-	    wb->workbook_views ||
+	    wb->priv->workbook_views ||
 #endif
 	    wb->eval_queue || (wb->file_format_level > FILE_FL_NEW))
 		return FALSE;
@@ -1120,13 +1114,11 @@ autosum_cmd (GtkWidget *widget, Workbook *wb)
 	}
 }
 
-#ifdef FUNCTION_DRUID
 static void
-function_druid (GtkWidget *widget, Workbook *wb)
+formula_guru (GtkWidget *widget, Workbook *wb)
 {
-	dialog_function_druid (wb);
+	dialog_formula_guru (wb);
 }
-#endif
 
 static void
 sort_ascend_cmd (GtkWidget *widget, Workbook *wb)
@@ -1156,7 +1148,7 @@ insert_object_cmd (GtkWidget *widget, Workbook *wb)
 #endif
 
 	if (obj_id != NULL)
-		sheet_insert_object (sheet, obj_id);
+		sheet_object_insert (sheet, obj_id);
 }
 #endif
 
@@ -1561,11 +1553,9 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Sum"), N_("Sum into the current cell."),
 		autosum_cmd, NULL, auto_sum_xpm),
-#ifdef FUNCTION_DRUID
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Function"), N_("Edit a function in the current cell."),
-		&function_druid, NULL, function_selector_xpm),
-#endif
+		&formula_guru, NULL, formula_guru_xpm),
 
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Sort Ascending"), N_("Sorts the selected region in ascending order based on the first column selected."),
@@ -1578,13 +1568,13 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_ITEM_DATA (
-		N_("Creates a graphic"), N_("Invokes the graph druid to create a graphic"),
-		launch_graph_druid, NULL, graphic_xpm),
+		N_("Create a Graph"), N_("Invokes the graph guru to help create a graph"),
+		launch_graph_guru, NULL, graph_guru_xpm),
 	GNOMEUIINFO_ITEM_DATA (
-		N_("Insert Object"), N_("Inserts an object in the spreadsheet"),
+		N_("Insert Object"), N_("Inserts an object into the spreadsheet"),
 		create_embedded_component_cmd, NULL, insert_bonobo_component_xpm),
 	GNOMEUIINFO_ITEM_DATA (
-		N_("Insert shaped object"), N_("Inserts a shaped object in the spreadsheet"),
+		N_("Insert shaped object"), N_("Inserts a shaped object into the spreadsheet"),
 		create_embedded_item_cmd, NULL, object_xpm),
 #endif
 #ifdef GNUMERIC_TEST_ACTIVE_OBJECT
@@ -1626,11 +1616,11 @@ do_focus_sheet (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num, Wo
 
 	/* Remove the cell seletion cursor if it exists */
 	if (old_sheet != NULL)
-		sheet_destroy_cell_select_cursor (old_sheet);
+		sheet_destroy_cell_select_cursor (old_sheet, TRUE);
 
 	if (wb->editing) {
 		/* If we are not at a subexpression boundary then finish editing */
-		accept = !gnumeric_entry_at_subexpr_boundary_p (workbook_get_entry (wb));
+		accept = !workbook_editing_expr (wb);
 
 		if (accept)
 			workbook_finish_editing (wb, TRUE);
@@ -2216,7 +2206,7 @@ workbook_configure_minimized_pixmap (Workbook *wb)
 static void
 grid_destroyed (GtkObject *embeddable_grid, Workbook *wb)
 {
-	wb->workbook_views = g_list_remove (wb->workbook_views, embeddable_grid);
+	wb->priv->workbook_views = g_list_remove (wb->priv->workbook_views, embeddable_grid);
 }
 
 static Bonobo_Unknown
@@ -2271,7 +2261,7 @@ workbook_container_get_object (BonoboObject *container, CORBA_char *item_name,
 	gtk_signal_connect (GTK_OBJECT (eg), "destroy",
 			    grid_destroyed, wb);
 
-	wb->workbook_views = g_list_prepend (wb->workbook_views, eg);
+	wb->priv->workbook_views = g_list_prepend (wb->priv->workbook_views, eg);
 
 	return CORBA_Object_duplicate (
 		bonobo_object_corba_objref (BONOBO_OBJECT (eg)), ev);
@@ -2297,21 +2287,21 @@ workbook_persist_file_save (BonoboPersistFile *ps, const CORBA_char *filename, v
 static void
 workbook_bonobo_setup (Workbook *wb)
 {
-	wb->bonobo_container = BONOBO_CONTAINER (bonobo_container_new ());
-	wb->persist_file = bonobo_persist_file_new (
+	wb->priv->bonobo_container = BONOBO_CONTAINER (bonobo_container_new ());
+	wb->priv->persist_file = bonobo_persist_file_new (
 		workbook_persist_file_load,
 		workbook_persist_file_save,
 		wb);
 
 	bonobo_object_add_interface (
-		BONOBO_OBJECT (wb),
-		BONOBO_OBJECT (wb->bonobo_container));
+		BONOBO_OBJECT (wb->priv),
+		BONOBO_OBJECT (wb->priv->bonobo_container));
 	bonobo_object_add_interface (
-		BONOBO_OBJECT (wb),
-		BONOBO_OBJECT (wb->persist_file));
+		BONOBO_OBJECT (wb->priv),
+		BONOBO_OBJECT (wb->priv->persist_file));
 
 	gtk_signal_connect (
-		GTK_OBJECT (wb->bonobo_container), "get_object",
+		GTK_OBJECT (wb->priv->bonobo_container), "get_object",
 		GTK_SIGNAL_FUNC (workbook_container_get_object), wb);
 }
 #endif
@@ -2321,7 +2311,7 @@ workbook_init (GtkObject *object)
 {
 	Workbook *wb = WORKBOOK (object);
 
-	wb->priv = g_new0 (WorkbookPrivate, 1);
+	wb->priv = workbook_private_new ();
 
 	wb->sheets       = g_hash_table_new (gnumeric_strcase_hash, gnumeric_strcase_equal);
 	wb->current_sheet= NULL;
@@ -2359,7 +2349,7 @@ workbook_init (GtkObject *object)
 static void
 workbook_class_init (GtkObjectClass *object_class)
 {
-	workbook_parent_class = gtk_type_class (WORKBOOK_PARENT_CLASS_TYPE);
+	workbook_parent_class = gtk_type_class (gtk_object_get_type ());
 
 	object_class->set_arg = workbook_set_arg;
 	object_class->get_arg = workbook_get_arg;
@@ -2424,11 +2414,7 @@ workbook_get_type (void)
 			(GtkClassInitFunc) NULL
 		};
 
-#ifdef ENABLE_BONOBO
-		type = gtk_type_unique (bonobo_object_get_type (), &info);
-#else
 		type = gtk_type_unique (gtk_object_get_type (), &info);
-#endif
 	}
 
 	return type;
@@ -2690,13 +2676,13 @@ workbook_new (void)
 	{
 		BonoboUIHandlerMenuItem *list;
 
-		wb->workbook_views  = NULL;
-		wb->persist_file    = NULL;
-		wb->uih = bonobo_ui_handler_new ();
-		bonobo_ui_handler_set_app (wb->uih, GNOME_APP (wb->toplevel));
-		bonobo_ui_handler_create_menubar (wb->uih);
+		wb->priv->workbook_views  = NULL;
+		wb->priv->persist_file    = NULL;
+		wb->priv->uih = bonobo_ui_handler_new ();
+		bonobo_ui_handler_set_app (wb->priv->uih, GNOME_APP (wb->toplevel));
+		bonobo_ui_handler_create_menubar (wb->priv->uih);
 		list = bonobo_ui_handler_menu_parse_uiinfo_list_with_data (workbook_menu, wb);
-		bonobo_ui_handler_menu_add_list (wb->uih, "/", list);
+		bonobo_ui_handler_menu_add_list (wb->priv->uih, "/", list);
 		bonobo_ui_handler_menu_free_list (list);
 	}
 #endif
@@ -3748,14 +3734,7 @@ workbook_calc_spans (Workbook *wb, SpanCalcFlags const flags)
 void
 workbook_unref (Workbook *wb)
 {
-#ifdef ENABLE_BONOBO
-	if (wb->workbook_views)
-		gtk_widget_hide (GTK_WIDGET (wb->toplevel));
-	else
-		bonobo_object_unref (BONOBO_OBJECT (wb));
-#else
 	gtk_object_unref (GTK_OBJECT (wb));
-#endif
 }
 
 /**

@@ -226,11 +226,7 @@ workbook_try_read (CommandContext *context, const char *filename)
 	wb = workbook_new ();
 	result = workbook_load_from (context, wb, filename);
 	if (result != 0) {
-#ifdef ENABLE_BONOBO
-		bonobo_object_destroy (BONOBO_OBJECT (wb));
-#else
 		gtk_object_destroy   (GTK_OBJECT (wb));
-#endif
 		wb = NULL;
 	}
 
@@ -371,11 +367,7 @@ workbook_import (CommandContext *context, Workbook *parent,
 		command_context_pop_template (context);
 		g_free (template);
 		if (ret != 0) {
-#ifdef ENABLE_BONOBO
-		        bonobo_object_destroy (BONOBO_OBJECT (wb));
-#else
 			gtk_object_destroy   (GTK_OBJECT (wb));
-#endif
 			wb = NULL;
 		} else
 			workbook_set_dirty (wb, FALSE);

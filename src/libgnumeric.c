@@ -40,6 +40,10 @@
 #include <libgnomeui/gnome-window-icon.h>
 #endif
 
+#ifdef ENABLE_BONOBO
+#include <bonobo.h>
+#endif
+
 /* The debugging level */
 int gnumeric_debugging = 0;
 int style_debugging = 0;

@@ -707,21 +707,22 @@ cmd_ins_del_row_col_redo (GnumericCommand *cmd, CommandContext *context)
 	CmdInsDelRowCol *me = CMD_INS_DEL_ROW_COL(cmd);
 	Range r;
 	gboolean trouble;
-	int index;
+	int first, last;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->sizes == NULL, TRUE);
 	g_return_val_if_fail (me->contents == NULL, TRUE);
 
-	index = (me->is_insert)
+	first = (me->is_insert)
 	    ? (((me->is_cols) ? SHEET_MAX_COLS : SHEET_MAX_ROWS) - me->count)
 	    : me->index;
 
-	me->sizes = col_row_save_sizes (me->sheet, me->is_cols, index, me->count);
+	last = first + me->count - 1;
+	me->sizes = col_row_save_sizes (me->sheet, me->is_cols, first, last);
 	me->contents = clipboard_copy_range (me->sheet,
 		(me->is_cols)
-		? range_init (&r, index, 0, index + me->count - 1, SHEET_MAX_ROWS - 1)
-		: range_init (&r, 0, index, SHEET_MAX_COLS-1,	index + me->count - 1));
+		? range_init (&r, first, 0, last, SHEET_MAX_ROWS - 1)
+		: range_init (&r, 0, first, SHEET_MAX_COLS-1, last));
 
 	if (me->is_insert) {
 		if (me->is_cols)

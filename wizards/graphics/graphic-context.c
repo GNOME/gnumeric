@@ -13,6 +13,7 @@
 #include <gnome.h>
 #include "gnumeric.h"
 #include "workbook.h"
+#include "workbook-private.h"
 #include <glade/glade.h>
 #ifdef USING_OAF
 #	include <liboaf/liboaf.h>
@@ -215,8 +216,8 @@ graphic_context_new (Workbook *wb, GladeXML *gui)
 	/*
 	 * Configure our container end
 	 */
-	client_site = bonobo_client_site_new (wb->bonobo_container);
-	bonobo_container_add (wb->bonobo_container, BONOBO_OBJECT (client_site));
+	client_site = bonobo_client_site_new (wb->priv->bonobo_container);
+	bonobo_container_add (wb->priv->bonobo_container, BONOBO_OBJECT (client_site));
 	
 	/*
 	 * Launch server
@@ -341,6 +342,7 @@ graphic_context_data_range_remove (WizardGraphicContext *gc, DataRange *data_ran
 
 }
 
+#if 0
 static void
 graphic_context_data_range_clear (WizardGraphicContext *gc)
 {
@@ -378,6 +380,7 @@ graphic_context_set_data_range (WizardGraphicContext *gc,
 	graphic_context_data_range_clear (gc);
 
 }
+#endif
 
 DataRange *
 data_range_new (Workbook *wb, const char *name_expr)
@@ -403,6 +406,7 @@ data_range_new (Workbook *wb, const char *name_expr)
 	return data_range;
 }
 
+#if 0
 static char *
 data_range_get_name (DataRange *data_range)
 {
@@ -412,6 +416,7 @@ data_range_get_name (DataRange *data_range)
 	
 	return NULL;
 }
+#endif
 
 DataRange *
 data_range_new_from_expr (Workbook *wb,
@@ -524,7 +529,7 @@ graphic_context_new_chart_view_frame (WizardGraphicContext *gc)
 	BonoboViewFrame *view_frame;
 
 	view_frame = bonobo_client_site_new_view (
-		gc->client_site, gc->workbook->uih->top_level_uih);
+		gc->client_site, gc->workbook->priv->uih->top_level_uih);
 
 	gc->view_frames = g_list_append (gc->view_frames, view_frame);
 

@@ -653,6 +653,27 @@ sheet_flag_selection_change (Sheet const *sheet)
 	sheet->priv->selection_content_changed = TRUE;
 }
 
+/**
+ * sheet_update_controls:
+ *
+ * This routine is run every time the selection has changed.  It checks
+ * what the status of various toolbar feedback controls should be
+ */
+static void
+sheet_update_controls (Sheet const *sheet)
+{
+	MStyle *mstyle;
+
+	g_return_if_fail (sheet != NULL);
+
+	mstyle = sheet_style_compute (sheet,
+				      sheet->cursor.edit_pos.col,
+				      sheet->cursor.edit_pos.row);
+
+	workbook_feedback_set (sheet->workbook, mstyle);
+	mstyle_unref (mstyle);
+}		
+
 /*
  * sheet_update : Should be called after a logical command has finished processing
  *    to request redraws for any pending events
@@ -713,7 +734,7 @@ sheet_update (Sheet const *sheet)
 
 	if (sheet->priv->edit_pos_changed) {
 		sheet->priv->edit_pos_changed = FALSE;
-		sheet_load_cell_val (sheet);
+		workbook_edit_load_value (sheet);
 		sheet_update_controls (sheet);
 		workbook_set_region_status (sheet->workbook,
 					    cell_pos_name (&sheet->cursor.edit_pos));
@@ -1185,85 +1206,6 @@ sheet_cell_set_value (Cell *cell, Value *v, char const *optional_format)
 	sheet_cell_calc_span (cell, SPANCALC_RESIZE);
 	cell_content_changed (cell);
 }
-
-/**
- * Load the edit line with the value of the cell under the cursor
- * for @sheet.
- *
- * FIXME : 1) Move to workbook
- *         2) when ready move to workbook-view
- *         3) add flag for use by sheet_update.
- */
-void
-sheet_load_cell_val (Sheet const *sheet)
-{
-	GtkEntry *entry;
-	Cell     *cell;
-	char     *text;
-	ExprArray const* ar;
-
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-
-	entry = GTK_ENTRY (workbook_get_entry (sheet->workbook));
-	cell = sheet_cell_get (sheet,
-			       sheet->cursor.edit_pos.col,
-			       sheet->cursor.edit_pos.row);
-
-	if (cell)
-		text = cell_get_entered_text (cell);
-	else
-		text = g_strdup ("");
-
-	/* This is intended for screen reading software etc. */
-	gtk_signal_emit_by_name (GTK_OBJECT (sheet->workbook), "cell_changed",
-				 sheet, text,
-				 sheet->cursor.edit_pos.col,
-				 sheet->cursor.edit_pos.row);
-
-	gtk_entry_set_text (entry, text);
-
-	/*
-	 * If this is part of an array we add '{' '}' and size information
-	 * to the display.  That is not actually part of the parsable
-	 * expression, but it is a useful extension to the simple '{' '}' that
-	 * MS excel(tm) uses.
-	 */
-	if (NULL != (ar = cell_is_array(cell))) {
-		/* No need to worry about locale for the comma
-		 * this syntax is not parsed
-		 */
-		char *tmp = g_strdup_printf ("}(%d,%d)[%d][%d]",
-					     ar->rows, ar->cols,
-					     ar->y, ar->x);
-		gtk_entry_prepend_text  (entry, "{");
-		gtk_entry_append_text (entry, tmp);
-		g_free (tmp);
-	}
-
-	g_free (text);
-}
-
-/**
- * sheet_update_controls:
- *
- * This routine is run every time the selection has changed.  It checks
- * what the status of various toolbar feedback controls should be
- */
-void
-sheet_update_controls (Sheet const *sheet)
-{
-	MStyle *mstyle;
-
-	g_return_if_fail (sheet != NULL);
-
-	mstyle = sheet_style_compute (sheet,
-				      sheet->cursor.edit_pos.col,
-				      sheet->cursor.edit_pos.row);
-
-	workbook_feedback_set (sheet->workbook, mstyle);
-	mstyle_unref (mstyle);
-}		
 
 /**
  * sheet_update_zoom_controls:
@@ -2769,43 +2711,6 @@ sheet_lookup_by_name (Workbook *wb, const char *name)
 	return NULL;
 }
 
-void
-sheet_insert_object (Sheet *sheet, char *obj_id)
-{
-#ifdef ENABLE_BONOBO
-	BonoboClientSite *client_site;
-	BonoboObjectClient *object_server;
-
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (obj_id != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-
-	object_server = bonobo_object_activate (obj_id, 0);
-	
-	if (!object_server) {
-		char *msg;
-
-		msg = g_strdup_printf (_("I was not able to activate object %s"), obj_id);
-
-		gnumeric_notice (sheet->workbook, GNOME_MESSAGE_BOX_ERROR, msg);
-		g_free (msg);
-		return;
-	}
-
-	client_site = bonobo_client_site_new (sheet->workbook->bonobo_container);
-	bonobo_container_add (sheet->workbook->bonobo_container, BONOBO_OBJECT (client_site));
-
-	if (!bonobo_client_site_bind_embeddable (client_site, object_server)){
-		gnumeric_notice (sheet->workbook, GNOME_MESSAGE_BOX_ERROR,
-				 _("I was unable to the bind object"));
-		gtk_object_unref (GTK_OBJECT (object_server));
-		gtk_object_unref (GTK_OBJECT (client_site));
-		return;
-	}
-
-#endif
-}
-
 /****************************************************************************/
 
 /*
@@ -3748,12 +3653,12 @@ sheet_stop_editing (Sheet *sheet)
 }
 
 void
-sheet_destroy_cell_select_cursor (Sheet *sheet)
+sheet_destroy_cell_select_cursor (Sheet *sheet, gboolean clear_string)
 {
 	GList *l;
 	for (l = sheet->sheet_views; l; l = l->next){
 		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
 
-		gnumeric_sheet_stop_cell_selection (gsheet, TRUE);
+		gnumeric_sheet_stop_cell_selection (gsheet, clear_string);
 	}
 }

@@ -24,6 +24,10 @@
 #include "sheet-autofill.h"
 #include "dates.h"
 #include "expr.h"
+#include "formats.h"
+#include "datetime.h"
+
+#include <math.h>
 
 typedef enum {
 
@@ -61,6 +65,14 @@ typedef enum {
 	FILL_NUMBER,
 
 	/*
+	 * FILL_YEARS:
+	 * FILL_MONTHS: Deltas of a month or year need special care, and days
+	 *              are handled by FILL_NUMBER.
+	 */
+	FILL_MONTHS,
+	FILL_YEARS,
+
+	/*
 	 * FILL_FORMULA: This is a formula
 	 */
 	FILL_FORMULA
@@ -71,9 +83,10 @@ typedef struct {
 	const char *const *items;
 } AutoFillList;
 
-struct FillItem {
-	FillType  type;
+typedef struct _FillItem {
+	FillType   type;
 	Cell      *reference;
+	char	  *fmt;
 
 	union {
 		ExprTree *formula;
@@ -90,16 +103,14 @@ struct FillItem {
 		} numstr;
 	} v;
 
-	int delta_is_float;
+	gboolean delta_is_float;
 	union {
 		double    d_float;
 		int       d_int;
 	} delta;
 
-	struct FillItem *group_last;
-};
-
-typedef struct FillItem FillItem;
+	struct _FillItem *group_last;
+} FillItem;
 
 static GList *autofill_lists;
 
@@ -188,7 +199,10 @@ static void
 fill_item_destroy (FillItem *fi)
 {
 	switch (fi->type){
-	case FILL_STRING_LIST:
+	case FILL_MONTHS:
+	case FILL_YEARS:
+	case FILL_NUMBER:
+		g_free (fi->fmt);
 		break;
 
 	case FILL_STRING_CONSTANT:
@@ -233,8 +247,33 @@ fill_item_new (Cell *cell)
 	value_type = value->type;
 
 	if (value_type == VALUE_INTEGER || value_type == VALUE_FLOAT){
-		fi->type    = FILL_NUMBER;
+		FillType fill = FILL_NUMBER;
+		char *fmt = cell_get_format (cell);
+		if (fmt != NULL) {
+			FormatCharacteristics info;
+			FormatFamily family = cell_format_classify (fmt, &info);
+
+			/* FIXME : We need better format classification that this.
+			 * the XL format is crap.  redo it.
+			 */
+			if (family == FMT_DATE) {
+				char *tmp;
+				for (tmp = fmt ; (tmp = strchr (tmp, 'd')) != NULL ; )
+					if (tmp == fmt || tmp[-1] != '\\')
+						break;
+				/* No days */
+				if (tmp == NULL) {
+					for (tmp = fmt ; (tmp = strchr (tmp, 'm')) != NULL ; )
+						if (tmp == fmt || tmp[-1] != '\\')
+							break;
+					/* No months either */
+					fill = (tmp == NULL) ? FILL_YEARS : FILL_MONTHS;
+				}
+			}
+		}
+		fi->type    = fill;
 		fi->v.value = value;
+		fi->fmt = fmt;
 
 		return fi;
 	}
@@ -277,17 +316,45 @@ autofill_compute_delta (GList *list_last, GList *fill_item_list)
 	FillItem *lfi;
 
 	switch (fi->type){
+	case FILL_YEARS:
+	case FILL_MONTHS: {
+		GDate *prev, *cur;
+
+		fi->delta_is_float = FALSE;
+		fi->delta.d_int = 1;
+		if (list_last->prev == NULL)
+			return;
+
+		lfi = list_last->prev->data;
+
+		prev = datetime_value_to_g (fi->v.value);
+		cur  = datetime_value_to_g (lfi->v.value);
+		if (g_date_valid (prev) && g_date_valid (cur)) {
+			int a, b;
+
+			a = g_date_year (prev);
+			b = g_date_year (cur);
+
+			if (fi->type == FILL_MONTHS) {
+				a = 12*a + g_date_month (prev);
+				b = 12*b + g_date_month (cur);
+			}
+
+			fi->delta.d_int = b - a;
+		}
+		g_date_free (prev);
+		g_date_free (cur);
+		return;
+	}
+
 	case FILL_NUMBER: {
 		double a, b;
 
 		if (!list_last->prev){
-			if (fi->v.value->type == VALUE_INTEGER){
-				fi->delta_is_float = FALSE;
-				fi->delta.d_int = 1;
-			} else {
-				fi->delta_is_float = TRUE;
+			if ((fi->delta_is_float = (fi->v.value->type == VALUE_FLOAT)))
 				fi->delta.d_float = 1.0;
-			}
+			else
+				fi->delta.d_int = 1;
 			return;
 		}
 		lfi = list_last->prev->data;
@@ -481,16 +548,43 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 
 	case FILL_NUMBER: {
 		FillItem *last = fi->group_last;
+		Value *v;
+		
+		if (last->delta_is_float) {
+			double const d = value_get_as_float (last->v.value);
+			v = value_new_float (d + idx * last->delta.d_float);
+		} else
+			v = value_new_int (last->v.value->v_int.val +
+					   idx * last->delta.d_int);
+		sheet_cell_set_value (cell, v, fi->fmt);
+		return;
+	}
 
-		if (last->delta_is_float){
-			double const d =
-			    last->v.value->v_float.val + idx * last->delta.d_float;
-			sheet_cell_set_value (cell, value_new_float (d), NULL);
+	case FILL_MONTHS :
+	case FILL_YEARS : {
+		Value *v;
+		FillItem *last = fi->group_last;
+		int d = idx * last->delta.d_int;
+		GDate *date = datetime_value_to_g (last->v.value);
+		float_t res = datetime_value_to_serial_raw (last->v.value);
+
+		if (fi->type == FILL_MONTHS) {
+			if (d > 0)
+				g_date_add_months (date, d);
+			else
+				g_date_subtract_months (date, -d);
 		} else {
-			int const i =
-			    last->v.value->v_int.val + idx * last->delta.d_int;
-			sheet_cell_set_value (cell, value_new_int (i), NULL);
+			if (d > 0)
+				g_date_add_years (date, d);
+			else
+				g_date_subtract_years (date, -d);
 		}
+		d = datetime_g_to_serial (date);
+
+		res -= floor (res);
+		v = (res < 1e-6) ? value_new_int (d)
+			: value_new_float (((float_t)d) + res);
+		sheet_cell_set_value (cell, v, fi->fmt);
 		return;
 	}
 

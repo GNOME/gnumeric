@@ -8,7 +8,8 @@ Jody:
 	* Improve cut/copy/paste.
 	* Improve col/row resize.
 	* Undo for copy/paste, autofill, col/row resize
-	* More work on function druid.
+	* More work on formula guru.
+	* Extend auto-fill to support months and years.
 	* Some translation bugs.
 
 Jon Kåre:
@@ -16,7 +17,7 @@ Jon Kåre:
 	* Synchronize list selection with entry field in combo boxes.
 	* Make  units in print setup dialog user selectable.
 	* More dialog polishing.
-	
+
 JPR:
 	* Sorting now moves styles with the elements
 	* Sorting now detects headers when sorting

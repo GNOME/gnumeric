@@ -23,6 +23,7 @@
 #include <math.h>
 #include "gnumeric.h"
 #include "workbook.h"
+#include "workbook-private.h"
 #include "gnumeric-util.h"
 #include "sheet-object-bonobo.h"
 #include <bonobo/bonobo-container.h>
@@ -271,7 +272,7 @@ sheet_object_bonobo_construct (SheetObjectBonobo *sob, Sheet *sheet,
 	sheet_object_set_bounds (SHEET_OBJECT (sob), x1, y1, x2, y2);
 
 	sob->object_server = object_server;
-	sob->client_site   = bonobo_client_site_new (sheet->workbook->bonobo_container);
+	sob->client_site   = bonobo_client_site_new (sheet->workbook->priv->bonobo_container);
 	
 	if (!bonobo_client_site_bind_embeddable (sob->client_site, sob->object_server)) {
 		gtk_object_destroy (GTK_OBJECT (sob));

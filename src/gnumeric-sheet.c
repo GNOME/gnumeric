@@ -210,7 +210,7 @@ selection_remove_selection_string (GnumericSheet *gsheet)
 {
 	Workbook const *wb = gsheet->sheet_view->sheet->workbook;
 
-	gtk_editable_delete_text (GTK_EDITABLE (workbook_get_entry (wb)),
+	gtk_editable_delete_text (GTK_EDITABLE (workbook_get_entry_logical (wb)),
 				  gsheet->sel_cursor_pos,
 				  gsheet->sel_cursor_pos+gsheet->sel_text_len);
 }
@@ -219,8 +219,9 @@ static void
 selection_insert_selection_string (GnumericSheet *gsheet)
 {
 	ItemCursor *sel = gsheet->sel_cursor;
-	Sheet * sheet = gsheet->sheet_view->sheet;
-	Workbook const * wb =sheet->workbook;
+	Sheet const *sheet = gsheet->sheet_view->sheet;
+	Workbook const *wb = sheet->workbook;
+	GtkEditable *editable = GTK_EDITABLE (workbook_get_entry_logical (wb));
 	gboolean const inter_sheet = (sheet != wb->editing_sheet);
 	char *buffer;
 	int pos;
@@ -252,13 +253,13 @@ selection_insert_selection_string (GnumericSheet *gsheet)
 
 	gsheet->sel_text_len = strlen (buffer);
 	pos = gsheet->sel_cursor_pos;
-	gtk_editable_insert_text (GTK_EDITABLE (workbook_get_entry (wb)),
-				  buffer, gsheet->sel_text_len,
+	gtk_editable_insert_text (editable, buffer,
+				  gsheet->sel_text_len,
 				  &pos);
 	g_free (buffer);
 
 	/* Set the cursor at the end.  It looks nicer */
-	gtk_editable_set_position (GTK_EDITABLE (workbook_get_entry (wb)),
+	gtk_editable_set_position (editable,
 				   gsheet->sel_cursor_pos +
 				   gsheet->sel_text_len);
 }
@@ -293,7 +294,7 @@ start_cell_selection_at (GnumericSheet *gsheet, int col, int row)
 	if (gsheet->item_editor)
 		item_edit_disable_highlight (ITEM_EDIT (gsheet->item_editor));
 
-	gsheet->sel_cursor_pos = GTK_EDITABLE (workbook_get_entry (wb))->current_pos;
+	gsheet->sel_cursor_pos = GTK_EDITABLE (workbook_get_entry_logical (wb))->current_pos;
 	gsheet->sel_text_len = 0;
 }
 
@@ -708,7 +709,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		     event->state == GDK_MOD1_MASK))
 			/* Forward the keystroke to the input line */
 			return gtk_widget_event (
-				GTK_WIDGET (workbook_get_entry (wb)),
+				GTK_WIDGET (workbook_get_entry_logical (wb)),
 				(GdkEvent *) event);
 		/* fall down */
 
@@ -761,7 +762,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		gnumeric_sheet_stop_cell_selection (gsheet, FALSE);
 
 		/* Forward the keystroke to the input line */
-		return gtk_widget_event (GTK_WIDGET (workbook_get_entry (wb)),
+		return gtk_widget_event (GTK_WIDGET (workbook_get_entry_logical (wb)),
 					 (GdkEvent *) event);
 	}
 	sheet_update (sheet);
@@ -1229,14 +1230,13 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row,
 		new_first_col = col;
 	} else if (col > gsheet->col.last_full){
 		int width = GTK_WIDGET (canvas)->allocation.width;
-		int allocated = 0;
 		int first_col;
 
 		for (first_col = col; first_col > 0; --first_col){
 			ColRowInfo const * const ci = sheet_col_get_info (sheet, first_col);
 			if (ci->visible) {
-				allocated += ci->size_pixels;
-				if (allocated > width)
+				width -= ci->size_pixels;
+				if (width < 0)
 					break;
 			}
 		}
@@ -1249,14 +1249,13 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row,
 		new_first_row = row;
 	} else if (row > gsheet->row.last_full){
 		int height = GTK_WIDGET (canvas)->allocation.height;
-		int allocated = 0;
 		int first_row;
 
 		for (first_row = row; first_row > 0; --first_row){
 			ColRowInfo const * const ri = sheet_row_get_info (sheet, first_row);
 			if (ri->visible) {
-				allocated += ri->size_pixels;
-				if (allocated > height)
+				height -= ri->size_pixels;
+				if (height < 0)
 					break;
 			}
 		}

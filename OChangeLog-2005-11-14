@@ -1,3 +1,89 @@
+2000-06-13  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c : Enable the formula guru, make WorkbookPrivate hold
+	  the BonoboObject in the ENABLED_BONOBO case.
+
+	* src/workbook-edit.c (workbook_finish_editing) : Disconnect any gurus
+	  that may be up.
+	(entry_changed) : Do not autocomplete expressions.  Gurus play havoc
+	  with this.
+	(workbook_edit_auto_complete_init) : Delete unused.
+	(workbook_get_entry_logical) : New function.
+	(workbook_set_entry) : New function.
+	(workbook_edit_attach_guru) : New function.
+	(workbook_edit_detach_guru) : New function.
+	(workbook_editing_expr) : When a guru is up we are always editing an
+	  expression. TODO, tune this.
+	(workbook_edit_load_value) : Moved from Sheet, and renamed from
+	  sheet_load_cell_val.
+	(workbook_edit_init) : Handle gurus.
+
+	* src/sheet.c (sheet_destroy_cell_select_cursor) : Make clearing optional.
+
+	* src/sheet-vector.c (sheet_vector_new) : The vectors are
+	  BonoboObjects, destroy them correctly.
+	(sheet_vectors_shutdown) : Ditto.
+
+	* src/sheet-object.c (sheet_set_mode_type_full) : Silence warning.
+	(sheet_object_insert) : Renamed from sheet_insert_object and moved
+	  from sheet.c
+
+	* src/pixmaps.h : Enable the Formula guru.
+
+	* src/parser.y (arg_list) : Improve handling of empty arguments.
+
+	* src/gnumeric-sheet.c (selection_remove_selection_string) : Use
+	  workbook_get_entry_logical.
+	(selection_insert_selection_string) : Ditto.
+	(start_cell_selection_at) : Ditto.
+	(gnumeric_sheet_key_mode_sheet) : Ditto.
+
+	* src/workbook-private.[ch] : Make this into a Bonobo Object for now.
+
+	* src/embeddable-grid.c (embeddable_grid_init_anon) : Use
+	  workbook_new_with_sheets.
+	(embeddable_grid_new) : WorkbookPrivate is temporarily the bonobo
+	  object.
+
+	* src/history.c (history_menu_item_create) : Ditto.
+	(history_menu_locate_separator) : Ditto.
+	(history_menu_insert_separator) : Ditto.
+	(history_menu_remove_items) : Ditto.
+
+	* src/sheet-object-bonobo.c (sheet_object_bonobo_construct) : Ditto.
+	* src/sheet-object-container.c (sheet_object_container_realize) : Ditto.
+
+	* src/workbook-view.c (workbook_view_set_paste_special_state) : Ditto.
+	(change_menu_label) : Ditto.
+
+	* src/file.c (workbook_try_read) : Workbook is now always just a
+	  GtkObject.
+	(workbook_import) : Ditto.
+
+	* src/formats.c (cell_format_date) : Add some new formats.
+
+	* src/format.c (find_decimal_char) : Restore constness.
+	(format_remove_decimal) : Fix the const correctly.
+
+	* src/commands.c (cmd_ins_del_row_col_redo) : Fix to use the new
+	  semantics.
+
+2000-06-12  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-autofill.c (fill_item_destroy) : Free the format.
+	(fill_item_new) : Handle filling by month and year.
+	(autofill_compute_delta) : Ditto.
+	(autofill_cell) : Ditto.
+
+	* src/formats.c (cell_format_is_number) : currently handle the single
+	  character currencies.
+	(cell_format_date) : year only formats.
+
+2000-06-10  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_make_cell_visible) : Minor
+	  optimization.
+
 2000-06-13  Morten Welinder  <terra@diku.dk>
 
 	* src/functions/fn-math.c (gnumeric_round): Round properly.

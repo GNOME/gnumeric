@@ -1,30 +1,15 @@
 #ifndef GNUMERIC_WORKBOOK_H
 #define GNUMERIC_WORKBOOK_H
 
-#ifdef ENABLE_BONOBO
-#   include <bonobo.h>
-#else
-#   include <gtk/gtkobject.h>
-#endif
+#include <gtk/gtkobject.h>
 #include <gtk/gtkwidget.h>
 #include <gnome.h>
-
-#define GNUMERIC_WORKBOOK_GOAD_ID         "IDL:GNOME:Gnumeric:Workbook:1.0"
-#define GNUMERIC_WORKBOOK_FACTORY_GOAD_ID "IDL:GNOME:Gnumeric:WorkbookFactory:1.0"
 
 #define WORKBOOK_TYPE        (workbook_get_type ())
 #define WORKBOOK(o)          (GTK_CHECK_CAST ((o), WORKBOOK_TYPE, Workbook))
 #define WORKBOOK_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), WORKBOOK_TYPE, WorkbookClass))
 #define IS_WORKBOOK(o)       (GTK_CHECK_TYPE ((o), WORKBOOK_TYPE))
 #define IS_WORKBOOK_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), WORKBOOK_TYPE))
-
-#ifdef ENABLE_BONOBO
-#   define WORKBOOK_PARENT_CLASS      BonoboObject
-#   define WORKBOOK_PARENT_CLASS_TYPE BONOBO_OBJECT_TYPE
-#else
-#   define WORKBOOK_PARENT_CLASS      GtkObject
-#   define WORKBOOK_PARENT_CLASS_TYPE gtk_object_get_type()
-#endif
 
 #include "gnumeric.h"
 #include "symbol.h"
@@ -33,27 +18,13 @@
 
 typedef struct _WorkbookPrivate WorkbookPrivate;
 struct _Workbook {
-#ifdef ENABLE_BONOBO
-	/* The base object for the Workbook */
-	BonoboObject bonobo_object;
-
-	/* A BonoboContainer */
-	BonoboContainer   *bonobo_container;
-
-	BonoboPersistFile *persist_file;
-	
-	/* A list of EmbeddableGrids exported to the world */
-	GList      *workbook_views;
-
-	BonoboUIHandler *uih;
-#else
 	GtkObject  gtk_object;
-#endif
+
 	/* Attribute list */
 	GList *attributes;
 
 	/* { Start view specific elements */
-        GtkWidget  *toplevel; 
+        GtkWidget  *toplevel;
 	GtkWidget  *notebook;
 	/* } End view specific elements */
 
@@ -68,14 +39,14 @@ struct _Workbook {
 	/* The auto-expression */
 	ExprTree   *auto_expr;
 	String     *auto_expr_desc;
-	
-	/* The sheets */ 
+
+	/* The sheets */
 	GHashTable *sheets;	/* keeps a list of the Sheets on this workbook */
 	Sheet	   *current_sheet;
 
 	/* User defined names */
 	GList      *names;
-	
+
 	/* A list with all of the formulas */
 	GList      *formula_cell_list;
 
@@ -119,12 +90,8 @@ struct _Workbook {
 };
 
 typedef struct {
-#ifdef ENABLE_BONOBO
-	BonoboObjectClass bonobo_parent_class;
-#else
 	GtkObjectClass   gtk_parent_class;
-#endif
-	
+
 	/* Signals */
 	void (*sheet_entered) (Sheet *sheet);
 	void (*cell_changed)  (Sheet *sheet, char *contents,
@@ -205,21 +172,11 @@ CommandContext *workbook_command_context_gui (Workbook *wb);
 void        workbook_autosave_cancel     (Workbook *wb);
 void        workbook_autosave_set        (Workbook *wb, int minutes, gboolean prompt);
 
-/*
- * Feedback routines
- */
-typedef enum {
-	WORKBOOK_FEEDBACK_BOLD      = 1 << 0,
-	WORKBOOK_FEEDBACK_ITALIC    = 1 << 1,
-	WORKBOOK_FEEDBACK_FONT_SIZE = 1 << 2,
-	WORKBOOK_FEEDBACK_FONT      = 1 << 3,
-} WorkbookFeedbackType;
-
 void     workbook_feedback_set        (Workbook *, MStyle *style);
 void     workbook_zoom_feedback_set   (Workbook *, double zoom_factor);
 
 /*
- * Hooks for CORBA bootstrap: they create the 
+ * Hooks for CORBA bootstrap: they create the
  */
 void workbook_corba_setup    (Workbook *);
 void workbook_corba_shutdown (Workbook *);

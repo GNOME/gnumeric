@@ -1,6 +1,8 @@
 #ifndef GNUMERIC_WORKBOOK_PRIVATE_H
 #define GNUMERIC_WORKBOOK_PRIVATE_H
 
+#include "workbook.h"
+
 /*
  * Here we should put all the variables that are internal
  * to the workbook and that must not be accessed but by code
@@ -8,9 +10,31 @@
  *
  * The reason for this is that pretty much all the code
  * depends on workbook.h, so for internals and to avoid
- * recompilation, we put the code hre
+ * recompilation, we put the code here.
+ *
+ * This is ending up being a transition object for the eventual move to a
+ * seprate Model View and controller.  It holds pieces that will be part of the
+ * eventual controller objects.
  */
+#ifdef ENABLE_BONOBO
+#   include <bonobo.h>
+#endif
 struct _WorkbookPrivate {
+#ifdef ENABLE_BONOBO
+	/* The base object for the Workbook */
+	BonoboObject bonobo_object;
+
+	/* A BonoboContainer */
+	BonoboContainer   *bonobo_container;
+
+	BonoboPersistFile *persist_file;
+	
+	/* A list of EmbeddableGrids exported to the world */
+	GList      *workbook_views;
+
+	BonoboUIHandler *uih;
+#endif
+
 	gboolean during_destruction;
 
 	GtkWidget  *table;
@@ -45,7 +69,9 @@ struct _WorkbookPrivate {
 	/* Edit area */
 	GtkWidget *selection_descriptor;	/* A GtkEntry */
 	struct {
-		GtkEntry *entry;
+		GtkEntry *entry;		/* The real edit line */
+		GtkEntry *temp_entry;		/* A tmp overlay eg from a guru */
+		GtkWidget*guru;
 		int       signal_changed;
 	} edit_line;
 	
@@ -73,8 +99,7 @@ struct _WorkbookPrivate {
 	/* Used to detect if the user has backspaced, so we turn off auto-complete */
 	int              auto_max_size;
 	 
-#ifdef ENABLE_BONOBO
-#else
+#ifndef ENABLE_BONOBO
 	/* Menu items that get toggled */
 	GtkWidget  *menu_item_undo;
 	GtkWidget  *menu_item_redo;
@@ -82,5 +107,7 @@ struct _WorkbookPrivate {
 #endif
 };
 
-#endif /* GNUMERIC_WORKBOOK_PRIVATE_H */
+WorkbookPrivate * workbook_private_new ();
+void              workbook_private_delete (WorkbookPrivate *wbp);
 
+#endif /* GNUMERIC_WORKBOOK_PRIVATE_H */

@@ -122,4 +122,6 @@ SheetObject     *sheet_object_create_checkbox(Sheet *sheet,
 void 		 sheet_set_mode_type_full    (Sheet *sheet, SheetModeType mode,
 					      void *mode_data);
 
+void		 sheet_object_insert (Sheet *sheet, char *obj_id);
+
 #endif /* GNUMERIC_SHEET_OBJECT_H */

@@ -1,9 +1,26 @@
+/* vim: set sw=8:
+ * $Id$
+ */
+
 /*
- * dialog-function-wizard.c:  Implements the function wizard
+ * dialog-function-wizard.c:  The formula guru
  *
- * Author:
- *  Michael Meeks <michael@imaginator.com>
+ * Copyright (C) 2000 Jody Goldberg (jgoldberg@home.com)
  *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ * USA
  */
 #include <config.h>
 #include <gnome.h>
@@ -17,34 +34,194 @@
 #include "expr.h"
 #include "func.h"
 
-#define INPUTS_FOR_MULTI_ARG 6
-
 typedef struct {
-	GtkWidget	*dialog;
-	GtkBox		*dialog_box;
-	GtkWidget	*saved_entry;
+	GtkWidget	   *dialog;
+	GtkBox		   *dialog_box;
 
+	int		    max_arg;
 	Workbook	   *wb;
 	FunctionDefinition *fd;
-	TokenizedHelp	   *tok;
+	TokenizedHelp	   *help_tokens;
 	GPtrArray	   *args;
-} State;
+} FomulaGuruState;
 
 typedef struct {
-	gchar   *arg_name;
-	gboolean optional;
-	gchar    type;
-
+	FomulaGuruState	 *state;
 	GtkEntry *entry;
-	Workbook *wb;
-} ArgumentEntry;
 
-/**
- * Build descriptions of arguments
- * If fd->args == 0, make it up
- **/
+	gchar   *name;
+	gchar    type;
+	gboolean is_optional;
+	int       content_length;
+	int       index;
+} ArgumentState;
+
 static void
-arg_data_list_new (State *state)
+formula_guru_set_expr (FomulaGuruState *state, int index)
+{
+	GString *str;
+	int pos = 0, i;
+
+	g_return_if_fail (state != NULL);
+	g_return_if_fail (state->fd != NULL);
+	g_return_if_fail (state->args != NULL);
+
+	str = g_string_new ("="); /* FIXME use prefix string */
+	g_string_append (str, function_def_get_name (state->fd));
+	g_string_append_c (str, '(');
+
+	for (i = 0; i < state->args->len; i++) {
+		ArgumentState *as = g_ptr_array_index (state->args, i);
+		gchar *val = gtk_entry_get_text (as->entry);
+
+		if (!as->is_optional || i <= state->max_arg || i <= index || strlen (val)) {
+			if (i > 0)
+				g_string_append_c (str, ',');
+			if (i == index)
+				pos = str->len +
+					gtk_editable_get_position (GTK_EDITABLE (as->entry));
+
+			g_string_append (str, val);
+		}
+	}
+	g_string_append_c (str, ')'); /* FIXME use suffix string */
+	gtk_entry_set_text (workbook_get_entry (state->wb), str->str);
+	gtk_entry_set_position (workbook_get_entry (state->wb), pos);
+
+	g_string_free (str, TRUE);
+}
+
+static gboolean
+cb_formula_guru_entry_focus_in (GtkWidget *ignored0, GdkEventFocus *ignored1, ArgumentState *as)
+{
+	workbook_set_entry (as->state->wb, as->entry);
+	formula_guru_set_expr (as->state, as->index);
+	return FALSE;
+}
+
+static void
+cb_formula_guru_entry_changed (GtkEditable *editable, ArgumentState *as)
+{
+	as->content_length = strlen (gtk_entry_get_text (as->entry));
+
+	if (as->content_length) {
+		if (as->state->max_arg < as->index)
+			as->state->max_arg = as->index;
+	} else {
+		if (as->state->max_arg == as->index) {
+			int i = as->index;
+			while (--i > 0 && as->content_length > 0)
+				;
+			as->state->max_arg = i;
+		}
+	}
+
+	formula_guru_set_expr (as->state, as->index);
+}
+
+static gboolean
+cb_formula_guru_destroy (GtkObject *w, FomulaGuruState *state)
+{
+	g_return_val_if_fail (w != NULL, FALSE);
+	g_return_val_if_fail (state != NULL, FALSE);
+
+	workbook_edit_detach_guru (state->wb);
+
+	if (state->args != NULL) {
+		int i;
+
+		for (i = state->args->len; i-- > 0 ;){
+			ArgumentState *as = g_ptr_array_index (state->args, i);
+			g_free (as->name);
+			g_free (as);
+		}
+		g_ptr_array_free (state->args, FALSE);
+		state->args = NULL;
+	}
+
+	if (state->help_tokens != NULL) {
+		tokenized_help_destroy (state->help_tokens);
+		state->help_tokens = NULL;
+	}
+
+	/* Handle window manger closing the dialog.
+	 * This will be ignored if we are being destroyed differently.
+	 */
+	workbook_finish_editing (state->wb, FALSE);
+
+	g_free (state);
+	return FALSE;
+}
+
+static void
+cb_formula_guru_clicked (GnomeDialog *d, gint arg, FomulaGuruState *state)
+{
+	/* Help */
+	if (arg == 0)
+		return;
+
+	/* Accept for OK, reject for cancel */
+	workbook_finish_editing (state->wb, arg == 1);
+	gnome_dialog_close (d);
+}
+
+static void
+formula_guru_init_arg (GtkTable *table, int row, ArgumentState *as)
+{
+	gchar *txt = NULL, *label;
+
+	g_return_if_fail (as);
+	g_return_if_fail (table);
+
+	switch (as->type){
+	case 's': txt = _("String"); break;
+	case 'f': txt = _("Number"); break;
+	case 'b': txt = _("Boolean"); break;
+	case 'r': txt = _("Range"); break;
+	case 'a': txt = _("Array"); break;
+	case 'A': txt = _("Range/Array"); break;
+	case '?': txt = _("Any"); break;
+	default:  txt = _("Unknown"); break;
+	}
+	gtk_table_attach_defaults (table, gtk_label_new (as->name),
+				   0, 1, row, row+1);
+
+	as->entry = GTK_ENTRY (gtk_entry_new ());
+	gtk_table_attach_defaults (table, GTK_WIDGET(as->entry),
+				   1, 2, row, row+1);
+
+	if (as->is_optional)
+		label = g_strconcat ("(", txt, ")", NULL);
+	else
+		label = g_strconcat ("=", txt, NULL);
+
+	gtk_table_attach_defaults (table, gtk_label_new (label),
+				   3, 4, row, row+1);
+#if 0
+	GtkButton *button;
+	GtkWidget *pix;
+	gtk_table_attach_defaults (table, GTK_WIDGET(button),
+				   2, 3, row, row+1);
+	button = GTK_BUTTON(gtk_button_new());
+	pix = gnome_stock_pixmap_widget_new (as->state->wb->toplevel,
+					     GNOME_STOCK_PIXMAP_BOOK_GREEN);
+	gtk_container_add (GTK_CONTAINER (button), pix);
+	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
+#endif
+	/* FIXME : Do I really need focus-in ?  is there something less draconian */
+	gtk_signal_connect (GTK_OBJECT (as->entry), "focus-in-event",
+			    GTK_SIGNAL_FUNC (cb_formula_guru_entry_focus_in), as);
+	gtk_signal_connect (GTK_OBJECT (as->entry), "changed",
+			    GTK_SIGNAL_FUNC (cb_formula_guru_entry_changed), as);
+
+	if (row == 0)
+		gtk_widget_activate (GTK_WIDGET (as->entry));
+
+	g_free (label);
+}
+
+static void
+formula_guru_init_args (FomulaGuruState *state)
 {
 	gchar *copy_args;
 	const gchar *syntax;
@@ -52,31 +229,33 @@ arg_data_list_new (State *state)
 	int i;
 	int arg_max, arg_min;
 
-	if (!state || !state->fd ||
-	    !state->tok)
-		return;
+	g_return_if_fail (state != NULL);
+	g_return_if_fail (state->fd != NULL);
+	g_return_if_fail (state->help_tokens != NULL);
 
 	state->args = g_ptr_array_new ();
 
+	/* Var arg function */
 	function_def_count_args (state->fd, &arg_min, &arg_max);
 	if (arg_max == G_MAXINT) {
-		int lp;
+		/* Display 2 argument for vararg functions by default */
+		for (i = 0; i < 2; i++) {
+			ArgumentState *as;
 
-		for (lp = 0; lp < INPUTS_FOR_MULTI_ARG; lp++) {
-			ArgumentEntry *ad;
-
-			ad = g_new (ArgumentEntry, 1);
-			ad->arg_name = g_strdup ("Value");
-			ad->wb = state->wb;
-			ad->type = '?';
-			ad->optional = (lp != 0);
-			ad->entry = NULL;
-			g_ptr_array_add (state->args, ad);
+			as = g_new (ArgumentState, 1);
+			as->name = g_strdup ("Value");
+			as->is_optional = TRUE;  /* All arguments are optional. */
+			as->type = '?';
+			as->index = i;
+			as->content_length = 0;
+			as->entry = NULL;
+			as->state = state;
+			g_ptr_array_add (state->args, as);
 		}
 		return;
 	}
 
-	syntax = tokenized_help_find (state->tok, "SYNTAX");
+	syntax = tokenized_help_find (state->help_tokens, "SYNTAX");
 	if (!syntax) {
 		g_ptr_array_free (state->args, FALSE);
 		state->args = NULL;
@@ -96,15 +275,16 @@ arg_data_list_new (State *state)
 		}
 		if (*ptr == ',' || *ptr == ')') {
 			if (ptr > start) {
-				ArgumentEntry *ad;
-				ad = g_new (ArgumentEntry, 1);
-				ad->arg_name = g_strndup (start, (int)(ptr - start));
-				ad->wb = state->wb;
-
-				ad->type = function_def_get_arg_type (state->fd, i);
-				ad->optional = (i >= arg_min);
-				ad->entry = NULL;
-				g_ptr_array_add (state->args, ad);
+				ArgumentState *as;
+				as = g_new (ArgumentState, 1);
+				as->name = g_strndup (start, (int)(ptr - start));
+				as->is_optional = (i >= arg_min);
+				as->type = function_def_get_arg_type (state->fd, i);
+				as->index = i;
+				as->content_length = 0;
+				as->entry = NULL;
+				as->state = state;
+				g_ptr_array_add (state->args, as);
 				i++;
 			}
 			start = ptr + 1;
@@ -112,241 +292,90 @@ arg_data_list_new (State *state)
 		ptr++;
 	}
 
+	if (i != arg_max)
+		g_warning ("Function mis-match : %s has %d named arguments but was declared to have %d",
+			   function_def_get_name (state->fd), i, arg_max);
+
 	g_free (copy_args);
 }
 
 static void
-arg_data_list_destroy (State *state)
-{
-	int lp;
-	GPtrArray *pa;
-
-	if (!state)
-		return;
-	pa = state->args;
-	if (!pa)
-		return;
-
-	for (lp = 0; lp < pa->len; lp++){
-		ArgumentEntry *ad;
-
-		ad = g_ptr_array_index (pa, 0);
-		g_free (ad->arg_name);
-		g_free (ad);
-	}
-	g_ptr_array_free (state->args, FALSE);
-	state->args = NULL;
-}
-
-static gboolean
-func_wiz_entry_focus_in (GtkWidget *widget, GdkEventFocus *event, ArgumentEntry *ad)
-{
-	puts ("in");
-	return FALSE;
-#if 0
-	FunctionDefinition *fd = dialog_function_select (ad->wb);
-	GtkEntry *entry = ad->entry;
-	gchar *txt;
-	int pos;
-
-	if (!fd)
-		return;
-
-	/* FIXME */
-	return;
-
-	pos = gtk_editable_get_position (GTK_EDITABLE(entry));
-
-	gtk_editable_insert_text (GTK_EDITABLE(entry),
-				  txt, strlen(txt), &pos);
-	g_free (txt);
-#endif
-}
-
-static gboolean
-func_wiz_entry_focus_out (GtkWidget *widget, GdkEventFocus *event, ArgumentEntry *ad)
-{
-	puts ("out");
-	return FALSE;
-}
-
-static void
-function_type_input (GtkTable *table, int row, ArgumentEntry *ad)
-{
-	gchar *txt = NULL, *label;
-
-	g_return_if_fail (ad);
-	g_return_if_fail (table);
-
-	switch (ad->type){
-	case 's':
-		txt = _("String");
-		break;
-	case 'f':
-		txt = _("Number");
-		break;
-	case 'b':
-		txt = _("Boolean");
-		break;
-	case 'r':
-		txt = _("Range");
-		break;
-	case 'a':
-		txt = _("Array");
-		break;
-	case 'A':
-		txt = _("Range/Array");
-		break;
-	case '?':
-		txt = _("Any");
-		break;
-	default:
-		txt = _("Unknown");
-		break;
-	}
-	gtk_table_attach_defaults (table, gtk_label_new (ad->arg_name),
-				   0, 1, row, row+1);
-
-	ad->entry = GTK_ENTRY (gtk_entry_new ());
-	gtk_table_attach_defaults (table, GTK_WIDGET(ad->entry),
-				   1, 2, row, row+1);
-
-	if (ad->optional)
-		label = g_strconcat ("(", txt, ")", NULL);
-	else
-		label = g_strconcat ("=", txt, NULL);
-
-	gtk_table_attach_defaults (table, gtk_label_new (label),
-				   3, 4, row, row+1);
-#if 0
-	GtkButton *button;
-	GtkWidget *pix;
-	gtk_table_attach_defaults (table, GTK_WIDGET(button),
-				   2, 3, row, row+1);
-	button = GTK_BUTTON(gtk_button_new());
-	pix = gnome_stock_pixmap_widget_new (ad->wb->toplevel,
-					     GNOME_STOCK_PIXMAP_BOOK_GREEN);
-	gtk_container_add (GTK_CONTAINER (button), pix);
-	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
-#endif
-	gtk_signal_connect (GTK_OBJECT (ad->entry), "focus-in-event",
-			    GTK_SIGNAL_FUNC(func_wiz_entry_focus_in), ad);
-	gtk_signal_connect (GTK_OBJECT (ad->entry), "focus-out-event",
-			    GTK_SIGNAL_FUNC(func_wiz_entry_focus_out), ad);
-
-	g_free (label);
-}
-
-static char*
-func_wiz_expr_string (State *state)
-{
-	gchar *txt, *txt2;
-	const char *name;
-	int    lp;
-
-	g_return_val_if_fail (state != NULL, NULL);
-	g_return_val_if_fail (state->fd != NULL, NULL);
-	g_return_val_if_fail (state->args != NULL, NULL);
-
-	name = function_def_get_name (state->fd);
-	txt = g_strconcat (name, "(", NULL);
-
-	for (lp = 0; lp < state->args->len; lp++) {
-		ArgumentEntry *ad = g_ptr_array_index (state->args, lp);
-		gchar *val = gtk_entry_get_text (ad->entry);
-
-		if (!ad->optional || strlen (val)) {
-			txt2 = txt;
-			txt = g_strconcat (txt2, lp?",":"", val, NULL);
-			g_free (txt2);
-		}
-	}
-	txt2 = g_strconcat (txt, ")", NULL);
-	g_free (txt);
-	return txt2;
-}
-
-static void
-func_wiz_init (State *state)
+formula_guru_init (FomulaGuruState *state)
 {
 	GtkBox *vbox;
 	GtkTable *table;
-	TokenizedHelp *tok;
+	GtkWidget *dialog;
+	TokenizedHelp *help_tokens;
 	int lp;
 
-	g_return_if_fail (state->args);
+	state->args	= NULL;
+	state->max_arg	= 0;
+	state->help_tokens = tokenized_help_new (state->fd);
+	formula_guru_init_args (state);
 
-	tok = tokenized_help_new (state->fd);
+	dialog = gnome_dialog_new (_("Formula Guru"),
+				   GNOME_STOCK_BUTTON_HELP,
+				   GNOME_STOCK_BUTTON_OK,
+				   GNOME_STOCK_BUTTON_CANCEL,
+				   NULL);
+	gtk_window_set_modal (GTK_WINDOW (dialog), FALSE);
+
+	gtk_signal_connect (GTK_OBJECT (dialog), "destroy",
+			    GTK_SIGNAL_FUNC (cb_formula_guru_destroy),
+			    state);
+	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
+			    GTK_SIGNAL_FUNC (cb_formula_guru_clicked),
+			    state);
+
+	state->dialog = dialog;
+	state->dialog_box = GTK_BOX(GNOME_DIALOG (dialog)->vbox);
+
+	help_tokens = tokenized_help_new (state->fd);
 
 	vbox = GTK_BOX (gtk_vbox_new (0, 0));
 
 	{ /* Syntax label */
-		GtkWidget *label = gtk_label_new (tokenized_help_find (tok, "SYNTAX"));
+		GtkWidget *label = gtk_label_new (tokenized_help_find (help_tokens, "SYNTAX"));
 		gtk_box_pack_start (vbox, label, TRUE, TRUE, 0);
 	}
 
 	{ /* Description */
 		GtkLabel *label;
-		const char *txt = tokenized_help_find (tok, "DESCRIPTION");
+		const char *txt = tokenized_help_find (help_tokens, "DESCRIPTION");
 		label = GTK_LABEL (gtk_label_new (txt));
 		gtk_label_set_line_wrap (label, TRUE);
 		gtk_box_pack_start (vbox, GTK_WIDGET(label),
 				    TRUE, TRUE, 0);
 	}
 
-	tokenized_help_destroy (tok);
+	tokenized_help_destroy (help_tokens);
 
 	table = GTK_TABLE (gtk_table_new (3, state->args->len, FALSE));
 	for (lp = 0; lp < state->args->len; lp++)
-		function_type_input (table, lp, g_ptr_array_index (state->args, lp));
+		formula_guru_init_arg (table, lp, g_ptr_array_index (state->args, lp));
 
 	gtk_box_pack_start (GTK_BOX(vbox),	GTK_WIDGET (table), TRUE, TRUE, 0);
 	gtk_box_pack_start (state->dialog_box,	GTK_WIDGET (vbox),  FALSE, FALSE, 0);
 	gtk_widget_show_all (GTK_WIDGET(state->dialog_box));
-}
 
-/* Handler for destroy */
-static gboolean
-cb_func_wiz_destroy (GtkObject *w, State *state)
-{
-	g_return_val_if_fail (w != NULL, FALSE);
-	g_return_val_if_fail (state != NULL, FALSE);
+	workbook_edit_attach_guru (state->wb, state->dialog);
 
-	arg_data_list_destroy (state);
-
-	if (state->tok != NULL) {
-		tokenized_help_destroy (state->tok);
-		state->tok = NULL;
-	}
-	g_free (state);
-	return FALSE;
-}
-
-static void
-cb_func_wiz_clicked (GnomeDialog *d, gint arg, State *state)
-{
-	/* Help */
-	if (arg == 0)
-		return;
-
-	/* Accept for OK, reject for cancel */
-	workbook_finish_editing (state->wb, arg == 1);
-	gnome_dialog_close (d);
+	formula_guru_set_expr (state, 0);
 }
 
 /**
- * dialog_function_druid : pop up a function selection then a wizard.
+ * dialog_formula_guru
+ * @wb : The workbook to use as a parent window.
  *
- * Returns : a pointer to the new dialog.
+ * Pop up a function selector then a formula guru.
  */
 void
-dialog_function_druid (Workbook *wb)
+dialog_formula_guru (Workbook *wb)
 {
 	Sheet *sheet;
 	GtkEntry *entry;
 	gchar *txt;
-	GtkWidget *dialog;
-	State *state;
+	FomulaGuruState *state;
 	FunctionDefinition *fd;
 
 	g_return_if_fail (wb != NULL);
@@ -368,41 +397,10 @@ dialog_function_druid (Workbook *wb)
 		return;
 	}
 
-	state       = g_new(State, 1);
-	state->wb   = wb;
-	state->fd   = fd;
-	state->tok  = tokenized_help_new (fd);
-	state->args = NULL;
-	arg_data_list_new (state);
+	state = g_new(FomulaGuruState, 1);
+	state->wb	= wb;
+	state->fd	= fd;
+	formula_guru_init (state);
 
-#if 0
-	/* It takes no arguments */
-	if (state->args && state->args->len == 0){
-		tokenized_help_destroy (state->tok);
-	}
-#endif
-
-	dialog = gnome_dialog_new (_("Formula Wizard"),
-				   GNOME_STOCK_BUTTON_HELP,
-				   GNOME_STOCK_BUTTON_OK,
-				   GNOME_STOCK_BUTTON_CANCEL,
-				   NULL);
-	gtk_window_set_modal (GTK_WINDOW (dialog), FALSE);
-
-	/* Handle destroy */
-	gtk_signal_connect (GTK_OBJECT (dialog), "destroy",
-			    GTK_SIGNAL_FUNC (cb_func_wiz_destroy),
-			    state);
-	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
-			    GTK_SIGNAL_FUNC (cb_func_wiz_clicked),
-			    state);
-
-	state->dialog = dialog;
-	state->dialog_box = GTK_BOX(GNOME_DIALOG (dialog)->vbox);
-
-	func_wiz_init (state);
-
-	gtk_entry_append_text (entry, func_wiz_expr_string (state));
-
-	gnumeric_dialog_show (wb->toplevel, GNOME_DIALOG (dialog), FALSE, TRUE);
+	gnumeric_dialog_show (wb->toplevel, GNOME_DIALOG (state->dialog), FALSE, TRUE);
 }

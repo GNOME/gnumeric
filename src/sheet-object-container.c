@@ -13,6 +13,7 @@
 #include <math.h>
 #include "gnumeric.h"
 #include "workbook.h"
+#include "workbook-private.h"
 #include "gnumeric-util.h"
 #include "sheet-object-container.h"
 #include <bonobo/bonobo-container.h>
@@ -61,7 +62,7 @@ user_activation_request_cb (BonoboViewFrame *view_frame, SheetObject *so)
 
 	bonobo_view_frame_view_activate (view_frame);
 	sheet_object_make_current (so);
-	
+
 	return FALSE;
 }
 
@@ -69,7 +70,7 @@ static gint
 view_activated_cb (BonoboViewFrame *view_frame, gboolean activated, SheetObject *so)
 {
 	Sheet *sheet = so->sheet;
-	
+
         if (activated) {
                 if (sheet->active_object_frame != NULL) {
                         g_warning ("View requested to be activated but there is already "
@@ -119,11 +120,11 @@ sheet_object_container_realize (SheetObject *so, SheetView *sheet_view)
 	GtkWidget *view_widget;
 
 	soc = SHEET_OBJECT_CONTAINER (so);
-	
+
 	view_frame = bonobo_client_site_new_view (
 		SHEET_OBJECT_BONOBO (so)->client_site,
-		bonobo_object_corba_objref (BONOBO_OBJECT (sheet_view->sheet->workbook->uih)));
-		
+		bonobo_object_corba_objref (BONOBO_OBJECT (sheet_view->sheet->workbook->priv->uih)));
+
 	gtk_signal_connect (GTK_OBJECT (view_frame), "user_activate",
 			    GTK_SIGNAL_FUNC (user_activation_request_cb), so);
 	gtk_signal_connect (GTK_OBJECT (view_frame), "activated",
@@ -136,7 +137,7 @@ sheet_object_container_realize (SheetObject *so, SheetView *sheet_view)
 	 *                    "event",
 	 *                    GTK_SIGNAL_FUNC (sheet_object_event), so);
 	 */
-	
+
 	view_widget = bonobo_view_frame_get_wrapper (view_frame);
 	i = make_container_item (so, sheet_view, view_widget);
 
@@ -217,7 +218,7 @@ sheet_object_container_new_bonobo (Sheet *sheet,
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
 	c = gtk_type_new (sheet_object_container_get_type ());
-	
+
 	sheet_object_construct (SHEET_OBJECT (c), sheet);
 	sheet_object_set_bounds (SHEET_OBJECT (c), x1, y1, x2, y2);
 
@@ -235,7 +236,7 @@ sheet_object_container_new_from_goadid (Sheet *sheet,
 {
 	BonoboObjectClient *object_server;
 	SheetObjectContainer *c;
-	
+
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (obj_id != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
@@ -245,7 +246,7 @@ sheet_object_container_new_from_goadid (Sheet *sheet,
 		return NULL;
 
 	c = gtk_type_new (sheet_object_container_get_type ());
-	
+
 	if (!sheet_object_bonobo_construct (
 		SHEET_OBJECT_BONOBO (c), sheet,
 		object_server, x1, y1, x2, y2)){

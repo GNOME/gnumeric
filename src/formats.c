@@ -72,6 +72,8 @@ cell_format_date [] = {
 	N_("mm/ddd/yyyy"),
 	N_("mmm-yy"),
 	N_("mmm-yyyy"),
+	N_("mmmm-yy"),
+	N_("mmmm-yyyy"),
 	N_("m/d/yy h:mm"),
 	N_("m/d/yyyy h:mm"),
 	N_("yyyy/mm/d"),
@@ -82,6 +84,8 @@ cell_format_date [] = {
 	N_("yyyy-mmm-d"),
 	N_("yyyy-mm-dd"),
 	N_("yyyy-mmm-dd"),
+	N_("yy"),
+	N_("yyyy"),
 	NULL
 };
 
@@ -155,7 +159,6 @@ CurrencySymbol const currency_symbols[] =
 	 * Euro symbol here.
 	 */
 	{ "¤", "¤" },	/* EUR */
-
 
 	/* The first column has three letter acronyms
 	 * for each currency.  They MUST start with '[$'
@@ -356,16 +359,19 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 	int num_decimals = 0;
 	char const *ptr = fmt, *end, *tmp;
 	int const fmt_len = strlen (fmt);
+	int cur = -1;
 
 	if (fmt_len < 1)
 		return FMT_UNKNOWN;
 
 	/* Check for prepended currency */
-	if (ptr[0] == '$' || ptr[1] == '£') {
-		info->currency_symbol_index = (ptr[0] == '$') ? 1 : 2;
-		result = FMT_CURRENCY;
-		++ptr;
-	} else if (ptr[0] == '[' && ptr[1] == '$') {
+	switch (ptr[0]) {
+	case '$' : cur = 1; break;
+	case '£' : cur = 2; break;
+	case '¥' : cur = 3; break;
+	case '¤' : cur = 4; break;
+	default :
+	if (ptr[0] == '[' && ptr[1] == '$') {
 		char const * const end = strchr (ptr, ']');
 
 		if (end != NULL && end[1] == ' ') {
@@ -375,6 +381,13 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 			ptr = end + 1;
 		} else
 			return FMT_UNKNOWN;
+	}
+	};
+
+	if (cur > 0) {
+		info->currency_symbol_index = cur;
+		result = FMT_CURRENCY;
+		++ptr;
 	}
 
 	/* Check for thousands seperator */

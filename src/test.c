@@ -40,6 +40,7 @@ dump_stats (const char *type)
 		style_cache_misses, style_cache_flushes);
 }
 
+#if RUN_THRASH_SCROLL
 static void
 thrash_scroll (Sheet *sheet)
 {
@@ -59,6 +60,7 @@ thrash_scroll (Sheet *sheet)
 		}
 	}
 }
+#endif
 
 static void
 thrash_insert (Sheet *sheet)
@@ -123,7 +125,7 @@ workbook_style_test (Workbook *wb)
 		fprintf (stderr, "Style lookups on '%s'\n", sheet->name_unquoted);
 		sheet_styles_dump (sheet);
 
-#if 0
+#if RUN_THRASH_SCROLL
 		zero_stats ();
 		thrash_scroll (sheet);
 		dump_stats ("Scroll");

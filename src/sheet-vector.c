@@ -359,7 +359,7 @@ sheet_vector_new (Sheet *sheet)
 
 	corba_vector = sheet_vector_corba_object_create (BONOBO_OBJECT (sheet_vector));
 	if (corba_vector == NULL) {
-		gtk_object_destroy (GTK_OBJECT (sheet_vector));
+		bonobo_object_destroy (BONOBO_OBJECT (sheet_vector));
 		return NULL;
 	}
 	
@@ -467,7 +467,7 @@ sheet_vectors_shutdown (Sheet *sheet)
 		SheetVector *sheet_vector = sheet->priv->sheet_vectors->data;
 
 		sheet_vector_detach (sheet_vector);
-		gtk_object_unref (GTK_OBJECT (sheet->priv->sheet_vectors->data));
+		bonobo_object_unref (BONOBO_OBJECT (sheet->priv->sheet_vectors->data));
 	}
 
 	g_slist_free (sheet->priv->sheet_vectors);

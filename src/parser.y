@@ -433,6 +433,16 @@ arg_list: exp {
 		$$ = g_list_prepend ($3, $1);
 		register_expr_list_allocation ($$);
 	}
+	| SEPARATOR arg_list {
+		GList *tmp = $2;
+		unregister_allocation ($2);
+
+		if (tmp == NULL)
+			tmp = g_list_prepend (NULL, expr_tree_new_constant (value_new_empty ()));
+
+		$$ = g_list_prepend (tmp, expr_tree_new_constant (value_new_empty ()));
+		register_expr_list_allocation ($$);
+	}
         | { $$ = NULL; }
 	;
 

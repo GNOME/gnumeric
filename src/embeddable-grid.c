@@ -162,9 +162,7 @@ create_embeddable_grid (BonoboObject *object)
 static void
 embeddable_grid_init_anon (EmbeddableGrid *eg)
 {
-	eg->workbook = gtk_type_new (WORKBOOK_TYPE);
-	eg->sheet = sheet_new (eg->workbook, _("Embedded Sheet"));
-	workbook_attach_sheet (eg->workbook, eg->sheet);
+	eg->workbook = workbook_new_with_sheets (1);
 
 	/*
 	 * Workaround code.  Sheets are born with a sheet_view,
@@ -221,7 +219,7 @@ embeddable_grid_new (Workbook *wb, Sheet *sheet)
 	/*
 	 * We keep a handle to the Workbook
 	 */
-	bonobo_object_ref (BONOBO_OBJECT (embeddable_grid->workbook));
+	bonobo_object_ref (BONOBO_OBJECT (embeddable_grid->workbook->priv));
 	
 	bonobo_embeddable_construct (
 		BONOBO_EMBEDDABLE (embeddable_grid), corba_embeddable_grid,

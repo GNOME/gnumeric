@@ -15,8 +15,10 @@
 #include "commands.h"
 #include "sheet-view.h"
 #include "cell.h"
+#include "expr.h"
 #include "rendered-value.h"
 #include "gnumeric-util.h"
+#include "parse-util.h"
 
 #include <ctype.h>
 
@@ -38,7 +40,7 @@ workbook_auto_complete_destroy (Workbook *wb)
 				       wb_priv->edit_line.signal_changed);
 		wb_priv->edit_line.signal_changed = -1;
 	}
-	
+
 	if (wb_priv->auto_complete){
 		gtk_object_unref (GTK_OBJECT (wb_priv->auto_complete));
 		wb_priv->auto_complete = NULL;
@@ -46,7 +48,7 @@ workbook_auto_complete_destroy (Workbook *wb)
 		g_assert (wb_priv->auto_complete == NULL);
 
 	wb_priv->auto_completing = FALSE;
-	
+
 }
 
 void
@@ -81,7 +83,6 @@ workbook_finish_editing (Workbook *wb, gboolean const accept)
 		/* TODO: Get a context */
 		const char *txt = workbook_edit_get_display_text (sheet->workbook);
 
-		
 		/* Store the old value for undo */
 		/*
 		 * TODO: What should we do in case of failure ?
@@ -96,7 +97,7 @@ workbook_finish_editing (Workbook *wb, gboolean const accept)
 		sheet_redraw_cell_region (sheet, c, r, c, r);
 
 		/* Reload the entry widget with the original contents */
-		sheet_load_cell_val (sheet);
+		workbook_edit_load_value (sheet);
 	}
 
 	/*
@@ -118,8 +119,11 @@ workbook_finish_editing (Workbook *wb, gboolean const accept)
 	/* Only the edit sheet has an edit cursor */
 	sheet_stop_editing (sheet);
 
+	if (wb->priv->edit_line.guru != NULL)
+		gtk_widget_destroy (wb->priv->edit_line.guru);
+
 	workbook_auto_complete_destroy (wb);
-	
+
 	if (accept)
 		workbook_recalc (wb);
 }
@@ -142,7 +146,7 @@ entry_changed (GtkEntry *entry, void *data)
 	char *text;
 	int text_len;
 
-	
+
 	text = gtk_entry_get_text (workbook_get_entry (wb));
 	text_len = strlen (text);
 
@@ -151,18 +155,15 @@ entry_changed (GtkEntry *entry, void *data)
 
 	/*
 	 * Turn off auto-completion if the user has edited or the text
-	 * does not begin with an alphabetic character.
+	 * does not begin with an alphabetic character, or this is an expression.
 	 */
-	if (text_len < wb->priv->auto_max_size || !isalpha((unsigned char)*text))
+	if (text_len < wb->priv->auto_max_size ||
+	    !isalpha((unsigned char)*text) ||
+	    gnumeric_char_start_expr_p (text))
 		wb->priv->auto_completing = FALSE;
 
 	if (application_use_auto_complete_get () && wb->priv->auto_completing)
 		complete_start (wb->priv->auto_complete, text);
-}
-
-static void
-workbook_edit_auto_complete_init (Workbook *wb)
-{
 }
 
 /**
@@ -187,14 +188,14 @@ workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp,
 	Sheet *sheet;
 	Cell *cell;
 	static int inside_editing = 0;
-		
+
 	g_return_if_fail (wb != NULL);
 
 	if (inside_editing)
 		return;
 
 	inside_editing = 1;
-	
+
 	sheet = wb->current_sheet;
 	g_return_if_fail (sheet != NULL);
 
@@ -276,14 +277,62 @@ workbook_get_entry (Workbook const *wb)
 	g_return_val_if_fail (wb != NULL, NULL);
 	g_return_val_if_fail (wb->priv != NULL, NULL);
 
-	/* TODO: If there is an function druid up use the edit line from there */
 	return wb->priv->edit_line.entry;
+}
+
+GtkEntry *
+workbook_get_entry_logical (Workbook const *wb)
+{
+	g_return_val_if_fail (wb != NULL, NULL);
+	g_return_val_if_fail (wb->priv != NULL, NULL);
+
+	if (wb->priv->edit_line.temp_entry != NULL)
+		return wb->priv->edit_line.temp_entry;
+
+	return wb->priv->edit_line.entry;
+}
+
+void
+workbook_set_entry (Workbook *wb, GtkEntry *entry)
+{
+	g_return_if_fail (wb != NULL);
+	g_return_if_fail (wb->priv != NULL);
+
+	if (wb->priv->edit_line.temp_entry != entry) {
+		wb->priv->edit_line.temp_entry = entry;
+		sheet_destroy_cell_select_cursor (wb->current_sheet, FALSE);
+	}
+}
+
+void
+workbook_edit_attach_guru (Workbook *wb, GtkWidget *guru)
+{
+	g_return_if_fail (guru != NULL);
+	g_return_if_fail (wb != NULL);
+	g_return_if_fail (wb->priv != NULL);
+	g_return_if_fail (wb->priv->edit_line.guru == NULL);
+
+	wb->priv->edit_line.guru = guru;
+	gtk_entry_set_editable (wb->priv->edit_line.entry, FALSE);
+}
+
+void
+workbook_edit_detach_guru (Workbook *wb)
+{
+	g_return_if_fail (wb != NULL);
+	g_return_if_fail (wb->priv != NULL);
+	g_return_if_fail (wb->priv->edit_line.guru != NULL);
+
+	gtk_entry_set_editable (wb->priv->edit_line.entry, TRUE);
+	wb->priv->edit_line.temp_entry = NULL;
+	wb->priv->edit_line.guru = NULL;
 }
 
 gboolean
 workbook_editing_expr (Workbook const *wb)
 {
-	return gnumeric_entry_at_subexpr_boundary_p (workbook_get_entry (wb));
+	return (wb->priv->edit_line.guru != NULL) ||
+	    gnumeric_entry_at_subexpr_boundary_p (workbook_get_entry (wb));
 }
 
 gboolean
@@ -299,7 +348,7 @@ auto_complete_matches (Workbook *wb)
 	int cursor_pos = GTK_EDITABLE (entry)->current_pos;
 	char *text = gtk_entry_get_text (entry);
 	gboolean equal;
-	
+
 	/*
 	 * Ok, this sucks, ideally, I would like to do this test:
 	 * cursor_pos != strlen (text) to mean "user is editing,
@@ -314,19 +363,19 @@ auto_complete_matches (Workbook *wb)
 	{
 		GdkEvent *event = gtk_get_current_event ();
 		gboolean perform_test = FALSE;
-		
+
 		if (event && event->type != GDK_KEY_PRESS)
 			perform_test = TRUE;
 
 		if (perform_test)
 			if (cursor_pos != strlen (text))
 				wb->priv->auto_completing = FALSE;
-		
+
 	}
 
 	if (!wb->priv->auto_completing)
 		return FALSE;
-	
+
 	if (!wb->priv->auto_complete_text)
 		return FALSE;
 
@@ -348,6 +397,61 @@ workbook_edit_get_display_text (Workbook *wb)
 		return gtk_entry_get_text (workbook_get_entry (wb));
 }
 
+/**
+ * Load the edit line with the value of the cell in @sheet's edit_pos.
+ *
+ * FIXME : when ready move to workbook-view
+ */
+void
+workbook_edit_load_value (Sheet const *sheet)
+{
+	GtkEntry *entry;
+	Cell     *cell;
+	char     *text;
+	ExprArray const* ar;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	entry = GTK_ENTRY (workbook_get_entry (sheet->workbook));
+	cell = sheet_cell_get (sheet,
+			       sheet->cursor.edit_pos.col,
+			       sheet->cursor.edit_pos.row);
+
+	if (cell)
+		text = cell_get_entered_text (cell);
+	else
+		text = g_strdup ("");
+
+	/* This is intended for screen reading software etc. */
+	gtk_signal_emit_by_name (GTK_OBJECT (sheet->workbook), "cell_changed",
+				 sheet, text,
+				 sheet->cursor.edit_pos.col,
+				 sheet->cursor.edit_pos.row);
+
+	gtk_entry_set_text (entry, text);
+
+	/*
+	 * If this is part of an array we add '{' '}' and size information
+	 * to the display.  That is not actually part of the parsable
+	 * expression, but it is a useful extension to the simple '{' '}' that
+	 * MS excel(tm) uses.
+	 */
+	if (NULL != (ar = cell_is_array(cell))) {
+		/* No need to worry about locale for the comma
+		 * this syntax is not parsed
+		 */
+		char *tmp = g_strdup_printf ("}(%d,%d)[%d][%d]",
+					     ar->rows, ar->cols,
+					     ar->y, ar->x);
+		gtk_entry_prepend_text  (entry, "{");
+		gtk_entry_append_text (entry, tmp);
+		g_free (tmp);
+	}
+
+	g_free (text);
+}
+
 /*
  * Initializes the Workbook entry
  */
@@ -359,5 +463,7 @@ workbook_edit_init (Workbook *wb)
 	g_assert (wb->priv->edit_line.entry == NULL);
 
 	wb->priv->edit_line.entry = GTK_ENTRY (gtk_entry_new ());
+	wb->priv->edit_line.temp_entry = NULL;
+	wb->priv->edit_line.guru = NULL;
 	wb->priv->edit_line.signal_changed = -1;
 }

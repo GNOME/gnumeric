@@ -7,7 +7,7 @@
 
 #define ABOUT_KEY          "about-dialog"
 
-void     dialog_function_druid  (Workbook *wb);
+void     dialog_formula_guru	(Workbook *wb);
 void     dialog_plugin_manager  (Workbook *wb);
 void   	 dialog_goto_cell       (Workbook *wb);
 void   	 dialog_cell_format     (Workbook *wb, Sheet *sheet);

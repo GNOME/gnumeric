@@ -1,3 +1,13 @@
+2000-06-13  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-function-wizard.c : Major overhaul to support non-modality
+	  and selecting ranges using the mouse.  Lots of work remains.
+
+2000-06-12  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-cell-format.c (fmt_dialog_enable_widgets) : Currency formats
+	  always have thousands seperators.
+
 2000-06-13  Jon K Hellan  <hellan@acm.org>
 
 	* print.glade(.h)?: No automatic support in Glade/libglade for

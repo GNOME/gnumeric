@@ -28,7 +28,7 @@ workbook_view_set_paste_special_state (Workbook *wb, gboolean enable)
 		wb->priv->menu_item_paste_special, enable);
 #else
 	/* FIXME : How to avoid hard coding the menu name here. */
-	bonobo_ui_handler_menu_set_sensitivity (wb->uih,
+	bonobo_ui_handler_menu_set_sensitivity (wb->priv->uih,
 		"/Edit/Paste special...", enable);
 #endif
 }
@@ -53,7 +53,7 @@ change_menu_label (
 
 	gtk_widget_set_sensitive (menu_item, suffix != NULL);
 #else
-	bonobo_ui_handler_menu_set_sensitivity (wb->uih, path, suffix != NULL);
+	bonobo_ui_handler_menu_set_sensitivity (wb->priv->uih, path, suffix != NULL);
 #endif
 
 	if (suffix == NULL)
@@ -64,7 +64,7 @@ change_menu_label (
 #ifndef ENABLE_BONOBO
 	gtk_label_set_text (label, text);
 #else
-	bonobo_ui_handler_menu_set_label (wb->uih, path, text);
+	bonobo_ui_handler_menu_set_label (wb->priv->uih, path, text);
 #endif
 	g_free (text);
 }
