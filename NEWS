@@ -25,6 +25,7 @@ Morten:
 	* Make color combos multihead safe.  Fix latent memory corruption
 	  problem.
 	* Fix incorrect range highlighting in non-expressions like "10:23".
+	* Improve character set handling of pastes from other apps.
 
 --------------------------------------------------------------------------
 

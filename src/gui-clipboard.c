@@ -42,16 +42,22 @@
 #define HTML_ATOM_NAME "text/html"
 #define OOO_ATOM_NAME "application/x-openoffice;windows_formatname=\"Star Embed Source (XML)\""
 
+#define UTF8_ATOM_NAME "UTF8_STRING"
+#define CTEXT_ATOM_NAME "COMPOUND_TEXT"
+#define STRING_ATOM_NAME "STRING"
+
 /* The name of the TARGETS atom (don't change unless you know what you are doing!) */
 #define TARGETS_ATOM_NAME "TARGETS"
 
 static CellRegion *
-x_clipboard_to_cell_region (WorkbookControlGUI *wbcg,
-			    guchar const *src, int len)
+text_to_cell_region (WorkbookControlGUI *wbcg,
+		     guchar const *src, int len,
+		     const char *opt_encoding)
 {
 	DialogStfResult_t *dialogresult;
 	CellRegion *cr = NULL;
 	char *data;
+	gboolean oneline;
 
 	data = g_new (char, len + 1);
 	memcpy (data, src, len);
@@ -63,6 +69,21 @@ x_clipboard_to_cell_region (WorkbookControlGUI *wbcg,
 		return cellregion_new (NULL);
 	}
 
+	oneline = (strchr (data, '\n') == NULL);
+	if (oneline && (opt_encoding == NULL || strcmp (opt_encoding, "UTF-8") != 0)) {
+		const char *enc = opt_encoding ? opt_encoding : "ASCII";
+		char *newdata = g_convert (data, -1,
+					   "UTF-8", enc,
+					   NULL, NULL, NULL);
+		if (newdata) {
+			g_free (data);
+			data = newdata;
+		} else {
+			/* Force STF import since we don't know the charset.  */
+			oneline = FALSE;
+		}
+	}
+
 	/*
 	 * See if this is a "single line + line end" or a "multiline"
 	 * string. If this is _not_ the case we won't invoke the STF, it is
@@ -70,7 +91,7 @@ x_clipboard_to_cell_region (WorkbookControlGUI *wbcg,
 	 * NOTE: This is making an assumption on what the user 'wants', this
 	 * is not really a good thing. We should put this in a config dialog.
 	 */
-	if (strchr (data, '\n') == NULL) {
+	if (oneline) {
 		CellCopy *ccopy;
 
 		ccopy = g_new (CellCopy, 1);
@@ -84,7 +105,7 @@ x_clipboard_to_cell_region (WorkbookControlGUI *wbcg,
 		cr->content = g_list_prepend (cr->content, ccopy);
 		cr->cols = cr->rows = 1;
 	} else {
-		dialogresult = stf_dialog (wbcg, NULL, "clipboard", data);
+		dialogresult = stf_dialog (wbcg, opt_encoding, "clipboard", data);
 
 		if (dialogresult != NULL) {
 			int col;
@@ -183,36 +204,7 @@ out:
 }
 
 static void
-text_received (GtkClipboard *clipboard, const gchar *text, gpointer closure)
-{
-	WorkbookControlGUI *wbcg = closure;
-	WorkbookControl	   *wbc  = WORKBOOK_CONTROL (wbcg);
-	PasteTarget	   *pt   = wbcg->clipboard_paste_callback_data;
-	CellRegion *content = NULL;
-
-	if (text != NULL)
-		content = x_clipboard_to_cell_region (wbcg, text,
-						      strlen (text));
-	if (content != NULL) {
-		/*
-		 * if the conversion from the X selection -> a cellregion
-		 * was canceled this may have content sized -1,-1
-		 */
-		if (content->cols > 0 && content->rows > 0)
-			cmd_paste_copy (wbc, pt, content);
-
-		/* Release the resources we used */
-		cellregion_free (content);
-	}
-
-	if (wbcg->clipboard_paste_callback_data != NULL) {
-		g_free (wbcg->clipboard_paste_callback_data);
-		wbcg->clipboard_paste_callback_data = NULL;
-	}
-}
-
-static void
-complex_content_received (GtkClipboard *clipboard,  GtkSelectionData *sel,
+complex_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 			  gpointer closure)
 {
 	WorkbookControlGUI *wbcg = closure;
@@ -224,26 +216,28 @@ complex_content_received (GtkClipboard *clipboard,  GtkSelectionData *sel,
 		/* The data is the gnumeric specific XML interchange format */
 		content = xml_cellregion_read (wbc, pt->sheet,
 					       sel->data, sel->length);
-	} else {
-		const char *reader_id = NULL;
+	} else if (sel->target == gdk_atom_intern (UTF8_ATOM_NAME, FALSE)) {
+		content = text_to_cell_region (wbcg, sel->data, sel->length, "UTF-8");
+	} else if (sel->target == gdk_atom_intern (CTEXT_ATOM_NAME, FALSE)) {
+		/* COMPOUND_TEXT is icky.  Just let GTK+ do the work.  */
+		char *data_utf8 = gtk_selection_data_get_text (sel);
+		content = text_to_cell_region (wbcg, data_utf8, strlen (data_utf8), "UTF-8");
+		g_free (data_utf8);
+	} else if (sel->target == gdk_atom_intern (STRING_ATOM_NAME, FALSE)) {
+		char const *locale_encoding;
+		g_get_charset (&locale_encoding);
 
-		if (sel->target == gdk_atom_intern (OOO_ATOM_NAME, FALSE))
-			reader_id = "Gnumeric_OpenCalc:openoffice";
-		else if (sel->target == gdk_atom_intern (HTML_ATOM_NAME,
-							 FALSE))
-			reader_id = "Gnumeric_html:html";
-		if (reader_id)
-			content = table_cellregion_read (wbc, reader_id,
-							 pt, sel->data,
-							 sel->length);
-		/* Content is NULL if selection didn't contain a table. We
-		 * could make our parsers make a string in a cell for
-		 * this case. But the exporting application is probably
-		 * better than us at making a string representation. */
+		content = text_to_cell_region (wbcg, sel->data, sel->length, locale_encoding);
+	} else if (sel->target == gdk_atom_intern (OOO_ATOM_NAME, FALSE)) {
+		content = table_cellregion_read (wbc, "Gnumeric_OpenCalc:openoffice",
+						 pt, sel->data,
+						 sel->length);
+	} else if (sel->target == gdk_atom_intern (HTML_ATOM_NAME, FALSE)) {
+		content = table_cellregion_read (wbc, "Gnumeric_html:html",
+						 pt, sel->data,
+						 sel->length);
 	}
-	if (content == NULL)
-		gtk_clipboard_request_text (clipboard, text_received, wbcg);
-	else {
+	if (content) {
 		/*
 		 * if the conversion from the X selection -> a cellregion
 		 * was canceled this may have content sized -1,-1
@@ -280,6 +274,9 @@ x_clipboard_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 			GNUMERIC_ATOM_NAME,
 			OOO_ATOM_NAME,
 			HTML_ATOM_NAME,
+			UTF8_ATOM_NAME,
+			STRING_ATOM_NAME,
+			CTEXT_ATOM_NAME,
 			NULL
 		};
 
@@ -309,11 +306,8 @@ x_clipboard_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 				break;
 			}
 		}
-		/* If nothing better is on offer, request text */
-		if (formats[i] == NULL)
-			gtk_clipboard_request_text (clipboard,
-						    text_received, wbcg);
 
+		/* The following might be stale:  */
 		/* NOTE : We don't release clipboard_paste_callback_data as
 		 * long as we're still trying new formats.
 		 */

@@ -1,3 +1,13 @@
+2003-06-11  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-clipboard.c (complex_content_received): Handle all kinds
+	of strings here too.
+	(text_to_cell_region): Rename from x_clipboard_to_cell_region.
+	Add optional encoding parameter and let data be in that encoding.
+	Only allow simple one-line paste if we can translate to UTF-8.
+	(x_clipboard_received): Put string targets into prioritized list.
+	(text_received): Delete.
+
 2003-06-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=114777
