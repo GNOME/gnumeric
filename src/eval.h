@@ -22,7 +22,7 @@ typedef struct {
 
 typedef enum {
 	/* Linked into the workbook wide expression list */
-	DEPENDENT_IN_EXPR_LIST     = 0x00001000,
+	DEPENDENT_IS_LINKED	   = 0x00001000,
 	DEPENDENT_NEEDS_RECALC	   = 0x00002000,
 	DEPENDENT_BEING_CALCULATED = 0x00004000,
 
@@ -34,7 +34,7 @@ typedef enum {
 #define dependent_type(dep)		((dep)->flags & DEPENDENT_TYPE_MASK)
 #define dependent_is_cell(dep)		(dependent_type (dep) == DEPENDENT_CELL)
 #define dependent_needs_recalc(dep)	((dep)->flags & DEPENDENT_NEEDS_RECALC)
-#define dependent_is_linked(dep)	((dep)->flags & DEPENDENT_IN_EXPR_LIST)
+#define dependent_is_linked(dep)	((dep)->flags & DEPENDENT_IS_LINKED)
 
 struct _DependencyContainer {
 	Dependent *dependent_list;

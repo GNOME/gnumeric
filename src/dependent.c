@@ -813,7 +813,7 @@ dependent_link (Dependent *dep, CellPos const *pos)
 
 	g_return_if_fail (dep != NULL);
 	g_return_if_fail (dep->expression != NULL);
-	g_return_if_fail (!(dep->flags & DEPENDENT_IN_EXPR_LIST));
+	g_return_if_fail (!(dep->flags & DEPENDENT_IS_LINKED));
 	g_return_if_fail (IS_SHEET (dep->sheet));
 	g_return_if_fail (dep->sheet->deps != NULL);
 
@@ -825,7 +825,7 @@ dependent_link (Dependent *dep, CellPos const *pos)
 	if (dep->next_dep)
 		dep->next_dep->prev_dep = dep;
 	sheet->deps->dependent_list = dep;
-	dep->flags |= DEPENDENT_IN_EXPR_LIST;
+	dep->flags |= DEPENDENT_IS_LINKED;
 
 	handle_tree_deps (dep, pos, dep->expression, ADD_DEPS);
 }
@@ -848,7 +848,7 @@ dependent_unlink (Dependent *dep, CellPos const *pos)
 
 	if (dep->sheet != NULL) {
 		g_return_if_fail (dep->expression != NULL);
-		g_return_if_fail (dep->flags & DEPENDENT_IN_EXPR_LIST);
+		g_return_if_fail (dep->flags & DEPENDENT_IS_LINKED);
 		g_return_if_fail (IS_SHEET (dep->sheet));
 
 		/* see note in do_deps_destroy */
@@ -867,7 +867,7 @@ dependent_unlink (Dependent *dep, CellPos const *pos)
 		} if (!dependent_is_cell (dep))
 			handle_tree_deps (dep, pos, dep->expression, REMOVE_DEPS);
 
-		dep->flags &= ~(DEPENDENT_IN_EXPR_LIST | DEPENDENT_NEEDS_RECALC);
+		dep->flags &= ~(DEPENDENT_IS_LINKED | DEPENDENT_NEEDS_RECALC);
 	}
 }
 
@@ -886,7 +886,7 @@ dependent_unlink_sheet (Sheet *sheet)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	SHEET_FOREACH_DEPENDENT (sheet, dep, {
-		 dep->flags &= ~DEPENDENT_IN_EXPR_LIST;
+		 dep->flags &= ~DEPENDENT_IS_LINKED;
 		 UNLINK_DEP (dep);
 	 });
 }

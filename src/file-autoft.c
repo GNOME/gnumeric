@@ -115,7 +115,7 @@ category_free (FormatTemplateCategory *category)
  **/
 GSList *
 category_get_templates_list (FormatTemplateCategory *category,
-			     CommandContext *context)
+			     CommandContext *cc)
 {
 	GSList *templates = NULL;
 	DIR *dir;
@@ -137,7 +137,7 @@ category_get_templates_list (FormatTemplateCategory *category,
 			FormatTemplate *ft;
 
 			full_entry_name = g_concat_dir_and_file (category->directory, entry->d_name);
-			ft = format_template_new_from_file (context, full_entry_name);
+			ft = format_template_new_from_file (full_entry_name, cc);
 			if (ft == NULL) {
 				g_warning (_("Invalid template file: %s"), full_entry_name);
 			} else {
@@ -352,14 +352,15 @@ category_group_list_free (GList *category_groups)
  *
  **/
 GSList *
-category_group_get_templates_list (FormatTemplateCategoryGroup *category_group, CommandContext *context)
+category_group_get_templates_list (FormatTemplateCategoryGroup *category_group,
+				   CommandContext *cc)
 {
 	GSList *templates = NULL;
 	GList *l;
 
 	for (l = category_group->categories; l != NULL; l = l->next)
 		templates = g_slist_concat (templates,
-			category_get_templates_list (l->data, context));
+			category_get_templates_list (l->data, cc));
 
 	return g_slist_sort (templates, format_template_compare_name);
 }
