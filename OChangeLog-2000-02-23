@@ -1,5 +1,10 @@
 2000-01-20  Morten Welinder  <terra@diku.dk>
 
+	* src/functions/fn-math.c (gnumeric_mod): Correct error code; fix
+ 	for b < 0.
+
+2000-01-20  Morten Welinder  <terra@diku.dk>
+
 	* src/functions/fn-math.c (gnumeric_power): Correct error code.
 
 	* src/functions/fn-stat.c (gnumeric_avedev): Correct error code.

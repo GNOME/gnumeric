@@ -1202,25 +1202,29 @@ static char *help_mod = {
 static Value *
 gnumeric_mod (FunctionEvalInfo *ei, Value **argv)
 {
-	int a,b;
+	int a, b;
 
 	a = value_get_as_int (argv[0]);
 	b = value_get_as_int (argv[1]);
 
 	if (b == 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	if (b < 0) {
-		a = -a;
+		return value_new_error (ei->pos, gnumeric_err_DIV0);
+	else if (b > 0) {
+		if (a >= 0)
+			return value_new_int (a % b);
+		else {
+			int c = (-a) % b;
+			return value_new_int (c ? b - c : 0);
+		}
+	} else {
 		b = -b;
-		/* FIXME: check for overflow.  */
-	}
-
-	if (a >= 0)
-		return value_new_int (a % b);
-	else {
-		int invres = (-a) % b;
-		return value_new_int (invres == 0 ? 0 : b - invres);
+		a = -a;
+		if (a >= 0)
+			return value_new_int (-(a % b));
+		else {
+			int c = (-a) % b;
+			return value_new_int (c ? c - b : 0);
+		}
 	}
 }
 
