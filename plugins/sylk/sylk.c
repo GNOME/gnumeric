@@ -27,8 +27,8 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-gboolean sylk_file_probe (FileOpener const *fo, const gchar *filename);
-void     sylk_file_open (FileOpener const *fo, IOContext *io_context,
+gboolean sylk_file_probe (GnumFileOpener const *fo, const gchar *filename);
+void     sylk_file_open (GnumFileOpener const *fo, IOContext *io_context,
                          WorkbookView *wb_view, const char *filename);
 
 #define arraysize(x)     (sizeof(x)/sizeof(*(x)))
@@ -434,7 +434,7 @@ sylk_parse_sheet (sylk_file_state_t *src, ErrorInfo **ret_error)
 }
 
 void
-sylk_file_open (FileOpener const *fo, IOContext *io_context,
+sylk_file_open (GnumFileOpener const *fo, IOContext *io_context,
                 WorkbookView *wb_view, const char *filename)
 {
 	/*
@@ -478,7 +478,7 @@ sylk_file_open (FileOpener const *fo, IOContext *io_context,
 }
 
 gboolean
-sylk_file_probe (FileOpener const *fo, const char *filename)
+sylk_file_probe (GnumFileOpener const *fo, const char *filename)
 {
 	char buf [32] = "";
 	FILE *f;
