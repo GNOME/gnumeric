@@ -1,5 +1,13 @@
 1999-05-13  Michael Meeks  <michael@imaginator.com>
 
+	* ms-excel.c (ms_excel_set_cell_colors): Kills colors where
+	backgnd & foregnd are same, needs pattern stuff to work
+	before it can be fixed.
+	(ms_excel_palette_get): Sorted special idx=64 color & added
+	sanity check.
+
+1999-05-13  Michael Meeks  <michael@imaginator.com>
+
 	* ms-biff.h (ms_biff_query_next): Macrofied.
 
 	* ms-biff.c (ms_bug_get_padding): Routine to overcome

@@ -728,15 +728,16 @@ ms_excel_palette_new (BIFF_QUERY * q)
 static StyleColor *
 ms_excel_palette_get (MS_EXCEL_PALETTE *pal, guint idx)
 {
-	if (!pal) return NULL ;
-	if (idx < pal->length)
+	if (!pal)
+		return NULL ;
+	if (idx < pal->length && idx > 0)
 	{
 		if (pal->gnum_cols[idx] == NULL) {
 			gushort r, g, b;
 			r = pal->red[idx]*(65536/128-1);
 			g = pal->green[idx]*(65536/128-1);
 			b = pal->blue[idx]*(65536/128-1);
-			if (EXCEL_DEBUG>4)
+			if (EXCEL_DEBUG>0)
 				printf ("New color in slot %d : RGB= %d,%d,%d -> %d,%d,%d\n",
 					idx, pal->red[idx], pal->green[idx], pal->blue[idx],
 					r, g, b);
@@ -746,9 +747,9 @@ ms_excel_palette_get (MS_EXCEL_PALETTE *pal, guint idx)
 		return pal->gnum_cols[idx];
 	}
 	else if (idx == 64)
-		return style_color_new (65535, 65535, 65535);
+		return style_color_new (0, 0, 0);
 	else
-		return 0;
+		return NULL;
 }
 
 static void
@@ -807,7 +808,6 @@ ms_excel_set_cell_colors (MS_EXCEL_SHEET * sheet, Cell * cell, BIFF_XF_DATA * xf
 		return;
 	}
 
-	/* FIXME: gnumeric needs better colour support */
 	/* Whack into cell.c(cell_draw):
 	   printf ("Background %p (%d %d %d)\n", style->back_color, style->back_color->color.red,
 	   style->back_color->color.green, style->back_color->color.blue) ; */
@@ -819,9 +819,12 @@ ms_excel_set_cell_colors (MS_EXCEL_SHEET * sheet, Cell * cell, BIFF_XF_DATA * xf
 		fore = basefore;
 		back = ms_excel_palette_get (sheet->wb->palette, xf->pat_foregnd_col);
 	}
-	if (fore && back)
-		cell_set_color_from_style (cell, fore, back);
-	else if (EXCEL_DEBUG>0)
+	if (fore && back) {
+		if (fore == back)
+			printf ("FIXME: patterns need work\n");
+		else
+			cell_set_color_from_style (cell, fore, back);
+	} else if (EXCEL_DEBUG>0)
 		printf ("Missing color\n");
 }
 
@@ -833,24 +836,23 @@ ms_excel_set_cell_colors (MS_EXCEL_SHEET * sheet, Cell * cell, BIFF_XF_DATA * xf
 static StyleColor *
 ms_excel_set_cell_font (MS_EXCEL_SHEET * sheet, Cell * cell, BIFF_XF_DATA * xf)
 {
-	BIFF_FONT_DATA *fd = g_hash_table_lookup (sheet->wb->font_data, &xf->font_idx) ;
-	StyleColor *col ;
+	BIFF_FONT_DATA *fd = g_hash_table_lookup (sheet->wb->font_data, &xf->font_idx);
+	StyleColor *col;
 
-	if (!fd)
-	{
+	if (!fd) {
 		printf ("Unknown fount idx %d\n", xf->font_idx);
 		return NULL ;
 	}
 	g_assert (fd->index != 4);
 
 	if (!fd->style_font)
-		fd->style_font = biff_font_data_get_style_font (fd) ;
+		fd->style_font = biff_font_data_get_style_font (fd);
 
 	if (fd->style_font)
-		cell_set_font_from_style (cell, fd->style_font) ;
+		cell_set_font_from_style (cell, fd->style_font);
 	else
 		printf ("Duff StyleFont\n") ;
-	return ms_excel_palette_get (sheet->wb->palette, fd->color_idx) ;
+	return ms_excel_palette_get (sheet->wb->palette, fd->color_idx);
 }
 
 static void
