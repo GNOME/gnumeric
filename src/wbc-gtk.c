@@ -628,7 +628,8 @@ wbc_gtk_reload_recent_file_menu (WorkbookControlGUI const *wbcg)
 		char *name = g_strdup_printf ("FileHistoryEntry%d", i);
 		char *label = history_item_label (uri, i);
 		char *filename = go_filename_from_uri (uri);
-		char *tooltip = g_strdup_printf (_("Open %s"), filename ? filename : uri);
+		char *filename_utf8 = filename ? g_filename_to_utf8 (filename, -1, NULL, NULL, NULL) : NULL;
+		char *tooltip = g_strdup_printf (_("Open %s"), filename_utf8 ? filename_utf8 : uri);
 
 		entry.name = name;
 		entry.stock_id = NULL;
@@ -648,6 +649,7 @@ wbc_gtk_reload_recent_file_menu (WorkbookControlGUI const *wbcg)
 		g_free (name);
 		g_free (label);
 		g_free (filename);
+		g_free (filename_utf8);
 		g_free (tooltip);		
 	}
 

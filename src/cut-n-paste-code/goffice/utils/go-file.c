@@ -83,21 +83,15 @@ go_filename_to_uri (const char *filename)
 		g_free (simp);
 		return uri;
 	} else {
-		char *result;
+		char *uri;
 		char *current_dir = g_get_current_dir ();
-		gsize clen = strlen (current_dir);
 		char *abs_filename =
-			g_strconcat (current_dir,
-				     (clen && current_dir[clen - 1] == G_DIR_SEPARATOR
-				      ? ""
-				      : G_DIR_SEPARATOR_S),
-				     filename,
-				     NULL);
+			g_build_filename (current_dir, filename, NULL);
 		g_return_val_if_fail (g_path_is_absolute (abs_filename), NULL);
-		result = go_filename_to_uri (abs_filename);
+		uri = go_filename_to_uri (abs_filename);
 		g_free (current_dir);
 		g_free (abs_filename);
-		return result;
+		return uri;
 	}
 }
 

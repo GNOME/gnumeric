@@ -60,11 +60,6 @@
 #include "mathfunc.h"
 #include <goffice/utils/go-file.h>
 
-#ifdef WITH_GNOME
-#include <gsf-gnome/gsf-output-gnomevfs.h>
-#include <libgnomevfs/gnome-vfs-uri.h>
-#endif /* WITH_GNOME */
-
 /* WorkbookView signals */
 enum {
 	LAST_SIGNAL
@@ -564,18 +559,7 @@ wbv_save_to_file (WorkbookView *wbv, GnmFileSaver const *fs,
 {
 	char *msg = NULL;
 	GError *err = NULL;
-	GsfOutput *output = NULL;
-	char *filename;
-
-	filename = go_filename_from_uri (uri);
-	if (filename) {
-		output = gsf_output_stdio_new (filename, &err);
-		g_free (filename);
-	} else {
-#ifdef WITH_GNOME
-		output = gsf_output_gnomevfs_new (uri, &err);
-#endif
-	}
+	GsfOutput *output = go_file_create (uri, &err);
 
 	if (output == NULL) {
 		char *str = g_strdup_printf (_("Can't open '%s' for writing: %s"),

@@ -1,5 +1,12 @@
 2004-06-16  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-view.c (wbv_save_to_file): Simplify using
+	go_file_create.
+
+	* src/wbc-gtk.c (wbc_gtk_reload_recent_file_menu): Convert
+	filename to UTF-8 before constructing the label.  Use uri if the
+	filename cannot be represented in UTF-8.
+
 	* src/sheet-object-graph.c (cb_save_as): Handle dumping to uris.
 
 	* src/gui-file.c (gui_image_file_select): Take and return uris.
