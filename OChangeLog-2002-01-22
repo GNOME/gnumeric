@@ -1,3 +1,7 @@
+2001-10-16  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+       * src/analysis-tools.c (sampling_tool) : Fixed small bug.
+
 2001-10-16  Jody Goldberg <jgoldberg@home.com>
 
 	* src/gnumeric-graph.c (gnm_graph_get_spec) : Buffer changed name.

@@ -1160,6 +1160,7 @@ sampling_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
 			x = g_array_index (data, gnum_float, random_index);
 			g_array_remove_index_fast (data, random_index);
 			g_array_append_val (sample, x);
+			data_len--;
 		}
 
 		write_data (wbc, dao, sample, TRUE);
