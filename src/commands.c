@@ -3990,8 +3990,10 @@ cmd_insert_object_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbc), TRUE);
 
 	scg = wb_control_gui_cur_sheet (WORKBOOK_CONTROL_GUI (wbc));
-	sheet_object_set_sheet (me->so, me->parent.sheet);
-	scg_object_calc_position (scg, me->so, me->coords);
+	if (!sheet_object_set_sheet (me->so, me->parent.sheet)) {
+		scg_object_calc_position (scg, me->so, me->coords);
+		gtk_object_ref (GTK_OBJECT (me->so));
+	}
 
 	return (FALSE);
 }
@@ -4002,6 +4004,7 @@ cmd_insert_object_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	CmdInsertObject *me = CMD_INSERT_OBJECT (cmd);
 
 	sheet_object_clear_sheet (me->so);
+	gtk_object_unref (GTK_OBJECT (me->so));
 
 	return (FALSE);
 }

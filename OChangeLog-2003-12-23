@@ -1,5 +1,17 @@
 2001-08-07  Lutz Müller <urc8@rz.uni-karlsruhe.de>
 
+	* src/commands.c: (cmd_insert_object_redo): Do proper ref counting.
+	* src/item-grid.c: (cb_obj_create_button_release): Hook up 
+	cmd_insert_object.
+	* src/sheet-object.c: (sheet_object_remove_cb): Unref the sheet
+	object.
+	(sheet_object_set_sheet): Just return TRUE if (so->sheet == sheet) 
+	instead of printing a warning. This is because when command_push_undo
+	is called, the redo function will be called although there is nothing
+	to redo at this moment. We detect this through this function here.
+
+2001-08-07  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+
 	* src/commands.[c,h]: (cmd_insert_object), (cmd_delete_object): New.
 	cmd_insert_object is not hooked up yet.
 	* src/sheet-control-gui.c: (cb_control_point_event): Pass the sheet

@@ -53,6 +53,7 @@ sheet_object_remove_cb (GtkWidget *widget, GtkObject *so_view)
 	sheet = sc_sheet (SHEET_CONTROL (scg));
 
 	cmd_delete_object (WORKBOOK_CONTROL (wbcg), sheet, so);
+	gtk_object_unref (GTK_OBJECT (so));
 }
 
 static void
@@ -269,7 +270,10 @@ sheet_object_set_sheet (SheetObject *so, Sheet *sheet)
 {
 	g_return_val_if_fail (IS_SHEET_OBJECT (so), TRUE);
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
-	g_return_val_if_fail (so->sheet == NULL, TRUE);
+
+	if (so->sheet == sheet)
+		return (TRUE);
+
 	g_return_val_if_fail (g_list_find (sheet->sheet_objects, so) == NULL, TRUE);
 
 	so->sheet = sheet;

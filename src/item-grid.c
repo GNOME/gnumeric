@@ -34,6 +34,7 @@
 #include "style-color.h"
 #include "pattern.h"
 #include "portability.h"
+#include "commands.h"
 
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-cursors.h>
@@ -722,6 +723,8 @@ cb_obj_create_button_release (GnumericCanvas *gcanvas, GdkEventButton *event,
 	/* move object from creation to edit mode */
 	scg->new_object = NULL;
 	scg_mode_edit_object (scg, so);
+
+	cmd_insert_object (WORKBOOK_CONTROL (scg_get_wbcg (scg)), sheet, so);
 
 	return TRUE;
 }
