@@ -161,8 +161,12 @@
 		    _tip="Insert a new sheet"/>
 
 		<menuitem name="SheetChangeName" verb=""
-		    _label="Re_name"
+		    _label="Re_name..."
 		    _tip="Rename the current sheet"/>
+
+		<menuitem name="SheetReorder" verb=""
+		    _label="Re-_Order..."
+		    _tip="Change the order the sheets are displayed" />
 
 		<menuitem name="EditDeleteSheet" verb=""
 		    _label="_Remove"
@@ -207,7 +211,7 @@
 		_tip="Jump to a specified cell"/>
 
 	    <menuitem name="EditRecalc" verb=""
-		_label="_Recalculate"
+		_label="Recalculate"
 		_tip="Recalculate the spreadsheet"
 		accel="F9"/>
 
@@ -343,11 +347,11 @@
 
 	    <submenu _label="_Sheet">
 		<menuitem name="SheetChangeName" verb=""
-		    _label="_Change Name"
+		    _label="_Change Name..."
 		    _tip="Edit the name of the current sheet" />
 
 		<menuitem name="SheetReorder" verb=""
-		    _label="Re-_Order Sheets"
+		    _label="Re-_Order Sheets..."
 		    _tip="Change the order the sheets are displayed" />
 
 		<menuitem name="SheetDisplayFormulas" verb="" type="toggle"

@@ -1788,9 +1788,13 @@ static GnomeUIInfo workbook_menu_edit_sheet [] = {
 		N_("Insert a new sheet"),
 		cb_insert_sheet),
 
-	GNOMEUIINFO_ITEM_NONE (N_("Re_name"),
+	GNOMEUIINFO_ITEM_NONE (N_("Re_name..."),
 		N_("Rename the current sheet"),
 		cb_sheet_change_name),
+
+	GNOMEUIINFO_ITEM_NONE (N_("Re-_Order Sheets..."),
+		NULL,
+		cb_sheet_order),
 
 	GNOMEUIINFO_ITEM_NONE (N_("_Remove"),
 		N_("Irrevocably remove an entire sheet"),
@@ -1955,7 +1959,7 @@ static GnomeUIInfo workbook_menu_format_sheet [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("_Change name"),
 		NULL,
 		cb_sheet_change_name),
-	GNOMEUIINFO_ITEM_NONE (N_("Re-_Order Sheets"),
+	GNOMEUIINFO_ITEM_NONE (N_("Re-_Order Sheets..."),
 		NULL,
 		cb_sheet_order),
 	{ GNOME_APP_UI_TOGGLEITEM,
