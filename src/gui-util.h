@@ -118,6 +118,8 @@ void gnumeric_pbox_init_help	(GtkWidget *dialog, char const *link);
 char *gnumeric_textview_get_text (GtkTextView *text_view);
 void  gnumeric_textview_set_text (GtkTextView *text_view, char const *txt);
 
+void focus_on_entry (GtkEntry *entry);
+
 int entry_to_float (GtkEntry *entry, gnum_float *the_float, gboolean update);
 int entry_to_float_with_format (GtkEntry *entry, gnum_float *the_float, gboolean update,
 				StyleFormat *format);

@@ -39,7 +39,7 @@ ANALYSISTOOLS_OUTPUT_GROUP
 
 
 /**
- * focus_on_entry:
+ * cb_focus_on_entry:
  * @widget:
  * @entry:
  *
@@ -48,7 +48,7 @@ ANALYSISTOOLS_OUTPUT_GROUP
  *
  **/
 static void
-focus_on_entry (GtkWidget *widget, GtkWidget *entry)
+cb_focus_on_entry (GtkWidget *widget, GtkWidget *entry)
 {
         if (GTK_TOGGLE_BUTTON (widget)->active)
 		gtk_widget_grab_focus (GTK_WIDGET (gnm_expr_entry_get_entry 
@@ -106,7 +106,7 @@ dialog_tool_init_outputs (GenericToolState *state, GtkSignalFunc sensitivity_cb)
 			  0, 0);
 	g_signal_connect (G_OBJECT (state->output_range),
 		"toggled",
-		G_CALLBACK (focus_on_entry), state->output_entry);
+		G_CALLBACK (cb_focus_on_entry), state->output_entry);
 	g_signal_connect (G_OBJECT (gnm_expr_entry_get_entry 
 				    (GNUMERIC_EXPR_ENTRY (state->output_entry))),
 		"focus-in-event",

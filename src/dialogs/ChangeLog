@@ -1,5 +1,13 @@
 2002-03-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dao-gui-utils.c (focus_on_entry) : renamed to cb_focus_on_entry
+	* dialog-analysis-tools.c (error_in_entry) : use focus_on_entry
+	* dialog-goal-seek.c (focus_on_entry) : removed
+	* dialog-tabulate.c (focus_on_entry) : removed
+	* dialog-summary.c : use gnumeric_textview_[gs]et_text
+
+2002-03-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* analysis-tools.glade : removed
 	* mean-tests.glade : remove placeholder
 	* Makefile.am : removed analysis-tools.glade

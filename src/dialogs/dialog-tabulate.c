@@ -304,16 +304,6 @@ non_model_dialog (WorkbookControlGUI *wbcg,
 	gtk_widget_show (GTK_WIDGET (dialog));
 }
 
-static void
-focus_on_entry (GtkEntry *entry)
-{
-	if (entry == NULL)
-		return;
-	gtk_widget_grab_focus (GTK_WIDGET(entry));
-	gtk_editable_set_position (GTK_EDITABLE (entry), 0);
-	gtk_entry_select_region (entry, 0, entry->text_length);
-}
-
 static Cell *
 single_cell (Sheet *sheet, GnumericExprEntry *gee)
 {

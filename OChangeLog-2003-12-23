@@ -1,3 +1,9 @@
+2002-03-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* gui-util.[ch] (focus_on_entry) : new
+	* src/workbook-control-gui.c (cb_file_summary) : delete unused
+	  variable
+
 2002-03-25  Morten Welinder  <terra@diku.dk>
 
 	* src/format.c (format_value): Strip signs when conditional

@@ -1121,6 +1121,18 @@ gnumeric_textview_set_text (GtkTextView *text_view, char const *txt)
 		txt, -1);
 }
 
+void
+focus_on_entry (GtkEntry *entry)
+{
+	if (entry == NULL)
+		return;
+	gtk_widget_grab_focus (GTK_WIDGET(entry));
+	gtk_editable_set_position (GTK_EDITABLE (entry), 0);
+	gtk_entry_select_region (entry, 0, entry->text_length);
+}
+
+
+
 /**
  * entry_to_float:
  * @entry:

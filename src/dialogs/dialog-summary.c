@@ -86,16 +86,10 @@ dialog_summary_get (SummaryState *state)
 
 	{
 		char *comments;
-		GtkTextIter start;
-		GtkTextIter end;
-		GtkTextBuffer* buffer;
 		SummaryItem *sit = NULL;
 		
 		w = glade_xml_get_widget (state->gui, summary_item_name[SUMMARY_I_COMMENTS]);
-		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (w));
-		gtk_text_buffer_get_bounds  (buffer, &start, &end);
-		comments = gtk_text_buffer_get_text (buffer, &start,
-						     &end, FALSE);
+		comments = gnumeric_textview_get_text (GTK_TEXT_VIEW (w));
 		old_content = summary_item_as_text_by_name (summary_item_name[SUMMARY_I_COMMENTS], 
 							    wb->summary_info);
 		if (0 != strcmp (old_content, comments))
@@ -133,9 +127,7 @@ dialog_summary_put (SummaryState *state)
 	if (w) {
 		char *txt = summary_item_as_text_by_name (summary_item_name[SUMMARY_I_COMMENTS], 
 							  sin);
-		GtkTextBuffer* buffer;
-		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (w));
-		gtk_text_buffer_set_text (buffer, txt, -1);
+		gnumeric_textview_set_text (GTK_TEXT_VIEW (w), txt);
 		g_free (txt);
 	}
 	w = glade_xml_get_widget (state->gui, "doc_name");
@@ -192,7 +184,8 @@ dialog_summary_update (WorkbookControlGUI *wbcg, gboolean open_dialog)
 
 	g_return_if_fail (wbcg != NULL);
 
-	if (dialog = gnumeric_dialog_raise_if_exists (wbcg, SUMMARY_DIALOG_KEY)) {
+	dialog = gnumeric_dialog_raise_if_exists (wbcg, SUMMARY_DIALOG_KEY);
+	if (dialog) {
 		state = g_object_get_data (G_OBJECT (dialog),
 					   SUMMARY_DIALOG_KEY_DIALOG);
 		dialog_summary_put (state);

@@ -85,15 +85,6 @@ typedef struct {
 	gnum_float ytarget;
 } GoalEvalData;
 
-void
-focus_on_entry (GtkEntry *entry)
-{
-	gtk_widget_grab_focus (GTK_WIDGET(entry));
-	gtk_entry_set_position (entry, 0);
-	gtk_editable_set_position (GTK_EDITABLE (entry), 0);
-	gtk_entry_select_region (entry, 0, entry->text_length);
-}
-
 static GoalSeekStatus
 goal_seek_eval (gnum_float x, gnum_float *y, void *vevaldata)
 {

@@ -1456,7 +1456,6 @@ cb_file_print_preview (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 cb_file_summary (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	dialog_summary_update (wbcg, TRUE);
 }
 
