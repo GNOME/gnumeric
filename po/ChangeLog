@@ -1,3 +1,8 @@
+2001-04-08  Fatih Demir <kabalak@gtranslator.org>
+
+	* tr.po: Final checkin of an updated Turkish
+		translation by Nilgün.
+
 2001-04-15  Jody Goldberg <jgoldberg@home.com>
 
 	* da.po : The encoding does not appear to be utf8, switch to latin1
