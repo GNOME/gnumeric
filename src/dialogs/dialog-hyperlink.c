@@ -29,6 +29,7 @@
 #include <gui-util.h>
 #include <hlink.h>
 #include <mstyle.h>
+#include <style-color.h>
 #include <sheet-control.h>
 #include <sheet-view.h>
 #include <sheet-style.h>
@@ -267,6 +268,9 @@ dhl_cb_ok (G_GNUC_UNUSED GtkWidget *button, HyperlinkState *state)
 		gnm_hlink_set_tip (state->link, dhl_get_tip (state));
 		style = mstyle_new ();
 		mstyle_set_hlink (style, g_object_ref (state->link));
+		mstyle_set_font_uline (style, UNDERLINE_SINGLE);
+		mstyle_set_color (style, MSTYLE_COLOR_FORE,
+			style_color_new_name ("blue"));
 
 		if (state->is_new)
 			cmdname = _("Add Hyperlink");

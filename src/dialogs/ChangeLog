@@ -1,5 +1,8 @@
 2003-05-31  Jody Goldberg <jody@gnome.org>
 
+	* dialog-hyperlink.c (dhl_cb_ok) : when we add an hlink underline the
+	  content and turn it blue.
+
 	* cell-format.glade : @$^#$ HIG.  It is a Cancel button
 
 	* dialog-fill-series.c (dialog_fill_series) : default the cols/rows

@@ -1188,9 +1188,8 @@ cb_checkbox_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 }
 
 static gboolean
-cb_checkbox_config_destroy (GtkObject *w, CheckboxConfigState *state)
+cb_checkbox_config_destroy (CheckboxConfigState *state)
 {
-	g_return_val_if_fail (w != NULL, FALSE);
 	g_return_val_if_fail (state != NULL, FALSE);
 
 	wbcg_edit_detach_guru (state->wbcg);
@@ -1285,15 +1284,14 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
  	g_signal_connect (G_OBJECT (state->label),
 		"changed",
 		G_CALLBACK (cb_checkbox_label_changed), state);
-	g_signal_connect (G_OBJECT (state->dialog),
-		"destroy",
-		G_CALLBACK (cb_checkbox_config_destroy), state);
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "ok_button")),
 		"clicked",
 		G_CALLBACK (cb_checkbox_config_ok_clicked), state);
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "cancel_button")),
 		"clicked",
 		G_CALLBACK (cb_checkbox_config_cancel_clicked), state);
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) cb_checkbox_config_destroy);
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		"so-checkbox.html");
