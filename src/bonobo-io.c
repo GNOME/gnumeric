@@ -268,7 +268,7 @@ gnumeric_bonobo_write_workbook (GnumFileSaver const *fs,
 		xml, NULL, GNUM_XML_LATEST, NULL,
 		gnumeric_bonobo_obj_write, storage);
 
-	xml->root = xml_workbook_write (ctxt, wb_view);
+	xml->xmlRootNode = xml_workbook_write (ctxt, wb_view);
 	xml_parse_ctx_destroy (ctxt);
 
 	/*
@@ -461,7 +461,7 @@ gnumeric_bonobo_read_workbook (GnumFileOpener const *fo,
 			context, "Failed to parse file");
 		goto storage_err;
 	}
-	if (!doc->root) {
+	if (!doc->xmlRootNode) {
 		xmlFreeDoc (doc);
 		gnumeric_io_error_read (
 			context, _("Invalid xml file. Tree is empty ?"));
@@ -484,7 +484,7 @@ gnumeric_bonobo_read_workbook (GnumFileOpener const *fo,
 		gnumeric_bonobo_obj_read,
 		NULL, storage);
 
-	xml_workbook_read (context, wb_view, ctxt, doc->root);
+	xml_workbook_read (context, wb_view, ctxt, doc->xmlRootNode);
 	workbook_set_saveinfo (wb_view_workbook (wb_view),
 	                       (char *) filename, FILE_FL_AUTO,
 	                       gnumeric_bonobo_saver);
