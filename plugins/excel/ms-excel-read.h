@@ -13,15 +13,6 @@
 
 extern Workbook *ms_excelReadWorkbook(MS_OLE *file) ;
 
-typedef struct _BIFF_BOUNDSHEET_DATA
-{
-	guint16 index ;
-	guint32 streamStartPos ;
-	eBiff_filetype type ;
-	eBiff_hidden   hidden ;
-	char *name ;
-} BIFF_BOUNDSHEET_DATA ;
-
 typedef struct _MS_EXCEL_SHEET
 {
 	int blank ;
@@ -30,6 +21,16 @@ typedef struct _MS_EXCEL_SHEET
 	eBiff_version ver ;
 	GHashTable *shared_formulae ;
 } MS_EXCEL_SHEET ;
+
+typedef struct _BIFF_BOUNDSHEET_DATA
+{
+	guint16 index ;
+	guint32 streamStartPos ;
+	eBiff_filetype type ;
+	eBiff_hidden   hidden ;
+	char *name ;
+	MS_EXCEL_SHEET *sheet;
+} BIFF_BOUNDSHEET_DATA ;
 
 typedef struct {
 	guint16 col ;
@@ -42,9 +43,9 @@ typedef struct {
 	guint32 data_len ;
 } BIFF_SHARED_FORMULA ;
 
-extern char *ms_excel_sheet_shared_formula (MS_EXCEL_SHEET *sheet,
-					    int shr_col, int shr_row,
-					    int col, int row) ;
+extern ExprTree *ms_excel_sheet_shared_formula (MS_EXCEL_SHEET *sheet,
+						int shr_col, int shr_row,
+						int col, int row) ;
 
 typedef struct _MS_EXCEL_PALETTE
 {
@@ -106,7 +107,7 @@ typedef struct _MS_EXCEL_WORKBOOK
 #define MS_EXCEL_DOUBLE_FORMAT           "%.16G"
 #define MS_EXCEL_DOUBLE_FORMAT_LEN       65
 
-extern char* biff_get_externsheet_name (MS_EXCEL_WORKBOOK *wb, guint16 idx, gboolean get_first) ;
+extern Sheet* biff_get_externsheet_name (MS_EXCEL_WORKBOOK *wb, guint16 idx, gboolean get_first) ;
 extern char* biff_get_text (BYTE *ptr, guint32 length, guint32 *byte_length) ;
 extern const char* biff_get_error_text (const guint8 err) ;
 extern char* biff_name_data_get_name (MS_EXCEL_SHEET *sheet, guint16 idx) ;

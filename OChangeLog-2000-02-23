@@ -1,5 +1,11 @@
 1999-05-02  Michael Meeks  <michael@imaginator.com>
 
+	* src/expr.h: Spelling fix 'substract' :-)
+
+	* src/expr.c (expr_tree_new): Added for convenience.
+
+1999-05-02  Michael Meeks  <michael@imaginator.com>
+
 	* src/cell.c (cell_set_value): Created.
 	(cell_set_value_simple): Created.
 

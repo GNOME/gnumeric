@@ -406,8 +406,8 @@ biff_boundsheet_data_new (MS_EXCEL_WORKBOOK *wb, BIFF_QUERY * q, eBiff_version v
 			     &ans->streamStartPos, ans) ;
 
 	g_assert (ans->streamStartPos == BIFF_GETLONG (q->data)) ;
-	sheet = ms_excel_sheet_new (wb, ans->name);
-	ms_excel_workbook_attach (wb, sheet);
+	ans->sheet = ms_excel_sheet_new (wb, ans->name);
+	ms_excel_workbook_attach (wb, ans->sheet);
 }
 
 static gboolean 
@@ -1183,7 +1183,7 @@ ms_excel_sheet_new (MS_EXCEL_WORKBOOK * wb, char *name)
 	return ans;
 }
 
-char *
+ExprTree *
 ms_excel_sheet_shared_formula (MS_EXCEL_SHEET *sheet,
 			       int shr_col, int shr_row,
 			       int col, int row)
@@ -1199,7 +1199,7 @@ ms_excel_sheet_shared_formula (MS_EXCEL_SHEET *sheet,
 					       sf->data_len) ;
 	if (EXCEL_DEBUG>0)
 		printf ("Duff shared formula index %d %d\n", col, row) ;
-	return strdup ("00") ;
+	return NULL;
 }
 
 static void
@@ -1218,6 +1218,22 @@ ms_excel_sheet_insert (MS_EXCEL_SHEET * sheet, int xfidx,
 	{
 		sheet->blank = 0 ;
 		cell_set_text_simple (cell, text);
+	}
+	else
+		cell_set_text_simple (cell, "") ;
+	ms_excel_set_cell_xf (sheet, cell, xfidx);
+}
+
+static void
+ms_excel_sheet_insert_form (MS_EXCEL_SHEET * sheet, int xfidx,
+			    int col, int row, ExprTree *tr)
+{
+	Cell *cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
+	/* NB. cell_set_text _certainly_ strdups *text */
+	if (tr)
+	{
+		sheet->blank = 0 ;
+		cell_set_formula_tree_simple (cell, tr);
 	}
 	else
 		cell_set_text_simple (cell, "") ;
@@ -1623,7 +1639,7 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		int array_row_first, array_row_last ;
 		BYTE *data ;
 		guint16 data_len ;
-		char *txt ;
+		ExprTree *tr ;
 		Cell *cell ;
 		BIFF_SHARED_FORMULA *sf ;
 
@@ -1644,15 +1660,16 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		if (EXCEL_DEBUG>0)
 			printf ("Shared formula of extent %d %d %d %d\n",
 				array_col_first, array_row_first, array_col_last, array_row_last) ;
-		txt = ms_excel_parse_formula (sheet, data,
+		tr = ms_excel_parse_formula (sheet, data,
 					      array_col_first, array_row_first,
 					      1, data_len) ;
 		/* NB. This keeps the pre-set XF record */
-		cell = sheet_cell_fetch (sheet->gnum_sheet,
-					 array_col_first, array_row_first);
-		if (txt) {
-			cell_set_text_simple (cell, txt);
-			g_free(txt) ;
+		if (tr) {
+			cell = sheet_cell_fetch (sheet->gnum_sheet,
+						 array_col_first, array_row_first);
+			if (cell)
+				cell_set_formula_tree_simple (cell, tr);
+			expr_tree_unref (tr);
 		}
 		break ;
 	}
@@ -1678,30 +1695,32 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		for (xlp=array_col_first;xlp<=array_col_last;xlp++)
 			for (ylp=array_row_first;ylp<=array_row_last;ylp++)
 			{
-				char *txt = ms_excel_parse_formula (sheet, data,
-								    xlp, ylp, 
-								    0, data_len) ;
+				ExprTree *tr = ms_excel_parse_formula (sheet, data,
+								       xlp, ylp, 
+								       0, data_len) ;
 				/* NB. This keeps the pre-set XF record */
-				Cell *cell = sheet_cell_fetch (sheet->gnum_sheet, xlp, ylp);
-				if (cell)
-						cell_set_text_simple (cell, txt);
-				g_free(txt) ;
+				if (tr) {
+					Cell *cell = sheet_cell_fetch (sheet->gnum_sheet, xlp, ylp);
+					if (cell)
+						cell_set_formula_tree_simple (cell, tr);
+					expr_tree_unref (tr);
+				}
 			}
 		break ;
 	}
 	case BIFF_FORMULA: /* See: S59D8F.HTM */
 	{
-		char *txt ;
+		ExprTree *tr;
 		if (q->length < 22 ||
 		    q->length < 22 + BIFF_GETWORD(q->data+20)) {
 			printf ("FIXME: serious formula error\n");
 			break;
 		}
-		txt = ms_excel_parse_formula (sheet, (q->data + 22),
-					      EX_GETCOL (q), EX_GETROW (q),
-					      0, BIFF_GETWORD(q->data+20));
-		ms_excel_sheet_insert (sheet, EX_GETXF(q), EX_GETCOL(q), EX_GETROW(q), txt) ;
-		g_free (txt) ;
+		tr = ms_excel_parse_formula (sheet, (q->data + 22),
+					     EX_GETCOL (q), EX_GETROW (q),
+					     0, BIFF_GETWORD(q->data+20));
+		ms_excel_sheet_insert_form (sheet, EX_GETXF(q), EX_GETCOL(q), EX_GETROW(q), tr) ;
+		expr_tree_unref (tr);
 		break;
 	}
 	case BIFF_LABELSST:
@@ -1964,7 +1983,7 @@ ms_excel_read_sheet (MS_EXCEL_SHEET *sheet, BIFF_QUERY * q, MS_EXCEL_WORKBOOK * 
 	return;
 }
 
-char* 
+Sheet *
 biff_get_externsheet_name(MS_EXCEL_WORKBOOK *wb, guint16 idx, gboolean get_first)
 {
 	BIFF_EXTERNSHEET_DATA *bed ;
@@ -1972,14 +1991,15 @@ biff_get_externsheet_name(MS_EXCEL_WORKBOOK *wb, guint16 idx, gboolean get_first
 	guint16 index ;
 
 	if (idx>=wb->num_extern_sheets)
-		return "Unknown";
+		return NULL;
 
 	bed = &wb->extern_sheets[idx] ;
 	index = get_first ? bed->first_tab : bed->last_tab ;
 
 	bsd = g_hash_table_lookup (wb->boundsheet_data_by_index, &index) ;
-	if (!bsd) return 0 ;
-	return bsd->name ;
+	if (!bsd)
+		printf ("Duff sheet index %d\n", index);
+	return bsd->sheet->gnum_sheet;
 }
 
 /**

@@ -67,6 +67,17 @@ do_expr_tree_ref (ExprTree *tree)
 	}
 }
 
+ExprTree *
+expr_tree_new ()
+{
+	ExprTree *ans = g_new (ExprTree, 1);
+	if (!ans) return NULL;
+	ans->ref_count = 1;
+	ans->oper = OPER_CONSTANT;
+	ans->u.constant = NULL;
+	return ans;
+}
+
 /*
  * expr_tree_ref:
  * Increments the ref_count for part of a tree

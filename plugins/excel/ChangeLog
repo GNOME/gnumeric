@@ -1,5 +1,18 @@
 1999-05-02  Michael Meeks  <michael@imaginator.com>
 
+	* ms-excel.c (biff_get_externsheet_name): Converted to return
+	a Sheet *
+	(ms_excel_sheet_shared_formula): Returns ExprTree.
+	(biff_boundsheet_data_new): Added EXCEL_SHEET * to BOUNDSHEET_DATA
+	this really needs rationalising !
+	Fixed all things that use ms_formula stuff...
+
+	* ms-formula.c: The most comprehensive re-write of the entire
+	formula parsing structure. 80% + of code changed. Now smaller,
+	cleaner, meaner, leaner ... and featuring all your favorite bugs.
+
+1999-05-02  Michael Meeks  <michael@imaginator.com>
+
 	* ms-excel.c (biff_xf_data_destroy): Changed prototype.
 	(ms_excel_workbook_destroy, ms_excel_workbook_new),
 	(ms_excel_set_cell_xf, biff_xf_data_new):

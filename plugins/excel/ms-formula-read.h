@@ -12,9 +12,10 @@
 #include "ms-excel.h"
 #include "ms-biff.h"
 
-char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
-			      int fn_col, int fn_row,
-			      int shared, guint16 length) ;
+ExprTree *
+ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
+			int fn_col, int fn_row,
+			int shared, guint16 length) ;
 
 /**
  * See S59E2B.HTM
@@ -48,18 +49,5 @@ typedef struct _FORMULA_ARRAY_DATA
 {
   int src_col, src_row, dest_col, dest_row ;
 } FORMULA_ARRAY_DATA ;
-
-typedef struct _FORMULA_OP_DATA
-{
-  gboolean infix ; /* ie. not unary */
-  char *mid ;
-  int  precedence ;
-} FORMULA_OP_DATA ;
-
-typedef struct _FORMULA_FUNC_DATA
-{
-	char *prefix ;
-	int num_args ; /* -1 for multi-arg */
-} FORMULA_FUNC_DATA ;
 
 #endif

@@ -20,7 +20,7 @@ typedef enum {
 	OPER_NOT_EQUAL,		/* Compare for non equivalence */
 	
 	OPER_ADD,		/* Add  */
-	OPER_SUB,		/* Substract */
+	OPER_SUB,		/* Subtract */
 	OPER_MULT,		/* Multiply */
 	OPER_DIV,		/* Divide */
 	OPER_EXP,		/* Exponentiate */
@@ -163,6 +163,7 @@ ExprTree   *expr_tree_relocate   (ExprTree *expr, int col_diff, int row_diff);
 char       *expr_decode_tree     (ExprTree *tree, Sheet *sheet,
 				  int col, int row);
 
+ExprTree   *expr_tree_new        ();
 void        expr_tree_ref        (ExprTree *tree);
 void        expr_tree_unref      (ExprTree *tree);
 
