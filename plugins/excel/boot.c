@@ -34,19 +34,19 @@ excel_probe (const char *filename)
 	return res;
 }
 
-static Workbook *
-excel_load (const char *filename)
+static gboolean
+excel_load (Workbook *wb, const char *filename)
 {
-	Workbook *wb;
 	MsOle *f;
-
+	gboolean ret;
+	
 	f = ms_ole_open (filename);
 	if (!f)
-		return NULL;
+		return FALSE;
 
 	printf ("Opening '%s' ", filename);
-	wb = ms_excel_read_workbook (f);
-	if (wb) {
+	ret = ms_excel_read_workbook (wb, f);
+	if (ret) {
 		char *name = g_strconcat (filename, ".gnumeric", NULL);
 		ms_summary_read (f, wb->sin);
 
@@ -59,7 +59,7 @@ excel_load (const char *filename)
 
 	ms_ole_destroy (f);
 
-	return wb;
+	return ret;
 }
 
 

@@ -152,6 +152,17 @@ Workbook_parse (PortableServer_Servant servant,
 }
 
 static void
+Workbook_show (PortableServer_Servant servant, CORBA_boolean show_toplevel, CORBA_Environment *ev)
+{
+	Workbook *workbook = workbook_from_servant (servant);
+
+	if (show_toplevel)
+		gtk_widget_show (workbook->toplevel);
+	else
+		gtk_widget_hide (workbook->toplevel);
+}
+
+static void
 Workbook_corba_class_init ()
 {
 	static int inited;
@@ -177,6 +188,7 @@ Workbook_corba_class_init ()
 	gnome_gnumeric_workbook_epv.recalc = Workbook_recalc;
 	gnome_gnumeric_workbook_epv.recalc_all = Workbook_recalc_all;
 	gnome_gnumeric_workbook_epv.parse = Workbook_parse;
+	gnome_gnumeric_workbook_epv.show = Workbook_show;
 }
 
 /**

@@ -51,15 +51,15 @@ lotus_probe (const char *filename)
 }
 
 
-static Workbook *
-lotus_load (const char *filename)
+static gboolean
+lotus_load (Workbook *wb, const char *filename)
 {
 	char *name, *p;
-	Workbook *wb;
+	gboolean ret;
 	
-	wb = lotus_read (filename);
+	ret = lotus_read (filename);
 
-	if (wb) {
+	if (ret) {
 		if ((p = filename_ext (filename)) != NULL)
 			*p = '\0'; /* remove "wk1" */
 		name = g_strconcat (p, "gnumeric", NULL);
@@ -67,7 +67,7 @@ lotus_load (const char *filename)
 		g_free (name);
 	}
 
-	return wb;
+	return ret;
 }
 
 static int

@@ -1,3 +1,8 @@
+1999-08-09    <miguel@gnu.org>
+
+	* boot.c (lotus_cleanup_plugin): Change to new file open
+	conventions. 
+
 1999-08-02  Michael Meeks  <michael@imaginator.com>
 
 	* Makefile.am: Remove redundant reference to boot.h

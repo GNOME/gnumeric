@@ -17,9 +17,9 @@ typedef enum _eBiff_version { eBiffV2=2, eBiffV3=3,
 			      eBiffV8=8, /* Excel 97 */
 			      eBiffVUnknown=0} eBiff_version ;
 
-extern Workbook *ms_excel_read_workbook  (MsOle *file);
-extern int       ms_excel_write_workbook (MsOle *file, Workbook *wb,
-					  eBiff_version ver);
+extern gboolean ms_excel_read_workbook  (Workbook *wb, MsOle *file);
+extern int      ms_excel_write_workbook (MsOle *file, Workbook *wb,
+					 eBiff_version ver);
 
 /* We need to use these for both read and write */
 typedef struct {

@@ -1,3 +1,33 @@
+1999-08-09  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/xml-io.c (xml_workbook_write): Handle locale switching here.
+	(xml_workbook_read): Handle locale switching here.
+
+	* src/file.c: Removed all references to saving and re-setting the
+	locale.  This should be handled in the xml-io code.
+
+1999-08-10  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/workbook.c (workbook_do_destroy): remove g_free from the
+	workbook.  We are now a GtkObject.
+
+1999-08-09  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/xml-io.c (xml_workbook_write): Move the locale
+	setting/resetting here, instead of putting it all over the place.
+
+1999-08-09    <miguel@gnu.org>
+
+	* src/xml-io.c (xml_workbook_read): Adjusted to use the new file
+	open convention.
+
+	* src/file.h: File open methods now take a workbook as an argument
+	instead of creating it themselves.  Required for the
+	GNOME::Persist bonobo interfaces.
+
+	* src/file.c (workbook_read): Fix the workbook creation order to
+	keep the locale correct if the file did not exist.
+
 1999-08-10  Morten Welinder  <terra@diku.dk>
 
 	* src/workbook.c (workbook_do_destroy): Don't free the workbook

@@ -11,6 +11,7 @@
 #include <config.h>
 #include <stdio.h>
 #include <gnome.h>
+#include <locale.h>
 #include "gnumeric.h"
 #include "gnome-xml/tree.h"
 #include "gnome-xml/parser.h"
@@ -36,7 +37,7 @@ typedef struct {
 
 static Sheet      *xml_sheet_read     (parse_xml_context_t *ctxt, xmlNodePtr tree);
 static xmlNodePtr  xml_sheet_write    (parse_xml_context_t *ctxt, Sheet *sheet);
-static Workbook   *xml_workbook_read  (parse_xml_context_t *ctxt, xmlNodePtr tree);
+static gboolean    xml_workbook_read  (Workbook *wb, parse_xml_context_t *ctxt, xmlNodePtr tree);
 static xmlNodePtr  xml_workbook_write (parse_xml_context_t *ctxt, Workbook *wb);
 
 /*
@@ -811,16 +812,16 @@ xml_read_summary (parse_xml_context_t *ctxt, xmlNodePtr tree, SummaryInfo *sin)
 					g_return_if_fail (name);
 
 					txt = xmlNodeGetContent (bits);
-					g_return_if_fail (txt);
-
-					if (!strcmp (bits->name, "val-string"))
-						sit = summary_item_new_string (name, txt);
-					else if (!strcmp (bits->name, "val-int"))
-						sit = summary_item_new_int    (name, atoi (txt));
-
-					if (sit)
-						summary_info_add (sin, sit);
-					g_free (txt);
+					if (txt != NULL){
+						if (!strcmp (bits->name, "val-string"))
+							sit = summary_item_new_string (name, txt);
+						else if (!strcmp (bits->name, "val-int"))
+							sit = summary_item_new_int    (name, atoi (txt));
+						
+						if (sit)
+							summary_info_add (sin, sit);
+						g_free (txt);
+					}
 				}
 				bits = bits->next;
 			}
@@ -1662,7 +1663,8 @@ xml_workbook_write (parse_xml_context_t *ctxt, Workbook *wb)
 	xmlNodePtr cur;
 	xmlNodePtr child;
 	GList *sheets;
-
+	char *oldlocale;
+	
 	/*
 	 * General informations about the Sheet.
 	 */
@@ -1670,6 +1672,9 @@ xml_workbook_write (parse_xml_context_t *ctxt, Workbook *wb)
 	if (cur == NULL)
 		return NULL;
 
+	oldlocale = g_strdup (setlocale (LC_NUMERIC, NULL));
+	setlocale (LC_NUMERIC, "C");
+	
 	child = xml_write_summary (ctxt, wb->sin);
 	if (child)
 		xmlAddChild (cur, child);
@@ -1706,6 +1711,10 @@ xml_workbook_write (parse_xml_context_t *ctxt, Workbook *wb)
 		sheets = g_list_next (sheets);
 	}
 	g_list_free (sheets);
+
+	setlocale (LC_NUMERIC, oldlocale);
+	g_free (oldlocale);
+
 	return cur;
 }
 
@@ -1736,25 +1745,27 @@ xml_sheet_create (parse_xml_context_t *ctxt, xmlNodePtr tree)
 /*
  * Create a Workbook equivalent to the XML subtree of doc.
  */
-static Workbook *
-xml_workbook_read (parse_xml_context_t *ctxt, xmlNodePtr tree)
+static gboolean
+xml_workbook_read (Workbook *wb, parse_xml_context_t *ctxt, xmlNodePtr tree)
 {
-	Workbook *ret;
 	Sheet *sheet;
 	xmlNodePtr child, c;
-
+	char *oldlocale;
+	
 	if (strcmp (tree->name, "Workbook")){
 		fprintf (stderr,
 			 "xml_workbook_read: invalid element type %s, 'Workbook' expected`\n",
 			 tree->name);
-		return NULL;
+		return FALSE;
 	}
-	ret = workbook_new ();
-	ctxt->wb = ret;
+	ctxt->wb = wb;
 
+	oldlocale = g_strdup (setlocale (LC_NUMERIC, NULL));
+	setlocale (LC_NUMERIC, "C");
+	
 	child = xml_search_child (tree, "Summary");
 	if (child)
-		xml_read_summary (ctxt, child, ret->sin);
+		xml_read_summary (ctxt, child, wb->sin);
 
 	child = xml_search_child (tree, "Geometry");
 	if (child){
@@ -1762,16 +1773,16 @@ xml_workbook_read (parse_xml_context_t *ctxt, xmlNodePtr tree)
 
 		xml_get_value_int (child, "Width", &width);
 		xml_get_value_int (child, "Height", &height);
-/*      gtk_widget_set_usize(ret->toplevel, width, height); */
+/*      gtk_widget_set_usize(wb->toplevel, width, height); */
 	}
 
 	child = xml_search_child (tree, "Style");
 	if (child != NULL)
-		xml_read_style (ctxt, child, &ret->style);
+		xml_read_style (ctxt, child, &wb->style);
 
 	child = xml_search_child (tree, "Sheets");
 	if (child == NULL)
-		return ret;
+		return FALSE;
 
 	/*
 	 * Pass 1: Create all the sheets, to make sure
@@ -1790,7 +1801,7 @@ xml_workbook_read (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	 */
 	child = xml_search_child (tree, "Names");
 	if (child)
-		xml_read_names (ctxt, child, ret);
+		xml_read_names (ctxt, child, wb);
 
 	child = xml_search_child (tree, "Sheets");
 	/*
@@ -1801,8 +1812,11 @@ xml_workbook_read (parse_xml_context_t *ctxt, xmlNodePtr tree)
 		sheet = xml_sheet_read (ctxt, c);
 		c = c->next;
 	}
+
+	setlocale (LC_NUMERIC, oldlocale);
+	g_free (oldlocale);
 	
-	return ret;
+	return TRUE;
 }
 
 /*
@@ -1930,26 +1944,25 @@ gnumeric_xml_write_sheet (Sheet *sheet, const char *filename)
  * the actual in-memory structure.
  */
 
-Workbook *
-gnumeric_xml_read_workbook (const char *filename)
+gboolean
+gnumeric_xml_read_workbook (Workbook *wb, const char *filename)
 {
-	Workbook *wb;
 	xmlDocPtr res;
 	xmlNsPtr gmr;
 	parse_xml_context_t ctxt;
 
-	g_return_val_if_fail (filename != NULL, NULL);
+	g_return_val_if_fail (filename != NULL, FALSE);
 
 	/*
 	 * Load the file into an XML tree.
 	 */
 	res = xmlParseFile (filename);
 	if (res == NULL)
-		return NULL;
+		return FALSE;
 	if (res->root == NULL){
 		fprintf (stderr, "gnumeric_xml_read_workbook %s: tree is empty\n", filename);
 		xmlFreeDoc (res);
-		return NULL;
+		return FALSE;
 	}
 	/*
 	 * Do a bit of checking, get the namespaces, and chech the top elem.
@@ -1961,16 +1974,16 @@ gnumeric_xml_read_workbook (const char *filename)
 		fprintf (stderr, "gnumeric_xml_read_workbook %s: not an Workbook file\n",
 			 filename);
 		xmlFreeDoc (res);
-		return NULL;
+		return FALSE;
 	}
 	ctxt.doc = res;
 	ctxt.ns = gmr;
-	wb = xml_workbook_read (&ctxt, res->root);
+	xml_workbook_read (wb, &ctxt, res->root);
 	workbook_set_filename (wb, (char *) filename);
 	workbook_recalc_all (wb);
 
 	xmlFreeDoc (res);
-	return wb;
+	return TRUE;
 }
 
 /*

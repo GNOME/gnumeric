@@ -39,14 +39,15 @@ Grid_get_sheet (PortableServer_Servant servant, CORBA_Environment *ev)
 	return CORBA_Object_duplicate (eg->sheet->corba_server, ev);
 }
 
-static void
-Grid_set_header_visibility (PortableServer_Servant servant,
-			    const CORBA_boolean col_headers_visible,
-			    const CORBA_boolean row_headers_visible,
-			    CORBA_Environment *ev)
+void
+embeddable_grid_set_header_visibility (EmbeddableGrid *eg,
+				       gboolean col_headers_visible,
+				       gboolean row_headers_visible)
 {
-	EmbeddableGrid *eg = embeddable_grid_from_servant (servant);
 	GList *l;
+
+	g_return_if_fail (eg != NULL);
+	g_return_if_fail (IS_EMBEDDABLE_GRID (eg));
 	
 	for (l = eg->views; l; l = l->next){
 		GridView *grid_view = GRID_VIEW (l->data);
@@ -56,6 +57,18 @@ Grid_set_header_visibility (PortableServer_Servant servant,
 			col_headers_visible,
 			row_headers_visible);
 	}
+}
+				       
+static void
+Grid_set_header_visibility (PortableServer_Servant servant,
+			    const CORBA_boolean col_headers_visible,
+			    const CORBA_boolean row_headers_visible,
+			    CORBA_Environment *ev)
+{
+	EmbeddableGrid *eg = embeddable_grid_from_servant (servant);
+
+	embeddable_grid_set_header_visibility (
+		eg, col_headers_visible, row_headers_visible);
 }
 
 static void
@@ -295,9 +308,10 @@ grid_view_new (EmbeddableGrid *eg)
 	}
 
 	grid_view->embeddable = eg;
+	grid_view->sheet_view = sheet_new_sheet_view (eg->sheet);
+	gtk_widget_show (grid_view->sheet_view);
 	gnome_view_construct (
 		GNOME_VIEW (grid_view), corba_grid_view, GTK_WIDGET (grid_view->sheet_view));
-	grid_view->sheet_view = sheet_new_sheet_view (eg->sheet);
 
 	eg->views = g_list_prepend (eg->views, grid_view);
 
@@ -305,4 +319,17 @@ grid_view_new (EmbeddableGrid *eg)
 			    GTK_SIGNAL_FUNC (grid_view_destroy), NULL);
 	
 	return GNOME_VIEW (grid_view);
+}
+
+void
+embeddable_grid_set_range (EmbeddableGrid *eg,
+			   int start_col, int start_row,
+			   int end_col, int end_row)
+{
+	g_return_if_fail (eg != NULL);
+	g_return_if_fail (IS_EMBEDDABLE_GRID (eg));
+	g_return_if_fail (start_col <= end_col);
+	g_return_if_fail (start_row <= end_row);
+
+	
 }

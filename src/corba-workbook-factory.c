@@ -76,7 +76,6 @@ WorkbookFactory_create_object (PortableServer_Servant servant,
 	}
 
 	workbook = workbook_new ();
-	gtk_widget_show (workbook->toplevel);
 
 	return CORBA_Object_duplicate (workbook->corba_server, ev);
 }

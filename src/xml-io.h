@@ -13,8 +13,8 @@
 
 Sheet    *gnumeric_xml_read_sheet     (const char *filename);
 int       gnumeric_xml_write_sheet    (Sheet *sheet, const char *filename);
-Workbook *gnumeric_xml_read_workbook  (const char *filename);
-int       gnumeric_xml_write_workbook (Workbook *sheet, const char *filename);
+gboolean  gnumeric_xml_read_workbook  (Workbook *wb, const char *filename);
+int       gnumeric_xml_write_workbook (Workbook *wb, const char *filename);
 
 void      xml_init (void);
 

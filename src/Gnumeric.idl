@@ -236,6 +236,11 @@ module GNOME {
 			// Cell reference parsing
 			//
 			void parse (in string cellref, out Sheet sheet, out long col, out long row);
+
+			//
+			// Window control
+			//
+			void show (in boolean show_toplevel);
 		};
 
 		interface WorkbookFactory : GNOME::GenericFactory {

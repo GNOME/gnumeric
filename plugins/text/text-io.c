@@ -288,10 +288,9 @@ text_parse_file (gchar *file, gint flen, gint start,
 }
 
 
-static Workbook *
-readTextWorkbook (const char* filename, gboolean probe)
+static gboolean
+readTextWorkbook (Workbook *book, const char* filename, gboolean probe)
 {
-	Workbook   *book = NULL;
 	Sheet      *sheet = NULL;
 	int	    fd;
 	struct stat buf;
@@ -308,20 +307,20 @@ readTextWorkbook (const char* filename, gboolean probe)
 		gnumeric_notice (NULL, GNOME_MESSAGE_BOX_ERROR, msg);
 		g_free (msg);
 
-		return NULL;	
+		return FALSE;
 	}
 
 	if (fstat (fd, &buf) == -1){
 		gnumeric_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 				 "Can not stat the file");
 		close(fd);
-		return NULL;
+		return FALSE;
 	}
 
 	/* FIXME: ARBITRARY VALUE */
 	if (buf.st_size < 1 || buf.st_size > 1000000){ 
 		close(fd);
-		return NULL;
+		return FALSE;
 	} else
 		flen = buf.st_size;
 
@@ -330,12 +329,8 @@ readTextWorkbook (const char* filename, gboolean probe)
 		gnumeric_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 				 "Can not mmap the file");
 		close (fd);
-		return NULL;
+		return FALSE;
 	}
-
-	book = workbook_new ();
-	if (book == NULL)
-		return NULL;
 
 	idx = 0;
 	while (idx >= 0 && idx < flen){
@@ -354,22 +349,22 @@ readTextWorkbook (const char* filename, gboolean probe)
 	munmap (file, flen);
 	close (fd);
 
-	return book;
+	return TRUE;
 }
 
-static Workbook *
-text_read_workbook (const char* filename)
+static gboolean
+text_read_workbook (Workbook *wb, const char* filename)
 {
-	Workbook *wb;
-
-	wb = readTextWorkbook (filename, FALSE); 
-	if (wb != NULL){
+	gboolean ret;
+		
+	ret = readTextWorkbook (wb, filename, FALSE); 
+	if (ret){
 		workbook_set_filename (wb, filename);
 		workbook_set_title (wb, filename);
 		workbook_recalc_all (wb);
 	}
 
-	return wb;
+	return TRUE;
 }
 
 #if 0

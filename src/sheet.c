@@ -158,7 +158,7 @@ sheet_new_sheet_view (Sheet *sheet)
 
 	sheet->sheet_views = g_list_prepend (sheet->sheet_views, sheet_view);
 
-	return GTK_WIDGET (sheet_view);
+	return SHEET_VIEW (sheet_view);
 }
 
 void
@@ -256,14 +256,6 @@ sheet_compute_col_row_new_size (Sheet *sheet, ColRowInfo *ci, void *data)
 {
 	double pix_per_unit = sheet->last_zoom_factor_used;
 
-	{
-		static int warn_shown = 0;
-		if (!warn_shown){
-			warn_shown = 1;
-			g_warning ("Here we used to add one pixel, perhaps\n"
-				   "this is the source of the miss-alignment?");
-		}
-	}
 	ci->pixels = (ci->units + ci->margin_a_pt + ci->margin_b_pt) * pix_per_unit;
 	ci->margin_a = ci->margin_a_pt * pix_per_unit;
 	ci->margin_b = ci->margin_b_pt * pix_per_unit;

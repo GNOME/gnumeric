@@ -134,24 +134,22 @@ xbase_field_as_value (XBrecord *record, guint num)
 	}
 }
 
-static Workbook *
-xbase_load (const char *filename)
+static gboolean
+xbase_load (Workbook *wb, const char *filename)
 {
 	XBfile *file;
 	XBrecord *rec;
 	guint row, field;
 	char *name = g_strdup(filename), *p;
-	Workbook *wb = NULL;
 	Sheet    *sheet = NULL;
 	Cell *cell;
 	Value *val;
 	
 	if ((file = xbase_open (filename)) == NULL)
-		return NULL;
+		return FALSE
 	if ((p = filename_ext (name)) != NULL)
 		*p = '\0'; /* remove "dbf" */
 	rec = record_new (file);
-	wb = workbook_new ();
 	sheet = sheet_new (wb, name);
 	p = name;
 	name = g_strconcat (p, "gnumeric", NULL);
@@ -186,7 +184,7 @@ xbase_load (const char *filename)
 
 	xbase_close (file);
 	
-	return wb;
+	return TRUE;
 }
 
 static int

@@ -1,3 +1,7 @@
+1999-08-09    <miguel@gnu.org>
+
+	* boot.c (xbase_load): Adapted to new file open conventions.
+
 1999-08-02  Elliot Lee <sopwith@redhat.com>
 
 	* Makefile.am: boot.h not needed.

@@ -392,11 +392,10 @@ html_cell_italic (Cell *cell)
 /*
  * try at least to read back what we have written before..
  */
-Workbook *
-html_read (const char *filename)
+gboolean
+html_read (Workbook *wb, const char *filename)
 {
 	FILE *fp;
-	Workbook *wb;
 	Sheet *sheet;
 	Cell *cell;
 	int num, row, col, flags;
@@ -405,18 +404,14 @@ html_read (const char *filename)
 	char buf[LINESIZE];
 
 	if (!filename)
-		return NULL;
+		return FALSE;
 
-	wb = workbook_new();
-	if (!wb)
-		return NULL;
 	workbook_set_filename (wb, filename);
 
 	fp = fopen (filename, "r");
-	if (!fp) {
-		/* Q: how to free the "wb"? */
-		return NULL;
-	}
+	if (!fp) 
+		return FALSE;
+
 	sheet = NULL;
 	col = 0;
 	row = -1;
@@ -496,6 +491,6 @@ html_read (const char *filename)
 		}
 	}
 	fclose (fp);
-	return wb;
+	return TRUE;
 }
 

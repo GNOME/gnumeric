@@ -39,6 +39,13 @@ GtkType         embeddable_grid_get_type     (void);
 EmbeddableGrid *embeddable_grid_new_anon     (void);
 EmbeddableGrid *embeddable_grid_new          (Workbook *workbook, Sheet *sheet);
 void            EmbeddableGridFactory_init   (void);
+void            embeddable_grid_set_range    (EmbeddableGrid *eg,
+					      int start_col, int start_row,
+					      int end_col, int end_row);
+
+void            embeddable_grid_set_header_visibility (EmbeddableGrid *eg,
+						       gboolean col_headers_visible,
+						       gboolean row_headers_visible);
 
 /*
  * The GnomeView object

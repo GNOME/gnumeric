@@ -15,9 +15,9 @@
 #include "gnumeric-sheet.h"
 #include "sheet-object-container.h"
 #include <bonobo/gnome-container.h>
-#include <bonobo/gnome-embeddable.h>
-#include <bonobo/gnome-embeddable-client.h>
 #include <bonobo/gnome-view-frame.h>
+#include <bonobo/gnome-client-site.h>
+#include <bonobo/gnome-embeddable.h>
 
 #if 0
 #include "PlotComponent.h"
@@ -114,8 +114,8 @@ sheet_object_container_land (SheetObject *so)
 		GnomeViewFrame *view_frame;
 		GtkWidget *view_widget;
 
-		view_frame = gnome_embeddable_client_new_view (
-			soc->object_server, soc->client_site);
+		view_frame = gnome_client_site_new_view (
+			soc->client_site);
 		view_widget = gnome_view_frame_get_wrapper (view_frame);
 		item = make_container_item (so, sheet_view, view_widget);
 		so->realized_list = g_list_prepend (so->realized_list, item);
@@ -135,8 +135,8 @@ sheet_object_container_realize (SheetObject *so, SheetView *sheet_view)
 	if (soc->client_site == NULL)
 		view_widget = gtk_button_new_with_label (_("Object server"));
 	else {
-		view_frame = gnome_embeddable_client_new_view (
-			soc->object_server, soc->client_site);
+		view_frame = gnome_client_site_new_view (
+			soc->client_site);
 
 		view_widget = gnome_view_frame_get_wrapper (view_frame);
 	}
@@ -300,7 +300,10 @@ sheet_object_container_new (Sheet *sheet,
 		CORBA_exception_init (&ev);
 		printf ("10\n");
 
-		component = GNOME_obj_query_interface (GNOME_OBJECT (object_server)->object, "IDL:GNOME/Plot/PlotComponent:1.0", &ev);
+		component = GNOME_obj_query_interface (
+			gnome_object_corba_objref (GNOME_OBJECT (object_server)->object),
+			"IDL:GNOME/Plot/PlotComponent:1.0", &ev);
+		
 		if (ev._major != CORBA_NO_EXCEPTION)
 			g_error ("Failed");
 

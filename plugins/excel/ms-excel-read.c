@@ -2632,8 +2632,8 @@ ms_excel_read_supporting_wb (BIFF_BOF_DATA *ver, BiffQuery *q)
 #endif
 }
 
-Workbook *
-ms_excel_read_workbook (MsOle *file)
+gboolean
+ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 {
 	ExcelWorkbook *wb = NULL;
 	MsOleStream *stream;
@@ -2716,7 +2716,7 @@ ms_excel_read_workbook (MsOle *file)
 
 			if (ver->type == eBiffTWorkbook) {
 				wb = ms_excel_workbook_new (ver->version);
-				wb->gnum_wb = workbook_new ();
+				wb->gnum_wb = workbook;
 				if (ver->version >= eBiffV8) {
 					guint32 ver = MS_OLE_GET_GUINT32 (q->data + 4);
 					if (ver == 0x4107cd18)
@@ -3062,10 +3062,9 @@ ms_excel_read_workbook (MsOle *file)
 /*	cell_deep_thaw_dependencies (); */
 
 	if (wb) {
-		Workbook *ans = wb->gnum_wb;
 		ms_excel_workbook_destroy (wb);
-		workbook_recalc (ans);
-		return ans;
+		workbook_recalc (wb->gnum_wb);
+		return TRUE;
 	}
-	return 0;
+	return FALSE;
 }

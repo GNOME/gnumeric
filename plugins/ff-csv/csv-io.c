@@ -31,25 +31,20 @@ load_table_into_sheet (struct csv_table *table, Sheet *sheet)
 	}
 }
 
-static Workbook *
-csv_read_workbook (const char* filename)
+static gboolean
+csv_read_workbook (Workbook *book, const char* filename)
 {
 	struct csv_table table;
-	Workbook *book;
 	Sheet *sheet;
 	FILE *f;
 	char *name;
 
-	book = workbook_new ();
-	if (!book)
-		return NULL;
-
 	f = fopen (filename, "r");
 	if (f == NULL)
-		return NULL;
+		return FALSE;
 	
 	if (csv_load_table (f, &table) == -1)
-		return NULL;
+		return FALSE;
 
 	fclose (f);
 	
@@ -64,7 +59,7 @@ csv_read_workbook (const char* filename)
 	
 	csv_destroy_table (&table);
 	
-	return book;
+	return TRUE;
 }
 
 

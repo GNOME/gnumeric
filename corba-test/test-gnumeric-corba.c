@@ -102,6 +102,11 @@ main (int argc, char *argv[])
 		exit (1);
 	}
 
+	/*
+	 * Show the workbook
+	 */
+	GNOME_Gnumeric_Workbook_show (workbook, 1, &ev);
+	
 	do_test (workbook);
 	
 	CORBA_exception_free (&ev);

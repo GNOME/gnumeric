@@ -2,10 +2,13 @@
 #define GNUMERIC_WORKBOOK_H
 
 #ifdef ENABLE_BONOBO
-#   include <bonobo/gnome-object.h>
+#   include <bonobo/gnome-bonobo.h>
 #else
 #   include <gtk/gtkobject.h>
 #endif
+
+#define GNUMERIC_WORKBOOK_GOAD_ID         "IDL:GNOME:Gnumeric:Workbook:1.0"
+#define GNUMERIC_WORKBOOK_FACTORY_GOAD_ID "IDL:GNOME:Gnumeric:WorkbookFactory:1.0"
 
 #define WORKBOOK_TYPE        (workbook_get_type ())
 #define WORKBOOK(o)          (GTK_CHECK_CAST ((o), WORKBOOK_TYPE, Workbook))
@@ -32,8 +35,10 @@ struct _Workbook {
 	GnomeObject bonobo_object;
 
 	/* A GnomeContainer */
-	GnomeContainer *gnome_container;
+	GnomeContainer   *gnome_container;
 
+	GnomePersistFile *persist_file;
+	
 	/* A list of EmbeddableGrids exported to the world */
 	GList      *bonobo_regions;
 #else

@@ -1,3 +1,10 @@
+1999-08-09  Miguel de Icaza  <miguel@gnu.org>
+
+	* boot.c (excel_load): Changed calling conventions.
+
+	* ms-excel-read.c (ms_excel_read_workbook): Adjusted to use the
+	new file-open convention
+
 1999-08-08  Michael Meeks  <michael@imaginator.com>
 
 	* ole.c (dump_vba_module): Kill leak & fix logic.

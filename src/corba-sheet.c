@@ -725,7 +725,7 @@ Sheet_cell_set_alignment (PortableServer_Servant servant,
 		break;
 	}
 	
-	return cell_set_alignment (cell, h, v, orientation, auto_return);
+	cell_set_alignment (cell, h, v, orientation, auto_return);
 }
 
 static void

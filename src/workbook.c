@@ -26,6 +26,7 @@
 #include "print-info.h"
 
 #ifdef ENABLE_BONOBO
+#include <bonobo/gnome-persist-file.h>
 #include "embeddable-grid.h"
 #endif
 
@@ -42,6 +43,8 @@ static int workbook_count;
 static GList *workbook_list = NULL;
 
 static WORKBOOK_PARENT_CLASS *workbook_parent_class;
+
+static void workbook_set_focus (GtkWindow *window, GtkWidget *focus, Workbook *wb);
 
 static void
 new_cmd (void)
@@ -264,6 +267,11 @@ dump_dep (gpointer key, gpointer value, gpointer closure)
 static void
 workbook_do_destroy (Workbook *wb)
 {
+	gtk_signal_disconnect_by_func (
+		GTK_OBJECT (wb->toplevel),
+		GTK_SIGNAL_FUNC (workbook_set_focus), wb);
+	gtk_window_set_focus (wb->toplevel, NULL);
+	
 	/*
 	 * Do all deletions that leave the workbook in a working
 	 * order.
@@ -356,6 +364,9 @@ workbook_do_destroy (Workbook *wb)
 
 	expr_name_clean (wb);
 
+	if (!GTK_OBJECT_DESTROYED (wb->toplevel))
+		gtk_object_destroy (GTK_OBJECT (wb->toplevel));
+	
 	if (workbook_count == 0)
 		gtk_main_quit ();
 }
@@ -490,15 +501,20 @@ workbook_can_close (Workbook *wb)
 static void
 close_cmd (GtkWidget *widget, Workbook *wb)
 {
-	if (workbook_can_close (wb))
-		gtk_object_destroy (GTK_OBJECT (wb));
+	if (workbook_can_close (wb)){
+#ifdef ENABLE_BONOBO
+		gnome_object_unref (GNOME_OBJECT (wb));
+#else
+		gtk_object_unref (GTK_OBJECT (wb));
+#endif
+	}
 }
 
 static int
 workbook_delete_event (GtkWidget *widget, GdkEvent *event, Workbook *wb)
 {
 	if (workbook_can_close (wb)){
-		gtk_object_destroy (GTK_OBJECT (wb));
+		gtk_object_unref (GTK_OBJECT (wb));
 		return FALSE;
 	} else
 		return TRUE;
@@ -520,8 +536,13 @@ quit_cmd (void)
 	for (l = n; l; l = l->next){
 		Workbook *wb = l->data;
 
-		if (workbook_can_close (wb))
-			gtk_object_destroy (GTK_OBJECT (wb));
+		if (workbook_can_close (wb)){
+#ifdef ENABLE_BONOBO
+			gnome_object_unref (GNOME_OBJECT (wb));
+#else
+			gtk_object_unref (GTK_OBJECT (wb));
+#endif
+		}
 	}
 
 	g_list_free (n);
@@ -1699,11 +1720,28 @@ workbook_container_get_object (GnomeObject *container, CORBA_char *item_name,
 	EmbeddableGrid *eg;
 	Sheet *sheet;
 	char *p;
+	Value *range = NULL;
 	
 	p = strchr (item_name, '!');
-	if (!p)
-		return CORBA_OBJECT_NIL;
-	*p = 0;
+	if (p){
+		*p++ = 0;
+
+		if (!range_parse (sheet, p, &range))
+			range = NULL;
+		else {
+			CellRef *a = &range->v.cell_range.cell_a;
+			CellRef *b = &range->v.cell_range.cell_b;
+			
+			if ((a->col < 0 || a->row < 0) ||
+			    (b->col < 0 || b->row < 0) ||
+			    (a->col > b->col) ||
+			    (a->row > b->row)){
+				value_release (range);
+				return CORBA_OBJECT_NIL;
+			}
+		}
+	}
+	
 	sheet = workbook_sheet_lookup (wb, item_name);
 
 	if (!sheet)
@@ -1712,6 +1750,16 @@ workbook_container_get_object (GnomeObject *container, CORBA_char *item_name,
 	eg = embeddable_grid_new (wb, sheet);
 	if (!eg)
 		return CORBA_OBJECT_NIL;
+
+	/*
+	 * Do we have further configuration information?
+	 */
+	if (range){
+		CellRef *a = &range->v.cell_range.cell_a;
+		CellRef *b = &range->v.cell_range.cell_b;
+
+		embeddable_grid_set_range (eg, a->col, a->row, b->col, b->row);
+	}
 
 	gtk_signal_connect (GTK_OBJECT (eg), "destroy",
 			    grid_destroyed, wb);
@@ -1722,14 +1770,42 @@ workbook_container_get_object (GnomeObject *container, CORBA_char *item_name,
 		gnome_object_corba_objref (GNOME_OBJECT (eg)), ev);
 }
 
+static int
+workbook_persist_file_load (GnomePersistFile *ps, const CORBA_char *filename, void *closure)
+{
+	Workbook *wb = closure;
+
+	if (workbook_load_from (wb, filename))
+		return 0;
+
+	return -1;
+}
+
+static int
+workbook_persist_file_save (GnomePersistFile *ps, const CORBA_char *filename, void *closure)
+{
+	Workbook *wb = closure;
+
+	return gnumeric_xml_write_workbook (wb, filename);
+}
+     
 static void
 workbook_bonobo_setup (Workbook *wb)
 {
 	wb->gnome_container = GNOME_CONTAINER (gnome_container_new ());
+	wb->persist_file = gnome_persist_file_new (
+		GNUMERIC_WORKBOOK_GOAD_ID,
+		workbook_persist_file_load,
+		workbook_persist_file_save,
+		wb);
+		
 	gnome_object_add_interface (
 		GNOME_OBJECT (wb),
 		GNOME_OBJECT (wb->gnome_container));
-
+	gnome_object_add_interface (
+		GNOME_OBJECT (wb),
+		GNOME_OBJECT (wb->persist_file));
+	
 	gtk_signal_connect (
 		GTK_OBJECT (wb->gnome_container), "get_object",
 		GTK_SIGNAL_FUNC (workbook_container_get_object), wb);

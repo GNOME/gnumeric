@@ -136,27 +136,12 @@ file_format_unregister_save (FileFormatSave save)
 	}
 }
 
-Workbook *
-workbook_read (const char *filename)
+gboolean
+workbook_load_from (Workbook *wb, const char *filename)
 {
+	gboolean ret = FALSE;
 	GList *l;
-	char *oldlocale;
-	Workbook *w = NULL;
-	char *s;
 
-	g_return_val_if_fail (filename != NULL, NULL);
-
-	/* Files are expected to be in standard C format.  */
-	oldlocale = g_strdup (setlocale (LC_NUMERIC, NULL));
-	setlocale (LC_NUMERIC, "C");
-
-	if (!g_file_exists (filename)){
-		w = workbook_new ();
-		workbook_set_filename (w, filename);
-
-		return w;
-	}
-	
 	for (l = gnumeric_file_openers; l; l = l->next){
 		const FileOpener *fo = l->data;
 
@@ -164,16 +149,37 @@ workbook_read (const char *filename)
 			continue;
 		
 		if ((*fo->probe) (filename)){
-			w = (*fo->open) (filename);
-
-			if (w) {
-				workbook_mark_clean (w);
-				break;
-			} 
+			
+			if ((*fo->open) (wb, filename)){
+				workbook_mark_clean (wb);
+				ret = TRUE;
+			} else
+				ret = FALSE;
+			break;
 		}
 	}
+	return ret;
+}
 
-	if (w == NULL){
+Workbook *
+workbook_read (const char *filename)
+{
+	Workbook *wb = NULL;
+	char *s;
+
+	g_return_val_if_fail (filename != NULL, NULL);
+
+	wb = workbook_new ();
+	if (!g_file_exists (filename)){
+		workbook_set_filename (wb, filename);
+
+		return wb;
+	}
+
+	if (!workbook_load_from (wb, filename)){
+		gtk_object_destroy (GTK_OBJECT (wb));
+		wb = NULL;
+		
 		s = g_strdup_printf (
 			N_("Could not read file %s"), filename);
 		
@@ -182,9 +188,7 @@ workbook_read (const char *filename)
 			GNOME_MESSAGE_BOX_ERROR, s);
 		g_free (s);
 	}
-	setlocale (LC_NUMERIC, oldlocale);
-	g_free (oldlocale);
-	return w;
+	return wb;
 }
 
 /*
@@ -194,7 +198,7 @@ workbook_read (const char *filename)
 Workbook *
 workbook_import (Workbook *parent, const char *filename)
 {
-	Workbook *w = NULL;
+	Workbook *wb = NULL;
 	GladeXML *gui;
 	GtkWidget *dialog, *contents, *hack_dialog;
 	GtkCList *clist;
@@ -243,34 +247,28 @@ workbook_import (Workbook *parent, const char *filename)
 
 	ret = gnome_dialog_run (GNOME_DIALOG (dialog));
 
-	if (ret == 0) {
-		char *oldlocale;
+	if (ret == 0 && clist->selection) {
+		FileOpener *fo;
+		int sel_row;
 		
-		if (clist->selection){
-			FileOpener *fo;
-			int sel_row = GPOINTER_TO_INT (clist->selection->data);
-
-			/* Files are expected to be in standard C format.  */
-			oldlocale = g_strdup (setlocale (LC_NUMERIC, NULL));
-			setlocale (LC_NUMERIC, NULL);
-
-			fo = gtk_clist_get_row_data (clist, sel_row);
-			w = fo->open (filename);
-			if (w != NULL)
-				workbook_mark_clean (w);
-			
-			setlocale (LC_NUMERIC, oldlocale);
-			g_free (oldlocale);
-		}
+		sel_row = GPOINTER_TO_INT (clist->selection->data);
+		
+		fo = gtk_clist_get_row_data (clist, sel_row);
+		
+		wb = workbook_new ();
+		if (!fo->open (wb, filename)){
+			gtk_object_destroy (GTK_OBJECT (wb));
+		} else
+			workbook_mark_clean (wb);
 	}
 
 	if (ret != -1)
-	  gnome_dialog_close (GNOME_DIALOG (dialog));
+		gnome_dialog_close (GNOME_DIALOG (dialog));
 
 	gtk_widget_destroy (GTK_WIDGET (hack_dialog));
 	gtk_object_unref (GTK_OBJECT (gui));
 
-	return w;
+	return wb;
 }
 
 static void
@@ -437,8 +435,6 @@ workbook_save_as (Workbook *wb)
 				gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
 						 _("Sorry, there are no file savers loaded, I cannot save"));
 			else {
-				char *oldlocale;
-
 				if (strchr (base, '.') == NULL){
 					name = g_strconcat (name, current_saver->extension, NULL);
 				} else
@@ -447,14 +443,7 @@ workbook_save_as (Workbook *wb)
 				workbook_set_filename (wb, name);
 
 				/* Files are expected to be in standard C format.  */
-				oldlocale = g_strdup (setlocale (LC_NUMERIC, NULL));
-				setlocale (LC_NUMERIC, "C");
-					
 				current_saver->save (wb, wb->filename);
-
-				setlocale (LC_NUMERIC, oldlocale);
-				g_free (oldlocale);
-
 				g_free (name);
 			}
 		}
@@ -465,8 +454,6 @@ workbook_save_as (Workbook *wb)
 void
 workbook_save (Workbook *wb)
 {
-	char *oldlocale;
-
 	g_return_if_fail (wb != NULL);
 
 	if (!wb->filename){
@@ -474,12 +461,7 @@ workbook_save (Workbook *wb)
 		return;
 	}
 
-	/* Files are expected to be in standard C format.  */
-	oldlocale = g_strdup (setlocale (LC_NUMERIC, "C"));
 	gnumeric_xml_write_workbook (wb, wb->filename);
-
-	setlocale (LC_NUMERIC, oldlocale);
-	g_free (oldlocale);
 }
 
 char *
