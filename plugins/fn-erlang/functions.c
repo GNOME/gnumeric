@@ -322,7 +322,7 @@ gnumeric_offcap (FunctionEvalInfo *ei, GnmValue **argv)
 GnmFuncDescriptor const erlang_functions[] = {
 	{ "probblock",        "ff",  N_("traffic,circuits"), &help_probblock,
 	  gnumeric_probblock, NULL, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE,
+	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_PERCENT,
 	  GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
 	  GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "offtraf",        "ff",  N_("traffic,circuits"), &help_offtraf,
