@@ -22,8 +22,8 @@
 #ifndef __GO_ACTION_COMBO_COLOR_H__
 #define __GO_ACTION_COMBO_COLOR_H__
 
+#include <glib-object.h>
 #include <goffice/utils/go-color.h>
-#include <gdk-pixbuf/gdk-pixbuf-core.h>
 
 G_BEGIN_DECLS
 
@@ -33,13 +33,13 @@ G_BEGIN_DECLS
 
 typedef struct _GOActionComboColor	 GOActionComboColor;
 
-GType	 go_action_combo_color_get_type	(void);
+GType	 go_action_combo_color_get_type	  (void);
 GOActionComboColor *
-	go_action_combo_color_new	(char const  *action_name,
-					 GdkPixbuf   *icon,
-					 char const  *default_color_label,
-					 GOColor	default_color,
-					 gpointer	group_key);
+	 go_action_combo_color_new	  (char const  *action_name,
+					   char const  *stock_id,
+					   char const  *default_color_label,
+					   GOColor	default_color,
+					   gpointer	group_key);
 void 	go_action_combo_color_set_group (GOActionComboColor *a, gpointer group_key);
 GOColor go_action_combo_color_get_color (GOActionComboColor *a, gboolean *is_default);
 void    go_action_combo_color_set_color (GOActionComboColor *a, GOColor color);
