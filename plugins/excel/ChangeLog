@@ -1,3 +1,8 @@
+1999-07-06  Michael Meeks  <michael@edenproject.org>
+
+	* ole.c: Fix summary reading code: works now, try it on a
+	SummaryInformation stream.
+
 1999-07-05  Jody Goldberg  <jgoldberg@home.com>
 
 	* ms-formula-read.c : Improve debug messages a bit.

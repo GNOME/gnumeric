@@ -605,58 +605,90 @@ int main (int argc, char **argv)
 /*            Developed here for convenience only                      */
 /* ------------------------------------------------------------------- */
 
-/* See: S59FD3.HTM */
 typedef struct _MsOleSummaryHeader MsOleSummaryHeader;
 typedef struct _MsOleSummaryRecord MsOleSummaryRecord;
 typedef guint32 MsOleSummaryFileTime;
 
-#define GUID_LEN 16
-#define HEADER_LEN (18 + GUID_LEN + 12 + 16 + 8)
-#define RECORD_LEN ( 2 + GUID_LEN + 16)
+#define SUMMARY_DEBUG 1
+
+#define RECORD_HEADER 10
+#define HEADER_LEN    0x38
+
 /* LONG  = 4 bytes */
 /* DWORD = 2 bytes ( signed ? ) */
 struct _MsOleSummaryHeader {
-	gint16                len;
-	MsOleSummaryFileTime  total_edit;
-	MsOleSummaryFileTime  last_printed;
-	MsOleSummaryFileTime  create;
-	MsOleSummaryFileTime  last_save;
-	GPtrArray            *records;
+	guint32     num_records;
+	GPtrArray  *records;
 };
 
 struct _MsOleSummaryRecord {
-	gint16 len;
+	MsOlePos  offset;
+	guint     type;
+	gchar    *txt;
 };
 
-static MsOleSummaryRecord *
-read_records (MsOleStream *s)
+static gchar *sum_names[] = {
+	"Unknown",				/* 0x0 */
+	"Codepage Property",                    /* 0x1 */
+	"Title",                                /* 0x2 */
+	"Subject",                              /* 0x3 */
+	"Author",                               /* 0x4 */
+	"Keywords",                             /* 0x5 */
+	"Comments",                             /* 0x6 */
+	"Template",                             /* 0x7 */
+	"Last Saved By",                        /* 0x8 */
+	"Revision Number",                      /* 0x9 */
+	"Unknown",                              /* 0xa */
+	"Last printed summary properties",      /* 0xb */
+	"Create time/date",                     /* 0xc */
+	"Last save time/date",                  /* 0xd */
+	"Page count",                           /* 0xe */
+	"Word count",                           /* 0xf */
+	"Character count",                      /* 0x10 */
+	"Unknown",                              /* 0x11 */
+	"Creating Application",                 /* 0x12 */
+	"Security"                              /* 0x13 */
+};
+
+static void
+read_records (MsOleStream *s, MsOleSummaryRecord *sr)
 {
-	guint8  data[2];
+	guint8  data[64];
 	guint8 *mem;
-	gint32 len;
-	MsOleSummaryRecord *sr = g_new (MsOleSummaryRecord, 1);
+	gint32 len, rec_type;
 
-	g_return_val_if_fail (s, NULL);
+	s->lseek (s, sr->offset, MsOleSeekSet);
+	g_return_if_fail (s->read_copy (s, data, 4));
 
-	if (!s->read_copy (s, data, 2))
-		return NULL;
-	sr->len = BIFF_GET_GUINT16 (data);
-	printf ("Summary Record length 0x%x\n", sr->len);
+	rec_type = BIFF_GET_GUINT32 (data);
+#if SUMMARY_DEBUG > 0
+	printf ("Next record at 0x%x : '%s' : type 0x%x\n",
+		sr->offset, sum_names[sr->type], rec_type);
+#endif
 
-	len = RECORD_LEN + sr->len - 2;
+	if (rec_type == 0x1e) { /* String */
+		g_return_if_fail (s->read_copy (s, data, 4));
+		len = BIFF_GET_GUINT32 (data);
 
-	g_return_val_if_fail (len >= 0, NULL);
-	mem = g_malloc (len);
-	if (!s->read_copy   (s, mem, len))
-		return NULL;
-	dump           (mem, len);
+		mem = g_malloc (len+1);
+		g_return_if_fail (s->read_copy (s, mem, len));
+/*		dump (mem, len); */
 
-	printf ("string from \n");
-	dump           (mem + (BIFF_GET_GUINT16 (mem + 14 + GUID_LEN)), 10);
+		sr->txt = mem;
 
-	g_free         (mem);
-
-	return sr;
+		printf ("string '%s'\n", sr->txt);
+	} else if (rec_type == 0x3) {
+		g_return_if_fail (s->read_copy (s, data, 4));
+		printf ("Integer : 0x%x\n", BIFF_GET_GUINT32 (data));
+	} else if (rec_type == 0x40) {
+		g_return_if_fail (s->read_copy (s, data, 8));
+		printf ("Timestamp : 0x%x%x\n", BIFF_GET_GUINT32 (data + 4),
+			BIFF_GET_GUINT32 (data));
+	} else {
+		printf ("Unknown type:\n");
+		g_return_if_fail (s->read_copy (s, data, 32));
+		dump (data, 32);
+	}
 }
 
 static void
@@ -664,38 +696,34 @@ dump_summary (MsOleStream *s)
 {
 	MsOleSummaryHeader *sh = g_new (MsOleSummaryHeader, 1);
 	/* Dwords, GUID, DW, FileTimes, DW */
-	guint pos = 0;
 	guint8 data[HEADER_LEN];
+	int lp;
 
 	g_return_if_fail (s);
 	g_return_if_fail (HEADER_LEN <= s->size);
 
-	s->lseek (s, 4, MsOleSeekSet); /* A hunch */
+	g_return_if_fail (s->read_copy (s, data, HEADER_LEN));
 
-	if (!s->read_copy (s, data, HEADER_LEN))
-		return;
-	sh->len = BIFF_GET_GUINT16 (data + pos);
-/*	g_return_if_fail (sh->len <= s->size); Ignore ... */
+	sh->num_records = BIFF_GET_GUINT32 (data + 0x34);
+	sh->records     = g_ptr_array_new ();
 
-	pos += 18 + GUID_LEN + 12;
-	sh->total_edit   = BIFF_GET_GUINT32 (data + pos);
-	pos+=4;
-	sh->last_printed = BIFF_GET_GUINT32 (data + pos);
-	pos+=4;
-	sh->create       = BIFF_GET_GUINT32 (data + pos);
-	pos+=4;
-	sh->last_save    = BIFF_GET_GUINT32 (data + pos);
+	printf ("Summary info header len 0x%x = 0x%x records\n",
+		HEADER_LEN, sh->num_records);
+	dump (data, HEADER_LEN);
 
-	printf ("Summary info len 0x%x\n", sh->len);
-	dump (data, HEADER_LEN+sh->len);
+	for (lp = 0; lp < sh->num_records; lp++) {
+		MsOleSummaryRecord *sr = g_new (MsOleSummaryRecord, 1);
+		guint8 data[8];
 
-	s->lseek (s, sh->len, MsOleSeekCur);
-
-	sh->records = g_ptr_array_new ();
-	while (s->tell(s) < s->size) {
-		MsOleSummaryRecord *sr = read_records (s);
-		g_return_if_fail (sr);
+		g_return_if_fail (s->read_copy (s, data, 8));
+		sr->offset = ((0x0b + 2) * 8) - HEADER_LEN + BIFF_GET_GUINT32 (data+4);
+		sr->type   = BIFF_GET_GUINT32(data);
+		printf ("Record type %d at offset 0x%x\n", sr->type, BIFF_GET_GUINT32(data+4));
 		g_ptr_array_add (sh->records, sr);
 	}
-}
 
+	for (lp = 0; lp < sh->num_records; lp++) {
+		if (lp)
+			read_records (s, g_ptr_array_index (sh->records, lp));
+	}
+}
