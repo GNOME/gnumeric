@@ -249,9 +249,9 @@ color_combo_construct (ColorCombo *cc, GdkPixbuf *icon,
 	 * overpaint focus indicator */
 	vbox = gtk_vbox_new (FALSE, 0);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox), 1);
- 	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (cc->preview_canvas), TRUE, TRUE, 0);
- 	gtk_container_add (GTK_CONTAINER (cc->preview_button), 
-			   GTK_WIDGET (vbox));
+ 	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (cc->preview_canvas),
+			    TRUE, TRUE, 0);
+ 	gtk_container_add (GTK_CONTAINER (cc->preview_button), vbox);
 	g_signal_connect (G_OBJECT (cc), "screen-changed", G_CALLBACK (cb_screen_changed), NULL);
 	g_signal_connect (cc->preview_button, "clicked",
 			  G_CALLBACK (preview_clicked), cc);

@@ -1,8 +1,15 @@
 2003-06-14  Jon K Hellan  <hellan@acm.org>
 
-	* widget-color-combo.c (color_combo_construct): Wrap preview
+	* color-palette.c (color_palette_button_new):  Wrap preview
 	canvas inside a vbox with border 1 because canvas would overpaint
 	focus indicator.
+
+	* widget-color-combo.c (color_combo_construct): Ditto.
+
+	* gtk-combo-box.c (do_focus_change): New. Copied from
+	gtkwindow.c. Send focus_change event to the popup.
+	(gtk_combo_box_popup_display): Focus the popup.
+	(gtk_combo_box_popup_hide_unconditional): Unfocus the popup.
 
 2003-06-13  Jon K Hellan  <hellan@acm.org>
 

@@ -22,7 +22,8 @@ Jody:
 	* Keynav for autoformat dialog
 
 Jon Kåre:
-	* Improve color combo
+	* Improve color combo.
+	* Fix keynav for various kinds of combos.
 
 Morten:
 	* Hopefully fix NAN issues on Alphas.

@@ -271,6 +271,7 @@ color_palette_button_new(ColorPalette *P, GtkTable* table,
 			 gint col, gint row, int data)
 {
         GtkWidget *button;
+	GtkWidget *vbox;
 	GtkWidget *swatch;
 	GtkStyle  *style;
 
@@ -285,7 +286,13 @@ color_palette_button_new(ColorPalette *P, GtkTable* table,
 	g_object_unref (style);
 
 	gtk_widget_set_size_request (swatch, COLOR_PREVIEW_WIDTH, COLOR_PREVIEW_HEIGHT);
-	gtk_container_add (GTK_CONTAINER (button), swatch);
+	/* Wrap inside a vbox with border 1 because canvas would
+	 * overpaint focus indicator */
+	vbox = gtk_vbox_new (FALSE, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox), 1);
+ 	gtk_box_pack_start (GTK_BOX (vbox), 
+			    GTK_WIDGET (swatch), TRUE, TRUE, 0);
+	gtk_container_add (GTK_CONTAINER (button), vbox);
 
 	gtk_tooltips_set_tip (tool_tip, button, _(color_name->name),
 			      "Private+Unused");

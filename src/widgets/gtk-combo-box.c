@@ -184,6 +184,30 @@ deactivate_arrow (GtkComboBox *combo_box)
 					   gtk_combo_toggle_pressed, combo_box);
 }
 
+/* Cut and paste from gtkwindow.c */
+static void
+do_focus_change (GtkWidget *widget, gboolean in)
+{
+	GdkEventFocus fevent;
+
+	g_object_ref (widget);
+
+	if (in)
+		GTK_WIDGET_SET_FLAGS (widget, GTK_HAS_FOCUS);
+	else
+		GTK_WIDGET_UNSET_FLAGS (widget, GTK_HAS_FOCUS);
+
+	fevent.type = GDK_FOCUS_CHANGE;
+	fevent.window = widget->window;
+	fevent.in = in;
+
+	gtk_widget_event (widget, (GdkEvent *)&fevent);
+
+	g_object_notify (G_OBJECT (widget), "has_focus");
+
+	g_object_unref (widget);
+}
+
 /**
  * gtk_combo_box_popup_hide_unconditional
  * @combo_box:  Combo box
@@ -206,6 +230,7 @@ gtk_combo_box_popup_hide_unconditional (GtkComboBox *combo_box)
 		gtk_combo_set_tearoff_state (combo_box, FALSE);
 	}
 
+	do_focus_change (combo_box->priv->toplevel, FALSE);
 	gtk_grab_remove (combo_box->priv->toplevel);
 	gdk_display_pointer_ungrab (gtk_widget_get_display (combo_box->priv->toplevel),
 				    GDK_CURRENT_TIME);
@@ -316,6 +341,9 @@ gtk_combo_box_popup_display (GtkComboBox *combo_box)
 	gtk_widget_show (combo_box->priv->popup);
 	gtk_widget_realize (combo_box->priv->toplevel);
 	gtk_widget_show (combo_box->priv->toplevel);
+
+	gtk_widget_grab_focus (combo_box->priv->toplevel);
+	do_focus_change (combo_box->priv->toplevel, TRUE);
 
 	gtk_grab_add (combo_box->priv->toplevel);
 	gdk_pointer_grab (combo_box->priv->toplevel->window, TRUE,
