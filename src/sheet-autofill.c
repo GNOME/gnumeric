@@ -144,6 +144,7 @@ string_has_number (String *str, int *num, int *pos)
 {
 	char *s = str->str, *p;
 	int l = strlen (s);
+	gboolean found_number = FALSE;
 	
 	if (isdigit (*s)){
 		*num = atoi (s);
@@ -154,13 +155,11 @@ string_has_number (String *str, int *num, int *pos)
 		return FALSE;
 	
 	for (p = s + l - 1; p > str->str && isdigit (*p); p--)
-		;
+		found_number = TRUE;
 
-	if (p == str->str)
+	if (!found_number)
 		return FALSE;
-
-	if (!isdigit (*p))
-		return FALSE;
+	
 	p++;
 	*num = atoi (p);
 	*pos = p - str->str;

@@ -53,7 +53,7 @@ main (int argc, char *argv [])
 	
 	bindtextdomain (PACKAGE, GNOMELOCALEDIR);
 	textdomain (PACKAGE);
-	
+
 	gnome_init ("Gnumeric", &parser, argc, argv, 0, NULL);
 
 	color_init ();

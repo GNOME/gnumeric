@@ -274,7 +274,7 @@ void        sheet_style_attach            (Sheet *sheet,
  */
 void        sheet_start_editing_at_cursor (Sheet *sheet);
 void        sheet_set_current_value       (Sheet *sheet);
-void        sheet_accept_pending_output   (Sheet *sheet);
+void        sheet_accept_pending_input    (Sheet *sheet);
 void        sheet_cancel_pending_input    (Sheet *sheet);
 void        sheet_load_cell_val           (Sheet *sheet);
 void        sheet_selection_col_extend_to (Sheet *sheet, int col);

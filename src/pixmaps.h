@@ -5,3 +5,4 @@
 #include "pixmaps/line.xpm"
 #include "pixmaps/arrow.xpm"
 #include "pixmaps/oval.xpm"
+#include "pixmaps/bold.xpm"

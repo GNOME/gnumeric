@@ -117,6 +117,7 @@ void           style_format_ref       (StyleFormat *sf);
 void           style_format_unref     (StyleFormat *sf);
 				      
 StyleFont     *style_font_new         (char *font_name, int units);
+StyleFont     *style_font_new_simple  (char *font_name, int units);
 void           style_font_ref         (StyleFont *sf);
 void           style_font_unref       (StyleFont *sf);
 

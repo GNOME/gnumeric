@@ -103,6 +103,36 @@ center_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
+change_selection_font (Workbook *wb, int idx, char *new)
+{
+	Sheet *sheet;
+	GList *cells, *l;
+
+	sheet = workbook_get_current_sheet (wb);
+	cells = sheet_selection_to_list (sheet);
+
+	for (l = cells; l; l = l->next){
+		Cell *cell = l->data;
+		char *old_name, *new_name;
+		StyleFont *f;
+
+		old_name = cell->style->font->font_name;
+		new_name = font_change_component (old_name, idx, new);
+		f = style_font_new_simple (new_name, cell->style->font->units);
+
+		if (f)
+			cell_set_font_from_style (cell, f);
+	}
+	g_list_free (cells);
+}
+
+static void
+bold_cmd (GtkWidget *widget, Workbook *wb)
+{
+	change_selection_font (wb, 2, "bold");
+}
+
+static void
 create_line_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet;
@@ -387,48 +417,60 @@ static GnomeUIInfo workbook_menu [] = {
 };
 
 static GnomeUIInfo workbook_toolbar [] = {
-	GNOMEUIINFO_ITEM_STOCK (N_("New"),
-				N_("Create a new sheet"),
-				new_cmd, GNOME_STOCK_PIXMAP_NEW),
-	GNOMEUIINFO_ITEM_STOCK (N_("Open"),
-				N_("Opens an existing workbook"),
-				open_cmd, GNOME_STOCK_PIXMAP_OPEN),
-	GNOMEUIINFO_ITEM_STOCK (N_("Save"),
-				N_("Saves the workbook"),
-				save_cmd, GNOME_STOCK_PIXMAP_SAVE),
+	GNOMEUIINFO_ITEM_STOCK (
+		N_("New"), N_("Create a new sheet"),
+		new_cmd, GNOME_STOCK_PIXMAP_NEW),
+	GNOMEUIINFO_ITEM_STOCK (
+		N_("Open"), N_("Opens an existing workbook"),
+		open_cmd, GNOME_STOCK_PIXMAP_OPEN),
+	GNOMEUIINFO_ITEM_STOCK (
+		N_("Save"), N_("Saves the workbook"),
+		save_cmd, GNOME_STOCK_PIXMAP_SAVE),
+
 	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_ITEM_STOCK (N_("Cut"),
-				N_("Cuts the selection to the clipboard"),
-				cut_cmd, GNOME_STOCK_PIXMAP_CUT),
-	GNOMEUIINFO_ITEM_STOCK (N_("Copy"),
-				N_("Copies the selection to the clipboard"),
-				copy_cmd, GNOME_STOCK_PIXMAP_COPY),
-	GNOMEUIINFO_ITEM_STOCK (N_("Paste"),
-				N_("Pastes the clipboard"),
-				paste_cmd, GNOME_STOCK_PIXMAP_PASTE),
+
+	GNOMEUIINFO_ITEM_STOCK (
+		N_("Cut"), N_("Cuts the selection to the clipboard"),
+		cut_cmd, GNOME_STOCK_PIXMAP_CUT),
+	GNOMEUIINFO_ITEM_STOCK (
+		N_("Copy"), N_("Copies the selection to the clipboard"),
+		copy_cmd, GNOME_STOCK_PIXMAP_COPY),
+	GNOMEUIINFO_ITEM_STOCK (
+		N_("Paste"), N_("Pastes the clipboard"),
+		paste_cmd, GNOME_STOCK_PIXMAP_PASTE),
+
 	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_ITEM_DATA (N_("Left align"),
-			       N_("Sets the cell alignment to the left"),
-			       left_align_cmd, NULL, align_left),
-	GNOMEUIINFO_ITEM_DATA (N_("Center"),
-				N_("Centers the cell contents"),
-				center_cmd, NULL, align_center),
-	GNOMEUIINFO_ITEM_DATA (N_("Right align"),
-				N_("Sets the cell alignment to the right"),
-				right_align_cmd, NULL, align_right),
+
+	GNOMEUIINFO_ITEM_DATA (
+		N_("Left align"), N_("Sets the cell alignment to the left"),
+		left_align_cmd, NULL, align_left),
+	GNOMEUIINFO_ITEM_DATA (
+		N_("Center"), N_("Centers the cell contents"),
+		center_cmd, NULL, align_center),
+	GNOMEUIINFO_ITEM_DATA (
+		N_("Right align"), N_("Sets the cell alignment to the right"),
+		right_align_cmd, NULL, align_right),
+
 	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_ITEM_DATA (N_("Line"),
-			       N_("Creates a line object"),
-			       create_line_cmd, NULL, line_xpm),
-	GNOMEUIINFO_ITEM_DATA (N_("Arrow"),
-			       N_("Creates an arrow object"),
-			       create_arrow_cmd, NULL, arrow_xpm),
-	GNOMEUIINFO_ITEM_DATA (N_("Rectangle"),
-			       N_("Creates a rectangle object"),
-			       create_rectangle_cmd, NULL, rect_xpm),
-	GNOMEUIINFO_ITEM_DATA (N_("Ellipse"),
-			       N_("Creates an ellipse object"),
-			       create_ellipse_cmd, NULL, oval_xpm),
+
+	GNOMEUIINFO_TOGGLEITEM_DATA (
+		N_("Bold"), N_("Sets the bold attribute on the cell"),
+		bold_cmd, NULL, bold_xpm),
+	
+	GNOMEUIINFO_SEPARATOR,
+
+	GNOMEUIINFO_ITEM_DATA (
+		N_("Line"), N_("Creates a line object"),
+		create_line_cmd, NULL, line_xpm),
+	GNOMEUIINFO_ITEM_DATA (
+		N_("Arrow"), N_("Creates an arrow object"),
+		create_arrow_cmd, NULL, arrow_xpm),
+	GNOMEUIINFO_ITEM_DATA (
+		N_("Rectangle"), N_("Creates a rectangle object"),
+		create_rectangle_cmd, NULL, rect_xpm),
+	GNOMEUIINFO_ITEM_DATA (
+		N_("Ellipse"), N_("Creates an ellipse object"),
+		create_ellipse_cmd, NULL, oval_xpm),
 	
 	GNOMEUIINFO_END
 };
@@ -535,6 +577,22 @@ workbook_set_region_status (Workbook *wb, char *str)
 }
 
 static void
+accept_input (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet = workbook_get_current_sheet (wb);
+
+	sheet_accept_pending_input (sheet);
+}
+
+static void
+cancel_input (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet = workbook_get_current_sheet (wb);
+
+	sheet_cancel_pending_input (sheet);
+}
+
+static void
 workbook_setup_edit_area (Workbook *wb)
 {
 	GtkWidget *ok_button, *cancel_button, *box, *box2;
@@ -552,11 +610,17 @@ workbook_setup_edit_area (Workbook *wb)
 	/* Ok */
 	pix = gnome_stock_pixmap_widget_new (wb->toplevel, GNOME_STOCK_BUTTON_OK);
 	gtk_container_add (GTK_CONTAINER (ok_button), pix);
-
+	GTK_WIDGET_UNSET_FLAGS (ok_button, GTK_CAN_FOCUS);
+	gtk_signal_connect (GTK_OBJECT (ok_button), "clicked",
+			    GTK_SIGNAL_FUNC(accept_input), wb);
+	
 	/* Cancel */
 	pix = gnome_stock_pixmap_widget_new (wb->toplevel, GNOME_STOCK_BUTTON_CANCEL);
 	gtk_container_add (GTK_CONTAINER (cancel_button), pix);
-
+	GTK_WIDGET_UNSET_FLAGS (cancel_button, GTK_CAN_FOCUS);
+	gtk_signal_connect (GTK_OBJECT (cancel_button), "clicked",
+			    GTK_SIGNAL_FUNC(cancel_input), wb);
+	
 	gtk_box_pack_start (GTK_BOX (box2), wb->ea_status, 0, 0, 0);
 	gtk_box_pack_start (GTK_BOX (box), ok_button, 0, 0, 0);
 	gtk_box_pack_start (GTK_BOX (box), cancel_button, 0, 0, 0);
@@ -799,13 +863,15 @@ buttons (Sheet *sheet, GtkTable *table)
 {
 	GtkWidget *b;
 	
-	b = gtk_button_new_with_label ("Zoom out");
+	b = gtk_button_new_with_label (_("Zoom out"));
+	GTK_WIDGET_UNSET_FLAGS (b, GTK_CAN_FOCUS);	
 	gtk_table_attach (table, b,
 			  0, 1, 1, 2, 0, 0, 0, 0);
 	gtk_signal_connect (GTK_OBJECT (b), "clicked",
 			    GTK_SIGNAL_FUNC (zoom_out), sheet);
 
-	b = gtk_button_new_with_label ("Zoom in");
+	b = gtk_button_new_with_label (_("Zoom in"));
+	GTK_WIDGET_UNSET_FLAGS (b, GTK_CAN_FOCUS);	
 	gtk_table_attach (table, b,
 			  1, 2, 1, 2, 0, 0, 0, 0);
 	gtk_signal_connect (GTK_OBJECT (b), "clicked",

@@ -638,12 +638,12 @@ gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
 			if (gsheet->item_editor){
 				Cell *cell;
 
-				sheet_accept_pending_output (sheet);
+				sheet_accept_pending_input (sheet);
 				cell = sheet_cell_get (sheet,
 						       sheet->cursor_col,
 						       sheet->cursor_row);
 
-				/* I am assuming sheet_accept_pending_output
+				/* I am assuming sheet_accept_pending_input
 				 * will always create the cell with the given
 				 * input (based on the fact that we had an
 				 * gsheet->item_editor when we entered this

@@ -636,7 +636,7 @@ sheet_stop_editing (Sheet *sheet)
 }
 
 void
-sheet_accept_pending_output (Sheet *sheet)
+sheet_accept_pending_input (Sheet *sheet)
 {
 	GList *l;
 
@@ -756,7 +756,7 @@ sheet_selection_append_range (Sheet *sheet,
 	
 	sheet->selections = g_list_prepend (sheet->selections, ss);
 
-	sheet_accept_pending_output (sheet);
+	sheet_accept_pending_input (sheet);
 	sheet_load_cell_val (sheet);
 
 	for (l = sheet->sheet_views; l; l = l->next){
@@ -1068,7 +1068,7 @@ sheet_selection_change (Sheet *sheet, SheetSelection *old, SheetSelection *new)
 	if (sheet_selection_equal (old, new))
 		return;
 		
-	sheet_accept_pending_output (sheet);
+	sheet_accept_pending_input (sheet);
 	sheet_redraw_selection (sheet, old);
 	sheet_redraw_selection (sheet, new);
 	sheet_selection_changed_hook (sheet);
@@ -2751,7 +2751,7 @@ sheet_cursor_move (Sheet *sheet, int col, int row)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	sheet_accept_pending_output (sheet);
+	sheet_accept_pending_input (sheet);
 
 	sheet->cursor_col = col;
 	sheet->cursor_row = row;

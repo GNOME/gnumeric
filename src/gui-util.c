@@ -7,6 +7,7 @@
  */
 #include <config.h>
 #include <gnome.h>
+#include <string.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 
@@ -117,3 +118,57 @@ range_contains (Range *range, int col, int row)
 
 	return FALSE;
 }
+
+char *
+font_change_component (char *fontname, int idx, char *newvalue)
+{
+	char *components [15];
+	char *new = g_strdup (fontname), *res;
+	char *p = new;
+	int  n = 0, i, len;
+
+	/* split the font name */
+	for (;*p; p++){
+		if (*p == '-'){
+			*p = 0;
+			p++;
+			components [n++] = p;
+		}
+	}
+
+	/* Change the value */
+	components [idx] = newvalue;
+
+	/* reassemble */
+	len = 1;
+	for (i = 0; i < n; i++){
+		len += strlen (components [i]) + 1;
+	}
+	len++;
+	res = g_malloc (len);
+	res [0] = '-';
+	res [1] = 0;
+	
+	for (i = 0; i < n; i++){
+		strcat (res, components [i]);
+		if (i + 1 != n)
+			strcat (res, "-");
+	}
+	g_free (new);
+
+	return res;
+}
+
+char *
+font_get_bold_name (char *fontname)
+{
+	char *f;
+	
+	f = font_change_component (fontname, 2, "bold");
+
+	return f;
+}
+	
+
+
+

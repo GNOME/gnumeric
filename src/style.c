@@ -64,14 +64,14 @@ style_format_unref (StyleFormat *sf)
 }
 
 StyleFont *
-style_font_new (char *font_name, int units)
+style_font_new_simple (char *font_name, int units)
 {
 	StyleFont *font;
 	StyleFont key;
 
 	g_return_val_if_fail (font_name != NULL, NULL);
 	g_return_val_if_fail (units != 0, NULL);
-	
+
 	key.font_name = font_name;
 	key.units    = units;
 	
@@ -81,31 +81,38 @@ style_font_new (char *font_name, int units)
 
 		gdk_font = gdk_font_load (font_name);
 		
-		if (gdk_font){
-			font = g_new0 (StyleFont, 1);
-			font->font_name = g_strdup (font_name);
-			font->units    = units;
-			font->font     = gdk_font_load (font_name);
-			g_hash_table_insert (style_font_hash, font, font);
-		} else {
-			/*
-			 * If we cant use the specified font, try:
-			 * - Loading the default font instead
-			 * - Loading fixed font
-			 */
-			if (!strcmp (font_name, "fixed"))
-				g_error ("Can not load fixed font\n");
-
-			if (!strcmp (font_name, DEFAULT_FONT))
-				font_name = "fixed";
-			else
-				font_name = DEFAULT_FONT;
-
-			
-			return style_font_new (font_name, DEFAULT_SIZE);
-		}
+		if (!gdk_font)
+			return NULL;
+		
+		font = g_new0 (StyleFont, 1);
+		font->font_name = g_strdup (font_name);
+		font->units    = units;
+		font->font     = gdk_font_load (font_name);
+		g_hash_table_insert (style_font_hash, font, font);
 	}
 	font->ref_count++;
+
+	return font;
+}
+
+StyleFont *
+style_font_new (char *font_name, int units)
+{
+	StyleFont *font;
+	StyleFont key;
+
+	g_return_val_if_fail (font_name != NULL, NULL);
+	g_return_val_if_fail (units != 0, NULL);
+
+	font = style_font_new_simple (font_name, units);
+	if (!font)
+		font = style_font_new_simple (DEFAULT_FONT, DEFAULT_SIZE);
+
+	if (!font)
+		font = style_font_new_simple ("fixed", DEFAULT_SIZE);
+
+	if (!font)
+		g_error ("Can not load fixed font\n");
 
 	return font;
 }

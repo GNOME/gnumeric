@@ -1,5 +1,19 @@
 1998-09-23  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/sheet-autofill.c (string_has_number): I got too agressive
+	with the test so no Strings + Numbers were being autofilled.
+
+	* src/workbook.c (workbook_setup_edit_area): Remove the CAN_FOCUS
+	flags form the accept and cancel buttons.  Bind the buttons.
+	(buttons): Neither Zoom-in and Zoom-out can take the focus.
+	(change_selection_font): New function to change the fonts of a
+	cell range. 
+
+	* src/sheet.c (sheet_accept_pending_input): Renamed from
+	sheet_accept_pending_output. 
+
+	* samples/: Added a new sample file: hypothetical-sales.
+	
 	* src/parser.y (yylex): Accept underscores in identifiers.
 
 	* src/xml-io.c (readXmlCell): Set the content of the cell even if
