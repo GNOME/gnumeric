@@ -1,3 +1,8 @@
+2002-09-03  Morten Welinder  <terra@diku.dk>
+
+	* import-egg (copy_subsystem): Skip continuation lines for test
+	programs also.
+
 2002-08-25  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.8

@@ -43,10 +43,7 @@ sub copy_subsystem {
 	die "$0: Cannot write $dstdir/Makefile.am.new: $!\n";
     print STDERR "Creating $dstdir/Makefile.am...";
     while (<SRC>) {
-	if (/^test_/ ... !/\\\s*$/) {
-	    print STDERR "Skipping $_";
-	    next;
-	}
+	next if /^test_/ ... !/\\\s*$/;
 	next if /^noinst_PROGRAMS/;
 
 	s|\$\(EGG_CFLAGS\)|\$\(GNUMERIC_CFLAGS\) -I\$\(top_srcdir\)/src|;
