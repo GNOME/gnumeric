@@ -35,7 +35,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.66cvs\n"
-"POT-Creation-Date: 2001-06-21 20:45+0200\n"
+"POT-Creation-Date: 2001-06-26 22:51-0400\n"
 "PO-Revision-Date: 2001-06-21 21:14+0200\n"
 "Last-Translator: Karl Eichwalder <ke@suse.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
@@ -43,7 +43,7 @@ msgstr ""
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: plugins/dif/dif.c:76 plugins/excel/ms-excel-read.c:4057
+#: plugins/dif/dif.c:76 plugins/excel/ms-excel-read.c:4056
 msgid "Reading file..."
 msgstr "Die Datei wird gelesen..."
 
@@ -138,16 +138,16 @@ msgstr "#UNBEKANNT!"
 msgid "Sheet%d"
 msgstr "Blatt%d"
 
-#: plugins/excel/ms-excel-read.c:4052
+#: plugins/excel/ms-excel-read.c:4051
 msgid "No book or workbook streams found."
 msgstr "Keine book- oder workbook-Streams gefunden."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4329
+#: plugins/excel/ms-excel-read.c:4328
 msgid "Password protected workbooks are not supported yet."
 msgstr "Passwortgeschützte Arbeitsbücher werden noch nicht unterstützt."
 
-#: plugins/excel/ms-excel-read.c:4452
+#: plugins/excel/ms-excel-read.c:4451
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Es ist nicht möglich, ein gültiges MS-Excel-Arbeitsbuch aufzufinden."
 
@@ -8313,7 +8313,7 @@ msgid ""
 "@SEEALSO=PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1645
+#: src/functions/fn-financial.c:1639
 msgid ""
 "@FUNCTION=IRR\n"
 "@SYNTAX=IRR(values[,guess])\n"
@@ -8333,7 +8333,7 @@ msgid ""
 "@SEEALSO=FV,NPV,PV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1773
+#: src/functions/fn-financial.c:1761
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt[,fv,type])\n"
@@ -8347,7 +8347,7 @@ msgid ""
 "@SEEALSO=FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1819
+#: src/functions/fn-financial.c:1807
 msgid ""
 "@FUNCTION=NPV\n"
 "@SYNTAX=NPV(rate,v1,v2,...)\n"
@@ -8361,7 +8361,7 @@ msgid ""
 "@SEEALSO=PV,XNPV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1873
+#: src/functions/fn-financial.c:1861
 msgid ""
 "@FUNCTION=XNPV\n"
 "@SYNTAX=XNPV(rate,values,dates)\n"
@@ -8376,7 +8376,7 @@ msgid ""
 "@SEEALSO=NPV,PV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1932
+#: src/functions/fn-financial.c:1920
 msgid ""
 "@FUNCTION=XIRR\n"
 "@SYNTAX=XIRR(values,dates[,guess])\n"
@@ -8399,7 +8399,7 @@ msgid ""
 "@SEEALSO=IRR,XNPV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2036
+#: src/functions/fn-financial.c:2024
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,term,pmt,pv,type)\n"
@@ -8414,7 +8414,7 @@ msgid ""
 "@SEEALSO=PV,PMT,PPMT"
 msgstr ""
 
-#: src/functions/fn-financial.c:2075
+#: src/functions/fn-financial.c:2063
 msgid ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
@@ -8425,7 +8425,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2104
+#: src/functions/fn-financial.c:2092
 msgid ""
 "@FUNCTION=IPMT\n"
 "@SYNTAX=IPMT(rate,per,nper,pv,fv,type)\n"
@@ -8441,7 +8441,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2151
+#: src/functions/fn-financial.c:2139
 msgid ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
@@ -8457,7 +8457,7 @@ msgid ""
 "@SEEALSO=IPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2200
+#: src/functions/fn-financial.c:2188
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
@@ -8476,7 +8476,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2249
+#: src/functions/fn-financial.c:2237
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(rate,pv,fv)\n"
@@ -8489,7 +8489,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2286
+#: src/functions/fn-financial.c:2274
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
 "@SYNTAX=FVSCHEDULE(principal,schedule)\n"
@@ -8504,7 +8504,7 @@ msgid ""
 "@SEEALSO=PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2330
+#: src/functions/fn-financial.c:2318
 msgid ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(currency)\n"
@@ -8529,7 +8529,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2412
+#: src/functions/fn-financial.c:2400
 msgid ""
 "@FUNCTION=PRICE\n"
 "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency,basis)\n"
@@ -8539,7 +8539,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2436
+#: src/functions/fn-financial.c:2424
 msgid ""
 "@FUNCTION=YIELD\n"
 "@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency,basis)\n"
@@ -8549,7 +8549,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2454
+#: src/functions/fn-financial.c:2442
 msgid ""
 "@FUNCTION=YIELDDISC\n"
 "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption,basis)\n"
@@ -8559,7 +8559,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2472
+#: src/functions/fn-financial.c:2460
 msgid ""
 "@FUNCTION=YIELDMAT\n"
 "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr,basis)\n"
@@ -8569,7 +8569,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2490
+#: src/functions/fn-financial.c:2478
 msgid ""
 "@FUNCTION=ODDFPRICE\n"
 "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,"
@@ -8580,7 +8580,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2508
+#: src/functions/fn-financial.c:2496
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
 "@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,"
@@ -8591,7 +8591,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2526
+#: src/functions/fn-financial.c:2514
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
 "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,"
@@ -8602,7 +8602,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2544
+#: src/functions/fn-financial.c:2532
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
 "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,"
@@ -8613,7 +8613,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2562
+#: src/functions/fn-financial.c:2550
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
 "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate,"
@@ -8624,7 +8624,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2581
+#: src/functions/fn-financial.c:2569
 msgid ""
 "@FUNCTION=AMORLINC\n"
 "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate,basis)\n"
@@ -8634,7 +8634,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2600
+#: src/functions/fn-financial.c:2588
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
 "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])\n"
@@ -8645,7 +8645,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2642
+#: src/functions/fn-financial.c:2630
 msgid ""
 "@FUNCTION=COUPDAYS\n"
 "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis])\n"
@@ -8656,7 +8656,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2684
+#: src/functions/fn-financial.c:2672
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
 "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis])\n"
@@ -8667,7 +8667,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2704
+#: src/functions/fn-financial.c:2692
 msgid ""
 "@FUNCTION=COUPNCD\n"
 "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis])\n"
@@ -8677,7 +8677,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2745
+#: src/functions/fn-financial.c:2733
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis])\n"
@@ -8687,7 +8687,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2764
+#: src/functions/fn-financial.c:2752
 msgid ""
 "@FUNCTION=COUPNUM\n"
 "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis])\n"
@@ -8698,7 +8698,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2802
+#: src/functions/fn-financial.c:2790
 msgid ""
 "@FUNCTION=CUMIPMT\n"
 "@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)\n"
@@ -8709,7 +8709,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2822
+#: src/functions/fn-financial.c:2810
 msgid ""
 "@FUNCTION=CUMPRINC\n"
 "@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
@@ -8720,7 +8720,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2842
+#: src/functions/fn-financial.c:2830
 msgid ""
 "@FUNCTION=MDURATION\n"
 "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
@@ -8731,7 +8731,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2861
+#: src/functions/fn-financial.c:2849
 msgid ""
 "@FUNCTION=VDB\n"
 "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
@@ -8742,7 +8742,7 @@ msgid ""
 "@SEEALSO=DB"
 msgstr ""
 
-#: src/functions/fn-financial.c:2885
+#: src/functions/fn-financial.c:2873
 msgid "Financial"
 msgstr "Finanzen"
 
@@ -9375,9 +9375,10 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-lookup.c:1056
+#, fuzzy
 msgid ""
 "@FUNCTION=HYPERLINK\n"
-"@SYNTAX=HYPERLINK(reference)\n"
+"@SYNTAX=HYPERLINK(link_location, optional_label)\n"
 "@DESCRIPTION=The HYPERLINK function currently returns its 2nd argument, or "
 "if that is omitted the 1st argument.\n"
 "\n"
@@ -9385,6 +9386,12 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=ITHPRIME\n"
+"@SYNTAX=ITHPRIME(i)\n"
+"@DESCRIPTION=Die ITHPRIME Funktion gibt den @i-ten Primteiler zurück.\n"
+"Diese Funktion hat nur ein Argument.\n"
+"@EXAMPLES=\n"
+"@SEEALSO=NT_D, NT_SIGMA"
 
 #: src/functions/fn-lookup.c:1081
 msgid ""
@@ -12156,8 +12163,10 @@ msgid ""
 "different file format.\n"
 "Do you want to save only current sheet?"
 msgstr ""
-"Das gewählte Dateiformat ist nicht dazu in der Lage, mehrere Blätter in einer\n"
-"Datei zu speichern.  Wenn Sie alle Blättern speichern wollen, speichern Sie sie\n"
+"Das gewählte Dateiformat ist nicht dazu in der Lage, mehrere Blätter in "
+"einer\n"
+"Datei zu speichern.  Wenn Sie alle Blättern speichern wollen, speichern Sie "
+"sie\n"
 "in einzelnen Dateien oder wählen Sie ein anderes Dateiformat.\n"
 "\n"
 "Wollen Sie nur das aktuelle Blatt speichern?"

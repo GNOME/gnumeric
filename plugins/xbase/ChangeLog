@@ -1,3 +1,7 @@
+2001-06-27  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.66
+
 2001-05-23  Jody Goldberg <jgoldberg@home.com>
 
 	* boot.c (xbase_field_as_value) : remove the attempt to null terminate

@@ -1,3 +1,7 @@
+2001-06-27  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.66
+
 2001-06-20  Almer S. Tigelaar  <almer@gnome.org>
 
 	* dialog-printer-setup.c (do_setup_page): No need to

@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.66\n"
-"POT-Creation-Date: 2001-06-23 10:45+0400\n"
+"POT-Creation-Date: 2001-06-26 22:51-0400\n"
 "PO-Revision-Date: 2001-06-23 12:12+0400\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -35,14 +35,18 @@ msgstr "Неизвестный тип данных %d в строке %d. Игнорируется."
 msgid ""
 "DIF file has more than the maximum number of rows %d. Ignoring remaining "
 "rows."
-msgstr "DIF-файл, содержит больше максимального числа строк %d. Оставшиеся строки игнорируются."
+msgstr ""
+"DIF-файл, содержит больше максимального числа строк %d. Оставшиеся строки "
+"игнорируются."
 
 #: plugins/dif/dif.c:297
 #, c-format
 msgid ""
 "DIF file has more than the maximum number of columns %d. Ignoring remaining "
 "columns."
-msgstr "DIF-файл, содержит больше максимального числа столбцов %d. Оставшиеся столбцы игнорируются."
+msgstr ""
+"DIF-файл, содержит больше максимального числа столбцов %d. Оставшиеся "
+"столбцы игнорируются."
 
 #: plugins/dif/dif.c:309
 #, c-format
@@ -2389,13 +2393,17 @@ msgstr "Функция используемая при консолидировании"
 msgid ""
 "The left column contains labels, these will not be consolidated, but used as "
 "key for comparison"
-msgstr "Левый столбец содержит метки, которые не будут консолидированы, но будут использоваться как ключи для сравнения"
+msgstr ""
+"Левый столбец содержит метки, которые не будут консолидированы, но будут "
+"использоваться как ключи для сравнения"
 
 #: src/dialogs/consolidate.glade.h:22
 msgid ""
 "The toprow contains labels, these will not be consolidated, but used as key "
 "for comparison"
-msgstr "Верхняя строка содержит метки, которые не будут консолидированы, но будут использоваться как ключи для сравнения"
+msgstr ""
+"Верхняя строка содержит метки, которые не будут консолидированы, но будут "
+"использоваться как ключи для сравнения"
 
 #: src/dialogs/consolidate.glade.h:23
 msgid "Values"
@@ -2565,7 +2573,8 @@ msgstr "Vladimir Vuksan, финансовые функции."
 msgid "Morten Welinder, Gnumeric hacker."
 msgstr "Morten Welinder, программист."
 
-#: src/dialogs/dialog-about.c:75 src/functions/fn-sheet.c:137
+#: gnumeric.desktop.in.in.h:1 src/dialogs/dialog-about.c:75
+#: src/functions/fn-sheet.c:137
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
@@ -4874,42 +4883,34 @@ msgid "_Title :"
 msgstr "Заглавие:"
 
 #: src/dialogs/validate.glade.h:32
-msgid "label11"
-msgstr "Метка"
-
-#: src/dialogs/validate.glade.h:33
-msgid "label12"
-msgstr "Метка"
-
-#: src/dialogs/validate.glade.h:34
 msgid "min <= val <= max         (between)"
 msgstr "мин. <= значение <= макс.  (между)"
 
-#: src/dialogs/validate.glade.h:35
+#: src/dialogs/validate.glade.h:33
 msgid "val != bound                  (not equal to)"
 msgstr "значение != bound  (не равно)                         "
 
-#: src/dialogs/validate.glade.h:36
+#: src/dialogs/validate.glade.h:34
 msgid "val >  bound                  (greater than)"
 msgstr "значение > bound  (больше чем)"
 
-#: src/dialogs/validate.glade.h:37
+#: src/dialogs/validate.glade.h:35
 msgid "val >=bound                  (greater than or equal to)"
 msgstr "значение >= bound  (больше чем или равно)"
 
-#: src/dialogs/validate.glade.h:38
+#: src/dialogs/validate.glade.h:36
 msgid "val <  bound                  (less than)"
 msgstr "значение < bound  (меньше чем)                         "
 
-#: src/dialogs/validate.glade.h:39
+#: src/dialogs/validate.glade.h:37
 msgid "val <= min || max <= val (not between)"
 msgstr "значение <= мин. || макс. <= значение (не между)"
 
-#: src/dialogs/validate.glade.h:40
+#: src/dialogs/validate.glade.h:38
 msgid "val <=bound                  (less than or equal to)"
 msgstr "значение <= bound  (меньше чем или равно)"
 
-#: src/dialogs/validate.glade.h:41
+#: src/dialogs/validate.glade.h:39
 msgid "val == bound                 (equal to)"
 msgstr "значение == bound  (равно)                         "
 
@@ -6477,7 +6478,9 @@ msgstr ""
 "DGET(A1:C7, \"Salary\", A9:A10) равняется 34323.\n"
 "DGET(A1:C7, \"Name\", A9:A10) равняется \"Clark\".\n"
 "\n"
-"Если ни один из элементов не удовлетворяет условиям, DGET возвращает ошибку #VALUE! . Если больше одного элемента удовлетворяет условиям, DGET возвращает ошибку #NUM!.\n"
+"Если ни один из элементов не удовлетворяет условиям, DGET возвращает ошибку "
+"#VALUE! . Если больше одного элемента удовлетворяет условиям, DGET "
+"возвращает ошибку #NUM!.\n"
 "@SEEALSO=DCOUNT"
 
 #: src/functions/fn-database.c:759
@@ -7790,7 +7793,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMLN\n"
 "@SYNTAX=IMLN(inumber)\n"
-"@DESCRIPTION=IMLN возвращает натуральный логарифм комплексного числа. (Мнимая часть результата будет между -Пи и +Пи. Натуральный логарифм определен для комплексных чисел неоднозначно. Вам может потребоваться добавить или вычесть кратное Пи число из мнимой части.)\n"
+"@DESCRIPTION=IMLN возвращает натуральный логарифм комплексного числа. "
+"(Мнимая часть результата будет между -Пи и +Пи. Натуральный логарифм "
+"определен для комплексных чисел неоднозначно. Вам может потребоваться "
+"добавить или вычесть кратное Пи число из мнимой части.)\n"
 "Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "IMLN(\"3-j\") равняется 1.15129-0.32175j.\n"
@@ -8223,7 +8229,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=ERFC\n"
 "@SYNTAX=ERFC(x)\n"
-"@DESCRIPTION=Функция ERFC возвращает комплиментарную функцию ошибки, определяемую как 1 - erf(@x). erfc(@x) для аргументов больших чем 0.5 вычисляется более точно чем erf(@x).\n"
+"@DESCRIPTION=Функция ERFC возвращает комплиментарную функцию ошибки, "
+"определяемую как 1 - erf(@x). erfc(@x) для аргументов больших чем 0.5 "
+"вычисляется более точно чем erf(@x).\n"
 "Если @x не является числом, возвращается ошибка #VALUE!.\n"
 "@EXAMPLES=\n"
 "ERFC(6) равняется 2.15197367e-17.\n"
@@ -8245,8 +8253,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
-"@DESCRIPTION=Функция DELTA проверяет числовое равенство двух аргументов, возвращая 1 в случае равенства. @y - не обязательный аргумент, по умолчанию равен 0.\n"
-"Если любой из аргументов не является числом, возвращается ошибка #VALUE!. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Функция DELTA проверяет числовое равенство двух аргументов, "
+"возвращая 1 в случае равенства. @y - не обязательный аргумент, по умолчанию "
+"равен 0.\n"
+"Если любой из аргументов не является числом, возвращается ошибка #VALUE!. "
+"Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "DELTA(42.99,43) равняется 0.\n"
 "\n"
@@ -8900,7 +8911,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt[,fv,type])\n"
-"@DESCRIPTION=Функция PV вычисляет текущее значение вклада. Она основана на периодических постоянных платежах и постоянной процентной ставке. @rate - процентная ставка, @nper - число периодов, @pmt - выплата за каждый период, @fv - будущее значение и @type - когда выполняется платеж. Если @type = 1, то платеж выполняется в начале периода. Если @type = 0, платеж выполняется в конце каждого периода.\n"
+"@DESCRIPTION=Функция PV вычисляет текущее значение вклада. Она основана на "
+"периодических постоянных платежах и постоянной процентной ставке. @rate - "
+"процентная ставка, @nper - число периодов, @pmt - выплата за каждый период, "
+"@fv - будущее значение и @type - когда выполняется платеж. Если @type = 1, "
+"то платеж выполняется в начале периода. Если @type = 0, платеж выполняется в "
+"конце каждого периода.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=FV"
@@ -10364,9 +10380,10 @@ msgstr ""
 "@SEEALSO=COLUMN,ROW,ROWS"
 
 #: src/functions/fn-lookup.c:1056
+#, fuzzy
 msgid ""
 "@FUNCTION=HYPERLINK\n"
-"@SYNTAX=HYPERLINK(reference)\n"
+"@SYNTAX=HYPERLINK(link_location, optional_label)\n"
 "@DESCRIPTION=The HYPERLINK function currently returns its 2nd argument, or "
 "if that is omitted the 1st argument.\n"
 "\n"
@@ -10374,6 +10391,13 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=BITAND\n"
+"@SYNTAX=BITAND(a,b)\n"
+"@DESCRIPTION=Функция BITAND возвращает результат побитового сложения ее "
+"аргументов.\n"
+"\n"
+"@EXAMPLES=\n"
+"@SEEALSO=BITOR,BITXOR"
 
 #: src/functions/fn-lookup.c:1081
 msgid ""
@@ -15057,8 +15081,10 @@ msgid ""
 "different file format.\n"
 "Do you want to save only current sheet?"
 msgstr ""
-"Выбранный формат файла не поддерживает сохранение нескольких таблиц в одном файле.\n"
-"Если вы хотите сохранить все таблицы, сохраните их в отдельных файлах или выберите другой формат файла.\n"
+"Выбранный формат файла не поддерживает сохранение нескольких таблиц в одном "
+"файле.\n"
+"Если вы хотите сохранить все таблицы, сохраните их в отдельных файлах или "
+"выберите другой формат файла.\n"
 "Хотите сохранить только текущую таблицу?"
 
 #. Pack it into file selector
@@ -17581,3 +17607,14 @@ msgstr "Разгруппировать"
 #: src/GNOME_Gnumeric.xml.h:268
 msgid "_View"
 msgstr "Вид"
+
+#: gnumeric.desktop.in.in.h:2
+#, fuzzy
+msgid "The GNOME Spreadsheet"
+msgstr "Открыть таблицу"
+
+#~ msgid "label11"
+#~ msgstr "Метка"
+
+#~ msgid "label12"
+#~ msgstr "Метка"

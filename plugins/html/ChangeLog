@@ -1,3 +1,7 @@
+2001-06-27  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.66
+
 2001-05-21  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* html.[ch] (html32_file_save, html40_file_save, html32_file_open)

@@ -1,3 +1,7 @@
+2001-06-27  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.66
+
 2001-06-21  Jody Goldberg <jgoldberg@home.com>
 
 	* xml-sax-read.c (xml_not_used_old_array_spec) : patch some gcc3
