@@ -18,7 +18,7 @@
 
 /* Implementational detail - not for global header */
 
-#define OLE_DEBUG 0
+#define OLE_DEBUG 1
 
 /* These take a _guint8_ pointer */
 #define GET_GUINT8(p)  (*((const guint8 *)(p)+0))
@@ -64,6 +64,10 @@ my_array_hack (GArray *a, guint s, guint32 idx)
 #define ms_array_index(a,b,c) g_array_index (a, b, c)
 
 #endif
+
+/* Bound checks guint8 pointer p inside f */
+#define CHECK_VALID(f,ptr) (g_assert ((ptr) >= (f)->mem && \
+				      (ptr) <  (f)->mem + (f)->length))
 
 /**
  * These look _ugly_ but reduce to a few shifts, bit masks and adds
@@ -347,6 +351,13 @@ read_link_array (MS_OLE *f, BBPtr first)
 
 	ptr = first;
 	while (ptr != END_OF_CHAIN) {
+		if (ptr == UNUSED_BLOCK ||
+		    ptr == SPECIAL_BLOCK) {
+			printf ("Corrupt file: serious error, invalid block in chain\n");
+			g_array_free (ans, TRUE);
+			return 0;
+		}
+			
 		g_array_append_val (ans, ptr);
 		ptr = NEXT_BB (f, ptr);
 	}
@@ -358,6 +369,8 @@ read_root_list (MS_OLE *f)
 {
 	/* Find blocks belonging to root ... */
 	f->header.root_list = read_link_array(f, f->header.root_startblock);
+	if (!f->header.root_list)
+		return 0;
 	return (f->header.root_list->len!=0);
 }
 
@@ -366,7 +379,7 @@ read_sbf_list (MS_OLE *f)
 {
 	/* Find blocks containing all small blocks ... */
 	f->header.sbf_list = read_link_array(f, f->header.sbf_startblock);
-	return 1;
+	return (f->header.sbf_list!=0);
 }
 
 static int
@@ -374,7 +387,7 @@ read_sbd_list (MS_OLE *f)
 {
 	/* Find blocks belonging to sbd ... */
 	f->header.sbd_list = read_link_array(f, f->header.sbd_startblock);
-	return 1;
+	return (f->header.sbd_list!=0);
 }
 
 static int
@@ -385,7 +398,7 @@ ms_ole_analyse (MS_OLE *f)
 	if (!read_sbd_list(f)) return 0;
 	f->header.sbf_startblock = PPS_GET_STARTBLOCK(f, PPS_ROOT_BLOCK);
 	if (!read_sbf_list(f)) return 0;
-#if OLE_DEBUG > 0
+#if OLE_DEBUG > 2
 	dump_header(f);
 	dump_allocation (f);
 
@@ -714,10 +727,10 @@ next_free_bb (MS_OLE *f)
 	for (lp=0;lp<(BB_BLOCK_SIZE/sizeof(BBPtr))-1;lp++)
 		SET_GUINT32(GET_BB_START_PTR(f, blk) + lp*sizeof(BBPtr), UNUSED_BLOCK);
 	SET_GUINT32(GET_BB_CHAIN_PTR(f, blk), SPECIAL_BLOCK); /* blk is the new BBD item */
-//#if OLE_DEBUG > 1
+#if OLE_DEBUG > 1
 	printf ("Should be 10 more free blocks at least !\n");
 	dump_allocation(f);
-//#endif
+#endif
 	return next_free_bb (f);
 }
 
@@ -730,9 +743,15 @@ next_free_sb (MS_OLE *f)
 	g_assert (f);
 
 	blk = 0;
+
+	g_assert (f->header.sbf_list->len/SB_BLOCK_SIZE <
+		  f->header.sbd_list->len*(BB_BLOCK_SIZE/sizeof(SBPtr)));
+
 	while (blk < (f->header.sbf_list->len*(BB_BLOCK_SIZE/SB_BLOCK_SIZE)))
-		if (GET_GUINT32(GET_SB_CHAIN_PTR(f, blk)) == UNUSED_BLOCK)
+		if (GET_GUINT32(GET_SB_CHAIN_PTR(f, blk)) == UNUSED_BLOCK) {
+			CHECK_VALID(f, GET_SB_CHAIN_PTR(f, blk));
 			return blk;
+		}
 		else
 			blk++;
 	/* Create an extra block on the Small block stream */
@@ -755,7 +774,7 @@ next_free_sb (MS_OLE *f)
 		printf ("Unused small block at %d\n", blk);
 	}
 	/* Extend the SBD(escription) chain if neccessary */
-	if (blk > f->header.sbd_list->len*BB_BLOCK_SIZE/sizeof(SBPtr))
+	if (blk >= f->header.sbd_list->len*(BB_BLOCK_SIZE/sizeof(SBPtr)))
 	{
 		BBPtr new_sbd = next_free_bb(f);
 		BBPtr oldnum = f->header.sbd_list->len;
@@ -763,6 +782,9 @@ next_free_sb (MS_OLE *f)
 
 		SET_GUINT32(GET_BB_CHAIN_PTR(f, end_sbd), new_sbd);
 		SET_GUINT32(GET_BB_CHAIN_PTR(f, new_sbd), END_OF_CHAIN);
+
+		printf ("Extended SBD\n");
+
 		ms_ole_deanalyse (f);
 		ms_ole_analyse (f);
 		g_assert (oldnum+1 == f->header.sbd_list->len);
@@ -771,6 +793,7 @@ next_free_sb (MS_OLE *f)
 		for (lp=0;lp<BB_BLOCK_SIZE/sizeof(SBPtr);lp++)
 			SET_GUINT32(GET_BB_START_PTR(f, new_sbd) + lp*sizeof(SBPtr), UNUSED_BLOCK);
 	}
+	CHECK_VALID(f, GET_SB_CHAIN_PTR(f, blk));
 	return blk;
 }
 
@@ -820,9 +843,10 @@ free_allocation (MS_OLE *f, guint32 startblock, gboolean is_big_block_stream)
 			if (lastFree == END_OF_CHAIN)
 				return;
 
+#if OLE_DEBUG > 1
 			printf ("Before freeing stuff\n");
 			dump_allocation(f);
-
+#endif
 			if (lastFree == 0) /* We don't know whether MS can cope with no SB */
 				lastFree++;
 
@@ -839,8 +863,10 @@ free_allocation (MS_OLE *f, guint32 startblock, gboolean is_big_block_stream)
 		        }
 			ms_ole_deanalyse (f);
 			ms_ole_analyse (f);
+#if OLE_DEBUG > 1
 			printf ("After free_alloc\n");
 			dump_allocation(f);
+#endif
 		}
 	}
 }
@@ -1330,8 +1356,9 @@ ms_ole_directory_new (MS_OLE *f)
 static void
 directory_setup (MS_OLE_DIRECTORY *d)
 {
-	if (OLE_DEBUG>0)
+#if OLE_DEBUG > 1
 		printf ("Setup pps = %d\n", d->pps);
+#endif
 	g_free (d->name);
 	d->name   = PPS_NAME(d->file, d->pps);
 	d->type   = PPS_GET_TYPE(d->file, d->pps);
@@ -1385,13 +1412,15 @@ ms_ole_directory_next (MS_OLE_DIRECTORY *d)
 	if (tmp == PPS_END_OF_CHAIN)
 		return 0;
 
-	if (OLE_DEBUG>0)
+#if OLE_DEBUG > 1
 		printf ("Forward trace\n");
+#endif
 	d->pps = tmp;
 
 	directory_setup(d);
-	if (OLE_DEBUG>0)
+#if OLE_DEBUG > 1
 		printf ("Next '%s' %d %d\n", d->name, d->type, d->length);
+#endif
 	return 1;
 }
 
@@ -1484,6 +1513,12 @@ ms_ole_directory_create (MS_OLE_DIRECTORY *d, char *name, PPS_TYPE type)
 
 	if (!d || !d->file || d->file->mode != 'w') {
 		printf ("Trying to write to readonly file\n");
+		g_free (nd);
+		return NULL;
+	}
+
+	if (!name) {
+		printf ("No name!\n");
 		g_free (nd);
 		return NULL;
 	}

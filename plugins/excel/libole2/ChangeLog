@@ -2,6 +2,12 @@
 
 	* ms-ole.c (free_allocation): Major hassles here with
 	setting up sbf/sbd chain pointers.
+	(read_link_array): Checks for silly situations.
+	(ms_ole_directory_create): Check for name != NULL.
+	(next_free_sb): Added assert. Fix of out by 1 condition
+	for extending SBD.
+	Cleaned debug up throught and made conditional on OLE_DEBUG
+
 
 1999-05-11  Michael Meeks  <michael@imaginator.com>
 

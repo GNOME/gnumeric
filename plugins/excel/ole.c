@@ -130,7 +130,7 @@ list_files (MS_OLE *ole)
 {
 	MS_OLE_DIRECTORY *dir = ms_ole_directory_new (ole);
 	while (ms_ole_directory_next(dir)) {
-		printf ("'%s' : type %d, length %d bytes\n", dir->name, dir->type, dir->length);
+		printf ("'%25s' : type %d, length %d bytes\n", dir->name, dir->type, dir->length);
 	}
 }
 
@@ -154,6 +154,7 @@ syntax_error(char *err)
 	printf (" Raw transfer commands\n");
 	printf (" * get     <stream name> <fname>\n");
 	printf (" * put     <fname> <stream name>\n");
+	printf (" * copyin  [<fname>,]...\n");
 	printf (" * quit,exit,bye:        exit\n");
 	exit(1);
 }
@@ -429,21 +430,17 @@ do_get (MS_OLE *ole)
 }
 
 static void
-do_put (MS_OLE *ole)
+really_put (MS_OLE *ole, char *from, char *to)
 {
-	char *from, *to;
 	MS_OLE_DIRECTORY *dir;
 	MS_OLE_STREAM *stream;
-	char buffer[1024];
-
-	from = strtok (NULL, delim);
-	to   = strtok (NULL, delim);
+	char buffer[8200];
 
 	if (!from || !to) {
-		printf ("put <filename> <stream>\n");
+		printf ("Null name\n");
 		return;
 	}
-	
+
 	if (!(dir = get_file_handle (ole, to)))
 		dir = ms_ole_directory_create (ms_ole_directory_get_root(ole),
 					       to, MS_OLE_PPS_STREAM);
@@ -463,7 +460,8 @@ do_put (MS_OLE *ole)
 		stream->lseek (stream, 0, MS_OLE_SEEK_SET);
 	       
 		do {
-			len = fread (buffer, 1, 1024, f);
+			guint32 lenr = 1+ (int)(8192.0*rand()/(RAND_MAX+1.0));
+			len = fread (buffer, 1, lenr, f);
 			printf ("Transfering block %d = %d bytes\n", block++, len); 
 			stream->write (stream, buffer, len);
 		} while (!feof(f) && len>0);
@@ -472,6 +470,34 @@ do_put (MS_OLE *ole)
 		ms_ole_stream_close (stream);
 	} else
 		printf ("Need a stream name\n");
+}
+
+static void
+do_put (MS_OLE *ole)
+{
+	char *from, *to;
+
+	from = strtok (NULL, delim);
+	to   = strtok (NULL, delim);
+
+	if (!from || !to) {
+		printf ("put <filename> <stream>\n");
+		return;
+	}
+
+	really_put (ole, from, to);
+}
+
+static void
+do_copyin (MS_OLE *ole)
+{
+	char *from;
+
+	do {
+		from = strtok (NULL, delim);
+		if (from)
+			really_put (ole, from, from);
+	} while (from);
 }
 
 int main (int argc, char **argv)
@@ -529,6 +555,8 @@ int main (int argc, char **argv)
 			do_get (ole);
 		else if (g_strcasecmp(ptr, "put")==0)
 			do_put (ole);
+		else if (g_strcasecmp(ptr, "copyin")==0)
+			do_copyin (ole);
 		else if (g_strcasecmp(ptr,"exit")==0 ||
 			   g_strcasecmp(ptr,"quit")==0 ||
 			   g_strcasecmp(ptr,"bye")==0)

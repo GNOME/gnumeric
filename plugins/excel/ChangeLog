@@ -2,6 +2,7 @@
 
 	* ole.c (main): Add check on ptr to fix NULL pointers getting
 	to strcasecmp.
+	(do_copyin): Added mass-copy in/out function.
 
 1999-05-10  Michael Meeks  <michael@imaginator.com>
 
