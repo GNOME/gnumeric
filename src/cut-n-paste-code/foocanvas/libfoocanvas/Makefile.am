@@ -61,7 +61,7 @@ dist-hook:
 	    rm -f $(distdir)/$$file ; \
 	done
 
-noinst_HEADERS =
+noinst_HEADERS = \
 	foo-canvas-i18n.h \
 	foo-canvas-line.h \
 	foo-canvas-pixbuf.h \

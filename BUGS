@@ -92,6 +92,9 @@ Pending Patches
 17) 3D reference fixes on sheet deletion
 18) 'discard' for invalid expressions enters text as string	(DONE)
 
+19) Session management
+    http://bugzilla.gnome.org/show_bug.cgi?id=69799
+
 UTF-8:
     - Window titles.
     - format precompile

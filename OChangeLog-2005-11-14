@@ -1,5 +1,10 @@
 2002-11-22  Jody Goldberg <jody@gnome.org>
 
+	* tools/import-foocanvas : add a trailing backslash before the
+	  header list.
+
+2002-11-22  Jody Goldberg <jody@gnome.org>
+
 	* src/commands.c (cmd_global_outline_change) : don't push a useless
 	  command.
 	(cmd_selection_outline_change) : fix handling of collapse at start.

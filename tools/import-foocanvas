@@ -92,7 +92,7 @@ sub copy_subsystem {
 	}
 
 	if (@headers) {
-	    print DST "\nnoinst_HEADERS =\n\t", join (" \\\n\t", @headers), "\n";
+	    print DST "\nnoinst_HEADERS = \\\n\t", join (" \\\n\t", @headers), "\n";
 	}
     }
 
