@@ -267,7 +267,7 @@ el_key_press_event (GtkWidget *widget, GdkEventKey *event)
 		return TRUE;
 	}
 	
-	gtk_widget_event (el->entry, (GdkEvent *) event);
+	gtk_widget_event (GTK_WIDGET (el->entry), (GdkEvent *) event);
 
 	/* The previous call could have killed the edition */
 	if (el->entry)
