@@ -2,15 +2,16 @@
 # Copyright (C) 1998-2001 Free Software Foundation, Inc.
 # Vincent Renardias <vincent@ldsol.com>, 1998-2000.
 # Fabrice Bellet <Fabrice.Bellet@imag.fr>, 1999.
-# Christophe Merlet (RedFox) <redfox@eikonex.org>, 2000-2001.
+# maintainer: Christophe Merlet (RedFox) <redfox@eikonex.org>, 2000-2001.
+# Olivier Jousselin <o_j@club-internet.fr>, 2001.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 0.64\n"
-"POT-Creation-Date: 2001-11-05 01:48-0500\n"
-"PO-Revision-Date: 2001-03-18 19:53+0100\n"
-"Last-Translator: Christophe Merlet (RedFox) <redfox@eikonex.org>\n"
-"Language-Team: GNOME French Team <gnomefr@gnomefr.traduc.org>\n"
+"Project-Id-Version: gnumeric 0.76\n"
+"POT-Creation-Date: 2001-11-06 13:30+0100\n"
+"PO-Revision-Date: 2001-11-06 13:30+0100\n"
+"Last-Translator: Olivier Jousselin <o_j@club-internet.fr>\n"
+"Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,9 +26,8 @@ msgid "Applix"
 msgstr "Applix"
 
 #: plugins/applix/plugin.xml.in.h:2
-#, fuzzy
 msgid "Applix (*.as)"
-msgstr "Format Applix (*.as)"
+msgstr "Applix (*.as)"
 
 #: plugins/applix/plugin.xml.in.h:3
 msgid "Imports version 4.[234] spreadsheets"
@@ -44,27 +44,28 @@ msgid "Financial Derivatives"
 msgstr "Financier"
 
 #: plugins/derivatives/plugin.xml.in.h:3
+#, fuzzy
 msgid "Functions related to financial derivatives"
-msgstr ""
+msgstr "Fonctions financières"
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4352 src/xml-io.c:3449
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4352 src/xml-io.c:3450
 msgid "Reading file..."
-msgstr ""
+msgstr "Lecture du fichier ..."
 
 #: plugins/dif/dif.c:246
 #, c-format
 msgid "Syntax error at line %d. Ignoring."
-msgstr ""
+msgstr "Erreur de syntaxe ligne %d, ignorée"
 
 #: plugins/dif/dif.c:283
 #, c-format
 msgid "Unknown data value \"%s\" at line %d. Ignoring."
-msgstr ""
+msgstr "Valeur de donnée incorrecte \"%s\", ligne %d, ignorée."
 
 #: plugins/dif/dif.c:290
 #, c-format
 msgid "Unknown value type %d at line %d. Ignoring."
-msgstr ""
+msgstr "Type de donnée %d incorrect, ligne %d, ignoré."
 
 #: plugins/dif/dif.c:299
 #, fuzzy, c-format
@@ -87,17 +88,16 @@ msgstr ""
 #: plugins/dif/dif.c:315
 #, c-format
 msgid "Unexpected end of file at line %d while reading header."
-msgstr ""
+msgstr "Fin de fichier prématurée ligne %d, dans l'en-tête"
 
 #: plugins/dif/dif.c:319
 #, c-format
 msgid "Unexpected end of file at line %d while reading data."
-msgstr ""
+msgstr "Fin de fichier prématurée ligne %d, dans les données"
 
 #: plugins/dif/dif.c:335
-#, fuzzy
 msgid "Error while reading DIF file."
-msgstr "Erreur lors de l'enregistrement du fichier dif."
+msgstr "Erreur lors de la lecture du fichier DIF."
 
 #: plugins/dif/dif.c:366
 #, fuzzy
@@ -105,19 +105,16 @@ msgid "Cannot get default sheet."
 msgstr "Ne peut créer le fichier %s\n"
 
 #: plugins/dif/dif.c:398
-#, fuzzy
 msgid "Error while saving DIF file."
-msgstr "Erreur lors de l'enregistrement du fichier dif."
+msgstr "Erreur lors de l'enregistrement du fichier DIF."
 
 #: plugins/dif/plugin.xml.in.h:1
 msgid "Data Interchange Format (*.dif)"
 msgstr "Data Interchange Format (*.dif)"
 
 #: plugins/dif/plugin.xml.in.h:2
-#, fuzzy
 msgid "Data Interchange Format (DIF) module"
-msgstr ""
-"module Data Interchange Format (CSV - valeurs séparées par des virgules)"
+msgstr "module Data Interchange Format (DIF)"
 
 #: plugins/dif/plugin.xml.in.h:3
 msgid ""
@@ -127,7 +124,7 @@ msgstr ""
 
 #: plugins/excel/boot.c:144
 msgid "Preparing for save..."
-msgstr ""
+msgstr "Préparation de l'enregistrement ..."
 
 #: plugins/excel/boot.c:158
 msgid "Can't open"
@@ -234,10 +231,18 @@ msgid ""
 "@EXAMPLES=\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=EXECSQL\n"
+"@SYNTAX=EXECSQL(i)\n"
+"@DESCRIPTION=La fonction EXECSQL permet d'exécuter une commande sur un\n"
+"serveur de base de données, et d'afficher les résultats dans la feuille\n"
+"courante\n"
+"\n"
+"@EXAMPLES=\n"
+"@SEEALSO="
 
 #: plugins/gda/plugin-gda.c:138
 msgid "Format: execSQL(dsn,user,password,sql)"
-msgstr ""
+msgstr "Format: execSQL(dsn,utilisateur,mdp,sql)"
 
 #: plugins/gda/plugin-gda.c:144
 #, fuzzy
@@ -256,25 +261,29 @@ msgstr "Base de données"
 #: plugins/gda/plugin.xml.in.h:2
 msgid "Database functions for allowing the retrieval of data from a database"
 msgstr ""
+"Fonctions de base de données, permettant l'accès à des données d'une base de "
+"données"
 
 #: plugins/gnome-glossary/plugin.xml.in.h:1
 msgid "Gnome Glossary"
-msgstr ""
+msgstr "Glossaire de Gnome"
 
 #: plugins/gnome-glossary/plugin.xml.in.h:2
 #, fuzzy
 msgid "Gnome Glossary PO file format"
-msgstr "Format de fichier Gnumeric XML"
+msgstr "Format de fichier de glossaire de Gnome PO"
 
 #: plugins/gnome-glossary/plugin.xml.in.h:3
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr ""
+"Il fournit le support pour sauver le glossaire de Gnome dans des fichiers ."
+"po."
 
-#: plugins/guile/plugin.c:67 src/func.c:776 src/functions/fn-information.c:653
-#: src/functions/fn-information.c:722 src/functions/fn-information.c:749
-#: src/functions/fn-information.c:775 src/functions/fn-information.c:824
-#: src/functions/fn-information.c:853 src/functions/fn-information.c:917
-#: src/functions/fn-logical.c:194 src/functions/fn-string.c:313
+#: plugins/guile/plugin.c:67 src/func.c:776 src/functions/fn-information.c:694
+#: src/functions/fn-information.c:765 src/functions/fn-information.c:793
+#: src/functions/fn-information.c:820 src/functions/fn-information.c:871
+#: src/functions/fn-information.c:901 src/functions/fn-information.c:968
+#: src/functions/fn-logical.c:194 src/functions/fn-string.c:322
 msgid "Invalid number of arguments"
 msgstr "Nombre d'arguments invalide"
 
@@ -307,7 +316,7 @@ msgstr "Format DVI TeX (via groff)"
 
 #: plugins/html/plugin.xml.in.h:2
 msgid "HTML & TeX"
-msgstr ""
+msgstr "HTML & TeX"
 
 #: plugins/html/plugin.xml.in.h:3
 #, fuzzy
@@ -345,7 +354,7 @@ msgstr "Format TROFF (*.me)"
 
 #: plugins/html/roff.c:199
 msgid "Error executing groff."
-msgstr ""
+msgstr "Erreur lors de l'exécution de groff."
 
 #: plugins/lotus-123/lotus.c:309
 msgid "Error while reading lotus workbook."
@@ -670,11 +679,11 @@ msgstr "Importe les feuilles de calcul version 4.[234]"
 
 #: plugins/psiconv/plugin.xml.in.h:2
 msgid "Psiconv"
-msgstr ""
+msgstr "Psiconv"
 
 #: plugins/psiconv/plugin.xml.in.h:3
 msgid "Psion (*.psisheet)"
-msgstr ""
+msgstr "Psion (*.psisheet)"
 
 #: plugins/py-func/plugin.xml.in.h:1
 msgid "Python"
@@ -686,17 +695,19 @@ msgid "Python functions"
 msgstr "Exception Python"
 
 #: plugins/py-func/plugin.xml.in.h:3
+#, fuzzy
 msgid "Sample Python plugin providing some (useless) functions."
 msgstr ""
+"Exemple de plugin pour Python, fournissant quelques fonctions (inutiles)."
 
 #: plugins/python-loader/plugin.xml.in.h:1
-#, fuzzy
 msgid "Python plugin loader"
-msgstr "Plugin Python"
+msgstr "Greffon Python"
 
 #: plugins/python-loader/plugin.xml.in.h:2
+#, fuzzy
 msgid "This plugin provides support for Python plugins"
-msgstr ""
+msgstr "Ce greffon fournit un support pour les greffons en Python"
 
 #: plugins/python-loader/py-gnumeric.c:273
 #: plugins/python-loader/py-gnumeric.c:313
@@ -705,28 +716,28 @@ msgstr "Erreur inconnue"
 
 #: plugins/python-loader/py-gnumeric.c:279
 #: plugins/python-loader/py-gnumeric.c:321
-#, fuzzy, c-format
+#, c-format
 msgid "Python exception (%s: %s)"
-msgstr "Exception Python"
+msgstr "Exception Python (%s : %s)"
 
 #: plugins/python-loader/py-gnumeric.c:283
 #: plugins/python-loader/py-gnumeric.c:325
-#, fuzzy, c-format
+#, c-format
 msgid "Python exception (%s)"
-msgstr "Exception Python"
+msgstr "Exception Python (%s)"
 
 #: plugins/python-loader/py-gnumeric.c:456
 msgid "Python list is not an array"
-msgstr ""
+msgstr "Une liste Python n'est pas un tableau"
 
 #: plugins/python-loader/py-gnumeric.c:463
 #, fuzzy, c-format
 msgid "Unsupported Python type: %s"
-msgstr "Méthode non supportée"
+msgstr "Type Python non supporté : %s"
 
 #: plugins/python-loader/python-loader.c:128
 msgid "Python module name not given."
-msgstr ""
+msgstr "Le nom du module Python n'a pas été fourni"
 
 #: plugins/python-loader/python-loader.c:171
 #, fuzzy, c-format
@@ -736,7 +747,7 @@ msgstr "Un greffon doit contenir la fonction init_plugin."
 #: plugins/python-loader/python-loader.c:196
 #, c-format
 msgid "Execution of module \"%s\" failed."
-msgstr ""
+msgstr "L'exécution du module \"%s\" a échoué."
 
 #: plugins/python-loader/python-loader.c:228 src/plugin-loader-module.c:192
 #, fuzzy
@@ -745,37 +756,36 @@ msgstr "Bordure"
 
 #: plugins/python-loader/python-loader.c:231
 msgid "Python module name"
-msgstr ""
+msgstr "Nom du module Python"
 
 #: plugins/python-loader/python-loader.c:332
-#, fuzzy
 msgid "Some name"
-msgstr "Nom de la feuille"
+msgstr "Un nom"
 
 #: plugins/python-loader/python-loader.c:393
 #: plugins/python-loader/python-loader.c:477
 #: plugins/python-loader/python-loader.c:677
 #, c-format
 msgid "Python file \"%s\" has invalid format."
-msgstr ""
+msgstr "Le format du fichier Python \"%s\" est incorrect."
 
 #: plugins/python-loader/python-loader.c:398
 #: plugins/python-loader/python-loader.c:404
 #: plugins/python-loader/python-loader.c:482 src/plugin-loader-module.c:439
 #: src/plugin-loader-module.c:445 src/plugin-loader-module.c:510
-#, fuzzy, c-format
+#, c-format
 msgid "File doesn't contain \"%s\" function."
-msgstr "Un greffon doit contenir la fonction init_plugin."
+msgstr "Le fichier ne contient pas la fonction \"%s\"."
 
 #: plugins/python-loader/python-loader.c:682
-#, fuzzy, c-format
+#, c-format
 msgid "File doesn't contain \"%s\" dictionary."
-msgstr "Un greffon doit contenir la fonction init_plugin."
+msgstr "Le fichier ne contient pas le dictionnaire \"%s\"."
 
 #: plugins/python-loader/python-loader.c:687
 #, c-format
 msgid "Object \"%s\" is not a dictionary."
-msgstr ""
+msgstr "L'objet \"%s\" n'est pas un dictionnaire"
 
 #: plugins/python/plugin.xml.in.h:1
 msgid "Python Plugin"
@@ -812,14 +822,12 @@ msgid "Imports SC/XSpread files"
 msgstr "Importe les fichiers SC/XSpread"
 
 #: plugins/sc/plugin.xml.in.h:2
-#, fuzzy
 msgid "SC/XSpread"
 msgstr "SC/XSpread "
 
 #: plugins/sc/plugin.xml.in.h:3
-#, fuzzy
 msgid "SC/xspread"
-msgstr "SC/XSpread "
+msgstr "SC/xspread "
 
 #: plugins/sc/sc.c:387
 msgid "Error parsing line"
@@ -890,11 +898,11 @@ msgstr "XML EXPÉRIMENTAL"
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "La prochaine génération de sous-sytème d'E/S xml basé sur sax"
 
-#: plugins/xml_sax/xml-sax-read.c:2227
+#: plugins/xml_sax/xml-sax-read.c:2230
 msgid "xmlCreateFileParserCtxt () failed."
-msgstr ""
+msgstr "Échec de xmlCreateFileParserCtxt ()."
 
-#: plugins/xml_sax/xml-sax-read.c:2236
+#: plugins/xml_sax/xml-sax-read.c:2239
 msgid "XML document not well formed!"
 msgstr "Document XML pas bien formé !"
 
@@ -914,11 +922,11 @@ msgstr "Filtre avancé"
 
 #: src/GNOME_Gnumeric.xml.h:4 src/workbook-format-toolbar.c:481
 msgid "Aligns the contents to the left and decreases the indent"
-msgstr ""
+msgstr "Justifie le contenu à gauche et réduit l'indentation"
 
 #: src/GNOME_Gnumeric.xml.h:5 src/workbook-format-toolbar.c:484
 msgid "Aligns the contents to the left and increases the indent"
-msgstr ""
+msgstr "Justifie le contenu à gauche et augmente l'indentation"
 
 #: src/GNOME_Gnumeric.xml.h:6 src/workbook-object-toolbar.c:171
 msgid "Arrow"
@@ -940,11 +948,11 @@ msgstr "Éditer le nom de la feuille en cours"
 
 #: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:2814
 msgid "Automatically perform simple spell checking"
-msgstr ""
+msgstr "Réalise automatiquement une vérification orthographique simple"
 
 #: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:2817
 msgid "Automatically save the current document at regular intervals"
-msgstr ""
+msgstr "Enregistre automatiquement le document à intervalles réguliers"
 
 #: src/GNOME_Gnumeric.xml.h:12 src/dialogs/cell-format.glade.h:16
 #: src/dialogs/dialog-cell-format.c:2665 src/workbook-format-toolbar.c:842
@@ -1134,7 +1142,7 @@ msgstr "Créer un bouton radio"
 msgid "Create an arrow"
 msgstr "Crée un objet flèche"
 
-#: src/GNOME_Gnumeric.xml.h:55 src/sheet-control-gui.c:1321
+#: src/GNOME_Gnumeric.xml.h:55 src/sheet-control-gui.c:1316
 #: src/workbook-control-gui.c:2569
 msgid "Cu_t"
 msgstr "Co_uper"
@@ -1184,7 +1192,7 @@ msgstr "Afficher les _formules"
 
 #: src/GNOME_Gnumeric.xml.h:65 src/workbook-control-gui.c:2753
 msgid "Display the value of a formula or the formula itself"
-msgstr ""
+msgstr "Affiche la valeur d'une formule ou la formule elle-même"
 
 #: src/GNOME_Gnumeric.xml.h:66
 msgid "Draw a rectangle"
@@ -1216,11 +1224,11 @@ msgstr "Edite le commentaire de la cellule sélectionnée"
 
 #: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:2706
 msgid "Ensure columns are just wide enough to display content"
-msgstr ""
+msgstr "Ajuste précisément la largeur des colonnes à celle de leur contenu"
 
 #: src/GNOME_Gnumeric.xml.h:74 src/workbook-control-gui.c:2728
 msgid "Ensure rows are just tall enough to display content"
-msgstr ""
+msgstr "Ajuste précisément la hauteur des lignes à celle de leur contenu"
 
 #: src/GNOME_Gnumeric.xml.h:75
 msgid "Exit the program"
@@ -1254,18 +1262,17 @@ msgid "Foreground"
 msgstr "Avant-plan"
 
 #: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:2796
+#, fuzzy
 msgid "Format a region of cells according to a pre-defined template"
-msgstr ""
+msgstr "Met en forme une région de cellules d'après un modèle prédéfini"
 
 #: src/GNOME_Gnumeric.xml.h:83
-#, fuzzy
 msgid "Format the selected cells as money"
-msgstr "Formate les cellules sélectionnées comme monétaire"
+msgstr "Met les cellules sélectionnées au format monétaire"
 
 #: src/GNOME_Gnumeric.xml.h:84
-#, fuzzy
 msgid "Format the selected cells as percentages"
-msgstr "Modifier le formatage des cellules sélectionnées"
+msgstr "Met les cellules sélectionnées au format pourcentage"
 
 #: src/GNOME_Gnumeric.xml.h:85 src/sheet-object-widget.c:316
 #: src/workbook-object-toolbar.c:144
@@ -1391,25 +1398,28 @@ msgid "Inserts a Bonobo object"
 msgstr "Insérer un objet Bonobo"
 
 #: src/GNOME_Gnumeric.xml.h:112
+#, fuzzy
 msgid "Invoke the graph guru to create a graph"
-msgstr ""
+msgstr "Appelle l'assistant graphique pour créer un graphe"
 
 #: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:2550
 msgid "Irrevocably remove an entire sheet"
-msgstr ""
+msgstr "Détruit irrémédiablement une feuille entière"
 
 #: src/GNOME_Gnumeric.xml.h:114
 #, fuzzy
 msgid "Italicize"
-msgstr "Italique"
+msgstr "Met en italique"
 
 #: src/GNOME_Gnumeric.xml.h:115 src/workbook-control-gui.c:2823
 msgid "Iteratively recalculate to find a target value"
-msgstr ""
+msgstr "Recalcule de façon itérative pour obtenir une valeur cible"
 
 #: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:2826
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
+"Recalcule de façon itérative et avec des contraintes, pour obtenir une "
+"valeur approchée"
 
 #: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2614
 msgid "Jump to a specified cell"
@@ -1426,9 +1436,8 @@ msgid "Left"
 msgstr "Gauche"
 
 #: src/GNOME_Gnumeric.xml.h:120
-#, fuzzy
 msgid "Left justifies the contents of each cell"
-msgstr "Justifier à gauche le contenu des cellules"
+msgstr "Aligner à gauche le contenu de chaque cellule"
 
 #: src/GNOME_Gnumeric.xml.h:121 src/dialogs/cell-format.glade.h:56
 #: src/workbook-object-toolbar.c:168
@@ -1442,17 +1451,15 @@ msgstr "Liste"
 
 #: src/GNOME_Gnumeric.xml.h:123
 msgid "Lock or unlock the top left cols/rows"
-msgstr ""
+msgstr "Verrouiller ou déverrouiller les lignes et colonnes en haut à gauche"
 
 #: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:2534
-#, fuzzy
 msgid "Make a copy of the current sheet"
-msgstr "Éditer le nom de la feuille en cours"
+msgstr "Faire une copie de la feuille en cours"
 
 #: src/GNOME_Gnumeric.xml.h:125 src/workbook-control-gui.c:2715
-#, fuzzy
 msgid "Make any hidden columns in the selection visible"
-msgstr "Impossible d'ajouter plus que la longueur de la sélection."
+msgstr "Rend visibles toutes les colonnes de la sélection"
 
 #: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:2734
 #, fuzzy
@@ -1556,8 +1563,9 @@ msgid "Paste the clipboard"
 msgstr "Colle le contenu du presse-papiers"
 
 #: src/GNOME_Gnumeric.xml.h:148
+#, fuzzy
 msgid "Paste the contents of the clipboard or cut buffer"
-msgstr ""
+msgstr "Colle le contenu du presse-papiers"
 
 #: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:2583
 msgid "Paste with optional filters and transformations"
@@ -1629,9 +1637,8 @@ msgid "Rectangle"
 msgstr "Rectangle"
 
 #: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:2563
-#, fuzzy
 msgid "Redo the undone action"
-msgstr "Génération de nombres aléatoires"
+msgstr "Rétablir une action annulée"
 
 #: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:2849
 msgid "Remove an outline group"
@@ -1640,11 +1647,11 @@ msgstr ""
 #: src/GNOME_Gnumeric.xml.h:167
 msgid "Remove selected cells, shifting others into their place"
 msgstr ""
+"Supprimer les cellules sélectionnées en déplaçant les cellules adjacentes"
 
 #: src/GNOME_Gnumeric.xml.h:168 src/workbook-control-gui.c:2542
-#, fuzzy
 msgid "Rename the current sheet"
-msgstr "Éditer le nom de la feuille en cours"
+msgstr "Renommer la feuille en cours"
 
 #: src/GNOME_Gnumeric.xml.h:169 src/dialogs/cell-format.glade.h:70
 #: src/workbook-format-toolbar.c:634
@@ -1652,7 +1659,6 @@ msgid "Right"
 msgstr "Droite"
 
 #: src/GNOME_Gnumeric.xml.h:170
-#, fuzzy
 msgid "Right justifies the contents of each cell"
 msgstr "Justifier à droite le contenu des cellules"
 
@@ -1670,18 +1676,16 @@ msgid "Save"
 msgstr "Enregistrer"
 
 #: src/GNOME_Gnumeric.xml.h:174 src/workbook-control-gui.c:2450
-#, fuzzy
 msgid "Save _As..."
 msgstr "Enregistrer _sous"
 
 #: src/GNOME_Gnumeric.xml.h:175
 msgid "Save the current file"
-msgstr "Enregistre le fichier en cours"
+msgstr "Enregistrer le fichier en cours"
 
 #: src/GNOME_Gnumeric.xml.h:176
-#, fuzzy
 msgid "Save the current file with a different name"
-msgstr "Coupe la sélection vers le presse-papier"
+msgstr "Enregistrer le fichier en cours sous un nouveau nom"
 
 #: src/GNOME_Gnumeric.xml.h:177
 msgid "Save the current workbook"
@@ -1689,20 +1693,19 @@ msgstr "Enregistrer le classeur en cours"
 
 #: src/GNOME_Gnumeric.xml.h:178 src/workbook-control-gui.c:2607
 msgid "Search and Replace..."
-msgstr "Rechercher et remplacer..."
+msgstr "Rechercher et remplacer ..."
 
 #: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:2602
 msgid "Search for some text"
-msgstr ""
+msgstr "Rechercher un texte"
 
 #: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:2608
 msgid "Search for some text and replace it with something else"
-msgstr ""
+msgstr "Rechercher un texte et le remplacer par un autre"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/workbook-control-gui.c:2601
-#, fuzzy
 msgid "Search..."
-msgstr "Rechercher"
+msgstr "Rechercher ..."
 
 #: src/GNOME_Gnumeric.xml.h:182 src/workbook-control-gui.c:2511
 msgid "Select Arra_y"
@@ -1717,8 +1720,9 @@ msgid "Select _Column"
 msgstr "Sélectionner une _colonne"
 
 #: src/GNOME_Gnumeric.xml.h:185 src/workbook-control-gui.c:2516
+#, fuzzy
 msgid "Select _Depends"
-msgstr ""
+msgstr "Sélectionner les _dépendances"
 
 #: src/GNOME_Gnumeric.xml.h:186 src/workbook-control-gui.c:2501
 msgid "Select _Row"
@@ -1730,7 +1734,7 @@ msgstr "Sélectionne toutes les cellules dans la feuille"
 
 #: src/GNOME_Gnumeric.xml.h:188
 msgid "Select all the cells that depend on the current edit cell"
-msgstr ""
+msgstr "Sélectionner toutes les cellules qui dépendent de la cellule courante"
 
 #: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:2512
 msgid "Select an array of cells"
@@ -1746,7 +1750,7 @@ msgstr "Sélectionne une ligne entière"
 
 #: src/GNOME_Gnumeric.xml.h:192
 msgid "Setup the page settings for your current printer"
-msgstr ""
+msgstr "Configurer la mise en page pour votre imprimante"
 
 #: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:2978
 msgid "Sort Ascending"
@@ -1765,12 +1769,16 @@ msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
 msgstr ""
+"Trier la région sélectionnée par ordre ascendant, avec la première colonne "
+"sélectionnée comme clé de tri"
 
 #: src/GNOME_Gnumeric.xml.h:197
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
 msgstr ""
+"Trier la région sélectionnée par ordre descendant, avec la première colonne "
+"sélectionnée comme clé de tri"
 
 #: src/GNOME_Gnumeric.xml.h:198 src/workbook-format-toolbar.c:457
 #, fuzzy
@@ -1807,23 +1815,24 @@ msgstr "Informations résumées"
 
 #: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2771
 msgid "Toggle whether or not to display column headers"
-msgstr ""
+msgstr "Inverser l'affichage des en-têtes de colonnes"
 
 #: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:2765
 msgid "Toggle whether or not to display gridlines"
-msgstr ""
+msgstr "Inverser l'affichage du quadrillage"
 
 #: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2856
+#, fuzzy
 msgid "Toggle whether or not to display outline groups"
-msgstr ""
+msgstr "Inverser l'affichage des groupes globaux"
 
 #: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:2777
 msgid "Toggle whether or not to display row headers"
-msgstr ""
+msgstr "Inverser l'affichage des en-têtes de lignes"
 
 #: src/GNOME_Gnumeric.xml.h:209 src/workbook-control-gui.c:2759
 msgid "Toggle whether or not to display zeros as blanks"
-msgstr ""
+msgstr "Inverser l'affichage des zéros comme des cellules vides"
 
 #: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:2868
 msgid "Toggle whether to display column outlines on the left or right"
@@ -1839,15 +1848,15 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:213 src/workbook-format-toolbar.c:429
 msgid "Underline"
-msgstr "Sousligner"
+msgstr "Souligner"
 
 #: src/GNOME_Gnumeric.xml.h:214
 msgid "Underlines the text"
-msgstr "Sousligne le texte"
+msgstr "Souligne le texte"
 
 #: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:2559
 msgid "Undo the last action"
-msgstr "Défaire la dernière action"
+msgstr "Annuler la dernière action"
 
 #: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:2891
 #, fuzzy
@@ -1915,7 +1924,7 @@ msgid "_Content"
 msgstr "_Contenu"
 
 #: src/GNOME_Gnumeric.xml.h:230 src/item-cursor.c:1029
-#: src/sheet-control-gui.c:1323 src/workbook-control-gui.c:2573
+#: src/sheet-control-gui.c:1318 src/workbook-control-gui.c:2573
 msgid "_Copy"
 msgstr "_Copier"
 
@@ -1931,7 +1940,7 @@ msgstr "Analyse des _données..."
 msgid "_Define"
 msgstr "_Définir"
 
-#: src/GNOME_Gnumeric.xml.h:234 src/sheet-control-gui.c:1341
+#: src/GNOME_Gnumeric.xml.h:234 src/sheet-control-gui.c:1336
 #: src/workbook-control-gui.c:2590
 msgid "_Delete..."
 msgstr "_Effacer..."
@@ -1990,8 +1999,8 @@ msgstr "Lignes de _grille"
 msgid "_Help"
 msgstr "_Aide"
 
-#: src/GNOME_Gnumeric.xml.h:247 src/sheet-control-gui.c:1364
-#: src/sheet-control-gui.c:1372 src/workbook-control-gui.c:2711
+#: src/GNOME_Gnumeric.xml.h:247 src/sheet-control-gui.c:1359
+#: src/sheet-control-gui.c:1367 src/workbook-control-gui.c:2711
 #: src/workbook-control-gui.c:2730
 msgid "_Hide"
 msgstr "Cac_her"
@@ -2030,7 +2039,7 @@ msgstr "_Objet"
 msgid "_Open"
 msgstr "_Ouvrir"
 
-#: src/GNOME_Gnumeric.xml.h:256 src/sheet-control-gui.c:1325
+#: src/GNOME_Gnumeric.xml.h:256 src/sheet-control-gui.c:1320
 #: src/workbook-control-gui.c:2577
 msgid "_Paste"
 msgstr "C_oller"
@@ -2119,8 +2128,8 @@ msgstr "_Défaire"
 msgid "_Ungroup"
 msgstr "_Défaire"
 
-#: src/GNOME_Gnumeric.xml.h:275 src/sheet-control-gui.c:1366
-#: src/sheet-control-gui.c:1374 src/workbook-control-gui.c:2714
+#: src/GNOME_Gnumeric.xml.h:275 src/sheet-control-gui.c:1361
+#: src/sheet-control-gui.c:1369 src/workbook-control-gui.c:2714
 #: src/workbook-control-gui.c:2733
 msgid "_Unhide"
 msgstr "_Montrer"
@@ -2187,9 +2196,8 @@ msgid ""
 msgstr ""
 
 #: src/analysis-tools.c:1211
-#, fuzzy
 msgid "Confidence Interval for the Mean"
-msgstr "Confiance pour la moyenne"
+msgstr "Intervalle de confiance pour la moyenne"
 
 #: src/analysis-tools.c:1212
 #, c-format
@@ -2350,7 +2358,7 @@ msgstr "RÉSUMÉ"
 
 #: src/analysis-tools.c:2788
 msgid "/Groups/Count/Sum/Average/Variance"
-msgstr ""
+msgstr "/Groupes/Effectif/Somme/Moyenne/Variance"
 
 #: src/analysis-tools.c:2859
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
@@ -2366,11 +2374,11 @@ msgstr "Anova : Two-Factor sans réplication"
 
 #: src/analysis-tools.c:2958
 msgid "/SUMMARY/Count/Sum/Average/Variance"
-msgstr ""
+msgstr "/RÉSUMÉ/Effectif/Somme/Moyenne/Variance"
 
 #: src/analysis-tools.c:3054
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
-msgstr ""
+msgstr "/ANOVA/Source de variation/Lignes/Colonnes/Erreur/Total"
 
 #: src/analysis-tools.c:3145
 msgid "Anova: Two-Factor With Replication"
@@ -2460,11 +2468,11 @@ msgid "Cumulative %"
 msgstr "% cumulatif"
 
 #: src/bonobo-io.c:449
-#, c-format
+#, fuzzy, c-format
 msgid "Error '%s' opening workbook stream"
-msgstr ""
+msgstr "Erreur '%s' à l'ouverture du flux de workbook"
 
-#: src/bonobo-io.c:468 src/xml-io-autoft.c:425 src/xml-io.c:3472
+#: src/bonobo-io.c:468 src/xml-io-autoft.c:425 src/xml-io.c:3473
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Fichier xml non valide. L'arbre est-il vide ?"
 
@@ -2474,7 +2482,7 @@ msgstr "Ne contient pas un fichier classeur"
 
 #: src/bonobo-io.c:526
 msgid "EXPERIMENTAL Bonobo EFS format"
-msgstr ""
+msgstr "Format Bonobo EFS EXPÉRIMENTAL"
 
 #: src/clipboard.c:297 src/clipboard.c:310 src/clipboard.c:322
 #: src/clipboard.c:330
@@ -2483,7 +2491,7 @@ msgstr "Incapable de coller"
 
 #: src/clipboard.c:298
 msgid "Content can only be pasted by value or by link."
-msgstr ""
+msgstr "Seuls la valeur ou le lien peuvent être collés"
 
 #: src/clipboard.c:306
 #, c-format
@@ -2492,10 +2500,10 @@ msgid ""
 "\n"
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
-"la destination n'a pas un multiple paire du nombre de colonnes de la source "
-"(%d vs %d)\n"
+"la destination n'a pas un nombre de colonnes multiple de celui de la source "
+"(%d pour %d)\n"
 "\n"
-"Essayez de sélectionner une seule cellule ou une aire de la meme forme et "
+"Essayez de sélectionner une seule cellule ou une aire de même forme et "
 "taille."
 
 #: src/clipboard.c:318
@@ -2505,15 +2513,15 @@ msgid ""
 "\n"
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
-"la destination n'a pas un multiple paire du nombre de lignes de la source (%"
-"d vs %d)\n"
+"la destination n'a pas un nombre de lignes multiple de celui de la source (%"
+"d pour %d)\n"
 "\n"
-"Essayez de sélectionner une seule cellule ou une aire de la meme forme et "
+"Essayez de sélectionner une seule cellule ou une aire de même forme et "
 "taille."
 
 #: src/clipboard.c:331
 msgid "result passes the sheet boundary"
-msgstr "le résultat franchi les limites de la feuille"
+msgstr "le résultat franchit les limites de la feuille"
 
 #: src/cmd-edit.c:301
 #, c-format
@@ -2522,38 +2530,39 @@ msgid ""
 "\n"
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
-"la destination a une forme différente (%dLc%dC) que l'original (%dLx%dC)\n"
+"La destination a une forme différente (%dLx%dC) de celle de l'original (%dLx%"
+"dC)\n"
 "\n"
-"Essayez de sélectionner une seule cellule ou une aire de la meme forme et "
+"Essayez de sélectionner une seule cellule ou une aire de même forme et "
 "taille."
 
 #: src/cmd-edit.c:307
 msgid "Unable to paste into selection"
-msgstr "Incapable de coller dans la sélection"
+msgstr "Impossible de coller dans la sélection"
 
 #: src/cmd-edit.c:388
-#, fuzzy, c-format
+#, c-format
 msgid "Shift rows %s"
-msgstr "Décaler vers le bas et copier"
+msgstr "Décaler les lignes %s"
 
 #: src/cmd-edit.c:389
-#, fuzzy, c-format
+#, c-format
 msgid "Shift row %s"
-msgstr "Décaler vers le bas et copier"
+msgstr "Décaler la ligne %s"
 
 #: src/cmd-edit.c:426
-#, fuzzy, c-format
+#, c-format
 msgid "Shift columns %s"
-msgstr "Montrer les colonnes"
+msgstr "Décaler les colonnes %s"
 
 #: src/cmd-edit.c:427
 #, fuzzy, c-format
 msgid "Shift column %s"
-msgstr "Montrer les colonnes"
+msgstr "Décaler la colonne %s"
 
 #: src/commands.c:636 src/commands.c:730
 msgid "Set Text"
-msgstr "Défini le texte"
+msgstr "Définit le texte"
 
 #: src/commands.c:661
 #, c-format
@@ -2573,22 +2582,22 @@ msgstr "Insertion de %d colonnes avant %s"
 #: src/commands.c:1097
 #, c-format
 msgid "Inserting %d column before %s"
-msgstr "Insertion de %d colonne avant %s"
+msgstr "Insertion de la colonne %d avant %s"
 
 #: src/commands.c:1108
-#, fuzzy, c-format
+#, c-format
 msgid "Inserting %d rows before %s"
-msgstr "Insertion de %d lignes avant %d"
+msgstr "Insertion de %d lignes avant %s"
 
 #: src/commands.c:1109
-#, fuzzy, c-format
+#, c-format
 msgid "Inserting %d row before %s"
-msgstr "Insertion de %d ligne avant %d"
+msgstr "Insertion de la ligne %d avant %s"
 
 #: src/commands.c:1120
-#, fuzzy, c-format
+#, c-format
 msgid "Deleting columns %s"
-msgstr "Effacement de la colonne %s"
+msgstr "Effacement des colonnes %s"
 
 #: src/commands.c:1121
 #, c-format
@@ -2596,48 +2605,44 @@ msgid "Deleting column %s"
 msgstr "Effacement de la colonne %s"
 
 #: src/commands.c:1131
-#, fuzzy, c-format
+#, c-format
 msgid "Deleting rows %s"
-msgstr "Effacement de la ligne %d"
+msgstr "Effacement des lignes %s"
 
 #: src/commands.c:1132
-#, fuzzy, c-format
+#, c-format
 msgid "Deleting row %s"
-msgstr "Effacement de la ligne %d"
+msgstr "Effacement de la ligne %s"
 
 #: src/commands.c:1207
 msgid "Undo Clear"
 msgstr "Annuler Vider"
 
 #: src/commands.c:1290
-#, fuzzy
 msgid "contents"
-msgstr "Contenu"
+msgstr "contenu"
 
 #: src/commands.c:1292
-#, fuzzy
 msgid "formats"
-msgstr "Formats"
+msgstr "formats"
 
 #: src/commands.c:1294
-#, fuzzy
 msgid "comments"
-msgstr "Commentaires"
+msgstr "commentaires"
 
 #: src/commands.c:1310
-#, fuzzy
 msgid "all"
-msgstr "haut"
+msgstr "tout"
 
 #: src/commands.c:1317
-#, fuzzy, c-format
+#, c-format
 msgid "Clearing %s in %s"
-msgstr "Frappe de \"%s%s\" dans %s"
+msgstr "Effacement de %s dans %s"
 
 #: src/commands.c:1516
-#, fuzzy, c-format
+#, c-format
 msgid "Changing format of %s"
-msgstr "Ne peut créer le fichier %s\n"
+msgstr "Changement de format de %s"
 
 #: src/commands.c:1592
 #, c-format
@@ -2751,39 +2756,39 @@ msgstr ""
 
 #: src/commands.c:2254
 msgid "Those columns are already grouped"
-msgstr ""
+msgstr "Ces colonnes sont déjà groupées"
 
 #: src/commands.c:2255
 msgid "Those rows are already grouped"
-msgstr ""
+msgstr "Ces lignes sont déjà groupées"
 
 #: src/commands.c:2258
 msgid "Those columns are not grouped, you can't ungroup them"
-msgstr ""
+msgstr "Ces colonnes ne sont pas groupées"
 
 #: src/commands.c:2259
 msgid "Those rows are not grouped, you can't ungroup them"
-msgstr ""
+msgstr "Ces lignes ne sont pas groupées"
 
 #: src/commands.c:2270
-#, fuzzy, c-format
+#, c-format
 msgid "Group columns %s"
-msgstr "Montrer les colonnes"
+msgstr "Grouper les colonnes %s"
 
 #: src/commands.c:2270
-#, fuzzy, c-format
+#, c-format
 msgid "Ungroup columns %s"
-msgstr "Effacement de la colonne %s"
+msgstr "Dégrouper les colonnes %s"
 
 #: src/commands.c:2272
-#, fuzzy, c-format
+#, c-format
 msgid "Group rows %d:%d"
-msgstr "Effacement de %d lignes %d:%d"
+msgstr "Grouper les lignes %d:%d"
 
 #: src/commands.c:2272
-#, fuzzy, c-format
+#, c-format
 msgid "Ungroup rows %d:%d"
-msgstr "Effacement de %d lignes %d:%d"
+msgstr "Dégrouper les lignes %d:%d"
 
 #: src/commands.c:2475
 #, c-format
@@ -2792,7 +2797,7 @@ msgstr "Déplacement de %s"
 
 #: src/commands.c:2484 src/commands.c:2668
 msgid "is beyond sheet boundaries"
-msgstr ""
+msgstr "est au-delà des limites de la feuille"
 
 #. FIXME?
 #: src/commands.c:2639
@@ -2807,14 +2812,14 @@ msgstr "Remplissage auto"
 
 #. Changed in initial redo.
 #: src/commands.c:2828
-#, fuzzy, c-format
+#, c-format
 msgid "Autofilling %s"
-msgstr "Remplissage auto"
+msgstr "Remplissage auto de %s"
 
 #: src/commands.c:2981
-#, fuzzy, c-format
+#, c-format
 msgid "Autoformatting %s"
-msgstr "Formatage automatique"
+msgstr "Formatage automatique de %s"
 
 #: src/commands.c:3091
 #, fuzzy, c-format
@@ -2832,14 +2837,14 @@ msgid "Search and Replace"
 msgstr "Rechercher et remplacer"
 
 #: src/commands.c:3703
-#, fuzzy, c-format
+#, c-format
 msgid "Setting default width of columns to %.2fpts"
-msgstr "Définition de la largeur des colonnes"
+msgstr "Largeur par défaut des colonnes mise à %.2fpts"
 
 #: src/commands.c:3704
-#, fuzzy, c-format
+#, c-format
 msgid "Setting default height of rows to %.2fpts"
-msgstr "Définition de la hauteur de lignes"
+msgstr "Hauteur par défaut des lignes mise à %.2fpts"
 
 #. Changed in initial redo.
 #: src/commands.c:3789
@@ -2853,23 +2858,21 @@ msgid "Zoom %s to %.0f%%"
 msgstr ""
 
 #: src/commands.c:3973
-#, fuzzy
 msgid "Insert object"
-msgstr "Insérer colonnes"
+msgstr "Insérer l'objet"
 
 #: src/commands.c:4031
-#, fuzzy
 msgid "Delete object"
-msgstr "Effacer feui_lle"
+msgstr "Effacer l'objet"
 
 #: src/commands.c:4112
 #, fuzzy
 msgid "Resize object"
-msgstr "Crée un objet ligne"
+msgstr "Redimensionner l'objet"
 
 #: src/commands.c:4112
 msgid "Move object"
-msgstr ""
+msgstr "Déplacer l'objet"
 
 #: src/corba-args.c:30
 msgid "Oaf options"
@@ -3073,9 +3076,8 @@ msgid "Data Analysis Tools"
 msgstr "Outils d'analyse"
 
 #: src/dialogs/anova-one.glade.h:1 src/dialogs/anova-two.glade.h:1
-#, fuzzy
 msgid "(1 - _Alpha) = "
-msgstr "1 - _Alpha :"
+msgstr "(1 - _Alpha) = "
 
 #: src/dialogs/anova-one.glade.h:2 src/dialogs/anova-two.glade.h:2
 #: src/dialogs/mean-tests.glade.h:3 src/dialogs/regression.glade.h:1
@@ -3084,9 +3086,8 @@ msgid "0.95"
 msgstr "0.95"
 
 #: src/dialogs/anova-one.glade.h:3
-#, fuzzy
 msgid "ANOVA - Single Factor"
-msgstr "Anova : Facteur unique"
+msgstr "ANOVA : Facteur unique"
 
 #: src/dialogs/anova-one.glade.h:4 src/dialogs/correlation.glade.h:2
 #: src/dialogs/covariance.glade.h:2 src/dialogs/descriptive-stats.glade.h:6
@@ -3181,9 +3182,8 @@ msgid "ANOVA - Two-Factor"
 msgstr ""
 
 #: src/dialogs/anova-two.glade.h:7
-#, fuzzy
 msgid "Number of Rows _Per Sample:"
-msgstr "Nomb_re d'échantillons :"
+msgstr "Nombre de lignes _par échantillon :"
 
 #: src/dialogs/autocorrect.glade.h:1
 msgid "Auto Correct"
@@ -3191,11 +3191,11 @@ msgstr "Correction automatique"
 
 #: src/dialogs/autocorrect.glade.h:2
 msgid "Capitalize _first letter of sentence"
-msgstr "Mets en majuscule la première lettre d'une phrase"
+msgstr "Met en majuscule la première lettre d'une phrase"
 
 #: src/dialogs/autocorrect.glade.h:3
 msgid "Capitalize _names of days"
-msgstr "Mets en majuscule les _noms de jours"
+msgstr "Met en majuscule les _noms de jours"
 
 #: src/dialogs/autocorrect.glade.h:4
 msgid "Correct _TWo INitial CApitals                           "
@@ -3221,7 +3221,7 @@ msgstr "_Ajouter"
 
 #: src/dialogs/autocorrect.glade.h:9
 msgid "_Do not capitalize after:"
-msgstr "_N pas mettre en majuscule aprés :"
+msgstr "_Ne pas mettre en majuscule après :"
 
 #: src/dialogs/autocorrect.glade.h:10
 msgid "_First Letter"
@@ -3397,7 +3397,7 @@ msgstr "_Permettre :"
 #: src/dialogs/cell-format.glade.h:15
 #, fuzzy
 msgid "Any Value                     (no validation)"
-msgstr "                         "
+msgstr "Toute valeur (pas de vérification)"
 
 #: src/dialogs/cell-format.glade.h:17
 msgid "Background Color"
@@ -3466,7 +3466,7 @@ msgstr "_Effacer format"
 
 #: src/dialogs/cell-format.glade.h:32
 msgid "Deci_mal places:"
-msgstr ""
+msgstr "Chiffres après la _virgule :"
 
 #: src/dialogs/cell-format.glade.h:33
 msgid "Decimal"
@@ -3486,7 +3486,7 @@ msgstr "Rayures diagonales"
 
 #: src/dialogs/cell-format.glade.h:37
 msgid "Display the value exactly as it was entered"
-msgstr "Affichez la valeur telle qu'elle a été entrée"
+msgstr "Afficher la valeur telle qu'elle a été entrée"
 
 #: src/dialogs/cell-format.glade.h:38 src/dialogs/dialog-cell-format.c:1279
 #: src/dialogs/dialog-cell-format.c:1339
@@ -3523,20 +3523,21 @@ msgstr "Rayures horizontales"
 #: src/dialogs/cell-format.glade.h:46
 #, fuzzy
 msgid "Ignore blank cells"
-msgstr "Ignorer les blancs"
+msgstr "Ignorer les cellules vides"
 
 #: src/dialogs/cell-format.glade.h:47
 msgid "In-cell dropdown"
-msgstr ""
+msgstr "Liste déroulante dans la cellule"
 
 #: src/dialogs/cell-format.glade.h:48
+#, fuzzy
 msgid "Information  (allows invalid input)"
-msgstr ""
+msgstr "Information (saisie invalide autorisée)"
 
 #: src/dialogs/cell-format.glade.h:49
 #, fuzzy
 msgid "Input Message"
-msgstr "_Intervalle d'entrée :"
+msgstr "Message de saisie"
 
 #: src/dialogs/cell-format.glade.h:50
 msgid "Inside"
@@ -3565,9 +3566,8 @@ msgstr ""
 "feuilles de calcul protégées."
 
 #: src/dialogs/cell-format.glade.h:59
-#, fuzzy
 msgid "Message :"
-msgstr "Message"
+msgstr "Message :"
 
 #: src/dialogs/cell-format.glade.h:60
 msgid "Negat_ive number:"
@@ -3621,11 +3621,11 @@ msgstr "Demi cercles"
 
 #: src/dialogs/cell-format.glade.h:74
 msgid "Show input message when cell is selected"
-msgstr ""
+msgstr "Afficher le message de saisie lorsque la cellule est sélectionnée"
 
 #: src/dialogs/cell-format.glade.h:75
 msgid "Shrin_k to fit"
-msgstr ""
+msgstr "Ajuster en rétrécissant"
 
 #. There must be a better way than this
 #: src/dialogs/cell-format.glade.h:76 src/dialogs/dialog-cell-format.c:1277
@@ -3635,7 +3635,7 @@ msgstr "Simple"
 
 #: src/dialogs/cell-format.glade.h:77
 msgid "Small Circles"
-msgstr "Petit cercles"
+msgstr "Petits cercles"
 
 #: src/dialogs/cell-format.glade.h:78
 msgid "Solid"
@@ -3646,8 +3646,9 @@ msgid "Sp_ecial"
 msgstr "Sp_écial"
 
 #: src/dialogs/cell-format.glade.h:80
+#, fuzzy
 msgid "Stop           (never allow invalid input)"
-msgstr ""
+msgstr "Stop (interdit toute saisie invalide)"
 
 #: src/dialogs/cell-format.glade.h:81
 msgid "Stri_kethrough"
@@ -3667,7 +3668,7 @@ msgstr "Te_xte"
 
 #: src/dialogs/cell-format.glade.h:85
 msgid "Text length"
-msgstr ""
+msgstr "Taille du texte"
 
 #: src/dialogs/cell-format.glade.h:86
 msgid "Thatch"
@@ -3732,12 +3733,13 @@ msgid "Vertical Stripe"
 msgstr "Rayures verticales"
 
 #: src/dialogs/cell-format.glade.h:101
+#, fuzzy
 msgid "Warning      (accept/discard invalid input)"
-msgstr ""
+msgstr "Avertissement (propose d'accepter ou de refuser une saisie invalide)"
 
 #: src/dialogs/cell-format.glade.h:102
 msgid "Whole numbers"
-msgstr ""
+msgstr "Nombres entiers"
 
 #: src/dialogs/cell-format.glade.h:103
 msgid "Worksheet _protected"
@@ -3833,41 +3835,36 @@ msgstr "_Retour à la ligne"
 
 #: src/dialogs/cell-format.glade.h:128
 msgid "min <= val <= max         (between)"
-msgstr ""
+msgstr "min <= val <= max         (entre)"
 
 #: src/dialogs/cell-format.glade.h:129
-#, fuzzy
 msgid "val != bound                  (not equal to)"
-msgstr "                         "
+msgstr "val != limite              (différent de)"
 
 #: src/dialogs/cell-format.glade.h:130
-#, fuzzy
 msgid "val >  bound                  (greater than)"
-msgstr "                         "
+msgstr "val > limite              (supérieur à)"
 
 #: src/dialogs/cell-format.glade.h:131
-#, fuzzy
 msgid "val >=bound                  (greater than or equal to)"
-msgstr "                         "
+msgstr "val >= limite              (supérieur ou égal à)"
 
 #: src/dialogs/cell-format.glade.h:132
-#, fuzzy
 msgid "val <  bound                  (less than)"
-msgstr "                         "
+msgstr "val < limite              (inférieur à)"
 
 #: src/dialogs/cell-format.glade.h:133
 msgid "val <= min || max <= val (not between)"
-msgstr ""
+msgstr "val <= min || max <= val         (pas compris entre)"
 
 #: src/dialogs/cell-format.glade.h:134
-#, fuzzy
 msgid "val <=bound                  (less than or equal to)"
-msgstr "                         "
+msgstr "val <= limite              (inférieur ou égal à)"
 
 #: src/dialogs/cell-format.glade.h:135
 #, fuzzy
 msgid "val == bound                 (equal to)"
-msgstr "                         "
+msgstr "val == limite                 (égal à)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A header"
@@ -3937,7 +3934,7 @@ msgstr "Largeur de _colonne (pts) :"
 
 #: src/dialogs/consolidate.glade.h:1
 msgid "Add the entered area to the list of source areas"
-msgstr ""
+msgstr "Ajouter la zone entrée à la liste de zones sources"
 
 #: src/dialogs/consolidate.glade.h:3
 #, fuzzy
@@ -3947,40 +3944,35 @@ msgstr "Copier les valeurs"
 #: src/dialogs/consolidate.glade.h:4
 #, fuzzy
 msgid "Clear the list of source areas"
-msgstr "Définition de la largeur des colonnes"
+msgstr "Effacer la liste de zones sources"
 
 #: src/dialogs/consolidate.glade.h:6
-#, fuzzy
 msgid "D_elete"
 msgstr "Effacer"
 
 #: src/dialogs/consolidate.glade.h:7
 msgid "Data consolidation"
-msgstr ""
+msgstr "Consolidation de données"
 
 #: src/dialogs/consolidate.glade.h:8
-#, fuzzy
 msgid "Delete the currently selected source area"
-msgstr "Supprime la feuille sélectionné"
+msgstr "Supprime la zone source sélectionnée"
 
 #: src/dialogs/consolidate.glade.h:9
 msgid "Formulas"
 msgstr "Formules"
 
 #: src/dialogs/consolidate.glade.h:10
-#, fuzzy
 msgid "In _left column"
-msgstr "Insérer colonnes"
+msgstr "Dans la colonne de _gauche"
 
 #: src/dialogs/consolidate.glade.h:11
-#, fuzzy
 msgid "In _top row"
-msgstr "Insérer lignes"
+msgstr "Dans la ligne du _haut"
 
 #: src/dialogs/consolidate.glade.h:12
-#, fuzzy
 msgid "Labels"
-msgstr "_Titres"
+msgstr "Titres"
 
 #: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3595
 msgid "Max"
@@ -3991,39 +3983,40 @@ msgid "Min"
 msgstr "Min"
 
 #: src/dialogs/consolidate.glade.h:15
-#, fuzzy
 msgid "Product"
-msgstr "Périodique"
+msgstr "Produit"
 
 #: src/dialogs/consolidate.glade.h:16
-#, fuzzy
 msgid "Source areas"
-msgstr "Source de variation"
+msgstr "Zones sources"
 
 #: src/dialogs/consolidate.glade.h:17
-#, fuzzy
 msgid "Stdev (sample)"
-msgstr "Exemple"
+msgstr "Ecart-type (échantillon)"
 
 #: src/dialogs/consolidate.glade.h:18
 msgid "Stdevp (population)"
-msgstr ""
+msgstr "Ecart-typep (population)"
 
 #: src/dialogs/consolidate.glade.h:20
 msgid "The function to use when consolidating"
-msgstr ""
+msgstr "Fonction à utiliser pour consolider"
 
 #: src/dialogs/consolidate.glade.h:21
 msgid ""
 "The left column contains labels, these will not be consolidated, but used as "
 "key for comparison"
 msgstr ""
+"La colonne de gauche contient des titres. Ils ne seront pas consolidés, mais "
+"utilisés comme clés de comparaison"
 
 #: src/dialogs/consolidate.glade.h:22
 msgid ""
 "The toprow contains labels, these will not be consolidated, but used as key "
 "for comparison"
 msgstr ""
+"La ligne du haut contient des titres. Ils ne seront pas consolidés, mais "
+"utilisés comme clés de comparaison"
 
 #: src/dialogs/consolidate.glade.h:23
 msgid "Values"
@@ -4031,25 +4024,23 @@ msgstr "Valeurs"
 
 #: src/dialogs/consolidate.glade.h:24
 msgid "Var (sample)"
-msgstr ""
+msgstr "Variance (échantillon)"
 
 #: src/dialogs/consolidate.glade.h:25
 msgid "Varp (population)"
-msgstr ""
+msgstr "Variancep (population)"
 
 #: src/dialogs/consolidate.glade.h:27 src/dialogs/dialog-stf.glade.h:63
 msgid "_Clear"
 msgstr "_Vider"
 
 #: src/dialogs/consolidate.glade.h:28
-#, fuzzy
 msgid "_Destination :"
-msgstr "Description :"
+msgstr "Destination :"
 
 #: src/dialogs/consolidate.glade.h:29
-#, fuzzy
 msgid "_Function :"
-msgstr "Fonction"
+msgstr "_Fonction : "
 
 #: src/dialogs/consolidate.glade.h:30
 #, fuzzy
@@ -4096,19 +4087,16 @@ msgid "Shift cells _up"
 msgstr "Décaler les cellules vers le _haut"
 
 #: src/dialogs/descriptive-stats.glade.h:1
-#, fuzzy
 msgid "(1 - alpha) = "
-msgstr "1 - _Alpha :"
+msgstr "(1 - _Alpha) = "
 
 #: src/dialogs/descriptive-stats.glade.h:2
-#, fuzzy
 msgid ".95"
 msgstr "0.95"
 
 #: src/dialogs/descriptive-stats.glade.h:4
-#, fuzzy
 msgid "Confidence Interval for the _Mean"
-msgstr "Confiance pour la moyenne"
+msgstr "Intervalle de confiance pour la _moyenne"
 
 #: src/dialogs/descriptive-stats.glade.h:5
 #: src/dialogs/dialog-analysis-tools.c:3685
@@ -4117,7 +4105,7 @@ msgstr "Statistiques Descriptives"
 
 #: src/dialogs/descriptive-stats.glade.h:8
 msgid "K = "
-msgstr ""
+msgstr "K = "
 
 #: src/dialogs/descriptive-stats.glade.h:13
 #, fuzzy
@@ -4140,12 +4128,11 @@ msgstr "Sean Atkinson, fonctions et importation X-base."
 
 #: src/dialogs/dialog-about.c:33
 msgid "Grandma Chema Celorio, Tester and sheet copy."
-msgstr ""
+msgstr "Grandma Chema Celorio, testeur et copie de feuilles"
 
 #: src/dialogs/dialog-about.c:34
-#, fuzzy
 msgid "Frank Chiulli, OLE support."
-msgstr "Daniel Veillard, support XML."
+msgstr "Frank Chiulli, support OLE."
 
 #: src/dialogs/dialog-about.c:35
 msgid "Kenneth Christiansen, i18n, misc stuff."
@@ -4153,11 +4140,11 @@ msgstr "Kenneth Christiansen, i18n, travaux divers."
 
 #: src/dialogs/dialog-about.c:36
 msgid "Zbigniew Chyla, plugin system, i18n."
-msgstr ""
+msgstr "Zbigniew Chyla, système de greffons, i18n."
 
 #: src/dialogs/dialog-about.c:37
 msgid "J.H.M. Dassen (Ray), debian packaging."
-msgstr ""
+msgstr "J.H.M. Dassen (Ray), empaquetage pour Debian"
 
 #: src/dialogs/dialog-about.c:38
 msgid "Tom Dyas, plugin support."
@@ -4172,11 +4159,11 @@ msgstr "Gergõ Érdi, hacker Gnumeric."
 
 #: src/dialogs/dialog-about.c:43
 msgid "John Gotts, rpm packaging."
-msgstr ""
+msgstr "John Gotts, mise sous forme de RPM"
 
 #: src/dialogs/dialog-about.c:44
 msgid "Andreas J. Guelzow, statistics stuff."
-msgstr ""
+msgstr "Andreas J. Guelzow, calculs statistiques"
 
 #: src/dialogs/dialog-about.c:45
 msgid "Jon K. Hellan, Gnumeric hacker."
@@ -4212,12 +4199,12 @@ msgstr "Michael Meeks, importation Excel et OLE2"
 
 #: src/dialogs/dialog-about.c:53
 msgid "Lutz Muller, SheetObject improvements"
-msgstr ""
+msgstr "Lutz Muller, améliorations du SheetObject"
 
 #: src/dialogs/dialog-about.c:54
 #, fuzzy
 msgid "Federico M. Quintero, canvas support."
-msgstr "Federico Mena, support pour le canevas."
+msgstr "Federico M. Quintero, support pour le canevas."
 
 #: src/dialogs/dialog-about.c:55
 msgid "Mark Probst, Guile support."
@@ -4225,7 +4212,7 @@ msgstr "Mark Probst, support pour Guile"
 
 #: src/dialogs/dialog-about.c:56
 msgid "Rasca, HTML, troff, LaTeX exporters."
-msgstr "Rasca, HTML, troff, LaTeX exportations."
+msgstr "Rasca, HTML, troff, exportations LaTeX."
 
 #: src/dialogs/dialog-about.c:57
 msgid "Vincent Renardias, original CSV support, French localization."
@@ -4236,14 +4223,12 @@ msgid "Ariel Rios, Guile support."
 msgstr "Ariel Rios, support pour Guile."
 
 #: src/dialogs/dialog-about.c:59
-#, fuzzy
 msgid "Arturo Tena, OLE support."
-msgstr "Federico Mena, support pour le canevas."
+msgstr "Arturo Tena, support OLE."
 
 #: src/dialogs/dialog-about.c:60
-#, fuzzy
 msgid "Almer S. Tigelaar, Gnumeric hacker."
-msgstr "Jon K. Hellan, hacker Gnumeric."
+msgstr "Almer S. Tigelaar, hacker Gnumeric."
 
 #: src/dialogs/dialog-about.c:61
 msgid "Bruno Unna, Excel bits."
@@ -4262,14 +4247,13 @@ msgid "Morten Welinder, Gnumeric hacker."
 msgstr "Morten Welinder, hacker Gnumeric."
 
 #: gnumeric.desktop.in.h:1 src/dialogs/dialog-about.c:81
-#: src/functions/fn-sheet.c:135
+#: src/functions/fn-sheet.c:141
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
 #: src/dialogs/dialog-about.c:82
-#, fuzzy
 msgid "(C) 1998-2001 Miguel de Icaza"
-msgstr "(C) 1998-2000 Miguel de Icaza"
+msgstr "(C) 1998-2001 Miguel de Icaza"
 
 #: src/dialogs/dialog-about.c:90
 msgid "Gnumeric Home Page"
@@ -4319,70 +4303,65 @@ msgid "The selected input areas must have equal size!"
 msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:1011
-#, fuzzy
 msgid "Could not create the Correlation Tool dialog."
-msgstr "Ne peut évaluer l'argument"
+msgstr "Impossible de créer le dialogue pour l'outil de corrélation"
 
 #: src/dialogs/dialog-analysis-tools.c:1121
 #, fuzzy
 msgid "Could not create the Covariance Tool dialog."
-msgstr "Ne peut évaluer l'argument"
+msgstr "Impossible de créer le dialogue pour l'outil de covariance"
 
 #: src/dialogs/dialog-analysis-tools.c:1323
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr ""
+"Impossible de créer le dialogue pour l'outil de statistiques descriptives"
 
 #: src/dialogs/dialog-analysis-tools.c:1420
 msgid "Could not create the Rank and  Percentile Tools dialog."
-msgstr ""
+msgstr "Impossible de créer le dialogue pour l'outil de Rang et Pourcentage"
 
 #: src/dialogs/dialog-analysis-tools.c:1535
 #, c-format
 msgid "An unexpected error has occurred: %d."
-msgstr ""
+msgstr "Une erreur inattendue s'est produite : %d."
 
 #: src/dialogs/dialog-analysis-tools.c:1760
-#, fuzzy
 msgid "Var_iable 1 Range:"
 msgstr "Intervalle de la variable 1 :"
 
 #: src/dialogs/dialog-analysis-tools.c:1761
-#, fuzzy
 msgid "_Variable 2 Range:"
 msgstr "Intervalle de la variable 2 :"
 
 #: src/dialogs/dialog-analysis-tools.c:1765
 #, fuzzy
 msgid "Could not create the Mean Tests Tool dialog."
-msgstr "Ne peut évaluer l'argument"
+msgstr "Impossible de créer le dialogue pour l'outil de tests de moyenne"
 
 #: src/dialogs/dialog-analysis-tools.c:1945
-#, fuzzy
 msgid "Var_iable 1 Range"
 msgstr "Intervalle de la variable 1 :"
 
 #: src/dialogs/dialog-analysis-tools.c:1946
-#, fuzzy
 msgid "_Variable 2 Range"
 msgstr "Intervalle de la variable 2 :"
 
 #: src/dialogs/dialog-analysis-tools.c:1950
-#, fuzzy
 msgid "Could not create the FTest Tool dialog."
-msgstr "Ne peut évaluer l'argument"
+msgstr "Impossible de créer le dialogue pour l'outil FTest"
 
 #: src/dialogs/dialog-analysis-tools.c:2207
-#, fuzzy
 msgid "Could not create the Sampling Tool dialog."
-msgstr "Ne peut évaluer l'argument"
+msgstr "Impossible de créer le dialogue pour l'outil d'échantillonage"
 
 #: src/dialogs/dialog-analysis-tools.c:2244
 msgid "Discrete"
 msgstr "Discrète"
 
 #: src/dialogs/dialog-analysis-tools.c:2244
+#, fuzzy
 msgid "_Value And Probability Input Range:"
-msgstr ""
+msgstr "Intervalle de _valeur et de probabilité : "
 
 #: src/dialogs/dialog-analysis-tools.c:2246
 #: src/dialogs/search-replace.glade.h:24
@@ -4452,12 +4431,12 @@ msgstr "Uniforme"
 #: src/dialogs/dialog-analysis-tools.c:2259
 #, fuzzy
 msgid "_Lower Bound:"
-msgstr "Avant-plan"
+msgstr "Limite _inférieure"
 
 #: src/dialogs/dialog-analysis-tools.c:2259
 #, fuzzy
 msgid "_Upper Bound:"
-msgstr "Avant-plan"
+msgstr "Limite _supérieure"
 
 #: src/dialogs/dialog-analysis-tools.c:2508
 msgid ""
@@ -4470,7 +4449,7 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:2686
 #, fuzzy
 msgid "Could not create the Random Tool dialog."
-msgstr "Ne peut évaluer l'argument"
+msgstr "Impossible de créer le dialogue pour l'outil d'échantillonage"
 
 #: src/dialogs/dialog-analysis-tools.c:2727
 #, fuzzy
@@ -4482,6 +4461,8 @@ msgid ""
 "There are too few data points to conduct this regression.\n"
 "There must be at least as many data points as free variables."
 msgstr ""
+"Il y a trop peu de points de données pour cette régression.\n"
+"Il doit y en avoir au moins autant que de variables libres."
 
 #: src/dialogs/dialog-analysis-tools.c:2762
 msgid ""
@@ -4489,45 +4470,46 @@ msgid ""
 "and the regression cannot be calculated. Remove one of these\n"
 "variables and try the regression again."
 msgstr ""
+"Au moins deux variables indépendantes sont linéairement dépendantes, la "
+"régression ne peut être effectuée.\n"
+"Enlevez une de ces variables et réessayez."
 
 #: src/dialogs/dialog-analysis-tools.c:2769
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr ""
+"Il doit y avoir le même nombre de valeurs pour chaque variable de la "
+"régression."
 
 #: src/dialogs/dialog-analysis-tools.c:2881
-#, fuzzy
 msgid "_X Variables:"
-msgstr "Variable X %d"
+msgstr "Variables _X :"
 
 #: src/dialogs/dialog-analysis-tools.c:2882
-#, fuzzy
 msgid "_Y Variables:"
-msgstr "Intervalle de la variable 2 :"
+msgstr "Variables _Y :"
 
 #: src/dialogs/dialog-analysis-tools.c:2886
-#, fuzzy
 msgid "Could not create the Regression Tool dialog."
-msgstr "Ne peut évaluer l'argument"
+msgstr "Impossible de créer le dialogue pour l'outil de régression."
 
 #: src/dialogs/dialog-analysis-tools.c:3054
-#, fuzzy
 msgid "Could not create the Moving Average Tool dialog."
-msgstr "Ne peut évaluer l'argument"
+msgstr "Impossible de créer le dialogue pour l'outil de moyenne mobile."
 
 #: src/dialogs/dialog-analysis-tools.c:3101
 msgid "Fourier analysis is not implemented yet.  Sorry."
-msgstr "L'analyse de Fourier n'est pas encore implémenté.  Désolé."
+msgstr "L'analyse de Fourier n'est pas encore implémentée. Désolé."
 
 #: src/dialogs/dialog-analysis-tools.c:3144
 #, fuzzy
 msgid "Could not create the Fourier Analyis Tool dialog."
-msgstr "Ne peut évaluer l'argument"
+msgstr "Impossible de créer le dialogue pour l'outil d'analyse de Fourier."
 
 #: src/dialogs/dialog-analysis-tools.c:3216
 #: src/dialogs/dialog-analysis-tools.c:3519
 msgid "Given input range contains non-numeric data."
-msgstr ""
+msgstr "L'intervalle d'entrée fourni contient des données non numériques."
 
 #: src/dialogs/dialog-analysis-tools.c:3221
 msgid "Given bin range contains non-numeric data."
@@ -4539,29 +4521,28 @@ msgid "Bin _Range:"
 msgstr "_Intervalle d'entrée :"
 
 #: src/dialogs/dialog-analysis-tools.c:3267
-#, fuzzy
 msgid "Could not create the Histogram Tool dialog."
-msgstr "Ne peut évaluer l'argument"
+msgstr "Impossible de créer le dialogue pour l'outil d'histogramme."
 
 #: src/dialogs/dialog-analysis-tools.c:3441
-#, fuzzy
 msgid "Could not create the ANOVA (single factor) tool dialog."
-msgstr "Ne peut évaluer l'argument"
+msgstr "Impossible de créer le dialogue pour l'outil ANOVA (facteur simple)."
 
 #: src/dialogs/dialog-analysis-tools.c:3514
 msgid "Each sample must contain the same number of rows."
-msgstr ""
+msgstr "Chaque échantillon doit contenir le même nombre de lignes."
 
 #: src/dialogs/dialog-analysis-tools.c:3524
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
 msgstr ""
+"L'intervalle d'entrée fourni doit contenir au moins deux colonnes de données "
+"et les titres."
 
 #: src/dialogs/dialog-analysis-tools.c:3648
-#, fuzzy
 msgid "Could not create the ANOVA (two factor) tool dialog."
-msgstr "Ne peut évaluer l'argument"
+msgstr "Impossible de créer le dialogue pour l'outil ANOVA (deux facteurs)."
 
 #: src/dialogs/dialog-analysis-tools.c:3679
 #, fuzzy
@@ -4706,11 +4687,11 @@ msgstr "81"
 #: src/dialogs/dialog-autoformat.c:517
 #, c-format
 msgid "Are you sure you want to remove the template '%s' ?"
-msgstr "Etes-vous sur de vouloir supprimer le modèle « %s » ?"
+msgstr "Êtes-vous sûr de vouloir supprimer le modèle « %s » ?"
 
 #: src/dialogs/dialog-autoformat.c:531
 msgid "Could not remove template"
-msgstr "Ne peut supprimer le modèle"
+msgstr "Impossible de supprimer le modèle"
 
 #: src/dialogs/dialog-autoformat.c:809 src/dialogs/dialog-stf-export.c:383
 #: src/dialogs/dialog-stf.c:522
@@ -4771,7 +4752,7 @@ msgstr "Formatez la(es) cellule(s)"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: src/dialogs/dialog-cell-format.c:2655 src/dialogs/dialog-cell-format.c:2660
-#: src/dialogs/dialog-cell-format.c:2670 src/functions/fn-information.c:391
+#: src/dialogs/dialog-cell-format.c:2670 src/functions/fn-information.c:427
 #: src/workbook-format-toolbar.c:860
 msgid "Automatic"
 msgstr "Automatique"
@@ -4832,26 +4813,26 @@ msgstr "ensuite par"
 
 #: src/dialogs/dialog-consolidate.c:125
 msgid "You must specify a destination region"
-msgstr ""
+msgstr "Vous devez indiquer une région de destination"
 
 #: src/dialogs/dialog-consolidate.c:137
 #, c-format
 msgid "%s is not a valid destination region"
-msgstr ""
+msgstr "%s n'est pas une région de destination valide"
 
 #: src/dialogs/dialog-consolidate.c:145
 msgid "You must specify one or more source regions"
-msgstr ""
+msgstr "Vous devez indiquer une ou plusieurs régions sources"
 
 #: src/dialogs/dialog-consolidate.c:157
 #, c-format
 msgid "Source region %s overlaps with the destination region"
-msgstr ""
+msgstr "La région source %s recouvre la région de destination"
 
 #: src/dialogs/dialog-consolidate.c:163
 #, c-format
 msgid "%s is not a valid source region"
-msgstr ""
+msgstr "%s n'est pas une région source valide"
 
 #: src/dialogs/dialog-define-names.c:376
 msgid "You cannot redefine a builtin name."
@@ -4860,7 +4841,7 @@ msgstr "Vous ne pouvez pas redéfinir un nom intégré."
 #: src/dialogs/dialog-define-names.c:589
 #, fuzzy
 msgid "Could not create the Name Guru."
-msgstr "Ne peut évaluer l'argument"
+msgstr "Impossible de créer le Gourou de Noms"
 
 #: src/dialogs/dialog-formula-guru.c:424
 #, c-format
@@ -4868,7 +4849,7 @@ msgid "Value%d"
 msgstr "Valeur%d"
 
 #: src/dialogs/dialog-formula-guru.c:431 src/dialogs/dialog-search.c:131
-#: src/functions/fn-string.c:1227
+#: src/functions/fn-string.c:1250
 msgid "String"
 msgstr "Chaîne"
 
@@ -4938,7 +4919,7 @@ msgstr "Le solveur a trouvé une solution avec la cellule %s"
 #: src/dialogs/dialog-goal-seek.c:667
 #, fuzzy
 msgid "Could not create the Goal-Seek dialog."
-msgstr "Ne peut évaluer l'argument"
+msgstr "Impossible de créer le dialogue pour l'outil FTest"
 
 #: src/dialogs/dialog-goto-cell.c:48 src/solver-lp.c:896 src/solver-lp.c:920
 #: src/solver-lp.c:953 src/solver-lp.c:1047 src/solver-lp.c:1094
@@ -4951,11 +4932,11 @@ msgstr "Aller à..."
 
 #: src/dialogs/dialog-graph-guru.c:743
 msgid "Step 1 of 3: Select graph type"
-msgstr ""
+msgstr "Etape 1 sur 3 : choisissez le type de graphique"
 
 #: src/dialogs/dialog-graph-guru.c:749
 msgid "Step 2 of 3: Select data ranges"
-msgstr ""
+msgstr "Etape 2 sur 3 : choisissez les intervalles de données"
 
 #: src/dialogs/dialog-graph-guru.c:751
 #, fuzzy
@@ -4964,17 +4945,16 @@ msgstr "Gourou Graphique"
 
 #: src/dialogs/dialog-graph-guru.c:756
 msgid "Step 3 of 3: Customize graph"
-msgstr ""
+msgstr "Etape 3 sur 3 : personnalisez le graphique"
 
 #: src/dialogs/dialog-graph-guru.c:758
 #, fuzzy
 msgid "Format Graph"
-msgstr "Gourou formule"
+msgstr "Format"
 
 #: src/dialogs/dialog-graph-guru.c:933
-#, fuzzy
 msgid "Plot name"
-msgstr "Nom de la feuille"
+msgstr "Nom du tracé"
 
 #: src/dialogs/dialog-graph-guru.c:936
 #, fuzzy
@@ -5048,23 +5028,26 @@ msgid ""
 "Do you want to activate appropriate plugin together with this one?\n"
 "(otherwise, plugin won't be loaded)"
 msgstr ""
+"Ce greffon nécessite le chargeur de type \"%s\".\n"
+"Souhaitez-vous activer le greffon nécessaire en plus de celui-ci ?\n"
+"(Sinon, le greffon ne pourra pas être chargé)"
 
 #: src/dialogs/dialog-plugin-manager.c:219
 msgid "Error while activating plugin loader"
-msgstr ""
+msgstr "Erreur lors de l'activation du chargeur de greffon"
 
 #: src/dialogs/dialog-plugin-manager.c:233
 #, c-format
 msgid "Loader for selected plugin (type: \"%s\") is not available."
-msgstr ""
+msgstr "Le chargeur pour le greffon choisi (type \"%s\") n'est pas disponible."
 
 #: src/dialogs/dialog-plugin-manager.c:246
 msgid "Error while activating plugin"
-msgstr ""
+msgstr "Erreur lors de l'activation du greffon"
 
 #: src/dialogs/dialog-plugin-manager.c:273
 msgid "Error while deactivating plugin"
-msgstr ""
+msgstr "Erreur lors de la désactivation du greffon"
 
 #: src/dialogs/dialog-plugin-manager.c:284
 msgid "Plugin is still in use."
@@ -5076,29 +5059,33 @@ msgid ""
 "Do you want to mark it for deactivation such that it will be inactive after "
 "restarting Gnumeric?"
 msgstr ""
+"Le greffon ne peut pas être désactivé car il est toujours en cours "
+"d'utilisation.\n"
+"Voulez-vous le marquer, afin qu'il soit désactivé lorsque vous aurez "
+"redémarré Gnumeric ?"
 
 #: src/dialogs/dialog-plugin-manager.c:312
 msgid "Errors while activating plugins"
-msgstr ""
+msgstr "Erreur lors de l'activation des greffons"
 
 #: src/dialogs/dialog-plugin-manager.c:330
 msgid "Errors while deactivating plugins"
-msgstr ""
+msgstr "Erreur lors de la désactivation des greffons"
 
 #: src/dialogs/dialog-plugin-manager.c:476
-#, c-format
+#, fuzzy, c-format
 msgid "%s[in memory, marked for deactivation]"
-msgstr ""
+msgstr "%s [en mémoire, marqué pour désactivation]"
 
 #: src/dialogs/dialog-plugin-manager.c:479
-#, c-format
+#, fuzzy, c-format
 msgid "%s[in memory]"
-msgstr ""
+msgstr "%s [en mémoire]"
 
 #: src/dialogs/dialog-plugin-manager.c:482
-#, c-format
+#, fuzzy, c-format
 msgid "%s[marked for deactivation]"
-msgstr ""
+msgstr "%s [marqué pour désactivation]"
 
 #: src/dialogs/dialog-plugin-manager.c:621
 msgid "Plugin list"
@@ -5112,7 +5099,7 @@ msgstr "Détails du greffon"
 #: src/dialogs/dialog-printer-setup.c:1117
 #, fuzzy
 msgid "Customize header"
-msgstr "Configuration des _hauts-de-pages"
+msgstr "Configuration des _en-têtes de pages"
 
 #: src/dialogs/dialog-printer-setup.c:987
 #: src/dialogs/dialog-printer-setup.c:1123
@@ -5129,28 +5116,24 @@ msgid "Custom footer configuration"
 msgstr "Configuration personnalisée du pied de page"
 
 #: src/dialogs/dialog-search.c:129
-#, fuzzy
 msgid "Expression"
-msgstr "Expressions"
+msgstr "Expression"
 
 #: src/dialogs/dialog-search.c:133
-#, fuzzy
 msgid "Integer"
-msgstr "Intercepter"
+msgstr "Entier"
 
 #: src/dialogs/dialog-search.c:137
-#, fuzzy
 msgid "Other value"
-msgstr "Autres valeurs"
+msgstr "Autre valeur"
 
 #: src/dialogs/dialog-search.c:139
-#, fuzzy
 msgid "Comment"
 msgstr "Commentaires"
 
 #: src/dialogs/dialog-search-replace.c:130 src/dialogs/dialog-search.c:367
 msgid "You must select some cell types to search."
-msgstr ""
+msgstr "Vous devez sélectionner un type de cellules à chercher."
 
 #: src/dialogs/dialog-sheet-order.c:147 src/workbook-control-gui.c:406
 #, c-format
@@ -5197,7 +5180,7 @@ msgstr "La contrainte « %s » est pour une cellule qui n'est pas vide."
 #: src/dialogs/dialog-solver.c:1113
 #, fuzzy
 msgid "Could not create the Solver dialog."
-msgstr "Ne peut évaluer l'argument"
+msgstr "Impossible de créer le dialogue pour l'outil FTest"
 
 #: src/dialogs/dialog-stf-export-sheet-page.c:358
 msgid "You need to select at least one sheet to export"
@@ -5236,12 +5219,8 @@ msgid "Always"
 msgstr "Toujours"
 
 #: src/dialogs/dialog-stf-export.glade.h:8
-#, fuzzy
 msgid "Automatic (puts quotes where needed)"
-msgstr ""
-"Automatique (cite quand c'est nécessaire)\n"
-"Toujours\n"
-"Jamais\n"
+msgstr "Automatique (avec guillemets quand c'est nécessaire)"
 
 #: src/dialogs/dialog-stf-export.glade.h:9
 msgid "Available sheets"
@@ -5279,9 +5258,8 @@ msgstr ""
 "à citer."
 
 #: src/dialogs/dialog-stf-export.glade.h:17
-#, fuzzy
 msgid "Exporting structured text"
-msgstr "Gnumeric : Exportation de texte structuré"
+msgstr "Exportation de texte structuré"
 
 #: src/dialogs/dialog-stf-export.glade.h:18
 msgid "Hyphen (-)"
@@ -5301,7 +5279,7 @@ msgstr "Jamais"
 
 #: src/dialogs/dialog-stf-export.glade.h:22
 msgid "Pipe (|)"
-msgstr "Pipeline (|)"
+msgstr "Tube (|)"
 
 #: src/dialogs/dialog-stf-export.glade.h:23
 msgid ""
@@ -5309,7 +5287,7 @@ msgid ""
 "They will be exported in the same order as in the export list."
 msgstr ""
 "Choisissez les feuilles que vous souhaitez exporter du classeur courant. "
-"Elles seront exporter dans le meme ordre que dans la liste d'export."
+"Elles seront exportées dans l'ordre de la liste d'export."
 
 #: src/dialogs/dialog-stf-export.glade.h:24
 msgid "Quote character :"
@@ -5358,6 +5336,8 @@ msgstr "`"
 #: src/dialogs/dialog-stf-fixed-page.c:63
 msgid "Autodiscovery did not find any columns in the text. Try manually"
 msgstr ""
+"La recherche automatique n'a trouvé aucune colonne dans le texte. Essayez "
+"manuellement."
 
 #: src/dialogs/dialog-stf-main-page.c:85
 #, c-format
@@ -5366,7 +5346,7 @@ msgstr "%d lignes à importer"
 
 #: src/dialogs/dialog-stf-main-page.c:210
 msgid "LINES TOO LONG!"
-msgstr ""
+msgstr "LIGNES TROP LONGUES !"
 
 #: src/dialogs/dialog-stf-main-page.c:234
 #, c-format
@@ -5379,29 +5359,32 @@ msgstr "Donnée (depuis %s)"
 #.
 #: src/dialogs/dialog-stf-preview.c:610 src/style.c:89
 msgid "fixed"
-msgstr ""
+msgstr "fixed"
 
 #: src/dialogs/dialog-stf.glade.h:3
 msgid ""
 "Actual processing will start at this line, any previous lines will be "
 "ignored."
 msgstr ""
+"Le traitement effectif commencera à cette ligne, toutes les lignes "
+"précédentes seront ignorées"
 
 #: src/dialogs/dialog-stf.glade.h:4
 msgid "Add a new column"
 msgstr "Ajouter une nouvelle colonne"
 
 #: src/dialogs/dialog-stf.glade.h:5
+#, fuzzy
 msgid "Always (Both sides)"
-msgstr ""
+msgstr "Toujours (des deux côtés)"
 
 #: src/dialogs/dialog-stf.glade.h:6
 msgid "Attempt to recognize columns in the text automatically."
-msgstr ""
+msgstr "Essaie de trouver automatiquement des colonnes dans le texte."
 
 #: src/dialogs/dialog-stf.glade.h:7
 msgid "Auto Column _Discovery"
-msgstr ""
+msgstr "_Recherche automatique de colonnes"
 
 #: src/dialogs/dialog-stf.glade.h:8
 msgid "Ban_g (!)"
@@ -5416,6 +5399,8 @@ msgid ""
 "Character interpreted as quote character. If the separation character is "
 "encountered within quotes it will be ignored."
 msgstr ""
+"Caractère de citation. Si le séparateur est trouvé dans une citation, il "
+"sera ignoré."
 
 #: src/dialogs/dialog-stf.glade.h:11
 #, fuzzy
@@ -5423,9 +5408,8 @@ msgid "Clear list of columns"
 msgstr "Définition de la largeur des colonnes"
 
 #: src/dialogs/dialog-stf.glade.h:12
-#, fuzzy
 msgid "Click to select a column"
-msgstr "Trie les cellules sélectionnées"
+msgstr "Cliquez pour choisir une colonne"
 
 #: src/dialogs/dialog-stf.glade.h:13
 msgid "Co_lumn end : "
@@ -5445,13 +5429,15 @@ msgstr "Formatage de colonne"
 
 #: src/dialogs/dialog-stf.glade.h:18
 msgid "Custom separator, this can be any character"
-msgstr ""
+msgstr "Séparateur personnalisé, ce peut être n'importe quel caractère"
 
 #: src/dialogs/dialog-stf.glade.h:19
 msgid ""
 "Customize the columns using the buttons or the mouse (hover mouse above "
 "example for instructions)"
 msgstr ""
+"Personnalisez les colonnes avec les boutons ou la souris (placez la souris "
+"sur l'exemple pour des instructions)"
 
 #: src/dialogs/dialog-stf.glade.h:20
 msgid "Data type and number of lines"
@@ -5459,13 +5445,15 @@ msgstr "Type de donnée et nombre de lignes"
 
 #: src/dialogs/dialog-stf.glade.h:21
 msgid "Define the width of each column manually."
-msgstr ""
+msgstr "Définir la largeur de chaque colonne manuellement"
 
 #: src/dialogs/dialog-stf.glade.h:22
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
 msgstr ""
+"Les colonnes du texte sont délimitées par un séparateur, par exemple point-"
+"virgule."
 
 #: src/dialogs/dialog-stf.glade.h:23
 msgid "End"
@@ -5515,10 +5503,13 @@ msgid ""
 "an existing column or hold the left mouse button on a column border and drag "
 "to resize a column."
 msgstr ""
+"Clic gauche pour créer une nouvelle colonne, clic droit sur une limite de "
+"colonne existante pour la supprimer, ou maintenez le bouton de gauche "
+"enfoncé sur une limite de colonne pour la redimensionner."
 
 #: src/dialogs/dialog-stf.glade.h:34
 msgid "Lines to import"
-msgstr "Titres à imprimer"
+msgstr "Lignes à imprimer"
 
 #: src/dialogs/dialog-stf.glade.h:35
 msgid "Misc"
@@ -5526,15 +5517,15 @@ msgstr "Divers"
 
 #: src/dialogs/dialog-stf.glade.h:37
 msgid "Number of lines to import"
-msgstr "Nombre de ligne à importer"
+msgstr "Nombre de lignes à importer"
 
 #: src/dialogs/dialog-stf.glade.h:38
 msgid "On left side only"
-msgstr ""
+msgstr "Du côté gauche seulement"
 
 #: src/dialogs/dialog-stf.glade.h:39
 msgid "On right side only"
-msgstr ""
+msgstr "Du côté droit seulement"
 
 #: src/dialogs/dialog-stf.glade.h:40
 msgid "Original data type :"
@@ -5542,7 +5533,7 @@ msgstr "Type de donnée original :"
 
 #: src/dialogs/dialog-stf.glade.h:41
 msgid "P_ipe (|)"
-msgstr "P_ipeline (|)"
+msgstr "_Tube (|)"
 
 #: src/dialogs/dialog-stf.glade.h:42
 msgid "Per column formatting"
@@ -5551,15 +5542,16 @@ msgstr "Formatage par colonne"
 #: src/dialogs/dialog-stf.glade.h:43
 msgid "Processing ends at this line, any subsequent lines will be ignored."
 msgstr ""
+"Le traitement se termine à cette ligne, toutes les lignes suivantes seront "
+"ignorées"
 
 #: src/dialogs/dialog-stf.glade.h:44
-#, fuzzy
 msgid "Remove selected column"
-msgstr "Trie les cellules sélectionnées"
+msgstr "Supprime la colonne sélectionnée"
 
 #: src/dialogs/dialog-stf.glade.h:45
 msgid "S_ee two separators as one"
-msgstr ""
+msgstr "_Voir deux séparateurs comme un seul"
 
 #: src/dialogs/dialog-stf.glade.h:46
 msgid "S_pace"
@@ -5567,7 +5559,7 @@ msgstr "Es_pace"
 
 #: src/dialogs/dialog-stf.glade.h:47
 msgid "See two successive separators as one."
-msgstr ""
+msgstr "Considère deux séparateurs successifs comme un seul."
 
 #: src/dialogs/dialog-stf.glade.h:48
 msgid ""
@@ -5586,10 +5578,12 @@ msgid ""
 "Select the separators that appear in the text (you can choose multiple "
 "separators if desired and also enter a custom one)"
 msgstr ""
+"Choisissez les séparateurs du texte (vous pouvez en sélectionner plusieurs "
+"si vous voulez, et en définir vous-même)"
 
 #: src/dialogs/dialog-stf.glade.h:51
 msgid "Select the structure of the text that most closely matches the data."
-msgstr ""
+msgstr "Choisissez la structure de texte la plus proche des données"
 
 #: src/dialogs/dialog-stf.glade.h:52
 msgid "Semicolo_n (;)"
@@ -5629,6 +5623,8 @@ msgid ""
 "Trim leading and trailing spaces from each column, if you are unsure you "
 "should leave this at the default setting."
 msgstr ""
+"Supprime les espaces en début et en fin de colonne. Dans le doute, conservez "
+"la valeur par défaut."
 
 #: src/dialogs/dialog-stf.glade.h:62
 msgid "_Adjacent text indicators escaped"
@@ -5752,24 +5748,20 @@ msgid "_Finish"
 msgstr ""
 
 #: src/dialogs/graph-guru.glade.h:5
-#, fuzzy
 msgid "_Plot"
-msgstr "_Police"
+msgstr "_Tracé"
 
 #: src/dialogs/graph-guru.glade.h:6
-#, fuzzy
 msgid "_Series"
-msgstr "Taille:"
+msgstr "_Séries"
 
 #: src/dialogs/goalseek.glade.h:1
-#, fuzzy
 msgid "(Maximum):"
-msgstr "Maximum"
+msgstr "(Maximum) :"
 
 #: src/dialogs/goalseek.glade.h:2
-#, fuzzy
 msgid "(Minimum):"
-msgstr "Minimum"
+msgstr "(Minimum) :"
 
 #: src/dialogs/goalseek.glade.h:3
 #, fuzzy
@@ -5782,9 +5774,8 @@ msgid "Current Value:"
 msgstr "_Date courante"
 
 #: src/dialogs/goalseek.glade.h:5
-#, fuzzy
 msgid "Goal:"
-msgstr "Total"
+msgstr ""
 
 #: src/dialogs/goalseek.glade.h:6
 #, fuzzy
@@ -5816,7 +5807,7 @@ msgstr "À la valeur :"
 
 #: src/dialogs/hf-config.glade.h:1
 msgid "Enter the format strings for each section:"
-msgstr "Entrer le format des chaînes pour chaque section :"
+msgstr "Entrez les chaînes de formatage pour chaque section :"
 
 #: src/dialogs/hf-config.glade.h:2
 msgid "Header/Footer Config"
@@ -5833,7 +5824,7 @@ msgstr "Section de gauche :"
 
 #: src/dialogs/hf-config.glade.h:5
 msgid "Right section:"
-msgstr "Section à droite :"
+msgstr "Section de droite :"
 
 #: src/dialogs/histogram.glade.h:2
 msgid "C_umulative Percentages"
@@ -5869,14 +5860,12 @@ msgid "_Shift cells right"
 msgstr "_Décaler les cellules vers la droite"
 
 #: src/dialogs/mean-tests.glade.h:1 src/dialogs/variance-tests.glade.h:1
-#, fuzzy
 msgid "(1 - _Alpha) ="
-msgstr "1 - _Alpha :"
+msgstr "(1 - _Alpha) = "
 
 #: src/dialogs/mean-tests.glade.h:4
-#, fuzzy
 msgid "E_qual"
-msgstr "Égal à :"
+msgstr "É_gal"
 
 #: src/dialogs/mean-tests.glade.h:5
 msgid "H_ypothesized Mean Difference:"
@@ -5888,18 +5877,16 @@ msgid "Population Variances are:"
 msgstr "Variance Pooled"
 
 #: src/dialogs/mean-tests.glade.h:10 src/dialogs/variance-tests.glade.h:6
-#, fuzzy
 msgid "Test"
-msgstr "z-Test"
+msgstr "Test"
 
 #: src/dialogs/mean-tests.glade.h:11
 msgid "Testing the Difference of 2 Means"
-msgstr ""
+msgstr "Test de la différence de deux moyennes"
 
 #: src/dialogs/mean-tests.glade.h:12
-#, fuzzy
 msgid "Unkno_wn"
-msgstr "Inconnu"
+msgstr "_Inconnu"
 
 #: src/dialogs/mean-tests.glade.h:13
 #, fuzzy
@@ -5911,32 +5898,28 @@ msgid "Unpai_red"
 msgstr ""
 
 #: src/dialogs/mean-tests.glade.h:15
-#, fuzzy
 msgid "Variable 1 Pop. Variance:"
-msgstr "Intervalle de la variable 1 :"
+msgstr "Variance de la population de la variable 1 :"
 
 #: src/dialogs/mean-tests.glade.h:16 src/dialogs/variance-tests.glade.h:8
 msgid "Variable 1 Range:"
 msgstr "Intervalle de la variable 1 :"
 
 #: src/dialogs/mean-tests.glade.h:17
-#, fuzzy
 msgid "Variable 2 Pop. Variance:"
-msgstr "Intervalle de la variable 2 :"
+msgstr "Variance de la population de la variable 2 :"
 
 #: src/dialogs/mean-tests.glade.h:18 src/dialogs/variance-tests.glade.h:9
 msgid "Variable 2 Range:"
 msgstr "Intervalle de la variable 2 :"
 
 #: src/dialogs/mean-tests.glade.h:19
-#, fuzzy
 msgid "Variables are:"
-msgstr "Intervalle de la variable 2 :"
+msgstr "Les variables sont :"
 
 #: src/dialogs/mean-tests.glade.h:20
-#, fuzzy
 msgid "_Known"
-msgstr "_Ligne"
+msgstr "_Connu"
 
 #: src/dialogs/mean-tests.glade.h:24
 #, fuzzy
@@ -5944,14 +5927,12 @@ msgid "_Paired"
 msgstr "C_oller"
 
 #: src/dialogs/mean-tests.glade.h:25
-#, fuzzy
 msgid "_Unequal"
-msgstr "_Général"
+msgstr "_Différent"
 
 #: src/dialogs/moving-averages.glade.h:1
-#, fuzzy
 msgid "3"
-msgstr "37"
+msgstr "3"
 
 #: src/dialogs/moving-averages.glade.h:3
 msgid "In_terval:"
@@ -5959,10 +5940,9 @@ msgstr "In_tervalle :"
 
 #: src/dialogs/moving-averages.glade.h:14
 msgid "_Standard Errors"
-msgstr "Erreurs _moyenne"
+msgstr "Erreurs _moyennes"
 
 #: src/dialogs/names.glade.h:1
-#, fuzzy
 msgid "Define names"
 msgstr "Définir les noms"
 
@@ -5988,27 +5968,27 @@ msgstr "_Effacer"
 
 #: src/dialogs/names.glade.h:8
 msgid "_Update"
-msgstr "_Mise à jour"
+msgstr "_Mettre à jour"
 
 #: src/dialogs/plugin-manager.glade.h:1
 msgid "Activate all plugins"
-msgstr ""
+msgstr "Activer tous les greffons"
 
 #: src/dialogs/plugin-manager.glade.h:2
 msgid "Activate new plugins by default"
-msgstr ""
+msgstr "Activer les nouveaux greffons par défaut"
 
 #: src/dialogs/plugin-manager.glade.h:3
 msgid "Activate plugin"
-msgstr ""
+msgstr "Activer le greffon"
 
 #: src/dialogs/plugin-manager.glade.h:4
 msgid "Active plugins"
-msgstr "Activer les greffons"
+msgstr "Greffons actifs"
 
 #: src/dialogs/plugin-manager.glade.h:5
 msgid "Available inactive plugins"
-msgstr "Greffons inactifs disponible"
+msgstr "Greffons inactifs disponibles"
 
 #: src/dialogs/plugin-manager.glade.h:6
 msgid "Deactivate all plugins"
@@ -6068,16 +6048,15 @@ msgstr "Pied de page :"
 
 #: src/dialogs/print.glade.h:7
 msgid "He_ader:"
-msgstr "H_aut de page :"
+msgstr "En-tête de page :"
 
 #: src/dialogs/print.glade.h:8
-#, fuzzy
 msgid "Header:"
-msgstr "H_aut de page :"
+msgstr "En-tête de page :"
 
 #: src/dialogs/print.glade.h:9
 msgid "Headers and footers"
-msgstr "Haut et Pied de pages"
+msgstr "En-têtes et pieds de pages"
 
 #: src/dialogs/print.glade.h:10 src/print-info.c:430
 msgid "In"
@@ -6127,8 +6106,8 @@ msgstr "En-têtes de lignes et colonnes"
 msgid "Scale"
 msgstr "Échelle"
 
-#: src/dialogs/print.glade.h:25 src/functions/fn-sheet.c:134
-#: src/workbook.c:1060 src/xml-io.c:3084
+#: src/dialogs/print.glade.h:25 src/functions/fn-sheet.c:139
+#: src/workbook.c:1060 src/xml-io.c:3085
 msgid "Sheet"
 msgstr "Feuille"
 
@@ -6163,7 +6142,7 @@ msgstr "En bas, puis à _droite"
 
 #: src/dialogs/print.glade.h:33
 msgid "_Fit to:"
-msgstr "_Remplir à :"
+msgstr "_Ajuster à :"
 
 #: src/dialogs/print.glade.h:34
 msgid "_Footer:"
@@ -6239,7 +6218,7 @@ msgstr "Nombre de nombres aléatoires :"
 #: src/dialogs/random-generation.glade.h:7
 #, fuzzy
 msgid "Size of _Sample:"
-msgstr "Nombre d'échantillons :"
+msgstr "Taille de l'échantillon :"
 
 #: src/dialogs/random-generation.glade.h:8
 msgid "_Distribution:"
@@ -6254,14 +6233,12 @@ msgid "Force Intercept To Be Zero"
 msgstr ""
 
 #: src/dialogs/regression.glade.h:8
-#, fuzzy
 msgid "X Variables:"
-msgstr "Variable X %d"
+msgstr "Variables X :"
 
 #: src/dialogs/regression.glade.h:9
-#, fuzzy
 msgid "Y Variable:"
-msgstr "Variable 2"
+msgstr "Variable Y :"
 
 #: src/dialogs/row-height.glade.h:1
 msgid "Row height"
@@ -6272,7 +6249,6 @@ msgid "_Row height (pts):"
 msgstr "Hauteur de _ligne (pts) :"
 
 #: src/dialogs/sampling.glade.h:4
-#, fuzzy
 msgid "Input Range: "
 msgstr "Intervalle d'entrée :"
 
@@ -6290,17 +6266,14 @@ msgid "Sampling Method:"
 msgstr "Méthode d'échantillonage :"
 
 #: src/dialogs/sampling.glade.h:11
-#, fuzzy
 msgid "Size of Sample:"
-msgstr "Nombre d'échantillons :"
+msgstr "Taille de l'échantillon :"
 
 #: src/dialogs/sampling.glade.h:17
-#, fuzzy
 msgid "_Periodic"
 msgstr "Périodique"
 
 #: src/dialogs/sampling.glade.h:18
-#, fuzzy
 msgid "_Random"
 msgstr "Aléatoire"
 
@@ -6315,28 +6288,28 @@ msgstr ""
 
 #: src/dialogs/search-replace.glade.h:10 src/dialogs/search.glade.h:3
 msgid "Do not consider matches in the middle of words"
-msgstr ""
+msgstr "Ignore les correspondances en milieu de mot"
 
 #: src/dialogs/search.glade.h:4
 #, fuzzy
 msgid "Find text within cell comments"
-msgstr "Centrer le contenu des cellules"
+msgstr "Chercher le texte dans les commentaires des cellules"
 
 #: src/dialogs/search.glade.h:5
 msgid "Find text within expressions"
-msgstr ""
+msgstr "Chercher le texte dans les expressions"
 
 #: src/dialogs/search.glade.h:6
 msgid "Find text within non-string values"
-msgstr ""
+msgstr "Chercher le texte dans les valeurs non textuelles"
 
 #: src/dialogs/search.glade.h:7
 msgid "Find text within string values"
-msgstr ""
+msgstr "Chercher le texte dans les valeurs textuelles"
 
 #: src/dialogs/search.glade.h:8
 msgid "Match _whole words only"
-msgstr ""
+msgstr "Mot complet seulement"
 
 #: src/dialogs/search-replace.glade.h:23 src/dialogs/search.glade.h:9
 msgid "Miscellanea"
@@ -6349,34 +6322,32 @@ msgstr "Rechercher"
 #: src/dialogs/search.glade.h:11
 #, fuzzy
 msgid "Search Center"
-msgstr "Rechercher"
+msgstr "Rechercher "
 
 #: src/dialogs/search.glade.h:12
-#, fuzzy
 msgid "Search cells containing"
-msgstr "Changer la contrainte"
+msgstr "Chercher les cellules contenant"
 
 #: src/dialogs/search-replace.glade.h:48 src/dialogs/search.glade.h:13
 msgid "Search column by column"
-msgstr ""
+msgstr "Chercher colonne par colonne"
 
 #: src/dialogs/search.glade.h:14
-#, fuzzy
 msgid "Search in all cells in the workbook"
-msgstr "Enregistre la feuille"
+msgstr "Chercher dans toutes les cellules du classeur"
 
 #: src/dialogs/search.glade.h:15
 #, fuzzy
 msgid "Search in current sheet only"
-msgstr "Éditer le nom de la feuille en cours"
+msgstr "Chercher dans la feuille courante seulement"
 
 #: src/dialogs/search.glade.h:16
 msgid "Search in specified range only"
-msgstr ""
+msgstr "Chercher dans l'intervalle sélectionné seulement"
 
 #: src/dialogs/search-replace.glade.h:50 src/dialogs/search.glade.h:17
 msgid "Search line by line"
-msgstr ""
+msgstr "Chercher ligne par ligne"
 
 #: src/dialogs/search.glade.h:18
 #, fuzzy
@@ -6395,15 +6366,15 @@ msgstr "Rechercher"
 
 #: src/dialogs/search-replace.glade.h:53 src/dialogs/search.glade.h:21
 msgid "The search text is a regular expression"
-msgstr ""
+msgstr "Le texte à rechercher est une expression régulière"
 
 #: src/dialogs/search-replace.glade.h:54 src/dialogs/search.glade.h:22
 msgid "The search text is taken literal"
-msgstr ""
+msgstr "Le texte à rechercher ne doit pas être interprété"
 
 #: src/dialogs/search-replace.glade.h:56 src/dialogs/search.glade.h:23
 msgid "When set, do not distinguish between upper and lower case letters"
-msgstr ""
+msgstr "Ne pas faire la différence entre minuscules et majuscules"
 
 #: src/dialogs/search.glade.h:24
 #, fuzzy
@@ -6411,29 +6382,24 @@ msgid "_Advanced"
 msgstr "Avancée"
 
 #: src/dialogs/search.glade.h:25
-#, fuzzy
 msgid "_Comments"
-msgstr "Commentaires"
+msgstr "_Commentaires"
 
 #: src/dialogs/search.glade.h:26
-#, fuzzy
 msgid "_Current sheet"
-msgstr "Feuille courante"
+msgstr "Feuille _courante"
 
 #: src/dialogs/search.glade.h:27
-#, fuzzy
 msgid "_Entire workbook"
-msgstr "le classeur"
+msgstr "le classeur _entier"
 
 #: src/dialogs/search.glade.h:28
-#, fuzzy
 msgid "_Expressions"
-msgstr "Expressions"
+msgstr "_Expressions"
 
 #: src/dialogs/search.glade.h:29
-#, fuzzy
 msgid "_Ignore case"
-msgstr "Accroitre"
+msgstr "_Ignorer la casse"
 
 #: src/dialogs/search.glade.h:30
 #, fuzzy
@@ -6441,29 +6407,24 @@ msgid "_Matches"
 msgstr "mars"
 
 #: src/dialogs/search.glade.h:31
-#, fuzzy
 msgid "_Normal"
-msgstr "Normal"
+msgstr "_Normal"
 
 #: src/dialogs/search.glade.h:32
-#, fuzzy
 msgid "_Other values"
 msgstr "Autres valeurs"
 
 #: src/dialogs/search.glade.h:33
-#, fuzzy
 msgid "_Plain text"
-msgstr "Texte plein"
+msgstr "Texte sim_ple"
 
 #: src/dialogs/search.glade.h:34
-#, fuzzy
 msgid "_Range"
-msgstr "Intervalle"
+msgstr "Inte_rvalle"
 
 #: src/dialogs/search.glade.h:35
-#, fuzzy
 msgid "_Regular expression"
-msgstr "Expression régulière"
+msgstr "Expression _régulière"
 
 #: src/dialogs/search.glade.h:36
 #, fuzzy
@@ -6486,20 +6447,19 @@ msgstr "Avancée"
 
 #: src/dialogs/search-replace.glade.h:2
 msgid "Ask before each change"
-msgstr ""
+msgstr "Demander confirmation avant chaque changement"
 
 #: src/dialogs/search-replace.glade.h:3
 msgid "Attempt to preserve case of text when replacing"
-msgstr ""
+msgstr "Essaie de préserver la casse lors du remplacement"
 
 #: src/dialogs/search-replace.glade.h:4
 msgid "By"
 msgstr "Par"
 
 #: src/dialogs/search-replace.glade.h:5
-#, fuzzy
 msgid "Change cells containing"
-msgstr "Changer la contrainte"
+msgstr "Changer les cellules contenant"
 
 #: src/dialogs/search-replace.glade.h:6
 #, fuzzy
@@ -6520,21 +6480,19 @@ msgstr "Feuille courante"
 
 #: src/dialogs/search-replace.glade.h:11
 msgid "Do not perform this replacement"
-msgstr ""
+msgstr "Ne pas remplacer"
 
 #: src/dialogs/search-replace.glade.h:12
-#, fuzzy
 msgid "Don't change"
-msgstr "Base de données"
+msgstr "Ne change pas"
 
 #: src/dialogs/search-replace.glade.h:13
-#, fuzzy
 msgid "Entire workbook"
-msgstr "le classeur"
+msgstr "Le classeur entier"
 
 #: src/dialogs/search-replace.glade.h:14
 msgid "Error behavior"
-msgstr ""
+msgstr "Comportement anormal"
 
 #: src/dialogs/search-replace.glade.h:15
 msgid "Expressions"
@@ -6543,16 +6501,15 @@ msgstr "Expressions"
 #: src/dialogs/search-replace.glade.h:16
 #, fuzzy
 msgid "Fail"
-msgstr "_Remplir"
+msgstr "Terminer"
 
 #: src/dialogs/search-replace.glade.h:17
 msgid "Fail without any changes actually being done to any cell"
-msgstr ""
+msgstr "Terminer sans faire de changement dans aucune cellule."
 
 #: src/dialogs/search-replace.glade.h:18
-#, fuzzy
 msgid "Ignore case"
-msgstr "Accroitre"
+msgstr "Ignorer la casse"
 
 #: src/dialogs/search-replace.glade.h:19
 msgid "Location"
@@ -6568,7 +6525,7 @@ msgstr ""
 
 #: src/dialogs/search-replace.glade.h:22
 msgid "Match whole words only"
-msgstr ""
+msgstr "Mot entier seulement"
 
 #: src/dialogs/search-replace.glade.h:25
 msgid "Other values"
@@ -6577,23 +6534,23 @@ msgstr "Autres valeurs"
 #: src/dialogs/search-replace.glade.h:26
 #, fuzzy
 msgid "Perform changes within cell comments"
-msgstr "Centrer le contenu des cellules"
+msgstr "Appliquer les changements dans les commentaires des cellules"
 
 #: src/dialogs/search-replace.glade.h:27
 msgid "Perform changes within expressions"
-msgstr ""
+msgstr "Appliquer les changements dans les expressions"
 
 #: src/dialogs/search-replace.glade.h:28
 msgid "Perform changes within non-string values"
-msgstr ""
+msgstr "Appliquer les changements dans les valeurs non textuelles"
 
 #: src/dialogs/search-replace.glade.h:29
 msgid "Perform changes within string values"
-msgstr ""
+msgstr "Appliquer les changements dans les valeurs textuelles"
 
 #: src/dialogs/search-replace.glade.h:30
 msgid "Perform no more replacements"
-msgstr ""
+msgstr "Ne plus effectuer de remplacements"
 
 #: src/dialogs/search-replace.glade.h:31
 msgid "Perform this replacement"
@@ -6601,7 +6558,7 @@ msgstr "Effectuer ce remplacement"
 
 #: src/dialogs/search-replace.glade.h:32
 msgid "Plain text"
-msgstr "Texte plein"
+msgstr "Texte simple"
 
 #: src/dialogs/search-replace.glade.h:33
 msgid "Preserve case"
@@ -6609,7 +6566,7 @@ msgstr "Préserver la casse"
 
 #: src/dialogs/search-replace.glade.h:34
 msgid "Query"
-msgstr "Requete"
+msgstr "Requête"
 
 #: src/dialogs/search-replace.glade.h:35
 msgid "Query for replacement"
@@ -6642,23 +6599,23 @@ msgstr "Rechercher et remplacer"
 
 #: src/dialogs/search-replace.glade.h:45
 msgid "Search and replace in all cells in the workbook"
-msgstr ""
+msgstr "Rechercher et remplacer dans toutes les cellules du classeur"
 
 #: src/dialogs/search-replace.glade.h:46
 msgid "Search and replace in current sheet only"
-msgstr ""
+msgstr "Rechercher et remplacer dans la feuille courante seulement"
 
 #: src/dialogs/search-replace.glade.h:47
 msgid "Search and replace in specified range only"
-msgstr ""
+msgstr "Rechercher et remplacer dans l'intervalle sélectionné seulement"
 
 #: src/dialogs/search-replace.glade.h:49
 msgid "Search for"
-msgstr ""
+msgstr "Rechercher "
 
 #: src/dialogs/search-replace.glade.h:51
 msgid "Skip cells that that would result in errors"
-msgstr ""
+msgstr "Ignorer les cellules qui produiraient une erreur"
 
 #: src/dialogs/search-replace.glade.h:52
 msgid "Strings"
@@ -6666,27 +6623,27 @@ msgstr "Chaînes"
 
 #: src/dialogs/search-replace.glade.h:55
 msgid "Turn unparseable entries into string values"
-msgstr ""
+msgstr "Transformer les entrées incompréhensibles en chaînes"
 
 #: src/dialogs/sheet-order.glade.h:1
 msgid "Close this dialog"
-msgstr "Ferme cette boite de dialogue"
+msgstr "Ferme cette boîte de dialogue"
 
 #: src/dialogs/sheet-order.glade.h:3
 msgid "Delete the currently selected sheet"
-msgstr "Supprime la feuille sélectionné"
+msgstr "Supprime la feuille sélectionnée"
 
 #: src/dialogs/sheet-order.glade.h:4
 msgid "Move the currently selected sheet down one position"
-msgstr "Déplace la feuille sélectionné d'une position vers le bas"
+msgstr "Déplace la feuille sélectionnée d'une position vers le bas"
 
 #: src/dialogs/sheet-order.glade.h:5
 msgid "Move the currently selected sheet up one position"
-msgstr "Déplace la feuille sélectionné d'une position vers le haut"
+msgstr "Déplace la feuille sélectionnée d'une position vers le haut"
 
 #: src/dialogs/sheet-order.glade.h:6
 msgid "Order Sheets"
-msgstr "Ordonnez les feuilles"
+msgstr "Ordonner les feuilles"
 
 #: src/dialogs/sheet-order.glade.h:7
 msgid "Sheet Name"
@@ -6698,7 +6655,7 @@ msgstr "Entrez le _nouveau nom de la feuille :"
 
 #: src/dialogs/sheet-rename.glade.h:2
 msgid "Rename sheet"
-msgstr "Renommez la feuille"
+msgstr "Renommer la feuille"
 
 #: src/dialogs/solver.glade.h:4
 msgid "Assume _Linear Model"
@@ -6745,7 +6702,7 @@ msgstr "Résoudre"
 
 #: src/dialogs/solver.glade.h:15
 msgid "Subject to the Constraints:"
-msgstr "Sujet aux contraintes :"
+msgstr "Soumis aux contraintes :"
 
 #: src/dialogs/solver.glade.h:17
 msgid "_Answer"
@@ -6757,7 +6714,7 @@ msgstr "_Changer"
 
 #: src/dialogs/solver.glade.h:20
 msgid "_Left Hand Side:"
-msgstr ""
+msgstr "Membre de gauche"
 
 #: src/dialogs/solver.glade.h:21
 msgid "_Limits"
@@ -6769,7 +6726,7 @@ msgstr "_Max"
 
 #: src/dialogs/solver.glade.h:23
 msgid "_Right Hand Side:"
-msgstr ""
+msgstr "Membre de droite"
 
 #: src/dialogs/solver.glade.h:24
 msgid "_Sensitivity"
@@ -6777,7 +6734,7 @@ msgstr "_Sensibilité"
 
 #: src/dialogs/solver.glade.h:25
 msgid "_Set Target Cell:       "
-msgstr ""
+msgstr "_Définit la cellule cible"
 
 #: src/dialogs/solver.glade.h:26
 msgid "_Type:"
@@ -6818,7 +6775,7 @@ msgstr "Titre"
 
 #: src/dialogs/variance-tests.glade.h:7
 msgid "Testing Equality of 2 Variances (F-Test)"
-msgstr ""
+msgstr "Test de l'égalité de deux variances (F-Test)"
 
 #: src/dialogs/workbook-attr.glade.h:1
 msgid "Notebook _Tabs for Sheets"
@@ -6841,19 +6798,17 @@ msgid "_Vertical Scrollbar"
 msgstr "Barre de défilement _vertical"
 
 #: src/expr-name.c:220
-#, fuzzy
 msgid "already defined in sheet"
-msgstr "déjà défini"
+msgstr "déjà défini dans la feuille"
 
 #: src/expr-name.c:224
-#, fuzzy
 msgid "already defined in workbook"
-msgstr "déjà défini"
+msgstr "déjà défini dans le classeur"
 
 #: src/expr-name.c:228
 #, fuzzy
 msgid "already globally defined "
-msgstr "déjà défini"
+msgstr "déjà défini dans la feuille"
 
 #: src/expr-name.c:234
 #, fuzzy, c-format
@@ -6881,24 +6836,21 @@ msgid "Unknown evaluation error"
 msgstr "Erreur d'évaluation inconnue"
 
 #: src/file-autoft.c:144
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid template file: %s"
-msgstr "Incapable d'ouvrir le fichier « %s »"
+msgstr "Fichier de modèle « %s » invalide"
 
 #: src/file.c:270
-#, fuzzy
 msgid "Cannot create temporary file."
-msgstr "Ne peut créer le fichier %s\n"
+msgstr "Impossible de créer un fichier temporaire."
 
 #: src/file.c:282
-#, fuzzy
 msgid "Error saving to temporary file."
-msgstr "Erreur lors de l'enregistrement du fichier dif."
+msgstr "Erreur lors de l'enregistrement dans le fichier temporaire."
 
 #: src/file.c:285
-#, fuzzy
 msgid "Cannot get temporary file size."
-msgstr "Ne peut créer le fichier %s\n"
+msgstr "Impossible d'obtenir la taille du fichier temporaire."
 
 #: src/file.c:291
 #, fuzzy
@@ -6906,9 +6858,8 @@ msgid "Saving file to stream."
 msgstr "Simple"
 
 #: src/file.c:304
-#, fuzzy
 msgid "Error reading temporary file."
-msgstr "Erreur de lecture de la feuille."
+msgstr "Erreur de lecture du fichier temporaire."
 
 #: src/file.c:317
 #, fuzzy
@@ -6916,32 +6867,37 @@ msgid "Exception occurred while saving to stream."
 msgstr "Une erreur est apparu durant la lecture de la liste de catégories"
 
 #: src/file.c:493
-#, fuzzy
 msgid "Saving over old files of this type is disabled for safety."
 msgstr ""
-"La sauvegarde par dessus des anciens fichiers est désactivée pour raison de "
-"sécurité"
+"La sauvegarde en écrasant des anciens fichiers de ce type est désactivée "
+"pour raison de sécurité"
 
 #: src/file.c:495
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
+"Vous pouvez désactiver cette sécurité en modifiant le fichier plugin.xml "
+"approprié."
 
 #: src/format-template.c:883
 #, c-format
 msgid ""
 "The target region is too small.  It should be at least %d rows by %d columns"
 msgstr ""
+"La région cible est trop petite. Elle devrait contenir au moins %d lignes et "
+"%d colonnes"
 
 #: src/format-template.c:886
 #, c-format
 msgid "The target region is too small.  It should be at least %d columns wide"
 msgstr ""
+"La région cible est trop petite. Elle devrait contenir au moins %d colonnes"
 
 #: src/format-template.c:889
 #, c-format
 msgid "The target region is too small.  It should be at least %d rows high"
 msgstr ""
+"La région cible est trop petite. Elle devrait contenir au moins %d lignes"
 
 #: src/format.c:605
 msgid "black"
@@ -7010,7 +6966,7 @@ msgstr "[$ADP]"
 
 #: src/formats.c:260
 msgid "Andorran peseta"
-msgstr ""
+msgstr "Andorre peseta"
 
 #: src/formats.c:261
 msgid "[$AED]"
@@ -7018,7 +6974,7 @@ msgstr "[$AED]"
 
 #: src/formats.c:261
 msgid "UAE dirham"
-msgstr ""
+msgstr "EAU dirham"
 
 #: src/formats.c:262
 msgid "[$AFA]"
@@ -7042,7 +6998,7 @@ msgstr "[$ANG]"
 
 #: src/formats.c:264
 msgid "Netherlands Antillian guilder"
-msgstr ""
+msgstr "Antilles Néerlandaises florin"
 
 #: src/formats.c:265
 msgid "[$AON]"
@@ -7050,7 +7006,7 @@ msgstr "[$AON]"
 
 #: src/formats.c:265
 msgid "Angolan new kwanza"
-msgstr ""
+msgstr "Angola nouveau kwanza"
 
 #: src/formats.c:266
 msgid "[$ARA]"
@@ -7058,7 +7014,7 @@ msgstr "[$ARA]"
 
 #: src/formats.c:266
 msgid "Argentine peso"
-msgstr ""
+msgstr "Argentine peso"
 
 #: src/formats.c:267
 msgid "[$ATS]"
@@ -7066,7 +7022,7 @@ msgstr "[$ATS]"
 
 #: src/formats.c:267
 msgid "Austrian schilling"
-msgstr ""
+msgstr "Autriche schilling"
 
 #: src/formats.c:268
 msgid "[$AUD]"
@@ -7074,7 +7030,7 @@ msgstr "[$AUD]"
 
 #: src/formats.c:268
 msgid "Australian dollar"
-msgstr ""
+msgstr "Australie dollar"
 
 #: src/formats.c:269
 msgid "[$AWG]"
@@ -7090,7 +7046,7 @@ msgstr "[$BBD]"
 
 #: src/formats.c:270
 msgid "Barbados dollar"
-msgstr ""
+msgstr "la Barbade dollar"
 
 #: src/formats.c:271
 msgid "[$BDT]"
@@ -7098,7 +7054,7 @@ msgstr "[$BDT]"
 
 #: src/formats.c:271
 msgid "Bangladeshi taka"
-msgstr ""
+msgstr "Bangladesh taka"
 
 #: src/formats.c:272
 msgid "[$BEF]"
@@ -7106,7 +7062,7 @@ msgstr "[$BEF]"
 
 #: src/formats.c:272
 msgid "Belgian franc"
-msgstr ""
+msgstr "Belgique franc"
 
 #: src/formats.c:273
 msgid "[$BGL]"
@@ -7114,7 +7070,7 @@ msgstr "[$BGL]"
 
 #: src/formats.c:273
 msgid "Bulgarian lev"
-msgstr ""
+msgstr "Bulgarie lev"
 
 #: src/formats.c:274
 msgid "[$BHD]"
@@ -7122,7 +7078,7 @@ msgstr "[$BHD]"
 
 #: src/formats.c:274
 msgid "Bahraini dinar"
-msgstr ""
+msgstr "Bahrein dinar"
 
 #: src/formats.c:275
 msgid "[$BIF]"
@@ -7130,7 +7086,7 @@ msgstr "[$BIF]"
 
 #: src/formats.c:275
 msgid "Burundi franc"
-msgstr ""
+msgstr "Burundi franc"
 
 #: src/formats.c:276
 msgid "[$BMD]"
@@ -7138,7 +7094,7 @@ msgstr "[$BMD]"
 
 #: src/formats.c:276
 msgid "Bermudian dollar"
-msgstr ""
+msgstr "Bermudes dollar"
 
 #: src/formats.c:277
 msgid "[$BND]"
@@ -7146,7 +7102,7 @@ msgstr "[$BND]"
 
 #: src/formats.c:277
 msgid "Brunei dollar"
-msgstr ""
+msgstr "Brunei dollar"
 
 #: src/formats.c:278
 msgid "[$BOB]"
@@ -7154,7 +7110,7 @@ msgstr "[$BOB]"
 
 #: src/formats.c:278
 msgid "Bolivian boliviano"
-msgstr ""
+msgstr "Bolivie boliviano"
 
 #: src/formats.c:279
 msgid "[$BRE]"
@@ -7162,7 +7118,7 @@ msgstr "[$BRE]"
 
 #: src/formats.c:279
 msgid "Brazilian real"
-msgstr ""
+msgstr "Brésil real"
 
 #: src/formats.c:280
 msgid "[$BSD]"
@@ -7170,7 +7126,7 @@ msgstr "[$BSD]"
 
 #: src/formats.c:280
 msgid "Bahamian dollar"
-msgstr ""
+msgstr "Bahamas dollar"
 
 #: src/formats.c:281
 msgid "[$BTN]"
@@ -7186,7 +7142,7 @@ msgstr "[$BWP]"
 
 #: src/formats.c:282
 msgid "Botswanian pula"
-msgstr ""
+msgstr "Botswanie pula"
 
 #: src/formats.c:283
 msgid "[$BYB]"
@@ -8593,15 +8549,21 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-date.c:25
+#, fuzzy
 msgid ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (year,month,day)\n"
-"@DESCRIPTION=Computes the number of days since the 1st of january of 1900"
+"@DESCRIPTION=DATE returns the number of days since the 1st of january of 1900"
 "(the date serial number) for the given year, month and day.\n"
 "The @day might be negative (to count backwards) and it is relative to the "
-"previous @month.  The @years should be at least 1900.\n"
+"previous @month.  The @years should be at least 1900.  If @years <= 30, it "
+"is assumed to be 2000 + @years.  If 30 < @years < 100, it is assumed to be "
+"1900 + @years. \n"
+"If the given date is not valid, DATE returns #VALUE! error. This function is "
+"Excel compatible. \n"
 "@EXAMPLES=\n"
-"\n"
+"DATE(2001, 3, 30) returns ``Mar 30, 2001''.\n"
+" \n"
 "@SEEALSO=TODAY, NOW"
 msgstr ""
 "@FUNCTION=DATE\n"
@@ -8614,23 +8576,19 @@ msgstr ""
 "\n"
 "@SEEALSO=TODAY, NOW"
 
-#: src/functions/fn-date.c:58
-msgid "Invalid month or year"
-msgstr "Mois ou année non valide"
-
-#: src/functions/fn-date.c:70
+#: src/functions/fn-date.c:76
 msgid "Invalid day"
 msgstr "Jour non valide"
 
-#: src/functions/fn-date.c:80
+#: src/functions/fn-date.c:86
+#, fuzzy
 msgid ""
 "@FUNCTION=DATEVALUE\n"
 "@SYNTAX=DATEVALUE(date_str)\n"
 "@DESCRIPTION=DATEVALUE returns the serial number of the date.  @date_str is "
-"the string that contains the date.  For example, DATEVALUE(\"1/1/1999\") "
-"equals to 36160. \n"
+"the string that contains the date. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
-"\n"
+"DATEVALUE(\"1/1/1999\") equals to 36160. \n"
 "@SEEALSO=DATE"
 msgstr ""
 "@FUNCTION=DATEVALUE\n"
@@ -8642,7 +8600,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DATE"
 
-#: src/functions/fn-date.c:104
+#: src/functions/fn-date.c:111
 msgid ""
 "@FUNCTION=DATEDIF\n"
 "@SYNTAX=DATEDIF(date1,date2,interval)\n"
@@ -8657,22 +8615,27 @@ msgid ""
 "including the difference in months.\n"
 "\"yd\" will return the number of full days between the two dates, not "
 "including the difference in years.\n"
-"\n"
+"This function is Excel compatible. \n"
 "@EXAMPLES=\n"
+"DATEDIF(DATE(2000,4,30),DATE(2003,8,4),\"d\") equals 1191.\n"
+"DATEDIF(DATE(2000,4,30),DATE(2003,8,4),\"y\") equals 3.\n"
 "\n"
 "@SEEALSO=DATE"
 msgstr ""
 
-#: src/functions/fn-date.c:265
+#: src/functions/fn-date.c:278
+#, fuzzy
 msgid ""
 "@FUNCTION=EDATE\n"
 "@SYNTAX=EDATE(date,months)\n"
 "@DESCRIPTION=EDATE returns the serial number of the date that is the "
 "specified number of months before or after a given date.  @date is the "
 "serial number of the initial date and @months is the number of months before "
-"(negative number) or after (positive number) the initial date.\n"
+"(negative number) or after (positive number) the initial date.This function "
+"is Excel compatible. \n"
 "If @months is not an integer, it is truncated.\n"
 "@EXAMPLES=\n"
+"EDATE(DATE(2001,12,30),2) equals Feb 28, 2002.\n"
 "\n"
 "@SEEALSO=DATE"
 msgstr ""
@@ -8687,15 +8650,18 @@ msgstr ""
 "\n"
 "@SEEALSO=DATE"
 
-#: src/functions/fn-date.c:317
+#: src/functions/fn-date.c:332
+#, fuzzy
 msgid ""
 "@FUNCTION=TODAY\n"
-"@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=Returns the serial number for today (the number of days elapsed "
-"since the 1st of January of 1900).\n"
+"@SYNTAX=TODAY()\n"
+"@DESCRIPTION=TODAY returns the serial number for today (the number of days "
+"elapsed since the 1st of January of 1900).This function is Excel "
+"compatible. \n"
 "@EXAMPLES=\n"
-"\n"
-"@SEEALSO=TODAY, NOW"
+"TODAY() returns Nov 6, 2001 on that particular day.\n"
+" \n"
+"@SEEALSO=NOW"
 msgstr ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY ()\n"
@@ -8705,21 +8671,23 @@ msgstr ""
 "\n"
 "@SEEALSO=TODAY, NOW"
 
-#: src/functions/fn-date.c:338
+#: src/functions/fn-date.c:355
+#, fuzzy
 msgid ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
-"@DESCRIPTION=Returns the serial number for the date and time at the time it "
-"is evaluated.\n"
+"@DESCRIPTION=NOW returns the serial number for the date and time at the time "
+"it is evaluated.\n"
 "Serial Numbers in Gnumeric are represented as follows:The integral part is "
 "the number of days since the 1st of January of 1900.  The decimal part "
 "represent the fraction of the day and is mapped into hour, minutes and "
 "seconds.\n"
-"For example: .0 represents the beginning of the day, and 0.5 represents "
-"noon.\n"
+"For example: .0 represents the beginning of the day, and 0.5 represents noon."
+"This function is Excel compatible. \n"
 "@EXAMPLES=\n"
+"NOW().\n"
 "\n"
-"@SEEALSO=TODAY, NOW"
+"@SEEALSO=TODAY"
 msgstr ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
@@ -8733,12 +8701,15 @@ msgstr ""
 "\n"
 "@SEEALSO=TODAY, NOW"
 
-#: src/functions/fn-date.c:367
+#: src/functions/fn-date.c:386
+#, fuzzy
 msgid ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (hours,minutes,seconds)\n"
-"@DESCRIPTION=Returns a fraction representing the time of day.\n"
+"@DESCRIPTION=TIME returns a fraction representing the time of day.This "
+"function is Excel compatible. \n"
 "@EXAMPLES=\n"
+"TIME(3, 5, 23) equals 3:05AM.\n"
 "\n"
 "@SEEALSO=HOUR"
 msgstr ""
@@ -8750,15 +8721,18 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-date.c:394
+#: src/functions/fn-date.c:415
+#, fuzzy
 msgid ""
 "@FUNCTION=TIMEVALUE\n"
 "@SYNTAX=TIMEVALUE (timetext)\n"
-"@DESCRIPTION=Returns a fraction representing the time of day, a number "
-"between 0 and 1.\n"
+"@DESCRIPTION=TIMEVALUE returns a fraction representing the time of day, a "
+"number between 0 and 1.This function is Excel compatible. \n"
 "@EXAMPLES=\n"
+"TIMEVALUE(\"3:05\") equals 0.128472.\n"
+"TIMEVALUE(\"2:24:53 PM\") equals 0.600613.\n"
 "\n"
-"@SEEALSO=HOUR"
+"@SEEALSO=HOUR,MINUTE"
 msgstr ""
 "@FUNCTION=TIMEVALUE\n"
 "@SYNTAX=TIMEVALUE (heure_texte)\n"
@@ -8768,16 +8742,18 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-date.c:420
+#: src/functions/fn-date.c:444
+#, fuzzy
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (serial_number)\n"
-"@DESCRIPTION=Converts a serial number to an hour.  The hour is returned as "
-"an integer in the range 0 (12:00 A.M.) to 23 (11:00 P.M.).\n"
+"@DESCRIPTION=HOUR converts a serial number to an hour.  The hour is returned "
+"as an integer in the range 0 (12:00 A.M.) to 23 (11:00 P.M.).\n"
 "Note that Gnumeric will perform regular string to serial number conversion "
 "for you, so you can enter a date as a string.\n"
-"\n"
+"This function is Excel compatible. \n"
 "@EXAMPLES=\n"
+"HOUR(0.128472) equals 3.\n"
 "\n"
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 msgstr ""
@@ -8792,15 +8768,18 @@ msgstr ""
 "\n"
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 
-#: src/functions/fn-date.c:447
+#: src/functions/fn-date.c:473
+#, fuzzy
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (serial_number)\n"
-"@DESCRIPTION=Converts a serial number to a minute.  The minute is returned "
-"as an integer in the range 0 to 59.\n"
+"@DESCRIPTION=MINUTE converts a serial number to a minute.  The minute is "
+"returned as an integer in the range 0 to 59.\n"
 "Note that Gnumeric will perform regular string to serial number conversion "
-"for you, so you can enter a date as a string.\n"
+"for you, so you can enter a date as a string.This function is Excel "
+"compatible. \n"
 "@EXAMPLES=\n"
+"MINUTE(0.128472) equals 5.\n"
 "\n"
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 msgstr ""
@@ -8814,15 +8793,18 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 
-#: src/functions/fn-date.c:475
+#: src/functions/fn-date.c:503
+#, fuzzy
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (serial_number)\n"
-"@DESCRIPTION=Converts a serial number to a second.  The second is returned "
-"as an integer in the range 0 to 59.\n"
+"@DESCRIPTION=SECOND converts a serial number to a second.  The second is "
+"returned as an integer in the range 0 to 59.\n"
 "Note that Gnumeric will perform regular string to serial number conversion "
-"for you, so you can enter a date as a string.\n"
+"for you, so you can enter a date as a string.This function is Excel "
+"compatible. \n"
 "@EXAMPLES=\n"
+"SECOND(0.600613) equals 53.\n"
 "\n"
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 msgstr ""
@@ -8836,14 +8818,17 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 
-#: src/functions/fn-date.c:503
+#: src/functions/fn-date.c:533
+#, fuzzy
 msgid ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (serial_number)\n"
-"@DESCRIPTION=Converts a serial number to a year.\n"
+"@DESCRIPTION=YEAR converts a serial number to a year.\n"
 "Note that Gnumeric will perform regular string to serial number conversion "
-"for you, so you can enter a date as a string.\n"
+"for you, so you can enter a date as a string.This function is Excel "
+"compatible. \n"
 "@EXAMPLES=\n"
+"YEAR(DATE(2003, 4, 30)) equals 2003.\n"
 "\n"
 "@SEEALSO=DAY, MONTH, TIME, NOW"
 msgstr ""
@@ -8856,14 +8841,17 @@ msgstr ""
 "\n"
 "@SEEALSO=DAY, MONTH, NOW, TIME"
 
-#: src/functions/fn-date.c:538
+#: src/functions/fn-date.c:570
+#, fuzzy
 msgid ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (serial_number)\n"
-"@DESCRIPTION=Converts a serial number to a month.\n"
+"@DESCRIPTION=MONTH converts a serial number to a month.\n"
 "Note that Gnumeric will perform regular string to serial number conversion "
-"for you, so you can enter a date as a string.\n"
+"for you, so you can enter a date as a string.This function is Excel "
+"compatible. \n"
 "@EXAMPLES=\n"
+"MONTH(DATE(2003, 4, 30)) equals 4.\n"
 "\n"
 "@SEEALSO=DAY, TIME, NOW, YEAR"
 msgstr ""
@@ -8876,16 +8864,17 @@ msgstr ""
 "\n"
 "@SEEALSO=YEAR, DAY, NOW, TIME"
 
-#: src/functions/fn-date.c:573
+#: src/functions/fn-date.c:607
 #, fuzzy
 msgid ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (serial_number)\n"
-"@DESCRIPTION=Converts a serial number to a day of month.\n"
+"@DESCRIPTION=DAY converts a serial number to a day of month.\n"
 "Note that Gnumeric will perform regular string to serial number conversion "
-"for you, so you can enter a date as a string.\n"
+"for you, so you can enter a date as a string.This function is Excel "
+"compatible. \n"
 "@EXAMPLES=\n"
-"day (\"10/24/1968\") equals 24.\n"
+"DAY(\"10/24/1968\") equals 24.\n"
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
@@ -8898,18 +8887,19 @@ msgstr ""
 "\n"
 "@SEEALSO=YEAR, DAY, NOW, TIME"
 
-#: src/functions/fn-date.c:609
+#: src/functions/fn-date.c:644
 #, fuzzy
 msgid ""
 "@FUNCTION=WEEKDAY\n"
 "@SYNTAX=WEEKDAY (serial_number)\n"
-"@DESCRIPTION=Converts a serial number to a weekday.\n"
+"@DESCRIPTION=WEEKDAY converts a serial number to a weekday.\n"
 "\n"
 "This function returns an integer in the range 0-6, where Saturday is 0, "
 "Sunday is 1, etc.\n"
 "\n"
 "Note that Gnumeric will perform regular string to serial number conversion "
-"for you, so you can enter a date as a string.\n"
+"for you, so you can enter a date as a string.This function is Excel "
+"compatible. \n"
 "@EXAMPLES=\n"
 "WEEKDAY(\"10/24/1968\") equals 5 (Thursday).\n"
 "\n"
@@ -8924,19 +8914,23 @@ msgstr ""
 "\n"
 "@SEEALSO=YEAR, DAY, NOW, TIME"
 
-#: src/functions/fn-date.c:648
+#: src/functions/fn-date.c:684
+#, fuzzy
 msgid ""
 "@FUNCTION=DAYS360 \n"
 "@SYNTAX=DAYS360 (date1,date2,method)\n"
-"@DESCRIPTION=Returns the number of days from @date1 to @date2 following a "
-"360-day calendar in which all months are assumed to have 30 days.\n"
+"@DESCRIPTION=DAYS360 returns the number of days from @date1 to @date2 "
+"following a 360-day calendar in which all months are assumed to have 30 "
+"days.\n"
 "If @method is true, the European method will be used.  In this case, if the "
 "day of the month is 31 it will be considered as 30.\n"
 "If @method is false or omitted, the US method will be used.  This is a "
 "somewhat complicated industry standard method.\n"
 "Note that Gnumeric will perform regular string to serial number conversion "
-"for you, so you can enter a date as a string.\n"
+"for you, so you can enter a date as a string.This function is Excel "
+"compatible. \n"
 "@EXAMPLES=\n"
+"DAYS360(DATE(2003, 2, 3), DATE(2007, 4, 2)) equals 1499.\n"
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
@@ -8955,18 +8949,19 @@ msgstr ""
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
-#: src/functions/fn-date.c:684
+#: src/functions/fn-date.c:722
 msgid "Unsupported method"
 msgstr "Méthode non supportée"
 
-#: src/functions/fn-date.c:749
+#: src/functions/fn-date.c:787
 #, fuzzy
 msgid ""
 "@FUNCTION=EOMONTH\n"
 "@SYNTAX=EOMONTH (start_date,months)\n"
-"@DESCRIPTION=Returns the last day of the month which is @months from the "
-"@start_date.\n"
-"Returns #NUM! if start_date or months are invalid.\n"
+"@DESCRIPTION=EOMONTH returns the last day of the month which is @months from "
+"the @start_date.\n"
+"Returns #NUM! if start_date or months are invalid.This function is Excel "
+"compatible. \n"
 "@EXAMPLES=\n"
 "If A1 contains 12/21/00 then EOMONTH(A1,0)=12/31/00, EOMONTH(A1,5)=5/31/01, "
 "and EOMONTH(A1,2)=2/28/01\n"
@@ -8982,15 +8977,18 @@ msgstr ""
 "\n"
 "@SEEALSO=MONTH"
 
-#: src/functions/fn-date.c:798
+#: src/functions/fn-date.c:837
+#, fuzzy
 msgid ""
 "@FUNCTION=WORKDAY\n"
 "@SYNTAX=WORKDAY (start_date,days,holidays)\n"
-"@DESCRIPTION=Returns the day which is @days working days from the "
+"@DESCRIPTION=WORKDAY returns the day which is @days working days from the "
 "@start_date.  Weekends and holidays optionally supplied in @holidays are "
 "respected.\n"
-"Returns #NUM! if @start_date or @days are invalid.\n"
+"Returns #NUM! if @start_date or @days are invalid.This function is Excel "
+"compatible. \n"
 "@EXAMPLES=\n"
+"WORKDAY(DATE(2001,1,5),DATE(2001,2,15)) equals 88609.\n"
 "\n"
 "@SEEALSO=NETWORKDAYS"
 msgstr ""
@@ -9004,19 +9002,23 @@ msgstr ""
 "@SEEALSO=NETWORKDAYS"
 
 #. Path of the current directory or folder.
-#: src/functions/fn-date.c:832 src/functions/fn-eng.c:97
-#: src/functions/fn-information.c:357 src/functions/fn-information.c:373
+#: src/functions/fn-date.c:873 src/functions/fn-eng.c:75
+#: src/functions/fn-information.c:393 src/functions/fn-information.c:409
 msgid "Unimplemented"
 msgstr "Non implémenté"
 
-#: src/functions/fn-date.c:867
+#: src/functions/fn-date.c:908
+#, fuzzy
 msgid ""
 "@FUNCTION=NETWORKDAYS\n"
 "@SYNTAX=NETWORKDAYS (start_date,end_date,holidays)\n"
-"@DESCRIPTION=Returns the number of non-weekend non-holidays between "
-"@start_date and @end_date.  Holidays optionally supplied in @holidays.\n"
-"Returns #NUM if start_date or end_date are invalid\n"
+"@DESCRIPTION=NETWORKDAYS returns the number of non-weekend non-holidays "
+"between @start_date and @end_date.  Holidays optionally supplied in "
+"@holidays.\n"
+"Returns #NUM if start_date or end_date are invalidThis function is Excel "
+"compatible. \n"
 "@EXAMPLES=\n"
+"NETWORKDAYS(DATE(2001,1,2),DATE(2001,2,15)) equals 33.\n"
 "\n"
 "@SEEALSO=WORKDAY"
 msgstr ""
@@ -9030,25 +9032,11 @@ msgstr ""
 "\n"
 "@SEEALSO=WORKDAY"
 
-#: src/functions/fn-date.c:992
+#: src/functions/fn-date.c:1035
 msgid "Date / Time"
 msgstr "Date / Heure"
 
-#: src/functions/fn-eng.c:25
-msgid ""
-"@FUNCTION=NAME\n"
-"@SYNTAX=(b1, b2, ...)\n"
-"@DESCRIPTION\n"
-"\n"
-"@SEEALSO="
-msgstr ""
-"@FUNCTION=NOM\n"
-"@SYNTAX=(b1, b2, ...)\n"
-"@DESCRIPTION\n"
-"\n"
-"@SEEALSO="
-
-#: src/functions/fn-eng.c:111
+#: src/functions/fn-eng.c:89
 msgid ""
 "@FUNCTION=BIN2DEC\n"
 "@SYNTAX=BIN2DEC(x)\n"
@@ -9069,7 +9057,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: src/functions/fn-eng.c:134
+#: src/functions/fn-eng.c:112
 msgid ""
 "@FUNCTION=BIN2OCT\n"
 "@SYNTAX=BIN2OCT(number[,places])\n"
@@ -9095,7 +9083,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OCT2BIN, BIN2DEC, BIN2HEX"
 
-#: src/functions/fn-eng.c:160
+#: src/functions/fn-eng.c:138
 msgid ""
 "@FUNCTION=BIN2HEX\n"
 "@SYNTAX=BIN2HEX(number[,places])\n"
@@ -9121,7 +9109,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OCT2BIN, BIN2OCT, BIN2DEC"
 
-#: src/functions/fn-eng.c:186
+#: src/functions/fn-eng.c:164
 msgid ""
 "@FUNCTION=DEC2BIN\n"
 "@SYNTAX=DEC2BIN(number[,places])\n"
@@ -9147,7 +9135,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BIN2DEC, DEC2OCT, DEC2HEX"
 
-#: src/functions/fn-eng.c:212
+#: src/functions/fn-eng.c:190
 msgid ""
 "@FUNCTION=DEC2OCT\n"
 "@SYNTAX=DEC2OCT(number[,places])\n"
@@ -9173,7 +9161,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OCT2DEC, DEC2BIN, DEC2HEX"
 
-#: src/functions/fn-eng.c:238
+#: src/functions/fn-eng.c:216
 msgid ""
 "@FUNCTION=DEC2HEX\n"
 "@SYNTAX=DEC2HEX(number[,places])\n"
@@ -9199,7 +9187,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HEX2DEC, DEC2BIN, DEC2OCT"
 
-#: src/functions/fn-eng.c:264
+#: src/functions/fn-eng.c:242
 msgid ""
 "@FUNCTION=OCT2DEC\n"
 "@SYNTAX=OCT2DEC(x)\n"
@@ -9220,13 +9208,14 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX"
 
-#: src/functions/fn-eng.c:287
+#: src/functions/fn-eng.c:265
+#, fuzzy
 msgid ""
 "@FUNCTION=OCT2BIN\n"
 "@SYNTAX=OCT2BIN(number[,places])\n"
-"@DESCRIPTION=The OCT2BIN function converts an octal number to a binary "
-"number.  @places is an optional field, specifying to zero pad to that number "
-"of spaces. This function is Excel compatible. \n"
+"@DESCRIPTION=OCT2BIN function converts an octal number to a binary number.  "
+"@places is an optional field, specifying to zero pad to that number of "
+"spaces. This function is Excel compatible. \n"
 "If @places is too small or negative #NUM! error is returned.\n"
 "@EXAMPLES=\n"
 "OCT2BIN(\"213\") equals 10001011.\n"
@@ -9245,11 +9234,12 @@ msgstr ""
 "\n"
 "@SEEALSO=BIN2OCT, OCT2DEC, OCT2HEX"
 
-#: src/functions/fn-eng.c:313
+#: src/functions/fn-eng.c:291
+#, fuzzy
 msgid ""
 "@FUNCTION=OCT2HEX\n"
 "@SYNTAX=OCT2HEX(number[,places])\n"
-"@DESCRIPTION=The OCT2HEX function converts an octal number to a hexadecimal "
+"@DESCRIPTION=OCT2HEX function converts an octal number to a hexadecimal "
 "number.  @places is an optional field, specifying to zero pad to that number "
 "of spaces. This function is Excel compatible. \n"
 "If @places is too small or negative #NUM! error is returned.\n"
@@ -9270,11 +9260,12 @@ msgstr ""
 "\n"
 "@SEEALSO=HEX2OCT, OCT2BIN, OCT2DEC"
 
-#: src/functions/fn-eng.c:339
+#: src/functions/fn-eng.c:317
+#, fuzzy
 msgid ""
 "@FUNCTION=HEX2BIN\n"
 "@SYNTAX=HEX2BIN(number[,places])\n"
-"@DESCRIPTION=The HEX2BIN function converts a hexadecimal number to a binary "
+"@DESCRIPTION=HEX2BIN function converts a hexadecimal number to a binary "
 "number.  @places is an optional field, specifying to zero pad to that number "
 "of spaces.\n"
 "If @places is too small or negative #NUM! error is returned. This function "
@@ -9296,11 +9287,12 @@ msgstr ""
 "\n"
 "@SEEALSO=BIN2HEX, HEX2OCT, HEX2DEC"
 
-#: src/functions/fn-eng.c:365
+#: src/functions/fn-eng.c:343
+#, fuzzy
 msgid ""
 "@FUNCTION=HEX2OCT\n"
 "@SYNTAX=HEX2OCT(number[,places])\n"
-"@DESCRIPTION=The HEX2OCT function converts a hexadecimal number to an octal "
+"@DESCRIPTION=HEX2OCT function converts a hexadecimal number to an octal "
 "number.  @places is an optional field, specifying to zero pad to that number "
 "of spaces.\n"
 "If @places is too small or negative #NUM! error is returned. This function "
@@ -9322,12 +9314,13 @@ msgstr ""
 "\n"
 "@SEEALSO=OCT2HEX, HEX2BIN, HEX2DEC"
 
-#: src/functions/fn-eng.c:391
+#: src/functions/fn-eng.c:369
+#, fuzzy
 msgid ""
 "@FUNCTION=HEX2DEC\n"
 "@SYNTAX=HEX2DEC(x)\n"
-"@DESCRIPTION=The HEX2DEC function converts a hexadecimal number to its "
-"decimal equivalent. This function is Excel compatible. \n"
+"@DESCRIPTION=HEX2DEC function converts a hexadecimal number to its decimal "
+"equivalent. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "HEX2DEC(\"2A\") equals 42.\n"
 "\n"
@@ -9342,7 +9335,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT"
 
-#: src/functions/fn-eng.c:414
+#: src/functions/fn-eng.c:392
 msgid ""
 "@FUNCTION=BESSELI\n"
 "@SYNTAX=BESSELI(x,y)\n"
@@ -9369,7 +9362,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
-#: src/functions/fn-eng.c:455
+#: src/functions/fn-eng.c:433
 msgid ""
 "@FUNCTION=BESSELK\n"
 "@SYNTAX=BESSELK(x,y)\n"
@@ -9396,7 +9389,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
-#: src/functions/fn-eng.c:495
+#: src/functions/fn-eng.c:473
 msgid ""
 "@FUNCTION=BESSELJ\n"
 "@SYNTAX=BESSELJ(x,y)\n"
@@ -9423,7 +9416,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
-#: src/functions/fn-eng.c:531
+#: src/functions/fn-eng.c:509
 msgid ""
 "@FUNCTION=BESSELY\n"
 "@SYNTAX=BESSELY(x,y)\n"
@@ -9450,7 +9443,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
-#: src/functions/fn-eng.c:603
+#: src/functions/fn-eng.c:581
 msgid ""
 "@FUNCTION=COMPLEX\n"
 "@SYNTAX=COMPLEX(real,im[,suffix])\n"
@@ -9478,7 +9471,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-eng.c:642
+#: src/functions/fn-eng.c:620
 msgid ""
 "@FUNCTION=IMAGINARY\n"
 "@SYNTAX=IMAGINARY(inumber)\n"
@@ -9498,7 +9491,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMREAL"
 
-#: src/functions/fn-eng.c:673
+#: src/functions/fn-eng.c:651
 msgid ""
 "@FUNCTION=IMREAL\n"
 "@SYNTAX=IMREAL(inumber)\n"
@@ -9518,7 +9511,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMAGINARY"
 
-#: src/functions/fn-eng.c:704
+#: src/functions/fn-eng.c:682
 msgid ""
 "@FUNCTION=IMABS\n"
 "@SYNTAX=IMABS(inumber)\n"
@@ -9538,7 +9531,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 
-#: src/functions/fn-eng.c:735
+#: src/functions/fn-eng.c:713
 msgid ""
 "@FUNCTION=IMCONJUGATE\n"
 "@SYNTAX=IMCONJUGATE(inumber)\n"
@@ -9559,7 +9552,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 
-#: src/functions/fn-eng.c:766
+#: src/functions/fn-eng.c:744
 msgid ""
 "@FUNCTION=IMCOS\n"
 "@SYNTAX=IMCOS(inumber)\n"
@@ -9579,7 +9572,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSIN,IMTAN"
 
-#: src/functions/fn-eng.c:794
+#: src/functions/fn-eng.c:772
 msgid ""
 "@FUNCTION=IMTAN\n"
 "@SYNTAX=IMTAN(inumber)\n"
@@ -9597,7 +9590,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSIN,IMCOS"
 
-#: src/functions/fn-eng.c:821
+#: src/functions/fn-eng.c:799
 msgid ""
 "@FUNCTION=IMEXP\n"
 "@SYNTAX=IMEXP(inumber)\n"
@@ -9617,7 +9610,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMLN"
 
-#: src/functions/fn-eng.c:849
+#: src/functions/fn-eng.c:827
 msgid ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(inumber)\n"
@@ -9637,7 +9630,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-eng.c:876
+#: src/functions/fn-eng.c:854
 #, fuzzy
 msgid ""
 "@FUNCTION=IMLN\n"
@@ -9665,7 +9658,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMEXP,IMLOG2,IMLOG10"
 
-#: src/functions/fn-eng.c:908
+#: src/functions/fn-eng.c:886
 msgid ""
 "@FUNCTION=IMLOG2\n"
 "@SYNTAX=IMLOG2(inumber)\n"
@@ -9685,7 +9678,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMLN,IMLOG10"
 
-#: src/functions/fn-eng.c:938
+#: src/functions/fn-eng.c:916
 msgid ""
 "@FUNCTION=IMLOG10\n"
 "@SYNTAX=IMLOG10(inumber)\n"
@@ -9705,7 +9698,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMLN,IMLOG2"
 
-#: src/functions/fn-eng.c:968
+#: src/functions/fn-eng.c:946
 msgid ""
 "@FUNCTION=IMPOWER\n"
 "@SYNTAX=IMPOWER(inumber,number)\n"
@@ -9729,7 +9722,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSQRT"
 
-#: src/functions/fn-eng.c:1004
+#: src/functions/fn-eng.c:982
 msgid ""
 "@FUNCTION=IMDIV\n"
 "@SYNTAX=IMDIV(inumber,inumber)\n"
@@ -9749,7 +9742,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMPRODUCT"
 
-#: src/functions/fn-eng.c:1038
+#: src/functions/fn-eng.c:1016
 msgid ""
 "@FUNCTION=IMSIN\n"
 "@SYNTAX=IMSIN(inumber)\n"
@@ -9769,7 +9762,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMCOS,IMTAN"
 
-#: src/functions/fn-eng.c:1066
+#: src/functions/fn-eng.c:1044
 msgid ""
 "@FUNCTION=IMSQRT\n"
 "@SYNTAX=IMSQRT(inumber)\n"
@@ -9789,7 +9782,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMPOWER"
 
-#: src/functions/fn-eng.c:1094
+#: src/functions/fn-eng.c:1072
 msgid ""
 "@FUNCTION=IMSUB\n"
 "@SYNTAX=IMSUB(inumber,inumber)\n"
@@ -9809,7 +9802,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSUM"
 
-#: src/functions/fn-eng.c:1125
+#: src/functions/fn-eng.c:1103
 msgid ""
 "@FUNCTION=IMPRODUCT\n"
 "@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])\n"
@@ -9829,7 +9822,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMDIV"
 
-#: src/functions/fn-eng.c:1195
+#: src/functions/fn-eng.c:1173
 msgid ""
 "@FUNCTION=IMSUM\n"
 "@SYNTAX=IMSUM(inumber,inumber)\n"
@@ -9849,7 +9842,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSUB"
 
-#: src/functions/fn-eng.c:1229
+#: src/functions/fn-eng.c:1207
 msgid ""
 "@FUNCTION=CONVERT\n"
 "@SYNTAX=CONVERT(number,from_unit,to_unit)\n"
@@ -10056,7 +10049,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-eng.c:1630
+#: src/functions/fn-eng.c:1608
 msgid ""
 "@FUNCTION=ERF\n"
 "@SYNTAX=ERF([lower limit,]upper_limit)\n"
@@ -10077,14 +10070,14 @@ msgid ""
 "@SEEALSO=ERFC"
 msgstr ""
 
-#: src/functions/fn-eng.c:1676
+#: src/functions/fn-eng.c:1654
 #, fuzzy
 msgid ""
 "@FUNCTION=ERFC\n"
 "@SYNTAX=ERFC(x)\n"
-"@DESCRIPTION=The ERFC function returns the complementary error function, "
-"defined as 1 - erf(x). erfc(x) is calculated more accurately than 1 - erf(x) "
-"for arguments larger than about 0.5.\n"
+"@DESCRIPTION=ERFC function returns the complementary error function, defined "
+"as 1 - erf(x). erfc(x) is calculated more accurately than 1 - erf(x) for "
+"arguments larger than about 0.5.\n"
 "If @x is not numeric a #VALUE! error is returned.  \n"
 "@EXAMPLES=\n"
 "ERFC(6) equals 2.15197367e-17.\n"
@@ -10102,14 +10095,13 @@ msgstr ""
 "\n"
 "@SEEALSO=ERF"
 
-#: src/functions/fn-eng.c:1706
+#: src/functions/fn-eng.c:1684
 #, fuzzy
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
-"@DESCRIPTION=The DELTA function tests for numerical equivalence of two "
-"arguments returning 1 in case of equality.  @y is optional, and defaults to "
-"0.\n"
+"@DESCRIPTION=DELTA function tests for numerical equivalence of two arguments "
+"returning 1 in case of equality.  @y is optional, and defaults to 0.\n"
 "If either argument is non-numeric returns a #VALUE! error. This function is "
 "Excel compatible. \n"
 "@EXAMPLES=\n"
@@ -10129,11 +10121,11 @@ msgstr ""
 "\n"
 "@SEEALSO=EXACT,GESTEP"
 
-#: src/functions/fn-eng.c:1751 src/functions/fn-eng.c:1805
+#: src/functions/fn-eng.c:1729 src/functions/fn-eng.c:1783
 msgid "Impossible"
 msgstr "Impossible"
 
-#: src/functions/fn-eng.c:1762
+#: src/functions/fn-eng.c:1740
 msgid ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
@@ -10157,7 +10149,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DELTA"
 
-#: src/functions/fn-eng.c:1819
+#: src/functions/fn-eng.c:1797
 msgid "Engineering"
 msgstr "Ingénierie"
 
@@ -10489,8 +10481,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=SLN\n"
 "@SYNTAX=SLN(cost,salvage_value,life)\n"
-"@DESCRIPTION=The SLN function will determine the straight line depreciation "
-"of an asset for a single period. The amount you paid for the asset is the "
+"@DESCRIPTION=SLN function will determine the straight line depreciation of "
+"an asset for a single period. The amount you paid for the asset is the "
 "@cost, @salvage is the value of the asset at the end of its useful life, and "
 "@life is the number of periods over which an the asset is depreciated. This "
 "method of deprecition devides the cost evenly over the life of an asset.\n"
@@ -10979,9 +10971,9 @@ msgstr ""
 msgid ""
 "@FUNCTION=YIELDDISC\n"
 "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption[,basis])\n"
-"@DESCRIPTION=@frequency is the number of coupon payments per year. Allowed "
-"frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of "
-"day counting system you want to use:\n"
+"@DESCRIPTION=YIELDDISC FIXME. @frequency is the number of coupon payments "
+"per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
+"@basis is the type of day counting system you want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -10997,13 +10989,13 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2908
+#: src/functions/fn-financial.c:2909
 msgid ""
 "@FUNCTION=YIELDMAT\n"
 "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr[,basis])\n"
-"@DESCRIPTION=@frequency is the number of coupon payments per year. Allowed "
-"frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of "
-"day counting system you want to use:\n"
+"@DESCRIPTION=YIELDMAT FIXME. @frequency is the number of coupon payments per "
+"year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis "
+"is the type of day counting system you want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -11019,7 +11011,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2940
+#: src/functions/fn-financial.c:2942
 msgid ""
 "@FUNCTION=ODDFPRICE\n"
 "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,"
@@ -11044,14 +11036,14 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3025
+#: src/functions/fn-financial.c:3027
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
 "@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,"
 "frequency[,basis])\n"
-"@DESCRIPTION=@frequency is the number of coupon payments per year. Allowed "
-"frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of "
-"day counting system you want to use:\n"
+"@DESCRIPTION=ODDFYIELD FIXME. @frequency is the number of coupon payments "
+"per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
+"@basis is the type of day counting system you want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -11067,13 +11059,13 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3058
+#: src/functions/fn-financial.c:3061
 #, fuzzy
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
 "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,"
 "frequency[,basis])\n"
-"@DESCRIPTION=\n"
+"@DESCRIPTION=ODDLPRICE FIXME.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -11086,14 +11078,14 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3077
+#: src/functions/fn-financial.c:3081
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
 "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,"
 "frequency[,basis])\n"
-"@DESCRIPTION=@frequency is the number of coupon payments per year. Allowed "
-"frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of "
-"day counting system you want to use:\n"
+"@DESCRIPTION=ODDLYIELD FIXME.@frequency is the number of coupon payments per "
+"year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis "
+"is the type of day counting system you want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -11109,7 +11101,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3110
+#: src/functions/fn-financial.c:3115
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
 "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -11133,7 +11125,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3144
+#: src/functions/fn-financial.c:3149
 msgid ""
 "@FUNCTION=AMORLINC\n"
 "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -11157,7 +11149,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3178
+#: src/functions/fn-financial.c:3183
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
 "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])\n"
@@ -11180,7 +11172,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3234
+#: src/functions/fn-financial.c:3239
 msgid ""
 "@FUNCTION=COUPDAYS\n"
 "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis])\n"
@@ -11203,7 +11195,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3290
+#: src/functions/fn-financial.c:3295
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
 "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis])\n"
@@ -11226,7 +11218,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3346
+#: src/functions/fn-financial.c:3351
 msgid ""
 "@FUNCTION=COUPNCD\n"
 "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis])\n"
@@ -11249,7 +11241,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3401
+#: src/functions/fn-financial.c:3406
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis])\n"
@@ -11272,7 +11264,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3434
+#: src/functions/fn-financial.c:3439
 msgid ""
 "@FUNCTION=COUPNUM\n"
 "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis])\n"
@@ -11295,7 +11287,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3487
+#: src/functions/fn-financial.c:3492
 #, fuzzy
 msgid ""
 "@FUNCTION=CUMIPMT\n"
@@ -11315,7 +11307,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV"
 
-#: src/functions/fn-financial.c:3507
+#: src/functions/fn-financial.c:3512
 #, fuzzy
 msgid ""
 "@FUNCTION=CUMPRINC\n"
@@ -11331,7 +11323,7 @@ msgstr ""
 "@DESCRIPTION=Calcule la valeur actuelle d'un investissement.\n"
 "@SEEALSO=FV"
 
-#: src/functions/fn-financial.c:3527
+#: src/functions/fn-financial.c:3532
 #, fuzzy
 msgid ""
 "@FUNCTION=MDURATION\n"
@@ -11350,7 +11342,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-financial.c:3548
+#: src/functions/fn-financial.c:3553
 msgid ""
 "@FUNCTION=VDB\n"
 "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
@@ -11361,34 +11353,38 @@ msgid ""
 "@SEEALSO=DB"
 msgstr ""
 
-#: src/functions/fn-financial.c:3574
+#: src/functions/fn-financial.c:3579
 msgid "Financial"
 msgstr "Financier"
 
 #: src/functions/fn-information.c:81
-#, fuzzy
 msgid ""
 "@FUNCTION=CELL\n"
-"@SYNTAX=CELL(ref)\n"
+"@SYNTAX=CELL(type,ref)\n"
 "@DESCRIPTION=CELL returns information about the formatting, location, or "
 "contents of a cell. \n"
+"@type specifies the type of information you want to obtain:\n"
+"      address       Returns the given cell reference as text.\n"
+"     col           Returns the number of the column in @ref.\n"
+"     contents      Returns the contents of the cell in @ref.\n"
+"     format        Returns the code of the format of the cell.\n"
+"     parentheses   Returns 1 if @ref contains a negative value\n"
+"                   and it's format displays it with parentheses.\n"
+"     row           Returns the number of the row in @ref.\n"
+"     width         Returns the column width.\n"
+"\n"
+"This function is Excel compatible. \n"
 "@EXAMPLES=\n"
+"CEll(\"format\",A1) returns the code of the format of the cell A1.\n"
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=CELL\n"
-"@SYNTAX=CELL()\n"
-"@DESCRIPTION=La fonction CELL retourne des informations sur le format, "
-"l'emplacement ou le contenu d'une cellule.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
 
-#: src/functions/fn-information.c:249 src/functions/fn-information.c:410
+#: src/functions/fn-information.c:271 src/functions/fn-information.c:446
 msgid "Unknown info_type"
 msgstr "info_type Inconnu"
 
-#: src/functions/fn-information.c:255
+#: src/functions/fn-information.c:277
 msgid ""
 "@FUNCTION=EXPRESSION\n"
 "@SYNTAX=EXPRESSION(cell)\n"
@@ -11401,13 +11397,15 @@ msgid ""
 "@SEEALSO=TEXT"
 msgstr ""
 
-#: src/functions/fn-information.c:300
+#: src/functions/fn-information.c:322
+#, fuzzy
 msgid ""
 "@FUNCTION=COUNTBLANK\n"
 "@SYNTAX=COUNTBLANK(range)\n"
 "@DESCRIPTION=COUNTBLANK returns the number of blank cells in a @range. This "
 "function is Excel compatible. \n"
 "@EXAMPLES=\n"
+"COUNTBLANK(A1:A20) returns the number of blank cell in A1:A20.\n"
 "\n"
 "@SEEALSO=COUNT"
 msgstr ""
@@ -11419,38 +11417,44 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT"
 
-#: src/functions/fn-information.c:338
+#: src/functions/fn-information.c:361
 msgid ""
 "@FUNCTION=INFO\n"
-"@SYNTAX=INFO()\n"
+"@SYNTAX=INFO(type)\n"
 "@DESCRIPTION=INFO returns information about the current operating "
-"environment. This function is Excel compatible. \n"
+"environment. \n"
+"@type is the type of information you want to obtain:\n"
+"    memavail        Returns the amount of memory available (bytes).\n"
+"    memused         Returns the amount of memory used (bytes).\n"
+"    numfile         Returns the number of active worksheets.\n"
+"    osversion       Returns the operating system version.\n"
+"    recalc          Returns the recalculation mode (automatic).\n"
+"    release         Returns the version of Gnumeric as text.\n"
+"    system          Returns the name of the environment.\n"
+"    totmem          Returns the amount of total memory available.\n"
+"\n"
+"This function is Excel compatible, except that types directory and origin "
+"are not implemented. \n"
 "@EXAMPLES=\n"
+"INFO(\"system\") returns \"Linux\" on a Linux system.\n"
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=INFO\n"
-"@SYNTAX=INFO()\n"
-"@DESCRIPTION=La fonction INFO retourne des informations sur l'environnement "
-"de travail courant. Cette fonction est compatible avec Excel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
 
-#: src/functions/fn-information.c:380
+#: src/functions/fn-information.c:416
 msgid "Unknown version"
 msgstr "Version inconnue"
 
-#: src/functions/fn-information.c:382
+#: src/functions/fn-information.c:418
 #, c-format
 msgid "%s version %s"
 msgstr "%s version %s"
 
-#: src/functions/fn-information.c:400
+#: src/functions/fn-information.c:436
 msgid "Unknown system"
 msgstr "Système inconnu"
 
-#: src/functions/fn-information.c:416
+#: src/functions/fn-information.c:452
 #, fuzzy
 msgid ""
 "@FUNCTION=ISERROR\n"
@@ -11458,6 +11462,7 @@ msgid ""
 "@DESCRIPTION=ISERROR returns a TRUE value if the expression has an error\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
+"ISERROR(NA()) equals TRUE.\n"
 "\n"
 "@SEEALSO=ERROR"
 msgstr ""
@@ -11469,11 +11474,11 @@ msgstr ""
 "\n"
 "@SEEALSO=ERROR"
 
-#: src/functions/fn-information.c:439
+#: src/functions/fn-information.c:476
 msgid "Argument mismatch"
 msgstr "Arguments incompatibles"
 
-#: src/functions/fn-information.c:470
+#: src/functions/fn-information.c:507
 #, fuzzy
 msgid ""
 "@FUNCTION=ISNA\n"
@@ -11481,8 +11486,9 @@ msgid ""
 "@DESCRIPTION=ISNA returns TRUE if the value is the #N/A error value. This "
 "function is Excel compatible. \n"
 "@EXAMPLES=\n"
+"ISNA(NA()) equals TRUE.\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=NA"
 msgstr ""
 "@FUNCTION=ISNA\n"
 "@SYNTAX=ISNA()\n"
@@ -11492,7 +11498,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:504
+#: src/functions/fn-information.c:542
 #, fuzzy
 msgid ""
 "@FUNCTION=ISERR\n"
@@ -11500,8 +11506,9 @@ msgid ""
 "@DESCRIPTION=ISERR returns TRUE if the value is any error value except #N/A. "
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
+"ISERR(NA()) return FALSE.\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=ISERROR"
 msgstr ""
 "@FUNCTION=ISERR\n"
 "@SYNTAX=ISERR()\n"
@@ -11511,7 +11518,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:534
+#: src/functions/fn-information.c:573
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR(value)\n"
@@ -11530,15 +11537,16 @@ msgid ""
 "@SEEALSO=ISERROR"
 msgstr ""
 
-#: src/functions/fn-information.c:593
+#: src/functions/fn-information.c:632
+#, fuzzy
 msgid ""
 "@FUNCTION=NA\n"
 "@SYNTAX=NA()\n"
 "@DESCRIPTION=NA returns the error value #N/A. This function is Excel "
 "compatible. \n"
 "@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
+"NA() equals #N/A error.\n"
+"@SEEALSO=ISNA"
 msgstr ""
 "@FUNCTION=NA\n"
 "@SYNTAX=NA()\n"
@@ -11548,13 +11556,15 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:614
+#: src/functions/fn-information.c:653
+#, fuzzy
 msgid ""
 "@FUNCTION=ERROR\n"
 "@SYNTAX=ERROR(text)\n"
-"@DESCRIPTION=ERROR return the specified error\n"
+"@DESCRIPTION=ERROR return the specified error.\n"
 "\n"
 "@EXAMPLES=\n"
+"ERROR(\"#OWN ERROR\").\n"
 "\n"
 "@SEEALSO=ISERROR"
 msgstr ""
@@ -11566,7 +11576,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISERROR"
 
-#: src/functions/fn-information.c:634
+#: src/functions/fn-information.c:674
 #, fuzzy
 msgid ""
 "@FUNCTION=ISBLANK\n"
@@ -11574,6 +11584,7 @@ msgid ""
 "@DESCRIPTION=ISBLANK returns TRUE if the value is blank. This function is "
 "Excel compatible. \n"
 "@EXAMPLES=\n"
+"ISBLANK(A1).\n"
 "\n"
 "@SEEALSO="
 msgstr ""
@@ -11585,7 +11596,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:682
+#: src/functions/fn-information.c:723
 #, fuzzy
 msgid ""
 "@FUNCTION=ISEVEN\n"
@@ -11593,6 +11604,7 @@ msgid ""
 "@DESCRIPTION=ISEVEN returns TRUE if the number is even. This function is "
 "Excel compatible. \n"
 "@EXAMPLES=\n"
+"ISEVEN(4) equals TRUE.\n"
 "\n"
 "@SEEALSO=ISODD"
 msgstr ""
@@ -11604,7 +11616,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISODD"
 
-#: src/functions/fn-information.c:703
+#: src/functions/fn-information.c:745
 #, fuzzy
 msgid ""
 "@FUNCTION=ISLOGICAL\n"
@@ -11612,6 +11624,7 @@ msgid ""
 "@DESCRIPTION=ISLOGICAL returns TRUE if the value is a logical value. This "
 "function is Excel compatible. \n"
 "@EXAMPLES=\n"
+"ISLOGICAL(A1).\n"
 "\n"
 "@SEEALSO="
 msgstr ""
@@ -11623,7 +11636,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:732
+#: src/functions/fn-information.c:775
 #, fuzzy
 msgid ""
 "@FUNCTION=ISNONTEXT\n"
@@ -11631,6 +11644,7 @@ msgid ""
 "@DESCRIPTION=ISNONTEXT Returns TRUE if the value is not text. This function "
 "is Excel compatible. \n"
 "@EXAMPLES=\n"
+"ISNONTEXT(\"text\") equals FALSE.\n"
 "\n"
 "@SEEALSO=ISTEXT"
 msgstr ""
@@ -11642,7 +11656,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISTEXT"
 
-#: src/functions/fn-information.c:758
+#: src/functions/fn-information.c:802
 #, fuzzy
 msgid ""
 "@FUNCTION=ISNUMBER\n"
@@ -11650,6 +11664,7 @@ msgid ""
 "@DESCRIPTION=ISNUMBER returns TRUE if the value is a number. This function "
 "is Excel compatible. \n"
 "@EXAMPLES=\n"
+"ISNUMBER(\"text\") equals FALSE.\n"
 "\n"
 "@SEEALSO="
 msgstr ""
@@ -11661,7 +11676,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:784
+#: src/functions/fn-information.c:829
 #, fuzzy
 msgid ""
 "@FUNCTION=ISODD\n"
@@ -11669,6 +11684,7 @@ msgid ""
 "@DESCRIPTION=ISODD returns TRUE if the number is odd. This function is Excel "
 "compatible. \n"
 "@EXAMPLES=\n"
+"ISODD(3) equals TRUE.\n"
 "\n"
 "@SEEALSO=ISEVEN"
 msgstr ""
@@ -11680,7 +11696,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISEVEN"
 
-#: src/functions/fn-information.c:805
+#: src/functions/fn-information.c:851
 #, fuzzy
 msgid ""
 "@FUNCTION=ISREF\n"
@@ -11688,6 +11704,7 @@ msgid ""
 "@DESCRIPTION=ISREF returns TRUE if the value is a reference. This function "
 "is Excel compatible. \n"
 "@EXAMPLES=\n"
+"ISREF(A1) equals TRUE.\n"
 "\n"
 "@SEEALSO="
 msgstr ""
@@ -11699,7 +11716,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:836
+#: src/functions/fn-information.c:883
 #, fuzzy
 msgid ""
 "@FUNCTION=ISTEXT\n"
@@ -11707,6 +11724,7 @@ msgid ""
 "@DESCRIPTION=ISTEXT returns TRUE if the value is text. This function is "
 "Excel compatible. \n"
 "@EXAMPLES=\n"
+"ISTEXT(\"text\") equals TRUE.\n"
 "\n"
 "@SEEALSO=ISNONTEXT"
 msgstr ""
@@ -11718,7 +11736,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISNONTEXT"
 
-#: src/functions/fn-information.c:862
+#: src/functions/fn-information.c:910
 #, fuzzy
 msgid ""
 "@FUNCTION=N\n"
@@ -11726,6 +11744,7 @@ msgid ""
 "@DESCRIPTION=N returns a value converted to a number.  Strings containing "
 "text are converted to the zero value. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
+"N(\"42\") equals 42.\n"
 "\n"
 "@SEEALSO="
 msgstr ""
@@ -11738,7 +11757,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:900
+#: src/functions/fn-information.c:949
 #, fuzzy
 msgid ""
 "@FUNCTION=TYPE\n"
@@ -11746,6 +11765,8 @@ msgid ""
 "@DESCRIPTION=TYPE returns a number indicating the data type of a value. This "
 "function is Excel compatible. \n"
 "@EXAMPLES=\n"
+"TYPE(3) equals 1.\n"
+"TYPE(\"text\") equals 2.\n"
 "\n"
 "@SEEALSO="
 msgstr ""
@@ -11757,7 +11778,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:929
+#: src/functions/fn-information.c:980
 msgid "Information"
 msgstr "Information"
 
@@ -11825,7 +11846,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AND, OR"
 
-#: src/functions/fn-logical.c:101 src/functions/fn-string.c:488
+#: src/functions/fn-logical.c:101 src/functions/fn-string.c:502
 msgid "Type Mismatch"
 msgstr "Types Incompatibles"
 
@@ -11945,6 +11966,9 @@ msgid ""
 "reference.  \n"
 "If @row_num or @col_num is less than one, ADDRESS returns #NUM! error. \n"
 "@EXAMPLES=\n"
+"ADDRESS(5,4) equals \"$D$5\".\n"
+"ADDRESS(5,4,4) equals \"D5\".\n"
+"ADDRESS(5,4,3,FALSE) equals \"R[5]C4\".\n"
 "\n"
 "@SEEALSO="
 msgstr ""
@@ -11966,7 +11990,7 @@ msgstr ""
 "NUM. \n"
 "@SEEALSO="
 
-#: src/functions/fn-lookup.c:423
+#: src/functions/fn-lookup.c:426
 #, fuzzy
 msgid ""
 "@FUNCTION=CHOOSE\n"
@@ -11975,6 +11999,7 @@ msgid ""
 "an integer if it is not.\n"
 "If @index < 1 or @index > number of values: returns #VAL!.\n"
 "@EXAMPLES=\n"
+"CHOOSE(3,\"Apple\",\"Orange\",\"Grape\",\"Perry\") equals \"Grape\".\n"
 "\n"
 "@SEEALSO=IF"
 msgstr ""
@@ -11986,11 +12011,11 @@ msgstr ""
 "l'erreur #VAL!.\n"
 "@SEEALSO=IF"
 
-#: src/functions/fn-lookup.c:447
+#: src/functions/fn-lookup.c:451
 msgid "#ARG!"
 msgstr "#ARG!"
 
-#: src/functions/fn-lookup.c:474
+#: src/functions/fn-lookup.c:478
 #, fuzzy
 msgid ""
 "@FUNCTION=VLOOKUP\n"
@@ -12021,7 +12046,7 @@ msgstr ""
 "tombe en dehors d'@intervalle.\n"
 "@SEEALSO=HLOOKUP"
 
-#: src/functions/fn-lookup.c:535
+#: src/functions/fn-lookup.c:539
 #, fuzzy
 msgid ""
 "@FUNCTION=HLOOKUP\n"
@@ -12050,15 +12075,15 @@ msgstr ""
 "tombe en dehors de l'intervalle.\n"
 "@SEEALSO=VLOOKUP"
 
-#: src/functions/fn-lookup.c:596
+#: src/functions/fn-lookup.c:600
 #, fuzzy
 msgid ""
 "@FUNCTION=LOOKUP\n"
 "@SYNTAX=LOOKUP(value,vector1,vector2)\n"
-"@DESCRIPTION=The LOOKUP function finds the row index of 'value' in @vector1 "
-"and returns the contents of value2 at that row index. If the area is longer "
-"than it is wide then the sense of the search is rotated. Alternatively a "
-"single array can be used.\n"
+"@DESCRIPTION=LOOKUP function finds the row index of 'value' in @vector1 and "
+"returns the contents of value2 at that row index. If the area is longer than "
+"it is wide then the sense of the search is rotated. Alternatively a single "
+"array can be used.\n"
 "If LOOKUP can't find @value it uses the next largest value less than value. "
 "The data must be sorted. \n"
 "If @value is smaller than the first value it returns #N/A\n"
@@ -12075,12 +12100,12 @@ msgstr ""
 "Si @valeur est inférieur à la première valeur, la fonction retourne #N/A\n"
 "@SEEALSO=VLOOKUP,HLOOKUP"
 
-#: src/functions/fn-lookup.c:663
+#: src/functions/fn-lookup.c:667
 #, fuzzy
 msgid ""
 "@FUNCTION=MATCH\n"
 "@SYNTAX=MATCH(seek,vector[,type])\n"
-"@DESCRIPTION=The MATCH function finds the row index of @seek in @vector and "
+"@DESCRIPTION=MATCH function finds the row index of @seek in @vector and "
 "returns it. If the area is longer than it is wide then the sense of the "
 "search is rotated. Alternatively a single array can be used.\n"
 "The @type parameter, which defaults to +1, controls the search:\n"
@@ -12105,7 +12130,7 @@ msgstr ""
 "Si @valeur est inférieur à la première valeur, la fonction retourne #N/A\n"
 "@SEEALSO=VLOOKUP,HLOOKUP"
 
-#: src/functions/fn-lookup.c:723
+#: src/functions/fn-lookup.c:727
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text,[format])\n"
@@ -12115,17 +12140,19 @@ msgid ""
 "boolean, which defaults to the former.\n"
 "If @ref_text is not a valid reference returns #REF! \n"
 "@EXAMPLES=\n"
+"If A1 contains 3.14 and A2 contains A1, then\n"
+"INDIRECT(A2) equals 3.14.\n"
 "\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-lookup.c:782
+#: src/functions/fn-lookup.c:788
 #, fuzzy
 msgid ""
 "@FUNCTION=INDEX\n"
 "@SYNTAX=INDEX(reference,[row, col, area])\n"
-"@DESCRIPTION=The INDEX function returns a reference to the cell at a offset "
-"into the reference specified by row, col.\n"
+"@DESCRIPTION=INDEX function returns a reference to the cell at a offset into "
+"the reference specified by row, col.\n"
 "If things go wrong returns #REF! \n"
 "@EXAMPLES=\n"
 "\n"
@@ -12139,16 +12166,17 @@ msgstr ""
 "fonction retourne l'erreur #VALEUR!\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: src/functions/fn-lookup.c:828
+#: src/functions/fn-lookup.c:834
 #, fuzzy
 msgid ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([reference])\n"
-"@DESCRIPTION=The COLUMN function returns an array of the column numbers "
-"taking a default argument of the containing cell position.\n"
+"@DESCRIPTION=COLUMN function returns an array of the column numbers taking a "
+"default argument of the containing cell position.\n"
 "If @reference is neither an array nor a reference nor a range returns "
 "#VALUE!.\n"
 "@EXAMPLES=\n"
+"COLUMN() in E1 equals 5.\n"
 "\n"
 "@SEEALSO=COLUMNS,ROW,ROWS"
 msgstr ""
@@ -12161,16 +12189,17 @@ msgstr ""
 "fonction retourne l'erreur #VALEUR!\n"
 "@SEEALSO=COLUMNS,ROW,ROWS"
 
-#: src/functions/fn-lookup.c:880
+#: src/functions/fn-lookup.c:887
 #, fuzzy
 msgid ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(reference)\n"
-"@DESCRIPTION=The COLUMNS function returns the number of columns in area or "
-"array reference.\n"
+"@DESCRIPTION=COLUMNS function returns the number of columns in area or array "
+"reference.\n"
 "If @reference is neither an array nor a reference nor a range returns "
 "#VALUE!.\n"
 "@EXAMPLES=\n"
+"COLUMNS(H2:J3) equals 3.\n"
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 msgstr ""
@@ -12182,14 +12211,13 @@ msgstr ""
 "fonction retourne l'erreur #VALEUR!\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: src/functions/fn-lookup.c:905
+#: src/functions/fn-lookup.c:913
 #, fuzzy
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col,height,width)\n"
-"@DESCRIPTION=The OFFSET function returns a cell range. The cell range starts "
-"at offset (@col,@row) from @range, and is of height @height and width "
-"@width.\n"
+"@DESCRIPTION=OFFSET function returns a cell range. The cell range starts at "
+"offset (@col,@row) from @range, and is of height @height and width @width.\n"
 "If range is neither a reference nor a range returns #VALUE!.  If either "
 "height or width is omitted the height or width of the reference is used.\n"
 "@EXAMPLES=\n"
@@ -12206,16 +12234,17 @@ msgstr ""
 "sont utilisées.\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
-#: src/functions/fn-lookup.c:968
+#: src/functions/fn-lookup.c:976
 #, fuzzy
 msgid ""
 "@FUNCTION=ROW\n"
 "@SYNTAX=ROW([reference])\n"
-"@DESCRIPTION=The ROW function returns an array of the row numbers taking a "
+"@DESCRIPTION=ROW function returns an array of the row numbers taking a "
 "default argument of the containing cell position.\n"
 "If @reference is neither an array nor a reference nor a range returns "
 "#VALUE!.\n"
 "@EXAMPLES=\n"
+"ROW() in G13 equals 13.\n"
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 msgstr ""
@@ -12228,16 +12257,17 @@ msgstr ""
 "fonction retourne l'erreur #VALEUR!\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
-#: src/functions/fn-lookup.c:1020
+#: src/functions/fn-lookup.c:1029
 #, fuzzy
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
-"@DESCRIPTION=The ROWS function returns the number of rows in area or array "
+"@DESCRIPTION=ROWS function returns the number of rows in area or array "
 "reference.\n"
 "If @reference is neither an array nor a reference nor a range returns "
 "#VALUE!.\n"
 "@EXAMPLES=\n"
+"ROWS(H7:I13) equals 7.\n"
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 msgstr ""
@@ -12249,15 +12279,16 @@ msgstr ""
 "fonction retourne l'erreur #VALEUR!\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: src/functions/fn-lookup.c:1045
+#: src/functions/fn-lookup.c:1055
 #, fuzzy
 msgid ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(link_location, optional_label)\n"
-"@DESCRIPTION=The HYPERLINK function currently returns its 2nd argument, or "
-"if that is omitted the 1st argument.\n"
+"@DESCRIPTION=HYPERLINK function currently returns its 2nd argument, or if "
+"that is omitted the 1st argument.\n"
 "\n"
 "@EXAMPLES=\n"
+"HYPERLINK(\"www.gnome.org\",\"GNOME\").\n"
 "\n"
 "@SEEALSO="
 msgstr ""
@@ -12268,7 +12299,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-lookup.c:1070
+#: src/functions/fn-lookup.c:1081
 #, fuzzy
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
@@ -12284,7 +12315,7 @@ msgstr ""
 "fournie en paramètre.\n"
 "@SEEALSO=MMULT"
 
-#: src/functions/fn-lookup.c:1118
+#: src/functions/fn-lookup.c:1129
 msgid "Data / Lookup"
 msgstr "Données / Recherche"
 
@@ -12794,7 +12825,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(a)\n"
-"@DESCRIPTION=The INT function returns the largest integer that is not bigger "
+"@DESCRIPTION=INT function returns the largest integer that is not bigger "
 "than its argument. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "INT(7.2) equals 7.\n"
@@ -13268,8 +13299,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
-"@DESCRIPTION=The TANH function returns the hyperbolic tangent of @x, which "
-"is defined mathematically as sinh(@x) / cosh(@x). This function is Excel "
+"@DESCRIPTION=TANH function returns the hyperbolic tangent of @x, which is "
+"defined mathematically as sinh(@x) / cosh(@x). This function is Excel "
 "compatible. \n"
 "@EXAMPLES=\n"
 "TANH(2) equals 0.96402758.\n"
@@ -13666,7 +13697,7 @@ msgstr ""
 #: src/functions/fn-math.c:2481 src/functions/fn-math.c:2500
 #: src/functions/fn-math.c:2594 src/functions/fn-math.c:2614
 #: src/functions/fn-math.c:2706 src/functions/fn-math.c:2726
-#: src/functions/fn-stat.c:2609 src/functions/fn-stat.c:2639
+#: src/functions/fn-stat.c:2618 src/functions/fn-stat.c:2648
 msgid "Array version not implemented!"
 msgstr "Version tableau non implémentée!"
 
@@ -13912,7 +13943,7 @@ msgstr ""
 "Cette fonction est compatible avec Excel.\n"
 "@SEEALSO=SUM,PRODUCT"
 
-#: src/functions/fn-math.c:3345
+#: src/functions/fn-math.c:3348
 msgid "Maths / Trig."
 msgstr "Maths / Trig."
 
@@ -13920,24 +13951,26 @@ msgstr "Maths / Trig."
 msgid ""
 "@FUNCTION=SELECTION\n"
 "@SYNTAX=SELECTION(permit_intersection)\n"
-"@DESCRIPTION=The SELECTION function returns a list with the values in the "
-"current selection. This is usually used to implement on-the-fly computation "
-"of values. If @permit_intersection is TRUE the user specifed selection "
-"ranges are returned, EVEN IF THEY OVERLAP.  If @permit_intersection is FALSE "
-"a distict set of regions is returned, however, there may be more of them "
-"than the user initially specified.\n"
+"@DESCRIPTION=SELECTION function returns a list with the values in the "
+"current selection.  This is usually used to implement on-the-fly computation "
+"of values.\n"
+"If @permit_intersection is TRUE the user specifed selection ranges are "
+"returned, EVEN IF THEY OVERLAP.  If @permit_intersection is FALSE a distict "
+"set of regions is returned, however, there may be more of them than the user "
+"initially specified.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-sheet.c:99
+#: src/functions/fn-sheet.c:101
 #, fuzzy
 msgid ""
 "@FUNCTION=GNUMERIC_VERSION\n"
 "@SYNTAX=GNUMERIC_VERSION()\n"
-"@DESCRIPTION=Return the version of gnumeric as a string.\n"
+"@DESCRIPTION=GNUMERIC_VERSION return the version of gnumeric as a string.\n"
 "@EXAMPLES=\n"
+"GNUMERIC_VERSION().\n"
 "\n"
 "@SEEALSO="
 msgstr ""
@@ -14049,6 +14082,7 @@ msgstr ""
 "@SEEALSO=STDEV,VAR,MEAN"
 
 #: src/functions/fn-stat.c:283
+#, fuzzy
 msgid ""
 "@FUNCTION=RANK\n"
 "@SYNTAX=RANK(x,ref[,order])\n"
@@ -14058,11 +14092,23 @@ msgid ""
 "descending order, otherwise numbers are ranked in ascending order. This "
 "function is Excel compatible. \n"
 "@EXAMPLES=\n"
+"Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
+"21.3, 25.9, and 40.1.  Then\n"
+"RANK(17.3A1:A5) equals 4.\n"
 "\n"
 "@SEEALSO=PERCENTRANK"
 msgstr ""
+"@FUNCTION=MAX\n"
+"@SYNTAX=MAX(b1, b2, ...)\n"
+"@DESCRIPTION=MAX retourne la plus grande valeur parmis les paramètres qui "
+"lui ont été passés. Les nombles négatifs sont considérés comme plus petits "
+"que les nombres positifs.\n"
+"Cette fonction ne retourne rien si elle est utilisée sur des chaînes de "
+"caractères ou des cellules vides.\n"
+"@SEEALSO=MIN,ABS"
 
-#: src/functions/fn-stat.c:372
+#: src/functions/fn-stat.c:375
+#, fuzzy
 msgid ""
 "@FUNCTION=TRIMMEAN\n"
 "@SYNTAX=TRIMMEAN(ref,fraction)\n"
@@ -14073,11 +14119,22 @@ msgid ""
 "from the data set (40 x 0.2), 4 from the top and 4 from the bottom of the "
 "set. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
+"Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
+"21.3, 25.9, and 40.1.  Then\n"
+"TRIMMEAN(A1:A5,0.2) equals 23.2.\n"
 "\n"
 "@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE"
 msgstr ""
+"@FUNCTION=MEDIAN\n"
+"@SYNTAX=MEDIAN(na, n2, ...)\n"
+"@DESCRIPTION=La fonction MEDIAN retourne la valeur médiane d'un ensemble de "
+"données.\n"
+"Les chaînes et les cellules vides sont simplement ignorées.\n"
+"Si un nombre pair de valeurs est fourni, MEDIAN retourne la moyenne des deux "
+"nombres du milieu.\n"
+"@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM"
 
-#: src/functions/fn-stat.c:431
+#: src/functions/fn-stat.c:437
 #, fuzzy
 msgid ""
 "@FUNCTION=COVAR\n"
@@ -14101,7 +14158,7 @@ msgstr ""
 "Cette fonction est compatible avec Excel.\n"
 "@SEEALSO=COVAR,FISHER,FISHERINV"
 
-#: src/functions/fn-stat.c:463
+#: src/functions/fn-stat.c:469
 #, fuzzy
 msgid ""
 "@FUNCTION=CORREL\n"
@@ -14125,7 +14182,7 @@ msgstr ""
 "Cette fonction est compatible avec Excel.\n"
 "@SEEALSO=COVAR,FISHER,FISHERINV"
 
-#: src/functions/fn-stat.c:495
+#: src/functions/fn-stat.c:501
 #, fuzzy
 msgid ""
 "@FUNCTION=NEGBINOMDIST\n"
@@ -14152,7 +14209,7 @@ msgstr ""
 "Cette fonction est compatible avec Excel.\n"
 "@SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT"
 
-#: src/functions/fn-stat.c:534
+#: src/functions/fn-stat.c:540
 #, fuzzy
 msgid ""
 "@FUNCTION=NORMSDIST\n"
@@ -14174,7 +14231,7 @@ msgstr ""
 "Cette fonction est compatible avec Excel.\n"
 "@SEEALSO=NORMDIST"
 
-#: src/functions/fn-stat.c:561
+#: src/functions/fn-stat.c:567
 #, fuzzy
 msgid ""
 "@FUNCTION=NORMSINV\n"
@@ -14197,7 +14254,7 @@ msgstr ""
 "Cette fonction est compatible avec Excel.\n"
 "@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST"
 
-#: src/functions/fn-stat.c:594
+#: src/functions/fn-stat.c:600
 #, fuzzy
 msgid ""
 "@FUNCTION=LOGNORMDIST\n"
@@ -14225,7 +14282,7 @@ msgstr ""
 "@moyenne<0 ou @écart_type<0, LOGNORMDIST retourne l'erreur #NUM!.\n"
 "@SEEALSO=NORMDIST"
 
-#: src/functions/fn-stat.c:635
+#: src/functions/fn-stat.c:641
 #, fuzzy
 msgid ""
 "@FUNCTION=LOGINV\n"
@@ -14252,7 +14309,7 @@ msgstr ""
 "Cette fonction est compatible avec Excel.\n"
 "@SEEALSO=EXP,LN,LOG,LOG10,LOGNORMDIST"
 
-#: src/functions/fn-stat.c:672
+#: src/functions/fn-stat.c:678
 #, fuzzy
 msgid ""
 "@FUNCTION=FISHERINV\n"
@@ -14274,7 +14331,7 @@ msgstr ""
 "Cette fonction est compatible avec Excel.\n"
 "@SEEALSO=FISHER"
 
-#: src/functions/fn-stat.c:700
+#: src/functions/fn-stat.c:706
 #, fuzzy
 msgid ""
 "@FUNCTION=MODE\n"
@@ -14285,6 +14342,9 @@ msgid ""
 "any duplicates MODE returns #N/A! error. This function is Excel "
 "compatible. \n"
 "@EXAMPLES=\n"
+"Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
+"11.4, 25.9, and 40.1.  Then\n"
+"MODE(A1:A5) equals 11.4.\n"
 "\n"
 "@SEEALSO=AVERAGE,MEDIAN"
 msgstr ""
@@ -14298,7 +14358,7 @@ msgstr ""
 "Cette fonction est compatible avec Excel.\n"
 "@SEEALSO=AVERAGE,MEDIAN"
 
-#: src/functions/fn-stat.c:733
+#: src/functions/fn-stat.c:742
 #, fuzzy
 msgid ""
 "@FUNCTION=HARMEAN\n"
@@ -14321,7 +14381,7 @@ msgstr ""
 "Cette fonction est compatible avec Excel.\n"
 "@SEEALSO=GEOMEAN,MEDIAN,MEAN,MODE"
 
-#: src/functions/fn-stat.c:765
+#: src/functions/fn-stat.c:774
 #, fuzzy
 msgid ""
 "@FUNCTION=GEOMEAN\n"
@@ -14343,7 +14403,7 @@ msgstr ""
 "Cette fonction n'a aucun effet sur une chaîne ou une cellule vide.\n"
 "@SEEALSO=HARMEAN,MEDIAN,MEAN,MODE"
 
-#: src/functions/fn-stat.c:796
+#: src/functions/fn-stat.c:805
 #, fuzzy
 msgid ""
 "@FUNCTION=COUNT\n"
@@ -14364,7 +14424,7 @@ msgstr ""
 "une cellule vide.\n"
 "@SEEALSO=AVERAGE"
 
-#: src/functions/fn-stat.c:838
+#: src/functions/fn-stat.c:847
 #, fuzzy
 msgid ""
 "@FUNCTION=COUNTA\n"
@@ -14384,7 +14444,7 @@ msgstr ""
 "sans y inclure les cellules vides.\n"
 "@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM"
 
-#: src/functions/fn-stat.c:880
+#: src/functions/fn-stat.c:889
 #, fuzzy
 msgid ""
 "@FUNCTION=AVERAGE\n"
@@ -14407,7 +14467,7 @@ msgstr ""
 "divisée par le nombre des arguments.\n"
 "@SEEALSO=SUM, COUNT"
 
-#: src/functions/fn-stat.c:912
+#: src/functions/fn-stat.c:921
 #, fuzzy
 msgid ""
 "@FUNCTION=MIN\n"
@@ -14431,7 +14491,7 @@ msgstr ""
 "caractères ou des cellules vides.\n"
 "@SEEALSO=MAX,ABS"
 
-#: src/functions/fn-stat.c:954
+#: src/functions/fn-stat.c:963
 #, fuzzy
 msgid ""
 "@FUNCTION=MAX\n"
@@ -14455,14 +14515,14 @@ msgstr ""
 "caractères ou des cellules vides.\n"
 "@SEEALSO=MIN,ABS"
 
-#: src/functions/fn-stat.c:996
+#: src/functions/fn-stat.c:1005
 #, fuzzy
 msgid ""
 "@FUNCTION=SKEW\n"
 "@SYNTAX=SKEW(n1, n2, ...)\n"
 "@DESCRIPTION=SKEW returns an unbiased estimate for skewness of a "
 "distribution.\n"
-"Note, that this is only meaningful is the underlying distribution really has "
+"Note, that this is only meaningful if the underlying distribution really has "
 "a third moment.  The skewness of a symmetric (e.g., normal) distribution is "
 "zero.\n"
 "Strings and empty cells are simply ignored.\n"
@@ -14484,7 +14544,7 @@ msgstr ""
 "nombres.\n"
 "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM"
 
-#: src/functions/fn-stat.c:1034
+#: src/functions/fn-stat.c:1043
 #, fuzzy
 msgid ""
 "@FUNCTION=SKEWP\n"
@@ -14508,7 +14568,7 @@ msgstr ""
 "nombres.\n"
 "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM"
 
-#: src/functions/fn-stat.c:1067
+#: src/functions/fn-stat.c:1076
 #, fuzzy
 msgid ""
 "@FUNCTION=EXPONDIST\n"
@@ -14532,7 +14592,7 @@ msgstr ""
 "est utilisée sur une chaîne ou une cellule vide.\n"
 "@SEEALSO=POISSON"
 
-#: src/functions/fn-stat.c:1110
+#: src/functions/fn-stat.c:1119
 #, fuzzy
 msgid ""
 "@FUNCTION=GAMMALN\n"
@@ -14553,7 +14613,7 @@ msgstr ""
 "une cellule vide.\n"
 "@SEEALSO=POISSON"
 
-#: src/functions/fn-stat.c:1147
+#: src/functions/fn-stat.c:1156
 #, fuzzy
 msgid ""
 "@FUNCTION=GAMMADIST\n"
@@ -14577,7 +14637,7 @@ msgstr ""
 "GAMMADIST retourne l'erreur #NUM!. \n"
 "@SEEALSO=GAMMAINV"
 
-#: src/functions/fn-stat.c:1188
+#: src/functions/fn-stat.c:1197
 #, fuzzy
 msgid ""
 "@FUNCTION=GAMMAINV\n"
@@ -14599,7 +14659,7 @@ msgstr ""
 "<= 0 ou @beta <= 0, la fonction GAMMAINV retourne l'erreur #NUM!. \n"
 "@SEEALSO=GAMMADIST"
 
-#: src/functions/fn-stat.c:1224
+#: src/functions/fn-stat.c:1233
 #, fuzzy
 msgid ""
 "@FUNCTION=CHIDIST\n"
@@ -14621,7 +14681,7 @@ msgstr ""
 "CHIDIST retourne l'erreur #NUM!.\n"
 "@SEEALSO=CHIINV,CHITEST"
 
-#: src/functions/fn-stat.c:1260
+#: src/functions/fn-stat.c:1269
 #, fuzzy
 msgid ""
 "@FUNCTION=CHIINV\n"
@@ -14643,7 +14703,7 @@ msgstr ""
 "#NUM!.\n"
 "@SEEALSO=CHIDIST,CHITEST"
 
-#: src/functions/fn-stat.c:1294
+#: src/functions/fn-stat.c:1303
 #, fuzzy
 msgid ""
 "@FUNCTION=CHITEST\n"
@@ -14666,7 +14726,7 @@ msgstr ""
 "données. \n"
 "@SEEALSO=CHIDIST,CHIINV"
 
-#: src/functions/fn-stat.c:1432
+#: src/functions/fn-stat.c:1441
 #, fuzzy
 msgid ""
 "@FUNCTION=BETADIST\n"
@@ -14693,7 +14753,7 @@ msgstr ""
 "l'erreur #NUM!.\n"
 "@SEEALSO=BETAINV"
 
-#: src/functions/fn-stat.c:1472
+#: src/functions/fn-stat.c:1481
 #, fuzzy
 msgid ""
 "@FUNCTION=BETAINV\n"
@@ -14721,7 +14781,7 @@ msgstr ""
 "l'erreur #NUM!. \n"
 "@SEEALSO=BETADIST"
 
-#: src/functions/fn-stat.c:1512
+#: src/functions/fn-stat.c:1521
 #, fuzzy
 msgid ""
 "@FUNCTION=TDIST\n"
@@ -14745,7 +14805,7 @@ msgstr ""
 "TDIST retourne l'erreur #NUM!. \n"
 "@SEEALSO=TINV,TTEST"
 
-#: src/functions/fn-stat.c:1552
+#: src/functions/fn-stat.c:1561
 #, fuzzy
 msgid ""
 "@FUNCTION=TINV\n"
@@ -14766,7 +14826,7 @@ msgstr ""
 "Si @p < 0 ou @p > 1 ou @ddf < 1, TINV retourne l'erreur #NUM!. \n"
 "@SEEALSO=TDIST,TTEST"
 
-#: src/functions/fn-stat.c:1586
+#: src/functions/fn-stat.c:1595
 #, fuzzy
 msgid ""
 "@FUNCTION=FDIST\n"
@@ -14790,7 +14850,7 @@ msgstr ""
 "retourne l'erreur #NUM!. \n"
 "@SEEALSO=FINV"
 
-#: src/functions/fn-stat.c:1623
+#: src/functions/fn-stat.c:1632
 #, fuzzy
 msgid ""
 "@FUNCTION=FINV\n"
@@ -14812,7 +14872,7 @@ msgstr ""
 "1, FINV retourne l'erreur #NUM!.\n"
 "@SEEALSO=FDIST"
 
-#: src/functions/fn-stat.c:1659
+#: src/functions/fn-stat.c:1668
 #, fuzzy
 msgid ""
 "@FUNCTION=BINOMDIST\n"
@@ -14842,7 +14902,7 @@ msgstr ""
 "@p > 1, BINOMDIST retourne l'erreur #NUM!. \n"
 "@SEEALSO=POISSON"
 
-#: src/functions/fn-stat.c:1705
+#: src/functions/fn-stat.c:1714
 #, fuzzy
 msgid ""
 "@FUNCTION=CRITBINOM\n"
@@ -14871,7 +14931,7 @@ msgstr ""
 "retourne l'erreur #NUM!. \n"
 "@SEEALSO=BINOMDIST"
 
-#: src/functions/fn-stat.c:1745
+#: src/functions/fn-stat.c:1754
 #, fuzzy
 msgid ""
 "@FUNCTION=PERMUT\n"
@@ -14895,7 +14955,7 @@ msgstr ""
 "retourne l'erreur #NUM!. \n"
 "@SEEALSO=COMBIN"
 
-#: src/functions/fn-stat.c:1780
+#: src/functions/fn-stat.c:1789
 #, fuzzy
 msgid ""
 "@FUNCTION=HYPGEOMDIST\n"
@@ -14922,7 +14982,7 @@ msgstr ""
 "HYPGEOMDIST retourne l'erreur #NUM!. \n"
 "@SEEALSO=BINOMDIST,POISSON"
 
-#: src/functions/fn-stat.c:1820
+#: src/functions/fn-stat.c:1829
 #, fuzzy
 msgid ""
 "@FUNCTION=CONFIDENCE\n"
@@ -14948,7 +15008,7 @@ msgstr ""
 "l'erreur #DIV/0!. \n"
 "@SEEALSO=AVERAGE"
 
-#: src/functions/fn-stat.c:1861
+#: src/functions/fn-stat.c:1870
 #, fuzzy
 msgid ""
 "@FUNCTION=STANDARDIZE\n"
@@ -14971,7 +15031,7 @@ msgstr ""
 "Si @écart-type = 0, STANDARDIZE retourne l'erreur #DIV/0!.\n"
 "@SEEALSO=AVERAGE"
 
-#: src/functions/fn-stat.c:1899
+#: src/functions/fn-stat.c:1908
 #, fuzzy
 msgid ""
 "@FUNCTION=WEIBULL\n"
@@ -14997,7 +15057,7 @@ msgstr ""
 "WEIBULL retourne une erreur #NUM!. \n"
 "@SEEALSO=POISSON"
 
-#: src/functions/fn-stat.c:1945
+#: src/functions/fn-stat.c:1954
 #, fuzzy
 msgid ""
 "@FUNCTION=NORMDIST\n"
@@ -15020,7 +15080,7 @@ msgstr ""
 "Si @écart_type = 0, NORMDIST retourne l'erreur #DIV/0!. \n"
 "@SEEALSO=POISSON"
 
-#: src/functions/fn-stat.c:1990
+#: src/functions/fn-stat.c:1999
 #, fuzzy
 msgid ""
 "@FUNCTION=NORMINV\n"
@@ -15045,7 +15105,7 @@ msgstr ""
 "Si @p < 0 ou @p > 1 ou @écart_type <= 0, NORMINV retourne l'erreur #NUM!. \n"
 "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST"
 
-#: src/functions/fn-stat.c:2028
+#: src/functions/fn-stat.c:2037
 #, fuzzy
 msgid ""
 "@FUNCTION=KURT\n"
@@ -15074,7 +15134,7 @@ msgstr ""
 "nombres.\n"
 "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM"
 
-#: src/functions/fn-stat.c:2068
+#: src/functions/fn-stat.c:2077
 #, fuzzy
 msgid ""
 "@FUNCTION=KURTP\n"
@@ -15099,7 +15159,7 @@ msgstr ""
 "nombres.\n"
 "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM"
 
-#: src/functions/fn-stat.c:2102
+#: src/functions/fn-stat.c:2111
 #, fuzzy
 msgid ""
 "@FUNCTION=AVEDEV\n"
@@ -15121,7 +15181,7 @@ msgstr ""
 "une cellule vide.\n"
 "@SEEALSO=STDEV"
 
-#: src/functions/fn-stat.c:2133
+#: src/functions/fn-stat.c:2142
 #, fuzzy
 msgid ""
 "@FUNCTION=DEVSQ\n"
@@ -15144,7 +15204,7 @@ msgstr ""
 "Les chaînes et les cellules vides sont ignorées.\n"
 "@SEEALSO=STDEV"
 
-#: src/functions/fn-stat.c:2166
+#: src/functions/fn-stat.c:2175
 #, fuzzy
 msgid ""
 "@FUNCTION=FISHER\n"
@@ -15164,7 +15224,7 @@ msgstr ""
 "@x >=1 , FISHER retourne l'erreur #NUM!.\n"
 "@SEEALSO=SKEW"
 
-#: src/functions/fn-stat.c:2201
+#: src/functions/fn-stat.c:2210
 #, fuzzy
 msgid ""
 "@FUNCTION=POISSON\n"
@@ -15190,7 +15250,7 @@ msgstr ""
 "retourne l'erreur #NUM!. Si @moyenne <= 0, POISSON retourne l'erreur #NUM!.\n"
 "@SEEALSO=NORMDIST, WEIBULL"
 
-#: src/functions/fn-stat.c:2244
+#: src/functions/fn-stat.c:2253
 #, fuzzy
 msgid ""
 "@FUNCTION=PEARSON\n"
@@ -15210,7 +15270,7 @@ msgstr ""
 "Les chaînes et les cellules vides sont ignorées.\n"
 "@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX"
 
-#: src/functions/fn-stat.c:2269
+#: src/functions/fn-stat.c:2278
 #, fuzzy
 msgid ""
 "@FUNCTION=RSQ\n"
@@ -15231,7 +15291,7 @@ msgstr ""
 "Les chaînes et les cellules vides sont simplement ignorées.\n"
 "@SEEALSO=CORREL,COVAR,INTERPCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND"
 
-#: src/functions/fn-stat.c:2299
+#: src/functions/fn-stat.c:2308
 #, fuzzy
 msgid ""
 "@FUNCTION=MEDIAN\n"
@@ -15256,7 +15316,7 @@ msgstr ""
 "nombres du milieu.\n"
 "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM"
 
-#: src/functions/fn-stat.c:2333
+#: src/functions/fn-stat.c:2342
 #, fuzzy
 msgid ""
 "@FUNCTION=LARGE\n"
@@ -15282,7 +15342,7 @@ msgstr ""
 "retourne également #NUM!. \n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL"
 
-#: src/functions/fn-stat.c:2380
+#: src/functions/fn-stat.c:2389
 #, fuzzy
 msgid ""
 "@FUNCTION=SMALL\n"
@@ -15308,7 +15368,7 @@ msgstr ""
 "retourne également #NUM!. \n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE"
 
-#: src/functions/fn-stat.c:2451
+#: src/functions/fn-stat.c:2460
 #, fuzzy
 msgid ""
 "@FUNCTION=PROB\n"
@@ -15336,7 +15396,7 @@ msgstr ""
 "nombre différent de données, PROB retourne l'erreur #N/A!. \n"
 "@SEEALSO=BINOMDIST,CRITBINOM"
 
-#: src/functions/fn-stat.c:2545
+#: src/functions/fn-stat.c:2554
 #, fuzzy
 msgid ""
 "@FUNCTION=STEYX\n"
@@ -15362,7 +15422,7 @@ msgstr ""
 "d'arguments, alors STEYX retourne l'erreur #N/A!.\n"
 "@SEEALSO=PEARSON,RSQ,SLOPE"
 
-#: src/functions/fn-stat.c:2700
+#: src/functions/fn-stat.c:2709
 #, fuzzy
 msgid ""
 "@FUNCTION=ZTEST\n"
@@ -15386,7 +15446,7 @@ msgstr ""
 "Si @ref contient moins de deux éléments, ZTEST retourne l'erreur #DIV/0!.\n"
 "@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE"
 
-#: src/functions/fn-stat.c:2781
+#: src/functions/fn-stat.c:2790
 #, fuzzy
 msgid ""
 "@FUNCTION=AVERAGEA\n"
@@ -15412,7 +15472,7 @@ msgstr ""
 "compté comme la valeur un (1). Les cellules vides ne sont pas comptées.\n"
 "@SEEALSO=AVERAGE"
 
-#: src/functions/fn-stat.c:2816
+#: src/functions/fn-stat.c:2825
 #, fuzzy
 msgid ""
 "@FUNCTION=MAXA\n"
@@ -15439,7 +15499,7 @@ msgstr ""
 "compté comme la valeur un (1). Les cellules vides ne sont pas comptées.\n"
 "@SEEALSO=MAX,MINA"
 
-#: src/functions/fn-stat.c:2851
+#: src/functions/fn-stat.c:2860
 #, fuzzy
 msgid ""
 "@FUNCTION=MINA\n"
@@ -15466,7 +15526,7 @@ msgstr ""
 "compté comme la valeur un (1). Les cellules vides ne sont pas comptées.\n"
 "@SEEALSO=MIN,MAXA"
 
-#: src/functions/fn-stat.c:2886
+#: src/functions/fn-stat.c:2895
 #, fuzzy
 msgid ""
 "@FUNCTION=VARA\n"
@@ -15492,7 +15552,7 @@ msgstr ""
 "compté comme la valeur un (1). Les cellules vides ne sont pas comptées.\n"
 "@SEEALSO=VAR,VARPA"
 
-#: src/functions/fn-stat.c:2921
+#: src/functions/fn-stat.c:2930
 #, fuzzy
 msgid ""
 "@FUNCTION=VARPA\n"
@@ -15519,7 +15579,7 @@ msgstr ""
 "compté comme la valeur un (1). Les cellules vides ne sont pas comptées.\n"
 "@SEEALSO=VARP"
 
-#: src/functions/fn-stat.c:2956
+#: src/functions/fn-stat.c:2965
 #, fuzzy
 msgid ""
 "@FUNCTION=STDEVA\n"
@@ -15546,7 +15606,7 @@ msgstr ""
 "compté comme la valeur un (1). Les cellules vides ne sont pas comptées.\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: src/functions/fn-stat.c:2991
+#: src/functions/fn-stat.c:3000
 #, fuzzy
 msgid ""
 "@FUNCTION=STDEVPA\n"
@@ -15573,7 +15633,7 @@ msgstr ""
 "compté comme la valeur un (1). Les cellules vides ne sont pas comptées.\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: src/functions/fn-stat.c:3026
+#: src/functions/fn-stat.c:3035
 #, fuzzy
 msgid ""
 "@FUNCTION=PERCENTRANK\n"
@@ -15604,7 +15664,7 @@ msgstr ""
 "plusieurs valeurs, PERCENTRANK interpole la valeur retournée.\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"
 
-#: src/functions/fn-stat.c:3141
+#: src/functions/fn-stat.c:3150
 #, fuzzy
 msgid ""
 "@FUNCTION=PERCENTILE\n"
@@ -15630,7 +15690,7 @@ msgstr ""
 "retourne également #NUM!. \n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL"
 
-#: src/functions/fn-stat.c:3190
+#: src/functions/fn-stat.c:3199
 msgid ""
 "@FUNCTION=QUARTILE\n"
 "@SYNTAX=QUARTILE(array,quart)\n"
@@ -15654,7 +15714,7 @@ msgid ""
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"
 msgstr ""
 
-#: src/functions/fn-stat.c:3246
+#: src/functions/fn-stat.c:3255
 #, fuzzy
 msgid ""
 "@FUNCTION=FTEST\n"
@@ -15677,7 +15737,7 @@ msgstr ""
 "significativement différentes. \n"
 "@SEEALSO=FDIST,FINV"
 
-#: src/functions/fn-stat.c:3296
+#: src/functions/fn-stat.c:3305
 #, fuzzy
 msgid ""
 "@FUNCTION=TTEST\n"
@@ -15724,7 +15784,7 @@ msgstr ""
 "@type ne vaut pas un, deux ou trois, TTEST retourne l'erreur #NUM!.\n"
 "@SEEALSO=FDIST,FINV"
 
-#: src/functions/fn-stat.c:3469
+#: src/functions/fn-stat.c:3479
 msgid ""
 "@FUNCTION=FREQUENCY\n"
 "@SYNTAX=FREQUENCY(data_array,bins_array)\n"
@@ -15739,7 +15799,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-stat.c:3544
+#: src/functions/fn-stat.c:3554
 msgid ""
 "@FUNCTION=LINEST\n"
 "@SYNTAX=LINEST(known_y's[,known_x's[,const[,stat]]])\n"
@@ -15767,7 +15827,7 @@ msgid ""
 "@SEEALSO=LOGEST,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:3815
+#: src/functions/fn-stat.c:3825
 #, fuzzy
 msgid ""
 "@FUNCTION=TREND\n"
@@ -15796,7 +15856,7 @@ msgstr ""
 "d'arguments, alors STEYX retourne l'erreur #N/A!.\n"
 "@SEEALSO=PEARSON,RSQ,SLOPE"
 
-#: src/functions/fn-stat.c:3927
+#: src/functions/fn-stat.c:3937
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -15823,7 +15883,7 @@ msgid ""
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4182
+#: src/functions/fn-stat.c:4192
 msgid ""
 "@FUNCTION=GROWTH\n"
 "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
@@ -15843,7 +15903,7 @@ msgid ""
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4296
+#: src/functions/fn-stat.c:4306
 #, fuzzy
 msgid ""
 "@FUNCTION=FORECAST\n"
@@ -15872,7 +15932,7 @@ msgstr ""
 "@x_connus est zéro, FORECAST retourne l'erreur #DIV/0. \n"
 "@SEEALSO=INTERCEPT,TREND"
 
-#: src/functions/fn-stat.c:4367
+#: src/functions/fn-stat.c:4377
 #, fuzzy
 msgid ""
 "@FUNCTION=INTERCEPT\n"
@@ -15899,7 +15959,7 @@ msgstr ""
 "@x_connus est zéro, INTERCEPT retourne l'erreur #DIV/0. \n"
 "@SEEALSO=FORECAST,TREND"
 
-#: src/functions/fn-stat.c:4416
+#: src/functions/fn-stat.c:4426
 #, fuzzy
 msgid ""
 "@FUNCTION=SLOPE\n"
@@ -15922,7 +15982,7 @@ msgstr ""
 "Cette fonction est compatible avec Excel.\n"
 "@SEEALSO=COVAR,FISHER,FISHERINV"
 
-#: src/functions/fn-stat.c:4463
+#: src/functions/fn-stat.c:4474
 msgid "Statistics"
 msgstr "Statistiques"
 
@@ -15947,7 +16007,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=CODE\n"
 "@SYNTAX=CODE(char)\n"
-"@DESCRIPTION=CODE returns the ASCII number for the character @char.\n"
+"@DESCRIPTION=CODE returns the ASCII number for the character @char.This "
+"function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "CODE(\"A\") equals 65.\n"
 "\n"
@@ -15958,13 +16019,13 @@ msgstr ""
 "@DESCRIPTION=Retourne le code ASCII pour le caractère @car.\n"
 "@SEEALSO=CHAR"
 
-#: src/functions/fn-string.c:74
+#: src/functions/fn-string.c:75
 #, fuzzy
 msgid ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(string1, string2)\n"
 "@DESCRIPTION=EXACT returns true if @string1 is exactly equal to @string2 "
-"(this routine is case sensitive).\n"
+"(this routine is case sensitive).This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "EXACT(\"key\",\"key\") equals TRUE.\n"
 "EXACT(\"key\",\"Key\") equals FALSE.\n"
@@ -15977,12 +16038,13 @@ msgstr ""
 "fonction est sensible à la case).\n"
 "@SEEALSO=LEN"
 
-#: src/functions/fn-string.c:98
+#: src/functions/fn-string.c:100
 #, fuzzy
 msgid ""
 "@FUNCTION=LEN\n"
 "@SYNTAX=LEN(string)\n"
-"@DESCRIPTION=LEN returns the length in characters of the string @string.\n"
+"@DESCRIPTION=LEN returns the length in characters of the string @string.This "
+"function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "len(\"Helsinki\") equals 8.\n"
 "\n"
@@ -15993,13 +16055,14 @@ msgstr ""
 "@DESCRIPTION=Retourne la longueur en caractères de @chaîne.\n"
 "@SEEALSO=CHAR, CODE"
 
-#: src/functions/fn-string.c:119
+#: src/functions/fn-string.c:122
 #, fuzzy
 msgid ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(text[,num_chars])\n"
 "@DESCRIPTION=LEFT returns the leftmost @num_chars characters or the left "
-"character if @num_chars is not specified.\n"
+"character if @num_chars is not specified.This function is Excel "
+"compatible. \n"
 "@EXAMPLES=\n"
 "LEFT(\"Directory\",3) equals \"Dir\".\n"
 "\n"
@@ -16011,12 +16074,13 @@ msgstr ""
 "caractères les plus à gauche de la chaîne de caractères @texte.\n"
 "@SEEALSO=MID, RIGHT"
 
-#: src/functions/fn-string.c:154
+#: src/functions/fn-string.c:158
 #, fuzzy
 msgid ""
 "@FUNCTION=LOWER\n"
 "@SYNTAX=LOWER(text)\n"
-"@DESCRIPTION=LOWER returns a lower-case version of the string in @text.\n"
+"@DESCRIPTION=LOWER returns a lower-case version of the string in @text.This "
+"function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "LOWER(\"J. F. Kennedy\") equals \"j. f. kennedy\".\n"
 "\n"
@@ -16027,13 +16091,13 @@ msgstr ""
 "@DESCRIPTION=Retourne une version en minuscules de la chaîne @texte\n"
 "@SEEALSO=UPPER"
 
-#: src/functions/fn-string.c:183
+#: src/functions/fn-string.c:188
 #, fuzzy
 msgid ""
 "@FUNCTION=MID\n"
 "@SYNTAX=MID(string, position, length)\n"
 "@DESCRIPTION=MID returns a substring from @string starting at @position for "
-"@length characters.\n"
+"@length characters.This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "MID(\"testing\",2,3) equals \"est\".\n"
 "\n"
@@ -16045,17 +16109,18 @@ msgstr ""
 "contenant @longueur caractères.\n"
 "@SEEALSO=LEFT, RIGHT"
 
-#: src/functions/fn-string.c:208
+#: src/functions/fn-string.c:214
 msgid "Invalid arguments"
 msgstr "Arguments invalides"
 
-#: src/functions/fn-string.c:227
+#: src/functions/fn-string.c:233
 #, fuzzy
 msgid ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,num_chars])\n"
 "@DESCRIPTION=RIGHT returns the rightmost @num_chars characters or the right "
-"character if @num_chars is not specified.\n"
+"character if @num_chars is not specified.This function is Excel "
+"compatible. \n"
 "@EXAMPLES=\n"
 "RIGHT(\"end\") equals \"d\".\n"
 "RIGHT(\"end\",2) equals \"nd\".\n"
@@ -16068,12 +16133,13 @@ msgstr ""
 "caractères les plus à droite de la chaîne de caractères @texte.\n"
 "@SEEALSO=MID, LEFT"
 
-#: src/functions/fn-string.c:265
+#: src/functions/fn-string.c:272
 #, fuzzy
 msgid ""
 "@FUNCTION=UPPER\n"
 "@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.\n"
+"@DESCRIPTION=UPPER returns a upper-case version of the string in @text.This "
+"function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "UPPER(\"canceled\") equals \"CANCELED\".\n"
 "\n"
@@ -16084,12 +16150,13 @@ msgstr ""
 "@DESCRIPTION=Retourne une version en majuscules de la chaîne @texte.\n"
 "@SEEALSO=LOWER"
 
-#: src/functions/fn-string.c:294
+#: src/functions/fn-string.c:302
 #, fuzzy
 msgid ""
 "@FUNCTION=CONCATENATE\n"
 "@SYNTAX=CONCATENATE(string1[,string2...])\n"
-"@DESCRIPTION=CONCATENATE returns up appended strings.\n"
+"@DESCRIPTION=CONCATENATE returns up appended strings.This function is Excel "
+"compatible. \n"
 "@EXAMPLES=\n"
 "CONCATENATE(\"aa\",\"bb\") equals \"aabb\".\n"
 "\n"
@@ -16100,12 +16167,13 @@ msgstr ""
 "@DESCRIPTION=Retourne la concaténation des chaînes de caractères.\n"
 "@SEEALSO=LEFT, MID, RIGHT"
 
-#: src/functions/fn-string.c:334
+#: src/functions/fn-string.c:344
 #, fuzzy
 msgid ""
 "@FUNCTION=REPT\n"
 "@SYNTAX=REPT(string,num)\n"
-"@DESCRIPTION=REPT returns @num repetitions of @string.\n"
+"@DESCRIPTION=REPT returns @num repetitions of @string.This function is Excel "
+"compatible. \n"
 "@EXAMPLES=\n"
 "REPT(\".\",3) equals \"...\".\n"
 "\n"
@@ -16118,16 +16186,17 @@ msgstr ""
 
 #. FIXME: this and above case should probably have the
 #. same error message.
-#: src/functions/fn-string.c:372
+#: src/functions/fn-string.c:383
 msgid "Out of memory"
 msgstr ""
 
-#: src/functions/fn-string.c:388
+#: src/functions/fn-string.c:399
 #, fuzzy
 msgid ""
 "@FUNCTION=CLEAN\n"
 "@SYNTAX=CLEAN(string)\n"
-"@DESCRIPTION=CLEAN removes any non-printable characters from @string.\n"
+"@DESCRIPTION=CLEAN removes any non-printable characters from @string.This "
+"function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "CLEAN(\"one\"\\&char(7)) equals \"one\".\n"
 "\n"
@@ -16138,13 +16207,14 @@ msgstr ""
 "@DESCRIPTION=Enleve tous les caractères non affichables de la chaîne.\n"
 "@SEEALSO="
 
-#: src/functions/fn-string.c:419
+#: src/functions/fn-string.c:431
 #, fuzzy
 msgid ""
 "@FUNCTION=FIND\n"
 "@SYNTAX=FIND(string1,string2[,start])\n"
 "@DESCRIPTION=FIND returns position of @string1 in @string2 (case-sensitive), "
-"searching only from character @start onwards (assuming 1 if omitted).\n"
+"searching only from character @start onwards (assuming 1 if omitted).This "
+"function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "FIND(\"ac\",\"Jack\") equals 2.\n"
 "\n"
@@ -16157,13 +16227,14 @@ msgstr ""
 "paramètre est omis).\n"
 "@SEEALSO=EXACT, LEN, MID, SEARCH"
 
-#: src/functions/fn-string.c:460
+#: src/functions/fn-string.c:473
 #, fuzzy
 msgid ""
 "@FUNCTION=FIXED\n"
 "@SYNTAX=FIXED(num,[decimals, no_commas])\n"
 "@DESCRIPTION=FIXED returns @num as a formatted string with @decimals numbers "
-"after the decimal point, omitting commas if requested by @no_commas.\n"
+"after the decimal point, omitting commas if requested by @no_commas.This "
+"function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "FIXED(1234.567,2) equals \"1,234.57\".\n"
 "\n"
@@ -16176,12 +16247,13 @@ msgstr ""
 "@no_commas le précise\n"
 "@SEEALSO="
 
-#: src/functions/fn-string.c:564
+#: src/functions/fn-string.c:578
 #, fuzzy
 msgid ""
 "@FUNCTION=PROPER\n"
 "@SYNTAX=PROPER(string)\n"
-"@DESCRIPTION=PROPER returns @string with initial of each word capitalised.\n"
+"@DESCRIPTION=PROPER returns @string with initial of each word capitalised."
+"This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "PROPER(\"j. f. kennedy\") equals \"J. F. Kennedy\".\n"
 "\n"
@@ -16193,13 +16265,13 @@ msgstr ""
 "majuscule\n"
 "@SEEALSO=LOWER, UPPER"
 
-#: src/functions/fn-string.c:609
+#: src/functions/fn-string.c:624
 #, fuzzy
 msgid ""
 "@FUNCTION=REPLACE\n"
 "@SYNTAX=REPLACE(old,start,num,new)\n"
 "@DESCRIPTION=REPLACE returns @old with @new replacing @num characters from "
-"@start.\n"
+"@start.This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "REPLACE(\"testing\",2,3,\"*****\") equals \"t*****ing\".\n"
 "\n"
@@ -16211,14 +16283,14 @@ msgstr ""
 "commençant à @start.\n"
 "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
 
-#: src/functions/fn-string.c:658
+#: src/functions/fn-string.c:674
 #, fuzzy
 msgid ""
 "@FUNCTION=T\n"
 "@SYNTAX=T(value)\n"
 "@DESCRIPTION=T returns @value if and only if it is text, otherwise a blank "
 "string.\n"
-"@EXAMPLES=\n"
+"This function is Excel compatible. @EXAMPLES=\n"
 "T(\"text\") equals \"text\".\n"
 "T(64) returns an empty cell.\n"
 "\n"
@@ -16230,11 +16302,13 @@ msgstr ""
 "retourne une chaîne vide.\n"
 "@SEEALSO=CELL, N, VALUE"
 
-#: src/functions/fn-string.c:682
+#: src/functions/fn-string.c:699
+#, fuzzy
 msgid ""
 "@FUNCTION=TEXT\n"
 "@SYNTAX=TEXT(value,format_text)\n"
-"@DESCRIPTION=TEXT returns @value as a string with the specified format.\n"
+"@DESCRIPTION=TEXT returns @value as a string with the specified format.This "
+"function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "TEXT(3.223,\"$0.00\") equals \"$3.22\".\n"
 "TEXT(date(1999,4,15),\"mmmm, dd, yy\") equals \"April, 15, 99\".\n"
@@ -16251,15 +16325,17 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLAR"
 
-#: src/functions/fn-string.c:717
+#: src/functions/fn-string.c:735
 msgid "Type mismatch"
 msgstr "Types incompatibles"
 
-#: src/functions/fn-string.c:729
+#: src/functions/fn-string.c:747
+#, fuzzy
 msgid ""
 "@FUNCTION=TRIM\n"
 "@SYNTAX=TRIM(text)\n"
-"@DESCRIPTION=TRIM returns @text with only single spaces between words.\n"
+"@DESCRIPTION=TRIM returns @text with only single spaces between words.This "
+"function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "TRIM(\"  a bbb  cc\") equals \"a bbb cc\".\n"
 "\n"
@@ -16273,11 +16349,13 @@ msgstr ""
 "\n"
 "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 
-#: src/functions/fn-string.c:774
+#: src/functions/fn-string.c:793
+#, fuzzy
 msgid ""
 "@FUNCTION=VALUE\n"
 "@SYNTAX=VALUE(text)\n"
-"@DESCRIPTION=VALUE returns numeric value of @text.\n"
+"@DESCRIPTION=VALUE returns numeric value of @text.This function is Excel "
+"compatible. \n"
 "@EXAMPLES=\n"
 "VALUE(\"$1,000\") equals 1000.\n"
 "\n"
@@ -16291,13 +16369,14 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLAR, FIXED, TEXT"
 
-#: src/functions/fn-string.c:816
+#: src/functions/fn-string.c:836
+#, fuzzy
 msgid ""
 "@FUNCTION=SUBSTITUTE\n"
 "@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
 "@DESCRIPTION=SUBSTITUTE replaces @old with @new in @text.  Substitutions are "
 "only applied to instance @num of @old in @text, otherwise every one is "
-"changed.\n"
+"changed.This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "SUBSTITUTE(\"testing\",\"test\",\"wait\") equals \"waiting\".\n"
 "\n"
@@ -16313,12 +16392,13 @@ msgstr ""
 "\n"
 "@SEEALSO=REPLACE, TRIM"
 
-#: src/functions/fn-string.c:931
+#: src/functions/fn-string.c:952
 #, fuzzy
 msgid ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(num[,decimals])\n"
-"@DESCRIPTION=DOLLAR returns @num formatted as currency.\n"
+"@DESCRIPTION=DOLLAR returns @num formatted as currency.This function is "
+"Excel compatible. \n"
 "@EXAMPLES=\n"
 "DOLLAR(12345) equals \"$12,345.00\".\n"
 "\n"
@@ -16332,7 +16412,8 @@ msgstr ""
 "\n"
 "@SEEALSO=FIXED, TEXT, VALUE"
 
-#: src/functions/fn-string.c:999
+#: src/functions/fn-string.c:1021
+#, fuzzy
 msgid ""
 "@FUNCTION=SEARCH\n"
 "@SYNTAX=SEARCH(text,within[,start_num])\n"
@@ -16347,7 +16428,7 @@ msgid ""
 "question mark to be searched, use tilde (~) before the character. \n"
 "If @text is not found, SEARCH returns #VALUE! error. If @start_num is less "
 "than one or it is greater than the length of @within, SEARCH returns #VALUE! "
-"error. \n"
+"error. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "SEARCH(\"c\",\"Cancel\") equals 1.\n"
 "SEARCH(\"c\",\"Cancel\",2) equals 4.\n"
@@ -16411,7 +16492,7 @@ msgstr "Formats"
 msgid "Format as alternative Number"
 msgstr "_Pourcentage"
 
-#: src/gnumeric-canvas.c:478
+#: src/gnumeric-canvas.c:479
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr ""
@@ -16733,29 +16814,29 @@ msgstr "Système inconnu"
 msgid "The character %c cannot be used to separate array elements"
 msgstr ""
 
-#: src/parser.y:784 src/parser.y:796 src/parser.y:829
+#: src/parser.y:786 src/parser.y:798 src/parser.y:831
 #, fuzzy
 msgid "The number is out of range"
 msgstr "Numéro de ligne invalide"
 
-#: src/parser.y:857
+#: src/parser.y:859
 msgid "Could not find matching closing quote"
 msgstr ""
 
-#: src/parser.y:1004
+#: src/parser.y:1006
 msgid "Could not find matching opening parenthesis"
 msgstr ""
 
-#: src/parser.y:1008
+#: src/parser.y:1010
 msgid "Could not find matching closing parenthesis"
 msgstr ""
 
-#: src/parser.y:1012
+#: src/parser.y:1014
 #, fuzzy
 msgid "Invalid expression"
 msgstr "Expression régulière"
 
-#: src/parser.y:1017
+#: src/parser.y:1019
 #, c-format
 msgid "Unexpected token %c"
 msgstr ""
@@ -16938,7 +17019,7 @@ msgstr "Erreur lors de la fermeture du fichier, erreur : %s"
 msgid "Unable to mmap the file."
 msgstr "Incapable de mmaper le fichier"
 
-#: src/plugin-util.c:311 src/xml-io.c:3438
+#: src/plugin-util.c:311 src/xml-io.c:3439
 #, fuzzy
 msgid "Cannot get file size."
 msgstr "Ne peut créer le fichier %s\n"
@@ -17196,17 +17277,17 @@ msgstr ""
 msgid "cannot be performed with multiple ranges selected"
 msgstr ""
 
-#: src/sheet-control-gui.c:501
+#: src/sheet-control-gui.c:496
 #, fuzzy, c-format
 msgid "Row: %s"
 msgstr "Ligne : %d"
 
-#: src/sheet-control-gui.c:516
+#: src/sheet-control-gui.c:511
 #, c-format
 msgid "Column: %s"
 msgstr "Colonne : %s"
 
-#: src/sheet-control-gui.c:1327
+#: src/sheet-control-gui.c:1322
 msgid "Paste _Special"
 msgstr "Collage _spécial"
 
@@ -17217,41 +17298,41 @@ msgstr "Collage _spécial"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1339
+#: src/sheet-control-gui.c:1334
 msgid "_Insert..."
 msgstr "_Insérer..."
 
-#: src/sheet-control-gui.c:1343
+#: src/sheet-control-gui.c:1338
 msgid "_Insert Column(s)"
 msgstr "_Insérer colonne(s)"
 
-#: src/sheet-control-gui.c:1345
+#: src/sheet-control-gui.c:1340
 msgid "_Delete Column(s)"
 msgstr "_Supprimer colonne(s)"
 
-#: src/sheet-control-gui.c:1347
+#: src/sheet-control-gui.c:1342
 msgid "_Insert Row(s)"
 msgstr "_Insérer ligne(s)"
 
-#: src/sheet-control-gui.c:1349
+#: src/sheet-control-gui.c:1344
 msgid "_Delete Row(s)"
 msgstr "_Supprimer ligne(s)"
 
-#: src/sheet-control-gui.c:1352
+#: src/sheet-control-gui.c:1347
 msgid "Clear Co_ntents"
 msgstr "Effacer co_ntenu"
 
-#: src/sheet-control-gui.c:1358
+#: src/sheet-control-gui.c:1353
 msgid "_Format Cells..."
 msgstr "_Format des cellules..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1362
+#: src/sheet-control-gui.c:1357
 msgid "Column _Width..."
 msgstr "Largeur de _colonne..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1370
+#: src/sheet-control-gui.c:1365
 msgid "_Row Height..."
 msgstr "_Hauteur de ligne..."
 
@@ -18205,31 +18286,34 @@ msgstr ""
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3210
+#: src/xml-io.c:3211
 #, fuzzy
 msgid "Processing file..."
 msgstr "Simple"
 
-#: src/xml-io.c:3386
+#: src/xml-io.c:3387
 #, fuzzy
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "Fichier xml non valide. L'arbre est vide ?"
 
-#: src/xml-io.c:3446
+#: src/xml-io.c:3447
 msgid "Not enough memory to create zlib decompression state."
 msgstr ""
 
-#: src/xml-io.c:3481
+#: src/xml-io.c:3482
 msgid "Is not an Gnumeric Workbook file"
 msgstr "N'est pas un fichier classeur Gnumeric"
 
-#: src/xml-io.c:3530
+#: src/xml-io.c:3531
 msgid "Gnumeric XML file format"
 msgstr "Format de fichier Gnumeric XML"
 
 #: gnumeric.desktop.in.h:2
 msgid "The GNOME Spreadsheet"
 msgstr "Le tableur GNOME"
+
+#~ msgid "LaTeX (*.tex)"
+#~ msgstr "LaTeX (*.tex)"
 
 #~ msgid "_Filter..."
 #~ msgstr "_Filtrer..."
@@ -18246,11 +18330,14 @@ msgstr "Le tableur GNOME"
 #~ msgid "New _workbook"
 #~ msgstr "Nouveau _classeur"
 
-#~ msgid "Numbe_r of samples:"
-#~ msgstr "Nomb_re d'échantillons :"
-
 #~ msgid "Output options"
 #~ msgstr "Options de sortie"
+
+#~ msgid "T-Test: Assuming Equal Variances"
+#~ msgstr "T-Test : suppose des variances égales"
+
+#~ msgid "T-Test: Assuming Unequal Variances"
+#~ msgstr "T-Test : suppose des variances différentes"
 
 #~ msgid "Va_riable 2 Range:"
 #~ msgstr "Intervalle de la va_riable 2 :"
@@ -18266,15 +18353,12 @@ msgstr "Le tableur GNOME"
 #~ msgid "_Labels in First Row"
 #~ msgstr "_Titres sur la première ligne"
 
-#~ msgid "_Number of variables:"
-#~ msgstr "_Nombre de variables :"
-
 #~ msgid "_Output range:"
 #~ msgstr "Intervalle de _sortie :"
 
 #, fuzzy
 #~ msgid "_Rows per sample:"
-#~ msgstr "Exemple"
+#~ msgstr "_Lignes par échantillon :"
 
 #~ msgid "_Variable 1 Range:"
 #~ msgstr "Intervalle de la _variable 1 :"
@@ -18285,16 +18369,72 @@ msgstr "Le tableur GNOME"
 #~ msgid "_Exceptions..."
 #~ msgstr "_Exceptions..."
 
+#~ msgid "You should introduce a valid cell range in 'Input Range:'"
+#~ msgstr ""
+#~ "Vous devez introduire un intervalle de cellules valide dans « Intervalle "
+#~ "d'entrée : »"
+
+#~ msgid "Please do not include any non-numeric (or empty) data."
+#~ msgstr "Merci de ne pas inclure de données non numériques ou vides"
+
+#~ msgid "You should introduce a valid cell range in 'Output Range:'"
+#~ msgstr ""
+#~ "Vous devez introduire un intervalle de cellule valide dans « Intervalle "
+#~ "de sortie : »"
+
+#~ msgid "Target value:   %12.2f"
+#~ msgstr "Valeur cible :   %12.2f"
+
+#~ msgid "Current value:  %12.2f"
+#~ msgstr "Valeur courante :  %12.2f"
+
+#~ msgid "Solution:       %12.2f"
+#~ msgstr "Solution :       %12.2f"
+
+#~ msgid "Goal Seek Report"
+#~ msgstr "Rapport du solveur"
+
+#~ msgid "By changing cell:"
+#~ msgstr "En changeant la cellule :"
+
+#~ msgid "To a value of at least [optional]:"
+#~ msgstr "D'une valeur d'au moins [optionnel] :"
+
+#~ msgid "But no bigger than [optional]:"
+#~ msgstr "Mais pas plus grande que [optionnel] :"
+
+#~ msgid "Goal seek did not find a solution!"
+#~ msgstr "Le solveur n'a pas trouvé de solution!"
+
+#~ msgid ""
+#~ "The constraints having cell ranges in LHS and RHS should have the same "
+#~ "number of columns and rows in both sides."
+#~ msgstr ""
+#~ "Les contraintes avec des intervalles de cellules dans le membre de gauche "
+#~ "et de droite doivent avoir le même nombre de lignes et de colonnes des "
+#~ "deux côtés."
+
+#~ msgid "The cell range in LHS or RHS should have only one column or row."
+#~ msgstr ""
+#~ "L'intervalle de cellules dans le membre de gauche ou de droite ne devrait "
+#~ "comporter qu'une seule ligne ou colonne"
+
 #~ msgid "You should introduce a valid cell name for 'Target cell'"
-#~ msgstr "Vous devez introduire un nom de cellule valide pour 'Target cell'"
+#~ msgstr "Vous devez introduire un nom de cellule valide pour 'Cellule cible'"
 
 #~ msgid "You should introduce a valid cell names in 'By changing cells'"
 #~ msgstr ""
 #~ "Vous devez introduire un nom de cellule valide dans le champ « En "
-#~ "changeant la cellule »"
+#~ "changeant les cellules »"
 
-#~ msgid "Solver Options"
-#~ msgstr "Options du solveur"
+#~ msgid "Center section:"
+#~ msgstr "Section du centre :"
+
+#~ msgid "Customize header/footer"
+#~ msgstr "Configuration des en-têtes et pieds de page"
+
+#~ msgid "Define Name"
+#~ msgstr "Définir le nom"
 
 #~ msgid "                         "
 #~ msgstr "                         "
@@ -18309,49 +18449,125 @@ msgstr "Le tableur GNOME"
 #~ msgstr "Changer la contrainte"
 
 #~ msgid "Options..."
-#~ msgstr "Options..."
+#~ msgstr "Options ..."
 
 #, fuzzy
 #~ msgid "Solver Parameters"
 #~ msgstr "Paramètres du solveur Gnumeric"
 
+#, fuzzy
+#~ msgid "Solver Result"
+#~ msgstr "Solution du solveur"
+
+#, fuzzy
 #~ msgid "_Keep Solver Solution"
 #~ msgstr "_Garder la solution du solveur"
+
+#~ msgid "_Restore Original Values"
+#~ msgstr "_Rétablit les valeurs d'origine"
+
+#~ msgid "A blank cell will be seen as valid"
+#~ msgstr "Une cellule vide sera considérée comme valide"
+
+#~ msgid "Ac_tion :"
+#~ msgstr "Ac_tion :"
+
+#~ msgid "Any Value"
+#~ msgstr "Toute valeur"
+
+#~ msgid "Apply these changes to _other cells with the same settings"
+#~ msgstr ""
+#~ "Appliquer ces changements aux autres cellules avec les mêmes "
+#~ "caractéristiques"
+
+#~ msgid "Clear All"
+#~ msgstr "Tout effacer"
+
+#~ msgid "Give the cell a dropdown combo with all possible valid values"
+#~ msgstr ""
+#~ "Affecter à la cellule une liste déroulante avec toutes les valeurs "
+#~ "possibles"
+
+#, fuzzy
+#~ msgid "Ignore _blank"
+#~ msgstr "Ignorer les blancs"
+
+#~ msgid "In-cell _dropdown"
+#~ msgstr "Liste _déroulante dans la cellule"
+
+#~ msgid "Input Validation"
+#~ msgstr "Validation de saisie"
+
+#~ msgid "Input _Message :"
+#~ msgstr "_Message d'entrée :"
+
+#~ msgid "Messa_ge :"
+#~ msgstr "Message :"
+
+#~ msgid "S_how error alert after invalid data is entered"
+#~ msgstr "Afficher une erreur lorsqu'une donnée invalide est saisie"
+
+#~ msgid "Show input _message when cell is selected"
+#~ msgstr "Afficher le _message de saisie lorsque la cellule est sélectionnée"
+
+#~ msgid "Stop"
+#~ msgstr "Stop"
+
+#~ msgid "Tit_le :"
+#~ msgstr "_Titre :"
+
+#~ msgid "Validation criteria"
+#~ msgstr "Critères de validation"
+
+#~ msgid "Warning"
+#~ msgstr "Avertissement"
+
+#~ msgid "_Allow :"
+#~ msgstr "_Permettre :"
+
+#~ msgid "_Condition :"
+#~ msgstr "_Condition :"
+
+#, fuzzy
+#~ msgid "_Error Alert"
+#~ msgstr "_Erreur"
+
+#~ msgid "_Input Message"
+#~ msgstr "Message de sa_isie :"
+
+#~ msgid "_Settings"
+#~ msgstr "_Réglages"
+
+#~ msgid "_Title :"
+#~ msgstr "_Titre :"
 
 #~ msgid "Notebook"
 #~ msgstr "Carnet"
 
 #~ msgid "Scrollbars"
-#~ msgstr "Barre de défilement"
+#~ msgstr "Barres de défilement"
 
 #~ msgid "_Tabs"
 #~ msgstr "_Onglets"
 
+#~ msgid "Invalid month or year"
+#~ msgstr "Mois ou année non valide"
+
+#~ msgid ""
+#~ "@FUNCTION=NAME\n"
+#~ "@SYNTAX=(b1, b2, ...)\n"
+#~ "@DESCRIPTION\n"
+#~ "\n"
+#~ "@SEEALSO="
+#~ msgstr ""
+#~ "@FUNCTION=NOM\n"
+#~ "@SYNTAX=(b1, b2, ...)\n"
+#~ "@DESCRIPTION\n"
+#~ "\n"
+#~ "@SEEALSO="
+
 #~ msgid "Base error"
 #~ msgstr "Erreur de base"
-
-#, fuzzy
-#~ msgid "_Freeze..."
-#~ msgstr "_Effacer..."
-
-#~ msgid "You should introduce a valid cell range in 'Input Range:'"
-#~ msgstr ""
-#~ "Vous devez introduire un intervalle de cellules valide dans « Intervalle "
-#~ "d'entrée : »"
-
-#, fuzzy
-#~ msgid "Target Value:"
-#~ msgstr "Valeur cible :   %12.2f"
-
-#~ msgid "Center section:"
-#~ msgstr "Section au centre :"
-
-#, fuzzy
-#~ msgid "Customize header/footer"
-#~ msgstr "Configuration des _pieds de page"
-
-#~ msgid "Define Name"
-#~ msgstr "Définir les noms"
 
 #~ msgid ""
 #~ "@FUNCTION=PRICE\n"
@@ -18586,8 +18802,44 @@ msgstr "Le tableur GNOME"
 #~ "@SEEALSO=HOUR"
 
 #, fuzzy
-#~ msgid "LaTeX (*.tex)"
-#~ msgstr "Format LaTeX (*.tex)"
+#~ msgid ""
+#~ "@FUNCTION=CELL\n"
+#~ "@SYNTAX=CELL(ref)\n"
+#~ "@DESCRIPTION=CELL returns information about the formatting, location, or "
+#~ "contents of a cell. \n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO="
+#~ msgstr ""
+#~ "@FUNCTION=CELL\n"
+#~ "@SYNTAX=CELL()\n"
+#~ "@DESCRIPTION=La fonction CELL retourne des informations sur le format, "
+#~ "l'emplacement ou le contenu d'une cellule.\n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO="
+
+#~ msgid ""
+#~ "@FUNCTION=INFO\n"
+#~ "@SYNTAX=INFO()\n"
+#~ "@DESCRIPTION=INFO returns information about the current operating "
+#~ "environment. This function is Excel compatible. \n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO="
+#~ msgstr ""
+#~ "@FUNCTION=INFO\n"
+#~ "@SYNTAX=INFO()\n"
+#~ "@DESCRIPTION=La fonction INFO retourne des informations sur "
+#~ "l'environnement de travail courant. Cette fonction est compatible avec "
+#~ "Excel.\n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO="
+
+#, fuzzy
+#~ msgid "_Freeze..."
+#~ msgstr "_Effacer..."
 
 #~ msgid "Labels in First Row"
 #~ msgstr "Titres sur la Première ligne"
@@ -18603,11 +18855,6 @@ msgstr "Le tableur GNOME"
 
 #~ msgid "Output Range:"
 #~ msgstr "Intervalle de sortie :"
-
-#~ msgid "You should introduce a valid cell range in 'Output Range:'"
-#~ msgstr ""
-#~ "Vous devez introduire un intervalle de cellule valide dans « Intervalle "
-#~ "de sortie : »"
 
 #~ msgid "Input:"
 #~ msgstr "Entrée :"
@@ -18632,51 +18879,6 @@ msgstr "Le tableur GNOME"
 #~ msgstr ""
 #~ "Vous devez introduire un intervalle de cellule valide dans « Intervalle "
 #~ "Bin : »"
-
-#~ msgid "Current value:  %12.2f"
-#~ msgstr "Valeur courante :  %12.2f"
-
-#~ msgid "Solution:       %12.2f"
-#~ msgstr "Solution :       %12.2f"
-
-#~ msgid "Goal Seek Report"
-#~ msgstr "Rapport du solveur"
-
-#~ msgid "By changing cell:"
-#~ msgstr "En changeant la cellule :"
-
-#~ msgid "To a value of at least [optional]:"
-#~ msgstr "D'une valeur d'au moins [optionnel] :"
-
-#~ msgid "But no bigger than [optional]:"
-#~ msgstr "Mais pas plus grande que [optionnel] :"
-
-#~ msgid "Goal seek did not find a solution!"
-#~ msgstr "Le solveur n'a pas trouvé de solution!"
-
-#, fuzzy
-#~ msgid "Any Value"
-#~ msgstr "Valeur p"
-
-#, fuzzy
-#~ msgid "Clear All"
-#~ msgstr "_Tout effacer"
-
-#, fuzzy
-#~ msgid "Input _Message :"
-#~ msgstr "_Message d'entrée"
-
-#~ msgid "Stop"
-#~ msgstr "Stop"
-
-#~ msgid "Warning"
-#~ msgstr "Avertissement"
-
-#~ msgid "_Settings"
-#~ msgstr "_Réglages"
-
-#~ msgid "_Title :"
-#~ msgstr "_Titre :"
 
 #~ msgid "Confidence Level"
 #~ msgstr "Niveau de confiance"
