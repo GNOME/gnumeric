@@ -132,8 +132,8 @@ go_action_combo_stack_push (GOActionComboStack *a, char const *str)
 	GSList *p;
 
 	for (p = gtk_action_get_proxies (GTK_ACTION (a)); p != NULL ; p = p->next)
-		if (IS_GNM_COMBO_STACK (ptr->data))
-			gnm_combo_stack_push (GNM_COMBO_STACK (ptr->data), str);
+		if (IS_GNM_COMBO_STACK (p->data))
+			gnm_combo_stack_push (GNM_COMBO_STACK (p->data), str);
 }
 
 /**
@@ -150,8 +150,8 @@ go_action_combo_stack_pop (GOActionComboStack *a, unsigned n)
 	GSList *p;
 
 	for (p = gtk_action_get_proxies (GTK_ACTION (a)); p != NULL ; p = p->next)
-		if (IS_GNM_COMBO_STACK (ptr->data))
-			gnm_combo_stack_pop (GNM_COMBO_STACK (ptr->data), n);
+		if (IS_GNM_COMBO_STACK (p->data))
+			gnm_combo_stack_pop (GNM_COMBO_STACK (p->data), n);
 }
 
 /**
