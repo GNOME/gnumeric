@@ -3071,7 +3071,8 @@ gnumeric_xml_set_compression (xmlDoc *doc)
 
 /*
  * Save a Sheet in Gnumerix XML clipboard format to a @buffer and return
- * the size of the data in @size
+ * the size of the data in @size.  Caller is responsible for xmlFree-ing
+ * @buffer.
  *
  * returns 0 in case of success, -1 otherwise.
  */

@@ -1,5 +1,9 @@
 2001-10-16  Jody Goldberg <jgoldberg@home.com>
 
+	* src/gnumeric-graph.c (gnm_graph_import_specification) : fix leak.
+
+2001-10-16  Jody Goldberg <jgoldberg@home.com>
+
 	* rc/gnumeric-graph.c (gnm_graph_vector_eval) : patch leak.
 	(gnm_graph_series_get_dimension) : s/element/dim_name/
 	(gnm_graph_series_add_dimension) : ditto.

@@ -513,7 +513,6 @@ gnm_graph_vector_corba_destroy (GnmGraphVector *vector)
 		g_return_if_fail (ev._major == CORBA_NO_EXCEPTION);
 	}
 	CORBA_exception_free (&ev);
-
 }
 
 static void
@@ -1041,6 +1040,7 @@ gnm_graph_import_specification (GnmGraph *graph, xmlDocPtr spec)
 			   bonobo_exception_get_text (&ev), graph);
 	}
 	CORBA_free (partial);
+	xmlFree (mem);
 	CORBA_exception_free (&ev);
 }
 
