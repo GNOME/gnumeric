@@ -31,6 +31,7 @@
 #include <str.h>
 #include <expr-name.h>
 #include <sheet.h>
+#include <sheet-view.h>
 #include <workbook.h>
 #include <workbook-control.h>
 #include <workbook-edit.h>

@@ -32,6 +32,7 @@
 #include <gui-util.h>
 #include <workbook.h>
 #include <sheet.h>
+#include <sheet-view.h>
 #include <workbook-edit.h>
 #include <workbook-control.h>
 #include <cell.h>

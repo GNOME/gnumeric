@@ -26,6 +26,7 @@
 #include "position.h"
 
 #include "sheet.h"
+#include "sheet-view.h"
 #include "cell.h"
 #include "value.h"
 #include "ranges.h"

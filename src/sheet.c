@@ -23,6 +23,7 @@
 #include "gnumeric.h"
 #include "sheet.h"
 
+#include "sheet-view.h"
 #include "command-context.h"
 #include "sheet-control.h"
 #include "sheet-style.h"
@@ -229,6 +230,7 @@ cb_colrow_compute_pixels_from_pts (ColRowInfo *cri, void *data)
 
 /****************************************************************************/
 
+#if 0
 static void
 cb_recalc_span0 (gpointer ignored, gpointer value, gpointer flags)
 {
@@ -240,6 +242,7 @@ sheet_calc_spans (Sheet const *sheet, SpanCalcFlags flags)
 {
 	g_hash_table_foreach (sheet->cell_hash, cb_recalc_span0, GINT_TO_POINTER (flags));
 }
+#endif
 
 static Value *
 cb_recalc_span1 (Sheet *sheet, int col, int row, Cell *cell, gpointer flags)
@@ -642,13 +645,6 @@ sheet_colrow_fit_gutter (Sheet const *sheet, gboolean is_cols)
 	return outline_level;
 }
 
-static gboolean
-cb_recalc_spans (ColRowInfo *ri, gpointer user)
-{
-	ri->needs_respan = TRUE;
-	return FALSE;
-}
-
 /**
  * sheet_update_only_grid :
  *
@@ -708,8 +704,7 @@ sheet_update_only_grid (Sheet const *sheet)
 				  (p->recompute_visibility ?
 				   SPANCALC_NO_DRAW : SPANCALC_SIMPLE));
 #endif
-		colrow_foreach (&sheet->rows, 0, SHEET_MAX_ROWS-1,
-				&cb_recalc_spans, NULL);
+		sheet_queue_respan (sheet, 0, SHEET_MAX_ROWS-1);
 	}
 
 	if (p->reposition_objects.row < SHEET_MAX_ROWS ||

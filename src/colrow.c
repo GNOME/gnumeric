@@ -24,6 +24,7 @@
 #include "colrow.h"
 
 #include "sheet.h"
+#include "sheet-view.h"
 #include "sheet-private.h"
 #include "application.h"
 #include "parse-util.h"

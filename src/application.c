@@ -16,6 +16,7 @@
 #include "workbook-view.h"
 #include "workbook-priv.h" /* For Workbook::name */
 #include "sheet.h"
+#include "sheet-view.h"
 #include "sheet-private.h"
 #include "auto-correct.h"
 #include "pixmaps/gnumeric-stock-pixbufs.h"

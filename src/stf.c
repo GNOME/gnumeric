@@ -28,6 +28,7 @@
 #include "plugin-util.h"
 #include "file.h"
 #include "sheet.h"
+#include "sheet-view.h"
 #include "sheet-style.h"
 #include "style.h"
 #include "mstyle.h"
@@ -198,7 +199,7 @@ stf_read_workbook (GnumFileOpener const *fo, IOContext *context, WorkbookView *w
 	dialogresult = stf_dialog (WORKBOOK_CONTROL_GUI (context->impl), name, data);
 	if (dialogresult != NULL && stf_store_results (dialogresult, sheet, 0, 0)) {
 		workbook_recalc (book);
-		sheet_calc_spans (sheet, SPANCALC_RENDER);
+		sheet_queue_respan (sheet, 0, SHEET_MAX_ROWS-1);
 		workbook_set_saveinfo (book, name, FILE_FL_MANUAL, NULL);
 	} else
 		workbook_sheet_detach (book, sheet);
@@ -367,7 +368,7 @@ stf_read_workbook_auto_csvtab (GnumFileOpener const *fo, IOContext *context,
 	stf_parse_options_free (po);
 
 	workbook_recalc (book);
-	sheet_calc_spans (sheet, SPANCALC_RENDER);
+	sheet_queue_respan (sheet, 0, SHEET_MAX_ROWS-1);
 	workbook_set_saveinfo (book, name, FILE_FL_MANUAL, NULL);
 
 	g_free (name);

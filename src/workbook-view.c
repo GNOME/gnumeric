@@ -29,6 +29,7 @@
 #include "history.h"
 #include "application.h"
 #include "sheet.h"
+#include "sheet-view.h"
 #include "sheet-merge.h"
 #include "sheet-style.h"
 #include "str.h"

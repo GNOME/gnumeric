@@ -29,6 +29,7 @@
 #include "workbook-view.h"
 #include "selection.h"
 #include "sheet.h"
+#include "sheet-view.h"
 #include "sheet-style.h"
 #include "ranges.h"
 #include "position.h"

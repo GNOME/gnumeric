@@ -28,6 +28,7 @@
 #include <selection.h>
 #include <workbook.h>
 #include <sheet.h>
+#include <sheet-view.h>
 #include <commands.h>
 #include <ranges.h>
 #include <cmd-edit.h>

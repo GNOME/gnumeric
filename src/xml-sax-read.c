@@ -28,6 +28,7 @@
 #include "plugin.h"
 #include "plugin-util.h"
 #include "module-plugin-defs.h"
+#include "sheet-view.h"
 #include "sheet-style.h"
 #include "sheet-merge.h"
 #include "sheet.h"

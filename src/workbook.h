@@ -76,8 +76,6 @@ void     workbook_iteration_enabled	 (Workbook *wb, gboolean enable);
 void     workbook_iteration_max_number	 (Workbook *wb, int max_number);
 void     workbook_iteration_tolerance	 (Workbook *wb, double tolerance);
 
-void workbook_calc_spans  (Workbook *wb, SpanCalcFlags const flags);
-
 void workbook_attach_view (Workbook *wb, WorkbookView *wbv);
 void workbook_detach_view (WorkbookView *wbv);
 

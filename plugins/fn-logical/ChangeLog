@@ -1,3 +1,8 @@
+2002-10-14  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_if) : make this a args function so that it can
+	  get support for implicit iteration.
+
 2002-09-30  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.9

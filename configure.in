@@ -720,6 +720,7 @@ src/cut-n-paste-code/egg/menu/Makefile
 src/cut-n-paste-code/egg/toolbar/Makefile
 doc/Makefile
 doc/C/Makefile
+doc/C/figures/Makefile
 doc/de/Makefile
 doc/es/Makefile
 doc/hu/Makefile

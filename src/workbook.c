@@ -21,8 +21,9 @@
 #include "command-context.h"
 #include "application.h"
 #include "sheet.h"
-#include "cell.h"
+#include "sheet-view.h"
 #include "sheet-control.h"
+#include "cell.h"
 #include "expr.h"
 #include "expr-name.h"
 #include "dependent.h"
@@ -324,10 +325,10 @@ workbook_init (GObject *object)
 	wb->undo_commands = wb->redo_commands = NULL;
 
 	/* default to no iteration */
-	wb->iteration.enabled = FALSE;
+	wb->iteration.enabled = TRUE;
 	wb->iteration.max_number = 100;
 	wb->iteration.tolerance = .001;
-	wb->auto_recalc = TRUE;
+	wb->recalc_auto = TRUE;
 
 	wb->file_format_level = FILE_FL_NEW;
 	wb->file_saver        = NULL;
@@ -583,20 +584,6 @@ workbook_get_file_saver (Workbook *wb)
 	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
 
 	return wb->file_saver;
-}
-
-static void
-cb_sheet_calc_spans (gpointer key, gpointer value, gpointer flags)
-{
-	sheet_calc_spans (value, GPOINTER_TO_INT(flags));
-}
-void
-workbook_calc_spans (Workbook *wb, SpanCalcFlags const flags)
-{
-	g_return_if_fail (wb != NULL);
-
-	g_hash_table_foreach (wb->sheet_hash_private,
-		&cb_sheet_calc_spans, GINT_TO_POINTER (flags));
 }
 
 void

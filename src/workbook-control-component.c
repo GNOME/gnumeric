@@ -10,6 +10,7 @@
 #include "print.h"
 #include "selection.h"
 #include "sheet.h"
+#include "sheet-view.h"
 #include "sheet-control-gui.h"
 #include "workbook-edit.h"
 

@@ -1,3 +1,9 @@
+2002-10-14  Jody Goldberg <jody@gnome.org>
+
+	* src/commands.c (update_after_action) : quick and dirty support for
+	  manual recalc.
+	(cmd_paste_cut_update_origin) : ditto.
+
 2002-10-14  Morten Welinder  <terra@diku.dk>
 
 	* src/regression.c (non_linear_regression): Use gnumabs.
@@ -11,6 +17,21 @@
 	* src/datetime.c (datetime_serial_raw_to_serial): Use floorgnum,
 	not floor.
 	(datetime_serial_raw_to_seconds): Ditto.
+
+2002-10-14  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-io.c : Have the gnumeric-1.0 importer use that flag
+
+	* src/parser.y (parser_simple_val_or_name) : optionally restore the
+	  old 'unknown names are strings' behavior.
+
+2002-10-14  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook.c (workbook_calc_spans) : delete.
+
+	* src/stf.c (stf_read_workbook_auto_csvtab) : use the new delayed
+	  respan option.
+	(stf_read_workbook) : ditto.
 
 2002-10-14  Jody Goldberg <jody@gnome.org>
 

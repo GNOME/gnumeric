@@ -17,6 +17,7 @@
 #include "style-border.h"
 #include "style.h"
 #include "sheet.h"
+#include "sheet-view.h"
 #include "sheet-style.h"
 #include "sheet-object.h"
 #include "sheet-object-cell-comment.h"
@@ -756,7 +757,8 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree,
 
 		parse_error_init (&perr);
 		expr = gnm_expr_parse_str (expr_str, &pp,
-			GNM_EXPR_PARSE_DEFAULT, gnm_1_0_rangeref_parse, &perr);
+			GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
+			gnm_1_0_rangeref_parse, &perr);
 		if (exp != NULL) {
 			char const *err = NULL;
 			expr_name_add (&pp, (char const *)name_str, expr, &err);
@@ -1464,7 +1466,7 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 				char *content = (char *)xml_node_get_cstr (e_node, NULL);
 				if (content != NULL) {
 					expr0 = gnm_expr_parse_str (content, &pp,
-							GNM_EXPR_PARSE_DEFAULT,
+							GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
 							&gnm_1_0_rangeref_parse, NULL);
 					xmlFree (content);
 				}
@@ -1474,7 +1476,7 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 				char *content = (char *)xml_node_get_cstr (e_node, NULL);
 				if (content != NULL) {
 					expr1 = gnm_expr_parse_str (content, &pp,
-							GNM_EXPR_PARSE_DEFAULT,
+							GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
 							&gnm_1_0_rangeref_parse, NULL);
 					xmlFree (content);
 				}
@@ -1720,7 +1722,8 @@ xml_cell_set_array_expr (Cell *cell, char const *text,
 	ParsePos pp;
 	GnmExpr const *expr = gnm_expr_parse_str (text,
 		parse_pos_init_cell (&pp, cell),
-		GNM_EXPR_PARSE_DEFAULT, &gnm_1_0_rangeref_parse, NULL);
+		GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
+		&gnm_1_0_rangeref_parse, NULL);
 
 	g_return_if_fail (expr != NULL);
 	cell_set_array_formula (cell->base.sheet,
@@ -1934,7 +1937,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 				if (NULL != expr_start && *expr_start)
 					expr = gnm_expr_parse_str (expr_start,
 						parse_pos_init_cell (&pos, cell),
-						GNM_EXPR_PARSE_DEFAULT,
+						GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
 						&gnm_1_0_rangeref_parse, NULL);
 				if (expr != NULL) {
 					cell_set_expr (cell, expr);
@@ -2753,7 +2756,7 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
 			g_return_if_fail (content[0] == '=');
 
 			expr = gnm_expr_parse_str ((char const *)content, &pp,
-				GNM_EXPR_PARSE_DEFAULT,
+				GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
 				&gnm_1_0_rangeref_parse, NULL);
 
 			g_return_if_fail (expr != NULL);

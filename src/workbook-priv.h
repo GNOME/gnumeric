@@ -36,7 +36,7 @@ struct _Workbook {
 		int      max_number;
 		double   tolerance;
 	} iteration;
-	gboolean auto_recalc;
+	gboolean recalc_auto;
 
 	gboolean during_destruction;
 	gboolean being_reordered;

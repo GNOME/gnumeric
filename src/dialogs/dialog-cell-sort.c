@@ -37,6 +37,7 @@
 #include <workbook.h>
 #include <sort.h>
 #include <sheet.h>
+#include <sheet-view.h>
 #include <workbook-edit.h>
 #include <gnumeric-gconf.h>
 #include <widgets/gnumeric-cell-renderer-toggle.h>

@@ -46,6 +46,8 @@ Jody:
 	* Support Horizontal and Vertical only frozen panes
 	* Some optimizations for filling large regions
 	* Start work on 'Text from Columns' and 'External Data -> Text File'
+	* Simple manual recalculation, it won't catch everything yet.
+	* Some UI for recalc and iteration changes
 
 Morten:
 	* Port search center from gal's e-table to gtk's treeview.

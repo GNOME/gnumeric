@@ -26,6 +26,7 @@
 
 #include "sheet-object-impl.h"
 #include "sheet.h"
+#include "sheet-view.h"
 #include "sheet-merge.h"
 #include "sheet-control-gui-priv.h"
 #include "dialogs.h"

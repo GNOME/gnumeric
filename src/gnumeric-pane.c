@@ -21,6 +21,7 @@
 #include "workbook-control.h"
 #include "workbook-edit.h"
 #include "sheet.h"
+#include "sheet-view.h"
 #include "sheet-object-impl.h"
 #include "ranges.h"
 #include "commands.h"

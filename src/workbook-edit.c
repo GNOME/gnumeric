@@ -23,6 +23,7 @@
 #include "mstyle.h"
 #include "sheet-control-gui.h"
 #include "sheet-style.h"
+#include "sheet-view.h"
 #include "sheet.h"
 #include "cell.h"
 #include "expr.h"

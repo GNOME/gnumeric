@@ -135,6 +135,7 @@ workbook_style_test (Workbook *wb)
 		dump_stats ("Insert");
 
 		sheets = g_list_remove (sheets, sheet);
+		sheet_flag_recompute_spans (sheet);
 	}
 	workbook_recalc (wb);
 	workbook_calc_spans (wb, SPANCALC_RENDER);

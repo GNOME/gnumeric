@@ -29,6 +29,7 @@
 #include "workbook-control.h"
 #include "workbook.h"
 #include "sheet.h"
+#include "sheet-view.h"
 #include "cell.h"
 #include "expr.h"
 #include "expr-impl.h"

@@ -19,6 +19,7 @@
 #include "workbook-control-gui-priv.h"
 #include "sheet-control-gui-priv.h"
 #include "sheet.h"
+#include "sheet-view.h"
 #include "sheet-style.h"
 #include "sheet-merge.h"
 #include "sheet-object-impl.h"

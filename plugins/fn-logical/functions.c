@@ -267,46 +267,11 @@ static const char *help_if = {
 };
 
 static Value *
-gnumeric_if (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
+gnumeric_if (FunctionEvalInfo *ei, Value **args)
 {
-	GnmExpr *expr;
-	Value *value;
-	int ret, args;
 	gboolean err;
-
-	/* Type checking */
-	args = gnm_expr_list_length (expr_node_list);
-	if (args < 1 || args > 3)
-		return value_new_error (ei->pos,
-					_("Invalid number of arguments"));
-
-	/* Compute the if part */
-	value = gnm_expr_eval (expr_node_list->data, ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
-	if (VALUE_IS_EMPTY_OR_ERROR(value))
-		return value;
-
-	/* Choose which expression we will evaluate */
-	ret = value_get_as_bool (value, &err);
-	value_release (value);
-	if (err)
-		/* FIXME: please verify error code.  */
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
-
-	if (ret){
-		if (expr_node_list->next)
-			expr = (GnmExpr *) expr_node_list->next->data;
-		else
-			return value_new_bool (TRUE);
-	} else {
-		if (expr_node_list->next &&
-		    expr_node_list->next->next)
-			expr = (GnmExpr *) expr_node_list->next->next->data;
-		else
-			return value_new_bool (FALSE);
-	}
-
-	/* Return the result */
-	return gnm_expr_eval (expr, ei->pos, GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
+	int res = value_get_as_bool (args[0], &err) ? 1 : 2;
+	return args[res] ? value_duplicate (args[res]) : value_new_bool (TRUE);
 }
 
 /***************************************************************************/
@@ -362,9 +327,9 @@ const GnmFuncDescriptor logical_functions[] = {
 	  gnumeric_or, NULL, NULL },
 	{ "xor", 0, N_("number,number,"), &help_xor, NULL,
 	  gnumeric_xor, NULL, NULL },
-	{ "not", "f", N_("number"), &help_not, gnumeric_not, NULL, NULL, NULL },
-	{ "if", 0, N_("condition,if true,if false"), &help_if, NULL,
-	  gnumeric_if, NULL, NULL },
+	{ "not", "b", N_("number"), &help_not, gnumeric_not, NULL, NULL, NULL },
+	{ "if", "b|SS", N_("condition,if true,if false"), &help_if,
+	  gnumeric_if, NULL, NULL, NULL },
 	{ "true", "", "", &help_true, gnumeric_true, NULL, NULL, NULL },
 	{ "false", "", "", &help_false, gnumeric_false, NULL, NULL, NULL },
         {NULL}

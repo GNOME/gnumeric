@@ -37,6 +37,7 @@
 #include <expr-name.h>
 #include <value.h>
 #include <sheet.h>
+#include <sheet-view.h>
 #include <number-match.h>
 #include <cell.h>
 #include <parse-util.h>

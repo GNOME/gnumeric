@@ -17,8 +17,15 @@ Release Critical
 
 1) graphs
 2) stf
-3) finish hlink dialog
-4) finish support for h/v only splits			(DONE)
+    2.1) UTF8 cleanliness
+    2.2) User specifiable character encoding
+    2.3) Replace UI for format selection
+    2.4) Provide an optional mechanism for specifying the target location
+         useful for text to columns, and import into sheet
+3) hlinks
+    3.1) Finish the edit dialog to load and store results
+    3.2) Figure out import semantics of the other 2 XL types
+4) finish support for h/v only splits				(DONE)
 5) zip based format
     5.1) move existing code into plugin
     5.2) work on sax style exporter
@@ -31,17 +38,32 @@ Release Critical
     6.3) Intersection, union and set export
     6.4) unknown name export
     6.5) non-ole import (Nick Lamb is working on this)
-8) Notice mismatch between suffix and saver (eg .xls for gnumeric file)
-9) Manual recalc
-    9.1) finish calculation ui in workbook attr dialog
+9) Manual recalc						(DONE)
+    9.1) finish calculation ui in workbook attr dialog		(DONE)
 10) fix highlighting of completion code
 11) look into using the default gtk font rather than our own
 12) audit all of the import plugins to do utf8 conversions
+    12.1)  excel						(DONE)
+    12.2)  applix						(DONE)
+    12.3)  lotus
+    12.4)  quattro pro
+    12.5)  plan perfect						(DONE)
+    12.6)  html
+    12.7)  opencalc						(DONE)
+    12.8)  oleo
+    12.9)  sc
+    12.10) sylk
+    12.11) dif
+    12.12) psion
+
 13) Reinstate auto-format (=FV(1,2,3,4,5) should yield a monetary format).
 14) merge open and import dialogs
-15) finish corba plugin
-16) eggmenu
+15) Notice mismatch between suffix and saver (eg .xls for gnumeric file)
 17) Decide whether to turn on the poor man's utf8 regexps.
+18) Outline mode
+    18.1) finish implementing optionally putting markers above/left
+    18.2) Make ungroup smarter about handling extra items of lower level at the edges
+    18.3) implement 'clicked' for numbers callbacks (requires cleanup in the collapse code)
 
 UTF-8 :
     - Audit string functions for utf8: CHAR, CODE, SUBSTITUTE, SEARCH.
@@ -57,6 +79,8 @@ Pending Patches
 
 Probably Post 1.2 Targets
 -------------------------
+- eggmenu (would be nice to slide in to support merging from non-bonobo build)
+- finish corba plugin
 - conditional formats : could be done if someone wanted to work on the dialog
 - pivots and scripting
 - undo/redo transaction file
@@ -66,7 +90,7 @@ Misc stuff that should be fixed
 -------------------------------
 
 - Missing undo/redo for
-    - Freeze panes.				(DONE)
+    - Freeze panes.
     - Duplicate sheet.
     - Remove sheet. This raises some serious design issues.
     - Goal seek.
@@ -80,17 +104,12 @@ Misc stuff that should be fixed
 - We need to somehow add --export-dynamic to the gnumeric link line, or else
   plugins won't load on Solaris/gcc.  (This might just be my bastard libtool.)
 - 3D reference fixes on sheet deletion
-- Dependencies for constructed ranges
 - 'discard' for invalid expressions enters text as string
 - Fix workbook_sheet_by_name with respect to letter case and utf-8.
 
 - Remove duplication of code between analysis-tools.c and collect.c
 
 - Make deletion work for multiple ranges.
-
-- Most arg-type functions need to be somehow marked as strict.  Checking for
-  errors by hand everywhere is silly.  (This is at least partially done.)
-    : It is tempting to 
 
 - Add dirty flags to workbook too, adding a sheet should make workbook dirty
   not the new sheet.
@@ -116,13 +135,6 @@ Misc stuff that should be fixed
   checks the wrong permissions in the set[gu]id case.  (b) It reports the
   wrong result if the path is not readable.  The Right Way to do this, is
   just to do it.  And then check the error code.
-
-- gnumeric_error_invalid change call sequence to use printf argument style.
-
-- outline mode
-    : finish implementing optionally putting markers above/left
-    : Make ungroup smarter about handling extra items of lower level at the edges
-    : implement 'clicked' for numbers callbacks (requires cleanup in the collapse code)
 
 - hidden rows/cols
     : Make unhide smarter to find hidden regions on either side of selected ranges.

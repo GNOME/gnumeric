@@ -31,6 +31,7 @@
 #include "workbook-edit.h"
 #include "workbook-priv.h"
 #include "sheet.h"
+#include "sheet-view.h"
 #include "sheet-merge.h"
 #include "sheet-private.h"
 #include "sheet-control-gui-priv.h"

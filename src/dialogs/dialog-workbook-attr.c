@@ -39,6 +39,7 @@
 #include <workbook-control.h>
 #include <workbook-view.h>
 #include <workbook-edit.h>
+#include <workbook-priv.h>
 #include <workbook.h>
 #include <commands.h>
 
@@ -47,13 +48,15 @@
 #define WORKBOOK_ATTRIBUTE_KEY "workbook-attribute-dialog"
 
 typedef struct {
-	GladeXML	 *gui;
-	GtkWidget        *dialog;
-	GtkWidget        *notebook;
-	GtkWidget        *ok_button;
-	GtkWidget        *apply_button;
+	GladeXML	*gui;
+	GtkWidget	*dialog;
+	GtkWidget	*notebook;
+	GtkWidget	*ok_button;
+	GtkWidget	*apply_button;
+	GtkWidget	*iteration_table;
 	gboolean         destroying;
 
+	Workbook	 *wb;
 	WorkbookView     *wbv;
 	WorkbookControlGUI	 *wbcg;
 
@@ -63,6 +66,10 @@ typedef struct {
 		GtkToggleButton	*show_tabs;
 		GtkToggleButton	*autocomplete;
 		GtkToggleButton	*is_protected;
+		GtkToggleButton	*recalc_auto;
+		GtkToggleButton *iteration_enabled;
+		GtkEntry	*max_iterations;
+		GtkEntry	*iteration_tolerance;
 	} view;
 	struct {
 		gboolean	show_hsb;
@@ -70,6 +77,10 @@ typedef struct {
 		gboolean	show_tabs;
 		gboolean	autocomplete;
 		gboolean	is_protected;
+		gboolean	recalc_auto;
+		gboolean	iteration_enabled;
+		int		max_iterations;
+		double		iteration_tolerance;
 	} old;
 } AttrState;
 
@@ -94,22 +105,71 @@ cb_page_select (GtkNotebook *notebook, GtkNotebookPage *page,
 
 /*****************************************************************************/
 
+static void
+get_entry_values (AttrState *state, int *max_iterations, double *iteration_tolerance)
+{
+	char const *tmp;
+	tmp = gtk_entry_get_text (state->view.max_iterations);
+	if (tmp == NULL || 1 != sscanf (tmp, "%d", max_iterations))
+		*max_iterations = state->old.max_iterations;
+	tmp = gtk_entry_get_text (state->view.iteration_tolerance);
+	if (tmp == NULL || 1 != sscanf (tmp, "%lg", iteration_tolerance))
+		*iteration_tolerance = state->old.iteration_tolerance;
+}
+
+static void
+cb_widget_changed (GtkWidget *widget, AttrState *state)
+{
+	gboolean changed;
+	int max_iterations;
+	double iteration_tolerance;
+	
+	get_entry_values (state, &max_iterations, &iteration_tolerance);
+	changed =
+		!((gtk_toggle_button_get_active (state->view.show_hsb) == state->old.show_hsb) &&
+		  (gtk_toggle_button_get_active (state->view.show_vsb) == state->old.show_vsb) &&
+		  (gtk_toggle_button_get_active (state->view.show_tabs) == state->old.show_tabs) &&
+		  (gtk_toggle_button_get_active (state->view.autocomplete) == state->old.autocomplete) &&
+		  (gtk_toggle_button_get_active (state->view.is_protected) == state->old.is_protected) &&
+		  (gtk_toggle_button_get_active (state->view.recalc_auto) == state->old.recalc_auto) &&
+		  (gtk_toggle_button_get_active (state->view.iteration_enabled) == state->old.iteration_enabled) &&
+		  (max_iterations == state->old.max_iterations) &&
+		  (iteration_tolerance == state->old.iteration_tolerance));
+
+	gtk_widget_set_sensitive (state->ok_button, changed);
+	gtk_widget_set_sensitive (state->apply_button, changed);
+
+	gtk_widget_set_sensitive (state->iteration_table,
+		gtk_toggle_button_get_active (state->view.iteration_enabled));
+}
+
 /* Handler for the apply button */
 static void
 cb_attr_dialog_dialog_apply (GtkWidget *button, AttrState *state)
 {
-	state->wbv->show_horizontal_scrollbar =
+	state->wbv->show_horizontal_scrollbar = state->old.show_hsb =
 		gtk_toggle_button_get_active (state->view.show_hsb);
-	state->wbv->show_vertical_scrollbar =
+	state->wbv->show_vertical_scrollbar = state->old.show_vsb =
 		gtk_toggle_button_get_active (state->view.show_vsb);
-	state->wbv->show_notebook_tabs =
+	state->wbv->show_notebook_tabs = state->old.show_tabs =
 		gtk_toggle_button_get_active (state->view.show_tabs);
-	state->wbv->do_auto_completion =
+	state->wbv->do_auto_completion = state->old.autocomplete =
 		gtk_toggle_button_get_active (state->view.autocomplete);
-	state->wbv->is_protected =
+	state->wbv->is_protected = state->old.is_protected =
 		gtk_toggle_button_get_active (state->view.is_protected);
 
+	state->wb->recalc_auto = state->old.recalc_auto =
+		gtk_toggle_button_get_active (state->view.recalc_auto);
+	state->wb->iteration.enabled = state->old.iteration_enabled =
+		gtk_toggle_button_get_active (state->view.iteration_enabled);
+
+	get_entry_values (state, &state->old.max_iterations,
+			  &state->old.iteration_tolerance);
+	state->wb->iteration.max_number	= state->old.max_iterations;
+	state->wb->iteration.tolerance  = state->old.iteration_tolerance;
+
 	wb_view_prefs_update (state->wbv);
+	cb_widget_changed (NULL, state);
 }
 
 static void
@@ -142,23 +202,6 @@ cb_attr_dialog_dialog_destroy (AttrState *state)
 
 /*****************************************************************************/
 
-static void
-cb_toggled (GtkWidget *widget, AttrState *state)
-{
-	gboolean changed = !((gtk_toggle_button_get_active (state->view.show_hsb) 
-			    == state->old.show_hsb) &&
-		(gtk_toggle_button_get_active (state->view.show_vsb) 
-		 == state->old.show_vsb) &&
-		(gtk_toggle_button_get_active (state->view.show_tabs) 
-		 == state->old.show_tabs) &&
-		(gtk_toggle_button_get_active (state->view.autocomplete) 
-					       == state->old.autocomplete) &&
-		(gtk_toggle_button_get_active (state->view.is_protected) 
-		 == state->old.is_protected));
-	gtk_widget_set_sensitive (state->ok_button, changed);
-	gtk_widget_set_sensitive (state->apply_button, changed);
-}
-
 static GtkToggleButton *
 attr_dialog_init_toggle (AttrState *state, char const *name, gboolean val,
 			 gboolean *storage)
@@ -167,15 +210,29 @@ attr_dialog_init_toggle (AttrState *state, char const *name, gboolean val,
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), val);
 	g_signal_connect (G_OBJECT (w),
 		"toggled",
-		G_CALLBACK (cb_toggled), state);
+		G_CALLBACK (cb_widget_changed), state);
 	*storage = val;
 
 	return GTK_TOGGLE_BUTTON (w);
 }
 
+static GtkEntry *
+attr_dialog_init_entry (AttrState *state, char const *name, char const *val)
+{
+	GtkWidget *w = glade_xml_get_widget (state->gui, name);
+	gtk_entry_set_text (GTK_ENTRY (w), val);
+	g_signal_connect (G_OBJECT (w),
+		"changed",
+		G_CALLBACK (cb_widget_changed), state);
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog), w);
+	return GTK_ENTRY (w);
+}
+
 static void
 attr_dialog_init_view_page (AttrState *state)
 {
+	char buf[128];
+
 	state->view.show_hsb     = attr_dialog_init_toggle (state,
 		"WorkbookView::show_horizontal_scrollbar",
 		state->wbv->show_horizontal_scrollbar,
@@ -196,6 +253,27 @@ attr_dialog_init_view_page (AttrState *state)
 		"WorkbookView::workbook_protected",
 		state->wbv->is_protected,
 		&state->old.is_protected);
+	if (!state->wb->recalc_auto) {
+		GtkWidget *w = glade_xml_get_widget (state->gui, "recalc_manual");
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
+	}
+	state->view.recalc_auto = attr_dialog_init_toggle (state,
+		"recalc_auto",
+		state->wb->recalc_auto,
+		&state->old.recalc_auto);
+	state->view.iteration_enabled = attr_dialog_init_toggle (state,
+		"iteration_enabled",
+		state->wb->iteration.enabled,
+		&state->old.iteration_enabled);
+
+	g_snprintf (buf, sizeof(buf), "%d", state->wb->iteration.max_number);
+	state->old.max_iterations = state->wb->iteration.max_number;
+	state->view.max_iterations =
+		attr_dialog_init_entry (state, "max_iterations", buf);
+	g_snprintf (buf, sizeof(buf), "%g", state->wb->iteration.tolerance);
+	state->old.iteration_tolerance = state->wb->iteration.tolerance;
+	state->view.iteration_tolerance =
+		attr_dialog_init_entry (state, "iteration_tolerance", buf);
 }
 
 /*****************************************************************************/
@@ -222,6 +300,7 @@ attr_dialog_impl (AttrState *state)
 		"switch_page",
 		G_CALLBACK (cb_page_select), state);
 
+	state->iteration_table = glade_xml_get_widget (state->gui, "iteration_table");
 	state->ok_button = glade_xml_get_widget (state->gui, "ok_button");
 	g_signal_connect (G_OBJECT (state->ok_button),
 			  "clicked",
@@ -233,7 +312,7 @@ attr_dialog_impl (AttrState *state)
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "close_button")),
 			  "clicked",
 			  G_CALLBACK (cb_attr_dialog_dialog_close), state);
-	cb_toggled (NULL, state);
+	cb_widget_changed (NULL, state);
 
 /* FIXME: Add correct helpfile address */
 	gnumeric_init_help_button (
@@ -269,6 +348,7 @@ dialog_workbook_attr (WorkbookControlGUI *wbcg)
 	state->gui = gui;
 	state->wbcg = wbcg;
 	state->wbv  = wb_control_view (WORKBOOK_CONTROL (wbcg));
+	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 
 	attr_dialog_impl (state);
 }

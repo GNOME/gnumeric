@@ -25,6 +25,7 @@
 
 #include <workbook.h>
 #include <workbook-view.h>
+#include <sheet-view.h>
 #include <sheet-style.h>
 #include <sheet-merge.h>
 #include <cell.h>

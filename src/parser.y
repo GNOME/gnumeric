@@ -210,6 +210,7 @@ typedef struct {
 	gboolean force_absolute_col_references;
 	gboolean force_absolute_row_references;
 	gboolean force_explicit_sheet_references;
+	gboolean unknown_names_are_strings;
 	GnmRangeRefParse ref_parser;
 
 	/* The suggested format to use for this expression */
@@ -405,12 +406,17 @@ parser_simple_val_or_name (GnmExpr *str_expr)
 	if (v == NULL) {
 		GnmNamedExpr *nexpr = expr_name_lookup (state->pos, str);
 		if (nexpr == NULL) {
-			ParsePos pp = *state->pos;
-			pp.sheet = NULL;
-			/* Create a place holder */
-			nexpr = expr_name_add (&pp, str, NULL, NULL);
-		}
-		res = gnm_expr_new_name (nexpr, NULL, NULL);
+			if (state->unknown_names_are_strings) {
+				res = gnm_expr_new_constant (value_new_string (str));
+			} else {
+				ParsePos pp = *state->pos;
+				pp.sheet = NULL;
+				/* Create a place holder */
+				nexpr = expr_name_add (&pp, str, NULL, NULL);
+				res = gnm_expr_new_name (nexpr, NULL, NULL);
+			}
+		} else
+			res = gnm_expr_new_name (nexpr, NULL, NULL);
 	} else 
 		res = gnm_expr_new_constant (v);
 
@@ -1234,6 +1240,7 @@ gnm_expr_parse_str (char const *expr_text, ParsePos const *pos,
 	pstate.force_absolute_col_references		= flags & GNM_EXPR_PARSE_FORCE_ABSOLUTE_COL_REFERENCES;
 	pstate.force_absolute_row_references		= flags & GNM_EXPR_PARSE_FORCE_ABSOLUTE_ROW_REFERENCES;
 	pstate.force_explicit_sheet_references		= flags & GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES;
+	pstate.unknown_names_are_strings		= flags & GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS;
 	pstate.ref_parser				= ref_parser;
 
 	if (pstate.use_opencalc_conventions) {

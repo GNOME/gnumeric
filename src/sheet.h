@@ -4,9 +4,7 @@
 
 #include "gnumeric.h"
 #include "colrow.h"
-#include "sheet-view.h"
 
-typedef GList ColStyleList;
 typedef struct _SheetPrivate SheetPrivate;
 struct _Sheet {
 	int         signature;
@@ -245,7 +243,6 @@ void  sheet_cell_set_text  (Cell *cell, char const *str);
 Value const *sheet_cell_get_value (Sheet *sheet, int const col, int const row);
 void  sheet_range_set_text   (ParsePos const *pos, Range const *r, char const *str);
 void  sheet_apply_style	     (Sheet  *sheet, Range const *range, MStyle *mstyle);
-void  sheet_calc_spans	     (Sheet const *sheet, SpanCalcFlags flags);
 void  sheet_queue_respan     (Sheet const *sheet, int start_row, int end_row);
 void  sheet_range_calc_spans (Sheet *sheet, Range const *r, SpanCalcFlags flags);
 void  sheet_cell_calc_span   (Cell *cell, SpanCalcFlags flags);

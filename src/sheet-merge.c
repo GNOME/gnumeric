@@ -26,6 +26,7 @@
 
 #include "sheet-object.h"
 #include "sheet.h"
+#include "sheet-view.h"
 #include "sheet-private.h"
 #include "ranges.h"
 #include "cell.h"

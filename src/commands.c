@@ -29,6 +29,7 @@
 
 #include "application.h"
 #include "sheet.h"
+#include "sheet-view.h"
 #include "sheet-style.h"
 #include "format.h"
 #include "formats.h"
@@ -370,7 +371,8 @@ update_after_action (Sheet *sheet)
 		g_return_if_fail (IS_SHEET (sheet));
 
 		sheet_set_dirty (sheet, TRUE);
-		workbook_recalc (sheet->workbook);
+		if (sheet->workbook->recalc_auto)
+			workbook_recalc (sheet->workbook);
 		sheet_update (sheet);
 
 		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
@@ -2289,7 +2291,8 @@ cmd_paste_cut_update_origin (GnmExprRelocateInfo const  *info, WorkbookControl *
 		sheet_set_dirty (info->target_sheet, TRUE);
 
 		/* An if necessary both workbooks */
-		if (info->origin_sheet->workbook != info->target_sheet->workbook)
+		if (info->origin_sheet->workbook != info->target_sheet->workbook &&
+			info->origin_sheet->workbook->recalc_auto)
 			workbook_recalc (info->origin_sheet->workbook);
 		sheet_update (info->origin_sheet);
 	}

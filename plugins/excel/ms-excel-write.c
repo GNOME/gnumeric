@@ -27,6 +27,7 @@
 #include <position.h>
 #include <style-color.h>
 #include <cell.h>
+#include <sheet-view.h>
 #include <sheet-object.h>
 #include <sheet-object-cell-comment.h>
 #include <application.h>

@@ -57,7 +57,7 @@ $(docname).xml: $(entities)
         cd $(srcdir);   \
         cp $(entities) $$ourdir
 
-app-dist-hook: 
+dist-hook: 
 	-$(mkinstalldirs) $(distdir)/figures
 	-if [ -e topic.dat ]; then \
 		cp $(srcdir)/topic.dat $(distdir); \

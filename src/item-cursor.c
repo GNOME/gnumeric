@@ -18,6 +18,7 @@
 #include "clipboard.h"
 #include "selection.h"
 #include "sheet.h"
+#include "sheet-view.h"
 #include "sheet-merge.h"
 #include "value.h"
 #include "workbook.h"

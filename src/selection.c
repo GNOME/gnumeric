@@ -14,6 +14,10 @@
 #include "selection.h"
 
 #include "sheet.h"
+#include "sheet-view.h"
+#include "sheet-merge.h"
+#include "sheet-private.h"
+#include "sheet-control.h"
 #include "parse-util.h"
 #include "clipboard.h"
 #include "ranges.h"
@@ -25,9 +29,6 @@
 #include "commands.h"
 #include "value.h"
 #include "cell.h"
-#include "sheet-merge.h"
-#include "sheet-private.h"
-#include "sheet-control.h"
 
 /**
  * sv_is_singleton_selected:

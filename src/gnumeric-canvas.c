@@ -19,6 +19,7 @@
 #include "parse-util.h"
 #include "ranges.h"
 #include "sheet.h"
+#include "sheet-view.h"
 #include "application.h"
 #include "workbook-view.h"
 #include "workbook-edit.h"
@@ -49,7 +50,8 @@ gnm_canvas_guru_key (WorkbookControlGUI const *wbcg, GdkEventKey *event)
 }
 
 static gboolean
-gnm_check_ctrl_mask (GnmCanvas *gcanvas,guint keyval){
+gnm_check_ctrl_mask (GnmCanvas *gcanvas,guint keyval)
+{
 	SheetControl *sc = (SheetControl *) gcanvas->simple.scg;
 	Sheet *sheet = sc->sheet;
 	WorkbookControlGUI *wbcg = gcanvas->simple.scg->wbcg;

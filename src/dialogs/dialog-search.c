@@ -27,6 +27,7 @@
 #include <gui-util.h>
 #include <search.h>
 #include <sheet.h>
+#include <sheet-view.h>
 #include <workbook.h>
 #include <workbook-view.h>
 #include <selection.h>

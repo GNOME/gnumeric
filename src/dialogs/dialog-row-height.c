@@ -31,6 +31,7 @@
 #include <workbook.h>
 #include <workbook-edit.h>
 #include <sheet.h>
+#include <sheet-view.h>
 #include <application.h>
 #include <workbook-cmd-format.h>
 
