@@ -553,7 +553,7 @@ Plugins
 Clipboard
 ---------
 - Fall back to string import when incoming html and OpenOffice doesn't
-  contain tables.
+  contain tables.                                               (DONE)
 - May be not export html as table when just one cell is selected.
 
 --------------------------------------------------------------------------------

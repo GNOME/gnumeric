@@ -36,6 +36,12 @@
 #include <locale.h>
 #include <string.h>
 
+typedef struct {
+	WorkbookControlGUI *wbcg;
+	PasteTarget        *paste_target;
+	GdkAtom            fallback;
+} GnmGtkClipboardCtxt;
+
 /* The name of our clipboard atom and the 'magic' info number */
 #define GNUMERIC_ATOM_NAME "application/x-gnumeric"
 #define GNUMERIC_ATOM_INFO 2001
@@ -208,12 +214,17 @@ static void
 complex_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 			  gpointer closure)
 {
-	WorkbookControlGUI *wbcg = closure;
+	GnmGtkClipboardCtxt *ctxt = closure;
+	WorkbookControlGUI *wbcg = ctxt->wbcg;
 	WorkbookControl	   *wbc  = WORKBOOK_CONTROL (wbcg);
-	PasteTarget	   *pt   = wbcg->clipboard_paste_callback_data;
+	PasteTarget	   *pt   = ctxt->paste_target;
 	CellRegion *content = NULL;
 
-	if (sel->target == gdk_atom_intern (GNUMERIC_ATOM_NAME, FALSE)) {
+	/* Nothing on clipboard? */
+	if (sel->length < 0) {
+		;
+	} else if (sel->target == gdk_atom_intern (GNUMERIC_ATOM_NAME, 
+						   FALSE)) {
 		/* The data is the gnumeric specific XML interchange format */
 		content = xml_cellregion_read (wbc, pt->sheet,
 					       sel->data, sel->length);
@@ -250,10 +261,18 @@ complex_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 		/* Release the resources we used */
 		cellregion_free (content);
 
-		if (wbcg->clipboard_paste_callback_data != NULL) {
-			g_free (wbcg->clipboard_paste_callback_data);
-			wbcg->clipboard_paste_callback_data = NULL;
-		}
+		g_free (ctxt->paste_target);
+		g_free (ctxt);
+	} else if (ctxt->fallback != GDK_NONE) {
+		GdkAtom preferred = ctxt->fallback;
+		ctxt->fallback = GDK_NONE;
+		gtk_clipboard_request_contents (clipboard, preferred,
+						complex_content_received,
+						ctxt);
+	} else {
+		/* We're giving up */
+		g_free (ctxt->paste_target);
+		g_free (ctxt);
 	}
 }
 
@@ -262,58 +281,88 @@ complex_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
  *
  * Invoked when the selection has been received by our application.
  * This is triggered by a call we do to gtk_clipboard_request_contents.
+ *
+ * We try to import a spreadsheet/table, and fall back to a string format
+ * if this fails, e.g. for html which contains something which is not a table.
  */
 static void
 x_clipboard_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 		      gpointer closure)
 {
-	WorkbookControlGUI *wbcg = closure;
+	GnmGtkClipboardCtxt *ctxt = closure;
+	WorkbookControlGUI *wbcg = ctxt->wbcg;
+	GdkAtom table_atom = GDK_NONE, string_atom = GDK_NONE;
+	GdkAtom preferred = GDK_NONE, fallback = GDK_NONE;
+	GdkAtom const *targets = (GdkAtom *) sel->data;
+	unsigned const atom_count = (sel->length / sizeof (GdkAtom));
+	unsigned i, j;
 
+	/* in order of preference */
+	static char const *table_fmts [] = {
+		GNUMERIC_ATOM_NAME,
+		OOO_ATOM_NAME,
+		OOO11_ATOM_NAME,
+		HTML_ATOM_NAME,
+		NULL
+	};
+	static char const *string_fmts [] = {
+		UTF8_ATOM_NAME,
+		STRING_ATOM_NAME,
+		CTEXT_ATOM_NAME,
+		NULL
+	};
+
+	/* Nothing on clipboard? */
+	if ((sel->length < 0) ||
+	    (sel->target != gdk_atom_intern (TARGETS_ATOM_NAME, FALSE))) {
+		g_free (ctxt->paste_target);
+		g_free (ctxt);
+		return;
+	}
+	
 	/* The data is a list of atoms */
-	if (sel->target == gdk_atom_intern (TARGETS_ATOM_NAME, FALSE)) {
-		/* in order of preference */
-		static char const *formats [] = {
-			GNUMERIC_ATOM_NAME,
-			OOO_ATOM_NAME,
-			OOO11_ATOM_NAME,
-			HTML_ATOM_NAME,
-			UTF8_ATOM_NAME,
-			STRING_ATOM_NAME,
-			CTEXT_ATOM_NAME,
-			NULL
-		};
-
-		GdkAtom const *targets = (GdkAtom *) sel->data;
-		unsigned const atom_count = (sel->length / sizeof (GdkAtom));
-		unsigned i, j;
-
-		/* Nothing on clipboard? */
-		if (sel->length < 0) {
-			if (wbcg->clipboard_paste_callback_data != NULL) {
-				g_free (wbcg->clipboard_paste_callback_data);
-				wbcg->clipboard_paste_callback_data = NULL;
-			}
-			return;
+	/* Find the best table format offered */
+	for (i = 0 ; table_fmts[i] && table_atom == GDK_NONE ; i++) {
+		/* Look for one we can use */
+		GdkAtom atom = gdk_atom_intern (table_fmts[i], FALSE);
+		/* is it on offer? */
+		for (j = 0; j < atom_count && table_atom == GDK_NONE;
+		     j++) {
+			if (targets [j] == atom)
+				table_atom = atom;
 		}
-
-		/* what do we like best */
-		for (i = 0 ; formats[i] != NULL ; i++) {
-			GdkAtom atom = gdk_atom_intern (formats[i], FALSE);
-
-			/* do they offer what we want ? */
-			for (j = 0; j < atom_count && targets [j] != atom ; j++)
-				;
-			if (j < atom_count) {
-				gtk_clipboard_request_contents (clipboard, atom,
-					complex_content_received, wbcg);
-				break;
-			}
+	}
+		
+	/* Find a string format to fall back to */
+	for (i = 0 ; string_fmts[i] && string_atom == GDK_NONE ; i++) {
+		/* Look for one we can use */
+		GdkAtom atom = gdk_atom_intern (string_fmts[i],	FALSE);
+		/* is it on offer? */
+		for (j = 0; j < atom_count && string_atom == GDK_NONE;
+		     j++) {
+			if (targets [j] == atom)
+				string_atom = atom;
 		}
+		if (string_atom != GDK_NONE)
+			break;
+	}
 
-		/* The following might be stale:  */
-		/* NOTE : We don't release clipboard_paste_callback_data as
-		 * long as we're still trying new formats.
-		 */
+	if (table_atom != GDK_NONE) {
+		preferred = table_atom;
+		ctxt->fallback = string_atom;
+	} else if (string_atom != GDK_NONE) {
+		preferred = string_atom;
+		ctxt->fallback = GDK_NONE;
+	}
+
+	if (preferred != GDK_NONE) {
+		gtk_clipboard_request_contents 
+			(clipboard, preferred,
+			 complex_content_received, ctxt);
+	} else {
+		/* Nothing we can use - time to give up */
+		g_free (ctxt->paste_target);
+		g_free (ctxt);
 	}
 }
 
@@ -483,7 +532,7 @@ x_clipboard_clear_cb (GtkClipboard *clipboard,
 void
 x_request_clipboard (WorkbookControlGUI *wbcg, PasteTarget const *pt)
 {
-	PasteTarget *new_pt;
+	GnmGtkClipboardCtxt *ctxt;
 	GdkDisplay *display = gtk_widget_get_display (GTK_WIDGET (wbcg_toplevel (wbcg)));
 	GtkClipboard *clipboard =
 		gtk_clipboard_get_for_display
@@ -493,16 +542,15 @@ x_request_clipboard (WorkbookControlGUI *wbcg, PasteTarget const *pt)
 		 : GDK_SELECTION_PRIMARY);
 	GdkAtom atom_targets  = gdk_atom_intern (TARGETS_ATOM_NAME, FALSE);
 
-	if (wbcg->clipboard_paste_callback_data != NULL)
-		g_free (wbcg->clipboard_paste_callback_data);
-
-	new_pt = g_new (PasteTarget, 1);
-	*new_pt = *pt;
-	wbcg->clipboard_paste_callback_data = new_pt;
+	ctxt = g_new (GnmGtkClipboardCtxt, 1);
+	ctxt->wbcg = wbcg;
+	ctxt->paste_target = g_new (PasteTarget, 1);
+	*ctxt->paste_target = *pt;
+	ctxt->fallback = GDK_NONE;
 
 	/* Query the formats, This will callback x_clipboard_received */
 	gtk_clipboard_request_contents (clipboard, atom_targets,
-		  x_clipboard_received, wbcg);
+					x_clipboard_received, ctxt);
 }
 
 gboolean

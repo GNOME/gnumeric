@@ -39,6 +39,8 @@ Jon Kåre:
 	* Import OpenOffice.org 1.1 from clipboard.
 	* Export XHTML to clipboard.
 	* Fix clipboard export of non-Latin 1 content as text.
+	* Fall back to string when import from clipboard as
+ 	  table/spreadsheet fails.
 
 Morten:
 	* Hopefully fix NAN issues on Alphas.

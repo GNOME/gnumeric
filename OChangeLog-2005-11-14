@@ -1,3 +1,12 @@
+2003-06-26  Jon K Hellan  <hellan@acm.org>
+
+	* src/gui-clipboard.c (struct GnmGtkClipboardCtxt): New struct,
+	clipboard paste context.
+	(complex_content_received): Request fallback format if paste
+	doesn't succeed.
+	(x_clipboard_received): Choose a table or spreadsheet format as
+	preferred paste format, and a string format to fall back to.
+
 2003-06-26  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-parse.c (stf_parse_options_guess): Improve separator
