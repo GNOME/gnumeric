@@ -741,6 +741,13 @@ void
 gnm_gconf_set_recent_funcs (GSList *list)
 {
 	go_conf_set_str_list (FUNCTION_SELECT_GCONF_RECENT, list);
+
+	/* the const_casts are ok, the const in the header is just to keep
+	 * people for doing stupid things */
+	g_slist_foreach ((GSList *)prefs.recent_funcs, (GFunc)g_free, NULL);
+	g_slist_free ((GSList *)prefs.recent_funcs);
+
+	prefs.recent_funcs = list;
 }
 
 void

@@ -1,3 +1,8 @@
+2004-11-02  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-function-select.c (dialog_function_write_recent_func):
+	  gnm_gconf_set_recent_funcs is now owning the list
+
 2004-10-31  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.3.92
