@@ -2451,7 +2451,7 @@ cb_scroll_wheel_support (GtkWidget *w, GdkEventButton *event, Workbook *wb)
 	/* This is a stub routine to handle scroll wheel events
 	 * Unfortunately the toplevel window is currently owned by the workbook
 	 * rather than a workbook-view so we can not really scroll things
-	 * unless we scrolled al lthe views at once which is ugly.
+	 * unless we scrolled all the views at once which is ugly.
 	 */
 #if 0
 	if (event->button == 4)

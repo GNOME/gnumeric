@@ -179,13 +179,13 @@ void
 plugin_unload (CommandContext *context, PluginData *pd)
 {
 	g_return_if_fail (pd != NULL);
-	
+
 	if (pd->can_unload && !pd->can_unload (pd)) {
 		gnumeric_error_plugin_problem (context,
 					       _("Plugin is still in use.\n"));
 		return;
 	}
-	
+
 	if (pd->cleanup_plugin)
 		pd->cleanup_plugin (pd);
 
@@ -194,18 +194,20 @@ plugin_unload (CommandContext *context, PluginData *pd)
 }
 
 static void
-plugin_load_plugins_in_dir (CommandContext *context, char *directory)
+plugin_load_plugins_in_dir (CommandContext *context, const char *directory)
 {
 	DIR *d;
 	struct dirent *e;
 	
 	if ((d = opendir (directory)) == NULL)
 		return;
-	
+
 	while ((e = readdir (d)) != NULL){
-		if (strncmp (e->d_name + strlen (e->d_name) - 3, ".so", 3) == 0){
+		int len;
+		len = strlen (e->d_name);
+		if (len > 3 && strncmp (e->d_name + len - 3, ".so", 3) == 0){
 			char *plugin_name;
-			
+
 			plugin_name = g_strconcat (directory, e->d_name, NULL);
 			plugin_load (context, plugin_name);
 			g_free (plugin_name);
@@ -218,7 +220,7 @@ static void
 load_all_plugins (CommandContext *context)
 {
 	char *plugin_dir;
-	
+
 	/* Load the user plugins */
 	plugin_dir = gnumeric_usr_plugin_dir ();
 	if (plugin_dir != NULL) {
@@ -269,19 +271,19 @@ plugin_data_init (PluginData *pd, PluginCanUnloadFn can_unload_fn,
 }
 
 const gchar *
-plugin_data_get_filename (PluginData *pd)
+plugin_data_get_filename (const PluginData *pd)
 {
         return pd->file_name;
 }
 
 const gchar *
-plugin_data_get_title (PluginData *pd)
+plugin_data_get_title (const PluginData *pd)
 {
         return pd->title;
 }
 
 const gchar *
-plugin_data_get_descr (PluginData *pd)
+plugin_data_get_descr (const PluginData *pd)
 {
         return pd->descr;
 }
@@ -304,16 +306,16 @@ plugin_data_set_user_data (PluginData *pd, void *user_data)
  * Returns the private data of this plugin
  */
 void *
-plugin_data_get_user_data (PluginData *pd)
+plugin_data_get_user_data (const PluginData *pd)
 {
-        return pd->user_data;
+        return (void *)pd->user_data;
 }
 
 /*
  * Returns the size of the plugin in bytes
  */
 off_t
-plugin_data_get_size (PluginData *pd)
+plugin_data_get_size (const PluginData *pd)
 {
         return pd->size;
 }
@@ -323,7 +325,7 @@ plugin_data_get_size (PluginData *pd)
  * In UNIX-like time
  */
 time_t
-plugin_data_last_modified (PluginData *pd)
+plugin_data_last_modified (const PluginData *pd)
 {
         return pd->modified;
 }

@@ -1,0 +1,7 @@
+2000-04-25  Morten Welinder  <terra@diku.dk>
+
+	* numtheory.c (gnumeric_ithprime): Up limit to 1000000.
+	(ithprime): Rework memory handling; up limit; optimize to not even
+ 	try even numbers.
+	(function_names): rename "nt_ithprime" back to "ithprime" as no
+	conflict is likely.

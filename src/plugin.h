@@ -33,16 +33,16 @@ gboolean       plugin_version_mismatch  (CommandContext *cmd, PluginData *pd,
 					 char const * const plugin_version);
 
 void           *plugin_data_set_user_data (PluginData *pd, void *user_data);
-void           *plugin_data_get_user_data (PluginData *pd);
+void           *plugin_data_get_user_data (const PluginData *pd);
 
 gboolean       plugin_data_init      (PluginData *pd, PluginCanUnloadFn can_unload_fn,
 				      PluginCleanupFn cleanup_fn,
 				      const gchar *title, const gchar *descr);
 
-const gchar    *plugin_data_get_filename (PluginData *pd);
-const gchar    *plugin_data_get_title    (PluginData *pd);
-const gchar    *plugin_data_get_descr    (PluginData *pd);
-off_t           plugin_data_get_size     (PluginData *pd);
-time_t          plugin_data_last_modified(PluginData *pd);
+const gchar    *plugin_data_get_filename (const PluginData *pd);
+const gchar    *plugin_data_get_title    (const PluginData *pd);
+const gchar    *plugin_data_get_descr    (const PluginData *pd);
+off_t           plugin_data_get_size     (const PluginData *pd);
+time_t          plugin_data_last_modified(const PluginData *pd);
 
 #endif /* GNUMERIC_PLUGIN_H */

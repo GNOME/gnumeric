@@ -24,7 +24,7 @@ PERL_CFLAGS = $(PERL_CCCDLFLAGS)			\
 #noinst_PROGRAMS = libgnum_perl.so
 plugin_PROGRAMS = libgnum_perl.so
 
-libgnum_perl.so_SOURCES = perl.c
+libgnum_perl_so_SOURCES = perl.c
 
 libgnum_perl.so: perl.o xsinit.o ext.timestamp
 	-$(PERL_LD) $(PERL_LDDLFLAGS) -o libgnum_perl.so perl.o xsinit.o $(PERL_LDOPTS)

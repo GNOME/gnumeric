@@ -1,3 +1,13 @@
+2000-04-27  Morten Welinder  <terra@diku.dk>
+
+	* src/plugin.c (plugin_load_plugins_in_dir): Don't access memory
+ 	that isn't ours to access.  Constify.
+	(plugin_data_last_modified): Constify.
+	(plugin_data_get_title): Constify.
+	(plugin_data_get_descr): Constify.
+	(plugin_data_get_size): Constify.
+	(plugin_data_get_user_data): Constify.
+
 2000-04-27  Karl EICHWALDER  <ke@suse.de>
 
 	* doc/translating.sgml: Typo.
