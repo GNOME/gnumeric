@@ -739,7 +739,7 @@ gog_xy_series_update (GogObject *obj)
 		y_len = go_data_vector_get_len (
 			GO_DATA_VECTOR (series->base.values[1].data));
 	}
-	if (GOG_IS_BUBBLE_PLOT (model)) {
+	if (GOG_IS_BUBBLE_PLOT (series->base.plot)) {
 		double *z_vals = NULL;
 		int z_len = 0;
 		if (series->base.values[2].data != NULL) {
@@ -774,7 +774,7 @@ gog_xy_series_init_style (GogStyledObject *gso, GogStyle *style)
 	series_parent_klass->init_style (gso, style);
 	if (!style->needs_obj_defaults || series->plot == NULL)
 		return;
-	if (GOG_IS_BUBBLE_PLOT (model)) {
+	if (!GOG_IS_BUBBLE_PLOT (series->plot)) {
 		GogXYPlot const *xy = GOG_XY_PLOT (series->plot);
 	
 		if (style->marker.auto_shape && !xy->default_style_has_markers) {
