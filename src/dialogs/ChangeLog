@@ -11,7 +11,10 @@
 	  dialog-paste-special.c, dialog-plugin-manager.c,
 	  dialog-printer-setup.c, dialog-preferences.c,
 	  dialog-random-generator.c, dialog-row-height.c, dialog-search.c,
-	  dialog-search-replace.c, dialog-sheet-order.c: ditto.
+	  dialog-search-replace.c, dialog-sheet-order.c, dialog-simulation.c,
+	  dialog-solver.c, dialog-stf.c, dialog-stf-main-page.c,
+	  dialog-stf-csv-page.c, dialog-stf-fixed-page.c,
+	  dialog-stf-format-page.c, dialog-stf-export.c: ditto.
 
 2002-11-03  Jody Goldberg <jody@gnome.org>
 

@@ -41,7 +41,8 @@
  * returns : TRUE if the user actually wants to cancel, FALSE otherwise.
  **/
 static gboolean
-stf_export_dialog_druid_page_cancel (GnomeDruidPage *page, GnomeDruid *druid,
+stf_export_dialog_druid_page_cancel (__attribute__((unused)) GnomeDruidPage *page,
+				     GnomeDruid *druid,
 				     StfE_DruidData_t *druid_data)
 {
 	return !gnumeric_dialog_question_yes_no (druid_data->wbcg,
