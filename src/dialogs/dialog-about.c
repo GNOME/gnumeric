@@ -76,14 +76,12 @@ dialog_about (WorkbookControlGUI *wbcg)
 		NULL
 	};
 
-#ifdef ENABLE_NLS
 	{
 		int i;
 
 		for (i = 0; authors[i] != NULL; i++)
 		    authors[i] = _(authors[i]);
 	}
-#endif
 	/* Ensure we only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, ABOUT_KEY))
 		return;

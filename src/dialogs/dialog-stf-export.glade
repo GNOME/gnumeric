@@ -354,7 +354,7 @@
                                 <property name="can_focus">yes</property>
                                 <property name="relief">GTK_RELIEF_NORMAL</property>
                                 <property name="visible">yes</property>
-                                <property name="label" translatable="yes">gtk-go-up</property>
+                                <property name="label">gtk-go-up</property>
                                 <property name="use_stock">yes</property>
                                 <property name="use_underline">yes</property>
                               </widget>
@@ -370,7 +370,7 @@
                                 <property name="can_focus">yes</property>
                                 <property name="relief">GTK_RELIEF_NORMAL</property>
                                 <property name="visible">yes</property>
-                                <property name="label" translatable="yes">gtk-go-down</property>
+                                <property name="label">gtk-go-down</property>
                                 <property name="use_stock">yes</property>
                                 <property name="use_underline">yes</property>
                               </widget>

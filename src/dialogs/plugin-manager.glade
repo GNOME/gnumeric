@@ -28,7 +28,7 @@
                 <property name="can_default">yes</property>
                 <property name="can_focus">yes</property>
                 <property name="visible">yes</property>
-                <property name="label" translatable="yes">gtk-close</property>
+                <property name="label">gtk-close</property>
                 <property name="use_stock">yes</property>
                 <property name="use_underline">yes</property>
               </widget>

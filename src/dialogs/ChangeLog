@@ -1,3 +1,11 @@
+2002-02-23  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* *.glade: Don't translate the widget label.
+	
+2002-02-22  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* dialog-about.c: Remove unsupported #ifdef ENABLE_NLS.
+	
 2002-02-21  Morten Welinder  <terra@diku.dk>
 
 	* dialog-summary.c (dialog_summary_update): Constify.
