@@ -1,5 +1,8 @@
 1999-06-22  Morten Welinder  <terra@diku.dk>
 
+	* src/number-match.c (format_create_regexp): You don't want to
+ 	know.
+
 	* src/fn-date.c (get_serial_date): Cleanup.
 	(get_serial_time): Ditto.
 
@@ -38,14 +41,14 @@
 
 	* src/func.c: Do not pre-initialize them.  If they need to be
 	pre-initialized something is wrong in some other place.  Fix that
-	instead. 
+	instead.
 
 	* src/clipboard.c (do_clipboard_paste_cell_region): Implement
 	transpose-on-paste command.  Change the increment steps for
 	transpose and compute a different target column as well.
-	
+
 	(sheet_paste_selection): Swap the paste dimesions here if we are
-	pasting/transpose. 
+	pasting/transpose.
 
 1999-06-18  Miguel de Icaza  <miguel@gnu.org>
 
@@ -398,7 +401,7 @@
 	* samples/statfuns.xls: Accuracy dropped to 1e-5 (since Excel is
  	not as accurate as Gnumeric).  Also the total number of functions
  	in the test output fixed.
-	
+
 1999-06-12  Morten Welinder  <terra@diku.dk>
 
 	* src/fn-string.c: Use value_new_string where appropriate.

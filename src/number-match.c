@@ -147,7 +147,7 @@ format_create_regexp (const unsigned char *format, GByteArray **dest)
 				format++;
 
 			format--;
-			g_string_append (regexp, _("(([-+]?[0-9,])?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"));
+			g_string_append (regexp, _("(([-+]?[0-9,]+)?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"));
 			append_type (MATCH_NUMBER);
 			break;
 
